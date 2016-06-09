@@ -1,7 +1,6 @@
 # timeout_2016
 Timeout TimeRecording Software As a Service. 
 
-# Timeout
 <br>Outzource Aps Denmark
 <br>support@outzource.dk
 <br><br>
