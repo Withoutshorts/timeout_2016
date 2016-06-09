@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?><Invoice xmlns="http://rep.oio.dk/ubl/xml/schemas/0p71/pie/" xmlns:com="http://rep.oio.dk/ubl/xml/schemas/0p71/common/" xmlns:main="http://rep.oio.dk/ubl/xml/schemas/0p71/maindoc/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://rep.oio.dk/ubl/xml/schemas/0p71/pie/  http://rep.oio.dk/ubl/xml/schemas/0p71/pie/piestrict.xsd"><com:ID>12244</com:ID><com:IssueDate>2013-08-28</com:IssueDate><com:TypeCode>PIE</com:TypeCode><main:InvoiceCurrencyCode>DKK</main:InvoiceCurrencyCode><com:Note><![CDATA[Job: Skiltning SOSU Sj - Holbæk - Slotshaven 3(7969)
+
+
+
+Designopl&#230;g og visualisering til arkitekt p&#229; facadeskilt, 
+opm&#229;ling, projektstyring og arbejdstegning, layout af roll-up&#8217;s, layout til indgangsskilt og trappefolie. Design og rentegning af 5 stk. &#8221;vejviserskilte&#8221;.
+Kr. 32.000,-
+PylonTil h&#248;jre for 
+hovedindgang (SOSU Sj&#230;lland standard)Aluminium med plastfolie.800 x 2000 mm.Kr. 10.000,-
+
+1 x stort logo 
+Hvid folie&nbsp;p&#229; vinduer over hovedindgang: h:500 cm. x b:500 cm.Der&nbsp;er brugt lift til montering
+Kr. 5.500,- 
+3 x rollups
+Med &#8221;vejviser&#8221; grafik (SOSU Sj&#230;lland standard)
+Stof: 280 g
+Texi, 1000 x 2150 mm
+Prints til eksisterende kassetter
+Nyt print efter igangs&#230;ttelse af produktion
+Levering af 3 stk. &#8221;rullegardiner&#8221; 100 x 215 cm kr. 6.050,-
+
+&#8221;Blindeprikker&#8221;
+
+Prikker til alle d&#248;re med glas i stueetage: 14m. (12 
+d&#248;re)
+1 x &#8221;Automatisk d&#248;r&#229;bning&#8221; folie til hovedd&#248;r
+1 x 2-delt indgangsskilt (pylon-design) til hovedindgang 
+(logo + sort felt) (dobbeltsidet) folie p&#229; vindue. 2 x 50 cm x 50 cm p&#229; begge
+sider af vinduetKr. 5.000,-
+
+UDH&#198;NGSSKILTE:
+Levering og ops&#230;tning af 3 x udh&#230;ngsskilte (A4) til 
+toiletter.
+Levering og ops&#230;tning af 9 x udh&#230;ngsskilte (A4) til stueplan.
+Levering og ops&#230;tning af 15 x udh&#230;ngsskilte (A4) til 1. sal.Udh&#230;ngsskilte i alt: 
+27 stk.
+D&#216;RSKILTE:
+Levering og ops&#230;tning af 16 x d&#248;rskilte (9x21) til 
+Gruppe-/m&#248;derum (8 x stue + 8 x 1. Sal).
+Levering og ops&#230;tning af 9 x d&#248;rskilte (9x21) til k&#230;lder.
+Levering og ops&#230;tning af 13 x d&#248;rskilte (9x21) til stueplan.
+Levering og ops&#230;tning af 15 x d&#248;rskilte (9x21) til 1. sal.D&#248;rskilte i alt: 53 
+stk.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Aluminium og plast
+
+
+Sm&#229; d&#248;rskilte: 210 x 74 cm. Inkl. beslag til montering Kr. 9.850,-
+
+Udh&#230;ngsskilte: A4+ 
+(passer til A4) &#8211; bredformat: Kr. 14.580,-
+
+Diverse skilte2 x N&#248;dudgangsskilte i folie(dobbeltsidet) 15 cm. x 15 cm 
+(2 stk. I stueetagen)
+5 x TRAPPE (sk&#229;ret folie)4 x TOILET-&#8221;hovedd&#248;re&#8221; (sk&#229;ret folie)2 x Handicap &#8221;symbol-skilt&#8221; p&#229; d&#248;re 15 cm. x 15 cm12 x Unisex &#8221;symbol-skilt&#8221; p&#229; d&#248;re 15 cm. x 15 cm
+
+Kr. 3500,- 
+
+Diverse skilte 2
+
+1 x &#8221;RECEPTION&#8221;-skilt (165 x 22 cm) (sk&#229;ret folie)
+3 x &#8221;vejviser&#8221;-skilte (150 x 150 cm) (sk&#229;ret folie)
+(placeres p&#229; v&#230;ggene p&#229; f&#248;rste sal)
+Kr. 2.500,-
+
+Montering af alt folie og &#248;vrige 
+ovenst&#229;ende elementer.Kr. 14.000,- inkl. 
+leje af lift
+
+
+
+]]></com:Note><com:BuyersReferenceID schemeID="EAN">5798000558199</com:BuyersReferenceID><com:ReferencedOrder><com:BuyersOrderID>7969</com:BuyersOrderID><com:IssueDate>2013-08-28</com:IssueDate></com:ReferencedOrder><com:BuyerParty><com:ID schemeID="CVR">33216769</com:ID><com:PartyName><com:Name><![CDATA[SOSU Sjælland]]></com:Name></com:PartyName><com:Address><com:ID>Fakturering</com:ID><com:Street><![CDATA[Selandia Park 6]]></com:Street><com:CityName><![CDATA[Ringsted]]></com:CityName><com:PostalZone>4100</com:PostalZone><com:Country><com:Code listID="ISO 3166-1">DK</com:Code></com:Country></com:Address><com:BuyerContact><com:ID><![CDATA[Carl Edward Tronhjem]]></com:ID></com:BuyerContact></com:BuyerParty><com:SellerParty><com:ID schemeID="CVR">26881560</com:ID><com:PartyName><com:Name><![CDATA[Synergi A/S]]></com:Name></com:PartyName><com:Address><com:ID>Betaling</com:ID><com:Street><![CDATA[MARINEBUEN 11
+]]></com:Street><com:CityName><![CDATA[Næstved]]></com:CityName><com:PostalZone>4700</com:PostalZone><com:Country><com:Code listID="ISO 3166-1">DK</com:Code></com:Country></com:Address><com:PartyTaxScheme><com:CompanyTaxID schemeID="CVR">26881560</com:CompanyTaxID></com:PartyTaxScheme></com:SellerParty><com:PaymentMeans><com:TypeCodeID>null</com:TypeCodeID><com:PaymentDueDate>2013-09-11</com:PaymentDueDate><com:PaymentChannelCode>KONTOOVERFØRSEL</com:PaymentChannelCode><com:PayeeFinancialAccount><com:ID>0758188337</com:ID><com:TypeCode>BANK</com:TypeCode><com:FiBranch><com:ID>2186</com:ID><com:FinancialInstitution><com:ID>null</com:ID><com:Name>Nordea</com:Name></com:FinancialInstitution></com:FiBranch></com:PayeeFinancialAccount><com:PaymentAdvice><com:AccountToAccount><com:PayerNote></com:PayerNote><com:PayeeNote></com:PayeeNote></com:AccountToAccount></com:PaymentAdvice></com:PaymentMeans><com:TaxTotal><com:TaxTypeCode>VAT</com:TaxTypeCode><com:TaxAmounts><com:TaxableAmount currencyID='DKK'>102935.00</com:TaxableAmount> <com:TaxAmount currencyID='DKK'>25733.75</com:TaxAmount></com:TaxAmounts><com:CategoryTotal><com:RateCategoryCodeID>VAT</com:RateCategoryCodeID><com:RatePercentNumeric>25</com:RatePercentNumeric><com:TaxAmounts><com:TaxableAmount currencyID='DKK'>102935.00</com:TaxableAmount><com:TaxAmount currencyID='DKK'>25733.75</com:TaxAmount></com:TaxAmounts></com:CategoryTotal></com:TaxTotal><com:LegalTotals><com:LineExtensionTotalAmount currencyID='DKK'>102935.00</com:LineExtensionTotalAmount><com:ToBePaidTotalAmount currencyID='DKK'>128668.75</com:ToBePaidTotalAmount></com:LegalTotals><com:InvoiceLine><com:ID>2</com:ID><com:InvoicedQuantity unitCode='Stk.' unitCodeListAgencyID="n/a">1.00</com:InvoicedQuantity><com:LineExtensionAmount currencyID='DKK'>102935.00</com:LineExtensionAmount><com:Item><com:ID>0</com:ID><com:Description><![CDATA[Skiltning SOSU Sj - Holbæk (7969)]]></com:Description></com:Item><com:BasePrice><com:PriceAmount currencyID='DKK'>102935.00</com:PriceAmount></com:BasePrice></com:InvoiceLine></Invoice>

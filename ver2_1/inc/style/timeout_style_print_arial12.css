@@ -1,0 +1,77 @@
+BODY
+{
+   
+    COLOR: #000000;
+    FONT-FAMILY: arial;
+    FONT-SIZE: 9pt;
+	LINE-HEIGHT : 11pt;
+}
+Body.regular {
+	
+	COLOR: #000000;
+    FONT-FAMILY: arial;
+    FONT-SIZE: 9pt;
+	LINE-HEIGHT : 11pt;
+}
+
+
+
+
+P, DIV, B, I
+{
+    COLOR: #000000;
+    FONT-FAMILY: arial;
+    FONT-SIZE: 9pt;
+	LINE-HEIGHT : 11pt;
+    TEXT-DECORATION: none;
+}
+
+
+
+
+TD
+{
+    COLOR: #000000;
+    FONT-FAMILY: arial;
+    FONT-SIZE: 9pt;
+	LINE-HEIGHT : 11pt;
+    TEXT-DECORATION: none;
+}
+
+TD.footer
+{
+    COLOR: #000000;
+    FONT-FAMILY: arial;
+    FONT-SIZE: 8pt;
+    LINE-HEIGHT : 9pt;
+	TEXT-DECORATION: none;
+	
+}
+
+
+
+H4
+{
+    COLOR: #000000;
+    FONT-FAMILY: arial;
+    FONT-SIZE: 14pt;
+    LINE-HEIGHT : 16pt;
+	TEXT-DECORATION: none;
+	
+}
+
+
+TD.afsender2
+{
+    COLOR: #999999;
+    FONT-FAMILY: arial, verdana;
+    FONT-SIZE: 9pt;
+    LINE-HEIGHT : 11pt;
+	TEXT-DECORATION: none;
+	letter-spacing:2px;
+}
+
+
+
+
+

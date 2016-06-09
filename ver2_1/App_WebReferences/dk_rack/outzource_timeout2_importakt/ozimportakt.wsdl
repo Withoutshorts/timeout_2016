@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://tempuri.org/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://tempuri.org/">
+      <s:element name="addakt">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ds">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="addaktResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="addaktResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="addaktSoapIn">
+    <wsdl:part name="parameters" element="tns:addakt" />
+  </wsdl:message>
+  <wsdl:message name="addaktSoapOut">
+    <wsdl:part name="parameters" element="tns:addaktResponse" />
+  </wsdl:message>
+  <wsdl:portType name="oz_importaktSoap">
+    <wsdl:operation name="addakt">
+      <wsdl:input message="tns:addaktSoapIn" />
+      <wsdl:output message="tns:addaktSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="oz_importaktSoap" type="tns:oz_importaktSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="addakt">
+      <soap:operation soapAction="http://tempuri.org/addakt" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="oz_importaktSoap12" type="tns:oz_importaktSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="addakt">
+      <soap12:operation soapAction="http://tempuri.org/addakt" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="oz_importakt">
+    <wsdl:port name="oz_importaktSoap" binding="tns:oz_importaktSoap">
+      <soap:address location="http://timeout2.outzource.dk/timeout_xp/wwwroot/ver2_14/timereg_net/ozimportakt.asmx" />
+    </wsdl:port>
+    <wsdl:port name="oz_importaktSoap12" binding="tns:oz_importaktSoap12">
+      <soap12:address location="http://timeout2.outzource.dk/timeout_xp/wwwroot/ver2_14/timereg_net/ozimportakt.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

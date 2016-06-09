@@ -1,0 +1,109 @@
+<br />
+<table border="0" cellpadding="0" cellspacing="0" width="605">
+    <tbody>
+        <tr>
+            <td valign="top">LEV<br />
+            Kl&#248;verprisvej 10B<br />
+            2650  Hvidovre<br />
+            <br />
+            Att: Hans Andersen<br />
+            <br />
+            <br />
+            <br />
+            <br />
+            N&#230;stved, den 30. august 2012 </td>
+        </tr>
+    </tbody>
+</table>
+<br />
+<br />
+<br />
+<br />
+<br />
+<strong>Plastposer med tryk </strong><br />
+<br />
+##job_besk##
+<table border="0" cellpadding="2" cellspacing="0" width="605">
+    <tbody>
+        <tr>
+            <td style="padding-right: 20px; width: 1104px;"><span class="jobpr16"><u>Tilrettel&#230;ggelse, koordinering og produktionsstyring</u></span><br />
+            &nbsp;</td>
+        </tr>
+        <tr>
+            <td style="padding-right: 20px; width: 1104px;"><span class="jobpr16"><u>Layout / design</u></span><br />
+            <div>Jf. brief fra jer og Levs designguide</div>
+            <div><br />
+            </div>
+            <div> </div>
+            </td>
+        </tr>
+        <tr>
+            <td style="padding-right: 20px; width: 1104px;"><span class="jobpr16"><u>Dtp / rentegning</u></span><br />
+            <div>Rentegning af layout/design til plastpose-produktion</div>
+            <div><br />
+            </div>
+            <div> </div>
+            </td>
+        </tr>
+        <tr>
+            <td style="padding-right: 20px; width: 1104px;"><span class="jobpr16"><u>Korrektur</u></span><br />
+            <div>Inkl. 2 korrekturgange</div>
+            <div><br />
+            </div>
+            <div> </div>
+            </td>
+        </tr>
+        <tr>
+            <td style="padding-right: 20px; width: 1104px;"><span class="jobpr16"><u>Klarg&#248;ring til tryk</u></span><br />
+            <div>Generering af trykklar pdf-fil til plastproduktion</div>
+            <div><br />
+            </div>
+            <div> </div>
+            </td>
+        </tr>
+        <tr>
+            <td style="padding-right: 20px; width: 1104px;"><span class="jobpr16"><u>Tryk</u></span><br />
+            <div>10.000 stk., 40 x 40 x 5 cm bundfals. Hvid pose med 4-farvet tryk,</div>
+            <div>max. 50% tryk. Forskelligt tryk for og bag. Udstanset h&#229;ndtag med forst&#230;rkning.</div>
+            <div><br />
+            </div>
+            </td>
+        </tr>
+    </tbody>
+</table>
+##job_besk_slut##<br />
+<br />
+&nbsp;
+<table border="0" cellpadding="0" cellspacing="0" width="605">
+    <tbody>
+        <tr>
+            <td><em><strong>Prisoverslag ca. kr. 38.000,00</strong></em></td>
+        </tr>
+    </tbody>
+</table>
+<br />
+<table border="0" cellpadding="0" cellspacing="0" width="100%">
+    <tbody>
+        <tr>
+            <td style="padding-top: 10px;">
+            <div>Priser m&#229; betragtes som budgetramme, da opgaven endnu ikke kendes i detaljer, </div>
+            <div>og klicheomkostninger dermed er ca-pris..</div>
+            <br />
+            Pris er inkl. levering til &#233;n adresse i Danmark og ekskl. moms.</td>
+        </tr>
+    </tbody>
+</table>
+<br />
+<br />
+<table border="0" cellpadding="0" cellspacing="0" width="100%">
+    <tbody>
+        <tr>
+            <td style="padding-top: 10px;">Med venlig hilsen <br />
+            Synergi<br />
+            <div><br />
+            </div>
+            <div>&nbsp;</div>
+            Thomas Hansen</td>
+        </tr>
+    </tbody>
+</table>

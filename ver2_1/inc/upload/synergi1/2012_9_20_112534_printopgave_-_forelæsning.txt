@@ -1,0 +1,83 @@
+<br />
+<table border="0" cellpadding="0" cellspacing="0" width="605">
+    <tbody>
+        <tr>
+            <td valign="top">Bayer A/S<br />
+            Animal Health Division
+            C/O EuroServices Bayer GmbH<br />
+            D-51368 Leverkusen<br />
+            <br />
+            Att: Christina Holmstr&#248;m Kronborg<br />
+            <br />
+            <br />
+            <br />
+            <br />
+            N&#230;stved, den 20. september 2012 </td>
+        </tr>
+    </tbody>
+</table>
+<br />
+<br />
+<br />
+<br />
+<br />
+<strong>Printopgave - forel&#230;sning </strong><br />
+<br />
+##job_besk##
+<table border="0" cellpadding="2" cellspacing="0" width="605">
+    <tbody>
+        <tr>
+            <td style="padding-right: 20px; width: 1104px;"><span class="jobpr16"><u>Tilrettel&#230;ggelse, koordinering og produktionsstyring</u></span><br />
+            &nbsp;</td>
+        </tr>
+        <tr>
+            <td style="padding-right: 20px; width: 1104px;"><span class="jobpr16"><u>Dtp / rentegning</u></span><br />
+            <div>Ekskl. dtp/rentegning. Vi modtager f&#230;rdige, printklare dokumenter fra Bayer</div>
+            <div><br />
+            </div>
+            <div>
+            <div><u>Print</u></div>
+            <div>
+            <div>50 s&#230;t s/h-print a 43 ark (86 sider) – print p&#229; begge sider. Hvert s&#230;t best&#229;r af 8-10 pr&#230;sentationsserier, og der ermellem hver serie indl&#230;gges farvet ”adskillelsespapir”. Print p&#229; 80-90 g offset. Der skal kunne skrives p&#229; papiret. Alle s&#230;t hulles&nbsp; med to huller og s&#230;ttes i tilbudsmapper</div>
+            <div>&nbsp;</div>
+            <div>Alternativ pris ved print i farve <br />
+            </div>
+            </div>
+            </div>
+            </td>
+        </tr>
+    </tbody>
+</table>
+##job_besk_slut##<br />
+<table border="0" cellpadding="0" cellspacing="0" width="605">
+    <tbody>
+        <tr>
+            <td><em><strong><u>Prisoverslag</u><br />
+            </strong></em>
+            <div><em><strong>50 s&#230;t s/h kr. 4.700,-</strong></em></div>
+            <div><em><strong>50 s&#230;t i farve kr. 7.800,- </strong></em><br />
+            </div>
+            </td>
+        </tr>
+    </tbody>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%">
+    <tbody>
+        <tr>
+            <td style="padding-top: 10px;">Alle priser er inkl. levering til &#233;n adresse i Danmark og ekskl. moms.<br />
+            <br />
+            </td>
+        </tr>
+    </tbody>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%">
+    <tbody>
+        <tr>
+            <td style="padding-top: 10px;">Med venlig hilsen <br />
+            Synergi<br />
+            <br />
+            Bettina Schou<br />
+            </td>
+        </tr>
+    </tbody>
+</table>

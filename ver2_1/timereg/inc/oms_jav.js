@@ -1,0 +1,27 @@
+﻿
+
+
+
+
+
+$(document).ready(function() {
+
+
+
+});
+
+$(window).load(function() {
+    // run code
+    $("#loadbar").hide(1000);
+});
+
+
+
+function clearJobsog() {
+    document.getElementById("FM_jobsog").value = ""
+}
+
+
+
+
+

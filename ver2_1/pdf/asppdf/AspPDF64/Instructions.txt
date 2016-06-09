@@ -1,0 +1,17 @@
+AspPDF 64-Bit Beta Version Instructions
+
+-------------------
+
+Register the file AspPDF64.dll on your 64-bit Windows server with regsvr32. Restart IIS if necessary with iisreset.
+
+Install your permanent or evaluation key in the system registry under:
+
+HKEY_LOCAL_MACHINE\Software\Persits Software\AspPDF\RegKey
+
+An evaluation key can be obtained from http://www.asppdf.com/download.html.
+
+-------------------
+
+Please send your feedback to support@asppdf.com.
+
+-------------------

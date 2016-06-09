@@ -1,0 +1,53 @@
+BODY
+{
+    BACKGROUND-COLOR: #ffffff;
+    COLOR: #000000;
+    FONT-FAMILY: times new roman;
+    FONT-SIZE: 14px;
+	
+}
+Body.regular {
+	background-color : #ffffff;
+	background-repeat : no-repeat;
+}
+
+
+
+
+/* Bruges til blå links ***/
+A:link, A:visited, A:active
+{
+    COLOR: #215DC6;
+    FONT-FAMILY: times new roman,verdana,sans-serif;
+    FONT-SIZE: 14px;
+	LINE-HEIGHT : 16px;
+   	TEXT-DECORATION: none;
+	FONT-weight: bold;
+}
+A:hover
+{
+    COLOR: #8FACE6;
+    FONT-FAMILY: times new roman,verdana,sans-serif;
+    FONT-SIZE: 14px;
+	LINE-HEIGHT : 16px;
+    TEXT-DECORATION: underline;
+}
+
+
+
+
+
+
+
+TD
+{
+    COLOR: #000000;
+    FONT-FAMILY: times new roman;
+    FONT-SIZE: 14px;
+	TEXT-DECORATION: none;
+    LINE-HEIGHT : 16px;
+}
+
+h1{
+ page-break-before: always;
+}

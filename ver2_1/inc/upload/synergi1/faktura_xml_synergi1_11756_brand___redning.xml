@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?><Invoice xmlns="http://rep.oio.dk/ubl/xml/schemas/0p71/pie/" xmlns:com="http://rep.oio.dk/ubl/xml/schemas/0p71/common/" xmlns:main="http://rep.oio.dk/ubl/xml/schemas/0p71/maindoc/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://rep.oio.dk/ubl/xml/schemas/0p71/pie/  http://rep.oio.dk/ubl/xml/schemas/0p71/pie/piestrict.xsd"><com:ID>11756</com:ID><com:IssueDate>2013-03-13</com:IssueDate><com:TypeCode>PIE</com:TypeCode><main:InvoiceCurrencyCode>DKK</main:InvoiceCurrencyCode><com:Note><![CDATA[Job: Udstillingsstand(7626)&nbsp;
+Tilrettel&#230;ggelse og koordinering 
+
+Layout/design
+Layout og design af messestand ud fra logo og farver fra tidligere materiale.
+Vi har f&#248;rst udarbejdet illustration af mulig udstilling, som efterf&#248;lgende er tilrettet og rentegnet.
+&nbsp;
+Foto
+Vi har modtaget fotos i trykklar kvalitet  dog er der lavet Photoshop-arbejde p&#229; det&nbsp;&#233;t billede.
+&nbsp;
+Dtp
+Vi har rentegnet layout. 
+Inkl. 2 korrekturgange.
+&nbsp;
+Bannerproduktion
+Preseningbannere B:1,44 x H:1,96 m printet p&#229; Frontlite Standard 500 NQ 450 gr.
+
+
+]]></com:Note><com:BuyersReferenceID schemeID="EAN">5798007275600</com:BuyersReferenceID><com:ReferencedOrder><com:BuyersOrderID>7626</com:BuyersOrderID><com:IssueDate>2013-03-13</com:IssueDate></com:ReferencedOrder><com:BuyerParty><com:ID schemeID="CVR">29189625</com:ID><com:PartyName><com:Name><![CDATA[Brand & Redning]]></com:Name></com:PartyName><com:Address><com:ID>Fakturering</com:ID><com:Street><![CDATA[Manøvej 25]]></com:Street><com:CityName><![CDATA[Næstved]]></com:CityName><com:PostalZone>4700</com:PostalZone><com:Country><com:Code listID="ISO 3166-1">DK</com:Code></com:Country></com:Address><com:BuyerContact><com:ID><![CDATA[Morten Sommerstedt Christensen]]></com:ID></com:BuyerContact></com:BuyerParty><com:SellerParty><com:ID schemeID="CVR">26881560</com:ID><com:PartyName><com:Name><![CDATA[Synergi A/S]]></com:Name></com:PartyName><com:Address><com:ID>Betaling</com:ID><com:Street><![CDATA[MARINEBUEN 11
+]]></com:Street><com:CityName><![CDATA[Næstved]]></com:CityName><com:PostalZone>4700</com:PostalZone><com:Country><com:Code listID="ISO 3166-1">DK</com:Code></com:Country></com:Address><com:PartyTaxScheme><com:CompanyTaxID schemeID="CVR">26881560</com:CompanyTaxID></com:PartyTaxScheme></com:SellerParty><com:PaymentMeans><com:TypeCodeID>null</com:TypeCodeID><com:PaymentDueDate>2013-03-27</com:PaymentDueDate><com:PaymentChannelCode>KONTOOVERFØRSEL</com:PaymentChannelCode><com:PayeeFinancialAccount><com:ID>0758188337</com:ID><com:TypeCode>BANK</com:TypeCode><com:FiBranch><com:ID>2186</com:ID><com:FinancialInstitution><com:ID>null</com:ID><com:Name>Nordea</com:Name></com:FinancialInstitution></com:FiBranch></com:PayeeFinancialAccount><com:PaymentAdvice><com:AccountToAccount><com:PayerNote></com:PayerNote><com:PayeeNote></com:PayeeNote></com:AccountToAccount></com:PaymentAdvice></com:PaymentMeans><com:TaxTotal><com:TaxTypeCode>VAT</com:TaxTypeCode><com:TaxAmounts><com:TaxableAmount currencyID='DKK'>20000.00</com:TaxableAmount> <com:TaxAmount currencyID='DKK'>5000.00</com:TaxAmount></com:TaxAmounts><com:CategoryTotal><com:RateCategoryCodeID>VAT</com:RateCategoryCodeID><com:RatePercentNumeric>25</com:RatePercentNumeric><com:TaxAmounts><com:TaxableAmount currencyID='DKK'>20000.00</com:TaxableAmount><com:TaxAmount currencyID='DKK'>5000.00</com:TaxAmount></com:TaxAmounts></com:CategoryTotal></com:TaxTotal><com:LegalTotals><com:LineExtensionTotalAmount currencyID='DKK'>20000.00</com:LineExtensionTotalAmount><com:ToBePaidTotalAmount currencyID='DKK'>25000.00</com:ToBePaidTotalAmount></com:LegalTotals><com:InvoiceLine><com:ID>2</com:ID><com:InvoicedQuantity unitCode='Stk.' unitCodeListAgencyID="n/a">1.00</com:InvoicedQuantity><com:LineExtensionAmount currencyID='DKK'>20000.00</com:LineExtensionAmount><com:Item><com:ID>0</com:ID><com:Description><![CDATA[Udstillingsmateriale]]></com:Description></com:Item><com:BasePrice><com:PriceAmount currencyID='DKK'>20000.00</com:PriceAmount></com:BasePrice></com:InvoiceLine></Invoice>

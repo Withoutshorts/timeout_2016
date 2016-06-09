@@ -1,0 +1,39 @@
+<%@ Master Language="VB" CodeFile="MasterPage.master.vb" Inherits="MasterPage" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head runat="server">
+    <title>Untitled Page</title>
+    <style type="text/css">
+        body { font-family: Verdana; }
+        .Warning { background-color: red; font-size: xx-large; font-weight: bold; padding: 5px; border: 4px dashed #711;}
+    </style>
+</head>
+<body>
+    <form id="form1" runat="server">
+    <h2 style="text-align:center;"><code>System.Net.Mail</code> Examples</h2>
+    <div class="Warning">
+        Before you try out any of the demos, please update the relay server settings in <code>Web.config</code>!
+    </div>
+    <table width="100%" border="0" cellpadding="5">
+        <tr>
+            <td style="width:20%" valign="top">
+                <ul>
+                    <li><a href="Default.aspx">Simple Feedback Form</a></li>
+                    <li><a href="HtmlEmail.aspx">HTML-Formatted Emails</a></li>
+                    <li><a href="SendAttachment.aspx">Email Attachments</a></li>
+                    <li><a href="HandlingSMTPExceptions.aspx">Handling SMTP Exceptions</a></li>
+                    <li><a href="specifyingReplyTo.aspx">Specyfing a Reply-To Address and Priority</a></li>
+                    <li><a href="RequestReadReceipt.aspx">Requesting Read Receipts</a></li>
+                </ul>
+            </td>
+            <td valign="top" style="width:auto;">
+                <asp:contentplaceholder id="ContentPlaceHolder1" runat="server">
+                </asp:contentplaceholder>
+            </td>
+        </tr>
+    </table>
+    </form>
+</body>
+</html>

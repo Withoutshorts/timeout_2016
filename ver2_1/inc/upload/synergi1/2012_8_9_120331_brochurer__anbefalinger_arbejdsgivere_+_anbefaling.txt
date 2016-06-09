@@ -1,0 +1,82 @@
+<br />
+<table border="0" cellspacing="0" cellpadding="0" width="605">
+    <tbody>
+        <tr>
+            <td valign="top">
+            <div>SOSU Sj&#230;lland<br />
+            Selandia Park 6<br />
+            4100 Ringsted </div>
+            <div><br />
+            Att: Camilla Molin<br />
+            <br />
+            <br />
+            <br />
+            <br />
+            N&#230;stved, den 9. august 2012 </div>
+            </td>
+        </tr>
+    </tbody>
+</table>
+<br />
+<br />
+<br />
+<br />
+<br />
+<strong>Brochurer: Anbefalinger arbejdsgivere + Anbefaling skole - praktik </strong><br />
+<br />
+##job_besk##
+<table border="0" cellspacing="0" cellpadding="2" width="605">
+    <tbody>
+        <tr>
+            <td style="width: 1104px; padding-right: 20px"><span class="jobpr16"><u>Tilrettel&#230;ggelse, koordinering og produktionsstyring</u></span><br />
+            </td>
+        </tr>
+        <tr>
+            <td style="width: 1104px; padding-right: 20px">
+            <div><span class="jobpr16"><u>Layout / design</u>
+            <div>Tilbud foruds&#230;tter at vi modtager trykklare pdf-filer med sk&#230;rem&#230;rker og bleed.</div>
+            </span></div>
+            </td>
+        </tr>
+        <tr>
+            <td style="width: 1104px; padding-right: 20px"><span class="jobpr16"><u>Tryk</u></span><br />
+            <p>1: Arbejdsgivere: 70 stk. A4, 8 sider, 4 + 4 farver p&#229; 170 g matbestr&#248;get.<br />
+            Falses, h&#230;ftes og rensk&#230;res</p>
+            <p>2: Skoler og praktik: 20 stk. alt. 90 stk. A4, 20 sider, 4 + 4 farver p&#229; 150 g matbestr&#248;get. Falses, h&#230;ftes og rensk&#230;res.<br />
+            </p>
+            </td>
+        </tr>
+    </tbody>
+</table>
+##job_besk_slut##<br />
+<br />
+&nbsp;
+<table border="0" cellspacing="0" cellpadding="0" width="605">
+    <tbody>
+        <tr>
+            <td><u>Prisoverslag</u><br />
+            Kr. 2.650,00</td>
+        </tr>
+    </tbody>
+</table>
+<br />
+<table border="0" cellspacing="0" cellpadding="0" width="100%">
+    <tbody>
+        <tr>
+            <td style="padding-top: 10px">Alle priser er inkl. levering til &#233;n adresse i Danmark og ekskl. moms.</td>
+        </tr>
+    </tbody>
+</table>
+<br />
+<br />
+<table border="0" cellspacing="0" cellpadding="0" width="100%">
+    <tbody>
+        <tr>
+            <td style="padding-top: 10px">Med venlig hilsen <br />
+            Synergi<br />
+            <br />
+            Thomas Hansen</td>
+        </tr>
+    </tbody>
+</table>
+

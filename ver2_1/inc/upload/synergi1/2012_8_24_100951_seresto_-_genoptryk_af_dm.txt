@@ -1,0 +1,76 @@
+<br />
+<table border="0" cellpadding="0" cellspacing="0" width="605">
+    <tbody>
+        <tr>
+            <td valign="top">Bayer A/S,<br />
+            Arne Jacobsens All&#233; 13, 6.<br />
+            2300 K&#248;benhavn S<br />
+            <br />
+            Att: Lotte Jessen<br />
+            <br />
+            <br />
+            <br />
+            <br />
+            N&#230;stved, den 24. august 2012 </td>
+        </tr>
+    </tbody>
+</table>
+<br />
+<br />
+<br />
+<br />
+<br />
+<strong>Seresto - genoptryk af DM </strong><br />
+<br />
+##job_besk##
+<table border="0" cellpadding="2" cellspacing="0" width="605">
+    <tbody>
+        <tr>
+            <td style="padding-right: 20px; width: 1104px;"><span class="jobpr16"><u>Tilrettel&#230;ggelse, koordinering og produktionsstyring</u></span><br />
+            &nbsp;</td>
+        </tr>
+        <tr>
+            <td style="padding-right: 20px; width: 1104px;">
+            <div><span class="jobpr16"><u>Tryk</u></span></div>
+            <div>300 stk. alt. 500 stk. u&#230;ndret genoptryk </div>
+            </td>
+        </tr>
+    </tbody>
+</table>
+##job_besk_slut##<br />
+&nbsp;
+<table border="0" cellpadding="0" cellspacing="0" width="605">
+    <tbody>
+        <tr>
+            <td><em><strong><u>Prisoverslag</u><br />
+            </strong></em>
+            <div><em><strong>  V/300 stk. kr. 7.200,00</strong></em></div>
+            <div><em><strong>V/500 stk. kr.&nbsp; 8.200,00 </strong></em><br />
+            </div>
+            </td>
+        </tr>
+    </tbody>
+</table>
+<br />
+<table border="0" cellpadding="0" cellspacing="0" width="100%">
+    <tbody>
+        <tr>
+            <td style="padding-top: 10px;">Alle priser er inkl. levering til &#233;n adresse i Danmark og ekskl. moms.<br />
+            <br />
+            </td>
+        </tr>
+    </tbody>
+</table>
+<br />
+<br />
+<table border="0" cellpadding="0" cellspacing="0" width="100%">
+    <tbody>
+        <tr>
+            <td style="padding-top: 10px;">Med venlig hilsen <br />
+            Synergi<br />
+            <br />
+            Bettina Schou<br />
+            </td>
+        </tr>
+    </tbody>
+</table>

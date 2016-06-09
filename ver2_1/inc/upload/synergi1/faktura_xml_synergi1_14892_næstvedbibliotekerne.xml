@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?><Invoice xmlns="http://rep.oio.dk/ubl/xml/schemas/0p71/pie/" xmlns:com="http://rep.oio.dk/ubl/xml/schemas/0p71/common/" xmlns:main="http://rep.oio.dk/ubl/xml/schemas/0p71/maindoc/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://rep.oio.dk/ubl/xml/schemas/0p71/pie/  http://rep.oio.dk/ubl/xml/schemas/0p71/pie/piestrict.xsd"><com:ID>14892</com:ID><com:IssueDate>2016-02-01</com:IssueDate><com:TypeCode>PIE</com:TypeCode><main:InvoiceCurrencyCode>DKK</main:InvoiceCurrencyCode><com:Note><![CDATA[Job: Bogmærke, Korskilde, Glumsø, Fensmark og Fuglebjer(10992)Tilrettel&#230;ggelse, koordinering og produktionsstyring
+Bogm&#230;rke, Korskilde, Glums&#248;, Fensmark og
+Fuglebjerg
+
+
+
+Layout/dtp
+
+Vi har tilrettet layout/dtp p&#229; bogm&#230;rke til Korskilde ud fra
+brief modtaget fra jer.
+
+&#216;vrige 3 bogm&#230;rker er u&#230;ndret genoptryk.
+
+Inkl. 2 korrekturgange.
+
+
+
+Klarg&#248;ring til tryk
+Vi genererer en trykklar pdf-fil.
+
+Tryk og f&#230;rdigg&#248;relse
+
+4 x 1.000 stk., 70 x 210 mm, 4+0 farver p&#229; 250g matbestr&#248;get papir.
+
+Rensk&#230;res og pakkes.
+
+
+
+Pris, Bogm&#230;rker, kr. 4.150,-]]></com:Note><com:BuyersReferenceID schemeID="EAN">5798007288204</com:BuyersReferenceID><com:ReferencedOrder><com:BuyersOrderID>10992</com:BuyersOrderID><com:IssueDate>2016-02-01</com:IssueDate></com:ReferencedOrder><com:BuyerParty><com:ID schemeID="CVR">29189625</com:ID><com:PartyName><com:Name><![CDATA[NæstvedBibliotekerne]]></com:Name></com:PartyName><com:Address><com:ID>Fakturering</com:ID><com:Street><![CDATA[Kvægtorvet 4-6]]></com:Street><com:CityName><![CDATA[Næstved]]></com:CityName><com:PostalZone>4700</com:PostalZone><com:Country><com:Code listID="ISO 3166-1">DK</com:Code></com:Country></com:Address><com:BuyerContact><com:ID><![CDATA[Lena Lund Olsen]]></com:ID></com:BuyerContact></com:BuyerParty><com:SellerParty><com:ID schemeID="CVR">26881560</com:ID><com:PartyName><com:Name><![CDATA[Synergi A/S]]></com:Name></com:PartyName><com:Address><com:ID>Betaling</com:ID><com:Street><![CDATA[MARINEBUEN 11
+]]></com:Street><com:CityName><![CDATA[Næstved]]></com:CityName><com:PostalZone>4700</com:PostalZone><com:Country><com:Code listID="ISO 3166-1">DK</com:Code></com:Country></com:Address><com:PartyTaxScheme><com:CompanyTaxID schemeID="CVR">26881560</com:CompanyTaxID></com:PartyTaxScheme></com:SellerParty><com:PaymentMeans><com:TypeCodeID>null</com:TypeCodeID><com:PaymentDueDate>2016-02-15</com:PaymentDueDate><com:PaymentChannelCode>KONTOOVERFØRSEL</com:PaymentChannelCode><com:PayeeFinancialAccount><com:ID>0758188337</com:ID><com:TypeCode>BANK</com:TypeCode><com:FiBranch><com:ID>2186</com:ID><com:FinancialInstitution><com:ID>null</com:ID><com:Name>Nordea</com:Name></com:FinancialInstitution></com:FiBranch></com:PayeeFinancialAccount><com:PaymentAdvice><com:AccountToAccount><com:PayerNote></com:PayerNote><com:PayeeNote></com:PayeeNote></com:AccountToAccount></com:PaymentAdvice></com:PaymentMeans><com:TaxTotal><com:TaxTypeCode>VAT</com:TaxTypeCode><com:TaxAmounts><com:TaxableAmount currencyID='DKK'>4150.00</com:TaxableAmount> <com:TaxAmount currencyID='DKK'>1037.50</com:TaxAmount></com:TaxAmounts><com:CategoryTotal><com:RateCategoryCodeID>VAT</com:RateCategoryCodeID><com:RatePercentNumeric>25</com:RatePercentNumeric><com:TaxAmounts><com:TaxableAmount currencyID='DKK'>4150.00</com:TaxableAmount><com:TaxAmount currencyID='DKK'>1037.50</com:TaxAmount></com:TaxAmounts></com:CategoryTotal></com:TaxTotal><com:LegalTotals><com:LineExtensionTotalAmount currencyID='DKK'>4150.00</com:LineExtensionTotalAmount><com:ToBePaidTotalAmount currencyID='DKK'>5187.50</com:ToBePaidTotalAmount></com:LegalTotals><com:InvoiceLine><com:ID>1</com:ID><com:InvoicedQuantity unitCode='Stk.' unitCodeListAgencyID="n/a">1.00</com:InvoicedQuantity><com:LineExtensionAmount currencyID='DKK'>4150.00</com:LineExtensionAmount><com:Item><com:ID>0</com:ID><com:Description><![CDATA[Bogmærker, Korskilde, Glumsø, Fensmark og Fuglebjerg]]></com:Description></com:Item><com:BasePrice><com:PriceAmount currencyID='DKK'>4150.00</com:PriceAmount></com:BasePrice></com:InvoiceLine></Invoice>

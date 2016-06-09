@@ -1,0 +1,37 @@
+BODY
+{
+    BACKGROUND-COLOR: #ffffff;
+    COLOR: #000000;
+    FONT-FAMILY: calibri;
+    FONT-SIZE: 12px;
+	LINE-HEIGHT : 14px;
+}
+Body.regular {
+	background-color : #ffffff;
+	background-repeat : no-repeat;
+}
+
+
+
+
+
+
+
+TD
+{
+    COLOR: #000000;
+    FONT-FAMILY: calibri;
+    FONT-SIZE: 12px;
+	LINE-HEIGHT : 14px;
+    TEXT-DECORATION: none;
+}
+
+
+TD.afsender2
+{
+     COLOR: #000000;
+    FONT-FAMILY: calibri;
+    FONT-SIZE: 12px;
+	LINE-HEIGHT : 14px;
+    TEXT-DECORATION: none;
+}

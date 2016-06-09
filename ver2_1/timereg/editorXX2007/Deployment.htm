@@ -1,0 +1,172 @@
+<HTML>
+	<HEAD>
+		<title>ASP WYSIWYG Editor - Deployment the Cute Editor for .NET</title>
+		<link rel="stylesheet" href="example.css" type="text/css" />
+	</HEAD>
+	
+<body bottomMargin=0 leftMargin=0 topMargin=0 rightMargin=0 marginwidth="0" marginheight="0">
+	
+	<table class=HeadBg id=Table3 cellSpacing=0 cellPadding=0 width="100%" align=center border=0>
+		<tr>
+			<td vAlign=center width=250 height=60 nowrap valign="bottom">&nbsp;
+				<a href="default.htm"><IMG alt=CuteEditor src="sampleimage/logo.gif" border=0></a>
+			</td>
+			<td align=center valign="bottom" width=100%></td>
+			<td class=normal vAlign=center align=center nowrap width=200 height=16>
+				<a href="http://cutesoft.net/ASP.NET+WYSIWYG+Editor/default.aspx/">CuteEditor for .NET </a>
+			</td>
+		</tr>
+	</table>
+    
+	<table width="100%" border="0" cellspacing="0" cellpadding="0" class="HeadBg">
+		<tr>
+			<td width="15">&nbsp;</td>
+			<td valign="bottom">				
+				<table cellspacing="0" cellpadding="0" border="0">
+					<tr>
+						<td class="tab-inactive"><a href='default.htm' class="OtherTabs">Home</a></td>
+						<td>&nbsp;</td>
+						<td class="tab-inactive"><a href='demo.htm' class="OtherTabs">Demo</a></td>
+						<td>&nbsp;</td>
+						<td class="tab-active">Deployment</td>
+						<td>&nbsp;</td>
+						<td class="tab-inactive"><a href='http://cutesoft.net/Forums/' class="OtherTabs">Forums</a></td>
+						<td>&nbsp;</td>
+						<td class="tab-inactive"><a href='http://cutesoft.net/ASP.NET+WYSIWYG+Editor/default.aspx' class="OtherTabs">CuteEditor for .NET</a></td>
+						<td>&nbsp;</td>
+						<td class="tab-inactive"><a href='http://cutesoft.net/ASP.NET+Chat/default.aspx' class="OtherTabs">Chat</a></td>
+						<td>&nbsp;</td>
+						<td class="tab-inactive"><a href='http://cutesoft.net/Live-Support/default.aspx' class="OtherTabs">Live Support</a></td>
+						<td>&nbsp;</td>
+						<td class="tab-inactive"><a href='http://cutesoft.net/Web-Messenger/default.aspx' class="OtherTabs">Web Messenger</a></td>
+						<td>&nbsp;</td>
+						<td class="tab-inactive"><a href='http://cutesoft.net/ASP.NET+Image+Gallery/default.aspx' class="OtherTabs">Image Gallery</a></td>
+						<td>&nbsp;</td>
+						<td class="tab-inactive"><a href='http://CuteSoft.net/asp/Order.asp' class="OtherTabs">Order</a></td>
+					</tr>
+				</table>
+			</td>
+		</tr>	
+		<tr class="subtabBg">
+			<td height="5" colspan="3"></td>
+		</tr>	
+		<tr>
+			<td bgcolor="#c0c0c0" height="1" colspan="3" align="center"></td>
+		</tr>
+	</table>
+
+	<table cellSpacing="0" cellPadding="3" width="100%" align="center" border="0">
+		<tr>
+			<td colSpan="4" height=15></td>
+		</tr>
+				<tr>
+					<td width="20">&nbsp;</td>
+					<td vAlign="bottom" background="sampleimage/dot.gif"><IMG height="1" src="sampleimage/dot.gif" width="1"></td>
+					<td width="10">&nbsp;</td>
+					<td id="content" vAlign="top">
+						<table id="Table5" cellSpacing="0" cellPadding="0" width="100%" align="center" border="0">
+						<tr>
+							<td width="3"></td>
+							<td vAlign="top">
+								<h1>Deployment the Cute Editor for ASP
+								</h1>
+								CuteEditor for ASP is a custom ASP class that was developed as a replacement for the standard TextArea tag in content management systems. It is 100% HTML and JavaScript code on the client, and ASP code on the server, and can be setup on your web server in just 5 minutes, simply by following this setup guide.
+
+
+							</td>
+							<td width="3"></td>
+						</tr>
+					</table>
+					<br>
+					<br>
+					<table id="Table6" cellSpacing="0" cellPadding="5" width="100%" border="0">
+						<tr>
+							<td vAlign="top" noWrap><IMG src="sampleimage/xp1.gif"></td>
+							<td vAlign="top">
+								<P><B>Deploying the CuteEditor Client files. </B>
+								</P>
+								<br>
+								<P>The "CuteEditor_Files" folder and all file it contains (located in the archive) should be deployed to http://{your site}/{your application}/CuteEditor_Files/ on your web site.
+								</p>
+								<br>
+								<P>If you want to deploy the CuteEditor Client file to a different location, you will have to make sure that you set your editor FilesPath property correctly. The control expects to find the all the files and images in the files directory specified by the control FilesPath property.</P>
+								</P>
+								<br>
+								<div><IMG src="sampleimage/aspdeploy1.gif" align="baseline" border="0">
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td vAlign="top" noWrap><IMG src="sampleimage/xp2.gif"></td>
+							<td vAlign="top">
+								<P><B>Deploying the netSpell.dll assembly and dictionary files </B>
+								</P>
+								<br>
+								<P>Please note that you need to have the .NET framework installed on your web server to use this feature. If not, you can skip this step and use the <a href="http://www.iespell.com/">IEspell</a> instead.
+								</P>
+								<br>
+								<P>The following files should be deployed to the \bin directory for the web application that uses the CuteEditor. 
+								</P>
+								<UL>
+									<LI>
+										NetSpell.SpellChecker.dll
+									<LI>
+										en-US.dic
+										<BR>
+										<br>
+									</LI>
+								</UL>
+								<P></P>
+								<div><IMG src="sampleimage/aspdeploy2.gif" align="baseline" border="0">
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td vAlign="top" noWrap><IMG src="sampleimage/xp3.gif"></td>
+							<td vAlign="top">
+								<P><B>Copying the sample files </B>
+								</P>
+								<br>
+								<P>If you want to launch the sample right away, place the default.asp or simple.asp in your application folder.
+								</P>
+								<br>
+								<div><IMG src="sampleimage/aspdeploy3.gif" align="baseline" border="0">
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td vAlign="top" noWrap><IMG src="sampleimage/xp4.gif"></td>
+							<td vAlign="top">
+								<P><B>Running the samples </B>
+								</P>
+								<br>
+								<P> Access the editor via http://localhost/webapplication1/default.asp or http://localhost/webapplication1/simple.asp. The CuteEditor for ASP control should 
+									appear on the page, complete with all buttons on the toolbar and tabs at the 
+									bottom of the control. 
+								</P><BR>
+								<P>
+									To make sure everything is working, enter a value in the text area and then 
+									click on the "save" button You should see the HTML generated by the CuteEditor 
+									for ASP control appear in the text box at the bottom of the page.
+								</P><BR>
+								<P>Congratulations, your setup of CuteEditor for ASP was a success!
+								</P>
+								<br>
+								<div><IMG src="sampleimage/aspdeploy4.gif" align="baseline" border="0">
+								</div><BR>
+								<P><STRONG>Note:</STRONG> When you are including CuteEditor for ASP in your own ASP 
+									files, make sure you include the class at the top of your page.
+								</P>
+							</td>
+						</tr>
+					</table>
+					</td>
+					<td width="150"></td>
+				</tr>
+			</table>
+			<div id="footer">
+				<p><a href="http://cutesoft.net">Copyright 2005 CuteSoft.Net. All rights reserved.</a></p>
+			</div>
+		</form>
+	</body>
+</HTML>

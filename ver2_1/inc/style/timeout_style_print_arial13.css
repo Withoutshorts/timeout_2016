@@ -1,0 +1,73 @@
+BODY
+{
+    
+    COLOR: #000000;
+    FONT-FAMILY: arial;
+    FONT-SIZE: 10pt;
+	LINE-HEIGHT : 12pt;
+	
+}
+Body.regular {
+	
+    FONT-FAMILY: arial;
+    FONT-SIZE: 10pt;
+	LINE-HEIGHT : 12pt;
+}
+	
+
+
+
+
+P, SPAN, DIV, STRONG, B, I, U
+{
+    COLOR: #000000;
+    FONT-FAMILY: arial;
+    FONT-SIZE: 10pt;
+	LINE-HEIGHT : 12pt;
+    TEXT-DECORATION: none;
+}
+
+
+
+TD
+{
+    COLOR: #000000;
+    FONT-FAMILY: arial;
+    FONT-SIZE: 10pt;
+	LINE-HEIGHT : 12pt;
+    TEXT-DECORATION: none;
+}
+
+TD.footer
+{
+    COLOR: #000000;
+    FONT-FAMILY: arial;
+    FONT-SIZE: 8pt;
+    LINE-HEIGHT : 10pt;
+	TEXT-DECORATION: none;
+	
+}
+H4
+{
+    COLOR: #000000;
+    FONT-FAMILY: arial;
+    FONT-SIZE: 14pt;
+    LINE-HEIGHT : 16pt;
+	TEXT-DECORATION: none;
+	
+}
+
+TD.afsender2
+{
+    COLOR: #999999;
+    FONT-FAMILY: arial;
+    FONT-SIZE: 10pt;
+    LINE-HEIGHT : 12pt;
+	TEXT-DECORATION: none;
+	letter-spacing:2px;
+}
+
+
+
+
+

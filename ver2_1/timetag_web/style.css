@@ -1,0 +1,115 @@
+/* =========================================================== */
+/* = Site Variables & Grid                                   = */
+/* =========================================================== */
+
+/* Grid options */
+@column-size: 80; // Your column with
+@columns: 12; // the max amount of columns
+@gutter: 20; // the width of the gutter
+@margin: (@gutter / 2)* 1px; // recommended margin
+
+
+@total-width: (((@columns * @gutter)+(@columns * @column-size)) - @gutter)*1px;
+@container-size: ((@columns * @gutter)+(@columns * @column-size))*1px;
+
+
+.column (@columns, @margin: 0 ((@gutter / 2) * 1px), @border-size:1px, @frame_background: white) {
+	width: @total-width - (@border-size * 2);
+	margin: @margin;
+	border: @border;
+	background-color: @frame_background;
+}
+
+/* =========================================================== */
+/* = Import normalize baseline and grid                      = */
+/* =========================================================== */
+
+@import "reset.less";
+@import "grid.less";
+@import "classes.less";
+
+//modules
+@import "menu";
+
+/* =========================================================== */
+/* = Typography							                     = */
+/* =========================================================== */
+
+@font-family: 'Open Sans', arial, verdana, sans-serif !important;
+@thin: 300;
+@regular: 400;
+@semi_bold: 600;
+@bold: 700;
+@extra_bold: 800;
+
+.xs_font_size {
+	font-size: 9px;
+	font-size: 0.9rem;
+}
+
+.s_font_size {
+	font-size: 11px;
+	font-size: 1.1rem;
+}
+
+.m_font_size {
+	font-size: 13px;
+	font-size: 1.3rem;
+}
+
+.l_font_size {
+	font-size: 17px;
+	font-size: 1.7rem;
+}
+
+.xl_font_size {
+	font-size: 19px;
+	font-size: 1.9rem;
+}
+
+.xxl_font_size {
+	font-size: 23px;
+	font-size: 2.3rem;
+}
+
+/* =========================================================== */
+/* = Colors								                     = */
+/* =========================================================== */
+
+@text_color: #565E6B;
+@text_heading: @dark_blue;
+@text_faded: #C6C6C6;
+
+@light_blue: #0077DC;
+@blue: #396a9d;
+@dark_blue: #004d7b;
+
+@light_green:;
+@green: #7CC167;
+@dark_green;
+
+@light_orange:;
+@orange: #E98B46;
+@dark_orange;
+
+@light_red:;
+@red: #E53838;
+@dark_red:;
+
+@light_grey:;
+@grey: #F5F5F5;
+@dark_grey:;
+
+@body_background: #ECF0F1;
+@menu_background: @dark_blue;
+@frame_background: #FFFFFF;
+
+/* =========================================================== */
+/* = Borders							                     = */
+/* =========================================================== */
+
+@border-size: 1px;
+@border-style: solid;
+@border-color: #E5E5E5;
+
+@border: @border-size @border-style @border-color;

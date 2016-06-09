@@ -1,0 +1,1195 @@
+BODY
+{
+    BACKGROUND-COLOR: #ffffff;
+    COLOR: #000000;
+    FONT-FAMILY: arial;
+    FONT-SIZE: 10px;
+	
+}
+
+Body.login {
+background-color : #8CAAE6;
+}
+Body.regular {
+	background-color : #D6DFF5;
+	background-repeat : no-repeat;
+}
+
+Span.cal
+{
+    COLOR: #000000;
+    FONT-FAMILY: arial;
+    FONT-SIZE: 9px;
+    background-color:#D6DFF5; 
+    padding-left:2px; 
+    padding-right:2px;
+}
+
+Span.caltot
+{
+    COLOR: #000000;
+    FONT-FAMILY: arial;
+    FONT-SIZE: 9px;
+    background-color:#FFDFDF; 
+    padding-left:2px; 
+    padding-right:2px;
+}
+
+
+/* //////////////////////////////////////////////////////////////////////////**/
+/* A ***/
+/* //////////////////////////////////////////////////////////////////////////**/
+
+
+
+
+A:link, A:visited, A:active
+{
+    COLOR: #215DC6;
+    FONT-FAMILY: arial;
+    FONT-SIZE: 12px;
+	
+   	TEXT-DECORATION: none;
+	FONT-weight: bold;
+}
+A:hover
+{
+    COLOR: #8FACE6;
+    FONT-FAMILY: arial;
+    FONT-SIZE: 12px;
+	
+    TEXT-DECORATION: underline;
+}
+
+
+
+/* Bruges til topMODULmenu ***/
+A.modul:link, A.modul:active, A.modul:visited
+{
+    COLOR: #ffffff;
+    FONT-FAMILY: arial;
+    FONT-SIZE: 14px;
+	
+    TEXT-DECORATION: none;
+    font-weight:bolder;
+}
+
+
+
+A.modul:hover
+{
+    COLOR: #ffffff;
+    FONT-FAMILY: arial;
+    FONT-SIZE: 14px;
+	
+    TEXT-DECORATION: underline;
+    font-weight:bolder;
+}
+
+/* Bruges til mainmenu iunder hvert modul ***/
+A.mainmenu:link, A.mainmenu:active, A.mainmenu:visited
+{
+    COLOR: #3B5998;
+    FONT-FAMILY: arial;
+    FONT-SIZE: 11px;
+	
+    TEXT-DECORATION: none;
+    font-weight:bolder;
+}
+
+
+
+A.mainmenu:hover
+{
+    COLOR: #999999;
+    FONT-FAMILY: arial;
+    FONT-SIZE: 11px;
+	
+    TEXT-DECORATION: underline;
+    font-weight:bolder;
+}
+
+
+
+/* Bruges til hvide links ***/
+A.alt:link, A.alt:active, A.alt:visited
+{
+    COLOR: #ffffff;
+    FONT-FAMILY: arial;
+    FONT-SIZE: 11px;
+	
+    TEXT-DECORATION: none;
+}
+
+A.alt:hover
+{
+    COLOR: #B4C7EF;
+    FONT-FAMILY: arial;
+    FONT-SIZE: 11px;
+	
+    TEXT-DECORATION: underline;
+}
+
+
+A.alt_lille:link, A.alt_lille:active, A.alt_lille:visited
+{
+    COLOR: #ffffff;
+    FONT-FAMILY: arial;
+    FONT-SIZE: 10px;
+	
+    TEXT-DECORATION: none;
+}
+
+A.alt_lille:hover
+{
+    COLOR: #B4C7EF;
+    FONT-FAMILY: arial;
+    FONT-SIZE: 10px;
+	
+    TEXT-DECORATION: underline;
+}
+
+
+A.kalblue:link, A.kalblue:visited, A.kalblue:active {
+	color : #5582d2;
+	FONT-FAMILY: arial;
+    FONT-SIZE: 10px;
+	LINE-HEIGHT : 12px;
+    TEXT-DECORATION: none;
+
+}
+
+A.kalblue:hover
+{
+    COLOR: #003399;
+    FONT-FAMILY: arial;
+    FONT-SIZE: 10px;
+	LINE-HEIGHT : 12px;
+    TEXT-DECORATION: underline;
+}
+
+
+/* Bruges til venste menu links ***/
+A.vmenu:link, A.vmenu:visited, A.vmenu:active {
+	color : #215DC6;
+	FONT-FAMILY: arial;
+    FONT-SIZE: 11px;
+	TEXT-DECORATION: none;
+  
+	
+}
+
+A.vmenu:hover
+{
+    COLOR: #8FACE6;
+    FONT-FAMILY: arial;
+    FONT-SIZE: 11px;
+	TEXT-DECORATION: underline;
+
+	
+}
+
+
+/* Bruges til venste menu links ***/
+A.tiltoppen:link, A.tiltoppen:visited, A.tiltoppen:active, A.naeste:link, A.naeste:visited, A.naeste:active
+{
+	color : #215DC6;
+	FONT-FAMILY: arial;
+    FONT-SIZE: 11px;
+	TEXT-DECORATION: none;
+  
+	
+}
+
+A.tiltoppen:hover, A.naeste:hover
+{
+    COLOR: #8FACE6;
+    FONT-FAMILY: arial;
+    FONT-SIZE: 11px;
+	TEXT-DECORATION: underline;
+
+	
+}
+
+
+
+
+
+/* Bruges til fase links på timeregsiden ***/
+A.afase:link, A.afase:visited, A.afase:active {
+	color : #FFFFFF;
+	FONT-FAMILY: arial;
+    FONT-SIZE: 12px;
+	TEXT-DECORATION: none;
+  
+	
+}
+
+A.afase:hover
+{
+    COLOR: #999999;
+    FONT-FAMILY: arial;
+    FONT-SIZE: 12px;
+	TEXT-DECORATION: underline;
+
+	
+}
+
+/* Bruges til højre menu links ***/
+A.rmenu:link, A.rmenu:visited, A.rmenu:active {
+	color : #215DC6;
+	FONT-FAMILY: arial;
+    FONT-SIZE: 10px;
+	LINE-HEIGHT : 12px;
+    TEXT-DECORATION: none;
+}
+
+A.rmenu:hover
+{
+    COLOR: #000000;
+    FONT-FAMILY: arial;
+    FONT-SIZE: 10px;
+	LINE-HEIGHT : 12px;
+    TEXT-DECORATION: underline;
+}
+
+
+A.qlinks:link, A.qlinks:active {
+	color : #215DC6;
+	FONT-FAMILY: arial,verdana,sans-serif;
+    FONT-SIZE: 10px;
+	
+    TEXT-DECORATION: none;
+	
+}
+
+A.qlinks:visited {
+	color : #999999;
+	FONT-FAMILY: arial,verdana,sans-serif;
+    FONT-SIZE: 10px;
+	
+    TEXT-DECORATION: none;
+	
+}
+
+A.qlinks:hover
+{
+    COLOR: #000000;
+    FONT-FAMILY: arial,verdana,sans-serif;
+    FONT-SIZE: 10px;
+	
+    TEXT-DECORATION: underline;
+	
+}
+
+
+
+
+
+/* Bruges til venste menu links (Grå) ***/
+A.vmenualt:link, A.vmenualt:visited, A.vmenualt:active {
+	color : #999999;
+	FONT-FAMILY: arial;
+    FONT-SIZE: 11px;
+	
+    TEXT-DECORATION: none;
+	
+}
+
+A.vmenualt:hover
+{
+    COLOR: #B4C7EF;
+    FONT-FAMILY: arial;
+    FONT-SIZE: 11px;
+	
+    TEXT-DECORATION: underline;
+	
+}
+
+/* Bruges til venste menu links (Grøn) ***/
+A.vmenuglobal:link, A.vmenuglobal:visited, A.vmenuglobal:active {
+	color : #6BD239;
+	FONT-FAMILY: arial;
+    FONT-SIZE: 11px;
+	
+    TEXT-DECORATION: none;
+	
+}
+
+A.vmenuglobal:hover
+{
+    COLOR: green;
+    FONT-FAMILY: arial;
+    FONT-SIZE: 11px;
+	
+    TEXT-DECORATION: underline;
+	
+}
+
+
+/* Bruges til venste menu links (Rød) ***/
+A.red:link, A.red:visited, A.red:active {
+	color : red;
+	FONT-FAMILY: arial;
+    FONT-SIZE: 10px;
+	LINE-HEIGHT : 12px;
+    TEXT-DECORATION: none;
+	
+}
+
+A.red:hover
+{
+    COLOR: red;
+    FONT-FAMILY: arial;
+    FONT-SIZE: 10px;
+	LINE-HEIGHT : 12px;
+    TEXT-DECORATION: underline;
+	
+}
+
+/* Bruges til venste menu links (Rød) ***/
+A.red2:link, A.red2:visited, A.red2:active {
+	color : darkred;
+	FONT-FAMILY: arial;
+    FONT-SIZE: 10px;
+	
+    TEXT-DECORATION: none;
+    background-color:#FFDFDF;
+	
+}
+
+A.red2:hover
+{
+    COLOR: darkred;
+    FONT-FAMILY: arial;
+    FONT-SIZE: 10px;
+	
+    TEXT-DECORATION: underline;
+    background-color:#FFDFDF;
+	
+}
+
+
+
+/* Bruges til kalender (Graa) ***/
+A.kal_g:link, A.kal_g:visited, A.kal_g:active {
+	color : gray;
+	FONT-FAMILY: arial;
+    FONT-SIZE: 10px;
+	TEXT-DECORATION: none;
+}
+
+A.kal_g:hover
+{
+    COLOR: #B4C7EF;
+    FONT-FAMILY: arial;
+    FONT-SIZE: 10px;
+	TEXT-DECORATION: underline;
+}
+
+/* Bruges til kalender (Graa BOLD) ***/
+A.kal_g_bold:link, A.kal_g_bold:visited, A.kal_g_bold:active {
+	color : gray;
+	FONT-FAMILY: arial;
+    FONT-SIZE: 11px;
+	
+    TEXT-DECORATION: none;
+	FONT-weight: bold;
+}
+
+A.kal_g_bold:hover
+{
+    COLOR: #B4C7EF;
+    FONT-FAMILY: arial;
+    FONT-SIZE: 11px;
+	
+    TEXT-DECORATION: underline;
+	FONT-weight: bold;
+}
+
+	
+/** vmenu2 **/	
+A.vmenu2, A.vmenu2:visited {
+	line-height : 20px;
+}
+
+
+/* (Darkred) ***/
+A.fir_r:link, A.fir_r:visited, A.fir_r:active {
+	color : darkred;
+	FONT-FAMILY: arial;
+    FONT-SIZE: 11px;
+	
+    TEXT-DECORATION: none;
+}
+
+A.fir_r:hover
+{
+    COLOR: darkred;
+    FONT-FAMILY: arial;
+    FONT-SIZE: 11px;
+	
+    TEXT-DECORATION: underline;
+}
+
+
+/* (blå todo lille) ***/
+A.todo_lille:link, A.todo_lille:visited, A.todo_lille:active {
+	color : #5582d2;
+	FONT-FAMILY: arial;
+    FONT-SIZE: 10px;
+	LINE-HEIGHT : 10px;
+    TEXT-DECORATION: none;
+}
+
+A.todo_lille:hover
+{
+    COLOR: #5582d2;
+    FONT-FAMILY: arial;
+    FONT-SIZE: 10px;
+	LINE-HEIGHT : 10px;
+    TEXT-DECORATION: underline;
+}
+
+
+/* (blå todo mellem) ***/
+A.todo_mellem:link, A.todo_mellem:visited, A.todo_mellem:active {
+	color : #5582d2;
+	FONT-FAMILY: arial;
+    FONT-SIZE: 11px;
+	
+    
+}
+
+A.todo_mellem:hover
+{
+    COLOR: #5582d2;
+    FONT-FAMILY: arial;
+    FONT-SIZE: 11px;
+	
+    TEXT-DECORATION: underline;
+}
+
+/* (blå todo mellem - afsluttet) ***/
+A.todo_mellem:link, A.todo_mellem:visited, A.todo_mellem:active {
+	color : #5582d2;
+	FONT-FAMILY: arial;
+    FONT-SIZE: 11px;
+	
+    
+}
+
+A.todo_mellem:hover
+{
+    COLOR: #5582d2;
+    FONT-FAMILY: arial;
+    FONT-SIZE: 11px;
+	
+    TEXT-DECORATION: underline;
+}
+
+/* (blå todo stor) ***/
+A.todo_stor:link, A.todo_stor:visited, A.todo_stor:active {
+	color : #5582d2;
+	FONT-FAMILY: arial;
+    FONT-SIZE: 14px;
+	LINE-HEIGHT : 15px;
+    
+}
+
+A.todo_stor:hover
+{
+    COLOR: #5582d2;
+    FONT-FAMILY: arial;
+    FONT-SIZE: 14px;
+	LINE-HEIGHT : 15px;
+    TEXT-DECORATION: underline;
+}
+
+/* gray ***/
+A.gray:link, A.gray:visited, A.gray:active {
+	color : #cccccc;
+	FONT-FAMILY: arial;
+    FONT-SIZE: 11px;
+	
+    TEXT-DECORATION: none;
+	
+}
+
+A.gray:hover
+{
+    COLOR: #cccccc;
+    FONT-FAMILY: arial;
+    FONT-SIZE: 11px;
+	
+    TEXT-DECORATION: underline;
+	
+}
+
+
+
+/* Bruges til ERP  ***/
+A.erp_green:link, A.erp_green:visited, A.erp_green:active {
+	color :forestgreen;
+	FONT-FAMILY: arial;
+    FONT-SIZE: 10px;
+	LINE-HEIGHT : 12px;
+    TEXT-DECORATION: none;
+}
+
+A.erp_green:hover
+{
+    COLOR: #8caae6;
+    FONT-FAMILY: arial;
+    FONT-SIZE: 10px;
+	LINE-HEIGHT : 12px;
+    TEXT-DECORATION: underline;
+}
+
+/* Bruges til ERP  ***/
+A.erp_gray:link, A.erp_gray:visited, A.erp_gray:active {
+	color :gray;
+	FONT-FAMILY: arial;
+    FONT-SIZE: 11px;
+	
+    TEXT-DECORATION: none;
+}
+
+A.erp_gray:hover
+{
+    COLOR: #8caae6;
+    FONT-FAMILY: arial;
+    FONT-SIZE: 11px;
+	
+    TEXT-DECORATION: underline;
+}
+
+/* Bruges til ERP  ***/
+A.erp_black:link, A.erp_black:visited, A.erp_black:active {
+	color :#5582d2;
+	FONT-FAMILY: arial;
+    FONT-SIZE: 11px;
+	
+    TEXT-DECORATION: none;
+}
+
+A.erp_black:hover
+{
+    COLOR: #8caae6;
+    FONT-FAMILY: arial;
+    FONT-SIZE: 11px;
+	
+    TEXT-DECORATION: underline;
+}
+
+
+A.lgron:link, A.lgron:visited, A.lgron:active {
+	color : limegreen;
+	FONT-FAMILY: arial;
+    FONT-SIZE: 11px;
+}
+
+A.lgron:hover
+{
+    COLOR: limegreen;
+    FONT-FAMILY: arial;
+    FONT-SIZE: 11px;
+	TEXT-DECORATION: underline;
+}
+
+
+/* Bruges til ressource kalender (Blaa) ***/
+A.klog_lille2:link, A.klog_lille2:visited, A.klog_lille2:active {
+	color : #215DC6;
+	FONT-FAMILY: arial;
+    FONT-SIZE: 10px;
+	LINE-HEIGHT : 9px;
+    TEXT-DECORATION: none;
+}
+
+A.klog_lille2:hover
+{
+    COLOR: #cccccc;
+    FONT-FAMILY: arial;
+    FONT-SIZE: 10px;
+	LINE-HEIGHT : 9px;
+    TEXT-DECORATION: underline;
+}
+
+/* Bruges til røde links i kalender ***/
+A.red:link, A.red:visited, A.red:active {
+	color : red;
+	FONT-FAMILY: arial;
+    FONT-SIZE: 10px;
+	
+    TEXT-DECORATION: none;
+	
+}
+
+A.red:hover
+{
+    COLOR: #B4C7EF;
+    FONT-FAMILY: arial;
+    FONT-SIZE: 10px;
+	
+    TEXT-DECORATION: underline;
+	
+}
+
+/* Bruges til røde links i kalender ***/
+A.slet:link, A.slet:visited, A.slet:active {
+	color : crimson;
+	FONT-FAMILY: arial;
+    FONT-SIZE: 11px;
+	TEXT-DECORATION: none;
+	
+}
+
+A.slet:hover
+{
+    COLOR: #B4C7EF;
+    FONT-FAMILY: arial;
+    FONT-SIZE: 11px;
+	TEXT-DECORATION: underline;
+	
+}
+
+A.vmenulille:link, A.vmenulille:visited, A.vmenulille:active {
+	color : #215DC6;
+	FONT-FAMILY: arial;
+    FONT-SIZE: 8px;
+	
+    TEXT-DECORATION: none;
+}
+
+A.vmenulille:hover
+{
+    COLOR: #B4C7EF;
+    FONT-FAMILY: arial;
+    FONT-SIZE: 8px;
+	
+    TEXT-DECORATION: underline;
+}
+
+
+A.silverlille:link, A.silverlille:visited, A.silverlille:active {
+	color:#000000;
+	FONT-FAMILY: arial;
+    FONT-SIZE: 9px;
+	LINE-HEIGHT : 12px;
+    TEXT-DECORATION: none;
+    font-weight:lighter;
+}
+
+A.silverlille:hover
+{
+    COLOR: #999999;
+    FONT-FAMILY: arial;
+    FONT-SIZE: 9px;
+	LINE-HEIGHT : 12px;
+    TEXT-DECORATION: underline;
+    font-weight:lighter;
+}
+
+/* //////////////////////////////////////////////////////////////////////////**/
+/* TD ***/
+/* //////////////////////////////////////////////////////////////////////////**/
+
+
+TD.lille
+{
+    COLOR: #000000;
+    FONT-FAMILY: arial;
+    FONT-SIZE: 10px;
+    
+    TEXT-DECORATION: none;
+	
+}
+
+
+TD.lillerod
+{
+    COLOR: red;
+    FONT-FAMILY: arial;
+    FONT-SIZE: 10px;
+    
+    TEXT-DECORATION: none;
+	
+}
+TD.lillegron
+{
+    COLOR: green;
+    FONT-FAMILY: arial;
+    FONT-SIZE: 10px;
+    
+    TEXT-DECORATION: none;
+	
+}
+
+
+
+TD
+{
+    COLOR: #000000;
+    FONT-FAMILY: arial;
+    FONT-SIZE: 10px;
+	LINE-HEIGHT : 12px;
+    TEXT-DECORATION: none;
+   
+}
+
+TD.graa
+{
+    COLOR: #999999;
+    FONT-FAMILY: arial;
+    FONT-SIZE: 10px;
+	
+    TEXT-DECORATION: none;
+}
+
+TD.lille
+{
+    COLOR: #000000;
+    FONT-FAMILY: arial;
+    FONT-SIZE: 10px;
+    
+    TEXT-DECORATION: none;
+	
+}
+TD.megetlillesort
+{
+    COLOR: #000000;
+    FONT-FAMILY: arial;
+    FONT-SIZE: 8px;
+    
+	
+}
+
+TD.lillegray
+{
+    COLOR: #999999;
+    FONT-FAMILY: arial;
+    FONT-SIZE: 10px;
+	
+    TEXT-DECORATION: none;
+}
+
+TD.alt_lille
+{
+    COLOR: #ffffff;
+    FONT-FAMILY: arial;
+    FONT-SIZE: 10px;
+	TEXT-DECORATION: none;
+}
+TD.alt
+{
+	COLOR: #ffffff;
+    FONT-FAMILY: arial;
+    FONT-SIZE: 11px;
+	
+    TEXT-DECORATION: none;
+}
+
+
+
+
+
+
+
+input.oversigt {
+	border: 1px; 
+	background-color: #ffffe1; 
+	border-color: #000000; 
+	border-style: solid; 
+	padding-left : 2px;
+	padding-right : 2px; 
+	width:30px;
+}
+
+
+/* //////////////////////////////////////////////////////////////////////////**/
+/* Fonte ***/
+/* //////////////////////////////////////////////////////////////////////////**/
+
+
+/* Bruges til fejlbeskeder */
+Font.error
+{
+    COLOR: darkRed;
+    FONT-FAMILY: arial;
+    FONT-SIZE: 16px;
+    TEXT-DECORATION: none;
+	FONT-WEIGHT: BOLD;
+}	
+
+
+font.roed
+{
+	COLOR: darkRed;
+    FONT-FAMILY: arial;
+    FONT-SIZE: 11px;
+	
+    TEXT-DECORATION: none;
+}
+
+font.blaa
+{
+	COLOR: #5582d2;
+    FONT-FAMILY: arial;
+    FONT-SIZE: 11px;
+	
+    TEXT-DECORATION: none;
+}
+
+
+font.lilleblaa
+{
+	COLOR: #5582d2;
+    FONT-FAMILY: arial;
+    FONT-SIZE: 11px;
+}
+
+font.bq {
+	background-color : #ffff99;
+}
+
+font.megetlillesilver {
+	color:#999999;
+	font-family:arial;
+	font-size:10px;
+	line-height:normal;
+}
+
+
+
+
+
+
+font.lilleblaa {
+	color:#D4DDF5;
+	font-family:arial;
+	font-size:11px;
+}
+
+font.roedb {
+	color: darkRed;
+	font-family:arial;
+	font-size:11px;
+	font-weight:bold;
+}
+
+font.megetlilleblaa {
+	color:#5582d2;
+	font-family:arial;
+	font-size:9px;
+}
+
+font.megetlille99 {
+	color:#999999;
+	font-family:arial;
+	font-size:9px;
+}
+
+font.stor-hvid {
+	color:#ffffff;
+	font-family:arial;
+	font-size:11px;
+	font-weight : bold;
+}
+font.lillehvid {
+	color:#ffffff;
+	font-family:arial;
+	font-size:11px;
+}
+font.lillesort {
+	color:#000000;
+	font-family:arial;
+	font-size:10px;
+	line-height:normal;
+}
+font.megetlillesort {
+	color:#000000;
+	font-family:arial;
+	font-size:9px;
+	line-height:normal;
+}
+font.megetlillehvid {
+	color:#ffffff;
+	font-family:arial;
+	font-size:9px;
+	LINE-HEIGHT : 10px;
+    TEXT-DECORATION: none;
+}
+font.megetmegetlillehvid {
+	color:#ffffff;
+	font-family:arial, sans-serif;
+	font-size:7px;
+	line-height:normal;
+    TEXT-DECORATION: none;
+}
+font.megetlillesilver {
+	color:#999999;
+	font-family:arial;
+	font-size:10px;
+	
+    TEXT-DECORATION: none;
+	
+}
+
+font.medlillesilver {
+	color:#999999;
+	font-family:arial;
+	font-size:10px;
+}
+
+font.megetmegetlillesort {
+	color:#000000;
+	font-family:arial, sans-serif;
+	font-size:7px;
+	line-height:normal;
+    TEXT-DECORATION: none;
+}
+font.sort8px {
+	color:#000000;
+	font-family:arial, sans-serif;
+	font-size:8px;
+	line-height:normal;
+    TEXT-DECORATION: none;
+}
+font.lillegray {
+	color:#999999;
+	font-family:arial;
+	font-size:11px;
+}
+font.storhvid, A.storhvid {
+	color:#ffffff;
+	font-family:arial;
+	font-size:12px;
+}
+font.lille-kalender {
+	color:black;
+	font-family:arial;
+	font-size:11px;
+}
+font.stor-blaa {
+	color:#003399;
+	font-family:arial;
+	font-size:18px;
+	font-weight : bold;
+	line-height : 22px;
+}
+
+font.lilleroed
+{
+	COLOR: darkRed;
+    FONT-FAMILY: arial;
+    FONT-SIZE: 11px;
+    LINE-HEIGHT : 11px;
+    TEXT-DECORATION: none;
+}
+
+font.sort
+{
+	COLOR: #000000;
+    FONT-FAMILY: arial;
+    FONT-SIZE: 11px;
+	
+    TEXT-DECORATION: none;
+}
+
+font.silver
+{
+	COLOR: silver;
+    FONT-FAMILY: arial;
+    FONT-SIZE: 11px;
+	
+    TEXT-DECORATION: none;
+}
+
+
+font.lgreen
+{
+	COLOR: darkgreen;
+    FONT-FAMILY: arial;
+    FONT-SIZE: 10px;
+	TEXT-DECORATION: none;
+	LINE-HEIGHT : normal;
+}
+
+font.lroed
+{
+	COLOR: darkRed;
+    FONT-FAMILY: arial;
+    FONT-SIZE: 10px;
+    TEXT-DECORATION: none;
+}
+
+.hand{ 
+  cursor: hand; 
+<<<<<<< .mine
+} 
+
+
+h3
+{
+    COLOR: #000000;
+    FONT-FAMILY: arial;
+    FONT-SIZE: 18px;
+	LINE-HEIGHT : 18px;
+    TEXT-DECORATION: none;
+  
+}
+
+h4
+{
+    COLOR: #000000;
+    FONT-FAMILY: arial;
+    FONT-SIZE: 18px;
+	LINE-HEIGHT : 18px;
+    TEXT-DECORATION: none;
+   
+}
+
+
+h4.h4nobreak
+{
+    COLOR: #000000;
+    FONT-FAMILY: arial;
+    FONT-SIZE: 18px;
+	LINE-HEIGHT : 18px;
+    TEXT-DECORATION: none;
+    padding-bottom: 0px;
+}
+
+
+b.news {
+font: bold 135%/135% Arial, Helvetica, sans-serif;
+color:#000000;
+}
+
+p {
+font: 105%/125% Arial, Helvetica;
+color:#000000;
+}
+
+li.news {
+font: 100%/125% Arial, Helvetica;
+color:#000000;
+}
+
+span.jobpr14 {
+font: 14px Arial, Helvetica;
+color:#000000;
+line-height:16px;
+}
+
+span.jobpr16 {
+font: 16px Arial, Helvetica;
+color:#000000;
+line-height:18px;
+}
+
+span.jobpr18 {
+font: 18px Arial, Helvetica;
+color:#000000;
+line-height:20px;
+}
+
+
+TD.footer
+{
+    COLOR: #999999;
+    FONT-FAMILY: arial;
+    FONT-SIZE: 10px;
+    
+    TEXT-DECORATION: none;
+	
+}
+
+A.footer:link, A.footer:visited, A.footer:active {
+    COLOR: #999999;
+    FONT-FAMILY: arial;
+    FONT-SIZE: 10px;
+    
+    TEXT-DECORATION: none;
+    font-weight:lighter;
+	
+}
+
+A.footer:hover {
+    COLOR: #999999;
+    FONT-FAMILY: arial;
+    FONT-SIZE: 10px;
+    
+    TEXT-DECORATION: underline;
+	
+}
+
+
+TD.footer_header
+{
+    COLOR: #999999;
+    FONT-FAMILY: arial;
+    FONT-SIZE: 12px;
+    
+    TEXT-DECORATION: none;
+	
+}
+
+
+.clear
+{
+	clear:both;
+	}
+.loadingIcon
+{margin:20px;}
+
+.txtField
+{font-size: 8px;}
+
+.maintablesquare
+{height:420px; width:540px; overflow:auto; float:left; padding:5px;}
+
+.focusField
+{background-color: #DFE8FF;}
+/***** bruges til JobGraph *****/
+.milepael
+{height:10px; width:10px;}
+#JobGraph
+{width: 1200px; margin-bottom:20px; background-color:#FFFFFF; border: 1px solid #8CAAE6; padding:5px; overflow:hidden; position:absolute;}
+#JobGraphHeader
+{list-style-type: none; display:block; padding:0; margin:0; background-color:#EFF3FF; border-bottom:1px solid #D6DFF5; height:20px;}
+#JobGraphHeader li
+{float:left; border-right: 1px solid #8CAAE6; font-size:9px; margin:0px; padding:0px;}
+#JobGraphHeader li.month
+{text-align:center;}
+#JobGraphHeader li.infoField
+{width:100px;     
+ COLOR: #000000;
+    FONT-FAMILY: arial;
+    FONT-SIZE: 11px;
+	
+    TEXT-DECORATION: none;}
+#JobGraph .percentBar
+{position:absolute; height:16px !important; padding:0; margin:0; }
+#JobGraph .job
+{min-height: 15px; width:100%; padding: 4px 0px 4px 0px;}
+#JobGraph .jobInfo
+{width:200px; float:left; overflow:hidden;}
+#JobGraph .activity
+{padding-top:4px; padding-bottom:4px;}
+#JobGraph .percentInfo
+{float:right; width:190px;}
+#todayMarker
+{border-left:1px solid #FF9900; position:absolute; z-index:900;}
+#ajaxStartDate, #ajaxEndDate
+{margin-right:3px;}
+/***** JobGraph slut *****/
+
+/****** datePicker ******/
+.ui-datepicker-title select
+{width:50px;}
+
+/****** Jobs *****/
+.checkAll
+{width:60px; height:20px; font-size: smaller;}

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://tempuri.org/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://tempuri.org/">
+      <s:element name="createjob2_ds">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ds">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="createjob2_dsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="createjob2_dsResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="createjob2_dsSoapIn">
+    <wsdl:part name="parameters" element="tns:createjob2_ds" />
+  </wsdl:message>
+  <wsdl:message name="createjob2_dsSoapOut">
+    <wsdl:part name="parameters" element="tns:createjob2_dsResponse" />
+  </wsdl:message>
+  <wsdl:portType name="oz_importjob2_dsSoap">
+    <wsdl:operation name="createjob2_ds">
+      <wsdl:input message="tns:createjob2_dsSoapIn" />
+      <wsdl:output message="tns:createjob2_dsSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="oz_importjob2_dsSoap" type="tns:oz_importjob2_dsSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="createjob2_ds">
+      <soap:operation soapAction="http://tempuri.org/createjob2_ds" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="oz_importjob2_dsSoap12" type="tns:oz_importjob2_dsSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="createjob2_ds">
+      <soap12:operation soapAction="http://tempuri.org/createjob2_ds" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="oz_importjob2_ds">
+    <wsdl:port name="oz_importjob2_dsSoap" binding="tns:oz_importjob2_dsSoap">
+      <soap:address location="http://timeout.cloud/timeout_xp/wwwroot/ver2_14/timereg_net/ozimportjob2_ds.asmx" />
+    </wsdl:port>
+    <wsdl:port name="oz_importjob2_dsSoap12" binding="tns:oz_importjob2_dsSoap12">
+      <soap12:address location="http://timeout.cloud/timeout_xp/wwwroot/ver2_14/timereg_net/ozimportjob2_ds.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

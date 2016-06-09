@@ -1,0 +1,102 @@
+BODY
+{
+    
+    COLOR: #28465A;
+    FONT-FAMILY: Trebuchet MS;
+    FONT-SIZE: 12px;
+	LINE-HEIGHT : 14px;
+	
+ 
+ }
+
+
+
+TD
+{
+    COLOR: #28465A;
+    FONT-FAMILY: Trebuchet MS;
+    FONT-SIZE: 12px;
+	LINE-HEIGHT : 14px;
+    TEXT-DECORATION: none;
+    
+}
+
+p
+{
+    COLOR: #28465A;
+    FONT-FAMILY: Trebuchet MS;
+    FONT-SIZE: 12px;
+	LINE-HEIGHT : 14px;
+    TEXT-DECORATION: none;
+    
+}
+
+
+div.forside
+{
+    COLOR: #28465A;
+    FONT-FAMILY: Trebuchet MS;
+    FONT-SIZE: 12px;
+	LINE-HEIGHT : 14px;
+	background-repeat:no-repeat;
+    background-position:left top;
+    
+    
+}
+
+
+span.forside_subheader1
+{
+    COLOR: #28465A;
+    FONT-FAMILY: Trebuchet MS;
+    FONT-SIZE: 16pt;
+	LINE-HEIGHT : 30pt;
+	font-weight:bold;
+    TEXT-DECORATION: none;
+    
+}
+
+span.forside_subheader2
+{
+    COLOR: #28465A;
+    FONT-FAMILY: Trebuchet MS;
+    FONT-SIZE: 12pt;
+	LINE-HEIGHT : 16pt;
+    TEXT-DECORATION: none;
+    
+}
+
+
+strong
+{
+    COLOR: #28465A;
+    FONT-FAMILY: Trebuchet MS;
+    FONT-SIZE: 12px;
+	LINE-HEIGHT : 14px;
+    TEXT-DECORATION:none;
+    font-weight:bold;
+}
+
+
+h4
+{
+    COLOR: #28465A;
+    FONT-FAMILY: Trebuchet MS;
+    FONT-SIZE: 28pt;
+	LINE-HEIGHT: 30pt;
+    TEXT-DECORATION: none;
+    
+}
+
+
+
+div.underside
+{
+    padding:50px 0px 50px 0px;
+	background-repeat:no-repeat;
+    background-position:left top;
+    
+}
+
+
+

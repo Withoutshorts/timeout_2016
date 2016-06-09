@@ -1,0 +1,108 @@
+<br />
+<table border="0" cellspacing="0" cellpadding="0" width="605">
+    <tbody>
+        <tr>
+            <td valign="top">Celgene ApS<br />
+            Kristianiagade 8, 3. 1.<br />
+            2100 K&#248;benhavn &#216;<br />
+            <br />
+            Att: Lone Groth<br />
+            <br />
+            <br />
+            <br />
+            <br />
+            N&#230;stved, den 27. november 2012 </td>
+        </tr>
+    </tbody>
+</table>
+<br />
+<br />
+<br />
+<br />
+<br />
+<strong>Konvolutter, DK + NO </strong><br />
+<br />
+##job_besk##
+<table border="0" cellspacing="0" cellpadding="2" width="605">
+    <tbody>
+        <tr>
+            <td style="width: 1104px; padding-right: 20px"><span class="jobpr16"><u>Tilrettel&#230;ggelse, koordinering og produktionsstyring</u></span><br />
+            &nbsp;</td>
+        </tr>
+        <tr>
+            <td style="width: 1104px; padding-right: 20px">
+            <div><span class="jobpr16"><u>Layout / design</u></span><br />
+            Med udgangspunkt i designmanual</div>
+            <div>&nbsp;</div>
+            </td>
+        </tr>
+        <tr>
+            <td style="width: 1104px; padding-right: 20px">
+            <div><span class="jobpr16"><u>Dtp / rentegning</u></span><br />
+            Dtp/rentegning jf. brief og materiale, som vi modtager fra jer/har i arkiv</div>
+            <div>&nbsp;</div>
+            </td>
+        </tr>
+        <tr>
+            <td style="width: 1104px; padding-right: 20px">
+            <div><span class="jobpr16"><u>Korrektur</u></span><br />
+            Inkl. 2 korrekturgange</div>
+            <div>&nbsp;</div>
+            </td>
+        </tr>
+        <tr>
+            <td style="width: 1104px; padding-right: 20px">
+            <div><span class="jobpr16"><u>Klarg&#248;ring til tryk</u></span><br />
+            Vi genererer pdf-filer klar til tryk</div>
+            <div>&nbsp;</div>
+            </td>
+        </tr>
+        <tr>
+            <td style="width: 1104px; padding-right: 20px">
+            <div><span class="jobpr16"><u>Tryk</u></span><br />
+            C4P uden rude, selvkl&#230;bende, samlet 500-1.100 stk., 1 + 0 farver p&#229; 100 g hvid<br />
+            Pakkes i kasser&nbsp;</div>
+            </td>
+        </tr>
+    </tbody>
+</table>
+##job_besk_slut##<br />
+<br />
+&nbsp;
+<table border="0" cellspacing="0" cellpadding="0" width="605">
+    <tbody>
+        <tr>
+            <td>
+            <div><u>Prisoverslag, samtryk DK + NO</u><br />
+            Kr.&nbsp;2.075,- v/ 500 stk.</div>
+            <div>Kr.&nbsp;2.175,- v/ 700 stk.</div>
+            <div>Kr.&nbsp;2.225,- v/ 800 stk.</div>
+            <div>Kr.&nbsp;2.275,- v/ 1.000 stk.</div>
+            <div>Kr.&nbsp;2.400,- v/ 1.100 stk.</div>
+            <div>&nbsp;</div>
+            <div>Oplagene kan deles frit mellem DK- og NO udgave.</div>
+            </td>
+        </tr>
+    </tbody>
+</table>
+<br />
+<table border="0" cellspacing="0" cellpadding="0" width="100%">
+    <tbody>
+        <tr>
+            <td style="padding-top: 10px">Alle priser er inkl. levering til &#233;n adresse i Danmark og ekskl. moms.</td>
+        </tr>
+    </tbody>
+</table>
+<br />
+<br />
+<table border="0" cellspacing="0" cellpadding="0" width="100%">
+    <tbody>
+        <tr>
+            <td style="padding-top: 10px">Med venlig hilsen <br />
+            Synergi A/S<br />
+            <br />
+            Thomas Hansen</td>
+        </tr>
+    </tbody>
+</table>
+

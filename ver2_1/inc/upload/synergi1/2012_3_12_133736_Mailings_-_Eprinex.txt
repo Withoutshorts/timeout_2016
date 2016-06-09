@@ -1,0 +1,100 @@
+<br />
+<table border="0" cellspacing="0" cellpadding="0" width="605">
+    <tbody>
+        <tr>
+            <td valign="top">Merial Norden A/S<br />
+            Mileparken 20 E<br />
+            2740 Skovlunde<br />
+            <br />
+            Att: Ninna Nielsen<br />
+            <br />
+            <br />
+            <br />
+            <br />
+            N&#230;stved, den 12. marts 2012 </td>
+        </tr>
+    </tbody>
+</table>
+<br />
+<br />
+<br />
+<br />
+<br />
+<strong>Prisoverslag mailings - Eprinex </strong><br />
+<br />
+<table border="0" cellspacing="0" cellpadding="2" width="605">
+    <tbody>
+        <tr>
+            <td style="padding-right: 20px; height: 45px"><span class="jobpr16"><u>Tilrettel&#230;ggelse, koordinering og&nbsp;produktionsstyring</u></span><br />
+            &nbsp;</td>
+            <tr>
+                <td style="padding-right: 20px">
+                <div><span class="jobpr16"><u>Layout / design</u></span><br />
+                Layout/design af mailing jf. Eprinex-design i &#248;vrigt.<br />
+                &nbsp;</div>
+                </td>
+                <tr>
+                    <td style="padding-right: 20px; height: 48px">
+                    <div><span class="jobpr16"><u>Dtp / rentegning</u></span><br />
+                    Rengegning af en mailing. Efter godkendelse af denne f&#248;rste mailing, </div>
+                    <div>inds&#230;tter vi tekstvariant til den anden mailing. </div>
+                    <div>&nbsp;</div>
+                    </td>
+                    <tr>
+                        <td style="padding-right: 20px">
+                        <div><span class="jobpr16"><u>Korrektur</u></span><br />
+                        Inkl. 2 korrekturgange pr. mailing.<br />
+                        &nbsp;</div>
+                        </td>
+                        <tr>
+                            <td style="width: 603px; padding-right: 20px; height: 62px">
+                            <div><span class="jobpr16"><u>Klarg&#248;ring til digitaltryk</u></span><br />
+                            Generering af trykklar pdf-filer.<br />
+                            &nbsp;</div>
+                            </td>
+                            <tr>
+                                <td style="padding-right: 20px">
+                                <div><span class="jobpr16"><u>Digitaltryk og f&#230;rdigg&#248;relse</u></span><br />
+                                To&nbsp;mailings, hver i A4 p&#229; &#233;n side.&nbsp;Digitaltryk i 4 + 0 farver p&#229; </div>
+                                <div>280 g matbestr&#248;get papir.&nbsp;<br />
+                                Rensk&#230;res, tilprint af adresser jf. excel-filer, som vi modtager fra jer.</div>
+                                <div>Apoteker: 440 stk. + Dyreklinikker: 170 stk.<br />
+                                </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    &nbsp;
+                    <table border="0" cellspacing="0" cellpadding="0" width="605">
+                        <tbody>
+                            <tr>
+                                <td><em><strong>Prisoverslag kr. 6.725</strong></em></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <br />
+                    <table border="0" cellspacing="0" cellpadding="0" width="100%">
+                        <tbody>
+                            <tr>
+                                <td style="padding-top: 10px">
+                                <div>Prisen&nbsp;er inkl. levering til&nbsp;og koordinering med Post Danmark og ekskl. moms.</div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <br />
+                    <br />
+                    <table border="0" cellspacing="0" cellpadding="0" width="100%">
+                        <tbody>
+                            <tr>
+                                <td style="padding-top: 10px">
+                                <p>Med venlig hilsen <br />
+                                Synergi<br />
+                                <br />
+                                <br />
+                                Thomas Hansen</p>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+

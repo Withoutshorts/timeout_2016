@@ -1,0 +1,126 @@
+
+
+<?xml version="1.0"?>
+<conf name="conf">
+		<modul name="A1">
+			<desc>Timeregistrering</desc>
+		</modul>
+		<modul name="A2">
+			<desc>Medarbejder log</desc>
+		</modul>
+		<modul name="A3">
+			<desc>Skift medarbejder</desc>
+		</modul>
+		<modul name="A4">
+			<desc>Se timereg for andre medarb.</desc>
+		</modul>
+		
+		<modul name="B1">
+			<desc>Joboversigt og Aktiviter. Mulighed for at lukke akt.</desc>
+		</modul>
+		<modul name="B2">
+			<desc>Projektgrupper</desc>
+		</modul>
+		<modul name="B3">
+			<desc>Stamaktiviteter</desc>
+		</modul>
+		<modul name="B4">
+			<desc>Jobplanner</desc>
+		</modul>
+		<modul name="B5">
+			<desc>Km regnskab</desc>
+		</modul>
+		<modul name="B6">
+			<desc>Udgifter paa job</desc>
+		</modul>
+		<modul name="B7">
+			<desc>Jobtyper</desc>
+		</modul>
+		<modul name="B8">
+			<desc>Upload af dokumenter</desc>
+		</modul>
+		<modul name="B9">
+			<desc>Incident tool</desc>
+		</modul>
+		<modul name="B10">
+			<desc>Aktivitetsskabeloner</desc>
+		</modul>
+		
+		<modul name="C1">
+			<desc>Kunder + filter og sog paa kunde</desc>
+		</modul>
+		<modul name="C2">
+			<desc>Kundelogin + Kundejoblog</desc>
+		</modul>
+		<modul name="C3">
+			<desc>Upload logoer paa kunder</desc>
+		</modul>
+		
+		<modul name="D1">
+			<desc>Medarbejdere</desc>
+		</modul>
+		<modul name="D2">
+			<desc>Brugergrupper</desc>
+		</modul>
+		<modul name="D3">
+			<desc>Medarbejder typer</desc>
+		</modul>
+		
+		<modul name="E1">
+			<desc>Statistik og Fakturering + filter</desc>
+		</modul>
+		<modul name="E2">
+			<desc>Joblog_z, joblog, top 5 job</desc>
+		</modul>
+		<modul name="E3">
+			<desc>Aars omsaetning</desc>
+		</modul>
+		<modul name="E4">
+			<desc>Export</desc>
+		</modul>
+		<modul name="E5">
+			<desc>Fakturering</desc>
+		</modul>
+		
+		<modul name="H1">
+			<desc>Kalender</desc>
+		</modul>
+		<modul name="H2">
+			<desc>Firmaer</desc>
+		</modul>
+		<modul name="H3">
+			<desc>Aktions historik + sogefunktion</desc>
+		</modul>
+		<modul name="H4">
+			<desc>Status</desc>
+		</modul>
+		<modul name="H5">
+			<desc>Emner</desc>
+		</modul>
+		<modul name="H6">
+			<desc>Kontaktform</desc>
+		</modul>
+		<modul name="H7">
+			<desc>Outlook integration</desc>
+		</modul>
+	<lang>Danish</lang>
+</conf>
+
+
+<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/xsl/transform">
+<xsl:output method="xml" indent="yes"/>
+<xsl:template match="/">
+<html><head><title>output</title></head>
+<body>
+<xsl:apply-templates/>
+</body></html>
+</xsl:template>
+
+<xsl:template match="modul">
+	<p><xsl:value-of select="."/></p>
+</xsl:template>
+</xsl:stylesheet>
+
+<!--
+<xsl:for-each select="/conf/modul">
+</xsl:for-each>-->

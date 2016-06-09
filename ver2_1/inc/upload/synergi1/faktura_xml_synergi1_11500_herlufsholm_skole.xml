@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="UTF-8"?><Invoice xmlns="http://rep.oio.dk/ubl/xml/schemas/0p71/pie/" xmlns:com="http://rep.oio.dk/ubl/xml/schemas/0p71/common/" xmlns:main="http://rep.oio.dk/ubl/xml/schemas/0p71/maindoc/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://rep.oio.dk/ubl/xml/schemas/0p71/pie/  http://rep.oio.dk/ubl/xml/schemas/0p71/pie/piestrict.xsd"><com:ID>11500</com:ID><com:IssueDate>2012-12-14</com:IssueDate><com:TypeCode>PIE</com:TypeCode><main:InvoiceCurrencyCode>DKK</main:InvoiceCurrencyCode><com:Note><![CDATA[Job: Alumni website(6845)&nbsp;
+Tilrettel&#230;ggelse, koordinering og produktionsstyring
+&nbsp;
+Foruds&#230;tninger
+&nbsp;
+&nbsp;Eksport og importfunktionalitet fra og til SalesForce via CSV filer l&#248;ses af Herlufsholm.
+&nbsp;Synergi f&#229;r stillet korrekt formateret CSV fil til r&#229;dighed, og leverer ligeledes korrekt formateret CVS fil til import i SalesForce.
+&nbsp;Betalingsaftale med DIBS er aftalt og p&#229; plads, og der leveres eventuelle adgangskoder og kontaktoplysninger til brug for Synergi
+&nbsp;Der er taget udgangspunkt i leveret projektbeskrivelse, og hvis intet er n&#230;vnt i nedenst&#229;ende, bruges samme funktionalitet og &#248;nske, som beskrevet i projektbeskrivelsen.
+&nbsp;
+Design
+Der tages udgangspunkt i nuv&#230;rende design, og migreringen udf&#248;res som en 1:1 l&#248;sning i forhold til designimplementering.
+Kopiering af indholdstekster og billeder fra nuv&#230;rende site er inkluderet i budgettet - dog med f&#248;lgende aftale: Vi kopierer indhold fra menupunktet nyheder og Omtaler fra 1. januar 2012 og frem til det nye site l&#230;gges online. Derudover reviderer I tekster og billeder p&#229; sitet, hvis tekst eller billeder udg&#229;r.
+Browservisning koncentreres om f&#248;lgende browsere: IE7 og nyere, Firefox, Google Chrome og Safari. 
+Hvor der forefindes versioner til b&#229;de Mac og PC, g&#230;lder det begge operativsystemer.
+&nbsp;
+Forside Ukendt bruger:
+Forsiden skal indeholde 
+&nbsp;et slideshow med op til 5 temaer. Et tema skal best&#229; af et billede og en kort tekst. 
+&nbsp;Seneste nyt og link til alle nyheder
+&nbsp;N&#230;ste arrangement og link til alle arrangementer
+&nbsp;Visning af et projekt, og link til alle projekter
+&nbsp;Liste med 3 nyeste profiler
+&nbsp;
+Kendt bruger:
+Forsiden skal indeholde
+&nbsp;et slideshow med op til 5 temaer. Et tema skal best&#229; af et billede og en kort tekst. Ikke samme slideshow som for ukendt bruger
+&nbsp;Seneste omtale og link til alle omtaler
+&nbsp;N&#230;ste arrangement og link til alle arrangementer
+&nbsp;Visning af et projekt, og link til alle projekter
+&nbsp;Liste med n&#230;ste tre runde f&#248;dselsdage, sorteret med f&#248;rstkomne f&#248;dselsdag &#248;verst.
+&nbsp;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Login
+Sider der kr&#230;ver login, bestemmes i Umbraco. Ved bes&#248;g p&#229; side der kr&#230;ver login af ukendt bruger, henvises til loginside. Her vil det v&#230;re muligt at f&#229; tilsendt sin adgangskode, eller kontakte Herlufsholm for oprettelse, hvis man mener man er kandidat til dette, jf. nuv&#230;rende funktionalitet.
+Alle brugere burde dog oprettes ved afslutning af &#229;rgangen, da der her indl&#230;ses en fuld opdateret CSV-fil fra SalesForce.
+Brugeropdeling baseret p&#229; basis- og plus annulleres, og der h&#229;ndteres kun &#233;n type medlemskab.
+&nbsp;
+Klassebilleder p&#229; &#229;rgange og elevfotos
+Vi kunne godt t&#230;nke os p&#229; sigt at f&#229; mulighed for at l&#230;gge klassebilleder ind under hver &#229;rgang og evt. fotos af eleverne.
+Dette er mest et designsp&#248;rgsm&#229;l, da der ikke i udviklingen er det store at tage h&#248;jde for, udover at tilkoble nogle felter med relevant funktionalitet.
+&nbsp;
+Nyhedsbrev
+Vi anbefaler Newsletter Studio til afsendelse af nyhedsbreve, da der her er integreret mulighed for statistik p&#229; hvert enkelt afsendt nyhedsbrev.
+Nyhedsbrevlister og administration af nyhedsbreve foreg&#229;r via Umbraco.
+Afsendelse af nyhedsbrev vil ligeledes foreg&#229; via Umbraco.
+Design af nyhedsbrev baseres p&#229; nuv&#230;rende layout.
+&nbsp;
+Kontaktformular
+Vi anbefaler brugen af Contour, som er et formularh&#229;ndteringsv&#230;rkt&#248;j til Umbraco, hvori det er nemt for redakt&#248;ren af websitet, selv at oprette, h&#229;ndtere og f&#229; statistik p&#229; formularer.
+&nbsp;
+S&#248;gning
+Der integreres s&#248;gning p&#229; l&#248;sningen, som tager h&#248;jde for login status. Er man ukendt bruger, kan man kun s&#248;ge p&#229; den &#229;bne del af l&#248;sningen. Er man en kendt bruger, kan man s&#248;ge p&#229; hele sitet.
+&nbsp;
+Betalingsmodul
+Mulighed for at donere til projekter g&#248;r brug af DIBS betalingsmodul, og er afh&#230;ngig af nuv&#230;rende aftale med DIBS
+&nbsp;
+Umbraco
+Alumni bruger opdatering
+&nbsp;
+SalesForce &gt; Umbraco
+Der eksporteres en CSV fil fra SalesForce som overholder en aftalt standard med informationer. 
+Denne fil tilkobles et opdateringsmodul i Umbraco, og publiceres. I Salesforce f&#229;r hver kontaktperson automatisk et unikt ID, dette skal bruges ved overf&#248;rsel fra Umbraco til Salesforce. 
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+Hvis der findes et medlem med samme emailadresse og/eller brugernavn i Umbraco allerede, vil denne info fra SalesForce blive ignoreret, og der vil blive skrevet til Umbraco log at brugeren ikke er importeret.
+Hvis medlemmet ikke findes i forvejen, vil det blive oprettet.
+&nbsp;
+Brugernavn er [&#197;RGANG][FULDEFORNAVN][FULDEEFTERNAVN] 
+&nbsp;
+Der kan kun v&#230;re &#201;T medlem p&#229; en specifik emailadresse.
+&nbsp;
+Herlufsholm har mulighed for at lave en liste med en specifik &#229;rgang, og kun indl&#230;se denne i Umbraco, ved nyt skole&#229;r.
+&nbsp;
+Umbraco &gt; SalesForce
+Ved klik p&#229; EKSPORT i Umbraco, vil der blive oprettet en CSV fil, som overholder den aftalte standard med informationer.
+Denne fil behandler Herlufsholm selv manuelt i SalesForce
+&nbsp;
+Der k&#248;res intet automatisk job, og der formodes at data i Umbraco altid er nyest og up-to-date.
+Skal Herlufsholm &#230;ndre nogle data, g&#248;res det i Umbraco, hvorfra der eksporteres en fil med opdateret indhold til indl&#230;sning i SalesForce.
+&nbsp;
+Brugere vil blive oprettet i en alfabetiseret mappestruktur, der udvikles s&#248;ge- og sorteringsv&#230;rkt&#248;j til visning af bestemte &#229;rgange, personer, titler osv.
+Pris,&nbsp;ovenst&#229;ende: kr. 60.000,-
+&nbsp;
+Dette er en engangsinvestering. Det vil sige, at der ikke er noget abonnement, n&#229;r websitet k&#248;rer.
+&nbsp;
+Udvidelse af betalingsmodul
+Det skal v&#230;re muligt for alle uanset medlemskab eller ej, at donere et engangsbel&#248;b (eksisterende funktion) samt et m&#229;nedligt bel&#248;b (donationsmedlemsskab) som skal tr&#230;kkes via Nets p&#229; netv&#230;rket. De m&#229;nedlige bel&#248;b skal v&#230;re foruddefineret dog med mulighed for at donere et andet valgfrit bel&#248;b. Der skal ikke v&#230;re en udl&#248;bsdato for donationsmedlemsskabet. Derimod skal Herlufsholm kontaktes, hvis de &#248;nsker at opsige abonnementet. 
+Der skal sendes en kvitteringsmail b&#229;de til Herlufsholm og donoren. Der fremsendes dog ikke en ny kvitteringsmail hver m&#229;ned. Derudover skal der vises en kvitteringsside efter endt betaling. Som i dag skal der v&#230;re mulighed for at donere anonymt ved at markere en lille tick boks. Dette skal ogs&#229; fremg&#229; af kvitteringen. Hvis en donation er markeret som anonym, skal den heller ikke fremg&#229; af listen af donorer under projekter p&#229; netv&#230;rket. Modsat skal donationen vises, hvis ikke donationen er anonym, men uden bel&#248;b. Disse informationer kan ogs&#229; hentes fra Salesforce.
+DIBS betalingsmodul anvendes, som i dag, til at gennemf&#248;re betalingen. Se evt. https://care.dk/index.php/stot-care/bliv-medlem til inspiration.
+&nbsp;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Donationsfunktionalitet vil alle oplysninger bliver samlet sammen i donationsoversigt i Umbraco Contour.
+Her listes projekt donationer med alle informationer tastet af brugeren, og informationer fra dibs om den enkelte tr&#230;kningen.
+Ved abonnementsdonationer, bliver de oprindelige tastede informationer gemt og der bliver oprettet en l&#248;bende donation i Umbraco. 
+I hver l&#248;bende donation, er det muligt, at se tr&#230;knings frekvensen, dibs auth nummer, medlemet og/eller email, bel&#248;b og p&#229; transaktioner der er fortaget ogs&#229; et dibs transact nummeret.
+I l&#248;bende donationer er det muligt med et tick boks at stoppe en donation.
+Det betyder, at donoren skal kontakte Herlufsholm Alumni, for at opsige deres st&#248;tte, med mindre det er en bruger af systemet. S&#229; vil der v&#230;re mulighed for det p&#229; brugerens profil..
+&nbsp;Pris,&nbsp;kr. 15.000,-
+&nbsp;
+Visning p&#229; mobile enheder
+HTML struktur og opbygning klarg&#248;res til mobilvisning, men ops&#230;tning og design er ikke inkluderet. Der er ikke noget specielt design til mobileenheder, men vises p&#229; samme m&#229;de som p&#229; en pc/Mac. 
+Dette er g&#230;ldende for etape 1.
+&nbsp;
+Alle priser er excl. moms, men inkl. 2 timers undervisning i Umbraco.
+&nbsp;
+Support/service
+Synergi udbedrer eventuelle fejl og mangler, hvor ansvaret er Synergis, i den 14 dages testperiode, som angivet i kontrakten - uden beregning.
+Fejl og mangler efter denne periode afregnes efter timeforbrug. 
+Responstid ved kritiske fejl er indenfor normal &#229;bningstid (mandag  fredag 8.00  16.00) fra 0-30 minutter.
+Responstid udover normal &#229;bningstid vil v&#230;re fra 0-24 timer.
+&nbsp;
+Synergi indest&#229;r ikke for funktionalitet, oppetid og afregning for underleverand&#248;rs leverancer, herunder SalesForce og hostingleverand&#248;r.
+&nbsp;
+&#216;konomi
+Timepris for support, udbedring af fejl og lignende opgaver for webprogramm&#248;r vedr. websitet: kr. 850,-
+Der faktureres efter hvert p&#229;begyndt 15 minutter.
+Som udgangspunkt faktureres der ultimo hver m&#229;ned for forbrugt tid.
+&nbsp;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Ekstra funktionaliteter fra tilbud 27. september 2012:
+&nbsp;
+2.8 Standard tekstsider 
+Pkt. 40 - Facebook "like knap" p&#229; alle standard sider. 
+Det kr&#230;ver ikke meget og kan laves p&#229; alle de sider I &#248;nsker, men det giver ikke s&#229; meget mening at vise/dele til de lukkede omr&#229;der, som vi ser det skulle det v&#230;re p&#229; f&#248;lgende offentlige sider:
+&nbsp;Tekstsider
+&nbsp;Nyheder
+&nbsp;Arrangementer
+&nbsp;Projekter
+2.8  pkt. 40: Pris: kr. 4.000,-
+Udover det i fremsendte budget p&#229; ovenst&#229;ende er der lavet flg. ekstra:
+&nbsp;Her er der tilf&#248;jet, s&#229; Herlufsholm selv kan v&#230;lge om siden skal ha facebook like knap.
+&nbsp;Dette er lavet fordi der blev rettelser frem og tilbage omkring facebook like. Og kan s&#230;ttes p&#229; alle n&#230;sten alle sider.
+&nbsp;Facebook knap p&#229; hvert enkelt billede i galleriet
+Pris: kr. 1.500,-&nbsp;
+&nbsp;
+2.17 V&#230;gge 
+Der kan laves en f&#230;lles v&#230;g med udgangspunkt i &#229;rgangsv&#230;g og ud fra punkterne 117  125, dog vil vi anbefale at man n&#248;jes med at lave et link i h&#248;jre side, som linker mellem f&#230;lles v&#230;g og ens &#229;rgangsv&#230;g. Omkring emnegrupper, forsl&#229;r vi at der bliver mulighed for, at I kan lave flere f&#230;lles v&#230;gge, hvor medlemmerne kan skrive opslag og kommentere.
+2.17  pkt. 117-119: 
+Pris: kr. 8.000,-
+&nbsp;
+Superbruger
+Alle brugere af Umbraco backend vil ha fuld adgang til alt indhold p&#229; hjemmesiden.
+Dette g&#248;r, at Superbrugere ikke bliver vist som en del af nyestebrugere, rundef&#248;delsdage eller p&#229; en &#229;rgang.
+Hvis der skrives p&#229; en v&#230;g, som superbruger, vil deres Navn fra backenden blive vist og intet link til profil.
+Topmenuen ogs&#229; mangler min &#229;rgang, og mulighed for at editere sin bruger.
+Pris: kr. 8.000,- inkl. test og deploy.
+&nbsp;
+Arrangementer
+&nbsp;Betal ved ankomst ved tilmelding til arrangement.
+&nbsp;Mulighed for variable beskeder ved udsolgt.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+Pris: kr. 2.000,-
+&nbsp;
+
+Samlet pris, kr. 98.500,-
+
+]]></com:Note><com:BuyersReferenceID schemeID="EAN">5798000560994</com:BuyersReferenceID><com:ReferencedOrder><com:BuyersOrderID>6845</com:BuyersOrderID><com:IssueDate>2012-12-14</com:IssueDate></com:ReferencedOrder><com:BuyerParty><com:ID schemeID="CVR">85896318</com:ID><com:PartyName><com:Name><![CDATA[Herlufsholm Skole]]></com:Name></com:PartyName><com:Address><com:ID>Fakturering</com:ID><com:Street><![CDATA[Herlufsholm Allé 170]]></com:Street><com:CityName><![CDATA[Næstved]]></com:CityName><com:PostalZone>4700</com:PostalZone><com:Country><com:Code listID="ISO 3166-1">DK</com:Code></com:Country></com:Address><com:BuyerContact><com:ID><![CDATA[Rie Ebbe Andersen]]></com:ID></com:BuyerContact></com:BuyerParty><com:SellerParty><com:ID schemeID="CVR">26881560</com:ID><com:PartyName><com:Name><![CDATA[Synergi A/S]]></com:Name></com:PartyName><com:Address><com:ID>Betaling</com:ID><com:Street><![CDATA[MARINEBUEN 11
+]]></com:Street><com:CityName><![CDATA[Næstved]]></com:CityName><com:PostalZone>4700</com:PostalZone><com:Country><com:Code listID="ISO 3166-1">DK</com:Code></com:Country></com:Address><com:PartyTaxScheme><com:CompanyTaxID schemeID="CVR">26881560</com:CompanyTaxID></com:PartyTaxScheme></com:SellerParty><com:PaymentMeans><com:TypeCodeID>null</com:TypeCodeID><com:PaymentDueDate>2012-12-28</com:PaymentDueDate><com:PaymentChannelCode>KONTOOVERFØRSEL</com:PaymentChannelCode><com:PayeeFinancialAccount><com:ID>0758188337</com:ID><com:TypeCode>BANK</com:TypeCode><com:FiBranch><com:ID>2186</com:ID><com:FinancialInstitution><com:ID>null</com:ID><com:Name>Nordea</com:Name></com:FinancialInstitution></com:FiBranch></com:PayeeFinancialAccount><com:PaymentAdvice><com:AccountToAccount><com:PayerNote></com:PayerNote><com:PayeeNote></com:PayeeNote></com:AccountToAccount></com:PaymentAdvice></com:PaymentMeans><com:TaxTotal><com:TaxTypeCode>VAT</com:TaxTypeCode><com:TaxAmounts><com:TaxableAmount currencyID='DKK'>98500.00</com:TaxableAmount> <com:TaxAmount currencyID='DKK'>24625.00</com:TaxAmount></com:TaxAmounts><com:CategoryTotal><com:RateCategoryCodeID>VAT</com:RateCategoryCodeID><com:RatePercentNumeric>25</com:RatePercentNumeric><com:TaxAmounts><com:TaxableAmount currencyID='DKK'>98500.00</com:TaxableAmount><com:TaxAmount currencyID='DKK'>24625.00</com:TaxAmount></com:TaxAmounts></com:CategoryTotal></com:TaxTotal><com:LegalTotals><com:LineExtensionTotalAmount currencyID='DKK'>98500.00</com:LineExtensionTotalAmount><com:ToBePaidTotalAmount currencyID='DKK'>123125.00</com:ToBePaidTotalAmount></com:LegalTotals><com:InvoiceLine><com:ID>2</com:ID><com:InvoicedQuantity unitCode='Stk.' unitCodeListAgencyID="n/a">1.00</com:InvoicedQuantity><com:LineExtensionAmount currencyID='DKK'>98500.00</com:LineExtensionAmount><com:Item><com:ID>0</com:ID><com:Description><![CDATA[Website, Alumni]]></com:Description></com:Item><com:BasePrice><com:PriceAmount currencyID='DKK'>98500.00</com:PriceAmount></com:BasePrice></com:InvoiceLine></Invoice>

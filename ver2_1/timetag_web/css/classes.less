@@ -1,0 +1,148 @@
+body {
+	font-family: @font-family;
+	font-weight: @thin;
+	background-color: @body_background;
+	margin: 0 0 20px 0;
+	.l_font_size;
+}
+
+#header {
+	width: 100%;
+	height: 40px;
+	color: white;
+	background-color: @dark_blue;
+	margin: 0 0 20px 0;
+	line-height: 40px;
+	text-align: left;
+	font-weight: @semi_bold;
+	padding-left: 40px;
+	background: @dark_blue url('../img/logo_emblem.png') no-repeat left center;
+}
+
+#container{
+	padding: 0 1.2em;
+}
+
+#container > *{
+	width: 100%;
+}
+
+.border-radius (@radius: 3px) {
+    -webkit-border-radius: @radius !important;
+    -moz-border-radius: @radius !important;
+    border-radius: @radius !important;
+}
+
+/* =========================================================== */
+/* = Inputfields		                                     = */
+/* =========================================================== */
+
+input[type="search"], input[type="submit"], input[type="text"], div,  
+input[type="button"], input[type="password"], input[type="file"] {
+	height: 40px;
+	.border-radius !important;
+	border: @border;
+	font-family: @font-family;
+	display: block;
+	-moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+	vertical-align: middle;
+	letter-spacing: normal;
+	word-spacing: normal;
+	text-transform: none;
+	text-indent: 0px;
+	text-shadow: none;
+	margin: 0 0 10px 0;
+}
+
+input[type="text"], input[type="password"] {
+	padding: 0 10px;
+}
+
+input[type="submit"] {
+	.border-radius !important;
+	width: 50%;
+	vertical-align: middle;
+	text-align: center;
+	-webkit-appearance:caret;
+}
+
+.active {
+	background-color: @green;
+	color: white;
+}
+
+.inactive {
+	color: @text_color;
+	border: 1px solid #c6c6c6 !important;
+}
+
+.approved {
+	background: #9ACD32;
+	padding: 10px;
+}
+
+*[class*='dv-'] {
+	position: relative;
+	top: -10px;
+	height: 200px;
+	background-color: #ffffff;
+	overflow: scroll;
+	padding: 10px;
+	ul {
+		padding: 0;
+		margin: 0;
+		list-style: none;
+		li {
+			font-weight: @semi_bold;
+			.m_font_size;
+			clear: both;
+			padding: 5px 10px;
+			span {
+				.m_font_size;
+				font-weight: @thin;
+				clear: both;
+			}
+		}
+	}
+}
+
+*[class*='dvm-'] {
+	position: relative;
+	top: 0px;
+	padding: 0px;
+    height:120px;
+    visibility:hidden;
+    border:0px;
+    overflow:hidden;
+    display:none;
+	ul {
+		padding: 0;
+		margin: 0;
+		list-style: none;
+		li {
+			font-weight: @semi_bold;
+			.m_font_size;
+			clear: both;
+			padding: 5px 10px;
+			span {
+				.m_font_size;
+				font-weight: @thin;
+				clear: both;
+			}
+		}
+	}
+}
+
+
+
+
+.dv-open {
+	visibility: visible;
+	
+}
+
+.dv-closed {
+	display: none;
+}

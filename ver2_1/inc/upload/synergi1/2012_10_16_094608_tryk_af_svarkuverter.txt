@@ -1,0 +1,82 @@
+<br />
+<table border="0" cellspacing="0" cellpadding="0" width="605">
+    <tbody>
+        <tr>
+            <td valign="top">Unomedical A/S<br />
+            Birker&#248;d Kongevej 2<br />
+            3460 Birker&#248;d<br />
+            <br />
+            Att: Michele Lissau<br />
+            <br />
+            <br />
+            <br />
+            <br />
+            N&#230;stved, den 16. oktober 2012 </td>
+        </tr>
+    </tbody>
+</table>
+<br />
+<br />
+<br />
+<br />
+<br />
+<strong>Tryk af svarkuverter </strong><br />
+<br />
+##job_besk##
+<table border="0" cellspacing="0" cellpadding="2" width="605">
+    <tbody>
+        <tr>
+            <td style="width: 1104px; padding-right: 20px"><span class="jobpr16"><u>Tilrettel&#230;ggelse, koordinering og produktionsstyring</u></span><br />
+            &nbsp;</td>
+        </tr>
+        <tr>
+            <td style="width: 1104px; padding-right: 20px">
+            <div><span class="jobpr16"><u>Dtp / rentegning</u></span><br />
+            U&#230;ndret genoptryk</div>
+            <div>&nbsp;</div>
+            </td>
+        </tr>
+        <tr>
+            <td style="width: 1104px; padding-right: 20px">
+            <div><span class="jobpr16"><u>Tryk</u></span><br />
+            2.500 stk. alt. 5.000 stk., M5 - &#229;ben p&#229; den lange led, 1 + 0 farve p&#229; 90 g hvid</div>
+            <div>Pakkes i kasser</div>
+            </td>
+        </tr>
+    </tbody>
+</table>
+##job_besk_slut##<br />
+<br />
+&nbsp;
+<table border="0" cellspacing="0" cellpadding="0" width="605">
+    <tbody>
+        <tr>
+            <td>
+            <div><u>Prisoverslag</u><br />
+            Kr. 1.700,- v/ 2.500 stk.</div>
+            <div>Kr. 2.600,- v/ 5.000 stk. (samme pris som i september 2011)</div>
+            </td>
+        </tr>
+    </tbody>
+</table>
+<br />
+<table border="0" cellspacing="0" cellpadding="0" width="100%">
+    <tbody>
+        <tr>
+            <td style="padding-top: 10px">Alle priser er inkl. levering til &#233;n adresse i Danmark og ekskl. moms.</td>
+        </tr>
+    </tbody>
+</table>
+<br />
+<br />
+<table border="0" cellspacing="0" cellpadding="0" width="100%">
+    <tbody>
+        <tr>
+            <td style="padding-top: 10px">Med venlig hilsen <br />
+            Synergi<br />
+            <br />
+            Thomas Hansen</td>
+        </tr>
+    </tbody>
+</table>
+

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <system.webServer>
+        <directoryBrowse enabled="true" />
+    </system.webServer>
+    <system.web>
+        <customErrors mode="Off"/>
+      
+      <httpRuntime executionTimeout="10000" maxRequestLength="2000000" />
+
+      <!--
+        <globalization fileencoding="utf-8" requestencoding="utf-8" responseencoding="utf-8" culture="da-DK" uiculture="da-DK"/>
+        -->
+
+
+    </system.web>
+
+   
+
+
+</configuration>

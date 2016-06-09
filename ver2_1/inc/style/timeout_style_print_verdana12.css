@@ -1,0 +1,59 @@
+BODY
+{
+    BACKGROUND-COLOR: #ffffff;
+    COLOR: #000000;
+    FONT-FAMILY: HelveticaNeueLT Std Ext, Verdana;
+    FONT-SIZE: 8pt;
+	LINE-HEIGHT : 10pt;
+}
+Body.regular {
+	background-color : #ffffff;
+	background-repeat : no-repeat;
+}
+
+
+h4
+{
+    COLOR: #000000;
+    FONT-FAMILY: HelveticaNeueLT Std Ext, Verdana;
+    FONT-SIZE: 18px;
+	LINE-HEIGHT : 18px;
+    TEXT-DECORATION: none;
+   
+}
+
+
+TD
+{
+    COLOR: #000000;
+    FONT-FAMILY: HelveticaNeueLT Std Ext, Verdana;
+    FONT-SIZE: 8pt;
+	LINE-HEIGHT : 10pt;
+    TEXT-DECORATION: none;
+    
+}
+
+TD.footer
+{
+    COLOR: #D21034;
+    FONT-FAMILY: HelveticaNeueLT Std Ext, Verdana;
+    FONT-SIZE: 7pt;
+    LINE-HEIGHT : 9pt;
+	TEXT-DECORATION: none;
+	
+}
+
+TD.afsender2
+{
+    COLOR: #D21034;
+    FONT-FAMILY: HelveticaNeueLT Std Ext, Verdana;
+    FONT-SIZE: 8px;
+    LINE-HEIGHT : 14px;
+	TEXT-DECORATION: none;
+	letter-spacing:2px;
+}
+
+
+
+
+

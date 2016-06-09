@@ -1,0 +1,105 @@
+<br />
+<table border="0" cellspacing="0" cellpadding="0" width="605">
+    <tbody>
+        <tr>
+            <td valign="top">Alcon Danmark A/S<br />
+            Edvard Thomsens Vej 14<br />
+            2300 K&#248;benhavn S<br />
+            <br />
+            Att: Louise Thorning<br />
+            <br />
+            <br />
+            <br />
+            <br />
+            N&#230;stved, den 1. november 2012 </td>
+        </tr>
+    </tbody>
+</table>
+<br />
+<br />
+<br />
+<br />
+<br />
+<strong>Kuverter, C4P m/ rude </strong><br />
+<br />
+##job_besk##
+<table border="0" cellspacing="0" cellpadding="2" width="605">
+    <tbody>
+        <tr>
+            <td style="width: 1104px; padding-right: 20px"><span class="jobpr16"><u>Tilrettel&#230;ggelse, koordinering og produktionsstyring</u></span><br />
+            &nbsp;</td>
+        </tr>
+        <tr>
+            <td style="width: 1104px; padding-right: 20px">
+            <div><span class="jobpr16"><u>Layout / design</u></span><br />
+            Layout ud fra eksisterende layout</div>
+            <div>&nbsp;</div>
+            </td>
+        </tr>
+        <tr>
+            <td style="width: 1104px; padding-right: 20px">
+            <div><span class="jobpr16"><u>Dtp / rentegning</u></span><br />
+            Rentegning jf. brief som vi har modtaget fra jer</div>
+            <div>&nbsp;</div>
+            </td>
+        </tr>
+        <tr>
+            <td style="width: 1104px; padding-right: 20px">
+            <div><span class="jobpr16"><u>Korrektur</u></span><br />
+            Inkl. 2 korrekturgange</div>
+            <div>&nbsp;</div>
+            </td>
+        </tr>
+        <tr>
+            <td style="width: 1104px; padding-right: 20px">
+            <div><span class="jobpr16"><u>Klarg&#248;ring til tryk</u></span><br />
+            Vi genererer pdf-fil til tryk</div>
+            <div>&nbsp;</div>
+            </td>
+        </tr>
+        <tr>
+            <td style="width: 1104px; padding-right: 20px"><span class="jobpr16"><u>Tryk</u></span><br />
+            2.000 stk. alt. 3.000 stk., 229 x 324 mm, 2 + 0 farver p&#229; 100 g hvid
+            <div>Pakkes</div>
+            </td>
+        </tr>
+    </tbody>
+</table>
+##job_besk_slut##<br />
+<br />
+&nbsp;
+<table border="0" cellspacing="0" cellpadding="0" width="605">
+    <tbody>
+        <tr>
+            <td>
+            <div><u>Prisoverslag</u><br />
+            Kr. 2.750,- v/ 2.000 stk.</div>
+            <div>Kr.&nbsp;3.500,- v/ 3.000 stk.</div>
+            </td>
+        </tr>
+    </tbody>
+</table>
+<br />
+<table border="0" cellspacing="0" cellpadding="0" width="100%">
+    <tbody>
+        <tr>
+            <td style="padding-top: 10px">
+            <p>Alle priser er inkl. levering til &#233;n adresse i Danmark og ekskl. moms.</p>
+            <p>Levering ca. 5 arbejdsdage fra godkendt korrektur.</p>
+            </td>
+        </tr>
+    </tbody>
+</table>
+<br />
+<br />
+<table border="0" cellspacing="0" cellpadding="0" width="100%">
+    <tbody>
+        <tr>
+            <td style="padding-top: 10px">Med venlig hilsen <br />
+            Synergi<br />
+            <br />
+            Thomas Hansen</td>
+        </tr>
+    </tbody>
+</table>
+

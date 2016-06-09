@@ -1,0 +1,40 @@
+BODY
+{
+    
+    COLOR: #000000;
+    FONT-FAMILY: verdana;
+    FONT-SIZE: 9pt;
+	LINE-HEIGHT : 16px;
+	background-repeat:no-repeat;
+    background-position:left top;
+ 
+ }
+
+
+
+TD
+{
+    COLOR: #000000;
+    FONT-FAMILY: verdana;
+    FONT-SIZE: 9pt;
+	LINE-HEIGHT : 16px;
+    TEXT-DECORATION: none;
+    
+}
+
+h4
+{
+    COLOR: #000000;
+    FONT-FAMILY: trebuchet;
+    FONT-SIZE: 12pt;
+	LINE-HEIGHT : 16pt;
+    TEXT-DECORATION: none;
+    
+}
+
+
+
+
+
+
+

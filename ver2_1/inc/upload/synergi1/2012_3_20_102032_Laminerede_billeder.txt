@@ -1,0 +1,90 @@
+<br />
+<table border="0" cellspacing="0" cellpadding="0" width="605">
+    <tbody>
+        <tr>
+            <td valign="top">LEV<br />
+            Kl&#248;verprisvej 10B<br />
+            2650 Hvidovre<br />
+            <br />
+            Att: Anders Reitov<br />
+            <br />
+            <br />
+            <br />
+            <br />
+            N&#230;stved, den 20. marts 2012 </td>
+        </tr>
+    </tbody>
+</table>
+<br />
+<br />
+<br />
+<br />
+<br />
+<strong>Prisoverslag laminerede billeder </strong><br />
+<br />
+<table border="0" cellspacing="0" cellpadding="2" width="605">
+    <tbody>
+        <tr>
+            <td style="width: 1104px; padding-right: 20px"><span class="jobpr16"><u>Tilrettel&#230;ggelse, koordinering og produktionsstyring</u></span><br />
+            &nbsp;</td>
+            <tr>
+                <td style="width: 1104px; padding-right: 20px">
+                <div><span class="jobpr16"><u>Dtp / rentegning</u></span><br />
+                Fremfinding af billeder fra arkiv og&nbsp;opbygning af 10 sider med billeder.</div>
+                <div>&nbsp;</div>
+                </td>
+                <tr>
+                    <td style="width: 1104px; padding-right: 20px">
+                    <div><span class="jobpr16"><u>Korrektur</u></span><br />
+                    Inkl. 1 korrekturgang.<br />
+                    &nbsp;</div>
+                    </td>
+                    <tr>
+                        <td style="width: 1104px; padding-right: 20px">
+                        <div><span class="jobpr16"><u>Klarg&#248;ring til digitaltryk</u></span><br />
+                        Generering af trykklar pdf-fil.</div>
+                        <div>&nbsp;</div>
+                        </td>
+                        <tr>
+                            <td style="width: 1104px; padding-right: 20px"><u>Digitaltryk</u><br />
+                            16 s&#230;t a 10 sider, A4, 4 + 0 farver. Printes og lamineres.&nbsp;</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <br />
+                &nbsp;
+                <table border="0" cellspacing="0" cellpadding="0" width="605">
+                    <tbody>
+                        <tr>
+                            <td><em><strong>Prisoverslag kr.&nbsp;5.000,00 </strong></em></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <br />
+                <table border="0" cellspacing="0" cellpadding="0" width="100%">
+                    <tbody>
+                        <tr>
+                            <td style="padding-top: 10px">
+                            <div>For at levere fredag 23. marts 2012 skal vi have godkendelse p&#229; korrekturen <br />
+                            i dag 20. marts 2012.</div>
+                            <p>Prisen&nbsp;er inkl. levering til &#233;n adresse i Danmark og ekskl. moms.<br />
+                            </p>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <br />
+                <table border="0" cellspacing="0" cellpadding="0" width="100%">
+                    <tbody>
+                        <tr>
+                            <td style="padding-top: 10px">
+                            <p>Med venlig hilsen <br />
+                            Synergi<br />
+                            </p>
+                            <p><br />
+                            Thomas Hansen</p>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+

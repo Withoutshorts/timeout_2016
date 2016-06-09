@@ -1,0 +1,350 @@
+<?xml version="1.0" encoding="UTF-8"?><Invoice xmlns="http://rep.oio.dk/ubl/xml/schemas/0p71/pie/" xmlns:com="http://rep.oio.dk/ubl/xml/schemas/0p71/common/" xmlns:main="http://rep.oio.dk/ubl/xml/schemas/0p71/maindoc/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://rep.oio.dk/ubl/xml/schemas/0p71/pie/  http://rep.oio.dk/ubl/xml/schemas/0p71/pie/piestrict.xsd"><com:ID>11425</com:ID><com:IssueDate>2012-11-30</com:IssueDate><com:TypeCode>PIE</com:TypeCode><main:InvoiceCurrencyCode>DKK</main:InvoiceCurrencyCode><com:Note><![CDATA[Job: Responsive webdesign(7023)
+Tilrettel&#230;ggelse, koordinering og produktionsstyring
+Herunder to briefingm&#248;der (31/7 og 28/8) samt diverse m&#248;der og telefonm&#248;der.
+&nbsp;
+Software og funktionalitet
+L&#248;sningen&nbsp;er baseret p&#229; seneste version af Umbraco ved projektets begyndelse, som er kompatibel med n&#248;dvendige udvidelsespakker, som i skrivende stund er Umbraco 4.9.0.
+L&#248;sningen&nbsp;er opdateret, i tilf&#230;lde af sikkerhedspakker og ustabilitet som skyldes Umbraco, men opgraderinger til nyere versioner er ikke medholdt i aftale.
+Ud over Umbraco CMS er der installeret moduler til hj&#230;lp af administration og visning.
+Der er mulighed for at oprette flere redakt&#248;rer til CMS-systemet med forskellige rettigheder og muligheder for at oprette og skrive.
+&nbsp;
+Strategi og struktur
+Der er &#248;nsket et offentligt website til formidling af informationer omkring South Baltic Training Programme.
+Websitet indeholder mulighed for nyheder, visning af galleri, oprettelse af kalenderemner, almindelige tekstsider, og mulighed for nyhedsbrev.
+Nyhedsbrevfunktionalitet (Newsletter Studio)&nbsp;er direkte integreret i CMS-systemet, hvorfra oprettelse, afsendelse og statistik&nbsp;kan klares.
+Der&nbsp;er integreret en standards&#248;gning p&#229; den offentlige del af websitet, som s&#248;ger i tekster p&#229; siderne.
+Sidens prim&#230;re form&#229;l&nbsp;er dog&nbsp;formidling af kontakt mellem mulige arbejdsgivere og elever p&#229; tv&#230;rs af de fem medlemslande i projektet.
+Det er ogs&#229;&nbsp;muligt for eleven at se virksomhedsinformationer p&#229; websitet.
+&nbsp;
+Grafisk id&#233;/koncept
+Konceptet for designet af websitet er bygget p&#229; logo, de forskellige grafiske "udsagn" og farver, som vi har f&#229;et udleveret fra jer.
+&nbsp;
+Grafisk layout/design
+Ud fra det grafiske koncept og en n&#230;rmere briefing fra jer, har vi designet en webforside med nem adgang til sitets funktioner samt 3 forskellige skabeloner (fx en tekstside-skabelon, en portfolie-skabelon (billedgalleri) og en skabelon til kalendar visning).&nbsp;
+&nbsp;
+Foto
+Budget&nbsp;var ekskl. indk&#248;b af billeder/fotoarbejde  og forudsat levering af&nbsp;billeder til web fra jer.
+&nbsp;
+Illustrationstegning
+Budget&nbsp;var ekskl. illustrationstegning.&nbsp;
+
+
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+Kalenderfunktion
+Kalenderen er lavet s&#229; den ikke vises som en decideret kalender med dage og m&#229;neder, men vises som en liste, med kommende arrangementer.
+Lidt a la en nyhedsvisning, hvor der blot listes op, med den nyeste &#248;verst, og med mulighed for at klikke p&#229; et arrangement, og f&#229; noget mere info.
+&nbsp;
+Kontakt elev/virksomhed
+Kontakten mellem elev og arbejdsgiver sker ved, at der udelukkende sendes en email til sekretariatet, om at denne elev, &#248;nsker kontakt med denne arbejdsgiver. Og tilsvarende den anden vej.
+Der vil s&#229; ikke blive opsamlet noget i Umbraco, og kontakten vil udelukkende v&#230;re via email.
+Oprettelse af virksomheder sker kun af SBTP. Der&nbsp;er ikke&nbsp;mulighed for, at hverken virksomhed eller elev, kan oprette sig som bruger p&#229; websitet.
+Dette er selvf&#248;lgelig&nbsp;en funktionalitet, der senere hen kan integreres.
+&nbsp;
+Klarg&#248;ring til web
+I samarbejde med grafiker er designet leveret i PhotoShop format som derefter er klippet ud til webbrug.
+Der er l&#248;bende holdt op i mod grafisk opl&#230;g og videre godkendelse af grafiker.
+&nbsp;
+Implementering af grafisk design i Umbraco
+Umbraco er baseret p&#229; Microsoft .NET og udviklingssproget er C#. L&#248;sningen er baseret p&#229; specieltilpassede brugerkontroller og renderinger, s&#229; siden vises jf. grafisk opl&#230;g.
+HTML programmering er HTML5 med hj&#230;lp fra nyeste version jQuery ved projektstart. 
+Dette g&#248;r det muligt at lave lette grafiske visninger af indhold, som ikke er serverbaseret.
+&nbsp;
+Oprettelse af indhold(se till&#230;gspris)
+L&#248;sningen er leveret som en tom skal, med mulighed for, at I opretter x-antal undersider, baseret p&#229; foruddefinerede skabeloner, ud fra design&#248;nske.
+&nbsp;
+SEO (s&#248;gemaskineoptimering)
+Der er&nbsp;opsat mulighed for inds&#230;ttelse af meta-tags (beskrivelse og n&#248;gleord) p&#229; alle relevante sider p&#229; l&#248;sningen.
+Der er taget h&#248;jde for at alle side har en unik URL og titel.
+Der er indsat Google Analytics tracking s&#229; det er muligt at se trafik og tendenser p&#229; siden
+&nbsp;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Test og tilretning
+Websiden er gennemg&#229;et  af Synergi og SBTP  for eventuelle fejl og mangler inden lancering.
+Herefter er&nbsp;websiden overdraget, hvorefter en 14 dages periode for udbedring af fejl og mangler er&nbsp;tr&#229;dt i kr&#230;ft.
+&nbsp;
+Undervisning
+Der er i tilbud regnet med undervisning ca. 2 timer i Synergi.
+
+Forbehold
+Budgetrammen er givet ud fra de &#248;nsker og krav, der blev tilkendegivet p&#229; m&#248;de hos EUC 31. juli og SBTP,K&#248;benhavn 28. august 2012 samt ud fra de efterf&#248;lgende &#248;nsker og krav der har v&#230;ret til websitet.
+Kr. 65.000,-
+&nbsp;
+Hosting
+Vedr. hosting m.m. se l&#230;ngere nede i faktura.
+&nbsp;
+Kravspecifikation/noter fra m&#248;det 28. august 2012 i Kbh.:
+(punkter med fed i nedenst&#229;ende er till&#230;gspriser)
+&nbsp;
+Nyt design:
+Ovenst&#229;ende budgetramme er baseret p&#229; designet fra http://baltictrainingprogramme.eu/ , men der er &#248;nsket et mere ungdommeligt design/layout. Designet er stadig lagt lidt op af http://baltictrainingprogramme.eu/ . Nyt design af 3-4 skabeloner.
+Kr.15.000,-
+&nbsp;
+&nbsp;
+Struktur/menu:
+&nbsp;Tre bj&#230;lker ( Students, Companies, Schools), hvor Students og Companies er mest markant.
+&nbsp;Menustruktur(ikke design) som p&#229; www.baltictrainingprogramme.eu
+&nbsp;Interaktivt kort: Kort rentegnet og de 8 partnere er placeret p&#229; kort. Lavet som billede, med faste links.&nbsp;
+Kr. 5.000,-
+&nbsp;Aktiv kalender: Kalendermodul  kalendervisning med eksempelvis 3 farveindikationer.&nbsp;
+Kr.10.000,-
+&nbsp;Responsive Webdesign: Vi har designet websitet s&#229; det tilpasser visningen p&#229; smartphones og tablets.&nbsp;
+Kr.15.000,-
+&nbsp;Fotogalleri er &#248;nsket med pop-up som p&#229; nedenst&#229;ende, men mere trendy end : http://baltictrainingprogramme.eu/image.php?menu_id=251&amp;nr=0&amp;lang=eng&nbsp;&amp;
+&nbsp;Placering af logoer p&#229; forside/alle sider: Nyt logo SBTP-logo, Southbaltic-logo og EU logo. De sidste to&nbsp;er tonet ned ( se http://business-culture-partnership.eu/ )  placering af logoer&nbsp;er unders&#248;gt n&#230;rmere ifh. til designmanualen p&#229; www.southbaltic.eu
+&nbsp;Sprogversion: Kun engelsk website
+&nbsp;Google Analytics(Se SEO tidligere)
+&nbsp;Under partnere&nbsp;er de otte partnere pr&#230;senteret med logo, information om partner og med billede fra landet/virksomheden.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Tilk&#248;b iflg. aftale med Karin Persson:
+2.Move the whole page more to the left, this means that it includes both the top with the logo and the text on the page. This would make the space for the buttons to the left a little smaller and more space for text and pictures in the middle.. 
+Do you mean that the text aera (in the middle of the page) should be wider and the space will be taken from the left menu? 
+In that case, the budget is: kr. 500,-
+&nbsp;
+2a.Add a HOME box left of the SBTP box.
+Adding a new static menu item
+Kr. 500,-
+&nbsp;
+3.Change name on the SBTP box to ABOUT THE PROJECT.
+(You can do this in Umbraco by renaming the menu item in Umbraco)
+We will send a sort description and screen shots how to do it.
+
+4.Remove the original ABOUT THE PROJECT box.
+(You can do this in Umbraco by renaming the menu item in Umbraco)
+We will send a sort description and screen shots how to do it.
+&nbsp;
+5.Add an APPLICATION box to the right of the NETWORK box.
+We will add the Application to the menu and create a To apply and a Apply page.
+&nbsp;
+6.Remove the text Search that is put next to the search field.
+The text filed will be empty.
+
+
+7.About the yellow boxes on the first page; 
+o Change order and put companies before vet providers.
+o Put arrows in them so that they look more like this 
+o The buttons are a bit anonymous laying at the bottom of the page, do you have any suggestions on how to make them more visible, we want people to feel that they just have to click on them. 
+We need to make both design and programming changes
+Kr. 5.000,- depending on how much changes we will make before find the right solution.
+o The yellow buttons/links will be placed better to match the text and maybe the buttons have change form.
+o Change image in the textarea to portrait.
+o Possibllity to add images to the news.
+o Tue has more photos to use on frontpage.
+&nbsp;
+8.Change place on the calendar and the news.
+The calendar and the news will switch places.
+Kr. 500,-
+
+9.Remove the calendar from the rest of the pages, it should only be on the first page.
+The calendar will only be shown on the frontpage.
+Kr. 500,-
+&nbsp;
+
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+10.Put the partner logos and the EU logo at the bottom of the page instead of the box that they are in now. We don&#180;t want them to move.
+We will move the logos at the bottom of the page, so you might have to scroll down to see them.
+There will be 8 partner logos and 1 EU/SBTP logo
+The logos might be shown in 2 rows because of the less space in the text area.
+Kr. 500,-
+&nbsp;
+11.Could you put Facebook and LinkedIn below the searchfield. Facebookadress: http://www.facebook.com/SouthBalticTrainingProgramme
+Kr. 1.000,-
+We will use the Facebook and LinkedIn logo  not text.
+When you add the link in Umbraco, the logo will be shown.
+&nbsp;
+12.Could you put the Application form on a separate page like it is on the Baltic Training Programme website. I think we should have a Application box under ABOUT THE PROJECT  STUDENTS
+The pages will be made according to point no. 5.
+&nbsp;
+13.When I press on the link application that is in the text I end up at the Baltic Training Programe website. 
+This happend when the content has been copied from the current page.
+We will change it in Umbraco. 
+&nbsp;
+14.We need pictures in both the text and the news feed. The news need to change format, now it is boring and only in grey.
+This is a part of the point no. 8.
+
+15.Domain question
+Can you confirm that the site will be running on the same domain as the current page (baltictrainingprogramme.eu)? (We need this for the Contour license, so you are able to see the submitted form data.)
+The new domain is: www.sbtp.eu&nbsp;
+&nbsp;
+About the map under menu Network:
+
+The copy text above the map:
+&nbsp;
+The SBTP Project Partners
+The SBTP project started in May 2012 with eight partners and fourteen associated partners. To find out more details, please click on one of the partners or associated partners from the list below.
+&nbsp;
+And then when you click on the Lithuanian Partner.
+
+http://www.business-culture-partnership.eu/partner19.php#detail
+
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+
+You could use the same information as a template because we have the same partner in our project. Please use the English text.
+We would like to have the pictures to the right exactly the same changing.
+&nbsp;
+Marie wish that the picture on the right shall rotate with 3-4 pictures. That is not in the budget. 
+Kr. 3.000,-
+&nbsp;
+Tilk&#248;b iflg. aftale med Karin ialt: kr. 11.500,-
+&nbsp;
+
+Deployment til webhotel hos Binero:
+Skaffe korrekt login til administration af webhotel.
+L&#230;gge database ud til webhotel, samt fejlfinding og rettelse.
+Klarg&#248;ring af filer, ny database og l&#230;gge det ud p&#229; webhotel, samt test.
+Problemer med/p&#229; webhotel i forhold til publicering pga. af multi server ops&#230;tning hos Binero.
+&#198;ndringer af indstillinger vedr. multi server ops&#230;tning og SMTP indstillinger hos binero.
+Test af side p&#229; webhotel.
+Pris for ops&#230;tning: kr. 5.000,-
+
+Visuel identitet for SBTP
+Vi har tilrettet modtaget logo, s&#229; der&nbsp;efterf&#248;lgende er arbejdet med to udgaver 
+ et med farve og et i sort/hvid. Logoer er rentegnet.
+Derudover er udvalgt tre til fem farver til designbrug.
+&nbsp;
+Der er&nbsp;udarbejdet en minidesignmanual, hvor flg. elementer er beskrevet:
+Website, word-dok., emailsignatur (midlertidigt sat p&#229; hold), A4 pr&#230;sentationsbrochure 4 sider(tekst ikke modtaget endnu, men denne udarbejdes n&#229;r tekst er i hus).
+
+Design af visitkort til en person - inkl. 3 korrekturgange. Derefter ops&#230;tning af 17 visitkort ud fra modtaget manuskript og godkendt korrektur. Efter 1. korrekturgang af de 17 navne, er der modtaget nyt manuskript. Ny korrektur opdeles i 17 dokumenter(ved f&#248;rste korrektur var det samme QR kode p&#229; alle kort), pga. forskellige QR-koder p&#229; alle visitkort.(ops&#230;tning af alle visitkort er nyt ifh. til budget).
+&nbsp;
+PowerPoint(nyt ifh. til budget - Forside + 2 undersider).
+&nbsp;
+Roll-Up  (nyt ifh. til budget - 85x200cm) er designet inkl. 4 korrekturgange.
+&nbsp;
+Alt er samlet i en pdf-fil, som er fremsendt sammen med filer for de enkelte dele.
+Kr. 32.000,-
+
+]]></com:Note><com:BuyersReferenceID schemeID="EAN">5798000553675</com:BuyersReferenceID><com:ReferencedOrder><com:BuyersOrderID>7023</com:BuyersOrderID><com:IssueDate>2012-11-30</com:IssueDate></com:ReferencedOrder><com:BuyerParty><com:ID schemeID="CVR">22029037</com:ID><com:PartyName><com:Name><![CDATA[EUC Sjælland (SBTP)]]></com:Name></com:PartyName><com:Address><com:ID>Fakturering</com:ID><com:Street><![CDATA[Jagtvej 2]]></com:Street><com:CityName><![CDATA[Næstved]]></com:CityName><com:PostalZone>4700</com:PostalZone><com:Country><com:Code listID="ISO 3166-1">DK</com:Code></com:Country></com:Address><com:BuyerContact><com:ID><![CDATA[Tue Skovgaard]]></com:ID></com:BuyerContact></com:BuyerParty><com:SellerParty><com:ID schemeID="CVR">26881560</com:ID><com:PartyName><com:Name><![CDATA[Synergi A/S]]></com:Name></com:PartyName><com:Address><com:ID>Betaling</com:ID><com:Street><![CDATA[MARINEBUEN 11
+]]></com:Street><com:CityName><![CDATA[Næstved]]></com:CityName><com:PostalZone>4700</com:PostalZone><com:Country><com:Code listID="ISO 3166-1">DK</com:Code></com:Country></com:Address><com:PartyTaxScheme><com:CompanyTaxID schemeID="CVR">26881560</com:CompanyTaxID></com:PartyTaxScheme></com:SellerParty><com:PaymentMeans><com:TypeCodeID>null</com:TypeCodeID><com:PaymentDueDate>2012-12-14</com:PaymentDueDate><com:PaymentChannelCode>KONTOOVERFØRSEL</com:PaymentChannelCode><com:PayeeFinancialAccount><com:ID>0758188337</com:ID><com:TypeCode>BANK</com:TypeCode><com:FiBranch><com:ID>2186</com:ID><com:FinancialInstitution><com:ID>null</com:ID><com:Name>Nordea</com:Name></com:FinancialInstitution></com:FiBranch></com:PayeeFinancialAccount><com:PaymentAdvice><com:AccountToAccount><com:PayerNote></com:PayerNote><com:PayeeNote></com:PayeeNote></com:AccountToAccount></com:PaymentAdvice></com:PaymentMeans><com:TaxTotal><com:TaxTypeCode>VAT</com:TaxTypeCode><com:TaxAmounts><com:TaxableAmount currencyID='DKK'>158500.00</com:TaxableAmount> <com:TaxAmount currencyID='DKK'>39625.00</com:TaxAmount></com:TaxAmounts><com:CategoryTotal><com:RateCategoryCodeID>VAT</com:RateCategoryCodeID><com:RatePercentNumeric>25</com:RatePercentNumeric><com:TaxAmounts><com:TaxableAmount currencyID='DKK'>158500.00</com:TaxableAmount><com:TaxAmount currencyID='DKK'>39625.00</com:TaxAmount></com:TaxAmounts></com:CategoryTotal></com:TaxTotal><com:LegalTotals><com:LineExtensionTotalAmount currencyID='DKK'>158500.00</com:LineExtensionTotalAmount><com:ToBePaidTotalAmount currencyID='DKK'>198125.00</com:ToBePaidTotalAmount></com:LegalTotals><com:InvoiceLine><com:ID>2</com:ID><com:InvoicedQuantity unitCode='Stk.' unitCodeListAgencyID="n/a">1.00</com:InvoicedQuantity><com:LineExtensionAmount currencyID='DKK'>158500.00</com:LineExtensionAmount><com:Item><com:ID>0</com:ID><com:Description><![CDATA[Responsive webdesign (7023)]]></com:Description></com:Item><com:BasePrice><com:PriceAmount currencyID='DKK'>158500.00</com:PriceAmount></com:BasePrice></com:InvoiceLine></Invoice>

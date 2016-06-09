@@ -1,0 +1,110 @@
+<br />
+<table border="0" cellspacing="0" cellpadding="0" width="605">
+    <tbody>
+        <tr>
+            <td valign="top">Brancheforeningen SPT<br />
+            B&#248;rsen<br />
+            1217 K&#248;benhavn K<br />
+            <br />
+            Att: Liselotte Lauritsen<br />
+            <br />
+            <br />
+            <br />
+            <br />
+            N&#230;stved, den 24. september 2012 </td>
+        </tr>
+    </tbody>
+</table>
+<br />
+<br />
+<br />
+<br />
+<br />
+<strong>Visitkort </strong><br />
+<br />
+##job_besk##
+<table border="0" cellspacing="0" cellpadding="2" width="605">
+    <tbody>
+        <tr>
+            <td style="width: 1104px; padding-right: 20px"><span class="jobpr16"><u>Tilrettel&#230;ggelse, koordinering og produktionsstyring</u></span><br />
+            &nbsp;</td>
+        </tr>
+        <tr>
+            <td style="width: 1104px; padding-right: 20px">
+            <div><span class="jobpr16"><u>Layout / design</u></span><br />
+            Med afs&#230;t i eksisterende visitkort</div>
+            <div>&nbsp;</div>
+            </td>
+        </tr>
+        <tr>
+            <td style="width: 1104px; padding-right: 20px">
+            <div><span class="jobpr16"><u>Dtp / rentegning</u></span><br />
+            Vi udarbejder dtp/rentegner&nbsp;2 visitkort jf materiale/tekst, som vi modtager fra jer.</div>
+            <div>&nbsp;</div>
+            </td>
+        </tr>
+        <tr>
+            <td style="width: 1104px; padding-right: 20px">
+            <div><span class="jobpr16"><u>Korrektur</u></span><br />
+            Inkl. 2 korrekturgange</div>
+            <div>&nbsp;</div>
+            </td>
+        </tr>
+        <tr>
+            <td style="width: 1104px; padding-right: 20px">
+            <div><span class="jobpr16"><u>Klarg&#248;ring til tryk</u></span><br />
+            Vi genererer pdf-filer til tryk</div>
+            <div>&nbsp;</div>
+            <div>&nbsp;</div>
+            <div>
+            <div><span style="text-decoration: underline">Prisoverslag til og med klarg&#248;ring til tryk</span></div>
+            <div><strong>Kr. 1.500,-</strong></div>
+            </div>
+            <div>&nbsp;</div>
+            </td>
+        </tr>
+        <tr>
+            <td style="width: 1104px; padding-right: 20px">
+            <div><span class="jobpr16"><u>Tryk</u></span><br />
+            200 stk. alt. 2 x 200 stk. alt. 3 x 200 stk., 55 x 85 mm, 2 + 2 farver p&#229; 280 g matbestr&#248;get</div>
+            <div>Rensk&#230;re og pakkes</div>
+            </td>
+        </tr>
+    </tbody>
+</table>
+##job_besk_slut##<br />
+<br />
+&nbsp;
+<table border="0" cellspacing="0" cellpadding="0" width="605">
+    <tbody>
+        <tr>
+            <td>
+            <div><u>Prisoverslag tryk og f&#230;rdigg&#248;relse</u><br />
+            <strong>Kr.&nbsp;600,- v/ 200 stk.</strong></div>
+            <div><strong>Kr.&nbsp;900,- v/ 2 x 200 stk.</strong></div>
+            <div><strong>Kr.&nbsp;1.200,- v/ 3 x 200 stk.</strong></div>
+            </td>
+        </tr>
+    </tbody>
+</table>
+<br />
+<table border="0" cellspacing="0" cellpadding="0" width="100%">
+    <tbody>
+        <tr>
+            <td style="padding-top: 10px">Alle priser er inkl. levering til &#233;n adresse i Danmark og ekskl. moms.</td>
+        </tr>
+    </tbody>
+</table>
+<br />
+<br />
+<table border="0" cellspacing="0" cellpadding="0" width="100%">
+    <tbody>
+        <tr>
+            <td style="padding-top: 10px">Med venlig hilsen <br />
+            Synergi<br />
+            <br />
+            Thomas Hansen</td>
+        </tr>
+    </tbody>
+</table>
+

@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<configuration>
+
+    <system.webServer>
+      <security>
+        <requestFiltering>
+          <requestLimits maxAllowedContentLength="17000000" maxUrl="14096" maxQueryString="124048" />
+        </requestFiltering>
+        
+      </security>
+      <directoryBrowse enabled="false" />
+        <httpErrors errorMode="Detailed" />
+        <staticContent>
+            <mimeMap fileExtension=".less" mimeType="text/css" />
+        </staticContent>
+    </system.webServer>
+  
+    <system.web>
+      <sessionState timeout="820" useHostingIdentity="true" />
+      <httpCookies domain="timeout2.outzource.dk" />
+      <pages validateRequest="false" />
+    </system.web>
+
+
+  
+  
+
+</configuration>
+
+

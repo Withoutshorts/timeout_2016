@@ -1,0 +1,120 @@
+Typeidentifikator;Sagsnummer;Sagsopgavenummer;Type;Nummer;Beskrivelse;Sagsopgavetype;Dimensionen Aktivitet;Antal;Kostpris;Kostbeløb
+30;1215;100;Ressource;;Direkte løn;Fra-sum;;0;0;0
+30;1215;101;Finanskonto;3851;Lønkategori 1;Konto;;1;229.175;229.175
+30;1215;102;Finanskonto;3851;Lønkategori 2;Konto;;1;799.092;799.092
+30;1215;103;Finanskonto;3851;Lønkategori 3;Konto;;1;154.048,5;154.048,5
+30;1215;104;Finanskonto;3851;Lønkategori 4;Konto;;1;102.960;102.960
+30;1215;190;Ressource;;Direkte løn i alt;Til-sum;;0;0;0
+30;1215;200;Ressource;;Ekstern bistand;Fra-sum;;0;0;0
+30;1215;210;Finanskonto;3851;Ekstern konsulent, 900 kr/time;Konto;;1;198.000;198.000
+30;1215;210;Finanskonto;1610;Hartmut Heilmann,8t á 120 euro kons.ydelse 30/4;Konto;;1;7.173,89;7.173,89
+30;1215;211;Finanskonto;3851;Værtsbedrift;Konto;;1;65.250;65.250
+30;1215;290;Ressource;;Ekstern bistand i alt;Til-sum;;0;0;0
+30;1215;300;Ressource;;Materialer;Fra-sum;;0;0;0
+30;1215;310;Finanskonto;3851;Kursusmat, måling af ph/CO2, mat. til værtsbedrift;Konto;;1;54.000;54.000
+30;1215;310;Finanskonto;1610;Friedrich Wenz, Jahresausbildung 2015 Bondekurs im;Konto;;1;14.960,4;14.960,4
+30;1215;327;Finanskonto;3851;Udstyr, elekt. bolde, kompost-te, ler-kolloider;Konto;;1;85.000;85.000
+30;1215;328;Finanskonto;3851;Tryk af mat, annoncer, faglige kurser til medarb.;Konto;;1;75.000;75.000
+30;1215;328;Finanskonto;1610;Ökoregion Kaindorf, MAB, kongres/kursus 19-20/1;Konto;;1;1.266,08;1.266,08
+30;1215;328;Finanskonto;1610;Landbrugsmedierne annonce arrangement;Konto;;1;5.465;5.465
+30;1215;329;Finanskonto;3851;Analyser, huminstoffer, cromatest, kinsey jordprøv;Konto;;1;45.000;45.000
+30;1215;390;Ressource;;Materialer i alt;Til-sum;;0;0;0
+30;1215;700;Ressource;;Andre omkostninger;Fra-sum;;0;0;0
+30;1215;740;Finanskonto;3851;Overhead;Konto;;1;192.791,32;192.791,32
+30;1215;790;Ressource;;Andre omkostninger i alt;Til-sum;;0;0;0
+30;1215;799;Ressource;;Total ekskl. medfinansiering/egenfin./overforbrug;Sum;;0;0;0
+30;1215;800;Ressource;;Andel anden bevillingsgiver;Fra-sum;;0;0;0
+30;1215;805;Finanskonto;3851;Andel anden bevillingsgiver;Konto;;-1;1.000.158,41;-1.000.158,41
+30;1215;810;Finanskonto;3851;Promilleafgiftsfonden for landbrug;Konto;;1;1.000.000;1.000.000
+30;1215;815;Finanskonto;3851;Medfinansiering, egen;Konto;;1;158,41;158,41
+30;1215;819;Ressource;;Total inkl. medfinansiering;Sum;;0;0;0
+30;1215;821;Finanskonto;1610;MAB, 4 stk DHL pakker 13/2-14/3;Konto;;1;334,8;334,8
+30;1215;821;Finanskonto;1610;MAB, LOP, Sonderheft 'Boden verbessern -;Konto;;1;163,15;163,15
+30;1215;822;Finanskonto;1610;MAB, fly/lejebil/parkering 18-21/1 Tyskland/Østrig;Konto;;1;4.739,03;4.739,03
+30;1215;822;Finanskonto;1610;OMP  MAB, 31/3-1/4, 620 km, 1215;Konto;;1;2.294;2.294
+30;1215;822;Finanskonto;1610;OMP  MAB, 20-30/4, 2024 km, 1215;Konto;;1;7.488,8;7.488,8
+30;1215;822;Finanskonto;1610;MAB, 11/5, 755 km, 1215;Konto;;1;2.793,5;2.793,5
+30;1215;822;Finanskonto;1610;MAB, 8-21/1, 670 km. Jordforb.;Konto;;1;2.479;2.479
+30;1215;822;Finanskonto;1610;MAB, 7/3, 233 km, 1215 oplæg Vingsted;Konto;;1;862,1;862,1
+30;1215;822;Finanskonto;1610;MAB, 5-6/2, 770 km, kursus 1215 Jordforb.m.kompos.;Konto;;1;2.849;2.849
+30;1215;822;Finanskonto;1610;MAB, 12/2, 534 km, Foredrag1215 Jordforb.m.kompos;Konto;;1;1.975,8;1.975,8
+30;1215;822;Finanskonto;1610;MAB, hotel/forplej Tyskland 15/7;Konto;;1;690;690
+30;1215;822;Finanskonto;1610;CØ, 22/6-7/7, 88 km, 1215;Konto;;1;325,6;325,6
+30;1215;822;Finanskonto;1610;MAB, 1-16/7, 576 km, 1215;Konto;;1;2.131,2;2.131,2
+30;1215;822;Finanskonto;1610;MAB, 1-16/9, 756 km, 1215;Konto;;1;2.797,2;2.797,2
+30;1215;822;Finanskonto;3851;Bduget rejseudgifter;Konto;;1;40.000;40.000
+30;1215;823;Finanskonto;1610;MAB, hotel/forplej Tyskland 1/4;Konto;;1;816,6;816,6
+30;1215;823;Finanskonto;1610;MAB, hotel/forplej 6+12/2 udland;Konto;;1;1.394,64;1.394,64
+30;1215;823;Finanskonto;1610;MAB, hotel/forplej 18-21/1 Tyskland/Østrig;Konto;;1;2.468,94;2.468,94
+30;1215;823;Finanskonto;1610;MAB, Hotel, Morow 11/5;Konto;;1;571,42;571,42
+30;1215;823;Finanskonto;1610;MAB, hotel/forplej udland 19-20/4;Konto;;1;1.197,54;1.197,54
+30;1215;823;Finanskonto;1610;MAB, hotel/forplej Mecklenburg 3-4/9;Konto;;1;999,05;999,05
+30;1215;823;Finanskonto;3851;Budget overnatning/hotel;Konto;;1;1.500;1.500
+30;1215;824;Finanskonto;1610;Hartmut Heilmann,8t á 120 euro  bankgebyr;Konto;;1;40;40
+30;1215;824;Finanskonto;1610;Marias Køkken & Kursusværksted, forplej/lokaleleje;Konto;;1;8.570;8.570
+30;1215;824;Finanskonto;1610;Friedrich Wenz, Jahresausbildung 2015  bankgebyr;Konto;;1;40;40
+30;1215;824;Finanskonto;1610;Bayer, bog 'Hands-on Agronomy';Konto;;1;315,24;315,24
+30;1215;824;Finanskonto;1610;Ökoregion Kaindorf, MAB, kongres/k  bankgebyr;Konto;;1;40;40
+30;1215;824;Finanskonto;1925;Seminar om rodukrudt 30/4-15;Konto;;1;0;0
+30;1215;824;Finanskonto;1925;Seminar om rodukrudt 30/4-15;Konto;;1;0;0
+30;1215;824;Finanskonto;1925;Seminar om rodukrudt 30/4-15;Konto;;1;0;0
+30;1215;824;Finanskonto;1925;Seminar om rodukrudt 30/4-15;Konto;;1;0;0
+30;1215;824;Finanskonto;1925;Seminar om rodukrudt 30/4-15;Konto;;1;0;0
+30;1215;824;Finanskonto;1925;Seminar om rodukrudt 30/4-15;Konto;;1;0;0
+30;1215;824;Finanskonto;1925;Seminar om rodukrudt 30/4-15;Konto;;2;0;0
+30;1215;824;Finanskonto;1925;Seminar om rodukrudt 30/4-15;Konto;;1;0;0
+30;1215;824;Finanskonto;1925;Seminar om rodukrudt 30/4-15;Konto;;2;0;0
+30;1215;824;Finanskonto;1925;Seminar om rodukrudt 30/4-15;Konto;;1;0;0
+30;1215;824;Finanskonto;1925;Seminar om rodukrudt 30/4-15;Konto;;1;0;0
+30;1215;824;Finanskonto;1925;Seminar om rodukrudt 30/4-15;Konto;;1;0;0
+30;1215;824;Finanskonto;1925;Seminar om rodukrudt 30/4-15;Konto;;1;0;0
+30;1215;824;Finanskonto;1925;Seminar om rodukrudt 30/4-15;Konto;;2;0;0
+30;1215;824;Finanskonto;1925;Seminar om rodukrudt 30/4-15;Konto;;1;0;0
+30;1215;824;Finanskonto;1925;Seminar om rodukrudt 30/4-15;Konto;;1;0;0
+30;1215;824;Finanskonto;1925;Seminar om rodukrudt 30/4-15;Konto;;1;0;0
+30;1215;824;Finanskonto;1925;Seminar om rodukrudt 30/4-15;Konto;;1;0;0
+30;1215;824;Finanskonto;1925;Seminar om rodukrudt 30/4-15;Konto;;1;0;0
+30;1215;824;Finanskonto;1925;Seminar om rodukrudt 30/4-15;Konto;;1;0;0
+30;1215;824;Finanskonto;1925;Seminar om rodukrudt 30/4-15;Konto;;1;0;0
+30;1215;824;Finanskonto;1925;Seminar om rodukrudt 30/4-15;Konto;;1;0;0
+30;1215;824;Finanskonto;1925;Deltagelse i kursusdag 8/10-15;Konto;;2;0;0
+30;1215;824;Finanskonto;1925;Deltagelse i ERFA-møde 12/10-15;Konto;;2;0;0
+30;1215;824;Finanskonto;1925;Deltagelse i kursusdag 8/10-15;Konto;;2;0;0
+30;1215;824;Finanskonto;1925;Deltagelse i ERFA-møde 12/10-15;Konto;;2;0;0
+30;1215;824;Finanskonto;1925;Deltagelse i kursusdag 8/10-15;Konto;;1;0;0
+30;1215;824;Finanskonto;1925;Deltagelse i kursusdag 8/10-15;Konto;;1;0;0
+30;1215;824;Finanskonto;1925;Deltagelse i kursusdag 8/10-15;Konto;;1;0;0
+30;1215;824;Finanskonto;1925;Deltagelse i kursusdag 8/10-15;Konto;;1;0;0
+30;1215;824;Finanskonto;1925;Deltagelse i ERFA-møde 12/10-15;Konto;;1;0;0
+30;1215;824;Finanskonto;1925;Deltagelse i kursusdag 8/10-15;Konto;;1;0;0
+30;1215;824;Finanskonto;1925;Deltagelse i kursusdag 8/10-15;Konto;;1;0;0
+30;1215;824;Finanskonto;1925;Deltagelse i kursusdag 8/10-15;Konto;;1;0;0
+30;1215;824;Finanskonto;1925;Deltagelse i kursusdag 8/10-15;Konto;;2;0;0
+30;1215;824;Finanskonto;1925;Deltagelse i ERFA-møde 12/10-15;Konto;;2;0;0
+30;1215;824;Finanskonto;1925;Deltagelse i kursusdag 8/10-15;Konto;;1;0;0
+30;1215;824;Finanskonto;1925;Deltagelse i kursusdag 8/10-15;Konto;;1;0;0
+30;1215;824;Finanskonto;1925;Deltagelse i kursusdag 8/10-15;Konto;;1;0;0
+30;1215;824;Finanskonto;1925;Deltagelse i kursusdag 8/10-15;Konto;;1;0;0
+30;1215;824;Finanskonto;1925;Deltagelse i kursusdag 8/10-15;Konto;;2;0;0
+30;1215;824;Finanskonto;1925;Deltagelse i kursusdag 8/10-15;Konto;;1;0;0
+30;1215;824;Finanskonto;1925;Deltagelse i kursusdag 8/10-15;Konto;;1;0;0
+30;1215;824;Finanskonto;1925;Deltagelse i kursusdag 8/10-15;Konto;;1;0;0
+30;1215;824;Finanskonto;1925;Deltagelse i kursusdag 8/10-15;Konto;;1;0;0
+30;1215;824;Finanskonto;1925;Seminar om rodukrudt 30/4-15;Konto;;1;0;0
+30;1215;824;Finanskonto;1925;Deltagelse i kursusdag 8/10-15;Konto;;1;0;0
+30;1215;824;Finanskonto;1925;Deltagelse i kursusdag 8/10-15;Konto;;1;0;0
+30;1215;824;Finanskonto;1925;Deltagelse i ERFA-møde 12/10-15;Konto;;2;0;0
+30;1215;824;Finanskonto;1925;Deltagelse i kursusdag 8/10-15;Konto;;1;0;0
+30;1215;824;Finanskonto;1925;Deltagelse i ERFA-møde 12/10-15;Konto;;1;0;0
+30;1215;824;Finanskonto;1925;Deltagelse i kursusdag 8/10-15;Konto;;1;0;0
+30;1215;824;Finanskonto;1925;Deltagelse i kursusdag 8/10-15;Konto;;2;0;0
+30;1215;824;Finanskonto;1925;Deltagelse i kursusdag 8/10-15;Konto;;1;0;0
+30;1215;824;Finanskonto;1925;Deltagelse i ERFA-møde 12/10-15;Konto;;2;0;0
+30;1215;824;Finanskonto;1925;Deltagelse i kursusdag 8/10-15;Konto;;1;0;0
+30;1215;824;Finanskonto;1925;Deltagelse i kursusdag 8/10-15;Konto;;1;0;0
+30;1215;824;Finanskonto;1610;Hellevad Vandmølle, lokaleleje 8/10;Konto;;1;1.500;1.500
+30;1215;824;Finanskonto;1610;Hellevad Vandmølle, lokaleleje 8/10;Konto;;1;8.312,51;8.312,51
+30;1215;824;Finanskonto;3851;Budget kursusgebyr;Konto;;1;2.000;2.000
+30;1215;824;Finanskonto;1925;Seminar om rodukrudt v. Hartmut Heilmann 30/4-15;Konto;;-1;0;0
+30;1215;899;Ressource;;Total ej tilskudsberett. udg;Til-sum;;0;0;0
+30;1215;999;Ressource;;Total;Sum;;0;0;0

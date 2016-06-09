@@ -1,0 +1,99 @@
+<br />
+<table border="0" cellspacing="0" cellpadding="0" width="605">
+    <tbody>
+        <tr>
+            <td valign="top">Hagemann Nybyg A/S<br />
+            Marskvej 27<br />
+            4700 N&#230;stved<br />
+            <br />
+            Att: Anders Hagemann<br />
+            <br />
+            <br />
+            <br />
+            <br />
+            N&#230;stved, den 6. marts 2012 </td>
+        </tr>
+    </tbody>
+</table>
+<br />
+<br />
+<br />
+<br />
+<br />
+<strong>Prisoverslag tilrettel&#230;ggelse og produktion af huskatalog 2012 </strong><br />
+<br />
+<table border="0" cellspacing="0" cellpadding="2" width="605">
+    <tbody>
+        <tr>
+            <td style="width: 1104px; padding-right: 20px"><span class="jobpr16"><u>Tilrettel&#230;ggelse, koordinering og produktionsstyring</u></span><br />
+            &nbsp;</td>
+            <tr>
+                <td style="width: 1104px; padding-right: 20px">
+                <div><span class="jobpr16"><u>Layout / design<br />
+                </u></span>I forbindelse med at omslag og Popul&#230;rLinie-katalog udg&#229;r, arbejder vi lidt med forsiden og&nbsp;optimerer dette design, s&#229; det ligger bedre i tr&#229;d med Hagemann Nybyg annon 2012.<br />
+                <br />
+                <u>Disponering</u></div>
+                <div>Vi modtager disposition i skitseform fra jer. Alle sider - blot med beskrivelse af indhold - alternativt en indholdsoversigt, s&#229; I har disponeret kataloget, n&#229;r vi igangs&#230;tter layout/dtp.<br />
+                <br />
+                <u>Tekst</u></div>
+                <div>Vi modtager tekst i word, som vi l&#230;ser og foretager finish af efter behov.</div>
+                <div>&nbsp;</div>
+                <div><u>Foto</u></div>
+                <div>Vi modtager alle nye fotos via ftp - udvalgt af jer - i mapper med sidenummerering (guidning i forhold til hustype-nr.). Der m&#229; gerne v&#230;re et par ekstra billeder, end I sk&#248;nner, der er behov for i hver mappe, s&#229; vi har mulighed for at tilpasse farver/komposition optimalt.</div>
+                <div>&nbsp;</div>
+                <div><u>Illustrationstegning</u>
+                <div>Vi modtager alle opstalter/plantegninger jf. test, som vi har foretaget i form af pdf-filer. Vi modtager plantegninger i 1:100 - dog individuelle huse i 1:150 - og indplacerer i 100%.</div>
+                </div>
+                <div>&nbsp;</div>
+                </td>
+                <tr>
+                    <td style="width: 1104px; padding-right: 20px"><span class="jobpr16"><u>Dtp / rentegning<br />
+                    </u></span>Vi&nbsp;udarbejder layout/dtp af katalog, ansl&#229;et 52 sider indhold + 6 sider omslag. Nogle modeller er gentagelse fra tidligere katalog - men der skal farvelagte plantegninger + alternative tag-konstruktioner + (nye) billeder ind. Herudover rykker nogle modeller fra&nbsp;at v&#230;re placeret p&#229; en venstreside til en h&#248;jreside - og omvendt.&nbsp;Herudover udarbejdes stanseform til&nbsp;3-fl&#248;jet omslag.<br />
+                    &nbsp;</td>
+                    <tr>
+                        <td style="width: 1104px; padding-right: 20px"><span class="jobpr16"><u>Korrektur<br />
+                        </u>Inkl. 2-3 korrekturgange.</span><br />
+                        &nbsp;</td>
+                        <tr>
+                            <td style="width: 1104px; padding-right: 20px"><span class="jobpr16"><u>Klarg&#248;ring til tryk<br />
+                            </u></span>Generering af trykklar pdf-fil.<br />
+                            &nbsp;</td>
+                            <tr>
+                                <td style="width: 1104px; padding-right: 20px">
+                                <div><span class="jobpr16"><u>Tryk<br />
+                                </u></span>A4, 52 sider indhold med&nbsp;3-fl&#248;jet omslag, 4 + 4 farver. Omslag p&#229;f&#248;res bukkestreg, falses, h&#230;ftes og rensk&#230;res..&nbsp;</div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    &nbsp;
+                    <table border="0" cellspacing="0" cellpadding="0" width="605">
+                        <tbody>
+                            <tr>
+                                <td style="width: 603px; height: 42px">
+                                <p><em>Prisoverslag v/250 stk. ca. kr. 60.000,00<br />
+                                F&#248;lgende 50 stk. i samme produktionsgang kr. 500,00</em></p>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <br />
+                    <table border="0" cellspacing="0" cellpadding="0" width="100%">
+                        <tbody>
+                            <tr>
+                                <td style="padding-top: 10px">Alle priser er inkl. levering til &#233;n adresse i Danmark og ekskl. moms.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <br />
+                    <table border="0" cellspacing="0" cellpadding="0" width="100%">
+                        <tbody>
+                            <tr>
+                                <td style="padding-top: 10px">Med venlig hilsen <br />
+                                Synergi<br />
+                                <br />
+                                Thomas Hansen</td>
+                            </tr>
+                        </tbody>
+                    </table>
+

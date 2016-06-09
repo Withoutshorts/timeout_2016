@@ -1,0 +1,53 @@
+  <?xml version="1.0" encoding="ISO-8859-1" ?> 
+- <links>
+- <link>
+  <titel>magik.dk | rdf/rss nyheder</titel> 
+  <url>http://www.magik.dk/rdf/</url> 
+  <kategori>Services</kategori> 
+  </link>
+- <link>
+  <titel>Rasmus Sommer</titel> 
+  <url>http://www.magik.dk/sommer/</url> 
+  <kategori>Diverse</kategori> 
+  </link>
+- <link>
+  <titel>ICQ Status Service</titel> 
+  <url>http://www.magik.dk/services/icq/</url> 
+  <kategori>Services</kategori> 
+  </link>
+- <link>
+  <titel>Dimle.dk</titel> 
+  <url>http://www.dimle.dk/</url> 
+  <kategori>Diverse</kategori> 
+  </link>
+- <link>
+  <titel>UNweb.dk</titel> 
+  <url>http://www.unweb.dk/</url> 
+  <kategori>Webdesign/grafik</kategori> 
+  </link>
+- <link>
+  <titel>NewsReader Online</titel> 
+  <url>http://www.magik.dk/newsreader/</url> 
+  <kategori>Nyheder</kategori> 
+  </link>
+- <link>
+  <titel>Newz.dk</titel> 
+  <url>http://www.newz.dk/</url> 
+  <kategori>Nyheder</kategori> 
+  </link>
+- <link>
+  <titel>Codemasters.dk</titel> 
+  <url>http://www.codemasters.dk/</url> 
+  <kategori>Webudvikling</kategori> 
+  </link>
+- <link>
+  <titel>magik.dk | favoritnet</titel> 
+  <url>http://www.magik.dk/favorit/info_favorit.asp</url> 
+  <kategori>Diverse</kategori> 
+  </link>
+- <link>
+  <titel>Challengers.dk</titel> 
+  <url>http://www.challengers.dk/</url> 
+  <kategori>Diverse</kategori> 
+  </link>
+  </links>

@@ -1,0 +1,56 @@
+<br />
+<table cellspacing="0" cellpadding="0" border="0" width="100%">
+    <tbody>
+        <tr>
+            <td valign="top">Kunde1<br />
+            <br />
+            <br />
+            Danmark<br />
+            <br />
+            </td>
+            <td valign="bottom" align="right">N&#230;stved, d. 13. maj 2011</td>
+        </tr>
+    </tbody>
+</table>
+<br />
+<br />
+<br />
+<br />
+<br />
+<h4>Job Webopgave (12)</h4>
+<strong>Beskrivelse</strong><br />
+dfg dfg dfg dfgd fgdf g<br />
+<br />
+<h4>Pris: DKK 0,00</h4>
+<strong>Jobansvarlig / vor. ref.:</strong> TimeOut - Support, support@outzource.dk<br />
+<br />
+<strong>Periode:<br />
+</strong>Arbejdet forventes udf&#248;rt i perioden 13. maj 2011 - 13. juni 2011<br />
+<br />
+&#160;<br />
+<br />
+<div>Udspecificering:</div>
+<div>wer wer wer&#160;</div>
+<div><br />
+</div>
+<div>wer wer wer &#160;</div>
+<table cellspacing="0" cellpadding="2" border="0" width="100%">
+    <tbody>
+        <tr>
+            <td colspan="5" align="right" style="padding-top: 40px; padding-right: 0px; "><span class="jobpr18">I alt ekskl. moms, <strong>DKK 0,00</strong></span></td>
+        </tr>
+    </tbody>
+</table>
+<br />
+<br />
+&#160;
+<table cellspacing="0" cellpadding="0" border="0" width="100%">
+    <tbody>
+        <tr>
+            <td style="padding-top: 10px; "><span class="jobpr14">Med venlig hilsen <br />
+            <strong>Synergi</strong><br />
+            <br />
+            TimeOut - Support</span></td>
+        </tr>
+    </tbody>
+</table>

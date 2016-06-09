@@ -1,0 +1,74 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<configuration>
+    <configSections>
+        <sectionGroup name="userSettings" type="System.Configuration.UserSettingsGroup, System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" >
+            <section name="OutzourceService.Properties.Settings" type="System.Configuration.ClientSettingsSection, System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" allowExeDefinition="MachineToLocalUser" requirePermission="false" />
+        </sectionGroup>
+        <sectionGroup name="applicationSettings" type="System.Configuration.ApplicationSettingsGroup, System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" >
+            <section name="OutzourceService.Properties.Settings" type="System.Configuration.ClientSettingsSection, System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" requirePermission="false" />
+        </sectionGroup>
+    </configSections>
+    <userSettings>
+        <OutzourceService.Properties.Settings>
+            <setting name="FILE_PATH" serializeAs="String">
+                <value>D:\webserver\wwwroot\timeout_xp\wwwroot\ver2_10\inc\upload\</value>
+            </setting>
+            <setting name="EMAIL_SUBJECT" serializeAs="String">
+                <value>Outzource - Report</value>
+            </setting>
+            <setting name="EMAIL_BODY" serializeAs="String">
+                <value>This is a test mail from Outzource.</value>
+            </setting>
+            <setting name="RUN_TIME" serializeAs="String">
+                <value>06:00</value>
+            </setting>
+            <setting name="RUN_MONDAY" serializeAs="String">
+                <value>True</value>
+            </setting>
+            <setting name="RUN_TUESDAY" serializeAs="String">
+                <value>False</value>
+            </setting>
+            <setting name="RUN_WEDNESDAY" serializeAs="String">
+                <value>False</value>
+            </setting>
+            <setting name="RUN_THURSDAY" serializeAs="String">
+                <value>False</value>
+            </setting>
+            <setting name="RUN_FRIDAY" serializeAs="String">
+                <value>False</value>
+            </setting>
+            <setting name="RUN_SATURDAY" serializeAs="String">
+                <value>False</value>
+            </setting>
+            <setting name="RUN_SUNDAY" serializeAs="String">
+                <value>False</value>
+            </setting>
+            <setting name="LINK_REPORTS" serializeAs="String">
+                <value>http://localhost:49986/WebService1.asmx/outz_rapport_abo</value>
+            </setting>
+            <setting name="CONN_SOURCE" serializeAs="String">
+                <value>Driver={MySQL ODBC 3.51 Driver};Server=81.19.249.35;Port=3306;database=timeout_cst; uid=outzource;pwd=SKba200473;</value>
+            </setting>
+            <setting name="CONN_TARGET" serializeAs="String">
+                <value>Driver={MySQL ODBC 3.51 Driver};Server=81.19.249.35;Port=3306;database=timeout_lc; uid=outzource;pwd=SKba200473;</value>
+            </setting>
+            <setting name="CONN_CSV" serializeAs="String">
+                <value>driver={MySQL ODBC 3.51 Driver};server=81.19.249.35; Port=3306; uid=outzource;pwd=SKba200473;database=xxtimeout_epi;</value>
+            </setting>
+        </OutzourceService.Properties.Settings>
+    </userSettings>
+    <system.serviceModel>
+        <bindings />
+        <client />
+    </system.serviceModel>
+    <applicationSettings>
+        <OutzourceService.Properties.Settings>
+            <setting name="OutzourceService_WebReference_ozreportws" serializeAs="String">
+                <value>https://outzource.dk/timeout_xp/wwwroot/ver2_1/timereg_net/ozreportws.asmx</value>
+            </setting>
+            <setting name="OutzourceService_wsCsvRead_CSV" serializeAs="String">
+                <value>http://93.167.247.61:7047/DynamicsNAV/WS/Epinion%20A/S/Codeunit/CSV</value>
+            </setting>
+        </OutzourceService.Properties.Settings>
+    </applicationSettings>
+</configuration>

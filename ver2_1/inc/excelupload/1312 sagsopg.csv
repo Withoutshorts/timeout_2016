@@ -1,0 +1,426 @@
+Typeidentifikator;Sagsnummer;Sagsopgavenummer;Type;Nummer;Beskrivelse;Sagsopgavetype;Dimensionen Aktivitet;Antal;Kostpris;Kostbeloeb
+30;1312;110;Budget;0;Ledelse, inkl. Lone A.;Konto;;0;0;0
+30;1312;110;Budget;10000;Ledelse inkl. lone A., ap7;Konto;;1;1.355.424;1.355.424
+30;1312;120;Budget;0;Projektmedarbejder;Konto;;0;0;0
+30;1312;120;Budget;10000;projektmedarb. a1;Konto;;1;191.000;191.000
+30;1312;120;Budget;20000;projektmedarb. a2;Konto;;1;60.000;60.000
+30;1312;120;Budget;30000;projektmedarb. a3;Konto;;1;3.357.995;3.357.995
+30;1312;120;Budget;40000;projektmedarb. a4;Konto;;1;108.000;108.000
+30;1312;120;Budget;50000;projektmedarb. a5;Konto;;1;80.000;80.000
+30;1312;120;Budget;60000;projektmedarb. a6;Konto;;1;19.000;19.000
+30;1312;120;Budget;70000;projektmedarb. a7;Konto;;1;355.728;355.728
+30;1312;125;Budget;0;Presse-web;Konto;;0;0;0
+30;1312;126;Budget;0;Løse, Studerende;Konto;;0;0;0
+30;1312;130;Budget;0;Administration (sekr.IT,regnskab);Konto;;0;0;0
+30;1312;130;Budget;10000;adm. A7;Konto;;1;459.048;459.048
+30;1312;135;Budget;0;Administration, sekretær;Konto;;0;0;0
+30;1312;140;Budget;0;Administration, IT;Konto;;0;0;0
+30;1312;145;Budget;0;Administration, regnskab;Konto;;0;0;0
+30;1312;210;Budget;0;Ekstern bistand;Konto;;0;0;0
+30;1312;210;Budget;10000;Ekstern bistand, A1;Konto;;1;730.000;730.000
+30;1312;210;Budget;20000;Ekstern bistand, A4;Konto;;1;95.000;95.000
+30;1312;210;Budget;30000;Ekstern bistand, A5;Konto;;1;125.000;125.000
+30;1312;210;Budget;40000;Ekstern bistand, A6;Konto;;1;675.000;675.000
+30;1312;210;Budget;50000;Ekstern bistand, A7;Konto;;1;140.000;140.000
+30;1312;210;Kontrakt;60000;Rousing Consult, styregrp.møde 3/3. A7;Konto;;1;4.077,40;4.077,40
+30;1312;210;Kontrakt;70000;Infomedia A/S, Medie overvågning 2015;Konto;;1;6.000;6.000
+30;1312;210;Kontrakt;80000;unoeuro A7, 090315-090316 samfundsnyttigtlandbrug;Konto;;1;89,4;89,4
+30;1312;210;Kontrakt;90000;Storm Advokatfirma. A3;Konto;;1;5.600;5.600
+30;1312;210;Kontrakt;100000;A7_Honorar_Anders Rousing_Styrgruppemøde;Konto;;1;1.500;1.500
+30;1312;210;Kontrakt;110000;A7 - Honorar_Anders Rousing_styregruppemøde;Konto;;1;4.077,40;4.077,40
+30;1312;210;Kontrakt;120000;Kursus - Bstyrelsesarbejde;Konto;;1;12.500;12.500
+30;1312;210;Kontrakt;130000;Honorar Kim Quist - styregruppe;Konto;;1;3.993,60;3.993,60
+30;1312;210;Kontrakt;140000;honorar Mille Larsen - skabelon til værktøj;Konto;;1;2.400;2.400
+30;1312;210;Kontrakt;150000;A1-Honorar Anders Rousing;Konto;;1;2.377,40;2.377,40
+30;1312;210;Kontrakt;160000;Udvikling af 4-dobb. bundlinie;Konto;;1;7.000;7.000
+30;1312;210;Kontrakt;170000;Styregruppemøde Anders Rousing;Konto;;1;4.077,40;4.077,40
+30;1312;210;Kontrakt;180000;A3-1 Honorar Ankerhus;Konto;;1;144.372;144.372
+30;1312;210;Kontrakt;190000;A3-5 Honorar Anders Rousing;Konto;;1;3.877,40;3.877,40
+30;1312;210;Kontrakt;200000;A6-Honorar Anders Rousing;Konto;;1;2.500;2.500
+30;1312;210;Kontrakt;210000;A3-5 Honorar Revisor Carsten Jensen;Konto;;1;18.000;18.000
+30;1312;210;Kontrakt;220000;A3-6 Honorar Ingelise MuurholmSeges;Konto;;1;11.700;11.700
+30;1312;210;Kontrakt;230000;A7-Honorar styregruppemøde Klaus Sall;Konto;;1;3.700;3.700
+30;1312;210;Kontrakt;240000;A7-Honorar styregruppe - Klaus Loehr;Konto;;1;17.750;17.750
+30;1312;211;Budget;0;Ekstern bistand, A3;Konto;;0;0;0
+30;1312;211;Budget;10000;EB, A3_Biod.Samvirke, Model B;Konto;;1;1.062.500;1.062.500
+30;1312;211;Budget;20000;EB, A3, Andre cases;Konto;;1;1.842.000;1.842.000
+30;1312;211;Kontrakt;30000;ADVODAN Vejen, rådgivning 1/1-1/3, A3-1;Konto;;1;105.000;105.000
+30;1312;211;Kontrakt;40000;LandbrugsAvisen, annonce 13+20/3, A3-3;Konto;;1;18.780;18.780
+30;1312;211;Kontrakt;50000;Jysk Landb.rådg, 11,5t á 915,- driftsøkonomi A3-3;Konto;;1;10.522,50;10.522,50
+30;1312;211;Kontrakt;60000;3-Fakt.nr. 395380 Bjarne Kjærgaard. Landbonord;Konto;;1;8.600;8.600
+30;1312;211;Kontrakt;70000;Storm Advokatfirma. A3. 4;Konto;;1;1.600;1.600
+30;1312;211;Kontrakt;80000;Storm Advokatfirma. A3. 2;Konto;;1;1.600;1.600
+30;1312;211;Kontrakt;90000;3 Casen Bundgaard. Bjarne Kjærgaard;Konto;;1;4.300;4.300
+30;1312;211;Kontrakt;100000;A3-2 Honorar Jens Axel Kruchov. 19.06.2015;Konto;;1;5.927,36;5.927,36
+30;1312;211;Kontrakt;110000;A3-1 Honorar Bent Engelbrecht;Konto;;1;65.231,20;65.231,20
+30;1312;211;Kontrakt;120000;Jysk Landbrugsrådg.. tlf. BH. A3-3;Konto;;1;457,504;457,5
+30;1312;211;Kontrakt;130000;Nadja Pass fra Borgerlyst. samtalesalonkursus;Konto;;1;12.500;12.500
+30;1312;211;Kontrakt;140000;Storm Advokaterne. Bundgaard Sharemilkere;Konto;;1;14.000;14.000
+30;1312;211;Kontrakt;150000;A3-1 Morten Telling. 2t á 575.- møde Løgumkloster;Konto;;1;2.385,80;2.385,80
+30;1312;211;Kontrakt;160000;A3-3 Honorar Bjarne Kjærgaard Landbo Nord;Konto;;1;7.401;7.401
+30;1312;211;Kontrakt;170000;A3-2 Honorar Jens Axel Kruchov;Konto;;1;1.200;1.200
+30;1312;211;Kontrakt;180000;A3-1 Honorar Bent Engelbrecht;Konto;;1;39.564;39.564
+30;1312;211;Kontrakt;190000;LandboGruppen Midtøst, salær for vurdering A3-5;Konto;;1;6.000;6.000
+30;1312;211;Kontrakt;200000;A3-1 Honorar til LHN;Konto;;1;38.800;38.800
+30;1312;211;Kontrakt;210000;Honorar LHN - Biodynamisk Samvirke A3-1;Konto;;1;13.658,75;13.658,75
+30;1312;211;Kontrakt;220000;Honorar Lone Hersted;Konto;;1;60.000;60.000
+30;1312;211;Kontrakt;230000;Honorar Mikael K - afdelingsdage om Det samfundsny;Konto;;1;4.000;4.000
+30;1312;211;Kontrakt;240000;A3-1 Honorar til LHN;Konto;;1;15.852,50;15.852,50
+30;1312;211;Kontrakt;250000;A3-1 honorar Heinrich Lullau;Konto;;1;38.500;38.500
+30;1312;211;Kontrakt;260000;A3-3 Honorar Bjarne Kjærgaard, Bundgaard;Konto;;1;3.870;3.870
+30;1312;211;Kontrakt;270000;A3-3 Honorar Jens Axel Kruchov;Konto;;1;23.000;23.000
+30;1312;211;Kontrakt;280000;A3-5 Vidensbase SamsØkologisk;Konto;;1;21.000;21.000
+30;1312;211;Kontrakt;290000;A3-1 Honorar Bent Engelbrecht;Konto;;1;32.364;32.364
+30;1312;211;Kontrakt;300000;A3-1 Honorar til LHN -;Konto;;1;6.577,50;6.577,50
+30;1312;211;Kontrakt;310000;A3-5 Honorar Anders Rousing;Konto;;1;12.000;12.000
+30;1312;211;Kontrakt;320000;Power writing, Skrivekursus til Mette;Konto;;1;4.200;4.200
+30;1312;211;Kontrakt;330000;LandboNord, A3-3 Honorar Bjarne Kjærgaard;Konto;;1;4.500;4.500
+30;1312;211;Kontrakt;340000;A3-1 LHN ydelse til Almende Aps;Konto;;1;1.390;1.390
+30;1312;211;Kontrakt;350000;A3-5 Honorar Mai SamsØkologisk;Konto;;1;21.000;21.000
+30;1312;211;Kontrakt;360000;Bramstrup, case Skytte udvikling af projekt;Konto;;1;21.682,50;21.682,50
+30;1312;212;Budget;0;EB/løn, A3, G. Lorenzen BD;Konto;;0;0;0
+30;1312;212;Budget;10000;Günter Lorenzen, føres som løn i regnskab;Konto;;1;260.900;260.900
+30;1312;212;Budget;20000;Günter Lorenzen, føres som løn i regnskab;Konto;;1;259.000;259.000
+30;1312;212;Kontrakt;30000;Günther Lorenzen, 333t á 240,-,010115-300415, A3-1;Konto;;1;79.920;79.920
+30;1312;212;Kontrakt;40000;Günther Lorenzen, 2010 km transport, A3-1;Konto;;1;7.437;7.437
+30;1312;212;Kontrakt;50000;Omp bilag 18357;Konto;;1;-7.437;-7.437
+30;1312;212;Kontrakt;60000;A3-1 Løn Günther Lorenzen;Konto;;1;119.280;119.280
+30;1312;240;Budget;0;IT-WEB, arb.pk.7;Konto;7;0;0;0
+30;1312;240;Budget;10000;IT-WEB, arb.pk.7;Konto;7;1;90.000;90.000
+30;1312;240;Kontrakt;20000;Faktura Hjemmeside-hosting;Konto;7;1;36;36
+30;1312;240;Kontrakt;30000;Atea, MT+LA-InDesign CC;Konto;7;1;1.806,68;1.806,68
+30;1312;310;Budget;0;Materialer, Grafisk lay-out, printet mat.,bøger mv;Konto;;0;0;0
+30;1312;310;Budget;10000;Mat., Grafisk lay-out, printet mat.,bøger mv A1;Konto;;1;25.000;25.000
+30;1312;310;Budget;20000;Mat., Grafisk lay-out, printet mat.,bøger mv A3;Konto;;1;150.000;150.000
+30;1312;310;Budget;30000;Mat., Grafisk lay-out, printet mat.,bøger mv A4;Konto;;1;16.692;16.692
+30;1312;310;Kontrakt;40000;LA, 3 bøger, vækst og bæredygtighed;Konto;;1;466,44;466,44
+30;1312;310;Kontrakt;50000;LaserTryk.dk A/S, 300 stk DSL kort;Konto;;1;430;430
+30;1312;310;Kontrakt;60000;Infomedia A/S, Medie overvågning 2015;Konto;;1;6.000;6.000
+30;1312;310;Kontrakt;70000;LaserTryk.dk A/S, 200 stk DSL kort. A7;Konto;;1;578;578
+30;1312;310;Kontrakt;80000;OMP 6501 Infomedia A/S, Medie overvågning 2015;Konto;;1;-6.000;-6.000
+30;1312;310;Kontrakt;90000;OMP 17790 LA, 3 bøger, vækst og bæredygtighed;Konto;;1;-466,44;-466,44
+30;1312;310;Kontrakt;100000;LA, 3 bøger, vækst og bæredygtighed;Konto;;1;466,44;466,44
+30;1312;310;Kontrakt;110000;OMP 18092 LaserTryk.dk A/S, 300 stk DSL kort;Konto;;1;-430;-430
+30;1312;310;Kontrakt;120000;LaserTryk.dk A/S, 300 stk DSL kort;Konto;;1;430;430
+30;1312;310;Kontrakt;130000;OMP 18100 LaserTryk.dk A/S, 200 stk DSL kort. A7;Konto;;1;-578;-578
+30;1312;310;Kontrakt;140000;LaserTryk.dk A/S, 200 stk DSL kort. A7;Konto;;1;578;578
+30;1312;310;Kontrakt;150000;A3.1 Materialer. bøger;Konto;;1;4.931,20;4.931,20
+30;1312;310;Kontrakt;160000;61974905/MT 1.kvt;Konto;;1;316;316
+30;1312;310;Kontrakt;170000;61974903/PETRUS 1/2 1.kvt;Konto;;1;97,97;97,97
+30;1312;310;Kontrakt;180000;61974905/MT 280215-270315;Konto;;1;192,58;192,58
+30;1312;310;Kontrakt;190000;61974903/280215-270315;Konto;;1;95,16;95,16
+30;1312;310;Kontrakt;200000;2057899/LA 2.kvt;Konto;;1;-260,83;-260,83
+30;1312;310;Kontrakt;210000;61974905/MT 060215-270315;Konto;;1;190,33;190,33
+30;1312;310;Kontrakt;220000;61974903/ PETRUS ½ 060215-270315;Konto;;1;95,16;95,16
+30;1312;310;Kontrakt;230000;61974905/MT ½ 090415-270515;Konto;;1;190,33;190,33
+30;1312;310;Kontrakt;240000;61974903/Petrus ½ 090415-270515;Konto;;1;95,16;95,16
+30;1312;310;Kontrakt;250000;Tlf.61974905/MT ½ 280415-270515;Konto;;1;190,33;190,33
+30;1312;310;Kontrakt;260000;Tlf.61974903/Petrus ½ 280415-270515;Konto;;1;95,16;95,16
+30;1312;310;Kontrakt;270000;Tlf.61974905/MT 280515-270615;Konto;;1;190,33;190,33
+30;1312;310;Kontrakt;280000;Tlf.61974903/Petrus ½ 280515-270615;Konto;;1;95,16;95,16
+30;1312;310;Kontrakt;290000;Zorgboerderij, MT, DVD/folders;Konto;;1;189,51;189,51
+30;1312;310;Kontrakt;300000;Tlf 61974905 MT - 280615-270715;Konto;;1;190,33;190,33
+30;1312;310;Kontrakt;310000;Tlf 61974903 PSo 280615-270715;Konto;;1;95,16;95,16
+30;1312;310;Kontrakt;320000;Tlf 61974905 MT - 280715-270815;Konto;;1;190,33;190,33
+30;1312;310;Kontrakt;330000;Tlf 61974903 PSo 280715-270815;Konto;;1;103,85;103,85
+30;1312;310;Kontrakt;340000;A3 forsider plast, forsider bagsider læderstruktur;Konto;;1;195;195
+30;1312;310;Kontrakt;350000;A3 forsider plast, forsider bagsider læderstruktur;Konto;;1;100;100
+30;1312;310;Kontrakt;360000;Annonce Ø&E nr. 561 20/2 I gang uden gæld A3-2;Konto;;1;2.820;2.820
+30;1312;310;Kontrakt;370000;Creativ, Huse til Bedriv en bedrift;Konto;;1;204;204
+30;1312;310;Kontrakt;380000;Creativ, Karton til Bedriv en bedrift;Konto;;1;92;92
+30;1312;310;Kontrakt;390000;Tlf 61974905/MT 280815-270915;Konto;;1;190,33;190,33
+30;1312;310;Kontrakt;400000;Tlf 61974903/Petrus 280815-270915;Konto;;1;96,06;96,06
+30;1312;310;Kontrakt;410000;Fulden Film, A3-5 Film til crowdfunding;Konto;;1;5.000;5.000
+30;1312;310;Kontrakt;420000;Ikast Etiket, 500 armbånd Øko-Frontløber;Konto;;1;3.322;3.322
+30;1312;310;Kontrakt;430000;Godsbanen, Postkort 4+4;Konto;;1;531,2;531,2
+30;1312;310;Kontrakt;440000;Creativ, Materialer til DSL spil;Konto;;1;204;204
+30;1312;310;Kontrakt;450000;Tlf 20578899 LA Q3 15;Konto;;1;817,97;817,97
+30;1312;310;Kontrakt;460000;A5 - materialer til Bedriv en bedrift;Konto;;1;254,2;254,2
+30;1312;310;Kontrakt;470000;LA, snebolde/materialer 1/9-15/12;Konto;;1;1.226,16;1.226,16
+30;1312;340;Budget;0;Mindre IT-udstyr;Konto;;0;0;0
+30;1312;340;Kontrakt;10000;Atea, SHJ, apple iphone 5s 16gb space;Konto;;1;3.882;3.882
+30;1312;340;Kontrakt;20000;Proshop ApS, BH, WD My Passport Ultra Black 1TB;Konto;;1;465,6;465,6
+30;1312;340;Kontrakt;30000;Proshop ApS, LA, WD My Passport Ultra II Black 1TB;Konto;;1;495,2;495,2
+30;1312;340;Kontrakt;40000;HP Probook, BH;Konto;;1;6.971,60;6.971,60
+30;1312;710;Budget;0;Transport;Konto;;0;0;0
+30;1312;710;Budget;10000;Transport, A1;Konto;;1;88.500;88.500
+30;1312;710;Budget;20000;Transport, A2;Konto;;1;160.000;160.000
+30;1312;710;Budget;40000;Transport, A4;Konto;;1;93.000;93.000
+30;1312;710;Budget;50000;Transport, A5;Konto;;1;30.000;30.000
+30;1312;710;Budget;60000;Transport, A6;Konto;;1;102.000;102.000
+30;1312;710;Budget;70000;Transport, A7;Konto;;1;89.775;89.775
+30;1312;710;Kontrakt;80000;MAB, 10+19/2, 202 km, projekt Villum;Konto;;1;747,4;747,4
+30;1312;710;Kontrakt;90000;LA, forplej 22/1-20/2;Konto;;1;530,1;530,1
+30;1312;710;Kontrakt;100000;LA, bro, færge 10/2;Konto;;1;556;556
+30;1312;710;Kontrakt;110000;LA, hotel 12/2;Konto;;1;1.512,40;1.512,40
+30;1312;710;Kontrakt;120000;LA, 10-18/3, 1044 km, 1312;Konto;;1;3.862,80;3.862,80
+30;1312;710;Kontrakt;130000;MAB, 18/3, 104 km, 1312 Almende;Konto;;1;384,8;384,8
+30;1312;710;Kontrakt;140000;LA, 8/1-12/2, 1331 km, 1312;Konto;;1;4.924,70;4.924,70
+30;1312;710;Kontrakt;150000;LA, 20/2, 286 km, 1312 Bukholm;Konto;;1;1.058,20;1.058,20
+30;1312;710;Kontrakt;160000;LA, 24/2, 72 km, 1312 Netværksmøde;Konto;;1;266,4;266,4
+30;1312;710;Kontrakt;170000;IB, 24/2, 176 km, 1312 Netværksmøde;Konto;;1;651,2;651,2
+30;1312;710;Kontrakt;180000;MT, 3/2, 209 km, 1312 Marienlyst;Konto;;1;773,3;773,3
+30;1312;710;Kontrakt;190000;MT, 24/2, 71 km, 1312 Netværksmøde;Konto;;1;262,7;262,7
+30;1312;710;Kontrakt;200000;MAB, 13/1, 108 km. Villum A8;Konto;;1;399,6;399,6
+30;1312;710;Kontrakt;210000;BH, 24/2, 68 km, 1312 A4;Konto;;1;251,6;251,6
+30;1312;710;Kontrakt;220000;OMP 6522 MAB, 13/1, 108 km. Villum A8;Konto;;1;-399,6;-399,6
+30;1312;710;Kontrakt;230000;Kim Qvist, 3/3, 64 km, DSL styregrp.møde;Konto;;1;236,8;236,8
+30;1312;710;Kontrakt;240000;SHJ, 24/2, 92 km, 1312 A4 netværksmøde;Konto;;1;340,4;340,4
+30;1312;710;Kontrakt;250000;SHJ, 6-7/3, 246 km, 1312 A1 deltagelse ØLF GF;Konto;;1;910,2;910,2
+30;1312;710;Kontrakt;260000;LA, færge Samsø 28/4;Konto;;1;862;862
+30;1312;710;Kontrakt;270000;LA, bro 19/5;Konto;;1;470;470
+30;1312;710;Kontrakt;280000;LA, forplej 19/5;Konto;;1;14,25;14,25
+30;1312;710;Kontrakt;290000;LA, 7-28/4, 1043 km, 1312-A7;Konto;;1;3.859,10;3.859,10
+30;1312;710;Kontrakt;300000;MAB, 30/3, 78 km, 1312 A6;Konto;;1;288,6;288,6
+30;1312;710;Kontrakt;310000;LA, 4-19/5, 1104 km, 1312 A7;Konto;;1;4.084,80;4.084,80
+30;1312;710;Kontrakt;320000;CMA, 10+24/2, 482 km, 1312 A5;Konto;;1;1.783,40;1.783,40
+30;1312;710;Kontrakt;330000;CMA, 28/3, 238 km, 1312 A5;Konto;;1;880,6;880,6
+30;1312;710;Kontrakt;340000;LA, 21/5-30/6, 160 km, Case Livssalling;Konto;;1;592;592
+30;1312;710;Kontrakt;350000;LA, 21/5-30/6, 220 km, Case Bundgaard;Konto;;1;814;814
+30;1312;710;Kontrakt;360000;LA, 21/5-30/6, 198 km, Case Højvang Økologi;Konto;;1;732,6;732,6
+30;1312;710;Kontrakt;370000;LA, 21/5-30/6, 139 km, ICROFS;Konto;;1;514,3;514,3
+30;1312;710;Kontrakt;380000;Omp bilag KM11049;Konto;;1;-747,4;-747,4
+30;1312;710;Kontrakt;390000;Omp bilag KM11101;Konto;;1;-384,8;-384,8
+30;1312;710;Kontrakt;400000;Omp KM11206;Konto;;1;-288,6;-288,6
+30;1312;710;Kontrakt;410000;Omp bilag KM11273;Konto;;1;-1.783,40;-1.783,40
+30;1312;710;Kontrakt;420000;CMA, 10+24/2, 482 km, 1312 A3 (case);Konto;;1;1.783,40;1.783,40
+30;1312;710;Kontrakt;430000;Omp bilag KM11274;Konto;;1;-880,6;-880,6
+30;1312;710;Kontrakt;440000;CMA, 28/3, 238 km, 1312 A3 (case);Konto;;1;880,6;880,6
+30;1312;710;Kontrakt;450000;Omp bilag KM11101;Konto;;1;-2.356,90;-2.356,90
+30;1312;710;Kontrakt;460000;LA, fly/tog 21/8;Konto;;1;1.170;1.170
+30;1312;710;Kontrakt;470000;LA, egen forplej 21/8;Konto;;1;118,75;118,75
+30;1312;710;Kontrakt;480000;CØ, 6/8-11/9, 126 km, 1312;Konto;;1;466,2;466,2
+30;1312;710;Kontrakt;490000;LA, 21-31/8, 330 km, 1312 A7;Konto;;1;1.221;1.221
+30;1312;710;Kontrakt;500000;LA, 2-21/9, 335 km, 1312 A7;Konto;;1;1.239,50;1.239,50
+30;1312;710;Kontrakt;510000;Dankort Molslinien - 30/9/15 t/r, MT;Konto;;1;871,39;871,39
+30;1312;710;Kontrakt;520000;Bent Degn, A3-5 Transport til møde - SamsØkologisk;Konto;;1;573,3;573,3
+30;1312;710;Kontrakt;530000;MT, 2+3/9, 247 km, 1312;Konto;;1;913,9;913,9
+30;1312;710;Kontrakt;540000;MT, 23+24/9, 235 km, 1312 A2;Konto;;1;869,5;869,5
+30;1312;710;Kontrakt;550000;Kørsel  til indlægsholder Pia Heike - workshop d.;Konto;;1;732,6;732,6
+30;1312;710;Kontrakt;560000;Europæiske ERV, rejseforsikring 21/10-14, p 1312/7;Konto;;1;111,58;111,58
+30;1312;710;Kontrakt;570000;LA, 25/9+14-20/10, 582 km, 1312 A7;Konto;;1;2.153,40;2.153,40
+30;1312;710;Kontrakt;580000;IB, 25/9-4/11, 275 km, 1312 A2;Konto;;1;1.017,50;1.017,50
+30;1312;710;Kontrakt;590000;"Færgebillet 28/10 BH ""Det samfundsnyttige landbr""";Konto;;1;-1.049,39;-1.049,39
+30;1312;710;Kontrakt;600000;MT, 25-26/11, 172 km, 1312 A2;Konto;;1;636,4;636,4
+30;1312;710;Kontrakt;610000;LA, forplej 1/9-15/12;Konto;;1;243,87;243,87
+30;1312;710;Kontrakt;620000;LA, tog/fly 1/9-15/12;Konto;;1;1.380;1.380
+30;1312;710;Kontrakt;630000;LA, 16/11-18/12, 470 km, 1312 A7;Konto;;1;1.739;1.739
+30;1312;710;Kontrakt;640000;"Færgebillet 28/10 BH ""Det samfundsnyttige landbr""";Konto;;1;1.049,39;1.049,39
+30;1312;710;Kontrakt;650000;"Færgebillet 28/10 BH ""Det samfundsnyttige landbr""";Konto;;1;1.049,39;1.049,39
+30;1312;710;Kontrakt;660000;OBE, 24/2, 70 km, 1312 A7 netværksmøde;Konto;;1;259;259
+30;1312;711;Budget;0;Transport, A3;Konto;;0;0;0
+30;1312;711;Budget;10000;Transport, A3, Biod.Samvirke, Model B, Case 1;Konto;;1;140.000;140.000
+30;1312;711;Budget;20000;Transport, A3, Other cases;Konto;;1;343.600;343.600
+30;1312;711;Kontrakt;30000;KL, 29/1-20/2, 679 km, AP3, Villum;Konto;;1;2.512,30;2.512,30
+30;1312;711;Kontrakt;40000;MAB, 10-17/3, 637 km, 1312 Netværk+Arkegårde;Konto;;1;2.356,90;2.356,90
+30;1312;711;Kontrakt;50000;MAB, 24/2, 452 km, 1312 Netværksmøde;Konto;;1;1.672,40;1.672,40
+30;1312;711;Kontrakt;60000;KL, 24/2+10/3, 299 km, 1312 Kolding, Årslev;Konto;;1;1.106,30;1.106,30
+30;1312;711;Kontrakt;70000;KL, 17/3, 224 km, 1312 Årslev;Konto;;1;828,8;828,8
+30;1312;711;Kontrakt;80000;KL, 20/1, 244 km. Villum A3-2;Konto;;1;902,8;902,8
+30;1312;711;Kontrakt;90000;TBN, 29/1+11/2, 540 km, pressearb.+udv.plan A3-3;Konto;;1;1.998;1.998
+30;1312;711;Kontrakt;100000;BH, 11/2+5/3, 147 km, 1312 A3-4;Konto;;1;543,9;543,9
+30;1312;711;Kontrakt;110000;BH, 5-17/3, 289 km, 1312 A3-3;Konto;;1;1.069,30;1.069,30
+30;1312;711;Kontrakt;120000;MAB, 13/1, 108 km. Villum A3-1;Konto;;1;399,6;399,6
+30;1312;711;Kontrakt;130000;SHJ, 18/3, 423 km, 1312 A3 proj.møde Biody.samvirk;Konto;;1;1.565,10;1.565,10
+30;1312;711;Kontrakt;140000;BH, færge 11/2, A3-4;Konto;;1;86;86
+30;1312;711;Kontrakt;150000;MAB, 18-27/3, 600 km, 1312 A3;Konto;;1;2.220;2.220
+30;1312;711;Kontrakt;160000;MAB, 8+16/4, 242 km, 1312 A3;Konto;;1;895,4;895,4
+30;1312;711;Kontrakt;170000;SHJ, 8/4, 415 km, 1312 A3-1;Konto;;1;1.535,50;1.535,50
+30;1312;711;Kontrakt;180000;SHJ, 30/4, 136 km, 1312 A3-3;Konto;;1;503,2;503,2
+30;1312;711;Kontrakt;190000;SHJ, 30/4, 97 km, 1312 A3-3;Konto;;1;358,9;358,9
+30;1312;711;Kontrakt;200000;BH, 1+14/4, 240 km, 1312 A3-3;Konto;;1;888;888
+30;1312;711;Kontrakt;210000;KL, 28/4, 227 km, 1312 A3;Konto;;1;839,9;839,9
+30;1312;711;Kontrakt;220000;SHJ, parkering 26/5 A3-3, Sharemilking;Konto;;1;36,5;36,5
+30;1312;711;Kontrakt;230000;SHJ, 12-26/5, 87 km, 1312-A3-3;Konto;;1;321,9;321,9
+30;1312;711;Kontrakt;240000;SHJ, 26+27/5, 110 km, 1312-A3-3;Konto;;1;407;407
+30;1312;711;Kontrakt;250000;PETRUS, 25/4-17/6, 507 km, 1312-A3-6;Konto;;1;1.875,90;1.875,90
+30;1312;711;Kontrakt;260000;PETRUS, 25/4-17/6, 107 km, 1312-A3-4;Konto;;1;395,9;395,9
+30;1312;711;Kontrakt;270000;SHJ, 3-19/6, 784 km, 1312-A3-1;Konto;;1;2.900,80;2.900,80
+30;1312;711;Kontrakt;280000;SHJ, 3-19/6, 129 km, 1312-A3-3;Konto;;1;477,3;477,3
+30;1312;711;Kontrakt;290000;SHJ, 23-24/6, 164 km, 1312-A3-3;Konto;;1;606,8;606,8
+30;1312;711;Kontrakt;300000;BH, færge stategimøde 6-5+17/6 A3-gården i byen;Konto;;1;216;216
+30;1312;711;Kontrakt;310000;Günther Lorenzen, 2010 km transport, A3-1 Biodynam;Konto;;1;7.437;7.437
+30;1312;711;Kontrakt;320000;MAB, 10+19/2, 202 km, projekt Villum A3-1 Biodynam;Konto;;1;747,4;747,4
+30;1312;711;Kontrakt;330000;MAB, 18/3, 104 km, 1312 Almende A3-1 Biodynamisk;Konto;;1;384,8;384,8
+30;1312;711;Kontrakt;340000;MAB, 30/3, 78 km, 1312 A3-1 Biodynamisk;Konto;;1;288,6;288,6
+30;1312;711;Kontrakt;350000;MAB, 10-17/3, 637 km, 1312 Netværk+Arkegårde Biody;Konto;;1;2.356,90;2.356,90
+30;1312;711;Kontrakt;360000;Omp bilag KM11206;Konto;;1;-2.220;-2.220
+30;1312;711;Kontrakt;370000;MAB, 18-27/3, 600 km, 1312 A3 Biodynamisk;Konto;;1;2.220;2.220
+30;1312;711;Kontrakt;380000;Omp bilag KM11207;Konto;;1;-895,4;-895,4
+30;1312;711;Kontrakt;390000;MAB, 8+16/4, 242 km, 1312 A3 Biodynamisk;Konto;;1;895,4;895,4
+30;1312;711;Kontrakt;400000;BH, 6/5-30/6, 196 km, 1312-A3-4;Konto;;1;725,2;725,2
+30;1312;711;Kontrakt;410000;BH, 6/5-30/6, 354 km, 1312-A3-3;Konto;;1;1.309,80;1.309,80
+30;1312;711;Kontrakt;420000;KL, 19-30/6, 228 km, 1312-A3-2;Konto;;1;843,6;843,6
+30;1312;711;Kontrakt;430000;KL, 19-30/6, 228 km, 1312 AP3;Konto;;1;843,6;843,6
+30;1312;711;Kontrakt;440000;JCS, 27/5-20/6, 73 km, 1312 A3-6;Konto;;1;270,1;270,1
+30;1312;711;Kontrakt;450000;HBA, 13/7, 86 km, 1312 A3-9;Konto;;1;318,2;318,2
+30;1312;711;Kontrakt;460000;MAB, 13/5-25/6, 694 km, 1312;Konto;;1;2.567,80;2.567,80
+30;1312;711;Kontrakt;470000;PETRUS, 25/6-13/8, 322 km, 1312 A3;Konto;;1;1.191,40;1.191,40
+30;1312;711;Kontrakt;480000;CMA, 30/6-6/8, 476 km, 1312 Samsø;Konto;;1;1.761,20;1.761,20
+30;1312;711;Kontrakt;490000;CMA, 11-21/8, 238 km, 1312 Samsø;Konto;;1;880,6;880,6
+30;1312;711;Kontrakt;500000;SHJ, parkering 18/9, 1312 A3;Konto;;1;140;140
+30;1312;711;Kontrakt;510000;BH, færge 9/7 Strategimøde Egholm A3-4;Konto;;1;106;106
+30;1312;711;Kontrakt;520000;CMA, Samsøfærge 6+21/8;Konto;;1;392;392
+30;1312;711;Kontrakt;530000;BH, 19-20/8, 145 km, 1312 A3-3;Konto;;1;536,5;536,5
+30;1312;711;Kontrakt;540000;BH, 9/7+27/8, 180 km, 1312 A3-4;Konto;;1;666;666
+30;1312;711;Kontrakt;550000;CMA, 2/9, 302 km, 1312 A3 Råd&Dåd;Konto;;1;1.117,40;1.117,40
+30;1312;711;Kontrakt;560000;KL, 17/9, 222 km, 1312 A3 Årslev;Konto;;1;821,4;821,4
+30;1312;711;Kontrakt;570000;HBA, 15/9, 86 km, 1312 A3-9;Konto;;1;318,2;318,2
+30;1312;711;Kontrakt;580000;MIT, 23/6-7/9, 317 km, 1312 A3;Konto;;1;1.172,90;1.172,90
+30;1312;711;Kontrakt;590000;IB, 5-26/8, 8 km, 1312 A3;Konto;;1;29,6;29,6
+30;1312;711;Kontrakt;600000;KL, 27/8-8/9, 968 km, 1312 A3;Konto;;1;3.581,60;3.581,60
+30;1312;711;Kontrakt;610000;EKR, 21/8-15/9, 354 km, 1312 A3;Konto;;1;1.309,80;1.309,80
+30;1312;711;Kontrakt;620000;SHJ, 4-26/8, 94 km, 1312 A3;Konto;;1;347,8;347,8
+30;1312;711;Kontrakt;630000;MSK, 2-3/9, 120 km, 1312 A3;Konto;;1;444;444
+30;1312;711;Kontrakt;640000;KL, 13-24/8, 224 km, 1312 A3;Konto;;1;828,8;828,8
+30;1312;711;Kontrakt;650000;JCS, 20/8-20/9, 110 km, 1312;Konto;;1;407;407
+30;1312;711;Kontrakt;660000;Mai Fihl Worre, A3-5 transport til møde;Konto;;1;259;259
+30;1312;711;Kontrakt;670000;Bent Degn, A3-5 Transport til møde;Konto;;1;540,3;540,3
+30;1312;711;Kontrakt;680000;Thorkild L.Ped,A3-5 Transport t/møde-SamsØkologisk;Konto;;1;507,3;507,3
+30;1312;711;Kontrakt;690000;Mai Fihl Worre,A3-5 Transport t/møde-SamsØkologisk;Konto;;1;573,3;573,3
+30;1312;711;Kontrakt;700000;Bent Degn, A3-5 Transport til møde - Samsøkologisk;Konto;;1;573,3;573,3
+30;1312;711;Kontrakt;710000;Mai Fihl Worre,A3-5 Transport t/møde-SamsØkologisk;Konto;;1;514,7;514,7
+30;1312;711;Kontrakt;720000;SHJ, 2-11/9, 230 km, 1312 A3;Konto;;1;851;851
+30;1312;711;Kontrakt;730000;SHJ, 18/9, 95 km, 1312 A3;Konto;;1;351,5;351,5
+30;1312;711;Kontrakt;740000;TBF KM11390 KL, 19-30/6, 228 km, 1312-A3-2;Konto;;1;-843,6;-843,6
+30;1312;711;Kontrakt;750000;BH, 25/9+13/10, 225 km, 1312 A3-3;Konto;;1;832,5;832,5
+30;1312;711;Kontrakt;760000;BH, 1/10, 46km, 1312 A3-4;Konto;;1;170,2;170,2
+30;1312;711;Kontrakt;770000;A3-5 Færgebillet møde m. Advokat, Mai Fihl Worre;Konto;;1;635,6;635,6
+30;1312;711;Kontrakt;780000;PS, 1/10-17/11, 120 km, 1312/3-4;Konto;;1;444;444
+30;1312;711;Kontrakt;790000;PS, 1/10-17/11, 423 km, 1312/3-6;Konto;;1;1.565,10;1.565,10
+30;1312;711;Kontrakt;800000;PS, 1/10-17/11, 542 km, 1312/3-10;Konto;;1;2.005,40;2.005,40
+30;1312;711;Kontrakt;810000;PS, 1/10-17/11, 70 km, 1312/3;Konto;;1;259;259
+30;1312;711;Kontrakt;820000;HBA, 5/11, 86 km, 1312 A3-9;Konto;;1;318,2;318,2
+30;1312;711;Kontrakt;830000;HBA, 6/11, 86 km, 1312 A3-9;Konto;;1;318,2;318,2
+30;1312;711;Kontrakt;840000;HBA, 10/11, 86 km, 1312 A3-9;Konto;;1;318,2;318,2
+30;1312;711;Kontrakt;850000;CMA, 22/9-11/10, 372 km, 1312;Konto;;1;1.376,40;1.376,40
+30;1312;711;Kontrakt;860000;KL, 17-18/11, 224 km, 1312 AP3;Konto;;1;828,8;828,8
+30;1312;711;Kontrakt;870000;BH, 13/11, 54 km, 1312-A3-3;Konto;;1;199,8;199,8
+30;1312;711;Kontrakt;880000;A3-1 Transport - Gunther Lorenzen;Konto;;1;9.183,40;9.183,40
+30;1312;711;Kontrakt;890000;KL, 24/11-15/2, 362 km, 1312 AP3;Konto;;1;1.339,40;1.339,40
+30;1312;711;Kontrakt;900000;BH, 18/12, 92 km, 1312 A3-4;Konto;;1;340,4;340,4
+30;1312;711;Kontrakt;910000;PETRUS, 25/11-18/12, 725 km, 1312 A3;Konto;;1;1.417,10;1.417,10
+30;1312;711;Kontrakt;920000;PETRUS, 25/11-18/12, 725 km, 1312 A3-6;Konto;;1;1.039,70;1.039,70
+30;1312;711;Kontrakt;930000;PETRUS, 25/11-18/12, 725 km, 1312 A3-4;Konto;;1;225,7;225,7
+30;1312;711;Kontrakt;940000;HBA, 20/11, 86 km, 1312 A3-9;Konto;;1;318,2;318,2
+30;1312;711;Kontrakt;950000;HBA, 4/12, 86 km, 1312 A3-9;Konto;;1;318,2;318,2
+30;1312;711;Kontrakt;960000;HBA, 16/12, 86 km, 1312 A3-9;Konto;;1;318,2;318,2
+30;1312;711;Kontrakt;970000;MAB, 25/11-10/12, 236 km, 1312 A3;Konto;;1;873,2;873,2
+30;1312;711;Kontrakt;980000;MAB, 24/9-19/11, 112 km, 1312 A3;Konto;;1;414,4;414,4
+30;1312;711;Kontrakt;990000;HBA, taxa 18/11. møde afsæt.kyllinger/æg A3-9;Konto;;1;267,94;267,94
+30;1312;720;Budget;0;Revision;Konto;;0;0;0
+30;1312;720;Budget;10000;Revision;Konto;;1;80.000;80.000
+30;1312;730;Budget;0;Mødeudgifter;Konto;;0;0;0
+30;1312;730;Budget;10000;Mødeudgifter, A1;Konto;;1;42.500;42.500
+30;1312;730;Budget;20000;Mødeudgifter, A4;Konto;;1;129.000;129.000
+30;1312;730;Budget;30000;Mødeudgifter, A5;Konto;;1;75.000;75.000
+30;1312;730;Budget;40000;Mødeudgifter, A6;Konto;;1;36.000;36.000
+30;1312;730;Budget;50000;Mødeudgifter, A7;Konto;;1;10.000;10.000
+30;1312;730;Kontrakt;60000;LA, møde forplej 22/1;Konto;;1;39,57;39,57
+30;1312;730;Kontrakt;70000;Raw Snacks Europe ApS, mini snacks;Konto;;1;401,74;401,74
+30;1312;730;Kontrakt;80000;Annonce Ø&E nr. 560, 6/2 Netværksmøde DSL;Konto;;1;3.594;3.594
+30;1312;730;Kontrakt;90000;Møde 19/2, 6 pers., LA, styregruppe;Konto;;1;158,4;158,4
+30;1312;730;Kontrakt;100000;Møde 3/3, 8 pers., LA, møde;Konto;;1;1.164,80;1.164,80
+30;1312;730;Kontrakt;110000;Viden Djurs, lokaleleje;Konto;;1;1.200;1.200
+30;1312;730;Kontrakt;120000;Viden Djurs, forplej;Konto;;1;11.317,37;11.317,37
+30;1312;730;Kontrakt;130000;Møde 29/4, 8 pers., LA, styregruppemøde DSL;Konto;;1;1.100,80;1.100,80
+30;1312;730;Kontrakt;140000;Voicelink, TelefonMøder, PB, april;Konto;;1;992,5;992,5
+30;1312;730;Kontrakt;150000;Møde 21/5, 8 pers., LA, teammøde udv.konsulenter;Konto;;1;588,8;588,8
+30;1312;730;Kontrakt;160000;Omp bilag 6714;Konto;;1;-588,8;-588,8
+30;1312;730;Kontrakt;170000;Møde 24/6, 8 pers., LA, Styregruppemøde;Konto;;1;947,2;947,2
+30;1312;730;Kontrakt;180000;Møde 17/6, 4 pers., LA, 4-dobbelt bundlinje;Konto;;1;220,8;220,8
+30;1312;730;Kontrakt;190000;Møde 1/7, 5 pers., LA, møde m.Villumfonden;Konto;;1;1.032;1.032
+30;1312;730;Kontrakt;200000;LA, møde forplej 26/8, Vin indlægsholdere workshop;Konto;;1;752,4;752,4
+30;1312;730;Kontrakt;210000;Centralværstedet - forplejning workshop;Konto;;1;34.697,61;34.697,61
+30;1312;730;Kontrakt;220000;Centralværkstedet, mikrofon;Konto;;1;880;880
+30;1312;730;Kontrakt;230000;Mødeudgifter Stine Hjarnø;Konto;;1;1.200;1.200
+30;1312;730;Kontrakt;240000;Coop Danmark A/S Varekøb 17/8-16/9;Konto;;1;221,83;221,83
+30;1312;730;Kontrakt;250000;Workshop Det samfundsnyttige landbrug 26/8;Konto;;1;0;0
+30;1312;730;Kontrakt;260000;Workshop Det samfundsnyttige landbrug 26/8;Konto;;2;0;0
+30;1312;730;Kontrakt;270000;Workshop Det samfundsnyttige landbrug 26/8;Konto;;1;0;0
+30;1312;730;Kontrakt;280000;Workshop 26/8 Det samfundsnyttige landbrug;Konto;;1;0;0
+30;1312;730;Kontrakt;290000;Workshop 26/8 Det samfundsnyttige landbrug;Konto;;1;0;0
+30;1312;730;Kontrakt;300000;Workshop 26/8 Det samfundsnyttige landbrug;Konto;;1;0;0
+30;1312;730;Kontrakt;310000;Workshop 26/8 Det samfundsnyttige landbrug;Konto;;1;0;0
+30;1312;730;Kontrakt;320000;Workshop 26/8 Det samfundsnyttige landbrug;Konto;;1;0;0
+30;1312;730;Kontrakt;330000;Workshop 26/8 Det samfundsnyttige landbrug;Konto;;1;0;0
+30;1312;730;Kontrakt;340000;Workshop 26/8 Det samfundsnyttige landbrug;Konto;;1;0;0
+30;1312;730;Kontrakt;350000;Workshop 26/8 Det samfundsnyttige landbrug;Konto;;1;0;0
+30;1312;730;Kontrakt;360000;Workshop 26/8 Det samfundsnyttige landbrug;Konto;;1;0;0
+30;1312;730;Kontrakt;370000;Workshop 26/8 Det samfundsnyttige landbrug;Konto;;1;0;0
+30;1312;730;Kontrakt;380000;Workshop 26/8 Det samfundsnyttige landbrug;Konto;;1;0;0
+30;1312;730;Kontrakt;390000;Workshop 26/8 Det samfundsnyttige landbrug;Konto;;1;0;0
+30;1312;730;Kontrakt;400000;Workshop 26/8 Det samfundsnyttige landbrug;Konto;;2;0;0
+30;1312;730;Kontrakt;410000;Workshop 26/8 Det samfundsnyttige landbrug;Konto;;1;0;0
+30;1312;730;Kontrakt;420000;Workshop 26/8 Det samfundsnyttige landbrug;Konto;;1;0;0
+30;1312;730;Kontrakt;430000;Workshop 26/8 Det samfundsnyttige landbrug;Konto;;1;0;0
+30;1312;730;Kontrakt;440000;Workshop 26/8 Det samfundsnyttige landbrug;Konto;;1;0;0
+30;1312;730;Kontrakt;450000;Workshop 26/8 Det samfundsnyttige landbrug;Konto;;1;0;0
+30;1312;730;Kontrakt;460000;Workshop 26/8 Det samfundsnyttige landbrug;Konto;;1;0;0
+30;1312;730;Kontrakt;470000;Workshop 26/8 Det samfundsnyttige landbrug;Konto;;1;0;0
+30;1312;730;Kontrakt;480000;Deltagelse Økologikongres - BH;Konto;;-1;750;-750
+30;1312;730;Kontrakt;490000;KL Overnatning Økologi Kongres;Konto;;1;712;712
+30;1312;730;Kontrakt;500000;Deltager - Økologikongres -PS;Konto;;1;1.500;1.500
+30;1312;730;Kontrakt;510000;Deltager - Økologikongres -PS Middag;Konto;;1;385,93808;385,94
+30;1312;730;Kontrakt;520000;Overnatning Økologi-kongres MT+LA;Konto;;1;1.424;1.424
+30;1312;730;Kontrakt;530000;Deltagelse - Økologikongres - LA;Konto;;1;1.700;1.700
+30;1312;730;Kontrakt;540000;Deltagelse - Økologikongres - LA Middag;Konto;;1;385,93808;385,94
+30;1312;730;Kontrakt;550000;Møde 12/8, 4 pers., LA, workshop forberedelse;Konto;;1;64;64
+30;1312;730;Kontrakt;560000;Møde 24/9, 5 pers., LA, teammøde;Konto;;1;252;252
+30;1312;730;Kontrakt;570000;Møde 8/10, 5 pers., LA, teammøde;Konto;;1;252;252
+30;1312;730;Kontrakt;580000;Møde 19/10, 8 pers., LA;Konto;;1;83,2;83,2
+30;1312;730;Kontrakt;590000;Møde 22/10, 7 pers., LA, teammøde udviklingskonsu;Konto;;1;442,4;442,4
+30;1312;730;Kontrakt;600000;Deltagergebyr for ØKologikongres Bjarne Hansen;Konto;;1;1.500;1.500
+30;1312;730;Kontrakt;610000;Deltager ØKologikongres Bjarne Hansen Middag;Konto;;1;385,93808;385,94
+30;1312;730;Kontrakt;620000;KN pga ordstyrer - Seges Økologikongres KL;Konto;;-1;750;-750
+30;1312;730;Kontrakt;630000;Seges Økologikongres KL;Konto;;1;1.500;1.500
+30;1312;730;Kontrakt;640000;Seges Økologikongres KL, middag;Konto;;1;385,93808;385,94
+30;1312;730;Kontrakt;650000;Møde 24/11, 8 pers., LA;Konto;;1;153,6;153,6
+30;1312;730;Kontrakt;660000;Møde 19/11, 13 pers., LA, teammøde styregrp;Konto;;1;1.695,20;1.695,20
+30;1312;730;Kontrakt;670000;Møde 12/11, 7 pers., MT, Teammøde;Konto;;1;644;644
+30;1312;730;Kontrakt;680000;Møde 9/12, 9 pers, LA;Konto;;1;1.245,60;1.245,60
+30;1312;730;Kontrakt;690000;Møde 4/12, 5 pers, LA;Konto;;1;60;60
+30;1312;730;Kontrakt;700000;Møde 3/12, 6 pers, MT, teammøde;Konto;;1;624;624
+30;1312;731;Budget;0;Mødeudgifter, A3;Konto;;0;0;0
+30;1312;731;Budget;10000;Mødeudgifter, A3_Biod.Samvirke, Model B;Konto;;1;124.000;124.000
+30;1312;731;Budget;20000;Mødeudgifter, A3_Biod.Samvirke, Andre cases;Konto;;1;36.400;36.400
+30;1312;731;Kontrakt;30000;Møde 22/1, 10 pers., CMA, A3-5;Konto;;1;79,2;79,2
+30;1312;731;Kontrakt;40000;Møde 25/3, 3 pers., CMA, A3-5;Konto;;1;72;72
+30;1312;731;Kontrakt;50000;Møde 19/3, 5 pers., LA, teammøde udv.konsu;Konto;;1;132;132
+30;1312;731;Kontrakt;60000;Møde 5/3, 8 pers., LA, teammøde f.udv.konsu;Konto;;1;947,2;947,2
+30;1312;731;Kontrakt;70000;Møde 4/3, 3 pers., CMA, A3-5;Konto;;1;79,2;79,2
+30;1312;731;Kontrakt;80000;Bo Larsen, forplej 17/3, A3-3;Konto;;1;2.280;2.280
+30;1312;731;Kontrakt;90000;Møde 23/4, 7 pers., LA, udviklingskonsulenter DSL;Konto;;1;515,2;515,2
+30;1312;731;Kontrakt;100000;Møde 9/4, 7 pers., LA, Teammøde DSL;Konto;;1;515,2;515,2
+30;1312;731;Kontrakt;110000;Svend E Hjuler, øl/vand A3-3;Konto;;1;1.007,71;1.007,71
+30;1312;731;Kontrakt;120000;MT, møde forplejning 18/6;Konto;;1;42,51;42,51
+30;1312;731;Kontrakt;130000;Møde 21/5, 8 pers, LA, teammøde udv.konsulenter A3;Konto;;1;588,8;588,8
+30;1312;731;Kontrakt;140000;Møde 18/6, 9 pers., LA, kursus;Konto;;1;662,4;662,4
+30;1312;731;Kontrakt;150000;Møde 11/6, 8 pers., LA, Teammøde udv.konsulenter;Konto;;1;588,8;588,8
+30;1312;731;Kontrakt;160000;LA, møde forplej 27/8, Teammøde;Konto;;1;196,65;196,65
+30;1312;731;Kontrakt;170000;Forplejning afdelingsmøde om Det Samfundsnyttige;Konto;;1;2.603,00;2.603
+30;1312;731;Kontrakt;180000;Kursus internt om DSL - Halkær Kro;Konto;;1;21.522,28;21.522,28
+30;1312;731;Kontrakt;190000;Møde 20/8, 4 pers., CMA, Samsø A3-5;Konto;;1;64;64
+30;1312;731;Kontrakt;200000;A3-5 Rejseomk.vedr. møde m. Advokat Mai Fihl Worre;Konto;;1;635,6;635,6
+30;1312;731;Kontrakt;210000;Bramstrup,Skytte A3-2 møde 8.9.2015 oriente/teater;Konto;;11;140;1.540
+30;1312;731;Kontrakt;220000;Bramstrup,Skytte A3-2 møde 8/9 orien/teater, forpl;Konto;;11;218,50033;2.403,50
+30;1312;731;Kontrakt;230000;A3 deltagelse i Økologikongres, CMA;Konto;;1;1.501,11;1.501,11
+30;1312;731;Kontrakt;240000;A3 deltagelse i Økologikongres, CMA, middag;Konto;;1;385,93808;385,94
+30;1312;731;Kontrakt;250000;A3-1 Forplejning;Konto;;1;14.428,15;14.428,15
+30;1312;731;Kontrakt;260000;A3-1 Lokaleleje;Konto;;1;5.450;5.450
+30;1312;731;Kontrakt;270000;A3-1 Christa Lorenzen, lokaleleje;Konto;;1;4.700;4.700
+30;1312;731;Kontrakt;280000;A3-1 Christa Lorenzen, forplejning;Konto;;1;11.875,02;11.875,02
+30;1312;731;Kontrakt;290000;Vingsted, KN dob.fk. ØkoKongres;Konto;;-1;1.920;-1.920
+30;1312;731;Kontrakt;300000;Vingsted, KN dob.fk. ØkoKongres forplej;Konto;;-1;256,50038;-256,5
+30;1312;731;Kontrakt;310000;Deltagelse Økologikongress;Konto;;1;3.936;3.936
+30;1312;731;Kontrakt;320000;Deltagelse Økologikongress, forplej;Konto;;1;598,5009;598,5
+30;1312;740;Budget;0;Overhead, inkl. husleje;Konto;;0;0;0
+30;1312;740;Budget;10000;Overhead 8% of andre omkostninger;Konto;;1;548.069;548.069
+30;1312;740;Budget;20000;Overhead 8% of andre omkostninger;Konto;;1;510.896;510.896
+30;1312;740;Budget;25000;Overhead 8% of andre omkostninger;Konto;;1;36;36
+30;1312;740;Budget;30000;Husleje;Konto;;1;140.000;140.000
+30;1312;740;Budget;40000;Husleje;Konto;;1;140.000;140.000
+30;1312;750;Budget;0;Budgetmargin;Konto;;0;0;0
+30;1312;760;Budget;0;Andet;Konto;;0;0;0
+30;1312;795;Budget;0;Indtægter i projektet;Konto;;0;0;0
+30;1312;820;Budget;0;Egenfinansiering/overforbrug;Konto;;0;0;0

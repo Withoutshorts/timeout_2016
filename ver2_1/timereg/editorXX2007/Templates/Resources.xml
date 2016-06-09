@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates>
+    <template>
+        <title>One_column Body with Contents on left</title>
+        <description>Create a page with one-column body with contents listed on the left.</description>
+        <html>template1.htm</html>
+    </template>
+    <template>
+        <title>One_column Body with Contents on right</title>
+        <description>Create a page with one-column body with contents listed on the right. </description>
+        <html>template2.htm</html>
+    </template>
+    <template>
+        <title>One_column Body with Contents on left with non-editable regions</title>
+        <description>Create a page with one-column body with contents listed on the left. Heading is not editable.</description>
+        <html>template3.htm</html>
+    </template>
+    <template>
+        <title>One_column Body with Contents on right with non-editable regions</title>
+        <description>Create a page with one-column body with contents listed on the right. Heading is not editable.</description>
+        <html>template4.htm</html>
+    </template>
+</templates>

@@ -1,0 +1,145 @@
+/* ============================================== */
+/* =	TABLES									= */
+/* ============================================== */
+
+table {
+	width: 100%;
+	float: left;
+	clear: none;
+	background: @frame-bg;
+	border: 0;
+	border-spacing: 0;
+
+	tr {
+		background: @table-list-bg-1;
+		&:nth-last-child(2n+2) {
+			background: @table-list-bg-2;
+		}
+		th, td {
+			padding: ceil(@table-padding / 1.5) @table-padding;
+			vertical-align: middle;
+			text-align: center;
+			border-top: @table-border;
+			&:hover {
+					position: relative;
+				}
+			&:last-child {
+				border-right: 0;
+			}
+			&[data-title]:hover:after {
+				content: attr(data-title);
+				padding: 10px;
+				position: absolute;
+				left: 50%;
+				top: -50%;
+				white-space: nowrap;
+				z-index: 20;
+				.border-radius;
+				color: white;
+				background-color: @fixed-navbar-hoz-bg;
+				border: @global-border;
+			}
+		}
+		th {
+			background-color: @table-header-bg;
+			font-weight: @regular;
+			color: @table-headline;
+            .m-font-size;
+		}
+		td {
+			border-right: @table-border;
+			overflow: hidden;
+			a {
+				text-decoration: none;
+				color: inherit;
+			}
+		}
+		.tweet {
+			padding: 0;
+			input[type="text"] {
+			width: 100%;
+			}
+		}
+		.checkboxes {
+			width: 30px;
+			padding: 0 @table-padding;
+			text-align: center;
+			input[type="checkbox"] {
+				width: 16px;
+				height: 16px;
+				vertical-align: middle;
+				text-align: center !important;
+			}
+		}
+		.total-sum {
+			border-left: 0;
+			font-weight: @semi-bold;
+			&:before {
+				borer-right: 0;
+			}
+		}
+	}
+	&:last-child {
+		.border-radius(0 0 @global-border-radius @global-border-radius)
+	}
+}
+
+
+.calendar-small {
+	.s-font-size;
+	table-layout: fixed;
+	tr {
+		width: 100%;
+		height: auto;
+		border: 0;
+		&:nth-child(odd) {
+			background: none;
+		}
+		&:hover {
+			background: 0 !important;
+		}
+		th, td {
+			height: 26px;
+			text-align: center;
+			vertical-align: middle;
+			background: none;
+			padding: 0;
+		}
+		th {
+			text-transform: uppercase;
+			font-weight: @semi-bold;
+			.xs-font-size;
+			color: @calendar-header-color;
+			border-bottom: @global-border;
+			background: none;
+		}
+		td {
+			color:	@global-text;
+			border: 0;
+			&:hover {
+				background-color: @calendar-hover-bg;
+				cursor: pointer;
+				color: @calendar-hover-color;
+			}
+		}
+		.passive-date {
+			color: @calendar-faded-color;
+		}
+		.weekno {
+			color: @calendar-faded-color;
+			&:hover {
+				background-color: transparent;
+				cursor: auto;
+				color: @calendar-faded-color;
+			}
+		}
+	}
+}
+
+.table-fixed {
+	table-layout: fixed;
+}
+
+.table-auto {
+	table-layout: auto;
+}

@@ -1,0 +1,63 @@
+Linietype;Aftale/Job;Kontakt;Kontakt id;Kontaktansv.1;Kontaktansv.1 nr.;Kontaktansv.2;Kontaktansv.2 nr.;Jobnavn;Jobnr;Jobansvarlig;Jobansv. nr.;jobejer;Jobejer nr.;Faktura nr.;Faktura beløb excl. moms; Moms; Faktura beløb incl. moms;Fakturadato (system) / Reg.dato;Måned;År;Periode Startdato;Periode Slutdato;Type;Kladde/Godkendt;Aktivitetsnavn;Medarb./Materiale Navn;Medarb./Vare Nr;Initialer;Antal;Enhedspris;Valuta;Enhed;Rabat;Beløb excl. moms;Valuta;Ventetimer brugt;Ventetimer ultimo;Vist på Faktura?;Forretningsområde;Intern;Medarb.linier findes?(sumakt/andre?);Fakturalinie tekst (20 kar.);
+
+Faktura;Job;A-Better-Traffic.Com ApS;70204838;Søren Karlsen;1;;;ForumTand 2;321;Søren Karlsen;1;;;2110252;405,00;101,25;506,25;15-02-2012;2;2012;16-03-2011;15-02-2012;Faktura;1;
+Fakturalinie;;A-Better-Traffic.Com ApS;70204838;Søren Karlsen;1;;;ForumTand 2;321;Søren Karlsen;1;;;2110252;;;;15-02-2012;2;2012;;;Faktura;;Produktion;;;;6;67,50;DKK;stk.;0;405,00;DKK;;;1;Tilretninger (Kode);0;1;"Formtand.dk<br>
+DNS";
+Medarb.;;A-Better-Traffic.Com ApS;70204838;Søren Karlsen;1;;;ForumTand 2;321;Søren Karlsen;1;;;2110252;;;;15-02-2012;2;2012;;;Faktura;;Produktion;;;;6;67,50;DKK;stk.;0;405,00;DKK;0;0;0;Tilretninger (Kode);;;"aaa";
+
+
+Faktura;Job;A-Better-Traffic.Com ApS;70204838;Søren Karlsen;1;;;ForumTand 2;321;Søren Karlsen;1;;;2110134;810,00;202,50;1.012,50;15-03-2011;3;2011;16-01-2010;15-03-2011;Faktura;1;
+Fakturalinie;;A-Better-Traffic.Com ApS;70204838;Søren Karlsen;1;;;ForumTand 2;321;Søren Karlsen;1;;;2110134;;;;15-03-2011;3;2011;;;Faktura;;Webhotel og Domæner;;;;12;67,50;DKK;stk.;0;810,00;DKK;;;1;;0;0;"Webhotel og Domæner,";
+
+Faktura;Job;A-Better-Traffic.Com ApS;70204838;Søren Karlsen;1;;;Webhotel zodiak.dk;330;Søren Karlsen;1;;;2104;300,00;0,00;300,00;16-12-2010;12;2010;03-11-2010;16-12-2010;Faktura;1;
+Fakturalinie;;A-Better-Traffic.Com ApS;70204838;Søren Karlsen;1;;;Webhotel zodiak.dk;330;Søren Karlsen;1;;;2104;;;;16-12-2010;12;2010;;;Faktura;;Produktion (split E1);;;;2;150,00;DKK;stk.;0;300,00;DKK;;;1;;0;0;"Rykkergebyr faktura";
+
+Faktura;Job;A-Better-Traffic.Com ApS;70204838;Søren Karlsen;1;;;Webhotel zodiak.dk;330;Søren Karlsen;1;;;2088;3.645,00;911,25;4.556,25;02-11-2010;11;2010;02-11-2010;02-11-2010;Faktura;1;
+Fakturalinie;;A-Better-Traffic.Com ApS;70204838;Søren Karlsen;1;;;Webhotel zodiak.dk;330;Søren Karlsen;1;;;2088;;;;02-11-2010;11;2010;;;Faktura;;Produktion (split E1);;;;6;120,00;DKK;stk.;0;720,00;DKK;;;1;;0;1;"Web-hotel www.zodiak";
+Medarb.;;A-Better-Traffic.Com ApS;70204838;Søren Karlsen;1;;;Webhotel zodiak.dk;330;Søren Karlsen;1;;;2088;;;;02-11-2010;11;2010;;;Faktura;;Produktion (split E1);Jesper Schaltz;11;;6;120,00;DKK;stk.;0;720,00;DKK;0;0;0;;;;"Jesper Schaltz";
+
+Fakturalinie;;A-Better-Traffic.Com ApS;70204838;Søren Karlsen;1;;;Webhotel zodiak.dk;330;Søren Karlsen;1;;;2088;;;;02-11-2010;11;2010;;;Faktura;;Produktion (split E1);;;;1;312,50;DKK;stk.;0;312,50;DKK;;;1;;0;1;"ABob. Scannet mail h";
+Medarb.;;A-Better-Traffic.Com ApS;70204838;Søren Karlsen;1;;;Webhotel zodiak.dk;330;Søren Karlsen;1;;;2088;;;;02-11-2010;11;2010;;;Faktura;;Produktion (split E1);Lise Karlsen;2;;1;312,50;DKK;stk.;0;312,50;DKK;0;0;0;;;;"Lise Karlsen";
+
+Fakturalinie;;A-Better-Traffic.Com ApS;70204838;Søren Karlsen;1;;;Webhotel zodiak.dk;330;Søren Karlsen;1;;;2088;;;;02-11-2010;11;2010;;;Faktura;;Produktion (split E1);;;;2,75;950,00;DKK;stk.;0;2.612,50;DKK;;;1;;0;1;"Hjælp til genopretni";
+Medarb.;;A-Better-Traffic.Com ApS;70204838;Søren Karlsen;1;;;Webhotel zodiak.dk;330;Søren Karlsen;1;;;2088;;;;02-11-2010;11;2010;;;Faktura;;Produktion (split E1);Exchange Teste konto;6;;2,75;950,00;DKK;stk.;0;2.612,50;DKK;0;0;0;;;;"Exchange Teste konto";
+
+
+Faktura;Job;A-Better-Traffic.Com ApS;70204838;Søren Karlsen;1;;;www.private-estates.dk;292;Søren Karlsen;1;;;2091;672,00;168,00;840,00;02-11-2010;11;2010;02-11-2010;02-11-2010;Faktura;1;
+Fakturalinie;;A-Better-Traffic.Com ApS;70204838;Søren Karlsen;1;;;www.private-estates.dk;292;Søren Karlsen;1;;;2091;;;;02-11-2010;11;2010;;;Faktura;;Produktion af tekstiler til autogummi;;;;6;112,00;DKK;timer;0;672,00;DKK;;;1;;0;0;"Webhotel SLUTFAKTURA";
+
+Faktura;Job;A-Better-Traffic.Com ApS;70204838;Søren Karlsen;1;;;ForumTand 2;321;Søren Karlsen;1;;;1948;337,50;84,38;421,88;15-01-2010;1;2010;15-01-2010;15-01-2010;Faktura;1;
+Fakturalinie;;A-Better-Traffic.Com ApS;70204838;Søren Karlsen;1;;;ForumTand 2;321;Søren Karlsen;1;;;1948;;;;15-01-2010;1;2010;;;Faktura;;Webhotel og Domæner;;;;6;56,25;DKK;stk.;0;337,50;DKK;;;1;;0;0;"Webhotel og Domæner<";
+
+Faktura;Job;A-Better-Traffic.Com ApS;70204838;Søren Karlsen;1;;;ForumTand 2;321;Søren Karlsen;1;;;1865;240,00;60,00;300,00;01-09-2009;9;2009;01-04-2009;01-09-2009;Faktura;1;
+Fakturalinie;;A-Better-Traffic.Com ApS;70204838;Søren Karlsen;1;;;ForumTand 2;321;Søren Karlsen;1;;;1865;;;;01-09-2009;9;2009;;;Faktura;;Møder;;;;6;40,00;DKK;stk.;0;240,00;DKK;;;1;;0;1;"DNS hosting mail for";
+Medarb.;;A-Better-Traffic.Com ApS;70204838;Søren Karlsen;1;;;ForumTand 2;321;Søren Karlsen;1;;;1865;;;;01-09-2009;9;2009;;;Faktura;;Møder;Søren Karlsen;1;SK;6;40,00;DKK;stk.;0;240,00;DKK;0;0;0;;;;"Søren Karlsen";
+
+
+Faktura;Job;A-Better-Traffic.Com ApS;70204838;Søren Karlsen;1;;;www.private-estates.dk;292;Søren Karlsen;1;;;1836;0,00;0,00;0,00;26-06-2009;6;2009;02-06-2009;26-06-2009;Faktura;0;
+Fakturalinie;;A-Better-Traffic.Com ApS;70204838;Søren Karlsen;1;;;www.private-estates.dk;292;Søren Karlsen;1;;;1836;;;;26-06-2009;6;2009;;;Faktura;;;;;;;0;;;;0,00;DKK;;;1;;0;0;"";
+
+Faktura;Job;A-Better-Traffic.Com ApS;70204838;Søren Karlsen;1;;;Webhotel zodiak.dk;330;Søren Karlsen;1;;;1821;1.200,00;300,00;1.500,00;01-06-2009;6;2009;20-11-2008;01-06-2009;Faktura;1;
+Fakturalinie;;A-Better-Traffic.Com ApS;70204838;Søren Karlsen;1;;;Webhotel zodiak.dk;330;Søren Karlsen;1;;;1821;;;;01-06-2009;6;2009;;;Faktura;;Hosting;;;;6;100,00;DKK;stk.;0;600,00;DKK;;;1;;0;0;"www.zodiak.dk<br>
+H";
+Fakturalinie;;A-Better-Traffic.Com ApS;70204838;Søren Karlsen;1;;;Webhotel zodiak.dk;330;Søren Karlsen;1;;;1821;;;;01-06-2009;6;2009;;;Faktura;;Kørsel;;;;6;100,00;DKK;stk.;0;600,00;DKK;;;1;;0;0;"Forumtand webhotel,";
+
+Faktura;Job;A-Better-Traffic.Com ApS;70204838;Søren Karlsen;1;;;www.private-estates.dk;292;Søren Karlsen;1;;;1822;1.075,00;268,75;1.343,75;01-06-2009;6;2009;19-11-2008;01-06-2009;Faktura;1;
+Fakturalinie;;A-Better-Traffic.Com ApS;70204838;Søren Karlsen;1;;;www.private-estates.dk;292;Søren Karlsen;1;;;1822;;;;01-06-2009;6;2009;;;Faktura;;Produktion af tekstiler til autogummi;;;;0,5;950,00;DKK;timer;0;475,00;DKK;;;1;;0;1;"Undersøgelse af domæ";
+Medarb.;;A-Better-Traffic.Com ApS;70204838;Søren Karlsen;1;;;www.private-estates.dk;292;Søren Karlsen;1;;;1822;;;;01-06-2009;6;2009;;;Faktura;;Produktion af tekstiler til autogummi;Søren Karlsen;1;SK;0,5;950,00;DKK;timer;0;475,00;DKK;0;3;0;;;;"Søren Karlsen";
+Joblog;;A-Better-Traffic.Com ApS;70204838;Søren Karlsen;1;;;www.private-estates.dk;292;Søren Karlsen;1;;;1822;;;;28-04-2009;4;2009;;;Faktura;;Produktion af tekstiler til autogummi;Søren Karlsen; 1;SK;3;650,00;DKK;timer;;1.950,00;DKK;;;;;;;;
+
+Fakturalinie;;A-Better-Traffic.Com ApS;70204838;Søren Karlsen;1;;;www.private-estates.dk;292;Søren Karlsen;1;;;1822;;;;01-06-2009;6;2009;;;Faktura;;Produktion af tekstiler til autogummi;;;;6;100,00;DKK;timer;0;600,00;DKK;;;1;;0;0;"Hosting www.private-";
+
+Faktura;Job;A-Better-Traffic.Com ApS;70204838;Søren Karlsen;1;;;www.private-estates.dk;292;Søren Karlsen;1;;;1823;416,10;104,03;520,13;01-06-2009;6;2009;02-06-2009;01-06-2009;Faktura;1;
+Fakturalinie;;A-Better-Traffic.Com ApS;70204838;Søren Karlsen;1;;;www.private-estates.dk;292;Søren Karlsen;1;;;1823;;;;01-06-2009;6;2009;;;Faktura;;Produktion af tekstiler til autogummi;;;;1;416,10;DKK;timer;0;416,10;DKK;;;1;;0;0;"Husleje merforbrug a";
+
+Faktura;Job;A-Better-Traffic.Com ApS;70204838;Søren Karlsen;1;;;Webhotel zodiak.dk;330;Søren Karlsen;1;;;1734;600,00;150,00;750,00;19-11-2008;11;2008;01-01-2008;01-01-2002;Faktura;1;
+Fakturalinie;;A-Better-Traffic.Com ApS;70204838;Søren Karlsen;1;;;Webhotel zodiak.dk;330;Søren Karlsen;1;;;1734;;;;19-11-2008;11;2008;;;Faktura;;Hosting;;;;6;100,00;DKK;stk.;0;600,00;DKK;;;1;;0;0;"Webhotel www.zodiak.";
+
+Faktura;Job;A-Better-Traffic.Com ApS;70204838;Søren Karlsen;1;;;ForumTand 2;321;Søren Karlsen;1;;;1738;600,00;150,00;750,00;19-11-2008;11;2008;11-10-2008;01-01-2002;Faktura;1;
+Fakturalinie;;A-Better-Traffic.Com ApS;70204838;Søren Karlsen;1;;;ForumTand 2;321;Søren Karlsen;1;;;1738;;;;19-11-2008;11;2008;;;Faktura;;Møder;;;;6;100,00;DKK;stk.;0;600,00;DKK;;;1;;0;0;"Webhotel forumtand.d";
+
+Faktura;Job;A-Better-Traffic.Com ApS;70204838;Søren Karlsen;1;;;www.private-estates.dk;292;Søren Karlsen;1;;;1725;600,00;150,00;750,00;18-11-2008;11;2008;19-11-2008;01-01-2002;Faktura;1;
+Fakturalinie;;A-Better-Traffic.Com ApS;70204838;Søren Karlsen;1;;;www.private-estates.dk;292;Søren Karlsen;1;;;1725;;;;18-11-2008;11;2008;;;Faktura;;Produktion af tekstiler til autogummi;;;;6;100,00;DKK;stk.;0;600,00;DKK;;;1;;0;0;"Webhotel www.private";
+

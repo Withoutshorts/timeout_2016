@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?><Invoice xmlns="http://rep.oio.dk/ubl/xml/schemas/0p71/pie/" xmlns:com="http://rep.oio.dk/ubl/xml/schemas/0p71/common/" xmlns:main="http://rep.oio.dk/ubl/xml/schemas/0p71/maindoc/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://rep.oio.dk/ubl/xml/schemas/0p71/pie/  http://rep.oio.dk/ubl/xml/schemas/0p71/pie/piestrict.xsd"><com:ID>15029</com:ID><com:IssueDate>2016-02-29</com:IssueDate><com:TypeCode>PIE</com:TypeCode><main:InvoiceCurrencyCode>DKK</main:InvoiceCurrencyCode><com:Note><![CDATA[Job: Logotilretning, tilretning plakat og bogmærker(11104)
+Tilrettel&#230;ggelse, koordinering og produktionsstyring
+
+Logotilretning
+
+Illustrator-arbejde
+
+Tilretning
+af logo jf. brief modtaget fra jer 16. februar 2016 og levering af dette i form
+af vektoriseret .ai-fil.
+
+Bogm&#230;rke
+
+Layout/dtp
+
+Vi har tilrettet eksisterende materiale jf. brief modtaget fra jer.
+Inkl. 2
+korrekturgange.
+
+&nbsp;
+
+Klarg&#248;ring
+til tryk
+
+Vi har genereret en trykklar pdf-fil.
+
+&nbsp;
+
+Plakat
+
+Layout/dtp
+
+Vi har tilrettet eksisterende materiale jf. brief modtaget fra jer.
+Inkl. 2
+korrekturgange.
+
+&nbsp;
+
+Klarg&#248;ring
+til tryk
+
+Vi har genereret en trykklar pdf-fil.
+Tryk og f&#230;rdigg&#248;relse
+
+15.000 bogm&#230;rker, 70 x 210 mm, 4 + 0 farver p&#229; 250g
+matbestr&#248;get papir.
+
+200 plakater, A3, 4 + 0 farver p&#229; 250g matbestr&#248;get papir.
+
+Rensk&#229;ret, pakket og leveret. 
+
+]]></com:Note><com:BuyersReferenceID schemeID="EAN">5798007934767</com:BuyersReferenceID><com:ReferencedOrder><com:BuyersOrderID>11104</com:BuyersOrderID><com:IssueDate>2016-02-29</com:IssueDate></com:ReferencedOrder><com:BuyerParty><com:ID schemeID="CVR">29189404</com:ID><com:PartyName><com:Name><![CDATA[Roskilde Kommune]]></com:Name></com:PartyName><com:Address><com:ID>Fakturering</com:ID><com:Street><![CDATA[Rådhusbuen 1]]></com:Street><com:CityName><![CDATA[Roskilde]]></com:CityName><com:PostalZone>4000</com:PostalZone><com:Country><com:Code listID="ISO 3166-1">DK</com:Code></com:Country></com:Address><com:BuyerContact><com:ID><![CDATA[Lone Wandahl Jensen]]></com:ID></com:BuyerContact></com:BuyerParty><com:SellerParty><com:ID schemeID="CVR">26881560</com:ID><com:PartyName><com:Name><![CDATA[Synergi A/S]]></com:Name></com:PartyName><com:Address><com:ID>Betaling</com:ID><com:Street><![CDATA[MARINEBUEN 11
+]]></com:Street><com:CityName><![CDATA[Næstved]]></com:CityName><com:PostalZone>4700</com:PostalZone><com:Country><com:Code listID="ISO 3166-1">DK</com:Code></com:Country></com:Address><com:PartyTaxScheme><com:CompanyTaxID schemeID="CVR">26881560</com:CompanyTaxID></com:PartyTaxScheme></com:SellerParty><com:PaymentMeans><com:TypeCodeID>null</com:TypeCodeID><com:PaymentDueDate>2016-03-14</com:PaymentDueDate><com:PaymentChannelCode>KONTOOVERFØRSEL</com:PaymentChannelCode><com:PayeeFinancialAccount><com:ID>0758188337</com:ID><com:TypeCode>BANK</com:TypeCode><com:FiBranch><com:ID>2186</com:ID><com:FinancialInstitution><com:ID>null</com:ID><com:Name>Nordea</com:Name></com:FinancialInstitution></com:FiBranch></com:PayeeFinancialAccount><com:PaymentAdvice><com:AccountToAccount><com:PayerNote></com:PayerNote><com:PayeeNote></com:PayeeNote></com:AccountToAccount></com:PaymentAdvice></com:PaymentMeans><com:TaxTotal><com:TaxTypeCode>VAT</com:TaxTypeCode><com:TaxAmounts><com:TaxableAmount currencyID='DKK'>12600.00</com:TaxableAmount> <com:TaxAmount currencyID='DKK'>3150.00</com:TaxAmount></com:TaxAmounts><com:CategoryTotal><com:RateCategoryCodeID>VAT</com:RateCategoryCodeID><com:RatePercentNumeric>25</com:RatePercentNumeric><com:TaxAmounts><com:TaxableAmount currencyID='DKK'>12600.00</com:TaxableAmount><com:TaxAmount currencyID='DKK'>3150.00</com:TaxAmount></com:TaxAmounts></com:CategoryTotal></com:TaxTotal><com:LegalTotals><com:LineExtensionTotalAmount currencyID='DKK'>12600.00</com:LineExtensionTotalAmount><com:ToBePaidTotalAmount currencyID='DKK'>15750.00</com:ToBePaidTotalAmount></com:LegalTotals><com:InvoiceLine><com:ID>1</com:ID><com:InvoicedQuantity unitCode='Stk.' unitCodeListAgencyID="n/a">1.00</com:InvoicedQuantity><com:LineExtensionAmount currencyID='DKK'>12600.00</com:LineExtensionAmount><com:Item><com:ID>0</com:ID><com:Description><![CDATA[Logo, bogmærke og plakater for Hotline Sjælland]]></com:Description></com:Item><com:BasePrice><com:PriceAmount currencyID='DKK'>12600.00</com:PriceAmount></com:BasePrice></com:InvoiceLine></Invoice>

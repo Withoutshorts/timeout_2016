@@ -1,0 +1,113 @@
+<br />
+<table border="0" cellspacing="0" cellpadding="0" width="100%">
+    <tbody>
+        <tr>
+            <td valign="top">Synergi<br />
+            MARINEBUEN 11 <br />
+            4700 N&#230;stved</td>
+            <td valign="bottom" align="right"><br />
+            <br />
+            <br />
+            <br />
+            <br />
+            N&#230;stved, d. 15. august 2011 </td>
+        </tr>
+    </tbody>
+</table>
+<br />
+<br />
+<br />
+<br />
+<br />
+<h4>Prisoverslag Brochure (23)</h4>
+<br />
+<br />
+<strong>Data</strong><br />
+<table border="0" cellspacing="1" cellpadding="2" width="100%">
+    <tbody>
+        <tr>
+            <td>Oplag:</td>
+            <td>1.000 stk.</td>
+        </tr>
+        <tr>
+            <td>Format:</td>
+            <td>297 x 297 mm</td>
+        </tr>
+        <tr>
+            <td>Omfang:</td>
+            <td>24 sider</td>
+        </tr>
+        <tr>
+            <td>Farver:</td>
+            <td>4 + 4 + mat kacering</td>
+        </tr>
+        <tr>
+            <td>Papir:</td>
+            <td>400 g matbestr&#248;get</td>
+        </tr>
+        <tr>
+            <td>F&#230;rdigg&#248;relse:</td>
+            <td>Rensk&#230;res, optages i s&#230;t, hulles og spiraleres wire-O</td>
+        </tr>
+    </tbody>
+</table>
+<br />
+<br />
+<br />
+<br />
+<h4>Udspecificering: </h4>
+<table border="0" cellspacing="0" cellpadding="2" width="100%">
+    <tbody>
+        <tr>
+            <td style="width: 550px; padding-right: 20px"><span class="jobpr16">Tilrettel&#230;ggelse, koordinering og produktionsstyring</span></td>
+            <td style="width: 40px" valign="top" align="right">DKK</td>
+            <td style="width: 80px" valign="top" align="right"><span class="jobpr16">375,00</span></td>
+        </tr>
+        <tr>
+            <td style="width: 550px; padding-right: 20px"><span class="jobpr16">Ide / Koncept</span></td>
+            <td style="width: 40px" valign="top" align="right">DKK</td>
+            <td style="width: 80px" valign="top" align="right"><span class="jobpr16">4.000,00</span></td>
+        </tr>
+        <tr>
+            <td style="width: 550px; padding-right: 20px"><span class="jobpr16">Layout / design</span></td>
+            <td style="width: 40px" valign="top" align="right">DKK</td>
+            <td style="width: 80px" valign="top" align="right"><span class="jobpr16">1.500,00</span></td>
+        </tr>
+        <tr>
+            <td><span class="jobpr16"><strong>I alt:</strong></span></td>
+            <td style="width: 40px" valign="top" align="right"><span class="jobpr18"><strong>DKK</strong></span></td>
+            <td style="width: 80px" valign="top" align="right"><span class="jobpr18"><strong>5.875,00</strong></span></td>
+        </tr>
+        <tr>
+            <td style="padding-right: 0px; padding-top: 40px" colspan="5" align="right"><span class="jobpr18">I alt ekskl. moms, <strong>DKK 5.875,00</strong></span></td>
+        </tr>
+    </tbody>
+</table>
+<br />
+<br />
+&nbsp;
+<table border="0" cellspacing="0" cellpadding="0" width="100%">
+    <tbody>
+        <tr>
+            <td style="padding-top: 10px"><span style="color: #999999">Priser m&#229; betragtes som budgetramme, da opgaven endnu ikke kendes i detaljer.</span><br />
+            <br />
+            Alle priser er inkl. levering til &#233;n adresse i Danmark og ekskl. moms.<br />
+            <br />
+            Vi henviser i&#248;vrigt til vores salgs og leveringsbetingelser p&#229;<br />
+            www.syngergi1.dk/salg_levering</td>
+        </tr>
+    </tbody>
+</table>
+<br />
+<br />
+<table border="0" cellspacing="0" cellpadding="0" width="100%">
+    <tbody>
+        <tr>
+            <td style="padding-top: 10px">Med venlig hilsen <br />
+            <strong>Synergi</strong><br />
+            <br />
+            TimeOut - Support</td>
+        </tr>
+    </tbody>
+</table>
+

@@ -1,0 +1,98 @@
+<br />
+<table border="0" cellpadding="0" cellspacing="0" width="605">
+    <tbody>
+        <tr>
+            <td valign="top">Abbott<br />
+            Emdrupvej 28C<br />
+            2100 k&#248;benhavn &#216;<br />
+            <br />
+            Att: Anne Marie Schr&#248;der<br />
+            <br />
+            <br />
+            <br />
+            <br />
+            N&#230;stved, den 29. august 2012 </td>
+        </tr>
+    </tbody>
+</table>
+<br />
+<br />
+<br />
+<br />
+<br />
+<strong>Creon, l&#248;sblade, 4 stk. </strong><br />
+<br />
+<br />
+##job_besk##
+<table border="0" cellpadding="2" cellspacing="0" width="605">
+    <tbody>
+        <tr>
+            <td style="padding-right: 20px; width: 1104px;"><span class="jobpr16"><u>Tilrettel&#230;ggelse, koordinering og produktionsstyring</u></span><br />
+            &nbsp;</td>
+        </tr>
+        <tr>
+            <td style="padding-right: 20px; width: 1104px;"><span class="jobpr16"><u>Dtp / rentegning</u></span><br />
+            <div>Vi inds&#230;tter nyt produktresume p&#229; bagsider jf. leverede materiale </div>
+            <div>&nbsp;</div>
+            </td>
+        </tr>
+        <tr>
+            <td style="padding-right: 20px; width: 1104px;"><span class="jobpr16"><u>Korrektur</u></span><br />
+            <div>Inkl. 2 korrekturgange </div>
+            <div>&nbsp;</div>
+            </td>
+        </tr>
+        <tr>
+            <td style="padding-right: 20px; width: 1104px;"><span class="jobpr16"><u>Klarg&#248;ring til tryk</u></span><br />
+            <div>
+            Generering af trykklar pdf-fil </div>
+            <div>&nbsp;</div>
+            </td>
+        </tr>
+        <tr>
+            <td style="padding-right: 20px; width: 1104px;"><span class="jobpr16"><u>Print</u></span><br />
+            <div>4 x 100 stk. alt. 4 x 200 stk., A4, 4 + 4 farver p&#229; 280 g matbestr&#248;get papir.<br />
+            </div>
+            <div>Rensk&#230;res og pakkes </div>
+            </td>
+        </tr>
+    </tbody>
+</table>
+##job_besk_slut##<br />
+<br />
+&nbsp;
+<table border="0" cellpadding="0" cellspacing="0" width="605">
+    <tbody>
+        <tr>
+            <td>
+            <div><u>Prisoverslag</u> </div>
+            <div>V/4 x 100 stk. ca. kr. 4.900,-</div>
+            <div>V/4 x 200 stk. ca. kr. 6.200,- <br />
+            </div>
+            </td>
+        </tr>
+    </tbody>
+</table>
+<br />
+<table border="0" cellpadding="0" cellspacing="0" width="100%">
+    <tbody>
+        <tr>
+            <td style="padding-top: 10px;">Alle priser er inkl. levering til &#233;n adresse i Danmark og ekskl. moms.<br />
+            <br />
+            </td>
+        </tr>
+    </tbody>
+</table>
+<br />
+<br />
+<table border="0" cellpadding="0" cellspacing="0" width="100%">
+    <tbody>
+        <tr>
+            <td style="padding-top: 10px;">Med venlig hilsen <br />
+            Synergi<br />
+            <br />
+            Bettina Schou<br />
+            </td>
+        </tr>
+    </tbody>
+</table>

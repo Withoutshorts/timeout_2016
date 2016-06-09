@@ -1,0 +1,102 @@
+<br />
+<table border="0" cellspacing="0" cellpadding="0" width="605">
+    <tbody>
+        <tr>
+            <td valign="top">LOKK<br />
+            c/o 3F<br />
+            1790 K&#248;benhavn V<br />
+            <br />
+            Att: Camilla Hovgaard<br />
+            <br />
+            <br />
+            <br />
+            <br />
+            N&#230;stved, den 9. august 2012 </td>
+        </tr>
+    </tbody>
+</table>
+<br />
+<br />
+<br />
+<br />
+<br />
+<strong>Jubil&#230;umsskrift </strong><br />
+<br />
+<br />
+##job_besk##
+<table border="0" cellspacing="0" cellpadding="2" width="605">
+    <tbody>
+        <tr>
+            <td style="width: 1104px; padding-right: 20px"><span class="jobpr16"><u>Tilrettel&#230;ggelse, koordinering og produktionsstyring</u></span><br />
+            &nbsp;</td>
+        </tr>
+        <tr>
+            <td style="width: 1104px; padding-right: 20px"><span class="jobpr16"><u>Layout / design</u></span><br />
+            Med afs&#230;t i designmanual/briefing fra LOKK(evt. p&#229; et m&#248;de) udarbejdes ide/layout/design. Inspiration fra Danida’s jubil&#230;umsskrift er dr&#248;ftet pr.tlf.<br />
+            Layout bliver varieret med enkelte finesser og med Synergi’s ideer p&#229; et evt. brainstormingm&#248;de.</td>
+        </tr>
+        <tr>
+            <td style="width: 1104px; padding-right: 20px"><span class="jobpr16"><u>Tekst</u></span><br />
+            Vi modtager f&#230;rdigredigeret tekst elektronisk fra jer med disposition over de 10 temaer.</td>
+        </tr>
+        <tr>
+            <td style="width: 1104px; padding-right: 20px"><span class="jobpr16"><u>Foto</u></span><br />
+            Vi modtager billeder klar til tryk.<br />
+            Alt efter omfang kan vi scanne billeder i papirformat – pris beregnes ud fra omfang.</td>
+        </tr>
+        <tr>
+            <td style="width: 1104px; padding-right: 20px"><span class="jobpr16"><u>Dtp / rentegning</u></span><br />
+            Vi udarbejder layout/dtp jf. brief og materialer, som vi har modtager. <br />
+            Som udgangspunkt indeholde jubil&#230;umsskrift flg.:<br />
+            Forside med grafik eller billeder – udstansning dr&#248;ftet.<br />
+            Indholdsfortegnelse og forord.<br />
+            10 temaer inkl. billeder – evt. store som fylder 1/1 side.</td>
+        </tr>
+        <tr>
+            <td style="width: 1104px; padding-right: 20px"><span class="jobpr16"><u>Korrektur</u></span><br />
+            Inkl. 2-3 korrekturgange.</td>
+        </tr>
+        <tr>
+            <td style="width: 1104px; padding-right: 20px"><span class="jobpr16"><u>Klarg&#248;ring til tryk</u></span><br />
+            Generering af pdf-fil til tryk</td>
+        </tr>
+        <tr>
+            <td style="width: 1104px; padding-right: 20px"><span class="jobpr16"><u>Tryk</u></span><br />
+            300 stk., 210 x 297 mm – evt. andet format , 40 sider, 4 + 4 farver <br />
+            Omslag: 250 g ubestr&#248;get papir .- Indhold: 130g ubestr&#248;get papir. <br />
+            Falses, h&#230;ftes og pakkes.</td>
+        </tr>
+    </tbody>
+</table>
+##job_besk_slut##<br />
+<br />
+&nbsp;
+<table border="0" cellspacing="0" cellpadding="0" width="605">
+    <tbody>
+        <tr>
+            <td><u>Prisoverslag</u><br />
+            Kr. 45.000,00</td>
+        </tr>
+    </tbody>
+</table>
+<br />
+<table border="0" cellspacing="0" cellpadding="0" width="100%">
+    <tbody>
+        <tr>
+            <td style="padding-top: 10px">Alle priser er inkl. levering til &#233;n adresse i Danmark og ekskl. moms.</td>
+        </tr>
+    </tbody>
+</table>
+<br />
+<br />
+<table border="0" cellspacing="0" cellpadding="0" width="100%">
+    <tbody>
+        <tr>
+            <td style="padding-top: 10px">Med venlig hilsen <br />
+            Synergi<br />
+            <br />
+            Thomas Hansen</td>
+        </tr>
+    </tbody>
+</table>
+

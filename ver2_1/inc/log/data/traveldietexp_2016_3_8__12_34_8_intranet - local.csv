@@ -1,0 +1,10 @@
+Navn;Init;Afrejsedato;Hjemrejse;Dage ialt;Destination;Job/Projekt;Jobnr;Procent %;Maks.kost;Morgen;Middag;Aften;Ialt/Rest.;
+
+Søren Karlsen;SK;25-02-2016 12:23;25-05-2016 12:23;90;"Polen";"";;;44.010,00;12;;;;
+Søren Karlsen;SK;03-03-2016 12:45;03-04-2016 12:45;31;"Vejlefjord";"TO: support og opsætning";343;60;15.159,00;1;2;3;8.491,20;
+Søren Karlsen;SK;03-03-2016 12:45;03-04-2016 12:45;31;"Vejlefjord";"TO: support og opsætning";343;40;15.159,00;1;2;3;5.660,80;
+Søren Karlsen;SK;20-04-2016 09:18;25-04-2016 12:23;5,12;"Norge";"";;;2.503,68;1;2;;5.660,80;
+Søren Karlsen;SK;25-04-2016 12:23;25-05-2016 12:23;30;"Island";"";;;14.670,00;1;2;3;5.660,80;
+Søren Karlsen;SK;25-04-2016 12:23;25-05-2016 12:23;30;"Færøierne";"Jobnavn..";698;50;14.670,00;3;2;1;6.928,50;
+Søren Karlsen;SK;25-04-2016 12:23;25-05-2016 12:23;30;"Færøierne";"TO: support og opsætning";343;50;14.670,00;3;2;1;6.928,50;
+

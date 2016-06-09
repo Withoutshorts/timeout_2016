@@ -1,0 +1,5 @@
+Typeidentifikator;Nummer;Beskrivelse;Faktureringsnavn;Ansvarlig;Oprettelsesdato;Startdato;Slutdato;Dimensionskode;Dimensionsværdikode;Dimensionsfilter
+10;270;Montering af 8 arbejdspladser;Kvalitetsmøbler A/S;TSU;09-12-2010;17-01-2011;04-02-2011;AFDELING;ADM;ADM,PROD
+10;271;AFMontering af 8 arbejdspladser;Kvalitetsmøbler A/S;TSU;09-12-2010;17-01-2011;04-02-2011;OMRÅDE;;30,4
+10;272;NEDMontering af 8 arbejdspladser;Kvalitetsmøbler A/S;TSU;09-12-2010;17-01-2011;04-02-2011;PROJEKT;MERCEDES;
+10;273;Montering af 10 konferencekontorer;Svend Hansen Møbler;TSU;13-12-2010;01-01-2011;31-01-2011;;;

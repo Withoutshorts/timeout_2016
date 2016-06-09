@@ -1,0 +1,41 @@
+﻿<%@ WebService language="VB" class="to_import" %>
+Imports System
+Imports System.Web.Services
+Imports System.Data
+Imports System.Data.Odbc
+
+Imports System.Globalization
+Imports System.Threading
+
+Public Class to_import
+
+    
+    
+    <WebMethod()> Public Function timeout_importTimer(ByVal ds As DataSet) As String
+        
+        'On Error Resume Next
+    
+        Return "HEJ DER 2: "
+       
+        'Dim errThisTOnoStr As String = errThisTOno.ToString()
+        'Return "succes " + intCountInserted.ToString() + " linje(r) indlæst. jobnr: " + err_jobnr + " errid:" + errThisTOnoStr
+
+    End Function
+
+    
+    
+    'Public Function rtErrTxt(ByVal erTxt As String) As String
+    ' Dim eTxt As String
+    '    eTxt = erTxt
+        
+    '   Return eTxt
+    'End Function
+   
+    
+End Class
+
+        
+
+
+
+

@@ -1,0 +1,4 @@
+
+<%response.redirect "https://outzource.dk/timeout_xp/wwwroot/ver2_1/lukket_login.asp"%>
+
+
