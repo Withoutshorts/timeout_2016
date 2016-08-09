@@ -1,7 +1,7 @@
  	<!--#include file="../inc/connection/conn_db_inc.asp"-->
 	<!--#include file="../inc/errors/error_inc.asp"-->
 	
-<% 'GIT HUB TEST 20160809
+<% 'GIT HUB TEST 20160809 - 2
 	 
 	session("strDato") = request.form("mrd")&"/"&request.form("dag")&"/"&request.form("aar")
 	session("strDag") = request.form("dag")
@@ -73,7 +73,7 @@ call showError(errortype)
 	else
 	
 	
-	'Her indsættes den nye record i mtid
+	'Her indsÃ¦ttes den nye record i mtid
 	strFTimer = varTimerkomma
 	strTdato = session("strDato") 
 	
