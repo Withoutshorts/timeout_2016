@@ -1,0 +1,353 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<sprog>
+
+  <!--- Dansk -->
+  <dk>
+
+    <txt_1>Rejseplan / Diæter</txt_1>
+    <txt_2>Medarbejder:</txt_2>
+    <txt_3>År:</txt_3>
+    <txt_4>Opdater</txt_4>
+    <txt_5>Navn</txt_5>
+    <txt_6>Afrejse</txt_6>
+    <txt_7>Dato / Tid</txt_7>
+    <txt_8>Hjem</txt_8>
+    <txt_9>Dato / Tid</txt_9>
+    <txt_10>Destination</txt_10>
+    <txt_11>Job / Projektnummer</txt_11>
+    <txt_12>Aktiv jobliste</txt_12>
+    <txt_13>Døgn</txt_13>
+    <txt_14>Dagpris</txt_14>
+    <txt_15>Max. Beløb</txt_15>
+    <txt_16>Reduktion</txt_16>
+    <txt_17>Morgen</txt_17>
+    <txt_18>Antal stk.</txt_18>
+    <txt_19>Frokost</txt_19>
+    <txt_20>Antal stk.</txt_20>
+    <txt_21>Aften</txt_21>
+    <txt_22>Antal stk.</txt_22>
+    <txt_23>I alt</txt_23>
+    <txt_24>Bilag</txt_24>
+    <txt_25>Total</txt_25>
+    <txt_26>Slet</txt_26>
+    <txt_27>Opdater</txt_27>
+    <txt_28>Funktioner</txt_28>
+    <txt_29>Eksport til csv</txt_29>
+
+    <txt_30>Fra:</txt_30>
+    <txt_31>Søg</txt_31>
+    <txt_32>Opdateret!</txt_32>
+    <txt_33>Job</txt_33>
+    <txt_34>Procent (heltal)</txt_34>
+    <txt_35>Du er ved at SLETTE en Rejseplan/Diæt. Er dette korrekt?</txt_35>
+
+    <txt_36>Tilføj job</txt_36>
+    <txt_37>Vis alle</txt_37>
+    <txt_38>Ja</txt_38>
+    <txt_39>Nej</txt_39>
+    <txt_40>Tilføj flere job til Rejseplan/Diæt</txt_40>
+    
+  </dk>
+
+
+ 
+  
+  <!-- Norsk -->
+  <no>
+
+    <txt_1>Reiserute / Dietter</txt_1>
+    <txt_2>Ansatt:</txt_2>
+    <txt_3>År:</txt_3>
+    <txt_4>Refresh</txt_4>
+    <txt_5>Navn</txt_5>
+    <txt_6>Avreise</txt_6>
+    <txt_7>Dato / klokkeslett</txt_7>
+    <txt_8>Hjem</txt_8>
+    <txt_9>Dato/klokkeslett</txt_9>
+    <txt_10>Bestemmelsessted</txt_10>
+    <txt_11>Jobb / Prosjektnummer</txt_11>
+    <txt_12>Aktiv jobb liste</txt_12>
+    <txt_13>Dag</txt_13>
+    <txt_14>Døgnpris</txt_14>
+    <txt_15>Maks. beløp</txt_15>
+    <txt_16>Reduksjon</txt_16>
+    <txt_17>Morgen</txt_17>
+    <txt_18>Nummer</txt_18>
+    <txt_19>Lunsj</txt_19>
+    <txt_20>Nummer</txt_20>
+    <txt_21>Kveld</txt_21>
+    <txt_22>Nummer</txt_22>
+    <txt_23>Total</txt_23>
+    <txt_24>Vedlegg</txt_24>
+    <txt_25>Total</txt_25>
+    <txt_26>Slett</txt_26>
+    <txt_27>Refresh</txt_27>
+    <txt_28>Funksjoner</txt_28>
+    <txt_29>Eksport til csv</txt_29>
+
+    <txt_30>fra:</txt_30>
+    <txt_31>Søk</txt_31>
+    <txt_32>Oppdatert!</txt_32>
+    <txt_33>jobb</txt_33>
+    <txt_34>Prosent (heltall)</txt_34>
+    <txt_35>Du er i ferd med å slette en reiserute / Diet. Er dette riktig?</txt_35>
+
+    <txt_36>Legg jobb</txt_36>
+    <txt_37>Vis alle</txt_37>
+    <txt_38>Ja</txt_38>
+    <txt_39>Nei</txt_39>
+    <txt_40>legge til flere jobber til reiseruten / Diet</txt_40>
+    
+  </no>
+
+  
+  
+  <!-- Svensk -->
+  <se>
+
+    <txt_1>Resväg / Dieter</txt_1>
+    <txt_2>Anställd:</txt_2>
+    <txt_3>År:</txt_3>
+    <txt_4>Refresh</txt_4>
+    <txt_5>Namn</txt_5>
+    <txt_6>Avvika</txt_6>
+    <txt_7>Datum och tid</txt_7>
+    <txt_8>Hem</txt_8>
+    <txt_9>Datum / tid</txt_9>
+    <txt_10>Destination</txt_10>
+    <txt_11>Jobb / Projektnummer</txt_11>
+    <txt_12>Aktiv jobblista</txt_12>
+    <txt_13>Dag</txt_13>
+    <txt_14>Dag pris</txt_14>
+    <txt_15>Max. mängd</txt_15>
+    <txt_16>Reduktion</txt_16>
+    <txt_17>Morgon</txt_17>
+    <txt_18>Nummer</txt_18>
+    <txt_19>Lunch</txt_19>
+    <txt_20>Nummer</txt_20>
+    <txt_21>Kväll</txt_21>
+    <txt_22>Nummer</txt_22>
+    <txt_23>Totalt</txt_23>
+    <txt_24>Appendix</txt_24>
+    <txt_25>Totalt</txt_25>
+    <txt_26>Radera</txt_26>
+    <txt_27>Refresh</txt_27>
+    <txt_28>Särdrag</txt_28>
+    <txt_29>Export till csv</txt_29>
+
+    <txt_30>från:</txt_30>
+    <txt_31>sök</txt_31>
+    <txt_32>Uppdaterad!</txt_32>
+    <txt_33>jobb</txt_33>
+    <txt_34>Procentandel (heltal)</txt_34>
+    <txt_35>Du håller på att ta bort en resväg / kost. Är detta korrekt?</txt_35>
+
+    <txt_36>Lägg till jobb</txt_36>
+    <txt_37>Visa alla</txt_37>
+    <txt_38>Ja</txt_38>
+    <txt_39>Nej</txt_39>
+    <txt_40>lägga till fler jobb till resplanen / Diet</txt_40>
+
+  </se>
+  
+  
+  <!-- Tysk -->
+  <de>
+
+    <txt_1>Reiseroute / Diäten</txt_1>
+    <txt_2>Mitarbeiter:</txt_2>
+    <txt_3>Jahr:</txt_3>
+    <txt_4>Auffrischen</txt_4>
+    <txt_5>Name</txt_5>
+    <txt_6>Abgehen</txt_6>
+    <txt_7>Datum / Uhrzeit</txt_7>
+    <txt_8>Zuhause</txt_8>
+    <txt_9>Datum / Uhrzeit</txt_9>
+    <txt_10>Ziel</txt_10>
+    <txt_11>Job / Projektnummer</txt_11>
+    <txt_12>Aktive Jobliste</txt_12>
+    <txt_13>Stunde</txt_13>
+    <txt_14>Tag preis</txt_14>
+    <txt_15>Max. Betrag</txt_15>
+    <txt_16>Reduzierung</txt_16>
+    <txt_17>Morgen</txt_17>
+    <txt_18>Nummer</txt_18>
+    <txt_19>Mittagessen</txt_19>
+    <txt_20>Nummer</txt_20>
+    <txt_21>Abend</txt_21>
+    <txt_22>Nummer</txt_22>
+    <txt_23>Gesamt</txt_23>
+    <txt_24>Anhang</txt_24>
+    <txt_25>Gesamt</txt_25>
+    <txt_26>Löschen</txt_26>
+    <txt_27>Auffrischen</txt_27>
+    <txt_28>Features</txt_28>
+    <txt_29>Export in csv</txt_29>
+
+    <txt_30>von:</txt_30>
+    <txt_31>Suche</txt_31>
+    <txt_32>Aktualisiert</txt_32>
+    <txt_33>Job</txt_33>
+    <txt_34>Prozentsatz (integer)</txt_34>
+    <txt_35>Sie sind über eine Reiseroute / Diät zu löschen. Ist das richtig?</txt_35>
+
+    <txt_36>Add job</txt_36>
+    <txt_37>Alle anzeigen</txt_37>
+    <txt_38>Ja</txt_38>
+    <txt_39>Nein</txt_39>
+    <txt_40>fügen Sie mehr Aufträge an die Reiseroute / Diät</txt_40>
+    
+  </de>
+
+
+  <!--Fransk-->
+  <fr>
+    
+    <txt_1>Itinéraire / Diets</txt_1>
+    <txt_2>Employé:</txt_2>
+    <txt_3>Année:</txt_3>
+    <txt_4>Rafraîchir</txt_4>
+    <txt_5>Nom</txt_5>
+    <txt_6>Partir</txt_6>
+    <txt_7>Date / heure</txt_7>
+    <txt_8>Maison</txt_8>
+    <txt_9>Date / heure</txt_9>
+    <txt_10>Destination</txt_10>
+    <txt_11>Travail / Numéro du projet</txt_11>
+    <txt_12>Liste active d'emploi</txt_12>
+    <txt_13>Heure</txt_13>
+    <txt_14>Prix de la journée</txt_14>
+    <txt_15>Max. montant</txt_15>
+    <txt_16>Réduction</txt_16>
+    <txt_17>Matin</txt_17>
+    <txt_18>Nombre</txt_18>
+    <txt_19>Déjeuner</txt_19>
+    <txt_20>Nombre</txt_20>
+    <txt_21>Soirée</txt_21>
+    <txt_22>Nombre</txt_22>
+    <txt_23>Total</txt_23>
+    <txt_24>Appendice</txt_24>
+    <txt_25>Total</txt_25>
+    <txt_26>Effacer</txt_26>
+    <txt_27>Rafraîchir</txt_27>
+    <txt_28>Traits</txt_28>
+    <txt_29>Exporter vers csv</txt_29>
+
+    <txt_30>à partir de:</txt_30>
+    <txt_31>recherche</txt_31>
+    <txt_32>Mise à jour!</txt_32>
+    <txt_33>emploi</txt_33>
+    <txt_34>Pourcentage (entier)</txt_34>
+    <txt_35>Vous êtes sur le point de supprimer un itinéraire / Diet. Est-ce exact?</txt_35>
+
+    <txt_36>Ajouter le job</txt_36>
+    <txt_37>Afficher tous</txt_37>
+    <txt_38>Oui</txt_38>
+    <txt_39>No</txt_39>
+    <txt_40>ajouter plus d'emplois à l'Itinéraire / Diet</txt_40>
+    
+    
+  </fr>
+  
+  
+  <!--Engelsk-->
+  <uk>
+    
+    <txt_1>Itinerary / Diets</txt_1>
+    <txt_2>Employee:</txt_2>
+    <txt_3>Year:</txt_3>
+    <txt_4>Refresh</txt_4>
+    <txt_5>Name</txt_5>
+    <txt_6>Depart</txt_6>
+    <txt_7>Date / Time</txt_7>
+    <txt_8>Home</txt_8>
+    <txt_9>Date / Time</txt_9>
+    <txt_10>Destination</txt_10>
+    <txt_11>Job / Project number</txt_11>
+    <txt_12>Active job list</txt_12>
+    <txt_13>Hour</txt_13>
+    <txt_14>Day price</txt_14>
+    <txt_15>Max. Amount</txt_15>
+    <txt_16>Reduction</txt_16>
+    <txt_17>Morning</txt_17>
+    <txt_18>Number of pieces</txt_18>
+    <txt_19>Lunch</txt_19>
+    <txt_20>Number of pieces</txt_20>
+    <txt_21>Evening</txt_21>
+    <txt_22>Number of pieces</txt_22>
+    <txt_23>Total</txt_23>
+    <txt_24>Appendix</txt_24>
+    <txt_25>Total</txt_25>
+    <txt_26>Delete</txt_26>
+    <txt_27>Refresh</txt_27>
+    <txt_28>Features</txt_28>
+    <txt_29>Export to csv</txt_29>
+
+    <txt_30>From:</txt_30>
+    <txt_31>search</txt_31>
+    <txt_32>Updated!</txt_32>
+    <txt_33>Job</txt_33>
+    <txt_34>Percentage (integer)</txt_34>
+    <txt_35>You are about to delete an itinerary / Diet. Is this correct?</txt_35>
+
+    <txt_36>Add job</txt_36>
+    <txt_37>Show all</txt_37>
+    <txt_38>Yes</txt_38>
+    <txt_39>No</txt_39>
+    <txt_40>add more jobs to the Itinerary / Diet</txt_40>
+    
+    
+  </uk>
+  
+  
+  
+  <!--Spansk-->
+  <es>
+
+    <txt_1>Itinerario / Dietas</txt_1>
+    <txt_2>Empleado:</txt_2>
+    <txt_3>Año:</txt_3>
+    <txt_4>Refrescar</txt_4>
+    <txt_5>Nombre</txt_5>
+    <txt_6>Salir</txt_6>
+    <txt_7>Fecha y Hora</txt_7>
+    <txt_8>Casa</txt_8>
+    <txt_9>Fecha y Hora</txt_9>
+    <txt_10>Destino</txt_10>
+    <txt_11>Trabajo Número / Proyecto</txt_11>
+    <txt_12>Lista de trabajos activos</txt_12>
+    <txt_13>Hora</txt_13>
+    <txt_14>Precio del día</txt_14>
+    <txt_15>Max. cantidad</txt_15>
+    <txt_16>Reducción</txt_16>
+    <txt_17>Mañana</txt_17>
+    <txt_18>Número</txt_18>
+    <txt_19>Almuerzo</txt_19>
+    <txt_20>Número</txt_20>
+    <txt_21>Noche</txt_21>
+    <txt_22>Número</txt_22>
+    <txt_23>Total</txt_23>
+    <txt_24>Apéndice</txt_24>
+    <txt_25>Total</txt_25>
+    <txt_26>Borrar</txt_26>
+    <txt_27>Refrescar</txt_27>
+    <txt_28>Características</txt_28>
+    <txt_29>Exportar a csv</txt_29>
+
+    <txt_30>a partir de:</txt_30>
+    <txt_31>búsqueda</txt_31>
+    <txt_32>Actualizado!</txt_32>
+    <txt_33>trabajo</txt_33>
+    <txt_34>Porcentaje (entero)</txt_34>
+    <txt_35>Usted está a punto de eliminar un itinerario / dieta. ¿Es esto correcto?</txt_35>
+
+    <txt_36>Añadir proyecto</txt_36>
+    <txt_37>Mostrar todos</txt_37>
+    <txt_38>Sí</txt_38>
+    <txt_39>No</txt_39>
+    <txt_40>añadir más puestos de trabajo para el Itinerario / Dieta</txt_40>
+    
+  </es>
+
+</sprog>
