@@ -73,7 +73,7 @@ call showError(errortype)
 	else
 	
 	
-	'Her indsættes den nye record i mtid
+	'Her indsÃ¦ttes den nye record i mtid
 	strFTimer = varTimerkomma
 	strTdato = session("strDato") 
 	
