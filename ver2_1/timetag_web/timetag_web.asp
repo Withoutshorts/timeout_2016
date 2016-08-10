@@ -630,7 +630,7 @@ response.buffer = true
             timerIdag = formatnumber(timerIdag, 2)
 
             %>
-            <div id="dv_timeridag" style="font-size:32px; width:100%; text-align:right; border:0px; color:#999999;"><span style="font-size:12px; line-height:13px; vertical-align:baseline; color:#999999;"><%=meNavn %><br />Timer i dag:<br /></span> <%=timerIdag%> </div>
+            <div id="dv_timeridag" style="font-size:32px; width:100%; text-align:right; border:0px; color:#999999;"><span style="font-size:12px; line-height:13px; vertical-align:baseline; color:#999999;"><%=meNavn %><br />Timer i dag:<br /></span> <a href="../to_2015/ugeseddel_2011.asp"><%=timerIdag%></a> </div>
             <%
 
             end if
