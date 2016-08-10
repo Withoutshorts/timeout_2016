@@ -1,7 +1,7 @@
 
 <!--#include file="../inc/connection/conn_db_inc.asp"-->
 <!--#include file="../inc/regular/global_func.asp"-->
-
+<!--  Hej   -->
 <%
 response.buffer = true
 
