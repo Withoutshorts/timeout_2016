@@ -117,7 +117,7 @@
 					    & "Dit brugernavn er: " & strLogin & " og dit password er: " & strPw & vbCrLf & vbCrLf _ 
 					    & "Gem disse oplysninger, til du skal logge ind i TimeOut."  & vbCrLf _ 
 					    & "Du kan altid selv ændre dem når du er logget på systemet." & vbCrLf & vbCrLf _ 
-					    & "Adressen til TimeOut er: https://outzource.dk/"&lto&""& vbCrLf & vbCrLf _ 
+					    & "Adressen til TimeOut er: https://timeout.cloud/"&lto&""& vbCrLf & vbCrLf _ 
 					    & "Med venlig hilsen"& vbCrLf & vbCrLf & strEditor & vbCrLf 
                        
                        

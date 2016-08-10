@@ -208,7 +208,7 @@ Session.LCID = 1030
         <div class="porlet">
             
             <h3 class="portlet-title">
-               <%=tsa_txt_traveldp_040 %>
+               Tilføj flere job til Rejseplan/Diæt
             </h3>
             
             <div class="portlet-body">
@@ -221,8 +221,8 @@ Session.LCID = 1030
                     <thead>
                         <tr>
                            
-                            <th><%=tsa_txt_traveldp_033 %></th>
-                            <th><%=tsa_txt_traveldp_034 %></th>
+                            <th>Job</th>
+                            <th>Procent (heltal)</th>
                         </tr>
 
                     </thead>
@@ -287,12 +287,12 @@ Session.LCID = 1030
 
                                  
                                   <%if cint(eropda) = 1 then %>
-                                <p style="color:green;"><%=tsa_txt_traveldp_032 %></p>
+                                <p style="color:green;">Opdateret!</p>
                                 <%end if %>
 
                              </div>
                              <div class="col-lg-1">
-                            <input type="submit" value="<%=tsa_txt_traveldp_004 %> >>" class="btn btn-sm btn-success pull-right"><br />&nbsp;
+                            <input type="submit" value="Opdater >>" class="btn btn-sm btn-success pull-right"><br />&nbsp;
                             </div>
                         </div>
 
@@ -308,13 +308,13 @@ Session.LCID = 1030
         <div class="porlet">
             
             <h3 align="center" class="portlet-title">
-               <%=tsa_txt_traveldp_001 %>
+               Rejseplan/Diæt
             </h3>
             
             <div class="portlet-body" style="width:400px;">
-                <div align="center"><%=tsa_txt_traveldp_035 %>
+                <div align="center">Du er ved at <b>SLETTE</b> en Rejseplan/Diæt. Er dette korrekt?
                 </div><br />
-                <div align="center"><b><a href="traveldietexp.asp?func=sletok&id=<%=id%>&aar=<%=aar%>&medarb=<%=usemrn%>"><%=tsa_txt_traveldp_038 %></a></b>&nbsp&nbsp&nbsp&nbsp<b><a href="kundetyper.asp?"><%=tsa_txt_traveldp_039 %></a></b>
+                <div align="center"><b><a href="traveldietexp.asp?func=sletok&id=<%=id%>&aar=<%=aar%>&medarb=<%=usemrn%>">Ja</a></b>&nbsp&nbsp&nbsp&nbsp<b><a href="kundetyper.asp?">Nej</a></b>
                 </div>
                 <br /><br />
                 </div>
@@ -662,7 +662,7 @@ case else
 
 <div class="container">
     <div class="porlet">
-        <h3 class="portlet-title"><u><%=tsa_txt_traveldp_001 %></u></h3>
+        <h3 class="portlet-title"><u>Rejseplan / Diæter</u></h3>
 
 
         <%if media <> "export" then %>
@@ -677,7 +677,7 @@ case else
                         <section>
                             <div class="well">
                                  <div class="row">
-                                         <div class="col-lg-4 pad-t5"><%=tsa_txt_traveldp_002 %><br /> 
+                                         <div class="col-lg-4 pad-t5">Medarbejder:<br /> 
                                              <%
                                                 
                                                 if cint(level) = 1 then
@@ -720,14 +720,14 @@ case else
                                                          end if
                                                          %>
 
-                                             <option value="0" <%=visAlleSel%>><%=tsa_txt_traveldp_037 %></option>
+                                             <option value="0" <%=visAlleSel%>>Vis alle</option>
                                             <%end if %>
                                          </select>    
                                          </div>
                                         
                                        
                                                  
-                                                <div class="col-lg-2 pad-t5"><%=tsa_txt_traveldp_030 %>
+                                                <div class="col-lg-2 pad-t5">Fra:
                                                     <div class='input-group date' id='datepicker_stdato'>
                                                     <input type="text" class="form-control input-small" name="aar" value="<%=aar %>" placeholder="dd-mm-yyyy" />
                                                           <span class="input-group-addon input-small">
@@ -740,7 +740,7 @@ case else
                                              
                                             
                                               <div class="col-lg-1 pad-t20">
-                                                    <button type="submit" class="btn btn-secondary btn-sm pull-right"><b><%=tsa_txt_traveldp_031 %> >></b></button>
+                                                    <button type="submit" class="btn btn-secondary btn-sm pull-right"><b>Søg >></b></button>
                                              </div>
                                 
                                       
@@ -761,7 +761,7 @@ case else
                          <div class="row">
                              <div class="col-lg-10">&nbsp;</div>
                              <div class="col-lg-2">
-                            <input type="submit" value="<%=tsa_txt_traveldp_027 %> >>" class="btn btn-sm btn-success pull-right"><br />&nbsp;
+                            <input type="submit" value="Opdater >>" class="btn btn-sm btn-success pull-right"><br />&nbsp;
                             </div>
                         </div>
                 </section>
@@ -782,7 +782,7 @@ case else
                         <th style="border:0;">&nbsp;</th>
                       <th style="border:0;">&nbsp;</th>
                       
-                       <th colspan="4" style="border-bottom:0; background-color:#D6DFf5;"><%=tsa_txt_traveldp_016 %></th>
+                       <th colspan="4" style="border-bottom:0; background-color:#D6DFf5;">Reduktion</th>
                     
                       <th style="border:0;">&nbsp;</th>
                         <th style="border:0;">&nbsp;</th>
@@ -790,22 +790,22 @@ case else
                    </tr>
 
                    <tr>
-                      <th style="width: 5%"><%=tsa_txt_traveldp_005 %></th>
-                       <th style="width: 15%"><%=tsa_txt_traveldp_006 %><br /><span style="font-size:9px;"><%=tsa_txt_traveldp_007 %></span></th>
-                       <th style="width: 15%"><%=tsa_txt_traveldp_008 %><br /><span style="font-size:9px;"><%=tsa_txt_traveldp_007 %></span></th>
-                       <th style="width: 15%"><%=tsa_txt_traveldp_010 %></th>
-                       <th style="width: 15%"><%=tsa_txt_traveldp_011 %><br /><span style="font-size:9px;"><%=tsa_txt_traveldp_012 %></span></th>
+                      <th style="width: 5%">Navn</th>
+                       <th style="width: 15%">Afrejse<br /><span style="font-size:9px;">Dato & Tid</span></th>
+                       <th style="width: 15%">Hjem<br /><span style="font-size:9px;">Dato & Tid</span></th>
+                       <th style="width: 15%">Destination</th>
+                       <th style="width: 15%">Job/Projektnr.<br /><span style="font-size:9px;">Aktiv jobliste</span></th>
                        <!--
                        <th style="width: 10%">Kontonr</th>
                        -->
-                       <th style="width: 5%"><%=tsa_txt_traveldp_013 %><br /><span style="font-size:9px;"><%=tsa_txt_traveldp_014 %></span></th>
-                       <th><%=tsa_txt_traveldp_015 %></th>
+                       <th style="width: 5%">Døgn<br /><span style="font-size:9px;">Dagspris</span></th>
+                       <th>Maks. beløb</th>
                       
-                       <th style="width: 7%; background-color:#D6DFf5;"><%=tsa_txt_traveldp_017 %><br /><span style="font-size:9px;"><%=tsa_txt_traveldp_018 %></span></th>
-                       <th style="width: 7%; background-color:#D6DFf5;"><%=tsa_txt_traveldp_019 %><br /><span style="font-size:9px;"><%=tsa_txt_traveldp_018 %></span></th>
-                       <th style="width: 7%; background-color:#D6DFf5;"><%=tsa_txt_traveldp_021 %><br /><span style="font-size:9px;"><%=tsa_txt_traveldp_018 %></span></th>
-                       <th style="background-color:#D6DFf5;"><%=tsa_txt_traveldp_023 %></th>
-                       <th><%=tsa_txt_traveldp_024 %></th>
+                       <th style="width: 7%; background-color:#D6DFf5;">Mor.<br /><span style="font-size:9px;">Antal stk.</span></th>
+                       <th style="width: 7%; background-color:#D6DFf5;">Fro.<br /><span style="font-size:9px;">Antal stk.</span></th>
+                       <th style="width: 7%; background-color:#D6DFf5;">Aft.<br /><span style="font-size:9px;">Antal stk.</span></th>
+                       <th style="background-color:#D6DFf5;">Ialt</th>
+                       <th>Bilag</th>
                     
                        <th>Total</th>
                        <th>Slet</th>
@@ -1106,7 +1106,7 @@ case else
                                     %>
                                        <input type="hidden" name="FM_diet_jobid" value="0" />
                                        <input type="hidden" name="FM_diet_konto" value="0" />
-                                       <a href="#" onclick="Javascript:window.open('traveldietexp.asp?func=addmoorejobs&trvlid=<%=oRec("diet_id")%>&medarb=<%=oRec("diet_mid")%>', '', 'width=600,height=600,top=100,left=400,resizable=no')" target="_blank" class="small"><%=tsa_txt_traveldp_036 %> >></a>
+                                       <a href="#" onclick="Javascript:window.open('traveldietexp.asp?func=addmoorejobs&trvlid=<%=oRec("diet_id")%>&medarb=<%=oRec("diet_mid")%>', '', 'width=600,height=600,top=100,left=400,resizable=no')" target="_blank" class="small">Tilføj job >></a>
                                    </td>
                                    <!--<td><select name="FM_diet_konto" class="form-control input-small"><%=strKontoOptionsLoop %></select></td>-->
                                    <td style="text-align:right;"><%=diet_dageIaltTxt %></td>
@@ -1288,7 +1288,7 @@ case else
                          <div class="row">
                              <div class="col-lg-10">&nbsp;</div>
                              <div class="col-lg-2">
-                            <input type="submit" value="<%=tsa_txt_traveldp_004 %> >>" class="btn btn-sm btn-success pull-right"><br />&nbsp;
+                            <input type="submit" value="Opdater >>" class="btn btn-sm btn-success pull-right"><br />&nbsp;
                             </div>
                         </div>
                 </section>
@@ -1301,7 +1301,7 @@ case else
             <section>
                 <div class="row">
                      <div class="col-lg-12">
-                        <b><%=tsa_txt_traveldp_028 %></b>
+                        <b>Funktioner</b>
                         </div>
                     </div>
 
@@ -1310,7 +1310,7 @@ case else
                   
                  <div class="row">
                      <div class="col-lg-12 pad-r30">
-                         <input id="Submit6" type="submit" value="<%=tsa_txt_traveldp_029 %>" class="btn btn-sm" />
+                         <input id="Submit6" type="submit" value="Eksport til .csv" class="btn btn-sm" />
                         <!--Eksporter viste kunder som .csv fil-->
                          
                          </div>

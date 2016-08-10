@@ -97,8 +97,54 @@
         Dim column8 As DataColumn = New DataColumn("lto")
         column8.DataType = System.Type.GetType("System.String")
         
-        'Dim column3 As DataColumn = New DataColumn("Column2")
-        'column3.DataType = System.Type.GetType("System.Int32")
+        '**NYE KOLONNER
+        Dim column9 As DataColumn = New DataColumn("field")
+        column9.DataType = System.Type.GetType("System.String")
+        
+        Dim column10 As DataColumn = New DataColumn("fieldtimer")
+        column10.DataType = System.Type.GetType("System.String")
+        
+        Dim column11 As DataColumn = New DataColumn("research")
+        column11.DataType = System.Type.GetType("System.String")
+        
+        Dim column12 As DataColumn = New DataColumn("researchtimer")
+        column12.DataType = System.Type.GetType("System.String")
+        
+        Dim column13 As DataColumn = New DataColumn("client")
+        column13.DataType = System.Type.GetType("System.String")
+        
+        Dim column14 As DataColumn = New DataColumn("clienttimer")
+        column14.DataType = System.Type.GetType("System.String")
+        
+      
+        Dim column15 As DataColumn = New DataColumn("it")
+        column15.DataType = System.Type.GetType("System.String")
+        
+        Dim column16 As DataColumn = New DataColumn("ittimer")
+        column16.DataType = System.Type.GetType("System.String")
+        
+        Dim column17 As DataColumn = New DataColumn("andet2")
+        column17.DataType = System.Type.GetType("System.String")
+        
+        Dim column18 As DataColumn = New DataColumn("andettimer")
+        column18.DataType = System.Type.GetType("System.String")
+       
+        Dim column19 As DataColumn = New DataColumn("kundenr")
+        column19.DataType = System.Type.GetType("System.String")
+        
+        Dim column20 As DataColumn = New DataColumn("budgetkr")
+        column20.DataType = System.Type.GetType("System.String")
+        
+        Dim column21 As DataColumn = New DataColumn("budgettimer")
+        column21.DataType = System.Type.GetType("System.String")
+      
+        Dim column22 As DataColumn = New DataColumn("valuta")
+        column22.DataType = System.Type.GetType("System.String")
+        
+        Dim column23 As DataColumn = New DataColumn("salgsansvarlig")
+        column23.DataType = System.Type.GetType("System.String")
+      
+    
 
         Table1.Columns.Add(column1)
         Table1.Columns.Add(column2)
@@ -109,10 +155,26 @@
         Table1.Columns.Add(column7)
         Table1.Columns.Add(column8)
         
+        Table1.Columns.Add(column9)
+        Table1.Columns.Add(column10)
+        Table1.Columns.Add(column11)
+        Table1.Columns.Add(column12)
+        Table1.Columns.Add(column13)
+        Table1.Columns.Add(column14)
+        Table1.Columns.Add(column15)
+        Table1.Columns.Add(column16)
+        Table1.Columns.Add(column17)
+        Table1.Columns.Add(column18)
+        Table1.Columns.Add(column19)
+        Table1.Columns.Add(column20)
+        Table1.Columns.Add(column21)
+        Table1.Columns.Add(column22)
+        Table1.Columns.Add(column23)
+        
         Dim row As DataRow
         Dim t As integer = 1
         'AND jobnr BETWEEN 7000 AND 72000
-        Dim strSQLext As String = "SELECT jobnr, jobnavn, jobstartdato, jobslutdato, jobans, kategori, kundenavn, lto FROM job_import_temp WHERE id <> 0 AND jobnavn IS NOT NULL ORDER BY jobnr LIMIT 1000" 'AND origin = " & importFrom
+        Dim strSQLext As String = "SELECT jobnr, jobnavn, jobstartdato, jobslutdato, jobans, kategori, kundenavn, lto FROM job_import_temp WHERE id <> 0 AND jobnavn IS NOT NULL ORDER BY jobnr LIMIT 10" 'AND origin = " & importFrom
         objCmd = New OdbcCommand(strSQLext, objConn)
         objDR = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
             
@@ -154,6 +216,25 @@
                 row("kategori") = kategori
                 row("kundenavn") = kundenavn
                 row("lto") = lto
+            
+                'Nye felter'
+            row("field") = "TSU"
+            row("fieldtimer") = "1"
+            row("research") = "TSU"
+            row("researchtimer") = "1"
+            row("client") = "TSU"
+            row("clienttimer") = "1"
+            row("it") = "TSU"
+            row("ittimer") = "1"
+            row("andet2") = "TSU"
+            row("andettimer") = "1"
+            row("kundenr") = "99999999"
+            row("budgetkr") = "300000"
+            row("budgettimer") = "300"
+            row("valuta") = "DKK"
+            row("salgsansvarlig") = "TSU"
+         
+            'Add row
                 Table1.Rows.Add(row)
 
            

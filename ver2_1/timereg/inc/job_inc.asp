@@ -515,7 +515,7 @@ sub kundeopl
 	if func = "opret" AND step = 1 then%>
 	<tr>
 		<td colspan=4 height="20" style="padding:10px 10px 10px 10px;">
-		<b>Vælg Kontakt:</b>&nbsp;&nbsp;(<a href="kunder.asp?func=opret&ketype=k&hidemenu=1&showdiv=onthefly&rdir=1" target="_blank" class=vmenu>Opret ny her..</a>)</td>
+		<b>Vælg Kontakt:</b>&nbsp;&nbsp;(<a href="../to_2015/kunder.asp?func=opret&ketype=k&hidemenu=1&showdiv=onthefly&rdir=1" target="_blank" class=vmenu>Opret ny her..</a>)</td>
 	</tr>
     <tr>
 		<td colspan=4 height="20" style="padding:10px 10px 10px 10px;">
@@ -2331,26 +2331,26 @@ sub projektberegner
 
                              %><%
             
-            for t = 1 to UBOUND(mtypgrpids)
+                                for t = 1 to UBOUND(mtypgrpids)
 
-            'Response.write "mtypgrpnavn(t): "& mtypgrpnavn(t) & "<br>"
+                                'Response.write "mtypgrpnavn(t): "& mtypgrpnavn(t) & "<br>"
 
-            if len(trim(mtypgrpnavn(t))) <> 0 then
+                                if len(trim(mtypgrpnavn(t))) <> 0 then
            
          
             
-            %>
+                                %>
         
-		<span style="color:#000000; font-size:9px;" id="span1"><%=mtypgrpnavn(t) %>:</span> <span style="color:#000000; font-size:9px;" id="span_mtype_totudspec_<%=mtypgrpid(t)%>"><%=formatnumber(thisMtypGrpBel, 2)%></span>
+		                    <span style="color:#000000; font-size:9px;" id="span1"><%=mtypgrpnavn(t) %>:</span> <span style="color:#000000; font-size:9px;" id="span_mtype_totudspec_<%=mtypgrpid(t)%>"><%=formatnumber(thisMtypGrpBel, 2)%></span>
 		
-       <%
-            end if
-            next%>
+                           <%
+                                end if
+                                next%>
                                  
-        <%
-        end if%>
+                            <%
+                            end if%>
 
-                    <%end if %>
+                      <%end if %>
 
 
                         
@@ -3127,13 +3127,13 @@ sub minioverblik
 
                     <%if thisfile <> "jobprintoverblik" then
                         %>
-                     <div style="width:680px; height:200px; overflow:scroll; border:1px #cccccc solid; padding:10px 10px 10px 10px;"><%
+                     <div style="width:680px; height:200px; overflow:scroll; border:1px #cccccc solid; padding:5px 5px 5px 5px;"><%
                        else
                         %>
-                        <div style="width:680px; border:1px #cccccc solid; padding:10px 10px 10px 10px;"><%
+                        <div style="width:680px; border:1px #cccccc solid; padding:5px 5px 5px 5px;"><%
                       end if %>
 
-                    <table style="width:660px;" cellpadding="1" cellspacing="0">
+                    <table width="100%" cellpadding="1" cellspacing="0">
                         <tr>
                             
                             <th style="width:200px; text-align:left;">Medarbejder</th>
@@ -3229,7 +3229,7 @@ sub minioverblik
                           %>
 
 
-                        <tr>
+                        <tr bgcolor="#FFDFDF">
                             <td>Ialt:</td>
                             <td style="text-align:right"><b><%=formatnumber(restimerDetalTot, 2) %></b></td>
                             <td style="text-align:right"><b><%=formatnumber(realtimerDetalTot, 2) %></b></td>
@@ -3614,11 +3614,11 @@ sub minioverblik
                 <td>&nbsp;</td>
                 
 	            
-                <td align=right class=lille><b><%=formatnumber(lastFaseForkalkTimer,2) %></b></td>
+                <td align=right class=lille><b><%=formatnumber(lastFaseForkalkTimer,2) %></b> t.</td>
                 <td>&nbsp;</td>
-	            <td align=right class=lille><b><%=formatnumber(lastFaseSum, 2) & "</b> "& basisValISO_8 %></td>
+	            <td align=right class=lille><b><%=formatnumber(lastFaseSum, 2) & "</b> "& basisValISO_f8 %></td>
 
-                <td align=right class=lille><b><%=formatnumber(lastFaseRealTimer,2) %></td>
+                <td align=right class=lille><b><%=formatnumber(lastFaseRealTimer,2) %> t.</td>
 	            <td align=right class=lille><b><%=formatnumber(lastFaseRealbel, 2) & "</b> "& basisValISO_f8 %></td>
 
                 </tr>
@@ -3691,7 +3691,7 @@ sub minioverblik
 	            <td class=lille align=right><%=formatnumber(oRec2("aktbudget"), 2) %></td>
 	            <td class=lille align=right><%=formatnumber(oRec2("aktbudgetsum"), 2) &" "& basisValISO_f8 %></td>
 
-                <td class=lille align=right><%=formatnumber(oRec2("realiseret"), 2) %></td>
+                <td class=lille align=right><%=formatnumber(oRec2("realiseret"), 2) %> t.</td>
 	            <td class=lille align=right><%=formatnumber(oRec2("realbelob"), 2) &" "& basisValISO_f8 %></td>
 	            
 	            </tr>
@@ -3706,20 +3706,60 @@ sub minioverblik
             lastFase = ""
             end if 
 	        
-            totSum = totSum + oRec2("aktbudgetsum")
-	        totTimerforkalk = totTimerforkalk + oRec2("budgettimer")
+           
            
             
 
 	        call akttyper2009Prop(oRec2("fakturerbar"))
-	        if cint(aty_real) = 1 then
-	        totReal = totReal + oRec2("realiseret")
-            totRealbel = totRealbel + oRec2("realbelob") 
-            lastFaseRealTimer = lastFaseRealTimer + oRec2("realiseret")
-            lastFaseRealbel = lastFaseRealbel + oRec2("realbelob")
-            realtimerkost = realtimerkost + oRec2("realtimerkost")
+	        if cint(aty_real) = 1 OR (lto = "oko" AND oRec2("aty_id") = 90) then
+
+                select case lto
+                case "oko"
+
+                    lastFaseRealTimer = lastFaseRealTimer + oRec2("realiseret")
+                    lastFaseRealbel = lastFaseRealbel + oRec2("realbelob")
+
+                    if oRec2("aty_id") = 90 then 'KUN NAV E 1 linjker
+
+                        totSum = totSum + oRec2("aktbudgetsum")
+	                    totTimerforkalk = totTimerforkalk + oRec2("budgettimer")
+
+                        totReal = totReal
+                        totRealbel = totRealbel
+                        realtimerkost = realtimerkost
+                      
+
+                    else
+                    
+                        totSum = totSum
+	                    totTimerforkalk = totTimerforkalk 
+                    
+                        totReal = totReal + oRec2("realiseret")
+                        totRealbel = totRealbel + oRec2("realbelob") 
+                        realtimerkost = realtimerkost + oRec2("realtimerkost")
+                    
+
+                    end if
+
+                case else
+
+                    totSum = totSum + oRec2("aktbudgetsum")
+	                totTimerforkalk = totTimerforkalk + oRec2("budgettimer")
+                    totReal = totReal + oRec2("realiseret")
+                    totRealbel = totRealbel + oRec2("realbelob") 
+                    lastFaseRealTimer = lastFaseRealTimer + oRec2("realiseret")
+                    lastFaseRealbel = lastFaseRealbel + oRec2("realbelob")
+                    realtimerkost = realtimerkost + oRec2("realtimerkost")
+                
+                end select
+
+            
+
 	        else
-	        totReal = totReal
+
+            totSum = totSum
+	        totTimerforkalk = totTimerforkalk 
+            totReal = totReal
             totRealbel = totRealbel
             lastFaseRealTimer = lastFaseRealTimer
             lastFaseRealbel = lastFaseRealbel 
@@ -3740,16 +3780,15 @@ sub minioverblik
 	            <td>&nbsp;</td>
                 <td>&nbsp;</td>
                 
-	            <td align=right class=lille><b><%=formatnumber(lastFaseForkalkTimer,2) %></b></td>
+	            <td align=right class=lille><b><%=formatnumber(lastFaseForkalkTimer,2) %></b> t.</td>
                 <td>&nbsp;</td>
-	            <td align=right class=lille><b><%=formatnumber(lastFaseSum, 2) %></b> <%=basisValISO %></td>
+	            <td align=right class=lille><b><%=formatnumber(lastFaseSum, 2) %></b> <%=basisValISO_f8 %></td>
 
-                <td align=right class=lille><b><%=formatnumber(lastFaseRealTimer,2) %></b></td>
-	            <td align=right class=lille><b><%=formatnumber(lastFaseRealbel, 2) %></b> <%=basisValISO%></td>
+                <td align=right class=lille><b><%=formatnumber(lastFaseRealTimer,2) %></b> t.</td>
+	            <td align=right class=lille><b><%=formatnumber(lastFaseRealbel, 2) %></b> <%=basisValISO_f8%></td>
 
             </tr>
-            </table>
-                </div><!-- akt_faser -->
+            
 
 
                 <%
@@ -3757,12 +3796,12 @@ sub minioverblik
                   select case lto
                    case "oko"
                     aktGtBgcol = "#FFDFDF"
-                    aktGtwdh = 300
-                    aktGtwdh2 = 80
+                    'aktGtwdh = 300
+                    'aktGtwdh2 = 80
                     case else 
                     aktGtBgcol = "#FFDFDF"
-                    aktGtwdh = 340
-                    aktGtwdh2 = 80
+                    'aktGtwdh = 340
+                    'aktGtwdh2 = 80
                        
                  end select 
 
@@ -3771,9 +3810,9 @@ sub minioverblik
                 strAktiviteterGT = strAktiviteterGT &"<tr bgcolor="& aktGtBgcol &"><td class=lille width="& aktGtwdh &"><b>Ialt:</b></td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>"
                 strAktiviteterGT = strAktiviteterGT &"<td align=right class=lille><b>"& formatnumber(totTimerforkalk,2) &" t.</b></td>"
                 strAktiviteterGT = strAktiviteterGT &"<td width="& aktGtwdh2 &">&nbsp;</td>"
-                strAktiviteterGT = strAktiviteterGT &"<td align=right class=lille><b>"& formatnumber(totSum, 2) &"</b> "& basisValISO &"</td>"
-                strAktiviteterGT = strAktiviteterGT &"<td align=right class=lille><b>"& formatnumber(totReal,2) &"</td>"
-                strAktiviteterGT = strAktiviteterGT &"<td align=right class=lille><b>"& formatnumber(totRealbel, 2) &"</b> "& basisValISO &"</td>"
+                strAktiviteterGT = strAktiviteterGT &"<td align=right class=lille><b>"& formatnumber(totSum, 2) &"</b> "& basisValISO_f8 &"</td>"
+                strAktiviteterGT = strAktiviteterGT &"<td align=right class=lille><b>"& formatnumber(totReal,2) &" t.</td>"
+                strAktiviteterGT = strAktiviteterGT &"<td align=right class=lille><b>"& formatnumber(totRealbel, 2) &"</b> "& basisValISO_f8 &"</td>"
                 strAktiviteterGT = strAktiviteterGT &"</tr>"
 
 
@@ -3783,12 +3822,14 @@ sub minioverblik
                     
                     case else    
                 %>
-                <table cellpadding=0 cellspacing=0 border=0 width="100%">
+               
                 <%=strAktiviteterGT %>
-                </table>
+              
              
                 <%end select %>
 
+                </table>
+                </div><!-- akt_faser -->
            
 
              </td>
@@ -3844,10 +3885,15 @@ sub minioverblik
                 select case lto
                 case "oko", "intranet - local"
 
-                strSQLUlev = strSQLUlev &", ju_konto, kp.navn AS kontonavn, kp.kontonr, COALESCE(SUM(matantal * matsalgspris), 0) AS realbelob FROM job_ulev_ju "
-                strSQLUlev = strSQLUlev &" LEFT JOIN kontoplan AS kp ON (kp.id = ju_konto)"
-                strSQLUlev = strSQLUlev &" LEFT JOIN materiale_forbrug AS mf ON (mf.mf_konto = ju_konto AND mf.jobid = "& id &")"
-                strSQLUlev = strSQLUlev &" WHERE ju_jobid = "& id & " GROUP BY ju_konto ORDER BY kontonr"
+                'strSQLUlev = strSQLUlev &", ju_konto, kp.navn AS kontonavn, kp.kontonr, COALESCE(SUM(matantal * matsalgspris), 0) AS realbelob FROM job_ulev_ju "
+                'strSQLUlev = strSQLUlev &" LEFT JOIN kontoplan AS kp ON (kp.id = ju_konto)"
+                'strSQLUlev = strSQLUlev &" LEFT JOIN materiale_forbrug AS mf ON (mf.mf_konto = ju_konto AND mf.jobid = "& id &")"
+                'strSQLUlev = strSQLUlev &" WHERE ju_jobid = "& id & " GROUP BY ju_konto ORDER BY kontonr"
+
+                strSQLUlev = strSQLUlev &" , ju_konto, kp.navn AS kontonavn, kp.kontonr, kp.id AS kontoid "
+                strSQLUlev = strSQLUlev &" FROM kontoplan AS kp "
+                strSQLUlev = strSQLUlev &" LEFT JOIN job_ulev_ju ON (ju_konto = kp.id  AND ju_jobid = "& id & ") "
+                strSQLUlev = strSQLUlev &" WHERE kp.id <> 0 AND kontonr >= 200 AND kp.navn IS NOT NULL GROUP BY kp.id ORDER BY kontonr" 
 
                 case else
 
@@ -3855,18 +3901,16 @@ sub minioverblik
 
                 end select
 
-                
+                'if session("mid") = 1 then
                 'response.write strSQLUlev
                 'response.flush
+                'end if
+
+                u = 0
+                salgreal_tot = 0
 		        
                 oRec2.open strSQLUlev, oConn, 3 
-
-		        u = 0
-                salgreal_tot = 0
-
-            
-
-		        while not oRec2.EOF 
+                while not oRec2.EOF 
 
                 select case right(u, 1)
                 case 0,2,4,6,8
@@ -3875,9 +3919,49 @@ sub minioverblik
                 bgthis = "#FFFFe1"
                 end select
 
-                %>
+
+                    select case lto
+                    case "oko", "xintranet - local"
+                    juNavn = oRec2("kontonr") & " " & oRec2("kontonavn") 
+                        
+                        if isNull(oRec2("ju_navn")) <> true then
+                        juNavn = juNavn &" ("& oRec2("ju_navn") &")"
+                        end if
+
+                    case else
+                    juNavn = oRec2("ju_navn")
+                    end select
+
+
+
+                     select case lto
+                        case "oko", "intranet - local" 
+                            
+                               realBelob = 0
+                               strSQLUmf = "SELECT COALESCE(SUM(matantal * matsalgspris), 0) AS realbelob FROM materiale_forbrug AS mf WHERE mf.mf_konto = "& oRec2("kontoid") &" AND mf.jobid = "& id & ""
+                               oRec3.open strSQLUmf, oConn, 3 
+                               if not oRec3.EOF then
+
+
+                                realBelob = oRec3("realbelob")
+
+                               end if
+                               oRec3.close
+
+                               if len(trim(realBelob)) <> 0 then
+                               realBelob = realBelob
+                               else
+                               realBelob = 0
+                               end if
+
+                     end select
+
+                 if oRec2("ju_stk") <> 0 OR realBelob <> 0 then          
+                 %>
+
+                
                 <tr bgcolor="<%=bgthis %>">
-                    <td class=lille><%=oRec2("ju_navn") %></td>
+                    <td class=lille><%=juNavn%></td>
 
 
                     <% select case lto
@@ -3889,27 +3973,36 @@ sub minioverblik
                     <td align=right class=lille><%=oRec2("ju_faktor") %></td>
                     <%end select %>
 
+                    <%if isNull(oRec2("ju_stk")) <> true then %>
                     <td align=right class=lille><%=formatnumber(oRec2("ju_belob"), 2) &" "& basisValISO_f8%> </td>
+                    <%else %>
+                    <td align=right class=lille>0,00 <%=basisValISO_f8 %></td>
+                    <%end if%>
 
-                     <% select case lto
-                        case "oko", "intranet - local" %>
-                        <td align=right class=lille><%=formatnumber(oRec2("realbelob"), 2) &" "& basisValISO_f8%> </td>
+                        <%select case lto
+                        case "oko", "intranet - local"  %> 
+                        <td align=right class=lille><%=formatnumber(realBelob, 2) &" "& basisValISO_f8%> </td>
                         <%end select %>
                     
                     
                 </tr>
                 <%
 
+                if isNull(oRec2("ju_stk")) <> true then
                 salgsomkostninger_tot = salgsomkostninger_tot + oRec2("ju_ipris") 
                 salgspris_tot = salgspris_tot + oRec2("ju_belob")
+                else
+                salgsomkostninger_tot = salgsomkostninger_tot 
+                salgspris_tot = salgspris_tot
+                end if
 
                         select case lto
                         case "oko", "xintranet - local"
-                        salgreal_tot = salgreal_tot + oRec2("realbelob")
+                        salgreal_tot = salgreal_tot + realBelob 'oRec2("realbelob")
                         end select
 
 
-                           
+                end if' ju:stk > 0          
 
 
                 u = u + 1
@@ -3945,11 +4038,12 @@ sub minioverblik
                     case else %>
                     <td align=right class=lille>&nbsp;</td>
                     <td align=right class=lille>&nbsp;</td>
-                    <td align=right class=lille><b><%=formatnumber(salgsomkostninger_tot, 2) &" "& basisValISO %></b></td>
+                    <td align=right class=lille><b><%=formatnumber(salgsomkostninger_tot, 2) &" "& basisValISO_f8 %></b></td>
                     <td align=right class=lille>&nbsp;</td>
                     <%end select %>
 
-                    <td align=right class=lille><b><%=formatnumber(salgspris_tot, 2) &" "&basisValISO %></b></td>
+                    <td align=right class=lille><b><%=formatnumber(salgspris_tot, 2) &" "& basisValISO_f8 %></b></td>
+
                       <% select case lto
                         case "oko", "intranet - local" %>
                         <td align=right class=lille><%=formatnumber(salgreal_tot, 2) &" "& basisValISO_f8%> </td>
@@ -3965,8 +4059,8 @@ sub minioverblik
                     %>
                   <tr bgcolor="#999999">
                     <td class=lille><b>Lønomkostninger Ialt:</b> (100-190)</td>
-                          <td align=right class=lille><b><%=formatnumber(totSum, 2) &" "& basisValISO %></b></td>
-                      <td align=right class=lille><%=formatnumber(totRealbel, 2) &" "& basisValISO%> </td>
+                          <td align=right class=lille><b><%=formatnumber(totSum, 2) &" "& basisValISO_f8 %></b></td>
+                      <td align=right class=lille><%=formatnumber(totRealbel, 2) &" "& basisValISO_f8%> </td>
 
                   
 
@@ -3974,8 +4068,8 @@ sub minioverblik
 
                  <tr bgcolor="#FFDFDF">
                     <td class=lille><b>Omkostninger Ialt:</b></td>
-                          <td align=right class=lille><b><%=formatnumber(totSum+salgspris_tot, 2) &" "& basisValISO %></b></td>
-                      <td align=right class=lille><%=formatnumber(totRealbel+salgreal_tot, 2) &" "& basisValISO%> </td>
+                          <td align=right class=lille><b><%=formatnumber(totSum+salgspris_tot, 2) &" "& basisValISO_f8 %></b></td>
+                      <td align=right class=lille><%=formatnumber(totRealbel+salgreal_tot, 2) &" "& basisValISO_f8%> </td>
 
                   
 
@@ -4019,7 +4113,7 @@ sub minioverblik
              <%
             if thisfile <> "jobprintoverblik" then
             %>
-            <div style="height:200px; overflow:auto;">
+            <div style="height:400px; overflow:auto;">
             <%
             else
              %>
@@ -4049,7 +4143,7 @@ sub minioverblik
 
                     select case lto
                     case "oko", "xintranet - local"
-                        strMatforbrugSQLOrderBy = " mf_konto, forbrugsdato DESC"
+                        strMatforbrugSQLOrderBy = " k.kontonr, forbrugsdato DESC"
                         strKontonrKri = " AND (mf_konto > 14)" '** Ikke løn
                     case else
                         strMatforbrugSQLOrderBy = " matgrp, forbrugsdato DESC"
@@ -4099,7 +4193,7 @@ sub minioverblik
                     if lastGrp <> 0 AND lastGrp <> "" AND lastGrp <> thisGrp AND m <> 0 then
                     %>
 
-                     <tr>
+                     <tr style="background-color:#cccccc;">
                         <td colspan="6" class="lille"><b><%=lastGrpNavn%> ialt:</b></td>
                         <td align="right" class="lille"><b><%=formatnumber(matforbrugGrpSubTot, 2) &" "& basisValISO_f8 %></b></td>
                      </tr>    
@@ -4131,7 +4225,7 @@ sub minioverblik
                     select case lto
                     case "oko", "xintranet - local"
                         lastGrp = oRec2("mf_konto")
-                        lastGrpNavn = oRec2("kontonavn") & " " & oRec2("kontonr") 
+                        lastGrpNavn = oRec2("kontonr") &" "& oRec2("kontonavn") 
                     case else
                         lastGrp = oRec2("matgrp")
                         lastGrpNavn = oRec2("matgruppenavn") 'oRec2("kontonavn") & " " & oRec2("kontonr")
@@ -4150,7 +4244,7 @@ sub minioverblik
                     oRec2.close 
                     
                     %>
-                       <tr>
+                       <tr style="background-color:#cccccc;">
                         <td colspan="6" class="lille"><b><%=lastGrpNavn%>:</b></td>
                          <td align="right" class="lille"><b><%=formatnumber(matforbrugGrpSubTot, 2) &" "& basisValISO_f8 %></b></td>
                 
@@ -4160,18 +4254,14 @@ sub minioverblik
 
                     'salgsomkostReal = salgsomkostKost
 
-                    if m > 4 then
-                    pdRight = 15
-                    else
-                    pdRight = 0
-                    end if
+                 
                     %>
                     </table>
                 </div>
                      <table cellpadding=1 cellspacing=0 border=0 width=100%>
                     <tr bgcolor="#FFDFDF"><td class=lille colspan=4><b>Ialt: <%=antalmatreg%></b><img src="ill/blank.gif" width="200" height="1" border="0" /></td>
-                    <td class=lille align=right><b><%=formatnumber(salgsomkostKost, 2)%></b> <%=basisValISO %></td>
-                    <td class=lille align=right style="padding-right:<%=pdRight%>px;"><b><%=formatnumber(salgsomkostSalg, 2)%> </b><%=basisValISO%></td></tr>
+                    <td class=lille align=right><b><%=formatnumber(salgsomkostKost, 2)%></b> <%=basisValISO_f8 %></td>
+                    <td class=lille align=right><b><%=formatnumber(salgsomkostSalg, 2)%> </b><%=basisValISO_f8%></td></tr>
                    </table>
             
             </td>
@@ -4440,13 +4530,28 @@ sub timepriser
 
 
                         <br />
-                          <input id="FM_sync_tp" name="FM_sync_tp" value="1" type="checkbox" />Sæt alle aktiviteter til at <b>nedarve</b> de timepriser der er <b>angivet på jobbet</b>. (Ikke KM aktiviteter)
-                           <br /> <span style="color:#999999;">Overskriver ikke hvis "fast (ens) timepris for alle medarbejdere" er slået til på aktiviteten.</span>
-                       
-
-                       <%strSQLmt = "SELECT mt.id, mt.type, COUNT(m.mid) AS antalM, m.mansat FROM medarbejdertyper AS mt "_
-                       &" LEFT JOIN medarbejdere AS m ON (m.medarbejdertype = mt.id AND m.mansat = 1) "_
-                       &" WHERE mt.id <> 0 AND m.mansat = 1 GROUP BY mt.id ORDER BY mt.type" 
+                        <%select case lto
+                          case "xoko"
+                            showAktTpsync = 0
+                          case else
+                            showAktTpsync = 1
+                          end select 
+                            
+                            
+                            
+                         if cint(showAktTpsync) = 1 then%>
+                         <input id="FM_sync_tp" name="FM_sync_tp" value="1" type="checkbox" />Sæt alle aktiviteter til at <b>nedarve</b> de timepriser der er <b>angivet på jobbet</b>. (Ikke KM aktiviteter)
+                         <br /><span style="color:#999999;">Overskriver ikke hvis "fast (ens) timepris for alle medarbejdere" er slået til på aktiviteten.</span>
+                         
+                            <%if level = 1 then %>
+                            <br /><input name="FM_sync_tp_rens" value="1" type="checkbox" /> Slet timepriser på medarbejdere der ikke længere har adgang til dette job, eller er blevet de-aktiveret.
+                            <%end if %>
+                         
+                         <%end if 
+                             
+                           strSQLmt = "SELECT mt.id, mt.type, COUNT(m.mid) AS antalM, m.mansat FROM medarbejdertyper AS mt "_
+                           &" LEFT JOIN medarbejdere AS m ON (m.medarbejdertype = mt.id AND m.mansat = 1) "_
+                           &" WHERE mt.id <> 0 AND m.mansat = 1 GROUP BY mt.id ORDER BY mt.type" 
                        
                        'Response.Write "<br>"& strSQLmt & "<br>"
                        'Response.flush

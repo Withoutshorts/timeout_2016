@@ -14,20 +14,11 @@
 				'*** job totaler oskrifter  **'
 				
 						
-							'if jobid <> 0 then
-							strFakbtimTxt = "<b>Budget.</b><br>(forkalkuleret)"
-							'else
-							'strFakbtimTxt = "Forkalk. timer&nbsp;"
-							'end if
-						
+							strFakbtimTxt = "<b>Budgetteret</b><br><span style='font-size:9px;'>(forkalkuleret)</span>"
 							
 							strFakbTxt = "Brutto Oms.&nbsp;"
 
-                            'if jobid = 0 then
-                            'strFakbTxt = strFakbTxt & "<br><span style='color:#6CAE1C; font-size:11px;'>Faktisk timepris</span>&nbsp;"
-                            'end if
-						
-						
+                           
 				
 				strMedarbOskriftLinie = strMedarbOskriftLinie & "<td "&tdstyleTimOms&" bgcolor=#F7F7F7>"& strFakbtimTxt 
 				
@@ -52,7 +43,7 @@
                     
                     
                 
-                            strMedarbOskriftLinie = strMedarbOskriftLinie &"(før valgte periode)</td>"
+                            strMedarbOskriftLinie = strMedarbOskriftLinie &"<span style='font-size:9px;'>(før valgte periode)</span></td>"
                
                             end if
                 
@@ -71,15 +62,15 @@
 				                select case cint(visfakbare_res) 
                                 case 1
 				                strMedarbOskriftLinie = strMedarbOskriftLinie & "<b>Realiseret tim.</b>&nbsp;"
-				                strMedarbOskriftLinie = strMedarbOskriftLinie & "<br>Omsætning&nbsp;<br>Balance<br>(i periode)&nbsp;"
+				                strMedarbOskriftLinie = strMedarbOskriftLinie & "<br>Omsætning&nbsp;<br>Balance<br><span style='font-size:9px;'>(i periode)</span>&nbsp;"
 				    
 				                case 2
 
                                 strMedarbOskriftLinie = strMedarbOskriftLinie & "<b>Realiseret tim.</b>&nbsp;"
-				                strMedarbOskriftLinie = strMedarbOskriftLinie & "<br>Kost. ialt&nbsp;<br>Balance<br>(i periode)&nbsp;"
+				                strMedarbOskriftLinie = strMedarbOskriftLinie & "<br>Kost. ialt&nbsp;<br>Balance<br><span style='font-size:9px;'>(i periode)</span>&nbsp;"
 
                                 case else
-				                strMedarbOskriftLinie = strMedarbOskriftLinie & "<b>Real. timer</b><br>(i periode)&nbsp;"
+				                strMedarbOskriftLinie = strMedarbOskriftLinie & "<b>Real. timer</b><br><span style='font-size:9px;'>(i periode)</span>&nbsp;"
 				    
 				                    'if cint(vis_enheder) = 1 then
 				                    'strMedarbOskriftLinie = strMedarbOskriftLinie &"<br>Enheder&nbsp;"
@@ -88,6 +79,10 @@
 				                end select
 				
 				            strMedarbOskriftLinie = strMedarbOskriftLinie & "</td>"
+
+
+
+                     strMedarbOskriftLinie = strMedarbOskriftLinie & "<td "&tdstyleTimOms&" bgcolor=#F7F7F7><b>Real. %</b></td>"
 
 
                     '*****************************************'
@@ -102,7 +97,7 @@
                      strMedarbOskriftLinie = strMedarbOskriftLinie &"<span style='color:#999999; font-size:9px;'>Forecasttimer</span><br>"
                      end if
 
-                     strMedarbOskriftLinie = strMedarbOskriftLinie & "<b>Real. timer</b><br>(ialt)</td>"
+                     strMedarbOskriftLinie = strMedarbOskriftLinie & "<b>Real. timer</b><br><span style='font-size:9px;'>(ialt)</span></td>"
 
                     end if
 
@@ -110,9 +105,22 @@
                 end if 'if cint(directexp) <> 1 then 
 				
 
-                
-                expTxt = expTxt &"Kontakt;Jobnavn;Jobnr;Fase;Aktivitet;Jobtype;"
-			    expTxt = expTxt &"Jobansvarlig;Init;Jobejer;Init;"
+                expTxt = expTxt &"Kontakt;Jobnavn;Jobnr;"
+
+                select case lto
+                case "cisu", "intranet - local"            
+                case else
+                expTxt = expTxt &"Fase;"
+                end select
+    
+                expTxt = expTxt &"Aktivitet;Jobtype;"           
+
+                select case lto
+                case "cisu", "intranet - local"            
+                case else
+                expTxt = expTxt &"Jobansvarlig;Init;Jobejer;Init;"
+                end select
+			    
                 expTxt = expTxt &"Timer forkalkuleret;"
 
                 if cint(visfakbare_res) = 1 OR cint(visfakbare_res) = 2 then
@@ -168,10 +176,13 @@
                             for c = 0 to etal
                             
                                 if cint(csv_pivot) = 0 OR (cint(csv_pivot) = 1 AND v = 0 AND c = 0) then
+
                                 expTxt = expTxt &"Real. timer;"
                             
 
                                     if cint(csv_pivot) <> 1 then
+
+                                        
 
                                         if cint(vis_restimer) = 1 then
                                         expTxt = expTxt &"Res. timer;"
@@ -180,6 +191,10 @@
 							            if cint(vis_enheder) = 1 then
 							            expTxt = expTxt &"Enheder;" 
 							            end if
+
+                                        if cint(vis_normtimer) = 1 AND md_split_cspan = 1 then
+                                         expTxt = expTxt &"Norm;"
+                                        end if
 							
 							            if cint(visfakbare_res) = 1 then
 							            expTxt = expTxt &"Omsætning;"
@@ -226,7 +241,7 @@
 
                    
 
-                            expTxt = expTxt & replace(medarbnavnognr(v), "<br>", " ") &";"
+                            expTxt = expTxt & replace(medarbnavnognr(v), "<br>", "") &";"
 							
 
                             
@@ -240,9 +255,14 @@
                             expTxt = expTxt &";"
                             end if
 
+                            
 							if cint(vis_enheder) = 1 then
 							expTxt = expTxt &";" 
 							end if
+
+                            if cint(vis_normtimer) = 1 AND md_split_cspan = 1 then
+                            expTxt = expTxt &";"
+                            end if
 							
 							if cint(visfakbare_res) = 1 OR cint(visfakbare_res) = 2 then
 							expTxt = expTxt &";"
@@ -274,7 +294,7 @@
                             
                                                 if cint(directexp) <> 1 then 
 
-                                                strMedarbOskriftLinie = strMedarbOskriftLinie &"</tr><tr bgcolor=#EFf3ff><td colspan=3>&nbsp;</td>"
+                                                strMedarbOskriftLinie = strMedarbOskriftLinie &"</tr><tr bgcolor=#EFf3ff><td colspan=4>&nbsp;</td>"
                                                 
                                                     if cint(visPrevSaldo) = 1 then
                                                     strMedarbOskriftLinie = strMedarbOskriftLinie &"<td>&nbsp;</td><td>&nbsp;</td>"
@@ -291,92 +311,101 @@
 
 
 
-                                                  if cint(md_split) = 1 then '** 3 md
+                                                  if cint(md_split) = 1 then '** = 3 md
 
-                                                  if cint(directexp) <> 1 then 
-                                                 strMedarbOskriftLinie = strMedarbOskriftLinie &"<td align=center style='font-size:8px; border-left:1px #CCCCCC solid'>"& mdThis1 &"<br><img src='../ill/blank.gif' width=45 height=1></td>"_
-                                                 &"<td align=center style='font-size:8px;'>"& mdThis2 &"<br><img src='../ill/blank.gif' width=45 height=1></td>"_
-                                                 &"<td align=center style='font-size:8px;'>"& mdThis3 &"<br><img src='../ill/blank.gif' width=45 height=1></td>"
-                                                 end if 'if cint(directexp) <> 1 then 
-
-
-                                                  expTxt = expTxt & replace(mdThis1, "<br>", "") &";"
+                                                              if cint(directexp) <> 1 then 
+                                                             strMedarbOskriftLinie = strMedarbOskriftLinie &"<td align=center style='font-size:8px; border-left:1px #CCCCCC solid'>"& mdThis1 &"<br><img src='../ill/blank.gif' width=45 height=1></td>"_
+                                                             &"<td align=center style='font-size:8px;'>"& mdThis2 &"<br><img src='../ill/blank.gif' width=45 height=1></td>"_
+                                                             &"<td align=center style='font-size:8px;'>"& mdThis3 &"<br><img src='../ill/blank.gif' width=45 height=1></td>"
+                                                             end if 'if cint(directexp) <> 1 then 
 
 
+                                                              expTxt = expTxt & replace(mdThis1, "<br>", "") &";"
 
-                                                  if cint(vis_restimer) = 1 then
-                                                 expTxt = expTxt &";"
-                                                 end if
 
-                                                if cint(vis_enheder) = 1 then
-							                    expTxt = expTxt &";" 
-							                    end if
+
+                                                              if cint(vis_restimer) = 1 then
+                                                             expTxt = expTxt &";"
+                                                             end if
+
+                                                            if cint(vis_enheder) = 1 then
+							                                expTxt = expTxt &";" 
+							                                end if
 							
-							                    if cint(visfakbare_res) = 1 OR cint(visfakbare_res) = 2 then
-							                    expTxt = expTxt &";"
-							                    expTxt = expTxt &";"
-							                    end if    
+							                                if cint(visfakbare_res) = 1 OR cint(visfakbare_res) = 2 then
+							                                expTxt = expTxt &";"
+							                                expTxt = expTxt &";"
+							                                end if    
 
-                                                 expTxt = expTxt & replace(mdThis2, "<br>", "") &";"
+                                                             expTxt = expTxt & replace(mdThis2, "<br>", "") &";"
 
-                                                  if cint(vis_restimer) = 1 then
-                                                 expTxt = expTxt &";"
-                                                 end if
+                                                              if cint(vis_restimer) = 1 then
+                                                             expTxt = expTxt &";"
+                                                             end if
 
-                                                if cint(vis_enheder) = 1 then
-							                    expTxt = expTxt &";" 
-							                    end if
+                                                            if cint(vis_enheder) = 1 then
+							                                expTxt = expTxt &";" 
+							                                end if
 							
-							                    if cint(visfakbare_res) = 1 OR cint(visfakbare_res) = 2 then
-							                    expTxt = expTxt &";"
-							                    expTxt = expTxt &";"
-							                    end if    
+							                                if cint(visfakbare_res) = 1 OR cint(visfakbare_res) = 2 then
+							                                expTxt = expTxt &";"
+							                                expTxt = expTxt &";"
+							                                end if    
 
 
-                                                 expTxt = expTxt & replace(mdThis3, "<br>", "") &";"
+                                                             expTxt = expTxt & replace(mdThis3, "<br>", "") &";"
 
 
-                                                  if cint(vis_restimer) = 1 then
-                                                 expTxt = expTxt &";"
-                                                 end if
+                                                              if cint(vis_restimer) = 1 then
+                                                             expTxt = expTxt &";"
+                                                             end if
 
-                                                if cint(vis_enheder) = 1 then
-							                    expTxt = expTxt &";" 
-							                    end if
+                                                            if cint(vis_enheder) = 1 then
+							                                expTxt = expTxt &";" 
+							                                end if
+
+                                                
+                                                            'if cint(vis_normtimer) = 1 then ALDRING med på opdeling på md, da den så skal beregnes pr. måne tung.
+							                                'expTxt = expTxt &";" 
+							                                'end if
 							
-							                    if cint(visfakbare_res) = 1 OR cint(visfakbare_res) = 2 then
-							                    expTxt = expTxt &";"
-							                    expTxt = expTxt &";"
-							                    end if    
+							                                if cint(visfakbare_res) = 1 OR cint(visfakbare_res) = 2 then
+							                                expTxt = expTxt &";"
+							                                expTxt = expTxt &";"
+							                                end if    
 
 
-                                                 else
+                                                else '** = 12 md
 
-                                                   for m = 1 to 12
+                                                       for m = 1 to 12
                                                          
-                                                         mdThis = dateadd("m", -(12-m), datoSlut)
-                                                         mdThis = left(monthname(month(mdThis)), 3) &"<br>"& year(mdThis)
+                                                             mdThis = dateadd("m", -(12-m), datoSlut)
+                                                             mdThis = left(monthname(month(mdThis)), 3) &"<br>"& year(mdThis)
                                             
-                                                         if cint(directexp) <> 1 then 
-                                                         strMedarbOskriftLinie = strMedarbOskriftLinie &"<td align=center style='font-size:8px; border-left:1px #CCCCCC solid'>"& mdThis &"<br><img src='../ill/blank.gif' width=45 height=1></td>"
-                                                         end if 'if cint(directexp) <> 1 then                                                      
+                                                             if cint(directexp) <> 1 then 
+                                                             strMedarbOskriftLinie = strMedarbOskriftLinie &"<td align=center style='font-size:8px; border-left:1px #CCCCCC solid'>"& mdThis &"<br><img src='../ill/blank.gif' width=45 height=1></td>"
+                                                             end if 'if cint(directexp) <> 1 then                                                      
 
-                                                         expTxt = expTxt & replace(mdThis, "<br>", "") &";" 
+                                                             expTxt = expTxt & replace(mdThis, "<br>", "") &";" 
 
                                                          
-                                                         if cint(vis_restimer) = 1 then
-                                                         expTxt = expTxt &";"
-                                                         end if
+                                                             if cint(vis_restimer) = 1 then
+                                                             expTxt = expTxt &";"
+                                                             end if
 
-                                                        if cint(vis_enheder) = 1 then
-							                            expTxt = expTxt &";" 
-							                            end if
+                                                            if cint(vis_enheder) = 1 then
+							                                expTxt = expTxt &";" 
+							                                end if
 
-                                                        if cint(visfakbare_res) = 1 OR cint(visfakbare_res) = 2 then
-                                                        expTxt = expTxt &";;"
-                                                        end if
+                                                            'if cint(vis_normtimer) = 1 then
+							                                'expTxt = expTxt &";" 
+							                                'end if
 
-                                                   next
+                                                            if cint(visfakbare_res) = 1 OR cint(visfakbare_res) = 2 then
+                                                            expTxt = expTxt &";;"
+                                                            end if
+
+                                                       next
    
                                                      
                                                       
@@ -486,6 +515,8 @@ sub subTotaler_gt
                          strJobLinie_Subtotal = strJobLinie_Subtotal & "<span style='color:#999999;'>"& formatnumber(restimerSubJob,0) &"</span><br>"
                          end if
 
+
+                        '** Real timer
                          strJobLinie_Subtotal = strJobLinie_Subtotal & formatnumber(subtotaljboTimerIalt,2)
 
 						'*** Enheder ***'
@@ -502,7 +533,10 @@ sub subTotaler_gt
 						strJobLinie_Subtotal = strJobLinie_Subtotal & "</td>"
 						end if
 						
-						
+	            					
+                        strJobLinie_Subtotal = strJobLinie_Subtotal & "<td class=lille valign=bottom align=right "&tdstyleTimOms&" bgcolor=snow>&nbsp;</td>" 
+
+
 
                         '********** Grandtotal uanset periode ******'
                         if cint(visPrevSaldo) = 1 then
@@ -634,9 +668,12 @@ sub subTotaler_gt
    sub tommeCSVfelter
 
 
-                   
-				    expTxt = expTxt &";;;;;;;;;;;;"
-				   
+                    select case lto
+                    case "cisu", "intranet - local"
+                    expTxt = expTxt &";;;;;;;;"
+                    case else
+				    expTxt = expTxt &";;;;;;;;;;;;;"
+				    end select
 
                     if cint(visPrevSaldo) = 1 then
                     expTxt = expTxt &";;"
@@ -648,6 +685,11 @@ sub subTotaler_gt
                             if cint(vis_enheder) = 1 then
                             expTxt = expTxt &";;;"
                             end if
+
+                            'if cint(vis_normtimer) = 1 then
+                            'expTxt = expTxt &";;;"
+                            'end if
+
                     
                     else
 
@@ -658,6 +700,10 @@ sub subTotaler_gt
                             if cint(vis_enheder) = 1 then
                             expTxt = expTxt &";"
                             end if
+
+                            'if cint(vis_normtimer) = 1 then
+                            'expTxt = expTxt &";"
+                            'end if
 
                     end if
 
@@ -695,8 +741,15 @@ sub exportptOskrifter
            
 
 
-                expTxt = expTxt &"Real. timer Ialt (I periode);" 
+                expTxt = expTxt &"Real. timer Ialt (I periode);"
+                expTxt = expTxt &"Real. timer %;"
 
+                select case lto
+                case "cisu", "intranet - local"            
+                case else
+                'expTxt = expTxt &"Budget beløb;"
+                'expTxt = expTxt &"Faktureret;"
+                end select
 
                     
                     if cint(vis_restimer) = 1 then
@@ -738,7 +791,7 @@ end sub
 
 
 
- sub tomtdfelt_a
+ sub tomtdfelt_a '*** KUN 3 MD og 12 MD opdeling
 
             if lastWrtMd = -1 OR (m > lastWrtMd AND m < md) then
                     
@@ -800,6 +853,10 @@ end sub
                             if cint(vis_enheder) = 1 then
 							expTxt = expTxt &";" 
 							end if
+
+                            'if cint(vis_normtimer) = 1 then 'NORM ALDRING med på 3 / 12 MD opligen i eksport
+							'expTxt = expTxt &";" 
+							'end if
 							
 							if cint(visfakbare_res) = 1 OR cint(visfakbare_res) = 2 then
 							expTxt = expTxt &";"
@@ -933,6 +990,7 @@ end sub
                                             end if
 
                                         'lastMidstrId = jobmedtimer(x,4)
+
                                         'Real Timer
 								        expTxt = expTxt & formatnumber(jobmedtimer(x,3), 2)
 								        expTxt = expTxt &";"
@@ -962,10 +1020,28 @@ end sub
 								                enhThisTxt = ""
                                                 end if
                                         
-                                        expTxt = expTxt & enhThisTxt &";"
+                                            if cint(csv_pivot) <> 1 then
+                                            expTxt = expTxt & enhThisTxt &";"
+                                            end if
 
+                                    
+								        end if
+
+
+                                        
+								        '*** Norm ***
+								        if cint(vis_normtimer) = 1 then
 								        
-								
+								              
+                                            if cint(csv_pivot) <> 1 then
+
+                                                if cint(md_split_cspan) = 1 then 'NORM ikke med på 3 MD og 12 MD
+                                                expTxt = expTxt &";"
+                                                end if
+
+                                            end if
+
+                                    
 								        end if
 								
                                         
@@ -1024,14 +1100,18 @@ end sub
 
 
                                             end if 'if cint(directexp) <> 1 then 
-								
+	
+                                                							
+                                                if cint(csv_pivot) <> 1 then
 										
-										        if jobmedtimer(x,7) > 0 then
-										        expTxt = expTxt &formatnumber(jobmedtimer(x,7), 2)
-										        expTxt = expTxt &";"&formatnumber(medTpris, 2)&";"
-										        else
-										        expTxt = expTxt &"0;"&formatnumber(medTpris, 2)&";"
-										        end if
+										            if jobmedtimer(x,7) > 0 then
+										            expTxt = expTxt &formatnumber(jobmedtimer(x,7), 2)
+										            expTxt = expTxt &";"&formatnumber(medTpris, 2)&";"
+										            else
+										            expTxt = expTxt &"0;"&formatnumber(medTpris, 2)&";"
+										            end if
+
+                                                end if
 										
 								        end if
 								

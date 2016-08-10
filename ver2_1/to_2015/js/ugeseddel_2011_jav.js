@@ -7,6 +7,9 @@
 $(document).ready(function() {
 
 
+    $('.date').datepicker({
+
+    });
 
 
 
@@ -74,7 +77,7 @@ $(document).ready(function() {
         var thisvaltrim = thisid.slice(7, thisvallngt)
         thisval = thisvaltrim
 
-     
+        //alert(thisval)
         
         sogjobogkunde(thisval);
 
@@ -88,20 +91,29 @@ $(document).ready(function() {
 
     $(".FM_akt").keyup(function () {
 
-       
+    
 
         $(".dv_job").hide();
 
-        var thisid = this.id
-        var thisvallngt = thisid.length
-        var thisvaltrim = thisid.slice(7, thisvallngt)
-        thisval = thisvaltrim
+       var thisid = this.id
+       var thisvallngt = thisid.length
+       var thisvaltrim = thisid.slice(7, thisvallngt)
+       thisval = thisvaltrim
 
-     
         sogakt(thisval);
 
     });
 
+
+    $("#FM_timer").focus(function () {
+        $(".chbox_job").hide();
+        $(".chbox_akt").hide();
+    });
+
+    $("#FM_kom").focus(function () {
+        $(".chbox_job").hide();
+        $(".chbox_akt").hide();
+    });
 
 
     function sogakt(thisval) {
@@ -114,6 +126,12 @@ $(document).ready(function() {
         jq_aktid = $("#FM_akt_" + thisval).val()
         jq_pa = $("#FM_pa").val()
 
+        $(".chbox_job").hide();
+
+        $("#dv_akt_" + thisval).css("display", "");
+        $("#dv_akt_" + thisval).css("visibility", "visible");
+        $("#dv_akt_" + thisval).show(100);
+
         //alert(jq_jobid + ":: medid: " + jq_medid + "#" + jq_newfilterval.length + " jq_aktid: " + jq_aktid + "## jq_pa" + jq_pa)
 
         if (jq_newfilterval.length > 0) {
@@ -122,55 +140,72 @@ $(document).ready(function() {
             //alert("cc")
             $("#dv_akt_" + thisval).html(data);
 
-            $("#dv_akt_" + thisval).css("display", "");
-            $("#dv_akt_" + thisval).css("visibility", "visible");
-            $("#dv_akt_" + thisval).show(100);
+           
 
 
 
-            $('.luk_aktsog').bind('mouseover', function () {
+           // $('.luk_aktsog').bind('mouseover', function () {
 
-                $(this).css("cursor", "pointer");
+            //     $(this).css("cursor", "pointer");
 
 
 
-            });
+            //});
 
        
 
-            $(".luk_aktsog").bind('click', function () {
+            // $(".luk_aktsog").bind('click', function () {
 
 
-                $(".dv_akt").hide();
+            //   $(".dv_akt").hide();
+
+            // });
+
+
+            // $('.chbox_akt').bind('mouseover', function () {
+
+            //   $(this).css("cursor", "pointer");
+
+            //  });
+
+            $(".chbox_akt").bind('keyup', function () {
+
+              
+                if (window.event.keyCode == "13") {
+
+                    var thisvaltrim = $("#dv_akt_" + thisval).val()
+                    thisAktidUse = thisvaltrim
+                    //thisJobnavn = $("#hiddn_job_" + thisJobid).val()
+                    thisAktnavn = $("#dv_akt_" + thisval +" option:selected").text()
+
+
+
+                    $("#FM_akt_" + thisval).val(thisAktnavn)
+                    $("#FM_aktid_" + thisval).val(thisAktidUse)
+                    //$(".dv_akt").hide();
+                    $(".chbox_akt").hide();
+
+                }
 
             });
-
-
-            $('.chbox_akt').bind('mouseover', function () {
-
-                $(this).css("cursor", "pointer");
-
-            });
-
+           
 
             $(".chbox_akt").bind('click', function () {
 
+              
+              
+
+                var thisvaltrim = $("#dv_akt_" + thisval).val()
+                thisAktidUse = thisvaltrim
+                //thisJobnavn = $("#hiddn_job_" + thisJobid).val()
+                thisAktnavn = $("#dv_akt_"+ thisval + " option:selected").text()
+
                 
-
-                var thisaktid = this.id
-                var thisvallngt = thisaktid.length
-                var thisvaltrim = thisaktid.slice(10, thisvallngt)
-
-                thisaktid_val = thisvaltrim
-                thisAktnavn = $("#hiddn_akt_" + thisaktid_val).val()
-                //thisAktidUse = $("#chbox_akt_" + thisaktid_val).val()
-                thisAktidUse = thisaktid_val
-
-                //salert("thisAktidUse: " + thisAktidUse + "thisaktid_val: " + thisaktid_val)
 
                 $("#FM_akt_" + thisval).val(thisAktnavn)
                 $("#FM_aktid_" + thisval).val(thisAktidUse)
-                $(".dv_akt").hide();
+                //$(".dv_akt").hide();
+                $(".chbox_akt").hide();
 
             });
 
@@ -190,12 +225,19 @@ $(document).ready(function() {
   
     function sogjobogkunde(thisval) {
 
-        
+      
 
         jq_newfilterval = $("#FM_job_" + thisval).val()
         jq_medid = $("#FM_medid").val()
+
+
+        $("#dv_job_" + thisval).css("display", "");
+        $("#dv_job_" + thisval).css("visibility", "visible");
+        $("#dv_job_" + thisval).show(100);
        
-        //alert(jq_newfilterval.length)
+        $(".chbox_akt").hide();
+
+        //alert("thisval: " + thisval + " jq_newfilterval: " + jq_newfilterval + " jq_medid: " + jq_medid)
 
         if (jq_newfilterval.length > 0) {
 
@@ -203,57 +245,100 @@ $(document).ready(function() {
             //alert("cc")
             $("#dv_job_" + thisval).html(data);
 
-            $("#dv_job_" + thisval).css("display", "");
-            $("#dv_job_" + thisval).css("visibility", "visible");
-            $("#dv_job_" + thisval).show(100);
+           
             
 
-            $('.luk_jobsog').bind('mouseover', function () {
+            //$('.luk_jobsog').bind('mouseover', function () {
 
-                $(this).css("cursor", "pointer");
+            //    $(this).css("cursor", "pointer");
 
-            });
+            //});
 
 
-            $('.chbox_job').bind('mouseover', function () {
+            //$('.chbox_job').bind('mouseover', function () {
 
-                $(this).css("cursor", "pointer");
+            //    $(this).css("cursor", "pointer");
 
-            });
+            //});
 
 
             
 
-                $(".luk_jobsog").bind('click', function () {
+               // $(".luk_jobsog").bind('click', function () {
 
               
-                    $(".dv_job").hide();
+            //     $(".dv_job").hide();
 
-                });
-
-
-                $(".luk_jobsog").bind('click', function () {
+            //  });
 
 
-                    $(".dv_job").hide();
-
-                });
-
-                $(".chbox_job").bind('click', function () {
+            //  $(".luk_jobsog").bind('click', function () {
 
 
-                   
-                    var thisjobid = this.id
-                    var thisvallngt = thisjobid.length
-                    var thisvaltrim = thisjobid.slice(10, thisvallngt)
+            //      $(".dv_job").hide();
+
+            //  });
+
+
+
+                
+            $(".chbox_job").bind('click', function () {
+
+             
                     
+                var thisvaltrim = $("#dv_job_" + thisval).val()
+                    //alert("her: " + thisvaltrim)
+                   
+                    //var thisjobid = this.id
+                    //var thisvallngt = thisjobid.length
+                    //var thisvaltrim = thisjobid.slice(10, thisvallngt)
+                    //var thisvaltrim = thisvaltrim
+                   
+
                     thisJobid = thisvaltrim
-                    thisJobnavn = $("#hiddn_job_" + thisJobid).val()
+                    //thisJobnavn = $("#hiddn_job_" + thisJobid).val()
+                    thisJobnavn = $("#dv_job_"+ thisval +" option:selected").text()
+                    
+                   
 
                     $("#FM_job_" + thisval).val(thisJobnavn)
                     $("#FM_jobid_" + thisval).val(thisJobid)
 
-                    $(".dv_job").hide();
+                    //$(".dv_job").hide();
+                    $(".chbox_job").hide();
+
+            });
+                    
+
+
+
+                $(".chbox_job").bind('keyup', function () {
+
+                    if (window.event.keyCode == "13") {
+                    
+                        var thisvaltrim = $("#dv_job_" + thisval).val()
+                    //alert("her: " + thisvaltrim)
+                   
+                    //var thisjobid = this.id
+                    //var thisvallngt = thisjobid.length
+                    //var thisvaltrim = thisjobid.slice(10, thisvallngt)
+                    //var thisvaltrim = thisvaltrim
+                   
+
+                    thisJobid = thisvaltrim
+                    //thisJobnavn = $("#hiddn_job_" + thisJobid).val()
+                    thisJobnavn = $("#dv_job_"+ thisval +" option:selected").text()
+                    
+                   
+
+                    $("#FM_job_" + thisval).val(thisJobnavn)
+                    $("#FM_jobid_" + thisval).val(thisJobid)
+
+                    //$(".dv_job").hide();
+                    $(".chbox_job").hide();
+
+                    }
+                    
 
                 });
 
@@ -263,7 +348,45 @@ $(document).ready(function() {
         });
 
         }
-}
+    }
+
+    
+   
+    
+
+    dagsval1 = $("#sumtimer_dag_1").val();
+    dagsval2 = $("#sumtimer_dag_2").val();
+    dagsval3 = $("#sumtimer_dag_3").val();
+    dagsval4 = $("#sumtimer_dag_4").val();
+    dagsval5 = $("#sumtimer_dag_5").val();
+    dagsval6 = $("#sumtimer_dag_6").val();
+    dagsval7 = $("#sumtimer_dag_7").val();
+
+    if (dagsval1 != "0,00") {
+        $("#sp_sumtimer_dag_1").html(dagsval1);
+    }
+
+    if (dagsval2 != "0,00") {
+        //alert(dagsval2)
+        $("#sp_sumtimer_dag_2").html(dagsval2);
+    }
+
+    if (dagsval3 != "0,00") {
+        $("#sp_sumtimer_dag_3").html(dagsval3);
+    }
+    if (dagsval4 != "0,00") {
+        $("#sp_sumtimer_dag_4").html(dagsval4);
+    }
+        if (dagsval5 != "0,00") {
+            $("#sp_sumtimer_dag_5").html(dagsval5);
+        }
+            if (dagsval6 != "0,00") {
+                $("#sp_sumtimer_dag_6").html(dagsval6);
+            }
+                if (dagsval7 != "0,00") {
+                $("#sp_sumtimer_dag_7").html(dagsval7);
+                }
+   
 
 });
 

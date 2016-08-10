@@ -37,9 +37,14 @@ public partial class importer_timer : System.Web.UI.Page
     {
         try
         {
+
+            lblStatus.Text = "<br>Webservice indlæser...<br>";
             if (Request["editor"] != null && Request["lto"] != null && Request["mid"]!=null && txtFileName.Text != string.Empty)
             {
-                lblStatus.Text = string.Empty;
+                
+                //lblStatus.Text = string.Empty;
+
+                
 
                 ozUploadFile service = new ozUploadFile();
                 String path = Server.MapPath(PATH2UPLOAD);
@@ -53,19 +58,20 @@ public partial class importer_timer : System.Web.UI.Page
                 string serviceReturn = string.Empty;
                 string errorLine = string.Empty;
 
-                lblStatus.Text = init;
+                //lblStatus.Text = init;
 
                 if (init != string.Empty)
 
-                    //lblStatus.Text = serviceReturn.ToString();
+                    
 
                    
 
                 serviceReturn = service.Submit(path, txtFileName.Text, headers, intHeaders, Request["lto"], Request["editor"], ref countIgnore, ref countSent, init, ref errorLine, Request["mid"]);
-                lblStatus.Text = "" + path + "," + txtFileName.Text + "," + headers + "," + intHeaders + "," + Request["lto"] + "," + Request["editor"];
-                lblStatus.Text += "<br>OG VI SIGER: "+ serviceReturn.ToString();
 
-                //lblStatus.Text = serviceReturn.ToString();
+                //lblStatus.Text = "" + path + "," + txtFileName.Text + "," + headers + "," + intHeaders + "," + Request["lto"] + "," + Request["editor"] + "," + Request["mid"] + " init: " + init;
+                //lblStatus.Text += "<br>OG VI SIGER 2: "+ serviceReturn.ToString();
+
+                //lblStatus.Text += serviceReturn.ToString();
 
                 int rowsInserted = GetRowInserted(serviceReturn);
                 int rowsFailed = countSent - rowsInserted;
@@ -90,7 +96,7 @@ public partial class importer_timer : System.Web.UI.Page
                         lblStatus.Text = "Status message:<br><br> Filen indeholdt " + rowTotal + " linjer.<br>" + rowsInserted + " linjer indlæst korrekt.<br>" + errorId;
                 }
 
-                //lblStatus.Text += serviceReturn.ToString();
+                lblStatus.Text += serviceReturn.ToString();
 
                 //lblStatus.Text += "<br>Path: " + path;
                 //lblStatus.Text += "<br>txtFileName.Text: " + txtFileName.Text;
@@ -119,9 +125,10 @@ public partial class importer_timer : System.Web.UI.Page
                
 
                 //lblStatus.Text += "<br>Path: " + path;
-                //lblStatus.Text += "<br>txtFileName.Text: " + txtFileName.Text;
+                //lblStatus.Text += serviceReturn.ToString();
+                lblStatus.Text += "<br>FIL UPLOADED -- OK: " + txtFileName.Text;
                 //lblStatus.Text += "<br>Headers: " + headers + " intHeaders: " + intHeaders;
-                lblStatus.Text += "<br>Variable LTO: " + Request["lto"] + " Editor: " + Request["editor"] + " Mid:" + Request["mid"];
+                //lblStatus.Text += "<br>Variable LTO: " + Request["lto"] + " Editor: " + Request["editor"] + " Mid:" + Request["mid"];
                 //lblStatus.Text += "<br>Init: " + init;
       
         }

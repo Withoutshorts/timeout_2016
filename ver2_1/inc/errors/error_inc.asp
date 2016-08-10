@@ -31,7 +31,7 @@ end if
 varErrorText = "<b>Sessionen er udløbet og du er blevet logget af TimeOut.</b><br><br>"_
 &"Sessionen udløber ud hvis TimeOut har været passiv i mere end <b>12 timer</b>, "_
 &"eller TimeOut serveren har nulstillet dagens aktive sessioner, af sikkerheds- og -performance mæssige hensyn."_
-&"<br><br>Klik her:  <a href='https://outzource.dk/"&thislto&"' target='_top'>https://outzource.dk/"&thislto&"</a> for at logge ind i jeres system igen."_
+&"<br><br>Klik her:  <a href='http://timeout.cloud/"&thislto&"' target='_top'>http://timeout.cloud/"&thislto&"</a> for at logge ind i jeres system igen."_
 &"<br /><br />"_
 &"Med venlig hilsen<br /><br />OutZourCE dev. team."
 case 6
@@ -846,8 +846,8 @@ topdiv = 50
 widthdiv = 400
 heightdiv = 200
 case "t"
-leftdiv = 150
-topdiv = 20
+leftdiv = 250 '150
+topdiv = 250 '20
 widthdiv = 400
 heightdiv = 200
 case "f"

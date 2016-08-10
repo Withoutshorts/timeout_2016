@@ -79,7 +79,7 @@ a = 0
 								Response.write x &"<br>"& strSQL(b) & "<br><br>"
 								Response.flush
 
-								'if x > 54 then 'AND x < 101 then
+								'if x > 157 then 'AND x < 101 then
                                 oConn.open strConnect_aktiveDB
 							    
                                 '*** DENNE LINJE INDLÆSER // UDKOMMENTER NÅR FILEN IKKE ER AKTIV
@@ -2867,6 +2867,15 @@ aty_on, aty_on_realhours, aty_on_invoiceble, aty_on_invoice, aty_on_invoice_chk
 , aty_on_workhours, aty_pre, aty_sort, aty_on_recon, aty_enh, aty_on_adhoc, aty_hide_on_treg)
 VALUES (92, 'global_txt_195','E3',0,0,0,0,0,0,0,1.92,0,0,0,0);
 INSERT INTO dbversion (dbversion) VALUES (20160205.1)
+
+<br /><br />20160610.1<br />
+Alter table timer_import_temp MODIFY timerkom VARCHAR(250) 
+
+<br /><br />20160623.1<br />
+ALTER TABLE licens ADD pa_aktlist INT DEFAULT 0 NOT NULL;
+INSERT INTO dbversion (dbversion) VALUES (20160623.1) 
+
+
 
 <%
 

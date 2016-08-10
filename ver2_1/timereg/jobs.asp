@@ -859,7 +859,7 @@ if len(session("user")) = 0 then
     'Response.end
 
 		'** Tjekker om alle felter er udfyldt korrekt **
-		if len(request("FM_navn")) = 0 OR len(request("FM_navn")) > 50 OR len(trim(request("FM_jnr"))) = 0 OR len(request("FM_kunde")) = 0 OR _
+		if len(request("FM_navn")) = 0 OR len(request("FM_navn")) > 100 OR len(trim(request("FM_jnr"))) = 0 OR len(request("FM_kunde")) = 0 OR _
 		len(request("FM_jnr")) > 20 OR startDatoNum > slutDatoNum OR _
 		cint(instr(request("FM_navn"), "'")) > 0 then
 		
@@ -2416,11 +2416,20 @@ if len(session("user")) = 0 then
 
 
 
-						                oConn.execute("DELETE FROM timepriser WHERE jobid = "& id &" AND medarbid = "& intMedArbID(b) &" "& fakbaraktid &"")
+						                strSQLdeltp = "DELETE FROM timepriser WHERE jobid = "& id &" AND medarbid = "& intMedArbID(b) &" "& fakbaraktid 
+                                        oConn.execute(strSQLdeltp)
+
                                         
                                         else '** ellers kun job // Eller valgte akt **'
-                                        oConn.execute("DELETE FROM timepriser WHERE jobid = "& id &" AND medarbid = "& intMedArbID(b) &" AND aktid = "& hd_tp_jobaktid &"")
+
+                                        strSQLdeltp = "DELETE FROM timepriser WHERE jobid = "& id &" AND medarbid = "& intMedArbID(b) &" AND aktid = "& hd_tp_jobaktid 
+                                        oConn.execute(strSQLdeltp)
+                        
                                         end if
+
+                                        
+                                        strSQLdeltp = strSQLdeltp & "<br>" & strSQLdeltp
+
 
                                          
 						               
@@ -2567,19 +2576,43 @@ if len(session("user")) = 0 then
 
 
 
+                            
+
+
                             '*************************************************************************************
                             '*** Renser ud i timepriser på medarbejdere der ikke længere er tilknyttet jobbbet ***
                             '*************************************************************************************
                                        
                             '*** Pilot WWF 26-09-2011 *** 
                             'if lto = "wwf" then
+
+                            if len(trim(request("FM_sync_tp_rens"))) <> 0 then
+                            sync_tp_rens = 1
+                            else
+                            sync_tp_rens = 0
+                            end if
+
+                            '** KUN VED opdater timepriser bliver strMedabTimePriserSlet SAT ELLERS NULSTILLES timepriser på alle medarb for alle aktiviteter ***'
+                            '** FARLIG ASSURATOR; OKO oplever alle deres timepriser på medarbejdere forsvinder ***'
+                		    if cint(sync_tp_rens) = 1 AND strMedabTimePriserSlet <> " AND medarbid <> 0" then
                             strSQLRensTp = "DELETE FROM timepriser WHERE jobid = "& id &" "& strMedabTimePriserSlet 
-                            'Response.Write strSQLRensTp
                             oConn.execute(strSQLRensTp)
                             'end if
 
-                				
-                				'Response.end
+                            'if session("mid") = 1 then
+
+                            'Response.Write strSQLRensTp
+                            'Response.flush
+                            'response.write "<hr>"
+
+                            'response.write strSQLdeltp
+                            
+                            'Response.end
+                            'end if
+
+                            end if
+
+
                                 '**** Timepriser END ***'
 
 				                
@@ -2884,6 +2917,12 @@ if len(session("user")) = 0 then
                             jobans4 = 0
                             jobans5 = 0
 
+                            jobans1email = ""
+                            jobans2email = ""
+                            jobans3email = ""
+                            jobans4email = ""
+                            jobans5email = ""
+
 				            '**** Finder jobansvarlige *****
 				            strSQL = "SELECT job.id AS jid, jobnavn, jobnr, jobans1, jobans2, jobans3, jobans4, jobans5, job.beskrivelse, job_internbesk, "_
                             &" m1.mnavn AS m1mnavn, m1.email AS m1email, m1.mansat AS m1mansat, "_
@@ -2911,27 +2950,47 @@ if len(session("user")) = 0 then
 				            
                             jobans1 = oRec5("m1mnavn")
                             jobans1Init = oRec5("m1init")
+                            if isNull(oRec5("m1email")) <> true then 
                             jobans1email = oRec5("m1email")
+                            else
+                            jobans1email = ""
+                            end if
                             jobans1Mansat = oRec5("m1mansat")
-                           
-				            jobans2 = oRec5("m2mnavn")
+                        
+                            jobans2 = oRec5("m2mnavn")
 				            jobans2Init = oRec5("m2init")
+                            if isNull(oRec5("m2email")) <> true then 
                             jobans2email = oRec5("m2email")
+                            else
+                            jobans2email = ""
+                            end if
                             jobans2Mansat = oRec5("m2mansat")
 				            
-                             jobans3 = oRec5("m3mnavn")
+                            jobans3 = oRec5("m3mnavn")
 				            jobans3Init = oRec5("m3init")
+                            if isNull(oRec5("m3email")) <> true then 
                             jobans3email = oRec5("m3email")
+                            else
+                            jobans3email = ""
+                            end if
                             jobans3Mansat = oRec5("m3mansat")
 
-                             jobans4 = oRec5("m4mnavn")
+                            jobans4 = oRec5("m4mnavn")
 				            jobans4Init = oRec5("m4init")
+                            if isNull(oRec5("m4email")) <> true then 
                             jobans4email = oRec5("m4email")
+                            else
+                            jobans4email = ""
+                            end if
                             jobans4Mansat = oRec5("m4mansat")
 
-                             jobans5 = oRec5("m5mnavn")
+                            jobans5 = oRec5("m5mnavn")
 				            jobans5Init = oRec5("m5init")
+                            if isNull(oRec5("m5email")) <> true then 
                             jobans5email = oRec5("m5email")
+                            else
+                            jobans5email = ""
+                            end if
                             jobans5Mansat = oRec5("m5mansat")
 
                             jobnavnThis = oRec5("jobnavn")
@@ -2971,6 +3030,8 @@ if len(session("user")) = 0 then
 
 
                                     for m = 1 to 5
+
+                                    jobAnsThis = 0
 
                                     select case m
                                     case 1
@@ -3112,8 +3173,12 @@ if len(session("user")) = 0 then
                                     ("http://schemas.microsoft.com/cdo/configuration/smtpserverport")=25
                                     myMail.Configuration.Fields.Update
 
+                                    if isNull(jobAnsThisEmail) <> true then
+
                                     if len(trim(jobAnsThisEmail)) <> 0 then
                                     myMail.Send
+                                    end if
+
                                     end if
 
                                     set myMail=nothing

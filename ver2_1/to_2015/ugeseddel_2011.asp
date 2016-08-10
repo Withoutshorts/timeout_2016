@@ -1,5 +1,4 @@
-<%response.buffer = true %>
-
+<%response.buffer = true%>
 
 <!--#include file="../inc/connection/conn_db_inc.asp"-->
 <!--#include file="../inc/errors/error_inc.asp"-->
@@ -7,6 +6,7 @@
 <!--#include file="../inc/regular/global_func.asp"-->
 <!--#include file="../inc/regular/treg_func.asp"-->
 <!--#include file="../inc/regular/topmenu_inc.asp"-->
+<!--#include file="../inc/regular/header_lysblaa_2015_inc.asp"-->
 
 
 <%
@@ -17,7 +17,10 @@
         case "FN_sogjobogkunde"
 
 
-                '*** SØG kunde & Job            
+                '*** SØG kunde & Job       
+    
+               
+         
                 
                 if len(trim(request("jq_newfilterval"))) <> 0 then
                 filterVal = 1 
@@ -28,6 +31,14 @@
                 end if
         
                 medid = request("jq_medid")
+
+                call positiv_aktivering_akt_fn()
+                if cint(pa_aktlist) = 0 then 'PA = 0 kan søge i jobbanken / PA = 1 kan kun søge på aktivjobliste
+                strSQLPAkri = strSQLPAkri & ""
+                else
+                strSQLPAkri = strSQLPAkri & " AND tu.forvalgt = 1" 
+                end if
+            
 
                 if filterVal <> 0 then
             
@@ -40,7 +51,7 @@
                 strSQL = "SELECT j.id AS jid, j.jobnavn, j.jobnr, j.jobstatus, k.kkundenavn, k.kkundenr, k.kid FROM timereg_usejob AS tu "_ 
                 &" LEFT JOIN job AS j ON (j.id = tu.jobid) "_
                 &" LEFT JOIN kunder AS k ON (k.kid = j.jobknr) "_
-                &" WHERE tu.medarb = "& medid &" AND (j.jobstatus = 1 OR j.jobstatus = 3) AND "_
+                &" WHERE tu.medarb = "& medid &" AND (j.jobstatus = 1 OR j.jobstatus = 3) "& strSQLPAkri &" AND "_
                 &" (jobnr LIKE '"& jobkundesog &"%' OR jobnavn LIKE '"& jobkundesog &"%' OR "_
                 &" kkundenavn LIKE '"& jobkundesog &"%' OR kkundenr = '"& jobkundesog &"' OR k.kinit = '"& jobkundesog &"')  AND kkundenavn <> ''"_
                 &" GROUP BY j.id ORDER BY kkundenavn, jobnavn LIMIT 50"       
@@ -59,16 +70,21 @@
     
 
                     if lastKid <> 0 then
-                    strJobogKunderTxt = strJobogKunderTxt &"<br>"
+                    ' strJobogKunderTxt = strJobogKunderTxt &"<br>"
+                    strJobogKunderTxt = strJobogKunderTxt & "<option DISABLED></option>"
                     end if
     
-                strJobogKunderTxt = strJobogKunderTxt & oRec("kkundenavn") &" "& oRec("kkundenr") &"<br>"
+                ' strJobogKunderTxt = strJobogKunderTxt & oRec("kkundenavn") &" "& oRec("kkundenr") &"<br>"
+
+                 strJobogKunderTxt = strJobogKunderTxt & "<option DISABLED>"& oRec("kkundenavn") &" "& oRec("kkundenr") &"</option>"
     
                 end if 
                  
-                strJobogKunderTxt = strJobogKunderTxt & "<input type=""hidden"" id=""hiddn_job_"& oRec("jid") &""" value="""& oRec("jobnavn") & " ("& oRec("jobnr") &")"">"
-                strJobogKunderTxt = strJobogKunderTxt & "<a class=""chbox_job"" id=""chbox_job_"& oRec("jid") &""" value="& oRec("jid") &">"& oRec("jobnavn") & " ("& oRec("jobnr") &")" &"</a><br>" 
+               ' strJobogKunderTxt = strJobogKunderTxt & "<input type=""hidden"" id=""hiddn_job_"& oRec("jid") &""" value="""& oRec("jobnavn") & " ("& oRec("jobnr") &")"">"
+               ' strJobogKunderTxt = strJobogKunderTxt & "<a class=""chbox_job"" id=""chbox_job_"& oRec("jid") &""" value="& oRec("jid") &">"& oRec("jobnavn") & " ("& oRec("jobnr") &")" &"</a><br>" 
                 
+                strJobogKunderTxt = strJobogKunderTxt & "<option value="& oRec("jid") &">"& oRec("jobnavn") & " ("& oRec("jobnr") &")" &"</option>"
+
                 lastKid = oRec("kid") 
                 oRec.movenext
                 wend
@@ -191,8 +207,11 @@
                 
                 if cint(showAkt) = 1 then 
                  
-                strAktTxt = strAktTxt & "<input type=""hidden"" id=""hiddn_akt_"& oRec("aid") &""" value="""& oRec("aktnavn") &""">"
-                strAktTxt = strAktTxt & "<a class=""chbox_akt"" id=""chbox_akt_"& oRec("aid") &""" value="& oRec("aid") &">"& oRec("aktnavn") &"</a><br>" 
+                'strAktTxt = strAktTxt & "<input type=""hidden"" id=""hiddn_akt_"& oRec("aid") &""" value="""& oRec("aktnavn") &""">"
+                'strAktTxt = strAktTxt & "<a class=""chbox_akt"" id=""chbox_akt_"& oRec("aid") &""" value="& oRec("aid") &">"& oRec("aktnavn") &"</a><br>" 
+
+                
+                strAktTxt = strAktTxt & "<option value="& oRec("aid") &">"& oRec("aktnavn") &"</option>" 
                 
                 end if
                 
@@ -227,7 +246,7 @@ tloadA = now
 
 if len(session("user")) = 0 then
 	%>
-	<!--#include file="../inc/regular/header_lysblaa_2015_inc.asp"-->
+	
 	<%
 	errortype = 5
 	call showError(errortype)
@@ -310,7 +329,6 @@ if len(session("user")) = 0 then
     
     call ersmileyaktiv()
 	
-
     call medarb_teamlederfor
     
         
@@ -459,7 +477,7 @@ if len(session("user")) = 0 then
     case "slet_tip"
 
         %>
-        	<!--#include file="../inc/regular/header_lysblaa_2015_inc.asp"-->
+        	
         <%
 
         id = request("id")
@@ -482,6 +500,17 @@ if len(session("user")) = 0 then
 
     case else
 
+
+
+     if len(session("user")) = 0 then
+	%>
+	<!--#include file="../inc/regular/header_inc.asp"-->
+	<%
+	errortype = 5
+	call showError(errortype)
+	response.end
+    end if
+
    
 
     call akttyper2009(2)
@@ -496,32 +525,12 @@ if len(session("user")) = 0 then
 	
 	%>
 
-	<!--#include file="../inc/regular/header_lysblaa_2015_inc.asp"-->
-    <!-- SCRIPT language=javascript src="js/smiley_jav.js"></!-->
+	
     <SCRIPT src="js/ugeseddel_2011_jav.js"></script>
-
+    <SCRIPT src="../timereg/inc/smiley_jav.js"></script>
 
     
-
-
-
-
-     <%
-          if media <> "print" then
-    %>
-
-     <div id="loadbar" style="position:absolute; display:; visibility:visible; top:160px; left:300px; width:300px; background-color:#ffffff; border:10px #cccccc solid; padding:10px; z-index:100000000;">
-
-	<table cellpadding=0 cellspacing=5 border=0 width=100%><tr><td>
-	<img src="../ill/outzource_logo_200.gif" />
-	</td><td align=right style="padding-right:40px;">
-	<img src="../inc/jquery/images/ajax-loader.gif" />
-	</td></tr></table>
-
-	</div>
-
-    <% end if
-         
+   <%      
          
      call browsertype()
                 
@@ -537,11 +546,18 @@ if len(session("user")) = 0 then
 	<%end if 'eksport
         
         
+
+
+   
         %>
 
  
-    <div id="wrapper">
-        <div class="to-content-hybrid-fullzize" style="position:absolute; top:102px; left:90px; background-color:#FFFFFF;">
+
+ <script type="text/javascript" src="js/plugins/flot/jquery.flot.js"></script>
+    <script type="text/javascript" src="js/demos/flot/stacked-vertical_ugetotal.js"></script>
+   
+    <!--<div id="wrapper">
+        <div class="to-content-hybrid-fullzize" style="position:absolute; top:102px; left:90px; background-color:#FFFFFF;"> -->
 
    
 
@@ -550,60 +566,107 @@ if len(session("user")) = 0 then
 	
 	<!-------------------------------Sideindhold------------------------------------->
 
-    
+   
 
 
-	<!--<div id="sindhold" style="position:absolute; left:<%=leftPos%>px; top:<%=topPos%>px; visibility:visible;">-->
+
+<div class="wrapper">
+    <div class="content">
+
+
+	
 
     <div class="container">
       <div class="portlet">
         <h3 class="portlet-title">
           <u><%=tsa_txt_337%></u><!-- ugeseddel -->
         </h3>
-
-      
-        <%if cint(stempelurOn) = 1 then 
-            lft = 710
-        else
-            lft = 800
-        end if%>
-          
-    <div style="position:absolute; background-color:#ffffff; border:0px #5582d2 solid; padding:4px; width:75px; top:-20px; left:<%=lft%>px; z-index:0;"><a href="<%=lnkTimeregside%>" class="vmenu"><%=left(tsa_txt_031, 7) %>.</a></div>
-    
-    <%if cint(stempelurOn) = 1 then %>
-    <div style="position:absolute; background-color:#ffffff; border:0px #5582d2 solid; padding:4px; top:-20px; width:95px; left:800px; z-index:0;"><a href="<%=lnkLogind%>" class="vmenu"><%=tsa_txt_340 %></a></div>
-    <%end if
-        
-         
-    tTop = 2
-	tLeft = 0
-	tWdth = 900
-	
-                 
-
-	
-	'call tableDiv(tTop,tLeft,tWdth)    
+        <div class="portlet-body">
             
+      
+        <%   
+                                
+
+            call timerDenneUge(usemrn, lto, varTjDatoUS_man, aty_sql_realhours)
+
+                ugetotal = manTimer + tirTimer + onsTimer + torTimer + freTimer + lorTimer + sonTimer
+                manTimer = replace(manTimer, ",",".")
+                tirTimer = replace(tirTimer, ",",".")
+                onsTimer = replace(onsTimer, ",",".")
+                torTimer = replace(torTimer, ",",".")
+                lorTimer = replace(lorTimer, ",",".")
+                sonTimer = replace(sonTimer, ",",".")
+
+                call normtimerPer(usemrn, varTjDatoUS_man, 6, 0)
+
+            norm_ugetotal = ntimMan + ntimTir + ntimOns + ntimTor + ntimFre + ntimLor + ntimSon
+
+            if norm_ugetotal <> 0 then
+            'weeknormpro = ugetotal / norm_ugetotal * 100
+            weeknormpro = ugetotal / norm_ugetotal * 100
+            weeknormpro = replace(weeknormpro, ",",".")
+            else
+            weeknormpro = 0
+            end if
+
+            %>
+
+            <input type="hidden" id="dagman" value="<%=manTimer %>" />
+            <input type="hidden" id="dagtir" value="<%=tirTimer %>" />
+            <input type="hidden" id="dagons" value="<%=onsTimer %>" />
+            <input type="hidden" id="dagtor" value="<%=torTimer %>" />
+            <input type="hidden" id="dagfre" value="<%=freTimer %>" />
+            <input type="hidden" id="daglor" value="<%=lorTimer %>" />
+            <input type="hidden" id="dagson" value="<%=sonTimer %>" />
+
+        
+                
+
+            
+            <%
+          
+
             
     if media <> "print" AND len(trim(strSQLmids)) > 0 then 'Hvis man er level 1 eller teamleder vil len(trim(strSQLmids)) ALTID VÆRE > 16 %>
-	<form id="filterkri" method="post" action="ugeseddel_2011.asp">
-        <input type="hidden" name="FM_sesMid" id="FM_sesMid" value="<%=session("mid") %>">
-        <input type="hidden" name="medarbsel_form" id="medarbsel_form" value="1">
-        <input type="hidden" name="nomenu" id="nomenu" value="<%=nomenu %>">
-        <input type="hidden" name="varTjDatoUS_man" id="varTjDatoUS_man" value="<%=varTjDatoUS_man %>">
+
+ <div class="well well-white"> 
         
-        <table>
-       <tr bgcolor="#ffffff">
-	<td valign=top> <b><%=tsa_txt_077 %>:</b> <br />
-    <input type="CHECKBOX" name="FM_visallemedarb" id="FM_visallemedarb" value="1" <%=visAlleMedarbCHK %> /> <%=tsa_txt_388 %> (<%=tsa_txt_357 %>)
-   
-	<br />
-				<% 
-				call medarb_vaelgandre
-                %>
-        </td>
-           </tr></table>
+        <%if cint(stempelurOn) = 1 then 
+            wdth = 205
+        else
+            wdth = 100
+        end if%>
+          
+    <div style="position:relative; background-color:#ffffff; border:1px #cccccc solid; border-bottom:0; padding:4px; width:<%=wdth%>px; top:-70px; left:880px; z-index:0;"><a href="../timereg/<%=lnkTimeregside%>" class="vmenu"><%=left(tsa_txt_031, 7) %>.</a>
+    
+    <%if cint(stempelurOn) = 1 then %>
+    &nbsp;| &nbsp;<a href="../timereg/<%=lnkLogind%>" class="vmenu"><%=tsa_txt_340 %></a>
+    <%end if
+        %>
+        </div>
+
+
+      
+        
+        <form id="filterkri" method="post" action="ugeseddel_2011.asp">
+            <input type="hidden" name="FM_sesMid" id="FM_sesMid" value="<%=session("mid") %>">
+            <input type="hidden" name="medarbsel_form" id="medarbsel_form" value="1">
+            <input type="hidden" name="nomenu" id="nomenu" value="<%=nomenu %>">
+            <input type="hidden" name="varTjDatoUS_man" id="varTjDatoUS_man" value="<%=varTjDatoUS_man %>">
+           
+            <div class="row">
+                <div class="col-lg-1"><input type="CHECKBOX" name="FM_visallemedarb" id="FM_visallemedarb" value="1" <%=visAlleMedarbCHK %> /> Admin </div>
+                <div class="col-lg-5">
+                    <% 
+				    call medarb_vaelgandre
+                    %>
+                </div>
+            </div>
+                  
         </form>
+       
+
+	
        
 	
 	<%
@@ -612,113 +675,111 @@ if len(session("user")) = 0 then
 	
         'if datePart("d", now, 2,2) < 4 OR datePart("d", now, 2,2) > 29 then 
 
-	   if cint(smilaktiv) <> 0 AND media <> "print" then
+	   if media <> "print" then
         %> 
-          
-          <!--
-             <div class="row">
-                                  <div class="col-lg-1">&nbsp</div>
-                                  <div class="col-lg-2"><a data-toggle="modal" href="#styledModalSstGrp20"><span class="fa fa-info-circle"></span></a>
-                                      
-                                  </div>
-                                    
-                                    <div id="styledModalSstGrp20" class="modal modal-styled fade" style="top:60px;"><!-- modal modal-styled fade -->
-
-                                        <!--
-                                        <div class="modal-dialog">
-                                            <div class="modal-content" style="border:none !important;padding:0;">
-                                              <div class="modal-header">
-                                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                                  <h5 class="modal-title">Info</h5>
-                                                </div>
-                                                <div class="modal-body">
-                                                <%call afslutMsgTxt %>
-
-                                                </div>
-                                            </div>
-                                        </div>
-                                 </div>-->
-        <!--  </div>-->
-        <!-- ROW -->
-          
-
-
-          <div class="row">
-            <div class="col-lg-2">
-
-           <%call positiv_aktivering_akt_fn() %>
-
-        
-                
         <form id="container" action="../timereg/timereg_akt_2006.asp?func=db&rdir=ugeseddel_2011" method="post">
+        <div class="row">
+            <div class="col-lg-6">
+                <table style="font-size:100%; color:black">
+                    <tr>
+                        <td style="padding-right:5px; vertical-align:text-top;"><b>Dato:</b></td>
+                        <td style="padding-left:10px">
+                            <input type="hidden" id="Hidden5" name="year" value="<%=year(now) %>"/>
 
-       
+                              <div class='input-group date'>
+                                      <input type="text" style="width:300px;" class="form-control input-small" name="FM_datoer" value="<%=day(now) &"/"& month(now) &"/"& year(now) %>" placeholder="dd-mm-yyyy" />
+                                        <span class="input-group-addon input-small">
+                                        <span class="fa fa-calendar">
+                                        </span>
+                                    </span>
+                              </div>
 
-        <input type="hidden" id="Hidden5" name="year" value="<%=year(now) %>"/>
-        <input type="text" id="Hidden1" name="FM_datoer" value="<%=day(now) &"/"& month(now) &"/"& year(now) %>" class="form-control input-small"/>
+                            <!--
+                            <input style="width:300px;" type="text" id="Hidden1" name="xFM_datoer" value="<%=day(now) &"/"& month(now) &"/"& year(now) %>" class="form-control input-small"/>
+                            --> 
+                        </td>
+                        <td>&nbsp;</td>
+                    </tr>
 
-         </div>
-               </div>
-              <div class="row">
-               <div class="col-lg-5">
-
-        <input type="hidden" name="varTjDatoUS_man" value="<%=varTjDatoUS_man %>">
+                    <tr>
+                        <td style="padding-right:5px; padding-top:10px; vertical-align:text-top;"><b>Kunde/job:</b></td>
+                        <td style="padding-top:10px; padding-left:10px;">
+                             <input type="hidden" name="varTjDatoUS_man" value="<%=varTjDatoUS_man %>">
         
-        <input type="hidden" name="usemrn" id="" value="<%=usemrn%>">
+                            <input type="hidden" name="usemrn" id="" value="<%=usemrn%>">
 
-        <!--<input type="hidden" id="Hidden3" name="FM_dager" value=""/>-->
-        <input type="hidden" id="Hidden4" name="FM_dager" value="0"/><!-- , xx -->
-        <input type="hidden" id="Hidden2" name="FM_feltnr" value="0"/>
-        <input type="hidden" id="FM_pa" name="FM_pa" value="<%=positiv_aktivering_akt_val %>"/>
-        <input type="hidden" id="FM_medid" name="FM_medid" value="<%=usemrn %>"/>
-        <input type="hidden" id="FM_medid_k" name="FM_medid_k" value="<%=usemrn%>"/>
-        <input type="hidden" id="" name="FM_vistimereltid" value="0"/>
+                            <!--<input type="hidden" id="Hidden3" name="FM_dager" value=""/>-->
+                            <input type="hidden" id="Hidden4" name="FM_dager" value="0"/><!-- , xx -->
+                            <input type="hidden" id="Hidden2" name="FM_feltnr" value="0"/>
+                            <input type="hidden" id="FM_pa" name="FM_pa" value="<%=positiv_aktivering_akt_val %>"/>
+                            <input type="hidden" id="FM_medid" name="FM_medid" value="<%=usemrn %>"/>
+                            <input type="hidden" id="FM_medid_k" name="FM_medid_k" value="<%=usemrn%>"/>
+                            <input type="hidden" id="" name="FM_vistimereltid" value="0"/>
 
+                    
+                            <input type="text" id="FM_job_0" name="FM_job" placeholder="Kunde/job" class="FM_job form-control input-small"/>
+                           <!-- <div id="dv_job_0" class="dv-closed dv_job" style="border:1px #cccccc solid; padding:10px; visibility:hidden; display:none;"></div>--> <!-- dv_job -->
 
-        <input type="text" id="FM_job_0" name="FM_job" placeholder="Kunde/job" class="FM_job form-control input-small"/>
-        <div id="dv_job_0" class="dv-closed dv_job" style="border:1px #cccccc solid; padding:10px; visibility:hidden; display:none;"></div> <!-- dv_job -->
-        <input type="hidden" id="FM_jobid_0" name="FM_jobid" value="-1"/>
+                             <select id="dv_job_0" class="form-control input-small chbox_job" size="10" style="visibility:hidden; display:none;">
+                                 <option>Søger..</option>
+                             </select>
 
-             </div>
-               </div>
-              <div class="row">
-               <div class="col-lg-5">
-    
-        <input type="text" id="FM_akt_0" name="activity" placeholder="Aktivitet" class="FM_akt form-control input-small"/>
-         <div id="dv_akt_0" class="dv-closed dv_akt" style="border:1px #cccccc solid; padding:10px; visibility:hidden; display:none;"></div> <!-- dv_akt -->
-        <input type="hidden" id="FM_aktid_0" name="FM_aktivitetid" value="-1"/>
-    
+                            <input type="hidden" id="FM_jobid_0" name="FM_jobid" value="-1"/>
+                        </td>
+                     
+                    </tr>
 
-               </div>
-               </div>
-              <div class="row">
-               <div class="col-lg-2">
+                    <tr>
+                        <td style="padding-right:5px; padding-top:10px; vertical-align:text-top;"><b>Aktivitet:</b></td>
+                         <td style="padding-top:10px; padding-left:10px; width:225px">
+                            <input type="text" id="FM_akt_0" name="activity" placeholder="Aktivitet" class="FM_akt form-control input-small"/>
+                                <!--<div id="dv_akt_0" class="dv-closed dv_akt" style="border:1px #cccccc solid; padding:10px; visibility:hidden; display:none;"></div>--> <!-- dv_akt -->
 
+                                  <select id="dv_akt_0" class="form-control input-small chbox_akt" size="10" style="visibility:hidden; display:none;">
+                                      <option>Søger..</option>
+                             </select>
+
+                            <input type="hidden" id="FM_aktid_0" name="FM_aktivitetid" value="-1"/>
+                        </td>
+                       
+                    </tr>
+
+                    <tr>
+                        <td style="padding-right:5px; padding-top:10px; vertical-align:text-top;"><b>Timer:</b></td>
+                         <td style="padding-top:10px; padding-left:10px">
+                             <input type="hidden" id="FM_sttid" name="FM_sttid" value="00:00"/>
+                             <input type="hidden" id="FM_sltid" name="FM_sltid" value="00:00"/>
+                             <input type="text" id="FM_timer" name="FM_timer" placeholder="Antal timer" class="form-control input-small"/><!-- brug type number for numerisk tastatur -->
+                        </td>
+                        
+                    </tr>
+
+                    <tr>
+                        <td style="padding-right:5px; padding-top:10px; vertical-align:text-top;"><b>Kommentar:</b></td>
+                        <td style="padding-top:10px; padding-left:10px; text-align:right;">
+                            <input type="text" id="FM_kom" name="FM_kom_0" placeholder="Kommentar" class="form-control input-small"/><br />
+                            <button class="btn btn-sm btn-success"><b>Indlæs >></b></button>
+                        </td>
+                       
+                    </tr>
+
+      
+                </table>
+            </div>
+         
+            <div class="col-lg-5"><div id="stacked-vertical-chart" class="chart-holder-200"></div></div>
+
+        </div>
 
        
-          <input type="hidden" id="FM_sttid" name="FM_sttid" value="00:00"/>
-          <input type="hidden" id="FM_sltid" name="FM_sltid" value="00:00"/>
-         <input type="text" id="FM_timer" name="FM_timer" placeholder="Antal timer" class="form-control input-small"/><!-- brug type number for numerisk tastatur -->
-       
-           </div>
-                   </div>
-           <div class="row">
-               <div class="col-lg-5">
-       
-        <input type="text" id="FM_kom" name="FM_kom_0" placeholder="Kommentar" class="form-control input-small" style="height:60px;"/>
-      
-        
 
-      
-      
-        
-        <br /><br />
     
-        <input type="submit" id="sbm_timer" class="active btn btn-success" value="Gem registrering >>"/>
         </form>
-          </div>
-         </div><!-- ROW -->
-          
+
+        
+
+        </div>
+            
         <%
             end if
 
@@ -755,50 +816,155 @@ if len(session("user")) = 0 then
    next
 	
 	
-    if browstype_client <> "ip" then
+   
+   
+                                
 
-        if media <> "print" then
+            call timerDenneUge(usemrn, lto, varTjDatoUS_man, aty_sql_realhours)
 
-        %>
-        <div style="position:absolute; top:40px; left:915px; width:250px; background-color:#FFFFFF; padding:0px 20px 20px 20px;">
-        <h4>Ugeseddel Resumé<br /><span style="font-size:11px; font-weight:lighter;">Normtimer, realiseret og timer uden match</span></h4>
+                ugetotal = manTimer + tirTimer + onsTimer + torTimer + freTimer + lorTimer + sonTimer
+                manTimer = replace(manTimer, ",",".")
+                tirTimer = replace(tirTimer, ",",".")
+                onsTimer = replace(onsTimer, ",",".")
+                torTimer = replace(torTimer, ",",".")
+                lorTimer = replace(lorTimer, ",",".")
+                sonTimer = replace(sonTimer, ",",".")
 
-        <% call normRealGrafWeekPage(usemrn, varTjDatoUS_man)  %>
-            
+                call normtimerPer(usemrn, varTjDatoUS_man, 6, 0)
+
+            norm_ugetotal = ntimMan + ntimTir + ntimOns + ntimTor + ntimFre + ntimLor + ntimSon
+
+
+            'weeknormpro = ugetotal / norm_ugetotal * 100
+            if norm_ugetotal <> 0 then
+                
+           
+                weeknormpro = ugetotal / norm_ugetotal * 100
+                weeknormpro = formatnumber(weeknormpro, 0)
+                weeknormpro = replace(weeknormpro, ",",".")
+                
+
+             if ugetotal <= norm_ugetotal then
+             weeknormproWdt = weeknormpro
+             else
+             weeknormproWdt = norm_ugetotal / norm_ugetotal * 100 
+             end if
+
+            else
+            weeknormpro = 0
+            end if
+
+            %>
+
+            <input type="hidden" id="timerdagman" value="<%=replace(manTimer, ",", ".") %>" />
+            <input type="hidden" id="timerdagtir" value="<%=replace(tirTimer, ",", ".") %>" />
+            <input type="hidden" id="timerdagons" value="<%=replace(onsTimer, ",", ".") %>" />
+            <input type="hidden" id="timerdagtor" value="<%=replace(torTimer, ",", ".") %>" />
+            <input type="hidden" id="timerdagfre" value="<%=replace(freTimer, ",", ".") %>" />
+            <input type="hidden" id="timerdaglor" value="<%=replace(lorTimer, ",", ".") %>" />
+            <input type="hidden" id="timerdagson" value="<%=replace(sonTimer, ",", ".") %>" />
+
+
+            <input type="hidden" id="normdagman" value="<%=replace(ntimMan, ",", ".") %>" />
+            <input type="hidden" id="normdagtir" value="<%=replace(ntimTir, ",", ".") %>" />
+            <input type="hidden" id="normdagons" value="<%=replace(ntimOns, ",", ".") %>" />
+            <input type="hidden" id="normdagtor" value="<%=replace(ntimTor, ",", ".") %>" />
+            <input type="hidden" id="normdagfre" value="<%=replace(ntimFre, ",", ".") %>" />
+            <input type="hidden" id="normdaglor" value="<%=replace(ntimLor, ",", ".") %>" />
+            <input type="hidden" id="normdagson" value="<%=replace(ntimSon, ",", ".") %>" />
+
+          <div class="row">
+                <div class="col-lg-12">
+                    <h4 style="text-align:right">Norm timer: <%=norm_ugetotal %> &nbsp  Opgjort: <%=ugetotal %> &nbsp&nbsp</h4>
+                    <table class="table table">
+                        <tr>
+                            <th colspan="11"><div style="background-color:lightgray; height:30px; width: 100%;"><div style="background-color:#207800; height:30px; width:<%=weeknormproWdt %>%; color:#ffffff; text-align:right; padding:5px;"><%=weeknormpro %> %</div></div></th>
+                        </tr>
+                        <tr>
+                            <th style="border-top:none; width:10%;"><h6>00</h6></th>
+                            <th style="border-top:none; width:10%;"><h6></h6></th>
+                            <th style="border-top:none; width:10%;"><h6>20</h6></th>
+                            <th style="border-top:none; width:10%;"><h6></h6></th>
+                            <th style="border-top:none; width:10%;"><h6>40</h6></th>
+                            <th style="border-top:none; width:10%;"><h6></h6></th>
+                            <th style="border-top:none; width:10%;"><h6>60</h6></th>
+                            <th style="border-top:none; width:10%;"><h6></h6></th>
+                            <th style="border-top:none; width:10%;"><h6>80</h6></th>
+                            <th style="border-top:none; width:10%;"><h6></h6></th>
+                            <th style="border-top:none; width:10%;"><h6>100</h6></th>
+                                        
+                        </tr>
+                       <!-- <tr>
+                            <th style="text-align:left; border-top:none; font-size:85%" colspan="11">Norm timer: <%=norm_ugetotal %></th>
+                        </tr>
+                        <tr>
+                            <th style="text-align:left; border-top:none; font-size:85%" colspan="11">Opgjort: <%=weeknormpro %>%</th>
+                        </tr> -->
+                    </table>
+                </div>
+            </div>
 
 
 
-     
 
-        </div><!-- ugesededel resume -->
 
-        <% end if ''IP
 
+
+            <%if media <> "print" then %>
+
+                <!--
+                <form action="ugeseddel_2011.asp?media=export" method="post" target="_blank">
+                    
+                 <div class="row">
+                     <div class="col-lg-12 pad-r30">
+                         <input id="Submit6" type="submit" value="Eksport til .csv simpel" class="btn btn-sm" />
+                      </div>
+
+
+                </div>
+                    </form>
+        -->
+
+          
+            <br /><br />
+
+             
+
+    <div class="well" style="width:35%;">
+      <div class="portlet">
+        <h3 class="portlet-title">
+          <u>Funktioner:</u><!-- ugeseddel -->
+        </h3>
+
+          
+
+           
+
+              <form action="ugeseddel_2011.asp?media=print&usemrn=<%=usemrn %>&varTjDatoUS_man=<%=varTjDatoUS_man%>" method="post" target="_blank">
+                    
+                 <div class="row">
+                     <div class="col-lg-12 pad-r30">
+                         <input id="Submit6" type="submit" value="Printvenlig >>" class="btn btn-sm btn-default" />
+                      </div>
+
+
+                </div>
+                    </form>
+
+
+         
 
         
-            r = 1
-    if media <> "print" AND r = 1000 then '<> print
 
-ptop = 0
-pleft = 1200
-pwdt = 220
 
-call eksportogprint(ptop,pleft, pwdt)
-%>
+          
+<table>
 
-<form action="ugeseddel_2011.asp?usemrn=<%=usemrn%>&varTjDatoUS_man=<%=varTjDatoUS_man %>&varTjDatoUS_son=<%=varTjDatoUS_son %>&media=print" method="post" target="_blank">
-<tr> 
-    <td valign=top align=center>
-   <input type=image src="../ill/printer3.png" />
-    </td>
-    <td class=lille><input id="Submit5" type="submit" value=" Print venlig >> " style="font-size:9px; width:130px;" /></td>
-</tr>
-</form>
     <tr><td colspan="2">
 
            <!-- hvis level = 1 OR teamleder -->
         <%if (level <=2 OR level = 6) AND cint(smilaktiv) <> 0 then %>
-            <br /><br />
+          
 
         <%
         '** Tjekker for Uge 53. SKAL i virkeligheden være om søndag er i et andet år end mandag - da år så skifter.
@@ -820,34 +986,22 @@ call eksportogprint(ptop,pleft, pwdt)
 
 
 </table>
-
+  </div> <!-- well -->
+  </div> <!-- portlet title -->
       
 
-      
-
-</div>
 <%else
 
-    if r = 1000 then
-Response.Write("<script language=""JavaScript"">window.print();</script>")
-    end if
-end if 
     
-%>
+Response.Write("<script language=""JavaScript"">window.print();</script>")
+    
+end if 
 
-  
-
-  
-    <%end if 'print%>
-
- 
-
-    </div><!-- /.portlet -->
-    </div> <!-- /.container -->
+      %>
 
 
-   </div> <!-- .content -->
-    </div> <!-- /#wrapper -->
+    </div></div></div>
+
 
    
     <br /><br />&nbsp;

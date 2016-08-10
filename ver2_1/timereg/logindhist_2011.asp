@@ -246,7 +246,7 @@ if len(session("user")) = 0 then
           <div style="position:absolute; background-color:#ffffff; border:0px #5582d2 solid; padding:4px; width:75px; top:-20px; left:730px; z-index:0;"><a href="<%=lnkTimeregside%>" class="vmenu"><%=left(tsa_txt_031, 7) %>.</a></div>
     
   
-    <div style="position:absolute; background-color:#ffffff; border:0px #5582d2 solid; padding:4px; top:-20px; width:85px; left:820px; z-index:0;"><a href="<%=lnkUgeseddel%>" class="vmenu"><%=tsa_txt_337 %></a></div>
+    <div style="position:absolute; background-color:#ffffff; border:0px #5582d2 solid; padding:4px; top:-20px; width:85px; left:820px; z-index:0;"><a href="../to_2015/<%=lnkUgeseddel%>" class="vmenu"><%=tsa_txt_337 %></a></div>
   
 
 
@@ -439,7 +439,7 @@ if len(session("user")) = 0 then
     	    
             '*** Auto popup ThhisWEEK now SMILEY
 	      %>
-	        <div id="s0" style="position:relative; left:0px; top:5px; width:725px; visibility:<%=smVzb%>; display:<%=smDsp%>; z-index:2; background-color:#FFFFFF; padding:10px; border:0px #CCCCCC solid;">
+	        <div id="s0" style="position:relative; left:0px; top:5px; width:725px; visibility:<%=smVzb%>; display:<%=smDsp%>; z-index:2; background-color:#FFFFFF; padding:20px; border:0px #CCCCCC solid;">
 	       <%
            '*** Viser sidste uge
             'weekSelected = tjekdag(7)

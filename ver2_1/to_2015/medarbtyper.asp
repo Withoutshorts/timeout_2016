@@ -1441,7 +1441,7 @@ case "dbopr", "dbred"
 	                
 	                while not oRec.EOF
 
-                    x = 0
+                    'x = 0
                     antalx = 0
                     ugetotal = 0
 
@@ -1454,12 +1454,27 @@ case "dbopr", "dbred"
                     
                     oRec2.open strSQL2, oConn, 3
 	                if not oRec2.EOF then
-	                x = oRec2("mids")
+
+                    if IsNull(oRec2("mids")) <> true then
+	                'x = oRec2("mids")
 	                antalx = oRec2("mids")
+                    else
+                    'x = 0
+	                antalx = 0
+                    end if
                     'oRec2.movenext
-	                end if
+	                
+                    end if
 	                oRec2.close
-	                Antal = x
+
+
+
+                    if antalx <> "0" then
+	                Antal = antalx
+                    else
+                    antalx = 0
+                    Antal = 0
+                    end if
 	
 	
 	                t = 0
@@ -1495,7 +1510,7 @@ case "dbopr", "dbred"
                     <td><%=oRec("timepris")%> &nbsp <%=oRec("valutakode") %></td>
                     <td><%=oRec("kostpris") &" "& basisValISO%></td>
                     <td><%=formatnumber(ugetotal)%> t. (<%=formatnumber(ugetotal/5, 1)%>)</td>
-                    <%if x = 0 AND t = 0 then%>
+                    <%if cint(antalx) = 0 AND cint(t) = 0 then%>
 		                    <td style="padding-left:10px; text-align:center;"><a href="medarbtyper.asp?menu=medarb&func=slet&id=<%=oRec("id")%>"><span style="color:darkred;" class="fa fa-times"></span></a></td>
 		              
 		                <%else%>

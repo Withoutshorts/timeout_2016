@@ -5,12 +5,12 @@
 Session.LCID = 1030
 
 'strConnect = "driver={MySQL ODBC 3.51 Driver};server=81.19.249.35; Port=3306; uid=outzource;pwd=SKba200473;database=timeout_epi_catitest;"
-'** DK
-'strConnect = "driver={MySQL ODBC 3.51 Driver};server=195.189.130.210; Port=3306; uid=outzource;pwd=SKba200473;database=timeout_epi;"
+'** DK 195.189.130.210
+strConnect = "driver={MySQL ODBC 3.51 Driver};server=194.150.108.154; Port=3306; uid=outzource;pwd=SKba200473;database=timeout_epi;"
 '** NO
-'strConnect = "driver={MySQL ODBC 3.51 Driver};server=195.189.130.210; Port=3306; uid=outzource;pwd=SKba200473;database=timeout_epi_no;"
+'strConnect = "driver={MySQL ODBC 3.51 Driver};server=194.150.108.154; Port=3306; uid=outzource;pwd=SKba200473;database=timeout_epi_no;"
 '** UK
-strConnect = "driver={MySQL ODBC 3.51 Driver};server=195.189.130.210; Port=3306; uid=outzource;pwd=SKba200473;database=timeout_epi_uk;"
+'strConnect = "driver={MySQL ODBC 3.51 Driver};server=195.189.130.210; Port=3306; uid=outzource;pwd=SKba200473;database=timeout_epi_uk;"
 	
 Response.write strConnect & "<br><br>"
 
@@ -23,7 +23,7 @@ oConn.open strConnect
 
 
 strSQL = "SELECT pwc.dato, pwc.konto, pwc.postext, pwc.belob, pwc.jobnr, pwc.init, pwc.extsysid, pwc.id, "_
-&" j.id AS jid, serviceaft, m.mid FROM mat_pwc_import_201604 AS pwc "_
+&" j.id AS jid, serviceaft, m.mid FROM mat_pwc_import_201606 AS pwc "_
 &" LEFT JOIN job AS j ON (j.jobnr = pwc.jobnr) "_
 &" LEFT JOIN medarbejdere AS m ON (m.init = pwc.init) WHERE pwc.postext <> '' ORDER BY extsysid" 
 ' AND 

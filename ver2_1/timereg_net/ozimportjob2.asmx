@@ -136,7 +136,7 @@ Public Class oz_importjob2
     Public timeprisalt As Integer
     Public kundenavnTxt As String = ""
     Public opretJobOk As Integer = 0
-    Public jobnrTjk As Integer = 0
+    Public jobnrTjk As String = "0"
     Public jobID As Integer = 0
     Public timereguseJobFindes As Integer = 0
     Public projektKategori As Integer = 0

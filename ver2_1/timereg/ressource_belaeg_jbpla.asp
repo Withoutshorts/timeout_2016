@@ -1915,11 +1915,11 @@ if len(session("user")) = 0 then
         <input id="sogtxt" name="FM_sog" value="<%=sogTxt %>" type="text" style="width:350px; font-size:14px; border:2px #6CAE1C solid;;" />
     <br />(% wildcard, <b>100-200</b> interval, eller <b>58, 89</b> for specifikke job)
             <br /><br /><br />
-
-            <b>Filter:</b><br />
-               <input type="checkbox" value="1" id="FM_vis_job_fc_neg" name="FM_vis_job_fc_neg" <%=vis_job_fc_negCHK%> /> <b>Forecast overskreddet</b> <span style="color:#999999;">(kun job og aktiviteter, hvor forecast (timebudget) er overskreddet)</span>
+            <br /><br />
+            <b>Filter:</b> (vis kun job hvor..)<br />
+               <input type="checkbox" value="1" id="FM_vis_job_fc_neg" name="FM_vis_job_fc_neg" <%=vis_job_fc_negCHK%> /> <b>Forecast overskreddet</b>
                 <br />
-               <input type="checkbox" value="1" id="FM_vis_job_u_fc" name="FM_vis_job_u_fc" <%=vis_job_u_fcCHK %> /> Vis aktive job <b>uden forecast</b> <span style="color:#999999;">(alle job på personlig aktivliste +/-5 md., maks 10 medarb.)</span> 
+               <input type="checkbox" value="1" id="FM_vis_job_u_fc" name="FM_vis_job_u_fc" <%=vis_job_u_fcCHK %> /> Vis alle aktive job <b>også uden forecast</b><br /> <span style="color:#999999;">(alle job på personlig aktivliste +/-5 md., maks 10 medarb.)</span> 
                 <br />
            
             <input type="checkbox" value="1" id="Checkbox1" name="FM_hideEmptyEmplyLines" <%=hideEmptyEmplyLinesCHK %> /> Skjul medarbejder(e) uden forecast<br />        

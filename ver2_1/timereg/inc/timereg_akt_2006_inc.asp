@@ -943,7 +943,8 @@ call erugeAfslutte(useYear, usePeriod, usemrn)
                 case "mmmi", "unik", "xintranet - local"
                 maxl = 9
                 case else
-                maxl = maxl
+                'maxl = maxl
+                maxl = 9
                 end select 
             else
             maxl = maxl

@@ -14,17 +14,13 @@ if len(session("user")) = 0 then
 	<%
 	errortype = 5
 	call showError(errortype)
-
-    'session.lcid = 1030
 	
 	else
 	
-
-
     '********************************************************************************************************
     '**** EARLY BINDING VARIABLES ***
     '********************************************************************************************************
-    Session.LCID = 1030
+
 
     level = session("rettigheder")
 
@@ -43,29 +39,25 @@ if len(session("user")) = 0 then
         case "adra"
         strMrd = month(now)
         case else 
-	    strMrd = month(now)
+	    strMrd = 1
         end select
 	end if
 	
-     dim faktor
-
-     '**** PERIOD **********
-      select case request("per_interval") 
-      case "1"
+    select case request("per_interval") 
+      
+      case 1
       per_i_enCHK = "SELECTED"
       per_interval = 1
       daysInInterval = 31
       faktor = 4
       weekspan = 7
 
-      case "3", ""
-
+      case 3 
       per_i_treCHK = "SELECTED"
       per_interval = 3
       daysInInterval = 170
       faktor = 4
       weekspan = 7
-
       case else
 
         select case lto
@@ -185,7 +177,7 @@ if len(session("user")) = 0 then
                 
             '**** LOADBAR %>
             <!--#include file="../inc/regular/header_lysblaa_inc.asp"-->
-            <div id="loadbar" style="position:absolute; display:; visibility:visible; top:260px; left:400px; width:300px; background-color:#ffffff; border:10px #cccccc solid; padding:20px; z-index:100000000;">
+            <div id="loadbar" style="position:absolute; display:; visibility:visible; top:260px; left:400px; width:300px; background-color:#ffffff; border:1px #cccccc solid; padding:2px; z-index:100000000;">
 
 	        <table cellpadding=0 cellspacing=5 border=0 width=100%><tr><td>
 	        <img src="../ill/outzource_logo_200.gif" />
@@ -329,7 +321,7 @@ if len(session("user")) = 0 then
     
     
        
-	<td valign=top style="width:400px; padding-top:20px;">
+	<td valign=top style="width:400px;">
     <b>Periode:</b><br /><br />
 	<b>Fra:</b> 
 	<select name="FM_start_mrd">>
@@ -429,7 +421,9 @@ if len(session("user")) = 0 then
 	%>
             <div style="position:relative; width:<%=tWdth%>px; background-color:#FFFFFF; padding:3px; top:0px; left:0px;">
 	
-	<table cellspacing=0 cellpadding=0 border=0 bgcolor=#8caae6 class="tbl-calendar-week">
+	
+	
+	<table cellspacing=0 cellpadding=0 border=0 bgcolor=#8caae6>
 	<tr bgcolor="#3B5998">
 	    <td style="height:15px; width:105px; padding-left:3px; border-right:1px #CCCCCC solid;" class=alt>
             Uge<br />
@@ -440,38 +434,17 @@ if len(session("user")) = 0 then
 	    
 	    '*** WEEKS ****
 	   
-        select case lto
-        case "adra"
-
-            select case per_interval
-            case 1
-            stTop = 35
-            leftvaltot = 540
-            case 3  
-            stTop = 35' 39
-            leftvaltot = 1280
-            case else
-            sttop = 19 '23
-            leftvaltot = 1220
-            end select
-
+	    select case per_interval
+        case 1
+        stTop = 39 '39
+        leftvaltot = 540
+        case 3  
+        stTop = 39' 39
+        leftvaltot = 1280
         case else
-
-            select case per_interval
-            case 1
-            stTop = 39 '39
-            leftvaltot = 540
-            case 3  
-            stTop = 39' 39
-            leftvaltot = 1280
-            case else
-            sttop = 23 '23
-            leftvaltot = 1220
-            end select
-
+        sttop = 23 '23
+        leftvaltot = 1220
         end select
-
-	   
 
       
         if media = "print" then
@@ -569,7 +542,7 @@ if len(session("user")) = 0 then
     
 	
 	
-	<table cellspacing=0 cellpadding=0 border=0 bgcolor=#ffffff class="tbl-calendar">
+	<table cellspacing=0 cellpadding=0 border=0 bgcolor=#ffffff>
 	<tr bgcolor="#EFf3ff">
 	
 	<td style="width:105px; height:25px; padding-left:3px; border-right:1px #cccccc solid; border-bottom:1px #cccccc solid;">Medarb./ Måned
@@ -675,18 +648,10 @@ if len(session("user")) = 0 then
        case 5
       bgcolor = "#eff3ff"
        case 6
-      bgcolor = "#CCCCCC"
+      bgcolor = "CCCCCC"
       case 7
       bgcolor = "#CCCCCC"
       end select  
-
-
-      '*** Holliday ** 
-     call helligdage(newDate, 0, lto)
-     if erHellig = 1 then
-     bgcolor = "#CCCCCC"
-     end if
-
 
      thisDate = datepart("d", newDate, 2,2)
      select case right(thisDate, 2)
@@ -696,18 +661,15 @@ if len(session("user")) = 0 then
      show = 0
      end select
 
-
-  
-
     
 
      %>
       <td align="center" style="width:<%=2*faktor %>px; background-color:<%=bgcolor%>; border-bottom:1px #cccccc solid; font-size:8px;">
       <img src="ill/blank.gif" width="<%=2*faktor %>" height="1" alt="" border="0" /><br />
        <!--left(weekdayname(weekday(newDate, 2)), 1) -->
-       
-       <%=datepart("d", newDate, 2,2) %>
         
+       <%=datepart("d", newDate, 2,2) %>
+     
       </td>
       <%
 
@@ -759,96 +721,18 @@ if len(session("user")) = 0 then
              medarbNr(m) = oRec("mnr")
              medarbInit(m) = oRec("init")
              'medarbType(m) = oRec("medarbejdertype")
-
-
-            select case right(m, 1)
-            case 0,2,4,6,8
-            trbgm = "#FFFFFF"
-            case else
-            trbgm = "#d6dff5"
-            end select
-            
 	
 	        if media <> "export" then
 	        %>
-	        <tr bgcolor="<%=trbgm %>">
-	            <td style="width:105px; height:40px; border-bottom:1px #cccccc solid; border-right:1px #cccccc solid; padding:2px;">
-	             <%=left(oRec("mnavn"), 12) %> 
-                    <%if len(trim(oRec("init"))) <> 0 then %>
-                    [<%=oRec("init") %>]
-                    <%end if %>
+	        <tr>
+	            <td bgcolor="#ffffff" class=lille style="width:105px; height:40px; border-bottom:1px #cccccc solid; border-right:1px #cccccc solid;">
+	             <%=left(oRec("mnavn"), 12) %> (<%=oRec("mnr") %>) - <%=oRec("init") %>
 	            <img src="ill/blank.gif" width="105" height="1" /><br /></td>
 	    
 	            <%
-                    if per_interval = 3 OR per_interval = 1 then
-                %>
-	            
-                <%
+               
 
-                    for f = 0 to antalDays - 1      
-     
-                        if f = 0 OR f > daysInInterval then
-	                    newDate = startDato
-	                    else
-	                    newDate = dateadd("d", 1, newDate)
-	                    end if
-        
-                      select case weekday(newDate, 2)
-                      case 1
-                      bgcolor = trbgm  '"#ffffff"
-                      bdrgt = 0
-                      case 2
-                      bgcolor = trbgm '"#ffffff"
-                      bdrgt = 0
-                      case 3
-                      bgcolor = trbgm '"#ffffff"
-                      bdrgt = 0 
-                     case 4
-                      bgcolor = trbgm '"#ffffff"
-                     bdrgt = 0 
-                     case 5
-                      bgcolor = trbgm '"#ffffff"
-                      bdrgt = 0
-                       case 6
-                      bgcolor = "#d9d7d7"
-                      bdrgt = 0
-                      case 7
-                      bgcolor = "#d9d7d7"
-                      bdrgt = 0  
-                      end select  
-
-                     thisDate = datepart("d", newDate, 2,2)
-                     select case right(thisDate, 2)
-                     case 01,03,07,09
-                     show = 1
-                     case else
-                     show = 0
-                     end select
-
-                     if thisDate = "1" then
-                     bdrgt = 0
-                     bgcolor = "#a8c3f8"
-                     end if
-
-                       '*** Holliday ** 
-                     call helligdage(newDate, 0, lto)
-                     if erHellig = 1 then
-                     bgcolor = "#CCCCCC"
-                     end if
-	            %>	            
-                    <td align="center" style="width:<%=2*faktor%>px; background-color:<%=bgcolor%>; border-bottom:1px #cccccc solid; border-left:<%=bdrgt%>px #cccccc solid; padding:1px; font-size:8px;">
-                        <img src="ill/blank.gif" width="<%=2*faktor %>" height="1" alt="" border="0" /><br />
-                    </td>
-	            <%                
-	            next	            
-                %>
-
-                <%
-	                else
-                %>
-
-                <%
-                    for d = 0 to per_interval - 1
+	            for d = 0 to per_interval - 1
 	        
 	                if lasttdbg = "#ffffff" then
 	                bgtd = "#d6dff5"
@@ -856,18 +740,18 @@ if len(session("user")) = 0 then
 	                bgtd = "#ffffff"
 	                end if
 	        
-	                lasttdbg = bgtd    
-                %>
-                    <td bgcolor="<%=bgtd %>" colspan="<%=monthwidth(d) %>" style="border-bottom:1px #cccccc solid; border-right:0px #3B5998 solid;">
-                        <img src='../ill/blank.gif' width='1' height='1' alt='' border='0'>
+	                lasttdbg = bgtd
+	            %>
+	            <td bgcolor="<%=bgtd %>" colspan="<%=monthwidth(d) %>" style="border-bottom:1px #cccccc solid; border-right:0px #3B5998 solid;">
+                <img src='../ill/blank.gif' width='1' height='1' alt='' border='0'>
                     </td>
-                <%                
-	                next	            
-                %>
+	            <%
 
-                <%
-                    end if
-                %>
+                
+	            next
+	            
+             %>
+	
 	        </tr>
 	        <%
              end if ' media
@@ -944,22 +828,7 @@ if len(session("user")) = 0 then
 	for m = 0 to UBOUND(intMids)
 	    
 	    
-      
-
-
-
-
 	    if intMids(m) <> 0 then
-
-        if intMids(m) > 9 then
-
-        select case right(m, 1)
-        case 0
-        'tpp = tpp + 1
-        end select
-
-
-        end if
 
 
         intFerieOpt(m) = 0
@@ -1100,7 +969,7 @@ if len(session("user")) = 0 then
         lastMth = ""
 
         '***** MAIN SQL ***
-        strSQLt = "SELECT sum(timer) AS timer, tdato, month(tdato) AS month, tfaktim, tmnr FROM timer WHERE tmnr = " & intMids(m)  & ""_
+        strSQLt = "SELECT sum(timer) AS timer, tdato, month(tdato) AS month, tfaktim FROM timer WHERE tmnr = " & intMids(m)  & ""_
 	    &" AND ("& sqlTypKri &") AND tdato BETWEEN '"& startDatoPerSQL &"' AND '"& slutDatoPerSQL &"' GROUP BY "& sqlGrpBy &" ORDER BY tdato"
 	    
 	    'Response.Write "antaldays" & antaldays & "<br>"
@@ -1293,38 +1162,14 @@ if len(session("user")) = 0 then
 	     tpekstra = -20
 	     zinx = 400
 	     
-
-          dtUs = year(oRec("tdato")) & "/" & month(oRec("tdato")) & "/" & day(oRec("tdato"))
-
-                    '** WHERE TO ***'
-                    trvldest = "NaN"
-                    strSQLwt = "SELECT diet_namedest FROM traveldietexp WHERE diet_mid = "& oRec("tmnr") &" AND (diet_stdato <= '"& dtUs &"' AND diet_sldato >= '"& dtUs &"') "
-                    
-                    'if session("mid") = 1 then
-                    'response.write strSQLwt & "<br>"
-                    'response.flush
-                    'end if
-
-                    oRec3.open strSQLwt, oConn, 3
-                    if not oRec3.EOF then
-        
-                    trvldest = oRec3("diet_namedest")
-
-                    end if
-                    oRec3.close
-
-
          call akttyper(oRec("tfaktim"), 1)
 	     tnavn = akttypenavn '"Rejsedage"
-	     hoursval = formatnumber(oRec("timer"), 2) & " timer ~ "& formatnumber(oRec("timer")/(nomrTimerPrDag), 2) & " dag. ("& nomrTimerPrDag &") <br>Dest: " & trvldest
+	     hoursval = formatnumber(oRec("timer"), 2) & " timer ~ "& formatnumber(oRec("timer")/(nomrTimerPrDag), 2) & " dag. ("& nomrTimerPrDag &")"
 	     feaf = feaf + 1
          
 	     dageVal = formatnumber(oRec("timer")/(nomrTimerPrDag), 2)
          intMidsRejsedage(m) = intMidsRejsedage(m) + dageVal/1
-
-        
-                 
-
+       
 
          end select
 
@@ -1359,12 +1204,7 @@ if len(session("user")) = 0 then
         'end if
 
 
-
-
-         '*************************************
 	     '** Beregn placering ***'
-         '*************************************
-
 	     select case datepart("m", oRec("tdato"), 2,2)
 	     case 1
 	     bregnM = 0
@@ -1380,28 +1220,17 @@ if len(session("user")) = 0 then
 
          weekThis = datepart("ww", oRec("tdato"),2,2)
 	     
+	     stval = 109
+	     dayval = daysDiff * 3
+	     
 
-         '*** LEFT PX DOTS ***'
-         'select case lto
-         'case "adra"
-         'stval = 108
-         'case else   
-	     stval = 110 '110 '109
-	     'end select
-
-         dayAddpx = 3
-         dayval = daysDiff * dayAddpx
-	     wwdt_nul = 3
-         
+         wwdt_nul = 3
          if yearDiff <> 0 then
          leftval = stval + (wwdt_nul + wwdt_53 +  dayval * faktor)
          else
          leftval = stval + (wwdt_nul + dayval * faktor)
          end if
-
-	     '****************** 
-
-
+	     
 
          if vis <> 2 then '** 2 = sum total
              select case vis
@@ -1490,110 +1319,27 @@ if len(session("user")) = 0 then
 	     
          if media <> "export" then
         
-
-        select case lto
-        case "adra"
-
-            if media <> "print" then
-            rowhgt = 45
-            else
-            rowhgt = 44
-            end if
-
-            
-            '**** ADD HEADER VALUE TOP PX 
-            if per_interval <> 12 then
-            addHeaderVal = 42
-            else
-            addHeaderVal = 0
-            end if
-
-        case else
-
-            if media <> "print" then
-            rowhgt = 41
-            else
-            rowhgt = 40
-            end if
-
-
-            '**** ADD HEADER VALUE TOP PX 
-            if per_interval <> 12 then
-            addHeaderVal = 18
-            else
-            addHeaderVal = 0
-            end if
-            
-        end select
-
-        
-       
-
-        if tpp > 11 AND tpp <= 21  then
-        addHeader = addHeaderVal * 1
+        if media <> "print" then
+        rowhgt = 41
+        else
+        rowhgt = 40
         end if
 
-        if tpp > 21 AND tpp <= 31  then
-        addHeader = addHeaderVal * 2
-        end if
-
-        if tpp > 31 AND tpp <= 41  then
-        addHeader = addHeaderVal * 3
-        end if
-
-        if tpp > 41 AND tpp <= 51  then
-        addHeader = addHeaderVal * 4
-        end if
-
-        if tpp > 51 AND tpp <= 61  then
-        addHeader = addHeaderVal * 5
-        end if
-
-        if tpp > 61 AND tpp <= 71  then
-        addHeader = addHeaderVal * 6
-        end if
-
-        if tpp > 71 AND tpp <= 81  then
-        addHeader = addHeaderVal * 7
-        end if
-
-        if tpp > 81 AND tpp <= 91  then
-        addHeader = addHeaderVal * 8
-        end if
-
-        if tpp > 91 AND tpp <= 101  then
-        addHeader = addHeaderVal * 9
-        end if
-        '*******************************************
 
 
-         select case lto 'onClick / mouseover
-         case "xadra"%>
-        <div class="hand" id="divid_<%=i%>" style="position: absolute; left: <%=leftval%>px; top: <%=sttop + addHeader + (tpp*rowhgt) + (tpekstra)%>px; background-color: #FFFFFF; height: 10px; width: <%=2*faktor+2 %>px;" onmouseover="showdatoinfo('<%=i%>')">
-         <%case else%>
-        <div class="hand" id="divid_<%=i%>" style="position: absolute; left: <%=leftval%>px; top: <%=sttop + addHeader + (tpp*rowhgt) + (tpekstra)%>px; background-color: #FFFFFF; height: 10px; width: <%=2*faktor+2 %>px;" onclick="showdatoinfo('<%=i%>')">
-         <%end select%>
-
-        
-            <img src='../ill/<%=ill %>' width='<%=2*faktor+2 %>' height='10' alt='<%=oRec("tdato") %>' border='0'></div>
-
-         <%
-         select case lto 'onClick / mouseover
-         case "xadra"%>
-         <div class="hand" id="divid_info_<%=i%>" style="position: absolute; visibility: hidden; display: none; left: <%=(leftval)-50%>px; top: <%=25 + addHeader + (tpp*rowhgt) + tpekstra - 20%>px; background-color: #ffffff; width: 150px; border: 2px yellowgreen solid; padding: 5px; z-index: 1000;" onmouseleave="hidedatoinfo('<%=i%>')">
-        <%case else%>
-         <div class="hand" id="divid_info_<%=i%>" style="position: absolute; visibility: hidden; display: none; left: <%=(leftval)-50%>px; top: <%=25 + addHeader + (tpp*rowhgt) + tpekstra - 20%>px; background-color: #ffffff; width: 150px; border: 2px yellowgreen solid; padding: 5px; z-index: 1000;" onclick="hidedatoinfo('<%=i%>')">
-        <%end select%>
-
-            <%=medarbnavn(m) %><br />
-            <b><%=ucase(left(weekdayname(datepart("w", oRec("tdato"))), 1)) &""& mid(weekdayname(datepart("w", oRec("tdato"))), 2,2) %>. d. <%=oRec("tdato") %></b><br />
-            Uge <%=datepart("ww", oRec("tdato"), 2,2) %>
-            <br />
-            <%=tnavn %><br />
-            <%=hoursval%><!-- <br />[rowhgt:<%=rowhgt %> | tpp:<%=tpp %> | addHeader:<%=addHeader %>] -->
-        </div>
-
-        <% end if
+             %>
+	   
+	    <div class=hand id="divid_<%=i%>" style="position:absolute; left:<%=leftval%>px; top:<%=sttop + (tpp*rowhgt) + tpekstra%>px; background-color:#FFFFFF; height:10px; width:<%=2*faktor %>px;" onclick="showdatoinfo('<%=i%>')"><img src='../ill/<%=ill %>' width='<%=2*faktor %>' height='10' alt='<%=oRec("tdato") %>' border='0'></div>
+	    
+	    <div class=hand id="divid_info_<%=i%>" style="position:absolute; visibility:hidden; display:none; left:<%=(leftval)-50%>px; top:<%=25 + (tpp*rowhgt) + tpekstra - 20%>px; background-color:#ffffff; width:150px; border:2px yellowgreen solid; padding:5px; z-index:1000;" onclick="hidedatoinfo('<%=i%>')">
+	    <%=medarbnavn(m) %><br />
+        <b><%=ucase(left(weekdayname(datepart("w", oRec("tdato"))), 1)) &""& mid(weekdayname(datepart("w", oRec("tdato"))), 2,2) %>. d. <%=oRec("tdato") %></b><br />
+	    Uge <%=datepart("ww", oRec("tdato"), 2,2) %> 
+	    <br /><%=tnavn %><br />
+	    <%=hoursval%> 
+	   </div>
+	    
+	    <% end if
 	    i = i + 1
 	    
         lastMth = monthname(oRec("month"))
@@ -1602,7 +1348,7 @@ if len(session("user")) = 0 then
 	    wend
 	    oRec.close
 	    
-       
+        
 
         if len(trim(intMidsFePl(m))) <> 0 then
         intMidsFePl(m) = formatnumber(intMidsFePl(m))
@@ -1709,23 +1455,22 @@ if len(session("user")) = 0 then
         
 
         %>
-        <div id="div1" style="position:absolute; left:<%=leftvaltot %>px; top:<%=(sttop-21)+((tpp)*41)%>px; width:720px; background-color:#FFFFFF; padding:2px; border-bottom:1px #999999 solid;">
+        <div id="div1" style="position:absolute; left:<%=leftvaltot %>px; top:<%=(sttop-21)+((tpp)*41)%>px; width:650px; background-color:#FFFFFF; padding:2px; border-bottom:1px #999999 solid;">
         <table cellpadding=1 cellspacing=1 border=0 width=100%>
 
-        <%if right(m, 1) = 0 then %>
+            <%if right(m, 1) = 0 then %>
        <tr>
-           <td class="lille" style="white-space:nowrap;">Medarb.</td>
            <td class="lille" style="white-space:nowrap;">Ferie optj.</td>
            <td class="lille" style="white-space:nowrap;">Afholdt <img src="../ill/dot_gron.gif" width="3" height="10" border="0" alt="Ferie Afholdt" /></td>
            <td class="lille" style="white-space:nowrap;">Udbetalt <img src="../ill/dot_darkpink.gif" width="3" height="10" border="0" alt="Ferie Udbetalt" /></td>
            <td class="lille" style="white-space:nowrap;">Afh. u. løn <img src="../ill/dot_yellowgron.gif" width="3" height="10" border="0" alt="Ferie Afholdt U. Løn" /></td>
-           <td class="lille" style="white-space:nowrap;"><b>Ferie Saldo</b></td>
+           <td class="lille" style="white-space:nowrap;"><b>Fe. Saldo</b></td>
             <td class="lille" style="white-space:nowrap;">Planlagt <img src="../ill/dot_graae.gif" width="3" height="10" border="0" alt="Ferie planlagt og Feriefridage planlagt" /></td>
           
            <td class="lille" style="white-space:nowrap; padding-left:20px;">Feriefri</td>
            <td class="lille" style="white-space:nowrap;">Afh. <img src="../ill/dot_gul.gif" width="3" height="10" border="0" alt="Feriefridage afholdt" /></td>
            <td class="lille" style="white-space:nowrap;">Udb. <img src="../ill/dot_lightpink.gif" width="3" height="10" border="0" alt="Feriefridage udbetalt" /></td>
-           <td class="lille" style="white-space:nowrap;"><b>Feriefri Sld.</b></td>
+           <td class="lille" style="white-space:nowrap;"><b>FF. Saldo</b></td>
            <td class="lille" style="white-space:nowrap; padding-left:20px;">Syg <img src="../ill/dot_rod.gif" width="3" height="10" border="0" alt="Syg" /></td>
            <td class="lille" style="white-space:nowrap;">Barnsyg <img src="../ill/dot_orange.gif" width="3" height="10" border="0" alt="Barn syg" /></td>
            <td class="lille" style="white-space:nowrap;">Afspad. <img src="../ill/dot_blaa.gif" width="3" height="10" border="0" alt="Afspadsering" /></td>
@@ -1735,9 +1480,7 @@ if len(session("user")) = 0 then
             <%else %>
 
             <tr>
-
-                 <td class="lille" style="white-space:nowrap;width:40px;">&nbsp;</td>
-                 <td class="lille" style="white-space:nowrap;width:47px;">&nbsp;</td>
+            <td class="lille" style="white-space:nowrap;width:47px;">&nbsp;</td>
                  <td class="lille" style="white-space:nowrap;width:38px;">&nbsp;</td>
                  <td class="lille" style="white-space:nowrap;width:45px;">&nbsp;</td>
                  <td class="lille" style="white-space:nowrap;width:55px;">&nbsp;</td>
@@ -1750,13 +1493,11 @@ if len(session("user")) = 0 then
                  <td class="lille" style="white-space:nowrap;width:45px;">&nbsp;</td>
                  <td class="lille" style="white-space:nowrap;width:45px;">&nbsp;</td>
                  <td class="lille" style="white-space:nowrap;width:45px;">&nbsp;</td>
-                <td class="lille" style="white-space:nowrap;width:57px;">&nbsp;</td>
+                <td class="lille" style="white-space:nowrap;width:45px;">&nbsp;</td>
        </tr>
 
             <%end if %>
         <tr>
-
-            <td class="lille" align="right"><%=medarbInit(m) %>:&nbsp;</td>
             <td class="lille" align="right"><%=intFerieOpt(m) %></td>
             <td class="lille" align="right"><%=intMidsFeAf(m) %></td>
             <td class="lille" align="right"><%=intMidsFeUb(m) %></td>
@@ -2036,99 +1777,5 @@ Response.Write("<script language=""JavaScript"">window.print();</script>")
 	
 
 
-
-    <%end if%>
-    <!--#include file="../inc/regular/footer_inc.asp"-->
-
-
-    <script type="text/javascript">
-        $(window).bind("load", function () {
-            var calendarRows = $('.tbl-calendar > tbody > tr').length;
-            var count = 11;
-            if ($('#per_interval').val() == 12) {
-                count = 10;
-                calendarRows = calendarRows - 1;
-            }
-            else {
-                calendarRows = calendarRows - 2;
-            }
-            
-            if (calendarRows > 10) {
-                var counter = (calendarRows / 10);
-                if (counter % 1 != 0) {
-                    counter = parseInt(counter) + 1;
-                }
-
-                var colspan = $('.tbl-calendar > tbody > tr:eq(1) > td').length;
-
-                for (var i = 1; i <= counter; i++) {
-                    var calendarWeek = $('.tbl-calendar-week').clone();
-                    var calendarMonth = $('.tbl-calendar tr:eq(0)').clone();
-
-                    if ($('#per_interval').val() != 12) {
-                        var calendarDays = $('.tbl-calendar tr:eq(1)').clone();
-                    }
-
-                    //$('.tbl-calendar > tbody > tr').eq(count).after("<tr><td colspan='" + colspan + "'>" + calendarWeek[0].outerHTML + "</td></tr>");
-                    count++;
-                    $('.tbl-calendar > tbody > tr').eq(count).after(calendarMonth);
-                    count++;
-
-                    if ($('#per_interval').val() != 12) {
-                        $('.tbl-calendar > tbody > tr').eq(count).after(calendarDays);
-                        count++;
-                    }
-
-                    count += 10;
-                }
-            }
-
-
-
-
-            //var calendarRows = $('.tbl-calendar > tbody > tr').length;
-            //var perInterval = 2;
-            //if ($('#per_interval').val() == 12) {
-            //    perInterval = 1;
-            //}
-
-            //calendarRows = calendarRows - perInterval;
-
-            //if (calendarRows > 10) {
-            //    var counter = Math.round(calendarRows / 10);
-            //    var rowsAdded = 0;
-            //    var count = 11;
-            //    if ($('#per_interval').val() == 12) {
-            //        count = 10;
-            //    }
-
-            //    var colspan = $('.tbl-calendar > tbody > tr:eq(1) > td').length;
-
-            //    for (var i = 1; i <= counter; i++) {                
-            //        console.log($('.tbl-calendar > tbody > tr').length - perInterval);
-            //        console.log(count);
-
-            //        if ($('.tbl-calendar > tbody > tr').length - perInterval > count) {
-            //            var calendarWeek = $('.tbl-calendar-week').clone();
-            //            var calendarMonth = $('.tbl-calendar tr:eq(0)').clone();
-
-            //            if ($('#per_interval').val() != 12) {
-            //                var calendarDays = $('.tbl-calendar tr:eq(1)').clone();
-            //            }
-
-            //            $('.tbl-calendar > tbody > tr').eq(count).after("<tr><td colspan='" + colspan + "'>" + calendarWeek[0].outerHTML + "</td></tr>");
-            //            count++;
-            //            $('.tbl-calendar > tbody > tr').eq(count).after(calendarMonth);
-            //            count++;
-
-            //            if ($('#per_interval').val() != 12) {                        
-            //                $('.tbl-calendar > tbody > tr').eq(count).after(calendarDays);
-            //                count++;
-            //            }
-            //        }
-
-            //        count += 10;
-            //    }
-            //}
-        });
-    </script>
+<%end if%>
+<!--#include file="../inc/regular/footer_inc.asp"-->

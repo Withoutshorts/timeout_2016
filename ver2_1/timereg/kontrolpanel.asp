@@ -824,6 +824,16 @@ if len(session("user")) = 0 then
             else
             positiv_aktivering_akt = 0
             end if
+
+            
+			if len(trim(request("pa_aktlist"))) <> 0 then
+            pa_aktlist = 1
+            else
+            pa_aktlist = 0
+            end if
+
+            
+
             
             if len(trim(request("FM_lukaktvdato"))) <> 0 then
             lukaktvdato = 1
@@ -1076,7 +1086,8 @@ if len(session("user")) = 0 then
             &" visAktlinjerSimpel_datoer = "& visAktlinjerSimpel_datoer &", visAktlinjerSimpel_timebudget = "& visAktlinjerSimpel_timebudget &", visAktlinjerSimpel_realtimer = "& visAktlinjerSimpel_realtimer &", visAktlinjerSimpel_restimer = "& visAktlinjerSimpel_restimer &", "_
             &" visAktlinjerSimpel_medarbtimepriser = "& visAktlinjerSimpel_medarbtimepriser &", visAktlinjerSimpel_medarbrealtimer = "& visAktlinjerSimpel_medarbrealtimer &", "_
             &" visAktlinjerSimpel_akttype = "& visAktlinjerSimpel_akttype &", timesimon = "& timesimon &", timesimh1h2 = "& timesimh1h2 & ", "_
-            &" timesimtp = "& timesimtp &", budgetakt = " & budgetakt &", akt_maksforecast_treg = "& akt_maksforecast_treg &", traveldietexp_on = "& traveldietexp_on &", traveldietexp_maxhours = "& traveldietexp_maxhours & ", medarbtypligmedarb = " & medarbtypligmedarb
+            &" timesimtp = "& timesimtp &", budgetakt = " & budgetakt &", akt_maksforecast_treg = "& akt_maksforecast_treg &", "_
+            &" traveldietexp_on = "& traveldietexp_on &", traveldietexp_maxhours = "& traveldietexp_maxhours & ", medarbtypligmedarb = " & medarbtypligmedarb &", pa_aktlist = " & pa_aktlist
 			
 			
 			strSQL = strSQL & strSQLat & " WHERE id = 1"
@@ -1226,7 +1237,7 @@ if len(session("user")) = 0 then
         &" SmiWeekOrMonth, SmiantaldageCount, SmiantaldageCountClock, SmiTeamlederCount, hidesmileyicon, visAktlinjerSimpel, fomr_mandatory, akt_maksbudget_treg, minimumslageremail, fomr_account, "_
         &" visAktlinjerSimpel_datoer, visAktlinjerSimpel_timebudget, visAktlinjerSimpel_realtimer, visAktlinjerSimpel_restimer, "_
         &" visAktlinjerSimpel_medarbtimepriser, visAktlinjerSimpel_medarbrealtimer, visAktlinjerSimpel_akttype, timesimon, timesimh1h2, timesimtp, budgetakt, akt_maksforecast_treg, "_
-        &" traveldietexp_on, traveldietexp_maxhours, medarbtypligmedarb "_
+        &" traveldietexp_on, traveldietexp_maxhours, medarbtypligmedarb, pa_aktlist "_
 	    &" FROM licens WHERE id = 1"
 		
 		'Response.Write strSQL
@@ -1379,6 +1390,8 @@ if len(session("user")) = 0 then
             jobasnvigv = oRec("jobasnvigv")
 
             positiv_aktivering_akt = oRec("positiv_aktivering_akt")
+            pa_aktlist = oRec("pa_aktlist")
+
 			
             showeasyreg = oRec("showeasyreg")
             forcebudget_onakttreg = oRec("forcebudget_onakttreg")
@@ -1765,7 +1778,20 @@ if len(session("user")) = 0 then
            
 
            Der skal gives adgang til hver enkelt aktivitet for hver medarbejder før denne kan registrere timer på aktiviteten. Der gives adgang fra de personlige Job-bank indstillinger fra timereg. siden. Alle der har adgang til medarbejderen via timereg. siden kan give adgang.
-           <br /><br />Velegnet til virksomheder, med længerevarende job og mange medarbejdere, hvor arbejdsområder er meget opdelt.</td>
+           <br /><br />Velegnet til virksomheder, med længerevarende job og mange medarbejdere, hvor arbejdsområder er meget opdelt.
+
+
+          <%if cint(pa_aktlist) = 1 then
+          pa_aktlistCHK = "CHECKED"
+          else
+          pa_aktlistCHK = ""
+          end if
+          %>
+            <br /><br />
+           <input type="checkbox" name="pa_aktlist" value="1" <%=pa_aktlistCHK %> />Mobil, samt ugeseddel kan KUN at søge i <b>Personlig aktivjobliste</b> PA=1.
+           Ellers kan der søges i hele jobbanken PA=0. Forudsættes at man har adgang via sine projektgrupper.(timetag sættes i timetag config)<br />
+
+            </td>
             </tr>
 
 

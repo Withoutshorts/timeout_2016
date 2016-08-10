@@ -45,12 +45,22 @@ response.buffer = true
                 &" LEFT JOIN kunder AS k ON (k.kid = j.jobknr) "_
                 &" WHERE tu.medarb = "& medid &" AND (j.jobstatus = 1 OR j.jobstatus = 3)" 
         
-                select case lto
-                case "hestia"
-                strSQL = strSQL & ""
-                case else
-                strSQL = strSQL & " AND tu.forvalgt = 1" 
-                end select
+
+                'Personlig aktiv jobliste
+                'select case lto
+                'case "hestia" 'Tvunget
+                'strSQL = strSQL & ""
+                'case else
+                'strSQL = strSQL & " AND tu.forvalgt = 1" 
+
+                        call positiv_aktivering_akt_fn()
+                        if cint(pa_aktlist) = 0 then 'PA = 0 kan søge i jobbanken / PA = 1 kan kun søge på aktivjobliste
+                        strSQL = strSQL & "" 'standard
+                        else
+                        strSQL = strSQL & " AND tu.forvalgt = 1" 
+                        end if
+
+                'end select
     
                 strSQL = strSQL & " AND "_
                 &" (jobnr LIKE '"& jobkundesog &"%' OR jobnavn LIKE '"& jobkundesog &"%' OR "_
@@ -361,11 +371,11 @@ response.buffer = true
     end if
 
     '*** Hvis der ligger coookie, skal telefonen blive på / flushsessionuser = kommer fra logind ****'
-    if request.Cookies("timeout")("mobileuser") <> "" AND cint(flushsessionuser) <> 1 then
+    if request.Cookies("timeouttimeoutcloud")("mobileuser") <> "" AND cint(flushsessionuser) <> 1 then
 
-    session("mid") = request.Cookies("timeout")("mobilemid")
-    session("user") = request.Cookies("timeout")("mobileuser")
-    session("rettigheder") = request.Cookies("timeout")("mobilerettigheder")
+    session("mid") = request.Cookies("timeoutcloud")("mobilemid")
+    session("user") = request.Cookies("timeoutcloud")("mobileuser")
+    session("rettigheder") = request.Cookies("timeoutcloud")("mobilerettigheder")
 
     end if
 

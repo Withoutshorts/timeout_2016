@@ -660,12 +660,17 @@
         '*******************************
         '*** Alle timer periode 
          strSQlmtimer = "SELECT SUM(timer) AS sumtimer FROM timer AS t WHERE tmnr = "& usemrn & " AND ("& aty_sql_realHours &") AND tdato BETWEEN '"& strDatoStartKri &"' AND '"& strDatoEndKri &"'" 
-         medarbSelHoursGT = 0
+            
+        medarbSelHoursGT = 0
         'response.write strSQlmtimer & "<hr>"
         'response.flush
+
          oRec.open strSQlmtimer, oConn, 3
          if not oRec.EOF then
-            medarbSelHoursGT = oRec("sumtimer")  
+
+        medarbSelHoursGT = oRec("sumtimer")  
+           
+
          end if
          oRec.close 
 
@@ -682,13 +687,10 @@
 
 
         '*******************************
-        omsGTselmedarb = 0
-        faktimerDBGTselmedarb = 0
-        faktimerGTselmedarb = 0
         '*** Fakurerbare timer periode 
-         strSQlmtimer = "SELECT SUM(timer) AS sumtimer, SUM(timer*timepris) AS omsGTselmedarb, SUM(timer*(timepris-kostpris)) AS faktimerDBGTselmedarb FROM timer AS t WHERE tmnr = "& usemrn & " AND ("& aty_sql_realHoursFakbar &") AND tdato BETWEEN '"& strDatoStartKri &"' AND '"& strDatoEndKri &"'" 
+         strSQlmtimer = "SELECT SUM(timer) AS sumtimer FROM timer AS t WHERE tmnr = "& usemrn & " AND ("& aty_sql_realHoursFakbar &") AND tdato BETWEEN '"& strDatoStartKri &"' AND '"& strDatoEndKri &"'" 
             
-        
+        faktimerGTselmedarb = 0
         'response.write strSQlmtimer & "<hr>"
         'response.flush
 
@@ -696,8 +698,7 @@
          if not oRec.EOF then
 
         faktimerGTselmedarb = oRec("sumtimer")  
-        omsGTselmedarb = oRec("omsGTselmedarb")
-        faktimerDBGTselmedarb = oRec("faktimerDBGTselmedarb")
+           
 
          end if
          oRec.close 
@@ -707,19 +708,6 @@
         faktimerGTselmedarb = faktimerGTselmedarb
         else
         faktimerGTselmedarb = 0
-        end if
-
-
-        if omsGTselmedarb <> 0 then
-        omsGTselmedarb = omsGTselmedarb
-        else
-        omsGTselmedarb = 0
-        end if
-
-        if faktimerDBGTselmedarb <> 0 then
-        faktimerDBGTselmedarb = faktimerDBGTselmedarb
-        else
-        faktimerDBGTselmedarb = 0
         end if
 
 
@@ -803,10 +791,8 @@
             
             medarbSelHoursFomrGT = medarbSelHoursFomrGT + hours(f)
             'medarbSelHoursGT = medarbSelHoursGT + hours(f)
-            
-            '*** 2016 06 13 Lavet om til faktimerGTselmedarb nedenfor
-            'medarbSelDBGT = medarbSelDBGT + hoursDB(f)
-            'medarbSelOmsGT = medarbSelOmsGT + hoursOms(f)
+            medarbSelDBGT = medarbSelDBGT + hoursDB(f)
+            medarbSelOmsGT = medarbSelOmsGT + hoursOms(f)
 
             'response.write "medarbSelHoursGT: " & formatnumber(medarbSelHoursGT, 0) &"<br>"
             
@@ -814,11 +800,8 @@
         next
 
             
-            medarbSelDBGT = faktimerDBGTselmedarb   'DB fakturerbare timer * (timepris - kost) 
-            medarbSelOmsGT = omsGTselmedarb         'Oms fakturerbare timer * timepris
-            medarbSelHoursGT = medarbSelHoursGT     'ALLE Timer
 
-            '** IKKE i forhold til norm, men i forhold til reg FAKTURERBARE timer
+            '** IKKE i forhold til norm, men i forhold til reg timer
             for f = 0 TO fo - 1 
 
             utilz(f) = 0
@@ -1041,15 +1024,12 @@
                          Heraf fakturerbare: <b><%=formatnumber(faktimerGTselmedarb, 2) %> t.</b><br />
                          Forecasttimer: <%=formatnumber(indexFc, 2) %> t.<br />
                          <span style="font-size:11px; color:#999999;">Projekt med lev. dato i valgt periode.</span>
-                        
-                         
-                         <!-- <br /><br />
+                         <br /><br />
                         <div class="row-stat">
                         <p class="row-stat-label">NPS</p>
                         <h3 class="row-stat-value">8,2</h3>
                 
                       </div> <!-- /.row-stat -->
-                         
 
                  </div>
                        <div class="col-lg-1">&nbsp;</div>
@@ -1063,88 +1043,6 @@
                  </div>
 
                   </div><!-- END ROW -->
-
-
-
-            <!-- Alle projekter med forecast / budet på --->
-
-              <br />
-              <div class="panel panel-default">
-                        <div class="panel-heading">
-                          <h4 class="panel-title">
-                            <a class="accordion-toggle" data-toggle="collapse" data-target="#collapseFour">Dine job med forecast på - <span style="font-size:12px; font-weight:lighter;"><%=meTxt %></span></a>
-                          </h4>
-                        </div> <!-- /.panel-heading -->
-                        <div id="collapseFour" class="panel-collapse collapse">
-                        <div class="panel-body">
-
-                
-
-
-            
-                        <div class="row">
-                        <div class="col-lg-6">
-
-           
-                  <table class="table table-stribed">
-                            <thead>
-                                <tr><th>Jobnavn</th>
-                                    <th style="text-align:right;">Forecast</th>
-                                    <th style="text-align:right;">Realiseret</th>
-                                </tr>
-                            </thead>
-
-                      <tbody>
-
-            
-                    
-                    
-                    <%strSQLr = "SELECT r.jobid, SUM(r.timer) AS restimer, j.jobnavn, j.jobnr, SUM(t.timer) AS sumtimer FROM ressourcer_md AS r "_
-                    &" LEFT JOIN job AS j ON (j.id = r.jobid) "_
-                    &" LEFT JOIN aktiviteter AS a ON (a.id = r.aktid) "_
-                    &" LEFT JOIN timer AS t ON (t.tjobnr = j.jobnr AND tmnr = "& usemrn & ") "_
-                    &" WHERE r.medid = "& usemrn & " AND r.aktid <> 0 AND a.navn IS NOT NULL AND jobstatus = 1 GROUP BY r.jobid ORDER BY jobnavn LIMIT 50" 
-
-                        'response.write strSQLr
-                        'response.flush
-                        re = 0
-                        oRec.open strSQLr, oConn, 3
-                        While not oRec.EOF 
-
-                        select case right(re, 1)
-                        case 0,2,4,6,8
-                        bgcr = "#FFFFFF"
-                        case else
-                        bgcr = "#EfF3ff"
-                        end select
-                        %>
-                        <tr style="background-color:<%=bgcr%>;">
-                            <td class="lille"><%=left(oRec("jobnavn"), 20) & " ("& oRec("jobnr") &")" %></td>
-                            <td class="lille" align="right"><%=oRec("restimer") %> t.</td>
-                            <td class="lille" align="right"><%=oRec("sumtimer") %> t.</td>
-                        </tr>
-                        <%
-
-                        re = re + 1
-                        oRec.movenext
-                        wend
-                        oRec.close      
-                        
-                     
-                    if re = 0 then   
-                    %>
-                    <tr bgcolor="#FFFFFF"><td colspan="2">- ingen </td></tr>
-                    <%end if %>
-                      </tbody>
-                    </table>
-                              </div><!-- coloum -->
-                              </div><!-- /ROW -->
-
-
-                               </div><!-- END panel-body -->
-              </div><!-- END panel-collapse -->
-             </div><!-- END panel deafult -->
-
 
 
             <!-- KUN SÆLGERE -->
@@ -1161,7 +1059,7 @@
               oRec5.close%>
 
             <%if erSaelgerOk = 1 then %>
-            
+            <br />
               <div class="panel panel-default">
                         <div class="panel-heading">
                           <h4 class="panel-title">
@@ -1197,38 +1095,21 @@
                             <tbody>
                                 <%
                                  '** Real. timer SEL MEDARB
-                                 strSQlmtimer_k = "SELECT SUM(t.timer) AS sumtimer, SUM(t.timer*t.timepris) AS sumtimeOms, SUM(t.timer*t.kostpris) AS sumtimeKost, j.id AS jid, "_
-                                 &" t.tknavn, t.tknr, t.tjobnavn, t.tjobnr, k.kkundenr "_
+                                 strSQlmtimer_k = "SELECT SUM(t.timer) AS sumtimer, SUM(t.timer*t.timepris) AS sumtimeOms, SUM(t.timer*t.kostpris) AS sumtimeKost, "_
+                                 &" t.tknavn, t.tknr, t.tjobnavn, t.tjobnr, SUM(r.timer) AS fctimer "_
                                  &" FROM timer AS t "_
                                  &" LEFT JOIN job AS j ON (jobnr = tjobnr)"_ 
-                                 &" LEFT JOIN kunder AS k ON (k.kid = t.tknr) "_
+                                 &" LEFT JOIN ressourcer_md AS r ON (medid = "& usemrn &" AND jobid = j.id)"_
                                  &" WHERE t.tmnr = "& usemrn & " AND ("& aty_sql_realhours &") AND tdato BETWEEN '"& strDatoStartKri &"' AND '"& strDatoEndKri &"' GROUP BY tknr ORDER BY sumtimer DESC LIMIT 10"
             
-                                'if session("mid") = 1 then
                                 'response.write strSQlmtimer_k
                                 'response.flush
-                                'end if
                                 
                                  oRec.open strSQlmtimer_k, oConn, 3
                                  while not oRec.EOF 
 
-                                    restimerThisKunde = 0 
-                                    strSQLresTimer = "SELECT SUM(r.timer) AS fctimer, r.medid, r.aktid, r.aar, r.md FROM ressourcer_md AS r WHERE r.jobid = "& oRec("jid") &" AND medid = "& usemrn 
-
-                                    oRec2.open strSQLresTimer, oConn, 3
-                                    if not oRec2.EOF then 
-
-                                    if IsNull(oRec2("fctimer")) <> true then
-                                    restimerThisKunde = oRec2("fctimer")
-                                    else
-                                    restimerThisKunde = 0
-                                    end if
-
-                                    end if
-                                    oRec2.close
-
-                                    if cint(restimerThisKunde) <> 0 then
-                                    fctimer = restimerThisKunde
+                                    if isNull(oRec("fctimer")) <> true then
+                                    fctimer = oRec("fctimer")
                                     else
                                     fctimer = 0
                                     end if
@@ -1241,7 +1122,7 @@
                                     %>
 
                                 <tr>
-                                    <td><%=oRec("tknavn") %> (<%=oRec("kkundenr") %>)</td>
+                                    <td><%=oRec("tknavn") %> (<%=oRec("tknr") %>)</td>
                                     <td class="text-right;"><%=formatnumber(fctimer, 2) %></td>
                                     <td class="text-right;"><%=formatnumber(oRec("sumtimer"), 2) %></td>
                                     <td><div style="background-color:<%=indicatorCol%>; width:10px; height:10px;">&nbsp;</div></td>
@@ -1426,10 +1307,9 @@
                                 <%
                                  '** Real. timer SEL MEDARB JOBANSVARLIG
                                  strSQlmtimer_k = "SELECT SUM(t.timer) AS sumtimer, SUM(t.timer*t.timepris) AS sumtimeOms, SUM(t.timer*t.kostpris) AS sumtimeKost, "_
-                                 &" t.tknavn, t.tknr, t.tjobnavn, t.tjobnr, j.id AS jid, jobslutdato, k.kkundenr "_
+                                 &" t.tknavn, t.tknr, t.tjobnavn, t.tjobnr, j.id AS jid, jobslutdato "_
                                  &" FROM timer AS t "_
                                  &" LEFT JOIN job AS j ON (j.jobnr = tjobnr) "_
-                                 &" LEFT JOIN kunder AS k ON (k.kid = t.tknr) "_
                                  &" WHERE tjobnr <> 0 "& jobansKrijobids &" AND ("& aty_sql_realhours &") GROUP BY tjobnr ORDER BY jobslutdato DESC, t.tknr, tjobnavn DESC LIMIT 30"
             
                                 'response.write strSQlmtimer_k
@@ -1444,11 +1324,6 @@
                                     fctimer = 0
                                     'end if
                                     strSQL_r = "SELECT COALESCE(SUM(timer), 0) AS fctimer FROM ressourcer_md AS r WHERE jobid = " & oRec("jid") 
-                                    
-                                    'if session("mid") = 1 then
-                                    'response.write strSQL_r
-                                    'end if
-                                     
                                     oRec2.open strSQL_r, oConn, 3
                                     if not oRec2.EOF then
                                     
@@ -1473,7 +1348,7 @@
                                     %>
 
                                 <tr>
-                                    <td><%=oRec("tknavn") %> (<%=oRec("kkundenr") %>)</td>
+                                    <td><%=oRec("tknavn") %> (<%=oRec("tknr") %>)</td>
                                     <td><%=oRec("tjobnavn") %> (<%=oRec("tjobnr") %>)</td>
                                     <td><%=oRec("jobslutdato") %></td>
                                     <td class="text-right;"><%=formatnumber(fctimer, 2) %></td>
@@ -1572,10 +1447,9 @@
                                 <%
                                  '** Real. timer SEL MEDARB KUNDEANSVARLIG
                                  strSQlmtimer_k = "SELECT SUM(t.timer) AS sumtimer, SUM(t.timer*t.timepris) AS sumtimeOms, SUM(t.timer*t.kostpris) AS sumtimeKost, "_
-                                 &" t.tknavn, t.tknr, t.tjobnavn, t.tjobnr, j.id AS jid, jobslutdato, k.kkundenr "_
+                                 &" t.tknavn, t.tknr, t.tjobnavn, t.tjobnr, j.id AS jid, jobslutdato "_
                                  &" FROM timer AS t "_
                                  &" LEFT JOIN job AS j ON (j.jobnr = tjobnr) "_
-                                 &" LEFT JOIN kunder AS k ON (k.kid = t.tknr) "_
                                  &" WHERE tjobnr <> 0 "& kansKrijobids &" AND ("& aty_sql_realhours &") GROUP BY tjobnr ORDER BY t.tknr, tjobnavn DESC LIMIT 30"
             
                                 'response.write strSQlmtimer_k
@@ -1614,7 +1488,7 @@
                                     %>
 
                                 <tr>
-                                    <td><%=oRec("tknavn") %> (<%=oRec("kkundenr") %>)</td>
+                                    <td><%=oRec("tknavn") %> (<%=oRec("tknr") %>)</td>
                                     <td><%=oRec("tjobnavn") %> (<%=oRec("tjobnr") %>)</td>
                                     <td><%=oRec("jobslutdato") %></td>
                                     <td class="text-right;"><%=formatnumber(fctimer, 2) %></td>

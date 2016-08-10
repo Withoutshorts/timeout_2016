@@ -78,6 +78,11 @@ if session("user") = "" then
 
             if len(trim(request("FM_sog"))) <> 0 then
             sogVal = request("FM_sog")
+            
+                    if sogVal = "procentreplace" then
+                    sogVal = "%"
+                    end if
+
             sogValTxt = sogVal
             else
             sogVal = "WF9)8/NXN76E#"
@@ -236,7 +241,7 @@ if session("user") = "" then
    
 
 
-             jbs = 5000
+             jbs = 6000
              akts = 50000
 
              dim strJobTxtTds, strAktTxtTds
@@ -402,6 +407,7 @@ if session("user") = "" then
 
     aktBudgetFY0 = split(request("FM_akttimebudget_FY0"), ", ##, ")
 
+   
 
     'response.write request("FM_aktbudgettimer") & "<br>"
     'response.Write request("FM_aktfctimepris_FY0") & "<br>"
@@ -413,6 +419,14 @@ if session("user") = "" then
 
     aktBudgetFY1 = split(request("FM_akttimebudget_FY1"), ", ##, ")
     aktBudgetFY2 = split(request("FM_akttimebudget_FY2"), ", ##, ")
+
+
+    
+
+    'response.write "<br>##//"& request("FM_akttimebudget_FY0")
+    'response.write "<br>##//"& request("FM_akttimebudget_FY1")
+    'response.write "<br>##//"& request("FM_akttimebudget_FY2")
+    'response.flush
 
     for j = 0 TO UBOUND(aktids)
 
@@ -496,6 +510,8 @@ if session("user") = "" then
         for f = 0 to 2
         '** RAMME FY0-FY2 **'
 
+        'Response.write "F: "& f & " aktBudgetFY0(j) j: "& j &" =  " &  aktBudgetFY0(j) & "<br>"
+        'response.flush
           
             
                 call opdaterRessouceRamme(f, FY0, FY1, FY2, aktBudgetFY0(j), aktfctimeprisFY0(j), 0, aktBudgetFY1(j), aktBudgetFY2(j), jobaktids(j), aktids(j))
@@ -505,6 +521,8 @@ if session("user") = "" then
         'call opdaterRessouceRamme(f, FY0, FY1, FY2, aktBudgetFY0(j), aktfctimeprisFY0(j), aktfctimeprish2FY0(j), aktBudgetFY1(j), aktBudgetFY2(j), jobaktids(j), aktids(j))
 
         next
+
+        
 
     next
 
@@ -769,10 +787,10 @@ if session("user") = "" then
         visrealprdatoStartSQL = h1aar & "-7-1"
         visrealprdatoSQL = year(visrealprdato) &"-"& month(visrealprdato) &"-"& day(visrealprdato)
 
-         jbs = 5000
+         jbs = 6000
          akts = 50000
          p = 14
-         m = 120
+         m = 160 '120
          mhigh = 0
          phigh = 0
          dim antalm, antalp, h1_medTot, h2_medTot, h1_medTotGT, h2_medTotGT, h1_medTotGTGT
@@ -2030,6 +2048,8 @@ while not oRec.EOF
    case else    
 
 
+    media = request("media")
+
     'if lcase(sogVal) = "all" then
 
     if len(trim(request("sogmedarb"))) <> 0 then
@@ -2057,10 +2077,19 @@ while not oRec.EOF
     jdiv_dsp = ""
 
    
+    select case lto 'Bør følge finasår func
+
+            case "wwf"
+            addOneYear = 1
+            case else
+            addOneYear = 0
+            end select
 
 
 
  %>
+
+<%if media <> "export" then %>
 
  
 
@@ -2146,8 +2175,6 @@ while not oRec.EOF
     </form>
 
 
-
-
 <form method="post" action="timbudgetsim.asp?func=opd&FM_sog=<%=sogVal %>">
     <input type="hidden" name="FY0" value="<%=year(y0)%>" style="width:40px;" />
     <input type="hidden" name="FY1" value="<%=year(y1)%>" style="width:40px;" />
@@ -2227,15 +2254,7 @@ while not oRec.EOF
     </thead>
 
 
-        <%select case lto 'Bør følge finasår func
-
-            case "wwf"
-            addOneYear = 1
-            case else
-            addOneYear = 0
-            end select
-
-             %>
+        
     
 
     <thead>
@@ -2295,6 +2314,8 @@ while not oRec.EOF
 
 <% 
 
+end if 'media
+
 '********************************************************************************* 
 '*** Henter job og aktiviteter MAIN  ********************************************'
 '*********************************************************************************
@@ -2305,6 +2326,8 @@ call akttyper2009(2)
 lastknavn = ""
 lastjobnavn = ""
 lastFase = ""
+
+strExport = ""
 
 if cint(sortorder) = 1 then
     sortorderThis = "jobnr, jobnavn"
@@ -2399,57 +2422,88 @@ while not oRec.EOF
     end if
 
 
-    if lastknavn <> lcase(oRec("kkundenavn")) AND cint(sortorder) <> 1 then%>
-    <tr style="background-color:#EFF3FF;"><td colspan="2" style="padding:10px 1px 2px 10px;"><b><%=oRec("kkundenavn") %></b></td>
-        <td colspan="2"><!--<input type="submit" value="Opdater >>" />-->&nbsp;</td>
-        <td colspan="70">&nbsp;</td></tr>
-    <%end if %>
-    
-            <%if lastjobnavn <> lcase(oRec("jobnavn")) then %>
-            <tr>
-           
-            <input type="hidden" name="FM_jobid" value="<%=oRec("jid") %>" />
-            <input type="hidden" id="FM_aktid_<%=i %>" value="0" />
-            <input type="hidden" id="FM_jobid_<%=i %>" value="<%=oRec("jid") %>" />
-           
-            <td style="white-space:nowrap;"><span style="color:#5582d2;" id="sp_<%=oRec("jid") %>" class="sp_jid"><b>[+]</b></span>&nbsp;<%=left(oRec("jobnavn"), 20) %></td><td><%=oRec("jobnr") %></td>
-       
-             <td><a class="btn btn-info btn-xs" href="timbudgetsim.asp?jobid=<%=oRec("jid")%>&func=forecast&FM_visrealprdato=<%=visrealprdato%>" role="button" target="_blank">Forecast</a></td>
-             <td><input type="text" style="width:60px;" id="budgettimer_jobakt_<%=oRec("jid")%>_0" name="FM_jobbudgettimer" class="jobakt_budgettimer_job form-control input-small" value="<%=jobbudgettimer%>" /></td>
-            <td><input type="text" style="width:60px;" id="budgettimep_jobakt_<%=oRec("jid")%>_0" name="FM_jobtpris" class="jobakt_budgettimep_job form-control input-small" value="<%=jo_gnstpris%>" /></td>
-            <td><input type="text" style="width:80px;" id="budgetbelob_jobakt_<%=oRec("jid")%>_0" name="FM_jobbudget" class="jobakt_budgettimep_job form-control input-small" value="<%=jobbudget%>" disabled /></td>
 
-                <input type="hidden" name="FM_jobbudgettimer" value="##" />
-                <input type="hidden" name="FM_jobtpris" value="##" />
-                <input type="hidden" name="FM_jobbudget" value="##" />
+           
+
+                    if lastknavn <> lcase(oRec("kkundenavn")) AND cint(sortorder) <> 1 then
+    
+                         if media <> "export" then%>
+                        <tr style="background-color:#EFF3FF;"><td colspan="2" style="padding:10px 1px 2px 10px;"><b><%=oRec("kkundenavn") %></b></td>
+                        <td colspan="2"><!--<input type="submit" value="Opdater >>" />-->&nbsp;</td>
+                        <td colspan="70">&nbsp;</td></tr>
+                        <% end if 'media 
+                        
+                        
+                    end if  %>
+    
+                    <%if lastjobnavn <> lcase(oRec("jobnavn")) then 
+                        
+                                 if media <> "export" then    
+                                %>
+                                <tr>
+           
+                                <input type="hidden" name="FM_jobid" value="<%=oRec("jid") %>" />
+                                <input type="hidden" id="FM_aktid_<%=i %>" value="0" />
+                                <input type="hidden" id="FM_jobid_<%=i %>" value="<%=oRec("jid") %>" />
+           
+                                <td style="white-space:nowrap;"><span style="color:#5582d2;" id="sp_<%=oRec("jid") %>" class="sp_jid"><b>[+]</b></span>&nbsp;<%=left(oRec("jobnavn"), 20) %></td><td><%=oRec("jobnr") %></td>
+       
+                                 <td><a class="btn btn-info btn-xs" href="timbudgetsim.asp?jobid=<%=oRec("jid")%>&func=forecast&FM_visrealprdato=<%=visrealprdato%>" role="button" target="_blank">Forecast</a></td>
+                                 <td><input type="text" style="width:60px;" id="budgettimer_jobakt_<%=oRec("jid")%>_0" name="FM_jobbudgettimer" class="jobakt_budgettimer_job form-control input-small" value="<%=jobbudgettimer%>" /></td>
+                                <td><input type="text" style="width:60px;" id="budgettimep_jobakt_<%=oRec("jid")%>_0" name="FM_jobtpris" class="jobakt_budgettimep_job form-control input-small" value="<%=jo_gnstpris%>" /></td>
+                                <td><input type="text" style="width:80px;" id="budgetbelob_jobakt_<%=oRec("jid")%>_0" name="FM_jobbudget" class="jobakt_budgettimep_job form-control input-small" value="<%=jobbudget%>" disabled /></td>
+
+                                    <input type="hidden" name="FM_jobbudgettimer" value="##" />
+                                    <input type="hidden" name="FM_jobtpris" value="##" />
+                                    <input type="hidden" name="FM_jobbudget" value="##" />
+
+                            <% 
+                           end if 'media    
+                    
+                if media = "export" then
+                strExport = strExport & oRec("kkundenavn") & ";" & oRec("jobnavn") & ";" & oRec("jobnr") & ";;"& jobbudgettimer &";"& jo_gnstpris &";"& jobbudget & ";"
+                end if   %>
 
                 <%call jobaktbudgetfelter(oRec("jobnr"), oRec("jid"), 0, h1aar, h2aar, h1md, h2md, jo_gnstpris) %>
 
-                 <%'call medarbfelter(oRec("jid") , 0, h1aar, h2aar, h1md, h2md) %>
-             </tr>
-           <% 
+                 <%'call medarbfelter(oRec("jid") , 0, h1aar, h2aar, h1md, h2md)
+                     
+                   ' if media = "export" then
+                   ' strExport = strExport & vbcrlf    
+                   ' end if%>
              
-                 
+
+
+            <%if media <> "export" then %>
+            </tr>
+           <% end if
+             
+            
+
              i = i + 1
              x = x + 1
            end if 
                
+          
                
-     select case right(x, 1)
+               
+    if media <> "export" then           
+                    
+    select case right(x, 1)
     case 0,2,4,6,8
     bgthis = "#FFFFFF"
     case else
     bgthis = "#F3F3F3"
     end select%>
 
-    <%if lastFase <> lcase(oRec("fase")) then %>
-    <tr class="tr_<%=oRec("jid") %>" style="background-color:<%=bgthis%>; visibility:hidden; display:none;">
-        <td colspan="100"><%=replace(oRec("fase"), "_", " ") %></td>
-    </tr>
-    <%
-        'strAktTxtTds(oRec("aid")) = strAktTxtTds(oRec("aid")) & "<tr><td colspan=""100"">"& replace(oRec("fase"), "_", " ")  &"</td></tr>"
+                    <%if lastFase <> lcase(oRec("fase")) then %>
+                    <tr class="tr_<%=oRec("jid") %>" style="background-color:<%=bgthis%>; visibility:hidden; display:none;">
+                        <td colspan="100"><%=replace(oRec("fase"), "_", " ") %></td>
+                    </tr>
+                    <%
+                        'strAktTxtTds(oRec("aid")) = strAktTxtTds(oRec("aid")) & "<tr><td colspan=""100"">"& replace(oRec("fase"), "_", " ")  &"</td></tr>"
         
-        end if %>
+                   end if %>
         
     <tr class="tr_<%=oRec("jid") %>" style="background-color:<%=bgthis%>; visibility:hidden; display:none;">
         <input type="hidden"  name="FM_aktjobid" id="FM_jobid_<%=i %>" value="<%=oRec("jid") %>" />
@@ -2468,7 +2522,16 @@ while not oRec.EOF
                 <input type="hidden" name="FM_aktpris" value="##" />
                 <input type="hidden" name="FM_aktbudgetsum" value="##" />
                 
-              
+          
+     <%end if 'media 
+         
+         
+         
+           if media = "export" then
+         
+            strExport = strExport & oRec("kkundenavn") & ";" & oRec("jobnavn") & ";" & oRec("jobnr") & ";"& oRec("aktnavn") &";"& aktbudgettimer &";"& aktpris &";"& aktbudgetsum & ";"
+         
+           end if%>    
         
 
            <%call jobaktbudgetfelter(oRec("jobnr"), oRec("jid"), oRec("aid"), h1aar, h2aar, h1md, h2md, aktpris) %>
@@ -2477,6 +2540,8 @@ while not oRec.EOF
             <%'call medarbfelter(oRec("jid"), oRec("aid"), h1aar, h2aar, h1md, h2md) %>
 
       
+    <%if media <> "export" then %>
+
      </tr>
     <%
 
@@ -2488,6 +2553,8 @@ while not oRec.EOF
         strAktTxtTds(oRec("aid")) = strAktTxtTds(oRec("aid")) & "<td style='white-space:nowrap;'>"& left(oRec("aktnavn"), 20) &"</td>"
         end if
        
+    end if
+
 
         if isNull(oRec("fase")) <> true then
         lastFase = lcase(oRec("fase"))
@@ -2511,10 +2578,12 @@ oRec.close
 
        
 
-%></tbody>
+%>
 
-    <input type="hidden" value="<%=x-1 %>" id="xhigh" />
-    
+        <%if media <> "export" then %>
+        </tbody>
+       <input type="hidden" value="<%=x-1 %>" id="xhigh" />
+     <%end if %>
 
     <%
 
@@ -2524,6 +2593,8 @@ oRec.close
 
 %>
 
+
+ <%if media <> "export" then %>
 <tfoot>
     <tr><td colspan=4>Total:</td>
     <td>&nbsp;</td>
@@ -2570,7 +2641,113 @@ oRec.close
 
 
       
-</form>     
+</form> 
+<%end if 'media %>    
+
+
+
+
+               <%if media = "export" then 
+
+                   call TimeOutVersion()
+	
+	
+	                filnavnDato = year(now)&"_"&month(now)& "_"&day(now)
+	                filnavnKlok = "_"&datepart("h", now)&"_"&datepart("n", now)&"_"&datepart("s", now)
+	
+	                Set objFSO = server.createobject("Scripting.FileSystemObject")
+	
+	                if request.servervariables("PATH_TRANSLATED") = "C:\www\timeout_xp\wwwroot\ver2_1\to_2015\timbudgetsim.asp" then
+							
+		                Set objNewFile = objFSO.createTextFile("c:\www\timeout_xp\wwwroot\ver2_1\inc\log\data\timbudgetsim_"&filnavnDato&"_"&filnavnKlok&"_"&lto&".csv", True, False)
+		                Set objNewFile = nothing
+		                Set objF = objFSO.OpenTextFile("c:\www\timeout_xp\wwwroot\ver2_1\inc\log\data\timbudgetsim_"&filnavnDato&"_"&filnavnKlok&"_"&lto&".csv", 8)
+	
+	                else
+		
+		                Set objNewFile = objFSO.createTextFile("d:\webserver\wwwroot\timeout_xp\wwwroot\"& toVer &"\inc\log\data\timbudgetsim_"&filnavnDato&"_"&filnavnKlok&"_"&lto&".csv", True, false)
+		                Set objNewFile = nothing
+		                Set objF = objFSO.OpenTextFile("d:\webserver\wwwroot\timeout_xp\wwwroot\"& toVer &"\inc\log\data\timbudgetsim_"&filnavnDato&"_"&filnavnKlok&"_"&lto&".csv", 8, -1)
+		
+	                end if
+	
+	                file = "timbudgetsim_"&filnavnDato&"_"&filnavnKlok&"_"&lto&".csv"
+                   
+                   
+                    strTxtExportHeader =  "Kunde;Job;Jobnr;Aktivitet;Budget timer;Budget timepris;Budget beløb;Timebudget "& year(y0) &";Timebudget "& year(y1) &";Timebudget "& year(y2) &";Forecast timer "& year(y0) &";Forecast timepris "& year(y0) &";Real. timer pr. "& visrealprdato &";Real. timepris pr. "& visrealprdato &";Real. Omsætning pr. "& visrealprdato &";Forecast budget;Forecast timer GT;"
+                    strTxtExport = strExport
+
+
+                   objF.WriteLine(strTxtExportHeader)
+                   objF.WriteLine(strTxtExport)
+                   objF.close
+
+                   %>
+                 <div id="wrapper">
+                 <div class="to-content-hybrid-fullzize" style="position:absolute; top:20px; left:20px; background-color:#FFFFFF;">
+                    <table border=0 cellspacing=1 cellpadding=0 width="400">
+	                            <tr><td valign=top bgcolor="#ffffff" style="padding:5px;">
+	                            <img src="../ill/outzource_logo_200.gif" />
+	                            </td>
+	                            </tr>
+	                            <tr>
+	                            <td valign=top bgcolor="#ffffff" style="padding:5px 5px 5px 15px;">
+	                            <a href="../inc/log/data/<%=file%>" class=vmenu target="_blank" onClick="Javascript:window.close()">Din CSV. fil er klar >></a>
+	                            </td></tr>
+	                            </table>
+                     </div>
+                     </div>
+                    <%
+
+                    'Response.end
+	            'Response.redirect "../inc/log/data/"& file &""	
+                response.end
+
+                end if%>
+
+
+
+
+
+               <br /><br /><br /><br />
+
+                 <section>
+                <div class="row">
+                     <div class="col-lg-12">
+                        <b>Funktioner</b>
+                        </div>
+                    </div>
+                  
+                     <%if sogVal = "%" then
+                         sogValExp = "procentreplace"
+                       else
+                         sogValExp = sogVal
+                       end if %>
+
+                      <form method="post" action="timbudgetsim.asp?media=export&FM_sog=<%=sogValExp %>" target="_blank">
+                          
+                    <input type="hidden" name="FM_fy" value="<%=year(Y0)%>" style="width:40px;" />
+                    <input type="hidden" name="FY0" value="<%=year(y0)%>" style="width:40px;" />
+                    <input type="hidden" name="FY1" value="<%=year(y1)%>" style="width:40px;" />
+                    <input type="hidden" name="FY2" value="<%=year(y2)%>" style="width:40px;" />
+                    <input type="hidden" name="FM_visrealprdato" value="<%=visrealprdato %>" />
+                    <input type="hidden" name="timesimh1h2" id="timesimh1h2" value="<%=timesimh1h2 %>" />
+                     <div class="row">
+                     <div class="col-lg-12 pad-r30">
+                         
+                    <input id="Submit5" type="submit" value="Eksport til csv." class="btn btn-sm" /><br />
+                    <!--Eksporter viste kunder og kontaktpersoner som .csv fil-->
+                         
+                         </div>
+
+
+                </div>
+                </form>
+
+              
+            </section>
+
+
 
     </div><!-- portlet -->
     </div><!-- container -->

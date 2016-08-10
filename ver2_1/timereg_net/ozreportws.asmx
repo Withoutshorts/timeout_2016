@@ -46,6 +46,7 @@ Public Class ozreportws
         Dim aboPgrp As string
         Dim medid As string
         Dim show_atd As String = "0"
+       
         
             '*** Alle der tæller med i dagligt timeregnskab ***'
         Dim strConn_admin As string
@@ -111,7 +112,11 @@ Public Class ozreportws
             Select Case objDR_admin.Item("lto")
                     Case "dencker" '** Dencker
                  
-                        show_atd = "1"
+                    show_atd = "1"
+                    
+                    Case "epi", "epi_no" '** EPINION
+                 
+                    show_atd = "2"
                     
                     Case "outz", "intranet - local"
                     strConn = "Driver={MySQL ODBC 3.51 Driver};Server=localhost;Database=timeout_intranet;User=outzource;Password=SKba200473;"
@@ -180,8 +185,10 @@ Public Class ozreportws
             
                 Dim realTimer As String = 0
                 Dim normTimer As String = 0
-                Dim bal_norm_real As String = 0
-                Dim bal_norm_lontimer As String = 0
+            Dim bal_norm_real As String = 0
+            Dim bal_norm_realAtd As String = 0
+            Dim bal_norm_lontimer As String = 0
+                Dim realTimerAtd As string = 0
             
                 Dim ugestatus As String = 0
                 Dim ugegodkendt As String = 0
@@ -197,6 +204,7 @@ Public Class ozreportws
                 Dim aboMtyperArr As Array
                 Dim aboPgrpArr As Array
             
+                Dim ugeNrLastWeek As integer = 0
             
                 ExpTxtheader = "Medarbejder;Medarb. Nr;Initialer;Norm. tid;Løntimer (komme/gå);Realiseret tid;(heraf fakturerbare);"
 
@@ -215,16 +223,21 @@ Public Class ozreportws
             
 
             
-                If show_atd = "1" Then
+            If show_atd = "1" Then
                     ExpTxtheader = ExpTxtheader & "Effektiv % (løntimer/fakturerbare timer real.);Effektiv % ÅTD - "& startDatoAtDSQL &" - (løntimer/fakturerbare timer real.);"
-                End If
+            End If
+            
+            If show_atd = "2" Then
+                ExpTxtheader = ExpTxtheader & "Real. ÅTD;Bal. (Norm./Real.) ÅTD;"
+            End If
             
             
             ExpTxtheader = ExpTxtheader & "Uge afsluttet;Uge godkendt;"
             
             If InStr(lto, "epi") Then
                 ExpTxtheader = ExpTxtheader & "Projekgrupper;"
-            end if
+            End If
+            
         
                 '"& Left(startDato.ToString, 4) &"
                 Dim flname As String = "timeout_rapport_" & lto & "_" & fnEnd & ".csv"
@@ -628,7 +641,7 @@ Public Class ozreportws
                         End If 'show ATD
                 
                 
-                
+                 
                 
 
                         '*** Real timer ***'
@@ -660,6 +673,9 @@ Public Class ozreportws
                         bal_norm_real = (realTimer / 1) - (normTimer / 1)
                         'bal_norm_real = Replace(Replace(FormatNumber(CType(bal_norm_real, String), 2), ",", ""), ".", ",")
                         bal_norm_real = FormatNumber(CType(bal_norm_real, String), 2)
+                    
+                    
+                   
                     
                     
                         'bal_norm_lontimer = ((Replace(lTim, ",", ".") / 1) - (normTimer / 100))
@@ -861,8 +877,53 @@ Public Class ozreportws
                         
                     
                         If show_atd = "1" Then
-                            writer.Write(effektiv_proc & " %;" & effektiv_proc_atd & " %;")
-                        End If
+                        writer.Write(effektiv_proc & " %;" & effektiv_proc_atd & " %;")
+                    End If
+                    
+                        
+                        
+                        
+                        '** ÅTD = 2 REAL timer ÅTD
+                        If show_atd = "2" Then
+                    
+                            '*** Real timer ÅTD ***'
+                            realTimerAtd = 0
+                            Dim strSQLrealAtd As String = "SELECT sum(timer) AS sumtimer, tmnavn FROM timer WHERE tmnr = " & objDR2("mid") & akttyper_realhours
+                            strSQLrealAtd = strSQLrealAtd & "AND (tdato BETWEEN '" & Year(startDatoAtDSQL) & "/" & Month(startDatoAtDSQL) & "/" & Day(startDatoAtDSQL) & "' AND '" & slutDatoSQL & "') GROUP BY tmnr"
+        
+                            objCmd = New OdbcCommand(strSQLrealAtd, objConn)
+                            objDR = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
+            
+                            If objDR.Read() = True Then
+
+                                expTxt = objDR.Item("sumtimer") & ";"
+                                writer.Write(expTxt)
+                        
+                                realTimerAtd = objDR.Item("sumtimer")
+                            End If
+            
+                            objDR.Close()
+                    
+                            If realTimerAtd = 0 Then
+                                writer.Write(";")
+                            End If
+                    
+                        
+                            ugeNrLastWeek = DatePart("ww", slutDato, Microsoft.VisualBasic.FirstDayOfWeek.Monday, FirstWeekOfYear.FirstFourDays)
+                        
+                           
+                            bal_norm_realAtd = (realTimerAtd / 1) - (normTimer * ugeNrLastWeek / 1)
+                            bal_norm_realAtd = FormatNumber(CType(bal_norm_realAtd, String), 2)
+                        
+                        
+                             writer.Write(bal_norm_realAtd & ";")
+                        
+                        End If 'show ATD
+                        
+                        
+                        
+                       
+                  
             
                     
                         ugestatus = 0

@@ -5379,10 +5379,17 @@
 							intTimepris = replace(tprisGen, ",", ".") 
 							intValuta = valutaGen
 							
+                           
 							strSQLtpris = "INSERT INTO timepriser (jobid, aktid, medarbid, timeprisalt, 6timepris, 6valuta) "_
 							&" VALUES ("& intjobid &", 0, "& medarbejderid &", 0, "& intTimepris &", "& intValuta &")"
 							
+
+                            'response.write "strSQLtpris: " & strSQLtpris & "<br>"
+                            'response.Flush
+
 							oConn.execute(strSQLtpris)
+
+                        
 							
 							end if
 							
@@ -6082,7 +6089,7 @@
     <%select case rdir
      case "ugeseddel_2011"
     %>
-    <a href="ugeseddel_2011.asp?usemrn=<%=usemrn%>&varTjDatoUS_man=<%=varTjDatoUS_man%>"><%=tsa_txt_006 %> >></a>
+    <a href="../to_2015/ugeseddel_2011.asp?usemrn=<%=usemrn%>&varTjDatoUS_man=<%=varTjDatoUS_man%>"><%=tsa_txt_006 %> >></a>
     <% 
     case "logindhist"
     %>
@@ -7162,8 +7169,8 @@
         end if
 
 
-     %>
-    <div style="position:absolute; background-color:#ffffff; border:0px #5582d2 solid; padding:4px; top:82px; width:75px; left:<%=lft%>px; z-index:0;"><a href="<%=lnkUgeseddel%>" class="vmenu"><%=tsa_txt_337 %></a></div>
+    'links til ugeseddel og komme/gå %>
+    <div style="position:absolute; background-color:#ffffff; border:0px #5582d2 solid; padding:4px; top:82px; width:75px; left:<%=lft%>px; z-index:0;"><a href="../to_2015/<%=lnkUgeseddel%>" class="vmenu"><%=tsa_txt_337 %></a></div>
     
     <%if cint(stempelurOn) = 1 then %>
     <div style="position:absolute; background-color:#ffffff; border:0px #5582d2 solid; padding:4px; top:82px; width:85px; left:720px; z-index:0;"><a href="<%=lnkLogind%>" class="vmenu"><%=tsa_txt_340 %></a></div>
@@ -8035,7 +8042,7 @@
     	    
             '*** Auto popup ThhisWEEK now SMILEY
 	        if cint(smilaktiv) = 1 then%>
-	        <div id="s0" style="position:relative; left:20px; top:142px; width:725px; visibility:<%=smVzb%>; display:<%=smDsp%>; z-index:2; background-color:#FFFFFF; padding:10px; border:0px #CCCCCC solid;">
+	        <div id="s0" style="position:relative; left:20px; top:142px; width:725px; visibility:<%=smVzb%>; display:<%=smDsp%>; z-index:2; background-color:#FFFFFF; padding:20px; border:0px #CCCCCC solid;">
 	      
                  <%
                
@@ -8341,7 +8348,7 @@
    call showuploadimport_fn() 
    if cint(showuploadimport) = 1 then%>
    
-   <br /> <a href="../../ver2_10/timereg_net/importer_timer.aspx?lto=<%=lto%>&editor=<%=session("user") %>&mid=<%=usemrn %>" class=rmenu target="_blank"> Upload & importér .csv fil >></a>
+   <br /> <a href="../../ver2_14/timereg_net/importer_timer.aspx?lto=<%=lto%>&editor=<%=session("user") %>&mid=<%=usemrn %>" class=rmenu target="_blank"> Upload & importér .csv fil >></a>
    
    <%end if
 
@@ -8945,7 +8952,7 @@
     LastJobLoop = 0
     
     
-    'if lto = "dencker" AND session("mid") = 21 then
+    'if lto = "glad" AND session("mid") = 1 then
     'response.write strSQL
     'response.flush
     'end if

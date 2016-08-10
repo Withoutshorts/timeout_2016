@@ -28,14 +28,7 @@
 <script src="js/kunder_jav.js" type="text/javascript"></script>
 
 
-<%
 
-
-   
-
-
-
-    %>
     <!--#include file="inc/kunder_inc.asp"-->
     <%
 
@@ -1770,8 +1763,8 @@
 	                                select case lto
 	                                case "execon", "immenso"
 	                                betbetint = 8
-	                                disa = 1
-                                    landg = 0
+	                                disa = 0'1
+                                    lang = 0
 	                                case else
 	                                betbetint = betbetint
 	                                disa = 0

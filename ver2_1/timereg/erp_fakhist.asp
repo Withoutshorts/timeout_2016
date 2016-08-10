@@ -1307,11 +1307,14 @@ if len(session("user")) = 0 then
 	        end if
         
         	    If (fs.FileExists(pdfurl))=true Then
+
+                      if instr(request.servervariables("LOCAL_ADDR"), "195.189.130.210") <> 0 then
                       %>
                       <a href="https://outzource.dk/timeout_xp/wwwroot/<%=toVer%>/inc/upload/<%=lto%>/<%=pdfFakNavn%>" target="_blank"><img src="../ill/ikon_pdf.gif" border="0"></a>
-
-                        <!--  <a href="http://timeout2.outzource.dk/timeout_xp/wwwroot/<%=toVer%>/inc/upload/<%=lto%>/<%=pdfFakNavn%>" target="_blank"><img src="../ill/ikon_pdf.gif" border="0"></a> -->
-                      <%
+                      <!--  <a href="http://timeout2.outzource.dk/timeout_xp/wwwroot/<%=toVer%>/inc/upload/<%=lto%>/<%=pdfFakNavn%>" target="_blank"><img src="../ill/ikon_pdf.gif" border="0"></a> -->
+                      <%else%>
+                      <a href="https://timeout.cloud/timeout_xp/wwwroot/<%=toVer%>/inc/upload/<%=lto%>/<%=pdfFakNavn%>" target="_blank"><img src="../ill/ikon_pdf.gif" border="0"></a>
+                      <%end if
                 Else
                       Response.Write("&nbsp;")
                 End If

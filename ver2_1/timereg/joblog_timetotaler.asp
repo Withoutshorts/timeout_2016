@@ -549,6 +549,28 @@ thisfile = "joblog_timetotaler"
     response.cookies("cc_vis_fakbare_res")("res") = vis_restimer
 
 
+     '*** Vis Normtimer ***
+	if len(trim(request("vis_normtimer"))) <> 0 then
+    vis_normtimer = request("vis_normtimer")
+	else
+	   if len(request.cookies("cc_vis_fakbare_norm")("norm")) <> 0 then
+	   vis_normtimer = request.cookies("cc_vis_fakbare_norm")("norm")
+	   else
+	   vis_normtimer = 0
+	   end if
+	end if
+	
+	if cint(vis_normtimer) = 1 then
+	normChk1 = "CHECKED"
+	normChk0 = ""
+	else
+	normChk0 = "CHECKED"
+	normChk1 = ""
+	end if
+
+    response.cookies("cc_vis_fakbare_norm")("norm") = vis_normtimer
+
+
 
     '*** Udspec. på medarbejdertyper ***' 
     if len(trim(request("vis_fakbare_res"))) <> 0 then 'Er der søgt via FORM
@@ -1218,7 +1240,7 @@ thisfile = "joblog_timetotaler"
           
             <tr>
              <td colspan="3" valign=top style="padding:0px 0px 0px 40px;" bgcolor="#ffffff">
-		        <b>Vis enheder. </b><font class=lille>(timer * faktor) <input type="radio" name="vis_enheder" id="vis_enheder" value="1" <%=enhChk1%>>Ja - <input type="radio" name="vis_enheder" id="vis_enheder" value="0" <%=enhChk0%>>Nej</td>
+		        <b>Vis enheder. </b><font class=lille>(timer * faktor) <input type="radio" name="vis_enheder" id="vis_enheder" value="1" <%=enhChk1%>>Ja &nbsp;&nbsp;<input type="radio" name="vis_enheder" id="vis_enheder" value="0" <%=enhChk0%>>Nej</td>
 			</tr>
 			<%else %>
         <input id="Hidden1" type="hidden" name="vis_fakbare_res" value="0" />
@@ -1227,7 +1249,12 @@ thisfile = "joblog_timetotaler"
 
               <tr>
 				<td colspan=3 valign=top style="padding:0px 0px 0px 40px;" bgcolor="#ffffff">
-		        <b>Vis forecasttimer </b><font class=lille>(timebudget) <input type="radio" name="vis_restimer" id="Radio1" value="1" <%=resChk1%>>Ja - <input type="radio" name="vis_restimer" id="Radio2" value="0" <%=resChk0%>>Nej &nbsp;<span style="color:red; font-size:9px;">Ekstra loadtid!</span></td>
+		        <b>Vis forecasttimer </b><font class=lille>(timebudget) <input type="radio" name="vis_restimer" id="Radio1" value="1" <%=resChk1%>>Ja &nbsp;&nbsp;<input type="radio" name="vis_restimer" id="Radio2" value="0" <%=resChk0%>>Nej &nbsp;<span style="color:red; font-size:9px;">Ekstra loadtid!</span></td>
+			</tr>
+
+             <tr>
+				<td colspan=3 valign=top style="padding:0px 0px 0px 40px;" bgcolor="#ffffff">
+		        <b>Vis normtid </b><input type="radio" name="vis_normtimer" id="Radio1" value="1" <%=normChk1%>>Ja &nbsp;&nbsp;<input type="radio" name="vis_normtimer" id="Radio2" value="0" <%=normChk0%>>Nej</td>
 			</tr>
 
 			
@@ -1390,7 +1417,7 @@ thisfile = "joblog_timetotaler"
 	end select
 
 
-    
+    perinterval = datediff("d", datoStart, datoSlut) 
 
 
     'Response.write "jobid " & jobid
@@ -1575,19 +1602,17 @@ thisfile = "joblog_timetotaler"
 			
 			
 			dim jobmedtimer ', jobtimerIaltX
-			redim jobmedtimer(x, m) ', jobtimerIaltX(x)
+			redim jobmedtimer(x,m) ', jobtimerIaltX(x)
 			
 			v = 1150
 			j = 0
 			
-            dim medarb
-			redim medarb(v)
-			
-			dim medabTottimer, restimerTot, omsTot, fakbareTimerTot, normTimerTot, medabTotenh, medabRestimer
+           
+			dim medarb, medabTottimer, restimerTot, omsTot, fakbareTimerTot, normTimerTot, medabTotenh, medabRestimer, medabNormtimer
             dim subMedabRestimer, subMedabTottimer, subMedabTotenh, omsSubTot
             dim medabTottimerprMd, medabTotRestimerprMd, medabTotEnhprMd, medabTotOmsprMd, medabTotTpprMd
 
-			Redim medabTottimer(v), restimerTot(v), omsTot(v), fakbareTimerTot(v), normTimerTot(v), medabTotenh(v), medabRestimer(v), medarb(v), medarbnavnognr(v), medarbnavnognr_short(v)
+			Redim medabTottimer(v), restimerTot(v), omsTot(v), fakbareTimerTot(v), normTimerTot(v), medabTotenh(v), medabRestimer(v), medabNormtimer(v), medarb(v), medarbnavnognr(v), medarbnavnognr_short(v)
             redim subMedabRestimer(v), subMedabTottimer(v), subMedabTotenh(v), omsSubTot(v)
 
             redim medabTottimerprMd(v, 12), medabTotRestimerprMd(v, 12), medabTotEnhprMd(v, 12), medabTotOmsprMd(v, 12), medabTotTpprMd(v, 12)
@@ -1635,6 +1660,8 @@ thisfile = "joblog_timetotaler"
             end select
         
             end if
+
+            nDatoStart = day(sqlDatoStart) &"/"& month(sqlDatoStart) &"/"& year(sqlDatoStart)
 			
 			
 			
@@ -2217,66 +2244,66 @@ thisfile = "joblog_timetotaler"
 						'Response.write x &", " & v &"<br>"
 						
 						'*** Job og medarb data ****
-						jobmedtimer(x, 0) = oRec("jid")
-						jobmedtimer(x, 1) = oRec("jobnavn")
+						jobmedtimer(x,0) = oRec("jid")
+						jobmedtimer(x,1) = oRec("jobnavn")
 
                         if isNull(oRec("sumtimer")) <> true then
-						jobmedtimer(x, 3) = formatnumber(oRec("sumtimer"), 2)
+						jobmedtimer(x,3) = formatnumber(oRec("sumtimer"), 2)
                         else
-                        jobmedtimer(x, 3) = 0
+                        jobmedtimer(x,3) = 0
                         end if
 		
-        				jobmedtimer(x, 2) = oRec("mnavn") 
-                        jobmedtimer(x, 37) = oRec("mnr")
+        				jobmedtimer(x,2) = oRec("mnavn") 
+                        jobmedtimer(x,37) = oRec("mnr")
                             
                             if len(trim(oRec("init"))) <> 0 then
-                            jobmedtimer(x, 39) = "<br>" & oRec("init")
+                            jobmedtimer(x,39) = "<br>" & oRec("init")
                             else
-                            jobmedtimer(x, 39) = ""
+                            jobmedtimer(x,39) = ""
                             end if
                         
 
                         if cint(vis_medarbejdertyper) = 1 then
-                        jobmedtimer(x, 4) = oRec("mtype") 
+                        jobmedtimer(x,4) = oRec("mtype") 
 						else
-                        jobmedtimer(x, 4) = oRec("mid")
+                        jobmedtimer(x,4) = oRec("mid")
                         end if
 						
-						'jobmedtimer(x, 5) = oRec("restimer")
-						jobmedtimer(x, 6) = oRec("jnr")
+						'jobmedtimer(x,5) = oRec("restimer")
+						jobmedtimer(x,6) = oRec("jnr")
 						
                         if (cint(upSpec) = 1 AND jobid <> 0) then
-                        jobmedtimer(x, 38) = 1
+                        jobmedtimer(x,38) = 1
                         else
-                        jobmedtimer(x, 38) = ja
+                        jobmedtimer(x,38) = ja
                         end if
                        
                         'jobid = 1
 						'*** Uspecificering af aktiviteter ***
 						if cint(ja) <> 0 then
 							
-							jobmedtimer(x, 12) = oRec("aid")
-							jobmedtimer(x, 13) = oRec("anavn")
+							jobmedtimer(x,12) = oRec("aid")
+							jobmedtimer(x,13) = oRec("anavn")
 							thisAktFakbar = oRec("afakbar")
 							
-							jobmedtimer(x, 34) = oRec("bgr")
+							jobmedtimer(x,34) = oRec("bgr")
 							
 			                visning = 1
 			                call akttyper(thisAktFakbar, visning)
-			                jobmedtimer(x, 14) = akttypenavn
+			                jobmedtimer(x,14) = akttypenavn
 			                
-			                jobmedtimer(x, 32) = oRec("fase")
+			                jobmedtimer(x,32) = oRec("fase")
 
-                            jobmedtimer(x, 40) = oRec("brug_fasttp")
+                            jobmedtimer(x,40) = oRec("brug_fasttp")
                             
                         
                         else
 						    
-                            jobmedtimer(x, 12) = 0
+                            jobmedtimer(x,12) = 0
                             
-                            jobmedtimer(x, 13) = ""
-                            jobmedtimer(x, 14) = ""
-                            jobmedtimer(x, 34) = 0
+                            jobmedtimer(x,13) = ""
+                            jobmedtimer(x,14) = ""
+                            jobmedtimer(x,34) = 0
 
 						end if
 						
@@ -2284,8 +2311,8 @@ thisfile = "joblog_timetotaler"
 						
 						
 						'*** Antal Medarbejdere / Navne ***
-						if instr(strMidsK, "#"& jobmedtimer(x, 4) &"#") = 0 then
-						strMidsK = strMidsK & ",#"& jobmedtimer(x, 4) &"#"
+						if instr(strMidsK, "#"& jobmedtimer(x,4) &"#") = 0 then
+						strMidsK = strMidsK & ",#"& jobmedtimer(x,4) &"#"
 							
 
                             'Response.Write strMidsK & "v: "& v &"<br>"
@@ -2327,16 +2354,16 @@ thisfile = "joblog_timetotaler"
 							
 
 
-                            medarbnavnognr(v) = jobmedtimer(x, 2) &" ["& jobmedtimer(x, 39) & "]" '("& jobmedtimer(x, 37) &")"
+                            medarbnavnognr(v) = jobmedtimer(x,2) &" ["& jobmedtimer(x,39) & "]" '("& jobmedtimer(x,37) &")"
                             
                             if lto = "wwf" OR lto = "wwf2" OR lto = "xintranet - local" then
-                            medarbnavnognr_short(v) = jobmedtimer(x, 39)
+                            medarbnavnognr_short(v) = jobmedtimer(x,39)
                             else
                                 
                                 if cint(md_split_cspan) = 1 then
-                                thisM = left(jobmedtimer(x, 2), 10) &" "& jobmedtimer(x, 39) '<br>("& jobmedtimer(x, 37) &")
+                                thisM = left(jobmedtimer(x,2), 10) &" "& jobmedtimer(x,39) '<br>("& jobmedtimer(x,37) &")
                                 else
-                                thisM = left(jobmedtimer(x, 2), 35) &" "& jobmedtimer(x, 39) '<br>("& jobmedtimer(x, 37) &")
+                                thisM = left(jobmedtimer(x,2), 35) &" "& jobmedtimer(x,39) '<br>("& jobmedtimer(x,37) &")
                                 end if
                             
                             
@@ -2356,15 +2383,15 @@ thisfile = "joblog_timetotaler"
 						'*** Jobtype ***
 						if oRec("fastpris") = 1 then
 						    'if oRec("usejoborakt_tp") <> 1 then
-						    jobmedtimer(x, 33) = 1 
-						    jobmedtimer(x, 8) = " - Fastpris"
+						    jobmedtimer(x,33) = 1 
+						    jobmedtimer(x,8) = " - Fastpris"
 						    'else
-						    'jobmedtimer(x, 8) = " - Fastpris (akt. ~ tilnærm. timepris)"
-						    'jobmedtimer(x, 33) = 2
+						    'jobmedtimer(x,8) = " - Fastpris (akt. ~ tilnærm. timepris)"
+						    'jobmedtimer(x,33) = 2
 						    'end if
 						else
-						jobmedtimer(x, 33) = 0
-						jobmedtimer(x, 8) = " - Lbn. timer" 
+						jobmedtimer(x,33) = 0
+						jobmedtimer(x,8) = " - Lbn. timer" 
 						end if
 						
 						
@@ -2386,41 +2413,41 @@ thisfile = "joblog_timetotaler"
 						
 						'*** Job eller aktiviteter VISES **'
 						'** Budget / Forkalk **'
-						if cint(jobmedtimer(x, 38)) <> 0 then 'if oRec("usejoborakt_tp") <> 0 then '** Bruger akt forkalk 
+						if cint(jobmedtimer(x,38)) <> 0 then 'if oRec("usejoborakt_tp") <> 0 then '** Bruger akt forkalk 
 						    '** budget **'
 						    if oRec("aktbudgetsum") <> 0 then
-						    jobmedtimer(x, 18) = oRec("aktbudgetsum") 'oRec("abudgetsum")
+						    jobmedtimer(x,18) = oRec("aktbudgetsum") 'oRec("abudgetsum")
 						    else
-						    jobmedtimer(x, 18) = 0
+						    jobmedtimer(x,18) = 0
 						    end if
     						
 					   
 					        if oRec("abudgettimer") <> 0 then
-					        jobmedtimer(x, 19) = oRec("abudgettimer")
+					        jobmedtimer(x,19) = oRec("abudgettimer")
 					        else
-					        jobmedtimer(x, 19) = 1
+					        jobmedtimer(x,19) = 1
 					        end if
 						   
                             
-                            jobmedtimer(x, 35) = oRec("antalstk")
+                            jobmedtimer(x,35) = oRec("antalstk")
 							
                             						    
 						    select case oRec("bgr") 
 						    case 0 'Ingen
-						        sumbgr = jobmedtimer(x, 19)
+						        sumbgr = jobmedtimer(x,19)
 						    case 1 'Timer
-						        sumbgr = jobmedtimer(x, 19)
+						        sumbgr = jobmedtimer(x,19)
 						    case 2 'stk
-						        sumbgr = jobmedtimer(x, 35)
+						        sumbgr = jobmedtimer(x,35)
 						    end select
 						
 						else
 						    '** Job forkalk ***'
 						
 						    '** budget **'
-						    jobmedtimer(x, 18) = jobbelob
+						    jobmedtimer(x,18) = jobbelob
 						    '** timer **'
-						    jobmedtimer(x, 19) = bdgTim
+						    jobmedtimer(x,19) = bdgTim
 						end if
 						
 						jobmedtimer(x,27) = oRec("oprkurs")
@@ -2428,8 +2455,8 @@ thisfile = "joblog_timetotaler"
 						
 						
 						'*** Timepriser bruges på forkalk og hvis det er fastpris job ***'
-						'if len(trim(jobmedtimer(x, 3))) <> 0 AND jobmedtimer(x, 3) <> 0 then
-                        'realtimerTP = jobmedtimer(x, 3)
+						'if len(trim(jobmedtimer(x,3))) <> 0 AND jobmedtimer(x,3) <> 0 then
+                        'realtimerTP = jobmedtimer(x,3)
                         'else
                         'realtimerTP = 1
                         'end if
@@ -2440,8 +2467,8 @@ thisfile = "joblog_timetotaler"
                                 timeprisThis = (jobbelob / bdgTim) 'realtimerTP '** Skal være real timer
 						    else
 						        '** Akt er basis og det er aktiviteter der vises **
-						        if cint(jobmedtimer(x, 38)) <> 0 then
-						        timeprisThis = (jobmedtimer(x, 18)/sumbgr) '** enhedspris på akt
+						        if cint(jobmedtimer(x,38)) <> 0 then
+						        timeprisThis = (jobmedtimer(x,18)/sumbgr) '** enhedspris på akt
 						        else
     						    timeprisThis = (jobbelob / bdgTim) 'realtimerTP
 						        end if
@@ -2479,7 +2506,7 @@ thisfile = "joblog_timetotaler"
                     							
 						                        '*** Timepris ***'
 						                        call beregnValuta(timeprisThis,jobmedtimer(x,27),100)
-						                        jobmedtimer(x, 10) = valBelobBeregnet
+						                        jobmedtimer(x,10) = valBelobBeregnet
                 							
                 							
 							                else
@@ -2490,12 +2517,12 @@ thisfile = "joblog_timetotaler"
 							                    '*** Timepris / Kostprise ***'
                                                 if cint(visfakbare_res) = 1 then
 							                    call beregnValuta(oRec("timepris"),jobmedtimer(x,27),100)
-							                    jobmedtimer(x, 10) = valBelobBeregnet
+							                    jobmedtimer(x,10) = valBelobBeregnet
                 							
                                                 else 'kostpris
 
                                                 call beregnValuta(oRec("kostpris"),jobmedtimer(x,27),100)
-							                    jobmedtimer(x, 10) = valBelobBeregnet
+							                    jobmedtimer(x,10) = valBelobBeregnet
 
                                                 end if
 
@@ -2507,23 +2534,23 @@ thisfile = "joblog_timetotaler"
                                         '*** bruge kun pseudo da, der ikke beregnes timepris ved vis kun timer
 							            '*** Timepris ***'
 							            call beregnValuta(oRec("timepris"),jobmedtimer(x,27),100)
-							            jobmedtimer(x, 10) = valBelobBeregnet
+							            jobmedtimer(x,10) = valBelobBeregnet
             						
 						            end if
 						
 						
                         
-                        jobmedtimer(x, 11) = oRec("fastpris")
+                        jobmedtimer(x,11) = oRec("fastpris")
 						
 						if cint(vis_enheder) = 1 then
-						jobmedtimer(x, 25) = oRec("enheder")
+						jobmedtimer(x,25) = oRec("enheder")
 						else
-						jobmedtimer(x, 25) = 0
+						jobmedtimer(x,25) = 0
 						end if
 						
 						
 							
-							if cint(jobmedtimer(x, 38)) <> 0 then '*** Udspec på aktiviteter 
+							if cint(jobmedtimer(x,38)) <> 0 then '*** Udspec på aktiviteter 
 							jora_id = oRec("aid")
 							else
 							jora_id = oRec("jnr")
@@ -2533,7 +2560,7 @@ thisfile = "joblog_timetotaler"
                         
 		                if instr(strJobnbs, "#"& jora_id &"#") = 0 OR cint(csv_pivot) = 1 then
 		                
-                        'Response.Write "ja:" & ja & " navn: "& jobmedtimer(x, 13) & " -- " & strJobnbs & " jora_id: " & jora_id & "<br>"
+                        'Response.Write "ja:" & ja & " navn: "& jobmedtimer(x,13) & " -- " & strJobnbs & " jora_id: " & jora_id & "<br>"
                         
                         strJobnbs = strJobnbs & ",#"& jora_id &"#"
 		                
@@ -2582,38 +2609,38 @@ thisfile = "joblog_timetotaler"
 							end if
 						
 						
-							jobmedtimer(x, 20) = oRec("kkundenavn") & " ("& oRec("kkundenr") &")"
-							jobmedtimer(x, 21) = oRec("adresse")
-							jobmedtimer(x, 22) = oRec("postnr")
-							jobmedtimer(x, 23) = oRec("city") 
-							jobmedtimer(x, 24) = oRec("telefon")		
+							jobmedtimer(x,20) = oRec("kkundenavn") & " ("& oRec("kkundenr") &")"
+							jobmedtimer(x,21) = oRec("adresse")
+							jobmedtimer(x,22) = oRec("postnr")
+							jobmedtimer(x,23) = oRec("city") 
+							jobmedtimer(x,24) = oRec("telefon")		
 				            
 				            if len(trim(oRec("m2mnavn"))) <> 0 then
-				            jobmedtimer(x, 28) = oRec("m2mnavn") &" ("&oRec("m2mnr")&")"
-				            jobmedtimer(x, 29) = oRec("m2init") 
+				            jobmedtimer(x,28) = oRec("m2mnavn")  '&" ("&oRec("m2mnr")&")"
+				            jobmedtimer(x,29) = oRec("m2init") 
 				            else
-				            jobmedtimer(x, 28) = ""
-				            jobmedtimer(x, 29) = ""
+				            jobmedtimer(x,28) = ""
+				            jobmedtimer(x,29) = ""
 				            end if
 				            
 				            if len(trim(oRec("m3mnavn"))) <> 0 then
-				            jobmedtimer(x, 30) = oRec("m3mnavn") &" ("&oRec("m3mnr")&")"
-				            jobmedtimer(x, 31) = oRec("m3init")
+				            jobmedtimer(x,30) = oRec("m3mnavn") '&" ("&oRec("m3mnr")&")"
+				            jobmedtimer(x,31) = oRec("m3init")
 				            else
-				            jobmedtimer(x, 30) = ""
-				            jobmedtimer(x, 31) = ""
+				            jobmedtimer(x,30) = ""
+				            jobmedtimer(x,31) = ""
 				            end if 
 				            
 				            
-				            jobmedtimer(x, 36) = oRec("tdato")
+				            jobmedtimer(x,36) = oRec("tdato")
 
                             'if cint(vis_restimer) = 1 AND isNull(oRec("restimer")) <> true then
-                            'jobmedtimer(x, 37) = oRec("restimer")
+                            'jobmedtimer(x,37) = oRec("restimer")
                             'else
-                            'jobmedtimer(x, 37) = 0
+                            'jobmedtimer(x,37) = 0
                             'end if
 				            
-                            'jobmedtimer(x, 38) = oRec("sumtimerPrev") 
+                            'jobmedtimer(x,38) = oRec("sumtimerPrev") 
 
 			x = x + 1
             jobmedtimerHigh = x 
@@ -2744,15 +2771,15 @@ thisfile = "joblog_timetotaler"
                         
                       
 				
-				                if cint(jobmedtimer(x, 38)) = 0 then '** Job
+				                if cint(jobmedtimer(x,38)) = 0 then '** Job
 								jobaktId = jobmedtimer(x,0) & "_0"
 								jobaktNr = jobmedtimer(x,6)
 								jobaktNavn = jobmedtimer(x,1)
-								jobaktType = jobmedtimer(x, 8)
+								jobaktType = jobmedtimer(x,8)
 								
-								jobans = jobmedtimer(x, 28) 
-								if len(trim(jobmedtimer(x, 30))) <> 0 then
-								jobans = jobans & ", "& jobmedtimer(x, 30)
+								jobans = jobmedtimer(x,28) 
+								if len(trim(jobmedtimer(x,30))) <> 0 then
+								jobans = jobans & ", "& jobmedtimer(x,30)
 								end if
 								
 								
@@ -2761,8 +2788,8 @@ thisfile = "joblog_timetotaler"
 								jobaktId = jobmedtimer(x,0) & "_"& jobmedtimer(x,12)
 								jobaktNr = jobmedtimer(x,12)
 								jobaktNavn = jobmedtimer(x,13)
-								jobaktType = jobmedtimer(x, 14)
-								jobaktFase = jobmedtimer(x, 32)
+								jobaktType = jobmedtimer(x,14)
+								jobaktFase = jobmedtimer(x,32)
 								
 								jobans = ""
 								
@@ -2805,10 +2832,10 @@ thisfile = "joblog_timetotaler"
 
 
 									
-									    if jobmedtimer(x, 38) <> 0 then ''job eller akt. udspec
+									    if jobmedtimer(x,38) <> 0 then ''job eller akt. udspec
                                                 
 
-                                                '*** Job ***'
+                                                '*** AKT ***'
                                                 if len(trim(jobmedtimer(x,0))) <> 0 AND (lastJob <> jobmedtimer(x,0)) then 
 
                                                             if udSpecFirst = 0 then
@@ -2867,7 +2894,7 @@ thisfile = "joblog_timetotaler"
                                                     if cint(directexp) <> 1 then
     									       
                                                                 strJobLinie = strJobLinie & "</tr><tr><td style='padding:30px 10px 2px 2px; background-color:#F7F7F7; border-top:1px #CCCCCC solid;'>"_
-    									                        &"<span style='color:#000000; font-size:10px;'>"& jobmedtimer(x, 20) &"</span><br><b>"& jobmedtimer(x,1) &"</b> ("& jobmedtimer(x,6) &")</td>"
+    									                        &"<span style='color:#000000; font-size:10px;'>"& jobmedtimer(x,20) &"</span><br><b>"& jobmedtimer(x,1) &"</b> ("& jobmedtimer(x,6) &")</td>"
 
                                                                 strJobLinie = strJobLinie &"<td class=lille valign=bottom style='border-top:1px #CCCCCC solid; background-color:#F7F7F7;'>Budget</td>"
 
@@ -2876,6 +2903,7 @@ thisfile = "joblog_timetotaler"
                                                                 end if
                                                 
                                                                 strJobLinie = strJobLinie &"<td class=lille valign=bottom style='border-top:1px #CCCCCC solid; background-color:#F7F7F7;'>Real. timer<br>i periode</td>"
+                                                                strJobLinie = strJobLinie &"<td class=lille valign=bottom style='border-top:1px #CCCCCC solid; background-color:#F7F7F7;'>Real. %</td>"
 
                                                                 if cint(visPrevSaldo) = 1 then
                                                                 strJobLinie = strJobLinie &"<td class=lille valign=bottom style='border-top:1px #CCCCCC solid; background-color:#F7F7F7;'>Real. timer<br> ialt</td>"
@@ -2925,22 +2953,27 @@ thisfile = "joblog_timetotaler"
                                     
 
 									            '*** Fase ***'
-									            if len(trim(jobaktFase)) <> 0 AND (lastFase <> jobaktFase) then 
-    									        strJobLinie = strJobLinie & "</tr><tr><td colspan=120 class=lille style='padding:2px; padding-right:10px; border-top:1px #CCCCCC solid;' bgcolor=#d6dff5>"_
-    									        &" fase: <b>"& jobaktFase &"</b></td>"
+                                                select case lto
+                                                case "cisu", "intranet - local"
 
-                                                lastFase = jobaktFase
-    									        end if 
-                                            
+                                                case else
+									                if len(trim(jobaktFase)) <> 0 AND (lastFase <> jobaktFase) then 
+    									            strJobLinie = strJobLinie & "</tr><tr><td colspan=120 class=lille style='padding:2px; padding-right:10px; border-top:1px #CCCCCC solid;' bgcolor=#d6dff5>"_
+    									            &" fase: <b>"& jobaktFase &"</b></td>"
+
+                                                    lastFase = jobaktFase
+    									            end if 
+                                                end select 'lto                                    
+
+
+
+
+
                                                 '*********************************'
                                                 '*** job / aktnavn '*****   
     									        '*** timer og job **'
                                                 '*********************************'
-                                                
-                                                     
-
-                            
-
+                                               
 									            strJobLinie = strJobLinie & "</tr><tr><td style='padding:2px; padding-right:10px; border-top:1px #CCCCCC solid;' bgcolor="& bgtd &">"
                                                 strJobLinie = strJobLinie & jobaktNavn 
                                                 strJobLinie = strJobLinie & "<br><span style='color:#6CAE1C; font-size:9px;'> ("& jobaktType &")</span></td>" 
@@ -2951,23 +2984,41 @@ thisfile = "joblog_timetotaler"
     									        ekspAkttype = jobaktType 'replace(jobaktType,"<font color=green>", "")
     									
 									            expTxt = expTxt &"xx99123sy#z"
-									            expTxt = expTxt & jobmedtimer(x, 20)&";"
-									            expTxt = expTxt & jobmedtimer(x, 1)&";"&jobmedtimer(x, 6)&";"&jobaktFase&";"&jobaktNavn&";"&ekspAkttype&";"
-									            expTxt = expTxt & jobmedtimer(x, 28)&";"
-    									        expTxt = expTxt & jobmedtimer(x, 29)&";"
-    									        expTxt = expTxt & jobmedtimer(x, 30)&";"
-    									        expTxt = expTxt & jobmedtimer(x, 31)&";"
+									            expTxt = expTxt & jobmedtimer(x,20) &";"
+									            expTxt = expTxt & jobmedtimer(x,1) &";"& jobmedtimer(x,6) &";"
+                                                
+                                                select case lto
+                                                case "cisu", "intranet - local"
+                                                expTxt = expTxt & jobaktNavn &";"& ekspAkttype &";"
+                                                case else
+                                                expTxt = expTxt & jobaktFase &";"& jobaktNavn &";"& ekspAkttype &";"
+									            end select
 
-                                                expTxt = expTxt & formatnumber(jobmedtimer(x, 19),2)&";"
+                        
+                                                'Jobansvarlig, Jobejer Init
+                                                select case lto
+                                                case "cisu", "intranet - local"
+                                               
+                                                case else
+
+                                                expTxt = expTxt & jobmedtimer(x,28)&";"
+    									        expTxt = expTxt & jobmedtimer(x,29)&";"
+    									        expTxt = expTxt & jobmedtimer(x,30)&";"
+    									        expTxt = expTxt & jobmedtimer(x,31)&";"
+									            end select
+                                            
+                                               
+
+                                                expTxt = expTxt & formatnumber(jobmedtimer(x,19),2)&";"
 
 			                            else
 
-
+                                                '**** JOB *****
     	                                        if cint(directexp) <> 1 then 								
 									            strJobLinie = strJobLinie & "</tr><tr><td style='padding:2px; padding-right:10px; border-top:1px #CCCCCC solid; white-space:nowrap; width:250px;' bgcolor="& bgtd &"><span style='color:#5C75AA; font-size:9px;'>"
 									            
                                                 'if print <> "j" then
-                                                strJobLinie = strJobLinie & jobmedtimer(x, 20) &"</span><br>"
+                                                strJobLinie = strJobLinie & jobmedtimer(x,20) &"</span><br>"
                                                ' if print <> "j" then
                                                 strJobLinie = strJobLinie & "<a href='joblog_timetotaler.asp?FM_jobsog="&jobaktNr&"&FM_udspec=1&nomenu=1&FM_medarb="&thisMiduse&"&FM_fomr="&fomr&"' target='_blank' class='vmenu'>[+] "& jobaktNavn &"</a>"
                                                 'else
@@ -2976,7 +3027,7 @@ thisfile = "joblog_timetotaler"
                                                 
                                                 strJobLinie = strJobLinie &" ("&jobaktNr&") <span style='color:green; font-size:9px;'>"& jobaktType &"</span>" 
 									    
-									            if (len(trim(jobmedtimer(x, 28))) <> 0 OR len(trim(jobmedtimer(x, 30))) <> 0) AND lto <> "wwf" then
+									            if (len(trim(jobmedtimer(x,28))) <> 0 OR len(trim(jobmedtimer(x,30))) <> 0) AND lto <> "wwf" then
      									        strJobLinie = strJobLinie & "<br><span style='color:#999999; font-size:9px;'>"& jobans & "</span>"
      									        end if
      									
@@ -2987,22 +3038,37 @@ thisfile = "joblog_timetotaler"
             
 
 									            expTxt = expTxt &"xx99123sy#z"
-									            expTxt = expTxt & jobmedtimer(x, 20)&";"
-									            expTxt = expTxt & jobaktNavn&";"&jobaktNr&";;;"& jobmedtimer(x, 8) &";"
-									            expTxt = expTxt & jobmedtimer(x, 28)&";"
-    									        expTxt = expTxt & jobmedtimer(x, 29)&";"
-    									        expTxt = expTxt & jobmedtimer(x, 30)&";"
-    									        expTxt = expTxt & jobmedtimer(x, 31)&";"
+									            expTxt = expTxt & jobmedtimer(x,20)&";"
+									            expTxt = expTxt & jobaktNavn&";"&jobaktNr&";"
+        
+                                                 
+
+
+                                                'Jobansvarlig, Jobejer Init
+                                                select case lto
+                                                case "cisu", "intranet - local"
+        
+                                                expTxt = expTxt &";"& jobmedtimer(x,8) &";"                                       
+
+                                                case else
+
+                                                expTxt = expTxt &";;"& jobmedtimer(x,8) &";"
+                                                expTxt = expTxt & jobmedtimer(x,28)&";"
+    									        expTxt = expTxt & jobmedtimer(x,29)&";"
+    									        expTxt = expTxt & jobmedtimer(x,30)&";"
+    									        expTxt = expTxt & jobmedtimer(x,31)&";"
+									            end select
+									          
     									
     									
     									
 									    
 									    
 									            '** adr **'
-    									        'call htmlparseCSV(jobmedtimer(x, 21))
-									            '" &htmlparseCSVtxt& "';"&jobmedtimer(x, 22)&";"&jobmedtimer(x, 23)&";jobmedtimer(x, 24)&";"&"
+    									        'call htmlparseCSV(jobmedtimer(x,21))
+									            '" &htmlparseCSVtxt& "';"&jobmedtimer(x,22)&";"&jobmedtimer(x,23)&";jobmedtimer(x,24)&";"&"
 									    
-									            expTxt = expTxt & formatnumber(jobmedtimer(x, 19),2)&";"
+									            expTxt = expTxt & formatnumber(jobmedtimer(x,19),2)&";"
 									    
     									        
 
@@ -3019,20 +3085,20 @@ thisfile = "joblog_timetotaler"
 										'*************************************'
 		                                if cint(directexp) <> 1 then 								
 
-                                                if jobmedtimer(x, 38) <> 0 then '** Uspec på aktiviteter
+                                                if jobmedtimer(x,38) <> 0 then '** Uspec på aktiviteter
 									            
 									                    strJobLinie = strJobLinie & "<td class=lille align=right "&tdstyleTimOms2&" bgcolor='#EFF3FF'>"
-									                    select case jobmedtimer(x, 34) 
+									                    select case jobmedtimer(x,34) 
 									                    case 0
-									                    strJobLinie = strJobLinie & formatnumber(jobmedtimer(x, 35),2) &" stk.<br>"& formatnumber(jobmedtimer(x, 19),2) & " t."  
+									                    strJobLinie = strJobLinie & formatnumber(jobmedtimer(x,35),2) &" stk.<br>"& formatnumber(jobmedtimer(x,19),2)  
 									                    case 1
-									                    strJobLinie = strJobLinie & formatnumber(jobmedtimer(x, 35),2) &" stk.<br><b>"& formatnumber(jobmedtimer(x, 19),2) & " t. </b>" 
+									                    strJobLinie = strJobLinie & formatnumber(jobmedtimer(x,35),2) &" stk.<br><b>"& formatnumber(jobmedtimer(x,19),2) & "</b>" 
 									                    case 2
-						                                strJobLinie = strJobLinie &"<b>"& formatnumber(jobmedtimer(x, 35),2) &" stk.</b><br>"& formatnumber(jobmedtimer(x, 19),2) & " t."
+						                                strJobLinie = strJobLinie &"<b>"& formatnumber(jobmedtimer(x,35),2) &" stk.</b><br>"& formatnumber(jobmedtimer(x,19),2) 
 									                    end select
 									            
 									            else
-									            strJobLinie = strJobLinie & "<td class=lille align=right "&tdstyleTimOms2&" bgcolor='#EFF3FF'>"& formatnumber(jobmedtimer(x, 19),2) & " t."
+									            strJobLinie = strJobLinie & "<td class=lille align=right "&tdstyleTimOms2&" bgcolor='#EFF3FF'>"& formatnumber(jobmedtimer(x,19),2) 
 									            end if
 
                                         
@@ -3050,13 +3116,13 @@ thisfile = "joblog_timetotaler"
 									        if cint(visfakbare_res) = 1 OR cint(visfakbare_res) = 2 then
 									        
                                             if cint(directexp) <> 1 then 
-									        strJobLinie = strJobLinie & "<br><span style='color=#000000; font-size:8px;'>"& basisValISO &" "& formatnumber(jobmedtimer(x, 18),2) & "</span>"
+									        strJobLinie = strJobLinie & "<br><span style='color=#000000; font-size:9px;'>"& basisValISO &" "& formatnumber(jobmedtimer(x,18),2) & "</span>"
                                             end if        
 
-                                                   if jobmedtimer(x, 38) = 0 then '**Udspec på aktiviteter
+                                                   if jobmedtimer(x,38) = 0 then '**Udspec på aktiviteter
                                                           
                                                                   
-                                                   expTxt = expTxt & formatnumber(jobmedtimer(x, 18), 2)&";" 
+                                                   expTxt = expTxt & formatnumber(jobmedtimer(x,18), 2)&";" 
                                                           
                                                    else
 
@@ -3064,36 +3130,34 @@ thisfile = "joblog_timetotaler"
                                                    strJobLinie = strJobLinie & "</td>"
                                                    end if
                                                    
-                                                   expTxt = expTxt & formatnumber(jobmedtimer(x, 18),2)&";"
+                                                   expTxt = expTxt & formatnumber(jobmedtimer(x,18),2)&";"
                                                    end if'jobid
         									
 									        else
                                             
-                                            if cint(directexp) <> 1 then 
-									        strJobLinie = strJobLinie & "</td>"
-		                                    end if							        
+                                                if cint(directexp) <> 1 then 
+									            strJobLinie = strJobLinie & "</td>"
+		                                        end if							        
 
 									        end if
 									
-									totbudget = totbudget + jobmedtimer(x, 18)
-                                    subbudget = subbudget + jobmedtimer(x, 18)
-									totbudgettimer = totbudgettimer + jobmedtimer(x, 19)
-                                    subbudgettimer = subbudgettimer + jobmedtimer(x, 19)
+									        totbudget = totbudget + jobmedtimer(x,18)
+                                            subbudget = subbudget + jobmedtimer(x,18)
+									        totbudgettimer = totbudgettimer + jobmedtimer(x,19)
+                                            subbudgettimer = subbudgettimer + jobmedtimer(x,19)
 
 
-
-
-
+                                          
 
 									        '**********************************************
 									        '**** Prev. Saldo ****'
                                             '**********************************************
                                             if cint(visPrevSaldo) = 1 then
 
-                                            if jobmedtimer(x, 38) <> 0 then
+                                            if jobmedtimer(x,38) <> 0 then
                                             strSaldoJobAktKri = "t2.taktivitetId = "& jobmedtimer(x,12) 'jobaktId
                                             else
-                                            strSaldoJobAktKri = "t2.tjobnr = '" & jobmedtimer(x, 6) & "'"
+                                            strSaldoJobAktKri = "t2.tjobnr = '" & jobmedtimer(x,6) & "'"
                                             end if
 
                                             timerPrevSaldo = 0
@@ -3249,22 +3313,43 @@ thisfile = "joblog_timetotaler"
                                             end if
                                             
                                             if cint(directexp) <> 1 then 
-                                            strJobLinie = strJobLinie & formatnumber(jobmedtimer(x,16), 2)
-											
+                                            '** REAL timer i periode
+                                           strJobLinie = strJobLinie & formatnumber(jobmedtimer(x,16), 2)
+
+
+                                          
 											    if cint(vis_enheder) = 1 then
-											    strJobLinie = strJobLinie & "<br><span style='color:#5c75AA; font-size:9px;'>enh. "& formatnumber(jobmedtimer(x, 26), 2) & "</span>"
+											    strJobLinie = strJobLinie & "<br><span style='color:#5c75AA; font-size:9px;'>enh. "& formatnumber(jobmedtimer(x,26), 2) & "</span>"
 						                        end if
 											 
 		                                    end if 'if cint(directexp) <> 1 then  									
 
-												expTxt = expTxt & formatnumber(jobmedtimer(x,16), 2)&";"
+												'** Real. timer i % beregn
+                                                if jobmedtimer(x,19) <> 0 then
+                                                realTimerProc = formatnumber((jobmedtimer(x,16) / jobmedtimer(x,19) * 100), 0)
+                                                realTimerProcTxt = realTimerProc
+
+                                                if realTimerProc > 100 then
+                                                realTimerProcWdt = 50
+                                                else
+                                                realTimerProcWdt = formatnumber(realTimerProc/2, 0)
+                                                end if
+
+                                                else
+                                                realTimerProc = 0
+                                                realTimerProcTxt = ""
+                                                end if
+
+
+                                                expTxt = expTxt & formatnumber(jobmedtimer(x,16), 2)&";"
+                                                expTxt = expTxt & realTimerProc &";"
 												
                                                 if cint(vis_restimer) = 1 then
                                                 expTxt = expTxt & restimerThis &";"
                                                 end if
 
 												if cint(vis_enheder) = 1 then
-												expTxt = expTxt &formatnumber(jobmedtimer(x, 26), 2)&";"
+												expTxt = expTxt &formatnumber(jobmedtimer(x,26), 2)&";"
 												end if
 											
 
@@ -3284,13 +3369,13 @@ thisfile = "joblog_timetotaler"
 										    expTxt = expTxt & formatnumber(jobmedtimer(x,17), 2)&";"
 											
 											'*** Balance ***
-											dbal = (jobmedtimer(x,17) - jobmedtimer(x, 18))
+											dbal = (jobmedtimer(x,17) - jobmedtimer(x,18))
                     
                                             if cint(directexp) <> 1 then 
-											strJobLinie = strJobLinie & "<font class=megetlillesilver>bal.:"& formatnumber(dbal, 2) &"</td>"
+											strJobLinie = strJobLinie & "<span style='color=#000000; font-size:8px;'>bal.: "& formatnumber(dbal, 2) &"</span></td>"
 											end if 'if cint(directexp) <> 1 then 	
 
-										    expTxt = expTxt &formatnumber(dbal, 2)&";"
+										    expTxt = expTxt & formatnumber(dbal, 2)&";"
 											
 											dbialt = dbialt + (dbal)
 											subdbialt = subdbialt + (dbal)
@@ -3300,9 +3385,30 @@ thisfile = "joblog_timetotaler"
 												strJobLinie = strJobLinie & "</td>"
                                                 end if 'if cint(directexp) <> 1 then 
 											end if
-											
 
-                                            
+
+											
+                                            '**************************
+                                            '** REAL timer i %
+                                            '**************************
+                                           
+
+                                           if realTimerProc <> 0 then
+                                                
+                                                if realTimerProc > 100 then
+                                                realTimerProcBgcol = "crimson"
+                                                procFntCol = "#ffffff"
+                                                else
+                                                realTimerProcBgcol = "yellowgreen"
+                                                procFntCol = "#000000"
+                                                end if
+
+                                            strJobLinie = strJobLinie &"<td "&tdstyleTimOms&" bgcolor='snow' valign=bottom><div style='width:"& realTimerProcWdt &"px; background-color:"& realTimerProcBgcol &"; color:"& procFntCol &"; padding:1px 4px 1px 1px; font-size:8px; text-align:right;'>"& realTimerProcTxt & "</div></td>"
+                                           else
+                                            strJobLinie = strJobLinie &"<td "&tdstyleTimOms&" bgcolor='snow'>&nbsp;</td>"
+                                           end if
+                                           
+                
 
 
 
@@ -3357,8 +3463,8 @@ thisfile = "joblog_timetotaler"
                                             
 
                                             if formatnumber(restimerTot) <> formatnumber(restimerPS/1+restimerPer) then
-                                            fntRCol = "orange"
-                                            rsign = "~"
+                                            fntRCol = "#999999"
+                                            rsign = "!="
                                             else
                                             fntRCol = "#999999"
                                             rsign = "="
@@ -3380,19 +3486,19 @@ thisfile = "joblog_timetotaler"
 
                                             if formatnumber(timerTotSaldo) <> formatnumber(timerPrevSaldo/1+jobmedtimer(x,16)) then
                                             fntCol = "darkred"
-                                            tSign = "~"
+                                            tSign = "!="
                                             else
                                             fntCol = "#000000"
                                             tSign = "="
                                             end if
 
                                             if cint(directexp) <> 1 then 
-                                            strJobLinie = strJobLinie &"<span style='color:"& fntCol &";'> "&tSign&" <b>"& formatnumber(timerTotSaldo, 2) &"</b></span>"
+                                            strJobLinie = strJobLinie &"<span style='color:"& fntCol &";'> "&tSign&" "& formatnumber(timerTotSaldo, 2) &"</span>"
                                             end if 'if cint(directexp) <> 1 then                                     
 
                                             if cint(vis_enheder) = 1 then
                                                 
-                                            if formatnumber(enhederTot) <> formatnumber(enhederPrevSaldo/1+jobmedtimer(x, 26))  then
+                                            if formatnumber(enhederTot) <> formatnumber(enhederPrevSaldo/1+jobmedtimer(x,26))  then
                                             efntCol = "#3b5998"
                                             eSign = "~"
                                             else
@@ -3452,19 +3558,20 @@ thisfile = "joblog_timetotaler"
 								
 				
 						'*************************************************************'
+                        '**** MAIN
 						'**** Timer på hver Medarbjeder LOOP ***'
 						'*************************************************************'
 						
                         'lastWrtMd = 1
 						'cnt = 1  
                            
-                            'Response.Write "jobmedtimer(x, 12): "& jobmedtimer(x, 12) & "upSpec: "& upSpec & "jobid: "& jobid & "<br>"
-                            if (cdbl(jobmedtimer(x, 12)) <> 0 AND cint(upSpec) = 1) OR upSpec = 0 OR jobid = 0 then
+                            'Response.Write "jobmedtimer(x,12): "& jobmedtimer(x,12) & "upSpec: "& upSpec & "jobid: "& jobid & "<br>"
+                            if (cdbl(jobmedtimer(x,12)) <> 0 AND cint(upSpec) = 1) OR upSpec = 0 OR jobid = 0 then
 
 							for v = 0 to v - 1 'UBOUND(medarb) 'v - 1
 								
 
-                                'if jobmedtimer(x, 12) <> 0 then
+                                'if jobmedtimer(x,12) <> 0 then
                                 'strJobLinie = strJobLinie & "<td>mv: "& medarb(v) &" v:"& v &" (x,4): "& jobmedtimer(x,4) &" | </td>"
                                 'end if
 
@@ -3490,38 +3597,38 @@ thisfile = "joblog_timetotaler"
 								'*** timer total ***
                                 'lastJMisWrt = 0 
 
-                                if lastWrtM <> jobmedtimer(x, 4) then
+                                if lastWrtM <> jobmedtimer(x,4) then
                                 lastWrtMd = -1
                                 end if
                                 
-                                if jobmedtimer(x, 38) = 0 then
-                                lastWrtJTjk = jobmedtimer(x, 0)
+                                if jobmedtimer(x,38) = 0 then
+                                lastWrtJTjk = jobmedtimer(x,0)
                                 else
-                                lastWrtJTjk = jobmedtimer(x, 12)
+                                lastWrtJTjk = jobmedtimer(x,12)
                                 end if
 
                                 if lastWrtJTjk <> lastWrtJ then
                                 lastWrtMd = -1
                                 end if
 
-                               if isnull(datepart("m", jobmedtimer(x, 36), 2,2)) = true then
+                               if isnull(datepart("m", jobmedtimer(x,36), 2,2)) = true then
                                thisWrtMd = 0
                                else
-                               thisWrtMd = datepart("m", jobmedtimer(x, 36), 2,2)
+                               thisWrtMd = datepart("m", jobmedtimer(x,36), 2,2)
                                end if
 
-                                'thisWrtM = jobmedtimer(x, 4)
+                                'thisWrtM = jobmedtimer(x,4)
 
                                 nextWrtM = jobmedtimer(x+1, 4)
                                 
 
 
-                                if jobmedtimer(x, 38) = 0 then
+                                if jobmedtimer(x,38) = 0 then
                                 nextWrtJ = jobmedtimer(x+1, 0)
-                                'thisWrtJ = jobmedtimer(x, 0)
+                                'thisWrtJ = jobmedtimer(x,0)
                                 else
                                 nextWrtJ = jobmedtimer(x+1, 12)
-                                'thisWrtJ = jobmedtimer(x, 12)
+                                'thisWrtJ = jobmedtimer(x,12)
                                 end if
 
 
@@ -3547,7 +3654,7 @@ thisfile = "joblog_timetotaler"
 
 
 
-                                    if (datepart("m", jobmedtimer(x, 36), 2,2) = md_md) OR cint(md_split_cspan) = 1 then
+                                    if (datepart("m", jobmedtimer(x,36), 2,2) = md_md) OR cint(md_split_cspan) = 1 then
 
 
                                                   
@@ -3555,39 +3662,30 @@ thisfile = "joblog_timetotaler"
                                                     '*** Tomme felter ved 3 mds opsplitning ***'
                                                     if cint(md_split_cspan) = 3 then '*** 3 md tomme felter
 
-                                                    select case md 'md 'datepart("m", jobmedtimer(x, 36), 2,2)
-                                                    case 0
+                                                        select case md 'md 'datepart("m", jobmedtimer(x,36), 2,2)
+                                                        case 0
                                       
-                                                    case 1, 2
+                                                        case 1, 2
                                                              
-                                                               for m = 1 to 3
+                                                                   for m = 1 to 3
                                                          
-                                                                 'mdThis = dateadd("m", -(12-m), datoSlut)
-                                                                 'mdThis = month(mdThis)
+                                                                     'mdThis = dateadd("m", -(12-m), datoSlut)
+                                                                     'mdThis = month(mdThis)
                                                                  
-                                                                 'Response.Write "cnt: "& cnt &" mdThis: "& mdThis & " m: "& m & " md:" & md & "md_md:" & md_md & "<br>" 
+                                                                     'Response.Write "cnt: "& cnt &" mdThis: "& mdThis & " m: "& m & " md:" & md & "md_md:" & md_md & "<br>" 
 
-                                                                 if m <= md then
-                                                                     if cint(csv_pivot) <> 1 then
-                                                                        call tomtdfelt_a
+                                                                     if m <= md then
+                                                                         if cint(csv_pivot) <> 1 then
+                                                                            call tomtdfelt_a
+                                                                         end if
+                                                                         'cnt = cnt + 1
                                                                      end if
-                                                                     'cnt = cnt + 1
-                                                                 end if
 
-                                                              next
+                                                                  next
                                                             
                                     
                                       
-                                                    'case 2
-
-
-                                                             'call tomtdfelt_b
-
-                                                                  
-
-                                                        'case else
-                                                        'strJobLinie = strJobLinie & "<td class=lille align=right "& tdstyleTimOms3 &" bgcolor='"& bgthis &"'>&nbsp;M:"& m &"</td>"
-
+                                                
                                                         end select
 
 
@@ -3601,36 +3699,36 @@ thisfile = "joblog_timetotaler"
                                                     '*** Tomme felter ved 12 mds opsplitning ***'
                                                     if cint(md_split_cspan) = 12 then '*** 3 md tomme felter
 
-                                                    select case md 'md 'datepart("m", jobmedtimer(x, 36), 2,2)
-                                                    case 0
+                                                        select case md 'md 'datepart("m", jobmedtimer(x,36), 2,2)
+                                                        case 0
                                       
-                                                    case 1,2,3,4,5,6,7,8,9,10,11
+                                                        case 1,2,3,4,5,6,7,8,9,10,11
 
                                                      
-                                                              for m = 1 to 12
+                                                                  for m = 1 to 12
                                                          
-                                                                 'md_year = dateadd("m", -(12-m), datoSlut)
-                                                                 'mdThis = month(mdThis)
+                                                                     'md_year = dateadd("m", -(12-m), datoSlut)
+                                                                     'mdThis = month(mdThis)
                                                                  
-                                                                 'Response.Write "cnt: "& cnt &" mdThis: "& mdThis & " m: "& m & " md:" & md & "md_md:" & md_md & "<br>" 
+                                                                     'Response.Write "cnt: "& cnt &" mdThis: "& mdThis & " m: "& m & " md:" & md & "md_md:" & md_md & "<br>" 
 
-                                                                 if m <= md then
+                                                                     if m <= md then
 
-                                                                     if cint(csv_pivot) <> 1 then
-                                                                     call tomtdfelt_a
-                                                                     'cnt = cnt + 1
+                                                                         if cint(csv_pivot) <> 1 then
+                                                                         call tomtdfelt_a
+                                                                         'cnt = cnt + 1
+                                                                         end if
                                                                      end if
-                                                                 end if
 
-                                                              next
+                                                                  next
                                                               
                                                              
                                                                   
 
-                                                        'case else
-                                                        'strJobLinie = strJobLinie & "<td class=lille align=right "& tdstyleTimOms3 &" bgcolor='"& bgthis &"'>&nbsp;M:"& m &"</td>"
+                                                            'case else
+                                                            'strJobLinie = strJobLinie & "<td class=lille align=right "& tdstyleTimOms3 &" bgcolor='"& bgthis &"'>&nbsp;M:"& m &"</td>"
 
-                                                    end select
+                                                        end select
 
 
 
@@ -3671,7 +3769,7 @@ thisfile = "joblog_timetotaler"
 
                                                         if (cint(vis_medarbejdertyper) = 0 AND ((nextWrtJ <> lastWrtJ) OR (nextWrtM <> lastWrtM))) OR _
                                                          (cint(vis_medarbejdertyper) = 1 AND antalV = 1 AND ((nextWrtJ <> lastWrtJ) OR (nextWrtM <> lastWrtM)) AND (lastWrtX >= x)) OR _
-                                                         (cint(vis_medarbejdertyper) = 1 AND antalV <> 1 AND ((nextWrtJ <> lastWrtJ) OR (nextWrtM <> lastWrtM)) AND (jobmedtimer(x, 4) <> nextWrtM) ) then 'AND (jobmedtimer(x, 4) <> nextWrtM OR loopsFO > 0)    then 'AND (jobmedtimer(x, 4) <> nextWrtM OR nextWrtM = "")   ' AND ((jobmedtimer(x, 4) <> nextWrtM) OR (jobmedtimer(x, 4) = nextWrtM AND lastWrtM <> 0))) then
+                                                         (cint(vis_medarbejdertyper) = 1 AND antalV <> 1 AND ((nextWrtJ <> lastWrtJ) OR (nextWrtM <> lastWrtM)) AND (jobmedtimer(x,4) <> nextWrtM) ) then 'AND (jobmedtimer(x,4) <> nextWrtM OR loopsFO > 0)    then 'AND (jobmedtimer(x,4) <> nextWrtM OR nextWrtM = "")   ' AND ((jobmedtimer(x,4) <> nextWrtM) OR (jobmedtimer(x,4) = nextWrtM AND lastWrtM <> 0))) then
 
                                                        
                                                         loopsFO = loopsFO + 1
@@ -3686,8 +3784,8 @@ thisfile = "joblog_timetotaler"
                                                         strJobLinie = strJobLinie & "<td class=lille align=right "& tdstyleTimOms3 &" bgcolor='"& bgthis &"'>&nbsp;"
                                                         end if 'if cint(directexp) <> 1 then 
                         
-                                                        'M: "& jobmedtimer(x, 4) &" lastM: "& lastWrtM &" - nextM: "& nextWrtM & " - x: "& x & " nxtJ: "& nextWrtJ &" <> lstJ: "& lastWrtJ & " loopsFO:" &loopsFO & " antalV: "& antalV & " lloops:"& lloops & " lastWrtX: "& lastWrtX 'vsiMtyp: "& cint(vis_medarbejdertyper)
-                                                        'strJobLinie = strJobLinie & "<br> medarb(v): " &  medarb(v) & " Medid: <b>"& jobmedtimer(x, 4) & "</b><br>"
+                                                        'M: "& jobmedtimer(x,4) &" lastM: "& lastWrtM &" - nextM: "& nextWrtM & " - x: "& x & " nxtJ: "& nextWrtJ &" <> lstJ: "& lastWrtJ & " loopsFO:" &loopsFO & " antalV: "& antalV & " lloops:"& lloops & " lastWrtX: "& lastWrtX 'vsiMtyp: "& cint(vis_medarbejdertyper)
+                                                        'strJobLinie = strJobLinie & "<br> medarb(v): " &  medarb(v) & " Medid: <b>"& jobmedtimer(x,4) & "</b><br>"
                                                         '&" loopsFO = "& loopsFO &" lastWrtMd: "& lastWrtMd &" nextWrtJ: "& nextWrtJ &" lastWrtJ: "& lastWrtJ &" nextWrtM: "& nextWrtM &" lastWrtM: "& lastWrtM &""_
                                                         '&"<br>lastJM:"& lastJM &""
                                                         'Response.Write v &  " medarb(v): " &  medarb(v) & " jobmedtimer(x,4): "& jobmedtimer(x,4) & "<br>"
@@ -3698,51 +3796,53 @@ thisfile = "joblog_timetotaler"
                                                         '&" loopsFO = "& loopsFO &" lastWrtMd: "& lastWrtMd &" nextWrtJ: "& nextWrtJ &" lastWrtJ: "& lastWrtJ &" nextWrtM: "& nextWrtM &" lastWrtM: "& lastWrtM &""_
                                                         '&"<br>lastJM:"& lastJM &""
 
-                                                         '** Res timer ***'
-                                                         if cint(vis_restimer) = 1 then
+
+
+                                                                     '** Res timer ***'
+                                                                     if cint(vis_restimer) = 1 then
                                     
-                                                            li = "e"
+                                                                        li = "e"
                                     
-                                                             md_year = dateAdd("m", f, datoStart)
-                                                             md_md = month(md_year)
-                                                             md_year = year(md_year)
+                                                                         md_year = dateAdd("m", f, datoStart)
+                                                                         md_md = month(md_year)
+                                                                         md_year = year(md_year)
                                   
 
-                                                            call resTimer(jobmedtimer(x,0), jobmedtimer(x,12), jobmedtimer(x,4), md_md, md_year, md_split_cspa, 0)
+                                                                        call resTimer(jobmedtimer(x,0), jobmedtimer(x,12), jobmedtimer(x,4), md_md, md_year, md_split_cspa, 0)
                                  
-                                                            if cint(directexp) <> 1 then 
-                                                            strJobLinie = strJobLinie & "<span style='color:#999999;'>"& restimerThis &"</span><br>&nbsp;"
-                                                            end if
+                                                                        if cint(directexp) <> 1 then 
+                                                                        strJobLinie = strJobLinie & "<span style='color:#999999;'>"& restimerThis &"</span><br>&nbsp;"
+                                                                        end if
 
-                                                                    if len(trim(restimerThis)) <> 0 then
-                                                                    restimerThis = restimerThis
-                                                                    restimerThisExp = restimerThis
-                                                                    else
-                                                                    restimerThis = 0
-                                                                    restimerThisExp = ""
-                                                                    end if
+                                                                                if len(trim(restimerThis)) <> 0 then
+                                                                                restimerThis = restimerThis
+                                                                                restimerThisExp = restimerThis
+                                                                                else
+                                                                                restimerThis = 0
+                                                                                restimerThisExp = ""
+                                                                                end if
 
-                                                                    medabRestimer(v) = medabRestimer(v) + restimerThis
-                                                                    subMedabRestimer(v) = subMedabRestimer(v) + restimerThis
+                                                                                medabRestimer(v) = medabRestimer(v) + restimerThis
+                                                                                subMedabRestimer(v) = subMedabRestimer(v) + restimerThis
 
-                                                                    if firtsEfelt = 0 then
-                                                                    firtsEfelt = 1
-                                                                    lastWrtMdRStimerCountM = lastWrtMd + 1
-                                                                    else
-                                                                    lastWrtMdRStimerCountM = lastWrtMdRStimerCountM + 1
-                                                                    end if
+                                                                                if firtsEfelt = 0 then
+                                                                                firtsEfelt = 1
+                                                                                lastWrtMdRStimerCountM = lastWrtMd + 1
+                                                                                else
+                                                                                lastWrtMdRStimerCountM = lastWrtMdRStimerCountM + 1
+                                                                                end if
                                                                     
-                                                                    medabTotRestimerprMd(v, lastWrtMdRStimerCountM) = (medabTotRestimerprMd(v, lastWrtMdRStimerCountM)/1 + restimerThis/1)
+                                                                                medabTotRestimerprMd(v, lastWrtMdRStimerCountM) = (medabTotRestimerprMd(v, lastWrtMdRStimerCountM)/1 + restimerThis/1)
 
-                                                                    'strJobLinie = strJobLinie & " - "& lastWrtMdRStimerCountM
+                                                                                'strJobLinie = strJobLinie & " - "& lastWrtMdRStimerCountM
 
 
-                                                                    expTxt = expTxt & restimerThisExp &";"
+                                                                                expTxt = expTxt & restimerThisExp &";"
 
 
                                
-                                                         end if
-
+                                                                     end if
+                                                                     '*****
 
                                  
                                                                         if cint(vis_enheder) = 1 then
@@ -3751,20 +3851,23 @@ thisfile = "joblog_timetotaler"
 							
 							                                            if cint(visfakbare_res) = 1 OR cint(visfakbare_res) = 2 then
 							                                            expTxt = expTxt &";;"
-							                                            
 							                                            end if    
+                                                                            
+                                                                         'if cint(vis_normtimer) = 1 then ALDRING MED PÅ eksport når der opldeles på 3 og 12 MD
+                                                                         'expTxt = expTxt &";" 
+                                                                         'end if
 
 
                                                                         if vis_redaktor = 1 AND f = etal then
                                                                             
-                                                                            if jobmedtimer(x, 12) <> 0 then
+                                                                            if jobmedtimer(x,12) <> 0 then
                                                                             thisTp = "n"
                                                                             else
                                                                             thisTp = ""
                                                                             end if
 
                                                                             '*** Finder tp på job / akt ****
-                                                                            strSQLtp = "SELECT id, 6timepris FROM timepriser WHERE jobid = "& jobmedtimer(x, 0) &" AND aktid = "& jobmedtimer(x, 12) &" AND medarbid = "& jobmedtimer(x, 4)
+                                                                            strSQLtp = "SELECT id, 6timepris FROM timepriser WHERE jobid = "& jobmedtimer(x,0) &" AND aktid = "& jobmedtimer(x,12) &" AND medarbid = "& jobmedtimer(x,4)
                                                                             'Response.write strSQLtp & "<br><br>"
                                                                             oRec.open strSQLtp, oConn, 3
                                                                             if not oRec.EOF then 
@@ -3775,9 +3878,9 @@ thisfile = "joblog_timetotaler"
                                                                                 '** Find prisen ved hjælp af medarb. typen ***'
                                                                                 '** Kun på job, så man kan se om akt nedarver **'
 
-                                                                                if jobmedtimer(x, 12) = 0 then
+                                                                                if jobmedtimer(x,12) = 0 then
                                                                                 strSQLtpmt = "SELECT m.medarbejdertype, mt.timepris FROM medarbejdere AS m "_
-                                                                                &" LEFT JOIN medarbejdertyper AS mt ON (mt.id = m.medarbejdertype) WHERE m.mid = "& jobmedtimer(x, 4) 
+                                                                                &" LEFT JOIN medarbejdertyper AS mt ON (mt.id = m.medarbejdertype) WHERE m.mid = "& jobmedtimer(x,4) 
 
 
                                                                                 'Response.write strSQLtpmt & "<br>"
@@ -3798,7 +3901,7 @@ thisfile = "joblog_timetotaler"
 
 
                                                                                  
-                                                                                strSQLtpnedarv = "SELECT id, 6timepris FROM timepriser WHERE jobid = "& jobmedtimer(x, 0) &" AND aktid = 0 AND medarbid = "& jobmedtimer(x, 4)
+                                                                                strSQLtpnedarv = "SELECT id, 6timepris FROM timepriser WHERE jobid = "& jobmedtimer(x,0) &" AND aktid = 0 AND medarbid = "& jobmedtimer(x,4)
                                                                                 'Response.write strSQLtpmt & "<br>"
                                                                                 'Response.flush
 
@@ -3820,12 +3923,12 @@ thisfile = "joblog_timetotaler"
                             
 
                                                                         if cint(directexp) <> 1 then 
-                                                                        strJobLinie = strJobLinie &"<br><input type='text' class='f_tp_"&jobmedtimer(x, 4)&"_"&jobmedtimer(x, 0)&"_"&jobmedtimer(x, 12)&"' value='"& thisTp & "' name='FM_tp_j' style='color=#999999; padding:0px; width:40px; height:14px; line-height:9px; font-size:9px;'> /t."
+                                                                        strJobLinie = strJobLinie &"<br><input type='text' class='f_tp_"&jobmedtimer(x,4)&"_"&jobmedtimer(x,0)&"_"&jobmedtimer(x,12)&"' value='"& thisTp & "' name='FM_tp_j' style='color=#999999; padding:0px; width:40px; height:14px; line-height:9px; font-size:9px;'> /t."
                                                                         strJobLinie = strJobLinie &"<input type='hidden' value='#' name='FM_tp_j'>"
-                                                                        strJobLinie = strJobLinie &"<input type='hidden' value='"& jobmedtimer(x, 6) &"' name='FM_jobnr_j'>"
-                                                                        strJobLinie = strJobLinie &"<input type='hidden' value='"& jobmedtimer(x, 0) &"' name='FM_jobid_j'>"
-                                                                        strJobLinie = strJobLinie &"<input type='hidden' value='"& jobmedtimer(x, 12) &"' name='FM_aktid_j'>"
-                                                                        strJobLinie = strJobLinie &"<input type='hidden' value='"& jobmedtimer(x, 4) &"' name='FM_medid_j'>"
+                                                                        strJobLinie = strJobLinie &"<input type='hidden' value='"& jobmedtimer(x,6) &"' name='FM_jobnr_j'>"
+                                                                        strJobLinie = strJobLinie &"<input type='hidden' value='"& jobmedtimer(x,0) &"' name='FM_jobid_j'>"
+                                                                        strJobLinie = strJobLinie &"<input type='hidden' value='"& jobmedtimer(x,12) &"' name='FM_aktid_j'>"
+                                                                        strJobLinie = strJobLinie &"<input type='hidden' value='"& jobmedtimer(x,4) &"' name='FM_medid_j'>"
                                                                         end if 'if cint(directexp) <> 1 then                                                                  
 
 
@@ -3917,7 +4020,12 @@ thisfile = "joblog_timetotaler"
 				
 				expTxt = expTxt &"xx99123sy#z"
 				
-				expTxt = expTxt &";;;;;;;;;;"
+                select case lto
+                case "cisu", "intranet - local"
+				expTxt = expTxt &";;;;;"
+                case else
+                expTxt = expTxt &";;;;;;;;;;;"
+                end select
 				
 				
 
@@ -3930,13 +4038,7 @@ thisfile = "joblog_timetotaler"
 				strJobLinie_total = strJobLinie_total & "<td style='padding:4px; border-top:1px #CCCCCC solid;' valign=Top><b>Grandtotal:</b></td>"
 						
 						strJobLinie_total = strJobLinie_total & "<td class=lille valign=bottom align=right "&tdstyleTimOms2&" >" 
-						
-						
-						
-
-                        strJobLinie_total = strJobLinie_total & formatnumber(totbudgettimer, 2) & " t."
-
-               
+						strJobLinie_total = strJobLinie_total & formatnumber(totbudgettimer, 2) 
 
                         if cint(vis_enheder) = 1 then
 					    strJobLinie_total = strJobLinie_total & "<br>"
@@ -3944,17 +4046,15 @@ thisfile = "joblog_timetotaler"
 
                 end if 'if cint(directexp) <> 1 then 
 						
-								expTxt = expTxt & formatnumber(totbudgettimer, 2) &";"
+					    expTxt = expTxt & formatnumber(totbudgettimer, 2) &";"
 								
-							
-						
 						if cint(visfakbare_res) = 1 OR cint(visfakbare_res) = 2 then
 
                         if cint(directexp) <> 1 then
 						strJobLinie_total = strJobLinie_total & "<br><span style='color=#000000; font-size:8px;'>"& basisValISO &" "& formatnumber(totbudget, 2)&"</span></td>"
                         end if 'if cint(directexp) <> 1 then                
 
-                                   expTxt = expTxt & formatnumber(totbudget, 0) &";"
+                        expTxt = expTxt & formatnumber(totbudget, 0) &";"
                             
                            
                             
@@ -4010,7 +4110,7 @@ thisfile = "joblog_timetotaler"
 
                         '**** Res timer ***'
                         if cint(vis_restimer) = 1 then
-                        strJobLinie_total = strJobLinie_total & "<span style='color:#999999;'>"& formatnumber(restimerTotalJob,0) &"</span><br>"
+                        strJobLinie_total = strJobLinie_total & "<span style='color:#999999;'>fc:"& formatnumber(restimerTotalJob,0) &"</span><br>"
                         end if
 
                          strJobLinie_total = strJobLinie_total & formatnumber(totaltotaljboTimerIalt,2)
@@ -4019,11 +4119,12 @@ thisfile = "joblog_timetotaler"
 						if cint(vis_enheder) = 1 then
 					    strJobLinie_total = strJobLinie_total & "<br><span style='color:#5c75AA; font-size:9px;'>enh. " & formatnumber(totalJobEnh,2) & "</span>" 
 					    end if
-                                
+
+                             
 
                         end if 'if cint(directexp) <> 1 then      
 								
-								expTxt = expTxt & formatnumber(totaltotaljboTimerIalt,2) &";"
+								expTxt = expTxt & formatnumber(totaltotaljboTimerIalt,2) &";;"
 
                                 if cint(vis_restimer) = 1 then
                                 expTxt = expTxt & formatnumber(restimerTotalJob,0) &";"
@@ -4038,7 +4139,7 @@ thisfile = "joblog_timetotaler"
                     
                         if cint(directexp) <> 1 then
 						strJobLinie_total = strJobLinie_total & "<br><span style='color=#000000; font-size:8px;'>"& basisValISO &" "&formatnumber(totaltotaljobOmsIalt, 2)& "</span>" 
-						strJobLinie_total = strJobLinie_total & "<br><font class=megetlillesilver>bal.: "&formatnumber(dbialt, 2)&"</td>"
+						strJobLinie_total = strJobLinie_total & "<br><span style='color=#000000; font-size:8px;'>bal.: "&formatnumber(dbialt, 2)&"</span></td>"
 		                end if 'if cint(directexp) <> 1 then				
 
 								expTxt = expTxt & formatnumber(totaltotaljobOmsIalt, 2) &";"
@@ -4050,7 +4151,16 @@ thisfile = "joblog_timetotaler"
                             end if
 						end if
 						
+            
+                        '** Real. % **'
+                        if cint(directexp) <> 1 then
+                        strJobLinie_total = strJobLinie_total & "<td class=lille valign=bottom align=right "&tdstyleTimOms10&">&nbsp;</td>"
+                        end if 
 				
+
+
+
+
                 '***********************************'		
 				'**** Grandtotal uanset periode ****'
                 '***********************************'		
@@ -4062,28 +4172,28 @@ thisfile = "joblog_timetotaler"
                                 if cint(vis_restimer) = 1 then
 
                                 if restimerTotalGtotalJob <> (restimerTotalJob+saldoRestimerTotal) then
-                                rsSign = "~"
-                                rsFontC = "orange"
+                                rsSign = "!="
+                                rsFontC = "#999999"
                                 else
                                 rsSign = "="
                                 rsFontC = "#999999"
                                 end if
 
-                                strJobLinie_total = strJobLinie_total & "<span style='color:"& rsFontC &";'> "&rsSign&" "& formatnumber(restimerTotalGtotalJob,0) &"</span><br>"
+                                strJobLinie_total = strJobLinie_total & "<span style='color:"& rsFontC &";'>fc: "&rsSign&" "& formatnumber(restimerTotalGtotalJob,0) &"</span><br>"
                             
                            
                                 end if
                             
 
                                 if timerTotSaldoGtotal <> (totaltotaljboTimerIalt+saldoJobTotal) then
-                                tsSign = "~"
+                                tsSign = "!="
                                 tsFontC = "darkred"
                                 else
                                 tsSign = "="
                                 tsFontC = ""
                                 end if
                             
-                            strJobLinie_total = strJobLinie_total & "<span style='color:"&tsFontC&";'><b> "& tsSign &" "& formatnumber(timerTotSaldoGtotal, 2) &"</b></span>"
+                            strJobLinie_total = strJobLinie_total & "<span style='color:"&tsFontC&";'>"& tsSign &" "& formatnumber(timerTotSaldoGtotal, 2) &"</span>"
                             end if 'if cint(directexp) <> 1 then                    
 
 
@@ -4091,7 +4201,7 @@ thisfile = "joblog_timetotaler"
 
                                 if formatnumber(enhederGTot) <> formatnumber(totalJobEnh/1+enhederPrevSaldoTot)  then
                                 efntCol = "#3b5998"
-                                eSign = "~"
+                                eSign = "!="
                                 else
                                 efntCol = "#5c75AA"
                                 eSign = "="
@@ -4104,7 +4214,7 @@ thisfile = "joblog_timetotaler"
                             end if
 
                             if cint(directexp) <> 1 then
-                            strJobLinie_total = strJobLinie_total &"</td>"
+                            strJobLinie_total = strJobLinie_total &"<br><br>&nbsp;</td>"
                             end if 'if cint(directexp) <> 1 then 
 
                              expTxt = expTxt & formatnumber(timerTotSaldoGtotal,2) &";"
@@ -4129,135 +4239,190 @@ thisfile = "joblog_timetotaler"
 				'if cint(jobid) = 0 then
 				
 						for v = 0 to v - 1
-                            
-                            if md_split_cspan <> 1 then
 
-                                        for mth = 0 to md_split_cspan - 1
+                            
+                            
+                                            if cint(vis_normtimer) = 1 then
+
+                                                call normtimerPer(medarb(v), datoStart, perinterval, io)
+                                                medabNormtimer(v) = ntimPer
+
+                                            end if
+                
+                            
+                                    if md_split_cspan <> 1 then
+
+                                                for mth = 0 to md_split_cspan - 1
                                         
-                                        if cint(directexp) <> 1 then
-						                strJobLinie_total = strJobLinie_total & "<td class=lille valign=bottom align=right "&tdstyleTimOms3&">"
+                                                if cint(directexp) <> 1 then
+						                        strJobLinie_total = strJobLinie_total & "<td class=lille valign=bottom align=right "&tdstyleTimOms3&">"
                             
-                                            if cint(vis_restimer) = 1 then
+                                                    if cint(vis_restimer) = 1 then
 
-                                            if len(trim(medabTotRestimerprMd(v, mth))) <> 0 then
-                                            strJobLinie_total = strJobLinie_total & "<span style='color=#999999'>"& formatnumber(medabTotRestimerprMd(v, mth), 0) & "</span><br>"
-                                            else
-                                            strJobLinie_total = strJobLinie_total &"&nbsp;"
-                                            end if
+                                                    if len(trim(medabTotRestimerprMd(v, mth))) <> 0 then
+                                                    strJobLinie_total = strJobLinie_total & "<span style='color=#999999'>"& formatnumber(medabTotRestimerprMd(v, mth), 0) & "</span><br>"
+                                                    else
+                                                    strJobLinie_total = strJobLinie_total &"&nbsp;"
+                                                    end if
 
-                                            end if
-
-
-                                        end if 'if cint(directexp) <> 1 then
-
-                                        if len(trim(medabTottimerprMd(v, mth))) <> 0 then
-                                            if cint(directexp) <> 1 then
-                                            strJobLinie_total = strJobLinie_total & formatnumber(medabTottimerprMd(v, mth), 2)
-                                            end if 'if cint(directexp) <> 1 then
-                                        expTxt = expTxt & formatnumber(medabTottimerprMd(v, mth), 2) &";"
-                                        else
-                                            if cint(directexp) <> 1 then
-                                            strJobLinie_total = strJobLinie_total &"&nbsp;"
-                                            end if' if cint(directexp) <> 1 then
-                                        expTxt = expTxt &";"
-                                        end if
-
-                                            if cint(vis_restimer) = 1 then
-
-                                            if len(trim(medabTotRestimerprMd(v, mth))) <> 0 then
-                                            expTxt = expTxt & formatnumber(medabTotRestimerprMd(v, mth), 2) &";"
-                                            else
-                                            expTxt = expTxt &";"
-                                            end if
-
-                                            end if
+                                                    end if
 
 
-                                        if cint(vis_enheder) = 1 then
+                                                end if 'if cint(directexp) <> 1 then
 
-                                        if len(trim(medabTotEnhprMd(v, mth))) <> 0 then
-                                        if cint(directexp) <> 1 then
-                                        strJobLinie_total = strJobLinie_total & "<br><span style='color=#5c75AA; font-size:9px;'>enh. "& formatnumber(medabTotEnhprMd(v, mth), 2) & "</span>"
-                                        end if 'if cint(directexp) <> 1 then
-                                        expTxt = expTxt & formatnumber(medabTotEnhprMd(v, mth), 2) &";"
-                                        else
-                                        if cint(directexp) <> 1 then
-                                        strJobLinie_total = strJobLinie_total &"&nbsp;"
-                                        end if
-                                        expTxt = expTxt &";"
-                                        end if
+                                                if len(trim(medabTottimerprMd(v, mth))) <> 0 then
+                                                    if cint(directexp) <> 1 then
+                                                    strJobLinie_total = strJobLinie_total & formatnumber(medabTottimerprMd(v, mth), 2)
+                                                    end if 'if cint(directexp) <> 1 then
+                                                expTxt = expTxt & formatnumber(medabTottimerprMd(v, mth), 2) &";"
+                                                else
+                                                    if cint(directexp) <> 1 then
+                                                    strJobLinie_total = strJobLinie_total &"&nbsp;"
+                                                    end if' if cint(directexp) <> 1 then
+                                                expTxt = expTxt &";"
+                                                end if
 
-                                        end if
+                                                    if cint(vis_restimer) = 1 then
 
-                                        if cint(visfakbare_res) = 1 OR cint(visfakbare_res) = 2 then
+                                                    if len(trim(medabTotRestimerprMd(v, mth))) <> 0 then
+                                                    expTxt = expTxt & formatnumber(medabTotRestimerprMd(v, mth), 2) &";"
+                                                    else
+                                                    expTxt = expTxt &";"
+                                                    end if
 
-                                            if len(trim(medabTotOmsprMd(v, mth))) <> 0 then
-                                            if cint(directexp) <> 1 then
-                                            strJobLinie_total = strJobLinie_total & "<br><span style='color=#000000; font-size:8px;'>"& basisValISO &" "& formatnumber(medabTotOmsprMd(v, mth), 2) & "</span>"
-                                            end if 'if cint(directexp) <> 1 then
-                                            expTxt = expTxt & formatnumber(medabTotOmsprMd(v, mth), 2) &";;"
-                                            else
-                                            if cint(directexp) <> 1 then
-                                            strJobLinie_total = strJobLinie_total &"&nbsp;"
-                                            end if 'if cint(directexp) <> 1 then
-                                            expTxt = expTxt &";;"
-                                            end if
+                                                    end if
 
-                                        end if
+
+                                                    if cint(vis_enheder) = 1 then
+
+                                                        if len(trim(medabTotEnhprMd(v, mth))) <> 0 then
+                                                            if cint(directexp) <> 1 then
+                                                            strJobLinie_total = strJobLinie_total & "<br><span style='color=#5c75AA; font-size:9px;'>enh. "& formatnumber(medabTotEnhprMd(v, mth), 2) & "</span>"
+                                                            end if 'if cint(directexp) <> 1 then
+                                                        expTxt = expTxt & formatnumber(medabTotEnhprMd(v, mth), 2) &";"
+                                                        else
+                                                            if cint(directexp) <> 1 then
+                                                            strJobLinie_total = strJobLinie_total &"&nbsp;"
+                                                            end if
+                                                        expTxt = expTxt &";"
+                                                        end if
+
+                                                    end if
+
+
+                                                    if cint(vis_normtimer) = 1 then
+
+            
+                                                        '** NORM ALDRIG MED PÅ VISNING OPDELT PÅ MD                                  
+                                                        'if len(trim(medabNormtimer(v))) <> 0 then
+                                                        'expTxt = expTxt & formatnumber(medabNormtimer(v), 2) &";"
+                                                        'else
+                                                        'expTxt = expTxt &";"
+                                                        'end if
+
+                                                
+
+                                                    end if
+
+                                                if cint(visfakbare_res) = 1 OR cint(visfakbare_res) = 2 then
+
+                                                    if len(trim(medabTotOmsprMd(v, mth))) <> 0 then
+                                                    if cint(directexp) <> 1 then
+                                                    strJobLinie_total = strJobLinie_total & "<br><span style='color=#000000; font-size:8px;'>"& basisValISO &" "& formatnumber(medabTotOmsprMd(v, mth), 2) & "</span>"
+                                                    end if 'if cint(directexp) <> 1 then
+                                                    expTxt = expTxt & formatnumber(medabTotOmsprMd(v, mth), 2) &";;"
+                                                    else
+                                                    if cint(directexp) <> 1 then
+                                                    strJobLinie_total = strJobLinie_total &"&nbsp;"
+                                                    end if 'if cint(directexp) <> 1 then
+                                                    expTxt = expTxt &";;"
+                                                    end if
+
+                                                end if
                             
 
 
-                                        if cint(directexp) <> 1 then
+                                                if cint(directexp) <> 1 then
 
-                                        if mth <> md_split_cspan - 1 then
-                                        strJobLinie_total = strJobLinie_total & "</td>"
-                                        else
-                                        strJobLinie_total = strJobLinie_total & "<br><i>ialt:</i> "
-                                        end if
+                                                if mth <> md_split_cspan - 1 then
+
+                                            
+                                                        if cint(vis_restimer) = 1 then
+                                                             'strJobLinie_total = strJobLinie_total & "<br>"
+                                                        end if
+
+
+                                                        if cint(vis_enheder) = 1 then
+                                                            'strJobLinie_total = strJobLinie_total & "<br>"
+                                                        end if
+
+                                                        if cint(vis_normtimer) = 1 then
+                                                            'strJobLinie_total = strJobLinie_total & "<br>"
+                                                        end if
+
+                                                strJobLinie_total = strJobLinie_total & "</td>"
+                                                else
+                                                strJobLinie_total = strJobLinie_total & "<br>Ialt i periode:<br> "
+                                                end if
 							  
-                                        end if 'if cint(directexp) <> 1 then
+                                                end if 'if cint(directexp) <> 1 then
 						    
 
 
-						                next
+						                        next
 
 
-                            else
-                                if cint(directexp) <> 1 then
-                                strJobLinie_total = strJobLinie_total & "<td class=lille align=right valign=bottom "&tdstyleTimOms3&">"
-                                end if 'if cint(directexp) <> 1 then
-                            end if
+                                    else
+                                        if cint(directexp) <> 1 then
+                                        strJobLinie_total = strJobLinie_total & "<td class=lille align=right valign=bottom "&tdstyleTimOms3&">"
+                                        end if 'if cint(directexp) <> 1 then
+                                    end if
 
 
-                            'strJobLinie_total = strJobLinie_total & "<td class=lille valign=top align=right "&tdstyleTimOms3&" bgcolor=#eff3ff>"
-                             if cint(directexp) <> 1 then                
+                                                        'strJobLinie_total = strJobLinie_total & "<td class=lille valign=top align=right "&tdstyleTimOms3&" bgcolor=#eff3ff>"
+                                                         if cint(directexp) <> 1 then                
 
 
-                             if cint(vis_restimer) = 1 then
-                                if medabRestimer(v) <> 0 then 
-                                strJobLinie_total = strJobLinie_total & "<span style='color:#999999;'>"& formatnumber(medabRestimer(v),0) &"</span><br>"
-                                else
-                                strJobLinie_total = strJobLinie_total & "&nbsp;<br>"
-                                end if
-                             end if
+                                                         if cint(vis_restimer) = 1 then
+                                                            if medabRestimer(v) <> 0 then 
+                                                            strJobLinie_total = strJobLinie_total & "<span style='color:#999999;'>fc: "& formatnumber(medabRestimer(v),0) &"</span><br>"
+                                                            else
+                                                            strJobLinie_total = strJobLinie_total & "&nbsp;<br>"
+                                                            end if
+                                                         end if
                         
-                            if medabTottimer(v) <> 0 then
-                            strJobLinie_total = strJobLinie_total & formatnumber(medabTottimer(v), 2)  
-                            else
-                            strJobLinie_total = strJobLinie_total & "&nbsp;"
-                            end if
+                                                        if medabTottimer(v) <> 0 then
+                                                        strJobLinie_total = strJobLinie_total & formatnumber(medabTottimer(v), 2)  
+                                                        else
+                                                        strJobLinie_total = strJobLinie_total & "&nbsp;"
+                                                        end if
 						
-						    if cint(vis_enheder) = 1 then
-                                if medabTotenh(v) <> 0 then
-						        strJobLinie_total = strJobLinie_total & "<br><span style='color:#5c75AA; font-size:9px;'>enh. " & formatnumber(medabTotenh(v), 2) & "</span>"
-                                else
-                                strJobLinie_total = strJobLinie_total & "&nbsp;"
-                                end if
-						    end if
+						                                if cint(vis_enheder) = 1 then
+                                                            if medabTotenh(v) <> 0 then
+						                                    strJobLinie_total = strJobLinie_total & "<br><span style='color:#5c75AA; font-size:9px;'>enh. " & formatnumber(medabTotenh(v), 2) & "</span>"
+                                                            else
+                                                            strJobLinie_total = strJobLinie_total & "&nbsp;"
+                                                            end if
+						                                end if
 
-                            end if 'if cint(directexp) <> 1 then
+                        
+                            
+                                                         if cint(vis_normtimer) = 1 then
+
+                                                            if medabNormtimer(v) <> 0 then 
+                                                            strJobLinie_total = strJobLinie_total & "<br><span style='color:#999999;'>n: "& formatnumber(medabNormtimer(v),2) &"</span>"
+                                                            else
+                                                            strJobLinie_total = strJobLinie_total & "&nbsp;<br>"
+                                                            end if
+                                                         end if
+
+
+                                                        end if 'if cint(directexp) <> 1 then
+
+
+
 						        
-                                  if md_split_cspan = 1 then
+                                  if md_split_cspan = 1 then 'Ingen opdeling på md
                                     
                                  
                                
@@ -4272,6 +4437,20 @@ thisfile = "joblog_timetotaler"
 								    if cint(vis_enheder) = 1 then
 								    expTxt = expTxt & formatnumber(medabTotenh(v), 2)&";"
 								    end if
+
+
+                                           if cint(vis_normtimer) = 1 then
+
+                                                
+                                                    if len(trim(medabNormtimer(v))) <> 0 then
+                                                    expTxt = expTxt & formatnumber(medabNormtimer(v), 2) &";"
+                                                    else
+                                                    expTxt = expTxt &";"
+                                                    end if
+
+                                              
+
+                                            end if
 							
 							    if cint(visfakbare_res) = 1 OR cint(visfakbare_res) = 2 then
                                         
@@ -4285,7 +4464,7 @@ thisfile = "joblog_timetotaler"
 								    expTxt = expTxt & formatnumber(omsTot(v), 2) &";;"
 							    else
                                     if cint(directexp) <> 1 then
-							        strJobLinie_total = strJobLinie_total & "</td>"
+							        strJobLinie_total = strJobLinie_total & "<br>&nbsp;</td>"
                                     end if 'if cint(directexp) <> 1 then
 							    end if
 

@@ -12,7 +12,7 @@ else
 end if
 
 'response.redirect "https://outzource.dk/timeout_xp/wwwroot/ver2_14/login.asp?key=2.2011-0512-TO128&lto=synergi1&tomobjid="&tomobjid
-response.redirect "http://timeout.cloud/timeout_xp/wwwroot/ver2_14/login.asp?key=2.2011-0512-TO128&lto=synergi1&tomobjid="&tomobjid
+response.redirect "https://timeout.cloud/timeout_xp/wwwroot/ver2_14/login.asp?key=2.2011-0512-TO128&lto=synergi1&tomobjid="&tomobjid
 
 '** Version lukket ned ***'
 'response.redirect "https://outzource.dk/timeout_xp/wwwroot/ver2_1/tak_login.asp"

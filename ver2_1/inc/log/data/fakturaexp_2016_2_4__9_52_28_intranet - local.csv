@@ -1,5 +1,0 @@
-Linietype;Aftale/Job;Kontakt;Kontakt id;Kontaktansv.1;Kontaktansv.1 nr.;Kontaktansv.2;Kontaktansv.2 nr.;Jobnavn;Jobnr;Jobansvarlig;Jobansv. nr.;jobejer;Jobejer nr.;Faktura nr.;Faktura beløb excl. moms; Moms; Faktura beløb incl. moms;Fakturadato (system) / Reg.dato;Måned;År;Periode Startdato;Periode Slutdato;Type;Kladde/Godkendt;Aktivitetsnavn;Medarb./Materiale Navn;Medarb./Vare Nr;Initialer;Antal;Enhedspris;Valuta;Enhed;Rabat;Beløb excl. moms;Valuta;Ventetimer brugt;Ventetimer ultimo;Vist på Faktura?;Forretningsområde;Intern;Medarb.linier findes?(sumakt/andre?);Fakturalinie tekst (20 kar.);Afdeling;Underafdeling;Momskode;Konto;Modkonto;
-
-Faktura;Aftale;All-tech;47483647;;;;;;;;;;;2110616;405,00;101,25;506,25;03-02-2015;2;2015;05-11-2014;03-02-2015;Faktura;1;
-Fakturalinie;;All-tech;47483647;;;;;;;;;;;2110616;;;;03-02-2015;2;2015;;;Faktura;;;;;;0;0;DKK;Enheder;0;405,00;DKK;;;1;;0;0;"";;;25;47483647;1113
-

@@ -74,7 +74,8 @@ Session.LCID = 1030
             </h3>
             
                 <div class="portlet-body">
-                    <div style="text-align:center;">Du er ved at <b>SLETTE</b> en medarbejder. Er dette korrekt?
+                    <div style="text-align:center;">Du er ved at <b>SLETTE</b> en medarbejder. Er dette korrekt?<br />
+                        Du vil samtidig slette alle timeregistreringer, forecast, projektgrupper mv. på denne medarbejder. Data vil ikke kunne genskabes.
                     </div><br />
                    <div style="text-align:center;"><a class="btn btn-primary btn-sm" role="button" href="medarb.asp?menu=tok&func=sletok&id=<%=id%>">&nbsp Ja &nbsp</a>&nbsp&nbsp&nbsp&nbsp<a class="btn btn-default btn-sm" role="button" href="medarb.asp?">Nej</a>
                     </div>
@@ -1515,7 +1516,7 @@ Session.LCID = 1030
 	                                    strSQLantalth = "SELECT COUNT(id) AS antalhist FROM medarbejdertyper_historik WHERE mid = "& id &" GROUP BY mid"
 	                                    oRec.open strSQLantalth, oConn, 3
 	                                    if not oRec.EOF then
-	            
+	                                        
 	                                        antalhist = oRec("antalhist") 
 	            
 	                                    end if

@@ -4220,13 +4220,13 @@ if len(session("user")) = 0 then
         </td>
 		</tr>
 
-        <%if func <> "red" AND (lto = "dencker") then
-        klTjk = ""
-        gkTjk = "CHECKED"
-        else
+        <%'if func <> "red" AND (lto = "dencker") then
+        'klTjk = ""
+        'gkTjk = "CHECKED"
+        'else
         klTjk = "CHECKED"
         gkTjk = ""
-        end if %>
+        'end if %>
 		
 		<tr><td valign=top height=20 style="padding:40px 5px 2px 5px;">
 		<b><%=erp_txt_093 %></b></td><td valign=top style="padding:40px 5px 2px 5px;">

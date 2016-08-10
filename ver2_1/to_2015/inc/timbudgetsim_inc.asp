@@ -85,7 +85,7 @@ end sub
 
 
 
-public budgetFY0GT
+public budgetFY0GT, strExport
 function jobaktbudgetfelter(jobnr, jobid, aktid, h1aar, h2aar, h1md, h2md, budgettp)
 
     jh1 = 0
@@ -247,7 +247,7 @@ function jobaktbudgetfelter(jobnr, jobid, aktid, h1aar, h2aar, h1md, h2md, budge
                      end if
 
 
-                    rammeFY0 = 0
+                    'rammeFY0 = 0
                     fctimepris = 0
                     fctimeprish2 = 0 
                     
@@ -278,14 +278,15 @@ function jobaktbudgetfelter(jobnr, jobid, aktid, h1aar, h2aar, h1md, h2md, budge
 
                     else 'nedarves
                     strSQLAvgTp = "SELECT COALESCE(SUM(r.timer*tp.6timepris),0) AS fctimeOms, COALESCE(SUM(r.timer),0) AS fctimerAntal FROM ressourcer_md AS r "_
-                    &" LEFT JOIN timepriser AS tp ON (tp.jobid = "& jobid &" AND medarbid = medid) "_
+                    &" LEFT JOIN timepriser AS tp ON (tp.jobid = "& jobid &" AND tp.aktid = r.aktid AND medarbid = medid) "_
                     &" WHERE r.jobid = "& jobid &" "& aktSQLkriAvgTp &" "& onlyThisMedarbidsFC & " GROUP BY "& grpByTp
                     end if  
                 
 
-                    
-                    'response.write strSQLAvgTp & "<br><br>"
+                    'if session("mid") = 1 then
+                    'response.write "tpFundetAkt: "&  tpFundetAkt & "<br>"& strSQLAvgTp & "<br><br>"
                     'response.flush
+                    'end if
 
                      oRec3.open strSQLAvgTp, oConn, 3
                      while not oRec3.EOF 
@@ -309,6 +310,22 @@ function jobaktbudgetfelter(jobnr, jobid, aktid, h1aar, h2aar, h1md, h2md, budge
                     end if
 
                     fctimepris = fcAvgtimepris
+
+                        
+
+                     '** RAMME FY0 ***'
+                     rammeFY0 = 0
+                     strSQLrammeFY1 = "SELECT SUM(timer) AS timer FROM ressourcer_ramme WHERE jobid = " & jobid & " "& aktSQLkri &" AND medid = 0 AND aar = "& year(Y0) &" GROUP BY "& grpBy 
+
+                    'response.write strSQLrammeFY1
+                    'response.flush
+
+                     oRec3.open strSQLrammeFY1, oConn, 3
+                     if not oRec3.EOF then
+                          rammeFY0 = oRec3("timer")
+                     end if
+                     oRec3.close
+
 
 
                      '** RAMME FY1 ***'
@@ -432,22 +449,7 @@ function jobaktbudgetfelter(jobnr, jobid, aktid, h1aar, h2aar, h1md, h2md, budge
 
     'visKunFCFelter
     
-    %>
-      <td><input type="text" name="FM_<%=aktFMname%>timebudget_FY0" id="FM_timerbudget_FY0_<%=jobid%>_<%=aktid %>" class="jobakt_budgettimer_FY <%=aktclassFY0 %> form-control input-small" value="<%=rammeFY0 %>" style="width:50px; background-color:<%=bgthisFY0%>;" <%=jobDisAbled %> /></td>
-     <td><input type="text" name="FM_<%=aktFMname%>timebudget_FY1" id="FM_timerbudget_FY1_<%=jobid%>_<%=aktid %>" class="jobakt_budgettimer_FY1 <%=aktclassFY1 %> form-control input-small" value="<%=rammeFY1 %>" style="width:50px;"  <%=jobDisAbled %>/></td>
-        <td><input type="text" name="FM_<%=aktFMname%>timebudget_FY2" id="FM_timerbudget_FY2_<%=jobid%>_<%=aktid %>" class="jobakt_budgettimer_FY2 <%=aktclassFY2 %> form-control input-small" value="<%=rammeFY2 %>" style="width:50px;" <%=jobDisAbled %> /></td>
-       
-        
-                <input type="hidden" name="FM_<%=aktFMname%>timebudget_FY0" value="##" />
-                <input type="hidden" name="FM_<%=aktFMname%>timebudget_FY1" value="##" />
-                <input type="hidden" name="FM_<%=aktFMname%>timebudget_FY2" value="##" />
-
-
-        <%if cint(timesimh1h2) = 1 then %>
-        <td><input type="text" style="width:40px;" disabled value="<%=rammeFY0 %>" class="form-control input-small" /></td>
-        <%end if %>
-        
-        <%
+   
          
             if len(trim(fctimepris)) <> 0 then
             fctimepris = formatnumber(fctimepris, 0)
@@ -465,7 +467,27 @@ function jobaktbudgetfelter(jobnr, jobid, aktid, h1aar, h2aar, h1md, h2md, budge
                     bgJAfc = "lightpink"
                  else
                     bgJAfc = ""
-             end if %>
+             end if 
+    
+    
+     if media <> "export" then%>
+
+
+      <td><input type="text" name="FM_<%=aktFMname%>timebudget_FY0" id="FM_timerbudget_FY0_<%=jobid%>_<%=aktid %>" class="jobakt_budgettimer_FY <%=aktclassFY0 %> form-control input-small" value="<%=rammeFY0 %>" style="width:50px; background-color:<%=bgthisFY0%>;" <%=jobDisAbled %> /></td>
+     <td><input type="text" name="FM_<%=aktFMname%>timebudget_FY1" id="FM_timerbudget_FY1_<%=jobid%>_<%=aktid %>" class="jobakt_budgettimer_FY1 <%=aktclassFY1 %> form-control input-small" value="<%=rammeFY1 %>" style="width:50px;"  <%=jobDisAbled %>/></td>
+        <td><input type="text" name="FM_<%=aktFMname%>timebudget_FY2" id="FM_timerbudget_FY2_<%=jobid%>_<%=aktid %>" class="jobakt_budgettimer_FY2 <%=aktclassFY2 %> form-control input-small" value="<%=rammeFY2 %>" style="width:50px;" <%=jobDisAbled %> /></td>
+       
+        
+                <input type="hidden" name="FM_<%=aktFMname%>timebudget_FY0" value="##" />
+                <input type="hidden" name="FM_<%=aktFMname%>timebudget_FY1" value="##" />
+                <input type="hidden" name="FM_<%=aktFMname%>timebudget_FY2" value="##" />
+
+
+        <%if cint(timesimh1h2) = 1 then %>
+        <td><input type="text" style="width:40px;" disabled value="<%=rammeFY0 %>" class="form-control input-small" /></td>
+        <%end if %>
+        
+       
 
         <!-- H1 Ressouce timer og TP -->
         <td><input type="text" id="h1t_jobakt_<%=jobid%>_<%=aktid%>" class="<%=h1cls%> jh1 form-control input-small" value="<%=jh1%>" style="width:60px;" disabled /></td>
@@ -510,7 +532,7 @@ function jobaktbudgetfelter(jobnr, jobid, aktid, h1aar, h2aar, h1md, h2md, budge
         <%end if %>        
 
         <%if cint(timesimh1h2) = 1 then %>
-        <td style="background-color:#FFFFFF;"><input type="text" id="budget_h2_jobakt_<%=jobid%>_<%=aktid %>" class="form-control input-small" style="width:60px; border:0px; background-color:<%=bgthis%>;" value="<%=budgetFY0h2 %>" /></td>
+        <td style="background-color:#FFFFFF;"><input type="text" id="budget_h2_jobakt_<%=jobid%>_<%=aktid %>" class="form-control input-small" style="width:60px; border:0px; background-color:<%=bgthis%>;" value="<%=budgetFY0h2%>" /></td>
         <%end if %>
 
         <td><input type="text" id="budget_jobakt_<%=jobid%>_<%=aktid %>" class="form-control input-small" style="width:80px; border:0px;" value="<%=jhGTTxt%>" DISABLED /></td><!-- budgetFY0 -->
@@ -523,7 +545,30 @@ function jobaktbudgetfelter(jobnr, jobid, aktid, h1aar, h2aar, h1md, h2md, budge
                
 
 
-    <%
+    <% end if 'media
+
+        if media = "export" then
+        strExport = strExport & rammeFY0 &";"& rammeFY1 &";"& rammeFY2 &";"& jh1 &";" 
+
+            if cint(timesimtp) = 1 then 
+            strExport = strExport & fctimepris &";"
+            end if   
+
+            strExport = strExport & thisTimer &";"& gnstpTxt &";"& realTimeOmsTxt &";" 
+
+            if cint(timesimtp) = 1 then
+            strExport = strExport & budgetFY0h1 &";"
+            end if
+
+            if cint(timesimh1h2) = 1 then
+            strExport = strExport & budgetFY0h2 &";"
+            end if
+
+            strExport = strExport & jhGTTxt &";" & vbcrlf
+
+        end if
+
+
 end function
 
 
@@ -579,10 +624,10 @@ function medarbfelter(jobnr, jobid, aktid, h1aar, h2aar, h1md, h2md, bgttpris)
 
                     
 
-                         strSQLjobFcGt = "SELECT SUM(timer) AS sumtimer  "
+                         strSQLjobFcGt = "SELECT COALESCE(SUM(timer)) AS sumtimer  "
         
                          if cint(timesimtp) = 1 then 
-                         strSQLjobFcGt = strSQLjobFcGt & ", SUM(timer*6timepris) AS sumtimerBelob "
+                         strSQLjobFcGt = strSQLjobFcGt & ", COALESCE(SUM(timer*6timepris)) AS sumtimerBelob, AVG(6timepris) AS gnsTp "
                          end if
 
                          strSQLjobFcGt = strSQLjobFcGt & " FROM ressourcer_md AS r "
@@ -598,7 +643,7 @@ function medarbfelter(jobnr, jobid, aktid, h1aar, h2aar, h1md, h2md, bgttpris)
                                 '*** Men til at berenge omsæ. bruges timeprisen på jobbet, da der eller kommer en grp fejl og timesum vises 1 gang pr. aktivitet (altså 7 dobbelt)
                             
 
-                         strSQLjobFcGt = strSQLjobFcGt & " LEFT JOIN timepriser AS tp ON (tp.jobid = " & jobid &" AND tp.aktid = 0 AND tp.medarbid = r.medid)" 
+                         strSQLjobFcGt = strSQLjobFcGt & " LEFT JOIN timepriser AS tp ON (tp.jobid = " & jobid &" AND tp.aktid = r.aktid AND tp.medarbid = r.medid)" 
                          end if
 
 
@@ -607,23 +652,36 @@ function medarbfelter(jobnr, jobid, aktid, h1aar, h2aar, h1md, h2md, bgttpris)
                          'if session("mid") = 1 then
                          'response.Write "<br>strSQLjobFcGt: " & strSQLjobFcGt & " - p: "& p
                          'response.flush
-                         'end if                
-
+                         'end if
+                         
+                         afcm = 0                
+                         gnsTp = 0
                          jobFcGt = 0
                          jobFcGtBelob = 0 
                          oRec3.open strSQLjobFcGt, oConn, 3
-                         if not oRec3.EOF then
+                         while not oRec3.EOF
 
-                             jobFcGt = oRec3("sumtimer")
+                             jobFcGt = jobFcGt + oRec3("sumtimer")
 
                              if cint(timesimtp) = 1 then 
-                             jobFcGtBelob = oRec3("sumtimerBelob")
+                             jobFcGtBelob = jobFcGtBelob + oRec3("sumtimerBelob")
+                             gnsTp = gnsTp + oRec3("gnsTp")
                              end if
 
-                         end if
+                            
+
+
+                         afcm = afcm + 1
+                         oRec3.movenext
+                         wend
                          oRec3.close 
 
-                   
+                        if (afcm) <> 0 then
+                        gnsTp = gnsTp / afcm
+                        else
+                        gnsTp = 0
+                        end if           
+
 
                          if aktid <> 0 then
                          jobFcGtGT = jobFcGtGT + jobFcGt 
@@ -694,7 +752,7 @@ function medarbfelter(jobnr, jobid, aktid, h1aar, h2aar, h1md, h2md, bgttpris)
                                 <input type="<%=fcjobaktGTtype %>" id="fcjobaktgt_<%=jobid%>_<%=aktid%>" value="<%=jobFcGtTxt%>" class="form-control input-small fcjobgt fcjobgt_<%=jobid%>" style="width:60px; background-color:<%=fcBgCol%>; text-align:right;" DISABLED />
                              
                                     <%if fcjobaktGTtype = "hidden" then %>
-                                    <span style="background-color:<%=fcBgCol%>;"><%=jobFcGtTxt%></span>
+                                    <span style="background-color:<%=fcBgCol%>;"><%=jobFcGtTxt%> (tp: <%=gnsTp %>)</span>
                                     <%end if %>
                               
                                     <%if cint(timesimtp) = 1 then 'aktid <> 0 %>
@@ -702,6 +760,8 @@ function medarbfelter(jobnr, jobid, aktid, h1aar, h2aar, h1md, h2md, bgttpris)
                                     <input type="hidden" id="fcjobaktBelgt_<%=jobid%>_<%=aktid%>" class="fcjobaktBelgt" value="<%=jobFcGtBelob %>"/>
                              
                                     <%end if %>
+
+                             <!--(tp: <%=gnsTp %>)-->
                          </td>
 
                         <%

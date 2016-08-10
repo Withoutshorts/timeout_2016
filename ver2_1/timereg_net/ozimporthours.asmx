@@ -1,13 +1,14 @@
-Ôªø<%@ WebService language="VB" class="to_import" %>
+<%@ WebService language="VB" class="to_import_hours" %>
 Imports System
 Imports System.Web.Services
 Imports System.Data
 Imports System.Data.Odbc
 
+
 Imports System.Globalization
 Imports System.Threading
 
-Public Class to_import
+Public Class to_import_hours
 
     Public testValue As String
     Public testmode As Integer = 0
@@ -24,6 +25,7 @@ Public Class to_import
     Public meNavn As String
     Public meNr As String
     Public meID As Integer
+    Public medarbejdertypeThis AS Integer = 0
     Public mTypeSQL As String
     
     Public jobNavn As String
@@ -74,12 +76,12 @@ Public Class to_import
     
     Public err_jobnr As String = String.Empty
 
-    
+    Public Ite As Integer = 0
     
     'Public errThisTOnoAll As Integer = 0
     
-    Public errThisTOnoStr As String = "<br>Fejlkoder for linjer der IKKE blev indl√¶st:<br>"
-    Public errTxtThis As string
+    Public errThisTOnoStr As String = "<br>Fejlkoder for linjer der IKKE blev indlÊst:<br>"
+    Public errTxtThis As String
     
     
     Function EncodeUTF8(ByVal s)
@@ -96,7 +98,7 @@ Public Class to_import
             i = i + 1
         Loop
         
-        's = Replace(s, "√É,", "&oslash;")
+        's = Replace(s, "√,", "&oslash;")
         EncodeUTF8 = s
     End Function
     
@@ -131,23 +133,23 @@ Public Class to_import
     Public jq_formatTxt As String
     Function jq_format(ByVal jq_str As String) As String
             
-        jq_str = Replace(jq_str, "√∏", "&oslash;")
-        jq_str = Replace(jq_str, "√¶", "&aelig;")
-        jq_str = Replace(jq_str, "√•", "&aring;")
-        jq_str = Replace(jq_str, "√ò", "&Oslash;")
-        jq_str = Replace(jq_str, "√Ü", "&AElig;")
-        jq_str = Replace(jq_str, "√Ö", "&Aring;")
-        jq_str = Replace(jq_str, "√ñ", "&Ouml;")
-        jq_str = Replace(jq_str, "√∂", "&ouml;")
-        jq_str = Replace(jq_str, "√ú", "&Uuml;")
-        jq_str = Replace(jq_str, "√º", "&uuml;")
-        jq_str = Replace(jq_str, "√Ñ", "&Auml;")
-        jq_str = Replace(jq_str, "√§", "&auml;")
-        jq_str = Replace(jq_str, "√©", "&eacute;")
-        jq_str = Replace(jq_str, "√â", "&Eacute;")
-        jq_str = Replace(jq_str, "√°", "&aacute;")
-        jq_str = Replace(jq_str, "√Å", "&Aacute;")
-        jq_str = Replace(jq_str, "√É,", "&Oslash;")
+        jq_str = Replace(jq_str, "¯", "&oslash;")
+        jq_str = Replace(jq_str, "Ê", "&aelig;")
+        jq_str = Replace(jq_str, "Â", "&aring;")
+        jq_str = Replace(jq_str, "ÿ", "&Oslash;")
+        jq_str = Replace(jq_str, "∆", "&AElig;")
+        jq_str = Replace(jq_str, "≈", "&Aring;")
+        jq_str = Replace(jq_str, "÷", "&Ouml;")
+        jq_str = Replace(jq_str, "ˆ", "&ouml;")
+        jq_str = Replace(jq_str, "‹", "&Uuml;")
+        jq_str = Replace(jq_str, "¸", "&uuml;")
+        jq_str = Replace(jq_str, "ƒ", "&Auml;")
+        jq_str = Replace(jq_str, "‰", "&auml;")
+        jq_str = Replace(jq_str, "È", "&eacute;")
+        jq_str = Replace(jq_str, "…", "&Eacute;")
+        jq_str = Replace(jq_str, "·", "&aacute;")
+        jq_str = Replace(jq_str, "¡", "&Aacute;")
+        jq_str = Replace(jq_str, "√,", "&Oslash;")
             
             
         jq_formatTxt = jq_str
@@ -155,11 +157,11 @@ Public Class to_import
     End Function
        
     
-    <WebMethod()> Public Function timeout_importTimer(ByVal ds As DataSet) As String
+    <WebMethod()> Public Function timeout_importTimer_rack(ByVal ds As DataSet) As String
         
         'On Error Resume Next
     
-        
+            
        
         
         'Dim con As New SqlConnection(Application("MyDatabaseConnectionString"))
@@ -169,6 +171,7 @@ Public Class to_import
         'Return ds        
       
         Dim objConn As OdbcConnection
+        Dim objConn2 As OdbcConnection
         Dim objCmd As OdbcCommand
         'Dim objDataSet As New DataSet
         Dim objDR As OdbcDataReader
@@ -177,16 +180,34 @@ Public Class to_import
         Dim dr As DataRow
         
         Dim strConn As String
-        
+        'strConn2 = "Driver={MySQL ODBC 3.51 Driver};Server=194.150.108.154;Database=timeout_epi;User=outzource;Password=SKba200473;"
+        'strConn2 = "Driver={MySQL ODBC 3.51 Driver};Server=194.150.108.154;Database=timeout_oko;User=to_outzource2;Password=SKba200473;"
+        'strConn2 = "driver={MySQL ODBC 3.51 Driver};server=194.150.108.154; Port=3306; uid=root;pwd=;database=timeout_epi; OPTION=32"
+        'strConn = "Driver={MySQL ODBC 3.51 Driver};Server=194.150.108.154;Database=timeout_epi;User=to_outzource2;Password=SKba200473;"
+        'strConn = "driver={MySQL ODBC 3.51 Driver};server=194.150.108.154; Port=3306; uid=outzource; pwd=SKba200473; database=timeout_epi;"
+        'strConn2 = "timeout_epi64"
+          
         'Dim objTable As DataTable
         
         Dim t As Double = 0
         
-        Try
+        'Try
        
         
             For Each dt In ds.Tables
                 For Each dr In dt.Rows
+                    
+                    
+                    
+                   
+                
+                            
+                ' Dim strSQLerrTest2 As String = "INSERT INTO timer_imp_err (dato, extsysid, errid) VALUES ('2016/06/10', '1111', " + t + ")"
+           
+                '         objCmd = New OdbcCommand(strSQLerrTest2, objConn2)
+            '        objCmd.ExecuteReader '(CommandBehavior.closeConnection)
+                    
+                    
                 
                     'Initialize
                     errThisTOno = 0
@@ -223,15 +244,30 @@ Public Class to_import
                     
                     dbnavn = ""
                     
-                     
+                    'Return "OK HEJ DER"  'ex.Message + "<br>ErrNO: " & Err.Number & " ErrDesc: " & Err.Description & " # " & errThisTOno & " # CATI recordID: (" & intTempImpId & ")"
+            
+                    '*** DB FELTER R∆KKEFÿLGE
+                    'intTempImpId    = 0
+                    'tempM          = 4
+                    'intJobNr       = 5
+                    'aktnavnUse      = 6
+                    'dldTimer       = 7
+                    'Tdato           = 8
+                    'LTO             = 9
+                    'timerkom        = 10
+                    
                   
                     
                     Try
                         'If ds.Tables("timer_import_temp").Columns.Contains("lto") Then
-                        'If String.IsNullOrEmpty(ds.Tables(0).Rows(t).Item(9)) = False Then
+                        If String.IsNullOrEmpty(ds.Tables(0).Rows(t).Item(9)) = False Then
                
                         
-                        dbnavn = ds.Tables(0).Rows(t).Item(9)
+                            dbnavn = ds.Tables(0).Rows(t).Item(9)
+                        Else
+                            dbnavn = "DBIKKEFUNDET"
+                        End If
+                            
                         'dbnavn = "epi"
                         
                         If dbnavn = "outz" Or dbnavn = "intranet - local" Then
@@ -240,7 +276,7 @@ Public Class to_import
                             dbnavn = dbnavn
                         End If
                             
-                            'end if
+                        'end if
                     
                 
                     Catch ex As Exception
@@ -248,19 +284,23 @@ Public Class to_import
                     End Try
                     
                      
-                        '**** Conn string ****'
-                
-                        If t = 0 Then
+                    '**** Conn string ****'
+                    
+                    If t = 0 Then
                         
                         Try
                               
                             'importFrom = "3" Then 'MMMI / ekstern
                             'dbnavn = "intranet"
                             '81.19.249.35
-                            strConn = "Driver={MySQL ODBC 3.51 Driver};Server=195.189.130.210;Database=timeout_" & dbnavn & ";User=outzource;Password=SKba200473;"
-
-                  
-                            '** √Öbner Connection ***'
+                            'strConn = "Driver={MySQL ODBC 3.51 Driver};Server=194.150.108.154;Database=timeout_"+ dbnavn +";User=to_outzource2;Password=SKba200473;"
+                            'strConn = "driver={MySQL ODBC 3.51 Driver};server=194.150.108.154; Port=3306; uid=outzource; pwd=SKba200473; database=timeout_epi;"
+                            'strConn = "Driver={MySQL ODBC 3.51 Driver};Server=194.150.108.154;Database=timeout_epi;User=to_outzource2;Password=SKba200473;"
+                            'strConn = "timeout_" & dbnavn & "64"
+                            strConn = "Driver={MySQL ODBC 3.51 Driver};Server=194.150.108.154;Database=timeout_" + dbnavn + ";Uid=to_outzource2;Password=SKba200473;"
+        
+                            
+                            '** ≈bner Connection ***'
                             objConn = New OdbcConnection(strConn)
                             objConn.Open()
                             
@@ -272,7 +312,7 @@ Public Class to_import
                     End If
                     
                     
-                      
+                  
                     
                     
                      
@@ -305,7 +345,7 @@ Public Class to_import
                    
                   
                   
-                    '*** Test indl√¶ser ellae records i err db ***'
+                    '*** Test indlÊser ellae records i err db ***'
                
                     'Dim strSQLer As String = "INSERT INTO timer_imp_err (dato, extsysid, errid, jobid, jobnr, med_init, timeregdato, timer, origin) " _
                     '& " VALUES " _
@@ -325,7 +365,7 @@ Public Class to_import
             
                     Try
                         '*** if record findes i timereg i forvejen ****'
-                        intTempImpId = ds.Tables(0).Rows(t).Item(0)
+                        intTempImpId = 0 'ds.Tables(0).Rows(t).Item(0)
                     Catch ex As Exception
                         Throw New Exception("Get intTempImpId error:" + ex.Message)
                     End Try
@@ -347,7 +387,7 @@ Public Class to_import
 
                     Try
                         '** Kommentar **' 11??
-                        timerkom = ""
+                        'timerkom = ""
                         If String.IsNullOrEmpty(ds.Tables(0).Rows(t).Item(10)) = False Then
                             timerkom = ds.Tables(0).Rows(t).Item(10)
                             timerkom = timerkom.ToString()
@@ -402,10 +442,10 @@ Public Class to_import
                              
                
                     
-                   'Return "<br>HEJ DER 9: dbnavn: " + dbnavn + " cdDato: " + cdDato
+                    'Return "<br>HEJ DER 9: dbnavn: " + dbnavn + " cdDato: " + cdDato
                     
                     '*************************************************************************************************************************
-                    '****** DATA MODATGET FRA RECORDSET  --> Begynder indl√¶sning og datamodel ************************************************
+                    '****** DATA MODATGET FRA RECORDSET  --> Begynder indlÊsning og datamodel ************************************************
                     
                     
                     
@@ -488,33 +528,37 @@ Public Class to_import
                         End Try
                            
        
-                        Try
-                            If CInt(errThisTOno) <> 1 Then
-        
-                                Dim strSQLme As String = "SELECT mid, mnavn, mnr FROM medarbejdere WHERE init = '" & intMedarbId & "' AND mansat <> 2" & mTypeSQL
+                    Try
                         
-                                objCmd = New OdbcCommand(strSQLme, objConn)
-                                objDR = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
+                        medarbejdertypeThis = 0
+                        If CInt(errThisTOno) <> 1 Then
+                           
+                            Dim strSQLme As String = "SELECT mid, mnavn, mnr, medarbejdertype FROM medarbejdere WHERE init = '" & intMedarbId & "' AND mansat <> 2 "
+                        
+                            objCmd = New OdbcCommand(strSQLme, objConn)
+                            objDR = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
             
-                                If objDR.Read() = True Then
+                            If objDR.Read() = True Then
 
-                                    meNavn = objDR("mnavn")
-                                    If Len(Trim(meNavn)) <> 0 Then
-                                        meNavn = DecodeUTF8(meNavn)
-                                    End If
-                        
-                                    meNr = objDR("mnr")
-                                    meID = objDR("mid")
-
+                                meNavn = objDR("mnavn")
+                                If Len(Trim(meNavn)) <> 0 Then
+                                    meNavn = DecodeUTF8(meNavn)
                                 End If
-            
-                                objDR.Close()
-            
+                        
+                                meNr = objDR("mnr")
+                                meID = objDR("mid")
+                                medarbejdertypeThis = objDR("medarbejdertype")
+                                
+
                             End If
-                            '***'
-                        Catch ex As Exception
-                            Throw New Exception("If errThisTOno <> 0 SELECT mid, mnavn, mnr FROM medarbejder error: " + ex.Message)
-                        End Try
+            
+                            objDR.Close()
+            
+                        End If
+                        '***'
+                    Catch ex As Exception
+                        Throw New Exception("If errThisTOno <> 0 SELECT mid, mnavn, mnr FROM medarbejder error: " + ex.Message)
+                    End Try
                            
                             
                         Try
@@ -611,7 +655,7 @@ Public Class to_import
                             Try
                                 
                                 '*** Finder akt. oplysninger ****'
-                                '*** aktivitet skal v√¶re aktiv ****'
+                                '*** aktivitet skal vÊre aktiv ****'
                                 '*** Fase ??? ***'
                                 Dim strSQLa As String
                                 strSQLa = "SELECT id, fakturerbar, navn FROM aktiviteter WHERE job = " & jobId & " AND navn = '" & aktnavnUse & "' AND aktstatus = 1" ' AND fakturerbar = " & akttypeUse & "" 'Interviewer '
@@ -647,14 +691,19 @@ Public Class to_import
                                 Throw New Exception("If errThisTOno=0 SELECT id, fakturerbar, navn FROM aktiviteter error: " + ex.Message)
                             End Try
            
-                        End If
+                        End If 'CInt(errThisTOno) = 0 
         
                         
                         If CInt(errThisTOno) = 0 Then
         
                             '*** Finder medarb timepris og kostpris ***'
-                            '*** F√∏rst pr√∏ves aktivitet derefter job ***'
-                
+                            '*** F¯rst pr¯ves aktivitet derefter job ***'
+                            
+                        
+                        'If InStr(dbnavn, "epi") = -1 AND Ite = 0 Then 'IKKE EPI
+                        
+                        Ite = 1
+                        If Ite = 100 Then
                 
                             For mtp = 0 To 1
                     
@@ -671,6 +720,11 @@ Public Class to_import
                                
                 
                                     Try
+                                        
+                                    
+                                     
+                                            
+                                     
                                         Dim strSQLmtp As String = "SELECT id AS tpid, jobid, aktid, medarbid, timeprisalt, 6timepris, 6valuta FROM timepriser WHERE jobid = " & jobId & " AND aktid = " & aktIdUse & " AND medarbid =  " & meID
 								
                                         objCmd = New OdbcCommand(strSQLmtp, objConn)
@@ -747,8 +801,10 @@ Public Class to_import
                                         objDR.Close()
                                         '***'
                         
+                                        
+                                        
                                     Catch ex As Exception
-                                        Throw New Exception("SELECT id AS tpid, jobid, aktid, medarbid, timeprisalt, 6timepris, 6valuta FROM timeprise OR SELECT FROM FROM medarbejdere, medarbejdertyper error: " + ex.Message)
+                                        Throw New Exception("SELECT id AS tpid, jobid, aktid, medarbid, timeprisalt, 6timepris, 6valuta FROM timeprise OR SELECT FROM medarbejdere, medarbejdertyper error: " + ex.Message)
                                     End Try
                                     
                        
@@ -756,18 +812,40 @@ Public Class to_import
 							        
                             Next
 									
+                                End If 'Ite
+                             
+									
+                                        
+                             
+                                
+                        
+                                
                             
-                            Try
+                        Try
                             
-                                '**************************************************************'
-                                '*** Hvis timepris ikke findes p√• job bruges Gen. timepris fra '
-                                '*** Fra medarbejdertype, og den oprettes p√• job **************'
-                                '**************************************************************'
-                                tprisGen = 0
-                                valutaGen = 1
-                    
-                                Dim SQLmedtpris As String = "SELECT medarbejdertype, timepris, tp0_valuta, kostpris, mnavn FROM medarbejdere, medarbejdertyper " _
-                                & " WHERE Mid = " & meID & " AND medarbejdertyper.id = medarbejdertype"
+                            '**************************************************************'
+                            '*** Hvis timepris ikke findes pÂ job bruges Gen. timepris fra '
+                            '*** Fra medarbejdertype, og den oprettes pÂ job **************'
+                            '**************************************************************'
+                            tprisGen = 0
+                            'EPI hardcoded Vietnametimer **'
+                            'valutaGen = 9 '1
+                            'intTimepris = 11
+                            'kostpris = 11
+                           ' tprisGen = 0
+                            'EPI NO hardcoded Vietnametimer **'
+                            'valutaGen = 1
+                            'intTimepris = 180
+                            'kostpris = 60
+                            
+                            
+                            
+                            intValuta = valutaGen
+                            
+                            '*** IKKE EPINION tp for stor
+                            Ite = 1
+                            If Ite = 1 Then
+                                Dim SQLmedtpris As String = "SELECT timepris AS useTimepris, tp0_valuta, kostpris FROM medarbejdertyper WHERE id = " & medarbejdertypeThis
 
                                 objCmd = New OdbcCommand(SQLmedtpris, objConn)
                                 objDR = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
@@ -782,86 +860,109 @@ Public Class to_import
 		
                                     tprisGen = objDR("timepris")
                                     valutaGen = objDR("tp0_valuta")
-		
+                                    
+                                    'Ite = 1
+                                    'If Ite = 1 Then 'KUN EPI 'InStr(dbnavn, "epi") = 1 And
+                                    intTimepris = objDR("useTimepris")
+                                    intValuta = valutaGen 'objDR2("useValuta")
+                                    
+                                    If Len(Trim(intTimepris)) <> 0 Then
+                                        intTimepris = Replace(intTimepris, ",", ".")
+									
+                                    End If
+                                    
+                                    'End If
+                                    
+                                    
                                 End If
 
                                 objDR.Close()
                                 '** Slut timepris **
-                            Catch ex As Exception
-                                Throw New Exception(" Hvis timepris ikke findes p√• job bruges Gen, SELECT FROM medarbejdere, medarbejdertyper error: " + ex.Message)
-                            End Try
+                            
+                            End If 'lte
+                            
+                        Catch ex As Exception
+                            Throw New Exception("medarbejdertypeThis: " + medarbejdertypeThis.ToString + " Hvis timepris ikke findes pÂ job bruges Gen, SELECT FROM medarbejdere, medarbejdertyper error: " + ex.Message)
+                        End Try
                
-                            Try
-                                '**** Opdaterer timepris p√• job ***'
-                                If foundone = "n" Then
+                        Try
+                            
+                            Ite = 1
+                            If Ite = 100 Then
+                                '**** Opdaterer timepris pÂ job ***'
+                                'Ite = 1
+                                'If foundone = "n" And InStr(dbnavn, "epi") = -1 And Ite = 0 Then 'IKKE EPI
                         
-                                    intTimepris = Replace(tprisGen, ",", ".")
-                                    intValuta = valutaGen
+                                intTimepris = Replace(tprisGen, ",", ".")
+                                intValuta = valutaGen
 							
-                                    Dim strSQLtpris As String = "INSERT INTO timepriser (jobid, aktid, medarbid, timeprisalt, 6timepris, 6valuta) " _
-                                    & " VALUES (" & jobId & ", 0, " & meID & ", 0, " & intTimepris & ", " & intValuta & ")"
+                                Dim strSQLtpris As String = "INSERT INTO timepriser (jobid, aktid, medarbid, timeprisalt, 6timepris, 6valuta) " _
+                                & " VALUES (" & jobId & ", 0, " & meID & ", 0, " & intTimepris & ", " & intValuta & ")"
 							
-                                    objCmd = New OdbcCommand(strSQLtpris, objConn)
-                                    objDR = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
+                                objCmd = New OdbcCommand(strSQLtpris, objConn)
+                                objCmd.ExecuteReader() '(CommandBehavior.closeConnection)
 							
-                                End If
-                            Catch ex As Exception
-                                Throw New Exception(" Opdaterer timepris p√• job, INSERT INTO timepriser error: " + ex.Message)
-                            End Try
+                             End If
+                        Catch ex As Exception
+                            Throw New Exception(" Opdaterer timepris pÂ job, INSERT INTO timepriser error: " + ex.Message)
+                        End Try
                 
                 
-                            Try
-                                '**** Tjekker om akt. er sat til fast timepris for alle medarbjedere ***'
-                                '**** overruler medarbejer timepris p√• akt. og job *********************'
-                                Dim brug_fasttp As Integer = 0
-                                Dim brug_fastkp As Integer = 0
-                                Dim fasttp As Double = 0
-                                Dim fastkp As Double = 0
-                                Dim fasttp_val As Integer = 0
-                                '*** Tjekker om aktiviteten er sat til ens timpris for alle medarbejdere (overskriver medarbejderens egen timepris)
-                                Dim strSQLtjkAktTp As String = "SELECT brug_fasttp, brug_fastkp, fasttp, fasttp_val, fastkp, fastkp_val FROM aktiviteter WHERE id = " & aktIdUse
+                        Try
+                            '**** Tjekker om akt. er sat til fast timepris for alle medarbjedere ***'
+                            '**** overruler medarbejer timepris pÂ akt. og job *********************'
+                            Dim brug_fasttp As Integer = 0
+                            Dim brug_fastkp As Integer = 0
+                            Dim fasttp As Double = 0
+                            Dim fastkp As Double = 0
+                            Dim fasttp_val As Integer = 0
+                            '*** Tjekker om aktiviteten er sat til ens timpris for alle medarbejdere (overskriver medarbejderens egen timepris)
+                            Dim strSQLtjkAktTp As String = "SELECT brug_fasttp, brug_fastkp, fasttp, fasttp_val, fastkp, fastkp_val FROM aktiviteter WHERE id = " & aktId
                         
-                                objCmd = New OdbcCommand(strSQLtjkAktTp, objConn)
-                                objDR = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
+                            objCmd = New OdbcCommand(strSQLtjkAktTp, objConn)
+                            objDR = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
             
-                                If objDR.Read() = True Then
+                            If objDR.Read() = True Then
 
-                                    If CInt(objDR("brug_fasttp")) = 1 Then
-                                        brug_fasttp = 1
-                                        fasttp = objDR("fasttp")
-                                        fasttp = Replace(fasttp, ".", "")
-                                        fasttp = Replace(fasttp, ",", ".")
+                                If CInt(objDR("brug_fasttp")) = 1 Then
+                                    brug_fasttp = 1
+                                    fasttp = objDR("fasttp")
+                                    fasttp = Replace(fasttp, ".", "")
+                                    fasttp = Replace(fasttp, ",", ".")
 
-                                        fasttp_val = objDR("fasttp_val")
-                                    End If
-
-
-                                    If CInt(objDR("brug_fastkp")) = 1 Then
-                                        brug_fastkp = 1
-                                        fastkp = objDR("fastkp")
-                                        fastkp = Replace(fastkp, ".", "")
-                                        fastkp = Replace(fastkp, ",", ".")
-                                    End If
-
+                                    fasttp_val = objDR("fasttp_val")
                                 End If
-                                objDR.Close()
+
+
+                                If CInt(objDR("brug_fastkp")) = 1 Then
+                                    brug_fastkp = 1
+                                    fastkp = objDR("fastkp")
+                                    fastkp = Replace(fastkp, ".", "")
+                                    fastkp = Replace(fastkp, ",", ".")
+                                End If
+
+                            End If
+                            objDR.Close()
 
 
                        
-                                If CInt(brug_fasttp) = 1 Then
-                                    intTimepris = fasttp
-                                    intValuta = fasttp_val
-                                End If
+                            If CInt(brug_fasttp) = 1 Then
+                                intTimepris = fasttp
+                                intValuta = fasttp_val
+                            End If
 
-                                If CInt(brug_fastkp) = 1 Then
-                                    kostpris = fastkp
-                                End If
+                            If CInt(brug_fastkp) = 1 Then
+                                kostpris = fastkp
+                            End If
                 
-                            Catch ex As Exception
-                                Throw New Exception("Tjekker om akt. er sat til fast timepris for alle medarbjedere, SELECT brug_fasttp, brug_fastkp, fasttp, fasttp_val, fastkp, fastkp_val FROM aktiviteter error: " + ex.Message)
-                            End Try
+                        Catch ex As Exception
+                            Throw New Exception("Tjekker om akt. er sat til fast timepris for alle medarbjedere, SELECT brug_fasttp, brug_fastkp, fasttp, fasttp_val, fastkp, fastkp_val FROM aktiviteter error: " + ex.Message)
+                        End Try
        
-                        End If
+                        End If 'CInt(errThisTOno) = 0 
+                        
+                         
+                        
                 
                         Try
                                          
@@ -962,11 +1063,14 @@ Public Class to_import
                             Throw New Exception("er uge lukket, SELECT mid, uge FROM usestatus error: " + ex.Message)
                         End Try
                         
-                        'errThisTOno = 0
+                        
                       
-                        
-                       
-                        
+                        'End If 'errThisTOno = 0
+                    
+                    
+                    
+                        '**** INDL∆SER TIMER   
+                          
                         If CInt(errThisTOno) = 0 Then
                             Try
                            
@@ -990,7 +1094,7 @@ Public Class to_import
                            
                             Try
                                 
-                                '*** Indl√¶ser Timer ***'
+                                '*** IndlÊser Timer ***'
                                 Dim strSQL As String = "INSERT INTO timer " _
                                 & "(" _
                                 & " timer, tfaktim, tdato, tmnavn, tmnr, tjobnavn, tjobnr, tknavn, tknr, timerkom, " _
@@ -1011,16 +1115,16 @@ Public Class to_import
                                 & "'" & timerkom & "', " _
                                 & aktId & ", " _
                                 & "'" & aktNavn & "', " _
-                                & Year(Now) & ", " _
-                                & intTimepris & ", " _
-                                & "'" & Year(Now) & "/" & Month(Now) & "/" & Day(Now) & "', " _
-                                & jobFastPris & ", " _
-                                & "'00:00:01', " _
-                                & "'Excel Import', " _
-                                & Replace(kostpris, ",", ".") & ", " _
-                                & jobSeraft & ", " _
-                                & intValuta & ", " _
-                                & Replace(kurs, ",", ".") & ", '" & intTempImpId & "', '00:00:00', '00:00:00', " & importFrom & ")"
+                                    & Year(Now) & ", " _
+                                    & intTimepris & ", " _
+                                    & "'" & Year(Now) & "/" & Month(Now) & "/" & Day(Now) & "', " _
+                                    & jobFastPris & ", " _
+                                    & "'00:00:01', " _
+                                    & "'Excel Import', " _
+                                    & Replace(kostpris, ",", ".") & ", " _
+                                    & jobSeraft & ", " _
+                                    & intValuta & ", " _
+                                    & Replace(kurs, ",", ".") & ", '" & intTempImpId & "', '00:00:00', '00:00:00', " & importFrom & ")"
 
            
                                 '** Manger salgs og kost priser ***'
@@ -1029,6 +1133,8 @@ Public Class to_import
                                 'Response.write(strSQL)
         
                                 objCmd = New OdbcCommand(strSQL, objConn)
+                                'objCmd.ExecuteNonQuery()
+                                
                                 intCountInserted += objCmd.ExecuteNonQuery() '(CommandBehavior.closeConnection)
                                 'objDR.Close()
                     
@@ -1039,26 +1145,27 @@ Public Class to_import
                                 'CommandBehavior.CloseConnection()
                                 'objCmd.closeConnection()
                                         
-                          
+                                
+                              
                                 'errThisTOnoAll = errThisTOnoAll
                        
                             Catch ex As Exception
-                                Throw New Exception("If errThisTOno = 0, Indl√¶ser Timer, INSERT INTO timer OR DELETE FROM timer_imp_err error: " + ex.Message)
+                                Throw New Exception("If errThisTOno = 0, IndlÊser Timer, INSERT INTO timer OR DELETE FROM timer_imp_err error: " + ex.Message)
                             End Try
                             
                             
                             
                             
                     
-                        Else '** Indl√¶ser ind til ErrLog 
+                        Else '** IndlÊser ind til ErrLog 
                         
                             Try
                                 
                                 err_jobnr += intJobNr.ToString() + ", "
                                 
                                 Dim strSQLer As String = "INSERT INTO timer_imp_err (dato, extsysid, errid, jobid, jobnr, med_init, timeregdato, timer, origin) " _
-                                & " VALUES " _
-                                & " ('" & Year(Now) & "/" & Month(Now) & "/" & Day(Now) & "', '" & intTempImpId & "', " + errThisTOno.ToString() + ", " & jobId & ",'" & intJobNrTxt & "', '" & intMedarbId & "', '" & cdDatoSQL & "', " & dlbTimer & ", " & importFrom & ")"
+                                    & " VALUES " _
+                                    & " ('" & Year(Now) & "/" & Month(Now) & "/" & Day(Now) & "', '" & intTempImpId & "', " + errThisTOno.ToString + ", " & jobId & ",'" & intJobNrTxt & "', '" & intMedarbId & "', '" & cdDatoSQL & "', " & dlbTimer & ", " & importFrom & ")"
                                 
                                 objCmd = New OdbcCommand(strSQLer, objConn)
                                 objCmd.ExecuteNonQuery() '(CommandBehavior.closeConnection)
@@ -1079,11 +1186,11 @@ Public Class to_import
                                     Case 3, 31
                                         errTxtThis = "Aktivitet ikke fundet"
                                     Case 4
-                                        errTxtThis = "Valuta ikke fundet p√• job"
+                                        errTxtThis = "Valuta ikke fundet pÂ job"
                                     Case 5, 51
-                                        errTxtThis = "Kunde ikke fundet p√• job"
+                                        errTxtThis = "Kunde ikke fundet pÂ job"
                                     Case 6
-                                        errTxtThis = "Record er allerede indl√¶st en gang"
+                                        errTxtThis = "Record er allerede indlÊst en gang"
                                     Case 7
                                         errTxtThis = "Timer ikke angivet korrekt"
                                     Case 8
@@ -1094,9 +1201,9 @@ Public Class to_import
                                 
                                 errThisTOnoStr = errThisTOnoStr & "Fejl: " & errThisTOno.ToString() & " - " & errTxtThis & " (jobnr: " & intJobNrTxt & ", medarb.: " & intMedarbId & ")<br>"
                                 
-                                Catch ex As Exception
+                            Catch ex As Exception
                                 Throw New Exception("If errThisTOno <> 0, INSERT INTO timer_imp_err error: " + ex.Message)
-                                End Try
+                            End Try
                           
                       
                         End If
@@ -1111,15 +1218,27 @@ Public Class to_import
                 Next
             
             Next
+            
+            
            
-        Catch
+           
+                    
+            Dim strSQLupdtemp As String = "UPDATE timer_import_temp SET overfort = 1 WHERE overfort = 0"
+                    
+            objCmd = New OdbcCommand(strSQLupdtemp, objConn)
+            objCmd.ExecuteNonQuery()
+            'objCmd.closeConnection()
             
-            'Return "OK HEJ DER"  'ex.Message + "<br>ErrNO: " & Err.Number & " ErrDesc: " & Err.Description & " # " & errThisTOno & " # CATI recordID: (" & intTempImpId & ")"
+            objConn.Close()
+           
+        'Catch
             
-            Exit Try
+        'Return "OK HEJ DER"  'ex.Message + "<br>ErrNO: " & Err.Number & " ErrDesc: " & Err.Description & " # " & errThisTOno & " # CATI recordID: (" & intTempImpId & ")"
             
-            '*** Finally            
-        End Try
+        'Exit Try
+            
+        '*** Finally            
+        'End Try
         
         'rtErrTxt(errThisTOnoAll)
         'errThisTOnoAll = ""
@@ -1134,9 +1253,8 @@ Public Class to_import
         
         
         'Dim errThisTOnoStr As String = errThisTOno.ToString()
-        'Return "succes " + intCountInserted.ToString() + " linje(r) indl√¶st. jobnr: " + err_jobnr + " errid:" + errThisTOnoStr
-            
-            
+        'Return "succes " + intCountInserted.ToString() + " linje(r) indlÊst. jobnr: " + err_jobnr + " errid:" + errThisTOnoStr
+       
            
 
     End Function
@@ -1149,6 +1267,9 @@ Public Class to_import
         
     '   Return eTxt
     'End Function
+
+   
+
    
     
 End Class

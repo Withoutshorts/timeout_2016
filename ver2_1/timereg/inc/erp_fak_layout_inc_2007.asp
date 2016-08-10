@@ -1369,6 +1369,12 @@ sub matlinjer
 			'for m = 0 to 1 
 			matBelob = 0
             matEhpris = 0
+
+            if len(trim(fastpris)) <> 0 then
+            fastpris = fastpris
+            else
+            fastpris = 0
+            end if
                             
                            
 				'** vis linje / linje eller grupper ***'
@@ -1458,7 +1464,7 @@ sub matlinjer
                         'matBelob = oRec2("matbeloeb") * (100/fak_kurs)
                         'matEhpris = oRec2("matenhedspris") * (100/fak_kurs)
                                         
-                            if cint(fastpris) = 2 then 'commi
+                        if cint(fastpris) = 2 then 'commi
                 
                         fmat_comm = 0
                         select case lto

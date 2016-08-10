@@ -618,9 +618,10 @@ function notificerEmail(usemrn, EmailNotificerTxt, visning, modtagerid)
                                                 myMail.To= "Eniga Drift - TimeOut<timeoutfravaer@eniga.dk>"
                                                
 
-                                                'if lto = "esn" then
-                                                'myMail.Cc= "Eniga Drift SK TEST - SK<sk@outzource.dk>"
-                                                'end if
+                                                if lto = "esn" then
+                                                myMail.Cc= "Eniga Drift DORTE TEST - <DFN@esnord.dk>"
+                                                myMail.Bcc = "SK TEST ENIGA<sk@outzource.dk>"
+                                                end if
 
 
 

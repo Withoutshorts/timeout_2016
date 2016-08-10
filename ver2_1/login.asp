@@ -24,6 +24,7 @@
 '    End If
 '    Response.Write "</p>"
 'Next
+'** SLUT ***
 %>
 
 
@@ -148,13 +149,17 @@ session("spmettanigol") = session("spmettanigol") + request("attempt")
 
   
 		
-			    if request.Cookies("timeout")("mobileuser") <> "" AND lto <> "outz" then 
+			    if request.Cookies("timeoutcloud")("mobileuser") <> "" AND lto <> "outz" AND lto <> "hestia" AND lto <> "oko" then 'SKAL VÆRE OMVENDT OG KUN sdutek 
                 '** Er der cookie og Du allerede er loggget ind, behøver Du ikke logge ind igen på din telefon
                 '** For at skifte bruger på mobil SKAL man slette sine cookies ****'
                 
-                
+                    if instr(request.servervariables("LOCAL_ADDR"), "195.189.130.210") <> 0 then
+                    response.redirect "https://outzource.dk/timeout_xp/wwwroot/ver2_14/timetag_web/timetag_web.asp?flushsessionuser=1"
+                    else
+                    response.redirect "https://timeout.cloud/timeout_xp/wwwroot/ver2_14/timetag_web/timetag_web.asp?flushsessionuser=1"
+                    end if
 				    
-                    response.redirect "https://outzource.dk/timeout_xp/wwwroot/ver2_14/timetag_web/timetag_web.asp"
+                    'response.redirect "https://outzource.dk/timeout_xp/wwwroot/ver2_14/timetag_web/timetag_web.asp"
 
                 end if
 				
@@ -612,6 +617,15 @@ session("spmettanigol") = session("spmettanigol") + request("attempt")
 
                 case else %>
 
+
+                <h4>23.6.2016</h4>
+                Ny ugeseddel med nye muligheder. Vi har idag lanceret en nye version af ugesedlen, der udover et nyt design også indeholder ny funktionnalitet.<br />
+                <a href="pdf/ugeseddel_2016.pdf" target="_blank">Læs mere her..</a>
+                <br /><br />
+                Mvh.<br />
+                Outzource
+
+                <!--
                 <h4>23.5.2016 - in-aktiv af mere end 12 timer</h4>
                 Du har nogle gange i løbet af se seneste dage måske observeret at "Du har været in-aktiv af mere end 12 timer", selvom Du kun har været på TimeOut i ganske kort tid, eller Du har modtaget en fejl 500.<br />
                 <br />
@@ -619,7 +633,7 @@ session("spmettanigol") = session("spmettanigol") + request("attempt")
                 <br /><br />
                 Mvh.<br />
                 Outzource
-
+                -->
 
                 <h4>Nyt server miljø</h4>
                 Vi er påbegyndt flytningen til et nyt server miljø. Dette medfører at I vil opleve en markant forbedret performance i den daglige afvikling af Timeout.<br />
@@ -862,10 +876,10 @@ else '** POST *****
 
                         
                             '**** Sætter mobile cookies("") til at forblive logget ind på mobil *****
-                            response.Cookies("timeout")("mobilemid") = session("mid") 
-                            response.Cookies("timeout")("mobileuser") = session("user")
-                            response.Cookies("timeout")("rettigheder") = session("rettigheder")
-                            response.Cookies("timeout").expires = date + 180
+                            response.Cookies("timeoutcloud")("mobilemid") = session("mid") 
+                            response.Cookies("timeoutcloud")("mobileuser") = session("user")
+                            response.Cookies("timeoutcloud")("rettigheder") = session("rettigheder")
+                            response.Cookies("timeoutcloud").expires = date + 180
                             '************************************************************************
 
 
@@ -903,9 +917,14 @@ else '** POST *****
             		
             		
 		            '********************* Skriver til logfil ********************************************************'
-		            if request.servervariables("PATH_TRANSLATED") <> "E:\www\timeout_xp\wwwroot\ver2_1\login.asp" AND request.servervariables("PATH_TRANSLATED") <> "C:\www\timeout_xp\wwwroot\ver2_1\login.asp" then
+		    logfil = 0  
+            if logfil = 1 then
+             if request.servervariables("PATH_TRANSLATED") <> "E:\www\timeout_xp\wwwroot\ver2_1\login.asp" AND request.servervariables("PATH_TRANSLATED") <> "C:\www\timeout_xp\wwwroot\ver2_1\login.asp" then
                 
                     
+                'response.write request.servervariables("PATH_TRANSLATED")
+                
+
                     'response.write "d:\webserver\wwwroot\timeout_xp\wwwroot\"& toVer &"\inc\log\logfile_timeout_"&lto&".txt"
                     'response.end    
 
@@ -929,6 +948,8 @@ else '** POST *****
 				            objF.writeLine(session("user") &chr(009)&chr(009)&chr(009)& date &chr(009)& time&chr(009)& request.servervariables("REMOTE_ADDR"))
 				            objF.close	
 		            end if
+                
+                   end if
 		            '*******************************************************************************************'
             		
             		
@@ -1219,6 +1240,8 @@ else '** POST *****
 
 			if browstype_client = "ip" then
 			
+
+               
 				'New server
                 if instr(request.servervariables("LOCAL_ADDR"), "195.189.130.210") <> 0 then
                 response.redirect "https://outzource.dk/timeout_xp/wwwroot/ver2_14/timetag_web/timetag_web.asp?flushsessionuser=1"
@@ -1226,7 +1249,7 @@ else '** POST *****
                 response.redirect "https://timeout.cloud/timeout_xp/wwwroot/ver2_14/timetag_web/timetag_web.asp?flushsessionuser=1"
                 end if
 
-                
+                            
 			    	
 
 			else
@@ -1309,7 +1332,7 @@ else '** POST *****
 
                                 'Response.Write "timereg/ugeseddel_2011.asp?usemrn="&session("mid")&"&varTjDatoUS_man="&mandagIuge&"&varTjDatoUS_son="&sondagIuge
                                 'Response.end
-                                response.redirect "timereg/ugeseddel_2011.asp?usemrn="&session("mid")&"&varTjDatoUS_man="&mandagIuge&"&varTjDatoUS_son="&sondagIuge
+                                response.redirect "to_2015/ugeseddel_2011.asp?usemrn="&session("mid")&"&varTjDatoUS_man="&mandagIuge&"&varTjDatoUS_son="&sondagIuge
                             
                                 case 7 ' DASHBOARD
 						        response.redirect "to_2015/medarbdashboard.asp"

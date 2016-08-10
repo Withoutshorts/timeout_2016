@@ -624,10 +624,10 @@ if len(strLicenskey) <> 0 then
 
     case "2.2014-0130-TO147" 'Hestia Ejendomme
 	lto = "hestia"
-	strConnThis = "driver={MySQL ODBC 3.51 Driver};server=localhost; Port=3306; uid=to_outzource2;pwd=SKba200473;database=timeout_hestia;"
+	strConnThis = "timeout_hestia64"
+    'strConnThis = "driver={MySQL ODBC 3.51 Driver};server=localhost; Port=3306; uid=to_outzource2;pwd=SKba200473;database=timeout_hestia;"
 
-
-     case "2.2014-0331-TO148" 'Epinion UK
+    case "2.2014-0331-TO148" 'Epinion UK
 	lto = "epi_uk"
 	strConnThis = "driver={MySQL ODBC 3.51 Driver};server=localhost; Port=3306; uid=to_outzource2;pwd=SKba200473;database=timeout_epi_uk;"
 
@@ -720,6 +720,11 @@ if len(strLicenskey) <> 0 then
     case "9K2016-1403-TO167" 'Cisu
 	lto = "cisu"
 	strConnThis = "timeout_cisu64"
+
+    case "9K2016-2106-TO168" 'Børnefonden
+	lto = "bf"
+	strConnThis = "timeout_bf64"
+    
 
         
     

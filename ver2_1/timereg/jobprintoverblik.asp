@@ -43,7 +43,7 @@
             
         
                      strSQLjob = "SELECT id, jobnavn, jobnr, kkundenavn, kid FROM job "_
-                     &"LEFT JOIN kunder as K ON (kid = jobknr) WHERE jobstatus = 1 "& strSQLkrijobans &" AND ((jobnavn LIKE '"& jq_sog_val &"%' OR jobnr LIKE '"& jq_sog_val &"%') "_
+                     &"LEFT JOIN kunder as K ON (kid = jobknr) WHERE jobstatus = 1 AND risiko > -1 "& strSQLkrijobans &" AND ((jobnavn LIKE '%"& jq_sog_val &"%' OR jobnr LIKE '"& jq_sog_val &"%') "_
                      &" OR (kkundenavn LIKE '"& jq_sog_val &"%' OR kkundenr = '"& jq_sog_val &"'))  ORDER BY kkundenavn, jobnavn"
             
                         lastKid = 0
