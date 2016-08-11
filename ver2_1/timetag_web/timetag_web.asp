@@ -2,7 +2,7 @@
 <!--#include file="../inc/connection/conn_db_inc.asp"-->
 <!--#include file="../inc/regular/global_func.asp"-->
 
-<%'GIT 20160810 - SK 3
+<%'GIT 20160810 - SK 5
 response.buffer = true
 
  '**** Søgekriterier AJAX **'

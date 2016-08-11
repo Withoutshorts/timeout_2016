@@ -12,7 +12,7 @@
 
 
 
-<%
+<%'GIT 20160811 - SK
 
 
  'response.write "request(FM_fomr): "  & request("FM_fomr") & "<br>"

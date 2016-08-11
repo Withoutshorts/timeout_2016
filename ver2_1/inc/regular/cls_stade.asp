@@ -623,14 +623,8 @@ function stadeopdater()
     call erDetInt(isand)
     if isInt = 0 then 
 
-    if lto = "epi_uk" then 'US tegnsætning
-    ibrutto = replace(ibrutto, ",","")
-    'ibrutto = replace(ibrutto, ",",".")
-    else
     ibrutto = replace(ibrutto, ".","")
     ibrutto = replace(ibrutto, ",",".")
-    end if
-
 
     if len(trim(ibrutto)) <> 0 then
     ibrutto = ibrutto
@@ -671,10 +665,7 @@ function stadeopdater()
     'end if
 
     strSQL = "UPDATE job SET editor = '"& session("user") &"', dato = '"& dddato &"', jo_bruttooms = "& ibrutto &", restestimat = "& irest &", stade_tim_proc = "& ist_tim_proc &", sandsynlighed = '"& isand &"' "& strSQLjobst &" WHERE id = "& jobids(i)
-    'if session("mid") = 1 then
     'Response.write strSQL & "<br><br>"
-    'Response.flush
-    'end if
     
     oConn.execute(strSQL) 
 

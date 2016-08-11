@@ -261,17 +261,6 @@ public class ozUploadFileAkt
         {
 
             connection.Open();
-
-            //Renser ud i _import_akt_temp
-          
-            string sqldelakttemp = "DELETE FROM akt_import_temp WHERE id > 0 AND errid = 0 AND Overfort=0";
-            {
-                OdbcCommand command = new OdbcCommand(sqldelakttemp, connection);
-                command.ExecuteNonQuery();
-               
-            }
-
-            //INDLÆSER ALLE LINJER
             foreach (ozUploadFileAkt data in lstData)
             {
                 //data.tdato = ConvertDate(data.tdato);
@@ -292,7 +281,7 @@ public class ozUploadFileAkt
                
                 //string strInsert = "INSERT INTO timer_import_temp (dato, origin, medarbejderid, jobid, aktnavn, timer, tdato, timerkom, lto, editor,overfort)VALUES('" + DateTime.Now.ToString("yyyy-MM-dd") + "',+"+ORIGIN+",'" + data.medarbejderid + "'," + data.jobid + ",'" + data.aktnavn + "'," + data.timer.Replace(',', '.') + ",'" + data.tdato + "','" + data.timerkom + "','" + folder + "','" + editorIn + "',0)";
                 string strInsert = "INSERT INTO akt_import_temp (dato, origin, jobnr, aktnavn, aktnr, akttimer, akttpris, aktsum, beskrivelse, lto, editor, overfort, aktkonto, akttype) ";
-                strInsert += " VALUES('" + DateTime.Now.ToString("yyyy-MM-dd") + "',910,'" + data.jobid + "','" + data.aktnavn + "','" + data.aktnr + "'";
+                strInsert += " VALUES('" + DateTime.Now.ToString("yyyy-MM-dd") + "',910," + data.jobid + ",'" + data.aktnavn + "','" + data.aktnr + "'";
                 strInsert += "," + data.akttimer + "," + data.akttpris + "," + data.aktsum + ",'','oko','Timeout - ImportAktService ',0, '" + data.konto + "', '" + data.linjetype + "')";
                 OdbcCommand command = new OdbcCommand(strInsert, connection);
 

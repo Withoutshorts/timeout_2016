@@ -636,26 +636,11 @@ if len(strLicenskey) <> 0 then
     case "2.2013-1002-TO147", "2.2013-1002-TO147_AB" 'Økologisk landsforening
 	lto = "oko"
 	strConnThis = "driver={MySQL ODBC 3.51 Driver};server=localhost; Port=3306; uid=to_outzource2;pwd=SKba200473;database=timeout_oko;"
-    'response.redirect "https://timeout.cloud/timeout_xp/wwwroot/ver2_14/login.asp?key=2.2013-1002-TO147&lto=oko"
+    'response.redirect "http://timeout.cloud/timeout_xp/wwwroot/ver2_14/login.asp?key=2.2013-1002-TO147&lto=oko"
 
     case "2.2014-0130-TO147" 'Hestia Ejendomme
 	lto = "hestia"
-	'strConnThis = "driver={MySQL ODBC 3.51 Driver};server=localhost; Port=3306; uid=to_outzource2;pwd=SKba200473;database=timeout_hestia;"
-    'response.redirect "https://timeout.cloud/timeout_xp/wwwroot/ver2_14/login.asp?key=2.2014-0130-TO147&lto=hestia"
-
-    %>
-    <img src="ill/outzource_logo_200.gif" /><br /><br />
-    Hej TimeOut brugere<br />
-    Timeout er flyttet til ny og hurtigere server.<br />
-    I skal i <a href="https://timeout.cloud/hestia">klikke her for at logge ind.</a> 
-
-    <br /><br />
-    Mvh.
-    Outzource og Hestia
-    <br /><span style="font-size:8px;">dbconn</span>
-
-
-    <%response.end
+	strConnThis = "driver={MySQL ODBC 3.51 Driver};server=localhost; Port=3306; uid=to_outzource2;pwd=SKba200473;database=timeout_hestia;"
 
 
      case "2.2014-0331-TO148" 'Epinion UK
@@ -666,7 +651,7 @@ if len(strLicenskey) <> 0 then
     case "2.2014-0501-TO149" 'NorthTex
 	'lto = "nt"
 	'strConnThis = "driver={MySQL ODBC 3.51 Driver};server=localhost; Port=3306; uid=to_outzource2;pwd=SKba200473;database=timeout_nt;"
-    response.redirect "https://timeout.cloud/timeout_xp/wwwroot/ver2_14/login.asp?key=2.2014-0501-TO149&lto=nt"
+    response.redirect "http://timeout.cloud/timeout_xp/wwwroot/ver2_14/login.asp?key=2.2014-0501-TO149&lto=nt"
 
     case "2.2014-0505-TO150" 'Øens Tag og VVS entreprise
 	lto = "otvvs"
@@ -790,13 +775,11 @@ if len(strLicenskey) <> 0 then
         lto = "intranet - local"
         'lto = "nt"
         strConnThis = "timeout_intranet64"
-        'strConnThis = "timeout_adra"
-
         'strConnThis = "timeout_nt"
         
         'lto = "cc"
         'strConnThis = "timeout_cc"
-        'strConnThis = "driver={MySQL ODBC 3.51 Driver};server=195.189.130.210; Port=3306; uid=outzource;pwd=SKba200473;database=timeout_adra;"
+        'strConnThis = "driver={MySQL ODBC 3.51 Driver};server=195.189.130.210; Port=3306; uid=to_outzource2;pwd=SKba200473;database=timeout_cc;"
     
         'strConnThis = "driver={MySQL ODBC 3.51 Driver};server=localhost; Port=3306; uid=root;pwd=;database=timeout_intranet;"
 	    'response.write strConnThis
@@ -847,8 +830,8 @@ else
 
     lto = "intranet - local"
     strConnThis = "timeout_intranet64"
-    'strConnThis = "timeout_adra"
-    'strConnThis = "driver={MySQL ODBC 3.51 Driver};server=195.189.130.210; Port=3306; uid=outzource;pwd=SKba200473;database=timeout_adra;"
+    
+
 
      
     'lto = "cc"

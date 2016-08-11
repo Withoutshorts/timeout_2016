@@ -1048,16 +1048,8 @@ if len(trim(request("FM_progrp"))) = 0 then 'Der er ikke søgt DEFAULT
 visdeakmed = 0
 visdeakmedCHK = ""
 vispasmed = 1
-
-select case lto 
-case "adra", "intranet - local"
-vispasmedCHK = ""
-strSQLmansat = " (m.mansat = 1) " 'viser aktive + passive 
-case else
 vispasmedCHK = "CHECKED"
 strSQLmansat = " (m.mansat = 1 OR m.mansat = 3) " 'viser aktive + passive 
-end select
-
 
 else
 

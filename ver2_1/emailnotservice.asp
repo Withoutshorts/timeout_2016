@@ -220,30 +220,17 @@ strSQL = "SELECT DISTINCT(crmhistorik.id) AS crmaktionid, "_
                 End If
 
                             'Sender notifikations mail
-                            'Set Mailer = Server.CreateObject("SMTPsvg.Mailer")
-                            '' Sætter Charsettet til ISO-8859-1
-                            'Mailer.CharSet = 2
-                            'Mailer.FromName = "Timeout2.1"
-                            'Mailer.FromAddress = "support@outzource.dk"
-                            'Mailer.RemoteHost = "webmail.abusiness.dk" '"pasmtp.tele.dk"
-				            'Mailer.AddRecipient "" & usrname & "", "" & usremail & ""
+                            Set Mailer = Server.CreateObject("SMTPsvg.Mailer")
+                            ' Sætter Charsettet til ISO-8859-1
+                            Mailer.CharSet = 2
+                            Mailer.FromName = "Timeout2.1"
+                            Mailer.FromAddress = "support@outzource.dk"
+                            Mailer.RemoteHost = "webmail.abusiness.dk" '"pasmtp.tele.dk"
+				            Mailer.AddRecipient "" & usrname & "", "" & usremail & ""
                 
-
-
-                        Set myMail=CreateObject("CDO.Message")
-                        myMail.From="timeout_no_reply@outzource.dk"
-
-                        if len(trim(strEmail)) <> 0 then
-                        myMail.To= ""& usrname &"<"& usremail &">"
-                        end if
-
-
-                        ' Selve teksten
-                          if cint(kundeid) > 0 then
-				            'Mailer.Subject = "Aktions notifikation!"
-
-                            myMail.Subject="Aktions notifikation!"
-                        
+				
+				            if cint(kundeid) > 0 then
+				            Mailer.Subject = "Aktions notifikation!"
                             strBody = "Hej " & usrname & vbCrLf & vbCrLf 
                             strBody = strBody & "Aktions oplysninger: " & vbCrLf
                             strBody = strBody &"--------------------------------------------------" & vbCrLf & vbCrLf
@@ -262,11 +249,7 @@ strSQL = "SELECT DISTINCT(crmhistorik.id) AS crmaktionid, "_
                             strBody = strBody & "Telefon: " & kundetlf & vbCrLf 
                             strBody = strBody &"..................................................." & vbCrLf & vbCrLf & vbCrLf
                             else
-				            'Mailer.Subject = "Personlig note!"
-                
-                            myMail.Subject="Aktions notifikation!"
-                        
-
+				            Mailer.Subject = "Personlig note!"
                             strBody = "Hej " & usrname & vbCrLf & vbCrLf
 				            strBody = strBody &"--------------------------------------------------" & vbCrLf & vbCrLf
 				            strBody = strBody & strkomm & vbCrLf & vbCrLf
@@ -278,43 +261,10 @@ strSQL = "SELECT DISTINCT(crmhistorik.id) AS crmaktionid, "_
                             strBody = strBody & "http://www.outzource.dk" & vbCrLf & vbCrLf
 
 
-					    myMail.TextBody = strBody                       
-                        
-                        myMail.Configuration.Fields.Item _
-                        ("http://schemas.microsoft.com/cdo/configuration/sendusing")=2
-                        'Name or IP of remote SMTP server
-                                    
-                                    if instr(request.servervariables("LOCAL_ADDR"), "195.189.130.210") <> 0 then
-                                       smtpServer = "webout.smtp.nu"
-                                    else
-                                       smtpServer = "formrelay.rackhosting.com" 
-                                    end if
-                    
-                                    myMail.Configuration.Fields.Item _
-                                    ("http://schemas.microsoft.com/cdo/configuration/smtpserver")= smtpServer
+                            Mailer.BodyText = strBody
 
-                        'Server port
-                        myMail.Configuration.Fields.Item _
-                        ("http://schemas.microsoft.com/cdo/configuration/smtpserverport")=25
-                        myMail.Configuration.Fields.Update
-
-                        if len(trim(strEmail)) <> 0 then
-                        myMail.Send
-
-                            
-                        set myMail=nothing
-
-
-
-
-				
-				          
-
-
-                            'Mailer.BodyText = strBody
-
-                            'Mailer.sendmail()
-                            'Set Mailer = Nothing
+                            Mailer.sendmail()
+                            Set Mailer = Nothing
 				
 				numberofmails = numberofmails + 1
 				

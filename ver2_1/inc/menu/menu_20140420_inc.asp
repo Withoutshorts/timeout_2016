@@ -276,50 +276,12 @@ end select
         <h1 class="menu_logo-left">
             <a href="<%=toSubVerPath14 %>../login.asp"></a>
         </h1>
-
-
-
-
-        
-        
-      
-
-
+        <nav class="dropdown-right">
+            <ul>
                 <!--
                 <li><a href="#"><span class="glyph icon-flag"></span></a></li>
-                                  <li><a href="#"><span class="glyph icon-printer"></span><b class="caret-down"></b></a>
-
-
-                         <ul>
-
-                        
-                        <li><a href="<%=toSubVerPath14 %>help.asp">Printvenlig</a></li>
-                     
-
-                       
-                        
-                        
-                      
-                  
-                        <li><a href="#">Export</a></li>
-                    </ul>
-
-
-
-                    </li>
-                
+                <li><a href="#"><span class="glyph icon-printer"></span></a></li>
                 -->
-
-
-                
-
-           
-
-            <nav class="dropdown-right">
-         <ul> 
-
-
-
                 <li>
                     <a href="#"><span class="glyph icon-user"></span><span class="account-name"><%=session("user") %></span><b class="caret-down"></b></a>
                     <ul>
@@ -492,7 +454,7 @@ end select
            
                
 
-                 %>  <li><a href="<%=toSubVerPath15 %><%=lnkUgeseddel%>"><%=tsa_txt_337 %></a></li>
+                 %>  <li><a href="<%=toSubVerPath14 %><%=lnkUgeseddel%>"><%=tsa_txt_337 %></a></li>
                       
                 
                 
@@ -927,11 +889,11 @@ end select
 
 
                     <% 
-                     'if (lto = "oko") OR lto = "intranet - local" then 'jobresume %>
+                     if (lto = "oko") OR lto = "intranet - local" then 'jobresume %>
 
                          <li><a href="<%=toSubVerPath14 %>jobprintoverblik.asp?menu=job&id=0" target="_blank">Joboverblik / Resume</a></li>
 
-                    <%'end if %>
+                    <%end if %>
 
 
                  <%end if %>

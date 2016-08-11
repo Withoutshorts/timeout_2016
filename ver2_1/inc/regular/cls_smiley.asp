@@ -344,7 +344,7 @@ function godkendugeseddel(fmlink, usemrn, varTjDatoUS_man, rdir)
                            <form action="<%=fmLink%>&func=godkendugeseddel" method="post">
                                <table width=90% cellpadding=0 cellspacing=0 border=0>
                             <tr><td class=lille><br />
-                                
+
 
                            <span style="font-size:11px;"><b><%=lukTxt2 &" "& periodeTxt %></b></span><br />
                            Når en <%=periodeTxt &" "& lukTxt %>, <%=lukTxt %> alle periodens registreringer automatisk.<br /><br />
@@ -446,20 +446,11 @@ function afslutuge(weekSelected, visning, tjkDag7, rdir)
     'response.write "weekSelected: "& weekSelected
     
     'varTjDatoUS_man = dateAdd("d", -7, varTjDatoUS_son) 
-
-
-    if thisfile = "ugeseddel_2011.asp" then
-    menu2015lnk = "../timereg/"
-    else
-    menu2015lnk = ""
-    end if
-
-   
     
     %>
 
 
-<form action="<%=menu2015lnk%>timereg_akt_2006.asp?func=opdatersmiley&fromsdsk=<%=fromsdsk%>&rdir=<%=rdir %>&varTjDatoUS_man=<%=varTjDatoUS_man %>&usemrn=<%=usemrn%>" method="POST">
+<form action="timereg_akt_2006.asp?func=opdatersmiley&fromsdsk=<%=fromsdsk%>&rdir=<%=rdir %>&varTjDatoUS_man=<%=varTjDatoUS_man %>&usemrn=<%=usemrn%>" method="POST">
 <table border='0' cellspacing='0' cellpadding='0' width="100%">
 
 <tr>
@@ -654,10 +645,8 @@ function afslutuge(weekSelected, visning, tjkDag7, rdir)
                    <%else %>
                 <%=monthname(datePart("m", sidstedagisidsteAfsluge, 2,2)) %>, <%=datePart("yyyy", sidstedagisidsteAfsluge, 2,2) %>
                 <%end if %>
-                </span> 
-        
-                    <%if datepart("ww", tjkDag7, 2 ,2) <> datepart("ww", sidstedagisidsteAfsluge, 2 ,2) AND thisfile <> "ugeseddel_2011.asp" then  %>
-                    (<a href="<%=menu2015lnk%>timereg_akt_2006.asp?showakt=1&strdag=<%=day(sidstedagisidsteAfsluge)%>&strmrd=<%=month(sidstedagisidsteAfsluge)%>&straar=<%=year(sidstedagisidsteAfsluge)%>" class="vmenu">se uge <%=datePart("ww", sidstedagisidsteAfsluge, 2,2) %>..</a>)</span> 
+               </span><span style="font-size:11px; color:#000000;"> er klar til afslutning.</span> <%if datepart("ww", tjkDag7, 2 ,2) <> datepart("ww", sidstedagisidsteAfsluge, 2 ,2) then  %>
+                    (<a href="timereg_akt_2006.asp?showakt=1&strdag=<%=day(sidstedagisidsteAfsluge)%>&strmrd=<%=month(sidstedagisidsteAfsluge)%>&straar=<%=year(sidstedagisidsteAfsluge)%>" class="vmenu">se uge <%=datePart("ww", sidstedagisidsteAfsluge, 2,2) %>..</a>)</span> 
                     <%end if %> <br />
                 <%
 
@@ -755,7 +744,7 @@ function afslutuge(weekSelected, visning, tjkDag7, rdir)
                 	<div id="lukalleuger" name="lukalleuger" style="position:relative; visibility:hidden; display:none; width:300px;">
                         
                 <%LastWeekSelected = dateAdd("d", -7, now) %>
-				<input type="checkbox" name="FM_alleuger" id="FM_alleuger" value="1">&nbsp;<span><%=tsa_txt_090 %>: <%=datePart("ww", LastWeekSelected, 2,2) %>, <%=datePart("yyyy", LastWeekSelected, 2,2) %></span>
+				<input type="checkbox" name="FM_alleuger" id="FM_alleuger" value="1"><span><%=tsa_txt_090 %>: <%=datePart("ww", LastWeekSelected, 2,2) %>, <%=datePart("yyyy", LastWeekSelected, 2,2) %></span>
 				</div>
 				 
         
@@ -773,7 +762,7 @@ function afslutuge(weekSelected, visning, tjkDag7, rdir)
 
 
 
-                <div style="color:#000000; background-color:<%=sm_bdcol%>; padding:10px; border:0px <%=sm_bdcol%> solid;"><%=tsa_txt_398 %>: <b><%=totTimerWeek & " "%></b> 
+                <div style="color:#000000; background-color:<%=sm_bdcol%>; padding:10px; border:0px <%=sm_bdcol%> solid;"><%=tsa_txt_398 %>: <%=totTimerWeek %> 
                     
                     <%if afslutugekri = 2 then %>
                     <%=tsa_txt_399 %>

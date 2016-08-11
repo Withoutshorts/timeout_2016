@@ -49,8 +49,7 @@ public aldersreduktionPl, omsorg2pl, omsorg10pl, omsorgKpl, ulempe1706udb, ulemp
 	     
 function fordelpaaaktType(intMid, startDato, slutDato, visning, akttype_sel, x)
          
-         'Response.Write  "startDato, slutDato, visning: " & startDato &","& slutDato &","& visning & " akttype_sel: "& akttype_sel
-         
+         'Response.Write  "startDato, slutDato, visning: " & startDato &","& slutDato &","& visning 
          
 	     fTimer(x) = 0
 	     ifTimer(x) = 0

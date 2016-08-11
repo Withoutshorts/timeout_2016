@@ -4,7 +4,7 @@
 <!--#include file="../xml/global_xml_inc.asp"-->
 <!--#include file="../xml/tsa_xml_inc.asp"-->
 <!--#include file="../xml/erp_fak_xml_inc.asp"-->
-<!--#include file="../xml/tsa_xml_inc_traveldp.asp"-->
+
 
 
 
@@ -60,8 +60,6 @@ public strKundenavnPDFtxt
 
 function kundenavnPDF(strknavn)
 
-             if len(trim(strknavn)) <> 0 then
-
              strknavn = replace(strknavn, " ", "_")
              strknavn = replace(strknavn, "&", "_")
              strknavn = replace(strknavn, "<", "_")
@@ -88,12 +86,6 @@ function kundenavnPDF(strknavn)
              strknavn = replace(strknavn, "#", "_")
              strknavn = replace(strknavn, "+", "_")
              strKundenavnPDFtxt = lcase(strknavn)
-    
-             else
-            
-             strKundenavnPDFtxt = "-- Missing --"    
-        
-             end if
 
 end function 
 
@@ -358,16 +350,14 @@ function visAktSimpel_fn()
 
 end function
 
-public positiv_aktivering_akt_val, pa_aktlist
+public positiv_aktivering_akt_val
 function positiv_aktivering_akt_fn()
     
     positiv_aktivering_akt_val = 0
-    pa_aktlist = 0
-	strSQL6 = "SELECT positiv_aktivering_akt, pa_aktlist FROM licens l WHERE id = 1"
+	strSQL6 = "SELECT positiv_aktivering_akt FROM licens l WHERE id = 1"
 	oRec6.open strSQL6, oConn, 3
 	If not oRec6.EOF then
 	
-    pa_aktlist = oRec6("pa_aktlist")
 	positiv_aktivering_akt_val = oRec6("positiv_aktivering_akt")
 	
 	end if

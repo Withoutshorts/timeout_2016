@@ -262,15 +262,10 @@
      
 					strSQL = "SELECT Mid, Mnavn, Mnr, Brugergruppe, init FROM medarbejdere WHERE mansat <> 2 "& strSQLmids &" GROUP BY mid ORDER BY Mnavn"
 					
-                    if thisfile = "ugeseddel_2011.asp" then
-                    mSelWdth = "323"
-                    mSelcls = "form-control input-small"
-                    else
-                    mSelWdth = "250"
-                    mSelcls = ""
-					end if%>
-					<select name="usemrn" id="usemrn" style="width:<%=mSelWdth%>px;" class="<%=mSelcls %>">
-                        <!-- onchange="submit(); -->
+                 
+
+					%>
+					<select name="usemrn" id="usemrn" style="width:250px;"><!-- onchange="submit(); -->
 					<%
 					
 					oRec.open strSQL, oConn, 3
