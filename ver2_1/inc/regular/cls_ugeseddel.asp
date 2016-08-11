@@ -1,4 +1,4 @@
-<!-----------------  2  ---------->
+<!-----------------  3  ---------->
 <%
    
 
@@ -222,10 +222,9 @@ varTjDatoUS_tor = dateAdd("d", 3, varTjDatoUS_man)
 
 
  <!-- **** Ugeseddel *** -->
-
+<%call browsertype()  %>
 <%if showheader = 1 then %>
     <%
-        call browsertype() 
         if browstype_client <> "ip" then
     %>
    <table cellpadding=0 cellspacing=0 border=0 width="100%">
@@ -283,8 +282,7 @@ varTjDatoUS_tor = dateAdd("d", 3, varTjDatoUS_man)
     <%end if %>
 
 
-    <%
-        call browsertype() 
+    <%    
         if browstype_client = "ip" then
     %>
 
