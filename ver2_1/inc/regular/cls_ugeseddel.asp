@@ -1,4 +1,4 @@
-<!----------------------------  1 ------------->
+<!-----------------  2  ---------->
 <%
    
 
@@ -224,14 +224,18 @@ varTjDatoUS_tor = dateAdd("d", 3, varTjDatoUS_man)
  <!-- **** Ugeseddel *** -->
 
 <%if showheader = 1 then %>
+    <%
+        call browsertype() 
+        if browstype_client <> "ip" then
+    %>
    <table cellpadding=0 cellspacing=0 border=0 width="100%">
    <tr>
 	<td valign="top" style="width:90%;"><br />
 	
-	
+	    
     <%call showafslutuge_ugeseddel %>
     <!-- afslut uge -->
-
+    
    &nbsp;
 	</td>
 
@@ -276,6 +280,26 @@ varTjDatoUS_tor = dateAdd("d", 3, varTjDatoUS_man)
 
      </tr>
     </table>
+    <%end if %>
+
+
+    <%
+        call browsertype() 
+        if browstype_client = "ip" then
+    %>
+
+    <%thisWeek = datepart("ww", sldatoSQL, 2,2) %>
+
+    <br />
+    <div class="row">
+        <h4 class="col-lg-12"> <a href="ugeseddel_2011.asp?usemrn=<%=usemrn%>&varTjDatoUS_man=<%=prev_varTjDatoUS_man %>&varTjDatoUS_son=<%=prev_varTjDatoUS_son %>&nomenu=<%=nomenu %>&media=<%=media%>"><</a> &nbsp Uge <%=thisWeek %> &nbsp <a href="ugeseddel_2011.asp?usemrn=<%=usemrn%>&varTjDatoUS_man=<%=next_varTjDatoUS_man %>&varTjDatoUS_son=<%=next_varTjDatoUS_son %>&nomenu=<%=nomenu %>">></a></h4>
+    </div>
+
+    <%end if %>
+
+
+
+
   <%end if 'showheader
       
    'end if   'visLukUge%>
@@ -376,9 +400,30 @@ varTjDatoUS_tor = dateAdd("d", 3, varTjDatoUS_man)
                             <thead>
                                 <tr >
                                     <!--<th style="width:25%;"><b><%=tsa_txt_237 %>2</b></th> -->
-                                    <th style="width:25%;"><b><%=tsa_txt_022 %> (<%=tsa_txt_066 %>)</b></th>
+
+                                    <%
+                                        
+                                    if browstype_client <> "ip" then
+                                    %>
+                                        <th style="width:25%;"><b><%=tsa_txt_022 %> (<%=tsa_txt_066 %>)</b></th>
+                                    <%else if browstype_client = "ip" then %>
+                                        <th style="width:25%;"><b><%=tsa_txt_022 %></b></th>
+                                    <%end if
+                                    end if %>
+
                                     <th style="width:30%;"><b><%=tsa_txt_244 %></b></th>
-                                    <th style="width:30%"><b><%=tsa_txt_068 %></b> <%=tsa_txt_329 %> & <%=tsa_txt_296 %></th>
+
+                                    <%
+                                    
+                                    if browstype_client <> "ip" then
+                                    %>
+                                        <th style="width:30%"><b><%=tsa_txt_068 %></b> <%=tsa_txt_329 %> & <%=tsa_txt_296 %></th>
+                                    <%else if browstype_client = "ip" then  %>
+                                        <th style="width:30%"><b><%=tsa_txt_068 %></b></th>
+                                    <%end if
+                                    end if %>
+
+
                                     <th style="text-align:right"><b><%=tsa_txt_148 %></b></th>
 
                                     <%'if showheader = 1 then 'slået fra %>
@@ -548,49 +593,83 @@ varTjDatoUS_tor = dateAdd("d", 3, varTjDatoUS_man)
                            <%if len(trim(oRec("init"))) <> 0 then %>
                            [<%=oRec("init") %>]
                            <%end if %></td> -->
-                           <td valign=top style="width:25%"><%=oRec("tknavn") %> (<%=oRec("kkundenr") %>)</td>
-                           <td valign=top style="width:30%">
-                           <%=oRec("tjobnavn") %> (<%=oRec("tjobnr") %>)</td>
+                           
+                           <% if browstype_client <> "ip" then %>
+                               <td valign=top style="width:25%"><%=oRec("tknavn") %> (<%=oRec("kkundenr") %>)</td>
+                               <td valign=top style="width:30%"><%=oRec("tjobnavn") %> (<%=oRec("tjobnr") %>)</td>
 
-                           <td style="width:30%"><%=oRec("taktivitetnavn") %>
-   
-                           <%if oRec("easyreg") <> 0 then %>
-                            <span style="color:#999999;">(E!)</span>
-                           <%antalEasyReg = antalEasyReg + 1  
-                           eaDag = eaDag + 1%>
-                           <%end if %>
+                               <td style="width:30%"><%=oRec("taktivitetnavn") %>
+                                   <%if oRec("easyreg") <> 0 then %>
+                                    <span style="color:#999999;">(E!)</span>
+                                   <%antalEasyReg = antalEasyReg + 1  
+                                   eaDag = eaDag + 1%>
+                                   <%end if %>
    
     
-                            <%
-	                        call akttyper(oRec("tfaktim"), 1)
-	                        %>
+                                    <%
+	                                call akttyper(oRec("tfaktim"), 1)
+	                                %>
 
-                            <span style="color:yellowgreen;">(<%=lcase(akttypenavn)%>)</span>
+                                    <span style="color:yellowgreen;">(<%=lcase(akttypenavn)%>)</span>
 	
    
-                           <%if len(trim(oRec("fase"))) <> 0 then %>
-                           <br />
-                           <span style="color:#5582d2;">fase: <%=replace(oRec("fase"), "_", " ")%></span>
-                           <%end if %>
+                                   <%if len(trim(oRec("fase"))) <> 0 then %>
+                                   <br />
+                                   <span style="color:#5582d2;">fase: <%=replace(oRec("fase"), "_", " ")%></span>
+                                   <%end if %>
 
-                            <%if len(trim(oRec("timerkom"))) <> 0 then %>
-                            <span style="color:#999999;">
-                            <%if len(oRec("timerkom")) > 100 then %>
-                            <i><%=left(oRec("timerkom"), 100) %>...</i>
-                            <%else %>
-                            <i><%=oRec("timerkom")%></i>
-                            <%end if %>
-                            </span>
-                            <%end if %>
-                           </td>
-                    
+                                    <%if len(trim(oRec("timerkom"))) <> 0 then %>
+                                    <span style="color:#999999;">
+                                    <%if len(oRec("timerkom")) > 100 then %>
+                                    <i><%=left(oRec("timerkom"), 100) %>...</i>
+                                    <%else %>
+                                    <i><%=oRec("timerkom")%></i>
+                                    <%end if %>
+                                    </span>
+                                    <%end if %>
+                                </td>
+
+                           <%else if browstype_client = "ip" then%>
+                               <td valign=top style="width:25%"><%=left(oRec("tknavn"), 9) %></td>
+                               
+                               <td valign=top style="width:30%"><%=left(oRec("tjobnavn"), 15) %>
+                                <% if len(oRec("tjobnr")) > 4 then %>
+                                (<%=left(oRec("tjobnr"), 1) %>...)
+                                <% else  %>
+                                (<%=left(oRec("tjobnr"), 4) %>)
+                                <%end if %> 
+                               </td>
+                                                                   
+
+                               <td style="width:30%"><%=left(oRec("taktivitetnavn"), 15) %>
+                                   <%if oRec("easyreg") <> 0 then %>
+                                    <span style="color:#999999;">(E!)</span>
+                                   <%antalEasyReg = antalEasyReg + 1  
+                                   eaDag = eaDag + 1%>
+                                   <%end if %>
+
+                                    <%if len(trim(oRec("timerkom"))) <> 0 then %>
+                                    <span style="color:#999999;">
+                                    <%if len(oRec("timerkom")) > 15 then %>
+                                    <i><%=left(oRec("timerkom"), 12) %>...</i>
+                                    <%else %>
+                                    <i><%=left(oRec("timerkom"), 15)%></i>
+                                    <%end if %>
+                                    </span>
+                                   <%end if %>
+
+                               </td>
+                            <%end if
+                              end if%>
+                        
+                                      
                            <td style="text-align:right">
                                   <%
       
                 
                 
                                 if (((ugeerAfsl_og_autogk_smil = 0 AND cint(ugegodkendt) <> 1) OR (level = 1)) AND media <> "print") then%>
-                                    <a href="#" onclick="Javascript:window.open('../timereg/rediger_tastede_dage_2006.asp?id=<%=oRec("tid") %>', '', 'width=650,height=600,resizable=yes,scrollbars=yes')" class=vmenu><%=formatnumber(oRec("timer"), 2) %></a>
+                                    <a href="#" onclick="Javascript:window.open('../to_2015/rediger_tastede_dage_2006.asp?id=<%=oRec("tid") %>', '', 'width=650,height=600,resizable=yes,scrollbars=yes')" class=vmenu><%=formatnumber(oRec("timer"), 2) %></a>
 	            
                                 <%else %>
                                     <%=formatnumber(oRec("timer"), 2) %>
