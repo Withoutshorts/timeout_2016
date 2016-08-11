@@ -8,7 +8,7 @@
 <!--#include file="../inc/regular/topmenu_inc.asp"-->
 <!--#include file="../inc/regular/header_lysblaa_2015_inc.asp"-->
 
-
+<!------------------- github 1 ------------>
 <%
  '**** Søgekriterier AJAX **'
         'section for ajax calls
