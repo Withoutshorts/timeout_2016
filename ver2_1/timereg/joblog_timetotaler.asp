@@ -10,7 +10,7 @@ timeA = now%>
 
 
 
-<%
+<%''GIT 20160811 - SK
 func = request("func")
 thisfile = "joblog_timetotaler"
     
