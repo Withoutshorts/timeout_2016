@@ -11,7 +11,7 @@
 
 <!--#include file="../inc/regular/header_lysblaa_2015_inc.asp"-->
 <!--#include file="../inc/errors/error_inc.asp"-->
-<%
+<%'GIT 20160811 - SK
  '** ER SESSION UDLØBET  ****
     if len(session("user")) = 0 then
     errortype = 5

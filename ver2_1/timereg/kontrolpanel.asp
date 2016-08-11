@@ -8,7 +8,7 @@
 
    
    
-<%
+<%'GIT 20160811 - SK
 if len(session("user")) = 0 then
 %>
 <!--#include file="../inc/regular/header_inc.asp"-->

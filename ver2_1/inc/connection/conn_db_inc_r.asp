@@ -13,13 +13,12 @@ Response.buffer = True
 
 if thisfile <> "printversion.asp" then
 
-if len(request("key")) <> "0" then
-session("lto") = request("key")
-strLicenskey = request("key")
-
-else
-strLicenskey = session("lto") 'Request.Cookies("licenskey")
-end if
+    if len(request("key")) <> "0" then
+    session("lto") = request("key")
+    strLicenskey = request("key")
+    else
+    strLicenskey = session("lto") 'Request.Cookies("licenskey")
+    end if
 
 else
 
@@ -55,12 +54,18 @@ if len(strLicenskey) <> 0 then
 		'strConnThis = "driver={MySQL ODBC 5.00 Driver};server=192.168.23.45; Port=3306; uid=outzource;pwd=SKba200473;database=timeout_intranet;"
 		addnewclient = 1
 		lto = "demo"
-	case "2.152-0416-B001", "2.152-1604-B001" 'outzource
+	case "X2.152-0416-B001", "X2.152-1604-B001" 'outzource
 		'strConnThis = "driver={MySQL ODBC 3.51 Driver};server=localhost; Port=3306; uid=outzource;pwd=SKba200473;database=timeout_intranet;"
 		lto = "outz"
-        strConnThis = "timeout_intranet64"
+        'strConnThis = "timeout_intranet64"
         'response.redirect "http://timeout2.outzource.dk/timeout_xp/wwwroot/ver2_14/login.asp?key=2.152-0416-B001&lto=outz"
+        response.redirect "http://timeout.cloud/timeout_xp/wwwroot/ver2_14/login.asp?key=2.152-0416-B001&lto=outz"
 
+    case "2.152-0416-B001_BAK" 'outzource BAK gl. TO AB
+		strConnThis = "driver={MySQL ODBC 3.51 Driver};server=localhost; Port=3306; uid=outzource;pwd=SKba200473;database=timeout_intranet;"
+		lto = "outz"
+        'strConnThis = "timeout_intranet64"
+        'response.redirect "http://timeout2.outzource.dk/timeout_xp/wwwroot/ver2_14/login.asp?key=2.152-0416-B001&lto=outz"
 
 	case "2.152-0416-B002" 'sthaus
 		'strConnThis = "driver={MySQL ODBC 3.51 Driver};server=localhost; Port=3306; uid=outzource;pwd=SKba200473;database=timeout_sthaus;"
@@ -165,8 +170,8 @@ if len(strLicenskey) <> 0 then
 	    response.redirect "https://outzource.dk/timeout_xp/wwwroot/ver2_1/tak_login.asp"
 	case "2.084-0311-B033" 'Dencker
 		lto = "dencker"
-        strConnThis = "timeout_dencker64"
 		'strConnThis = "driver={MySQL ODBC 3.51 Driver};server=localhost; Port=3306; uid=outzource;pwd=SKba200473;database=timeout_dencker;"
+        response.redirect "http://timeout.cloud/timeout_xp/wwwroot/ver2_14/login.asp?key=2.084-0311-B033&lto=dencker"
 	case "2.054-0311-B034" 'Firmaservice
 		'lto = "firmaservice"
 		'strConnThis = "driver={MySQL ODBC 3.51 Driver};server=localhost; Port=3306; uid=outzource;pwd=SKba200473;database=timeout_firmaservice;"
@@ -340,7 +345,9 @@ if len(strLicenskey) <> 0 then
 		strConnThis = "driver={MySQL ODBC 3.51 Driver};server=localhost; Port=3306; uid=to_outzource2;pwd=SKba200473;database=timeout_kits;"
 	case "2.1508-2502-MB076" 'JohannesTorpe
 	    lto = "jt"
-		strConnThis = "driver={MySQL ODBC 3.51 Driver};server=localhost; Port=3306; uid=to_outzource2;pwd=SKba200473;database=timeout_jt;"
+		'strConnThis = "driver={MySQL ODBC 3.51 Driver};server=localhost; Port=3306; uid=to_outzource2;pwd=SKba200473;database=timeout_jt;"
+        response.redirect "https://outzource.dk/timeout_xp/wwwroot/ver2_1/tak_login.asp"
+       
 	case "2.1508-1303-MB077" 'HH gruppen
 	    lto = "hh"
 		strConnThis = "driver={MySQL ODBC 3.51 Driver};server=localhost; Port=3306; uid=to_outzource2;pwd=SKba200473;database=timeout_hh;"
@@ -476,17 +483,24 @@ if len(strLicenskey) <> 0 then
 		strConnThis = "driver={MySQL ODBC 3.51 Driver};server=localhost; Port=3306; uid=to_outzource2;pwd=SKba200473;database=timeout_is;"
     case "2.2010-2004-TO116" 'Epinion
 	    lto = "epi"
-        strConnThis = "timeout_epi64"
 		'strConnThis = "driver={MySQL ODBC 3.51 Driver};server=localhost; Port=3306; uid=to_outzource2;pwd=SKba200473;database=timeout_epi;"
+        response.redirect "http://timeout.cloud/timeout_xp/wwwroot/ver2_14/login.asp?key=2.2010-2004-TO116&lto=epi"
+        'response.redirect "https://outzource.dk/timeout_xp/wwwroot/ver2_14/login_nede.asp"
+
     case "2.2010-2605-TO117" 'JT-Teknik
 	    lto = "jttek"
 		'strConnThis = "driver={MySQL ODBC 3.51 Driver};server=localhost; Port=3306; uid=to_outzource2;pwd=SKba200473;database=timeout_jttek;"
-        strConnThis = "timeout_jttek64"
+        response.redirect "http://timeout.cloud/timeout_xp/wwwroot/ver2_14/login.asp?key=2.2010-2605-TO117&lto=jttek"
+
+    case "2.2010-2605-TO117BAK" 'JT-Teknik
+	    lto = "jttek"
+		strConnThis = "driver={MySQL ODBC 3.51 Driver};server=localhost; Port=3306; uid=to_outzource2;pwd=SKba200473;database=timeout_jttek;" 'timeout_jttek_20150922
+
     case "2.2010-1004-TO118" 'WWF Verdensnaturfonden
 	    lto = "wwf"
 		'strConnThis = "driver={MySQL ODBC 3.51 Driver};server=localhost; Port=3306; uid=to_outzource2;pwd=SKba200473;database=timeout_wwf;"
-        strConnThis = "timeout_wwf64"
-        'response.redirect "http://timeout2.outzource.dk/timeout_xp/wwwroot/ver2_14/login.asp?key=2.2010-1004-TO118&lto=wwf"
+        'strConnThis = "timeout_wwf64"
+        response.redirect "http://timeout.cloud/timeout_xp/wwwroot/ver2_14/login.asp?key=2.2010-1004-TO118&lto=wwf"
     case "2.2010-0311-TO119" 'Mærsk Insttuttet
 	    lto = "mmmi"
 		strConnThis = "driver={MySQL ODBC 3.51 Driver};server=localhost; Port=3306; uid=to_outzource2;pwd=SKba200473;database=timeout_mmmi;"
@@ -530,7 +544,9 @@ if len(strLicenskey) <> 0 then
     case "2.2011-0512-TO128" 'Synergi1
 	    lto = "synergi1"
 		'strConnThis = "driver={MySQL ODBC 3.51 Driver};server=localhost; Port=3306; uid=to_outzource2;pwd=SKba200473;database=timeout_synergi1;"
-        strConnThis = "timeout_synergi164"
+        response.redirect "http://timeout.cloud/timeout_xp/wwwroot/ver2_14/login.asp?key=2.2011-0512-TO128&lto=synergi1"
+        'response.redirect "https://outzource.dk/timeout_xp/wwwroot/ver2_14/login_nede.asp"
+
     case "2.2011-1024-TO129" 'BST-Nord
 	    lto = "bst"
 		strConnThis = "driver={MySQL ODBC 3.51 Driver};server=localhost; Port=3306; uid=to_outzource2;pwd=SKba200473;database=timeout_bst;"
@@ -561,7 +577,8 @@ if len(strLicenskey) <> 0 then
 	'strConnThis = "driver={MySQL ODBC 3.51 Driver};server=localhost; Port=3306; uid=to_outzource2;pwd=SKba200473;database=timeout_epi_sta;"
     lto = "epi_no"
 	'strConnThis = "driver={MySQL ODBC 3.51 Driver};server=localhost; Port=3306; uid=to_outzource2;pwd=SKba200473;database=timeout_epi_no;"
-    strConnThis = "timeout_epi_no64"
+     response.redirect "http://timeout.cloud/timeout_xp/wwwroot/ver2_14/login.asp?key=2.2012-1012-TO136&lto=epi_no"
+     'response.redirect "https://outzource.dk/timeout_xp/wwwroot/ver2_14/login_nede.asp"
 
      case "2.2012-1010-TO135b" 'Epinion Baromater STAVANGER BAK
 	lto = "epi_sta"
@@ -570,8 +587,9 @@ if len(strLicenskey) <> 0 then
     case "2.2012-1012-TO136" 'Epinion AS OSLO / Epinion Baromater STAVANGER = EPI_NO
 	'lto = "epi_no"
     lto = "epi_no"
-    strConnThis = "timeout_epi_no64"
 	'strConnThis = "driver={MySQL ODBC 3.51 Driver};server=localhost; Port=3306; uid=to_outzource2;pwd=SKba200473;database=timeout_epi_no;"
+     response.redirect "http://timeout.cloud/timeout_xp/wwwroot/ver2_14/login.asp?key=2.2012-1012-TO136&lto=epi_no"
+     'response.redirect "https://outzource.dk/timeout_xp/wwwroot/ver2_14/login_nede.asp"
 
     case "2.2012-1013-TO137" 'Kestner
 	lto = "kestner"
@@ -615,16 +633,29 @@ if len(strLicenskey) <> 0 then
 	lto = "biofac"
 	strConnThis = "driver={MySQL ODBC 3.51 Driver};server=localhost; Port=3306; uid=to_outzource2;pwd=SKba200473;database=timeout_biofac;"
 
-    case "2.2013-1002-TO147" 'Økologisk landsforening
+    case "2.2013-1002-TO147", "2.2013-1002-TO147_AB" 'Økologisk landsforening
 	lto = "oko"
-	'strConnThis = "driver={MySQL ODBC 3.51 Driver};server=localhost; Port=3306; uid=to_outzource2;pwd=SKba200473;database=timeout_oko;"
-    strConnThis = "timeout_oko64"
-    'response.redirect "http://timeout2.outzource.dk/timeout_xp/wwwroot/ver2_14/login.asp?key=2.2013-1002-TO147&lto=oko"
-
+	strConnThis = "driver={MySQL ODBC 3.51 Driver};server=localhost; Port=3306; uid=to_outzource2;pwd=SKba200473;database=timeout_oko;"
+    'response.redirect "https://timeout.cloud/timeout_xp/wwwroot/ver2_14/login.asp?key=2.2013-1002-TO147&lto=oko"
 
     case "2.2014-0130-TO147" 'Hestia Ejendomme
 	lto = "hestia"
-	strConnThis = "driver={MySQL ODBC 3.51 Driver};server=localhost; Port=3306; uid=to_outzource2;pwd=SKba200473;database=timeout_hestia;"
+	'strConnThis = "driver={MySQL ODBC 3.51 Driver};server=localhost; Port=3306; uid=to_outzource2;pwd=SKba200473;database=timeout_hestia;"
+    'response.redirect "https://timeout.cloud/timeout_xp/wwwroot/ver2_14/login.asp?key=2.2014-0130-TO147&lto=hestia"
+
+    %>
+    <img src="ill/outzource_logo_200.gif" /><br /><br />
+    Hej TimeOut brugere<br />
+    Timeout er flyttet til ny og hurtigere server.<br />
+    I skal i <a href="https://timeout.cloud/hestia">klikke her for at logge ind.</a> 
+
+    <br /><br />
+    Mvh.
+    Outzource og Hestia
+    <br /><span style="font-size:8px;">dbconn</span>
+
+
+    <%response.end
 
 
      case "2.2014-0331-TO148" 'Epinion UK
@@ -633,9 +664,9 @@ if len(strLicenskey) <> 0 then
 
 
     case "2.2014-0501-TO149" 'NorthTex
-	lto = "nt"
+	'lto = "nt"
 	'strConnThis = "driver={MySQL ODBC 3.51 Driver};server=localhost; Port=3306; uid=to_outzource2;pwd=SKba200473;database=timeout_nt;"
-    strConnThis = "timeout_nt64"
+    response.redirect "https://timeout.cloud/timeout_xp/wwwroot/ver2_14/login.asp?key=2.2014-0501-TO149&lto=nt"
 
     case "2.2014-0505-TO150" 'Øens Tag og VVS entreprise
 	lto = "otvvs"
@@ -643,8 +674,22 @@ if len(strLicenskey) <> 0 then
 
     case "2.2014-0702-TO151" 'TEC
 	lto = "tec"
+
+    if len(trim(request("tomobjid"))) <> 0 then
+    tomobjid = request("tomobjid")
+    else
+        tomobjid = ""
+    end if
+
+    if len(trim(request("usr"))) <> 0 then
+    '    usr = mid(request("usr"), 3, 1) & mid(request("usr"), 11, 1) & mid(request("usr"), 17, 1)
+        usr = request("usr") 
+    else
+       usr = ""
+    end if
+
 	'strConnThis = "driver={MySQL ODBC 3.51 Driver};server=localhost; Port=3306; uid=to_outzource2;pwd=SKba200473;database=timeout_tec;"
-    strConnThis = "timeout_tec64"
+    response.redirect "http://timeout.cloud/timeout_xp/wwwroot/ver2_14/login.asp?key=2.2014-0702-TO151&lto=tec&tomobjid="&tomobjid&"&usr="&usr
 
     case "2.2014-0911-TO152" 'Zylinc
 	lto = "zylinc"
@@ -668,9 +713,22 @@ if len(strLicenskey) <> 0 then
 
     case "2.2014-1113-TO156" 'ESN
 	lto = "esn"
-	'strConnThis = "driver={MySQL ODBC 3.51 Driver};server=localhost; Port=3306; uid=to_outzource2;pwd=SKba200473;database=timeout_esn;"
-    strConnThis = "timeout_esn64"
 
+     if len(trim(request("tomobjid"))) <> 0 then
+    tomobjid = request("tomobjid")
+    else
+        tomobjid = ""
+    end if
+
+    if len(trim(request("usr"))) <> 0 then
+    '    usr = mid(request("usr"), 3, 1) & mid(request("usr"), 11, 1) & mid(request("usr"), 17, 1)
+        usr = request("usr") 
+    else
+       usr = ""
+    end if
+
+	'strConnThis = "driver={MySQL ODBC 3.51 Driver};server=localhost; Port=3306; uid=to_outzource2;pwd=SKba200473;database=timeout_esn;"
+    response.redirect "http://timeout.cloud/timeout_xp/wwwroot/ver2_14/login.asp?key=2.2014-1113-TO156&lto=esn&tomobjid="&tomobjid&"&usr="&usr
 
     case "2.2014-1219-TO157" 'Nonstop
 	lto = "nonstop"
@@ -698,11 +756,11 @@ if len(strLicenskey) <> 0 then
     case "892015-0829-TO162" 'Ascendis
 	lto = "ascendis"
 	strConnThis = "driver={MySQL ODBC 3.51 Driver};server=localhost; Port=3306; uid=to_outzource2;pwd=SKba200473;database=timeout_ascendis;"
-
+    
     case "3W2015-1102-TO163" 'Wilke
 	lto = "wilke"
 	'strConnThis = "driver={MySQL ODBC 3.51 Driver};server=localhost; Port=3306; uid=to_outzource2;pwd=SKba200473;database=timeout_wilke;"
-    strConnThis = "timeout_wilke64"
+    response.redirect "http://timeout.cloud/timeout_xp/wwwroot/ver2_14/login.asp?key=3W2015-1102-TO163&lto=wilke"
 
     case "2Z2015-1125-TO164" 'Adra
 	lto = "adra"
@@ -711,36 +769,42 @@ if len(strLicenskey) <> 0 then
     case "9K2015-1202-TO165" 'CC Accounting
 	lto = "cc"
 	strConnThis = "driver={MySQL ODBC 3.51 Driver};server=localhost; Port=3306; uid=to_outzource2;pwd=SKba200473;database=timeout_cc;"
-
-
-    case "9K2016-1203-TO166" 'KRJ Consulting
-	lto = "krj"
-	strConnThis = "timeout_krj64"
-
-    case "9K2016-1403-TO167" 'Cisu
-	lto = "cisu"
-	strConnThis = "timeout_cisu64"
-
-        
     
-    'ODBC 3.51 Driver
+
+    case "9K2016-1203-TO166" 'Krj Consulting
+	lto = "krj"
+	'strConnThis = "driver={MySQL ODBC 3.51 Driver};server=localhost; Port=3306; uid=to_outzource2;pwd=SKba200473;database=timeout_wilke;"
+    response.redirect "http://timeout.cloud/timeout_xp/wwwroot/ver2_14/login.asp?key=9K2016-1203-TO166&lto=krj"
+
+        'ODBC 3.51 Driver
 	
 	case else 'ktv udvikling (hvis der ikke er en cookie)
 		
          'strConnThis = "timeout_intranet_351_30_64"
         'strConnThis = "timeout_intranet32" 
-        lto = "intranet - local"
+        'lto = "intranet - local"
 
         'strConnThis = "mySQL_timeOut_intranet"
         'strConnThis = "timeout_wwf"
-		'lto = "intranet - local"
-        'lto = "tec"
-        'strConnThis = "timeout_intranet64"
-        strConnThis = "timeout_nt"
+		
+        lto = "intranet - local"
+        'lto = "nt"
+        strConnThis = "timeout_intranet64"
+        'strConnThis = "timeout_adra"
+
+        'strConnThis = "timeout_nt"
+        
+        'lto = "cc"
+        'strConnThis = "timeout_cc"
+        'strConnThis = "driver={MySQL ODBC 3.51 Driver};server=195.189.130.210; Port=3306; uid=outzource;pwd=SKba200473;database=timeout_adra;"
+    
         'strConnThis = "driver={MySQL ODBC 3.51 Driver};server=localhost; Port=3306; uid=root;pwd=;database=timeout_intranet;"
 	    'response.write strConnThis
         'response.flush
 	
+        'lto = "jttek"
+        'strConnThis = "driver={MySQL ODBC 3.51 Driver};server=195.189.130.210; Port=3306; uid=outzource;pwd=SKba200473;database=timeout_jttek_20150922;"
+
        'lto = "outz"
 	   'strConnThis = "driver={MySQL ODBC 3.51 Driver};server=192.168.1.35; Port=3306; uid=root;pwd=;database=timeout_intranet;"
 	
@@ -772,21 +836,24 @@ else
 	'strConnThis = "mySQL_timeOut_intranet"
     'strConnThis = "timeout_intranet_351_30_64"
     'strConnThis = "timeout_intranet32"
-    lto = "intranet - local"
-    'lto = "tec"
-	'strConnThis = "driver={MySQL ODBC 3.51 Driver};server=localhost; Port=3306; uid=root;pwd=;database=timeout_intranet;"
+    
+   
+    'lto = "nt"
+	'strConnThis = "timeout_nt"
+    'strConnThis = "driver={MySQL ODBC 3.51 Driver};server=localhost; Port=3306; uid=root;pwd=;database=timeout_intranet;"
 	' strConnThis = "driver={MySQL ODBC 3.51 Driver};server=localhost; Port=3306; uid=root;pwd=;database=timeout_intranet; OPTION=32"
 	   'response.write strConnThis
        ' response.flush
 
-    'strConnThis = "timeout_intranet64"
-    strConnThis = "timeout_nt"
-
+    lto = "intranet - local"
+    strConnThis = "timeout_intranet64"
+    'strConnThis = "timeout_adra"
+    'strConnThis = "driver={MySQL ODBC 3.51 Driver};server=195.189.130.210; Port=3306; uid=outzource;pwd=SKba200473;database=timeout_adra;"
 
      
-    ' lto = "dencker"
-    ' strConnThis = "driver={MySQL ODBC 3.51 Driver};server=62.182.173.226; Port=3306; uid=outzource;pwd=SKba200473;database=timeout_dencker;"
-	
+    'lto = "cc"
+    'strConnThis = "driver={MySQL ODBC 3.51 Driver};server=195.189.130.210; Port=3306; uid=outzource;pwd=SKba200473;database=timeout_cc;"
+	'strConnThis = "timeout_cc"
 
     'lto = "kejd_pb"
 
@@ -916,58 +983,57 @@ if len(strConn) <> 0 then
 
 
 
+    if thisfile <> "printversion.asp" then
 
-                if thisfile <> "printversion.asp" then
-
-                 '** Hvis der er skiftet version ****
-                '** Finder bruger i ny version ****'
-                if request("eksterntlnk") = "aaQWEIOC345345DFNEfjsdf7890sdfv" then
+     '** Hvis der er skiftet version ****
+    '** Finder bruger i ny version ****'
+    if request("eksterntlnk") = "aaQWEIOC345345DFNEfjsdf7890sdfv" then
    
 
-                        if len(trim(request("email"))) <> 0 then
-                        emailThis = request("email")
-                        else
-                        emailThis = "99999999"
-                        end if
+            if len(trim(request("email"))) <> 0 then
+            emailThis = request("email")
+            else
+            emailThis = "99999999"
+            end if
 
 
-                        'session.abandon
-                        'response.flush
+            'session.abandon
+            'response.flush
 
-                        session("user") = ""
-			            session("login") = ""
-			            session("mid") = ""
-			            session("rettigheder") = ""
+            session("user") = ""
+			session("login") = ""
+			session("mid") = ""
+			session("rettigheder") = ""
 
 
-                        newUSerId = 0
-                        strSQLnewuser = "SELECT mid, mnavn, m.brugergruppe, b.rettigheder FROM medarbejdere AS m "_
-                        &" LEFT JOIN brugergrupper AS b ON (b.id = m.brugergruppe) WHERE email = '"& emailThis & "'"
+            newUSerId = 0
+            strSQLnewuser = "SELECT mid, mnavn, m.brugergruppe, b.rettigheder FROM medarbejdere AS m "_
+            &" LEFT JOIN brugergrupper AS b ON (b.id = m.brugergruppe) WHERE email = '"& emailThis & "'"
     
-                        'Response.write strSQLnewuser
-                        'Response.flush
+            'Response.write strSQLnewuser
+            'Response.flush
 
-                        oRec4.open strSQLnewuser, oConn, 3
-                        if not oRec4.EOF then
+            oRec4.open strSQLnewuser, oConn, 3
+            if not oRec4.EOF then
 
 
         
 
 
-                        newUSerId = oRec4("mid")
+            newUSerId = oRec4("mid")
 
-                        session("user") = trim(oRec4("mnavn"))
-			            session("login") = newUSerId
-			            session("mid") = newUSerId
-			            session("rettigheder") = oRec4("rettigheder")
+            session("user") = trim(oRec4("mnavn"))
+			session("login") = newUSerId
+			session("mid") = newUSerId
+			session("rettigheder") = oRec4("rettigheder")
             
 
-                        end if 
-                        oRec4.close
+            end if 
+            oRec4.close
 
+                
+    
                 usemrn = newUSerId
-   
-
                 if newUSerId <> 0 then
 
 
@@ -990,10 +1056,13 @@ if len(strConn) <> 0 then
           	
     
 
-                end if
-                end if 'printversion
+    end if
+    end if ' printversion
    
 
 end if
 
+
+
+   
 %>

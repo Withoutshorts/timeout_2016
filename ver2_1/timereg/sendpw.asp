@@ -4,7 +4,9 @@
 
 <!--#include file="../inc/regular/global_func.asp"--> 
 
-<%  if len(trim(request("glt_pw_email"))) <> 0 then
+<%  'GIT 20160811 - SK
+    
+    if len(trim(request("glt_pw_email"))) <> 0 then
     strEmail = request("glt_pw_email")
     else
     strEmail = "dsfwer23411"

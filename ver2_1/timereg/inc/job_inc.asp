@@ -1,4 +1,4 @@
-<%
+<%'GIT 20160811 - SK
 public aktFaseSum
 dim strStamgrp_pb
 redim strStamgrp_pb(100,5), aktFaseSum(100)

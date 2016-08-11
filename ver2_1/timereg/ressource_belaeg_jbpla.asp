@@ -12,7 +12,7 @@ response.buffer = true
         <!--#include file="../inc/regular/stat_func.asp"-->
 
        
-        <%
+        <%'GIT 20160811 - SK
 
 
     call positiv_aktivering_akt_fn()

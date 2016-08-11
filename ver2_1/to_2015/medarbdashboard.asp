@@ -29,7 +29,9 @@
 <script type="text/javascript" src="js/plugins/flot/jquery.flot.pie.js"></script>
 
 
-<%call menu_2014 %>
+<%
+'GIT 20160811 - SK    
+call menu_2014 %>
 
 
 <% if len(trim(request("FM_periode"))) <> 0 then

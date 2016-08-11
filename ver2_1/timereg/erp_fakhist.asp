@@ -6,7 +6,7 @@
 <!--#include file="../inc/regular/erp_func.asp"-->
 <!--#include file="../inc/regular/topmenu_inc.asp"-->
 
-<%
+<%'GIT 20160811 - SK
 
 call TimeOutVersion()
 

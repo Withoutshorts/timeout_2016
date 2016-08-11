@@ -1,4 +1,4 @@
-<%
+<%'GIT 20160811 - SK
 
     public strMedarbOskriftLinie, expTxt
     sub medarboSkriftlinje

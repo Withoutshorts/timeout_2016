@@ -846,8 +846,8 @@ topdiv = 50
 widthdiv = 400
 heightdiv = 200
 case "t"
-leftdiv = 150
-topdiv = 20
+leftdiv = 250 '150
+topdiv = 250 '20
 widthdiv = 400
 heightdiv = 200
 case "f"
