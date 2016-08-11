@@ -562,7 +562,12 @@ response.buffer = true
             call akttyper2009(2)
 
              
-             ddDato = year(now) &"/"& month(now) &"/"& day(now) 
+            ddDato = year(now) &"/"& month(now) &"/"& day(now)
+            ddDato_ugedag = day(now) &"/"& month(now) &"/"& year(now)
+            ddDato_ugedag_w = datepart("w", ddDato_ugedag, 2, 2)
+            
+            varTjDatoUS_man_tt = dateAdd("d", -(ddDato_ugedag_w-1), ddDato_ugedag)
+            
             timerIdagTxt = ""
             timerIdag = 0
 
@@ -630,7 +635,7 @@ response.buffer = true
             timerIdag = formatnumber(timerIdag, 2)
 
             %>
-            <div id="dv_timeridag" style="font-size:32px; width:100%; text-align:right; border:0px; color:#999999;"><span style="font-size:12px; line-height:13px; vertical-align:baseline; color:#999999;"><%=meNavn %><br />Timer i dag:<br /></span> <a href="../to_2015/ugeseddel_2011.asp"><%=timerIdag%></a> </div>
+            <div id="dv_timeridag" style="font-size:32px; width:100%; text-align:right; border:0px; color:#999999;"><span style="font-size:12px; line-height:13px; vertical-align:baseline; color:#999999;"><%=meNavn %><br />Timer i dag:<br /></span> <a href="../to_2015/ugeseddel_2011.asp?usemrn=<%=session("mid")%>&varTjDatoUS_man=<%=varTjDatoUS_man_tt %>"><%=timerIdag%></a> </div>
             <%
 
             end if

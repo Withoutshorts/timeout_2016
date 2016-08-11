@@ -1,4 +1,4 @@
-<!-----------------  3  ---------->
+
 <%
    
 
@@ -222,9 +222,10 @@ varTjDatoUS_tor = dateAdd("d", 3, varTjDatoUS_man)
 
 
  <!-- **** Ugeseddel *** -->
-<%call browsertype()  %>
+
 <%if showheader = 1 then %>
     <%
+        call browsertype() 
         if browstype_client <> "ip" then
     %>
    <table cellpadding=0 cellspacing=0 border=0 width="100%">
@@ -282,7 +283,8 @@ varTjDatoUS_tor = dateAdd("d", 3, varTjDatoUS_man)
     <%end if %>
 
 
-    <%    
+    <%
+        call browsertype() 
         if browstype_client = "ip" then
     %>
 
@@ -667,7 +669,7 @@ varTjDatoUS_tor = dateAdd("d", 3, varTjDatoUS_man)
                 
                 
                                 if (((ugeerAfsl_og_autogk_smil = 0 AND cint(ugegodkendt) <> 1) OR (level = 1)) AND media <> "print") then%>
-                                    <a href="#" onclick="Javascript:window.open('../to_2015/rediger_tastede_dage_2006.asp?id=<%=oRec("tid") %>', '', 'width=650,height=600,resizable=yes,scrollbars=yes')" class=vmenu><%=formatnumber(oRec("timer"), 2) %></a>
+                                    <a href="#" onclick="Javascript:window.open('../timereg/rediger_tastede_dage_2006.asp?id=<%=oRec("tid") %>', '', 'width=650,height=600,resizable=yes,scrollbars=yes')" class=vmenu><%=formatnumber(oRec("timer"), 2) %></a>
 	            
                                 <%else %>
                                     <%=formatnumber(oRec("timer"), 2) %>
