@@ -1,6 +1,6 @@
   
 
-    <%'GIT 20160811 - SK 3
+    <%'GIT 20160811 - SK 3 M
     
     'if request("usegl2006") = "0" then
     'Response.Cookies("tsa")("usegl2006") = "0"
