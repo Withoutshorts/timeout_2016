@@ -529,23 +529,15 @@ if len(session("user")) = 0 then
     <SCRIPT src="js/ugeseddel_2011_jav.js"></script>
     <SCRIPT src="../timereg/inc/smiley_jav.js"></script>
 
-    <%call browsertype() 
-    if browstype_client <> "ip" then
-        
-        call menu_2014()
-
-    end if
-    %>    
-
-
+    
    <%      
          
-     'call browsertype()
+     call browsertype()
                 
-                'if cint(nomenu) <> 1 then
-                'call menu_2014() 
-                'else   
-                'end if
+                if cint(nomenu) <> 1 then
+                call menu_2014() 
+                else   
+                end if
     else 
 	
 
@@ -634,13 +626,10 @@ if len(session("user")) = 0 then
             <%
           
 
-           
+            
     if media <> "print" AND len(trim(strSQLmids)) > 0 then 'Hvis man er level 1 eller teamleder vil len(trim(strSQLmids)) ALTID VÆRE > 16 %>
-    <%
-        call browsertype() 
-        if browstype_client <> "ip" then
-    %>
-    <div class="well well-white"> 
+
+ <div class="well well-white"> 
         
         <%if cint(stempelurOn) = 1 then 
             wdth = 205
@@ -658,7 +647,7 @@ if len(session("user")) = 0 then
 
 
       
-       
+        
         <form id="filterkri" method="post" action="ugeseddel_2011.asp">
             <input type="hidden" name="FM_sesMid" id="FM_sesMid" value="<%=session("mid") %>">
             <input type="hidden" name="medarbsel_form" id="medarbsel_form" value="1">
@@ -688,15 +677,10 @@ if len(session("user")) = 0 then
 
 	   if media <> "print" then
         %> 
-        <%
-            call browsertype() 
-            if browstype_client <> "ip" then
-        %>
         <form id="container" action="../timereg/timereg_akt_2006.asp?func=db&rdir=ugeseddel_2011" method="post">
         <div class="row">
             <div class="col-lg-6">
                 <table style="font-size:100%; color:black">
-                    
                     <tr>
                         <td style="padding-right:5px; vertical-align:text-top;"><b>Dato:</b></td>
                         <td style="padding-left:10px">
@@ -716,7 +700,7 @@ if len(session("user")) = 0 then
                         </td>
                         <td>&nbsp;</td>
                     </tr>
-                    
+
                     <tr>
                         <td style="padding-right:5px; padding-top:10px; vertical-align:text-top;"><b>Kunde/job:</b></td>
                         <td style="padding-top:10px; padding-left:10px;">
@@ -782,7 +766,7 @@ if len(session("user")) = 0 then
       
                 </table>
             </div>
-           
+         
             <div class="col-lg-5"><div id="stacked-vertical-chart" class="chart-holder-200"></div></div>
 
         </div>
@@ -791,22 +775,10 @@ if len(session("user")) = 0 then
 
     
         </form>
-        <%end if %>
+
         
 
         </div>
-            <%end if  %>
-
-
-        <%
-            call browsertype() 
-            if browstype_client = "ip" then
-            %>
-            <div class="row">
-            <div class="col-lg-12"><div id="stacked-vertical-chart" class="chart-holder-200"></div></div>
-            </div>
-            <%end if %>
-
             
         <%
             end if
@@ -957,10 +929,7 @@ if len(session("user")) = 0 then
             <br /><br />
 
              
-        <%
-            call browsertype() 
-            if browstype_client <> "ip" then
-        %>
+
     <div class="well" style="width:35%;">
       <div class="portlet">
         <h3 class="portlet-title">
@@ -1019,7 +988,6 @@ if len(session("user")) = 0 then
 </table>
   </div> <!-- well -->
   </div> <!-- portlet title -->
-            <%end if %>
       
 
 <%else
