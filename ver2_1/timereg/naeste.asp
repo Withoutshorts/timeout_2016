@@ -1,7 +1,7 @@
  	<!--#include file="../inc/connection/conn_db_inc.asp"-->
 	<!--#include file="../inc/errors/error_inc.asp"-->
 	
-<% 'GIT HUB TEST 20160809 - SK Master 4
+<% 'GIT HUB TEST 20160809 - SK Master 5
 	 
 	session("strDato") = request.form("mrd")&"/"&request.form("dag")&"/"&request.form("aar")
 	session("strDag") = request.form("dag")
