@@ -8,7 +8,8 @@
 <!--#include file="../inc/regular/topmenu_inc.asp"-->
 <!--#include file="../inc/regular/header_lysblaa_2015_inc.asp"-->
 
-<!---------------------  Github 2 -------------------------------->
+<!---------------------  Github 3 -------------------------------->
+
 
 <%
  '**** Søgekriterier AJAX **'
@@ -638,7 +639,7 @@ if len(session("user")) = 0 then
            
     if media <> "print" AND len(trim(strSQLmids)) > 0 then 'Hvis man er level 1 eller teamleder vil len(trim(strSQLmids)) ALTID VÆRE > 16 %>
     <%
-        call browsertype() 
+        
         if browstype_client <> "ip" then
     %>
     <div class="well well-white"> 
@@ -690,7 +691,7 @@ if len(session("user")) = 0 then
 	   if media <> "print" then
         %> 
         <%
-            call browsertype() 
+            
             if browstype_client <> "ip" then
         %>
         <form id="container" action="../timereg/timereg_akt_2006.asp?func=db&rdir=ugeseddel_2011" method="post">
@@ -800,7 +801,7 @@ if len(session("user")) = 0 then
 
 
         <%
-            call browsertype() 
+            
             if browstype_client = "ip" then
             %>
             <div class="row">
@@ -959,7 +960,7 @@ if len(session("user")) = 0 then
 
              
         <%
-            call browsertype() 
+            
             if browstype_client <> "ip" then
         %>
     <div class="well" style="width:35%;">
