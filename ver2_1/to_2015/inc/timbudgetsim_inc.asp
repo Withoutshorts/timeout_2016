@@ -756,7 +756,7 @@ function medarbfelter(jobnr, jobid, aktid, h1aar, h2aar, h1md, h2md, bgttpris)
                                     <%end if %>
                               
                                     <%if cint(timesimtp) = 1 then 'aktid <> 0 %>
-                                    <span style="font-size:10px; padding:2px 2px 2px 2px; white-space:nowrap;" id="fcjobaktBelgts_<%=jobid%>_<%=aktid%>" class="fcjobaktBelgts"><%=jobFcGtBelobTxt %></span>
+                                    <span style="font-size:10px; padding:2px 2px 2px 2px; white-space:nowrap;" id="fcjobaktBelgts_<%=jobid%>_<%=aktid%>" class="fcjobaktBelgts"><%=jobFcGtBelobTxt%></span>
                                     <input type="hidden" id="fcjobaktBelgt_<%=jobid%>_<%=aktid%>" class="fcjobaktBelgt" value="<%=jobFcGtBelob %>"/>
                              
                                     <%end if %>
