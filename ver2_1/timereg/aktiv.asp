@@ -2950,7 +2950,12 @@ if len(session("user")) = 0 then
 
                             %>
                             <select name="FM_projektgruppe_<%=p%>">
-                            <%
+                                  <%select case func 
+                                 case "red", "opret" %>
+                                 <option value="1">Ingen</option>
+                                 <%end select
+
+                            
 
 							
 							oRec.open strSQL, oConn, 3
