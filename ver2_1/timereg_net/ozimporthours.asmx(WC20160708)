@@ -25,7 +25,7 @@ Public Class to_import_hours
     Public meNavn As String
     Public meNr As String
     Public meID As Integer
-    Public medarbejdertypeThis AS Integer = 0
+    Public medarbejdertypeThis As Integer = 0
     Public mTypeSQL As String
 
     Public jobNavn As String
@@ -828,6 +828,8 @@ Public Class to_import_hours
                             '*** Fra medarbejdertype, og den oprettes på job **************'
                             '**************************************************************'
                             tprisGen = 0
+
+
                             'EPI hardcoded Vietnametimer **'
                             'valutaGen = 9 '1
                             'intTimepris = 11

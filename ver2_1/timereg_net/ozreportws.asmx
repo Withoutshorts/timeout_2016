@@ -911,9 +911,10 @@ Public Class ozreportws
                         
                             ugeNrLastWeek = DatePart("ww", slutDato, Microsoft.VisualBasic.FirstDayOfWeek.Monday, FirstWeekOfYear.FirstFourDays)
                         
-                           
+                            'bal_norm_real = ((Replace(realTimer, ",", ".") / 1) - (normTimer / 100))
                             bal_norm_realAtd = (realTimerAtd / 1) - (normTimer * ugeNrLastWeek / 1)
-                            bal_norm_realAtd = FormatNumber(CType(bal_norm_realAtd, String), 2)
+                            'bal_norm_real = Replace(Replace(FormatNumber(CType(bal_norm_real, String), 2), ",", ""), ".", ",")
+                            bal_norm_realAtd = FormatNumber(CType(bal_norm_real, String), 2)
                         
                         
                              writer.Write(bal_norm_realAtd & ";")
