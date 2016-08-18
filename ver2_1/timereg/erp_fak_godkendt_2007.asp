@@ -2189,7 +2189,13 @@
 	
 	    Set objFSO = server.createobject("Scripting.FileSystemObject")
     	
-    	file = "faktura_xml_"&lto&"_"&varFaknr&"_"&strknavn&"."& ext
+        if cint(faktypeXML) = 1 then
+        strFaktypeNavn = "kreditnota"
+        else
+        strFaktypeNavn = "faktura"
+        end if
+
+    	file = ""&strFaktypeNavn&"_xml_"&lto&"_"&varFaknr&"_"&strknavn&"."& ext
     	
 	    if request.servervariables("PATH_TRANSLATED") = "C:\www\timeout_xp\wwwroot\"&toVer&"\timereg\erp_fak_godkendt_2007.asp" then
     							

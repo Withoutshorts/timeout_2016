@@ -1330,6 +1330,17 @@ if len(session("user")) = 0 then
           </td>
          <td valign=top style="border-bottom:1px #C4C4C4 solid; padding:4px 5px 0px 0px;">
           <%
+
+              'if lto = "epi" AND session("mid") = 1 then
+
+               'if cdate(oRec3("labeldato")) >= cdate("30-04-2012") then
+                ' xmlFakNavn = ""&strFaktypeNavn&"_xml_"&lto&"_"&oRec3("faknr")&"_"&strknavn&".xml"
+                ' else
+                ' xmlFakNavn = ""&strFaktypeNavn&"_xml_"&lto&"_"&oRec3("faknr")&".xml"
+                ' end if
+
+              'Response.write "https://timeout.cloud/timeout_xp/wwwroot/"&toVer&"/inc/upload/"&lto&"/"&xmlFakNavn &"<img src=""../ill/ikon_xml.gif"" border=""0""><br>oRec3(faktype): " & oRec3("faktype")
+              ' end if
         
         '*** Findes XML ***
         if isNULL(oRec3("labeldato")) <> true then
@@ -1354,7 +1365,7 @@ if len(session("user")) = 0 then
                            if instr(request.servervariables("LOCAL_ADDR"), "195.189.130.210") <> 0 then
                             Response.Write("<a href=""https://outzource.dk/timeout_xp/wwwroot/"&toVer&"/inc/upload/"&lto&"/"&xmlFakNavn&""" target=""blank""><img src=""../ill/ikon_xml.gif"" border=""0""></a>")
                           else
-                            Response.Write("<a href=""http://timeout.cloud/timeout_xp/wwwroot/"&toVer&"/inc/upload/"&lto&"/"&xmlFakNavn&""" target=""blank""><img src=""../ill/ikon_xml.gif"" border=""0""></a>")
+                            Response.Write("<a href=""https://timeout.cloud/timeout_xp/wwwroot/"&toVer&"/inc/upload/"&lto&"/"&xmlFakNavn&""" target=""blank""><img src=""../ill/ikon_xml.gif"" border=""0""></a>")
                            end if
                     Else
                           Response.Write("&nbsp;")
