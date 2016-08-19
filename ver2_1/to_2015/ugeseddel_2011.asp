@@ -577,26 +577,34 @@ if len(session("user")) = 0 then
 	<!-------------------------------Sideindhold------------------------------------->
 
    
+   <%if browstype_client = "ip" then %>
+
+              <div id="header_ugeseddel_2011_ip" style="width: 100%;
+              height: 40px;
+              color: white;
+              background-color: #004d7b;
+              margin: 0 0 20px 0;
+              line-height: 40px;
+              text-align: left;
+              font-weight: 600;
+              padding-left: 40px;
+              background: #004d7b url('img/logo_emblem.png') no-repeat left center;">TimeOut mobile</div>
+
+   <%end if %>
+
+
+
+   <%if browstype_client <> "ip" then %>
 <div class="wrapper">
+ <div class="content">   
+     <%end if %>
 
-<%if browstype_client <> "ip" then %>
-    <div class="content">
-<%end if %>
-
-<%if browstype_client = "ip" then %>
-    <div class="content" style="margin-top: 0%;">
-<%end if %>
-
-	
-
+ 
     <div class="container">
       <div class="portlet">
-
         <h3 class="portlet-title">
           <u><%=tsa_txt_337%></u><!-- ugeseddel -->
         </h3>
-
-
         <div class="portlet-body">
             
       
@@ -962,20 +970,23 @@ if len(session("user")) = 0 then
         -->
 
           
+            <br /><br />
 
 
-        <%if browstype_client = "ip" then %>
+         <%if browstype_client = "ip" then %>
+           
             <br /><br /><br /><br />
-            <form action="../timetag_web/timetag_web.asp?flushsessionuser=1">
+            <form action="../timetag_web/timetag_web.asp">
                 <div class="row">
                     <div class="col-lg-12">
                        <!-- <a href="../timetag_web/timetag_web.asp?flushsessionuser=1" class="btn btn-sm btn-default" style="text-align:center; width:100%"><b>Tilbage</b></a> -->
-                        <button class="btn btn-sm btn-default" style="text-align:center; width:100%"><b>Tilbage</b></button>
+                        <button class="btn btn-sm btn-default" style="text-align:center; width:50%"><b><< Tidsregistrering</b></button>
                     </div>
                 </div>
             </form>
            
         <%end if %>
+
              
         <%
             
@@ -1052,7 +1063,13 @@ end if
       %>
 
 
-    </div></div></div></div></div>
+    </div>
+
+    <%
+       '** Wrapper / Content
+        if browstype_client <> "ip" then %>
+      </div></div>
+     <%end if %>
 
 
    

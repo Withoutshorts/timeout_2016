@@ -3837,9 +3837,8 @@ sub minioverblik
          </table>
             
  
-        <%
-
-        '**** BUDGET akkumuleret ****'    
+        <%'**** BUDGET akkumuleret ****'  
+              
         if ((thisfile <> "jobprintoverblik" AND lto = "synergi1") OR lto <> "synergi1") then%>
         <tr>
 		    <td style="padding:5px 4px 5px 0px;"><br /><br /><b>Salgsomkostninger budget/forbrugt akkumuleret</b></td>
@@ -3880,7 +3879,7 @@ sub minioverblik
                 
                 salgspris_tot = 0
                 strSQLUlev = "SELECT ju_id, ju_navn, ju_ipris, ju_faktor, "_
-		        &" ju_belob, ju_fase, ju_stk, ju_stkpris"
+		        &" ju_fase, ju_stk, ju_stkpris, "
                 
                 select case lto
                 case "oko", "intranet - local"
@@ -3890,14 +3889,14 @@ sub minioverblik
                 'strSQLUlev = strSQLUlev &" LEFT JOIN materiale_forbrug AS mf ON (mf.mf_konto = ju_konto AND mf.jobid = "& id &")"
                 'strSQLUlev = strSQLUlev &" WHERE ju_jobid = "& id & " GROUP BY ju_konto ORDER BY kontonr"
 
-                strSQLUlev = strSQLUlev &" , ju_konto, kp.navn AS kontonavn, kp.kontonr, kp.id AS kontoid "
+                strSQLUlev = strSQLUlev &" SUM(ju_belob) AS ju_belob, ju_konto, kp.navn AS kontonavn, kp.kontonr, kp.id AS kontoid "
                 strSQLUlev = strSQLUlev &" FROM kontoplan AS kp "
-                strSQLUlev = strSQLUlev &" LEFT JOIN job_ulev_ju ON (ju_konto = kp.id  AND ju_jobid = "& id & ") "
-                strSQLUlev = strSQLUlev &" WHERE kp.id <> 0 AND kontonr >= 200 AND kp.navn IS NOT NULL GROUP BY kp.id ORDER BY kontonr" 
+                strSQLUlev = strSQLUlev &" LEFT JOIN job_ulev_ju ON (ju_konto = kp.id AND ju_jobid = "& id & ") "
+                strSQLUlev = strSQLUlev &" WHERE kp.id <> 0 AND kontonr >= 200 AND ju_navn IS NOT NULL GROUP BY ju_konto ORDER BY kontonr" 
 
                 case else
 
-                strSQLUlev = strSQLUlev &" FROM job_ulev_ju WHERE ju_jobid = "& id & " ORDER BY ju_navn"
+                strSQLUlev = strSQLUlev &" ju_belob FROM job_ulev_ju WHERE ju_jobid = "& id & " ORDER BY ju_navn"
 
                 end select
 
@@ -3925,7 +3924,19 @@ sub minioverblik
                     juNavn = oRec2("kontonr") & " " & oRec2("kontonavn") 
                         
                         if isNull(oRec2("ju_navn")) <> true then
-                        juNavn = juNavn &" ("& oRec2("ju_navn") &")"
+                        'juNavn = juNavn &" ("& oRec2("ju_navn") &")"
+                               '*** SKAL VÆRE DEN FØRSTE POSTERING PÅ HVER KONTO
+                               
+                               strSQLunavn = "SELECT ju_navn AS forstepostering FROM job_ulev_ju WHERE ju_konto = "& oRec2("kontoid") &" AND ju_jobid = "& id & " ORDER BY ju_id LIMIT 1"
+                               oRec3.open strSQLunavn, oConn, 3 
+                               if not oRec3.EOF then
+
+                               juNavn = juNavn &" ("& oRec3("forstepostering") &")"
+
+                               end if
+                               oRec3.close
+
+
                         end if
 
                     case else
