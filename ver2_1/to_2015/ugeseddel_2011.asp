@@ -577,20 +577,26 @@ if len(session("user")) = 0 then
 	<!-------------------------------Sideindhold------------------------------------->
 
    
-
-
-
 <div class="wrapper">
-    <div class="content">
 
+<%if browstype_client <> "ip" then %>
+    <div class="content">
+<%end if %>
+
+<%if browstype_client = "ip" then %>
+    <div class="content" style="margin-top: 0%;">
+<%end if %>
 
 	
 
     <div class="container">
       <div class="portlet">
+
         <h3 class="portlet-title">
           <u><%=tsa_txt_337%></u><!-- ugeseddel -->
         </h3>
+
+
         <div class="portlet-body">
             
       
@@ -956,8 +962,20 @@ if len(session("user")) = 0 then
         -->
 
           
-            <br /><br />
 
+
+        <%if browstype_client = "ip" then %>
+            <br /><br /><br /><br />
+            <form action="../timetag_web/timetag_web.asp?flushsessionuser=1">
+                <div class="row">
+                    <div class="col-lg-12">
+                       <!-- <a href="../timetag_web/timetag_web.asp?flushsessionuser=1" class="btn btn-sm btn-default" style="text-align:center; width:100%"><b>Tilbage</b></a> -->
+                        <button class="btn btn-sm btn-default" style="text-align:center; width:100%"><b>Tilbage</b></button>
+                    </div>
+                </div>
+            </form>
+           
+        <%end if %>
              
         <%
             
@@ -1034,7 +1052,7 @@ end if
       %>
 
 
-    </div></div></div>
+    </div></div></div></div></div>
 
 
    
