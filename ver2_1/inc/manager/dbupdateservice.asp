@@ -53,7 +53,7 @@ a = 0
 					Response.write strSQL(b) & "<br>"
 					Response.flush
 					x = 1
-					numberoflicens = 158
+					numberoflicens = 159
 					For x = 1 To numberoflicens  
 						
 						call aktivedb(x)
@@ -79,18 +79,18 @@ a = 0
 								Response.write x &"<br>"& strSQL(b) & "<br><br>"
 								Response.flush
 
-								'if x > 157 then 'AND x < 101 then
+								if x < 158 then 'AND x < 101 then
                                 oConn.open strConnect_aktiveDB
 							    
                                 '*** DENNE LINJE INDLÆSER // UDKOMMENTER NÅR FILEN IKKE ER AKTIV
-                                'oConn.execute(strSQL(b)) 
+                                oConn.execute(strSQL(b)) 
                                 
                                 '* TJECK x NUMBER OF LICENS fra inc/connection/db_conn...asp filen.
 								'* DISSE SKAL STEMME 
 								
 								oConn.close
 
-							    'end if
+							    end if
 								
 								
 								a = a + 1
@@ -2875,7 +2875,20 @@ Alter table timer_import_temp MODIFY timerkom VARCHAR(250)
 ALTER TABLE licens ADD pa_aktlist INT DEFAULT 0 NOT NULL;
 INSERT INTO dbversion (dbversion) VALUES (20160623.1) 
 
+<br /><br />20160823.1<br />
+CREATE TABLE national_holidays (
+nh_id INT NOT NULL AUTO_INCREMENT,
+nh_name INT NOT NULL DEFAULT 0,
+nh_duration INT NOT NULL DEFAULT 0,
+nh_editor VARCHAR(50),
+nh_editor_date DATE NOT NULL DEFAULT '2010-01-01',
+PRIMARY KEY (nh_id)
+);
+INSERT INTO dbversion (dbversion) VALUES (20160823.1)
 
+<br /><br />20160623.2<br />
+ALTER TABLE national_holidays ADD nh_date DATE NOT NULL DEFAULT '2010-01-01';
+INSERT INTO dbversion (dbversion) VALUES (20160623.2) 
 
 <%
 
