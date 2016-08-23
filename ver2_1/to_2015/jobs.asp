@@ -2,18 +2,107 @@
 
 <!--#include file="../inc/connection/conn_db_inc.asp"-->
 <!--#include file="../inc/errors/error_inc.asp"-->
-<!--#include file="../inc/regular/global_func.asp"-->
-<!--#include file="../inc/regular/job_func.asp"-->
-<!--#include file = "../timereg/CuteEditor_Files/include_CuteEditor.asp" -->
-<!--#include file="../inc/regular/topmenu_inc.asp"--> 
-<!--#include file="inc/convertDate.asp"-->
-<!--#include file="inc/timbudgetsim_inc.asp"-->
 <!--#include file="../inc/regular/header_lysblaa_2015_inc.asp"-->
+<!--#include file="../inc/regular/global_func.asp"-->
+<!--#include file="../timereg/inc/job_inc.asp"-->
+<!--#include file="../inc/regular/topmenu_inc.asp"--> 
+
+<%
+'** Jquery section 
+if Request.Form("AjaxUpdateField") = "true" then
+
+
+
+Select Case Request.Form("control")
+
+case "FN_kpers"
+              
+              dim kundeKpersArr
+              redim kundeKpersArr(20)
+              
+              if len(trim(request("jq_kid"))) <> 0 AND request("jq_kid") <> 0 then
+              kidThis = request("jq_kid")
+              else
+              kidThis = 0
+              end if
+
+              if len(trim(request("jq_kundekpers"))) <> 0 AND request("jq_kundekpers") <> 0 then
+              kundekpersThis = request("jq_kundekpers")
+              else
+              kundekpersThis = 0
+              end if
+
+             
+
+            
+
+                strSQL = "SELECT navn, id, titel, email FROM kontaktpers WHERE kundeid = "& kidThis
+			    
+                'Response.write "<option>"& strSQL &"</option>"
+                'Response.end
+                
+
+                kundeKpersArr(0) = "<option value='0'>Vælg kontaktperson..</option>"
+                z = 1
+
+                oRec.open strSQL, oConn, 3
+			   
+			    while not oRec.EOF
+				
+			    
+                if cint(v) = oRec("id") then
+                kpsSEL = "SELECTED"
+                else
+                kpsSEL = ""
+                end if
+
+                if len(trim(oRec("email"))) <> 0 then
+                eTxt = ", " & oRec("email")
+                else
+                eTxt = ""
+                end if
+
+
+                if len(trim(oRec("titel"))) <> 0 then
+                tTxt = oRec("titel")
+                else
+                tTxt = ""
+                end if
+                
+
+            	
+			kundeKpersArr(z) = "<option value='"&oRec("id")&"' "&kpsSEL&">"&oRec("navn")&" "& tTxt &" "& eTxt &"</option>"
+            
+
+            'Response.flush
+		    
+			z = z + 1
+			
+			oRec.movenext
+			wend
+			oRec.close
+
+            kundeKpersArr(z) = "<option value='0'>Ingen kontaktpersoner fundet</option>"
+              
+               for z = 0 to UBOUND(kundeKpersArr)
+              '*** ÆØÅ **'
+              call jq_format(kundeKpersArr(z))
+              kundeKpersArr(z) = jq_formatTxt
+	          
+	          Response.Write kundeKpersArr(z)
+              next
+		
+
+end select
+Response.end
+end if
+%>
+
+
 
 
 <!--------------- Github 1 ----------------->
 
-<%call menu_2014 %>
 
 <% 
     if len(session("user")) = 0 then
@@ -39,11 +128,350 @@
 
 
 
-    Select case func 
-    case "opret", "red"
 
+
+    Select case func 
+    case "dbopr"
+
+                                '********************** Opretter job ***************************
+
+
+                                kid = request("FM_kunde")
+                                kunderef = request("FM_kpers")
+                                jobnavn = request("FM_jobnavn")
+                                'jobnr = request("FM_jobnr")
+                                beskrivelse = ""
+                                internnote = ""
+                                bruttooms = 0
+                                editor = session("user")
+                                dddato = year(now) & "-" & month(now) & "-" & day(now)
+                                jobstartdato = request("FM_jobstartdato")
+                                jobstartdato = year(jobstartdato) & "-" & month(jobstartdato) & "-" & day(jobstartdato)
+
+                                jobslutdato = request("FM_jobslutdato")
+                                jobslutdato = year(jobslutdato) & "-" & month(jobslutdato) & "-" & day(jobslutdato)
+
+                                jobans1 = request("FM_jobans1")
+                                jobans2 = 0
+
+                                rekvisitionsnr = ""
+
+
+
+                                '**********************************'
+				                '*** nyt jobnr / tilbudsnr ***'
+				                '**********************************'
+				                strSQL = "SELECT jobnr, tilbudsnr FROM licens WHERE id = 1"
+				                oRec5.open strSQL, oConn, 3
+				                if not oRec5.EOF then 
+				    
+				                    strjnr = oRec5("jobnr") + 1
+				    
+				                    if request("FM_usetilbudsnr") = "j" then
+				                    tlbnr = oRec5("tilbudsnr") + 1
+				                    else
+				                    tlbnr = 0
+				                    end if
+				    
+				                end if
+				                oRec5.close
+
+
+                                strSQLjob = ("INSERT INTO job (jobnavn, jobnr, jobknr, jobTpris, jobstatus, jobstartdato," _
+                                & " jobslutdato, editor, dato, projektgruppe1, projektgruppe2, projektgruppe3, projektgruppe4, " _
+                                & " projektgruppe5, projektgruppe6, projektgruppe7, projektgruppe8, projektgruppe9, projektgruppe10, " _
+                                & " fakturerbart, budgettimer, fastpris, kundeok, beskrivelse, " _
+                                & " ikkeBudgettimer, tilbudsnr, jobans1," _
+                                & " serviceaft, kundekpers, valuta, rekvnr, " _
+                                & " risiko, job_internbesk, " _
+                                & " jo_bruttooms, fomr_konto) VALUES " _
+                                & "('" & jobnavn & "', " _
+                                & "'" & strjnr & "', " _
+                                & "" & kid & ", " _
+                                & "0, " _
+                                & "1, " _
+                                & "'" & jobstartdato & "', " _
+                                & "'" & jobslutdato & "', " _
+                                & "'" & editor & "', " _
+                                & "'" & dddato & "', " _
+                                & "10, " _
+                                & "1,1,1,1,1,1,1,1,1," _
+                                & "1,0,0,0," _
+                                & "'" & beskrivelse & "', " _
+                                & "0,0, " _
+                                & "" & jobans1 & "," _
+                                & "0," & kunderef & ", " _
+                                & "1, '" & rekvisitionsnr & "', " _
+                                & "100,'" & internnote & "'," _
+                                & "" & bruttooms & ", 0)")
+    							
+
+
+                                'response.write "strSQLjob: " & strSQLjob 
+                                'response.flush
+
+                                oConn.execute(strSQLjob)
+
+
+
+                                '******************************************'
+								'*** finder jobid på det netop opr. job ***'
+								'******************************************'
+                                't = 10
+								'if t = 0 then
+								    lastID = 0
+								    strSQL2 = "SELECT id FROM job WHERE id <> 0 ORDER BY id DESC " 'jobnr = " & strjnr
+									oRec5.open strSQL2, oConn, 3
+									if not oRec5.EOF then
+									varJobIdThis = oRec5("id")
+									varJobId = varJobIdThis
+                                    lastID = varJobIdThis
+									end if
+									oRec5.close        
+
+
+                                
+                                '***************************************************************************************************
+                                'PUSH - Aktiviteter - Timepriser
+                                 '*********** timereg_usejob, så der kan søges fra jobbanken KUN VED OPRET JOB *********************
+                                Select Case lto
+                                    Case "oko"
+                                    Case "outz", "intranet - local", "demo"
+                       
+                                        strProjektgr1 = 10
+                                        strProjektgr2 = 1
+                                        strProjektgr3 = 1
+                                        strProjektgr4 = 1
+                                        strProjektgr5 = 1
+                                        strProjektgr6 = 1
+                                        strProjektgr7 = 1
+                                        strProjektgr8 = 1
+                                        strProjektgr9 = 1
+                                        strProjektgr10 = 1
+                                
+                              
+							
+                                        strSQLpg = "SELECT MedarbejderId FROM progrupperelationer WHERE (" _
+                                        & " ProjektgruppeId = " & strProjektgr1 & "" _
+                                        & " OR ProjektgruppeId =" & strProjektgr2 & "" _
+                                        & " OR ProjektgruppeId =" & strProjektgr3 & "" _
+                                        & " OR ProjektgruppeId =" & strProjektgr4 & "" _
+                                        & " OR ProjektgruppeId =" & strProjektgr5 & "" _
+                                        & " OR ProjektgruppeId =" & strProjektgr6 & "" _
+                                        & " OR ProjektgruppeId =" & strProjektgr7 & "" _
+                                        & " OR ProjektgruppeId =" & strProjektgr8 & "" _
+                                        & " OR ProjektgruppeId =" & strProjektgr9 & "" _
+                                        & " OR ProjektgruppeId =" & strProjektgr10 & "" _
+                                        & ") GROUP BY MedarbejderId"
+								
+                                        'Response.Write "strSQL "& strSQL & "<br><hr>"
+
+                                        oRec2.open strSQLpg, oConn, 3
+                                        While not oRec2.EOF
+                
+                                
+                                            strSQL3 = "INSERT INTO timereg_usejob (medarb, jobid, forvalgt, forvalgt_sortorder, forvalgt_af, forvalgt_dt) VALUES " _
+                                            & " (" & oRec2("MedarbejderId") & ", " & lastID & ", 1, 0, 0, '" & dddato & "')"
+
+                                            oConn.execute(strSQL3)
+                                                
+                                       
+									    oRec2.movenext
+                                        Wend 
+                                
+                                        oRec2.Close()
+                                
+                                
+                                End Select ' lto
+                        
+                        
+                
+                                '** Vælg Stamaktgruppe pbg. af projetktype
+                                agforvalgtStamgrpKri = " ag.forvalgt = 1 "
+                                
+                                
+                                
+                                '*** Indlæser STAMaktiviteter ***'
+                                strSQLStamAkt = "SELECT a.navn AS aktnavn, aktkonto, fase, a.id AS stamaktid FROM akt_gruppe AS ag" _
+                                & " LEFT JOIN aktiviteter AS a ON (a.aktfavorit = ag.id) WHERE " & agforvalgtStamgrpKri & " AND skabelontype = 0 ORDER BY a.sortorder DESC"
+                              
+                                oRec3.open strSQLStamAkt, oConn, 3 
+                                While not oRec3.EOF 
+                
+                            
+                            
+                            
+                    
+                    
+                                    strSQLaktins = "INSERT INTO aktiviteter (navn, job, fakturerbar, " _
+                                    & "projektgruppe1, projektgruppe2, projektgruppe3, projektgruppe4, projektgruppe5, projektgruppe6, projektgruppe7," _
+                                    & "projektgruppe8, projektgruppe9, projektgruppe10, aktstatus, budgettimer, aktbudget, aktbudgetsum, aktstartdato, aktslutdato, aktkonto, fase) VALUES " _
+                                    & " ('" & oRec3("aktnavn") & "', " & lastID & ", 1," _
+                                    & " 10,1,1,1,1,1,1,1,1,1,1,0,0,0,'" & jobstartdato & "', " _
+                                    & "'" & jobslutdato & "', " & oRec3("aktkonto") & ", '" & oRec3("fase") & "')"
+                                               
+                                    oConn.execute(strSQLaktins)
+                    
+                    
+                                    '*** Finder aktid ***
+                                    strSQLlastAktID = "SELECT id FROM aktiviteter WHERE id <> 0 ORDER BY id DESC"
+                                    oRec2.open strSQLlastAktID, oConn, 3
+                                    lastAktID = 0
+                                    If not oRec2.EOF Then
+                
+                                        lastAktID = oRec2("id")
+                
+                                    End If
+                                    oRec2.close()
+                    
+                    
+                    
+                                    '** FOMR REL ***********
+                                    strSQLaktfomr = "SELECT for_fomr, for_aktid FROM fomr_rel WHERE for_aktid =  " & oRec3("stamaktid")
+                                             
+                                    oRec4.open strSQLaktfomr, oConn, 3
+                                    While not oRec4.EOF
+                                
+                                
+                                
+                                        strSQLaktinsfomr = "INSERT INTO fomr_rel (for_fomr, for_aktid, for_jobid, for_faktor) VALUES  (" & oRec4("for_fomr") & ", " & lastAktID & ", " & lastID & ", 100)"
+                                               
+                                        oConn.execute(strSQLaktinsfomr)
+                                
+                                
+                                    oRec4.movenext
+                                    Wend
+                                    oRec4.close()
+                            
+                            
+                    
+                                    '**************************************************************'
+                                    '*** Hvis timepris ikke findes på job bruges Gen. timepris fra '
+                                    '*** Fra medarbejdertype, og den oprettes på job              *'
+                                    '*** BLIVER ALTID HENTET FRA Medarb.type for ØKO              *'
+                                    '**************************************************************'
+                                    tprisGen = 0
+                                    valutaGen = 1
+                                    kostpris = 0
+                                    intTimepris = 0
+                                    intValuta = valutaGen
+                    
+                                    SQLmedtpris = "SELECT medarbejdertype, timepris, timepris_a2, timepris_a3, tp0_valuta, kostpris, mnavn, mid FROM medarbejdere " _
+                                    & " LEFT JOIN medarbejdertyper ON (medarbejdertyper.id = medarbejdertype) " _
+                                    & " WHERE mid <> 0 AND mansat = 1 AND medarbejdertyper.id = medarbejdertype GROUP BY mid"
+
+                                    oRec2.open SQLmedtpris, oConn, 3
+            
+                                    While Not oRec2.EOF 
+		 	
+                                        If oRec2("kostpris") <> 0 Then
+                                            kostpris = oRec2("kostpris")
+                                        Else
+                                            kostpris = 0
+                                        End If
+		
+                            
+                                                If oRec2("timepris") <> 0 Then
+                                     
+                                                    tprisGen = oRec2("timepris")
+                                                Else
+                                                    tprisGen = 0
+                                                End If
+                                    
+                                                timeprisalt = 0
+                           
+                            
+                                   
+                        
+                                        valutaGen = oRec2("tp0_valuta")
+                        
+                        
+                                        '**** Indlæser timepris på aktiviteter ***'
+                                        intTimepris = tprisGen
+                                        intTimepris = Replace(intTimepris, ",", ".")
+                            
+                                        intValuta = valutaGen
+							
+                                        strSQLtpris = "INSERT INTO timepriser (jobid, aktid, medarbid, timeprisalt, 6timepris, 6valuta) " _
+                                        & " VALUES (" & lastID & ", " & lastAktID & ", " & oRec2("mid") & ", " & timeprisalt & ", " & intTimepris & ", " & intValuta & ")"
+							
+                                        oConn.execute(strSQLtpris)
+                        
+		                            oRec2.movenext
+                                    wend
+
+                                    oRec2.close()
+                                    '** Slut timepris **
+                
+                
+                   
+							
+                    
+                    
+                                oRec3.movenext
+                                wend 
+                                oRec3.close()
+                
+
+                                '*** End PUSH - Aktiviteter - Timepriser
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                '*************************************************'
+			                    '**** Opdaterer jobnr og tilbuds nr i Licens *****'
+				                '*************************************************'
+				                nytjobnr = strjnr
+				                tilbudsnrKri = ""
+				                
+				                if request("FM_usetilbudsnr") = "j" then
+				                nyttlbnr = tlbnr
+				                tilbudsnrKri = ", tilbudsnr = "& nyttlbnr &""
+				                end if
+				                
+				                strSQL = "UPDATE licens SET jobnr = "&  nytjobnr &" "& tilbudsnrKri &" WHERE id = 1"
+				                oConn.execute(strSQL)
+
+                            
+                                '** Rediger
+                                'response.redirect("jobs.asp?func=red&id="&id)
+                                    
+
+                                '*** Liste
+                                response.redirect("../timereg/jobs.asp")
+
+
+
+
+
+    case "opret", "red"
+        %>
+        <script src="js/job_2015_jav.js"></script>
+        <%call menu_2014 %>
+
+        <%
+
+
+        if func = "red" then
        
-    strSQL = "SELECT id, jobnavn, jobnr, kkundenavn, jobknr FROM job, kunder WHERE id = " & id &" AND kunder.Kid = jobknr"
+        strSQL = "SELECT id, jobnavn, jobnr, kkundenavn, jobknr, kid, kundekpers, jobstartdato, jobslutdato FROM job "_
+        &" LEFT JOIN kunder WHERE id = " & id &" AND kunder.kid = jobknr"
 
         'Response.Write strSQL
 	    'Response.flush
@@ -51,17 +479,48 @@
 	    oRec.open strSQL, oConn, 3
 	
 	    if not oRec.EOF then
-	    strNavn = oRec("jobnavn")
-	    strjobnr = oRec("jobnr")
-	    strKnavn = oRec("kkundenavn")
-	    strKnr = oRec("jobknr")
 
+	        strNavn = oRec("jobnavn")
+	        strjobnr = oRec("jobnr")
+	        strKnavn = oRec("kkundenavn")
+	        strKnr = oRec("jobknr")
+            kundekpers = oRec("kundekpers")
+            jobstdato = oRec("jobstartdato")
+            jobsldato = oRec("jobslutdato")
+
+
+             jobans1 = 0
+        jobans2 = 0
+        jobans3 = 0
+        jobans4 = 0
+        jobans5 = 0
+        
         end if
 
 
         oRec.close
 
         dbfunc = "dbred"
+
+        else 'opr
+
+        fmkunde = 0
+        strKnr = 0
+        kundekpers = 0
+
+        dbfunc= "dbopr"
+
+        jobstdato = day(now) & "-" & month(now) & "-" & year(now)
+        'jobstdato = dateadd("d", -7, jobstdato) 
+        jobsldato = dateadd("m", 1, jobstdato)
+
+        jobans1 = 0
+        jobans2 = 0
+        jobans3 = 0
+        jobans4 = 0
+        jobans5 = 0
+
+        end if
 %>
 
 
@@ -81,20 +540,24 @@
     
  <!------------------------------- Sideindhold------------------------------------->
  
-
+        <form id="opretproj" action="jobs.asp?func=<%=dbfunc %>" method="post">
+        <input type="hidden" name="" id="kundekpersopr" value="<%=kundekpers%>" />
         <div class="container">
+
             <div class="portlet">
                 <h3 class="portlet-title"><u>Projekt oprettelse</u></h3>
             </div>
 
             <div class="portlet-body">
+
                             	           
                 <div class="panel-group accordion-panel" id="accordion-paneled">
                     <div class="panel panel-default">
+                        
                         <div class="panel-heading">
                           <h4 class="panel-title">
                             <a class="accordion-toggle" data-toggle="collapse" data-target="#collapse3">
-                                Kunde info
+                                Stamdata
                             </a>
                           </h4>
                         </div> <!-- /.panel-heading -->
@@ -104,65 +567,98 @@
                                 
                                   <div class="row">
                                   
-                                      <div class="col-lg-2">Kunde:</div>
-                                      <div class="col-lg-3">
-                                          <select class="form-control input-small" name="FM_kunde" id="FM_kunde" onchange="submit();">
-		                                    <option value="0">Alle <%=writethis%></option>
-		                                    <%
-				                                    strSQL = "SELECT Kkundenavn, Kkundenr, Kid FROM kunder WHERE ketype <> 'e' ORDER BY Kkundenavn"
+                                      <div class="col-lg-1">Kunde: <span style="color:red">*</span></div>
+                                      <div class="col-lg-5">
+
+
+
+                                          <select class="form-control input-small" name="FM_kunde" id="FM_kunde">
+		                                   
+		                                    <% if func = "red" then
+
+				                                    strSQL = "SELECT Kkundenavn, Kkundenr, Kid FROM kunder WHERE ketype <> 'e' AND (useasfak = 0 OR useasfak = 1) ORDER BY Kkundenavn"
 				                                    oRec.open strSQL, oConn, 3
 				                                    while not oRec.EOF
 				
-				                                    if cint(fmkunde) = cint(oRec("Kid")) then
-				                                    isSelected = "SELECTED"
-				                                    else
-				                                    isSelected = ""
-				                                    end if
-				                                    %>
-				                                    <option value="<%=oRec("Kid")%>" <%=isSelected%>><%=oRec("Kkundenavn")%>&nbsp;(<%=oRec("Kkundenr")%>)</option>
-				                                    <%
+				                                   
+                                                    call kundeopl_options_2016
+
 				                                    oRec.movenext
 				                                    wend
 				                                    oRec.close
-				                                    %>
+
+                                            else
+
+                                                  %><option value="0" disabled>Kunder (flest job seneste 12 md.):</option>
+
+
+                                                <% 
+                                                 tdatodd = now
+                                                tdatodd = dateAdd("d", -365, tdatodd)
+                                                tdatodd = year(tdatodd)&"/"&month(tdatodd)&"/"& day(tdatodd)
+
+                                                strSQL = "SELECT Kkundenavn, Kkundenr, Kid, count(j.id) AS antaljob FROM kunder "_
+                                                &" LEFT JOIN job AS j ON (j.jobknr = kid AND jobstartdato >= '"& tdatodd &"') "_
+                                                &" WHERE ketype <> 'e' AND (useasfak = 0 OR useasfak = 1) GROUP BY kid ORDER BY antaljob DESC LIMIT 5"
+			                                    
+                                              
+                                              'response.write strSQL
+                                              'response.flush
+
+
+                                                oRec.open strSQL, oConn, 3 
+                                                while not oRec.EOF
+
+                    
+				
+                                                    call kundeopl_options_2016
+				
+			                                    oRec.movenext
+			                                    wend
+			                                    oRec.close
+
+                                                %><option>&nbsp;</option>
+                                                <option value="0" disabled>Kunder (alfabetisk):</option><%
+            
+                                             
+
+			                                    strSQL = "SELECT Kkundenavn, Kkundenr, Kid FROM kunder WHERE ketype <> 'e' AND (useasfak = 0 OR useasfak = 1) ORDER BY Kkundenavn"
+			                                    oRec.open strSQL, oConn, 3
+			                                    kans1 = ""
+			                                    kans2 = ""
+			                                    while not oRec.EOF
+				
+                                                    call kundeopl_options_2016
+				
+			                                    oRec.movenext
+			                                    wend
+			                                    oRec.close
+		
+
+				
+		
+			                                   
+
+
+
+				                            end if   %>
 		                                </select>
                                       </div>
                               
                                  
                             
-                                    <div class="col-lg-1">Kontaktper.:</div>
-                                    <div class="col-lg-2">
-                                        <%
-		                                strSQLkpers = "SELECT k.navn, k.id AS kid FROM kontaktpers k WHERE kundeid = "& strKundeId &" ORDER BY k.navn"
-		                                'Response.Write strSQLkpers
-		                                %>
-		                                <select name="FM_opr_kpers" id="FM_opr_kpers" class="form-control input-small">
+                                    <div class="col-lg-2">Kontaktpers. (deres ref.):</div>
+                                    <div class="col-lg-3">
+                                      
+		                                <select name="FM_kpers" id="FM_kpers" class="form-control input-small">
 		                                    <option value="0">Ingen</option>
 	
-		                                    <%
-		
-		                                    'oRec.open strSQLkpers, oConn, 3 
-		                                    'while not oRec.EOF 
-		
-		
-		                                    'if cint(intkundekpers) = cint(oRec("kid")) then
-		                                    'ts3 = "SELECTED"
-		                                    'else
-		                                    'ts3 = ""
-		                                    'end if
-		                                    %>
-		                                        <!---- job_inc ---->
-		                                    <%
-		                                    'oRec.movenext
-		                                    'wend
-		                                    'oRec.close 
-		                                    %>
+		                                   
 		                                </select>
                                     </div>
                    
                             
-                                    <div class="col-lg-1">Ders ref.</div>
-                                    <div class="col-lg-2"><input class="form-control input-small" type="text" name="FM_exch" value="" placeholder="Ref"/></div>
+                                  
                                 </div>
 
                                 <br /> <br />
@@ -171,18 +667,22 @@
 
                                 <div class="row">
                                                                       
-                                        <div class="col-lg-2">Projektnavn:</div>
-                                        <div class="col-lg-3"><input type="text" name="FM_navn" id="FM_navn" value="<%=strNavn%>" class="form-control input-small"></div>
+                                        <div class="col-lg-1">Navn: <span style="color:red">*</span></div>
+                                        <div class="col-lg-5"><input type="text" name="FM_jobnavn" id="FM_jobnavn" value="<%=strNavn%>" class="form-control input-small" placeholder="Projekt Navn"></div>
 
                                         
 
                                         <div class="col-lg-1">Projekt nr:</div>
-                                        <div class="col-lg-2"><input class="form-control input-small" type="text" name="FM_exch" value="" placeholder="eks. 1234"/></div>
+                                        <div class="col-lg-2"><input class="form-control input-small" type="text" name="FM_jobnr" value="" placeholder="eks. 1234" disabled/></div>
 
+
+                                </div>
+
+                                <div class="row">
                                         
                                         <div class="col-lg-1">Status:</div>
                                         <div class="col-lg-2">
-                                            <select class="form-control input-small">
+                                            <select class="form-control input-small" name="FM_status">
                                                 <option value="1">Aktiv</option>
                                                 <option value="2">Til fakturering</option>
                                                 <option value="3">Lukket</option>
@@ -190,39 +690,51 @@
                                                 <option value="5">Tilbud</option>
                                             </select>
                                         </div>
-                                </div>
-
-                                <div class="row">
-                                    
-                                    <div class="col-lg-2">Ansvarlig:</div>
-                                    <div class="col-lg-3">
-                                            <select name="FM_jobans_<%=ja %>" id="FM_jobans_<%=ja %>" >
+                               
+                                    <div class="col-lg-1">Ansvarlig:</div>
+                                    <div class="col-lg-2">
+                                            <select class="form-control input-small" name="FM_jobans1" id="FM_jobans" >
 						                        <option value="0">Ingen</option>
 							                        <!----- Jobs linje 5361 --->
 						                        </select>
                                     </div>
 
-                                        
+                                      </div>
+
+                                <div class="row">   
 
                                         <div class="col-lg-1">Start dato:</div>
-                                        <div class="col-lg-1">
-                                            <select class="form-control input-small">
+                                        <div class="col-lg-2">
 
-                                            </select>
-                                        </div>
-                                        <div class="col-lg-1">
-                                                <select class="form-control input-small">
+                                                    <div class='input-group date' id='datepicker_stdato'>
+                                                    <input type="text" class="form-control input-small" name="FM_jobstartdato" value="<%=jobstdato %>" placeholder="dd-mm-yyyy" />
+                                                          <span class="input-group-addon input-small">
+                                                                    <span class="fa fa-calendar">
+                                                                    </span>
+                                                                </span>
+                                                           </div>
 
-                                                </select>
-                                            </div>
+                                         </div>
+
+                                       
 
                                         
 
                                         <div class="col-lg-1">Slut dato:</div>
-                                        <div class="col-lg-2"><input class="form-control input-small" type="number" name="FM_exch" value="" placeholder="eks. 11-12-2016"/></div>
+                                        <div class="col-lg-2">
 
+                                                    <div class='input-group date' id='datepicker_stdato'>
+                                                    <input type="text" class="form-control input-small" name="FM_jobslutdato" value="<%=jobsldato %>" placeholder="dd-mm-yyyy" />
+                                                          <span class="input-group-addon input-small">
+                                                                    <span class="fa fa-calendar">
+                                                                    </span>
+                                                                </span>
+                                                           </div>
+
+                                         </div>
                                 </div>
 
+                                <!--
                                 <div class="row">
                                     <div class="col-lg-2">Projektgruppe:</div>
                                         <div class="col-lg-3">
@@ -234,30 +746,27 @@
                                                 <option value="5">Madlavning</option>
                                             </select>
                                         </div>
+                                    -->
                                     
-                                    <%if avansproobr = 1 then %>
-                                    <div class="col-lg-6">Beskrivelse: <br />
-                                    <textarea id="TextArea1" name="FM_betbet" cols="70" rows="3" class="form-control input-small"></textarea>   
+                                   <div class="row">
+                                    <div class="col-lg-11"><br />Beskrivelse: <br />
+                                    <textarea id="TextArea1" name="FM_beskrivelse" cols="70" rows="3" class="form-control input-small"></textarea>   
 		               
                                     </div>
-                                    <%end if %>
+                                    
                                 </div>
 
+                                <!--
                                 <div class="row">
                                     <div class="col-lg-2"><a href="#">Tilføj grp.</a></div>
                                 </div>
+                                -->
 
-
-                                <%avansproobr = 0 %>
-                                <%if avansproobr = 1 then%>
-                                <!--Skal kun ske hvis avanc. er slået til i kontrol panel -->
-                                <div class="row">
-                                        <div class="col-lg-1">&nbsp</div>
-                                        <div class="col-lg-1">Push:</div>
-                                        <div class="col-lg-2"><input type="checkbox" name="pushbtn" value="push"></div>
-                                </div>
-                                <!-- avnas. slut -->
-                                <%end if %>
+                                    <div class="row">
+                                   <div class="col-lg-12 pad-t20">
+                                                        <button type="submit" class="btn btn-success btn-sm pull-right"><b>Opret</b></button>
+                                                 </div>
+                                   </div><!-- /.row -->
 
                             </div> <!-- /.panel-body -->
                         </div> <!-- /.panel-collapse -->
@@ -266,7 +775,9 @@
 
 
                 
-                
+                    <%
+                    oprjobtype = 2    
+                    if oprjobtype = 2 then %>
 
                     <div class="panel-group accordion-panel" id="accordion-paneled">
                     <div class="panel panel-default">
@@ -344,17 +855,16 @@
                             </div> <!-- /.panel-body -->
                         </div> <!-- /.panel-collapse -->
                     </div>
-   
-             
-                    
-                   </div>
+                </div> <!-- /.panel-group -->
+
+
 
                 <div class="panel-group accordion-panel" id="accordion-paneled">
                     <div class="panel panel-default">
                         <div class="panel-heading">
                           <h4 class="panel-title">
                             <a class="accordion-toggle" data-toggle="collapse" data-target="#collapse5">
-                                Avancerede
+                                Avanceret
                             </a>
                           </h4>
                         </div> <!-- /.panel-heading -->
@@ -363,6 +873,12 @@
                                 <div class="row">
                                     <div class="col-lg-2">Job medansvarlig:</div>
                                     <div class="col-lg-3">
+
+                                        <!-- data model - se gl. joboprettelse
+                                        tabel: medarbejdere
+                                        felter: id, navn
+                                        -->
+
                                         <select class="form-control input-small">
                                             <option value="1">Henrik</option>
                                             <option value="2">Søren</option>
@@ -613,11 +1129,11 @@
                                         </div> <!-- /.panel-body -->
                                     </div> <!-- /.panel-collapse -->
                                 </div>
-   
-             
-                    
                                 </div>
 
+                                
+                                
+                                
                                 <br />
 
                                 <div id="accordion-help" class="panel-group accordion-simple">
@@ -876,20 +1392,13 @@
                                         </div> <!-- /.panel-body -->
                                     </div> <!-- /.panel-collapse -->
                                 </div>
-   
-             
-                    
-                               </div>
+                                </div>
 
 
 
 
                                                                  
 
-                            </div> <!-- /.panel-body -->
-                        </div> <!-- /.panel-collapse -->
-                    </div>
-                   </div>
 
                    <div class="panel-group accordion-panel" id="accordion-paneled">
                     <div class="panel panel-default">
@@ -1131,15 +1640,24 @@
                         </div> <!-- /.panel-collapse -->
                     </div> <!-- /.panel -->
                    </div>
+                 <%end if 'oprjobtype %>
 
-               <br /><br /><br /><br /><br /><br /><br />
-            </div>
+
+
+
+
+               <br /><br />
+            </div><!-- /.portlet body -->
+            </div><!-- /.container -->
            
 
         <%end select %>
 
-        </div>
-    </div>
+
+            </form>
+
+        </div><!-- /.wrapper -->
+    </div><!-- /.content -->
 
     
 

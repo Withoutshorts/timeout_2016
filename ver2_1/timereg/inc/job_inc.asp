@@ -434,6 +434,29 @@ sub top
 end sub
 
 
+sub kundeopl_options_2016
+
+
+               
+                    if cint(strKnr) = oRec("Kid") then
+				    kSel = "SELECTED"
+				    else
+				    kSel = ""
+				    end if
+				
+				
+
+
+
+			
+				
+			%>
+			<option value="<%=oRec("Kid")%>" <%=kSel%>><%=oRec("Kkundenavn")%>&nbsp;&nbsp;(<%=oRec("Kkundenr")%>)</option>
+			<%
+			
+
+end sub
+
 
 sub kundeopl_options
 
@@ -445,8 +468,6 @@ sub kundeopl_options
 				    kSel = ""
 				    end if
 				else
-                    't = 0
-				    'if t = 1000 then
                     if cint(strKnr) = oRec("Kid") then
 				    kSel = "SELECTED"
 				    else
@@ -454,6 +475,9 @@ sub kundeopl_options
 				    end if
 				end if
 				
+
+
+
 				strSQL2 = "SELECT mnavn, mnr FROM medarbejdere WHERE mid = "&oRec("kundeans1")
 				oRec2.open strSQL2, oConn, 3 
 				if not oRec2.EOF then
@@ -469,7 +493,7 @@ sub kundeopl_options
 				oRec2.close
 				
 				if len(kans1) <> 0 OR len(kans2) <> 0 then
-				anstxt = "....................kontaktansv 1: "
+				anstxt = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;...............&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;kontaktansv 1: "
 				else
 				anstxt = ""
 				end if

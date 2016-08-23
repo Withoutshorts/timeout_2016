@@ -26,7 +26,7 @@
 
 <script src="js/timbudgetsim_jav.js"></script>
 
-<%'GIT 20160811 - SK
+<%
 
 if session("user") = "" then
 

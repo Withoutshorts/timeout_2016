@@ -776,6 +776,10 @@ end select
                  <%'** Opret job ****'%>
                  <li><a href="<%=toSubVerPath14 %>jobs.asp?func=opret&id=0"><%=tsa_txt_449 %></a></li>
 
+
+                  <%if lto = "outz" OR lto = "demo" OR lto = "intranet - local" then %>
+                  <li><a href="<%=toSubVerPath15 %>jobs.asp?func=opret&id=0"><%=tsa_txt_449 %> simpel</a></li>
+                  <%end if %>
               
 
                   

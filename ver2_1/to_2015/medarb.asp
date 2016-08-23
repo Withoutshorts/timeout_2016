@@ -3,7 +3,7 @@
 
 <%response.buffer = true 
 Session.LCID = 1030
-'GIT 20160811 - SK%>
+%>
 			        
 
 <!--#include file="../inc/connection/conn_db_inc.asp"-->

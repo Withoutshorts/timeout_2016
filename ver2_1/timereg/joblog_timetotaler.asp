@@ -2425,7 +2425,7 @@ thisfile = "joblog_timetotaler"
 					        if oRec("abudgettimer") <> 0 then
 					        jobmedtimer(x,19) = oRec("abudgettimer")
 					        else
-					        jobmedtimer(x,19) = 1
+					        jobmedtimer(x,19) = 0
 					        end if
 						   
                             
@@ -3089,13 +3089,25 @@ thisfile = "joblog_timetotaler"
 									            
 									                    strJobLinie = strJobLinie & "<td class=lille align=right "&tdstyleTimOms2&" bgcolor='#EFF3FF'>"
 									                    select case jobmedtimer(x,34) 
-									                    case 0
-									                    strJobLinie = strJobLinie & formatnumber(jobmedtimer(x,35),2) &" stk.<br>"& formatnumber(jobmedtimer(x,19),2)  
-									                    case 1
-									                    strJobLinie = strJobLinie & formatnumber(jobmedtimer(x,35),2) &" stk.<br><b>"& formatnumber(jobmedtimer(x,19),2) & "</b>" 
-									                    case 2
-						                                strJobLinie = strJobLinie &"<b>"& formatnumber(jobmedtimer(x,35),2) &" stk.</b><br>"& formatnumber(jobmedtimer(x,19),2) 
-									                    end select
+									                    case 0 'Ingen grundlag
+									                    strJobLinie = strJobLinie & "" 'formatnumber(jobmedtimer(x,35),2) &" stk.<br>"& formatnumber(jobmedtimer(x,19),2)  
+									                    case 1 'timer
+
+                                                        if jobmedtimer(x,19) <> 0 then
+									                    strJobLinie = strJobLinie & formatnumber(jobmedtimer(x,19),2)
+                                                        else
+                                                        strJobLinie = strJobLinie & ""
+                                                        end if
+
+									                    case 2 'stk
+
+                                                        if jobmedtimer(x,35) <> 0 then
+						                                strJobLinie = strJobLinie & formatnumber(jobmedtimer(x,35),2) &" stk." '<br>"& formatnumber(jobmedtimer(x,19),2) 
+                                                        else
+                                                        strJobLinie = strJobLinie & ""
+                                                        end if
+		
+        							                    end select
 									            
 									            else
 									            strJobLinie = strJobLinie & "<td class=lille align=right "&tdstyleTimOms2&" bgcolor='#EFF3FF'>"& formatnumber(jobmedtimer(x,19),2) 

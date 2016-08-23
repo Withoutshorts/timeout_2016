@@ -4048,6 +4048,7 @@ if len(session("user")) = 0 then
 	fbjobnr = oRec("jobnr")
 	'fbKnavn = oRec("kkundenavn")
 	fbKnr = oRec("jobknr")
+    
 	end if
     oRec.close
     
