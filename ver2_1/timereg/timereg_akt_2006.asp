@@ -764,9 +764,15 @@
 
 
         case "FM_sortOrder"
-               'Call AjaxUpdateTreg("timereg_usejob","forvalgt_sortorder","")
-                Call AjaxUpdate("job","risiko","")
+
+                       
+
+                '*** RETTET tilbage til timereg_usejob personlig for hver medarbejder 20160825
+               Call AjaxUpdateTreg("timereg_usejob","forvalgt_sortorder","")
+               'Call AjaxUpdate("job","risiko","")
         
+
+
         case "FN_updatejobkom"
         
                  jobid = request("jobid")   
@@ -1653,13 +1659,26 @@
                                         case else
                                         ordBySQL =  "k.kkundenavn, j.jobnavn, a.fase, a.sortorder, a.navn"
                                         end select
-                                        lmt = "0,100"
+                                        
+                                            select case lto
+                                            case "tec"
+                                            lmt = "0,200"
+                                            case else
+                                            lmt = "0,100"
+                                            end select
                                       
 
                                         
                                         else
                                         ordBySQL =  "a.fase, a.sortorder, a.navn"
-                                        lmt = "0,100"
+
+                                            select case lto
+                                            case "tec"
+                                            lmt = "0,200"
+                                            case else
+                                            lmt = "0,100"
+                                            end select
+
                                         end if 
 
                                     end if
@@ -4526,7 +4545,8 @@
 
    select case sortBy
    case 1
-   sortBySQL = "j.risiko, j.jobnavn," 'tu.forvalgt_sortorder
+   'sortBySQL = "j.risiko, j.jobnavn," 'tu.forvalgt_sortorder
+   sortBySQL = "tu.forvalgt_sortorder, j.risiko, j.jobnavn," 'RETTET tilbage til denne 20160825
    case 2,5,6
    sortBySQL = "j.jobnavn,"
    case 21
@@ -9372,7 +9392,7 @@
                                                     <tr><td valign=top>
 
                                                     <%'if cint(usemrn) <> cint(aktdata(iRowLoop, 54)) then %>
-                                                    &nbsp;<span style="font-size:10px; color:#999999;"> <%=antalJobLinier %> // <i>Af  
+                                                    <span style="font-size:10px; color:#999999;"> Prioritet: <%=antalJobLinier %> | Pers. Prioritet: <%=aktdata(iRowLoop, 52) %> <br /> <i>Oprettet af&nbsp;  
                                                     <%call meStamdata(aktdata(iRowLoop, 54)) %>
                                                     <a href="mailto:<%=meEmail %>?subject=Vedr. job <%=left(aktdata(iRowLoop, 5), 35) %> (<%=aktdata(iRowLoop, 31) %>)" class="rmenu"><%=meInit %></a> d. <%=aktdata(iRowLoop, 55)%> 
                                                     </i></span>

@@ -3916,7 +3916,8 @@ sub minioverblik
                 strSQLUlev = strSQLUlev &" SUM(ju_belob) AS ju_belob, ju_konto, kp.navn AS kontonavn, kp.kontonr, kp.id AS kontoid "
                 strSQLUlev = strSQLUlev &" FROM kontoplan AS kp "
                 strSQLUlev = strSQLUlev &" LEFT JOIN job_ulev_ju ON (ju_konto = kp.id AND ju_jobid = "& id & ") "
-                strSQLUlev = strSQLUlev &" WHERE kp.id <> 0 AND kontonr >= 200 AND ju_navn IS NOT NULL GROUP BY ju_konto ORDER BY kontonr" 
+                strSQLUlev = strSQLUlev &" WHERE kp.id <> 0 AND kontonr >= 200 GROUP BY kontonr ORDER BY kontonr" 
+                'AND ju_navn IS NOT NULL
 
                 case else
 
@@ -3925,8 +3926,8 @@ sub minioverblik
                 end select
 
                 'if session("mid") = 1 then
-                'response.write strSQLUlev
-                'response.flush
+                '    response.write strSQLUlev
+                '    response.flush
                 'end if
 
                 u = 0
@@ -3947,7 +3948,7 @@ sub minioverblik
                     case "oko", "xintranet - local"
                     juNavn = oRec2("kontonr") & " " & oRec2("kontonavn") 
                         
-                        if isNull(oRec2("ju_navn")) <> true then
+                        if isNull(juNavn) <> true then
                         'juNavn = juNavn &" ("& oRec2("ju_navn") &")"
                                '*** SKAL VÆRE DEN FØRSTE POSTERING PÅ HVER KONTO
                                
@@ -3991,7 +3992,12 @@ sub minioverblik
 
                      end select
 
-                 if oRec2("ju_stk") <> 0 OR realBelob <> 0 then          
+                'if session("mid") = 1 AND oRec2("kontonr") = "205" then
+                '  response.write "Konto:" & oRec2("kontonr") &" <br>"& strSQLUmf & "<br>realBelob: " & realBelob
+                '  response.flush
+                'end if
+
+                 if oRec2("ju_stk") <> 0 OR cdbl(realBelob) <> 0 then          
                  %>
 
                 

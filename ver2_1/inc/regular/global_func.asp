@@ -1512,13 +1512,13 @@ function grafik(FM_id, strPic, pictype, txt)
     dtnow = year(now) &"/"& month(now) &"/"& day(now)
 
     if request.Form("value") <> "" AND table <> "" AND column <> "" then
-	strSQL = "Update " & table & " set " & column & " = '" & request.Form("value") & "', forvalgt_af = '"& session("mid") &"', forvalgt_dt = '"& dtnow &"' where id = " & request.Form("id")
+	strSQL = "Update " & table & " set " & column & " = '" & request.Form("value") & "', forvalgt_af = '"& session("mid") &"', forvalgt_dt = '"& dtnow &"' where jobid = " & request.Form("id") & " AND medarb = " & request.Form("jq_usemrn")
 	
 	'Response.Write strSQL
 	'Response.flush
 	oConn.execute(strSQL)
 	'Response.Write "timeout notifikation: <br />" & msg
-	'Response.End
+	Response.End
 	end if
 	end function
 

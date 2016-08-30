@@ -200,7 +200,7 @@ if len(session("user")) = 0 then
 
             <script src="inc/feriekalender_jav.js"></script>
 
-            <%response.flush %>
+            <%'response.flush %>
 
             <%if media <> "export" then %>
 	
@@ -427,7 +427,7 @@ if len(session("user")) = 0 then
 	'call tableDiv(tTop,tLeft,tWdth)
 	
 	%>
-            <div style="position:relative; width:<%=tWdth%>px; background-color:#FFFFFF; padding:3px; top:0px; left:0px;">
+    <div style="position:relative; width:<%=tWdth%>px; background-color:#FFFFFF; padding:3px; top:0px; left:0px;">
 	
 	<table cellspacing=0 cellpadding=0 border=0 bgcolor=#8caae6 class="tbl-calendar-week">
 	<tr bgcolor="#3B5998">
@@ -440,8 +440,8 @@ if len(session("user")) = 0 then
 	    
 	    '*** WEEKS ****
 	   
-        select case lto
-        case "adra"
+        'select case lto
+        'case "adra", "cst", "esn", "tec"
 
             select case per_interval
             case 1
@@ -455,21 +455,24 @@ if len(session("user")) = 0 then
             leftvaltot = 1220
             end select
 
-        case else
 
-            select case per_interval
-            case 1
-            stTop = 39 '39
-            leftvaltot = 540
-            case 3  
-            stTop = 39' 39
-            leftvaltot = 1280
-            case else
-            sttop = 23 '23
-            leftvaltot = 1220
-            end select
+       
 
-        end select
+        'case else
+
+        '    select case per_interval
+        '    case 1
+        '    stTop = 39 '39
+        '    leftvaltot = 540
+        '    case 3  
+        '    stTop = 39' 39
+        '    leftvaltot = 1280
+        '    case else
+        '    sttop = 23 '23
+        '    leftvaltot = 1220
+        '    end select
+
+        'end select
 
 	   
 
@@ -502,7 +505,7 @@ if len(session("user")) = 0 then
 	    wwdt = 21 '(2px + 1px border)
 	    end if
 	    
-	    weeknum = datepart("ww", newDate,2,2)
+	    weeknum = datepart("ww", dateadd("d", -7, newDate),2,2)
 
         select case right(weeknum, 1)
         case 0,2,4,6,8
@@ -541,7 +544,10 @@ if len(session("user")) = 0 then
        
         if weeknum <> 53 then
         %>
-        <%=weeknum%>
+        <%=weeknum%> 
+            <%if session("mid") = 1000000 then %>
+            //<%=newDate %>
+            <%end if %>
         <%
 	    end if
         %>
@@ -967,17 +973,27 @@ if len(session("user")) = 0 then
         strSQLfeo = "SELECT sum(timer) AS timer, tdato, month(tdato) AS month, tfaktim FROM timer WHERE tmnr = " & intMids(m)  & ""_
 	    &" AND (tfaktim = 15 OR tfaktim = 111 OR tfaktim = 112) AND tdato BETWEEN '"& startDatoFEOSQL &"' AND '"& slutDatoFEOSQL &"' GROUP BY tmnr ORDER BY tdato"
         
+
+        'if session("mid") = 1 then
+        'response.write strSQLfeo
+        'end if
+
         oRec.open strSQLfeo, oConn, 3
 	    if not oRec.EOF then
         
        
 
          call normtimerPer(intMids(m) , oRec("tdato"), 6, 0)
+        '** Optjent altid ignorer helligdage
 	     if ntimPer <> 0 then
-         ntimPerUse = ntimPer/antalDageMtimer
+         ntimPerUse = nTimerPerIgnHellig/antalDageMtimerIgnHellig 'ntimPer/nTimerPerIgnHellig 'antalDageMtimer
          else
          ntimPerUse = 1
          end if 
+
+        'if session("mid") = 1 then
+        'response.write "HER: " & oRec("tdato") & " antalDageMtimerIgnHellig: " & antalDageMtimerIgnHellig & " ntimPer: " & ntimPer & " nTimerPerIgnHellig: "& nTimerPerIgnHellig
+        'end if
 
           intFerieOpt(m) = oRec("timer") / ntimPerUse
 
@@ -1491,8 +1507,8 @@ if len(session("user")) = 0 then
          if media <> "export" then
         
 
-        select case lto
-        case "adra"
+        'select case lto
+        'case "adra", "cst", "esn", "tec"
 
             if media <> "print" then
             rowhgt = 45
@@ -1505,26 +1521,26 @@ if len(session("user")) = 0 then
             if per_interval <> 12 then
             addHeaderVal = 42
             else
-            addHeaderVal = 0
+            addHeaderVal = 26 '0
             end if
 
-        case else
+        'case else
 
-            if media <> "print" then
-            rowhgt = 41
-            else
-            rowhgt = 40
-            end if
+        '    if media <> "print" then
+        '    rowhgt = 41
+        '    else
+        '    rowhgt = 40
+        '    end if
 
 
-            '**** ADD HEADER VALUE TOP PX 
-            if per_interval <> 12 then
-            addHeaderVal = 18
-            else
-            addHeaderVal = 0
-            end if
+        '    '**** ADD HEADER VALUE TOP PX 
+        '    if per_interval <> 12 then
+        '    addHeaderVal = 18
+        '    else
+        '    addHeaderVal = 0
+        '    end if
             
-        end select
+        'end select
 
         
        
@@ -1881,6 +1897,8 @@ if media = "export" then
 				objF.close
 				
 				%>
+
+            <!--
 				
 	            <table border=0 cellspacing=1 cellpadding=0 width="200">
 	            <tr><td valign=top bgcolor="#ffffff" style="padding:5px;">
@@ -1892,15 +1910,15 @@ if media = "export" then
 	            <a href="../inc/log/data/<%=file%>" class=vmenu target="_blank" onClick="Javascript:window.close()">Din CSV. fil er klar >></a>
 	            </td></tr>
 	            </table>
-	            
+	            -->
 	          
 	            
 	            <%
                 
                 
-                Response.end
-	            'Response.redirect "../inc/log/data/"& file &""	
-				
+                
+	            Response.redirect "../inc/log/data/"& file &""	
+				Response.end
 
 
 
@@ -1927,34 +1945,97 @@ call eksportogprint(ptop,pleft,pwdt)
         
         
         
-    
+     
       <tr>
         <td align=center>
+
+            <!--
         <a href="#" onclick="Javascript:window.open('feriekalender.asp?media=export&<%=pnteksLnk%>', '', 'width=350,height=120,resizable=no,scrollbars=no')" class=rmenu><img src="../ill/export1.png" border=0></a>
         </td><td><a href="#" onclick="Javascript:window.open('feriekalender.asp?media=export&<%=pnteksLnk%>', '', 'width=350,height=120,resizable=no,scrollbars=no')" class=rmenu>.csv fil eksport (Dag/Dag)</a>
+            -->
 
+           
+             <form action="feriekalender.asp?media=export" method="post" target="_blank">
+             <input name="FM_start_mrd" value="<%=strMrd%>" type="hidden" />
+                    <input name="yuse" value="<%=ysel%>" type="hidden" />
+                    <input name="per_interval" value="<%=per_interval%>" type="hidden" /> 
+                    <input name="FM_medarb" value="<%=thisMiduse%>" type="hidden" />     
+                    <input name="FM_progrp" value="<%=progrp%>" type="hidden" />
+                    <input name="func" value="<%=func%>" type="hidden" />
 
+            <br /><input id="Submit1" type="submit" value=".csv fil eksport (Dag/Dag)" style="font-size:9px; width:120px;"/>
+             </form>
+           
              </td>
        </tr>
+          
 
         <!-- OPDELING PÅ Måned/MEdarB I EKSPORT --> 
         <tr>
         <td align=center>
+
+            <!--
         <a href="#" onclick="Javascript:window.open('feriekalender.asp?media=export&<%=pnteksLnk%>&vis=1', '', 'width=350,height=120,resizable=no,scrollbars=no')" class=rmenu><img src="../ill/export1.png" border=0></a>
-        </td><td><a href="#" onclick="Javascript:window.open('feriekalender.asp?media=export&<%=pnteksLnk%>&vis=1', '', 'width=350,height=120,resizable=no,scrollbars=no')" class=rmenu>.csv fil eksport <br />(Ferie rapport Md/Md)</a></td>
+        </td><td><a href="#" onclick="Javascript:window.open('feriekalender.asp?media=export&<%=pnteksLnk%>&vis=1', '', 'width=350,height=120,resizable=no,scrollbars=no')" class=rmenu>.csv fil eksport <br />(Ferie rapport Md/Md)</a>
+            -->
+
+
+               <form action="feriekalender.asp?media=export&vis=1" method="post" target="_blank">
+             <input name="FM_start_mrd" value="<%=strMrd%>" type="hidden" />
+                    <input name="yuse" value="<%=ysel%>" type="hidden" />
+                    <input name="per_interval" value="<%=per_interval%>" type="hidden" /> 
+                    <input name="FM_medarb" value="<%=thisMiduse%>" type="hidden" />     
+                    <input name="FM_progrp" value="<%=progrp%>" type="hidden" />
+                    <input name="func" value="<%=func%>" type="hidden" />
+
+            <br /><input id="Submit1" type="submit" value=".csv fil eksport (Md/Md)" style="font-size:9px; width:120px;"/>
+             </form>
+
+
+             </td>
        </tr>
        
 
          <tr>
         <td align=center>
+            <!--
         <a href="#" onclick="Javascript:window.open('feriekalender.asp?media=export&<%=pnteksLnk%>&vis=2', '', 'width=350,height=120,resizable=no,scrollbars=no')" class=rmenu><img src="../ill/export1.png" border=0></a>
-        </td><td><a href="#" onclick="Javascript:window.open('feriekalender.asp?media=export&<%=pnteksLnk%>&vis=2', '', 'width=350,height=120,resizable=no,scrollbars=no')" class=rmenu>.csv fil eksport (Sum)</a></td>
+        </td><td><a href="#" onclick="Javascript:window.open('feriekalender.asp?media=export&<%=pnteksLnk%>&vis=2', '', 'width=350,height=120,resizable=no,scrollbars=no')" class=rmenu>.csv fil eksport (Sum)</a>
+                -->
+                
+             <form action="feriekalender.asp?media=export&vis=2" method="post" target="_blank">
+             <input name="FM_start_mrd" value="<%=strMrd%>" type="hidden" />
+                    <input name="yuse" value="<%=ysel%>" type="hidden" />
+                    <input name="per_interval" value="<%=per_interval%>" type="hidden" /> 
+                    <input name="FM_medarb" value="<%=thisMiduse%>" type="hidden" />     
+                    <input name="FM_progrp" value="<%=progrp%>" type="hidden" />
+                    <input name="func" value="<%=func%>" type="hidden" />
+
+            <br /><input id="Submit1" type="submit" value=".csv fil eksport (Sum)" style="font-size:9px; width:120px;"/>
+             </form>
+
+                </td>
        </tr>
 
     <tr>
-   <td align=center><a href="feriekalender.asp?media=print&<%=pnteksLnk%>" target="_blank"  class='rmenu'>
+   <td align=center>
+       <!--<a href="feriekalender.asp?media=print&<%=pnteksLnk%>" target="_blank"  class='rmenu'>
    &nbsp;<img src="../ill/printer3.png" border=0 alt="" /></a>
-    </td><td><a href="feriekalender.asp?media=print&<%=pnteksLnk%>" target="_blank" class="rmenu">Print version</a></td>
+    </td><td><a href="feriekalender.asp?media=print&<%=pnteksLnk%>" target="_blank" class="rmenu">Print version</a>-->
+
+         <form action="feriekalender.asp?media=print" method="post" target="_blank">
+             <input name="FM_start_mrd" value="<%=strMrd%>" type="hidden" />
+                    <input name="yuse" value="<%=ysel%>" type="hidden" />
+                    <input name="per_interval" value="<%=per_interval%>" type="hidden" /> 
+                    <input name="FM_medarb" value="<%=thisMiduse%>" type="hidden" />     
+                    <input name="FM_progrp" value="<%=progrp%>" type="hidden" />
+                    <input name="func" value="<%=func%>" type="hidden" />
+
+            <br /><input id="Submit1" type="submit" value="Printvenlig" style="font-size:9px; width:120px;"/>
+             </form>
+
+
+   </td>
    </tr>
    
 	

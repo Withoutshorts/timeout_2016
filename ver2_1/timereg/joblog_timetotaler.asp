@@ -2356,7 +2356,7 @@ thisfile = "joblog_timetotaler"
 
                             medarbnavnognr(v) = jobmedtimer(x,2) &" ["& jobmedtimer(x,39) & "]" '("& jobmedtimer(x,37) &")"
                             
-                            if lto = "wwf" OR lto = "wwf2" OR lto = "xintranet - local" then
+                            if lto = "wwf" OR lto = "wwf2" then
                             medarbnavnognr_short(v) = jobmedtimer(x,39)
                             else
                                 
@@ -2832,8 +2832,11 @@ thisfile = "joblog_timetotaler"
 
 
 									
-									    if jobmedtimer(x,38) <> 0 then ''job eller akt. udspec
-                                                
+									    if jobmedtimer(x,38) <> 0 then 
+                                        '************************************************************************************
+                                        '* job eller akt. udspec
+                                        '************************************************************************************
+                
 
                                                 '*** AKT ***'
                                                 if len(trim(jobmedtimer(x,0))) <> 0 AND (lastJob <> jobmedtimer(x,0)) then 
@@ -2903,7 +2906,13 @@ thisfile = "joblog_timetotaler"
                                                                 end if
                                                 
                                                                 strJobLinie = strJobLinie &"<td class=lille valign=bottom style='border-top:1px #CCCCCC solid; background-color:#F7F7F7;'>Real. timer<br>i periode</td>"
+                                                                
+                                                                select case lto
+                                                                case "mmmi", "intranet - local"
+                                                                case else
                                                                 strJobLinie = strJobLinie &"<td class=lille valign=bottom style='border-top:1px #CCCCCC solid; background-color:#F7F7F7;'>Real. %</td>"
+                                                                end select
+
 
                                                                 if cint(visPrevSaldo) = 1 then
                                                                 strJobLinie = strJobLinie &"<td class=lille valign=bottom style='border-top:1px #CCCCCC solid; background-color:#F7F7F7;'>Real. timer<br> ialt</td>"
@@ -2954,9 +2963,10 @@ thisfile = "joblog_timetotaler"
 
 									            '*** Fase ***'
                                                 select case lto
-                                                case "cisu", "intranet - local"
+                                                case "cisu"
 
                                                 case else
+
 									                if len(trim(jobaktFase)) <> 0 AND (lastFase <> jobaktFase) then 
     									            strJobLinie = strJobLinie & "</tr><tr><td colspan=120 class=lille style='padding:2px; padding-right:10px; border-top:1px #CCCCCC solid;' bgcolor=#d6dff5>"_
     									            &" fase: <b>"& jobaktFase &"</b></td>"
@@ -2988,7 +2998,7 @@ thisfile = "joblog_timetotaler"
 									            expTxt = expTxt & jobmedtimer(x,1) &";"& jobmedtimer(x,6) &";"
                                                 
                                                 select case lto
-                                                case "cisu", "intranet - local"
+                                                case "cisu"
                                                 expTxt = expTxt & jobaktNavn &";"& ekspAkttype &";"
                                                 case else
                                                 expTxt = expTxt & jobaktFase &";"& jobaktNavn &";"& ekspAkttype &";"
@@ -2997,7 +3007,7 @@ thisfile = "joblog_timetotaler"
                         
                                                 'Jobansvarlig, Jobejer Init
                                                 select case lto
-                                                case "cisu", "intranet - local"
+                                                case "cisu"
                                                
                                                 case else
 
@@ -3046,7 +3056,7 @@ thisfile = "joblog_timetotaler"
 
                                                 'Jobansvarlig, Jobejer Init
                                                 select case lto
-                                                case "cisu", "intranet - local"
+                                                case "cisu"
         
                                                 expTxt = expTxt &";"& jobmedtimer(x,8) &";"                                       
 
@@ -3354,7 +3364,12 @@ thisfile = "joblog_timetotaler"
 
 
                                                 expTxt = expTxt & formatnumber(jobmedtimer(x,16), 2)&";"
+
+                                                select case lto
+                                                case "mmmi", "intranet - local"
+                                                case else
                                                 expTxt = expTxt & realTimerProc &";"
+                                                end select
 												
                                                 if cint(vis_restimer) = 1 then
                                                 expTxt = expTxt & restimerThis &";"
@@ -3404,24 +3419,30 @@ thisfile = "joblog_timetotaler"
                                             '** REAL timer i %
                                             '**************************
                                            
+                                            
+                                        select case lto
+                                        case "mmmi", "intranet - local"
+                                        case else
+                                           
+                                           
 
-                                           if realTimerProc <> 0 then
+                                               if realTimerProc <> 0 then
                                                 
-                                                if realTimerProc > 100 then
-                                                realTimerProcBgcol = "crimson"
-                                                procFntCol = "#ffffff"
-                                                else
-                                                realTimerProcBgcol = "yellowgreen"
-                                                procFntCol = "#000000"
-                                                end if
+                                                    if realTimerProc > 100 then
+                                                    realTimerProcBgcol = "crimson"
+                                                    procFntCol = "#ffffff"
+                                                    else
+                                                    realTimerProcBgcol = "yellowgreen"
+                                                    procFntCol = "#000000"
+                                                    end if
 
-                                            strJobLinie = strJobLinie &"<td "&tdstyleTimOms&" bgcolor='snow' valign=bottom><div style='width:"& realTimerProcWdt &"px; background-color:"& realTimerProcBgcol &"; color:"& procFntCol &"; padding:1px 4px 1px 1px; font-size:8px; text-align:right;'>"& realTimerProcTxt & "</div></td>"
-                                           else
-                                            strJobLinie = strJobLinie &"<td "&tdstyleTimOms&" bgcolor='snow'>&nbsp;</td>"
-                                           end if
+                                                strJobLinie = strJobLinie &"<td "&tdstyleTimOms&" bgcolor='snow' valign=bottom><div style='width:"& realTimerProcWdt &"px; background-color:"& realTimerProcBgcol &"; color:"& procFntCol &"; padding:1px 4px 1px 1px; font-size:8px; text-align:right;'>"& realTimerProcTxt & "</div></td>"
+                                               else
+                                                strJobLinie = strJobLinie &"<td "&tdstyleTimOms&" bgcolor='snow'>&nbsp;</td>"
+                                               end if
                                            
                 
-
+                                          end select
 
 
 
@@ -4033,10 +4054,15 @@ thisfile = "joblog_timetotaler"
 				expTxt = expTxt &"xx99123sy#z"
 				
                 select case lto
-                case "cisu", "intranet - local"
-				expTxt = expTxt &";;;;;"
+                case "cisu"
+				expTxt = expTxt &"Grandtotal;;;;;"
                 case else
-                expTxt = expTxt &";;;;;;;;;;;"
+                        select case lto
+                        case "mmmi", "intranet - local"
+                        expTxt = expTxt &"Grandtotal;;;;;;;;;;"
+                        case else
+                        expTxt = expTxt &"Grandtotal;;;;;;;;;;;"
+                        end select
                 end select
 				
 				
@@ -4136,7 +4162,16 @@ thisfile = "joblog_timetotaler"
 
                         end if 'if cint(directexp) <> 1 then      
 								
-								expTxt = expTxt & formatnumber(totaltotaljboTimerIalt,2) &";;"
+								expTxt = expTxt & formatnumber(totaltotaljboTimerIalt,2) &";"
+
+
+                                select case lto
+                                case "mmmi", "intranet - local"
+                                
+                                case else
+                                '** Real. timer % GT
+                                expTxt = expTxt &";"
+                                end select
 
                                 if cint(vis_restimer) = 1 then
                                 expTxt = expTxt & formatnumber(restimerTotalJob,0) &";"
@@ -4165,11 +4200,16 @@ thisfile = "joblog_timetotaler"
 						
             
                         '** Real. % **'
+                        select case lto
+                        case "mmmi", "intranet - local"
+
+                        case else
+        
                         if cint(directexp) <> 1 then
                         strJobLinie_total = strJobLinie_total & "<td class=lille valign=bottom align=right "&tdstyleTimOms10&">&nbsp;</td>"
                         end if 
 				
-
+                        end select
 
 
 

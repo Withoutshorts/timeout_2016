@@ -1,0 +1,27 @@
+Periode afgrænsning: 19/1/2016 - 19/8/2016
+
+Kunde;kunde Id;Job;Job Nr;Fase;Uge;Dato;Aktivitet;Type;Fakturerbar;Medarbejder;Medarb. Nr;Initialer;Antal;Tid/Klokkeslet;Timepris;Timepris ialt;Valuta;Tastedato;Godkendt?;Godkendt af;Faktureret?;Kommentar;
+Arti Farti Records ApS;7025 5556;Jobnavn..;644;;5;01-02-2016;Produktion;Fakturerbar;1;Søren Karlsen;1;SK;12;;650,00;7.800,00;DKK;02-02-2016;0;;0;"sdfsdf sdf ";
+OutZourCE ApS;5;Jobnavn..;701;;5;02-02-2016;Support;Fakturerbar;1;Søren Karlsen;1;SK;4;;350,00;1.400,00;DKK;01-02-2016;0;;0;"sdfsdf sdf sdf ";
+aa;23123;Jobnavn..;706;;18;02-05-2016;Support U/B;Ikke fakturerbar;0;Søren Karlsen;1;SK;8;;11,00;88,00;DKK;02-05-2016;0;;0;"T2";
+aa;23123;Jobnavn..;706;;18;02-05-2016;Support U/B;Ikke fakturerbar;0;Søren Karlsen;1;SK;2;;11,00;22,00;DKK;02-05-2016;0;;0;"T5";
+Arti Farti Records ApS;7025 5556;Jobnavn..;644;;18;02-05-2016;Post;Fakturerbar;1;Søren Karlsen;1;SK;1;;650,00;650,00;DKK;02-05-2016;0;;0;"asd";
+Accounting ApS;48144533;TO: support og opsætning;343;f1;18;02-05-2016;Foranalyse;Fakturerbar;1;Søren Karlsen;1;SK;1;;300,00;300,00;DKK;02-05-2016;0;;0;;
+Accounting ApS;48144533;TO: support og opsætning;343;f1;18;02-05-2016;Dokumentation;Fakturerbar;1;Søren Karlsen;1;SK;1;;300,00;300,00;DKK;02-05-2016;0;;0;"sd";
+Accounting ApS;48144533;TO: support og opsætning;343;f1;18;04-05-2016;Dokumentation;Fakturerbar;1;Søren Karlsen;1;SK;2;;300,00;600,00;DKK;02-05-2016;0;;0;;
+WWF Verdensnaturfonden;4535363635;TimeOut Opstart, Support & lbn. opgaver;559;;21;24-05-2016;Budget modul;Fakturerbar;1;Søren Karlsen;1;SK;2;;650,42;1.300,84;DKK;27-05-2016;0;;0;;
+WWF Verdensnaturfonden;4535363635;TimeOut Opstart, Support & lbn. opgaver;559;;21;25-05-2016;Budget modul;Fakturerbar;1;Søren Karlsen;1;SK;2;;650,42;1.300,84;DKK;27-05-2016;0;;0;;
+WWF Verdensnaturfonden;4535363635;TimeOut Opstart, Support & lbn. opgaver;559;;21;25-05-2016;Budget presale;Ikke fakturerbar;0;Søren Karlsen;1;SK;3;;650,42;1.951,26;DKK;27-05-2016;0;;0;;
+WWF Verdensnaturfonden;4535363635;TimeOut Opstart, Support & lbn. opgaver;559;;21;26-05-2016;Budget modul;Fakturerbar;1;Søren Karlsen;1;SK;5;;650,42;3.252,10;DKK;27-05-2016;0;;0;;
+Accounting ApS;48144533;TO: support og opsætning;343;f1;22;03-06-2016;Support;Fakturerbar;1;Søren Karlsen;1;SK;2;;950,00;1.900,00;DKK;03-06-2016;0;;0;;
+Accounting ApS;48144533;TO: support og opsætning;343;f1;23;11-06-2016;Dokumentation;Fakturerbar;1;Søren Karlsen;1;SK;2;;300,00;600,00;DKK;16-06-2016;0;;0;;
+Accounting ApS;48144533;TO: support og opsætning;343;f1;24;13-06-2016;Dokumentation;Fakturerbar;1;Søren Karlsen;1;SK;6;;300,00;1.800,00;DKK;17-06-2016;0;;0;;
+Accounting ApS;48144533;TO: support og opsætning;343;f1;24;15-06-2016;Dokumentation;Fakturerbar;1;Søren Karlsen;1;SK;5;;300,00;1.500,00;DKK;16-06-2016;0;;0;;
+OutZourCE ApS;5;Interne Job;179;01 - intern;24;16-06-2016;02. Administration;Fakturerbar;1;Søren Karlsen;1;SK;2;;650,00;1.300,00;DKK;17-06-2016;0;;0;"TEST";
+OutZourCE ApS;5;Interne Job;179;01 - intern;24;16-06-2016;02. Administration;Fakturerbar;1;Søren Karlsen;1;SK;0,23;;650,00;149,50;DKK;17-06-2016;0;;0;;
+OutZourCE ApS;5;Interne Job;179;05 - timeout;24;16-06-2016;900. Server admin (96);Ikke fakturerbar;0;Søren Karlsen;1;SK;0,23;;650,00;149,50;DKK;17-06-2016;0;;0;"Snak med Magnus";
+OutZourCE ApS;5;Interne Job;179;05 - timeout;24;16-06-2016;900. Server admin (96);Ikke fakturerbar;0;Søren Karlsen;1;SK;0,23;;650,00;149,50;DKK;17-06-2016;0;;0;"Snak med Magnus";
+Accounting ApS;48144533;TO: support og opsætning;343;f1;24;16-06-2016;Dokumentation;Fakturerbar;1;Søren Karlsen;1;SK;2;;300,00;600,00;DKK;17-06-2016;0;;0;"Detrt e kopmmert ert ";
+Accounting ApS;48144533;TO: support og opsætning;343;f1;24;19-06-2016;Dokumentation;Fakturerbar;1;Søren Karlsen;1;SK;4;;300,00;1.200,00;DKK;17-06-2016;0;;0;;
+OutZourCE ApS;5;Interne Job;179;02 - forretningsudvikling;25;26-06-2016;Kundeopfølgning;Fakturerbar;1;Søren Karlsen;1;SK;0,23;;650,00;149,50;DKK;23-06-2016;0;;0;"Snak med Magnus";
+

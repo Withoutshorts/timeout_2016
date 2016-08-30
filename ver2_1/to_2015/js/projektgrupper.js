@@ -27,17 +27,13 @@
 
     //alert(lto)
 
-    if (lto == 'tec' || lto == 'esn') {
+   
         var table = $('#progrp_list').DataTable({
             "iDisplayLength": 50,
             "order": [1, "asc"]
         });
 
-    } else {
-        var table = $('#progrp_list').DataTable({
-            "order": [1, "asc"]
-        });
-    }
+   
 
         // Apply the search
         table.columns().every(function () {

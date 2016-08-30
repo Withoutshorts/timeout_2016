@@ -564,6 +564,9 @@ if len(strLicenskey) <> 0 then
     case "2.2012-0214-TO132" 'Københavns Kommune Projekt & Bygherre
 	    lto = "kejd_pb"
 		strConnThis = "driver={MySQL ODBC 3.51 Driver};server=localhost; Port=3306; uid=to_outzource2;pwd=SKba200473;database=timeout_kejd_pb;"
+        response.redirect "https://timeout.cloud/timeout_xp/wwwroot/ver2_14/login.asp?key=2.2012-0214-TO132&lto=kejd_pb"
+        'response.redirect "https://outzource.dk/timeout_xp/wwwroot/ver2_14/login_nede.asp"
+
     case "2.2012-0214-TO133" 'Københavns Kommune Projekt & Bygherre
 	    lto = "kejd_pb2"
 		strConnThis = "driver={MySQL ODBC 3.51 Driver};server=localhost; Port=3306; uid=to_outzource2;pwd=SKba200473;database=timeout_kejd_pb2;"
@@ -776,6 +779,7 @@ if len(strLicenskey) <> 0 then
 	'strConnThis = "driver={MySQL ODBC 3.51 Driver};server=localhost; Port=3306; uid=to_outzource2;pwd=SKba200473;database=timeout_wilke;"
     response.redirect "http://timeout.cloud/timeout_xp/wwwroot/ver2_14/login.asp?key=9K2016-1203-TO166&lto=krj"
 
+   
         'ODBC 3.51 Driver
 	
 	case else 'ktv udvikling (hvis der ikke er en cookie)

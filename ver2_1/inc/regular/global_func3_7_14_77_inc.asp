@@ -1418,7 +1418,7 @@
                         
                         'Omsorgsdage
                         select case lto
-                        case "xintranet - local", "fk", "kejd_pb"
+                        case "xintranet - local", "fk", "kejd_pb", "adra"
                         
                          if media <> "export" then%>
 	                     <td class=lille style="border-bottom:1px silver solid; border-right:1px silver solid; white-space:nowrap;" align=right>

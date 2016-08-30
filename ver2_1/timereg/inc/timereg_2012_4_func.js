@@ -1592,7 +1592,7 @@ $(document).ready(function () {
 
         //$(".afase").bind('click', function () {
 
-        $("#div_timereg_" + thisval).html("<table width=100%><tr><td style='padding:20px 20px 20px 20px;'>Henter aktiviteter 1-4 sek...<br /><span style='color:darkred; font-size:10px;'>Maks. 100 aktiviteter pr. job</span></td></tr></table>")
+        $("#div_timereg_" + thisval).html("<table width=100%><tr><td style='padding:20px 20px 20px 20px;'>Henter aktiviteter 1-4 sek...<br /><span style='color:darkred; font-size:10px;'>Maks. 100 aktiviteter pr. job. (200 lto settings)</span></td></tr></table>")
 
         //alert("der")
         usemrn = $("#usemrn").val()

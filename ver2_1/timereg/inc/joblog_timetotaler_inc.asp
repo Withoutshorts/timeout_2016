@@ -81,9 +81,11 @@
 				            strMedarbOskriftLinie = strMedarbOskriftLinie & "</td>"
 
 
-
+                     select case lto
+                     case "mmmi", "intranet - local"
+                     case else
                      strMedarbOskriftLinie = strMedarbOskriftLinie & "<td "&tdstyleTimOms&" bgcolor=#F7F7F7><b>Real. %</b></td>"
-
+                     end select
 
                     '*****************************************'
                     '********** Timer total uasent periode ***'
@@ -91,13 +93,13 @@
 
                     if cint(visPrevSaldo) = 1 then 
                  
-                    strMedarbOskriftLinie = strMedarbOskriftLinie & "<td "&tdstyleTimOms&" bgcolor=#F7F7F7>"
+                    strMedarbOskriftLinie = strMedarbOskriftLinie &"<td "&tdstyleTimOms&" bgcolor=#F7F7F7>"
 
                      if cint(vis_restimer) = 1 then
                      strMedarbOskriftLinie = strMedarbOskriftLinie &"<span style='color:#999999; font-size:9px;'>Forecasttimer</span><br>"
                      end if
 
-                     strMedarbOskriftLinie = strMedarbOskriftLinie & "<b>Real. timer</b><br><span style='font-size:9px;'>(ialt)</span></td>"
+                     strMedarbOskriftLinie = strMedarbOskriftLinie &"<b>Real. timer</b><br><span style='font-size:9px;'>(ialt)</span></td>"
 
                     end if
 
@@ -108,7 +110,7 @@
                 expTxt = expTxt &"Kontakt;Jobnavn;Jobnr;"
 
                 select case lto
-                case "cisu", "intranet - local"            
+                case "cisu"            
                 case else
                 expTxt = expTxt &"Fase;"
                 end select
@@ -116,7 +118,7 @@
                 expTxt = expTxt &"Aktivitet;Jobtype;"           
 
                 select case lto
-                case "cisu", "intranet - local"            
+                case "cisu"            
                 case else
                 expTxt = expTxt &"Jobansvarlig;Init;Jobejer;Init;"
                 end select
@@ -294,7 +296,16 @@
                             
                                                 if cint(directexp) <> 1 then 
 
-                                                strMedarbOskriftLinie = strMedarbOskriftLinie &"</tr><tr bgcolor=#EFf3ff><td colspan=4>&nbsp;</td>"
+                                        
+                                                select case lto
+                                                case "mmmi", "intranet - local"
+                                                    strMedarbOskriftLinie_cspan = 3
+                                                case else
+                                                    strMedarbOskriftLinie_cspan = 4
+                                                end select                    
+            
+
+                                                strMedarbOskriftLinie = strMedarbOskriftLinie &"</tr><tr bgcolor=#EFf3ff><td colspan="& strMedarbOskriftLinie_cspan &">&nbsp;</td>"
                                                 
                                                     if cint(visPrevSaldo) = 1 then
                                                     strMedarbOskriftLinie = strMedarbOskriftLinie &"<td>&nbsp;</td><td>&nbsp;</td>"
@@ -533,8 +544,13 @@ sub subTotaler_gt
 						strJobLinie_Subtotal = strJobLinie_Subtotal & "</td>"
 						end if
 						
-	            					
+	            			
+
+                        select case lto
+                        case "mmmi", "intranet - local"
+                        case else
                         strJobLinie_Subtotal = strJobLinie_Subtotal & "<td class=lille valign=bottom align=right "&tdstyleTimOms&" bgcolor=snow>&nbsp;</td>" 
+                        end select
 
 
 
@@ -669,10 +685,16 @@ sub subTotaler_gt
 
 
                     select case lto
-                    case "cisu", "intranet - local"
+                    case "cisu"
                     expTxt = expTxt &";;;;;;;;"
                     case else
-				    expTxt = expTxt &";;;;;;;;;;;;;"
+                        
+                                        select case lto
+                                        case "mmmi", "intranet - local"
+                                        expTxt = expTxt &";;;;;;;;;;;;"
+                                        case else
+				                        expTxt = expTxt &";;;;;;;;;;;;;"
+                                        end select
 				    end select
 
                     if cint(visPrevSaldo) = 1 then
@@ -742,10 +764,15 @@ sub exportptOskrifter
 
 
                 expTxt = expTxt &"Real. timer Ialt (I periode);"
-                expTxt = expTxt &"Real. timer %;"
 
                 select case lto
-                case "cisu", "intranet - local"            
+                case "mmmi", "intranet - local"
+                case else
+                expTxt = expTxt &"Real. timer %;"
+                end select
+
+                select case lto
+                case "cisu"            
                 case else
                 'expTxt = expTxt &"Budget beløb;"
                 'expTxt = expTxt &"Faktureret;"

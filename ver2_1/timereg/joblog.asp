@@ -2390,12 +2390,18 @@ slutDatoKriSQL = strAar_slut &"/"& strMrd_slut &"/"& strDag_slut
 				                %>
 				                 <!-- Taste dato -->
 				                <%if cint(hidegkfakstat) <> 1 then  %>
-				                <td style="padding-top:3px; padding-right:5px; border-top:1px #cccccc solid;" align="right" valign="top"><font class="megetlillesilver"><%=convertDate(oRec("TasteDato"))%><br />
+				                <td style="padding-top:3px; padding-right:5px; border-top:1px #cccccc solid;" align="right" valign="top"><font class="megetlillesilver"><%=oRec("TasteDato")%><br />
                                 <i><%=oRec("editor") %></i></font></td>
 				                <%else %>
 				                <td style="border-top:1px #cccccc solid;"><img src="ill/blank.gif" width="1" height="1" border="0" /></td>
 				                <%end if 
 				
+                            else
+                            
+                              if cint(hidegkfakstat) <> 1 then
+                              ekspTxt = ekspTxt & oRec("TasteDato") &";"
+                              end if
+
 				            end if%>
 				
 				            <%if cint(hidegkfakstat) <> 1 then 
@@ -2853,6 +2859,12 @@ if x <> 0 then
 				                strOskrifter = strOskrifter & "Kostpris;Kostpris ialt;Valuta;"
 				                end if
 				
+
+                                if cint(hidegkfakstat) <> 1 then
+                                  strOskrifter = strOskrifter & "Tastedato;"
+                                end if
+                                
+
 				                if lto <> "execon" AND cint(hidegkfakstat) = 0 then
 				                strOskrifter = strOskrifter  &"Godkendt?;Godkendt af;Faktureret?;"
 				                end if

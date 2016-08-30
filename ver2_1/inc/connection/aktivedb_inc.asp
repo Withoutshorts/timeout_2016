@@ -326,6 +326,8 @@ function aktivedb(x)
         'strConnect_aktiveDB = "driver={MySQL ODBC 3.51 Driver};server=localhost; Port=3306; uid=outzource;pwd=SKba200473;database=timeout_krj;"
         'case 159
         'strConnect_aktiveDB = "driver={MySQL ODBC 3.51 Driver};server=localhost; Port=3306; uid=outzource;pwd=SKba200473;database=timeout_bf;"
+        'case 160
+        'strConnect_aktiveDB = "driver={MySQL ODBC 3.51 Driver};server=localhost; Port=3306; uid=outzource;pwd=SKba200473;database=timeout_dv;"
    
 
 

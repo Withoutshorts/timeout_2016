@@ -44,7 +44,8 @@
         sort: function (event, ui) {
             var sortValueStart = $(this).children(sortitems + ":first").find(opts.sortControl).val();
 
-            
+            //alert("HER og der")
+
             TONotifie("Du kan nu sortere i listen, for at gemme din sortering skal du klikke på knappen nedenunder<br /><input type='button' value='Gem sortering' id='saveSortOrderBtn'/>", false);
             var saveBtn = $("#saveSortOrderBtn");
             saveBtn.click(function () {
@@ -91,22 +92,18 @@
 
                     } else {
 
-                        //alert(IdControlVal + " sortVal:" + sortVal)
+                        //alert("id:"+ IdControlVal + " sortVal:" + sortVal)
 
-
-
-
-
-
+                        usemrn = $("#usemrn").val()
 
                         $.ajax({
                             url: "?",
                             dataType: "text",
                             type: "POST",
-                            data: { AjaxUpdateField: "true", control: useControl, value: sortVal, id: IdControlVal },
+                            data: { AjaxUpdateField: "true", control: useControl, value: sortVal, id: IdControlVal, jq_usemrn: usemrn },
                             error: function (err) {
                                 //alert("sort table error: " + err.toString());
-
+            
 
 
                             },

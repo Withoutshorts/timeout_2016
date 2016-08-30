@@ -1150,7 +1150,7 @@ if session("user") = "" then
 
              
              select case lto
-            case "xxintranet - local", "fk", "kejd_pb" 
+            case "xxintranet - local", "fk", "kejd_pb", "adra" 
              globalWdt = globalWdt + 50%>
         <td valign=bottom style="border-bottom:1px silver solid; width:50px;" class=lille><b>Omsorgs<br />dage</b><br />
 	 ~ dage<br />
@@ -1748,7 +1748,7 @@ if session("user") = "" then
 
         
         <%   select case lto
-                        case "xintranet - local", "fk", "kejd_pb"
+                        case "xintranet - local", "fk", "kejd_pb", "adra"
             %>
         	 <td align=right  class=lille><b><%=formatnumber(omsorg_tot, 2) %></b></td>
 
@@ -2111,7 +2111,7 @@ if session("user") = "" then
 
          <!-- Omsorgsdage -->
          <%   select case lto
-                        case "xintranet - local", "fk", "kejd_pb"
+                        case "xintranet - local", "fk", "kejd_pb", "adra"
             %>
         	 <td align=right  class=lille>&nbsp;</td>
        
@@ -2554,7 +2554,7 @@ if session("user") = "" then
                 
 
                 select case lto
-                case "xintranet - local", "fk", "kejd_pb" 
+                case "xintranet - local", "fk", "kejd_pb", "adra" 
                  strEkspHeader = strEkspHeader &"Omsorgsdage ~ dage;"
                 end select
 

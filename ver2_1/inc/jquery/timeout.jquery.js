@@ -58,6 +58,8 @@ function StartSort() {
 
     //alert("her" + parseInt(sortValueStart) + index + "IdControlVal" + IdControlVal)
 
+
+
     TONotifie("Du kan nu sortere i listen, for at gemme din sortering skal du klikke på knappen nedenunder<br /><input type='button' value='Gem sortering' id='saveSortOrderBtn'/>", false);
     var saveBtn = $("#saveSortOrderBtn");
     saveBtn.click(function() {
@@ -66,6 +68,8 @@ function StartSort() {
     var IdControlVal = $(this).find(opts.IdControlNode).val();
     
             $.post("?", { AjaxUpdateField: "true", control: "FM_sortOrder", value: (parseInt(sortValueStart) + index), id: IdControlVal });
+
+           
         });
         $("#TONotifyWindow").dialog("close");
     });

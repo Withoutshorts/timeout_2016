@@ -220,7 +220,7 @@
 
         
         <%   select case lto
-                        case "xintranet - local", "fk", "kejd_pb"
+                        case "xintranet - local", "fk", "kejd_pb", "adra"
             %>
         	 <td align=right  class=lille style="border-bottom:1px silver dashed; padding-bottom:20px;"><b><%=formatnumber(omsorg_tot, 2) %></b></td>
 

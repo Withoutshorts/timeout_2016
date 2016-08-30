@@ -14,17 +14,13 @@
 
     //alert(lto)
 
-    if (lto == 'tec' || lto == 'esn') {
+   
         var table = $('#example').DataTable({
             "iDisplayLength": 50,
             "order": [2, "asc"]
         });
 
-    } else {
-        var table = $('#example').DataTable({
-            "order": [2, "asc"]
-        });
-    }
+   
 
     // Apply the search
     table.columns().every(function () {

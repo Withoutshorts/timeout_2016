@@ -112,7 +112,7 @@ function normRealGrafWeekPage(medarbid, stdatoSQL)
 
 
 
-public ntimPer, ntimMan, ntimTir, ntimOns, ntimTor, ntimFre, ntimLor, ntimSon, antalDageMtimer
+public ntimPer, ntimMan, ntimTir, ntimOns, ntimTor, ntimFre, ntimLor, ntimSon, antalDageMtimer, antalDageMtimerIgnHellig
 public ntimManIgnHellig, ntimTirIgnHellig, ntimOnsIgnHellig, ntimTorIgnHellig, ntimFreIgnHellig, ntimLorIgnHellig, ntimSonIgnHellig, nTimerPerIgnHellig
 	function normtimerPer(medid, stDato, interval, io)
 
@@ -181,6 +181,7 @@ public ntimManIgnHellig, ntimTirIgnHellig, ntimOnsIgnHellig, ntimTorIgnHellig, n
 			ntimPer = 0
             antalDageMtimer = 0
             nTimerPerIgnHellig = 0
+            antalDageMtimerIgnHellig = 0
 			
 			for c = 0 to interval
 			
@@ -319,6 +320,13 @@ public ntimManIgnHellig, ntimTirIgnHellig, ntimOnsIgnHellig, ntimTorIgnHellig, n
                     '**Ignorer helligdage
                     nTimerPerIgnHellig = nTimerPerIgnHellig + ntimPerThis	
 
+
+                    '** Antal dage ign. helligdage
+                    if ntimPerThis <> 0 then
+                        antalDageMtimerIgnHellig = antalDageMtimerIgnHellig + 1
+                    'Response.Write "antalDageMtimerIgnHellig:" & antalDageMtimerIgnHellig &"<br>"
+                    end if 
+
 					
 				    call helligdage(datoCount, 0, lto)
 				        
@@ -354,6 +362,9 @@ public ntimManIgnHellig, ntimTirIgnHellig, ntimOnsIgnHellig, ntimTorIgnHellig, n
 
 					else
 					ntimPer = ntimPer
+
+                             
+
 					end if
 					
 				
@@ -383,6 +394,14 @@ public ntimManIgnHellig, ntimTirIgnHellig, ntimOnsIgnHellig, ntimTorIgnHellig, n
             else
             antalDageMtimer = 1
             end if
+
+            if antalDageMtimerIgnHellig <> 0 then
+            antalDageMtimerIgnHellig = antalDageMtimerIgnHellig
+            else
+            antalDageMtimerIgnHellig = 1
+            end if
+
+        
 			
 			
             'Response.write "her"

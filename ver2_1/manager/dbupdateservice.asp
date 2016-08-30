@@ -53,7 +53,7 @@ a = 0
 					Response.write strSQL(b) & "<br>"
 					Response.flush
 					x = 1
-					numberoflicens = 159
+					numberoflicens = 160
 					For x = 1 To numberoflicens  
 						
 						call aktivedb(x)
@@ -83,7 +83,7 @@ a = 0
                                 oConn.open strConnect_aktiveDB
 							    
                                 '*** DENNE LINJE INDLÆSER // UDKOMMENTER NÅR FILEN IKKE ER AKTIV
-                                oConn.execute(strSQL(b)) 
+                                'oConn.execute(strSQL(b)) 
                                 
                                 '* TJECK x NUMBER OF LICENS fra inc/connection/db_conn...asp filen.
 								'* DISSE SKAL STEMME 

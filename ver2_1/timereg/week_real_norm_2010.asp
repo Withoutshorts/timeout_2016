@@ -897,7 +897,7 @@ if len(session("user")) = 0 then
 
 
                 select case lto
-                case "xintranet - local", "fk", "kejd_pb" 
+                case "xintranet - local", "fk", "kejd_pb", "adra" 
                  strEksportTxt = strEksportTxt &"Omsorgsdage ~ dage;"
                 end select
     
@@ -1216,7 +1216,7 @@ if len(session("user")) = 0 then
 
              
              select case lto
-            case "xintranet - local", "fk", "kejd_pb" %>
+            case "xintranet - local", "fk", "kejd_pb", "adra" %>
         <td valign=bottom style="border-bottom:1px silver solid;" class=lille><b>Omsorgs<br />dage</b><br />
 	 ~ dage<br />
      </td>

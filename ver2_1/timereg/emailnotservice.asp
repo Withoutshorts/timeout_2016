@@ -49,7 +49,7 @@ Response.write "&nbsp;&nbsp;Tidsinterval:" & tidspunkt &" - "& tidspunkt30 &"<br
 numberofmails = 0
 
 x = 1
-numberoflicens = 159
+numberoflicens = 160
 For x = 1 To numberoflicens 
 
 call aktivedb(x)
