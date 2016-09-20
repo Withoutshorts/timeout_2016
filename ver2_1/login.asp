@@ -149,7 +149,8 @@ session("spmettanigol") = session("spmettanigol") + request("attempt")
 
   
 		
-			    if request.Cookies("timeoutcloud")("mobileuser") <> "" AND lto <> "outz" AND lto <> "hestia" AND lto <> "oko" then 'SKAL VÆRE OMVENDT OG KUN sdutek 
+			    if request.Cookies("timeoutcloud")("mobileuser") <> "" AND (lto = "sdutek")  then 'SKAL KUN VÆRE DEM DER IKKE SKAL LOGGE PÅ IGEN = sdutek 
+                '** AND lto <> "outz" AND lto <> "hestia" AND lto <> "oko" and lto <> "epi"       
                 '** Er der cookie og Du allerede er loggget ind, behøver Du ikke logge ind igen på din telefon
                 '** For at skifte bruger på mobil SKAL man slette sine cookies ****'
                 
@@ -617,8 +618,15 @@ session("spmettanigol") = session("spmettanigol") + request("attempt")
 
                 case else %>
 
+                <h4>6.9.2016 - Få TimeOut på MOBILEN</h4>
+                Husk det er muligt at registrere sin tid via mobilen.<br />
+                Det er en standard funktion, og man skal blot bruge sin browser på mobilen.<br />
+                Prøv det, og kontakt os endelig såfremt der er spørgsmål eller kommentarer.
+                <a href="pdf/TimeOut_Mobil_Version_20160906.pdf" target="_blank">Læs mere i vores mobilguide..</a>
 
-                <h4>23.6.2016</h4>
+                <br /><br /><br /><br />&nbsp;
+
+                <h4>23.6.2016 - Ny ugeseddel</h4>
                 Ny ugeseddel med nye muligheder. Vi har idag lanceret en nye version af ugesedlen, der udover et nyt design også indeholder ny funktionnalitet.<br />
                 <a href="pdf/ugeseddel_2016.pdf" target="_blank">Læs mere her..</a>
                 <br /><br />
@@ -633,7 +641,7 @@ session("spmettanigol") = session("spmettanigol") + request("attempt")
                 <br /><br />
                 Mvh.<br />
                 Outzource
-                -->
+                
 
                 <h4>Nyt server miljø</h4>
                 Vi er påbegyndt flytningen til et nyt server miljø. Dette medfører at I vil opleve en markant forbedret performance i den daglige afvikling af Timeout.<br />
@@ -648,6 +656,8 @@ session("spmettanigol") = session("spmettanigol") + request("attempt")
                 Fejlen skyldes en konflikt mellem Chrome og Adobe's PDF plugins.<br /><br />
                 Vi har lavet en lille <a href="chrome_pdf.pdf" target="_blank">guide</a> der beskriver hvordan i løser problemet.<br /><br />
              
+                -->
+
 
                 <!--
                 <h4>TimeOut – november release 2014</h4>

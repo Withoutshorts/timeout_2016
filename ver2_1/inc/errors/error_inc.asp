@@ -74,7 +74,7 @@ varErrorText = "<ul><li>Der mangler at blive indtastet et <b>kundenavn</b></ul>"
 case 14
 varErrorText = "Der mangler at blive indtastet en af følgende informationer: <br> "_
 &"<ul> "_
-&"<li>Jobnavn."_
+&"<li>Jobnavn (eller Du har angivet <b>'jobnavn..'</b> som navn)"_
 &"<li>Jobnavn indeholder et <b>''</b> eller et <b>'</b>"_ 
 &"<li>Jobnavn er på <b>mere end 100</b> karakterer. ("& len(request("FM_navn")) &")"_
 &"<li>Jobnr. "_

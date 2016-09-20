@@ -42,24 +42,46 @@
                 end if
             
 
+                varTjDatoUS_man = request("varTjDatoUS_man")
+                varTjDatoUS_son = dateAdd("d", 6, varTjDatoUS_man)
+
+                varTjDatoUS_man = year(varTjDatoUS_man) &"/"& month(varTjDatoUS_man) &"/"& day(varTjDatoUS_man)
+                varTjDatoUS_son = year(varTjDatoUS_son) &"/"& month(varTjDatoUS_son) &"/"& day(varTjDatoUS_son)
+
+                '*** Datospærring Vis først job når stdato er oprindet
+                call lukaktvdato_fn()
+                ignJobogAktper = lukaktvdato
+
+                select case ignJobogAktper
+                case 0,1
+                strSQLDatokri = " AND ((j.jobstartdato <= '"& varTjDatoUS_son &"' AND j.jobstatus = 1) OR (j.jobstatus = 3))"
+                case 3
+                strSQLDatokri = " AND ((j.jobstartdato <= '"& varTjDatoUS_son &"' AND j.jobslutdato >= '"& varTjDatoUS_man &"' AND j.jobstatus = 1) OR (j.jobstatus = 3))"
+                case else
+                strSQLDatokri = ""
+                end select
+
+                'strSQLDatokri = " AND ((j.jobstartdato <= '"& varTjDatoUS_son &"' AND j.jobslutdato >= '"& varTjDatoUS_man &"' AND j.jobstatus = 1) OR (j.jobstatus = 3))"
+                
+
                 if filterVal <> 0 then
             
                  lastKid = 0
                 
                 'strJobogKunderTxt = strJobogKunderTxt &"<span style=""color:red; font-size:9px; float:right;"" class=""luk_jobsog"">[X]</span>"    
                          
-
+               
 
                 strSQL = "SELECT j.id AS jid, j.jobnavn, j.jobnr, j.jobstatus, k.kkundenavn, k.kkundenr, k.kid FROM timereg_usejob AS tu "_ 
                 &" LEFT JOIN job AS j ON (j.id = tu.jobid) "_
                 &" LEFT JOIN kunder AS k ON (k.kid = j.jobknr) "_
-                &" WHERE tu.medarb = "& medid &" AND (j.jobstatus = 1 OR j.jobstatus = 3) "& strSQLPAkri &" AND "_
+                &" WHERE tu.medarb = "& medid &" AND (j.jobstatus = 1 OR j.jobstatus = 3) "& strSQLPAkri &" "& strSQLDatokri &" AND "_
                 &" (jobnr LIKE '"& jobkundesog &"%' OR jobnavn LIKE '"& jobkundesog &"%' OR "_
                 &" kkundenavn LIKE '"& jobkundesog &"%' OR kkundenr = '"& jobkundesog &"' OR k.kinit = '"& jobkundesog &"')  AND kkundenavn <> ''"_
                 &" GROUP BY j.id ORDER BY kkundenavn, jobnavn LIMIT 50"       
     
 
-                 'response.write "strSQL " &strSQL
+                 'response.write "<option>strSQL " & strSQL & "</option>"
                  'response.end
                 
                 oRec.open strSQL, oConn, 3
@@ -139,6 +161,23 @@
         
                 'pa = 0
             
+                varTjDatoUS_man = request("varTjDatoUS_man")
+                varTjDatoUS_son = dateAdd("d", 6, varTjDatoUS_man)
+
+                varTjDatoUS_man = year(varTjDatoUS_man) &"/"& month(varTjDatoUS_man) &"/"& day(varTjDatoUS_man)
+                varTjDatoUS_son = year(varTjDatoUS_son) &"/"& month(varTjDatoUS_son) &"/"& day(varTjDatoUS_son)
+
+                
+                '*** Datospærring Vis først job når stdato er oprindet
+                call lukaktvdato_fn()
+                ignJobogAktper = lukaktvdato
+
+                '** HÅRD styrring af aktiviteer slået til
+	            '** Aktivitetsstatus vises først når der hentes aktiviteter, men gør SQL kald hurtigere. 
+	            if (cint(ignJobogAktper) = 1 OR cint(ignJobogAktper) = 2 OR cint(ignJobogAktper) = 3) then
+	            strSQLDatoKri = " AND ((a.aktstartdato <= '"& varTjDatoUS_son &"' AND a.aktslutdato >= '"& varTjDatoUS_man &"') OR (a.fakturerbar = 6))" 
+	            end if
+
 
                 if filterVal <> 0 then
             
@@ -148,6 +187,7 @@
                          
 
                    if pa = "1" then
+
                    strSQL= "SELECT a.id AS aid, navn AS aktnavn FROM timereg_usejob AS tu LEFT JOIN aktiviteter AS a ON (a.id = tu.aktid) "_
                    &" WHERE tu.medarb = "& medid &" AND tu.jobid = "& jobid &" AND aktid <> 0 AND a.navn LIKE '%"& aktsog &"%' AND aktstatus = 1 ORDER BY navn"   
 
@@ -176,7 +216,7 @@
 
                    strSQL= "SELECT a.id AS aid, navn AS aktnavn, projektgruppe1, projektgruppe2, projektgruppe3, "_
                    &" projektgruppe4, projektgruppe5, projektgruppe6, projektgruppe7, projektgruppe8, projektgruppe9, projektgruppe10 FROM aktiviteter AS a "_
-                   &" WHERE a.job = " & jobid & " AND navn LIKE '%"& aktsog &"%' AND aktstatus = 1 ORDER BY navn"      
+                   &" WHERE a.job = " & jobid & " "& strSQLDatoKri &" AND navn LIKE '%"& aktsog &"%' AND aktstatus = 1 ORDER BY navn"      
     
 
                
@@ -860,9 +900,18 @@ if len(session("user")) = 0 then
    next
 	
 	
-   
+        select case lto
+        case "tec", "intranet - local", "esn"
+        aty_sql_realhours = " tfaktim <> 0"
+        case else
+        aty_sql_realhours = aty_sql_realhours &""_
+		& " OR tfaktim = 30 OR tfaktim = 31 OR tfaktim = 7 OR tfaktim = 11"
+        end select 
    
                                 
+
+            'response.write "<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>aty_sql_realhours "& aty_sql_realhours
+            'response.flush
 
             call timerDenneUge(usemrn, lto, varTjDatoUS_man, aty_sql_realhours)
 

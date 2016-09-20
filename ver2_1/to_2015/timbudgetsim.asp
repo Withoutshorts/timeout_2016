@@ -154,6 +154,8 @@ if session("user") = "" then
         
 
                 if request("issubmitted") = "1" then
+
+
                 filterKunAktiveMedarb = request("FM_viskunmedarbMtimFc")
                 
                 if cint(filterKunAktiveMedarb) <> 0 then
@@ -176,6 +178,37 @@ if session("user") = "" then
                     end if
         
                 end if
+
+
+                
+                if request("issubmitted") = "1" then
+
+              
+                filterKunprojgrptilknyt = request("FM_viskunprojgrptilknyt")
+                
+                if cint(filterKunprojgrptilknyt) <> 0 then
+                filterKunprojGrpTilknytCHK = "CHECKED"
+                else
+                filterKunprojGrpTilknytCHK = ""
+                end if
+        
+                response.Cookies("EPR")("filterKunprojgrptilknyt") = filterKunprojgrptilknyt
+
+                else
+
+
+                    if (request.Cookies("EPR")("filterKunprojgrptilknyt") = "1" OR lto = "bf") AND request("issubmitted") <> "1" then
+                    filterKunprojgrptilknyt = 1
+                    filterKunprojGrpTilknytCHK = "CHECKED"
+                    else
+                    filterKunprojgrptilknyt = 0
+                    filterKunprojGrpTilknytCHK = ""
+                    end if
+        
+                end if
+
+
+               
 
 
                 if request("issubmitted") = "1" then
@@ -241,8 +274,8 @@ if session("user") = "" then
    
 
 
-             jbs = 6000
-             akts = 50000
+             jbs = 8000
+             akts = 120000
 
              dim strJobTxtTds, strAktTxtTds
              redim strJobTxtTds(jbs), strAktTxtTds(akts)
@@ -531,7 +564,13 @@ if session("user") = "" then
     'response.write "Aktiviteter opdateret...<br><br>"
     'response.end
 
-    response.redirect "timbudgetsim.asp?FM_fy="&FY0&"&FM_visrealprdato="& visrealprdato &"&FM_sog="&sogVal
+                        if sogVal = "%" then
+                         sogValExp = "procentreplace"
+                       else
+                         sogValExp = sogVal
+                       end if
+
+    response.redirect "timbudgetsim.asp?FM_fy="&FY0&"&FM_visrealprdato="& visrealprdato &"&FM_sog="&sogValExp
    
     case "opdfc"
 
@@ -1000,13 +1039,41 @@ if session("user") = "" then
                             <div class="well">
                              <div class="row">
                                      <div class="col-lg-4 pad-t5">Job:<br /> <select name="jobid" id="jq_jobid" class="form-control input-small" onchange="submit();">
-                                         <%strSQLjob = "SELECT jobnavn, jobnr, id FROM job WHERE jobstatus = 1 AND (risiko > -1 OR risiko = -3) ORDER BY jobnavn" 
+                                         <%  
+
+                                             projektgruppe1 = 1
+                                             projektgruppe2 = 1
+                                             projektgruppe3 = 1 
+                                             projektgruppe4 = 1
+                                             projektgruppe5 = 1
+                                             projektgruppe6 = 1
+                                             projektgruppe7 = 1
+                                             projektgruppe8 = 1
+                                             projektgruppe9 = 1
+                                             projektgruppe10 = 1
+
+                                             
+                                             strSQLjob = "SELECT jobnavn, jobnr, id "_
+                                             &", projektgruppe1, projektgruppe2, projektgruppe3, projektgruppe4, projektgruppe5, projektgruppe6, projektgruppe7, projektgruppe8, projektgruppe9, projektgruppe10  "_
+                                             &" FROM job WHERE jobstatus = 1 AND (risiko > -1 OR risiko = -3) ORDER BY jobnavn" 
                                              
                                             oRec.open strSQLjob, oConn, 3
                                             while not oRec.EOF 
 
                                              if cint(jobid) = cint(oRec("id")) then
                                              jSel = "SELECTED"
+
+                                             projektgruppe1 = oRec("projektgruppe1")
+                                             projektgruppe2 = oRec("projektgruppe2")
+                                             projektgruppe3 = oRec("projektgruppe3")
+                                             projektgruppe4 = oRec("projektgruppe4")
+                                             projektgruppe5 = oRec("projektgruppe5")
+                                             projektgruppe6 = oRec("projektgruppe6")
+                                             projektgruppe7 = oRec("projektgruppe7")
+                                             projektgruppe8 = oRec("projektgruppe8")
+                                             projektgruppe9 = oRec("projektgruppe9")
+                                             projektgruppe10 = oRec("projektgruppe10")
+
                                              else
                                              jSel = ""
                                              end if
@@ -1018,16 +1085,34 @@ if session("user") = "" then
                                              wend 
                                             oRec.close%>
 
-                                                                       </select></div>
+                                            </select></div>
                                   
                                        </div>
                                  <div class="row">
                                       <div class="col-lg-2 pad-t5">Vis projektgruppe:<br />
                                           <select name="FM_progrpid" id="progrpid" class="form-control input-small" onchange="submit();">
-                                              <option value="0">Alle</option>
 
-                                          
-                                          <%strSQLprogrp = "SELECT p.navn AS pgrpnavn, p.id AS pid FROM projektgrupper AS p WHERE p.orgvir = 1 ORDER BY p.navn" 
+                                              <%
+                                             if cint(filterKunprojgrptilknyt) = 1 then     
+                                                  
+                                                 if projektgruppe1 = 10 OR projektgruppe2 = 10 OR projektgruppe3 = 10 OR projektgruppe4 = 10 Or projektgruppe5 = 10 OR projektgruppe6 = 10 OR projektgruppe7 = 10_
+                                                      & projektgruppe8 = 10 OR projektgruppe9 = 10 OR projektgruppe10 = 10 then %>
+                                                  <option value="0">Alle tilknyttede</option>
+                                                  <%end if %>
+
+                                            <%else %>
+                                              <option value="0">Alle</option>
+                                           <%end if %>
+
+                                          <%
+                                          strSQLprogrp = "SELECT p.navn AS pgrpnavn, p.id AS pid FROM projektgrupper AS p WHERE p.orgvir = 1 "
+
+                                          if cint(filterKunprojgrptilknyt) = 1 then  
+                                          strSQLprogrp = strSQLprogrp &" AND (p.id = "& projektgruppe1 &" OR p.id = "& projektgruppe2 &" OR p.id = "& projektgruppe3 &" OR p.id = "& projektgruppe3 &" OR p.id = "& projektgruppe4 &" OR p.id = "& projektgruppe5 &" OR "_
+                                          &" p.id = "& projektgruppe6 &" OR p.id = "& projektgruppe7 &" OR p.id = "& projektgruppe8 &" OR p.id = "& projektgruppe9 &" OR p.id = "& projektgruppe10 &")"
+                                          end if
+
+                                          strSQLprogrp = strSQLprogrp &" ORDER BY p.navn" 
 
                                            oRec.open strSQLprogrp, oConn, 3
                                             while not oRec.EOF 
@@ -1049,7 +1134,9 @@ if session("user") = "" then
                                               </select>
 
                                       </div>
-                                     <div class="col-lg-5 pad-t5"><br /><input type="checkbox" id="viskunemedarbfcreal" name="FM_viskunmedarbMtimFc" value="1" <%=filterKunAktiveMedarbCHK %> /> Vis kun medarbejdere med forecast eller realiserede timer på i FY</div>
+                                     <div class="col-lg-5 pad-t5">
+                                         <br /><input type="checkbox" id="viskunprojgrptilknyt" name="FM_viskunprojgrptilknyt" value="1" onclick="submit();" <%=filterKunprojGrpTilknytCHK %>  /> Vis kun projektgrupper tilknyttet det valgte job
+                                         <br /><input type="checkbox" id="viskunemedarbfcreal" name="FM_viskunmedarbMtimFc" value="1" <%=filterKunAktiveMedarbCHK %> /> Vis kun medarbejdere med forecast eller realiserede timer på i FY</div>
                                   
                                      </div>
                                      <div class="row">
@@ -1274,9 +1361,18 @@ redim medarbIPgrp(1000)
            <%end if
              
              if cint(progrpid) <> 0 then  
-             progrpidSQLkri = " AND (p.id = "& progrpid &")"
-             else
-             progrpidSQLkri = ""
+             
+                progrpidSQLkri = " AND (p.id = "& progrpid &")"
+              
+            else
+
+                if cint(filterKunprojgrptilknyt) = 1 then  
+                   progrpidSQLkri = " AND (p.id = "& projektgruppe1 &" OR p.id = "& projektgruppe2 &" OR p.id = "& projektgruppe3 &" OR p.id = "& projektgruppe3 &" OR p.id = "& projektgruppe4 &" OR p.id = "& projektgruppe5 &" OR "_
+                   &" p.id = "& projektgruppe6 &" OR p.id = "& projektgruppe7 &" OR p.id = "& projektgruppe8 &" OR p.id = "& projektgruppe9 &" OR p.id = "& projektgruppe10 &")"
+                else   
+                   progrpidSQLkri = ""
+                end if
+
              end if
 
             if cint(filterKunAktiveMedarb) = 1 then
@@ -1285,7 +1381,7 @@ redim medarbIPgrp(1000)
              prgrRelMids = " AND (medarbejderId <> 0) "
             end if
 
-             strSQLMedarb = "SELECT mnavn, init, mid, p.navn AS pgrpnavn, p.id AS pid FROM projektgrupper AS p "_
+             strSQLMedarb = "SELECT mnavn, init, mid, p.navn AS pgrpnavn, p.id AS pid, ansatdato, opsagtdato FROM projektgrupper AS p "_
              &"LEFT JOIN progrupperelationer AS pr ON (projektgruppeId = p.id "& prgrRelMids &")"_
              &"LEFT JOIN medarbejdere ON (mid = medarbejderId) WHERE mansat <> 2 "& medarbinitSQL &" AND projektgruppeId <> 10 "_
              &" AND p.orgvir = 1 AND p.id <> 10 AND init <> '' "& minitSQlkri &" "& progrpidSQLkri &"  ORDER BY pgrpnavn, mnavn LIMIT 80"
@@ -1388,8 +1484,29 @@ redim medarbIPgrp(1000)
                  'call normtimerPer(oRec5("mid"), "1-1-"& datepart("yyyy", y0, 2,2), 30, 0)
                  'ntimPer = ntimPer * 6
                  select case lto
-                 case "oko"
-                 ntimPer = 1650
+                 case "oko", "intranet - local"
+                 'ntimPer = 1650
+                 call normtimerPer(oRec5("mid"), "1-"& month(now) &"-"& datepart("yyyy", y0, 2,2), 6, 0)
+
+                 ansatDato = oRec5("ansatdato")
+                 opsagtdato = oRec5("opsagtdato")
+
+                if year(ansatDato) = year(y0) then
+                noOfWeeks = dateDiff("ww", ansatDato, "31-12-"& year(y0) &"", 2, 2) - 5
+                else
+                noOfWeeks = (52 - 5) '5 ugers ferie
+                end if
+
+                if year(opsagtdato) = year(y0) then
+                noOfWeeks_opsagt = dateDiff("ww", opsagtdato, "31-12-"& year(y0) &"", 2, 2)
+                noOfWeeks = (noOfWeeks - noOfWeeks_opsagt)
+                else
+                noOfWeeks = noOfWeeks
+                end if
+
+                 'Response.write "oRec5(mid): "& oRec5("mid") &" ansatDato: " & ansatDato & " y0: " & year(y0) & " noOfWeeks: " & noOfWeeks
+
+                 ntimPer = formatnumber(ntimPer * noOfWeeks,0)
                  case else
                  ntimPer = 1604 '1582, 906
                  end select
@@ -1943,7 +2060,7 @@ while not oRec.EOF
     
     
     <tr>
-       <td>Norm: (tilnærmet)</td>
+       <td>Norm: (tilnærmet - 5 ugers ferie)</td>
         <td>&nbsp;</td>
         <td>&nbsp;</td>
         <td>&nbsp;</td>
@@ -2175,10 +2292,11 @@ while not oRec.EOF
     </form>
 
 
-<form method="post" action="timbudgetsim.asp?func=opd&FM_sog=<%=sogVal %>">
-    <input type="hidden" name="FY0" value="<%=year(y0)%>" style="width:40px;" />
-    <input type="hidden" name="FY1" value="<%=year(y1)%>" style="width:40px;" />
-    <input type="hidden" name="FY2" value="<%=year(y2)%>" style="width:40px;" />
+<form method="post" action="timbudgetsim.asp?func=opd">
+    <input type="hidden" name="FM_sog" value="<%=sogValTxt %>"/>
+    <input type="hidden" name="FY0" value="<%=year(y0)%>"/>
+    <input type="hidden" name="FY1" value="<%=year(y1)%>"/>
+    <input type="hidden" name="FY2" value="<%=year(y2)%>"/>
     <input type="hidden" name="FM_visrealprdato" value="<%=visrealprdato %>" />
     <input type="hidden" name="timesimh1h2" id="timesimh1h2" value="<%=timesimh1h2 %>" />
     

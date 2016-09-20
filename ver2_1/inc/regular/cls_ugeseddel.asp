@@ -477,8 +477,13 @@ varTjDatoUS_tor = dateAdd("d", 3, varTjDatoUS_man)
                            &" LEFT JOIN kunder K on (kid = tknr) WHERE tmnr = "& medarbid &" AND "_
                            &" tdato BETWEEN '"& stdatoSQL &"' AND '"& sldatoSQL &"' ORDER BY "& strSQLodrBy &" DESC "
    
-                           'Response.Write strSQL
-                           'Response.flush
+
+                        'if session("mid") = 1 then
+                        '   Response.Write strSQL
+                        '   Response.flush
+                        'end if
+
+
                            at = 0
                            if showheader = 1 then
                            timertot = 0
@@ -810,7 +815,7 @@ varTjDatoUS_tor = dateAdd("d", 3, varTjDatoUS_man)
 
                            
 
-                           if cint(aty_real) = 1 then
+                           if cint(aty_real) = 1 OR (lto = "tec") OR (lto = "esn") then
                            timertot = timertot + oRec("timer")
                            timerDag = timerDag + oRec("timer")
                            end if

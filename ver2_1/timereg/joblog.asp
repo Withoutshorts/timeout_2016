@@ -47,6 +47,13 @@ if session("user") = "" then
     progrp = 0
 	end if
 
+    if len(trim(request("cur"))) <> 0 then
+	cur = request("cur")
+	else
+    cur = 0
+	end if
+    
+
 	'Response.Write "medid first: "& left(request("FM_medarb"), 1)
     'Response.Write request("FM_medarb_hidden")
 	'Response.end
@@ -1569,9 +1576,11 @@ slutDatoKriSQL = strAar_slut &"/"& strMrd_slut &"/"& strDag_slut
 		
 			
 			
-		
+		    select case lto 
+            case "bf" 
+            case else
 			ekspTxt = ekspTxt & oRec("kkundenavn")&";"&oRec("kkundenr")&";"&oRec("Tjobnavn") &";"& oRec("Tjobnr") &";"
-		
+		    end select
 		
 			
 			
@@ -1915,15 +1924,16 @@ slutDatoKriSQL = strAar_slut &"/"& strMrd_slut &"/"& strDag_slut
 				
 
                              <%if print <> "j" then %>
-				            <span style="color:green; font-size:9px;">
+				           
+                            <!--<span style="color:#999999; font-size:9px;">
 				
-				            <%if cint(fastpris) = 1 then %>
+				            <%'if cint(fastpris) = 1 then %>
 				            (fastpris)
-                            <%else %>
+                            <%'else %>
                             (lbn. timer)
-				            <%end if %>
+				            <%'end if %>
 				            </span>
-				
+				            -->
                 
                             <span style="color:#999999; font-size:9px;">
                             <%if jobans1 <> 0 then %>
@@ -1960,12 +1970,22 @@ slutDatoKriSQL = strAar_slut &"/"& strMrd_slut &"/"& strDag_slut
 				
 				            end if 'media
 				
+
+                            select case lto 
+                            case "bf" 
+                            
+                            ekspTxt = ekspTxt & formatdatetime(oRec("Tdato"), 2) &";"& oRec("Tjobnavn") &";bilag;dicaux EP cas 705;3224;"
+                                
+                            case else
+
                             if cint(hidefase) <> 1 then 
                             ekspTxt = ekspTxt & thisFase &";"
 				            end if
 				 
 				            ekspTxt = ekspTxt & strWeekNum &";"& formatdatetime(oRec("Tdato"), 2) &";"
 				
+                            end select
+
                             '*** Er uge afsluttet af medarb, er smiley og autogk slået til ***'
                             'Denne kan lukkes ned / fjernes 
                             'erugeafsluttet = instr(medabAflugeId(oRec("mid")), "#"&datepart("ww", oRec("Tdato"),2,2)&"_"&datepart("yyyy", oRec("Tdato"))&"#")
@@ -2015,8 +2035,9 @@ slutDatoKriSQL = strAar_slut &"/"& strMrd_slut &"/"& strDag_slut
 				            'else
 				            awdt = 250
 				            'end if
-				
+				            'oRec("fakturerbar")
 				            call akttyper(oRec("fakturerbar"), 1)
+
 				            if media <> "export" then
 				            %>
 				            <td style="padding:3px 10px 5px 0px; width:<%=awdt%>px; border-top:1px #cccccc solid;" valign="top">
@@ -2041,11 +2062,11 @@ slutDatoKriSQL = strAar_slut &"/"& strMrd_slut &"/"& strDag_slut
     					
     				
 				                <%else%>
-					                <b><%=oRec("Anavn")%></b>
+					                <b><%=oRec("anavn")%></b>
 					                <%
 					    
 					                %>
-				                    &nbsp;<span style="color:#999999; font-size:9px;">(<%=lcase(akttypenavn)%>)</span> 
+				                    &nbsp;<span style="color:#999999; font-size:9px;">(<%=lcase(akttypenavn)%>) <!--: <%=oRec("fakturerbar") %>/<%=oRec("tfaktim") %>--></span> 
     				    
     					
     					
@@ -2101,14 +2122,20 @@ slutDatoKriSQL = strAar_slut &"/"& strMrd_slut &"/"& strDag_slut
                             aktnavnEksp = ""
                             end if
                 
+
+                            select case lto
+                            case "bf"
+                            case else
                
-				            'call akttyper2009Prop(oRec("tfaktim"))
-				            ekspTxt = ekspTxt & aktnavnEksp &";"& akttypenavn &";"& aty_fakbar &";" 
+				                    'call akttyper2009Prop(oRec("tfaktim"))
+				                    ekspTxt = ekspTxt & aktnavnEksp &";"& akttypenavn &";"& aty_fakbar &";" 
 				
-				            if lto = "bowe" then
-					            ekspTxt = ekspTxt & akttid &";" 
-				            end if
+				                    if lto = "bowe" then
+					                    ekspTxt = ekspTxt & akttid &";" 
+				                    end if
 				
+                            end select
+
                             if cint(showfor) = 1 then
                     
 
@@ -2147,8 +2174,12 @@ slutDatoKriSQL = strAar_slut &"/"& strMrd_slut &"/"& strDag_slut
 				            end if
 
                             forrExp = replace(forr, "<br>", ", ") 
-              
+
+                            select case lto
+                            case "bf"
+                            case else
                             ekspTxt = ekspTxt & forrExp &";"
+                            end select
 
                             end if
 
@@ -2165,12 +2196,17 @@ slutDatoKriSQL = strAar_slut &"/"& strMrd_slut &"/"& strDag_slut
 				            <%
 				            end if
 				
+                             select case lto
+                            case "bf"
+                            case else
+
 				            ekspTxt = ekspTxt & oRec("mnavn") &";"&oRec("mnr")&";"&oRec("init")&";"
 
                                 if cint(showcpr) = 1 then
                                 ekspTxt = ekspTxt & oRec("mcpr") & ";" 
                                 end if
 				
+                             end select
 				
 				            if media <> "export" then%>
 				            <td align="right" style="padding-top:3px; padding-right:5px; border-top:1px #cccccc solid;" valign="top"><b> <%=formatnumber(oRec("Timer"), 2)%></b>
@@ -2179,23 +2215,43 @@ slutDatoKriSQL = strAar_slut &"/"& strMrd_slut &"/"& strDag_slut
 
 				            <%
 				            end if
-				            ekspTxt = ekspTxt & oRec("Timer") &";"
+
+                            select case lto
+                            case "bf"
+                                
+                                    
+                                  if cint(cur) = 1 then '* local currency
+                                  ekspTxt = ekspTxt & formatnumber(oRec("timer") * oRec("timepris"), 2) &";"& oRec("valuta") &" / "& basisValISO &";"
+                                  else
+                                  ekspTxt = ekspTxt & formatnumber(oRec("timer") * oRec("timepris"), 2) &";"& oRec("valuta") &" / "& basisValISO &";"
+                                  end if
+
+                            case else
+				            ekspTxt = ekspTxt & oRec("timer") &";" ';91000
+                            end select
 				
+
+                            select case lto 
+                            case "bf"
+
+                            case else
 				
-				            if len(oRec("sttid")) <> 0 then
+				                if len(oRec("sttid")) <> 0 then
 				
-					            if left(formatdatetime(oRec("sttid"), 3), 5) <> "00:00" then
-					                if media <> "export" then
-					                Response.write "<span style=""color:#999999; font-size:9px;""><br>"& left(formatdatetime(oRec("sttid"), 3), 5) & " - " & left(formatdatetime(oRec("sltid"), 3), 5)
+					                if left(formatdatetime(oRec("sttid"), 3), 5) <> "00:00" then
+					                    if media <> "export" then
+					                    Response.write "<span style=""color:#999999; font-size:9px;""><br>"& left(formatdatetime(oRec("sttid"), 3), 5) & " - " & left(formatdatetime(oRec("sltid"), 3), 5)
+					                    end if
+					                    ekspTxt = ekspTxt & left(formatdatetime(oRec("sttid"), 3), 5) & " - " & left(formatdatetime(oRec("sltid"), 3), 5) &";"
+					                else
+					                    ekspTxt = ekspTxt &";"
 					                end if
-					                ekspTxt = ekspTxt & left(formatdatetime(oRec("sttid"), 3), 5) & " - " & left(formatdatetime(oRec("sltid"), 3), 5) &";"
-					            else
-					                ekspTxt = ekspTxt &";"
-					            end if
 				
-				            else
-				            ekspTxt = ekspTxt &";"
-				            end if
+				                else
+				                ekspTxt = ekspTxt &";"
+				                end if
+
+                            end select
 				
 				            if media <> "export" then%>
 				            </td>
@@ -2217,7 +2273,12 @@ slutDatoKriSQL = strAar_slut &"/"& strMrd_slut &"/"& strDag_slut
 				                if media <> "export" then%>
 				                <td align="right" style="padding-top:3px; padding-right:5px; border-top:1px #cccccc solid; white-space:nowrap;" valign="top"><%=formatnumber(enheder, 2)%></td>
 				                <%end if
+
+                                select case lto 
+                                case "bf"
+                                case else
 				                ekspTxt = ekspTxt & enheder &";"
+                                end select
 				
 				            else
 				                if media <> "export" then%>
@@ -2270,14 +2331,24 @@ slutDatoKriSQL = strAar_slut &"/"& strMrd_slut &"/"& strDag_slut
     				                if media <> "export" then%>
     				                <b><%=tpris %></b>
 				                    <%end if 
-				    
-				                ekspTxt = ekspTxt & tpris &";"
+				                
+                                    select case lto 
+                                    case "bf"
+                                    case else
+				                    ekspTxt = ekspTxt & formatnumber(tpris, 2) &";"
+                                    end select
     				            else
     				
     				            if media <> "export" then%>
     				            &nbsp;
     				            <%end if
-    				            ekspTxt = ekspTxt & ";"
+
+                                    select case lto 
+                                    case "bf"
+                                    case else
+    				                ekspTxt = ekspTxt & ";"
+                                    end select
+
 				                end if
 				
 				                if media <> "export" then%>
@@ -2298,13 +2369,27 @@ slutDatoKriSQL = strAar_slut &"/"& strMrd_slut &"/"& strDag_slut
 				                <%=formatnumber(tprisTot , 2)&" "&oRec("valutakode")%>
 			                    <%end if 
 			        
-			        
+			                    select case lto 
+                                case "bf"
+                                case else
 			                    ekspTxt = ekspTxt & formatnumber(tprisTot, 2) &";"&oRec("valutakode")&";"
+                                end select
+
+
     			                else
-    			                if media <> "export" then%>
+    			                
+                                if media <> "export" then%>
     			                &nbsp;
     			                <%end if
-    			                ekspTxt = ekspTxt & ";;"
+
+
+                                select case lto 
+                                case "bf"
+    			                case else
+                                ekspTxt = ekspTxt & ";;"
+                                end select
+
+
 				                end if
 				    
 				                if media <> "export" then%>
@@ -2335,12 +2420,24 @@ slutDatoKriSQL = strAar_slut &"/"& strMrd_slut &"/"& strDag_slut
 				                    %>
     				                <%=formatnumber(oRec("kostpris"), 2)%>
 				                    <%end if 
+
+                                select case lto 
+                                case "bf"
+    			                case else
 				                ekspTxt = ekspTxt & formatnumber(oRec("kostpris"), 2) &";"
+                                end select
+
     				            else
     				                if media <> "export" then%>
     				                &nbsp;
     				                <%end if
-    				            ekspTxt = ekspTxt & ";"
+
+                                    select case lto 
+                                    case "bf"
+    			                    case else
+    				                ekspTxt = ekspTxt & ";"
+                                    end select
+
 				                end if
 				
 				             if media <> "export" then
@@ -2361,13 +2458,23 @@ slutDatoKriSQL = strAar_slut &"/"& strMrd_slut &"/"& strDag_slut
 				                 if media <> "export" then%>
 				                 <%=formatnumber(kostTot, 2)&" "& basisValISO%>
 			                     <%end if
+
+                                 select case lto 
+                                case "bf"
+    			                case else
 			                     ekspTxt = ekspTxt & formatnumber(kostTot, 2) &";"& basisValISO &";"
+                                end select
     			     
     			                 else
     			                  if media <> "export" then%>
     			                  &nbsp;
     			                  <%end if
+
+                                 select case lto 
+                                case "bf"
+    			                case else
     			                ekspTxt = ekspTxt & ";;"
+                                end select
 				  
 				              end if 'aty_fakbar
 				    
@@ -2399,7 +2506,13 @@ slutDatoKriSQL = strAar_slut &"/"& strMrd_slut &"/"& strDag_slut
                             else
                             
                               if cint(hidegkfakstat) <> 1 then
-                              ekspTxt = ekspTxt & oRec("TasteDato") &";"
+
+                                select case lto 
+                                case "bf"
+    			                case else
+                                ekspTxt = ekspTxt & oRec("TasteDato") &";"
+                                end select
+
                               end if
 
 				            end if%>
@@ -2541,9 +2654,12 @@ slutDatoKriSQL = strAar_slut &"/"& strMrd_slut &"/"& strDag_slut
 				            <%
 				
 				
-				            if lto <> "execon" then
-				            ekspTxt = ekspTxt & erGk &";"& erGkaf &";"& erFaktureret &";"
-				            end if
+                             select case lto 
+                                case "bf"
+    			                case else
+				            
+				                ekspTxt = ekspTxt & erGk &";"& erGkaf &";"& erFaktureret &";"
+				            end select
 				
 				            else 
 				                 if media <> "export" then
@@ -2568,6 +2684,10 @@ slutDatoKriSQL = strAar_slut &"/"& strMrd_slut &"/"& strDag_slut
                            'call htmlreplace(komm_note_Txt)
                            'htmlparseCSVtxt = htmlparseTxt
 
+                           select case lto 
+                           case "bf"
+    			           case else
+
                            if len(komm_note_Txt) <> 0 then
                             'komm_note_Txt = replace(komm_note_Txt, " -", "-")
                             call htmlparseCSV(komm_note_Txt)
@@ -2576,7 +2696,9 @@ slutDatoKriSQL = strAar_slut &"/"& strMrd_slut &"/"& strDag_slut
                             ekspTxt = ekspTxt & ""& Chr(34) & komm_note_Txt & Chr(34) &";"
                            else
                             ekspTxt = ekspTxt & ";"
-                           end if%>
+                           end if
+                                    
+                           end select%>
 				
 				
 				
@@ -2821,61 +2943,71 @@ if x <> 0 then
                                 else
 
 				
-				                if lto = "bowe" then
-				                strOskrifter = "Kunde;Kunde Id;Job;KA Nr;Böwe kode;Job Nr;Uge;Dato;Aktivitet;Type;Fakturerbar;Akt. tidslås;Medarbejder;Medarb. Nr;Initialer;Antal;Tid/Klokkeslet;"
-				                else
-				                strOskrifter = "Kunde;kunde Id;Job;Job Nr;"
+				                    if lto = "bf" then
+				                    'strOskrifter = "Kunde;Kunde Id;Job;KA Nr;Böwe kode;Job Nr;Uge;Dato;Aktivitet;Type;Fakturerbar;Akt. tidslås;Medarbejder;Medarb. Nr;Initialer;Antal;Tid/Klokkeslet;"
+				                    strOskrifter = "Dato;tekst;bilag;konto;kontonavn;debit beløb;kredit beløb;modkonto"
+                                    else
+
+				                    strOskrifter = "Kunde;kunde Id;Job;Job Nr;"
                 
-                                if cint(hidefase) <> 1 then
-                                strOskrifter = strOskrifter &"Fase;"
-                                end if
+                                            if cint(hidefase) <> 1 then
+                                            strOskrifter = strOskrifter &"Fase;"
+                                            end if
                 
-                                 strOskrifter = strOskrifter & "Uge;Dato;Aktivitet;Type;Fakturerbar;"
+                                                strOskrifter = strOskrifter & "Uge;Dato;Aktivitet;Type;Fakturerbar;"
                  
 
-                                 if cint(showfor) = 1 then
-                                 strOskrifter = strOskrifter & "Forretningsområder;"
-                                 end if
+                                                if cint(showfor) = 1 then
+                                                strOskrifter = strOskrifter & "Forretningsområder;"
+                                                end if
                  
-                                 strOskrifter = strOskrifter & "Medarbejder;Medarb. Nr;Initialer;"
+                                                strOskrifter = strOskrifter & "Medarbejder;Medarb. Nr;Initialer;"
                 
-                                 if cint(showcpr) = 1 then
-                                 strOskrifter = strOskrifter & "CPR;"
-                                 end if
+                                                if cint(showcpr) = 1 then
+                                                strOskrifter = strOskrifter & "CPR;"
+                                                end if
 
-                                strOskrifter = strOskrifter & "Antal;Tid/Klokkeslet;"
-				                end if
+                                            strOskrifter = strOskrifter & "Antal;Tid/Klokkeslet;"
+				                    end if
+
+
+                        
+                                        select case "bf"
+                                        case else                
 				
-				                if cint(hideenheder) = 0 then
-				                strOskrifter = strOskrifter &"Enheder;"
-				                end if
+				                                if cint(hideenheder) = 0 then
+				                                strOskrifter = strOskrifter &"Enheder;"
+				                                end if
 				
 				
-				                if (level <=2 OR level = 6) AND cint(hidetimepriser) = 0 then
-				                strOskrifter = strOskrifter & "Timepris;Timepris ialt;Valuta;"
-				                end if 
+				                                if (level <=2 OR level = 6) AND cint(hidetimepriser) = 0 then
+				                                strOskrifter = strOskrifter & "Timepris;Timepris ialt;Valuta;"
+				                                end if 
 				
-				                if level = 1 AND visKost = 1 then 
-				                strOskrifter = strOskrifter & "Kostpris;Kostpris ialt;Valuta;"
-				                end if
+				                                if level = 1 AND visKost = 1 then 
+				                                strOskrifter = strOskrifter & "Kostpris;Kostpris ialt;Valuta;"
+				                                end if
 				
 
-                                if cint(hidegkfakstat) <> 1 then
-                                  strOskrifter = strOskrifter & "Tastedato;"
-                                end if
+                                                if cint(hidegkfakstat) <> 1 then
+                                                  strOskrifter = strOskrifter & "Tastedato;"
+                                                end if
                                 
 
-				                if lto <> "execon" AND cint(hidegkfakstat) = 0 then
-				                strOskrifter = strOskrifter  &"Godkendt?;Godkendt af;Faktureret?;"
-				                end if
+				                                if lto <> "execon" AND cint(hidegkfakstat) = 0 then
+				                                strOskrifter = strOskrifter  &"Godkendt?;Godkendt af;Faktureret?;"
+				                                end if
 				
-				                strOskrifter = strOskrifter  &"Kommentar;"
+				                                strOskrifter = strOskrifter  &"Kommentar;"
+
+                                        end select
+
 			
                                 end if	
 
 				
 				                objF.writeLine("Periode afgrænsning: "& datointerval & vbcrlf)
-				                objF.WriteLine(strOskrifter & chr(013))
+				                objF.WriteLine(strOskrifter) '& chr(013)
 				                objF.WriteLine(ekspTxt)
 				                objF.close
 				
@@ -2978,18 +3110,49 @@ if x <> 0 then
         
         
         
-    
+                    <form action="joblog.asp?media=export&cur=0&<%=pnteksLnk%>" target="_blank" method="post"> 
+                    
                   <tr>
-                    <td align=center>
-                    <a href="#" onclick="Javascript:window.open('joblog.asp?media=export&<%=pnteksLnk%>', '', 'width=350,height=150,resizable=no,scrollbars=no')" class=rmenu><img src="../ill/export1.png" border=0></a>
-                    </td><td><a href="#" onclick="Javascript:window.open('joblog.asp?media=export&<%=pnteksLnk%>', '', 'width=350,height=150,resizable=no,scrollbars=no')" class=rmenu>.csv fil eksport</a></td>
+                    <td>
+                   <!-- <a href="#" onclick="Javascript:window.open('joblog.asp?media=export&<%=pnteksLnk%>', '', 'width=350,height=150,resizable=no,scrollbars=no')" class=rmenu><img src="../ill/export1.png" border=0></a>
+                    </td><td><a href="#" onclick="Javascript:window.open('joblog.asp?media=export&<%=pnteksLnk%>', '', 'width=350,height=150,resizable=no,scrollbars=no')" class=rmenu>.csv fil eksport</a>
+                       -->
+
+                       
+
+                         
+
+                        <%select case lto 
+                        case "bf",  "intranet - local"
+
+                        %><input type="submit" id="sbm_csv" value="Kasserapport DKK >>" style="font-size:9px;" />
+                        </form>
+                   
+                        <form action="joblog.asp?media=export&cur=1&<%=pnteksLnk%>" target="_blank" method="post"> 
+                            <br />
+                        <input type="submit" id="sbm_csv" value="Kasserapport Local Cur. >>" style="font-size:9px;" />
+                        <%case else %>
+                        <input type="submit" id="sbm_csv" value="CSV. fil eksport >>" style="font-size:9px;" />
+                        <%end select%>
+
+                    </td>
                    </tr>
-                <tr>
-               <td align=center><a href="joblog.asp?print=j&<%=pnteksLnk%>" target="_blank"  class='rmenu'>
-               &nbsp;<img src="../ill/printer3.png" border=0 alt="" /></a>
-                </td><td><a href="joblog.asp?print=j&<%=pnteksLnk%>" target="_blank" class="rmenu">Print version</a></td>
+               
+                </form>
+                  <form action="joblog.asp?print=j&<%=pnteksLnk%>" target="_blank" method="post"> 
+                 <tr>
+               <td valign="top" style="padding-top:10px;">
+                    <input type="submit" value="Print >>" style="font-size:9px;" />
+                   
+                    <!--
+                   <a href="joblog.asp?print=j&<%=pnteksLnk%>" target="_blank"  class='rmenu'>
+                  &nbsp;<img src="../ill/printer3.png" border=0 alt="" /></a>
+                  </td><td><a href="joblog.asp?print=j&<%=pnteksLnk%>" target="_blank" class="rmenu">Print version</a>
+
+                       -->
+                     </td>
                </tr>
-   
+                  </form>
 	
                </table>
             </div>

@@ -135,6 +135,7 @@ Public Class oz_importakt
     Public aktsumGrandTotalJob(5000) As Double
     Public matsumGrandTotalJob(5000) As Double
 
+    Public j, jhigh, jlow As Integer
 
 
     <WebMethod()> Public Function addakt(ByVal ds As DataSet) As String
@@ -158,11 +159,15 @@ Public Class oz_importakt
 
         Dim objConn As OdbcConnection
         Dim objConn2 As OdbcConnection
+        'Dim objConn3 As OdbcConnection
         Dim objCmd As OdbcCommand
+        Dim objCmd2 As OdbcCommand
+        Dim objCmd3 As OdbcCommand
         'Dim objDataSet As New DataSet
         Dim objDR As OdbcDataReader
         Dim objDR2 As OdbcDataReader
         Dim objDR3 As OdbcDataReader
+        'Dim objDR3 As OdbcDataReader
         'Dim dt As DataTable
         'Dim dr As DataRow
 
@@ -173,6 +178,48 @@ Public Class oz_importakt
 
 
 
+
+
+
+        'For j = 0 To 5 '5 = 6 loops => 12000 records
+
+
+        'Select Case j
+
+        'Case 1
+        jlow = 0
+        jhigh = 10000
+        'Case 2
+        'jlow = 2001
+        'jhigh = 4000
+        'Case 3
+        'jlow = 4001
+        'jhigh = 6000
+        'Case 4
+        'jlow = 6001
+        'jhigh = 8000
+        'Case 5
+        'jlow = 8001
+        'jhigh = 10000
+        'Case 6
+        'jlow = 10001
+        'jhigh = 12000
+        'Case 7
+        'jlow = 12001
+        'jhigh = 14000
+        'Case 8
+        'jlow = 14001
+        'jhigh = 16000
+        'Case 9
+        'jlow = 16001
+        'jhigh = 18000
+        'Case 10
+        'jlow = 18001
+        'jhigh = 20000
+
+        'End Select
+
+
         'strConn = "Driver={MySQL ODBC 3.51 Driver};Server=localhost;Database=timeout_epi_catitest;User=outzource;Password=SKba200473;"
         'strConn = "Driver={MySQL ODBC 3.51 Driver};Server=localhost;Database=timeout_oko;User=to_outzource2;Password=SKba200473;"
         'strConn = "driver={MySQL ODBC 3.51 Driver};server=194.150.108.154; Port=3306; uid=root;pwd=;database=timeout_oko; OPTION=32"
@@ -181,12 +228,26 @@ Public Class oz_importakt
 
 
 
+
+
+
         '** Åbner Connection ***'
         objConn = New OdbcConnection(strConn)
         objConn.Open()
 
+        objConn2 = New OdbcConnection(strConn)
+        objConn2.Open()
+
+
+        '*** Sletter 0 posteringer og gamle imports der allerede er overfør fra akt_import_temp **'
+        Dim strSQLsltakttemp As String = "DELETE FROM akt_import_temp WHERE (overfort = 0 AND aktsum = 0) OR overfort = 1"
+        objCmd = New OdbcCommand(strSQLsltakttemp, objConn2)
+        objCmd.ExecuteReader() '(CommandBehavior.closeConnection)
+
+
+
         '*** HENTER AKT fra AKT_IMPORT_TEMP '****
-        Dim strSQLakts As String = "SELECT id, dato, editor, origin, jobnr, aktnavn, aktnr, akttimer, akttpris, aktsum, lto, beskrivelse, aktkonto, akttype FROM akt_import_temp WHERE id > 0 AND overfort = 0 AND errid = 0 LIMIT 8000"
+        Dim strSQLakts As String = "SELECT id, dato, editor, origin, jobnr, aktnavn, aktnr, akttimer, akttpris, aktsum, lto, beskrivelse, aktkonto, akttype FROM akt_import_temp WHERE id > 0 AND overfort = 0 AND errid = 0 ORDER BY id LIMIT " & jlow & ", " & jhigh & ""
         objCmd = New OdbcCommand(strSQLakts, objConn)
         objDR = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
 
@@ -247,11 +308,12 @@ Public Class oz_importakt
                 jobNr = 0
             End If
 
-            objConn2 = New OdbcConnection(strConn)
-            objConn2.Open()
+            'objConn2 = New OdbcConnection(strConn)
+            'objConn2.Open()
+
             Dim strSQLjobans As String = "SELECT id, jobstartdato, jobslutdato FROM job WHERE jobnr = '" + jobNr + "'"
-            objCmd = New OdbcCommand(strSQLjobans, objConn2)
-            objDR2 = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
+            objCmd2 = New OdbcCommand(strSQLjobans, objConn2)
+            objDR2 = objCmd2.ExecuteReader '(CommandBehavior.closeConnection)
             jobId = 0
             If objDR2.Read() = True Then
 
@@ -260,8 +322,8 @@ Public Class oz_importakt
                 jobslutdato = objDR2("jobslutdato")
 
             End If
-            objDR2.Close()
-            objConn2.Close()
+            'objDR2.Close()
+            'objConn2.Close()
 
             If jobId = 0 Then
                 errThis = 21
@@ -275,11 +337,12 @@ Public Class oz_importakt
                 aktkonto = 0
             End If
 
-            objConn2 = New OdbcConnection(strConn)
-            objConn2.Open()
+            'objConn2 = New OdbcConnection(strConn)
+            'objConn2.Open()
+
             Dim strSQLkontonr As String = "SELECT id FROM kontoplan WHERE kontonr = " + aktkonto
-            objCmd = New OdbcCommand(strSQLkontonr, objConn2)
-            objDR2 = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
+            objCmd2 = New OdbcCommand(strSQLkontonr, objConn2)
+            objDR2 = objCmd2.ExecuteReader '(CommandBehavior.closeConnection)
             kontoId = 0
             If objDR2.Read() = True Then
 
@@ -287,7 +350,7 @@ Public Class oz_importakt
 
             End If
             objDR2.Close()
-            objConn2.Close()
+            'objConn2.Close()
 
             If kontoId = 0 Then
                 errThis = 22
@@ -300,26 +363,26 @@ Public Class oz_importakt
 
             If CInt(InStr(isJobWrt, ",#" & jobId & "#")) = 0 Then
 
-                objConn2 = New OdbcConnection(strConn)
-                objConn2.Open()
+                'objConn2 = New OdbcConnection(strConn)
+                'objConn2.Open()
 
                 Dim strSQLsltakt As String = "DELETE FROM aktiviteter WHERE fakturerbar = 90 AND job = " & jobId
-                objCmd = New OdbcCommand(strSQLsltakt, objConn2)
-                objDR2 = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
+                objCmd2 = New OdbcCommand(strSQLsltakt, objConn2)
+                objCmd2.ExecuteReader() '(CommandBehavior.closeConnection)
 
-                objDR2.Close()
-                objConn2.Close()
+                'objDR2.Close()
+                'objConn2.Close()
 
 
-                objConn2 = New OdbcConnection(strConn)
-                objConn2.Open()
+                'objConn2 = New OdbcConnection(strConn)
+                'objConn2.Open()
 
                 Dim strSQLbgt As String = "DELETE FROM job_ulev_ju WHERE ju_jobid = " & jobId
-                objCmd = New OdbcCommand(strSQLbgt, objConn2)
-                objDR2 = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
+                objCmd2 = New OdbcCommand(strSQLbgt, objConn2)
+                objCmd2.ExecuteReader() '(CommandBehavior.closeConnection)
 
-                objDR2.Close()
-                objConn2.Close()
+                'objDR2.Close()
+                'objConn2.Close()
 
 
 
@@ -372,8 +435,8 @@ Public Class oz_importakt
 
                             'If CInt(findesAkt) = 0 Then
 
-                            objConn2 = New OdbcConnection(strConn)
-                            objConn2.Open()
+                            'objConn2 = New OdbcConnection(strConn)
+                            'objConn2.Open()
 
                             Dim strSQLaktins As String = ("INSERT INTO aktiviteter (editor, dato, navn, aktnr, job, fakturerbar, " _
                               & "projektgruppe1, projektgruppe2, projektgruppe3, projektgruppe4, projektgruppe5, projektgruppe6, projektgruppe7," _
@@ -384,10 +447,10 @@ Public Class oz_importakt
 
                             'Return strSQLaktins
 
-                            objCmd = New OdbcCommand(strSQLaktins, objConn2)
-                            objDR2 = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
-                            objDR2.Close()
-                            objConn2.Close()
+                            objCmd2 = New OdbcCommand(strSQLaktins, objConn2)
+                            objCmd2.ExecuteReader() '(CommandBehavior.closeConnection)
+                            'objDR2.Close()
+                            'objConn2.Close()
 
 
                             'Else 'findesAkt
@@ -483,12 +546,12 @@ Public Class oz_importakt
 
                             'return strSQLsalgsomkins
 
-                            objConn2 = New OdbcConnection(strConn)
-                            objConn2.Open()
-                            objCmd = New OdbcCommand(strSQLsalgsomkins, objConn2)
-                            objDR2 = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
-                            objDR2.Close()
-                            objConn2.Close()
+                            'objConn2 = New OdbcConnection(strConn)
+                            'objConn2.Open()
+                            objCmd2 = New OdbcCommand(strSQLsalgsomkins, objConn2)
+                            objCmd2.ExecuteReader() '(CommandBehavior.closeConnection)
+                            'objDR2.Close()
+                            'objConn2.Close()
 
                             'End If
 
@@ -510,12 +573,12 @@ Public Class oz_importakt
                     '** akttype Kontrakt // INDLÆS
                     '** Omkostninger / materialeforbrug
 
-                    objConn2 = New OdbcConnection(strConn)
-                    objConn2.Open()
+                    'objConn2 = New OdbcConnection(strConn)
+                    'objConn2.Open()
 
                     Dim strSQLomkostninger As String = "SELECT extsysid FROM materiale_forbrug WHERE extsysid = " & varLobenr & " AND jobid = " & jobId
-                    objCmd = New OdbcCommand(strSQLomkostninger, objConn2)
-                    objDR2 = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
+                    objCmd2 = New OdbcCommand(strSQLomkostninger, objConn2)
+                    objDR2 = objCmd2.ExecuteReader '(CommandBehavior.closeConnection)
                     findesOmkostning = 0
                     If objDR2.Read() = True Then
 
@@ -523,7 +586,7 @@ Public Class oz_importakt
 
                     End If
                     objDR2.Close()
-                    objConn2.Close()
+
 
                     If CInt(findesOmkostning) = 0 And aktsum <> 0 Then 'SKAL TILFØJES NÅR vi begyndner at indlæse fra TiemOut til NAV i feb: And CInt(aktkonto) >= 199
 
@@ -533,12 +596,11 @@ Public Class oz_importakt
                         & "'" & Now.ToString("yyyy/MM/dd", Globalization.CultureInfo.InvariantCulture) & "','TO_import-nav', 71, 1, '" & Now.ToString("yyyy/MM/dd", Globalization.CultureInfo.InvariantCulture) & "', " & varLobenr & ", " & kontoId & ")")
 
                         'Return "XX HER XX errThis SQL: " & strSQLsalgsomkins
-                        objConn2 = New OdbcConnection(strConn)
-                        objConn2.Open()
-                        objCmd = New OdbcCommand(strSQLsalgsomkins, objConn2)
-                        objDR2 = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
-                        objDR2.Close()
-                        objConn2.Close()
+
+                        objCmd3 = New OdbcCommand(strSQLsalgsomkins, objConn2)
+                        objDR3 = objCmd3.ExecuteReader '(CommandBehavior.closeConnection)
+                        objDR3.Close()
+
 
 
                     Else
@@ -548,12 +610,11 @@ Public Class oz_importakt
                             Dim strSQLsalgsomkinsDEL As String = ("DELETE FROM materiale_forbrug WHERE extsysid = " & varLobenr & " AND jobid = " & jobId)
 
                             'Return "XX HER XX errThis SQL: " & strSQLsalgsomkins
-                            objConn2 = New OdbcConnection(strConn)
-                            objConn2.Open()
-                            objCmd = New OdbcCommand(strSQLsalgsomkinsDEL, objConn2)
-                            objDR2 = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
-                            objDR2.Close()
-                            objConn2.Close()
+
+                            objCmd3 = New OdbcCommand(strSQLsalgsomkinsDEL, objConn2)
+                            objDR3 = objCmd3.ExecuteReader '(CommandBehavior.closeConnection)
+                            objDR3.Close()
+
 
 
 
@@ -575,6 +636,15 @@ Public Class oz_importakt
 
 
 
+            '**** Opdater overført ************
+
+            Dim strSQLjobToverfort As String = "UPDATE akt_import_temp SET overfort = 1 WHERE id = " & id & ""
+            objCmd2 = New OdbcCommand(strSQLjobToverfort, objConn2)
+            objCmd2.ExecuteReader() '(CommandBehavior.closeConnection)
+            'objDR2.Close()
+            'objConn2.Close()
+
+
 
             a = a + 1
 
@@ -583,14 +653,15 @@ Public Class oz_importakt
         objDR.Close()
         objConn.Close()
 
-
+        objConn2.Close()
 
 
         '************* Overfører beløb til GT på job *********************
 
         'For Each element As Integer In aktsumGrandTotalJob
         Dim i As Integer = 0
-
+        objConn2 = New OdbcConnection(strConn)
+        objConn2.Open()
         For i = 0 To UBound(aktsumGrandTotalJob)
 
 
@@ -612,19 +683,19 @@ Public Class oz_importakt
                 aktsumGrandTotalJob(i) = aktsumGrandTotalJob(i)
                 aktsumGrandBel = Replace(aktsumGrandTotalJob(i), ",", ".")
 
-                objConn2 = New OdbcConnection(strConn)
-                objConn2.Open()
+
                 Dim strSQLjobbruttoOms As String = "UPDATE job SET jo_bruttooms = " & jobBruttoOmsBel & ", jobTpris = " & aktsumGrandBel & ", jo_gnsbelob = " & aktsumGrandBel & ", jo_udgifter_intern = " & aktsumGrandBel & ", job_internbesk = '222-" & aktsumGrandBel & "', budgettimer = 1, jo_gnsfaktor = 1 WHERE id = " & i
                 'Dim strSQLjobbruttoOms As String = "UPDATE job SET jo_bruttooms = " & jobBruttoOmsBel & ", jobTpris = 0, jo_gnsbelob = 0, job_internbesk = '" & aktsumGrandBel & "', budgettimer = 1, jo_gnsfaktor = 1 WHERE id = " & i
-                objCmd = New OdbcCommand(strSQLjobbruttoOms, objConn2)
-                objDR2 = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
-                objDR2.Close()
-                objConn2.Close()
+                objCmd2 = New OdbcCommand(strSQLjobbruttoOms, objConn2)
+                objCmd2.ExecuteReader() '(CommandBehavior.closeConnection)
+                'objDR2.Close()
+                'objConn2.Close()
 
 
-            end if
+            End If
 
         Next
+        objConn2.Close()
         '*****************************************************************
 
 
@@ -633,13 +704,13 @@ Public Class oz_importakt
 
         '**** Opdater overført ************
 
-        objConn2 = New OdbcConnection(strConn)
-        objConn2.Open()
-        Dim strSQLjobToverfort As String = "UPDATE akt_import_temp SET overfort = 1 WHERE id > 0 AND errid = 0"
-        objCmd = New OdbcCommand(strSQLjobToverfort, objConn2)
-        objDR2 = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
-        objDR2.Close()
-        objConn2.Close()
+        'objConn2 = New OdbcConnection(strConn)
+        'objConn2.Open()
+        'Dim strSQLjobToverfort As String = "UPDATE akt_import_temp SET overfort = 1 WHERE id <= " & id & ""
+        'objCmd = New OdbcCommand(strSQLjobToverfort, objConn2)
+        'objDR2 = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
+        'objDR2.Close()
+        'objConn2.Close()
 
         '**** Delete overført ************
 
@@ -654,6 +725,9 @@ Public Class oz_importakt
 
 
 
+        'Next
+
+        Return "<br>Last Webservice loop: " & j & "<br>"
 
     End Function
 

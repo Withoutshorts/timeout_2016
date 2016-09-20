@@ -1051,23 +1051,29 @@ end if %>
     oConn.execute(strSQLupdmoms) 
 
 
-    if cint(intFaktype) = 1 AND media <> "xml" then
-    intMoms = -(intMoms)
-    end if
+    
    
     %>
    <%end if 
    
-   
+   if cint(intFaktype) = 1 AND media <> "xml" then
+   intMoms = (intMoms*-1)
+   end if
    
 
+    
     
    %>
    
  <tr>
     <td valign="top" colspan="4" style="padding:5px 0px 5px 0px;"><%=momssats &"&#37; "& erp_txt_034 %></td>
-    <td colspan="4" valign="top" align="right" style="padding:5px 0px 5px 0px;"><%=formatnumber(intMoms,2) &" "& valutaISO%>
-   
+    <td colspan="4" valign="top" align="right" style="padding:5px 0px 5px 0px;">
+        
+        <%if cint(intFaktype) = 1 then%>
+        -<%=formatnumber(intMoms,2) &" "& valutaISO%>    
+        <% else %>
+        <%=formatnumber(intMoms,2) &" "& valutaISO%>
+        <%end if %>
     </td>
 	
 </tr>
@@ -1096,7 +1102,12 @@ if len(trim(strFakmat)) <> 0 AND t = 1 then 'strFakmat(1) %>
 end select
 %>
  <%
-	totalinclmoms = (intMoms/1) + (intFaktureretBelob/1)
+
+    if cint(intFaktype) = 1 then
+    intMoms = (intMoms*-1)
+    end if
+
+	totalinclmoms = (intFaktureretBelob/1) + (intMoms/1) 
 	%>
 
 <tr>

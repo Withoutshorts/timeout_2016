@@ -1573,7 +1573,7 @@ sub projektberegner
                                     'call infoUnisport(uWdt, uTxt)
                                 
                                     select case lto
-                                    case "epi", "epi_no", "epi_sta", "epi_ab", "epi_cati"
+                                    case "epi", "epi_no", "epi_sta", "epi_ab", "epi_cati", "cisu"
                                     opfodCHK0 = ""
                                     opfodCHK1 = "CHECKED"
                                     case else
@@ -1642,11 +1642,29 @@ sub projektberegner
 	
 	            if func <> "red" then
 	                    '** Henter forvalgt stam-akt. grupper ***'
+
+                        '** Sepciel forvalgtstamgruppe for udviklingsgruppen
+                        select case lto
+                        case "dencker"
+                            
+                            call medariprogrpFn(session("mid"))
+
+                            if instr(medariprogrpTxt, "#27#") <> 0 then
+                            agforvalgtStamgrpKri = " id = 39 "
+                            else
+                            agforvalgtStamgrpKri = " forvalgt = 1 "
+                            end if
+                        
+                        case else
+                        agforvalgtStamgrpKri = " forvalgt = 1 "
+                        end select
+
+
 	                    for a = 1 to 1 'antalStamGrp - 1
                     	        
 	                    forvlgtStamaktgrp = 0
 	                    fsnavn = ""
-	                    strSQLfv = "SELECT id, forvalgt, navn FROM akt_gruppe WHERE forvalgt = 1 AND skabelontype = 0"
+	                    strSQLfv = "SELECT id, forvalgt, navn FROM akt_gruppe WHERE "& agforvalgtStamgrpKri &" AND skabelontype = 0"
 	                    oRec2.open strSQLfv, oConn, 3
 	                    if not oRec2.EOF then
 	                    forvlgtStamaktgrp = oRec2("id")

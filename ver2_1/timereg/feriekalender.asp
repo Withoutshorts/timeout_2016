@@ -505,7 +505,7 @@ if len(session("user")) = 0 then
 	    wwdt = 21 '(2px + 1px border)
 	    end if
 	    
-	    weeknum = datepart("ww", dateadd("d", -7, newDate),2,2)
+	    weeknum = datepart("ww", dateadd("d", -0, newDate),2,2) '-7 på gammelserver? 
 
         select case right(weeknum, 1)
         case 0,2,4,6,8

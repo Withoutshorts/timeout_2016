@@ -1,7 +1,11 @@
 
+<% if instr(request.servervariables("LOCAL_ADDR"), "195.189.130.210") <> 0 then %>
+<!--include file="../inc/connection/aktivedb_inc.asp"-->
+<%else %>
+<!--include file="../inc/connection/aktivedb_r_inc.asp"-->
+<%end if %>
+
 <!--#include file="../inc/connection/aktivedb_inc.asp"-->
-
-
 
 <%
 
@@ -53,7 +57,7 @@ a = 0
 					Response.write strSQL(b) & "<br>"
 					Response.flush
 					x = 1
-					numberoflicens = 160
+					numberoflicens = 161
 					For x = 1 To numberoflicens  
 						
 						call aktivedb(x)
@@ -79,7 +83,7 @@ a = 0
 								Response.write x &"<br>"& strSQL(b) & "<br><br>"
 								Response.flush
 
-								if x < 158 then 'AND x < 101 then
+								'if x <= 160 then 'AND x < 101 then
                                 oConn.open strConnect_aktiveDB
 							    
                                 '*** DENNE LINJE INDLÆSER // UDKOMMENTER NÅR FILEN IKKE ER AKTIV
@@ -90,7 +94,7 @@ a = 0
 								
 								oConn.close
 
-							    end if
+							    'end if
 								
 								
 								a = a + 1
@@ -2890,6 +2894,25 @@ INSERT INTO dbversion (dbversion) VALUES (20160823.1)
 ALTER TABLE national_holidays ADD nh_date DATE NOT NULL DEFAULT '2010-01-01';
 INSERT INTO dbversion (dbversion) VALUES (20160623.2) 
 
+
+<br /><br />20160908.1<br />
+ALTER TABLE job
+MODIFY COLUMN jobnavn varchar(150) DEFAULT '' NOT NULL;
+ALTER TABLE kontaktpers
+ MODIFY COLUMN navn varchar(150);
+ALTER TABLE kunder
+ MODIFY COLUMN kkundenavn varchar(150) DEFAULT '' NOT NULL;
+ALTER TABLE aktiviteter ADD sttid TIME DEFAULT '00:00:00' NOT NULL;
+ALTER TABLE aktiviteter ADD sltid TIME DEFAULT '00:00:00' NOT NULL;
+INSERT INTO dbversion (dbversion) VALUES (20160908.1) 
+
+
+<br /><br />20160908.2<br />
+ALTER TABLE aktiviteter
+CHANGE sttid aktsttid TIME DEFAULT '00:00:00' NOT NULL;
+ALTER TABLE aktiviteter
+CHANGE sltid aktsltid TIME DEFAULT '00:00:00' NOT NULL;
+INSERT INTO dbversion (dbversion) VALUES (20160908.2)
 <%
 
 

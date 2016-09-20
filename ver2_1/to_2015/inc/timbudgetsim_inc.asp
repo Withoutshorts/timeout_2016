@@ -676,8 +676,8 @@ function medarbfelter(jobnr, jobid, aktid, h1aar, h2aar, h1md, h2md, bgttpris)
                          wend
                          oRec3.close 
 
-                        if (afcm) <> 0 then
-                        gnsTp = gnsTp / afcm
+                        if cdbl(afcm) <> 0 AND isNull(gnsTp) <> true then
+                        gnsTp = formatnumber(gnsTp / afcm, 2)
                         else
                         gnsTp = 0
                         end if           
@@ -752,11 +752,15 @@ function medarbfelter(jobnr, jobid, aktid, h1aar, h2aar, h1md, h2md, bgttpris)
                                 <input type="<%=fcjobaktGTtype %>" id="fcjobaktgt_<%=jobid%>_<%=aktid%>" value="<%=jobFcGtTxt%>" class="form-control input-small fcjobgt fcjobgt_<%=jobid%>" style="width:60px; background-color:<%=fcBgCol%>; text-align:right;" DISABLED />
                              
                                     <%if fcjobaktGTtype = "hidden" then %>
-                                    <span style="background-color:<%=fcBgCol%>;"><%=jobFcGtTxt%> (tp: <%=gnsTp %>)</span>
+                                    <span style="background-color:<%=fcBgCol%>;"><%=jobFcGtTxt%></span>
+                             
+                                            <%if gnsTp <> 0 then %>
+                                            <br /><span style="font-size:9px;">(tp: <%=gnsTp %>)</span>
+                                            <%end if %>        
                                     <%end if %>
                               
                                     <%if cint(timesimtp) = 1 then 'aktid <> 0 %>
-                                    <span style="font-size:10px; padding:2px 2px 2px 2px; white-space:nowrap;" id="fcjobaktBelgts_<%=jobid%>_<%=aktid%>" class="fcjobaktBelgts"><%=jobFcGtBelobTxt%></span>
+                                    <span style="font-size:10px; padding:2px 2px 2px 2px; white-space:nowrap;" id="fcjobaktBelgts_<%=jobid%>_<%=aktid%>" class="fcjobaktBelgts"><%=jobFcGtBelobTxt %></span>
                                     <input type="hidden" id="fcjobaktBelgt_<%=jobid%>_<%=aktid%>" class="fcjobaktBelgt" value="<%=jobFcGtBelob %>"/>
                              
                                     <%end if %>

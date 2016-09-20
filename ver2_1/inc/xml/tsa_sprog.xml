@@ -370,7 +370,7 @@
 	  <txt_284>Flekssaldo</txt_284>
 
 	  <txt_285>Åben. Timer ikke indlæst. (Pre-udfyldte aktiviteter, f.eks. frokost)</txt_285>
-	  <txt_286>Skjul aktiviteter, hvis start- ell. slut -dato, ligger udenfor den valgte periode.</txt_286>
+	  <txt_286>Vis ikke job og aktiviteter, hvis start- ell. slut -dato, ligger udenfor den valgte periode. (gælder ikke salgs-aktiviteter - se indst. i kontrolpanel)</txt_286>
 	  <txt_287>Bopælstur. Kørsel mellem bopæl og arb. sted.</txt_287>
 	  <txt_288>60 dages regel</txt_288>
 	  <txt_289>

@@ -248,7 +248,7 @@ end function
 
    
 	
-	if print <> "j" AND media <> "export" then
+	if print <> "j" AND media <> "export" AND media <> "print" then
 	%>
 	<tr><td colspan="5"><span id="sp_med" style="color:#5582d2;">[+] Projektgrupper & Medarbejdere</span></td></tr>
 	<tr id="tr_prog_med" style="display:none; visibility:hidden;">
@@ -264,7 +264,7 @@ end function
 
         if thisfile <> "smileystatus.asp" then
 
-        	if print <> "j" AND media <> "export" then
+        	if print <> "j" AND media <> "export" AND media <> "print" then
         %>
          <tr><td colspan="5"><span id="sp_kun" style="color:#5582d2;">[+] Kunder
 
@@ -497,7 +497,7 @@ end function
 	    
 	
 	
-	if print <> "j" AND media <> "export" then
+	if print <> "j" AND media <> "export" AND media <> "print" then
 	%>
 	 <tr><td colspan="5"><span id="sp_job" style="color:#5582d2;">[+] Job & Aftaler</span></td></tr>
          
@@ -661,7 +661,8 @@ end function
        
     end if
 
-    if media <> "print" AND print <> "j" AND media <> "export" then
+    
+   if media <> "print" AND print <> "j" AND media <> "export" then
 
 %>
             <tr><td colspan="5" style="padding-top:20px;">
@@ -772,7 +773,7 @@ end function
         %>
        <br /><b>Vælg kunde
            
-           <%if lto = "nt" OR leto = "intranet - local" then %>
+           <%if lto = "nt" OR lto = "intranet - local" then %>
            / leverandør
            <%end if %>
            :</b><br />
@@ -798,7 +799,7 @@ end function
 				while not oRec.EOF
 				
 				
-				
+				'*** Bruges til SQL kald længere nede
 				if cint(kundeans) = 1 OR cint(segment) <> 0 then
 				strKnrSQLkri = strKnrSQLkri & " OR jobknr = "& oRec("kid")
 				strAftKidSQLkri = strAftKidSQLkri & " OR kundeid = " & oRec("kid")
@@ -808,7 +809,7 @@ end function
 				end if
 				
 				
-				if print <> "j" AND media <> "export" ANd media <> "chart" then
+				if print <> "j" AND media <> "export" ANd media <> "chart" AND media <> "print" then
 			
             
                 if lastuseAsFak <> oRec("useasfak") OR k = 0 then
@@ -855,7 +856,7 @@ end function
 				oRec.close
 				
 				
-				if print <> "j" AND media <> "export" then
+				if print <> "j" AND media <> "export" AND media <> "print" then
 				%>
 				</select><br /><br />&nbsp;
               
@@ -881,7 +882,7 @@ end function
 
 
                   
-                    if print <> "j" AND media <> "export" AND thisfile = "joblog_timetotaler" then
+                    if print <> "j" AND media <> "export" AND thisfile = "joblog_timetotaler" AND media <> "print" then
                     
                     %>
                     <br /><br /><b>Forretningsområder:</b><br />                              
@@ -1141,10 +1142,12 @@ end function
 	
 	
 	public strKnrSQLkri, visKundejobans, kundejobansCHK1, kundejobansCHK0, kontakt_keyaccountVAL
-	public kundeans, kundeansChk, jobans, jobans2, jobansChk, jobansVal2, jobansVal, kansVal, jobansChk2
+	public kundeans, kundeansChk, jobans, jobans2, jobansChk, jobansVal2, jobansVal, kansVal, jobansChk2, jobans1Val
     public jobans3, jobansChk3, jobansVal3 
 	function kundeogjobans()
 	
+
+
 	if len(request("FM_kundejobans_ell_alle")) <> 0 then
 	visKundejobans = request("FM_kundejobans_ell_alle")
     response.cookies("tsa")("keyacc") = visKundejobans
@@ -1157,6 +1160,8 @@ end function
 	end if
 	
 	
+                    
+
 	if cint(visKundejobans) = 1 then
 	kundejobansCHK1 = "CHECKED"
 	kundejobansCHK0 = ""
@@ -1166,7 +1171,7 @@ end function
 	jobansVal = ""
 	
 
-                 
+                    
                 if len(request("FM_kundejobans_ell_alle")) <> 0 then
 				'if len(request("FM_kundeans")) <> 0 then
 				kundeans = request("FM_kundeans")
@@ -1190,6 +1195,8 @@ end function
                     end if
 				end if
 				
+                 
+
 				'*** Jobans ***
 				if len(request("FM_kundejobans_ell_alle")) <> 0 then
                 'if len(request("FM_jobans")) <> 0 then
@@ -1218,6 +1225,8 @@ end function
 				
                 end if
 				
+               jobans1Val = jobans
+
 				'*** Jobejer jobans 2 ***
 				'if len(request("FM_jobans2")) <> 0 then
 				if len(request("FM_kundejobans_ell_alle")) <> 0 then
@@ -1265,6 +1274,8 @@ end function
 				      jobans3 = 0
                       end if
 				end if
+
+                
 	
 	
 	else

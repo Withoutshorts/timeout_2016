@@ -126,6 +126,8 @@ $(document).ready(function() {
         jq_aktid = $("#FM_akt_" + thisval).val()
         jq_pa = $("#FM_pa").val()
 
+        varTjDatoUS_man = $("#varTjDatoUS_man").val()
+
         $(".chbox_job").hide();
 
         $("#dv_akt_" + thisval).css("display", "");
@@ -136,7 +138,7 @@ $(document).ready(function() {
 
         if (jq_newfilterval.length > 0) {
 
-        $.post("?jq_newfilterval=" + jq_newfilterval + "&jq_jobid=" + jq_jobid + "&jq_medid=" + jq_medid + "&jq_aktid=" + jq_aktid + "&jq_pa=" + jq_pa, { control: "FN_sogakt", AjaxUpdateField: "true" }, function (data) {
+            $.post("?jq_newfilterval=" + jq_newfilterval + "&jq_jobid=" + jq_jobid + "&jq_medid=" + jq_medid + "&jq_aktid=" + jq_aktid + "&jq_pa=" + jq_pa + "&varTjDatoUS_man=" + varTjDatoUS_man, { control: "FN_sogakt", AjaxUpdateField: "true" }, function (data) {
             //alert("cc")
             $("#dv_akt_" + thisval).html(data);
 
@@ -234,6 +236,8 @@ $(document).ready(function() {
         $("#dv_job_" + thisval).css("display", "");
         $("#dv_job_" + thisval).css("visibility", "visible");
         $("#dv_job_" + thisval).show(100);
+
+        varTjDatoUS_man = $("#varTjDatoUS_man").val()
        
         $(".chbox_akt").hide();
 
@@ -241,7 +245,7 @@ $(document).ready(function() {
 
         if (jq_newfilterval.length > 0) {
 
-        $.post("?jq_newfilterval=" + jq_newfilterval + "&jq_medid=" + jq_medid, { control: "FN_sogjobogkunde", AjaxUpdateField: "true" }, function (data) {
+            $.post("?jq_newfilterval=" + jq_newfilterval + "&jq_medid=" + jq_medid +"&varTjDatoUS_man=" + varTjDatoUS_man, { control: "FN_sogjobogkunde", AjaxUpdateField: "true" }, function (data) {
             //alert("cc")
             $("#dv_job_" + thisval).html(data);
 

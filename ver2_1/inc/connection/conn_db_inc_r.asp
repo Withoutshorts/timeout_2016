@@ -609,8 +609,8 @@ if len(strLicenskey) <> 0 then
 
     case "2.2013-0812-TO145" 'Hidalgo 
 	lto = "hidalgo"
-	strConnThis = "driver={MySQL ODBC 3.51 Driver};server=localhost; Port=3306; uid=to_outzource2;pwd=SKba200473;database=timeout_hidalgo;"
-
+	'strConnThis = "driver={MySQL ODBC 3.51 Driver};server=localhost; Port=3306; uid=to_outzource2;pwd=SKba200473;database=timeout_hidalgo;"
+    strConnThis = "timeout_hidalgo64"
 
     case "2.2013-0912-TO146" 'Biofac Orthena
 	lto = "biofac"

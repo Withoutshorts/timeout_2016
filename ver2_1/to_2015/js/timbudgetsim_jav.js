@@ -145,6 +145,11 @@ $(window).load(function () {
                 $("#allejob").removeAttr("disabled");
                 $("#viskunemedarbfcreal").attr("disabled", true);
                 $("#viskunemedarbfcreal").prop("checked", false);
+
+                $("#viskunprojgrptilknyt").attr("disabled", true);
+                $("#viskunprojgrptilknyt").prop("checked", false);
+                
+
                 $("#progrpid").attr("disabled", true);
 
             } else {
@@ -154,7 +159,9 @@ $(window).load(function () {
                 //       $("#allejob").prop("checked", false);
                 //      $("#allejob").attr("disabled", true);
                 //  }
-                $("#viskunemedarbfcreal").removeAttr("disabled");
+                        $("#viskunemedarbfcreal").removeAttr("disabled");
+                        $("#viskunprojgrptilknyt").removeAttr("disabled");
+                       
                 $("#progrpid").removeAttr("disabled");
             }
 

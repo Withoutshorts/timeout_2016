@@ -28,7 +28,6 @@ thisfile = "joblog_timetotaler"
 	'**************************************************
 
 
-
      if len(trim(request("vis_fakbare_res"))) <> 0 then '** Er der søgt via FORM 
             
             if len(request("vis_aktnavn")) <> 0 then 
@@ -58,6 +57,7 @@ thisfile = "joblog_timetotaler"
     response.cookies("cc_vis_fakbare_res")("aktn") = vis_aktnavn
 
 
+   
 
     if len(trim(request("csv_pivot"))) <> 0 then
     csv_pivot = request("csv_pivot")
@@ -85,6 +85,7 @@ thisfile = "joblog_timetotaler"
 	'*** Job og Kundeans ***
 	call kundeogjobans()
 	
+
 	
 	'*** Medarbejdere / projektgrupper
 	'selmedarb = session("mid")
@@ -111,9 +112,10 @@ thisfile = "joblog_timetotaler"
 	
 	'*** Rettigheder på den der er logget ind **'
 	medarbid = session("mid")
-	
-	'media = request("media")
+    media = request("media") 'bruges ikke da printversion kaldes
 
+
+     
 	if len(request("FM_medarb")) <> 0 OR func = "export" then
 	
 	    if left(request("FM_medarb"), 1) = "0" then 'ikke længere mulig efer jq vælg alle automatisk
@@ -141,6 +143,7 @@ thisfile = "joblog_timetotaler"
     strFomr_rel = "0"
 	strFomr_reljobids = "0"
     strFomr_relaktids = "0"
+    
     
     
     if len(trim(request("FM_fomr"))) <> 0 then
@@ -196,6 +199,8 @@ thisfile = "joblog_timetotaler"
 	else
 	kundeid = 0
 	end if
+
+    
 
     if len(trim(request("FM_visMedarbNullinier"))) <> 0 AND request("FM_visMedarbNullinier") <> 0 then
         visMedarbNullinier = 1
@@ -274,6 +279,8 @@ thisfile = "joblog_timetotaler"
 	fomrid = 0
 	end if
 	
+
+    
 	
 	'***** Valgt job eller søgt på Job ****
 	'** hvis Sog = Ja
@@ -289,7 +296,7 @@ thisfile = "joblog_timetotaler"
 	
 	
 	
-
+    
    
 
 	response.cookies("stat").expires = date + 40
@@ -327,8 +334,9 @@ thisfile = "joblog_timetotaler"
     end if
 
 
-    
+   
 	
+
 	'*** Hvad skal vises ***
 	'0 timer
 	'1 fakbare timer og oms
@@ -362,9 +370,8 @@ thisfile = "joblog_timetotaler"
     end if
 
 
-   
-
-    if len(trim(request("FM_visnuljob"))) <> 0 then
+    
+    if len(trim(request("FM_visnuljob"))) <> 0 AND request("FM_visnuljob") <> 0 then
     visnuljob = 1
 	visnuljobCHK = "CHECKED"
     else
@@ -373,7 +380,7 @@ thisfile = "joblog_timetotaler"
     end if
 
 
-    if len(trim(request("FM_visPrevSaldo"))) <> 0 then
+    if len(trim(request("FM_visPrevSaldo"))) <> 0 AND request("FM_visPrevSaldo") <> 0 then
     visPrevSaldo = 1
 	visPrevSaldoCHK = "CHECKED"
     else
@@ -399,7 +406,7 @@ thisfile = "joblog_timetotaler"
 	directexpCHK = ""
     end if
     
-    
+   
     
 
     if len(trim(request("FM_udspec_all"))) <> 0 AND request("FM_udspec_all") <> 0 then
@@ -410,6 +417,8 @@ thisfile = "joblog_timetotaler"
 	upSpec_allCHK = ""
     end if
 
+
+   
 
   
 	if level <= 2 OR level = 6 then
@@ -464,7 +473,7 @@ thisfile = "joblog_timetotaler"
      '**** Vis kun fakturerbare ****
     if len(request("vis_fakbare_res")) <> 0 then '** Er der søgt via FORM
 
-        if len(request("vis_fakturerbare")) <> 0 then 
+        if len(request("vis_fakturerbare")) <> 0 AND request("vis_fakturerbare") <> 0 then 
 	    vis_fakturerbare = 1
 	    vis_fakturerbareCHK = "CHECKED"
     
@@ -494,40 +503,101 @@ thisfile = "joblog_timetotaler"
     response.cookies("cc_vis_fakbare_res")("fk") = vis_fakturerbare
 
 
-    
-    
-
-    '*** Vis Enheder ***
-	if len(trim(request("vis_enheder"))) <> 0 then
-    vis_enheder = request("vis_enheder")
+   
+     '*** Vis kontaktpersoner ***
+	if len(trim(request("vis_kpers"))) <> 0 OR len(request("vis_fakbare_res")) <> 0 then '** Er der søgt via FORM then
+                    if request("vis_kpers") <> 0 then
+                    vis_kpers = request("vis_kpers")
+                    else
+                    vis_kpers = 0
+                    end if
+        
 	else
-	   if len(request.cookies("cc_vis_fakbare_res")("enh")) <> 0 then
-	   vis_enheder = request.cookies("cc_vis_fakbare_res")("enh")
+	   if len(request.cookies("cc_vis_fakbare_res")("kpers")) <> 0 then
+	   vis_kpers = request.cookies("cc_vis_fakbare_res")("kpers")
 	   else
-	   vis_enheder = 0
+	   vis_kpers = 0
 	   end if
 	end if
 	
-	if cint(vis_enheder) = 1 then
-	enhChk1 = "CHECKED"
-	enhChk0 = ""
+	if cint(vis_kpers) = 1 then
+	kpersChk = "CHECKED"
 	else
-	enhChk0 = "CHECKED"
-	enhChk1 = ""
+	kpersChk = ""
 	end if
 	
-	response.cookies("cc_vis_fakbare_res")("enh") = vis_enheder
+	response.cookies("cc_vis_fakbare_res")("kpers") = vis_kpers
+	
+
+     '*** Vis jobbesk ***
+	if len(trim(request("vis_jobbesk"))) <> 0 OR len(request("vis_fakbare_res")) <> 0 then '** Er der søgt via FORM then
+
+                    if request("vis_jobbesk") <> 0 then
+                    vis_jobbesk = request("vis_jobbesk")
+                    else
+                    vis_jobbesk = 0
+                    end if
+        
+	else
+	   if len(request.cookies("cc_vis_fakbare_res")("jobbesk")) <> 0 then
+	   vis_jobbesk = request.cookies("cc_vis_fakbare_res")("jobbesk")
+	   else
+	   vis_jobbesk = 0
+	   end if
+	end if
+	
+	if cint(vis_jobbesk) = 1 then
+	jobbeskChk = "CHECKED"
+	else
+	jobbeskChk = ""
+	end if
+	
+	response.cookies("cc_vis_fakbare_res")("jobbesk") = vis_jobbesk
+	
+	
+
+
+
+
+    
+
+            '*** Vis Enheder ***
+	        if len(trim(request("vis_enheder"))) <> 0 then
+            
+            vis_enheder = request("vis_enheder")
+                    
+	        else
+	           if len(request.cookies("cc_vis_fakbare_res")("enh")) <> 0 then
+	           vis_enheder = request.cookies("cc_vis_fakbare_res")("enh")
+	           else
+	           vis_enheder = 0
+	           end if
+	        end if
+	
+	        if cint(vis_enheder) = 1 then
+	        enhChk1 = "CHECKED"
+	        enhChk0 = ""
+	        else
+	        enhChk0 = "CHECKED"
+	        enhChk1 = ""
+	        end if
+	
+	        response.cookies("cc_vis_fakbare_res")("enh") = vis_enheder
 	
 	
 	else
 	
 	visfakbare_res = 0
 	vis_enheder = 0
+    vis_kpers = 0
+	vis_jobbesk = 0
 	
 	end if
 	
+    
 
-    '*** Vis Ressourcetimer ***
+   
+     '*** Vis Ressourcetimer ***
 	if len(trim(request("vis_restimer"))) <> 0 then
     vis_restimer = request("vis_restimer")
 	else
@@ -548,6 +618,7 @@ thisfile = "joblog_timetotaler"
 
     response.cookies("cc_vis_fakbare_res")("res") = vis_restimer
 
+   
 
      '*** Vis Normtimer ***
 	if len(trim(request("vis_normtimer"))) <> 0 then
@@ -574,7 +645,7 @@ thisfile = "joblog_timetotaler"
 
     '*** Udspec. på medarbejdertyper ***' 
     if len(trim(request("vis_fakbare_res"))) <> 0 then 'Er der søgt via FORM
-        if len(trim(request("FM_vis_medarbejdertyper"))) <> 0 then
+        if len(trim(request("FM_vis_medarbejdertyper"))) <> 0 AND request("FM_vis_medarbejdertyper") <> 0 then
         vis_medarbejdertyper = 1
         else
         vis_medarbejdertyper = 0
@@ -587,6 +658,8 @@ thisfile = "joblog_timetotaler"
 	   end if
 	end if
 	
+    
+
 	if cint(vis_medarbejdertyper) = 1 then
 	vis_medarbejdertyperChk = "CHECKED"
 	else
@@ -598,7 +671,7 @@ thisfile = "joblog_timetotaler"
 
      '*** Udspec. på medarbejdertyperGrp ***' 
     if len(trim(request("vis_fakbare_res"))) <> 0 then 'Er der søgt via FORM
-        if len(trim(request("FM_vis_medarbejdertyper_grp"))) <> 0 then
+        if len(trim(request("FM_vis_medarbejdertyper_grp"))) <> 0 AND request("FM_vis_medarbejdertyper_grp") <> 0 then
         vis_medarbejdertyper_grp = 1
         else
         vis_medarbejdertyper_grp = 0
@@ -611,6 +684,8 @@ thisfile = "joblog_timetotaler"
 	   end if
 	end if
 	
+    
+
 	if cint(vis_medarbejdertyper_grp) = 1 then
 	vis_medarbejdertyper_grpChk = "CHECKED"
 	else
@@ -625,7 +700,7 @@ thisfile = "joblog_timetotaler"
      '*** Redaktør *****'
     if len(trim(request("vis_fakbare_res"))) <> 0 then '**Er der søgt via form
 
-   	    if len(trim(request("vis_redaktor"))) <> 0 then
+   	    if len(trim(request("vis_redaktor"))) <> 0 AND request("vis_redaktor") <> 0 then
 	    vis_redaktor = 1
 	    vis_redaktorCHK = "CHECKED"
         response.cookies("cc_vis_redaktor")("vis") = "1"
@@ -647,6 +722,11 @@ thisfile = "joblog_timetotaler"
 	   
 
     end if
+
+
+    
+
+
     
     '** hvis uspec på åakt IKKE er valgt eller udspec på medarbejdertyper ER valgt kan der ikke vises redaktør **'
     if cint(vis_medarbejdertyper) = 1 OR visfakbare_res <> 1 then
@@ -1017,7 +1097,7 @@ thisfile = "joblog_timetotaler"
 
    
 
-    if nomenu <> "1" then
+    if nomenu <> "1" AND media <> "print" then
     %>
     <!--#include file="../inc/regular/header_lysblaa_inc.asp"-->
     <script src="inc/joblog_timetotaler_jav.js"></script>
@@ -1028,25 +1108,8 @@ thisfile = "joblog_timetotaler"
 
              call menu_2014()
     
-            'select case level
-	        'case 1,2,6 %>
-
-            <!--
-            <div id="topmenu" style="position:absolute; left:0; top:42; visibility:visible;">
-	       
-	        <%'call tsamainmenu(7)%>
-	        </div>
-
-	        <div id="sekmenu" style="position:absolute; left:15; top:82; visibility:visible;">
-	        <%
-	        if showonejob <> 1 then
-		        'call stattopmenu()
-	        end if
-	        %>
-	        </div>
-                -->
-	
-	        <%
+           
+	        
 
             pleft = 90
 	        ptop = 102 '202
@@ -1068,13 +1131,101 @@ thisfile = "joblog_timetotaler"
     
     else
     
+    if media <> "print" then
     %>
     <!--#include file="../inc/regular/header_lysblaa_inc.asp"-->
+    <%else %>
+    <!--#include file="../inc/regular/header_hvd_inc.asp"-->
+      
+
+
+<!-- WC20160902 Udkommenter og Rotate virker
+     
+  <script type="text/javascript">
+    function changeZoom2(oSel) {
+    //alert("her")
+  	newZoom= oSel.options[oSel.selectedIndex].innerText
+	printarea.style.zoom=newZoom+'%';
+	//oCode.innerText='zoom: '+newZoom+'';	
+}
+
+/***************************************Lei Rotate function 30-04-2013**************************/
+function LeiRotate() {
+
+   
+
+    var div = document.getElementById("printarea");
+   
+
+
+    var cls = div.className;
+    if (cls.indexOf("rotate2") !== -1) {    //rotate three times to the counterclockwise direction
+        div.className = "rotate3";
+        var widthHalf = div.clientWidth / 2;
+        var heightHalf = div.clientHeight / 2;
+        div.setAttribute("style", "left: 780px; top: 0px; visibility: visible; position: absolute; zoom: 100%;margin-top:" + (widthHalf - heightHalf) + "px;margin-left:-" + (widthHalf - heightHalf + 100)+"px");
+    }
+    else if (cls.indexOf("rotate3") !== -1) {   //rotate four times to the counterclockwise direction
+        div.className = "";
+        var widthHalf = div.clientWidth / 2;
+        var heightHalf = div.clientHeight / 2;
+        div.setAttribute("style", "left: 0px; top: -20px; visibility: visible; position: absolute; zoom: 100%;");
+    }
+    else if (cls.indexOf("rotate") !== -1) {    //rotate twice to the counterclockwise direction
+        div.className = "rotate2";
+        var widthHalf = div.clientWidth / 2;
+        var heightHalf = div.clientHeight / 2;
+        div.setAttribute("style", "left: 1120px; top: 620px; visibility: visible; position: absolute; zoom: 100%;");
+    }
+    else {      //rotate once to the counterclockwise direction
+        div.className = "rotate";
+        var widthHalf = div.clientWidth / 2;
+        var heightHalf = div.clientHeight / 2;
+        div.setAttribute("style", "left: 20px; top: 1120px; visibility: visible; position: absolute; zoom: 100%; margin-top:" + (widthHalf - heightHalf) + "px;margin-left:-" + (widthHalf - heightHalf+20)+"px");
+    }    
+}
+</SCRIPT>
+
+-->
+
+
+<!--include file="../inc/regular/header_hvd_css3_html5_inc_Lei.asp"-->
+
+
+<!--		
+    <style type="text/css">
+  
+   
+    .rotate
+    {
+        -webkit-transform:rotate(-90deg);
+        -moz-transform:rotate(-90deg);
+        -o-transform:rotate(-90deg);
+        -ms-transform:rotate(-90deg);
+    }
+    .rotate2
+    {
+        -webkit-transform:rotate(-180deg);
+        -moz-transform:rotate(-180deg);
+        -o-transform:rotate(-180deg);
+        -ms-transform:rotate(-180deg);
+    }
+    .rotate3
+    {
+        -webkit-transform:rotate(-270deg);
+        -moz-transform:rotate(-270deg);
+        -o-transform:rotate(-270deg);
+        -ms-transform:rotate(-270deg);
+    }
+    </style> 
+
+    -->
+
+<%end if %>
+
 
 
     <script src="inc/joblog_timetotaler_jav.js"></script>
-
-  
     <%
 
     pleft = 20
@@ -1132,22 +1283,39 @@ thisfile = "joblog_timetotaler"
 	
 	'call sideoverskrift(oleft, otop, owdt, oimg, oskrift)
 	
-	
+	if media = "xxxprint" then
     %>
+
+
+      <div style="position:absolute; zoom: 100%; left:1200px; top:15px; z-index:1000000; visibility:visible;" bgcolor="#ffffff">
+          <form>
+  <p>
+            <input id="Button1" type="button" value="Rotate Clockwise/CCW 90' >>" onclick="LeiRotate();" /><br />
+      <span style="font-size:10px; color:#999999;">
+            1-4 Portrait/Lanscape Normal - Upside/Down<br />
+          
+          </span>
+      </form>
+     </p>
+    </div>
+    <%end if %>
+
 
 
     
 
     <div id="sindhold" style="position:absolute; left:<%=pleft%>px; top:<%=ptop%>px; visibility:visible;">
    
-    <%
+
+
+    <%if media <> "print" then
 
     call filterheader_2013(0,0,800,oskrift)
 	
 	%>
 	
 	<table cellspacing=0 cellpadding=0 border=0 width=100% bgcolor="#FFFFFF">
-	<form action="joblog_timetotaler.asp?FM_usedatointerval=1&nomenu=<%=nomenu %>" method="post">
+    <form action="joblog_timetotaler.asp?FM_usedatointerval=1&nomenu=<%=nomenu %>" method="post">
 	
 	<%call medkunderjob %>
 	
@@ -1233,14 +1401,15 @@ thisfile = "joblog_timetotaler"
 
                 
                 <input type="checkbox" value="1" name="vis_fakturerbare" id="vis_fakturerbare" <%=vis_fakturerbareCHK%> /> Vis kun <b>fakturerbare timer</b><br />
-                <span style="background-color:#FFFFe1;"> <input type="checkbox" value="1" name="vis_godkendte" id="vis_godkendte" <%=vis_godkendteCHK%> /> Vis kun <b>godkendte timer</b> </span>
+                <span style="background-color:#FFFFe1;"> <input type="checkbox" value="1" name="vis_godkendte" id="vis_godkendte" <%=vis_godkendteCHK%> /> Vis kun <b>godkendte timer</b> </span><br />
+                
                </td>
 			</tr>
 		
           
             <tr>
              <td colspan="3" valign=top style="padding:0px 0px 0px 40px;" bgcolor="#ffffff">
-		        <b>Vis enheder. </b><font class=lille>(timer * faktor) <input type="radio" name="vis_enheder" id="vis_enheder" value="1" <%=enhChk1%>>Ja &nbsp;&nbsp;<input type="radio" name="vis_enheder" id="vis_enheder" value="0" <%=enhChk0%>>Nej</td>
+		        <b>Vis enheder</b> <font class=lille>(timer * faktor) <input type="radio" name="vis_enheder" id="vis_enheder" value="1" <%=enhChk1%>>Ja &nbsp;&nbsp;<input type="radio" name="vis_enheder" id="vis_enheder" value="0" <%=enhChk0%>>Nej</td>
 			</tr>
 			<%else %>
         <input id="Hidden1" type="hidden" name="vis_fakbare_res" value="0" />
@@ -1309,26 +1478,36 @@ thisfile = "joblog_timetotaler"
       <br /><br />
       <!--<input id="Checkbox2" type="checkbox" name="FM_visnuljob" value="1" <%=visnuljobCHK %> />Vis job uden real. timer i valgte periode.<br />-->
       <input id="Checkbox3" type="checkbox" name="FM_visPrevSaldo" value="1" <%=visPrevSaldoCHK %> />Vis <b>saldo</b> (for tidligere periode) og <b>total</b> timeforbrug (alle medarbejdere uanset valgte)<br />
-      <br />
-      
-
-        </tr>
-        <tr><td align="right" colspan="2">
+      <input type="checkbox" value="1" name="vis_kpers" id="vis_kpers" <%=kpersCHK%> /> Vis kontaktpersoner<br />
+    <input type="checkbox" value="1" name="vis_jobbesk" id="vis_jobbesk" <%=jobbeskCHK%> /> Vis jobbeskrivelse<br />
+      </td>
+       </tr>
+       <tr>
+           <td align="right" colspan="2">
 
 
 	<input type="submit" value=" Kør >> "></td>
 	</tr>
 	</form>
 	</table>
+
+
+
 	<!-- filterDiv -->
 	</td></tr>
 	</table>
     </div>
+
+    <%else 
+        
+    dontshowDD = 1%>
+    <!--#include file="inc/weekselector_s.asp"-->
+    <%end if 'mdia = print %>
 	
 
 	   <!--pagehelp-->
 
-    <%if print <> "j" then
+    <%if print <> "j" AND media <> "print" then
 
                 itop = hlp_top 'ptop - 147 '56
                 ileft = 635
@@ -1417,12 +1596,18 @@ thisfile = "joblog_timetotaler"
 	end select
 
 
+
+    'response.write "datoStart: " &  datoStart
+    'response.Flush
+
     perinterval = datediff("d", datoStart, datoSlut) 
 
 
     'Response.write "jobid " & jobid
     'Response.write 
-	
+	if media = "print" then
+    call segment_kunder
+    end if
 	
 
     '*** valgte job ***
@@ -1482,8 +1667,8 @@ thisfile = "joblog_timetotaler"
     
 
 	if (datediff("d", datoStart, datoSlut) > perHigh AND cint(antJob) > antJobkri AND (antalm > 1 AND antalm <= 49)) _
-    OR (datediff("d", datoStart, datoSlut) > perMid AND cint(antJob) > antJobkri AND (antalm > 49 AND antalm <= 99)) _
-    OR (datediff("d", datoStart, datoSlut) > perLow AND cint(antJob) > antJobkri AND (antalm > 99 AND antalm <= 1000)) _
+    OR (datediff("d", datoStart, datoSlut) > perMid AND cint(antJob) > antJobkri AND (antalm > 49 AND antalm <= 149)) _
+    OR (datediff("d", datoStart, datoSlut) > perLow AND cint(antJob) > antJobkri AND (antalm > 149 AND antalm <= 1499)) _
     OR (cint(antJob) > antJobkri12m AND antalm > 50 AND md_split = 2) _
     OR (antalm > maksAntalM) _
     OR (datediff("d", datoStart, datoSlut) > 1855) then
@@ -1510,7 +1695,7 @@ thisfile = "joblog_timetotaler"
 			<b>A)</b> Der er valgt mere end <b><%=antJobkri %> job</b> og: <br />
 			<br> - Mellem <b>2 og 50</b> medarbejdere og en periode på mere end <b><%=perAarHigh %> år.</b>
 			<br> - Mere end <b>50</b> medarbejdere og en periode på mere end <b><%=perAarMid %> md.</b>
-            <br> - Mere end <b>100</b> medarbejdere og en periode på mere end <b><%=perAarLow %> md.</b>
+            <br> - Mere end <b>150</b> medarbejdere og en periode på mere end <b><%=perAarLow %> md.</b>
             <br> - Mere end <b><%=maksAntalM %></b> medarbejdere. 
             
             
@@ -1585,9 +1770,9 @@ thisfile = "joblog_timetotaler"
 		'*****************************************************************************************************
 	%>
 	
-	<%response.flush %>
-	
-	<div id="oCode" style="position:relative; top:-18px;"><!-- zoom: 100%;-->
+	<%'response.flush %>
+	<!-- oCode -->
+	<div id="printarea" style="position:relative; top:-18px;"><!-- zoom: 100%;-->
 	<%	
 
             if instr(request.servervariables("LOCAL_ADDR"), "195.189.130.210") <> 0 then
@@ -1650,7 +1835,8 @@ thisfile = "joblog_timetotaler"
             '** Vis kun fakurerbare ***
             if cint(vis_fakturerbare) = 1 then
             whrClaus = "("& replace(aty_sql_fakbar, "fakturerbar", "t.tfaktim") &")" 
-			else
+			
+            else
             
             select case lto
             case "tec", "esn"
@@ -1660,6 +1846,10 @@ thisfile = "joblog_timetotaler"
             end select
         
             end if
+
+            'if session("mid") = 1 then
+            'response.write "<br><br><br>vis_fakturerbare: "& vis_fakturerbare &" lto:" & lto &" whrClaus: " & whrClaus  & "<br><br>"
+            'end if
 
             nDatoStart = day(sqlDatoStart) &"/"& month(sqlDatoStart) &"/"& year(sqlDatoStart)
 			
@@ -2157,6 +2347,14 @@ thisfile = "joblog_timetotaler"
 			&" k.kkundenavn, k.kkundenr, k.adresse, k.postnr, k.city, k.telefon, t.kurs AS oprkurs, t.valuta, "_
 			&" m2.mnavn AS m2mnavn, m2.init AS m2init, m2.mnr AS m2mnr, m3.mnavn AS m3mnavn, m3.init AS m3init, m3.mnr AS m3mnr "
 			
+            if cint(vis_kpers) = 1 then
+            strSQL = strSQL & ", kp.navn AS kontaktperson"
+            end if
+
+            if cint(vis_jobbesk) = 1 then
+            strSQL = strSQL & ", j.beskrivelse"
+            end if
+
 			if cint(vis_enheder) = 1 then
 			strSQL = strSQL & ", a2.faktor, COALESCE(SUM(t.timer * a2.faktor), 0) AS enheder"
 			end if
@@ -2178,13 +2376,19 @@ thisfile = "joblog_timetotaler"
 
 
             if len(trim(aktSQLTables)) <> 0 then 'udpecificer på aktiviteter
-            strSQL = strSQL &" LEFT JOIN  aktiviteter AS a ON (a.job = j.id)"
+            strSQL = strSQL &" LEFT JOIN aktiviteter AS a ON (a.job = j.id)"
             end if
 
-			strSQL = strSQL &" LEFT JOIN kunder k ON (k.kid = j.jobknr)"_
-			&" LEFT JOIN timer t ON ( "& aktjobTimerWhere &" AND t.tmnr = m.mid AND "& whrClaus &" AND t.tdato BETWEEN '"& sqlDatoStart &"' AND '"& sqlDatoSlut&"' "& strSQLgk &" "& strSQLaktNavnKri &")"
+           
 
-            
+			strSQL = strSQL &" LEFT JOIN kunder k ON (k.kid = j.jobknr)"
+			
+            if cint(vis_kpers) = 1 then
+            strSQL = strSQL &" LEFT JOIN kontaktpers AS kp ON (j.kundekpers = kp.id)"
+            end if
+
+            strSQL = strSQL &" LEFT JOIN timer t ON ( "& aktjobTimerWhere &" AND t.tmnr = m.mid AND "& whrClaus &" AND t.tdato BETWEEN '"& sqlDatoStart &"' AND '"& sqlDatoSlut&"' "& strSQLgk &" "& strSQLaktNavnKri &")"
+
 
 			strSQL = strSQL &" LEFT JOIN medarbejdere m2 ON (m2.mid = j.jobans1)"_
 			&" LEFT JOIN medarbejdere m3 ON (m3.mid = j.jobans2)"
@@ -2228,7 +2432,8 @@ thisfile = "joblog_timetotaler"
 			'Response.Write "medarbSQlKri" & medarbSQlKri
 
             'if session("mid") = 1 then
-			'response.write "<br><br><br><br><br>MAIN:" & strSQL & "<br><br>"
+			'response.write "<br><br><br><br><br><br><br><br><br><br>"_
+            '&"<br><br><br><br><br>MAIN:" & strSQL & "<br><br>"
 			'response.flush
 			'end if
            
@@ -2356,11 +2561,11 @@ thisfile = "joblog_timetotaler"
 
                             medarbnavnognr(v) = jobmedtimer(x,2) &" ["& jobmedtimer(x,39) & "]" '("& jobmedtimer(x,37) &")"
                             
-                            if lto = "wwf" OR lto = "wwf2" then
+                            if (lto = "wwf" OR lto = "wwf2") then
                             medarbnavnognr_short(v) = jobmedtimer(x,39)
                             else
                                 
-                                if cint(md_split_cspan) = 1 then
+                                if cint(md_split_cspan) = 1 OR media = "print" then
                                 thisM = left(jobmedtimer(x,2), 10) &" "& jobmedtimer(x,39) '<br>("& jobmedtimer(x,37) &")
                                 else
                                 thisM = left(jobmedtimer(x,2), 35) &" "& jobmedtimer(x,39) '<br>("& jobmedtimer(x,37) &")
@@ -2609,8 +2814,14 @@ thisfile = "joblog_timetotaler"
 							end if
 						
 						
+                            if media <> "print" then
 							jobmedtimer(x,20) = oRec("kkundenavn") & " ("& oRec("kkundenr") &")"
-							jobmedtimer(x,21) = oRec("adresse")
+		                    else
+                            jobmedtimer(x,20) = left(oRec("kkundenavn"), 20) & " ("& oRec("kkundenr") &")"
+                            end if
+
+
+        					jobmedtimer(x,21) = oRec("adresse")
 							jobmedtimer(x,22) = oRec("postnr")
 							jobmedtimer(x,23) = oRec("city") 
 							jobmedtimer(x,24) = oRec("telefon")		
@@ -2633,6 +2844,15 @@ thisfile = "joblog_timetotaler"
 				            
 				            
 				            jobmedtimer(x,36) = oRec("tdato")
+                
+                            if cint(vis_kpers) = 1 then
+                            jobmedtimer(x,41) = oRec("kontaktperson") 
+                            end if
+
+
+                            if cint(vis_jobbesk) = 1 then
+                            jobmedtimer(x,42) = oRec("beskrivelse")
+                            end if
 
                             'if cint(vis_restimer) = 1 AND isNull(oRec("restimer")) <> true then
                             'jobmedtimer(x,37) = oRec("restimer")
@@ -2691,7 +2911,9 @@ thisfile = "joblog_timetotaler"
 			vCntVal = 0
 			
             '*** Vis redaktør = 1 / 0 hvis medarbejdertyper er slået til ****'
-            if cint(directexp) <> 1 then 'direkte excel
+            if cint(directexp) <> 1 then 'direkte excel / print
+
+            if media <> "print" then
 
             if vis_redaktor = 1 then
             strJobLinie_top = "<form action='"&strLink&"&func=dbupdatelist' id='redaktor' method=post>"
@@ -2710,17 +2932,26 @@ thisfile = "joblog_timetotaler"
                 strJobLinie_top = strJobLinie_top & "Realiserede fakturerbare timer og kost."
                 end if
 			else
-			strJobLinie_top = strJobLinie_top & "Realiserede timer ialt. (alle der tælles med i dagligt timeregnskab) "
-			end if
-			
-            strJobLinie_top = strJobLinie_top & " <br>Alle timer og beløb er afrundet til 0 decimaler.<br>&nbsp;"
+                strJobLinie_top = strJobLinie_top & "Realiserede timer ialt."
+            end if
 
+
+            end if 'print
+
+			if media <> "print" then
+            strJobLinie_top = strJobLinie_top & " <br>Alle timer og beløb er afrundet til 0 decimaler.<br>&nbsp;"
+            else
+            strJobLinie_top = strJobLinie_top & "<h4>Timeout - Grandtotal<br><span style=""font-size:9px;"">"& now &" - Periode: "& formatdatetime(strDag&"/"&strMrd&"/"&strAar, 1) & " - " & formatdatetime(strDag_slut&"/"&strMrd_slut&"/"&strAar_slut, 1) &"</span></h4>"
+            end if
 
             strJobLinie_top = strJobLinie_top &  "<table cellspacing=0 cellpadding=0 border=0 bgcolor='#ffffff'>"
 			
 
 
         end if'    if cint(directexp) <> 1 then 
+
+
+
 
         call medarboSkriftlinje
 	    
@@ -2832,6 +3063,8 @@ thisfile = "joblog_timetotaler"
 
 
 									
+
+
 									    if jobmedtimer(x,38) <> 0 then 
                                         '************************************************************************************
                                         '* job eller akt. udspec
@@ -2895,9 +3128,32 @@ thisfile = "joblog_timetotaler"
 
                                                 
                                                     if cint(directexp) <> 1 then
-    									       
+    									                
+                                                                'kunde
                                                                 strJobLinie = strJobLinie & "</tr><tr><td style='padding:30px 10px 2px 2px; background-color:#F7F7F7; border-top:1px #CCCCCC solid;'>"_
-    									                        &"<span style='color:#000000; font-size:10px;'>"& jobmedtimer(x,20) &"</span><br><b>"& jobmedtimer(x,1) &"</b> ("& jobmedtimer(x,6) &")</td>"
+    									                        &"<span style='color:#000000; font-size:10px;'>"& jobmedtimer(x,20) &"</span><br>"
+        
+        
+                                                                 '**Vis kontaktperson
+                                                                if cint(vis_kpers) = 1 then
+                                                                    if len(trim(jobmedtimer(x,41))) <> 0 then
+                                                                    strJobLinie = strJobLinie & "<span style='color:#999999; font-size:9px;'>"
+									                                strJobLinie = strJobLinie & jobmedtimer(x,41) &"</span><br>"
+                                                                    end if
+                                                                end if 
+
+                                                                'Jobnavn
+                                                                strJobLinie = strJobLinie &"<b>"& jobmedtimer(x,1) &"</b> ("& jobmedtimer(x,6) &")"
+
+                                                                 '**Vis jobbeskrivelse
+                                                                if cint(vis_jobbesk) = 1 then
+                                                                    if len(trim(jobmedtimer(x,42))) <> 0 then
+                                                                    strJobLinie = strJobLinie & "<br><span style='color:#5582d2; font-size:9px; display:block; width:350px; white-space:normal;'>"
+									                                strJobLinie = strJobLinie & left(trim(jobmedtimer(x,42)), 250) &"</span>"
+                                                                    end if
+                                                                end if 
+                  
+                                                                strJobLinie = strJobLinie &"</td>"
 
                                                                 strJobLinie = strJobLinie &"<td class=lille valign=bottom style='border-top:1px #CCCCCC solid; background-color:#F7F7F7;'>Budget</td>"
 
@@ -2984,18 +3240,35 @@ thisfile = "joblog_timetotaler"
     									        '*** timer og job **'
                                                 '*********************************'
                                                
-									            strJobLinie = strJobLinie & "</tr><tr><td style='padding:2px; padding-right:10px; border-top:1px #CCCCCC solid;' bgcolor="& bgtd &">"
+									            strJobLinie = strJobLinie & "</tr><tr><td style='padding:2px; padding-right:10px; border-top:1px #CCCCCC solid; width:250px; white-space:nowrap;' bgcolor="& bgtd &">"
                                                 strJobLinie = strJobLinie & jobaktNavn 
                                                 strJobLinie = strJobLinie & "<br><span style='color:#6CAE1C; font-size:9px;'> ("& jobaktType &")</span></td>" 
 									    
 									   
     									        end if'    if cint(directexp) <> 1 then 
+
+
+
     									
     									        ekspAkttype = jobaktType 'replace(jobaktType,"<font color=green>", "")
     									
 									            expTxt = expTxt &"xx99123sy#z"
-									            expTxt = expTxt & jobmedtimer(x,20) &";"
+		                                        'kunde
+        							            expTxt = expTxt & jobmedtimer(x,20) &";"
+        
+                                                'Kontaktperson
+                                                if cint(vis_kpers) = 1 then
+                                                expTxt = expTxt & jobmedtimer(x,41)&";"
+                                                end if     
+
 									            expTxt = expTxt & jobmedtimer(x,1) &";"& jobmedtimer(x,6) &";"
+
+                                               
+                                                'jobbesk
+                                                if cint(vis_jobbesk) = 1 then
+                                                call htmlparseCSV(jobmedtimer(x,42))
+                                                expTxt = expTxt & htmlparseCSVtxt &";"
+                                                end if
                                                 
                                                 select case lto
                                                 case "cisu"
@@ -3025,22 +3298,46 @@ thisfile = "joblog_timetotaler"
 
                                                 '**** JOB *****
     	                                        if cint(directexp) <> 1 then 								
-									            strJobLinie = strJobLinie & "</tr><tr><td style='padding:2px; padding-right:10px; border-top:1px #CCCCCC solid; white-space:nowrap; width:250px;' bgcolor="& bgtd &"><span style='color:#5C75AA; font-size:9px;'>"
+									            strJobLinie = strJobLinie & "</tr><tr><td style='padding:2px; padding-right:10px; border-top:1px #CCCCCC solid; width:250px; white-space:nowrap;' bgcolor="& bgtd &">" 
+        
+                                                strJobLinie = strJobLinie & "<span style='color:#5C75AA; font-size:9px;'>"
 									            
-                                                'if print <> "j" then
                                                 strJobLinie = strJobLinie & jobmedtimer(x,20) &"</span><br>"
-                                               ' if print <> "j" then
+                                               
+                                                '**Vis kontaktperson
+                                                if cint(vis_kpers) = 1 then
+                                                    if len(trim(jobmedtimer(x,41))) <> 0 then
+                                                    strJobLinie = strJobLinie & "<span style='color:#999999; font-size:9px;'>"
+									                strJobLinie = strJobLinie & jobmedtimer(x,41) &"</span><br>"
+                                                    end if
+                                                end if                                        
+
+        
+                                                if media <> "print" then
                                                 strJobLinie = strJobLinie & "<a href='joblog_timetotaler.asp?FM_jobsog="&jobaktNr&"&FM_udspec=1&nomenu=1&FM_medarb="&thisMiduse&"&FM_fomr="&fomr&"' target='_blank' class='vmenu'>[+] "& jobaktNavn &"</a>"
-                                                'else
-                                                'strJobLinie = "<b>"& jobaktNavn &"</b>"
-                                                'end if
-                                                
-                                                strJobLinie = strJobLinie &" ("&jobaktNr&") <span style='color:green; font-size:9px;'>"& jobaktType &"</span>" 
-									    
-									            if (len(trim(jobmedtimer(x,28))) <> 0 OR len(trim(jobmedtimer(x,30))) <> 0) AND lto <> "wwf" then
-     									        strJobLinie = strJobLinie & "<br><span style='color:#999999; font-size:9px;'>"& jobans & "</span>"
+                                                else
+                                                strJobLinie = strJobLinie & left(jobaktNavn, 25) 
+                                                end if
+
+                                                strJobLinie = strJobLinie &" ("&jobaktNr&") "
+
+                                                if media <> "print" then
+                                                strJobLinie = strJobLinie & "<span style='color:green; font-size:9px;'>"& jobaktType &"</span>" 
+                                                end if
+
+                                                if media <> "print" then
+									                if (len(trim(jobmedtimer(x,28))) <> 0 OR len(trim(jobmedtimer(x,30))) <> 0) AND lto <> "wwf" then
+     									            strJobLinie = strJobLinie & "<br><span style='color:#999999; font-size:9px;'>"& jobans & "</span>"
+     									            end if
      									        end if
-     									
+
+                                                '**Vis jobbeskrivelse
+                                                if cint(vis_jobbesk) = 1 then
+                                                    if len(trim(jobmedtimer(x,42))) <> 0 then
+                                                    strJobLinie = strJobLinie & "<br><span style='color:#5582d2; font-size:9px; display:block; width:350px; white-space:normal;'>"
+									                strJobLinie = strJobLinie & left(trim(jobmedtimer(x,42)), 250) &"</span>"
+                                                    end if
+                                                end if 
      									
 									    
     									        strJobLinie = strJobLinie &"</td>"
@@ -3048,10 +3345,22 @@ thisfile = "joblog_timetotaler"
             
 
 									            expTxt = expTxt &"xx99123sy#z"
+                                                'kunde
 									            expTxt = expTxt & jobmedtimer(x,20)&";"
+
+                                                'kontaktperson
+                                                if cint(vis_kpers) = 1 then
+                                                expTxt = expTxt & jobmedtimer(x,41)&";"
+                                                end if   
+
+                                                'jobnavn og jobnr
 									            expTxt = expTxt & jobaktNavn&";"&jobaktNr&";"
         
-                                                 
+                                                'jobbesk
+                                                if cint(vis_jobbesk) = 1 then
+                                                call htmlparseCSV(jobmedtimer(x,42))
+                                                expTxt = expTxt & htmlparseCSVtxt &";"
+                                                end if
 
 
                                                 'Jobansvarlig, Jobejer Init
@@ -4661,7 +4970,35 @@ thisfile = "joblog_timetotaler"
 			</div><!-- sideindhold -->
 			
 			<%
-			if print <> "j" AND x >= 1 then
+
+
+              if len(trim(md_splitVal)) <> 0 AND isNull(md_splitVal) <> true then
+                    md_splitVal = md_splitVal
+                else
+                    md_splitVal = 0
+                end if
+
+                
+                    
+                prntLnk = "nomenu="& nomenu &""_
+                &"&FM_job="& jobid &""_
+                &"&FM_jobsog="& jobSogValPrint &""_
+                &"&FM_start_dag="& strDag &""_
+	            &"&FM_start_mrd="&strMrd&"&FM_start_aar="&strAar&"&FM_slut_dag="&strDag_slut&""_
+	            &"&FM_slut_mrd="&strMrd_slut&"&FM_slut_aar="&strAar_slut&""_
+                &"&FM_progrp="& progrp &"&vis_fakbare_res="& visfakbare_res &""_
+                &"&vis_aktnavn="& vis_aktnavn &"&csv_pivot="&csv_pivot&"&FM_kundejobans_ell_alle="& visKundejobans &"&FM_kundeans="&kundeans&"&FM_jobans="& jobans1Val & ""_   
+                &"&FM_jobans2=" & jobans2 &"&FM_jobans3="& jobans3 &""_
+                &"&FM_medarb="& thisMiduse &""_
+                &"&FM_fomr="& fomr &"&FM_kunde="& kundeid &"&FM_visMedarbNullinier="& visMedarbNullinier &"&FM_aftaler="& aftaleid & ""_
+                &"&FM_md_split="& md_splitVal &""_
+                &"&FM_visnuljob="& visnuljob &"&FM_visPrevSaldo="& visPrevSaldo &""_
+                &"&FM_udspec="& upSpec &"&FM_directexp="& directexp &"&FM_udspec_all="& upSpec_all & ""_
+                &"&vis_fakturerbare="& vis_fakturerbare & "&vis_kpers="& vis_kpers &"&vis_jobbesk="& vis_jobbesk &"&vis_enheder="& vis_enheder & "&vis_restimer=" & vis_restimer & "&vis_normtimer="& vis_normtimer & "&FM_vis_medarbejdertyper="& vis_medarbejdertyper & "&FM_vis_medarbejdertyper_grp="& vis_medarbejdertyper_grp & ""_
+                &"&vis_redaktor=" & vis_redaktor & "&FM_segment="& segmentLnk   
+
+
+			if print <> "j" AND x >= 1 AND media <> "print" then
             
             ptop = pr_Top
             pleft = 830
@@ -4678,22 +5015,25 @@ thisfile = "joblog_timetotaler"
 			
             <tr>
             
-            <%if len(strJobLinie) > 30000000 then %>
-    <td class=lille>
-    Mængden af data er for stor til eksport. Vælg et mindre interval ell. færre 
-    medarbejdere. Størrelsen på data er: <%=len(strJobLinie) %> og den må ikke overstige 30000000 bytes.
-    <%else %>
+                <%if len(strJobLinie) > 30000000 then %>
+        <td class=lille>
+        Mængden af data er for stor til eksport. Vælg et mindre interval ell. færre 
+        medarbejdere. Størrelsen på data er: <%=len(strJobLinie) %> og den må ikke overstige 30000000 bytes.
+        <%else %>
     
-    <td><input type="submit" id="sbm_csv" value=".csv fil eksport >>" style="font-size:9px;" /></td>
+        <td><input type="submit" id="sbm_csv" value="CSV. fil eksport >>" style="font-size:9px;" /></td>
    
-    <%end if %>
+        <%end if %>
             
               
                 </tr>
                 </form>
                 
 
-                <form action="printversion.asp?media=print" method="post" target="_blank" name="theForm" onsubmit="BreakItUp()"> <!--  -->
+                <!--
+
+                <form action="printversion.asp?media=print" method="post" target="_blank" name="theForm" onsubmit="BreakItUp()"> 
+
 			    <input type="hidden" name="datointerval" id="datointerval" value="<%=formatdatetime(strDag&"/"&strMrd&"/"&strAar, 1) & " - " & formatdatetime(strDag_slut&"/"&strMrd_slut&"/"&strAar_slut, 1)%>">
 			    <input type="hidden" name="txt1" id="txt1" value="<%=strJobLinie_top%>">
 			    <input type="hidden" name="BigTextArea" id="BigTextArea" value="<%=strJobLinie%>">
@@ -4701,6 +5041,31 @@ thisfile = "joblog_timetotaler"
                 <tr>
                
                 <td><br /><input type="submit" value="Print version >>" style="font-size:9px;" /> </td>
+               </tr>
+               </form>
+
+                -->
+
+
+                <%
+
+              
+               
+
+                
+                   
+
+                %>
+
+               
+
+
+                 <form action="joblog_timetotaler.asp?media=print&FM_usedatointerval=1&<%=prntLnk%>" method="post" target="_blank"> 
+			    <input type="hidden" name="datointerval" id="datointerval" value="<%=formatdatetime(strDag&"/"&strMrd&"/"&strAar, 1) & " - " & formatdatetime(strDag_slut&"/"&strMrd_slut&"/"&strAar_slut, 1)%>">
+			  
+                <tr>
+               
+                <td><br /><input type="submit" value="Print >>" style="font-size:9px;" /> </td>
                </tr>
                </form>
 	            
@@ -4714,9 +5079,17 @@ thisfile = "joblog_timetotaler"
             
             
             
-            <%end if%>
+            <%end if
+                
+                'if session("mid") = 1 then
+                'response.write "prntLnk: <br>" & prntLnk
+                'end if
+                
+                %>
 		
-		    
+		    <% 'if media = "print" then
+                'Response.Write("<script language=""JavaScript"">window.print();</script>")
+              'end if  %>
 		    
 		  
 		

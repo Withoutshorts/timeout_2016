@@ -836,9 +836,10 @@ if len(session("user")) = 0 then
 
             
             if len(trim(request("FM_lukaktvdato"))) <> 0 then
-            lukaktvdato = 1
+            lukaktvdato = request("FM_lukaktvdato")
             else
             lukaktvdato = 0
+            'response.Cookies("tsa")("ignJobogAktper") = "" 20160916
             end if
 
 
@@ -992,7 +993,8 @@ if len(session("user")) = 0 then
             SmiantaldageCount = request("FM_SmiantaldageCount")
 
 
-                           if SmiWeekOrMonth = 1 then 'månedaafslutning
+                           select case SmiWeekOrMonth 
+                           case 1 'månedaafslutning
                            
                            if SmiantaldageCount < 8 then
                            SmiantaldageCount = 8 
@@ -1000,7 +1002,10 @@ if len(session("user")) = 0 then
                            SmiantaldageCount = SmiantaldageCount
                            end if
 
-                           else
+                           case 2 'dagligt
+                           SmiantaldageCount = 11
+
+                           case else 'uge affslutning
 
                            if SmiantaldageCount > 7 then
                            SmiantaldageCount = 1 
@@ -1008,7 +1013,7 @@ if len(session("user")) = 0 then
                            SmiantaldageCount = SmiantaldageCount
                            end if
 
-                           end if
+                           end select
 
 
             SmiantaldageCountClock = request("FM_SmiantaldageCountClock")
@@ -1912,7 +1917,7 @@ if len(session("user")) = 0 then
             
             <table cellpadding=0 cellspacing=0 border=0><tr>
             <td style="padding:15px; border-top:1px #5582d2 dashed;">
-            <h3>Aktiver Smileyordning (afslutning af uger)</h3>  
+            <h3>Aktiver Smileyordning (afslutning af dag / uger / md)</h3>  
             <%if smiley = 1 then
             smChk = "CHECKED"
             else
@@ -1930,12 +1935,15 @@ if len(session("user")) = 0 then
                 <%
                     SmiWeekOrMonth0SEL = ""
                     SmiWeekOrMonth1SEL = ""
+                    SmiWeekOrMonth2SEL = ""
                     
                 select case SmiWeekOrMonth
                     case 0
                     SmiWeekOrMonth0SEL = "SELECTED"
                     case 1
                     SmiWeekOrMonth1SEL = "SELECTED"
+                    case 2
+                    SmiWeekOrMonth2SEL = "SELECTED"
                  end select
                     
                      
@@ -1949,35 +1957,39 @@ if len(session("user")) = 0 then
                     SmiantaldageCount6SEL = ""
                     SmiantaldageCount7SEL = ""
                     SmiantaldageCount8SEL = ""
-                  SmiantaldageCount9SEL = ""
+                    SmiantaldageCount9SEL = ""
                     SmiantaldageCount10SEL = ""
+                    SmiantaldageCount11SEL = ""
 
-             select case SmiantaldageCount
-             case 1
-                    SmiantaldageCount1SEL = "SELECTED"
-             case 2
-                    SmiantaldageCount2SEL = "SELECTED"
-            case 3
-                    SmiantaldageCount3SEL = "SELECTED"
-            case 4
-                    SmiantaldageCount4SEL = "SELECTED"
-            case 5
-                    SmiantaldageCount5SEL = "SELECTED"
-            case 6
-                    SmiantaldageCount6SEL = "SELECTED"
-            case 7
-                    SmiantaldageCount7SEL = "SELECTED"
-            case 8 
-                    SmiantaldageCount8SEL = "SELECTED"
-            case 9 
-                    SmiantaldageCount9SEL = "SELECTED"
-              case 10 
-                    SmiantaldageCount10SEL = "SELECTED"
+                     select case SmiantaldageCount
+                     case 1
+                            SmiantaldageCount1SEL = "SELECTED"
+                     case 2
+                            SmiantaldageCount2SEL = "SELECTED"
+                    case 3
+                            SmiantaldageCount3SEL = "SELECTED"
+                    case 4
+                            SmiantaldageCount4SEL = "SELECTED"
+                    case 5
+                            SmiantaldageCount5SEL = "SELECTED"
+                    case 6
+                            SmiantaldageCount6SEL = "SELECTED"
+                    case 7
+                            SmiantaldageCount7SEL = "SELECTED"
+                    case 8 
+                            SmiantaldageCount8SEL = "SELECTED"
+                    case 9 
+                            SmiantaldageCount9SEL = "SELECTED"
+                    case 10 
+                            SmiantaldageCount10SEL = "SELECTED"
+                    case 11 
+                            SmiantaldageCount11SEL = "SELECTED"
                     end select
 
             
                     SmiantaldageCountClock7SEL = ""
                     SmiantaldageCountClock9SEL = ""
+                    SmiantaldageCountClock10SEL = ""
                     SmiantaldageCountClock12SEL = ""
                     SmiantaldageCountClock17SEL = ""
                     SmiantaldageCountClock24SEL = ""      
@@ -1987,6 +1999,8 @@ if len(session("user")) = 0 then
                     SmiantaldageCountClock7SEL = "SELECTED"
                     case 9
                     SmiantaldageCountClock9SEL = "SELECTED"
+                    case 10
+                    SmiantaldageCountClock10SEL = "SELECTED"
                     case 12
                     SmiantaldageCountClock12SEL = "SELECTED"
                     case 17
@@ -2032,6 +2046,7 @@ if len(session("user")) = 0 then
                     <select name="FM_SmiWeekOrMonth">
                         <option value="0" <%=SmiWeekOrMonth0SEL %>>Ugebasis</option>
                         <option value="1" <%=SmiWeekOrMonth1SEL %>>Månedsbasis</option>
+                        <option value="2" <%=SmiWeekOrMonth2SEL %>>Dagligt</option>
                     </select>
                   
                     <br />
@@ -2040,12 +2055,14 @@ if len(session("user")) = 0 then
                     <br /><br />
                      <select name="FM_SmiantaldageCount">
                          <option disabled>Ved månedsafslutning vælg</option>
+                         <option disabled>først kommende:</option>
                         <option value="8" <%=SmiantaldageCount8SEL %>>Hverdag</option>
                          <option value="10" <%=SmiantaldageCount10SEL %>>Hverdag + 3 dage</option>
                          <option value="9" <%=SmiantaldageCount9SEL %>>Hverdag + 7 dage</option>
+                         <option disabled>..i den efterfølgende måned.</option>
 
                           <option disabled></option>
-                          <option disabled>Ved ugeafslutning vælg</option>
+                          <option disabled>Ved ugeafslutning vælg:</option>
                         <option value="1" <%=SmiantaldageCount1SEL %>>Mandag</option>
                         <option value="2" <%=SmiantaldageCount2SEL %>>Tirsdag</option>
                         <option value="3" <%=SmiantaldageCount3SEL %>>Onsdag</option>
@@ -2053,16 +2070,23 @@ if len(session("user")) = 0 then
                         <option value="5" <%=SmiantaldageCount5SEL %>>Fredag</option>
                          <option value="6" <%=SmiantaldageCount6SEL %>>lørdag</option>
                          <option value="7" <%=SmiantaldageCount7SEL %>>Søndag</option>
+                          <option disabled>..i den efterfølgende uge.</option>
+
+                          <option disabled></option>
+                          <option disabled>Ved daglig afslutning vælg:</option>
+                        <option value="11" <%=SmiantaldageCount11SEL %>>Efterfølgende hverdag</option>
+
                     </select>
                    kl. <select name="FM_SmiantaldageCountClock">
                        <option value="7" <%=SmiantaldageCountClock7SEL%>>07:00</option>
                        <option value="9" <%=SmiantaldageCountClock9SEL%>>09:00</option>
+                       <option value="10" <%=SmiantaldageCountClock10SEL%>>10:00</option>
                        <option value="12" <%=SmiantaldageCountClock12SEL%>>12:00</option>
                        <option value="17" <%=SmiantaldageCountClock17SEL%>>17:00</option>
                        <option value="24" <%=SmiantaldageCountClock24SEL%>>23:59</option>
                        
                        </select>
-                    i den efterfølgende uge/ måned.
+                    
                 
                     <br /><br />
                     Perioden skal være godkendt / lukket af teamleder kl. 23:59 senest
@@ -2132,9 +2156,9 @@ if len(session("user")) = 0 then
                     %>
                     <br>
                     Denne funktion gør at medarbejdere
-                    ikke længere kan indtaste/redigere timer i de uger de har afsluttet.
-                    <b>Administrator brugere kan stadigvæk ændre i timer indtil der er oprettet en faktura på jobbet.</b>
-                    <br />Der kan <b>godt</b> indtastes materialeforbrug / udgiftsbilag selvom en uge er godkendt og lukket.
+                    ikke længere kan indtaste/redigere timer i de uger de har afsluttet.<br />
+                    <b>Administratorer kan stadigvæk ændre i timer indtil der er oprettet en faktura på jobbet.</b>
+                    <br />Der kan godt indtastes materialeforbrug / udgiftsbilag selvom en periode er godkendt og lukket.
                    
                    </TD>
                    </tr>
@@ -2381,18 +2405,47 @@ if len(session("user")) = 0 then
 
                 <tr>
             <td style="padding:15px; border-top:1px #5582d2 dashed;">
-            <h4>Skjul aktiviteter efter slutdato</h4> 
+            <h4>Datospærring - vis ikke job & aktiviteter før startdato og efter slutdato</h4> 
           
-          <%if cint(lukaktvdato) = 1 then
-          lukaktvdatoCHK = "CHECKED"
-          else
-          lukaktvdatoCHK = ""
-          end if
+          <%
+        lukaktvdatoSel0 = ""
+        lukaktvdatoSel1 = ""
+        lukaktvdatoSel2 = ""
+        lukaktvdatoSel3 = ""
+        lukaktvdatoSel4 = ""  
+                  
+          select case lukaktvdato
+          case 0 
+          lukaktvdatoSel0 = "SELECTED"
+          case 1 
+          lukaktvdatoSel1 = "SELECTED"
+          case 2 
+          lukaktvdatoSel2 = "SELECTED"
+          case 3 
+          lukaktvdatoSel3 = "SELECTED"
+          case 4 
+          lukaktvdatoSel4 = "SELECTED"
+          case else
+          lukaktvdatoSel0 = "SELECTED"
+          end select
           %>
 
-        
-
-           <input type="checkbox" name="FM_lukaktvdato" value="1" <%=lukaktvdatoCHK %> /> Skjul automatisk aktiviteter på timereg. siden når slutdato er passeret. 
+        <select name="FM_lukaktvdato" style="width:600px;" size="5">
+            <option value="0" <%=lukaktvdatoSel0 %>>0. Løs job, Åben aktiv: Datospærring på startdato job (default)</option>
+            <option value="1" <%=lukaktvdatoSel1 %>>1. Løs job, Hård aktiv: Datospærring på startdato job og aktiviteter start- og slut -dato</option>
+            <option value="2" <%=lukaktvdatoSel2 %>>2. Åben job, Hård aktiv: Datospærring på aktiviteter</option>
+            <option value="3" <%=lukaktvdatoSel3 %>>3. Hård job, Hård aktiv: Datospærring på job og aktiviteter</option>
+            <option value="4" <%=lukaktvdatoSel4 %>>4. Åben: Ingen datospærring på job og aktiviteter</option>
+        </select>
+          <!--<input type="checkbox"  value="1" <%=lukaktvdatoCHK %> /> Vis ikke job & aktiviteter på timereg. siden før startdato er oprindet, og vis ikke aktiviteter når slutdato er passeret.-->
+           <br />
+                Ovenstående indstilllinger gælder ikke salgs-aktiviteter og tilbud (job). Disse der altid kan ses når aktive. <br /><br />
+            <!--    0. Åben: Ingen datospærring på job og aktiviteter. (når job og aktiviteter kan de ses når de er aktive)<br />
+                1. Løs job, Hård aktiv: Datospærring på job og aktiviteter. (job kan ses når startdato er oprindet, aktiviteter kan ses når start og slutdato er åbne på registreringsdato)<br />
+                2. Åben job, Hård aktiv: Datospærring på aktiviteter. (aktiviteter kan ses når start og slutdato er åbne på registreringsdato)<br />
+                3. Hård job, Hård aktiv: Datospærring på job og aktiviteter. (job kan ses når startdato er oprindet og fjernes når slutdato er passeret, aktiviteter kan ses når start og slutdato er åbne på registreringsdato)<br />
+                4. Hård job, åben aktiv:  Datospærring på job. (job kan ses når startdato er oprindet og fjernes når slutdato er passeret, aktiviteter kan ses når aktive)
+                -->
                
           </td>
             </tr>     

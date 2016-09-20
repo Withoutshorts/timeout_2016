@@ -977,7 +977,10 @@
            
             visTimerElTid = request("FM_vistimereltid")
 
-            ignJobogAktper = request("FM_ignJobogAktper")
+
+            call lukaktvdato_fn()
+            ignJobogAktper = lukaktvdato
+            'ignJobogAktper = request("FM_ignJobogAktper")
 
             visSimpelAktLinje = request("FM_visSimpelAktLinje")
 
@@ -993,9 +996,9 @@
 
            
 
-
-            if ignJobogAktper = "1" then
-	        strSQLAktDatoKri = " AND (a.aktstartdato <= '"& useDateSlSQL &"' AND a.aktslutdato >= '"& useDateStSQL &"')"
+            if (cint(ignJobogAktper) = 1 OR cint(ignJobogAktper) = 2 OR cint(ignJobogAktper) = 3) then
+            'if ignJobogAktper = "1" AND jobstatus <> 3 then 'tilbud then
+            strSQLAktDatoKri = " AND (a.aktstartdato <= '"& useDateSlSQL &"' AND a.aktslutdato >= '"& useDateStSQL &"') OR (a.fakturerbar = 6 AND j.jobstatus = 3)"
             else
             strSQLAktDatoKri = ""
 	        end if
@@ -3953,7 +3956,9 @@
 
         '** Dato **'
         ugeStDato = trim(request("ugeStDato"))
+        ugeSlDato = dateAdd("d", 0, ugeStDato)
         ugeStDato = year(ugeStDato) &"/"& month(ugeStDato) &"/"& day(ugeStDato)
+        ugeSlDato = year(ugeSlDato) &"/"& month(ugeSlDato) &"/"& day(ugeSlDato)
 
 
         '*** Smartreg ****'
@@ -4204,9 +4209,25 @@
         strSQLwh = strSQLwh & " AND j.jobknr <> 0 " '"& Request.Form("cust")
         end if
 
-        
+        '**** Job og Akt. periode ***'
+        call lukaktvdato_fn()
+        if cint(lukaktvdato) <> 0 then 'force fjern akt. ved dato overskreddet
+        ignJobogAktper = lukaktvdato
+        else 
+        ignJobogAktper = 0
+        end if
 
-        strSQLwh = strSQLwh & " AND (j.jobstartdato <= '"& ugeStDato &"')"
+
+        '*** Datospærring Vis først job når stdato er oprindet ' UNDT TILBUD
+        select case ignJobogAktper
+        case 0
+        strSQLwh = strSQLwh & " AND (j.jobstartdato <= '"& ugeSlDato &"' OR j.jobstatus = 3)"
+        case 1
+        strSQLwh = strSQLwh & " AND (j.jobstartdato <= '"& ugeSlDato &"' OR j.jobstatus = 3)"
+        case 3
+        strSQLwh = strSQLwh & " AND ((j.jobstartdato <= '"& ugeSlDato &"' AND j.jobslutdato >= '"& ugeStDato &"') OR j.jobstatus = 3)"
+        case else
+        end select
 
 
 
@@ -5952,8 +5973,8 @@
                             tdatoSQL = year(oRec("tdato"))&"/"&month(oRec("tdato"))&"/"&day(oRec("tdato"))
                             strSQlfrDel = "UPDATE timer SET timer = 0 WHERE tdato = '"& tdatoSQL & "' AND tmnr = "& oRec("tmnr") &" AND tfaktim = 10 AND timer > 0"
                             
-                                response.write strSQlfrDel &"<br><br>"
-                                response.flush 
+                                'response.write strSQlfrDel &"<br><br>"
+                                'response.flush 
                                 oConn.execute(strSQlfrDel)
                                   
 
@@ -6608,35 +6629,38 @@
 	
 	'**** Job og Akt. periode ***'
     call lukaktvdato_fn()
+    ignJobogAktper = lukaktvdato
 
-    if cint(lukaktvdato) = 1 then 'force fjern akt. ved dato overskreddet
+
+             '** Skal ikke kune styres lokalt mere 20160916
+              '  if cint(lukaktvdato) <> 0 then 'force fjern jbo / akt. ved dato overskreddet se kontrolpanel
         
-        ignJobogAktper = 1
+              '      ignJobogAktper = lukaktvdato
 
-    else 
+             '   else 
 
-	if len(request("FM_chkfor_ignJobogAktper")) <> 0 then
+            '	if len(request("FM_chkfor_ignJobogAktper")) <> 0 then
 	    
 	   
-	    if len(request("FM_ignJobogAktper")) <> 0 then
-	    ignJobogAktper = 1
-	    else
-	    ignJobogAktper = 0
-	    end if
+            '	    if len(request("FM_ignJobogAktper")) <> 0 then
+            '	    ignJobogAktper = lukaktvdato
+            '	    else
+            '	    ignJobogAktper = 0
+            '	    end if
 	
-	else
+            '	else
 	    
-	    if request.Cookies("tsa")("ignJobogAktper") <> "" then
-		ignJobogAktper = request.Cookies("tsa")("ignJobogAktper")
-		else
-		ignJobogAktper = 0
-		end if
-	   
-	end if
+            '	    if request.Cookies("tsa")("ignJobogAktper") <> "" then
+            '		ignJobogAktper = 0 'request.Cookies("tsa")("ignJobogAktper") '** Tvungen 1 uge fra 20160915
+            '		else
+            '		ignJobogAktper = 0
+            '		end if
+	            '   
+	            'end if
 	
-    'ignJobogAktper = 0
+    
 
-    end if
+                'end if
     
     '**** vis simpel akt linje ******'
     call visAktSimpel_fn()
@@ -6685,7 +6709,7 @@
 	'end if
 
     'response.Cookies("tsa")("visSimpelAktLinje") = visSimpelAktLinje
-	response.Cookies("tsa")("ignJobogAktper") = ignJobogAktper
+	'response.Cookies("tsa")("ignJobogAktper") = ignJobogAktper 20160916
 	response.Cookies("tsa")("igtidslas") = ignorertidslas
     response.Cookies("tsa")("igakttype") = ignorerakttype
 
@@ -7172,7 +7196,8 @@
 	'*******************************************************************************'
 	
     call meStamdata(session("mid"))
-    if ((lto = "mmmi" AND meType = 10) OR lto = "xintranet - local") OR request.cookies("tsa_2012")("showfilter") = "1" OR (session("forste") = "j" AND lto = "wwf") OR (session("forste") = "j" AND lto = "ngf") then
+    if ((lto = "mmmi" AND meType = 10) OR (session("forste") <> "xj" AND lto = "intranet - local") OR request.cookies("tsa_2012")("showfilter") = "1" OR (session("forste") = "j" AND lto = "wwf") OR (session("forste") = "j" AND lto = "ngf") _
+    OR (session("forste") = "j" AND lto = "hidalgo")) then
     autohidefilter = 1 '1 irriterende
     else
     autohidefilter = 0
@@ -7212,7 +7237,7 @@
     <input type="hidden" name="FM_ch_medarb" id="FM_ch_medarb" value="0">
     <input type="hidden" name="" id="sprog_filterheader" value="<%=tsa_txt_384 %>">
     <!--<input type="text" name="tildeliheledageSet" id="Hidden3" value="<%=tildeliheledageVal%>" />-->
-    <input type="hidden" name="dtson" id="datoSonSQL" value="<%=now%>">
+    <input type="hidden" name="dtson" id="datoSonSQL" value="<%=varTjDatoUS_son%>">
 	<%if level = 1 then
 	SQLkriEkstern = ""
     end if
@@ -8915,8 +8940,25 @@
             strSQLkri3 = strSQLkri3 & " AND a.id = 0 "
             end if
 
-            if cint(intHR) <> 1 then '**HR mode viser alle interne RISIKO = -1
-            strSQL = strSQL &" WHERE ("& seljobidSQL &") AND (j.jobstartdato <= '"& varTjDatoUS_son &"' AND (j.jobstatus = 1 OR j.jobstatus = 3))  AND "& strSQLkri3
+            if cint(intHR) <> 1 then 
+            '*** MAIN PERSONLIG AKTIV JOBLISTE VISNING ***********************
+            '** HR mode viser alle interne RISIKO = -1
+
+                '*** Datospærring Vis først job når stdato er oprindet
+                select case ignJobogAktper
+                case 0,1
+                strSQL = strSQL &" WHERE ("& seljobidSQL &") AND ((j.jobstartdato <= '"& varTjDatoUS_son &"' AND j.jobstatus = 1) OR (j.jobstatus = 3)) AND "& strSQLkri3
+                case 3
+                strSQL = strSQL &" WHERE ("& seljobidSQL &") AND ((j.jobstartdato <= '"& varTjDatoUS_son &"' AND j.jobslutdato >= '"& varTjDatoUS_man &"' AND j.jobstatus = 1) OR (j.jobstatus = 3)) AND "& strSQLkri3
+                case else
+                strSQL = strSQL &" WHERE ("& seljobidSQL &") AND (j.jobstatus = 1 OR j.jobstatus = 3) AND "& strSQLkri3
+                end select
+
+                'if cint(ignJobogAktper) = 1 then '** Vis kun job og aktiviteter med startdato i det valgte interval
+                'strSQL = strSQL &" WHERE ("& seljobidSQL &") AND ((j.jobstartdato <= '"& varTjDatoUS_son &"' AND j.jobstatus = 1) OR (j.jobstatus = 3)) AND "& strSQLkri3
+                'else
+                'strSQL = strSQL &" WHERE ("& seljobidSQL &") AND (j.jobstatus = 1 OR j.jobstatus = 3) AND "& strSQLkri3
+                'end if
             else
             strSQL = strSQL &" WHERE (j.risiko = -2 AND j.jobstatus = 1) AND "& strSQLkri3
             end if
@@ -8927,10 +8969,11 @@
     
 	
 	'Response.Write  "strSQLkri3" &  strSQLkri3  
-	
-	if cint(ignJobogAktper) = 1 AND intHR <> 1 then
-	useDateSQL = year(useDate) &"/"& month(useDate) &"/"& day(useDate)
-	strSQL = StrSQL & " AND (a.aktstartdato <= '"& varTjDatoUS_son &"' AND a.aktslutdato >= '"& useDateSQL &"')"
+    '** HÅRD styrring af aktiviteer slået til
+	'** Aktivitetsstatus vises først når der hentes aktiviteter, men gør SQL kald hurtigere. 
+	if (cint(ignJobogAktper) = 1 OR cint(ignJobogAktper) = 2 OR cint(ignJobogAktper) = 3) AND intHR <> 1 then
+	'useDateSQL = year(useDate) &"/"& month(useDate) &"/"& day(useDate)
+	strSQL = StrSQL & " AND ((a.aktstartdato <= '"& varTjDatoUS_son &"' AND a.aktslutdato >= '"& varTjDatoUS_man &"') OR (a.fakturerbar = 6 AND j.jobstatus = 3))" 
 	end if
 	
     '*** Vis ikke disse typer på treg. siden **'
@@ -10391,33 +10434,39 @@
 		end if
 		%>
 		
-		<input type="checkbox" name="FM_igakttype" id="FM_igakttype" value="1" <%=ignorerakttypeCHK%>> <%=tsa_txt_377 %> (ikke kun salgs-aktiviteter)
+		<input type="checkbox" name="FM_igakttype" id="FM_igakttype" value="1" <%=ignorerakttypeCHK%>> <%=tsa_txt_377 %> (ellers vises kun salgs-aktiviteter)
             <input id="FM_chkfor_igakttype" name="FM_chkfor_igakttype" type="hidden" value="1"/>
 		
 		
 		<br />
 		
-		<%
-        if cint(lukaktvdato) = 1 then 'sat i kontrolpanel
+         <!--
+		<
+        'if cint(lukaktvdato) <> -10 then 'sat i kontrolpanel / IKKE aktiv mere 20160916
 
             %>
 
-            	<input type="checkbox" name="" id="FM_ignJobogAktper" value="1" CHECKED DISABLED> <%=tsa_txt_286 %>
+            	<input type="checkbox" name="" id="FM_ignJobogAktper" value="1" CHECKED DISABLED> <=tsa_txt_286 %>
             <input type="hidden" name="FM_ignJobogAktper" id="Checkbox2" value="1"> 
-            <%
-        else
+            <
+       
+            'else
 
-		if cint(ignJobogAktper) = 1 then
-		ignJobogAktperCHK = "checked"
-		else
-		ignJobogAktperCHK = ""
-		end if
+		'if cint(ignJobogAktper) = 1 then
+		'ignJobogAktperCHK = "checked"
+		'else
+		'ignJobogAktperCHK = ""
+		'end if
 		%>
 		
-		<input type="checkbox" name="FM_ignJobogAktper" id="FM_ignJobogAktper" value="1" <%=ignJobogAktperCHK%>> <%=tsa_txt_286 %>
+		<input type="checkbox" name="FM_ignJobogAktper" id="FM_ignJobogAktper" value="1" <=ignJobogAktperCHK%>> <=tsa_txt_286 %>
 
-        <%end if %>
-         <input id="Hidden1" name="FM_chkfor_ignJobogAktper" type="hidden" value="1"/>
+        <'end if %>
+        -->
+
+        <input type="checkbox" name="" id="FM_ignJobogAktper" value="<%=lukaktvdato %>" CHECKED DISABLED> <%=tsa_txt_286 %>
+        <input type="hidden" name="FM_ignJobogAktper" id="Checkbox2" value="<%=lukaktvdato %>"> 
+        <input id="Hidden1" name="FM_chkfor_ignJobogAktper" type="hidden" value="1"/>
 
 
          <br />

@@ -2312,14 +2312,23 @@ if session("user") = "" then
             <tr><td colspan="2"><b>Udspecificering ferie:</b></td></tr>
         <%
             '**Udspecificering
-            strSQLfe = "SELECT tdato, timer FROM timer WHERE tmnr = "& usemrn &" AND tdato BETWEEN '"& ferieaarST &"' AND '"& ferieaarSL &"' AND tfaktim = 14" 
+            strSQLfe = "SELECT tdato, timer, tfaktim FROM timer WHERE tmnr = "& usemrn &" AND tdato BETWEEN '"& ferieaarST &"' AND '"& ferieaarSL &"' AND (tfaktim = 14 OR tfaktim = 19) ORDER BY tdato" 
             
             'Response.write strSQLfe
             oRec.open strSQLfe, oConn, 3
             while not oRec.EOF 
 
             %>
-            <tr><td align="right" style="border-bottom:1px #cccccc solid;"><%=formatdatetime(oRec("tdato"), 1) %></td><td align="right" style="border-bottom:1px #cccccc solid;"><%=oRec("timer") &" t." %></td></tr>
+            <tr><td align="right" style="border-bottom:1px #cccccc solid;"><%=formatdatetime(oRec("tdato"), 1) %></td>
+                <td align="right" style="border-bottom:1px #cccccc solid;">
+                    
+                    <%if oRec("tfaktim") = 19 then %>
+                <span style="color:#999999;">(afh. uden løn)</span>&nbsp;&nbsp;&nbsp;
+                <%end if %>
+
+                    
+                    <%=oRec("timer") &" t." %>
+                </td></tr>
 
             <%
             oRec.movenext
@@ -2341,7 +2350,7 @@ if session("user") = "" then
             <tr><td colspan="2"><b>Udspecificering feriefridage:</b></td></tr>
         <%
             '**Udspecificering
-            strSQLfe = "SELECT tdato, timer FROM timer WHERE tmnr = "& usemrn &" AND tdato BETWEEN '"& ferieaarST &"' AND '"& ferieaarSL &"' AND tfaktim = 13" 
+            strSQLfe = "SELECT tdato, timer FROM timer WHERE tmnr = "& usemrn &" AND tdato BETWEEN '"& ferieaarST &"' AND '"& ferieaarSL &"' AND tfaktim = 13 ORDER BY tdato" 
             
             'Response.write strSQLfe
             oRec.open strSQLfe, oConn, 3

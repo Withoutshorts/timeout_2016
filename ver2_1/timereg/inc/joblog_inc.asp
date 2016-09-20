@@ -332,7 +332,7 @@ public lastmedarbnavn, medarbtimer, medarbEnheder, medarbFeriePlan
 	if antal <> 0 then
         
         'if cint(joblog_uge) = 2 then
-	    Response.write "<br><span style=""color:#999999;"">"& akttypenavn & ":</span>  "& formatnumber(antal, 2) 
+	    Response.write "<br>"& akttypenavn & ": "& formatnumber(antal, 2) 
         'else
         'Response.write ""& akttypenavn &"  <b>"& formatnumber(antal, 2)& "</b>"
         'end if
@@ -610,7 +610,7 @@ public lastmedarbnavn, medarbtimer, medarbEnheder, medarbFeriePlan
 	end if
 	
 	if antal <> 0 then
-	Response.write  "<span style='color:#999999;'>"& akttypenavn &": </span> "& formatnumber(antal, 2) 'akttypenavn & ":
+	Response.write  akttypenavn &": " & formatnumber(antal, 2) 'akttypenavn & ":
 	    
 	    if cint(hideenheder) = 0 then
 	    Response.Write " ~ ("& formatnumber(enh, 2) & ")"

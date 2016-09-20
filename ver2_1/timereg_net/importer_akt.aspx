@@ -21,7 +21,7 @@
 
     <form id="form1" runat="server">
     <div>
-    <h4>Importer aktiviteter til TimeOut - maks 8000 linjer <!--<span style="font-size:small; font-weight:normal;"><a href="../inc/xls/indlaesjobTemplate.csv">Download excel template her...</a></span>--></h4>
+    <h4>Importer aktiviteter til TimeOut - maks 10000 linjer <!--<span style="font-size:small; font-weight:normal;"><a href="../inc/xls/indlaesjobTemplate.csv">Download excel template her...</a></span>--></h4>
     *Bemærk at der skal være en overskriftslinje(header) med kolonne navne i excel filen.<br />
         <asp:Label ID="lblUploadStatus" runat="server" Text=""></asp:Label><br />
         

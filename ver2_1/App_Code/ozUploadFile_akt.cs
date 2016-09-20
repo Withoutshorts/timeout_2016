@@ -347,7 +347,11 @@ public class ozUploadFileAkt
         //dk.outzource.to_import service = new dk.outzource.to_import();
         //dk.outzource_addakt.oz_importakt service = new dk.outzource_addakt.oz_importakt();
         dk_rack.outzource_timeout2_importakt.oz_importakt service = new dk_rack.outzource_timeout2_importakt.oz_importakt();
-        strRet = service.addakt(dsData);
+
+     
+            strRet = service.addakt(dsData);
+       
+        
 
         return strRet;
     }

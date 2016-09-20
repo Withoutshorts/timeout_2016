@@ -861,7 +861,9 @@ if len(session("user")) = 0 then
 		'** Tjekker om alle felter er udfyldt korrekt **
 		if len(request("FM_navn")) = 0 OR len(request("FM_navn")) > 100 OR len(trim(request("FM_jnr"))) = 0 OR len(request("FM_kunde")) = 0 OR _
 		len(request("FM_jnr")) > 20 OR startDatoNum > slutDatoNum OR _
-		cint(instr(request("FM_navn"), "'")) > 0 then
+		cint(instr(request("FM_navn"), "'")) > 0 OR _
+        ((lcase(request("FM_navn")) = "jobnavn.." AND func = "dbred" AND instr(lto, "epi") <> 0) OR _
+        (lcase(request("FM_navn")) = "jobnavn.." AND func = "dbred" AND instr(lto, "epi") = 0)) then
 		
 		call visErrorFormat
 		errortype = 14
@@ -2180,7 +2182,7 @@ if len(session("user")) = 0 then
 				                tilbudsnrKri = ", tilbudsnr = "& nyttlbnr &""
 				                end if
 				                
-				                strSQL = "UPDATE licens SET jobnr = "&  nytjobnr &" "& tilbudsnrKri &" WHERE id = 1"
+				                strSQL = "UPDATE licens SET jobnr = "& nytjobnr &" "& tilbudsnrKri &" WHERE id = 1"
 				                oConn.execute(strSQL)
 				               
 				                
@@ -2215,7 +2217,7 @@ if len(session("user")) = 0 then
 							&" projektgruppe8 = "& strProjektgr8 &", "_ 
 							&" projektgruppe9 = "& strProjektgr9 &", "_
 							&" projektgruppe10 = "& strProjektgr10 &", "_
-							&" fakturerbart= "& strFakturerbart &", "_
+							&" fakturerbart = "& strFakturerbart &", "_
 							&" Budgettimer  = "& strBudgettimer &", "_
 							&" fastpris = '"& strFastpris & "', kundeok = "& intkundese &", "_
 							&" beskrivelse = '"& strBesk &"', ikkeBudgettimer = "& SQLBless(ikkeBudgettimer) &", "_
@@ -4247,26 +4249,49 @@ if len(session("user")) = 0 then
     intkundeok = 0
 	varSubVal = "opretpil"
 	
+
+    '** Forvalgte projektgrupper *********************************************************
 	if len(request.cookies("job")("defaultprojgrp")) <> 0 AND lto <> "execon" then 
 	strProj_1 = request.cookies("job")("defaultprojgrp")
 	else
 	    select case lto 
-        case "execon" 
+        case "execon"
+        strProj_1 = 1
+        case "cisu"
         strProj_1 = 1
         case else
         strProj_1 = 10
         end select
 	end if
 	
-	strProj_2 = 1
-	strProj_3 = 1
-	strProj_4 = 1
-	strProj_5 = 1
-	strProj_6 = 1
-	strProj_7 = 1
-	strProj_8 = 1
-	strProj_9 = 1
-	strProj_10 = 1
+      select case lto 
+        
+        case "cisu" '** Føder job fra de priojektgrupper der er tilknyttet aktiviteterne A-E
+        strProj_2 = 1
+	    strProj_3 = 1
+	    strProj_4 = 1
+	    strProj_5 = 1
+	    strProj_6 = 1
+	    strProj_7 = 1
+	    strProj_8 = 1
+	    strProj_9 = 1
+	    strProj_10 = 1
+        case else
+        strProj_2 = 1
+	    strProj_3 = 1
+	    strProj_4 = 1
+	    strProj_5 = 1
+	    strProj_6 = 1
+	    strProj_7 = 1
+	    strProj_8 = 1
+	    strProj_9 = 1
+	    strProj_10 = 1
+        end select
+
+
+	
+    '****************************************************************************************
+
 	
 	intkundekpers = 0
 	
@@ -5910,7 +5935,7 @@ if len(session("user")) = 0 then
                             
                      <%if func = "red" then
                                     
-                                    if lto = "execon" OR lto = "immenso" OR lto = "synergi1" then
+                                    if lto = "execon" OR lto = "immenso" OR lto = "synergi1" OR lto = "bf" then
                                     syncAktProjGrpCHK = "CHECKED"
                                     else
                                     syncAktProjGrpCHK = ""
@@ -5920,8 +5945,7 @@ if len(session("user")) = 0 then
                                 
                                 
                                
-								<input type="checkbox" name="FM_opdaterprojektgrupper" id="FM_opdaterprojektgrupper" value="1" <%=syncAktProjGrpCHK %>> <b>Overfør</b> (synkroniser) valgte projektgrupper, 
-                                til <b>aktiviteterne</b> på dette job. 
+								<input type="checkbox" name="FM_opdaterprojektgrupper" id="FM_opdaterprojektgrupper" value="1" <%=syncAktProjGrpCHK %>> <b>Synkroniser aktiviteter</b> til at følge valgte projektgrupper. 
 								<br />
                                 <%end if%>
                 

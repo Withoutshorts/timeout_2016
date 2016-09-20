@@ -535,6 +535,7 @@ if len(session("user")) = 0 then
 	ids = split(request("id"), ",")
 	useMid = split(request("mid"), ",")
 
+    SmiWeekOrMonth = request("SmiWeekOrMonth")
    
 
     'Response.Write request("logindato")
@@ -1617,8 +1618,14 @@ if len(session("user")) = 0 then
 	                        Response.Write("<script language=""JavaScript"">window.close();</script>")
                             
                             case "sesaba"
-                            Response.redirect "../sesaba.asp?logudDone=1"
-                            Response.end
+                        
+                                if cint(SmiWeekOrMonth) = 2 then 'videre til ugeafslutning og ugeseddel
+                                Response.redirect "../to_2015/ugeseddel_2011.asp?nomenu=1"
+                                else
+                                Response.redirect "../sesaba.asp?logudDone=1"
+                                Response.end
+                                end if                        
+                
                             case else
 	                        'Response.Write("<script language=""JavaScript"">window.opener.location.href('stempelur.asp?menu=stat&func=stat&medarbSel="&medarbSel&"&showonlyone="&showonlyone&"&hidemenu="&hidemenu&"&lastid="&idLast&"');</script>")
                             Response.Write("<script language=""JavaScript"">window.opener.location.reload();</script>")
@@ -1637,20 +1644,25 @@ if len(session("user")) = 0 then
 	<!--#include file="../inc/regular/header_lysblaa_inc.asp"-->
      <script src="inc/stempelur_jav.js"></script>
 	<%
-	
-	
-	    if rdir = "sesaba" then
-	    sideDivTop = 20
-	    sideDivLeft = 160
-	    opdAfsl = "Stempelur, angiv logind og logud tid"
-	    bgcol = "#ffffff"
-	    else
 	    
-	    sideDivTop = 0
-	    sideDivLeft = 10
-	    opdAfsl = "Logind historik (Stempelur) - Opdater"
-	    bgcol = "#ffffff"
-	    end if
+        call smileyAfslutSettings() 
+        
+       
+	
+	        if rdir = "sesaba" then
+	        sideDivTop = 20
+            sideDivLeft = 160
+	        opdAfsl = "Stempelur, angiv logind og logud tid"
+	        bgcol = "#ffffff"
+	        else
+	    
+	        sideDivTop = 0
+	        sideDivLeft = 10
+	        opdAfsl = "Logind historik (Stempelur) - Opdater"
+	        bgcol = "#ffffff"
+	        end if
+
+       
 	
 	%>
 	
@@ -1661,7 +1673,7 @@ if len(session("user")) = 0 then
 	<% 
 	
 	oimg = "ikon_stempelur_48.png"
-	oleft = 0
+    oleft = 0
 	otop = 0
 	owdt = 600
 	oskrift = opdAfsl
@@ -1822,6 +1834,7 @@ if len(session("user")) = 0 then
 	
 	%>
 	<form action="stempelur.asp?menu=stat&func=dbloginhist&FM_usedatokri=1&medarbSel=<%=useMid%>&showonlyone=<%=showonlyone%>&hidemenu=<%=hidemenu%>&rdir=<%=rdir %>" method="post">
+    <input type="text" value="<%=SmiWeekOrMonth%>" name="SmiWeekOrMonth" />
 	<table cellspacing=0 cellpadding=0 border=0 width=100%>
 	<tr>  
 	    <td style="padding:20px 0px 0px 25px;">
@@ -2268,11 +2281,28 @@ if len(session("user")) = 0 then
 	    
 	<tr>
 		<td align=right style="padding-right:30px;"><br><br />&nbsp;
+
+        <%if rdir = "sesaba" AND (cint(SmiWeekOrMonth) = 2) then %>
+
+            <input id="Submit1" type="submit" value="Opdater og videre til ugeseddel >>" />
+
+             <input id="Submit1" type="submit" value="Opdater & afslut >>" />
+
+
+            <input type="checkbox" /> Afslut dag
+
+            Du har indtastet 20% af <br />
+            ugeseddel_2011.asp
+
+        <%else %>
+
 		<%if id <> 0 then %>
             <input id="Submit1" type="submit" value="Opdater >>" />
 		<%else %>
             <input id="Submit1" type="submit" value="Gem >>" />
-        <%end if %>		
+        <%end if %>
+            
+         <%end if %>		
 		</td>
 	</tr>
 	</table>
@@ -2284,6 +2314,8 @@ if len(session("user")) = 0 then
 	</div><!-- sidediv -->
 	
 	
+        
+
      <br /><br /> <br /><br /> <br /><br /> <br /><br />
     &nbsp;
     
@@ -2472,6 +2504,9 @@ if len(session("user")) = 0 then
 	
 	
 	</div>
+
+   
+
 	<br /><br /><br /><br /><br /><br /><br />&nbsp;
 	<%case else%>
 	
