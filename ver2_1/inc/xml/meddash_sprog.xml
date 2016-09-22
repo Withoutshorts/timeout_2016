@@ -1,0 +1,541 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<sprog>
+
+  <!--- Dansk -->
+  <dk>
+
+    <txt_1 >Medarbejder Dashboard</txt_1>
+    <txt_2 >Søgefilter</txt_2>
+    <txt_3 >Projektgruppe:</txt_3>
+    <txt_4 >Navn:</txt_4>
+    <txt_5 >Måned:</txt_5>
+    <txt_6 >Kvartal:</txt_6>
+    <txt_7 >År:</txt_7>
+    <txt_8 >Kunder / Projekter</txt_8>
+    <txt_9 >Søg</txt_9>
+    <txt_10 >Nøgletal</txt_10>
+
+    <txt_11 >DB 1</txt_11>
+    <txt_12 >DB 2</txt_12>
+    <txt_13 >Timer * (time pris - kost pris) *</txt_13>
+    <txt_14 >Fakturerings index</txt_14>
+
+    <txt_15 >Fakturerings index</txt_15>
+    <txt_16 >(Forecast  timer / Reelle fakturerbare timer)</txt_16>
+    <txt_17 >Norm:</txt_17>
+    <txt_18 >Timer:</txt_18>
+    <txt_19 >Heraf fakturerbare:</txt_19>
+    <txt_20 >Forecast timer:</txt_20>
+    <txt_21 >Projekt med leveringsdato</txt_21>
+    <txt_22 >i valgt periode</txt_22>
+    <txt_23 >NPS</txt_23>
+
+    <txt_24 >Tidsfordeling - forretningsområde %</txt_24>
+    <txt_25 >% (0,00 timer)</txt_25>
+
+    <txt_26 >Kunder top 10</txt_26>
+
+    <txt_27>Jan</txt_27>
+    <txt_28 >Feb</txt_28>
+    <txt_29 >Mar</txt_29>
+    <txt_30 >Apr</txt_30>
+    <txt_31 >Maj</txt_31>
+    <txt_32 >Jun</txt_32>
+    <txt_33 >Jul</txt_33>
+    <txt_34 >Aug</txt_34>
+    <txt_35 >Sep</txt_35>
+    <txt_36 >Okt</txt_36>
+    <txt_37 >Nov</txt_37>
+    <txt_38 >Dec</txt_38>
+    <txt_39 >Kvt. 1</txt_39>
+    <txt_40 >Kvt. 2</txt_40>
+    <txt_41 >Kvt. 3</txt_41>
+    <txt_42 >Kvt. 4</txt_42>
+
+    <txt_43 >Forecast</txt_43>
+    <txt_44 >t.</txt_44>
+
+    <txt_45 >Kunder (kundenr)</txt_45>
+    <txt_46 >Forecast</txt_46>
+    <txt_47 >Realiseret</txt_47>
+    <txt_48 >Kunder top 10 -</txt_48>
+
+    <txt_49 >Kunder (kundenr)</txt_49>
+    <txt_50 >Job</txt_50>
+    <txt_51 >Lev. Dato</txt_51>
+    <txt_52 >Forecast</txt_52>
+    <txt_53 >Realiseret</txt_53>
+    <txt_54 >Omsætning</txt_54>
+
+    <txt_55 >Kundeansvarlig</txt_55>
+    <txt_56 >Keyaccount</txt_56>
+    <txt_57 >Projektansvarlig</txt_57>
+    <txt_58 >Ingen</txt_58>
+    <txt_59 >Dine job med forecast på</txt_59>
+    
+  </dk>
+
+
+ 
+  
+  <!-- Norsk -->
+  <no>
+
+    <txt_1 >Medarbeider Dashboard</txt_1>
+    <txt_2 >Søkefilter</txt_2>
+    <txt_3 >Prosjektgruppe:</txt_3>
+    <txt_4 >Navn:</txt_4>
+    <txt_5 >Måned:</txt_5>
+    <txt_6 >Quarterly:</txt_6>
+    <txt_7 >År:</txt_7>
+    <txt_8 >Kunder og prosjekter</txt_8>
+    <txt_9 >Søk</txt_9>
+    <txt_10 >Nøkkeltall</txt_10>
+
+    <txt_11 >DB 1</txt_11>
+    <txt_12 >DB 2</txt_12>
+    <txt_13 >Timer * (timeprisen - kostpris) *</txt_13>
+    <txt_14 >Fakturering info</txt_14>
+
+    <txt_15 >Fakturering info</txt_15>
+    <txt_16 >(Forecast timer / Ekte fakturerbare timer)</txt_16>
+    <txt_17 >Norm:</txt_17>
+    <txt_18 >Timer:</txt_18>
+    <txt_19 >Det fakturerbare:</txt_19>
+    <txt_20 >Forecast timer:</txt_20>
+    <txt_21 >Prosjekt leveringsdato</txt_21>
+    <txt_22 >i denne perioden</txt_22>
+    <txt_23 >NPS</txt_23>
+
+    <txt_24 >Tid Allocation - business %</txt_24>
+    <txt_25 >% (0,00 timer)</txt_25>
+
+    <txt_26 >Kunder topp 10</txt_26>
+
+    <txt_27>Jan</txt_27>
+    <txt_28 >Feb</txt_28>
+    <txt_29 >Mar</txt_29>
+    <txt_30 >Apr</txt_30>
+    <txt_31 >Mai</txt_31>
+    <txt_32 >Jun</txt_32>
+    <txt_33 >Jul</txt_33>
+    <txt_34 >Aug</txt_34>
+    <txt_35 >Sep</txt_35>
+    <txt_36 >Okt</txt_36>
+    <txt_37 >Nov</txt_37>
+    <txt_38 >Des</txt_38>
+
+    <txt_39 >Kv. 1</txt_39>
+    <txt_40 >Kv. 2</txt_40>
+    <txt_41 >Kv. 3</txt_41>
+    <txt_42 >Kv. 4</txt_42>
+
+    <txt_43 >Forecast</txt_43>
+    <txt_44 >t.</txt_44>
+
+    <txt_45 >Kunder (kundenr)</txt_45>
+    <txt_46 >Forecast</txt_46>
+    <txt_47 >Realisert</txt_47>
+    <txt_48 >Kunder topp 10 -</txt_48>
+
+    <txt_49 >Kunder (kundenr)</txt_49>
+    <txt_50 >Jobb</txt_50>
+    <txt_51 >Lev. Dato</txt_51>
+    <txt_52 >Forecast</txt_52>
+    <txt_53 >Realisert</txt_53>
+    <txt_54 >Omsetning</txt_54>
+
+    <txt_55 >Kunde Ansvarlig</txt_55>
+    <txt_56 >Key Account</txt_56>
+    <txt_57 >Prosjektleder</txt_57>
+    <txt_58 >ikke</txt_58>
+    <txt_59 >Din jobb med prognosen på</txt_59>
+    
+  </no>
+
+  
+  
+  <!-- Svensk -->
+  <se>
+
+    <txt_1 >Anställd Dashboard</txt_1>
+    <txt_2 >Sökfält</txt_2>
+    <txt_3 >Projektgruppen:</txt_3>
+    <txt_4 >Namn:</txt_4>
+    <txt_5 >Månad:</txt_5>
+    <txt_6 >Quarterly:</txt_6>
+    <txt_7 >År:</txt_7>
+    <txt_8 >Kunder och projekt</txt_8>
+    <txt_9 >Sök</txt_9>
+    <txt_10 >Nyckeltal</txt_10>
+
+    <txt_11 >DB 1</txt_11>
+    <txt_12 >DB 2</txt_12>
+    <txt_13 >Timer * (timpris - självkostnadspris) *</txt_13>
+    <txt_14 >Fakturering info</txt_14>
+
+    <txt_15 >Fakturering info</txt_15>
+    <txt_16 >(Prognos timmar / Real debiterbara timmar)</txt_16>
+    <txt_17 >Norm:</txt_17>
+    <txt_18 >Timmar:</txt_18>
+    <txt_19 >Det debiterbara:</txt_19>
+    <txt_20 >Prognos timmar:</txt_20>
+    <txt_21 >Projektleveransdatum</txt_21>
+    <txt_22 >under denna period</txt_22>
+    <txt_23 >NPS</txt_23>
+
+    <txt_24 >Tidsåtgång - företag %</txt_24>
+    <txt_25 >% (0,00 timmar)</txt_25>
+
+    <txt_26 >Kunder top 10</txt_26>
+
+      <txt_27 >Jan</txt_27>
+      <txt_28 >Feb</txt_28>
+      <txt_29 >Mar</txt_29>
+      <txt_30 >Apr</txt_30>
+      <txt_31 >Maj</txt_31>
+      <txt_32 >Jun</txt_32>
+      <txt_33 >Jul</txt_33>
+      <txt_34 >Aug</txt_34>
+      <txt_35 >Sep</txt_35>
+      <txt_36 >Okt</txt_36>
+      <txt_37 >Nov</txt_37>
+      <txt_38 >Dec</txt_38>
+
+      <txt_39 >Qtr. 1</txt_39>
+      <txt_40 >Qtr. 2</txt_40>
+      <txt_41 >Qtr. 3</txt_41>
+      <txt_42 >Qtr. 4</txt_42>
+
+      <txt_43 >prognos</txt_43>
+      <txt_44 >t.</txt_44>
+
+      <txt_45 >Kunder (kundenr)</txt_45>
+      <txt_46 >Forecast</txt_46>
+      <txt_47 >Insâg</txt_47>
+      <txt_48 >Kunder top 10 -</txt_48>
+
+      <txt_49 >Kunder (kundenr)</txt_49>
+      <txt_50 >Jobb</txt_50>
+      <txt_51 >Lev. Datum</txt_51>
+      <txt_52 >Prognos</txt_52>
+      <txt_53 >Insâg</txt_53>
+      <txt_54 >Omsâttning</txt_54>
+
+      <txt_55 >Kundansvarig</txt_55>
+      <txt_56 >Key Account</txt_56>
+      <txt_57 >Projektledare</txt_57>
+      <txt_58 >ingen</txt_58>
+      <txt_59 >Ditt jobb med prognosen på</txt_59>
+
+  </se>
+  
+  
+  <!-- Tysk -->
+  <de>
+
+    <txt_1 >Mitarbeiter-Dashboard</txt_1>
+    <txt_2 >Suchfeld</txt_2>
+    <txt_3 >Projektgruppe :</txt_3>
+    <txt_4 >Name:</txt_4>
+    <txt_5 >Monat:</txt_5>
+    <txt_6 >Quarterly:</txt_6>
+    <txt_7 >Jahr:</txt_7>
+    <txt_8 >Kunden und Projekte</txt_8>
+    <txt_9 >Suche</txt_9>
+    <txt_10 >Kennzahlen</txt_10>
+
+    <txt_11 >DB 1</txt_11>
+    <txt_12 >DB 2</txt_12>
+    <txt_13 >Timer * (Stundenpreis - Selbstkostenpreis) *</txt_13>
+    <txt_14 >Abrechnungsinformationen</txt_14>
+
+    <txt_15 >Abrechnungsinformationen</txt_15>
+    <txt_16 >(Prognose Stunden / Real verrechenbaren Stunden)</txt_16>
+    <txt_17 >Norm:</txt_17>
+    <txt_18 >Stunden:</txt_18>
+    <txt_19 >Es abrechenbaren:</txt_19>
+    <txt_20 >Prognose Stunden:</txt_20>
+    <txt_21 >Projekt Liefertermin</txt_21>
+    <txt_22 >in dieser Zeit</txt_22>
+    <txt_23 >NPS</txt_23>
+
+    <txt_24 >Zeitzuordnung - Geschäft %</txt_24>
+    <txt_25 >% (0,00 Stunden)</txt_25>
+
+    <txt_26 >Kunden Top 10</txt_26>
+
+    <txt_27 >Jan</txt_27>
+    <txt_28 >Feb</txt_28>
+    <txt_29 >Mâr</txt_29>
+    <txt_30 >Apr</txt_30>
+    <txt_31 >Mai</txt_31>
+    <txt_32 >Jun</txt_32>
+    <txt_33 >Jul</txt_33>
+    <txt_34 >Aug</txt_34>
+    <txt_35 >Sep</txt_35>
+    <txt_36 >Okt</txt_36>
+    <txt_37 >Nov</txt_37>
+    <txt_38 >Dez</txt_38>
+
+    <txt_39 >Qtr. 1</txt_39>
+    <txt_40 >Qtr. 2</txt_40>
+    <txt_41 >Qtr. 3</txt_41>
+    <txt_42 >Qtr. 4</txt_42>
+
+    <txt_43 >prognose</txt_43>
+    <txt_44 >t.</txt_44>
+
+    <txt_45 >Kunden (Kundennr)</txt_45>
+    <txt_46 >Prognose</txt_46>
+    <txt_47 >Realisiert</txt_47>
+    <txt_48 >Kunden top 10 -</txt_48>
+
+    <txt_49 >Kunden (Kundennr)</txt_49>
+    <txt_50 >Job</txt_50>
+    <txt_51 >Lev. Datum</txt_51>
+    <txt_52 >Prognose</txt_52>
+    <txt_53 >Realisiert</txt_53>
+    <txt_54 >Umsâtz</txt_54>
+
+    <txt_55 >Kunden Verantwortlich</txt_55>
+    <txt_56 >Key Account</txt_56>
+    <txt_57 >Projektleiter</txt_57>
+    <txt_58 >keine</txt_58>
+    <txt_59 >Ihre Aufgabe mit der Vorhersage</txt_59>
+    
+  </de>
+
+
+  <!--Fransk-->
+  <fr>
+
+    <txt_1 >Tableau de bord de l'employé</txt_1>
+    <txt_2 >Champ de recherche</txt_2>
+    <txt_3 >Groupe de projet:</txt_3>
+    <txt_4 >Nom:</txt_4>
+    <txt_5 >Mois:</txt_5>
+    <txt_6 >Trimestriel:</txt_6>
+    <txt_7 >Année:</txt_7>
+    <txt_8 >Clients et projets</txt_8>
+    <txt_9 >Recherche</txt_9>
+    <txt_10 >Chiffres clés</txt_10>
+
+    <txt_11 >DB 1</txt_11>
+    <txt_12 >DB 2</txt_12>
+    <txt_13 >Minuterie * (prix horaire - prix de revient) *</txt_13>
+    <txt_14 >informations de facturation</txt_14>
+
+    <txt_15 >Informations de facturation</txt_15>
+    <txt_16 >(Heures de prévision / Immobilier heures facturables)</txt_16>
+    <txt_17 >Norme:</txt_17>
+    <txt_18 >Heures:</txt_18>
+    <txt_19 >Il facturable:</txt_19>
+    <txt_20 >Heures Prévisions:</txt_20>
+    <txt_21 >Projet date de livraison</txt_21>
+    <txt_22 >dans cette période</txt_22>
+    <txt_23 >NPS</txt_23>
+
+    <txt_24 >Répartition du temps - entreprise %</txt_24>
+    <txt_25 >% (0.00 heures)</txt_25>
+
+    <txt_26 >Les clients top 10</txt_26>
+
+    <txt_27 >Jan</txt_27>
+    <txt_28 >Fév</txt_28>
+    <txt_29 >Mar</txt_29>
+    <txt_30 >Avr</txt_30>
+    <txt_31 >Mai</txt_31>
+    <txt_32 >Juin</txt_32>
+    <txt_33 >Jui</txt_33>
+    <txt_34 >Août</txt_34>
+    <txt_35 >Sep</txt_35>
+    <txt_36 >Oct</txt_36>
+    <txt_37 >Nov</txt_37>
+    <txt_38 >Déc</txt_38>
+
+    <txt_39 >Trim. 1</txt_39>
+    <txt_40 >Trim. 2</txt_40>
+    <txt_41 >Trim. 3</txt_41>
+    <txt_42 >Trim. 4</txt_42>
+
+    <txt_43 >Prévision</txt_43>
+    <txt_44 >t.</txt_44>
+
+    <txt_45 >Les clients (Cliente)</txt_45>
+    <txt_46 >Prévision</txt_46>
+    <txt_47 >Réalisé</txt_47>
+    <txt_48 >Les clients top 10 -</txt_48>
+
+    <txt_49 >Les clients (Customer)</txt_49>
+    <txt_50 >Emploi</txt_50>
+    <txt_51 >Lev. Date de</txt_51>
+    <txt_52 >Prévision</txt_52>
+    <txt_53 >Réalisé</txt_53>
+    <txt_54 >Chiffre d'affaires</txt_54>
+
+    <txt_55 >Responsable client</txt_55>
+    <txt_56 >Key Account</txt_56>
+    <txt_57 >Chargé de projet</txt_57>
+    <txt_58 >aucun</txt_58>
+    <txt_59 >Votre travail avec les prévisions à</txt_59>
+    
+  </fr>
+  
+  
+  <!--Engelsk-->
+  <uk>
+
+    <txt_1 >Employee Dashboard</txt_1>
+    <txt_2 >Search Field</txt_2>
+    <txt_3 >Project group:</txt_3>
+    <txt_4 >Name:</txt_4>
+    <txt_5 >Month:</txt_5>
+    <txt_6 >Quarterly:</txt_6>
+    <txt_7 >Year:</txt_7>
+    <txt_8 >Customers / Projects</txt_8>
+    <txt_9 >Search</txt_9>
+    <txt_10 >Key figures</txt_10>
+
+    <txt_11 >DB 1</txt_11>
+    <txt_12 >DB 2</txt_12>
+    <txt_13 >Timer * (hourly price - cost price) *</txt_13>
+    <txt_14 >Billing info</txt_14>
+
+    <txt_15 >Billing info</txt_15>
+    <txt_16 >(Forecast hours / Real billable hours)</txt_16>
+    <txt_17 >Norm:</txt_17>
+    <txt_18 >Hours:</txt_18>
+    <txt_19 >It billable:</txt_19>
+    <txt_20 >Forecast hours:</txt_20>
+    <txt_21 >Project delivery date</txt_21>
+    <txt_22 >in this period</txt_22>
+    <txt_23 >NPS</txt_23>
+
+    <txt_24 >Time Allocation - business %</txt_24>
+    <txt_25 >% (0.00 hours)</txt_25>
+
+    <txt_26 >Customers top 10</txt_26>
+
+    <txt_27 >Jan</txt_27>
+    <txt_28 >Feb</txt_28>
+    <txt_29 >Mar</txt_29>
+    <txt_30 >Apr</txt_30>
+    <txt_31 >May</txt_31>
+    <txt_32 >Jun</txt_32>
+    <txt_33 >Jul</txt_33>
+    <txt_34 >Aug</txt_34>
+    <txt_35 >Sep</txt_35>
+    <txt_36 >Oct</txt_36>
+    <txt_37 >Nov</txt_37>
+    <txt_38 >Dec</txt_38>
+
+    <txt_39 >Qtr. 1</txt_39>
+    <txt_40 >Qtr. 2</txt_40>
+    <txt_41 >Qtr. 3</txt_41>
+    <txt_42 >Qtr. 4</txt_42>
+
+    <txt_43 >Forecast</txt_43>
+    <txt_44 >t.</txt_44>
+
+    <txt_45 >Customers (Customer)</txt_45>
+    <txt_46 >Forecast</txt_46>
+    <txt_47 >Realized</txt_47>
+    <txt_48 >Customers top 10 -</txt_48>
+
+    <txt_49 >Customers (Customer no.)</txt_49>
+    <txt_50 >Job</txt_50>
+    <txt_51 >Delivery Date</txt_51>
+    <txt_52 >Forecast</txt_52>
+    <txt_53 >Realized</txt_53>
+    <txt_54 >Turnover</txt_54>
+
+    <txt_55 >Customer Responsible</txt_55>
+    <txt_56 >Key Account</txt_56>
+    <txt_57 >Project manager</txt_57>
+    <txt_58 >None</txt_58>
+    <txt_59 >Your job with the forecast at</txt_59>
+    
+    
+  </uk>
+  
+  
+  
+  <!--Spansk-->
+  <es>
+
+    <txt_1 >Tablero de instrumentos del empleado</txt_1>
+    <txt_2 >Campo de búsqueda</txt_2>
+    <txt_3 >Grupo del proyecto:</txt_3>
+    <txt_4 >Nombre:</txt_4>
+    <txt_5 >Mes:</txt_5>
+    <txt_6 >Trimestral:</txt_6>
+    <txt_7 >Año:</txt_7>
+    <txt_8 >Clientes y Proyectos</txt_8>
+    <txt_9 >Búsqueda</txt_9>
+    <txt_10 >Cifras clave</txt_10>
+
+    <txt_11 >DB 1</txt_11>
+    <txt_12 >DB 2</txt_12>
+    <txt_13 >Timer * (precio por hora - precio de coste) *</txt_13>
+    <txt_14 >Información de facturación</txt_14>
+
+    <txt_15 >Información de facturación</txt_15>
+    <txt_16 >(Previsión horas / horas facturables Real)</txt_16>
+    <txt_17 >Norma:</txt_17>
+    <txt_18 >Horas de servicio:</txt_18>
+    <txt_19 >Se facturable:</txt_19>
+    <txt_20 >Horas de pronósticos:</txt_20>
+    <txt_21 >Proyecto fecha de entrega</txt_21>
+    <txt_22 >en este periodo</txt_22>
+    <txt_23 >NPS</txt_23>
+
+    <txt_24 >Asignación de Tiempo - negocio %</txt_24>
+    <txt_25 >% (0.00 horas)</txt_25>
+
+    <txt_26 >Los clientes top 10</txt_26>
+
+    <txt_27 >Ene</txt_27>
+    <txt_28 >Febr</txt_28>
+    <txt_29 >Mar</txt_29>
+    <txt_30 >Abr</txt_30>
+    <txt_31 >May</txt_31>
+    <txt_32 >Jun</txt_32>
+    <txt_33 >Jul</txt_33>
+    <txt_34 >Ago</txt_34>
+    <txt_35 >Sep</txt_35>
+    <txt_36 >Oct</txt_36>
+    <txt_37 >Nov</txt_37>
+    <txt_38 >Dic</txt_38>
+
+    <txt_39 >Trim. 1</txt_39>
+    <txt_40 >Trim. 2</txt_40>
+    <txt_41 >Trim. 3</txt_41>
+    <txt_42 >Trim. 4</txt_42>
+
+    <txt_43 >Pronóstico</txt_43>
+    <txt_44 >t.</txt_44>
+
+    <txt_45 >Clientes (Cliente)</txt_45>
+    <txt_46 >Pronóstico</txt_46>
+    <txt_47 >Realizado</txt_47>
+    <txt_48 >Los clientes top 10 -</txt_48>
+
+    <txt_49 >Clientes (Cliente)</txt_49>
+    <txt_50 >Trabajo</txt_50>
+    <txt_51 >Lev. Fecha</txt_51>
+    <txt_52 >Pronóstico</txt_52>
+    <txt_53 >Realizado</txt_53>
+    <txt_54 >Facturación</txt_54>
+
+    <txt_55 >Responsable del cliente</txt_55>
+    <txt_56 >Key Account</txt_56>
+    <txt_57 >Jefe de proyecto</txt_57>
+    <txt_58 >no</txt_58>
+    <txt_59 >Su trabajo con el pronóstico en</txt_59>
+    
+
+  </es>
+
+</sprog>
