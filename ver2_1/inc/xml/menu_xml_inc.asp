@@ -7,7 +7,8 @@ Set objXMLDom = Server.CreateObject("Microsoft.XMLDOM")
 Set objXmlHttp = Server.CreateObject("Msxml2.ServerXMLHTTP")
 'objXmlHttp.open "GET", "http://localhost/inc/xml/menu_sprog.xml", False
 'objXmlHttp.open "GET", "https://outzource.dk/timeout_xp/wwwroot/ver2_1/inc/xml/menu_sprog.xml", False
-objXmlHttp.open "GET", "https://outzource.dk/timeout_xp/wwwroot/ver3_99/inc/xml/menu_sprog.xml", False
+'objXmlHttp.open "GET", "https://outzource.dk/timeout_xp/wwwroot/ver3_99/inc/xml/menu_sprog.xml", False
+objXmlHttp.open "GET", "https://timeout.cloud/timeout_xp/wwwroot/ver2_14/inc/xml/menu_sprog.xml", False
 'objXmlHttp.open "GET", "http://outzource.dk/timeout_xp/wwwroot/ver2_14/inc/xml/menu_sprog.xml", False
 'objXmlHttp.open "GET", "http://outzource.dk/timeout_xp/wwwroot/ver4_22/inc/xml/menu_sprog.xml", False
 

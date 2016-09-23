@@ -1407,6 +1407,9 @@ $(document).ready(function () {
             } //akt_maksforecast_treg
 
 
+
+
+
             ///////////////////////////////////////////////////
             /////       Tjekker rejsedage - diæter          ///
             ///////////////////////////////////////////////////
@@ -1675,11 +1678,11 @@ $(document).ready(function () {
         //+ "&nyakt=" + nyakt
 
 
-        if ($("#viskunejobmbudget").is(':checked') == true) {
-            viskunForecast = 1
-        } else {
-            viskunForecast = 0
-        }
+        //if ($("#viskunejobmbudget").is(':checked') == true) {
+        //    viskunForecast = 1
+        //} else {
+        //    viskunForecast = 0
+        //}
 
 
 
@@ -1701,7 +1704,7 @@ $(document).ready(function () {
 
          
 
-        $.post("?usemrn=" + usemrn + "&jobid=" + thisval + "&FM_easyreg=" + intEasyreg + "&FM_hr=" + intHR + "&ingTlaas=" + ingTlaas + "&ignakttype=" + ignakttype + "&job_aktids=" + job_aktids + "&lastFakDato=" + lastFakDato + "&job_akt_faser=" + job_akt_faser + "&job_iRowLoops=" + job_iRowLoops + "&stDato=" + stDato + "&slDato=" + slDato + "&FM_vistimereltid=" + vistimereltid + "&FM_ignJobogAktper=" + ignJobogAktper + "&FM_visSimpelAktLinje=" + visSimpelAktLinje + "&FM_jobstatus=" + lastJobstatus + "&sortByval=" + sortByval + "&viskunForecast=" + viskunForecast + "&visallemedarb_bl=" + visallemedarb_bl +"&jobnr_bl="+ jobnr_bl, { control: "FN_showakt", AjaxUpdateField: "true" }, function (data) {
+        $.post("?usemrn=" + usemrn + "&jobid=" + thisval + "&FM_easyreg=" + intEasyreg + "&FM_hr=" + intHR + "&ingTlaas=" + ingTlaas + "&ignakttype=" + ignakttype + "&job_aktids=" + job_aktids + "&lastFakDato=" + lastFakDato + "&job_akt_faser=" + job_akt_faser + "&job_iRowLoops=" + job_iRowLoops + "&stDato=" + stDato + "&slDato=" + slDato + "&FM_vistimereltid=" + vistimereltid + "&FM_ignJobogAktper=" + ignJobogAktper + "&FM_visSimpelAktLinje=" + visSimpelAktLinje + "&FM_jobstatus=" + lastJobstatus + "&sortByval=" + sortByval + "&visallemedarb_bl=" + visallemedarb_bl +"&jobnr_bl="+ jobnr_bl, { control: "FN_showakt", AjaxUpdateField: "true" }, function (data) {
             //$("#fajl").val(data);
 
 

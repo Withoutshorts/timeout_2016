@@ -873,11 +873,22 @@
             end if
 
             medarbSelIndex = 0
-            if cdbl(indexFc) > cdbl(medarbSelHoursGT) then
-            medarbSelIndex = (1 - (medarbSelHoursGT/indexFc)) + 1
+
+            '** Fakturerings index HVIS Grundlag er forecast
+            'if cdbl(indexFc) > cdbl(medarbSelHoursGT) then
+            'medarbSelIndex = (1 - (medarbSelHoursGT/indexFc)) + 1
+            'else
+            'medarbSelIndex = (indexFc/medarbSelHoursGT)
+            'end if
+
+            '** Fakturerings index HVIS Grundlag er normtid
+            if cdbl(ntimper) > cdbl(faktimerGTselmedarb) then
+            medarbSelIndex = (faktimerGTselmedarb/ntimper)
             else
-            medarbSelIndex = (indexFc/medarbSelHoursGT)
+            medarbSelIndex = (ntimper/faktimerGTselmedarb)
             end if
+
+
 
             'if (medarbSelIndex) < 1 then
             'medarbSelIndex = medarbSelIndex
@@ -1034,13 +1045,13 @@
                      <div class="col-lg-3">
                          Faktureringsindex: 
                          <span class="label label-<%=medarbSelIndexColor%> row-stat-badge"><%=formatnumber(medarbSelIndex, 2)%></span>
-                         <br /> <span style="font-size:11px; color:#999999;">[ Forecast timer/ Real. fakturerbare timer ]</span>
+                         <br /> <span style="font-size:11px; color:#999999;">[ Norm. tid / Real. fakturerbare timer ]</span>
                          <br /><br />
                          Norm: <%=formatnumber(ntimper, 2) %> t.<br />
                          Timer: <%=formatnumber(medarbSelHoursGT, 2) %> t.<br />
                          Heraf fakturerbare: <b><%=formatnumber(faktimerGTselmedarb, 2) %> t.</b><br />
                          Forecasttimer: <%=formatnumber(indexFc, 2) %> t.<br />
-                         <span style="font-size:11px; color:#999999;">Projekt med lev. dato i valgt periode.</span>
+                         <span style="font-size:11px; color:#999999;">Forecast på projekter med lev. dato i valgt periode.</span>
                         
                          
                          <!-- <br /><br />

@@ -41,7 +41,7 @@ if session("user") = "" then
 	ugeAflsMidKri = ""
 	'fakmedspecSQLkri = ""
 	
-	 if len(trim(request("FM_progrp"))) <> 0 then
+	if len(trim(request("FM_progrp"))) <> 0 then
 	progrp = request("FM_progrp")
 	else
     progrp = 0
@@ -51,6 +51,12 @@ if session("user") = "" then
 	cur = request("cur")
 	else
     cur = 0
+	end if
+
+    if len(trim(request("ver"))) <> 0 then
+	ver = request("ver")
+	else
+    ver = 0
 	end if
     
 
@@ -1492,6 +1498,12 @@ slutDatoKriSQL = strAar_slut &"/"& strMrd_slut &"/"& strDag_slut
 	'*******************'
 	'**** MaIN SQL *****'
 	'*******************'
+
+    select case lto 'SHOW REPORT IN LOCAL CUR
+    case "bf"
+    call valutaKurs(5)
+    tilkurs = dblKurs
+    end select
 	
 	'*** Vis alle timer hvor man er jobanssv. **'
 	if cint(visKundejobans) = 1 then
@@ -1515,7 +1527,7 @@ slutDatoKriSQL = strAar_slut &"/"& strMrd_slut &"/"& strDag_slut
 	lastmedarb = 0
 	strSQL = "SELECT Tdato, TasteDato, Tjobnr, Tjobnavn, a.navn AS Anavn, TAktivitetId, "_
 	&" a.fakturerbar,"_
-	&" Tknavn, Tmnr, Tmnavn, Timer, Tid, Tfaktim, TimePris, Timerkom, Tknr,"_
+	&" Tknavn, Tmnr, Tmnavn, Timer, Tid, Tfaktim, TimePris, Timerkom, Tknr, t.kurs, "_
 	&" sttid, sltid, a.faktor, godkendtstatus, godkendtstatusaf, kkundenr, kkundenavn, t.timerkom, "_
 	&" m.mnr, m.init, mnavn, m.mid, a.id AS aid, a.sortorder, v.valutakode, t.valuta, k.kid, t.kostpris, m.mcpr, "_
 	&" a.fase, a.antalstk, a.aktbudgetsum, a.bgr, a.aktbudget, t.editor "_
@@ -1576,8 +1588,8 @@ slutDatoKriSQL = strAar_slut &"/"& strMrd_slut &"/"& strDag_slut
 		
 			
 			
-		    select case lto 
-            case "bf" 
+		    select case ver 
+            case 1 
             case else
 			ekspTxt = ekspTxt & oRec("kkundenavn")&";"&oRec("kkundenr")&";"&oRec("Tjobnavn") &";"& oRec("Tjobnr") &";"
 		    end select
@@ -1971,10 +1983,10 @@ slutDatoKriSQL = strAar_slut &"/"& strMrd_slut &"/"& strDag_slut
 				            end if 'media
 				
 
-                            select case lto 
-                            case "bf" 
+                            select case ver 
+                            case 1 
                             
-                            ekspTxt = ekspTxt & formatdatetime(oRec("Tdato"), 2) &";"& oRec("Tjobnavn") &";bilag;dicaux EP cas 705;3224;"
+                            ekspTxt = ekspTxt & formatdatetime(oRec("tdato"), 2) &";"& oRec("tjobnavn") &" "& oRec("anavn") &" "& oRec("tmnavn") &";"& year(oRec("tdato"))&month(oRec("tdato"))&day(oRec("tdato")) &";3224;kontonavnet;"
                                 
                             case else
 
@@ -1982,7 +1994,7 @@ slutDatoKriSQL = strAar_slut &"/"& strMrd_slut &"/"& strDag_slut
                             ekspTxt = ekspTxt & thisFase &";"
 				            end if
 				 
-				            ekspTxt = ekspTxt & strWeekNum &";"& formatdatetime(oRec("Tdato"), 2) &";"
+				            ekspTxt = ekspTxt & strWeekNum &";"& formatdatetime(oRec("tdato"), 2) &";"
 				
                             end select
 
@@ -1993,7 +2005,7 @@ slutDatoKriSQL = strAar_slut &"/"& strMrd_slut &"/"& strDag_slut
                      
                 
 
-                              strMrd_sm = datepart("m", oRec("Tdato"), 2, 2)
+                            strMrd_sm = datepart("m", oRec("Tdato"), 2, 2)
                             strAar_sm = datepart("yyyy", oRec("Tdato"), 2, 2)
                             strWeek = datepart("ww", oRec("Tdato"), 2, 2)
                             strAar = datepart("yyyy", oRec("Tdato"), 2, 2)
@@ -2123,8 +2135,8 @@ slutDatoKriSQL = strAar_slut &"/"& strMrd_slut &"/"& strDag_slut
                             end if
                 
 
-                            select case lto
-                            case "bf"
+                            select case ver
+                            case 1
                             case else
                
 				                    'call akttyper2009Prop(oRec("tfaktim"))
@@ -2175,8 +2187,8 @@ slutDatoKriSQL = strAar_slut &"/"& strMrd_slut &"/"& strDag_slut
 
                             forrExp = replace(forr, "<br>", ", ") 
 
-                            select case lto
-                            case "bf"
+                            select case ver
+                            case 1
                             case else
                             ekspTxt = ekspTxt & forrExp &";"
                             end select
@@ -2196,8 +2208,8 @@ slutDatoKriSQL = strAar_slut &"/"& strMrd_slut &"/"& strDag_slut
 				            <%
 				            end if
 				
-                             select case lto
-                            case "bf"
+                            select case ver
+                            case 1
                             case else
 
 				            ekspTxt = ekspTxt & oRec("mnavn") &";"&oRec("mnr")&";"&oRec("init")&";"
@@ -2216,14 +2228,41 @@ slutDatoKriSQL = strAar_slut &"/"& strMrd_slut &"/"& strDag_slut
 				            <%
 				            end if
 
-                            select case lto
-                            case "bf"
+                            select case ver
+                            case 1
                                 
                                     
-                                  if cint(cur) = 1 then '* local currency
-                                  ekspTxt = ekspTxt & formatnumber(oRec("timer") * oRec("timepris"), 2) &";"& oRec("valuta") &" / "& basisValISO &";"
+                                  if cint(cur) = 0 then '* BF Basis currency DKK
+
+                                  
+                                  belob = formatnumber(oRec("timer") * oRec("timepris"), 2)
+                                  frakurs = oRec("kurs")
+	                              call beregnValuta(belob,frakurs,100)
+
+                                  ekspTxt = ekspTxt & formatnumber(valBelobBeregnet, 2) &";;modkonto;"
+                                  else '*BF local currency
+
+                                  belob = formatnumber(oRec("timer") * oRec("timepris"), 2)
+                                  
+
+                                  select case lto 
+                                  case "bf"
+                                  frakurs = oRec("kurs")
+
+                                  if cdbl(frakurs) <> cdbl(tilkurs) then 'ONLY IF NOT IN LOCAL CUR
+                                  call beregnValuta(belob,frakurs,tilkurs)
                                   else
-                                  ekspTxt = ekspTxt & formatnumber(oRec("timer") * oRec("timepris"), 2) &";"& oRec("valuta") &" / "& basisValISO &";"
+                                  valBelobBeregnet = belob
+                                  end if
+
+                                  case else
+                                  valBelobBeregnet = belob
+                                  end select
+
+	                              
+
+	                              ekspTxt = ekspTxt & formatnumber(valBelobBeregnet, 2) &";;modkonto;"
+                                  
                                   end if
 
                             case else
@@ -2231,8 +2270,8 @@ slutDatoKriSQL = strAar_slut &"/"& strMrd_slut &"/"& strDag_slut
                             end select
 				
 
-                            select case lto 
-                            case "bf"
+                            select case ver 
+                            case 1
 
                             case else
 				
@@ -2274,8 +2313,8 @@ slutDatoKriSQL = strAar_slut &"/"& strMrd_slut &"/"& strDag_slut
 				                <td align="right" style="padding-top:3px; padding-right:5px; border-top:1px #cccccc solid; white-space:nowrap;" valign="top"><%=formatnumber(enheder, 2)%></td>
 				                <%end if
 
-                                select case lto 
-                                case "bf"
+                                select case ver 
+                                case 1
                                 case else
 				                ekspTxt = ekspTxt & enheder &";"
                                 end select
@@ -2332,8 +2371,8 @@ slutDatoKriSQL = strAar_slut &"/"& strMrd_slut &"/"& strDag_slut
     				                <b><%=tpris %></b>
 				                    <%end if 
 				                
-                                    select case lto 
-                                    case "bf"
+                                    select case ver 
+                                    case 1
                                     case else
 				                    ekspTxt = ekspTxt & formatnumber(tpris, 2) &";"
                                     end select
@@ -2343,8 +2382,8 @@ slutDatoKriSQL = strAar_slut &"/"& strMrd_slut &"/"& strDag_slut
     				            &nbsp;
     				            <%end if
 
-                                    select case lto 
-                                    case "bf"
+                                    select case ver 
+                                    case 1
                                     case else
     				                ekspTxt = ekspTxt & ";"
                                     end select
@@ -2369,8 +2408,8 @@ slutDatoKriSQL = strAar_slut &"/"& strMrd_slut &"/"& strDag_slut
 				                <%=formatnumber(tprisTot , 2)&" "&oRec("valutakode")%>
 			                    <%end if 
 			        
-			                    select case lto 
-                                case "bf"
+			                    select case ver 
+                                case 1
                                 case else
 			                    ekspTxt = ekspTxt & formatnumber(tprisTot, 2) &";"&oRec("valutakode")&";"
                                 end select
@@ -2383,8 +2422,8 @@ slutDatoKriSQL = strAar_slut &"/"& strMrd_slut &"/"& strDag_slut
     			                <%end if
 
 
-                                select case lto 
-                                case "bf"
+                                select case ver 
+                                case 1
     			                case else
                                 ekspTxt = ekspTxt & ";;"
                                 end select
@@ -2421,8 +2460,8 @@ slutDatoKriSQL = strAar_slut &"/"& strMrd_slut &"/"& strDag_slut
     				                <%=formatnumber(oRec("kostpris"), 2)%>
 				                    <%end if 
 
-                                select case lto 
-                                case "bf"
+                                select case ver 
+                                case 1
     			                case else
 				                ekspTxt = ekspTxt & formatnumber(oRec("kostpris"), 2) &";"
                                 end select
@@ -2432,8 +2471,8 @@ slutDatoKriSQL = strAar_slut &"/"& strMrd_slut &"/"& strDag_slut
     				                &nbsp;
     				                <%end if
 
-                                    select case lto 
-                                    case "bf"
+                                    select case ver 
+                                    case 1
     			                    case else
     				                ekspTxt = ekspTxt & ";"
                                     end select
@@ -2459,8 +2498,8 @@ slutDatoKriSQL = strAar_slut &"/"& strMrd_slut &"/"& strDag_slut
 				                 <%=formatnumber(kostTot, 2)&" "& basisValISO%>
 			                     <%end if
 
-                                 select case lto 
-                                case "bf"
+                                 select case ver 
+                                case 1
     			                case else
 			                     ekspTxt = ekspTxt & formatnumber(kostTot, 2) &";"& basisValISO &";"
                                 end select
@@ -2470,8 +2509,8 @@ slutDatoKriSQL = strAar_slut &"/"& strMrd_slut &"/"& strDag_slut
     			                  &nbsp;
     			                  <%end if
 
-                                 select case lto 
-                                case "bf"
+                                 select case ver 
+                                case 1
     			                case else
     			                ekspTxt = ekspTxt & ";;"
                                 end select
@@ -2507,8 +2546,8 @@ slutDatoKriSQL = strAar_slut &"/"& strMrd_slut &"/"& strDag_slut
                             
                               if cint(hidegkfakstat) <> 1 then
 
-                                select case lto 
-                                case "bf"
+                                select case ver 
+                                case 1
     			                case else
                                 ekspTxt = ekspTxt & oRec("TasteDato") &";"
                                 end select
@@ -2654,8 +2693,8 @@ slutDatoKriSQL = strAar_slut &"/"& strMrd_slut &"/"& strDag_slut
 				            <%
 				
 				
-                             select case lto 
-                                case "bf"
+                             select case ver 
+                                case 1
     			                case else
 				            
 				                ekspTxt = ekspTxt & erGk &";"& erGkaf &";"& erFaktureret &";"
@@ -2684,8 +2723,8 @@ slutDatoKriSQL = strAar_slut &"/"& strMrd_slut &"/"& strDag_slut
                            'call htmlreplace(komm_note_Txt)
                            'htmlparseCSVtxt = htmlparseTxt
 
-                           select case lto 
-                           case "bf"
+                           select case ver 
+                           case 1
     			           case else
 
                            if len(komm_note_Txt) <> 0 then
@@ -2943,7 +2982,7 @@ if x <> 0 then
                                 else
 
 				
-				                    if lto = "bf" then
+				                    if cint(ver) = 1 then
 				                    'strOskrifter = "Kunde;Kunde Id;Job;KA Nr;Böwe kode;Job Nr;Uge;Dato;Aktivitet;Type;Fakturerbar;Akt. tidslås;Medarbejder;Medarb. Nr;Initialer;Antal;Tid/Klokkeslet;"
 				                    strOskrifter = "Dato;tekst;bilag;konto;kontonavn;debit beløb;kredit beløb;modkonto"
                                     else
@@ -2972,7 +3011,9 @@ if x <> 0 then
 
 
                         
-                                        select case "bf"
+                                        select case ver
+                                        case 1
+
                                         case else                
 				
 				                                if cint(hideenheder) = 0 then
@@ -3110,7 +3151,7 @@ if x <> 0 then
         
         
         
-                    <form action="joblog.asp?media=export&cur=0&<%=pnteksLnk%>" target="_blank" method="post"> 
+                   
                     
                   <tr>
                     <td>
@@ -3125,13 +3166,21 @@ if x <> 0 then
                         <%select case lto 
                         case "bf",  "intranet - local"
 
-                        %><input type="submit" id="sbm_csv" value="Kasserapport DKK >>" style="font-size:9px;" />
+                        %>
+
+                         <form action="joblog.asp?media=export&ver=1&cur=0&<%=pnteksLnk%>" target="_blank" method="post"> 
+                        <input type="submit" id="sbm_csv" value="CSV. fil eksport >>" style="font-size:9px;" />
+                               </form>
+
+                         <form action="joblog.asp?media=export&ver=1&cur=0&<%=pnteksLnk%>" target="_blank" method="post"> <br />
+                             <input type="submit" id="sbm_csv" value="Kasserapport DKK >>" style="font-size:9px;" />
                         </form>
                    
-                        <form action="joblog.asp?media=export&cur=1&<%=pnteksLnk%>" target="_blank" method="post"> 
+                        <form action="joblog.asp?media=export&ver=1&cur=1&<%=pnteksLnk%>" target="_blank" method="post"> 
                             <br />
                         <input type="submit" id="sbm_csv" value="Kasserapport Local Cur. >>" style="font-size:9px;" />
                         <%case else %>
+                        <form action="joblog.asp?media=export&ver=1&cur=0&<%=pnteksLnk%>" target="_blank" method="post"> 
                         <input type="submit" id="sbm_csv" value="CSV. fil eksport >>" style="font-size:9px;" />
                         <%end select%>
 

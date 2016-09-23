@@ -31,10 +31,7 @@
     <!--#include file="../inc/regular/topmenu_inc.asp"-->
  
 	
-	
-
-
-    
+	    
 	
 	<%
 
@@ -153,6 +150,8 @@
                 ibudgetmd = request("ibudgetaarMd")  
                 aar = request("ibudgetUseAar")
                 md = request("ibudgetUseMd")
+
+               
 
                 '** Afgræns indenfor budgetår
                 if cint(ibudgetaar) = 1 then
@@ -933,6 +932,8 @@
             next
 
             '*** Skal akt lukkes for timereg. hvis forecast budget er overskrddet..?
+             '** MAKS budget / Forecast
+            call akt_maksbudget_treg_fn()
             call aktBudgettjkOn_fn()
             
 
@@ -960,6 +961,9 @@
             call medariprogrpFn(usemrn)
 
             call ersmileyaktiv()
+
+
+          
             
             
             '*** ÆØÅ **'
@@ -1081,8 +1085,9 @@
 
 
                                     
-
-                                    if len(trim(request("viskunForecast"))) <> 0 AND request("viskunForecast") <> 0 then
+                                    '20160922: Timer Tjekkes først længere nede på aktlinje
+                                    'if len(trim(request("viskunForecast"))) <> 0 AND request("viskunForecast") <> 0 then
+                                    if cint(aktBudgettjkOnViskunmbgt) = 1 then
                                     viskunForecast = 1
                                     else
                                     viskunForecast = 0
@@ -1341,10 +1346,14 @@
 
 
                                    
-                                    '*********************************************
-                                    '*** Alm.liste sorteret efter job, kunde etc.
-                                    '*********************************************
+                                   
                                     else
+
+
+                                            '*********************************************
+                                            '*** Alm.liste sorteret efter job, kunde etc.
+                                            '*********************************************
+
 
 
                                             '*************************************************************************************************
@@ -2151,9 +2160,10 @@
                                                                      
 		                                                    
                                                                 
-                                                                            '******************************************************************************************'
-                                                                            '***** Aktlinje detaljer. Budget, timepris, real. tid // Activities details, dates etc ****'
-                                                                            '******************************************************************************************'
+                                                                       '******************************************************************************************'
+                                                                       '***** Aktlinje detaljer. Forecast Resourcetimer Budget, timepris, real. tid 
+                                                                       '*************** // Activities details, dates etc ****'
+                                                                       '******************************************************************************************'
 
 
                                                                    
@@ -2165,10 +2175,11 @@
                                                                         SQLdatoKriTimer = ""
                                                                         if cint(aktBudgettjkOn) = 1 then
                                                                         '*******************************************
-                                                                        '*** Ressource timer **'
+                                                                        '*** Ressource timer tildelt             **'
                                                                         '*******************************************
                                                                        
                                                                                     
+                                                                                    '*** Afgræans indenfor regnskabsår // Starter dwet md 1 eller 7 (kontrolpanel)
                                                                                     if month(useDateStSQL) < month(aktBudgettjkOnRegAarSt) then                                                                          
                                                                                        useRgnArr =  dateAdd("yyyy", -1, useDateStSQL)
                                                                                        useRgnArrNext = useDateStSQL
@@ -2439,13 +2450,13 @@
 				                                                                                aktTpThis = formatnumber(intTimepris, 2) & " " & valutaISO
 				                                                                       
 				
-				                                                                    strAktiviteter = strAktiviteter & " timepris: </span><span style='font-family:Arial; font-size:9px; color:#5582d2;'>" & aktTpThis & "</span><br>"  
+				                                                                    strAktiviteter = strAktiviteter & " Timepris: </span><span style='font-family:Arial; font-size:9px; color:#5582d2;'>" & aktTpThis & "</span><br>"  
 				
 				                                                                    end if
 
                                                                             else
 
-                                                                            strAktiviteter = strAktiviteter & " timepris: </span><span style='font-family:Arial; font-size:9px; color:#5582d2;'>" & formatnumber(fasttp,2) & " " & isoKode &"</span><br>"  
+                                                                            strAktiviteter = strAktiviteter & " Timepris: </span><span style='font-family:Arial; font-size:9px; color:#5582d2;'>" & formatnumber(fasttp,2) & " " & isoKode &"</span><br>"  
 
                                                                             end if
 				
@@ -7140,7 +7151,7 @@
 
     call menu_2014()
 
-    '*** Alert ved forkal. timebudget over skreddet
+    '*** Alert ved forkal. timebudget på aktivitetslinje overskreddet
     call akt_maksbudget_treg_fn
     %>
 
@@ -10493,17 +10504,18 @@
      'call aktBudgettjkOn_fn()
      if cint(aktBudgettjkOn) = 1 then 
             
-        if bxbgtfilter_Type = "hidden" then
+        'if bxbgtfilter_Type = "hidden" then
 
             %>
              <input type="checkbox" id="viskunejobmbudget" value="1" <%=viskunejobmbudgetCHK %> disabled/> <span style="color:#000000;">Vis kun job/aktiviteter med <%=fcTxt %> på, for valgte medarbejder (sættes i kontrolpanel)</span>
              <input type="hidden" value="<%=viskunejobmbudget %>" name="viskunejobmbudget" />
     
             <%
-        else%>
-             <input name="viskunejobmbudget" id="viskunejobmbudget" type="checkbox" value="1" <%=viskunejobmbudgetCHK %>/> <span style="color:#000000;">Vis kun job/aktiviteter med <%=fcTxt %> på, for valgte medarbejder (sættes i kontrolpanel)</span>
+        'else%>
+           
+              <!--  <input name="viskunejobmbudget" id="viskunejobmbudget" type="checkbox" value="1" <%=viskunejobmbudgetCHK %>/> <span style="color:#000000;">Vis kun job/aktiviteter med <%=fcTxt %> på, for valgte medarbejder (sættes i kontrolpanel)</span>-->
     
-        <%end if%>
+        <%'end if%>
      
      <%end if 
          

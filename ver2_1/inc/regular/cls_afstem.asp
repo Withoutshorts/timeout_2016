@@ -794,6 +794,9 @@ function indlasKorrektioner(mid, korrKom, korrReal, dtInd)
                 
                 end if '*** aktid <> 0
                 
+
+                'response.write "<br>aktid: " & aktid 
+
                 next
                 
                 if f = 1 then
@@ -810,7 +813,7 @@ function indlasKorrektioner(mid, korrKom, korrReal, dtInd)
                 end if
                 
                 
-                'Response.end
+                'Response.flush
 
 end function
 

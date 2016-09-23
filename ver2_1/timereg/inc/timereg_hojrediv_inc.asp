@@ -16,7 +16,7 @@ function hojreDiv()
       '**Vis ikke højremenu ofr disse '***
       if (lto = "intranet - local") OR (lto = "demo") OR (lto = "adra") OR (lto = "wwf") OR (lto = "ngf") OR (lto = "ascendis") OR (lto = "akelius") OR _
       (lto = "hvk_bbb") OR (lto = "mmmi" AND meType = 10) OR (lto = "xdencker") OR (lto = "biofac") OR (lto = "epi_uk") OR (lto = "tec") OR (lto = "esn") OR _
-      (lto = "micmatic") OR (lto = "aalund") OR (lto = "nonstop") OR (lto = "oko") OR (lto = "wilke") OR (lto = "cisu") OR (lto = "hidalgo") OR (lto = "bf") then
+      (lto = "micmatic") OR (lto = "aalund") OR (lto = "nonstop") OR (lto = "oko") OR (lto = "wilke") OR (lto = "cisu") OR (lto = "hidalgo") OR (lto = "bf") OR (lto = "cst") then
 
             if lto = "wwf" OR lto = "xintranet - local" then 
             %>

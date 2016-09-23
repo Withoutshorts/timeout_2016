@@ -316,7 +316,7 @@ if len(session("user")) = 0 then
             <tr><td colspan=5>
             <%
 
-                    if aktidKorrFundet = 0 AND func = "lukper_ok" then%>
+                    if cint(aktidKorrFundet) = 0 AND func = "lukper_ok" then%>
 					<!--#include file="../inc/regular/header_hvd_inc.asp"-->
 					     
 			        <%

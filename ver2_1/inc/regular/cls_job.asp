@@ -268,7 +268,9 @@ end function
 
                                     if lto = "dencker" then
                                     'Mailer.AddRecipient "Anders Dencker", "ad@dencker.net"
-                                    myMail.Bcc= "Anders Dencker<ad@dencker.net>"
+                                    'myMail.Bcc= "Anders Dencker<ad@dencker.net>"
+                                     myMail.Bcc= "Dencker Ordrer<ordre@dencker.net>"
+            
                                     end if
 
                                     'if lto = "fe" then

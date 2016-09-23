@@ -430,7 +430,7 @@ end function
 
 
 public akt_maksbudget_treg, akt_maksforecast_treg
-function akt_maksbudget_treg_fn
+function akt_maksbudget_treg_fn()
 
     akt_maksbudget_treg = 0
     akt_maksforecast_treg = 0

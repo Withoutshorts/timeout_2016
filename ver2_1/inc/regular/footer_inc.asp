@@ -103,20 +103,46 @@ end if
 statTime = time
 statDato = year(now)&"/"&month(now)&"/"&day(now)
 stTempLen = len(cstr(request.servervariables("PATH_TRANSLATED")))
+
+'* Timereg folder
+if instr(cstr(request.servervariables("PATH_TRANSLATED")), "imereg") <> 0 then
 stTempInstr = instr(cstr(request.servervariables("PATH_TRANSLATED")), "imereg")
+end if
+
+'** Mobil folder
+if instr(cstr(request.servervariables("PATH_TRANSLATED")), "imetag") <> 0 then
+stTempInstr = instr(cstr(request.servervariables("PATH_TRANSLATED")), "imetag")
+end if
+
+'** to_2015 folder
+if instr(cstr(request.servervariables("PATH_TRANSLATED")), "o_2015") <> 0 then
+stTempInstr = instr(cstr(request.servervariables("PATH_TRANSLATED")), "o_2015")
+end if
+
 statSide = right(cstr(request.servervariables("PATH_TRANSLATED")), (stTempLen - (stTempInstr + 6)))
+
+statSide = left(statSide, 50)
 
 yearnow = year(now)
 monthnow = month(now)
 
+'response.write "<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>" & request.servervariables("LOCAL_ADDR")
+
+
+if instr(request.servervariables("LOCAL_ADDR"), "::1") = 0 then 
 '** IKKE localhost
-'strConnStat = "driver={MySQL ODBC 3.51 Driver};server=localhost; Port=3306; uid=to_outzource2;pwd=SKba200473;database=timeout_admin;" '62.182.173.226
-'Set oConnStat = Server.CreateObject("ADODB.Connection")
-'oConnStat.open strConnStat
-'statSQL = "INSERT INTO admin_stat_"& yearnow &"_"& monthnow &" (dato, tpunkt, bruger, lto, side) VALUES ('"&statDato&"', '"&statTime&"', '"& session("user") &"', '"&lto&"', '"& statSide &"')"
-'oConnStat.execute(statSQL)
-'oConnStat.close
-'Set oConnStat = nothing	
+'** "& yearnow &"_"& monthnow &"
+strConnStat = "driver={MySQL ODBC 3.51 Driver};server=localhost; Port=3306; uid=to_outzource2;pwd=SKba200473;database=timeout_admin;" '62.182.173.226
+Set oConnStat = Server.CreateObject("ADODB.Connection")
+oConnStat.open strConnStat
+statSQL = "INSERT INTO admin_stat_2017 (dato, tpunkt, bruger, lto, side) VALUES ('"&statDato&"', '"&statTime&"', '"& session("user") &"', '"&lto&"', '"& statSide &"')"
+oConnStat.execute(statSQL)
+oConnStat.close
+Set oConnStat = nothing	
+
+end if
+
+
 %>
 
 

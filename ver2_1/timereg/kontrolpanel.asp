@@ -902,7 +902,7 @@ if len(session("user")) = 0 then
 
             
             if len(trim(request("forcebudget_onakttreg_afgr"))) <> 0 then
-            forcebudget_onakttreg_afgr = 1
+            forcebudget_onakttreg_afgr = request("forcebudget_onakttreg_afgr")
             else
             forcebudget_onakttreg_afgr = 0
             end if
@@ -2251,7 +2251,7 @@ if len(session("user")) = 0 then
 
                     <tr>
             <td style="padding:15px; border-top:1px #5582d2 dashed;">
-            <h4>Luk akt. hvis forecast/timebudget for medarb. overskreddet</h4> 
+            <h4>Luk for timereg. på akt. hvis forecast/timebudget på akt./medarb. overskreddet</h4> 
           
           <%if cint(forcebudget_onakttreg) = 1 then
           forcebudget_onakttregCHK = "CHECKED"
@@ -2260,11 +2260,18 @@ if len(session("user")) = 0 then
           end if
           %>
 
-           <%if cint(forcebudget_onakttreg_afgr) = 1 then
-          forcebudget_onakttreg_afgrCHK = "CHECKED"
-          else
-          forcebudget_onakttreg_afgrCHK = ""
-          end if
+           <%
+          forcebudget_onakttreg_afgrSEL0 = "" 'Nej
+          forcebudget_onakttreg_afgrSEL1 = "" 'Budgetår
+          forcebudget_onakttreg_afgrSEL2 = "" 'MD    
+          select case cint(forcebudget_onakttreg_afgr)
+          case 1
+          forcebudget_onakttreg_afgrSEL1 = "SELECTED"
+          case 2
+          forcebudget_onakttreg_afgrSEL2 = "SELECTED"
+          case else
+          forcebudget_onakttreg_afgrSEL0 = "SELECTED"
+          end select
 
          if cint(forcebudget_onakttreg_filt_viskunmbgt) = 1 then
           forcebudget_onakttreg_filt_viskunmbgtCHK = "CHECKED"
@@ -2273,10 +2280,16 @@ if len(session("user")) = 0 then
           end if
           %>
 
-           <input type="checkbox" name="forcebudget_onakttreg" value="1" <%=forcebudget_onakttregCHK %> /> <b>Adviser - vejledende for medarbejder - på aktivitet</b> (kun type: Fakturerbare) på timeregistreringssiden, hvis <b>forecast pr. medarb.</b> er overskreddet. <br />
-                Kode 1: Forecast overskreddet, lyserød markering. Der kan stadigvæk tastes.<br />
+           <input type="checkbox" name="forcebudget_onakttreg" value="1" <%=forcebudget_onakttregCHK %> /> <b>Adviser - Vejledende</b> 
+                 på timeregistreringssiden, hvis <b>forecast pr. medarb.</b> er overskreddet. 
+                 (Husk slå vis ressourcetimer til på akt. linje. - gælder kun type: Fakturerbare - og ikke interne HR -1, -2 job)
+                <br /><br />
+                <span style="color:#999999;">
+                Timereg. variable: resforecastMedOverskreddet<br />
+                Kode 1: Forecast overskreddet, lyserød markering. Der kan stadigvæk tastes. (tjekker også om der afgrænses indenfor regnskabårs / md.)<br />
                 Kode 2: Ingen forecast angivet, aktivitet lukket for medarbejder<br />
-                (Husk slå vis ressourcetimer til på akt. linje.)<br /><br />
+               </span><br /><br />
+                
 
                  
           <%if cint(akt_maksforecast_treg) = 1 then
@@ -2286,11 +2299,19 @@ if len(session("user")) = 0 then
           end if
           %>
 
-           <input type="checkbox" name="akt_maksforecast_treg" value="1" <%=akt_maksforecast_tregCHK %> /> Aktiver alert på timereg. siden <b>(kun type: Fakturerbare)</b>, ved <b>forecast pr. medarb.</b> pr. aktivitet overskreddet. Forecast kan ikke overskriddes, hvis der ikke er lagt forecast ind på aktivitet kan der ikke tastes. (Kræver Adviser - se ovenfor, er slået til)<br />
+           <input type="checkbox" name="akt_maksforecast_treg" value="1" <%=akt_maksforecast_tregCHK %> /> <b>Adviser - Hård</b> <!--(kræver adviser vejledende er slået til)--><br />
+           Forecast pr. medarb. pr. aktivitet overskreddet. (kun fakturerbare)<br />
+           Forecast kan ikke overskriddes, hvis der ikke er lagt forecast ind på aktivitet kan der ikke tastes.<br /><br />
            
-                
-                 <input type="checkbox" name="forcebudget_onakttreg_afgr" value="1" <%=forcebudget_onakttreg_afgrCHK %> /> Afgræns indenfor regnskabsår<br />
-                 <input type="checkbox" name="forcebudget_onakttreg_filt_viskunmbgt" value="1" <%=forcebudget_onakttreg_filt_viskunmbgtCHK %> /> Forvalgt vis kun aktiviteter med forecast pr. medarb. på. (admin kan slå fra på timereg. + kræver "Adviser.." ovenfor er slået til)
+                 Afgrænsning: (gælder både Hård og Vejledende)
+                 <select name="forcebudget_onakttreg_afgr"> 
+                     <option value="0" <%=forcebudget_onakttreg_afgrSEL0 %>>Ingen afgrænsning</option>
+                     <option value="1" <%=forcebudget_onakttreg_afgrSEL1 %>>Afgræns indenfor regnskabsår (se regnskabsår)</option>
+                     <option value="2" <%=forcebudget_onakttreg_afgrSEL2 %>>Afgræns indenfor måned</option>
+                     </select>
+                     <br /><br />
+                 <input type="checkbox" name="forcebudget_onakttreg_filt_viskunmbgt" value="1" <%=forcebudget_onakttreg_filt_viskunmbgtCHK %> /> Forvalgt <b>vis</b> kun aktiviteter med forecast pr. medarb. på. 
+                <!--<br />(admin kan slå fra på timereg. + kræver "Adviser.." ovenfor er slået til)-->
            
                 
           <br /><br />
@@ -2303,7 +2324,7 @@ if len(session("user")) = 0 then
           end if
           %>
 
-           <input type="checkbox" name="akt_maksbudget_treg" value="1" <%=akt_maksbudget_tregCHK %> /> Aktiver alert på timereg. siden, ved <b>forkalkuleret timebudget</b> pr. aktivitet overskreddet. (forkalkulation kan ikke overskriddes - alle aktivitetstyper med forkalk. på.)<br />
+           <input type="checkbox" name="akt_maksbudget_treg" value="1" <%=akt_maksbudget_tregCHK %> /> <b>Aktiver alert</b> på timereg. siden, ved <b>forkalkuleret (budgetlinje på aktivitet) overskreddet.</b>  (alle aktivitetstyper med forkalk. på.)<br />
                   
           </td>
             </tr>

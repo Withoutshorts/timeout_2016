@@ -618,6 +618,15 @@ session("spmettanigol") = session("spmettanigol") + request("attempt")
 
                 case else %>
 
+
+                <h4>21.9.2016 - TimeOut nede</h4>
+                Der har idag mellem 12.00 og 14.30 været nedsat fremkommelighed til TimeOut.
+                Ikke alle kunder har været ramt, men nogle har været uden adgang til Timeout i den nævnte periode. 
+                Fejlen skyldtes en router fejl hos i vores hostingcenter.<br /><br />
+                 Mvh.<br />
+                Outzource
+                <br /><br /><br /><br />&nbsp;
+
                 <h4>6.9.2016 - Få TimeOut på MOBILEN</h4>
                 Husk det er muligt at registrere sin tid via mobilen.<br />
                 Det er en standard funktion, og man skal blot bruge sin browser på mobilen.<br />

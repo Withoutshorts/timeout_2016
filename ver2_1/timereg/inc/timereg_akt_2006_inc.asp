@@ -689,36 +689,48 @@ call erugeAfslutte(useYear, usePeriod, usemrn)
     '** Admin må gerne indtaste
             
 
-            '** Overskreddet Ok at taste. Uden budget. Der må ikke tastes.
-            if cint(resforecastMedOverskreddet) = 1 then 
-                '**** 1 Forecast / timebudget overskreddet
-                '**** 2 Der er ikke angivet buget. Kun advarsel. Dvs gråfelter og lyserødmarkering
-                maxl = maxl '0
+            '*** Overksreddet og der må ikke tastes ***
+            if cint(akt_maksforecast_treg) = 1 then
 
-                'select case lto
-                'case "wwf", "xintranet - local"
-                fmbgcol = "#ffdfdf" 'lyserød
-	            'case else
-                'fmbgcol = "#FFFFFF" 
-                'end select
+                    maxl = 0    'Kan ikke tastes
+                    fmbgcol = "#CCCCCC" '"#F7F7F7" 'lysgraa
+	                fmborcl = "1px #999999 solid"
 
-                fmborcl = "1px #999999 solid"
 
             else
-    
-                select case lto '** Lukket
-                case "wwf", "xintranet - local"
-                maxl = 0    'Kan ikke tastes, DIV boks bruges --> Bruge denne hvis man gerne må gå over forecast på aktiviteter hvor der ER angivet forecast.
-                case else
-                maxl = maxl 'Brug alert (slå til i kontrolpanel) til markere at Du ikke kan taste
-	            end select
 
-                fmbgcol = "#CCCCCC" '"#F7F7F7" 'lysgraa
-	            fmborcl = "1px #999999 solid"
+                '** Overskreddet Ok at taste. Uden budget. Der må ikke tastes.
+                if cint(resforecastMedOverskreddet) = 1 then 
+                    '**** 1 Forecast / timebudget overskreddet
+                    '**** 2 Der er ikke angivet buget. Kun advarsel. Dvs gråfelter og lyserødmarkering
+                    maxl = maxl '0
+
+                    'select case lto
+                    'case "wwf", "xintranet - local"
+                    fmbgcol = "#ffdfdf" 'lyserød
+	                'case else
+                    'fmbgcol = "#FFFFFF" 
+                    'end select
+
+                    fmborcl = "1px #999999 solid"
+
+                else 'resforecastMedOverskreddet kode 2
+    
+                    'select case lto '** Lukket
+                    'case "wwf", "intranet - local"
+                    maxl = 0    'Kan ikke tastes, DIV boks bruges --> Bruge denne hvis man gerne må gå over forecast på aktiviteter hvor der ER angivet forecast.
+                    'case else
+                    'maxl = maxl 'Brug alert (slå til i kontrolpanel) til markere at Du ikke kan taste
+	                'end select
+
+                    fmbgcol = "#CCCCCC" '"#F7F7F7" 'lysgraa
+	                fmborcl = "1px #999999 solid"
                 
-            end if
+                end if
 
 	       
+           end if
+
         
             ugeafsluttet = 1
             ugeafsluttetTxt = "<b>Dit forecast</b> (kode: "& resforecastMedOverskreddet &") er overskreddet / ikke angivet, p&aring; en eller flere af de viste aktiviteter. <br>Kontakt den jobansvarlige for at &aelig;ndre forecast. (timebudget)"

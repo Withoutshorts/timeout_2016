@@ -14,14 +14,14 @@
       Det skyldes som regel en af følgende årsager: #nylinie#
       - Kombinationen af login og password er forkert.#nylinie#
       - Status på medarbejderkontoen er Deaktiveret.#nylinie#
-      - Status på medarbejderkontoen er Passiv 
+      - Status på medarbejderkontoen er Passiv
 
 
     </txt_004>
     <txt_028>
-		En eller flere af de indtastede time-registreringer indeholder ulovlige karakterer.#nylinie#
-		Registreringerne må kun indeholde tallene 0-9, samt komma eller punktum. #nylinie#Den ulovlige registrering er:
-	</txt_028>
+      En eller flere af de indtastede time-registreringer indeholder ulovlige karakterer.#nylinie#
+      Registreringerne må kun indeholde tallene 0-9, samt komma eller punktum. #nylinie#Den ulovlige registrering er:
+    </txt_028>
 
     <txt_054>Antal er ikke angivet som et tal!</txt_054>
 
@@ -87,12 +87,12 @@
       - Either the login or password are wrong.#nylinie#
       - Status on the employee account are Disabled.#nylinie#
       - Status on the employee account are Passive.
-      </txt_004>
+    </txt_004>
     <txt_028>
-		One or more time recordings containing illegal caracters.#nylinie#
-		Time recordings can only contain numbers 0-9 and comma or full stop.#nylinie#
-		The illegal caracter are:
-	</txt_028>
+      One or more time recordings containing illegal caracters.#nylinie#
+      Time recordings can only contain numbers 0-9 and comma or full stop.#nylinie#
+      The illegal caracter are:
+    </txt_028>
 
     <txt_090>
       Enter materials #nylinie#

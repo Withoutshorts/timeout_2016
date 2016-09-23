@@ -2913,6 +2913,16 @@ CHANGE sttid aktsttid TIME DEFAULT '00:00:00' NOT NULL;
 ALTER TABLE aktiviteter
 CHANGE sltid aktsltid TIME DEFAULT '00:00:00' NOT NULL;
 INSERT INTO dbversion (dbversion) VALUES (20160908.2)
+
+<br /><br />20160921.1<br />
+ALTER TABLE timer
+MODIFY COLUMN tjobnavn varchar(150) DEFAULT '' NOT NULL;
+INSERT INTO dbversion (dbversion) VALUES (20160921.1) 
+
+<br /><br />20160921.2<br />
+ALTER TABLE timer
+MODIFY COLUMN kurs double(12,4) DEFAULT 0 NOT NULL;
+INSERT INTO dbversion (dbversion) VALUES (20160921.2) 
 <%
 
 
