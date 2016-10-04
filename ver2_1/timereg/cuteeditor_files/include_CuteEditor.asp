@@ -1003,7 +1003,7 @@ Class CuteEditor
 		call initCodecs
 	'	EditorSetting = server.URLEncode(Base64encode(s))
 	    EditorSetting = base64Encode(s)
-	    Response.Cookies("CESecurity")=EditorSetting
+	    'Response.Cookies("CESecurity")=EditorSetting
 	    Session("CESecurity")=EditorSetting
 	End Property	
 	Public Property Get EditorSetting2

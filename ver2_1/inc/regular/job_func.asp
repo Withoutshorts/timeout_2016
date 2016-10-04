@@ -1,3 +1,5 @@
+
+
 <%
 
 	
@@ -177,7 +179,7 @@ public fVzb, fDsp, oVzb, oDsp
 function faneblade(side, div)
             
 
-            call antalmedarb_fn(2)
+ call antalmedarb_fn(2)
 
 'Response.Write "side " & side &" & div "& div
 'Response.end
@@ -244,7 +246,10 @@ rdir = rdir
 	
 	stamdatLink = "#" 'onClick='showstamdata()	
 
-    if antalmedarb < 25 then
+    
+
+    if cint(antalmedarb) < 25 then
+    
     tprisLink = "#"
     else
 	tprisLink = "jobs.asp?menu=job&func=red&id="&id&"&int=1&rdir="&rdir&"&showdiv=tpriser&FM_mtype="&mtype

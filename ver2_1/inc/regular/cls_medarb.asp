@@ -72,6 +72,7 @@
 
             antalmedarb = 0
 	        strSQL = "SELECT count(Mid) AS antusr FROM medarbejdere WHERE " & medStatKri
+           
 			oRec2.Open strSQL, oConn, 3
 			if not oRec2.EOF then
 			antalmedarb = oRec2("antusr")

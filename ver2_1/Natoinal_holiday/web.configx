@@ -1,5 +1,8 @@
 <?xml version="1.0"?>
 <configuration>
+  <connectionStrings>
+    <add name="ConnectionString" connectionString="Data Source=192.168.1.113;Database=timeout_demo;User ID=root;Password=ct?786214#pl" />
+  </connectionStrings>
   <system.webServer>
     <security>
       <requestFiltering>
@@ -12,24 +15,15 @@
       <mimeMap fileExtension=".less" mimeType="text/css"/>
     </staticContent>
   </system.webServer>
-  <!--
-    For a description of web.config changes see http://go.microsoft.com/fwlink/?LinkId=235367.
-
-    The following attributes can be set on the <httpRuntime> tag.
-      <system.Web>
-        <httpRuntime targetFramework="4.5" />
-      </system.Web>
-  -->
   <system.web>
-    <httpRuntime executionTimeout="7200" maxRequestLength="20971510"/>
+    <httpRuntime executionTimeout="7200" maxRequestLength="2097151"/>
     <sessionState timeout="820" useHostingIdentity="true"/>
     <httpCookies domain="timeout.cloud"/>
-    <pages validateRequest="false" controlRenderingCompatibilityVersion="3.5" clientIDMode="AutoID"/>
-    <compilation targetFramework="4.5"/>
+    <pages validateRequest="false"/>
   </system.web>
   <appSettings>
     <add key="dk.outzource_importhours.ozimporthours" value="https://outzource.dk/timeout_xp/wwwroot/ver2_10/timereg_net/ozimporthours.asmx"/>
     <add key="importjob2_ds.ozimportjob2_ds" value="http://timeout.cloud/timeout_xp/wwwroot/ver2_14/timereg_net/ozimportjob2_ds.asmx"/>
-    <add key="dk_rack.outzource_importhours.ozimporthours" value="https://timeout.cloud/timeout_xp/wwwroot/ver2_14/timereg_net/ozimporthours.asmx"/>
+  <add key="dk_rack.outzource_importhours.ozimporthours" value="https://timeout.cloud/timeout_xp/wwwroot/ver2_14/timereg_net/ozimporthours.asmx"/>
   </appSettings>
 </configuration>

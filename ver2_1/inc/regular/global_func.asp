@@ -1,10 +1,8 @@
-
 <!--#include file="../xml/login_xml_inc.asp"-->
 <!--#include file="../xml/menu_xml_inc.asp"-->
 <!--#include file="../xml/global_xml_inc.asp"-->
 <!--#include file="../xml/tsa_xml_inc.asp"-->
 <!--#include file="../xml/erp_fak_xml_inc.asp"-->
-<!--#include file="../xml/meddash_xml_inc.asp"-->
 
 
 
@@ -54,16 +52,10 @@
 <%
 '*** Er global inc_ inkluderet på den aktuelle side?? 
 global_inc = "j"
-
-
 call basisValutaFN()
-
 public strKundenavnPDFtxt
-
 function kundenavnPDF(strknavn)
-
              if len(trim(strknavn)) <> 0 then
-
              strknavn = replace(strknavn, " ", "_")
              strknavn = replace(strknavn, "&", "_")
              strknavn = replace(strknavn, "<", "_")
@@ -96,16 +88,9 @@ function kundenavnPDF(strknavn)
              strKundenavnPDFtxt = "-- Missing --"    
         
              end if
-
 end function 
-
-
-
-
 public alfanumeriskTxt
-
 function alfanumerisk(txtstr)
-
              txtstr = replace(txtstr, " ", "")
              txtstr = replace(txtstr, "_", "")
              txtstr = replace(txtstr, "-", "")
@@ -133,25 +118,19 @@ function alfanumerisk(txtstr)
              txtstr = replace(txtstr, "¨", "")
              txtstr = replace(txtstr, "#", "")
              txtstr = replace(txtstr, "+", "")         
-
              alfanumeriskTxt = txtstr
-
 end function 
-
-
 '*** Afsluttede uger *****
 public afslUgerMedab
 redim afslUgerMedab(3000) '2500 '400 '4 år
 function afsluger(medarbid, stdato, sldato)
 		
         call smileyAfslutSettings()
-
         if cint(SmiWeekOrMonth) = 0 then
         strPeriode = "WEEK(u.uge, 1)"
         else
         strPeriode = "MONTH(u.uge)"
         end if
-
 		strSQL2 = "SELECT u.status, u.afsluttet, "& strPeriode &" AS periode, YEAR(u.uge) AS aar, "_
 		&" u.id, u.mid FROM ugestatus u WHERE mid =  "& medarbid &""_
 		&" AND uge BETWEEN '"& stDato &"' AND '"& slDato &"' GROUP BY u.mid, uge"
@@ -171,10 +150,8 @@ function afsluger(medarbid, stdato, sldato)
 		'Response.Write afslUgerMedab(medarbid) 
 		
 end function
-
 public licensindehaverKid, licensindehaverKnavn
 function licKid()
-
     strSQL4 = "SELECT kid, kkundenavn FROM kunder WHERE useasfak = 1"
 	oRec4.open strSQL4, oConn, 3
 	If not oRec4.EOF then
@@ -184,14 +161,9 @@ function licKid()
 	
 	end if
 	oRec4.close
-
 end function
-
-
 public SmiWeekOrMonth, SmiantaldageCount, SmiantaldageCountClock, SmiTeamlederCount
 function smileyAfslutSettings()
-
-
                 '** Variable (defaukl værdier)
                 SmiWeekOrMonth = 0
                 SmiantaldageCount = 1 'mandag
@@ -211,20 +183,12 @@ function smileyAfslutSettings()
                 else
                 SmiantaldageCountClock = oRec6("SmiantaldageCountClock") & ":00:00"
                 end if
-
                 SmiTeamlederCount = oRec6("SmiTeamlederCount")
                 
                 
-
                 end if 
                 oRec6.close
-
-
 end function
-
-
-
-
 public timesimon, timesimh1h2, timesimtp
 function timesimon_fn()
     
@@ -241,9 +205,7 @@ function timesimon_fn()
 	
 	end if
     oRec6.close
-
 end function
-
 public budgetakt
 function budgetakt_fn()
     
@@ -257,10 +219,7 @@ function budgetakt_fn()
  	
 	end if
     oRec6.close
-
 end function
-
-
 public fomr_account
 function fomr_account_fn()
     
@@ -273,13 +232,9 @@ function fomr_account_fn()
 	
 	end if
     oRec6.close
-
 end function
-
-
 public traveldietexp_maxhours, traveldietexp_on
 function traveldietexp_fn()
-
     traveldietexp_maxhours = 0
     traveldietexp_on = 0
 	strSQL6 = "SELECT traveldietexp_maxhours, traveldietexp_on FROM licens l WHERE id = 1"
@@ -291,13 +246,9 @@ function traveldietexp_fn()
 	
 	end if
     oRec6.close
-
 end function
-
-
 public medarbtypligmedarb
 function medarbtypligmedarb_fn()
-
     medarbtypligmedarb = 0
     strSQL6 = "SELECT medarbtypligmedarb FROM licens l WHERE id = 1"
 	oRec6.open strSQL6, oConn, 3
@@ -307,11 +258,7 @@ function medarbtypligmedarb_fn()
 	
 	end if
     oRec6.close
-
 end function
-
-
-
 public minimumslageremail
 function minimumslageremail_fn()
     
@@ -324,9 +271,7 @@ function minimumslageremail_fn()
 	
 	end if
     oRec6.close
-
 end function
-
     
 public visAktlinjerSimpel, visAktlinjerSimpel_datoer, visAktlinjerSimpel_timebudget, visAktlinjerSimpel_realtimer, visAktlinjerSimpel_restimer
 public visAktlinjerSimpel_medarbtimepriser, visAktlinjerSimpel_medarbrealtimer, visAktlinjerSimpel_akttype
@@ -340,7 +285,6 @@ function visAktSimpel_fn()
     visAktlinjerSimpel_medarbtimepriser = 0 
     visAktlinjerSimpel_medarbrealtimer = 0
     visAktlinjerSimpel_akttype = 0
-
 	strSQL6 = "SELECT visAktlinjerSimpel, visAktlinjerSimpel_datoer, visAktlinjerSimpel_timebudget, visAktlinjerSimpel_realtimer, visAktlinjerSimpel_restimer, "_
     &" visAktlinjerSimpel_medarbtimepriser, visAktlinjerSimpel_medarbrealtimer, visAktlinjerSimpel_akttype FROM licens l WHERE id = 1"
 	oRec6.open strSQL6, oConn, 3
@@ -357,9 +301,7 @@ function visAktSimpel_fn()
 	
 	end if
     oRec6.close
-
 end function
-
 public positiv_aktivering_akt_val, pa_aktlist
 function positiv_aktivering_akt_fn()
     
@@ -374,11 +316,7 @@ function positiv_aktivering_akt_fn()
 	
 	end if
     oRec6.close
-
 end function
-
-
-
 public timerround
 function timerround_fn()
     
@@ -391,16 +329,12 @@ function timerround_fn()
 	
 	end if
     oRec6.close
-
 end function
-
-
 public smiley_agg, hidesmileyicon
 function smiley_agg_fn()
     
     smiley_agg = 0
     hidesmileyicon = 0
-
 	strSQL6 = "SELECT smileyaggressiv, hidesmileyicon FROM licens l WHERE id = 1"
 	oRec6.open strSQL6, oConn, 3
 	If not oRec6.EOF then
@@ -410,10 +344,7 @@ function smiley_agg_fn()
 	
 	end if
     oRec6.close
-
 end function
-
-
 public teamleder_flad
 function teamleder_flad_fn()
     
@@ -426,14 +357,10 @@ function teamleder_flad_fn()
 	
 	end if
     oRec6.close
-
 end function
-
-
-
+'** Hård styrring FORECAST. Der må ikke overskriddes
 public akt_maksbudget_treg, akt_maksforecast_treg
-function akt_maksbudget_treg_fn
-
+function akt_maksbudget_treg_fn()
     akt_maksbudget_treg = 0
     akt_maksforecast_treg = 0
 	strSQL6 = "SELECT akt_maksbudget_treg, akt_maksforecast_treg FROM licens l WHERE id = 1"
@@ -445,14 +372,7 @@ function akt_maksbudget_treg_fn
 	
 	end if
     oRec6.close
-
-
-
 end function
-
-
-
-
 public fomr_mandatoryOn
 function fomr_mandatory_fn()
     
@@ -465,10 +385,7 @@ function fomr_mandatory_fn()
 	
 	end if
     oRec6.close
-
 end function
-
-
 public lukaktvdato
 function lukaktvdato_fn()
     
@@ -481,10 +398,7 @@ function lukaktvdato_fn()
 	
 	end if
     oRec6.close
-
 end function
-
-
 public showSalgsAnv
 function salgsans_fn()
     
@@ -497,10 +411,7 @@ function salgsans_fn()
 	
 	end if
     oRec6.close
-
 end function
-
-
 public bdgmtypon_val, bdgmtypon_prgrp
 function bdgmtypon_fn()
     
@@ -514,10 +425,7 @@ function bdgmtypon_fn()
 	
 	end if
     oRec6.close
-
-
     strSQL6 = "SELECT COUNT(id) AS antalIds FROM medarbtyper_grp WHERE id <> 0"
-
     oRec6.open strSQL6, oConn, 3
 	If not oRec6.EOF then
 	
@@ -525,16 +433,12 @@ function bdgmtypon_fn()
 	
 	end if
     oRec6.close
-
-
 end function
-
 public aktBudgettjkOn, aktBudgettjkOn_afgr, aktBudgettjkOnRegAarSt, aktBudgettjkOnViskunmbgt
 function aktBudgettjkOn_fn()
             
     'Response.write "her"
     'Response.Flush
-
     aktBudgettjkOn = 0
     aktBudgettjkOnRegAarSt = "01-01-2001"
     aktBudgettjkOn_afgr = 0
@@ -552,9 +456,7 @@ function aktBudgettjkOn_fn()
 	
 	end if
     oRec6.close
-
 end function
-
 public showuploadimport
 function showuploadimport_fn()
     
@@ -567,10 +469,7 @@ function showuploadimport_fn()
 	
 	end if
     oRec6.close
-
 end function
-
-
 public showEasyreg_val
 function showEasyreg_fn()
     
@@ -583,12 +482,9 @@ function showEasyreg_fn()
 	
 	end if
     oRec6.close
-
 end function
-
 public startDatoAar, startDatoMd, startDatoDag, licensklienter, licensstdato
 function licensStartDato()
-
 key = "2.151-3112-B000"
 	
 	strSQL4 = "SELECT l.key, licensstdato, klienter FROM licens l WHERE id = 1"
@@ -620,14 +516,11 @@ key = "2.151-3112-B000"
     startDatoDag = day(licensstdato)
     startDatoMd = month(licensstdato)
     startDatoAar = year(licensstdato)
-
 end function
-
 public browstype_client, user_agent_txt
 function browsertype()
     
     userAgent = request.servervariables("HTTP_USER_AGENT")
-
     if (instr(lcase(userAgent), "iphone") <> 0 OR instr(lcase(userAgent), "iemobile") <> 0 _
     OR instr(lcase(userAgent), "android") <> 0 OR instr(lcase(userAgent), "mobile") <> 0 _ 
     OR inStr(1, userAgent, "iphone", 1) > 0 or inStr(1, userAgent, "windows ce", 1) > 0 or inStr(1, userAgent, "blackberry", 1) > 0 or inStr(1, userAgent, "opera mini", 1) > 0 _
@@ -636,8 +529,6 @@ function browsertype()
     
     browstype_client = "ip"
     else
-
-
 	if instr(userAgent , "Firefox") <> 0 then
 	browstype_client = "mz"
 	else
@@ -645,24 +536,18 @@ function browsertype()
             if instr(userAgent , "Chrome") <> 0 then
 	        browstype_client = "ch"
 	        else
-
                 if instr(userAgent , "Safari") <> 0 then
 	            browstype_client = "sf"
 	            else
                 browstype_client = "ie"
 	            end if
-
             end if
-
 	
 	end if
-
     end if
    
 	user_agent_txt = userAgent
-
 end function
-
 public dsksOnOff
 function erSDSKaktiv()
 '** SerivceDesk ordning aktiv **'
@@ -674,7 +559,6 @@ function erSDSKaktiv()
 	end if
 	oRec.close 
 end function
-
 public kmDialogOnOff
 function erkmDialog()
 '** Km dialog **'
@@ -686,7 +570,6 @@ function erkmDialog()
 	end if
 	oRec.close 
 end function
-
 public erpOnOff
 function erERPaktiv()
 '** ERP ordning aktiv 
@@ -698,7 +581,6 @@ function erERPaktiv()
 	end if
 	oRec.close 
 end function
-
 public crmOnOff
 function erCRMaktiv()
 '** CRM ordning aktiv 
@@ -710,7 +592,6 @@ function erCRMaktiv()
 	end if
 	oRec.close 
 end function
-
 public bgtOnOff
 function erBGTaktiv()
 '** BGT ordning aktiv 
@@ -722,7 +603,6 @@ function erBGTaktiv()
 	end if
 	oRec.close 
 end function
-
 public stempelurOn, stempelur_hideloginOn, stempelur_ignokomkravOn
 function erStempelurOn()
 '** Stempelur ***'
@@ -740,11 +620,9 @@ function erStempelurOn()
     stempelurOn = oRec("stempelur") 
     stempelur_hideloginOn = oRec("stempelur_hidelogin")
     stempelur_ignokomkravOn = oRec("stempelur_igno_komkrav")
-
 	end if
 	oRec.close 
 end function
-
 public timeout_version, toVer, toVerPath, toSubVer, toSubVerPath14, toSubVerPath15
 function TimeOutVersion()
     
@@ -756,38 +634,27 @@ function TimeOutVersion()
 	timeout_version = oRec("timeout_version") 
 	end if
 	oRec.close 
-
     ''** 3_99 eller 2_1 PATH **'
-
     if instr(request.servervariables("PATH_TRANSLATED"), "ver2_1") <> 0 then
 	toVer = "ver2_1"
 	end if
-
 	if instr(request.servervariables("PATH_TRANSLATED"), "ver2_10") <> 0 then
 	toVer = "ver2_10"
 	end if
-
     if instr(request.servervariables("PATH_TRANSLATED"), "ver2_14") <> 0 then
 	toVer = "ver2_14"
 	end if
-
     if instr(request.servervariables("PATH_TRANSLATED"), "ver3_99") <> 0 then
 	toVer = "ver3_99"
 	end if
-
      if instr(request.servervariables("PATH_TRANSLATED"), "to_2015") <> 0 then
 	'toVer = "ver3_99"
 	end if
-
     toSubVerPath14 = "../timereg/"
     toSubVerPath15 = "../to_2015/"
-
-
     'Response.Write request.servervariables("PATH_TRANSLATED")
 	toVerPath = toVer
-
 end function
-
 public smilaktiv, autogk, autolukvdato, autolukvdatodato 
 function ersmileyaktiv()
 '** Smiley ordning aktiv 
@@ -805,8 +672,7 @@ function ersmileyaktiv()
 	
 	
 end function
-
-function medrabSmilord(usemid)
+function medrabSmilord(usemid) '** Sættes på virksomhedsniveua / Bruges ikke mere. Medarbejdere bliver altid oprettet = 1
 	strSQL = "SELECT smilord FROM medarbejdere WHERE mid = "& usemid
 	oRec.open strSQL, oConn, 3 
 	if not oRec.EOF then
@@ -814,11 +680,29 @@ function medrabSmilord(usemid)
 	end if
 	oRec.close 
 end function
-
-
-
-
-
+public lcid_sprog_Val 
+function lcid_sprog(usemid)
+'*** Sætter lokal dato/kr format. *****
+    strSQL = "SELECT sprog FROM medarbejdere WHERE mid = " & usemid
+        oRec.open strSQL, oConn, 3
+        if not oRec.EOF then
+        sprog = oRec("sprog")
+        end if
+        oRec.close
+        
+        select case sprog
+        case 1 '//sprog/dk"
+        Session.LCID = 1030
+        case 2 '//sprog/uk"
+        Session.LCID = 2057
+        case 3 '"//sprog/se"
+        Session.LCID = 1053 
+        case else
+        Session.LCID = 1030
+        end select
+        lcid_sprog_Val = Session.LCID
+        
+end function
 '** Timeregside ***
 public treg0206thisMid
 function treg0206use(usemid)
@@ -832,7 +716,6 @@ function treg0206use(usemid)
 	oRec.close 
 	
 end function
-
 public strStartDato, strSlutDato, strAar, strMrd, strDag, strDag_slut, strMrd_slut, strAar_slut
 sub datocookie
 '******************************* Datoer ******************************************
@@ -875,7 +758,6 @@ sub datocookie
 	strStartDato = strAar&"/"&strMrd&"/"&strDag
 	strSlutDato = strAar_slut&"/"&strMrd_slut&"/"&strDag_slut
 end sub
-
 function grafik(FM_id, strPic, pictype, txt)
 		strSelPic = ""
 		strHiddenPic = ""
@@ -924,11 +806,9 @@ function grafik(FM_id, strPic, pictype, txt)
 		
 		
 		function xresstopmenu()
-
        
         resmenupkt = "Ressource Forecast (timebudget)"
        
-
 		%>
 			<br>
 			<a href="jbpla_w.asp?menu=res" class=rmenu>Ressource Kalender</a>
@@ -1058,7 +938,6 @@ function grafik(FM_id, strPic, pictype, txt)
 		call mmenuPkt(1, "10", "erp_tilfakturering.asp?menu=erp","Fakturering",pkt)
 		'call mmenuPkt(2, "45", "erp_afstem_md.asp?menu=erp","Afstemning",pkt)
 		call mmenuPkt(2, "45", "erp_job_afstem.asp?menu=erp&show=joblog_afstem","Afstemning",pkt)
-
 		if level <= 2 OR level = 6 then
 		call mmenuPkt(3, "44", "kontoplan.asp?menu=erp","Bogføring",pkt)
 		end if
@@ -1401,8 +1280,6 @@ function grafik(FM_id, strPic, pictype, txt)
 					end select
 					
 	end function
-
-
    
 	
 	
@@ -1455,7 +1332,6 @@ function grafik(FM_id, strPic, pictype, txt)
 	
 	
 	function opretLink_2013(lnkUrl, lnkTxt, lnkAlt, lnkTgt, lnkWdt)
-
         %>
 	 <div style="background-color:forestgreen; padding:5px 5px 5px 5px; width:<%=lnkWdt%>px;"><a href='<%=lnkUrl %>' class='alt' alt="<%=lnkAlt %>" target="<%=lnkTgt %>"><%=lnkTxt %> +</a></div>
 	<%
@@ -1469,22 +1345,14 @@ function grafik(FM_id, strPic, pictype, txt)
     'Response.Write "her"
     'Response.end
     if table = "job" then 'må ikke opdatere interne
-
         tjkRisiko = 0
         strSQL = "SELECT risiko FROM job WHERE id = " & request.Form("id")
         oRec8.open strSQL, oConn, 3
         if not oREc8.EOF then
-
         tjkRisiko = oRec8("risiko")
-
         end if
         oRec8.close
-
-
-
     end if
-
-
     if request.Form("value") <> "" AND table <> "" AND column <> "" AND tjkRisiko >= 0 then
 	strSQL = "Update " & table & " set " & column & " = '" & request.Form("value") & "' where id = " & request.Form("id")
 	
@@ -1498,33 +1366,26 @@ function grafik(FM_id, strPic, pictype, txt)
         'Response.Write strSQL
 	    'oConn.execute(strSQL)
         'Response.end
-
-
     Response.Write "timeout notifikation: <br />" & msg & strSQL
 	Response.End
 	end if
 	end function
-
-
     function AjaxUpdateTreg(table, column, msg)
 	
     'Response.Write "her"
     'Response.flush
     
     dtnow = year(now) &"/"& month(now) &"/"& day(now)
-
     if request.Form("value") <> "" AND table <> "" AND column <> "" then
-	strSQL = "Update " & table & " set " & column & " = '" & request.Form("value") & "', forvalgt_af = '"& session("mid") &"', forvalgt_dt = '"& dtnow &"' where id = " & request.Form("id")
+	strSQL = "Update " & table & " set " & column & " = '" & request.Form("value") & "', forvalgt_af = '"& session("mid") &"', forvalgt_dt = '"& dtnow &"' where jobid = " & request.Form("id") & " AND medarb = " & request.Form("jq_usemrn")
 	
 	'Response.Write strSQL
 	'Response.flush
 	oConn.execute(strSQL)
 	'Response.Write "timeout notifikation: <br />" & msg
-	'Response.End
+	Response.End
 	end if
 	end function
-
-
 	
 	function infoUnisport(uWdt, uTxt)%>
 	 <div style="width:<%=uWdt%>px; padding:3px 7px 3px 7px; border:1px #6CAE1C solid; background-color:#DCF5BD;"><%=uTxt %></div>
@@ -1554,10 +1415,6 @@ function grafik(FM_id, strPic, pictype, txt)
     jquerystrTxt = jquerystr
     
     end function
-
-
-
-
     function  qmarkhelpnote(qmtxt,qmtop,qmleft,qmid,qmwdt) 
         %>
            <div id="qmarkhelptxt_<%=qmid %>" class="qmarkhelptxt" style="position:absolute; top:<%=qmtop%>px; left:<%=qmleft%>px; visibility:hidden; font-weight:normal; background-color:#F7F7F7; border:1px #999999 solid; display:none; padding:10px; width:<%=qmwdt%>px; z-index:4000;">
@@ -1576,28 +1433,19 @@ function grafik(FM_id, strPic, pictype, txt)
 	
 	public lastjobnr, nextjobnr, lastTilbudsnr, nextTilbudsnr
     function lastjobnr_fn()
-
-
             lastJobnr = 0
             lastTilbudsnr = 0
             strSQLjobnr = "SELECT jobnr, tilbudsnr FROM licens WHERE id = 1 "
             oRec5.open strSQLjobnr, oConn, 3
             if not oRec5.EOF then
-
             lastJobnr = oRec5("jobnr")
             lastTilbudsnr = oRec5("tilbudsnr")
-
             end if
             oRec5.close
-
             nextjobnr = lastjobnr + 1
             nextTilbudsnr = nextTilbudsnr + 1
-
     end function
-
-
     function sletcnf_2015(oskrift, slttxta, slttxtb, slturl)
-
             %>
    <!--slet sidens indhold-->
         <div class="container" style="width:500px;">
@@ -1624,4 +1472,3 @@ function grafik(FM_id, strPic, pictype, txt)
             <%
     end function
 %>
-    

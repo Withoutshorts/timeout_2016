@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<sprog>
+
+  <!--- Dansk -->
+  <dk>
+
+
+    <txt_1 >Admin</txt_1>
+    <txt_2 >Dato</txt_2>
+    <txt_3 >Kunde/job</txt_3>
+    <txt_4 >Aktivitet</txt_4>
+    <txt_5 >Timer</txt_5>
+    <txt_6 >Kommentar</txt_6>
+    <txt_7 >Indlæs</txt_7>
+    <txt_8 >Norm</txt_8>
+    <txt_9 >Real.</txt_9>
+    <txt_10 >Mandag</txt_10>
+    <txt_11 >Tirsdag</txt_11>
+    <txt_12 >Onsdag</txt_12>
+    <txt_13 >Torsdag</txt_13>
+    <txt_14 >Fredag</txt_14>
+    <txt_15 >Lørdag</txt_15>
+    <txt_16 >Søndag</txt_16>
+    <txt_17 >Uge</txt_17>
+    <txt_18 >Kontakt (Kunde)</txt_18>
+    <txt_19 >Job</txt_19>
+    <txt_20 >Aktivitet fase & Kommentar</txt_20>
+    <txt_21 >Timer</txt_21>
+    <txt_22 >Januar</txt_22>
+    <txt_23 >Februar</txt_23>
+    <txt_24 >Marts</txt_24>
+    <txt_25 >April</txt_25>
+    <txt_26 >Maj</txt_26>
+    <txt_27 >Juni</txt_27>
+    <txt_28 >Juli</txt_28>
+    <txt_29 >August</txt_29>
+    <txt_30 >September</txt_30>
+    <txt_31 >Oktober</txt_31>
+    <txt_32 >November</txt_32>
+    <txt_33 >December</txt_33>
+    <txt_34 >Norm timer</txt_34>
+    <txt_35 >Opgjort</txt_35>
+    <txt_36 >Funktioner</txt_36>
+    <txt_37 >Printvenlig</txt_37>
+    <txt_38 >Godkend</txt_38>
+    <txt_39 >Uge</txt_39>
+    <txt_40 >For</txt_40>
+    <txt_41 >godkender</txt_41>
+    <txt_42 >Teamleder</txt_42>
+    <txt_43 >Godkend</txt_43>
+    <txt_44 >Uge</txt_44>
+    <txt_45 >Denne uge kan IKKE godkendes</txt_45>
+    <txt_46 >før den er afsluttet af medarbejderen</txt_46>
+    <txt_47 >Send email med besked om at uge mangler at blive afsluttet</txt_47>
+    <txt_48 >Send</txt_48>
+    <txt_49 >besked</txt_49>
+    <txt_50 >Når en Uge godkendes,</txt_50>
+    <txt_51 >godkendes alle periodens registreringer automatisk.</txt_51>
+    <txt_52 >Afvis denne Uge</txt_52>
+    <txt_53 >Begrundelse:</txt_53>
+    <txt_54 >Afvis uge</txt_54>
+    <txt_55 >Afsender email til medarbejer om at ugeseddel er afvist,</txt_55>
+    <txt_56 >og åbner evt. allerede godkendt ugeseddel op igen.</txt_56>
+   
+    
+    
+  </dk>
+ 
+  <!-- Engelsk -->
+  <uk>
+
+
+
+
+    <txt_1 >Admin</txt_1>
+    <txt_2 >Date</txt_2>
+    <txt_3 >Customer/job</txt_3>
+    <txt_4 >Activity</txt_4>
+    <txt_5 >Hours</txt_5>
+    <txt_6 >Comment</txt_6>
+    <txt_7 >Submit</txt_7>
+    <txt_8 >Norm</txt_8>
+    <txt_9 >Real.</txt_9>
+    <txt_10 >Monday</txt_10>
+    <txt_11 >Tuesday</txt_11>
+    <txt_12 >Wednesday</txt_12>
+    <txt_13 >Thursday</txt_13>
+    <txt_14 >Friday</txt_14>
+    <txt_15 >Saturday</txt_15>
+    <txt_16 >Sunday</txt_16>
+    <txt_17 >Week</txt_17>
+    <txt_18 >Contact (Customer)</txt_18>
+    <txt_19 >Job</txt_19>
+    <txt_20 >Activity Stage & Comment</txt_20>
+    <txt_21 >Hours</txt_21>
+    <txt_22 >January</txt_22>
+    <txt_23 >February</txt_23>
+    <txt_24 >March</txt_24>
+    <txt_25 >April</txt_25>
+    <txt_26 >May</txt_26>
+    <txt_27 >June</txt_27>
+    <txt_28 >July</txt_28>
+    <txt_29 >August</txt_29>
+    <txt_30 >September</txt_30>
+    <txt_31 >October</txt_31>
+    <txt_32 >November</txt_32>
+    <txt_33 >December</txt_33>
+    <txt_34 >Norm hours</txt_34>
+    <txt_35 >Stated</txt_35>
+    <txt_36 >Functions</txt_36>
+    <txt_37 >Print version</txt_37>
+    <txt_38 >Approve</txt_38>
+    <txt_39 >Week</txt_39>
+    <txt_40 >For</txt_40>
+    <txt_41 >approver</txt_41>
+    <txt_42 >Teamleder</txt_42>
+    <txt_43 >Approve</txt_43>
+    <txt_44 >Week</txt_44>
+    <txt_45 >This week can NOT be approved</txt_45>
+    <txt_46 >until it has beed completede by the employee</txt_46>
+    <txt_47 >Send email with note about completion of the week is missing</txt_47>
+    <txt_48 >Send</txt_48>
+    <txt_49 >email</txt_49>
+    <txt_50 >When a week is approved,</txt_50>
+    <txt_51 >all the registrations of the period is automaticly approved.</txt_51>
+    <txt_52 >Reject this week</txt_52>
+    <txt_53 >Explanation</txt_53>
+    <txt_54 >Reject week</txt_54>
+    <txt_55 >Sends email to the employee that the timesheet has be rejected,</txt_55>
+    <txt_56 >and opens already approved timesheet again.</txt_56>
+   
+    
+    
+  </uk>
+
+
+  <se>
+
+
+
+
+    <txt_1 >Admin</txt_1>
+    <txt_2 >Date</txt_2>
+    <txt_3 >Customer/job</txt_3>
+    <txt_4 >Activity</txt_4>
+    <txt_5 >Hours</txt_5>
+    <txt_6 >Comment</txt_6>
+    <txt_7 >Submit</txt_7>
+    <txt_8 >Norm</txt_8>
+    <txt_9 >Real.</txt_9>
+    <txt_10 >Monday</txt_10>
+    <txt_11 >Tuesday</txt_11>
+    <txt_12 >Wednesday</txt_12>
+    <txt_13 >Thursday</txt_13>
+    <txt_14 >Friday</txt_14>
+    <txt_15 >Saturday</txt_15>
+    <txt_16 >Sunday</txt_16>
+    <txt_17 >Week</txt_17>
+    <txt_18 >Contact (Customer)</txt_18>
+    <txt_19 >Job</txt_19>
+    <txt_20 >Activity Stage & Comment</txt_20>
+    <txt_21 >Hours</txt_21>
+    <txt_22 >January</txt_22>
+    <txt_23 >February</txt_23>
+    <txt_24 >March</txt_24>
+    <txt_25 >April</txt_25>
+    <txt_26 >May</txt_26>
+    <txt_27 >June</txt_27>
+    <txt_28 >July</txt_28>
+    <txt_29 >August</txt_29>
+    <txt_30 >September</txt_30>
+    <txt_31 >October</txt_31>
+    <txt_32 >November</txt_32>
+    <txt_33 >December</txt_33>
+    <txt_34 >Norm hours</txt_34>
+    <txt_35 >Stated</txt_35>
+    <txt_36 >Functions</txt_36>
+    <txt_37 >Print version</txt_37>
+    <txt_38 >Approve</txt_38>
+    <txt_39 >Week</txt_39>
+    <txt_40 >For</txt_40>
+    <txt_41 >approver</txt_41>
+    <txt_42 >Teamleder</txt_42>
+    <txt_43 >Approve</txt_43>
+    <txt_44 >Week</txt_44>
+    <txt_45 >This week can NOT be approved</txt_45>
+    <txt_46 >until it has beed completede by the employee</txt_46>
+    <txt_47 >Send email with note about completion of the week is missing</txt_47>
+    <txt_48 >Send</txt_48>
+    <txt_49 >email</txt_49>
+    <txt_50 >When a week is approved,</txt_50>
+    <txt_51 >all the registrations of the period is automaticly approved.</txt_51>
+    <txt_52 >Reject this week</txt_52>
+    <txt_53 >Explanation</txt_53>
+    <txt_54 >Reject week</txt_54>
+    <txt_55 >Sends email to the employee that the timesheet has be rejected,</txt_55>
+    <txt_56 >and opens already approved timesheet again.</txt_56>
+
+
+
+  </se>
+
+
+</sprog>

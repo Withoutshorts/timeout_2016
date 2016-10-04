@@ -146,6 +146,8 @@ if len(session("user")) = 0 then
 	
 	function budgettimerTildelt(jobidthis)
 	strSQL = "SELECT jobstartdato, jobslutdato, budgettimer, ikkebudgettimer, jobnr, jobtpris FROM job WHERE id = " & jobidthis
+    response.Write strSQL
+        response.Flush
 	oRec.open strSQL, oConn, 3
 	if not oRec.EOF then
 	intjobnrthis = oRec("jobnr")
@@ -221,7 +223,7 @@ if len(session("user")) = 0 then
 	%>
 	<!--#include file="../inc/regular/header_lysblaa_inc.asp"-->
 	
-	
+	<%
 	
 	slttxtalt = ""
 	slturlalt = ""
@@ -265,11 +267,11 @@ if len(session("user")) = 0 then
 									
 									end if
 								oRec2.close
-			
+	
             
         Response.Write("<script language=""JavaScript"">window.opener.location.reload();</script>")
         %>
-        <br /><br />
+        <br /> <br />     
         Projektgrupper fra job overført til aktiviteter.<br />
         <a href="#" onClick="javascript:window.close();">Luk vindue</a> 
         <%
@@ -1568,19 +1570,19 @@ if len(session("user")) = 0 then
 							Response.Write("<script language=""JavaScript"">window.opener.location.href('timereg_akt_2006.asp?showakt=1');</script>")
                             Response.Write("<script language=""JavaScript"">window.close();</script>")
 							case "job2"
-							Response.Write("<script language=""JavaScript"">window.opener.location.href('jobs.asp?menu=job&func=red&id="& jobid &"&int=1&rdir=job');</script>")
+							Response.Write("<script language=""JavaScript"">window.opener.location.href('../to_2015/jobs.asp?menu=job&func=red&id="& jobid &"&int=1&rdir=job');</script>")
                             Response.Write("<script language=""JavaScript"">window.close();</script>")
                             case "job3"
                             'Response.Write "hej"
                             'Response.end 
-							Response.Write("<script language=""JavaScript"">window.opener.location.href('jobs.asp?menu=job&func=red&id="& jobid &"&int=1&rdir=job&showdiv=forkalk');</script>")
+							Response.Write("<script language=""JavaScript"">window.opener.location.href('../to_2015/jobs.asp?menu=job&func=red&id="& jobid &"&int=1&rdir=job&showdiv=forkalk');</script>")
                             Response.Write("<script language=""JavaScript"">window.close();</script>")
                            
 							
 							'case "treg"
 							'Response.Redirect "timereg_2006_fs.asp"
 							case "job"
-							Response.Redirect "jobs.asp?menu=job&func=red&id="& jobid &"&int=1&rdir=job"
+							Response.Redirect "../to_2015/jobs.asp?menu=job&func=red&id="& jobid &"&int=1&rdir=job"
 							case else  '** også "treg"
 							Response.redirect "aktiv.asp?menu=job&id="&rdir_useAktid&"&jobid="&jobid&"&jobnavn="&request("jobnavn")&"&rdir="&rdir&"&nomenu="&nomenu
 							end select 

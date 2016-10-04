@@ -271,7 +271,7 @@ if len(session("user")) = 0 then
     else
     nomenu = 0
     end if
-
+        
     nomenu = 0
     '*********************
 
@@ -951,7 +951,8 @@ if len(session("user")) = 0 then
 			    
 			    
 				call erDetInt(request("FM_budget"&simpeludvEXT&""))
-				if isInt > 0 OR instr(request("FM_budget"&simpeludvEXT&""), "-") <> 0 OR trim(lcase(request("FM_budget"&simpeludvEXT&""))) = "nan" then
+				
+                if isInt > 0 OR instr(request("FM_budget"&simpeludvEXT&""), "-") <> 0 OR trim(lcase(request("FM_budget"&simpeludvEXT&""))) = "nan" then
 				
 				call visErrorFormat
 				
@@ -959,7 +960,7 @@ if len(session("user")) = 0 then
 				call showError(errortype)
 				isInt = 0
 						
-						else
+				else
 						
 						
 						call erDetInt(request("FM_budgettimer"&simpeludvEXT&""))
@@ -975,6 +976,7 @@ if len(session("user")) = 0 then
 								
 								call erDetInt(request("FM_ikkebudgettimer"&simpeludvEXT&""))
 								if isInt > 0 then
+
 								
 								call visErrorFormat
 								
@@ -996,8 +998,8 @@ if len(session("user")) = 0 then
 								
 								
 				                
-				  else
-				
+				            else
+				              
 				
 				'**** Validering OK ***
 				'** kundeid og navn *** 
@@ -2613,7 +2615,7 @@ if len(session("user")) = 0 then
                             end if
 
 
-                                '**** Timepriser END ***'
+                            '**** Timepriser END ***'
 
 				                
 				                '**********************************************************'
@@ -2725,7 +2727,7 @@ if len(session("user")) = 0 then
 					                                oRec5.open strSQL, oConn, 3
 					                                if not oRec5.EOF then
                     									
-					                                    oConn.execute("UPDATE aktiviteter SET"_
+					                                    oConn.execute("  aktiviteter SET"_
 					                                    &" projektgruppe1 = "& oRec5("projektgruppe1") &" , projektgruppe2 = "& oRec5("projektgruppe2") &", "_
 					                                    &" projektgruppe3 = "& oRec5("projektgruppe3") &", "_
 					                                    &" projektgruppe4 = "& oRec5("projektgruppe4") &", "_
@@ -2903,7 +2905,7 @@ if len(session("user")) = 0 then
 
                         		
 
-
+                
 
                 '*************************************************************************'
                 '***** Adviser jobansvarlige ****************************
@@ -3880,7 +3882,7 @@ if len(session("user")) = 0 then
 						
 					'end if
 				'end if
-			  end if
+			  end if ' validering slut
 			 end if
 			end if
 		end if
@@ -5368,7 +5370,7 @@ if len(session("user")) = 0 then
 										<td style="">&nbsp;</td>
 									</tr>
 
-                                    <tr bgcolor="#ffffff"><td colspan=4 style="padding:10px 0px 0px 8px;">
+                                    <tr bgcolor="#ffffff"><td colspan=4 style="padding:10px 0px 0px 8px;">f
                                                 <%if syncslutdato = 1 then
                                                 syncslutdatoCHK = "CHECKED"
                                                 else
@@ -7350,7 +7352,8 @@ end select '*** Step %>
     <table border=0 cellspacing=0 cellpadding=0>
 
      <tr><td colspan=2>
-         <b>Forretningsområder:</b> <!--<%=strFomr_rel %> <%=left(strFomr_Gblnavn, 75) %>--><br />
+         <b>Forretningsområder:
+         </b> <!--<%=strFomr_rel %> <%=left(strFomr_Gblnavn, 75) %>--><br />
 
                               
                                 <%

@@ -24,7 +24,7 @@ if len(request("key")) = 15 then
 strLicenskey = request("key")
 else
 'Henter Cookie
-strLicenskey = Request.Cookies("licenskey")
+strLicenskey = Request.Cookies("licenskey") 
 end if
 
 

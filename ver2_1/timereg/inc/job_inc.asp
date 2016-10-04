@@ -1640,26 +1640,26 @@ sub projektberegner
 	                    'oRec2.close
 
 	
-	            if func <> "red" then
-	                    '** Henter forvalgt stam-akt. grupper ***'
-	                    for a = 1 to 1 'antalStamGrp - 1
+	                    if func <> "red" then
+	                            '** Henter forvalgt stam-akt. grupper ***'
+	                            for a = 1 to 1 'antalStamGrp - 1
                     	        
-	                    forvlgtStamaktgrp = 0
-	                    fsnavn = ""
-	                    strSQLfv = "SELECT id, forvalgt, navn FROM akt_gruppe WHERE forvalgt = 1 AND skabelontype = 0"
-	                    oRec2.open strSQLfv, oConn, 3
-	                    if not oRec2.EOF then
-	                    forvlgtStamaktgrp = oRec2("id")
-	                    fsnavn = oRec2("navn")
-	                    end if
-	                    oRec2.close
+	                            forvlgtStamaktgrp = 0
+	                            fsnavn = ""
+	                            strSQLfv = "SELECT id, forvalgt, navn FROM akt_gruppe WHERE forvalgt = 1 AND skabelontype = 0"
+	                            oRec2.open strSQLfv, oConn, 3
+	                            if not oRec2.EOF then
+	                            forvlgtStamaktgrp = oRec2("id")
+	                            fsnavn = oRec2("navn")
+	                            end if
+	                            oRec2.close
                     	        
-	                    call stamakt(2, forvlgtStamaktgrp, fsnavn, a)
+	                            call stamakt(2, forvlgtStamaktgrp, fsnavn, a)
                     	        
                     	       
-	                    next
+	                            next
                     	
-	            else
+	                    else
                     	   
                     	    
 	                '*** Mulighed for at tilføje yderligere ved rediger **'
@@ -1672,7 +1672,7 @@ sub projektberegner
 	
 
 	            %>
-	                    
+	                  
 	            </table>
 
 	            </td>
@@ -1700,7 +1700,7 @@ sub projektberegner
 				
 						 
 				<tr bgcolor="#D6Dff5">
-					<td style="padding:10px 0px 0px 5px;" colspan="6"><h4><a href="#" id="a_aktlisten">[+]</a> Aktiviteter & Faser
+					<td style="padding:10px 0px 0px 5px;" colspan="6"><h4><a href="#" id="a_aktlisten">[+]</a> Aktiviteter & Faser1
 
                     <%if func = "red" then%>
                      &nbsp;<a href="#" onclick="Javascript:window.open('aktiv.asp?menu=job&jobid=<%=id%>&jobnavn=<%=strNavn%>&rdir=<%=rdir%>&nomenu=1', '', 'width=1004,height=800,resizable=yes,scrollbars=yes')" class=rmenu>Rediger aktivitetliste udviddet >> </a>
@@ -1725,11 +1725,11 @@ sub projektberegner
               
                                      <%
                      
-                                    oleftpx = 20
-	                                otoppx = 15
-	                                owdtpx = 140
-	                                java = "Javascript:window.open('aktiv.asp?menu=job&func=opret&jobid="&id&"&id=0&fb=1&rdir=job3&nomenu=1', '', 'width=1004,height=800,resizable=yes,scrollbars=yes')"    
-	                                call opretNyJava("#", "Opret ny aktivitet", otoppx, oleftpx, owdtpx, java) 
+                                    'oleftpx = 20
+	                                'otoppx = 15
+	                                'owdtpx = 140
+	                                'java = "Javascript:window.open('aktiv.asp?menu=job&func=opret&jobid="&id&"&id=0&fb=1&rdir=job3&nomenu=1', '', 'width=1004,height=800,resizable=yes,scrollbars=yes')"    
+	                                'call opretNyJava("#", "Opret ny aktivitet", otoppx, oleftpx, owdtpx, java) 
                      
                                      %>
                        
