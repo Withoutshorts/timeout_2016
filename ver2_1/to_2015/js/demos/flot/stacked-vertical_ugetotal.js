@@ -31,7 +31,28 @@ $(function () {
 
  
  
+  lang = $('#lcid_sprog').val()
 
+  if (lang == '2057') {
+      mondayTxt = "Monday"
+      tuesdayTxt = "Tuesday"
+      wednedsdayTxt = "Wed.day"
+      thursdayTxt = "Thursday"
+      fridayTxt = "Friday"
+      saturdayTxt = "Sat.day"
+      sundayTxt = "Sunday"
+
+  } else {
+
+      mondayTxt = "Mandag"
+      tuesdayTxt = "Tirsdag"
+      wednedsdayTxt = "Onsdag"
+      thursdayTxt = "Torsdag"
+      fridayTxt = "Fredag"
+      saturdayTxt = "Lørdag"
+      sundayTxt = "Søndag"
+
+  }
   
 
   //var data = [{
@@ -51,7 +72,7 @@ $(function () {
       max: (new Date(2012, 06, 18)).getTime(),
       mode: "time",
       tickSize: [1, "month"],
-      monthNames: ["<h6>Mandag</h6>", "<h6>Tirsdag</h6>", "<h6>Onsdag</h6>", "<h6>Torsdag</h6>", "<h6>Fredag</h6>", "<h6>Lørdag</h6>", "<h6>Søndag</h6>"],
+      monthNames: ["<h6>" + mondayTxt + "</h6>", "<h6>" + tuesdayTxt + "</h6>", "<h6>" + wednedsdayTxt + "</h6>", "<h6>" + thursdayTxt + "</h6>", "<h6>" + fridayTxt + "</h6>", "<h6>" + saturdayTxt + "</h6>", "<h6>" + sundayTxt + "</h6>"],
       tickLength: 0
     },
     grid: {

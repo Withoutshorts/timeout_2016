@@ -630,6 +630,7 @@ if len(session("user")) = 0 then
 	%>
 	<!--#include file="../inc/regular/header_lysblaa_inc.asp"-->
 	<!--#include file="inc/isint_func.asp"-->
+    
 	<%
 	
 	                function SQLBless2(s)
@@ -1643,8 +1644,10 @@ if len(session("user")) = 0 then
 	%>
 	<!--#include file="../inc/regular/header_lysblaa_inc.asp"-->
      <script src="inc/stempelur_jav.js"></script>
+     <SCRIPT language=javascript src="inc/smiley_jav.js"></script>
 	<%
 	    
+        call ersmileyaktiv()
         call smileyAfslutSettings() 
         
        
@@ -1834,7 +1837,7 @@ if len(session("user")) = 0 then
 	
 	%>
 	<form action="stempelur.asp?menu=stat&func=dbloginhist&FM_usedatokri=1&medarbSel=<%=useMid%>&showonlyone=<%=showonlyone%>&hidemenu=<%=hidemenu%>&rdir=<%=rdir %>" method="post">
-    <input type="text" value="<%=SmiWeekOrMonth%>" name="SmiWeekOrMonth" />
+    <input type="hidden" value="<%=SmiWeekOrMonth%>" name="SmiWeekOrMonth" />
 	<table cellspacing=0 cellpadding=0 border=0 width=100%>
 	<tr>  
 	    <td style="padding:20px 0px 0px 25px;">
@@ -1899,7 +1902,7 @@ if len(session("user")) = 0 then
 	'Response.write DatoDT(a)
 	'Response.flush
 	
-  
+    varTjDatoUS_son = datoDT(a)
 	
 	
 	if cdbl(idThis(a)) = cdbl(id) then
@@ -2277,24 +2280,12 @@ if len(session("user")) = 0 then
             
             
 	    </td></tr>
-	    
-	    
-	<tr>
+	   
+
+       
+        <tr>
 		<td align=right style="padding-right:30px;"><br><br />&nbsp;
-
-        <%if rdir = "sesaba" AND (cint(SmiWeekOrMonth) = 2) then %>
-
-            <input id="Submit1" type="submit" value="Opdater og videre til ugeseddel >>" />
-
-             <input id="Submit1" type="submit" value="Opdater & afslut >>" />
-
-
-            <input type="checkbox" /> Afslut dag
-
-            Du har indtastet 20% af <br />
-            ugeseddel_2011.asp
-
-        <%else %>
+      
 
 		<%if id <> 0 then %>
             <input id="Submit1" type="submit" value="Opdater >>" />
@@ -2302,11 +2293,45 @@ if len(session("user")) = 0 then
             <input id="Submit1" type="submit" value="Gem >>" />
         <%end if %>
             
-         <%end if %>		
-		</td>
+        
+		</td></form>
 	</tr>
+
+         <%if rdir = "sesaba" AND (cint(SmiWeekOrMonth) = 2) then %>
+         <tr>
+		<td style="padding-right:30px;"><br><br />&nbsp;
+
+      
+        <%
+        '** Tjekker for Uge 53. SKAL i virkeligheden være om søndag er i et andet år end mandag - da år så skifter.
+        ddDato = now 'Altid dd
+        dagiuge = datepart("w", ddDato, 2,2)
+        varTjDatoUS_son = dateAdd("d", (7-dagiuge), ddDato)
+
+        if datepart("ww", varTjDatoUS_son, 2,2) = 53 then
+        tjkAar = year(varTjDatoUS_son) + 1
+        else
+        tjkAar = year(varTjDatoUS_son)
+        end if    
+
+        varTjDatoUS_man = dateAdd("d", - 6, varTjDatoUS_son)
+        usemrn = useMid
+        
+        call akttyper2009(2)
+        'call erugeAfslutte(tjkAar, datepart("ww", varTjDatoUS_son, 2,2), useMid)
+        timerdenneuge_dothis = 1
+        call showafslutuge_ugeseddel
+            
+        'call erugeAfslutte(tjkAar, datepart("ww", varTjDatoUS_son, 2,2), useMid) %>
+        <%'call godkendugeseddel(fmlink, useMid, varTjDatoUS_man, rdir) %>
+        </td></tr></form>
+        <%end if 'SmiWeekOrMonth %>
+
+        
+        
+
 	</table>
-    </form>
+    
     
     
     </td></tr></table>

@@ -172,7 +172,7 @@ $(document).ready(function() {
        
         sp = sp / 60
       
-     
+        //alert("timeuse：" + sp.hour + " hour " + sp.minute + " minute " + sp.second + " second")
 
         if (sp > 0) {
             $("#FM_timer").css("color", "#000000")
@@ -184,7 +184,7 @@ $(document).ready(function() {
         $("#FM_timerlbl").html(spTxt)
         $("#FM_timer").val(spTxt)
        
-        //alert("timeuse：" + sp.hour + " hour " + sp.minute + " minute " + sp.second + " second 
+      
 
 
     }
@@ -472,14 +472,15 @@ $(document).ready(function() {
         jq_pa = $("#FM_pa").val()
         //alert(jq_medid)
 
-       
+        varTjDatoUS_man = $("#varTjDatoUS_man").val()
+
         if (jq_newfilterval.length > 0) {
 
 
 
             //alert("cc")
 
-            $.post("?jq_newfilterval=" + jq_newfilterval + "&jq_jobid=" + jq_jobid + "&jq_medid=" + jq_medid + "&jq_aktid=" + jq_aktid + "&jq_pa=" + jq_pa, { control: "FN_sogakt", AjaxUpdateField: "true" }, function (data) {
+            $.post("?jq_newfilterval=" + jq_newfilterval + "&jq_jobid=" + jq_jobid + "&jq_medid=" + jq_medid + "&jq_aktid=" + jq_aktid + "&jq_pa=" + jq_pa + "&varTjDatoUS_man=" + varTjDatoUS_man, { control: "FN_sogakt", AjaxUpdateField: "true" }, function (data) {
                 //alert("cc")
 
 
@@ -570,7 +571,7 @@ $(document).ready(function() {
 
         
         
-
+        varTjDatoUS_man = $("#varTjDatoUS_man").val()
         
 
         jq_newfilterval = $("#FM_job").val()
@@ -580,7 +581,7 @@ $(document).ready(function() {
         //alert("cc" + jq_newfilterval)
         if (jq_newfilterval.length > 0) {
 
-            $.post("?jq_newfilterval=" + jq_newfilterval + "&jq_medid=" + jq_medid, { control: "FN_sogjobogkunde", AjaxUpdateField: "true" }, function (data) {
+            $.post("?jq_newfilterval=" + jq_newfilterval + "&jq_medid=" + jq_medid + "&varTjDatoUS_man=" + varTjDatoUS_man, { control: "FN_sogjobogkunde", AjaxUpdateField: "true" }, function (data) {
 
 
 
@@ -703,6 +704,186 @@ $(document).ready(function() {
            
 
     }
+
+
+
+
+    $("#jq_dato").change(function () {
+
+        var d = $("#jq_dato").val();
+        var month = d.substring(3, 5);
+
+        var date = d.substring(0, 2);
+        var year = d.substring(6, 10);
+
+        $("#regskabsaarUseAar").val(year);
+        $("#regskabsaarUseMd").val(month)
+
+    });
+
+
+
+    /// Tjekker timer IKKE er over maks forecast.
+    $("#FM_timer, #FM_sttid, #FM_sltid").keyup(function () {
+
+       
+
+        if (!validZip($("#FM_timer").val())) {
+            alert("Der er angivet et ugyldigt tegn.\nYou have typed an invalid character")
+            $("#FM_timer").val('');
+            $("#FM_timer").focus()
+            $("#FM_timer").select()
+            return false
+        }
+
+
+        tjektimerForecast();
+
+
+
+    });
+
+   
+
+    $("#bt_stst").click(function () {
+
+        tjektimerForecast();
+    });
+
+
+   
+
+
+    function tjektimerForecast() {
+
+      
+        
+
+        var aktid = $("#FM_aktid").val()
+        var jobid = $("#FM_jobid").val()
+
+        //alert("HER aktid: " + aktid)
+
+        akttype = 1 //Skal have en værdi // hardcoaded til fakturerbar
+
+        //ER ALERT VED MAKS BUDGET SLÅET TIL
+        akt_maksforecast_treg = $("#akt_maksforecast_treg").val()
+
+        //alert("Aktid:" + aktid +" jobid: " + jobid )
+
+        // MAKS forecast på aktivitet
+        if (akt_maksforecast_treg == 1 && akttype == 1) {
+
+
+            //Timertastet på linjen - minus timerOpr
+            timer_tastet_this = 0;
+
+            timer_tastet_this = $("#FM_timer").val();
+            //alert(timer_tastet_this)
+
+            if (timer_tastet_this == "NaN" || (timer_tastet_this == "-Infinity") || timer_tastet_this == "") {
+                timer_tastet_this = 0
+            } else {
+                timer_tastet_this = timer_tastet_this.replace(",", ".")
+                //timer_tastet = timer_tastet / 1 + timer_tastet_this / 1
+            }
+
+
+
+
+            timer_tastet = timer_tastet_this
+
+
+            
+
+
+            //indenfor budgetår
+            ibudgetaar = $("#aktBudgettjkOn_afgr").val()
+            ibudgetaarMd = $("#regskabsaarStMd").val()
+            ibudgetUseMd = $("#regskabsaarUseMd").val()
+            ibudgetUseAar = $("#regskabsaarUseAar").val()
+            treg_usemrn = $("#FM_medid").val()
+
+            alert("timer_tastet: " + timer_tastet + " treg_usemrn: " + treg_usemrn + " aktid: " + aktid + " ibudgetaar" + ibudgetaar + "ibudgetaarMd: " + ibudgetaarMd + "ibudgetUseMd: " + ibudgetUseMd + " ibudgetUseAar: " + ibudgetUseAar)
+
+            $.post("?aktid=" + aktid + "&timer_tastet=" + timer_tastet + "&treg_usemrn=" + treg_usemrn + "&ibudgetaar=" + ibudgetaar + "&ibudgetaarMd=" + ibudgetaarMd + "&ibudgetUseMd=" + ibudgetUseMd + "&ibudgetUseAar=" + ibudgetUseAar, { control: "FN_tjktimer_forecast_tt", AjaxUpdateField: "true", cust: thisval }, function (data) {
+
+                
+                //alert(data)
+                $("#aktnotificer_fc").val(data);
+
+                
+
+                var fcoverskreddet = 0;
+                fcoverskreddet = $("#aktnotificer_fc").val().replace(",", ".")
+                fcoverskreddet = fcoverskreddet * 1
+
+
+                //fcoverskreddet = -2
+                if (fcoverskreddet < 0) {
+
+
+
+                    timer_opr = $("#FM_timer").val('0');
+
+                    alert("Forecast er opbrugt!\nDit timeforecast er opbrugt på denne aktivitet.")
+
+
+                }
+
+            });
+
+        } //akt_maksforecast_treg
+
+    } // END FUNCTION
+
+
+
+    function validZip(inZip) {
+        if (inZip == "") {
+            return true
+        }
+        if (isNum_treg(inZip)) {
+            return true
+        }
+        return false
+    }
+
+
+
+    function isNum_treg(passedVal) {
+        invalidChars = " /:;<>abcdefghijklmnopqrstuvwxyzæøå"
+
+        //alert("her")
+
+        if (passedVal == "") {
+            return false
+        }
+
+        for (i = 0; i < invalidChars.length; i++) {
+            badChar = invalidChars.charAt(i)
+            if (passedVal.indexOf(badChar, 0) != -1) {
+                return false
+            }
+        }
+
+        for (i = 0; i < passedVal.length; i++) {
+            if (passedVal.charAt(i) == "." || passedVal.charAt(i) == "-") {
+                return true
+            }
+            else {
+                if (passedVal.charAt(i) < "0") {
+                    return false
+                }
+                if (passedVal.charAt(i) > "9") {
+                    return false
+                }
+            }
+            return true
+        }
+
+    }
+
 
 
 

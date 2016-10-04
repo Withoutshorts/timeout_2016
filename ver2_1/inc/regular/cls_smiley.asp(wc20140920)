@@ -138,7 +138,7 @@ end function
 
 
 public akttypeKrism, afslutugekri, afslutugekri_proc, tjkTimeriUgeDt, tjkTimeriUgeDtDay, tjkTimeriUgeSQL, tjkTimeriUgeDtTxt
-function timeKriOpfyldt(lto, sidsteUgenrAfsl, meType, afslutugekri)
+function timeKriOpfyldt(lto, sidsteUgenrAfsl, meType, afslutugekri, SmiWeekOrMonth)
 
 
 

@@ -600,7 +600,7 @@ ugeafsluttet = 0
     useYear = strAar_sm
     end if
 
-call erugeAfslutte(useYear, usePeriod, usemrn)
+call erugeAfslutte(useYear, usePeriod, usemrn, SmiWeekOrMonth)
 
 
 'Response.Write "lastfakdato" & lastfakdato & "strMrd_sm: "& strMrd_sm & " strWeek: "& strWeek & " usemrn:" & usemrn
@@ -716,12 +716,13 @@ call erugeAfslutte(useYear, usePeriod, usemrn)
 
                 else 'resforecastMedOverskreddet kode 2
     
-                    'select case lto '** Lukket
+                    select case lto '** Lukket
+                    case "mmmi", "sdutek"
+                    maxl = maxl 'Må lleigevel taste i gråfelter (lav flueben i kontrolpanel)
+                    case else
                     'case "wwf", "intranet - local"
                     maxl = 0    'Kan ikke tastes, DIV boks bruges --> Bruge denne hvis man gerne må gå over forecast på aktiviteter hvor der ER angivet forecast.
-                    'case else
-                    'maxl = maxl 'Brug alert (slå til i kontrolpanel) til markere at Du ikke kan taste
-	                'end select
+                    end select
 
                     fmbgcol = "#CCCCCC" '"#F7F7F7" 'lysgraa
 	                fmborcl = "1px #999999 solid"
@@ -2386,7 +2387,7 @@ function timerIndlaesPeriodeLukket(medarbejderid, regdato, intjobid)
                 end if
 
                 
-                call erugeAfslutte(useYear, usePeriod, medarbejderid)
+                call erugeAfslutte(useYear, usePeriod, medarbejderid, SmiWeekOrMonth)
                 
                 call lonKorsel_lukketPer(regdato, -2)
               

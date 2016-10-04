@@ -46,7 +46,7 @@
     <txt_30>Se total</txt_30>
     
     
-    <txt_31>Timeregistrering uge</txt_31>
+    <txt_31>Timeregistrering</txt_31>
     <txt_32>Se timeregistreringer uge</txt_32>
     
     
@@ -464,7 +464,7 @@
 	  <txt_355>Passivt</txt_355>
 
 	  <txt_356>Godkend Ugesedler</txt_356>
-	  <txt_357>admin / teamleder</txt_357>
+	  <txt_357>Admin / Teamleder</txt_357>
 	  <txt_358>Easyreg. - alle job med easyreg. akt.</txt_358>
 	  <txt_359>Søg blandt alle kontakter og kontaktpersoner. (% wildcard)</txt_359>
 	  <txt_360>Du har kørt fra</txt_360>
@@ -666,6 +666,13 @@
     <txt_531>Leverandører</txt_531>
     <txt_532>Licensindehaver</txt_532>
 
+    <txt_533>Afslut dag</txt_533>
+    <txt_534>Søger</txt_534>
+
+    <txt_535>Opgjort</txt_535>
+    <txt_536>Printvenlig</txt_536>
+    
+    
   </dk>
 
 
@@ -751,7 +758,7 @@
     <txt_49>Timeformat</txt_49>
 
     <txt_50>9:45, 12:23, 23:55 etc. </txt_50>
-    <txt_51>Commentary</txt_51>
+    <txt_51>Comment</txt_51>
 
     <txt_52>Max 1255 caracters</txt_52>
     <txt_53>Hide comments on customers loginpage</txt_53>
@@ -1139,7 +1146,7 @@
 	  <txt_355>Passive</txt_355>
 
 	  <txt_356>Approve Weektotals</txt_356>
-	  <txt_357>admin: all, or teamleder</txt_357>
+	  <txt_357>Admin / Teamlead.</txt_357>
 	  <txt_358>Easyreg.</txt_358>
 	  <txt_359>Search all contacts</txt_359>
 	  <txt_360>You have drived between</txt_360>
@@ -1343,6 +1350,12 @@
     <txt_530>Customers</txt_530>
     <txt_531>Suppliers</txt_531>
     <txt_532>Licensowner</txt_532>
+
+    <txt_533>Complete Day</txt_533>
+    <txt_534>Searching</txt_534>
+
+    <txt_535>Stated</txt_535>
+    <txt_536>Print</txt_536>
 
 
   </uk>

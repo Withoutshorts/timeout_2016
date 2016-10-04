@@ -4,69 +4,110 @@
 
 sub showafslutuge_ugeseddel
 
-
+          '** Variable der benyttes i denne SUB
+          'usemrn
+          'varTjDatoUS_man
+          'smilaktiv
+          'media
+          'meType
+          'afslutugekri
+          'timerdenneuge_dothis       
     
   
-          if cint(smilaktiv) <> 0 AND media <> "print" then
+         if cint(smilaktiv) <> 0 AND media <> "print" then
 
-           varTjDatoUS_son = dateAdd("d", 6, varTjDatoUS_man) 'sldatoSQL 'dateAdd("d", 7, sldatoSQL) 'FEJL ved årsskioft, detteaar bliver forkert
+         varTjDatoUS_son = dateAdd("d", 6, varTjDatoUS_man) 'sldatoSQL 'dateAdd("d", 7, sldatoSQL) 'FEJL ved årsskioft, detteaar bliver forkert
 
-         call medrabSmilord(usemrn)
-         call smiley_agg_fn()
+         'call medrabSmilord(usemrn) '** Følger kontrolpanel. Kan fjernes. 20161004
+         
+         '** Skal smiley visess agrresiv og skal smiley ikon vises
+         '** smiley_agg, hidesmileyicon
+          call smiley_agg_fn()        
+         
+         '** Skal der afsluttes på Dag:2/UGE:0/MD:1/, Hvilken dag skal der være afsluttet og godkendt
+         '** SmiWeekOrMonth, SmiantaldageCount, SmiantaldageCountClock, SmiTeamlederCount 
          call smileyAfslutSettings()
-         call meStamdata(usemrn)
 
-          '** Henter timer i den uge der skal afsluttes ***'
+         call meStamdata(usemrn)     '** ME stamdata
+
+          '** Henter den sensete dag/uge/md der ER afsluttet - så man ved hvilken periode der står for tur. ***'
+          '** sidsteUgenrAfsl, sidsteUgenrAfslFundet
           call afsluttedeUger(year(now), usemrn)
 
          '** Er kriterie for afslutuge mødt? Ifht. medatype mindstimer og der må ikke være herreløse timer fra. f.eks TT
-         call timeKriOpfyldt(lto, sidsteUgenrAfsl, meType, afslutugekri, usemrn)
+         '** akttypeKrism, afslutugekri, afslutugekri_proc, tjkTimeriUgeDt, tjkTimeriUgeDtDay, tjkTimeriUgeSQL, tjkTimeriUgeDtTxt, afslugeDatoTimerudenMatch
+         call timeKriOpfyldt(lto, sidsteUgenrAfsl, meType, usemrn, SmiWeekOrMonth)
 
 
-         call timerDenneUge(usemrn, lto, tjkTimeriUgeSQL, akttypeKrism)
-     
-         'response.Write "SmiWeekOrMonth: "& SmiWeekOrMonth
-
-         if cint(SmiWeekOrMonth) = 0 then 'uge aflsutning
-         weekMonthDate = datepart("ww", varTjDatoUS_son,2,2)
+         '** timerdenneuge_dothis indstilling for timerDenneUge( 
+         if len(trim(timerdenneuge_dothis)) <> 0 then
+         timerdenneuge_dothis = timerdenneuge_dothis
          else
-         weekMonthDate = datepart("m", varTjDatoUS_son,2,2)
+         timerdenneuge_dothis = 0
          end if
+    
+        '*** Hvor mange timer er der tastet i den peridoe der skal afsluttes
+        '*** dag: DD ELLER DEN NÆSTE DAG DER SKAL AFSLUTTES
+         call timerDenneUge(usemrn, lto, tjkTimeriUgeSQL, akttypeKrism, timerdenneuge_dothis, SmiWeekOrMonth)
+     
+        
+         '** Periode aflsutning Dag / UGE / MD
+         select case cint(SmiWeekOrMonth) 
+         case 0
+         weekMonthDate = datepart("m", varTjDatoUS_son,2,2)
+         case 1
+         weekMonthDate = datepart("ww", varTjDatoUS_son,2,2)
+         case 2
+         weekMonthDate = formatdatetime(now, 2) ' SKAL DET ALTID VÆRE DD?
+         weekMonthDate = year(weekMonthDate) & "-" & month(weekMonthDate) & "-" & day(weekMonthDate)
+         end select
 
-        '** er perioden afsluttet
+        '** Er periode afsluttet?
+        '** ugeNrAfsluttet, showAfsuge, cdAfs, ugegodkendt, ugegodkendtaf, ugegodkendtTxt, ugegodkendtdt
+        call erugeAfslutte(datepart("yyyy", varTjDatoUS_son,2,2), weekMonthDate, usemrn, SmiWeekOrMonth) 
 
-         call erugeAfslutte(datepart("yyyy", varTjDatoUS_son,2,2), weekMonthDate, usemrn) 
-
-
+        '*** Viser faneblad til afslutning af periode (s1_k)
         call smileyAfslutBtn(SmiWeekOrMonth)
 
-        call ugeAfsluttetStatus(varTjDatoUS_son, showAfsuge, ugegodkendt, ugegodkendtaf) 
+        '*** Viser besked/kvittering om at uge er afsluttet, hvis den er afsluttet.
+        call ugeAfsluttetStatus(varTjDatoUS_son, showAfsuge, ugegodkendt, ugegodkendtaf, SmiWeekOrMonth) 
 
 
 
-
-
-         '**** Afslut uge ***'
+        '**** Hvis periode IKKE er afsluttet: ****'
+        '**** Afslut uge ***'
 	    '**** Smiley vises hvis sidste uge ikke er afsluttet, og dag for afslutninger ovwerskreddet ***' 12 
-        if cint(SmiWeekOrMonth) = 0 then
-        denneUgeDag = datePart("w", now, 2,2)
-        s0Show_sidstedagsidsteuge = dateAdd("d", -denneUgeDag, now) 'now
-        else
-        s0Show_sidstedagsidsteuge = now
-        end if
+         '** Periode aflsutning Dag / UGE / MD
+         select case cint(SmiWeekOrMonth) 
+         case 0
+         denneUgeDag = datePart("w", now, 2,2)
+         s0Show_sidstedagsidsteuge = dateAdd("d", -denneUgeDag, now) 'now
+         case 1
+         s0Show_sidstedagsidsteuge = now
+         case 2
+         s0Show_sidstedagsidsteuge = now ' SKAL DET ALTID VÆRE DD?
+         s0Show_sidstedagsidsteuge = year(s0Show_sidstedagsidsteuge) & "-" & month(s0Show_sidstedagsidsteuge) & "-" & day(s0Show_sidstedagsidsteuge)
+         end select
+       
+      
+         '** finder kriterie for rettidig afslutning
+         call rettidigafsl(s0Show_sidstedagsidsteuge)
 
-        '** finder kriterie for rettidig afslutning
-        call rettidigafsl(s0Show_sidstedagsidsteuge)
-
-        if cint(SmiWeekOrMonth) = 0 then
-            s0Show_weekMd = datePart("ww", s0Show_sidstedagsidsteuge, 2,2)
-        else
-            s0Show_weekMd = datePart("m", s0Show_sidstedagsidsteuge, 2,2)
-        end if
+        
+         '*** Finder dato på den peridoeder skal afsluttes
+         select case cint(SmiWeekOrMonth) 
+         case 0
+         s0Show_weekMd = datePart("ww", s0Show_sidstedagsidsteuge, 2,2)
+         case 1
+         s0Show_weekMd = datePart("m", s0Show_sidstedagsidsteuge, 2,2)
+         case 2
+         s0Show_weekMd = s0Show_sidstedagsidsteuge 'formatdatetime(s0Show_sidstedagsidsteuge,2)
+         's0Show_weekMd = year(s0Show_weekMd) & "-" & month(s0Show_weekMd) & "-" & day(s0Show_weekMd)
+         end select
 
         
         '** tjekker om uge er afsluttet og viser afsluttet eller form til afslutning
-		call erugeAfslutte(year(s0Show_sidstedagsidsteuge), s0Show_weekMd, usemrn)
+		call erugeAfslutte(year(s0Show_sidstedagsidsteuge), s0Show_weekMd, usemrn, SmiWeekOrMonth)
 
 
       
@@ -98,49 +139,39 @@ sub showafslutuge_ugeseddel
 	      
                  <%
 
-                     'if session("mid") = 1 then
-
-                      ' response.write "HER: ugedag: "&  datepart("w", now, 2,2) &" "& datepart("h", now, 2,2)  &" " & cDate(formatdatetime(now, 2)) &" >= "& cDate(formatdatetime(cDateUge, 2)) & " AND " & cint(ugeNrStatus) &" = 0 OR "& cint(smiley_agg) & " = 1"
-
-                     'end if
-
-               
-           '*** Viser sidste uge
-            'weekSelected = tjekdag(7)
-
-            'if session("mid") = 1 then
-            'response.write "varTjDatoUS_son " & varTjDatoUS_son & "<br>"
-            'end if
-
             '*** Viser denne uge
             weekSelectedThis = dateAdd("d", 7, now) 
 
-	        call showsmiley(weekSelectedThis, 1)
+            '*** Medarbejder og overskift, status og smiley Ikon
+	        call showsmiley(weekSelectedThis, 1, usemrn, SmiWeekOrMonth)
 
-            call afslutkri(varTjDatoUS_son, tjkTimeriUgeDt, usemrn, lto)
+            '**** Kriterie
+            '*** afslutugeBasisKri, afslProc, afslProcKri, weekSelectedTjk
+            call afslutkri(varTjDatoUS_son, tjkTimeriUgeDt, usemrn, lto, SmiWeekOrMonth)
 
             
                
                         if cint(afslutugekri) = 0 OR ((cint(afslutugekri) = 1 OR cint(afslutugekri) = 2) AND cint(afslProcKri) = 1) OR cint(level) = 1 then 
             
-                
+                            Response.write "weekSelectedTjk: " & weekSelectedTjk & "<br>"
 
-	                    call afslutuge(weekSelectedTjk, 1, varTjDatoUS_son, "ugeseddel")
-
-             
-         
+                            '*** Vis checkbox og submuit til at afslutte periode
+                            call afslutuge(weekSelectedTjk, 1, varTjDatoUS_son, "ugeseddel", SmiWeekOrMonth)
 
                         else
-                        %>
+                       
 
-                              <%
-                         '** Status på antal registrederede projekttimer i den pågældende uge    
+                         '********************************************************************
+                         '** Status på antal registrerede projekttimer i den pågældende uge    
+
+                         '** Bør sættes i kontrolpanel
+                         '********************************************************************
                          select case lto
                          case "tec", "esn"
                          case else %>
 
                 
-                      <%if cint(afslProcKri) = 1 then
+                               <%if cint(afslProcKri) = 1 then
                                sm_bdcol = "#DCF5BD"
                                else
                                 sm_bdcol = "mistyrose"
@@ -149,7 +180,7 @@ sub showafslutuge_ugeseddel
 
 
                             <div style="color:#000000; background-color:<%=sm_bdcol%>; padding:10px; border:0px <%=sm_bdcol%> solid;">
-                        <%=tsa_txt_398 & ": "& totTimerWeek %> 
+                             <%=tsa_txt_398 & ": "& totTimerWeek %> 
                 
                              <%if afslutugekri = 2 then %>
                                 <%=tsa_txt_399 %>
@@ -161,24 +192,29 @@ sub showafslutuge_ugeseddel
                              <%=tsa_txt_400 %>: <b><%=afslutugekri_proc %> %</b>  <%=tsa_txt_401%>.
                            </div>
                             <br />
-                        <%
+                            <%
                             end select
 
 
                         end if
 	        
-	                    %>
+	                   
+                            
+                      '********************************************************************     
+                      '*** Viser allerede afsluttede peridoer 
+                      '********************************************************************
+                      if cint(SmiWeekOrMonth) <> 2 then 'Afslut på dag. Giver ikke mening at vise. Uoverskueligt%>
                
-	      <br /><br />
-	        <span id="se_uegeafls_a" style="color:#5582d2;">[+] <%=tsa_txt_402 & " "& year(varTjDatoUS_son) %></span><br /><%
+	                  <br /><br />
+	                    <span id="se_uegeafls_a" style="color:#5582d2;">[+] <%=tsa_txt_402 & " "& year(varTjDatoUS_son) %></span><br /><%
 
-            varTjDatoUS_ons = dateAdd("d", -3, varTjDatoUS_son)
+                        varTjDatoUS_ons = dateAdd("d", -3, varTjDatoUS_son)
 
-	        useYear = year(varTjDatoUS_ons)
-            '** Hvilke uger er afsluttet '***
-	        call smileystatus(usemrn, 1, useYear)
+	                    useYear = year(varTjDatoUS_ons)
+                        '** Hvilke uger er afsluttet '***
+	                    call smileystatus(usemrn, 1, useYear)
 	        
-                
+                      end if
                 
                 
              %>
@@ -214,12 +250,6 @@ st_dato = day(stdatoSQL) &"-"& month(stdatoSQL) & "-"& year(stdatoSQL)
 varTjDatoUS_tor = dateAdd("d", 3, varTjDatoUS_man)
 
 %>
-
-
-
-
-
-
 
  <!-- **** Ugeseddel *** -->
 
@@ -271,9 +301,9 @@ varTjDatoUS_tor = dateAdd("d", 3, varTjDatoUS_man)
        if media <> "print" then       
        %>
        
-       <a href="ugeseddel_2011.asp?usemrn=<%=usemrn%>&varTjDatoUS_man=<%=prev_varTjDatoUS_man %>&varTjDatoUS_son=<%=prev_varTjDatoUS_son %>&nomenu=<%=nomenu %>&media=<%=media%>"><</a> &nbsp Uge <%=thisWeek %> &nbsp <a href="ugeseddel_2011.asp?usemrn=<%=usemrn%>&varTjDatoUS_man=<%=next_varTjDatoUS_man %>&varTjDatoUS_son=<%=next_varTjDatoUS_son %>&nomenu=<%=nomenu %>">></a>
+       <a href="ugeseddel_2011.asp?usemrn=<%=usemrn%>&varTjDatoUS_man=<%=prev_varTjDatoUS_man %>&varTjDatoUS_son=<%=prev_varTjDatoUS_son %>&nomenu=<%=nomenu %>&media=<%=media%>"><</a> &nbsp <%=tsa_txt_005 &" "& thisWeek %> &nbsp <a href="ugeseddel_2011.asp?usemrn=<%=usemrn%>&varTjDatoUS_man=<%=next_varTjDatoUS_man %>&varTjDatoUS_son=<%=next_varTjDatoUS_son %>&nomenu=<%=nomenu %>">></a>
         <%else %>
-           &nbsp Uge <%=thisWeek %> &nbsp
+           &nbsp <%=tsa_txt_005 &" "& thisWeek %> &nbsp
         <%end if %>
            </h4>
     </td>
@@ -361,40 +391,7 @@ varTjDatoUS_tor = dateAdd("d", 3, varTjDatoUS_man)
 
                     <div class="panel-body">
                         <table width="100%" class="table dataTable ui-datatable" style="font-size:90%">
-                         <!--  <tr >
-                                    <th style="width:100px;"><b><%=tsa_txt_183 %></b></th>
-                                    <th style="width:150px;"><b><%=tsa_txt_237 %></b></th>
-                                    <th style="width:100px;"><b><%=tsa_txt_022 %> (<%=tsa_txt_066 %>)</b></th>
-                                    <th style="width:150px;"><b><%=tsa_txt_244 %></b></th>
-                                    <th style="width:100px;"><b><%=tsa_txt_068 %></b> <%=tsa_txt_329 %><br /><%=tsa_txt_296 %></th>
-                                    <th style="width:100px; text-align:right;"><b><%=tsa_txt_148 %></b></th>
-
-                               <%'if showheader = 1 then 'slået fra %>
-                                    <td class=alt align="right" style="width:60px; padding-left:20px;">
-
-             
-                
-                
-                                        <%if ((ugeerAfsl_og_autogk_smil = 0 AND cint(ugegodkendt) <> 1) OR cint(level) = 1) AND media <> "print" then%>
-
-                
-                                        <label>Status <input type="checkbox" class="status_all" id="status_all_<%=st_dato%>" value="1" /></label><br />
-
-                
-
-                                        <select id="status_sel" name="FM_godkendt" style="width:60px;">
-                                            <option value="0">Ingen</option>
-                                            <option value="1">Godkendt</option>
-                                            <option value="2">Afvist</option>
-                                        </select>
-                                        <%else %>
-                                        Status
-                                        <%end if %>
-                                    </td>
-                               <!--else %>
-                                     <td class=alt style="width:60px; padding-left:20px;">&nbsp;</td>
-                               <end if %>
-                           </tr> -->
+                         
 
  
                             <thead>
@@ -426,31 +423,7 @@ varTjDatoUS_tor = dateAdd("d", 3, varTjDatoUS_man)
 
                                     <th style="text-align:right"><b><%=tsa_txt_148 %></b></th>
 
-                                    <%'if showheader = 1 then 'slået fra %>
-                                        <!--   <td class=alt align="right" style="width:60px; padding-left:20px;">7
-
-             
-                
-                
-                                            <%if ((ugeerAfsl_og_autogk_smil = 0 AND cint(ugegodkendt) <> 1) OR cint(level) = 1) AND media <> "print" then%>
-
-                
-                                            <label>Status <input type="checkbox" class="status_all" id="status_all_<%=st_dato%>" value="1" /></label><br />
-
-                
-
-                                            <select id="status_sel" name="FM_godkendt" style="width:60px;">
-                                                <option value="0">Ingen</option>
-                                                <option value="1">Godkendt</option>
-                                                <option value="2">Afvist</option>
-                                            </select>
-                                            <%else %>
-                                            Status
-                                            <%end if %>
-                                        </td>
-                                    <!--else %>
-                                            <td class=alt style="width:60px; padding-left:20px;">&nbsp;</td>
-                                    <end if %> -->
+                                   
                              </tr>
                         </thead>
     
@@ -517,7 +490,7 @@ varTjDatoUS_tor = dateAdd("d", 3, varTjDatoUS_man)
                                         end if
 
                 
-                                        call erugeAfslutte(useYear, usePeriod, usemrn)
+                                        call erugeAfslutte(useYear, usePeriod, usemrn, SmiWeekOrMonth)
                 
                                         call lonKorsel_lukketPer(tjkDag, oRec("risiko"))
                 
@@ -696,50 +669,7 @@ varTjDatoUS_tor = dateAdd("d", 3, varTjDatoUS_man)
                                         if vis = 1 then
                                         %>
                                         <td align="right" valign="top" style="border-bottom:1px #cccccc solid;">
-                                            <%
-                   
-                                        'if cint(ugegodkendt) <> 1 AND media <> "print" then 
-                
-                                        '              erGk = 0
-                                        '             gkCHK0 = ""
-                                        '             gkCHK1 = ""
-                                        '             gkCHK2 = ""
-                                        '             gk2bgcol = "#999999"
-                                        '             gk1bgcol = "#999999"
-                                        '             gk0bgcol = "#999999"
-
-                                        '         select case cint(oRec("godkendtstatus"))
-                                        '         case 2
-                                        '         gkCHK2 = "CHECKED"
-                                        '         erGk = 2
-                                        '         gk2bgcol = "red"
-                                        '         case 1
-                                        '         gkCHK1 = "CHECKED"
-                                        '         erGk = 1
-                                        '         gk1bgcol = "green"
-                                        '         case else
-                                        '         gkCHK0 = "CHECKED"
-                                        '         erGk = 0
-                                        '         gk0bgcol = "#000000"
-                                        '         end select
-                 
-                                        '         erGkaf = ""
-
-
-                
-                                        %>
-
-                                            <!--
-
-                                           <input name="ids" id="ids" value="<%=oRec("tid")%>" type="hidden" />
-					                           <span style="color:<%=gk1bgcol%>;">Godk:</span><input type="radio" name="FM_godkendt_<%=oRec("tid")%>" id="FM_godkendt1_<%=v%>" class="FM_godkendt_1" value="1" <%=gkCHK1 %>><br />
-                                               <span style="color:<%=gk2bgcol%>;">Afvist:</span><input type="radio" name="FM_godkendt_<%=oRec("tid")%>" id="FM_godkendt2_<%=v%>" class="FM_godkendt_2" value="2" <%=gkCHK2 %>><br />
-                                               <span style="color:<%=gk0bgcol%>;">Ingen:</span><input type="radio" name="FM_godkendt_<%=oRec("tid")%>" id="FM_godkendt0_<%=v%>" value="0" class="FM_godkendt_0" <%=gkCHK0 %>><br />
-
-                                            -->
-
-
-
+                                         
                                             <label>
 
                                                <%

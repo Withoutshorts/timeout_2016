@@ -1448,8 +1448,22 @@ if len(session("user")) = 0 then
     <%if print <> "j" then %>
 
         <br /><input id="Checkbox3" name="visSimpel" type="radio" <%=visSimpelCHK0 %> value="0" /> Vis simpel 
-        <br /><input id="Radio4" name="visSimpel" type="radio" <%=visSimpelCHK1 %> value="1" /> Vis standard (med job.besk., rest. estimast og forecast)
-         <br /><input id="Radio5" name="visSimpel" type="radio" <%=visSimpelCHK2 %> value="2" /> Vis udviddet (som standard + økonomi)  <br /><br />
+        <br /><input id="Radio4" name="visSimpel" type="radio" <%=visSimpelCHK1 %> value="1" /> Vis standard (job.besk., wip og forecast) 
+           <%
+                 
+                 if instr(lto, "xepi") OR lto = "intranet - local" then%>
+                  <span style="color:red;">Konsoliderede tal</span>
+                 <%end if %>
+           
+         <br /><input id="Radio5" name="visSimpel" type="radio" <%=visSimpelCHK2 %> value="2" /> Vis udviddet (som standard + økonomi) 
+        
+        <%
+                 if instr(lto, "xepi") OR lto = "intranet - local" then%>
+                  <span style="color:red;">Konsoliderede tal</span>
+                 <%end if %>
+          
+        
+          <br /><br />
           <input type="checkbox" value="1" name="visKol_jobTweet" <%=visKol_jobTweet_CHK %> /> Vis Job Tweet kolonne
       <%else 
         select case visSimpel
@@ -1811,7 +1825,18 @@ if len(session("user")) = 0 then
 
 
         <td class=alt style="padding:3px;" valign=bottom>
-		<b>Realiseret</b></td>
+		<b>Realiseret</b>
+
+             <%select case visSimpel 
+            case 0
+            case 1,2
+                 
+                 if instr(lto, "xepi") OR lto = "intranet - local" then%>
+                  <span style="background-color:#CCCCCC; color:red; display:block; padding:2px;">Konsoliderede tal<br />(se konsolidering)</span>
+                 <%end if %>
+            <%end select %>
+
+        </td>
 		
         
          <%select case visSimpel 
@@ -3009,7 +3034,7 @@ if len(session("user")) = 0 then
          
        
             <table border="0" cellspacing="1" cellpadding="0"><tr><td valign="top">
-            Real.: <%=formatnumber(timerforbrugt, 2)%> t.
+            <%=formatnumber(timerforbrugt, 2)%> t.
 
                    <span style="font-size:9px; color:#999999;">
             <% if cint(realfakpertot) <> 0 then %> 
@@ -3041,9 +3066,9 @@ if len(session("user")) = 0 then
             </tr>
 
                 <%if cdbl(showprojektcomplt) > 0 AND cdbl(timerforbrugt) > 0 then%>
-            <tr><td style="padding-top:5px;">
+            <tr><td style="padding-top:1px; font-size:9px;">
            
-		    Afsl.:<br />
+		    Fremdrift:<br />
                
 		
 		

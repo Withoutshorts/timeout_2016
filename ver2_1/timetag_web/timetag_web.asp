@@ -1,14 +1,34 @@
+<%response.buffer = true %>
 
 <!--#include file="../inc/connection/conn_db_inc.asp"-->
-<!--#include file="../inc/regular/global_func.asp"-->
 
-<%'GIT 201608112
-response.buffer = true
-
- '**** Søgekriterier AJAX **'
+<%
+        '**** Søgekriterier AJAX **'
         'section for ajax calls
         if Request.Form("AjaxUpdateField") = "true" then
         Select Case Request.Form("control")
+        case "FN_tjktimer_forecast_tt"
+                '** FORECAST ALERT 
+         
+                  Response.write "99999"
+
+                aktid = request("aktid")
+                timerTastet = request("timer_tastet")
+                usemrn = request("treg_usemrn")
+                ibudgetaar = request("ibudgetaar")
+                ibudgetmd = request("ibudgetaarMd")  
+                aar = request("ibudgetUseAar")
+                md = request("ibudgetUseMd")
+
+             
+
+                'call ressourcefc_tjk(ibudgetaar, ibudgetmd, aar, md, usemrn, aktid, timerTastet)
+
+                
+             
+                response.write feltTxtValFc
+
+
         case "FN_sogjobogkunde"
 
 
@@ -25,10 +45,34 @@ response.buffer = true
                 end if
         
                 medid = request("jq_medid")
+                        
+                        call positiv_aktivering_akt_fn()
+                        if cint(pa_aktlist) = 0 then 'PA = 0 kan søge i jobbanken / PA = 1 kan kun søge på aktivjobliste
+                        strSQLPAkri =  ""
+                        else
+                        strSQLPAkri =  " AND tu.forvalgt = 1" 
+                        end if
 
-                'if lto = "essens" then
-                'medid = 3
-                'end if
+
+                varTjDatoUS_man = request("varTjDatoUS_man")
+                varTjDatoUS_son = dateAdd("d", 6, varTjDatoUS_man)
+
+                varTjDatoUS_man = year(varTjDatoUS_man) &"/"& month(varTjDatoUS_man) &"/"& day(varTjDatoUS_man)
+                varTjDatoUS_son = year(varTjDatoUS_son) &"/"& month(varTjDatoUS_son) &"/"& day(varTjDatoUS_son)
+
+            
+                '*** Datospærring Vis først job når stdato er oprindet
+                call lukaktvdato_fn()
+                ignJobogAktper = lukaktvdato
+
+                select case ignJobogAktper
+                case 0,1
+                strSQLDatokri = " AND ((j.jobstartdato <= '"& varTjDatoUS_son &"' AND j.jobstatus = 1) OR (j.jobstatus = 3))"
+                case 3
+                strSQLDatokri = " AND ((j.jobstartdato <= '"& varTjDatoUS_son &"' AND j.jobslutdato >= '"& varTjDatoUS_man &"' AND j.jobstatus = 1) OR (j.jobstatus = 3))"
+                case else
+                strSQLDatokri = ""
+                end select
 
 
 
@@ -43,33 +87,16 @@ response.buffer = true
                 strSQL = "SELECT j.id AS jid, j.jobnavn, j.jobnr, j.jobstatus, k.kkundenavn, k.kkundenr, k.kid FROM timereg_usejob AS tu "_ 
                 &" LEFT JOIN job AS j ON (j.id = tu.jobid) "_
                 &" LEFT JOIN kunder AS k ON (k.kid = j.jobknr) "_
-                &" WHERE tu.medarb = "& medid &" AND (j.jobstatus = 1 OR j.jobstatus = 3)" 
+                &" WHERE tu.medarb = "& medid &" AND (j.jobstatus = 1 OR j.jobstatus = 3) "& strSQLPAkri &" "& strSQLDatokri 
         
-
-                'Personlig aktiv jobliste
-                'select case lto
-                'case "hestia" 'Tvunget
-                'strSQL = strSQL & ""
-                'case else
-                'strSQL = strSQL & " AND tu.forvalgt = 1" 
-
-                        call positiv_aktivering_akt_fn()
-                        if cint(pa_aktlist) = 0 then 'PA = 0 kan søge i jobbanken / PA = 1 kan kun søge på aktivjobliste
-                        strSQL = strSQL & "" 'standard
-                        else
-                        strSQL = strSQL & " AND tu.forvalgt = 1" 
-                        end if
-
-                'end select
-    
                 strSQL = strSQL & " AND "_
                 &" (jobnr LIKE '"& jobkundesog &"%' OR jobnavn LIKE '"& jobkundesog &"%' OR "_
-                &" kkundenavn LIKE '"& jobkundesog &"%' OR kkundenr = '"& jobkundesog &"' OR k.kinit = '"& jobkundesog &"')  AND kkundenavn <> ''"_
+                &" kkundenavn LIKE '"& jobkundesog &"%' OR kkundenr = '"& jobkundesog &"' OR k.kinit = '"& jobkundesog &"') AND kkundenavn <> ''"_
                 &" GROUP BY j.id ORDER BY kkundenavn, jobnavn LIMIT 50"       
     
                 'if lto = "essens" then
-                'response.write strSQL
-                'response.end 
+                'response.write "<option>"& strSQL &"</option>"
+                'response.flush 
                 'end if
                            
 
@@ -135,7 +162,62 @@ response.buffer = true
                 end if
 
                 'positiv aktivering
-                pa = request("jq_pa") 
+                'pa = request("jq_pa") 
+                call positiv_aktivering_akt_fn()
+                pa = pa_aktlist
+                pa_only_specifikke_akt = positiv_aktivering_akt_val
+
+
+                '*** HER ***
+
+                varTjDatoUS_man = request("varTjDatoUS_man")
+                varTjDatoUS_son = dateAdd("d", 6, varTjDatoUS_man)
+
+                varTjDatoUS_man = year(varTjDatoUS_man) &"/"& month(varTjDatoUS_man) &"/"& day(varTjDatoUS_man)
+                varTjDatoUS_son = year(varTjDatoUS_son) &"/"& month(varTjDatoUS_son) &"/"& day(varTjDatoUS_son)
+
+
+                '*** Vis kun aktiviteter med forecast på
+                call aktBudgettjkOn_fn()
+                '*** Skal akt lukkes for timereg. hvis forecast budget er overskrddet..?
+                '** MAKS budget / Forecast incl. peridoe afgrænsning
+                call akt_maksbudget_treg_fn()
+
+                if cint(aktBudgettjkOnViskunmbgt) = 1 then
+                viskunForecast = 1
+                else
+                viskunForecast = 0
+                end if
+
+
+                timerTastet = 0 'request("timer_tastet")
+                ibudgetaar = aktBudgettjkOn_afgr
+                ibudgetmd = datePart("m", aktBudgettjkOnRegAarSt, 2,2) 
+                aar = datepart("yyyy", varTjDatoUS_man, 2,2)
+                md = datepart("m", varTjDatoUS_man, 2,2)
+
+
+                '*** Forecast tjk
+                risiko = 0
+                strSQLjobRisisko = "SELECT j.risiko FROM job AS j WHERE id = "& jobid
+                oRec5.open strSQLjobRisisko, oConn, 3
+                if not oRec5.EOF then
+                risiko = oRec5("risiko")
+                end if
+                oRec5.close 
+
+                call allejobaktmedFC(viskunForecast, medid, jobid, risiko)
+
+                
+                '*** Datospærring Vis først job når stdato er oprindet
+                call lukaktvdato_fn()
+                ignJobogAktper = lukaktvdato
+
+               
+	            if (cint(ignJobogAktper) = 1 OR cint(ignJobogAktper) = 2 OR cint(ignJobogAktper) = 3) then
+	            strSQLDatoKri = " AND ((a.aktstartdato <= '"& varTjDatoUS_son &"' AND a.aktslutdato >= '"& varTjDatoUS_man &"') OR (a.fakturerbar = 6))" 
+	            end if
+
 
 
                 call akttyper2009(2)
@@ -154,10 +236,31 @@ response.buffer = true
                 strAktTxt = strAktTxt &"<ul>"
                          
                'pa = 0 '***ÆNDRES til variable
-               if pa = 1 then
-               strSQL= "SELECT a.id AS aid, navn AS aktnavn FROM timereg_usejob LEFT JOIN aktiviteter AS a ON (a.id = tu.aktid) "_
-               &" WHERE tu.medarb = "& medid &" AND tu.jobid = "& jobid &" AND aktid <> 0 AND a.navn LIKE '%"& aktsog &"%' AND aktstatus = 1 AND ("& replace(aty_sql_realhours, "tfaktim", "a.fakturerbar") &") AND ("& aty_sql_hide_on_treg &") ORDER BY navn LIMIT 20"   
+               'if cint(pa) = 1 then
+               'strSQL= "SELECT a.id AS aid, navn AS aktnavn FROM timereg_usejob LEFT JOIN aktiviteter AS a ON (a.id = tu.aktid) "_
+               '&" WHERE tu.medarb = "& medid &" AND tu.jobid = "& jobid &" AND aktid <> 0 AND a.navn LIKE '%"& aktsog &"%' AND aktstatus = 1 AND ("& replace(aty_sql_realhours, "tfaktim", "a.fakturerbar") &") AND ("& aty_sql_hide_on_treg &") ORDER BY navn LIMIT 20"   
 
+
+               if cint(pa) = 1 then '**Kun på Personlig aktliste
+    
+    
+                   'Positiv aktivering
+                   if cint(pa_only_specifikke_akt) then
+
+                   strSQL = "SELECT a.id AS aid, navn AS aktnavn "_
+                   &" FROM timereg_usejob AS tu LEFT JOIN aktiviteter AS a ON (a.id = tu.aktid) "_
+                   &" WHERE tu.medarb = "& medid &" AND tu.jobid = "& jobid &" AND aktid <> 0 AND a.navn LIKE '%"& aktsog &"%' AND aktstatus = 1 AND ("& replace(aty_sql_realhours, "tfaktim", "a.fakturerbar") &") AND ("& aty_sql_hide_on_treg &") "& forecastAktids &" ORDER BY navn LIMIT 20"   
+
+                   else 
+
+                   strSQL = "SELECT a.id AS aid, navn AS aktnavn "_
+                   &" FROM timereg_usejob AS tu LEFT JOIN aktiviteter AS a ON (a.job = tu.jobid) "_
+                   &" WHERE tu.medarb = "& medid &" AND tu.jobid = "& jobid &" AND aktid = 0 AND a.navn LIKE '%"& aktsog &"%' AND aktstatus = 1 AND ("& replace(aty_sql_realhours, "tfaktim", "a.fakturerbar") &") AND ("& aty_sql_hide_on_treg &") "& forecastAktids &" ORDER BY navn LIMIT 20" 
+
+                   end if
+
+
+                  
 
                else
 
@@ -183,7 +286,7 @@ response.buffer = true
                
 
 
-               strSQL= "SELECT a.id AS aid, navn AS aktnavn, projektgruppe1, projektgruppe2, projektgruppe3, "_
+               strSQL = "SELECT a.id AS aid, navn AS aktnavn, projektgruppe1, projektgruppe2, projektgruppe3, "_
                &" projektgruppe4, projektgruppe5, projektgruppe6, projektgruppe7, projektgruppe8, projektgruppe9, projektgruppe10 FROM aktiviteter AS a "_
                &" WHERE a.job = " & jobid & " AND a.job <> 0 AND navn LIKE '%"& aktsog &"%' AND aktstatus = 1 AND ("& replace(aty_sql_realhours, "tfaktim", "a.fakturerbar") &") AND ("& aty_sql_hide_on_treg &") ORDER BY navn LIMIT 20"      
     
@@ -192,6 +295,11 @@ response.buffer = true
                 end if
 
 
+                 'if lto = "essens" then
+                'response.write "<option>"& strSQL &"</option>"
+                'response.flush 
+                'end if
+
                 'response.write "strSQL " & strSQL
                 'response.end
             
@@ -199,6 +307,12 @@ response.buffer = true
 
                 oRec.open strSQL, oConn, 3
                 while not oRec.EOF
+
+                if cint(pa) = 1 then 'Positiv aktivering
+
+                showAkt = 1
+
+                else
         
                 showAkt = 0
                 if instr(medarbPGrp, "#"& oRec("projektgruppe1") &"#") <> 0 _
@@ -213,17 +327,51 @@ response.buffer = true
                 OR instr(medarbPGrp, "#"& oRec("projektgruppe10") &"#") <> 0 then
                 showAkt = 1
                 end if 
+
+                end if
                
                   
 
-                'showAkt = 1
-
+                
+                '** Forecast peridore afgrænsning
+                'if cint(akt_maksforecast_treg) = 1 then
+                if cint(aktBudgettjkOn) = 1 then
+                    call ressourcefc_tjk(ibudgetaar, ibudgetmd, aar, md, medid, oRec("aid"), timerTastet)
+                end if
+               
                 
                 
                 if cint(showAkt) = 1 then 
                  
-                strAktTxt = strAktTxt & "<li class=""span_akt"" id=""span_akt_"& oRec("aid") &"""><input type=""hidden"" id=""hiddn_akt_"& oRec("aid") &""" value="""& oRec("aktnavn") &""">" 
-                strAktTxt = strAktTxt & ""& oRec("aktnavn") &"</li>" 
+              
+                if cint(aktBudgettjkOn) = 1 then
+
+
+                if len(trim(feltTxtValFc)) <> 0 then
+                fcsaldo_txt = "<span style=""font-weight:lighter; font-size:9px;""> (fc. Saldo: "& formatnumber(feltTxtValFc, 2) & " / "& formatnumber(fctimer,2) &" t.)</span>"
+                end if
+
+                    optionFcDis = ""
+                    if cint(akt_maksforecast_treg) = 1 then
+                        if feltTxtValFc <= 0 then
+                              optionFcDis = "DISABLED"
+                        end if
+                    end if
+
+                else
+
+                fcsaldo_txt = ""
+
+                end if
+                 
+    
+                if optionFcDis <> "DISABLED" then
+                    strAktTxt = strAktTxt & "<li class=""span_akt"" id=""span_akt_"& oRec("aid") &"""><input type=""hidden"" id=""hiddn_akt_"& oRec("aid") &""" value="""& oRec("aktnavn") &""">" 
+                    strAktTxt = strAktTxt & ""& oRec("aktnavn") &" "& fcsaldo_txt &"</li>" 
+                else
+                    strAktTxt = strAktTxt & "<li style=""background-color:#CCCCCC; color:#999999;"">"& oRec("aktnavn") &" "& fcsaldo_txt &"</li>" 
+                end if
+
                 
                 end if
                 
@@ -384,6 +532,7 @@ response.buffer = true
 
     if len(session("user")) = 0 then
 	%>
+    <!--#include file="../inc/regular/global_func.asp"-->
 	<!--#include file="../inc/errors/error_inc.asp"-->
 	<%
 	errortype = 5
@@ -391,6 +540,14 @@ response.buffer = true
 	else
 
     call meStamdata(session("mid"))
+
+
+    call positiv_aktivering_akt_fn()
+     '*** Vis kun aktiviteter med forecast på
+    call aktBudgettjkOn_fn()
+    '*** Skal akt lukkes for timereg. hvis forecast budget er overskrddet..?
+    '** MAKS budget / Forecast incl. peridoe afgrænsning
+    call akt_maksbudget_treg_fn()
 
 
     if len(trim(request("indlast"))) <> 0 AND session("timetag_web_indMsgShown") <> "1" then
@@ -407,7 +564,7 @@ response.buffer = true
         showAfslutJob = 1
         showMatreg = 1
         showStop = 0
-    case "intranet - local", "sdutek", "nonstop", "xoutz", "cc"
+    case "xintranet - local", "sdutek", "nonstop", "xoutz", "cc"
         showAfslutJob = 0
         showMatreg = 0
         showStop = 1
@@ -416,6 +573,14 @@ response.buffer = true
         showMatreg = 0
         showStop = 0
     end select
+
+
+
+     ddDato = year(now) &"/"& month(now) &"/"& day(now)
+            ddDato_ugedag = day(now) &"/"& month(now) &"/"& year(now)
+            ddDato_ugedag_w = datepart("w", ddDato_ugedag, 2, 2)
+            
+            varTjDatoUS_man_tt = dateAdd("d", -(ddDato_ugedag_w-1), ddDato_ugedag)
     %>
 
 
@@ -463,10 +628,9 @@ response.buffer = true
     <div id="header">TimeOut mobile</div>
 
       <div id="dvindlaes_msg" style="position:absolute; top:0px; left:0px; height:100%; width:100%; background-color:#cccccc; visibility:hidden; display:none;">Indlæser timer...vent</div>
-
-    <%call positiv_aktivering_akt_fn() %>
-
-    <form id="container" action="../timereg/timereg_akt_2006.asp?func=db&rdir=timetag_web" method="post">
+   
+    
+      <form id="container" action="../timereg/timereg_akt_2006.asp?func=db&rdir=timetag_web" method="post">
 
           <%if cint(indlast) = 1 then %>
             <div id="timer_indlast" class="approved">Timer indlæst</div>
@@ -476,18 +640,43 @@ response.buffer = true
         end if%>
 
         <input type="hidden" id="Hidden5" name="year" value="<%=year(now) %>"/>
-        <input type="hidden" id="Hidden1" name="FM_datoer" value="<%=day(now) &"/"& month(now) &"/"& year(now) %>"/>
+        
         <!--<input type="hidden" id="Hidden3" name="FM_dager" value=""/>-->
         <input type="hidden" id="Hidden4" name="FM_dager" value="0"/><!-- , xx -->
         <input type="hidden" id="Hidden2" name="FM_feltnr" value="0"/>
-        <input type="hidden" id="FM_pa" name="FM_pa" value="<%=positiv_aktivering_akt_val %>"/>
+        <input type="hidden" id="FM_pa" name="FM_pa" value="<%=pa_aktlist %>"/>
         <input type="hidden" id="FM_medid" name="FM_medid" value="<%=session("mid") %>"/>
         <input type="hidden" id="FM_medid_k" name="FM_medid_k" value="<%=session("mid") %>"/>
+
+
+          <%select case lto 'mulighed for VÆLG DATO 
+        case "plan", "outz", "intranet - local"%> 
+        <input type="text" style="width:300px;" name="FM_datoer" id="jq_dato" value="<%=day(now) &"/"& month(now) &"/"& year(now) %>" placeholder="dd-mm-yyyy" />
+        <%case else%>
+        <input type="hidden" id="Hidden1" name="FM_datoer" value="<%=day(now) &"/"& month(now) &"/"& year(now) %>"/>
+        <%end select %>
+       
+
+
+
+
         <input type="text" id="FM_job" name="FM_job" value="Kunde/job"/>
         <input type="hidden" id="tomobjid" name="tomobjid" value="<%=tomobjid %>"/>
         <input type="hidden" id="showstop" name="showstop" value="<%=showStop %>"/>
         <input type="hidden" id="" name="FM_vistimereltid" value="<%=showStop %>"/>
-        
+        <input type="hidden" id="varTjDatoUS_man" name="varTjDatoUS_man" value="<%=varTjDatoUS_man_tt %>"/>
+
+
+         <!-- Forecast max felter -->
+        <input type="text" id="aktnotificer_fc" name="" value="0"/>
+        <input type="hidden" id="akt_maksbudget_treg" value="<%=akt_maksbudget_treg%>">  
+        <input type="hidden" id="akt_maksforecast_treg" value="<%=akt_maksforecast_treg%>">
+        <input type="hidden" id="aktBudgettjkOn_afgr" value="<%=aktBudgettjkOn_afgr%>">
+        <input type="hidden" id="regskabsaarStMd" value="<%=datePart("m", aktBudgettjkOnRegAarSt, 2,2)%>">
+        <input type="hidden" id="regskabsaarUseAar" value="<%=datepart("yyyy", varTjDatoUS_man_tt, 2,2)%>">
+        <input type="hidden" id="regskabsaarUseMd" value="<%=datepart("m", varTjDatoUS_man_tt, 2,2)%>">     
+       
+       
 
         <input type="hidden" id="FM_jobid" name="FM_jobid" value="0"/>
         <div id="dv_job" class="dv-closed"></div> <!-- dv_job -->
@@ -499,12 +688,14 @@ response.buffer = true
         <%if cint(showStop) = 1 then%>
 
         <div style="white-space:nowrap; width:100%; border:0;">
-            <table cellpadding="0" cellspacing="0" border="0" width="100%"><tr><td>
-           <input type="button" id="bt_stst" value="St. / Stop" style="background-color:#428bca; color:#FFFFFF; padding:2px 5px 2px 5px;" /> </td><td>
-           <input type="text" id="FM_sttid" name="FM_sttid" value="00:00" style="color:#cccccc; width:65px;"/></td><td>
-          <input type="text" id="FM_sltid" name="FM_sltid" value="00:00" style="color:#cccccc; width:65px;"/></td><td style="padding:2px 5px 12px 5px; width:85px;" >
+           <table cellpadding="0" cellspacing="0" border="0" width="100%"><tr>
+           <td><input type="button" id="bt_stst" value="St. / Stop" style="background-color:#428bca; color:#FFFFFF; padding:2px 5px 2px 5px;" /> </td>
+           <td><input type="text" id="FM_sttid" name="FM_sttid" value="00:00" style="color:#cccccc; width:65px;"/></td>
+           <td><input type="text" id="FM_sltid" name="FM_sltid" value="00:00" style="color:#cccccc; width:65px;"/></td>
+           
+           <td style="padding:2px 5px 12px 5px; width:85px;" >
              = <span id="FM_timerlbl" style="color:#999999; font-size:18px; width:65px;">0</span>
-              <input type="hidden" id="FM_timer" name="FM_timer" value="0" style="color:#cccccc; width:65px;"/></td></tr></table>
+             <input type="hidden" id="FM_timer" name="FM_timer" value="0" style="color:#cccccc; width:65px;"/></td></tr></table>
         </div>      
             
         <%else %>
@@ -562,11 +753,7 @@ response.buffer = true
             call akttyper2009(2)
 
              
-            ddDato = year(now) &"/"& month(now) &"/"& day(now)
-            ddDato_ugedag = day(now) &"/"& month(now) &"/"& year(now)
-            ddDato_ugedag_w = datepart("w", ddDato_ugedag, 2, 2)
-            
-            varTjDatoUS_man_tt = dateAdd("d", -(ddDato_ugedag_w-1), ddDato_ugedag)
+           
             
             timerIdagTxt = ""
             timerIdag = 0

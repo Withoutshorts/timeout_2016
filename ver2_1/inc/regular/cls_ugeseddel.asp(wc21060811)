@@ -40,7 +40,7 @@ sub showafslutuge_ugeseddel
 
         call smileyAfslutBtn(SmiWeekOrMonth)
 
-        call ugeAfsluttetStatus(varTjDatoUS_son, showAfsuge, ugegodkendt, ugegodkendtaf) 
+        call ugeAfsluttetStatus(varTjDatoUS_son, showAfsuge, ugegodkendt, ugegodkendtaf, SmiWeekOrMonth) 
 
 
 

@@ -39,8 +39,21 @@
    end if 
 
 
-   
+   if len(trim(request("FM_sog"))) <> 0 then
+    jobSogVal = request("FM_sog")
+    jobSog = 1
+   else
+    jobSogVal = ""
+    jobSog = 0
+    end if
     
+
+    if cint(jobSog) = 1 then
+    progrpmedarbDisabled = "DISABLED"
+    else
+    progrpmedarbDisabled = ""
+    end if
+
 
     usePeriodeSel0 = ""
     usePeriodeSel1 = ""
@@ -193,24 +206,24 @@
       
 
         <div class="portlet">
-        <h3 class="portlet-title"><u>Medarbejder Dashboard</u></h3>
+        <h3 class="portlet-title"><u><%=dsb_txt_001 %></u></h3>
         
 
         <div class="well">
               <form action="medarbdashboard.asp?sogsubmitted=1" method="POST">
                 <div class="row">
                     <div class="col-lg-2">
-                    <h4 class="panel-title-well">Søgefilter</h4></div>
+                    <h4 class="panel-title-well"><%=dsb_txt_002 %></h4></div>
                     <div class="col-lg-10">&nbsp</div>
                  
                     </div>
                   
                     <div class="row">
-                    <div class="col-lg-2">Projektgruppe:</div>
-                    <div class="col-lg-2">Navn:</div>
-                    <div class="col-lg-2"><input type="radio" name="FM_periode" value="1" onchange="submit()" <%=usePeriodeSel1 %> /> Måned:</div>
-                    <div class="col-lg-2"><input type="radio" name="FM_periode" value="2" onchange="submit()" <%=usePeriodeSel2 %> /> Kvartal:</div>
-                    <div class="col-lg-2"><input type="radio" name="FM_periode" value="3" onchange="submit()" <%=usePeriodeSel3 %> /> År:</div>
+                    <div class="col-lg-2"><%=dsb_txt_003 %>:</div>
+                    <div class="col-lg-2"><%=dsb_txt_004 %>:</div>
+                    <div class="col-lg-2"><input type="radio" name="FM_periode" value="1" onchange="submit()" <%=usePeriodeSel1 %> /> <%=dsb_txt_005 %>:</div>
+                    <div class="col-lg-2"><input type="radio" name="FM_periode" value="2" onchange="submit()" <%=usePeriodeSel2 %> /> <%=dsb_txt_006 %>:</div>
+                    <div class="col-lg-2"><input type="radio" name="FM_periode" value="3" onchange="submit()" <%=usePeriodeSel3 %> /> <%=dsb_txt_007 %>:</div>
              
                    
                 
@@ -256,7 +269,7 @@
                                     'response.write strSQLpgrp
                                    
                                 %>
-                                <select name="FM_progrp" class="form-control input-small"  onchange="submit();">
+                                <select name="FM_progrp" <%=progrpmedarbDisabled  %> class="form-control input-small"  onchange="submit();">
                                   <%
 
                                     oRec3.open strSQLpgrp, oConn, 3
@@ -289,7 +302,7 @@
                 </div>
                 <div class="col-lg-2">
 
-                                 <select name="FM_medarb" class="form-control input-small" onchange="submit();">
+                                 <select name="FM_medarb" <%=progrpmedarbDisabled  %> class="form-control input-small" onchange="submit();">
                                 <%
 
                                     if level <= 2 OR level = 6 then
@@ -434,10 +447,21 @@
                     -->
 
                          <div class="col-lg-1">
-                           <button type="submit" class="btn btn-secondary btn-sm pull-right"><b>Søg >></b></button>
+                           <button type="submit" class="btn btn-secondary btn-sm pull-right"><b><%=dsb_txt_008 %> >></b></button>
                       </div>
 
                     </div>
+
+                  <%if level <=2 OR level = 6 then %>
+                   <div class="row">
+                            <div class="col-lg-4">
+                                <%=dsb_txt_010 %>: 
+                        
+                                <input type="text" name="FM_sog" id="FM_sog" value="<%=jobSogVal %>" class="form-control input-small" />
+                          </div>
+                    </div>
+                  <%end if %>
+
                   
                  
             </form>
@@ -490,6 +514,107 @@
         strDatoStartKri = useYear & "-9-1"
         strDatoEndKri = useYear & "-11-1"
         end select
+
+
+        '*** Vis tot på job
+        if cint(jobSog) = 1 then
+
+
+        %>
+            <!-- Alle projekter med Real. timer på for den valgte medarb. --->
+
+            <br /><br />
+              <div class="panel panel-default">
+                        <div class="panel-heading">
+                          <h4 class="panel-title">
+                            <a class="accordion-toggle" data-toggle="collapse" data-target="#collapseSix">Job <span style="font-size:12px; font-weight:lighter;">Alle medarbejdere i valgt periode</span></a>
+                          </h4>
+                        </div> <!-- /.panel-heading -->
+                        <div id="collapseSix" class="panel-collapse">
+                        <div class="panel-body">
+
+                
+
+
+            
+                        <div class="row">
+                        <div class="col-lg-6">
+
+           
+                  <table class="table table-stribed">
+                            <thead>
+                                <tr><th>Jobnavn</th>
+                                    <th>Medarbejder</th>
+                                    <th style="text-align:right;">Realiseret</th>
+                                </tr>
+                            </thead>
+
+                      <tbody>
+
+            
+                    
+                    
+                    <%
+                        strSQLrt = "SELECT tmnavn, tjobnavn, tjobnr, SUM(t.timer) AS sumtimer FROM timer AS t "_
+                        &" WHERE (tjobnr LIKE '"& jobSogVal &"%' OR tjobnavn LIKE '"& jobSogVal &"%') AND (tmnr <> 0) AND ("& aty_sql_realhours &") "_
+                        &" AND tdato BETWEEN '"& strDatoStartKri &"' AND '"& strDatoEndKri &"' GROUP BY t.tjobnr, tmnavn ORDER BY tjobnavn, tmnavn, sumtimer DESC LIMIT 200" 
+
+                         '&" LEFT JOIN aktiviteter AS a ON (a.job = j.id) "_
+
+                        'response.write strSQLrt
+                        'response.flush
+                        
+                        sumTimerGT = 0
+                        re = 0
+                        oRec.open strSQLrt, oConn, 3
+                        While not oRec.EOF 
+
+                        select case right(re, 1)
+                        case 0,2,4,6,8
+                        bgcr = "#FFFFFF"
+                        case else
+                        bgcr = "#EfF3ff"
+                        end select
+
+                             
+
+                        %>
+                        <tr style="background-color:<%=bgcr%>;">
+                            <td><%=left(oRec("tjobnavn"), 20) & " ("& oRec("tjobnr") &")" %></td>
+                            <td><%=oRec("tmnavn") %></td>
+                            <td align="right"><%=oRec("sumtimer") %> t.</td>
+                        </tr>
+                        <%
+
+                        sumTimerGT = sumTimerGT + oRec("sumtimer")
+
+                        re = re + 1
+                        oRec.movenext
+                        wend
+                        oRec.close      
+                        
+                     
+                    if re = 0 then   
+                    %>
+                    <tr bgcolor="#FFFFFF"><td colspan="3">- ingen </td></tr>
+                    <%else %>
+                       <tr bgcolor="#FFFFFF"><td colspan="3" align="right"><%=formatnumber(sumTimerGT, 2) %> t.</td></tr>    
+
+                    <%end if %>
+                      </tbody>
+                    </table>
+                              </div><!-- coloum -->
+                              </div><!-- /ROW -->
+
+
+                               </div><!-- END panel-body -->
+              </div><!-- END panel-collapse -->
+             </div><!-- END panel deafult -->
+        <%
+
+        else
+
+
            
         '** Mtype mål ***
         fo = 0
@@ -882,7 +1007,7 @@
             'end if
 
             '** Fakturerings index HVIS Grundlag er normtid
-            if cdbl(ntimper) > cdbl(faktimerGTselmedarb) then
+            if cdbl(ntimper) > cdbl(faktimerGTselmedarb) AND ntimper <> 0 then
             medarbSelIndex = (faktimerGTselmedarb/ntimper)
             else
             medarbSelIndex = (ntimper/faktimerGTselmedarb)
@@ -1015,7 +1140,7 @@
             <br />
             <div class="row">
                 <div class="col-lg-11">
-                    <h4 class="portlet-title"><u>Nøgletal <span style="font-size:12px; font-weight:lighter;"><%=meTxt %></span> </u>
+                    <h4 class="portlet-title"><u><%=dsb_txt_009%> <span style="font-size:12px; font-weight:lighter;"><%=meTxt %></span> </u>
                     </h4>
                 </div>
             </div>
@@ -1035,7 +1160,7 @@
                         <p class="row-stat-label">DB2</p>
                         <h3 class="row-stat-value"><%=formatnumber(medarbSelDBindexGT, 2)%> <span style="font-size:14px;">DKK</span></h3>
                         <!--<span class="label label-succes row-stat-badge"><%=formatnumber(jo_db2_proc, 0)%> %</span> -->
-                          <br /> <span style="font-size:11px; color:#999999;"> [ Timer * (timepris - Kost.) * Faktureringsindex ]</span>
+                          <br /> <span style="font-size:11px; color:#999999;"> [ Timer * (timepris - Kost.) * <%=dsb_txt_012 %> ]</span>
 
                      </div> <!-- /.row-stat -->
          
@@ -1043,11 +1168,11 @@
                      
                  </div>
                      <div class="col-lg-3">
-                         Faktureringsindex: 
+                         <%=dsb_txt_012 %>: 
                          <span class="label label-<%=medarbSelIndexColor%> row-stat-badge"><%=formatnumber(medarbSelIndex, 2)%></span>
-                         <br /> <span style="font-size:11px; color:#999999;">[ Norm. tid / Real. fakturerbare timer ]</span>
+                         <br /> <span style="font-size:11px; color:#999999;">[ <%=dsb_txt_014 %> / <%=dsb_txt_013 %> ]</span>
                          <br /><br />
-                         Norm: <%=formatnumber(ntimper, 2) %> t.<br />
+                         <%=dsb_txt_014 %>: <%=formatnumber(ntimper, 2) %> t.<br />
                          Timer: <%=formatnumber(medarbSelHoursGT, 2) %> t.<br />
                          Heraf fakturerbare: <b><%=formatnumber(faktimerGTselmedarb, 2) %> t.</b><br />
                          Forecasttimer: <%=formatnumber(indexFc, 2) %> t.<br />
@@ -1066,7 +1191,7 @@
                        <div class="col-lg-1">&nbsp;</div>
                       
                       <div class="col-lg-4">
-                     Tidsfordeling - Fomr. % (<%=formatnumber(medarbSelHoursFomrGT, 2) %> t.)
+                     <%=dsb_txt_011 %> (<%=formatnumber(medarbSelHoursFomrGT, 2) %> t.)
                              
                     <div id="donut-chart" class="chart-holder" style="width: 95%;"></div>
                     
@@ -1077,9 +1202,118 @@
 
 
 
+            <!-- Alle projekter med Real. timer på for den valgte medarb. --->
+
+            <br /><br />
+              <div class="panel panel-default">
+                        <div class="panel-heading">
+                          <h4 class="panel-title">
+                            <a class="accordion-toggle" data-toggle="collapse" data-target="#collapseFive">Timefordeling (donut) på job - <span style="font-size:12px; font-weight:lighter;"><%=meTxt %></span></a>
+                          </h4>
+                        </div> <!-- /.panel-heading -->
+                        <div id="collapseFive" class="panel-collapse collapse">
+                        <div class="panel-body">
+
+                
+
+
+            
+                        <div class="row">
+                        <div class="col-lg-6">
+
+           
+                  <table class="table table-stribed">
+                            <thead>
+                                <tr><th>Jobnavn</th>
+                                    <th>Forretningsområde</th>
+                                    <th style="text-align:right;">Realiseret</th>
+                                </tr>
+                            </thead>
+
+                      <tbody>
+
+            
+                    
+                    
+                    <%
+                        strSQLrt = "SELECT tjobnavn, tjobnr, SUM(t.timer) AS sumtimer, j2.id AS jobid FROM timer AS t "_
+                        &" LEFT JOIN "_
+                        &" (Select j.jobnr, j.id, j.jobnavn FROM job AS j) "_
+                        &" AS j2 ON j2.jobnr = t.tjobnr "_
+                        &" WHERE (tmnr = "& usemrn & ") AND ("& aty_sql_realhours &") AND tdato BETWEEN '"& strDatoStartKri &"' AND '"& strDatoEndKri &"' GROUP BY t.tjobnr ORDER BY sumtimer DESC LIMIT 100" 
+
+                         '&" LEFT JOIN aktiviteter AS a ON (a.job = j.id) "_
+
+                        'response.write strSQLrt
+                        'response.flush
+                        
+                        sumTimerGT = 0
+                        re = 0
+                        oRec.open strSQLrt, oConn, 3
+                        While not oRec.EOF 
+
+                        select case right(re, 1)
+                        case 0,2,4,6,8
+                        bgcr = "#FFFFFF"
+                        case else
+                        bgcr = "#EfF3ff"
+                        end select
+
+                                strSQlfomr = "SELECT for_fomr, for_jobid, f2.fomr AS fomr FROM fomr_rel AS frel "_
+                                &" LEFT JOIN "_
+                                &" (Select f.navn AS fomr, f.id FROM fomr AS f) "_
+                                &" AS f2 ON f2.id = frel.for_fomr "_
+                                &" WHERE for_jobid = "& oRec("jobid") & " AND for_fomr IS NOT NULL "
+
+                                'response.write strSQlfomr
+                                'response.flush
+                                fomrNavn = ""
+                                oRec2.open strSQlfomr, oConn, 3
+                                if not oRec2.EOF then
+                                
+                                fomrNavn = oRec2("fomr")
+
+                                end if
+                                oRec2.close
+
+                        %>
+                        <tr style="background-color:<%=bgcr%>;">
+                            <td><%=left(oRec("tjobnavn"), 20) & " ("& oRec("tjobnr") &")" %></td>
+                            <td><%=fomrNavn %></td>
+                            <td align="right"><%=oRec("sumtimer") %> t.</td>
+                        </tr>
+                        <%
+
+                        sumTimerGT = sumTimerGT + oRec("sumtimer")
+
+                        re = re + 1
+                        oRec.movenext
+                        wend
+                        oRec.close      
+                        
+                     
+                    if re = 0 then   
+                    %>
+                    <tr bgcolor="#FFFFFF"><td colspan="3">- ingen </td></tr>
+                    <%else %>
+                       <tr bgcolor="#FFFFFF"><td colspan="3" align="right"><%=formatnumber(sumTimerGT, 2) %> t.</td></tr>    
+
+                    <%end if %>
+                      </tbody>
+                    </table>
+                              </div><!-- coloum -->
+                              </div><!-- /ROW -->
+
+
+                               </div><!-- END panel-body -->
+              </div><!-- END panel-collapse -->
+             </div><!-- END panel deafult -->
+
+
+
             <!-- Alle projekter med forecast / budet på --->
 
-              <br />
+             
               <div class="panel panel-default">
                         <div class="panel-heading">
                           <h4 class="panel-title">
@@ -1656,6 +1890,8 @@
              </div><!-- END panel deafult -->
 
                <%end if 'jobansfundet %>
+
+            <%end if 'jobSog %>
         
 
 

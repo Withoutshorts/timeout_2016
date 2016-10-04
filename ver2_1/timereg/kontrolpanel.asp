@@ -1728,6 +1728,7 @@ if len(session("user")) = 0 then
 
            <input type="checkbox" name="traveldietexp_on" value="1" <%=traveldietexp_onCHK %> /> Tilføj mulighed for at angive rejsedage og diæter.<br /><br />
            <input type="text" name="traveldietexp_maxhours" value="<%=traveldietexp_maxhours %>" style="width:60px;" /> Maks antal timer pr. dag på dage med diæter/rejsedage. <br /> (-1 = uendelig, kun type: der tæller med i daglig timereg. se akt. typer)
+                <br />Gælder IKKE Mobil og Ugeseddel.
              </td>
             </tr>
 
@@ -1793,8 +1794,8 @@ if len(session("user")) = 0 then
           end if
           %>
             <br /><br />
-           <input type="checkbox" name="pa_aktlist" value="1" <%=pa_aktlistCHK %> />Mobil, samt ugeseddel kan KUN at søge i <b>Personlig aktivjobliste</b> PA=1.
-           Ellers kan der søges i hele jobbanken PA=0. Forudsættes at man har adgang via sine projektgrupper.(timetag sættes i timetag config)<br />
+           <input type="checkbox" name="pa_aktlist" value="1" <%=pa_aktlistCHK %> />Mobil (timetag_web), samt ugeseddel kan KUN at søge i <b>Personlig aktivjobliste</b> PA=1.
+           Ellers kan der søges i hele jobbanken PA=0. Forudsættes at man har adgang via sine projektgrupper. (TimeTag sættes i timetag config)<br />
 
             </td>
             </tr>
@@ -2118,7 +2119,10 @@ if len(session("user")) = 0 then
             smileyAggressivChk = ""
             end if %>
             <input type="checkbox" name="FM_smileyAggressiv" id="Checkbox2" value="1" <%=smileyAggressivChk%>> <b>Vis smiley aggressiv</b> (altid åben) / diskret (lukket) på timreg. siden
-            <br />Timereg. siden bliver lukket hvis der er mere end 3 uafsluttede uger og "smiley aggressiv" er tilvalgt.
+            <br /><br />
+                   Hvis "smiley aggressiv" er tilvalgt.<br />
+                    - Timereg. siden bliver lukket hvis der er mere end 3 uafsluttede uger. (ved afslut på ugebasis)<br />
+                    - Timereg. & komme/ gå bliver lukket hvis der er mere end 1 uafsluttet dag. (ved afslut daglit)<br />
              
                </td>
                </tr>
@@ -2280,15 +2284,16 @@ if len(session("user")) = 0 then
           end if
           %>
 
-           <input type="checkbox" name="forcebudget_onakttreg" value="1" <%=forcebudget_onakttregCHK %> /> <b>Adviser - Vejledende</b> 
-                 på timeregistreringssiden, hvis <b>forecast pr. medarb.</b> er overskreddet. 
+           <input type="checkbox" name="forcebudget_onakttreg" value="1" <%=forcebudget_onakttregCHK %> /> <b>Adviser</b> (vejledende) 
+                 Markerer på timeregistrering, ugeseddel og evt. TimeTag (PA:2), hvis <b>forecast pr. medarb.</b> er overskreddet. 
                  (Husk slå vis ressourcetimer til på akt. linje. - gælder kun type: Fakturerbare - og ikke interne HR -1, -2 job)
                 <br /><br />
-                <span style="color:#999999;">
-                Timereg. variable: resforecastMedOverskreddet<br />
-                Kode 1: Forecast overskreddet, lyserød markering. Der kan stadigvæk tastes. (tjekker også om der afgrænses indenfor regnskabårs / md.)<br />
-                Kode 2: Ingen forecast angivet, aktivitet lukket for medarbejder<br />
-               </span><br /><br />
+                Kode 1: Forecast overskreddet, lyserød markering. Der kan stadigvæk tastes. (tjekker afgrænsning indenf. regnskabårs / md.)<br />
+                Kode 2: Ingen forecast angivet, grå markering. Aktivitet kan ses men lukket for indtastning<br />
+                 <span style="color:#999999;">
+                Timereg. variable: resforecastMedOverskreddet<br /></span>
+               <br />
+                  <input type="checkbox" name="resforecastMedOverskreddet_tastok" value="1" <%=resforecastMedOverskreddettastokCHK %> DISABLED />Skal stadigvæk kunne taste i grå-felter.<br /><br />
                 
 
                  
@@ -2299,19 +2304,23 @@ if len(session("user")) = 0 then
           end if
           %>
 
-           <input type="checkbox" name="akt_maksforecast_treg" value="1" <%=akt_maksforecast_tregCHK %> /> <b>Adviser - Hård</b> <!--(kræver adviser vejledende er slået til)--><br />
+           <input type="checkbox" name="akt_maksforecast_treg" value="1" <%=akt_maksforecast_tregCHK %> /> <b>Adviser - Hård</b> (kræver adviser vejledende er slået til)<br />
            Forecast pr. medarb. pr. aktivitet overskreddet. (kun fakturerbare)<br />
-           Forecast kan ikke overskriddes, hvis der ikke er lagt forecast ind på aktivitet kan der ikke tastes.<br /><br />
+           Forecast kan ikke overskriddes, hvis der ikke er lagt forecast ind på aktivitet kan der ikke tastes.<br />
+           Hvis hård: grå markering. Aktivitet kan ses men lukket for indtastning. (+ alert ved overskridelse)<br />
            
-                 Afgrænsning: (gælder både Hård og Vejledende)
+               <br /><br /><b>Afgrænsning:</b> (gælder både Hård og Vejledende)
                  <select name="forcebudget_onakttreg_afgr"> 
                      <option value="0" <%=forcebudget_onakttreg_afgrSEL0 %>>Ingen afgrænsning</option>
                      <option value="1" <%=forcebudget_onakttreg_afgrSEL1 %>>Afgræns indenfor regnskabsår (se regnskabsår)</option>
                      <option value="2" <%=forcebudget_onakttreg_afgrSEL2 %>>Afgræns indenfor måned</option>
                      </select>
                      <br /><br />
-                 <input type="checkbox" name="forcebudget_onakttreg_filt_viskunmbgt" value="1" <%=forcebudget_onakttreg_filt_viskunmbgtCHK %> /> Forvalgt <b>vis</b> kun aktiviteter med forecast pr. medarb. på. 
-                <!--<br />(admin kan slå fra på timereg. + kræver "Adviser.." ovenfor er slået til)-->
+
+                 <input type="checkbox" name="forcebudget_onakttreg_filt_viskunmbgt" value="1" <%=forcebudget_onakttreg_filt_viskunmbgtCHK %> /> <b>Vis</b> kun aktiviteter med forecast pr. medarb. på. - gælder alle aktivitetstyper (viser altid interne job -1, -2)
+                 <br /> Tjekker ikke periode - Ovenstående advisering vejl. / hård bestemmer om der kan tastes på aktiviteten. <br />
+                 
+                 <!--<br />(admin kan slå fra på timereg. + kræver "Adviser.." ovenfor er slået til)-->
            
                 
           <br /><br />
@@ -2324,7 +2333,7 @@ if len(session("user")) = 0 then
           end if
           %>
 
-           <input type="checkbox" name="akt_maksbudget_treg" value="1" <%=akt_maksbudget_tregCHK %> /> <b>Aktiver alert</b> på timereg. siden, ved <b>forkalkuleret (budgetlinje på aktivitet) overskreddet.</b>  (alle aktivitetstyper med forkalk. på.)<br />
+           <input type="checkbox" name="akt_maksbudget_treg" value="1" <%=akt_maksbudget_tregCHK %> /> <b>Aktiver alert</b> på timereg. siden, ved <b>forkalkuleret timer overskreddet (budgetlinje på aktivitet) </b><br />Gælder alle aktivitetstyper med forkalk. på. <br />- IKKE MOBIL og Ugeseddel<br />
                   
           </td>
             </tr>

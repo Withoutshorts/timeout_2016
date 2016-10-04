@@ -200,7 +200,13 @@ Session.LCID = 1030
 			strDato = session("dato")
 			strMedinfo = SQLBless(Request("FM_medinfo"))
 			strBrugergruppe = Request("FM_bgruppe")
+
+            if len(trim(Request("FM_medtype"))) <> 0 then
 			strMedarbejdertype = Request("FM_medtype")
+            else
+            strMedarbejdertype = 0
+            end if
+
 			strEmail = Request("FM_email")
 			
 			madr = replace(request("FM_adr"), "'", "''")

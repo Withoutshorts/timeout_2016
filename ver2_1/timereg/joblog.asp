@@ -1827,7 +1827,7 @@ slutDatoKriSQL = strAar_slut &"/"& strMrd_slut &"/"& strDag_slut
 				        <h4>Uge: <%=datepart("ww", oRec("tdato"), 2,2)&" - "& datepart("yyyy", oRec("tdato"), 2,2)%> - <%=oRec("tmnavn") %> (<%=oRec("tmnr") %>)</h4>
 				        
 				        <%
-				        call erugeAfslutte(datepart("yyyy", oRec("tdato"), 2,2), datepart("ww", oRec("tdato"), 2,2), oRec("tmnr")) 
+				        call erugeAfslutte(datepart("yyyy", oRec("tdato"), 2,2), datepart("ww", oRec("tdato"), 2,2), oRec("tmnr", SmiWeekOrMonth)) 
 				        %>
 				        
 				        <%if showAfsuge = 0 then %>
@@ -2019,7 +2019,7 @@ slutDatoKriSQL = strAar_slut &"/"& strMrd_slut &"/"& strDag_slut
                             end if
 
                 
-                            call erugeAfslutte(useYear, usePeriod, oRec("mid"))
+                            call erugeAfslutte(useYear, usePeriod, oRec("mid"), SmiWeekOrMonth)
 		        
 		                    'Response.Write "smilaktiv: "& smilaktiv & "<br>"
 		                    'Response.Write "SmiWeekOrMonth: "& SmiWeekOrMonth &" ugeNrAfsluttet: "& ugeNrAfsluttet & " tjkDag: "& tjkDag &"<br>"
@@ -3168,7 +3168,7 @@ if x <> 0 then
 
                         %>
 
-                         <form action="joblog.asp?media=export&ver=1&cur=0&<%=pnteksLnk%>" target="_blank" method="post"> 
+                         <form action="joblog.asp?media=export&ver=0&cur=0&<%=pnteksLnk%>" target="_blank" method="post"> 
                         <input type="submit" id="sbm_csv" value="CSV. fil eksport >>" style="font-size:9px;" />
                                </form>
 
@@ -3180,7 +3180,7 @@ if x <> 0 then
                             <br />
                         <input type="submit" id="sbm_csv" value="Kasserapport Local Cur. >>" style="font-size:9px;" />
                         <%case else %>
-                        <form action="joblog.asp?media=export&ver=1&cur=0&<%=pnteksLnk%>" target="_blank" method="post"> 
+                        <form action="joblog.asp?media=export&ver=0&cur=0&<%=pnteksLnk%>" target="_blank" method="post"> 
                         <input type="submit" id="sbm_csv" value="CSV. fil eksport >>" style="font-size:9px;" />
                         <%end select%>
 

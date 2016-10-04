@@ -300,7 +300,8 @@ if len(strLicenskey) <> 0 then
 		strConnThis = "driver={MySQL ODBC 3.51 Driver};server=localhost; Port=3306; uid=outzource;pwd=SKba200473;database=timeout_infowdemo;"
 	case "2.307-2709-MB064" 'Accounting ApS
 		lto = "acc"
-		strConnThis = "driver={MySQL ODBC 3.51 Driver};server=localhost; Port=3306; uid=to_outzource2;pwd=SKba200473;database=timeout_acc;"
+        strConnThis = "timeout_acc64"
+		'strConnThis = "driver={MySQL ODBC 3.51 Driver};server=localhost; Port=3306; uid=to_outzource2;pwd=SKba200473;database=timeout_acc;"
 	case "2.157-0410-SB065" 'Elkær
 		lto = "elkar"
 		strConnThis = "driver={MySQL ODBC 3.51 Driver};server=localhost; Port=3306; uid=to_outzource2;pwd=SKba200473;database=timeout_elkar;"
@@ -408,13 +409,15 @@ if len(strLicenskey) <> 0 then
 		strConnThis = "driver={MySQL ODBC 3.51 Driver};server=localhost; Port=3306; uid=to_outzource2;pwd=SKba200473;database=timeout_optionone;"
 	case "2.3508-1812-TO096" 'FK ejendomme 
 	    lto = "fk"
-		strConnThis = "driver={MySQL ODBC 3.51 Driver};server=localhost; Port=3306; uid=to_outzource2;pwd=SKba200473;database=timeout_fk;"
+        strConnThis = "timeout_fk64"
+		'strConnThis = "driver={MySQL ODBC 3.51 Driver};server=localhost; Port=3306; uid=to_outzource2;pwd=SKba200473;database=timeout_fk;"
 	case "2.2008-2112-TO097" 'Immenso 
 	    lto = "immenso"
 		strConnThis = "driver={MySQL ODBC 3.51 Driver};server=localhost; Port=3306; uid=to_outzource2;pwd=SKba200473;database=timeout_immenso;"
 	case "2.2009-0105-TO098" 'Essens 
 	    lto = "essens"
-		strConnThis = "driver={MySQL ODBC 3.51 Driver};server=localhost; Port=3306; uid=to_outzource2;pwd=SKba200473;database=timeout_essens;"
+		'strConnThis = "driver={MySQL ODBC 3.51 Driver};server=localhost; Port=3306; uid=to_outzource2;pwd=SKba200473;database=timeout_essens;"
+        strConnThis = "timeout_essens64"
 	case "2.2009-1201-TO099" 'Svendborg Architects
 	    lto = "svea"
 		strConnThis = "driver={MySQL ODBC 3.51 Driver};server=localhost; Port=3306; uid=to_outzource2;pwd=SKba200473;database=timeout_svea;"
@@ -489,10 +492,11 @@ if len(strLicenskey) <> 0 then
         'response.redirect "http://timeout2.outzource.dk/timeout_xp/wwwroot/ver2_14/login.asp?key=2.2010-1004-TO118&lto=wwf"
     case "2.2010-0311-TO119" 'Mærsk Insttuttet
 	    lto = "mmmi"
-		strConnThis = "driver={MySQL ODBC 3.51 Driver};server=localhost; Port=3306; uid=to_outzource2;pwd=SKba200473;database=timeout_mmmi;"
-     case "2.2010-0311-TO119BAK" 'Mærsk Insttuttet
-	    lto = "mmmi"
-		strConnThis = "driver={MySQL ODBC 3.51 Driver};server=localhost; Port=3306; uid=to_outzource2;pwd=SKba200473;database=timeout_mmmi_BAK;"
+        strConnThis = "timeout_mmmi64"
+		'strConnThis = "driver={MySQL ODBC 3.51 Driver};server=localhost; Port=3306; uid=to_outzource2;pwd=SKba200473;database=timeout_mmmi;"
+    'case "2.2010-0311-TO119BAK" 'Mærsk Insttuttet
+	'   lto = "mmmi"
+	'	strConnThis = "driver={MySQL ODBC 3.51 Driver};server=localhost; Port=3306; uid=to_outzource2;pwd=SKba200473;database=timeout_mmmi_BAK;"
     case "2.2010-2004-TO116_c" 'Epinion CATI
 	    lto = "epi_cati"
         strConnThis = "driver={MySQL ODBC 3.51 Driver};server=localhost; Port=3306; uid=to_outzource2;pwd=SKba200473;database=timeout_epi_catitest;"
@@ -707,7 +711,8 @@ if len(strLicenskey) <> 0 then
 
     case "2Z2015-1125-TO164" 'Adra
 	lto = "adra"
-	strConnThis = "driver={MySQL ODBC 3.51 Driver};server=localhost; Port=3306; uid=to_outzource2;pwd=SKba200473;database=timeout_adra;"
+	'strConnThis = "driver={MySQL ODBC 3.51 Driver};server=localhost; Port=3306; uid=to_outzource2;pwd=SKba200473;database=timeout_adra;"
+    strConnThis = "timeout_adra64"
 
     case "9K2015-1202-TO165" 'CC Accounting
 	lto = "cc"
@@ -729,7 +734,18 @@ if len(strLicenskey) <> 0 then
     case "9K2016-2908-TO169" 'Dyrenes Velfærd
 	lto = "dv"
 	strConnThis = "timeout_dv64"
+
+    case "9K2016-2709-TO169" 'Plan Danmark
+	lto = "plan"
+	strConnThis = "timeout_plan64"
     
+    case "9K2016-0310-TO170" 'Syddansk EU
+	lto = "sdeo"
+	strConnThis = "timeout_sdeo64"
+
+    case "9K2016-0410-TO171" 'Epinion 2017
+	lto = "epi_2017"
+	strConnThis = "timeout_epi201764"
 
         
     

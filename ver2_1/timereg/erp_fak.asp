@@ -4424,7 +4424,7 @@ if len(session("user")) = 0 then
                 <option value="20" <%=msSEL20 %>>20%</option>
                 <option value="22" <%=msSEL22 %>>22%</option>
                 <option value="0" <%=msSEL0 %>>0%</option>
-            </select>
+            </select> 
           
 
 		</td>

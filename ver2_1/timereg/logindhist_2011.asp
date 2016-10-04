@@ -192,7 +192,7 @@ if len(session("user")) = 0 then
     
      %>
 
-	     <!--#include file="../inc/regular/header_lysblaa_inc.asp"-->
+	<!--#include file="../inc/regular/header_lysblaa_inc.asp"-->
     <SCRIPT language=javascript src="inc/smiley_jav.js"></script>
     <SCRIPT language=javascript src="inc/logindhist_2011_jav.js"></script>
   
@@ -359,7 +359,7 @@ if len(session("user")) = 0 then
 
         if cint(smilaktiv) <> 0 AND media <> "print" then
 
-         call medrabSmilord(usemrn)
+         'call medrabSmilord(usemrn) '** Sættes på virksomhedsniveau
          call smiley_agg_fn()
          call meStamdata(usemrn)
 
@@ -367,10 +367,10 @@ if len(session("user")) = 0 then
           call afsluttedeUger(year(now), usemrn)
 
         '** Er kriterie for afslutuge mødt? Ifht. medatype mindstimer og der må ikke være herreløse timer fra. f.eks TT
-         call timeKriOpfyldt(lto, sidsteUgenrAfsl, meType, afslutugekri, usemrn)
+         call timeKriOpfyldt(lto, sidsteUgenrAfsl, meType, usemrn, SmiWeekOrMonth)
 
-
-         call timerDenneUge(usemrn, lto, tjkTimeriUgeSQL, akttypeKrism)
+         timerdenneuge_dothis = 0
+         call timerDenneUge(usemrn, lto, tjkTimeriUgeSQL, akttypeKrism, timerdenneuge_dothis, SmiWeekOrMonth)
      
        
          if cint(SmiWeekOrMonth) = 0 then 'uge aflsutning
@@ -379,13 +379,13 @@ if len(session("user")) = 0 then
          weekMonthDate = datepart("m", varTjDatoUS_son,2,2)
          end if
 
-         call erugeAfslutte(datepart("yyyy", varTjDatoUS_son,2,2), weekMonthDate, usemrn) 
+         call erugeAfslutte(datepart("yyyy", varTjDatoUS_son,2,2), weekMonthDate, usemrn, SmiWeekOrMonth) 
 
          
 
         call smileyAfslutBtn(SmiWeekOrMonth)
 
-        call ugeAfsluttetStatus(varTjDatoUS_son, showAfsuge, ugegodkendt, ugegodkendtaf) 
+        call ugeAfsluttetStatus(varTjDatoUS_son, showAfsuge, ugegodkendt, ugegodkendtaf, SmiWeekOrMonth) 
             
          
         
@@ -411,8 +411,9 @@ if len(session("user")) = 0 then
         end if
 
         
+         '** HVORFOR DENNE IGEN?
         '** tjekker om uge er afsluttet og viser afsluttet eller form til afslutning
-		call erugeAfslutte(year(s0Show_sidstedagsidsteuge), s0Show_weekMd, usemrn)
+		call erugeAfslutte(year(s0Show_sidstedagsidsteuge), s0Show_weekMd, usemrn, SmiWeekOrMonth)
       
       
       
@@ -447,9 +448,9 @@ if len(session("user")) = 0 then
             '*** Viser denne uge
             weekSelectedThis = dateAdd("d", 7, now) 
 
-	        call showsmiley(weekSelectedThis, 1)
+	        call showsmiley(weekSelectedThis, 1, usemrn, SmiWeekOrMonth)
 
-            call afslutkri(varTjDatoUS_son, tjkTimeriUgeDt, usemrn, lto)
+            call afslutkri(varTjDatoUS_son, tjkTimeriUgeDt, usemrn, lto, SmiWeekOrMonth)
 
             
                
@@ -457,7 +458,7 @@ if len(session("user")) = 0 then
             
                 
 
-	        call afslutuge(weekSelectedTjk, 1, varTjDatoUS_son, "logindhist")
+	        call afslutuge(weekSelectedTjk, 1, varTjDatoUS_son, "logindhist", SmiWeekOrMonth)
 
              
          
@@ -525,9 +526,9 @@ if len(session("user")) = 0 then
         <%if cint(smilaktiv) <> 0 AND media = "print" then 
 
            
-          call erugeAfslutte(datepart("yyyy", varTjDatoUS_son,2,2) , weekMonthDate, usemrn) 
+          call erugeAfslutte(datepart("yyyy", varTjDatoUS_son,2,2) , weekMonthDate, usemrn, SmiWeekOrMonth) 
 
-          call ugeAfsluttetStatus(varTjDatoUS_son, showAfsuge, ugegodkendt, ugegodkendtaf) 
+          call ugeAfsluttetStatus(varTjDatoUS_son, showAfsuge, ugegodkendt, ugegodkendtaf, SmiWeekOrMonth) 
 
            
 
@@ -597,7 +598,7 @@ call eksportogprint(ptop,pleft, pwdt)
 
         'response.write "weekMonthDate: "& weekMonthDate
 
-        call erugeAfslutte(sm_aar, weekMonthDate, sm_mid)
+        call erugeAfslutte(sm_aar, weekMonthDate, sm_mid, SmiWeekOrMonth)
                      
         fmlink = "ugeseddel_2011.asp?usemrn="& usemrn &"&varTjDatoUS_man="& varTjDatoUS_man &"&varTjDatoUS_son= "& varTjDatoUS_son &"&nomenu="& nomenu &"&rdir=logindhist"
         %>

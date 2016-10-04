@@ -662,6 +662,11 @@ For Each oNode in oNodes
     tsa_txt_530 = oNode.selectSingleNode("txt_530").Text
     tsa_txt_531 = oNode.selectSingleNode("txt_531").Text
     tsa_txt_532 = oNode.selectSingleNode("txt_532").Text
+    tsa_txt_533 = oNode.selectSingleNode("txt_533").Text
+
+    tsa_txt_534 = oNode.selectSingleNode("txt_534").Text
+    tsa_txt_535 = oNode.selectSingleNode("txt_535").Text
+    tsa_txt_536 = oNode.selectSingleNode("txt_536").Text
     
 next
 

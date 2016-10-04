@@ -1209,7 +1209,7 @@ function stempelurlist(medarbSel, showtot, layout, sqlDatoStart, sqlDatoSlut, ty
                 end if
 
                 'erugeAfslutte(
-                call erugeAfslutte(useYear, usePeriod, oRec("lmid"))
+                call erugeAfslutte(useYear, usePeriod, oRec("lmid"), SmiWeekOrMonth)
 		        
 		        'Response.Write "smilaktiv: "& smilaktiv & " autogk:"& autogk &"<br>"
 		        'Response.Write "SmiWeekOrMonth: "& SmiWeekOrMonth &" ugeNrAfsluttet: "& ugeNrAfsluttet & " tjkDag: "& tjkDag &" ugegodkendt: "& ugegodkendt &"<br>"
@@ -1726,7 +1726,7 @@ function stempelurlist(medarbSel, showtot, layout, sqlDatoStart, sqlDatoSlut, ty
                 end if
 
                 
-                call erugeAfslutte(useYear, usePeriod, medarbsel)
+                call erugeAfslutte(useYear, usePeriod, medarbsel, SmiWeekOrMonth)
 		        
 		        'Response.Write "smilaktiv: "& smilaktiv & "<br>"
 		        'Response.Write "SmiWeekOrMonth: "& SmiWeekOrMonth &" ugeNrAfsluttet: "& ugeNrAfsluttet & " tjkDag: "& tjkDag &"<br>"

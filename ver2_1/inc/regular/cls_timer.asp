@@ -2,19 +2,40 @@
  <%
 
 
-     '*** Timer denne uge ****'
+'*** Timer denne uge ****'
 public manTimer, tirTimer, onsTimer, torTimer, freTimer, lorTimer, sonTimer
 public manTxt, tirTxt, onsTxt, torTxt, freTxt, lorTxt, sonTxt
 public totTimerWeek
     
     
-function timerDenneUge(usemrn, lto, varTjDatoUS_man, aty_sql_typer)
+function timerDenneUge(usemrn, lto, varTjDatoUS_man, aty_sql_typer, dothis, SmiWeekOrMonth)
 
-    'response.write "her"
-    'response.flush
+     if len(trim(SmiWeekOrMonth)) <> 0 then
+     SmiWeekOrMonth = SmiWeekOrMonth
+     else
+     SmiWeekOrMonth = 0
+     end if
+
+    
+    if cint(dothis) = 1 then 'afslut uge. 
 
 
-     manTimer = 0
+            select case cint(SmiWeekOrMonth)
+            case 2 'afslut på dag -- Altid DD.
+             xhighAntalDays = 1
+             '** DD
+             varTjDatoUS_man = day(now) &"/"& month(now) &"/"& year(now)
+            case else
+             xhighAntalDays = 7
+            end select
+
+    else
+
+      xhighAntalDays = 7
+
+    end if
+
+    manTimer = 0
     tirTimer = 0
     onsTimer = 0
     torTimer = 0
@@ -30,21 +51,19 @@ function timerDenneUge(usemrn, lto, varTjDatoUS_man, aty_sql_typer)
     lorTxt = ""
     sonTxt = ""
 
-     for x = 1 to 7
+     for x = 1 to xhighAntalDays
       
 
            
-                tjkTimerTotDato = dateAdd("d", x-1, varTjDatoUS_man)
-              
+            tjkTimerTotDato = dateAdd("d", x-1, varTjDatoUS_man)
+            tjkTimerTotDato = year(tjkTimerTotDato) &"/"& month(tjkTimerTotDato) &"/"& day(tjkTimerTotDato)
 
-                tjkTimerTotDato = year(tjkTimerTotDato) &"/"& month(tjkTimerTotDato) &"/"& day(tjkTimerTotDato)
-
-                select case lto
-                case "dencker", "intranet - local", "epi", "epi_no", "epi_ab", "epi_sta", "epi_catitest"
-                timGrpBy = "tknr"
-                case else
-                timGrpBy = "tjobnr"
-                end select
+            select case lto
+            case "dencker", "intranet - local", "epi", "epi_no", "epi_ab", "epi_sta", "epi_catitest"
+            timGrpBy = "tknr"
+            case else
+            timGrpBy = "tjobnr"
+            end select
 
             strSQLtim = "SELECT ROUND(SUM(timer),2) AS sumtimer, tjobnr, tjobnavn, Tknavn FROM timer WHERE ("& aty_sql_typer &") AND tdato = '"& tjkTimerTotDato &"' AND tmnr = "& usemrn & " GROUP BY "& timGrpBy
 
@@ -156,24 +175,8 @@ end function
                     bdThis = 0
                     end if 
             
-                    'bgThis = "#EFf3FF"
-                    'select case right(mt,1) 
-                    'case 0,2,4,6,8
-                    'bgThis = "#CCCCCC" '"yellowgreen"
-                    'case 9
-                    'bgThis = "#999999" '"green"
-                    'case 2
-                    'bgThis = "#F7F7F7" '"#C2D69A"
-                    'case 0,5
-                    'bgThis = "#C4C4C4" '"#6CAE1C"
                     bgThis = "#D6Dff5"
-                    'case else
-                    'bgThis = "#8CAAE6" '"#DCF5BD"
-                    'end select
                     
-                    
-
-
                     if hgttimmtyp = 0 then
                     bgThis = "#ffffff"
                     end if

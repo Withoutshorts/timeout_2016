@@ -20,7 +20,7 @@
     <br /><br />
 <h3>TimeOut er ved at blive opdateret.</h3><br>
 <br><br>
-Vi forventer jeres <b>TimeOut er klar igen kl. ca. 21:30</b>.<br><br>
+Vi forventer jeres <b>TimeOut er klar igen om ca. 30 min. </b>.<br><br>
 Med venlig hilsen<br>
 OutZourCE
 </td>

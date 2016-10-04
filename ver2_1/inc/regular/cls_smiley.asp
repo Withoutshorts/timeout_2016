@@ -98,17 +98,21 @@ public cDateUge, cDateAfs, cDateUgeTilAfslutning, smileysttxt, smileyImg, weekaf
 
 
 public afslutugeBasisKri, afslProc, afslProcKri, weekSelectedTjk 
-function afslutkri(varTjDatoUS_son, tjkTimeriUgeDt, usemrn, lto)
+function afslutkri(varTjDatoUS_son, tjkTimeriUgeDt, usemrn, lto, SmiWeekOrMonth)
 
-        if cint(SmiWeekOrMonth) = 0 then
+        select case cint(SmiWeekOrMonth) 
+        case 0 
         weekSelectedTjk = dateAdd("d", 7, varTjDatoUS_son)
-        else
+        case 1
         varTjDatoUS_tjk = varTjDatoUS_son 'dateAdd("d", -6, varTjDatoUS_son) 'finder mandag i den valgte uge. St. dato for ugne bestemmer hvilken måned man er ved at afslutte.
         weekSelectedTjk = "1-"& month(varTjDatoUS_tjk) &"-"& year(varTjDatoUS_tjk)
-        end if
+        case 2
+        varTjDatoUS_tjk = formatdatetime(tjkTimeriUgeDt, 2)
+        weekSelectedTjk = formatdatetime(tjkTimeriUgeDt, 2) '"1-"& month(varTjDatoUS_tjk) &"-"& year(varTjDatoUS_tjk)
+        end select
 
             select case lto 
-            case "dencker", "xintranet - local"
+            case "dencker", "intranet - local"
 
                 freDagiSidsteUge = tjkTimeriUgeDt 'tjekdag(1) 'dateAdd("d", -3, tjekdag(1))
                 freDagiSidsteUge = year(freDagiSidsteUge) &"/"& month(freDagiSidsteUge) &"/"& day(freDagiSidsteUge) 
@@ -121,12 +125,15 @@ function afslutkri(varTjDatoUS_son, tjkTimeriUgeDt, usemrn, lto)
             afslutugeBasisKri = formatnumber(totalTimerPer100/60, 0) 
             case else
 
+
             call normtimerPer(usemrn, varTjDatoUS_son, 6, 0) 
             '** gns timer pr. iforhold til samlet arbejdsuge, baseret på en 5 dages arbejdsuge. ***'
             '** Således at det er underordnet om man indtaster på en tirsdag (7,5) eller en fredag (7,0) '****'
             normTimerprUge = (ntimManIgnHellig + ntimTirIgnHellig + ntimOnsIgnHellig + ntimTorIgnHellig + ntimFreIgnHellig + ntimLorIgnHellig + ntimSonIgnHellig)            
             afslutugeBasisKri = normTimerprUge
             end select
+
+
 
             if totTimerWeek > 0 AND afslutugeBasisKri > 0 then
             afslProc = formatnumber(((totTimerWeek/1)/(afslutugeBasisKri/1)) * 100, 0)
@@ -147,32 +154,45 @@ end function
 
 
 public akttypeKrism, afslutugekri, afslutugekri_proc, tjkTimeriUgeDt, tjkTimeriUgeDtDay, tjkTimeriUgeSQL, tjkTimeriUgeDtTxt, afslugeDatoTimerudenMatch
-function timeKriOpfyldt(lto, sidsteUgenrAfsl, meType, afslutugekri, usemrn)
+function timeKriOpfyldt(lto, sidsteUgenrAfsl, meType, usemrn, SmiWeekOrMonth)
 
-
-
+    'response.write "afslutugekri: " & afslutugekri & "#<br>"
+    select case cint(SmiWeekOrMonth)
+    case 0,1
     tjkTimeriUgeDt = dateAdd("d", 7, sidsteUgenrAfsl)
+    case 2
+    tjkTimeriUgeDt = sidsteUgenrAfsl
+    end select
+
     tjkTimeriUgeDtDay = datepart("w", tjkTimeriUgeDt, 2,2)
     
-    if tjkTimeriUgeDtDay <> 1 then 
-    tjkTimeriUgeDt = dateAdd("d", -(tjkTimeriUgeDtDay-1), tjkTimeriUgeDt)
-    end if
+
+    select case cint(SmiWeekOrMonth)
+    case 0,1
+
+        if tjkTimeriUgeDtDay <> 1 then 
+        tjkTimeriUgeDt = dateAdd("d", -(tjkTimeriUgeDtDay-1), tjkTimeriUgeDt)
+        end if
+
+    case 2
+        tjkTimeriUgeDt = tjkTimeriUgeDt
+    end select
      
     tjkTimeriUgeDtTxt = tjkTimeriUgeDt
 
-    select case lto
-    case "dencker" 'tjekker fra fredag i sidste uge
-          tjkTimeriUgeDt = dateAdd("d", -3, tjkTimeriUgeDt)
-    case else 
-          tjkTimeriUgeDt = tjkTimeriUgeDt
-    end select
+    'select case lto
+    'case "dencker" 'tjekker fra fredag i sidste uge
+    '      tjkTimeriUgeDt = dateAdd("d", -3, tjkTimeriUgeDt)
+    'case else 
+    '      tjkTimeriUgeDt = tjkTimeriUgeDt
+    'end select
 
     tjkTimeriUgeSQL = year(tjkTimeriUgeDt)&"/"&month(tjkTimeriUgeDt)&"/"&day(tjkTimeriUgeDt)
     'response.write "tjkTimeriUgeDt: "& tjkTimeriUgeDt & "sidsteUgenrAfsl: "& sidsteUgenrAfsl & "tjkTimeriUgeDtDay: "&tjkTimeriUgeDtDay & " varTjDatoUS_man: "& datepart("w", varTjDatoUS_man, 2,2) & "<br><br>"
         
               
               
-       '** Er der kriterier for antal timer derskal være opnået i% før uge må afsluttes? *'
+            '** Er der kriterier for antal timer derskal være opnået i% før uge må afsluttes? *'
             afslutugekri = 0
             afslutugekri_proc = 0
             strSQlmt = "SELECT afslutugekri, afslutugekri_proc FROM medarbejdertyper WHERE id = "& meType
@@ -209,20 +229,23 @@ function timeKriOpfyldt(lto, sidsteUgenrAfsl, meType, afslutugekri, usemrn)
 end function
 
 
-function ugeAfsluttetStatus(tjkDato, showAfsuge, ugegodkendt, ugegodkendtaf)
+function ugeAfsluttetStatus(tjkDato, showAfsuge, ugegodkendt, ugegodkendtaf, SmiWeekOrMonth)
 
      'if session("mid") = 1 then
     'response.write "tjkDato:" & tjkDato
      'end if
-        'response.write "SmiWeekOrMonth XXX: "& SmiWeekOrMonth & " varTjDatoUS_son: "& varTjDatoUS_son & " ugeNrStatus: "& ugeNrStatus
+     'response.write "SmiWeekOrMonth XXX: "& SmiWeekOrMonth & " varTjDatoUS_son: "& varTjDatoUS_son & " ugeNrStatus: "& ugeNrStatus
 
               if cint(showAfsuge) = 0 then 
     
-                        if cint(SmiWeekOrMonth) = 0 then
+                        select case cint(SmiWeekOrMonth)
+                        case 0 
                         periodeTxt = tsa_txt_005 & " "& datepart("ww", tjkDato, 2 ,2)
-                        else
+                        case 1
                         periodeTxt = monthname(datepart("m", tjkDato, 2 ,2))
-                        end if%>
+                        case 2
+                        periodeTxt = tjkDato
+                        end select%>
               
 
 
@@ -263,13 +286,15 @@ function ugeAfsluttetStatus(tjkDato, showAfsuge, ugegodkendt, ugegodkendtaf)
 
         
                          <span style="color:<%=ugstFtc%>; background-color:<%=ugstCol%>; padding:5px;">
-                         <%=ugegodkendtStatusTxt %>
+                         <%=ugegodkendtStatusTxt %> XXX
                         </span>
 
                             <%if cint(ugegodkendt) = 2 then 'afvist 
                               response.write "<br><br><div style=""color:#999999; padding:0px;"">Når en periode er afvist, skal Du blot rette afviste registreringer, og sende mail (klik på navnet ovenfor) til din godkender om at dine registreringer er rettet. <br>Du skal IKKE godkende perioden på ny.<br><br>"_
                               &"<b>Kommentar fra godkender:</b><br>"& ugegodkendtTxt &"</div>"
                               end if %>
+
+
 
             <%end if 
 
@@ -415,11 +440,14 @@ function godkendugeseddel(fmlink, usemrn, varTjDatoUS_man, rdir)
     
 function smileyAfslutBtn(SmiWeekOrMonth)
 
-             if cint(SmiWeekOrMonth) = 0 then
+             select case cint(SmiWeekOrMonth) 
+             case 0 
              afslutTxt = tsa_txt_345
-             else
+             case 1
              afslutTxt = tsa_txt_426
-             end if %>
+             case 2
+             afslutTxt =  tsa_txt_533 '"Afslut dag"
+             end select %>
           
         	<span style="color:#000000; background-color:#DCF5BD; padding:5px;"><a href="#" id="s1_k">[+] <%=afslutTxt %></a></span>&nbsp;
 
@@ -441,10 +469,9 @@ end sub
 '** Afslut uge funktionen '*****************
 '*********************************************
 public erDetteuge53
-function afslutuge(weekSelected, visning, tjkDag7, rdir)
+function afslutuge(weekSelected, visning, tjkDag7, rdir, SmiWeekOrMonth)
     
     'response.write "weekSelected: "& weekSelected
-    
     'varTjDatoUS_man = dateAdd("d", -7, varTjDatoUS_son) 
 
 
@@ -459,6 +486,7 @@ function afslutuge(weekSelected, visning, tjkDag7, rdir)
     %>
 
 
+<%=menu2015lnk%>timereg_akt_2006.asp?func=opdatersmiley&fromsdsk=<%=fromsdsk%>&rdir=<%=rdir %>&varTjDatoUS_man=<%=varTjDatoUS_man %>&usemrn=<%=usemrn%>
 <form action="<%=menu2015lnk%>timereg_akt_2006.asp?func=opdatersmiley&fromsdsk=<%=fromsdsk%>&rdir=<%=rdir %>&varTjDatoUS_man=<%=varTjDatoUS_man %>&usemrn=<%=usemrn%>" method="POST">
 <table border='0' cellspacing='0' cellpadding='0' width="100%">
 
@@ -470,20 +498,24 @@ function afslutuge(weekSelected, visning, tjkDag7, rdir)
    
 	<%
 	
-        if cint(SmiWeekOrMonth) = 0 then 'uge aflsutning
+        select case cint(SmiWeekOrMonth)
+        case 0 'uge aflsutning
 
-	    if visning = 0 then 'denne uge
-        sidsteUgeTxt = "valgte uge"
-        sidstedagisidsteuge = dateadd("d", -7, weekSelected)
-        else
-        sidsteUgeTxt = "sidste uge"
-        sidstedagisidsteuge = dateadd("d", -7, weekSelected)
-        end if
+	        if visning = 0 then 'denne uge
+            sidsteUgeTxt = "valgte uge"
+            sidstedagisidsteuge = dateadd("d", -7, weekSelected)
+            else
+            sidsteUgeTxt = "sidste uge"
+            sidstedagisidsteuge = dateadd("d", -7, weekSelected)
+            end if
 
-        else
+        case 1
         sidsteUgeTxt = "sidste måned"
         sidstedagisidsteuge = weekSelected 'dateadd("d", -31, weekSelected)
-        end if
+        case 2
+        sidsteUgeTxt = "sidste dag"
+        sidstedagisidsteuge = year(weekSelected) & "-" & month(weekSelected) & "-" & day(weekSelected) 'dateadd("d", -31, weekSelected)
+        end select
 	    
 	 
 
@@ -492,16 +524,19 @@ function afslutuge(weekSelected, visning, tjkDag7, rdir)
 
        
         erDetteuge53 = 0
-        if cint(SmiWeekOrMonth) = 0 then 'uge aflsutning
+        select case cint(SmiWeekOrMonth) 
+        case 0 'uge aflsutning
 		sidstedagiuge = datepart("ww", sidstedagisidsteuge, 2, 2)
 
             if datePart("ww", sidstedagisidsteuge, 2,2) = 53 then
             erDetteuge53 = 1 
             end if
 
-        else
+        case 1
         sidstedagiuge = datepart("m", sidstedagisidsteuge, 2, 2)
-        end if
+        case 2
+        sidstedagiuge = sidstedagisidsteuge
+        end select
 
         'if session("mid") = 1 then
         'response.write "HER: sidstedagisidsteuge: "& sidstedagisidsteuge & " weekSelected: "& weekSelected &" detteaar "& detteaar & "sidstedagiuge: " & sidstedagiuge & " erDetteuge53: " & erDetteuge53
@@ -510,8 +545,10 @@ function afslutuge(weekSelected, visning, tjkDag7, rdir)
         '** finder kriterie for rettidig afslutning
         call rettidigafsl(sidstedagisidsteuge)
 
+        'Response.write "sidstedagiuge: " & sidstedagiuge & "<br>"
+
         '** tjekker om uge er afsluttet og viser afsluttet eller form til afslutning
-		call erugeAfslutte(detteaar, sidstedagiuge, usemrn)
+		call erugeAfslutte(detteaar, sidstedagiuge, usemrn, SmiWeekOrMonth)
         
         '** Viser liste over afsluttede uger
         call afsluttedeUger(detteaar, usemrn)
@@ -631,7 +668,7 @@ function afslutuge(weekSelected, visning, tjkDag7, rdir)
      
                 <%if datepart("ww", sidstedagisidsteuge, 2, 2) >= 1 then ' kan ikke afslutte uge 1? eller
                 %>
-                <!--<span style="font-size:11px; font-weight:lighter; color:#999999;"><%=tsa_txt_409 %>:</span>-->
+                <span style="font-size:11px;"><%=tsa_txt_409 %>:</span><br />
                 <span style="font-size:14px; font-weight:bolder;"> 
 
                    <!--
@@ -642,7 +679,8 @@ function afslutuge(weekSelected, visning, tjkDag7, rdir)
                   
                
                
-                <%if cint(SmiWeekOrMonth) = 0 then 'uge aflsutning %>
+                <%select case cint(SmiWeekOrMonth) 
+                case 0 'uge aflsutning %>
                 <%=tsa_txt_005 %>: <%=datePart("ww", sidstedagisidsteAfsluge, 2,2) %>, 
                    
                    <%if datePart("ww", sidstedagisidsteAfsluge, 2,2) = 53 then%> 
@@ -651,15 +689,28 @@ function afslutuge(weekSelected, visning, tjkDag7, rdir)
                    <%=datePart("yyyy", sidstedagisidsteAfsluge, 2,2) %>
                    <%end if %>
 
-                   <%else %>
+                <%case 1 'MD %>
                 <%=monthname(datePart("m", sidstedagisidsteAfsluge, 2,2)) %>, <%=datePart("yyyy", sidstedagisidsteAfsluge, 2,2) %>
-                <%end if %>
+                <%case 2 'Dag %>
+                <%=weekdayname(weekday(sidstedagisidsteAfsluge)) & " d. " & sidstedagisidsteAfsluge %>
+                <%end select %>
                 </span> 
         
+                    <%select case cint(SmiWeekOrMonth) 
+                    case 0, 1 
+                    %>
+
                     <%if datepart("ww", tjkDag7, 2 ,2) <> datepart("ww", sidstedagisidsteAfsluge, 2 ,2) AND thisfile <> "ugeseddel_2011.asp" then  %>
                     (<a href="<%=menu2015lnk%>timereg_akt_2006.asp?showakt=1&strdag=<%=day(sidstedagisidsteAfsluge)%>&strmrd=<%=month(sidstedagisidsteAfsluge)%>&straar=<%=year(sidstedagisidsteAfsluge)%>" class="vmenu">se uge <%=datePart("ww", sidstedagisidsteAfsluge, 2,2) %>..</a>)</span> 
                     <%end if %> <br />
-                <%
+                        
+                    <%
+                    case 2
+                       %><br /><%    
+                    end select%>
+                    
+                    <%
+
 
                  '*** MÅ TEAMLEDER/Bruger AFSLUTTE uge for medarb ***
                  maaAfslutteUge = 0
@@ -696,6 +747,9 @@ function afslutuge(weekSelected, visning, tjkDag7, rdir)
 
                    
                     
+                %>
+                <div style="padding:3px;">
+                <%
                 if (cint(afslutugekri) = 0 OR cint(level) = 1) AND cint(SmiWeekOrMonth) = 0 AND lto <> "tec" AND lto <> "esn" then 
                 'Må ikke kune afslutte alle uger når der er Kriterier opstillet på min. timer pr. uge
                 'Eller hvis man afslutter på månedsbasis (afslut alle måender til d.d funktion ikke klar)%>
@@ -705,23 +759,31 @@ function afslutuge(weekSelected, visning, tjkDag7, rdir)
                 <%end if %>
 
                  
-                <span>
+                   
                     
-                    <%if cint(SmiWeekOrMonth) = 0 then 'uge aflsutning %>
-                    <%=tsa_txt_089%>
-                    <%else %>
-                    <%=tsa_txt_431 &" "& monthname(datePart("m", sidstedagisidsteAfsluge, 2,2)) %>, <%=datePart("yyyy", sidstedagisidsteAfsluge, 2,2) %>
-                    <%end if 
+                    <%'if cint(SmiWeekOrMonth) = 0 then 'uge aflsutning %>
+                    <%'=tsa_txt_089%>
+                    <%'else %>
+                    <%'=tsa_txt_431 &" "& monthname(datePart("m", sidstedagisidsteAfsluge, 2,2)) =datePart("yyyy", sidstedagisidsteAfsluge, 2,2) %>
+                    <%'end if 
                 
-                     if cint(SmiWeekOrMonth) = 0 then
-                     afslutTxtbtn = tsa_txt_345
-                     else
+                     select case cint(SmiWeekOrMonth) 
+                     case 0
+                     afslutTxtbtn = tsa_txt_431 '&" "& tsa_txt_345
+                     case 1
                      afslutTxtbtn = tsa_txt_431 
-                     end if 
+                     case 2
+                     afslutTxtbtn = tsa_txt_431 '&" "& left(tsa_txt_275, 3) 'Dag
+                     end select
 
-                  if cint(maaAfslutteUge) = 1 AND cint(afslutugekri) <> 10 then%>
-                 <br /><div style="padding:3px;"><input type="submit" value="<%=afslutTxtbtn &" "& tsa_txt_432 %> >>"></div>
+                 
+
+                 if cint(maaAfslutteUge) = 1 AND cint(afslutugekri) <> 10 then%>
+                   
+                 <input type="submit" value="<%=afslutTxtbtn &" "& tsa_txt_432 %> >>">
                 <%end if %>
+
+                </div>
                 
          
                 <br />
@@ -830,7 +892,7 @@ function afslutuge(weekSelected, visning, tjkDag7, rdir)
 
 
 public antalAfsDato, useDateSmileyTjkWeek, antalAfsl
-function showsmiley(weekSelected, visning)
+function showsmiley(weekSelected, visning, usemrn, SmiWeekOrMonth)
 
  '***************************** Smiley ******************************
 	%>
@@ -967,11 +1029,14 @@ function showsmiley(weekSelected, visning)
        
 		<h4><%=meNavn &" ["& meInit %>] <span style="color:#999999; font-size:9px; font-weight:lighter;"> - <%=tsa_txt_404 %>: <%=formatdatetime(meAnsatDato, 2) %></span><br />
 		 <span style="color:#000000; font-size:11px;  font-weight:lighter;">
-             <%if cint(SmiWeekOrMonth) = 0 then 'uge aflsutning %>
+             <%select case cint(SmiWeekOrMonth)
+             case 0 'uge aflsutning %>
              <%=tsa_txt_411 &" "& lcase(tsa_txt_005) &" "& datepart("ww", useDateSmileyTjk2, 2, 2) &" "& year(useDateSmileyTjk2)%>
-             <%else %>
+             <%case 1 %>
              <%=tsa_txt_411 &" "& monthname(datepart("m", useDateSmileyTjk2, 2, 2)) &" "& year(useDateSmileyTjk2)%>
-             <%end if %>
+             <%case 2 %>
+             <%=tsa_txt_411 &" "& useDateSmileyTjk2 %>
+             <%end select %>
             
 
 		 </span></h4>
@@ -1491,7 +1556,9 @@ end if
 		        'Response.flush
 		        
 		        oConn.execute(strSQLafslut)
-		        
+		       
+
+                'response.end
 		        
 		        
 		        
@@ -1648,15 +1715,16 @@ end if
 
 
 
-        '********** Er uge afsluttet??? ******'
-	public ugeNrAfsluttet, showAfsuge, cdAfs, ugegodkendt, ugegodkendtaf, ugegodkendtTxt, ugegodkendtdt, showAfsugeTxt
+    '********** Er uge afsluttet??? ******'
+	
+    public showAfsugeTxt
     public showAfsugeTxt_tot, ugegodkendtTxt_tot, btnstyle, ugeNrStatus
-    function erugeAfslutte(sm_aar, sm_sidsteugedag, sm_mid)
+
+    public ugeNrAfsluttet, showAfsuge, cdAfs, ugegodkendt, ugegodkendtaf, ugegodkendtTxt, ugegodkendtdt
+    function erugeAfslutte(sm_aar, sm_sidsteugedag, sm_mid, SmiWeekOrMonth)
             
-            'call smileyAfslutSettings()
-
-
-
+          
+              'call smileyAfslutSettings()
              ugegodkendt = 0
              showAfsuge = 1
              ugeNrAfsluttet = "1-1-2044"
@@ -1664,28 +1732,44 @@ end if
 
 
              'if session("mid") = 1 then
-             'response.write "<br>Thisfile: "& thisfile  &" HER: sm_sidsteugedag: "& sm_sidsteugedag & " SmiWeekOrMonth "& SmiWeekOrMonth & "sm_aar: "& sm_aar
+             response.write "<br>Thisfile: "& thisfile  &" HER: sm_sidsteugedag: "& sm_sidsteugedag & " SmiWeekOrMonth "& SmiWeekOrMonth & "sm_aar: "& sm_aar
              'end if    
 
-             if cint(SmiWeekOrMonth) = 0 then
+             select case cint(SmiWeekOrMonth)
+             case 0 
              periodeKri = "WEEK(uge, 3)"
-             else
+             case 1
              periodeKri = "MONTH(uge)"
-             end if
+             case 2
+             periodeKri = "uge"
+             end select
+             
+            
+            if cint(SmiWeekOrMonth) <> 2 then
 
-            if cint(sm_sidsteugedag) = 53 then 'tjekker for gammel SQL server 3.23
-            strSQLgl323 = " OR " & periodeKri &" = 0" 
+                if cint(sm_sidsteugedag) = 53 then 'tjekker for gammel SQL server 3.23
+                strSQLgl323 = " OR " & periodeKri &" = 0" 
+                sqlDatoKri = "("& periodeKri &" = "& sm_sidsteugedag &" "& strSQLgl323 &")"
+                else
+                strSQLgl323 = ""
+                sqlDatoKri = periodeKri &" = "& sm_sidsteugedag 
+                end if
+
+                
+
             else
-            strSQLgl323 = ""
+            
+                sqlDatoKri = periodeKri &" = '"& sm_sidsteugedag & "'"    
+
             end if
 
 
             strSQLafslut = "SELECT status, afsluttet, uge, ugegodkendt, ugegodkendtaf, ugegodkendtTxt, ugegodkendtdt FROM ugestatus WHERE "_
-            &" ("& periodeKri &" = "& sm_sidsteugedag &" "& strSQLgl323 &") AND YEAR(uge) = "& sm_aar &" AND mid = "& sm_mid 
+            &" "& sqlDatoKri &" AND YEAR(uge) = "& sm_aar &" AND mid = "& sm_mid 
 		    
             'if session("mid") = 1 then
-            'Response.write "<br>"& strSQLafslut & "<br><br>" '& "//" & sm_sidsteugedag & "//"& sldatoSQL
-		    'Response.flush
+            Response.write "<br>"& strSQLafslut & "<br><br>" '& "//" & sm_sidsteugedag & "//"& sldatoSQL
+		    Response.flush
             'end if
             
             oRec3.open strSQLafslut, oConn, 3 

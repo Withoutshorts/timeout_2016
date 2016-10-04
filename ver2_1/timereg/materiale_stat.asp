@@ -1250,7 +1250,7 @@ if len(session("user")) = 0 then
                                 end if
 
                 
-                                call erugeAfslutte(useYear, usePeriod, oRec("usrid"))
+                                call erugeAfslutte(useYear, usePeriod, oRec("usrid"), SmiWeekOrMonth)
 		        
 		                        'Response.Write "smilaktiv: "& smilaktiv & "<br>"
 		                        'Response.Write "SmiWeekOrMonth: "& SmiWeekOrMonth &" ugeNrAfsluttet: "& ugeNrAfsluttet & " tjkDag: "& tjkDag &"<br>"
@@ -1314,11 +1314,11 @@ if len(session("user")) = 0 then
 	                <%end if%>
 	                <tr bgcolor="<%=bgthis%>">
 		                <td height=20>&nbsp;</td>
-		                <td style="width:200px;">
-		                <%=left(oRec("kkundenavn"), 15)%> (<%=oRec("kkundenr")%>)<br>
+		                <td style="width:200px; white-space:nowrap;">
+		                    <%=left(oRec("kkundenavn"), 15)%> (<%=oRec("kkundenr")%>)<br>
                             <b><%=oRec("jobnavn")%> </b>
                             <%if editok = 1 AND print <> "j" then%>
-                            <input type="text" name="FM_jobnr" value="<%=oRec("jobnr")%>" style="width:60px; font-size:9px;" />
+                            <br><input type="text" name="FM_jobnr" value="<%=oRec("jobnr")%>" style="width:60px; font-size:9px;" />
                             <%else %>
                             &nbsp;(<%=oRec("jobnr")%>)
                             <%end if %>
@@ -1341,8 +1341,12 @@ if len(session("user")) = 0 then
 		                strExport = strExport &";"  
 		                end if
 		                %>
-		                <br><span style="font-size:10px;"><%=oRec("medarbejdernavn")%> (<%=oRec("mnr")%>) - <%=oRec("init")%></span><br />
-                        <span style="font-size:8px; color:#999999;"><%=oRec("editor")%></span></td>
+		                <br><span style="font-size:10px;"><%=left(oRec("medarbejdernavn"), 20)%> 
+                            <%if len(trim(oRec("init"))) <> 0 then %>
+                             &nbsp;[<%=oRec("init")%>]
+                            <%end if %>
+                            </span><br />
+                        <span style="font-size:8px; color:#999999;"><%=left(oRec("editor"), 20)%></span></td>
                 		
 		                <%
 		                strExport = strExport & Chr(34) & oRec("medarbejdernavn")& Chr(34) &";"& Chr(34) & oRec("mnr") & Chr(34) &";"& Chr(34) & oRec("init") & Chr(34) &";"
@@ -1479,11 +1483,11 @@ if len(session("user")) = 0 then
                 		
 		                <td align=right>
 		                <%if len(sprisTot) <> 0 then%>
-		                <b><%=formatnumber(sprisTot, 2)%></b>
+		                <%=formatnumber(sprisTot, 2)%>
 		                <%end if%></td>
                 		
                 		
-		                <td><b><%=basisValISO %></b></td>
+		                <td><%=basisValISO %></td>
 		                <td>
                             &nbsp;</td>
 		                <td>&nbsp;</td>
@@ -1524,17 +1528,18 @@ if len(session("user")) = 0 then
         	    medarbSQlKri = replace(medarbSQlKri, "m.mid", "mf.usrid")
         		
 		        strSQL = "SELECT mf.id, mf.matvarenr AS varenr, mg.navn AS gnavn, mf.matenhed AS enhed, "_
-		        &" mf.matnavn AS navn, sum(mf.matantal) AS antal, mf.dato, mf.editor, "_
+		        &" mf.matnavn AS navn, COALESCE(sum(mf.matantal)) AS antal, mf.dato, mf.editor, "_
 		        &" mf.matkobspris, mf.matsalgspris, mf.jobid, mf.matgrp, mf.usrid, mf.forbrugsdato, "_
 		        &" m.antal AS palager, m.minlager, m.id, mf.matid, mg.av "_
 		        &" FROM materiale_forbrug mf"_
 		        &" LEFT JOIN materialer m ON (m.id = mf.matid) "_
 		        &" LEFT JOIN materiale_grp mg ON (mg.id = mf.matgrp) "_
-		        &" WHERE ("&jobKri&") AND ("& medarbSQlKri &") "& strDatoKri &" GROUP BY mf.navn, mf.matgrp, mf.matgrp ORDER BY mg.gnavn, mf.matnavn"
+		        &" WHERE ("&jobKri&") AND ("& medarbSQlKri &") "& strDatoKri &" GROUP BY mf.matnavn, mf.matgrp, mf.matgrp ORDER BY mg.navn, mf.matnavn"
         		
 		        'Response.write strSQL
 		        'Response.flush
 		        x = 0
+                antalGT = 0
 		        oRec.open strSQL, oConn, 3
 		        while not oRec.EOF
         		
@@ -1588,6 +1593,7 @@ if len(session("user")) = 0 then
 		        <%
 		        strExport = strExport & "xx99123sy#z" & oRec("gnavn") &";"&oRec("navn")&";"&oRec("varenr")&";"&oRec("antal")&";"&enh&";"&oRec("palager")&";"&oRec("minlager")&";"
         		
+                antalGT = antalGT + oRec("antal")
         		Response.flush
 		        x = x + 1
 		        oRec.movenext
@@ -1599,13 +1605,17 @@ if len(session("user")) = 0 then
 		        if x = 0 then%>
         		
 		        <tr bgcolor="#ffffff">
-			        <td colspan=8 height=50 style="padding:20px;">
+			        <td colspan=6 height=50 style="padding:20px;">
 			        <font color="red"><b>!</b></font>&nbsp;Der er ikke registreret materialer der matcher de valgte søgekriterier.</td>
 		        </tr>
-		        <%end if%>
-		        <tr bgcolor="#5582d2">
-			        <td colspan=8>&nbsp;</td>
+                <%else %>
+                     <tr bgcolor="#ffffff">
+			        <td colspan="4" align="right"><b><%=formatnumber(antalGT, 2) %></b></td>
+                         <td>&nbsp;</td>
+                         <td>&nbsp;</td>
 		        </tr>
+		        <%end if%>
+		       
 		        </table>
 		        </div>
         	
@@ -1947,7 +1957,7 @@ if len(session("user")) = 0 then
                                 end if
 
                 
-                                call erugeAfslutte(useYear, usePeriod, oRec("mid"))
+                                call erugeAfslutte(useYear, usePeriod, oRec("mid"), SmiWeekOrMonth)
 		        
 		                        'Response.Write "smilaktiv: "& smilaktiv & "<br>"
 		                        'Response.Write "SmiWeekOrMonth: "& SmiWeekOrMonth &" ugeNrAfsluttet: "& ugeNrAfsluttet & " tjkDag: "& tjkDag &"<br>"

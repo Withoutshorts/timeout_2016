@@ -1052,10 +1052,16 @@ if session("user") = "" then
                                              projektgruppe9 = 1
                                              projektgruppe10 = 1
 
-                                             
+                                             select case lto
+                                             case "plan"
+                                             strSQLstatusKri = " (jobstatus = 1 OR jobstatus = 3)"
+                                             case else
+                                             strSQLstatusKri = " (jobstatus = 1)"
+                                             end select
+
                                              strSQLjob = "SELECT jobnavn, jobnr, id "_
                                              &", projektgruppe1, projektgruppe2, projektgruppe3, projektgruppe4, projektgruppe5, projektgruppe6, projektgruppe7, projektgruppe8, projektgruppe9, projektgruppe10  "_
-                                             &" FROM job WHERE jobstatus = 1 AND (risiko > -1 OR risiko = -3) ORDER BY jobnavn" 
+                                             &" FROM job WHERE "& strSQLstatusKri &" AND (risiko > -1 OR risiko = -3) ORDER BY jobnavn" 
                                              
                                             oRec.open strSQLjob, oConn, 3
                                             while not oRec.EOF 

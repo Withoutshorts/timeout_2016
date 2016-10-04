@@ -378,7 +378,7 @@
                 end if
 
                 
-                call erugeAfslutte(useYear, usePeriod, usemrn)
+                call erugeAfslutte(useYear, usePeriod, usemrn, SmiWeekOrMonth)
 		        
 		        'Response.Write "smilaktiv: "& smilaktiv & "<br>"
 		        'Response.Write "SmiWeekOrMonth: "& SmiWeekOrMonth &" ugeNrAfsluttet: "& ugeNrAfsluttet & " tjkDag: "& tjkDag &"<br>"
@@ -774,7 +774,7 @@ public strMedarbOptionsHTML
 
         
                 
-                call erugeAfslutte(useYear, usePeriod, medid)
+                call erugeAfslutte(useYear, usePeriod, medid, SmiWeekOrMonth)
 		        
 		        'Response.Write "smilaktiv: "& smilaktiv & "<br>"
 		        'Response.Write "SmiWeekOrMonth: "& SmiWeekOrMonth &" ugeNrAfsluttet: "& ugeNrAfsluttet & " tjkDag: "& tjkDag &"<br>"

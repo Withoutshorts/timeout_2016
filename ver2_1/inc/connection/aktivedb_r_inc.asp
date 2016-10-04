@@ -11,12 +11,20 @@ function aktivedb(x)
 		strConnect_aktiveDB = "timeout_start64"  
 		case 23
 		strConnect_aktiveDB = "timeout_dencker64"
-		case 107
+        case 55
+		strConnect_aktiveDB = "timeout_acc64"
+        case 87
+        strConnect_aktiveDB = "timeout_fk64"
+		case 89
+        strConnect_aktiveDB = "timeout_essens64"
+        case 107
 		strConnect_aktiveDB = "timeout_epi64"
 		case 108
 		strConnect_aktiveDB = "timeout_jttek64"
 		case 109
 		strConnect_aktiveDB = "timeout_wwf64"
+        case 110
+		strConnect_aktiveDB = "timeout_mmmi64"
         case 119
         strConnect_aktiveDB = "timeout_synergi164"
         case 123
@@ -37,6 +45,8 @@ function aktivedb(x)
         strConnect_aktiveDB = "timeout_esn64"
         case 155
         strConnect_aktiveDB = "timeout_wilke64"
+        case 156
+        strConnect_aktiveDB = "timeout_adra64"
         case 158 
         strConnect_aktiveDB = "timeout_krj64"
         case 159
@@ -45,6 +55,12 @@ function aktivedb(x)
         strConnect_aktiveDB = "timeout_bf64"
         case 161
         strConnect_aktiveDB = "timeout_dv64"
+        case 162
+        strConnect_aktiveDB = "timeout_plan64"
+        case 163
+        strConnect_aktiveDB = "timeout_sdeo64"
+        case 164
+        strConnect_aktiveDB = "timeout_epi201764"
 
            
 

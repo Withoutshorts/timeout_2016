@@ -132,6 +132,7 @@ if len(session("user")) = 0 then
         topSel5 = ""
         topSel10 = ""
         topSel20 = ""
+        topSel50 = ""
 
         if len(trim(request("FM_toplist"))) <> 0 then
         
@@ -143,6 +144,8 @@ if len(session("user")) = 0 then
         topSel10 = "SELECTED"
         case 20
         topSel20 = "SELECTED"
+        case 50
+        topSel50 = "SELECTED"
         end select
          
 	    else
@@ -166,6 +169,23 @@ if len(session("user")) = 0 then
     end if 
 	
 
+
+        
+
+        if len(request("FM_toplist_kunder_jobbudget_fak")) <> 0 then
+        toplist_kunder_jobbudget_fak = request("FM_toplist_kunder_jobbudget_fak")
+        else
+        toplist_kunder_jobbudget_fak = 0
+        end if
+    
+
+        if cint(toplist_kunder_jobbudget_fak) = 0 then
+        toplist_kunder_jobbudget_fak0SEL = "SELECTED" 
+        toplist_kunder_jobbudget_fak1SEL = ""
+        else
+        toplist_kunder_jobbudget_fak1SEL = "SELECTED"
+        toplist_kunder_jobbudget_fak0SEL = ""
+        end if
         
 
         if len(request("FM_toplist_kunder_lev")) <> 0 then
@@ -384,7 +404,7 @@ if len(session("user")) = 0 then
    
 
 	<tr>
-		<td valign=top><br /><b>År:</b>&nbsp;
+		<td valign=top colspan="2"><br /><b>År:</b>&nbsp;
 	<select name="seomsfor" id="seomsfor" style="width:85px;" onchange="submit();">
 			
 			<%
@@ -411,6 +431,7 @@ if len(session("user")) = 0 then
                 <option value="5" <%=topSel5 %>>5</option>
                 <option value="10" <%=topSel10 %>>10</option>
                 <option value="20" <%=topSel20 %>>20</option>
+                <option value="50" <%=topSel50 %>>50</option>
                 
             </select> 
             &nbsp;Vis for:
@@ -420,11 +441,23 @@ if len(session("user")) = 0 then
                
             </select> 
 
-            
-            <span style="color:#999999;"><br />Fordelt efter faktureret omsætning, alle job uanset status.</span>
+            <%select case lto
+            case "nt"
+                ordreTxt = "Ordreoms. (orderdate)"
+             case else
+                ordreTxt = "Joboms. (job st.dato)"
+            end select%>
 
-	</td>
-	<td align=right>
+            &nbsp;Fordelt efter: 
+            <select name="FM_toplist_kunder_jobbudget_fak">
+                 <option value="0" <%=toplist_kunder_jobbudget_fak0SEL %>>D1: Faktureret oms.</option>
+                <option value="1" <%=toplist_kunder_jobbudget_fak1SEL %>>A1: <%=ordreTxt %></option>
+
+            </select>
+       </td>
+        </tr>
+     <tr>
+	<td colspan="2" align=right valign="bottom">
 	&nbsp;
 	<%if request("print") <> "j" then%>
         <br />
@@ -524,12 +557,14 @@ if len(session("user")) = 0 then
                     if cint(toplist_kunder_lev) = 1 then 'Vis for leve
                     ktypeKri = " AND useasfak = 6"
                     else 'Vis for kunder : default
-                    ktypeKri = " AND (useasfak = 0 OR useasfak = 1)"
+                    ktypeKri = " AND (useasfak = 0)" 'OR useasfak = 1 VIS IKKE NT's egne
                     end if
 
                     
-                    
+                    '*' Vis ud fra faktureret top 20/10/5
                     '("& jobidFakSQLkri &") AND
+
+                    if cint(toplist_kunder_jobbudget_fak) = 0 then
                     strSQLf = "SELECT f.fakadr, IF(faktype = 0, COALESCE(sum(f.beloeb * (f.kurs/100)),0), COALESCE(sum(f.beloeb * -1 * (f.kurs/100)),0)) AS beloeb, kkundenavn, kkundenr FROM fakturaer AS f "_
                     &" LEFT JOIN kunder AS k ON (kid = fakadr "& ktypeKri &") "_
                     &" WHERE "_
@@ -537,6 +572,15 @@ if len(session("user")) = 0 then
                     &" OR (brugfakdatolabel = 1 AND YEAR(labeldato) = '"& strYear &"')) AND "_
 					&" (faktype = 0) AND shadowcopy <> 1 "& ktypeKri &" GROUP BY fakadr ORDER BY beloeb DESC LIMIT "& topList 
         
+                    else
+            
+                    strSQLf = "SELECT COALESCE(sum(jo_bruttooms)) AS beloeb, kkundenavn, kkundenr, jobknr AS fakadr FROM job AS j "_
+                    &" LEFT JOIN kunder AS k ON (kid = jobknr "& ktypeKri &") "_
+                    &" LEFT JOIN valutaer AS v ON (v.id = j.valuta) "_  
+                    &" WHERE (YEAR(jobstartdato) = '"& strYear &"') AND risiko > -1 GROUP BY jobknr ORDER BY beloeb DESC LIMIT "& topList 
+                    end if
+
+                    '* v.kurs/100) ER jo_bruttooms ALTD omrenget til DKK på ordrerne
                     'OR faktype = 1
                 
                     'if session("mid") = 1 then
@@ -1149,6 +1193,9 @@ for k = 0 TO antalK 'antal kunder
 
              select case lto
              case "nt", "xintranet - local"
+
+            'Ændret til orderdate
+
              strSQL1 = "SELECT jobtpris, jobnavn, jobnr, budgettimer, fastpris, jobstartdato, jobslutdato, fakturerbart, udgifter, jo_bruttooms, orderqty, shippedqty, "_
              &" sales_price_pc, cost_price_pc, tax_pc, freight_pc, cost_price_pc_valuta, sales_price_pc_valuta, jobstatus, jo_dbproc"_
 			 &" FROM job AS j WHERE ("& jobIdSQLKri &") AND YEAR(dt_confb_etd) = "& strYear &" AND MONTH(dt_confb_etd) = "& m &" "& jobstKri &" "& visprkundeSQLjobKri &" ORDER BY jobnavn" 'tilbud
@@ -1343,12 +1390,9 @@ for k = 0 TO antalK 'antal kunder
                     <br> Alle beløb er i HELE <%=basisValISO_f8 %>. excl. moms<br>
 
 
-                   <%if cint(visprkunde) = 1 then %>
-                   <span style="color:#999999;">Omsætning pr. kunde er sorteret efter fakturabeløb før kreditnotaer, men vist incl. kreditnotaer, fordelt på top 5,10 eller 20 kunder.</span><br />
-    
-                <% end if 
+                  
 
-
+                <%
 
 	            tTop = 0
 	            tLeft = 0
@@ -2219,8 +2263,12 @@ if media <> "export" then %>
 Hvis <b>Key account</b> er slået til, er tallene baseret på alle medarbejdere på de job, hvor den <b>valgte medarbejder er jobansvarlig / kundeansvarlig.</b>
 <br><br>
 
+<%if cint(visprkunde) = 1 then %>
+<span style="color:red;">D1 udfaktureret omsætning pr. kunde er sorteret efter fakturabeløb før kreditnotaer, men vist incl. kreditnotaer, fordelt på top 5,10 eller 20 kunder.</span><br />
+<% end if 
 
-    <%
+
+    
 	if request("print") <> "j" then
 	
 	ptop = 0

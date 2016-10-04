@@ -153,103 +153,11 @@
 
                
 
-                '** Afgræns indenfor budgetår
-                if cint(ibudgetaar) = 1 then
-
-                    if ibudgetmd <> 1 then '7: 1 juli - 30 juni
-
-                        'Beregn evt. days inmonth
-                       
-                        if md >= 7 then 'jul-dec sammeår
-                        strAfgSQL = "AND ((aar = "& aar &" AND md >= "& ibudgetmd &") OR (aar = "& aar+1 &" AND md < "& ibudgetmd &"))"
-                        strAfgSQLtimer = "AND (tdato BETWEEN '"& aar &"-"& ibudgetmd &"-01' AND '"& aar+1 &"-"& ibudgetmd-1 &"-30')"
-                        else
-                        strAfgSQL = "AND ((aar = "& aar-1 &" AND md >= "& ibudgetmd &") OR (aar = "& aar &" AND md < "& ibudgetmd &"))"
-                        strAfgSQLtimer = "AND (tdato BETWEEN '"& aar-1 &"-"& ibudgetmd &"-01' AND '"& aar &"-"& ibudgetmd-1 &"-30')"
-                        end if
-                    
-                      else
-
-                        strAfgSQL = "AND (aar = "& aar &")"
-                        strAfgSQLtimer = "AND (tdato BETWEEN '"& aar &"-01-01' AND '"& aar &"-12-31')"
-                
-                    end if
-
-                else
-
-                    strAfgSQL = ""
-                    strAfgSQLtimer = ""
-        
-                end if 
-
-                feltTxtVal = 0
-                
-                '** Tjekker resouceforecast
-                strSQLtimfc = "SELECT COALESCE(SUM(timer), 0) AS fctimer FROM ressourcer_md WHERE aktid = "& aktid & " AND medid = "& usemrn &" "& strAfgSQL
-                
-
-                fctimer = 0
-                oRec5.open strSQLtimfc, oConn, 3
-                while not oRec5.EOF
-               
-                fctimer = oRec5("fctimer")
-                 
-                oRec5.movenext
-                wend
-                oRec5.close
+                call ressourcefc_tjk(ibudgetaar, ibudgetmd, aar, md, usemrn, aktid, timerTastet)
 
                 
-                'SKAL DER KUNNE TASTES HVIS DER IKKE ER ANGIVET FORECAST = NEJ HÅRD STYRRING?
-                timerBrugt = 0
-               
-        
-                
-                        '** Finder timeforbrug på AKTIVITET total på tværs
-                        '** HUSK BUDGET ÅR
-                        strSQLtimbudget = "SELECT COALESCE(SUM(timer), 0) AS timerbrugt FROM timer WHERE taktivitetid = "& aktid &" AND tmnr = "& usemrn &" "& strAfgSQLtimer &" GROUP BY taktivitetid"
-                        t = 0
-                        
-                        oRec5.open strSQLtimbudget, oConn, 3
-                        while not oRec5.EOF
-               
-                        timerBrugt = oRec5("timerbrugt")
-                 
-                        t = 1
-                        oRec5.movenext
-                        wend
-                        oRec5.close
-
-        
-               
-
-               if len(trim(fctimer)) <> 0 AND fctimer <> 0 then
-               fctimer = replace(fctimer, ".", ",") * 1
-               else
-               fctimer = 0
-               end if
-
-               
-               if len(trim(timerBrugt)) <> 0 AND timerBrugt <> 0 then
-               timerBrugt = replace(timerBrugt, ".", ",") * 1
-               else
-               timerBrugt = 0
-               end if
-               
-               if len(trim(timerTastet)) <> 0 AND timerTastet <> 0 then
-               timerTastet = replace(timerTastet, ".", ",") * 1
-               else
-               timerTastet = 0
-               end if
-
-              
-               if timerTastet*1 > 0 then
-               feltTxtVal = (fctimer*1 - (timerTastet*1 + timerBrugt*1))
-               end if
-        
-               
-
-
-                response.write feltTxtVal
+             
+                response.write feltTxtValFc
                 response.end
 
 
@@ -931,11 +839,11 @@
             tjekdag(x) = dateAdd("d", x-1, stDato)
             next
 
+            '*** Vis kun aktiviteter med forecast på
+             call aktBudgettjkOn_fn()
             '*** Skal akt lukkes for timereg. hvis forecast budget er overskrddet..?
-             '** MAKS budget / Forecast
+             '** MAKS budget / Forecast incl. peridoe afgrænsning
             call akt_maksbudget_treg_fn()
-            call aktBudgettjkOn_fn()
-            
 
             '** Norm tid for ugen'**
             call normtimerPer(usemrn, tjekdag(1), 6, 0) 
@@ -1152,7 +1060,7 @@
 
 
                                             '*** Tilføjer alle dem med timebudget / forecast på
-                                            '*** INDEN FOR FY?
+                                            '*** INDEN FOR FY - akt vises, men advisering styrer om der kan tastes
                                             if cint(viskunForecast) = 1 then
                                                 strSQLaktIdFc = "SELECT aktid FROM ressourcer_md WHERE aktid <> 0 AND medid = "& usemrn  
                                     
@@ -1171,7 +1079,7 @@
                                             end if
 
 
-                                             '*** Tilføjer ALTID alle dem fra intern
+                                             '*** Tilføjer ALTID alle dem fra intern 
                                             select case lto
                                             case "oko", "adra", "xintranet - local"
                                                
@@ -1361,43 +1269,7 @@
                                             '*************************************************************************************************
                                             
                                             
-                                            '*** Henter kun aktiviteter med forecast på ****'
-                                            forecastAktids = " AND (a.id = 0"
-                                            if cint(viskunForecast) = 1 then
-                                              
-                                                kforCastSQL = "SELECT aktid FROM ressourcer_md WHERE medid = " & usemrn & " AND jobid = "& jobid &" GROUP BY medid, aktid"
-                                                oRec5.open kforCastSQL , oConn, 3
-                                                while not oRec5.EOF 
-                                                forecastAktids = forecastAktids & " OR a.id = "&oRec5("aktid") 
-                                                oRec5.movenext
-                                                wend
-                                                oRec5.close       
-
-                                                
-                                                if cint(risiko) < 0 then '+ alle interne
-
-                                                kforCastSQL = "SELECT a.id AS aktid FROM aktiviteter AS a WHERE a.job = "& jobid &" GROUP BY id"
-                                                oRec5.open kforCastSQL , oConn, 3
-                                                while not oRec5.EOF 
-                                                forecastAktids = forecastAktids & " OR a.id = "&oRec5("aktid") 
-                                                oRec5.movenext
-                                                wend
-                                                oRec5.close    
-
-
-                                                end if
-
-
-
-                                            end if
-
-                                            forecastAktids = forecastAktids & ")"
-
-                                            if cint(viskunForecast) = 1 then
-                                            forecastAktids = forecastAktids
-                                            else
-                                            forecastAktids = ""
-                                            end if
+                                            call allejobaktmedFC(viskunForecast, usemrn, jobid, risiko)
 
                                             '*************************************************************************************************
 
@@ -2179,6 +2051,8 @@
                                                                         '*******************************************
                                                                        
                                                                                     
+                                                                                if cint(aktBudgettjkOn_afgr) = 1 then
+
                                                                                     '*** Afgræans indenfor regnskabsår // Starter dwet md 1 eller 7 (kontrolpanel)
                                                                                     if month(useDateStSQL) < month(aktBudgettjkOnRegAarSt) then                                                                          
                                                                                        useRgnArr =  dateAdd("yyyy", -1, useDateStSQL)
@@ -2189,13 +2063,24 @@
 
                                                                                     end if
                                                                      
+                                                                                 else
+
+                                                                                                            
+                                                                                       useRgnArr = useDateStSQL
+                                                                                       useRgnArrNext =  dateAdd("yyyy", 1, useDateStSQL)
+                                                                                    
+                                                                                 end if
 
 
-                                                                        if cint(aktBudgettjkOn_afgr) <> 0 then
+
+                                                                        select case cint(aktBudgettjkOn_afgr) 
+                                                                        case 1 'regnskabsår
                                                                         sqlBudgafg = " AND ((md >= "& month(aktBudgettjkOnRegAarSt) & " AND aar = "& year(useRgnArr) & ") OR (md < "& month(aktBudgettjkOnRegAarSt) & " AND aar = "& year(useRgnArrNext) & "))" 
-                                                                        else
+                                                                        case 2 'måned
+                                                                        sqlBudgafg = " AND (md = "& month(aktBudgettjkOnRegAarSt) & " AND aar = "& year(useRgnArr) & ")" 
+                                                                        case else
                                                                         sqlBudgafg = ""
-                                                                        end if
+                                                                        end select
 
                                                                         strSQLres = "SELECT IF(aktid <> 0, SUM(timer), 0) AS restimer, IF(aktid = 0, SUM(timer), 0) AS restimeruspec FROM ressourcer_md WHERE ((jobid = "& job_jid &" AND aktid = "& job_aid &" AND medid = "& usemrn &") OR (jobid = "& job_jid &" AND aktid = 0 AND medid = "& usemrn &")) "& sqlBudgafg &"  GROUP BY aktid, medid" 
                                                                         'if session("mid") = 1 then
@@ -2221,8 +2106,10 @@
                                                                         '** kun akt. der tæller med i daglig timereg.                        **
                                             
                                                                        
-
+                                                                        'AFgrænsning
                                                                         if cint(aktBudgettjkOn_afgr) <> 0 then
+
+                                                                                    if cint(aktBudgettjkOn_afgr) = 1 then 'ÅR 1
 
                                                                                     if month(useDateStSQL) < month(aktBudgettjkOnRegAarSt) then                                                                          
                                                                                        useRgnArrYear =  year(dateAdd("yyyy", -1, useDateStSQL))
@@ -2241,11 +2128,30 @@
                                                                                        useRgnArrNextSQLDate = useRgnArrYear &"/"& month(useRgnArrDt) &"/"& day(useRgnArrDt)
 
                                                                                     end if
+
+
+
+                                                                                     else 'MD 2
                                                                     
+                                                                                       useRgnArrYear =  year(useDateStSQL)
+                                                                                       useRgnArrSQLDate = useRgnArrYear &"/"& month(aktBudgettjkOnRegAarSt) &"/"& day(aktBudgettjkOnRegAarSt)
 
-                                                                                    SQLdatoKriTimer = " AND tdato BETWEEN '"& useRgnArrSQLDate &"' AND '"& useRgnArrNextSQLDate &"'"
+                                                                           
+                                                                                     end if
 
-                                                                        end if
+
+
+                                                                           end if
+
+
+                                                                                select case cint(aktBudgettjkOn_afgr) 
+                                                                                case 1 'regnskabsår
+                                                                                SQLdatoKriTimer = " AND tdato BETWEEN '"& useRgnArrSQLDate &"' AND '"& useRgnArrNextSQLDate &"'"
+                                                                                case 2 'måned
+                                                                                SQLdatoKriTimer = " AND month(tdato) = month('"& useRgnArrSQLDate & "') AND month(tdato) = year('"& useRgnArrSQLDate &"')" 
+                                                                                case else
+                                                                                SQLdatoKriTimer = ""
+                                                                                end select
 
                                                                       
 
@@ -2257,7 +2163,8 @@
                                                                         '** Real. timer. Bruges også til balance på ressource ofrecast
                                                                        
                                                                             strSQLtmnr = "SELECT SUM(timer) AS timermnr FROM timer WHERE taktivitetid = "& job_aid & " AND tmnr = "& usemrn &" "& SQLdatoKriTimer &" GROUP BY taktivitetid"
-                                                                        
+                                                                            'response.write strSQLtmnr
+                                                                            'response.flush
                                                                        
                                                                             oRec2.open strSQLtmnr, oConn, 3
                                                                             if not oRec2.EOF then  
@@ -6060,7 +5967,7 @@
 	'************ Opdater Smiley **************************' (Bør får sin egen plads / side, da den kan afsluttes fra flere siders)
 	'******************************************************'
 	 if func = "opdatersmiley" then
-	 
+
      call smiley_agg_fn()
 
      call opdaterSmiley
@@ -7973,7 +7880,7 @@
      if smilaktiv <> 0 AND showakt <> 0 AND cint(projektgrpOK) <> 0 then
 
 
-        call medrabSmilord(usemrn)
+        'call medrabSmilord(usemrn) '** Sættes på virksomhedsniveau
         call smiley_agg_fn()
         call smileyAfslutSettings()
 
@@ -7983,11 +7890,11 @@
           call afsluttedeUger(year(now), usemrn)
 
          '** Er kriterie for afslutuge mødt? Ifht. medatype mindstimer og der må ikke være herreløse timer fra. f.eks TT
-         call timeKriOpfyldt(lto, sidsteUgenrAfsl, meType, afslutugekri, usemrn)
+         call timeKriOpfyldt(lto, sidsteUgenrAfsl, meType, usemrn, SmiWeekOrMonth)
 
     
-
-         call timerDenneUge(usemrn, lto, tjkTimeriUgeSQL, akttypeKrism)
+         timerdenneuge_dothis = 0
+         call timerDenneUge(usemrn, lto, tjkTimeriUgeSQL, akttypeKrism, timerdenneuge_dothis, SmiWeekOrMonth)
      
            'response.Write "SmiWeekOrMonth: "& SmiWeekOrMonth
 
@@ -7997,7 +7904,7 @@
          weekMonthDate = datepart("m", tjekdag(7),2,2)
          end if
 
-         call erugeAfslutte(datepart("yyyy", tjekdag(7),2,2), weekMonthDate, usemrn) 
+         call erugeAfslutte(datepart("yyyy", tjekdag(7),2,2), weekMonthDate, usemrn, SmiWeekOrMonth) 
 
 
         %>
@@ -8014,7 +7921,7 @@
 
              call smileyAfslutBtn(SmiWeekOrMonth)
 
-             call ugeAfsluttetStatus(tjekdag(7), showAfsuge, ugegodkendt, ugegodkendtaf) %>
+             call ugeAfsluttetStatus(tjekdag(7), showAfsuge, ugegodkendt, ugegodkendtaf, SmiWeekOrMonth) %>
            
             
          
@@ -8064,7 +7971,7 @@
 
         
         '** tjekker om uge er afsluttet og viser afsluttet eller form til afslutning
-		call erugeAfslutte(year(s0Show_sidstedagsidsteuge), s0Show_weekMd, usemrn)
+		call erugeAfslutte(year(s0Show_sidstedagsidsteuge), s0Show_weekMd, usemrn, SmiWeekOrMonth)
       
        
         'if session("mid") = 1 then
@@ -8099,8 +8006,7 @@
             '*** Auto popup ThhisWEEK now SMILEY
 	        if cint(smilaktiv) = 1 then%>
 	        <div id="s0" style="position:relative; left:20px; top:142px; width:725px; visibility:<%=smVzb%>; display:<%=smDsp%>; z-index:2; background-color:#FFFFFF; padding:20px; border:0px #CCCCCC solid;">
-	      
-                 <%
+	       <%
                
            '*** Viser sidste uge
             'weekSelected = tjekdag(7)
@@ -8108,17 +8014,17 @@
             '*** Viser denne uge
             weekSelectedThis = dateAdd("d", 7, now) 'tjekdag(7)
 
-	        call showsmiley(weekSelectedThis, 1)
+	        call showsmiley(weekSelectedThis, 1, usemrn, SmiWeekOrMonth)
 
             
-            call afslutkri(tjekdag(7), tjkTimeriUgeDt, usemrn, lto)
+            call afslutkri(tjekdag(7), tjkTimeriUgeDt, usemrn, lto, SmiWeekOrMonth)
 
 
             if cint(afslutugekri) = 0 OR ((cint(afslutugekri) = 1 OR cint(afslutugekri) = 2) AND cint(afslProcKri) = 1) OR cint(level) = 1 then 
             
                 
 
-	        call afslutuge(weekSelectedTjk, 1, tjekdag(7), "")
+	        call afslutuge(weekSelectedTjk, 1, tjekdag(7), "", SmiWeekOrMonth)
 
              
          
@@ -9897,7 +9803,8 @@
        
     <% '** Henter timer i valgte uge ***'
     'response.write "<hr>"
-    call timerDenneUge(usemrn, lto, varTjDatoUS_man, aty_sql_realhours)
+    timerdenneuge_dothis = 0
+    call timerDenneUge(usemrn, lto, varTjDatoUS_man, aty_sql_realhours, timerdenneuge_dothis, SmiWeekOrMonth)
         
 
         %>

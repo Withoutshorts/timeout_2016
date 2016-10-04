@@ -5,6 +5,7 @@
 <!--#include file="../xml/tsa_xml_inc.asp"-->
 <!--#include file="../xml/erp_fak_xml_inc.asp"-->
 
+<!--#include file="../xml/dashboard_xml_inc.asp"-->
 
 
 
@@ -45,7 +46,7 @@
 <!--#include file="global_func3.asp"-->
 <!--#include file="global_func4.asp"-->
 
-
+<!--#include file="cls_ressource.asp"-->
 
 
 
@@ -428,7 +429,7 @@ function teamleder_flad_fn()
 end function
 
 
-
+'** Hård styrring FORECAST. Der må ikke overskriddes
 public akt_maksbudget_treg, akt_maksforecast_treg
 function akt_maksbudget_treg_fn()
 
@@ -804,7 +805,7 @@ function ersmileyaktiv()
 	
 end function
 
-function medrabSmilord(usemid)
+function medrabSmilord(usemid) '** Sættes på virksomhedsniveua / Bruges ikke mere. Medarbejdere bliver altid oprettet = 1
 	strSQL = "SELECT smilord FROM medarbejdere WHERE mid = "& usemid
 	oRec.open strSQL, oConn, 3 
 	if not oRec.EOF then
@@ -814,7 +815,34 @@ function medrabSmilord(usemid)
 end function
 
 
+public lcid_sprog_Val 
+function lcid_sprog(usemid)
+'*** Sætter lokal dato/kr format. *****
+    strSQL = "SELECT sprog FROM medarbejdere WHERE mid = " & usemid
 
+        oRec.open strSQL, oConn, 3
+        if not oRec.EOF then
+        sprog = oRec("sprog")
+        end if
+        oRec.close
+        
+
+
+        select case sprog
+        case 1 '//sprog/dk"
+        Session.LCID = 1030
+        case 2 '//sprog/uk"
+        Session.LCID = 2057
+        case 3 '"//sprog/se"
+        Session.LCID = 1053 
+        case else
+        Session.LCID = 1030
+        end select
+
+        lcid_sprog_Val = Session.LCID
+        
+
+end function
 
 
 '** Timeregside ***

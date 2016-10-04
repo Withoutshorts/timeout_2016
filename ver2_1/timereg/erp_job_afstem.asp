@@ -1057,8 +1057,10 @@ call sidemsgId2(itop,ileft,iwdt,iId,idsp,ivzb)
 			&" fakdato BETWEEN '"& sqlSTdato &"' AND '" & sqlSLUTdato &"') "& interneSQLkri &" AND shadowcopy <> 1 "& strSQLKjobWH &" "_
 			&" GROUP BY f.faktype, f.fid "
 			
-			'Response.Write strSQL2
+            'if session("mid") = 1 then
+			'Response.Write "<br><br><br>HER: "& strSQL2
 			'Response.flush
+            'end if
 			
 			faktimerKunde(x) = 0
 			fakbeloebKunde(x) = 0
@@ -1072,14 +1074,28 @@ call sidemsgId2(itop,ileft,iwdt,iId,idsp,ivzb)
 			
 			call beregnValuta(oRec2("fakbeloeb"),oRec2("fakkurs"),100)
 			nyFakbel = valBelobBeregnet
+
+              if oRec2("faktype") <> 1 then
+			  fakbeloebKunde_this = fakbeloebKunde_this + nyFakbel 
+			  else
+			  fakbeloebKunde_this = fakbeloebKunde_this -(nyFakbel) 
+			  end if
+
 			
-			if oRec2("faktype") <> 1 then
-			faktimerKunde_this = faktimerKunde_this + oRec2("faktimer")
-			fakbeloebKunde_this = fakbeloebKunde_this + nyFakbel 
-			else
-			faktimerKunde_this = faktimerKunde_this -(oRec2("faktimer"))
-			fakbeloebKunde_this = fakbeloebKunde_this -(nyFakbel) 
-			end if
+            if isNull(oRec2("faktimer")) <> true then
+
+			    if oRec2("faktype") <> 1 then
+			    faktimerKunde_this = faktimerKunde_this + oRec2("faktimer")
+			    else
+			    faktimerKunde_this = faktimerKunde_this - (oRec2("faktimer"))
+			    end if
+
+            else
+
+                faktimerKunde_this = faktimerKunde_this 
+			  
+
+            end if
 
                         
                          if visjoblogPer = 1 AND oRec2("jobid") <> 0 then '** Joblog Følger datointerval

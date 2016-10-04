@@ -4416,7 +4416,7 @@ if len(session("user")) = 0 then
     select case lto
     case "epi", "epi_no", "epi_sta", "intranet - local", "epi_ab", "epi_cati", "epi_uk"
 	virksomheds_proc = 50
-	syncslutdato = 1
+	syncslutdato = 0 '1
     case else
     virksomheds_proc = 0
 	syncslutdato = 0
@@ -7134,7 +7134,7 @@ end select '*** Step %>
 			else
 			    
 
-                if instr(jobnr_sog, ">") > 0 OR instr(jobnr_sog, "<") > 0 OR instr(jobnr_sog, "-") > 0 then
+                if instr(jobnr_sog, ">") > 0 OR instr(jobnr_sog, "<") > 0 OR instr(jobnr_sog, " - ") > 0 then
            
                 if instr(jobnr_sog, ">") > 0 then
                 sogeKri = sogeKri &" (j.jobnr > "& replace(trim(jobnr_sog), ">", "") &" "
@@ -7144,8 +7144,8 @@ end select '*** Step %>
                 sogeKri = sogeKri &" (j.jobnr < '"& replace(trim(jobnr_sog), "<", "") &"' "
                 end if
 
-                if instr(jobnr_sog, "-") > 0 then
-                jobnr_sogArr = split(jobnr_sog, "-")
+                if instr(jobnr_sog, " - ") > 0 then
+                jobnr_sogArr = split(jobnr_sog, " - ")
                
                 for t = 0 to 1
                 
@@ -7162,7 +7162,7 @@ end select '*** Step %>
 
                 else
 
-                sogeKri = " (j.jobnr LIKE '"& jobnr_sog &"' OR j.jobnavn LIKE '"& jobnr_sog &"%' OR j.id LIKE '"& jobnr_sog &"' OR Kkundenavn LIKE '"& jobnr_sog &"%' OR Kkundenr LIKE '"& jobnr_sog &"'"
+                sogeKri = " (j.jobnr LIKE '"& jobnr_sog &"' OR j.jobnavn LIKE '"& jobnr_sog &"%' OR j.id LIKE '"& jobnr_sog &"' OR Kkundenavn LIKE '"& jobnr_sog &"%' OR Kkundenr LIKE '"& jobnr_sog &"' OR rekvnr LIKE '"& jobnr_sog &"'"
 			
 
                 end if
@@ -7345,10 +7345,10 @@ end select '*** Step %>
    
 
 	<tr bgcolor="#FFFFFF">
-		<td colspan=2><br /><b>Søg på jobnr, jobnavn ell. kunde:</b><br />
+		<td colspan=2><br /><b>Søg på jobnr, jobnavn, rekv.nr ell. kunde:</b><br />
 		<input type="text" name="jobnr_sog" id="jobnr_sog" value="<%=show_jobnr_sog%>" style="width:433px; border:2px #6CAE1C solid;">&nbsp;
 		<br />
-        (% = wildcard) Brug ">", "<" ell. "-" til at søge efter jobnr i et interval.<br />
+        (% = wildcard) Brug ">", "<" ell. " - " til at søge efter jobnr i et interval. (luft omkring " - ")<br />
             <input id="FM_sogakt" name="FM_sogakt" type="checkbox" value="1" <%=sogaktCHK%> /> Vis kun job hvor søgekriterie indgår i en aktivitet på jobbet. 
 
         <br /><br /><br />
