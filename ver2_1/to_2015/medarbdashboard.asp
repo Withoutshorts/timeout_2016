@@ -1160,7 +1160,7 @@
                         <p class="row-stat-label"><%=dsb_txt_074 %></p>
                         <h3 class="row-stat-value"><%=formatnumber(medarbSelDBindexGT, 2)%> <span style="font-size:14px;">DKK</span></h3>
                         <!--<span class="label label-succes row-stat-badge"><%=formatnumber(jo_db2_proc, 0)%> %</span> -->
-                          <br /> <span style="font-size:11px; color:#999999;"> [ Timer * (timepris - Kost.) * <%=dsb_txt_012 %> ]</span>
+                          <br /> <span style="font-size:11px; color:#999999;"> [ <%=dsb_txt_075 %> <%=dsb_txt_012 %> ]</span>
 
                      </div> <!-- /.row-stat -->
          
@@ -1173,9 +1173,9 @@
                          <br /> <span style="font-size:11px; color:#999999;">[ <%=dsb_txt_014 %> / <%=dsb_txt_013 %> ]</span>
                          <br /><br />
                          <%=dsb_txt_014 %>: <%=formatnumber(ntimper, 2) %> <%=dsb_txt_072 %><br />
-                         Timer: <%=formatnumber(medarbSelHoursGT, 2) %> <%=dsb_txt_072 %><br />
-                         Heraf fakturerbare: <b><%=formatnumber(faktimerGTselmedarb, 2) %> <%=dsb_txt_072 %></b><br />
-                         Forecasttimer: <%=formatnumber(indexFc, 2) %> <%=dsb_txt_072 %><br />
+                         <%=dsb_txt_076%> <%=formatnumber(medarbSelHoursGT, 2) %> <%=dsb_txt_072 %><br />
+                         <%=dsb_txt_077%> <b><%=formatnumber(faktimerGTselmedarb, 2) %> <%=dsb_txt_072 %></b><br />
+                         <%=dsb_txt_078%> <%=formatnumber(indexFc, 2) %> <%=dsb_txt_072 %><br />
                          <span style="font-size:11px; color:#999999;"><%=dsb_txt_079 %></span>
                         
                          

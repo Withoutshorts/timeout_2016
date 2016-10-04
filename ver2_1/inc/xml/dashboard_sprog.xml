@@ -197,7 +197,7 @@
 
     <txt_38>Total hours</txt_38>
     <txt_39>Close job when submitting time recording</txt_39>
-    <txt_40>Machine delivered for production and send email to job accountable.</txt_40>
+    <txt_40>Machine delivered for production and send email to job accountable.</txt_40>f
     <txt_41>Close job when submitting time recording and send email to job accountable.</txt_41>
     <txt_42>Close job when submitting time recording</txt_42>
 
@@ -225,7 +225,7 @@
     <txt_54>April</txt_54>
     <txt_55>May</txt_55>
     <txt_56>June</txt_56>
-    <txt_57>Christmas</txt_57>
+    <txt_57>July</txt_57>
     <txt_58>August</txt_58>
     <txt_59>September</txt_59>
     <txt_60>October</txt_60>
@@ -240,7 +240,7 @@
       Job Name
     </txt_68>
     <txt_69>employee</txt_69>
-    <txt_70>realized</txt_70>
+    <txt_70>Realized</txt_70>
     <txt_71>none</txt_71>
     <txt_72>h.</txt_72>
     <txt_73>CM1</txt_73>
@@ -258,7 +258,7 @@
     <txt_85>Customers (Customer)</txt_85>
     <txt_86>Project manager</txt_86>
     <txt_87>Job</txt_87>
-    <txt_88>delivery date</txt_88>
+    <txt_88>Delivery date</txt_88>
     <txt_89>Turnover</txt_89>
     <txt_90>Customer Responsible</txt_90>
     
