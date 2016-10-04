@@ -5,7 +5,7 @@ Dim dsb_objXMLHTTP, dsb_objXMLDOM, dsb_i, dsb_strHTML
 
 Set dsb_objXMLDom = Server.CreateObject("Microsoft.XMLDOM")
 Set dsb_objXmlHttp = Server.CreateObject("Msxml2.ServerXMLHTTP")
-dsb_objXmlHttp.open "GET", "http://localhost/Git/timeout_2016/ver2_1/inc/xml/dashboard_sprog.xml", False
+dsb_objXmlHttp.open "GET", "http://localhost/inc/xml/dashboard_sprog.xml", False
 'objXmlHttp.open "GET", "https://outzource.dk/timeout_xp/wwwroot/ver2_1/inc/xml/dashboard_sprog.xml", False
 'objXmlHttp.open "GET", "https://outzource.dk/timeout_xp/wwwroot/ver3_99/inc/xml/dashboard_sprog.xml", False
 'objXmlHttp.open "GET", "http://outzource.dk/timeout_xp/wwwroot/ver2_14/inc/xml/dashboard_sprog.xml", False
