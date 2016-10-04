@@ -153,7 +153,7 @@ sub showafslutuge_ugeseddel
                
                         if cint(afslutugekri) = 0 OR ((cint(afslutugekri) = 1 OR cint(afslutugekri) = 2) AND cint(afslProcKri) = 1) OR cint(level) = 1 then 
             
-                            Response.write "weekSelectedTjk: " & weekSelectedTjk & "<br>"
+                            Response.write "XXX weekSelectedTjk: " & weekSelectedTjk & "<br>"
 
                             '*** Vis checkbox og submuit til at afslutte periode
                             call afslutuge(weekSelectedTjk, 1, varTjDatoUS_son, "ugeseddel", SmiWeekOrMonth)

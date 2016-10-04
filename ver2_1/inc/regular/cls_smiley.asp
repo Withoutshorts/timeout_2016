@@ -161,7 +161,13 @@ function timeKriOpfyldt(lto, sidsteUgenrAfsl, meType, usemrn, SmiWeekOrMonth)
     case 0,1
     tjkTimeriUgeDt = dateAdd("d", 7, sidsteUgenrAfsl)
     case 2
-    tjkTimeriUgeDt = sidsteUgenrAfsl
+    '** Hvis dd er større en sidste afsluttet vises næste dag til afslutning. (med Submit)
+    '** Er den = med dd eller mindre vise "Epriode er afsluttet.."
+        if cDate(sidsteUgenrAfsl) < cDate(now) then
+        tjkTimeriUgeDt = dateAdd("d", 1, sidsteUgenrAfsl)
+        else
+        tjkTimeriUgeDt = sidsteUgenrAfsl '** Dagen efter sidste afsluttede dag 'sidsteUgenrAfsl
+        end if
     end select
 
     tjkTimeriUgeDtDay = datepart("w", tjkTimeriUgeDt, 2,2)
@@ -286,7 +292,7 @@ function ugeAfsluttetStatus(tjkDato, showAfsuge, ugegodkendt, ugegodkendtaf, Smi
 
         
                          <span style="color:<%=ugstFtc%>; background-color:<%=ugstCol%>; padding:5px;">
-                         <%=ugegodkendtStatusTxt %> XXX
+                         <%=ugegodkendtStatusTxt %>
                         </span>
 
                             <%if cint(ugegodkendt) = 2 then 'afvist 
@@ -861,13 +867,17 @@ function afslutuge(weekSelected, visning, tjkDag7, rdir, SmiWeekOrMonth)
 
 		<%else 'uge/md er afsluttet
             
-            if cint(SmiWeekOrMonth) = 0 then 'uge aflsutning 
+            select case cint(SmiWeekOrMonth) 
+            case 0 'uge aflsutning 
             perTxt = tsa_txt_005 & " "& sidstedagiuge
-            else
+            case 1
             perTxt = monthname(month(ugeNrAfsluttet)) & " er"
-            end if
+            case 2
+            perTxt = weekdayname(weekday(ugeNrAfsluttet)) & ", d. "& ugeNrAfsluttet & " er"
+            end select
             
             %>
+        
 		<span style="font-size:14px; font-weight:bolder;"><%=perTxt%>&nbsp;<%=lcase(tsa_txt_093) %> <font color=green><i>V</i></font></span>
 		<br><div style="font-size:11px; padding-top:5px;"><%=tsa_txt_093 %>&nbsp;<%=weekdayname(weekday(cdAfs))%>&nbsp;<%=tsa_txt_092 %>&nbsp;<%=formatdatetime(cdAfs, 2)%>&nbsp;<%=formatdatetime(cdAfs, 3)%> 
 		(<%=tsa_txt_095 %>&nbsp;<%=datepart("ww", cdAfs, 2, 2)%>)</div>
