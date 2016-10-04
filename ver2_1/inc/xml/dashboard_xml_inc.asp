@@ -126,6 +126,54 @@ For Each dsb_oNode in dsb_oNodes
           dsb_txt_048 = dsb_oNode.selectSingleNode("txt_48").Text
           dsb_txt_049 = dsb_oNode.selectSingleNode("txt_49").Text
           dsb_txt_050 = dsb_oNode.selectSingleNode("txt_50").Text
+
+
+          dsb_txt_051 = dsb_oNode.selectSingleNode("txt_51").Text
+          dsb_txt_052 = dsb_oNode.selectSingleNode("txt_52").Text
+          dsb_txt_053 = dsb_oNode.selectSingleNode("txt_53").Text
+          dsb_txt_054 = dsb_oNode.selectSingleNode("txt_54").Text
+          dsb_txt_055 = dsb_oNode.selectSingleNode("txt_55").Text
+          dsb_txt_056 = dsb_oNode.selectSingleNode("txt_56").Text
+          dsb_txt_057 = dsb_oNode.selectSingleNode("txt_57").Text
+          dsb_txt_058 = dsb_oNode.selectSingleNode("txt_58").Text
+          dsb_txt_059 = dsb_oNode.selectSingleNode("txt_59").Text
+          dsb_txt_060 = dsb_oNode.selectSingleNode("txt_60").Text
+          dsb_txt_061 = dsb_oNode.selectSingleNode("txt_61").Text
+          dsb_txt_062 = dsb_oNode.selectSingleNode("txt_62").Text
+          dsb_txt_063 = dsb_oNode.selectSingleNode("txt_63").Text
+          dsb_txt_064 = dsb_oNode.selectSingleNode("txt_64").Text
+          dsb_txt_065 = dsb_oNode.selectSingleNode("txt_65").Text
+          dsb_txt_066 = dsb_oNode.selectSingleNode("txt_66").Text
+          
+          dsb_txt_067 = dsb_oNode.selectSingleNode("txt_67").Text
+          dsb_txt_068 = dsb_oNode.selectSingleNode("txt_68").Text
+          dsb_txt_069 = dsb_oNode.selectSingleNode("txt_69").Text
+          dsb_txt_070 = dsb_oNode.selectSingleNode("txt_70").Text
+          dsb_txt_071 = dsb_oNode.selectSingleNode("txt_71").Text
+          dsb_txt_072 = dsb_oNode.selectSingleNode("txt_72").Text
+          dsb_txt_073 = dsb_oNode.selectSingleNode("txt_73").Text
+          dsb_txt_074 = dsb_oNode.selectSingleNode("txt_74").Text
+          dsb_txt_075 = dsb_oNode.selectSingleNode("txt_75").Text
+          dsb_txt_076 = dsb_oNode.selectSingleNode("txt_76").Text
+          dsb_txt_077 = dsb_oNode.selectSingleNode("txt_77").Text
+          dsb_txt_078 = dsb_oNode.selectSingleNode("txt_78").Text
+          dsb_txt_079 = dsb_oNode.selectSingleNode("txt_79").Text
+        
+          
+          dsb_txt_080 = dsb_oNode.selectSingleNode("txt_80").Text
+          dsb_txt_081 = dsb_oNode.selectSingleNode("txt_81").Text
+          dsb_txt_082 = dsb_oNode.selectSingleNode("txt_82").Text
+          dsb_txt_083 = dsb_oNode.selectSingleNode("txt_83").Text
+          
+          dsb_txt_084 = dsb_oNode.selectSingleNode("txt_84").Text
+          dsb_txt_085 = dsb_oNode.selectSingleNode("txt_85").Text
+          dsb_txt_086 = dsb_oNode.selectSingleNode("txt_86").Text
+          
+          dsb_txt_087 = dsb_oNode.selectSingleNode("txt_87").Text
+          
+          dsb_txt_088 = dsb_oNode.selectSingleNode("txt_88").Text
+          dsb_txt_089 = dsb_oNode.selectSingleNode("txt_89").Text
+          dsb_txt_090 = dsb_oNode.selectSingleNode("txt_90").Text
           
         
     

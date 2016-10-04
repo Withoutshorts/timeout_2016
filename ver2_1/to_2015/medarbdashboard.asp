@@ -295,7 +295,7 @@
                                 end if
 
                                  %>
-                                <option value="-1" <%=ingenSEL %>>Ingen</option>
+                                <option value="-1" <%=ingenSEL %>><%=dsb_txt_071 %></option>
                                 </select>
                 
 
@@ -341,28 +341,28 @@
                       </div>
                       <div class="col-lg-2">
                           <select name="FM_mth" class="form-control input-small" onchange="submit()">
-                          <option value="1" <%=mthSel1 %>>Jan</option>
-                          <option value="2" <%=mthSel2 %>>Feb</option>
-                          <option value="3" <%=mthSel3 %>>Mar</option>
-                          <option value="4" <%=mthSel4 %>>Apr</option>
-                          <option value="5" <%=mthSel5 %>>Maj</option>
-                          <option value="6" <%=mthSel6 %>>Jun</option>
-                          <option value="7" <%=mthSel7 %>>Jul</option>
-                          <option value="8" <%=mthSel8 %>>Aug</option>
-                          <option value="9" <%=mthSel9 %>>Sep</option>
-                          <option value="10" <%=mthSel10 %>>Okt</option>
-                          <option value="11" <%=mthSel11 %>>Nov</option>
-                          <option value="12" <%=mthSel12 %>>Dec</option>
+                          <option value="1" <%=mthSel1 %>><%=dsb_txt_051 %></option>
+                          <option value="2" <%=mthSel2 %>><%=dsb_txt_052 %></option>
+                          <option value="3" <%=mthSel3 %>><%=dsb_txt_053 %></option>
+                          <option value="4" <%=mthSel4 %>><%=dsb_txt_054 %></option>
+                          <option value="5" <%=mthSel5 %>><%=dsb_txt_055 %></option>
+                          <option value="6" <%=mthSel6 %>><%=dsb_txt_056 %></option>
+                          <option value="7" <%=mthSel7 %>><%=dsb_txt_057 %></option>
+                          <option value="8" <%=mthSel8 %>><%=dsb_txt_058 %></option>
+                          <option value="9" <%=mthSel9 %>><%=dsb_txt_059 %></option>
+                          <option value="10" <%=mthSel10 %>><%=dsb_txt_060 %></option>
+                          <option value="11" <%=mthSel11 %>><%=dsb_txt_061 %></option>
+                          <option value="12" <%=mthSel12 %>><%=dsb_txt_062 %></option>
                    
                         </select>
                       </div>
 
                      <div class="col-lg-2">
                 <select name="FM_kv" class="form-control input-small" onchange="submit()">
-                  <option value="1" <%=useQuaterSel1 %>>Kvt. 1</option>
-                  <option value="2" <%=useQuaterSel2 %>>Kvt. 2</option>
-                  <option value="3" <%=useQuaterSel3 %>>Kvt. 3</option>
-                  <option value="4" <%=useQuaterSel4 %>>Kvt. 4</option>
+                  <option value="1" <%=useQuaterSel1 %>><%=dsb_txt_063 %></option>
+                  <option value="2" <%=useQuaterSel2 %>><%=dsb_txt_064 %></option>
+                  <option value="3" <%=useQuaterSel3 %>><%=dsb_txt_065 %></option>
+                  <option value="4" <%=useQuaterSel4 %>><%=dsb_txt_066 %></option>
                 </select>
                  </div>
 
@@ -527,7 +527,7 @@
               <div class="panel panel-default">
                         <div class="panel-heading">
                           <h4 class="panel-title">
-                            <a class="accordion-toggle" data-toggle="collapse" data-target="#collapseSix">Job <span style="font-size:12px; font-weight:lighter;">Alle medarbejdere i valgt periode</span></a>
+                            <a class="accordion-toggle" data-toggle="collapse" data-target="#collapseSix"><%=dsb_txt_087 %> <span style="font-size:12px; font-weight:lighter;"><%=dsb_txt_067 %></span></a>
                           </h4>
                         </div> <!-- /.panel-heading -->
                         <div id="collapseSix" class="panel-collapse">
@@ -543,9 +543,9 @@
            
                   <table class="table table-stribed">
                             <thead>
-                                <tr><th>Jobnavn</th>
-                                    <th>Medarbejder</th>
-                                    <th style="text-align:right;">Realiseret</th>
+                                <tr><th><%=dsb_txt_068 %></th>
+                                    <th><%=dsb_txt_069 %></th>
+                                    <th style="text-align:right;"><%=dsb_txt_070 %></th>
                                 </tr>
                             </thead>
 
@@ -596,9 +596,9 @@
                      
                     if re = 0 then   
                     %>
-                    <tr bgcolor="#FFFFFF"><td colspan="3">- ingen </td></tr>
+                    <tr bgcolor="#FFFFFF"><td colspan="3">- <%=dsb_txt_071 %> </td></tr>
                     <%else %>
-                       <tr bgcolor="#FFFFFF"><td colspan="3" align="right"><%=formatnumber(sumTimerGT, 2) %> t.</td></tr>    
+                       <tr bgcolor="#FFFFFF"><td colspan="3" align="right"><%=formatnumber(sumTimerGT, 2) %> <%=dsb_txt_072 %></td></tr>    
 
                     <%end if %>
                       </tbody>
@@ -1153,11 +1153,11 @@
 
                     
                       <div class="row-stat">
-                        <p class="row-stat-label">DB1</p>
+                        <p class="row-stat-label"><%=dsb_txt_073 %></p>
                         <h3 class="row-stat-value"><%=formatnumber(medarbSelDBGT, 2)%> <span style="font-size:14px;">DKK</span></h3>
                      
                           <br /><br />
-                        <p class="row-stat-label">DB2</p>
+                        <p class="row-stat-label"><%=dsb_txt_074 %></p>
                         <h3 class="row-stat-value"><%=formatnumber(medarbSelDBindexGT, 2)%> <span style="font-size:14px;">DKK</span></h3>
                         <!--<span class="label label-succes row-stat-badge"><%=formatnumber(jo_db2_proc, 0)%> %</span> -->
                           <br /> <span style="font-size:11px; color:#999999;"> [ Timer * (timepris - Kost.) * <%=dsb_txt_012 %> ]</span>
@@ -1172,11 +1172,11 @@
                          <span class="label label-<%=medarbSelIndexColor%> row-stat-badge"><%=formatnumber(medarbSelIndex, 2)%></span>
                          <br /> <span style="font-size:11px; color:#999999;">[ <%=dsb_txt_014 %> / <%=dsb_txt_013 %> ]</span>
                          <br /><br />
-                         <%=dsb_txt_014 %>: <%=formatnumber(ntimper, 2) %> t.<br />
-                         Timer: <%=formatnumber(medarbSelHoursGT, 2) %> t.<br />
-                         Heraf fakturerbare: <b><%=formatnumber(faktimerGTselmedarb, 2) %> t.</b><br />
-                         Forecasttimer: <%=formatnumber(indexFc, 2) %> t.<br />
-                         <span style="font-size:11px; color:#999999;">Forecast på projekter med lev. dato i valgt periode.</span>
+                         <%=dsb_txt_014 %>: <%=formatnumber(ntimper, 2) %> <%=dsb_txt_072 %><br />
+                         Timer: <%=formatnumber(medarbSelHoursGT, 2) %> <%=dsb_txt_072 %><br />
+                         Heraf fakturerbare: <b><%=formatnumber(faktimerGTselmedarb, 2) %> <%=dsb_txt_072 %></b><br />
+                         Forecasttimer: <%=formatnumber(indexFc, 2) %> <%=dsb_txt_072 %><br />
+                         <span style="font-size:11px; color:#999999;"><%=dsb_txt_079 %></span>
                         
                          
                          <!-- <br /><br />
@@ -1191,7 +1191,7 @@
                        <div class="col-lg-1">&nbsp;</div>
                       
                       <div class="col-lg-4">
-                     <%=dsb_txt_011 %> (<%=formatnumber(medarbSelHoursFomrGT, 2) %> t.)
+                     <%=dsb_txt_011 %> (<%=formatnumber(medarbSelHoursFomrGT, 2) %> <%=dsb_txt_072 %>)
                              
                     <div id="donut-chart" class="chart-holder" style="width: 95%;"></div>
                     
@@ -1208,7 +1208,7 @@
               <div class="panel panel-default">
                         <div class="panel-heading">
                           <h4 class="panel-title">
-                            <a class="accordion-toggle" data-toggle="collapse" data-target="#collapseFive">Timefordeling (donut) på job - <span style="font-size:12px; font-weight:lighter;"><%=meTxt %></span></a>
+                            <a class="accordion-toggle" data-toggle="collapse" data-target="#collapseFive"><%=dsb_txt_080 %> <span style="font-size:12px; font-weight:lighter;"><%=meTxt %></span></a>
                           </h4>
                         </div> <!-- /.panel-heading -->
                         <div id="collapseFive" class="panel-collapse collapse">
@@ -1224,9 +1224,9 @@
            
                   <table class="table table-stribed">
                             <thead>
-                                <tr><th>Jobnavn</th>
-                                    <th>Forretningsområde</th>
-                                    <th style="text-align:right;">Realiseret</th>
+                                <tr><th><%=dsb_txt_068 %></th>
+                                    <th><%=dsb_txt_081 %></th>
+                                    <th style="text-align:right;"><%=dsb_txt_070 %></th>
                                 </tr>
                             </thead>
 
@@ -1294,9 +1294,9 @@
                      
                     if re = 0 then   
                     %>
-                    <tr bgcolor="#FFFFFF"><td colspan="3">- ingen </td></tr>
+                    <tr bgcolor="#FFFFFF"><td colspan="3">- <%=dsb_txt_071 %> </td></tr>
                     <%else %>
-                       <tr bgcolor="#FFFFFF"><td colspan="3" align="right"><%=formatnumber(sumTimerGT, 2) %> t.</td></tr>    
+                       <tr bgcolor="#FFFFFF"><td colspan="3" align="right"><%=formatnumber(sumTimerGT, 2) %> <%=dsb_txt_072 %></td></tr>    
 
                     <%end if %>
                       </tbody>
@@ -1317,7 +1317,7 @@
               <div class="panel panel-default">
                         <div class="panel-heading">
                           <h4 class="panel-title">
-                            <a class="accordion-toggle" data-toggle="collapse" data-target="#collapseFour">Dine job med forecast på - <span style="font-size:12px; font-weight:lighter;"><%=meTxt %></span></a>
+                            <a class="accordion-toggle" data-toggle="collapse" data-target="#collapseFour"><%=dsb_txt_082 %> <span style="font-size:12px; font-weight:lighter;"><%=meTxt %></span></a>
                           </h4>
                         </div> <!-- /.panel-heading -->
                         <div id="collapseFour" class="panel-collapse collapse">
@@ -1333,9 +1333,9 @@
            
                   <table class="table table-stribed">
                             <thead>
-                                <tr><th>Jobnavn</th>
-                                    <th style="text-align:right;">Forecast</th>
-                                    <th style="text-align:right;">Realiseret</th>
+                                <tr><th><%=dsb_txt_068 %></th>
+                                    <th style="text-align:right;"><%=dsb_txt_083 %></th>
+                                    <th style="text-align:right;"><%=dsb_txt_070 %></th>
                                 </tr>
                             </thead>
 
@@ -1365,8 +1365,8 @@
                         %>
                         <tr style="background-color:<%=bgcr%>;">
                             <td class="lille"><%=left(oRec("jobnavn"), 20) & " ("& oRec("jobnr") &")" %></td>
-                            <td class="lille" align="right"><%=oRec("restimer") %> t.</td>
-                            <td class="lille" align="right"><%=oRec("sumtimer") %> t.</td>
+                            <td class="lille" align="right"><%=oRec("restimer") %> <%=dsb_txt_072 %></td>
+                            <td class="lille" align="right"><%=oRec("sumtimer") %> <%=dsb_txt_072 %></td>
                         </tr>
                         <%
 
@@ -1378,7 +1378,7 @@
                      
                     if re = 0 then   
                     %>
-                    <tr bgcolor="#FFFFFF"><td colspan="2">- ingen </td></tr>
+                    <tr bgcolor="#FFFFFF"><td colspan="2">- <%=dsb_txt_071 %> </td></tr>
                     <%end if %>
                       </tbody>
                     </table>
@@ -1410,7 +1410,7 @@
               <div class="panel panel-default">
                         <div class="panel-heading">
                           <h4 class="panel-title">
-                            <a class="accordion-toggle" data-toggle="collapse" data-target="#collapseOne">Kunder top 10 - <span style="font-size:12px; font-weight:lighter;"><%=meTxt %></span></a>
+                            <a class="accordion-toggle" data-toggle="collapse" data-target="#collapseOne"><%=dsb_txt_084 %> <span style="font-size:12px; font-weight:lighter;"><%=meTxt %></span></a>
                           </h4>
                         </div> <!-- /.panel-heading -->
                         <div id="collapseOne" class="panel-collapse collapse">
@@ -1426,10 +1426,10 @@
                         <table class="table table-stribed">
                             <thead>
                                 <tr>
-                                    <th style="width: 50%">Kunder (kundenr)</th>
-                                    <th style="width: 20%">Forecast</th>
+                                    <th style="width: 50%"><%=dsb_txt_085 %></th>
+                                    <th style="width: 20%"><%=dsb_txt_083 %></th>
 
-                                    <th style="width: 20%">Realiseret</th>
+                                    <th style="width: 20%"><%=dsb_txt_070 %></th>
                                     <th style="width: 10%"><!--Indikator--></th>
 
                                      <%for foBAc = 0 TO foBA - 1%>
@@ -1641,7 +1641,7 @@
                    <div class="panel panel-default">
                         <div class="panel-heading">
                           <h4 class="panel-title">
-                            <a class="accordion-toggle" data-toggle="collapse" data-target="#collapseTwo">Projektansvarlig</a>
+                            <a class="accordion-toggle" data-toggle="collapse" data-target="#collapseTwo"><%=dsb_txt_086 %></a>
                           </h4>
                         </div> <!-- /.panel-heading -->
                         <div id="collapseTwo" class="panel-collapse collapse">
@@ -1656,12 +1656,12 @@
                      <table class="table table-stribed">
                             <thead>
                                 <tr>
-                                    <th style="width: 25%">Kunder (kundenr)</th>
-                                    <th style="width: 25%">Job</th>
-                                    <th style="width: 10%">Lev. dato</th>
-                                    <th style="width: 10%">Forecast</th>
-                                    <th style="width: 10%">Realiseret</th>
-                                    <th style="width: 10%">Omsætning</th>
+                                    <th style="width: 25%"><%=dsb_txt_085 %></th>
+                                    <th style="width: 25%"><%=dsb_txt_087 %></th>
+                                    <th style="width: 10%"><%=dsb_txt_088 %></th>
+                                    <th style="width: 10%"><%=dsb_txt_083 %></th>
+                                    <th style="width: 10%"><%=dsb_txt_070 %></th>
+                                    <th style="width: 10%"><%=dsb_txt_089 %></th>
                                     <th style="width: 10%"><!--Indikator--></th>
 
 
@@ -1787,7 +1787,7 @@
                    <div class="panel panel-default">
                         <div class="panel-heading">
                           <h4 class="panel-title">
-                            <a class="accordion-toggle" data-toggle="collapse" data-target="#collapseTree">Kundeansvarlig - <span style="font-size:12px; font-weight:lighter;">Keyaccount</span></a>
+                            <a class="accordion-toggle" data-toggle="collapse" data-target="#collapseTree"><%=dsb_txt_90 %></a>
                           </h4>
                         </div> <!-- /.panel-heading -->
                         <div id="collapseTree" class="panel-collapse collapse">
@@ -1802,12 +1802,12 @@
                      <table class="table table-stribed">
                             <thead>
                                 <tr>
-                                    <th style="width: 25%">Kunder (kundenr)</th>
-                                    <th style="width: 25%">Job</th>
-                                    <th style="width: 10%">Lev. dato</th>
-                                    <th style="width: 10%">Forecast</th>
-                                    <th style="width: 10%">Realiseret</th>
-                                    <th style="width: 10%">Omsætning</th>
+                                    <th style="width: 25%"><%=dsb_txt_085 %></th>
+                                    <th style="width: 25%"><%=dsb_txt_087 %></th>
+                                    <th style="width: 10%"><%=dsb_txt_088 %></th>
+                                    <th style="width: 10%"><%=dsb_txt_083 %></th>
+                                    <th style="width: 10%"><%=dsb_txt_070 %></th>
+                                    <th style="width: 10%"><%=dsb_txt_089 %></th>
                                     <th style="width: 10%"><!--Indikator--></th>
 
 
