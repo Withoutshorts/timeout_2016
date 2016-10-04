@@ -802,7 +802,7 @@ if len(strLicenskey) <> 0 then
 
         'strConnThis = "mySQL_timeOut_intranet"
         'strConnThis = "timeout_wwf"
-		'james bonf
+
         lto = "intranet - local"
         'lto = "nt"
         strConnThis = "timeout_intranet64"
