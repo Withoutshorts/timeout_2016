@@ -138,7 +138,7 @@
     <txt_87>Afslut uge(r)</txt_87>
     <txt_88>Se Smiley status</txt_88>
     <txt_89>Afslut uge</txt_89>
-    <txt_90>Afslut alle uger frem til og med uge</txt_90>
+    <txt_90>Afslut alle uger/dage - frem til og med uge</txt_90>
     <txt_91>kan først afsluttes fra</txt_91>
     <txt_92>d.</txt_92>
     <txt_93>Afsluttet</txt_93>
@@ -671,8 +671,11 @@
 
     <txt_535>Opgjort</txt_535>
     <txt_536>Printvenlig</txt_536>
-    
-    
+
+    <txt_537>Du har ikke rettigheder, eller har ikke opfyldt kriterierne for at afslutte perioden</txt_537>
+    <txt_538>dag</txt_538>
+
+
   </dk>
 
 
@@ -1356,6 +1359,10 @@
 
     <txt_535>Stated</txt_535>
     <txt_536>Print</txt_536>
+
+    <txt_537>You cant state this period, due to userright or because mimimun requirement of hours is not reached.</txt_537>
+
+    <txt_538>Day</txt_538>
 
 
   </uk>

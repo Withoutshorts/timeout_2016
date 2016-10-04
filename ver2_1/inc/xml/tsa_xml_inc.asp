@@ -5,11 +5,11 @@ Dim objXMLHTTP, objXMLDOM, i, strHTML
 
 Set objXMLDom = Server.CreateObject("Microsoft.XMLDOM")
 Set objXmlHttp = Server.CreateObject("Msxml2.ServerXMLHTTP")
-'objXmlHttp.open "GET", "http://localhost/inc/xml/tsa_sprog.xml", False
+objXmlHttp.open "GET", "http://localhost/inc/xml/tsa_sprog.xml", False
 'objXmlHttp.open "GET", "https://outzource.dk/timeout_xp/wwwroot/ver2_1/inc/xml/tsa_sprog.xml", False
 'objXmlHttp.open "GET", "https://outzource.dk/timeout_xp/wwwroot/ver3_99/inc/xml/tsa_sprog.xml", False
 'objXmlHttp.open "GET", "http://outzource.dk/timeout_xp/wwwroot/ver2_14/inc/xml/tsa_sprog.xml", False
-objXmlHttp.open "GET", "http://timeout.cloud/timeout_xp/wwwroot/ver2_14/inc/xml/tsa_sprog.xml", False
+'objXmlHttp.open "GET", "http://timeout.cloud/timeout_xp/wwwroot/ver2_14/inc/xml/tsa_sprog.xml", False
 'objXmlHttp.open "GET", "http://outzource.dk/timeout_xp/wwwroot/ver4_22/inc/xml/tsa_sprog.xml", False
 
 objXmlHttp.send
@@ -667,6 +667,9 @@ For Each oNode in oNodes
     tsa_txt_534 = oNode.selectSingleNode("txt_534").Text
     tsa_txt_535 = oNode.selectSingleNode("txt_535").Text
     tsa_txt_536 = oNode.selectSingleNode("txt_536").Text
+
+    tsa_txt_537 = oNode.selectSingleNode("txt_537").Text
+    tsa_txt_538 = oNode.selectSingleNode("txt_538").Text
     
 next
 

@@ -5984,15 +5984,18 @@
         
         <table cellspacing="0" cellpadding="10" border="0" bgcolor="#ffffff" width=100%>
 	    <tr>
-	        <td bgcolor="#ffffff" style="padding-top:15px;">
-                <h4>
+	        <td bgcolor="#ffffff" style="padding-top:15px; font-size:16px; font-weight:bolder;">
+               
                    
-                  <%if cint(SmiWeekOrMonth) = 0 then 'uge aflsutning  %>
-                    <%=tsa_txt_004 & " din "& tsa_txt_005 %> 
-                   <%else %>
-                     <%=tsa_txt_004 & " din "& tsa_txt_430 %>
-                   <%end if %>
-                    </h4>
+                  <%select case cint(SmiWeekOrMonth) 
+                   case 0  'uge aflsutning  %>
+                   <%=tsa_txt_004 & " din "& tsa_txt_005 %> 
+                   <%case 1%>
+                   <%=tsa_txt_004 & " din "& tsa_txt_430 %>
+                   <%case 2 %>
+                   <%=tsa_txt_004 & " din "& tsa_txt_538 %>
+                   <%end select%>
+                   
              
                <%if cint(hidesmileyicon) = 0 then %>  
             <span><img src="../ill/<%=smileyImg%>" border=0 /></span>
@@ -6005,7 +6008,7 @@
 	        </tr>
 	        <tr>
 	        <td colspan=2 valign=top>
-            <b><%=tsa_txt_001%>:</b><br /><br />
+            <!--<b><%=tsa_txt_001%>:</b><br /><br />-->
 
             <%if instr(formatdatetime(cDateUge, 2), "1899") <> 0 then %>
             Der er opstået en fejl.<br />
@@ -6019,24 +6022,26 @@
 
               
 
-	        <%=tsa_txt_002%>:<br /> <b><%=weekdayname(datepart("w",cDateUge,1)) %> d. 
+	        <%=tsa_txt_002%>:<br /> <%=weekdayname(datepart("w",cDateUge,1)) %> d. 
 	        <%=formatdatetime(cDateUge, 2) &" "& tsa_txt_003 %>. 
-	        <%=formatdatetime(cDateUge, 3) %></b><br />
+	        <%=formatdatetime(cDateUge, 3) %><br />
 	        <br />
-	        <%=tsa_txt_004 %>:<br /> <b><%=weekdayname(datepart("w",cDateAfs,1)) %> d. 
-	        <%=formatdatetime(cDateAfs, 2) &" "& tsa_txt_003 &". "& formatdatetime(cDateAfs, 3) %></b>
-	        <br /><br />
-	        <h4>
-                <%if cint(SmiWeekOrMonth) = 0 then 'uge aflsutning  %>
-                <%=tsa_txt_005 &" "& datepart("ww", cDateUgeTilAfslutning, 2, 2)%> 
-                <%else 
-                    
+	        <%=tsa_txt_004 %>:<br /><%=weekdayname(datepart("w",cDateAfs,1)) %> d. 
+	        <%=formatdatetime(cDateAfs, 2) &" "& tsa_txt_003 &". "& formatdatetime(cDateAfs, 3) %>
+	        <br />
+	        <span style="font-size:14px;">
+                <%select case cint(SmiWeekOrMonth) 
+                case 0 'uge aflsutning  %>
+                <b><%=tsa_txt_005 &" "& datepart("ww", cDateUgeTilAfslutning, 2, 2)%> </b>
+                <%case 1
                 afslutmd = dateAdd("m", -1, cDateUge)
-                    
-                  %>
-                <%=monthname(month(afslutmd)) & ", "& year(afslutmd) %>
-                <%end if %>
-                <%=smileysttxt %></h4>
+                %>
+                <b><%=monthname(month(afslutmd)) & ", "& year(afslutmd) %></b>
+                <%case 2 %>
+                <b><%=weekdayname(weekday(cDateUge, 2)) %> d. <%=formatdatetime(cDateUge, 2) %></b>
+                <%end select %>
+
+                <%=smileysttxt %></span>
 	        
            
 
@@ -6048,11 +6053,15 @@
     <%select case rdir
      case "ugeseddel_2011"
     %>
-    <a href="../to_2015/ugeseddel_2011.asp?usemrn=<%=usemrn%>&varTjDatoUS_man=<%=varTjDatoUS_man%>"><%=tsa_txt_006 %> >></a>
+    <a href="../to_2015/ugeseddel_2011.asp?usemrn=<%=usemrn%>&varTjDatoUS_man=<%=varTjDatoUS_man%>"><%=left(tsa_txt_006, 7) %> >></a>
     <% 
     case "logindhist"
     %>
-    <a href="logindhist_2011.asp?usemrn=<%=usemrn%>&varTjDatoUS_man=<%=varTjDatoUS_man%>"><%=tsa_txt_006 %> >></a>
+    <a href="logindhist_2011.asp?usemrn=<%=usemrn%>&varTjDatoUS_man=<%=varTjDatoUS_man%>"><%=left(tsa_txt_006, 7) %> >></a>
+    <%
+    case "stempelur"
+    %>
+    <a href="stempelur.asp?usemrn=<%=usemrn%>&varTjDatoUS_man=<%=varTjDatoUS_man%>"><%=left(tsa_txt_006, 7) %> >></a>
     <%
      case else %>
 	 <a href="timereg_akt_2006.asp"><%=tsa_txt_006 %> >></a>
@@ -8112,7 +8121,7 @@
 
 
                            <br><br><br><br><br><br><br><br><br><br><br /><br />                      
-                    <div style="position:relative; left:20px; background-color:lightpink; width:720px; padding:10px;">
+                    <div style="position:relative; left:20px; background-color:#FFFFFF; width:420px; padding:10px;">
                     <h4>Du kan ikke længere registrere timer</h4> 
                         Det skyldes højst sandsynligt en af følgende årsager:<br /><br />
                         A) Du har for mange uafsluttede uger. <br /><br />

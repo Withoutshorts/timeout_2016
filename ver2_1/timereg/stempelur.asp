@@ -2299,7 +2299,7 @@ if len(session("user")) = 0 then
 
          <%if rdir = "sesaba" AND (cint(SmiWeekOrMonth) = 2) then %>
          <tr>
-		<td style="padding-right:30px;"><br><br />&nbsp;
+		<td style="padding-right:30px; width:600px;">
 
       
         <%

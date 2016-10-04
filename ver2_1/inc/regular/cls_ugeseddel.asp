@@ -129,13 +129,19 @@ sub showafslutuge_ugeseddel
     	
     	
 
-          
-              
+            select case thisfile
+            case "stempelur"
+            sDivWth = "400"
+            case else
+            sDivWth = "725"
+            end select      
 
+              
+            'Response.write "thisfile: " & thisfile
     	    
             '*** Auto popup ThhisWEEK now SMILEY
 	      %>
-	        <div id="s0" class="well" style="position:relative; left:20px; top:26px; width:725px; visibility:<%=smVzb%>; display:<%=smDsp%>; z-index:2; background-color:#ffffff; padding:20px;">
+	        <div id="s0" class="well" style="position:relative; left:20px; top:26px; width:<%=sDivWth%>px; visibility:<%=smVzb%>; display:<%=smDsp%>; z-index:2; background-color:#ffffff; padding:20px;">
 	      
                  <%
 
@@ -149,14 +155,22 @@ sub showafslutuge_ugeseddel
             '*** afslutugeBasisKri, afslProc, afslProcKri, weekSelectedTjk
             call afslutkri(varTjDatoUS_son, tjkTimeriUgeDt, usemrn, lto, SmiWeekOrMonth)
 
+
             
                
                         if cint(afslutugekri) = 0 OR ((cint(afslutugekri) = 1 OR cint(afslutugekri) = 2) AND cint(afslProcKri) = 1) OR cint(level) = 1 then 
             
-                            Response.write "XXX weekSelectedTjk: " & weekSelectedTjk & "<br>"
+                            select case thisfile
+                            case "stempelur"
+                            rdir = "stempelur"
+                            case else
+                            rdir = "ugeseddel"
+                            end select
+                     
+                            'Response.write "XXX weekSelectedTjk: " & weekSelectedTjk & "<br>"
 
                             '*** Vis checkbox og submuit til at afslutte periode
-                            call afslutuge(weekSelectedTjk, 1, varTjDatoUS_son, "ugeseddel", SmiWeekOrMonth)
+                            call afslutuge(weekSelectedTjk, 1, varTjDatoUS_son, rdir, SmiWeekOrMonth)
 
                         else
                        

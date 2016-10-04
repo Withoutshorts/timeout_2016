@@ -22,11 +22,11 @@ function timerDenneUge(usemrn, lto, varTjDatoUS_man, aty_sql_typer, dothis, SmiW
 
             select case cint(SmiWeekOrMonth)
             case 2 'afslut på dag -- Altid DD.
-             xhighAntalDays = 1
-             '** DD
-             varTjDatoUS_man = day(now) &"/"& month(now) &"/"& year(now)
+            xhighAntalDays = 1
+            '** DD
+            'varTjDatoUS_man = day(now) &"/"& month(now) &"/"& year(now)
             case else
-             xhighAntalDays = 7
+            xhighAntalDays = 7
             end select
 
     else

@@ -513,13 +513,15 @@ case "dbopr", "dbred"
                             afslutugekri_proc = 0
                             end if
 
+                            afslutugekri_proc = replace(afslutugekri_proc, ",", ".")
+
                             if len(trim(request("FM_afslutugekri"))) <> 0 then
                             afslutugekri = request("FM_afslutugekri")
                             else
                             afslutugekri = 0
                             end if
 							
-                            afslutugekri = replace(afslutugekri, ",", ".")
+                            
 
 							if request("FM_Kostpris") < 0 OR strTimepris < 0 OR strTimepris1 < 0 OR strTimepris2 < 0 OR strTimepris3 < 0 OR strTimepris4 < 0 OR strTimepris5 < 0 then
 							%>
@@ -1252,7 +1254,7 @@ case "dbopr", "dbred"
                                  <div class="col-lg-2">
                            
                                        
-                                       <h6>Afslut uge kriterie</h6>
+                                       <h6>Afslut uge/dag kriterie</h6>
 		                 
 		                  
                                 </div>
