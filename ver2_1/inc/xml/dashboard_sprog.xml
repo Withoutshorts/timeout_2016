@@ -86,55 +86,46 @@
     <txt_50>9:45, 12:23, 23:55 etc. </txt_50>
 
 
-    <txt_51>aftale</txt_51>
-    <txt_52>job</txt_52>
-
-    <txt_53>Rekvisitions nr.</txt_53>
-    <txt_54>Km.</txt_54>
-    <txt_55>Denne faktura er omfattet af SKI</txt_55>
-    <txt_56>Vor ref. </txt_56>
-    <txt_57>Tekst</txt_57>
-
-    <txt_58>Handels</txt_58>
-    <txt_59>Side</txt_59>
-
-    <txt_60>Benyt alternativ modtager adr.</txt_60>
-    <txt_61>(kontaktpers. / filial)</txt_61>
-    <txt_62>Forvalgt fakturaadresse blandt kontaktpersoner/filialer.</txt_62>
-    <txt_63>/ Opdater</txt_63>
-    <txt_64>(klik til/fra for at gen-indlæse adresse)</txt_64>
-
-    <txt_65>Vis Att. person</txt_65>
-    <txt_66>(vises først på fakturalayout)</txt_66>
-    <txt_67>Den økonomi ansvarlige</txt_67>
-    <txt_68>Regnskabs afd.</txt_68>
-    <txt_69>Administrationen</txt_69>
-
-    <txt_70>Afsender</txt_70>
-    <txt_71>Vis afsender felter tilvalg:</txt_71>
-
-    <txt_72>Forrige</txt_72>
-    <txt_73>Næste</txt_73>
-
-    <txt_74>Hvis du ændrer</txt_74>
-    <txt_75>faktura systemdato</txt_75>
-    <txt_76>, følger fakturadatoen ikke længere det valgte datointerval og timer kan gå tabt, eller blive faktureret dobbelt.</txt_76>
-    <txt_77>Benyt evt. </txt_77>
-    <txt_78>Labeldato istedet</txt_78>
-    <txt_79>Faktura systemdatoen der afgør hvor</txt_79>
-    <txt_80>skæringsdatoen</txt_80>
-    <txt_81>mellem timer på denne faktura og næste faktura skal ligge.</txt_81>
-
-    <txt_82>Faktura indstilliger</txt_82>
-    <txt_83>Rykker</txt_83>
-    <txt_84>Fakturadato:</txt_84>
-    <txt_85>Skæringsdato for lukning af periode.</txt_85>
-    <txt_86>start-dato</txt_86>
-    <txt_87>er korrigeret til dagen efter seneste fakturadato på jobbet.</txt_87>
-
-    <txt_88>Vis </txt_88>
-    <txt_89>på faktura:</txt_89>
-    <txt_90>til</txt_90>
+    <txt_51>Jan</txt_51>
+    <txt_52>Feb</txt_52>
+    <txt_53>Mar</txt_53>
+    <txt_54>Apr</txt_54>
+    <txt_55>Maj</txt_55>
+    <txt_56>Jun</txt_56>
+    <txt_57>Jul</txt_57>
+    <txt_58>Aug</txt_58>
+    <txt_59>Sep</txt_59>
+    <txt_60>Okt</txt_60>
+    <txt_61>Nov</txt_61>
+    <txt_62>Dec</txt_62>
+    <txt_63>Kvt. 1</txt_63>
+    <txt_64>Kvt. 2</txt_64>
+    <txt_65>Kvt. 3</txt_65>
+    <txt_66>Kvt. 4</txt_66>
+    <txt_67>Alle medarbejdere i valgt periode</txt_67>
+    <txt_68>Jobnavn</txt_68>
+    <txt_69>Medarbejder</txt_69>
+    <txt_70>Realiseret</txt_70>
+    <txt_71>ingen</txt_71>
+    <txt_72>t.</txt_72>
+    <txt_73>DB1</txt_73>
+    <txt_74>DB2</txt_74>
+    <txt_75>Timer * (timepris - Kost.) *</txt_75>
+    <txt_76>Timer:</txt_76>
+    <txt_77>Heraf fakturerbare:</txt_77>
+    <txt_78>Forecasttimer:</txt_78>
+    <txt_79>Forecast på projekter med lev. dato i valgt periode.</txt_79>
+    <txt_80>Timefordeling (donut) på job -</txt_80>
+    <txt_81>Forretningsområde</txt_81>
+    <txt_82>Dine job med forecast på -</txt_82>
+    <txt_83>Forecast</txt_83>
+    <txt_84>Kunder top 10 -</txt_84>
+    <txt_85>Kunder (kundenr)</txt_85>
+    <txt_86>Projektansvarlig</txt_86>
+    <txt_87>Job</txt_87>
+    <txt_88>Lev. dato</txt_88>
+    <txt_89>Omsætning</txt_89>
+    <txt_90>Kundeansvarlig</txt_90>
     
     
   </dk>
@@ -226,6 +217,50 @@
     <txt_49>Timeformat</txt_49>
 
     <txt_50>9:45, 12:23, 23:55 etc. </txt_50>
+
+
+    <txt_51>January</txt_51>
+    <txt_52>February</txt_52>
+    <txt_53>March</txt_53>
+    <txt_54>April</txt_54>
+    <txt_55>May</txt_55>
+    <txt_56>June</txt_56>
+    <txt_57>Christmas</txt_57>
+    <txt_58>August</txt_58>
+    <txt_59>September</txt_59>
+    <txt_60>October</txt_60>
+    <txt_61>November</txt_61>
+    <txt_62>December</txt_62>
+    <txt_63>Qtr. 1</txt_63>
+    <txt_64>Qtr. 2</txt_64>
+    <txt_65>Qtr. 3</txt_65>
+    <txt_66>Qtr. 4</txt_66>
+    <txt_67>All employees in selected period</txt_67>
+    <txt_68>
+      Job Name
+    </txt_68>
+    <txt_69>employee</txt_69>
+    <txt_70>realized</txt_70>
+    <txt_71>none</txt_71>
+    <txt_72>h.</txt_72>
+    <txt_73>CM1</txt_73>
+    <txt_74>CM2</txt_74>
+    <txt_75>Hours * (hourly - Diet.) *</txt_75>
+    <txt_76>hours:</txt_76>
+    <txt_77>It billable:</txt_77>
+    <txt_78>Forecast hours:</txt_78>
+    <txt_79>Forecast on projects with del. date in the selected period.</txt_79>
+    <txt_80>Time Distribution (donut) on the job -</txt_80>
+    <txt_81>business areas</txt_81>
+    <txt_82>Your job with forecast on -</txt_82>
+    <txt_83>Forecast</txt_83>
+    <txt_84>Customers top 10 -</txt_84>
+    <txt_85>Customers (Customer)</txt_85>
+    <txt_86>Project manager</txt_86>
+    <txt_87>Job</txt_87>
+    <txt_88>delivery date</txt_88>
+    <txt_89>Turnover</txt_89>
+    <txt_90>Customer Responsible</txt_90>
     
 
 

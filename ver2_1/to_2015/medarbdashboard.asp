@@ -1787,7 +1787,7 @@
                    <div class="panel panel-default">
                         <div class="panel-heading">
                           <h4 class="panel-title">
-                            <a class="accordion-toggle" data-toggle="collapse" data-target="#collapseTree"><%=dsb_txt_90 %></a>
+                            <a class="accordion-toggle" data-toggle="collapse" data-target="#collapseTree"><%=dsb_txt_090 %></a>
                           </h4>
                         </div> <!-- /.panel-heading -->
                         <div id="collapseTree" class="panel-collapse collapse">
