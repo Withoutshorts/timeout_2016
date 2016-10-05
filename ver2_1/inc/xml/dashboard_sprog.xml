@@ -111,9 +111,9 @@
     <txt_73>DB1</txt_73>
     <txt_74>DB2</txt_74>
     <txt_75>Timer * (timepris - Kost.) *</txt_75>
-    <txt_76>Timer:</txt_76>
-    <txt_77>Heraf fakturerbare:</txt_77>
-    <txt_78>Forecasttimer:</txt_78>
+    <txt_76>Timer</txt_76>
+    <txt_77>Heraf fakturerbare</txt_77>
+    <txt_78>Forecasttimer</txt_78>
     <txt_79>Forecast på projekter med lev. dato i valgt periode.</txt_79>
     <txt_80>Timefordeling (donut) på job -</txt_80>
     <txt_81>Forretningsområde</txt_81>
@@ -246,9 +246,9 @@
     <txt_73>CM1</txt_73>
     <txt_74>CM2</txt_74>
     <txt_75>Hours * (hourly - Diet.) *</txt_75>
-    <txt_76>hours:</txt_76>
-    <txt_77>It billable:</txt_77>
-    <txt_78>Forecast hours:</txt_78>
+    <txt_76>Hours</txt_76>
+    <txt_77>It billable</txt_77>
+    <txt_78>Forecast hours</txt_78>
     <txt_79>Forecast on projects with del. date in the selected period.</txt_79>
     <txt_80>Time Distribution (donut) on the job -</txt_80>
     <txt_81>business areas</txt_81>
