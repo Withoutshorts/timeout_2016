@@ -13,8 +13,8 @@ Dim sXPathQuery_error
 
 Set objXMLDom_error = Server.CreateObject("Microsoft.XMLDOM")
 Set objXmlHttp_error = Server.CreateObject("Msxml2.ServerXMLHTTP")
-'objXmlHttp_error.open "GET", "http://localhost/inc/xml/error_sprog.xml", False
-objXmlHttp_error.open "GET", "https://timeout.cloud/timeout_xp/wwwroot/ver2_14/inc/xml/error_sprog.xml", False
+objXmlHttp_error.open "GET", "http://localhost/inc/xml/error_sprog.xml", False
+'objXmlHttp_error.open "GET", "https://timeout.cloud/timeout_xp/wwwroot/ver2_14/inc/xml/error_sprog.xml", False
 'objXmlHttp_error.open "GET", "https://outzource.dk/timeout_xp/wwwroot/ver3_99/inc/xml/error_sprog.xml", False
 'objXmlHttp_error.open "GET", "https://outzource.dk/timeout_xp/wwwroot/ver2_10/inc/xml/error_sprog.xml", False
 objXmlHttp_error.send

@@ -32,11 +32,13 @@ sub showafslutuge_ugeseddel
 
           '** Henter den sensete dag/uge/md der ER afsluttet - så man ved hvilken periode der står for tur. ***'
           '** sidsteUgenrAfsl, sidsteUgenrAfslFundet
-          call afsluttedeUger(year(now), usemrn)
+          call afsluttedeUger(year(now), usemrn, 0)
 
          '** Er kriterie for afslutuge mødt? Ifht. medatype mindstimer og der må ikke være herreløse timer fra. f.eks TT
          '** akttypeKrism, afslutugekri, afslutugekri_proc, tjkTimeriUgeDt, tjkTimeriUgeDtDay, tjkTimeriUgeSQL, tjkTimeriUgeDtTxt, afslugeDatoTimerudenMatch
          call timeKriOpfyldt(lto, sidsteUgenrAfsl, meType, usemrn, SmiWeekOrMonth)
+
+         'response.write "tjkTimeriUgeDt: " & tjkTimeriUgeDt & " // " & tjkTimeriUgeSQL
 
 
          '** timerdenneuge_dothis indstilling for timerDenneUge( 
@@ -45,6 +47,13 @@ sub showafslutuge_ugeseddel
          else
          timerdenneuge_dothis = 0
          end if
+
+         select case SmiWeekOrMonth
+         case 0,1
+         timerdenneuge_dothis = 0 
+         case 2
+         timerdenneuge_dothis = 1
+         end select
     
         '*** Hvor mange timer er der tastet i den peridoe der skal afsluttes
         '*** dag: DD ELLER DEN NÆSTE DAG DER SKAL AFSLUTTES
@@ -64,13 +73,21 @@ sub showafslutuge_ugeseddel
 
         '** Er periode afsluttet?
         '** ugeNrAfsluttet, showAfsuge, cdAfs, ugegodkendt, ugegodkendtaf, ugegodkendtTxt, ugegodkendtdt
-        call erugeAfslutte(datepart("yyyy", varTjDatoUS_son,2,2), weekMonthDate, usemrn, SmiWeekOrMonth) 
+        call erugeAfslutte(datepart("yyyy", varTjDatoUS_son,2,2), weekMonthDate, usemrn, SmiWeekOrMonth, 0) 
+
+        
+
+        '** Faneblade med afslutnings status
+        select case cint(SmiWeekOrMonth) 
+        case 0, 1
 
         '*** Viser faneblad til afslutning af periode (s1_k)
         call smileyAfslutBtn(SmiWeekOrMonth)
 
         '*** Viser besked/kvittering om at uge er afsluttet, hvis den er afsluttet.
         call ugeAfsluttetStatus(varTjDatoUS_son, showAfsuge, ugegodkendt, ugegodkendtaf, SmiWeekOrMonth) 
+
+        end select
 
 
 
@@ -91,7 +108,7 @@ sub showafslutuge_ugeseddel
        
       
          '** finder kriterie for rettidig afslutning
-         call rettidigafsl(s0Show_sidstedagsidsteuge)
+         call rettidigafsl(s0Show_sidstedagsidsteuge, 0)
 
         
          '*** Finder dato på den peridoeder skal afsluttes
@@ -105,11 +122,13 @@ sub showafslutuge_ugeseddel
          's0Show_weekMd = year(s0Show_weekMd) & "-" & month(s0Show_weekMd) & "-" & day(s0Show_weekMd)
          end select
 
+        'response.write "s0Show_weekMd: " & s0Show_weekMd
+
         
         '** tjekker om uge er afsluttet og viser afsluttet eller form til afslutning
-		call erugeAfslutte(year(s0Show_sidstedagsidsteuge), s0Show_weekMd, usemrn, SmiWeekOrMonth)
+		call erugeAfslutte(year(s0Show_sidstedagsidsteuge), s0Show_weekMd, usemrn, SmiWeekOrMonth, 0)
 
-
+       
       
      
             
@@ -131,7 +150,7 @@ sub showafslutuge_ugeseddel
 
             select case thisfile
             case "stempelur"
-            sDivWth = "400"
+            sDivWth = "100%"
             case else
             sDivWth = "725"
             end select      
@@ -141,7 +160,7 @@ sub showafslutuge_ugeseddel
     	    
             '*** Auto popup ThhisWEEK now SMILEY
 	      %>
-	        <div id="s0" class="well" style="position:relative; left:20px; top:26px; width:<%=sDivWth%>px; visibility:<%=smVzb%>; display:<%=smDsp%>; z-index:2; background-color:#ffffff; padding:20px;">
+	        <div id="s0" class="well" style="position:relative; left:0px; top:26px; width:<%=sDivWth%>px; visibility:<%=smVzb%>; display:<%=smDsp%>; z-index:2; background-color:#ffffff; padding:20px;">
 	      
                  <%
 
@@ -153,6 +172,8 @@ sub showafslutuge_ugeseddel
 
             '**** Kriterie
             '*** afslutugeBasisKri, afslProc, afslProcKri, weekSelectedTjk
+            'Response.write "tjkTimeriUgeDt: " & tjkTimeriUgeDt
+
             call afslutkri(varTjDatoUS_son, tjkTimeriUgeDt, usemrn, lto, SmiWeekOrMonth)
 
 
@@ -205,7 +226,7 @@ sub showafslutuge_ugeseddel
                
                              <%=tsa_txt_400 %>: <b><%=afslutugekri_proc %> %</b>  <%=tsa_txt_401%>.
                            </div>
-                            <br />
+                       
                             <%
                             end select
 
@@ -233,7 +254,7 @@ sub showafslutuge_ugeseddel
                 
              %>
               
-	        <br />&nbsp;
+	        
 
                
 	        </div>
@@ -276,8 +297,9 @@ varTjDatoUS_tor = dateAdd("d", 3, varTjDatoUS_man)
    <tr>
 	<td valign="top" style="width:90%;"><br />
 	
-	    
+	<%'if cint(SmiWeekOrMonth) <> 2 then 'Dag ==> Logud flow %>
     <%call showafslutuge_ugeseddel %>
+    <%'end if %>
     <!-- afslut uge -->
     
    &nbsp;
@@ -504,7 +526,7 @@ varTjDatoUS_tor = dateAdd("d", 3, varTjDatoUS_man)
                                         end if
 
                 
-                                        call erugeAfslutte(useYear, usePeriod, usemrn, SmiWeekOrMonth)
+                                        call erugeAfslutte(useYear, usePeriod, usemrn, SmiWeekOrMonth, 0)
                 
                                         call lonKorsel_lukketPer(tjkDag, oRec("risiko"))
                 

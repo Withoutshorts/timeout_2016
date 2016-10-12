@@ -4370,7 +4370,7 @@ function LeiRotate() {
                         case "mmmi", "intranet - local"
                         expTxt = expTxt &"Grandtotal;;;;;;;;;;"
                         case else
-                        expTxt = expTxt &"Grandtotal;;;;;;;;;;;"
+                        expTxt = expTxt &"Grandtotal;;;;;;;;;;"
                         end select
                 end select
 				

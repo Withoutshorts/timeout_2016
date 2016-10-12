@@ -165,7 +165,7 @@
               
                 
 
-                call erugeAfslutte(datepart("yyyy", startDatoTor,2,2), sidsteDagKri, intMid, SmiWeekOrMonth) 
+                call erugeAfslutte(datepart("yyyy", startDatoTor,2,2), sidsteDagKri, intMid, SmiWeekOrMonth, 0) 
                 
                 lastMidtjk = intMid
                 end if

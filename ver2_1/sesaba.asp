@@ -88,7 +88,7 @@ session.abandon
 
               
 				
-if lto = "tec" OR lto = "intranet - local" then
+if lto = "tec" OR lto = "intranet - local" OR lto = "dencker" then
 
     %>
         

@@ -99,7 +99,7 @@ tloadA = now
 
         
 
-    call erugeAfslutte(sm_aar, sm_sidsteugedag, sm_mid, SmiWeekOrMonth)
+    call erugeAfslutte(sm_aar, sm_sidsteugedag, sm_mid, SmiWeekOrMonth, 0)
 
 
     fmlink = "ugeseddel_2011.asp?usemrn="& usemrn &"&varTjDatoUS_man="& varTjDatoUS_man &"&varTjDatoUS_son= "& varTjDatoUS_son &"&nomenu=1&rdir=godkenduge"

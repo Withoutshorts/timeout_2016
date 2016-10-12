@@ -20,7 +20,7 @@ sub showafslutuge_ugeseddel
          call meStamdata(usemrn)
 
           '** Henter timer i den uge der skal afsluttes ***'
-          call afsluttedeUger(year(now), usemrn)
+          call afsluttedeUger(year(now), usemrn, 0)
 
          '** Er kriterie for afslutuge mødt? Ifht. medatype mindstimer og der må ikke være herreløse timer fra. f.eks TT
          call timeKriOpfyldt(lto, sidsteUgenrAfsl, meType, afslutugekri, usemrn)
@@ -220,8 +220,11 @@ varTjDatoUS_tor = dateAdd("d", 3, varTjDatoUS_man)
    <tr>
 	<td valign="top" style="width:90%;"><br />
 	
-	    
+	
+         
     <%call showafslutuge_ugeseddel %>
+
+   
     <!-- afslut uge -->
     
    &nbsp;

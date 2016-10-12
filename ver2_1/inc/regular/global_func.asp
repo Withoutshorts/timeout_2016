@@ -54,7 +54,7 @@
 '*** Er global inc_ inkluderet på den aktuelle side?? 
 global_inc = "j"
 
-
+            
 call basisValutaFN()
 
 public strKundenavnPDFtxt
@@ -800,6 +800,12 @@ function ersmileyaktiv()
 	autolukvdatodato = oRec("autolukvdatodato")
 	end if
 	oRec.close 
+
+    if lto = "dencker" AND session("mid") = 21 then
+    smilaktiv = 1
+    else
+    smilaktiv = 0
+    end if
 	
 	
 	

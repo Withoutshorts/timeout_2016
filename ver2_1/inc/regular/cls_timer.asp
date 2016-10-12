@@ -10,6 +10,8 @@ public totTimerWeek
     
 function timerDenneUge(usemrn, lto, varTjDatoUS_man, aty_sql_typer, dothis, SmiWeekOrMonth)
 
+     'Response.Write "DOTHIS: " & dothis & "<br>"
+
      if len(trim(SmiWeekOrMonth)) <> 0 then
      SmiWeekOrMonth = SmiWeekOrMonth
      else

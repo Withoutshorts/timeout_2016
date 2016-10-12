@@ -440,7 +440,7 @@ end if
                 end if
 
                 
-                call erugeAfslutte(useYear, usePeriod, oRec("mid"), SmiWeekOrMonth)
+                call erugeAfslutte(useYear, usePeriod, oRec("mid"), SmiWeekOrMonth, 0)
 		        
 		        'Response.Write "smilaktiv: "& smilaktiv & "<br>"
 		        'Response.Write "SmiWeekOrMonth: "& SmiWeekOrMonth &" ugeNrAfsluttet: "& ugeNrAfsluttet & " tjkDag: "& tjkDag &"<br>"

@@ -600,7 +600,7 @@ ugeafsluttet = 0
     useYear = strAar_sm
     end if
 
-call erugeAfslutte(useYear, usePeriod, usemrn, SmiWeekOrMonth)
+call erugeAfslutte(useYear, usePeriod, usemrn, SmiWeekOrMonth, 0)
 
 
 'Response.Write "lastfakdato" & lastfakdato & "strMrd_sm: "& strMrd_sm & " strWeek: "& strWeek & " usemrn:" & usemrn
@@ -2387,7 +2387,7 @@ function timerIndlaesPeriodeLukket(medarbejderid, regdato, intjobid)
                 end if
 
                 
-                call erugeAfslutte(useYear, usePeriod, medarbejderid, SmiWeekOrMonth)
+                call erugeAfslutte(useYear, usePeriod, medarbejderid, SmiWeekOrMonth, 0)
                 
                 call lonKorsel_lukketPer(regdato, -2)
               

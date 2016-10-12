@@ -1250,7 +1250,7 @@ if len(session("user")) = 0 then
                                 end if
 
                 
-                                call erugeAfslutte(useYear, usePeriod, oRec("usrid"), SmiWeekOrMonth)
+                                call erugeAfslutte(useYear, usePeriod, oRec("usrid"), SmiWeekOrMonth, 0)
 		        
 		                        'Response.Write "smilaktiv: "& smilaktiv & "<br>"
 		                        'Response.Write "SmiWeekOrMonth: "& SmiWeekOrMonth &" ugeNrAfsluttet: "& ugeNrAfsluttet & " tjkDag: "& tjkDag &"<br>"
@@ -1957,7 +1957,7 @@ if len(session("user")) = 0 then
                                 end if
 
                 
-                                call erugeAfslutte(useYear, usePeriod, oRec("mid"), SmiWeekOrMonth)
+                                call erugeAfslutte(useYear, usePeriod, oRec("mid"), SmiWeekOrMonth, 0)
 		        
 		                        'Response.Write "smilaktiv: "& smilaktiv & "<br>"
 		                        'Response.Write "SmiWeekOrMonth: "& SmiWeekOrMonth &" ugeNrAfsluttet: "& ugeNrAfsluttet & " tjkDag: "& tjkDag &"<br>"

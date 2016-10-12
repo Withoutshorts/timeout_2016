@@ -272,7 +272,13 @@ if len(session("user")) = 0 then
     'Response.write "rdir: "& rdir
     'Response.end
 
-		
+
+    'if len(trim(request("showafslut"))) <> 0 then
+	'showafslut = request("showafslut")
+    'else
+    'showafslut = 0    
+    'end if 
+
 	thisfile = "stempelur"
 	
 	select case func
@@ -1601,7 +1607,8 @@ if len(session("user")) = 0 then
 	                        
                             
                            
-	                        
+	                      
+                            
 
 	                        
 	                        select case rdir
@@ -1620,8 +1627,11 @@ if len(session("user")) = 0 then
                             
                             case "sesaba"
                         
+
+                                 call smileyAfslutSettings()  
+
                                 if cint(SmiWeekOrMonth) = 2 then 'videre til ugeafslutning og ugeseddel
-                                Response.redirect "../to_2015/ugeseddel_2011.asp?nomenu=1"
+                                Response.redirect "stempelur.asp?func=afslut&medarbSel="& strUsrId &"&showonlyone=1&hidemenu=1&id=0&rdir=sesaba" '../to_2015/ugeseddel_2011.asp?nomenu=1
                                 else
                                 Response.redirect "../sesaba.asp?logudDone=1"
                                 Response.end
@@ -1642,13 +1652,13 @@ if len(session("user")) = 0 then
 	
 	
 	%>
-	<!--#include file="../inc/regular/header_lysblaa_inc.asp"-->
+	<!--#include file="../inc/regular/header_lysblaa_2015_inc.asp"-->
+    
      <script src="inc/stempelur_jav.js"></script>
-     <SCRIPT language=javascript src="inc/smiley_jav.js"></script>
+    
 	<%
 	    
-        call ersmileyaktiv()
-        call smileyAfslutSettings() 
+      
         
        
 	
@@ -1668,20 +1678,32 @@ if len(session("user")) = 0 then
        
 	
 	%>
-	
-	
-	<div id="sindhold2" style="position:relative; width:600px; left:<%=sideDivLeft%>px; top:<%=sideDivTop%>px; visibility:visible;">
-   
+
+<br /><br /><br /><br />
+  <div class="wrapper">
+    <div class="content">   
+
+	 <div class="container">
+
+         <div class="well well-white" style="width:80%;"> 
+
+      <div class="portlet">
+            <h3 class="portlet-title">
+              <u><%=opdAfsl%></u><!-- ugeseddel -->
+            </h3>
+         
+        <div class="portlet-body">
+             <a href="#" onclick="javascriot:history.back();"><< Tilbage</a><br />&nbsp;
 	
 	<% 
 	
-	oimg = "ikon_stempelur_48.png"
-    oleft = 0
-	otop = 0
-	owdt = 600
-	oskrift = opdAfsl
+	'oimg = "ikon_stempelur_48.png"
+    'oleft = 0
+	'otop = 0
+	'owdt = 600
+	'oskrift = opdAfsl
 	
-	call sideoverskrift(oleft, otop, owdt, oimg, oskrift)
+	'call sideoverskrift(oleft, otop, owdt, oimg, oskrift)
 	
 	
 	dim loginDT, logudDT, datoDT, stur, kommentar, loginDato, idThis, firsttime
@@ -1718,9 +1740,7 @@ if len(session("user")) = 0 then
                         if len(trim(session("mid"))) <> 0 then
                         medarbSel = session("mid")
                         else
-                        %>
-                        <!--#include file="../inc/regular/header_inc.asp"-->
-                        <%
+                     
 	                    errortype = 5
 	                    call showError(errortype)
                         Response.end
@@ -1822,12 +1842,12 @@ if len(session("user")) = 0 then
 	
 	
 	
-	tTop = 10
-    tLeft = 0
-    tWdth = 560
+	'tTop = 10
+    'tLeft = 0
+    'tWdth = 560
 
 
-    call tableDiv(tTop,tLeft,tWdth)
+    'call tableDiv(tTop,tLeft,tWdth)
 	
     if len(trim(useMid)) <> 0 then
     useMid = useMid
@@ -1836,13 +1856,16 @@ if len(session("user")) = 0 then
     end if
 	
 	%>
+     <div class="row">
+           <div class="col-lg-8">
+
 	<form action="stempelur.asp?menu=stat&func=dbloginhist&FM_usedatokri=1&medarbSel=<%=useMid%>&showonlyone=<%=showonlyone%>&hidemenu=<%=hidemenu%>&rdir=<%=rdir %>" method="post">
     <input type="hidden" value="<%=SmiWeekOrMonth%>" name="SmiWeekOrMonth" />
 	<table cellspacing=0 cellpadding=0 border=0 width=100%>
 	<tr>  
-	    <td style="padding:20px 0px 0px 25px;">
+	    <td>
 	
-	<h4><%= weekdayname(weekday(useDato, 1))%> d. <%=formatdatetime(useDato, 1)%> 
+	<b><%= weekdayname(weekday(useDato, 1))%> d. <%=formatdatetime(useDato, 1)%> </b>
     <%if id <> 0 then %>
     <!--<span style="font-size:9px;"><br />Samt uafsluttede loginds foregående 3 dage<br />-->
     <%
@@ -1906,10 +1929,10 @@ if len(session("user")) = 0 then
 	
 	
 	if cdbl(idThis(a)) = cdbl(id) then
-	bgthis = "#FFFFFF"
+	'bgthis = "#FFFFFF"
 	bdcol = "#FFFFFF" 
 	else
-	bgthis = "#FFFFFF"
+	'bgthis = "#FFFFFF"
 	bdcol = "#FFFFFF" 
 	end if
     
@@ -1940,49 +1963,40 @@ if len(session("user")) = 0 then
        'strTxt = "&nbsp;"
        'end if%>
 	
-	<br />
-	 <table cellspacing="0" cellpadding="0" border="0" width="550">
+	
+
+	 <table cellspacing="0" cellpadding="0" border="0" width="100%">
 	 <tr bgcolor="<%=bgthis %>">
-	    <td colspan=4 style="padding:10px 0px 10px 10px;">
-	    <%= strTxt %>
+	    <td colspan=4 style="padding:10px 0px 10px 0px;">
+	    <%=strTxt %>
 	   </td></tr>
 	
 	<tr bgcolor="<%=bgthis %>">
-		<td valign=top style="padding:0px 0px 0px 10px;"><b>Dato:</b>
+		<td valign=top><b>Dato:</b>
 		<input type="hidden" name="id" id="id" value="<%=idThis(a)%>">
 		<input type="hidden" name="mid" id="mid" value="<%=useMid%>">
 		<br />
 		<%
-		't = 1000
-		'if t = 1000 then
 		if level = 1 OR id = 0 then%>
-		<input type="text" size="8" name="logindato" id="logindato" value="<%=datoDT(a)%>"><span style="color:#999999;"><br />Eks: 03-04-2006</span>
+		<input type="text" name="logindato" id="logindato" value="<%=datoDT(a)%>" style="width:100px;" placeholder="03-10-2016" class="form-control input-small">
 		<%else%>
 		
 		<%=formatdatetime(datoDT(a),1) %> <!--left(formatdatetime(loginDT, 3), 5)--> 
 		<input type="hidden" name="logindato" id="logindato" value="<%=datoDT(a)%>">
 		<%end if%></td>
 	
-		<td valign=top style="padding:0px 0px 0px 10px;"><b>Logind:</b><br />
-		
-		<%'if level <= 2 OR level = 6 then%>
-		<input type="text" name="FM_login_hh" id="FM_login_hh_<%=a%>" size=1 value="<%=loginDThh%>"> 
-		<b>:</b> <input type="text" name="FM_login_mm" id="FM_login_mm_<%=a%>" size=1 value="<%=loginDTmm%>">
-		&nbsp;&nbsp;tt:mm
+		<td valign=top><b>Logind:</b><br />
+      
+	    <input type="text" name="FM_login_hh" id="FM_login_hh_<%=a%>" value="<%=loginDThh%>" style="width:60px; display: inline-block;" placeholder="tt" class="form-control input-small">:
+        <input type="text" name="FM_login_mm" id="FM_login_mm_<%=a%>" value="<%=loginDTmm%>" style="width:60px; display: inline-block;" placeholder="mm" class="form-control input-small">
+        
+		<!--&nbsp;&nbsp;tt:mm-->
 
         <!-- bruges til arrray split -->
 	    <input type="hidden" name="FM_login_hh" id="Hidden3" value="#">
 		<input type="hidden" name="FM_login_mm" id="Hidden4"  value="#">
 
-		<%'else%>
-		
-        <!-- 
-		%=loginDThh &":"&loginDTmm%>
-		<input type="hidden" name="FM_login_hh" id="FM_login_hh" value="<=loginDThh%>">
-		<input type="hidden" name="FM_login_mm" id="FM_login_mm"  value="<=loginDTmm%>">
-        -->
-	
-		<%'end if%></td>
+		</td>
 		
 		<input type="hidden" name="oprFM_login_hh" id="hidden5" value="<%=oprloginDThh%>">
 		<input type="hidden" name="oprFM_login_mm" id="Hidden2"  value="<%=oprloginDTmm%>">
@@ -1994,11 +2008,9 @@ if len(session("user")) = 0 then
 	    
 	
 	
-		<td valign=top style="padding:0px 0px 0px 10px;"><b>Logud:</b> <!--(<a href="#" id="a_<=a%>" class="rmenu">ikke endnu</a>)--><br />
-		
-		
-		<input type="text" name="FM_logud_hh" id="FM_logud_hh_<%=a%>" size=1 value="<%=logudDThh%>"> <b>:</b>
-		<input type="text" name="FM_logud_mm" id="FM_logud_mm_<%=a%>" size=1 value="<%=logudDTmm%>">&nbsp;&nbsp;tt:mm
+		<td valign=top><b>Logud:</b> <!--(<a href="#" id="a_<=a%>" class="rmenu">ikke endnu</a>)--><br />
+		<input type="text" name="FM_logud_hh" id="FM_logud_hh_<%=a%>" value="<%=logudDThh%>" style="width:60px; display: inline-block;" class="form-control input-small">:
+		<input type="text" name="FM_logud_mm" id="FM_logud_mm_<%=a%>" value="<%=logudDTmm%>" style="width:60px; display: inline-block;" class="form-control input-small">
 
         <!-- bruges til arrray split -->
 		 <input type="hidden" name="FM_logud_hh" id="Hidden6" value="#">
@@ -2017,17 +2029,10 @@ if len(session("user")) = 0 then
         <!-- bruges til arrray split -->
 		 <input type="hidden" name="oprFM_logud_hh" id="Hidden10" value="#">
 		<input type="hidden" name="oprFM_logud_mm" id="Hidden11"  value="#">
+	    </td>
 		
-		
-		
-		
-		</td>
-		
-		
-		
-	
-		<td valign=top style="padding:0px 0px 0px 10px;"><b>Stempelurindst:</b><br />
-		<select name="FM_stur" style="width:100px;">
+	    <td valign=top><b>Stempelurindst:</b><br />
+		<select name="FM_stur" class="form-control input-small">
          <%if lto <> "fk_bpm" AND lto <> "kejd_pb" AND lto <> "kejd_pb2" then %>
 		<!--<option value="0">Ingen</option>-->
 		<%end if
@@ -2051,9 +2056,9 @@ if len(session("user")) = 0 then
 		%></select>
 		</td>
 	</tr>
-	<tr bgcolor="<%=bgthis %>">
-	    <td colspan=4 style="padding-bottom:30px; padding-left:10px;"><br /><b>Kommentar:</b>
-	    <br /><textarea id="FM_kommentar_<%=a %>" name="FM_kommentar" style="width:440px; height:60px;"><%=kommentar(a) %></textarea></td>
+	<tr>
+	    <td colspan=4 style="padding:10px 0px 0px 0px;">Kommentar:
+	    <br /><textarea id="FM_kommentar_<%=a %>" name="FM_kommentar" class="form-control input-small"><%=kommentar(a) %></textarea></td>
          <input type="hidden" name="FM_kommentar" id="Hidden13"  value="#">  
 	</tr>
 	</table>
@@ -2092,20 +2097,26 @@ if len(session("user")) = 0 then
 
 
         %>
-        <table cellspacing=0 cellpadding=0 border=0 width=500>
-	    <tr bgcolor="#FFFFFF">
-	    <td style="padding-left:10px;"><br />
+        <table cellspacing=0 cellpadding=0 border=0 width=100%>
+	    <tr>
+	    <td valign="top">
 
         <%if func = "redloginhist" then %>
-
+        
+         <!--
         <b>Tilføj/Rediger pauser på denne dato:</b><br />
         <br> Der kan kun tilføjes pauser på en dato med et gyldigt logind.
 	    <br />Pauser bliver automatisk fratrukket login timer den pågældende dato.
-        <br />Standard pause(r) er: <b><%=stPauseLic_1 %> min.</b>
+        <br />Standard pause(r) er: <b><%=stPauseLic_1 %> min.</b>-->
             
+
+        <!--
             <%if stPauseLic_2 <> 0 then %>
              og <b><%=stPauseLic_2 %></b> min.
             <%end if %>
+
+        -->
+
         <%
      
             
@@ -2122,10 +2133,15 @@ if len(session("user")) = 0 then
             p = 1
             oRec.open strSQL, oConn, 3
             while not oRec.EOF
-            %>
-        
-            <br /><br /><b>Pause <%=p %>:</b> 
-            <select name="p<%=p %>" id="p<%=p %>" style="font-family:arial; font-size:9px;">
+            
+            
+            if p <> 1 then%>
+             </td>
+              <td valign="top">
+            <%end if %>
+
+            <b>Pause <%=p %>:</b> 
+            <select name="p<%=p %>" id="p<%=p %>" style="width:250px;" class="form-control input-small">
             
              <% 
            
@@ -2191,11 +2207,12 @@ if len(session("user")) = 0 then
 
                <option value="55" <%=selM55%>>55 min</option>
               
-            </select> min.<br />
+            </select> 
         
             
-            <br />Kommentar pause <%=p %>:
-	        <br /><textarea id="FM_komm_p<%=p %>" name="FM_komm_p<%=p %>" style="font-size:9px; font-family:arial; width:350px; height:46px;"><%=oRec("kommentar") %></textarea>
+            Kommentar pause <%=p %>:
+	        <br /><textarea id="FM_komm_p<%=p %>" name="FM_komm_p<%=p %>" style="width:250px;" class="form-control input-small"><%=oRec("kommentar") %></textarea>
+            </td>
 
             <%
             if p = 1 then
@@ -2282,24 +2299,91 @@ if len(session("user")) = 0 then
 	    </td></tr>
 	   
 
-       
-        <tr>
-		<td align=right style="padding-right:30px;"><br><br />&nbsp;
+       <tr>
+		<td align=right colspan="4"><br>&nbsp;
       
 
 		<%if id <> 0 then %>
-            <input id="Submit1" type="submit" value="Opdater >>" />
+            <input id="Submit1" type="submit" value="Opdater >>" class="btn btn-sm btn-success" />
 		<%else %>
-            <input id="Submit1" type="submit" value="Gem >>" />
+            <input id="Submit1" type="submit" value="Gem >>" class="btn btn-sm btn-success" />
         <%end if %>
             
+            <br /><br />&nbsp;
         
 		</td></form>
 	</tr>
+    </table>
+    
+     </div><!--class="col-lg-6" -->
+           <div class="col-lg-2">&nbsp;</div>
 
-         <%if rdir = "sesaba" AND (cint(SmiWeekOrMonth) = 2) then %>
+      </div><!--  class="row" -->
+    
+
+  
+	</div> <!-- well -->
+          </div></div>
+                </div> <!-- portlet title -->
+             </div></div>  <!-- Wrapper / Content -->
+
+        
+
+   
+    
+	
+	<%
+   case "afslut"    
+        
+
+        call ersmileyaktiv()
+        call smileyAfslutSettings() 
+
+         call meStamdata(medarbSel)
+
+        usemrn = medarbSel
+
+        opdAfsl = "Afslut dag"
+        
+        %>
+        <!--#include file="../inc/regular/header_lysblaa_2015_inc.asp"-->
+        <SCRIPT language=javascript src="inc/smiley_jav.js"></script>
+         
+
+      
+      <br /><br /><br /><br />
+      <div class="wrapper">
+    <div class="content">   
+
+	 <div class="container">
+      
+         <div class="well well-white" style="width:80%;"> 
+         
+         <div class="portlet">
+            <h3 class="portlet-title">
+              <u><%=opdAfsl%></u><!-- ugeseddel -->
+            </h3>
+
+          
+        <div class="portlet-body">
+
+        <%varTjDatoUS_man_w = datepart("w", now, 2,2)
+        varTjDatoUS_man = dateAdd("d", -(varTjDatoUS_man_w-1), now) 
+        varTjDatoUS_man = year(varTjDatoUS_man) &"/"& month(varTjDatoUS_man) &"/"& day(varTjDatoUS_man) %>
+
+         <a href="#" onclick="javascriot:history.back();">Komme / Gå</a> | <a href="../to_2015/ugeseddel_2011.asp?usemrn=<%=usemrn %>&varTjDatoUS_man=<%=varTjDatoUS_man %>">Ugeseddel</a>
+
+       
+         <div class="row">
+           <div class="col-lg-8">
+
+               
+         <%
+           
+         if rdir = "sesaba" AND (cint(SmiWeekOrMonth) = 2)  then %>
+       <table cellspacing=0 cellpadding=0 border=0 width=100%>
          <tr>
-		<td style="padding-right:30px; width:600px;">
+		<td colspan="4">
 
       
         <%
@@ -2315,59 +2399,46 @@ if len(session("user")) = 0 then
         end if    
 
         varTjDatoUS_man = dateAdd("d", - 6, varTjDatoUS_son)
-        usemrn = useMid
+        
         
         call akttyper2009(2)
-        'call erugeAfslutte(tjkAar, datepart("ww", varTjDatoUS_son, 2,2), useMid)
         timerdenneuge_dothis = 1
         call showafslutuge_ugeseddel
-            
-        'call erugeAfslutte(tjkAar, datepart("ww", varTjDatoUS_son, 2,2), useMid) %>
-        <%'call godkendugeseddel(fmlink, useMid, varTjDatoUS_man, rdir) %>
+        %>
+      
         </td></tr></form>
         <%end if 'SmiWeekOrMonth %>
 
-        
+          </div><!--class="col-lg-6" -->
+           <div class="col-lg-1">&nbsp;</div>
+
+                </div><!--  class="row" -->
+    
+
+	
+          </div>  <!--Well Well-white -->
+             </div>  <!--portlet body -->
+	
+	</div> <!-- container -->
+                </div> <!-- portlet title -->
+             </div></div>  <!-- Wrapper / Content -->
+
         
 
-	</table>
-    
-    
-    
-    </td></tr></table>
-	</div><!-- table div -->
-	</div><!-- sidediv -->
-	
-	
+     
         
-
-     <br /><br /> <br /><br /> <br /><br /> <br /><br />
-    &nbsp;
-    
-	
-	<%case "stat"
+        <%
+   case "stat"
 	
 	
 	
 	
 	if hidemenu = 0 then%>
 	
-	<!--#include file="../inc/regular/header_lysblaa_inc.asp"-->
+	 <!--#include file="../inc/regular/header_lysblaa_2015_inc.asp"-->
     <script src="inc/stempelur_jav.js"></script>
 	
-    <!--
-	<div id="topmenu" style="position:absolute; left:0; top:42; visibility:visible;">
-	
-	<%call tsamainmenu(7)%>
-	</div>
-	<div id="sekmenu" style="position:absolute; left:15; top:82; visibility:visible;">
-	<%
-	if showonejob <> 1 then
-		call stattopmenu()
-	end if
-	%>
-	</div>
-    -->
+ 
 	<%
 
     call menu_2014()
@@ -2378,7 +2449,7 @@ if len(session("user")) = 0 then
 	else
 	
 	%>
-	<!--#include file="../inc/regular/header_lysblaa_inc.asp"-->
+	 <!--#include file="../inc/regular/header_lysblaa_2015_inc.asp"-->
 	<%
 	
 	sideDivTop = 20
@@ -2430,9 +2501,8 @@ if len(session("user")) = 0 then
 
 	</div>
 
-    
+   
 
-	
 	<div id="sindhold" style="position:absolute; left:<%=sideDivLeft%>px; top:<%=sideDivTop%>px; visibility:visible;">
 	
 	<% 
@@ -2618,6 +2688,9 @@ if len(session("user")) = 0 then
 	</div>
 	<%end select%>
 
+
+
+           
 
 <%end if%>
 <!--#include file="../inc/regular/footer_inc.asp"-->

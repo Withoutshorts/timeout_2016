@@ -76,7 +76,7 @@ varErrorText = "Der mangler at blive indtastet en af følgende informationer: <br
 &"<ul> "_
 &"<li>Jobnavn (eller Du har angivet <b>'jobnavn..'</b> som navn)"_
 &"<li>Jobnavn indeholder et <b>''</b> eller et <b>'</b>"_ 
-&"<li>Jobnavn er på <b>mere end 100</b> karakterer. ("& len(request("FM_navn")) &")"_
+&"<li>Jobnavn er på <b>mere end 150</b> karakterer. ("& len(request("FM_navn")) &")"_
 &"<li>Jobnr. "_
 &"<li>Jobnr. er på <b>mere end 20</b> karakterer."_
 &"<li>Startdato er en <b>senere dato </b>end slutdato."_

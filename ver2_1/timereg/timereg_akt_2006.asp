@@ -25,7 +25,7 @@
 	<!--#include file="inc/timereg_akt_2006_inc.asp"-->
     <!--#include file="inc/timereg_hojrediv_inc.asp"-->
 	<!--#include file="inc/timereg_matrix_timespan_inc.asp"-->
-    <!--#include file="inc/smiley_inc.asp"-->
+    
 	<!--#include file="inc/isint_func.asp"-->
     <!--#include file="../inc/regular/treg_func.asp"-->
     <!--#include file="../inc/regular/topmenu_inc.asp"-->
@@ -34,7 +34,7 @@
 	    
 	
 	<%
-
+        
   
 	
 	
@@ -5976,6 +5976,18 @@
      rdir = request("rdir")
      varTjDatoUS_man = request("varTjDatoUS_man")
     
+
+     select case rdir
+     
+    case "stempelur"
+    response.Redirect "../sesaba.asp?loguddone=1"
+    response.end  %>                      
+                               
+    <!--<a href="../sesaba.asp?loguddone=1"><%=left(tsa_txt_006, 7) %> >></a>-->
+    <%
+
+     case else
+
         
         '*** Vender tilbage til timereg ****'
         %>
@@ -5986,6 +5998,10 @@
 	    <tr>
 	        <td bgcolor="#ffffff" style="padding-top:15px; font-size:16px; font-weight:bolder;">
                
+
+                <%if cint(hidesmileyicon) = 0 then %>  
+                <span style="display:block;"><img src="../ill/<%=smileyImg%>" border=0 /></span><br />
+                <%end if %>
                    
                   <%select case cint(SmiWeekOrMonth) 
                    case 0  'uge aflsutning  %>
@@ -5997,9 +6013,7 @@
                    <%end select%>
                    
              
-               <%if cint(hidesmileyicon) = 0 then %>  
-            <span><img src="../ill/<%=smileyImg%>" border=0 /></span>
-                <%end if %>
+                
 
 	        </td>
 	        <td valign="top" align=right bgcolor="#ffffff">
@@ -6021,15 +6035,40 @@
 
 
               
+                
+
+            <% 
+            select case cint(SmiWeekOrMonth) 
+            case 0, 1%>
+
 
 	        <%=tsa_txt_002%>:<br /> <%=weekdayname(datepart("w",cDateUge,1)) %> d. 
 	        <%=formatdatetime(cDateUge, 2) &" "& tsa_txt_003 %>. 
-	        <%=formatdatetime(cDateUge, 3) %><br />
-	        <br />
+	        <%=formatdatetime(cDateUge, 3) %><br /><br />
+
+                
+	       
+             <%'**Tidstemple for afslutning %>
+             <!--
 	        <%=tsa_txt_004 %>:<br /><%=weekdayname(datepart("w",cDateAfs,1)) %> d. 
 	        <%=formatdatetime(cDateAfs, 2) &" "& tsa_txt_003 &". "& formatdatetime(cDateAfs, 3) %>
-	        <br />
-	        <span style="font-size:14px;">
+             <br />-->
+	        
+            <%case 2%>
+
+               
+
+            <%=tsa_txt_002%>:<br /> <%=weekdayname(datepart("w",cDateUge,1)) %> d. 
+	        <%=formatdatetime(cDateUge, 2) &" "& tsa_txt_003 %>. 
+	        <%=formatdatetime(cDateUge, 3) %><br /><br />
+	       
+            <%end select %>
+                
+
+           
+
+
+	            <span style="font-size:14px;">
                 <%select case cint(SmiWeekOrMonth) 
                 case 0 'uge aflsutning  %>
                 <b><%=tsa_txt_005 &" "& datepart("ww", cDateUgeTilAfslutning, 2, 2)%> </b>
@@ -6038,41 +6077,41 @@
                 %>
                 <b><%=monthname(month(afslutmd)) & ", "& year(afslutmd) %></b>
                 <%case 2 %>
-                <b><%=weekdayname(weekday(cDateUge, 2)) %> d. <%=formatdatetime(cDateUge, 2) %></b>
+                <b><%=weekdayname(datepart("w", cDateUgeTilAfslutning, 2, 2), 0,2) %> d. <%=formatdatetime(cDateUgeTilAfslutning, 2) %></b>
                 <%end select %>
 
+                   
                 <%=smileysttxt %></span>
 	        
            
 
-	        </td>
-	    </tr>
-	<tr>
-	<td>
+	                </td>
+	            </tr>
+	        <tr>
+	        <td>
 
-    <%select case rdir
-     case "ugeseddel_2011"
-    %>
-    <a href="../to_2015/ugeseddel_2011.asp?usemrn=<%=usemrn%>&varTjDatoUS_man=<%=varTjDatoUS_man%>"><%=left(tsa_txt_006, 7) %> >></a>
-    <% 
-    case "logindhist"
-    %>
-    <a href="logindhist_2011.asp?usemrn=<%=usemrn%>&varTjDatoUS_man=<%=varTjDatoUS_man%>"><%=left(tsa_txt_006, 7) %> >></a>
-    <%
-    case "stempelur"
-    %>
-    <a href="stempelur.asp?usemrn=<%=usemrn%>&varTjDatoUS_man=<%=varTjDatoUS_man%>"><%=left(tsa_txt_006, 7) %> >></a>
-    <%
-     case else %>
-	 <a href="timereg_akt_2006.asp"><%=tsa_txt_006 %> >></a>
-     <%end select %>
+            <%select case rdir
+             case "ugeseddel_2011"
+            %>
+            <a href="../to_2015/ugeseddel_2011.asp?usemrn=<%=usemrn%>&varTjDatoUS_man=<%=varTjDatoUS_man%>"><%=left(tsa_txt_006, 7) %> >></a>
+            <% 
+            case "logindhist"
+            %>
+            <a href="logindhist_2011.asp?usemrn=<%=usemrn%>&varTjDatoUS_man=<%=varTjDatoUS_man%>"><%=left(tsa_txt_006, 7) %> >></a>
+            <%
+             case else %>
+	         <a href="timereg_akt_2006.asp"><%=left(tsa_txt_006, 7)%> >></a>
+             <%end select %>
         
-		</td>
-	</tr>
-      <%end if %>
-</table>
-</div>
+		        </td>
+	        </tr>
+              <%end if %>
+        </table>
+        </div>
         <%
+
+        end select
+
         Response.end
 	   
 	    
@@ -7896,24 +7935,33 @@
           call meStamdata(usemrn)
 
           '** Henter timer i den uge der skal afsluttes ***'
-          call afsluttedeUger(year(now), usemrn)
+          call afsluttedeUger(year(now), usemrn, 0)
 
          '** Er kriterie for afslutuge mødt? Ifht. medatype mindstimer og der må ikke være herreløse timer fra. f.eks TT
          call timeKriOpfyldt(lto, sidsteUgenrAfsl, meType, usemrn, SmiWeekOrMonth)
 
-    
-         timerdenneuge_dothis = 0
+         select case SmiWeekOrMonth
+         case 0,1
+         timerdenneuge_dothis = 0 
+         case 2
+         timerdenneuge_dothis = 1
+         end select
+
          call timerDenneUge(usemrn, lto, tjkTimeriUgeSQL, akttypeKrism, timerdenneuge_dothis, SmiWeekOrMonth)
      
            'response.Write "SmiWeekOrMonth: "& SmiWeekOrMonth
 
-         if cint(SmiWeekOrMonth) = 0 then 'uge aflsutning
+         select case cint(SmiWeekOrMonth) 
+         case 0 'uge aflsutning
          weekMonthDate = datepart("ww", tjekdag(7),2,2)
-         else
+         case 1 'MD
          weekMonthDate = datepart("m", tjekdag(7),2,2)
-         end if
+         case 2
+         weekMonthDate = formatdatetime(now, 2) ' SKAL DET ALTID VÆRE DD?
+         weekMonthDate = year(weekMonthDate) & "-" & month(weekMonthDate) & "-" & day(weekMonthDate)
+         end select
 
-         call erugeAfslutte(datepart("yyyy", tjekdag(7),2,2), weekMonthDate, usemrn, SmiWeekOrMonth) 
+         call erugeAfslutte(datepart("yyyy", tjekdag(7),2,2), weekMonthDate, usemrn, SmiWeekOrMonth, 0) 
 
 
         %>
@@ -7962,25 +8010,29 @@
         <%
 	    '**** Afslut uge ***'
 	    '**** Smiley vises hvis sidste uge ikke er afsluttet, og dag for afslutninger ovwerskreddet ***' 12 
-        if cint(SmiWeekOrMonth) = 0 then
+        select case cint(SmiWeekOrMonth) 
+        case 0 
         denneUgeDag = datePart("w", now, 2,2)
         s0Show_sidstedagsidsteuge = dateAdd("d", -denneUgeDag, now) 'now
-        else
+        case else
         s0Show_sidstedagsidsteuge = now
-        end if
+        end select
 
         '** finder kriterie for rettidig afslutning
-        call rettidigafsl(s0Show_sidstedagsidsteuge)
+        call rettidigafsl(s0Show_sidstedagsidsteuge, 0)
 
-        if cint(SmiWeekOrMonth) = 0 then
+        select case cint(SmiWeekOrMonth) 
+        case 0 
             s0Show_weekMd = datePart("ww", s0Show_sidstedagsidsteuge, 2,2)
-        else
+        case 1
             s0Show_weekMd = datePart("m", s0Show_sidstedagsidsteuge, 2,2)
-        end if
+        case 2
+            s0Show_weekMd = s0Show_sidstedagsidsteuge
+        end select
 
         
         '** tjekker om uge er afsluttet og viser afsluttet eller form til afslutning
-		call erugeAfslutte(year(s0Show_sidstedagsidsteuge), s0Show_weekMd, usemrn, SmiWeekOrMonth)
+		call erugeAfslutte(year(s0Show_sidstedagsidsteuge), s0Show_weekMd, usemrn, SmiWeekOrMonth, 0)
       
        
         'if session("mid") = 1 then
@@ -7989,16 +8041,16 @@
             
         'end if
 
+        'response.write "cDateUge: " & cDateUge
+
         if (cDate(formatdatetime(now, 2)) >= cDate(formatdatetime(cDateUge, 2)) AND cint(ugeNrStatus) = 0) OR cint(smiley_agg) = 1 then
 
 
 	    'if (datepart("w", now, 2,2) = 1 AND datepart("h", now, 2,2) <= 23 AND session("smvist") <> "j") OR cint(smiley_agg) = 1 then
-
-       
-    	        smVzb = "visible"
-    	        smDsp = ""
-    	        session("smvist") = "j"
-    	        showweekmsg = "j"
+        smVzb = "visible"
+    	smDsp = ""
+    	session("smvist") = "j"
+    	showweekmsg = "j"
          
     	else
     	smVzb = "hidden"
@@ -8014,7 +8066,7 @@
     	    
             '*** Auto popup ThhisWEEK now SMILEY
 	        if cint(smilaktiv) = 1 then%>
-	        <div id="s0" style="position:relative; left:20px; top:142px; width:725px; visibility:<%=smVzb%>; display:<%=smDsp%>; z-index:2; background-color:#FFFFFF; padding:20px; border:0px #CCCCCC solid;">
+	        <div id="s0" style="position:relative; left:20px; top:142px; width:705px; visibility:<%=smVzb%>; display:<%=smDsp%>; z-index:2; background-color:#FFFFFF; padding:20px; border:0px #CCCCCC solid;">
 	       <%
                
            '*** Viser sidste uge
@@ -8031,12 +8083,7 @@
 
             if cint(afslutugekri) = 0 OR ((cint(afslutugekri) = 1 OR cint(afslutugekri) = 2) AND cint(afslProcKri) = 1) OR cint(level) = 1 then 
             
-                
-
-	        call afslutuge(weekSelectedTjk, 1, tjekdag(7), "", SmiWeekOrMonth)
-
-             
-         
+            call afslutuge(weekSelectedTjk, 1, tjekdag(7), "", SmiWeekOrMonth)
 
             else
             
@@ -8066,7 +8113,12 @@
 
             end if
 	        
-	        %>
+	      
+
+             '********************************************************************     
+            '*** Viser allerede afsluttede peridoer 
+            '********************************************************************
+            if cint(SmiWeekOrMonth) <> 2 then 'Afslut på dag. Giver ikke mening at vise. Uoverskueligt %>
                
 	      <br /><br />
 	        <span id="se_uegeafls_a" style="color:#5582d2;">[+] <%=tsa_txt_402 &" "& year(tjekdag(4))%></span><br /><%
@@ -8074,16 +8126,22 @@
             '** Hvilke uger er afsluttet '***
 	        call smileystatus(usemrn, 1, useYear)
 	        
-                
+                %><br />&nbsp;<%
+
+             end if
                 
                 
              %>
-	        <br />&nbsp;
+	      
 
                
 	        </div>
         	
 	        <%end if 'visSmliley
+
+
+
+
 
 
                 'Response.write "<br><br><br><br><br><br><br><br><br><br>antalAfsDato + 3) < useDateSmileyTjkWeek:<br>"
@@ -8107,12 +8165,18 @@
 
                 %>
 
-                                            <!--
-                                <br><br><br><br><br><br><br><br><br><br><br /><br />             <br />
+<!--
+        
+            
+                                          
+                                <br><br><br><br><br><br><br><br><br><br><br /><br /><br><br><br><br><br><br><br><br><br><br><br /><br />             <br />
                         &nbsp;&nbsp;&nbsp;&nbsp;<%=cdate(now) &"< " & cdate(indevarendeUgeDt)%>
 
-                        &nbsp;&nbsp;&nbsp;&nbsp;<%=antalAfsDato &" "& slip &" < "& useDateSmileyTjkWeek%>
-                        -->
+
+                        &nbsp;&nbsp;&nbsp;&nbsp;<%=antalAfsDato &" slip: "& slip &" < "& useDateSmileyTjkWeek%>
+
+    -->
+                        
 
 <%
 

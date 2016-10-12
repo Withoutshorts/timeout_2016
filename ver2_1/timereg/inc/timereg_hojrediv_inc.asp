@@ -440,6 +440,7 @@ function notificerEmail(usemrn, EmailNotificerTxt, visning, modtagerid)
                                         case 1
                                         '* Henter alle de teamleder der abonerer på notifikation for denne projektgruppe 
                                         '*********************************************************************************************************
+                                        myMailTostr = ""                            
 
                                                     call medariprogrpFn(usemrn)
                 
@@ -476,8 +477,8 @@ function notificerEmail(usemrn, EmailNotificerTxt, visning, modtagerid)
 				                                                end if
 				                                                oRec5.close
 
-		            				                               'Mailer.AddRecipient "" & modNavn & "", "" & modEmail & ""
-                                                                   myMail.To= ""& modNavn &"<"& modEmail &">"
+		            				                              
+                                                                   myMailTostr = myMailTostr & modNavn &"<"& modEmail &">;"
                                                      
             
                                                                end if
@@ -489,6 +490,8 @@ function notificerEmail(usemrn, EmailNotificerTxt, visning, modtagerid)
                                                     next
 
 
+                                                        myMail.To = myMailTostr '""& modNavn &"<"& modEmail &">"
+                                                        modEmail = myMailTostr 'For at være sikker på mail bliver sendt
 
                                                         'if lto = "esn" then
                                                         '            myMail.Cc= "Eniga Drift - TimeOut<timeoutfravaer@eniga.dk>"

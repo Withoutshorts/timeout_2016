@@ -364,7 +364,7 @@ if len(session("user")) = 0 then
          call meStamdata(usemrn)
 
           '** Henter timer i den uge der skal afsluttes ***'
-          call afsluttedeUger(year(now), usemrn)
+          call afsluttedeUger(year(now), usemrn, 0)
 
         '** Er kriterie for afslutuge mødt? Ifht. medatype mindstimer og der må ikke være herreløse timer fra. f.eks TT
          call timeKriOpfyldt(lto, sidsteUgenrAfsl, meType, usemrn, SmiWeekOrMonth)
@@ -379,7 +379,7 @@ if len(session("user")) = 0 then
          weekMonthDate = datepart("m", varTjDatoUS_son,2,2)
          end if
 
-         call erugeAfslutte(datepart("yyyy", varTjDatoUS_son,2,2), weekMonthDate, usemrn, SmiWeekOrMonth) 
+         call erugeAfslutte(datepart("yyyy", varTjDatoUS_son,2,2), weekMonthDate, usemrn, SmiWeekOrMont, 0) 
 
          
 
@@ -402,7 +402,7 @@ if len(session("user")) = 0 then
         end if
 
         '** finder kriterie for rettidig afslutning
-        call rettidigafsl(s0Show_sidstedagsidsteuge)
+        call rettidigafsl(s0Show_sidstedagsidsteuge, 0)
 
         if cint(SmiWeekOrMonth) = 0 then
             s0Show_weekMd = datePart("ww", s0Show_sidstedagsidsteuge, 2,2)
@@ -413,7 +413,7 @@ if len(session("user")) = 0 then
         
          '** HVORFOR DENNE IGEN?
         '** tjekker om uge er afsluttet og viser afsluttet eller form til afslutning
-		call erugeAfslutte(year(s0Show_sidstedagsidsteuge), s0Show_weekMd, usemrn, SmiWeekOrMonth)
+		call erugeAfslutte(year(s0Show_sidstedagsidsteuge), s0Show_weekMd, usemrn, SmiWeekOrMonth, 0)
       
       
       
@@ -499,10 +499,13 @@ if len(session("user")) = 0 then
 
             end if
 	        
-	        %>
-               
-	      <br /><br />
-	        <span id="se_uegeafls_a" style="color:#5582d2;">[+] <%=tsa_txt_402 & " "& year(varTjDatoUS_son)%></span><br /><%
+	          
+            '********************************************************************     
+            '*** Viser allerede afsluttede peridoer 
+            '********************************************************************
+            if cint(SmiWeekOrMonth) <> 2 then 'Afslut på dag. Giver ikke mening at vise. Uoverskueligt %>
+            <br /><br />
+            <span id="se_uegeafls_a" style="color:#5582d2;">[+] <%=tsa_txt_402 & " "& year(varTjDatoUS_son)%></span><br /><%
 
             varTjDatoUS_ons = dateAdd("d", -3, varTjDatoUS_son)
 
@@ -510,12 +513,14 @@ if len(session("user")) = 0 then
             '** Hvilke uger er afsluttet '***
 	        call smileystatus(usemrn, 1, useYear)
 	        
-                
+                %> <br />&nbsp;<%
+
+             end if
                 
                 
              %>
               
-	        <br />&nbsp;
+	       
 
                
 	        </div>
@@ -526,7 +531,7 @@ if len(session("user")) = 0 then
         <%if cint(smilaktiv) <> 0 AND media = "print" then 
 
            
-          call erugeAfslutte(datepart("yyyy", varTjDatoUS_son,2,2) , weekMonthDate, usemrn, SmiWeekOrMonth) 
+          call erugeAfslutte(datepart("yyyy", varTjDatoUS_son,2,2) , weekMonthDate, usemrn, SmiWeekOrMonth, 0) 
 
           call ugeAfsluttetStatus(varTjDatoUS_son, showAfsuge, ugegodkendt, ugegodkendtaf, SmiWeekOrMonth) 
 
@@ -598,7 +603,7 @@ call eksportogprint(ptop,pleft, pwdt)
 
         'response.write "weekMonthDate: "& weekMonthDate
 
-        call erugeAfslutte(sm_aar, weekMonthDate, sm_mid, SmiWeekOrMonth)
+        call erugeAfslutte(sm_aar, weekMonthDate, sm_mid, SmiWeekOrMonth, 0)
                      
         fmlink = "ugeseddel_2011.asp?usemrn="& usemrn &"&varTjDatoUS_man="& varTjDatoUS_man &"&varTjDatoUS_son= "& varTjDatoUS_son &"&nomenu="& nomenu &"&rdir=logindhist"
         %>

@@ -138,7 +138,7 @@
     <txt_87>Afslut uge(r)</txt_87>
     <txt_88>Se Smiley status</txt_88>
     <txt_89>Afslut uge</txt_89>
-    <txt_90>Afslut alle uger/dage - frem til og med uge</txt_90>
+    <txt_90>Afslut alle uger/dage - til og med</txt_90>
     <txt_91>kan først afsluttes fra</txt_91>
     <txt_92>d.</txt_92>
     <txt_93>Afsluttet</txt_93>
@@ -464,7 +464,7 @@
 	  <txt_355>Passivt</txt_355>
 
 	  <txt_356>Godkend Ugesedler</txt_356>
-	  <txt_357>Admin / Teamleder</txt_357>
+	  <txt_357>Adm./TL</txt_357>
 	  <txt_358>Easyreg. - alle job med easyreg. akt.</txt_358>
 	  <txt_359>Søg blandt alle kontakter og kontaktpersoner. (% wildcard)</txt_359>
 	  <txt_360>Du har kørt fra</txt_360>
@@ -511,7 +511,7 @@
     <txt_396>Ryd din aktive jobliste (reloader side)</txt_396>
     <txt_397>Nyeste</txt_397>
 
-    <txt_398>Du har projekt-registreret</txt_398>
+    <txt_398>Du har realiseret <!--projektregistreret--></txt_398>
     <txt_399>fakturerbare</txt_399>
     <txt_400>Du skal have registreret mere end</txt_400>
     <txt_401>for at kunne afslutte ugen</txt_401>
@@ -548,7 +548,7 @@
     <txt_425>Jobbet er ikke valgt i din personlige aktivliste</txt_425>
 
     <txt_426>Afslut måned</txt_426>
-    <txt_427>Du har en eller flere måneder der endnu ikke er afsluttet</txt_427>
+    <txt_427>Du har en eller flere perioder der endnu ikke er afsluttet</txt_427>
     <txt_428>Se den fulde liste, ved at klikke på linket i bunden af denne sektion.</txt_428>
 
     <txt_429>første hverdag</txt_429>
@@ -675,6 +675,7 @@
     <txt_537>Du har ikke rettigheder, eller har ikke opfyldt kriterierne for at afslutte perioden</txt_537>
     <txt_538>dag</txt_538>
 
+    <txt_539>Kriterie</txt_539>
 
   </dk>
 
@@ -1149,7 +1150,7 @@
 	  <txt_355>Passive</txt_355>
 
 	  <txt_356>Approve Weektotals</txt_356>
-	  <txt_357>Admin / Teamlead.</txt_357>
+	  <txt_357>Admin/TL.</txt_357>
 	  <txt_358>Easyreg.</txt_358>
 	  <txt_359>Search all contacts</txt_359>
 	  <txt_360>You have drived between</txt_360>
@@ -1364,6 +1365,7 @@
 
     <txt_538>Day</txt_538>
 
+    <txt_539>Requirement</txt_539>
 
   </uk>
 

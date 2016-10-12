@@ -1827,7 +1827,7 @@ slutDatoKriSQL = strAar_slut &"/"& strMrd_slut &"/"& strDag_slut
 				        <h4>Uge: <%=datepart("ww", oRec("tdato"), 2,2)&" - "& datepart("yyyy", oRec("tdato"), 2,2)%> - <%=oRec("tmnavn") %> (<%=oRec("tmnr") %>)</h4>
 				        
 				        <%
-				        call erugeAfslutte(datepart("yyyy", oRec("tdato"), 2,2), datepart("ww", oRec("tdato"), 2,2), oRec("tmnr", SmiWeekOrMonth)) 
+				        call erugeAfslutte(datepart("yyyy", oRec("tdato"), 2,2), datepart("ww", oRec("tdato"), 2,2), oRec("tmnr", SmiWeekOrMonth), 0) 
 				        %>
 				        
 				        <%if showAfsuge = 0 then %>
@@ -2019,7 +2019,7 @@ slutDatoKriSQL = strAar_slut &"/"& strMrd_slut &"/"& strDag_slut
                             end if
 
                 
-                            call erugeAfslutte(useYear, usePeriod, oRec("mid"), SmiWeekOrMonth)
+                            call erugeAfslutte(useYear, usePeriod, oRec("mid"), SmiWeekOrMonth, 0)
 		        
 		                    'Response.Write "smilaktiv: "& smilaktiv & "<br>"
 		                    'Response.Write "SmiWeekOrMonth: "& SmiWeekOrMonth &" ugeNrAfsluttet: "& ugeNrAfsluttet & " tjkDag: "& tjkDag &"<br>"

@@ -599,12 +599,18 @@ Session.LCID = 1030
                         myMail.AddAttachment "D:\webserver\wwwroot\timeout_xp\wwwroot\ver2_10\help_and_faq\TimeOut_indtasttimer_rev_20130102.pdf" 
                         end if
                     
+                        if instr(request.servervariables("LOCAL_ADDR"), "195.189.130.210") <> 0 then
+                        to_url = "https://outzource.dk"
+                        else
+                        to_url = "https://timeout.cloud"
+                        end if
+
                         myMail.TextBody= "" & "Hej "& strNavn & vbCrLf _ 
 					    & "Din medarbejderprofil er blevet opdateret." & vbCrLf _ 
 					    & "Dit brugernavn er: " & strLogin & " og dit password er: " & strPw & vbCrLf & vbCrLf _ 
 					    & "Gem disse oplysninger, til du skal logge ind i TimeOut."  & vbCrLf _ 
 					    & "Du kan altid selv ændre dem når du er logget på systemet." & vbCrLf & vbCrLf _ 
-					    & "Adressen til TimeOut er: https://outzource.dk/"&lto&""& vbCrLf & vbCrLf _ 
+					    & "Adressen til TimeOut er: "&to_url&"/"&lto&""& vbCrLf & vbCrLf _ 
 					    & "Med venlig hilsen"& vbCrLf & vbCrLf & strEditor & vbCrLf 
 
                         

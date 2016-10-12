@@ -1,5 +1,6 @@
 ﻿
 
+
 $(document).ready(function () {
 
 
@@ -48,8 +49,17 @@ $(document).ready(function () {
 
     $("#s1_k").click(function () {
 
+       
         smileyshowhide()
     });
+
+
+    $("#s1_k").click(function () {
+
+
+        smileyshowhide()
+    });
+
 
 
 

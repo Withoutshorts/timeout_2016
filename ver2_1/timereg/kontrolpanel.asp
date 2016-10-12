@@ -2013,6 +2013,7 @@ if len(session("user")) = 0 then
             end select 
 
             
+                    SmiTeamlederCountminus1SEL = ""
                     SmiTeamlederCount1SEL = ""
                     SmiTeamlederCount2SEL = ""
                     SmiTeamlederCount3SEL = ""
@@ -2021,7 +2022,9 @@ if len(session("user")) = 0 then
                     SmiTeamlederCount10SEL = ""
                     SmiTeamlederCount14SEL = ""
 
-            select case SmiTeamlederCount   
+            select case SmiTeamlederCount 
+                    case -1
+                    SmiTeamlederCountminus1SEL = "SELECTED"  
             case 1
                     SmiTeamlederCount1SEL = "SELECTED"
                 case 2
@@ -2102,6 +2105,7 @@ if len(session("user")) = 0 then
                      
                         <option value="10" <%=SmiTeamlederCount10SEL%>>10 dage</option>
                         <option value="14" <%=SmiTeamlederCount14SEL%>>14 dage</option>
+                        <option value="-1" <%=SmiTeamlederCountminus1SEL%>>Aldrig</option>
                     </select> efter at medarbejderens skal have afsluttet perioden.
 
 
@@ -2114,15 +2118,16 @@ if len(session("user")) = 0 then
 
             
                   <%if cint(smileyaggressiv) = 1 then
-            smileyAggressivChk = "CHECKED"
-            else
-            smileyAggressivChk = ""
-            end if %>
+                    smileyAggressivChk = "CHECKED"
+                    else
+                    smileyAggressivChk = ""
+                    end if %>
             <input type="checkbox" name="FM_smileyAggressiv" id="Checkbox2" value="1" <%=smileyAggressivChk%>> <b>Vis smiley aggressiv</b> (altid åben) / diskret (lukket) på timreg. siden
             <br /><br />
                    Hvis "smiley aggressiv" er tilvalgt.<br />
-                    - Timereg. siden bliver lukket hvis der er mere end 3 uafsluttede uger. (ved afslut på ugebasis)<br />
-                    - Timereg. & komme/ gå bliver lukket hvis der er mere end 1 uafsluttet dag. (ved afslut daglit)<br />
+                     - Timereg. siden bliver lukket hvis der er mere end 3 uafsluttede uger. (ved afslut på ugebasis)<br />
+                     - Timereg. siden bliver lukket hvis der er mere end 6 uafsluttede måneder. (ved afslut på månedsbasis)<br />
+                     - Timereg. & komme/ gå bliver lukket hvis der er mere end 1 uafsluttet dag. (ved afslut daglit)<br />
              
                </td>
                </tr>

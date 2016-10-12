@@ -7,22 +7,26 @@ level = session("rettigheder")
 public lnkTimeregside, lnkUgeseddel, lnkAfstem, lnkLogind
 
 
-
 function menu_2014()
 
-call TimeOutVersion()
+           
 
-
-    
-
+            call TimeOutVersion()
             call erCRMaktiv()
 			call erSDSKaktiv()
             call erERPaktiv()
             call erStempelurOn()
             call ersmileyaktiv()
 			call smileyAfslutSettings()
+            call smiley_agg_fn()
 
+            '*** Skal der lukkes ned for timereg. cint(smiley_agg) = 1 
+            if cint(smiley_agg) = 1 then
+            call afsluttedeUger(year(now), session("mid"), 1)
+            end if
+           
 
+         
 
 
 select case lto
@@ -272,49 +276,14 @@ end select
 %>
 
     <div class="fixed-navbar-hoz">
-        <!--<button class="showLeft" class="menu_icon"></button>-->
+
+          
         <h1 class="menu_logo-left">
             <a href="<%=toSubVerPath14 %>../login.asp"></a>
         </h1>
+       
 
-
-
-
-        
-        
-      
-
-
-                <!--
-                <li><a href="#"><span class="glyph icon-flag"></span></a></li>
-                                  <li><a href="#"><span class="glyph icon-printer"></span><b class="caret-down"></b></a>
-
-
-                         <ul>
-
-                        
-                        <li><a href="<%=toSubVerPath14 %>help.asp">Printvenlig</a></li>
-                     
-
-                       
-                        
-                        
-                      
-                  
-                        <li><a href="#">Export</a></li>
-                    </ul>
-
-
-
-                    </li>
-                
-                -->
-
-
-                
-
-           
-
+          <%if cint(slip_smiley_agg_lukper) <> 1 then %>
             <nav class="dropdown-right">
          <ul> 
 
@@ -350,6 +319,7 @@ end select
                 </li>
             </ul>
         </nav>
+       <%end if %>
     </div>
     <div class="fixed-navbar-vert">
         <nav>

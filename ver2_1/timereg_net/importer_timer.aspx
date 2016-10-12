@@ -44,7 +44,7 @@
         %>
 
     <div>
-    <h4>Importer timer til TimeOut MAKS 225 linjer <span style="font-size:small; font-weight:normal;"><a href="../inc/xls/indlaestimerTemplate.csv">Download excel template her...</a></span></h4>
+    <h4>Importer timer til TimeOut MAKS 1000 linjer <span style="font-size:small; font-weight:normal;"><a href="../inc/xls/indlaestimerTemplate.csv">Download excel template her...</a></span></h4>
     *Bemærk at der skal være en overskriftslinje(header) med kolonne navne i excel filen.<br />
         <asp:Label ID="lblUploadStatus" runat="server" Text=""></asp:Label><br />
         

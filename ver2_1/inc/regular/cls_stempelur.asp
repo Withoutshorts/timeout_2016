@@ -907,7 +907,7 @@ function stempelurlist(medarbSel, showtot, layout, sqlDatoStart, sqlDatoSlut, ty
     otoppx = 0
     oleftpx = 0
     owdtpx = 140
-    java = "Javascript:window.open('"&url&"','','width=650,height=750,resizable=yes,scrollbars=yes')"
+    java = "Javascript:window.open('"&url&"','','width=850,height=700,resizable=yes,scrollbars=yes')"
     urlhex = "#"
     
    
@@ -1209,7 +1209,7 @@ function stempelurlist(medarbSel, showtot, layout, sqlDatoStart, sqlDatoSlut, ty
                 end if
 
                 'erugeAfslutte(
-                call erugeAfslutte(useYear, usePeriod, oRec("lmid"), SmiWeekOrMonth)
+                call erugeAfslutte(useYear, usePeriod, oRec("lmid"), SmiWeekOrMonth, 0)
 		        
 		        'Response.Write "smilaktiv: "& smilaktiv & " autogk:"& autogk &"<br>"
 		        'Response.Write "SmiWeekOrMonth: "& SmiWeekOrMonth &" ugeNrAfsluttet: "& ugeNrAfsluttet & " tjkDag: "& tjkDag &" ugegodkendt: "& ugegodkendt &"<br>"
@@ -1241,7 +1241,7 @@ function stempelurlist(medarbSel, showtot, layout, sqlDatoStart, sqlDatoSlut, ty
 
                 
                 if (ugeerAfsl_og_autogk_smil = 0 OR (level = 1)) AND media <> "print" then%>
-			    <a href="#" onclick="Javascript:window.open('stempelur.asp?id=<%=oRec("lid")%>&menu=stat&func=redloginhist&medarbSel=<%=medarbSel%>&showonlyone=<%=showonlyone%>&hidemenu=<%=hidemenu%>&rdir=popup','','width=750,height=850,resizable=yes,scrollbars=yes')" class="vmenu"><%=loginDTShow%></a>
+			    <a href="#" onclick="Javascript:window.open('stempelur.asp?id=<%=oRec("lid")%>&menu=stat&func=redloginhist&medarbSel=<%=medarbSel%>&showonlyone=<%=showonlyone%>&hidemenu=<%=hidemenu%>&rdir=popup','','width=850,height=700,resizable=yes,scrollbars=yes')" class="vmenu"><%=loginDTShow%></a>
 			    <%else %>
 		        <b><%=loginDTShow%></b>
 		        <%end if %>
@@ -1726,7 +1726,7 @@ function stempelurlist(medarbSel, showtot, layout, sqlDatoStart, sqlDatoSlut, ty
                 end if
 
                 
-                call erugeAfslutte(useYear, usePeriod, medarbsel, SmiWeekOrMonth)
+                call erugeAfslutte(useYear, usePeriod, medarbsel, SmiWeekOrMonth, 0)
 		        
 		        'Response.Write "smilaktiv: "& smilaktiv & "<br>"
 		        'Response.Write "SmiWeekOrMonth: "& SmiWeekOrMonth &" ugeNrAfsluttet: "& ugeNrAfsluttet & " tjkDag: "& tjkDag &"<br>"
@@ -3242,8 +3242,6 @@ next
 	totalTimerPer100 = (totaltimerPer-totalpausePer)
 	
     call timerogminutberegning(totalTimerPer100) %>
-	<!-- formatnumber(totalTimerPer100, 2) -->
-	
 	<%=thoursTot &":"& left(tminTot, 2) %>
 	
 	<%

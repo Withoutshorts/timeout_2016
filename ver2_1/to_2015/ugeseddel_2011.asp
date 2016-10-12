@@ -1035,8 +1035,10 @@ if len(session("user")) = 0 then
 	
 	
         select case lto
-        case "tec", "intranet - local", "esn"
+        case "tec", "esn"
         aty_sql_realhours = " tfaktim <> 0"
+        case "xdencker", "xintranet - local"
+        aty_sql_realhours = " tfaktim = 1"
         case else
         aty_sql_realhours = aty_sql_realhours &""_
 		& " OR tfaktim = 30 OR tfaktim = 31 OR tfaktim = 7 OR tfaktim = 11"
@@ -1208,7 +1210,7 @@ if len(session("user")) = 0 then
     <tr><td colspan="2">
 
            <!-- hvis level = 1 OR teamleder -->
-        <%if (level <=2 OR level = 6) AND cint(smilaktiv) <> 0 then %>
+        <%if (level <=2 OR level = 6) AND cint(smilaktiv) <> 0 AND SmiWeekOrMonth <> 2 then %>
           
 
         <%
@@ -1219,8 +1221,9 @@ if len(session("user")) = 0 then
         tjkAar = year(varTjDatoUS_son)
         end if    
             
-        call erugeAfslutte(tjkAar, datepart("ww", varTjDatoUS_son, 2,2), usemrn, SmiWeekOrMonth) %>
-        <%call godkendugeseddel(fmlink, usemrn, varTjDatoUS_man, rdir) %>
+        call erugeAfslutte(tjkAar, datepart("ww", varTjDatoUS_son, 2,2), usemrn, SmiWeekOrMonth, 0) 
+        
+        call godkendugeseddel(fmlink, usemrn, varTjDatoUS_man, rdir) %>
     
         <%end if 'level %>
     
@@ -1254,7 +1257,7 @@ end if
       </div></div>
      <%end if %>
 
-
+     
    
     <br /><br />&nbsp;
     <%
