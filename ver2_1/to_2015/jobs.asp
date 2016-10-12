@@ -228,12 +228,12 @@ end if
                                 internnote = ""
                                 bruttooms = 0
                                 editor = session("user")
-                                'dddato = year(now) & "-" & month(now) & "-" & day(now)
-                                'jobstartdato = request("FM_jobstartdato")
-                                'jobstartdato = year(jobstartdato) & "-" & month(jobstartdato) & "-" & day(jobstartdato)
+                                dddato = year(now) & "-" & month(now) & "-" & day(now)
+                                jobstartdato = request("FM_jobstartdato")
+                                jobstartdato = year(jobstartdato) & "-" & month(jobstartdato) & "-" & day(jobstartdato)
 
                                 jobslutdato = request("FM_jobslutdato")
-                                'jobslutdato = year(jobslutdato) & "-" & month(jobslutdato) & "-" & day(jobslutdato)
+                                jobslutdato = year(jobslutdato) & "-" & month(jobslutdato) & "-" & day(jobslutdato)
 
 
 
@@ -963,64 +963,41 @@ end if
 				                end if
 				                oRec5.close
 
-      
-
-                                strSQLjob = ("INSERT INTO job (jobnavn, jobnr, jobknr, jobTpris, jobstatus, jobstartdato," _                    
-                                & " jo_bruttooms, fomr_konto, risiko, preconditions_met, jfak_moms, jfak_sprog, altfakadr, syncslutdato, serviceaft) VALUES " _
-                                & "('" & strNavn & "', " _
+      'Felter er oprettes
+                                
+                                strSQLjob = ("INSERT INTO job (jobnavn, jobnr, jobknr, jobTpris, jobstatus, jobstartdato," _
+                                & " jobslutdato, editor, dato, projektgruppe1, projektgruppe2, projektgruppe3, projektgruppe4, " _
+                                & " projektgruppe5, projektgruppe6, projektgruppe7, projektgruppe8, projektgruppe9, projektgruppe10, " _
+                                & " fakturerbart, budgettimer, fastpris, kundeok, beskrivelse, " _
+                                & " ikkeBudgettimer, tilbudsnr, jobans1," _
+                                & " serviceaft, kundekpers, valuta, rekvnr, " _
+                                & " risiko, job_internbesk, " _
+                                & " jo_bruttooms, fomr_konto) VALUES " _
+                                & "('" & jobnavn & "', " _
                                 & "'" & strjnr & "', " _
                                 & "" & kid & ", " _
-                                &""& jo_gnsbelob &", "_
-                                &""& strStatus &", "_
-                                &"'"& startDato &"', "_
-                                &"'"& slutDato &"', "_
+                                & "0, " _
+                                & "1, " _
+                                & "'" & jobstartdato & "', " _
+                                & "'" & jobslutdato & "', " _
                                 & "'" & editor & "', " _
                                 & "'" & dddato & "', " _
-                                &""& strProjektgr1 &", "_ 
-							    &""& strProjektgr2 &", "_ 
-							    &""& strProjektgr3 &", "_ 
-							    &""& strProjektgr4 &", "_ 
-							    &""& strProjektgr5 &", "_
-							    &""& strProjektgr6 &", "_ 
-							    &""& strProjektgr7 &", "_ 
-							    &""& strProjektgr8 &", "_ 
-							    &""& strProjektgr9 &", "_ 
-							    &""& strProjektgr10 &", "_
-                                &""& strFakturerbart &", "_ 
-							    &""& strBudgettimer  &", "_ 
-							    &"'"& strFastpris & "',"_
-							    &""& intkundese &", "_
-                                & "'" & strBesk & "', " _
-                                &""& SQLBless(ikkeBudgettimer) &", "_
-                                &""& tlbnr &", "_                             
+                                & "10, " _
+                                & "1,1,1,1,1,1,1,1,1," _
+                                & "1,0,0,0," _
+                                & "'" & beskrivelse & "', " _
+                                & "0,0, " _
                                 & "" & jobans1 & "," _
-                                & "" & jobans2 & "," _
-                                & "" & jobans3 & "," _
-                                & "" & jobans4 & "," _
-                                & "" & jobans5 & "," _                                                       
-                                &" "& jobans_proc_1 & ", "& jobans_proc_2 & ", "& jobans_proc_3 & ", "& jobans_proc_4 & ", "& jobans_proc_5 & ","_
-                                &" "& salgsans1 &","& salgsans2 &","& salgsans3 &","& salgsans4 &","& salgsans5 &", "_
-                                &" "& salgsans_proc_1 &","& salgsans_proc_2 &","& salgsans_proc_3 &","& salgsans_proc_4 &","& salgsans_proc_5 & ","_
-                                & "" & intServiceaft & ", " _
-                                & "" & intKundekpers & ", " _
-                                & "" & valuta & ", " _
-                                & "'" & rekvnr & "', " _
-                                & "" & intprio & ", " _
-                                & "'" & strInternBesk & "', " _
-                                & "" & strBudget & ", " _
-                                & "" & fomr_konto & ", " _
-                                & "" & intprio & ", " _
-                                & "" & preconditions_met & ", " _
-                                & "" & jfak_moms & ", " _
-                                & "" & jfak_sprog & ", " _
-                                & "" & altfakadr & ", " _
-                                & "" & syncslutdato & ", " _
-                                & "" & intServiceaft & "" _
-                                &")")
+                                & "0," & kunderef & ", " _
+                                & "1, '" & rekvisitionsnr & "', " _
+                                & "100,'" & internnote & "'," _
+                                & "" & bruttooms & ", 0)")
+
+
                                 
                                 
-                                response.write "strSQLjob: " & strSQLjob 
-                                response.flush
+                                'response.write "strSQLjob: " & strSQLjob 
+                                'response.flush
 
                                 oConn.execute(strSQLjob)
                                 
@@ -1182,55 +1159,55 @@ end if
                                 '***************************************************************************************************
                                 'PUSH - Aktiviteter - Timepriser
                                  '*********** timereg_usejob, så der kan søges fra jobbanken KUN VED OPRET JOB *********************
-                                Select Case lto
-                                    Case "oko"
-                                    Case "outz", "intranet - local", "demo"
+                                'Select Case lto
+                                    'Case "oko"
+                                    'Case "outz", "intranet - local", "demo"
                        
-                                        strProjektgr1 = 10
-                                        strProjektgr2 = 1
-                                        strProjektgr3 = 1
-                                        strProjektgr4 = 1
-                                        strProjektgr5 = 1
-                                        strProjektgr6 = 1
-                                        strProjektgr7 = 1
-                                        strProjektgr8 = 1
-                                        strProjektgr9 = 1
-                                        strProjektgr10 = 1
+                                        'strProjektgr1 = 10
+                                        'strProjektgr2 = 1
+                                        'strProjektgr3 = 1
+                                        'strProjektgr4 = 1
+                                        'strProjektgr5 = 1
+                                        'strProjektgr6 = 1
+                                        'strProjektgr7 = 1
+                                        'strProjektgr8 = 1
+                                        'strProjektgr9 = 1
+                                        'strProjektgr10 = 1
                                 
                               
 							
-                                        strSQLpg = "SELECT MedarbejderId FROM progrupperelationer WHERE (" _
-                                        & " ProjektgruppeId = " & strProjektgr1 & "" _
-                                        & " OR ProjektgruppeId =" & strProjektgr2 & "" _
-                                        & " OR ProjektgruppeId =" & strProjektgr3 & "" _
-                                        & " OR ProjektgruppeId =" & strProjektgr4 & "" _
-                                        & " OR ProjektgruppeId =" & strProjektgr5 & "" _
-                                        & " OR ProjektgruppeId =" & strProjektgr6 & "" _
-                                        & " OR ProjektgruppeId =" & strProjektgr7 & "" _
-                                        & " OR ProjektgruppeId =" & strProjektgr8 & "" _
-                                        & " OR ProjektgruppeId =" & strProjektgr9 & "" _
-                                        & " OR ProjektgruppeId =" & strProjektgr10 & "" _
-                                        & ") GROUP BY MedarbejderId"
+                                        'strSQLpg = "SELECT MedarbejderId FROM progrupperelationer WHERE (" _
+                                        '& " ProjektgruppeId = " & strProjektgr1 & "" _
+                                        '& " OR ProjektgruppeId =" & strProjektgr2 & "" _
+                                        '& " OR ProjektgruppeId =" & strProjektgr3 & "" _
+                                        '& " OR ProjektgruppeId =" & strProjektgr4 & "" _
+                                        '& " OR ProjektgruppeId =" & strProjektgr5 & "" _
+                                        '& " OR ProjektgruppeId =" & strProjektgr6 & "" _
+                                        '& " OR ProjektgruppeId =" & strProjektgr7 & "" _
+                                        '& " OR ProjektgruppeId =" & strProjektgr8 & "" _
+                                        '& " OR ProjektgruppeId =" & strProjektgr9 & "" _
+                                        '& " OR ProjektgruppeId =" & strProjektgr10 & "" _
+                                        '& ") GROUP BY MedarbejderId"
 								
                                         'Response.Write "strSQL "& strSQL & "<br><hr>"
 
-                                        oRec2.open strSQLpg, oConn, 3
-                                        While not oRec2.EOF
+                                        'oRec2.open strSQLpg, oConn, 3
+                                        'While not oRec2.EOF
                 
                                 
-                                            strSQL3 = "INSERT INTO timereg_usejob (medarb, jobid, forvalgt, forvalgt_sortorder, forvalgt_af, forvalgt_dt) VALUES " _
-                                            & " (" & oRec2("MedarbejderId") & ", " & lastID & ", 1, 0, 0, '" & dddato & "')"
+                                            'strSQL3 = "INSERT INTO timereg_usejob (medarb, jobid, forvalgt, forvalgt_sortorder, forvalgt_af, forvalgt_dt) VALUES " _
+                                            '& " (" & oRec2("MedarbejderId") & ", " & lastID & ", 1, 0, 0, '" & dddato & "')"
 
-                                            oConn.execute(strSQL3)
+                                            'oConn.execute(strSQL3)
                                                 
                                        
-									    oRec2.movenext
-                                        Wend 
+									    'oRec2.movenext
+                                        'Wend 
                                 
-                                        oRec2.Close()
+                                        'oRec2.Close()
                                 
                                 
-                                End Select ' lto
+                                'End Select ' lto
                         
                         
                 
@@ -2419,9 +2396,7 @@ end if
                             end if' adviser
                             '*******************************************************'
 
-
-    response.Redirect ("jobs.asp?menu=job&func=red&id="&varJobId&"&jobnr_sog="&strJobsog&"&filt="&filt&"&fm_kunde="&strKundeId&"&fm_kunde_sog="&vmenukundefilt&"&showdiv="&showdiv&"&FM_tp_jobaktid="&tp_jobaktid&"&FM_mtype="&mtype&"&visrealtimerdetal="&visrealtimerdetal)
-
+                            response.Redirect "../timereg/jobs.asp?menu=job&shokselector=1&id="&varJobId&"&jobnr_sog="&strJobsog&"&filt="&filt&"&fm_kunde="&vmenukundefilt
 
 
     case "opret", "red"
@@ -3218,8 +3193,8 @@ end if
                                     </div>
 
                                 </div>
-                                                       
-
+                                   
+                                
                                
                                 <!--<div class="row">
                                     <div class="col-lg-11"><br />Intern besked: <br />

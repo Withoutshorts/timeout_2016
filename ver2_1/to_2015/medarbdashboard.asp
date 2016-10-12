@@ -1172,10 +1172,10 @@
                          <span class="label label-<%=medarbSelIndexColor%> row-stat-badge"><%=formatnumber(medarbSelIndex, 2)%></span>
                          <br /> <span style="font-size:11px; color:#999999;">[ <%=dsb_txt_014 %> / <%=dsb_txt_013 %> ]</span>
                          <br /><br />
-                         <%=dsb_txt_014 %>: <%=formatnumber(ntimper, 2) %> <%=dsb_txt_072 %><br />
-                         <%=dsb_txt_076%> <%=formatnumber(medarbSelHoursGT, 2) %> <%=dsb_txt_072 %><br />
-                         <%=dsb_txt_077%> <b><%=formatnumber(faktimerGTselmedarb, 2) %> <%=dsb_txt_072 %></b><br />
-                         <%=dsb_txt_078%> <%=formatnumber(indexFc, 2) %> <%=dsb_txt_072 %><br />
+                         <%=dsb_txt_014 %>: <b><%=formatnumber(ntimper, 2) %> <%=dsb_txt_072 %></b><br />
+                         <%=dsb_txt_076%>: <b><%=formatnumber(medarbSelHoursGT, 2) %> <%=dsb_txt_072 %></b><br />
+                         <%=dsb_txt_077%>: <b><%=formatnumber(faktimerGTselmedarb, 2) %> <%=dsb_txt_072 %></b><br />
+                         <%=dsb_txt_078%>: <b><%=formatnumber(indexFc, 2) %> <%=dsb_txt_072 %></b><br />
                          <span style="font-size:11px; color:#999999;"><%=dsb_txt_079 %></span>
                         
                          
