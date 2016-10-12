@@ -1,0 +1,19 @@
+{
+  "id": -1,
+  "fieldErrors": [],
+  "sError": "",
+  "aaData": [
+    {
+      "DT_RowId": "row_1",
+      "id": "Trident",
+      "sort": "Internet Explorer 4.0",
+      "navn": "Win 95+",
+      "hovedgr": "4",
+      "sstgr": "X",
+      "medl": "X",
+      "timepr": "X",
+      "kstpr": "X",
+      "timer": "X"
+    }
+  ]
+}

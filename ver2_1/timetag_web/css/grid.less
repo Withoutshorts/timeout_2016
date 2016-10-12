@@ -1,44 +1,151 @@
-/* =========================================================== */
-/* = Site Variables for Grid                                 = */
-/* =========================================================== */
+/* ============================================== */
+/* =	GRID									= */
+/* ============================================== */
 
-/* Grid options */
-@column-size: 80; // Your column with
-@columns: 12; // the max amount of columns
-@gutter: 20; // the width of the gutter
-@margin: (@gutter / 2)* 1px; // recommended margin
+.clearfix() {
+  &:before,
+  &:after {
+    content: " ";
+    display: table;
+  }
+  &:after {
+    clear: both;
+  }
+}
 
-@total-width: (((@columns * @gutter)+(@columns * @column-size)) - @gutter)*1px;
-@container-size: ((@columns * @gutter)+(@columns * @column-size))*1px;
-
-/* The micro clearfix http://nicolasgallagher.com/micro-clearfix-hack */
-.clearfix(){
-	*zoom:1;
+.container {
+	@media (min-width: (@screen-tablet *1px)) and (max-width: ((@screen-medium - 1) *1px)) {
+		width: @container-tablet *1px !important;
+	}
+	@media (min-width: (@screen-medium *1px)) and (max-width: ((@screen-large - 1) *1px)) {
+		width: @container-medium *1px !important;
+	}
+	@media (min-width: (@screen-large *1px)) {
+		width: @container-large *1px !important;
+	}
 	
-	&:before,
-	&:after{
-	    content:"";
-	    display:table;
-	}
-	&:after{
-	    clear:both;
-	}
+    //margin-left: auto;
+	//margin-right: auto;
+	.box-sizing;
+	.clearfix;
 }
 
-.column (@columns, @margin: 0 ((@gutter / 2) * 1px), @border-size:1px, @frame_background: white) {
-	width: @total-width - (@border-size * 2);
-	margin: @margin;
-	border: @border;
-	background-color: @frame_background;
-	box-sizing: border-box;
+// Row: Defines a column section (Columns only works inside rows)
+.row {
+	.clearfix;
+}
+*[class*='col-']{
+	padding-left: @grid-gutter / 2px;
+	padding-right: @grid-gutter / 2px;
+	float: left;
+	.box-sizing;
+  position: relative;
 }
 
-/* Push adds left padding */
+@media (min-width: (@screen-tablet *1px)) {
+	.make-grid(s);
+}
+
+
+@media (min-width: (@screen-medium *1px)) {
+	.make-grid(m);
+}
+
+@media (min-width: (@screen-large *1px)) {
+	.make-grid(l);
+}
+
+.grid-columns(@class) {
+  .col(@index) when (@index = 1) { // initial
+    @item: ~".col-@{class}-@{index}";
+    .col((@index + 1), @item);
+  }
+  .col(@index, @list) when (@index =< @max-columns) { // general
+    @item: ~".col-@{class}-@{index}";
+    .col((@index + 1), ~"@{list}, @{item}");
+  }
+  .col(@index, @list) when (@index > @max-columns) { // terminal
+    @{list} {
+      float: left;
+    }
+  }
+  .col(1); // kickstart it
+}
+
+.calc-grid-column(@index, @class, @type) when (@type = width) and (@index > 0) {
+  .col-@{class}-@{index} {
+    width: percentage((@index / @max-columns)) !important;
+  }
+}
+.calc-grid-column(@index, @class, @type) when (@type = push) {
+  .col-@{class}-push-@{index} {
+    left: percentage((@index / @max-columns)) !important;
+  }
+}
+.calc-grid-column(@index, @class, @type) when (@type = pull) {
+  .col-@{class}-pull-@{index} {
+    right: percentage((@index / @max-columns)) !important;
+  }
+}
+
+// Basic looping in LESS
+.loop-grid-columns(@index, @class, @type) when (@index >= 0) {
+  .calc-grid-column(@index, @class, @type);
+  // next iteration
+  .loop-grid-columns((@index - 1), @class, @type);
+}
+
+// Create grid for specific class
+.make-grid(@class) {
+  .grid-columns(@class);
+  .loop-grid-columns(@max-columns, @class, width);
+  .loop-grid-columns(@max-columns, @class, pull);
+  .loop-grid-columns(@max-columns, @class, push);
+}
+
+// Push: adds left padding
 .push(@offset:1, @columns:@columns) {
-	margin-left: 100%*(@offset / @columns);
+	margin-left: @columns *1px;
 }
 
-/* Pull adds right padding */
+// Pull: adds right padding
 .pull(@offset:1, @columns:@columns) {
-	margin-right: 100%*(@offset / @columns);
+	margin-right: @columns *1px;
+}
+
+
+.no-pad-left {
+  padding-left: 0 !important;
+}
+.no-pad-right {
+  padding-right: 0 !important;
+}
+
+.no-pad-top {
+  padding-top: 0 !important;
+}
+
+.no-pad-bottom {
+  padding-bottom: 0 !important;
+}
+
+.no-pad-hoz {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+.mt {
+  margin-top: @padding;
+}
+
+.mr {
+  margin-right: @padding;
+}
+
+.mb {
+  margin-bottom: @padding;
+}
+
+.ml {
+  margin-left: @padding;
 }
