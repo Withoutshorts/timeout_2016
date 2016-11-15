@@ -280,6 +280,8 @@ if len(session("user")) = 0 then
         slutDatoFEOSQL = (ysel+1) &"/4/30"
         end if
 
+        ferieaarTxt = day(startDatoFEOSQL) &"-"& month(startDatoFEOSQL) &"-"& year(startDatoFEOSQL) & " - " & day(slutDatoFEOSQL) &"-"& month(slutDatoFEOSQL) &"-"& year(slutDatoFEOSQL)
+
 
 
     '********************************************************************************************************
@@ -1729,6 +1731,7 @@ if len(session("user")) = 0 then
         <table cellpadding=1 cellspacing=1 border=0 width=100%>
 
         <%if right(m, 1) = 0 then %>
+       <tr><td colspan="15" class="lille">Ferieår: <%=ferieaarTxt %> </td></tr>
        <tr>
            <td class="lille" style="white-space:nowrap;">Medarb.</td>
            <td class="lille" style="white-space:nowrap;">Ferie optj.</td>

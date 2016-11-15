@@ -3230,7 +3230,7 @@ if len(session("user")) = 0 then
            
           
            <tr bgcolor="#8caae6">
-           <td class=alt align=center height=40 valign=bottom><b>Id</b></td>
+           <td class=alt align=center height=40 valign=bottom><b>#Id</b></td>
            <td class=alt valign=bottom><b>Opr. Dato & Kl.</b><br /> 
            
            Ønskes udført dato
@@ -3547,7 +3547,8 @@ if len(session("user")) = 0 then
             
             
     <tr bgcolor="<%=bgThis%>">
-                      <td valign=top align=center bgcolor="<%=bgThis%>" style="padding:5px 2px 2px 2px; border-top:1px #C4C4C4 solid;">
+                      <td valign=top align=center bgcolor="<%=bgThis%>" style="padding:5px 2px 2px 2px; width:40px; white-space:nowrap; border-top:1px #C4C4C4 solid;">
+                      #<%=oRec("id")%>&nbsp;
 
                                                         <%if sortBy = "9" AND kview <> "j" AND print <> "j" then 'sorterliste Drag'n drop mode' %>
                                                         <img src="../ill/pile_drag.gif" alt='Klik, træk og sorter aktivitet' class="drag" border="0" />
@@ -3557,7 +3558,7 @@ if len(session("user")) = 0 then
 
                        <input type="hidden" name="SortOrder" class="SortOrder" value="<%=oRec("sortorder")%>" />
                       <input type="hidden" name="rowId" value="<%=oRec("id")%>" /><br />
-            Id: <%=oRec("id")%>
+          
                </td>
                       
                         <td valign=top style="padding:5px 0px 2px 2px; white-space:nowrap; width:160px; border-top:1px #C4C4C4 solid;">
@@ -3569,7 +3570,7 @@ if len(session("user")) = 0 then
                        
                       
                       <table cellspacing=0 cellpadding=0 border=0 width=100%><tr>
-                               <td valign=top style="padding-top:1px;"><img src="../ill/bullet_square_green.png" alt="Modtaget d."/> </td>
+                               
                                <td valign=top style="white-space:nowrap;"><font class=lgreen><%=datoogklokkeslet%></font></td>
                                </tr>
                       
@@ -3583,7 +3584,7 @@ if len(session("user")) = 0 then
                           duedate = left(weekdayname(weekday(oRec("duedate"))), 3) &". "&formatdatetime(oRec("duedate"), 2) &" "& left(formatdatetime(oRec("duedate"), 3), 5)
                           %>
                           <tr>
-                                   <td valign=top style="padding-top:1px;"><img src="../ill/bullet_square_grey.png" alt="Ønskes udført d." /></td>
+                                  
                                    <td valign=top style="white-space:nowrap;"><font class=lillesort><%=duedate%></font></td>
                                    </tr>
                 
@@ -3608,7 +3609,7 @@ if len(session("user")) = 0 then
                               addTimerTrspShow = left(weekdayname(weekday(rspDagogTid)), 3)&". "& rspDagogTid
                               %>
                                <tr>
-                               <td valign=top style="padding-top:1px;"><img src="../ill/bullet_square_red.png" alt="Incident skal være påbegyndt inden d." /></td>
+                             
                                <td valign=top style="white-space:nowrap;"><font class=lroed><%=addTimerTrspShow%></font></td>
                                </tr>
                               <%end if %>
@@ -3621,8 +3622,7 @@ if len(session("user")) = 0 then
                       
                      
                       
-                      <br />Ansvarlig:<br />
-                      <b><%=ansvrh%></b>
+                      <span style="font-size:10px;">Ansv.: <b><%=ansvrh%></b></span>
                       
            
                       </td>

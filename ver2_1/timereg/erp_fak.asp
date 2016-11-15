@@ -4679,7 +4679,8 @@ if len(session("user")) = 0 then
 		
 		
 		if fok = 0 then
-		    if request.Cookies("erp")("krekonto") <> "" then
+		    if request.Cookies("erp")("krekonto") = "xxx" then ' <> "" then
+
 		    krekontonr = request.Cookies("erp")("krekonto")
 		    
 		    strSQL = "SELECT k.kontonr, k.navn, k.id, k.kid, m.navn AS momskode FROM kontoplan k "_

@@ -1,6 +1,7 @@
 ﻿using MySql.Data.MySqlClient;
 using System;
 using System.Data;
+using System.Data.SqlClient;
 using System.Web.Services;
 
 public partial class national_holidays : System.Web.UI.Page
@@ -40,7 +41,7 @@ public partial class national_holidays : System.Web.UI.Page
     /// </summary>
     private void BindNationalHolidays()
     {
-        MySqlConnection sqlConnection = new MySqlConnection();
+        SqlConnection sqlConnection = new MySqlConnection();
         MySqlCommand sqlCommand;
         string holidatHTML = string.Empty;
         

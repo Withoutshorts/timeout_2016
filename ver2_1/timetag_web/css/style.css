@@ -166,8 +166,8 @@ body {
 /* =========================================================== */
 input[type="search"],
 input[type="submit"],
-input[type="text"],
-div,
+input[type="text"], input[type="number"], input[type="date"],
+div, select,
 input[type="button"],
 input[type="password"],
 input[type="file"] {
@@ -189,7 +189,7 @@ input[type="file"] {
   text-shadow: none;
   margin: 0 0 10px 0;
 }
-input[type="text"],
+input[type="text"], select, input[type="number"], input[type="date"],
 input[type="password"] {
   padding: 0 10px;
 }
@@ -292,6 +292,11 @@ input[type="submit"] {
 .l_font_size {
   font-size: 17px;
   font-size: 1.7rem;
+}
+.lt_font_size {
+  font-size: 17px;
+  font-size: 1.7rem;
+  font-weight:lighter;
 }
 .xl_font_size {
   font-size: 19px;

@@ -252,7 +252,7 @@ if len(session("user")) = 0 then
 
   <%
     
-
+    call erTeamLederForvlgtMedarb(level, usemrn, session("mid"))
 	
 	call ersmileyaktiv()
 
@@ -346,13 +346,18 @@ if len(session("user")) = 0 then
         <%
             call smileyAfslutSettings()
             'Skal det være mandag for måned og søndag for uge??
-            if cint(SmiWeekOrMonth) = 0 then
+            select case cint(SmiWeekOrMonth) 
+            case 0 
             periodeTxt = tsa_txt_005 & " "& datepart("ww", tjkDato, 2 ,2)
             weekMonthDate = datepart("ww", varTjDatoUS_son,2,2)
-            else
+            case 1
             periodeTxt = monthname(datepart("m", tjkDato, 2 ,2))
             weekMonthDate = datepart("m", varTjDatoUS_son,2,2)
-            end if
+            case 2
+            weekMonthDate = formatdatetime(now, 2) ' SKAL DET ALTID VÆRE DD?
+            weekMonthDate = year(weekMonthDate) & "-" & month(weekMonthDate) & "-" & day(weekMonthDate)
+            periodeTxt = weekdayname(weekday(weekMonthDate, 2), 0, 2)
+            end select
 
 
 
@@ -363,30 +368,41 @@ if len(session("user")) = 0 then
          call smiley_agg_fn()
          call meStamdata(usemrn)
 
+        call smileyAfslutSettings()
+
           '** Henter timer i den uge der skal afsluttes ***'
           call afsluttedeUger(year(now), usemrn, 0)
 
         '** Er kriterie for afslutuge mødt? Ifht. medatype mindstimer og der må ikke være herreløse timer fra. f.eks TT
          call timeKriOpfyldt(lto, sidsteUgenrAfsl, meType, usemrn, SmiWeekOrMonth)
 
-         timerdenneuge_dothis = 0
+         timerdenneuge_dothis = 1
          call timerDenneUge(usemrn, lto, tjkTimeriUgeSQL, akttypeKrism, timerdenneuge_dothis, SmiWeekOrMonth)
      
        
-         if cint(SmiWeekOrMonth) = 0 then 'uge aflsutning
+         '** Periode aflsutning Dag / UGE / MD
+         select case cint(SmiWeekOrMonth) 
+         case 0
          weekMonthDate = datepart("ww", varTjDatoUS_son,2,2)
-         else
+         case 1
          weekMonthDate = datepart("m", varTjDatoUS_son,2,2)
-         end if
+         case 2
+         weekMonthDate = formatdatetime(now, 2) ' SKAL DET ALTID VÆRE DD?
+         weekMonthDate = year(weekMonthDate) & "-" & month(weekMonthDate) & "-" & day(weekMonthDate)
+         end select
 
-         call erugeAfslutte(datepart("yyyy", varTjDatoUS_son,2,2), weekMonthDate, usemrn, SmiWeekOrMont, 0) 
+         'Response.Write "Hej der<br>"
+
+         call erugeAfslutte(datepart("yyyy", varTjDatoUS_son,2,2), weekMonthDate, usemrn, SmiWeekOrMonth, 0) 
 
          
-
+         '** Faneblade med afslutnings status
+        select case cint(SmiWeekOrMonth) 
+        case 0, 1
         call smileyAfslutBtn(SmiWeekOrMonth)
 
         call ugeAfsluttetStatus(varTjDatoUS_son, showAfsuge, ugegodkendt, ugegodkendtaf, SmiWeekOrMonth) 
-            
+        end select
          
         
 
@@ -446,59 +462,17 @@ if len(session("user")) = 0 then
             'weekSelected = tjekdag(7)
 
             '*** Viser denne uge
-            weekSelectedThis = dateAdd("d", 7, now) 
-
-	        call showsmiley(weekSelectedThis, 1, usemrn, SmiWeekOrMonth)
+            'weekSelectedThis = dateAdd("d", 7, now) 
+            'call showsmiley(weekSelectedThis, 1, usemrn, SmiWeekOrMonth)
 
             call afslutkri(varTjDatoUS_son, tjkTimeriUgeDt, usemrn, lto, SmiWeekOrMonth)
 
-            
-               
-            if cint(afslutugekri) = 0 OR ((cint(afslutugekri) = 1 OR cint(afslutugekri) = 2) AND cint(afslProcKri) = 1) OR cint(level) = 1 then 
-            
-                
+            call afslutuge(weekSelectedTjk, 1, varTjDatoUS_son, "logindhist", SmiWeekOrMonth)
 
-	        call afslutuge(weekSelectedTjk, 1, varTjDatoUS_son, "logindhist", SmiWeekOrMonth)
+            '** Status på antal registrederede projekttimer i den pågældende uge    
+            'call smiley_statusTxt
 
-             
-         
-
-            else
-           
-
-
-             '** Status på antal registrederede projekttimer i den pågældende uge    
-             select case lto
-             case "tec", "esn"
-             case else %>
-                
-            <%if cint(afslProcKri) = 1 then
-                   sm_bdcol = "#DCF5BD"
-                   else
-                    sm_bdcol = "mistyrose"
-                   end if %>
-
-
-
-                <div style="color:#000000; background-color:<%=sm_bdcol%>; padding:10px; border:0px <%=sm_bdcol%> solid;">
-            <%=tsa_txt_398 & ": "& totTimerWeek %> 
-                
-                 <%if afslutugekri = 2 then %>
-                    <%=tsa_txt_399 %>
-                    <%end if %>
-                
-                <%=" "&tsa_txt_140 %> / <%=afslutugeBasisKri %> = <b><%=afslProc %> %</b> <%=tsa_txt_095 %> <b><%=datePart("ww", tjkTimeriUgeDtTxt, 2,2) %></b>
-                <br />(<%=left(weekdayname(weekday(formatdatetime(tjkTimeriUgeDt, 2))), 3) &". "& formatdatetime(tjkTimeriUgeDt, 2)%> - <%= left(weekdayname(weekday(formatdatetime(dateAdd("d", 6, tjkTimeriUgeDt), 2))), 3) &". "&formatdatetime(dateAdd("d", 6, tjkTimeriUgeDt), 2) %>)
-               
-                 <%=tsa_txt_400 %>: <b><%=afslutugekri_proc %> %</b>  <%=tsa_txt_401%>.
-               </div>
-                <br />
-            <%
-
-            end select
-
-            end if
-	        
+        
 	          
             '********************************************************************     
             '*** Viser allerede afsluttede peridoer 

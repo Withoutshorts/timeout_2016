@@ -79,21 +79,35 @@
     
 
                 if filterVal <> 0 then
+
+                 if jobkundesog <> "-1" then
+                 strSQLSogKri = " AND (jobnr LIKE '"& jobkundesog &"%' OR jobnavn LIKE '"& jobkundesog &"%' OR "_
+                 &" kkundenavn LIKE '"& jobkundesog &"%' OR kkundenr = '"& jobkundesog &"' OR k.kinit = '"& jobkundesog &"') AND kkundenavn <> ''"
+                 lmt = 50
+                 else
+                 strSQLSogKri = ""
+                 lmt = 150
+                 end if
             
                  lastKid = 0
                 
                 strSQL = "SELECT j.id AS jid, j.jobnavn, j.jobnr, j.jobstatus, k.kkundenavn, k.kkundenr, k.kid FROM timereg_usejob AS tu "_ 
                 &" LEFT JOIN job AS j ON (j.id = tu.jobid) "_
                 &" LEFT JOIN kunder AS k ON (k.kid = j.jobknr) "_
-                &" WHERE tu.medarb = "& medid &" AND (j.jobstatus = 1 OR j.jobstatus = 3) "& strSQLPAkri &" "& strSQLDatokri &" AND "_
-                &" (jobnr LIKE '"& jobkundesog &"%' OR jobnavn LIKE '"& jobkundesog &"%' OR "_
-                &" kkundenavn LIKE '"& jobkundesog &"%' OR kkundenr = '"& jobkundesog &"' OR k.kinit = '"& jobkundesog &"')  AND kkundenavn <> ''"_
-                &" GROUP BY j.id ORDER BY kkundenavn, jobnavn LIMIT 50"       
+                &" WHERE tu.medarb = "& medid &" AND (j.jobstatus = 1 OR j.jobstatus = 3) "& strSQLPAkri &" "& strSQLDatokri 
+                
+                strSQL = strSQL & strSQLSogKri
+                strSQL = strSQL &" GROUP BY j.id ORDER BY kkundenavn, jobnavn LIMIT "& lmt       
     
 
                  'response.write "<option>strSQL " & strSQL & "</option>"
                  'response.end
-                
+                if (jobkundesog = "-1") then
+                    strJobogKunderTxt = strJobogKunderTxt & "<option value=""-1"" SELECTED>Vælg job:</option>"
+                end if            
+
+                 
+
                 oRec.open strSQL, oConn, 3
                 while not oRec.EOF
         
@@ -124,6 +138,9 @@
                 oRec.close
 
               
+                if lastKid = 0 then
+                strJobogKunderTxt = strJobogKunderTxt & "<option value=""-1"" DISABLED>Ingen kunder/job fundet</option>"
+                end if
 
 
                     '*** ÆØÅ **'
@@ -235,23 +252,41 @@
                  'strAktTxt = strAktTxt &"<span style=""color:#999999; font-size:9px; float:right;"" class=""luk_aktsog"">X</span>"    
                          
 
+                     '** Select eller søgeboks
+                    call mobil_week_reg_dd_fn()
+                    
+                    
+                    if cint(mobil_week_reg_akt_dd) <> 1 then 'AND aktsog <> "-1" 
+                    strSQlAktSog = "AND navn LIKE '%"& aktsog &"%'"
+                    else
+                    strSQlAktSog = ""
+
+                            '** Forvalgt 1 aktivitet
+                            if cint(mobil_week_reg_akt_dd_forvalgt) <> 1 AND cint(mobil_week_reg_akt_dd) = 1 then
+                            strAktTxt = strAktTxt & "<option value=""-1"">Vælg aktivitet..</option>" 
+                            end if
+
+                    end if
+
+
+
                    if cint(pa) = 1 then '**Kun på Personlig aktliste
     
     
-                   'Positiv aktivering
-                   if cint(pa_only_specifikke_akt) then
+                       'Positiv aktivering
+                       if cint(pa_only_specifikke_akt) then
 
-                   strSQL = "SELECT a.id AS aid, navn AS aktnavn "_
-                   &" FROM timereg_usejob AS tu LEFT JOIN aktiviteter AS a ON (a.id = tu.aktid) "_
-                   &" WHERE tu.medarb = "& medid &" AND tu.jobid = "& jobid &" AND aktid <> 0 AND a.navn LIKE '%"& aktsog &"%' AND aktstatus = 1 AND ("& replace(aty_sql_realhours, "tfaktim", "a.fakturerbar") &") AND ("& aty_sql_hide_on_treg &") "& forecastAktids &" ORDER BY navn LIMIT 20"   
+                       strSQL = "SELECT a.id AS aid, navn AS aktnavn "_
+                       &" FROM timereg_usejob AS tu LEFT JOIN aktiviteter AS a ON (a.id = tu.aktid) "_
+                       &" WHERE tu.medarb = "& medid &" AND tu.jobid = "& jobid &" AND aktid <> 0 "& strSQlAktSog &" AND aktstatus = 1 AND ("& replace(aty_sql_realhours, "tfaktim", "a.fakturerbar") &") AND ("& aty_sql_hide_on_treg &") "& forecastAktids &" ORDER BY sortorder, navn LIMIT 150"   
 
-                   else 
+                       else 
 
-                   strSQL = "SELECT a.id AS aid, navn AS aktnavn "_
-                   &" FROM timereg_usejob AS tu LEFT JOIN aktiviteter AS a ON (a.job = tu.jobid) "_
-                   &" WHERE tu.medarb = "& medid &" AND tu.jobid = "& jobid &" AND aktid = 0 AND a.navn LIKE '%"& aktsog &"%' AND aktstatus = 1 AND ("& replace(aty_sql_realhours, "tfaktim", "a.fakturerbar") &") AND ("& aty_sql_hide_on_treg &") "& forecastAktids &" ORDER BY navn LIMIT 20"
+                       strSQL = "SELECT a.id AS aid, navn AS aktnavn "_
+                       &" FROM timereg_usejob AS tu LEFT JOIN aktiviteter AS a ON (a.job = tu.jobid) "_
+                       &" WHERE tu.medarb = "& medid &" AND tu.jobid = "& jobid &" AND aktid = 0 "& strSQlAktSog &" AND aktstatus = 1 AND ("& replace(aty_sql_realhours, "tfaktim", "a.fakturerbar") &") AND ("& aty_sql_hide_on_treg &") "& forecastAktids &" ORDER BY sortorder, navn LIMIT 150"
 
-                   end if
+                       end if
 
 
                    else
@@ -273,22 +308,25 @@
 
            
 
+                   
 
-
+                
+                   
 
                    strSQL = "SELECT a.id AS aid, navn AS aktnavn, projektgruppe1, projektgruppe2, projektgruppe3, "_
                    &" projektgruppe4, projektgruppe5, projektgruppe6, projektgruppe7, projektgruppe8, projektgruppe9, projektgruppe10 FROM aktiviteter AS a "_
-                   &" WHERE a.job = " & jobid & " "& strSQLDatoKri &" AND navn LIKE '%"& aktsog &"%' AND aktstatus = 1 "& forecastAktids &" ORDER BY navn"      
+                   &" WHERE a.job = " & jobid & " "& strSQLDatoKri &" "& strSQlAktSog &" AND aktstatus = 1 "& forecastAktids &" ORDER BY sortorder, navn LIMIT 150"      
     
 
                
             
                 end if
 
-                 'response.write "<option>strSQL " & strSQL & "</option>"
-                 'response.flush
+                'response.write "strSQL " & strSQL & ""
+                'response.write "<option>strSQL " & strSQL & "</option>"
+                'response.flush
 
-
+                afundet = 0
                 oRec.open strSQL, oConn, 3
                 while not oRec.EOF
         
@@ -356,11 +394,16 @@
                 
                 end if
                 
+                afundet = afundet + 1
                 oRec.movenext
                 wend
                 oRec.close
 
-              
+                
+                if afundet = 0 then
+                strAktTxt = strAktTxt & "<option value=""-1"" DISABLED>Ingen aktiviteter fundet</option>" 
+                end if          
+
 
 
                     '*** ÆØÅ **'
@@ -482,7 +525,11 @@ if len(session("user")) = 0 then
 	
     call medarb_teamlederfor
     
-        
+    '** Select eller søgeboks
+    call mobil_week_reg_dd_fn()
+    'mobil_week_reg_job_dd = mobil_week_reg_job_dd
+    'mobil_week_reg_akt_dd = 1
+    'mobil_week_reg_akt_dd = mobil_week_reg_akt_dd    
     
         
     varTjDatoUS_man = request("varTjDatoUS_man")
@@ -909,6 +956,9 @@ if len(session("user")) = 0 then
                             <input type="hidden" id="FM_medid_k" name="FM_medid_k" value="<%=usemrn%>"/>
                             <input type="hidden" id="" name="FM_vistimereltid" value="0"/>
                             <input type="hidden" id="lcid_sprog" name="" value="<%=lcid_sprog_val %>"/>
+
+                            <input type="hidden" id="mobil_week_reg_akt_dd" name="" value="<%=mobil_week_reg_akt_dd %>"/>
+                            <input type="hidden" id="mobil_week_reg_job_dd" name="" value="<%=mobil_week_reg_job_dd %>"/>
                             
                            
                             <!-- Forecast max felter -->
@@ -921,8 +971,14 @@ if len(session("user")) = 0 then
                             <input type="hidden" id="regskabsaarUseMd" value="<%=datepart("m", varTjDatoUS_man, 2,2)%>">     
                             
                             
+                            <%if cint(mobil_week_reg_job_dd) = 1 then %>
+                             <input type="hidden" id="FM_job_0" value="-1"/>
+                             <select id="dv_job_0" name="FM_jobid" class="form-control input-small chbox_job">
+                                 <option value="-1"><%=left(tsa_txt_145, 4) %>..</option>
+                                 <!--<option value="0">..</option>-->
+                             </select>
 
-                    
+                            <%else %>
                             <input type="text" id="FM_job_0" name="FM_job" placeholder="<%=left(tsa_txt_066, 5) %>/<%=tsa_txt_236 %>" class="FM_job form-control input-small"/>
                            <!-- <div id="dv_job_0" class="dv-closed dv_job" style="border:1px #cccccc solid; padding:10px; visibility:hidden; display:none;"></div>--> <!-- dv_job -->
 
@@ -930,7 +986,9 @@ if len(session("user")) = 0 then
                                  <option><%=tsa_txt_534%>..</option>
                              </select>
 
-                            <input type="hidden" id="FM_jobid_0" name="FM_jobid" value="-1"/>
+                            <input type="hidden" id="FM_jobid_0" name="FM_jobid" value="0"/>
+                            <%end if %>
+
                         </td>
                      
                     </tr>
@@ -938,14 +996,23 @@ if len(session("user")) = 0 then
                     <tr>
                         <td style="padding-right:5px; padding-top:10px; vertical-align:text-top;"><b><%=tsa_txt_068%>:</b></td>
                          <td style="padding-top:10px; padding-left:10px; width:225px">
-                            <input type="text" id="FM_akt_0" name="activity" placeholder="<%=tsa_txt_068%>" class="FM_akt form-control input-small"/>
+                            <%if cint(mobil_week_reg_akt_dd) = 1 then %>
+                                 <input type="hidden" id="FM_akt_0" value="-1"/>
+                                 <!--<textarea id="dv_akt_test"></textarea>-->
+                                 <select id="dv_akt_0" name="FM_aktivitetid" class="form-control input-small chbox_akt" DISABLED>
+                                      <option>..</option>
+                                  </select>
+
+                             <%else %>
+                              <input type="text" id="FM_akt_0" name="activity" placeholder="<%=tsa_txt_068%>" class="FM_akt form-control input-small"/>
                                 <!--<div id="dv_akt_0" class="dv-closed dv_akt" style="border:1px #cccccc solid; padding:10px; visibility:hidden; display:none;"></div>--> <!-- dv_akt -->
 
-                                  <select id="dv_akt_0" class="form-control input-small chbox_akt" size="10" style="visibility:hidden; display:none;">
+                                  <select id="dv_akt_0" class="form-control input-small chbox_akt" size="10" style="visibility:hidden; display:none;"> <!-- chbox_akt -->
                                       <option><%=tsa_txt_534%>..</option>
-                             </select>
-
-                            <input type="hidden" id="FM_aktid_0" name="FM_aktivitetid" value="-1"/>
+                                  </select>
+                              <input type="hidden" id="FM_aktid_0" name="FM_aktivitetid" value="0"/>
+                             <%end if %>
+                           
                         </td>
                        
                     </tr>
@@ -1221,6 +1288,7 @@ if len(session("user")) = 0 then
         tjkAar = year(varTjDatoUS_son)
         end if    
             
+        '**
         call erugeAfslutte(tjkAar, datepart("ww", varTjDatoUS_son, 2,2), usemrn, SmiWeekOrMonth, 0) 
         
         call godkendugeseddel(fmlink, usemrn, varTjDatoUS_man, rdir) %>

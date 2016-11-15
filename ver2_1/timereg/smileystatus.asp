@@ -106,10 +106,21 @@ if len(session("user")) = 0 then
 	case "slet"
 	'*** Her spørges om det er ok at der slettes en medarbejder ***
 
-    slttxt = "<b>Smiley Status - Slet ugeafslutning?</b><br />"_
-	&"Du er ved at slette en <b>ugeafslutning</b>. Er dette korrekt? (du kan altid aflsutte ugen igen)<br><br>"
+    call smileyAfslutSettings()
 
-     strSQL = "SELECT week(u.uge) AS uge, u.afsluttet, week(u.afsluttet) AS afuge, m.mnavn, m.mnr, m.init FROM ugestatus u "_
+    select case cint(SmiWeekOrMonth)
+    case 0
+    slttxt = "<b>Smiley Status - Slet ugeafslutning?</b><br />"_
+	&"Du er ved at slette en <b>ugeafslutning</b>. Er dette korrekt? (du kan altid afslutte ugen igen)<br><br>"
+    case 1
+    slttxt = "<b>Smiley Status - Slet månedsafslutning?</b><br />"_
+	&"Du er ved at slette en <b>månedsafslutning</b>. Er dette korrekt? (du kan altid afslutte måneden igen)<br><br>"
+    case 2
+    slttxt = "<b>Smiley Status - Slet dagsafslutning?</b><br />"_
+	&"Du er ved at slette en <b>dagsafslutning</b>. Er dette korrekt? (du kan altid afslutte dagen igen)<br><br>"
+    end select
+
+     strSQL = "SELECT week(u.uge) AS uge, month(u.uge) AS md, u.uge AS dag, u.afsluttet, week(u.afsluttet) AS afuge, m.mnavn, m.mnr, m.init FROM ugestatus u "_
 		 &" LEFT JOIN medarbejdere m ON (m.mid = u.mid) WHERE u.id = " & id
 		 
 		 'Response.Write strSQL
@@ -118,8 +129,16 @@ if len(session("user")) = 0 then
 		 oRec.open strSQL, oConn, 3
 		 if not oRec.EOF then
 		 
-		 slttxt = slttxt & "<b>Uge: "& oRec("uge") &" - "_
-		 & oRec("mnavn") &", ("& oRec("mnr") &") - "& oRec("init") &"</b>" _
+         select case cint(SmiWeekOrMonth)
+         case 0
+		 slttxt = slttxt & "<b>Uge: "& oRec("uge") &" - "
+         case 1
+         slttxt = slttxt & "<b>Måned: "& oRec("md") &" - "
+         case 2
+         slttxt = slttxt & "<b>Dag: "& oRec("dag") &" - "
+         end select
+
+		 slttxt = slttxt & oRec("mnavn") &", ("& oRec("mnr") &") - "& oRec("init") &"</b>" _
 		 & "<br>Afsluttet d. "& oRec("afsluttet") & " (uge "& datepart("ww",oRec("afsluttet"),2,2) &")"
 		 
 		 

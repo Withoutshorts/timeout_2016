@@ -96,7 +96,7 @@ public class ozUploadFile
 
         try
         {
-            using (OdbcConnection connection = new OdbcConnection("driver={MySQL ODBC 3.51 Driver};server=195.189.130.210; Port=3306; uid=outzource; pwd=SKba200473; database=timeout_" + ltoIn + ";"))
+            using (OdbcConnection connection = new OdbcConnection("driver={MySQL ODBC 3.51 Driver};server=194.150.108.154; Port=3306; uid=outzource; pwd=SKba200473; database=timeout_" + ltoIn + ";"))
             {
                 OdbcCommand command = new OdbcCommand(strSelect, connection);
 
@@ -177,11 +177,22 @@ public class ozUploadFile
     {
         DataSet dsRet = new DataSet();
 
-        string strSelect = "SELECT * FROM timer_import_temp where OVERFORT = 0 ORDER BY id DESC";
+        //intTempImpId    = 0
+        //tempM          = 4
+        //intJobNr       = 5
+        //aktnavnUse      = 6
+        //dldTimer       = 7
+        //Tdato           = 8
+        //LTO             = 9
+        //timerkom        = 10
 
+        //, medarbejderid, jobid, aktnavn, timer, tdato, lto, timerkom'
+        string strSelect = "SELECT id, dato, editor, origin, medarbejderid, jobid, aktnavn, timer, tdato, lto, timerkom, aktid FROM timer_import_temp WHERE overfort = 0 ORDER BY id limit 3000";
+        //'dato, editor, origin,'
         try
         {
-            using (OdbcConnection connection = new OdbcConnection("driver={MySQL ODBC 3.51 Driver};server=195.189.130.210; Port=3306; uid=outzource; pwd=SKba200473; database=timeout_" + ltoIn + ";"))
+
+            using (OdbcConnection connection = new OdbcConnection("driver={MySQL ODBC 3.51 Driver}; Server=194.150.108.154; Port=3306; Uid=outzource; Pwd=SKba200473; Database=timeout_" + ltoIn + ";"))
             {
                 OdbcCommand command = new OdbcCommand(strSelect, connection);
 
@@ -292,7 +303,7 @@ public class ozUploadFile
         if (folder == "outz" || folder == "intranet - local")
             folder = "intranet";
 
-        string conn = "driver={MySQL ODBC 3.51 Driver};server=195.189.130.210; Port=3306; uid=outzource; pwd=SKba200473; database=timeout_" + folder + ";";
+        string conn = "driver={MySQL ODBC 3.51 Driver};server=194.150.108.154; Port=3306; uid=outzource; pwd=SKba200473; database=timeout_" + folder + ";";
 
         using (OdbcConnection connection = new OdbcConnection(conn))
         {
@@ -331,14 +342,18 @@ public class ozUploadFile
         if (folder == "outz" || folder == "intranet - local")
             folder = "intranet";
 
-        string conn = "driver={MySQL ODBC 3.51 Driver};server=195.189.130.210; Port=3306; uid=outzource; pwd=SKba200473; database=timeout_" + folder + ";";
+        string conn = "driver={MySQL ODBC 3.51 Driver};server=194.150.108.154; Port=3306; uid=outzource; pwd=SKba200473; database=timeout_" + folder + ";";
 
         using (OdbcConnection connection = new OdbcConnection(conn))
         {
             foreach (ozUploadFile data in lstData)
             {
+                
+              
+
                 data.tdato = ConvertDate(data.tdato);
-                string strInsert = "INSERT INTO timer_import_temp (dato, origin, medarbejderid, jobid, aktnavn, timer, tdato, timerkom, lto, editor,overfort)VALUES('" + DateTime.Now.ToString("yyyy-MM-dd") + "',+"+ORIGIN+",'" + data.medarbejderid + "'," + data.jobid + ",'" + data.aktnavn + "'," + data.timer.Replace(',', '.') + ",'" + data.tdato + "','" + data.timerkom + "','" + folder + "','" + editorIn + "',0)";
+                string strInsert = "INSERT INTO timer_import_temp (dato, origin, medarbejderid, jobid, aktnavn, timer, tdato, timerkom, lto, editor, overfort, jobnavn, aktid, errid, errmsg)";
+                strInsert += " VALUES('" + DateTime.Now.ToString("yyyy-MM-dd") + "',+"+ORIGIN+",'" + data.medarbejderid + "'," + data.jobid + ",'" + data.aktnavn + "'," + data.timer.Replace(',', '.') + ",'" + data.tdato + "','" + data.timerkom + "','" + folder + "','" + editorIn + "',0,'',0,0,0)";
 
                 OdbcCommand command = new OdbcCommand(strInsert, connection);
 
@@ -348,6 +363,8 @@ public class ozUploadFile
                 intRow = command.ExecuteNonQuery();
 
                 connection.Close();
+
+               
             }
         }
 
@@ -361,7 +378,7 @@ public class ozUploadFile
 
         //Move file
         string path = pathIn + fileIn;
-        string path2 = @"D:\webserver\wwwroot\timeout_xp\wwwroot\ver2_10\inc\upload\" + folderIn + "\\" + fileIn;
+        string path2 = @"D:\webserver\wwwroot\timeout_xp\wwwroot\ver2_14\inc\upload\" + folderIn + "\\" + fileIn;
         Move(path, path2);
     }
 
@@ -373,7 +390,7 @@ public class ozUploadFile
             folderIn = "intranet";
 
         string sqlIn = "UPDATE timer_import_temp SET Overfort=1 WHERE lto='" + folderIn + "' AND editor='" + editorIn + "'";
-        using (OdbcConnection connection = new OdbcConnection("driver={MySQL ODBC 3.51 Driver};server=195.189.130.210; Port=3306; uid=outzource; pwd=SKba200473; database=timeout_" + folderIn + ";"))
+        using (OdbcConnection connection = new OdbcConnection("driver={MySQL ODBC 3.51 Driver};server=194.150.108.154; Port=3306; uid=outzource; pwd=SKba200473; database=timeout_" + folderIn + ";"))
         {
             OdbcCommand command = new OdbcCommand(sqlIn, connection);
 
@@ -395,8 +412,12 @@ public class ozUploadFile
         DataSet dsData = new DataSet();
         dsData = ReadDS(ltoIn);
 
-        dk.outzource_importhours.to_import service = new dk.outzource_importhours.to_import();
-        strRet = service.timeout_importTimer(dsData);
+        //dk.outzource_importhours.to_import service = new dk.outzource_importhours.to_import();
+        //dk_rack.outzource_importhours.to_import_hours service = new dk_rack.outzource_importhours.to_import_hours();
+        dk_rack.outzource_timeout2_importhours.to_import_hours service = new dk_rack.outzource_timeout2_importhours.to_import_hours();
+        service.Timeout = 960000; //16min.
+
+        strRet = service.timeout_importTimer_rack(dsData);
 
         return strRet;
     }
@@ -753,7 +774,7 @@ public class ozUploadFile
     {
         int intRow = 0;
 
-        using (OdbcConnection connection = new OdbcConnection("driver={MySQL ODBC 3.51 Driver};server=195.189.130.210; Port=3306; uid=outzource; pwd=SKba200473; database=timeout_demo;"))
+        using (OdbcConnection connection = new OdbcConnection("driver={MySQL ODBC 3.51 Driver};server=194.150.108.154; Port=3306; uid=outzource; pwd=SKba200473; database=timeout_demo;"))
         {
             OdbcCommand command = new OdbcCommand(sqlIn, connection);
 

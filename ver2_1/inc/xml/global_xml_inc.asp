@@ -13,11 +13,13 @@ Set objXmlHttp_global = Server.CreateObject("Msxml2.ServerXMLHTTP")
 
 select case lto
 case "epi", "epi_no", "epi_sta", "epi_ab"
-objXmlHttp_global.open "GET", "http://timeout.cloud/timeout_xp/wwwroot/ver2_14/inc/xml/global_sprog_epi.xml", False
+'objXmlHttp_global.open "GET", "http://timeout.cloud/timeout_xp/wwwroot/ver2_14/inc/xml/global_sprog_epi.xml", False
+objXmlHttp_global.open "GET", "http://localhost/Git/timeout_2016/ver2_1/inc/xml/global_sprog_epi.xml", False
 'case "fk"
 'objXmlHttp_global.open "GET", "http://outzource.dk/timeout_xp/wwwroot/ver2_10/inc/xml/global_sprog_fk.xml", False
 case "tec", "esn"
-objXmlHttp_global.open "GET", "http://timeout.cloud/timeout_xp/wwwroot/ver2_14/inc/xml/global_sprog_tec.xml", False
+'objXmlHttp_global.open "GET", "http://timeout.cloud/timeout_xp/wwwroot/ver2_14/inc/xml/global_sprog_tec.xml", False
+objXmlHttp_global.open "GET", "http://localhost/Git/timeout_2016/ver2_1/inc/xml/global_sprog_tec.xml", False
 'case "intranet - local" 
 'objXmlHttp_global.open "GET", "http://localhost/timeout_xp/inc/xml/global_sprog_fk.xml", False
 case else
@@ -25,6 +27,7 @@ case else
 'objXmlHttp_global.open "GET", "https://outzource.dk/timeout_xp/wwwroot/ver2_14/inc/xml/global_sprog.xml", False
 'objXmlHttp_global.open "GET", "https://timeout.cloud/timeout_xp/wwwroot/ver2_14/inc/xml/global_sprog.xml", False
 'objXmlHttp_global.open "GET", "https://outzource.dk/timeout_xp/wwwroot/ver3_99/inc/xml/global_sprog.xml", False
+'objXmlHttp_global.open "GET", "http://localhost/Git/timeout_2016/ver2_1/inc/xml/global_sprog.xml", False
 objXmlHttp_global.open "GET", "http://localhost/inc/xml/global_sprog.xml", False
 'objXmlHttp_global.open "GET", "http://localhost/timeout_xp/inc/xml/global_sprog_tec.xml", False
 end select
@@ -58,6 +61,9 @@ end if
 oRec.close
 end if
 
+
+
+
 select case sprog
 case 1
 sXPathQuery_global = "//sprog/dk"
@@ -68,10 +74,26 @@ Session.LCID = 2057
 case 3
 sXPathQuery_global = "//sprog/se"
 Session.LCID = 1053
+case 4
+sXPathQuery_global = "//sprog/no"
+Session.LCID = 2068
+case 5
+sXPathQuery_global = "//sprog/es"
+Session.LCID = 1034
+case 6
+sXPathQuery_global = "//sprog/de"
+Session.LCID = 1031
+case 7
+sXPathQuery_global = "//sprog/fr"
+Session.LCID = 1036
 case else
 sXPathQuery_global = "//sprog/dk"
 Session.LCID = 1030
 end select
+
+
+
+
 
 Set oNode_global = objXmlDom_global.documentElement.selectSingleNode(sXPathQuery_global)
 Address_global = oNode_global.Text

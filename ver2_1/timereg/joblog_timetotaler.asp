@@ -1423,7 +1423,7 @@ function LeiRotate() {
 
              <tr>
 				<td colspan=3 valign=top style="padding:0px 0px 0px 40px;" bgcolor="#ffffff">
-		        <b>Vis normtid </b><input type="radio" name="vis_normtimer" id="Radio1" value="1" <%=normChk1%>>Ja &nbsp;&nbsp;<input type="radio" name="vis_normtimer" id="Radio2" value="0" <%=normChk0%>>Nej</td>
+		        <b>Vis normtid </b><input type="radio" name="vis_normtimer" id="vis_normtimer" value="1" <%=normChk1%>>Ja &nbsp;&nbsp;<input type="radio" name="vis_normtimer" id="vis_normtimer" value="0" <%=normChk0%>>Nej</td>
 			</tr>
 
 			
@@ -1779,8 +1779,8 @@ function LeiRotate() {
 			m = 55 '55 '55 '40
 			x = 26500 '26500 '40500 '25500 '6500 '2500 (20000 = ca. 4-500 medarb.)
             else
-            m = 80 '55 '55 '40
-			x = 90500 '26500 '40500 '25500 '6500 '2500 (20000 = ca. 4-500 medarb.)
+            m = 55 '80 '55 '40
+			x = 120000 '90500 '26500 '40500 '25500 '6500 '2500 (20000 = ca. 4-500 medarb.)
             end if
 			lastjid = 0
 			strMids = 0
@@ -4380,6 +4380,9 @@ function LeiRotate() {
                  'expTxt = expTxt &";"
                  'end if
 
+
+                medabNormtimerGT = 0
+
 				if cint(directexp) <> 1 then 
 			    strJobLinie_total = "<tr bgcolor=lightpink>"
 				strJobLinie_total = strJobLinie_total & "<td style='padding:4px; border-top:1px #CCCCCC solid;' valign=Top><b>Grandtotal:</b></td>"
@@ -4452,25 +4455,34 @@ function LeiRotate() {
 						'*** Jobtotaler i periode ***'
 						'***********************'
                         if cint(directexp) <> 1 then
-                        strJobLinie_total = strJobLinie_total & "<td class=lille valign=bottom align=right "&tdstyleTimOms10&">" 
+                                strJobLinie_total = strJobLinie_total & "<td class=lille valign=bottom align=right "&tdstyleTimOms10&">" 
 						
 
-                        '**** Res timer ***'
-                        if cint(vis_restimer) = 1 then
-                        strJobLinie_total = strJobLinie_total & "<span style='color:#999999;'>fc:"& formatnumber(restimerTotalJob,0) &"</span><br>"
-                        end if
+                                '**** Res timer ***'
+                                if cint(vis_restimer) = 1 then
+                                strJobLinie_total = strJobLinie_total & "<span style='color:#999999;'>fc:"& formatnumber(restimerTotalJob,0) &"</span><br>"
+                                end if
 
-                         strJobLinie_total = strJobLinie_total & formatnumber(totaltotaljboTimerIalt,2)
+                                strJobLinie_total = strJobLinie_total & formatnumber(totaltotaljboTimerIalt,2)
 
-						'*** Enheder ***'
-						if cint(vis_enheder) = 1 then
-					    strJobLinie_total = strJobLinie_total & "<br><span style='color:#5c75AA; font-size:9px;'>enh. " & formatnumber(totalJobEnh,2) & "</span>" 
-					    end if
+                                '*** Normtimer ****
+                                if cint(vis_normtimer) = 1 then
+                                strJobLinie_total = strJobLinie_total & "<br><span style='color:#5582d2;' id='sp_normtot'>n:</span><br>"
+                                end if
 
-                             
+						        '*** Enheder ***'
+						        if cint(vis_enheder) = 1 then
+					            strJobLinie_total = strJobLinie_total & "<br><span style='color:#5c75AA; font-size:9px;'>enh. " & formatnumber(totalJobEnh,2) & "</span>" 
+					            end if
 
                         end if 'if cint(directexp) <> 1 then      
 								
+
+                        '******************************
+                        '***** Total timer iperiode ***
+                        '******************************
+
+
 								expTxt = expTxt & formatnumber(totaltotaljboTimerIalt,2) &";"
 
 
@@ -4490,22 +4502,25 @@ function LeiRotate() {
 								expTxt = expTxt & formatnumber(totalJobEnh, 2)&";"
 								end if
 								
-						
-						if cint(visfakbare_res) = 1 OR cint(visfakbare_res) = 2 then
-                    
-                        if cint(directexp) <> 1 then
-						strJobLinie_total = strJobLinie_total & "<br><span style='color=#000000; font-size:8px;'>"& basisValISO &" "&formatnumber(totaltotaljobOmsIalt, 2)& "</span>" 
-						strJobLinie_total = strJobLinie_total & "<br><span style='color=#000000; font-size:8px;'>bal.: "&formatnumber(dbialt, 2)&"</span></td>"
-		                end if 'if cint(directexp) <> 1 then				
+                                '************************
+                                '** Omsætnint total *****
+		                        '************************				    
 
-								expTxt = expTxt & formatnumber(totaltotaljobOmsIalt, 2) &";"
-								expTxt = expTxt & formatnumber(dbialt, 2) &";"
+						        if cint(visfakbare_res) = 1 OR cint(visfakbare_res) = 2 then
+                    
+                                if cint(directexp) <> 1 then
+						        strJobLinie_total = strJobLinie_total & "<br><span style='color=#000000; font-size:8px;'>"& basisValISO &" "&formatnumber(totaltotaljobOmsIalt, 2)& "</span>" 
+						        strJobLinie_total = strJobLinie_total & "<br><span style='color=#000000; font-size:8px;'>bal.: "&formatnumber(dbialt, 2)&"</span></td>"
+		                        end if 'if cint(directexp) <> 1 then				
+
+								        expTxt = expTxt & formatnumber(totaltotaljobOmsIalt, 2) &";"
+								        expTxt = expTxt & formatnumber(dbialt, 2) &";"
 								
-						else
-                            if cint(directexp) <> 1 then
-		    				strJobLinie_total = strJobLinie_total & "</td>"
-                            end if
-						end if
+						        else
+                                    if cint(directexp) <> 1 then
+		    				        strJobLinie_total = strJobLinie_total & "</td>"
+                                    end if
+						        end if
 						
             
                         '** Real. % **'
@@ -4607,7 +4622,8 @@ function LeiRotate() {
 
                                                 call normtimerPer(medarb(v), datoStart, perinterval, io)
                                                 medabNormtimer(v) = ntimPer
-
+                                                medabNormtimerGT = medabNormtimerGT + medabNormtimer(v)
+                                            
                                             end if
                 
                             
@@ -4771,10 +4787,11 @@ function LeiRotate() {
                                                          if cint(vis_normtimer) = 1 then
 
                                                             if medabNormtimer(v) <> 0 then 
-                                                            strJobLinie_total = strJobLinie_total & "<br><span style='color:#999999;'>n: "& formatnumber(medabNormtimer(v),2) &"</span>"
+                                                            strJobLinie_total = strJobLinie_total & "<br><span style='color:#5582d2;'>n: "& formatnumber(medabNormtimer(v),2) &"</span>"
                                                             else
                                                             strJobLinie_total = strJobLinie_total & "&nbsp;<br>"
                                                             end if
+
                                                          end if
 
 
@@ -4855,10 +4872,15 @@ function LeiRotate() {
             strJobLinie_total = strJobLinie_total & no_redaktorTxt &"</td></tr></table>"
             end if
 
-			
+          
 			Response.write strJobLinie_total
 			
 		    end if 'if cint(directexp) <> 1 then    
+
+              '*** Norm til GT ****
+              if cint(vis_normtimer) = 1 then
+                expTxt = expTxt & formatnumber(medabNormtimerGT, 2) & ";"
+              end if
 
             end if 'if cint(csv_pivot) <> 1 then   
 
@@ -4866,7 +4888,12 @@ function LeiRotate() {
 			
             
 
-
+              '*** Norm til GT ****
+            if cint(vis_normtimer) = 1 then
+            %>
+               <form><input type="hidden" id="jq_normtot" value="<%=formatnumber(medabNormtimerGT, 2) %>"></form>
+            <%
+                end if
 
 
                

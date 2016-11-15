@@ -83,7 +83,7 @@ a = 0
 								Response.write x &"<br>"& strSQL(b) & "<br><br>"
 								Response.flush
 
-								'if x <= 160 then 'AND x < 101 then
+								'if x > 0 then 'AND x < 101 then
                                 oConn.open strConnect_aktiveDB
 							    
                                 '*** DENNE LINJE INDLÆSER // UDKOMMENTER NÅR FILEN IKKE ER AKTIV
@@ -2923,6 +2923,27 @@ INSERT INTO dbversion (dbversion) VALUES (20160921.1)
 ALTER TABLE timer
 MODIFY COLUMN kurs double(12,4) DEFAULT 0 NOT NULL;
 INSERT INTO dbversion (dbversion) VALUES (20160921.2) 
+
+
+<br /><br />20161025.1<br />
+ALTER TABLE licens ADD (smiley_agg_lukhard INT DEFAULT 0 NOT NULL, 
+mobil_week_reg_job_dd INT DEFAULT 0 NOT NULL, 
+mobil_week_reg_akt_dd INT DEFAULT 0 NOT NULL, 
+week_showbase_norm_kommegaa INT DEFAULT 0 NOT NULL, 
+mobil_week_reg_akt_dd_forvalgt INT DEFAULT 0 NOT NULL);
+ALTER TABLE kontaktpers ADD (kp_interest_christmas INT DEFAULT 0 NOT NULL);
+INSERT INTO dbversion (dbversion) VALUES (20161025.1) 
+
+
+<br /><br />20161102.1<br />
+ALTER TABLE lon_korsel ADD (lk_close_projects INT DEFAULT 0 NOT NULL);
+ALTER TABLE lon_korsel ADD (lk_correction_on INT DEFAULT 0 NOT NULL);
+INSERT INTO dbversion (dbversion) VALUES (20161102.1) 
+
+<br /><br />20161102.1<br />
+ALTER TABLE job_ulev_ju ADD (ju_konto_label VARCHAR(50));
+INSERT INTO dbversion (dbversion) VALUES (20161102.1) 
+
 <%
 
 

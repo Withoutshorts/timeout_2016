@@ -1,5 +1,5 @@
 <%
-'public strConnect_aktiveDB
+public strConnect_aktiveDB
 function aktivedb(x)
 		
 		Select Case x

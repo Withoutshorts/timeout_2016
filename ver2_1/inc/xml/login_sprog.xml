@@ -51,7 +51,171 @@
 
 
   </dk>
+
+  
+  <!-- Norsk -->
+  <no>
+    <txt_1 >Timeregistrering</txt_1>
+    <txt_2 >Prosjekter</txt_2>
+    <txt_3 >Rapporter</txt_3>
+    <txt_4 >Kunder</txt_4>
+    <txt_5 >Ansatte</txt_5>
+    <txt_6 >Lager</txt_6>
+    <txt_7 >Økonomi</txt_7>
+    <txt_8 >Tjenesten-Desk</txt_8>
+    <txt_9 >Administrasjon</txt_9>
+    <txt_10 >TimeOut mobil</txt_10>
+    <txt_11 >Husk meg</txt_11>
+    <txt_12 >TimeTag</txt_12>
+    <txt_13 >Logg inn:</txt_13>
+    <txt_14 >Kjære besøkende, vennligst skriv ditt navn, firma og e-post og du vil få tilgang til vår demo:</txt_14>
+    <txt_15 >Navn:</txt_15>
+    <txt_16 >Firma:</txt_16>
+    <txt_17 >E-post:</txt_17>
+    <txt_18 >Telefon:</txt_18>
+    <txt_19 >Brukernavn</txt_19>
+    <txt_20 >Password:</txt_20>
+    <txt_21 >Innstilling av klokke inn / ut tid:</txt_21>
+    <txt_22 >Mistet / glemt brukernavn / passord >></txt_22>
+    <txt_23 >Legg TimeOut til i favoritter</txt_23>
+    <txt_24 >Gjør TimeOut til Hjemmeside</txt_24>
+    <txt_25 >TimeOut snarvei</txt_25>
+    <txt_26 >Dra denne linken på skrivebordet</txt_26>
+    <txt_27 >Rettighetshaver:</txt_27>
+    <txt_28 >Snarveier:</txt_28>
+    <txt_29 >OutZourCE og OutZourCE underleverandører . Alle rettigheter reservert.</txt_29>
+    <txt_30 >Utviklet og produsert av OutZourCE</txt_30>
+    <txt_31 >Design av Margin Media</txt_31>
+    <txt_32 >Grafisk element Copyright © Microsoft Corp.</txt_32>
+    <txt_33 >Betingelser</txt_33>
+    <txt_34 >Support og Salg:</txt_34>
+
+  </no>
+
+  
+  <!-- Svensk -->
+  <se>
+
+    <txt_1 >Tidrapporter</txt_1>
+    <txt_2 >Projekt</txt_2>
+    <txt_3 >Rapporter</txt_3>
+    <txt_4 >Kunder</txt_4>
+    <txt_5 >Anställda</txt_5>
+    <txt_6 >Lager</txt_6>
+    <txt_7 >Ekonomi</txt_7>
+    <txt_8 >Service Desk</txt_8>
+    <txt_9 >Administrering</txt_9>
+    <txt_10 >TimeOut mobil</txt_10>
+    <txt_11 >Kom ihåg mig</txt_11>
+    <txt_12 >TimeTag</txt_12>
+    <txt_13 >Logga in:</txt_13>
+    <txt_14 >Kära besökare, ange ditt namn, företag och e-post och du kommer att få tillgång till vår demo:</txt_14>
+    <txt_15 >Namn:</txt_15>
+    <txt_16 >Företag:</txt_16>
+    <txt_17 >E-post:</txt_17>
+    <txt_18 >Telefon:</txt_18>
+    <txt_19 >Användarnamn</txt_19>
+    <txt_20 >Password:</txt_20>
+    <txt_21 >Ställa in klockan in / ut tid:</txt_21>
+    <txt_22 >Förlorade / glömt användarnamn / lösenord >></txt_22>
+    <txt_23 >Lägg TimeOut till favoriter</txt_23>
+    <txt_24 >Gör TimeOut till Hem</txt_24>
+    <txt_25 >TimeOut genväg</txt_25>
+    <txt_26 >Dra denna länk på skrivbordet</txt_26>
+    <txt_27 >Licensinnehavare:</txt_27>
+    <txt_28 >Genvägar:</txt_28>
+    <txt_29 >OutZourCE och OutZourCE leverantörer. All rights reserved.</txt_29>
+    <txt_30 >Utvecklas och produceras av OutZourCE</txt_30>
+    <txt_31 >Utformning av Marginal Media</txt_31>
+    <txt_32 >Grafiskt element Copyright © Microsoft Corp.</txt_32>
+    <txt_33 >Betingelser</txt_33>
+    <txt_34 >Stöd och försäljning:</txt_34>
+
+
+  </se>
+
+  <!-- Tysk -->
+  <de>
+    
+    <txt_1 >Zeitblatt</txt_1>
+    <txt_2 >Projekte</txt_2>
+    <txt_3 >Berichte</txt_3>
+    <txt_4 >Kundschaft</txt_4>
+    <txt_5 >Mitarbeiter</txt_5>
+    <txt_6 >Lager</txt_6>
+    <txt_7 >Wirtschaft</txt_7>
+    <txt_8 >Service-Desk</txt_8>
+    <txt_9 >Verwaltung</txt_9>
+    <txt_10 >TimeOut mobil</txt_10>
+    <txt_11 >Erinnere dich an mich</txt_11>
+    <txt_12 >TimeTag</txt_12>
+    <txt_13 >einloggen:</txt_13>
+    <txt_14 >Liebe Besucher, geben Sie bitte Ihren Namen, Firma und E-Mail und Sie erhalten Zugang zu unserer Demo bekommen:</txt_14>
+    <txt_15 >Name:</txt_15>
+    <txt_16 >Firma:</txt_16>
+    <txt_17 >E-mail:</txt_17>
+    <txt_18 >Telefon:</txt_18>
+    <txt_19 >Benutzername</txt_19>
+    <txt_20 >Password:</txt_20>
+    <txt_21 >Einstellen der Uhr in / out Zeit:</txt_21>
+    <txt_22 >Verloren / Zugangsdaten vergessen / Passwort >></txt_22>
+    <txt_23 >In TimeOut zu Favoriten</txt_23>
+    <txt_24 >Do TimeOut zum Haupt</txt_24>
+    <txt_25 >TimeOut Abkürzung</txt_25>
+    <txt_26 >Ziehen Sie diesen Link auf Ihrem Desktop</txt_26>
+    <txt_27 >Lizenznehmer:</txt_27>
+    <txt_28 >Abkürzungen:</txt_28>
+    <txt_29 >OutZourCE und OutZourCE Subunternehmer. Alle Rechte vorbehalten.</txt_29>
+    <txt_30 >Entwickelt und produziert von OutZourCE</txt_30>
+    <txt_31 >Design of Margin Medien</txt_31>
+    <txt_32 >Grafisches Element Copyright © Microsoft Corp.</txt_32>
+    <txt_33 >Verhältnisse</txt_33>
+    <txt_34 >Unterstützung und Vertrieb:</txt_34>
+
+  </de>
+
+
+  <!-- Fransk -->
+  <fr>
+    
+    <txt_1 >Feuille de temps</txt_1>
+    <txt_2 >Projets</txt_2>
+    <txt_3 >Rapports</txt_3>
+    <txt_4 >Clientèle</txt_4>
+    <txt_5 >Employés</txt_5>
+    <txt_6 >Stock</txt_6>
+    <txt_7 >Économie</txt_7>
+    <txt_8 >Service-Bureau</txt_8>
+    <txt_9 >Administration</txt_9>
+    <txt_10 >TimeOut mobiles</txt_10>
+    <txt_11 >souvenir de moi</txt_11>
+    <txt_12 >TimeTag</txt_12>
+    <txt_13 >Identifiez-vous:</txt_13>
+    <txt_14 >Chers visiteurs, s'il vous plaît, entrez votre nom, la société et le courrier électronique et vous aurez accès à notre démonstration:</txt_14>
+    <txt_15 >Nom:</txt_15>
+    <txt_16 >Société:</txt_16>
+    <txt_17 >E-mail:</txt_17>
+    <txt_18 >Téléphone:</txt_18>
+    <txt_19 >Nom d'utilisateur</txt_19>
+    <txt_20 >Password:</txt_20>
+    <txt_21 >Réglage de l'horloge in / out temps:</txt_21>
+    <txt_22 >Perdu / connexion oubliés / mot de passe >></txt_22>
+    <txt_23 >Ajouter TimeOut aux favoris</txt_23>
+    <txt_24 >Do TimeOut to Home</txt_24>
+    <txt_25 >Raccourci TimeOut</txt_25>
+    <txt_26 >Faites glisser ce lien sur votre bureau</txt_26>
+    <txt_27 >Licencié:</txt_27>
+    <txt_28 >Raccourcis:</txt_28>
+    <txt_29 >OutZourCE et OutZourCE sous-traitants. Tous droits réservés.</txt_29>
+    <txt_30 >Développé et produit par OutZourCE</txt_30>
+    <txt_31 >Conception de la marge des médias</txt_31>
+    <txt_32 >Élément graphique Copyright © Microsoft Corp.</txt_32>
+    <txt_33 >Conditions</txt_33>
+    <txt_34 >Support et ventes:</txt_34>
+
+  </fr>
  
+  
   <!-- Engelsk -->
   <uk>
 
@@ -99,6 +263,48 @@
 
 
   </uk>
+
+
+  <!-- Engelsk -->
+  <es>
+
+    <txt_1 >Hoja de tiempo</txt_1>
+    <txt_2 >Proyectos</txt_2>
+    <txt_3 >Informes</txt_3>
+    <txt_4 >Clientes</txt_4>
+    <txt_5 >Empleados</txt_5>
+    <txt_6 >Valores</txt_6>
+    <txt_7 >Economía</txt_7>
+    <txt_8 >Service-Desk</txt_8>
+    <txt_9 >Administración</txt_9>
+    <txt_10 >Tiempo de espera para móviles</txt_10>
+    <txt_11 >Recuérdame</txt_11>
+    <txt_12 >TimeTag</txt_12>
+    <txt_13 >Iniciar sesión:</txt_13>
+    <txt_14 >Estimados visitantes, por favor, introduzca su nombre, empresa y correo electrónico y obtendrá acceso a nuestra demo:</txt_14>
+    <txt_15 >Nombre:</txt_15>
+    <txt_16 >Empresa:</txt_16>
+    <txt_17 >E-mail:</txt_17>
+    <txt_18 >Teléfono:</txt_18>
+    <txt_19 >Nombre de usuario</txt_19>
+    <txt_20 >Password:</txt_20>
+    <txt_21 >Ajuste del reloj de entrada / salida de tiempo:</txt_21>
+    <txt_22 >Perdido / olvidé acceso / contraseña >></txt_22>
+    <txt_23 >Añadir a favoritos tiempo de espera</txt_23>
+    <txt_24 >Hacer tiempo de espera a Inicio</txt_24>
+    <txt_25 >Atajo de tiempo de espera</txt_25>
+    <txt_26 >Arrastre este enlace en su escritorio</txt_26>
+    <txt_27 >Licenciatario:</txt_27>
+    <txt_28 >Atajos:</txt_28>
+    <txt_29 >OutZourCE y OutZourCE subcontratistas. Todos los derechos reservados.</txt_29>
+    <txt_30 >Desarrollado y producido por OutZourCE</txt_30>
+    <txt_31 >Diseño del margen de Medios</txt_31>
+    <txt_32 >Elemento gráfico Copyright © Microsoft Corp.</txt_32>
+    <txt_33 >Condiciones</txt_33>
+    <txt_34 >Soporte y Ventas:</txt_34>
+
+
+  </es>
 
 
 </sprog>

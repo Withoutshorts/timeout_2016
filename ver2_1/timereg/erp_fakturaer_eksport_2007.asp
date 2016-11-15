@@ -33,7 +33,7 @@ if len(session("user")) = 0 then
     sub joblogIFog_udlag
 
 
-        
+           if cint(joblogOn) = 1 then
 
                 '** Materialer ***
 				strSQLmat = "SELECT fmat.matfakid, fmat.matid, fmat.matantal, fmat.matnavn, fmat.matvarenr, matfrb_mid, matfrb_id, "_
@@ -218,7 +218,10 @@ if len(session("user")) = 0 then
 
                 end if
 
-                strTxtExport = strTxtExport & vbcrlf 
+                strTxtExport = strTxtExport & vbcrlf
+        
+        
+              end if 'if cint(joblogOn) = 1 then 
 
     end sub
 
@@ -842,7 +845,7 @@ if len(session("user")) = 0 then
 
 					
                 
-                        if instr(lto, "epi") <> 0 OR lto = "intranet - local" then
+                        if instr(lto, "epi") <> 0 OR lto = "intranet - local" OR lto = "cisu" then
                         joblogOn = 0
                         else
                         joblogOn = 1
@@ -1360,10 +1363,14 @@ if len(session("user")) = 0 then
     select case visning
 	case 0
 
-    '*** Joblog Aktiviteter ikke med på faktura + Udlæg og materialer
+   
+
+
+    
+
+
     call joblogIFog_udlag
 
-	
 	
 	
 	          

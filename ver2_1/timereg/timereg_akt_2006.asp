@@ -5969,15 +5969,15 @@
 	 if func = "opdatersmiley" then
 
      call smiley_agg_fn()
-
-     call opdaterSmiley
+     
     
      usemrn = request("usemrn")
      rdir = request("rdir")
      varTjDatoUS_man = request("varTjDatoUS_man")
     
+    call opdaterSmiley
 
-     select case rdir
+    select case rdir
      
     case "stempelur"
     response.Redirect "../sesaba.asp?loguddone=1"
@@ -7961,6 +7961,9 @@
          weekMonthDate = year(weekMonthDate) & "-" & month(weekMonthDate) & "-" & day(weekMonthDate)
          end select
 
+
+         
+
          call erugeAfslutte(datepart("yyyy", tjekdag(7),2,2), weekMonthDate, usemrn, SmiWeekOrMonth, 0) 
 
 
@@ -7973,12 +7976,18 @@
          <tr>
 	    <td valign=top style="padding:4px; width:620px;">
 
+         
+
             <%call smileyAfslutSettings()
              
-
+             '** Faneblade med afslutnings status
+             select case cint(SmiWeekOrMonth) 
+             case 0, 1
              call smileyAfslutBtn(SmiWeekOrMonth)
 
-             call ugeAfsluttetStatus(tjekdag(7), showAfsuge, ugegodkendt, ugegodkendtaf, SmiWeekOrMonth) %>
+             call ugeAfsluttetStatus(tjekdag(7), showAfsuge, ugegodkendt, ugegodkendtaf, SmiWeekOrMonth) 
+                
+             end select%>
            
             
          
@@ -8010,6 +8019,8 @@
         <%
 	    '**** Afslut uge ***'
 	    '**** Smiley vises hvis sidste uge ikke er afsluttet, og dag for afslutninger ovwerskreddet ***' 12 
+
+        '**** Nedenstående kriterier bruges kun til at tjekke om smiley DVI skal være åben eller lukket
         select case cint(SmiWeekOrMonth) 
         case 0 
         denneUgeDag = datePart("w", now, 2,2)
@@ -8043,10 +8054,12 @@
 
         'response.write "cDateUge: " & cDateUge
 
+
+        '*************** END skal SMILEY DIV VÆRE ÅBEN ELLER LUKKET
+
+
         if (cDate(formatdatetime(now, 2)) >= cDate(formatdatetime(cDateUge, 2)) AND cint(ugeNrStatus) = 0) OR cint(smiley_agg) = 1 then
-
-
-	    'if (datepart("w", now, 2,2) = 1 AND datepart("h", now, 2,2) <= 23 AND session("smvist") <> "j") OR cint(smiley_agg) = 1 then
+        'if (datepart("w", now, 2,2) = 1 AND datepart("h", now, 2,2) <= 23 AND session("smvist") <> "j") OR cint(smiley_agg) = 1 then
         smVzb = "visible"
     	smDsp = ""
     	session("smvist") = "j"
@@ -8073,45 +8086,27 @@
             'weekSelected = tjekdag(7)
 
             '*** Viser denne uge
-            weekSelectedThis = dateAdd("d", 7, now) 'tjekdag(7)
+            'weekSelectedThis = dateAdd("d", 7, now) 'tjekdag(7)
 
-	        call showsmiley(weekSelectedThis, 1, usemrn, SmiWeekOrMonth)
+            '*** Medarbejder og overskift, status og smiley Ikon
+	        'call showsmiley(weekSelectedThis, 1, usemrn, SmiWeekOrMonth)
 
             
+            '*** MinimumsKri for afslutnning **'
             call afslutkri(tjekdag(7), tjkTimeriUgeDt, usemrn, lto, SmiWeekOrMonth)
 
 
-            if cint(afslutugekri) = 0 OR ((cint(afslutugekri) = 1 OR cint(afslutugekri) = 2) AND cint(afslProcKri) = 1) OR cint(level) = 1 then 
-            
+            'if cint(afslutugekri) = 0 OR ((cint(afslutugekri) = 1 OR cint(afslutugekri) = 2) AND cint(afslProcKri) = 1) OR cint(level) = 1 then 
+            '*** MAIN **'
             call afslutuge(weekSelectedTjk, 1, tjekdag(7), "", SmiWeekOrMonth)
 
-            else
+            'else
             
 
              '** Status på antal registrederede projekttimer i den pågældende uge    
-             select case lto
-             case "tec", "esn"
-             case else %>
-                
-            <div style="color:#000000; background-color:#FFFFFF; padding:5px; border:1px red solid;">
-                
-            <%=tsa_txt_398 & ": "& totTimerWeek %> 
-                
-                 <%if afslutugekri = 2 then %>
-                    <%=tsa_txt_399 %>
-                    <%end if %>
-                
-                <%=" "&tsa_txt_140 %> / <%=afslutugeBasisKri %> = <b><%=afslProc %> %</b> <%=tsa_txt_095 %> <b><%=datePart("ww", tjkTimeriUgeDtTxt, 2,2) %></b>
-                <br />(<%=left(weekdayname(weekday(formatdatetime(tjkTimeriUgeDt, 2))), 3) &". "& formatdatetime(tjkTimeriUgeDt, 2)%> - <%= left(weekdayname(weekday(formatdatetime(dateAdd("d", 6, tjkTimeriUgeDt), 2))), 3) &". "&formatdatetime(dateAdd("d", 6, tjkTimeriUgeDt), 2) %>)
-               
-                 <%=tsa_txt_400 %>: <b><%=afslutugekri_proc %> %</b>  <%=tsa_txt_401%>.
-               </div>
-                <br />
-            <%
+             'call smiley_statusTxt
 
-            end select
-
-            end if
+            'end if
 	        
 	      
 
@@ -8141,7 +8136,7 @@
 
 
 
-
+                '***** LAVET OM TIL SLIP FUNKTION 20161019
 
 
                 'Response.write "<br><br><br><br><br><br><br><br><br><br>antalAfsDato + 3) < useDateSmileyTjkWeek:<br>"
@@ -8179,8 +8174,8 @@
                         
 
 <%
-
-                 if ((antalAfsDato + slip) < useDateSmileyTjkWeek) AND cint(smiley_agg) = 1 then
+                 tslip = 10000
+                 if tslip = 1 AND ((antalAfsDato + slip) < useDateSmileyTjkWeek) AND cint(smiley_agg) = 1 then
                     %>
 
 
@@ -10565,7 +10560,7 @@ t = visGuide
 <%
 '**** Stade indmelding ****'
 if session("forste") = "j" then
-call stadeindm(usemrn, 1, now)
+    call stadeindm(usemrn, 2, now) '1
 end if
 %>
 

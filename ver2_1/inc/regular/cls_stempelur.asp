@@ -389,63 +389,92 @@ LoginDato = year(tid)&"/"& month(tid)&"/"&day(tid)
 				                    '***** Oprettter Mail object ***
 			                        if cint(mailissentonce) = 0 AND (request.servervariables("PATH_TRANSLATED") <> "C:\www\timeout_xp\wwwroot\ver2_1\login.asp") _
 			                        AND (request.servervariables("PATH_TRANSLATED") <> "C:\www\timeout_xp\wwwroot\ver2_1\timereg\stempelur_terminal_ns.asp") then
-                        			
-                        			
-			                        Set Mailer = Server.CreateObject("SMTPsvg.Mailer")
-			                        ' Sætter Charsettet til ISO-8859-1 
-			                        Mailer.CharSet = 2
-			                        ' Afsenderens navn 
-			                        Mailer.FromName = "TimeOut Stempelur Service"
-			                        ' Afsenderens e-mail 
-			                        Mailer.FromAddress = "timeout_no_reply@outzource.dk"
-			                        Mailer.RemoteHost = "webout.smtp.nu" '"abizmail1.abusiness.dk" '"webmail.abusiness.dk"
-                        		    
-                        		    
-		                            
-                                    'Mailens emne
-			                        Mailer.Subject = "Medarbejder "& session("user") &" har glemt at logge ud." 
-			                        
+
+ 
+			                        Set myMail=CreateObject("CDO.Message")
+                                    myMail.Subject="TimeOut - Medarbejder har glemt at logge ud"
+                                    myMail.From = "timeout_no_reply@outzource.dk"
+				      
+                                    
 			                        'Modtagerens navn og e-mail
 			                        select case lto
 			                        case "dencker" 
-			                        Mailer.AddRecipient "Anders Dencker", "dv@dencker.net"
-                                    
-                                    Mailer.AddCC "TimeOut Support", "sk@outzource.dk"
+
+                                    myMail.To= "Anders Dencker <dv@dencker.net>"
+
+                                    'if len(trim(medarbEmail(x))) <> 0 then
+                                    'myMail.To= ""& medarbNavn(x) &"<"& medarbEmail(x) &">"
+                                    'end if       
+
+			                        'Mailer.AddRecipient "Anders Dencker", "dv@dencker.net"
+                                    'Mailer.AddCC "TimeOut Support", "sk@outzource.dk"
 
                                     call meStamdata(session("mid"))
                                     if len(trim(meEmail)) <> 0 then
-                                    Mailer.AddCC ""& meNavn &"", ""& meEmail &""
+                                    'Mailer.AddCC ""& meNavn &"", ""& meEmail &""
+                                    myMail.Cc= ""& meNavn &"<"& meEmail &">"
                                     end if
                                     
 			                        case "outz"
-			                        Mailer.AddRecipient "OutZourCE", "sk@outzource.dk"
+			                        'Mailer.AddRecipient "OutZourCE", "sk@outzource.dk"
+                                    myMail.To= "Support <support@outzource.dk>"
                                     case "jttek"
 
-                                    Mailer.AddRecipient "JT-Teknik", "jt@jtteknik.dk"
+                                    'Mailer.AddRecipient "JT-Teknik", "jt@jtteknik.dk"
+                                    myMail.To= "JT-Teknik <jt@jtteknik.dk>"
                                     
                                     call meStamdata(session("mid"))
                                     if len(trim(meEmail)) <> 0 then
-                                    Mailer.AddCC ""& meNavn &"", ""& meEmail &""
+                                    'Mailer.AddCC ""& meNavn &"", ""& meEmail &""
+                                    myMail.Cc= ""& meNavn &"<"& meEmail &">"
                                     end if
 
-                                    Mailer.AddCC "TimeOut Support", "sk@outzource.dk"
+                                    'Mailer.AddCC "TimeOut Support", "sk@outzource.dk"
 
 			                        case else
-			                        Mailer.AddRecipient "OutZourCE", "timeout_no_reply@outzource.dk"
+			                        'Mailer.AddRecipient "OutZourCE", "timeout_no_reply@outzource.dk"
+                                    myMail.To= "Support <support@outzource.dk>"
 			                        end select
                         			
 			                       
                         			
 			                                ' Selve teksten
-					                        Mailer.BodyText = "Medarbejder "& session("user") &" har glemt at logge ud "& weekdayname(weekday(oRec("dato"), 1)) &" d. "& oRec("dato") &"." & vbCrLf & vbCrLf _ 
-					                        & "Der er oprettet en auto-logud tid der er sat til jeres firmas normale arbejdstid. (Sættes i kontrolpanelet)"  & vbCrLf & vbCrLf _ 
-					                        & "Med venlig hilsen"& vbCrLf & "TimeOut Stempelur Service" & vbCrLf 
+					                        txtEmailHtml = "<br>Medarbejder "& session("user") &" har glemt at logge ud "& weekdayname(weekday(oRec("dato"), 1)) &" d. "& oRec("dato") &"<br><br>"_ 
+					                        & "Der er oprettet en auto-logud tid der er sat til jeres firmas normale arbejdstid. (Sættes i kontrolpanelet)<br><br>"_ 
+					                        & "Med venlig hilsen<br>TimeOut Stempelur Service<br>" 
 					                        
-					                        If Mailer.SendMail Then
-                            				
-					                        Else
-    					                        Response.Write "Fejl...<br>" & Mailer.Response
-  					                        End if	
+					                      
+                                               myMail.htmlBody= "<html><head><title></title>"_
+			                                   &"<LINK rel=""stylesheet"" type=""text/css"" href=""http://timeout.cloud/timeout_xp/wwwroot/ver2_14/inc/style/timeout_style_print.css""></head>"_
+			                                   &"<body>"_ 
+			                                   & txtEmailHtml & "</body></html>"
+
+                                           'myMail.AddAttachment "d:\webserver\wwwroot\timeout_xp\wwwroot\ver2_14\inc\log\data\"& file
+
+                                            myMail.Configuration.Fields.Item _
+                                            ("http://schemas.microsoft.com/cdo/configuration/sendusing")=2
+                                            'Name or IP of remote SMTP server
+                                   
+                                            if instr(request.servervariables("LOCAL_ADDR"), "195.189.130.210") <> 0 then
+                                                smtpServer = "webout.smtp.nu"
+                                            else
+                                                smtpServer = "formrelay.rackhosting.com" 
+                                            end if
+                    
+                                            myMail.Configuration.Fields.Item _
+                                            ("http://schemas.microsoft.com/cdo/configuration/smtpserver")= smtpServer
+
+                                            'Server port
+                                            myMail.Configuration.Fields.Item _
+                                            ("http://schemas.microsoft.com/cdo/configuration/smtpserverport")=25
+                                            myMail.Configuration.Fields.Update
+                    
+                                            if len(trim(meEmail)) <> 0 then
+                                            myMail.Send
+                                            end if
+                                            set myMail=nothing
+
+
                         				
                         			mailissentonce = 1
 			                        end if ''** Mail
@@ -691,14 +720,8 @@ end function
 '***********************************************************************************************
 public lastMnavn, lastMnr, totalhours, totalmin, totalhoursWeek, totalminWeek
 function stempelurlist(medarbSel, showtot, layout, sqlDatoStart, sqlDatoSlut, typ, d_end, lnk)
-
-
-
-    %>
-    
-
-
-    
+%>
+        
 <script language="javascript">
 
 
@@ -1240,7 +1263,7 @@ function stempelurlist(medarbSel, showtot, layout, sqlDatoStart, sqlDatoSlut, ty
                 end if
 
                 
-                if (ugeerAfsl_og_autogk_smil = 0 OR (level = 1)) AND media <> "print" then%>
+                if (ugeerAfsl_og_autogk_smil = 0 OR level = 1 OR erTeamlederForVilkarligGruppe = 1) AND media <> "print" then%>
 			    <a href="#" onclick="Javascript:window.open('stempelur.asp?id=<%=oRec("lid")%>&menu=stat&func=redloginhist&medarbSel=<%=medarbSel%>&showonlyone=<%=showonlyone%>&hidemenu=<%=hidemenu%>&rdir=popup','','width=850,height=700,resizable=yes,scrollbars=yes')" class="vmenu"><%=loginDTShow%></a>
 			    <%else %>
 		        <b><%=loginDTShow%></b>
@@ -1276,7 +1299,7 @@ function stempelurlist(medarbSel, showtot, layout, sqlDatoStart, sqlDatoSlut, ty
 
 			                end if  
                     
-                    if (layout = 1) AND (ugeerAfsl_og_autogk_smil = 0 OR (level = 1)) AND media <> "print" then
+                    if (layout = 1) AND (ugeerAfsl_og_autogk_smil = 0 OR level = 1 OR erTeamlederForVilkarligGruppe = 1) AND media <> "print" then
 
                           %>
                         <input type="hidden" value="<%=oRec("lid") %>" name="id" />
@@ -1334,7 +1357,7 @@ function stempelurlist(medarbSel, showtot, layout, sqlDatoStart, sqlDatoSlut, ty
 
                 end if
 
-                if (layout = 1) AND (ugeerAfsl_og_autogk_smil = 0 OR (level = 1)) AND media <> "print"  then
+                if (layout = 1) AND (ugeerAfsl_og_autogk_smil = 0 OR level = 1 OR erTeamlederForVilkarligGruppe = 1) AND media <> "print"  then
                     
                 %>
                   <input type="text" class="logudhh" name="FM_logud_hh" id="FM_logud_hh_<%=d %>" value="<%=logudTidThisHH%>" style="width:20px; font-size:9px; color:<%=fColsl%>; <%=boxStyleBorder%>" /> :
@@ -1377,7 +1400,7 @@ function stempelurlist(medarbSel, showtot, layout, sqlDatoStart, sqlDatoSlut, ty
 
         if cint(oRec("stempelurindstilling")) <> -1 then 
 
-                if (layout = 1) AND (ugeerAfsl_og_autogk_smil = 0 OR (level = 1)) AND media <> "print"  then
+                if (layout = 1) AND (ugeerAfsl_og_autogk_smil = 0 OR level = 1 OR erTeamlederForVilkarligGruppe = 1) AND media <> "print"  then
         
               %>
                     <select name="FM_stur" style="width:120px; font-size:9px; font-family:arial;">
@@ -1605,7 +1628,7 @@ function stempelurlist(medarbSel, showtot, layout, sqlDatoStart, sqlDatoSlut, ty
             <%
             if cint(oRec("stempelurindstilling")) <> -1 then 
             
-                 if (layout = 1) AND (ugeerAfsl_og_autogk_smil = 0 OR (level = 1)) AND media <> "print"  then
+                 if (layout = 1) AND (ugeerAfsl_og_autogk_smil = 0 OR level = 1 OR erTeamlederForVilkarligGruppe = 1) AND media <> "print"  then
 
                 
 
@@ -1757,7 +1780,8 @@ function stempelurlist(medarbSel, showtot, layout, sqlDatoStart, sqlDatoSlut, ty
                 boxStyleBorder = ""
                 end if
                 
-                if (ugeerAfsl_og_autogk_smil = 0 OR (level = 1)) AND media <> "print" then
+    
+    if (ugeerAfsl_og_autogk_smil = 0 OR level = 1 OR erTeamlederForVilkarligGruppe = 1) AND media <> "print" then
     
     %>
 

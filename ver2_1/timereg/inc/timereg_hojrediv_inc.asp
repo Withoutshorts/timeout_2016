@@ -458,30 +458,39 @@ function notificerEmail(usemrn, EmailNotificerTxt, visning, modtagerid)
                                                                 erNotificerArr = split(erNotificer, ",#")
 
                                                                 for n = 0 TO UBOUND(erNotificerArr)
+                                                                modNavn = ""
+				                                                modEmail = ""
 
                                                                 erNotificerArr(n) = replace(erNotificerArr(n), "#", "")
                                                                 erNotificerArr(n) = replace(erNotificerArr(n), " ", "")
 
-                                                                if len(trim(erNotificerArr(n))) <> 0 AND erNotificerArr(n) <> 0 then
+                                                                    if len(trim(erNotificerArr(n))) <> 0 AND erNotificerArr(n) <> 0 then
 
-                                                                '*** Henter modtager **
-				                                                strSQL = "SELECT mnavn, email FROM medarbejdere"_
-				                                                &" WHERE mid = "& erNotificerArr(n)
-				                                                oRec5.open strSQL, oConn, 3
+                                                                   
+
+                                                                        '*** Henter modtager **
+				                                                        strSQL = "SELECT mnavn, email FROM medarbejdere"_
+				                                                        &" WHERE mid = "& erNotificerArr(n)
+				                                                        oRec5.open strSQL, oConn, 3
             				
-				                                                if not oRec5.EOF then
+				                                                        if not oRec5.EOF then
             				
-				                                                modNavn = oRec5("mnavn")
-				                                                modEmail = oRec5("email")
+
+                                                                            if isNull(oRec5("email")) <> true AND len(trim(oRec5("email"))) <> 0 then
+				                                                                modNavn = oRec5("mnavn")
+				                                                                modEmail = oRec5("email")
+
+                                                                                myMailTostr = myMailTostr & modNavn &"<"& modEmail &">;"
+                                                                            end if
             				
-				                                                end if
-				                                                oRec5.close
+				                                                        end if
+				                                                        oRec5.close
 
 		            				                              
-                                                                   myMailTostr = myMailTostr & modNavn &"<"& modEmail &">;"
+                                                                   
                                                      
             
-                                                               end if
+                                                                     end if
                                                 
                                                                 next
 
@@ -541,20 +550,23 @@ function notificerEmail(usemrn, EmailNotificerTxt, visning, modtagerid)
                                                         oRec5.open strSQL, oConn, 3
                                                         if not oRec5.EOF then
             				
-				                                        modNavn = oRec5("mnavn")
-				                                        modEmail = oRec5("email")
-                                                        modCpr = oRec5("mcpr")
+                                                            if isNull(oRec5("email")) <> true AND len(trim(oRec5("email"))) <> 0 then
+				                                            modNavn = oRec5("mnavn")
+				                                            modEmail = oRec5("email")
+                                                            modCpr = oRec5("mcpr")
                     
-                                                        regiNavn = modNavn
-				                                        regiEmail = modEmail
-                                                        regiCpr = modCpr
-                                                        regiUserId = modtagerid
+                                                            regiNavn = modNavn
+				                                            regiEmail = modEmail
+                                                            regiCpr = modCpr
+                                                            regiUserId = modtagerid
 
 
-                                                                    if lto = "esn" then   
-                                                                        call afdelinger(regiUserId) 
-                                                                    end if
+                                                                        if lto = "esn" then   
+                                                                            call afdelinger(regiUserId) 
+                                                                        end if
             				
+                                                           end if
+
 				                                        end if
 				                                        oRec5.close
 
@@ -602,15 +614,17 @@ function notificerEmail(usemrn, EmailNotificerTxt, visning, modtagerid)
                                                 oRec5.open strSQL, oConn, 3
                                                 if not oRec5.EOF then
             				
-				                                modNavn = oRec5("mnavn")
-				                                modEmail = oRec5("email")
-                                                modCpr = oRec5("mcpr")
-                    
-                                                regiNavn = modNavn
-				                                regiEmail = modEmail
-                                                regiCpr = modCpr
-                                                regiUserId = modtagerid
 
+                                                    if isNull(oRec5("email")) <> true AND len(trim(oRec5("email"))) <> 0 then
+				                                    modNavn = oRec5("mnavn")
+				                                    modEmail = oRec5("email")
+                                                    modCpr = oRec5("mcpr")
+                    
+                                                    regiNavn = modNavn
+				                                    regiEmail = modEmail
+                                                    regiCpr = modCpr
+                                                    regiUserId = modtagerid
+                                                    end if
 
                                                           
             				
@@ -623,7 +637,7 @@ function notificerEmail(usemrn, EmailNotificerTxt, visning, modtagerid)
 
                                                 if lto = "esn" then
                                                 myMail.Cc= "Eniga Drift DORTE TEST - <DFN@esnord.dk>"
-                                                myMail.Bcc = "SK TEST ENIGA<sk@outzource.dk>"
+                                                'myMail.Bcc = "SK TEST ENIGA<sk@outzource.dk>"
                                                 end if
 
 

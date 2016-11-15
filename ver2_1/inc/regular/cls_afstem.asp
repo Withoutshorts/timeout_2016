@@ -823,13 +823,21 @@ public lonKorsel_lukketPerDt, lonKorsel_lukketIO
 function lonKorsel_lukketPer(tjkDay, hr)
 
     'hr: job risiko -2 eller Stempelur altid -2
-    lonKorsel_lukketPerDt = "1-1-2002"     
-    strSQL5 = "SELECT lk_dato FROM lon_korsel WHERE lk_id <> 0 ORDER BY lk_dato DESC"
+    lonKorsel_lukketPerDt = "1-1-2002"
+    lk_close_projects = 0     
+    strSQL5 = "SELECT lk_dato, lk_close_projects FROM lon_korsel WHERE lk_id <> 0 ORDER BY lk_dato DESC"
 	oRec5.open strSQL5, oConn, 3 
 	if not oRec5.EOF then
-	    lonKorsel_lukketPerDt = oRec5("lk_dato") 
+	    lonKorsel_lukketPerDt = oRec5("lk_dato")
+        lk_close_projects = oRec5("lk_close_projects") 
 	end if
 	oRec5.close 
+
+
+     '*** FORCE LUK også ALLE projekter (valgt på HR listen afslutning af periode)
+     if cint(lk_close_projects) = 1 then
+     hr = -2
+     end if
 
 'Response.Write "lonKorsel_lukketPerDt "& lonKorsel_lukketPerDt &" tjkDay " & tjkDay & "<br>"
 

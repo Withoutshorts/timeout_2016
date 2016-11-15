@@ -10,10 +10,18 @@ $(window).load(function () {
 
 $(document).ready(function () {
 
-   //$("select[name*=ajax]").AjaxUpdateField({ parent: "tr", subselector: "td:first > input[name=rowId]" });
+    //$("select[name*=ajax]").AjaxUpdateField({ parent: "tr", subselector: "td:first > input[name=rowId]" });
     // $("#incidentlist").table_sort({ items: 'tbody > tr:gt(1):has(:input[name=rowId])', IdControlNode: "td:first > :input[name=rowId]" });
 
 
+    //$.cookie("showavanceret" '1');
+
+
+    if ($.cookie("showavanceret") == '1') {
+        $(".dv_avanceret_1").css("display", "");
+        $(".dv_avanceret_1").css("visibility", "visible");
+        $(".dv_avanceret_1").show("fast");
+    }
 
 
     //alert($.browser.mozilla +" && "+ parseFloat($.browser.version))
@@ -21,8 +29,33 @@ $(document).ready(function () {
 
     $(".aa_job_komm").mouseover(function () {
       
-            $(this).css('cursor', 'pointer');
+        $(this).css('cursor', 'pointer');
     
+    });
+
+    $("#sp_avanceret_1").mouseover(function () {
+
+        $(this).css('cursor', 'pointer');
+
+    });
+
+
+    $("#sp_avanceret_1").click(function () {
+
+    if ($(".dv_avanceret_1").css('display') == "none") {
+        $(".dv_avanceret_1").css("display", "");
+        $(".dv_avanceret_1").css("visibility", "visible");
+        $(".dv_avanceret_1").show("fast");
+
+        $.cookie("showavanceret",'1');
+        
+    } else {
+
+        $(".dv_avanceret_1").hide("fast");
+        $.cookie("showavanceret", '0');
+    }
+ 
+
     });
 
   

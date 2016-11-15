@@ -36,7 +36,12 @@ if len(session("user")) = 0 then
 	media = request("media")
 	
 
-  
+    if len(trim(request("exporttype"))) <> 0 AND request("exporttype") <> 0 then
+        exporttype = request("exporttype")
+    else
+        exporttype = 0
+    end if
+
 
 	'Response.Write "media " & media
 	
@@ -64,6 +69,13 @@ if len(session("user")) = 0 then
     else
     nulstil = 0
     end if
+
+    if len(trim(request("FM_lukproj"))) <> 0 AND request("FM_lukproj") <> 0 then
+    lukproj = 1
+    else
+    lukproj = 0
+    end if
+    
 
     '** Er det første loop **'
     if request("lmt") <> "" then
@@ -179,7 +191,7 @@ if len(session("user")) = 0 then
 
                   
                       '**** Lukker periode
-                     strSQLluk = "INSERT INTO lon_korsel (lk_dato, lk_editor) VALUES ('"& lukDato &"', '"& session("user") &"')"
+                     strSQLluk = "INSERT INTO lon_korsel (lk_dato, lk_editor, lk_correction_on, lk_close_projects) VALUES ('"& lukDato &"', '"& session("user") &"', 0, "& lukproj &")"
 	                 oConn.execute(strSQLluk)
                   
           
@@ -217,6 +229,7 @@ if len(session("user")) = 0 then
              
              </tr>
              <tr> 
+
 
     <%      
 
@@ -336,7 +349,7 @@ if len(session("user")) = 0 then
             
             <%if func = "lukper" then %>
            
-            <tr><td colspan=5 align=right><br /><a href="bal_real_norm_2007.asp?menu=stat&func=lukper_ok&FM_lk_dag=<%=lukdag%>&FM_lk_md=<%=lukmd%>&FM_lk_aar=<%=lukaar%>&lmt=<%=lmt %>&lastMid=0&lastLkDato=<%=lastLkDato %>">Det ser korrekt ud - Fortsæt >></a><br />
+            <tr><td colspan=5 align=right><br /><a href="bal_real_norm_2007.asp?menu=stat&func=lukper_ok&FM_lk_dag=<%=lukdag%>&FM_lk_md=<%=lukmd%>&FM_lk_aar=<%=lukaar%>&lmt=<%=lmt %>&lastMid=0&lastLkDato=<%=lastLkDato %>&FM_lukproj=<%=lukproj %>">Det ser korrekt ud - Fortsæt >></a><br />
             <span style="color:#999999;">(af load hensyn overføres der 7 medarb. ad gangen)</span></td></tr>
             <%else %>
 
@@ -358,7 +371,7 @@ if len(session("user")) = 0 then
 
 
                 if derfindesflere = 1 then %>
-               <br /><br /><a href="bal_real_norm_2007.asp?menu=stat&func=lukper_ok&FM_lk_dag=<%=lukdag%>&FM_lk_md=<%=lukmd%>&FM_lk_aar=<%=lukaar%>&lmt=<%=nextLmt %>&lastMid=<%=lastMid%>&lastLkDato=<%=lastLkDato %>">Fortsæt med de næste medarbejdere >></a> <br />
+               <br /><br /><a href="bal_real_norm_2007.asp?menu=stat&func=lukper_ok&FM_lk_dag=<%=lukdag%>&FM_lk_md=<%=lukmd%>&FM_lk_aar=<%=lukaar%>&lmt=<%=nextLmt %>&lastMid=<%=lastMid%>&lastLkDato=<%=lastLkDato %>&FM_lukproj=<%=lukproj %>">Fortsæt med de næste medarbejdere >></a> <br />
                     <span style="color:#999999;">(Opdater ikke denne side igen, da du så vil indlæse tallene dobbelt)</span><br /><br />
                <%
                afsFontSize=12
@@ -381,7 +394,8 @@ if len(session("user")) = 0 then
       
       if func = "lukper_ok" AND lmt = 0 then
       '**** Lukker periode (interne -2 + Komme / Gå)
-     strSQLluk = "INSERT INTO lon_korsel (lk_dato, lk_editor) VALUES ('"& lukDato &"', '"& session("user") &"')"
+     'strSQLluk = "INSERT INTO lon_korsel (lk_dato, lk_editor) VALUES ('"& lukDato &"', '"& session("user") &"')"
+     strSQLluk = "INSERT INTO lon_korsel (lk_dato, lk_editor, lk_correction_on, lk_close_projects) VALUES ('"& lukDato &"', '"& session("user") &"', 1, "& lukproj &")"
 	 oConn.execute(strSQLluk)
      end if
 
@@ -799,7 +813,7 @@ if len(session("user")) = 0 then
              <span style="color:#999999; font-size:9px;">Månedsopdelt fra d. 1 i valgte måned til sidste dag i den valgte slut måned. <b>Maks 12 måneder</b>.</span>
         
         <br /><br /><input type="checkbox" name="FM_mdoversigt_ultimo" id="FM_mdoversigt_ultimo" <%=mdoversigtUltimoCHK %> value="1" /> Vis saldo ultimo <%=monthname(month(dateAdd("m", -1, now))) &" "& year(dateAdd("m", -1, now)) %> <br />
-         <span style="color:#999999; font-size:9px;">Henter saldo fra licensstart / seneste afl. lønperiode til ultimo seneste måned.  Husk at afslutte lønperioder for bedre loadtid</span>
+         <span style="color:#999999; font-size:9px;">Henter saldo fra licensstart / seneste afl. lønperiode til ultimo seneste måned.  <!--Husk at afslutte lønperioder for bedre loadtid--></span>
     
 
 	</td>
@@ -841,6 +855,10 @@ if len(session("user")) = 0 then
 			<tr><td style="border-bottom:1px #999999 solid;"><a href="#" id="rap_all" class=vmenu>Alt</a></td></tr>
             <%if lto = "fk" OR lto = "intranet - local" then %>
             	<tr><td style="border-bottom:1px #999999 solid;"><a href="#" id="rap_fk_sdlon" class=vmenu>FK lønrap. SD løn</a></td></tr>
+            <%end if %>
+
+             <%if instr(lto, "epi") <> 0 OR lto = "intranet - local" then %>
+            	<tr><td style="border-bottom:1px #999999 solid;"><a href="#" id="rap_epi_blueg" class=vmenu>Bluegaarden</a></td></tr>
             <%end if %>
 
 			</table>
@@ -939,6 +957,30 @@ pwdt = 200
                 <% end if
                 case else
                 end select %>
+
+
+            </form>
+
+
+
+                 <%
+                 '*** Bluegaarden
+                 if instr(lto, "epi") <> 0 OR lto = "intranet - local" then%>
+                 <form action="bal_real_norm_2007.asp?media=export&exporttype=200" method="post" target="_blank">
+                 <input id="Hidden2" name="FM_medarb" value="<%=thisMiduse%>" type="hidden" />
+                 <input id="Hidden1" name="FM_medarb_hidden" value="<%=thisMiduse%>" type="hidden" />
+
+                
+                <tr>
+    
+  
+                <td align=center><input type=image src="../ill/export1.png" /></td>
+                <td><input id="Submit4" type="submit" value=".csv bluegaarden" style="font-size:9px; width:120px;" />
+                 </td>
+ 
+                </tr>
+               
+                <% end if%>
    
             </form>
 
@@ -1018,8 +1060,8 @@ pwdt = 200
 
                     <tr>
 	                    <td style="padding:13px 10px 10px 10px;"><h4>Afslut Lønperiode</h4>
-                        Husk at ajourf&oslash;re afsluttede l&oslash;nperioder. == bedre loadtid på afstemning. <br /><br />
-                        Interne job (HR) og Komme/Gå bliver lukket for registrering og der bliver overført saldo (korrektion) til den nye periode.
+                        <!--Husk at ajourf&oslash;re afsluttede l&oslash;nperioder. == bedre loadtid på afstemning. <br /><br />-->
+                        Interne job (HR) og Komme/Gå bliver lukket for registrering og der bliver overført flekssaldi (kræver korrektions akt. slået til) til den nye periode.
                         </td>
 	                    </tr>
                     <td style="padding:10px 10px 10px 10px;">	
@@ -1029,7 +1071,14 @@ pwdt = 200
                             <input id="FM_lk_md" name="FM_lk_md" type="text" value="<%=month(now) %>" style="width:20px; font-size:9px; font-family:arial;" /> - 
                             <input id="FM_lk_aar" name="FM_lk_aar" type="text" value="<%=year(now) %>" style="width:30px; font-size:9px; font-family:arial;" />   dd - mm - åååå 
 
-                            <br /><input type="checkbox" value="1" name="FM_nulstil" /> Nulstil ny periode <span style="color:#999999;">(overfør ikke flekssaldo fra gl. periode)</span><br /><br />
+                            <%if instr(lto, "epi") <> 0 then
+                                nulstilCHK = "CHECKED"
+                            else
+                                nulstilCHK = ""
+                            end if%>
+
+                            <br /><input type="checkbox" value="1" name="FM_nulstil" <%=nulstilCHK%> /> Nulstil <span style="color:#999999;">(overfør ikke fleks-saldi)</span><br />
+                           <input type="checkbox" value="1" name="FM_lukproj" <%=lukprojCHK%> /> Luk også for registrering på proj.<br />
 
                             <input id="Submit2" type="submit" value="Afslut periode >>" />
                           
@@ -1039,11 +1088,13 @@ pwdt = 200
                             <table cellspacing=0 cellpadding=1 border=0 width=100%>
                             <tr bgcolor="#D6Dff5">
                                 <td class=lille><b>Dato</b></td>
+                                <td class=lille><b>Korr.</b></td>
+                                <td class=lille><b>Luk proj.</b></td>
                                 <td class=lille><b>Afslut. af</b></td>
                                 <td>&nbsp;</td>
                             </tr>
                             <%
-                            strSQLlukper = "SELECT lk_id, lk_dato, lk_editor FROM lon_korsel WHERE lk_id <> 0 ORDER BY lk_dato DESC LIMIT 12"
+                            strSQLlukper = "SELECT lk_id, lk_dato, lk_editor, lk_close_projects, lk_correction_on FROM lon_korsel WHERE lk_id <> 0 ORDER BY lk_dato DESC LIMIT 12"
                             oRec.open strSQLlukper, oConn, 3
                             h = 0
                             while not oRec.EOF 
@@ -1057,6 +1108,8 @@ pwdt = 200
         
                             %>
                             <tr bgcolor="<%=bgcol_lk %>"><td class=lille><%=oRec("lk_dato") %></td>
+                                <td class=lille><%=oRec("lk_correction_on") %></td>
+                                <td class=lille><%=oRec("lk_close_projects") %></td>
                                 <td class=lille><i><%=left(oRec("lk_editor"), 10) %></i></td>
                                 <td><a href="bal_real_norm_2007.asp?func=slet_lukper&lk_id=<%=oRec("lk_id") %>" class=red>[x]</a></td>
 
@@ -1265,7 +1318,7 @@ pwdt = 200
         Response.write  "<br><b><span style=""font-size:10px;"">Periode afgrænsning:</span><br> "& formatdatetime(startdato, 1) & " - "&  formatdatetime(slutdato, 1) & "</b>"
         end if
 
-            if media = "export" AND request("sd_lon_fil") <> "1" then
+            if media = "export" AND request("sd_lon_fil") <> "1" AND cint(exporttype) <> 200 then 'bluegaarden then
             strEksportTxtMd = "xx99123sy#z xx99123sy#zPeriode afgrænsning: "& formatdatetime(startdato, 1) & " - "&  formatdatetime(slutdato, 1)
             strEksportTxt = strEksportTxt & strEksportTxtMd
             end if

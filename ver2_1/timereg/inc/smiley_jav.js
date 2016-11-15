@@ -54,11 +54,7 @@ $(document).ready(function () {
     });
 
 
-    $("#s1_k").click(function () {
-
-
-        smileyshowhide()
-    });
+    
 
 
 

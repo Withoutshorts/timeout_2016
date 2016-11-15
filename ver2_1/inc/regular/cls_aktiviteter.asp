@@ -929,7 +929,7 @@ function hentaktiviterListe(jobid, func, vispasluk, sort)
       call timesimon_fn()
       call budgetakt_fn() 
 
-      if cint(budgetakt) = 1 then 
+      if cint(budgetakt) = 1 OR cint(budgetakt) = 2 then 
          '** Vis kontonr eller. Stk. på budget på aktivitetslinjer
          '** HUSK OGSÅ job_jav_aktliste.js om den skal regne timer pbg. af budget
          
@@ -943,7 +943,7 @@ function hentaktiviterListe(jobid, func, vispasluk, sort)
 
                     
                      strKontoplan = ""
-                     strSQLkontoplan = "SELECT id, kontonr FROM kontoplan"
+                     strSQLkontoplan = "SELECT id, kontonr FROM kontoplan ORDER BY kontonr"
 
                     oRec6.open strSQLkontoplan, oConn, 3
                     while not oRec6.EOF
@@ -989,7 +989,7 @@ function hentaktiviterListe(jobid, func, vispasluk, sort)
 	
 	strSQL = "SELECT a.id, a.navn, job, beskrivelse, fakturerbar, aktstartdato, "_
 	&" aktslutdato, budgettimer, aktstatus, aktbudget, fomr.navn AS fomr, antalstk, tidslaas, "_
-	&" a.fase, a.sortorder, a.bgr, easyreg, a.aktbudgetsum, aty_desc, aty_id, k.kontonr, k.id AS kontoid, aktkonto "_
+	&" a.fase, a.sortorder, a.bgr, easyreg, a.aktbudgetsum, aty_desc, aty_id, k.kontonr, k.id AS kontoid, aktkonto, avarenr "_
 	&" FROM aktiviteter a LEFT JOIN fomr ON (fomr.id = a.fomr) "_
     &" LEFT JOIN akt_typer aty ON (aty_id = a.fakturerbar) "_
     &" LEFT JOIN kontoplan k ON (k.id = a.aktkonto) "_
@@ -1078,8 +1078,14 @@ function hentaktiviterListe(jobid, func, vispasluk, sort)
             &"<td><b>Status</b></td>"_
             &"<td><b>Type</b></td>"
 
-            if cint(budgetakt) = 1 then 
-            strAktListe = strAktListe &"<td><b>Konto</b></td>"
+            if cint(budgetakt) = 1 OR cint(budgetakt) = 2 then 
+            strAktListe = strAktListe &"<td><b>Konto</b>"
+         
+               if cint(budgetakt) = 2 then
+               strAktListe = strAktListe &" (aktnr)"
+               end if
+
+            strAktListe = strAktListe &"</td>"
             end if
 
             strAktListe = strAktListe &"<td><b>Timer</b></td>"
@@ -1217,22 +1223,38 @@ function hentaktiviterListe(jobid, func, vispasluk, sort)
 
     strAktListe = strAktListe &"<td>"& left(akttypenavn, 7) &".</td>"
 
-    if cint(budgetakt) = 1 then
-    strAktListe = strAktListe &"<td><select name='FM_aktkonto' id='FM_aktkonto_"& oRec6("id") &"' class='FM_aktkonto FM_aktkonto_"& oRec6("kontoid") &"' style='font-family:arial; width:40px; font-size:9px;'><option value="& oRec6("kontoid") &">"& oRec6("kontonr") &"</option>"& strKontoplan &"</select></td>"
-   
-         '*** Opretter kontototal felter
-         if instr(isKontoWrt, "#"& oRec6("kontoid") &"#") = 0 then
-         kontototalsTYP = kontototalsTYP & "<input id='FM_kontot_"& oRec6("kontoid") &"' class='FM_kontot' type='hidden' value='0'>"
-         kontototalsTYP = kontototalsTYP & "<input id='FM_kontotp_"& oRec6("kontoid") &"' class='FM_kontotp' type='hidden' value='0'>"
-         kontototalsTYP = kontototalsTYP & "<input id='FM_kontosum_"& oRec6("kontoid") &"' class='FM_kontosum' type='hidden' value='0'>"  
-         isKontoWrt = isKontoWrt & ",#"& oRec6("kontoid") &"#"
-         end if
-         
-   else
-
-           strAktListe = strAktListe &"<input type='hidden' name='FM_aktkonto' id='FM_aktkonto_"& oRec6("id") &"' value='"& oRec6("aktkonto") &"'>"
-         
+    if len(trim(oRec6("avarenr"))) <> 0 then
+    avarenr = oRec6("avarenr") 
+    else
+    avarenr = ""
     end if
+
+            select case cint(budgetakt) 
+            case 1
+            strAktListe = strAktListe &"<td><select name='FM_aktkonto' id='FM_aktkonto_"& oRec6("id") &"' class='FM_aktkonto FM_aktkonto_"& oRec6("kontoid") &"' style='font-family:arial; width:60px; font-size:9px;'><option value="& oRec6("kontoid") &">"& oRec6("kontonr") &"</option>"& strKontoplan &"</select></td>"
+   
+                 '*** Opretter kontototal felter
+                 if instr(isKontoWrt, "#"& oRec6("kontoid") &"#") = 0 then
+                 kontototalsTYP = kontototalsTYP & "<input id='FM_kontot_"& oRec6("kontoid") &"' class='FM_kontot' type='hidden' value='0'>"
+                 kontototalsTYP = kontototalsTYP & "<input id='FM_kontotp_"& oRec6("kontoid") &"' class='FM_kontotp' type='hidden' value='0'>"
+                 kontototalsTYP = kontototalsTYP & "<input id='FM_kontosum_"& oRec6("kontoid") &"' class='FM_kontosum' type='hidden' value='0'>"  
+                 isKontoWrt = isKontoWrt & ",#"& oRec6("kontoid") &"#"
+                 end if
+
+                 strAktListe = strAktListe &"<input type='hidden' name='FM_avarenr' id='FM_avarenr_"& oRec6("id") &"' value='"& avarenr &"'>"
+   
+           case 2
+           strAktListe = strAktListe &"<td><input type='text' style='font-family:arial; width:80px; font-size:9px;' name='FM_avarenr' id='FM_avarenr_"& oRec6("id") &"' value='"& avarenr &"'></td>"
+           strAktListe = strAktListe &"<input type='hidden' name='FM_aktkonto' id='FM_aktkonto_"& oRec6("id") &"' value='"& oRec6("aktkonto") &"'>"
+               
+           case else
+
+                   strAktListe = strAktListe &"<input type='hidden' name='FM_aktkonto' id='FM_aktkonto_"& oRec6("id") &"' value='"& oRec6("aktkonto") &"'>"
+                   strAktListe = strAktListe &"<input type='hidden' name='FM_avarenr' id='FM_avarenr_"& oRec6("id") &"' value='"& avarenr &"'>"
+         
+           end select
+
+           strAktListe = strAktListe &"<input type='hidden' name='FM_avarenr' value='#'>"
 	
 	'strAktListe = strAktListe &"<input id=""Hidden1"" type=""hidden"" name=""FM_aktstatus"" value='"& oRec6("aktstatus") &"' />"
 	if cint(budgetakt) = 1 then
@@ -1372,7 +1394,7 @@ end function
 
 
 
-function opdateraktliste(jobid, aktids, aktnavn, akttimer, aktantalstk, aktfaser, aktbgr, aktpris, aktstatus, akttotpris, aktslet, aktslet_aids, aktkonto)
+function opdateraktliste(jobid, aktids, aktnavn, akttimer, aktantalstk, aktfaser, aktbgr, aktpris, aktstatus, akttotpris, aktslet, aktslet_aids, aktkonto, avarenr)
 
         
     'Response.Write aktnavn & "<br>"    
@@ -1389,7 +1411,7 @@ function opdateraktliste(jobid, aktids, aktnavn, akttimer, aktantalstk, aktfaser
 	aktids = split(aktids, ",")
 	aktstatus = split(aktstatus, ", ")
 	
-	aktfaser =  split(aktfaser, ", #,")
+	aktfaser = split(aktfaser, ", #,")
 	aktbgr = split(aktbgr, ",")
 	
 	'Response.Write request("FM_akt_totpris")
@@ -1398,8 +1420,8 @@ function opdateraktliste(jobid, aktids, aktnavn, akttimer, aktantalstk, aktfaser
 	'akttotpris = split(akttotpris, ", #")
 	akttotpris = split(akttotpris, ", ")
 	
-	
-	
+    avarenr = split(avarenr, ", #,")
+
 	aktslet = split(aktslet, ", ")
 	
 	'Response.Write aktSlet
@@ -1476,6 +1498,7 @@ function opdateraktliste(jobid, aktids, aktnavn, akttimer, aktantalstk, aktfaser
 		
 
         aktkonto(t) = aktkonto(t) 
+        avarenr(t) = replace(avarenr(t), ", #", "")
 	    
 	    aktNavn(t) = trim(aktNavn(t))
 	    aktNavn(t) = replace(aktNavn(t), "'", "")
@@ -1501,6 +1524,12 @@ function opdateraktliste(jobid, aktids, aktnavn, akttimer, aktantalstk, aktfaser
         else
         strSQL = strSQL &" aktkonto = 0, "
         end if
+
+        if len(trim(avarenr(t))) <> 0 then
+        strSQL = strSQL &" avarenr = '"& avarenr(t) &"', "
+        else
+        strSQL = strSQL &" avarenr = '', "
+        end if 
 		
         strSQL = strSQL &" bgr = "& aktBgr(t) &", aktbudgetsum = "& akttotpris(t) &""_
 		&" WHERE id = "& aktids(t)

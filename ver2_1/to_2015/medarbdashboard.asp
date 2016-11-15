@@ -1344,11 +1344,9 @@
             
                     
                     
-                    <%strSQLr = "SELECT r.jobid, SUM(r.timer) AS restimer, j.jobnavn, j.jobnr, SUM(t.timer) AS sumtimer FROM ressourcer_md AS r "_
+                    <%strSQLr = "SELECT r.jobid, SUM(r.timer) AS restimer, j.jobnavn, j.jobnr FROM ressourcer_md AS r "_
                     &" LEFT JOIN job AS j ON (j.id = r.jobid) "_
-                    &" LEFT JOIN aktiviteter AS a ON (a.id = r.aktid) "_
-                    &" LEFT JOIN timer AS t ON (t.tjobnr = j.jobnr AND tmnr = "& usemrn & ") "_
-                    &" WHERE r.medid = "& usemrn & " AND r.aktid <> 0 AND a.navn IS NOT NULL AND jobstatus = 1 GROUP BY r.jobid ORDER BY jobnavn LIMIT 50" 
+                    &" WHERE r.medid = "& usemrn & " AND r.aktid <> 0 AND jobstatus = 1 GROUP BY r.jobid ORDER BY jobnavn LIMIT 150" 
 
                         'response.write strSQLr
                         'response.flush
@@ -1366,7 +1364,27 @@
                         <tr style="background-color:<%=bgcr%>;">
                             <td class="lille"><%=left(oRec("jobnavn"), 20) & " ("& oRec("jobnr") &")" %></td>
                             <td class="lille" align="right"><%=oRec("restimer") %> t.</td>
-                            <td class="lille" align="right"><%=oRec("sumtimer") %> t.</td>
+
+                            <%
+                               sumRealtimer = 0
+                               strSQLtimer = "SELECT SUM(timer) AS sumtimer FROM timer WHERE tjobnr = '"& oRec("jobnr") &"' AND tmnr = "& usemrn & " GROUP BY tmnr"
+                               oRec2.open strSQLtimer, oConn, 3
+                               if not oRec2.EOF then
+
+                                sumRealtimer = oRec2("sumtimer") 
+
+                               end if
+                               oRec2.close
+
+                                if len(trim(sumRealtimer)) <> 0 then
+                                sumRealtimer = formatnumber(sumRealtimer, 2)
+                                else
+                                sumRealtimer = formatnumber(0, 2)
+                                end if
+
+                                 %>
+
+                            <td class="lille" align="right"><%=sumRealtimer%> t.</td>
                         </tr>
                         <%
 

@@ -9,7 +9,7 @@
 <!--#include file="../inc/errors/error_inc.asp"-->
 <!--#include file="../inc/regular/global_func.asp"-->
 <!--#include file="../inc/regular/stat_func.asp"-->
-<!--#include file="inc/smiley_inc.asp"-->
+<!--include file="inc/smiley_inc.asp"-->
 
 <!--#include file="../inc/regular/topmenu_inc.asp"-->
 
@@ -1978,7 +1978,7 @@ if len(session("user")) = 0 then
 		<br />
 		<%
 		if level = 1 OR id = 0 then%>
-		<input type="text" name="logindato" id="logindato" value="<%=datoDT(a)%>" style="width:100px;" placeholder="03-10-2016" class="form-control input-small">
+		<input type="text" name="logindato" id="logindato" value="<%=datoDT(a)%>" style="width:100px;" placeholder="03-10-2016" class="form-control input-sm">
 		<%else%>
 		
 		<%=formatdatetime(datoDT(a),1) %> <!--left(formatdatetime(loginDT, 3), 5)--> 
@@ -1987,8 +1987,8 @@ if len(session("user")) = 0 then
 	
 		<td valign=top><b>Logind:</b><br />
       
-	    <input type="text" name="FM_login_hh" id="FM_login_hh_<%=a%>" value="<%=loginDThh%>" style="width:60px; display: inline-block;" placeholder="tt" class="form-control input-small">:
-        <input type="text" name="FM_login_mm" id="FM_login_mm_<%=a%>" value="<%=loginDTmm%>" style="width:60px; display: inline-block;" placeholder="mm" class="form-control input-small">
+	    <input type="text" name="FM_login_hh" id="FM_login_hh_<%=a%>" value="<%=loginDThh%>" style="width:40px; display: inline-block;" placeholder="tt" class="form-control input-sm"> :
+        <input type="text" name="FM_login_mm" id="FM_login_mm_<%=a%>" value="<%=loginDTmm%>" style="width:40px; display: inline-block;" placeholder="mm" class="form-control input-sm">
         
 		<!--&nbsp;&nbsp;tt:mm-->
 
@@ -2009,8 +2009,8 @@ if len(session("user")) = 0 then
 	
 	
 		<td valign=top><b>Logud:</b> <!--(<a href="#" id="a_<=a%>" class="rmenu">ikke endnu</a>)--><br />
-		<input type="text" name="FM_logud_hh" id="FM_logud_hh_<%=a%>" value="<%=logudDThh%>" style="width:60px; display: inline-block;" class="form-control input-small">:
-		<input type="text" name="FM_logud_mm" id="FM_logud_mm_<%=a%>" value="<%=logudDTmm%>" style="width:60px; display: inline-block;" class="form-control input-small">
+		<input type="text" name="FM_logud_hh" id="FM_logud_hh_<%=a%>" value="<%=logudDThh%>" style="width:40px; display: inline-block;" class="form-control input-sm"> :
+		<input type="text" name="FM_logud_mm" id="FM_logud_mm_<%=a%>" value="<%=logudDTmm%>" style="width:40px; display: inline-block;" class="form-control input-sm">
 
         <!-- bruges til arrray split -->
 		 <input type="hidden" name="FM_logud_hh" id="Hidden6" value="#">
@@ -2032,7 +2032,7 @@ if len(session("user")) = 0 then
 	    </td>
 		
 	    <td valign=top><b>Stempelurindst:</b><br />
-		<select name="FM_stur" class="form-control input-small">
+		<select name="FM_stur" class="form-control input-sm">
          <%if lto <> "fk_bpm" AND lto <> "kejd_pb" AND lto <> "kejd_pb2" then %>
 		<!--<option value="0">Ingen</option>-->
 		<%end if
@@ -2058,7 +2058,7 @@ if len(session("user")) = 0 then
 	</tr>
 	<tr>
 	    <td colspan=4 style="padding:10px 0px 0px 0px;">Kommentar:
-	    <br /><textarea id="FM_kommentar_<%=a %>" name="FM_kommentar" class="form-control input-small"><%=kommentar(a) %></textarea></td>
+	    <br /><textarea id="FM_kommentar_<%=a %>" name="FM_kommentar" class="form-control input-sm"><%=kommentar(a) %></textarea></td>
          <input type="hidden" name="FM_kommentar" id="Hidden13"  value="#">  
 	</tr>
 	</table>
@@ -2141,7 +2141,7 @@ if len(session("user")) = 0 then
             <%end if %>
 
             <b>Pause <%=p %>:</b> 
-            <select name="p<%=p %>" id="p<%=p %>" style="width:250px;" class="form-control input-small">
+            <select name="p<%=p %>" id="p<%=p %>" style="width:250px;" class="form-control input-sm">
             
              <% 
            
@@ -2211,7 +2211,7 @@ if len(session("user")) = 0 then
         
             
             Kommentar pause <%=p %>:
-	        <br /><textarea id="FM_komm_p<%=p %>" name="FM_komm_p<%=p %>" style="width:250px;" class="form-control input-small"><%=oRec("kommentar") %></textarea>
+	        <br /><textarea id="FM_komm_p<%=p %>" name="FM_komm_p<%=p %>" style="width:250px;" class="form-control input-sm"><%=oRec("kommentar") %></textarea>
             </td>
 
             <%
@@ -2406,8 +2406,12 @@ if len(session("user")) = 0 then
         call showafslutuge_ugeseddel
         %>
       
-        </td></tr></form>
+        </td></tr></table></form>
         <%end if 'SmiWeekOrMonth %>
+
+            
+           <a href="#" onclick="Javascript:window.close();">Luk [X]</a>
+          
 
           </div><!--class="col-lg-6" -->
            <div class="col-lg-1">&nbsp;</div>
@@ -2435,7 +2439,7 @@ if len(session("user")) = 0 then
 	
 	if hidemenu = 0 then%>
 	
-	 <!--#include file="../inc/regular/header_lysblaa_2015_inc.asp"-->
+	 <!--#include file="../inc/regular/header_lysblaa_inc.asp"-->
     <script src="inc/stempelur_jav.js"></script>
 	
  
@@ -2450,6 +2454,7 @@ if len(session("user")) = 0 then
 	
 	%>
 	 <!--#include file="../inc/regular/header_lysblaa_2015_inc.asp"-->
+     
 	<%
 	
 	sideDivTop = 20

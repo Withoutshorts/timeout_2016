@@ -73,6 +73,210 @@
 
   </dk>
 
+  <no>
+
+    <txt_001>Det er en feil!</txt_001>
+   <txt_004>
+      Den valgte arbeidstaker kan ikke logge inn TimeOut.#Nylinie##nylinie#
+      Det er vanligvis på grunn av følgende årsaker: #nylinie#
+      - Kombinasjonen av brukernavn og passord er feil.#nylinie#
+      - Status for ansattes konto er deaktivert.#nylinie#
+      - Status for ansattes konto er passiv
+    </txt_004>
+    <txt_028>
+      En eller flere av de påmeldte time-poster inneholder ulovlige tegn. #nylinie#
+      Posten kan kun inneholde tallene 0-9 og komma eller punktum. #nylinie# Den ulovlig registrering er:
+    </txt_028>
+    <txt_054>Antall er ikke angitt som et tall!</txt_054>
+    <txt_074>
+      Feil No. #nylinie#
+      - Den angitte delen er allerede i materialet / festing av den valgte gruppen .
+    </txt_074>
+    <txt_090>Enter materialer #nylinie# - Forbruk dato er spesifisert i en ugyldig dato format.</txt_090>
+    <txt_106>
+      Material entry #nylinie#
+      - Prisen er ikke fullført på riktig måte .
+    </txt_106>
+    <txt_107>
+      Material entry #nylinie#
+      - Navn er ikke korrekt utfylt .
+    </txt_107>
+    <txt_108A>
+      Material entry #nylinie#
+      A) Dato for registrering materielle / utgifter (Intern kode: ekstern / ikke vist) på den valgte jobben,
+      Beliggende i et datointervall allerede fakturert. #nylinie##nylinie#
+      Siste fakturadato på denne jobben er:
+    </txt_108A>
+    <txt_108B>#nylinie# Den valgte registrerings dato er:</txt_108B>
+    <txt_108C>
+      #nylinie##nylinie# B) Du prøver å registrere timer for en periode som er gjennomført via Smiley-ordningen
+      via automatisk månedlig lukkefunksjon eller periode er stengt til slutten lønn perioden funksjon.
+    </txt_108C>
+    <txt_120>
+      Material entry #nylinie#
+      - Prisen er ikke fullført på riktig måte .
+    </txt_120>
+
+
+  </no>
+
+
+
+  <se>
+
+    <txt_001>Det er en feil!</txt_001>
+    <txt_004>
+      Den valda anställde kan inte logga in timeout.#nylinie##nylinie#
+      Det är oftast på grund av följande skäl: #nylinie#
+      - Kombinationen av användarnamn och lösenord är fel.#nylinie#
+      - Status för anställd konto är funktionshindrade.#Nylinie#
+      - Status för anställd konto är Passiv
+    </txt_004>
+    <txt_028>
+      En eller flera av de angivna timme register innehåller otillåtna tecken.#nylinie#
+      Registren får bara innehålla siffrorna 0-9 och kommatecken eller period. #Nylinie#Den illegala registrering är:
+    </txt_028>
+    <txt_054>Nummer inte anges som ett tal!</txt_054>
+    <txt_074>
+      Fel delvis #nylinie#
+      - Den angivna delen är redan i material / fastsättning av den valda gruppen.
+    </txt_074>
+    <txt_090>Ange material #nylinie# - Konsumtion datum anges inte i ett ogiltigt datumformat.</txt_090>
+    <txt_106>
+      Material post #nylinie#
+      - Pris är inte korrekt ifylld.
+    </txt_106>
+    <txt_107>
+      Material post #nylinie#
+      - Namn inte fylls i korrekt.
+    </txt_107>
+    <txt_108A>
+      Material post #nylinie#
+      A) Datum för registrering material / kostnader (intern kod: extern / ej visad) på det valda jobbet,
+      Beläget i ett datumintervall  redan faktureras.#Nylinie##nylinie#
+      Sista dagen för detta jobb fakturan:
+    </txt_108A>
+    
+    <txt_108B>#Nylinie#Den valda registreringsdatum er:</txt_108B>
+    <txt_108C>
+      #Nylinie##nylinie#B) Du försöker registrera timmar under en period som är klar via Smiley system
+      via automatisk månadsstängningsfunktion eller period är stängd fram till slutet löneperioden  funktion.
+    </txt_108C>
+    <txt_120>
+      Material post #nylinie#
+      - Försäljningspris är inte korrekt ifylld.
+    </txt_120>
+
+
+  </se>
+
+
+
+  <de>
+
+    <txt_001>Es ist ein Fehler!</txt_001>
+    <txt_004>
+      Der ausgewählte Mitarbeiter kann nicht in TimeOut loggt sein. #nylinie##nylinie#
+
+      Es ist in der Regel aus folgenden Gründen: #nylinie#
+      - Die Kombination aus Benutzername und Passwort ist falsch #nylinie#.
+      - Status der Mitarbeiter Konto ist deaktiviert #nylinie#.
+      - Status der Mitarbeiterkonto ist Passiv
+    </txt_004>
+    <txt_028>
+      Ein oder mehrere der eingegebenen Stunde Datensätze enthält ungültige Zeichen. #nylinie#
+      Die Protokolle dürfen nur enthalten die Zahlen 0-9 und Komma oder Punkt. #nylinie# Die illegale Registrierung sind:
+    </txt_028>
+    <txt_054>Nummer wird nicht als Zahl angegeben!</txt_054>
+    <txt_074>
+      Fehler Nr #nylinie#
+      - Der angegebene Teil ist bereits in Material / Befestigung der ausgewählten Gruppe .
+    </txt_074>
+    <txt_090>Geben Sie Materialien #nylinie# - Verbrauchsdatum in einem ungültigen Datumsformat angegeben ist.</txt_090>
+    <txt_106>
+      Material Eintrag #nylinie#
+      - Der Preis ist nicht korrekt abgeschlossen .
+    </txt_106>
+    <txt_107>
+      Material Eintrag #nylinie#
+      - Der Name ist nicht korrekt ausgefüllt .
+    </txt_107>
+    <txt_108A>
+      Material Eintrag #nylinie#
+      A) Tag der Registrierungsmaterial / Aufwendungen (interner Code: extern / nicht gezeigt) über den ausgewählten Auftrag,
+      Das Hotel liegt in einem Datumsbereich bereits in Rechnung gestellt. #nylinie##nylinie#
+      Letzte Rechnungsdatum an diesem Job ist:
+    </txt_108A>
+    <txt_108B>#Nylinie# Die gewählte Datum der Eintragung sind:</txt_108B>
+    <txt_108C>
+      #nylinie##nylinie# B) Sie versuchen Stunden für einen Zeitraum zu registrieren, die über Smiley Schema abgeschlossen ist
+      über automatische monatliche Schließfunktion oder Periode wird durch das Ende Zahlungsperiode Funktion geschlossen.
+    </txt_108C>
+    <txt_120>
+      Material Eintrag #nylinie#
+      - Der Preis ist nicht korrekt abgeschlossen .
+    </txt_120>
+
+
+  </de>
+
+
+  <fr>
+
+    <txt_001 >Il y a une erreur!</txt_001>
+    <txt_004 >
+      «L'employé sélectionné ne peut pas se connecter TimeOut. #nylinie##nylinie#
+      Elle est généralement due aux raisons suivantes: #nylinie#
+      - La combinaison de login et mot de passe est incorrect #nylinie#.
+      - Statut du compte de l'employé est handicapé #nylinie#.
+      - Statut du compte de l'employé est passif
+    </txt_004>
+    
+    <txt_028>
+      Un ou plusieurs des dossiers de l'heure saisi contient des caractères illégaux. #nylinie#
+      Les enregistrements ne peuvent contenir que des chiffres 0-9 et une virgule ou période. #nylinie# L'enregistrement illégal sont:
+    </txt_028>
+    
+    <txt_054>Nombre est pas spécifié comme un numéro!</txt_054>
+    <txt_074>
+      Erreur no #nylinie#
+      - La partie spécifiée est déjà en matériau / fixation du groupe sélectionné .
+    </txt_074>
+    
+    <txt_090>
+      Entrez matériaux #nylinie#
+      - Consommation Date spécifié dans un format de date non valide .
+    </txt_090>
+    
+    <txt_106>
+      Entrée Material #nylinie#
+      - Le prix est pas terminée correctement.
+    </txt_106>
+    
+    <txt_107>
+      Entrée Material #nylinie#
+      - Nom est pas rempli correctement.
+    </txt_107>
+    
+    <txt_108A>
+      Entrée Material #nylinie#
+      A) Date de matériel d'enregistrement / charges (Code interne: externe / non représenté) sur le travail sélectionné,
+      Situé dans une plage de dates déjà facturés. #nylinie##nylinie#
+      Dernière date de facturation sur ce poste est:
+    </txt_108A>
+    <txt_108B>#Nylinie# La date d'enregistrement sélectionné sont:</txt_108B>
+    <txt_108C>
+      #nylinie##nylinie# B) Vous essayez d'enregistrer les heures pendant une période qui est complétée par système Smiley
+      via la fonction de fermeture automatique mensuel ou de la période est fermée grâce à la fonction de la période de paie de fin ».
+    </txt_108C>
+    <txt_120>
+      Entrée Material #nylinie#
+      - Le prix est pas terminée correctement ».
+    </txt_120>
+
+
+  </fr>
+
 
 
   <!-- Engelsk -->
@@ -135,6 +339,59 @@
     </txt_120>
 
   </uk>
+
+
+  <es>
+
+    <txt_001>Hay un error!</txt_001>
+    <txt_004>
+      El empleado seleccionado no puede iniciar sesión en tiempo de espera. #Nylinie## nylinie#
+
+      Por lo general, debido a las siguientes razones: #nylinie#
+      - La combinación de nombre de usuario y contraseña es incorrecta.#Nylinie#
+      - Estado de la cuenta de empleado es Desactivado.#Nylinie#
+      - Estado de la cuenta de empleado es pasiva
+    </txt_004>
+    <txt_028>
+      Uno o más de los registros por hora introducido contiene caracteres no válidos. #Nylinie#
+      Los registros sólo pueden contener los números 0-9 y coma o punto. #Nylinie# El registro ilegal son:
+    </txt_028>
+    
+    <txt_054>Número no está especificado como un número!</txt_054>
+    <txt_074>
+      Error No. #nylinie#
+      - La parte especificada ya está en el material / unión del grupo seleccionado .
+    </txt_074>
+    <txt_090>
+      Enter materiales #nylinie#
+      - Consumo Date especificado en un formato de fecha no válida .
+    </txt_090>
+    <txt_106>
+      Material de entrada #nylinie#
+      - Precio no se ha completado correctamente .
+    </txt_106>
+    <txt_107>
+      Material de entrada #nylinie#
+      - El nombre no se rellena correctamente .
+    </txt_107>
+    <txt_108A>
+      Material de entrada #nylinie#
+      A) Fecha de registro / gastos de material (código interno: / externa no se muestra) en el trabajo seleccionado,
+      Situado en un intervalo de fechas ya facturado. #Nylinie##nylinie#
+      Última fecha de la factura en este trabajo es la siguiente:
+    </txt_108A>
+    <txt_108B>#Nylinie# La fecha de registro seleccionado son:</txt_108B>
+    <txt_108C>
+      #Nylinie##nylinie# B) intenta registrar horas durante un período que se completa a través de esquema de Smiley
+      a través de la función de cierre automático mensual o periodo se cierra a través de la función de período de pago final .
+    </txt_108C>
+    <txt_120 >
+      Material de entrada #nylinie#
+      - Precio no se ha completado correctamente .
+    </txt_120>
+
+
+  </es>
 
 
 </sprog>

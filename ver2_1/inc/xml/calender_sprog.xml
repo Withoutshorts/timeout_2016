@@ -24,6 +24,77 @@
   </dk>
 
 
+  <!--- Norsk -->
+  <no>
+
+    <txt_107>kalender</txt_107>
+    <txt_108>M</txt_108>
+    <txt_109>T</txt_109>
+    <txt_110>O</txt_110>
+    <txt_111>T</txt_111>
+    <txt_112>F</txt_112>
+    <txt_113>L</txt_113>
+    <txt_114>S</txt_114>
+    <txt_115>Dager m. fravær</txt_115>
+    <txt_116>vanlige dager</txt_116>
+
+  
+  </no>
+  
+  
+  <!--- Svensk -->
+  <so>
+
+    <txt_107>kalender</txt_107>
+    <txt_108>M</txt_108>
+    <txt_109>T</txt_109>
+    <txt_110>O</txt_110>
+    <txt_111>T</txt_111>
+    <txt_112>F</txt_112>
+    <txt_113>L</txt_113>
+    <txt_114>S</txt_114>
+    <txt_115>Dagar m. frånvaro</txt_115>
+    <txt_116>vanliga dagar</txt_116>
+
+  
+  </so>
+  
+  
+  <!--- Tysk -->
+  <de>
+    
+    <txt_107>kalender</txt_107>
+    <txt_108>M</txt_108>
+    <txt_109>D</txt_109>
+    <txt_110>M</txt_110>
+    <txt_111>D</txt_111>
+    <txt_112>F</txt_112>
+    <txt_113>S</txt_113>
+    <txt_114>S</txt_114>
+    <txt_115>Tage m. fehlen</txt_115>
+    <txt_116>Gewöhnlichen Tagen</txt_116>
+
+  </de>
+  
+  
+  <!--- Fransk -->
+  <fr>
+    
+    <txt_107>Calendrier</txt_107>
+    <txt_108>L</txt_108>
+    <txt_109>M</txt_109>
+    <txt_110>M</txt_110>
+    <txt_111>J</txt_111>
+    <txt_112>V</txt_112>
+    <txt_113>S</txt_113>
+    <txt_114>D</txt_114>
+    <txt_115>Journées a. absence</txt_115>
+    <txt_116>jours ordinaires</txt_116>
+
+  
+  </fr>
+  
+    
 
   <!-- Engelsk -->
   <uk>
@@ -45,6 +116,24 @@
 
 
   </uk>
+
+
+  <!--- Spansk -->
+  <es>
+    
+    <txt_107>calendario</txt_107>
+    <txt_108>L</txt_108>
+    <txt_109>M</txt_109>
+    <txt_110>M</txt_110>
+    <txt_111>J</txt_111>
+    <txt_112>V</txt_112>
+    <txt_113>S</txt_113>
+    <txt_114>D</txt_114>
+    <txt_115>Dias c. ausencia</txt_115>
+    <txt_116>Los días ordinarios</txt_116>
+  
+
+  </es>
 
 
 </sprog>

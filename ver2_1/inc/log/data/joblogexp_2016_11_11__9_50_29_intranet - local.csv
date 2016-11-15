@@ -1,0 +1,18 @@
+Periode afgrænsning: 11/10/2016 - 11/11/2016
+
+Dato;tekst;bilag;konto;kontonavn;debit beløb;kredit beløb;modkonto
+11-10-2016;SK kontotest 12 Projektledelse Søren Karlsen;20161011;90001112;Projektledelse;0,00;;123445;
+12-10-2016;SK kontotest 12 Projektledelse Søren Karlsen;20161012;90001112;Projektledelse;0,00;;123445;
+26-10-2016;SK TSTET monitoreinrg Søren Karlsen;20161026;0;monitoreinrg;100,00;;0;
+26-10-2016;SK TSTET Intern Søren Karlsen;20161026;0;Intern;1.300,00;;0;
+28-10-2016;Jobnavn.. Aflevering Søren Karlsen;20161028;0;Aflevering;0,00;;0;
+28-10-2016;Jobnavn.. Aflevering Søren Karlsen;20161028;0;Aflevering;0,00;;0;
+28-10-2016;Jobnavn.. Evt. tilpasninger Søren Karlsen;20161028;0;Evt. tilpasninger;0,00;;0;
+28-10-2016;SK kontotest 12 kontotest 1 Søren Karlsen;20161028;888001112;kontotest 1;0,00;;12223445;
+28-10-2016;SK TSTET Worshop 2 Søren Karlsen;20161028;0;Worshop 2;650,00;;0;
+31-10-2016;SK TSTET Udbud Søren Karlsen;20161031;0;Udbud;200,00;;0;
+31-10-2016;SK TSTET Udbud 2 Søren Karlsen;20161031;0;Udbud 2;200,00;;0;
+31-10-2016;SK TSTET Udbud Søren Karlsen;20161031;0;Udbud;200,00;;0;
+01-11-2016;SK TSTET Udbud 2 Søren Karlsen;2016111;0;Udbud 2;200,00;;0;
+01-11-2016;SK TSTET Udbud Søren Karlsen;2016111;0;Udbud;200,00;;0;
+

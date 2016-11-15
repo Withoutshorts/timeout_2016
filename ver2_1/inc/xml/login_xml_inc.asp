@@ -5,6 +5,7 @@ Dim objXMLHTTP_login, objXMLDOM_login, i_login, strHTML_login
 
 Set objXMLDom = Server.CreateObject("Microsoft.XMLDOM")
 Set objXmlHttp = Server.CreateObject("Msxml2.ServerXMLHTTP")
+'objXmlHttp.open "GET", "http://localhost/Git/timeout_2016/ver2_1/inc/xml/login_sprog.xml", False
 objXmlHttp.open "GET", "http://localhost/inc/xml/login_sprog.xml", False
 'objXmlHttp.open "GET", "https://outzource.dk/timeout_xp/wwwroot/ver2_1/inc/xml/login_sprog.xml", False
 'objXmlHttp.open "GET", "https://outzource.dk/timeout_xp/wwwroot/ver3_99/inc/xml/login_sprog.xml", False
@@ -50,6 +51,18 @@ Session.LCID = 2057
 case 3
 sXPathQuery_login = "//sprog/se"
 Session.LCID = 1053
+case 4
+sXPathQuery_login = "//sprog/no"
+Session.LCID = 2068
+case 5
+sXPathQuery_login = "//sprog/es"
+Session.LCID = 1034
+case 6
+sXPathQuery_login = "//sprog/de"
+Session.LCID = 1031
+case 7
+sXPathQuery_login = "//sprog/fr"
+Session.LCID = 1036
 case else
 sXPathQuery_login = "//sprog/dk"
 Session.LCID = 1030

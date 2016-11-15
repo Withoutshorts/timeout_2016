@@ -97,7 +97,7 @@ case "FN_getAktlisten"
 case "FN_getKundelisten_2013"
               
               dim kundeArr_2013
-              redim kundeArr_2013(25)
+              redim kundeArr_2013(50)
               
               if len(trim(request.Form("cust"))) <> 0 then
               jq_sog_val = request.Form("cust")
@@ -114,7 +114,7 @@ case "FN_getKundelisten_2013"
 
               'jq_sog_valSQL = " AND (Kkundenavn LIKE 'p%')"
 
-                strSQL = "SELECT Kkundenavn, Kkundenr, Kid, kundeans1, kundeans2 FROM kunder WHERE ketype <> 'e' "& jq_sog_valSQL &" ORDER BY Kkundenavn"
+                strSQL = "SELECT Kkundenavn, Kkundenr, Kid, kundeans1, kundeans2 FROM kunder WHERE ketype <> 'e' "& jq_sog_valSQL &" ORDER BY Kkundenavn LIMIT 50"
 			    
                 'if session("mid") = 34 then
                 'Response.write "<option>"& jq_sog_valSQL &" :: "& strSQL& "</option>"
@@ -145,7 +145,7 @@ case "FN_getKundelisten_2013"
 				oRec2.close
 				
 				if len(kans1) <> 0 OR len(kans2) <> 0 then
-				anstxt = "....................kontaktansv 1: "
+				anstxt = " --- kontaktansv.: "
 				else
 				anstxt = ""
 				end if
@@ -2639,6 +2639,18 @@ if len(session("user")) = 0 then
                                     aktkonto = ""
                                     end if
 
+                                    if len(trim(request("FM_avarenr"))) <> 0 then
+                                    avarenr = request("FM_avarenr")
+                                    else
+                                    avarenr = ""
+                                    end if
+
+                                    'if session("mid") = 1 then
+                                    'Response.write "aktavarnr: "& request("FM_avarenr") & "<br>aktkonto: " & request("FM_aktkonto")
+                                    'Response.end
+                                    'end if
+
+
 	                                aktantalstk = request("FM_aktantalstk")
 	                                aktpris = request("FM_aktpris")
 	                                
@@ -2680,7 +2692,7 @@ if len(session("user")) = 0 then
 								    
 								    aktslet_aids = 0
 								
-								    call opdateraktliste(varJobId, aktids, aktnavn, akttimer, aktantalstk, aktfaser, aktbgr, aktpris, aktstatus, akttotpris, aktslet, aktslet_aids, aktkonto)
+								    call opdateraktliste(varJobId, aktids, aktnavn, akttimer, aktantalstk, aktfaser, aktbgr, aktpris, aktstatus, akttotpris, aktslet, aktslet_aids, aktkonto, avarenr)
 
 								
 								'Response.end
@@ -3346,8 +3358,18 @@ if len(session("user")) = 0 then
 							    
 							    ulevbelob = replace(request("ulevbelob_"&u&""), ".", "")
 							    ulevbelob = replace(ulevbelob, ",", ".")
+
+                                ulevkonto = request("ulevkonto_"&u&"")
+							    if len(trim(ulevkonto)) <> 0 then
+                                ulevkonto = ulevkonto
+                                else
+                                ulevkonto = 0
+                                end if
     							
-    							
+    							 call budgetakt_fn()
+
+                     
+                     
     							
 		                     if len(trim(ulevnavn)) <> 0 then
 
@@ -3434,8 +3456,14 @@ if len(session("user")) = 0 then
 
                                             strSQLUpdUlev = "UPDATE job_ulev_ju SET "_
 							                &" ju_fase = '"& ulevfase &"', ju_navn = '"& ulevnavn &"', ju_ipris = "& ulevpris &", "_
-							                &" ju_faktor = "& ulevfaktor &", ju_belob = "& ulevbelob &",  ju_jobid = "& varJobId & ", ju_stk = "& ulevstk &", ju_stkpris = "& ulevstkpris &" WHERE ju_id = " & ulevid
-							                
+							                &" ju_faktor = "& ulevfaktor &", ju_belob = "& ulevbelob &",  ju_jobid = "& varJobId & ", ju_stk = "& ulevstk &", ju_stkpris = "& ulevstkpris &","
+                        
+                                             if cint(budgetakt) = 2 then 
+                                             strSQLUpdUlev = strSQLUpdUlev & "ju_konto_label = '"& ulevkonto &"' WHERE ju_id = " & ulevid
+                                             else
+                                             strSQLUpdUlev = strSQLUpdUlev & "ju_konto = "& ulevkonto &" WHERE ju_id = " & ulevid
+						                     end if	                
+
                                             'Response.Write strSQLInsUlev & "<br>"
                                             oConn.execute(strSQLUpdUlev)
 
@@ -3444,8 +3472,16 @@ if len(session("user")) = 0 then
     							
 						                    strSQLInsUlev = "INSERT INTO job_ulev_ju SET "_
 							                &" ju_fase = '"& ulevfase &"', ju_navn = '"& ulevnavn &"', ju_ipris = "& ulevpris &", "_
-							                &" ju_faktor = "& ulevfaktor &", ju_belob = "& ulevbelob &",  ju_jobid = "& varJobId& ", ju_stk = "& ulevstk &", ju_stkpris = "& ulevstkpris & ""_
-							                
+							                &" ju_faktor = "& ulevfaktor &", ju_belob = "& ulevbelob &",  ju_jobid = "& varJobId& ", ju_stk = "& ulevstk &", ju_stkpris = "& ulevstkpris & ","
+                        
+                                             
+                                             if cint(budgetakt) = 2 then 
+                                             strSQLUpdUlev = strSQLUpdUlev & "ju_konto_label = '"& ulevkonto &"' WHERE ju_id = " & ulevid
+                                             else
+                                             strSQLUpdUlev = strSQLUpdUlev & "ju_konto = "& ulevkonto &" WHERE ju_id = " & ulevid
+						                     end if	
+                                    
+                        
                                             'Response.Write "ulevid:" & ulevid & " -- "&  strSQLInsUlev & "<br>"
                                             oConn.execute(strSQLInsUlev)
 
@@ -4251,18 +4287,20 @@ if len(session("user")) = 0 then
 	
 
     '** Forvalgte projektgrupper *********************************************************
-	if len(request.cookies("job")("defaultprojgrp")) <> 0 AND lto <> "execon" then 
-	strProj_1 = request.cookies("job")("defaultprojgrp")
-	else
+	'if len(request.cookies("job")("defaultprojgrp")) <> 0 AND lto <> "execon" then 
+	'strProj_1 = request.cookies("job")("defaultprojgrp")
+	'else
+
 	    select case lto 
         case "execon"
         strProj_1 = 1
-        case "cisu"
+        case "cisu", "synergi1"
         strProj_1 = 1
         case else
         strProj_1 = 10
         end select
-	end if
+
+	'end if
 	
       select case lto 
         
@@ -5950,7 +5988,7 @@ if len(session("user")) = 0 then
                                 <%end if%>
                 
                   <%
-                           if lto <> "execon" then%>
+                                if lto = "xxxx" then ' <> execon 20161013 fjernet%>
                                 <br>
 								<input type="checkbox" name="FM_gemsomdefault" id="FM_gemsomdefault" value="1"><b>Skift standard forvalgt projektgruppe</b> til den gruppe der her vælges som projektgruppe 1.
 								<span style="color:#999999;">Gemmes som cookie i 30 dage.</span>
@@ -7749,7 +7787,7 @@ end select '*** Step %>
 	'*** Antal aktiviteter på job ***
 	strAktnavn = ""
     lastFase = ""
-    strSQL2 = "SELECT id, navn, fase FROM aktiviteter WHERE job = "& oRec("id") & " ORDER BY fase, sortorder, navn"
+    strSQL2 = "SELECT id, navn, fase, aktstatus FROM aktiviteter WHERE job = "& oRec("id") & " ORDER BY fase, sortorder, navn"
 	oRec5.open strSQL2, oConn, 3
 	while not oRec5.EOF 
 	x = x + 1
@@ -7760,7 +7798,19 @@ end select '*** Step %>
     lastFase = oRec5("fase")
     end if
 
-    strAktnavn = strAktnavn & left(oRec5("navn"), 20) & "<br>"
+    strAktnavn = strAktnavn & left(oRec5("navn"), 20) 
+        
+        if oRec5("aktstatus") = 0 then
+        strAktnavn = strAktnavn & " - lukket"
+        end if
+
+        if oRec5("aktstatus") = 2 then
+        strAktnavn = strAktnavn & " - passiv"
+        end if
+        
+    strAktnavn = strAktnavn & "<br>"
+
+
 	oRec5.movenext
 	wend
 	oRec5.close

@@ -63,9 +63,9 @@ sub showafslutuge_ugeseddel
          '** Periode aflsutning Dag / UGE / MD
          select case cint(SmiWeekOrMonth) 
          case 0
-         weekMonthDate = datepart("m", varTjDatoUS_son,2,2)
-         case 1
          weekMonthDate = datepart("ww", varTjDatoUS_son,2,2)
+         case 1
+         weekMonthDate = datepart("m", varTjDatoUS_son,2,2)
          case 2
          weekMonthDate = formatdatetime(now, 2) ' SKAL DET ALTID VÆRE DD?
          weekMonthDate = year(weekMonthDate) & "-" & month(weekMonthDate) & "-" & day(weekMonthDate)
@@ -75,8 +75,8 @@ sub showafslutuge_ugeseddel
         '** ugeNrAfsluttet, showAfsuge, cdAfs, ugegodkendt, ugegodkendtaf, ugegodkendtTxt, ugegodkendtdt
         call erugeAfslutte(datepart("yyyy", varTjDatoUS_son,2,2), weekMonthDate, usemrn, SmiWeekOrMonth, 0) 
 
+       
         
-
         '** Faneblade med afslutnings status
         select case cint(SmiWeekOrMonth) 
         case 0, 1
@@ -159,16 +159,15 @@ sub showafslutuge_ugeseddel
             'Response.write "thisfile: " & thisfile
     	    
             '*** Auto popup ThhisWEEK now SMILEY
-	      %>
+	        %>
 	        <div id="s0" class="well" style="position:relative; left:0px; top:26px; width:<%=sDivWth%>px; visibility:<%=smVzb%>; display:<%=smDsp%>; z-index:2; background-color:#ffffff; padding:20px;">
-	      
-                 <%
+	        <%
 
             '*** Viser denne uge
-            weekSelectedThis = dateAdd("d", 7, now) 
+            'weekSelectedThis = dateAdd("d", 7, now) 
 
             '*** Medarbejder og overskift, status og smiley Ikon
-	        call showsmiley(weekSelectedThis, 1, usemrn, SmiWeekOrMonth)
+	        'call showsmiley(weekSelectedThis, 1, usemrn, SmiWeekOrMonth)
 
             '**** Kriterie
             '*** afslutugeBasisKri, afslProc, afslProcKri, weekSelectedTjk
@@ -179,7 +178,7 @@ sub showafslutuge_ugeseddel
 
             
                
-                        if cint(afslutugekri) = 0 OR ((cint(afslutugekri) = 1 OR cint(afslutugekri) = 2) AND cint(afslProcKri) = 1) OR cint(level) = 1 then 
+                        'if cint(afslutugekri) = 0 OR ((cint(afslutugekri) = 1 OR cint(afslutugekri) = 2) AND cint(afslProcKri) = 1) OR cint(level) = 1 then 
             
                             select case thisfile
                             case "stempelur"
@@ -193,7 +192,7 @@ sub showafslutuge_ugeseddel
                             '*** Vis checkbox og submuit til at afslutte periode
                             call afslutuge(weekSelectedTjk, 1, varTjDatoUS_son, rdir, SmiWeekOrMonth)
 
-                        else
+                        'else
                        
 
                          '********************************************************************
@@ -201,37 +200,10 @@ sub showafslutuge_ugeseddel
 
                          '** Bør sættes i kontrolpanel
                          '********************************************************************
-                         select case lto
-                         case "tec", "esn"
-                         case else %>
-
-                
-                               <%if cint(afslProcKri) = 1 then
-                               sm_bdcol = "#DCF5BD"
-                               else
-                                sm_bdcol = "mistyrose"
-                               end if %>
+                         'call smiley_statusTxt
 
 
-
-                            <div style="color:#000000; background-color:<%=sm_bdcol%>; padding:10px; border:0px <%=sm_bdcol%> solid;">
-                             <%=tsa_txt_398 & ": "& totTimerWeek %> 
-                
-                             <%if afslutugekri = 2 then %>
-                                <%=tsa_txt_399 %>
-                                <%end if %>
-                
-                            <%=" "&tsa_txt_140 %> / <%=afslutugeBasisKri %> = <b><%=afslProc %> %</b> <%=tsa_txt_095 %> <b><%=datePart("ww", tjkTimeriUgeDtTxt, 2,2) %></b>
-                            <br />(<%=left(weekdayname(weekday(formatdatetime(tjkTimeriUgeDt, 2))), 3) &". "& formatdatetime(tjkTimeriUgeDt, 2)%> - <%= left(weekdayname(weekday(formatdatetime(dateAdd("d", 6, tjkTimeriUgeDt), 2))), 3) &". "&formatdatetime(dateAdd("d", 6, tjkTimeriUgeDt), 2) %>)
-               
-                             <%=tsa_txt_400 %>: <b><%=afslutugekri_proc %> %</b>  <%=tsa_txt_401%>.
-                           </div>
-                       
-                            <%
-                            end select
-
-
-                        end if
+                        'end if
 	        
 	                   
                             

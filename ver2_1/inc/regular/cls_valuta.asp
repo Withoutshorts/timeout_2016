@@ -85,6 +85,7 @@ end function
 	function valutaKurs(intValuta)
 	    '**** Finder aktuel kurs ***'
        dblKurs = 100
+
        strSQL = "SELECT kurs FROM valutaer WHERE id = " & intValuta
        oRec.open strSQL, oConn, 3
        if not oRec.EOF then

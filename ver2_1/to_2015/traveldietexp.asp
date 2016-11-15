@@ -765,7 +765,15 @@ case else
                             </div>
                         </div>
                 </section>
-               
+        
+            
+            <%
+            select case lto
+            case "plan", "intranet - local"
+            vis_reduktion = 0
+            case else    
+            vis_reduktion = 1 
+            end select%>       
 
         <div class="porlet-body">
           
@@ -782,8 +790,9 @@ case else
                         <th style="border:0;">&nbsp;</th>
                       <th style="border:0;">&nbsp;</th>
                       
+                        <%if cint(vis_reduktion) = 1 then %>
                        <th colspan="4" style="border-bottom:0; background-color:#D6DFf5;">Reduktion</th>
-                    
+                        <%end if %>
                       <th style="border:0;">&nbsp;</th>
                         <th style="border:0;">&nbsp;</th>
                         <th style="border:0;">&nbsp;</th>
@@ -801,10 +810,12 @@ case else
                        <th style="width: 5%">Døgn<br /><span style="font-size:9px;">Dagspris</span></th>
                        <th>Maks. beløb</th>
                       
+                        <%if cint(vis_reduktion) = 1 then %>
                        <th style="width: 7%; background-color:#D6DFf5;">Mor.<br /><span style="font-size:9px;">Antal stk.</span></th>
                        <th style="width: 7%; background-color:#D6DFf5;">Fro.<br /><span style="font-size:9px;">Antal stk.</span></th>
                        <th style="width: 7%; background-color:#D6DFf5;">Aft.<br /><span style="font-size:9px;">Antal stk.</span></th>
                        <th style="background-color:#D6DFf5;">Ialt</th>
+                       <%end if %>
                        <th>Bilag</th>
                     
                        <th>Total</th>
@@ -911,12 +922,18 @@ case else
                     
                        <th><input type="text" value="<%=diet_dayprice %>" name="FM_diet_dayprice" class="form-control input-small" style="font-size:9px; font-weight:lighter;" <%=mainAmountBoxes %>/></th>
                        <th>&nbsp;</th>
-                      
+                       <%if cint(vis_reduktion) = 1 then %>
                       <th><input type="text" value="<%=diet_morgenamount %>" name="FM_diet_morgenamount<%=mainAmountBoxesName %>" class="form-control input-small" style="font-size:9px; font-weight:lighter;" <%=mainAmountBoxes %> /></th>
                        <th><input type="text" value="<%=diet_middagamount %>" name="FM_diet_middagamount<%=mainAmountBoxesName %>" class="form-control input-small" style="font-size:9px; font-weight:lighter;" <%=mainAmountBoxes %> /></th>
                         <th><input type="text" value="<%=diet_aftenamount %>" name="FM_diet_aftenamount<%=mainAmountBoxesName %>" class="form-control input-small" style="font-size:9px; font-weight:lighter;" <%=mainAmountBoxes %> /></th>
                       <th>&nbsp;</th>
-                    
+                    <%else %>
+                         <input type="hidden" value="0" name="FM_diet_morgenamount<%=mainAmountBoxesName %>"/>
+                         <input type="hidden" value="0" name="FM_diet_middagamount<%=mainAmountBoxesName %>"/>
+                         <input type="hidden" value="0" name="FM_diet_aftenamount<%=mainAmountBoxesName %>"/>
+                      
+                        <%end if %>
+
                      <th>&nbsp;</th>
                        <th>&nbsp;</th>
                        <th>&nbsp;</th>
@@ -1080,7 +1097,15 @@ case else
                               
                               diet_restTxtBeregnet = formatnumber((oRec("diet_rest")) * (tj_percent/100), 2) 
 
-                              strTxtExport = strTxtExport & strMedabSel &";"& strMedabSelInit &";"& diet_stdato &";"& diet_sldato &";"& diet_dageIaltTxt &";"& Chr(34) & oRec("diet_namedest") & Chr(34) &";"& Chr(34) & jobnrStrTxt & Chr(34) &";"& jobnrStrTxtNr &";"& jobnrStrTxtProc &";"&makskostTxt &";"& diet_morgenTxt &";"& diet_middagTxt &";"& diet_aftenTxt &";"& diet_restTxtBeregnet &";"& vbcrlf
+                              strTxtExport = strTxtExport & strMedabSel &";"& strMedabSelInit &";"& diet_stdato &";"& diet_sldato &";"& diet_dageIaltTxt &";"& Chr(34) & oRec("diet_namedest") & Chr(34) &";"& Chr(34) & jobnrStrTxt & Chr(34) &";"& jobnrStrTxtNr &";"& jobnrStrTxtProc &";"
+                               
+                                  if cint(vis_reduktion) = 1 then 
+                                  strTxtExport = strTxtExport & makskostTxt &";"& diet_morgenTxt &";"& diet_middagTxt &";"& diet_aftenTxt &";"& diet_restTxtBeregnet &";"& vbcrlf
+                                  else
+                                  strTxtExport = strTxtExport & makskostTxt &";"& vbcrlf
+                                  end if  
+                               
+                                  '&makskostTxt &";"& diet_morgenTxt &";"& diet_middagTxt &";"& diet_aftenTxt &";"& diet_restTxtBeregnet &";"& vbcrlf
 
 
                               %>
@@ -1098,9 +1123,15 @@ case else
 
                                   'diet_restTxtBeregnet = formatnumber((oRec("diet_rest")) * (tj_percent/100), 2) 
 
-                                  strTxtExport = strTxtExport & strMedabSel &";"& strMedabSelInit &";"& diet_stdato &";"& diet_sldato &";"& diet_dageIaltTxt &";"& Chr(34) & oRec("diet_namedest") & Chr(34) &";"& Chr(34) & jobnrStrTxt & Chr(34) &";"& jobnrStrTxtNr &";"& jobnrStrTxtProc &";"&makskostTxt &";"& diet_morgenTxt &";"& diet_middagTxt &";"& diet_aftenTxt &";"& diet_restTxt &";"& vbcrlf
+                                  strTxtExport = strTxtExport & strMedabSel &";"& strMedabSelInit &";"& diet_stdato &";"& diet_sldato &";"& diet_dageIaltTxt &";"& Chr(34) & oRec("diet_namedest") & Chr(34) &";"& Chr(34) & jobnrStrTxt & Chr(34) &";"& jobnrStrTxtNr &";"& jobnrStrTxtProc &";"
+                                  
+                                  if cint(vis_reduktion) = 1 then 
+                                  strTxtExport = strTxtExport & makskostTxt &";"& diet_morgenTxt &";"& diet_middagTxt &";"& diet_aftenTxt &";"& diet_restTxt &";"& vbcrlf
+                                  else
+                                  strTxtExport = strTxtExport & makskostTxt &";"& vbcrlf
                                   end if     
                                
+                                  end if
 
                             if media <> "export" then
                                     %>
@@ -1111,10 +1142,18 @@ case else
                                    <!--<td><select name="FM_diet_konto" class="form-control input-small"><%=strKontoOptionsLoop %></select></td>-->
                                    <td style="text-align:right;"><%=diet_dageIaltTxt %></td>
                                    <td style="text-align:right;"><%=makskostTxt %></td>
+
+                                   <%if cint(vis_reduktion) = 1 then %>
                                    <td><input type="text" value="<%=diet_morgenTxt%>" name="FM_diet_morgen" class="form-control input-small" /></td>
                                    <td><input type="text" value="<%=diet_middagTxt%>" name="FM_diet_middag" class="form-control input-small" /></td>
                                    <td><input type="text" value="<%=diet_aftenTxt%>" name="FM_diet_aften" class="form-control input-small" /></td>
                                    <td style="text-align:right;"><%=diet_totalTxt%></td>
+                                   <%else %>
+                                   <input type="hidden" value="0" name="FM_diet_morgen" />
+                                   <input type="hidden" value="0" name="FM_diet_middag" />
+                                   <input type="hidden" value="0" name="FM_diet_aften" />
+                                   <%end if %>
+
                                    <td style="text-align:center;">
                                          <%if cint(oRec("diet_bilag")) = 1 then
                                          diet_bilagCHK = "CHECKED"
@@ -1201,12 +1240,18 @@ case else
                     
                                    <th><input type="text" value="<%=diet_dayprice %>" name="FM_diet_dayprice" class="form-control input-small" style="font-size:9px; font-weight:lighter;" <%=mainAmountBoxes %>/></th>
                                    <th>&nbsp;</th>
-                      
+                                     <%if cint(vis_reduktion) = 1 then %>
                                   <th><input type="text" value="<%=diet_morgenamount %>" name="FM_diet_morgenamount<%=mainAmountBoxesName %>" class="form-control input-small" style="font-size:9px; font-weight:lighter;" <%=mainAmountBoxes %> /></th>
                                    <th><input type="text" value="<%=diet_middagamount %>" name="FM_diet_middagamount<%=mainAmountBoxesName %>" class="form-control input-small" style="font-size:9px; font-weight:lighter;" <%=mainAmountBoxes %> /></th>
                                     <th><input type="text" value="<%=diet_aftenamount %>" name="FM_diet_aftenamount<%=mainAmountBoxesName %>" class="form-control input-small" style="font-size:9px; font-weight:lighter;" <%=mainAmountBoxes %> /></th>
                                   <th>&nbsp;</th>
-                    
+                                   <%else %>
+                                   <input type="hidden" value="0" name="FM_diet_morgenamount<%=mainAmountBoxesName %>" />
+                                   <input type="hidden" value="0" name="FM_diet_middagamount<%=mainAmountBoxesName %>" />
+                                    <input type="hidden" value="0" name="FM_diet_aftenamount<%=mainAmountBoxesName %>" />
+                                  
+                                <%end if %>
+
                                  <th>&nbsp;</th>
                                    <th>&nbsp;</th>
                                    <th>&nbsp;</th>
@@ -1254,10 +1299,16 @@ case else
                        <!--<td><select name="FM_diet_konto" class="form-control input-small"><%=strKontoOptions %></select></td>-->
                        <td>&nbsp;</td>
                        <td>&nbsp;</td>
+                       <%if cint(vis_reduktion) = 1 then %>
                        <td><input type="text" value="" name="FM_diet_morgen" class="form-control input-small" /></td>
                        <td><input type="text" value="" name="FM_diet_middag" class="form-control input-small" /></td>
                        <td><input type="text" value="" name="FM_diet_aften" class="form-control input-small" /></td>
                        <td>&nbsp;</td>
+                       <%else %>
+                        <input type="hidden" value="" name="FM_diet_morgen" class="form-control input-small" />
+                       <input type="hidden" value="" name="FM_diet_middag" class="form-control input-small" />
+                       <input type="hidden" value="" name="FM_diet_aften" class="form-control input-small" />
+                       <%end if %>
                        
                       
                        <td style="text-align:center;"><input type="checkbox" value="1" name="FM_diet_bilag"/></td>
@@ -1348,9 +1399,14 @@ case else
 	
 	
 	
-	            strTxtExportHeader = "Navn;Init;Afrejsedato;Hjemrejse;Dage ialt;Destination;Job/Projekt;Jobnr;Procent %;Maks.kost;Morgen;Middag;Aften;Ialt/Rest.;" & vbcrlf
-
-               
+	            strTxtExportHeader = "Navn;Init;Afrejsedato;Hjemrejse;Dage ialt;Destination;Job/Projekt;Jobnr;Procent %;"
+                if cint(vis_reduktion) = 1 then 
+                strTxtExportHeader = strTxtExportHeader & "Maks.kost;Morgen;Middag;Aften;Ialt/Rest.;" & vbcrlf
+                else
+                strTxtExportHeader = strTxtExportHeader & "Ialt;"& vbcrlf
+                end if
+                
+                
 		
                 objF.WriteLine(strTxtExportHeader)
                 objF.WriteLine(strTxtExport)

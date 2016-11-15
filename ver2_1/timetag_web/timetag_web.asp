@@ -7,10 +7,10 @@
         'section for ajax calls
         if Request.Form("AjaxUpdateField") = "true" then
         Select Case Request.Form("control")
-        case "FN_tjktimer_forecast_tt"
+        case "FN_tjktimer_forecast_tt" 
                 '** FORECAST ALERT 
          
-                  Response.write "99999"
+                
 
                 aktid = request("aktid")
                 timerTastet = request("timer_tastet")
@@ -21,11 +21,11 @@
                 md = request("ibudgetUseMd")
 
              
+                'response.write "aktid: "+ aktid + " timerTastet: "+ timerTastet
+                'response.end
 
-                'call ressourcefc_tjk(ibudgetaar, ibudgetmd, aar, md, usemrn, aktid, timerTastet)
+                call ressourcefc_tjk(ibudgetaar, ibudgetmd, aar, md, usemrn, aktid, timerTastet)
 
-                
-             
                 response.write feltTxtValFc
 
 
@@ -78,26 +78,41 @@
 
                 if filterVal <> 0 then
             
-                 lastKid = 0
+                 if jobkundesog <> "-1" then
+                 strSQLSogKri = " AND (jobnr LIKE '"& jobkundesog &"%' OR jobnavn LIKE '"& jobkundesog &"%' OR "_
+                 &" kkundenavn LIKE '"& jobkundesog &"%' OR kkundenr = '"& jobkundesog &"' OR k.kinit = '"& jobkundesog &"') AND kkundenavn <> ''"
+                 lmt = 50
+                 else
+                 strSQLSogKri = ""
+                 lmt = 150
+                 end if            
+
+
+                lastKid = 0
                 
+                if jobkundesog <> "-1" then
                 strJobogKunderTxt = strJobogKunderTxt &"<span style=""color:red; font-size:9px; float:right;"" id=""luk_jobsog"">[X]</span>"    
-                         
                 strJobogKunderTxt = strJobogKunderTxt &"<ul>"
+                end if
+
 
                 strSQL = "SELECT j.id AS jid, j.jobnavn, j.jobnr, j.jobstatus, k.kkundenavn, k.kkundenr, k.kid FROM timereg_usejob AS tu "_ 
                 &" LEFT JOIN job AS j ON (j.id = tu.jobid) "_
                 &" LEFT JOIN kunder AS k ON (k.kid = j.jobknr) "_
                 &" WHERE tu.medarb = "& medid &" AND (j.jobstatus = 1 OR j.jobstatus = 3) "& strSQLPAkri &" "& strSQLDatokri 
-        
-                strSQL = strSQL & " AND "_
-                &" (jobnr LIKE '"& jobkundesog &"%' OR jobnavn LIKE '"& jobkundesog &"%' OR "_
-                &" kkundenavn LIKE '"& jobkundesog &"%' OR kkundenr = '"& jobkundesog &"' OR k.kinit = '"& jobkundesog &"') AND kkundenavn <> ''"_
-                &" GROUP BY j.id ORDER BY kkundenavn, jobnavn LIMIT 50"       
-    
+            
+                strSQL = strSQL & strSQLSogKri
+                strSQL = strSQL &" GROUP BY j.id ORDER BY kkundenavn, jobnavn LIMIT "& lmt     
+                
+              
                 'if lto = "essens" then
                 'response.write "<option>"& strSQL &"</option>"
                 'response.flush 
                 'end if
+
+                if (jobkundesog = "-1") then 'kunde job sog DD
+                    strJobogKunderTxt = strJobogKunderTxt & "<option value=""-1"" SELECTED>Vælg job:</option>"
+                end if   
                            
 
                 c = 0
@@ -106,23 +121,50 @@
         
                 if lastKid <> oRec("kid") then
                 
-                    if c <> 0 then
-                    strJobogKunderTxt = strJobogKunderTxt &"<br>"
-                    end if            
+                    if jobkundesog <> "-1" then 'kunde job sog DD
+                        if c <> 0 then
+                        strJobogKunderTxt = strJobogKunderTxt &"<br>"
+                        end if            
+                        strJobogKunderTxt = strJobogKunderTxt &"<b><u>"& oRec("kkundenavn") &" "& oRec("kkundenr") &"</b></u><br>"
+        
+                    else
 
-                strJobogKunderTxt = strJobogKunderTxt &"<b><u>"& oRec("kkundenavn") &" "& oRec("kkundenr") &"</b></u><br>"
+                        'if c <> 0 then
+                        'strJobogKunderTxt = strJobogKunderTxt & "<option DISABLED></option>"
+                        'end if
+
+                        strJobogKunderTxt = strJobogKunderTxt & "<option DISABLED>"& left(oRec("kkundenavn"), 20) & "</option>"
+
+                    end if
+                
                 end if 
                  
-                strJobogKunderTxt = strJobogKunderTxt & "<li class=""span_job"" id=""chbox_job_"& oRec("jid") &"""><input type=""hidden"" id=""hiddn_job_"& oRec("jid") &""" value="""& oRec("jobnavn") & " ("& oRec("jobnr") &")"">"
-                strJobogKunderTxt = strJobogKunderTxt & "<input type=""hidden"" id=""hiddn_jid_"& oRec("jid") &""" value="& oRec("jid") &"> "& oRec("jobnavn") & " ("& oRec("jobnr") &")" &"</li>" 
-                
+
+                     if jobkundesog <> "-1" then 'kunde job sog DD
+                        strJobogKunderTxt = strJobogKunderTxt & "<li class=""span_job"" id=""chbox_job_"& oRec("jid") &"""><input type=""hidden"" id=""hiddn_job_"& oRec("jid") &""" value="""& oRec("jobnavn") & " ("& oRec("jobnr") &")"">"
+                        strJobogKunderTxt = strJobogKunderTxt & "<input type=""hidden"" id=""hiddn_jid_"& oRec("jid") &""" value="& oRec("jid") &"> "& oRec("jobnavn") & " ("& oRec("jobnr") &")" &"</li>" 
+                     else
+    
+                        strJobogKunderTxt = strJobogKunderTxt & "<option value="& oRec("jid") &">"& oRec("jobnavn") & " ("& oRec("jobnr") &")" &"</option>"
+                     end if            
+
+
                 lastKid = oRec("kid") 
                 c = c + 1
                 oRec.movenext
                 wend
                 oRec.close
 
-               strJobogKunderTxt = strJobogKunderTxt &"</ul>"
+
+                 if jobkundesog <> "-1" then 'kunde job sog DD
+    
+                    if lastKid = 0 then
+                    strJobogKunderTxt = strJobogKunderTxt & "<option value=""-1"" DISABLED>Ingen kunder/job fundet</option>"
+                    end if
+
+                 else
+                    strJobogKunderTxt = strJobogKunderTxt &"</ul>"
+                 end if
 
 
                     '*** ÆØÅ **'
@@ -231,14 +273,34 @@
             
                  
     
-                strAktTxt = strAktTxt &"<span style=""color:red; font-size:9px; float:right;"" class=""luk_aktsog"">[X]</span>"    
-
-                strAktTxt = strAktTxt &"<ul>"
+                
                          
                'pa = 0 '***ÆNDRES til variable
                'if cint(pa) = 1 then
                'strSQL= "SELECT a.id AS aid, navn AS aktnavn FROM timereg_usejob LEFT JOIN aktiviteter AS a ON (a.id = tu.aktid) "_
                '&" WHERE tu.medarb = "& medid &" AND tu.jobid = "& jobid &" AND aktid <> 0 AND a.navn LIKE '%"& aktsog &"%' AND aktstatus = 1 AND ("& replace(aty_sql_realhours, "tfaktim", "a.fakturerbar") &") AND ("& aty_sql_hide_on_treg &") ORDER BY navn LIMIT 20"   
+
+                    
+                    '** Select eller søgeboks
+                    call mobil_week_reg_dd_fn()
+                    
+                    
+                    if cint(mobil_week_reg_akt_dd) <> 1 then 'AND aktsog <> "-1" 
+
+                    strAktTxt = strAktTxt &"<span style=""color:red; font-size:9px; float:right;"" class=""luk_aktsog"">[X]</span><ul>"    
+                    strSQlAktSog = "AND navn LIKE '%"& aktsog &"%'"
+                    
+                    else
+                    strSQlAktSog = ""
+
+                            '** Forvalgt 1 aktivitet
+                            if cint(mobil_week_reg_akt_dd_forvalgt) <> 1 AND cint(mobil_week_reg_akt_dd) = 1 then
+                            strAktTxt = strAktTxt & "<option value=""-1"">Vælg aktivitet..</option>" 
+                            end if
+
+                    end if
+
+
 
 
                if cint(pa) = 1 then '**Kun på Personlig aktliste
@@ -249,13 +311,13 @@
 
                    strSQL = "SELECT a.id AS aid, navn AS aktnavn "_
                    &" FROM timereg_usejob AS tu LEFT JOIN aktiviteter AS a ON (a.id = tu.aktid) "_
-                   &" WHERE tu.medarb = "& medid &" AND tu.jobid = "& jobid &" AND aktid <> 0 AND a.navn LIKE '%"& aktsog &"%' AND aktstatus = 1 AND ("& replace(aty_sql_realhours, "tfaktim", "a.fakturerbar") &") AND ("& aty_sql_hide_on_treg &") "& forecastAktids &" ORDER BY navn LIMIT 20"   
+                   &" WHERE tu.medarb = "& medid &" AND tu.jobid = "& jobid &" AND aktid <> 0 "& strSQlAktSog &" AND aktstatus = 1 AND ("& replace(aty_sql_realhours, "tfaktim", "a.fakturerbar") &") AND ("& aty_sql_hide_on_treg &") "& forecastAktids &" ORDER BY sortorder, navn LIMIT 150"   
 
                    else 
 
                    strSQL = "SELECT a.id AS aid, navn AS aktnavn "_
                    &" FROM timereg_usejob AS tu LEFT JOIN aktiviteter AS a ON (a.job = tu.jobid) "_
-                   &" WHERE tu.medarb = "& medid &" AND tu.jobid = "& jobid &" AND aktid = 0 AND a.navn LIKE '%"& aktsog &"%' AND aktstatus = 1 AND ("& replace(aty_sql_realhours, "tfaktim", "a.fakturerbar") &") AND ("& aty_sql_hide_on_treg &") "& forecastAktids &" ORDER BY navn LIMIT 20" 
+                   &" WHERE tu.medarb = "& medid &" AND tu.jobid = "& jobid &" AND aktid = 0 "& strSQlAktSog &" AND aktstatus = 1 AND ("& replace(aty_sql_realhours, "tfaktim", "a.fakturerbar") &") AND ("& aty_sql_hide_on_treg &") "& forecastAktids &" ORDER BY sortorder, navn LIMIT 150" 
 
                    end if
 
@@ -283,12 +345,14 @@
                         oRec5.close 
 
 
+            
+                   
                
 
 
                strSQL = "SELECT a.id AS aid, navn AS aktnavn, projektgruppe1, projektgruppe2, projektgruppe3, "_
                &" projektgruppe4, projektgruppe5, projektgruppe6, projektgruppe7, projektgruppe8, projektgruppe9, projektgruppe10 FROM aktiviteter AS a "_
-               &" WHERE a.job = " & jobid & " AND a.job <> 0 AND navn LIKE '%"& aktsog &"%' AND aktstatus = 1 AND ("& replace(aty_sql_realhours, "tfaktim", "a.fakturerbar") &") AND ("& aty_sql_hide_on_treg &") ORDER BY navn LIMIT 20"      
+               &" WHERE a.job = " & jobid & " AND a.job <> 0 "& strSQlAktSog &" AND aktstatus = 1 AND ("& replace(aty_sql_realhours, "tfaktim", "a.fakturerbar") &") AND ("& aty_sql_hide_on_treg &") ORDER BY sortorder, navn LIMIT 150"      
     
 
               
@@ -304,7 +368,7 @@
                 'response.end
             
 
-
+                afundet = 0
                 oRec.open strSQL, oConn, 3
                 while not oRec.EOF
 
@@ -364,23 +428,43 @@
 
                 end if
                  
-    
-                if optionFcDis <> "DISABLED" then
-                    strAktTxt = strAktTxt & "<li class=""span_akt"" id=""span_akt_"& oRec("aid") &"""><input type=""hidden"" id=""hiddn_akt_"& oRec("aid") &""" value="""& oRec("aktnavn") &""">" 
-                    strAktTxt = strAktTxt & ""& oRec("aktnavn") &" "& fcsaldo_txt &"</li>" 
-                else
-                    strAktTxt = strAktTxt & "<li style=""background-color:#CCCCCC; color:#999999;"">"& oRec("aktnavn") &" "& fcsaldo_txt &"</li>" 
-                end if
 
                 
+                if cint(mobil_week_reg_akt_dd) <> 1 then
+
+                    if optionFcDis <> "DISABLED" then
+                        strAktTxt = strAktTxt & "<li class=""span_akt"" id=""span_akt_"& oRec("aid") &"""><input type=""hidden"" id=""hiddn_akt_"& oRec("aid") &""" value="""& oRec("aktnavn") &""">" 
+                        strAktTxt = strAktTxt & ""& oRec("aktnavn") &" "& fcsaldo_txt &"</li>" 
+                    else
+                        strAktTxt = strAktTxt & "<li style=""background-color:#CCCCCC; color:#999999;"">"& oRec("aktnavn") &" "& fcsaldo_txt &"</li>" 
+                    end if
+
+                else
+
+                    strAktTxt = strAktTxt & "<option value="& oRec("aid") &" "& optionFcDis &">"& oRec("aktnavn") &" "& fcsaldo_txt &"</option>"
+
+                end if            
+
+
                 end if
                 
+
+                afundet = afundet + 1
                 oRec.movenext
                 wend
                 oRec.close
 
               
-                strAktTxt = strAktTxt &"</ul>"        
+                if cint(mobil_week_reg_akt_dd) <> 1 then
+                strAktTxt = strAktTxt &"</ul>"  
+                else
+    
+                    if afundet = 0 then
+                    strAktTxt = strAktTxt & "<option value=""-1"" DISABLED>Ingen aktiviteter fundet</option>" 
+                    end if 
+
+    
+                end if      
 
 
                     '*** ÆØÅ **'
@@ -501,8 +585,8 @@
     %>
 
 
-
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html> 
+<!--<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">-->
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 
@@ -541,6 +625,12 @@
 
     call meStamdata(session("mid"))
 
+
+     '** Select eller søgeboks
+    call mobil_week_reg_dd_fn()
+    'mobil_week_reg_job_dd = mobil_week_reg_job_dd
+    'mobil_week_reg_akt_dd = 1
+    'mobil_week_reg_akt_dd = mobil_week_reg_akt_dd    
 
     call positiv_aktivering_akt_fn()
      '*** Vis kun aktiviteter med forecast på
@@ -594,7 +684,7 @@
 <link href="css/style.css" rel="stylesheet" type="text/css" />
 
 
-    
+  
   <link href="../inc/jquery/jquery-ui-1.7.1.custom.css" rel="stylesheet" type="text/css" />
 	<script src="../inc/jquery/jquery-1.3.2.min.js" type="text/javascript"></script>
 	<script src="../inc/jquery/jquery-ui-1.7.1.custom.min.js" type="text/javascript"></script>
@@ -604,6 +694,9 @@
 	<script src="../inc/jquery/jquery.scrollTo-1.4.2-min.js" type="text/javascript"></script>
     <script src="../inc/jquery/jquery.timer.js" type="text/javascript"></script>
     <script src="../inc/jquery/jquery.corner.js" type="text/javascript"></script>
+     
+
+     
 
 
 <script type="text/javascript">
@@ -621,7 +714,7 @@
 
 
 
-<script src="js/timetag_web_jav.js" type="text/javascript"></script>
+<script src="js/timetag_web_jav_2016.js" type="text/javascript"></script>
 <script src="js/less.js" type="text/javascript"></script>
 </head>
 <body>
@@ -649,26 +742,52 @@
         <input type="hidden" id="FM_medid_k" name="FM_medid_k" value="<%=session("mid") %>"/>
 
 
-          <%select case lto 'mulighed for VÆLG DATO 
-        case "plan", "outz", "intranet - local"%> 
-        <input type="text" style="width:300px;" name="FM_datoer" id="jq_dato" value="<%=day(now) &"/"& month(now) &"/"& year(now) %>" placeholder="dd-mm-yyyy" />
-        <%case else%>
-        <input type="hidden" id="Hidden1" name="FM_datoer" value="<%=day(now) &"/"& month(now) &"/"& year(now) %>"/>
+          <%
+        
+                 if day(now) < 10 then
+              todayDay = "0"& day(now)
+              else
+              todayDay = day(now)
+              end if
+              
+              if month(now) < 10 then
+              todayMonth = "0"& month(now)
+              else
+              todayMonth = month(now)
+              end if
+           
+              todayYear = year(now)      
+              
+        select case lto 'mulighed for VÆLG DATO 
+        case "xplan", "xoutz", "xintranet - local", "hestia"
+              %> <input type="hidden" id="jq_dato" name="FM_datoer" value="<%=todayDay &"-"& todayMonth &"-"& todayYear%>"/><%
+        case else
+
+           
+              
+
+        %> 
+        <input type="text" name="FM_datoer" id="jq_dato" value="<%=todayDay &"-"& todayMonth &"-"& todayYear%>" /> <!-- placeholder="dd-mm-yyyy" -->
+        
+       
         <%end select %>
        
 
 
 
 
-        <input type="text" id="FM_job" name="FM_job" value="Kunde/job"/>
+      
         <input type="hidden" id="tomobjid" name="tomobjid" value="<%=tomobjid %>"/>
         <input type="hidden" id="showstop" name="showstop" value="<%=showStop %>"/>
         <input type="hidden" id="" name="FM_vistimereltid" value="<%=showStop %>"/>
         <input type="hidden" id="varTjDatoUS_man" name="varTjDatoUS_man" value="<%=varTjDatoUS_man_tt %>"/>
 
+        <input type="hidden" id="mobil_week_reg_akt_dd" name="" value="<%=mobil_week_reg_akt_dd %>"/>
+        <input type="hidden" id="mobil_week_reg_job_dd" name="" value="<%=mobil_week_reg_job_dd %>"/>
+
 
          <!-- Forecast max felter -->
-        <input type="text" id="aktnotificer_fc" name="" value="0"/>
+        <input type="hidden" id="aktnotificer_fc" name="" value="0"/>
         <input type="hidden" id="akt_maksbudget_treg" value="<%=akt_maksbudget_treg%>">  
         <input type="hidden" id="akt_maksforecast_treg" value="<%=akt_maksforecast_treg%>">
         <input type="hidden" id="aktBudgettjkOn_afgr" value="<%=aktBudgettjkOn_afgr%>">
@@ -677,12 +796,31 @@
         <input type="hidden" id="regskabsaarUseMd" value="<%=datepart("m", varTjDatoUS_man_tt, 2,2)%>">     
        
        
-
+        <%if cint(mobil_week_reg_job_dd) = 1 then %>
+        <input type="hidden" id="FM_job" value="-1"/>
+       
+        <select id="dv_job" name="FM_jobid" class="lt_font_size">
+            <option value="-1">Vælg..</option>
+            <!--<option value="0">..</option>-->
+        </select>
+        <%else %>
+        <input type="text" id="FM_job" name="FM_job" value="" placeholder="Kunde/job"/>
         <input type="hidden" id="FM_jobid" name="FM_jobid" value="0"/>
         <div id="dv_job" class="dv-closed"></div> <!-- dv_job -->
-        <input type="text" id="FM_akt" name="activity" value="Aktivitet"/>
+        <%end if%>
+
+        <%if cint(mobil_week_reg_akt_dd) = 1 then %>
+        <input type="hidden" id="FM_akt" value="-1"/>
+        <!--<textarea id="dv_akt_test"></textarea>-->
+        <select id="dv_akt" name="FM_aktivitetid" class="lt_font_size"> <!-- DISABLED -->
+            <option>..</option>
+        </select>
+
+         <%else %>
+        <input type="text" id="FM_akt" name="activity" value="" placeholder="Aktivitet"/>
         <input type="hidden" id="FM_aktid" name="FM_aktivitetid" value="0"/>
         <div id="dv_akt" class="dv-closed"></div> <!-- dv_akt -->
+        <%end if %>
 
 
         <%if cint(showStop) = 1 then%>
@@ -695,13 +833,13 @@
            
            <td style="padding:2px 5px 12px 5px; width:85px;" >
              = <span id="FM_timerlbl" style="color:#999999; font-size:18px; width:65px;">0</span>
-             <input type="hidden" id="FM_timer" name="FM_timer" value="0" style="color:#cccccc; width:65px;"/></td></tr></table>
+             <input type="hidden" id="FM_timer" name="FM_timer" value="" placeholder="0" style="color:#cccccc; width:65px;"/></td></tr></table>
         </div>      
             
         <%else %>
           <input type="hidden" id="FM_sttid" name="FM_sttid" value="00:00"/>
           <input type="hidden" id="FM_sltid" name="FM_sltid" value="00:00"/>
-         <input type="text" id="FM_timer" name="FM_timer" value="Antal timer"/><!-- brug type number for numerisk tastatur -->
+         <input type="number" id="FM_timer" name="FM_timer" value="" placeholder="0"/><!-- brug type number for numerisk tastatur -->
         <% end if%>
         
        
@@ -740,7 +878,7 @@
         <input type="hidden" id="Hidden3" name="FM_matid" value="0"/>
         -->
         
-        <br /><br />
+        <br />
         <%if cint(showAfslutJob) = 1 then %>
         <span><input type="checkbox" value="2" name="FM_lukjobstatus" id="FM_lukjobstatus" /> Job er afsluttet</span> 
         <%end if %>
@@ -761,7 +899,7 @@
 
             if cint(showStop) = 1 then
 
-             timerIdagTxt = "<table cellpadding=0 cellspacing=0 border=0 width=100% >"
+             timerIdagTxt = "<table cellpadding=0 cellspacing=0 border=0 width=""100%"">"
 
              timerIdagTxt = timerIdagTxt & "<tr><td colspan=4><b>Timer i dag:</b></td></tr>"
            
@@ -795,7 +933,7 @@
             timerIdagTxt = timerIdagTxt & "</table>"
 
             %> 
-            <div id="dv_timeridag" style="font-size:12px; width:100%; text-align:left; border:0px; color:#999999; white-space:nowrap;">
+            <div id="dv_timeridag" style="font-size:12px; float:right; width:200px; text-align:left; border:0px; color:#999999; white-space:nowrap;">
                 <%=timerIdagTxt %>
             </div>
             <%
@@ -822,7 +960,7 @@
             timerIdag = formatnumber(timerIdag, 2)
 
             %>
-            <div id="dv_timeridag" style="font-size:32px; width:100%; text-align:right; border:0px; color:#999999;"><span style="font-size:12px; line-height:13px; vertical-align:baseline; color:#999999;"><%=meNavn %><br />Timer i dag:<br /></span> <a href="../to_2015/ugeseddel_2011.asp?usemrn=<%=session("mid")%>&varTjDatoUS_man=<%=varTjDatoUS_man_tt %>"><%=timerIdag%></a> </div>
+            <div id="dv_timeridag" style="width:200px; float:right; text-align:right; border:0px; color:#999999;"><span style="font-size:12px; line-height:13px; vertical-align:baseline; color:#999999;"><%=meNavn &" d. "& formatdatetime(now, 2)  %>:<br /></span> <a href="../to_2015/ugeseddel_2011.asp?usemrn=<%=session("mid")%>&varTjDatoUS_man=<%=varTjDatoUS_man_tt %>" style="font-size:32px;"><%=timerIdag%></a> </div>
             <%
 
             end if

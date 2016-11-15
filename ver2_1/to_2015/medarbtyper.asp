@@ -590,6 +590,15 @@ case "dbopr", "dbred"
 				end if
                 
 
+                '** Fra dato ved opdater timepriser ***'
+                fraDato = request("FM_opdatertpfra") 
+                if isDate(fraDato) = false then
+                fraDato = year(now) &"/"& month(now) & "/"& day(now)
+                else
+                fraDato = year(fraDato) &"/"& month(fraDato) & "/"& day(fraDato) 
+                end if
+
+
                 strSQLm = "SELECT m.mid, m.mnr, mth.mtypedato, mth.id, mth.mtype FROM medarbejdere AS m "_
                 &" LEFT JOIN medarbejdertyper_historik AS mth ON (mth.mid = m.mid AND mth.mtype = m.medarbejdertype) WHERE m.medarbejdertype = "& id
 
@@ -599,15 +608,93 @@ case "dbopr", "dbred"
                 oRec.open strSQLm, oConn, 3
                 While Not oRec.EOF 
                         
-                        if IsNull(oRec("mtypedato")) = true then
-                        fromDt = "2000-1-1"
-                        else
-                        fromDt = year(oRec("mtypedato")) &"/"& month(oRec("mtypedato")) &"/"& day(oRec("mtypedato"))
-                        end if
+                       
 
 
-                         '*** Opdater åbnejob med internkostpris **'
-		                if len(trim(request("FM_opd_intern"))) <> 0 then
+                            
+                                '*****************************************************************************************************************
+                                '************** Opdater eksisterende timer på aåbne på denne medarb.type 
+                                '*****************************************************************************************************************
+
+                                        if request("FM_opdater_timepriser") = "1" then
+
+                                           
+
+
+                                            '** Finder alle åbne job
+                                            '** Finder tilhørende Aktiviteter KUN DEM DER IKKE ER SAT TIL FAST TP
+                                            strSQLjob = "SELECT j.id AS jobid, j.jobnr, a.id AS aktid FROM job AS j "_
+                                            &" LEFT JOIN aktiviteter AS a ON (a.job = j.id AND fakturerbar = 1 AND brug_fasttp = 0) WHERE jobstatus = 1 AND a.id IS NOT NULL"
+                                            oRec5.open strSQLjob, oConn, 3
+                                            while not oRec5.EOF  
+
+                                     
+                                            '** Finder valgt_tp_alt fra timepriser
+                                            call alttimepris(oRec5("aktid"), oRec5("jobid"), oRec("mid"), 1)
+
+                                            if foundone = "n" then
+                                                call alttimepris(0, oRec5("jobid"), oRec("mid"), 1)
+                                            end if
+
+                                           
+
+                                            '** Valgte TP og kurs 
+                                            'fasttp_val = tp0_valuta
+                                            select case alttp_timeprisAlt
+                                            case 1
+                                            intTimepris = strTimepris1 
+                                            case 2
+                                            intTimepris = strTimepris2
+                                            case 3
+                                            intTimepris = strTimepris3
+                                            case 4
+                                            intTimepris = strTimepris4
+                                            case 5
+                                            intTimepris = strTimepris5
+                                            case 6
+                                            intTimepris = strTimepris
+                                            case else
+                                            intTimepris = strTimepris
+                                            end select
+
+                                        
+                                            
+										    intTimepris = replace(intTimepris, ",", ".")
+                                     
+
+			                                        strSQLtp = "UPDATE timer SET timepris = "& intTimepris &", valuta = "& intValuta &", kurs = "& alttp_valutaKurs &""_
+			                                        &" WHERE tdato >= '"& fraDato &"' AND tmnr = "& oRec("mid") &" AND taktivitetid = "& oRec5("aktid") & " AND tjobnr = '"& oRec5("jobnr") &"'"
+					                  
+                                                    'Response.flush
+                                                    'Response.write strSQLtp & "<br>"
+
+					                                oConn.execute(strSQLtp)
+                                                    
+                                                    'Response.end
+
+
+
+                                            oRec5.movenext
+                                            wend
+                                            oRec5.close
+
+
+                                        end if
+
+
+                       
+
+                        '*****************************************************************************************************************
+                         '*** Opdater åbne job med internkostpris **'
+		                '*****************************************************************************************************************
+                         if len(trim(request("FM_opd_intern"))) <> 0 then
+
+
+                            if IsNull(oRec("mtypedato")) = true then
+                            fromDt = "2000-1-1"
+                            else
+                            fromDt = year(oRec("mtypedato")) &"/"& month(oRec("mtypedato")) &"/"& day(oRec("mtypedato"))
+                            end if
 
                             '*** Ignorer projektgruppe rel, da hvis medarbejderen har været med på jobbet, 
                             '****må det være via sin projektgruppe
@@ -654,8 +741,14 @@ case "dbopr", "dbred"
 
                         end if
 
+
+
+
+
+                        '*****************************************************************************************************************
                             '*** Opdaterer stamaktiviteter med de nye priser ****'
                             '*** kun hvis det er tilvalgt på den specifikekgruppe '****
+                        '*****************************************************************************************************************
 
                             if len(trim(request("FM_opd_stamgrp"))) <> 0 then
                             opd_stamgrp = 1
@@ -742,8 +835,12 @@ case "dbopr", "dbred"
                 wend
                 oRec.close
 
-                
+
+
+                '*****************************************************************************************************************
                 '**** Opdater hovedgruppe på medarbejderlinier
+                '*****************************************************************************************************************
+
                                 if len(trim(request("FM_gruppe_opr"))) <> 0 then
                                 oprHovedgruppe = request("FM_gruppe_opr")
                                 else 
@@ -759,17 +856,20 @@ case "dbopr", "dbred"
                 'Response.write strSQlmed
                                 
                 oConn.execute(strSQlmed)
+
+
+
+
               
                 '**********************************************************************'
                 '*** Opdatrerer målsætninger på medarbejdertype **********************
+                '**********************************************************************
 
                 if func = "dbopr" then
                 id = lastId
                 end if
 
-                'response.write "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;..........................................."& request("FM_fomr_mal")
-                'response.flush
-
+               
 
                 fomr_mal_arr = split(request("FM_fomr_mal"), ", ##,")
                 fomr_mal_arr_id = split(request("FM_fomr_mal_fomrid"), ", ")   
@@ -791,6 +891,9 @@ case "dbopr", "dbred"
                     end if
 
                 next
+                
+                                
+                '** Ved tjek SQL                
                 'Response.end
 				
                 
@@ -801,6 +904,10 @@ case "dbopr", "dbred"
 				end if 'validering
 			end if 'validering
 		end if 'validering
+
+
+
+
 	
 	case "opret", "red"
 	'*** Her indlæses form til rediger/oprettelse af ny type ***
@@ -1001,7 +1108,7 @@ case "dbopr", "dbred"
                            
                             <div class="row">
                                 <div class="col-lg-1">&nbsp</div>
-                                <div class="col-lg-2">TimePris (Alt. Timepris 1:):</div>
+                                <div class="col-lg-2"><b>TimePris:</b><br /> (Alt. Timepris 1)</div>
                                 <div class="col-lg-2"><input type="text" class="form-control input-small" name="FM_timepris" value="<%=strTimepris%>"></div>
                                 <div class="col-lg-2"> <%call valutaKoder(0, tp0_valuta, 1) %></div>
                             </div>
@@ -1009,7 +1116,7 @@ case "dbopr", "dbred"
 
                             <div class="row">
                                 <div class="col-lg-1 pad-t10">&nbsp</div>
-                                <div class="col-lg-2 pad-t10"><h6>Alt. Timepris</h6></div>
+                                <div class="col-lg-2 pad-t10">Alt. Timepriser</div>
                             </div>
                             <!--
                             <div class="row">
@@ -1064,16 +1171,32 @@ case "dbopr", "dbred"
                                 </div>
                             </div>
 
+                             <%if func = "red" then 
+                                 
+                                 useDate = formatdatetime(now,2)%>
+                                <div class="row">
+                                    <div class="col-lg-1">&nbsp</div>
+                                    <div class="col-lg-7"><br /><br />
+                                        <b>Opdater eksisterende timepriser:</b><br />
+                                        <input id="Checkbox1" type="checkbox" name="FM_opdater_timepriser" value="1" />&nbsp Opdater timepriser, for denne medarb.type på:<br />
+                                        - alle fakturerbare aktiviteter der IKKE er sat til Fastpris. <br />
+                                        - alle eksisterende <u>åbne</u> job<br />Fra d. <input type="text" name="FM_opdatertpfra" value="<%=useDate %>" style="font-size:9px; width:60px;" /> til dd.
+                                        (også lukkede uger og hvis der foreligger faktura)
+                                    </div>
+                                </div>
+                           <%end if %>
+
+
                             <div class="row pad-t20">
                                 <div class="col-lg-1">&nbsp</div>
-                                <div class="col-lg-2">Intern kostpris:</div>
+                                <div class="col-lg-2"><b>Intern kostpris:</b></div>
                                 <div class="col-lg-2"><input type="text" class="form-control input-small" name="FM_kostpris" value="<%=dubKostpris%>"></div>
                                 <div class="col-lg-1"><%=basisValISO %></div>
                             </div>
 
                             <div class="row pad-t20">
                                 <div class="col-lg-1">&nbsp</div>
-                                <div class="col-lg-4"><h6>Angiv kostpris tariffer</h6><!--tariffer der kan bruges som tillæg til kostpris på specielle aktiviteter, aften og nat aktiviteter mm.---></div>
+                                <div class="col-lg-4">Angiv kostpris tariffer<!--tariffer der kan bruges som tillæg til kostpris på specielle aktiviteter, aften og nat aktiviteter mm.---></div>
                             </div>
                             <div class="row">
                                 <div class="col-lg-1">&nbsp</div>
@@ -1136,9 +1259,9 @@ case "dbopr", "dbred"
                                 <div class="col-lg-3">
                                     <select name="FM_soster" id="FM_soster" class="form-control input-small"> 
                                         <%  if cint(sostergp) = 0 then
-                                            mttypSEL = "SELECTED"
+                                        mttypSEL = "SELECTED"
                                         else
-                                         mttypSEL = ""
+                                        mttypSEL = ""
                                         end if  %>
 
                                         <option value="0" <%=mttypSEL  %>>Nej</option>
@@ -1254,7 +1377,7 @@ case "dbopr", "dbred"
                                  <div class="col-lg-2">
                            
                                        
-                                       <h6>Afslut uge/dag kriterie</h6>
+                                       Afslut uge/dag kriterie
 		                 
 		                  
                                 </div>

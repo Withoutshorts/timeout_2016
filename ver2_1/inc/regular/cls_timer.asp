@@ -10,7 +10,9 @@ public totTimerWeek
     
 function timerDenneUge(usemrn, lto, varTjDatoUS_man, aty_sql_typer, dothis, SmiWeekOrMonth)
 
-     'Response.Write "DOTHIS: " & dothis & "<br>"
+     totTimerWeek = 0
+     
+     'Response.Write "DOTHIS: " & dothis & " SmiWeekOrMonth: "& SmiWeekOrMonth &"<br>"
 
      if len(trim(SmiWeekOrMonth)) <> 0 then
      SmiWeekOrMonth = SmiWeekOrMonth
@@ -58,13 +60,14 @@ function timerDenneUge(usemrn, lto, varTjDatoUS_man, aty_sql_typer, dothis, SmiW
 
            
             tjkTimerTotDato = dateAdd("d", x-1, varTjDatoUS_man)
+            thisDayOffWeek = datePart("w", tjkTimerTotDato, 2,2)
             tjkTimerTotDato = year(tjkTimerTotDato) &"/"& month(tjkTimerTotDato) &"/"& day(tjkTimerTotDato)
 
             select case lto
             case "dencker", "intranet - local", "epi", "epi_no", "epi_ab", "epi_sta", "epi_catitest"
-            timGrpBy = "tknr"
+            timGrpBy = "tknr, tmnr"
             case else
-            timGrpBy = "tjobnr"
+            timGrpBy = "tjobnr, tmnr"
             end select
 
             strSQLtim = "SELECT ROUND(SUM(timer),2) AS sumtimer, tjobnr, tjobnavn, Tknavn FROM timer WHERE ("& aty_sql_typer &") AND tdato = '"& tjkTimerTotDato &"' AND tmnr = "& usemrn & " GROUP BY "& timGrpBy
@@ -85,7 +88,7 @@ function timerDenneUge(usemrn, lto, varTjDatoUS_man, aty_sql_typer, dothis, SmiW
                 if timGrpBy = "tknr" then
 
 
-                select case x
+                select case cint(thisDayOffWeek) 'x
                 case 1
                 manTimer = manTimer/1 + oRec3("sumtimer")/1
                 manTxt = manTxt & "<br>"& left(oRec3("Tknavn"), 10) &": "& oRec3("sumtimer")
@@ -112,7 +115,7 @@ function timerDenneUge(usemrn, lto, varTjDatoUS_man, aty_sql_typer, dothis, SmiW
 
                 else
 
-                select case x
+                select case cint(thisDayOffWeek) 'x
                 case 1
                 manTimer = manTimer/1 + oRec3("sumtimer")/1
                 manTxt = manTxt & "<br><b>"& left(oRec3("Tknavn"), 10) &"</b><br>"& left(oRec3("tjobnavn"), 8) & ": "& oRec3("sumtimer")
@@ -413,15 +416,16 @@ end function
 
 '*** Finder evt. alternativ timepris på medarbejder ****
 '*** Hvis der ikke findes alternative timepriser bruges default ****
-public intTimepris, foundone, intValuta, valutaISO
+public intTimepris, foundone, intValuta, valutaISO, alttp_valutaKurs, alttp_timeprisAlt
 function alttimepris(useaktid, intjobid, strMnr, upd) 
                             
                             intTimepris = 0
 							timeprisAlt = 0
+                            alttp_timeprisAlt = 0
 							foundone = "n"
 							strSQL = "SELECT id AS tpid, jobid, aktid, medarbid, timeprisalt, 6timepris, 6valuta FROM timepriser WHERE jobid = "& intjobid &" AND aktid = "& useaktid &" AND medarbid =  "& strMnr
 							'Response.Write strSQL & "<br>"
-                            'Response.end	
+                            'Response.flush	
 						    oRec2.open strSQL, oConn, 3 
 							if not oRec2.EOF then
 							        
@@ -431,6 +435,8 @@ function alttimepris(useaktid, intjobid, strMnr, upd)
 									tpid = oRec2("tpid")
 									timeprisAlt = oRec2("timeprisalt")
 									
+                                    alttp_timeprisAlt = timeprisAlt
+
 									if cdbl(intTimepris) = 0 AND cint(timeprisAlt) <> 6 then
 									
 							
@@ -457,7 +463,8 @@ function alttimepris(useaktid, intjobid, strMnr, upd)
 							            end select
 							            
 							            
-							        strSQL3 = "SELECT mid, "&timeprisalernativ&" AS useTimepris, "& valutaAlt &" AS useValuta, medarbejdertype FROM medarbejdere, medarbejdertyper WHERE mid =" & strMnr & " AND medarbejdertyper.id = medarbejdertype"
+							        strSQL3 = "SELECT mid, "&timeprisalernativ&" AS useTimepris, "& valutaAlt &" AS useValuta, medarbejdertype FROM medarbejdere "_
+                                    &" LEFT JOIN medarbejdertyper ON (medarbejdertyper.id = medarbejdertype) WHERE mid =" & strMnr
 									
 									'Response.Write strSQL3
 									'Response.flush
@@ -480,10 +487,11 @@ function alttimepris(useaktid, intjobid, strMnr, upd)
 									
 									end if
 									
-									strSQLval = "SELECT valutakode FROM valutaer WHERE id = " & intValuta
+									strSQLval = "SELECT valutakode, kurs AS valutaKurs FROM valutaer WHERE id = " & intValuta
 									oRec3.open strSQLval, oConn, 3 
 									if not oRec3.EOF then
 									valutaISO = oRec3("valutakode")
+                                    alttp_valutaKurs = oRec3("valutaKurs")
 									end if
 									oRec3.close
 									

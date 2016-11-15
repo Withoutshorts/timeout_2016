@@ -1530,7 +1530,7 @@ slutDatoKriSQL = strAar_slut &"/"& strMrd_slut &"/"& strDag_slut
 	&" Tknavn, Tmnr, Tmnavn, Timer, Tid, Tfaktim, TimePris, Timerkom, Tknr, t.kurs, "_
 	&" sttid, sltid, a.faktor, godkendtstatus, godkendtstatusaf, kkundenr, kkundenavn, t.timerkom, "_
 	&" m.mnr, m.init, mnavn, m.mid, a.id AS aid, a.sortorder, v.valutakode, t.valuta, k.kid, t.kostpris, m.mcpr, "_
-	&" a.fase, a.antalstk, a.aktbudgetsum, a.bgr, a.aktbudget, t.editor "_
+	&" a.fase, a.antalstk, a.aktbudgetsum, a.bgr, a.aktbudget, t.editor, a.avarenr "_
 	&" FROM timer t "_
 	&" LEFT JOIN aktiviteter a ON (a.id = TAktivitetId)"_
     &" LEFT JOIN kunder k ON (k.kid = Tknr)"_
@@ -1986,7 +1986,25 @@ slutDatoKriSQL = strAar_slut &"/"& strMrd_slut &"/"& strDag_slut
                             select case ver 
                             case 1 
                             
-                            ekspTxt = ekspTxt & formatdatetime(oRec("tdato"), 2) &";"& oRec("tjobnavn") &" "& oRec("anavn") &" "& oRec("tmnavn") &";"& year(oRec("tdato"))&month(oRec("tdato"))&day(oRec("tdato")) &";3224;kontonavnet;"
+                            if isNull(oRec("avarenr")) <> true AND len(trim(oRec("avarenr"))) > 5 AND instr(oRec("avarenr"), "M") <> 0 AND lto = "bf" then
+
+                            kontoTxt = trim(oRec("avarenr"))
+                            kontonrLen = len(kontoTxt)
+                            kontonrM = instr(kontoTxt, "M") 
+                            kontonrLeft = mid(kontoTxt, 2, kontonrM-2)
+                            kontonrRight = mid(kontoTxt, kontonrM+1, kontonrLen)
+
+                            else
+
+                            kontonrLeft = oRec("avarenr")
+                            kontonrRight = 0
+
+                            end if
+
+                            call meStamdata(oRec("tmnr"))
+                            bilagsnr = "" 'year(oRec("tdato"))&month(oRec("tdato"))&day(oRec("tdato")) 
+
+                            ekspTxt = ekspTxt & formatdatetime(oRec("tdato"), 2) &";"& oRec("tjobnavn") &" ["& meInit &"];"& bilagsnr &";"& kontonrLeft &";"& oRec("anavn") &";"
                                 
                             case else
 
@@ -2239,7 +2257,8 @@ slutDatoKriSQL = strAar_slut &"/"& strMrd_slut &"/"& strDag_slut
                                   frakurs = oRec("kurs")
 	                              call beregnValuta(belob,frakurs,100)
 
-                                  ekspTxt = ekspTxt & formatnumber(valBelobBeregnet, 2) &";;modkonto;"
+                                  ekspTxt = ekspTxt & formatnumber(valBelobBeregnet, 2) &";;"& kontonrRight &";"
+                                  
                                   else '*BF local currency
 
                                   belob = formatnumber(oRec("timer") * oRec("timepris"), 2)
@@ -2249,11 +2268,11 @@ slutDatoKriSQL = strAar_slut &"/"& strMrd_slut &"/"& strDag_slut
                                   case "bf"
                                   frakurs = oRec("kurs")
 
-                                  if cdbl(frakurs) <> cdbl(tilkurs) then 'ONLY IF NOT IN LOCAL CUR
-                                  call beregnValuta(belob,frakurs,tilkurs)
-                                  else
+                                  'if cdbl(frakurs) <> cdbl(tilkurs) then 'ONLY IF NOT IN LOCAL CUR
+                                  'call beregnValuta(belob,frakurs,tilkurs)
+                                  'else
                                   valBelobBeregnet = belob
-                                  end if
+                                  'end if
 
                                   case else
                                   valBelobBeregnet = belob
@@ -2261,7 +2280,7 @@ slutDatoKriSQL = strAar_slut &"/"& strMrd_slut &"/"& strDag_slut
 
 	                              
 
-	                              ekspTxt = ekspTxt & formatnumber(valBelobBeregnet, 2) &";;modkonto;"
+	                              ekspTxt = ekspTxt & formatnumber(valBelobBeregnet, 2) &";;"& kontonrRight &";"
                                   
                                   end if
 

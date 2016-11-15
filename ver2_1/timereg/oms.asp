@@ -550,7 +550,7 @@ if len(session("user")) = 0 then
     if cint(visprkunde) = 1 then
         
 
-        redim fordeltPrkundeIds(20), fordeltPrkundeNames(20)
+        redim fordeltPrkundeIds(50), fordeltPrkundeNames(50)
         if cint(kundeid) = 0 then 'top 20 kunder, faktureret / eller timeomsætning
 
                 

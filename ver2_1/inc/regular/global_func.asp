@@ -394,18 +394,40 @@ function timerround_fn()
 end function
 
 
-public smiley_agg, hidesmileyicon
+public mobil_week_reg_job_dd, mobil_week_reg_akt_dd, mobil_week_reg_akt_dd_forvalgt
+function mobil_week_reg_dd_fn()
+    
+    timerround = 0
+	strSQL6 = "SELECT mobil_week_reg_job_dd, mobil_week_reg_akt_dd, mobil_week_reg_akt_dd_forvalgt FROM licens l WHERE id = 1"
+	oRec6.open strSQL6, oConn, 3
+	If not oRec6.EOF then
+	
+	mobil_week_reg_akt_dd = oRec6("mobil_week_reg_akt_dd")
+    mobil_week_reg_job_dd = oRec6("mobil_week_reg_job_dd")
+    mobil_week_reg_akt_dd_forvalgt = oRec6("mobil_week_reg_akt_dd_forvalgt")
+  
+	
+	end if
+    oRec6.close
+
+end function
+
+      
+
+
+public smiley_agg, hidesmileyicon, smiley_agg_lukhard
 function smiley_agg_fn()
     
     smiley_agg = 0
     hidesmileyicon = 0
 
-	strSQL6 = "SELECT smileyaggressiv, hidesmileyicon FROM licens l WHERE id = 1"
+	strSQL6 = "SELECT smileyaggressiv, hidesmileyicon, smiley_agg_lukhard FROM licens l WHERE id = 1"
 	oRec6.open strSQL6, oConn, 3
 	If not oRec6.EOF then
 	
 	smiley_agg = oRec6("smileyaggressiv")
     hidesmileyicon = oRec6("hidesmileyicon")
+    smiley_agg_lukhard = oRec6("smiley_agg_lukhard")
 	
 	end if
     oRec6.close
@@ -801,11 +823,11 @@ function ersmileyaktiv()
 	end if
 	oRec.close 
 
-    if lto = "dencker" AND session("mid") = 21 then
-    smilaktiv = 1
-    else
-    smilaktiv = 0
-    end if
+    'if lto = "dencker" AND (session("mid") = 31 OR session("mid") = 21 OR session("mid") = 75 OR session("mid") = 76) then
+    'smilaktiv = 1
+    'else
+    'smilaktiv = smilaktiv
+    'end if
 	
 	
 	

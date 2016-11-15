@@ -31,7 +31,7 @@ end if
 varErrorText = "<b>Sessionen er udløbet og du er blevet logget af TimeOut.</b><br><br>"_
 &"Sessionen udløber ud hvis TimeOut har været passiv i mere end <b>12 timer</b>, "_
 &"eller TimeOut serveren har nulstillet dagens aktive sessioner, af sikkerheds- og -performance mæssige hensyn."_
-&"<br><br>Klik her:  <a href='https://outzource.dk/"&thislto&"' target='_top'>https://outzource.dk/"&thislto&"</a> for at logge ind i jeres system igen."_
+&"<br><br>Klik her:  <a href='https://timeout.cloud/"&thislto&"' target='_top'>https://timeout.cloud/"&thislto&"</a> for at logge ind i jeres system igen."_
 &"<br /><br />"_
 &"Med venlig hilsen<br /><br />OutZourCE dev. team."
 case 6
@@ -754,7 +754,7 @@ case 177
 varErrorText = "Forretningsområde er obligatorisk, og der er ikke valgt noget forretningsområde"
 
 case 178
-varErrorText = "Der kan ikke indtastes diæter / rejsedage på dage hvos der er registreret mere end "& traveldietexp_maxhours &" timer på dagen."
+varErrorText = "Der kan ikke indtastes diæter / rejsedage på dage hvorpå der er registreret mere end "& traveldietexp_maxhours &" timer på dagen."
 
 case else
 varErrorText = errortype

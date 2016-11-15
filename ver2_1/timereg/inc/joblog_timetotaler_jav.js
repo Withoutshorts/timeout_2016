@@ -118,6 +118,14 @@
 
 	    //});
 
+	    //Overfører samlet nomr i periode til GT
+	    vis_normtimer = $("#vis_normtimer").val()
+
+	    if (vis_normtimer == "1") {
+	        medabNormtimerGT = $("#jq_normtot").val()
+	        //alert(medabNormtimerGT)
+	    $("#sp_normtot").html('n: ' + medabNormtimerGT)
+	    }
 
 	    if ($("#directexp").is(':checked') == false) {
 	        $("#csv_pivot0").attr('checked', true);

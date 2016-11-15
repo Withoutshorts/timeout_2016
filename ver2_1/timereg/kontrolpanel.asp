@@ -207,8 +207,8 @@ if len(session("user")) = 0 then
 			autogktimer = 0
 			end if
 			
-			if request("budgetakt") <> 0 then
-			budgetakt = 1
+			if len(trim(request("budgetakt"))) <> 0 then
+			budgetakt = request("budgetakt")
 			else
 			budgetakt = 0
 			end if 
@@ -887,6 +887,14 @@ if len(session("user")) = 0 then
             smileyAggressiv = 0
             end if
 
+            if len(trim(request("FM_smiley_agg_lukhard"))) <> 0 then
+            smiley_agg_lukhard = 1
+            else
+            smiley_agg_lukhard = 0
+            end if
+
+                           
+
             if len(trim(request("FM_hidesmileyicon"))) <> 0 then
             hidesmileyicon = 1
             else
@@ -924,7 +932,34 @@ if len(session("user")) = 0 then
             showupload = 0
             end if
 
-            
+
+              if len(trim(request("FM_week_showbase_norm_kommegaa"))) <> 0 then
+              week_showbase_norm_kommegaa = 1
+              else
+              week_showbase_norm_kommegaa = 0
+              end if
+
+              if len(trim(request("FM_mobil_week_reg_job_dd"))) <> 0 then
+              mobil_week_reg_job_dd = 1
+              else
+              mobil_week_reg_job_dd = 0
+              end if
+
+              if len(trim(request("FM_mobil_week_reg_akt_dd"))) <> 0 then
+              mobil_week_reg_akt_dd = 1
+              else
+              mobil_week_reg_akt_dd = 0
+              end if
+
+              if len(trim(request("FM_mobil_week_reg_akt_dd_forvalgt"))) <> 0 then
+              mobil_week_reg_akt_dd_forvalgt = 1
+              else
+              mobil_week_reg_akt_dd_forvalgt = 0
+              end if
+          
+
+       
+     
             if len(trim(request("bdgmtypon"))) <> 0 then
             bdgmtypon = 1
             else
@@ -1092,7 +1127,10 @@ if len(session("user")) = 0 then
             &" visAktlinjerSimpel_medarbtimepriser = "& visAktlinjerSimpel_medarbtimepriser &", visAktlinjerSimpel_medarbrealtimer = "& visAktlinjerSimpel_medarbrealtimer &", "_
             &" visAktlinjerSimpel_akttype = "& visAktlinjerSimpel_akttype &", timesimon = "& timesimon &", timesimh1h2 = "& timesimh1h2 & ", "_
             &" timesimtp = "& timesimtp &", budgetakt = " & budgetakt &", akt_maksforecast_treg = "& akt_maksforecast_treg &", "_
-            &" traveldietexp_on = "& traveldietexp_on &", traveldietexp_maxhours = "& traveldietexp_maxhours & ", medarbtypligmedarb = " & medarbtypligmedarb &", pa_aktlist = " & pa_aktlist
+            &" traveldietexp_on = "& traveldietexp_on &", traveldietexp_maxhours = "& traveldietexp_maxhours & ", "_
+            &" medarbtypligmedarb = " & medarbtypligmedarb &", pa_aktlist = " & pa_aktlist & ", "_
+            &" smiley_agg_lukhard = " & smiley_agg_lukhard & ","_
+            &" week_showbase_norm_kommegaa = "& week_showbase_norm_kommegaa &", mobil_week_reg_job_dd = "& mobil_week_reg_job_dd &", mobil_week_reg_akt_dd = " & mobil_week_reg_akt_dd & ", mobil_week_reg_akt_dd_forvalgt = " & mobil_week_reg_akt_dd_forvalgt
 			
 			
 			strSQL = strSQL & strSQLat & " WHERE id = 1"
@@ -1100,6 +1138,7 @@ if len(session("user")) = 0 then
 			'Response.Write strSQL
 			'Response.Flush
 			
+
 			oConn.execute(strSQL)
 			
 			Response.redirect "kontrolpanel.asp?menu=tok&func=exchopd"
@@ -1242,7 +1281,7 @@ if len(session("user")) = 0 then
         &" SmiWeekOrMonth, SmiantaldageCount, SmiantaldageCountClock, SmiTeamlederCount, hidesmileyicon, visAktlinjerSimpel, fomr_mandatory, akt_maksbudget_treg, minimumslageremail, fomr_account, "_
         &" visAktlinjerSimpel_datoer, visAktlinjerSimpel_timebudget, visAktlinjerSimpel_realtimer, visAktlinjerSimpel_restimer, "_
         &" visAktlinjerSimpel_medarbtimepriser, visAktlinjerSimpel_medarbrealtimer, visAktlinjerSimpel_akttype, timesimon, timesimh1h2, timesimtp, budgetakt, akt_maksforecast_treg, "_
-        &" traveldietexp_on, traveldietexp_maxhours, medarbtypligmedarb, pa_aktlist "_
+        &" traveldietexp_on, traveldietexp_maxhours, medarbtypligmedarb, pa_aktlist, smiley_agg_lukhard, week_showbase_norm_kommegaa, mobil_week_reg_job_dd, mobil_week_reg_akt_dd, mobil_week_reg_akt_dd_forvalgt "_
 	    &" FROM licens WHERE id = 1"
 		
 		'Response.Write strSQL
@@ -1467,6 +1506,13 @@ if len(session("user")) = 0 then
 
             medarbtypligmedarb = oRec("medarbtypligmedarb")
 
+            smiley_agg_lukhard = oRec("smiley_agg_lukhard")
+
+            week_showbase_norm_kommegaa = oRec("week_showbase_norm_kommegaa")
+            mobil_week_reg_job_dd = oRec("mobil_week_reg_job_dd")
+            mobil_week_reg_akt_dd = oRec("mobil_week_reg_akt_dd") 
+            mobil_week_reg_akt_dd_forvalgt = oRec("mobil_week_reg_akt_dd_forvalgt")
+
 		end if
 		oRec.close 
 
@@ -1640,19 +1686,27 @@ if len(session("user")) = 0 then
 
             <tr>
             <td style="padding:15px; border-top:1px #5582d2 dashed;">
-            <h3>Budget på aktivitetslinjer (job oprettelse)</h3>
+            <h3>Konto på budget på aktivitetslinjer og salgsomkostninger (job oprettelse)</h3>
            
-          <%if cint(budgetakt) = 0 then
+          <%select case cint(budgetakt)
+          case 0
           budgetAktCHK0 = "CHECKED"
           budgetAktCHK1 = ""
-          else
+          budgetAktCHK2 = ""
+          case 1
           budgetAktCHK0 = ""
           budgetAktCHK1 = "CHECKED"
-          end if
+          budgetAktCHK2 = ""
+          case 2
+          budgetAktCHK0 = ""
+          budgetAktCHK1 = ""
+          budgetAktCHK2 = "CHECKED"
+          end select
           %>
 
-           <input type="radio" name="budgetAkt" value="0" <%=budgetAktCHK0 %> /> Vis mulighed for at angive budget pr. aktivitet som Stk. (Produktion)<br />
-            <input type="radio" name="budgetAkt" value="1" <%=budgetAktCHK1 %> /> Vis kontonr. pr. aktivitet (Prof. services / NAV integration)
+           <input type="radio" name="budgetAkt" value="0" <%=budgetAktCHK0 %> /> Vis mulighed for at angive budget pr. aktivitet som Stk. / ingen konto på salgsomkostninger (Produktion)<br />
+            <input type="radio" name="budgetAkt" value="1" <%=budgetAktCHK1 %> /> Vis kontonr. pr. aktivitet og salgsomk. - dropdown kontoplan (Prof. services / NAV integration)<br />
+              <input type="radio" name="budgetAkt" value="2" <%=budgetAktCHK2 %> /> Vis kontonr. pr. aktivitet og salgsomk. - åbent textfelt. (dynamisk kontoplan)  
              </td>
             </tr>
 
@@ -1696,9 +1750,9 @@ if len(session("user")) = 0 then
 
                <tr>
             <td style="padding:15px; border-top:1px #5582d2 dashed;">
-            <h3>Aktivitet = Kontonr</h3>
-            Standrardindstillingen er at der kan knyttes en kontonr. til et forretningsområde. (under forretningsområder i administrationen) <br />
-            Herunder kan det vælges at det bliver muligt at tilknyttet et kontonummer pr. aktivitet (sættes i stam-aktivitets skabelonen) <br /><br />
+            <h3>Kontonr. følger forrretningsområde eller sæt Kontonr på aktivitet</h3>
+            Standard indstillingen er at der kan knyttes en konto til et forretningsområde. (under forretningsområder i administrationen) <br />
+            Herunder kan det vælges at det bliver muligt at tilknytte et kontonummer pr. aktivitet (sættes i stam-aktivitets skabelonen) <br /><br />
 
            
           <%if cint(fomr_account) = 1 then
@@ -1815,6 +1869,61 @@ if len(session("user")) = 0 then
            <input type="checkbox" name="showupload" value="1" <%=showuploadCHK %> /> Vis upload / importer timer via excel ark. fra timereg. siden.
           </td>
             </tr>
+
+          <tr>
+            <td style="padding:15px; border-top:1px #5582d2 dashed;">
+            <h3>Benyt Komme/gå som basiskriterie</h3>
+           
+          <%if cint(week_showbase_norm_kommegaa) = 1 then
+          week_showbase_norm_kommegaaCHK = "CHECKED"
+          else
+          week_showbase_norm_kommegaaCHK = ""
+          end if
+          %>
+
+            <input type="checkbox" name="FM_week_showbase_norm_kommegaa" value="1" <%=week_showbase_norm_kommegaaCHK %> />  Benyt Komme/gå som basiskriterie for udregning af % afsluttet pr. dag. <br />
+                Vises på ugeseddel, Smiley afslut kriterie mm.
+          </td>
+            </tr>
+
+          <tr>
+            <td style="padding:15px; border-top:1px #5582d2 dashed;">
+            <h3>Mobil, Ugeseddel indstilling for dropdown/select felter</h3>
+           
+               
+          <%if cint(mobil_week_reg_job_dd) = 1 then
+          mobil_week_reg_job_ddCHK = "CHECKED"
+          else
+          mobil_week_reg_job_ddCHK = ""
+          end if
+          %>
+
+         <%if cint(mobil_week_reg_akt_dd) = 1 then
+          mobil_week_reg_akt_ddCHK = "CHECKED"
+          else
+          mobil_week_reg_akt_ddCHK = ""
+          end if
+          %>
+
+          <%if cint(mobil_week_reg_akt_dd_forvalgt) = 1 then
+          mobil_week_reg_akt_dd_forvalgtCHK = "CHECKED"
+          else
+          mobil_week_reg_akt_dd_forvalgtCHK = ""
+          end if
+          %>
+
+         
+
+           <input type="checkbox" name="FM_mobil_week_reg_job_dd" value="1" <%=mobil_week_reg_job_ddCHK %> />  Vis job søgefelt som dropdown<br />
+            <input type="checkbox" name="FM_mobil_week_reg_akt_dd" value="1" <%=mobil_week_reg_akt_ddCHK %> />  Vis aktivitet søgefelt som dropdown<br />
+            <input type="checkbox" name="FM_mobil_week_reg_akt_dd_forvalgt" value="1" <%=mobil_week_reg_akt_dd_forvalgtCHK %> />  1. Aktivitet forvalgt i dropdown<br />
+             
+            <input type="checkbox" name="FM_mobil_week_reg_dato" value="1" <%=mobil_week_reg_datoCHK %> DISABLED />  Vis datovælger<br />
+            <input type="checkbox" name="FM_mobil_week_reg_mat" value="1" <%=mobil_week_reg_matCHK %> DISABLED />  Vis materiale/udlægs reg.<br />
+          </td>
+            </tr>
+
+
             
                  <tr>
             <td style="padding:15px; border-top:1px #5582d2 dashed;">
@@ -2122,9 +2231,17 @@ if len(session("user")) = 0 then
                     else
                     smileyAggressivChk = ""
                     end if %>
+
+                     <%if cint(smiley_agg_lukhard) = 1 then
+                    smiley_agg_lukhardChk = "CHECKED"
+                    else
+                    smiley_agg_lukhardChk = ""
+                    end if %>
             <input type="checkbox" name="FM_smileyAggressiv" id="Checkbox2" value="1" <%=smileyAggressivChk%>> <b>Vis smiley aggressiv</b> (altid åben) / diskret (lukket) på timreg. siden
+            <br />
+            <input type="checkbox" name="FM_smiley_agg_lukhard" id="Checkbox2" value="1" <%=smiley_agg_lukhardChk%>> <b>Hård</b> luk for registrering for medarbejder hvis peridoer ikke afsluttet.
             <br /><br />
-                   Hvis "smiley aggressiv" er tilvalgt.<br />
+                
                      - Timereg. siden bliver lukket hvis der er mere end 3 uafsluttede uger. (ved afslut på ugebasis)<br />
                      - Timereg. siden bliver lukket hvis der er mere end 6 uafsluttede måneder. (ved afslut på månedsbasis)<br />
                      - Timereg. & komme/ gå bliver lukket hvis der er mere end 1 uafsluttet dag. (ved afslut daglit)<br />
@@ -2182,7 +2299,7 @@ if len(session("user")) = 0 then
                     end if %>
                 
                     <input type="checkbox" name="FM_autogktimer" id="Checkbox1" value="1" <%=autogktimerChk%>>
-                    <b>Godkend automatisk timer når medarbejder godkender uge via smiley.</b>
+                    <b>Godkend automatisk timer når medarbejder afslutter uge/måned/dag via smiley.</b>
                     <%
                     if func = "exchopd" then
                     Response.write "&nbsp;&nbsp;<font color=red><b>Opdateret!</b></font>"
@@ -2190,7 +2307,7 @@ if len(session("user")) = 0 then
                     %>
                     <br>
                     Denne funktion gør at medarbejdere
-                    automatisk godkender deres egne timer når de lukker deres uge via Smiley ordningen.
+                    automatisk godkender deres egne timer når de afslutter deres uge/måned/dag via Smiley ordningen.
                    
                    </TD>
                    </tr>

@@ -562,12 +562,443 @@ if len(session("user")) = 0 then
 	<table width=100% cellpadding=0 cellspacing=0 border=0>
 	<form method="post" id="joblist_filter" action="webblik_joblisten.asp?FM_usedatokri=1&nomenu=<%=nomenu %>">
 	<tr>
-	<td valign=top>
+	<td valign=top style="width:400px;">
 	
 
         <!--<textarea id="test"></textarea>-->
 	
 	<% 
+
+          if len(request("FM_sorter")) <> 0 then
+		sorter = request("FM_sorter")
+		        select case sorter
+		        case 1
+		        orderBY = "risiko"
+		        case 2
+		        orderBY = "jobstartdato"
+                case 3
+                orderBY = "kkundenavn, jobnavn, jobnr"
+                case 31
+                orderBY = "kkundenavn, risiko"
+		        case 4 
+                orderBY = "jobnavn, jobnr"
+                case 5 
+                orderBY = "jobnr"
+                case 6 
+                orderBY = "jobnr DESC"
+                case 7,8 
+                orderBY =  "risiko" 'orderBY = "kkundenavn, jobnavn, jobnr"                
+                case else
+		        orderBY = "jobslutdato"
+		        end select
+		else
+		    if request.cookies("webblik")("prioitet") <> "" then
+		    sorter = request.cookies("webblik")("prioitet")
+		        select case sorter
+		        case 1
+		        orderBY = "risiko"
+		        case 2
+		        orderBY = "jobstartdato"
+                case 3
+                orderBY = "kkundenavn, jobnavn, jobnr"
+                case 31
+                orderBY = "kkundenavn, risiko"
+		        case 4 
+                orderBY = "jobnavn, jobnr"
+                case 5 
+                orderBY = "jobnr"              
+		        case 6 
+                orderBY = "jobnr DESC"
+                case 7,8 
+                orderBY =  "risiko" '"""kkundenavn, jobnavn, jobnr"        
+                case else
+		        orderBY = "jobslutdato"
+		        end select
+		    else
+		    sorter = 0
+		    orderBY = "jobslutdato"
+		    end if
+		    
+		    
+		end if 
+		
+		
+		response.cookies("webblik")("prioitet") = sorter
+		
+		
+		stCHK0 = ""
+		stCHK1 = ""
+		stCHK2 = ""
+        stCHK3 = ""
+        stCHK31 = ""
+        stCHK4 = ""
+		stCHK5 = ""
+        stCHK6 = ""
+        stCHK7 = ""
+        'stCHK8 = ""
+
+        'prioTxt8 = "Projektgruppe (eksl. ''Alle-gruppen'')"
+        prioTxt7 = "Projektgruppe - Priroitet (drag'n drop mode)"
+        prioTxt6 = "Jobnr (stigende)"
+        prioTxt5 = "Jobnr (faldende)"
+		prioTxt4 = "Jobnavn"
+        prioTxt3 = "Kunde"
+		prioTxt31 = "Kunde - Priroitet (drag'n drop mode)"
+        prioTxt2 = "Periode - Startdato"
+		prioTxt0 = "Periode - Slutdato" 
+		prioTxt1 = "Priroitet" 
+		
+		
+		select case cint(sorter)
+		case 1
+	    stCHK1 = "SELECTED"
+		vlgPrioTxt = prioTxt1
+		
+		case 2
+		
+		stCHK2 = "SELECTED"
+		vlgPrioTxt = prioTxt2
+	    
+        case 3
+	    stCHK3 = "SELECTED"
+		vlgPrioTxt = prioTxt3
+
+         case 31
+	    stCHK31 = "SELECTED"
+		vlgPrioTxt = prioTxt31
+
+        case 4
+		stCHK4 = "SELECTED"
+		vlgPrioTxt = prioTxt4
+		
+        case 5
+		stCHK5 = "SELECTED"
+		vlgPrioTxt = prioTxt5
+
+        case 6
+		stCHK6 = "SELECTED"
+		vlgPrioTxt = prioTxt6
+
+         case 7
+		stCHK7 = "SELECTED"
+		vlgPrioTxt = prioTxt7
+
+           case 8
+		stCHK8 = "SELECTED"
+		vlgPrioTxt = prioTxt8
+
+		case else
+		stCHK0 = "SELECTED"
+	    vlgPrioTxt = prioTxt0
+		
+		end select
+
+
+
+            if len(request("FM_start_aar")) <> 0 then
+
+               if len(request("FM_status0")) <> 0 then
+	        stat0 = 1
+	        stCHK0 = "CHECKED"
+	        else
+	        stat0 = 0
+	        stCHK0 = ""
+	        end if
+	        
+	        if len(request("FM_status1")) <> 0 then
+	        stat1 = 1
+	        stCHK1 = "CHECKED"
+	        else
+	        stat1 = 0
+	        stCHK1 = ""
+	        end if
+	        
+	        if len(request("FM_status2")) <> 0 then
+	        stat2 = 1
+	        stCHK2 = "CHECKED"
+	        else
+	        stat2 = 0
+	        stCHK2 = ""
+	        end if
+	        
+
+            if len(request("FM_status3")) <> 0 then
+	        stat3 = 1
+	        stCHK3 = "CHECKED"
+	        else
+	        stat3 = 0
+	        stCHK3 = ""
+	        end if
+
+
+             if len(request("FM_status4")) <> 0 then
+	        stat4 = 1
+	        stCHK4 = "CHECKED"
+	        else
+	        stat4 = 0
+	        stCHK4 = ""
+	        end if
+	   
+	    else
+	        
+
+             if request.cookies("webblik")("status0") <> "" then
+	                
+	                stat0 = request.cookies("webblik")("status0")
+	                if cint(stat0) = 1 then
+	                stCHK0 = "CHECKED"
+	                else
+	                stCHK0 = ""
+	                end if
+	                
+	        else
+	        stat0 = 0
+	        stCHK0 = ""
+	        end if
+
+
+	        if request.cookies("webblik")("status1") <> "" then
+	                
+	                stat1 = request.cookies("webblik")("status1")
+	                if cint(stat1) = 1 then
+	                stCHK1 = "CHECKED"
+	                else
+	                stCHK1 = ""
+	                end if
+	                
+	        else
+	        stat1 = 0
+	        stCHK1 = ""
+	        end if
+	        
+	        if request.cookies("webblik")("status2") <> "" then
+	                
+	                stat2 = request.cookies("webblik")("status2")
+	                if cint(stat2) = 1 then
+	                stCHK2 = "CHECKED"
+	                else
+	                stCHK2 = ""
+	                end if
+	                
+	       
+	        else
+	        stat2 = 0
+	        stCHK2 = ""
+	        end if
+
+            if request.cookies("webblik")("status3") <> "" then
+	                
+	                stat3 = request.cookies("webblik")("status3")
+	                if cint(stat3) = 1 then
+	                stCHK3 = "CHECKED"
+	                else
+	                stCHK3 = ""
+	                end if
+	                
+	       
+	        else
+	            if lto = "epi" OR lto = "epi_no" OR lto = "epi_sta" OR lto = "epi_ab" then
+                stat3 = 1
+	            stCHK3 = "CHECKED"
+                else
+                stat3 = 0
+	            stCHK3 = ""
+                end if
+	        end if
+	        
+
+
+             if request.cookies("webblik")("status4") <> "" then
+	                
+	                stat4 = request.cookies("webblik")("status4")
+	                if cint(stat4) = 1 then
+	                stCHK4 = "CHECKED"
+	                else
+	                stCHK4 = ""
+	                end if
+	                
+	        else
+	        stat4 = 0
+	        stCHK4 = ""
+	        end if
+
+	    end if
+	    
+        response.cookies("webblik")("status0") = stat0
+	    response.cookies("webblik")("status1") = stat1
+	    response.cookies("webblik")("status2") = stat2
+	    response.cookies("webblik")("status3") = stat3
+	    response.cookies("webblik")("status4") = stat4
+
+
+
+        '** Skulte job **'
+               if len(request("st_sl_dato")) <> 0 then
+   
+               if request("visskjulte") <> 0 then
+               visskjulte = 1
+               CHKskj = "CHECKED"
+               else
+               visskjulte = 0
+               CHKskj = ""
+               end if
+    
+                if request("visKunFastpris") <> 0 then
+               visKunFastpris = 1
+               visKunFastprisCHK = "CHECKED"
+               else
+               visKunFastpris = 0
+               visKunFastprisCHK = ""
+               end if
+    
+
+               if request("skjulnuljob") <> 0 then
+               skjulnuljob = 1
+               skjulnuljobCHK = "CHECKED"
+               else
+               skjulnuljob = 0
+               skjulnuljobCHK = ""
+               end if
+
+                if len(trim(request("visKunGT"))) <> 0 then
+                 visKunGT = 1
+                   visKunGTCHK = "CHECKED"
+                   else
+                   visKunGT = 0
+                   visKunGTCHK = ""
+                   end if
+    
+                   if len(trim(request("visSimpel"))) <> 0 then
+                   visSimpel = request("visSimpel")
+
+                   visSimpelCHK0 = ""
+                   visSimpelCHK1 = ""
+                   visSimpelCHK2 = "" 
+
+                   select case visSimpel
+                   case 0
+                   visSimpelCHK0 = "CHECKED"
+                   case 1
+                   visSimpelCHK1 = "CHECKED"
+                   case 2
+                   visSimpelCHK2 = "CHECKED"
+                   case else
+                   visSimpelCHK1 = "CHECKED"
+                   end select 
+
+                   else
+                    visSimpel = 1
+                    visSimpelCHK1 = "CHECKED"
+                   end if
+
+      
+                   if len(trim(request("visKol_jobTweet"))) <> 0 then
+                   visKol_jobTweet = request("visKol_jobTweet")
+                   visKol_jobTweet_CHK = "CHECKED"
+                   else
+                   visKol_jobTweet = 0
+                   visKol_jobTweet_CHK = ""
+                   end if
+
+    
+
+
+               else
+   
+   
+                    if request.cookies("webblik")("visskj") <> "1" then
+                    visskjulte = 0
+                    CHKskj = ""
+                    else
+                    visskjulte = 1
+                    CHKskj = "CHECKED"
+                    end if
+
+                   if request.cookies("webblik")("viskunfs") <> "1" then
+                   visKunFastpris = 0
+                   visKunFastprisCHK = ""
+                   else
+                   visKunFastpris = 1
+                   visKunFastprisCHK = "CHECKED"
+                   end if
+
+      
+                   skjulnuljob = 0
+                   skjulnuljobCHK = ""
+     
+
+                     if request.cookies("webblik")("viskungt") <> "1" then
+                   visKunGT = 0
+                   visKunGTCHK = ""
+                   else
+                   visKunGT = 1
+                   visKunGTCHK = "CHECKED"
+                   end if
+
+
+
+                   if request.cookies("webblik")("visSimpel") <> "" then
+       
+                   visSimpel = request.cookies("webblik")("visSimpel") 
+
+                   select case visSimpel
+                   case 0
+                   visSimpelCHK0 = "CHECKED"
+                   case 1
+                   visSimpelCHK1 = "CHECKED"
+                   case 2
+                   visSimpelCHK2 = "CHECKED"
+                   case else
+                   visSimpelCHK1 = "CHECKED"
+                   end select 
+       
+                   else
+
+                   select case lto
+                    case "epi", "epi_no, epi_bar", "epi_as"
+                    visSimpel = 2 'udv
+                   visSimpelCHK2 = "CHECKED"
+                   case else
+                   visSimpel = 1 'Standard
+                   visSimpelCHK1 = "CHECKED"
+                   end select
+
+                   end if
+
+
+                   if request.cookies("webblik")("visKol_jobTweet") <> "" then
+
+                   visKol_jobTweet = request.cookies("webblik")("visKol_jobTweet")
+
+                   if cint(visKol_jobTweet) = 1 then
+                   visKol_jobTweet_CHK = "CHECKED"
+                   else
+                   visKol_jobTweet_CHK = ""
+                   end if
+
+                   else
+
+                   select case lto
+                    case "epi", "epi_no, epi_bar", "epi_as"
+                   visKol_jobTweet_CHK = ""
+                   case else
+                    visKol_jobTweet_CHK = "CHECKED"
+                   end select
+
+                   end if
+       
+        
+               end if
+   
+               response.cookies("webblik")("visKol_jobTweet") = visKol_jobTweet
+               response.cookies("webblik")("visSimpel") = visSimpel
+               response.cookies("webblik")("viskungt") = visKunGT
+               response.cookies("webblik")("skjulnuljob") = skjulnuljob
+               response.cookies("webblik")("visskj") = visskjulte
+               response.cookies("webblik")("viskunfs") = visKunFastpris
+
+
+
        
         select case lto 
         case "epi", "epi_no", "epi_sta", "intranet - local", "epi_ab"
@@ -884,7 +1315,7 @@ if len(session("user")) = 0 then
             
             mNavn = "Alle (job / kunde ansv. ignoreret)"
             
-             strSQL = "SELECT mnavn, mnr, mid, init FROM medarbejdere WHERE mansat <> '2' ORDER BY mnavn"
+             strSQL = "SELECT mnavn, mnr, mid, init FROM medarbejdere WHERE mansat = 1 ORDER BY mnavn"
              oRec.open strSQL, oConn, 3
              while not oRec.EOF
                 
@@ -953,8 +1384,12 @@ if len(session("user")) = 0 then
 		<%end if %>
 		
 	<br /><br />
-	<b>Realiserede timer og faktureret beløb:</b>	
-        
+
+    
+    <br /><br /><br /><br />
+	<span id="sp_avanceret_1" style="color:#5582d2;">[+] Avanceret & Præsentation</span>
+    <div class="dv_avanceret_1" style="visibility:hidden; display:none;">
+    <br /><b>Realiserede timer og faktureret beløb:</b>	
 
            <%select case lto 
         case "epi", "epi_no", "epi_ab", "epi_sta", "intranet - local"
@@ -1000,7 +1435,7 @@ if len(session("user")) = 0 then
 	<%end if%>
 		<br /> &nbsp; 
 	
-	
+	</div>
 	</td>
 	
 	<td valign=top style="padding-left:20px;"><b>Periode:</b><br />
@@ -1023,7 +1458,7 @@ if len(session("user")) = 0 then
 		
 		<br /><br />
     <%if print <> "j" then %>
-	<div style="position:relative; left:20px; background-color:#F7F7F7; padding:20px;">
+	<div style="position:relative; left:0px; background-color:#F7F7F7; padding:20px;">
 	<%end if %>
         <b>Periode filter.</b><br />
         Vis kun job med følgende kriterie opfyldt:<br /><br />
@@ -1055,6 +1490,9 @@ if len(session("user")) = 0 then
         </div>
         <%end if %>
 	
+
+
+        <div class="dv_avanceret_1" style="visibility:hidden; display:none;">
 		<br /><br />
 		<b>Jobstatus, vis:</b><br />
 	
@@ -1065,140 +1503,7 @@ if len(session("user")) = 0 then
 		<%
         		
 	   
-	    if len(request("FM_start_aar")) <> 0 then
-
-               if len(request("FM_status0")) <> 0 then
-	        stat0 = 1
-	        stCHK0 = "CHECKED"
-	        else
-	        stat0 = 0
-	        stCHK0 = ""
-	        end if
-	        
-	        if len(request("FM_status1")) <> 0 then
-	        stat1 = 1
-	        stCHK1 = "CHECKED"
-	        else
-	        stat1 = 0
-	        stCHK1 = ""
-	        end if
-	        
-	        if len(request("FM_status2")) <> 0 then
-	        stat2 = 1
-	        stCHK2 = "CHECKED"
-	        else
-	        stat2 = 0
-	        stCHK2 = ""
-	        end if
-	        
-
-            if len(request("FM_status3")) <> 0 then
-	        stat3 = 1
-	        stCHK3 = "CHECKED"
-	        else
-	        stat3 = 0
-	        stCHK3 = ""
-	        end if
-
-
-             if len(request("FM_status4")) <> 0 then
-	        stat4 = 1
-	        stCHK4 = "CHECKED"
-	        else
-	        stat4 = 0
-	        stCHK4 = ""
-	        end if
-	   
-	    else
-	        
-
-             if request.cookies("webblik")("status0") <> "" then
-	                
-	                stat0 = request.cookies("webblik")("status0")
-	                if cint(stat0) = 1 then
-	                stCHK0 = "CHECKED"
-	                else
-	                stCHK0 = ""
-	                end if
-	                
-	        else
-	        stat0 = 0
-	        stCHK0 = ""
-	        end if
-
-
-	        if request.cookies("webblik")("status1") <> "" then
-	                
-	                stat1 = request.cookies("webblik")("status1")
-	                if cint(stat1) = 1 then
-	                stCHK1 = "CHECKED"
-	                else
-	                stCHK1 = ""
-	                end if
-	                
-	        else
-	        stat1 = 0
-	        stCHK1 = ""
-	        end if
-	        
-	        if request.cookies("webblik")("status2") <> "" then
-	                
-	                stat2 = request.cookies("webblik")("status2")
-	                if cint(stat2) = 1 then
-	                stCHK2 = "CHECKED"
-	                else
-	                stCHK2 = ""
-	                end if
-	                
-	       
-	        else
-	        stat2 = 0
-	        stCHK2 = ""
-	        end if
-
-            if request.cookies("webblik")("status3") <> "" then
-	                
-	                stat3 = request.cookies("webblik")("status3")
-	                if cint(stat3) = 1 then
-	                stCHK3 = "CHECKED"
-	                else
-	                stCHK3 = ""
-	                end if
-	                
-	       
-	        else
-	            if lto = "epi" OR lto = "epi_no" OR lto = "epi_sta" OR lto = "epi_ab" then
-                stat3 = 1
-	            stCHK3 = "CHECKED"
-                else
-                stat3 = 0
-	            stCHK3 = ""
-                end if
-	        end if
-	        
-
-
-             if request.cookies("webblik")("status4") <> "" then
-	                
-	                stat4 = request.cookies("webblik")("status4")
-	                if cint(stat4) = 1 then
-	                stCHK4 = "CHECKED"
-	                else
-	                stCHK4 = ""
-	                end if
-	                
-	        else
-	        stat4 = 0
-	        stCHK4 = ""
-	        end if
-
-	    end if
-	    
-        response.cookies("webblik")("status0") = stat0
-	    response.cookies("webblik")("status1") = stat1
-	    response.cookies("webblik")("status2") = stat2
-	    response.cookies("webblik")("status3") = stat3
-	    response.cookies("webblik")("status4") = stat4
+	
 	    
 	
 	    
@@ -1236,171 +1541,7 @@ if len(session("user")) = 0 then
 	    
 	     <br />
    
-   <% '** Skulte job **'
-   if len(request("st_sl_dato")) <> 0 then
-   
-   if request("visskjulte") <> 0 then
-   visskjulte = 1
-   CHKskj = "CHECKED"
-   else
-   visskjulte = 0
-   CHKskj = ""
-   end if
-    
-    if request("visKunFastpris") <> 0 then
-   visKunFastpris = 1
-   visKunFastprisCHK = "CHECKED"
-   else
-   visKunFastpris = 0
-   visKunFastprisCHK = ""
-   end if
-    
-
-   if request("skjulnuljob") <> 0 then
-   skjulnuljob = 1
-   skjulnuljobCHK = "CHECKED"
-   else
-   skjulnuljob = 0
-   skjulnuljobCHK = ""
-   end if
-
-    if len(trim(request("visKunGT"))) <> 0 then
-     visKunGT = 1
-       visKunGTCHK = "CHECKED"
-       else
-       visKunGT = 0
-       visKunGTCHK = ""
-       end if
-    
-       if len(trim(request("visSimpel"))) <> 0 then
-       visSimpel = request("visSimpel")
-
-       visSimpelCHK0 = ""
-       visSimpelCHK1 = ""
-       visSimpelCHK2 = "" 
-
-       select case visSimpel
-       case 0
-       visSimpelCHK0 = "CHECKED"
-       case 1
-       visSimpelCHK1 = "CHECKED"
-       case 2
-       visSimpelCHK2 = "CHECKED"
-       case else
-       visSimpelCHK1 = "CHECKED"
-       end select 
-
-       else
-        visSimpel = 1
-        visSimpelCHK1 = "CHECKED"
-       end if
-
-      
-       if len(trim(request("visKol_jobTweet"))) <> 0 then
-       visKol_jobTweet = request("visKol_jobTweet")
-       visKol_jobTweet_CHK = "CHECKED"
-       else
-       visKol_jobTweet = 0
-       visKol_jobTweet_CHK = ""
-       end if
-
-    
-
-
-   else
-   
-   
-        if request.cookies("webblik")("visskj") <> "1" then
-        visskjulte = 0
-        CHKskj = ""
-        else
-        visskjulte = 1
-        CHKskj = "CHECKED"
-        end if
-
-       if request.cookies("webblik")("viskunfs") <> "1" then
-       visKunFastpris = 0
-       visKunFastprisCHK = ""
-       else
-       visKunFastpris = 1
-       visKunFastprisCHK = "CHECKED"
-       end if
-
-      
-       skjulnuljob = 0
-       skjulnuljobCHK = ""
-     
-
-         if request.cookies("webblik")("viskungt") <> "1" then
-       visKunGT = 0
-       visKunGTCHK = ""
-       else
-       visKunGT = 1
-       visKunGTCHK = "CHECKED"
-       end if
-
-
-
-       if request.cookies("webblik")("visSimpel") <> "" then
-       
-       visSimpel = request.cookies("webblik")("visSimpel") 
-
-       select case visSimpel
-       case 0
-       visSimpelCHK0 = "CHECKED"
-       case 1
-       visSimpelCHK1 = "CHECKED"
-       case 2
-       visSimpelCHK2 = "CHECKED"
-       case else
-       visSimpelCHK1 = "CHECKED"
-       end select 
-       
-       else
-
-       select case lto
-        case "epi", "epi_no, epi_bar", "epi_as"
-        visSimpel = 2 'udv
-       visSimpelCHK2 = "CHECKED"
-       case else
-       visSimpel = 1 'Standard
-       visSimpelCHK1 = "CHECKED"
-       end select
-
-       end if
-
-
-       if request.cookies("webblik")("visKol_jobTweet") <> "" then
-
-       visKol_jobTweet = request.cookies("webblik")("visKol_jobTweet")
-
-       if cint(visKol_jobTweet) = 1 then
-       visKol_jobTweet_CHK = "CHECKED"
-       else
-       visKol_jobTweet_CHK = ""
-       end if
-
-       else
-
-       select case lto
-        case "epi", "epi_no, epi_bar", "epi_as"
-       visKol_jobTweet_CHK = ""
-       case else
-        visKol_jobTweet_CHK = "CHECKED"
-       end select
-
-       end if
-       
-        
-   end if
-   
-   response.cookies("webblik")("visKol_jobTweet") = visKol_jobTweet
-   response.cookies("webblik")("visSimpel") = visSimpel
-   response.cookies("webblik")("viskungt") = visKunGT
-   response.cookies("webblik")("skjulnuljob") = skjulnuljob
-   response.cookies("webblik")("visskj") = visskjulte
-   response.cookies("webblik")("viskunfs") = visKunFastpris
-    %>
+  
     
     <%if print <> "j" then %>
        <br /> <input id="visskjulte" name="visskjulte" type="checkbox" <%=CHKskj %> value="1" /> Vis også Interne job (prioitet < 0)
@@ -1495,129 +1636,7 @@ if len(session("user")) = 0 then
     <%
 
 
-    if len(request("FM_sorter")) <> 0 then
-		sorter = request("FM_sorter")
-		        select case sorter
-		        case 1
-		        orderBY = "risiko"
-		        case 2
-		        orderBY = "jobstartdato"
-                case 3
-                orderBY = "kkundenavn, jobnavn, jobnr"
-                case 31
-                orderBY = "kkundenavn, risiko"
-		        case 4 
-                orderBY = "jobnavn, jobnr"
-                case 5 
-                orderBY = "jobnr"
-                case 6 
-                orderBY = "jobnr DESC"
-                case 7,8 
-                orderBY =  "risiko" 'orderBY = "kkundenavn, jobnavn, jobnr"                
-                case else
-		        orderBY = "jobslutdato"
-		        end select
-		else
-		    if request.cookies("webblik")("prioitet") <> "" then
-		    sorter = request.cookies("webblik")("prioitet")
-		        select case sorter
-		        case 1
-		        orderBY = "risiko"
-		        case 2
-		        orderBY = "jobstartdato"
-                case 3
-                orderBY = "kkundenavn, jobnavn, jobnr"
-                case 31
-                orderBY = "kkundenavn, risiko"
-		        case 4 
-                orderBY = "jobnavn, jobnr"
-                case 5 
-                orderBY = "jobnr"              
-		        case 6 
-                orderBY = "jobnr DESC"
-                case 7,8 
-                orderBY =  "risiko" '"""kkundenavn, jobnavn, jobnr"        
-                case else
-		        orderBY = "jobslutdato"
-		        end select
-		    else
-		    sorter = 0
-		    orderBY = "jobslutdato"
-		    end if
-		    
-		    
-		end if 
-		
-		
-		response.cookies("webblik")("prioitet") = sorter
-		
-		
-		stCHK0 = ""
-		stCHK1 = ""
-		stCHK2 = ""
-        stCHK3 = ""
-        stCHK31 = ""
-        stCHK4 = ""
-		stCHK5 = ""
-        stCHK6 = ""
-        stCHK7 = ""
-        'stCHK8 = ""
-
-        'prioTxt8 = "Projektgruppe (eksl. ''Alle-gruppen'')"
-        prioTxt7 = "Projektgruppe - Priroitet (drag'n drop mode)"
-        prioTxt6 = "Jobnr (stigende)"
-        prioTxt5 = "Jobnr (faldende)"
-		prioTxt4 = "Jobnavn"
-        prioTxt3 = "Kunde"
-		prioTxt31 = "Kunde - Priroitet (drag'n drop mode)"
-        prioTxt2 = "Periode - Startdato"
-		prioTxt0 = "Periode - Slutdato" 
-		prioTxt1 = "Priroitet" 
-		
-		
-		select case cint(sorter)
-		case 1
-	    stCHK1 = "SELECTED"
-		vlgPrioTxt = prioTxt1
-		
-		case 2
-		
-		stCHK2 = "SELECTED"
-		vlgPrioTxt = prioTxt2
-	    
-        case 3
-	    stCHK3 = "SELECTED"
-		vlgPrioTxt = prioTxt3
-
-         case 31
-	    stCHK31 = "SELECTED"
-		vlgPrioTxt = prioTxt31
-
-        case 4
-		stCHK4 = "SELECTED"
-		vlgPrioTxt = prioTxt4
-		
-        case 5
-		stCHK5 = "SELECTED"
-		vlgPrioTxt = prioTxt5
-
-        case 6
-		stCHK6 = "SELECTED"
-		vlgPrioTxt = prioTxt6
-
-         case 7
-		stCHK7 = "SELECTED"
-		vlgPrioTxt = prioTxt7
-
-           case 8
-		stCHK8 = "SELECTED"
-		vlgPrioTxt = prioTxt8
-
-		case else
-		stCHK0 = "SELECTED"
-	    vlgPrioTxt = prioTxt0
-		
-		end select
+  
 		
 
         if cint(sorter) = 7 then
@@ -1690,10 +1709,15 @@ if len(session("user")) = 0 then
 	    response.cookies("webblik").expires = date + 60
 	    %>
 
+            </div>
+            
     </td>
-	<td valign=bottom>
+    </tr>
+    <tr>
+	<td valign=bottom align="right" colspan="2">
         
 	<%if print <> "j" then%>
+     <br /><br />
 	<input type="submit" value="Vis joblisten >>">
 	<%end if%>
 	</td></tr>

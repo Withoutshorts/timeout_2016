@@ -238,6 +238,10 @@
 						
 				next
 				
+
+                 if cint(vis_normtimer) = 1 then
+                 expTxt = expTxt &"Norm ialt;"
+                 end if
 				
                 expTxt = expTxt &"xx99123sy#z"
 
@@ -578,10 +582,7 @@ sub subTotaler_gt
                         end if
                            
                         
-                       
-
-                       
-
+                     
                         if formatnumber(timerTotSaldoSubGtotal) <> formatnumber(saldoJobSub/1+subtotaljboTimerIalt) then
                         fntCol = "darkred"
                         tSign = "~"

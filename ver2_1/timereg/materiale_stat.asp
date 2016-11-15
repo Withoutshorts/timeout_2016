@@ -2227,7 +2227,7 @@ if len(session("user")) = 0 then
 	
 	<%if print <> "j" then%>
 	
-	<br><br>
+	<br><br><br><br><br><br><br><br>
 	
 	<%if visprjob_ell_sum = 0 then %>
 	<form action="materialer_ordrer.asp?func=opr" method="post" target="_blank"> 

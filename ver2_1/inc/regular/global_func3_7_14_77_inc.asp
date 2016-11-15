@@ -278,7 +278,7 @@
 	        <td style="border-bottom:1px silver solid; border-right:1px silver solid; white-space:nowrap; padding-left:3px; padding-right:3px;" class=lille align=right>
       
              <%if media <> "print" then %>
-            <a href="ugeseddel_2011.asp?usemrn=<%=intMid %>&varTjDatoUS_man=<%=varTjDatoUS_man_use%>&nomenu=1" class=rmenu target="_blank"><%=left(weekdayname(datepart("w", startDato,1,2)), 2) %> d. <%=formatdatetime(startDato, 2) %></a>
+            <a href="../to_2015/ugeseddel_2011.asp?usemrn=<%=intMid %>&varTjDatoUS_man=<%=varTjDatoUS_man_use%>&nomenu=1" class=rmenu target="_blank"><%=left(weekdayname(datepart("w", startDato,1,2)), 2) %> d. <%=formatdatetime(startDato, 2) %></a>
                 <!-- weekpage_2010.asp?medarbid=<%=intMid %>&st_dato=<%=day(varTjDatoUS_man_use)&"/"&month(varTjDatoUS_man_use)&"/"&year(varTjDatoUS_man_use) %>&func=us -->
             <%else %>
             <b><%=left(weekdayname(datepart("w", startDato,1,2)), 2) %> d. <%=formatdatetime(startDato, 2) %></b>
@@ -294,7 +294,7 @@
         if media <> "export" then%>
 	    <td style="border-bottom:1px silver solid; border-right:1px silver solid; white-space:nowrap;" class=lille>
 	         <%if media <> "print" then %>
-	        <a href="ugeseddel_2011.asp?usemrn=<%=intMid %>&varTjDatoUS_man=<%=varTjDatoUS_man_use%>&nomenu=1" class="rmenu" target="_blank"><%=datepart("ww", startDato,2,2) %></a>
+	        <a href="../to_2015/ugeseddel_2011.asp?usemrn=<%=intMid %>&varTjDatoUS_man=<%=varTjDatoUS_man_use%>&nomenu=1" class="rmenu" target="_blank"><%=datepart("ww", startDato,2,2) %></a>
             <!-- weekpage_2010.asp?medarbid=<%=intMid %>&st_dato=<%=day(varTjDatoUS_man_use)&"/"&month(varTjDatoUS_man_use)&"/"&year(varTjDatoUS_man_use) %> -->
 	        <%else %>
 	        <%=datepart("ww", startDato,2,2) %>
@@ -630,7 +630,7 @@
                     
      <%if cint(mtypNoflex) <> 1 then 'noflex %>
 	 
-	 <%
+             <%
 
 
              if lto <> "cst" AND lto <> "tec" AND lto <> "esn" then 
@@ -1609,7 +1609,7 @@
 	                    <%
 	                  
 	        
-	                        if cint(showAfsuge) = 0 then
+	                        if cint(showAfsugeVisAfsluttetpaaGodkendUgesedler) = 0 then
 	                        showAfsugeTxt = "Ja"
 	                        else
 	                        showAfsugeTxt = ""
@@ -1617,6 +1617,7 @@
 	                        
                         if media <> "export" then
                             
+                        
                         if cint(SmiWeekOrMonth) = 0 OR (useSogKriAfs = 1 OR useSogKriGk = 1 OR useSogKri = 1) then%>
 	                    <td class=lille style="border-bottom:1px silver solid; border-right:1px silver solid; white-space:nowrap;" align=center><%=showAfsugeTxt %>&nbsp;</td>
                         <%else
@@ -1632,7 +1633,7 @@
 
                            <%
                            
-                         
+                        '**** KUN Uge eller månedsaflsutnigner kan godkendes. Dags niveau kan ikke godkendes af leder 
                         if level <= 2 OR level = 6 then
 
                            select case ugegodkendt
@@ -1641,14 +1642,14 @@
                                 if media <> "print" then
 
                                     
-                                    if cint(showAfsuge) = 0 then
+                                    if cint(showAfsugeVisAfsluttetpaaGodkendUgesedler) = 0 then
 
-                                    select case lto
-                                    case "tec", "esn"
-                                    gkTxt = "Luk/Afvis"
-                                    case else
-                                    gkTxt = "Godkend/Afvis"
-                                    end select
+                                        select case lto
+                                        case "tec", "esn"
+                                        gkTxt = "Luk/Afvis"
+                                        case else
+                                        gkTxt = "Godkend/Afvis"
+                                        end select
 
                                    
 

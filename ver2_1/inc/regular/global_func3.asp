@@ -533,12 +533,12 @@
 	'****** Medarbejder afstemning og Løn HR listen *****'
 
 
-     if cint(headerwrt) <> 1 then
+    if cint(headerwrt) <> 1 then
 	
     if endp = 0 then 'vis ikke på månedsopdeling
-	strEksportPer = "Periode afgrænsning: "& formatdatetime(stdato, 1) & " - "&  formatdatetime(sldato, 1) & "xx99123sy#z"
+    strEksportPer = "Periode afgrænsning: "& formatdatetime(stdato, 1) & " - "&  formatdatetime(sldato, 1) & "xx99123sy#z"
 	strEksportTxt = strEksportTxt & strEksportPer
-	'strEksportEmailTxt = strEksportEmailTxt & strEksportPer
+    'strEksportEmailTxt = strEksportEmailTxt & strEksportPer
 	end if	
 
 
@@ -552,10 +552,6 @@
 	
 	%>
     <table cellspacing=0 cellpadding=2 border=0><!-- #5C75AA -->
-	
-
-
-
 	 <tr bgcolor="#5582d2">
 	 <td class=alt valign="bottom" style="border-right:1px  #D6DfF5 solid;"><b><%=tsa_txt_147%></b></td>
 	 
@@ -982,7 +978,12 @@
 	 
 	 <td style="width:200px; border-right:1px #D6DfF5 solid; border-bottom:1px #D6DfF5 solid;" class=alt>&nbsp;</td>
 	 
-	 <%strEksportTxtHeader = strEksportTxtHeader & tsa_txt_147 & "; Nr.;Init;" %>
+	 <%
+         if cint(exporttype) = 200 then 'bluegaarden
+         strEksportTxtHeader = strEksportTxtHeader & "Medarb. Nr.;" 
+         else
+         strEksportTxtHeader = strEksportTxtHeader & tsa_txt_147 & ";Medarb. Nr.;Init;" 
+         end if%>
 
          <%   
          if (instr(akttype_sel, "#-5#") <> 0 AND instr(akttype_sel, "#-10#") = 0) then%>
@@ -1067,10 +1068,19 @@
 	
 	 
 	 <%
+     if cint(exporttype) <> 200 then 'bluegaarden
+
          if instr(akttype_sel, "#-20#") = 0 then 
          strEksportTxtHeader = strEksportTxtHeader & tsa_txt_157 &";"& tsa_txt_172 &" "& tsa_txt_179 &";" & tsa_txt_160 & ";" & tsa_txt_161 & ";" & tsa_txt_163 & ";"
          end if
-         strEksportTxtHeader = strEksportTxtHeader & tsa_txt_159 & ";"  %>
+
+         strEksportTxtHeader = strEksportTxtHeader & tsa_txt_159 & ";"
+      
+       else
+
+         strEksportTxtHeader = strEksportTxtHeader & tsa_txt_157 & ";"
+         
+      end if  %>
 	 
 	 <%end if %>
 	 
@@ -1698,9 +1708,10 @@
 	 </tr>
 	 
 	 <%
-	 
+	 if cint(exporttype) <> 200 then 'bluegaarden
      strEksportTxtHeader = strEksportTxtHeader & ";Startdato;Slutdato;"
-       
+     end if
+
      if headerwrtExp = 0 then
 	 strEksportTxt = strEksportTxtHeader & strEksportTxtMd
 	 end if
@@ -1745,9 +1756,16 @@
 
 	  </td>
 	 
-	 <%strEksport(x) = strEksport(x) & medarbNavn(x) &"; "& medarbNr(x) &";"& medarbInit(x) &";"
+	 <%
          
-          if formatnumber(normTimer(x),2) <> 0 then
+     if cint(exporttype) = 200 then 'bluegaarden
+     strEksport(x) = strEksport(x) & medarbNr(x) &";"
+     else    
+     strEksport(x) = strEksport(x) & medarbNavn(x) &"; "& medarbNr(x) &";"& medarbInit(x) &";"
+     end if
+
+
+      if formatnumber(normTimer(x),2) <> 0 then
       normTimerTxt = formatnumber(normTimer(x),2) 
       normTimerTxtExp = normTimerTxt
       else
@@ -1774,7 +1792,7 @@
 	     </td>
          
          <%
-             strEksport(x) = strEksport(x) & normTimerTxtExp &";"& showNormTimerdagTxt & ";"
+          strEksport(x) = strEksport(x) & normTimerTxtExp &";"& showNormTimerdagTxt & ";"
           end if
          
           if (instr(akttype_sel, "#-5#") <> 0 OR instr(akttype_sel, "#-10#") <> 0) AND stempelurOn = 1 then 
@@ -1965,10 +1983,22 @@
 
 	
 	 
-	 <%strEksport(x) = strEksport(x) & realTimerTxtExp &";" & realTimerprUgeTxtExp & ";"& realfTimerTxtExp &";"& realIfTimerTxtExp & ";"& formatnumber(iebal,0) & ";"%>
+	 <%
+        if cint(exporttype) <> 200 then 
+        strEksport(x) = strEksport(x) & realTimerTxtExp &";" & realTimerprUgeTxtExp & ";"& realfTimerTxtExp &";"& realIfTimerTxtExp & ";"& formatnumber(iebal,0) & ";"
+        end if 
+         %>
+	    
 	
-	
-    <%end if %>
+    <%end if 
+        
+         if cint(exporttype) = 200 then 'bluegaarden
+         strEksport(x) = strEksport(x) & realTimerTxtExp &";"
+         end if
+
+        
+        
+         %>
 
 	 
          <% balRealNormBGCOl = ""
@@ -1984,7 +2014,10 @@
 	
 	 
 	  
-	  <%strEksport(x) = strEksport(x) & balRealNormTxtExp &";" %>
+	      <%
+          if cint(exporttype) <> 200 then 
+          strEksport(x) = strEksport(x) & balRealNormTxtExp &";" 
+          end if%>
 	  
 	
 	   <%end if %>
@@ -3561,8 +3594,9 @@
 	 <%
 
      
-
+     if cint(exporttype) <> 200 then
      strEksport(x) = strEksport(x) & ";"&startdato&";"&slutdato&";"
+     end if
 
      '** FK opret eksport fil til SD løn ***'
      'if len(trim(request("sd_lon_fil"))) <> 0 then

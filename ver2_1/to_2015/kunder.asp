@@ -307,11 +307,11 @@
 				strAlttlf= request("FM_alttlf")
 				strFax = request("FM_fax")
 				strEmail = request("FM_email")
-				strEan = request("FM_ean")
+				strEan = trim(request("FM_ean"))
 				strWWW = request("FM_www")
 				
 				if len(request("FM_nace")) <> 0 then
-				strNACE = request("FM_nace")
+				strNACE = trim(request("FM_nace"))
 				else
 				strNACE = "0"
 				end if
@@ -434,7 +434,7 @@
 				strIban_d = request("FM_iban_d")
 				strSwift_d = request("FM_swift_d")
 
-                  strBank_e = request("FM_bank_e")
+                strBank_e = request("FM_bank_e")
 				strIban_e = request("FM_iban_e")
 				strSwift_e = request("FM_swift_e")
 
@@ -442,8 +442,8 @@
 				strIban_f = request("FM_iban_f")
 				strSwift_f = request("FM_swift_f")
 
-                if len( request("FM_cvr")) <> 0 then
-				intCvr = request("FM_cvr")
+                if len(request("FM_cvr")) <> 0 then
+				intCvr = trim(request("FM_cvr"))
 				else
 				intCvr = 0
 				end if

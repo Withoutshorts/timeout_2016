@@ -549,7 +549,7 @@ if len(strLicenskey) <> 0 then
 	'    lto = "wwf"
     'strConnThis = "driver={MySQL ODBC 3.51 Driver};server=localhost; Port=3306; uid=to_outzource2;pwd=SKba200473;database=timeout_wwf_ORG_20121112;"
 
-    case "2.2012-0214-TO132" 'Københavns Kommune Projekt & Bygherre
+    case "2.2012-0214-TO132" 'Københavns Kommune Projekt & Bygherre /byg
 	    lto = "kejd_pb"
 		'strConnThis = "driver={MySQL ODBC 3.51 Driver};server=localhost; Port=3306; uid=to_outzource2;pwd=SKba200473;database=timeout_kejd_pb;"
         strConnThis = "timeout_kejd_pb64"

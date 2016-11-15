@@ -10,6 +10,8 @@ Imports System.Threading
 
 Public Class to_import_hours
 
+    Public opdtp As Integer = 0
+    Public lto As String = ""
     Public testValue As String
     Public testmode As Integer = 0
 
@@ -279,6 +281,8 @@ Public Class to_import_hours
                     'end if
 
 
+                    lto = dbnavn
+
                 Catch ex As Exception
                     Throw New Exception("Get dbnavn error: " + ex.Message)
                 End Try
@@ -303,6 +307,10 @@ Public Class to_import_hours
                         '** Åbner Connection ***'
                         objConn = New OdbcConnection(strConn)
                         objConn.Open()
+
+                        '** Åbner Connection ***'
+                        objConn2 = New OdbcConnection(strConn)
+                        objConn2.Open()
 
                     Catch ex As Exception
                         Throw New Exception("If t=0 database connect and open error: " + ex.Message)
@@ -695,19 +703,43 @@ Public Class to_import_hours
 
 
                     If CInt(errThisTOno) = 0 Then
-
+                        '***************************************************************************************************
                         '*** Finder medarb timepris og kostpris ***'
                         '*** Først prøves aktivitet derefter job ***'
-
-
-                        'If InStr(dbnavn, "epi") = -1 AND Ite = 0 Then 'IKKE EPI
-
+                        '***************************************************************************************************
+                        tprisGen = 0
                         Ite = 1
-                        If Ite = 100 Then
+                        If Ite = 1 Then
+                            'If InStr(lto, "epi") <> -1 And intMedarbId = "Asia" Then
+
+
+                            'EPI hardcoded Vietnametimer **'
+                            'If lto = "epi" Then
+                            valutaGen = 9 '1
+                            intTimepris = 11
+                            kostpris = 11
+
+                            'End If
+
+                            'If lto = "epi_no" Then
+                            ''EPI NO hardcoded Vietnametimer **'
+                            'valutaGen = 1
+                            'intTimepris = 180
+                            'kostpris = 60
+                            'End If
+
+                            tprisGen = intTimepris
+                            intValuta = valutaGen
+                            foundone = "y"
+
+
+
+
+                        Else
 
                             For mtp = 0 To 1
 
-                                If foundone = "n" Then
+                                If foundone = "n" Then 'Hvis fundet på aktivitet, søges der ikke på job
 
 
 
@@ -727,7 +759,7 @@ Public Class to_import_hours
 
                                         Dim strSQLmtp As String = "SELECT id AS tpid, jobid, aktid, medarbid, timeprisalt, 6timepris, 6valuta FROM timepriser WHERE jobid = " & jobId & " AND aktid = " & aktIdUse & " AND medarbid =  " & meID
 
-                                        objCmd = New OdbcCommand(strSQLmtp, objConn)
+                                        objCmd = New OdbcCommand(strSQLmtp, objConn2)
                                         objDR = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
 
                                         If objDR.Read() = True Then
@@ -771,7 +803,7 @@ Public Class to_import_hours
                                                     Dim strSQL3 As String = "SELECT mid, " & timeprisalernativ & " AS useTimepris, " & valutaAlt & " AS useValuta, " _
                                                     & " medarbejdertype FROM medarbejdere, medarbejdertyper WHERE mid =" & meID & " AND medarbejdertyper.id = medarbejdertype"
 
-                                                    objCmd = New OdbcCommand(strSQL3, objConn)
+                                                    objCmd = New OdbcCommand(strSQL3, objConn2)
                                                     objDR2 = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
 
                                                     If objDR2.Read() = True Then
@@ -812,152 +844,145 @@ Public Class to_import_hours
 
                             Next
 
-                        End If 'Ite
+
+
+                            Try
+
+
+
+
+                                '**************************************************************'
+                                '*** Hvis timepris ikke findes på job bruges Gen. timepris fra '
+                                '*** Fra medarbejdertype, og den oprettes på job **************'
+                                '**************************************************************'
+
+                                'foundone = foundone
+                                'intValuta = valutaGen
+
+                                '*** IKKE EPINION tp for stor
+
+                                If foundone = "n" Then
+                                    Dim SQLmedtpris As String = "SELECT timepris AS useTimepris, tp0_valuta, kostpris FROM medarbejdertyper WHERE id = " & medarbejdertypeThis
+
+                                    objCmd = New OdbcCommand(SQLmedtpris, objConn2)
+                                    objDR = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
+
+                                    If objDR.Read() = True Then
+
+                                        If objDR("kostpris") <> 0 Then
+                                            kostpris = objDR("kostpris")
+                                        Else
+                                            kostpris = 0
+                                        End If
+
+                                        tprisGen = objDR("useTimepris")
+                                        valutaGen = objDR("tp0_valuta")
+
+                                        'Ite = 1
+                                        'If Ite = 1 Then 'KUN EPI 'InStr(dbnavn, "epi") = 1 And
+                                        intTimepris = objDR("useTimepris")
+                                        intValuta = valutaGen 'objDR2("useValuta")
+
+                                        If Len(Trim(intTimepris)) <> 0 Then
+                                            intTimepris = Replace(intTimepris, ",", ".")
+
+                                        End If
+
+                                        'End If
+
+
+                                    End If
+
+                                    objDR.Close()
+                                    '** Slut timepris **
+
+                                End If 'foundone
+
+                            Catch ex As Exception
+                                Throw New Exception("medarbejdertypeThis: " + medarbejdertypeThis.ToString + " Hvis timepris ikke findes på job bruges Gen, SELECT FROM medarbejdere, medarbejdertyper error: " + ex.Message)
+                            End Try
 
 
 
 
 
+                            Try
 
 
 
-                        Try
+                                opdtp = 0
+                                If opdtp = 1 Then
+                                    '**** Opdaterer timepris på job ***'
+                                    '**** ALDRIG timepriser vokser eksponentielt ***'
 
-                            '**************************************************************'
-                            '*** Hvis timepris ikke findes på job bruges Gen. timepris fra '
-                            '*** Fra medarbejdertype, og den oprettes på job **************'
-                            '**************************************************************'
-                            tprisGen = 0
-                            'EPI hardcoded Vietnametimer **'
-                            'valutaGen = 9 '1
-                            'intTimepris = 11
-                            'kostpris = 11
-                            ' tprisGen = 0
-                            'EPI NO hardcoded Vietnametimer **'
-                            'valutaGen = 1
-                            'intTimepris = 180
-                            'kostpris = 60
+                                    intTimepris = Replace(tprisGen, ",", ".")
+                                    intValuta = valutaGen
+
+                                    Dim strSQLtpris As String = "INSERT INTO timepriser (jobid, aktid, medarbid, timeprisalt, 6timepris, 6valuta) " _
+                                    & " VALUES (" & jobId & ", 0, " & meID & ", 0, " & intTimepris & ", " & intValuta & ")"
+
+                                    objCmd = New OdbcCommand(strSQLtpris, objConn2)
+                                    objCmd.ExecuteReader() '(CommandBehavior.closeConnection)
+
+                                End If
+                            Catch ex As Exception
+                                Throw New Exception(" Opdaterer timepris på job, INSERT INTO timepriser error: " + ex.Message)
+                            End Try
 
 
+                            Try
+                                '**** Tjekker om akt. er sat til fast timepris for alle medarbjedere ***'
+                                '**** overruler medarbejer timepris på akt. og job *********************'
+                                Dim brug_fasttp As Integer = 0
+                                Dim brug_fastkp As Integer = 0
+                                Dim fasttp As Double = 0
+                                Dim fastkp As Double = 0
+                                Dim fasttp_val As Integer = 0
+                                '*** Tjekker om aktiviteten er sat til ens timpris for alle medarbejdere (overskriver medarbejderens egen timepris)
+                                Dim strSQLtjkAktTp As String = "SELECT brug_fasttp, brug_fastkp, fasttp, fasttp_val, fastkp, fastkp_val FROM aktiviteter WHERE id = " & aktId
 
-                            intValuta = valutaGen
-
-                            '*** IKKE EPINION tp for stor
-                            Ite = 1
-                            If Ite = 1 Then
-                                Dim SQLmedtpris As String = "SELECT timepris AS useTimepris, tp0_valuta, kostpris FROM medarbejdertyper WHERE id = " & medarbejdertypeThis
-
-                                objCmd = New OdbcCommand(SQLmedtpris, objConn)
+                                objCmd = New OdbcCommand(strSQLtjkAktTp, objConn2)
                                 objDR = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
 
                                 If objDR.Read() = True Then
 
-                                    If objDR("kostpris") <> 0 Then
-                                        kostpris = objDR("kostpris")
-                                    Else
-                                        kostpris = 0
+                                    If CInt(objDR("brug_fasttp")) = 1 Then
+                                        brug_fasttp = 1
+                                        fasttp = objDR("fasttp")
+                                        fasttp = Replace(fasttp, ".", "")
+                                        fasttp = Replace(fasttp, ",", ".")
+
+                                        fasttp_val = objDR("fasttp_val")
                                     End If
 
-                                    tprisGen = objDR("useTimepris")
-                                    valutaGen = objDR("tp0_valuta")
 
-                                    'Ite = 1
-                                    'If Ite = 1 Then 'KUN EPI 'InStr(dbnavn, "epi") = 1 And
-                                    intTimepris = objDR("useTimepris")
-                                    intValuta = valutaGen 'objDR2("useValuta")
-
-                                    If Len(Trim(intTimepris)) <> 0 Then
-                                        intTimepris = Replace(intTimepris, ",", ".")
-
+                                    If CInt(objDR("brug_fastkp")) = 1 Then
+                                        brug_fastkp = 1
+                                        fastkp = objDR("fastkp")
+                                        fastkp = Replace(fastkp, ".", "")
+                                        fastkp = Replace(fastkp, ",", ".")
                                     End If
-
-                                    'End If
-
 
                                 End If
-
                                 objDR.Close()
-                                '** Slut timepris **
-
-                            End If 'lte
-
-                        Catch ex As Exception
-                            Throw New Exception("medarbejdertypeThis: " + medarbejdertypeThis.ToString + " Hvis timepris ikke findes på job bruges Gen, SELECT FROM medarbejdere, medarbejdertyper error: " + ex.Message)
-                        End Try
-
-                        Try
-
-                            Ite = 1
-                            If Ite = 100 Then
-                                '**** Opdaterer timepris på job ***'
-                                'Ite = 1
-                                'If foundone = "n" And InStr(dbnavn, "epi") = -1 And Ite = 0 Then 'IKKE EPI
-
-                                intTimepris = Replace(tprisGen, ",", ".")
-                                intValuta = valutaGen
-
-                                Dim strSQLtpris As String = "INSERT INTO timepriser (jobid, aktid, medarbid, timeprisalt, 6timepris, 6valuta) " _
-                                & " VALUES (" & jobId & ", 0, " & meID & ", 0, " & intTimepris & ", " & intValuta & ")"
-
-                                objCmd = New OdbcCommand(strSQLtpris, objConn)
-                                objCmd.ExecuteReader() '(CommandBehavior.closeConnection)
-
-                            End If
-                        Catch ex As Exception
-                            Throw New Exception(" Opdaterer timepris på job, INSERT INTO timepriser error: " + ex.Message)
-                        End Try
 
 
-                        Try
-                            '**** Tjekker om akt. er sat til fast timepris for alle medarbjedere ***'
-                            '**** overruler medarbejer timepris på akt. og job *********************'
-                            Dim brug_fasttp As Integer = 0
-                            Dim brug_fastkp As Integer = 0
-                            Dim fasttp As Double = 0
-                            Dim fastkp As Double = 0
-                            Dim fasttp_val As Integer = 0
-                            '*** Tjekker om aktiviteten er sat til ens timpris for alle medarbejdere (overskriver medarbejderens egen timepris)
-                            Dim strSQLtjkAktTp As String = "SELECT brug_fasttp, brug_fastkp, fasttp, fasttp_val, fastkp, fastkp_val FROM aktiviteter WHERE id = " & aktId
 
-                            objCmd = New OdbcCommand(strSQLtjkAktTp, objConn)
-                            objDR = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
-
-                            If objDR.Read() = True Then
-
-                                If CInt(objDR("brug_fasttp")) = 1 Then
-                                    brug_fasttp = 1
-                                    fasttp = objDR("fasttp")
-                                    fasttp = Replace(fasttp, ".", "")
-                                    fasttp = Replace(fasttp, ",", ".")
-
-                                    fasttp_val = objDR("fasttp_val")
+                                If CInt(brug_fasttp) = 1 Then
+                                    intTimepris = fasttp
+                                    intValuta = fasttp_val
                                 End If
 
-
-                                If CInt(objDR("brug_fastkp")) = 1 Then
-                                    brug_fastkp = 1
-                                    fastkp = objDR("fastkp")
-                                    fastkp = Replace(fastkp, ".", "")
-                                    fastkp = Replace(fastkp, ",", ".")
+                                If CInt(brug_fastkp) = 1 Then
+                                    kostpris = fastkp
                                 End If
 
-                            End If
-                            objDR.Close()
+                            Catch ex As Exception
+                                Throw New Exception("Tjekker om akt. er sat til fast timepris for alle medarbjedere, SELECT brug_fasttp, brug_fastkp, fasttp, fasttp_val, fastkp, fastkp_val FROM aktiviteter error: " + ex.Message)
+                            End Try
 
 
-
-                            If CInt(brug_fasttp) = 1 Then
-                                intTimepris = fasttp
-                                intValuta = fasttp_val
-                            End If
-
-                            If CInt(brug_fastkp) = 1 Then
-                                kostpris = fastkp
-                            End If
-
-                        Catch ex As Exception
-                            Throw New Exception("Tjekker om akt. er sat til fast timepris for alle medarbjedere, SELECT brug_fasttp, brug_fastkp, fasttp, fasttp_val, fastkp, fastkp_val FROM aktiviteter error: " + ex.Message)
-                        End Try
+                        End If 'EPi + ASIA
 
                     End If 'CInt(errThisTOno) = 0 
 
@@ -1230,6 +1255,7 @@ Public Class to_import_hours
         'objCmd.closeConnection()
 
         objConn.Close()
+        objConn2.Close()
 
         'Catch
 

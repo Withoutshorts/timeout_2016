@@ -1431,6 +1431,8 @@ sub matlinjer
 				if cint(showmatasgrp) = 1 then
 				    strSQLmat = strSQLmat & " GROUP BY fmat.matgrp, fmat.ikkemoms, fmat.matenhed, fmat.valuta, matrabat"
 				end if
+
+                strSQLmat = strSQLmat & " ORDER BY fmat.matgrp, matnavn"
 							    
 				'&" AND ikkemoms = "& m
 								

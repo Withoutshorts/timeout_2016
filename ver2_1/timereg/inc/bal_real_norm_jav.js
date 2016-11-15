@@ -129,6 +129,31 @@ $(document).ready(function() {
     });
 
 
+    $("#rap_epi_blueg").click(function () {
+
+        $(".akt_afst").attr('checked', false);
+        $(".akt_udspec").attr('checked', false);
+        $(".akt_ferie").attr('checked', false);
+        $(".akt_overarb").attr('checked', false);
+        $(".akt_syg").attr('checked', false);
+        $(".akt_flex").attr('checked', false);
+        $(".akt_afst_saldo").attr('checked', false);
+
+        $("#FM_akttype_id_0_1").attr('checked', true);
+        //$("#FM_akttype_id_1_1").attr('checked', true);
+        //$("#FM_akttype_id_1_2").attr('checked', true);
+
+        $("#FM_akttype_id_1_3").attr('checked', true); //2
+        $("#FM_akttype_id_1_4").attr('checked', true); //5
+        $("#FM_akttype_id_1_5").attr('checked', true);
+        $("#FM_akttype_id_1_7").attr('checked', true);
+       
+      
+
+
+    });
+
+
     $("#chkalle_0").click(function() {
         if ($(this).is(':checked') == true) {
             $(".akt_afst").attr('checked', true);
