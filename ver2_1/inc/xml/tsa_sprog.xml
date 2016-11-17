@@ -671,9 +671,2172 @@
 
     <txt_535>Opgjort</txt_535>
     <txt_536>Printvenlig</txt_536>
+
+    <txt_537>Du har ikke rettigheder, eller har ikke opfyldt kriterierne for at afslutte perioden</txt_537>
+    <txt_538>dag</txt_538>
+    <txt_539>Kriterie</txt_539>
     
     
   </dk>
+
+
+  <!-- Norsk -->
+  <no>
+
+    <txt_1 >Statusen på din utgangen</txt_1>
+    <txt_2 >Siste rettidig ferdigstillelse er</txt_2>
+    <txt_3 >kl.</txt_3>
+    <txt_4 >Du har fullført</txt_4>
+    <txt_5 >Uke</txt_5>
+    <txt_6 >Hopp til tidsregistrering</txt_6>
+    <txt_7 >Account dir.</txt_7>
+    <txt_8 >ikke</txt_8>
+    <txt_9 >Klikk jobbeskrivelsen</txt_9>
+    <txt_10 >Jobb ans.</txt_10>
+    <txt_11 >Jobbeier</txt_11>
+    <txt_12 >Periode</txt_12>
+    <txt_13 >Fastpris</txt_13>
+    <txt_14 >Løpn. timer</txt_14>
+    <txt_15 >Jobbtype</txt_15>
+    <txt_16 >Forkalk.</txt_16>
+    <txt_17 >Realisert</txt_17>
+    <txt_18 >Avtalen</txt_18>
+    <txt_19 >Aktiv</txt_19>
+    <txt_20 >Stengt</txt_20>
+    <txt_21 >Legg Mat. forbr. / Utlegg</txt_21>
+    <txt_22 >Kontakt</txt_22>
+    <txt_23 >Tlf.</txt_23>
+    <txt_24 >Kontakter / Grener</txt_24>
+    <txt_25 >E-post</txt_25>
+    <txt_26 >Dir. Tlf.</txt_26>
+    <txt_27 >Mobil</txt_27>
+    <txt_28 >Lukk vindu</txt_28>
+    <txt_29 >Job Description</txt_29>
+    <txt_30 >se total</txt_30>
+    <txt_31 >Timeregistrering</txt_31>
+    <txt_32 >Se timers registreringer uke</txt_32>
+    <txt_33 >Laste timer som</txt_33>
+    <txt_34 >figur (timer) eller</txt_34>
+    <txt_35 >start- og sluttidspunkt (9: 25-10: 45)</txt_35>
+    <txt_36 >Incid. id</txt_36>
+    <txt_37 >Stoppeklokke er Entry</txt_37>
+    <txt_38 >Tid Registrering pr. dag</txt_38>
+    <txt_39 >Lukk jobb lasting timer</txt_39>
+    <txt_40 >Send mail til jobansvarlig at du har fullført arbeidet ditt på denne jobben. (Last)</txt_40>
+    <txt_41 >Lukk jobb oppføring og sende e-post til jobansvarlige.</txt_41>
+    <txt_42 >Lukk jobb lasting timer</txt_42>
+    <txt_43 >Mask. Leveres produksjon, send mail til jobansvarlige og skape samtidig en ny jobb (kopier denne jobben).</txt_43>
+    <txt_44 >Lukk jobben etter inn, send mail til jobansvarlige og skape samtidig en ny jobb (kopier denne jobben).</txt_44>
+    <txt_45 >Tid lås på aktiviteter</txt_45>
+    <txt_46 >Ignorer gang lås på drift.</txt_46>
+    <txt_47 >Navigasjon</txt_47>
+    <txt_48 >Opp / ned: [piltastene] Høyre: [Ctrl] + [x] Venstre: [Ctrl] + [z]</txt_48>
+    <txt_49 >Tidsangivelse er slik</txt_49>
+    <txt_50 >09:45, 12:23, 23:55, etc.</txt_50>
+    <txt_51 >Kommentar</txt_51>
+    <txt_52 >maks. 1255 tegn</txt_52>
+    <txt_53 >Skjul kommentar på kundesiden</txt_53>
+    <txt_54 >Ikke</txt_54>
+    <txt_55 >Ja</txt_55>
+    <txt_56 >Lagre kommentar >></txt_56>
+    <txt_57 >Avtalen stengt</txt_57>
+    <txt_58 >- Vær oppmerksom på at denne jobben er knyttet til en avtale som er stengt!</txt_58>
+    <txt_59 >Det er ikke funnet noen aktiviteter på den valgte jobben, eller jobben er stengt.</txt_59>
+    <txt_60 >Dette kan enten skyldes at det ikke er aktivitet, eller at den valgte ansatt har tilgang til arbeidet for å bli funnet.</txt_60>
+    <txt_61 >Hvordan registrerer jeg mine klasser?</txt_61>
+    <txt_62 >Hvis du ønsker å registrere timer på en annen jobb, velger du den i venstre kolonne.</txt_62>
+    <txt_63 >Hvis jobben ikke er synlig, kan du enten søke etter den i boksen øverst til venstre, eller se etter det i "Trollmannen fra den aktive jobben".</txt_63>
+    <txt_64 >Tid Registreringer uke</txt_64>
+    <txt_65 >Tidsforbruk</txt_65>
+    <txt_66 >Kunde</txt_66>
+    <txt_67 >Jobb</txt_67>
+    <txt_68 >Aktivitet</txt_68>
+    <txt_69 >Typen</txt_69>
+    <txt_70 >Nummer</txt_70>
+    <txt_71 >total uke</txt_71>
+    <txt_72 >Utskriftsvennlig versjon</txt_72>
+    <txt_73 >Company, Job nr ell. Job navn (delt på ell. XTX9)</txt_73>
+    <txt_74 >Ignorer prosjektgrupper</txt_74>
+    <txt_75 >Kontakter</txt_75>
+    <txt_76 >Alt</txt_76>
+    <txt_77 >Ansatt</txt_77>
+    <txt_78 >Søk</txt_78>
+    <txt_79 >Endre</txt_79>
+    <txt_80 >Se Stoppeklokke er Entries</txt_80>
+    <txt_81 >Se skjulte arbeidsmarkedet (listen)</txt_81>
+    <txt_82 >Innstillinger. for Job Bank og pers. aktiv liste</txt_82>
+    <txt_83 >kontakter | jobb</txt_83>
+    <txt_84 >Skape nye arbeidsplasser</txt_84>
+    <txt_85 >Laste</txt_85>
+    <txt_86 >lagre innstillinger</txt_86>
+    <txt_87 >Avslutt uke (r)</txt_87>
+    <txt_88 >Se Smiley status</txt_88>
+    <txt_89 >Avslutt uke</txt_89>
+    <txt_90 >Avslutt alle ukene frem til og med uke</txt_90>
+    <txt_91 >bare kan konkluderes fra</txt_91>
+    <txt_92 >d.</txt_92>
+    <txt_93 >Fullført</txt_93>
+    <txt_94 >pm.</txt_94>
+    <txt_95 >i uke</txt_95>
+    <txt_96 >Sur Smiley</txt_96>
+    <txt_97 >En eller flere uker, før denne uken, ikke er fullført.</txt_97>
+    <txt_98 >Glad Smiley</txt_98>
+    <txt_99 >Mell. fornøj.</txt_99>
+    <txt_100 >En ell. Flere dager denne uken er ikke fylt ut.</txt_100>
+    <txt_101 >Ansatt</txt_101>
+    <txt_102 >Glad Smileys</txt_102>
+    <txt_103 >Sure Smileys</txt_103>
+    <txt_104 >Sum / av total</txt_104>
+    <txt_105 >Uken etter er stengt</txt_105>
+    <txt_106 >Det er ingen smiley poster i valgt år.</txt_106>
+    <txt_116 >Legge inn timer</txt_116>
+    <txt_117 >Se time poster (utvalgte uker)</txt_117>
+    <txt_118 >Jobblogg og Ukentlig trening ark</txt_118>
+    <txt_119 >Grand Total, virkelig. timer</txt_119>
+    <txt_120 >Jobb info</txt_120>
+    <txt_121 >Stemmegivning - Md.</txt_121>
+    <txt_122 >Poll - Uke</txt_122>
+    <txt_123 >Logg deg inn her.</txt_123>
+    <txt_124 >Ingen resultater for den valgte perioden</txt_124>
+    <txt_125 >Aktiviteter</txt_125>
+    <txt_126 >Datoer</txt_126>
+    <txt_127 >Sø</txt_127>
+    <txt_128 >Ma</txt_128>
+    <txt_129 >Ti</txt_129>
+    <txt_130 >On</txt_130>
+    <txt_131 >To</txt_131>
+    <txt_132 >Fr</txt_132>
+    <txt_133 >Lø</txt_133>
+    <txt_134 >Siste klokke inn / ut ganger (I dag kl.)</txt_134>
+    <txt_135 >lønns timer</txt_135>
+    <txt_136 >Tot.</txt_136>
+    <txt_137 >timer</txt_137>
+    <txt_138 >pause</txt_138>
+    <txt_139 >Denne uken inkl. strøm</txt_139>
+    <txt_140 >timer</txt_140>
+    <txt_141 >min.</txt_141>
+    <txt_142 >Job-bank og pers. Aktiv liste</txt_142>
+    <txt_143 >Jobb du er koblet via projekltgrupper. Legg jobben banken for en aktiv jobb liste ved å klikke på dem og nedenfra.</txt_143>
+    <txt_144 >Refresh</txt_144>
+    <txt_145 >Velg alle</txt_145>
+    <txt_146 >ikke</txt_146>
+    <txt_147 >ansatt</txt_147>
+    <txt_148 >timer</txt_148>
+    <txt_149 >All loven. typer telle mot den daglige timelister.</txt_149>
+    <txt_150 >Lunsj</txt_150>
+    <txt_151 >Overtid</txt_151>
+    <txt_152 >Ferie</txt_152>
+    <txt_153 >Sykdom</txt_153>
+    <txt_154 >Ress tim.</txt_154>
+    <txt_155 >Fakturert</txt_155>
+    <txt_156 >Mat. forbruk / Utlegg</txt_156>
+    <txt_157 >Real. tot.</txt_157>
+    <txt_158 >Norm</txt_158>
+    <txt_159 >Fleks Balance +/- Akkumulert Real. / Norm</txt_159>
+    <txt_160 >Fak.bara</txt_160>
+    <txt_161 >Ikke fak.bare</txt_161>
+    <txt_162 >Salg</txt_162>
+    <txt_163 >% Distri. I / E</txt_163>
+    <txt_164 >Opptjente</txt_164>
+    <txt_165 >Holdt</txt_165>
+    <txt_166 >Bal.</txt_166>
+    <txt_167 >Plan.</txt_167>
+    <txt_168 >Holdt</txt_168>
+    <txt_169 >Syk</txt_169>
+    <txt_170 >Barnet syk</txt_170>
+    <txt_171 >Beløp</txt_171>
+    <txt_172 >Real.</txt_172>
+    <txt_173 >Norm.</txt_173>
+    <txt_174 >Spes. hellig</txt_174>
+    <txt_175 >Planlagt</txt_175>
+    <txt_176 >Ress. timer tildelt - (fulle måneder)</txt_176>
+    <txt_177 >Timer Fakturert</txt_177>
+    <txt_178 >Mat. forbruk / Utlegg</txt_178>
+    <txt_179 >Per. uke</txt_179>
+    <txt_180 >Dagens dato</txt_180>
+    <txt_181 >Rediger tidsregistrering</txt_181>
+    <txt_182 >Angitt av</txt_182>
+    <txt_183 >Dato</txt_183>
+    <txt_184 >Tid</txt_184>
+    <txt_185 >skriver spesifisert antall timer</txt_185>
+    <txt_186 >Time pris</txt_186>
+    <txt_187 >Alle tidsregistreringer for den valgte ansatt av den valgte aktiviteten vil bli endret til denne timen prisen. (Også fremtiden) Men det er bare denne ene aktiviteten. De andre aktivitetene følger fortsatt de antatte timesatser. Oppdatere timesatser gjelder selv om der er en faktura, eller om en periode er godkjent.</txt_187>
+    <txt_188 >Opprett og legg til "on the fly"</txt_188>
+    <txt_189 >Legg fra lager</txt_189>
+    <txt_190 >Edit lager</txt_190>
+    <txt_191 >Materialer / Utlegg</txt_191>
+    <txt_192 >Registrer materialer / utlegget for</txt_192>
+    <txt_193 >Opprett "on the fly"</txt_193>
+    <txt_194 >Mat. / Utlegg navn</txt_194>
+    <txt_195 >Navn / Notice</txt_195>
+    <txt_196 >Varenr</txt_196>
+    <txt_197 >Hvis varen ikke. = 0 ikke skapte den på lager.</txt_197>
+    <txt_198 >Gruppe</txt_198>
+    <txt_199 >(Resultat%)</txt_199>
+    <txt_200 >Ingen</txt_200>
+    <txt_201 >Innkjøpspris</txt_201>
+    <txt_202 >Nummer</txt_202>
+    <txt_203 >ledd. (Heltall)</txt_203>
+    <txt_204 >Forbr.- / kvitt.- dato</txt_204>
+    <txt_205 >Søk materialene i lager</txt_205>
+    <txt_206 >(Navn eller mat. / artikkel nr.,  % = wildcard )</txt_206>
+    <txt_207 >Legg fra lager</txt_207>
+    <txt_208 >Lagring / min.</txt_208>
+    <txt_209 >Navn</txt_209>
+    <txt_210 >Produkt / Mat. no.</txt_210>
+    <txt_211 >Kjøpesum</txt_211>
+    <txt_212 >Gruppe</txt_212>
+    <txt_213 >(Res. %)</txt_213>
+    <txt_214 >Forbruk Dato</txt_214>
+    <txt_215 >Det har ikke noen materialer som samsvarer med søkekriteriene.</txt_215>
+    <txt_216 >Siste 100 trådte materialer / utgifter</txt_216>
+    <txt_217 >Produkt / Mat. No.</txt_217>
+    <txt_218 >Mat. grp.</txt_218>
+    <txt_219 >Kjøpesum per stk.</txt_219>
+    <txt_220 >Pris per stk.</txt_220>
+    <txt_221 >Slett</txt_221>
+    <txt_222 >Stk.</txt_222>
+    <txt_223 >Lager oversikt</txt_223>
+    <txt_224 >Materialgrupper og det første materiale i grp.</txt_224>
+    <txt_225 >Mat. gruppe</txt_225>
+    <txt_226 >Nr. / navn</txt_226>
+    <txt_227 >Mat. navn</txt_227>
+    <txt_228 >Mat. No.</txt_228>
+    <txt_229 >Valuta</txt_229>
+    <txt_230 >Vedlegg nr</txt_230>
+    <txt_231 >Intern kode</txt_231>
+    <txt_232 >Intern - (ikke fakturerbare)</txt_232>
+    <txt_233 >Ekstern - (fakturerbare)</txt_233>
+    <txt_234 >Personlige utlegg</txt_234>
+    <txt_235 >-</txt_235>
+    <txt_236 >Jobb</txt_236>
+    <txt_237 >Ansatt</txt_237>
+    <txt_238 >Bruk vedlegg nei.</txt_238>
+    <txt_239 >Intern</txt_239>
+    <txt_240 >Eekstern</txt_240>
+    <txt_241 >Personlig</txt_241>
+    <txt_242 >Id</txt_242>
+    <txt_243 >Kunde</txt_243>
+    <txt_244 >Jobb</txt_244>
+    <txt_245 >Enhet</txt_245>
+    <txt_246 >Valuta</txt_246>
+    <txt_247 >Kurs</txt_247>
+    <txt_248 >Total</txt_248>
+    <txt_249 >Kunde id</txt_249>
+    <txt_250 >Job No ..</txt_250>
+    <txt_251 >Rediger</txt_251>
+    <txt_252 >Edit "On the Fly"</txt_252>
+    <txt_253 >Settled?</txt_253>
+    <txt_254 >Marker Vedlegg oppføringer i følgende vedlegg som settled</txt_254>
+    <txt_255 >Settle</txt_255>
+    <txt_256 >Med. No. ÅÅÅÅMM</txt_256>
+    <txt_257 >Materiale / Udl. Stat.</txt_257>
+    <txt_258 >For tidsregistrering</txt_258>
+    <txt_259 >Normt./d.</txt_259>
+    <txt_260 >Beregn Pris</txt_260>
+    <txt_261 >Pris</txt_261>
+    <txt_262 >faktura</txt_262>
+    <txt_263 >Materialet gruppe</txt_263>
+    <txt_264 >Leverandører</txt_264>
+    <txt_265 >Kjøring</txt_265>
+    <txt_266 >Km</txt_266>
+    <txt_267 >Velg ansatte</txt_267>
+    <txt_268 >Multitildel / kopier følgende åpningstider for alle utvalgte ansatte</txt_268>
+    <txt_269 >Rekvnr..</txt_269>
+    <txt_270 >Kontakt</txt_270>
+    <txt_271 >Periode</txt_271>
+    <txt_272 >Gns. per uke</txt_272>
+    <txt_273 >Justert for ferie</txt_273>
+    <txt_274 >Utb.</txt_274>
+    <txt_275 >dager</txt_275>
+    <txt_276 >tim.</txt_276>
+    <txt_277 >Konverter oppføringer i dager i forhold. Til hver ansatt sin egen standard tid. XXXX Kan ikke brukes av "*" oppføringer.</txt_277>
+    <txt_278 >0 = Slett oppføringen</txt_278>
+    <txt_279 >Ferdigfylte aktiviteter kan inneholde 0 (null), men det må begrunnes.</txt_279>
+    <txt_280 >Balanse</txt_280>
+    <txt_281 >Ferie</txt_281>
+    <txt_282 >Spesielle hellig</txt_282>
+    <txt_283 >Overtid</txt_283>
+    <txt_284 >Fleksibel Balance</txt_284>
+    <txt_285 >Åpne. Timer ikke lastet. (Pre-fylt aktiviteter, f.eks. Lunsj)</txt_285>
+    <txt_286 >Viser ikke jobb og aktiviteter, viser start- eller sluttdato er utenfor den valgte perioden. (Gjelder ikke salgsaktiviteter - se innstillingene i Kontrollpanel)</txt_286>
+    <txt_287 >Residence tur. Reise mellom hjem og arb. sted.</txt_287>
+    <txt_288 >60 dagers regelen</txt_288>
+    <txt_289 >Tillegg / fradrag er hentet fra timeregisrering av aktivitetstyper som gjør at økninger og reduksjoner i forhold til timer med betalt arbeid (stempelsurs timer). Tillegg og trekke timer er ikke med innlogging historie under.</txt_289>
+    <txt_290 >Åpne. Tid lastet inn i databasen.</txt_290>
+    <txt_291 >Stengt for oppføring. Registrering er godkjent. (Kan dessuten også bli fakturert eller lukket via smiley-ordningen)</txt_291>
+    <txt_292 >Stengt for oppføring. Er enten fakturert eller uke er stengt via smiley-ordningen.</txt_292>
+    <txt_293 >Stengt for oppføring. Uke er stengt via smiley, lønn ell. Fasting periodens slutt. (Admin. Brukerne kan fortsatt endre)</txt_293>
+    <txt_294 >Tid lås, eller du bør ikke angi noe tid på denne typen dag der du ikke har en standard tid. (F.eks ferie på en søndag)</txt_294>
+    <txt_295 >Signatur</txt_295>
+    <txt_296 >Kommentar</txt_296>
+    <txt_297 >Klikk på "+" ved siden av inntastingsfeltet til å skrive inn en kommentar.</txt_297>
+    <txt_298 >Tast inn timer for perioden (Smart Entry)</txt_298>
+    <txt_299 >7.4 * 14 laster 7,4 timer på de neste 14 dagene. Helger og ferier er inkludert, men det vil ikke laste timer i disse dager. De utvalgte ansatte må være fastsatt tid på de dagene når dagen ellers ansett som en fridag. Smart oppføring kan ikke brukes ved å angi start og sluttid.</txt_299>
+
+    <txt_300 >Skriv stasjon (Km)</txt_300>
+    <txt_301 >Ved å skrive inn type "Km» vil det være mulig via dialogboksen for å indikere "til" og "fra" destinasjon, som overføres automatisk til kommentarfeltet.</txt_301>
+    <txt_302 >innstillinger</txt_302>
+    <txt_303 >valgt ansatt</txt_303>
+    <txt_304 >for den valgte ansatt</txt_304>
+    <txt_305 >Tidsregistrering funksjoner</txt_305>
+    <txt_306 >Jobinfo</txt_306>
+    <txt_307 >Set Sorter for tidsregistrering</txt_307>
+    <txt_308 >Job No.</txt_308>
+    <txt_309 >Sorter etter</txt_309>
+    <txt_310 >Kontakt og Jobbnavn</txt_310>
+    <txt_311 >Job No. (50 nyeste)</txt_311>
+    <txt_312 >Vis kollaps + på kontakter</txt_312>
+    <txt_313 >Vis intern jobb toppen</txt_313>
+    <txt_314 >Show</txt_314>
+    <txt_315 >Skjul</txt_315>
+    <txt_316 >Sluttdato (+/- 2 år fra dd.)</txt_316>
+    <txt_317 >planlagt</txt_317>
+    <txt_318 >i dag</txt_318>
+    <txt_319 >gjennom i går</txt_319>
+    <txt_320 >Vis bare personlige utlegg</txt_320>
+    <txt_321 >Initial</txt_321>
+    <txt_322 >Vis bare ikke avgjort</txt_322>
+    <txt_323 >Godkjent</txt_323>
+    <txt_324 >Vis bare unaccredited</txt_324>
+    <txt_325 >(Ignorerer datoområdet )</txt_325>
+    <txt_326 >Utlegg / material registrering på jobben:</txt_326>
+    <txt_327 >spredt over</txt_327>
+    <txt_328 >Poster</txt_328>
+    <txt_329 >Fase</txt_329>
+    <txt_330 >Laste</txt_330>
+    <txt_331 >Kontor</txt_331>
+    <txt_332 >Oppd. pris</txt_332>
+    <txt_333 >Enter for</txt_333>
+    <txt_334 >Vis 25 nyeste arbeidsplasser</txt_334>
+    <txt_335 >Skape nye arbeidsplasser</txt_335>
+    <txt_336 >Job Bank</txt_336>
+    <txt_337 >Weekplan</txt_337>
+    <txt_338 >Weekplan, uke</txt_338>
+    <txt_339 >Timer</txt_339>
+    <txt_340 >Kom / Go tid</txt_340>
+    <txt_341 >Sorter etter</txt_341>
+    <txt_342 >Jobbnavnet</txt_342>
+    <txt_343 >Job No.</txt_343>
+    <txt_344 >Kontakt</txt_344>
+    <txt_345 >Avslutt uke</txt_345>
+    <txt_346 >Se fullgåtte uker</txt_346>
+    <txt_347 >Den valgte jobben er stengt eller startdato på jobben er ikke gyldig for den valgte uken.</txt_347>
+    <txt_348 >Du har prøvd å finne en jobb er ikke lenger aktiv. Klikk på fanen "jobb", finner jobben og endre status til aktiv.</txt_348>
+    <txt_349 >Gjør et nytt søk</txt_349>
+    <txt_350 >Utføre et nytt søk jobb i boksen til venstre for å finne en annen jobb.</txt_350>
+    <txt_351 >Du har ikke tilgang til denne jobben.</txt_351>
+    <txt_352 >Du kan registrere deg for jobben ved å legge til et prosjekt du er medlem av. Du kan legge til et prosjekt, klikker</txt_352>
+    <txt_353 >her</txt_353>
+    <txt_354 >Vis passive, lukket avtaler og jobber for gjennomgang</txt_354>
+    <txt_355 >Passiv</txt_355>
+    <txt_356 >Godkjenn Ukentlig trening ark</txt_356>
+    <txt_357 >Admin / Team Leader</txt_357>
+    <txt_358 >Easyreg. - Alle jobber med easyreg. Akt.</txt_358>
+    <txt_359 >Søk blant alle kunder og kontakter. (% Wildcard )</txt_359>
+    <txt_360 >Du har kjørt fra</txt_360>
+    <txt_361 >Setter den valgte adressen i kommentarfeltet.</txt_361>
+    <txt_362 >Fra</txt_362>
+    <txt_363 >Til</txt_363>
+    <txt_364 >Av</txt_364>
+    <txt_365 >Velg ønsket adresse og klikk Laste.</txt_365>
+    <txt_366 ></txt_366>
+    <txt_367 >Bolig</txt_367>
+    <txt_368 >Enter / finne mottakeren (e)</txt_368>
+    <txt_369 >- Kontakt / Branch</txt_369>
+    <txt_370 >- Hoved kontakt / Kunde</txt_370>
+    <txt_371 >kar</txt_371>
+    <txt_372 >Legg til flere adresser for denne turen. (Kombiner søk i kontakter)</txt_372>
+    <txt_373 >Smartreg - jobber med timer siste 2 uker</txt_373>
+    <txt_374 >Klassisk</txt_374>
+    <txt_375 >Send melding til jobansvarlige / styring av arbeidet ditt på denne jobben er fullført. (Fjerner jobben fra den aktive jobblisten, og oppdatere status)</txt_375>
+    <txt_376 >Fortløpende jobb</txt_376>
+    <txt_377 >Vis alle aktivitetstyper på tilbud</txt_377>
+    <txt_378 >Legg til aktive jobblisten</txt_378>
+    <txt_379 >Viser bare jobb der ansatte. er jobb ansvars. 1-5</txt_379>
+    <txt_380 >HR (registrere ferie, syke, osv).</txt_380>
+    <txt_381 >Dager</txt_381>
+    <txt_382 >Vis enkel aktivitet linjen (ikke viser dato, tid, etc.).</txt_382>
+    <txt_383 >Du har nå muligheten til å avslutte en eller flere av de ukene du trenger for å fullføre , og så gi beskjed om at du kan telle timer du har tastet inn i disse ukene.</txt_383>
+    <txt_384 >Job Bank (Legg jobb til aktiv jobb liste)</txt_384>
+    <txt_385 >Personlig aktive jobblisten</txt_385>
+    <txt_386 >Din aktiv jobb er tom</txt_386>
+    <txt_387 >Ugetotaler</txt_387>
+    <txt_388 >Andre ansatte.</txt_388>
+    <txt_389 >Avstemning (Balance)</txt_389>
+    <txt_390 >Hjelp | side info</txt_390>
+    <txt_391 >Ingen aktive jobber passer ditt søk!</txt_391>
+    <txt_392 >Sjekk at du har valgt de riktige kontaktene / alt.</txt_392>
+    <txt_393 >Sjekk også; prosjektteam, din personlige eiendel liste og jobb startdato.</txt_393>
+    <txt_394 >Viser maks.</txt_394>
+    <txt_395 >jobb i jobboversikten</txt_395>
+    <txt_396 >Tøm aktive jobblisten (reload siden)</txt_396>
+    <txt_397 >Nyeste</txt_397>
+    <txt_398 >Du har prosjekt-registrert</txt_398>
+    <txt_399 >fakturerbare</txt_399>
+    <txt_400 >Du må ha registrert mer enn</txt_400>
+    <txt_401 >å avslutte uken</txt_401>
+    <txt_402 >Se periode-avslutninger</txt_402>
+    <txt_403 >Du har én eller flere uker gjenstår å bli ferdig</txt_403>
+    <txt_404 >Registrert dato</txt_404>
+    <txt_405 >Den ansatte er ikke ansatt i den valgte perioden</txt_405>
+    <txt_406 >Ansettelsesperioden</txt_406>
+    <txt_407 >Du har klikket på uken</txt_407>
+    <txt_408 >Ditt siste avsluttet periode,</txt_408>
+    <txt_409 >Neste gang du trenger å gå ut er</txt_409>
+    <txt_410 >Siste rettidig ferdigstillelse er</txt_410>
+    <txt_411 >Status for perioden ender til og inkl.</txt_411>
+    <txt_412 >Sorter aktiv jobb liste etter</txt_412>
+    <txt_413 >Prioritet</txt_413>
+    <txt_414 >Jobbnavnet</txt_414>
+    <txt_415 >Job No.</txt_415>
+    <txt_416 >Sluttdato</txt_416>
+    <txt_417 >Kunde</txt_417>
+    <txt_418 >14 dager</txt_418>
+    <txt_419 >2 måneder</txt_419>
+    <txt_420 >Blandet listen nyeste</txt_420>
+    <txt_421 >Det er mest sannsynlig en av de følgende årsaker</txt_421>
+    <txt_422 >Du må velge jobber i søkefilteret ovenfor og klikk på "Vis stilling >>"</txt_422>
+    <txt_423 >Job startdato ligger i en senere uke enn den valgte</txt_423>
+    <txt_424 >Du kan ikke få tilgang til de valgte jobb / aktiviteter</txt_424>
+    <txt_425 >Jobben er ikke valgt i din personlige eiendel liste</txt_425>
+    <txt_426 >Slutt måned</txt_426>
+    <txt_427 >Du har én eller flere måneder er ennå ikke fullført</txt_427>
+    <txt_428 >Se hele listen ved å klikke på linken nederst i denne delen.</txt_428>
+    <txt_429 >første arbeidsdag</txt_429>
+    <txt_430 >måned</txt_430>
+    <txt_431 >Avslutt</txt_431>
+    <txt_432 >nå</txt_432>
+    <txt_433 >Ekstern støtte</txt_433>
+    <txt_434 >Kontrollpanel</txt_434>
+    <txt_435 >Logg ut</txt_435>
+    <txt_436 >Lisens:</txt_436>
+    <txt_437 >Tidsregistrering</txt_437>
+    <txt_438 >og fravær</txt_438>
+    <txt_439 >Prosjekt funksjoner</txt_439>
+    <txt_440 >Ressurs Forecast</txt_440>
+    <txt_441 >Lukk måned (er)</txt_441>
+    <txt_442 >Godkjenne måned (er)</txt_442>
+    <txt_443 >Holidays, Avspas. | sykdom</txt_443>
+    <txt_444 >Ferie | avspas.</txt_444>
+    <txt_445 >Order</txt_445>
+    <txt_446 >New Order</txt_446>
+    <txt_447 >Prosjekter</txt_447>
+    <txt_448 >Jobb / Prosjekter</txt_448>
+    <txt_449 >Opprett prosjekt</txt_449>
+    <txt_450 >Skriv ut / PDF sentrum</txt_450>
+    <txt_451 >File manager</txt_451>
+    <txt_452 >Nåværende jobb - prosjekter</txt_452>
+    <txt_453 >tid budsjett</txt_453>
+    <txt_454 >Gantt</txt_454>
+    <txt_455 >Milepæler / Frister</txt_455>
+    <txt_456 >Pipeline</txt_456>
+    <txt_457 >Rapporter</txt_457>
+    <txt_458 >Grand Total</txt_458>
+    <txt_459 >Omsetning</txt_459>
+    <txt_460 >Virksomhetsområder</txt_460>
+    <txt_461 >Endre versjon</txt_461>
+    <txt_462 >Fremdrift</txt_462>
+    <txt_463 >Kom / Gå (innlogging historie)</txt_463>
+    <txt_464 >Medarbeider Sales | Sikkerhets</txt_464>
+    <txt_465 >Smileys (perioden er over)</txt_465>
+    <txt_466 >Attune | Lønn (HR-listen.)</txt_466>
+    <txt_467 >Timer Importfeil</txt_467>
+    <txt_468 >Konsolidering oversikt</txt_468>
+    <txt_469 >Leads</txt_469>
+    <txt_470 >Handling History</txt_470>
+    <txt_471 >Ansatte</txt_471>
+    <txt_472 >Lager</txt_472>
+    <txt_473 >Opprett Materials</txt_473>
+    <txt_474 >Materielle grupper</txt_474>
+    <txt_475 >Materielle bestillinger</txt_475>
+    <txt_476 >Standard Productions</txt_476>
+    <txt_477 >Leverandør | Tjenesten fest.</txt_477>
+    <txt_478 >Mat./ Storage</txt_478>
+    <txt_479 >Administrasjon</txt_479>
+    <txt_480 >Abonner</txt_480>
+    <txt_481 >Prosjektgrupper</txt_481>
+    <txt_482 >Stam-aktivitetsgrupper (jobbmaler)</txt_482>
+    <txt_483 >Selge utgifter - grupper</txt_483>
+    <txt_484 >Milepæler typer</txt_484>
+    <txt_485 >Standard brosjyrer</txt_485>
+    <txt_486 >Kunder</txt_486>
+    <txt_487 >Kunde typer - segmenter</txt_487>
+    <txt_488 >Handling status</txt_488>
+    <txt_489 >Handlingsemner</txt_489>
+    <txt_490 >Handlings kontaktskjema</txt_490>
+    <txt_491 >CRM</txt_491>
+    <txt_492 >ERP</txt_492>
+    <txt_493 >Skatte Codes</txt_493>
+    <txt_494 >Nøkkeltall Codes</txt_494>
+    <txt_495 >Skatt Periode (sluttdato)</txt_495>
+    <txt_496 >Brukergrupper</txt_496>
+    <txt_497 >Ansattes Typer</txt_497>
+    <txt_498 >Ansettelsesform grupper</txt_498>
+    <txt_499 >Helpdesk</txt_499>
+    <txt_500 >hendelsestyper</txt_500>
+    <txt_501 >Prioriteringer</txt_501>
+    <txt_502 >Avtale grupper</txt_502>
+    <txt_503 >Incident Status</txt_503>
+    <txt_504 >Incident kategorier</txt_504>
+    <txt_505 >Fakturering</txt_505>
+    <txt_506 >For fakturering</txt_506>
+    <txt_507 >Opprett faktura</txt_507>
+    <txt_508 >Faktura historie</txt_508>
+    <txt_509 >Søk fakturalinjer</txt_509>
+    <txt_510 >Attune</txt_510>
+    <txt_511 >Attune real./faktureret (jobb og empl.)</txt_511>
+    <txt_512 >Attune avtaler detaljhandel</txt_512>
+    <txt_513 >Posting</txt_513>
+    <txt_514 >Kontoplan</txt_514>
+    <txt_515 >Opprett konto</txt_515>
+    <txt_516 >Journal Entry (0)</txt_516>
+    <txt_517 >I-moms (-1)</txt_517>
+    <txt_518 >U-moms (-2)</txt_518>
+    <txt_519 >Resultatregnskap</txt_519>
+    <txt_520 >Budsjett</txt_520>
+    <txt_521 >Budsjett År / dato</txt_521>
+    <txt_522 >Brutto / Netto Days | timer</txt_522>
+    <txt_523 >Budsjett ansatte</txt_523>
+    <txt_524 >Service Desk</txt_524>
+    <txt_525 >Opprett Incident</txt_525>
+    <txt_526 >Incident tilstand.</txt_526>
+    <txt_527 >Knowledge Base</txt_527>
+    <txt_528 >File manager</txt_528>
+    <txt_529 >Dashbord</txt_529>
+    <txt_530 >Kunder</txt_530>
+    <txt_531 >Deverandører</txt_531>
+    <txt_532 >Lisenstakeren</txt_532>
+    <txt_533 >Avslutt dag</txt_533>
+    <txt_534 >Søker</txt_534>
+    <txt_535 >Beregnes</txt_535>
+    <txt_536 >Utskriftsvennlig</txt_536>
+
+    <txt_537>Du har ikke rettigheter, eller ikke har oppfylt kriteriene for å avslutte perioden</txt_537>
+    <txt_538>dag</txt_538>
+    <txt_539>Criterion</txt_539>
+
+    
+
+  </no>
+
+
+  <!-- Svensk -->
+  <se>
+    <txt_1 >Statusen för periodens slut</txt_1>
+    <txt_2 >Senaste avslutas i tid är</txt_2>
+    <txt_3 >kl.</txt_3>
+    <txt_4 >Du har slutfört</txt_4>
+    <txt_5 >Vecka</txt_5>
+    <txt_6 >Hoppa till tidsregistrering</txt_6>
+    <txt_7 >Account dir.</txt_7>
+    <txt_8 >ingen</txt_8>
+    <txt_9 >Klicka arbetsbeskrivning</txt_9>
+    <txt_10 >Jobb ansv.</txt_10>
+    <txt_11 >Jobb Ägare</txt_11>
+    <txt_12 >Period</txt_12>
+    <txt_13 >Fastpris</txt_13>
+    <txt_14 >Fortg. timmar</txt_14>
+    <txt_15 >Jobbtyp</txt_15>
+    <txt_16 >Forkalk.</txt_16>
+    <txt_17 >Insåg</txt_17>
+    <txt_18 >Överenskommelse</txt_18>
+    <txt_19 >Aktiv</txt_19>
+    <txt_20 >Stängt</txt_20>
+    <txt_21 >Lägg Mat. forbr. / Utlägg</txt_21>
+    <txt_22 >Kontakt</txt_22>
+    <txt_23 >Tel.</txt_23>
+    <txt_24 >Kontakter / Grener</txt_24>
+    <txt_25 >E-post</txt_25>
+    <txt_26 >Dir. Tel.</txt_26>
+    <txt_27 >Mobil</txt_27>
+    <txt_28 >Stäng fönster</txt_28>
+    <txt_29 >Jobbeskrivning</txt_29>
+    <txt_30 >se totala</txt_30>
+    <txt_31 >Tidrapporter</txt_31>
+    <txt_32 >Se timme registreringar vecka</txt_32>
+    <txt_33 >Belastning timmar som</txt_33>
+    <txt_34 >figur (timmar) eller</txt_34>
+    <txt_35 >start- och sluttid (9: 25-10: 45)</txt_35>
+    <txt_36 >Incid. id</txt_36>
+    <txt_37 >Stoppur inträde</txt_37>
+    <txt_38 >Tidregistrering per. dag</txt_38>
+    <txt_39 >Close jobb lastning timmar</txt_39>
+    <txt_40 >Skicka e-post till jobansvarlig att du har avslutat ditt arbete på det här jobbet. (Läser)</txt_40>
+    <txt_41 >Nära jobb inträde och skicka e-post till jobansvarlige.</txt_41>
+    <txt_42 >Close jobb lastning timmar</txt_42>
+    <txt_43 >Mask. Levereras produktion, skicka e-post till jobansvarlige och skapa samtidigt ett nytt jobb (kopior detta jobb).</txt_43>
+    <txt_44 >Stäng jobbet efter att, skicka e-post till jobansvarlige och skapa samtidigt ett nytt jobb (kopior detta jobb).</txt_44>
+    <txt_45 >Tidlås på aktiviteter</txt_45>
+    <txt_46 >Ignorera tidlås på rörelse.</txt_46>
+    <txt_47 >Navigering</txt_47>
+    <txt_48 >Upp / ned: [Piltangenterna] Höger: [Ctrl] + [x] Vänster: [Ctrl] + [Z]</txt_48>
+    <txt_49 >Tidsvisning är sådan</txt_49>
+    <txt_50 >09:45, 12:23, 23:55, etc.</txt_50>
+    <txt_51 >kommentar</txt_51>
+    <txt_52 >max. 1255 tecken</txt_52>
+    <txt_53 >Hide kommentar på kundsidan</txt_53>
+    <txt_54 >ingen</txt_54>
+    <txt_55 >ja</txt_55>
+    <txt_56 >Spara kommentar >></txt_56>
+    <txt_57 >avtal stängd</txt_57>
+    <txt_58 >- Var medveten om att det här jobbet är förknippad med ett avtal som är stängd!</txt_58>
+    <txt_59 >Det finns inte någon verksamhet på den valda jobbet eller jobbet är stängd.</txt_59>
+    <txt_60 >Detta kan bero på att det antingen inte finns någon aktivitet, eller att den valda anställde inte har tillgång till det arbete som ska hittas.</txt_60>
+    <txt_61 >Hur registrerar jag mina klasser?</txt_61>
+    <txt_62 >Om du vill registrera timmar på ett andra jobb, markera den i den vänstra kolumnen.</txt_62>
+    <txt_63 >Om jobbet inte är synlig, kan du antingen söka efter den i rutan längst upp till vänster, eller leta efter den i "Trollkarlen från din aktiva jobb".</txt_63>
+    <txt_64 >Tidregistreringar vecka</txt_64>
+    <txt_65 >tid Förbrukning</txt_65>
+    <txt_66 >kund</txt_66>
+    <txt_67 >jobb</txt_67>
+    <txt_68 >aktivitet</txt_68>
+    <txt_69 >Typ</txt_69>
+    <txt_70 >nummer</txt_70>
+    <txt_71 >totala vecka</txt_71>
+    <txt_72 >Skriv Version</txt_72>
+    <txt_73 >Företag, Job nr ell. Namn Job (dividerat med ell. XTX9)</txt_73>
+    <txt_74 >Ignorera projektgrupper</txt_74>
+    <txt_75 >kontakter</txt_75>
+    <txt_76 >allt</txt_76>
+    <txt_77 >anställd</txt_77>
+    <txt_78 >sök</txt_78>
+    <txt_79 >byta</txt_79>
+    <txt_80 >Se Stoppur s Anteckningar</txt_80>
+    <txt_81 >Se dolda jobb (listan)</txt_81>
+    <txt_82 >Inställningar. Job Bank och pers. aktiva listan</txt_82>
+    <txt_83 >kontakter | jobb</txt_83>
+    <txt_84 >Skapa nya arbetstillfällen</txt_84>
+    <txt_85 >belastning</txt_85>
+    <txt_86 >spara inställningar</txt_86>
+    <txt_87 >Avsluta vecka (s)</txt_87>
+    <txt_88 >Se Smiley status</txt_88>
+    <txt_89 >quit vecka</txt_89>
+    <txt_90 >Avsluta alla veckor upp till och med vecka</txt_90>
+    <txt_91 >kan bara dra slutsatsen</txt_91>
+    <txt_92 >d.</txt_92>
+    <txt_93 >avslutade</txt_93>
+    <txt_94 >pm.</txt_94>
+    <txt_95 >i veckan</txt_95>
+    <txt_96 >sur Smiley</txt_96>
+    <txt_97 >En eller flera veckor, tills denna vecka, inte är avslutad.</txt_97>
+    <txt_98 >lycklig Smiley</txt_98>
+    <txt_99 >Mell. fornøj.</txt_99>
+    <txt_100 >En ell. Flera dagar i veckan är inte fyllda.</txt_100>
+    <txt_101 >anställd</txt_101>
+    <txt_102 >happy Smileys</txt_102>
+    <txt_103 >säker Smileys</txt_103>
+    <txt_104 >Summa / total</txt_104>
+    <txt_105 >Följande vecka är stängd</txt_105>
+    <txt_106 >Det finns inga smiley poster i det valda året.</txt_106>
+    <txt_116 >Entering timmar</txt_116>
+    <txt_117 >Se timme register (utvalda veckor)</txt_117>
+    <txt_118 >Job Log och veckotränings ark</txt_118>
+    <txt_119 >Totalsumma , verklig. timmar</txt_119>
+    <txt_120 >jobb info</txt_120>
+    <txt_121 >Röstning - Md.</txt_121>
+    <txt_122 >Poll - Vecka</txt_122>
+    <txt_123 >Logga in här.</txt_123>
+    <txt_124 >Inga resultat för den valda perioden</txt_124>
+    <txt_125 >aktiviteter</txt_125>
+    <txt_126 >datum</txt_126>
+    <txt_127 >sön</txt_127>
+    <txt_128 >månd</txt_128>
+    <txt_129 >tisdag</txt_129>
+    <txt_130 >ons</txt_130>
+    <txt_131 >tor</txt_131>
+    <txt_132 >fre</txt_132>
+    <txt_133 >lör</txt_133>
+    <txt_134 >Sista klocka in / ut gånger (idag kl.)</txt_134>
+    <txt_135 >löne timmar</txt_135>
+    <txt_136 >Tot.</txt_136>
+    <txt_137 >timmar</txt_137>
+    <txt_138 >paus</txt_138>
+    <txt_139 >Denna vecka inkl. ström</txt_139>
+    <txt_140 >timmar</txt_140>
+    <txt_141 >min.</txt_141>
+    <txt_142 >Job-bank och pers. Aktiv lista</txt_142>
+    <txt_143 >Jobb du länkade via projekltgrupper. Tillsätt jobbank för aktiv jobblista genom att klicka på dem och underifrån.</txt_143>
+    <txt_144 >refresh</txt_144>
+    <txt_145 >Markera allt</txt_145>
+    <txt_146 >ingen</txt_146>
+    <txt_147 >anställd</txt_147>
+    <txt_148 >timmar</txt_148>
+    <txt_149 >Alla lagen. typer räknas de dagliga tidrapporter.</txt_149>
+    <txt_150 >Lunch</txt_150>
+    <txt_151 >Övertid</txt_151>
+    <txt_152 >Semester</txt_152>
+    <txt_153 >Sjukdom</txt_153>
+    <txt_154 >Res. Tim.</txt_154>
+    <txt_155 >Faktureras</txt_155>
+    <txt_156 >Mat. åtgång / Utlägg</txt_156>
+    <txt_157 >Real. tot.</txt_157>
+    <txt_158 >Normeret</txt_158>
+    <txt_159 >Flex Balance +/- Ackumulerad Real. / Norm</txt_159>
+    <txt_160 >Fak.bara</txt_160>
+    <txt_161 >Inte Fak.bara</txt_161>
+    <txt_162 >Försäljning</txt_162>
+    <txt_163 >% Fördel. I / E</txt_163>
+    <txt_164 >Tjänade</txt_164>
+    <txt_165 >Hållen</txt_165>
+    <txt_166 >Bal.</txt_166>
+    <txt_167 >Plan.</txt_167>
+    <txt_168 >Hållen</txt_168>
+    <txt_169 >Sjuk</txt_169>
+    <txt_170 >Barn sjuk</txt_170>
+    <txt_171 >Belopp</txt_171>
+    <txt_172 >Real.</txt_172>
+    <txt_173 >Norm.</txt_173>
+    <txt_174 >Spec. Helgdagar</txt_174>
+    <txt_175 >Planerade</txt_175>
+    <txt_176 >Res. Tim. tilldelade - (full månader)</txt_176>
+    <txt_177 >Timmar faktureras</txt_177>
+    <txt_178 >Mat. åtgång / Utlägg</txt_178>
+    <txt_179 >Per. vecka</txt_179>
+    <txt_180 >Dagens datum</txt_180>
+    <txt_181 >Redigera tidsregistrering</txt_181>
+    <txt_182 >In av</txt_182>
+    <txt_183 >Datum</txt_183>
+    <txt_184 >eller Tid</txt_184>
+    <txt_185 >Skriver visst antal timmar</txt_185>
+    <txt_186 >Timmar pris</txt_186>
+    <txt_187 >Alla tidsredovisningar för den valda anställde för den valda aktiviteten kommer att ändras till denna timpris. (Även framtiden) Men det är bara den här aktiviteten. De andra aktiviteterna följer fortfarande de antagna timpriser. Uppdatering av timpriser gäller även om det finns en faktura, eller om en period er godkänns.</txt_187>
+    <txt_188 >Skapa och lägg till "on the fly"</txt_188>
+    <txt_189 >Lägg till från lager</txt_189>
+    <txt_190 >Redigera lager</txt_190>
+    <txt_191 >Material / Utlägg</txt_191>
+    <txt_192 >Registrera material / utlägg för</txt_192>
+    <txt_193 >Skapa "on the fly"</txt_193>
+    <txt_194 >Mat. / Utlägg Namn</txt_194>
+    <txt_195 >Namn / Meddelande</txt_195>
+    <txt_196 >Ämnesnr</txt_196>
+    <txt_197 >Om objektet nr. = 0 skapade det inte i lager.</txt_197>
+    <txt_198 >Grupp</txt_198>
+    <txt_199 >(Resultat%)</txt_199>
+    <txt_200 >Ingen</txt_200>
+    <txt_201 >Inköpspris</txt_201>
+    <txt_202 >Nummer</txt_202>
+    <txt_203 >Punkt. (Integer)</txt_203>
+    <txt_204 >Förbr. / kvitt. datum</txt_204>
+    <txt_205 >Sök materialet i lager</txt_205>
+    <txt_206 >(Namn eller mat. / art nr., % = wildcard )</txt_206>
+    <txt_207 >Lägg till från lager</txt_207>
+    <txt_208 >Förvaring / min.</txt_208>
+    <txt_209 >Namn</txt_209>
+    <txt_210 >Produkt / Mat. nr.</txt_210>
+    <txt_211 >Köpeskilling</txt_211>
+    <txt_212 >Grupp</txt_212>
+    <txt_213 >(Res. %)</txt_213>
+    <txt_214 >Konsumtion Datum</txt_214>
+    <txt_215 >Det har inte lagt till några material som matchar sökkriterierna.</txt_215>
+    <txt_216 >Senaste 100 anmälda material / kostnader</txt_216>
+    <txt_217 >Produkt / Mat. No.</txt_217>
+    <txt_218 >Mat. grp.</txt_218>
+    <txt_219 >Köpeskilling per stk.</txt_219>
+    <txt_220 >Pris per stk.</txt_220>
+    <txt_221 >Radera</txt_221>
+    <txt_222 >Stk.</txt_222>
+    <txt_223 >Lageröversikt</txt_223>
+    <txt_224 >Materialgrupper och det första materialet i grp.</txt_224>
+    <txt_225 >Mat.grupp</txt_225>
+    <txt_226 >Nr. / navn</txt_226>
+    <txt_227 >Mat. namn</txt_227>
+    <txt_228 >Mat. No.</txt_228>
+    <txt_229 >Valuta</txt_229>
+    <txt_230 >Bilaga No.</txt_230>
+    <txt_231 >Intern kod</txt_231>
+    <txt_232 >Intern - (icke fakturerbara)</txt_232>
+    <txt_233 >Extern - (fakturerbara)</txt_233>
+    <txt_234 >Personliga utlägg</txt_234>
+    <txt_235 >-</txt_235>
+    <txt_236 >Jobb</txt_236>
+    <txt_237 >Anställd</txt_237>
+    <txt_238 >Använd bilaga nr.</txt_238>
+    <txt_239 >Intern</txt_239>
+    <txt_240 >Extern</txt_240>
+    <txt_241 >Personliga</txt_241>
+    <txt_242 >Id</txt_242>
+    <txt_243 >Kund</txt_243>
+    <txt_244 >Jobb</txt_244>
+    <txt_245 >Enhet</txt_245>
+    <txt_246 >Valuta</txt_246>
+    <txt_247 >Kurs</txt_247>
+    <txt_248 >Totalt</txt_248>
+    <txt_249 >Kundnummer</txt_249>
+    <txt_250 >Jobb nr.</txt_250>
+    <txt_251 >Redigera</txt_251>
+    <txt_252 >Redigera "on the fly"</txt_252>
+    <txt_253 >Avräknat?</txt_253>
+    <txt_254 >Markera poster Bilaga i följande bilagor som avräknat</txt_254>
+    <txt_255 >Avräkna</txt_255>
+    <txt_256 >Med. No. ÅÅÅÅMM</txt_256>
+    <txt_257 >Material / Udl. Stat.</txt_257>
+    <txt_258 >För tidsregistrering</txt_258>
+    <txt_259 >Normt./d.</txt_259>
+    <txt_260 >Beräkna pris</txt_260>
+    <txt_261 >Försäljningspris</txt_261>
+    <txt_262 >faktura</txt_262>
+    <txt_263 >Materialgrupp</txt_263>
+    <txt_264 >Leverantörer</txt_264>
+    <txt_265 >Körning</txt_265>
+    <txt_266 >Km</txt_266>
+    <txt_267 >Väljer anställda</txt_267>
+    <txt_268 >Multitildel / kopiera de följande timmarna för alla utvalda anställda</txt_268>
+    <txt_269 >Rekv. nr.</txt_269>
+    <txt_270 >Kontakt</txt_270>
+    <txt_271 >Period</txt_271>
+    <txt_272 >Gns. per vecka</txt_272>
+    <txt_273 >Justerat för semester</txt_273>
+    <txt_274 >Utb.</txt_274>
+    <txt_275 >dagar</txt_275>
+    <txt_276 >tim.</txt_276>
+    <txt_277 >Konvertera poster i dagar i förhållande. Till varje anställds eget normaltid . XXXX Kan inte användas med "*" poster.</txt_277>
+    <txt_278 >0 = Radera post</txt_278>
+    <txt_279 >Förfylld aktiviteter kan innehålla 0 (noll), men det måste motiveras.</txt_279>
+    <txt_280 >Balans</txt_280>
+    <txt_281 >Semester</txt_281>
+    <txt_282 >Speciella helgdagar</txt_282>
+    <txt_283 >Övertid</txt_283>
+    <txt_284 >Flexibel Balans</txt_284>
+    <txt_285 >Öppna. Timmar inte laddat. (Pre-fyllda aktiviteter, till exempel. Lunch)</txt_285>
+    <txt_286 >Visar inte jobb och aktiviteter, visar start- eller slutdatumet är utanför den valda perioden. (Gäller inte försäljningsaktiviteter - se inställningarna i Kontrollpanelen)</txt_286>
+    <txt_287 >Uppehålls resa. Resor mellan hemmet och arb. plats.</txt_287>
+    <txt_288 >60 dagarsregeln</txt_288>
+    <txt_289 >Bilaga / Avdrag tas från timeregisrering av aktivitetstyper som gör att ökningar och minskningar i förhållande till timmar förvärvsarbete (stempelsurs timmar). Bilaga och dra timmar är inte med inloggnings historia nedan.</txt_289>
+    <txt_290 >Öppna. Tid laddas in i databasen.</txt_290>
+    <txt_291 >Stängt för inträde. Registrering godkänns. (Kan dessutom också faktureras eller stängas via smiley-systemet)</txt_291>
+    <txt_292 >Stängt för inträde. Antingen faktureras eller vecka är stängd via smiley-systemet.</txt_292>
+    <txt_293 >Stängt för inträde. Vecka är stängd via smiley, löne ell. Fastan periodens slut. (Admin. Användarna kan fortfarande ändra)</txt_293>
+    <txt_294 >Tid Låst eller ska du inte ange någon tid på den här typen av dag där du inte har en normaltid . (T.ex. semester på en söndag)</txt_294>
+    <txt_295 >Signatur</txt_295>
+    <txt_296 >Kommentar</txt_296>
+    <txt_297 >Klicka på "+" bredvid inmatningsfältet för att skriva en kommentar.</txt_297>
+    <txt_298 >Ange timmar för perioden (Smart Entry)</txt_298>
+    <txt_299 >ar på de närmaste 14 dagarna. Helger och helgdagar ingår, men det kommer inte att läsa timmar i dessa dagar. De utvalda anställda måste utsatt tid på dagarna när dagen annars betraktas som en ledig dag. Smart post kan inte användas genom att ange start- och sluttid.</txt_299>
+
+    <txt_300 >Ange enhet (Km)</txt_300>
+    <txt_301 >Genom att gå in typen "Km" det kommer att vara möjligt via dialogrutan för att indikera "till" och "från" destination, som automatiskt överförs till kommentarfältet .</txt_301>
+    <txt_302 >Inställningar</txt_302>
+    <txt_303 >Vald anställd</txt_303>
+    <txt_304 >för den valda anställd</txt_304>
+    <txt_305 >Tidsregistrering funktioner</txt_305>
+    <txt_306 >JobInfo</txt_306>
+    <txt_307 >Ställ Sortera för tidsregistrering</txt_307>
+    <txt_308 >Jobb No.</txt_308>
+    <txt_309 >Sortera efter</txt_309>
+    <txt_310 >Kontakt och Utskr.namn</txt_310>
+    <txt_311 >Jobb Nej (50 nyaste)</txt_311>
+    <txt_312 >Visa kollaps + på kontaktar</txt_312>
+    <txt_313 >Visa inre jobb topp</txt_313>
+    <txt_314 >Visa</txt_314>
+    <txt_315 >Dölja</txt_315>
+    <txt_316 >Slutdatum (+/- 2 år från dd.)</txt_316>
+    <txt_317 >Planerade</txt_317>
+    <txt_318 >i dag</txt_318>
+    <txt_319 >genom igår</txt_319>
+    <txt_320 >Visa endast personliga utlägg</txt_320>
+    <txt_321 >Initial</txt_321>
+    <txt_322 >Visa bara inte avgöras</txt_322>
+    <txt_323 >Godkänd</txt_323>
+    <txt_324 >Visa bara unaccredited</txt_324>
+    <txt_325 >(Ignorera datumintervall )</txt_325>
+    <txt_326 >Utlägg / material registrering på jobbet:</txt_326>
+    <txt_327 >spridda över</txt_327>
+    <txt_328 >Register</txt_328>
+    <txt_329 >Fas</txt_329>
+    <txt_330 >Load</txt_330>
+    <txt_331 >Office</txt_331>
+    <txt_332 >Uppd. pris</txt_332>
+    <txt_333 >Ange för</txt_333>
+    <txt_334 >Visa 25 senaste jobb</txt_334>
+    <txt_335 >Skapa nya arbetstillfällen</txt_335>
+    <txt_336 >Job Bank</txt_336>
+    <txt_337 >Weekplan</txt_337>
+    <txt_338 >Weekplan, vecka</txt_338>
+    <txt_339 >Timmar</txt_339>
+    <txt_340 >Kom / Gå tid</txt_340>
+    <txt_341 >Sortera efter</txt_341>
+    <txt_342 >Jobbnamnet</txt_342>
+    <txt_343 >Jobb No.</txt_343>
+    <txt_344 >Kontakt</txt_344>
+    <txt_345 >Quit vecka</txt_345>
+    <txt_346 >Se fullgångna veckor</txt_346>
+    <txt_347 >Det valda jobbet är stängd eller startdatum på jobbet är inte giltig för den valda veckan.</txt_347>
+    <txt_348 >Du har försökt att hitta ett jobb är inte längre aktiv. Klicka på fliken "jobb", hitta jobb och ändra status till aktiv.</txt_348>
+    <txt_349 >Gör en ny sökning</txt_349>
+    <txt_350 >Gör en ny sökning jobb i rutan till vänster för att hitta ett annat jobb.</txt_350>
+    <txt_351 >Du har inte tillgång till det här jobbet.</txt_351>
+    <txt_352 >Du kan registrera dig för jobbet genom att lägga till ett projekt som du är medlem i. Du kan lägga till ett projekt, klicka</txt_352>
+    <txt_353 >här</txt_353>
+    <txt_354 >Visa passiva, stängda erbjudanden och jobb för granskning</txt_354>
+    <txt_355 >Passivt</txt_355>
+    <txt_356 >Godkänn veckoträningsmål ark</txt_356>
+    <txt_357 >Admin / Team Leader</txt_357>
+    <txt_358 >Easyreg. - Alla jobb med easyreg. Akt.</txt_358>
+    <txt_359 >Sök bland alla kunder och kontakter. (% Wildcard)</txt_359>
+    <txt_360 >Du har kört från</txt_360>
+    <txt_361 >Infogar den valda adressen i rutan.</txt_361>
+    <txt_362 >Från</txt_362>
+    <txt_363 >Till</txt_363>
+    <txt_364 >Av</txt_364>
+    <txt_365 >Välj önskad adress och klicka på Load.</txt_365>
+    <txt_366 ></txt_366>
+    <txt_367 >Uppehålls</txt_367>
+    <txt_368 >Ange / hitta destination (s)</txt_368>
+    <txt_369 >- Huvud kontakt / kund</txt_369>
+    <txt_370 >- Huvud Kontakt / Kund</txt_370>
+    <txt_371 >kar</txt_371>
+    <txt_372 >Lägg till flera adresser för denna resa. (Kombinera sökningar i kontakter)</txt_372>
+    <txt_373 >Smartreg - jobb med timmar senaste 2 veckorna</txt_373>
+    <txt_374 >Klassisk</txt_374>
+    <txt_375 >Skicka meddelande till jobansvarlige / förvaltning av ditt arbete på det här jobbet är avslutat. (Tar bort jobb från jobblistan aktiv och uppdatera status)</txt_375>
+    <txt_376 >Pågående jobb</txt_376>
+    <txt_377 >Visa alla aktivitetstyper som erbjuds</txt_377>
+    <txt_378 >Lägg till aktivt jobblistan</txt_378>
+    <txt_379 >Visar bara jobb där anställda. är jobbansvars. 1-5</txt_379>
+    <txt_380 >HR (registrera semester, sjuk, etc).</txt_380>
+    <txt_381 >Dagar</txt_381>
+    <txt_382 >Visa enkel aktivitet linje (inte visar datum, tid, etc.).</txt_382>
+    <txt_383 >Du har nu möjlighet att avsluta en eller flera av de veckor du behöver för att avsluta, och så ger budskapet att du kan räkna de timmar du har angett i dessa veckor.</txt_383>
+    <txt_384 >Job Bank (Lägg jobb till aktiv jobblistan )</txt_384>
+    <txt_385 >Personlig lista aktiv jobb</txt_385>
+    <txt_386 >Din aktiva jobblista är tom</txt_386>
+    <txt_387 >Vecka Totalvärden</txt_387>
+    <txt_388 >Övrig personal.</txt_388>
+    <txt_389 >Omröstning (Balance)</txt_389>
+    <txt_390 >Hjälp | Sidinfo</txt_390>
+    <txt_391 >Inga aktiva jobb matchar din sökning!</txt_391>
+    <txt_392 >Kontrollera att du har valt rätt kontakter / all.</txt_392>
+    <txt_393 >Kontrollera också; dina projektgrupper, din personliga lista tillgångar och jobbstartdatum.</txt_393>
+    <txt_394 >Visar max.</txt_394>
+    <txt_395 >jobb i jobb översikt</txt_395>
+    <txt_396 >Rensa din aktiva jobblista (reload sida)</txt_396>
+    <txt_397 >Senaste</txt_397>
+    <txt_398 >Du har projekt registrerat</txt_398>
+    <txt_399 >fakturerbara</txt_399>
+    <txt_400 >Du måste ha registrerat mer än</txt_400>
+    <txt_401 >att avsluta veckan</txt_401>
+    <txt_402 >Se Period ändelser</txt_402>
+    <txt_403 >Du har en eller flera veckor återstår att slutföras</txt_403>
+    <txt_404 >Anställd datum</txt_404>
+    <txt_405 >Den anställde inte är anställd i den valda perioden</txt_405>
+    <txt_406 >Anställningstid</txt_406>
+    <txt_407 >Du har klickat på veckan</txt_407>
+    <txt_408 >Din senast avslutade perioden,</txt_408>
+    <txt_409 >Nästa gång som du måste avsluta är</txt_409>
+    <txt_410 >Senaste avslutas i tid är</txt_410>
+    <txt_411 >Status för perioden slutar till och inkl.</txt_411>
+    <txt_412 >Sortera aktiv jobblista efter</txt_412>
+    <txt_413 >Prioritet</txt_413>
+    <txt_414 >Jobbnamnet</txt_414>
+    <txt_415 >Jobb No.</txt_415>
+    <txt_416 >Slutdatum</txt_416>
+    <txt_417 >Kund</txt_417>
+    <txt_418 >14 dagar</txt_418>
+    <txt_419 >2 månader</txt_419>
+    <txt_420 >Blandad lista, senast</txt_420>
+    <txt_421 >Det är mest sannolikt ett av följande orsaker</txt_421>
+    <txt_422 >Du måste välja jobb i sökfiltret ovan och klicka på "Visa jobb >>"</txt_422>
+    <txt_423 >Jobbstartdatum ligger i ett senare vecka än den valda</txt_423>
+    <txt_424 >Du kan inte komma åt det valda jobbet / aktiviteter</txt_424>
+    <txt_425 >Jobbet är inte vald i din personliga lista tillgångs</txt_425>
+    <txt_426 >End månad</txt_426>
+    <txt_427 >Du har är en eller flera månader ännu inte avslutat</txt_427>
+    <txt_428 >Se hela listan genom att klicka på länken längst ned i detta avsnitt.</txt_428>
+    <txt_429 >första arbetsdagen</txt_429>
+    <txt_430 >månad</txt_430>
+    <txt_431 >Quit</txt_431>
+    <txt_432 >nu</txt_432>
+    <txt_433 >Fjärrsupport</txt_433>
+    <txt_434 >Kontrollpanel</txt_434>
+    <txt_435 >Logga ut</txt_435>
+    <txt_436 >Licens:</txt_436>
+    <txt_437 >Tidrapportering</txt_437>
+    <txt_438 >och frånvaro</txt_438>
+    <txt_439 >Projektfunktioner</txt_439>
+    <txt_440 >Resursprognos</txt_440>
+    <txt_441 >Nära månad (er)</txt_441>
+    <txt_442 >Godkänna månad (er)</txt_442>
+    <txt_443 >Semestrar, Ledighet | sjukdom</txt_443>
+    <txt_444 >Semester | ledighet</txt_444>
+    <txt_445 >Beställa</txt_445>
+    <txt_446 >Ny beställning</txt_446>
+    <txt_447 >Projekt</txt_447>
+    <txt_448 >Jobb / projekt</txt_448>
+    <txt_449 >Skapa projekt</txt_449>
+    <txt_450 >Print / PDF centrum</txt_450>
+    <txt_451 >File manager</txt_451>
+    <txt_452 >Nuvarande jobb - projekt</txt_452>
+    <txt_453 >tidsbudget</txt_453>
+    <txt_454 >Gantt</txt_454>
+    <txt_455 >Milstolpar / Tidsgränser</txt_455>
+    <txt_456 >Pipeline</txt_456>
+    <txt_457 >Rapporter</txt_457>
+    <txt_458 >Totalsumma</txt_458>
+    <txt_459 >Omsättning</txt_459>
+    <txt_460 >Affärsområden</txt_460>
+    <txt_461 >Förändring version</txt_461>
+    <txt_462 >Driftform</txt_462>
+    <txt_463 >Kom / Gå (inloggningshistorik)</txt_463>
+    <txt_464 >Personal Sales | säkerhet</txt_464>
+    <txt_465 >Smileys (periodens slut)</txt_465>
+    <txt_466 >Anpassa | Lön (HR listan.)</txt_466>
+    <txt_467 >Timmar Fel vid import</txt_467>
+    <txt_468 >konsolidering Översikt</txt_468>
+    <txt_469 >Leads</txt_469>
+    <txt_470 >Handling Historia</txt_470>
+    <txt_471 >Anställda</txt_471>
+    <txt_472 >Lager</txt_472>
+    <txt_473 >Skapa Material</txt_473>
+    <txt_474 >Material Grupper</txt_474>
+    <txt_475 >Material Orders</txt_475>
+    <txt_476 >Standard produktioner</txt_476>
+    <txt_477 >Leverantör | Tjänsten part.</txt_477>
+    <txt_478 >Mat./ Lagring</txt_478>
+    <txt_479 >Administrering</txt_479>
+    <txt_480 >Prenumerera</txt_480>
+    <txt_481 >Projektgrupper</txt_481>
+    <txt_482 >Stam-aktivitetsgrupper (jobbmallar)</txt_482>
+    <txt_483 >Försäljningskostnader - grupper</txt_483>
+    <txt_484 >Milstolpar typer</txt_484>
+    <txt_485 >Standard broschyrer</txt_485>
+    <txt_486 >Kunder</txt_486>
+    <txt_487 >Kundtyper - segment</txt_487>
+    <txt_488 >Handling status</txt_488>
+    <txt_489 >Handlingsemner</txt_489>
+    <txt_490 >Handlings kontaktformulär</txt_490>
+    <txt_491 >CRM</txt_491>
+    <txt_492 >ERP</txt_492>
+    <txt_493 >Skattekoder</txt_493>
+    <txt_494 >Ratios Codes</txt_494>
+    <txt_495 >Beskattningsperiod (slutdatum)</txt_495>
+    <txt_496 >Användargrupper</txt_496>
+    <txt_497 >personal Typer</txt_497>
+    <txt_498 >Anställningstyp grupper</txt_498>
+    <txt_499 >Helpdesk</txt_499>
+    <txt_500 >Incident Typer</txt_500>
+    <txt_501 >Prioriteringar</txt_501>
+    <txt_502 >Utnämning Grupper</txt_502>
+    <txt_503 >Incident Status</txt_503>
+    <txt_504 >Incident-kategorier</txt_504>
+    <txt_505 >Fakturering</txt_505>
+    <txt_506 >För fakturering</txt_506>
+    <txt_507 >Skapa faktura</txt_507>
+    <txt_508 >fakturahistorik</txt_508>
+    <txt_509 >Sökning fakturarader</txt_509>
+    <txt_510 >Anpassa</txt_510>
+    <txt_511 >Anpassa real./faktureret (jobb och anst.)</txt_511>
+    <txt_512 >Anpassa aftaler detail</txt_512>
+    <txt_513 >Inlägg</txt_513>
+    <txt_514 >Kontoplan</txt_514>
+    <txt_515 >Skapa konto</txt_515>
+    <txt_516 >Journal Entry (0)</txt_516>
+    <txt_517 >I-moms (-1)</txt_517>
+    <txt_518 >U-moms (-2)</txt_518>
+    <txt_519 >Resultaträkning</txt_519>
+    <txt_520 >Budget</txt_520>
+    <txt_521 >Budget År / datum</txt_521>
+    <txt_522 >Gross / Net dagar | timmar</txt_522>
+    <txt_523 >Budget anställda</txt_523>
+    <txt_524 >Service Desk</txt_524>
+    <txt_525 >Skapa Incident</txt_525>
+    <txt_526 >Incident tillstånd.</txt_526>
+    <txt_527 >Knowledge Base</txt_527>
+    <txt_528 >File manager</txt_528>
+    <txt_529 >Dashboard</txt_529>
+    <txt_530 >Kunder</txt_530>
+    <txt_531 >Leverantörer</txt_531>
+    <txt_532 >Licenstagare</txt_532>
+    <txt_533 >Sluta idag</txt_533>
+    <txt_534 >Söker</txt_534>
+    <txt_535 >Beräknat</txt_535>
+    <txt_536 >Utskrifts</txt_536>
+
+    <txt_537>Du har inte rätt, eller har inte uppfyllt de kriterier för att avsluta perioden</txt_537>
+    <txt_538>dag</txt_538>
+    <txt_539>kriterium</txt_539>
+
+
+  </se>
+
+  
+  
+  <!-- Tysk -->
+  <de>
+    <txt_1 >Der Status Ihrer Jahresende</txt_1>
+    <txt_2 >Neueste rechtzeitige Fertigstellung</txt_2>
+    <txt_3 >uhr</txt_3>
+    <txt_4 >Sie haben abgeschlossen</txt_4>
+    <txt_5 >Woche</txt_5>
+    <txt_6 >Direkt zur Zeiterfassung</txt_6>
+    <txt_7 >Account dir.</txt_7>
+    <txt_8 >keine</txt_8>
+    <txt_9 >Klicken Sie auf Job-Beschreibung</txt_9>
+    <txt_10 >Job verant.</txt_10>
+    <txt_11 >Job Owner</txt_11>
+    <txt_12 >Zeit</txt_12>
+    <txt_13 >Festpreis</txt_13>
+    <txt_14 >Lauf. Stund.</txt_14>
+    <txt_15 >Auftragsart</txt_15>
+    <txt_16 >Forkalk.</txt_16>
+    <txt_17 >Realisiert</txt_17>
+    <txt_18 >Vereinbarung</txt_18>
+    <txt_19 >Aktiv</txt_19>
+    <txt_20 >Geschlossen</txt_20>
+    <txt_21 >In Mat. forbr. / Outlays</txt_21>
+    <txt_22 >Kontakt</txt_22>
+    <txt_23 >Tel.</txt_23>
+    <txt_24 >Kontakte / Branchen</txt_24>
+    <txt_25 >E-Mail</txt_25>
+    <txt_26 >Dir. Tel.</txt_26>
+    <txt_27 >Mobil</txt_27>
+    <txt_28 >Fenster schließen</txt_28>
+    <txt_29 >Tätigkeitsbeschreibung</txt_29>
+    <txt_30 >siehe Gesamt</txt_30>
+    <txt_31 >Zeitblatt</txt_31>
+    <txt_32 >Siehe Stunde Anmeldungen Woche</txt_32>
+    <txt_33 >Laststunden als</txt_33>
+    <txt_34 >Figur (stunden) oder</txt_34>
+    <txt_35 >Start- und Endzeit (9: 25-10: 45)</txt_35>
+    <txt_36 >Incid. Identifikation</txt_36>
+    <txt_37 >Stoppuhr Einzug</txt_37>
+    <txt_38 >Zeiterfassung per. Tag</txt_38>
+    <txt_39 >Schließen Job Ladezeiten</txt_39>
+    <txt_40 >Sende eine Mail an jobansvarlig, dass Sie Ihre Arbeit an diesem Job abgeschlossen haben. (Laden)</txt_40>
+    <txt_41 >Schließen Einstiegs- und Mail an jobansvarlige.</txt_41>
+    <txt_42 >Schließen Job Ladezeiten</txt_42>
+    <txt_43 >Maske. Geliefert Produktion, senden Sie eine Mail zur gleichen Zeit einen neuen Job (Kopien dieser Job) zu jobansvarlige und zu erstellen.</txt_43>
+    <txt_44 >Schließen Sie den Job nach der Eingabe, senden Sie eine Mail einen neuen Job in der gleichen Zeit zu jobansvarlige und erstellen (Kopien dieser Job).</txt_44>
+    <txt_45 >Zeitsperre auf Aktivitäten</txt_45>
+    <txt_46 >Ignorieren Zeitsperre auf operating.</txt_46>
+    <txt_47 >Navigation</txt_47>
+    <txt_48 >Nach oben / unten: [Pfeiltasten] Rechts: [Strg] + [x] Links: [Strg] + [z]</txt_48>
+    <txt_49 >Zeitanzeige ist so,</txt_49>
+    <txt_50 >09.45, 12.23, 23.55, usw.</txt_50>
+    <txt_51 >Kommentar</txt_51>
+    <txt_52 >max. 1255 Zeichen</txt_52>
+    <txt_53 >Verstecken Kommentar auf der Kundenseite</txt_53>
+    <txt_54 >keine</txt_54>
+    <txt_55 >ja</txt_55>
+    <txt_56 >Speichern Kommentar >></txt_56>
+    <txt_57 >Vereinbarung geschlossen</txt_57>
+    <txt_58 >Seien Sie sich bewusst, dass dieser Job mit einer Vereinbarung verknüpft ist, das geschlossen ist -!</txt_58>
+    <txt_59 >Es gibt keine Aktivitäten auf dem ausgewählten Job gefunden, oder der Job ist geschlossen.</txt_59>
+    <txt_60 >Dies kann, weil entweder keine Aktivität ist, oder dass der ausgewählte Mitarbeiter haben keinen Zugriff auf die Arbeit zu finden.</txt_60>
+    <txt_61 >Wie kann ich meine Klassen registrieren?</txt_61>
+    <txt_62 >Wenn Sie einen zweiten Job zu registrieren Stunden wollen, wählen Sie es in der linken Spalte.</txt_62>
+    <txt_63 >Wenn der Job nicht sichtbar ist, können Sie entweder oben links für sie in der Box zu suchen, oder suchen Sie sie im "Wizard Ihrer aktiven Job".</txt_63>
+    <txt_64 >Zeiterfassungen Woche</txt_64>
+    <txt_65 >Zeit Verbrauch</txt_65>
+    <txt_66 >Kunde</txt_66>
+    <txt_67 >Job</txt_67>
+    <txt_68 >Aktivität</txt_68>
+    <txt_69 >Typ</txt_69>
+    <txt_70 >Anzahl</txt_70>
+    <txt_71 >Gesamt Woche</txt_71>
+    <txt_72 >Drucken Version</txt_72>
+    <txt_73 >Unternehmen, Job-Nr ell. Jobname (geteilt durch die ell. XTX9)</txt_73>
+    <txt_74 >Ignorieren Projektgruppen</txt_74>
+    <txt_75 >Kontakte</txt_75>
+    <txt_76 >alle</txt_76>
+    <txt_77 >Mitarbeiter</txt_77>
+    <txt_78 >Suche</txt_78>
+    <txt_79 >Veränderung</txt_79>
+    <txt_80 >Siehe Stoppuhr die Einträge</txt_80>
+    <txt_81 >Siehe versteckte Job (Liste)</txt_81>
+    <txt_82 >Einstellungen. für Job und pers. aktiven Liste</txt_82>
+    <txt_83 >Kontakte | Job</txt_83>
+    <txt_84 >Schaffung neuer Arbeitsplätze</txt_84>
+    <txt_85 >Last</txt_85>
+    <txt_86 >Einstellungen speichern</txt_86>
+    <txt_87 >Beenden Woche (n)</txt_87>
+    <txt_88 >Siehe Smiley-Status</txt_88>
+    <txt_89 >Ende der Woche</txt_89>
+    <txt_90 >Beenden Sie alle Wochen bis einschließlich Woche</txt_90>
+    <txt_91 >kann nur aus geschlossen werden,</txt_91>
+    <txt_92 >Tag</txt_92>
+    <txt_93 >fertiggestellt</txt_93>
+    <txt_94 >Uhr</txt_94>
+    <txt_95 >in Woche</txt_95>
+    <txt_96 >sur Smiley</txt_96>
+    <txt_97 >Ein oder mehrere Wochen, bis diese Woche, ist nicht abgeschlossen.</txt_97>
+    <txt_98 >glücklich Smiley</txt_98>
+    <txt_99 >Mell. fornøj.</txt_99>
+    <txt_100 >Ein ell. Mehrere Tage in dieser Woche sind nicht ausgefüllt.</txt_100>
+    <txt_101 >Mitarbeiter</txt_101>
+    <txt_102 >glücklich Smileys</txt_102>
+    <txt_103 >sicher Smileys</txt_103>
+    <txt_104 >Sum / Gesamt</txt_104>
+    <txt_105 >In der folgenden Woche wird geschlossen</txt_105>
+    <txt_106 >Es gibt keine Smiley-Aufzeichnungen im ausgewählten Jahr.</txt_106>
+    <txt_116 >eingeben von Stunden</txt_116>
+    <txt_117 >Siehe Stundensätze (ausgewählte Wochen)</txt_117>
+    <txt_118 >Auftragsprotokoll und wöchentliche Übungsblätter</txt_118>
+    <txt_119 >Gesamtsumme, real. Stunden</txt_119>
+    <txt_120 >Job-Info</txt_120>
+    <txt_121 >Voting - Md.</txt_121>
+    <txt_122 >Poll - Woche</txt_122>
+    <txt_123 >Hier anmelden.</txt_123>
+    <txt_124 >Keine Ergebnisse für den ausgewählten Zeitraum</txt_124>
+    <txt_125 >Aktivitäten</txt_125>
+    <txt_126 >Termine</txt_126>
+    <txt_127 >Sonn</txt_127>
+    <txt_128 >Mon</txt_128>
+    <txt_129 >Die</txt_129>
+    <txt_130 >Mit</txt_130>
+    <txt_131 >Don</txt_131>
+    <txt_132 >Frei</txt_132>
+    <txt_133 >Sam</txt_133>
+    <txt_134 >Letzte Uhr in / out-Zeiten (Heute um.)</txt_134>
+    <txt_135 >Lohn Stunden</txt_135>
+    <txt_136 >gesamt</txt_136>
+    <txt_137 >Stunden</txt_137>
+    <txt_138 >Pause</txt_138>
+    <txt_139 >Diese Woche inkl. Strom</txt_139>
+    <txt_140 >stunden</txt_140>
+    <txt_141 >Minimum</txt_141>
+    <txt_142 >Job-Bank und pers. Liste Aktive</txt_142>
+    <txt_143 >Arbeit, die Sie über Ihre projekltgrupper verknüpft. Fügen Sie die Jobdatenbank für Ihren aktiven Jobliste durch Anklicken und von unten.</txt_143>
+    <txt_144 >auffrischen</txt_144>
+    <txt_145 >Alle auswählen</txt_145>
+    <txt_146 >keine</txt_146>
+    <txt_147 >Mitarbeiter</txt_147>
+    <txt_148 >Stunden</txt_148>
+    <txt_149 >Alle Gesetz. Arten zählen zu den täglichen Arbeitszeitblätter .</txt_149>
+    <txt_150 >Mittagessen</txt_150>
+    <txt_151 >Überstunden</txt_151>
+    <txt_152 >Urlaub</txt_152>
+    <txt_153 >Krankheit</txt_153>
+    <txt_154 >Ress. Stund.</txt_154>
+    <txt_155 >In Rechnung gestellt</txt_155>
+    <txt_156 >Mat.verbrauch / Outlays</txt_156>
+    <txt_157 >Erz. einen Gesamt</txt_157>
+    <txt_158 >Norm</txt_158>
+    <txt_159 >Flexible Bilanz +/- Kumulative Real. / Norm</txt_159>
+    <txt_160 >Abrech.</txt_160>
+    <txt_161 >nicht abrech.</txt_161>
+    <txt_162 >Vertrieb</txt_162>
+    <txt_163 >% Verteil. I / E</txt_163>
+    <txt_164 >Verdient</txt_164>
+    <txt_165 >Gehaltenes</txt_165>
+    <txt_166 >Bal.</txt_166>
+    <txt_167 >Geplant</txt_167>
+    <txt_168 >Gehaltenes</txt_168>
+    <txt_169 >Krank</txt_169>
+    <txt_170 >Kind krank</txt_170>
+    <txt_171 >Betrag</txt_171>
+    <txt_172 >Real.</txt_172>
+    <txt_173 >Norm.</txt_173>
+    <txt_174 >Feiertagen</txt_174>
+    <txt_175 >Geplant</txt_175>
+    <txt_176 >Ress. Stunden zugewiesen - (volle Monate)</txt_176>
+    <txt_177 >Stunden Angekündigt</txt_177>
+    <txt_178 >Mat.verbrauch / Outlays</txt_178>
+    <txt_179 >per. Woche</txt_179>
+    <txt_180 >Heutige Datum</txt_180>
+    <txt_181 >Bearbeiten Zeiterfassung</txt_181>
+    <txt_182 >Eingegeben durch</txt_182>
+    <txt_183 >Datum</txt_183>
+    <txt_184 >Zeit</txt_184>
+    <txt_185 >überschreibt bestimmte Anzahl von Stunden</txt_185>
+    <txt_186 >Stundensatz</txt_186>
+    <txt_187 >Alle Zeitaufzeichnungen für den ausgewählten Mitarbeiter der ausgewählten Aktivität wird dem Stundensatz geändert werden. (Zukunft auch), aber es ist nur diese eine Aktivität. Die anderen Aktivitäten folgen noch die angenommenen Stundensätze . Stundensätze Aktualisierung gilt auch, wenn es eine Rechnung, oder wenn ein Zeitraum genehmigt.</txt_187>
+    <txt_188 >Erstellen und fügen Sie "on the fly"</txt_188>
+    <txt_189 >In ab Lager</txt_189>
+    <txt_190 >Bearbeiten Lager</txt_190>
+    <txt_191 >Material / Outlays</txt_191>
+    <txt_192 >Registrieren Materialien / Aufwand für</txt_192>
+    <txt_193 >Create "On the Fly"</txt_193>
+    <txt_194 >Mat. / Outlays Namen</txt_194>
+    <txt_195 >Name / Anmerkung</txt_195>
+    <txt_196 >Artikel Nr.</txt_196>
+    <txt_197 >Wenn der Artikel-Nr. = 0 erstellt es nicht auf Lager.</txt_197>
+    <txt_198 >Gruppe</txt_198>
+    <txt_199 >(Gewinn%)</txt_199>
+    <txt_200 >Keine</txt_200>
+    <txt_201 >Kaufpreis</txt_201>
+    <txt_202 >Anzahl</txt_202>
+    <txt_203 >Absatz. (Integer)</txt_203>
+    <txt_204 >Verbr. / Empf. datum</txt_204>
+    <txt_205 >Suchen Sie die Materialien auf Lager</txt_205>
+    <txt_206 >(Name oder Mat. / Artikel Nr., % = Wildcard)</txt_206>
+    <txt_207 >In ab Lager</txt_207>
+    <txt_208 >Storage / Min.</txt_208>
+    <txt_209 >Name</txt_209>
+    <txt_210 >Produkt / Mat.Nr.</txt_210>
+    <txt_211 >Kaufpreis</txt_211>
+    <txt_212 >Gruppe</txt_212>
+    <txt_213 >(Gew. %)</txt_213>
+    <txt_214 >Verbrauch Datum</txt_214>
+    <txt_215 >Es hat noch keine Materialien hinzugefügt, die den Suchkriterien entsprechen.</txt_215>
+    <txt_216 >Letzte 100 eingegeben Materialien / Aufwendungen</txt_216>
+    <txt_217 >Produkt / Mat. Nr</txt_217>
+    <txt_218 >Mat.grp.</txt_218>
+    <txt_219 >Kaufpreis pro Stk.</txt_219>
+    <txt_220 >Preis pro Stk.</txt_220>
+    <txt_221 >Löschen</txt_221>
+    <txt_222 >Stk.</txt_222>
+    <txt_223 >Bestandsübersicht</txt_223>
+    <txt_224 >Werkstoffgruppen und das erste Material in der Grp.</txt_224>
+    <txt_225 >Mat.gruppe</txt_225>
+    <txt_226 >Nr. / Name</txt_226>
+    <txt_227 >Mat. name</txt_227>
+    <txt_228 >Mat. Nr</txt_228>
+    <txt_229 >Währung</txt_229>
+    <txt_230 >Anhangs Nr</txt_230>
+    <txt_231 >Interner Code</txt_231>
+    <txt_232 >Intern - (nicht abrechnungsfähig)</txt_232>
+    <txt_233 >Extern - (abrechnungsfähig)</txt_233>
+    <txt_234 >Persönliche Auslagen</txt_234>
+    <txt_235 >-</txt_235>
+    <txt_236 >Job</txt_236>
+    <txt_237 >Mitarbeiter</txt_237>
+    <txt_238 >Verwenden Sie Anhang Nr.</txt_238>
+    <txt_239 >Internieren</txt_239>
+    <txt_240 >Extern</txt_240>
+    <txt_241 >Persönlich</txt_241>
+    <txt_242 >Identifikation</txt_242>
+    <txt_243 >Kunde</txt_243>
+    <txt_244 >Job</txt_244>
+    <txt_245 >Einheit</txt_245>
+    <txt_246 >Währung</txt_246>
+    <txt_247 >Kurs</txt_247>
+    <txt_248 >Gesamt</txt_248>
+    <txt_249 >Kunden-ID</txt_249>
+    <txt_250 >Job Nr.</txt_250>
+    <txt_251 >Edit</txt_251>
+    <txt_252 >Edit "On the Fly"</txt_252>
+    <txt_253 >Bezahlt?</txt_253>
+    <txt_254 >Mark Anhang Einträge in den folgenden Anlagen, die bereits bezahlt</txt_254>
+    <txt_255 >Bezahlen</txt_255>
+    <txt_256 >Mit.No. YYYYMM</txt_256>
+    <txt_257 >Material / Out. Stat.</txt_257>
+    <txt_258 >Für die Zeiterfassung</txt_258>
+    <txt_259 >Stdz. /T.</txt_259>
+    <txt_260 >Preisberechnung</txt_260>
+    <txt_261 >Verkaufspreis</txt_261>
+    <txt_262 >Rechnung</txt_262>
+    <txt_263 >Materialgruppe</txt_263>
+    <txt_264 >Lieferanten</txt_264>
+    <txt_265 >Fahren</txt_265>
+    <txt_266 >Km</txt_266>
+    <txt_267 >Ausgewählte Mitarbeiter</txt_267>
+    <txt_268 >Multitildel / Kopieren Sie die folgenden Stunden für alle ausgewählten Mitarbeiter</txt_268>
+    <txt_269 >Anf.nr.</txt_269>
+    <txt_270 >Kontakt</txt_270>
+    <txt_271 >Zeit</txt_271>
+    <txt_272 >Drs. pro Woche</txt_272>
+    <txt_273 >Für Feiertage bereinigt</txt_273>
+    <txt_274 >Ausg.</txt_274>
+    <txt_275 >Tage</txt_275>
+    <txt_276 >Stund.</txt_276>
+    <txt_277 >Konvertieren Sie Einträge in Tagen in Beziehung. Für einen eigenen Standardzeit des Mitarbeiters. XXXX kann nicht durch "*" Einträge verwendet werden.</txt_277>
+    <txt_278 >0 = Eintrag löschen</txt_278>
+    <txt_279 >Vorgefüllte Aktivitäten können 0 (Null) enthalten, aber es ist zu begründen.</txt_279>
+    <txt_280 >Balance</txt_280>
+    <txt_281 >Urlaub</txt_281>
+    <txt_282 >Feiertagen</txt_282>
+    <txt_283 >Überstunden</txt_283>
+    <txt_284 >Flexible Gleichgewicht</txt_284>
+    <txt_285 >Öffnen. Stunden nicht geladen. (Pre-Aktivitäten gefüllt, zum Beispiel. Mittagessen)</txt_285>
+    <txt_286 >Sie zeigen Jobs nicht und Aktivitäten, wenn der Start- oder Enddatum außerhalb des gewählten Zeitraums ist. (Nicht zu Vertriebsaktivitäten anwendbar - siehe Einstellungen in der Systemsteuerung )</txt_286>
+    <txt_287 >Residenz Reise. Fahrten zwischen Wohnung und Arb. Platz.</txt_287>
+    <txt_288 >60 Tage-Regel</txt_288>
+    <txt_289 >Anhang / Abzüge werden von timeregisrering Aktivitätstypen genommen, die Zu- und Abschläge in Bezug auf die Stunden bezahlter Arbeit (stempelsurs Stunden) ermöglicht. Anhang und Stunden abziehen ist nicht mit dem Login-Geschichte unten.</txt_289>
+    <txt_290 >Öffnen. Zeit in die Datenbank geladen.</txt_290>
+    <txt_291 >Geschlossen für den Eintritt. Eine Anmeldung ist nicht freigegeben. (Kann darüber hinaus auch über Smiley-Schema in Rechnung gestellt oder geschlossen werden)</txt_291>
+    <txt_292 >Geschlossen für den Eintritt. Ist entweder in Rechnung gestellt oder Woche über Smiley-Schema geschlossen.</txt_292>
+    <txt_293 >Geschlossen für den Eintritt. Woche wird über smiley, Lohn-ell. Fasten Zeitraum Ende geschlossen ist. (Admin. Die Benutzer können sich noch ändern)</txt_293>
+    <txt_294 >Zeit gesperrt oder Sie sollten keine Zeit auf diese Art von Tag betreten, wo Sie keinen Standard-Zeit haben. (ZB Feiertag auf einen Sonntag)</txt_294>
+    <txt_295 >Unterschrift</txt_295>
+    <txt_296 >Kommentar</txt_296>
+    <txt_297 >Klicken Sie auf "+" neben dem Eingabefeld einen Kommentar einzugeben.</txt_297>
+    <txt_298 >Geben Sie Stunden für die Periode (Smart Entry)</txt_298>
+    <txt_299 >7,4 * 14 Lasten 7,4 Stunden auf den nächsten 14 Tagen. Wochenenden und Feiertage sind im Preis inbegriffen, aber es wird nicht Stunden in diesen Tagen laden. Die ausgewählten Mitarbeiter müssen Zeit an den Tagen festgelegt werden, wenn der Tag anders als freien Tag angesehen. Smart Eintrag kann nicht durch Eingabe der Anfangs- und Endzeit verwendet werden.</txt_299>
+
+    <txt_300 >Geben Sie Laufwerk (Km)</txt_300>
+    <txt_301 >Durch die Eingabe der Art "Km" es möglich sein wird, über Dialogfeld , um anzuzeigen "auf" und "von" Ziel, die automatisch in das Kommentarfeld übertragen wird.</txt_301>
+    <txt_302 >Einstellungen</txt_302>
+    <txt_303 >gewählt Mitarbeiter</txt_303>
+    <txt_304 >für ausgewählte Mitarbeiter</txt_304>
+    <txt_305 >Zeiterfassung Funktionen</txt_305>
+    <txt_306 >Jobinfo</txt_306>
+    <txt_307 >Set Sortierung für Zeiterfassung</txt_307>
+    <txt_308 >Job-Nr</txt_308>
+    <txt_309 >Sortieren nach</txt_309>
+    <txt_310 >Kontakt und Jobname</txt_310>
+    <txt_311 >Job-Nr (50 neueste)</txt_311>
+    <txt_312 >Ansicht Zusammenbruch + auf in Verbindung treten,</txt_312>
+    <txt_313 >Zeige interne Job oben</txt_313>
+    <txt_314 >Show</txt_314>
+    <txt_315 >Verstecken</txt_315>
+    <txt_316 >Enddatum (+/- 2 Jahre ab dd.)</txt_316>
+    <txt_317 >Geplant</txt_317>
+    <txt_318 >heute</txt_318>
+    <txt_319 >durch gestern</txt_319>
+    <txt_320 >Nur persönliche Auslagen</txt_320>
+    <txt_321 >Initiale</txt_321>
+    <txt_322 >Nur noch nicht abgerechnet</txt_322>
+    <txt_323 >Genehmigt</txt_323>
+    <txt_324 >Nur unaccredited</txt_324>
+    <txt_325 >(Ignorieren Sie den Datumsbereich )</txt_325>
+    <txt_326 >Outlays / Material Registrierung auf den Job:</txt_326>
+    <txt_327 >verteilt auf</txt_327>
+    <txt_328 >Aufzeichnungen</txt_328>
+    <txt_329 >Phase</txt_329>
+    <txt_330 >Last</txt_330>
+    <txt_331 >Büro</txt_331>
+    <txt_332 >Aktual. Preis</txt_332>
+    <txt_333 >Geben Sie für</txt_333>
+    <txt_334 >Zeige 25 neueste Jobs</txt_334>
+    <txt_335 >Schaffung neuer Arbeitsplätze</txt_335>
+    <txt_336 >Job</txt_336>
+    <txt_337 >Weekplan</txt_337>
+    <txt_338 >Weekplan, Woche</txt_338>
+    <txt_339 >Stunden</txt_339>
+    <txt_340 >Kommen / Gehen Zeit</txt_340>
+    <txt_341 >Sortieren nach</txt_341>
+    <txt_342 >Job Name</txt_342>
+    <txt_343 >Job-Nr</txt_343>
+    <txt_344 >Kontakt</txt_344>
+    <txt_345 >Beenden Woche</txt_345>
+    <txt_346 >Siehe abgeschlossen Wochen</txt_346>
+    <txt_347 >Der ausgewählte Auftrag geschlossen wird oder das Startdatum auf den Job für die gewählte Woche nicht gültig ist.</txt_347>
+    <txt_348 >Sie haben versucht, einen Job zu finden, ist nicht mehr aktiv. Klicken Sie auf die Registerkarte "Job", den Job zu finden und den Status auf aktiv zu ändern.</txt_348>
+    <txt_349 >Eine neue Suche</txt_349>
+    <txt_350 >Führen Sie einen neuen Job suchen in der Box auf der linken Seite einen anderen Job zu finden.</txt_350>
+    <txt_351 >Sie haben keinen Zugriff auf diese Aufgabe.</txt_351>
+    <txt_352 >Sie können durch Hinzufügen eines Projekts Sie Mitglied sind für den Job anmelden. Sie können ein Projekt hinzuzufügen, klicken Sie</txt_352>
+    <txt_353 >hier</txt_353>
+    <txt_354 >Zeigen Sie passiv, geschlossen Angebote und Jobs für die Überprüfung</txt_354>
+    <txt_355 >Passiv</txt_355>
+    <txt_356 >genehmigen Wöchentliche Übungsblätter</txt_356>
+    <txt_357 >Admin / Team Leader</txt_357>
+    <txt_358 >Easyreg. - Alle Jobs mit easyreg. Akt.</txt_358>
+    <txt_359 >Suchen Sie unter allen Kunden und Kontakte. (% Wildcard)</txt_359>
+    <txt_360 >Sie haben laufen aus</txt_360>
+    <txt_361 >Fügt die ausgewählte Adresse im Kommentarfeld .</txt_361>
+    <txt_362 >Von</txt_362>
+    <txt_363 >Zu</txt_363>
+    <txt_364 >Von</txt_364>
+    <txt_365 >Wählen Sie die gewünschte Adresse ein und klicken Sie auf Laden.</txt_365>
+    <txt_366 ></txt_366>
+    <txt_367 >Residenz</txt_367>
+    <txt_368 >Geben Sie / find Ziel (e)</txt_368>
+    <txt_369 >- Kontakt / Niederlassung</txt_369>
+    <txt_370 >- Hauptkontakt / Kunden</txt_370>
+    <txt_371 >zeic</txt_371>
+    <txt_372 >Fügen Sie mehrere Adressen für diese Reise. (Combine Suche über Kontakte)</txt_372>
+    <txt_373 >SmartReg - Jobs mit Stunden nach 2 Wochen</txt_373>
+    <txt_374 >Klassisch</txt_374>
+    <txt_375 >Schicke eine Nachricht an jobansvarlige / Verwaltung Ihrer Arbeit an diesem Job ist abgeschlossen. (Entfernt den Auftrag aus der aktiven Jobliste und Update-Status)</txt_375>
+    <txt_376 >Laufende Arbeit</txt_376>
+    <txt_377 >Alle angebotenen Aktivitäten anzeigen</txt_377>
+    <txt_378 >Zur Aktiv-Job-Liste hinzufügen</txt_378>
+    <txt_379 >Nur Arbeit zeigen, wo Mitarbeiter. Sind Job respon. 1-5</txt_379>
+    <txt_380 >HR (registrieren Urlaub, krank, etc.).</txt_380>
+    <txt_381 >Tage</txt_381>
+    <txt_382 >Zeigen Sie einfach Aktivität Linie (nicht zeigen Datum, Uhrzeit, etc.).</txt_382>
+    <txt_383 >Sie haben nun die Möglichkeit, einen oder mehrere der Wochen Abschluss müssen zu beenden, und geben so die Botschaft, dass Sie die Stunden zählen, können Sie in diesen Wochen eingegeben haben.</txt_383>
+    <txt_384 >Job Bank (Diesen Job aktiv-Jobliste )</txt_384>
+    <txt_385 >Persönliche aktiv-Jobliste</txt_385>
+    <txt_386 >Ihre aktive Jobliste ist leer</txt_386>
+    <txt_387 >Woche Totals</txt_387>
+    <txt_388 >Weitere Mitarbeiter.</txt_388>
+    <txt_389 >Poll (Balance)</txt_389>
+    <txt_390 >Hilfe | Seite Info</txt_390>
+    <txt_391 >Keine aktiven Aufträge entsprechen Ihrer Suche!</txt_391>
+    <txt_392 >Überprüfen Sie, ob Sie die richtigen Kontakte / all ausgewählt haben.</txt_392>
+    <txt_393 >Überprüfen Sie auch; Ihre Projektteams , Ihre persönlichen Vermögensliste und Jobstartdatum.</txt_393>
+    <txt_394 >Es werden max.</txt_394>
+    <txt_395 >Job in der Job-Übersicht</txt_395>
+    <txt_396 >Löschen Sie Ihren aktiven Jobliste (Seite neu laden)</txt_396>
+    <txt_397 >Neueste</txt_397>
+    <txt_398 >Sie haben projekt registriert</txt_398>
+    <txt_399 >abrechenbaren</txt_399>
+    <txt_400 >Sie müssen mehr registriert als</txt_400>
+    <txt_401 >die Woche zu beenden</txt_401>
+    <txt_402 >Siehe Zeit-Endungen</txt_402>
+    <txt_403 >Sie haben eine oder mehrere Wochen abgeschlossen werden bleiben</txt_403>
+    <txt_404 >Registrierungsdatum</txt_404>
+    <txt_405 >Der Mitarbeiter ist nicht im ausgewählten Zeitraum beschäftigt</txt_405>
+    <txt_406 >Beschäftigungszeit</txt_406>
+    <txt_407 >Sie haben die Woche angeklickt</txt_407>
+    <txt_408 >Ihre letzte abgeschlossene Periode,</txt_408>
+    <txt_409 >Das nächste Mal, dass Sie verlassen müssen, ist</txt_409>
+    <txt_410 >Neueste rechtzeitige Fertigstellung</txt_410>
+    <txt_411 >Der Status der Periode endet und inkl.</txt_411>
+    <txt_412 >Sortieren aktiv-Jobliste nach</txt_412>
+    <txt_413 >Priorität</txt_413>
+    <txt_414 >Job Name</txt_414>
+    <txt_415 >Job-Nr</txt_415>
+    <txt_416 >Enddatum</txt_416>
+    <txt_417 >Kunde</txt_417>
+    <txt_418 >14 Tage</txt_418>
+    <txt_419 >2 Monate</txt_419>
+    <txt_420 >Gemischte Liste, neueste</txt_420>
+    <txt_421 >Es ist sehr wahrscheinlich eine der folgenden Gründe</txt_421>
+    <txt_422 >Sie haben Jobs in den Suchfilter zu wählen oben und klicken Sie auf "Ansicht Job >>"</txt_422>
+    <txt_423 >Jobstarttermin liegt in einer späteren Woche als die ausgewählte</txt_423>
+    <txt_424 >Sie können die ausgewählten Job / Aktivitäten zugreifen</txt_424>
+    <txt_425 >Der Auftrag wird nicht in Ihrem persönlichen Vermögensliste ausgewählt</txt_425>
+    <txt_426 >Ende Monat</txt_426>
+    <txt_427 >Sie haben einen oder mehrere Monate sind noch nicht abgeschlossen</txt_427>
+    <txt_428 >Die vollständige Liste von am unteren Rand dieses Abschnitts auf den Link klicken.</txt_428>
+    <txt_429 >erste Arbeitstag</txt_429>
+    <txt_430 >Monat</txt_430>
+    <txt_431 >Verlassen</txt_431>
+    <txt_432 >jetzt</txt_432>
+    <txt_433 >Remote-Unterstützung</txt_433>
+    <txt_434 >Systemsteuerung</txt_434>
+    <txt_435 >Ausloggen</txt_435>
+    <txt_436 >Lizenz:</txt_436>
+    <txt_437 >Zeit-Aufnahme</txt_437>
+    <txt_438 >und Abwesenheit</txt_438>
+    <txt_439 >Projektfunktionen</txt_439>
+    <txt_440 >Ressourcen Forecast</txt_440>
+    <txt_441 >Schließen Monat (e)</txt_441>
+    <txt_442 >Genehmigen Monat (e)</txt_442>
+    <txt_443 >Urlaub, Freizeit | Krankheit</txt_443>
+    <txt_444 >Urlaub | Freistellung</txt_444>
+    <txt_445 >Bestellen</txt_445>
+    <txt_446 >Neuer Auftrag</txt_446>
+    <txt_447 >Projekte</txt_447>
+    <txt_448 >Job / Projekte</txt_448>
+    <txt_449 >Projekt anlegen</txt_449>
+    <txt_450 >Print / PDF-Center</txt_450>
+    <txt_451 >Datei-Manager</txt_451>
+    <txt_452 >Aktueller Job - Projekte</txt_452>
+    <txt_453 >Zeitbudget</txt_453>
+    <txt_454 >Gantt</txt_454>
+    <txt_455 >Meilensteine ​​/ Fristen</txt_455>
+    <txt_456 >Pipeline</txt_456>
+    <txt_457 >Berichte</txt_457>
+    <txt_458 >Gesamtsumme</txt_458>
+    <txt_459 >Umsatz</txt_459>
+    <txt_460 >Geschäftsbereiche</txt_460>
+    <txt_461 >Ändern Version</txt_461>
+    <txt_462 >Triebwerk</txt_462>
+    <txt_463 >Komm / Do (Login Geschichte)</txt_463>
+    <txt_464 >Mitarbeiter Sales | Sicherheit</txt_464>
+    <txt_465 >Smileys (Periode endet)</txt_465>
+    <txt_466 >Abstimmung | Gehalt (HR-Liste.)</txt_466>
+    <txt_467 >Stunden Importfehler</txt_467>
+    <txt_468 >Konsolidierung Überblick</txt_468>
+    <txt_469 >Leitungen</txt_469>
+    <txt_470 >Aktion Geschichte</txt_470>
+    <txt_471 >Mitarbeiter</txt_471>
+    <txt_472 >Lager</txt_472>
+    <txt_473 >Erstellen Materialien</txt_473>
+    <txt_474 >Materialgruppen</txt_474>
+    <txt_475 >Materialbestellungen</txt_475>
+    <txt_476 >Standard Productions</txt_476>
+    <txt_477 >Lieferant | Service-Partei.</txt_477>
+    <txt_478 >Mat./ Lagerung</txt_478>
+    <txt_479 >Verwaltung</txt_479>
+    <txt_480 >Zeichnen</txt_480>
+    <txt_481 >Projektgruppen</txt_481>
+    <txt_482 >Stam-Aktivitätsgruppen (Job Templates)</txt_482>
+    <txt_483 >Die Vertriebskosten - Gruppen</txt_483>
+    <txt_484 >Meilensteine ​​Typen</txt_484>
+    <txt_485 >Standard Broschüren</txt_485>
+    <txt_486 >Kundschaft</txt_486>
+    <txt_487 >Kundentypen - Segmente</txt_487>
+    <txt_488 >Aktionsstatus</txt_488>
+    <txt_489 >Werbeartikel</txt_489>
+    <txt_490 >Werbe Kontaktformular</txt_490>
+    <txt_491 >CRM</txt_491>
+    <txt_492 >ERP</txt_492>
+    <txt_493 >Steuercodes</txt_493>
+    <txt_494 >Ratios Codes</txt_494>
+    <txt_495 >Steuerperiode (Angebotsende)</txt_495>
+    <txt_496 >Benutzergruppen</txt_496>
+    <txt_497 >Mitarbeiter-Typen</txt_497>
+    <txt_498 >Arbeitnehmertyp Gruppen</txt_498>
+    <txt_499 >Helpdesk</txt_499>
+    <txt_500 >Ereignisarten</txt_500>
+    <txt_501 >Prioritäten</txt_501>
+    <txt_502 >Termin Gruppen</txt_502>
+    <txt_503 >Incident-Status-</txt_503>
+    <txt_504 >Incident-Kategorien</txt_504>
+    <txt_505 >Abrechnung</txt_505>
+    <txt_506 >Für die Abrechnung</txt_506>
+    <txt_507 >Erstellen Sie Billing</txt_507>
+    <txt_508 >Rechnungshistorie</txt_508>
+    <txt_509 >Suchen Rechnungszeilen</txt_509>
+    <txt_510 >Abstimmung</txt_510>
+    <txt_511 >Abstimmung real./faktureret (Job und Mitarb.)</txt_511>
+    <txt_512 >Abstimmungsvereinbarungen Einzelhandel</txt_512>
+    <txt_513 >Entsendung</txt_513>
+    <txt_514 >Account-Plan</txt_514>
+    <txt_515 >Konto erstellen</txt_515>
+    <txt_516 >Journal Entry (0)</txt_516>
+    <txt_517 >I-VAT (-1)</txt_517>
+    <txt_518 >U-VAT (-2)</txt_518>
+    <txt_519 >Gewinn- und Verlustrechnung</txt_519>
+    <txt_520 >Haushalt</txt_520>
+    <txt_521 >Budget Jahr / Datum</txt_521>
+    <txt_522 >Brutto / Netto Tage | Stunden</txt_522>
+    <txt_523 >Budget Mitarbeiter</txt_523>
+    <txt_524 >Service Desk</txt_524>
+    <txt_525 >Erstellen Vorfall</txt_525>
+    <txt_526 >Incident-Zustand.</txt_526>
+    <txt_527 >Knowledge Base</txt_527>
+    <txt_528 >Datei-Manager</txt_528>
+    <txt_529 >Dashboard</txt_529>
+    <txt_530 >Kundschaft</txt_530>
+    <txt_531 >Lieferanten</txt_531>
+    <txt_532 >Konzessionär</txt_532>
+    <txt_533 >Beenden Sie heute</txt_533>
+    <txt_534 >Suche</txt_534>
+    <txt_535 >Berechnet</txt_535>
+    <txt_536 >Drucker freundlich</txt_536>
+
+    <txt_537>Sie haben keine Rechte, oder haben nicht die Kriterien erfüllt Zeitraum zu beenden</txt_537>
+    <txt_538>tag</txt_538>
+    <txt_539>Kriterium</txt_539>
+
+
+  </de>
+
+  
+  <!-- Fransk -->
+  <fr>
+    <txt_1 >L'état de votre fin de l'année</txt_1>
+    <txt_2 >Dernière achèvement en temps opportun est</txt_2>
+    <txt_3 >h.</txt_3>
+    <txt_4 >Vous avez terminé</txt_4>
+    <txt_5 >Semaine</txt_5>
+    <txt_6 >Passer à l'enregistrement du temps</txt_6>
+    <txt_7 >Account dir.</txt_7>
+    <txt_8 >aucun</txt_8>
+    <txt_9 >Cliquez sur la description de l'emploi</txt_9>
+    <txt_10 >Du travail respon.</txt_10>
+    <txt_11 >Propriétaire du travail</txt_11>
+    <txt_12 >Période</txt_12>
+    <txt_13 >Prix fixe</txt_13>
+    <txt_14 >En cours. heures</txt_14>
+    <txt_15 >Type d'emploi</txt_15>
+    <txt_16 >Forkalk.</txt_16>
+    <txt_17 >Réalisé</txt_17>
+    <txt_18 >Accord</txt_18>
+    <txt_19 >Aktiv</txt_19>
+    <txt_20 >Fermé</txt_20>
+    <txt_21 >Ajouter Mat. forbr. / Dépenses</txt_21>
+    <txt_22 >Contact</txt_22>
+    <txt_23 >Tél.</txt_23>
+    <txt_24 >Contacts / Branches</txt_24>
+    <txt_25 >Email</txt_25>
+    <txt_26 >Dir. Tél.</txt_26>
+    <txt_27 >Mobile</txt_27>
+    <txt_28 >Fermer la fenêtre</txt_28>
+    <txt_29 >Description du poste</txt_29>
+    <txt_30 >voir totale</txt_30>
+    <txt_31 >Feuille de temps</txt_31>
+    <txt_32 >Voir les enregistrements d'une heure la semaine</txt_32>
+    <txt_33 >Heures de charge que</txt_33>
+    <txt_34 >Figure (heures) ou</txt_34>
+    <txt_35 >heure de début et de fin (9: 25-10: 45)</txt_35>
+    <txt_36 >Incid. ça</txt_36>
+    <txt_37 >Entrée de Chronomètre</txt_37>
+    <txt_38 >Temps inscription par. jour</txt_38>
+    <txt_39 >Fermer l'emploi chargement heures</txt_39>
+    <txt_40 >Envoyez un courriel à jobansvarlig que vous avez terminé votre travail sur ce travail. (Chargement)</txt_40>
+    <txt_41 >Fermer l'entrée d'emploi et envoyer du courrier à jobansvarlige.</txt_41>
+    <txt_42 >Fermer l'emploi chargement heures</txt_42>
+    <txt_43 >Masque. production Livré, envoyez un mail à jobansvarlige et de créer en même temps un nouvel emploi (copie ce travail).</txt_43>
+    <txt_44 >Fermez le travail après son entrée, envoyez un mail à jobansvarlige et de créer en même temps un nouvel emploi (copie ce travail).</txt_44>
+    <txt_45 >Verrouillage du temps sur les activités</txt_45>
+    <txt_46 >Ignorer verrouillage du temps sur exploitation.</txt_46>
+    <txt_47 >navigation</txt_47>
+    <txt_48 >Haut / Bas: [touches fléchées] Droite: [Ctrl] + [x] Gauche: [Ctrl] + [z]</txt_48>
+    <txt_49 >Affichage de l'heure est telle</txt_49>
+    <txt_50 >09:45, 12:23, 23:55, etc.</txt_50>
+    <txt_51 >commentaire</txt_51>
+    <txt_52 >max. 1255 caractères</txt_52>
+    <txt_53 >Masquer commentaire sur côté client</txt_53>
+    <txt_54 >aucun</txt_54>
+    <txt_55 >oui</txt_55>
+    <txt_56 >Enregistrer un commentaire >></txt_56>
+    <txt_57 >accord fermé</txt_57>
+    <txt_58 >- Soyez conscient que ce travail est associée à un accord qui est fermé!</txt_58>
+    <txt_59 >Il ne se trouve pas toutes les activités sur le travail sélectionné, ou le travail est fermé.</txt_59>
+    <txt_60 >Cela peut être parce que soit il n'y a pas d'activité, ou que l'employé sélectionné n'a pas accès au travail à trouver.</txt_60>
+    <txt_61 >Comment puis-je inscrire mes cours?</txt_61>
+    <txt_62 >Si vous souhaitez enregistrer des heures sur un deuxième emploi, sélectionnez-le dans la colonne de gauche.</txt_62>
+    <txt_63 >Si le travail ne soit pas visible, vous pouvez le chercher dans la case en haut à gauche, ou recherchez dans l ' "Assistant de votre travail actif».</txt_63>
+    <txt_64 >Temps inscriptions semaine</txt_64>
+    <txt_65 >Consommation de temps</txt_65>
+    <txt_66 >client</txt_66>
+    <txt_67 >emploi</txt_67>
+    <txt_68 >activité</txt_68>
+    <txt_69 >type</txt_69>
+    <txt_70 >nombre</txt_70>
+    <txt_71 >semaine totale</txt_71>
+    <txt_72 >Version à imprimer</txt_72>
+    <txt_73 >Company, Job No. ell. Nom du travail (divisé par le ell. XTX9)</txt_73>
+    <txt_74 >Ignorer les groupes de projet</txt_74>
+    <txt_75 >contacts</txt_75>
+    <txt_76 >tous</txt_76>
+    <txt_77 >employé</txt_77>
+    <txt_78 >recherche</txt_78>
+    <txt_79 >changement</txt_79>
+    <txt_80 >Voir les entrées de Chronomètre</txt_80>
+    <txt_81 >Voir l'emploi caché (votre liste)</txt_81>
+    <txt_82 >Paramètres. Guichet emplois et pers. liste active</txt_82>
+    <txt_83 >contacts | emploi</txt_83>
+    <txt_84 >Créer de nouveaux emplois</txt_84>
+    <txt_85 >charge</txt_85>
+    <txt_86 >Enregistrer les paramètres</txt_86>
+    <txt_87 >Semaine Quitter (s)</txt_87>
+    <txt_88 >Voir le statut Smiley</txt_88>
+    <txt_89 >semaine Quitter</txt_89>
+    <txt_90 >Terminer tous les semaines jusqu'à et y compris la semaine</txt_90>
+    <txt_91 >ne peut être conclu à partir</txt_91>
+    <txt_92 >jour</txt_92>
+    <txt_93 >terminé</txt_93>
+    <txt_94 >h.</txt_94>
+    <txt_95 >en semaine</txt_95>
+    <txt_96 >sur Smiley</txt_96>
+    <txt_97 >Un ou plusieurs semaines, jusqu'à ce que cette semaine, ne sont pas terminés.</txt_97>
+    <txt_98 >heureux Smiley</txt_98>
+    <txt_99 >Mell. fornøj.</txt_99>
+    <txt_100 >Un ell. Plusieurs jours cette semaine sont pas remplis.</txt_100>
+    <txt_101 >employé</txt_101>
+    <txt_102 >heureux Emoticons</txt_102>
+    <txt_103 >Sure Emoticons</txt_103>
+    <txt_104 >Somme / du total</txt_104>
+    <txt_105 >La semaine suivante est fermée</txt_105>
+    <txt_106 >Il n'y a pas d'enregistrements smiley dans l'année sélectionnée.</txt_106>
+    <txt_116 >Saisie heures</txt_116>
+    <txt_117 >Voir les disques (horaires des semaines sélectionnées)</txt_117>
+    <txt_118 >Job Log et feuilles d'exercices hebdomadaires</txt_118>
+    <txt_119 >Grand total, réel. heures</txt_119>
+    <txt_120 >informations sur le travail</txt_120>
+    <txt_121 >Vote - Md.</txt_121>
+    <txt_122 >Sondage - Semaine</txt_122>
+    <txt_123 >Connectez-vous ici.</txt_123>
+    <txt_124 >Pas de résultats pour la période sélectionnée</txt_124>
+    <txt_125 >activités</txt_125>
+    <txt_126 >dates</txt_126>
+    <txt_127 >dim</txt_127>
+    <txt_128 >lun</txt_128>
+    <txt_129 >mar</txt_129>
+    <txt_130 >mer</txt_130>
+    <txt_131 >jeu</txt_131>
+    <txt_132 >ven</txt_132>
+    <txt_133 >sam</txt_133>
+    <txt_134 >Dernière horloge in / out fois (Aujourd'hui à.)</txt_134>
+    <txt_135 >heures de salaire</txt_135>
+    <txt_136 >total</txt_136>
+    <txt_137 >heures</txt_137>
+    <txt_138 >pause</txt_138>
+    <txt_139 >Cette semaine incl. courant</txt_139>
+    <txt_140 >heures</txt_140>
+    <txt_141 >Minimum</txt_141>
+    <txt_142 >Job-bank et pers. Liste active</txt_142>
+    <txt_143 >Job vous êtes lié via votre projekltgrupper. Ajouter la banque d'emplois pour votre liste active d'emploi en cliquant dessus et en dessous.</txt_143>
+    <txt_144 >rafraîchir</txt_144>
+    <txt_145 >Tout sélectionner</txt_145>
+    <txt_146 >aucun</txt_146>
+    <txt_147 >employé</txt_147>
+    <txt_148 >heures</txt_148>
+    <txt_149 >Toutes Loi. types pris en compte pour les feuilles de temps quotidiennes.</txt_149>
+    <txt_150 >Déjeuner</txt_150>
+    <txt_151 >Heures supplémentaires</txt_151>
+    <txt_152 >Vacances</txt_152>
+    <txt_153 >Maladie</txt_153>
+    <txt_154 >Heu. de ress.</txt_154>
+    <txt_155 >Facturé</txt_155>
+    <txt_156 >Mat. Consom. / Dépenses</txt_156>
+    <txt_157 >Tot. Réal.</txt_157>
+    <txt_158 >Norme</txt_158>
+    <txt_159 >Solde flexible +/- cumulatif réal. / Norm</txt_159>
+    <txt_160 >Fac.able</txt_160>
+    <txt_161 >Pas fact.able</txt_161>
+    <txt_162 >Sales</txt_162>
+    <txt_163 >% Distri. I / E</txt_163>
+    <txt_164 >Gagné</txt_164>
+    <txt_165 >Fait</txt_165>
+    <txt_166 >Équil.</txt_166>
+    <txt_167 >Prévu</txt_167>
+    <txt_168 >Fait</txt_168>
+    <txt_169 >Malade</txt_169>
+    <txt_170 >Enfant malade</txt_170>
+    <txt_171 >Montant</txt_171>
+    <txt_172 >Réal.</txt_172>
+    <txt_173 >Norm.</txt_173>
+    <txt_174 >Congés spéciaux</txt_174>
+    <txt_175 >Prévu</txt_175>
+    <txt_176 >Les heures de ressources affectées - (plein mois)</txt_176>
+    <txt_177 >Facturé heures</txt_177>
+    <txt_178 >Mat. Consom. / Dépenses</txt_178>
+    <txt_179 >Par. semaine</txt_179>
+    <txt_180 >La date d'aujourd'hui</txt_180>
+    <txt_181 >Modifier l'enregistrement du temps</txt_181>
+    <txt_182 >Entrée par</txt_182>
+    <txt_183 >Date</txt_183>
+    <txt_184 >ou de L'heure</txt_184>
+    <txt_185 >remplace nombre d'heures</txt_185>
+    <txt_186 >Horaire</txt_186>
+    <txt_187 >Tous les enregistrements de temps pour l'employé sélectionné de l'activité sélectionnée seront changés au taux horaire. (Aussi futur) Mais il est seulement cette seule activité. Les autres activités suivent encore les taux horaires pris en charge. Mise à jour des taux horaires applique même s'il y a une facture, ou si une période est approuvée.</txt_187>
+    <txt_188 >Créer et ajouter "on the fly"</txt_188>
+    <txt_189 >Ajouter du stock</txt_189>
+    <txt_190 >Modifier stock</txt_190>
+    <txt_191 >Matériaux / Dépenses</txt_191>
+    <txt_192 >Enregistrez-matériaux / dépenses pour</txt_192>
+    <txt_193 >Créer "on the fly"</txt_193>
+    <txt_194 >Mat. / Dépenses Nom</txt_194>
+    <txt_195 >Nom / Avis</txt_195>
+    <txt_196 >Article no.</txt_196>
+    <txt_197 >Si l'article ne. = 0 créé il pas en stock.</txt_197>
+    <txt_198 >Groupe</txt_198>
+    <txt_199 >(Profit%)</txt_199>
+    <txt_200 >Aucun</txt_200>
+    <txt_201 >Prix d'achat</txt_201>
+    <txt_202 >Nombre</txt_202>
+    <txt_203 >Paragraphe. (Entier)</txt_203>
+    <txt_204 >Cons. / date de récep.</txt_204>
+    <txt_205 >Rechercher les matériaux en stock</txt_205>
+    <txt_206 >(Nom ou mat. / article nr., % = joker)</txt_206>
+    <txt_207 >Ajouter du stock</txt_207>
+    <txt_208 >Stockage / min.</txt_208>
+    <txt_209 >Nom</txt_209>
+    <txt_210 >Produit / Mat. no.</txt_210>
+    <txt_211 >Prix d'achat</txt_211>
+    <txt_212 >Groupe</txt_212>
+    <txt_213 >(Pro. %)</txt_213>
+    <txt_214 >Date de la consommation</txt_214>
+    <txt_215 >Il n'a pas ajouté de matériaux qui répondent aux critères de recherche.</txt_215>
+    <txt_216 >100 derniers inscrits matériaux / dépenses</txt_216>
+    <txt_217 >Produit / Mat. No.</txt_217>
+    <txt_218 >Grp. de mat.</txt_218>
+    <txt_219 >Le prix d'achat par pc.</txt_219>
+    <txt_220 >Prix par pc.</txt_220>
+    <txt_221 >Delete</txt_221>
+    <txt_222 >Pièce</txt_222>
+    <txt_223 >Synthèse des stocks</txt_223>
+    <txt_224 >Groupes de matériaux et le premier matériau dans le grp.</txt_224>
+    <txt_225 >Grp. de mat.</txt_225>
+    <txt_226 >No / nom</txt_226>
+    <txt_227 >Nom de la mat.</txt_227>
+    <txt_228 >Le mat. no</txt_228>
+    <txt_229 >Monnaie</txt_229>
+    <txt_230 >Annexe no</txt_230>
+    <txt_231 >Code interne</txt_231>
+    <txt_232 >Interne - (non rechargeable)</txt_232>
+    <txt_233 >Externe - (facturable)</txt_233>
+    <txt_234 >Dépenses personnelles</txt_234>
+    <txt_235 >-</txt_235>
+    <txt_236 >Emploi</txt_236>
+    <txt_237 >Employé</txt_237>
+    <txt_238 >Utiliser l'annexe no.</txt_238>
+    <txt_239 >Interne</txt_239>
+    <txt_240 >Externe</txt_240>
+    <txt_241 >Personnel</txt_241>
+    <txt_242 >Ça</txt_242>
+    <txt_243 >Client</txt_243>
+    <txt_244 >Emploi</txt_244>
+    <txt_245 >Unité</txt_245>
+    <txt_246 >Monnaie</txt_246>
+    <txt_247 >Kurs</txt_247>
+    <txt_248 >Total</txt_248>
+    <txt_249 >Id du client</txt_249>
+    <txt_250 >Job No.</txt_250>
+    <txt_251 >Éditer</txt_251>
+    <txt_252 >Edit "On the Fly"</txt_252>
+    <txt_253 >Réglée?</txt_253>
+    <txt_254 >Entrées Annexe Marquer dans les annexes suivantes, qui se sont Réglées</txt_254>
+    <txt_255 >Réglée</txt_255>
+    <txt_256 >No. Emp. YYYYMM</txt_256>
+    <txt_257 >Matériel / dépen. Stat.</txt_257>
+    <txt_258 >Pour l'enregistrement du temps</txt_258>
+    <txt_259 >H. std. /j.</txt_259>
+    <txt_260 >Calculer le prix</txt_260>
+    <txt_261 >Prix de vente</txt_261>
+    <txt_262 >facture</txt_262>
+    <txt_263 >Groupe de matériaux</txt_263>
+    <txt_264 >Fournisseurs</txt_264>
+    <txt_265 >Conduite</txt_265>
+    <txt_266 >Km</txt_266>
+    <txt_267 >Sélectionnez les employés</txt_267>
+    <txt_268 >Multitildel / Copiez les heures suivantes pour tous les employés sélectionnés</txt_268>
+    <txt_269 >No. de Réq.</txt_269>
+    <txt_270 >Contact</txt_270>
+    <txt_271 >Période</txt_271>
+    <txt_272 >Moyen par semaine</txt_272>
+    <txt_273 >Ajusté pour les vacances</txt_273>
+    <txt_274 >Déc.</txt_274>
+    <txt_275 >Journées</txt_275>
+    <txt_276 >Heu.</txt_276>
+    <txt_277 >Convertir les entrées en jours en relation. Pour propre temps standard de chaque employé. XXXX ne peut pas être utilisé par les entrées de "*".</txt_277>
+    <txt_278 >0 = Delete entrée</txt_278>
+    <txt_279 >Préremplie activités peuvent contenir 0 (zéro), mais il doit être justifié.</txt_279>
+    <txt_280 >Équilibre</txt_280>
+    <txt_281 >Vacances</txt_281>
+    <txt_282 >Vacances gratuit</txt_282>
+    <txt_283 >Heures supplé.</txt_283>
+    <txt_284 >Solde flexible</txt_284>
+    <txt_285 >Ouvrir. Les heures non chargées. (Activités pré-rempli, par exemple. Le déjeuner)</txt_285>
+    <txt_286 >Ne pas afficher les emplois et les activités, afficher la date de début ou de fin est en dehors de la période sélectionnée. (Non applicable aux activités de vente - voir Paramètres du Panneau de configuration)</txt_286>
+    <txt_287 >Voyage Residence. Voyage entre le domicile et le trav. lieu.</txt_287>
+    <txt_288 >Règle des 60 jours</txt_288>
+    <txt_289 >Annexe / Déductions sont tirées de timeregisrering des types d'activités qui permet des augmentations et des réductions par rapport aux heures de travail rémunéré (stempelsurs heures). Annexe et de déduire les heures ne sont pas à l'histoire de connexion ci-dessous.</txt_289>
+    <txt_290 >Ouvrir. Temps chargé dans la base de données.</txt_290>
+    <txt_291 >Fermé pour l'entrée. L'inscription est approuvé. (Peut en outre également être facturé ou fermé via smiley-système)</txt_291>
+    <txt_292 >Fermé pour l'entrée. Est soit facturé ou semaine est fermé via smiley-régime.</txt_292>
+    <txt_293 >Fermé pour l'entrée. Semaine est fermé via smiley, la paie ell. Période de jeûne fin. (Admin. Les utilisateurs peuvent encore changer)</txt_293>
+    <txt_294 >Temps verrouillé ou vous ne devriez pas entrer tout moment sur ce genre de journée où vous ne disposez pas d'un temps standard. (Vacances par exemple sur un dimanche)</txt_294>
+    <txt_295 >Signature</txt_295>
+    <txt_296 >Commentaire</txt_296>
+    <txt_297 >Cliquez sur "+" à côté du champ de saisie pour entrer un commentaire.</txt_297>
+    <txt_298 >Entrez les heures pour la période (Smart Entry)</txt_298>
+    <txt_299 >7.4 * 14 charges 7,4 heures sur les 14 prochains jours. Les week-ends et les jours fériés sont inclus, mais il ne se charge pas des heures ces jours-ci. Les employés sélectionnés doivent être stipulés de temps sur les jours où le jour autrement considéré comme un jour de congé. Entrée intelligente ne peut pas être utilisé en entrant l'heure de début et de fin.</txt_299>
+
+    <txt_300 >Entrez en voiture (Km)</txt_300>
+    <txt_301 >En entrant le type "Km" il sera possible boîte de dialogue via indiquer "à" et "de" destination, qui est automatiquement transféré vers le champ de commentaire.</txt_301>
+    <txt_302 >Réglages</txt_302>
+    <txt_303 >Employé élu</txt_303>
+    <txt_304 >pour l'employé sélectionné</txt_304>
+    <txt_305 >Temps caractéristiques d'enregistrement</txt_305>
+    <txt_306 >Jobinfo</txt_306>
+    <txt_307 >Set Trier pour l'enregistrement du temps</txt_307>
+    <txt_308 >Job Job</txt_308>
+    <txt_309 >Trier par</txt_309>
+    <txt_310 >Contact et emploi Nom</txt_310>
+    <txt_311 >Job Job (50 plus récent)</txt_311>
+    <txt_312 >Voir effondrement + sur sont en contact</txt_312>
+    <txt_313 >Voir top interne de l'emploi</txt_313>
+    <txt_314 >Spectacle</txt_314>
+    <txt_315 >Cacher</txt_315>
+    <txt_316 >Date de fin (+/- 2 ans à partir de dd.)</txt_316>
+    <txt_317 >prévu</txt_317>
+    <txt_318 >aujourd'hui</txt_318>
+    <txt_319 >par le biais d'hier</txt_319>
+    <txt_320 >Afficher uniquement les dépenses personnelles</txt_320>
+    <txt_321 >Initiales</txt_321>
+    <txt_322 >Afficher seulement pas réglé</txt_322>
+    <txt_323 >Approuvé</txt_323>
+    <txt_324 >Afficher seulement unaccredited</txt_324>
+    <txt_325 >(Ignorer la plage de dates)</txt_325>
+    <txt_326 >Dépenses / matériel inscription sur le travail:</txt_326>
+    <txt_327 >répartis sur</txt_327>
+    <txt_328 >archives</txt_328>
+    <txt_329 >Phase</txt_329>
+    <txt_330 >Charge</txt_330>
+    <txt_331 >Bureau</txt_331>
+    <txt_332 >prix mis à jour</txt_332>
+    <txt_333 >Entrez pour</txt_333>
+    <txt_334 >Afficher 25 derniers emplois</txt_334>
+    <txt_335 >Créer de nouveaux emplois</txt_335>
+    <txt_336 >Job Bank</txt_336>
+    <txt_337 >Weekplan</txt_337>
+    <txt_338 >Weekplan, semaine</txt_338>
+    <txt_339 >heures</txt_339>
+    <txt_340 >Venez / heure Go</txt_340>
+    <txt_341 >Trier par</txt_341>
+    <txt_342 >Nom du travail</txt_342>
+    <txt_343 >Job Job</txt_343>
+    <txt_344 >Contact</txt_344>
+    <txt_345 >Semaine Quitter</txt_345>
+    <txt_346 >Voir semaines complètes</txt_346>
+    <txt_347 >Le travail sélectionné est fermé ou la date de début de l'emploi ne sont pas valables pour la semaine sélectionnée.</txt_347>
+    <txt_348 >Vous avez essayé de trouver un emploi est plus actif. Cliquez sur l'onglet "job", trouver l'emploi et changer le statut d'actif.</txt_348>
+    <txt_349 >Faire une nouvelle recherche</txt_349>
+    <txt_350 >Effectuer une nouvelle recherche d'emploi dans la zone à gauche pour trouver un autre emploi.</txt_350>
+    <txt_351 >Vous n'avez pas accès à ce travail.</txt_351>
+    <txt_352 ></txt_352>
+    <txt_353 >ici</txt_353>
+    <txt_354 >Afficher passifs, offres et emplois fermés aux fins d'examen</txt_354>
+    <txt_355 >Passif</txt_355>
+    <txt_356 >Approuver les feuilles d'exercices hebdomadaires</txt_356>
+    <txt_357 >Administrateur / Chef d'équipe</txt_357>
+    <txt_358 >Easyreg. - Tous les emplois avec easyreg. Act.</txt_358>
+    <txt_359 >Rechercher dans tous les clients et contacts. (% Wildcard)</txt_359>
+    <txt_360 >Vous avez exécuté à partir</txt_360>
+    <txt_361 >Insère l'adresse sélectionnée dans la boîte de commentaire.</txt_361>
+    <txt_362 >Á partir de</txt_362>
+    <txt_363 >Á</txt_363>
+    <txt_364 >Par</txt_364>
+    <txt_365 >Choisissez l'adresse désirée et cliquez sur Charger.</txt_365>
+    <txt_366 ></txt_366>
+    <txt_367 >Résidence</txt_367>
+    <txt_368 >Entrez / trouver destination (s)</txt_368>
+    <txt_369 >- Contact / Direction</txt_369>
+    <txt_370 >- Contact principal / client</txt_370>
+    <txt_371 >car</txt_371>
+    <txt_372 >Ajouter plusieurs adresses pour ce voyage. (Combiner la recherche à travers des contacts)</txt_372>
+    <txt_373 >SmartReg - emploi avec des heures passées 2 semaines</txt_373>
+    <txt_374 >Classique</txt_374>
+    <txt_375 >Envoyer un message à jobansvarlige / gestion de votre travail sur ce travail est terminé. (Supprime le travail à partir de la liste active d'emploi, et de l'état de mise à jour)</txt_375>
+    <txt_376 >Travail en cours</txt_376>
+    <txt_377 >Afficher toutes les activités proposées</txt_377>
+    <txt_378 >Ajouter à la liste des tâches actives</txt_378>
+    <txt_379 >Montrer seulement l'emploi où les employés. Sont la responsabilité du travail. 1-5</txt_379>
+    <txt_380 >HR (enregistrer vacances, malades, etc.).</txt_380>
+    <txt_381 >Journées</txt_381>
+    <txt_382 >Afficher ligne d'activité simple (ne pas la date, l'heure, etc. show).</txt_382>
+    <txt_383 >Vous avez maintenant la possibilité de mettre fin à un ou plusieurs des semaines dont vous avez besoin pour terminer, et donnant ainsi le message que vous pouvez compter les heures que vous avez entrés dans ces semaines.</txt_383>
+    <txt_384 >Banque d'emploi (Ajouter le job à liste active d'emploi)</txt_384>
+    <txt_385 >Liste active d'emploi personnelle</txt_385>
+    <txt_386 >Votre liste active d'emploi est vide</txt_386>
+    <txt_387 >semaine totaux</txt_387>
+    <txt_388 >Autre personnel.</txt_388>
+    <txt_389 >Sondage (Balance)</txt_389>
+    <txt_390 >Aide | page info</txt_390>
+    <txt_391 >Aucune offre d'emploi actifs correspondent à votre recherche!</txt_391>
+    <txt_392 >Vérifiez que vous avez sélectionné les contacts corrects / all.</txt_392>
+    <txt_393 >Vérifiez également; vos équipes de projet, votre liste d'actifs personnels et de l'emploi date de début.</txt_393>
+    <txt_394 >Affichage max.</txt_394>
+    <txt_395 >emploi dans la vue d'ensemble de l'emploi</txt_395>
+    <txt_396 >Effacer votre liste active d'emploi (page de rechargement)</txt_396>
+    <txt_397 >Dernier</txt_397>
+    <txt_398 >Vous avez projet enregistré</txt_398>
+    <txt_399 >facturable</txt_399>
+    <txt_400 >Vous devez avoir enregistré plus de</txt_400>
+    <txt_401 >pour terminer la semaine</txt_401>
+    <txt_402 >Voir période terminaisons</txt_402>
+    <txt_403 >Vous avez un ou plusieurs semaines restent à compléter</txt_403>
+    <txt_404 >Date jointe</txt_404>
+    <txt_405 >L'employé n'a pas employé dans la période sélectionnée</txt_405>
+    <txt_406 >Période d'emploi</txt_406>
+    <txt_407 >Vous avez cliqué sur la semaine</txt_407>
+    <txt_408 >Votre dernière période terminée,</txt_408>
+    <txt_409 >La prochaine fois que vous devez sortir est</txt_409>
+    <txt_410 >Dernière achèvement en temps opportun est</txt_410>
+    <txt_411 >Statut de la période se termine à et incl.</txt_411>
+    <txt_412 >Trier liste active d'emploi après</txt_412>
+    <txt_413 >Priorité</txt_413>
+    <txt_414 >Nom du travail</txt_414>
+    <txt_415 >Job No.</txt_415>
+    <txt_416 >Date de fin</txt_416>
+    <txt_417 >Client</txt_417>
+    <txt_418 >14 jours</txt_418>
+    <txt_419 >2 mois</txt_419>
+    <txt_420 >Liste mixte, le dernier</txt_420>
+    <txt_421 >Il est très probablement l'une des raisons suivantes:</txt_421>
+    <txt_422 >Vous devez choisir des emplois dans le filtre de recherche ci-dessus et cliquez sur "Voir l'annonce >>"</txt_422>
+    <txt_423 >Date de début de l'emploi se trouve dans une semaine plus tard que sélectionné</txt_423>
+    <txt_424 >Vous ne pouvez pas accéder aux emplois / activités sélectionnées</txt_424>
+    <txt_425 >Le travail n'a pas été sélectionné dans votre liste d'actifs personnels</txt_425>
+    <txt_426 >mois Fin</txt_426>
+    <txt_427 >Vous avez un ou plusieurs mois ne sont pas encore achevés</txt_427>
+    <txt_428 >Voir la liste complète en cliquant sur le lien au bas de cette section.</txt_428>
+    <txt_429 >premier jour ouvrable</txt_429>
+    <txt_430 >mois</txt_430>
+    <txt_431 >Quitter</txt_431>
+    <txt_432 >maintenant</txt_432>
+    <txt_433 >Soutien à distance</txt_433>
+    <txt_434 >Panneau de configuration</txt_434>
+    <txt_435 >Déconnexion</txt_435>
+    <txt_436 >Licence:</txt_436>
+    <txt_437 >Enregistrement de temps</txt_437>
+    <txt_438 >et en l'absence</txt_438>
+    <txt_439 >Caractéristiques du projet</txt_439>
+    <txt_440 >Prévisions ressources</txt_440>
+    <txt_441 >Fermer mois (s)</txt_441>
+    <txt_442 >Approuver mois (s)</txt_442>
+    <txt_443 >Vacances, temps libre | maladie</txt_443>
+    <txt_444 >Vacances | Temps libre</txt_444>
+    <txt_445 >Ordre</txt_445>
+    <txt_446 >Nouvel ordre</txt_446>
+    <txt_447 >Projets</txt_447>
+    <txt_448 >Emploi / Projets</txt_448>
+    <txt_449 >Créer un projet</txt_449>
+    <txt_450 >Imprimer / Centre de PDF</txt_450>
+    <txt_451 >Gestionnaire de fichiers</txt_451>
+    <txt_452 >Emploi actuel - projets</txt_452>
+    <txt_453 >budget-temps</txt_453>
+    <txt_454 >Gantt</txt_454>
+    <txt_455 >Jalons / Délais</txt_455>
+    <txt_456 >Pipeline</txt_456>
+    <txt_457 >Rapports</txt_457>
+    <txt_458 >Grand total</txt_458>
+    <txt_459 >Chiffre d'affaires</txt_459>
+    <txt_460 >Domaines d'activité</txt_460>
+    <txt_461 >changer de version</txt_461>
+    <txt_462 >Groupe motopropulseur</txt_462>
+    <txt_463 >Venez / Do (l'historique de connexion)</txt_463>
+    <txt_464 >Les ventes des employés | sécurité</txt_464>
+    <txt_465 >Emoticons (période se termine)</txt_465>
+    <txt_466 >Attune | Salaire (liste des ressources humaines.)</txt_466>
+    <txt_467 >Heures Erreur d'importation</txt_467>
+    <txt_468 >Consolidation Aperçu</txt_468>
+    <txt_469 >Conduit</txt_469>
+    <txt_470 >L'action Histoire</txt_470>
+    <txt_471 >Employés</txt_471>
+    <txt_472 >Stock</txt_472>
+    <txt_473 >Créer Matériaux</txt_473>
+    <txt_474 >Groupes matériels</txt_474>
+    <txt_475 >Commandes matérielles</txt_475>
+    <txt_476 >Standards Productions</txt_476>
+    <txt_477 >Fournisseur | partie du service.</txt_477>
+    <txt_478 >Mat./ Storage</txt_478>
+    <txt_479 >Administration</txt_479>
+    <txt_480 >S'abonner</txt_480>
+    <txt_481 >Groupes de projet</txt_481>
+    <txt_482 >Ggroupes Stam-activité (Modèles de âche)</txt_482>
+    <txt_483 >Les frais de vente - groupes</txt_483>
+    <txt_484 >Types de jalons</txt_484>
+    <txt_485 >Dépliants standards</txt_485>
+    <txt_486 >Clientèle</txt_486>
+    <txt_487 >Types de clients - segments</txt_487>
+    <txt_488 >Le statut d'action</txt_488>
+    <txt_489 >Articles promotionnels</txt_489>
+    <txt_490 >Formulaire de contact promotionnel</txt_490>
+    <txt_491 >CRM</txt_491>
+    <txt_492 >ERP</txt_492>
+    <txt_493 >Codes fiscaux</txt_493>
+    <txt_494 >Ratios codes</txt_494>
+    <txt_495 >Période d'impôt (date de fin)</txt_495>
+    <txt_496 >Groupes d'utilisateurs</txt_496>
+    <txt_497 >Types d'employés</txt_497>
+    <txt_498 >Groupes de type d'employé</txt_498>
+    <txt_499 >Helpdesk</txt_499>
+    <txt_500 >Types d'incidents</txt_500>
+    <txt_501 >Priorités</txt_501>
+    <txt_502 >Groupes de rendez-vous</txt_502>
+    <txt_503 >Incident Status</txt_503>
+    <txt_504 >Incident Catégories</txt_504>
+    <txt_505 >Facturation</txt_505>
+    <txt_506 >Pour la facturation</txt_506>
+    <txt_507 >Créer une facture</txt_507>
+    <txt_508 >l'histoire de la facture</txt_508>
+    <txt_509 >Lignes Recherche de factures</txt_509>
+    <txt_510 >Attune</txt_510>
+    <txt_511 >Attune real./faktureret (emploi et empl.)</txt_511>
+    <txt_512 >Accords de attune de détail</txt_512>
+    <txt_513 >Affectation</txt_513>
+    <txt_514 >Compte plan</txt_514>
+    <txt_515 >Créer un compte</txt_515>
+    <txt_516 >Journal d'entrée (0)</txt_516>
+    <txt_517 >I-TVA (-1)</txt_517>
+    <txt_518 >U-TVA (-2)</txt_518>
+    <txt_519 >Compte de résultat</txt_519>
+    <txt_520 >Budget</txt_520>
+    <txt_521 >Budget Année / Date</txt_521>
+    <txt_522 >Gross / Net Days | heures</txt_522>
+    <txt_523 >Employés budgétaires</txt_523>
+    <txt_524 >Service Desk</txt_524>
+    <txt_525 >Créer un incident</txt_525>
+    <txt_526 >État des incidents.</txt_526>
+    <txt_527 >Base de connaissances</txt_527>
+    <txt_528 >Gestionnaire de fichiers</txt_528>
+    <txt_529 >Dashboard</txt_529>
+    <txt_530 >Clientèle</txt_530>
+    <txt_531 >Fournisseurs</txt_531>
+    <txt_532 >Licencié</txt_532>
+    <txt_533 >Quittez aujourd'hui</txt_533>
+    <txt_534 >Recherche</txt_534>
+    <txt_535 >Calculé</txt_535>
+    <txt_536 >Version imprimable</txt_536>
+
+    <txt_537>Vous ne disposez pas des droits, ou ne l'avez pas rencontré les critères pour quitter période</txt_537>
+    <txt_538>jour</txt_538>
+    <txt_539>Critère</txt_539>
+
+
+  </fr>
 
 
  
@@ -1357,8 +3520,555 @@
     <txt_535>Stated</txt_535>
     <txt_536>Print</txt_536>
 
+    <txt_537>You do not have rights, or have not met the criteria to exit the period</txt_537>
+    <txt_538>day</txt_538>
+    <txt_539>Criterion</txt_539>
+
 
   </uk>
+
+
+  <!--- Spansk -->
+  <es>
+
+    <txt_1 >El estado de su fin de año</txt_1>
+    <txt_2 >Última terminación oportuna es</txt_2>
+    <txt_3 >pm.</txt_3>
+    <txt_4 >Ha completado</txt_4>
+    <txt_5 >Semana</txt_5>
+    <txt_6 >Saltar al registro del tiempo</txt_6>
+    <txt_7 >Dir. De Cuentas</txt_7>
+    <txt_8 >no</txt_8>
+    <txt_9 >Haga clic en la descripción del trabajo</txt_9>
+    <txt_10 >Respon. de empleo</txt_10>
+    <txt_11 >Propietario de empleo</txt_11>
+    <txt_12 >período</txt_12>
+    <txt_13 >Precio fijo</txt_13>
+    <txt_14 >En curso. horas</txt_14>
+    <txt_15 >Tipo de trabajo</txt_15>
+    <txt_16 >Forkalk.</txt_16>
+    <txt_17 >Realizado</txt_17>
+    <txt_18 >Acuerdo</txt_18>
+    <txt_19 >Aktiv</txt_19>
+    <txt_20 >Cerrado</txt_20>
+    <txt_21 >Añadir Mat. forbr. / Gastos</txt_21>
+    <txt_22 >Contacto</txt_22>
+    <txt_23 >Tel.</txt_23>
+    <txt_24 >Contactos / Ramas</txt_24>
+    <txt_25 >correo electrónico</txt_25>
+    <txt_26 >Dir. Tel.</txt_26>
+    <txt_27 >Móvil</txt_27>
+    <txt_28 >Cerrar ventana</txt_28>
+    <txt_29 >Descripción del puesto</txt_29>
+    <txt_30 >ver totales</txt_30>
+    <txt_31 >Hoja de tiempo</txt_31>
+    <txt_32 >Ver los registros de horas a la semana</txt_32>
+    <txt_33 >Como las horas de carga</txt_33>
+    <txt_34 >figura (horas) o</txt_34>
+    <txt_35 >hora de inicio y final (9: 25-10: 45)</txt_35>
+    <txt_36 >INCID. identificación</txt_36>
+    <txt_37 >La entrada del cronómetro</txt_37>
+    <txt_38 >Plazo de registro por. día</txt_38>
+    <txt_39 >Loading trabajo horas</txt_39>
+    <txt_40 >Enviar correo a jobansvarlig que ha completado su trabajo en este trabajo. (Carga)</txt_40>
+    <txt_41 >Cerrar la entrada de trabajo y enviar correo a jobansvarlige.</txt_41>
+    <txt_42 >Loading trabajo horas</txt_42>
+    <txt_43 >Máscara. producción entregada, envíe un correo a jobansvarlige y crear al mismo tiempo un nuevo trabajo (copias de este trabajo).</txt_43>
+    <txt_44 >Cierre el trabajo después de entrar, envíe un correo a jobansvarlige y crear al mismo tiempo un nuevo trabajo (copias de este trabajo).</txt_44>
+    <txt_45 >Bloqueo hora sobre las actividades</txt_45>
+    <txt_46 >No haga caso de bloqueo en tiempo operativo.</txt_46>
+    <txt_47 >navegación</txt_47>
+    <txt_48 >Arriba / abajo: [teclas de flecha] Derecha: [Ctrl] + [x] Izquierda: [Ctrl] + [Z]</txt_48>
+    <txt_49 >visualización de la hora es tal</txt_49>
+    <txt_50 >09:45, 12:23, 23:55, etc.</txt_50>
+    <txt_51 >comentario</txt_51>
+    <txt_52 >máx. 1255 caracteres</txt_52>
+    <txt_53 >Ocultar comentario en el lado del cliente</txt_53>
+    <txt_54 >no</txt_54>
+    <txt_55 >sí</txt_55>
+    <txt_56 >Guardar comentario >></txt_56>
+    <txt_57 >cerrado un acuerdo</txt_57>
+    <txt_58 >- Tenga en cuenta que este trabajo se asocia con un acuerdo que se cierra!</txt_58>
+    <txt_59 >No se encuentra ninguna actividad en el trabajo seleccionado, o el trabajo está cerrado.</txt_59>
+    <txt_60 >Esto puede ser porque o bien no hay actividad, o que el empleado seleccionado no tiene acceso a los trabajos que se encuentran.</txt_60>
+    <txt_61 >¿Cómo registro mis clases?</txt_61>
+    <txt_62 >Si desea registrar horas en un segundo trabajo, seleccionarlo en la columna izquierda.</txt_62>
+    <txt_63 >Si el trabajo no es visible, puede buscar en la caja en la parte superior izquierda, o lo busca en el "mago de su trabajo activo".</txt_63>
+    <txt_64 >Registros de tiempo de la semana</txt_64>
+    <txt_65 >El consumo de tiempo</txt_65>
+    <txt_66 >cliente</txt_66>
+    <txt_67 >trabajo</txt_67>
+    <txt_68 >actividad</txt_68>
+    <txt_69 >tipo</txt_69>
+    <txt_70 >número</txt_70>
+    <txt_71 >semana totales</txt_71>
+    <txt_72 >Versión para imprimir</txt_72>
+    <txt_73 >Empresa, Trabajo Nº ell. Nombre del trabajo (dividido por el codo. XTX9)</txt_73>
+    <txt_74 >No haga caso de los grupos de proyecto</txt_74>
+    <txt_75 >contactos</txt_75>
+    <txt_76 >todos</txt_76>
+    <txt_77 >empleado</txt_77>
+    <txt_78 >búsqueda</txt_78>
+    <txt_79 >cambio</txt_79>
+    <txt_80 >Ver Entradas de cronómetro</txt_80>
+    <txt_81 >Ver laboral oculto (la lista)</txt_81>
+    <txt_82 >Configuraciones. de Banco de Trabajo y pers. lista activa</txt_82>
+    <txt_83 >contactos | trabajo</txt_83>
+    <txt_84 >Crear nuevos puestos de trabajo</txt_84>
+    <txt_85 >carga</txt_85>
+    <txt_86 >guardar los ajustes</txt_86>
+    <txt_87 >Dejar de semana (s)</txt_87>
+    <txt_88 >Ver el estado de Smiley</txt_88>
+    <txt_89 >Dejar de semana</txt_89>
+    <txt_90 >Poner fin a todas las semanas hasta e incluyendo la semana</txt_90>
+    <txt_91 >Sólo puede concluirse de</txt_91>
+    <txt_92 >día</txt_92>
+    <txt_93 >terminado</txt_93>
+    <txt_94 >campa.</txt_94>
+    <txt_95 >en la semana</txt_95>
+    <txt_96 >Smiley sur</txt_96>
+    <txt_97 >Una o más semanas, hasta esta semana, no se completa.</txt_97>
+    <txt_98 >Smiley feliz</txt_98>
+    <txt_99 >Mell. fornøj.</txt_99>
+    <txt_100 >Un codo. Varios días de esta semana no se llenan.</txt_100>
+    <txt_101 >empleado</txt_101>
+    <txt_102 >Los smiley feliz</txt_102>
+    <txt_103 >seguro de los smiley</txt_103>
+    <txt_104 >Suma / del total</txt_104>
+    <txt_105 >La siguiente semana se cierra</txt_105>
+    <txt_106 >No hay registros de smiley en el año seleccionado.</txt_106>
+    <txt_116 >Entrando horas</txt_116>
+    <txt_117 >Ver registros por hora (semanas seleccionados)</txt_117>
+    <txt_118 >Registro de trabajos y hojas de ejercicios semanales</txt_118>
+    <txt_119 >Gran total, real. horas</txt_119>
+    <txt_120 >información de trabajo</txt_120>
+    <txt_121 >Votación - Md.</txt_121>
+    <txt_122 >La encuesta - la Semana</txt_122>
+    <txt_123 >Entre aquí.</txt_123>
+    <txt_124 >No hay resultados para el período seleccionado</txt_124>
+    <txt_125 >actividades</txt_125>
+    <txt_126 >fechas</txt_126>
+    <txt_127 >dom</txt_127>
+    <txt_128 >lun</txt_128>
+    <txt_129 >mar</txt_129>
+    <txt_130 >mié</txt_130>
+    <txt_131 >jue</txt_131>
+    <txt_132 >vie</txt_132>
+    <txt_133 >sáb</txt_133>
+    <txt_134 >Última reloj de entrada / salida veces (Hoy a.)</txt_134>
+    <txt_135 >horas salariales</txt_135>
+    <txt_136 >total</txt_136>
+    <txt_137 >horas</txt_137>
+    <txt_138 >rotura</txt_138>
+    <txt_139 >Esta incl semanas. actual</txt_139>
+    <txt_140 >horas</txt_140>
+    <txt_141 >mínimo</txt_141>
+    <txt_142 >Trabajo-banco y pers. Lista Activo</txt_142>
+    <txt_143 >Trabajo que está unido a través de su projekltgrupper. Añadir la bolsa de trabajo para la lista activa puesto de trabajo haciendo clic en ellos y desde abajo.</txt_143>
+    <txt_144 >refrescar</txt_144>
+    <txt_145 >Seleccionar todo</txt_145>
+    <txt_146 >no</txt_146>
+    <txt_147 >empleado</txt_147>
+    <txt_148 >horas</txt_148>
+    <txt_149 >Todos Ley. tipos cuentan para la tabla de tiempos diarios.</txt_149>
+    <txt_150 >Almuerzo</txt_150>
+    <txt_151 >Horas extra.</txt_151>
+    <txt_152 >Vacaciones</txt_152>
+    <txt_153 >Enfermedad</txt_153>
+    <txt_154 >Hor. de recur.</txt_154>
+    <txt_155 >Facturado</txt_155>
+    <txt_156 >Gastos de consumo / mat.</txt_156>
+    <txt_157 >Tot. Real.</txt_157>
+    <txt_158 >Norma</txt_158>
+    <txt_159 >Equilibrio flexible +/- acumulativa Real. / Norma</txt_159>
+    <txt_160 >Fac.able</txt_160>
+    <txt_161 >No fac.able</txt_161>
+    <txt_162 >Venta</txt_162>
+    <txt_163 >% Distri. I / E</txt_163>
+    <txt_164 >Obtenido</txt_164>
+    <txt_165 >Held</txt_165>
+    <txt_166 >Equil.</txt_166>
+    <txt_167 >Plan.</txt_167>
+    <txt_168 >Held</txt_168>
+    <txt_169 >Enfermo</txt_169>
+    <txt_170 >Niño enfermo</txt_170>
+    <txt_171 >Cantidad</txt_171>
+    <txt_172 >Real.</txt_172>
+    <txt_173 >Norm.</txt_173>
+    <txt_174 >Fiestas especiales</txt_174>
+    <txt_175 >Planificado</txt_175>
+    <txt_176 >Las hor. de recur. asignadas - (meses completos)</txt_176>
+    <txt_177 >Horas facturadas</txt_177>
+    <txt_178 >Gastos de consumo / mat.</txt_178>
+    <txt_179 >por. semana</txt_179>
+    <txt_180 >La fecha de hoy</txt_180>
+    <txt_181 >Editar el registro de tiempo</txt_181>
+    <txt_182 >Introducida por</txt_182>
+    <txt_183 >Fecha</txt_183>
+    <txt_184 >o Time</txt_184>
+    <txt_185 >sobrescribe número determinado de horas</txt_185>
+    <txt_186 >Cada hora</txt_186>
+    <txt_187 >Todos los registros de tiempo para el empleado seleccionado de la actividad seleccionada se cambiarán a la tarifa por hora. (También futuro) Pero es sólo que ésta actividad. Las otras actividades siguen siendo los precios por hora asumidos. La actualización de las tarifas por hora se aplica incluso si hay una factura, o si se aprueba un período.</txt_187>
+    <txt_188 >Crear y añadir "on the fly"</txt_188>
+    <txt_189 >Añadir desde el almacén</txt_189>
+    <txt_190 >Editar stock</txt_190>
+    <txt_191 >Materiales / Gastos</txt_191>
+    <txt_192 >Register materiales / consumo de la</txt_192>
+    <txt_193 >Crear "on the fly"</txt_193>
+    <txt_194 >Mat. / Gastos Nombre</txt_194>
+    <txt_195 >Nombre / Nota</txt_195>
+    <txt_196 >Artículo No.</txt_196>
+    <txt_197 >Si el artículo no. = 0 creado no está en stock.</txt_197>
+    <txt_198 >Grupo</txt_198>
+    <txt_199 >(Rendimiento%)</txt_199>
+    <txt_200 >No</txt_200>
+    <txt_201 >precio de compra</txt_201>
+    <txt_202 >número</txt_202>
+    <txt_203 >párrafo. (Entero)</txt_203>
+    <txt_204 >Cons. / fecha de recep.</txt_204>
+    <txt_205 >Busca los materiales en stock</txt_205>
+    <txt_206 >(Nombre o mat. / ref., % = comodín)</txt_206>
+    <txt_207 >Añadir desde el almacén</txt_207>
+    <txt_208 >Almacenamiento / mín.</txt_208>
+    <txt_209 >Nombre</txt_209>
+    <txt_210 >Producto / No de mat.</txt_210>
+    <txt_211 >El precio de compra</txt_211>
+    <txt_212 >Grupo</txt_212>
+    <txt_213 >(Rend. %)</txt_213>
+    <txt_214 >Fecha de consumo</txt_214>
+    <txt_215 >No ha añadido ningún materiales que responden a los criterios de búsqueda.</txt_215>
+    <txt_216 >Últimos 100 introducidos materiales / gastos</txt_216>
+    <txt_217 >Producto / Mat. No.</txt_217>
+    <txt_218 >Grp. de mat.</txt_218>
+    <txt_219 >El precio de compra por pieza.</txt_219>
+    <txt_220 >Precio por pieza.</txt_220>
+    <txt_221 >Delete</txt_221>
+    <txt_222 >Pieza</txt_222>
+    <txt_223 >Resumen de stocks</txt_223>
+    <txt_224 >Grupos de materiales y el primer material en el grp.</txt_224>
+    <txt_225 >Grupo de mat.</txt_225>
+    <txt_226 >No / nombre</txt_226>
+    <txt_227 >Mombre del Mat.</txt_227>
+    <txt_228 >Mat. no</txt_228>
+    <txt_229 >Moneda</txt_229>
+    <txt_230 >Anexo No.</txt_230>
+    <txt_231 >Código interno</txt_231>
+    <txt_232 >Interna - (no recargables)</txt_232>
+    <txt_233 >Externo - (facturable)</txt_233>
+    <txt_234 >Los gastos personales</txt_234>
+    <txt_235 >-</txt_235>
+    <txt_236 >Trabajo</txt_236>
+    <txt_237 >Empleado</txt_237>
+    <txt_238 >Uso anexo no.</txt_238>
+    <txt_239 >Interno</txt_239>
+    <txt_240 >Externo</txt_240>
+    <txt_241 >Personal</txt_241>
+    <txt_242 >Id</txt_242>
+    <txt_243 >Cliente</txt_243>
+    <txt_244 >Trabajo</txt_244>
+    <txt_245 >Unidad</txt_245>
+    <txt_246 >Moneda</txt_246>
+    <txt_247 >Kurs</txt_247>
+    <txt_248 >Total</txt_248>
+    <txt_249 >Id. del cliente</txt_249>
+    <txt_250 >No de trabajo</txt_250>
+    <txt_251 >Editar</txt_251>
+    <txt_252 >Editar "On the Fly"</txt_252>
+    <txt_253 >Pagado?</txt_253>
+    <txt_254 >Marcar entradas Anexo en los siguientes anexos, que se Pagados</txt_254>
+    <txt_255 >Pagado</txt_255>
+    <txt_256 >No. de emp. AAAAMM</txt_256>
+    <txt_257 >Material / Desem. Esta.</txt_257>
+    <txt_258 >Para el registro de tiempo</txt_258>
+    <txt_259 >El tiempo est./d.</txt_259>
+    <txt_260 >Calcula el precio</txt_260>
+    <txt_261 >Precio de venta</txt_261>
+    <txt_262 >factura</txt_262>
+    <txt_263 >Grupo de materiales</txt_263>
+    <txt_264 >Proveedores</txt_264>
+    <txt_265 >Conducción</txt_265>
+    <txt_266 >Km</txt_266>
+    <txt_267 >Seleccione los empleados</txt_267>
+    <txt_268 >Multitildel / Copia el siguiente horario para todos los empleados seleccionados</txt_268>
+    <txt_269 >No.de sol.</txt_269>
+    <txt_270 >Contacto</txt_270>
+    <txt_271 >Período</txt_271>
+    <txt_272 >Prom. por semana</txt_272>
+    <txt_273 >Ajustado para las vacaciones</txt_273>
+    <txt_274 >Des</txt_274>
+    <txt_275 >Días</txt_275>
+    <txt_276 >Horas</txt_276>
+    <txt_277 >Convertir las entradas en días en relación. Para propio tiempo estándar de cada empleado. XXXX no se puede usar por entradas "*".</txt_277>
+    <txt_278 >0 = Borrar el registro</txt_278>
+    <txt_279 >Actividades precargadas pueden contener 0 (cero) pero debe ser justificado.</txt_279>
+    <txt_280 >Equilibrio</txt_280>
+    <txt_281 >Vacaciones</txt_281>
+    <txt_282 >Free holiday</txt_282>
+    <txt_283 >Horas extra.</txt_283>
+    <txt_284 >Equilibrio flexibles</txt_284>
+    <txt_285 >Abrir. Las horas no cargados. (Actividades precargadas, por ejemplo. El almuerzo)</txt_285>
+    <txt_286 >No mostrar los trabajos y actividades, muestra la fecha de inicio o final está fuera del período seleccionado. (No aplicable a las actividades de ventas - ver la configuración del Panel de Control)</txt_286>
+    <txt_287 >Viaje de residencia. Viajar entre el hogar y el trab. lugar.</txt_287>
+    <txt_288 >Regla de 60 días</txt_288>
+    <txt_289 >Apéndice / deducciones se toman de timeregisrering de tipos de actividad que permite aumentos y reducciones en relación con las horas de trabajo remunerado (stempelsurs horas). Apéndice y deducir horas no es con la historia de usuario abajo.</txt_289>
+    <txt_290 >Abrir. Tiempo de carga en la base de datos.</txt_290>
+    <txt_291 >Cerrado por entrada. Se aprueba la inscripción. (Puede, además, también se le cobrarán o cerrado a través de smiley-esquema)</txt_291>
+    <txt_292 >Cerrado por entrada. O bien se facturó o de la semana se cierra a través de smiley-esquema.</txt_292>
+    <txt_293 >Cerrado por entrada. Semana se cierra a través de smiley, ell nómina. Del final del periodo de ayuno. (Admin. Los usuarios aún pueden cambiar)</txt_293>
+    <txt_294 >Tiempo bloqueado o que no debe entrar en cualquier momento en este tipo de día en que no tiene un tiempo estándar. (Ej vacaciones en domingo)</txt_294>
+    <txt_295 >De la firma</txt_295>
+    <txt_296 >Comentario</txt_296>
+    <txt_297 >Haga clic en "+" junto al campo de entrada para introducir un comentario.</txt_297>
+    <txt_298 >Introduzca las horas de periodo (Smart Entry)</txt_298>
+    <txt_299 >7.4 * 14 cargas de 7,4 horas en los próximos 14 días. Fines de semana y días festivos se incluyen, pero no se cargarán horas en estos días. Los empleados seleccionados deben ser estipuladas tiempo en los días en que el día considerado de otra manera como un día de descanso. Entrada inteligente no puede ser utilizado mediante la introducción de la hora de inicio y fin.</txt_299>
+
+
+    <txt_300 >Introduzca la unidad (Km)</txt_300>
+    <txt_301 >Al participar en el tipo de "Km" será posible a través de cuadro de diálogo para indicar "a" y "de" destino, que se transfiere automáticamente al campo de comentarios.</txt_301>
+    <txt_302 >Ajustes</txt_302>
+    <txt_303 >Empleado elegido</txt_303>
+    <txt_304 >para el empleado seleccionado</txt_304>
+    <txt_305 >Funciones de registro de tiempo</txt_305>
+    <txt_306 >Jobinfo</txt_306>
+    <txt_307 >Ordenar conjunto de registro de tiempo</txt_307>
+    <txt_308 >Trabajo No.</txt_308>
+    <txt_309 >Ordenar por</txt_309>
+    <txt_310 >Nombre de contacto y de empleo</txt_310>
+    <txt_311 >No de empleo (50 más nuevo)</txt_311>
+    <txt_312 >Ver colapso + están en contacto con el</txt_312>
+    <txt_313 >Mostrar la parte superior interna del trabajo</txt_313>
+    <txt_314 >Show</txt_314>
+    <txt_315 >Ocultar</txt_315>
+    <txt_316 >Fecha de finalización (+/- 2 años a partir de dd.)</txt_316>
+    <txt_317 >Planificado</txt_317>
+    <txt_318 >Hoy</txt_318>
+    <txt_319 >a través de ayer</txt_319>
+    <txt_320 >Mostrar sólo los gastos personales</txt_320>
+    <txt_321 >Inicial</txt_321>
+    <txt_322 >Mostrar solo no se ha resuelto</txt_322>
+    <txt_323 >Aprobado</txt_323>
+    <txt_324 >Mostrar solo no acreditada</txt_324>
+    <txt_325 >(Ignorando el intervalo de fechas)</txt_325>
+    <txt_326 >Desembolsos / registro de material en el trabajo:</txt_326>
+    <txt_327 >repartidos en</txt_327>
+    <txt_328 >archivos</txt_328>
+    <txt_329 >fase</txt_329>
+    <txt_330 >Carga</txt_330>
+    <txt_331 >Oficina</txt_331>
+    <txt_332 >De precios actual.</txt_332>
+    <txt_333 >Ingrese para</txt_333>
+    <txt_334 >Mostrar 25 puestos de trabajo nuevos</txt_334>
+    <txt_335 >Crear nuevos puestos de trabajo</txt_335>
+    <txt_336 >Bolsa de trabajo</txt_336>
+    <txt_337 >Weekplan</txt_337>
+    <txt_338 >Weekplan, semana</txt_338>
+    <txt_339 >Horas</txt_339>
+    <txt_340 >Ven / hora Ir</txt_340>
+    <txt_341 >Ordenar por</txt_341>
+    <txt_342 >Nombre del trabajo</txt_342>
+    <txt_343 >Trabajo No.</txt_343>
+    <txt_344 >Contacto</txt_344>
+    <txt_345 >Dejar de semana</txt_345>
+    <txt_346 >Ver semanas completas</txt_346>
+    <txt_347 >El trabajo seleccionado está cerrado o la fecha de inicio en el trabajo no es válido para la semana seleccionada.</txt_347>
+    <txt_348 >Usted ha tratado de encontrar un trabajo ya no está activo. Haga clic en el "trabajo" ficha, encontrar el trabajo y cambiar el estado a activo.</txt_348>
+    <txt_349 >Para realizar una nueva búsqueda</txt_349>
+    <txt_350 >Realizar una nueva búsqueda de empleo en la casilla a la izquierda para encontrar otro trabajo.</txt_350>
+    <txt_351 >Usted no tiene acceso a este trabajo.</txt_351>
+    <txt_352 >Usted puede inscribirse para el trabajo mediante la adición de un proyecto que es un miembro de. Puede añadir un proyecto, haga clic</txt_352>
+    <txt_353 >aquí</txt_353>
+    <txt_354 >Mostrar, ofertas cerradas pasivos y puestos de trabajo para su revisión</txt_354>
+    <txt_355 >Pasivo</txt_355>
+    <txt_356 >Aprobar hojas de ejercicios semanales</txt_356>
+    <txt_357 >Admin / Jefe de Equipo</txt_357>
+    <txt_358 >Easyreg. - Todos los trabajos con easyreg. Act.</txt_358>
+    <txt_359 >Buscar entre todos los clientes y contactos. (% Comodín)</txt_359>
+    <txt_360 >Se han ejecutado desde</txt_360>
+    <txt_361 >Inserta la dirección seleccionada en el cuadro de comentarios.</txt_361>
+    <txt_362 >De</txt_362>
+    <txt_363 >A</txt_363>
+    <txt_364 >Por</txt_364>
+    <txt_365 >Elija la dirección deseada y haga clic en Cargar.</txt_365>
+    <txt_366 ></txt_366>
+    <txt_367 >Residencia</txt_367>
+    <txt_368 >Entrar / encontrar destino (s)</txt_368>
+    <txt_369 >- Contacto / Sucursal</txt_369>
+    <txt_370 >- Contacto principal / Cliente</txt_370>
+    <txt_371 >car</txt_371>
+    <txt_372 >Agregar varias direcciones para este viaje. (Combinar búsqueda a través de los contactos)</txt_372>
+    <txt_373 >SmartReg - empleos con horarios últimas 2 semanas</txt_373>
+    <txt_374 >Clásico</txt_374>
+    <txt_375 >Enviar mensaje a jobansvarlige / gestión de su trabajo en este trabajo se ha completado. (Elimina el trabajo de la lista activa de empleo, y el estado de actualización)</txt_375>
+    <txt_376 >Trabajo en curso</txt_376>
+    <txt_377 >Mostrar todos los tipos de actividad que se ofrecen</txt_377>
+    <txt_378 >Añadir a la lista de trabajos activos</txt_378>
+    <txt_379 >Mostrando sólo el trabajo donde los empleados. Son trabajo respon. 1-5</txt_379>
+    <txt_380 >HR (registrar vacaciones, enfermedad, etc.).</txt_380>
+    <txt_381 >Días</txt_381>
+    <txt_382 >Mostrar línea de actividad simple (no mostrar la fecha, hora, etc.).</txt_382>
+    <txt_383 >Ahora tiene la opción de terminar una o más de las semanas que necesita para terminar, y así dar el mensaje de que se puede contar las horas que ha introducido en esas semanas.</txt_383>
+    <txt_384 >Banco de Trabajo (Añadir a la lista de trabajo activa puesto de trabajo)</txt_384>
+    <txt_385 >Lista activa puesto de trabajo personal</txt_385>
+    <txt_386 >Su lista de trabajos activos está vacía</txt_386>
+    <txt_387 >Totales semana</txt_387>
+    <txt_388 >Otro personal.</txt_388>
+    <txt_389 >Poll (Balance)</txt_389>
+    <txt_390 >Ayuda | Info. de la p.</txt_390>
+    <txt_391 >No hay trabajos activos coincide con su búsqueda!</txt_391>
+    <txt_392 >Compruebe que ha seleccionado los contactos correctos / all.</txt_392>
+    <txt_393 >También puedes ver; sus equipos de proyecto, la lista de elementos de trabajo personal y la fecha de inicio.</txt_393>
+    <txt_394 >Mostrando máx.</txt_394>
+    <txt_395 >Trabajo en el resumen de trabajo</txt_395>
+    <txt_396 >Despeje su lista de trabajos activos (recarga de la página)</txt_396>
+    <txt_397 >Más reciente</txt_397>
+    <txt_398 >Que se haya registrado proyecto</txt_398>
+    <txt_399 >facturable</txt_399>
+    <txt_400 >Debe haber registrado más de</txt_400>
+    <txt_401 >para terminar la semana</txt_401>
+    <txt_402 >Ver período de terminaciones</txt_402>
+    <txt_403 >Tiene uno o más semanas aún no se han completado</txt_403>
+    <txt_404 >Fecha de ingreso</txt_404>
+    <txt_405 >El empleado no se emplea en el período seleccionado</txt_405>
+    <txt_406 >Período de empleo</txt_406>
+    <txt_407 >Ha hecho clic en la semana</txt_407>
+    <txt_408 >Su último periodo completo,</txt_408>
+    <txt_409 >La próxima vez que usted tiene que salir es</txt_409>
+    <txt_410 >Última terminación oportuna es</txt_410>
+    <txt_411 >Situación de periodo termina ay incl.</txt_411>
+    <txt_412 >Ordenar lista activa puesto de trabajo después de</txt_412>
+    <txt_413 >Prioridad</txt_413>
+    <txt_414 >Nombre del trabajo</txt_414>
+    <txt_415 >Trabajo No</txt_415>
+    <txt_416 >Fecha de finalización</txt_416>
+    <txt_417 >Cliente</txt_417>
+    <txt_418 >14 días</txt_418>
+    <txt_419 >2 meses</txt_419>
+    <txt_420 >Lista mixta, lo más tarde</txt_420>
+    <txt_421 >Lo más probable es una de las siguientes razones</txt_421>
+    <txt_422 >Tienes que elegir puestos de trabajo en el filtro de búsqueda arriba y haga clic en "Ver empleo >>"</txt_422>
+    <txt_423 >Fecha de inicio del trabajo radica en una semana más tarde que el seleccionado</txt_423>
+    <txt_424 >No se puede acceder a los puestos de trabajo / actividades seleccionadas</txt_424>
+    <txt_425 >El trabajo no está seleccionado en la lista de los bienes personales</txt_425>
+    <txt_426 >A final de mes</txt_426>
+    <txt_427 >Tiene uno o más meses no se ha completado</txt_427>
+    <txt_428 >Vea la lista completa haciendo clic en el enlace al final de esta sección.</txt_428>
+    <txt_429 >Primer día de trabajo</txt_429>
+    <txt_430 >mes</txt_430>
+    <txt_431 >Dejar</txt_431>
+    <txt_432 >ahora</txt_432>
+    <txt_433 >Soporte remoto</txt_433>
+    <txt_434 >Panel de control</txt_434>
+    <txt_435 >Sign out</txt_435>
+    <txt_436 >Licencia:</txt_436>
+    <txt_437 >Tiempo de grabación</txt_437>
+    <txt_438 >y la ausencia</txt_438>
+    <txt_439 >Características del proyecto</txt_439>
+    <txt_440 >Previsión de recursos</txt_440>
+    <txt_441 >Primer mes</txt_441>
+    <txt_442 >Aprobar mes</txt_442>
+    <txt_443 >Vacaciones, tiempo libre | enfermedad</txt_443>
+    <txt_444 >vacaciones | tiempo libre</txt_444>
+    <txt_445 >Orden</txt_445>
+    <txt_446 >Nueva Orden</txt_446>
+    <txt_447 >Proyectos</txt_447>
+    <txt_448 >Trabajo / Proyectos</txt_448>
+    <txt_449 >Crear un proyecto</txt_449>
+    <txt_450 >Imprimir / centro PDF</txt_450>
+    <txt_451 >Gestor de archivos</txt_451>
+    <txt_452 >Trabajo actual - proyectos</txt_452>
+    <txt_453 >presupuesto de tiempo</txt_453>
+    <txt_454 >Gantt</txt_454>
+    <txt_455 >Hitos / Plazos</txt_455>
+    <txt_456 >Pipeline</txt_456>
+    <txt_457 >Informes</txt_457>
+    <txt_458 >Gran total</txt_458>
+    <txt_459 >Facturación</txt_459>
+    <txt_460 >Áreas de negocio</txt_460>
+    <txt_461 >Cambio de versión</txt_461>
+    <txt_462 >Unidad de potencia</txt_462>
+    <txt_463 >Ven / Do (la historia de inicio de sesión)</txt_463>
+    <txt_464 >Ventas de empleado | seguridad</txt_464>
+    <txt_465 >Smileys (final de período)</txt_465>
+    <txt_466 >Afinar | Salario (lista HR).</txt_466>
+    <txt_467 >Horas de error de importación</txt_467>
+    <txt_468 >Descripción general de consolidación</txt_468>
+    <txt_469 >Plomos</txt_469>
+    <txt_470 >Historia acción</txt_470>
+    <txt_471 >Empleados</txt_471>
+    <txt_472 >Valores</txt_472>
+    <txt_473 >Crear Materiales</txt_473>
+    <txt_474 >Grupos materiales</txt_474>
+    <txt_475 >Pedidos materiales</txt_475>
+    <txt_476 >Estándar Producciones</txt_476>
+    <txt_477 >Proveedor | Parte del servicio.</txt_477>
+    <txt_478 >Mat./ almacenamiento</txt_478>
+    <txt_479 >Administración</txt_479>
+    <txt_480 >Suscribir</txt_480>
+    <txt_481 >Grupos de proyecto</txt_481>
+    <txt_482 >Grupos Stam-actividad (Plantillas de trabajo)</txt_482>
+    <txt_483 >Los gastos de venta - grupos</txt_483>
+    <txt_484 >Tipos hitos</txt_484>
+    <txt_485 >Folletos estándar</txt_485>
+    <txt_486 >Clientes</txt_486>
+    <txt_487 >Tipos de clientes - los segmentos</txt_487>
+    <txt_488 >Estado de acción</txt_488>
+    <txt_489 >Los artículos promocionales</txt_489>
+    <txt_490 >formulario de contacto promocional</txt_490>
+    <txt_491 >CRM</txt_491>
+    <txt_492 >ERP</txt_492>
+    <txt_493 >Códigos de impuestos</txt_493>
+    <txt_494 >Códigos Ratios</txt_494>
+    <txt_495 >Período impositivo (fecha de fin)</txt_495>
+    <txt_496 >Grupos de usuarios</txt_496>
+    <txt_497 >Tipos de empleados</txt_497>
+    <txt_498 >Grupos Tipo de empleo</txt_498>
+    <txt_499 >Servicio de ayuda</txt_499>
+    <txt_500 >Los tipos de incidentes</txt_500>
+    <txt_501 >Prioridades</txt_501>
+    <txt_502 >Grupos de citas</txt_502>
+    <txt_503 >Estado del incidente</txt_503>
+    <txt_504 >Categorías de incidentes</txt_504>
+    <txt_505 >Facturación</txt_505>
+    <txt_506 >Para la facturación</txt_506>
+    <txt_507 >Crear facturación</txt_507>
+    <txt_508 >Historial de facturas</txt_508>
+    <txt_509 >Buscar líneas de factura</txt_509>
+    <txt_510 >Afinar</txt_510>
+    <txt_511 >Afinar real./faktureret (empleo y empl.)</txt_511>
+    <txt_512 >Acuerdos de afinar por menor</txt_512>
+    <txt_513 >Destino</txt_513>
+    <txt_514 >Plan de cuenta</txt_514>
+    <txt_515 >Crear una cuenta</txt_515>
+    <txt_516 >Entrada de diario (0)</txt_516>
+    <txt_517 >I-IVA (-1)</txt_517>
+    <txt_518 >T-IVA (-2)</txt_518>
+    <txt_519 >Cuenta de resultados</txt_519>
+    <txt_520 >Presupuesto</txt_520>
+    <txt_521 >Presupuesto Año / Fecha</txt_521>
+    <txt_522 >Bruto / Neto Días | horas</txt_522>
+    <txt_523 >Empleados presupuesto</txt_523>
+    <txt_524 >Service Desk</txt_524>
+    <txt_525 >Crear incidencia</txt_525>
+    <txt_526 >Estado incidente.</txt_526>
+    <txt_527 >Base de conocimiento</txt_527>
+    <txt_528 >Gestor de archivos</txt_528>
+    <txt_529 >Dashboard</txt_529>
+    <txt_530 >Clientes</txt_530>
+    <txt_531 >Proveedores</txt_531>
+    <txt_532 >Concesionario</txt_532>
+    <txt_533 >Dejar de hoy</txt_533>
+    <txt_534 >La búsqueda</txt_534>
+    <txt_535 >Calculado</txt_535>
+    <txt_536 >Para imprimir el</txt_536>
+
+
+
+    <txt_537>Usted no tiene derechos, o no ha cumplido con los criterios para salir periodo</txt_537>
+    <txt_538>día</txt_538>
+    <txt_539>Criterio</txt_539>
+
+
+  </es>
 
 
 </sprog>

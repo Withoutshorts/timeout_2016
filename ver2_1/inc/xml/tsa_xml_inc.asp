@@ -5,11 +5,11 @@ Dim objXMLHTTP, objXMLDOM, i, strHTML
 
 Set objXMLDom = Server.CreateObject("Microsoft.XMLDOM")
 Set objXmlHttp = Server.CreateObject("Msxml2.ServerXMLHTTP")
-'objXmlHttp.open "GET", "http://localhost/inc/xml/tsa_sprog.xml", False
+objXmlHttp.open "GET", "http://localhost/Git/timeout_2016/ver2_1/inc/xml/tsa_sprog.xml", False
 'objXmlHttp.open "GET", "https://outzource.dk/timeout_xp/wwwroot/ver2_1/inc/xml/tsa_sprog.xml", False
 'objXmlHttp.open "GET", "https://outzource.dk/timeout_xp/wwwroot/ver3_99/inc/xml/tsa_sprog.xml", False
 'objXmlHttp.open "GET", "http://outzource.dk/timeout_xp/wwwroot/ver2_14/inc/xml/tsa_sprog.xml", False
-objXmlHttp.open "GET", "http://timeout.cloud/timeout_xp/wwwroot/ver2_14/inc/xml/tsa_sprog.xml", False
+'objXmlHttp.open "GET", "http://timeout.cloud/timeout_xp/wwwroot/ver2_14/inc/xml/tsa_sprog.xml", False
 'objXmlHttp.open "GET", "http://outzource.dk/timeout_xp/wwwroot/ver4_22/inc/xml/tsa_sprog.xml", False
 
 objXmlHttp.send
@@ -49,11 +49,23 @@ case 1
 sXPathQuery = "//sprog/dk"
 Session.LCID = 1030
 case 2
-sXPathQuery = "//sprog/uk"
-Session.LCID = 2057
+sXPathQuery = "//sprog/no"
+Session.LCID = 2068
 case 3
 sXPathQuery = "//sprog/se"
 Session.LCID = 1053
+case 4
+sXPathQuery = "//sprog/de"
+Session.LCID = 1031
+case 5
+sXPathQuery = "//sprog/fr"
+Session.LCID = 1036
+case 6
+sXPathQuery = "//sprog/uk"
+Session.LCID = 2057
+case 7
+sXPathQuery = "//sprog/es"
+Session.LCID = 1034
 case else
 sXPathQuery = "//sprog/dk"
 Session.LCID = 1030
@@ -667,6 +679,7 @@ For Each oNode in oNodes
     tsa_txt_534 = oNode.selectSingleNode("txt_534").Text
     tsa_txt_535 = oNode.selectSingleNode("txt_535").Text
     tsa_txt_536 = oNode.selectSingleNode("txt_536").Text
+
     
 next
 

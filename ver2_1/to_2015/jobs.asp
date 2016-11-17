@@ -230,24 +230,17 @@ end if
                                 editor = session("user")
                                 dddato = year(now) & "-" & month(now) & "-" & day(now)
                                 jobstartdato = request("FM_jobstartdato")
-                                jobstartdato = year(jobstartdato) & "-" & month(jobstartdato) & "-" & day(jobstartdato)
+                                'jobstartdato = year(jobstartdato) & "-" & month(jobstartdato) & "-" & day(jobstartdato)
 
                                 jobslutdato = request("FM_jobslutdato")
-                                jobslutdato = year(jobslutdato) & "-" & month(jobslutdato) & "-" & day(jobslutdato)
+                                'jobslutdato = year(jobslutdato) & "-" & month(jobslutdato) & "-" & day(jobslutdato)
 
 
 
 
         
                                 fomrArr = split(request("FM_fomr"), ",")
-
-                                jobans1 = request("FM_jobans_1")
-                                jobans2 = request("FM_jobans_2")
-                                jobans3 = request("FM_jobans_3")
-                                jobans4 = request("FM_jobans_4")
-                                jobans5 = request("FM_jobans_5")
-
-                              
+                               
                                 if len(trim(request("FM_jobans_proc_1"))) <> 0 then
 				                jobans_proc_1 = request("FM_jobans_proc_1")
                                 else
@@ -340,7 +333,17 @@ end if
                                 '**********************************
 			                    '**** Jobdata ****
 			                    '**********************************
+			                    
+                                '* Intern note **'
+			                    strInternBesk = SQLBless2(request("FM_internbesk"))
 			    
+			                    '*** HTML Replace **'
+			                    call htmlreplace(strInternBesk)
+			                    strInternBesk = htmlparseTxt
+
+
+
+
 				
 				                strNavn = replace(request("FM_navn"),chr(34), "")
 
@@ -351,6 +354,88 @@ end if
                                 call htmlreplace(strBesk)
 			                    strBesk = htmlparseTxt
                 
+
+
+
+                                '***** Jobansvarlige ***'
+				                intJobans1 = request("FM_jobans_1")
+				                intJobans2 = request("FM_jobans_2")
+				                intJobans3 = request("FM_jobans_3")
+				                intJobans4 = request("FM_jobans_4")
+				                intJobans5 = request("FM_jobans_5")
+
+                                if len(trim(request("FM_jobans_proc_1"))) <> 0 then
+				                jobans_proc_1 = request("FM_jobans_proc_1")
+                                else
+                                jobans_proc_1 = 0
+                                end if
+
+                                jobans_proc_1 = replace(jobans_proc_1, ".", "")
+                                jobans_proc_1 = replace(jobans_proc_1, ",", ".")
+
+				                if len(trim(request("FM_jobans_proc_2"))) <> 0 then
+				                jobans_proc_2 = request("FM_jobans_proc_2")
+                                else
+                                jobans_proc_2 = 0
+                                end if
+
+                                jobans_proc_2 = replace(jobans_proc_2, ".", "")
+                                jobans_proc_2 = replace(jobans_proc_2, ",", ".")
+
+				                if len(trim(request("FM_jobans_proc_3"))) <> 0 then
+				                jobans_proc_3 = request("FM_jobans_proc_3")
+                                else
+                                jobans_proc_3 = 0
+                                end if
+
+                                jobans_proc_3 = replace(jobans_proc_3, ".", "")
+                                jobans_proc_3 = replace(jobans_proc_3, ",", ".")
+
+				                if len(trim(request("FM_jobans_proc_4"))) <> 0 then
+				                jobans_proc_4 = request("FM_jobans_proc_4")
+                                else
+                                jobans_proc_4 = 0
+                                end if
+
+                                jobans_proc_4 = replace(jobans_proc_4, ".", "")
+                                jobans_proc_4 = replace(jobans_proc_4, ",", ".")
+
+				                if len(trim(request("FM_jobans_proc_5"))) <> 0 then
+				                jobans_proc_5 = request("FM_jobans_proc_5")
+                                else
+                                jobans_proc_5 = 0
+                                end if
+
+                                jobans_proc_5 = replace(jobans_proc_5, ".", "")
+                                jobans_proc_5 = replace(jobans_proc_5, ",", ".")
+
+                                errProcVal = 0
+
+                                for i = 1 to 5
+                                      select case i 
+                                      case 1
+                                      procVal = jobans_proc_1
+                                      case 2
+                                      procVal = jobans_proc_2
+                                      case 3
+                                      procVal = jobans_proc_3
+                                      case 4
+                                      procVal = jobans_proc_4
+                                      case 5
+                                      procVal = jobans_proc_5
+                                      end select
+                    
+                   
+                    
+                                    call erDetInt(procVal)
+				    
+                                    if isInt > 0 then
+                                    errProcVal = 1
+                                    isInt = 0
+                                    end if
+                
+                                next
+
 
 
 
@@ -443,6 +528,20 @@ end if
                 
                                 next
                                 '***** Salg ansvarlige SLUT
+
+
+
+                                if len(request("FM_virksomheds_proc")) <> 0 then
+                                virksomheds_proc = request("FM_virksomheds_proc")
+                                else
+                                virksomheds_proc = 0
+                                end if 
+
+                                call erDetInt(virksomheds_proc)
+                                if isInt > 0 then
+                                errProcVal = 1
+                                isInt = 0
+                                end if
                                 
 
 
@@ -521,6 +620,23 @@ end if
 		                        isInt = 0
 
 
+                                if len(trim(request("FM_udgifter_intern"))) <> 0 AND lCase(request("FM_udgifter_intern")) <> "nan" then
+                                jo_udgifter_intern = replace(request("FM_udgifter_intern"), ".", "")
+		                        jo_udgifter_intern = replace(jo_udgifter_intern, ",", ".")
+                                else
+                                jo_udgifter_intern = 0
+                                end if
+
+                                call erdetint(jo_udgifter_intern)
+		                        if isInt <> 0 then
+		                        call visErrorFormat
+				                errortype = 1251
+                                call showError(errortype)
+                                Response.end
+		                        end if
+		                        isInt = 0
+
+
                 
                
 		        
@@ -539,6 +655,25 @@ end if
                                 Response.end
 		                        end if
 		                        isInt = 0
+
+
+                                if len(trim(request("FM_restestimat"))) <> 0 then
+                                restestimat = request("FM_restestimat")
+
+                                        call erdetint(restestimat)
+		                                if isInt <> 0 then
+		                                call visErrorFormat
+				                        errortype = 156
+                                        call showError(errortype)
+                                        Response.end
+		                                end if
+		                                isInt = 0
+
+                                        restestimat = abs(restestimat)
+
+                                else
+                                restestimat = 0
+                                end if
 				
 				
                                 if len(trim(request("FM_restestimat"))) <> 0 then
@@ -563,9 +698,39 @@ end if
 				
                                 if isInt > 0 OR instr(request("FM_budget"&simpeludvEXT&""), "-") <> 0 OR trim(lcase(request("FM_budget"&simpeludvEXT&""))) = "nan" then
 				                
+                                call visErrorFormat
+				                errortype = 16
+				                call showError(errortype)
+				                isInt = 0
+
                                 response.End
                                 end if
+                                
+                                
+                                call erDetInt(request("FM_ikkebudgettimer"&simpeludvEXT&""))
+								if isInt > 0 then
+								
+								call visErrorFormat
+								
+								errortype = 20
+								call showError(errortype)
+								isInt = 0
+                                reponse.end
+                                end if
+                    
+                    
 
+                                usejoborakt_tp = request("FM_usejoborakt_tp")
+
+
+                                if request("FM_fastpris") = "1" AND len(trim(request("FM_budgettimer"))) = 0 then 'OR request("FM_fastpris") = "1" AND request("FM_budgettimer") = "0" then
+									
+								call visErrorFormat
+									
+								errortype = 30
+								call showError(errortype)
+                                reponse.end
+                                end if
 
                                 if len(trim(request("FM_budgettimer"&simpeludvEXT&""))) = 0 then
 				                    strBudgettimer = 0
@@ -597,11 +762,72 @@ end if
 
             
 
+                                stade_tim_proc = request("FM_stade_tim_proc")
+
+
                                  if len(trim(request("FM_forvalgt"))) <> 0 then
                                  forvalgt = 1
                                  else
                                  forvalgt = 0
                                  end if
+
+
+                                if len(trim(request("FM_bruttofortj"))) <> 0 AND lCase(request("FM_bruttofortj")) <> "nan" then
+		                        jo_bruttofortj = replace(request("FM_bruttofortj"), ".", "")
+		                        jo_bruttofortj = replace(jo_bruttofortj, ",", ".")
+		                        else
+		                        jo_bruttofortj = 0
+		                        end if
+		        
+		                        call erdetint(jo_bruttofortj)
+		                        if isInt <> 0 then
+		                        call visErrorFormat
+				                errortype = 126
+                                call showError(errortype)
+                                Response.end
+		                        end if
+		                        isInt = 0
+
+
+
+                                if len(trim(request("FM_db"))) <> 0 AND lCase(request("FM_db")) <> "nan" then
+		        
+		                        jo_dbproc = request("FM_db")
+		         
+		                        call erdetint(jo_dbproc)
+		                        if isInt <> 0 then
+		                        call visErrorFormat
+				                errortype = 127
+                                call showError(errortype)
+                                Response.end
+                                else
+                                jo_dbproc = formatnumber(request("FM_db"),0)
+		                        end if
+		                        isInt = 0
+		            				
+				                else
+				                jo_dbproc = 0
+				                end if
+
+
+
+                                if len(trim(request("FM_udgifter"))) <> 0 AND lCase(request("FM_udgifter")) <> "nan" then
+		                        udgifter = replace(request("FM_udgifter"), ".", "")
+                                udgifter = replace(udgifter, ",", ".")
+                                else
+                                udgifter = 0
+                                end if
+                
+                                call erdetint(udgifter)
+		                        if isInt <> 0 then
+		                        call visErrorFormat
+				                errortype = 129
+                                call showError(errortype)
+                                Response.end
+		                        end if
+		                        isInt = 0
+
+
 
                                 
                                 '*********************************************************************'
@@ -635,6 +861,13 @@ end if
 				                end if
 
 
+                                if len(trim(request("FM_jobfaktype"))) <> 0 then
+				                jobfaktype = request("FM_jobfaktype")
+				                else
+				                jobfaktype = 0
+				                end if
+
+
                                 if len(request("FM_kundese")) <> 0 then
 					            if request("FM_kundese_hv") = 1 then
 					            intkundese = 2 '(når job er lukket)
@@ -645,6 +878,7 @@ end if
 				                intkundese = 0
 				                end if
 
+                                response.Cookies("tsa")("faktype") = jobfaktype
 
                 
 
@@ -739,7 +973,64 @@ end if
 					            Response.end
 				                end if
 
+            
+                                if len(trim(request("FM_gnsinttpris"))) <> 0 AND lCase(request("FM_gnsinttpris")) <> "nan" then
+				                jo_gnstpris = replace(request("FM_gnsinttpris"), ".", "")
+		                        jo_gnstpris = replace(jo_gnstpris, ",", ".")
+				                else
+				                jo_gnstpris = 0
+				                end if
+				
+				                call erdetint(jo_gnstpris)
+		                        if isInt <> 0 then
+		                        call visErrorFormat
+				                errortype = 124
+                                call showError(errortype)
+                                Response.end
+		                        end if
+				                isInt = 0
 
+
+                                if len(trim(request("FM_intfaktor"))) <> 0 then
+				                jo_gnsfaktor = replace(request("FM_intfaktor"), ",", ".")
+				                else
+				                jo_gnsfaktor = 0
+				                end if
+
+
+                                '** Diff på timer og Sum job vs aktiviteter		
+                                diff_timer = request("FM_diff_timer")
+                                diff_sum = request("FM_diff_sum")
+
+                                diff_timer = replace(diff_timer, ".", "")
+		                        diff_timer = replace(diff_timer, ",", ".")
+
+                                diff_sum = replace(diff_sum, ".", "")
+		                        diff_sum = replace(diff_sum, ",", ".")
+
+                                if len(trim(diff_timer)) <> 0 then
+                                diff_timer = diff_timer
+                                else
+                                diff_timer = 0
+                                end if
+
+                                    if len(trim(diff_sum)) <> 0 then
+                                diff_sum = diff_sum
+                                else
+                                diff_sum = 0
+                                end if
+
+
+
+				
+				                call erdetint(jo_gnsfaktor)
+		                        if isInt <> 0 then
+		                        call visErrorFormat
+				                errortype = 128
+                                call showError(errortype)
+                                Response.end
+		                        end if
+		                        isInt = 0
 
 
                                 if len(request("FM_serviceaft")) <> 0 then
@@ -768,6 +1059,14 @@ end if
                                 end if
 
 
+
+                                if len(request("FM_lukafmjob")) <> 0 then
+				                lukafmjob = request("FM_lukafmjob")
+				                else
+				                lukafmjob = 0
+				                end if
+
+
                                 if len(request("FM_valuta")) <> 0 then
 				                valuta = request("FM_valuta")
 				                else
@@ -784,12 +1083,47 @@ end if
 		                        end if
 
 
-                                '* Intern note **'
-			                    strInternBesk = SQLBless2(request("FM_internbesk"))
-			    
-			                    '*** HTML Replace **'
-			                    call htmlreplace(strInternBesk)
-			                    strInternBesk = htmlparseTxt
+                               
+
+
+                                if len(request("FM_ski")) <> 0 then
+			                    ski = 1
+			                    else
+			                    ski = 0
+			                    end if
+
+                                if len(request("FM_abo")) <> 0 then
+			                    abo = 1
+			                    else
+			                    abo = 0
+			                    end if
+
+                                if len(request("FM_ubv")) <> 0 then
+			                    ubv = 1
+			                    else
+			                    ubv = 0
+			                    end if
+
+
+
+
+                                isInt = 0    
+		                        call erDetInt(request("FM_sandsynlighed"))
+                                if isInt > 0 then
+                                call visErrorFormat
+    		
+		                        errortype = 31
+		                        call showError(errortype)
+		                        response.End
+			                    end if
+
+
+
+                                if len(trim(request("FM_sandsynlighed"))) <> 0 then
+			                    sandsynlighed = formatnumber(request("FM_sandsynlighed"), 0)
+			                    else
+			                    sandsynlighed = 0
+			                    end if
 
 
 
@@ -804,6 +1138,11 @@ end if
 			
 			                response.End
 			                end if
+
+
+
+                            
+
 
 
                             if len(request("FM_opr_kpers")) <> 0 then
@@ -883,7 +1222,33 @@ end if
                             end if
 
 
+                             if len(trim(request("FM_opdmedarbtimepriser"))) <> 0 then
+                            laasmedtpbudget = 1
+                            else
+                        
+                                    if func = "dbopr" then
+                                    select case lto 
+                                    case "jttek", "intranet - local"
+                                    laasmedtpbudget = 1
+                                    case else
+                                    laasmedtpbudget = 0
+                                    end select    
+                        
+                                    else
+                                    laasmedtpbudget = 0
 
+                                    end if
+                            end if
+
+
+                            '******* Sti til dokumenter på egen filserver *****'
+                            if len(trim(request("FM_filepath1"))) <> 0 then 
+                            filepath1 = request("FM_filepath1")
+                            filepath1 = replace(filepath1, "'", "")
+                            filepath1 = replace(filepath1, "\", "#")
+                            else
+                            filepath1 = ""
+                            end if
 
 
                             if len(trim(request("FM_preconditions_met"))) <> 0 then
@@ -891,7 +1256,6 @@ end if
                             else
                             preconditions_met = 0
                             end if
-
 
 
                                
@@ -963,46 +1327,96 @@ end if
 				                end if
 				                oRec5.close
 
-      'Felter er oprettes
-                                
-                                strSQLjob = ("INSERT INTO job (jobnavn, jobnr, jobknr, jobTpris, jobstatus, jobstartdato," _
-                                & " jobslutdato, editor, dato, projektgruppe1, projektgruppe2, projektgruppe3, projektgruppe4, " _
-                                & " projektgruppe5, projektgruppe6, projektgruppe7, projektgruppe8, projektgruppe9, projektgruppe10, " _
-                                & " fakturerbart, budgettimer, fastpris, kundeok, beskrivelse, " _
-                                & " ikkeBudgettimer, tilbudsnr, jobans1," _
-                                & " serviceaft, kundekpers, valuta, rekvnr, " _
-                                & " risiko, job_internbesk, " _
-                                & " jo_bruttooms, fomr_konto) VALUES " _
-                                & "('" & jobnavn & "', " _
-                                & "'" & strjnr & "', " _
-                                & "" & kid & ", " _
-                                & "0, " _
-                                & "1, " _
-                                & "'" & jobstartdato & "', " _
-                                & "'" & jobslutdato & "', " _
-                                & "'" & editor & "', " _
-                                & "'" & dddato & "', " _
-                                & "10, " _
-                                & "1,1,1,1,1,1,1,1,1," _
-                                & "1,0,0,0," _
-                                & "'" & beskrivelse & "', " _
-                                & "0,0, " _
-                                & "" & jobans1 & "," _
-                                & "0," & kunderef & ", " _
-                                & "1, '" & rekvisitionsnr & "', " _
-                                & "100,'" & internnote & "'," _
-                                & "" & bruttooms & ", 0)")
-
-
-                                
-                                
+      'Felter oprettes
+                               
+                               strSQLjob = ("INSERT INTO job (jobnavn, jobnr, jobknr, jobTpris, jobstatus, editor, dato, "_
+                                &" projektgruppe1, projektgruppe2, projektgruppe3, projektgruppe4, projektgruppe5, projektgruppe6, projektgruppe7, projektgruppe8, projektgruppe9, projektgruppe10, "_
+                                &" kundeok, beskrivelse, salgsans1, salgsans2, salgsans3, salgsans4, salgsans5, salgsans1_proc, salgsans2_proc, salgsans3_proc, salgsans4_proc, salgsans5_proc,"_
+                                &" fakturerbart, budgettimer, fastpris, ikkeBudgettimer, tilbudsnr, serviceaft, kundekpers, lukafmjob, valuta, jobfaktype, "_
+                                &" rekvnr, jo_gnstpris, jo_gnsfaktor, jo_gnsbelob, jo_bruttofortj, jo_dbproc, udgifter, risiko, ski, job_internbesk, "_
+                                &" abo, ubv, sandsynlighed, jobans1, jobans2, jobans3, jobans4, jobans5, jobans_proc_1, jobans_proc_2, "_
+                                &" jobans_proc_3, jobans_proc_4, jobans_proc_5, diff_timer, diff_sum, jo_udgifter_intern, jo_udgifter_ulev, restestimat, "_
+                                &" virksomheds_proc, syncslutdato, altfakadr, preconditions_met, laasmedtpbudget, fomr_konto, jfak_sprog, jfak_moms"_							   
+                                &") VALUES "_
+							    &"('"& strNavn &"' ,"_
+                                &"'"& strjnr &"', "_
+                                &"'"& kid &"' ,"_
+                                &""& jo_gnsbelob &" ,"_
+                                &""& strStatus &" ,"_
+                                &"'"& strEditor &"', "_
+							    &"'"& strDato &"' ,"_
+                                &""& strProjektgr1 &", "_ 
+							    &""& strProjektgr2 &", "_ 
+							    &""& strProjektgr3 &", "_ 
+							    &""& strProjektgr4 &", "_ 
+							    &""& strProjektgr5 &", "_
+							    &""& strProjektgr6 &", "_ 
+							    &""& strProjektgr7 &", "_ 
+							    &""& strProjektgr8 &", "_ 
+							    &""& strProjektgr9 &", "_ 
+							    &""& strProjektgr10 &" ,"_
+                                &""& intkundese &" ,"_
+                                &"'"& strBesk &"' ,"_ 
+                                &""& salgsans1 &" ,"_
+                                &""& salgsans2 &" ,"_ 
+                                &""& salgsans3 &" ,"_ 
+                                &""& salgsans4 &" ,"_ 
+                                &""& salgsans5 &" ,"_
+                                &""& salgsans_proc_1 &" ,"_
+                                &""& salgsans_proc_2 &" ,"_
+                                &""& salgsans_proc_3 &" ,"_
+                                &""& salgsans_proc_4 &" ,"_
+                                &""& salgsans_proc_5 &" ,"_
+                                &""& strFakturerbart &" ,"_
+                                &""& strBudgettimer  &" ,"_
+                                &"'"& strFastpris & "' ,"_
+                                &"'"& SQLBless(ikkeBudgettimer) & "' ,"_
+                                &"'"& tlbnr & "' ,"_
+                                &""& intServiceaft &" ,"_
+                                &""& intKundekpers &" ,"_
+                                &""& lukafmjob &" ,"_
+                                &""& valuta &" ,"_
+                                &""& jobfaktype &" ,"_
+                                &"'"& rekvnr &"' ,"_
+                                &""& jo_gnstpris &" ,"_
+                                &""& jo_gnsfaktor &" ,"_
+                                &""& jo_gnsbelob &" ,"_
+                                &""& jo_bruttofortj &" ,"_
+                                &""& jo_dbproc &" ,"_
+                                &""& udgifter &" ,"_
+                                &" "& intprio &", "& ski &", '"& strInternBesk &"' ,"_
+                                &" "& abo &", "& ubv &", "& sandsynlighed &" ,"_
+                                &""& intJobans1 &" ,"_
+                                &""& intJobans2 &" ,"_
+                                &""& intJobans3 &" ,"_
+                                &""& intJobans4 &" ,"_
+                                &""& intJobans5 &" ,"_
+                                &""& jobans_proc_1 &" ,"_
+                                &""& jobans_proc_2 &" ,"_
+                                &""& jobans_proc_3 &" ,"_
+                                &""& jobans_proc_4 &" ,"_
+                                &""& jobans_proc_5 &" ,"_
+                                &""& diff_timer &" ,"_
+                                &""& diff_sum &" ,"_
+                                &""& jo_udgifter_intern &" ,"_
+                                &""& jo_udgifter_ulev &" ,"_
+                                &""& restestimat &" ,"_
+                                &""& virksomheds_proc &" ,"_
+                                &""& syncslutdato &" ,"_
+                                &""& altfakadr &" ,"_
+                                &""& preconditions_met &" ,"_
+                                &""& laasmedtpbudget &" ,"_
+                                &""& fomr_konto &" ,"_
+                                &""& jfak_sprog &" ,"_
+                                &""& jfak_moms &""_
+                                &")") 
+                                                               
                                 'response.write "strSQLjob: " & strSQLjob 
                                 'response.flush
-
+                                
                                 oConn.execute(strSQLjob)
+                                '&" "& diff_timer &", "& diff_sum &", "& jo_udgifter_intern &", "& jo_udgifter_ulev &", "& strBudget &""_
                                 
-                                
-
                                 '******************************************'
 								'*** finder jobid på det netop opr. job ***'
 								'******************************************'
@@ -1329,7 +1743,6 @@ end if
                                     '** Slut timepris **
                 
                 
-                   
 							
                     
                     
@@ -1342,12 +1755,14 @@ end if
 
 
 
+                   
 
 
 
 
 
 
+                   
 
 
 
@@ -1388,11 +1803,11 @@ end if
 							    &" jobnr = '"& strjnr &"', "_
                                 &" rekvnr = '"& rekvnr &"', "_ 
                                 &" jobstatus = "& strStatus &", "_
-                                &" jobans1 = "& Jobans1 &", "_
-                                &" jobans2 = "& Jobans2 &", "_
-                                &" jobans3 = "& Jobans3 &", "_
-                                &" jobans4 = "& Jobans4 &", "_
-                                &" jobans5 = "& Jobans5 &", "_ 
+                                &" jobans1 = "& intJobans1 &", "_
+                                &" jobans2 = "& intJobans2 &", "_
+                                &" jobans3 = "& intJobans3 &", "_
+                                &" jobans4 = "& intJobans4 &", "_
+                                &" jobans5 = "& intJobans5 &", "_ 
                                 &" jobans_proc_1 = "& jobans_proc_1 & ", "_
                                 &" jobans_proc_2 = "& jobans_proc_2 & ", "_
                                 &" jobans_proc_3 = "& jobans_proc_3 & ", "_
@@ -1419,19 +1834,44 @@ end if
                                 &" jfak_sprog = "& jfak_sprog &", "_ 
                                 &" kundeok = "& intkundese &", "_ 
                                 &" altfakadr = "& altfakadr &", "_
-                                &" syncslutdato = "& syncslutdato &""_                                                                                                       
+                                &" syncslutdato = "& syncslutdato &" ,"_
+                                &" fastpris = "& strFastpris &" ,"_
+                                &" Budgettimer  = "& strBudgettimer &", "_
+                                &" ikkeBudgettimer = "& SQLBless(ikkeBudgettimer) &" ,"_
+                                &" kundekpers = "& intKundekpers &" ,"_ 
+                                &" lukafmjob = "& lukafmjob &" ,"_
+                                &" jobfaktype = "& jobfaktype &" ,"_
+                                &" jo_gnstpris = "& jo_gnstpris &" ,"_
+                                &" jo_gnsfaktor = "& jo_gnsfaktor &" ,"_ 
+                                &" jo_gnsbelob = "& jo_gnsbelob &" ,"_
+                                &" jo_bruttofortj = "& jo_bruttofortj &" ,"_
+                                &" jo_dbproc = "& jo_dbproc &" ,"_
+                                &" udgifter = "& udgifter &" ,"_
+                                &" risiko = "& intprio &" ,"_
+                                &" ski = "& ski &" ,"_
+                                &" job_internbesk = '"& strInternBesk &"' ,"_
+                                &" abo = '"& abo &"' ,"_
+                                &" ubv = '"& ubv &"' ,"_
+                                &" sandsynlighed = '"& sandsynlighed &"' ,"_
+                                &" diff_timer = '"& diff_timer &"' ,"_
+                                &" diff_sum = '"& diff_sum &"' ,"_
+                                &" jo_udgifter_intern = '"& jo_udgifter_intern &"' ,"_
+                                &" jo_udgifter_ulev = '"& jo_udgifter_ulev &"' ,"_
+                                &" restestimat = "& restestimat &" ,"_
+                                &" virksomheds_proc = "& virksomheds_proc &" ,"_
+                                &" laasmedtpbudget = "& laasmedtpbudget &""_                                                                                                                                                            
                                 &" WHERE id = "& id 
-
+                                
 							   '&" serviceaft = "& intServiceaft &""_
-
-							    'Response.Write strSQL
+                                
+							    Response.Write strSQL
 							    'Response.end
                                 'Response.flush							
 							    oConn.execute(strSQL)
 
 
-
-
+                                
+ 
 
                                 '****** opdaterer tilbudsnr ved rediger ****'
                                                 if request("FM_usetilbudsnr") = "j" then
@@ -1472,7 +1912,7 @@ end if
 								                '& " Tjobnr = '"& strjnr &"', "_
 								                '& " fastpris = '"& strFastpris &"', "_
 								                '& " seraft = "& intServiceaft &" "_
-								               ' & " WHERE Tjobnr = '"& strOLDjobnr & "'"
+								                '& " WHERE Tjobnr = '"& strOLDjobnr & "'"
                 								
                 								'** Husk materiale forbrug ***
 								                'strSQLmat_forbrug = "UPDATE materiale_forbrug SET serviceaft = " & intServiceaft &""_
@@ -1503,7 +1943,7 @@ end if
 								                '*** Opdaterer faktura tabel så faktura kunde id passer hvis der er skiftet kunde  ved rediger job.
 								                '*** Adr. i adresse felt på faktura behodes til revisor spor. **'
 								                'strSQLFakadr = "UPDATE fakturaer SET fakadr = "& oRec("kid") &" WHERE jobid = " & id
-								                'oConn.execute(strSQLFakadr)
+								               'oConn.execute(strSQLFakadr)
 								
 								
 								varJobId = id
@@ -2397,15 +2837,21 @@ end if
                             '*******************************************************'
 
                             response.Redirect "../timereg/jobs.asp?menu=job&shokselector=1&id="&varJobId&"&jobnr_sog="&strJobsog&"&filt="&filt&"&fm_kunde="&vmenukundefilt
+            
+           
+                       
+
 
 
     case "opret", "red"
+
         %>
         <script src="js/job_2015_jav.js"></script>
         <%call menu_2014 %>
 
         <%
 
+            
 
         if func = "red" then
        
@@ -2419,11 +2865,14 @@ end if
 
         strSQL = "SELECT id, jobnavn, jobnr, rekvnr, jobstatus, jobans1, jobans2, jobstartdato, jobslutdato, job.beskrivelse, tilbudsnr, "_
             &" projektgruppe1, projektgruppe2, projektgruppe3, projektgruppe4, projektgruppe5, projektgruppe6, projektgruppe7, projektgruppe8, "_
-            &" projektgruppe9, projektgruppe10, fomr_konto, risiko, preconditions_met, valuta, jfak_moms, jfak_sprog, kundeok, altfakadr, syncslutdato, job.serviceaft "_ 
+            &" projektgruppe9, projektgruppe10, fomr_konto, risiko, preconditions_met, valuta, jfak_moms, jfak_sprog, kundeok, altfakadr, syncslutdato, job.serviceaft, fakturerbart, fastpris, "_
+            &" budgettimer, ikkeBudgettimer, kundekpers, lukafmjob, jobfaktype, jo_gnstpris, jo_gnsfaktor, jo_gnsbelob, "_
+            &" jo_bruttofortj, jo_dbproc, udgifter, usejoborakt_tp, ski, job_internbesk, abo, ubv, sandsynlighed, diff_timer, diff_sum, "_
+            &" jo_udgifter_ulev, jo_udgifter_intern, jo_bruttooms, restestimat, stade_tim_proc, virksomheds_proc, laasmedtpbudget, filepath1"_
         &" FROM job, kunder WHERE id = " & id &" AND kunder.Kid = jobknr"
 
-        Response.Write strSQL
-	    Response.flush
+        'Response.Write strSQL
+	    'Response.flush
 	
 	    oRec.open strSQL, oConn, 3
 	
@@ -2433,6 +2882,7 @@ end if
 	        strjobnr = oRec("jobnr")
             rekvnr = oRec("rekvnr")
             strStatus = oRec("jobstatus")
+            strBudget = oRec("jo_bruttooms") 'oRec("jobTpris")
             jobans1 = oRec("jobans1")
 	        jobans2 = oRec("jobans2")
             strStatus = oRec("jobstatus")
@@ -2450,21 +2900,63 @@ end if
 	        strProj_10 = oRec("projektgruppe10")
             fomr_konto = oRec("fomr_konto")
             intprio = oRec("risiko")
-
             preconditions_met = oRec("preconditions_met")
             valuta = oRec("valuta")
-
-
             jfak_moms = oRec("jfak_moms")
             jfak_sprog = oRec("jfak_sprog")
-
             intkundeok = oRec("kundeok")
-
             altfakadr = oRec("altfakadr")
-
             syncslutdato = oRec("syncslutdato")
-
             intServiceaft = oRec("serviceaft")
+            strFakturerbart = oRec("fakturerbart")
+            strFastpris = oRec("fastpris")
+            intkundekpers = oRec("kundekpers")
+            lukafmjob = oRec("lukafmjob")
+            jobfaktype = oRec("jobfaktype")
+            jo_gnstpris = oRec("jo_gnstpris")
+            jo_gnsfaktor = oRec("jo_gnsfaktor")
+            jo_gnsbelob = oRec("jo_gnsbelob")
+            jo_bruttofortj = oRec("jo_bruttofortj")
+            jo_dbproc = oRec("jo_dbproc")
+            udgifter = oRec("udgifter")
+            usejoborakt_tp = oRec("usejoborakt_tp")
+            virksomheds_proc = oRec("virksomheds_proc")
+
+            jo_bruttooms = oRec("jo_bruttooms")
+
+            ski = oRec("ski")
+            abo = oRec("abo")
+            ubv = oRec("ubv")
+
+            intSandsynlighed = oRec("sandsynlighed")
+            stade_tim_proc = oRec("stade_tim_proc")
+
+            diff_timer = oRec("diff_timer")
+            diff_sum = oRec("diff_sum")
+
+            jo_udgifter_ulev = oRec("jo_udgifter_ulev")
+            jo_udgifter_intern = oRec("jo_udgifter_intern")
+
+            job_internbesk = oRec("job_internbesk")
+
+            '*** Ikke fakturerbare timer bruges ikke mere, men gemmes pga. gamle job ***'
+	        strBudgettimer = oRec("budgettimer") + oRec("ikkeBudgettimer")
+            restestimat = oRec("restestimat")
+	        laasmedtpbudget = oRec("laasmedtpbudget")
+
+
+            if len(trim(oRec("filepath1"))) <> 0 then
+            filepath1 = oRec("filepath1")
+            filepath1 = replace(filepath1, "#", "\")
+            else
+            filepath1 = "" 
+            end if
+	
+		    if oRec("ikkeBudgettimer") > 0 then
+		    ikkeBudgettimer = oRec("ikkeBudgettimer")
+		    else
+		    ikkeBudgettimer = 0
+		    end if
 
 
 
@@ -2490,9 +2982,7 @@ end if
             end if
 	       
         
-            end if
-
-
+        end if
         oRec.close
 
         dbfunc = "dbred"
@@ -2514,7 +3004,7 @@ end if
         end select
 
 
-    
+     
         strjobnr = 0
         strNavn = "Jobnavn.."
 	    rekvnr = ""
@@ -2524,10 +3014,24 @@ end if
 
         dbfunc= "dbopr"
 
+        ikkeBudgettimer = 0
+        strBudgettimer = 0
+
+
+        select case lto
+	    case "intranet - local", "synergi1", "cisu", "wilke"
+	    strFastpris = 1 'default fastpris
+	    case else
+	    strFastpris = 2 'default løbende timer
+	    end select
+
+        strFakturerbart = 1
+
         jobstdato = day(now) & "-" & month(now) & "-" & year(now)
         jobstdato = dateadd("d", -7, jobstdato) 
         jobsldato = dateadd("m", 1, jobstdato)
 
+        filepath1 = ""
         fomr_konto = 0
 
 
@@ -2538,9 +3042,9 @@ end if
         altfakadr = 0
 
         intServiceaft = 0
+        laasmedtpbudget = 0
 
-
-         select case lto
+        select case lto
         case "epi", "epi_no", "epi_sta", "intranet - local", "epi_ab", "epi_cati", "epi_uk"
 	    virksomheds_proc = 50
 	    syncslutdato = 1
@@ -2555,6 +3059,42 @@ end if
         jfak_sprog = 1
         sdskpriogrp = 0
         valuta = basisValId
+
+
+        intkundekpers = 0
+        jobfaktype = 0
+        jo_gnstpris = 0
+        jo_gnsbelob = 0
+
+
+       jo_bruttofortj = 0
+       jo_dbproc = 0
+       udgifter = 0
+       usejoborakt_tp = 0
+
+
+       ski = 0
+       abo = 0
+       ubv = 0
+
+
+        restestimat = 0
+        stade_tim_proc = 0
+
+        if cint(lukafm) <> 0 then
+	    lukafmjob = 1
+	    else 
+	    lukafmjob = 0
+	    end if
+
+
+        select case lto 
+        case "epi", "epi_no", "epi_sta", "outz", "epi_ab", "epi_cati", "epi_uk"
+        jo_gnsfaktor = 2
+	    case else
+        jo_gnsfaktor = 1
+        end select
+
    
         'if multibletrue = 0 then
     
@@ -2575,7 +3115,7 @@ end if
    
 
         end if 'func red
-
+           
 
         if func = "red" then
 
@@ -2596,38 +3136,49 @@ end if
 	        jobfaktypeCHK1 = "CHECKED"
 	        end if 
 	
-	else
+	    else
 	    
            
 
 
-	    if lto = "dencker" then
+	        if lto = "dencker" then
 	        
-	        jobfaktypeCHK0 = ""
-	        jobfaktypeCHK1 = "CHECKED"
-	    
-	    else
-	    
-	        if request.Cookies("tsa")("faktype") <> "" then
-    	        
-	            if request.Cookies("tsa")("faktype") = "0" then
-	            jobfaktypeCHK0 = "CHECKED"
-	            jobfaktypeCHK1 = ""
-	            else
 	            jobfaktypeCHK0 = ""
 	            jobfaktypeCHK1 = "CHECKED"
-	            end if 
-    	        
+	    
 	        else
+	    
+	            if request.Cookies("tsa")("faktype") <> "" then
+    	        
+	                if request.Cookies("tsa")("faktype") = "0" then
+	                jobfaktypeCHK0 = "CHECKED"
+	                jobfaktypeCHK1 = ""
+	                else
+	                jobfaktypeCHK0 = ""
+	                jobfaktypeCHK1 = "CHECKED"
+	                end if 
+    	        
+	            else
     	        
 	            jobfaktypeCHK0 = "CHECKED"
 	            jobfaktypeCHK1 = ""
     	    
-	        end if
+	            end if
 	    
-	    end if
+	        end if
 	
 	end if
+
+
+
+    if level <= 2 OR level = 6 then
+	editok = 1
+	else
+			if cint(session("mid")) = jobans1 OR cint(session("mid")) = jobans2 OR (cint(jobans1) = 0 AND cint(jobans2) = 0) then
+			editok = 1
+			end if
+	end if
+
 
     if editok = 1 then 
 
@@ -2636,7 +3187,6 @@ end if
 	    else
 	    kundechk = ""
 	    end if
-
 
     end if
 
@@ -2670,7 +3220,24 @@ end if
 	    <input type="hidden" name="showaspopup" value="<%=showaspopup%>">
         <input type="hidden" id="jq_func" name="jq_func" value="<%=func%>">
         <input type="hidden" id="lto" name="lto" value="<%=lto%>">
-
+        
+            <select id="FM_stade_tim_proc" name="FM_stade_tim_proc">
+           
+           <%
+           sele0 = ""
+           sele1 = ""
+           
+           select case stade_tim_proc
+           case 1
+           sele1 = "SELECTED"
+           case else
+           sele0 = "SELECTED"
+           end select
+            %>
+           
+            <option <%=sele0 %> value="0">timer til rest.</option>
+            <option <%=sele1 %> value="1">% afsluttet</option>
+        </select>
         <div class="container">
 
             <div class="portlet">
@@ -3004,10 +3571,14 @@ end if
 		                                        </select></td>
                                             </tr>
 
+                                            <%if func = "red" then %>
                                             <tr style="border:hidden">
                                                 <td style="color:black">Projekt nr.:</t>
-                                                <td><input type="text" name="FM_jnr" id="FM_jnr" value="<%=strJobnr%>" class="form-control input-small" ></td>
+                                                <td><input type="text" name="FM_jnr" id="FM_jnr" value="<%=strJobnr%>" class="form-control input-small"></td>
                                             </tr>
+                                            <%else %>
+                                            <input type="hidden" name="FM_jnr" id="Text2" value="0">
+                                            <%end if %>
 
                                             <%for ja = 1 to 1 
 					
@@ -3196,11 +3767,7 @@ end if
                                    
                                 
                                
-                                <!--<div class="row">
-                                    <div class="col-lg-11"><br />Intern besked: <br />
-                                    <textarea id="TextArea1" name="FM_internbesk" cols="70" rows="3" class="form-control input-small"></textarea>   		               
-                                    </div>                                
-                                </div>-->
+                        
 
                               <!--
                                 <br />
@@ -3239,13 +3806,13 @@ end if
 					                    <%end if%>
 
                                         <input type="hidden" id="FM_nexttnr" value="<%=strNexttilbudsnr %>">
-                                    </div>
+                                    </div>-->
 
-                                <div class="row">
+                               <!-- <div class="row">
                                     <div class="col-lg-1"><input id="Text1" name="FM_sandsynlighed" value="<%=intSandsynlighed %>" type="text" class="form-control input-small"/></div>
                                     <div class="col-lg-3">% sandsynlighed for at vinde tilbud. <span style="font-size:10px; font-family:arial; color:#999999;">(Pipelineværdi = Brutto oms. - Udgifter lev. * sandsynlighed)</span></div>
-                                </div>
-                                -->
+                                </div> --
+                                
                                   
 
                                 <!--
@@ -3281,7 +3848,7 @@ end if
                 </div> <!-- Well  -->
                 <br />
 
-                <% if func = red then %>
+                <% if func = "red" then %>
                 <div class="panel-group accordion-panel" id="accordion-paneled">
                     <div class="panel panel-default">
                         <div class="panel-heading">
@@ -3796,17 +4363,17 @@ end if
                                 <%end if %>
 
 
-
+                           <!-------------------------- Skift standard skal fjernes---------------------------------->
                                      <%
                            if lto <> "execon" then%>
-                                <div class="row">
+                               <!-- <div class="row">
                                     <div class="col-lg-7">
 								        <input type="checkbox" name="FM_gemsomdefault" id="FM_gemsomdefault" value="1"> Skift standard forvalgt projektgruppe <a data-toggle="modal" href="#styledModalSstGrp22"><span class="fa fa-info-circle"></span></a> <!--til den gruppe der her vælges som projektgruppe 1.
-								        <span style="color:#999999;">Gemmes som cookie i 30 dage.</span> -->
+								        <span style="color:#999999;">Gemmes som cookie i 30 dage.</span> 
                                     </div>
-                                </div>
+                                </div> -->
                                
-                                <%end if %>
+                            <%end if %>
 
 
                             <%if func <> "red" then
@@ -3817,11 +4384,11 @@ end if
                                     forvalgCHK = ""
                                     end if
                                  
-                                 else
+                            else
                                  
                                  forvalgCHK = ""
 
-                                 end if %>
+                            end if %>
 
                             <div class="row">
                                 <div class="col-lg-2"><input type="checkbox" name="FM_forvalgt" id="FM_forvalgt" <%=forvalgCHK %> value="1"> Tilføj "Push" <a data-toggle="modal" href="#modaltilfolpush"><span class="fa fa-info-circle"></span></a></div>
@@ -4207,7 +4774,7 @@ end if
                             </a>
                           </h4>
                         </div> <!-- /.panel-heading -->
-                        <div id="collapse5" class="panel-collapse collapse in">
+                        <div id="collapse5" class="panel-collapse collapse">
                             <div class="panel-body">
 
                                                                 
@@ -4648,25 +5215,11 @@ end if
                                                    
                                        <br />
 
-                                            
-
-                                        <br /><br />
+                                           
 
                                         <div class="row">
-                                            <div class="col-lg-2">Tilknyt job til aftale?</div>                                    
-                                            <div class="col-lg-3">
-                                               
-		                                        
-                                            </div>
-                                                                                                                                                                                                    
-                                        </div>
-                                    
-
-                                        <br /><br />
-
-                                        <div class="row">
-                                            <div class="col-lg-5">
-                                            <textarea id="TextArea1" name="" class="form-control input-small" rows="4" placeholder="Intern note"></textarea> 
+                                            <div class="col-lg-11"><br />Intern besked: <br />
+                                                <textarea id="TextArea1" name="FM_internbesk" cols="70" rows="2" class="form-control input-small"></textarea>   		               
                                             </div>                                
                                         </div>
 
@@ -4683,7 +5236,7 @@ end if
                                                                  
 
 
-                   <div class="panel-group accordion-panel" id="accordion-paneled">
+                   <div class="panel-group accordion-panel" id="accordion-paneled" style="display:none">
                     <div class="panel panel-default">
                         <div class="panel-heading">
                           <h4 class="panel-title">
@@ -4839,7 +5392,7 @@ end if
 
 
 
-                    <div class="panel-group accordion-panel" id="accordion-paneled">
+                    <div class="panel-group accordion-panel" id="accordion-paneled" style="display:none">
                     <div class="panel panel-default">
                         <div class="panel-heading">
                           <h4 class="panel-title">
@@ -4926,6 +5479,12 @@ end if
                  <%end if 'oprjobtype %>
 
 
+                <%'case else %>
+    
+
+
+
+                
 
 
 
@@ -5008,7 +5567,7 @@ end if
             </div><!-- /.container -->
            
 
-        <%end select %>
+        
 
 
            </div></div> </form>
@@ -5017,5 +5576,7 @@ end if
     </div><!-- /.content -->
 
     
+<%
+     end select %>
 
 <!--#include file="../inc/regular/footer_inc.asp"-->

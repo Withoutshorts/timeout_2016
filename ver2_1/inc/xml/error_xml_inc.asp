@@ -13,8 +13,8 @@ Dim sXPathQuery_error
 
 Set objXMLDom_error = Server.CreateObject("Microsoft.XMLDOM")
 Set objXmlHttp_error = Server.CreateObject("Msxml2.ServerXMLHTTP")
-'objXmlHttp_error.open "GET", "http://localhost/inc/xml/error_sprog.xml", False
-objXmlHttp_error.open "GET", "https://timeout.cloud/timeout_xp/wwwroot/ver2_14/inc/xml/error_sprog.xml", False
+objXmlHttp_error.open "GET", "http://localhost/Git/timeout_2016/ver2_1/inc/xml/error_sprog.xml", False
+'objXmlHttp_error.open "GET", "https://timeout.cloud/timeout_xp/wwwroot/ver2_14/inc/xml/error_sprog.xml", False
 'objXmlHttp_error.open "GET", "https://outzource.dk/timeout_xp/wwwroot/ver3_99/inc/xml/error_sprog.xml", False
 'objXmlHttp_error.open "GET", "https://outzource.dk/timeout_xp/wwwroot/ver2_10/inc/xml/error_sprog.xml", False
 objXmlHttp_error.send
@@ -50,14 +50,18 @@ sXPathQuery_error = "//sprog/dk"
 Session.LCID = 1030
 case 2
 sXPathQuery_error = "//sprog/uk"
-Session.LCID = 2057
+Session.LCID = 1033
 case 3
 sXPathQuery_error = "//sprog/se"
 Session.LCID = 1053
+
 case else
 sXPathQuery_error = "//sprog/dk"
 Session.LCID = 1030
 end select
+
+
+
 
 Set oNode_error = objXmlDom_error.documentElement.selectSingleNode(sXPathQuery_error)
 Address_error = oNode_error.Text

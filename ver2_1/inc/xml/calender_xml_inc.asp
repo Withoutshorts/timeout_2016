@@ -4,11 +4,11 @@ Dim objXMLHTTP_calender, objXMLDOM_calender, i_calender, strHTML_calender
 
 Set objXMLDom_calender = Server.CreateObject("Microsoft.XMLDOM")
 Set objXmlHttp_calender = Server.CreateObject("Msxml2.ServerXMLHTTP")
-'objXmlHttp_calender.open "GET", "http://localhost/inc/xml/calender_sprog.xml", False
+objXmlHttp_calender.open "GET", "http://localhost/Git/timeout_2016/ver2_1/inc/xml/calender_sprog.xml", False
 'objXmlHttp_calender.open "GET", "http://outzource.dk/timeout_xp/wwwroot/ver2_10/inc/xml/calender_sprog.xml", False
 'objXmlHttp_calender.open "GET", "https://outzource.dk/timeout_xp/wwwroot/ver3_99/inc/xml/calender_sprog.xml", False
 'objXmlHttp_calender.open "GET", "https://outzource.dk/timeout_xp/wwwroot/ver2_14/inc/xml/calender_sprog.xml", False
-objXmlHttp_calender.open "GET", "https://timeout.cloud/timeout_xp/wwwroot/ver2_14/inc/xml/calender_sprog.xml", False
+'objXmlHttp_calender.open "GET", "https://timeout.cloud/timeout_xp/wwwroot/ver2_14/inc/xml/calender_sprog.xml", False
 
 objXmlHttp_calender.send
 
@@ -43,15 +43,31 @@ case 1
 sXPathQuery_calender = "//sprog/dk"
 Session.LCID = 1030
 case 2
-sXPathQuery_calender = "//sprog/uk"
-Session.LCID = 2057
+sXPathQuery_calender = "//sprog/no"
+Session.LCID = 2068
 case 3
 sXPathQuery_calender = "//sprog/se"
 Session.LCID = 1053
+case 4
+sXPathQuery_calender = "//sprog/de"
+Session.LCID = 1031
+case 5
+sXPathQuery_calender = "//sprog/fr"
+Session.LCID = 1036
+case 6
+sXPathQuery_calender = "//sprog/uk"
+Session.LCID = 2057
+case 7
+sXPathQuery_calender = "//sprog/es"
+Session.LCID = 1034
 case else
 sXPathQuery_calender = "//sprog/dk"
 Session.LCID = 1030
 end select
+
+
+
+
 
 Set oNode_calender = objXmlDom_calender.documentElement.selectSingleNode(sXPathQuery_calender)
 Address_calender = oNode_calender.Text
@@ -71,8 +87,8 @@ Set oNodes_calender = objXmlDom_calender.documentElement.selectNodes(sXPathQuery
           calender_txt_113 = oNode_calender.selectSingleNode("txt_113").Text
           calender_txt_114 = oNode_calender.selectSingleNode("txt_114").Text
         
-            calender_txt_115 = oNode_calender.selectSingleNode("txt_115").Text
-            calender_txt_116 = oNode_calender.selectSingleNode("txt_116").Text
+          calender_txt_115 = oNode_calender.selectSingleNode("txt_115").Text
+          calender_txt_116 = oNode_calender.selectSingleNode("txt_116").Text
   
           
     next

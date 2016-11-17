@@ -9,11 +9,11 @@ Dim sXPathQuery_erp
 
 Set objXMLDOM_erp = Server.CreateObject("Microsoft.XMLDOM")
 Set objXMLHTTP_erp = Server.CreateObject("Msxml2.ServerXMLHTTP")
-'objXMLHTTP_erp.open "GET", "http://localhost/inc/xml/erp_fak_sprog.xml", False
+objXMLHTTP_erp.open "GET", "http://localhost/Git/timeout_2016/ver2_1/inc/xml/erp_fak_sprog.xml", False
 'objXMLHTTP_erp.open "GET", "https://outzource.dk/timeout_xp/wwwroot/ver2_1/inc/xml/erp_fak_sprog.xml", False
 'objXMLHTTP_erp.open "GET", "https://outzource.dk/timeout_xp/wwwroot/ver3_99/inc/xml/erp_fak_sprog.xml", False
 'objXMLHTTP_erp.open "GET", "https://outzource.dk/timeout_xp/wwwroot/ver2_14/inc/xml/erp_fak_sprog.xml", False
-objXMLHTTP_erp.open "GET", "https://timeout.cloud/timeout_xp/wwwroot/ver2_14/inc/xml/erp_fak_sprog.xml", False    
+'objXMLHTTP_erp.open "GET", "https://timeout.cloud/timeout_xp/wwwroot/ver2_14/inc/xml/erp_fak_sprog.xml", False    
 'objXMLHTTP_erp.open "GET", "https://outzource.dk/timeout_xp/wwwroot/ver4_22/inc/xml/erp_fak_sprog.xml", False
 objXMLHTTP_erp.send
 
@@ -84,15 +84,29 @@ case 1
 sXPathQuery_erp = "//sprog/dk"
 Session.LCID = 1030
 case 2
-sXPathQuery_erp = "//sprog/uk"
-Session.LCID = 2057
+sXPathQuery_erp = "//sprog/no"
+Session.LCID = 2068
 case 3
 sXPathQuery_erp = "//sprog/se"
 Session.LCID = 1053
+case 4
+sXPathQuery_erp = "//sprog/de"
+Session.LCID = 1031
+case 5
+sXPathQuery_erp = "//sprog/fr"
+Session.LCID = 1036
+case 6
+sXPathQuery_erp = "//sprog/uk"
+Session.LCID = 2057
+case 7
+sXPathQuery_erp = "//sprog/es"
+Session.LCID = 1034
 case else
 sXPathQuery_erp = "//sprog/dk"
 Session.LCID = 1030
 end select
+
+
 
 Set oNode_erp = objXMLDOM_erp.documentElement.selectSingleNode(sXPathQuery_erp)
 Address_erp = oNode_erp.Text

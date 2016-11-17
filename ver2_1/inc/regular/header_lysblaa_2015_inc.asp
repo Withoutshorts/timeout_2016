@@ -4,6 +4,15 @@
 <head>
 	<title>TimeOut - Tid, Overblik & Fakturering</title>
 
+    <%if thisfile = "login.asp" then 
+     
+     relpath = "to_2015/"
+     
+     else 
+     relpath = ""
+     end if
+
+    %>
  
   <meta charset="windows-1252">
 
@@ -24,28 +33,28 @@
       <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Oswald:400,300,700" />
 
       <!-- Font Awesome CSS -->
-      <link rel="stylesheet" href="css/font-awesome.min.css" />
+      <link rel="stylesheet" href="<%=relpath %>css/font-awesome.min.css" />
 
    
-       <!-- Bootstrap CSS -->
-      <link rel="stylesheet" href="css/bootstrap.min.css" />
+      <!-- Bootstrap CSS -->
+      <link rel="stylesheet" href="<%=relpath %>css/bootstrap.min.css" />
 
     
       <!-- Plugin CSS -->
       <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/r/bs-3.3.5/dt-1.10.9/datatables.min.css"/>
-      <link rel="stylesheet" href="css/bootstrap-datepicker3.css" />
+      <link rel="stylesheet" href="<%=relpath %>css/bootstrap-datepicker3.css" />
       <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/jasny-bootstrap/3.1.3/css/jasny-bootstrap.min.css" />
      
     
 
       <!-- App CSS -->
-      <link rel="stylesheet" href="css/mvpready-admin.css" />
-      <link rel="stylesheet" href="css/mvpready-flat.css" />
+      <link rel="stylesheet" href="<%=relpath %>css/mvpready-admin.css" />
+      <link rel="stylesheet" href="<%=relpath %>css/mvpready-flat.css" />
 
      
 
      <!-- Custom styles for TimeOut  -->
-      <link href="css/mpvready-style-timeout.css" rel="stylesheet" />
+      <link href="<%=relpath %>css/mpvready-style-timeout.css" rel="stylesheet" />
 
     
   
@@ -134,6 +143,8 @@
 </head>
 
 <body class=" ">
+
+
 
 
 
