@@ -1229,16 +1229,27 @@ function hentaktiviterListe(jobid, func, vispasluk, sort)
     avarenr = ""
     end if
 
+    if len(trim(oRec6("kontoid"))) <> 0 AND isNull(oRec6("kontoid")) <> true then
+    kontoid = oRec6("kontoid") 
+    kontonr = oRec6("kontonr")
+    else
+    kontoid = 0
+    kontonr = "-"
+    end if
+
+
+
+
             select case cint(budgetakt) 
             case 1
-            strAktListe = strAktListe &"<td><select name='FM_aktkonto' id='FM_aktkonto_"& oRec6("id") &"' class='FM_aktkonto FM_aktkonto_"& oRec6("kontoid") &"' style='font-family:arial; width:60px; font-size:9px;'><option value="& oRec6("kontoid") &">"& oRec6("kontonr") &"</option>"& strKontoplan &"</select></td>"
+            strAktListe = strAktListe &"<td><select name='FM_aktkonto' id='FM_aktkonto_"& oRec6("id") &"' class='FM_aktkonto FM_aktkonto_"& kontoid &"' style='font-family:arial; width:60px; font-size:9px;'><option value="& kontoid &">"& kontonr &"</option>"& strKontoplan &"</select></td>"
    
                  '*** Opretter kontototal felter
-                 if instr(isKontoWrt, "#"& oRec6("kontoid") &"#") = 0 then
-                 kontototalsTYP = kontototalsTYP & "<input id='FM_kontot_"& oRec6("kontoid") &"' class='FM_kontot' type='hidden' value='0'>"
-                 kontototalsTYP = kontototalsTYP & "<input id='FM_kontotp_"& oRec6("kontoid") &"' class='FM_kontotp' type='hidden' value='0'>"
-                 kontototalsTYP = kontototalsTYP & "<input id='FM_kontosum_"& oRec6("kontoid") &"' class='FM_kontosum' type='hidden' value='0'>"  
-                 isKontoWrt = isKontoWrt & ",#"& oRec6("kontoid") &"#"
+                 if instr(isKontoWrt, "#"& kontoid &"#") = 0 then
+                 kontototalsTYP = kontototalsTYP & "<input id='FM_kontot_"& kontoid &"' class='FM_kontot' type='hidden' value='0'>"
+                 kontototalsTYP = kontototalsTYP & "<input id='FM_kontotp_"& kontoid &"' class='FM_kontotp' type='hidden' value='0'>"
+                 kontototalsTYP = kontototalsTYP & "<input id='FM_kontosum_"& kontoid &"' class='FM_kontosum' type='hidden' value='0'>"  
+                 isKontoWrt = isKontoWrt & ",#"& kontoid &"#"
                  end if
 
                  strAktListe = strAktListe &"<input type='hidden' name='FM_avarenr' id='FM_avarenr_"& oRec6("id") &"' value='"& avarenr &"'>"

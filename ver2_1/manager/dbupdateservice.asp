@@ -2944,6 +2944,14 @@ INSERT INTO dbversion (dbversion) VALUES (20161102.1)
 ALTER TABLE job_ulev_ju ADD (ju_konto_label VARCHAR(50));
 INSERT INTO dbversion (dbversion) VALUES (20161102.1) 
 
+
+<br /><br />20161116.2<br />
+ALTER TABLE traveldietexp
+MODIFY COLUMN diet_dayprice double(12,2) DEFAULT 0 NOT NULL;
+INSERT INTO dbversion (dbversion) VALUES (20161116.2) 
+
+RUN THIS
+
 <%
 
 

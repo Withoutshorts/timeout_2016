@@ -2004,7 +2004,7 @@ slutDatoKriSQL = strAar_slut &"/"& strMrd_slut &"/"& strDag_slut
                             call meStamdata(oRec("tmnr"))
                             bilagsnr = "" 'year(oRec("tdato"))&month(oRec("tdato"))&day(oRec("tdato")) 
 
-                            ekspTxt = ekspTxt & formatdatetime(oRec("tdato"), 2) &";"& oRec("tjobnavn") &" ["& meInit &"];"& bilagsnr &";"& kontonrLeft &";"& oRec("anavn") &";"
+                            ekspTxt = ekspTxt & "''" & formatdatetime(oRec("tdato"), 2) & "''" &";"& "''" & oRec("tjobnavn") &" ["& meInit &"]" & "''" &";" & bilagsnr &";"& "''" & kontonrLeft & "''" &";" & "''" & oRec("anavn") & "''" &";"
                                 
                             case else
 
@@ -2257,7 +2257,7 @@ slutDatoKriSQL = strAar_slut &"/"& strMrd_slut &"/"& strDag_slut
                                   frakurs = oRec("kurs")
 	                              call beregnValuta(belob,frakurs,100)
 
-                                  ekspTxt = ekspTxt & formatnumber(valBelobBeregnet, 2) &";;"& kontonrRight &";"
+                                  ekspTxt = ekspTxt & formatnumber(valBelobBeregnet, 2) &";;;"& "''" & kontonrRight & "''" &";"
                                   
                                   else '*BF local currency
 
@@ -2280,7 +2280,7 @@ slutDatoKriSQL = strAar_slut &"/"& strMrd_slut &"/"& strDag_slut
 
 	                              
 
-	                              ekspTxt = ekspTxt & formatnumber(valBelobBeregnet, 2) &";;"& kontonrRight &";"
+	                              ekspTxt = ekspTxt & formatnumber(valBelobBeregnet, 2) &";;;"& "''" & kontonrRight & "''" &";"
                                   
                                   end if
 
@@ -3002,8 +3002,8 @@ if x <> 0 then
 
 				
 				                    if cint(ver) = 1 then
-				                    'strOskrifter = "Kunde;Kunde Id;Job;KA Nr;Böwe kode;Job Nr;Uge;Dato;Aktivitet;Type;Fakturerbar;Akt. tidslås;Medarbejder;Medarb. Nr;Initialer;Antal;Tid/Klokkeslet;"
-				                    strOskrifter = "Dato;tekst;bilag;konto;kontonavn;debit beløb;kredit beløb;modkonto"
+                                    strOskrifter = "" 'Bf: Blank
+				                    'strOskrifter = "Dato;tekst;bilag;konto;kontonavn;debit beløb;kredit beløb;modkonto"
                                     else
 
 				                    strOskrifter = "Kunde;kunde Id;Job;Job Nr;"
@@ -3065,9 +3065,12 @@ if x <> 0 then
 			
                                 end if	
 
-				
-				                objF.writeLine("Periode afgrænsning: "& datointerval & vbcrlf)
+				                select case ver
+                                case 1
+				                case else
+                                objF.writeLine("Periode afgrænsning: "& datointerval & vbcrlf)
 				                objF.WriteLine(strOskrifter) '& chr(013)
+                                end select
 				                objF.WriteLine(ekspTxt)
 				                objF.close
 				

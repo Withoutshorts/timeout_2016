@@ -415,7 +415,7 @@ public class ozUploadFile
         //dk.outzource_importhours.to_import service = new dk.outzource_importhours.to_import();
         //dk_rack.outzource_importhours.to_import_hours service = new dk_rack.outzource_importhours.to_import_hours();
         dk_rack.outzource_timeout2_importhours.to_import_hours service = new dk_rack.outzource_timeout2_importhours.to_import_hours();
-        service.Timeout = 960000; //16min.
+        service.Timeout = 1920000; // 30 min.
 
         strRet = service.timeout_importTimer_rack(dsData);
 

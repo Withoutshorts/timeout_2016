@@ -649,24 +649,34 @@
 
     tomobjid = session("tomobjid")
 
+
     select case lto
     case "hestia", "xoutz", "micmatic"
         showAfslutJob = 1
         showMatreg = 1
         showStop = 0
+        showDetailDayResumeOrLink = 0
     case "xintranet - local", "sdutek", "nonstop", "xoutz", "cc"
         showAfslutJob = 0
         showMatreg = 0
         showStop = 1
+        showDetailDayResumeOrLink = 1
     case else
         showAfslutJob = 0
         showMatreg = 0
         showStop = 0
+        showDetailDayResumeOrLink = 0
     end select
 
+    '** Hvis st_stop er vagt på medarbejder overruler det standard settings ovenfor
+    if cint(timer_ststop) = 1 then
+        showStop = 1
+    else
+        showStop = showStop
+    end if
 
 
-     ddDato = year(now) &"/"& month(now) &"/"& day(now)
+            ddDato = year(now) &"/"& month(now) &"/"& day(now)
             ddDato_ugedag = day(now) &"/"& month(now) &"/"& year(now)
             ddDato_ugedag_w = datepart("w", ddDato_ugedag, 2, 2)
             
@@ -896,8 +906,8 @@
             timerIdagTxt = ""
             timerIdag = 0
 
-
-            if cint(showStop) = 1 then
+            
+            if cint(showDetailDayResumeOrLink) = 1 then
 
              timerIdagTxt = "<table cellpadding=0 cellspacing=0 border=0 width=""100%"">"
 
@@ -909,7 +919,11 @@
             oRec.open strSQLtimer, oConn, 3
             while not oRec.EOF 
 
+            if cint(showStop) = 1 then
             timerIdagTxt = timerIdagTxt & "<tr><td>"& left(formatdatetime(oRec("sttid"), 3), 5) & " - "& left(formatdatetime(oRec("sltid"), 3), 5) &"</td><td>"& left(oRec("tjobnavn"), 15) &"</td><td>"& left(oRec("taktivitetnavn"), 10) &"</td><td align=right>"&  formatnumber(oRec("timer"), 2) & "</td></tr>"
+            else
+            timerIdagTxt = timerIdagTxt & "<tr><td>"& oRec("timer") &"</td><td>"& left(oRec("tjobnavn"), 15) &"</td><td>"& left(oRec("taktivitetnavn"), 10) &"</td><td align=right>"&  formatnumber(oRec("timer"), 2) & "</td></tr>"
+            end if
 
 
             timerIdag = timerIdag + oRec("timer")

@@ -3,14 +3,7 @@
 <%
 response.buffer = true
 %>
-
-
-
-
 <!--#include file="../inc/connection/conn_db_inc.asp"-->
-
-
-
 <%   
     
     
@@ -1805,6 +1798,7 @@ end if 'Opret / rediger
                                     <option value="0" <%=kunde_levbetint0SEL %>>Choose..</option>
                                     <option value="1" <%=kunde_levbetint1SEL %>>FOB</option>
                                     <option value="2" <%=kunde_levbetint2SEL %>>DDP</option>
+                                    <option value="3" <%=kunde_levbetint3SEL %>>CIF</option>
 
                                 </select></div>
                              
@@ -1829,6 +1823,7 @@ end if 'Opret / rediger
                                 <option value="0" <%=levlevbetint0SEL %>>Choose..</option>
                                 <option value="1" <%=levlevbetint1SEL %>>FOB</option>
                                 <option value="2" <%=levlevbetint2SEL %>>DDP</option>
+                                <option value="3" <%=levlevbetint3SEL %>>CIF</option>
 
                             </select>
                         </div>
@@ -2612,8 +2607,8 @@ end if 'Opret / rediger
      case "13"
     strSQLdtKri = " AND (dt_sup_sms_dead "
     appto_13Sel = "SELECTED"
-     case "14"
-    strSQLdtKri = " AND (dt_confb_etd "
+    case "14"
+    strSQLdtKri = " AND (IF(kunde_levbetint != 2, dt_confb_etd, dt_confb_eta)"
     appto_14Sel = "SELECTED"
     case "15"
     strSQLdtKri = " AND (dt_confs_etd "
@@ -2727,8 +2722,8 @@ end if 'Opret / rediger
 
                                  <%if cint(rapporttype) = 0 OR cint(rapporttype) = 3 then  %>
                            <option value="8" <%=appto_8Sel %>>Order date</option>
-                            <option value="14" <%=appto_14Sel %>>ETD Buyer</option>
-
+                            <option value="14" <%=appto_14Sel %>>Conf. ETD Buyer (ETA on DDP orders)</option>
+                              
                                  <%end if %>
 
                                  <%if cint(rapporttype) = 1 then  %>
@@ -2741,7 +2736,7 @@ end if 'Opret / rediger
 
                              <option value="6" <%=appto_6Sel %>>PP App</option>
                              <option value="7" <%=appto_7Sel %>>SHS App</option>
-                               <option value="14" <%=appto_14Sel %>>ETD Buyer</option>
+                               <option value="14" <%=appto_14Sel %>>Conf. ETD Buyer (ETA on DDP orders)</option>
 
                                  <%end if %>
 
@@ -3045,15 +3040,15 @@ if len(trim(sogVal)) <> 0 then
     '******************************************************
 
 
-strSQLjobsel = "SELECT j.id, jobnavn, jobnr, k.kkundenavn, k.kid, k2.kkundenavn AS suppliername, jobstatus, supplier, mg.navn AS mgruppenavn, rekvnr, supplier_invoiceno, fastpris, collection, "
+strSQLjobsel = "SELECT j.id, jobnavn, jobnr, k.kkundenavn, k.kid, k2.kkundenavn AS suppliername, jobstatus, supplier, mg.navn AS mgruppenavn, rekvnr, supplier_invoiceno, fastpris, collection, kunde_levbetint, "
 
 if cint(rapporttype) = 0 OR cint(rapporttype) = 3 then
 strSQLjobsel = strSQLjobsel &" jobstartdato, orderqty, shippedqty, product_group, kundekpers, m.mnavn AS salesrep, m.init,"
-strSQLjobsel = strSQLjobsel &" comm_pc, jo_dbproc, destination, dt_confb_etd, dt_confs_etd, dt_actual_etd, sales_price_pc, sales_price_pc_valuta, cost_price_pc, cost_price_pc_valuta, freight_pc, tax_pc,"
+strSQLjobsel = strSQLjobsel &" comm_pc, jo_dbproc, destination, dt_confb_etd, dt_confb_eta, dt_confs_etd, dt_actual_etd, sales_price_pc, sales_price_pc_valuta, cost_price_pc, cost_price_pc_valuta, freight_pc, tax_pc,"
 end if
 
 if cint(rapporttype) = 1 then
-strSQLjobsel = strSQLjobsel &" dt_proto_dead, dt_sms_dead, dt_photo_dead, dt_sour_dead, dt_proto_dead, dt_ppapp, dt_shsapp, dt_sup_photo_dead, dt_sup_sms_dead, dt_confb_etd, dt_confs_etd,"
+strSQLjobsel = strSQLjobsel &" dt_proto_dead, dt_sms_dead, dt_photo_dead, dt_sour_dead, dt_proto_dead, dt_ppapp, dt_shsapp, dt_sup_photo_dead, dt_sup_sms_dead, dt_confb_etd, dt_confb_eta, dt_confs_etd,"
 end if
    
      
@@ -3078,6 +3073,7 @@ end if
 'response.write strSQLjobsel
 'response.Flush    
 'end if
+ 
   jo_bruttooms_tot = 0
   jo_cost_tot = 0
 
@@ -3350,6 +3346,12 @@ while not oRec.EOF
     'dt_confb_etd = formatdatetime(dt_confb_etd, 2)
     end if
 
+     if instr(oRec("dt_confb_eta"), "2010") <> 0 then
+     dt_confb_eta = ""
+     else
+     dt_confb_eta = year(oRec("dt_confb_eta"))&"/"&month(oRec("dt_confb_eta"))&"/"&day(oRec("dt_confb_eta")) 
+     end if
+
 
     'jo_dbproc_bel_tot = 0
 
@@ -3396,8 +3398,14 @@ while not oRec.EOF
     strExpTxt = strExpTxt & jobstatusTxt & ";" & oRec("kkundenavn") & ";"& oRec("rekvnr") &";"& oRec("suppliername") &";"& oRec("supplier_invoiceno") &";"& oRec("mgruppenavn") &";"& oRec("jobnavn") &";" & oRec("jobnr") & ";"& ordertypeTxt &";" 
     
 
-     if cint(rapporttype) = 0 OR cint(rapporttype) = 3 then 
-    strExpTxt = strExpTxt & dt_jobstartdato &";"& oRec("destination") &";"& oRec("collection") &";"& oRec("salesrep") &";"& dt_confb_etd &";"& dt_actual_etd &";" 
+    if cint(oRec("kunde_levbetint")) <> 2 then
+        dt_confb_etd_a_txt = dt_confb_etd
+        else
+        dt_confb_etd_a_txt = dt_confb_eta
+        end if
+
+    if cint(rapporttype) = 0 OR cint(rapporttype) = 3 then 
+        strExpTxt = strExpTxt & dt_jobstartdato &";"& oRec("destination") &";"& oRec("collection") &";"& oRec("salesrep") &";"& dt_confb_etd_a_txt &";"& dt_actual_etd &";" 
     end if
 
 
@@ -3411,7 +3419,7 @@ while not oRec.EOF
     end if
 
     if cint(rapporttype) = 1 then 
-    strExpTxt = strExpTxt  & dt_proto_dead & ";" & dt_photo_dead & ";"& dt_sup_photo_dead  &";" & dt_sms_dead & ";" & dt_sup_sms_dead & ";" & dt_ppapp & ";" & dt_shsapp &";" & dt_confb_etd & ";" & dt_confs_etd & ";"
+    strExpTxt = strExpTxt  & dt_proto_dead & ";" & dt_photo_dead & ";"& dt_sup_photo_dead  &";" & dt_sms_dead & ";" & dt_sup_sms_dead & ";" & dt_ppapp & ";" & dt_shsapp &";" & dt_confb_etd_a_txt & ";" & dt_confs_etd & ";"
     end if
 
 
@@ -3534,7 +3542,14 @@ while not oRec.EOF
                                   <%end if 'rapporttype %>
 
                                      <%if cint(rapporttype) = 0 OR cint(rapporttype) = 1 OR cint(rapporttype) = 3 then%>
-                                 <td style="white-space:nowrap;"><%=dt_confb_etd %></td>
+                                 <td style="white-space:nowrap;">
+                                     
+                                     <%if cint(oRec("kunde_levbetint")) <> 2 then%>
+                                     <%=dt_confb_etd %>
+                                     <%else %>
+                                     <%=dt_confb_eta %> <span style="font-size:8px;">ETA</span>
+                                     <%end if %>
+                                 </td>
                                   <%end if 'rapporttype %>
 
                                   <%if cint(rapporttype) = 0 OR cint(rapporttype) = 3 then%>

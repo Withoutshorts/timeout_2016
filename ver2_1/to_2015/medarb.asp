@@ -1452,8 +1452,15 @@ Session.LCID = 1030
                                   <div class="col-lg-2">Sprog:</div>
                                   <div class="col-lg-2"><select class="form-control input-small" name="FM_sprog" style="width:160px;">
                                      <%
+
+                                    select case lto
+                                    case "outz", "hidalgo"
+                                         sprogAntalIds = 8
+                                    case else
+                                         sprogAntalIds = 2
+                                    end select
 		
-			                        strSQL = "SELECT sproglabel, id FROM sprog WHERE id < 8"
+			                        strSQL = "SELECT sproglabel, id FROM sprog WHERE id < "& sprogAntalIds
 			                        oRec.open strSQL, oConn, 3
 			                        while not oRec.EOF 
 			                         

@@ -708,25 +708,26 @@ Public Class to_import_hours
                         '*** Først prøves aktivitet derefter job ***'
                         '***************************************************************************************************
                         tprisGen = 0
-                        Ite = 1
-                        If Ite = 1 Then
-                            'If InStr(lto, "epi") <> -1 And intMedarbId = "Asia" Then
+                        'Ite = 1
+                        'If Ite = 1 Then
+                        If InStr(lto, "epi") = 1 And intMedarbId = "Asia" Then
 
 
-                            'EPI hardcoded Vietnametimer **'
-                            'If lto = "epi" Then
-                            valutaGen = 9 '1
-                            intTimepris = 11
-                            kostpris = 11
 
-                            'End If
+                            If lto = "epi" Or lto = "epi_2017" Then
+                                'EPI hardcoded Vietnametimer **'
+                                valutaGen = 9 '1
+                                intTimepris = 11
+                                kostpris = 11
 
-                            'If lto = "epi_no" Then
-                            ''EPI NO hardcoded Vietnametimer **'
-                            'valutaGen = 1
-                            'intTimepris = 180
-                            'kostpris = 60
-                            'End If
+                            End If
+
+                            If lto = "epi_no" Then
+                                'EPI NO hardcoded Vietnametimer **'
+                                valutaGen = 1
+                                intTimepris = 180
+                                kostpris = 60
+                            End If
 
                             tprisGen = intTimepris
                             intValuta = valutaGen
@@ -1279,7 +1280,7 @@ Public Class to_import_hours
 
 
         'Dim errThisTOnoStr As String = errThisTOno.ToString()
-        'Return "succes " + intCountInserted.ToString() + " linje(r) indlæst. jobnr: " + err_jobnr + " errid:" + errThisTOnoStr
+        Return "Succes " + intCountInserted.ToString() + " linje(r) indlæst.<br><br>Du kan lukke denne side ned nu. [<a href=""Javascript:window.close();"">X</a>]"  'jobnr: " + err_jobnr + " errid:" + errThisTOnoStr
 
 
 

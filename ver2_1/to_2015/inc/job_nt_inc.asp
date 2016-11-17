@@ -142,7 +142,7 @@
 
 
                                 <%if cint(rapporttype) = 0 OR cint(rapporttype) = 1 OR cint(rapporttype) = 3 then%>
-                                <th style="white-space:nowrap; vertical-align:bottom;">ETD<br /><span style="font-size:9px;">Buyer</span> <!--<%if media <> "print" then %><a href="job_nt.asp?sort=14">></a><%end if %>--></th>
+                                <th style="white-space:nowrap; vertical-align:bottom;">ETD <span style="font-size:9px;">Buyer<br /> (ETA on DDP)</span> <!--<%if media <> "print" then %><a href="job_nt.asp?sort=14">></a><%end if %>--></th>
                                 <%end if %>
 
                                  <%if cint(rapporttype) = 0 OR cint(rapporttype) = 3 then%>
@@ -467,6 +467,8 @@ end select
         kunde_levbetint1SEL = "SELECTED"
         case "2"
         kunde_levbetint2SEL = "SELECTED"
+        case "3"
+        kunde_levbetint3SEL = "SELECTED"
         case else
         kunde_levbetint0SEL = "SELECTED"
         end select
@@ -477,6 +479,8 @@ end select
         levlevbetint1SEL = "SELECTED"
         case "2"
         levlevbetint2SEL = "SELECTED"
+        case "3"
+        levlevbetint3SEL = "SELECTED"
         case else
         levlevbetint0SEL = "SELECTED"
         end select

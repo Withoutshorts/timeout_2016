@@ -651,8 +651,9 @@ function browsertype()
 
     if (instr(lcase(userAgent), "iphone") <> 0 OR instr(lcase(userAgent), "iemobile") <> 0 _
     OR instr(lcase(userAgent), "android") <> 0 OR instr(lcase(userAgent), "mobile") <> 0 _ 
-    OR inStr(1, userAgent, "iphone", 1) > 0 or inStr(1, userAgent, "windows ce", 1) > 0 or inStr(1, userAgent, "blackberry", 1) > 0 or inStr(1, userAgent, "opera mini", 1) > 0 _
-    OR inStr(1, userAgent, "mobile", 1) > 0 or inStr(1, userAgent, "palm", 1) > 0 or inStr(1, userAgent, "portable", 1) > 0) AND instr(lcase(userAgent), "ipad") = 0 then
+    OR inStr(1, userAgent, "iphone", 1) > 0 OR inStr(1, userAgent, "windows ce", 1) > 0 OR inStr(1, userAgent, "blackberry", 1) > 0 OR inStr(1, userAgent, "opera mini", 1) > 0 _
+    OR inStr(1, userAgent, "mobile", 1) > 0 OR inStr(1, userAgent, "palm", 1) > 0 OR inStr(1, userAgent, "portable", 1) > 0) _
+    AND (instr(lcase(userAgent), "ipad") = 0 OR (lto = "hestia" AND instr(lcase(userAgent), "ipad") <> 0)) then
 	'** Iphone **'
     
     browstype_client = "ip"

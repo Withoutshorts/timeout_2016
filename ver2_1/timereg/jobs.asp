@@ -2639,6 +2639,8 @@ if len(session("user")) = 0 then
                                     aktkonto = ""
                                     end if
 
+                                    
+
                                     if len(trim(request("FM_avarenr"))) <> 0 then
                                     avarenr = request("FM_avarenr")
                                     else
@@ -3332,6 +3334,9 @@ if len(session("user")) = 0 then
 							
 							'strSQLDelUlev = "DELETE FROM job_ulev_ju WHERE ju_jobid = "& varJobId
 							'oConn.execute(strSQLDelUlev)
+
+                             call budgetakt_fn()
+
 							
 							For u = 1 to 50
 							    
@@ -3363,10 +3368,16 @@ if len(session("user")) = 0 then
 							    if len(trim(ulevkonto)) <> 0 then
                                 ulevkonto = ulevkonto
                                 else
-                                ulevkonto = 0
+                        
+                                    if cint(budgetakt) = 2 then
+                                    ulevkonto = "" '0
+                                    else
+                                    ulevkonto = 0
+                                    end if
+
                                 end if
     							
-    							 call budgetakt_fn()
+    							
 
                      
                      

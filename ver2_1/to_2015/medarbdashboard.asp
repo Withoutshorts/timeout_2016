@@ -543,9 +543,11 @@
            
                   <table class="table table-stribed">
                             <thead>
-                                <tr><th>Jobnavn</th>
+                                <tr>
                                     <th>Medarbejder</th>
+                                    <th style="text-align:right;">Forecast</th>
                                     <th style="text-align:right;">Realiseret</th>
+
                                 </tr>
                             </thead>
 
@@ -554,51 +556,113 @@
             
                     
                     
-                    <%
-                        strSQLrt = "SELECT tmnavn, tjobnavn, tjobnr, SUM(t.timer) AS sumtimer FROM timer AS t "_
-                        &" WHERE (tjobnr LIKE '"& jobSogVal &"%' OR tjobnavn LIKE '"& jobSogVal &"%') AND (tmnr <> 0) AND ("& aty_sql_realhours &") "_
-                        &" AND tdato BETWEEN '"& strDatoStartKri &"' AND '"& strDatoEndKri &"' GROUP BY t.tjobnr, tmnavn ORDER BY tjobnavn, tmnavn, sumtimer DESC LIMIT 200" 
-
-                         '&" LEFT JOIN aktiviteter AS a ON (a.job = j.id) "_
-
-                        'response.write strSQLrt
-                        'response.flush
+                             <%
+                             strSQLjob = "SELECT id AS jobid, jobslutdato, jobnr, jobnavn FROM job WHERE jobnr LIKE '"& jobSogVal &"%' OR jobnavn LIKE '"& jobSogVal &"%'"
+                             levDato = "01-01-2002"
+                             jobid = 0
+                             jobnr = 0
+                             jobnavn = ""
+                             oRec2.open strSQLjob, oConn, 3
+                             if not oRec2.EOF then
                         
-                        sumTimerGT = 0
-                        re = 0
-                        oRec.open strSQLrt, oConn, 3
-                        While not oRec.EOF 
+                             levDato = oRec2("jobslutdato")
+                             jobid = oRec2("jobid")
+                             jobnr = oRec2("jobnr")
+                             jobnavn = oRec2("jobnavn")
 
-                        select case right(re, 1)
-                        case 0,2,4,6,8
-                        bgcr = "#FFFFFF"
-                        case else
-                        bgcr = "#EfF3ff"
-                        end select
+                             end if 
+                             oRec2.close
 
-                             
+                             %>
+                            <tr>
+                                <td colspan="3">
+                                    <b><%=jobnavn & " ("& jobnr &")" %></b><br />
+                                    Lev. dato: <%=levDato %></td>
 
-                        %>
-                        <tr style="background-color:<%=bgcr%>;">
-                            <td><%=left(oRec("tjobnavn"), 20) & " ("& oRec("tjobnr") &")" %></td>
-                            <td><%=oRec("tmnavn") %></td>
-                            <td align="right"><%=oRec("sumtimer") %> t.</td>
-                        </tr>
-                        <%
+                            </tr>
 
-                        sumTimerGT = sumTimerGT + oRec("sumtimer")
+                             <%'*** Henter ALLE medarbejdere ****'
+                             strSQLmedarb = "SELECT mid, mnavn FROM medarbejdere WHERE mid > 0 ORDER BY mnavn"
+                             re = 0
+                             sumTimerGT = 0
+                             sumfcGT = 0
+                             oRec3.open strSQLmedarb, oConn, 3
+                             while not oRec3.EOF 
+                        
+                            
+                                            strSQLrt = "SELECT tmnavn, tjobnavn, tjobnr, SUM(t.timer) AS sumtimer, tmnr FROM timer AS t "_
+                                            &" WHERE (tjobnr = '"& jobnr &"') AND (tmnr = "& oRec3("mid") &") AND ("& aty_sql_realhours &") "_
+                                            &" AND tdato BETWEEN '"& strDatoStartKri &"' AND '"& strDatoEndKri &"' GROUP BY t.tjobnr, tmnavn" 
 
-                        re = re + 1
-                        oRec.movenext
-                        wend
-                        oRec.close      
+                        
+                                            realTimer = 0
+                                            oRec2.open strSQLrt, oConn, 3
+                                            if not oRec2.EOF then
+                                            
+                                            realTimer = oRec2("sumtimer")
+
+                                            end if
+                                            oRec2.close
+                                 
+                                 
+                                             '*** INDENFOR budgetår? 
+                                             fctimer = 0
+                                             strSQLfc = "SELECT sum(timer) AS fctimer FROM ressourcer_md WHERE jobid = "& jobid &" AND medid = " & oRec3("mid") & " GROUP BY medid, jobid"
+                                             oRec2.open strSQLfc, oConn, 3
+                                             if not oRec2.EOF then
+                        
+                                             fctimer = oRec2("fctimer")
+
+                                             end if 
+                                             oRec2.close
+                                        
+                                 
+                                 
+                                    if realTimer <> 0 OR fctimer <> 0 then
+                                     
+
+                                    select case right(re, 1)
+                                    case 0,2,4,6,8
+                                    bgcr = "#FFFFFF"
+                                    case else
+                                    bgcr = "#EfF3ff"
+                                    end select
+
+                            
+                         
+
+                                    %>
+                                    <tr style="background-color:<%=bgcr%>;">
+                                       
+                                        <td><%=oRec3("mnavn") %></td>
+                                        <td align="right"><%=formatnumber(fctimer, 2) %> t.</td>
+                                        <td align="right"><%=formatnumber(realTimer, 2) %> t.</td>
+                                    </tr>
+                                    <%
+
+
+
+                                    sumTimerGT = sumTimerGT + realTimer
+                                    sumfcGT = sumfcGT + fcTimer
+                                    re = re + 1
+                                    
+                                    end if
+
+
+                    oRec3.movenext
+                    wend 
+                    oRec3.close
                         
                      
                     if re = 0 then   
                     %>
                     <tr bgcolor="#FFFFFF"><td colspan="3">- ingen </td></tr>
                     <%else %>
-                       <tr bgcolor="#FFFFFF"><td colspan="3" align="right"><%=formatnumber(sumTimerGT, 2) %> t.</td></tr>    
+                       <tr bgcolor="#FFFFFF">
+                           
+                           <td>&nbsp;</td>
+                           <td align="right"><%=formatnumber(sumfcGT, 2) %> t.</td>
+                           <td align="right"><%=formatnumber(sumTimerGT, 2) %> t.</td></tr>    
 
                     <%end if %>
                       </tbody>
