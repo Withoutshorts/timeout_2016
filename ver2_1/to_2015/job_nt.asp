@@ -1816,7 +1816,7 @@ end if 'Opret / rediger
                                 call betalingsbetDage(lev_betbetint, disa, lang, nameid) %>
                                     </div>
                                
-                                   <div class="col-lg-6 pad-t10">
+                                   <div class="col-lg-6 pad-t10 pad-r30"">
                             Delivery Term Supplier
                          
                               <select class="form-control input-small" name="FM_levlevbetint">
@@ -1973,7 +1973,7 @@ end if 'Opret / rediger
                               </div>
                         </div>
                          <div class="col-lg-2 pad-t10 pad-r30">
-                            Actual ETA
+                            Actual ETA <span style="font-size:10px;">(= inv.date DDP)</span>
                               <div class='input-group date'>
                                  <input class="form-control input-small" type="text"  name="FM_dt_actual_eta" value="<%=dt_actual_eta%>" placeholder="dd-mm-yyyy" />
                                         <span class="input-group-addon input-small">
@@ -1992,11 +1992,18 @@ end if 'Opret / rediger
                             Shipped Qty. <span style="color:red;">(*)</span>
                             <input class="form-control input-small" type="text" id="shippedqty" name="FM_shippedqty" value="<%=shippedqty%>" />
                         </div>
-                            <div class="col-lg-9 pad-t10 pad-r30">
+                            <div class="col-lg-5 pad-t10 pad-r30">
                                 &nbsp;
                                 </div>
-
+                                 <div class="col-lg-4 pad-t10 pad-r30">
+                                &nbsp;Exp. invoice duedate: 
+                                </div>
+                             
+                            
+                                
                         </div>
+
+                      
 
                      <div class="row">
                        <div class="col-lg-3 pad-t10">

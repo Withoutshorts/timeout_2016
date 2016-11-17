@@ -304,17 +304,18 @@ Session.LCID = 1030
     case "slet"
     %>
     <!--slet sidens indhold-->
-    <div class="container">
+ 
+    <div class="container" style="width:600px;">
         <div class="porlet">
             
-            <h3 align="center" class="portlet-title">
+            <h3 class="portlet-title">
                Rejseplan/Diæt
             </h3>
             
             <div class="portlet-body" style="width:400px;">
                 <div align="center">Du er ved at <b>SLETTE</b> en Rejseplan/Diæt. Er dette korrekt?
                 </div><br />
-                <div align="center"><b><a href="traveldietexp.asp?func=sletok&id=<%=id%>&aar=<%=aar%>&medarb=<%=usemrn%>">Ja</a></b>&nbsp&nbsp&nbsp&nbsp<b><a href="kundetyper.asp?">Nej</a></b>
+                <div align="center"><b><a href="traveldietexp.asp?func=sletok&id=<%=id%>&aar=<%=aar%>&medarb=<%=usemrn%>">Ja</a></b>&nbsp&nbsp&nbsp&nbsp<b><a href="javascript:history.back()">Nej</a></b>
                 </div>
                 <br /><br />
                 </div>
@@ -496,8 +497,16 @@ Session.LCID = 1030
 
         next
         
+        select case lto 
+        case "plan"
+        timerForbrugprDagOverskreddet = 0
+        case else
+        timerForbrugprDagOverskreddet = timerForbrugprDagOverskreddet
+        end select
+
         
         if cint(timerForbrugprDagOverskreddet) = 1 then
+
                     useleftdiv = "to_2015"
 					errortype = 178
 					call showError(errortype)
@@ -802,8 +811,8 @@ case else
 
                    <tr>
                       <th style="width: 5%">Navn</th>
-                       <th style="width: 15%">Afrejse<br /><span style="font-size:9px;">Dato & Tid</span></th>
-                       <th style="width: 15%">Hjem<br /><span style="font-size:9px;">Dato & Tid</span></th>
+                       <th style="width: 15%">Afrejse<br /><span style="font-size:9px;">Dato <%if cint(hide_klokkeslet) = 0 then %> & Tid<%end if %></span></th>
+                       <th style="width: 15%">Hjem<br /><span style="font-size:9px;">Dato <%if cint(hide_klokkeslet) = 0 then %>& Tid<%end if %></span></th>
                        <th style="width: 15%">Destination</th>
                        <th style="width: 15%">Job/Projektnr.<br /><span style="font-size:9px;">Aktiv jobliste</span></th>
                        <!--
@@ -922,7 +931,12 @@ case else
                       <th>&nbsp;</th>
                      <!-- <th>&nbsp;</th> kontonr -->
                     
-                       <th><input type="text" value="<%=diet_dayprice %>" name="FM_diet_dayprice" class="form-control input-small" style="font-size:9px; font-weight:lighter;" <%=mainAmountBoxes %>/></th>
+                       <th>
+                           
+                           <input type="text" value="<%=diet_dayprice %>" name="FM_diet_dayprice" class="form-control input-small" style="font-size:9px; font-weight:lighter;" <%=mainAmountBoxes %>/>
+                      
+
+                       </th>
                        <th>&nbsp;</th>
                        <%if cint(vis_reduktion) = 1 then %>
                       <th><input type="text" value="<%=diet_morgenamount %>" name="FM_diet_morgenamount<%=mainAmountBoxesName %>" class="form-control input-small" style="font-size:9px; font-weight:lighter;" <%=mainAmountBoxes %> /></th>
@@ -976,17 +990,28 @@ case else
         if cDate(oRec("diet_stdato")) = "01-01-2010" then
         diet_stdato = ""
         else
-        diet_stdato_len = len(oRec("diet_stdato"))
-        diet_stdato_left = left(oRec("diet_stdato"), diet_stdato_len - 3)
-        diet_stdato = diet_stdato_left
+            if cint(hide_klokkeslet) = 0 then
+            diet_stdato_len = len(oRec("diet_stdato"))
+            diet_stdato_left = left(oRec("diet_stdato"), diet_stdato_len - 3)
+            diet_stdato = diet_stdato_left
+            else
+            diet_stdato = formatdatetime(oRec("diet_stdato"), 2)
+            end if
+        
         end if
 
         if cDate(oRec("diet_sldato")) = "01-01-2010" then
         diet_sldato = ""
         else
-        diet_sldato_len = len(oRec("diet_sldato"))
-        diet_sldato_left = left(oRec("diet_sldato"), diet_sldato_len - 3)
-        diet_sldato = diet_sldato_left
+        
+            if cint(hide_klokkeslet) = 0 then
+            diet_sldato_len = len(oRec("diet_sldato"))
+            diet_sldato_left = left(oRec("diet_sldato"), diet_sldato_len - 3)
+            diet_sldato = diet_sldato_left
+            else
+            diet_sldato = formatdatetime(oRec("diet_sldato"), 2)
+            end if
+
         end if
  
         if oRec("diet_morgen") <> 0 then
@@ -1240,7 +1265,16 @@ case else
                                   <th>&nbsp;</th>
                                  <!-- <th>&nbsp;</th> kontonr -->
                     
-                                   <th><input type="text" value="<%=diet_dayprice %>" name="FM_diet_dayprice" class="form-control input-small" style="font-size:9px; font-weight:lighter;" <%=mainAmountBoxes %>/></th>
+                                   <th>
+                                       
+                                       <%if mainAmountBoxes = "DISABLED" then %>
+                                       <input type="text" value="<%=diet_dayprice %>" name="" class="form-control input-small" style="font-size:9px; font-weight:lighter;" <%=mainAmountBoxes %>/>
+                                       <input type="hidden" value="<%=diet_dayprice %>" name="FM_diet_dayprice"/>
+                                       <%else %>
+                                       <input type="text" value="<%=diet_dayprice %>" name="FM_diet_dayprice" class="form-control input-small" style="font-size:9px; font-weight:lighter;" <%=mainAmountBoxes %>/>
+                                       <%end if %>
+                                   
+                                   </th>
                                    <th>&nbsp;</th>
                                      <%if cint(vis_reduktion) = 1 then %>
                                   <th><input type="text" value="<%=diet_morgenamount %>" name="FM_diet_morgenamount<%=mainAmountBoxesName %>" class="form-control input-small" style="font-size:9px; font-weight:lighter;" <%=mainAmountBoxes %> /></th>
@@ -1279,7 +1313,12 @@ case else
 
                 end if
 
-	                
+	                if cint(hide_klokkeslet) = 0 then
+                        daytimeFormatPlaceholder = "dd-mm-yyyy tt:mm"
+                    else
+                        daytimeFormatPlaceholder = "dd-mm-yyyy"
+                    end if
+
                        
                    if media <> "export" then
                         
@@ -1291,8 +1330,8 @@ case else
                        <td>
                            <input type="hidden" name="FM_diet_id" value="0"/>
                            <input type="hidden" name="FM_diet_medid" value="<%=usemrn%>"/>
-                           <input class="form-control input-small" type="text" name="FM_diet_stdato" value="" placeholder="dd-mm-yyyy tt:mm"/></td>
-                       <td><input class="form-control input-small" type="text" name="FM_diet_sldato" value="" placeholder="dd-mm-yyyy tt:mm"/></td>
+                           <input class="form-control input-small" type="text" name="FM_diet_stdato" value="" placeholder="<%=daytimeFormatPlaceholder %>"/></td>
+                       <td><input class="form-control input-small" type="text" name="FM_diet_sldato" value="" placeholder="<%=daytimeFormatPlaceholder %>"/></td>
                        <td><input type="text" value="" placeholder="Destination" name="FM_diet_namedest" class="form-control input-small" /></td>
                        <td><!--<select name="FM_diet_jobid" class="form-control input-small"><%=strJobOptions %></select>-->
                            <input type="hidden" name="FM_diet_jobid" value="0" />

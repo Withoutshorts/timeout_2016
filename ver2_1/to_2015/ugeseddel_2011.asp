@@ -278,14 +278,14 @@
 
                        strSQL = "SELECT a.id AS aid, navn AS aktnavn "_
                        &" FROM timereg_usejob AS tu LEFT JOIN aktiviteter AS a ON (a.id = tu.aktid) "_
-                       &" WHERE tu.medarb = "& medid &" AND tu.jobid = "& jobid &" AND aktid <> 0 "& strSQlAktSog &" AND aktstatus = 1 AND ("& replace(aty_sql_realhours, "tfaktim", "a.fakturerbar") &") AND ("& aty_sql_hide_on_treg &") "& forecastAktids &" ORDER BY sortorder, navn LIMIT 150"   
-
+                       &" WHERE tu.medarb = "& medid &" AND tu.jobid = "& jobid &" AND aktid <> 0 "& strSQlAktSog &" AND aktstatus = 1 AND ("& aty_sql_hide_on_treg &") "& forecastAktids &" ORDER BY sortorder, navn LIMIT 150"   
+                       'AND ("& replace(aty_sql_realhours, "tfaktim", "a.fakturerbar") &")
                        else 
 
                        strSQL = "SELECT a.id AS aid, navn AS aktnavn "_
                        &" FROM timereg_usejob AS tu LEFT JOIN aktiviteter AS a ON (a.job = tu.jobid) "_
-                       &" WHERE tu.medarb = "& medid &" AND tu.jobid = "& jobid &" AND aktid = 0 "& strSQlAktSog &" AND aktstatus = 1 AND ("& replace(aty_sql_realhours, "tfaktim", "a.fakturerbar") &") AND ("& aty_sql_hide_on_treg &") "& forecastAktids &" ORDER BY sortorder, navn LIMIT 150"
-
+                       &" WHERE tu.medarb = "& medid &" AND tu.jobid = "& jobid &" AND aktid = 0 "& strSQlAktSog &" AND aktstatus = 1 AND ("& aty_sql_hide_on_treg &") "& forecastAktids &" ORDER BY sortorder, navn LIMIT 150"
+                       'AND ("& replace(aty_sql_realhours, "tfaktim", "a.fakturerbar") &")
                        end if
 
 
@@ -315,7 +315,7 @@
 
                    strSQL = "SELECT a.id AS aid, navn AS aktnavn, projektgruppe1, projektgruppe2, projektgruppe3, "_
                    &" projektgruppe4, projektgruppe5, projektgruppe6, projektgruppe7, projektgruppe8, projektgruppe9, projektgruppe10 FROM aktiviteter AS a "_
-                   &" WHERE a.job = " & jobid & " "& strSQLDatoKri &" "& strSQlAktSog &" AND aktstatus = 1 "& forecastAktids &" ORDER BY sortorder, navn LIMIT 150"      
+                   &" WHERE a.job = " & jobid & " "& strSQLDatoKri &" "& strSQlAktSog &" AND aktstatus = 1 AND ("& aty_sql_hide_on_treg &") "& forecastAktids &" ORDER BY sortorder, navn LIMIT 150"      
     
 
                
@@ -884,7 +884,7 @@ if len(session("user")) = 0 then
                     
                     <tr>
                         <td style="padding-right:5px; vertical-align:text-top; width:80px;"><input type="CHECKBOX" name="FM_visallemedarb" id="FM_visallemedarb" value="1" <%=visAlleMedarbCHK %> /> <%=tsa_txt_357%> </td>
-                        <td style="padding-left:10px">
+                        <td style="padding:0px 0px 4px 16px;">
                     
                    
                
