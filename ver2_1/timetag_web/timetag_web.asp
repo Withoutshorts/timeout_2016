@@ -716,24 +716,26 @@
   };
 </script>
 
-<script src="js/timetag_web_jav.js" type="text/javascript"></script>
+
+<script src="js/timetag_web_jav_2016.js" type="text/javascript"></script>
 <script src="js/less.js" type="text/javascript"></script>
 
+<script src="../to_2015/js/ugeseddel_2011_jav.js" type="text/javascript"></script>
+
+
 </head>
-
-
 
 
 <div class="wrapper">
 <div class="content">
 
+
         <div class="container">
             <div class="portlet">
+
+
                 <h3 class="portlet-title"><u>TimeOut mobile</u></h3>
                 <div class="portlet-body">
-
-
-
 
                     <div id="dvindlaes_msg" style="position:absolute; top:0px; left:0px; height:100%; width:100%; background-color:#cccccc; visibility:hidden; display:none;">Indlæser timer...vent</div>
                    
@@ -822,14 +824,16 @@
                             </div>
                         <%else %>                            
                             <div class="row">
-                                <div class="col-lg-12"><input type="text" id="FM_job" name="FM_job" value="" placeholder="Kunde/job" class="form-control"/></div>
-                            </div>    
-                            <input type="hidden" id="FM_jobid" name="FM_jobid" value="0"/>
-                            <div id="dv_job" class="dv-closed"></div>
+                                <div class="col-lg-12">
+                                    <input type="text" id="FM_job_0" name="FM_job" placeholder="Kunde/Job" class="FM_job form-control"/>
+                                    <select id="dv_job_0" class="form-control input-small chbox_job" size="10" style="visibility:hidden; display:none;">
+                                         <option><%=tsa_txt_534%>..</option>
+                                    </select>
+                                </div>                                
+                                <input type="hidden" id="FM_jobid_0" name="FM_jobid" value="0"/>
+                            </div>
                         <%end if %>
                         
-
-
                         <%if cint(mobil_week_reg_akt_dd) = 1 then %>
                             <input type="hidden" id="FM_akt" value="-1"/>
                             <div class="row">
