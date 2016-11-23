@@ -1,16 +1,9 @@
-
-<%
-    thisfile = "timetag_mobile" 
-%>
+<%response.buffer = true %>
 
 <!--#include file="../inc/connection/conn_db_inc.asp"-->
-<!--#include file="../inc/regular/global_func.asp"-->
 
-<!--#include file="../inc/regular/header_lysblaa_2015_inc.asp"-->
-
-
-
-<% '**** Søgekriterier AJAX **'
+<%
+        '**** Søgekriterier AJAX **'
         'section for ajax calls
         if Request.Form("AjaxUpdateField") = "true" then
         Select Case Request.Form("control")
@@ -589,16 +582,19 @@
         response.end
         end if
 
-%>
+    %>
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<!DOCTYPE html> 
+<!--<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">-->
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 
 
-<% 
 
-    
+    <% 
+
+    thisfile = "timetag_mobile"
 
     if len(trim(request("flushsessionuser"))) <> 0 then ' flushsessionuser = kommer fra logindsiden
      flushsessionuser = 1
@@ -620,17 +616,17 @@
 
     if len(session("user")) = 0 then
 	%>
+    <!--#include file="../inc/regular/global_func.asp"-->
 	<!--#include file="../inc/errors/error_inc.asp"-->
 	<%
 	errortype = 5
 	call showError(errortype)
-	response.End
-    end if
+	else
 
     call meStamdata(session("mid"))
 
 
-    '** Select eller søgeboks
+     '** Select eller søgeboks
     call mobil_week_reg_dd_fn()
     'mobil_week_reg_job_dd = mobil_week_reg_job_dd
     'mobil_week_reg_akt_dd = 1
@@ -653,6 +649,7 @@
 
     tomobjid = session("tomobjid")
 
+
     select case lto
     case "hestia", "xoutz", "micmatic"
         showAfslutJob = 1
@@ -671,7 +668,6 @@
         showDetailDayResumeOrLink = 0
     end select
 
-
     '** Hvis st_stop er vagt på medarbejder overruler det standard settings ovenfor
     if cint(timer_ststop) = 1 then
         showStop = 1
@@ -680,27 +676,37 @@
     end if
 
 
-    ddDato = year(now) &"/"& month(now) &"/"& day(now)
-    ddDato_ugedag = day(now) &"/"& month(now) &"/"& year(now)
-    ddDato_ugedag_w = datepart("w", ddDato_ugedag, 2, 2)
+            ddDato = year(now) &"/"& month(now) &"/"& day(now)
+            ddDato_ugedag = day(now) &"/"& month(now) &"/"& year(now)
+            ddDato_ugedag_w = datepart("w", ddDato_ugedag, 2, 2)
             
-    varTjDatoUS_man_tt = dateAdd("d", -(ddDato_ugedag_w-1), ddDato_ugedag)
+            varTjDatoUS_man_tt = dateAdd("d", -(ddDato_ugedag_w-1), ddDato_ugedag)
+    %>
 
-%>
 
 <head>
-
+<!--<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>TimeOut mobile</title>
+<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700,800' rel='stylesheet' type='text/css'>
 
-<script src="../inc/jquery/jquery-1.3.2.min.js" type="text/javascript"></script>
-<script src="../inc/jquery/jquery-ui-1.7.1.custom.min.js" type="text/javascript"></script>
+<!--<link href="../inc/menu/css/chronograph.css" rel="stylesheet" type="text/css" />-->
+<link href="css/style.css" rel="stylesheet" type="text/css" />
 
-<script src="../inc/jquery/timeout.jquery.js" type="text/javascript"></script>
-<script src="../inc/jquery/jquery.coookie.js" type="text/javascript"></script>
-<script src="../inc/jquery/jquery.scrollTo-1.4.2-min.js" type="text/javascript"></script>
-<script src="../inc/jquery/jquery.timer.js" type="text/javascript"></script>
-<script src="../inc/jquery/jquery.corner.js" type="text/javascript"></script>
+
+  
+  <link href="../inc/jquery/jquery-ui-1.7.1.custom.css" rel="stylesheet" type="text/css" />
+	<script src="../inc/jquery/jquery-1.3.2.min.js" type="text/javascript"></script>
+	<script src="../inc/jquery/jquery-ui-1.7.1.custom.min.js" type="text/javascript"></script>
+
+	<script src="../inc/jquery/timeout.jquery.js" type="text/javascript"></script>
+	<script src="../inc/jquery/jquery.coookie.js" type="text/javascript"></script>
+	<script src="../inc/jquery/jquery.scrollTo-1.4.2-min.js" type="text/javascript"></script>
+    <script src="../inc/jquery/jquery.timer.js" type="text/javascript"></script>
+    <script src="../inc/jquery/jquery.corner.js" type="text/javascript"></script>
+     
+
+     
 
 
 <script type="text/javascript">
@@ -716,321 +722,277 @@
   };
 </script>
 
-<script src="js/timetag_web_jav.js" type="text/javascript"></script>
+
+
+<script src="js/timetag_web_jav_2016.js" type="text/javascript"></script>
 <script src="js/less.js" type="text/javascript"></script>
-
 </head>
+<body>
+    <div id="header">TimeOut mobile</div>
 
+      <div id="dvindlaes_msg" style="position:absolute; top:0px; left:0px; height:100%; width:100%; background-color:#cccccc; visibility:hidden; display:none;">Indlæser timer...vent</div>
+   
+    
+      <form id="container" action="../timereg/timereg_akt_2006.asp?func=db&rdir=timetag_web" method="post">
 
-
-
-<div class="wrapper">
-<div class="content">
-
-        <div class="container">
-            <div class="portlet">
-                <h3 class="portlet-title" style="text-align:center">TimeOut mobile</h3>
-                <div class="portlet-body">
-
-
-
-
-                    <div id="dvindlaes_msg" style="position:absolute; top:0px; left:0px; height:100%; width:100%; background-color:#cccccc; visibility:hidden; display:none;">Indlæser timer...vent</div>
-                   
-                    
-
-                    <form id="container" action="../timereg/timereg_akt_2006.asp?func=db&rdir=timetag_web" method="post">
-
-                         <%if cint(indlast) = 1 then %>
-                           <div class="row">
-                               <div class="col-lg-12" style="text-align:center">Timer indlæst</div>
-                           </div>
-                         <%
+          <%if cint(indlast) = 1 then %>
+            <div id="timer_indlast" class="approved">Timer indlæst</div>
+         <%
         
-                        session("timetag_web_indMsgShown") = "1"
-                        end if
-                        %>
-                            
-                        <input type="hidden" id="Hidden5" name="year" value="<%=year(now) %>"/>       
-                        <!--<input type="hidden" id="Hidden3" name="FM_dager" value=""/>-->
-                        <input type="hidden" id="Hidden4" name="FM_dager" value="0"/><!-- , xx -->
-                        <input type="hidden" id="Hidden2" name="FM_feltnr" value="0"/>
-                        <input type="hidden" id="FM_pa" name="FM_pa" value="<%=pa_aktlist %>"/>
-                        <input type="hidden" id="FM_medid" name="FM_medid" value="<%=session("mid") %>"/>
-                        <input type="hidden" id="FM_medid_k" name="FM_medid_k" value="<%=session("mid") %>"/>
+        session("timetag_web_indMsgShown") = "1"
+        end if%>
 
-                        <%
+        <input type="hidden" id="Hidden5" name="year" value="<%=year(now) %>"/>
         
-                        if day(now) < 10 then
-                        todayDay = "0"& day(now)
-                        else
-                        todayDay = day(now)
-                        end if
+        <!--<input type="hidden" id="Hidden3" name="FM_dager" value=""/>-->
+        <input type="hidden" id="Hidden4" name="FM_dager" value="0"/><!-- , xx -->
+        <input type="hidden" id="Hidden2" name="FM_feltnr" value="0"/>
+        <input type="hidden" id="FM_pa" name="FM_pa" value="<%=pa_aktlist %>"/>
+        <input type="hidden" id="FM_medid" name="FM_medid" value="<%=session("mid") %>"/>
+        <input type="hidden" id="FM_medid_k" name="FM_medid_k" value="<%=session("mid") %>"/>
+
+
+          <%
+        
+                 if day(now) < 10 then
+              todayDay = "0"& day(now)
+              else
+              todayDay = day(now)
+              end if
               
-                        if month(now) < 10 then
-                        todayMonth = "0"& month(now)
-                        else
-                        todayMonth = month(now)
-                        end if
+              if month(now) < 10 then
+              todayMonth = "0"& month(now)
+              else
+              todayMonth = month(now)
+              end if
            
-                        todayYear = year(now)      
+              todayYear = year(now)      
               
-                        select case lto 'mulighed for VÆLG DATO 
-                        case "xplan", "xoutz", "xintranet - local", "hestia"
-                              %> <input type="hidden" id="jq_dato" name="FM_datoer" value="<%=todayDay &"-"& todayMonth &"-"& todayYear%>"/><%
-                        case else
-                       
-                        %>                        
-                        <div class="row">
-                            <div class="col-lg-12"><input type="text" name="FM_datoer" id="jq_dato" value="<%=todayDay &"-"& todayMonth &"-"& todayYear%>" class="form-control" /> <!-- placeholder="dd-mm-yyyy" --></div>
-                        </div>
-                        <%end select %>     
-                        
-                        
-                         
-                        <input type="hidden" id="tomobjid" name="tomobjid" value="<%=tomobjid %>"/>
-                        <input type="hidden" id="showstop" name="showstop" value="<%=showStop %>"/>
-                        <input type="hidden" id="" name="FM_vistimereltid" value="<%=showStop %>"/>
-                        <input type="hidden" id="varTjDatoUS_man" name="varTjDatoUS_man" value="<%=varTjDatoUS_man_tt %>"/>
+        select case lto 'mulighed for VÆLG DATO 
+        case "xplan", "xoutz", "xintranet - local", "hestia"
+              %> <input type="hidden" id="jq_dato" name="FM_datoer" value="<%=todayDay &"-"& todayMonth &"-"& todayYear%>"/><%
+        case else
 
-                        <input type="hidden" id="mobil_week_reg_akt_dd" name="" value="<%=mobil_week_reg_akt_dd %>"/>
-                        <input type="hidden" id="mobil_week_reg_job_dd" name="" value="<%=mobil_week_reg_job_dd %>"/> 
-                        
-                               
-                        
-                        
-                        
-                        <!-- Forecast max felter -->
-                        <input type="hidden" id="aktnotificer_fc" name="" value="0"/>
-                        <input type="hidden" id="akt_maksbudget_treg" value="<%=akt_maksbudget_treg%>">  
-                        <input type="hidden" id="akt_maksforecast_treg" value="<%=akt_maksforecast_treg%>">
-                        <input type="hidden" id="aktBudgettjkOn_afgr" value="<%=aktBudgettjkOn_afgr%>">
-                        <input type="hidden" id="regskabsaarStMd" value="<%=datePart("m", aktBudgettjkOnRegAarSt, 2,2)%>">
-                        <input type="hidden" id="regskabsaarUseAar" value="<%=datepart("yyyy", varTjDatoUS_man_tt, 2,2)%>">
-                        <input type="hidden" id="regskabsaarUseMd" value="<%=datepart("m", varTjDatoUS_man_tt, 2,2)%>">
-                        
-                        
-                        <%if cint(mobil_week_reg_job_dd) = 1 then %>
-                            <input type="hidden" id="FM_job" value="-1"/>
-                            <div class="row">
-                                <div class="col-lg-12">
-                                    <select id="dv_job" name="FM_jobid" class="lt_font_size form-control">
-                                        <option value="-1">Vælg..</option>
-                                        <!--<option value="0">..</option>-->
-                                    </select>
-                                </div>
-                            </div>
-                        <%else %>                            
-                            <div class="row">
-                                <div class="col-lg-12"><input type="text" id="FM_job" name="FM_job" value="" placeholder="Kunde/job" class="form-control"/></div>
-                            </div>    
-                            <input type="hidden" id="FM_jobid" name="FM_jobid" value="0"/>
-                            <div id="dv_job" class="dv-closed"></div>
-                        <%end if %>
-                        
+           
+              
 
-
-                        <%if cint(mobil_week_reg_akt_dd) = 1 then %>
-                            <input type="hidden" id="FM_akt" value="-1"/>
-                            <div class="row">
-                                <div class="col-lg-12">
-                                    <select id="dv_akt" name="FM_aktivitetid" class="lt_font_size form-control"> <!-- DISABLED -->
-                                        <option>..</option>
-                                    </select>
-                                </div>
-                            </div>
-                        <%else %>
-                            <div class="row">
-                                <div class="col-lg-12"><input type="text" id="FM_akt" name="activity" value="" placeholder="Aktivitet" class="form-control"/></div>
-                            </div>
-                            <input type="hidden" id="FM_aktid" name="FM_aktivitetid" value="0"/>
-                            <div id="dv_akt" class="dv-closed"></div>
-                        <%end if %>
-                       
-
-                    
-
-                        <%if cint(showStop) = 1 then%>
-                            <div class="row">
-                                <div class="col-lg-1"><input type="button" id="bt_stst" value="St. / Stop" class="btn btn-secondary btn-sm"/></div>
-                                <div class="col-lg-1"><input type="text" id="FM_sttid" name="FM_sttid" value="00:00" style="color:#cccccc;" class="form-control"/></div>
-                                <div class="col-lg-1"><input type="text" id="FM_sltid" name="FM_sltid" value="00:00" style="color:#cccccc;" class="form-control"/></div>
-                                <div class="col-lg-1" style="padding-top:7px;">= <span id="FM_timerlbl">0</span></div>
-                                <input type="hidden" id="FM_timer" name="FM_timer" value="0" style="color:#cccccc; width:65px;"/>
-                            </div>
-                        <%else %>
-                            <input type="hidden" id="FM_sttid" name="FM_sttid" value="00:00"/>
-                            <input type="hidden" id="FM_sltid" name="FM_sltid" value="00:00"/>
-                            <div class="row">
-                                <div class="col-lg-12"><input type="number" id="FM_timer" name="FM_timer" value="Antal timer" class="form-control"/></div>
-                            </div>
-                        <%end if %>
+        %> 
+        <input type="text" name="FM_datoer" id="jq_dato" value="<%=todayDay &"-"& todayMonth &"-"& todayYear%>" /> <!-- placeholder="dd-mm-yyyy" -->
+        
+       
+        <%end select %>
+       
 
 
 
-                        <div class="row">
-                            <div class="col-lg-12"><input type="text" id="FM_kom" name="FM_kom_0" value="Kommentar" class="form-control"/></div>
-                        </div>
 
-                        <br />
+      
+        <input type="hidden" id="tomobjid" name="tomobjid" value="<%=tomobjid %>"/>
+        <input type="hidden" id="showstop" name="showstop" value="<%=showStop %>"/>
+        <input type="hidden" id="" name="FM_vistimereltid" value="<%=showStop %>"/>
+        <input type="hidden" id="varTjDatoUS_man" name="varTjDatoUS_man" value="<%=varTjDatoUS_man_tt %>"/>
 
-                        <%showMatreg = 1 %>
-                        <%if cint(showMatreg) = 1 then%>
-                        
-                        <div class="panel-group accordion-panel" id="accordion-paneled">
-                            <div class="panel panel-default">
-                                <div class="panel-heading">
-                                    <h4 class="panel-title"><a class="accordion-toggle" data-toggle="collapse" data-target="#collapseOne">Tilføj materialeforbrug</a></h4></div>                                    
-                                <div id="collapseOne" class="panel-collapse collapse">
-                                    <div class="panel-body">
-                                        
-                                        <table width="100%"><tr>
-                                            <td style="width:60%;"><input type="text" id="FM_matnavn" name="FM_matnavn" value="Tilføj Materiale" style="width:100%;" class="form-control"/></td> 
-                                            <td style="width:20%;"><input type="text" id="FM_matantal" name="FM_matantal" value="Ant." style="width:100%;" class="form-control"/></td>
-                                            <td style="width:20%;"><input type="button" value=">>" id="sbmmat" class="btn btn-secondary btn-sm" style="width:100%;" /></td></tr>
-                                        </table>
+        <input type="hidden" id="mobil_week_reg_akt_dd" name="" value="<%=mobil_week_reg_akt_dd %>"/>
+        <input type="hidden" id="mobil_week_reg_job_dd" name="" value="<%=mobil_week_reg_job_dd %>"/>
 
 
-                                        <input type="hidden" id="FM_matid" name="FM_matid" value="0"/>
-                                        <div id="dv_mat" class="dv-closed"></div> <!-- dv_mat -->
+         <!-- Forecast max felter -->
+        <input type="hidden" id="aktnotificer_fc" name="" value="0"/>
+        <input type="hidden" id="akt_maksbudget_treg" value="<%=akt_maksbudget_treg%>">  
+        <input type="hidden" id="akt_maksforecast_treg" value="<%=akt_maksforecast_treg%>">
+        <input type="hidden" id="aktBudgettjkOn_afgr" value="<%=aktBudgettjkOn_afgr%>">
+        <input type="hidden" id="regskabsaarStMd" value="<%=datePart("m", aktBudgettjkOnRegAarSt, 2,2)%>">
+        <input type="hidden" id="regskabsaarUseAar" value="<%=datepart("yyyy", varTjDatoUS_man_tt, 2,2)%>">
+        <input type="hidden" id="regskabsaarUseMd" value="<%=datepart("m", varTjDatoUS_man_tt, 2,2)%>">     
+       
+       
+        <%if cint(mobil_week_reg_job_dd) = 1 then %>
+        <input type="hidden" id="FM_job" value="-1"/>
+       
+        <select id="dv_job" name="FM_jobid" class="lt_font_size">
+            <option value="-1">Vælg..</option>
+            <!--<option value="0">..</option>-->
+        </select>
+        <%else %>
+        <input type="text" id="FM_job" name="FM_job" value="" placeholder="Kunde/job"/>
+        <input type="hidden" id="FM_jobid" name="FM_jobid" value="0"/>
+        <div id="dv_job" class="dv-closed"></div> <!-- dv_job -->
+        <%end if%>
 
-                                        <input type="hidden" id="FM_matids" name="FM_matids" value=""/>
-                                        <input type="hidden" id="FM_matantals" name="FM_matantals" value=""/>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+        <%if cint(mobil_week_reg_akt_dd) = 1 then %>
+        <input type="hidden" id="FM_akt" value="-1"/>
+        <!--<textarea id="dv_akt_test"></textarea>-->
+        <select id="dv_akt" name="FM_aktivitetid" class="lt_font_size"> <!-- DISABLED -->
+            <option>..</option>
+        </select>
 
-                        <%end if %>
-
-
-                        <%if cint(showAfslutJob) = 1 then %>
-                        <div class="row">
-                            <div class="col-lg-12"><span><input type="checkbox" value="2" name="FM_lukjobstatus" id="FM_lukjobstatus" /> Job er afsluttet</span></div>
-                        </div>
-                        <%end if %>
+         <%else %>
+        <input type="text" id="FM_akt" name="activity" value="" placeholder="Aktivitet"/>
+        <input type="hidden" id="FM_aktid" name="FM_aktivitetid" value="0"/>
+        <div id="dv_akt" class="dv-closed"></div> <!-- dv_akt -->
+        <%end if %>
 
 
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <button type="submit" class="btn btn-success btn-sm pull-right"><b>Gem registrering >></b></button>
-                            </div>
-                        </div>
+        <%if cint(showStop) = 1 then%>
 
-                        <br />
+        <div style="white-space:nowrap; width:100%; border:0;">
+           <table cellpadding="0" cellspacing="0" border="0" width="100%"><tr>
+           <td><input type="button" id="bt_stst" value="St. / Stop" style="background-color:#428bca; color:#FFFFFF; padding:2px 5px 2px 5px;" /> </td>
+           <td><input type="text" id="FM_sttid" name="FM_sttid" value="00:00" style="color:#cccccc; width:65px;"/></td>
+           <td><input type="text" id="FM_sltid" name="FM_sltid" value="00:00" style="color:#cccccc; width:65px;"/></td>
+           
+           <td style="padding:2px 5px 12px 5px; width:85px;" >
+             = <span id="FM_timerlbl" style="color:#999999; font-size:18px; width:65px;">0</span>
+             <input type="hidden" id="FM_timer" name="FM_timer" value="" placeholder="0" style="color:#cccccc; width:65px;"/></td></tr></table>
+        </div>      
+            
+        <%else %>
+          <input type="hidden" id="FM_sttid" name="FM_sttid" value="00:00"/>
+          <input type="hidden" id="FM_sltid" name="FM_sltid" value="00:00"/>
+         <input type="number" id="FM_timer" name="FM_timer" value="" placeholder="0"/><!-- brug type number for numerisk tastatur -->
+        <% end if%>
+        
+       
+        <input type="text" id="FM_kom" name="FM_kom_0" value="Kommentar"/>
+      
+        
 
-                        <%
-                            call akttyper2009(2)
+       <%if cint(showMatreg) = 1 then%>
+        
+        <a href="#" id="a_mat">+ Tilføj materialeforbrug</a> 
+       
+        <div id="dv_mat_container" class="dvm-closed">
+           
+            <table width="100%"><tr><td style="width:60%;">
+         <input type="text" id="FM_matnavn" name="FM_matnavn" value="Tilføj Materiale" style="width:100%;"/></td> 
+               <td style="width:20%;"><input type="text" id="FM_matantal" name="FM_matantal" value="Ant." style="width:100%;"/>
+                
+            </td><td style="width:20%;"><input type="button" value=">>" id="sbmmat" style="width:100%;" /></td></tr>
+            </table>
+
+                <input type="hidden" id="FM_matid" name="FM_matid" value="0"/>
+                <div id="dv_mat" class="dv-closed"></div> <!-- dv_mat -->
+             <input type="hidden" id="FM_matids" name="FM_matids" value=""/>
+            <input type="hidden" id="FM_matantals" name="FM_matantals" value=""/>
+
+             
+        <div id="dv_mat_sbm" style="position:relative; border:0px; padding-left:10px; height:40px; overflow:auto;"></div>     
+
+        </div>
+        
+        <%end if %>
+        <!--
+        <a href="#">+ Udlæg</a> 
+
+         <input type="text" id="Text1" name="FM_matnavn" value="Tilføj materiale"/>
+        <input type="hidden" id="Hidden3" name="FM_matid" value="0"/>
+        -->
+        
+        <br />
+        <%if cint(showAfslutJob) = 1 then %>
+        <span><input type="checkbox" value="2" name="FM_lukjobstatus" id="FM_lukjobstatus" /> Job er afsluttet</span> 
+        <%end if %>
+        <input type="submit" id="sbm_timer" class="active" value="Gem registrering >>"/>
+
+
+      
+        <br />
+        <%
+            call akttyper2009(2)
 
              
            
             
-                            timerIdagTxt = ""
-                            timerIdag = 0
+            timerIdagTxt = ""
+            timerIdag = 0
 
             
-                            if cint(showDetailDayResumeOrLink) = 1 then
+            if cint(showDetailDayResumeOrLink) = 1 then
 
-                             timerIdagTxt = "<table cellpadding=0 cellspacing=0 border=0 width=""100%"">"
+             timerIdagTxt = "<table cellpadding=0 cellspacing=0 border=0 width=""100%"">"
 
-                             timerIdagTxt = timerIdagTxt & "<tr><td colspan=4><b>Timer i dag:</b></td></tr>"
+             timerIdagTxt = timerIdagTxt & "<tr><td colspan=4><b>Timer i dag:</b></td></tr>"
            
             
-                             strSQLtimer = "SELECT timer, tjobnavn, taktivitetnavn, sttid, sltid, timer FROM timer WHERE tmnr = "& session("mid") &" AND tdato = '"& ddDato &"' AND ("& aty_sql_realhours &")"
+             strSQLtimer = "SELECT timer, tjobnavn, taktivitetnavn, sttid, sltid, timer FROM timer WHERE tmnr = "& session("mid") &" AND tdato = '"& ddDato &"' AND ("& aty_sql_realhours &")"
             
-                            oRec.open strSQLtimer, oConn, 3
-                            while not oRec.EOF 
+            oRec.open strSQLtimer, oConn, 3
+            while not oRec.EOF 
 
-                            if cint(showStop) = 1 then
-                            timerIdagTxt = timerIdagTxt & "<tr><td>"& left(formatdatetime(oRec("sttid"), 3), 5) & " - "& left(formatdatetime(oRec("sltid"), 3), 5) &"</td><td>"& left(oRec("tjobnavn"), 15) &"</td><td>"& left(oRec("taktivitetnavn"), 10) &"</td><td align=right>"&  formatnumber(oRec("timer"), 2) & "</td></tr>"
-                            else
-                            timerIdagTxt = timerIdagTxt & "<tr><td>"& oRec("timer") &"</td><td>"& left(oRec("tjobnavn"), 15) &"</td><td>"& left(oRec("taktivitetnavn"), 10) &"</td><td align=right>"&  formatnumber(oRec("timer"), 2) & "</td></tr>"
-                            end if
+            if cint(showStop) = 1 then
+            timerIdagTxt = timerIdagTxt & "<tr><td>"& left(formatdatetime(oRec("sttid"), 3), 5) & " - "& left(formatdatetime(oRec("sltid"), 3), 5) &"</td><td>"& left(oRec("tjobnavn"), 15) &"</td><td>"& left(oRec("taktivitetnavn"), 10) &"</td><td align=right>"&  formatnumber(oRec("timer"), 2) & "</td></tr>"
+            else
+            timerIdagTxt = timerIdagTxt & "<tr><td>"& oRec("timer") &"</td><td>"& left(oRec("tjobnavn"), 15) &"</td><td>"& left(oRec("taktivitetnavn"), 10) &"</td><td align=right>"&  formatnumber(oRec("timer"), 2) & "</td></tr>"
+            end if
 
 
-                            timerIdag = timerIdag + oRec("timer")
-                            oRec.movenext
-                            wend
-                            oRec.close 
+            timerIdag = timerIdag + oRec("timer")
+            oRec.movenext
+            wend
+            oRec.close 
 
            
 
 
-                             if len(trim(timerIdag)) <> 0 then
-                            timerIdag = timerIdag
-                            else
-                            timerIdag = 0 
-                            end if
+             if len(trim(timerIdag)) <> 0 then
+            timerIdag = timerIdag
+            else
+            timerIdag = 0 
+            end if
 
-                            timerIdag = formatnumber(timerIdag, 2)
+            timerIdag = formatnumber(timerIdag, 2)
 
-                            timerIdagTxt = timerIdagTxt & "<tr><td colspan=4 align=right><b><u>"& timerIdag &"</u></b></td></tr>"
+            timerIdagTxt = timerIdagTxt & "<tr><td colspan=4 align=right><b><u>"& timerIdag &"</u></b></td></tr>"
 
-                            timerIdagTxt = timerIdagTxt & "</table>"
+            timerIdagTxt = timerIdagTxt & "</table>"
 
-                            %> 
-                            <div id="dv_timeridag" style="font-size:12px; float:right; width:200px; text-align:left; border:0px; color:#999999; white-space:nowrap;">
-                                <%=timerIdagTxt %>
-                            </div>
-                            <%
+            %> 
+            <div id="dv_timeridag" style="font-size:12px; float:right; width:200px; text-align:left; border:0px; color:#999999; white-space:nowrap;">
+                <%=timerIdagTxt %>
+            </div>
+            <%
 
-                            else
+            else
 
             
-                            strSQLtimer = "SELECT SUM(timer) AS timer FROM timer WHERE tmnr = "& session("mid") &" AND tdato = '"& ddDato &"' AND ("& aty_sql_realhours &")"
+            strSQLtimer = "SELECT SUM(timer) AS timer FROM timer WHERE tmnr = "& session("mid") &" AND tdato = '"& ddDato &"' AND ("& aty_sql_realhours &")"
             
-                            oRec.open strSQLtimer, oConn, 3
-                            if not oRec.EOF then
+            oRec.open strSQLtimer, oConn, 3
+            if not oRec.EOF then
 
-                            timerIdag = oRec("timer")
+            timerIdag = oRec("timer")
 
-                            end if
-                            oRec.close 
+            end if
+            oRec.close 
 
-                            if len(trim(timerIdag)) <> 0 then
-                            timerIdag = timerIdag
-                            else
-                            timerIdag = 0 
-                            end if
+            if len(trim(timerIdag)) <> 0 then
+            timerIdag = timerIdag
+            else
+            timerIdag = 0 
+            end if
 
-                            timerIdag = formatnumber(timerIdag, 2)
+            timerIdag = formatnumber(timerIdag, 2)
 
-                            %>
-                            <div id="dv_timeridag" style="width:200px; float:right; text-align:right; border:0px; color:#999999;"><span style="font-size:12px; line-height:13px; vertical-align:baseline; color:#999999;"><%=meNavn &" d. "& formatdatetime(now, 2)  %>:<br /></span> <a href="../to_2015/ugeseddel_2011.asp?usemrn=<%=session("mid")%>&varTjDatoUS_man=<%=varTjDatoUS_man_tt %>" style="font-size:32px;"><%=timerIdag%></a> </div>
-                            <%
+            %>
+            <div id="dv_timeridag" style="width:200px; float:right; text-align:right; border:0px; color:#999999;"><span style="font-size:12px; line-height:13px; vertical-align:baseline; color:#999999;"><%=meNavn &" d. "& formatdatetime(now, 2)  %>:<br /></span> <a href="../to_2015/ugeseddel_2011.asp?usemrn=<%=session("mid")%>&varTjDatoUS_man=<%=varTjDatoUS_man_tt %>" style="font-size:32px;"><%=timerIdag%></a> </div>
+            <%
 
-                            end if
+            end if
 
            
             
-                            %>
+            %>
 
 
        
-                        <!--
-                        <span style="font-size:10px; color:#999999;">[<%=lto %>:<%=meNavn %>]</span>
-                        -->
+        <!--
+        <span style="font-size:10px; color:#999999;">[<%=lto %>:<%=meNavn %>]</span>
+        -->
 
-                        <!--
-                        <input type="submit" class="inactive" value="Tilføj timer & materialer"/>
-                        -->
+        <!--
+        <input type="submit" class="inactive" value="Tilføj timer & materialer"/>
+        -->
+    </form>
 
-                    </form>
-
-
-
-
-                </div>
-            </div>
-        </div>
-
-</div>
-</div>
-
-
-
-
-
-    
-
-<!--#include file="../inc/regular/footer_inc.asp"-->
+    <!--#include file="../inc/regular/footer_inc.asp"-->
+    <%end if 'session %>
