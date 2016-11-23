@@ -729,7 +729,7 @@
 
         <div class="container">
             <div class="portlet">
-                <h3 class="portlet-title" style="text-align:center">TimeOut mobile</h3>
+                <h3 class="portlet-title"><u>TimeOut mobile</u></h3>
                 <div class="portlet-body">
 
 
@@ -913,7 +913,7 @@
 
                         <div class="row">
                             <div class="col-lg-12">
-                                <button type="submit" class="btn btn-success btn-sm pull-right"><b>Gem registrering >></b></button>
+                                <button type="submit" class="btn btn-success btn-sm" style="text-align:center; width:100%"><b>Gem registrering >></b></button>
                             </div>
                         </div>
 
