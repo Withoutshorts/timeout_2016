@@ -724,16 +724,43 @@
 
 
 </head>
+    
+    
+    <header class="navbar navbar-inverse" role="banner" style="margin-top:-45px;">
+        <div class="container" style="background-color:transparent">
+    
+
+      <div class="navbar-header">
+        <a href="./" class="navbar-brand navbar-brand-img" style="padding-top:20px;">Timeout Mobile</a>
+
+          <button class="navbar-toggle" type="button" data-toggle="collapse" data-target=".navbar-collapse">
+          <span class="sr-only">Toggle navigation</span>
+          <i class="fa fa-bars"></i>
+        </button>
+      </div> <!-- /.navbar-header -->
 
 
+      <nav class="collapse navbar-collapse" role="navigation">
+
+        <ul class="nav navbar-nav navbar-right mainnav-menu">
+
+          <li class="">
+            <a href="../to_2015/ugeseddel_2011.asp?usemrn=<%=session("mid")%>&varTjDatoUS_man=<%=varTjDatoUS_man_tt %>">Ugeseddel</a>
+          </li>    
+
+          <li class="">
+            <a href="./page-features.html">Nøgletal</a>
+          </li>             
+
+        </ul>
 
 
-
+      </nav>
+            </div>
+  </header>
+           
         <div class="container" style="height:100%">
             <div class="portlet">
-
-
-                <h3 class="portlet-title"><u>TimeOut mobile</u></h3>
                 <div class="portlet-body">
 
                     <div id="dvindlaes_msg" style="position:absolute; top:0px; left:0px; height:100%; width:100%; background-color:#cccccc; visibility:hidden; display:none;">Indlæser timer...vent</div>
@@ -1031,9 +1058,5 @@
 </div>
 
 
-
-
-
-    
 
 <!--#include file="../inc/regular/footer_inc.asp"-->
