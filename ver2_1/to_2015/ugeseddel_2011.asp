@@ -770,16 +770,8 @@ if len(session("user")) = 0 then
    
    <%if browstype_client = "ip" then %>
 
-              <div id="header_ugeseddel_2011_ip" style="width: 100%;
-              height: 40px;
-              color: white;
-              background-color: #004d7b;
-              margin: 0 0 20px 0;
-              line-height: 40px;
-              text-align: left;
-              font-weight: 600;
-              padding-left: 40px;
-              background: #004d7b url('img/logo_emblem.png') no-repeat left center;">TimeOut mobile</div>
+        <!--#include file="../inc/regular/top_menu_mobile.asp"-->
+        <%call mobile_header %>
 
    <%end if %>
 

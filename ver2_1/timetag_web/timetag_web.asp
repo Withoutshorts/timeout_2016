@@ -6,6 +6,8 @@
 <!--#include file="../inc/connection/conn_db_inc.asp"-->
 <!--#include file="../inc/regular/global_func.asp"-->
 
+<!--#include file="../inc/regular/top_menu_mobile.asp"-->
+
 <!--#include file="../inc/regular/header_lysblaa_2015_inc.asp"-->
 
 
@@ -722,42 +724,28 @@
 
 <script src="../to_2015/js/ugeseddel_2011_jav.js" type="text/javascript"></script>
 
+    <style type="text/css">
+
+        input[type="text"] 
+        {
+          height:125%;
+          font-size:125%;
+        }
+        input[type="button"] 
+        {
+          height:125%;
+          font-size:125%;
+        }
+
+    </style>
 
 </head>
     
-    
-    <header class="navbar navbar-inverse" role="banner" style="margin-top:-45px;">
-        <div class="container" style="background-color:transparent">
-    
-
-      <div class="navbar-header">
-        <a href="./" class="navbar-brand navbar-brand-img" style="padding-top:20px;">Timeout Mobile</a>
-
-          <button class="navbar-toggle" type="button" data-toggle="collapse" data-target=".navbar-collapse">
-          <span class="sr-only">Toggle navigation</span>
-          <i class="fa fa-bars"></i>
-        </button>
-      </div> <!-- /.navbar-header -->
 
 
-      <nav class="collapse navbar-collapse" role="navigation">
-
-        <ul class="nav navbar-nav navbar-right mainnav-menu">
-
-          <li class="">
-            <a href="../to_2015/ugeseddel_2011.asp?usemrn=<%=session("mid")%>&varTjDatoUS_man=<%=varTjDatoUS_man_tt %>">Ugeseddel</a>
-          </li>    
-
-          <li class="">
-            <a href="./page-features.html">Nøgletal</a>
-          </li>             
-
-        </ul>
+        <%call mobile_header %>
 
 
-      </nav>
-            </div>
-  </header>
            
         <div class="container" style="height:100%">
             <div class="portlet">
@@ -878,33 +866,49 @@
                         <%end if %>
                        
 
-                    
+                        <div class="row">
+                            <div class="col-lg-12"><input type="text" id="FM_kom" name="FM_kom_0" value="Kommentar" class="form-control" /></div>
+                        </div>
+
+
+                        
 
                         <%if cint(showStop) = 1 then%>
-                            <div class="row">
+                            <!--<div class="row">
                                 <div class="col-lg-1"><input type="button" id="bt_stst" value="St. / Stop" class="btn btn-secondary btn-sm"/></div>
                                 <div class="col-lg-1"><input type="text" id="FM_sttid" name="FM_sttid" value="00:00" style="color:#cccccc;" class="form-control"/></div>
                                 <div class="col-lg-1"><input type="text" id="FM_sltid" name="FM_sltid" value="00:00" style="color:#cccccc;" class="form-control"/></div>
                                 <div class="col-lg-1" style="padding-top:7px;">= <span id="FM_timerlbl">0</span></div>
                                 <input type="hidden" id="FM_timer" name="FM_timer" value="0" style="color:#cccccc; width:65px;"/>
+                            </div> -->
+                        <div class="row">
+                            <div class="col-lg-12">
+                            <table>
+                                <tr>
+                                    <td><input type="button" id="bt_stst" value="St. / Stop" class="btn btn-secondary btn-sm"/></td>
+                                    <td>&nbsp</td>
+                                    <td><input type="text" id="FM_sttid" name="FM_sttid" value="00:00" style="color:#cccccc;" class="form-control"/></td>
+                                    <td>&nbsp</td>
+                                    <td><input type="text" id="FM_sltid" name="FM_sltid" value="00:00" style="color:#cccccc;" class="form-control"/></td>
+                                    <td>&nbsp</td>
+                                    <td style="width:15%; text-align:right">= <span id="FM_timerlbl">0</span></td>
+                                    <input type="hidden" id="FM_timer" name="FM_timer" value="0" style="color:#cccccc; width:65px;"/>
+                                </tr>
+                            </table>
                             </div>
+                        </div>
                         <%else %>
                             <input type="hidden" id="FM_sttid" name="FM_sttid" value="00:00"/>
                             <input type="hidden" id="FM_sltid" name="FM_sltid" value="00:00"/>
                             <div class="row">
-                                <div class="col-lg-12"><input type="number" id="FM_timer" name="FM_timer" value="Antal timer" class="form-control"/></div>
+                                <div class="col-lg-12"><input type="number" id="FM_timer" name="FM_timer" value="" placeholder="Antal timer" class="form-control"/></div>
                             </div>
                         <%end if %>
-
-
-
-                        <div class="row">
-                            <div class="col-lg-12"><input type="text" id="FM_kom" name="FM_kom_0" value="Kommentar" class="form-control"/></div>
-                        </div>
+                       
 
                         <br />
 
-                        <%showMatreg = 1 %>
+                        
                         <%if cint(showMatreg) = 1 then%>
                         
                         <div class="panel-group accordion-panel" id="accordion-paneled">
@@ -940,7 +944,7 @@
                         </div>
                         <%end if %>
 
-
+                        <br /><br />
                         <div class="row">
                             <div class="col-lg-12">
                                 <button type="submit" class="btn btn-success btn-sm" style="text-align:center; width:100%"><b>Gem registrering >></b></button>
@@ -1056,7 +1060,6 @@
 
 </div>
 </div>
-
 
 
 <!--#include file="../inc/regular/footer_inc.asp"-->

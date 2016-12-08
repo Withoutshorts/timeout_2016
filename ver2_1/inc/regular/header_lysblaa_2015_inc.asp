@@ -12,12 +12,11 @@
      relpath = ""
      end if
 
-    if thisfile = "timetag_mobile" then
+    if thisfile = "timetag_mobile" or thisfile = "timetag_kpi" then
 
         relpath = "../to_2015/"
         relpath2 = "./to_2015/"                    '''''''' For at få accordion til at virke på mobilen
         else
-        relpath = ""
         relpath2 = ""
         end if
 

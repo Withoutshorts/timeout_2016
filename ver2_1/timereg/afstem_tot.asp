@@ -1103,7 +1103,7 @@ if session("user") = "" then
 	 
 	 
 	
-	 <td valign=bottom style="border-bottom:1px silver solid; width:50px;" class=lille><b>Ferie afholdt</b> 
+	 <td valign=bottom style="border-bottom:1px silver solid; width:50px;" class=lille><b>Ferie afholdt2</b> 
          <br />
 	 ~ dage 
        
@@ -1530,7 +1530,7 @@ if session("user") = "" then
                         anormTimerTotShow = formatnumber(anormTimerTot,2)
          end if%>
 	
-    <td align=right style="white-space:nowrap;" class=lille><b><%=anormTimerTotShow%></b></td>
+    <td align=right style="white-space:nowrap;" class=lille><b><%=anormTimerTotShow%>wd</b></td>
 	
 	<%if session("stempelur") <> 0 then %> 
             
@@ -1717,7 +1717,7 @@ if session("user") = "" then
 
        <td align=right  class=lille>
        <%if media <> "print" AND media <> "export" then %>
-       <a href="afstem_tot.asp?usemrn=<%=usemrn %>&show=4&varTjDatoUS_man=<%=varTjDatoUS_man %>" class=rmenu><%=formatnumber(ferieAfVal_md_tot, 2) %></a>
+       <a href="afstem_tot.asp?usemrn=<%=usemrn %>&show=4&varTjDatoUS_man=<%=varTjDatoUS_man %>" class=rmenu><%=formatnumber(ferieAfVal_md_tot, 2) %>d</a>
        <%else %>
        <b><%=formatnumber(ferieAfVal_md_tot, 2) %></b>
        <%end if %>
@@ -1791,7 +1791,7 @@ if session("user") = "" then
 
 	 
 	  <%if (level = 1 OR (session("mid") = usemrn)) OR (cint(erTeamlederForVilkarligGruppe) = 1) then%>
-	 <td align=right  class=lille><b><%=formatnumber(sygeDage_tot, 2) %></b></td>
+	 <td align=right  class=lille><b><%=formatnumber(sygeDage_tot, 2) %></b>hej</td>
 	 <%end if %>
 
           <%if (level = 1 OR (session("mid") = usemrn)) OR (cint(erTeamlederForVilkarligGruppe) = 1) then%>
@@ -1946,7 +1946,7 @@ if session("user") = "" then
   <%end if %>
         <%end if 'noflex %>
 
-             <td align=right style="white-space:nowrap;" class=lille>&nbsp;</td>
+             <td align=right style="white-space:nowrap;" class=lille>&nbsp;awd</td>
 	         
 
          
@@ -1966,7 +1966,7 @@ if session("user") = "" then
         
                          if lto <> "cst" AND lto <> "tec" AND lto <> "esn" then %>
 	                    <td align=right style="white-space:nowrap;" class=lille>&nbsp;</td>
-                        <td align=right style="white-space:nowrap;" class=lille bgcolor="pink"><b><%=formatnumber(realNormBal,2)%></b></td>
+                        <td align=right style="white-space:nowrap;" class=lille bgcolor="pink"><b><%=formatnumber(realNormBal,2)%></b>hej</td>
 
                                    <%if session("stempelur") <> 0 AND (lto <> "kejd_pb") then %>
                                 <td align=right style="white-space:nowrap;" class=lille><b> <%=realLontBal %></b></td>
@@ -2063,7 +2063,7 @@ if session("user") = "" then
         <%end if %>
         
         
-        <td >&nbsp;</td>
+        <td >&nbsp;wad23</td>
 
         <%if show = 77 then%>
         <td >&nbsp;</td>
@@ -2074,7 +2074,7 @@ if session("user") = "" then
         <%end if %>
 
         <!--Ferie dage afholdt -->
-       <td align=right  class=lille>&nbsp;</td>
+       <td align=right  class=lille>&nbsp;hej</td>
 	
          <!--Ferie dage afholdt u løn -->
 	 <td align=right  class=lille>&nbsp;</td>

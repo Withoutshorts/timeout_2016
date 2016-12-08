@@ -260,6 +260,12 @@ varTjDatoUS_tor = dateAdd("d", 3, varTjDatoUS_man)
 
  <!-- **** Ugeseddel *** -->
 
+<%
+     showall = 0
+%>
+
+
+
 <%if showheader = 1 then %>
     <%
         call browsertype() 
@@ -267,16 +273,16 @@ varTjDatoUS_tor = dateAdd("d", 3, varTjDatoUS_man)
     %>
    <table cellpadding=0 cellspacing=0 border=0 width="100%">
    <tr>
-	<td valign="top" style="width:90%;"><br />
+	<td valign="top" style="width:80%;"><br />
 	
 	<%'if cint(SmiWeekOrMonth) <> 2 then 'Dag ==> Logud flow %>
     <%call showafslutuge_ugeseddel %>
     <%'end if %>
     <!-- afslut uge -->
-    
+
    &nbsp;
 	</td>
-
+       <td><a class="btn btn-success btn-sm"><b>+</b></a></td> <!----- nårm na trykker skal showall være ligemed 1 ------------->
        <td valign="top" align="right"><br />
    
     <%
@@ -360,7 +366,7 @@ varTjDatoUS_tor = dateAdd("d", 3, varTjDatoUS_man)
           nowdate = (DatePart("w", now,2,2))
           dateid = DatePart("w", st_dato,2,2)
       %>
-
+ 
    <tr><td valign=top colspan=2>
 
          <%if showheader <> 1 then %>
@@ -389,7 +395,7 @@ varTjDatoUS_tor = dateAdd("d", 3, varTjDatoUS_man)
 
                         <%
                     
-                    if nowdate = dateid AND (datePart("ww", now, 2,2) =  datePart("ww", st_dato, 2,2)) then %>
+                    if nowdate = dateid AND (datePart("ww", now, 2,2) =  datePart("ww", st_dato, 2,2)) or showall = 1 then %>
                     <div id="<%=dateid %>" class="panel-collapse collapse in">
                     <%else %>
                     <div id="<%=dateid %>" class="panel-collapse collapse">
@@ -655,7 +661,7 @@ varTjDatoUS_tor = dateAdd("d", 3, varTjDatoUS_man)
                 
                 
                                 if (((ugeerAfsl_og_autogk_smil = 0 AND cint(ugegodkendt) <> 1) OR (level = 1)) AND media <> "print") then%>
-                                    <a href="#" onclick="Javascript:window.open('../timereg/rediger_tastede_dage_2006.asp?id=<%=oRec("tid") %>', '', 'width=650,height=600,resizable=yes,scrollbars=yes')" class=vmenu><%=formatnumber(oRec("timer"), 2) %></a>
+                                    <a href="#" onclick="Javascript:window.open('rediger_tastede_dage_2006.asp?id=<%=oRec("tid") %>', '', 'width=650,height=600,resizable=yes,scrollbars=yes')" class=vmenu><%=formatnumber(oRec("timer"), 2) %></a>
 	            
                                 <%else %>
                                     <%=formatnumber(oRec("timer"), 2) %>

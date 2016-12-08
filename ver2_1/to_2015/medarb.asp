@@ -2250,7 +2250,7 @@ Session.LCID = 1030
     case else 'list
 
                 %>
-                <script src="js/medarb_list_jav.js" type="text/javascript"></script>
+                <script src="js/medarb_list_jav2.js" type="text/javascript"></script>
                 <%
 
 
@@ -2491,7 +2491,18 @@ Session.LCID = 1030
                        trBgCol = "#FFFFE1" 
                        else
                        trBgCol = ""
-                       end if%>
+                       end if
+
+                       
+                       dateformat = oRec("ansatdato")
+
+                       'response.write dateformat
+
+                       dateformat = (Replace(dateformat,"-",""))
+                       
+                       %>
+
+                       
 
                         <tr style="background-color:<%=trBgCol%>;">
                             
@@ -2506,7 +2517,7 @@ Session.LCID = 1030
                             <td><%=left(mtypenavn, 15) %></td>
                             <td><%=left(mBrugergruppe, 20) %></td>
                             <td><a href="mailto:<%=oRec("email") %>"><%=oRec("email") %></a></td>
-                            <td><%=oRec("ansatdato") %></td>
+                            <td><span><%=dateformat %></span> <%=oRec("ansatdato") %></td>
                             <td><%=oRec("lastlogin") %></td>
                             <td style="text-align:center;"> <a href="../timereg/joblog.asp?menu=timereg&FM_medarb=<%=oRec("Mid")%>&FM_job=0&selmedarb=<%=oRec("Mid")%>" target="_blank"><span class="fa fa-external-link"></span></a></td>
                             <td style="text-align:center;"><a href="medarb.asp?menu=tok&func=slet&id=<%=oRec("mid")%>"><span style="color:darkred;" class="fa fa-times"></span></a></td>
