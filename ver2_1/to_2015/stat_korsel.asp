@@ -35,11 +35,11 @@
                     <div class="well well-white">
 
                         <div class="row">
-                            <div class="col-lg-1">Fra:</div>
+                            <div class="col-lg-1">Fra: <span style="color:red;">*</span></div>
                             <div class="col-lg-4"><input type="text" class="form-control input-small" value="Hovgårdsvej 51, 7100 Vejle" /></div>
 
                             <div class="col-lg-1">&nbsp</div>
-                            <div class="col-lg-1">Dato:</div>
+                            <div class="col-lg-1">Dato: <span style="color:red;">*</span></div>
                             <div class="col-lg-4">
                                 <div class='input-group date'>
                                       <input type="text" class="form-control input-small" name="FM_datoer" id="jq_dato" value="<%=day(now) &"/"& month(now) &"/"& year(now) %>" placeholder="dd-mm-yyyy" />
@@ -61,11 +61,17 @@
                         </div>
 
                         <div class="row">
-                            <div class="col-lg-1">Til:</div>
+                            <div class="col-lg-1">Til: <span style="color:red;">*</span></div>
                             <div class="col-lg-4"><input type="text" class="form-control input-small" value="Køkebnahvnvej 14, 2100, Købehavnvej" /></div>
                             <div class="col-lg-1">&nbsp</div>
                             <div class="col-lg-1">Aktivitet:</div>
                             <div class="col-lg-4"><input type="text" class="form-control input-small" /></div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-lg-6">&nbsp</div>
+                            <div class="col-lg-1">Formål: <span style="color:red;">*</span></div>
+                            <div class="col-lg-4"><input type="text" class="form-control input-small" value="" /></div>
                         </div>
 
                         <div class="row">
@@ -78,7 +84,7 @@
                     </div>
 
 
-                    <br /><br /><br /><br />
+                    <br /><br /><br /><br /><br />
 
 
                     <div class="row">
@@ -190,25 +196,7 @@
                         </tbody>
                     </table>
 
-                    <a data-toggle="modal" href="#korsel_pop"><span class="fa fa-info-circle"></span></a>
-
-                    <div id="korsel_pop" class="modal modal-styled fade" style="top:60px;"><!-- modal modal-styled fade -->
-                        <div class="modal-dialog">
-                            <div class="modal-content" style="border:none !important;padding:0;">
-                                <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                    <h5 class="modal-title">Medarbejdertype</h5>
-                                </div>
-                                <div class="modal-body">
-
-                                    hej
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-
+                  
 
                 </div>
             </div>
