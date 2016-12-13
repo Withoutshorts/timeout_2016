@@ -1,5 +1,5 @@
 ﻿$(document).ready(function () {
-
+    alert("awd");
     $("#FM_ansat2").click(function () {
 
         $("#deaktivnote").css("display", "");

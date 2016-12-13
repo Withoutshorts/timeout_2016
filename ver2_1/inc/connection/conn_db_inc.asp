@@ -802,13 +802,13 @@ if len(strLicenskey) <> 0 then
 
         'strConnThis = "mySQL_timeOut_intranet"
         'strConnThis = "timeout_wwf"
-		'strConnThis = "timeout_adra"
 
-        'lto = "intranet - local"
-        'strConnThis = "timeout_intranet64"
-    
-        lto = "nt"
-        strConnThis = "timeout_nt"
+        lto = "intranet - local"
+        'lto = "nt"
+        strConnThis = "timeout_intranet64"
+        'strConnThis = "timeout_adra"
+
+        'strConnThis = "timeout_nt"
         
         'lto = "cc"
         'strConnThis = "timeout_cc"
@@ -854,20 +854,15 @@ else
     'strConnThis = "timeout_intranet32"
     
    
-    
-    
-        
+    'lto = "nt"
+	'strConnThis = "timeout_nt"
     'strConnThis = "driver={MySQL ODBC 3.51 Driver};server=localhost; Port=3306; uid=root;pwd=;database=timeout_intranet;"
-	'strConnThis = "driver={MySQL ODBC 3.51 Driver};server=localhost; Port=3306; uid=root;pwd=;database=timeout_intranet; OPTION=32"
-	'response.write strConnThis
-    'response.flush
+	' strConnThis = "driver={MySQL ODBC 3.51 Driver};server=localhost; Port=3306; uid=root;pwd=;database=timeout_intranet; OPTION=32"
+	   'response.write strConnThis
+       ' response.flush
 
-    lto = "nt"
-	strConnThis = "timeout_nt"
-
-    'lto = "intranet - local"
-    'strConnThis = "timeout_intranet64"
-    
+    lto = "intranet - local"
+    strConnThis = "timeout_intranet64"
     'strConnThis = "timeout_adra"
     'strConnThis = "driver={MySQL ODBC 3.51 Driver};server=195.189.130.210; Port=3306; uid=outzource;pwd=SKba200473;database=timeout_adra;"
 

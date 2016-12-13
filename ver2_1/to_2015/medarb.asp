@@ -2114,7 +2114,10 @@ Session.LCID = 1030
 
 
  <!--Medarbejder liste-->
-           
+<script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.8.4/moment.min.js" type="text/javascript"></script>   
+<script src="//cdn.datatables.net/plug-ins/1.10.13/sorting/datetime-moment.js" type="text/javascript"></script>    
+            
+                 
 <script src="js/Medarbejder.js" type="text/javascript"></script>
 
     <div class="container">

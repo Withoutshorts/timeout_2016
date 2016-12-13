@@ -1,4 +1,6 @@
-﻿$(document).ready(function () {
+﻿//cdn.datatables.net/plug-ins/1.10.13/sorting/date-uk.js
+
+$(document).ready(function () {
 
   
    
@@ -15,7 +17,11 @@
         
         "aLengthMenu": [10, 25, 50, 75, 100, 500, 1000],
         "iDisplayLength": 100,
-        "order": [0, "asc"]
+        "order": [0, "asc"],
+        "columnDefs": [
+               { "type": "date-uk", "targets": 5 }
+
+        ]
     
     });
 
