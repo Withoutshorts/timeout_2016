@@ -8,6 +8,10 @@
 <!--#include file="../timereg/inc/convertDate.asp"--> 
 <!--#include file="../inc/regular/header_lysblaa_2015_inc.asp"-->
 
+
+<%call browsertype()  %>
+
+
 <style type="text/css">
 
     tr    
@@ -110,16 +114,21 @@
 
                             <br /><br />
 
-                            <div class="row">
-                                <div class="col-lg-2"><a href="db_tastede_dage_2006.asp?func=slet&id=<%=id %>" id="slet"">
-                                <span style="color:darkred; display:block;" class="fa fa-times"></span></a></div>
-                            </div>
+                            <form action="../timereg/db_tastede_dage_2006.asp" method="POST">
+                            <input type="Hidden" name="id" value="<%=id%>">
+                            <input type="Hidden" name="medid" value="<%=medid%>">
+                            <input type="Hidden" name="jobnr" value="<%=jobnr%>">
+
+                            <%if browstype_client <> "ip" then  %>
+
 
                             <table class="table" style="border:hidden">
-                                <form action="db_tastede_dage_2006.asp" method="POST">
-                                <input type="Hidden" name="id" value="<%=id%>">
-                                <input type="Hidden" name="medid" value="<%=medid%>">
-                                <input type="Hidden" name="jobnr" value="<%=jobnr%>">
+
+                                <tr>
+                                    <td><a href="db_tastede_dage_2006.asp?func=slet&id=<%=id %>" id="slet" style="color:red;">[X - <%=tsa_txt_221 %>]</a></td>
+                                </tr>
+
+                                
 
 
                                 <tr>
@@ -280,11 +289,11 @@
 
                                     <td><b><%=tsa_txt_070 %>:</b></td>
 
-                                    <td style="width:5%"><input type="Text" name="Timer" Value="<%=StrTimer%>" class="form-control input-small"></td>
+                                    <td><input type="Text" name="Timer" Value="<%=StrTimer%>" class="form-control input-small"></td>
                                     <td><%=tsa_txt_184 %>:</td>
-                                    <td style="width:5%"><input type="text" name="FM_sttid" value="<%=sttid%>" class="form-control input-small"></td>
+                                    <td><input type="text" name="FM_sttid" value="<%=sttid%>" class="form-control input-small"></td>
                                     <td>-</td>
-                                    <td style="width:5%"><input type="text" name="FM_sltid" value="<%=sltid%>" class="form-control input-small"></td>
+                                    <td style="width:25%"><input type="text" name="FM_sltid" value="<%=sltid%>" class="form-control input-small"></td>
 
                                     
 
@@ -294,8 +303,9 @@
 
                                   <%if session("rettigheder") <= 2 OR session("rettigheder") = 6 then %>
                                   <tr>
-                                    <td valign=top style="padding-top:5px;"><b><%=tsa_txt_186 %>:</b></td><td><input type="Text" name="timepris" Value="<%=timepris%>"  style="border: 1px #86B5E4 solid; width:80px;">
-	                                 &nbsp;<select name="FM_valuta" id="Select1" style="width:70px;">
+                                    <td valign=top style="padding-top:5px;"><b><%=tsa_txt_186 %>:</b></td>
+                                    <td><input type="Text" name="timepris" Value="<%=timepris%>" class="form-control input-small"></td>
+	                                <td><select name="FM_valuta" id="Select1" class="form-control input-small">
 		                                    <option value="<%=intValuta %>"><%=tsa_txt_229 %></option>
 		                                    <%
 		                                    strSQL3 = "SELECT id, valutakode, grundvaluta FROM valutaer ORDER BY valutakode"
@@ -316,26 +326,89 @@
 		                                    wend
 		                                    oRec3.close %>
 		                                    </select>
+                                        </td>
+                                  </tr>
+                                
 
-                                            <br />
-                                              <input type="checkbox" value="1" name="FM_opdater_timepriser" /> Opdater timepris på denne aktivitet for valgte medarbejder<br /><br />
-                                        Opdater timepriser fra d. <input type="text" name="FM_opdatertpfra" value="<%=formatdatetime(now,2) %>" style="font-size:9px; width:60px;" /> til dd.<br />
-                                        (også lukkede uger og hvis der foreligger faktura)
-	
-	                                <br>
-                                        &nbsp;
-	                                </td>
-                                  </tr> 
+                                    <tr>
+                                        <td><input type="checkbox" value="1" name="FM_opdater_timepriser" /></td>
+                                        <td colspan="3">Opdater timepris på denne aktivitet for valgte medarbejder</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Opdater fra d.</td>
+                                        <td><input type="text" name="FM_opdatertpfra" value="<%=formatdatetime(now,2) %>" class="form-control input-small"/></td>
+                                        <td>til dags dato</td>
+                                    </tr>
+
+                                 
                                   <%else %>
                                   <input type="hidden" name="timepris" value="<%=timepris%>" />
                                   <input type="hidden" name="FM_valuta" value="<%=intValuta %>" />
                                   <%end if %>
 
-
+                            
                                  <tr>
                                     <td valign="top" colspan=2><b><%=tsa_txt_051 %>:</b></td>
+                                 </tr>
+
+                                <tr>
+                                    <td colspan="6"><textarea name="Timerkom" rows="5" class="form-control input-small"><%=StrTimerkom%></textarea></td>
                                 </tr>
+                                <tr>
+                                    <td colspan="2"><%=tsa_txt_053 %>:</td>
+                                    <td>
+                                        <select name="FM_off" id="FM_off" class="form-control input-small">
+	                                    <%
+	                                    if intOff = 0 then
+	                                    nejsel = "SELECTED"
+	                                    jasel = ""
+	                                    else
+	                                    nejsel = ""
+	                                    jasel = "SELECTED"
+	                                    end if
+	                                    %>
+	                                    <option value="0" <%=nejsel%>><%=tsa_txt_054 %></option>
+	                                    <option value="1" <%=jasel%>><%=tsa_txt_055 %></option>
+	                                    </select>
+                                    </td>
+                                </tr>
+                                <%if kmDialogOnOff = 1 then %>
+                                  <tr>
+                                    <td colspan=2>
+    
+                                    <%if cint(bopal) = 1 then 
+                                    bpCHK = "CHECKED"
+                                    else
+                                    bpCHK = ""
+                                    end if%>
+    
+                                        <input id="Checkbox1" name="FM_bopal" value="1" type="checkbox" <%=bpCHK %> /> <%=tsa_txt_287 %> (<%=tsa_txt_288%>)
+	                                </td>
+                                  </tr>
+                                  <%else %>
+                                <input id="name="FM_bopal"" name="FM_bopal" value="0" type="hidden" />
+                                <%end if %>
+
                             </table>
+
+                            <div class="row">
+                                <div class="col-lg-10">&nbsp</div>
+                                <div class="col-lg-2 pad-b10">
+                                    <button type="submit" class="btn btn-success btn-sm pull-right"><b>Opdatér</b></button>
+                                </div>
+                            </div>
+
+                            <%
+                            end if
+                            if browstype_client = "ip" then %>
+
+                            hej
+
+                            
+
+                            <%end if %>
+                            </form>
+                            
 
                     </div>
                 </div>
