@@ -1,8 +1,25 @@
-﻿//cdn.datatables.net/plug-ins/1.10.13/sorting/date-uk.js
+﻿
+jQuery.extend(jQuery.fn.dataTableExt.oSort, {
+    "date-dmy-pre": function (a) {
+        if (a == null || a == "") {
+            return 0;
+        }
+        var date = a.split('-');
+        return (date[2] + date[1] + date[0]) * 1;
+    },
+
+    "date-dmy-asc": function (a, b) {
+        return ((a < b) ? -1 : ((a > b) ? 1 : 0));
+    },
+
+    "date-dmy-desc": function (a, b) {
+        return ((a < b) ? 1 : ((a > b) ? -1 : 0));
+    }
+});
+
 
 $(document).ready(function () {
 
-  
    
 
     // Setup - add a text input to each header cell
@@ -15,12 +32,8 @@ $(document).ready(function () {
     // DataTable
     var table = $('#medarb_list').DataTable({
         
-        "aLengthMenu": [10, 25, 50, 75, 100, 500, 1000],
-        "iDisplayLength": 100,
-        "order": [0, "asc"],
-        "columnDefs": [
-               { "type": "date-uk", "targets": 5 }
-
+        "aoColumnDefs": [
+        { "sType": "date-dmy", "aTargets": [5,6] }
         ]
     
     });

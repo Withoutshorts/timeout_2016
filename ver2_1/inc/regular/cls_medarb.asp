@@ -327,4 +327,54 @@
 
 
     end function
+
+
+
+
+
+
+
+sub mstatus_lastlogin                                                
+      
+        
+        
+        
+        
+            select case oRec("mansat") 
+            case "1"
+            mstatus = ""
+            case "2"
+            mstatus = "De-aktiveret"
+            case "3"
+            mstatus = "Passiv"
+            case else
+            mstatus = ""
+            end select
+
+                                            
+                lastLoginDateFm = ""
+                if len(trim(oRec("lastlogin"))) <> 0 then
+                lastLoginDateFm = oRec("lastlogin")
+                                                            
+                lastLoginDateFm = replace(lastLoginDateFm, "Jan.", "-01-") 
+                lastLoginDateFm = replace(lastLoginDateFm, "Feb.", "-02-")
+                lastLoginDateFm = replace(lastLoginDateFm, "Mar.", "-03-")
+                lastLoginDateFm = replace(lastLoginDateFm, "Apr.", "-04-")
+                lastLoginDateFm = replace(lastLoginDateFm, "Maj.", "-05-")
+                lastLoginDateFm = replace(lastLoginDateFm, "Jun.", "-06-")
+                lastLoginDateFm = replace(lastLoginDateFm, "Jul.", "-07-")
+                lastLoginDateFm = replace(lastLoginDateFm, "Aug.", "-08-")
+                lastLoginDateFm = replace(lastLoginDateFm, "Sep.", "-09-")
+                lastLoginDateFm = replace(lastLoginDateFm, "Okt.", "-10-")
+                lastLoginDateFm = replace(lastLoginDateFm, "Nov.", "-11-")
+                lastLoginDateFm = replace(lastLoginDateFm, "Dec.", "-12-")
+                lastLoginDateFm = replace(lastLoginDateFm, " ", "") 
+                else
+                lastLoginDateFm = ""
+                end if
+
+
+
+end sub
+
    %>

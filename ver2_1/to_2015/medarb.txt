@@ -2283,7 +2283,11 @@ Session.LCID = 1030
                        trBgCol = "#FFFFE1" 
                        else
                        trBgCol = ""
-                       end if%>
+                       end if
+                       
+                       Call mstatus_lastlogin
+                       
+                       %>
 
                         <tr style="background-color:<%=trBgCol%>;">
                             
@@ -2299,7 +2303,7 @@ Session.LCID = 1030
                             <td><%=left(mBrugergruppe, 20) %></td>
                             <td><a href="mailto:<%=oRec("email") %>"><%=oRec("email") %></a></td>
                             <td><%=oRec("ansatdato") %></td>
-                            <td><%=oRec("lastlogin") %></td>
+                            <td><%=lastLoginDateFm %></td>
                             <td style="text-align:center;"> <a href="../timereg/joblog.asp?menu=timereg&FM_medarb=<%=oRec("Mid")%>&FM_job=0&selmedarb=<%=oRec("Mid")%>" target="_blank"><span class="fa fa-external-link"></span></a></td>
                             <td style="text-align:center;"><a href="medarb.asp?menu=tok&func=slet&id=<%=oRec("mid")%>"><span style="color:darkred;" class="fa fa-times"></span></a></td>
                         </tr>
