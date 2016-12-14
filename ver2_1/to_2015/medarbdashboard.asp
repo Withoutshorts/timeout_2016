@@ -954,7 +954,7 @@
             hoursOms(f) = oRec("sumtimeOms")
 
 
-            hoursDBindicator(f) = (oRec("sumtimeKost") / oRec("sumtimeOms")) * 100 'dbproc
+            hoursDBindicator(f) = (oRec("sumtimeKost") / oRec("sumtimeOms")) * 100 'dbproc her
             hoursAvgRate(f) = oRec("sumtimeOms") / oRec("sumtimer")
 
             if hoursAvgRate(f) > tgtimpris then
@@ -1074,7 +1074,7 @@
             if cdbl(ntimper) > cdbl(faktimerGTselmedarb) AND ntimper <> 0 then
             medarbSelIndex = (faktimerGTselmedarb/ntimper)
             else
-            medarbSelIndex = (ntimper/faktimerGTselmedarb)
+            medarbSelIndex = (ntimper/faktimerGTselmedarb) 'og her
             end if
 
 

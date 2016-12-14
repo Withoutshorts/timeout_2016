@@ -21,19 +21,14 @@
 
 </style>
 
-    <div id="wrapper">
-        <div class="content">
+    
 
-            <div class="container">
+            <div class="container" style="height:100%">
                 <div class="portlet">
+                    <h3 class="portlet-title"><u><%=tsa_txt_181 %></u></h3>
                     <div class="portlet-body">
 
-                        <div class="row"><h3 class="col-lg-12"><%=tsa_txt_181 %></h3></div>
-
-                        <div class="row">
-                            <div class="col-lg-12"><%=tsa_txt_180 %>:&nbsp;<%=formatdatetime(date, 1)%></div>
-                        </div>
-
+                      
                         <%
 
                         call erkmDialog() 
@@ -108,39 +103,38 @@
                             %>
 
 
-                            <div class="row">
-                                <div class="col-lg-12"><%=tsa_txt_182 %>: <b><%=editor%></b> <b><%=formatdatetime(tastedato, 1)%></b></div>
-                            </div>
-
-                            <br /><br />
+                            
 
                             <form action="../timereg/db_tastede_dage_2006.asp" method="POST">
                             <input type="Hidden" name="id" value="<%=id%>">
                             <input type="Hidden" name="medid" value="<%=medid%>">
                             <input type="Hidden" name="jobnr" value="<%=jobnr%>">
 
-                            <%if browstype_client <> "ip" then  %>
+                            <%'if browstype_client <> "ip" then  %>
 
 
                             <table class="table" style="border:hidden">
 
                                 <tr>
-                                    <td><a href="db_tastede_dage_2006.asp?func=slet&id=<%=id %>" id="slet" style="color:red;">[X - <%=tsa_txt_221 %>]</a></td>
+                                    <td style="width:25%;"></td>                                                       
+                                    <td style="width:25%;"></td>
+                                    <td style="width:25%;"></td>
+                                    <td style="width:25%;"></td>
                                 </tr>
-
-                                
-
-
+    
                                 <tr>
-                                    <td width=90><b><%=tsa_txt_022 %>:</b></td><td><%=left(StrTknavn, 30) %> (<%=inttknr%>)</td>
+                                    <td><b><%=tsa_txt_022 %>:</b></td>
+                                    <td colspan="3"><%=left(StrTknavn, 30) %> (<%=inttknr%>)</td>
                                 </tr>
                                 <tr>
-                                    <td><b><%=tsa_txt_067 %>:</b></td><td><%=left(StrTjobnavn, 30) %> (<%= jobnr %>)</td>
-                                 </tr>
+                                    <td><b><%=tsa_txt_067 %>:</b></td>
+                                    <td colspan="3"><%=left(StrTjobnavn, 30) %> (<%= jobnr %>)</td>
+                                </tr>
 
  
 	                                <tr>
-		                                <td><b><%=tsa_txt_068 %>:</b></td><td>
+		                                <td><b><%=tsa_txt_068 %>:</b></td>
+                                        <td colspan="3">
 
 
 		
@@ -153,7 +147,7 @@
 		                                oRec3.open strSQLakt, oConn, 3
 		
                                          %>
-                                        <select id="Select2" name="intAktId" style="width:200px;" class="form-control input-small">
+                                        <select id="Select2" name="intAktId" class="form-control input-small">
                                         <%
 		
       
@@ -195,13 +189,14 @@
 
 
                                 <tr>
-	                                <td><b><%=tsa_txt_101 %>:</b></td><td><%= strUser %></td>
+	                                <td><b><%=tsa_txt_101 %>:</b></td>
+                                    <td colspan="3"><%= strUser %></td>
                                 </tr>
                                 <tr>
                                     <td><b><%=tsa_txt_183 %>:</b></td>
 	                                <!--#include file="../timereg/inc/dato2.asp"-->
                                     
-	                                <td style="width:25%;"><select name="dag" class="form-control input-small">
+	                                <td><select name="dag" class="form-control input-small">
 		                                <option value="<%=strDag%>"><%=strDag%></option> 
 		                                <option value="1">1</option>
 	   	                                <option value="2">2</option>
@@ -237,7 +232,7 @@
 
 	                                </td>
 		
-                                    <td style="width:25%;">
+                                    <td>
 		                                <select name="mrd" class="form-control input-small">
 		                                <option value="<%=strMrd%>"><%=strMrdNavn%></option>
 		                                <option value="1">jan</option>
@@ -254,7 +249,7 @@
 	   	                                <option value="12">dec</option></select>
 		                            </td>
 		    
-                                    <td style="width:25%;">
+                                    <td>
 		                                <select name="aar" class="form-control input-small">
 		                                <option value="<%=strAar%>">
 		                                <%if id <> 0 then%>
@@ -290,15 +285,13 @@
                                     <td><b><%=tsa_txt_070 %>:</b></td>
 
                                     <td><input type="Text" name="Timer" Value="<%=StrTimer%>" class="form-control input-small"></td>
-                                    <td><%=tsa_txt_184 %>:</td>
-                                    <td><input type="text" name="FM_sttid" value="<%=sttid%>" class="form-control input-small"></td>
-                                    <td>-</td>
-                                    <td style="width:25%"><input type="text" name="FM_sltid" value="<%=sltid%>" class="form-control input-small"></td>
-
-                                    
-
                                 </tr>
-  
+                                <tr>
+                                    <td><b>Tidspunkt:</b></td>
+                                    <td><input type="text" name="FM_sttid" value="<%=sttid%>" class="form-control input-small"></td>
+                                    <td style="text-align:center">-</td>
+                                    <td><input type="text" name="FM_sltid" value="<%=sltid%>" class="form-control input-small"></td>
+                                </tr>
 
 
                                   <%if session("rettigheder") <= 2 OR session("rettigheder") = 6 then %>
@@ -374,7 +367,7 @@
                                 </tr>
                                 <%if kmDialogOnOff = 1 then %>
                                   <tr>
-                                    <td colspan=2>
+                                    <td colspan="3">
     
                                     <%if cint(bopal) = 1 then 
                                     bpCHK = "CHECKED"
@@ -391,24 +384,29 @@
 
                             </table>
 
+                            <br />
+
                             <div class="row">
-                                <div class="col-lg-10">&nbsp</div>
-                                <div class="col-lg-2 pad-b10">
+                                <div class="col-lg-2">
+                                    <a href="db_tastede_dage_2006.asp?func=slet&id=<%=id %>" class="btn btn-primary btn-sm pull-left"><b>Slet</b></a>
+                                </div>
+                                <div class="col-lg-2">
                                     <button type="submit" class="btn btn-success btn-sm pull-right"><b>Opdatér</b></button>
                                 </div>
                             </div>
 
                             <%
-                            end if
-                            if browstype_client = "ip" then %>
-
-                            hej
+                            'end if
+                            'if browstype_client = "ip" then %>
 
                             
 
-                            <%end if %>
+                            
+
+                            <%'end if %>
                             </form>
                             
+                            <br /><br /><br /><br />
 
                     </div>
                 </div>

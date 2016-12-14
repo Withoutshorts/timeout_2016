@@ -28,6 +28,7 @@ case else
 useErpCookie = 0
 end select
 
+
 'Response.Write "strDag: " & request("FM_start_dag")
 'Response.write "thisfile: " & thisfile & "<br>"
 'Response.end
