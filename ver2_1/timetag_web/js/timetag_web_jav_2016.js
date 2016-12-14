@@ -43,13 +43,13 @@ function isNum_treg(passedVal) {
 $(document).ready(function() {
 
 
+   
+
     mobil_week_reg_job_dd = $("#mobil_week_reg_job_dd").val()
 
     //alert("HER:" + mobil_week_reg_job_dd)
     if (mobil_week_reg_job_dd == "1") {
         sogjobogkunde();
-      
-        
     }
 
 
@@ -118,8 +118,9 @@ $(document).ready(function() {
         ststop(1);
 
     });
-  
 
+
+    
     
     $("#bt_stst").click(function () {
 
@@ -247,6 +248,8 @@ $(document).ready(function() {
         nytMatantal = $("#FM_matantal").val()
 
        
+      
+
         if (isNum_treg(nytMatantal)) {
             //return true
         } else {
@@ -257,7 +260,7 @@ $(document).ready(function() {
         }
        
        
-
+        //alert("HER: " + nytMatantal)
         
 
         if (nytMatantal.length > 0 && nytMatantal > 0 && $("#FM_matnavn").val() != 'Tilføj Materiale' && $("#FM_matnavn").val() != 'flere?' && $("#FM_matnavn").val() != '') {
@@ -303,6 +306,7 @@ $(document).ready(function() {
 
     
 
+    /* 
     $("#a_mat").click(function () {
 
 
@@ -317,8 +321,9 @@ $(document).ready(function() {
         }
 
     });
+    */
 
-
+   
     $("#FM_matnavn").focus(function () {
 
         if ($("#FM_matnavn").val() == 'Tilføj Materiale' || $("#FM_matnavn").val() == 'flere?') {
@@ -326,14 +331,6 @@ $(document).ready(function() {
         }
     });
    
-
-    $("#FM_matantal").focus(function () {
-
-        if ($("#FM_matantal").val() == 'Ant.') {
-            $("#FM_matantal").val('')
-        }
-    });
-
 
     $("#FM_job").focus(function () {
 
@@ -370,8 +367,6 @@ $(document).ready(function() {
     $("#FM_job").keyup(function () {
 
 
-        //alert("HER")
-
         mobil_week_reg_job_dd = $("#mobil_week_reg_job_dd").val()
         mobil_week_reg_akt_dd = $("#mobil_week_reg_akt_dd").val()
 
@@ -381,6 +376,8 @@ $(document).ready(function() {
 
         $("#dv_mat").hide();
         
+
+       
         sogjobogkunde();
 
 
@@ -444,43 +441,7 @@ $(document).ready(function() {
 
 
 
-                $('#luk_matsog').bind('mouseover', function () {
-
-                    $(this).css("cursor", "pointer");
-
-                });
-
-
-
-                $("#luk_matsog").bind('click', function () {
-
-
-                    $("#dv_mat").hide();
-                    //$("#dv_akt").attr('class', 'dv-closed');
-
-                });
-
-
-
-
-
-                $('.span_mat').bind('mouseover', function () {
-
-                    $(this).css("background-color", "#CCCCCC");
-                    $(this).css("cursor", "pointer");
-
-                });
-
-                $('.span_mat').bind('mouseout', function () {
-
-                    $(this).css("background-color", "#FFFFFF");
-
-                });
-
-
-                $(".span_mat").bind('click', function () {
-
-
+                    /*
 
                     var thismatid = this.id
                     var thisvallngt = thismatid.length
@@ -490,21 +451,37 @@ $(document).ready(function() {
                     thismatid = thisvaltrim
                     thismatnavn = $("#hiddn_mat_" + thismatid).val()
 
-                    //alert(thismatnavn + " " + thismatid)
-
+                   
                     $("#FM_matnavn").val(thismatnavn)
                     $("#FM_matid").val(thismatid)
                     $("#dv_mat").hide();
-                    //$("#dv_mat").attr('class', 'dv-closed');
+                    */
+                    
 
-                });
+
+
+                    $("#dv_mat").bind('click', function () {
+
+
+                        var thisvaltrim = $("#dv_mat").val()
+                        thisMatidUse = thisvaltrim
+                        thisMatnavn = $("#dv_mat option:selected").text()
+
+                        $("#FM_matnavn").val(thisMatnavn)
+                        $("#FM_matid").val(thisMatidUse)
+                        
+                        $("#dv_mat").hide();
+
+                    });
+
+
+
+               
 
 
             });
 
-        } else {
-            $("#dv_mat").hide();
-        }
+        } 
 
     }
 
@@ -513,6 +490,8 @@ $(document).ready(function() {
     function sogakt() {
 
        
+
+
         mobil_week_reg_akt_dd = $("#mobil_week_reg_akt_dd").val()
         mobil_week_reg_job_dd = $("#mobil_week_reg_job_dd").val()
 
@@ -539,6 +518,17 @@ $(document).ready(function() {
             }
         }
 
+
+        jq_lto = $("#jq_lto").val()
+
+
+        if (jq_lto == 'hestia' || jq_lto == 'intranet - local') {
+            //alert("søog ak" + jq_lto)
+            sogjobbesk(jq_jobid);
+        }
+
+
+
         //alert("jobid: " + jq_jobid)
 
         //jq_newfilterval = $("#FM_akt").val()
@@ -552,16 +542,16 @@ $(document).ready(function() {
         varTjDatoUS_man = $("#varTjDatoUS_man").val()
 
         if (jq_newfilterval.length > 0 || mobil_week_reg_akt_dd == "1") {
-
-
+            
             $.post("?jq_newfilterval=" + jq_newfilterval + "&jq_jobid=" + jq_jobid + "&jq_medid=" + jq_medid + "&jq_aktid=" + jq_aktid + "&jq_pa=" + jq_pa + "&varTjDatoUS_man=" + varTjDatoUS_man, { control: "FN_sogakt", AjaxUpdateField: "true" }, function (data) {
-                //alert("cc")
+               
 
 
                 $("#dv_akt").html(data);
 
-                //alert("her")
-                //$("#dv_akt").attr('class', 'dv-open');
+
+               
+
 
                 if (mobil_week_reg_akt_dd != "1") {
 
@@ -570,86 +560,75 @@ $(document).ready(function() {
                         $("#dv_akt").css("visibility", "visible");
                         $("#dv_akt").show(100);
                     }
-               
 
 
-
-                $('#luk_aktsog').bind('mouseover', function () {
-
-                    $(this).css("cursor", "pointer");
-
-                });
+                    $("#dv_akt").bind('keyup', function () {
 
 
+                        if (window.event.keyCode == "13") {
 
-                $(".luk_aktsog").bind('click', function () {
+                            var thisvaltrim = $("#dv_akt").val()
+                            thisAktidUse = thisvaltrim
+                            //thisJobnavn = $("#hiddn_job_" + thisJobid).val()
+                            thisAktnavn = $("#dv_akt option:selected").text()
 
+                            $("#FM_akt").val(thisAktnavn)
+                            $("#FM_aktid").val(thisAktidUse)
+                            //$(".dv_akt").hide();
+                            $("#dv_akt").hide();
 
-                    $("#dv_akt").hide();
-                    //$("#dv_akt").attr('class', 'dv-closed');
+                        }
 
-                });
-
-
-                $('.span_akt').bind('mouseover', function () {
-
-                    $(this).css("background-color", "#CCCCCC");
-                    $(this).css("cursor", "pointer");
-
-                });
-
-                $('.span_akt').bind('mouseout', function () {
-
-                    $(this).css("background-color", "#FFFFFF");
-
-                });
+                    });
 
 
-                $(".span_akt").bind('click', function () {
+                    $("#dv_akt").bind('click', function () {
 
 
+                        var thisvaltrim = $("#dv_akt").val()
+                        thisAktidUse = thisvaltrim
+                        //thisJobnavn = $("#hiddn_job_" + thisJobid).val()
+                        thisAktnavn = $("#dv_akt option:selected").text()
 
-                    var thisaktid = this.id
-                    var thisvallngt = thisaktid.length
-                    var thisvaltrim = thisaktid.slice(9, thisvallngt)
+                        $("#FM_akt").val(thisAktnavn)
+                        $("#FM_aktid").val(thisAktidUse)
+                        //$(".dv_akt").hide();
+                        $("#dv_akt").hide();
 
-
-                    thisaktid = thisvaltrim
-                    thisAktnavn = $("#hiddn_akt_" + thisaktid).val()
-
-                    //alert(thisAktnavn + " " + thisaktid)
-
-                    $("#FM_akt").val(thisAktnavn)
-                    $("#FM_aktid").val(thisaktid)
-                    $("#dv_akt").hide();
-                    //$("#dv_akt").attr('class', 'dv-closed');
-
-                });
-
+                    });
 
                 }
 
 
 
-
             });
 
-        } else {
-
-            if (mobil_week_reg_akt_dd != "1") {
-                $("#dv_akt").hide();
-            }
-        }
-
-            
+        } 
 
     }
 
 
 
+    function sogjobbesk(jq_jobid) {
+
+        $("#dv_jobbesk").html('');
+        
+       
+        //alert("jobbesk" + jq_jobid)
+
+        $.post("?id=" + jq_jobid, { control: "FN_jobbesk", AjaxUpdateField: "true" }, function (data) {
+
+            $("#dv_jobbesk").html(data);
+
+            });
+
+        }      
+
+
   
     function sogjobogkunde() {
 
+        
         mobil_week_reg_job_dd = $("#mobil_week_reg_job_dd").val()
         mobil_week_reg_akt_dd = $("#mobil_week_reg_akt_dd").val()
         
@@ -658,6 +637,7 @@ $(document).ready(function() {
         jq_newfilterval = $("#FM_job").val()
         jq_medid = $("#FM_medid_k").val()
        
+        jq_lto = $("#jq_lto").val()
 
         if (mobil_week_reg_job_dd != 1) {
 
@@ -674,83 +654,82 @@ $(document).ready(function() {
         //alert("cc" + jq_newfilterval)
         if (jq_newfilterval.length > 0 || mobil_week_reg_job_dd == "1") {
 
-            $.post("?jq_newfilterval=" + jq_newfilterval + "&jq_medid=" + jq_medid + "&varTjDatoUS_man=" + varTjDatoUS_man, { control: "FN_sogjobogkunde", AjaxUpdateField: "true" }, function (data) {
+            $.post("?jq_newfilterval=" + jq_newfilterval + "&jq_medid=" + jq_medid + "&varTjDatoUS_man=" + varTjDatoUS_man + "&jq_lto=" + jq_lto, { control: "FN_sogjobogkunde", AjaxUpdateField: "true" }, function (data) {
 
-
+                
 
                 $("#dv_job").html(data);
 
-                //$("#dv_job").attr('class', 'dv-open');
+              
+                if (mobil_week_reg_job_dd != "1") {
 
-               
-
-                $('#luk_jobsog').bind('mouseover', function () {
-
-
-                    $(this).css("cursor", "pointer");
-
-                });
+                    $(".chbox_job").bind('click', function () {
 
 
 
-
-                $("#luk_jobsog").bind('click', function () {
-
-
-                    $("#dv_job").hide();
-                    //$("#dv_job").attr('class', 'dv-closed');
-
-                });
+                        var thisvaltrim = $("#dv_job").val()
+                        //alert("her: " + thisvaltrim)
 
 
-                $(".span_job").bind('click', function () {
+                        thisJobid = thisvaltrim
+                        //thisJobnavn = $("#hiddn_job_" + thisJobid).val()
+                        thisJobnavn = $("#dv_job option:selected").text()
+
+                        $("#FM_job").val(thisJobnavn)
+                        $("#FM_jobid").val(thisJobid)
+                       
+                        $("#dv_jobbesk").html("timereg_web_jobbesk.asp?id=" + thisJobid)
+                        
+                        //$(".dv_job").hide();
+                        $(".chbox_job").hide();
+
+                        if (mobil_week_reg_akt_dd == "1") {
+                            sogakt();
+
+                        }
+
+                    });
 
 
 
-                    var thisjobid = this.id
-                    var thisvallngt = thisjobid.length
-                    var thisvaltrim = thisjobid.slice(10, thisvallngt)
 
-                    thisJobid = thisvaltrim
+                    $(".chbox_job").bind('keyup', function () {
 
-                    thisJobnavn = $("#hiddn_job_" + thisJobid).val()
+                        if (window.event.keyCode == "13") {
 
-                    $("#FM_job").val(thisJobnavn)
-                    $("#FM_jobid").val(thisJobid)
+                            var thisvaltrim = $("#dv_job").val()
 
-                    $("#dv_job").hide();
-                    //$("#dv_job").attr('class', 'dv-closed');
-
-                    if (mobil_week_reg_akt_dd == "1") {
-                        sogakt();
-                    }
-
-                    ststop(1);
+                            thisJobid = thisvaltrim
+                            //thisJobnavn = $("#hiddn_job_" + thisJobid).val()
+                            thisJobnavn = $("#dv_job option:selected").text()
 
 
-                });
+                            $("#FM_job").val(thisJobnavn)
+                            $("#FM_jobid").val(thisJobid)
+
+                            //$(".dv_job").hide();
+                            $(".chbox_job").hide();
+
+                        }
+
+                        if (mobil_week_reg_akt_dd == "1") {
+                            sogakt();
+                        }
 
 
-                $('.span_job').bind('mouseover', function () {
-
-                    $(this).css("background-color", "#CCCCCC");
-                    $(this).css("cursor", "pointer");
-
-                });
-
-                $('.span_job').bind('mouseout', function () {
-
-                    $(this).css("background-color", "#FFFFFF");
-
-                });
+                    });
 
 
+                } // mobil_week_reg_job_dd
+
+
+                ststop(1);
+
+             
 
             });
 
-        } else {
-            $("#dv_job").hide();
-        }
+        } 
     }
 
 
@@ -891,6 +870,7 @@ $(document).ready(function() {
                 fcoverskreddet = $("#aktnotificer_fc").val().replace(",", ".")
                 fcoverskreddet = fcoverskreddet * 1
 
+                //alert(fcoverskreddet)
 
                 //fcoverskreddet = -2
                 if (fcoverskreddet < 0) {

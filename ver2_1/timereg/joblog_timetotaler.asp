@@ -10,7 +10,7 @@ timeA = now%>
 
 
 
-<%''GIT 20160811 - SK
+<%'GIT 20160811 - SK
 func = request("func")
 thisfile = "joblog_timetotaler"
     
@@ -1358,11 +1358,12 @@ function LeiRotate() {
                
                 <br />
 
-              <input type="checkbox" name="FM_udspec" id="FM_udspec" value="1" <%=upSpecCHK %> />Udspecificer de(t) valgte/søgte job på aktiviteter.
-              <br />
+              <input type="checkbox" name="FM_udspec" id="FM_udspec" value="1" <%=upSpecCHK %> /> Udspecificer de(t) valgte/søgte job på aktiviteter.
+               <!-- 20161128 - lukket end for funktionen - brug expand / collapse <br />
                <input type="checkbox" name="FM_udspec_all" id="FM_udspec_all" value="1" <%=upSpec_allCHK %> disabled />Vis alle job + udspec. af de(t) søgte job<br />
+                   -->
             
-               <input type="checkbox" value="1" name="vis_aktnavn" id="vis_aktnavn" <%=vis_aktnavnCHK%> /> Vis kun job (og aktiviteter) hvor <input type="text" name="FM_aktnavnsog" id="FM_aktnavnsog" value="<%=aktNavnSogVal%>" style="width:200px;"> indgår i <b>aktivitetsnavnet</b><br />
+               <br /><input type="checkbox" value="1" name="vis_aktnavn" id="vis_aktnavn" <%=vis_aktnavnCHK%> /> Vis kun job (og aktiviteter) hvor <input type="text" name="FM_aktnavnsog" id="FM_aktnavnsog" value="<%=aktNavnSogVal%>" style="width:200px;"> indgår i <b>aktivitetsnavnet</b><br />
 		 
 
                 </td></tr>
@@ -1907,10 +1908,19 @@ function LeiRotate() {
             strSQLaktNavnKri = ""
             end if
 
-            
+            '**********************************************************    
+            '**************** LOOP job -- AKT UDSPEC ******************
+            '*** Vis ikke længere både job og akti. udspec. 20161128 **
 
+            if cint(upSpec) = 0 then 'job	
             ja = 0
-            for ja = 0 to upSpec '0 = nej, 1 ja
+            jaEnd = 0
+            else
+            ja = 1
+            jaEnd = 1
+            end if
+        
+            for ja = 0 to jaEnd 'upSpec '0 = nej, 1 ja
             
             
             if ja = 1 then
@@ -1920,7 +1930,7 @@ function LeiRotate() {
             '*** Kriterier Job eller udspecificer på akt.
 
             'Response.Write "ja: "& ja & " upSpec: "& upSpec &"jobid: "& jobid &"<br>"
-            if ja = 1 OR (cint(upSpec) = 1 AND jobid <> 0)  then
+            if ja = 1 OR (cint(upSpec) = 1 AND jobid <> 0) then
 				
 				
 				grpBySQL = "a.fase, a.id"
@@ -2072,7 +2082,7 @@ function LeiRotate() {
 
             
                     aktidsSQLkriUse = ""
-			        
+			        sqlMedKriStrTjk = ""
                                
                                         
            
@@ -2099,7 +2109,7 @@ function LeiRotate() {
                                         foromrKriOK = 1
                                         if strFomr_reljobids <> "0" then
                                        
-                                            if instr(strFomr_reljobids, "#"& oRec("jid") &"#") = 0 then 'IKKE EN DEL AF FORRETNINGSOMRÅDE
+                                            if instr(strFomr_reljobids, "#"& oRec("jid") &"#") = 0 then 'IKKE EN DEL AF DE VALGTE FORRETNINGSOMRÅDER
                                             foromrKriOK = 0
                                             end if                        
             
@@ -2115,9 +2125,10 @@ function LeiRotate() {
                                         
                                         if instr(sqlMedKriStrTjk, ",#"& oRec("tmnr") &"#") = 0 then
                                         sqlMedKri = sqlMedKri & " OR m.mid = " & oRec("tmnr")
+                                        sqlMedKriStrTjk = sqlMedKriStrTjk & ",#"& oRec("tmnr") &"#" 
                                         end if
                                         
-                                        sqlMedKriStrTjk = sqlMedKriStrTjk & ",#"& oRec("tmnr") &"#" 
+                                        
 
                                         end if' foromrKriOK = 1
 					
@@ -2136,7 +2147,7 @@ function LeiRotate() {
                                         ressourceFCper = " ((aar >= "& year(sqlDatoStart)&" AND md >= "& month(sqlDatoStart) &") AND (aar <= "& year(sqlDatoSlut) &" AND md <= "& month(sqlDatoSlut) &"))"
                                         
 
-                                        strSQLjobMforecast = "SELECT timer, jobid, medid FROM ressourcer_md AS rs WHERE " & ressourceFCper & " AND "& replace(medarbSQlKri, "m.mid", "rs.medid") &" AND ("& sqlJobKritemp0res &") GROUP BY jobid"
+                                        strSQLjobMforecast = "SELECT timer, jobid, medid FROM ressourcer_md AS rs WHERE " & ressourceFCper & " AND "& replace(medarbSQlKri, "m.mid", "rs.medid") &" AND ("& sqlJobKritemp0res &") GROUP BY jobid, medid"
 
                                         'response.write "<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>"& strSQLjobMforecast
                                         'response.Flush
@@ -2149,7 +2160,7 @@ function LeiRotate() {
                                         foromrKriOK = 1
                                         if strFomr_relaktids <> "0" then
                                        
-                                            if instr(strFomr_relaktids, "#"& oRec("jobid") &"#") = 0 then 'IKKE EN DEL AF FORRETNINGSOMRÅDE
+                                            if instr(strFomr_relaktids, "#"& oRec("jobid") &"#") = 0 then 'IKKE EN DEL AF DE VALGTE FORRETNINGSOMRÅDER
                                             foromrKriOK = 0
                                             end if                        
             
@@ -2158,11 +2169,18 @@ function LeiRotate() {
 
                                         if cint(foromrKriOK) = 1 then	
 
-                                        'sqlMedKri = sqlMedKri & " OR m.mid = " & oRec("medid")
+                            
+                                            if instr(sqlMedKriStrTjk, ",#"& oRec("medid") &"#") = 0 then
+                                            sqlMedKri = sqlMedKri & " OR m.mid = " & oRec("medid")
+                                            sqlMedKriStrTjk = sqlMedKriStrTjk & ",#"& oRec("medid") &"#"
+                                            end if
                                         
-                                        if instr(sqlJobKri, " OR j.id = " & oRec("jobid") & "#") = 0 then  
-					                    sqlJobKri = sqlJobKri & " OR j.id = " & oRec("jobid") & "#"
-                                        end if
+                                             
+                                            'sqlMedKri = sqlMedKri & " OR m.mid = " & oRec("medid")
+                                        
+                                            if instr(sqlJobKri, " OR j.id = " & oRec("jobid") & "#") = 0 then  
+					                        sqlJobKri = sqlJobKri & " OR j.id = " & oRec("jobid") & "#"
+                                            end if
 
                                         
                                         end if
@@ -2198,7 +2216,7 @@ function LeiRotate() {
 
 					        aktidsSQLkriUse = " a.id = 0 "
 					        sqlMedKri = " m.mid = 0 "
-					
+					        sqlMedKriStrTjk = ""
 					
 					        j = 0
 					        oRec.open strSQLa, oConn, 3
@@ -2247,10 +2265,10 @@ function LeiRotate() {
                                         '** Hvis Ressource timer er slået til skal de også vises. ********
                                         if cint(vis_restimer) = 1 then
                                         ressourceFCper = " ((aar >= "& year(sqlDatoStart)&" AND md >= "& month(sqlDatoStart) &") AND (aar <= "& year(sqlDatoSlut) &" AND md <= "& month(sqlDatoSlut) &"))"
-                                        sqlJobKritemp0res = replace(jidSQLkri, "id", "aktid")
+                                        sqlJobKritemp0res = replace(jidSQLkri, "id", "jobid")
 
 
-                                        strSQLAktMforecast = "SELECT timer, jobid, aktid, medid FROM ressourcer_md AS rs WHERE " & ressourceFCper & " AND "& replace(medarbSQlKri, "m.mid", "rs.medid") &" AND ("& sqlJobKritemp0res &") GROUP BY aktid"
+                                        strSQLAktMforecast = "SELECT timer, jobid, aktid, medid FROM ressourcer_md AS rs WHERE " & ressourceFCper & " AND "& replace(medarbSQlKri, "m.mid", "rs.medid") &" AND ("& sqlJobKritemp0res &") GROUP BY jobid, aktid, medid"
 
                                         'response.write "<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>"& strSQLAktMforecast
                                         'response.Flush
@@ -2269,10 +2287,17 @@ function LeiRotate() {
             
                                         end if
 
+                                           
 
                                         if cint(foromrKriOK) = 1 then
         
-                                        sqlMedKri = sqlMedKri & " OR m.mid = " & oRec("medid")
+                                            if instr(sqlMedKriStrTjk, ",#"& oRec("medid") &"#") = 0 then
+                                            'response.write sqlMedKriStrTjk & "<br>"
+                                            sqlMedKri = sqlMedKri & " OR m.mid = " & oRec("medid")
+                                            sqlMedKriStrTjk = sqlMedKriStrTjk & ",#"& oRec("medid") &"#"
+                                            end if
+                                        
+                                             
                                         
                                         if instr(sqlJobKri, " OR j.id = " & oRec("jobid") & "#") = 0 then  
 					                    sqlJobKri = sqlJobKri & " OR j.id = " & oRec("jobid") & "#"
@@ -2449,7 +2474,12 @@ function LeiRotate() {
 						'Response.write x &", " & v &"<br>"
 						
 						'*** Job og medarb data ****
+                        if isNUll(oRec("jid")) <> true AND len(trim(oRec("jid"))) <> 0 then
 						jobmedtimer(x,0) = oRec("jid")
+                        else            
+                        jobmedtimer(x,0) = 0
+                        end if
+
 						jobmedtimer(x,1) = oRec("jobnavn")
 
                         if isNull(oRec("sumtimer")) <> true then
@@ -2462,7 +2492,7 @@ function LeiRotate() {
                         jobmedtimer(x,37) = oRec("mnr")
                             
                             if len(trim(oRec("init"))) <> 0 then
-                            jobmedtimer(x,39) = "<br>" & oRec("init")
+                            jobmedtimer(x,39) = "<br>[" & oRec("init") & "]"
                             else
                             jobmedtimer(x,39) = ""
                             end if
@@ -2516,15 +2546,18 @@ function LeiRotate() {
 						
 						
 						'*** Antal Medarbejdere / Navne ***
+                        'Response.Write "<br><br>A: "& strMidsK & "v: "& v &"<br>"
+
 						if instr(strMidsK, "#"& jobmedtimer(x,4) &"#") = 0 then
 						strMidsK = strMidsK & ",#"& jobmedtimer(x,4) &"#"
 							
 
-                            'Response.Write strMidsK & "v: "& v &"<br>"
+                            'Response.Write "B: "& strMidsK & "v: "& v &"<br>"
 
 							'Redim preserve medarb(v)
 							'Redim preserve medarbnavnognr(v)
 							medarb(v) = jobmedtimer(x,4)
+                            'Response.Write "medarb(v): "& medarb(v) &  "V: "& v &" jobmedtimer(x,4): "& jobmedtimer(x,4) &"<br>"
 
                             if cint(vis_medarbejdertyper) = 1 OR cint(vis_medarbejdertyper_grp) = 1 then
                             
@@ -2589,14 +2622,14 @@ function LeiRotate() {
 						if oRec("fastpris") = 1 then
 						    'if oRec("usejoborakt_tp") <> 1 then
 						    jobmedtimer(x,33) = 1 
-						    jobmedtimer(x,8) = " - Fastpris"
+						    jobmedtimer(x,8) = "Fastpris"
 						    'else
 						    'jobmedtimer(x,8) = " - Fastpris (akt. ~ tilnærm. timepris)"
 						    'jobmedtimer(x,33) = 2
 						    'end if
 						else
 						jobmedtimer(x,33) = 0
-						jobmedtimer(x,8) = " - Lbn. timer" 
+						jobmedtimer(x,8) = "Lbn. timer" 
 						end if
 						
 						
@@ -2925,21 +2958,22 @@ function LeiRotate() {
 			strJobLinie_top = strJobLinie_top & "<tr><td Style='border:0px #8caae6 solid; padding:10px;' bgcolor='#ffffff'>"
 			'strJobLinie_top = strJobLinie_top & "<h3>Timeforbrug, Omsætning og Ressourcetimer.</h3>"
 			
-			if cint(visfakbare_res) = 1 OR cint(visfakbare_res) = 2 then
-                if cint(visfakbare_res) = 1 then
-			    strJobLinie_top = strJobLinie_top & "Realiserede fakturerbare timer og omsætning."
-                else
-                strJobLinie_top = strJobLinie_top & "Realiserede fakturerbare timer og kost."
-                end if
-			else
-                strJobLinie_top = strJobLinie_top & "Realiserede timer ialt."
-            end if
+			'if cint(visfakbare_res) = 1 OR cint(visfakbare_res) = 2 then
+            '    if cint(visfakbare_res) = 1 then
+			'    strJobLinie_top = strJobLinie_top & "Realiserede fakturerbare timer og omsætning."
+            '    else
+            '    strJobLinie_top = strJobLinie_top & "Realiserede fakturerbare timer og kost."
+            '    end if
+			'else
+            '    strJobLinie_top = strJobLinie_top & "Realiserede timer ialt."
+            'end if
 
+            strJobLinie_top = strJobLinie_top & "<br>"
 
             end if 'print
 
 			if media <> "print" then
-            strJobLinie_top = strJobLinie_top & " <br>Alle timer og beløb er afrundet til 0 decimaler.<br>&nbsp;"
+            'strJobLinie_top = strJobLinie_top & " <br>Alle timer og beløb er afrundet til 0 decimaler.<br>&nbsp;"
             else
             strJobLinie_top = strJobLinie_top & "<h4>Timeout - Grandtotal<br><span style=""font-size:9px;"">"& now &" - Periode: "& formatdatetime(strDag&"/"&strMrd&"/"&strAar, 1) & " - " & formatdatetime(strDag_slut&"/"&strMrd_slut&"/"&strAar_slut, 1) &"</span></h4>"
             end if
@@ -2957,7 +2991,10 @@ function LeiRotate() {
 	    
         if cint(directexp) <> 1 then 
         'if cint(upSpec) <> 1 then
-        strJobLinie_top = strJobLinie_top & strMedarbOskriftLinie
+         
+            if cint(upSpec) = 0 then
+            strJobLinie_top = strJobLinie_top & strMedarbOskriftLinie
+            end if
 		'end if		
                             
 
@@ -3016,7 +3053,7 @@ function LeiRotate() {
 								
 								else '*** Udspecificer Akt.
 								
-								jobaktId = jobmedtimer(x,0) & "_"& jobmedtimer(x,12)
+								jobaktId = jobmedtimer(x,0) &"_"& jobmedtimer(x,12)
 								jobaktNr = jobmedtimer(x,12)
 								jobaktNavn = jobmedtimer(x,13)
 								jobaktType = jobmedtimer(x,14)
@@ -3065,7 +3102,7 @@ function LeiRotate() {
 									
 
 
-									    if jobmedtimer(x,38) <> 0 then 
+									    if jobmedtimer(x,38) <> 0 then '= UDSEPCIFICERING PÅ AKT
                                         '************************************************************************************
                                         '* job eller akt. udspec
                                         '************************************************************************************
@@ -3097,6 +3134,9 @@ function LeiRotate() {
                                                                     enhederPrevSaldoSub = 0
                                                                     subJobEnh = 0  
                                                                     enhederGSub = 0
+                                                
+                                                                    restimerTotalJob = 0
+                                                                    
 
 
                                                                 for v = 0 to v - 1
@@ -3105,6 +3145,26 @@ function LeiRotate() {
                                                                  subMedabTottimer(v) = 0
                                                                    subMedabTotenh(v) = 0
                                                                    omsSubTot(v) = 0
+
+                                                                  
+
+                                                                    medabNormtimer(v) = 0
+                                                                    
+                                                                    medabRestimer(v) = 0
+                                                                    medabTottimer(v) = 0
+                                                                    medabTotenh(v) = 0
+                                                                    medabNormtimer(v) = 0
+                                                                    omsTot(v) = 0
+
+                                                                    for mthc = 0 to 2
+                                                                    medabTotRestimerprMd(v, mthc) = 0
+                                                                    medabTottimerprMd(v, mthc) = 0
+                                                                    medabTotRestimerprMd(v, mthc) = 0
+                                                                    medabTotEnhprMd(v, mthc) = 0
+                                                                    medabTotOmsprMd(v, mthc) = 0
+                                                                    next
+
+
 
                                                                 next
 
@@ -3148,30 +3208,42 @@ function LeiRotate() {
                                                                  '**Vis jobbeskrivelse
                                                                 if cint(vis_jobbesk) = 1 then
                                                                     if len(trim(jobmedtimer(x,42))) <> 0 then
-                                                                    strJobLinie = strJobLinie & "<br><span style='color:#5582d2; font-size:9px; display:block; width:350px; white-space:normal;'>"
-									                                strJobLinie = strJobLinie & left(trim(jobmedtimer(x,42)), 250) &"</span>"
+                                                                    strJobLinie = strJobLinie & "<br><span style='color:#999999; font-size:10px; display:block; width:350px; white-space:normal;'><i>"
+									                                strJobLinie = strJobLinie & left(trim(jobmedtimer(x,42)), 250) &"</i></span>"
                                                                     end if
                                                                 end if 
                   
                                                                 strJobLinie = strJobLinie &"</td>"
 
-                                                                strJobLinie = strJobLinie &"<td class=lille valign=bottom style='border-top:1px #CCCCCC solid; background-color:#F7F7F7;'>Budget</td>"
+                                                                strJobLinie = strJobLinie &"<td class=lille valign=bottom style='border-top:1px #CCCCCC solid; background-color:#F7F7F7; padding:2px 2px 2px 2px;'>Budget timer<br>(forkalk.)</td>"
 
                                                                 if cint(visPrevSaldo) = 1 then
-                                                                strJobLinie = strJobLinie &"<td class=lille valign=bottom style='border-top:1px #CCCCCC solid; background-color:#F7F7F7;'>Real. timer<br> før valgte periode</td>"
+                                                                strJobLinie = strJobLinie &"<td class=lille valign=bottom style='border-top:1px #CCCCCC solid; background-color:#F7F7F7; padding:2px 2px 2px 2px;'>"
+                                                                    
+                                                                     if cint(vis_restimer) = 1 then
+                                                                     strJobLinie = strJobLinie &"<span style='color:#999999; font-size:9px;'>Forecast</span><br>"
+                                                                     end if
+                                        
+                                                                    strJobLinie = strJobLinie &"Real. timer<br> før valgt per</td>"
                                                                 end if
                                                 
-                                                                strJobLinie = strJobLinie &"<td class=lille valign=bottom style='border-top:1px #CCCCCC solid; background-color:#F7F7F7;'>Real. timer<br>i periode</td>"
+                                                                strJobLinie = strJobLinie &"<td class=lille valign=bottom style='border-top:1px #CCCCCC solid; background-color:#F7F7F7; padding:2px 2px 2px 2px;'>"
+                                                                    
+                                                                     if cint(vis_restimer) = 1 then
+                                                                     strJobLinie = strJobLinie &"<span style='color:#999999; font-size:9px;'>Forecast</span><br>"
+                                                                     end if
+        
+                                                                     strJobLinie = strJobLinie &"Real. timer<br>i per.</td>"
                                                                 
                                                                 select case lto
-                                                                case "mmmi", "intranet - local"
+                                                                case "mmmi", "xintranet - local"
                                                                 case else
-                                                                strJobLinie = strJobLinie &"<td class=lille valign=bottom style='border-top:1px #CCCCCC solid; background-color:#F7F7F7;'>Real. %</td>"
+                                                                strJobLinie = strJobLinie &"<td class=lille valign=bottom style='border-top:1px #CCCCCC solid; background-color:#F7F7F7; padding:2px 2px 2px 2px;'>Real. %</td>"
                                                                 end select
 
 
                                                                 if cint(visPrevSaldo) = 1 then
-                                                                strJobLinie = strJobLinie &"<td class=lille valign=bottom style='border-top:1px #CCCCCC solid; background-color:#F7F7F7;'>Real. timer<br> ialt</td>"
+                                                                strJobLinie = strJobLinie &"<td class=lille valign=bottom style='border-top:1px #CCCCCC solid; background-color:#F7F7F7; padding:2px 2px 2px 2px;'>Real. timer<br> ialt</td>"
                                                                 end if
                                                 
                                                                 'if cint(visPrevSaldo) = 1 then
@@ -3267,7 +3339,7 @@ function LeiRotate() {
                                                 'jobbesk
                                                 if cint(vis_jobbesk) = 1 then
                                                 call htmlparseCSV(jobmedtimer(x,42))
-                                                expTxt = expTxt & htmlparseCSVtxt &";"
+                                                expTxt = expTxt & chr(34) & htmlparseCSVtxt & chr(34) &";"
                                                 end if
                                                 
                                                 select case lto
@@ -3297,7 +3369,7 @@ function LeiRotate() {
 			                            else
 
                                                 '**** JOB *****
-    	                                        if cint(directexp) <> 1 then 								
+    	                                        if cint(directexp) <> 1 AND cint(upSpec) = 0 then 								
 									            strJobLinie = strJobLinie & "</tr><tr><td style='padding:2px; padding-right:10px; border-top:1px #CCCCCC solid; width:250px; white-space:nowrap;' bgcolor="& bgtd &">" 
         
                                                 strJobLinie = strJobLinie & "<span style='color:#5C75AA; font-size:9px;'>"
@@ -3334,14 +3406,15 @@ function LeiRotate() {
                                                 '**Vis jobbeskrivelse
                                                 if cint(vis_jobbesk) = 1 then
                                                     if len(trim(jobmedtimer(x,42))) <> 0 then
-                                                    strJobLinie = strJobLinie & "<br><span style='color:#5582d2; font-size:9px; display:block; width:350px; white-space:normal;'>"
-									                strJobLinie = strJobLinie & left(trim(jobmedtimer(x,42)), 250) &"</span>"
+                                                    strJobLinie = strJobLinie & "<br><span style='color:#999999; font-size:10px; display:block; width:350px; white-space:normal;'><i>"
+									                strJobLinie = strJobLinie & left(trim(jobmedtimer(x,42)), 250) &"</i></span>"
                                                     end if
                                                 end if 
      									
 									    
     									        strJobLinie = strJobLinie &"</td>"
-			                                    end if						    
+			                                    			
+                                                end if		    
             
 
 									            expTxt = expTxt &"xx99123sy#z"
@@ -3359,9 +3432,8 @@ function LeiRotate() {
                                                 'jobbesk
                                                 if cint(vis_jobbesk) = 1 then
                                                 call htmlparseCSV(jobmedtimer(x,42))
-                                                expTxt = expTxt & htmlparseCSVtxt &";"
+                                                expTxt = expTxt & htmlparseCSVtxt & ";"
                                                 end if
-
 
                                                 'Jobansvarlig, Jobejer Init
                                                 select case lto
@@ -3391,11 +3463,11 @@ function LeiRotate() {
 									    
     									        
 
-                                              
+                                               	
 
     									
     									
-									    end if
+									    end if ' SLUT job / AKT
 										
                                         
 										
@@ -3429,7 +3501,9 @@ function LeiRotate() {
         							                    end select
 									            
 									            else
-									            strJobLinie = strJobLinie & "<td class=lille align=right "&tdstyleTimOms2&" bgcolor='#EFF3FF'>"& formatnumber(jobmedtimer(x,19),2) 
+                                                    if cint(upSpec) = 0 then
+		    							            strJobLinie = strJobLinie & "<td class=lille align=right "&tdstyleTimOms2&" bgcolor='#EFF3FF'>"& formatnumber(jobmedtimer(x,19),2) 
+                                                    end if
 									            end if
 
                                         
@@ -3446,36 +3520,43 @@ function LeiRotate() {
 
 									        if cint(visfakbare_res) = 1 OR cint(visfakbare_res) = 2 then
 									        
-                                            if cint(directexp) <> 1 then 
+                                            if cint(directexp) <> 1 AND ((cint(upSpec) = 0 AND jobmedtimer(x,38) = 0) OR (cint(upSpec) = 1 AND jobmedtimer(x,38) <> 0)) then 
 									        strJobLinie = strJobLinie & "<br><span style='color=#000000; font-size:9px;'>"& basisValISO &" "& formatnumber(jobmedtimer(x,18),2) & "</span>"
                                             end if        
 
-                                                   if jobmedtimer(x,38) = 0 then '**Udspec på aktiviteter
+                                                   if jobmedtimer(x,38) = 0 then '** Udspec på aktiviteter
                                                           
                                                                   
                                                    expTxt = expTxt & formatnumber(jobmedtimer(x,18), 2)&";" 
                                                           
                                                    else
 
-                                                   if cint(directexp) <> 1 then 
-                                                   strJobLinie = strJobLinie & "</td>"
-                                                   end if
+                                                       
+
+                                                           if cint(directexp) <> 1 AND cint(upSpec) = 0 AND jobmedtimer(x,38) = 0 then 
+                                                           strJobLinie = strJobLinie & "</td>"
+                                                           end if
                                                    
-                                                   expTxt = expTxt & formatnumber(jobmedtimer(x,18),2)&";"
+                                                           expTxt = expTxt & formatnumber(jobmedtimer(x,18),2)&";"
+
+                                                  
+
                                                    end if'jobid
         									
 									        else
                                             
-                                                if cint(directexp) <> 1 then 
+                                                if cint(directexp) <> 1 AND ((cint(upSpec) = 0 AND jobmedtimer(x,38) = 0) OR (cint(upSpec) = 1 AND jobmedtimer(x,38) <> 0)) then 
 									            strJobLinie = strJobLinie & "</td>"
 		                                        end if							        
 
 									        end if
 									
+                                            if ((cint(upSpec) = 0 AND jobmedtimer(x,38) = 0) OR (cint(upSpec) = 1 AND jobmedtimer(x,38) <> 0)) then
 									        totbudget = totbudget + jobmedtimer(x,18)
                                             subbudget = subbudget + jobmedtimer(x,18)
 									        totbudgettimer = totbudgettimer + jobmedtimer(x,19)
                                             subbudgettimer = subbudgettimer + jobmedtimer(x,19)
+                                            end if
 
 
                                           
@@ -3510,45 +3591,52 @@ function LeiRotate() {
                                                 
 
                                                
-
-                                            saldoJobTotal = (saldoJobTotal/1 + timerPrevSaldo/1) 
+                                            if ((cint(upSpec) = 0 AND jobmedtimer(x,38) = 0) OR (cint(upSpec) = 1 AND jobmedtimer(x,38) <> 0)) then
+									        saldoJobTotal = (saldoJobTotal/1 + timerPrevSaldo/1) 
                                             saldoJobSub = (saldoJobSub/1 + timerPrevSaldo/1)
+                                            end if
 
-                                            if cint(directexp) <> 1 then 
+
+                                            if cint(directexp) <> 1 AND ((cint(upSpec) = 0 AND jobmedtimer(x,38) = 0) OR (cint(upSpec) = 1 AND jobmedtimer(x,38) <> 0)) then 
 											strJobLinie = strJobLinie & "<td class=lille valign=bottom align=right "&tdstyleTimOms2&">"
                                             end if 'if cint(directexp) <> 1 then 
 
 
                                             if cint(vis_restimer) = 1 then
+            
+                                            
                                             call resTimer(jobmedtimer(x,0), jobmedtimer(x,12), 0, 0, 0, md_split_cspan, 1)
 
-                                            if len(trim(restimerThis)) <> 0 then
-                                            restimerThisTxt = restimerThis
-                                            else
-                                            restimerThisTxt = 0
-                                            end if
+                                                if len(trim(restimerThis)) <> 0 then
+                                                restimerThisTxt = restimerThis
+                                                else
+                                                restimerThisTxt = 0
+                                                end if
 
-                                            if cint(directexp) <> 1 then 
-                                            strJobLinie = strJobLinie & "<span style='color:#999999;'>"& restimerThisTxt &"</span><br>"
-                                            end if 'if cint(directexp) <> 1 then 
+                                                if cint(directexp) <> 1 AND ((cint(upSpec) = 0 AND jobmedtimer(x,38) = 0) OR (cint(upSpec) = 1 AND jobmedtimer(x,38) <> 0)) then 
+                                                strJobLinie = strJobLinie & "<span style='color:#999999;'>"& restimerThisTxt &"</span><br>"
+                                                end if 'if cint(directexp) <> 1 then 
+                                            
                                             end if
                                             
-                                            if cint(directexp) <> 1 then 
+                                            if cint(directexp) <> 1 AND ((cint(upSpec) = 0 AND jobmedtimer(x,38) = 0) OR (cint(upSpec) = 1 AND jobmedtimer(x,38) <> 0)) then 
                                             strJobLinie = strJobLinie & formatnumber(timerPrevSaldo, 2) 
                                             end if 'if cint(directexp) <> 1 then  
                                             
                                             if cint(vis_enheder) = 1 then
                         
-                                            if cint(directexp) <> 1 then 
-                                            strJobLinie = strJobLinie & "<span style='color:#5c75AA; font-size:9px;'><br>enh. " & formatnumber(enhederPrevSaldo, 2) & "</span>"
-                                            end if 'if cint(directexp) <> 1 then 
+                                                if cint(directexp) <> 1 AND ((cint(upSpec) = 0 AND jobmedtimer(x,38) = 0) OR (cint(upSpec) = 1 AND jobmedtimer(x,38) <> 0)) then 
+                                                strJobLinie = strJobLinie & "<span style='color:#5c75AA; font-size:9px;'><br>enh. " & formatnumber(enhederPrevSaldo, 2) & "</span>"
+                                                end if 'if cint(directexp) <> 1 then 
 
-                                            enhederPrevSaldoTot = (enhederPrevSaldoTot/1 + enhederPrevSaldo/1)
-                                            enhederPrevSaldoSub = (enhederPrevSaldoSub/1 + enhederPrevSaldo/1) 
+                                                if ((cint(upSpec) = 0 AND jobmedtimer(x,38) = 0) OR (cint(upSpec) = 1 AND jobmedtimer(x,38) <> 0)) then
+                                                enhederPrevSaldoTot = (enhederPrevSaldoTot/1 + enhederPrevSaldo/1)
+                                                enhederPrevSaldoSub = (enhederPrevSaldoSub/1 + enhederPrevSaldo/1) 
+                                                end if
 
                                             end if
                                             
-                                            if cint(directexp) <> 1 then 
+                                            if cint(directexp) <> 1 AND ((cint(upSpec) = 0 AND jobmedtimer(x,38) = 0) OR (cint(upSpec) = 1 AND jobmedtimer(x,38) <> 0)) then 
                                             strJobLinie = strJobLinie &"</td>"
                                             end if 'if cint(directexp) <> 1 then  
                                             
@@ -3559,13 +3647,13 @@ function LeiRotate() {
 
                                             if cint(vis_restimer) = 1 then
 
-                                            if len(trim(restimerThis)) <> 0 then
-                                            restimerThis = restimerThis
-                                            restimerPS = restimerThis
-                                            else
-                                            restimerThis = 0
-                                            restimerPS = 0
-                                            end if
+                                                if len(trim(restimerThis)) <> 0 then
+                                                restimerThis = restimerThis
+                                                restimerPS = restimerThis
+                                                else
+                                                restimerThis = 0
+                                                restimerPS = 0
+                                                end if
 
                                             expTxt = expTxt & formatnumber(restimerThis, 0) &";"
                                             end if
@@ -3575,9 +3663,10 @@ function LeiRotate() {
                                              end if
 
 
-
-                                            saldoRestimerTotal = (saldoRestimerTotal/1 + restimerThis/1) 
-                                            saldoRestimerSub = (saldoRestimerSub/1 + restimerThis/1) 
+                                                if ((cint(upSpec) = 0 AND jobmedtimer(x,38) = 0) OR (cint(upSpec) = 1 AND jobmedtimer(x,38) <> 0)) then
+                                                saldoRestimerTotal = (saldoRestimerTotal/1 + restimerThis/1) 
+                                                saldoRestimerSub = (saldoRestimerSub/1 + restimerThis/1) 
+                                                end if
                                             
                                           
                                             end if 'cint(visPrevSaldo) = 1 
@@ -3603,23 +3692,27 @@ function LeiRotate() {
 											jobtimerIalt = 0
 											jobOmsIalt = 0
 											
-											
-											totaltotaljboTimerIalt = totaltotaljboTimerIalt + jobmedtimer(x,16) ' + jobtimerIalt i periode
+											if ((cint(upSpec) = 0 AND jobmedtimer(x,38) = 0) OR (cint(upSpec) = 1 AND jobmedtimer(x,38) <> 0)) then 
+										    totaltotaljboTimerIalt = totaltotaljboTimerIalt + jobmedtimer(x,16) ' + jobtimerIalt i periode
 											subtotaljboTimerIalt = subtotaljboTimerIalt + jobmedtimer(x,16) ' + jobtimerIalt i periode
+                                            
+                                                if cint(vis_enheder) = 1 then
+							                    totalJobEnh = totalJobEnh + jobmedtimer(x,26) 
+                                                subJobEnh = subJobEnh + jobmedtimer(x,26) 
+							                    end if
 
-								            if cint(vis_enheder) = 1 then
-							                totalJobEnh = totalJobEnh + jobmedtimer(x,26) 
-                                            subJobEnh = subJobEnh + jobmedtimer(x,26) 
-							                end if
+                                            end if
 											
 
-                                            if cint(directexp) <> 1 then 
+                                            if cint(directexp) <> 1 AND ((cint(upSpec) = 0 AND jobmedtimer(x,38) = 0) OR (cint(upSpec) = 1 AND jobmedtimer(x,38) <> 0)) then 
 											strJobLinie = strJobLinie & "<td class=lille align=right "&tdstyleTimOms10&" bgcolor='snow'>"
                                             end if 'if cint(directexp) <> 1 then                                     
 
 
                                             '** Res timer på job ***'
                                             if cint(vis_restimer) = 1 then
+                
+            
                                             call resTimer(jobmedtimer(x,0), jobmedtimer(x,12), 0, 0, 0, md_split_cspan, 0)
 
                                           
@@ -3633,17 +3726,33 @@ function LeiRotate() {
                                             restimerThisTxt = 0
                                             end if
 
-                                            if cint(directexp) <> 1 then 
-                                            strJobLinie = strJobLinie & "<span style='color:#999999;'>" & restimerThisTxt &"</span><br>"
+                                            
+                                            if cdbl(restimerThis) < cdbl(jobmedtimer(x,16)) then
+                                            bgResTimerOverskreddetColor = "darkred"
+                                            bgResTimerOverskreddetWight = "bolder"
+                                            else
+                                            bgResTimerOverskreddetColor = "#999999"
+                                            bgResTimerOverskreddetWight = "normal"
+                                            end if
+
+
+                                            if cint(directexp) <> 1 AND ((cint(upSpec) = 0 AND jobmedtimer(x,38) = 0) OR (cint(upSpec) = 1 AND jobmedtimer(x,38) <> 0)) then 
+                                                if restimerThisTxt <> 0 then
+                                                strJobLinie = strJobLinie &"<span style='color:"& bgResTimerOverskreddetColor &"; font-weight:"& bgResTimerOverskreddetWight &";'>" & restimerThisTxt &"</span><br>"
+                                                else
+                                                strJobLinie = strJobLinie &"&nbsp;"
+                                                end if
                                             end if 'if cint(directexp) <> 1 then 
 
-
-                                            restimerTotalJob = (restimerTotalJob/1) + (restimerThis/1)
-                                            restimerSubJob = (restimerSubJob/1) + (restimerThis/1)
+                                            
+                                                if ((cint(upSpec) = 0 AND jobmedtimer(x,38) = 0) OR (cint(upSpec) = 1 AND jobmedtimer(x,38) <> 0)) then 
+                                                restimerTotalJob = (restimerTotalJob/1) + (restimerThis/1)
+                                                restimerSubJob = (restimerSubJob/1) + (restimerThis/1)
+                                                end if
 
                                             end if
                                             
-                                            if cint(directexp) <> 1 then 
+                                            if cint(directexp) <> 1 AND ((cint(upSpec) = 0 AND jobmedtimer(x,38) = 0) OR (cint(upSpec) = 1 AND jobmedtimer(x,38) <> 0)) then 
                                             '** REAL timer i periode
                                            strJobLinie = strJobLinie & formatnumber(jobmedtimer(x,16), 2)
 
@@ -3671,20 +3780,23 @@ function LeiRotate() {
                                                 realTimerProcTxt = ""
                                                 end if
 
-
+                                                if ((cint(upSpec) = 0 AND jobmedtimer(x,38) = 0) OR (cint(upSpec) = 1 AND jobmedtimer(x,38) <> 0)) then
                                                 expTxt = expTxt & formatnumber(jobmedtimer(x,16), 2)&";"
+                                                end if
 
                                                 select case lto
-                                                case "mmmi", "intranet - local"
+                                                case "mmmi", "xintranet - local"
                                                 case else
-                                                expTxt = expTxt & realTimerProc &";"
+                                                    if ((cint(upSpec) = 0 AND jobmedtimer(x,38) = 0) OR (cint(upSpec) = 1 AND jobmedtimer(x,38) <> 0)) then
+                                                    expTxt = expTxt & realTimerProc &";"
+                                                    end if
                                                 end select
 												
-                                                if cint(vis_restimer) = 1 then
+                                                if cint(vis_restimer) = 1 AND ((cint(upSpec) = 0 AND jobmedtimer(x,38) = 0) OR (cint(upSpec) = 1 AND jobmedtimer(x,38) <> 0)) then
                                                 expTxt = expTxt & restimerThis &";"
                                                 end if
 
-												if cint(vis_enheder) = 1 then
+												if cint(vis_enheder) = 1 AND ((cint(upSpec) = 0 AND jobmedtimer(x,38) = 0) OR (cint(upSpec) = 1 AND jobmedtimer(x,38) <> 0))  then
 												expTxt = expTxt &formatnumber(jobmedtimer(x,26), 2)&";"
 												end if
 											
@@ -3697,18 +3809,18 @@ function LeiRotate() {
                                             subtotaljobOmsIalt = (subtotaljobOmsIalt/1) + (jobmedtimer(x,17)/1) 
 											
 											'*** ~ca timepris ved fastpris, aktiviteter grundlag og jobvisning ***
-									        if cint(directexp) <> 1 then 
-                                            strJobLinie = strJobLinie &"<br><span style='color=#000000; font-size:8px;'>"& basisValISO &" "& formatnumber(jobmedtimer(x,17)/1, 2)&"</span><br>"
+									        if cint(directexp) <> 1 AND ((cint(upSpec) = 0 AND jobmedtimer(x,38) = 0) OR (cint(upSpec) = 1 AND jobmedtimer(x,38) <> 0)) then 
+                                            strJobLinie = strJobLinie &"<br><span style='color:#000000; font-size:8px;'>"& basisValISO &" "& formatnumber(jobmedtimer(x,17)/1, 2)&"</span><br>"
 											end if 'if cint(directexp) <> 1 then 
 
 												
 										    expTxt = expTxt & formatnumber(jobmedtimer(x,17), 2)&";"
 											
 											'*** Balance ***
-											dbal = (jobmedtimer(x,17) - jobmedtimer(x,18))
+											dbal = (jobmedtimer(x,18) - jobmedtimer(x,17))
                     
-                                            if cint(directexp) <> 1 then 
-											strJobLinie = strJobLinie & "<span style='color=#000000; font-size:8px;'>bal.: "& formatnumber(dbal, 2) &"</span></td>"
+                                            if cint(directexp) <> 1 AND ((cint(upSpec) = 0 AND jobmedtimer(x,38) = 0) OR (cint(upSpec) = 1 AND jobmedtimer(x,38) <> 0)) then 
+											strJobLinie = strJobLinie & "<span style='color:#000000; font-size:8px;'>bal.: "& formatnumber(dbal, 2) &"</span></td>"
 											end if 'if cint(directexp) <> 1 then 	
 
 										    expTxt = expTxt & formatnumber(dbal, 2)&";"
@@ -3717,7 +3829,7 @@ function LeiRotate() {
 											subdbialt = subdbialt + (dbal)
 											
 											else
-                                                if cint(directexp) <> 1 then 
+                                                if cint(directexp) <> 1 AND ((cint(upSpec) = 0 AND jobmedtimer(x,38) = 0) OR (cint(upSpec) = 1 AND jobmedtimer(x,38) <> 0)) then 
 												strJobLinie = strJobLinie & "</td>"
                                                 end if 'if cint(directexp) <> 1 then 
 											end if
@@ -3730,26 +3842,27 @@ function LeiRotate() {
                                            
                                             
                                         select case lto
-                                        case "mmmi", "intranet - local"
+                                        case "mmmi", "xintranet - local"
                                         case else
                                            
-                                           
+                                               if cint(directexp) <> 1 AND ((cint(upSpec) = 0 AND jobmedtimer(x,38) = 0) OR (cint(upSpec) = 1 AND jobmedtimer(x,38) <> 0)) then 
 
-                                               if realTimerProc <> 0 then
+                                                   if realTimerProc <> 0 then
                                                 
-                                                    if realTimerProc > 100 then
-                                                    realTimerProcBgcol = "crimson"
-                                                    procFntCol = "#ffffff"
-                                                    else
-                                                    realTimerProcBgcol = "yellowgreen"
-                                                    procFntCol = "#000000"
-                                                    end if
+                                                        if realTimerProc > 100 then
+                                                        realTimerProcBgcol = "crimson"
+                                                        procFntCol = "#ffffff"
+                                                        else
+                                                        realTimerProcBgcol = "yellowgreen"
+                                                        procFntCol = "#000000"
+                                                        end if
 
-                                                strJobLinie = strJobLinie &"<td "&tdstyleTimOms&" bgcolor='snow' valign=bottom><div style='width:"& realTimerProcWdt &"px; background-color:"& realTimerProcBgcol &"; color:"& procFntCol &"; padding:1px 4px 1px 1px; font-size:8px; text-align:right;'>"& realTimerProcTxt & "</div></td>"
-                                               else
-                                                strJobLinie = strJobLinie &"<td "&tdstyleTimOms&" bgcolor='snow'>&nbsp;</td>"
-                                               end if
+                                                    strJobLinie = strJobLinie &"<td "&tdstyleTimOms&" bgcolor='snow' valign=bottom><div style='width:"& realTimerProcWdt &"px; background-color:"& realTimerProcBgcol &"; color:"& procFntCol &"; padding:1px 4px 1px 1px; font-size:8px; text-align:right;'>"& realTimerProcTxt & "</div></td>"
+                                                   else
+                                                    strJobLinie = strJobLinie &"<td "&tdstyleTimOms&" bgcolor='snow'>&nbsp;</td>"
+                                                   end if
                                            
+                                              end if
                 
                                           end select
 
@@ -3782,12 +3895,14 @@ function LeiRotate() {
 
 
                                         
-                                            if cint(directexp) <> 1 then 
+                                            if cint(directexp) <> 1 AND ((cint(upSpec) = 0 AND jobmedtimer(x,38) = 0) OR (cint(upSpec) = 1 AND jobmedtimer(x,38) <> 0)) then 
                                             strJobLinie = strJobLinie & "<td class=lille valign=bottom align=right "&tdstyleTimOms20&">"
                                             end if 'if cint(directexp) <> 1 then 
 
                                              '** Res timer på job ***'
                                             if cint(vis_restimer) = 1 then
+
+
                                             call resTimer(jobmedtimer(x,0), jobmedtimer(x,12), 0, 0, 0, md_split_cspan, 2)
 
 
@@ -3813,7 +3928,7 @@ function LeiRotate() {
                                             end if
 
                                             if len(trim(restimerThis)) <> 0 then
-                                                if cint(directexp) <> 1 then 
+                                                if cint(directexp) <> 1 AND ((cint(upSpec) = 0 AND jobmedtimer(x,38) = 0) OR (cint(upSpec) = 1 AND jobmedtimer(x,38) <> 0)) then 
                                                 strJobLinie = strJobLinie & "<span style='color:"&fntRCol&";'> "&rsign&" " & restimerThisTxt &"</span><br>"
                                                 end if 'if cint(directexp) <> 1 then 
                                             end if
@@ -3834,7 +3949,7 @@ function LeiRotate() {
                                             tSign = "="
                                             end if
 
-                                            if cint(directexp) <> 1 then 
+                                            if cint(directexp) <> 1 AND ((cint(upSpec) = 0 AND jobmedtimer(x,38) = 0) OR (cint(upSpec) = 1 AND jobmedtimer(x,38) <> 0)) then 
                                             strJobLinie = strJobLinie &"<span style='color:"& fntCol &";'> "&tSign&" "& formatnumber(timerTotSaldo, 2) &"</span>"
                                             end if 'if cint(directexp) <> 1 then                                     
 
@@ -3848,7 +3963,7 @@ function LeiRotate() {
                                             eSign = "="
                                             end if
 
-                                            if cint(directexp) <> 1 then 
+                                            if cint(directexp) <> 1 AND ((cint(upSpec) = 0 AND jobmedtimer(x,38) = 0) OR (cint(upSpec) = 1 AND jobmedtimer(x,38) <> 0)) then 
                                             strJobLinie = strJobLinie &"<br><span style='color:"& efntCol &"; font-size:9px;'> "&eSign&" enh. "& formatnumber(enhederTot, 2) & "</span>"
                                             end if 'if cint(directexp) <> 1 then 
                         
@@ -3858,9 +3973,11 @@ function LeiRotate() {
 
                                             end if
 
-                                            if cint(directexp) <> 1 then 
+                                            if cint(directexp) <> 1 AND ((cint(upSpec) = 0 AND jobmedtimer(x,38) = 0) OR (cint(upSpec) = 1 AND jobmedtimer(x,38) <> 0)) then 
                                             strJobLinie = strJobLinie &"</td>"
                                             end if 'if cint(directexp) <> 1 then 
+
+
 
                                             timerTotSaldoSubGtotal = timerTotSaldoSubGtotal + timerTotSaldo '(timerPrevSaldo/1+jobmedtimer(x,16)) 
                                             timerTotSaldoGtotal = timerTotSaldoGtotal + timerTotSaldo '(timerPrevSaldo/1+jobmedtimer(x,16)) 
@@ -3906,9 +4023,11 @@ function LeiRotate() {
 						
                         'lastWrtMd = 1
 						'cnt = 1  
-                           
-                            'Response.Write "jobmedtimer(x,12): "& jobmedtimer(x,12) & "upSpec: "& upSpec & "jobid: "& jobid & "<br>"
-                            if (cdbl(jobmedtimer(x,12)) <> 0 AND cint(upSpec) = 1) OR upSpec = 0 OR jobid = 0 then
+                            'if session("mid") = 1 then
+                             'Response.Write "<br><br><br>jobmedtimer(x,12): "& jobmedtimer(x,12) & "upSpec: "& upSpec & "jobid: "& jobid 
+                            'end if                    
+                            'strJobLinie = strJobLinie & "<td>mv: "& medarb(v) &" v:"& v &" (x,12): "& jobmedtimer(x,12) &" (x,4): "& jobmedtimer(x,4) &" ( </td>"
+                            if (cdbl(jobmedtimer(x,12)) <> 0 AND cint(upSpec) = 1) OR (cint(upSpec) = 0 AND jobmedtimer(x,0) <> 0) then 'jobid = 0
 
 							for v = 0 to v - 1 'UBOUND(medarb) 'v - 1
 								
@@ -4080,8 +4199,9 @@ function LeiRotate() {
                                                
         
                                            
-
+                                             
                                               call timerTdFelt
+                                              
 
                                         '*************************************************************************'
 
@@ -4110,10 +4230,12 @@ function LeiRotate() {
 
 
                                                         if (cint(vis_medarbejdertyper) = 0 AND ((nextWrtJ <> lastWrtJ) OR (nextWrtM <> lastWrtM))) OR _
-                                                         (cint(vis_medarbejdertyper) = 1 AND antalV = 1 AND ((nextWrtJ <> lastWrtJ) OR (nextWrtM <> lastWrtM)) AND (lastWrtX >= x)) OR _
-                                                         (cint(vis_medarbejdertyper) = 1 AND antalV <> 1 AND ((nextWrtJ <> lastWrtJ) OR (nextWrtM <> lastWrtM)) AND (jobmedtimer(x,4) <> nextWrtM) ) then 'AND (jobmedtimer(x,4) <> nextWrtM OR loopsFO > 0)    then 'AND (jobmedtimer(x,4) <> nextWrtM OR nextWrtM = "")   ' AND ((jobmedtimer(x,4) <> nextWrtM) OR (jobmedtimer(x,4) = nextWrtM AND lastWrtM <> 0))) then
+                                                        (cint(vis_medarbejdertyper) = 1 AND antalV = 1 AND ((nextWrtJ <> lastWrtJ) OR (nextWrtM <> lastWrtM)) AND (lastWrtX >= x)) OR _
+                                                        (cint(vis_medarbejdertyper) = 1 AND antalV <> 1 AND ((nextWrtJ <> lastWrtJ) OR (nextWrtM <> lastWrtM)) AND (jobmedtimer(x,4) <> nextWrtM) ) then 'AND (jobmedtimer(x,4) <> nextWrtM OR loopsFO > 0)    then 'AND (jobmedtimer(x,4) <> nextWrtM OR nextWrtM = "")   ' AND ((jobmedtimer(x,4) <> nextWrtM) OR (jobmedtimer(x,4) = nextWrtM AND lastWrtM <> 0))) then
 
                                                        
+                                                        if jobaktId <> "0_0" then
+
                                                         loopsFO = loopsFO + 1
                                                         
 
@@ -4123,20 +4245,24 @@ function LeiRotate() {
 
                                 
                                                         if cint(directexp) <> 1 then 
-                                                        strJobLinie = strJobLinie & "<td class=lille align=right "& tdstyleTimOms3 &" bgcolor='"& bgthis &"'>&nbsp;"
+                                                        strJobLinie = strJobLinie & "<td class=lille align=right "& tdstyleTimOms3 &" bgcolor='"& bgthis &"'>&nbsp;" 
                                                         end if 'if cint(directexp) <> 1 then 
-                        
-                                                        'M: "& jobmedtimer(x,4) &" lastM: "& lastWrtM &" - nextM: "& nextWrtM & " - x: "& x & " nxtJ: "& nextWrtJ &" <> lstJ: "& lastWrtJ & " loopsFO:" &loopsFO & " antalV: "& antalV & " lloops:"& lloops & " lastWrtX: "& lastWrtX 'vsiMtyp: "& cint(vis_medarbejdertyper)
-                                                        'strJobLinie = strJobLinie & "<br> medarb(v): " &  medarb(v) & " Medid: <b>"& jobmedtimer(x,4) & "</b><br>"
-                                                        '&" loopsFO = "& loopsFO &" lastWrtMd: "& lastWrtMd &" nextWrtJ: "& nextWrtJ &" lastWrtJ: "& lastWrtJ &" nextWrtM: "& nextWrtM &" lastWrtM: "& lastWrtM &""_
-                                                        '&"<br>lastJM:"& lastJM &""
+                                                                    
+                                                        'if session("mid") = 1 then
+                                                        'strJobLinie = strJobLinie & "J_A: "& jobaktId  &" M: "& jobmedtimer(x,4) &" lastM: "& lastWrtM &" - nextM: "& nextWrtM & " - x: "& x & " nxtJ: "& nextWrtJ &" <> lstJ: "& lastWrtJ & " loopsFO:" &loopsFO & " antalV: "& antalV & " lloops:"& lloops & " lastWrtX: "& lastWrtX 'vsiMtyp: "& cint(vis_medarbejdertyper)
+                                                       ' strJobLinie = strJobLinie & "<br> medarb(v): " &  medarb(v) & " Medid: <b>"& jobmedtimer(x,4) & "</b><br>"
+                                                       ' &" loopsFO = "& loopsFO &" lastWrtMd: "& lastWrtMd &" nextWrtJ: "& nextWrtJ &" lastWrtJ: "& lastWrtJ &" nextWrtM: "& nextWrtM &" lastWrtM: "& lastWrtM &""_
+                                                       ' &"<br>lastJM:"& lastJM &""
                                                         'Response.Write v &  " medarb(v): " &  medarb(v) & " jobmedtimer(x,4): "& jobmedtimer(x,4) & "<br>"
+                                                        'end if
 
                                                         expTxt = expTxt &";"
 
                                                         '"& md &" - "& lloops &" "_
-                                                        '&" loopsFO = "& loopsFO &" lastWrtMd: "& lastWrtMd &" nextWrtJ: "& nextWrtJ &" lastWrtJ: "& lastWrtJ &" nextWrtM: "& nextWrtM &" lastWrtM: "& lastWrtM &""_
+                                                        'if session("mid") = 1 then
+                                                        'Response.Write "<br><br>loopsFO = "& loopsFO &" lastWrtMd: "& lastWrtMd &" nextWrtJ: "& nextWrtJ &" lastWrtJ: "& lastWrtJ &" nextWrtM: "& nextWrtM &" lastWrtM: "& lastWrtM &""_
                                                         '&"<br>lastJM:"& lastJM &""
+                                                        'end if
 
 
 
@@ -4149,10 +4275,16 @@ function LeiRotate() {
                                                                          md_md = month(md_year)
                                                                          md_year = year(md_year)
                                   
+                                                                        'if session("mid") = 1 then
+                                                                        'Response.Write "<br><br>HEJ 3: jobid: "& jobmedtimer(x,0) &", aktid: "& jobmedtimer(x,12) &"<br>"
+                                                                        'response.Flush
+                                                                        'end if    
 
                                                                         call resTimer(jobmedtimer(x,0), jobmedtimer(x,12), jobmedtimer(x,4), md_md, md_year, md_split_cspa, 0)
                                  
                                                                         if cint(directexp) <> 1 then 
+                                                                    
+
                                                                         strJobLinie = strJobLinie & "<span style='color:#999999;'>"& restimerThis &"</span><br>&nbsp;"
                                                                         end if
 
@@ -4280,15 +4412,21 @@ function LeiRotate() {
                                                         strJobLinie = strJobLinie & "</td>"
                                                         end if' if cint(directexp) <> 1 then 
         
+                                                     
+
                                                         next
 
                                                        'lastJMisWrt = 1'lastWrtJ &"_"&lastWrtM
 
+
                                                        Response.flush
+                                                       end if 'jobaktId <> "0_0"
 
                                                        end if  '** nextWrtJ <> lastWrtJ) OR (nextWrtM <> lastWrtM
 
                                            end if '** md spilt
+
+                                        
 
 
                                'else
@@ -4367,10 +4505,10 @@ function LeiRotate() {
 				expTxt = expTxt &"Grandtotal;;;;;"
                 case else
                         select case lto
-                        case "mmmi", "intranet - local"
+                        case "mmmi", "xintranet - local"
                         expTxt = expTxt &"Grandtotal;;;;;;;;;;"
                         case else
-                        expTxt = expTxt &"Grandtotal;;;;;;;;;;"
+                        expTxt = expTxt &"Grandtotal;;;;;;;;;;;"
                         end select
                 end select
 				
@@ -4385,14 +4523,14 @@ function LeiRotate() {
 
 				if cint(directexp) <> 1 then 
 			    strJobLinie_total = "<tr bgcolor=lightpink>"
-				strJobLinie_total = strJobLinie_total & "<td style='padding:4px; border-top:1px #CCCCCC solid;' valign=Top><b>Grandtotal:</b></td>"
+				strJobLinie_total = strJobLinie_total & "<td style='padding:4px; border-top:1px #CCCCCC solid;' valign=bottom><b>Grandtotal:</b></td>"
 						
 						strJobLinie_total = strJobLinie_total & "<td class=lille valign=bottom align=right "&tdstyleTimOms2&" >" 
 						strJobLinie_total = strJobLinie_total & formatnumber(totbudgettimer, 2) 
 
-                        if cint(vis_enheder) = 1 then
-					    strJobLinie_total = strJobLinie_total & "<br>"
-						end if
+                        'if cint(vis_enheder) = 1 then
+					    'strJobLinie_total = strJobLinie_total & "<br>"
+						'end if
 
                 end if 'if cint(directexp) <> 1 then 
 						
@@ -4400,49 +4538,48 @@ function LeiRotate() {
 								
 						if cint(visfakbare_res) = 1 OR cint(visfakbare_res) = 2 then
 
-                        if cint(directexp) <> 1 then
-						strJobLinie_total = strJobLinie_total & "<br><span style='color=#000000; font-size:8px;'>"& basisValISO &" "& formatnumber(totbudget, 2)&"</span></td>"
-                        end if 'if cint(directexp) <> 1 then                
+                            if cint(directexp) <> 1 then
+						    strJobLinie_total = strJobLinie_total & "<br><span style='color=#000000; font-size:8px;'>"& basisValISO &" "& formatnumber(totbudget, 2)&"</span></td>"
+                            end if 'if cint(directexp) <> 1 then                
 
-                        expTxt = expTxt & formatnumber(totbudget, 0) &";"
+                            expTxt = expTxt & formatnumber(totbudget, 0) &";"
                             
                            
                             
-                                  
-					
-						end if
+                        end if
 						
                         '***************'
                         '**** Saldo ***'
                         '***************'
                         if cint(visPrevSaldo) = 1 then
 
-                        if cint(directexp) <> 1 then
-                        strJobLinie_total = strJobLinie_total & "<td class=lille valign=bottom align=right "&tdstyleTimOms2&">"
-                        end if 'if cint(directexp) <> 1 then                
-
-                        expTxt = expTxt & formatnumber(saldoJobTotal,2) &";"
-                        'expTxt = expTxt & formatnumber(timerTotSaldoGtotal,2) &";"
-                            
-                            if cint(vis_restimer) = 1 then
                                 if cint(directexp) <> 1 then
-                                strJobLinie_total = strJobLinie_total & "<span style='color:#999999;'>"& formatnumber(saldoRestimerTotal,0) &"</span><br>"
-                                end if 'if cint(directexp) <> 1 then
-                            expTxt = expTxt & formatnumber(saldoRestimerTotal,0) &";"
-                            end if
+                                strJobLinie_total = strJobLinie_total & "<td class=lille valign=bottom align=right "&tdstyleTimOms2&">"
+                                end if 'if cint(directexp) <> 1 then                
 
-                         if cint(directexp) <> 1 then
-                         strJobLinie_total = strJobLinie_total & formatnumber(saldoJobTotal, 2) 
-                         end if 'if cint(directexp) <> 1 then
+                                expTxt = expTxt & formatnumber(saldoJobTotal,2) &";"
+                                'expTxt = expTxt & formatnumber(timerTotSaldoGtotal,2) &";"
+                            
+                                    if cint(vis_restimer) = 1 then
+                                        if cint(directexp) <> 1 then
+                                        strJobLinie_total = strJobLinie_total & "<span style='color:#999999;'>"& formatnumber(saldoRestimerTotal,0) &"</span><br>"
+                                        end if 'if cint(directexp) <> 1 then
+                                    expTxt = expTxt & formatnumber(saldoRestimerTotal,0) &";"
+                                    end if
+
+                                 if cint(directexp) <> 1 then
+                                 strJobLinie_total = strJobLinie_total & formatnumber(saldoJobTotal, 2) 
+                                 end if 'if cint(directexp) <> 1 then
 
 
-                         if cint(vis_enheder) = 1 then
-                             if cint(directexp) <> 1 then
-                             strJobLinie_total = strJobLinie_total &"<br><span style='color:#5c75AA; font-size:9px;'>enh. "& formatnumber(enhederPrevSaldoTot, 2) & "</span>" 
-                             end if 'if cint(directexp) <> 1 then 
+                             if cint(vis_enheder) = 1 then
+                            
+                                 if cint(directexp) <> 1 then
+                                 strJobLinie_total = strJobLinie_total &"<br><span style='color:#5c75AA; font-size:9px;'>enh. "& formatnumber(enhederPrevSaldoTot, 2) & "</span>" 
+                                 end if 'if cint(directexp) <> 1 then 
         
-                         expTxt = expTxt & formatnumber(enhederPrevSaldoTot,2) &";"
-                         end if
+                             expTxt = expTxt & formatnumber(enhederPrevSaldoTot,2) &";"
+                             end if
                         
                         if cint(directexp) <> 1 then
                         strJobLinie_total = strJobLinie_total &"</td>"
@@ -4460,7 +4597,11 @@ function LeiRotate() {
 
                                 '**** Res timer ***'
                                 if cint(vis_restimer) = 1 then
-                                strJobLinie_total = strJobLinie_total & "<span style='color:#999999;'>fc:"& formatnumber(restimerTotalJob,0) &"</span><br>"
+                                    if restimerTotalJob <> 0 then
+                                    strJobLinie_total = strJobLinie_total & "<span style='color:#999999;'>"& formatnumber(restimerTotalJob,0) &"</span><br>"
+                                    else
+                                    strJobLinie_total = strJobLinie_total & "&nbsp;"
+                                    end if
                                 end if
 
                                 strJobLinie_total = strJobLinie_total & formatnumber(totaltotaljboTimerIalt,2)
@@ -4487,7 +4628,7 @@ function LeiRotate() {
 
 
                                 select case lto
-                                case "mmmi", "intranet - local"
+                                case "mmmi", "xintranet - local"
                                 
                                 case else
                                 '** Real. timer % GT
@@ -4525,7 +4666,7 @@ function LeiRotate() {
             
                         '** Real. % **'
                         select case lto
-                        case "mmmi", "intranet - local"
+                        case "mmmi", "xintranet - local"
 
                         case else
         
@@ -4555,7 +4696,7 @@ function LeiRotate() {
                                 rsFontC = "#999999"
                                 end if
 
-                                strJobLinie_total = strJobLinie_total & "<span style='color:"& rsFontC &";'>fc: "&rsSign&" "& formatnumber(restimerTotalGtotalJob,0) &"</span><br>"
+                                strJobLinie_total = strJobLinie_total & "<span style='color:"& rsFontC &";'>"&rsSign&" "& formatnumber(restimerTotalGtotalJob,0) &"</span><br>"
                             
                            
                                 end if
@@ -4590,7 +4731,7 @@ function LeiRotate() {
                             end if
 
                             if cint(directexp) <> 1 then
-                            strJobLinie_total = strJobLinie_total &"<br><br>&nbsp;</td>"
+                            strJobLinie_total = strJobLinie_total &"</td>" '<br><br>&nbsp;
                             end if 'if cint(directexp) <> 1 then 
 
                              expTxt = expTxt & formatnumber(timerTotSaldoGtotal,2) &";"
@@ -4636,8 +4777,8 @@ function LeiRotate() {
                             
                                                     if cint(vis_restimer) = 1 then
 
-                                                    if len(trim(medabTotRestimerprMd(v, mth))) <> 0 then
-                                                    strJobLinie_total = strJobLinie_total & "<span style='color=#999999'>"& formatnumber(medabTotRestimerprMd(v, mth), 0) & "</span><br>"
+                                                    if len(trim(medabTotRestimerprMd(v, mth))) <> 0 AND medabTotRestimerprMd(v, mth) <> 0 then
+                                                    strJobLinie_total = strJobLinie_total & "<span style='color:#999999'>"& formatnumber(medabTotRestimerprMd(v, mth), 0) & "</span>"
                                                     else
                                                     strJobLinie_total = strJobLinie_total &"&nbsp;"
                                                     end if
@@ -4647,9 +4788,9 @@ function LeiRotate() {
 
                                                 end if 'if cint(directexp) <> 1 then
 
-                                                if len(trim(medabTottimerprMd(v, mth))) <> 0 then
+                                                if len(trim(medabTottimerprMd(v, mth))) <> 0 AND medabTottimerprMd(v, mth) <> 0 then
                                                     if cint(directexp) <> 1 then
-                                                    strJobLinie_total = strJobLinie_total & formatnumber(medabTottimerprMd(v, mth), 2)
+                                                    strJobLinie_total = strJobLinie_total & "<br>"& formatnumber(medabTottimerprMd(v, mth), 2)
                                                     end if 'if cint(directexp) <> 1 then
                                                 expTxt = expTxt & formatnumber(medabTottimerprMd(v, mth), 2) &";"
                                                 else
@@ -4658,6 +4799,8 @@ function LeiRotate() {
                                                     end if' if cint(directexp) <> 1 then
                                                 expTxt = expTxt &";"
                                                 end if
+
+
 
                                                     if cint(vis_restimer) = 1 then
 
@@ -4672,7 +4815,7 @@ function LeiRotate() {
 
                                                     if cint(vis_enheder) = 1 then
 
-                                                        if len(trim(medabTotEnhprMd(v, mth))) <> 0 then
+                                                        if len(trim(medabTotEnhprMd(v, mth))) <> 0 AND medabTotEnhprMd(v, mth) <> 0 then
                                                             if cint(directexp) <> 1 then
                                                             strJobLinie_total = strJobLinie_total & "<br><span style='color=#5c75AA; font-size:9px;'>enh. "& formatnumber(medabTotEnhprMd(v, mth), 2) & "</span>"
                                                             end if 'if cint(directexp) <> 1 then
@@ -4703,7 +4846,7 @@ function LeiRotate() {
 
                                                 if cint(visfakbare_res) = 1 OR cint(visfakbare_res) = 2 then
 
-                                                    if len(trim(medabTotOmsprMd(v, mth))) <> 0 then
+                                                    if len(trim(medabTotOmsprMd(v, mth))) <> 0 AND medabTotOmsprMd(v, mth) <> 0 then
                                                     if cint(directexp) <> 1 then
                                                     strJobLinie_total = strJobLinie_total & "<br><span style='color=#000000; font-size:8px;'>"& basisValISO &" "& formatnumber(medabTotOmsprMd(v, mth), 2) & "</span>"
                                                     end if 'if cint(directexp) <> 1 then
@@ -4739,7 +4882,9 @@ function LeiRotate() {
 
                                                 strJobLinie_total = strJobLinie_total & "</td>"
                                                 else
-                                                strJobLinie_total = strJobLinie_total & "<br>Ialt i periode:<br> "
+                                                    if medabTottimer(v) <> 0 OR medabRestimer(v) <> 0 OR medabNormtimer(v) <> 0 then
+                                                    strJobLinie_total = strJobLinie_total & "<br><u>Ialt i per.:</u>"
+                                                    end if
                                                 end if
 							  
                                                 end if 'if cint(directexp) <> 1 then
@@ -4762,14 +4907,14 @@ function LeiRotate() {
 
                                                          if cint(vis_restimer) = 1 then
                                                             if medabRestimer(v) <> 0 then 
-                                                            strJobLinie_total = strJobLinie_total & "<span style='color:#999999;'>fc: "& formatnumber(medabRestimer(v),0) &"</span><br>"
+                                                            strJobLinie_total = strJobLinie_total & "<br><span style='color:#999999;'>"& formatnumber(medabRestimer(v),0) &"</span>"
                                                             else
-                                                            strJobLinie_total = strJobLinie_total & "&nbsp;<br>"
+                                                            strJobLinie_total = strJobLinie_total & "&nbsp;"
                                                             end if
                                                          end if
                         
                                                         if medabTottimer(v) <> 0 then
-                                                        strJobLinie_total = strJobLinie_total & formatnumber(medabTottimer(v), 2)  
+                                                        strJobLinie_total = strJobLinie_total & "<br>" & formatnumber(medabTottimer(v), 2)  
                                                         else
                                                         strJobLinie_total = strJobLinie_total & "&nbsp;"
                                                         end if
@@ -4789,7 +4934,7 @@ function LeiRotate() {
                                                             if medabNormtimer(v) <> 0 then 
                                                             strJobLinie_total = strJobLinie_total & "<br><span style='color:#5582d2;'>n: "& formatnumber(medabNormtimer(v),2) &"</span>"
                                                             else
-                                                            strJobLinie_total = strJobLinie_total & "&nbsp;<br>"
+                                                            strJobLinie_total = strJobLinie_total & "&nbsp;"
                                                             end if
 
                                                          end if
@@ -4836,13 +4981,13 @@ function LeiRotate() {
                                             if omsTot(v) <> 0 then
 							                strJobLinie_total = strJobLinie_total & "<br><span style='color=#000000; font-size:8px;'>"& basisValISO &" "&formatnumber(omsTot(v), 2)&"</span></td>"
                                             else
-                                            strJobLinie_total = strJobLinie_total & "<br>&nbsp;</td>"
+                                            strJobLinie_total = strJobLinie_total & "&nbsp;</td>"
                                             end if
                                         end if 'if cint(directexp) <> 1 then
 								    expTxt = expTxt & formatnumber(omsTot(v), 2) &";;"
 							    else
                                     if cint(directexp) <> 1 then
-							        strJobLinie_total = strJobLinie_total & "<br>&nbsp;</td>"
+							        strJobLinie_total = strJobLinie_total & "&nbsp;</td>"
                                     end if 'if cint(directexp) <> 1 then
 							    end if
 
@@ -5023,6 +5168,8 @@ function LeiRotate() {
                 &"&FM_udspec="& upSpec &"&FM_directexp="& directexp &"&FM_udspec_all="& upSpec_all & ""_
                 &"&vis_fakturerbare="& vis_fakturerbare & "&vis_kpers="& vis_kpers &"&vis_jobbesk="& vis_jobbesk &"&vis_enheder="& vis_enheder & "&vis_restimer=" & vis_restimer & "&vis_normtimer="& vis_normtimer & "&FM_vis_medarbejdertyper="& vis_medarbejdertyper & "&FM_vis_medarbejdertyper_grp="& vis_medarbejdertyper_grp & ""_
                 &"&vis_redaktor=" & vis_redaktor & "&FM_segment="& segmentLnk   
+
+                'response.write prntLnk
 
 
 			if print <> "j" AND x >= 1 AND media <> "print" then

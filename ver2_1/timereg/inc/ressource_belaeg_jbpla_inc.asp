@@ -1416,9 +1416,12 @@ sub datoeroverskrift(val)
            
                 
 
-        <%if media <> "print" then %>
+        <%if media <> "print" then 
+        call positiv_aktivering_akt_fn()
+        if cint(pa_aktlist) = 1 then%>
+               <br /><a href="#" id="anl_<%=mid%>" class="rodstor">Tilføj forecast på job +</a> 
+        <%end if %>
 
-		<br /><a href="#" id="anl_<%=mid%>" class="rodstor">Tilføj forecast på job +</a> 
         <%else %>
         &nbsp;
 		<%end if%>

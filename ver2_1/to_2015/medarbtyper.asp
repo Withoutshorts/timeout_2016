@@ -19,6 +19,8 @@ Session.LCID = 1030
 	call showError(errortype)
     response.end
     end if
+
+ media = request("media")
  %>
 
 
@@ -33,18 +35,18 @@ Session.LCID = 1030
 
 <%
 
-    if media <> "print" then    
+    if media <> "print" AND media <> "eksport" then    
         call menu_2014
     end if
     
 
-    %>
+     if media <> "eksport" then     %>
 
 <div class="wrapper">
     <div class="content">
         
 
-<%
+<% end if
 
 '*** Sætter lokal dato/kr format. Skal indsættes efter kalender.
 	Session.LCID = 1030
@@ -54,6 +56,9 @@ Session.LCID = 1030
 	else
 	id = request("id")
 	end if
+
+   
+
 
 	select case func
 	case "slet"
@@ -84,81 +89,264 @@ Session.LCID = 1030
 	'*** Her slettes en medarbejder ***
 	oConn.execute("DELETE FROM medarbejdertyper WHERE id = "& id &"")
 	Response.redirect "medarbtyper.asp?menu=medarb"
+
+
 	
     case "med"
-%>
-            <!--#include file="../inc/regular/header_lysblaa_2015_inc.asp"-->
+                       
+            ekspTxt = ""
 
-            <%
-                if level = 1 then
-
-                strSQL = "SELECT id, type FROM medarbejdertyper WHERE id=" & id 
-	            oRec.open strSQL, oConn, 3
-	            if not oRec.EOF then
-	            gruppeNavn = oRec("type")
-	            end if
-	            oRec.close
-	        %>
-
-<!--Medlemmer-->
-<div class="container">
-<div class="portlet">
-    <h3 class="portlet-title"><u>Medarbejdertyper</u></h3>
-
-    <div>Aktive og passive medarbejdere af typen <b><%=gruppeNavn%></b></div><br />
-    <table class="table dataTable table-striped table-bordered table-hover ui-datatable">
-        <thead>
-            <tr>
-                <th>Navn</th>
-                <th>Intialer</th>
-                <th>Status</th>
-            </tr>
-        </thead>
-        <tbody>
-            <%
-	            strSQL = "SELECT mnavn, mid, mansat, init, mnr FROM medarbejdere WHERE medarbejdertype = "&id&" AND mansat <> 2 ORDER BY mansat, mnavn"
-	            oRec.open strSQL, oConn, 3
-	
-                x = 0
-	            while not oRec.EOF 
-
-                select case right(x, 1) 'if oRec("mansat") = 3 then
-                case 0,2,4,6,8
-                bgthis = "#EFF3FF"
-                case else
-                bgthis = "#FFFFFF"
-                end select
-
-	        %>
-            <tr>
-                <td><a href="medarb.asp?menu=medarb&func=red&id=<%=oRec("Mid")%>"><%=oRec("mnavn")%> (<%=oRec("mnr") %>)</a></td>
-                <td><%=oRec("init") %></td>
-                <td>
-                    <%      
-                    select case oRec("mansat") 
-                    case "1"
-                    mstatus = ""
-                    case "2"
-                    mstatus = "Lukket"
-                    case "3"
-                    mstatus = "Passiv"
-                    case else
-                    mstatus = ""
-                    end select%>
         
-                    <%=mstatus %>
-                </td>
-            </tr>
-            <%
-                oRec.movenext
-                wend 
-            %>
-        </tbody>
-    </table>
-</div>
-        <%else%> 
-    	<div>Du har ikke adgang til denne side</div>      
-        <%end if %>
+
+            if level = 1 then
+
+
+              
+
+                       
+                
+                              mtypgrpLps = 0
+
+
+                                if id <> 0 then
+                                  mtypgrpSQL = " id = "& id
+                                else
+                                  mtypgrpSQL = " id <> 0"
+                                end if
+
+                                
+                                strSQLtypegrupper = "SELECT id, type FROM medarbejdertyper mt WHERE "& mtypgrpSQL &" ORDER BY type"
+	
+                                'Response.write strSQLtypegrupper
+                                'Response.flush
+    
+                                oRec3.open strSQLtypegrupper, oConn, 3
+                                while not oRec3.EOF 
+	                            mTypegruppeNavn = oRec3("type")
+	                            
+
+
+                              if media <> "eksport" AND mtypgrpLps = 0 then  %>
+
+                            <!--Medlemmer-->
+                            <div class="container">
+                            <div class="portlet">
+                                <h3 class="portlet-title"><u>Medarbejdertyper</u></h3>
+
+                                <div>Aktive og passive medarbejdere af typen <b><%=mTypegruppeNavn%></b></div><br />
+                                <table class="table dataTable table-striped table-bordered table-hover ui-datatable">
+                                    <thead>
+                                        <tr>
+                                            <th>Navn</th>
+                                            <th>Intialer</th>
+                                            <th>Status</th>
+                                            <!--<th>Email</th>-->
+                                            <th>Ansatdato</th>
+                                            <th>Sidst logget ind</th>
+                                            <th>Seneste tidsreg.</th>
+                                            <!--<th>Opsagtdato</th>-->
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <%
+                                    end if 'media
+
+
+                        
+                            mTypeSQlkri = " medarbejdertype = "& oRec3("id") 
+                           
+
+	                        strSQL = "SELECT mnavn, mid, mansat, init, mnr, ansatdato, opsagtdato, medarbejdertype, lastlogin, email "_
+                            &" FROM medarbejdere "_
+                            &" WHERE "& mTypeSQlkri &" AND mansat <> 2 GROUP BY mid ORDER BY medarbejdertype, mansat, mnavn"
+	                        oRec.open strSQL, oConn, 3
+	
+
+                            'response.write strSQL & "<br>"
+                            'response.flush
+
+                            x = 0
+	                        while not oRec.EOF 
+
+
+
+                                                     call mstatus_lastlogin
+
+
+                                                        
+                                                     lastTregDato = ""   
+                                                     strSQLlastTreg = "SELECT tdato FROM timer WHERE tmnr = "& oRec("mid") & " ORDER BY tdato DESC LIMIT 1"
+                                                     oRec4.open strSQLlastTreg, oConn, 3
+                                                     if not oRec4.EOF then
+                                                        lastTregDato = oRec4("tdato")
+                                                     end if
+                                                     oRec4.close 
+                                                     
+                                                    
+
+
+                            if media <> "eksport" then
+
+                                    select case right(x, 1) 'if oRec("mansat") = 3 then
+                                    case 0,2,4,6,8
+                                    bgthis = "#EFF3FF"
+                                    case else
+                                    bgthis = "#FFFFFF"
+                                    end select
+
+	                                        %>
+                                            <tr>
+                                                <td><a href="medarb.asp?menu=medarb&func=red&id=<%=oRec("Mid")%>"><%=oRec("mnavn")%> [<%=oRec("init") %>]</a></td>
+                                                <td><%=oRec("init") %></td>
+                                                <td><%=mstatus %></td>
+                                                <!--<td><%=oRec("email") %></td>-->
+                                                <td><%=oRec("ansatdato") %></td>
+                                                <!--<td>
+                                                    <%if cDate(oRec("opsagtdato")) <> "1-1-2044" then %>
+                                                    <%=oRec("opsagtdato") %>
+                                                    <%opsagtdatoTxt = oRec("opsagtdato")
+                                                    else  
+                                                    opsagtdatoTxt = ""  
+                                                    %>
+                                                    <%end if %>
+
+                                                </td>
+                                                -->
+                                                <td><%=lastLoginDateFm %></td>
+                                                    <td><%=lastTregDato%></td>
+                                            </tr>
+                                            <%
+
+                                    else
+                                                '";"& opsagtdatoTxt
+                                                ekspTxt = ekspTxt & mTypegruppeNavn & ";" & oRec("mnavn") & ";" & oRec("init") & ";"& mstatus &";" & oRec("ansatdato") &";"& lastLoginDateFm &";"& lastTregDato &";xx99123sy#z"
+
+                                    end if
+
+
+                                    x = x + 1
+                                    oRec.movenext
+                                    wend 
+                                    oRec.close
+
+
+                            oRec3.movenext
+                            wend
+	                        oRec3.close
+                       
+                                        
+                    if media <> "eksport" AND x <> 0 then                    
+                    %>
+                    </tbody>
+                </table>
+              Antal medarbejdere på listen: <%=x%>
+            </div>
+
+                    <br /><br />
+
+                      <section>
+                            <div class="row">
+                                 <div class="col-lg-12">
+                                    <b>Funktioner</b>
+                                    </div>
+                                </div>
+                                <form action="medarbtyper.asp?media=eksport&func=med&id=<%=id%>" method="Post" target="_blank">
+                  
+                                <div class="row">
+                                 <div class="col-lg-12 pad-r30">
+                         
+                                <input id="Submit5" type="submit" value="Eksport til csv." class="btn btn-sm" /><br />
+                         
+                                     </div>
+
+
+                            </div>
+                            </form>
+                
+                        </section>    
+
+                        <br /><br />
+            <%else 
+
+
+                 
+        
+            
+            '************************************************************************************************************************************************
+            '******************* Eksport **************************' 
+
+                    call TimeOutVersion()
+    
+    
+                    ekspTxt = ekspTxt 'request("FM_ekspTxt")
+	                ekspTxt = replace(ekspTxt, "xx99123sy#z", vbcrlf)
+	
+	
+	
+	                filnavnDato = year(now)&"_"&month(now)& "_"&day(now)
+	                filnavnKlok = "_"&datepart("h", now)&"_"&datepart("n", now)&"_"&datepart("s", now)
+	
+				                Set objFSO = server.createobject("Scripting.FileSystemObject")
+				
+				                if request.servervariables("PATH_TRANSLATED") = "C:\www\timeout_xp\wwwroot\ver2_1\to_2015\medarbtyper.asp" then
+					                Set objNewFile = objFSO.createTextFile("c:\www\timeout_xp\wwwroot\ver2_1\inc\log\data\medarbtyperexp_"&filnavnDato&"_"&filnavnKlok&"_"&lto&".csv", True, False)
+					                Set objNewFile = nothing
+					                Set objF = objFSO.OpenTextFile("c:\www\timeout_xp\wwwroot\ver2_1\inc\log\data\medarbtyperexp_"&filnavnDato&"_"&filnavnKlok&"_"&lto&".csv", 8)
+				                else
+					                Set objNewFile = objFSO.createTextFile("d:\webserver\wwwroot\timeout_xp\wwwroot\"& toVer &"\inc\log\data\medarbtyperexp_"&filnavnDato&"_"&filnavnKlok&"_"&lto&".csv", True, False)
+					                Set objNewFile = nothing
+					                Set objF = objFSO.OpenTextFile("d:\webserver\wwwroot\timeout_xp\wwwroot\"& toVer &"\inc\log\data\medarbtyperexp_"&filnavnDato&"_"&filnavnKlok&"_"&lto&".csv", 8)
+				                end if
+				
+				
+				
+				                file = "medarbtyperexp_"&filnavnDato&"_"&filnavnKlok&"_"&lto&".csv"
+				
+				
+				                '**** Eksport fil, kolonne overskrifter ***
+	                            strOskrifter = "Medarbejdetype; Medarbejder; Init; Status; Ansatdato; Sidst logget ind; Seneste tidsreg.;"
+				
+				
+				
+				
+				                objF.WriteLine(strOskrifter & chr(013))
+				                objF.WriteLine(ekspTxt)
+				                objF.close
+				
+				                %>
+				                <div style="position:absolute; top:100px; left:200px; width:300px;">
+	                            <table border=0 cellspacing=1 cellpadding=0 width="100%">
+	                            <tr><td valign=top bgcolor="#ffffff" style="padding:5px;">
+	                            <img src="../ill/outzource_logo_200.gif" />
+	                            </td>
+	                            </tr>
+	                            <tr>
+	                            <td valign=top bgcolor="#ffffff" style="padding:5px 5px 5px 15px;">
+                
+                             
+	                            <a href="../inc/log/data/<%=file%>" target="_blank" >Din CSV. fil er klar >></a>
+	                            </td></tr>
+	                            </table>
+                                </div>
+	            
+	          
+	            
+	                            <%
+                
+                
+                                Response.end
+	                            'Response.redirect "../inc/log/data/"& file &""	
+				
+
+
+
+                end if  
+                '************************************************************************************************************************************************
+              
+                
+               else%> 
+    	            <div>Du har ikke adgang til denne side</div>      
+                    <%end if %>
 
 	
     
@@ -1632,7 +1820,7 @@ case "dbopr", "dbred"
                     (id: <%=oRec("sostergp") %>)
                     <%end if %></td> 
                     <td><a href="medarbtyper.asp?menu=medarb&func=med&id=<%=oRec("id")%>">Se medlemmer</a> <b>(<%=antalx%>)</b> (<%=t %>)</td>
-                    <td><%=oRec("timepris")%> &nbsp <%=oRec("valutakode") %></td>
+                    <td><%=oRec("timepris") &" "& oRec("valutakode") %></td>
                     <td><%=oRec("kostpris") &" "& basisValISO%></td>
                     <td><%=formatnumber(ugetotal)%> t. (<%=formatnumber(ugetotal/5, 1)%>)</td>
                     <%if cint(antalx) = 0 AND cint(t) = 0 then%>
@@ -1664,7 +1852,39 @@ case "dbopr", "dbred"
 
             </tfoot>
         </table>
-    </div>
+         </div>
+
+      
+
+
+        <br /><br />
+
+          <section>
+                <div class="row">
+                     <div class="col-lg-12">
+                        <b>Funktioner</b>
+                        </div>
+                    </div>
+                    <form action="medarbtyper.asp?media=eksport&func=med&id=0" method="Post" target="_blank">
+                  
+                    <div class="row">
+                     <div class="col-lg-12 pad-r30">
+                         
+                    <input id="Submit5" type="submit" value="Eksporter alle medarb.typer til csv." class="btn btn-sm" /><br />
+                         
+                         </div>
+
+
+                </div>
+                </form>
+                
+            </section>    
+            
+        
+        <br /><br />
+
+
+   
         <%else%> 
     	<div>Du har ikke adgang til denne side</div>      
         <%end if %>

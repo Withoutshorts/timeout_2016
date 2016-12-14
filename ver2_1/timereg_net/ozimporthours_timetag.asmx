@@ -9,6 +9,7 @@ Imports System.Threading
 
 Public Class to_import_timetag
 
+    Public dlbTimerRaw As String
     Public testValue As String
     Public testmode As Integer = 0
 
@@ -606,10 +607,20 @@ Public Class to_import_timetag
 
 
 
-                                If Left(Replace(trmmin, ".", ""), 3) <> "999" Then '6 min
+                                If Left(Replace(trmmin, ".", ""), 3) <> "999" Then '6 min / 7 min.
 
-                                    dlbTimer = trmhrs & ",0"
-                                    trmmin = Left(trmminArr(0), 3)
+                                    If (Mid(dlbTimer, 4, 1) = "6" And Left(Replace(trmmin, ".", ""), 3) = "116") Then '2 eller 3 timer og 7 min
+                                        'dlbTimerRaw = dlbTimer & "#" & trmmin & "#LEFT: " & Left(Replace(trmmin, ".", ""), 3) & "//MID 4: " & Mid(dlbTimer, 4, 1)
+
+                                        dlbTimer = trmhrs & ","
+                                        trmmin = Left(trmminArr(0), 3)
+
+                                    Else
+
+                                        dlbTimer = trmhrs & ",0"
+                                        trmmin = Left(trmminArr(0), 3)
+
+                                    End If
 
                                 Else
 
@@ -624,6 +635,9 @@ Public Class to_import_timetag
 
 
                             Else
+
+                                'dlbTimerRaw = dlbTimer & "#" & trmmin
+
                                 dlbTimer = trmhrs & ","
                                 trmmin = Left(trmminArr(0), 3)
                             End If
@@ -672,6 +686,13 @@ Public Class to_import_timetag
                             If (trmmin = 749) Then
 
                                 trmmin = 75
+
+                            End If
+
+
+                            If (trmmin = 699) Then
+
+                                trmmin = 70
 
                             End If
 
@@ -797,7 +818,7 @@ Public Class to_import_timetag
 
                         End If
                     Catch ex As Exception
-                        Throw New Exception("If errThisTOno=0 SELECT extsysid (ozimphours_timetag value: " & intTempImpId & ") FROM Timer error: " + ex.Message)
+                        Throw New Exception("If errThisTOno=0 SELECT extsysid FROM Timer error: " + ex.Message)
                     End Try
 
                 End If
@@ -1390,13 +1411,11 @@ Public Class to_import_timetag
                         Try
 
 
-                            Select dbnavn
-                                Case "wilke", "intranet" 'SKLA rettes
-                                    'intTempImpId = 0
-                                    intTempImpId = 99
-                                Case Else
-                                    intTempImpId = extsysid
-                            End Select
+                            'Select Case dbnavn
+                            'Case "wilke" 'SKLA rettes
+                            ' 'intTempImpId = 0
+                             intTempImpId = 99
+                            'End Select
 
 
                             '*** Indlæser Timer ***'

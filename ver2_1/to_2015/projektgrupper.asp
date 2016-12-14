@@ -39,8 +39,12 @@
 	id = request("id")
 	end if
 
+    media = request("media")
 
-        if media <> "print" then    
+
+    if media <> "eksport" then
+
+    if media <> "print" then    
         call menu_2014
     end if
 
@@ -49,7 +53,10 @@
         <div id="wrapper">
         <div class="content">
 
-    <%
+    <%end if 'media
+
+
+
     select case func
     case "slet"
         '***Her spørges om det er ok at slette en medarbejder***
@@ -189,62 +196,90 @@
     <% case "med" 
         
      orgvir = 0   
-     %>
-    <!--Projektgruppe medlemmer-->
-    <script src="js/projektgrupper_medl.js" type="text/javascript"></script>
+     
+        
+        if media <> "eksport" then
+         %>
+        <!--Projektgruppe medlemmer-->
+        <script src="js/projektgrupper_medl.js" type="text/javascript"></script>
 
-    <div class="container">
-        <div class="portlet">
-        <div class="portlet-title"><h3><u>Projektgrupper (medlemmer)</u></h3></div>
+        <div class="container">
+            <div class="portlet">
+            <h3 class="portlet-title"><u>Projektgrupper (medlemmer)</u></h3>
 
-        <form action="projektgrupper.asp?menu=job&func=opdprorel" method="post">
-	    <input type="hidden" name="FM_projektgruppeId" value="<%=id%>">
+            <form action="projektgrupper.asp?menu=job&func=opdprorel" method="post">
+	        <input type="hidden" name="FM_projektgruppeId" value="<%=id%>">
         
 
-        <div class="row">
-        <div class="col-lg-10">&nbsp</div>
-        <div class="col-lg-2"><button type="submit" class="btn btn-success btn-sm pull-right"><b>Opdatér</b></button></div>
-        </div>
+            <div class="row">
+            <div class="col-lg-10">&nbsp</div>
+            <div class="col-lg-2"><button type="submit" class="btn btn-success btn-sm pull-right"><b>Opdatér</b></button></div>
+            </div>
             <%
-	        strSQL = "SELECT id, navn, orgvir FROM projektgrupper WHERE id=" & id
-	        oRec.open strSQL, oConn, 3
-	        if not oRec.EOF then
-	        gruppeNavn = oRec("navn")
-            orgvir = oRec("orgvir")
-	        end if
-	        oRec.close
 
-            
-            medIAndreOrgProjGrpStr = "#0#"
-            if cint(orgvir) = 1 then
-
-            '*** Tjekker Om Medarb er med i andre projgrp
-            strSQLmedIAndreOrgProjGrp = "SELECT p.id, m.mid FROM projektgrupper AS p "_
-            &" LEFT JOIN progrupperelationer AS pr ON (pr.ProjektgruppeId = p.id) "_
-            &" LEFT JOIN medarbejdere AS m ON (m.mid = pr.medarbejderid) "_
-            &" WHERE orgvir = 1 AND p.id <> "& id & " AND mid IS NOT NULL "
-              
-                'response.write strSQLmedIAndreOrgProjGrp
-
-                oRec.open strSQLmedIAndreOrgProjGrp, oConn, 3
-                while not oRec.EOF  
-             
-
-                    medIAndreOrgProjGrpStr = medIAndreOrgProjGrpStr & ",#"& oRec("mid") &"#"
-	                
-
-                oRec.movenext
-                wend 
-                oRec.close
+        end if
 
 
+            Dim MedarbId()
+
+            if id <> 0 then
+            progrpSQL = " id = "& id
+            else
+            progrpSQL = " (id <> 0 AND id <> 10) "
             end if
 
+
+	        strSQL3 = "SELECT id, navn, orgvir FROM projektgrupper WHERE "& progrpSQL & " ORDER BY navn"
+
+            'response.Write "strSQL3: " & strSQL3
+            'Response.flush
+
+	        oRec3.open strSQL3, oConn, 3
+	        while not oRec3.EOF 
+
+	        proGruppeNavn = oRec3("navn")
+            orgvir = oRec3("orgvir")
+
+	      
+
+
+                '***************************************
+                if media <> "eksport" then
+            
+                    medIAndreOrgProjGrpStr = "#0#"
+                    if cint(orgvir) = 1 then
+
+                    '*** Tjekker Om Medarb er med i andre projgrp
+                    strSQLmedIAndreOrgProjGrp = "SELECT p.id, m.mid FROM projektgrupper AS p "_
+                    &" LEFT JOIN progrupperelationer AS pr ON (pr.ProjektgruppeId = p.id) "_
+                    &" LEFT JOIN medarbejdere AS m ON (m.mid = pr.medarbejderid) "_
+                    &" WHERE orgvir = 1 AND p.id <> "& id & " AND mid IS NOT NULL "
+              
+                        'response.write strSQLmedIAndreOrgProjGrp
+
+                        oRec.open strSQLmedIAndreOrgProjGrp, oConn, 3
+                        while not oRec.EOF  
+             
+
+                            medIAndreOrgProjGrpStr = medIAndreOrgProjGrpStr & ",#"& oRec("mid") &"#"
+	                
+
+                        oRec.movenext
+                        wend 
+                        oRec.close
+
+
+                    end if
+
+                end if 'media
+                '***************************************
+
+         if media <> "eksport" then
 	        %>        
 
         <div class="portlet-body">
             <section>
-            <p>Medarbejdere i projektgruppen <b><%=gruppeNavn%></b></p>
+            <p>Medarbejdere i projektgruppen <b><%=proGruppeNavn%></b></p>
            
             <!--Liste med medlemmer--> 
             <table class="table dataTable table-striped table-bordered table-hover ui-datatable">                  
@@ -255,78 +290,109 @@
                        <th style="width: 5%">Tilføj/Fjern ?</th>
                        <th style="width: 5%">Teamleder ?</th>
                        <th style="width: 5%">Notificer</th>
+                       <th style="width: 5%">Ansatdato</th>
+                       <th style="width: 10%">Sidst logget ind</th>
+                       
                    </tr>
             </thead>
                     <% 
-                    Dim MedarbId()
 
-                    strSQL = "SELECT Mnavn, Mid, MedarbejderId, teamleder, init, mnr, mansat, notificer FROM progrupperelationer, medarbejdere"_
-                    &" WHERE Mid = MedarbejderId AND ProjektgruppeId = "&id&" ORDER BY Mnavn"
-	                oRec.open strSQL, oConn, 3
-	                x = 0
-	                Redim MedarbId(x)
-	                while not oRec.EOF 
+            end if 'media
+
+                          
+
+                            strSQL = "SELECT Mnavn, Mid, MedarbejderId, teamleder, init, mnr, mansat, notificer, lastlogin, ansatdato FROM progrupperelationer, medarbejdere"_
+                            &" WHERE Mid = MedarbejderId AND ProjektgruppeId = "& oRec3("id") &" ORDER BY Mnavn"
+	                        oRec.open strSQL, oConn, 3
+	                        x = 0
+	                        Redim MedarbId(x)
+	                        while not oRec.EOF 
 	
 	               
 	
-	                Redim preserve MedarbId(x)
-	                MedarbId(x) = oRec("Mid")
-                  %>  
+	                        Redim preserve MedarbId(x)
+	                        MedarbId(x) = oRec("Mid")
+
+                            call mstatus_lastlogin
+                                                   
+
+
+                        if media <> "eksport" then
+                          %>  
                
-               <tbody>
-                   <tr>
-                       <td><a href="medarb.asp?func=red&id=<%=oRec("Mid") %>"><%=oRec("Mnavn")%> 
-                           <% 
-                            if len(trim(oRec("init"))) <> 0 then
-                            %>
-                            &nbsp;[<%=oRec("init") %>]
-                            <%end if    
-                            %>
-                           </a></td>
+                       <tbody>
+                           <tr>
+                               <td><a href="medarb.asp?func=red&id=<%=oRec("Mid") %>"><%=oRec("Mnavn")%> 
+                                   <% 
+                                    if len(trim(oRec("init"))) <> 0 then
+                                    %>
+                                    &nbsp;[<%=oRec("init") %>]
+                                    <%end if    
+                                    %>
+                                   </a></td>
 
-                       <td>
-                             <%if oRec("mansat") = "2" then %>
-                            - Deaktiveret
-                             <%end if %>
+                               <td>
+                                     <%=mstatus %>
 
-                             <%if oRec("mansat") = "3" then %>
-                            - Passiv
-                             <%end if %>
+                               </td>
 
-                       </td>
-
-                       <td><input type="checkbox" name="FM_medlem_<%=x%>" value="1" CHECKED>
-		               <input type="hidden" name="FM_Mid_<%=x%>" value="<%=oRec("Mid")%>"></td>
-                       <%if cint(oRec("teamleder")) =  1 then
-		                tmCHK = "CHECKED"
-		                else
-		                tmCHK = ""
-		                end if %>
+                               <td><input type="checkbox" name="FM_medlem_<%=x%>" value="1" CHECKED>
+		                       <input type="hidden" name="FM_Mid_<%=x%>" value="<%=oRec("Mid")%>"></td>
+                               <%if cint(oRec("teamleder")) =  1 then
+		                        tmCHK = "CHECKED"
+		                        else
+		                        tmCHK = ""
+		                        end if %>
 		
-                        <%if cint(oRec("notificer")) =  1 then
-		                ntCHK = "CHECKED"
-		                else
-		                ntCHK = ""
-		                end if 
-                       %>
-                       <%if level = 1 then %>
-		                <td><input type="checkbox" name="FM_teamleder_<%=x%>" value="1" <%=tmCHK %>></td>
-                        <td><input type="checkbox" name="FM_notificer_<%=x%>" value="1" <%=ntCHK %>></td>
-		                <%else%>
-                       <td><input type="checkbox" name="" value="1" DISABLED <%=tmCHK %>>
-                        <input id="Hidden1" name="FM_teamleder_<%=x%>" value="<%=oRec("teamleder") %>" type="hidden" /></td>
-                        <td><input type="checkbox" name="" value="1" DISABLED <%=ntCHK %>>
-                        <input id="Hidden1" name="FM_notificer_<%=x%>" value="<%=oRec("notificer") %>" type="hidden" /></td>
-		                <%end if %>
-                   </tr>
-                   <%
-                    x = x + 1
-                   oRec.movenext
-                    wend
-                   oRec.close
+                                <%if cint(oRec("notificer")) =  1 then
+		                        ntCHK = "CHECKED"
+		                        else
+		                        ntCHK = ""
+		                        end if 
+                               %>
+                               <%if level = 1 then %>
+		                        <td><input type="checkbox" name="FM_teamleder_<%=x%>" value="1" <%=tmCHK %>></td>
+                                <td><input type="checkbox" name="FM_notificer_<%=x%>" value="1" <%=ntCHK %>></td>
+		                        <%else%>
+                               <td><input type="checkbox" name="" value="1" DISABLED <%=tmCHK %>>
+                                <input id="Hidden1" name="FM_teamleder_<%=x%>" value="<%=oRec("teamleder") %>" type="hidden" /></td>
+                                <td><input type="checkbox" name="" value="1" DISABLED <%=ntCHK %>>
+                                <input id="Hidden1" name="FM_notificer_<%=x%>" value="<%=oRec("notificer") %>" type="hidden" /></td>
+		                        <%end if %>
+
+                               
+                               <td style="white-space:nowrap;"><%=oRec("ansatdato") %></td>
+                               <td style="white-space:nowrap;"><%=lastLoginDateFm %></td>
+                           </tr>
+                           <%
+                           else
+
+                               ekspTxt = ekspTxt & proGruppeNavn &";"& oRec("mnavn") &";"& oRec("init") &";"& mstatus &";"& oRec("teamleder") &";"& oRec("notificer") &";"& oRec("ansatdato") &";"& lastLoginDateFm &";xx99123sy#z"
+
+                           end if 'media
+
+                            x = x + 1
+                           oRec.movenext
+                            wend
+                           oRec.close
+
+
+
+                  oRec3.movenext
+                  wend
+	              oRec3.close
+
+
+
+
+                 if media <> "eksport" then
                    %>
                </tbody>     
            </table>
+                <%
+             if media <> "eksport" AND x <> 0 then %>
+            Antal medarbejdere i projektgruppen: <%=x%><br /><br />
+            <%end if %>
 
             <!--Ikke medlemmer liste-->
             <div class="pad-t10"><p>Medarbejdere udenfor projektgruppen (aktive og pasive)</p></div>
@@ -335,9 +401,11 @@
                    <tr>
                        <th style="width: 45%">Navn</th>
                        <th style="width: 20%">Status</th>
-                       <th style="width: 5%;"><input type="checkbox" value="0" id="FM_chk_all_add" /><br />Tilføj/Fjern ?</th>
+                       <th style="width: 10%;"><input type="checkbox" value="0" id="FM_chk_all_add"  /> Tilføj/Fjern ?</th>
                        <th style="width: 5%">Teamleder ?</th>
                        <th style="width: 5%">Notificer</th>
+                       <th style="width: 5%">Ansatdato</th>
+                       <th style="width: 10%">Sidst logget ind</th>
                    </tr>
                 </thead>
                    <%
@@ -354,21 +422,26 @@
 	                LantChar = left(strExclude, (antChar -5)) 
 	                strExcludeFinal = "WHERE " & LantChar
 	
-	                strSQL = "SELECT Mnavn, Mid, init, mnr, mansat FROM medarbejdere "& strExcludeFinal &" AND (mansat <> '2') ORDER BY Mnavn"
+	                strSQL = "SELECT Mnavn, Mid, init, mnr, mansat, lastlogin, ansatdato FROM medarbejdere "& strExcludeFinal &" AND (mansat <> '2') ORDER BY Mnavn"
 	                else
-	                strSQL = "SELECT Mnavn, Mid, init, mnr, mansat FROM medarbejdere WHERE mansat <> '2' ORDER BY Mnavn"
+	                strSQL = "SELECT Mnavn, Mid, init, mnr, mansat, lastlogin, ansatdato FROM medarbejdere WHERE mansat <> '2' ORDER BY Mnavn"
 	                end if
 
-                   
+                    'response.write "strSQL: " & strSQL & "<br>" 
+
+
 	                oRec.open strSQL, oConn, 3
 
                     y = x
 	                r = oRec.recordcount
 
 	                while not oRec.EOF
+
+
+                    call mstatus_lastlogin
                     %>
              
-               <tbody>
+                    <tbody>
                    <tr>
                        <td><a href="medarb.asp?func=red&id=<%=oRec("Mid") %>"><%=oRec("Mnavn")%>
                            <% 
@@ -380,13 +453,7 @@
                            </a></td>
 
                         <td>
-                             <%if oRec("mansat") = "2" then %>
-                            - Deaktiveret
-                             <%end if %>
-
-                             <%if oRec("mansat") = "3" then %>
-                            - Passiv
-                             <%end if %>
+                             <%=mstatus %>
 
                        </td>
 
@@ -411,10 +478,12 @@
                             <td><input type="checkbox" name="" value="0" DISABLED>
                             <input id="Text1" name="FM_notificer_<%=y%>" value="0" type="hidden" /></td>
 		                    <%end if %>
-
+                           
+                             <td style="white-space:nowrap;"><%=oRec("ansatdato") %></td>
+                             <td style="white-space:nowrap;"><%=lastLoginDateFm %></td>
 
                        <%else %>
-                       <td colspan="3" style="font-size:9px;">Er allerede i Org. projektgruppe</td>
+                       <td colspan="5" style="font-size:9px;">Er allerede i Org. projektgruppe</td>
 
                        <%end if %>
 
@@ -429,20 +498,132 @@
              </table>
             </section>
 
-            <div style="margin-top:15px; margin-bottom:15px;">
+                    <div style="margin-top:15px; margin-bottom:15px;">
                     <button type="submit" class="btn btn-success btn-sm pull-right"><b>Opdatér</b></button>
                      
          
                     <div class="clearfix"></div>
-                 </div>
+                    </div>
 
-        </div>
-            <input type="hidden" name="FM_antal_y" value="<%=y%>">
-       </form>
-    </div>
+               </div>
+                    <input type="hidden" name="FM_antal_y" value="<%=y%>">
+                    </form>
+                </div>
+
+      
     
+            <% 
+            end if 'media
 
-</div>
+            if media <> "eksport" then %>
+            
+                    <br /><br />
+
+                      <section>
+                            <div class="row">
+                                 <div class="col-lg-12">
+                                    <b>Funktioner</b>
+                                    </div>
+                                </div>
+                                <form action="projektgrupper.asp?media=eksport&func=med&id=<%=id%>" method="Post" target="_blank">
+                  
+                                <div class="row">
+                                 <div class="col-lg-12 pad-r30">
+                         
+                                <input id="Submit5" type="submit" value="Eksport til csv." class="btn btn-sm" /><br />
+                         
+                                     </div>
+
+
+                            </div>
+                            </form>
+                
+                        </section>    
+
+                        <br /><br />
+
+
+
+            <%end if
+
+
+            '************************************************************************************************************************************************
+            '******************* Eksport **************************' 
+            if media = "eksport" then
+
+                    call TimeOutVersion()
+    
+    
+                    ekspTxt = ekspTxt 'request("FM_ekspTxt")
+	                ekspTxt = replace(ekspTxt, "xx99123sy#z", vbcrlf)
+	
+	
+                    'response.write ekspTxt
+                    'response.Flush 
+
+	
+	                filnavnDato = year(now)&"_"&month(now)& "_"&day(now)
+	                filnavnKlok = "_"&datepart("h", now)&"_"&datepart("n", now)&"_"&datepart("s", now)
+	
+				                Set objFSO = server.createobject("Scripting.FileSystemObject")
+				
+				                if request.servervariables("PATH_TRANSLATED") = "C:\www\timeout_xp\wwwroot\ver2_1\to_2015\projektgrupper.asp" then
+					                Set objNewFile = objFSO.createTextFile("c:\www\timeout_xp\wwwroot\ver2_1\inc\log\data\projektgrupperexp_"&filnavnDato&"_"&filnavnKlok&"_"&lto&".csv", True, False)
+					                Set objNewFile = nothing
+					                Set objF = objFSO.OpenTextFile("c:\www\timeout_xp\wwwroot\ver2_1\inc\log\data\projektgrupperexp_"&filnavnDato&"_"&filnavnKlok&"_"&lto&".csv", 8)
+				                else
+					                Set objNewFile = objFSO.createTextFile("d:\webserver\wwwroot\timeout_xp\wwwroot\"& toVer &"\inc\log\data\projektgrupperexp_"&filnavnDato&"_"&filnavnKlok&"_"&lto&".csv", True, False)
+					                Set objNewFile = nothing
+					                Set objF = objFSO.OpenTextFile("d:\webserver\wwwroot\timeout_xp\wwwroot\"& toVer &"\inc\log\data\projektgrupperexp_"&filnavnDato&"_"&filnavnKlok&"_"&lto&".csv", 8)
+				                end if
+				
+				
+				
+				                file = "projektgrupperexp_"&filnavnDato&"_"&filnavnKlok&"_"&lto&".csv"
+				
+				
+				                '**** Eksport fil, kolonne overskrifter ***
+	                            strOskrifter = "Projektgruppe; Medarbejder; Init; Teamleder; Notificer; Status; Ansatdato; Sidst logget ind;"
+				
+				
+				
+				
+				                objF.WriteLine(strOskrifter & chr(013))
+				                objF.WriteLine(ekspTxt)
+				                objF.close
+				
+				                %>
+				                <div style="position:absolute; top:100px; left:200px; width:300px;">
+	                            <table border=0 cellspacing=1 cellpadding=0 width="100%">
+	                            <tr><td valign=top bgcolor="#ffffff" style="padding:5px;">
+	                            <img src="../ill/outzource_logo_200.gif" />
+	                            </td>
+	                            </tr>
+	                            <tr>
+	                            <td valign=top bgcolor="#ffffff" style="padding:5px 5px 5px 15px;">
+                
+                             
+	                            <a href="../inc/log/data/<%=file%>" target="_blank" >Din CSV. fil er klar >></a>
+	                            </td></tr>
+	                            </table>
+                                </div>
+	            
+	          
+	            
+	                            <%
+                
+                
+                                Response.end
+	                            'Response.redirect "../inc/log/data/"& file &""	
+				
+
+
+
+                end if  
+                '************************************************************************************************************************************************ %>
+
+              </div>
+
 
 <%
 	
@@ -782,6 +963,31 @@ case else
           </div>
 
       </div>
+
+
+      <br /><br />
+
+          <section>
+                <div class="row">
+                     <div class="col-lg-12">
+                        <b>Funktioner</b>
+                        </div>
+                    </div>
+                    <form action="projektgrupper.asp?media=eksport&func=med&id=0" method="Post" target="_blank">
+                  
+                    <div class="row">
+                     <div class="col-lg-12 pad-r30">
+                         
+                    <input id="Submit5" type="submit" value="Eksporter alle projektgrupper til csv." class="btn btn-sm" /><br />
+                         
+                         </div>
+
+
+                </div>
+                </form>
+                
+            </section>   
+              <br /><br />&nbsp;
 
 </div>
 

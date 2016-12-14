@@ -398,6 +398,7 @@ end if
     st_sl_DatoChk1 = ""
     st_sl_DatoChk2 = ""
     st_sl_DatoChk3 = ""
+    st_sl_DatoChk6 = ""
     st_sl_DatoChk4 = ""
     st_sl_DatoChk5 = ""
     stsldatoSQLKri = "" 'jobstartdato DESC
@@ -420,7 +421,7 @@ end if
    
     st_sl_DatoChk3 = "CHECKED"
     stsldatoSQLKri = "" 'jobstartdato DESC
-    printVal = "- Timer, materialer eller faktura"
+    printVal = "- Timer, materialer eller fakturaer"
 
     case 4
   
@@ -433,6 +434,12 @@ end if
     st_sl_DatoChk5 = "CHECKED"
     stsldatoSQLKri = "" 'jobstartdato DESC
     printVal = "- Timer"
+
+    case 6
+   
+    st_sl_DatoChk6 = "CHECKED"
+    stsldatoSQLKri = "" 'jobstartdato DESC
+    printVal = "- Fakturaer"
 
     case else
     st_sl_DatoChk0 = "CHECKED"
@@ -1263,44 +1270,58 @@ if len(session("user")) = 0 then
         
         <%  
         
-        if len(trim(request("job_kans"))) = 0 then
-                
-                if request.cookies("webblik")("jk_ans_filter") <> 0 then
-                    
-                    if request.cookies("webblik")("jk_ans_filter") = "1" then
-                    job_kans1CHK = "CHECKED"
-		            job_kans2CHK = ""
-		            job_kans = "1"
-		            else
-		            job_kans1CHK = ""
-		            job_kans2CHK = "CHECKED"
-		            job_kans = "2"
-		            end if
-		        
-                else
-                    job_kans1CHK = "CHECKED"
-		            job_kans2CHK = ""
-		            job_kans = "1"
-                end if
-                
+        if len(trim(request("jobansv"))) <> 0 AND request("jobansv") <> 0 then
+            jobansv = 1
+            jobansvCHK = "CHECKED"
         else
-        
-            if request("job_kans") = "1" then
-		        job_kans1CHK = "CHECKED"
-		        job_kans2CHK = ""
-		        job_kans = "1"
-		    else
-		        job_kans1CHK = ""
-		        job_kans2CHK = "CHECKED"
-		        job_kans = "2"
-		    end if
-		
-		end if
+            if request.cookies("webblik")("jobansv") = "1" AND len(request("FM_kunde")) = 0 then
+            jobansv = 1
+            jobansvCHK = "CHECKED"
+            else
+            jobansv = 0
+            jobansvCHK = ""
+            end if
+        end if
+
+        if len(trim(request("salgsansv"))) <> 0 AND request("salgsansv") <> 0 then
+            salgsansv = 1
+            salgsansvCHK = "CHECKED"
+        else
+            if request.cookies("webblik")("salgsansv") = "1" AND len(request("FM_kunde")) = 0 then
+            salgsansv = 1
+            salgsansvCHK = "CHECKED"
+            else
+            salgsansv = 0
+            salgsansvCHK = ""
+            end if
+        end if
+
+
+         if len(trim(request("kansv"))) <> 0 AND request("kansv") <> 0 then
+            kansv = 1
+            kansvCHK = "CHECKED"
+        else
+            if request.cookies("webblik")("kansv") = "1" AND len(request("FM_kunde")) = 0 then
+            kansv = 1
+            kansvCHK = "CHECKED"
+            else 
+            kansv = 0
+            kansvCHK = ""
+            end if
+        end if
+
+
+            response.cookies("webblik")("jobansv") = jobansv
+            response.cookies("webblik")("salgsansv") = salgsansv
+            response.cookies("webblik")("kansv") = kansv
+
+       
+      
     
     %>
     
     <br />
-    <b>Job / kundeansvarlig -  vis kun job hvor: </b><br />
+    <b>Job / kundeansvarlig</b> vis kun job hvor valgte medarb. er: <br />
            
            <%if print = "j" then%>
            - 
@@ -1348,23 +1369,32 @@ if len(session("user")) = 0 then
              %>
              
          <%if print <> "j" then%>   
-        </select> er: <input name="job_kans" id="job_kans" value="1" type="radio" <%=job_kans1CHK%> /> Jobansvarlig (1-5) <br /><img src="ill/blank.gif" width="219" height=1 border=0 /> <input name="job_kans" id="Radio1" value="2" type="radio" <%=job_kans2CHK%> /> Kundeansvarlig 
+        </select>
+        <br /><input name="jobansv" id="job_kans" value="1" type="checkbox" <%=jobansvCHK%> /> Jobansv. (1-5) &nbsp;
+        <input name="salgsansv" id="salgs_kans" value="1" type="checkbox" <%=salgsansvCHK%> /> Salgsansv. (1-5) &nbsp; 
+        <input name="kansv" id="Radio1" value="1" type="checkbox" <%=kansvCHK%> /> Kundeansvarlig 
         
         <%else %>
      
        
             
             <%=mNavn %> er
-            <%if job_kans = 1 then %>
-            jobansvarlig.
-            <%else %>
-            kundeansvarlig.
+            <%if cint(jobansv) = 1 then %>
+            <br />Jobansvarlig
+            <%end if %>
+
+             <%if cint(salgsansv) = 1 then %>
+            <br />Salgsansvarlig
+            <%end if %>
+
+            <%if cint(kansv) = 1 then %>
+            <br />Kundeansvarlig
             <%end if %>
         
         <%end if 
         
         response.cookies("webblik")("jk_ans") = medarb_jobans
-        response.cookies("webblik")("jk_ans_filter") = job_kans
+        'response.cookies("webblik")("jk_ans_filter") = job_kans
         
         %>
     
@@ -1466,8 +1496,8 @@ if len(session("user")) = 0 then
     <%if print <> "j" then %>
     <input id="st_sl_dato" name="st_sl_dato" type="radio" value="0" <%=st_sl_DatoChk0 %>/> <b>Startdato</b><br />
 	<input id="st_sl_dato" name="st_sl_dato" type="radio" value="1" <%=st_sl_DatoChk1 %>/> <b>Slutdato</b> <br />
-    <input id="st_sl_dato" name="st_sl_dato" type="radio" value="3" <%=st_sl_DatoChk3 %>/> <b>Timer, fakturaer ell. materiale-forbrug</b><br />
-    
+    <input id="st_sl_dato" name="st_sl_dato" type="radio" value="3" <%=st_sl_DatoChk3 %>/> <b>Timer, fakturaer ell. materiale-forbrug</b> i periode<br />
+    <input id="st_sl_dato" name="st_sl_dato" type="radio" value="6" <%=st_sl_DatoChk6 %>/> <b>Fakturaer</b> i periode<br />
      <input id="st_sl_dato" name="st_sl_dato" type="radio" value="5" <%=st_sl_DatoChk5 %>/>  <b>Timer</b><br />
       <input id="st_sl_dato" name="st_sl_dato" type="radio" value="4" <%=st_sl_DatoChk4 %>/>  <b>Der var aktivt</b><br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Alle job + lukkede job hvor Lukkedato > Slutdato i periode.<br />
 	<input id="st_sl_dato" name="st_sl_dato" type="radio" value="2" <%=st_sl_DatoChk2 %>/>  <b>Ignorer</b> datointerval (vis alle job, maks. <%=ltoLimitTxt %>)<br /><br />
@@ -1945,17 +1975,56 @@ if len(session("user")) = 0 then
 	statKri = statKri
 	end if
 	
-	if medarb_jobans <> 0 then
-	    if job_kans = 1 then
-	    kansKri = ""
-	    jobansKri = " AND (j.jobans1 = "& medarb_jobans &" OR j.jobans2 = "& medarb_jobans &" OR j.jobans3 = "& medarb_jobans &" OR j.jobans4 = "& medarb_jobans &" OR j.jobans5 = "& medarb_jobans &") "
-	    else
-	    kansKri = " AND (kundeans1 = "& medarb_jobans &" OR kundeans2 = "& medarb_jobans &")"
-	    jobansKri = ""
-	    end if
+	if cint(medarb_jobans) <> 0 then
+
+        kansKri = ""
+        jobansKri = ""
+        salgsansKri = ""
+
+         if cint(jobansv) = 0 AND cint(salgsansv) = 0 AND cint(kansv) = 0 then 'Slet ingen valgt
+
+            jobansKri = " AND (j.jobans1 = -1) " 'viser ingen
+
+         else
+
+	        if cint(jobansv) = 1 then
+	        jobansKri = " AND ((j.jobans1 = "& medarb_jobans &" OR j.jobans2 = "& medarb_jobans &" OR j.jobans3 = "& medarb_jobans &" OR j.jobans4 = "& medarb_jobans &" OR j.jobans5 = "& medarb_jobans &") "
+	        else
+            jobansKri = " AND ((j.jobans1 <> -1) "
+            end if
+
+            if cint(salgsansv) = 1 then
+
+                if cint(jobansv) = 1 then
+                andor = "OR"
+                else
+                andor = "AND"
+                end if
+
+	        salgsansKri = " "& andor &" (j.salgsans1 = "& medarb_jobans &" OR j.salgsans2 = "& medarb_jobans &" OR j.salgsans3 = "& medarb_jobans &" OR j.salgsans4 = "& medarb_jobans &" OR j.salgsans5 = "& medarb_jobans &") "
+	        else
+            salgsansKri = ""
+            end if
+
+            if cint(kansv) = 1 then
+
+                if cint(jobansv) = 1 OR cint(salgsansv) = 1 then
+                andor = "OR"
+                else
+                andor = "AND"
+                end if
+
+	        kansKri = " "& andor &" (kundeans1 = "& medarb_jobans &" OR kundeans2 = "& medarb_jobans &"))"
+            else
+            kansKri = ")"
+	        end if
+
+        end if
+
 	else
 	kansKri = ""
 	jobansKri = ""
+    salgsansKri = ""
 	end if
 	
 	if cint(visskjulte) = 1 then
@@ -1977,6 +2046,7 @@ if len(session("user")) = 0 then
     '** Kun job med timer/fakturaer/materiale reg. i periode ****'
      
    
+    '**** Timer *****
      if cint(usedatoKri) = 3 OR cint(usedatoKri) = 5 then
     
      strSQLt = "SELECT tjobnr, j.id AS jid FROM timer AS t "_
@@ -2008,7 +2078,7 @@ if len(session("user")) = 0 then
 
 
 
-     if cint(usedatoKri) = 3 then
+     if cint(usedatoKri) = 3 OR cint(usedatoKri) = 6 then
     '** Fakturaer ****'
    
   
@@ -2019,7 +2089,7 @@ if len(session("user")) = 0 then
      
    
      strJobMTimer = strJobMTimer 
-
+     strJobMFak = " AND (j.id = 0 " 
 
     
      oRec3.open strSQLt, oConn, 3
@@ -2027,6 +2097,7 @@ if len(session("user")) = 0 then
 
       if instr(jobisWrt, ",#"& oRec3("jobid") &"#") = 0 then
      strJobMTimer = strJobMTimer & " OR j.id = " & oRec3("jobid")
+     strJobMFak = strJobMFak & " OR j.id = " & oRec3("jobid")
      jobisWrt = jobisWrt & ",#"& oRec3("jobid") &"#" 
      end if
 
@@ -2036,10 +2107,12 @@ if len(session("user")) = 0 then
      wend
      oRec3.close
 
+    end if
 
 
-
-  
+     
+        
+      if cint(usedatoKri) = 3 then
 
      '**** Materialer ****'
      strSQLt = "SELECT jobid FROM materiale_forbrug AS m "_
@@ -2071,6 +2144,12 @@ if len(session("user")) = 0 then
          if cint(usedatoKri) = 3 OR cint(usedatoKri) = 5 then
 
             strJobMTimer = strJobMTimer & ")"
+
+        end if
+
+         if cint(usedatoKri) = 6 then
+
+            strJobMFak = strJobMFak & ")"
 
         end if
 
@@ -2165,13 +2244,19 @@ if len(session("user")) = 0 then
 
 	strSQL = strSQL &" WHERE fakturerbart = 1 "& visskjulteKri &" "& fspSQLkri &" AND ("& statKri &") "& jobKri &" "
 	
-	if cint(usedatoKri) <> 2 AND cint(usedatoKri) <> 3 AND cint(usedatoKri) <> 4 AND cint(usedatoKri) <> 5 then
+	if cint(usedatoKri) <> 2 AND cint(usedatoKri) <> 3 AND cint(usedatoKri) <> 4 AND cint(usedatoKri) <> 5 AND cint(usedatoKri) <> 6 then
 	strSQL = strSQL &" AND "& stsldatoSQLKri &" BETWEEN '"& sqlDatostart &"' AND '"& sqlDatoslut &"'"
 	end if
 
     if cint(usedatoKri) = 3 OR cint(usedatoKri) = 5 then
     strSQL = strSQL & strJobMTimer
     end if
+
+    if cint(usedatoKri) = 6 then
+    strSQL = strSQL & strJobMFak
+    end if
+
+            
 
     'if cint(usedatoKri) = 4 then
     'strSQL = strSQL &" AND (("& stsldatoSQLKri &" >= '"& sqlDatoslut &"' AND jobstatus = 0) OR jobstatus <> 0) "
@@ -2182,7 +2267,7 @@ if len(session("user")) = 0 then
         &" j.projektgruppe5 = "& prgpid(p) &" OR j.projektgruppe6 = "& prgpid(p) &" OR j.projektgruppe7 = "& prgpid(p) &" OR j.projektgruppe8 = "& prgpid(p) &" OR j.projektgruppe9 = "& prgpid(p) &" OR j.projektgruppe10 = "& prgpid(p) &")"
     end if
 	
-	strSQL = strSQL & jobansKri & strPgrpSQLkri &" AND "& sqlKundeKri &" "& kansKri &""_
+	strSQL = strSQL & jobansKri & salgsansKri & kansKri & strPgrpSQLkri &" AND "& sqlKundeKri &" "_
 	&" GROUP BY "& groupBY &" ORDER BY "& orderBY &", kkundenavn LIMIT "& ltoLimit 
 	
 	
@@ -4115,6 +4200,11 @@ if len(session("user")) = 0 then
                     <input id="Hidden3" name="sqlDatostart" value="<%=sqlDatostart%>" type="hidden" />
                     <input id="Hidden4" name="sqlDatoslut" value="<%=sqlDatoslut%>" type="hidden" />
                         <input id="Hidden6" name="visSimpel" value="<%=visSimpel%>" type="hidden" />
+
+                        <input id="Hidden6" name="jobansv" value="<%=jobansv%>" type="hidden" />
+                        <input id="Hidden6" name="salgsansv" value="<%=salgsansv%>" type="hidden" />
+                        <input id="Hidden6" name="kansv" value="<%=kansv%>" type="hidden" />
+                        
                         
                     
 
@@ -4139,6 +4229,9 @@ if len(session("user")) = 0 then
                     <input id="Hidden2" name="realfakpertot" value="<%=realfakpertot%>" type="hidden" />
                     <input id="Hidden8" name="historisk_wip" value="<%=historisk_wip%>" type="hidden" />
                     <input id="Hidden10" name="timertilfak" value="<%=historisk_wip%>" type="hidden" />
+                     <input id="Hidden6" name="jobansv" value="<%=jobansv%>" type="hidden" />
+                        <input id="Hidden6" name="salgsansv" value="<%=salgsansv%>" type="hidden" />
+                        <input id="Hidden6" name="kansv" value="<%=kansv%>" type="hidden" />
                         
                         
                     <tr>

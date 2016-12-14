@@ -4,7 +4,7 @@
 <!--#include file="../inc/regular/webblik_func.asp"-->
 <!--#include file="../inc/regular/stat_func.asp"-->
 <!--#include file="inc/isint_func.asp"-->
-    <!--#include file="../inc/regular/topmenu_inc.asp"-->
+<!--#include file="../inc/regular/topmenu_inc.asp"-->
 
 
 
@@ -739,7 +739,7 @@ if len(session("user")) = 0 then
     end if
     
     dim strExportA, medarbBelob, medarbGrlag, jobidsEgneTimer, jobidsSalgsomkost, jobidsFaktureret
-    redim strExportA(1950,15), medarbBelob(1950,15), medarbGrlag(1950,15), jobidsEgneTimer(20000), jobidsSalgsomkost(20000), jobidsFaktureret(20000)
+    redim strExportA(3050,15), medarbBelob(3050,15), medarbGrlag(3050,15), jobidsEgneTimer(20000), jobidsSalgsomkost(20000), jobidsFaktureret(20000)
 
 
     '** medarbBelob 1 = Tilbud

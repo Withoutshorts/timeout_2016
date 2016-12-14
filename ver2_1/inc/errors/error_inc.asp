@@ -50,6 +50,7 @@ case 9
 varErrorText = "Der mangler at blive indtaste en følgende informationer:<br><ul>"_
 &"<li>Medarbejder navn"_
 &"<li>Medarbejer nr."_
+&"<li>Medarbejer Initialer"_
 &"<li>Login"_
 &"<li>Password"_
 &"</ul>"
@@ -730,6 +731,7 @@ varErrorText = varErrorText & "Customer, Style and <br> "
 varErrorText = varErrorText & "- Sales Rep.<br> "
 varErrorText = varErrorText & "- Supplier<br> "
 varErrorText = varErrorText & "- ETD Buyer<br> "
+varErrorText = varErrorText & "- Confirmed ETA on DDP orders<br> "
 
 case 174
 varErrorText = "You are missing one or more of the following information: <br><br>"
@@ -755,6 +757,15 @@ varErrorText = "Forretningsområde er obligatorisk, og der er ikke valgt noget fo
 
 case 178
 varErrorText = "Der kan ikke indtastes diæter / rejsedage på dage hvorpå der er registreret mere end "& traveldietexp_maxhours &" timer på dagen."
+
+case 179
+varErrorText = "Du mangler at indtaste et Navn"
+
+case 180
+varErrorText = "Du mangler at indtaste dit Frima"
+
+case 181
+varErrorText = "Ugyldig Email"
 
 case else
 varErrorText = errortype

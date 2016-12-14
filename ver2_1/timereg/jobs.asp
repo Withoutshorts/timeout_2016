@@ -1682,6 +1682,12 @@ if len(session("user")) = 0 then
                 end if
 
 
+                if len(trim(request("FM_alert"))) <> 0 then
+                alert = 1 
+                else
+                alert = 0
+                end if
+
 
                 '******* Sti til dokumenter på egen filserver *****'
                 if len(trim(request("FM_filepath1"))) <> 0 then 
@@ -1937,7 +1943,7 @@ if len(session("user")) = 0 then
                                 &" jobans_proc_1, jobans_proc_2, jobans_proc_3, jobans_proc_4, jobans_proc_5, restestimat, stade_tim_proc, "_
                                 &" virksomheds_proc, syncslutdato, altfakadr, preconditions_met, laasmedtpbudget,"_
                                 &" salgsans1, salgsans2, salgsans3, salgsans4, salgsans5, "_
-                                &" salgsans1_proc, salgsans2_proc, salgsans3_proc, salgsans4_proc, salgsans5_proc, filepath1, fomr_konto, jfak_sprog, jfak_moms "_
+                                &" salgsans1_proc, salgsans2_proc, salgsans3_proc, salgsans4_proc, salgsans5_proc, filepath1, fomr_konto, jfak_sprog, jfak_moms, alert "_
                                 &") VALUES "_
 							    &"('"& strNavn &"', "_
 							    &"'"& strjnr &"', "_ 
@@ -1974,7 +1980,7 @@ if len(session("user")) = 0 then
                                 &" "& jobans_proc_1 & ", "& jobans_proc_2 & ", "& jobans_proc_3 & ", "& jobans_proc_4 & ", "& jobans_proc_5 & ", "& restestimat &", "& stade_tim_proc &","_
                                 &" "& virksomheds_proc &", "& syncslutdato &", "& altfakadr &", "& preconditions_met &", "& laasmedtpbudget &", "_
                                 &" "& salgsans1 &","& salgsans2 &","& salgsans3 &","& salgsans4 &","& salgsans5 &", "_
-                                &" "& salgsans_proc_1 &","& salgsans_proc_2 &","& salgsans_proc_3 &","& salgsans_proc_4 &","& salgsans_proc_5 &", '"& filepath1 &"', "& fomr_konto &", "& jfak_sprog &", "& jfak_moms &""_
+                                &" "& salgsans_proc_1 &","& salgsans_proc_2 &","& salgsans_proc_3 &","& salgsans_proc_4 &","& salgsans_proc_5 &", '"& filepath1 &"', "& fomr_konto &", "& jfak_sprog &", "& jfak_moms &", "& alert &""_
                                 &")")
     							
 							    'Response.write strFakturerbart & "<br><br>"
@@ -2239,7 +2245,7 @@ if len(session("user")) = 0 then
                             &" syncslutdato = "& syncslutdato &", altfakadr = "& altfakadr &", preconditions_met = "& preconditions_met &", laasmedtpbudget = "& laasmedtpbudget &", "_
                             &" salgsans1 = "& salgsans1 &", salgsans2 = "& salgsans2 &", salgsans3 = "& salgsans3 &", salgsans4 = "& salgsans4 &", salgsans5 = "& salgsans5 &", "_
                             &" salgsans1_proc = "& salgsans_proc_1 &", salgsans2_proc = "& salgsans_proc_2 &", salgsans3_proc = "& salgsans_proc_3 &", salgsans4_proc = "& salgsans_proc_4 &", "_
-                            &" salgsans5_proc = "& salgsans_proc_5 &", filepath1 = '"& filepath1 &"', fomr_konto = "& fomr_konto &", jfak_sprog = "& jfak_sprog &", jfak_moms = "& jfak_moms &""_
+                            &" salgsans5_proc = "& salgsans_proc_5 &", filepath1 = '"& filepath1 &"', fomr_konto = "& fomr_konto &", jfak_sprog = "& jfak_sprog &", jfak_moms = "& jfak_moms &", alert = "& alert &""_
 							&" WHERE id = "& id 
 							
 							'Response.Write strSQL
@@ -3075,37 +3081,13 @@ if len(session("user")) = 0 then
 
                                     if (jobAnsThis <> "0" AND isNULL(jobAnsThis) <> true) then
                                     
-                                    'Sender notifikations mail
-		                            'Set Mailer = Server.CreateObject("SMTPsvg.Mailer")
-		                            ' Sætter Charsettet til ISO-8859-1
-		                            'Mailer.CharSet = 2
-                                    'Mailer.FromName = "TimeOut Email Service | " & afsNavn &" "& afsEmail
-
                                     Set myMail=CreateObject("CDO.Message")
                                     myMail.From="timeout_no_reply@outzource.dk" 'TimeOut Email Service 
 
-                                
-
-		                            
-                                
-                                    '** Hvis problemer med mail pga spam filtre, kan der ændrs her så der bliver sendet fra en TO eller anden adresse der er godkendt af spamfilter
-		                            'select case lto
-                                    'case "hestia"
-                                    'Mailer.FromAddress = "timeout_no_reply@outzource.dk"
-                                    'case else
-                                    'Mailer.FromAddress = afsEmail
-		                            'end select            
-
-
-                                    'Mailer.RemoteHost = "webout.smtp.nu" '"195.242.131.254" ' = smtp3.atznet.dk '"webout.smtp.nu" ' '"webmail.abusiness.dk" '"pasmtp.tele.dk"
-                                    'Mailer.ContentType = "text/html"
-
-
-                                     
-						            'Mailer.AddRecipient "" & jobAnsThis & "", "" & jobAnsThisEmail & ""
-                                    myMail.To= ""& jobAnsThis &"<"& jobAnsThisEmail &">"
+                                        
+						            myMail.To= ""& jobAnsThis &"<"& jobAnsThisEmail &">"
                                    
-
+                                    
 						            'Mailer.Subject = "Til de jobansvarlige på: "& jobnavnThis &" ("& intJobnr &") | " & strkkundenavn  
                                     myMail.Subject= "Til de jobansvarlige på: "& jobnavnThis &" ("& intJobnr &") | " & strkkundenavn  
 
@@ -3161,14 +3143,6 @@ if len(session("user")) = 0 then
             		
 
 
-            		
-		                            'Mailer.BodyText = strBody
-            		
-		                            'Mailer.sendmail()
-		                            'Set Mailer = Nothing
-
-
-                                    'Mailer.BodyText = strBody
                                     myMail.HTMLBody= "<html><head></head><body>" & strBody & "</body>"
 
                                     myMail.Configuration.Fields.Item _
@@ -3218,7 +3192,86 @@ if len(session("user")) = 0 then
 
 
                     end if' adviser
-                            '*******************************************************
+
+
+                    '******** Fast advisering Dencker
+                    if lto = "dencker" AND func = "dbopr" then
+
+                         if request.servervariables("PATH_TRANSLATED") <> "C:\www\timeout_xp\wwwroot\ver2_1\timereg\jobs.asp" then
+
+					  	            Set myMail=CreateObject("CDO.Message")
+                                    myMail.From="timeout_no_reply@outzource.dk" 'TimeOut Email Service 
+
+                                     strSQL = "SELECT job.id AS jid, jobnavn, jobnr, job.beskrivelse, job_internbesk, k.kkundenavn "_
+                                     &" FROM job "_
+				                     &" LEFT JOIN kunder AS k ON (k.kid = job.jobknr)"_
+				                     &" WHERE job.id = "& varJobId
+
+                          
+				                    oRec5.open strSQL, oConn, 3
+				                    if not oRec5.EOF then
+
+                                    jobnavnThis = oRec5("jobnavn")
+                                    intJobnr = oRec5("jobnr")
+                                    strkkundenavn = oRec5("kkundenavn") 
+
+                                    end if
+                                    oRec5.close
+
+                                  
+                                    myMail.To= "Dencker - Ordre<ordre@dencker.net>"
+                                    myMail.Subject= "Ny ordre: "& jobnavnThis &" ("& intJobnr &") | " & strkkundenavn  
+
+
+		                            strBody = "<br>"
+                                    strBody = strBody &"<b>Kunde:</b> "& strkkundenavn & "<br>" 
+						            strBody = strBody &"<b>Job:</b> "& jobnavnThis &" ("& intJobnr &") <br><br>"
+
+                                   
+                                    if len(trim(strBesk)) <> 0 then
+                                    strBody = strBody &"<hr><b>Jobbeskrivelse:</b><br>"
+                                    strBody = strBody & strBesk &"<br><br><br><br>"
+                                    end if
+
+                                    if len(trim(job_internbesk)) <> 0 then
+                                    strBody = strBody &"<hr><b>Intern note:</b><br>"
+                                    strBody = strBody & job_internbesk &"<br><br>"
+                                    end if
+
+
+                                    strBody = strBody &"<br><br><br><br><br><br>Med venlig hilsen<br><i>" 
+		                            strBody = strBody & session("user") & "</i><br><br>&nbsp;"
+
+
+                                    'Mailer.BodyText = strBody
+                                    myMail.HTMLBody= "<html><head></head><body>" & strBody & "</body>"
+
+                                    myMail.Configuration.Fields.Item _
+                                    ("http://schemas.microsoft.com/cdo/configuration/sendusing")=2
+                                    'Name or IP of remote SMTP server
+                                    
+                                                if instr(request.servervariables("LOCAL_ADDR"), "195.189.130.210") <> 0 then
+                                                   smtpServer = "webout.smtp.nu"
+                                                else
+                                                   smtpServer = "formrelay.rackhosting.com" 
+                                                end if
+                    
+                                                myMail.Configuration.Fields.Item _
+                                                ("http://schemas.microsoft.com/cdo/configuration/smtpserver")= smtpServer
+
+                                    'Server port
+                                    myMail.Configuration.Fields.Item _
+                                    ("http://schemas.microsoft.com/cdo/configuration/smtpserverport")=25
+                                    myMail.Configuration.Fields.Update
+
+                                   
+                                    myMail.Send
+                                   
+                                    set myMail=nothing
+
+                        end if
+                    end if 'Notificering Dencker
+                    '*******************************************************
 
 
                        
@@ -4498,7 +4551,7 @@ if len(session("user")) = 0 then
 	&" jo_gnstpris, jo_gnsfaktor, jo_gnsbelob, jo_bruttofortj, jo_dbproc, "_
 	&" udgifter, risiko, sdskpriogrp, usejoborakt_tp, ski, job_internbesk, abo, ubv, sandsynlighed, "_
     &" diff_timer, diff_sum, jo_udgifter_ulev, jo_udgifter_intern, jo_bruttooms, restestimat, stade_tim_proc, virksomheds_proc, "_
-    &" syncslutdato, lukkedato, altfakadr, preconditions_met, laasmedtpbudget, filepath1, fomr_konto, jfak_moms, jfak_sprog, useasfak "_
+    &" syncslutdato, lukkedato, altfakadr, preconditions_met, laasmedtpbudget, filepath1, fomr_konto, jfak_moms, jfak_sprog, useasfak, alert "_
     &" FROM job, kunder WHERE id = " & id &" AND kunder.Kid = jobknr"
 	
 	'Response.Write strSQL
@@ -4638,7 +4691,8 @@ if len(session("user")) = 0 then
     jfak_moms = oRec("jfak_moms")
     jfak_sprog = oRec("jfak_sprog")
 
-	
+	job_internbesk_alert = oRec("alert")
+
 	oRec.close
 	
 	
@@ -4672,10 +4726,16 @@ if len(session("user")) = 0 then
 	        jobfaktypeCHK0 = ""
 	        jobfaktypeCHK1 = "CHECKED"
 	        end if 
+
+            if cint(job_internbesk_alert) = 1 then
+            alertCHK = "CHECKED"
+            else
+            alertCHK = ""
+            end if
 	
 	else
 	    
-           
+        alertCHK = ""
 
 
 	    if lto = "dencker" then
@@ -5120,7 +5180,7 @@ if len(session("user")) = 0 then
 		                
 		    <br />
             &nbsp;
-		
+		    <input type=checkbox value="1" name="FM_alert" <%=alertCHK %> /> Alert ved faktura oprettelse.
 		    </td>
 		   
 	    </tr>
@@ -6010,7 +6070,7 @@ if len(session("user")) = 0 then
 
                                 <%if func <> "red" then
                                  
-                                    if lto = "jm" OR lto = "synergi1" OR lto = "micmatic" OR lto = "krj" then 'OR lto = "lyng" OR lto = "glad" then
+                                    if lto = "jm" OR lto = "synergi1" OR lto = "micmatic" OR lto = "krj" OR lto = "hestia" then 'OR lto = "lyng" OR lto = "glad" then
                                     forvalgCHK = "CHECKED"
                                     else
                                     forvalgCHK = ""

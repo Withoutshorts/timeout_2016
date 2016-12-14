@@ -175,6 +175,15 @@ response.buffer = true
      if len(trim(jobMrealtimerPa)) <> 0 then
      jobMrealtimerPa = jobMrealtimerPa & ")"
      end if
+
+    'PA = 0
+    call positiv_aktivering_akt_fn()
+    if cint(pa_aktlist) = 1 then
+    paSQLkri = " AND forvalgt = 1 "
+    else
+    paSQLkri = ""
+    end if
+
     'jobIswrtKri = jobisWrt(mid)
     strSQLtua = "SELECT aktid, medarb AS mid, m.mnavn, jobid, j.jobnr, j.jobnavn, "_
     &" kkundenavn, kkundenr, m.mnr, m.init, jobans1, jobans2, "_
@@ -186,7 +195,7 @@ response.buffer = true
     strSQLtua = strSQLtua &" LEFT JOIN kunder k ON (kid = j.jobknr)"_
 	&" LEFT JOIN medarbejdere m2 ON (m2.mid = j.jobans1)"_
 	&" LEFT JOIN medarbejdere m3 ON (m3.mid = j.jobans2)"_
-    &" WHERE medarb = "& mid &" "& jobMrealtimerPa & " AND forvalgt = 1 AND aktid = 0 AND "& jobSQLkri &" AND (j.risiko > -1 OR j.risiko = -3) AND jobstatus = 1"
+    &" WHERE medarb = "& mid &" "& jobMrealtimerPa & " "& paSQLkri &" AND aktid = 0 AND "& jobSQLkri &" AND (j.risiko > -1 OR j.risiko = -3) AND jobstatus = 1"
     
     'if lto = "essens" then
     'Response.write strSQLtua
@@ -372,7 +381,14 @@ if len(session("user")) = 0 then
         if request.cookies("resbel")("ufc") <> "" then
         vis_job_u_fc = request.cookies("resbel")("ufc")
         else
-        vis_job_u_fc = 0
+        
+            select case lto 
+            case "bf"
+            vis_job_u_fc = 1
+            case else
+            vis_job_u_fc = 0
+            end select
+
         end if
     
     end if
@@ -400,7 +416,16 @@ if len(session("user")) = 0 then
         if request.cookies("resbel")("vsi") <> "" then
         vis_simpel = request.cookies("resbel")("vsi")
         else
-        vis_simpel = 0
+        
+
+            select case lto 
+            case "bf"
+            vis_simpel = 1
+            case else
+            vis_simpel = 0
+            end select
+        
+        
         end if
     
     end if
@@ -1915,11 +1940,15 @@ if len(session("user")) = 0 then
         <input id="sogtxt" name="FM_sog" value="<%=sogTxt %>" type="text" style="width:350px; font-size:14px; border:2px #6CAE1C solid;;" />
     <br />(% wildcard, <b>100-200</b> interval, eller <b>58, 89</b> for specifikke job)
             <br /><br /><br />
-            <br /><br />
-            <b>Filter:</b> (vis kun job hvor..)<br />
-               <input type="checkbox" value="1" id="FM_vis_job_fc_neg" name="FM_vis_job_fc_neg" <%=vis_job_fc_negCHK%> /> <b>Forecast overskreddet</b>
+           
+            <b>Filter:</b><br />
+               <input type="checkbox" value="1" id="FM_vis_job_fc_neg" name="FM_vis_job_fc_neg" <%=vis_job_fc_negCHK%> />Forecast overskreddet
                 <br />
-               <input type="checkbox" value="1" id="FM_vis_job_u_fc" name="FM_vis_job_u_fc" <%=vis_job_u_fcCHK %> /> Vis alle aktive job <b>også uden forecast</b><br /> <span style="color:#999999;">(alle job på personlig aktivliste +/-5 md., maks 10 medarb.)</span> 
+               <input type="checkbox" value="1" id="FM_vis_job_u_fc" name="FM_vis_job_u_fc" <%=vis_job_u_fcCHK %> /> Vis alle aktive job <b>også uden forecast</b>
+                   <%call positiv_aktivering_akt_fn()
+                   if cint(pa_aktlist) = 1 then %>
+                  <br /> <span style="color:#999999;">(alle job på personlig aktivliste +/-5 md., maks 10 medarb.)</span> 
+                   <%end if %>
                 <br />
            
             <input type="checkbox" value="1" id="Checkbox1" name="FM_hideEmptyEmplyLines" <%=hideEmptyEmplyLinesCHK %> /> Skjul medarbejder(e) uden forecast<br />        

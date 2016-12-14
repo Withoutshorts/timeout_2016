@@ -560,10 +560,7 @@ end if
 else 'media = export
 stexptxt = stexptxt & oRec("kkundenavn") &";"& oRec("kkundenr") &";"& oRec("jobnavn") &";"& oRec("jobnr") & ";"
 stexptxt = stexptxt & meNavn &";"
-
- 
 stexptxt = stexptxt & jobStatusTxt &";"& btoms &";"
-
 stexptxt = stexptxt & sandsynlighed  &";"& restestimat &";"
 
 select case oRec("stade_tim_proc")

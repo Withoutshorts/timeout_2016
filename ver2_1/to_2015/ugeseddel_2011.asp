@@ -107,16 +107,16 @@
                 end if            
 
                  
-
+                k = 0
                 oRec.open strSQL, oConn, 3
                 while not oRec.EOF
         
              
 
-                if lastKid <> oRec("kid") then
+                if lastKnavn <> oRec("kkundenavn") then
     
 
-                    if lastKid <> 0 then
+                    if k <> 0 then
                     ' strJobogKunderTxt = strJobogKunderTxt &"<br>"
                     strJobogKunderTxt = strJobogKunderTxt & "<option DISABLED></option>"
                     end if
@@ -132,13 +132,14 @@
                 
                 strJobogKunderTxt = strJobogKunderTxt & "<option value="& oRec("jid") &">"& oRec("jobnavn") & " ("& oRec("jobnr") &")" &"</option>"
 
-                lastKid = oRec("kid") 
+                k = k + 1
+                lastKnavn = oRec("kkundenavn") 
                 oRec.movenext
                 wend
                 oRec.close
 
               
-                if lastKid = 0 then
+                if cint(k) = 0 then
                 strJobogKunderTxt = strJobogKunderTxt & "<option value=""-1"" DISABLED>Ingen kunder/job fundet</option>"
                 end if
 
@@ -704,6 +705,7 @@ if len(session("user")) = 0 then
      if len(session("user")) = 0 then
 	%>
 	<!--#include file="../inc/regular/header_inc.asp"-->
+    <!--#include file="../inc/regular/top_menu_mobile.asp"-->
 	<%
 	errortype = 5
 	call showError(errortype)
@@ -738,6 +740,15 @@ if len(session("user")) = 0 then
         
         call menu_2014()
 
+    else
+
+        ddDato_ugedag = day(now) &"/"& month(now) &"/"& year(now)
+        ddDato_ugedag_w = datepart("w", ddDato_ugedag, 2, 2)
+            
+        varTjDatoUS_man_tt = dateAdd("d", -(ddDato_ugedag_w-1), ddDato_ugedag)
+
+        call mobile_header 
+
     end if
     %>    
 
@@ -768,21 +779,7 @@ if len(session("user")) = 0 then
 	<!-------------------------------Sideindhold------------------------------------->
 
    
-   <%if browstype_client = "ip" then %>
-
-              <div id="header_ugeseddel_2011_ip" style="width: 100%;
-              height: 40px;
-              color: white;
-              background-color: #004d7b;
-              margin: 0 0 20px 0;
-              line-height: 40px;
-              text-align: left;
-              font-weight: 600;
-              padding-left: 40px;
-              background: #004d7b url('img/logo_emblem.png') no-repeat left center;">TimeOut mobile</div>
-
-   <%end if %>
-
+ 
 
 
    <%if browstype_client <> "ip" then %>
@@ -793,9 +790,11 @@ if len(session("user")) = 0 then
  
     <div class="container">
       <div class="portlet">
-        <h3 class="portlet-title">
+        <% if browstype_client <> "ip" then %>
+          <h3 class="portlet-title">
           <u><%=tsa_txt_337%></u><!-- ugeseddel -->
         </h3>
+          <%end if %>
         <div class="portlet-body">
             
       
@@ -1126,28 +1125,44 @@ if len(session("user")) = 0 then
                 lorTimer = replace(lorTimer, ",",".")
                 sonTimer = replace(sonTimer, ",",".")
 
-                call normtimerPer(usemrn, varTjDatoUS_man, 6, 0)
+                '*** NORM eller Komme/Gå som grundlag
+                select case lto
+                case "dencker", "intranet - local"
 
-            norm_ugetotal = ntimMan + ntimTir + ntimOns + ntimTor + ntimFre + ntimLor + ntimSon
+                    call fLonTimerPer(varTjDatoUS_man, 6, 21, usemrn)
+                    ntimMan = ((manMin-manMinPause)/60)
+                    ntimTir = ((tirMin-tirMinPause)/60)
+                    ntimOns = ((onsMin-onsMinPause)/60)
+                    ntimTor = ((torMin-torMinPause)/60)
+                    ntimFre = ((freMin-freMinPause)/60)
+                    ntimLor = ((lorMin-lorMinPause)/60)
+                    ntimSon = ((sonMin-sonMinPause)/60)
 
+                case else
+                    call normtimerPer(usemrn, varTjDatoUS_man, 6, 0)
+               
+                end select
+
+             norm_ugetotal = ntimMan + ntimTir + ntimOns + ntimTor + ntimFre + ntimLor + ntimSon
 
             'weeknormpro = ugetotal / norm_ugetotal * 100
-            if norm_ugetotal <> 0 then
+            if cdbl(norm_ugetotal) <> 0 then
                 
            
-                weeknormpro = ugetotal / norm_ugetotal * 100
-                weeknormpro = formatnumber(weeknormpro, 0)
-                weeknormpro = replace(weeknormpro, ",",".")
+                    weeknormpro = ugetotal / norm_ugetotal * 100
+                    weeknormpro = formatnumber(weeknormpro, 0)
+                    weeknormpro = replace(weeknormpro, ",",".")
                 
 
-             if ugetotal <= norm_ugetotal then
-             weeknormproWdt = weeknormpro
-             else
-             weeknormproWdt = norm_ugetotal / norm_ugetotal * 100 
-             end if
+                 if ugetotal <= norm_ugetotal then
+                 weeknormproWdt = weeknormpro
+                 else
+                 weeknormproWdt = norm_ugetotal / norm_ugetotal * 100 
+                 end if
 
             else
-            weeknormpro = 0
+                weeknormpro = 0
+                norm_ugetotal = 0
             end if
 
             %>
@@ -1171,7 +1186,7 @@ if len(session("user")) = 0 then
 
           <div class="row">
                 <div class="col-lg-12">
-                    <h4 style="text-align:right"><%=tsa_txt_173 &" "& tsa_txt_137%>: <%=norm_ugetotal %> &nbsp <%=tsa_txt_535%>: <%=ugetotal %> &nbsp&nbsp</h4>
+                    <h4 style="text-align:right"><%=tsa_txt_173 &" "& tsa_txt_137%>: <%=formatnumber(norm_ugetotal, 2) %> &nbsp <%=tsa_txt_535%>: <%=ugetotal %> &nbsp&nbsp</h4>
                     <table class="table table">
                         <tr>
                             <th colspan="11"><div style="background-color:lightgray; height:30px; width: 100%;"><div style="background-color:#207800; height:30px; width:<%=weeknormproWdt %>%; color:#ffffff; text-align:right; padding:5px;"><%=weeknormpro %> %</div></div></th>

@@ -661,6 +661,15 @@ Session.LCID = 1030
 case else    
 
 
+          
+            select case lto
+            case "plan", "intranet - local"
+            vis_reduktion = 0
+            hide_klokkeslet = 1
+            case else    
+            vis_reduktion = 1 
+            hide_klokkeslet = 0
+            end select  
 
 
 
@@ -776,15 +785,7 @@ case else
                 </section>
         
             
-            <%
-            select case lto
-            case "plan", "intranet - local"
-            vis_reduktion = 0
-            hide_klokkeslet = 1
-            case else    
-            vis_reduktion = 1 
-            hide_klokkeslet = 0
-            end select%>       
+            
 
         <div class="porlet-body">
           

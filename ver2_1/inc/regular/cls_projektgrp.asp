@@ -1198,7 +1198,7 @@ end if
       
 
             <br />
-        <input id="FM_visdeakmed" name="FM_visdeakmed" type="checkbox" <%=visdeakmedCHK %> /> Vis de-aktiverede medarbejdere.  <input id="FM_visdeakmed12" name="FM_visdeakmed12" type="checkbox" <%=visdeakmed12CHK %> /> De-akt. opsagt indenfor senete 12 md.<br />
+        <input id="FM_visdeakmed" name="FM_visdeakmed" type="checkbox" <%=visdeakmedCHK %> /> Vis de-aktiverede medarbejdere.  <br /><input id="FM_visdeakmed12" name="FM_visdeakmed12" type="checkbox" <%=visdeakmed12CHK %> /> Vis kun De-akt. opsagt indenfor seneste 12 md.<br />
         <input id="FM_vispasmed" name="FM_vispasmed" type="checkbox" <%=vispasmedCHK %> /> Vis passive medarbejdere<br />&nbsp;
      
         <input type="hidden" id="jq_userid" value="<%=medarbid%>" />
@@ -1293,7 +1293,7 @@ end if
                <br /> <span style="font-size:9px; color:#999999;">(ignorerer projektgrupper. Viser alle medarb. uanset status)</span><br /><br />  
             <%end if %>    
 
-              <input type="checkbox" name="FM_visMedarbNullinier" id="FM_visMedarbNullinier" value="1" <%=vis_visMedarbNullinierChk %> />Vis medarbejdere uden real. timer i perioden
+              <input type="checkbox" name="FM_visMedarbNullinier" id="FM_visMedarbNullinier" value="1" <%=vis_visMedarbNullinierChk %> />Vis medarbejdere uden timer i periode.
               
              
 		    <%end if %>

@@ -23,7 +23,7 @@ oConn.open strConnect
 
 
 strSQL = "SELECT pwc.dato, pwc.konto, pwc.postext, pwc.belob, pwc.jobnr, pwc.init, pwc.extsysid, pwc.id, "_
-&" j.id AS jid, serviceaft, m.mid FROM mat_pwc_import_201610 AS pwc "_
+&" j.id AS jid, serviceaft, m.mid FROM mat_pwc_import_201611 AS pwc "_
 &" LEFT JOIN job AS j ON (j.jobnr = pwc.jobnr) "_
 &" LEFT JOIN medarbejdere AS m ON (m.init = pwc.init) WHERE pwc.postext <> '' ORDER BY extsysid" 
 ' AND 

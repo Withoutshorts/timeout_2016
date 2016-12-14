@@ -326,6 +326,8 @@ function fordelpaaaktType(intMid, startDato, slutDato, visning, akttype_sel, x)
 	       
            alleaktivetyperSQL = replace(alleaktivetyperSQL, ", #-10#", "")
            alleaktivetyperSQL = replace(alleaktivetyperSQL, ", #-20#", "")
+           alleaktivetyperSQL = replace(alleaktivetyperSQL, ", #-30#", "")
+           alleaktivetyperSQL = replace(alleaktivetyperSQL, ", #-40#", "")
 	       
 	       '** Trimer og sætter dato interval på hver enekelt type. Ferie skal altid være i ferie år **' 
 	        alleaktivetyperSQL = replace(alleaktivetyperSQL, ", #11#", " OR (af.tfaktim = 11 AND af.tdato BETWEEN '"& startdatoSQLNow &"' AND '"& slutdatoFeriePl &"')")

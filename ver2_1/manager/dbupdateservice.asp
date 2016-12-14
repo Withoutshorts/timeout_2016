@@ -2950,7 +2950,17 @@ ALTER TABLE traveldietexp
 MODIFY COLUMN diet_dayprice double(12,2) DEFAULT 0 NOT NULL;
 INSERT INTO dbversion (dbversion) VALUES (20161116.2) 
 
-RUN THIS
+<br /><br />20161124.2<br />
+ALTER TABLE aktiviteter ADD (pl_important_act INT DEFAULT 0 NOT NULL, 
+pl_header INT DEFAULT 0 NOT NULL, 
+pl_reccour INT DEFAULT 0 NOT NULL, 
+pl_employee INT DEFAULT 0 NOT NULL);
+INSERT INTO dbversion (dbversion) VALUES (20161124.1) 
+
+
+<br /><br />20161214.1<br />
+ALTER TABLE medarbejdere ADD (create_newemployee Int NOT NULL DEFAULT 0);
+INSERT INTO dbversion (dbversion) VALUES (20161214.1) 
 
 <%
 

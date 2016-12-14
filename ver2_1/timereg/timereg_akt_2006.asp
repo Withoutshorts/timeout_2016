@@ -449,6 +449,8 @@
                 strSQL = "UPDATE aktiviteter SET easyreg = 0 WHERE id = "& thisAktid
                 oConn.execute(strSQL)
 
+
+
         case "FN_notify_jobluk"
                 
 
@@ -466,6 +468,11 @@
                         jstatus = request("jstatus")
                         lukjob = request.form("jq_lukjob") 'split(request("FM_lukjob"), ",")
 
+                       
+
+                        ' '** Nulstillerforvalgt job for denne medarbejder ****'
+                         'strSQLUpdFvOff = "UPDATE timereg_usejob SET forvalgt = 0 WHERE medarb = "& medarbejderid &" AND jobid = "& lukjob 
+                         'oConn.Execute(strSQLUpdFvOff)
 
                         'response.write "jstatus: "& jstatus
                         'response.end
@@ -480,6 +487,7 @@
 	            end if '** Luk job **'
 
               
+                'Response.redirect "timereg_akt.asp"
                 Response.end
 
         case "FN_fjernjob"
@@ -491,6 +499,9 @@
                  '** Nulstillerforvalgt job for denne medarbejder ****'
                  strSQLUpdFvOff = "UPDATE timereg_usejob SET forvalgt = 0 WHERE medarb = "& medid &" AND jobid = "& jobid 
                  oConn.Execute(strSQLUpdFvOff)
+
+
+                
                  '******************************************************'
          
          
@@ -1548,7 +1559,7 @@
                                             case "tec"
                                             lmt = "0,200"
                                             case else
-                                            lmt = "0,100"
+                                            lmt = "0,200"
                                             end select
                                       
 
@@ -1572,10 +1583,12 @@
 
                                     strSQLakt = strSQLakt & aktidsSQL &")" & strSQLAktDatoKri & " "& strSQLAktStatusKri &" "& forecastAktids &" "& strJobnrJobnavnSog &" GROUP BY a.id ORDER BY " & ordBySQL & " LIMIT " & lmt
                                     
+                                    'if session("mid") = 1 then
                                     'Response.Write "<br> sql: "& strSQLakt & "<br>"
                                     'Response.write "lto" & lto
                                     'Response.flush
-                                   
+                                    'end if               
+
                                     
                                             oRec6.open strSQLakt, oConn, 3
                                             while not oRec6.EOF
@@ -5400,16 +5413,16 @@
 				feltvalThis = cstr(feltvalThis)
 				
 				
-			    if cint(origin) = 12 then '12 TimeTag Mobile, 11: TimeTag / Ugeseddel, 10: excel 
+			    'if cint(origin) = 12 then '12 TimeTag Mobile, 11: TimeTag / Ugeseddel, 10: excel 
                     
-                    if request("FM_kom_"&feltvalThis) <> "Kommentar" then
-				    strKomm = "; "& replace(request("FM_kom_"&feltvalThis), "'", "&#39;")
-                    else
-                    strKomm = ""
-                    end if
-                else
+                '    if request("FM_kom_"&feltvalThis) <> "Kommentar" then
+				'    strKomm = "; "& replace(request("FM_kom_"&feltvalThis), "'", "&#39;")
+                '    else
+                '    strKomm = ""
+                '    end if
+                'else
                 strKomm = replace(request("FM_kom_"&feltvalThis), "'", "&#39;")
-                end if
+                'end if
 				
 			    '*** Tjekker at komm. er udfyldt ved pre-def aktiviteter ***'
 				
@@ -6218,7 +6231,7 @@
     <!--#include file="../inc/regular/header_lysblaa_inc.asp"-->
   
 	<SCRIPT src="inc/smiley_jav.js"></script>
-	<SCRIPT src="inc/timereg_2012_4_func.js"></script>
+	<SCRIPT src="inc/timereg_2016_12_func.js"></script>
    <SCRIPT src="inc/matind_2014_jav.js"></script>
    
 	

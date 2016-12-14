@@ -514,7 +514,7 @@
 			</td>
 			</tr>
 			
-			<tr>
+           <tr>
 			<td >
 			
 			<%
@@ -531,6 +531,38 @@
 			</td>
 			</tr>
 		
+           <tr>
+			<td valign="top">
+           <%
+			if instr(akttype_sel, "#-30#") <> 0 then
+            akttypeCHK = "CHECKED"
+            else
+            akttypeCHK = ""
+            end if
+			%>
+			
+            <input id="FM_akttype_id_0_30" name="FM_akttype" type="checkbox" <%=akttypeCHK %> value="#-30#" class="akt_afst" /></td>
+			<td >
+			Faktureret Oms. hvor man er jobansvr. (1-5)
+			</td>
+			</tr>
+
+             <tr>
+			<td valign="top">
+           <%
+			if instr(akttype_sel, "#-40#") <> 0 then
+            akttypeCHK = "CHECKED"
+            else
+            akttypeCHK = ""
+            end if
+			%>
+			
+            <input id="FM_akttype_id_0_40" name="FM_akttype" type="checkbox" <%=akttypeCHK %> value="#-40#" class="akt_afst" /></td>
+			<td >
+			Faktureret Oms. hvor man er salgsansvr. (1-5)
+			</td>
+			</tr>
+
 
            <tr><td colspan="2" style="padding-top:20px;">Vis kun saldo:</td></tr>
 
@@ -580,7 +612,11 @@
 			
 			
 			</tr>
-				<%end if %>
+			<%end if %>
+
+
+
+
 			
 	 <%
 	 v = 7 '5

@@ -1118,7 +1118,7 @@ if len(session("user")) = 0 then
         lastMth = ""
 
         '***** MAIN SQL ***
-        strSQLt = "SELECT sum(timer) AS timer, tdato, month(tdato) AS month, tfaktim, tmnr FROM timer WHERE tmnr = " & intMids(m)  & ""_
+        strSQLt = "SELECT sum(timer) AS timer, tdato, month(tdato) AS month, tfaktim, tmnr, timerkom FROM timer WHERE tmnr = " & intMids(m)  & ""_
 	    &" AND ("& sqlTypKri &") AND tdato BETWEEN '"& startDatoPerSQL &"' AND '"& slutDatoPerSQL &"' GROUP BY "& sqlGrpBy &" ORDER BY tdato"
 	    
 	    'Response.Write "antaldays" & antaldays & "<br>"
@@ -1315,21 +1315,21 @@ if len(session("user")) = 0 then
           dtUs = year(oRec("tdato")) & "/" & month(oRec("tdato")) & "/" & day(oRec("tdato"))
 
                     '** WHERE TO ***'
+                    '** Comment from  DIET / TRAVEL
                     trvldest = "NaN"
-                    strSQLwt = "SELECT diet_namedest FROM traveldietexp WHERE diet_mid = "& oRec("tmnr") &" AND (diet_stdato <= '"& dtUs &"' AND diet_sldato >= '"& dtUs &"') "
+                    'strSQLwt = "SELECT diet_namedest FROM traveldietexp WHERE diet_mid = "& oRec("tmnr") &" AND (diet_stdato <= '"& dtUs &"' AND diet_sldato >= '"& dtUs &"') "
                     
-                    'if session("mid") = 1 then
-                    'response.write strSQLwt & "<br>"
-                    'response.flush
-                    'end if
-
-                    oRec3.open strSQLwt, oConn, 3
-                    if not oRec3.EOF then
+                    'oRec3.open strSQLwt, oConn, 3
+                    'if not oRec3.EOF then
         
-                    trvldest = oRec3("diet_namedest")
+                    'trvldest = oRec3("diet_namedest")
 
+                    'end if
+                    'oRec3.close
+
+                    if len(trim(oRec("timerkom"))) <> 0 then
+                        trvldest = left(oRec("timerkom"), 200)
                     end if
-                    oRec3.close
 
 
          call akttyper(oRec("tfaktim"), 1)

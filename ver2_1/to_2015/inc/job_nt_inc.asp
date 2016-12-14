@@ -698,9 +698,9 @@ function orderAndProdDates()
     dt_confb_etd = fmatDate
 
 
-    dt_confb_eta = request("FM_dt_confb_eta")
-    call fmatDate_fn(dt_confb_eta)
-    dt_confb_eta = fmatDate
+    'dt_confb_eta = request("FM_dt_confb_eta")
+    'call fmatDate_fn(dt_confb_eta)
+    'dt_confb_eta = fmatDate
 
  
     

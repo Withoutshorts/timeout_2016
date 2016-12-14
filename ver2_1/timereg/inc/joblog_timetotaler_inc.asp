@@ -4,7 +4,7 @@
     sub medarboSkriftlinje
 
 
-             if cint(directexp) <> 1 then
+             if cint(directexp) <> 1 AND ((cint(upSpec) = 0 AND jobmedtimer(x,38) = 0)) then
     
 			strMedarbOskriftLinie = strMedarbOskriftLinie & "<tr>"
 			strMedarbOskriftLinie = strMedarbOskriftLinie & "<td valign=bottom style='padding:2px; border-top:1px #CCCCCC solid; width:150px; white-space:nowrap;' bgcolor='#F7F7F7'>Kunde<br>Job <span style='font-size:9px;'>(aktiviteter)</span></td>"
@@ -17,12 +17,12 @@
                             strFakbtimTxt = "Budget."
 		                    strFakbTxt = "Brutto Oms.&nbsp;"
                             else
-							strFakbtimTxt = "Budget<br><span style='font-size:9px;'>(forkalk.)</span>"
+							strFakbtimTxt = "Budget timer<br><span style='font-size:9px;'>(forkalk.)</span>"
 		                    strFakbTxt = "Brutto Oms.&nbsp;"
                             end if
                            
 				
-				strMedarbOskriftLinie = strMedarbOskriftLinie & "<td "&tdstyleTimOms&" bgcolor=#F7F7F7>"& strFakbtimTxt 
+				strMedarbOskriftLinie = strMedarbOskriftLinie & "<td class=lille "&tdstyleTimOms&" bgcolor=#F7F7F7>"& strFakbtimTxt 
 				
 				if cint(visfakbare_res) = 1 then
 				strMedarbOskriftLinie = strMedarbOskriftLinie & "<br>"& strFakbTxt &"</td>"
@@ -35,13 +35,13 @@
                             '****** Prev Saldo *************************'
                             '*******************************************'
                             if cint(visPrevSaldo) = 1 then
-                            strMedarbOskriftLinie = strMedarbOskriftLinie & "<td "&tdstyleTimOms&" bgcolor=#F7F7F7>"
+                            strMedarbOskriftLinie = strMedarbOskriftLinie & "<td class=lille "&tdstyleTimOms&" bgcolor=#F7F7F7>"
                 
                              if cint(vis_restimer) = 1 then
                              strMedarbOskriftLinie = strMedarbOskriftLinie &"<span style='color:#999999; font-size:9px;'>Forecast.</span><br>"
                              end if
                 
-                             strMedarbOskriftLinie = strMedarbOskriftLinie &"Real. tim.<br>"
+                             strMedarbOskriftLinie = strMedarbOskriftLinie &"Real. timer<br>"
                     
                     
                             
@@ -53,7 +53,7 @@
                
 
 				
-				            strMedarbOskriftLinie = strMedarbOskriftLinie & "<td "&tdstyleTimOms&" bgcolor=#F7F7F7>"
+				            strMedarbOskriftLinie = strMedarbOskriftLinie & "<td class=lille "&tdstyleTimOms&" bgcolor=#F7F7F7>"
                 
                              if cint(vis_restimer) = 1 then
                              strMedarbOskriftLinie = strMedarbOskriftLinie &"<span style='color:#999999; font-size:9px;'>Forecast</span><br>"
@@ -63,16 +63,16 @@
 				
 				                select case cint(visfakbare_res) 
                                 case 1
-				                strMedarbOskriftLinie = strMedarbOskriftLinie & "Real. tim."
-				                strMedarbOskriftLinie = strMedarbOskriftLinie & "<br>Oms.&nbsp;<br>Balance<br><span style='font-size:9px;'>(i periode)</span>&nbsp;"
+				                strMedarbOskriftLinie = strMedarbOskriftLinie & "Real. timer"
+				                strMedarbOskriftLinie = strMedarbOskriftLinie & "<br>Oms.&nbsp;<br>Balance<br><span style='font-size:9px;'>(i per.)</span>&nbsp;"
 				    
 				                case 2
 
-                                strMedarbOskriftLinie = strMedarbOskriftLinie & "Real. tim.&nbsp;"
-				                strMedarbOskriftLinie = strMedarbOskriftLinie & "<br>Kost. ialt&nbsp;<br>Balance<br><span style='font-size:9px;'>(i periode)</span>&nbsp;"
+                                strMedarbOskriftLinie = strMedarbOskriftLinie & "Real. timer"
+				                strMedarbOskriftLinie = strMedarbOskriftLinie & "<br>Kost. ialt&nbsp;<br>Balance<br><span style='font-size:9px;'>(i per.)</span>&nbsp;"
 
                                 case else
-				                strMedarbOskriftLinie = strMedarbOskriftLinie & "Real. tim.<br><span style='font-size:9px;'>(i periode)</span>&nbsp;"
+				                strMedarbOskriftLinie = strMedarbOskriftLinie & "Real. timer<br><span style='font-size:9px;'>(i per.)</span>&nbsp;"
 				    
 				                    'if cint(vis_enheder) = 1 then
 				                    'strMedarbOskriftLinie = strMedarbOskriftLinie &"<br>Enheder&nbsp;"
@@ -84,9 +84,9 @@
 
 
                      select case lto
-                     case "mmmi", "intranet - local"
+                     case "mmmi", "xintranet - local"
                      case else
-                     strMedarbOskriftLinie = strMedarbOskriftLinie & "<td "&tdstyleTimOms&" bgcolor=#F7F7F7>Real. %</td>"
+                     strMedarbOskriftLinie = strMedarbOskriftLinie & "<td class=lille "&tdstyleTimOms&" bgcolor=#F7F7F7>Real. %</td>"
                      end select
 
                     '*****************************************'
@@ -95,13 +95,13 @@
 
                     if cint(visPrevSaldo) = 1 then 
                  
-                    strMedarbOskriftLinie = strMedarbOskriftLinie &"<td "&tdstyleTimOms&" bgcolor=#F7F7F7>"
+                    strMedarbOskriftLinie = strMedarbOskriftLinie &"<td class=lille "&tdstyleTimOms&" bgcolor=#F7F7F7>"
 
                      if cint(vis_restimer) = 1 then
-                     strMedarbOskriftLinie = strMedarbOskriftLinie &"<span style='color:#999999; font-size:9px;'>Forecasttimer</span><br>"
+                     strMedarbOskriftLinie = strMedarbOskriftLinie &"<span style='color:#999999; font-size:9px;'>Forecast</span><br>"
                      end if
 
-                     strMedarbOskriftLinie = strMedarbOskriftLinie &"<b>Real. timer</b><br><span style='font-size:9px;'>(ialt)</span></td>"
+                     strMedarbOskriftLinie = strMedarbOskriftLinie &"Real. timer<br><span style='font-size:9px;'>(ialt)</span></td>"
 
                     end if
 
@@ -311,24 +311,24 @@
 
                                                 if v = 0 then
                             
-                                                if cint(directexp) <> 1 then 
+                                                    if cint(directexp) <> 1 then 
 
                                         
-                                                select case lto
-                                                case "mmmi", "intranet - local"
-                                                    strMedarbOskriftLinie_cspan = 3
-                                                case else
-                                                    strMedarbOskriftLinie_cspan = 4
-                                                end select                    
+                                                    select case lto
+                                                    case "mmmi", "xintranet - local"
+                                                        strMedarbOskriftLinie_cspan = 3
+                                                    case else
+                                                        strMedarbOskriftLinie_cspan = 4
+                                                    end select                    
             
 
-                                                strMedarbOskriftLinie = strMedarbOskriftLinie &"</tr><tr bgcolor=#EFf3ff><td colspan="& strMedarbOskriftLinie_cspan &">&nbsp;</td>"
+                                                    strMedarbOskriftLinie = strMedarbOskriftLinie &"</tr><tr bgcolor=#EFf3ff><td colspan="& strMedarbOskriftLinie_cspan &">&nbsp;</td>"
                                                 
-                                                    if cint(visPrevSaldo) = 1 then
-                                                    strMedarbOskriftLinie = strMedarbOskriftLinie &"<td>&nbsp;</td><td>&nbsp;</td>"
-                                                    end if
+                                                        if cint(visPrevSaldo) = 1 then
+                                                        strMedarbOskriftLinie = strMedarbOskriftLinie &"<td>&nbsp;</td><td>&nbsp;</td>"
+                                                        end if
 
-                                                end if 'if cint(directexp) <> 1 then 
+                                                    end if 'if cint(directexp) <> 1 then 
 
                                                 expTxt = expTxt &"xx99123sy#z"
 
@@ -341,7 +341,7 @@
 
                                                   if cint(md_split) = 1 then '** = 3 md
 
-                                                              if cint(directexp) <> 1 then 
+                                                             if cint(directexp) <> 1 then 
                                                              strMedarbOskriftLinie = strMedarbOskriftLinie &"<td align=center style='font-size:8px; border-left:1px #CCCCCC solid'>"& mdThis1 &"<br><img src='../ill/blank.gif' width=45 height=1></td>"_
                                                              &"<td align=center style='font-size:8px;'>"& mdThis2 &"<br><img src='../ill/blank.gif' width=45 height=1></td>"_
                                                              &"<td align=center style='font-size:8px;'>"& mdThis3 &"<br><img src='../ill/blank.gif' width=45 height=1></td>"
@@ -459,8 +459,9 @@
 
                 end if									
 
-				'strMedarbOskriftLinie = strMedarbOskriftLinie & "</tr>"	
-
+                'if session("mid") = 1 then
+				'strMedarbOskriftLinie = "" ' strMedarbOskriftLinie & "</tr>"	
+                'end if
 
     end sub
 
@@ -488,7 +489,7 @@ sub subTotaler_gt
 						
 						
 
-                        strJobLinie_Subtotal = strJobLinie_Subtotal & formatnumber(subbudgettimer, 2) & " t."
+                        strJobLinie_Subtotal = strJobLinie_Subtotal & formatnumber(subbudgettimer, 2) 
 
                         if cint(vis_enheder) = 1 then
 					    strJobLinie_Subtotal = strJobLinie_Subtotal & "<br>"
@@ -564,7 +565,7 @@ sub subTotaler_gt
 	            			
 
                         select case lto
-                        case "mmmi", "intranet - local"
+                        case "mmmi", "xintranet - local"
                         case else
                         strJobLinie_Subtotal = strJobLinie_Subtotal & "<td class=lille valign=bottom align=right "&tdstyleTimOms&" bgcolor=snow>&nbsp;</td>" 
                         end select
@@ -704,7 +705,7 @@ sub subTotaler_gt
                     case else
                         
                                         select case lto
-                                        case "mmmi", "intranet - local"
+                                        case "mmmi", "xintranet - local"
                                         expTxt = expTxt &";;;;;;;;;;;;"
                                         case else
 				                        expTxt = expTxt &";;;;;;;;;;;;;"
@@ -790,7 +791,7 @@ sub exportptOskrifter
                 expTxt = expTxt &"Real. timer Ialt (I periode);"
 
                 select case lto
-                case "mmmi", "intranet - local"
+                case "mmmi", "xintranet - local"
                 case else
                 expTxt = expTxt &"Real. timer %;"
                 end select
@@ -804,7 +805,7 @@ sub exportptOskrifter
 
                     
                     if cint(vis_restimer) = 1 then
-                    expTxt = expTxt &"Ressource timer (I periode);"
+                    expTxt = expTxt &"Ressource Forecast timer (I periode);"
                     end if
                     
 
@@ -953,7 +954,10 @@ end sub
                                       
                                         if cint(directexp) <> 1 then 
                                         '**** Timeantal ****'
-								        strJobLinie = strJobLinie & "<td class=lille align=right "& tdstyleTimOms3 &" bgcolor='"& bgthis &"'>"
+								        strJobLinie = strJobLinie & "<td class=lille align=right valign=bottom "& tdstyleTimOms3 &" bgcolor='"& bgthis &"'>"
+
+                                      
+
                                         'strJobLinie = strJobLinie & "&nbsp;cnt:"& cnt &" md: " & md & "<br> mdmd: "& md_md & " m:" & m & " <br>" & jobmedtimer(x, 36) & " medarb(v) : "& medarb(v) &"<br>"
                                         '".." & v &"'//12: "& jobmedtimer(x, 12) &" Udsepc: "& upSpec &" - jobid: "& jobid & " 4: "& jobmedtimer(x, 4) &" mv: "& medarb(v) &" .. "'udSpec = "& upSpec &" a: "& jobmedtimer(x, 12) &" j:" & jobmedtimer(x,0) & " m:"& jobmedtimer(x,4) & " dt:" & jobmedtimer(x, 36) &" 38:" & jobmedtimer(x, 38) & "<br>"
 								        end if
@@ -973,9 +977,26 @@ end sub
                                             end if
 
                                             call resTimer(jobmedtimer(x,0), jobmedtimer(x,12), jobmedtimer(x,4), mdThisV, md_year, md_split_cspan, 0)
-                                 
-                                            if cint(directexp) <> 1 then 
-                                            strJobLinie = strJobLinie & "<span style='color:#999999;'>"& restimerThis &"</span><br>"
+            
+                                            if len(trim(restimerThis)) <> 0 AND isNull(restimerThis) <> true then
+                                            restimerThis = restimerThis
+                                            else
+                                            restimerThis = 0
+                                            end if
+
+
+                                            if cdbl(restimerThis) < cdbl(jobmedtimer(x,3)) then
+                                            bgResTimerOverskreddetColor = "darkred"
+                                            bgResTimerOverskreddetWight = "bolder"
+                                            else
+                                            bgResTimerOverskreddetColor = "#999999"
+                                            bgResTimerOverskreddetWight = "normal"
+                                            end if
+
+                                                 
+
+                                            if cint(directexp) <> 1 AND restimerThis <> 0 then 
+                                            strJobLinie = strJobLinie & "<span style='color:"& bgResTimerOverskreddetColor &"; font-weight:"& bgResTimerOverskreddetWight &";'>"& restimerThis &"</span><br>"
                                             end if
 
                                             vCntVal = vCntVal + 1 
@@ -1012,11 +1033,11 @@ end sub
                                                     if formatnumber(jobmedtimer(x, 25)) <> 0 then
 						                            strJobLinie = strJobLinie & " <br><span style='color:#5c75AA; font-size:9px;'> enh. "& formatnumber(jobmedtimer(x, 25), 2) & "</span>" 
                                                     else
-                                                    strJobLinie = strJobLinie & "<br>&nbsp;"
+                                                    strJobLinie = strJobLinie & "&nbsp;"
                                                     end if
 						                        end if
 							                else
-									            strJobLinie = strJobLinie & "<br>&nbsp;"
+									            strJobLinie = strJobLinie & "&nbsp;"
 								            end if 
 
 

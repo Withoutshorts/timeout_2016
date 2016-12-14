@@ -56,6 +56,12 @@ end function
     		
 		    if cint(valuta) = oRec3("id") then
 		    valGrpCHK = "SELECTED"
+
+               'KURS VED OPRETTELSE
+               if thisfile = "job_nt.asp" AND func = "red" then
+               oprKurs = formatnumber((bruttooms / (orderqty * sales_price_pc)), 2)
+               end if
+
 		    else
 		    valGrpCHK = ""
 		    end if
@@ -64,11 +70,17 @@ end function
                 kursTxt = ""
                 else
                     if oRec3("kurs") <> 100 then
-                    kursTxt = "("& oRec3("kurs")/100 &")"
+                    kursTxt = "("& formatnumber(oRec3("kurs")/100, 2) &")"
                     else
                     kursTxt = ""
                     end if
                 end if
+
+               
+               'KURS VED OPRETTELSE
+               if thisfile = "job_nt.asp" AND func = "red" AND valGrpCHK = "SELECTED" then
+               kursTxt = " - "& oprKurs & " "& kursTxt  
+               end if
 		   
 		    %>
 		    <option value="<%=oRec3("id")%>" <%=valGrpCHK %>><%=oRec3("valutakode") &" "& kursTxt%></option>

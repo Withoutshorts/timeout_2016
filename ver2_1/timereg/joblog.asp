@@ -1587,6 +1587,17 @@ slutDatoKriSQL = strAar_slut &"/"& strMrd_slut &"/"& strDag_slut
 		id = 1
 		
 			
+            '** På kasserapoort BF skal linjeskift laves inden ny linje så der ikke kommer et skift for meget til sidst
+            if cint(ver) = 1 then
+                        if v > 0 then
+                        ekspTxt = ekspTxt & "xx99123sy#z"
+                        else
+                        ekspTxt = ekspTxt 
+                        end if
+            else
+            ekspTxt = ekspTxt & "xx99123sy#z"
+            end if
+
 			
 		    select case ver 
             case 1 
@@ -2004,7 +2015,7 @@ slutDatoKriSQL = strAar_slut &"/"& strMrd_slut &"/"& strDag_slut
                             call meStamdata(oRec("tmnr"))
                             bilagsnr = "" 'year(oRec("tdato"))&month(oRec("tdato"))&day(oRec("tdato")) 
 
-                            ekspTxt = ekspTxt & "''" & formatdatetime(oRec("tdato"), 2) & "''" &";"& "''" & oRec("tjobnavn") &" ["& meInit &"]" & "''" &";" & bilagsnr &";"& "''" & kontonrLeft & "''" &";" & "''" & oRec("anavn") & "''" &";"
+                            ekspTxt = ekspTxt & chr(34) & formatdatetime(oRec("tdato"), 2) & chr(34) &";"& chr(34) & oRec("tjobnavn") &" ["& meInit &"]" & chr(34) &";" & bilagsnr &";"& chr(34) & kontonrLeft & chr(34) &";" & chr(34) & oRec("anavn") & chr(34) &";"
                                 
                             case else
 
@@ -2147,7 +2158,7 @@ slutDatoKriSQL = strAar_slut &"/"& strMrd_slut &"/"& strDag_slut
 
                             aktnavnEksp = ""
                             if len(oRec("Anavn")) <> 0 then
-                            aktnavnEksp = replace(oRec("Anavn"), Chr(34), "''")
+                            aktnavnEksp = replace(oRec("Anavn"), Chr(34), "&quot;")
                             else
                             aktnavnEksp = ""
                             end if
@@ -2250,16 +2261,16 @@ slutDatoKriSQL = strAar_slut &"/"& strMrd_slut &"/"& strDag_slut
                             case 1
                                 
                                     
-                                  if cint(cur) = 0 then '* BF Basis currency DKK
+                                  if cint(cur) = 0 then '* BF Basis currency OMreng altid til DKK
 
                                   
                                   belob = formatnumber(oRec("timer") * oRec("timepris"), 2)
                                   frakurs = oRec("kurs")
 	                              call beregnValuta(belob,frakurs,100)
 
-                                  ekspTxt = ekspTxt & formatnumber(valBelobBeregnet, 2) &";;;"& "''" & kontonrRight & "''" &";"
+                                  ekspTxt = ekspTxt & formatnumber(valBelobBeregnet, 2) &";;;"& chr(34) & kontonrRight & chr(34) &""
                                   
-                                  else '*BF local currency
+                                  else '*BF KEEP local currency, use the actual currency
 
                                   belob = formatnumber(oRec("timer") * oRec("timepris"), 2)
                                   
@@ -2280,7 +2291,7 @@ slutDatoKriSQL = strAar_slut &"/"& strMrd_slut &"/"& strDag_slut
 
 	                              
 
-	                              ekspTxt = ekspTxt & formatnumber(valBelobBeregnet, 2) &";;;"& "''" & kontonrRight & "''" &";"
+	                              ekspTxt = ekspTxt & formatnumber(valBelobBeregnet, 2) &";;;"& chr(34) & kontonrRight & chr(34) &""
                                   
                                   end if
 
@@ -2463,7 +2474,7 @@ slutDatoKriSQL = strAar_slut &"/"& strMrd_slut &"/"& strDag_slut
 				
 				
 				            <%
-				            ''*** Kostpriser ***'
+				            '*** Kostpriser ***'
 				            if level = 1 AND cint(visKost) = 1 then
 				
 				            if media <> "export" then%>
@@ -2746,15 +2757,15 @@ slutDatoKriSQL = strAar_slut &"/"& strMrd_slut &"/"& strDag_slut
                            case 1
     			           case else
 
-                           if len(komm_note_Txt) <> 0 then
-                            'komm_note_Txt = replace(komm_note_Txt, " -", "-")
-                            call htmlparseCSV(komm_note_Txt)
-                            'komm_note_Txt = replace(htmlparseCSVtxt, "vbcrlf", "xxxxx")
-                            'komm_note_Txt = replace(komm_note_Txt, "vbcrlf", "xxxxx")
-                            ekspTxt = ekspTxt & ""& Chr(34) & komm_note_Txt & Chr(34) &";"
-                           else
-                            ekspTxt = ekspTxt & ";"
-                           end if
+                                   if len(komm_note_Txt) <> 0 then
+                                    'komm_note_Txt = replace(komm_note_Txt, " -", "-")
+                                    call htmlparseCSV(komm_note_Txt)
+                                    'komm_note_Txt = replace(htmlparseCSVtxt, "vbcrlf", "xxxxx")
+                                    'komm_note_Txt = replace(komm_note_Txt, "vbcrlf", "xxxxx")
+                                    ekspTxt = ekspTxt & ""& Chr(34) & komm_note_Txt & Chr(34) &";"
+                                   else
+                                    ekspTxt = ekspTxt & ";"
+                                   end if
                                     
                            end select%>
 				
@@ -2764,7 +2775,13 @@ slutDatoKriSQL = strAar_slut &"/"& strMrd_slut &"/"& strDag_slut
 				
 				
 			            <%
-			            ekspTxt = ekspTxt & "xx99123sy#z" 
+                        if cint(ver) = 1 then
+                        ekspTxt = ekspTxt 
+                        else
+                        ekspTxt = ekspTxt & "xx99123sy#z"
+                        end if
+
+			             
 			
 			            v = v + 1
 			            lastmedarbnavn = oRec("Tmnavn")
@@ -2964,32 +2981,45 @@ if x <> 0 then
 
                     'Response.Write "hidefase: " & hidefase
                     'Response.end 
-    
+        
+                    if cint(ver) = 1 then
+                    ekspTxt = replace(ekspTxt, "xx99123sy#z", vbcrlf)
+                    else
+                    ekspTxt = replace(ekspTxt, "xx99123sy#z", vbcrlf)
+                    end if
 
-	                ekspTxt = replace(ekspTxt, "xx99123sy#z", vbcrlf)
+	                
 	
 	                datointerval = request("datointerval")
 	
 	
 	                filnavnDato = year(now)&"_"&month(now)& "_"&day(now)
 	                filnavnKlok = "_"&datepart("h", now)&"_"&datepart("n", now)&"_"&datepart("s", now)
+
+
+                    if cint(ver) = 1 then
+                    fileext = "txt"
+                    else
+                    fileext = "csv"
+                    end if
+
+				    
+                    
 	
 				                Set objFSO = server.createobject("Scripting.FileSystemObject")
 				
 				                if request.servervariables("PATH_TRANSLATED") = "C:\www\timeout_xp\wwwroot\ver2_1\timereg\joblog.asp" then
-					                Set objNewFile = objFSO.createTextFile("c:\www\timeout_xp\wwwroot\ver2_1\inc\log\data\joblogexp_"&filnavnDato&"_"&filnavnKlok&"_"&lto&".csv", True, False)
+					                Set objNewFile = objFSO.createTextFile("c:\www\timeout_xp\wwwroot\ver2_1\inc\log\data\joblogexp_"&filnavnDato&"_"&filnavnKlok&"_"&lto&"."& fileext, True, False)
 					                Set objNewFile = nothing
-					                Set objF = objFSO.OpenTextFile("c:\www\timeout_xp\wwwroot\ver2_1\inc\log\data\joblogexp_"&filnavnDato&"_"&filnavnKlok&"_"&lto&".csv", 8)
+					                Set objF = objFSO.OpenTextFile("c:\www\timeout_xp\wwwroot\ver2_1\inc\log\data\joblogexp_"&filnavnDato&"_"&filnavnKlok&"_"&lto&"."& fileext, 8)
 				                else
-					                Set objNewFile = objFSO.createTextFile("d:\webserver\wwwroot\timeout_xp\wwwroot\"& toVer &"\inc\log\data\joblogexp_"&filnavnDato&"_"&filnavnKlok&"_"&lto&".csv", True, False)
+					                Set objNewFile = objFSO.createTextFile("d:\webserver\wwwroot\timeout_xp\wwwroot\"& toVer &"\inc\log\data\joblogexp_"&filnavnDato&"_"&filnavnKlok&"_"&lto&"."& fileext, True, False)
 					                Set objNewFile = nothing
-					                Set objF = objFSO.OpenTextFile("d:\webserver\wwwroot\timeout_xp\wwwroot\"& toVer &"\inc\log\data\joblogexp_"&filnavnDato&"_"&filnavnKlok&"_"&lto&".csv", 8)
+					                Set objF = objFSO.OpenTextFile("d:\webserver\wwwroot\timeout_xp\wwwroot\"& toVer &"\inc\log\data\joblogexp_"&filnavnDato&"_"&filnavnKlok&"_"&lto&"."& fileext, 8)
 				                end if
 				
 				
-				
-				                file = "joblogexp_"&filnavnDato&"_"&filnavnKlok&"_"&lto&".csv"
-				
+                                file = "joblogexp_"&filnavnDato&"_"&filnavnKlok&"_"&lto&"."& fileext
 				
 				                '**** Eksport fil, kolonne overskrifter ***
                                 if cint(joblog_uge) = 3 then 'månedsoversigt

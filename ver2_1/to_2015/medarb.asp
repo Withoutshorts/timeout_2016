@@ -113,7 +113,7 @@ Session.LCID = 1030
       
 
 
-	if len(trim(Request("FM_login"))) = 0 OR len(trim(Request("FM_pw"))) = 0 OR len(trim(Request("FM_mnr"))) = 0 OR len(trim(request("FM_navn"))) = 0 then 
+	if len(trim(Request("FM_login"))) = 0 OR len(trim(Request("FM_pw"))) = 0 OR len(trim(Request("FM_mnr"))) = 0 OR len(trim(Request("FM_init"))) = 0 OR len(trim(request("FM_navn"))) = 0 then 
 	
 	
 	errortype = 9
@@ -1211,7 +1211,7 @@ Session.LCID = 1030
                         </div>
                         <!-- Sortering -->
 
-                        <div class="col-lg-1 pad-t5">Intialer:</div>
+                        <div class="col-lg-1 pad-t5">Intialer:&nbsp<span style="color:red;">*</span></div>
                         <div class="col-lg-2">   
                             <input name="FM_init" type="text" class="form-control input-small" value="<%=strInit%>" />
 
@@ -1457,7 +1457,7 @@ Session.LCID = 1030
                                     case "outz", "hidalgo"
                                          sprogAntalIds = 8
                                     case else
-                                         sprogAntalIds = 2
+                                         sprogAntalIds = 3
                                     end select
 		
 			                        strSQL = "SELECT sproglabel, id FROM sprog WHERE id < "& sprogAntalIds
@@ -2039,7 +2039,7 @@ Session.LCID = 1030
     case else 'list
 
                 %>
-                <script src="js/medarb_list_jav.js" type="text/javascript"></script>
+                <script src="js/medarb_list_201612_jav.js" type="text/javascript"></script>
                 <%
 
 
@@ -2188,7 +2188,7 @@ Session.LCID = 1030
               <tr>
                 <th style="width: 22%">Navn</th>
                 <th style="width: 5%">Status</th>
-                <th style="width: 15%">Type</th>
+                <th style="width: 15%">Medarbejdertype</th>
                 <th style="width: 18%">Rettigheder</th>
                 <th style="width: 15%">Email</th>
                 <th style="width: 10%">Ansat</th>
@@ -2320,7 +2320,7 @@ Session.LCID = 1030
                    <tr>
                     <th>Navn</th>
                     <th>Status</th>
-                    <th>Type</th>
+                    <th>Medarbejdertype</th>
                     <th>Rettigheder</th>
                     <th>Email</th>
                     <th>Ansat</th>
@@ -2377,7 +2377,7 @@ Session.LCID = 1030
 				                '**** Eksport fil, kolonne overskrifter ***
 				
 			
-				                strOskrifter = "Medarbejder; Nr.; Init; Status; Type; Brugergruppe; Email; Ansatdato"
+				                strOskrifter = "Medarbejder; Nr.; Init; Status; Medarbejertype; Brugergruppe; Email; Ansatdato"
 				
 				
 				

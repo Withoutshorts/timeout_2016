@@ -1848,7 +1848,7 @@ if len(session("user")) = 0 then
           end if
           %>
             <br /><br />
-           <input type="checkbox" name="pa_aktlist" value="1" <%=pa_aktlistCHK %> />Mobil (timetag_web), samt ugeseddel kan KUN at søge i <b>Personlig aktivjobliste</b> PA=1.
+           <input type="checkbox" name="pa_aktlist" value="1" <%=pa_aktlistCHK %> />Mobil (timetag_web), samt ugeseddel og ressourceforecast kan KUN at søge i <b>Personlig aktivjobliste</b> PA=1.
            Ellers kan der søges i hele jobbanken PA=0. Forudsættes at man har adgang via sine projektgrupper. (TimeTag sættes i timetag config)<br />
 
             </td>

@@ -22,11 +22,16 @@ case 5
 if Request.Cookies("loginlto")("lto") <> "" then
 thislto = Request.Cookies("loginlto")("lto")
 else
-thislto = ""
+    if len(trim(lto)) <> 0 then
+    thislto = lto
+    else
+    thislto = ""
+    end if
 end if
-varErrorText = "<b>Sessionen er udløbet og du er blevet logget af TimeOut</b>.<br><br>Sessionen udløber ud hvis TimeOut har været passiv i mere end <b>12 timer</b>,<br>"_
+varErrorText = "<b>Sessionen er udløbet og du er blevet logget af TimeOut.</b><br><br>"_
+&"Sessionen udløber ud hvis TimeOut har været passiv i mere end <b>12 timer</b>, "_
 &"eller TimeOut serveren har nulstillet dagens aktive sessioner, af sikkerheds- og -performance mæssige hensyn."_
-&"<br><br>Klik <a href='https://outzource.dk/"&thislto&"' target='_top' class=vmenu>her</a> for at logge ind i jeres system igen."_
+&"<br><br>Klik her:  <a href='https://timeout.cloud/"&thislto&"' target='_top'>https://timeout.cloud/"&thislto&"</a> for at logge ind i jeres system igen."_
 &"<br /><br />"_
 &"Med venlig hilsen<br /><br />OutZourCE dev. team."
 case 6
@@ -45,12 +50,15 @@ case 9
 varErrorText = "Der mangler at blive indtaste en følgende informationer:<br><ul>"_
 &"<li>Medarbejder navn"_
 &"<li>Medarbejer nr."_
+&"<li>Medarbejer Initialer"_
 &"<li>Login"_
 &"<li>Password"_
 &"</ul>"
 
+
+
 case 10
-varErrorText = "En Medarbejder med det valgte <b>Medarbejder nr.</b> eksisterer allerede. <br><br>Vælgt et andet."
+varErrorText = "En Medarbejder med det valgte <b>Medarbejder nr.</b> eksisterer allerede.<br><br>Vælgt et andet."
 
 case 11
 varErrorText = "En Medarbejder med det valgte <b>Login</b> eksisterer allerede. <br><br>Vælgt et andet."
@@ -67,8 +75,9 @@ varErrorText = "<ul><li>Der mangler at blive indtastet et <b>kundenavn</b></ul>"
 case 14
 varErrorText = "Der mangler at blive indtastet en af følgende informationer: <br> "_
 &"<ul> "_
-&"<li>Jobnavn."_
+&"<li>Jobnavn (eller Du har angivet <b>'jobnavn..'</b> som navn)"_
 &"<li>Jobnavn indeholder et <b>''</b> eller et <b>'</b>"_ 
+&"<li>Jobnavn er på <b>mere end 150</b> karakterer. ("& len(request("FM_navn")) &")"_
 &"<li>Jobnr. "_
 &"<li>Jobnr. er på <b>mere end 20</b> karakterer."_
 &"<li>Startdato er en <b>senere dato </b>end slutdato."_
@@ -215,9 +224,9 @@ varErrorText = "<b>Produktionstid</b> er ikke angivet som et tal!"
 'case 58
 'varErrorText = "<b>Logud tidspunkt</b> er ikke angivet i et tilladt format!"
 case 59
-varErrorText = "<b>Logind tidspunkt</b> er ikke angivet i et tilladt format!"
+varErrorText = "En eller flere <b>Komme / Gå tidspunkt(er)</b> er ikke angivet i et gyldigt dato- og/eller tids -format!<br><br>Der er angivet ulovlige karakterer eller der mangler angivelse."
 case 60
-varErrorText = "<b>Der mangler eller fejl i en eller flere af følgende informationer:</b><br><br> - Logind tidspunkt er ugyldigt eller mangler<br>- Logud tidspunkt er ugyldigt<br> - Der er fejl i dato."
+varErrorText = "En eller flere <b>Komme / Gå tidspunkt(er)</b> er ikke angivet i et gyldigt dato- og/eller tids -format!<br><br>Der er angivet ulovlige karakterer eller der mangler angivelse."
 case 61
 varErrorText = "<ul><li>Der mangler at blive indtastet et navn"
 varErrorText = "<li>Beløb er ikke indtastet som tal</ul>"
@@ -318,7 +327,7 @@ varErrorText = "<b>ERP - Fakturanr findes i forvejen!</b><br>"_
 &"<br>Hvis du ikke har adgang til kontrolpanelet skal du have fat i din administrator."
 
 case 90
-varErrorText = replace(err_txt_090, "#nylinie#", "<br>")
+varErrorText = regdato &" - "& replace(err_txt_090, "#nylinie#", "<br>")
 
 case 91
 varErrorText = "<b>TSA - Jobnr og tilbudsnr!</b><br>"_
@@ -328,7 +337,7 @@ varErrorText = "<b>TSA - Jobnr og tilbudsnr!</b><br>"_
 
 case 92
 varErrorText = "<b>TSA - Manglende information!</b><br>"_
-&" - Der mangler at blive valgt en kontakt i step 1."_
+&" - Der mangler at blive valgt en kunde i step 1."_
 &" <br><br>"
 
 case 93
@@ -406,7 +415,7 @@ varErrorText = "<b>Materialegrupper</b><br>"_
 
 
 case 106
-
+useleftdiv = "s"
 varErrorText = replace(err_txt_106, "#nylinie#", "<br>")
 
 case 107
@@ -462,13 +471,13 @@ varErrorText = "<b>Stopur</b><br>"_
 
 case 117
 varErrorText = "<b>Timeregistrering</b><br>"_
-&" <b>A)</b> Registrerings dato for Stopur's Entry id:<b>"& entrysids(j) &"</b> på det valgte job, "_
+&" Den registrering Du forsøger at foretage er blevet afvist. Det skyldes en af to følgende grunde:<br><br> "_
+&" <b>A)</b> Registreringsdato "_
 &" ligger i et datointerval der allerede er faktureret.<br><br>"_
-&" Seneste faktura dato på dette job er: <b>" & lastFakdato &"</b>"_
-&" Den valgte registrerings dato er: <b>"& regdato & "</b><br><br>"_
-&" <b>B)</b> Du prøver at registrere timer i en periode der er afsluttet via <b>Smiley ordningen</b>"_
-&" eller via automatisk <b>Månedsafslutning</b> funktionen."
+&" <b>B)</b> Du prøver at registrere timer i en periode der er afsluttet/lukket."
 
+'&" Seneste faktura dato på dette job er: <b>" & lastFakdato &"</b><br><br>"_
+'&" Den valgte registrerings dato er: <b>"& regdato & "</b><br><br>"_
 
 case 118
 varErrorText = "<b>Kopier job</b><br>"_
@@ -567,16 +576,16 @@ varErrorText = "<b>Job</b><br>"_
 &"Prioitet er ikke angivet i et korrekt format. (heltal)"
 
 case 133
-varErrorText = "<b>Stempelur - logindhistorik</b><br>"_
-&"Der er allerede oprettet et logind på den valgte dato.<br>"_
-&"Det er ikke tilladt at oprette loginds på datoer hvor der allerede har været logget ind."
+varErrorText = "<b>Komme / Gå</b><br>"_
+&"Der er allerede oprettet komme/gå registreringer på den valgte dato.<br>"_
+&"Det er ikke tilladt at oprette komme/gå registreringer på datoer hvor der allerede har været logget ind."
 
 
 case 134
-varErrorText = "<b>Stempelur - logindhistorik</b><br>"_
-&"Et eller flere loginds er i konflikt med hinanden.<br><br>"_
-&"Det er ikke tilladt at oprette flere loginds på samme dato der dækker over det samme tidsrum.<br><br>"_
-&"Der er konflikt med dette logind:<br> <b>"& strLogindkonflikt & "</b>"
+varErrorText = "<b>Komme / Gå</b><br>"_
+&"En eller flere komme/gå registreringer er i konflikt med hinanden.<br><br>"_
+&"Det er ikke tilladt at oprette flere komme/gå registreringer på samme dato der dækker over det samme tidsrum.<br><br>"_
+&"Der er konflikt med denne komme/gå registrering:<br> <b>"& strLogindkonflikt & "</b>"
 
 case 136
 varErrorText = "<b>Timeregistrering</b><br>"_
@@ -705,6 +714,48 @@ varErrorText = "Der mangler at blive angivet/valgt en aktivitet."
 case 169
 varErrorText = "Der er sket en regnefejl, eller der er manuelt indtastet et forket beløb i totalbeløb.<br><br>Totalbeløb: <b>"& intBeloebtjk & "</b> stemmer ikke overens<br> med beløbet på faktura linjerne: <b>"& tjkSum &"</b><br><br>Tjek seneste ændrede aktivitet og klik på 'calc' igen."
 
+case 170
+varErrorText = "You need to select a customer!"
+
+case 171
+varErrorText = "You need to type a style!"
+
+case 172
+varErrorText = "You need to type a order no.<br>Or the selected order no. allready exist on another order."
+
+
+case 173
+varErrorText = "You are missing one or more of the following information: <br><br>"
+varErrorText = varErrorText & "<b>Required for active orders:</b><br><br> "
+varErrorText = varErrorText & "Customer, Style and <br> "
+varErrorText = varErrorText & "- Sales Rep.<br> "
+varErrorText = varErrorText & "- Supplier<br> "
+varErrorText = varErrorText & "- ETD Buyer<br> "
+
+case 174
+varErrorText = "You are missing one or more of the following information: <br><br>"
+varErrorText = varErrorText & "<b>Required for shipped orders:</b><br><br> "
+varErrorText = varErrorText & "Customer, Style and <br> "
+varErrorText = varErrorText & "- Sales Rep.<br> "
+varErrorText = varErrorText & "- ETD Buyer<br> "
+varErrorText = varErrorText & "- Actual ETD<br> "
+varErrorText = varErrorText & "- Order Qty.<br> "
+varErrorText = varErrorText & "- Supplier<br> "
+varErrorText = varErrorText & "- Shipped Qty.<br> "
+varErrorText = varErrorText & "- Supplier invoiceno<br> "    
+
+
+case 175
+varErrorText = "Dato er ikke angivet i et gyldigt datoformat"
+
+case 176
+varErrorText = "Timer er ikke angivet i et gyldig format, eller der er ikke tastet timer." '0 timer
+
+case 177
+varErrorText = "Forretningsområde er obligatorisk, og der er ikke valgt noget forretningsområde"
+
+case 178
+varErrorText = "Der kan ikke indtastes diæter / rejsedage på dage hvorpå der er registreret mere end "& traveldietexp_maxhours &" timer på dagen."
 
 case else
 varErrorText = errortype
@@ -762,7 +813,14 @@ if browstype_client = "ip" then 'OR browstype_client = "ie"%>
 
 else
 
+if useleftdiv <> "s" then
+
 select case useleftdiv
+case "to_2015"
+leftdiv = 300
+topdiv = -100
+widthdiv = 400
+heightdiv = 200 
 case "j2"
 leftdiv = 100
 topdiv = 50
@@ -776,7 +834,7 @@ heightdiv = 200
 case "c"
 leftdiv = 150
 topdiv = 150
-widthdiv = 360
+widthdiv = 460
 heightdiv = 200
 case "c2"
 leftdiv = 250
@@ -786,12 +844,12 @@ heightdiv = 200
 case "m"
 leftdiv = 100
 topdiv = 50
-widthdiv = 360
+widthdiv = 400
 heightdiv = 200
 case "t"
-leftdiv = 150
-topdiv = 20
-widthdiv = 360
+leftdiv = 250 '150
+topdiv = 250 '20
+widthdiv = 400
 heightdiv = 200
 case "f"
 leftdiv = 10
@@ -819,30 +877,26 @@ end select
 
 
 %>
-<div id="error" style="position:absolute; left:<%=leftdiv%>; top:<%=topdiv%>; width:<%=widthdiv%>; background-color:#ffffff; padding:10px;  border:10px #cccccc solid;">
-<table cellspacing="0" cellpadding="10" border="0" bgcolor="#ffffff" width=100%>
+<div id="error" style="position:absolute; left:<%=leftdiv%>px; top:<%=topdiv%>px; width:<%=widthdiv%>px; background-color:#ffffff; padding:20px; border:10px #cccccc solid;">
+<table cellspacing="0" cellpadding="10" border="0" width=100% style="background-color:#ffffff;">
 	<tr>
-	    <td bgcolor="#ffffff" valign=bottom style="border-bottom:1px #999999 solid; padding-top:15px;"><h4><%=err_txt_001%></h4></td>
-	    <td valign="top" align=right bgcolor="#ffffff" style="border-bottom:1px #999999 solid;">
-		<%if errortype <= 4 OR errortype = 25 then%>
-		<img src="ill/message_error.png" alt="Fejl" border="0">
-		<%else%>
-		<img src="../ill/message_error.png" alt="Fejl" border="0">
-		<%end if%>
-		
-	</td>
+	    <td align="left" style="padding-top:20px; float:left; border:0px;"><h4><%=err_txt_001%></h4></td>
 	</tr>
 	<tr>
-	<td colspan=2>
-	<%=varErrorText%>
+	<td align="left" style="float:left; padding:20px; border:0px; width:360px; background-color:#ffffff;">
+	<div style="padding-left:0px; text-align:left; background-color:#ffffff;""><%=varErrorText%>
 	<br /><br />
 	Err code: 000<%=errortype %>
-	<br /><br />
+
+	
+        </div>
+
+        <br /><br />
         &nbsp;
 	</td>
 	</tr>
 	<tr>
-	<td>
+	<td style="float:left; border:0px;">
 		
 		<%if errortype <= 4 then%>
 		<a href="javascript:history.back()"><< Tilbage</a>
@@ -866,6 +920,15 @@ end select
 </table>
 </div>
 <%
+else 'useleftdiv = S (SIMPEL / jquey)
+
+    %>
+    <%=varErrorText%>
+	<br />Err code: 000<%=errortype %>
+
+    <%
+end if 's
+
 end if 'mobile
 
 

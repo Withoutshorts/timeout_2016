@@ -101,6 +101,7 @@
 
        if aktid <> 0 then 'aktivtet valgt
        jobaktIDKri = "rmd.aktid = "& aktid
+       grpByKri = grpByKri & ", rmd.aktid"
        else
        jobaktIDKri = "rmd.jobid = "& jobid
        end if
@@ -110,8 +111,9 @@
         strSQLrestimer = "SELECT sum(timer) AS restimer FROM ressourcer_md AS rmd WHERE "& jobaktIDKri &""_
         &" AND ("& medidKri &") AND ("& datoKri &") GROUP BY "& grpByKri &""
 
-        'if medid <> 0 then
-        'Response.Write li &" (lastMD "& LastMd &"): "& strSQLrestimer & "<br>"
+        'if session("mid") = 1 then
+        'if aktid <> 0 then
+        'Response.Write "<br><br>li: "& li & " " &" (lastMD "& LastMd &"): "& strSQLrestimer & "<br>"
         'Response.flush
         'end if
 			                        
@@ -1247,29 +1249,29 @@ end function
  end function
  
  public jq_formatTxt
- function jq_format(jq_str)
+ function jq_format(htmlparseCSVtxt)
             
 
-            if len(trim(jq_str)) <> 0 then
+            if len(trim(htmlparseCSVtxt)) <> 0 then
 
-            jq_str = replace(jq_str, "ø", "&oslash;")
-            jq_str = replace(jq_str, "æ", "&aelig;")
-            jq_str = replace(jq_str, "å", "&aring;")
-            jq_str = replace(jq_str, "Ø", "&Oslash;")
-            jq_str = replace(jq_str, "Æ", "&AElig;")
-            jq_str = replace(jq_str, "Å", "&Aring;")
-            jq_str = replace(jq_str, "Ö", "&Ouml;")
-            jq_str = replace(jq_str, "ö", "&ouml;")
-            jq_str = replace(jq_str, "Ü", "&Uuml;")
-            jq_str = replace(jq_str, "ü", "&uuml;")
-            jq_str = replace(jq_str, "Ä", "&Auml;")
-            jq_str = replace(jq_str, "ä", "&auml;")
-            jq_str = replace(jq_str, "é", "&eacute;")
-            jq_str = replace(jq_str, "É", "&Eacute;")
-            jq_str = replace(jq_str, "á", "&aacute;")
-            jq_str = replace(jq_str, "Á", "&Aacute;")
+            htmlparseCSVtxt = replace(htmlparseCSVtxt, "ø", "&oslash;")
+            htmlparseCSVtxt = replace(htmlparseCSVtxt, "æ", "&aelig;")
+            htmlparseCSVtxt = replace(htmlparseCSVtxt, "å", "&aring;")
+            htmlparseCSVtxt = replace(htmlparseCSVtxt, "Ø", "&Oslash;")
+            htmlparseCSVtxt = replace(htmlparseCSVtxt, "Æ", "&AElig;")
+            htmlparseCSVtxt = replace(htmlparseCSVtxt, "Å", "&Aring;")
+            htmlparseCSVtxt = replace(htmlparseCSVtxt, "Ö", "&Ouml;")
+            htmlparseCSVtxt = replace(htmlparseCSVtxt, "ö", "&ouml;")
+            htmlparseCSVtxt = replace(htmlparseCSVtxt, "Ü", "&Uuml;")
+            htmlparseCSVtxt = replace(htmlparseCSVtxt, "ü", "&uuml;")
+            htmlparseCSVtxt = replace(htmlparseCSVtxt, "Ä", "&Auml;")
+            htmlparseCSVtxt = replace(htmlparseCSVtxt, "ä", "&auml;")
+            htmlparseCSVtxt = replace(htmlparseCSVtxt, "é", "&eacute;")
+            htmlparseCSVtxt = replace(htmlparseCSVtxt, "É", "&Eacute;")
+            htmlparseCSVtxt = replace(htmlparseCSVtxt, "á", "&aacute;")
+            htmlparseCSVtxt = replace(htmlparseCSVtxt, "Á", "&Aacute;")
             
-            jq_formatTxt = jq_str
+            jq_formatTxt = htmlparseCSVtxt
 
             else
 
@@ -1293,6 +1295,38 @@ end function
 
         stripHTMLtags = RegularExpressionObject.Replace(HTMLstring, "")
         htmlparseCSVtxt = stripHTMLtags
+
+            htmlparseCSVtxt = replace(htmlparseCSVtxt, "&oslash;", "ø")
+            htmlparseCSVtxt = replace(htmlparseCSVtxt, "&aelig;", "æ")
+            htmlparseCSVtxt = replace(htmlparseCSVtxt, "&aring;", "å")
+            htmlparseCSVtxt = replace(htmlparseCSVtxt, "&Oslash;", "Ø")
+            htmlparseCSVtxt = replace(htmlparseCSVtxt, "&AElig;", "Æ")
+            htmlparseCSVtxt = replace(htmlparseCSVtxt, "&Aring;", "Å")
+            htmlparseCSVtxt = replace(htmlparseCSVtxt, "&Ouml;", "Ö")
+            htmlparseCSVtxt = replace(htmlparseCSVtxt, "&ouml;", "ö")
+            htmlparseCSVtxt = replace(htmlparseCSVtxt, "&Uuml;", "Ü")
+            htmlparseCSVtxt = replace(htmlparseCSVtxt, "&uuml;", "ü")
+            htmlparseCSVtxt = replace(htmlparseCSVtxt, "&Auml;", "Ä")
+            htmlparseCSVtxt = replace(htmlparseCSVtxt, "&auml;", "ä")
+            htmlparseCSVtxt = replace(htmlparseCSVtxt, "&eacute;", "é")
+            htmlparseCSVtxt = replace(htmlparseCSVtxt, "&Eacute;", "É")
+            htmlparseCSVtxt = replace(htmlparseCSVtxt, "&aacute;", "á")
+            htmlparseCSVtxt = replace(htmlparseCSVtxt, "&Aacute;", "Á")
+
+            htmlparseCSVtxt = replace(htmlparseCSVtxt, "&#248;", "ø")
+            htmlparseCSVtxt = replace(htmlparseCSVtxt, "&#230;", "æ")
+            htmlparseCSVtxt = replace(htmlparseCSVtxt, "&#229;", "å")
+            htmlparseCSVtxt = replace(htmlparseCSVtxt, "&#216;", "Ø")
+            htmlparseCSVtxt = replace(htmlparseCSVtxt, "&#198;", "Æ")
+            htmlparseCSVtxt = replace(htmlparseCSVtxt, "&#197;", "Å")
+            htmlparseCSVtxt = replace(htmlparseCSVtxt, "&#214;", "Ö")
+            htmlparseCSVtxt = replace(htmlparseCSVtxt, "&#246;", "ö")
+            htmlparseCSVtxt = replace(htmlparseCSVtxt, "&#220;", "Ü")
+            htmlparseCSVtxt = replace(htmlparseCSVtxt, "&#252;", "ü")
+            htmlparseCSVtxt = replace(htmlparseCSVtxt, "&#196;", "Ä")
+            htmlparseCSVtxt = replace(htmlparseCSVtxt, "&#228;", "ä")
+
+            htmlparseCSVtxt = htmlparseCSVtxt
 
        
        

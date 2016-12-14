@@ -2044,7 +2044,7 @@ if len(session("user")) = 0 then
             							
             						
 							            strSQL = "SELECT jobTpris, budgettimer, fastpris, jobknr, jobnr, jobnavn, "_
-							            &" ikkebudgettimer, jobans1, jobans2, rekvnr, jobstatus, usejoborakt_tp, fastpris, s.navn AS aftalenavn, aftalenr, serviceaft, job_internbesk, j.kommentar, jo_bruttooms "_
+							            &" ikkebudgettimer, jobans1, jobans2, rekvnr, jobstatus, usejoborakt_tp, fastpris, s.navn AS aftalenavn, aftalenr, serviceaft, job_internbesk, j.kommentar, jo_bruttooms, alert "_
                                         &" FROM job AS j LEFT JOIN serviceaft s ON (s.id = serviceaft) WHERE j.id = " & jobid
 
                                         'Response.Write strSQL
@@ -2086,6 +2086,8 @@ if len(session("user")) = 0 then
 
             								job_internbesk = oRec("job_internbesk")
                                             job_tweet = oRec("kommentar")
+
+                                            job_alert = oRec("alert")
             								
 							            end if
 							            oRec.close
@@ -2401,7 +2403,7 @@ if len(session("user")) = 0 then
                                         'Til beregning af forfaldsdato 
                                            dt_actual_etd = now
                                            transportVal = ""
-                                           strSQLffdato = "SELECT dt_actual_etd, transport, jobknr FROM job WHERE id = "& varjobId &""
+                                           strSQLffdato = "SELECT dt_actual_etd, dt_actual_eta, kunde_levbetint, transport, jobknr FROM job WHERE id = "& varjobId &""
                                            oRec6.open strSQLffdato, oConn, 3
                                            if not oRec6.EOF then
                                     
@@ -2410,8 +2412,11 @@ if len(session("user")) = 0 then
                                             'else
                                             transportVal = oRec6("transport")
                                             'end if
-
+                                            if cint(oRec6("kunde_levbetint")) <> 2 then
                                             dt_actual_etd = oRec6("dt_actual_etd")
+                                            else '* ON DDP USE ETA date
+                                            dt_actual_etd = oRec6("dt_actual_eta")
+                                            end if
 
                                            end if 
 
@@ -2437,7 +2442,7 @@ if len(session("user")) = 0 then
 		strSQL = "SELECT jobTpris, budgettimer, fastpris, jobknr, jobnr, "_
 		&" jobnavn, ikkebudgettimer, jobans1, jobans2, kundekpers, beskrivelse, j.valuta, "_
 		&" jobstartdato, jobslutdato, jobfaktype, rekvnr, jobstatus, usejoborakt_tp, ski, abo, ubv, s.navn AS aftalenavn, jfak_moms, jfak_sprog, "_
-        &" aftalenr, serviceaft, job_internbesk, j.kommentar, jo_bruttooms, altfakadr, supplier FROM job j "_
+        &" aftalenr, serviceaft, job_internbesk, j.kommentar, jo_bruttooms, altfakadr, supplier, alert FROM job j "_
         &" LEFT JOIN serviceaft s ON (s.id = j.serviceaft) WHERE j.id = " & jobid
 
         'Response.write strSQL
@@ -2506,6 +2511,8 @@ if len(session("user")) = 0 then
 
             jfak_moms = oRec("jfak_moms")
             sprog = oRec("jfak_sprog")
+
+            job_alert = oRec("alert")
 
 
                     '*** Finder momssats '***
@@ -5118,7 +5125,11 @@ if len(session("user")) = 0 then
 		
 	</td>
     <td style="padding-top:80px;">
-        <a href="#" id="showinternnote" class="vmenu"><u><%=erp_txt_157 %></u></a> | <a href="#" id="showjobtweet" class="vmenu"><%=erp_txt_156 %></a>
+        <a href="#" id="showinternnote" class="vmenu"><u><%=erp_txt_157 %></u></a>
+        <%if cint(job_alert) = 1 then%>
+            <span style="color:red;">&nbsp;<b>!</b>&nbsp;</span>
+         <%end if %>
+         | <a href="#" id="showjobtweet" class="vmenu"><%=erp_txt_156 %></a>
         <br /><div id="internbesk_tweet" style="position:relative; width:300px; height:261px; overflow:auto; font-size:9px; border:0px #cccccc solid; padding:10px;"><%=job_internbesk %></div>
        
        <div id="internbesk_hd" style="display:none; visibility:hidden;"><%=job_internbesk %></div>

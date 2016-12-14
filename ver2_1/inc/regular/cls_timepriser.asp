@@ -158,7 +158,7 @@
 						
 						call meStamdata(oRec5("mid"))
 
-                                        if oRec5("mansat") <> 1 then
+                                        if oRec5("mansat") <> "1" then
                                             mTdBgCol = "#CCCCCC"
                                         else
                                             mTdBgCol = ""

@@ -1080,21 +1080,27 @@ function showsmiley(weekSelected, visning, usemrn, SmiWeekOrMonth)
 
 
     call meStamdata(usemrn)
+    call licensStartDato()
 
+    if cDate(meAnsatDato) > cDate(licensstdato) then
+    useListDato_meAnsatDato = meAnsatDato
+    else
+    useListDato_meAnsatDato = licensstdato
+    end if
 
     
-    if year(meAnsatDato) >= year(useDateSmileyTjk) then
+    if year(useListDato_meAnsatDato) >= year(useDateSmileyTjk) then
             
             'if year(meAnsatDato) >= year(now) then
-            surDatoSQLSTART = year(meAnsatDato)&"/"& month(meAnsatDato)&"/"& day(meAnsatDato)
+            surDatoSQLSTART = year(useListDato_meAnsatDato)&"/"& month(useListDato_meAnsatDato)&"/"& day(useListDato_meAnsatDato)
 
             select case cint(SmiWeekOrMonth) 
             case 0 'then 'uge aflsutning
-            useDateSmileyTjkWeek = dateDiff("ww", meAnsatDato, now, 2, 2)
+            useDateSmileyTjkWeek = dateDiff("ww", useListDato_meAnsatDato, now, 2, 2)
             case 1
-            useDateSmileyTjkWeek = dateDiff("m", meAnsatDato, now, 2, 2)
+            useDateSmileyTjkWeek = dateDiff("m", useListDato_meAnsatDato, now, 2, 2)
             case 2
-            useDateSmileyTjkWeek = dateDiff("d", meAnsatDato, now, 2, 2)
+            useDateSmileyTjkWeek = dateDiff("d", useListDato_meAnsatDato, now, 2, 2)
             end select
         
             'else
@@ -1172,7 +1178,7 @@ function showsmiley(weekSelected, visning, usemrn, SmiWeekOrMonth)
 	end if
 	oRec3.close  
 	
-	'if lto = "dencker" then
+	'if lto = "plan" AND session("mid") = 1 then
 	'Response.write "lastAfsDatoWeek: " & antalAfsDato+1 & " >= "&  useDateSmileyTjkWeek
 	'end if
 

@@ -104,9 +104,7 @@
                timerTastet = 0
                end if
 
-                'response.write "HER timerBrugt "& timerBrugt 
-                'reponse.end
-
+               
               
                if timerTastet*1 > 0 then
                feltTxtValFc = (fctimer*1 - (timerTastet*1 + timerBrugt*1))

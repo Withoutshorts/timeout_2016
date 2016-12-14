@@ -1573,7 +1573,7 @@ sub projektberegner
                                     'call infoUnisport(uWdt, uTxt)
                                 
                                     select case lto
-                                    case "epi", "epi_no", "epi_sta", "epi_ab", "epi_cati", "cisu"
+                                    case "epi", "epi_no", "epi_sta", "epi_ab", "epi_cati", "cisu", "plan"
                                     opfodCHK0 = ""
                                     opfodCHK1 = "CHECKED"
                                     case else

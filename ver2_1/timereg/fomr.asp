@@ -732,7 +732,7 @@ if len(session("user")) = 0 then
 	call akttyper2009(2)
 
     dim fomrjobakt, ktypeid, fomridSum, ktypenavn, fomrnavn, fomridSumTot 
-    redim fomrjobakt(150), fomrnavn(150), ktypeid(500), ktypenavn(500), fomridSum(500,50),  fomridSumTot(150) '** ktyper , Forretningsomr
+    redim fomrjobakt(200), fomrnavn(200), ktypeid(2000), ktypenavn(2000), fomridSum(2000,200), fomridSumTot(200) '** ktyper , Forretningsomr
 
     '*** Forretningsområder Navne **'
      '&" LEFT JOIN fomr AS f ON (f.id = fr.for_id) "_

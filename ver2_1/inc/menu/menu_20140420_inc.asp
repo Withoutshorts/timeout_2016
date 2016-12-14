@@ -497,9 +497,9 @@ end select
                  <li><a href="<%=toSubVerPath14 %><%=lnkAfstem %>"><%=tsa_txt_389 %></a></li>
 
                  <%select case lto
-                 case "oko", "epi", "epi_2017", "wilke", "intranet - local", "outz", "dencker", "essens", "synergi1", "jttek", "hidalgo", "demo", "bf", "plan"
+                 case "oko", "epi", "epi_2017", "wilke", "intranet - local", "outz", "dencker", "essens", "synergi1", "jttek", "hidalgo", "demo", "bf", "plan", "acc"
                      
-                     if level = 1 OR lto = "wilke" then%>
+                     if level = 1 OR (lto = "wilke") OR (lto = "outz") OR (lto = "dencker") OR (lto = "hidalgo") OR (lto = "acc") then%>
                     <li><a href="<%=toSubVerPath15 %>medarbdashboard.asp"><%=tsa_txt_529 %></a></li>
                     <%end if %>
                  <%end select %>

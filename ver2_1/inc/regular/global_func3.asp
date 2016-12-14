@@ -52,22 +52,22 @@
 
     	 
 	dim normTimerDag
-	redim normTimerDag(1200)
+	redim normTimerDag(1400)
 	
 	
 	dim realTimer, medarbNavn, medarbNr, medarbInit, realIfTimer
-	redim realTimer(1200), realIfTimer(1200), medarbNavn(1200), medarbNr(1200), medarbInit(1200)
+	redim realTimer(1400), realIfTimer(1400), medarbNavn(1400), medarbNr(1400), medarbInit(1400)
 	
 	dim normTimerUge, normTimer
-	redim normTimerUge(1200), normTimer(1200)
+	redim normTimerUge(1400), normTimer(1400)
 	
 	 dim fakTimer, mfForbrug , resTimer
 	 dim medarbEmail, fradragTimer, medarbId, realfTimer
 	 
-	 redim resTimer(1200), fakTimer(1200), mfForbrug(1200)
-	 redim medarbEmail(1200), fradragTimer(1200), medarbId(1200), realfTimer(1200)
+	 redim resTimer(1400), fakTimer(1400), mfForbrug(1400)
+	 redim medarbEmail(1400), fradragTimer(1400), medarbId(1400), realfTimer(1400)
 
-	 redim strEksport(1200)
+	 redim strEksport(1400), fakOmsJobans(1400), fakOmsSalgsans(1400), fakOmsJobansAndel(1400), fakOmsSalgsansAndel(1400)
 	 
 	
 	if visTotalTimerAlltyp = 1 then
@@ -323,8 +323,8 @@
 	    oRec2.close
 
 
-         '** Fradrag omregnet til enheder DE TYPER DERER SAT til enheder
-         strSQLfraE = "SELECT t.tid, sum(t.timer * a.faktor) AS tilenheder,"_
+        '** Fradrag omregnet til enheder DE TYPER DERER SAT til enheder
+        strSQLfraE = "SELECT t.tid, sum(t.timer * a.faktor) AS tilenheder,"_
 	    &" t.tdato "_
         &" FROM timer t LEFT JOIN aktiviteter a ON (a.id = t.taktivitetid) WHERE t.tmnr = "& intMid &" AND ("& aty_sql_frawhours2 &")"_
 	    &" AND t.tdato BETWEEN '"& startdato &"' AND '"& slutdato &"' GROUP BY t.tmnr "
@@ -463,6 +463,127 @@
 	    oRec2.close
 	    
 	    end if
+
+
+        '*********************************************************
+        '*** Faktureret på alle job hvor man er jobsansvarlig ***'
+	    if (instr(akttype_sel, "#-30#") <> 0 AND visning = 1) then
+	    
+        '*** Finder job hvor man er jobans
+        strJobansSQL = " (f.jobid = 0"
+        strSQLjobans = "SELECT id, jobnr FROM job WHERE ("_
+        &" jobans1 = "& intMid &" OR "_
+        &" jobans2 = "& intMid &" OR "_
+        &" jobans3 = "& intMid &" OR "_
+        &" jobans4 = "& intMid &" OR "_
+        &" jobans5 = "& intMid &") GROUP BY jobnr "
+    
+        oRec2.open strSQLjobans, oConn, 3
+        while not oRec2.EOF
+
+        strJobansSQL = strJobansSQL & " OR f.jobid = "& oRec2("id")
+
+        oRec2.movenext
+        wend 
+        oRec2.close
+     
+        strJobansSQL = strJobansSQL & ")"
+
+        formelSQL = " if ( j_td1.jobans1 = "& intMid &", "_
+        &" if (f.faktype <> 1, ROUND(SUM((f.beloeb * f.kurs)/100*(j_td1.jobans_proc_1/100)),0), ROUND(SUM((f.beloeb * -1 * f.kurs)/100 * (j_td1.jobans_proc_1/100)),0)), '0') AS td1_oms"
+                                                        
+        formelSQL = formelSQL & ", if ( j_td1.jobans2 = "& intMid &", "_
+        &" if (f.faktype <> 1, ROUND(SUM((f.beloeb * f.kurs)/100*(j_td1.jobans_proc_2/100)),0), ROUND(SUM((f.beloeb * -1 * f.kurs)/100 * (j_td1.jobans_proc_2/100)),0)), '0') AS td2_oms"
+                                                         
+        formelSQL = formelSQL & ", if ( j_td1.jobans3 = "& intMid &", "_
+        &" if (f.faktype <> 1, ROUND(SUM((f.beloeb * f.kurs)/100*(j_td1.jobans_proc_3/100)),0), ROUND(SUM((f.beloeb * -1 * f.kurs)/100 * (j_td1.jobans_proc_3/100)),0)), '0') AS td3_oms"
+                                                         
+        formelSQL = formelSQL & ", if ( j_td1.jobans4 = "& intMid &", "_
+        &" if (f.faktype <> 1, ROUND(SUM((f.beloeb * f.kurs)/100*(j_td1.jobans_proc_4/100)),0), ROUND(SUM((f.beloeb * -1 * f.kurs)/100 * (j_td1.jobans_proc_4/100)),0)), '0') AS td4_oms"
+                                                         
+        formelSQL = formelSQL & ", if ( j_td1.jobans5 = "& intMid &", "_
+        &" if (f.faktype <> 1, ROUND(SUM((f.beloeb * f.kurs)/100*(j_td1.jobans_proc_5/100)),0), ROUND(SUM((f.beloeb * -1 * f.kurs)/100 * (j_td1.jobans_proc_5/100)),0)), '0') AS td5_oms"
+
+
+	    strSQLfak = "SELECT sum(f.beloeb) AS fakbeloeb, f.fid, f.fakdato, "& formelSQL &" FROM fakturaer AS f "_
+        &" LEFT JOIN job AS j_td1 ON (j_td1.id = f.jobid) "_
+	    &" WHERE ((f.fakdato BETWEEN '"& startdato &"' AND '"& slutdato &"' AND brugfakdatolabel = 0) OR (f.labeldato BETWEEN '"& startdato &"' AND '"& slutdato &"' AND brugfakdatolabel = 1)) AND "& strJobansSQL &" AND (f.medregnikkeioms <> 1 AND f.medregnikkeioms <> 2 AND f.shadowcopy = 0) GROUP BY f.fid"
+	    
+	    'Response.Write strSQLfak & "<br>"
+	    'Response.Flush
+	    
+	    oRec2.open strSQLfak, oConn, 3
+	    while not oRec2.EOF
+	        fakOmsJobans(x) = fakOmsJobans(x)/1 + oRec2("fakbeloeb")/1
+            fakOmsJobansAndel(x) = fakOmsJobansAndel(x)/1 + (oRec2("td1_oms")/1 + oRec2("td2_oms")/1 + oRec2("td3_oms")/1 + oRec2("td4_oms")/1 + oRec2("td5_oms")/1) 
+	    oRec2.movenext
+	    wend
+	    oRec2.close
+	    
+	    end if
+        '******************************************************
+
+
+
+        
+	    '*********************************************************
+        '*** Faktureret på alle job hvor man er salgsansvarlig ***'
+	    if (instr(akttype_sel, "#-40#") <> 0 AND visning = 1) then
+	    
+        '*** Finder job hvor man er jobans
+        strSalgsansSQL = " (f.jobid = 0"
+        strSQLjobans = "SELECT id, jobnr FROM job WHERE ("_
+        &" salgsans1 = "& intMid &" OR "_
+        &" salgsans2 = "& intMid &" OR "_
+        &" salgsans3 = "& intMid &" OR "_
+        &" salgsans4 = "& intMid &" OR "_
+        &" salgsans5 = "& intMid &") GROUP BY jobnr "
+    
+        oRec2.open strSQLjobans, oConn, 3
+        while not oRec2.EOF
+
+        strSalgsansSQL = strSalgsansSQL & " OR f.jobid = "& oRec2("id")
+
+        oRec2.movenext
+        wend 
+        oRec2.close
+     
+        strSalgsansSQL = strSalgsansSQL & ")"
+
+        formelSQL = " if ( j_td1.salgsans1 = "& intMid &", "_
+        &" if (f.faktype <> 1, ROUND(SUM((f.beloeb * f.kurs)/100*(j_td1.salgsans1_proc/100)),0), ROUND(SUM((f.beloeb * -1 * f.kurs)/100 * (j_td1.salgsans1_proc/100)),0)), '0') AS td1_oms"
+                                                        
+        formelSQL = formelSQL & ", if ( j_td1.salgsans2 = "& intMid &", "_
+        &" if (f.faktype <> 1, ROUND(SUM((f.beloeb * f.kurs)/100*(j_td1.salgsans2_proc/100)),0), ROUND(SUM((f.beloeb * -1 * f.kurs)/100 * (j_td1.salgsans2_proc/100)),0)), '0') AS td2_oms"
+                                                         
+        formelSQL = formelSQL & ", if ( j_td1.salgsans3 = "& intMid &", "_
+        &" if (f.faktype <> 1, ROUND(SUM((f.beloeb * f.kurs)/100*(j_td1.salgsans3_proc/100)),0), ROUND(SUM((f.beloeb * -1 * f.kurs)/100 * (j_td1.salgsans3_proc/100)),0)), '0') AS td3_oms"
+                                                         
+        formelSQL = formelSQL & ", if ( j_td1.salgsans4 = "& intMid &", "_
+        &" if (f.faktype <> 1, ROUND(SUM((f.beloeb * f.kurs)/100*(j_td1.salgsans4_proc/100)),0), ROUND(SUM((f.beloeb * -1 * f.kurs)/100 * (j_td1.salgsans4_proc/100)),0)), '0') AS td4_oms"
+                                                         
+        formelSQL = formelSQL & ", if ( j_td1.salgsans5 = "& intMid &", "_
+        &" if (f.faktype <> 1, ROUND(SUM((f.beloeb * f.kurs)/100*(j_td1.salgsans5_proc/100)),0), ROUND(SUM((f.beloeb * -1 * f.kurs)/100 * (j_td1.salgsans5_proc/100)),0)), '0') AS td5_oms"
+                               
+
+
+	    strSQLfak = "SELECT sum(f.beloeb) AS fakbeloeb, f.fid, f.fakdato, "& formelSQL &" FROM fakturaer AS f "_
+        &" LEFT JOIN job AS j_td1 ON (j_td1.id = f.jobid)"_
+	    &" WHERE ((f.fakdato BETWEEN '"& startdato &"' AND '"& slutdato &"' AND brugfakdatolabel = 0) OR (f.labeldato BETWEEN '"& startdato &"' AND '"& slutdato &"' AND brugfakdatolabel = 1)) AND "& strSalgsansSQL &" AND (f.medregnikkeioms <> 1 AND f.medregnikkeioms <> 2 AND f.shadowcopy = 0) GROUP BY f.fid"
+	    
+	    'Response.Write strSQLfak & "<br>"
+	    'Response.Flush
+	    
+	    oRec2.open strSQLfak, oConn, 3
+	    while not oRec2.EOF 
+	        fakOmsSalgsans(x) = fakOmsSalgsans(x)/1 + oRec2("fakbeloeb")/1
+            fakOmsSalgsansAndel(x) = fakOmsSalgsansAndel(x)/1 + (oRec2("td1_oms")/1 + oRec2("td2_oms")/1 + oRec2("td3_oms")/1 + oRec2("td4_oms")/1 + oRec2("td5_oms")/1) 
+	    oRec2.movenext
+	    wend
+	    oRec2.close
+	    
+	    end if
+        '******************************************************
 	    
 	   
 	    
@@ -544,7 +665,7 @@
 
 
 	if instr(akttype_sel, "#-1#") <> 0 then
-	cops = 6
+	cops = 7
 	else
 	cops = 0
 	end if
@@ -555,34 +676,42 @@
 	 <tr bgcolor="#5582d2">
 	 <td class=alt valign="bottom" style="border-right:1px  #D6DfF5 solid;"><b><%=tsa_txt_147%></b></td>
 	 
-	  <%if (instr(akttype_sel, "#-5#") <> 0 OR instr(akttype_sel, "#-10#") <> 0) AND stempelurOn = 1 then
+	  <%if ((instr(akttype_sel, "#-5#") <> 0 OR instr(akttype_sel, "#-10#") <> 0) AND stempelurOn = 1) OR instr(akttype_sel, "#-1#") <> 0 then
       
-        if instr(akttype_sel, "#-10#") <> 0 then
+       
+
+
+                            if instr(akttype_sel, "#-10#") <> 0 OR (instr(akttype_sel, "#-1#") <> 0 AND instr(akttype_sel, "#-5#") = 0) then
           
+                              if instr(akttype_sel, "#-1#") <> 0 then
+                              cpsLt = 2
+                              normTxt = "<b>Norm</b>"
+                              else
+                              cpsLt = 1 
+                              normTxt = "&nbsp;" 
+                              end if
+                               %>
+	                           <td class=alt valign="bottom" colspan=<%=cpsLt %> style="border-right:1px  #D6DfF5 solid;"><%=normTxt %></td>
+                               <%
+
+                            else
+
+                               if cint(showkgtil) = 1 then
+                               cpsLt = 7
+                               else
+                               cpsLt = 5
+                               end if
+
+
+                               %>
+	                           <td class=alt valign="bottom" colspan=<%=cpsLt %> style="border-right:1px  #D6DfF5 solid;"><b>Komme / Gå tid</b> (løntimer)<br />Stempelur<br />I valgt periode</td>
+                               <%
+                              end if
+
       
-          cpsLt = 1  
-        
+	                     end if
 
-          %>
-	       <td class=alt valign="bottom" colspan=<%=cpsLt %> style="border-right:1px  #D6DfF5 solid;">&nbsp;</td>
-           <%
-
-        else
-
-           if cint(showkgtil) = 1 then
-           cpsLt = 7
-           else
-           cpsLt = 5
-           end if
-
-
-           %>
-	       <td class=alt valign="bottom" colspan=<%=cpsLt %> style="border-right:1px  #D6DfF5 solid;"><b>Komme / Gå tid</b> (løntimer)<br />Stempelur<br />I valgt periode</td>
-           <%
-          end if
-
-      
-	 end if
+         
 	 
 	 
 	 if instr(akttype_sel, "#-1#") <> 0 OR instr(akttype_sel, "#-20#") <> 0 then
@@ -962,6 +1091,15 @@
 	 <%if instr(akttype_sel, "#-4#") <> 0 then %>
 	  <td class=alt valign="bottom" style="border-right:1px  #D6DfF5 solid;"><b><%=tsa_txt_156%></b></td>
 	  <%end if %>
+
+     <%if instr(akttype_sel, "#-30#") <> 0 then %>
+	  <td class=alt colspan="2" valign="bottom" style="border-right:1px  #D6DfF5 solid;"><b>Fak. Oms. jobansv.</b><br />I periode</td>
+	  <%end if %>
+
+     <%if instr(akttype_sel, "#-40#") <> 0 then %>
+	  <td class=alt colspan="2" valign="bottom" style="border-right:1px  #D6DfF5 solid;"><b>Fak. Oms. Salgsansv.</b><br />I periode</td>
+	  <%end if %>
+
 	 </tr>
 
 
@@ -986,7 +1124,8 @@
          end if%>
 
          <%   
-         if (instr(akttype_sel, "#-5#") <> 0 AND instr(akttype_sel, "#-10#") = 0) then%>
+         'if (instr(akttype_sel, "#-5#") <> 0 AND instr(akttype_sel, "#-10#") = 0) then
+         if instr(akttype_sel, "#-1#") <> 0 then%>
              <td class=lille  valign=bottom bgcolor="#DCF5BD" style="width:50px; border-right:1px #D6DfF5 solid; border-bottom:1px #D6DfF5 solid;"><%=tsa_txt_158%></td>
 	        <td class=lille  valign=bottom bgcolor="#DCF5BD" style="width:50px; border-right:1px #D6DfF5 solid; border-bottom:1px #D6DfF5 solid;"><%=tsa_txt_259%></td> 
          <%
@@ -1053,12 +1192,12 @@
 	 <td class=lille  valign=bottom bgcolor="#cccccc" style="width:50px; border-right:1px #ffffff solid;"><%=tsa_txt_157%></td>
 	 <td class=lille  valign=bottom style="width:50px; border-right: 1px #ffffff solid;" bgcolor="#cccccc"><%=tsa_txt_172 &" "& tsa_txt_179%></td>
 
-      <td class=lille  valign=bottom style="width:50px; border-right: 1px #ffffff solid;" bgcolor="#cccccc"><%=tsa_txt_160%></td>
+      <td class=lille  valign=bottom style="width:50px; border-right: 1px #ffffff solid;" bgcolor="#999999"><%=tsa_txt_160%></td>
 	 <td class=lille  valign=bottom style="width:50px; border-right: 1px #ffffff solid;" bgcolor="#cccccc"><%=tsa_txt_161%></td>
 	 <td class=lille  valign=bottom style="width:50px; border-right: 1px #ffffff solid;" bgcolor="#cccccc"><%=tsa_txt_163%></td>
+    <td class=lille  valign=bottom style="width:50px; border-right: 1px #ffffff solid;" bgcolor="#999999"><%=tsa_txt_540%> % Real.fak.t./ Norm.</td>
 
-	
-         <%end if %>
+      <%end if %>
 
 	 <td class=lille  valign=bottom bgcolor="pink" style="width:70px; border-right:1px #D6DfF5 solid; border-bottom:1px #D6DfF5 solid;">
       
@@ -1071,7 +1210,7 @@
      if cint(exporttype) <> 200 then 'bluegaarden
 
          if instr(akttype_sel, "#-20#") = 0 then 
-         strEksportTxtHeader = strEksportTxtHeader & tsa_txt_157 &";"& tsa_txt_172 &" "& tsa_txt_179 &";" & tsa_txt_160 & ";" & tsa_txt_161 & ";" & tsa_txt_163 & ";"
+         strEksportTxtHeader = strEksportTxtHeader & tsa_txt_157 &";"& tsa_txt_172 &" "& tsa_txt_179 &";" & tsa_txt_160 & ";" & tsa_txt_161 & ";" & tsa_txt_163 & ";"& tsa_txt_540 &";"
          end if
 
          strEksportTxtHeader = strEksportTxtHeader & tsa_txt_159 & ";"
@@ -1641,7 +1780,7 @@
 
 	 
 	 <%if instr(akttype_sel, "#8#") <> 0 then %>
-	 <td class=alt_lille  valign=bottom style="width:50px; border-right:1px #D6DfF5 solid; border-bottom:1px #D6DfF5 solid;">
+	 <td class=alt_lille valign=bottom style="width:50px; border-right:1px #D6DfF5 solid; border-bottom:1px #D6DfF5 solid;">
 	 <%call akttyper(8, 1) %>
 	 <%=akttypenavn%>
 	  <%strEksportTxtHeader = strEksportTxtHeader & akttypenavn &";"%>
@@ -1649,7 +1788,7 @@
 	 <%end if %>
 	 
 	 <%if instr(akttype_sel, "#81#") <> 0 then %>
-	 <td class=alt_lille  valign=bottom style="width:50px; border-right:1px #D6DfF5 solid; border-bottom:1px #D6DfF5 solid;">
+	 <td class=alt_lille valign=bottom style="width:50px; border-right:1px #D6DfF5 solid; border-bottom:1px #D6DfF5 solid;">
 	 <%call akttyper(81, 1) %>
 	 <%=akttypenavn%>
 	  <%strEksportTxtHeader = strEksportTxtHeader & akttypenavn &";"%>
@@ -1657,7 +1796,7 @@
 	 <%end if %>
 
          <%if instr(akttype_sel, "#115#") <> 0 then %>
-	 <td class=alt_lille  valign=bottom style="width:50px; border-right:1px #D6DfF5 solid; border-bottom:1px #D6DfF5 solid;">
+	 <td class=alt_lille valign=bottom style="width:50px; border-right:1px #D6DfF5 solid; border-bottom:1px #D6DfF5 solid;">
 	 <%call akttyper(115, 1) %>
 	 <%=akttypenavn%> timer
 	  <%strEksportTxtHeader = strEksportTxtHeader & akttypenavn &" timer;"%>
@@ -1666,18 +1805,18 @@
 	 
 	
 	 <%if instr(akttype_sel, "#-2#") <> 0 then %>
-	 <td class=alt_lille  valign=bottom style="width:50px; border-right:1px #D6DfF5 solid; border-bottom:1px #D6DfF5 solid;"><%=tsa_txt_154%></td>
+	 <td class=alt_lille valign=bottom style="width:50px; border-right:1px #D6DfF5 solid; border-bottom:1px #D6DfF5 solid;"><%=tsa_txt_154%></td>
 	  <%strEksportTxtHeader = strEksportTxtHeader & tsa_txt_154 &";"%>
 	 <%end if %>
 	 
 	 <%if instr(akttype_sel, "#-3#") <> 0 then %>
-	 <td class=alt_lille  valign=bottom style="width:50px; border-right:1px #D6DfF5 solid; border-bottom:1px #D6DfF5 solid;"><%=tsa_txt_155%>
+	 <td class=alt_lille valign=bottom style="width:50px; border-right:1px #D6DfF5 solid; border-bottom:1px #D6DfF5 solid;"><%=tsa_txt_155%>
 	 <%strEksportTxtHeader = strEksportTxtHeader & tsa_txt_155 &";"%>
 	 </td>
 	 <%end if %>
 	 
 	  <%if instr(akttype_sel, "#61#") <> 0 then %>
-	 <td class=alt_lille  valign=bottom style="width:50px; border-right:1px #D6DfF5 solid; border-bottom:1px #D6DfF5 solid;">
+	 <td class=alt_lille valign=bottom style="width:50px; border-right:1px #D6DfF5 solid; border-bottom:1px #D6DfF5 solid;">
 	 <%call akttyper(61, 1) %>
 	 <%=akttypenavn%>
 	 <%strEksportTxtHeader = strEksportTxtHeader & akttypenavn &";"%>
@@ -1685,7 +1824,7 @@
 	 <%end if %>
 
        <%if instr(akttype_sel, "#113#") <> 0 then %>
-	 <td class=alt_lille  valign=bottom style="width:50px; border-right:1px #D6DfF5 solid; border-bottom:1px #D6DfF5 solid;">
+	 <td class=alt_lille valign=bottom style="width:50px; border-right:1px #D6DfF5 solid; border-bottom:1px #D6DfF5 solid;">
 	 <%call akttyper(113, 1) %>
 	 <%=akttypenavn%><br />timer
 	 <%strEksportTxtHeader = strEksportTxtHeader & akttypenavn &";"%>
@@ -1694,7 +1833,7 @@
 	 
 
        <%if instr(akttype_sel, "#114#") <> 0 then %>
-	 <td class=alt_lille  valign=bottom style="width:50px; border-right:1px #D6DfF5 solid; border-bottom:1px #D6DfF5 solid;">
+	 <td class=alt_lille valign=bottom style="width:50px; border-right:1px #D6DfF5 solid; border-bottom:1px #D6DfF5 solid;">
 	 <%call akttyper(114, 1) %>
 	 <%=akttypenavn%><br />timer
 	 <%strEksportTxtHeader = strEksportTxtHeader & akttypenavn &";"%>
@@ -1702,9 +1841,22 @@
 	 <%end if %>
 
 	 <%if instr(akttype_sel, "#-4#") <> 0 then %>
-	  <td class=alt_lille  valign=bottom style="width:50px; border-right:1px #D6DfF5 solid; border-bottom:1px #D6DfF5 solid;"><%=tsa_txt_171%></td>
+	  <td class=alt_lille valign=bottom style="width:50px; border-right:1px #D6DfF5 solid; border-bottom:1px #D6DfF5 solid;"><%=tsa_txt_171%></td>
 	  <%strEksportTxtHeader = strEksportTxtHeader & tsa_txt_171 &";"%>
 	  <%end if %>
+
+     <%if instr(akttype_sel, "#-30#") <> 0 then %>
+	  <td class=alt_lille valign=bottom style="width:50px; border-right:1px #D6DfF5 solid; border-bottom:1px #D6DfF5 solid;">Fak. Oms Jobans.</td>
+          <td class=alt_lille valign=bottom style="width:50px; border-right:1px #D6DfF5 solid; border-bottom:1px #D6DfF5 solid;">Ejerandel %</td>
+	  <%strEksportTxtHeader = strEksportTxtHeader & "Fak. Oms Jobans.;Jobans. Ejerandel %;"%>
+	  <%end if %>
+
+     <%if instr(akttype_sel, "#-40#") <> 0 then %>
+	  <td class=alt_lille valign=bottom style="width:50px; border-right:1px #D6DfF5 solid; border-bottom:1px #D6DfF5 solid;">Fak. Oms. Salgsans.</td>
+    <td class=alt_lille valign=bottom style="width:50px; border-right:1px #D6DfF5 solid; border-bottom:1px #D6DfF5 solid;">Ejerandel %</td>
+	  <%strEksportTxtHeader = strEksportTxtHeader & "Fak. Oms. Salgsans.; Salgs Ejerandel %;"%>
+	  <%end if %>
+
 	 </tr>
 	 
 	 <%
@@ -1749,9 +1901,9 @@
 	 <%strEksport(x) = strEksport(x) &"xx99123sy#z"%>
 	 
 	 <tr bgcolor="<%=bgcl %>">
-	 <td class=lille style=" white-space: nowrap; border-bottom: 1px  #D6DfF5 solid; border-right: 1px  #D6DfF5 solid;"><b><%=medarbNavn(x) %></b> (<%=medarbNr(x) %>) 
+	 <td class=lille style=" white-space: nowrap; border-bottom: 1px  #D6DfF5 solid; border-right: 1px  #D6DfF5 solid;"><b><%=medarbNavn(x) %></b> <!--(<%=medarbNr(x) %>)--> 
 	 <%if len(trim(medarbInit(x))) <> 0 then %>
-	  - <%=medarbInit(x) %>
+	  &nbsp;[<%=medarbInit(x) %>]
 	  <%end if %>
 
 	  </td>
@@ -1781,15 +1933,14 @@
 
 
          
-          if (instr(akttype_sel, "#-5#") <> 0 AND instr(akttype_sel, "#-10#") = 0) then
+         'if (instr(akttype_sel, "#-5#") <> 0 AND instr(akttype_sel, "#-10#") = 0) then
+         if instr(akttype_sel, "#-1#") <> 0 then
          %>
          
-          <td align=right style=" white-space: nowrap; border-bottom: 1px  #D6DfF5 solid; border-right: 1px  #D6DfF5 solid;" class=lille><%=normTimerTxt%></td>
+         <td align=right style=" white-space: nowrap; border-bottom: 1px  #D6DfF5 solid; border-right: 1px  #D6DfF5 solid;" class=lille><%=normTimerTxt%></td>
 	     <td align=right class=lille style=" white-space: nowrap; border-bottom: 1px  #D6DfF5 solid; border-right: 1px  #D6DfF5 solid;">
 	     <%=showNormTimerdagTXT %> 
-             
-           
-	     </td>
+         </td>
          
          <%
           strEksport(x) = strEksport(x) & normTimerTxtExp &";"& showNormTimerdagTxt & ";"
@@ -1970,7 +2121,19 @@
 	    iebal = 0
           ieBalTxt = ""
 	  end if
-      
+
+    if normTimer(x) <> 0 AND len(trim(normTimer(x))) <> 0 AND realfTimer(x) <> 0 AND len(trim(realfTimer(x))) <> 0 then
+    faktureringsgrad = formatnumber((realfTimer(x) / normTimer(x) * 100),2)
+    else
+    faktureringsgrad = 0
+    end if
+
+    if faktureringsgrad <> 0 then
+    faktureringsgradTxt = faktureringsgrad & " %"
+    else
+    faktureringsgradTxt = ""
+    end if
+           
 
      if instr(akttype_sel, "#-20#") = 0 then
      %>
@@ -1980,12 +2143,12 @@
      <td align=right class=lille style="white-space: nowrap; border-bottom: 1px  #D6DfF5 solid; border-right: 1px  #D6DfF5 solid;"><%=realfTimerTxt%></td>
 	 <td align=right class=lille style=" white-space: nowrap; border-bottom: 1px  #D6DfF5 solid; border-right: 1px  #D6DfF5 solid;"><%=realIfTimerTxt%></td>
      <td align=right class=lille style="  white-space: nowrap; border-bottom: 1px  #D6DfF5 solid; border-right: 1px  #D6DfF5 solid;"><%=ieBalTxt%></td>
-
+     <td align=right class=lille style="  white-space: nowrap; border-bottom: 1px  #D6DfF5 solid; border-right: 1px  #D6DfF5 solid;"><%=faktureringsgradTxt%></td>
 	
 	 
 	 <%
         if cint(exporttype) <> 200 then 
-        strEksport(x) = strEksport(x) & realTimerTxtExp &";" & realTimerprUgeTxtExp & ";"& realfTimerTxtExp &";"& realIfTimerTxtExp & ";"& formatnumber(iebal,0) & ";"
+        strEksport(x) = strEksport(x) & realTimerTxtExp &";" & realTimerprUgeTxtExp & ";"& realfTimerTxtExp &";"& realIfTimerTxtExp & ";"& formatnumber(iebal,0) & ";"& faktureringsgrad &";"
         end if 
          %>
 	    
@@ -3586,6 +3749,58 @@
 	 <td align=right class=lille style=" white-space: nowrap; border-bottom: 1px  #D6DfF5 solid; border-right: 1px  #D6DfF5 solid;"><%=mfForbrugTxt%></td>
 	 <%strEksport(x) = strEksport(x) & mfForbrugTxtExp &";"%>
 	 <%end if %>
+
+
+    
+	 <%if instr(akttype_sel, "#-30#") <> 0 then 
+     
+     if fakOmsJobans(x) <> 0 then
+     fakOmsJobansTxt = formatnumber(fakOmsJobans(x),2)
+     fakOmsJobansTxtExp = fakOmsJobansTxt
+     else
+     fakOmsJobansTxt = ""
+     fakOmsJobansTxtExp = 0
+     end if
+
+     if fakOmsJobansAndel(x) <> 0 then
+     fakOmsJobansAndelTxt = formatnumber(fakOmsJobansAndel(x),2)
+     fakOmsJobansAndelTxtExp = fakOmsJobansAndelTxt
+     else
+     fakOmsJobansAndelTxt = ""
+     fakOmsJobansAndelTxtExp = 0
+     end if
+     
+     %>
+	 <td align=right class=lille style=" white-space: nowrap; border-bottom: 1px  #D6DfF5 solid; border-right: 1px  #D6DfF5 solid;"><%=fakOmsJobansTxt%></td>
+    <td align=right class=lille style=" white-space: nowrap; border-bottom: 1px  #D6DfF5 solid; border-right: 1px  #D6DfF5 solid;"><%=fakOmsJobansAndelTxt%></td>
+	 <%strEksport(x) = strEksport(x) & fakOmsJobansTxtExp &";"& fakOmsJobansAndelTxtExp & ";"%>
+	 <%end if %>
+
+    <%if instr(akttype_sel, "#-40#") <> 0 then 
+     
+     if fakOmsSalgsans(x) <> 0 then
+     fakOmsSalgsansTxt = formatnumber(fakOmsSalgsans(x),2)
+     fakOmsSalgsansTxtExp = fakOmsSalgsansTxt
+     else
+     fakOmsSalgsansTxt = ""
+     fakOmsSalgsansTxtExp = 0
+     end if
+     
+     if fakOmsSalgsansAndel(x) <> 0 then
+     fakOmsSalgsansAndelTxt = formatnumber(fakOmsSalgsansAndel(x),2)
+     fakOmsSalgsansAndelTxtExp = fakOmsSalgsansAndelTxt
+     else
+     fakOmsSalgsansAndelTxt = ""
+     fakOmsSalgsansAndelTxtExp = 0
+     end if
+
+     %>
+	 <td align=right class=lille style=" white-space: nowrap; border-bottom: 1px  #D6DfF5 solid; border-right: 1px  #D6DfF5 solid;"><%=fakOmsSalgsansTxt%></td>
+     <td align=right class=lille style=" white-space: nowrap; border-bottom: 1px  #D6DfF5 solid; border-right: 1px  #D6DfF5 solid;"><%=fakOmsSalgsansAndelTxt%></td>
+	 <%strEksport(x) = strEksport(x) & fakOmsSalgsansTxtExp &";" & fakOmsSalgsansAndelTxtExp & ";"%>
+	 <%end if %>
+
+     
 	 </tr>
 	 
 	 

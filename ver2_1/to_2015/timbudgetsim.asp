@@ -11,7 +11,7 @@
 <!--#include file="../to_2015/inc/timbudgetsim_inc.asp"-->
 <!--#include file="../inc/regular/topmenu_inc.asp"-->
 
-<!--XXXinclude file="../inc/regular/header_lysblaa_inc.asp"-->
+<!--'include file="../inc/regular/header_lysblaa_inc.asp"-->
 <!--#include file="../inc/regular/header_lysblaa_2015_inc.asp"-->
 
 
@@ -144,7 +144,8 @@ if session("user") = "" then
                 case "wwf"
                 visrealprdato = "1-1-"& h2aar 'juli = Bør sættes udfra: aktBudgettjkOnRegAarSt
                 case else
-                visrealprdato = "1-1-"& h1aar
+                'visrealprdato = "1-1-"& h1aar
+                visrealprdato = formatdatetime(now, 2)
                 end select
     
             end if
@@ -1623,8 +1624,6 @@ while not oRec.EOF
             %><tr><%
 
             response.write(strJobTxtTds(oRec("jid")))
-
-           
             call medarbfelter(oRec("jobnr"), oRec("jid"), 0, h1aar, h2aar, h1md, h2md, oRec("jo_gnstpris")) 
                
             %>

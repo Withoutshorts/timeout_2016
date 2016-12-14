@@ -179,7 +179,7 @@ response.buffer = true
 
 
 
-
+    thisfile = "job_nt.asp"
 
 
   
@@ -413,10 +413,14 @@ case "dbopr", "dbred"
     destination = request("FM_destination")
 
 
-    '**** ETD Buyer ***'
-    
+    kunde_betbetint = request("FM_betbetint") 
+    kunde_levbetint = request("FM_levbetint")
+    lev_betbetint =  request("FM_levbetbetint")
+    lev_levbetint = request("FM_levlevbetint")
+    'sup_betbetint = request("FM_betbetint")
 
-   
+
+    '**** ETD Buyer ***'
     dt_confb_etd = request("FM_dt_confb_etd")
     call fmatDate_fn(dt_confb_etd)
     dt_confb_etd = fmatDate
@@ -428,6 +432,10 @@ case "dbopr", "dbred"
     call fmatDate_fn(dt_actual_etd)
     dt_actual_etd = fmatDate
     
+    dt_confb_eta = request("FM_dt_confb_eta")
+    call fmatDate_fn(dt_confb_eta)
+    dt_confb_eta = fmatDate
+
 
     'Response.write "kopier_ordre: "& kopier_ordre & "<br>dt_actual_etd: " & dt_actual_etd & "<br>"
 
@@ -440,7 +448,7 @@ case "dbopr", "dbred"
          
         if cint(jobstatus) = 1 then 'active
 
-            if cdbl(supplier) = 0 OR cdbl(orderqty) = 0 OR len(orderqty) = 0 OR dt_confb_etd = "2010-01-01" then
+            if cdbl(supplier) = 0 OR cdbl(orderqty) = 0 OR len(orderqty) = 0 OR dt_confb_etd = "2010-01-01" OR (cint(kunde_levbetint) = 2 AND dt_confb_eta  = "2010-01-01") then
 
             errortype = 173
             call showError(errortype)
@@ -466,6 +474,7 @@ case "dbopr", "dbred"
 
 
         end if
+
     end if
     '*** Dato felter ****'
     
@@ -618,12 +627,9 @@ case "dbopr", "dbred"
     cost_price_pc_valuta = request("FM_valuta_cost_price_pc_valuta") 
     tgt_price_pc_valuta = request("FM_valuta_tgt_price_pc_valuta") 
 
-    kunde_betbetint = request("FM_betbetint") 
-    kunde_levbetint = request("FM_levbetint")
-    lev_betbetint =  request("FM_levbetbetint")
-    lev_levbetint = request("FM_levlevbetint")
-    'sup_betbetint = request("FM_betbetint")
+   
 
+     
 
     if len(trim(request("FM_alert"))) <> 0 then
     alert = 1
@@ -1648,7 +1654,7 @@ end if 'Opret / rediger
 
                          <div class="row">
                             <div class="col-lg-12 pad-t10 pad-r30">
-                                 Price or Production Note
+                                 Price, Invoice or Production Note
                                 <textarea class="form-control input-small" style="height:150px;" name="FM_internnote" placeholder="Write your comment here"><%=job_internbesk %></textarea>
                                 <br /> <input type="checkbox" name="FM_alert" value="1" <%=alertCHK %> /> Alert (attention needed, add comment to production note)
                             </div>
@@ -1938,8 +1944,7 @@ end if 'Opret / rediger
                         </div>
 
                           <div class="col-lg-2 pad-t10">
-                            Confirmed buyer ETA
-                            
+                            Conf. buyer ETA <span style="color:red;">(* <span style="font-size:9px;">on DDP</span>)</span>
                                <div class='input-group date'>
                                  <input class="form-control input-small" type="text" name="FM_dt_confb_eta" value="<%=dt_confb_eta%>" placeholder="dd-mm-yyyy" />
                                      <span class="input-group-addon input-small">
@@ -1973,7 +1978,7 @@ end if 'Opret / rediger
                               </div>
                         </div>
                          <div class="col-lg-2 pad-t10 pad-r30">
-                            Actual ETA <span style="font-size:10px;">(= inv.date DDP)</span>
+                            Act. ETA <span style="font-size:10px;">(= inv.date DDP)</span>
                               <div class='input-group date'>
                                  <input class="form-control input-small" type="text"  name="FM_dt_actual_eta" value="<%=dt_actual_eta%>" placeholder="dd-mm-yyyy" />
                                         <span class="input-group-addon input-small">
@@ -1996,7 +2001,7 @@ end if 'Opret / rediger
                                 &nbsp;
                                 </div>
                                  <div class="col-lg-4 pad-t10 pad-r30">
-                                &nbsp;Exp. invoice duedate: 
+                                 &nbsp;<!-- Exp. invoice duedate: -->
                                 </div>
                              
                             

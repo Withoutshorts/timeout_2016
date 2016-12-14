@@ -65,78 +65,9 @@ if len(session("user")) = 0 then
         
         
      %>
-    <script language="javascript">
+    
 
-        $(document).ready(function () {
-
-
-            
-            /* $(".myInputText").mouseover(function () {
-                $(this).css('cursor', 'pointer');
-            });
-
-            $(".myInputText").click(function () {
-
-                
-
-                var thisid = this.id
-                var idlngt = thisid.length
-                var idtrim = thisid.slice(12, idlngt)
-
-                alert("her" + idtrim)
-
-                $("#myInputText_" + idtrim).focus();
-                $("#myInputText_" + idtrim).select();
-            });
-
-            */
-
-            //alert("gne in dlægdt")
-            
-            $("#FM_igndatoi").click(function () {
-                
-               
-
-                if ($("#FM_igndatoi").is(':checked') == true) {
-
-                    //alert("her" + $("#basis_listdato").val())
-                   
-                    var listartDag = "" + $("#basis_listdato_dag").val()
-                    var listartMrd = "" + $("#basis_listdato_mrd").val()
-                    var listartAar = "" + $("#basis_listdato_aar").val()
-
-                    var listartDato = $("#basis_listdato_dag").val() + "." + $("#basis_listdato_mrd").val() + "." + $("#basis_listdato_aar").val()
-
-                    $("#FM_stdato").val(listartDato)
-
-                    $("#FM_start_dag").val(listartDag)
-                    $("#FM_start_mrd").val(listartMrd)
-                    $("#FM_start_aar").val(listartAar)
-
-                    $("#FM_stdato").attr('disabled', true);
-                    
-                    
-                } else {
-
-
-                    $("#FM_stdato").removeAttr('disabled');
-
-
-                }
-
-            });
-
-
-            if ($("#FM_igndatoi").is(':checked') == true) {
-                
-                $("#FM_stdato").attr('disabled', true);
-
-            }
-
-        });
-
-    </script>
-
+     <script src="inc/erptilfak_jav.js"></script>
     
 	
 	
@@ -539,7 +470,7 @@ if len(session("user")) = 0 then
 	<td valign=top>
 
 
-    <b>Kontakter:</b> <br>
+    <b>Kunder:</b> <br>
         <%if print <> "j" then %>
         <select name="FM_kunde" size="1" style="width:305px;" onchange="submit()">
 		<option value="0">Alle</option>
@@ -611,12 +542,12 @@ if len(session("user")) = 0 then
         
        
         
-        </td><td>
+        </td><td style="width:305px; padding-right:20px;">
         <b>Job / kundeansvarlig:</b> (på job og aftaler)<br />
       
         
         <%if print <> "j" then%>
-        <select name="FM_medarb_jobans" id="FM_medarb_jobans" style="width:233px;">
+        <select name="FM_medarb_jobans" id="FM_medarb_jobans" style="width:305px;">
             <option value="0">Alle - ignorer jobansv.</option>
             <%
             mNavn = "Alle"
@@ -678,8 +609,8 @@ if len(session("user")) = 0 then
         <%if print <> "j" then%>
         
 	    <br /><input id="FM_visjob" name="FM_visjob" type="checkbox" value=1 <%=visJobChk %> /> Skjul job<br />
-	    <input id="FM_nuljob0" name="FM_nuljob" type="radio" value=0 <%=nulJobChk0 %> />  <b>Skjul</b> "nul" job (job uden timer i per.)
-	    <br /><input id="FM_nuljob1" name="FM_nuljob" type="radio" value=1 <%=nulJobChk1 %> /> <b>Vis</b> "nul" job og interne job (prioitet -1/-2) <br />
+	    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input id="FM_nuljob0" name="FM_nuljob" type="radio" value=0 <%=nulJobChk0 %> />  <b>Skjul</b> "nul" job (job uden timer i per.)
+	    <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input id="FM_nuljob1" name="FM_nuljob" type="radio" value=1 <%=nulJobChk1 %> /> <b>Vis</b> "nul" job og interne job (prioitet -1/-2) <br />
         <input id="FM_visaft" name="FM_visaft" type="checkbox" value="1" <%=visAftChk %>/> Skjul aftaler (aftaler på viste job skjules ikke)<br />
 
         <br /><b>Jobstatus, vis:</b><br />
@@ -899,7 +830,7 @@ if len(session("user")) = 0 then
 	dim kans1, kans2, ventetimer
 	dim lastFakuseStDato
     dim varMilepale, varMilepaleTxt, varTyperFak
-    dim jobStatusVal, beloebFaktureret, filepath1
+    dim jobStatusVal, beloebFaktureret, filepath1, alerts, job_internbesk
 	
 	x = 4000
 	redim kid(x)
@@ -925,7 +856,7 @@ if len(session("user")) = 0 then
 	redim jobstartdato(x), jobslutdato(x), jobtype(x), aftStdato(x), aftSldato(x), jobstatus(x), aftStatus(x)
 	redim kans1(x), kans2(x), ventetimer(x)
 	redim lastFakuseStDato(x)
-    redim varMilepale(x), varMilepaleTxt(x), varTyperFak(x), jobStatusVal(x), beloebFaktureret(x), antalFak(x), filepath1(x)
+    redim varMilepale(x), varMilepaleTxt(x), varTyperFak(x), jobStatusVal(x), beloebFaktureret(x), antalFak(x), filepath1(x), alerts(x), job_internbesk(x)
 
 
     '** milepæle typer ***'
@@ -1004,7 +935,7 @@ if len(session("user")) = 0 then
 	&" j.beskrivelse, jobans1, "_
 	&" kid, j.serviceaft, j.jobstatus, s.id AS aid, s.navn AS aftnavn, s.aftalenr, s.advitype, s.stdato, s.sldato, s.status, "_
 	&" m.mnavn AS mnavn, m.mnr AS mnr, m2.mnavn AS m2navn, m2.mnr AS m2nr, m.init AS minit, m2.init AS m2init, "_
-	&" m3.mnavn AS m3navn, m3.mnr AS m3nr, m4.mnavn AS m4navn, m4.mnr AS m4nr, m3.init AS m3init, m4.init AS m4init, filepath1 "_
+	&" m3.mnavn AS m3navn, m3.mnr AS m3nr, m4.mnavn AS m4navn, m4.mnr AS m4nr, m3.init AS m3init, m4.init AS m4init, filepath1, j.alert, j.job_internbesk "_
 	&" FROM kunder k "_
     &" LEFT JOIN job j ON (j.jobknr = k.kid AND "& jobStatusKri &" "& strPgrpSQLkri &" "& jobansKri &" "& jobnrKri &" "& risSQLKri &") "_
     &" LEFT JOIN serviceaft s ON (s.id = j.serviceaft) "_
@@ -1206,6 +1137,8 @@ if len(session("user")) = 0 then
         jobid(x) = oRec("id")
         jobnavn(x) = oRec("jobnavn")
         jobnr(x) = oRec("jobnr")
+        alerts(x) = oRec("alert")
+        job_internbesk(x) = oRec("job_internbesk")
         
         select case oRec("jobstatus")
         case 0
@@ -1677,6 +1610,16 @@ if len(session("user")) = 0 then
                 <%if len(trim(filepath1(x))) <> 0 then %>
 	            <br />Sti på filserver: <span class="myInputText" id="myInputText_<%=jobid(x) %>"><%=filepath1(x) %></span>
                 <%end if %>
+
+                <%if cint(alerts(x)) = 1 AND len(trim(job_internbesk(x))) <> 0 then
+                 
+               
+                    %>
+                    <span id="a_showalert_<%=jobid(x) %>" class="a_showalert" style="color:red;">&nbsp;<b>!</b>&nbsp;</span>
+                    <br /><span id="sp_showalert_<%=jobid(x) %>" class="sp_showalert" style="position:relative; visibility:hidden; display:none; background-color:yellow; padding:2px;"><%=left(job_internbesk(x), 200)%></span>
+                    <%
+                    
+                 end if %>
 
 	           
 	           <%

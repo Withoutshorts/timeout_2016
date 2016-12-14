@@ -163,6 +163,31 @@ if len(session("user")) = 0 then
 
 	    $(document).ready(function() {
 
+
+	        $(".a_showalert").click(function () {
+
+	            var thisid = this.id
+	            var idlngt = thisid.length
+	            var idtrim = thisid.slice(12, idlngt)
+
+	            $("#sp_showalert_" + idtrim).css('visibility', 'visible')
+	            $("#sp_showalert_" + idtrim).css('display', '')
+
+
+	        });
+
+	        $(".sp_showalert").click(function () {
+
+	            $(".sp_showalert").hide("fast")
+
+	        });
+
+
+	        $(".a_showalert, .sp_showalert").mouseover(function () {
+	            
+	            $(this).css('cursor', 'pointer');
+
+	        });
          
 
 	        $("#FM_kunde").change(function() {
@@ -1075,13 +1100,13 @@ if len(session("user")) = 0 then
 		strSQLFak = "SELECT k.kid, f.jobid, f.aftaleid, f.fid, f.fakdato, f.b_dato, f.faknr, f.betalt, "_
 		&" f.faktype, f.beloeb, f.timer AS fak, f.shadowcopy, f.erfakbetalt, f.kurs, "_
 		&" k.kkundenavn, k.kkundenr, f.brugfakdatolabel, f.istdato2, f.fakbetkom, "_
-		&" j.jobnavn, j.jobnr, j.jobslutdato, j.jobstartdato, j.jobstatus, j.fastpris, j.serviceaft, f.istdato, f.istdato2, f.visperiode, j.jobstatus, f.moms, "_
+		&" j.id AS jid, j.jobnavn, j.jobnr, j.jobslutdato, j.jobstartdato, j.jobstatus, j.fastpris, j.serviceaft, f.istdato, f.istdato2, f.visperiode, j.jobstatus, f.moms, "_
 		&" s.navn AS aftnavn, s.advitype , s.aftalenr, s.pris, "_
 		&" s.stdato, s.sldato, sj.navn AS sjaftnavn, sj.aftalenr AS sjaftalenr, "
 		
 	    strSQLFak = strSQLFak &" k1.navn AS konto, k1.kontonr AS kontonr, "_
 		&" k2.navn AS modkonto, k2.kontonr AS modkontonr, "_
-		&" sum(fms.venter) AS ventetimer, sum(venter_brugt) AS ventetimer_brugt, v.valutakode, v.id AS valid, labeldato, medregnikkeioms, fak_laast, overfort_erp "_
+		&" sum(fms.venter) AS ventetimer, sum(venter_brugt) AS ventetimer_brugt, v.valutakode, v.id AS valid, labeldato, medregnikkeioms, fak_laast, overfort_erp, j.job_internbesk, j.alert "_
 		&" FROM fakturaer f "
 		
 		strSQLFak = strSQLFak &" LEFT JOIN kunder k on ("&kundeidSQL&")"_
@@ -1168,13 +1193,13 @@ if len(session("user")) = 0 then
             %>
             <tr bgcolor="<%=bgThis %>">
             <td valign=top style="border-bottom:1px #C4C4C4 solid; padding:5px 5px 3px 5px;">
-            <span style="color:darkred;"><%=oRec3("kkundenavn") %> (<%=oRec3("kkundenr") %>)</span><br />
+            <span style="color:#999999;"><%=oRec3("kkundenavn") %> (<%=oRec3("kkundenr") %>)</span><br />
             
             
             <%if oRec3("jobid") <> 0 then %>
             
-            <u>Job:</u> <b><%=oRec3("jobnavn") %> (<%=oRec3("jobnr") %>)</b>
-            <span style="font-size:9px;">
+            <!--<u>Job:</u>--> <b><%=oRec3("jobnavn") %> (<%=oRec3("jobnr") %>)</b>
+            <br /><span style="font-size:9px;">
             <%if oRec3("fastpris") = "1" then %>
             <i>- fastpris</i>
             <%else %>
@@ -1182,11 +1207,7 @@ if len(session("user")) = 0 then
             <%end if %> </span>
 
 
-                
-           
-            
-               
-                  <br /><span style="font-size:9px;">
+            <br /><span style="font-size:9px;">
             <%if isdate(oRec3("jobstartdato")) AND isDate(oRec3("jobslutdato")) then  %>
             <%=replace(formatdatetime(oRec3("jobstartdato"), 2),"-",".") %> til <%=replace(formatdatetime(oRec3("jobslutdato"), 2),"-",".") %>
             <%else %>
@@ -1197,8 +1218,25 @@ if len(session("user")) = 0 then
             <%if oRec3("serviceaft") <> 0 then %>
             <br /><font class=medlillesilver><%=oRec3("sjaftnavn") %> (<%=oRec3("sjaftalenr") %>)</font>
             <%end if
+
+
+            select case lto
+            case "nt", "intranet - local"
+
+             if cint(oRec3("alert")) = 1 AND len(trim(oRec3("job_internbesk"))) <> 0 then
+                 
+               
+                   
+                     %>
+                    <span id="a_showalert_<%=f %>" class="a_showalert" style="color:red;">&nbsp;<b>!</b>&nbsp;</span>
+                    <br /><span id="sp_showalert_<%=f %>" class="sp_showalert" style="position:relative; visibility:hidden; display:none; background-color:yellow; padding:2px;"><%=left(oRec3("job_internbesk"), 200)%></span>
+                    <%
+                    
+                    
+                 end if
            
-           
+           end select
+
             end if
             
             

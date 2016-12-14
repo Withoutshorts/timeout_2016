@@ -675,6 +675,7 @@
     <txt_537>Du har ikke rettigheder, eller har ikke opfyldt kriterierne for at afslutte perioden</txt_537>
     <txt_538>dag</txt_538>
     <txt_539>Kriterie</txt_539>
+    <txt_540>Fakturerings grad</txt_540>
     
     
   </dk>
@@ -1215,6 +1216,7 @@
     <txt_537>Du har ikke rettigheter, eller ikke har oppfylt kriteriene for å avslutte perioden</txt_537>
     <txt_538>dag</txt_538>
     <txt_539>Criterion</txt_539>
+    <txt_540>Faktureringsgrad</txt_540>
 
     
 
@@ -1755,6 +1757,7 @@
     <txt_537>Du har inte rätt, eller har inte uppfyllt de kriterier för att avsluta perioden</txt_537>
     <txt_538>dag</txt_538>
     <txt_539>kriterium</txt_539>
+    <txt_540>Faktureringsgrad</txt_540>
 
 
   </se>
@@ -2295,7 +2298,7 @@
     <txt_537>Sie haben keine Rechte, oder haben nicht die Kriterien erfüllt Zeitraum zu beenden</txt_537>
     <txt_538>tag</txt_538>
     <txt_539>Kriterium</txt_539>
-
+    <txt_540>Abrechnung Grad</txt_540>
 
   </de>
 
@@ -2834,6 +2837,7 @@
     <txt_537>Vous ne disposez pas des droits, ou ne l'avez pas rencontré les critères pour quitter période</txt_537>
     <txt_538>jour</txt_538>
     <txt_539>Critère</txt_539>
+    <txt_540>Degré de facturation</txt_540>
 
 
   </fr>
@@ -3523,6 +3527,7 @@
     <txt_537>You do not have rights, or have not met the criteria to exit the period</txt_537>
     <txt_538>day</txt_538>
     <txt_539>Criterion</txt_539>
+    <txt_540>Billing Grad</txt_540>
 
 
   </uk>
@@ -4066,6 +4071,7 @@
     <txt_537>Usted no tiene derechos, o no ha cumplido con los criterios para salir periodo</txt_537>
     <txt_538>día</txt_538>
     <txt_539>Criterio</txt_539>
+    <txt_540>Grado de facturación</txt_540>
 
 
   </es>

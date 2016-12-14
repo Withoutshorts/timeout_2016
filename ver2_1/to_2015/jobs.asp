@@ -428,6 +428,86 @@ end if
 
 
 
+                                 '******** Fast advisering Dencker
+                    if lto = "dencker" AND func = "dbopr" then
+
+                         if request.servervariables("PATH_TRANSLATED") <> "C:\www\timeout_xp\wwwroot\ver2_1\timereg\jobs.asp" then
+
+					  	            Set myMail=CreateObject("CDO.Message")
+                                    myMail.From="timeout_no_reply@outzource.dk" 'TimeOut Email Service 
+
+                                     strSQL = "SELECT job.id AS jid, jobnavn, jobnr, job.beskrivelse, job_internbesk, k.kkundenavn "_
+                                     &" FROM job "_
+				                     &" LEFT JOIN kunder AS k ON (k.kid = job.jobknr)"_
+				                     &" WHERE job.id = "& varJobId
+
+                          
+				                    oRec5.open strSQL, oConn, 3
+				                    if not oRec5.EOF then
+
+                                    jobnavnThis = oRec5("jobnavn")
+                                    intJobnr = oRec5("jobnr")
+                                    strkkundenavn = = oRec5("kkundenavn") 
+
+                                    end if
+                                    oRec5.close
+
+                                  
+                                    myMail.To= "Dencker - Ordre<ordre@dencker.net>"
+                                    myMail.Subject= "Ny ordre: "& jobnavnThis &" ("& intJobnr &") | " & strkkundenavn  
+
+
+		                            strBody = "<br>"
+                                    strBody = strBody & session("user") & " har oprettet følgende ordre:<br><br>"
+                                    strBody = strBody &"<b>Kunde:</b> "& strkkundenavn & "<br>" 
+						            strBody = strBody &"<b>Job:</b> "& jobnavnThis &" ("& intJobnr &") <br><br>"
+
+                                   
+                                    if len(trim(strBesk)) <> 0 then
+                                    strBody = strBody &"<hr><b>Jobbeskrivelse:</b><br>"
+                                    strBody = strBody & strBesk &"<br><br><br><br>"
+                                    end if
+
+                                    if len(trim(job_internbesk)) <> 0 then
+                                    strBody = strBody &"<hr><b>Intern note:</b><br>"
+                                    strBody = strBody & job_internbesk &"<br><br>"
+                                    end if
+
+
+                                    strBody = strBody &"<br><br><br><br><br><br>Med venlig hilsen<br><i>" 
+		                            strBody = strBody & session("user") & "</i><br><br>&nbsp;"
+
+
+                                    'Mailer.BodyText = strBody
+                                    myMail.HTMLBody= "<html><head></head><body>" & strBody & "</body>"
+
+                                    myMail.Configuration.Fields.Item _
+                                    ("http://schemas.microsoft.com/cdo/configuration/sendusing")=2
+                                    'Name or IP of remote SMTP server
+                                    
+                                                if instr(request.servervariables("LOCAL_ADDR"), "195.189.130.210") <> 0 then
+                                                   smtpServer = "webout.smtp.nu"
+                                                else
+                                                   smtpServer = "formrelay.rackhosting.com" 
+                                                end if
+                    
+                                                myMail.Configuration.Fields.Item _
+                                                ("http://schemas.microsoft.com/cdo/configuration/smtpserver")= smtpServer
+
+                                    'Server port
+                                    myMail.Configuration.Fields.Item _
+                                    ("http://schemas.microsoft.com/cdo/configuration/smtpserverport")=25
+                                    myMail.Configuration.Fields.Update
+
+                                   
+                                    myMail.Send
+                                   
+                                    set myMail=nothing
+
+
+                    end if 'Notificering Dencker
+                    '*******************************************************
+
 
 
 

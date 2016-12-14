@@ -1263,7 +1263,7 @@ function stempelurlist(medarbSel, showtot, layout, sqlDatoStart, sqlDatoSlut, ty
                 end if
 
                 
-                if (ugeerAfsl_og_autogk_smil = 0 OR level = 1 OR erTeamlederForVilkarligGruppe = 1) AND media <> "print" then%>
+                if (ugeerAfsl_og_autogk_smil = 0 OR level = 1 OR erTeamlederForVilkarligGruppe = -100) AND media <> "print" then%>
 			    <a href="#" onclick="Javascript:window.open('stempelur.asp?id=<%=oRec("lid")%>&menu=stat&func=redloginhist&medarbSel=<%=medarbSel%>&showonlyone=<%=showonlyone%>&hidemenu=<%=hidemenu%>&rdir=popup','','width=850,height=700,resizable=yes,scrollbars=yes')" class="vmenu"><%=loginDTShow%></a>
 			    <%else %>
 		        <b><%=loginDTShow%></b>
@@ -1299,7 +1299,7 @@ function stempelurlist(medarbSel, showtot, layout, sqlDatoStart, sqlDatoSlut, ty
 
 			                end if  
                     
-                    if (layout = 1) AND (ugeerAfsl_og_autogk_smil = 0 OR level = 1 OR erTeamlederForVilkarligGruppe = 1) AND media <> "print" then
+                    if (layout = 1) AND (ugeerAfsl_og_autogk_smil = 0 OR level = 1 OR erTeamlederForVilkarligGruppe = -100) AND media <> "print" then
 
                           %>
                         <input type="hidden" value="<%=oRec("lid") %>" name="id" />
@@ -1357,7 +1357,7 @@ function stempelurlist(medarbSel, showtot, layout, sqlDatoStart, sqlDatoSlut, ty
 
                 end if
 
-                if (layout = 1) AND (ugeerAfsl_og_autogk_smil = 0 OR level = 1 OR erTeamlederForVilkarligGruppe = 1) AND media <> "print"  then
+                if (layout = 1) AND (ugeerAfsl_og_autogk_smil = 0 OR level = 1 OR erTeamlederForVilkarligGruppe = -100) AND media <> "print"  then
                     
                 %>
                   <input type="text" class="logudhh" name="FM_logud_hh" id="FM_logud_hh_<%=d %>" value="<%=logudTidThisHH%>" style="width:20px; font-size:9px; color:<%=fColsl%>; <%=boxStyleBorder%>" /> :
@@ -1400,7 +1400,7 @@ function stempelurlist(medarbSel, showtot, layout, sqlDatoStart, sqlDatoSlut, ty
 
         if cint(oRec("stempelurindstilling")) <> -1 then 
 
-                if (layout = 1) AND (ugeerAfsl_og_autogk_smil = 0 OR level = 1 OR erTeamlederForVilkarligGruppe = 1) AND media <> "print"  then
+                if (layout = 1) AND (ugeerAfsl_og_autogk_smil = 0 OR level = 1 OR erTeamlederForVilkarligGruppe = -100) AND media <> "print"  then
         
               %>
                     <select name="FM_stur" style="width:120px; font-size:9px; font-family:arial;">
@@ -1628,7 +1628,7 @@ function stempelurlist(medarbSel, showtot, layout, sqlDatoStart, sqlDatoSlut, ty
             <%
             if cint(oRec("stempelurindstilling")) <> -1 then 
             
-                 if (layout = 1) AND (ugeerAfsl_og_autogk_smil = 0 OR level = 1 OR erTeamlederForVilkarligGruppe = 1) AND media <> "print"  then
+                 if (layout = 1) AND (ugeerAfsl_og_autogk_smil = 0 OR level = 1 OR erTeamlederForVilkarligGruppe = -100) AND media <> "print"  then
 
                 
 
@@ -1751,14 +1751,9 @@ function stempelurlist(medarbSel, showtot, layout, sqlDatoStart, sqlDatoSlut, ty
                 
                 call erugeAfslutte(useYear, usePeriod, medarbsel, SmiWeekOrMonth, 0)
 		        
-		        'Response.Write "smilaktiv: "& smilaktiv & "<br>"
-		        'Response.Write "SmiWeekOrMonth: "& SmiWeekOrMonth &" ugeNrAfsluttet: "& ugeNrAfsluttet & " tjkDag: "& tjkDag &"<br>"
-		        'Response.Write "autolukvdatodato: "& autolukvdatodato & "<br>"
-		        'Response.Write "tjkDag: "& tjkDag & "<br>"
-		        'Response.Write "autolukvdato: "& autolukvdato & "<br>"
-		        'Response.Write "erugeafsluttet:" & erugeafsluttet & "<br>"
-		        
-		        call lonKorsel_lukketPer(tjkDag, -2)
+                call lonKorsel_lukketPer(tjkDag, -2)
+
+                    
 		         
                 'if (cint(erugeafsluttet) <> 0 AND smilaktiv = 1 AND autogk = 1 AND ugeNrAfsluttet <> "1-1-2044") OR _
                  if ( (( datepart("ww", ugeNrAfsluttet, 2, 2) = usePeriod AND cint(SmiWeekOrMonth) = 0) OR (datepart("m", ugeNrAfsluttet, 2, 2) = usePeriod AND cint(SmiWeekOrMonth) = 1 )) AND cint(ugegodkendt) = 1 AND smilaktiv = 1 AND autogk = 1 AND ugeNrAfsluttet <> "1-1-2044") OR _
@@ -1773,6 +1768,20 @@ function stempelurlist(medarbSel, showtot, layout, sqlDatoStart, sqlDatoSlut, ty
                 end if 
                 
 
+                    'if session("mid") = 1 then
+
+		            'Response.Write "smilaktiv: "& smilaktiv & "<br>"
+		            'Response.Write "SmiWeekOrMonth: "& SmiWeekOrMonth &" ugeNrAfsluttet: "& ugeNrAfsluttet & " tjkDag: "& tjkDag &"<br>"
+		            'Response.Write "autolukvdatodato: "& autolukvdatodato & "<br>"
+		            'Response.Write "tjkDag: "& tjkDag & "<br>"
+		            'Response.Write "autolukvdato: "& autolukvdato & "<br>"
+		            'Response.Write "erugeafsluttet:" & erugeafsluttet & "<br>"
+                    'Response.write "ugeerAfsl_og_autogk_smil: "& ugeerAfsl_og_autogk_smil & "<br>"
+                    'Response.write "erTeamlederForVilkarligGruppe: " & erTeamlederForVilkarligGruppe & "<br>"
+		        
+                    'end if
+
+
                 '* Admin får vist stipledede bokse
                 if cint(level) = 1 AND ugeerAfsl_og_autogk_smil = 1 then
                 boxStyleBorder = "border: 1px #999999 dashed;"
@@ -1781,7 +1790,7 @@ function stempelurlist(medarbSel, showtot, layout, sqlDatoStart, sqlDatoSlut, ty
                 end if
                 
     
-    if (ugeerAfsl_og_autogk_smil = 0 OR level = 1 OR erTeamlederForVilkarligGruppe = 1) AND media <> "print" then
+    if (ugeerAfsl_og_autogk_smil = 0 OR level = 1 OR erTeamlederForVilkarligGruppe = -100) AND media <> "print" then
     
     %>
 
@@ -2004,6 +2013,8 @@ end function
 
 
 public totaltimerPer, totalpausePer, totalTimerPer100, loginTimerTot
+public manMin, tirMin, onsMin, torMin, freMin, lorMin, sonMin
+public manMinPause, tirMinPause, onsMinPause, torMinPause, freMinPause, lorMinPause, sonMinPause
 function fLonTimerPer(stDato, periode, visning, medid)
 
 'Response.Write "////////her " & stDato & " Periode: " & periode & " visning: "& visning & " medid: "& medid & " rdir:"& rdir & "<hr>"

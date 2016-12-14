@@ -20,7 +20,7 @@
     <txt_10>TimeOut mobile</txt_10>
     <txt_11> Husk mig</txt_11>
     <txt_12>TimeTag</txt_12>
-    <txt_13>Login:</txt_13>
+    <txt_13>Login</txt_13>
     <txt_14>Kære besøgende, angiv venligst dit navn, firma og email, og du vil få adgang til vores demo:</txt_14>
     <txt_15>Navn:</txt_15>
     <txt_16>Firma:</txt_16>
@@ -67,7 +67,7 @@
     <txt_10 >TimeOut mobil</txt_10>
     <txt_11 >Husk meg</txt_11>
     <txt_12 >TimeTag</txt_12>
-    <txt_13 >Logg inn:</txt_13>
+    <txt_13 >Logg inn</txt_13>
     <txt_14 >Kjære besøkende, vennligst skriv ditt navn, firma og e-post og du vil få tilgang til vår demo:</txt_14>
     <txt_15 >Navn:</txt_15>
     <txt_16 >Firma:</txt_16>
@@ -108,7 +108,7 @@
     <txt_10 >TimeOut mobil</txt_10>
     <txt_11 >Kom ihåg mig</txt_11>
     <txt_12 >TimeTag</txt_12>
-    <txt_13 >Logga in:</txt_13>
+    <txt_13 >Logga in</txt_13>
     <txt_14 >Kära besökare, ange ditt namn, företag och e-post och du kommer att få tillgång till vår demo:</txt_14>
     <txt_15 >Namn:</txt_15>
     <txt_16 >Företag:</txt_16>
@@ -149,7 +149,7 @@
     <txt_10 >TimeOut mobil</txt_10>
     <txt_11 >Erinnere dich an mich</txt_11>
     <txt_12 >TimeTag</txt_12>
-    <txt_13 >einloggen:</txt_13>
+    <txt_13 >Einloggen</txt_13>
     <txt_14 >Liebe Besucher, geben Sie bitte Ihren Namen, Firma und E-Mail und Sie erhalten Zugang zu unserer Demo bekommen:</txt_14>
     <txt_15 >Name:</txt_15>
     <txt_16 >Firma:</txt_16>
@@ -190,7 +190,7 @@
     <txt_10 >TimeOut mobiles</txt_10>
     <txt_11 >souvenir de moi</txt_11>
     <txt_12 >TimeTag</txt_12>
-    <txt_13 >Identifiez-vous:</txt_13>
+    <txt_13 >Identifiez-vous</txt_13>
     <txt_14 >Chers visiteurs, s'il vous plaît, entrez votre nom, la société et le courrier électronique et vous aurez accès à notre démonstration:</txt_14>
     <txt_15 >Nom:</txt_15>
     <txt_16 >Société:</txt_16>
@@ -233,7 +233,7 @@
     <txt_10>TimeOut mobile</txt_10>
     <txt_11> Remember me</txt_11>
     <txt_12>TimeTag</txt_12>
-    <txt_13>Sign in:</txt_13>
+    <txt_13>Sign in</txt_13>
     <txt_14>Welcome to our demo. Please state your name, company and email. And we will grant you access to our demo.</txt_14>
     <txt_15>Name:</txt_15>
     <txt_16>Company:</txt_16>
@@ -265,7 +265,7 @@
   </uk>
 
 
-  <!-- Engelsk -->
+  <!-- Spansk -->
   <es>
 
     <txt_1 >Hoja de tiempo</txt_1>
@@ -280,7 +280,7 @@
     <txt_10 >Tiempo de espera para móviles</txt_10>
     <txt_11 >Recuérdame</txt_11>
     <txt_12 >TimeTag</txt_12>
-    <txt_13 >Iniciar sesión:</txt_13>
+    <txt_13 >Iniciar sesión</txt_13>
     <txt_14 >Estimados visitantes, por favor, introduzca su nombre, empresa y correo electrónico y obtendrá acceso a nuestra demo:</txt_14>
     <txt_15 >Nombre:</txt_15>
     <txt_16 >Empresa:</txt_16>
