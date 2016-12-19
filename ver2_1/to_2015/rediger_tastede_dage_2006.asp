@@ -21,7 +21,7 @@
 
 </style>
 
-    
+    <div class="wrapper">
 
             <div class="container" style="height:100%">
                 <div class="portlet">
