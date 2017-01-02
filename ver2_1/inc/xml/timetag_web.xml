@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<sprog>
+
+  <!--- Dansk -->
+  <dk>
+
+    <txt_1 >TimeOut mobile</txt_1>
+    <txt_2 >Indlæser timer...vent</txt_2>
+    <txt_3 >Timer indlæst</txt_3>
+    <txt_4 >Aktivitet</txt_4>
+    <txt_5 >St. / Stop</txt_5>
+    <txt_6 >Antal timer</txt_6>
+    <txt_7 >Kommentar</txt_7>
+    <txt_8 >Tilføj materialeforbrug</txt_8>
+    <txt_9 >Tilføj Materiale</txt_9>
+    <txt_10 >Ant.</txt_10>
+    <txt_11 >Gem registrering</txt_11>
+    <txt_12 >Job er afsluttet</txt_12>
+    <txt_13 >Timer i dag</txt_13>
+    <txt_14 >Kunde/job</txt_14>
+    <txt_15 >Timeregistrering</txt_15>
+    <txt_16 >Ugeseddel</txt_16>
+    <txt_17 >Nøgletal</txt_17>
+    <txt_18 >Ferie saldo</txt_18>
+    <txt_19 >Flex saldo</txt_19>
+    <txt_20 >Syg ÅTD</txt_20>
+    <txt_21 >Barn syg ÅTD</txt_21>
+    <txt_22 >Jobbeskrivelse</txt_22>
+    <txt_23 >Timer</txt_23>
+    <txt_24 >Vælg aktivitet..</txt_24>
+    <txt_25 >Ingen aktiviteter fundet</txt_25>
+    <txt_26 >Vælg job</txt_26>
+
+  </dk>
+  
+
+  <!--- Dansk -->
+  <uk>
+
+    <txt_1 >TimeOut mobile</txt_1>
+    <txt_2 >Processing…please wait</txt_2>
+    <txt_3 >Hours submitted</txt_3>
+    <txt_4 >Activity</txt_4>
+    <txt_5 >St. / Stop</txt_5>
+    <txt_6 >Hours</txt_6>
+    <txt_7 >Comment</txt_7>
+    <txt_8 >Add materials</txt_8>
+    <txt_9 >Add materials</txt_9>
+    <txt_10 >Pcs.</txt_10>
+    <txt_11 >Save</txt_11>
+    <txt_12 >Job is done</txt_12>
+    <txt_13 >Hours today</txt_13>
+    <txt_14 >Customer/Job</txt_14>
+    <txt_15 >Timeregistration</txt_15>
+    <txt_16 >Weeknote</txt_16>
+    <txt_17 >KPI's</txt_17>
+    <txt_18 >Vacation balance</txt_18>
+    <txt_19 >Flex balance</txt_19>
+    <txt_20 >Sick YTD</txt_20>
+    <txt_21 >Child sick YTD</txt_21>
+    <txt_22 >Job description</txt_22>
+    <txt_23 >Hours</txt_23>
+    <txt_24 >Select activity..</txt_24>
+    <txt_25 >No activities found</txt_25>
+    <txt_26 >Choose Job:</txt_26>
+
+  </uk>
+  
+
+
+</sprog>

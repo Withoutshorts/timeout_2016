@@ -38,15 +38,15 @@
             <ul class="nav navbar-nav navbar-right mainnav-menu">
 
                 <li style="border-bottom:1px #000000 solid;">
-                <a href="<%=relpathTT%>timetag_web.asp">Timeregistrering</a>
+                <a href="<%=relpathTT%>timetag_web.asp"><%=ttw_txt_015 %></a>
                 </li>
 
                 <li style="border-bottom:1px #000000 solid;">
-                <a href="<%=relpathTO%>ugeseddel_2011.asp?usemrn=<%=session("mid")%>&varTjDatoUS_man=<%=varTjDatoUS_man_tt %>">Ugeseddel</a>
+                <a href="<%=relpathTO%>ugeseddel_2011.asp?usemrn=<%=session("mid")%>&varTjDatoUS_man=<%=varTjDatoUS_man_tt %>"><%=ttw_txt_016 %></a>
                 </li>    
 
                 <li style="border-bottom:1px #000000 solid;">
-                <a href="<%=relpathTT%>timetag_web_kpi.asp">Nøgletal</a>
+                <a href="<%=relpathTT%>timetag_web_kpi.asp"><%=ttw_txt_017 %></a>
                 </li>           
               
             </ul>

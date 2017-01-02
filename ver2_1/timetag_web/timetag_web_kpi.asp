@@ -222,25 +222,25 @@
                 <table class="table dataTable" style="font-size:125%">
 
                     <tr>
-                        <td>Ferie saldo</td>
+                        <td><%=ttw_txt_018 %></td>
                         <td style="text-align:right"><%=formatnumber(ferieSaldo, 2) %> d.</td>
                         <td style="vertical-align:middle"><div style="height:10px; width:10px; background-color:<%=flexferieCol%>;"></div></td>
                     </tr>
 
                     <tr>
-                        <td>Flex saldo</td>
+                        <td><%=ttw_txt_019 %></td>
                         <td style="text-align:right"><%=formatnumber(flexsaldo,2) %> t.</td>
                         <td style="vertical-align:middle"><div style="height:10px; width:10px; background-color:<%=flexsaldoCol%>;"></div></td>
                     </tr>
 
                     <tr>
-                        <td>Syg ÅTD</td>
+                        <td><%=ttw_txt_020 %></td>
                         <td style="text-align:right"><%=formatnumber(sygtot,2) %> d.</td>
                         <td style="vertical-align:middle"><!--<div style="height:10px; width:10px; background-color:<%=sygtotCol%>;"></div>--></td>
                     </tr>
 
                     <tr>
-                        <td>Barn syg ÅTD</td>
+                        <td><%=ttw_txt_021 %></td>
                         <td style="text-align:right"><%=formatnumber(barnsygtot,2) %> d.</td>
                         <td style="vertical-align:middle"><!--<div style="height:10px; width:10px; background-color:<%=barnsygtotCol%>;"></div>--></td>
                     </tr>

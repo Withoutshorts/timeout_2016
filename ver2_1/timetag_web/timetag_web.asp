@@ -159,7 +159,7 @@
                 'end if
 
                 if (jobkundesog = "-1") then 'kunde job sog DD
-                    strJobogKunderTxt = strJobogKunderTxt & "<option value=""-1"" SELECTED>Vælg job:</option>"
+                    strJobogKunderTxt = strJobogKunderTxt & "<option value=""-1"" SELECTED>"& ttw_txt_026 &"</option>"
                 end if   
                            
 
@@ -363,7 +363,7 @@
 
                             '** Forvalgt 1 aktivitet
                             if cint(mobil_week_reg_akt_dd_forvalgt) <> 1 AND cint(mobil_week_reg_akt_dd) = 1 then
-                            strAktTxt = strAktTxt & "<option value=""-1"">Vælg aktivitet..</option>" 
+                            strAktTxt = strAktTxt & "<option value=""-1"">"& ttw_txt_024 &"</option>" 
                             end if
 
                     end if
@@ -528,7 +528,7 @@
                 else
     
                     if afundet = 0 then
-                    strAktTxt = strAktTxt & "<option value=""-1"" DISABLED>Ingen aktiviteter fundet</option>" 
+                    strAktTxt = strAktTxt & "<option value=""-1"" DISABLED>"& ttw_txt_025 &"</option>" 
                     end if 
 
     
@@ -825,12 +825,12 @@
             <div class="portlet">
                 <div class="portlet-body">
                     
-                    <div id="dvindlaes_msg" style="position:absolute; top:0px; left:0px; height:100%; width:100%; background-color:#cccccc; visibility:hidden; display:none;">Indlæser timer...vent</div>
+                    <div id="dvindlaes_msg" style="position:absolute; top:0px; left:0px; height:100%; width:100%; background-color:#cccccc; visibility:hidden; display:none;"><%=ttw_txt_002 %></div>
                    
                     <%if cint(indlast) = 1 then %>
                     <div class="row">
                                 <div class="col-lg-12">
-                                     <div id="timer_indlast" style="text-align:center; background-color:greenyellow; padding:4px;">Timer indlæst</div>
+                                     <div id="timer_indlast" style="text-align:center; background-color:greenyellow; padding:4px;"><%=ttw_txt_003 %></div>
                                     </div>
                     </div>
                     <%session("timetag_web_indMsgShown") = "1"
@@ -909,7 +909,7 @@
                         <%else %>
                          <div class="row">
                             <div class="col-lg-12">
-                                <input type="text" id="FM_job" name="FM_job" value="" placeholder="Kunde/job" class="form-control"/>
+                                <input type="text" id="FM_job" name="FM_job" value="" placeholder="<%=ttw_txt_014 %>" class="form-control"/>
                                 <input type="hidden" id="FM_jobid" name="FM_jobid" value="0"/>
                                 <div id="dv_job" style="padding:5px 5px 5px 5px; display:none; visibility:hidden;"></div> 
                             </div>
@@ -931,7 +931,7 @@
                              <div class="panel-group accordion-panel" id="accordion-paneled1">
                             <div class="panel panel-default">
                                 <div class="panel-heading">
-                                    <h4 class="panel-title"><a class="accordion-toggle" data-toggle="collapse" data-target="#collapseTwo" id="dv_jobbesk_header">Jobbeskrivelse</a></h4></div>                                    
+                                    <h4 class="panel-title"><a class="accordion-toggle" data-toggle="collapse" data-target="#collapseTwo" id="dv_jobbesk_header"><%=ttw_txt_022 %></a></h4></div>                                    
                                 <div id="collapseTwo" class="panel-collapse collapse">
                                     <div class="panel-body">
                                          <div class="row">
@@ -963,7 +963,7 @@
                          <%else %>
                         <div class="row">
                             <div class="col-lg-12">
-                                <input type="text" id="FM_akt" name="activity" value="" class="form-control" placeholder="Aktivitet"/>
+                                <input type="text" id="FM_akt" name="activity" value="" class="form-control" placeholder="<%=ttw_txt_004 %>"/>
                                 <input type="hidden" id="FM_aktid" name="FM_aktivitetid" value="0"/>
                                 <div id="dv_akt" class="dv-closed" style="padding:5px 5px 5px 5px;"></div> 
                             </div>
@@ -974,7 +974,7 @@
                        
 
                         <div class="row">
-                            <div class="col-lg-12"><input type="text" id="FM_kom" name="FM_kom_0" placeholder="Kommentar" class="form-control" /></div>
+                            <div class="col-lg-12"><input type="text" id="FM_kom" name="FM_kom_0" placeholder="<%=ttw_txt_007 %>" class="form-control" /></div>
                         </div>
 
 
@@ -1002,7 +1002,7 @@
                             <input type="hidden" id="FM_sttid" name="FM_sttid" value="00:00"/>
                             <input type="hidden" id="FM_sltid" name="FM_sltid" value="00:00"/>
                             <div class="row">
-                                <div class="col-lg-12"><input type="number" id="FM_timer" name="FM_timer" value="" placeholder="Timer" class="form-control"/></div>
+                                <div class="col-lg-12"><input type="number" id="FM_timer" name="FM_timer" value="" placeholder="<%=ttw_txt_023 %>" class="form-control"/></div>
                             </div>
                         <%end if %>
                        
@@ -1015,14 +1015,14 @@
                         <div class="panel-group accordion-panel" id="accordion-paneled">
                             <div class="panel panel-default">
                                 <div class="panel-heading">
-                                    <h4 class="panel-title"><a class="accordion-toggle" data-toggle="collapse" data-target="#collapseOne">Tilføj materialeforbrug</a></h4></div>                                    
+                                    <h4 class="panel-title"><a class="accordion-toggle" data-toggle="collapse" data-target="#collapseOne"><%=ttw_txt_008 %></a></h4></div>                                    
                                 <div id="collapseOne" class="panel-collapse collapse">
                                     <div class="panel-body">
                                          <div class="row">
                                           <div class="col-lg-12">
                                           <table style="width:100%;"><tr><td style="width:60%; padding:2px 2px 2px 2px;">    
-                                          <input type="text" id="FM_matnavn" name="FM_matnavn" placeholder="Tilføj Materiale" class="form-control"/></td>
-                                          <td style="width:20%; padding:2px 2px 2px 2px;"><input type="number" id="FM_matantal" name="FM_matantal" value="" placeholder="Ant." class="form-control"/></td>
+                                          <input type="text" id="FM_matnavn" name="FM_matnavn" placeholder="<%=ttw_txt_009 %>" class="form-control"/></td>
+                                          <td style="width:20%; padding:2px 2px 2px 2px;"><input type="number" id="FM_matantal" name="FM_matantal" value="" placeholder="<%=ttw_txt_010 %>." class="form-control"/></td>
                                           <td style="width:20%; padding:2px 2px 2px 2px;"><input type="button" value=">>" id="sbmmat" class="btn btn-secondary"/>
                                            </td></tr></table>
                                               </div>
@@ -1062,14 +1062,14 @@
 
                         <%if cint(showAfslutJob) = 1 then %>
                         <div class="row">
-                            <div class="col-lg-12"><span><input type="checkbox" value="2" name="FM_lukjobstatus" id="FM_lukjobstatus" /> Job er afsluttet</span></div>
+                            <div class="col-lg-12"><span><input type="checkbox" value="2" name="FM_lukjobstatus" id="FM_lukjobstatus" /> <%=ttw_txt_012 %></span></div>
                         </div>
                         <%end if %>
 
                         <br /><br />
                         <div class="row">
                             <div class="col-lg-12">
-                                <button type="submit" class="btn btn-success" style="text-align:center; width:100%"><b>Gem registrering >></b></button>
+                                <button type="submit" class="btn btn-success" style="text-align:center; width:100%"><b><%=ttw_txt_011 %> >></b></button>
                             </div>
                         </div>
 
@@ -1089,7 +1089,7 @@
 
                              timerIdagTxt = "<table cellpadding=1 cellspacing=2 border=0 width=""100%"">"
 
-                             timerIdagTxt = timerIdagTxt & "<tr><td colspan=4><b>Timer i dag:</b></td></tr>"
+                             timerIdagTxt = timerIdagTxt & "<tr><td colspan=4><b>"& ttw_txt_007 &"</b></td></tr>"
            
             
                              strSQLtimer = "SELECT timer, tjobnavn, taktivitetnavn, sttid, sltid, timer FROM timer WHERE tmnr = "& session("mid") &" AND tdato = '"& ddDato &"' AND ("& aty_sql_realhours &")"
