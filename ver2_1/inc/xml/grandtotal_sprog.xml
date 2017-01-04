@@ -1,0 +1,323 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<sprog>
+
+  <!--- Dansk -->
+  <dk>
+
+    <txt_1 >Timepriser opdateret.</txt_1>
+    <txt_2 >Vend tilbage til Grandtotal ved at klikke her</txt_2>
+    <txt_3 >Forventet loadtid</txt_3>
+    <txt_4 >ca.</txt_4>
+    <txt_5 >sek.</txt_5>
+    <txt_6 >Grandtotal, timer realiseret</txt_6>
+    <txt_7 >Avanceret</txt_7>
+    <txt_8 >Udspecificering på aktiviteter</txt_8>
+    <txt_9 >Udspecificer de(t) valgte/søgte job på aktiviteter.</txt_9>
+    <txt_10 >Vis kun job (og aktiviteter) hvor</txt_10>
+    <txt_11 >indgår i</txt_11>
+    <txt_12 >aktivitetsnavnet</txt_12>
+    <txt_13 >Timer:</txt_13>
+    <txt_14 >Vis</txt_14>
+    <txt_15 >timer</txt_15>
+    <txt_16 >timer og kostpriser</txt_16>
+    <txt_17 >timer og omsætning</txt_17>
+    <txt_18 >på akt.typer der er med i dagligt timeregnskab</txt_18>
+    <txt_19 >Rediger timepriser</txt_19>
+    <txt_20 >Rediger timepriser</txt_20>
+    <txt_21 >Vis kun</txt_21>
+    <txt_22 >fakturerbare timer</txt_22>
+    <txt_23 >godkendte timer</txt_23>
+    <txt_24 >Vis enheder</txt_24>
+    <txt_25 >timer * faktor</txt_25>
+    <txt_26 >Ja</txt_26>
+    <txt_27 >Nej</txt_27>
+    <txt_28 >Vis forecasttimer</txt_28>
+    <txt_29 >timebudget</txt_29>
+    <txt_30 >Ekstra loadtid!</txt_30>
+    <txt_31 >Vis normtid</txt_31>
+    <txt_32 >Periode:</txt_32>
+    <txt_33 >Præsentation</txt_33>
+    <txt_34 >Præsentation, indstillinger og kolonner</txt_34>
+    <txt_35 >Vis direkte i excel</txt_35>
+    <txt_36 >.csv, hurtig visning af store datamængder</txt_36>
+    <txt_37 >Layout optimeret</txt_37>
+    <txt_38 >som på skærm</txt_38>
+    <txt_39 >Pivot optimeret</txt_39>
+    <txt_40 >kun real. timer på medarb.</txt_40>
+    <txt_41 >Vis opdelt på måneder, total, 3 ell. 12 md.</txt_41>
+    <txt_42 >Vis periode slutdato</txt_42>
+    <txt_43 >Ingen</txt_43>
+    <txt_44 >vis total</txt_44>
+    <txt_45 >3 måneder</txt_45>
+    <txt_46 >12 måneder</txt_46>
+    <txt_47 >ekstra loadtid!</txt_47>
+    <txt_48 >Sideskift</txt_48>
+    <txt_49 >overskrift</txt_49>
+    <txt_50 >efter hver</txt_50>
+    <txt_51 >linie. A4 ca. 15 A3 ca.30.</txt_51>
+    <txt_52 >saldo</txt_52>
+    <txt_53 >for tidligere periode</txt_53>
+    <txt_54 >og</txt_54>
+    <txt_55 >total</txt_55>
+    <txt_56 >timeforbrug</txt_56>
+    <txt_57 >alle medarbejdere uanset valgte</txt_57>
+    <txt_58 >Vis kontaktpersoner</txt_58>
+    <txt_59 >Vis jobbeskrivelse</txt_59>
+    <txt_60 >Visning af de-aktiverede medarbejdere</txt_60>
+    <txt_61 >de-aktiverede medarbejdere medtages ved søgning på</txt_61>
+    <txt_62 >alle</txt_62>
+    <txt_63 >de-aktiverede medarbejdere kan ikke vælges fra dropdown menu.</txt_63>
+    <txt_64 >Jobtyper</txt_64>
+    <txt_65 >Fastpris eller Lbn. timer.</txt_65>
+    <txt_66 >vægtet medarbejder timepriser</txt_66>
+    <txt_67 >Ved fastpris job, hvor aktiviteterne danner grundlag for timepris, er omsætning og timepriser</txt_67>
+    <txt_68 >på jobvisning</txt_68>
+    <txt_69 >angivet med et ~, da beløbet er beregnet udfra en tilnærmet timepris.</txt_69>
+    <txt_70 >gns. på akt.</txt_70>
+    <txt_71 >Ved udspecificering på aktiviteter er det den re-elle timepris der vises.</txt_71>
+    <txt_72 >Ved lbn. timer er det altid den realiserede medarbejder timepris der vises.</txt_72>
+    <txt_73 >Timer</txt_73>
+    <txt_74 >Kun realiserede timer på typer der tæller med i det daglige timeregnskab vises.</txt_74>
+    <txt_75 >Registreringer på ferie, frokost, sygdom og afspadsering er ikke med i Grand-total statistikken.</txt_75>
+    <txt_76 >Key-account</txt_76>
+    <txt_77 >Ved brug af "key account" bliver der vist timer for alle medarbejder der er med</txt_77>
+    <txt_78 >tilknyttet via projektgrupper</txt_78>
+    <txt_79 >på de job hvor den valgte Key-account er job ansvarlig / kunde ansvarlig.</txt_79>
+    <txt_80 >Udspecificering på aktiviteter</txt_80>
+    <txt_81 >Hvis der vælges et enkelt job bliver timeforbruget udspecificeret på aktiviteter.</txt_81>
+    <txt_82 >Beløb</txt_82>
+    <txt_83 >Alle timepriser og beløb er vist i</txt_83>
+    <txt_84 >Antallet af job, medarbejdere, kontakter og periode overstiger det tilladte antal.</txt_84>
+    <txt_85 >Hvis der er valgt</txt_85>
+    <txt_86 >Der er valgt mere end</txt_86>
+    <txt_87 >job</txt_87>
+    <txt_88 >og</txt_88>
+    <txt_89 >Mellem</txt_89>
+    <txt_90 >medarbejdere og en periode på mere end</txt_90>
+    <txt_91 >år.</txt_91>
+    <txt_92 >Mere end</txt_92>
+    <txt_93 >medarbejdere og en periode på mere end</txt_93>
+    <txt_94 >medarbejdere og en periode på mere end</txt_94>
+    <txt_95 >md.</txt_95>
+    <txt_96 >medarbejdere.</txt_96>
+    <txt_97 >En periode på mere end</txt_97>
+    <txt_98 >5 år.</txt_98>
+    <txt_99 >12 måneders opdeling, mere end</txt_99>
+    <txt_100 >og flere end</txt_100>
+    <txt_101 >medarbejdere.</txt_101>
+    <txt_102 >Du har er valgt</txt_102>
+    <txt_103 >medarbejdere og</txt_103>
+    <txt_104 >Tip</txt_104>
+    <txt_105 >Søg på et specifikt job for at få vist en længere periode / flere medarbejdere.</txt_105>
+    <txt_106 >Timeout - Grandtotal</txt_106>
+    <txt_107 >Periode</txt_107>
+    <txt_108 >Der er valgt udspecificering på følgende job</txt_108>
+    <txt_109 >Budget timer</txt_109>
+    <txt_110 >forkalk.</txt_110>
+    <txt_111 >Forecast</txt_111>
+    <txt_112 >før valgt per.</txt_112>
+    <txt_113 >Real. timer</txt_113>
+    <txt_114 >i per.</txt_114>
+    <txt_115 >Real. %</txt_115>
+    <txt_116 >ialt</txt_116>
+    <txt_117 >Grandtotal</txt_117>
+    <txt_118 >Ialt i per.:</txt_118>
+    <txt_119 >Opdater timepriser</txt_119>
+    <txt_120 >Opdaterer timeregistreringer i valgte måned</txt_120>
+    <txt_121 >(grønne</txt_121>
+    <txt_122 >Opdater samtidig de timepriser der er indtastet på job / aktivitet,</txt_122>
+    <txt_123 >så fremtidige timeregistreringer følger denne pris</txt_123>
+    <txt_124 >gælder ikke de aktiviteter der er sat til ens pris for alle</txt_124>
+    <txt_125 >nedarver fra job</txt_125>
+    <txt_126 >Alle priser er</txt_126>
+    <txt_127 >Valuta ændres på jobbet.</txt_127>
+    <txt_128 >Opdater</txt_128>
+    <txt_129 >Periode afgrænsning</txt_129>
+    <txt_130 >Du har valgt at udskrive direkte til .cvs fil.</txt_130>
+    <txt_131 >Du åbner den ved at klikke på linket herunder</txt_131>
+    <txt_132 >Din CSV. fil er klar</txt_132>
+    <txt_133 >Mængden af data er for stor til eksport.</txt_133>
+    <txt_134 >Vælg et mindre interval ell. Færre medarbejdere.</txt_134>
+    <txt_135 >Størrelsen på data er</txt_135>
+    <txt_136 >og den må ikke overstige 30000000 bytes.</txt_136>
+
+  </dk>
+
+
+  <!--- Norsk -->
+  <no>
+
+
+  </no>
+  
+  
+  <!--- Svensk -->
+  <so>
+    
+  </so>
+  
+  
+  <!--- Tysk -->
+  <de>
+    
+  </de>
+  
+  
+  <!--- Fransk -->
+  <fr>
+    
+  </fr>
+  
+    
+
+  <!-- Engelsk -->
+  <uk>
+
+    <txt_1 >Hourly rates updated.</txt_1>
+    <txt_2 >Click here to return to Grandtotal</txt_2>
+    <txt_3 >Expected loadtime</txt_3>
+    <txt_4 >about</txt_4>
+    <txt_5 >sec.</txt_5>
+    <txt_6 >Grandtotal, stated hours</txt_6>
+    <txt_7 >Advanced</txt_7>
+    <txt_8 >Breakdown on activities</txt_8>
+    <txt_9 >Breakdown the search result on activities</txt_9>
+    <txt_10 >Show only jobs (and activities) where</txt_10>
+    <txt_11 >is included</txt_11>
+    <txt_12 >activity name</txt_12>
+    <txt_13 >Hours:</txt_13>
+    <txt_14 >Show</txt_14>
+    <txt_15 >hours</txt_15>
+    <txt_16 >hours and cost prices</txt_16>
+    <txt_17 >hours and turnover</txt_17>
+    <txt_18 >on act. type of the dayli registration</txt_18>
+    <txt_19 >Edit hourly rates</txt_19>
+    <txt_20 >Edit hourly rates</txt_20>
+    <txt_21 >Show only</txt_21>
+    <txt_22 >Invoiceble hours</txt_22>
+    <txt_23 >Approved hours</txt_23>
+    <txt_24 >Show units</txt_24>
+    <txt_25 >hours * factor</txt_25>
+    <txt_26 >Yes</txt_26>
+    <txt_27 >No</txt_27>
+    <txt_28 >Show forecast hours</txt_28>
+    <txt_29 >time budget</txt_29>
+    <txt_30 >Extra loadtime</txt_30>
+    <txt_31 >Show rated hours</txt_31>
+    <txt_32 >Period:</txt_32>
+    <txt_33 >Presentation</txt_33>
+    <txt_34 >Presentation, settings and columns</txt_34>
+    <txt_35 >Show in Excel</txt_35>
+    <txt_36 >.csv, quick view of large datasizes</txt_36>
+    <txt_37 >Optimized layout</txt_37>
+    <txt_38 >Monitor view</txt_38>
+    <txt_39 >Optimized for pivot</txt_39>
+    <txt_40 >only stated hours for emp.</txt_40>
+    <txt_41 >View per: month, total, 3 or 12 mo.</txt_41>
+    <txt_42 >Show end date</txt_42>
+    <txt_43 >None</txt_43>
+    <txt_44 >show total</txt_44>
+    <txt_45 >3 months</txt_45>
+    <txt_46 >12 months</txt_46>
+    <txt_47 >extra loadtime!</txt_47>
+    <txt_48 >Pagebreak</txt_48>
+    <txt_49 >Headline</txt_49>
+    <txt_50 >after each</txt_50>
+    <txt_51 >line. A4 about 15 A3 about 30.</txt_51>
+    <txt_52 >Balance</txt_52>
+    <txt_53 >for earlier periods</txt_53>
+    <txt_54 >and</txt_54>
+    <txt_55 >total</txt_55>
+    <txt_56 >hours spend</txt_56>
+    <txt_57 >all employees</txt_57>
+    <txt_58 >Show contact</txt_58>
+    <txt_59 >Show job desciption</txt_59>
+    <txt_60 >Shows de-activated employees</txt_60>
+    <txt_61 >de-activated employees are included in the search</txt_61>
+    <txt_62 >all</txt_62>
+    <txt_63 >de-activated employees are not part of the drop-down menu.</txt_63>
+    <txt_64 >Job types</txt_64>
+    <txt_65 >Fixed price or. T/M prices.</txt_65>
+    <txt_66 >weighted employee rates</txt_66>
+    <txt_67 >For Fixed-price-jobs, when the hourly rate is based on activities, turnover and prices</txt_67>
+    <txt_68 >in the job view</txt_68>
+    <txt_69 >are estimated, thus shown with a ~.</txt_69>
+    <txt_70 >avg. of the Act.</txt_70>
+    <txt_71 >Breakdown on activities shows the real hourly rate.</txt_71>
+    <txt_72 >For T/M jobs; are the hourly rate allways the stated employee rates.</txt_72>
+    <txt_73 >Hours</txt_73>
+    <txt_74 >Shows stated hours, which is part of the dayli time sheet.</txt_74>
+    <txt_75 >Vacation, illness, lunch and lieutime is not par of the Grandtotal.</txt_75>
+    <txt_76 >Key-account</txt_76>
+    <txt_77 >When using "key-account"; Shows hours for all employees, who are part of projectgroups</txt_77>
+    <txt_78 >attached to the job(s)</txt_78>
+    <txt_79 >where the key-account is projectmanager/customer owner.</txt_79>
+    <txt_80 >Breakdown on activities</txt_80>
+    <txt_81 >If one job is selected, hours are specified on activities.</txt_81>
+    <txt_82 >Amount</txt_82>
+    <txt_83 >Alle prices and amounts are shown in</txt_83>
+    <txt_84 >Numbers of jobs, employees, contacts and periods exceeds the allowed quantity.</txt_84>
+    <txt_85 >If selected</txt_85>
+    <txt_86 >More than is selected</txt_86>
+    <txt_87 >job</txt_87>
+    <txt_88 >and</txt_88>
+    <txt_89 >Between</txt_89>
+    <txt_90 >employees and a period larger than</txt_90>
+    <txt_91 >year.</txt_91>
+    <txt_92 >More than</txt_92>
+    <txt_93 >employees and a period larger than</txt_93>
+    <txt_94 >employees and a period larger than</txt_94>
+    <txt_95 >mo.</txt_95>
+    <txt_96 >employees.</txt_96>
+    <txt_97 >A period larger than</txt_97>
+    <txt_98 >5 years.</txt_98>
+    <txt_99 >12 month-view, more than</txt_99>
+    <txt_100 >and more than</txt_100>
+    <txt_101 >employees.</txt_101>
+    <txt_102 >You have selected</txt_102>
+    <txt_103 >employees and</txt_103>
+    <txt_104 >Tip</txt_104>
+    <txt_105 >Select a specific job to show a longer periode / more employees</txt_105>
+    <txt_106 >TimeOut - Grandtotal</txt_106>
+    <txt_107 >Period</txt_107>
+    <txt_108 >Breakdown is shoosen for the folloowing jobs</txt_108>
+    <txt_109 >Budget hours</txt_109>
+    <txt_110 >Calc.</txt_110>
+    <txt_111 >Forecast</txt_111>
+    <txt_112 >Choosen period</txt_112>
+    <txt_113 >Stated hours</txt_113>
+    <txt_114 >in period</txt_114>
+    <txt_115 >Stated %</txt_115>
+    <txt_116 >total</txt_116>
+    <txt_117 >Grandtotal</txt_117>
+    <txt_118 >Total in period:</txt_118>
+    <txt_119 >Update rates</txt_119>
+    <txt_120 >Update registrations for choosen month</txt_120>
+    <txt_121 >(green</txt_121>
+    <txt_122 >Update all hourly rates for the job/activity,</txt_122>
+    <txt_123 >entails all future registrations uses this rate</txt_123>
+    <txt_124 >except activities with a fixed prices for all</txt_124>
+    <txt_125 >inherit from job</txt_125>
+    <txt_126 >Alle prices are</txt_126>
+    <txt_127 >Currency is altered on the job.</txt_127>
+    <txt_128 >Update</txt_128>
+    <txt_129 >Within period</txt_129>
+    <txt_130 >Print to .csv has been choosen</txt_130>
+    <txt_131 >Click on link to open</txt_131>
+    <txt_132 >CSV.file is ready</txt_132>
+    <txt_133 >Volume is to large for dataexport</txt_133>
+    <txt_134 >Choose shorter date-interval or fewer employees.</txt_134>
+    <txt_135 >Data size is</txt_135>
+    <txt_136 >and cannot be larger than 30000000 bytes.</txt_136>
+
+  </uk>
+
+
+  <!--- Spansk -->
+  <es>
+
+  </es>
+
+
+</sprog>

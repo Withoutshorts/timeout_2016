@@ -6,6 +6,7 @@
 <!--#include file="../xml/erp_fak_xml_inc.asp"-->
 
 <!--#include file="../xml/dashboard_xml_inc.asp"-->
+<!--#include file="../xml/grandtotal_inc.asp"-->
 
 
 

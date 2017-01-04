@@ -1030,7 +1030,7 @@ thisfile = "joblog_timetotaler"
 
     %>
 
-    <div style="position:absolute; left:100px; top:40px;"><table><tr><td>Timepriser opdateret. Vend tilbage til Grandtotal ved at klikke her <br />
+    <div style="position:absolute; left:100px; top:40px;"><table><tr><td><%=grand_txt_001 %> <%=grand_txt_002 %> <br />
 
         <form action="<%=strLink%>" method="post"><br /><input type="submit" value=" Videre >> " /></form>
 
@@ -1245,12 +1245,12 @@ function LeiRotate() {
 	<table cellpadding=0 cellspacing=5 border=0 width=100%><tr><td>
 	<img src="../ill/outzource_logo_200.gif" />
 	<br />
-	Forventet loadtid:
+	<%=grand_txt_003 %>:
 	<%
 	
 	exp_loadtid = 0
 	'exp_loadtid = (((len(akttype_sel) / 3) * (len(antalvlgM) / 3)) / 50)  %> 
-	ca.: <b>3-45 sek.</b><br />
+	<%=grand_txt_004 %>: <b>3-45 <%=grand_txt_005 %></b><br />
     <br />&nbsp;
 	</td><td align=right style="padding-right:40px;">
 	<img src="../inc/jquery/images/ajax-loader.gif" />
@@ -1322,7 +1322,7 @@ function LeiRotate() {
     </td>
     </tr>
    
-        <tr><td colspan="5" style="padding-top:20px;"><span id="sp_ava" style="color:#5582d2;">[+] Avanceret</span></td></tr>
+        <tr><td colspan="5" style="padding-top:20px;"><span id="sp_ava" style="color:#5582d2;">[+] <%=grand_txt_007 %></span></td></tr>
          
 
         <tr id="tr_ava" style="display:none; visibility:hidden;">
@@ -1353,23 +1353,23 @@ function LeiRotate() {
 			
 			end select%>
 
-            <tr><td colspan="3" style="padding-left:40px;"><br /><b>Udspecificering på aktiviteter</b>
+            <tr><td colspan="3" style="padding-left:40px;"><br /><b><%=grand_txt_008 %></b>
 
                
                 <br />
 
-              <input type="checkbox" name="FM_udspec" id="FM_udspec" value="1" <%=upSpecCHK %> /> Udspecificer de(t) valgte/søgte job på aktiviteter.
+              <input type="checkbox" name="FM_udspec" id="FM_udspec" value="1" <%=upSpecCHK %> /> <%=grand_txt_009 %>.
                <!-- 20161128 - lukket end for funktionen - brug expand / collapse <br />
                <input type="checkbox" name="FM_udspec_all" id="FM_udspec_all" value="1" <%=upSpec_allCHK %> disabled />Vis alle job + udspec. af de(t) søgte job<br />
                    -->
             
-               <br /><input type="checkbox" value="1" name="vis_aktnavn" id="vis_aktnavn" <%=vis_aktnavnCHK%> /> Vis kun job (og aktiviteter) hvor <input type="text" name="FM_aktnavnsog" id="FM_aktnavnsog" value="<%=aktNavnSogVal%>" style="width:200px;"> indgår i <b>aktivitetsnavnet</b><br />
+               <br /><input type="checkbox" value="1" name="vis_aktnavn" id="vis_aktnavn" <%=vis_aktnavnCHK%> /> <%=grand_txt_010 %> <input type="text" name="FM_aktnavnsog" id="FM_aktnavnsog" value="<%=aktNavnSogVal%>" style="width:200px;"> <%=grand_txt_011 %> <b><%=grand_txt_012 %></b><br />
 		 
 
                 </td></tr>
 
             <tr>
-				<td colspan="3"  style="padding-left:40px;"><br /><b>Timer:</b><br>
+				<td colspan="3"  style="padding-left:40px;"><br /><b><%=grand_txt_013 %>:</b><br>
 
             </tr>
 			
@@ -1377,21 +1377,21 @@ function LeiRotate() {
 			
 			<tr>
 				<td colspan="3" style="padding:0px 40px 20px 40px;" valign=top>
-			    <input type="radio" name="vis_fakbare_res" id="vis_fakbare_res0" value="0" <%=fakChk%>> Vis <b>timer</b> (på akt.typer der er med i dagligt timeregnskab)<br />
-                <input type="radio" name="vis_fakbare_res" id="vis_fakbare_res2" value="2" <%=fakChk2%>> Vis <b>timer og kostpriser</b><br />
-                <input type="radio" name="vis_fakbare_res" id="vis_fakbare_res1" value="1" <%=fakChk1%>> Vis <b>timer og omsætning</b>
+			    <input type="radio" name="vis_fakbare_res" id="vis_fakbare_res0" value="0" <%=fakChk%>> <%=grand_txt_014 %> <b><%=grand_txt_015 %></b> (<%=grand_txt_018 %>)<br />
+                <input type="radio" name="vis_fakbare_res" id="vis_fakbare_res2" value="2" <%=fakChk2%>> <%=grand_txt_014 %> <b><%=grand_txt_016  %></b><br />
+                <input type="radio" name="vis_fakbare_res" id="vis_fakbare_res1" value="1" <%=fakChk1%>> <%=grand_txt_014 %> <b><%=grand_txt_017 %></b>
                 
 
                 
                 <%
                 if cint(vis_medarbejdertyper) <> 1 then%>
                
-               &nbsp;<input type="checkbox" value="1" name="vis_redaktor" id="vis_redaktor" <%=vis_redaktorCHK%> /> Rediger timepriser
+               &nbsp;<input type="checkbox" value="1" name="vis_redaktor" id="vis_redaktor" <%=vis_redaktorCHK%> /> <%=grand_txt_019 %>
                 
                 <%
                 else
                 %>
-               &nbsp;<input type="checkbox" value="1" name="vis_redaktor" id="Checkbox1" DISABLED /> <span style="color:#999999;">Rediger timepriser</span>
+               &nbsp;<input type="checkbox" value="1" name="vis_redaktor" id="Checkbox1" DISABLED /> <span style="color:#999999;"><%=grand_txt_020 %></span>
                 <%
                 end if
                 %>
@@ -1401,8 +1401,8 @@ function LeiRotate() {
                   
 
                 
-                <input type="checkbox" value="1" name="vis_fakturerbare" id="vis_fakturerbare" <%=vis_fakturerbareCHK%> /> Vis kun <b>fakturerbare timer</b><br />
-                <span style="background-color:#FFFFe1;"> <input type="checkbox" value="1" name="vis_godkendte" id="vis_godkendte" <%=vis_godkendteCHK%> /> Vis kun <b>godkendte timer</b> </span><br />
+                <input type="checkbox" value="1" name="vis_fakturerbare" id="vis_fakturerbare" <%=vis_fakturerbareCHK%> /> <%=grand_txt_021 %> <b><%=grand_txt_022 %></b><br />
+                <span style="background-color:#FFFFe1;"> <input type="checkbox" value="1" name="vis_godkendte" id="vis_godkendte" <%=vis_godkendteCHK%> /> <%=grand_txt_021 %> <b><%=grand_txt_023 %></b> </span><br />
                 
                </td>
 			</tr>
@@ -1410,7 +1410,7 @@ function LeiRotate() {
           
             <tr>
              <td colspan="3" valign=top style="padding:0px 0px 0px 40px;" bgcolor="#ffffff">
-		        <b>Vis enheder</b> <font class=lille>(timer * faktor) <input type="radio" name="vis_enheder" id="vis_enheder" value="1" <%=enhChk1%>>Ja &nbsp;&nbsp;<input type="radio" name="vis_enheder" id="vis_enheder" value="0" <%=enhChk0%>>Nej</td>
+		        <b><%=grand_txt_024 %></b> <font class=lille>(<%=grand_txt_025 %>) <input type="radio" name="vis_enheder" id="vis_enheder" value="1" <%=enhChk1%>><%=grand_txt_026 %> &nbsp;&nbsp;<input type="radio" name="vis_enheder" id="vis_enheder" value="0" <%=enhChk0%>><%=grand_txt_027 %></td>
 			</tr>
 			<%else %>
         <input id="Hidden1" type="hidden" name="vis_fakbare_res" value="0" />
@@ -1419,12 +1419,12 @@ function LeiRotate() {
 
               <tr>
 				<td colspan=3 valign=top style="padding:0px 0px 0px 40px;" bgcolor="#ffffff">
-		        <b>Vis forecasttimer </b><font class=lille>(timebudget) <input type="radio" name="vis_restimer" id="Radio1" value="1" <%=resChk1%>>Ja &nbsp;&nbsp;<input type="radio" name="vis_restimer" id="Radio2" value="0" <%=resChk0%>>Nej &nbsp;<span style="color:red; font-size:9px;">Ekstra loadtid!</span></td>
+		        <b><%=grand_txt_028 %> </b><font class=lille>(<%=grand_txt_029 %>) <input type="radio" name="vis_restimer" id="Radio1" value="1" <%=resChk1%>><%=grand_txt_026 %> &nbsp;&nbsp;<input type="radio" name="vis_restimer" id="Radio2" value="0" <%=resChk0%>><%=grand_txt_027 %> &nbsp;<span style="color:red; font-size:9px;"><%=grand_txt_030 %></span></td>
 			</tr>
 
              <tr>
 				<td colspan=3 valign=top style="padding:0px 0px 0px 40px;" bgcolor="#ffffff">
-		        <b>Vis normtid </b><input type="radio" name="vis_normtimer" id="vis_normtimer" value="1" <%=normChk1%>>Ja &nbsp;&nbsp;<input type="radio" name="vis_normtimer" id="vis_normtimer" value="0" <%=normChk0%>>Nej</td>
+		        <b><%=grand_txt_031 %> </b><input type="radio" name="vis_normtimer" id="vis_normtimer" value="1" <%=normChk1%>><%=grand_txt_026 %> &nbsp;&nbsp;<input type="radio" name="vis_normtimer" id="vis_normtimer" value="0" <%=normChk0%>><%=grand_txt_027 %></td>
 			</tr>
 
 			
@@ -1439,7 +1439,7 @@ function LeiRotate() {
 	<td valign=top colspan="2" style="padding-top:20px;">
 	<!-- Brug altid datointerval, FM_usedatokri = 1 -->
 			<input type="hidden" name="FM_usedatokri" id="FM_usedatokri" value="1">
-			<b>Periode:</b><br>
+			<b><%=grand_txt_032 %></b><br>
 			<!--#include file="inc/weekselector_s.asp"--> <!-- b -->
             
        
@@ -1447,7 +1447,7 @@ function LeiRotate() {
    
     </tr>
 
-           <tr><td colspan="5" style="padding-top:20px;"><span id="sp_pre" style="color:#5582d2;">[+] Præsentation</span></td></tr>
+           <tr><td colspan="5" style="padding-top:20px;"><span id="sp_pre" style="color:#5582d2;">[+] <%=grand_txt_033 %></span></td></tr>
          
 
         <tr id="tr_pre" style="display:none; visibility:hidden;">
@@ -1455,39 +1455,39 @@ function LeiRotate() {
 	<td colspan="2" style="padding:10px 40px 40px 40px;">
   
     
-     <b>Præsentation, indstillinger og kolonner:</b><br />
+     <b><%=grand_txt_034 %>:</b><br />
         
         
-                 <input type="checkbox" name="FM_directexp" id="directexp" value="1" <%=directexpCHK %>/>Vis direkte i excel (.csv, hurtig visning af store datamængder)<br />
+                 <input type="checkbox" name="FM_directexp" id="directexp" value="1" <%=directexpCHK %>/><%=grand_txt_035 %> (<%=grand_txt_036 %>)<br />
 
                 <br />
-                <b>.csv layout:</b><br />
-                <input type="radio" name="csv_pivot" id="csv_pivot0" value="0" <%=csv_pivotSEL0 %>> Layout optimeret (som på skærm)<br />
-                <input type="radio" name="csv_pivot" id="csv_pivot1" value="1" <%=csv_pivotSEL1 %>> Pivot optimeret (kun real. timer på medarb.)
+                <b>.csv layout:</b><br /> <!-- mangler -->
+                <input type="radio" name="csv_pivot" id="csv_pivot0" value="0" <%=csv_pivotSEL0 %>> <%=grand_txt_037 %> (<%=grand_txt_038 %>)<br />
+                <input type="radio" name="csv_pivot" id="csv_pivot1" value="1" <%=csv_pivotSEL1 %>> <%=grand_txt_039 %> (<%=grand_txt_040 %>)
 
         
         <br /><br />  <br />
      
-     Vis opdelt på måneder, total, 3 ell. 12 md.<br />Vis periode slutdato - 
+     <%=grand_txt_041 %><br /><%=grand_txt_042 %> - 
       <select name="FM_md_split" style="width:200px;" onchange="submit();" />
-      <option value="0" <%=md_split0SEL %>>Ingen (vis total)</option>
-      <option value="3" <%=md_split3SEL %>>3 måneder</option>
-      <option value="12" <%=md_split12SEL %>>12 måneder (ekstra loadtid!)</option>
+      <option value="0" <%=md_split0SEL %>><%=grand_txt_043 %> (<%=grand_txt_044 %>)</option>
+      <option value="3" <%=md_split3SEL %>><%=grand_txt_045 %></option>
+      <option value="12" <%=md_split12SEL %>><%=grand_txt_046 %> (<%=grand_txt_047 %>)</option>
       </select>
       <br /><br />
-      <b>Sideskift</b> (overskrift) efter hver <input id="FM_sideskiftlinier" type="text" name="FM_sideskiftlinier" value="<%=sideskiftlinier %>" style="width:40px;"/>  linie. A4 ca. 15 A3 ca.30.
+      <b><%=grand_txt_048 %></b> (<%=grand_txt_049 %>) <%=grand_txt_050 %> <input id="FM_sideskiftlinier" type="text" name="FM_sideskiftlinier" value="<%=sideskiftlinier %>" style="width:40px;"/>  <%=grand_txt_051 %>.
       <br /><br />
       <!--<input id="Checkbox2" type="checkbox" name="FM_visnuljob" value="1" <%=visnuljobCHK %> />Vis job uden real. timer i valgte periode.<br />-->
-      <input id="Checkbox3" type="checkbox" name="FM_visPrevSaldo" value="1" <%=visPrevSaldoCHK %> />Vis <b>saldo</b> (for tidligere periode) og <b>total</b> timeforbrug (alle medarbejdere uanset valgte)<br />
-      <input type="checkbox" value="1" name="vis_kpers" id="vis_kpers" <%=kpersCHK%> /> Vis kontaktpersoner<br />
-    <input type="checkbox" value="1" name="vis_jobbesk" id="vis_jobbesk" <%=jobbeskCHK%> /> Vis jobbeskrivelse<br />
+      <input id="Checkbox3" type="checkbox" name="FM_visPrevSaldo" value="1" <%=visPrevSaldoCHK %> /><%=grand_txt_014 %> <b><%=grand_txt_052 %></b> (<%=grand_txt_053 %>) <%=grand_txt_054 %> <b><%=grand_txt_055 %></b> <%=grand_txt_056 %> (<%=grand_txt_057 %>)<br />
+      <input type="checkbox" value="1" name="vis_kpers" id="vis_kpers" <%=kpersCHK%> /> <%=grand_txt_058 %><br />
+    <input type="checkbox" value="1" name="vis_jobbesk" id="vis_jobbesk" <%=jobbeskCHK%> /> <%=grand_txt_059 %><br />
       </td>
        </tr>
        <tr>
            <td align="right" colspan="2">
 
 
-	<input type="submit" value=" Kør >> "></td>
+	<input type="submit" value=" Kør >> "></td> <!-- Mangler -->
 	</tr>
 	</form>
 	</table>
@@ -1523,26 +1523,26 @@ function LeiRotate() {
                 call sideinfoId(itop,ileft,iwdt,ihgt,iId,phDsp,phVzb,ibtop,ibleft,ibwdt,ibhgt,ibId)
                 %>
                        
-			                <b>Visning af de-aktiverede medarbejdere: </b><br> de-aktiverede medarbejdere medtages ved søgning på "alle".<br>
-			                de-aktiverede medarbejdere kan ikke vælges fra dropdown menu.<br><br>
-			                <b>Jobtyper</b><br /> Fastpris eller Lbn. timer. (vægtet medarbejder timepriser)<br>
-			                Ved fastpris job, hvor aktiviteterne danner grundlag for timepris, er omsætning og timepriser (på jobvisning) 
-			                angivet med et ~, da beløbet er beregnet udfra en tilnærmet timepris. (gns. på akt.). Ved udspecificering på aktiviteter er det den re-elle timepris der vises.<br />
+			                <b><%=grand_txt_060 %>: </b><br> <%=grand_txt_061 %> "<%=grand_txt_062 %>".<br>
+			                <%=grand_txt_063 %><br><br>
+			                <b><%=grand_txt_064 %></b><br /> <%=grand_txt_065 %> (<%=grand_txt_066 %>)<br>
+			                <%=grand_txt_067 %> (<%=grand_txt_068 %>) 
+			                <%=grand_txt_069 %> (<%=grand_txt_070 %>). <%=grand_txt_071 %><br />
 			                <br />
-			                Ved lbn. timer er det altid den realiserede medarbejder timepris der vises.<br />
+			                <%=grand_txt_072 %><br />
 			                <br />
-			                <b>Timer</b><br />
-			                Kun realiserede timer på typer der tæller med i det daglige timeregnskab vises. 
-			                <br />Registreringer på ferie, frokost, sygdom og afspadsering er ikke med i Grand-total statistikken.<br />
+			                <b><%=grand_txt_073 %></b><br />
+			                <%=grand_txt_074 %> 
+			                <br /><%=grand_txt_075 %><br />
                             <br />
-                            <b>Key-account</b><br />
-                            Ved brug af "key account" bliver der vist timer for alle medarbejder der er med (tilknyttet via projektgrupper) på de job hvor den valgte Key-account er job ansvarlig / kunde ansvarlig. 
+                            <b><%=grand_txt_076 %></b><br />
+                            <%=grand_txt_077 %> (<%=grand_txt_078 %>) <%=grand_txt_079 %> 
                             <br /><br />
-                            <b>Udspecificering på aktiviteter</b><br />
-                            Hvis der vælges et enkelt job bliver timeforbruget udspecificeret på aktiviteter.
+                            <b><%=grand_txt_080 %></b><br />
+                            <%=grand_txt_081 %>
                             <br /><br />
-                            <b>Beløb</b><br />
-                            Alle timepriser og beløb er vist i <%=basisValISO %>.&nbsp;
+                            <b><%=grand_txt_082 %></b><br />
+                            <%=grand_txt_083 %> <%=basisValISO %>.&nbsp;
                 		
                 		
 		                </td>
@@ -1688,35 +1688,35 @@ function LeiRotate() {
 	call sidemsgId(itop,ileft,iwdt,iId,idsp,ivzb) 
 	
 	%>	
-			<br><b>Antallet af job, medarbejdere, kontakter og periode overstiger det tilladte antal.</b>
+			<br><b><%=grand_txt_084 %></b>
 			<br>
 			
-			<b>Hvis der er valgt:</b><br /><br />
+			<b><%=grand_txt_085 %>:</b><br /><br />
 			
-			<b>A)</b> Der er valgt mere end <b><%=antJobkri %> job</b> og: <br />
-			<br> - Mellem <b>2 og 50</b> medarbejdere og en periode på mere end <b><%=perAarHigh %> år.</b>
-			<br> - Mere end <b>50</b> medarbejdere og en periode på mere end <b><%=perAarMid %> md.</b>
-            <br> - Mere end <b>150</b> medarbejdere og en periode på mere end <b><%=perAarLow %> md.</b>
-            <br> - Mere end <b><%=maksAntalM %></b> medarbejdere. 
+			<b>A)</b> <%=grand_txt_086 %> <b><%=antJobkri %> <%=grand_txt_087 %></b> <%=grand_txt_088 %>: <br />
+			<br> - <%=grand_txt_089 %> <b>2 <%=grand_txt_088 %> 50</b> <%=grand_txt_090 %> <b><%=perAarHigh %> <%=grand_txt_091 %></b>
+			<br> - <%=grand_txt_092 %> <b>50</b> <%=grand_txt_090 %> <b><%=perAarMid %> <%=grand_txt_095 %></b>
+            <br> - <%=grand_txt_092 %> <b>150</b> <%=grand_txt_090 %> <b><%=perAarLow %> <%=grand_txt_095 %></b>
+            <br> - <%=grand_txt_092 %> <b><%=maksAntalM %></b> <%=grand_txt_096 %> 
             
             
             <br /><br />
 
-            <b>B)</b> En periode på mere end <b>5 år.</b><br /><br />
+            <b>B)</b> <%=grand_txt_097 %> <b><%=grand_txt_098 %></b><br /><br />
 
-            <b>C)</b> 12 måneders opdeling, mere en <b>20 job</b> og flere end <b>50 medarbejdere.</b><br /><br />
+            <b>C)</b> <%=grand_txt_099 %><b>20 job</b> <%=grand_txt_100 %> <b>50 <%=grand_txt_101 %></b><br /><br /> <!-- mangler -->
 
-            <span style="color:red;">Du har er valgt: <b><%=antalm %></b> medarbejdere og <b><%=antJob %></b> job.</span><br /><br />
+            <span style="color:red;"><%=grand_txt_102 %>: <b><%=antalm %></b> <%=grand_txt_103 %> <b><%=antJob %></b> <%=grand_txt_087 %>.</span><br /><br />
 
-            <b>Tip:</b><br />
-            Søg på et specifikt job for at få vist en længere periode / flere medarbejdere.
+            <b><%=grand_txt_104 %>:</b><br />
+            <%=grand_txt_105 %>
 			
 			</td></tr>
 			</table>
 			</div>
 			<br /><br /><br /><br /><br /><br /><br />&nbsp;
 	<%
-	
+	 
 	x = 0
 
       response.End
@@ -2922,7 +2922,7 @@ function LeiRotate() {
             'Response.end
             
             if cint(directexp) = 1 then
-            Response.write "<br><br><br><div class=load>Gør din csv. fil klar, vent et øjeblik. Der går mellem 5 og 10 sekunder.</div>" 
+            Response.write "<br><br><br><div class=load>Gør din csv. fil klar, vent et øjeblik. Der går mellem 5 og 10 sekunder.</div>" ' mangler
             end if
 
             Response.flush
@@ -2975,7 +2975,7 @@ function LeiRotate() {
 			if media <> "print" then
             'strJobLinie_top = strJobLinie_top & " <br>Alle timer og beløb er afrundet til 0 decimaler.<br>&nbsp;"
             else
-            strJobLinie_top = strJobLinie_top & "<h4>Timeout - Grandtotal<br><span style=""font-size:9px;"">"& now &" - Periode: "& formatdatetime(strDag&"/"&strMrd&"/"&strAar, 1) & " - " & formatdatetime(strDag_slut&"/"&strMrd_slut&"/"&strAar_slut, 1) &"</span></h4>"
+            strJobLinie_top = strJobLinie_top & "<h4>Timeout - "& grand_txt_117 &"<br><span style=""font-size:9px;"">"& now &" - "& grand_txt_107 &": "& formatdatetime(strDag&"/"&strMrd&"/"&strAar, 1) & " - " & formatdatetime(strDag_slut&"/"&strMrd_slut&"/"&strAar_slut, 1) &"</span></h4>"
             end if
 
             strJobLinie_top = strJobLinie_top &  "<table cellspacing=0 cellpadding=0 border=0 bgcolor='#ffffff'>"

@@ -10146,7 +10146,7 @@
    
 	</tr>
     <tr class="tr_kom" style="visibility:visible; display:;"><td colspan="2" align=right style="border-bottom:10px #CCCCCC solid;"><br /><br />
-        <input type="button" value="<%=tsa_txt_056 %> >>" id="clskom"  onclick="closekomm();"/>
+        <input type="button" value="<%=tsa_txt_056 %>" id="clskom"  onclick="closekomm();"/>
          <br /><span style="color:#999999;">Kommentar gemmes først i forbindelse med timeregistrering.</span><br /><br />&nbsp;
         </td></tr>
 
