@@ -7,8 +7,9 @@
 
 <!--#include file="../xml/dashboard_xml_inc.asp"-->
 <!--#include file="../xml/grandtotal_inc.asp"-->
-
-
+<!--#include file="../xml/joblog_sprog_inc.asp"-->
+<!--#include file="../xml/extra_sprog_inc.asp"-->
+<!--#include file="../xml/afstem_sprog_inc.asp"-->
 
 
 <!--#include file="cls_aktiviteter.asp"-->

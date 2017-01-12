@@ -947,7 +947,7 @@ function stempelurlist(medarbSel, showtot, layout, sqlDatoStart, sqlDatoSlut, ty
         <%'call opretNyJava(urlhex, text, otoppx, oleftpx, owdtpx, java)%>
 
            <div style="background-color:forestgreen; padding:5px 20px 5px 5px; width:100px;">
-            <a href="#" onclick="Javascript:window.open('<%=url%>','','width=750,height=850,resizable=yes,scrollbars=yes')" class="alt">Tilføj komme/gå </a> <!-- el. pause -->
+            <a href="#" onclick="Javascript:window.open('<%=url%>','','width=750,height=850,resizable=yes,scrollbars=yes')" class="alt"><%=extra_txt_095 %> </a> <!-- el. pause -->
                 </div>
 
 
@@ -962,10 +962,10 @@ function stempelurlist(medarbSel, showtot, layout, sqlDatoStart, sqlDatoSlut, ty
 		<td align=right width="8" style="border-top:1px #8caae6 solid; border-right:1px #8caae6 solid;" valign=top rowspan=2><img src="../ill/blank.gif" width="8" height="32" alt="" border="0"></td>
 	</tr>
 	<tr bgcolor="#5582D2">
-		<td class=alt><b>Dato</b></td>
+		<td class=alt><b><%=extra_txt_096 %></b></td>
 		<%if showTot <> 1 then%>
-		<td class=alt><b>Logget ind</b><br />Komme tid</td>
-		<td class=alt><b>Logget ud</b><br />Gå tid</td>
+		<td class=alt><b><%=extra_txt_097 %></b><br /><%=extra_txt_098 %></td>
+		<td class=alt><b><%=extra_txt_099 %></b><br /><%=extra_txt_100 %></td>
                 
                  <%select case lto
              case "tec", "esn"
@@ -976,20 +976,20 @@ function stempelurlist(medarbSel, showtot, layout, sqlDatoStart, sqlDatoSlut, ty
 
 	
 		<%end if%>
-		<td class=alt style="padding-left:0px;"><b>Indstilling</b><br /> (Faktor / Minimum)</td>
-		<td class=alt align=right><b>Timer</b><br /> (hele min.)</td>
+		<td class=alt style="padding-left:0px;"><b><%=extra_txt_0101 %></b><br /> (<%=extra_txt_102 %>)</td>
+		<td class=alt align=right><b><%=extra_txt_103 %></b><br /> (<%=extra_txt_104 %>)</td>
 		<%if showTot <> 1 then 
             
             
          if cint(stempelur_hideloginOn) = 0 then%>
-		<td class=alt style="padding-left:15px;"><b>Manuelt opr?</b></td>
+		<td class=alt style="padding-left:15px;"><b><%=extra_txt_0105 %></b></td>
         <%else %>
         <td class=alt style="padding-left:15px;">&nbsp;</td>
         <%end if %>
          
 
-		<td class=alt style="padding-left:5px;"><b>System besked</b><!--<br />Logud ændret--></td>
-		<td class=alt style="padding-left:5px;"><b>Medarb.<br /> kommentar</b></td>
+		<td class=alt style="padding-left:5px;"><b><%=extra_txt_106 %></b><!--<br />Logud ændret--></td>
+		<td class=alt style="padding-left:5px;"><b><%=extra_txt_107 %><br /> <%=extra_txt_108 %></b></td>
         <td>&nbsp</td>
 		<%end if %>
 	</tr>
@@ -1119,7 +1119,7 @@ function stempelurlist(medarbSel, showtot, layout, sqlDatoStart, sqlDatoSlut, ty
 	
     <tr bgcolor="#F7F7F7">
 		<td>&nbsp;</td>
-		<td colspan="<%=csp%>" style="height:20px; padding:5px;"><h4><span style="font-size:11px; font-weight:lighter;">Komme / Gå tid Uge <%=datepart("ww", dtUseTxt, 2,2) &" "& datepart("yyyy", dtUseTxt, 2,2) %></span><br />
+		<td colspan="<%=csp%>" style="height:20px; padding:5px;"><h4><span style="font-size:11px; font-weight:lighter;"><%=extra_txt_118 %> <%=datepart("ww", dtUseTxt, 2,2) &" "& datepart("yyyy", dtUseTxt, 2,2) %></span><br />
             
             <%if len(trim(meInit)) <> 0 then %>
             <%=meNavn & "  ["& meInit &"]"%>
@@ -3006,14 +3006,14 @@ next
     <%
 	if cint(showkguds) = 1 then
 
-	Response.Write "*) <b> Tillægs typer:</b> " & akttypenavnTil
-	Response.Write "<br><b>Fradrags typer:</b> " & akttypenavnFra
+	Response.Write "*) <b> "& extra_txt_111 &":</b> " & akttypenavnTil
+	Response.Write "<br><b>"& extra_txt_112 &":</b> " & akttypenavnFra
 	
 	%>
 
 	
     <%if media <> "print" then %>    
-	<br /><br /><a href="#" id="udspec" class="vmenu">+ Udspecificering</a> (fraværs typer)
+	<br /><br /><a href="#" id="udspec" class="vmenu">+ <%=extra_txt_113 %></a> (<%=extra_txt_114 %>)
     <%end if 
     
     
@@ -3023,8 +3023,8 @@ next
     <div id="udspecdiv" style="position:relative; width:600px; visibility:hidden; display:none;">
 	<table cellspacing=1 cellpadding=2 border=0 width=100% bgcolor="#c4c4c4">    
 	    <tr bgcolor="#FFFFFF">
-	    <td colspan=9><br /><b>Udspecificering på fraværstyper</b> <br />
-	    Ikke medregnet i saldo, med mindre de er en del af <%=global_txt_168 %> typerne*.</td>
+	    <td colspan=9><br /><b><%=extra_txt_115 %></b> <br />
+	    <%=extra_txt_116 %> <%=global_txt_168 %> <%=extra_txt_117 %>*.</td>
 	</tr>
 	<tr bgcolor="#d6dff5">
 		<td style="width:100px;">

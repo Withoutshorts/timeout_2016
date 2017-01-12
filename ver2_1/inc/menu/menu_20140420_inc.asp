@@ -294,7 +294,7 @@ end select
                     <ul>
 
                         
-                        <li><a href="<%=toSubVerPath14 %>help.asp">Hj&aelig;lp</a></li>
+                        <li><a href="<%=toSubVerPath14 %>help.asp"><%=extra_txt_087 %></a></li>
                         <%if lto <> "tec" AND lto <> "esn" then %>
                         <li><a href="https://www.islonline.net/start/ISLLightClient"><%=tsa_txt_433 %></a></li>
                         <%end if %>
@@ -310,7 +310,7 @@ end select
                         'if cint(stempelur_hideloginOn) = 1 then    
                             
                         if session("stempelur") <> 0 AND lto <> "tec" AND lto <> "esn"  then %>
-                        <li style="background-color:red;"><a href="<%=toSubVerPath14 %>stempelur.asp?func=redloginhist&medarbSel=<%=session("mid")%>&showonlyone=1&hidemenu=1&id=0&rdir=sesaba" target="_top">Log ud</a></li>
+                        <li style="background-color:red;"><a href="<%=toSubVerPath14 %>stempelur.asp?func=redloginhist&medarbSel=<%=session("mid")%>&showonlyone=1&hidemenu=1&id=0&rdir=sesaba" target="_top"><%=extra_txt_086 %></a></li>
                         <%else %>
                         <li style="background-color:red;"><a href="<%=toSubVerPath14 %>../sesaba.asp" target="_top"><%=tsa_txt_435 %></a></li>
                         <%end if %>
@@ -490,7 +490,7 @@ end select
                       
                   if cint(traveldietexp_on) = 1 then
                   %>
-                  <li><a href="<%=toSubVerPath15 %>traveldietexp.asp">Rejse/Diæter</a></li>
+                  <li><a href="<%=toSubVerPath15 %>traveldietexp.asp"><%=extra_txt_084 %></a></li>
                   <%end if%>
                
 
@@ -903,7 +903,7 @@ end select
                     <% 
                      'if (lto = "oko") OR lto = "intranet - local" then 'jobresume %>
 
-                         <li><a href="<%=toSubVerPath14 %>jobprintoverblik.asp?menu=job&id=0" target="_blank">Joboverblik / Resume</a></li>
+                         <li><a href="<%=toSubVerPath14 %>jobprintoverblik.asp?menu=job&id=0" target="_blank"><%=extra_txt_088 %></a></li>
 
                     <%'end if %>
 
@@ -1114,7 +1114,7 @@ end select
            <%call timesimon_fn() %>
 
             <%if cint(timesimon) = 1 then %>
-            <li><a href="<%=toSubVerPath15 %>timbudgetsim.asp">Timebudget simulering</a></li>
+            <li><a href="<%=toSubVerPath15 %>timbudgetsim.asp"><%=extra_txt_089 %></a></li>
             <%end if %>
 
             <li><a href="<%=toSubVerPath15 %>budget_firapport.asp">Budget & Finansiel rap.</a></li>
@@ -1178,7 +1178,7 @@ end select
          %>
         <div style="position:absolute; top:50px; left:1102px; padding:5px; background-color:#ffd800; z-index:9000000000000;">
         
-        <a href="<%=toSubVerPath15 %>home_dashboard_demo.asp"><span class="glyph icon-home"></span> Tilbage til start</a> </div>
+        <a href="<%=toSubVerPath15 %>home_dashboard_demo.asp"><span class="glyph icon-home"></span><%=joblog_txt_154 %></a> </div>
 
     <%
         end if 

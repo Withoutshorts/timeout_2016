@@ -8609,7 +8609,7 @@
                                                        <%normtidpruge = formatnumber(oRec("normtimer_man") + oRec("normtimer_tir") + oRec("normtimer_ons") + oRec("normtimer_tor") + oRec("normtimer_fre") + oRec("normtimer_lor") + oRec("normtimer_son"),2)  %>
 
 
-                                                    <option DISABLED><%=oRec("mtypenavn") %> // norm: <%=normtidpruge %> t. pr. uge</option>
+                                                    <option DISABLED><%=oRec("mtypenavn") %> // norm: <%=normtidpruge %> <%=extra_txt_091 %></option>
                                                     <%end if
                                                     
                                                     
@@ -10040,8 +10040,8 @@
 		<input id="sm2" type="submit" value="<%=tsa_txt_085 %> >> "></td>
 	</tr>
 	<tr bgcolor="#ffffff"><td colspan=10>
-    <br />Antal job: <%=antalJobLinier %>
-    <br />Antal aktivitetslinier: <%=antalaktlinier %> (<%=loops %>)</td></tr>
+    <br /><%=extra_txt_092 %>: <%=antalJobLinier %>
+    <br /><%=extra_txt_093 %>: <%=antalaktlinier %> (<%=loops %>)</td></tr>
     <input id="antalaktlinier" value="<%=antalaktlinier %>" type="hidden" />
    <input id="loops" value="<%=loops %>" type="hidden" />
     

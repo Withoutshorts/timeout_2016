@@ -141,9 +141,66 @@
     <txt_134 >Vælg et mindre interval ell. Færre medarbejdere.</txt_134>
     <txt_135 >Størrelsen på data er</txt_135>
     <txt_136 >og den må ikke overstige 30000000 bytes.</txt_136>
+    <txt_137 >20 job</txt_137>
+    <txt_138 >Submit</txt_138>
+    <txt_139 >Gør din csv. fil klar, vent et øjeblik. Der går mellem 5 og 10 sekunder.</txt_139>
+    <txt_140 >.csv layout</txt_140>
+
+    <txt_141 >Kunde</txt_141>
+    <txt_142 >Job</txt_142>
+    <txt_143 >aktiviteter</txt_143>
+    <txt_144 >Budget</txt_144>
+    <txt_145 >Brutto Oms.</txt_145>
+    <txt_146 >Budget timer</txt_146>
+    <txt_147 >forkalk.</txt_147>
+    <txt_148 >Forecast.</txt_148>
+    <txt_149 >Real. timer</txt_149>
+    <txt_150 >før vlgt. per.</txt_150>
+    <txt_151 >Oms.</txt_151>
+    <txt_152 >Balance</txt_152>
+    <txt_153 >i per.</txt_153>
+    <txt_154 >Kost. ialt</txt_154>
+    <txt_155 >Real. %</txt_155>
+    <txt_156 >ialt</txt_156>
+    <txt_157 >Kontakt</txt_157>
+    <txt_158 >Kontaktperson</txt_158>
+    <txt_159 >Jobnavn</txt_159>
+    <txt_160 >Jobnr</txt_160>
+    <txt_161 >Jobbeskrivelse</txt_161>
+    <txt_162 >Fase</txt_162>
+    <txt_163 >Aktivitet</txt_163>
+    <txt_164 >Jobtype</txt_164>
+    <txt_165 >Jobansvarlig</txt_165>
+    <txt_166 >Init</txt_166>
+    <txt_167 >Jobejer</txt_167>
+    <txt_168 >Timer forkalkuleret</txt_168>
+    <txt_169 >Medarb. [init]/type</txt_169>
+    <txt_170 >Res. timer</txt_170>
+    <txt_171 >Enheder</txt_171>
+    <txt_172 >Norm</txt_172>
+    <txt_173 >Omsætning</txt_173>
+    <txt_174 >Timepris</txt_174>
+    <txt_175 >Kostpris</txt_175>
+    <txt_176 >Kostpris pr. time</txt_176>
+    <txt_177 >Norm ialt</txt_177>
+    <txt_178 >Jobtotal</txt_178>
+    <txt_179 >Real. timer Ialt (Før valgte periode)</txt_179>
+    <txt_180 >Ressource timer (Før valgte periode)</txt_180>
+    <txt_181 >Enheder (Før valgte periode)</txt_181>
+    <txt_182 >Real. timer Ialt (I periode)</txt_182>
+    <txt_183 >Real. timer %</txt_183>
+    <txt_184 >Ressource Forecast timer (I periode)</txt_184>
+    <txt_185 >Enheder (I periode)</txt_185>
+    <txt_186 >Omsætning ialt (I periode)</txt_186>
+    <txt_187 >Kostpris ialt (I periode)</txt_187>
+    <txt_188 >Real. timer (Ialt, uanset per.)</txt_188>
+    <txt_189 >Ressource timer (Ialt, uanset per.)</txt_189>
+    <txt_190 >Enheder (Ialt, uanset per.)</txt_190>
+    <txt_191 >Fastpris</txt_191>
+    <txt_192 >Lbn. timer</txt_192>
 
   </dk>
-
+  
 
   <!--- Norsk -->
   <no>
@@ -281,7 +338,7 @@
     <txt_105 >Select a specific job to show a longer periode / more employees</txt_105>
     <txt_106 >TimeOut - Grandtotal</txt_106>
     <txt_107 >Period</txt_107>
-    <txt_108 >Breakdown is shoosen for the folloowing jobs</txt_108>
+    <txt_108 >Breakdown is chosen for the folloowing jobs</txt_108>
     <txt_109 >Budget hours</txt_109>
     <txt_110 >Calc.</txt_110>
     <txt_111 >Forecast</txt_111>
@@ -310,9 +367,66 @@
     <txt_134 >Choose shorter date-interval or fewer employees.</txt_134>
     <txt_135 >Data size is</txt_135>
     <txt_136 >and cannot be larger than 30000000 bytes.</txt_136>
+    <txt_137 >20 jobs</txt_137>
+    <txt_138 >Submit</txt_138>
+    <txt_139 >Makes your csv. file ready, wait a minute. It takes 5 to 10 seconds.</txt_139>
+    <txt_140 >.csv layout</txt_140>
+    <txt_141 >Customer</txt_141>
+    <txt_142 >Job</txt_142>
+    <txt_143 >activities</txt_143>
+    <txt_144 >Budget</txt_144>
+    <txt_145 >Gross revenue</txt_145>
+    <txt_146 >Budget hours</txt_146>
+    <txt_147 >forkalk.</txt_147>
+    <txt_148 >Forecast.</txt_148>
+    <txt_149 >Realized hours</txt_149>
+    <txt_150 >before sel. time period</txt_150>
+    <txt_151 >turnover</txt_151>
+    <txt_152 >Balance</txt_152>
+    <txt_153 >in period</txt_153>
+    <txt_154 >Kost. ialt</txt_154>
+    <txt_155 >Realized %</txt_155>
+    <txt_156 >Total</txt_156>
+    <txt_157 >Contact</txt_157>
+    <txt_158 >Contact person</txt_158>
+    <txt_159 >Job name</txt_159>
+    <txt_160 >Job No.</txt_160>
+    <txt_161 >Job description</txt_161>
+    <txt_162 >Phase</txt_162>
+    <txt_163 >Activity</txt_163>
+    <txt_164 >Job Type</txt_164>
+    <txt_165 >Agency responsible</txt_165>
+    <txt_166 >Init.</txt_166>
+    <txt_167 >Job Owner</txt_167>
+    <txt_168 >Hours estimated</txt_168>
+    <txt_169 >empl. [init]/type</txt_169>
+    <txt_170 >Res. hours</txt_170>
+    <txt_171 >Units</txt_171>
+    <txt_172 >Norm</txt_172>
+    <txt_173 >Turnover</txt_173>
+    <txt_174 >Hourly rate</txt_174>
+    <txt_175 >Cost price</txt_175>
+    <txt_176 >Cost price per hour</txt_176>
+    <txt_177 >Total norm</txt_177>
+    <txt_178 >Job total</txt_178>
+    <txt_179 >Real. Total hours (Before the selected time period)</txt_179>
+    <txt_180 >Resource hours (Before the selected time period)</txt_180>
+    <txt_181 >Units (Before the selected time period)</txt_181>
+    <txt_182 >Real. Total hours (I period)</txt_182>
+    <txt_183 >Real. hours %</txt_183>
+    <txt_184 >Resource Forecast hours (In period)</txt_184>
+    <txt_185 >Units (In period)</txt_185>
+    <txt_186 >Revenue in total (In period)</txt_186>
+    <txt_187 >Cost Total (In period)</txt_187>
+    <txt_188 >Real. hours (Total no matter peroid)</txt_188>
+    <txt_189 >Resource hours (Total regardless of peroid)</txt_189>
+    <txt_190 >Units (Total no matter peroid)</txt_190>
+    <txt_191 >Fixed price</txt_191>
+    <txt_192 >Lbn. timer</txt_192>
+
 
   </uk>
-
+  
 
   <!--- Spansk -->
   <es>

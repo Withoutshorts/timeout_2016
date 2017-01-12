@@ -311,12 +311,12 @@ if len(session("user")) = 0 then
        %>
 
          <tr>
-          <td><h3>Komme / Gå tid</h3></td>
+          <td><h3><%=afstem_txt_003 %></h3></td>
           <td align=right valign=top style="padding:10px 10px 0px 0px;">
 	    <table cellpadding=0 cellspacing=0 border=0 width=120>
 	    <tr>
-	    <td valign=top align=right><a href="logindhist_2011.asp?usemrn=<%=usemrn%>&varTjDatoUS_man=<%=prev_varTjDatoUS_man%>&varTjDatoUS_son=<%=prev_varTjDatoUS_son %>&rdir=<%=rdir %>&nomenu=<%=nomenu %>">< uge <%=prevWeek %></a></td>
-       <td style="padding-left:20px;" valign=top align=right><a href="logindhist_2011.asp?usemrn=<%=usemrn%>&varTjDatoUS_man=<%=next_varTjDatoUS_man %>&varTjDatoUS_son=<%=next_varTjDatoUS_son %>&rdir=<%=rdir %>&nomenu=<%=nomenu %>">uge <%=nextWeek %> ></a></td>
+	    <td valign=top align=right><a href="logindhist_2011.asp?usemrn=<%=usemrn%>&varTjDatoUS_man=<%=prev_varTjDatoUS_man%>&varTjDatoUS_son=<%=prev_varTjDatoUS_son %>&rdir=<%=rdir %>&nomenu=<%=nomenu %>">< <%=extra_txt_094 %> <%=prevWeek %></a></td>
+       <td style="padding-left:20px;" valign=top align=right><a href="logindhist_2011.asp?usemrn=<%=usemrn%>&varTjDatoUS_man=<%=next_varTjDatoUS_man %>&varTjDatoUS_son=<%=next_varTjDatoUS_son %>&rdir=<%=rdir %>&nomenu=<%=nomenu %>"><%=extra_txt_094 %> <%=nextWeek %> ></a></td>
 	    </tr>
 	    </table>
 

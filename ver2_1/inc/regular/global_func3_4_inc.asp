@@ -54,13 +54,13 @@
      </tr>
 	  <tr>
 	 
-	 <td valign=bottom align=right class=lille style="border-bottom:1px silver dashed;"><b><%=tsa_txt_174 &" "& tsa_txt_164%></b><br />~ dage</td>
-	 <td valign=bottom align=right class=lille style="border-bottom:1px silver dashed;"><b>Planlagt <br> >> dd.</b><br />~ dage</td>
+	 <td valign=bottom align=right class=lille style="border-bottom:1px silver dashed;"><b><%=tsa_txt_174 &" "& tsa_txt_164%></b><br />~ <%=extra_txt_127 %></td>
+	 <td valign=bottom align=right class=lille style="border-bottom:1px silver dashed;"><b><%=extra_txt_126 %> <br> >> dd.</b><br />~ <%=extra_txt_127 %></td>
 	 
-	  <td valign=bottom align=right style="border-bottom:1px silver dashed;" class=lille><b><%=tsa_txt_165%></b><br />~ dage</td>
+	  <td valign=bottom align=right style="border-bottom:1px silver dashed;" class=lille><b><%=tsa_txt_165%></b><br />~ <%=extra_txt_127 %></td>
         <td style="border-bottom:1px silver dashed;">&nbsp;</td>
-	   <td valign=bottom align=right style="border-bottom:1px silver dashed;" class=lille><b>Udbetalt</b><br />~ dage</td>
-	  <td valign=bottom align=right style="border-bottom:1px silver dashed;" class=lille><b><%=tsa_txt_282 &" "& tsa_txt_280 %></b><br />~ dage</td>
+	   <td valign=bottom align=right style="border-bottom:1px silver dashed;" class=lille><b><%=extra_txt_128 %></b><br />~ <%=extra_txt_127 %></td>
+	  <td valign=bottom align=right style="border-bottom:1px silver dashed;" class=lille><b><%=tsa_txt_282 &" "& tsa_txt_280 %></b><br />~ <%=extra_txt_127 %></td>
     
 	 </tr>
 	 
@@ -176,21 +176,21 @@
 	</td></tr>
 	  
 	 <tr>
-	 <td valign=bottom align=right class=lille style="border-bottom:1px silver dashed;"><b><%=tsa_txt_152%> Opt.</b><br />dage</td>
+	 <td valign=bottom align=right class=lille style="border-bottom:1px silver dashed;"><b><%=tsa_txt_152%> Opt.</b><br /><%=extra_txt_127 %></td>
 	 
      <% if instr(akttype_sel, "#111#") <> 0 then  %>
-     <td valign=bottom align=right class=lille style="border-bottom:1px silver dashed;"><b><%=global_txt_175%></b><br />dage</td>
+     <td valign=bottom align=right class=lille style="border-bottom:1px silver dashed;"><b><%=global_txt_175%></b><br /><%=extra_txt_127 %></td>
      <%end if %>
 
      <% if instr(akttype_sel, "#112#") <> 0 then  %>
-     <td valign=bottom align=right class=lille style="border-bottom:1px silver dashed;"><b><%=global_txt_176%></b><br />dage</td>
+     <td valign=bottom align=right class=lille style="border-bottom:1px silver dashed;"><b><%=global_txt_176%></b><br /><%=extra_txt_127 %></td>
      <%end if %>
 
-     <td valign=bottom align=right class=lille style="border-bottom:1px silver dashed;"><b><%=tsa_txt_317%><br> >> dd.</b><br />dage</td>
-	 <td valign=bottom align=right class=lille style="border-bottom:1px silver dashed;"><b>Afholdt</b><br />dage</td>
-	   <td valign=bottom align=right class=lille style="border-bottom:1px silver dashed;"><b>Afholdt u. løn</b><br />dage</td>
-	   <td valign=bottom align=right style="border-bottom:1px silver dashed;" class=lille><b>Udbetalt</b><br />dage</td>
-	  <td  valign=bottom align=right style="border-bottom:1px silver dashed;" class=lille><b><%=tsa_txt_281 &" "& tsa_txt_280 %></b><br />dage</td>
+     <td valign=bottom align=right class=lille style="border-bottom:1px silver dashed;"><b><%=tsa_txt_317%><br> >> dd.</b><br /><%=extra_txt_127 %></td>
+	 <td valign=bottom align=right class=lille style="border-bottom:1px silver dashed;"><b><%=extra_txt_129%></b><br /><%=extra_txt_127 %></td>
+	   <td valign=bottom align=right class=lille style="border-bottom:1px silver dashed;"><b><%=extra_txt_130%></b><br /><%=extra_txt_127 %></td>
+	   <td valign=bottom align=right style="border-bottom:1px silver dashed;" class=lille><b><%=extra_txt_128%></b><br /><%=extra_txt_127 %></td>
+	  <td  valign=bottom align=right style="border-bottom:1px silver dashed;" class=lille><b><%=tsa_txt_281 &" "& tsa_txt_280 %></b><br /><%=extra_txt_127 %></td>
 	 </tr>
 	  <tr>
 	

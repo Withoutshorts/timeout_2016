@@ -7,18 +7,18 @@
              if cint(directexp) <> 1 AND ((cint(upSpec) = 0 AND jobmedtimer(x,38) = 0)) then
     
 			strMedarbOskriftLinie = strMedarbOskriftLinie & "<tr>"
-			strMedarbOskriftLinie = strMedarbOskriftLinie & "<td valign=bottom style='padding:2px; border-top:1px #CCCCCC solid; width:150px; white-space:nowrap;' bgcolor='#F7F7F7'>Kunde<br>Job <span style='font-size:9px;'>(aktiviteter)</span></td>"
+			strMedarbOskriftLinie = strMedarbOskriftLinie & "<td valign=bottom style='padding:2px; border-top:1px #CCCCCC solid; width:150px; white-space:nowrap;' bgcolor='#F7F7F7'>"& grand_txt_141 &"<br>"& grand_txt_142 &" <span style='font-size:9px;'>("& grand_txt_143 &")</span></td>"
 				
 				
 				
 				'*** job totaler oskrifter  **'
 				
 						    if media = "print" then
-                            strFakbtimTxt = "Budget."
-		                    strFakbTxt = "Brutto Oms.&nbsp;"
+                            strFakbtimTxt = ""& grand_txt_144 &"."
+		                    strFakbTxt = ""& grand_txt_145 &"&nbsp;"
                             else
-							strFakbtimTxt = "Budget timer<br><span style='font-size:9px;'>(forkalk.)</span>"
-		                    strFakbTxt = "Brutto Oms.&nbsp;"
+							strFakbtimTxt = ""& grand_txt_146 &"<br><span style='font-size:9px;'>("& grand_txt_147 &".)</span>"
+		                    strFakbTxt = ""& grand_txt_145 &"&nbsp;"
                             end if
                            
 				
@@ -38,14 +38,14 @@
                             strMedarbOskriftLinie = strMedarbOskriftLinie & "<td class=lille "&tdstyleTimOms&" bgcolor=#F7F7F7>"
                 
                              if cint(vis_restimer) = 1 then
-                             strMedarbOskriftLinie = strMedarbOskriftLinie &"<span style='color:#999999; font-size:9px;'>Forecast.</span><br>"
+                             strMedarbOskriftLinie = strMedarbOskriftLinie &"<span style='color:#999999; font-size:9px;'>"& grand_txt_148 &".</span><br>"
                              end if
                 
-                             strMedarbOskriftLinie = strMedarbOskriftLinie &"Real. timer<br>"
+                             strMedarbOskriftLinie = strMedarbOskriftLinie &""& grand_txt_149 &"<br>"
                     
                     
                             
-                            strMedarbOskriftLinie = strMedarbOskriftLinie &"<span style='font-size:9px;'>(før vlgt. per.)</span></td>"
+                            strMedarbOskriftLinie = strMedarbOskriftLinie &"<span style='font-size:9px;'>("& grand_txt_150 &")</span></td>"
                
                             end if
                 
@@ -56,23 +56,23 @@
 				            strMedarbOskriftLinie = strMedarbOskriftLinie & "<td class=lille "&tdstyleTimOms&" bgcolor=#F7F7F7>"
                 
                              if cint(vis_restimer) = 1 then
-                             strMedarbOskriftLinie = strMedarbOskriftLinie &"<span style='color:#999999; font-size:9px;'>Forecast</span><br>"
+                             strMedarbOskriftLinie = strMedarbOskriftLinie &"<span style='color:#999999; font-size:9px;'>"& grand_txt_111 &"</span><br>"
                              end if
 
                             strMedarbOskriftLinie = strMedarbOskriftLinie &jobaktOskrift&" "
 				
 				                select case cint(visfakbare_res) 
                                 case 1
-				                strMedarbOskriftLinie = strMedarbOskriftLinie & "Real. timer"
-				                strMedarbOskriftLinie = strMedarbOskriftLinie & "<br>Oms.&nbsp;<br>Balance<br><span style='font-size:9px;'>(i per.)</span>&nbsp;"
+				                strMedarbOskriftLinie = strMedarbOskriftLinie & ""& grand_txt_149 &""
+				                strMedarbOskriftLinie = strMedarbOskriftLinie & "<br>Oms.&nbsp;<br>"& grand_txt_152 &"<br><span style='font-size:9px;'>("& grand_txt_153 &")</span>&nbsp;"
 				    
 				                case 2
 
                                 strMedarbOskriftLinie = strMedarbOskriftLinie & "Real. timer"
-				                strMedarbOskriftLinie = strMedarbOskriftLinie & "<br>Kost. ialt&nbsp;<br>Balance<br><span style='font-size:9px;'>(i per.)</span>&nbsp;"
+				                strMedarbOskriftLinie = strMedarbOskriftLinie & "<br>Kost. ialt&nbsp;<br>"& grand_txt_152 &"<br><span style='font-size:9px;'>("& grand_txt_153 &")</span>&nbsp;"
 
                                 case else
-				                strMedarbOskriftLinie = strMedarbOskriftLinie & "Real. timer<br><span style='font-size:9px;'>(i per.)</span>&nbsp;"
+				                strMedarbOskriftLinie = strMedarbOskriftLinie & ""& grand_txt_149 &"<br><span style='font-size:9px;'>("& grand_txt_153 &")</span>&nbsp;"
 				    
 				                    'if cint(vis_enheder) = 1 then
 				                    'strMedarbOskriftLinie = strMedarbOskriftLinie &"<br>Enheder&nbsp;"
@@ -98,10 +98,10 @@
                     strMedarbOskriftLinie = strMedarbOskriftLinie &"<td class=lille "&tdstyleTimOms&" bgcolor=#F7F7F7>"
 
                      if cint(vis_restimer) = 1 then
-                     strMedarbOskriftLinie = strMedarbOskriftLinie &"<span style='color:#999999; font-size:9px;'>Forecast</span><br>"
+                     strMedarbOskriftLinie = strMedarbOskriftLinie &"<span style='color:#999999; font-size:9px;'>"& grand_txt_111 &"</span><br>"
                      end if
 
-                     strMedarbOskriftLinie = strMedarbOskriftLinie &"Real. timer<br><span style='font-size:9px;'>(ialt)</span></td>"
+                     strMedarbOskriftLinie = strMedarbOskriftLinie &"Real. timer<br><span style='font-size:9px;'>("& grand_txt_156 &")</span></td>"
 
                     end if
 
@@ -109,36 +109,36 @@
                 end if 'if cint(directexp) <> 1 then 
 				
 
-                expTxt = expTxt &"Kontakt;"
+                expTxt = expTxt &""& grand_txt_157 &";"
     
                 if cint(vis_kpers) = 1 then
-                expTxt = expTxt &"Kontaktperson;"
+                expTxt = expTxt &""& grand_txt_158 &";"
                 end if
 
-                expTxt = expTxt &"Jobnavn;Jobnr;"
+                expTxt = expTxt &""& grand_txt_159 &";"& grand_txt_160 &";"
 
                 if cint(vis_jobbesk) = 1 then
-                expTxt = expTxt &"Jobbeskrivelse;"
+                expTxt = expTxt &""& grand_txt_161 &";"
                 end if
 
                 select case lto
                 case "cisu"            
                 case else
-                expTxt = expTxt &"Fase;"
+                expTxt = expTxt &""& grand_txt_162 &";"
                 end select
     
-                expTxt = expTxt &"Aktivitet;Jobtype;"           
+                expTxt = expTxt &""& grand_txt_163 &";"& grand_txt_164 &";"           
 
                 select case lto
                 case "cisu"            
                 case else
-                expTxt = expTxt &"Jobansvarlig;Init;Jobejer;Init;"
+                expTxt = expTxt &""& grand_txt_165 &";"& grand_txt_166 &";"& grand_txt_167 &";"& grand_txt_166 &";"
                 end select
 			    
-                expTxt = expTxt &"Timer forkalkuleret;"
+                expTxt = expTxt &""& grand_txt_168 &";"
 
                 if cint(visfakbare_res) = 1 OR cint(visfakbare_res) = 2 then
-				expTxt = expTxt &"Bruttooms (Budget);"
+				expTxt = expTxt &""& grand_txt_145 &" ("& grand_txt_144 &");"
                 end if
 
                 
@@ -149,7 +149,7 @@
                 
 
                 if cint(csv_pivot) = 1 then
-                 expTxt = expTxt &"Medarb. [init]/type;" 'Kun PIVOT
+                 expTxt = expTxt &""& grand_txt_169 &";" 'Kun PIVOT
                 end if
 
 
@@ -192,7 +192,7 @@
                             
                                 if cint(csv_pivot) = 0 OR (cint(csv_pivot) = 1 AND v = 0 AND c = 0) then
 
-                                expTxt = expTxt &"Real. timer;"
+                                expTxt = expTxt &""& grand_txt_149 &";"
                             
 
                                     if cint(csv_pivot) <> 1 then
@@ -200,26 +200,26 @@
                                         
 
                                         if cint(vis_restimer) = 1 then
-                                        expTxt = expTxt &"Res. timer;"
+                                        expTxt = expTxt &""& grand_txt_170 &";"
                                         end if
 
 							            if cint(vis_enheder) = 1 then
-							            expTxt = expTxt &"Enheder;" 
+							            expTxt = expTxt &""& grand_txt_171 &";" 
 							            end if
 
                                         if cint(vis_normtimer) = 1 AND md_split_cspan = 1 then
-                                         expTxt = expTxt &"Norm;"
+                                         expTxt = expTxt &""& grand_txt_172 &";"
                                         end if
 							
 							            if cint(visfakbare_res) = 1 then
-							            expTxt = expTxt &"Omsætning;"
-							            expTxt = expTxt &"Timepris;"
+							            expTxt = expTxt &""& grand_txt_173 &";"
+							            expTxt = expTxt &""& grand_txt_174 &";"
 							            end if
 
 
                                         if cint(visfakbare_res) = 2 then
-							            expTxt = expTxt &"Kostpris;"
-							            expTxt = expTxt &"Kostpris pr. time;"
+							            expTxt = expTxt &""& grand_txt_175 &";"
+							            expTxt = expTxt &""& grand_txt_176 &";"
 							            end if
 
                                     end if
@@ -240,7 +240,7 @@
 				
 
                  if cint(vis_normtimer) = 1 then
-                 expTxt = expTxt &"Norm ialt;"
+                 expTxt = expTxt &""& grand_txt_177 &";"
                  end if
 				
                 expTxt = expTxt &"xx99123sy#z"
@@ -482,7 +482,7 @@ sub subTotaler_gt
                
 				
 			    strJobLinie_Subtotal = "<tr>"
-				strJobLinie_Subtotal = strJobLinie_Subtotal & "<td style='padding:4px; border-top:1px #CCCCCC solid;' valign=bottom bgcolor=snow><b>Jobtotal:</b></td>"
+				strJobLinie_Subtotal = strJobLinie_Subtotal & "<td style='padding:4px; border-top:1px #CCCCCC solid;' valign=bottom bgcolor=snow><b>"& grand_txt_178 &":</b></td>"
 						
 						strJobLinie_Subtotal = strJobLinie_Subtotal & "<td class=lille valign=bottom align=right "&tdstyleTimOms2&" bgcolor=snow>" 
 						
@@ -770,16 +770,16 @@ sub subTotaler_gt
 sub exportptOskrifter
 
                 if cint(visPrevSaldo) = 1 then
-                expTxt = expTxt &"Real. timer Ialt (Før valgte periode);" 
+                expTxt = expTxt &""& grand_txt_179 &";" 
                 
                     
                     if cint(vis_restimer) = 1 then
-                    expTxt = expTxt &"Ressource timer (Før valgte periode);"
+                    expTxt = expTxt &""& grand_txt_180 &";"
                     end if
                     
 
                     if cint(vis_enheder) = 1 then
-                    expTxt = expTxt &"Enheder (Før valgte periode);"
+                    expTxt = expTxt &""& grand_txt_181 &";"
                     end if
 
                 end if
@@ -788,12 +788,12 @@ sub exportptOskrifter
            
 
 
-                expTxt = expTxt &"Real. timer Ialt (I periode);"
+                expTxt = expTxt &""& grand_txt_182 &";"
 
                 select case lto
                 case "mmmi", "xintranet - local"
                 case else
-                expTxt = expTxt &"Real. timer %;"
+                expTxt = expTxt &""& grand_txt_183 &";"
                 end select
 
                 select case lto
@@ -805,34 +805,34 @@ sub exportptOskrifter
 
                     
                     if cint(vis_restimer) = 1 then
-                    expTxt = expTxt &"Ressource Forecast timer (I periode);"
+                    expTxt = expTxt &""& grand_txt_184 &";"
                     end if
                     
 
                     if cint(vis_enheder) = 1 then
-                    expTxt = expTxt &"Enheder (I periode);"
+                    expTxt = expTxt &""& grand_txt_185 &";"
                     end if
 
 
                 if cint(visfakbare_res) = 1 then
-				expTxt = expTxt &"Omsætning ialt (I periode);Balance;"
+				expTxt = expTxt &""& grand_txt_186 &";"& grand_txt_152 &";"
 				end if
 				
                 if cint(visfakbare_res) = 2 then
-				expTxt = expTxt &"Kostpris ialt (I periode);Balance;"
+				expTxt = expTxt &""& grand_txt_187 &";"& grand_txt_152 &";"
 				end if
 
                 if cint(visPrevSaldo) = 1 then
-                expTxt = expTxt &"Real. timer (Ialt, uanset per.);" 
+                expTxt = expTxt &""& grand_txt_188 &";" 
 
                     
                     if cint(vis_restimer) = 1 then
-                    expTxt = expTxt &"Ressource timer (Ialt, uanset per.);"
+                    expTxt = expTxt &""& grand_txt_189 &";"
                     end if
                     
 
                     if cint(vis_enheder) = 1 then
-                    expTxt = expTxt &"Enheder (Ialt, uanset per.);"
+                    expTxt = expTxt &""& grand_txt_190 &";"
                     end if
                 
                 

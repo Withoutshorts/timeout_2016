@@ -65,7 +65,7 @@ function hojreDiv()
             
             <table cellpadding=2 cellspacing=0 border=0 width="100%">
                 
-                <tr bgcolor="#5C75AA"><td colspan="2" class="alt"><b>Dine job med timebudget/forecast FY </b><br /></td></tr>
+                <tr bgcolor="#5C75AA"><td colspan="2" class="alt"><b><%=extra_txt_090 %></b><br /></td></tr>
                 
                     
                     

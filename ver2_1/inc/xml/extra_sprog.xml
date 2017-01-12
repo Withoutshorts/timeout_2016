@@ -1,0 +1,319 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<sprog>
+
+  <!--- Dansk -->
+  <dk>
+
+    <txt_1 >Projektgrupper og Medarbejdere</txt_1>
+    <txt_2 >Kunder</txt_2>
+    <txt_3 >For key-account</txt_3>
+    <txt_4 >Viser alle medarbejdere på kunder og job hvor valgte medarbejdere(e) er</txt_4>
+    <txt_5 >Kundeansvarlig</txt_5>
+    <txt_6 >Jobansvarlig</txt_6>
+    <txt_7 >Jobejer</txt_7>
+    <txt_8 >Jobmedans. 1-3</txt_8>
+    <txt_9 >Job og Aftaler</txt_9>
+    <txt_10 >Alle</txt_10>
+    <txt_11 >timer vises i grandtotal uanset jobstatus</txt_11>
+    <txt_12 >Lukket</txt_12>
+    <txt_13 >Passiv</txt_13>
+    <txt_14 >Tilbud</txt_14>
+    <txt_15 >Ingen</txt_15>
+    <txt_16 >Aftaler</txt_16>
+    <txt_17 >og tilhørende job</txt_17>
+    <txt_18 >Alle - eller vælg fra liste</txt_18>
+    <txt_19 >viser alle job der ikke er tilknyttet aftale</txt_19>
+    <txt_20 >Søg på jobnavn ell. nr.</txt_20>
+    <txt_21 >% wildcard</txt_21>
+    <txt_22 >for specifikke job</txt_22>
+    <txt_23 >for interval, > for større end</txt_23>
+    <txt_24 >Vis aktive job</txt_24>
+    <txt_25 >Vis tilbud</txt_25>
+    <txt_26 >Vis lukkede og passive job</txt_26>
+    <txt_27 >Som Virksomhed</txt_27>
+    <txt_28 >Segment</txt_28>
+    <txt_29 >leverandør</txt_29>
+    <txt_30 >Forretningsområder</txt_30>
+    <txt_31 >Vælg job</txt_31>
+    <txt_32 >Søg</txt_32>
+    <txt_33 >Ingen valgt (viser alle)</txt_33>
+    <txt_34 >Grandtotal</txt_34>
+    <txt_35 >Joblog og Ugesedler</txt_35>
+    <txt_36 >Omsætning</txt_36>
+    <txt_37 >% Fordeling på forret. omr.</txt_37>
+    <txt_38 >Komme/Gå tider (logind historik)</txt_38>
+    <txt_39 >Pipeline</txt_39>
+    <txt_40 >Medarbejder Salg og Værdi</txt_40>
+    <txt_41 >Smileys</txt_41>
+    <txt_42 >Medarb. afstemning og Løn (HR list.)</txt_42>
+    <txt_43 >Abonnér</txt_43>
+    <txt_44 >Afstemn./Godkend Ugesedler</txt_44>
+    <txt_45 >Kørsel</txt_45>
+    <txt_46 >Mat. forbrug / Udlæg</txt_46>
+    <txt_47 >Timer Import Fejl</txt_47>
+    <txt_48 >Konsoliderings-oversigt</txt_48>
+    <txt_49 >Stade-indmeldinger</txt_49>
+    <txt_50 >Kundeansvarlig</txt_50>
+    <txt_51 >Jobansvarlig</txt_51>
+    <txt_52 >Jobejer</txt_52>
+    <txt_53 >Jobmedansvarlig 1-3</txt_53>
+    <txt_54 >Key account</txt_54>
+    <txt_55 >Kontakt</txt_55>
+    <txt_56 >Vælg kunde</txt_56>
+    <txt_57 >Projektgrupper</txt_57>
+    <txt_58 >Admin.: alle projektgrupper, ellers dem du er teamleder for.</txt_58>
+    <txt_59 >Ingen projektgruppe fundet</txt_59>
+    <txt_60 >Vis de-aktiverede medarbejdere.</txt_60>
+    <txt_61 >Vis kun De-akt. opsagt indenfor seneste 12 md.</txt_61>
+    <txt_62 >Vis passive medarbejdere</txt_62>
+    <txt_63 >Medarbejdere</txt_63>
+    <txt_64 >Udspecificer på medarbejdertyper</txt_64>
+    <txt_65 >Udspecificer på medarbejdertype-grupper</txt_65>
+    <txt_66 >ignorerer projektgrupper. Viser alle medarb. uanset status</txt_66>
+    <txt_67 >Vis medarbejdere uden timer i periode.</txt_67>
+    <txt_68 >Kør</txt_68>
+    <txt_69 >Vis medarbejdere</txt_69>
+    
+    <txt_70 >Navn</txt_70>
+    <txt_71 >Tilføj/Fjern</txt_71>
+    <txt_72 >Teamleder</txt_72>
+    <txt_73 >Kan trække statistik på</txt_73>
+    <txt_74 >andre medarbejdere i gruppen</txt_74>
+    <txt_75 >kun admin. kan oprette teamledere</txt_75>
+    <txt_76 >Notificer</txt_76>
+    <txt_77 >Modtag mail ved sygdom og ferie registreringer</txt_77>
+    <txt_78 >Print</txt_78>
+    <txt_79 >Mængden af data er for stor til eksport. Vælg et mindre interval ell. færre medarbejdere.</txt_79>
+    <txt_80 >Størrelsen på data er</txt_80>
+    <txt_81 >og den må ikke overstige 30000000 bytes.</txt_81>
+    <txt_82 >CSV. fil eksport</txt_82>
+    <txt_83 >Print og Funktioner</txt_83>
+    
+    <txt_84 >Rejse/Diæter</txt_84>
+    <txt_85 >Funktioner</txt_85>
+    <txt_86 >Log ud</txt_86>
+    <txt_87 >Hjælp</txt_87>
+    <txt_88 >Joboverblik / Resume</txt_88>
+    <txt_89 >Timebudget simulering</txt_89>
+    <txt_90 >Dine job med timebudget/forecast FY</txt_90>
+    <txt_91 >t. pr. uge</txt_91>
+    <txt_92 >Antal job</txt_92>
+    <txt_93 >Antal aktivitetslinier</txt_93>
+    <txt_94 >uge</txt_94>
+
+    <txt_95 >Tilføj komme/gå</txt_95>
+    <txt_96 >Dato</txt_96>
+    <txt_97 >Logget ind</txt_97>
+    <txt_98 >Komme tid</txt_98>
+    <txt_99 >Logget ud</txt_99>
+    <txt_100 >Gå tid</txt_100>
+    <txt_101 >Indstilling</txt_101>
+    <txt_102 >Faktor / Minimum</txt_102>
+    <txt_103 >Timer</txt_103>
+    <txt_104 >hele min.</txt_104>
+    <txt_105 >Manuelt opr?</txt_105>
+    <txt_106 >System besked</txt_106>
+    <txt_107 >Medarb.</txt_107>
+    <txt_108 >kommentar</txt_108>
+    <txt_109 >Opdater liste</txt_109>
+    <txt_110 >Saldo</txt_110>
+    <txt_111 >Tillægs typer</txt_111>
+    <txt_112 >Fradrags typer</txt_112>
+    <txt_113 >Udspecificering</txt_113>
+    <txt_114 >fraværs typer</txt_114>
+    <txt_115 >Udspecificering på fraværstyper</txt_115>
+    <txt_116 >Ikke medregnet i saldo, med mindre de er en del af</txt_116>
+    <txt_117 >typerne</txt_117>
+    <txt_118 >Komme / Gå tid Uge</txt_118>
+    <txt_119 >Ansat</txt_119>
+    <txt_120 >Ferie</txt_120>
+    <txt_121 >Udspecificering</txt_121>
+    <txt_122 >År >> Dato</txt_122>
+    <txt_123 >Senest afstemt</txt_123>
+    <txt_124 >løn-periode afsluttet</txt_124>
+    <txt_125 >Grandtotal periode</txt_125>
+    <txt_126 >Planlagt</txt_126>
+    <txt_127 >dage</txt_127>
+    <txt_128 >Udbetalt</txt_128>
+    <txt_129 >Held</txt_129>
+    <txt_130 >Afholdt u. løn</txt_130>
+
+  </dk>
+  
+
+  <!--- Norsk -->
+  <no>
+
+
+  </no>
+  
+  
+  <!--- Svensk -->
+  <so>
+    
+  </so>
+  
+  
+  <!--- Tysk -->
+  <de>
+    
+  </de>
+  
+  
+  <!--- Fransk -->
+  <fr>
+    
+  </fr>
+  
+    
+
+  <!-- Engelsk -->
+  <uk>
+
+    <txt_1 >Project groups and Employees</txt_1>
+    <txt_2 >Customers</txt_2>
+    <txt_3 >For key-account</txt_3>
+    <txt_4 >Showing all employees on clients and jobs where selected employees is</txt_4>
+    <txt_5 >customer responsible</txt_5>
+    <txt_6 >Agency responsible</txt_6>
+    <txt_7 >Job owner</txt_7>
+    <txt_8 >Job partly responsible 1-3</txt_8>
+    <txt_9 >Job and Agreements</txt_9>
+    <txt_10 >All</txt_10>
+    <txt_11 >hours appears in the grand total regardless of job status</txt_11>
+    <txt_12 >closed</txt_12>
+    <txt_13 >Passive</txt_13>
+    <txt_14 >Offer</txt_14>
+    <txt_15 >None</txt_15>
+    <txt_16 >Agreements</txt_16>
+    <txt_17 >and associated jobs</txt_17>
+    <txt_18 >All - or select from list</txt_18>
+    <txt_19 >show all jobs are not associated with agreement</txt_19>
+    <txt_20 >Search job name or num.</txt_20>
+    <txt_21 >% wildcard</txt_21>
+    <txt_22 >for specific jobs</txt_22>
+    <txt_23 >for interval > for greater than</txt_23>
+    <txt_24 >Show active jobs</txt_24>
+    <txt_25 >Show offers</txt_25>
+    <txt_26 >Show closed and passive jobs</txt_26>
+    <txt_27 >as Business</txt_27>
+    <txt_28 >Segment</txt_28>
+    <txt_29 >supplier</txt_29>
+    <txt_30 >Business areas</txt_30>
+    <txt_31 >Choose job</txt_31>
+    <txt_32 >Search</txt_32>
+    <txt_33 >None is selected (show all)</txt_33>
+    <txt_34 >Grandtotal</txt_34>
+    <txt_35 >Job Log and Weekly notes</txt_35>
+    <txt_36 >Turnover</txt_36>
+    <txt_37 >% Breakdown starter. area.</txt_37>
+    <txt_38 >Come / Go (login history)</txt_38>
+    <txt_39 >pipeline</txt_39>
+    <txt_40 >Employee Sales and Value</txt_40>
+    <txt_41 >Smileys</txt_41>
+    <txt_42 >Empl. vote and Salary (HR list)</txt_42>
+    <txt_43 >Subscribe</txt_43>
+    <txt_44 >Ballance / Approve Weekly notes</txt_44>
+    <txt_45 >Travel</txt_45>
+    <txt_46 >Consumption / Expenses</txt_46>
+    <txt_47 >Hours Import Error</txt_47>
+    <txt_48 >Consolidation Overview</txt_48>
+    <txt_49 >Stade incoming data</txt_49>
+    <txt_50 >customer Responsible</txt_50>
+    <txt_51 >Agency responsible</txt_51>
+    <txt_52 >Job Owner</txt_52>
+    <txt_53 >Partly job responsible 1-3</txt_53>
+    <txt_54 >Key account</txt_54>
+    <txt_55 >Contact</txt_55>
+    <txt_56 >Select customer</txt_56>
+    
+    <txt_57 >Project groups</txt_57>
+    <txt_58 >Admin .: all project teams, or those you're team leader.</txt_58>
+    <txt_59 >No project group found</txt_59>
+    <txt_60 >Show the de-activated employees.</txt_60>
+    <txt_61 >Show only the de-act. terminated within the last 12 Months.</txt_61>
+    <txt_62 >Show passive employees</txt_62>
+    <txt_63 >Employees</txt_63>
+    <txt_64 >Specify the employee types</txt_64>
+    <txt_65 >Specify the employee groups</txt_65>
+    <txt_66 >Ignoring project groups. Showing all empl. No matter status</txt_66>
+    <txt_67 >Show employees without hours in the period.</txt_67>
+    <txt_68 >GO</txt_68>
+    <txt_69 >Show employees</txt_69>
+    
+    <txt_70 >Name</txt_70>
+    <txt_71 >Add/Remove?</txt_71>
+    <txt_72 >Team leader</txt_72>
+    <txt_73 >Can pull statistics in</txt_73>
+    <txt_74 >other employees in the group</txt_74>
+    <txt_75 >only admin. can create team leaders</txt_75>
+    <txt_76 >Notify</txt_76>
+    <txt_77 >Receive mail for sickness and holiday records</txt_77>
+    
+    <txt_78 >Print</txt_78>
+    <txt_79 >The amount of data is too large for export. Choose a smaller interval or Fewer employees.</txt_79>
+    <txt_80 >The size of the data is</txt_80>
+    <txt_81 >and shall not exceed 30000000 bytes.</txt_81>
+    <txt_82 >CSV. file export</txt_82>
+    <txt_83 >Print and functions</txt_83>
+    
+    <txt_84 >Travel / Diets</txt_84>
+    <txt_85 >Functions</txt_85>
+    <txt_86 >Sign out</txt_86>
+    <txt_87 >Help</txt_87>
+    <txt_88 >Job Overview / Resume</txt_88>
+    <txt_89 >Time Budget simulation</txt_89>
+    <txt_90 >Your jobs with time budget / forecast FY</txt_90>
+    <txt_91 >h. per. week</txt_91>
+    <txt_92 >Number of jobs</txt_92>
+    <txt_93 >Number of activity lines</txt_93>
+    <txt_94 >week</txt_94>
+
+    <txt_95 >Add coming / going</txt_95>
+    <txt_96 >Date</txt_96>
+    <txt_97 >Logged in</txt_97>
+    <txt_98 >Came time</txt_98>
+    <txt_99 >Signed out</txt_99>
+    <txt_100 >Left time</txt_100>
+    <txt_101 >Setting</txt_101>
+    <txt_102 >Factor / Minimum</txt_102>
+    <txt_103 >Hours</txt_103>
+    <txt_104 >whole min.</txt_104>
+    <txt_105 >Manually create?</txt_105>
+    <txt_106 >System message</txt_106>
+    <txt_107 >Empl.</txt_107>
+    <txt_108 >Comment</txt_108>
+    <txt_109 >Refresh list</txt_109>
+    <txt_110 >Balance</txt_110>
+    <txt_111 >Supplementary types</txt_111>
+    <txt_112 >Deductible types</txt_112>
+    <txt_113 >Breakdown</txt_113>
+    <txt_114 >absence- types</txt_114>
+    <txt_115 >Breakdown of absence types</txt_115>
+    <txt_116 >Not included in the balance, unless they are part of the</txt_116>
+    <txt_117 >types</txt_117>
+    <txt_118 >Come / GO time Week</txt_118>
+    <txt_119 >Hired</txt_119>
+    <txt_120 >Holiday</txt_120>
+    <txt_121 >Breakdown</txt_121>
+    <txt_122 >Year >> Date</txt_122>
+    <txt_123 >Recently tuned</txt_123>
+    <txt_124 >pay period completed</txt_124>
+    <txt_125 >Grandtotal period</txt_125>
+    <txt_126 >Planned</txt_126>
+    <txt_127 >days</txt_127>
+    <txt_128 >Disbursed</txt_128>
+    <txt_129 >Afholdt</txt_129>
+    <txt_130 >Held without salary</txt_130>
+
+  </uk>
+  
+
+  <!--- Spansk -->
+  <es>
+
+  </es>
+
+
+</sprog>

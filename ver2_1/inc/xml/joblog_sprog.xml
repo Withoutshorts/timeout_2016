@@ -1,0 +1,361 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<sprog>
+
+  <!--- Dansk -->
+  <dk>
+
+    <txt_1 >Vent veligst. Der kan gå op til 20 sek</txt_1>
+    <txt_2 >Periode</txt_2>
+    <txt_3 >Eller vis</txt_3>
+    <txt_4 >Måned</txt_4>
+    <txt_5 >År</txt_5>
+    <txt_6 >Aktivitetsttyper</txt_6>
+    <txt_7 >Vis følgende aktivitets typer</txt_7>
+    <txt_8 >Vælg</txt_8>
+    <txt_9 >Præsentation og kolonnevalg</txt_9>
+    <txt_10 >Vis som joblog</txt_10>
+    <txt_11 >én liste opdelt pr. job.</txt_11>
+    <txt_12 >Mellemregning fordél på</txt_12>
+    <txt_13 >Medarbejdere</txt_13>
+    <txt_14 >Aktiviteter og faser</txt_14>
+    <txt_15 >Job</txt_15>
+    <txt_16 >Vis som ugesedler</txt_16>
+    <txt_17 >Vis som månedsrapport</txt_17>
+    <txt_18 >Kolonne indstillinger</txt_18>
+    <txt_19 >Skjul Timepriser</txt_19>
+    <txt_20 >Skjul Timepriser</txt_20>
+    <txt_21 >Skjul Enheder</txt_21>
+    <txt_22 >Skjul Tastedato, Godkendt og Faktureret kol.</txt_22>
+    <txt_23 >Skjul Fase</txt_23>
+    <txt_24 >Benyt enheder som beregnings grundlag</txt_24>
+    <txt_25 >Vis Kostpriser</txt_25>
+    <txt_26 >Vis forretningsområder</txt_26>
+    <txt_27 >Vis medarbejdere CPR-numre</txt_27>
+    <txt_28 >Jobansvarlig</txt_28>
+    <txt_29 >Aktiv</txt_29>
+    <txt_30 >Passiv</txt_30>
+    <txt_31 >Lukket</txt_31>
+    <txt_32 >Jobstatus</txt_32>
+    <txt_33 >Jobperiode</txt_33>
+    <txt_34 >Forkalkuleret timer</txt_34>
+    <txt_35 >Jobtype</txt_35>
+    <txt_36 >Fastpris</txt_36>
+    <txt_37 >aktiviteter</txt_37>
+    <txt_38 >job</txt_38>
+    <txt_39 >Jobtype</txt_39>
+    <txt_40 >Lbn. Timer</txt_40>
+    <txt_41 >Rekvisitions nr</txt_41>
+    <txt_42 >Sidste fakturadato</txt_42>
+    <txt_43 >Uge</txt_43>
+    <txt_44 >Godkendt</txt_44>
+    <txt_45 >Afvist</txt_45>
+    <txt_46 >Ja</txt_46>
+    <txt_47 >Info</txt_47>
+    <txt_48 >Der blev ikke fundet registreringer der matcher de valgte kriterier.</txt_48>
+    <txt_49 >kontroller, at den valgte</txt_49>
+    <txt_50 >periode og de valgte medarbejdere og job</txt_50>
+    <txt_51 >er korrekte.</txt_51>
+    <txt_52 >Forretningsområder</txt_52>
+    <txt_53 >Medarbejder</txt_53>
+    <txt_54 >Medarb. Nr</txt_54>
+    <txt_55 >Initialer</txt_55>
+    <txt_56 >CPR</txt_56>
+    <txt_57 >Antal</txt_57>
+    <txt_58 >Tid/Klokkeslet</txt_58>
+    <txt_59 >Enheder</txt_59>
+    <txt_60 >Timepris</txt_60>
+    <txt_61 >ialt</txt_61>
+    <txt_62 >Valuta</txt_62>
+    <txt_63 >Kostpris</txt_63>
+    <txt_64 >Tastedato</txt_64>
+    <txt_65 >Godkendt af</txt_65>
+    <txt_66 >Faktureret</txt_66>
+    <txt_67 >Kommentar</txt_67>
+    <txt_68 >Periode afgrænsning</txt_68>
+    <txt_69 >Din CSV. fil er klar</txt_69>
+    <txt_70 >Visning af de-aktiverede medarbejdere</txt_70>
+    <txt_71 >de-aktiverede medarbejdere medtages ved søgning på</txt_71>
+    <txt_72 >de-aktiverede medarbejdere medtages ved søgning på "alle".</txt_72>
+    <txt_73 >de-aktiverede medarbejdere kan ikke vælges fra dropdown menu.</txt_73>
+    <txt_74 >Jobtyper</txt_74>
+    <txt_75 >Fastpris eller Lbn. timer. (vægtet medarbejder timepriser)</txt_75>
+    <txt_76 >Ved fastpris job, hvor aktiviteterne danner grundlag for timepris, er omsætning og timepriser (på jobvisning)</txt_76>
+    <txt_77 >angivet med et</txt_77>
+    <txt_78 >da beløbet er beregnet udfra en tilnærmet timepris. (gns. på akt.). Ved udspecificering på aktiviteter er det den re-elle timepris der vises.</txt_78>
+    <txt_79 >Ved lbn. timer er det altid den realiserede medarbejder timepris der vises.</txt_79>
+    <txt_80 >Key-account</txt_80>
+    <txt_81 >Ved brug af "key account" bliver der vist timer for alle medarbejder der er med (tilknyttet via projektgrupper) på de job hvor den valgte Key-account er job ansvarlig / kunde ansvarlig.</txt_81>
+    <txt_82 >Beløb</txt_82>
+    <txt_83 >Alle timepriser og beløb er vist i</txt_83>
+    <txt_84 >Kør</txt_84>
+    <txt_85 >Kasserapport</txt_85>
+    <txt_86 >Kasserapport lokal kur.</txt_86>
+    <txt_87 >Print</txt_87>
+    <txt_88 >Dato og underskrift medarbejder</txt_88>
+    <txt_89 >Dato og underskift (overordnet)</txt_89>
+    <txt_90 >Total pr. dag</txt_90>
+    <txt_91 >Total måned</txt_91>
+    <txt_92 >Total på job</txt_92>
+    <txt_93 >Grandtotal</txt_93>
+    <txt_94 >Grandtotal måned</txt_94>
+    <txt_95 >Medarbejder</txt_95>
+    <txt_96 >Aktivitet</txt_96>
+    <txt_97 >Fase</txt_97>
+    <txt_98 >Uge</txt_98>
+    <txt_99 >Job</txt_99>
+    <txt_100 >Uge</txt_100>
+    <txt_101 >Dato</txt_101>
+    <txt_102 >Kunde</txt_102>
+    <txt_103 >Jobnavn (Jobnr)</txt_103>
+    <txt_104 >Jobansv.</txt_104>
+    <txt_105 >Aktivitet</txt_105>
+    <txt_106 >type</txt_106>
+    <txt_107 >kommentar</txt_107>
+    <txt_108 >Forretnings-omr.</txt_108>
+    <txt_109 >Medarb.</txt_109>
+    <txt_110 >Timer</txt_110>
+    <txt_111 >Km</txt_111>
+    <txt_112 >Antal</txt_112>
+    <txt_113 >Timer / Km / Antal</txt_113>
+    <txt_114 >Klokkeslet</txt_114>
+    <txt_115 >Enheder</txt_115>
+    <txt_116 >Time / Stk. pris*</txt_116>
+    <txt_117 >Pris ialt</txt_117>
+    <txt_118 >Kostpris</txt_118>
+    <txt_119 >Kostpris ialt</txt_119>
+    <txt_120 >Tastedato</txt_120>
+    <txt_121 >Indtastet af</txt_121>
+    <txt_122 >Status</txt_122>
+    <txt_123 >Godkendt</txt_123>
+    <txt_124 >Afvist</txt_124>
+    <txt_125 >Faktura</txt_125>
+    <txt_126 >Opdater Status</txt_126>
+    <txt_127 >Godkend alle</txt_127>
+    <txt_128 >Afvis alle</txt_128>
+    <txt_129 >Sæt alle = ingen.</txt_129>
+    <txt_130 >Joblog Grandtotal</txt_130>
+    <txt_131 >Grandtotal på ovenstående liste, fordelt på aktivitets-typer</txt_131>
+    <txt_132 >timer</txt_132>
+    <txt_133 >~ (enheder)</txt_133>
+    <txt_134 >Projekt / Aktivitet</txt_134>
+    <txt_135 >Kommentar</txt_135>
+    <txt_136 >Afstemning</txt_136>
+    <txt_137 >Komme/Gå tid (lønt.)</txt_137>
+    <txt_138 >Vis sum-totaler på alle aktivitetstyper</txt_138>
+    <txt_139 >Ressource timer</txt_139>
+    <txt_140 >Faktureret timer</txt_140>
+    <txt_141 >Mat. frb. / Udlæg</txt_141>
+    <txt_142 >Faktureret Oms. hvor man er jobansvr. (1-5)</txt_142>
+    <txt_143 >Faktureret Oms. hvor man er salgsansvr. (1-5)</txt_143>
+    <txt_144 >Vis kun saldo</txt_144>
+    <txt_145 >Saldo Komme/Gå tid (lønt.) / Normtid</txt_145>
+    <txt_146 >Saldo Realiseret / Normtid</txt_146>
+    <txt_147 >Udspecificering</txt_147>
+    <txt_148 >atk. Typer</txt_148>
+    <txt_149 >kat. 2</txt_149>
+    <txt_150 >Ferie</txt_150>
+    <txt_151 >Overarbejde / Afspadsering</txt_151>
+    <txt_152 >Sygdom / Fravær</txt_152>
+    <txt_153 >Korrektion (overført) i forb. med lønperiode</txt_153>
+    <txt_154 >Tibage til start</txt_154>
+
+
+
+  </dk>
+
+
+  <!--- Norsk -->
+  <no>
+    
+  </no>
+  
+  
+  <!--- Svensk -->
+  <so>
+    
+  </so>
+  
+  
+  <!--- Tysk -->
+  <de>
+    
+  </de>
+  
+  
+  <!--- Fransk -->
+  <fr>
+    
+  </fr>
+  
+    
+
+  <!-- Engelsk -->
+  <uk>
+
+    <txt_1 >Please wait. It can take up to 20 sec.</txt_1>
+    <txt_2 >Period</txt_2>
+    <txt_3 >or show</txt_3>
+    <txt_4 >Month</txt_4>
+    <txt_5 >Year</txt_5>
+    <txt_6 >Activity types</txt_6>
+    <txt_7 >Show these activity types</txt_7>
+    <txt_8 >Choose</txt_8>
+    <txt_9 >Presentation and column selection</txt_9>
+    <txt_10 >Show as joblog</txt_10>
+    <txt_11 >Show per job</txt_11>
+    <txt_12 >Intercompany divided per</txt_12>
+    <txt_13 >Employees</txt_13>
+    <txt_14 >Activities and phases</txt_14>
+    <txt_15 >Job</txt_15>
+    <txt_16 >View as weeknotes</txt_16>
+    <txt_17 >View as month report</txt_17>
+    <txt_18 >Column settings</txt_18>
+    <txt_19 >Hide hourly rates</txt_19>
+    <txt_20 >Hide hourly rates</txt_20>
+    <txt_21 >Hide Unites</txt_21>
+    <txt_22 >Hide Reg. Date, Approved and Invoi. Colums</txt_22>
+    <txt_23 >Hide Phase</txt_23>
+    <txt_24 >Use Unites as calculation basis</txt_24>
+    <txt_25 >Show Cost prisces</txt_25>
+    <txt_26 >Show Business areas</txt_26>
+    <txt_27 >Show Social Security no.</txt_27>
+    <txt_28 >Project manager</txt_28>
+    <txt_29 >Active</txt_29>
+    <txt_30 >Passive</txt_30>
+    <txt_31 >Closed</txt_31>
+    <txt_32 >Job status</txt_32>
+    <txt_33 >Job period</txt_33>
+    <txt_34 >Calculated hours</txt_34>
+    <txt_35 >Job type</txt_35>
+    <txt_36 >Fixed price</txt_36>
+    <txt_37 >Activities</txt_37>
+    <txt_38 >Job</txt_38>
+    <txt_39 >Job Type</txt_39>
+    <txt_40 >T/M hours</txt_40>
+    <txt_41 >Requisition no</txt_41>
+    <txt_42 >Last invoice date</txt_42>
+    <txt_43 >Week</txt_43>
+    <txt_44 >Approved</txt_44>
+    <txt_45 >Declined</txt_45>
+    <txt_46 >Yes</txt_46>
+    <txt_47 >Info</txt_47>
+    <txt_48 >No match was found</txt_48>
+    <txt_49 >Please verify that</txt_49>
+    <txt_50 >period, employees and job</txt_50>
+    <txt_51 >are correct</txt_51>
+    <txt_52 >Business areas</txt_52>
+    <txt_53 >Employees</txt_53>
+    <txt_54 >Empl. No.</txt_54>
+    <txt_55 >Initials</txt_55>
+    <txt_56 >Soc.Se.no.</txt_56>
+    <txt_57 >Quantity</txt_57>
+    <txt_58 >Time</txt_58>
+    <txt_59 >Units</txt_59>
+    <txt_60 >Hourly rate</txt_60>
+    <txt_61 >Total</txt_61>
+    <txt_62 >Currency</txt_62>
+    <txt_63 >Cost price</txt_63>
+    <txt_64 >Registration date</txt_64>
+    <txt_65 >Apporved by</txt_65>
+    <txt_66 >Invoiced</txt_66>
+    <txt_67 >Comment</txt_67>
+    <txt_68 >Within period</txt_68>
+    <txt_69 >CSV.file is ready</txt_69>
+    <txt_70 >Shows de-activated employees</txt_70>
+    <txt_71 >de-activated employees are included in the search</txt_71>
+    <txt_72 >de-activated employees are included in the search for "all".</txt_72>
+    <txt_73 >de-activated employees are not part of the drop-down menu.</txt_73>
+    <txt_74 >Job types</txt_74>
+    <txt_75 >Fixed price or. T/M prices (weighted employee rates)</txt_75>
+    <txt_76 >For Fixed-price-jobs, when the hourly rate is based on activities, turnover and prices (in the job view)</txt_76>
+    <txt_77 >are estimated,</txt_77>
+    <txt_78 >thus shown with a ~. (avg. of the Act.) Breakdown on activities shows the real hourly rate.</txt_78>
+    <txt_79 >For T/M jobs; are the hourly rate allways the stated employee rates.</txt_79>
+    <txt_80 >Key-account</txt_80>
+    <txt_81 >When using "key-account"; Shows hours for all employees, who are part of projectgroups attached to the job(s) where the key-account is projectmanager/customer owner.</txt_81>
+    <txt_82 >Amount</txt_82>
+    <txt_83 >Alle prices and amounts are shown in</txt_83>
+    <txt_84 >GO</txt_84>
+    <txt_85 >Cash report</txt_85>
+    <txt_86 >Cash report Local ex. rate</txt_86>
+    <txt_87 >Print</txt_87>
+    <txt_88 >Date and signature employee</txt_88>
+    <txt_89 >Date and signature (parent)</txt_89>
+    <txt_90 >Total per. day</txt_90>
+    <txt_91 >Total month</txt_91>
+    <txt_92 >Total on the job</txt_92>
+    <txt_93 >Grandtotal</txt_93>
+    <txt_94 >Grandtotal month</txt_94>
+    <txt_95 >Employee</txt_95>
+    <txt_96 >Activity</txt_96>
+    <txt_97 >Phase</txt_97>
+    <txt_98 >Week</txt_98>
+    <txt_99 >Job</txt_99>
+    <txt_100 >Week</txt_100>
+    <txt_101 >Date</txt_101>
+    <txt_102 >Customer</txt_102>
+    <txt_103 >Job Name (Job No.)</txt_103>
+    <txt_104 >Job res.</txt_104>
+    <txt_105 >Activity</txt_105>
+    <txt_106 >type</txt_106>
+    <txt_107 >Comment</txt_107>
+    <txt_108 >The business area.</txt_108>
+    <txt_109 >Empl.</txt_109>
+    <txt_110 >hours</txt_110>
+    <txt_111 >km</txt_111>
+    <txt_112 >Quantity</txt_112>
+    <txt_113 >Hours / Km / Quantity</txt_113>
+    <txt_114 >Time display</txt_114>
+    <txt_115 >Units</txt_115>
+    <txt_116 >Time / pcs. price*</txt_116>
+    <txt_117 >Price total</txt_117>
+    <txt_118 >Cost</txt_118>
+    <txt_119 >Cost total</txt_119>
+    <txt_120 >key Date</txt_120>
+    <txt_121 >Entered by</txt_121>
+    <txt_122 >Etatus</txt_122>
+    <txt_123 >Approved</txt_123>
+    <txt_124 >Rejected</txt_124>
+    <txt_125 >Invoice</txt_125>
+    <txt_126 >Refresh Status</txt_126>
+    <txt_127 >Approve all</txt_127>
+    <txt_128 >Reject all</txt_128>
+    <txt_129 >Set all = none</txt_129>
+    <txt_130 >Job Log Grandtotal</txt_130>
+    <txt_131 >Grandtotal on the above list, divided into activity types</txt_131>
+    <txt_132 >hours</txt_132>
+    <txt_133 >~ (units)</txt_133>
+    <txt_134 >Project / Activity</txt_134>
+    <txt_135 >Comment</txt_135>
+    <txt_136 >Vote</txt_136>
+    <txt_137 >Come / Left time (salaried hours)</txt_137>
+    <txt_138 >View sum of totals on all types of activities</txt_138>
+    <txt_139 >Resource hours</txt_139>
+    <txt_140 >Billed hours</txt_140>
+    <txt_141 >Mat. frb. / Expenses</txt_141>
+    <txt_142 >Invoiced turnover. where you are job res. (1-5)</txt_142>
+    <txt_143 >Invoiced turnover. where you are sales res. (1-5)</txt_143>
+    <txt_144 >Only show balance</txt_144>
+    <txt_145 >Balance Come / Left time (salaried hours) / Norm</txt_145>
+    <txt_146 >Balance Actual / Norm</txt_146>
+    <txt_147 >Breakdown</txt_147>
+    <txt_148 >act. Types</txt_148>
+    <txt_149 >cate. 2</txt_149>
+    <txt_150 >Vacation</txt_150>
+    <txt_151 >Overtime / Compensatory time off</txt_151>
+    <txt_152 >Illness / Absence</txt_152>
+    <txt_153 >Correction (transferred) in conn. With the pay period</txt_153>
+    <txt_154 >Return to start page</txt_154>
+
+
+  </uk>
+  
+
+  <!--- Spansk -->
+  <es>
+
+  </es>
+
+
+</sprog>

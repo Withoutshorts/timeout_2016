@@ -167,48 +167,48 @@
 function stattopmenu()
 %><br>
 
-<a href='joblog_timetotaler.asp' class='rmenu'>Grandtotal</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+<a href='joblog_timetotaler.asp' class='rmenu'><%=extra_txt_034 %></a>&nbsp;&nbsp;|&nbsp;&nbsp;
 
-<a href='joblog.asp?menu=stat' class='rmenu'>Joblog & Ugesedler</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+<a href='joblog.asp?menu=stat' class='rmenu'><%=extra_txt_035 %></a>&nbsp;&nbsp;|&nbsp;&nbsp;
 <!--<a href='korsel_lukket.asp' class='rmenu'>Kørsel</a>&nbsp;&nbsp;|&nbsp;&nbsp;-->
-<a href='oms.asp?menu=stat' class='rmenu'>Omsætning</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+<a href='oms.asp?menu=stat' class='rmenu'><%=extra_txt_036 %></a>&nbsp;&nbsp;|&nbsp;&nbsp;
 <!--<a href='stat.asp?menu=stat&show=stat_pies' class='rmenu'>%-vis timefordeling</a>&nbsp;&nbsp;|&nbsp;&nbsp;-->
 
 <!--<a href='stat.asp?menu=stat&show=word' class='rmenu'>Eksport</a>&nbsp;&nbsp;|&nbsp;&nbsp;-->
 
-<a href='fomr.asp?menu=stat&func=stat' class='rmenu'>% Fordeling på forret. omr.</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+<a href='fomr.asp?menu=stat&func=stat' class='rmenu'>% <%=extra_txt_037 %></a>&nbsp;&nbsp;|&nbsp;&nbsp;
 
 <%if session("stempelur") <> 0 then %>
-<a href='stempelur.asp?menu=stat&func=stat' class='rmenu'>Komme/Gå tider (logind historik)</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+<a href='stempelur.asp?menu=stat&func=stat' class='rmenu'><%=extra_txt_038 %></a>&nbsp;&nbsp;|&nbsp;&nbsp;
 <%end if %>
 
-<a href='pipeline.asp?menu=stat&func=stat' class='rmenu'>Pipeline</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+<a href='pipeline.asp?menu=stat&func=stat' class='rmenu'><%=extra_txt_039 %></a>&nbsp;&nbsp;|&nbsp;&nbsp;
 
 <%if level = 1 then%>
-<a href='saleandvalue.asp?menu=stat&func=stat' class='rmenu'>Medarbejder Salg & Værdi</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+<a href='saleandvalue.asp?menu=stat&func=stat' class='rmenu'><%=extra_txt_040 %></a>&nbsp;&nbsp;|&nbsp;&nbsp;
 <%end if%>
 
 <%if level = 1 then '** Indtil teamleder er impl. på kørsels siden **'%>
-<a href='smileystatus.asp?menu=stat' class='rmenu'>Smileys</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+<a href='smileystatus.asp?menu=stat' class='rmenu'><%=extra_txt_041 %></a>&nbsp;&nbsp;|&nbsp;&nbsp;
 <%end if %>
 
 <%if level = 1 then %>
-<a href='bal_real_norm_2007.asp?menu=stat&dontdisplayresult=1' class='rmenu'>Medarb. afstemning & Løn (HR list.)</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+<a href='bal_real_norm_2007.asp?menu=stat&dontdisplayresult=1' class='rmenu'><%=extra_txt_042 %></a>&nbsp;&nbsp;|&nbsp;&nbsp;
 <%end if %>
 
 <%if level = 1 then %>
-<a href='abonner.asp?menu=stat' class='rmenu'>Abonnér</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+<a href='abonner.asp?menu=stat' class='rmenu'><%=extra_txt_043 %></a>&nbsp;&nbsp;|&nbsp;&nbsp;
 <%end if %>
 
-<a href='week_real_norm_2010.asp?menu=stat' class='rmenu'>Afstemn./Godkend Ugesedler</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+<a href='week_real_norm_2010.asp?menu=stat' class='rmenu'><%=extra_txt_044 %></a>&nbsp;&nbsp;|&nbsp;&nbsp;
 <%if level <= 2 OR level = 6 then '** Indtil teamleder er impl. på kørsels siden **'%>
-<a href='stat_korsel.asp?menu=stat' class='rmenu'>Kørsel</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+<a href='stat_korsel.asp?menu=stat' class='rmenu'><%=extra_txt_045 %></a>&nbsp;&nbsp;|&nbsp;&nbsp;
 <%end if %>
-<a href='materiale_stat.asp?menu=stat' class='rmenu'>Mat. forbrug / Udlæg</a>
+<a href='materiale_stat.asp?menu=stat' class='rmenu'><%=extra_txt_046 %></a>
 
 <%if level = 1 AND (lto = "intranet - local" OR lto = "epi" OR lto = "epi_cati") then %>
-&nbsp;&nbsp;|&nbsp;&nbsp;<a href='timerimperr.asp?menu=stat' class='rmenu'>Timer Import Fejl</a>
-&nbsp;&nbsp;|&nbsp;&nbsp;<a href='diff_timer_kons.asp?menu=stat' class='rmenu'>Konsoliderings-oversigt</a>
+&nbsp;&nbsp;|&nbsp;&nbsp;<a href='timerimperr.asp?menu=stat' class='rmenu'><%=extra_txt_047 %></a>
+&nbsp;&nbsp;|&nbsp;&nbsp;<a href='diff_timer_kons.asp?menu=stat' class='rmenu'><%=extra_txt_048 %></a>
 <%end if %>
 
 <%
@@ -223,7 +223,7 @@ end if
 oRec.close
 
 if jobasnvigv = 1 AND level = 1 then %>
-&nbsp;&nbsp;|&nbsp;&nbsp;<a href='stat_opdater_igv.asp?menu=stat' class='rmenu'>Stade-indmeldinger</a>
+&nbsp;&nbsp;|&nbsp;&nbsp;<a href='stat_opdater_igv.asp?menu=stat' class='rmenu'><%=extra_txt_049 %></a>
 <%end if %>
 
 
@@ -250,7 +250,7 @@ end function
 	
 	if print <> "j" AND media <> "export" AND media <> "print" then
 	%>
-	<tr><td colspan="5"><span id="sp_med" style="color:#5582d2;">[+] Projektgrupper & Medarbejdere</span></td></tr>
+	<tr><td colspan="5"><span id="sp_med" style="color:#5582d2;">[+] <%=extra_txt_001 %></span></td></tr>
 	<tr id="tr_prog_med" style="display:none; visibility:hidden;">
 	    
 	    <%call progrpmedarb %>
@@ -266,7 +266,7 @@ end function
 
         	if print <> "j" AND media <> "export" AND media <> "print" then
         %>
-         <tr><td colspan="5"><span id="sp_kun" style="color:#5582d2;">[+] Kunder
+         <tr><td colspan="5"><span id="sp_kun" style="color:#5582d2;">[+] <%=extra_txt_002 %>
 
              <%if thisfile = "joblog_timetotaler" then%>
               & Forretningsområder
@@ -291,12 +291,12 @@ end function
 		          
             	
 		            <td valign=top style="padding:30px 10px 20px 10px; width:350px; background-color:#F7F7F7;">
-		            <input type="radio" name="FM_kundejobans_ell_alle" value="1" <%=kundejobansCHK1%>><b>B) For key-account</b><br /><span style="font-size:9px; color:#000000;">Viser alle medarbejdere på kunder og job hvor
-		            valgte medarbejder(e) er:</span><br />
-		            <input type="checkbox" name="FM_kundeans" id="cFM_kundeans" value="1" <%=kundeansChk%>>&nbsp;Kundeansvarlig <br>
-		            <input type="checkbox" name="FM_jobans" id="cFM_jobans" value="1" <%=jobansChk%>>&nbsp;Jobansvarlig
-                    <input type="checkbox" name="FM_jobans2" id="cFM_jobans2" value="1" <%=jobansChk2%>>&nbsp;Jobejer
-                    <input type="checkbox" name="FM_jobans3" id="cFM_jobans3" value="1" <%=jobansChk3%>>&nbsp;Jobmedans. 1-3
+		            <input type="radio" name="FM_kundejobans_ell_alle" value="1" <%=kundejobansCHK1%>><b>B) <%=extra_txt_003 %></b><br /><span style="font-size:9px; color:#000000;"><%=extra_txt_004 %>
+		            </span><br />
+		            <input type="checkbox" name="FM_kundeans" id="cFM_kundeans" value="1" <%=kundeansChk%>>&nbsp;<%=extra_txt_005 %> <br>
+		            <input type="checkbox" name="FM_jobans" id="cFM_jobans" value="1" <%=jobansChk%>>&nbsp;<%=extra_txt_006 %>
+                    <input type="checkbox" name="FM_jobans2" id="cFM_jobans2" value="1" <%=jobansChk2%>>&nbsp;<%=extra_txt_007 %>
+                    <input type="checkbox" name="FM_jobans3" id="cFM_jobans3" value="1" <%=jobansChk3%>>&nbsp;<%=extra_txt_008 %>
                    
             		
 	              </td>
@@ -499,14 +499,14 @@ end function
 	
 	if print <> "j" AND media <> "export" AND media <> "print" then
 	%>
-	 <tr><td colspan="5"><span id="sp_job" style="color:#5582d2;">[+] Job & Aftaler</span></td></tr>
+	 <tr><td colspan="5"><span id="sp_job" style="color:#5582d2;">[+] <%=extra_txt_009 %></span></td></tr>
          
 
         <tr id="tr_job" style="display:none; visibility:hidden;">
 	
 	
 		<td valign=top style="padding-top:20px;">
-		<b>Vælg job:</b><br />
+		<b><%=extra_txt_031 %></b><br />
 		
       
 		<%
@@ -532,7 +532,7 @@ end function
         else
         selo = ""
         end if %>
-		<option value="0" <%=selo %>>Alle (= timer vises i grandtotal uanset jobstatus)</option>
+		<option value="0" <%=selo %>><%=extra_txt_010 %> (= <%=extra_txt_011 %>)</option>
 		<%
 				
 				oRec.open strSQL, oConn, 3
@@ -576,11 +576,11 @@ end function
 
                 select case oRec("jobstatus")
                 case 0
-                jstTxt = " - Lukket"
+                jstTxt = " - "& extra_txt_012 &""
                 case 2
-                jstTxt = " - Passiv"
+                jstTxt = " - "& extra_txt_013 &""
                 case 3
-                jstTxt = " - Tilbud"
+                jstTxt = " - "& extra_txt_014 &""
                 end select
         
 				%>
@@ -603,7 +603,7 @@ end function
 				jChk = ""
 				end if
 				%>
-				<option value="-1" <%=jChk %>>Ingen</option>
+				<option value="-1" <%=jChk %>><%=extra_txt_015 %></option>
 		</select><br />
 		
 	
@@ -613,7 +613,7 @@ end function
         
         <%if thisfile <> "pipeline" then %>
 
-        <b>Aftaler:</b> (og tilhørende job)&nbsp;<br /><img src="../ill/blank.gif" width="50" height="5"  border="0"/><br />
+        <b><%=extra_txt_016 %>:</b> (<%=extra_txt_017 %>)&nbsp;<br /><img src="../ill/blank.gif" width="50" height="5"  border="0"/><br />
 		<%
 			
 		strSQL = "SELECT s.navn, s.aftalenr, s.id, k.kkundenavn, k.kkundenr FROM serviceaft s "_
@@ -624,7 +624,7 @@ end function
 		%>
 		
 		<select name="FM_aftaler" id="FM_aftaler" size=6 style="width:350px; font-size:11px;" onChange="clearJobsog(); submit();">
-		<option value="0">Alle - eller vælg fra liste...</option>
+		<option value="0"><%=extra_txt_018 %>...</option>
 		<%
 		
 				oRec.open strSQL, oConn, 3
@@ -647,7 +647,7 @@ end function
 				else
 				aChk = ""
 				end if%>
-				<option value="-1" <%=aChk%>>Ingen (viser alle job der ikke er tilknyttet aftale)</option>
+				<option value="-1" <%=aChk%>><%=extra_txt_015 %> (<%=extra_txt_019 %>)</option>
 		</select>
         
         
@@ -667,13 +667,13 @@ end function
 %>
             <tr><td colspan="5" style="padding-top:20px;">
             	
-		<h4>Søg på jobnavn ell. nr.: <br /><span style="font-size:10px; font-weight:lighter;">(% wildcard, <b>231, 269</b> for specifikke job, <b>201-225</b> for interval, > for større end)</span></h4>
-                <input name="viskunabnejob0" id="viskunabnejob" type="checkbox" value="1" <%=jost0CHK %> />Vis aktive job &nbsp;
-        <input name="viskunabnejob1" id="Radio3" type="checkbox" value="1" <%=jost1CHK %> />Vis tilbud &nbsp;
-        <input name="viskunabnejob2" id="Checkbox1" type="checkbox" value="1" <%=jost2CHK %> />Vis lukkede og passive job &nbsp;<br />
+		<h4><%=extra_txt_020 %>: <br /><span style="font-size:10px; font-weight:lighter;">(<%=extra_txt_021 %>, <b>231, 269</b> <%=extra_txt_022 %>, <b>201-225</b> <%=extra_txt_023 %>)</span></h4>
+                <input name="viskunabnejob0" id="viskunabnejob" type="checkbox" value="1" <%=jost0CHK %> /><%=extra_txt_024 %> &nbsp;
+        <input name="viskunabnejob1" id="Radio3" type="checkbox" value="1" <%=jost1CHK %> /><%=extra_txt_025 %> &nbsp;
+        <input name="viskunabnejob2" id="Checkbox1" type="checkbox" value="1" <%=jost2CHK %> /><%=extra_txt_026 %> &nbsp;<br />
 
                 <input type="text" name="FM_jobsog" id="FM_jobsog" value="<%=jobSogVal%>" style="width:350px; border:2px #6CAE1C solid; font-size:14px;">&nbsp;
-                <input id="Submit1" type="submit" value=" Søg >> " style="font-size:11px;" />
+                <input id="Submit1" type="submit" value=" <%=extra_txt_032 %> >> " style="font-size:11px;" />
             
          
 
@@ -722,17 +722,17 @@ end function
 
 
        if thisfile <> "saleandvalue" then %>
-	   <input type="radio" name="FM_kundejobans_ell_alle" value="0" <%=kundejobansCHK0%> onclick="clearK_Jobans();"><b>A) Som Virksomhed</b>
+	   <input type="radio" name="FM_kundejobans_ell_alle" value="0" <%=kundejobansCHK0%> onclick="clearK_Jobans();"><b>A) <%=extra_txt_027 %>/b>
        <img src="../ill/blank.gif" width="50" height="5"  border="0"/>
-       Segment: <select name="FM_segment" style="width:176px; font-size:11px;" onchange="submit();"><!-- clearJobsog(), -->
+       <%=extra_txt_028 %>: <select name="FM_segment" style="width:176px; font-size:11px;" onchange="submit();"><!-- clearJobsog(), -->
 
        <%else %>
          <img src="../ill/blank.gif" width="1" height="5"  border="0"/><br />
-       Segment: <select name="FM_segment" style="width:176px; font-size:11px;" onchange="submit();">
+       <%=extra_txt_028 %>: <select name="FM_segment" style="width:176px; font-size:11px;" onchange="submit();">
        <%end if %>
 
        
-       <option value=0>Alle</option>
+       <option value=0><%=extra_txt_010 %></option>
        <%
        oRec.open strSQLsegm, oConn, 3
        while not oRec.EOF 
@@ -771,10 +771,10 @@ end function
 	if print <> "j" AND media <> "export" AND media <> "print" AND media <> "chart" then
 		
         %>
-       <br /><b>Vælg kunde
+       <br /><b><%=extra_txt_056 %>
            
            <%if lto = "nt" OR lto = "intranet - local" then %>
-           / leverandør
+           / <%=extra_txt_029 %>
            <%end if %>
            :</b><br />
         <%
@@ -790,7 +790,7 @@ end function
         selo = ""
         end if %>
 
-		<option value="0" <%=selo %>>Alle - eller vælg fra liste...</option>
+		<option value="0" <%=selo %>><%=extra_txt_018 %>...</option>
 		<%
 	end if
 				
@@ -885,14 +885,14 @@ end function
                     if print <> "j" AND media <> "export" AND thisfile = "joblog_timetotaler" AND media <> "print" then
                     
                     %>
-                    <br /><br /><b>Forretningsområder:</b><br />                              
+                    <br /><br /><b><%=extra_txt_030 %>:</b><br />                              
                     <%
                                            
                                     strSQLf = "SELECT f.navn AS fnavn, f.id, f.konto, kp.kontonr AS kkontonr, kp.navn AS kontonavn FROM fomr AS f "_
                                     &" LEFT JOIN kontoplan AS kp ON (kp.id = f.konto) WHERE f.id <> 0 AND f.jobok = 1 ORDER BY f.navn"
                                     %>
                                     <select name="FM_fomr" id="FM_fomr" multiple="multiple" size="5" style="width:406px;">
-                                    <option value="0">Ingen valgt (viser alle)</option>
+                                    <option value="0"><%=extra_txt_033 %></option>
                                     
                                     <%
                                     
@@ -1204,7 +1204,7 @@ end function
 					select case cint(jobans)
 					case 1 
 					jobansChk = "CHECKED"
-					jobansVal = " - Jobansvarlig"
+					jobansVal = extra_txt_051
 					case else
 					jobansVal = ""    
 				    jobansChk = ""
@@ -1216,7 +1216,7 @@ end function
                         if request.cookies("tsa")("jans") = "1" then
                         jobans = 1
                         jobansChk = "CHECKED"
-					    jobansVal = " - Jobansvarlig"
+					    jobansVal = extra_txt_051
                         else
 				        jobansVal = ""
 				        jobansChk = ""
@@ -1233,7 +1233,7 @@ end function
                 jobans2 = request("FM_jobans2")
 					select case cint(jobans2)
 					case 1 
-					jobansVal2 = " - Jobejer"
+					jobansVal2 = " - "& extra_txt_052 &""
 					jobansChk2 = "CHECKED"
 					case else
 					jobansChk2 = ""
@@ -1242,7 +1242,7 @@ end function
                      response.cookies("tsa")("jans2") = jobans2
 				else
                      if request.cookies("tsa")("jans2") = "1" then
-                     jobansVal2 = " - Jobejer"
+                     jobansVal2 = " - "& extra_txt_052 &""
 					jobansChk2 = "CHECKED"
                     jobans2 = 1
                     else
@@ -1257,7 +1257,7 @@ end function
                 jobans3 = request("FM_jobans3")
 					select case cint(jobans3)
 					case 1 
-					jobansVal3 = " - Jobmedansvarlig 1-3"
+					jobansVal3 = " - "& extra_txt_053 &""
 					jobansChk3 = "CHECKED"
 					case else
 					jobansChk3 = ""
@@ -1266,7 +1266,7 @@ end function
                       response.cookies("tsa")("jans3") = jobans3
 				else
                       if request.cookies("tsa")("jans3") = "1" then
-				      jobansVal3 = " - Jobmedansvarlig 1-3"
+				      jobansVal3 = " - "& extra_txt_053 &""
 					  jobansChk3 = "CHECKED"
                       jobans3 = 1
                       else
@@ -1282,7 +1282,7 @@ end function
 	
 	kundejobansCHK1 = ""
 	kundejobansCHK0 = "CHECKED"
-	kontakt_keyaccountVAL = "Kontakt"
+	kontakt_keyaccountVAL = extra_txt_055
 	
 	kansVal = ""
 	kundeansChk = ""

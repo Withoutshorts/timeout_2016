@@ -431,7 +431,7 @@
 
 			            <tr>
 			                <td><input id="chkalle_0" type="checkbox" class="akt_afst" /></td>
-			                <td><b>Afstemning</b>
+			                <td><b><%=joblog_txt_136 %></b>
 			    
 			                </td>
 			                 <!-- <td><b>Time Regnsk.</b></td> -->
@@ -454,7 +454,7 @@
 			
                         <input id="FM_akttype_id_0_0" name="FM_akttype" type="checkbox" <%=akttypeCHK %> value="#-5#" class="akt_afst" /></td>
 			            <td >
-			            Komme/Gå tid (lønt.)
+			            <%=joblog_txt_137 %>
 			            </td>
 			
 			
@@ -476,7 +476,7 @@
 			
             <input id="FM_akttype_id_0_1" name="FM_akttype" type="checkbox" <%=akttypeCHK %> value="#-1#" class="akt_afst" /></td>
 			<td >
-			Vis sum-totaler på alle aktivitetstyper 
+			<%=joblog_txt_138 %> 
 			</td>
 			</tr>
 			
@@ -493,7 +493,7 @@
 			
             <input id="FM_akttype_id_0_2" name="FM_akttype" type="checkbox" <%=akttypeCHK %> value="#-2#" class="akt_afst" /></td>
 			<td >
-			Ressource timer
+			<%=joblog_txt_138 %>
 			</td>
 			</tr>
 			
@@ -510,7 +510,7 @@
 			
             <input id="FM_akttype_id_0_3" name="FM_akttype" type="checkbox" <%=akttypeCHK %> value="#-3#" class="akt_afst" /></td>
 			<td >
-			Faktureret timer
+			<%=joblog_txt_140 %>
 			</td>
 			</tr>
 			
@@ -527,7 +527,7 @@
 			
             <input id="FM_akttype_id_0_4" name="FM_akttype" type="checkbox" <%=akttypeCHK %> value="#-4#" class="akt_afst" /></td>
 			<td >
-			Mat. frb. / Udlæg
+			<%=joblog_txt_141 %>
 			</td>
 			</tr>
 		
@@ -543,7 +543,7 @@
 			
             <input id="FM_akttype_id_0_30" name="FM_akttype" type="checkbox" <%=akttypeCHK %> value="#-30#" class="akt_afst" /></td>
 			<td >
-			Faktureret Oms. hvor man er jobansvr. (1-5)
+			<%=joblog_txt_142 %>
 			</td>
 			</tr>
 
@@ -559,12 +559,12 @@
 			
             <input id="FM_akttype_id_0_40" name="FM_akttype" type="checkbox" <%=akttypeCHK %> value="#-40#" class="akt_afst" /></td>
 			<td >
-			Faktureret Oms. hvor man er salgsansvr. (1-5)
+			<%=joblog_txt_143 %>
 			</td>
 			</tr>
 
 
-           <tr><td colspan="2" style="padding-top:20px;">Vis kun saldo:</td></tr>
+           <tr><td colspan="2" style="padding-top:20px;"><%=joblog_txt_144 %>:</td></tr>
 
             <%if cint(stempelurOn) = 1 then%>
 
@@ -583,7 +583,7 @@
 			
             <input id="FM_akttype_id_0_10" name="FM_akttype" type="checkbox" <%=akttypeCHK %> value="#-10#" class="akt_afst_saldo" /></td>
 			<td >
-			Saldo Komme/Gå tid (lønt.) / Normtid 
+			<%=joblog_txt_145 %> 
 			</td>
 			
 			
@@ -606,7 +606,7 @@
 			
             <input id="FM_akttype_id_0_20" name="FM_akttype" type="checkbox" <%=akttypeCHK %> value="#-20#" class="akt_afst_saldo" /></td>
 			<td >
-			Saldo Realiseret / Normtid 
+			<%=joblog_txt_146 %> 
 			</td>
 			
 			
@@ -644,19 +644,19 @@
 			    'case 0
 			    'straktgrpnavn = "Afstemning"
 			    case 1
-			    straktgrpnavn = "Udspecificering<br> atk. typer"
+			    straktgrpnavn = ""& joblog_txt_147 & "<br> "& joblog_txt_148 &""
 			    aktcls = "akt_udspec"
 			    case 2
-			    straktgrpnavn = "Udspecificering<br>akt. typer<br> (kat. 2)"
+			    straktgrpnavn = ""& joblog_txt_147 & "<br>"& joblog_txt_148 & "<br> ("& joblog_txt_149 & ")"
 			    aktcls = "akt_flex"
 			    case 3
-			    straktgrpnavn = "Ferie"
+			    straktgrpnavn = joblog_txt_150
 			    aktcls = "akt_ferie"
 			    case 4
-			    straktgrpnavn = "Overarbejde / Afspadsering"
+			    straktgrpnavn = joblog_txt_151
 			    aktcls = "akt_overarb"
 			    case 5
-			    straktgrpnavn = "Sygdom / Fravær"
+			    straktgrpnavn = joblog_txt_152
 			    aktcls = "akt_syg"
 			    case else
 			    straktgrpnavn = ""
@@ -702,7 +702,7 @@
           
                  <%if oRec4("aty_sort") = "2,5" OR (oRec4("aty_sort") = "2,6" AND korrOversktiftIsWrt <> 1) then %>
             <tr>
-                <td colspan="2"><br /><br />Korrektion (overført) i forb. med lønperiode</td>
+                <td colspan="2"><br /><br /><%=joblog_txt_153 %></td>
                  </tr>
                 <%
                     korrOversktiftIsWrt = 1

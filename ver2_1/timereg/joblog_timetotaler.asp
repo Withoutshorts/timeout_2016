@@ -1461,7 +1461,7 @@ function LeiRotate() {
                  <input type="checkbox" name="FM_directexp" id="directexp" value="1" <%=directexpCHK %>/><%=grand_txt_035 %> (<%=grand_txt_036 %>)<br />
 
                 <br />
-                <b>.csv layout:</b><br /> <!-- mangler -->
+                <b><%=grand_txt_140 %>:</b><br />
                 <input type="radio" name="csv_pivot" id="csv_pivot0" value="0" <%=csv_pivotSEL0 %>> <%=grand_txt_037 %> (<%=grand_txt_038 %>)<br />
                 <input type="radio" name="csv_pivot" id="csv_pivot1" value="1" <%=csv_pivotSEL1 %>> <%=grand_txt_039 %> (<%=grand_txt_040 %>)
 
@@ -1487,7 +1487,7 @@ function LeiRotate() {
            <td align="right" colspan="2">
 
 
-	<input type="submit" value=" Kør >> "></td> <!-- Mangler -->
+	<input type="<%=grand_txt_138 %>" value=" <%=extra_txt_068 %> >> "></td>
 	</tr>
 	</form>
 	</table>
@@ -1704,7 +1704,7 @@ function LeiRotate() {
 
             <b>B)</b> <%=grand_txt_097 %> <b><%=grand_txt_098 %></b><br /><br />
 
-            <b>C)</b> <%=grand_txt_099 %><b>20 job</b> <%=grand_txt_100 %> <b>50 <%=grand_txt_101 %></b><br /><br /> <!-- mangler -->
+            <b>C)</b> <%=grand_txt_099 %><b><%=grand_txt_0137 %></b> <%=grand_txt_100 %> <b>50 <%=grand_txt_101 %></b><br /><br />
 
             <span style="color:red;"><%=grand_txt_102 %>: <b><%=antalm %></b> <%=grand_txt_103 %> <b><%=antJob %></b> <%=grand_txt_087 %>.</span><br /><br />
 
@@ -2622,14 +2622,14 @@ function LeiRotate() {
 						if oRec("fastpris") = 1 then
 						    'if oRec("usejoborakt_tp") <> 1 then
 						    jobmedtimer(x,33) = 1 
-						    jobmedtimer(x,8) = "Fastpris"
+						    jobmedtimer(x,8) = grand_txt_191
 						    'else
 						    'jobmedtimer(x,8) = " - Fastpris (akt. ~ tilnærm. timepris)"
 						    'jobmedtimer(x,33) = 2
 						    'end if
 						else
 						jobmedtimer(x,33) = 0
-						jobmedtimer(x,8) = "Lbn. timer" 
+						jobmedtimer(x,8) = grand_txt_192 
 						end if
 						
 						
@@ -2922,7 +2922,7 @@ function LeiRotate() {
             'Response.end
             
             if cint(directexp) = 1 then
-            Response.write "<br><br><br><div class=load>Gør din csv. fil klar, vent et øjeblik. Der går mellem 5 og 10 sekunder.</div>" ' mangler
+            Response.write "<br><br><br><div class=load>"&grand_txt_139&"</div>"
             end if
 
             Response.flush
@@ -3115,7 +3115,7 @@ function LeiRotate() {
                                             
                                                                 if cint(directexp) <> 1 then
                                                                 strJobLinie = strJobLinie & "</tr><tr><td colspan=400 style='padding:20px 10px 2px 2px;' bgcolor=#FFFFFF>"_
-    									                        &"Der er valgt udspecificering på følgende job:</td>"
+    									                        &""& grand_txt_108 &":</td>"
                                                                 end if
 
                                                                     subbudgettimer = 0
@@ -5191,11 +5191,11 @@ function LeiRotate() {
             
                 <%if len(strJobLinie) > 30000000 then %>
         <td class=lille>
-        Mængden af data er for stor til eksport. Vælg et mindre interval ell. færre 
-        medarbejdere. Størrelsen på data er: <%=len(strJobLinie) %> og den må ikke overstige 30000000 bytes.
+            <%=extra_txt_079 %>
+            <%=extra_txt_080 %> <%=len(strJobLinie) %> <%=extra_txt_081 %>
         <%else %>
     
-        <td><input type="submit" id="sbm_csv" value="CSV. fil eksport >>" style="font-size:9px;" /></td>
+        <td><input type="submit" id="sbm_csv" value="<%=extra_txt_082 %> >>" style="font-size:9px;" /></td>
    
         <%end if %>
             
@@ -5239,7 +5239,7 @@ function LeiRotate() {
 			  
                 <tr>
                
-                <td><br /><input type="submit" value="Print >>" style="font-size:9px;" /> </td>
+                <td><br /><input type="submit" value="<%=extra_txt_078 %> >>" style="font-size:9px;" /> </td>
                </tr>
                </form>
 	            

@@ -654,7 +654,7 @@ end function
   
     <table cellpadding=2 cellspacing=0 border=0 width=100%>
     <tr>
-    <td height=30 bgcolor="#ffffff" style="border-bottom:0px #cccccc solid;" colspan=2><h4>Print & Funktioner</h4></td>
+    <td height=30 bgcolor="#ffffff" style="border-bottom:0px #cccccc solid;" colspan=2><h4><%=extra_txt_083 %></h4></td>
     </tr>
 	<%
 	end function
@@ -669,7 +669,7 @@ end function
   
     <table cellpadding=2 cellspacing=0 border=0 width=100%>
     <tr>
-    <td height=30 bgcolor="#ffffff" style="border-bottom:0px #cccccc solid;" colspan=2><h4>Print & Funktioner</h4></td>
+    <td height=30 bgcolor="#ffffff" style="border-bottom:0px #cccccc solid;" colspan=2><h4><%=extra_txt_083 %></h4></td>
     </tr>
 	<%
 	end function

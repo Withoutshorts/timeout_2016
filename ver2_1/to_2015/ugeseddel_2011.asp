@@ -1262,7 +1262,7 @@ if len(session("user")) = 0 then
     <div class="well" style="width:35%;">
       <div class="portlet">
         <h3 class="portlet-title">
-          <u>Funktioner:</u><!-- ugeseddel -->
+          <u><%=extra_txt_085 %>:</u><!-- ugeseddel -->
         </h3>
 
           

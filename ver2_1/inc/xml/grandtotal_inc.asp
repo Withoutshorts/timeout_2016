@@ -4,10 +4,10 @@ Dim objXMLHTTP_grand, objXMLDOM_grand, i_grand, strHTML_grand
 
 Set objXMLDom_grand = Server.CreateObject("Microsoft.XMLDOM")
 Set objXmlHttp_grand = Server.CreateObject("Msxml2.ServerXMLHTTP")
-objXmlHttp_grand.open "GET", "http://localhost/Git/timeout_2016/ver2_1/inc/xml/grandtotal_sprog.xml", False
+'objXmlHttp_grand.open "GET", "http://localhost/Git/timeout_2016/ver2_1/inc/xml/grandtotal_sprog.xml", False
 'objXmlHttp_grand.open "GET", "http://localhost/inc/xml/grandtotal_sprog.xml", False
 'objXmlHttp_grand.open "GET", "http://outzource.dk/timeout_xp/wwwroot/ver2_10/inc/xml/grand_sprog.xml", False
-'objXmlHttp_grand.open "GET", "https://timeout.cloud/timeout_xp/wwwroot/ver3_99/inc/xml/grandtotal_sprog.xml", False
+objXmlHttp_grand.open "GET", "https://timeout.cloud/timeout_xp/wwwroot/ver3_99/inc/xml/grandtotal_sprog.xml", False
 'objXmlHttp_grand.open "GET", "https://outzource.dk/timeout_xp/wwwroot/ver2_14/inc/xml/grandtotal_sprog.xml", False
 'objXmlHttp_grand.open "GET", "https://timeout.cloud/timeout_xp/wwwroot/ver2_14/inc/xml/grandtotal_sprog.xml", False
 
@@ -231,6 +231,70 @@ Set oNodes_grand = objXmlDom_grand.documentElement.selectNodes(sXPathQuery_grand
    grand_txt_134 = oNode_grand.selectSingleNode("txt_134").Text
    grand_txt_135 = oNode_grand.selectSingleNode("txt_135").Text
    grand_txt_136 = oNode_grand.selectSingleNode("txt_136").Text
+   grand_txt_137 = oNode_grand.selectSingleNode("txt_137").Text
+   grand_txt_138 = oNode_grand.selectSingleNode("txt_138").Text
+   grand_txt_139 = oNode_grand.selectSingleNode("txt_139").Text
+   grand_txt_140 = oNode_grand.selectSingleNode("txt_140").Text
+
+    grand_txt_141 = oNode_grand.selectSingleNode("txt_141").Text
+            
+    grand_txt_142 = oNode_grand.selectSingleNode("txt_142").Text
+    grand_txt_143 = oNode_grand.selectSingleNode("txt_143").Text
+    grand_txt_144 = oNode_grand.selectSingleNode("txt_144").Text
+    grand_txt_145 = oNode_grand.selectSingleNode("txt_145").Text
+    grand_txt_146 = oNode_grand.selectSingleNode("txt_146").Text
+            
+    grand_txt_147 = oNode_grand.selectSingleNode("txt_147").Text
+    grand_txt_148 = oNode_grand.selectSingleNode("txt_148").Text
+    grand_txt_149 = oNode_grand.selectSingleNode("txt_149").Text
+            
+    grand_txt_150 = oNode_grand.selectSingleNode("txt_150").Text
+    grand_txt_151 = oNode_grand.selectSingleNode("txt_151").Text
+    grand_txt_152 = oNode_grand.selectSingleNode("txt_152").Text
+    grand_txt_153 = oNode_grand.selectSingleNode("txt_153").Text
+    grand_txt_154 = oNode_grand.selectSingleNode("txt_154").Text
+    grand_txt_155 = oNode_grand.selectSingleNode("txt_155").Text
+    grand_txt_156 = oNode_grand.selectSingleNode("txt_156").Text
+    grand_txt_157 = oNode_grand.selectSingleNode("txt_157").Text
+    grand_txt_158 = oNode_grand.selectSingleNode("txt_158").Text
+    grand_txt_159 = oNode_grand.selectSingleNode("txt_159").Text
+            
+    grand_txt_160 = oNode_grand.selectSingleNode("txt_160").Text
+    grand_txt_161 = oNode_grand.selectSingleNode("txt_161").Text
+    grand_txt_162 = oNode_grand.selectSingleNode("txt_162").Text
+    grand_txt_163 = oNode_grand.selectSingleNode("txt_163").Text
+    grand_txt_164 = oNode_grand.selectSingleNode("txt_164").Text
+    grand_txt_165 = oNode_grand.selectSingleNode("txt_165").Text
+    grand_txt_166 = oNode_grand.selectSingleNode("txt_166").Text
+    grand_txt_167 = oNode_grand.selectSingleNode("txt_167").Text
+    grand_txt_168 = oNode_grand.selectSingleNode("txt_168").Text
+    grand_txt_169 = oNode_grand.selectSingleNode("txt_169").Text
+            
+    grand_txt_170 = oNode_grand.selectSingleNode("txt_170").Text
+    grand_txt_171 = oNode_grand.selectSingleNode("txt_171").Text
+    grand_txt_172 = oNode_grand.selectSingleNode("txt_172").Text
+    grand_txt_173 = oNode_grand.selectSingleNode("txt_173").Text
+    grand_txt_174 = oNode_grand.selectSingleNode("txt_174").Text
+    grand_txt_175 = oNode_grand.selectSingleNode("txt_175").Text
+    grand_txt_176 = oNode_grand.selectSingleNode("txt_176").Text
+    grand_txt_177 = oNode_grand.selectSingleNode("txt_177").Text
+    grand_txt_178 = oNode_grand.selectSingleNode("txt_178").Text
+    grand_txt_179 = oNode_grand.selectSingleNode("txt_179").Text
+            
+    grand_txt_180 = oNode_grand.selectSingleNode("txt_180").Text
+    grand_txt_181 = oNode_grand.selectSingleNode("txt_181").Text
+    grand_txt_182 = oNode_grand.selectSingleNode("txt_182").Text
+    grand_txt_183 = oNode_grand.selectSingleNode("txt_183").Text
+    grand_txt_184 = oNode_grand.selectSingleNode("txt_184").Text
+    grand_txt_185 = oNode_grand.selectSingleNode("txt_185").Text
+    grand_txt_186 = oNode_grand.selectSingleNode("txt_186").Text
+    grand_txt_187 = oNode_grand.selectSingleNode("txt_187").Text
+            
+    grand_txt_188 = oNode_grand.selectSingleNode("txt_188").Text
+    grand_txt_189 = oNode_grand.selectSingleNode("txt_189").Text
+    grand_txt_190 = oNode_grand.selectSingleNode("txt_190").Text
+    grand_txt_191 = oNode_grand.selectSingleNode("txt_191").Text
+    grand_txt_192 = oNode_grand.selectSingleNode("txt_192").Text
 
   
           
@@ -239,8 +303,8 @@ Set oNodes_grand = objXmlDom_grand.documentElement.selectNodes(sXPathQuery_grand
 
 
 
-'Response.Write "tsa_txt_001: " & tsa_txt_001 & "<br>"
-'Response.Write "tsa_txt_002: " & tsa_txt_002 & "<br>"
+'Response.Write "grand_txt_001: " & grand_txt_001 & "<br>"
+'Response.Write "grand_txt_002: " & grand_txt_002 & "<br>"
 
 
 %>

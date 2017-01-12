@@ -141,7 +141,7 @@ bdsThis = 1
 end if
 
 dageDatoerTxt = "<tr><td colspan=2 bgcolor=""#FFFFFF"" style=""padding:5px 5px 4px 5px; border-bottom:"&bdsThis&"px #cccccc solid;""><b>"&tsa_txt_005&": "& datepart("ww", tjekdag(1), 2,2) & "&nbsp;&nbsp;&nbsp;" & datepart("yyyy", tjekdag(1), 2,2) &"</b></td>"
-dageDatoerTxt = dageDatoerTxt & "<td colspan="&cspsThis+3&" bgcolor=""#FFFFFF"" align=right style=""padding:5px 5px 4px 5px; border-bottom:"&bdsThis&"px #cccccc solid; font-size:10px;""><i> "& meTxt &" - "& normTimerprUge &" t. pr. uge</i></td>"
+dageDatoerTxt = dageDatoerTxt & "<td colspan="&cspsThis+3&" bgcolor=""#FFFFFF"" align=right style=""padding:5px 5px 4px 5px; border-bottom:"&bdsThis&"px #cccccc solid; font-size:10px;""><i> "& meTxt &" - "& normTimerprUge &" "& extra_txt_091 &"</i></td>"
 
 dageDatoerTxt = dageDatoerTxt & "</tr>"
 

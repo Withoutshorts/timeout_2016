@@ -117,6 +117,17 @@
 	    <input type="hidden" name="id" value="<%=id%>">
     
             <div class="row">
+                <div class="col-lg-2">
+
+                    <select class="form-control">
+                        <option value="0">test</option>
+                        <option value="1">testtesttesttesttesttesttesttesttest</option>
+                    </select>
+
+                </div>
+            </div>
+
+            <div class="row">
                 <div class="col-lg-10">&nbsp</div>
                 <div class="col-lg-2 pad-b10">
                     <button type="submit" class="btn btn-success btn-sm pull-right"><b>Opdatér</b></button>

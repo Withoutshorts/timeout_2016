@@ -6,12 +6,12 @@
     %>
 <table cellspacing="0" cellpadding="0" border="0" width="100%" bgcolor="#EFF3FF">
 <tr bgcolor="#5582D2">
-		<td class="alt" valign="bottom" style="width:400px"><b>Navn</b></td>
-		<td class="alt" valign="bottom" style="padding-right:20px;"><b>Tilføj/Fjern?</b></td>
-		<td class="alt" valign="bottom" style="padding-right:20px;"><b>Teamleder?</b><br />
-		<span style="font-color:#999999;">Kan trække statistik på <br />andre medarbejdere i gruppen<br />(kun admin. kan oprette teamledere)</span></td>
-        <td class="alt" valign="bottom" style="padding-right:20px;"><b>Notificer</b> <br />
-        <span style="font-color:#999999;">Modtag mail ved sygdom og ferie registreringer</span></td>
+		<td class="alt" valign="bottom" style="width:400px"><b><%=extra_txt_070 %></b></td>
+		<td class="alt" valign="bottom" style="padding-right:20px;"><b><%=extra_txt_071 %></b></td>
+		<td class="alt" valign="bottom" style="padding-right:20px;"><b><%=extra_txt_072 %></b><br />
+		<span style="font-color:#999999;"><%=extra_txt_073 %> <br /><%=extra_txt_074 %><br />(<%=extra_txt_075 %>)</span></td>
+        <td class="alt" valign="bottom" style="padding-right:20px;"><b><%=extra_txt_076 %></b> <br />
+        <span style="font-color:#999999;"><%=extra_txt_077 %></span></td>
 	</tr>
 
 <%
@@ -885,7 +885,7 @@ function medarbiprojgrp(progrp, medid, mtypesorter, seloptions)
 
     instrMedidProgrp = "#0#,"
     'strOptionsJqHd = "0"
-    strOptionsJq = "<option value='0'>Alle</option>" 
+    strOptionsJq = "<option value='0'>"& extra_txt_010 &"</option>" 
 
     oRec3.Open strSQLp, oConn, 0, 1
     m = 0
@@ -1100,9 +1100,9 @@ strSQLmansat = strSQLmansat & ")"
 end if
 
 %>
-    <td valign=top style="padding-top:20px; width:426px;"><b>Projektgrupper:</b><br />
+    <td valign=top style="padding-top:20px; width:426px;"><b><%=extra_txt_057 %>:</b><br />
     <span style="font-size:10px; line-height:12px; color:#999999; padding-top:4px;">
-        Admin.: alle projektgrupper, ellers dem du er teamleder for.
+        <%=extra_txt_058 %>
         </span><br />
        
        <% 
@@ -1188,7 +1188,7 @@ end if
       
       if pf = 0 then
       %>
-       <option value="-1" SELECTED>Ingen projektgruppe fundet</option>
+       <option value="-1" SELECTED><%=extra_txt_059 %></option>
        
       <%
       end if
@@ -1198,14 +1198,14 @@ end if
       
 
             <br />
-        <input id="FM_visdeakmed" name="FM_visdeakmed" type="checkbox" <%=visdeakmedCHK %> /> Vis de-aktiverede medarbejdere.  <br /><input id="FM_visdeakmed12" name="FM_visdeakmed12" type="checkbox" <%=visdeakmed12CHK %> /> Vis kun De-akt. opsagt indenfor seneste 12 md.<br />
-        <input id="FM_vispasmed" name="FM_vispasmed" type="checkbox" <%=vispasmedCHK %> /> Vis passive medarbejdere<br />&nbsp;
+        <input id="FM_visdeakmed" name="FM_visdeakmed" type="checkbox" <%=visdeakmedCHK %> /> <%=extra_txt_060 %>  <br /><input id="FM_visdeakmed12" name="FM_visdeakmed12" type="checkbox" <%=visdeakmed12CHK %> /> <%=extra_txt_061 %><br />
+        <input id="FM_vispasmed" name="FM_vispasmed" type="checkbox" <%=vispasmedCHK %> /> <%=extra_txt_062 %><br />&nbsp;
      
         <input type="hidden" id="jq_userid" value="<%=medarbid%>" />
          
         </td>
   
-	<td valign=top style="padding-top:20px;"><b>Medarbejdere:</b> (<span id="antalmedarblist"><%=antalMedgrp+1 %></span>)
+	<td valign=top style="padding-top:20px;"><b><%=extra_txt_063 %>:</b> (<span id="antalmedarblist"><%=antalMedgrp+1 %></span>)
     <br /><img src="../ill/blank.gif" width="50" height="11"  border="0"/><br /> 
 	<%
 	mft = 0 
@@ -1225,7 +1225,7 @@ end if
             call mtyperIGrp_fn(vlgtmtypgrp,1)    
             
             strOptionsJq = "<option value='0' DISABLED>Medarbejdertypegruppe(r)</option>"
-            strOptionsJq = strOptionsJq & "<option value='0'>Alle</option>"
+            strOptionsJq = strOptionsJq & "<option value='0'>"& extra_txt_010 &"</option>"
             'strOptionsJq = "<option value='0' DISABLED></option>"
             
             'for t = 1 to UBOUND(mtypgrpids)
@@ -1286,14 +1286,14 @@ end if
 
      <%if thisfile = "joblog_timetotaler" then %>
              <br />
-              <input type="checkbox" name="FM_vis_medarbejdertyper" id="FM_vis_medarbejdertyper" value="1" <%=vis_medarbejdertyperChk %> />Udspecificer på medarbejdertyper<br />
+              <input type="checkbox" name="FM_vis_medarbejdertyper" id="FM_vis_medarbejdertyper" value="1" <%=vis_medarbejdertyperChk %> /><%=extra_txt_064 %><br />
 
                 <%if cint(bdgmtypon_val) = 1 AND cint(bdgmtypon_prgrp) > 1 then  %>
-               <input type="checkbox" name="FM_vis_medarbejdertyper_grp" id="FM_vis_medarbejdertyper_grp" value="1" <%=vis_medarbejdertyper_grpChk %> />Udspecificer på medarbejdertype-grupper
-               <br /> <span style="font-size:9px; color:#999999;">(ignorerer projektgrupper. Viser alle medarb. uanset status)</span><br /><br />  
+               <input type="checkbox" name="FM_vis_medarbejdertyper_grp" id="FM_vis_medarbejdertyper_grp" value="1" <%=vis_medarbejdertyper_grpChk %> /><%=extra_txt_065 %>
+               <br /> <span style="font-size:9px; color:#999999;">(<%=extra_txt_066 %>)</span><br /><br />  
             <%end if %>    
 
-              <input type="checkbox" name="FM_visMedarbNullinier" id="FM_visMedarbNullinier" value="1" <%=vis_visMedarbNullinierChk %> />Vis medarbejdere uden timer i periode.
+              <input type="checkbox" name="FM_visMedarbNullinier" id="FM_visMedarbNullinier" value="1" <%=vis_visMedarbNullinierChk %> /><%=extra_txt_067 %>
               
              
 		    <%end if %>
@@ -1309,6 +1309,7 @@ end if
     if len(trim(medarbgrpId(m))) <> 0 AND medarbgrpId(m) > 0 then 
     strFMmedarb_hd = strFMmedarb_hd & ", "& medarbgrpId(m) 
     end if%>
+
 	
 	<%next 
         
@@ -1316,7 +1317,7 @@ end if
 	<input id="FM_medarb_hidden" name="FM_medarb_hidden" type="hidden" value="<%=strFMmedarb_hd%>" />
 
 
-       <br /><br /><img src="../ill/blank.gif" width="200" height="1" border="0" /><input id="Submit2" type="submit" value="Vis medarbejdere >> " style="font-size:9px;" />
+       <br /><br /><img src="../ill/blank.gif" width="200" height="1" border="0" /><input id="Submit2" type="submit" value="<%=extra_txt_069 %> >> " style="font-size:9px;" />
 	</td>
 
 <% 
