@@ -856,7 +856,7 @@ case else
                    <tr>
                        <th style="width: 5%">Id</th>
                        <th style="width: 55%">Projektgruppe</th>
-                       <th style="width: 20%">Medlemmer</th>
+                       <th style="width: 20%">Medlemmer (aktive + passive)</th>
                        <th style="width: 8%">Orga./Virtuel?</th>
                        <th style="width: 7%">Privat/åben?</th>
                        <th style="width: 5%">Slet</th>

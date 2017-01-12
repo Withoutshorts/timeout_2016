@@ -744,8 +744,12 @@ if len(strLicenskey) <> 0 then
 	strConnThis = "timeout_sdeo64"
 
     case "9K2016-0410-TO171" 'Epinion 2017
-	lto = "epi_2017"
+	lto = "epi2017"
 	strConnThis = "timeout_epi201764"
+
+    case "9K2016-2012-TO172" 'Eniga
+	lto = "eniga"
+	strConnThis = "timeout_eniga64"
 
         
     

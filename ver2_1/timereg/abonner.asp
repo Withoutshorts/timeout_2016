@@ -37,7 +37,9 @@ tloadA = now
             
 
             'strConnect_admin = "driver={MySQL ODBC 3.51 Driver};server=62.182.173.226;Port=3306; uid=outzource;pwd=SKba200473;database=timeout_admin;"
-            strConnect_admin = "driver={MySQL ODBC 3.51 Driver};server=localhost;Port=3306; uid=to_outzource2;pwd=SKba200473;database=timeout_admin;" 
+            'strConnect_admin = "driver={MySQL ODBC 3.51 Driver};server=localhost;Port=3306; uid=root;pwd=;database=timeout_admin;"
+            'strConnect_admin = "driver={MySQL ODBC 3.51 Driver};server=localhost;Port=3306; uid=to_outzource2;pwd=SKba200473;database=timeout_admin;" 
+            strConnect_admin = "driver={MySQL ODBC 3.51 Driver};server=194.150.108.154;Port=3306; uid=to_outzource2;pwd=SKba200473;database=timeout_admin;" 
             Set oConn_admin = Server.CreateObject("ADODB.Connection")
             Set oRec_admin = Server.CreateObject ("ADODB.Recordset")
 
@@ -48,6 +50,7 @@ tloadA = now
             'Response.write request("FM_abo_mid") & "<br>"
 
             aMedid = split(request("FM_abo_mid"), ", ") 'session("mid")
+            
             aMedTyp = request("FM_abo_mtyp")
             
             if trim(aMedTyp) = "-1" then 'kan kun abonnere på enten eller
@@ -75,24 +78,39 @@ tloadA = now
          
 
             'if meBrugergruppe = 3 then 'Admin
-            rapporttype = 0 'Viser for alle medarbejdere
+            if len(trim(request("FM_rapporttype"))) <> 0 then
+            rapporttype = request("FM_rapporttype")
+            
+                    if cint(rapporttype) = 2 then
+                    'Jobansvarlig rapport - Viser for alle medarbejdere
+                    aMedTyp = 0
+                    aProgrp = 0
+                    end if
+
+            else
+            rapporttype = 0
+            end if 
+            
             'else
             'rapporttype = 1 'Viser kun tal for sig sel
             'end if
 
                 '** Findes den i forvejen ==> gør intet ***'
-                strSQLAbo = "SELECT medid FROM rapport_abo WHERE medid = "& aMedid(m) & " AND lto = '"& lto & "'"
-                oRec_admin.open strSQLAbo, oConn_admin, 3
-                if not oRec_admin.EOF then
 
-                else '**Insert
+
+                '*** 20170104 ÆNDRET: Man skal kunne abonnere på flere typer af rapporter ***
+                'strSQLAbo = "SELECT medid FROM rapport_abo WHERE medid = "& aMedid(m) & " AND lto = '"& lto & "'"
+                'oRec_admin.open strSQLAbo, oConn_admin, 3
+                'if not oRec_admin.EOF then
+
+                'else '**Insert
 
                  strSQLAbo = "INSERT INTO rapport_abo (dato, editor, lto, navn, email, medid, rapporttype, akttyper, medarbejdertyper, projektgrupper) "_
                  &" VALUES ('"& dtNowSQL &"','"& editor &"', '"& lto &"', '"& meNavn &"', '"& meEmail &"', "& aMedid(m) &", "& rapporttype &", '#0#', '"& aMedTyp &"', '"& aProgrp &"' )"
                  oConn_admin.execute(strSQLAbo)
 
-                end if
-                oRec_admin.close
+                'end if
+                'oRec_admin.close
           
             
             next
@@ -118,7 +136,8 @@ tloadA = now
 
 
             'strConnect_admin = "driver={MySQL ODBC 3.51 Driver};server=62.182.173.226;Port=3306; uid=outzource;pwd=SKba200473;database=timeout_admin;"
-            strConnect_admin = "driver={MySQL ODBC 3.51 Driver};server=localhost;Port=3306; uid=to_outzource2;pwd=SKba200473;database=timeout_admin;" 
+            'strConnect_admin = "driver={MySQL ODBC 3.51 Driver};server=localhost;Port=3306; uid=to_outzource2;pwd=SKba200473;database=timeout_admin;" 
+            strConnect_admin = "driver={MySQL ODBC 3.51 Driver};server=194.150.108.154;Port=3306; uid=to_outzource2;pwd=SKba200473;database=timeout_admin;"
             Set oConn_admin = Server.CreateObject("ADODB.Connection")
             Set oRec_admin = Server.CreateObject ("ADODB.Recordset")
 
@@ -142,20 +161,7 @@ case else
 <!--#include file="../inc/regular/header_lysblaa_inc.asp"-->
 	
 
-<!--
-	<div id="topmenu" style="position:absolute; left:0; top:42; visibility:visible;">
-	
-	<%'call tsamainmenu(7)%>
-	</div>
-	<div id="sekmenu" style="position:absolute; left:15; top:82; visibility:visible;">
-	<%
-	'if showonejob <> 1 then
-	'	call stattopmenu()
-	'end if
-	%>
-	</div>
--->
-
+ <script src="inc/abonner_jav.js"></script>
 <%
 
     call menu_2014()
@@ -176,7 +182,7 @@ oskrift = "Abonnér"
 %>
 
              Abonnér på uge rapporten. Rapporten indeholder bl.a normtid, realiseret tid og fravær mm.<br />
-            Valgte medarbejder ønsker at abonnére på uge-rapporten. Udsendes tirsdag morgen.<br /><br />
+            Valgte medarbejder ønsker at abonnére på uge-rapporten. Udsendes tirsdag morgen 07:00.<br /><br />
             Vælg <b>medarbejder</b>, samt hvilke <b>medarbejdertyper <u>eller</u> projektgrupper</b> de skal abonnere på.<br />&nbsp;
 
 
@@ -184,7 +190,8 @@ oskrift = "Abonnér"
         <table cellspacing=0 cellpadding=0 border=0 width=100%>
        
         <tr>     
-	            <td>Vælg modtager<br /><b>Medarbejdere:</b> (kun dem med email adr.)<br />
+	            <td><br /><b>A) Modtagere:</b><br />
+        Aktive (kun dem med email adr.)<br />
         <%strSQLm = "SELECT mnavn, mid, email FROM medarbejdere WHERE mansat = 1 AND email <> '' ORDER BY mnavn"
 
         'if session("mid") = 1 then
@@ -192,7 +199,7 @@ oskrift = "Abonnér"
         'end if
         
         %>
-        <select style="width:230px; font-size:11px;" size="10" multiple name="FM_abo_mid">
+        <select style="width:180px; font-size:11px;" size="10" multiple name="FM_abo_mid">
         <%
         oRec2.open strSQLm, oConn, 3
         While Not oRec2.EOF 
@@ -213,8 +220,19 @@ oskrift = "Abonnér"
          <input type="hidden" name="FM_abo" value="1" /> 
         </td>
 
+         <td><br /><b>B) Rapporttype:</b><br />
+        Vælg udgangspunkt:<br />
+        <select style="width:230px; font-size:11px;" size="10" name="FM_rapporttype" id="FM_rapporttype">
+            <option value="1" SELECTED>Ugetotaler for valgte medarbejdere (fra pkt. B og C)</option>
+            <option value="2">For projekter hvor valgte modtager (pkt A er jobansvar./jobejer) </option>
+        </select>
 
-             <td>Vælg hvilke medarbejdere der skal med i rapporten. <br />Enten medarbejdertyper eller projektgrupper<br /><b>A) Medarbejdertyper:</b><br />
+
+       
+        </td>
+
+
+             <td>Vælg hvilke medarbejdere der skal med i rapporten. <br /><b>Enten:</b> <br /><b>C) Medarbejdertyper:</b><br />
         <%strSQLm = "SELECT id, type FROM medarbejdertyper WHERE id <> 0 ORDER BY type"
 
         'if session("mid") = 1 then
@@ -222,7 +240,7 @@ oskrift = "Abonnér"
         'end if
         
         %>
-        <select style="width:230px; font-size:11px;" size="10" multiple name="FM_abo_mtyp">
+        <select style="width:230px; font-size:11px;" size="10" multiple name="FM_abo_mtyp" id="FM_abo_mtyp">
             <option value="-2" SELECTED>Kun sig selv</option>
               <option value="-1">Ingen</option>
             <option value="0">Alle</option>
@@ -244,7 +262,7 @@ oskrift = "Abonnér"
 
        
         </td>
-                 <td><br /><b>B) Projektgrupper:</b><br />
+                 <td><br /><b>Eller:</b><br /><b>D) Projektgrupper:</b><br />
         <%strSQLm = "SELECT id, navn FROM projektgrupper WHERE id <> 0 ORDER BY navn"
 
         'if session("mid") = 1 then
@@ -252,7 +270,7 @@ oskrift = "Abonnér"
         'end if
         
         %>
-        <select style="width:230px; font-size:11px;" size="10" multiple name="FM_abo_progrp">
+        <select style="width:230px; font-size:11px;" size="10" multiple name="FM_abo_progrp" id="FM_abo_progrp">
             <option value="-1" SELECTED>Ingen</option>
             <option value="0">Alle</option>
         <%
@@ -275,11 +293,14 @@ oskrift = "Abonnér"
         </td>
 
 
+        
+
+
 
 
         </tr>
         <tr>
-	    <td align=right valign=bottom colspan="3">
+	    <td align=right valign=bottom colspan="4" style="padding-right:30px;"><br />
 
 
             <input id="Submit5" type="submit" value="Tilføj >>" />
@@ -298,17 +319,16 @@ if request.servervariables("PATH_TRANSLATED") <> "c:\www\timeout_xp\wwwroot\ver2
 
 
 
-            strConnect_admin = "driver={MySQL ODBC 3.51 Driver};server=localhost;Port=3306; uid=to_outzource2;pwd=SKba200473;database=timeout_admin;"
+            'strConnect_admin = "driver={MySQL ODBC 3.51 Driver};server=localhost;Port=3306; uid=to_outzource2;pwd=SKba200473;database=timeout_admin;"
+            strConnect_admin = "driver={MySQL ODBC 3.51 Driver};server=194.150.108.154;Port=3306; uid=to_outzource2;pwd=SKba200473;database=timeout_admin;" 
             Set oConn_admin = Server.CreateObject("ADODB.Connection")
             Set oRec_admin = Server.CreateObject ("ADODB.Recordset")
             oConn_admin.open strConnect_admin
 
          %>
 
-  <b>Abonenter:</b> (rapporttype)<br />
-   <span style="color:#999999;">
-  0: Standard<br />
-  1: Tilpasset</span><br /><br />
+  <h3>Abonenter:</h3> 
+ 
 
 <table width="100%">
     <tr><td><b>Medarbejder</b></td><td><b>Rapporttype</b></td><td>Medarbejdertyper tilvalgt (0=alle, -1=ingen, -2=sig selv)</td><td>Projekgrupper tilvalgt (0=alle)</td><td>&nbsp;</td></tr>
@@ -324,8 +344,18 @@ if request.servervariables("PATH_TRANSLATED") <> "c:\www\timeout_xp\wwwroot\ver2
             %>
             <tr>
             <td><%=oRec_admin("navn")%></td><td><%=oRec_admin("rapporttype") %></td>
-            <td><%=oRec_admin("medarbejdertyper") %></td>        
-            <td><%=oRec_admin("projektgrupper") %></td>
+            <td>
+                
+                <%if oRec_admin("medarbejdertyper") <> "-1" then %>
+                <%=oRec_admin("medarbejdertyper") %>
+                <%end if %>
+            </td>        
+            <td>
+                <%if oRec_admin("medarbejdertyper") = "-1" then %>
+                <%=oRec_admin("projektgrupper") %>
+                <%end if %>
+            </td>
+                
                 <td><a href="abonner.asp?func=abo_slet&FM_abo_mid=<%=oRec_admin("medid") %>" class="slet">Slet</a></td>
                 </tr>
     <%

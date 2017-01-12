@@ -159,7 +159,7 @@
                 'end if
 
                 if (jobkundesog = "-1") then 'kunde job sog DD
-                    strJobogKunderTxt = strJobogKunderTxt & "<option value=""-1"" SELECTED>"& ttw_txt_026 &"</option>"
+                    strJobogKunderTxt = strJobogKunderTxt & "<option value=""-1"" SELECTED>Vælg job:</option>"
                 end if   
                            
 

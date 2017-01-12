@@ -650,7 +650,7 @@ end function
         pwdt = 180
         end if
 	%>
-	<div id=eksport style="position:absolute; background-color:#ffffff; width:<%=pwdt%>px; left:<%=pleft%>px; top:<%=ptop%>px; padding:10px 10px 10px 10px; z-index:1000;">
+	<div id=eksport style="position:absolute; background-color:#ffffff; width:<%=pwdt%>px; left:<%=pleft%>px; top:<%=ptop%>px; padding:10px 10px 10px 10px; z-index:9000000000;">
   
     <table cellpadding=2 cellspacing=0 border=0 width=100%>
     <tr>
@@ -1538,19 +1538,24 @@ function opdaterFeriePl(level, highV)
 
                             
 
-                            ''if lto = "wwf" AND session("mid") = 1 then
+                            'if lto = "esn" AND session("mid") = 1 then
                             'response.write "fe_optjent: "& fe_optjent
                             'response.Write "<br>fe_afholdtmlon: " & fe_afholdtmlon & "<br>"
                             'response.write "timerthis" & timerthis
                             'response.write "<br>afholdetUlon: " & (fe_optjent - (fe_afholdtmlon + timerThis)) * -1 & "<br><br>"
-                            
+                            'response.end
                             'end if
 
 
                             '*** Overfører til afholdt uden løn
-                            if (fe_afholdtmlon + timerThis) >= fe_optjent AND fe_optjent > 0 then
+                            if (fe_afholdtmlon + timerThis) >= fe_optjent AND fe_optjent >= 0 then
 
 
+                            'if lto = "esn" AND session("mid") = 1 then
+                          
+                            'response.write "<br>Finder afholdetUlon: <br><br>"
+                            'response.end
+                            'end if
                           
 
                             afholdetUlon = (fe_optjent - (fe_afholdtmlon + timerThis)) * -1  

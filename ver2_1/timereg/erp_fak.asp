@@ -2751,6 +2751,9 @@ if len(session("user")) = 0 then
 		momskonto = 1
         preValgtModKonto = 0
 
+
+
+
             '*** Finder kunde til moms ER DET EU / uden for DK kunde ***'
             thisLand = ""
             strSQL = "SELECT land "_
@@ -2765,6 +2768,7 @@ if len(session("user")) = 0 then
 
             thisLand = oRec("land")
 
+            
             select case thisLand
             case "DK", "Danmark", "Denmark"
             preValgtModKonto = 1
@@ -3023,7 +3027,7 @@ if len(session("user")) = 0 then
 	               
 	               
                 <%select case lto
-                    case "nt", "intranet - local"
+                    case "nt", "intranet - local", "bf"
                     sideDivVzb = "hidden"
                     sideDivDsp = "none"
                     sideDivVzbAlt = "visible"
@@ -4513,7 +4517,7 @@ if len(session("user")) = 0 then
 
         <tr><td><br />
     <b><%=erp_txt_289 %>:</b><br />
-    <span style="color:#999999;"><%=erp_txt_290 %></span><br />
+    <!--<span style="color:#999999;"><%=erp_txt_290 %></span>-->
 
     
 
@@ -4567,10 +4571,11 @@ if len(session("user")) = 0 then
 
  <table cellspacing=0 cellpadding=5 border=0 width=100% bgcolor="#ffffff">
  
+     <!--
 	<tr><td valign=top style="padding:12px 5px 2px 5px;"><b><%=erp_txt_128 %></b><br />
-	 <span style="color:#999999;"><%=erp_txt_129 %></span></td></tr>
+	 <span style="color:#999999;"><%=erp_txt_129 %></span></td></tr>-->
 	<tr>
-	<td valign=top style="padding:12px 5px 2px 5px;"><b><%=erp_txt_130 %></b><br />
+	<td valign=top style="padding:12px 5px 2px 5px;"><b><%=erp_txt_130 %></b> (kunde konto)<br />
 	
 		<%
 		if func = "red" then
@@ -4587,7 +4592,7 @@ if len(session("user")) = 0 then
 		end select
 		
 		%>
-	    <select name="FM_kundekonto" <%=disa %> style="width:250px;">
+	    <select name="FM_kundekonto" <%=disa %> style="width:325px;">
 		<option value="0">(0)&nbsp;&nbsp;<%=erp_txt_131 %></option>
 		<%
 			strSQL = "SELECT k.kontonr, k.navn, k.id, k.kid, m.navn AS momskode FROM kontoplan k "_
@@ -4645,6 +4650,7 @@ if len(session("user")) = 0 then
 		</td>
 		<td valign=top style="padding:12px 5px 2px 5px;">
 		<b><%=erp_txt_132 %></b> <%=erp_txt_133 %><br />
+     
 		
 		<%
 
@@ -4658,7 +4664,7 @@ if len(session("user")) = 0 then
 			    &" ORDER BY k.kontonr, k.navn"
 				
 				%>
-				<select name="FM_modkonto" <%=disa %> style="width:250px;">
+				<select name="FM_modkonto" <%=disa %> style="width:325px;">
 		        <option value="0">(0)&nbsp;&nbsp;<%=erp_txt_131 %></option>
 				<%
 				oRec.open strSQL, oConn, 3 
@@ -4666,9 +4672,10 @@ if len(session("user")) = 0 then
 
     
                 '*** Konto på forretningsområde går før omsætningskonto på kunde f.eks m/uden moms mv. (egen kunde) ***'
-
-				if ( ( ( (intModKonto = oRec("kid") OR cint(preValgtModKonto) = oRec("id")) AND fomrkonto = 0) OR (cint(fomrkonto) = oRec("id"))) AND func <> "red")_
-                OR ((intModKonto = oRec("id") AND func = "red")) then
+                '*** preValgtModKonto Bruge ikke / eller kun af NT?? 20161215
+				if ( ( ( (intModKonto = oRec("kid") OR cint(preValgtModKonto) = oRec("id")) AND fomrkonto = 0)_
+                OR (cint(fomrkonto) = oRec("id"))) AND func <> "red")_
+                OR ((intModKonto = oRec("kontonr") AND func = "red")) then
 				selkon = "SELECTED"
 				fok = 1
 				else
@@ -4679,6 +4686,7 @@ if len(session("user")) = 0 then
 
 				%>
 				<option value="<%=oRec("kontonr")%>" <%=selkon%>>(<%=oRec("kontonr")%>)&nbsp;&nbsp;<%=oRec("navn")%> - <%=oRec("momskode") %></option>
+                     <!--/Modk: <%=intModKonto %> /Kid <%=oRec("kid") & " /Prevglt: " & cint(preValgtModKonto) &" /id: " & oRec("id") &" /fomr: "& fomrkonto %>-->
 				<%
 				oRec.movenext
 				Wend 
@@ -4686,7 +4694,7 @@ if len(session("user")) = 0 then
 		
 		
 		if fok = 0 then
-		    if request.Cookies("erp")("krekonto") = "xxx" then ' <> "" then
+		    if request.Cookies("erp")("krekonto") <> "" then ' <> "" then
 
 		    krekontonr = request.Cookies("erp")("krekonto")
 		    
@@ -4708,7 +4716,7 @@ if len(session("user")) = 0 then
 		
 		end if%>
 		</select><br />
-		
+		   <span style="color:#999999;">Forvalgt konto på forrretningsområde forvælger konto. Hvis ikke der findes konto på forretningsområde, vælges forvalgt konto fra kontoplan. </span>
 		
             &nbsp;
 		</td>

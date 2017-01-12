@@ -1846,9 +1846,9 @@ erHellig = 0
 				helligdagnavn = "Palmesøndag"
 
 
-               case 11,12,13
+               case 10,11,12
                
-                    if lto = "epi" OR lto = "epi_no" OR lto = "epi_sta" OR lto = "epi_ab" OR lto = "epi_cati" OR lto = "epi_uk" then
+                    if instr(lto, "epi") then
                     helligdagnavn = "Feriefridag"
 				    erHellig = 1
                     end if
@@ -1862,6 +1862,7 @@ erHellig = 0
                          else
                          erHellig = 1
                          end if
+
 				case 14
 				helligdagnavn = "Langfredag"
 	                     if lto = "tec" OR lto = "xesn" then

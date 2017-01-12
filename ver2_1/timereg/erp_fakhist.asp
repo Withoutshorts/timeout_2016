@@ -1417,7 +1417,22 @@ if len(session("user")) = 0 then
           end if
        
         
+
+        '********** KASSE KLADDE ****'
+        if lto = "bf" OR lto = "intranet - local" then
+              
+
+               fileKK = "invoice_kasserapport_"&oRec3("fid")&"_"&lto&".txt"
+
+             
+              
+              %>
+              <a href="../inc/log/data/<%=fileKK%>" class=vmenu target="_blank"><img src="../ill/addmore55.gif" alt="Kasserapport" border="0"></a>
+        <%
+        end if
         %>
+
+        
         
         
         <%if oRec3("jobid") <> 0 then

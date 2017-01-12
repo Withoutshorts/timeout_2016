@@ -4413,7 +4413,7 @@ if len(session("user")) = 0 then
 	rowspan = "28"
 
 	    select case lto
-	    case "intranet - local", "synergi1", "cisu", "wilke", "epi2017"
+	    case "intranet - local", "synergi1", "cisu", "wilke"
 	    strFastpris = 1 'default fastpris
 	    case else
 	    strFastpris = 2 'default løbende timer
@@ -4951,7 +4951,12 @@ if len(session("user")) = 0 then
 	<tr bgcolor="#FFFFFF">
 		
 		<td style="padding:10px 5px 10px 10px; white-space:nowrap;" colspan="4">
-            <font color=red size=2>*</font> <b>Jobnavn:</b> 
+            
+
+         
+        
+            <div style="border:1px #ea0957 solid; width:430px; padding:10px;">
+        <img src="../ill/ikon_job_24.png" width="24" height="24" alt="" border="0">&nbsp;<font color=red size=2>*</font> <b>Jobnavn:</b> 
         
                 <!--
                 <br /><a href="file:///C:\SK\skole\Fra Historie Online.docx" target="_blank">C:\SK\skole\Fra Historie Online.docx</a>
@@ -4968,22 +4973,22 @@ if len(session("user")) = 0 then
 
         <br />
         <%if func <> "red" then 
-        'focol = "#999999"
+        focol = "#999999"
         twd = 420
         else
-        'focol = "#000000"
+        focol = "#000000"
         twd = 290
         end if%>
-		<input type="text" name="FM_navn" id="FM_navn" value="<%=strNavn%>" style="width:<%=twd%>px; border:1px red solid; font-size:14px; padding:3px;">
+		<input type="text" name="FM_navn" id="FM_navn" value="<%=strNavn%>" style="width:<%=twd %>px; color:<%=focol%>;">
         <%if func = "red" then %>
-        <font color=red size=2>*</font> Jobnr.: <input type="text" name="FM_jnr" id="FM_jnr" value="<%=strJobnr%>" style="width:80px; color:#999999; font-style:italic;">
+        &nbsp;<font color=red size=2>*</font> Jobnr.: <input type="text" name="FM_jnr" id="FM_jnr" value="<%=strJobnr%>" style="width:80px; color:<%=focol%>; font-style:italic;">
         <%else %>
         <input type="hidden" name="FM_jnr" id="Text2" value="0">
         <%end if %>
         
         <br /><span style="font-size:10px; font-family:arial; color:#999999;">Jobnavn maks 100 karakterer. " (situationstegn) er ikke tilladt i jobnavn / jobnr. alfanumerisk</span>
- 
-       
+
+        <br /><br />
       
                         <%
                         
@@ -5020,13 +5025,17 @@ if len(session("user")) = 0 then
                         
                         
                         if cint(folderfindes) = 0 then %>
-                        <br />
+                        
                         <input type="checkbox" value="1" name="FM_opret_folder" <%=opFolderCHK %> /> Opret folder med samme navn som jobbet.
                         
 
                         <%end if %>
 
 
+                       
+
+
+		</div>
         </td>
 	</tr>
 	<tr>
@@ -5053,16 +5062,11 @@ if len(session("user")) = 0 then
                         
                      if strNexttilbudsnr <> strtilbudsnr then 
                      tlbplcholderTxt = strNexttilbudsnr
-
-                     %>
-                    &nbsp;<span style="color:#999999">(Næste ledige nummer: <%=tlbplcholderTxt %>)</span>
-                    <%
-
                      else
                     tlbplcholderTxt = ""
                     end if %>
 
-                   
+                    &nbsp;<span style="color:#999999">(Næste ledige nummer: <%=tlbplcholderTxt %>)</span>
 
 					<br /><input type="text" id="FM_tnr" name="FM_tnr" value="<%=strtilbudsnr%>" style="<%=tbStyle%>" size="20"> 
                   
@@ -5072,7 +5076,7 @@ if len(session("user")) = 0 then
 				
 					<input type="hidden" id="FM_nexttnr" value="<%=strNexttilbudsnr %>">
 
-					&nbsp;&nbsp;<input id="Text1" name="FM_sandsynlighed" value="<%=intSandsynlighed %>" type="text" style="width:30px;"/> % sandsynlighed for at vinde tilbud. &nbsp;
+					<br /><br /><input id="Text1" name="FM_sandsynlighed" value="<%=intSandsynlighed %>" type="text" style="width:30px;"/> % sandsynlighed for at vinde tilbud. &nbsp;
             <br /><span style="font-size:10px; font-family:arial; color:#999999;">(Pipelineværdi = Brutto oms. - Udgifter lev. * sandsynlighed)</span>
             
 	       

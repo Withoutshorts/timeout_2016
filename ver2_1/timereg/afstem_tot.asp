@@ -731,7 +731,7 @@ if session("user") = "" then
 
   
          
-         <%if cint(showfremtidTxt) = 1 OR (month(now) = 1 AND day(now) < 10) then %>
+         <%if cint(showfremtidTxt) = 1 OR ((month(now) = 1 AND day(now) < 10) AND lto = "esn" OR lto = "tec") then '10 %>
          <span style="color:darkred; border:1px red solid; padding:4px;"><b>Bemærk</b> at flekssaldo mv. først stemmer når forrige år er opgjort.</span>
          <%else%>
              
@@ -2027,26 +2027,27 @@ if session("user") = "" then
                case "esn", "intranet - local"
              %>
             <!-- Ulempe -->
-            <td >&nbsp;</td>
-            <td >&nbsp;</td>
-            <td >&nbsp;</td>
-             <td >&nbsp;</td>
-            <td >&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+             <td>&nbsp;</td>
+            <!--<td>&nbsp;</td>-->
               <%
              end select
 
      select case lto
        case "esn", "tec"
         if visning = 77 then%>
-          <td >&nbsp;</td>
-        <td >&nbsp;</td>
-        <td >&nbsp;</td>
-        <td >&nbsp;</td>
-        <td >&nbsp;</td>
-        <td >&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
         <%end if %>
         <td >&nbsp;</td>
-         <td align=right class=lille style="white-space:nowrap;"><b><%=formatnumber(sundtimer(x), 2) %></b></td>
+
+        <td align=right class=lille style="white-space:nowrap;"><b><%=formatnumber(sundtimer(x), 2) %></b></td>
         <td align=right class=lille style="white-space:nowrap;"><b><%=formatnumber(tjenestefri(x), 2) %></b></td>
           
        <%
@@ -2077,12 +2078,12 @@ if session("user") = "" then
        <td align=right  class=lille>&nbsp;</td>
 	
          <!--Ferie dage afholdt u løn -->
-	 <td align=right  class=lille>&nbsp;</td>
+	   <td align=right  class=lille>&nbsp;</td>
 
          <!--Ferie fridage afholdt -->
 
         <%   select case lto
-                        case "xintranet - local", "fk"
+                        case "xintranet - local", "fk", "esn", "tec"
             %>
         	 <td align=right  class=lille>&nbsp;</td>
 
@@ -2561,6 +2562,13 @@ if session("user") = "" then
                  strEkspHeader = strEkspHeader &"1 maj timer;"
                 end select
                 
+
+                'Rejsedage 
+                select case lto
+                case "intranet - local", "adra"
+                strEkspHeader = strEkspHeader &"Rejsedage;"
+                end select 
+
 
                 select case lto
                 case "xintranet - local", "fk", "kejd_pb", "adra" 

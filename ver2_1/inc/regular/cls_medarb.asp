@@ -3,7 +3,7 @@
  
   
 
- public meNavn, meNr, meInit, meTxt, meEmail, meType, meAnsatDato, meOpsagtdato, meforecaststamp, meBrugergruppe, meVisskiftversion, meMansat, timer_ststop
+ public meNavn, meNr, meInit, meTxt, meEmail, meType, meAnsatDato, meOpsagtdato, meforecaststamp, meBrugergruppe, meVisskiftversion, meMansat, timer_ststop, create_newemployee
      'Public Shared Function meStamdata(medid)
     Function meStamdata(medid)  
 
@@ -15,7 +15,7 @@
 
        meVisskiftversion = 0
        
-        strSQLmnavn = "SELECT mnavn, init, mnr, email, medarbejdertype, ansatdato, opsagtdato, forecaststamp, brugergruppe, visskiftversion, mansat, timer_ststop "_
+        strSQLmnavn = "SELECT mnavn, init, mnr, email, medarbejdertype, ansatdato, opsagtdato, forecaststamp, brugergruppe, visskiftversion, mansat, timer_ststop, create_newemployee "_
         &" FROM medarbejdere WHERE mid = "& medid
 
 	    oRec3.open strSQLmnavn, oConn, 3
@@ -45,6 +45,8 @@
         end if
 
         timer_ststop = oRec3("timer_ststop")
+
+        create_newemployee = oRec3("create_newemployee")
 
 	    end if
 	    oRec3.close
@@ -333,7 +335,7 @@
 
 
 
-
+public lastLoginDateFm, mstatus
 sub mstatus_lastlogin                                                
       
         
@@ -353,7 +355,7 @@ sub mstatus_lastlogin
 
                                             
                 lastLoginDateFm = ""
-                if len(trim(oRec("lastlogin"))) <> 0 then
+                if len(trim(oRec("lastlogin"))) <> 0 AND isNull(oRec("lastlogin")) <> true then
                 lastLoginDateFm = oRec("lastlogin")
                                                             
                 lastLoginDateFm = replace(lastLoginDateFm, "Jan.", "-01-") 
@@ -369,10 +371,20 @@ sub mstatus_lastlogin
                 lastLoginDateFm = replace(lastLoginDateFm, "Nov.", "-11-")
                 lastLoginDateFm = replace(lastLoginDateFm, "Dec.", "-12-")
                 lastLoginDateFm = replace(lastLoginDateFm, " ", "") 
-                else
-                lastLoginDateFm = ""
+
+
+                if mid(lastLoginDateFm, 2,1) = "-" then
+                lastLoginDateFm = "0" & lastLoginDateFm
                 end if
 
+                else
+                lastLoginDateFm = "01-01-2002"
+                end if
+
+                lastLoginDateFm = cDate(lastLoginDateFm)
+
+                'lastLoginDateFm = lastLoginDateFm & ": " & mid(lastLoginDateFm, 2,1)
+                
 
 
 end sub

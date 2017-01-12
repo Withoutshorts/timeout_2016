@@ -32,13 +32,8 @@ function tregsubmenu()
      
 <%
 
-jobasnvigv = 0
-strSQLigv = "SELECT jobasnvigv FROM licens WHERE id = 1"
-oRec.open strSQLigv, oConn, 3
-if not oRec.EOF then
-jobasnvigv = oRec("jobasnvigv")
-end if
-oRec.close
+    call stadeOn()
+
 
 if jobasnvigv = 1 then %>
 &nbsp;&nbsp;|&nbsp;&nbsp;<a href="stat_opdater_igv.asp?func=opdater" class='rmenu' target="_blank">Stade-indmeldinger</a>

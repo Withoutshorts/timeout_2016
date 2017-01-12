@@ -2962,6 +2962,14 @@ INSERT INTO dbversion (dbversion) VALUES (20161124.1)
 ALTER TABLE medarbejdere ADD (create_newemployee Int NOT NULL DEFAULT 0);
 INSERT INTO dbversion (dbversion) VALUES (20161214.1) 
 
+<br /><br />20161221.1<br />
+ALTER TABLE licens ADD (budget_mandatory Int NOT NULL DEFAULT 0, tilbud_mandatory Int NOT NULL DEFAULT 0);
+INSERT INTO dbversion (dbversion) VALUES (20161221.1) 
+
+<br /><br />20161221.2<br />
+ALTER TABLE licens ADD (show_salgsomk_mandatory Int NOT NULL DEFAULT 0);
+INSERT INTO dbversion (dbversion) VALUES (20161221.2) 
+
 <%
 
 

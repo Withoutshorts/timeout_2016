@@ -106,8 +106,12 @@ end function
 		strSQLm = "SELECT milepale.id AS id, milepale.navn AS navn, milepal_dato, "_
 		&" milepale_typer.navn AS type, ikon, beskrivelse, milepale.editor, belob FROM milepale "_
 		&" LEFT JOIN milepale_typer ON (milepale_typer.id = milepale.type) "_
-		&" WHERE jid = "& jobid &" ORDER BY milepal_dato"
+		&" WHERE jid = "& jobid &" GROUP BY milepale.id ORDER BY milepal_dato"
 		x = 0
+
+        'response.write strSQLm
+        'response.flush
+
 		oRec4.open strSQLm, oConn, 3
 		while not oRec4.EOF 
 		
@@ -119,11 +123,18 @@ end function
 		case else
 		bgthis = "#EFF3FF"
 		end select
+
+        if isNull(oRec4("milepal_dato")) <> true then
+        mpDate = formatdatetime(oRec4("milepal_dato"), 2)
+        else
+        mpDate = "-"
+        end if
+
 		%>
 		<tr bgcolor="<%=bgthis %>">
 			<td valign="top" style="border-bottom:1px #CCCCCC solid; font-size:8px; white-space:nowrap;">
-			<%=formatdatetime(oRec4("milepal_dato"), 2)%><br />
-		    <a href="javascript:popUp('milepale.asp?func=red&id=<%=oRec4("id")%>&jid=<%=jobid%>&rdir=wip&type=1','650','500','250','120');" target="_self" class=rmenu><%=left(oRec4("navn"),10)%></a></td>
+			<a href="javascript:popUp('milepale.asp?func=red&id=<%=oRec4("id")%>&jid=<%=jobid%>&rdir=wip&type=1','650','500','250','120');" target="_self" class=rmenu><%=left(oRec4("navn"),3)%></a> <%=mpDate%><br />
+		    </td>
             <td valign="top" style="border-bottom:1px #CCCCCC solid;" align=right class=lille><%=formatnumber(oRec4("belob"),0) %></td>
               <td valign="top" style="border-bottom:1px #CCCCCC solid;" align=right class=lille> <a href="javascript:popUp('milepale.asp?func=slet&id=<%=oRec4("id")%>&jid=<%=oRec("id")%>&rdir=wip&type=1','650','500','250','120');" target="_self" class=red>x</a></td>
 			

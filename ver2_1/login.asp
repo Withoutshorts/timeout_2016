@@ -220,7 +220,8 @@ session("spmettanigol") = session("spmettanigol") + request("attempt")
     <div class="account-wrapper">
     <div class="account-body">
 
-        <h2 style="color:black">Timeout Mobile</h2>
+       <img src="to_2015/img/outzource_logo_4c.jpg" width="200" />
+                <br /><label>Mobile</label>
     <!--<div id="header"><%=login_txt_010 %></div>-->
     <form id="container" action="login.asp" method="POST">
         
@@ -304,7 +305,8 @@ session("spmettanigol") = session("spmettanigol") + request("attempt")
 
 
                
-                <h2 style="color:black">Timeout - Demo</h2>
+                <h2 style="color:black"><img src="to_2015/img/outzource_logo_4c.jpg" width="200" />
+                <br />Demo</h2>
                 <br />
                 
 
@@ -356,7 +358,7 @@ session("spmettanigol") = session("spmettanigol") + request("attempt")
                 case 2
                 dayModeTxt = "Happy"
                 case 3
-                dayModeTxt = "Clever"
+                dayModeTxt = "Nice"
                 case 4
                 dayModeTxt = "Great"
                 case 5
@@ -369,14 +371,21 @@ session("spmettanigol") = session("spmettanigol") + request("attempt")
                 dayModeTxt = "Brilliant"
                 case 9
                 dayModeTxt = "Blessed"
+                case 0
+                dayModeTxt = "Joyous"
             end select
                     
                 
+            if month(now) = 1 AND datepart("d", now, 2,2) < 5 then
+                dayNameTxt = dayNameTxt & " And a Great " & year(now)
+            end if
                 
             %>
 
-            <h2 style="color:black">Timeout
-                <span style="font-size:14px; font-weight:lighter;"> - Have a <%=dayModeTxt &" "& dayNameTxt %></span>
+            <h2 style="color:black">
+                 <img src="to_2015/img/outzource_logo_4c.jpg" width="200" />
+                <br />
+                <span style="font-size:16px; font-weight:lighter;"><i> Have a <%=dayModeTxt &" "& dayNameTxt %></i></span>
 
             </h2>
             <br />
@@ -396,13 +405,13 @@ session("spmettanigol") = session("spmettanigol") + request("attempt")
 
             <div class="form-group clearfix">
                 <div class="pull-left">					
-                <label class="checkbox-inline">
-                    <input id="huskmig" name="huskmig" type="checkbox" value="1" <%=huskCHK %> /> <small><%=login_txt_011 %></small>
-                </label>
+              
+                    <input id="huskmig" name="huskmig" type="checkbox" value="1" <%=huskCHK %> /> <%=login_txt_011 %>
+              
                 </div>
 
                 <div class="pull-right">
-                <small><a href="timereg/sendpw.asp?lto=<%=lto %>" target="_blank" style="color:#999999; font-size:10px; text-decoration:underline;">Forgot password</a></small>
+                <a href="timereg/sendpw.asp?lto=<%=lto %>" target="_blank" style="color:#999999; font-size:11px; text-decoration:underline;">Forgot password</a>
                 </div>
             </div>
             
@@ -423,9 +432,14 @@ session("spmettanigol") = session("spmettanigol") + request("attempt")
 			
 			    if session("stempelur") <> 0 then
                 %>
+                    
+
                     <div class="form-group clearfix">
                     <div class="pull-left">
+                    <%=login_txt_021 %><br />
 				    <label class="radio-inline" style="text-align:left">
+
+
                 <%
                 strSQL = "SELECT id, navn, faktor, forvalgt FROM stempelur ORDER BY navn"
 				oRec.open strSQL, oConn, 3 
@@ -471,21 +485,10 @@ session("spmettanigol") = session("spmettanigol") + request("attempt")
 
 
 
-            <br /><br />
-
-    
-            
-
-
-            <br /><br />
           
-        
+           
 
-
-            <span style="color:#999999;">Powered By</span>
-            <img src="to_2015/img/outzource_logo_4c.jpg" width="200" />
-
-            <br /><br /><br /><br /><br />
+            <br /><br />
 
 
             <div class="form-group">              
@@ -539,6 +542,10 @@ session("spmettanigol") = session("spmettanigol") + request("attempt")
 		</span>
         <br /><span style="font-size:10px; color:#999999;"><%=request.servervariables("HTTP_USER_AGENT") %></span>
         <br /><br>&nbsp;
+
+   
+
+
                
 		</center>
 
@@ -810,7 +817,15 @@ else '** POST *****
 		
     		
 		    if stransatkunde = "1" then
-		    strSQL = "SELECT lastlogin FROM medarbejdere WHERE Mnavn ='" & session("user") &"'"
+
+                if len(trim(strUsrId)) <> 0 then
+                strUsrId = strUsrId
+                else
+                strUsrId = 0
+                end if
+
+            'strUsrId
+		    strSQL = "SELECT lastlogin FROM medarbejdere WHERE mid = " & strUsrId 
 		    else
 		    strSQL = "SELECT lastlogin AS lastlogin FROM kontaktpers WHERE id="& thisKpid 
 		    end if
@@ -826,8 +841,9 @@ else '** POST *****
 		    
 		    
 		    '************************************************************************'
-		    '***** Medarbejder kunde login ***'
-		    if stransatkunde = "1" then
+		    '***** Medarbejder login ***'
+            '************************************************************************'
+		    if stransatkunde = "1" then 'else kunde login
 			
 			    oConn.execute("UPDATE medarbejdere SET lastlogin = '"& strLastLogin &"', Mnavn = '"& session("user") &"', timereg = "& treg0206 &" WHERE Mid ="& strUsrId &"")
 		        
@@ -848,7 +864,7 @@ else '** POST *****
              
                    select case lto
                    
-                   case "epi", "epi_no", "epi_sta", "epi_ab", "intranet - local"
+                   case "epi", "epi_no", "epi_sta", "epi_ab", "intranet - local", "epi2017"
                 
                         if session("rettigheder") = 1 AND ((datepart("w", now, 2,2) = 1 AND _
                         datepart("w", session("strLastlogin"), 2,2) <> 1)) then  'HVER MANDAG    
@@ -872,7 +888,7 @@ else '** POST *****
                datepart("d", session("strLastlogin"), 2,2) <> 18) OR (datepart("d", now, 2,2) = 27 AND datepart("d", session("strLastlogin"), 2,2) <> 27)) then
                    select case lto
                    case "xx"
-                   case "dencker", "epi", "epi_no", "epi_sta", "epi_ab"
+                   case "dencker", "epi", "epi_no", "epi_sta", "epi_ab", "epi2017"
                    call timer_konsolider(lto,0)
                    case "xintranet - local", "xoutz"
                    call timer_konsolider(lto,0)

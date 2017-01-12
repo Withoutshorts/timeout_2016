@@ -107,8 +107,8 @@ public alfanumeriskTxt
 function alfanumerisk(txtstr)
 
              txtstr = replace(txtstr, " ", "")
-             txtstr = replace(txtstr, "_", "")
-             txtstr = replace(txtstr, "-", "")
+             'txtstr = replace(txtstr, "_", "")
+             'txtstr = replace(txtstr, "-", "")
              txtstr = replace(txtstr, "&", "")
              txtstr = replace(txtstr, "<", "")
              txtstr = replace(txtstr, ">", "")
@@ -137,6 +137,21 @@ function alfanumerisk(txtstr)
              alfanumeriskTxt = txtstr
 
 end function 
+
+
+'**** STADE '*******'
+public jobasnvigv
+function stadeOn()
+jobasnvigv = 0
+strSQLigv = "SELECT jobasnvigv FROM licens WHERE id = 1"
+oRec6.open strSQLigv, oConn, 3
+if not oRec6.EOF then
+jobasnvigv = oRec6("jobasnvigv")
+end if
+oRec6.close
+end function
+
+
 
 
 '*** Afsluttede uger *****
@@ -475,15 +490,22 @@ end function
 
 
 
-public fomr_mandatoryOn
-function fomr_mandatory_fn()
+public fomr_mandatoryOn, show_salgsomk_mandatoryOn, budget_mandatoryOn, tilbud_mandatoryOn
+function jobopr_mandatory_fn()
     
     fomr_mandatoryOn = 0
-	strSQL6 = "SELECT fomr_mandatory FROM licens l WHERE id = 1"
+    budget_mandatoryOn = 0
+    tilbud_mandatoryOn = 0
+    show_salgsomk_mandatory = 0
+
+	strSQL6 = "SELECT fomr_mandatory, budget_mandatory, tilbud_mandatory, show_salgsomk_mandatory FROM licens l WHERE id = 1"
 	oRec6.open strSQL6, oConn, 3
 	If not oRec6.EOF then
 	
 	fomr_mandatoryOn = oRec6("fomr_mandatory")
+    budget_mandatoryOn = oRec6("budget_mandatory")
+    tilbud_mandatoryOn = oRec6("tilbud_mandatory")
+    show_salgsomk_mandatoryOn = oRec6("show_salgsomk_mandatory")
 	
 	end if
     oRec6.close

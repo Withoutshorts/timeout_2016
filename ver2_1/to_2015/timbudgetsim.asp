@@ -828,9 +828,9 @@ if session("user") = "" then
         visrealprdatoSQL = year(visrealprdato) &"-"& month(visrealprdato) &"-"& day(visrealprdato)
 
          jbs = 6000
-         akts = 50000
+         akts = 120000 '50000
          p = 14
-         m = 160 '120
+         m = 2250 '250 '160 '120
          mhigh = 0
          phigh = 0
          dim antalm, antalp, h1_medTot, h2_medTot, h1_medTotGT, h2_medTotGT, h1_medTotGTGT
@@ -1060,9 +1060,17 @@ if session("user") = "" then
                                              strSQLstatusKri = " (jobstatus = 1)"
                                              end select
 
+
+                                             select case lto
+                                             case "oko"
+                                             strSQLrisiko = "(risiko > -1 OR risiko = -3 OR risiko = -2)"
+                                             case else
+                                             strSQLrisiko = "(risiko > -1 OR risiko = -3)"
+                                             end select
+
                                              strSQLjob = "SELECT jobnavn, jobnr, id "_
                                              &", projektgruppe1, projektgruppe2, projektgruppe3, projektgruppe4, projektgruppe5, projektgruppe6, projektgruppe7, projektgruppe8, projektgruppe9, projektgruppe10  "_
-                                             &" FROM job WHERE "& strSQLstatusKri &" AND (risiko > -1 OR risiko = -3) ORDER BY jobnavn" 
+                                             &" FROM job WHERE "& strSQLstatusKri &" AND "& strSQLrisiko &" ORDER BY jobnavn" 
                                              
                                             oRec.open strSQLjob, oConn, 3
                                             while not oRec.EOF 
@@ -1211,6 +1219,14 @@ strSQLkrijobDatoKri = ""
 end if
     
 
+
+select case lto
+case "oko"
+strSQLrisiko = "(risiko > -1 OR risiko = -3 OR risiko = -2)"
+case else
+strSQLrisiko = "(risiko > -1 OR risiko = -3)"
+end select
+
 lastknavn = ""
 lastjobnavn = ""
 lastFase = ""
@@ -1218,7 +1234,7 @@ strSQLjob = "SELECT jobnavn, jobnr, jobtpris, j.id AS jid, jobknr, j.budgettimer
 &" kkundenavn, k.kid, a.id AS aid, a.navn AS aktnavn, a.budgettimer AS aktbudgettimer, aktbudget, aktbudgetsum, a.fase, jobtpris FROM job AS j "_
 &" LEFT JOIN kunder AS k ON (kid = jobknr) "_
 &" LEFT JOIN aktiviteter AS a ON (a.job = j.id AND (a.fakturerbar = 1 OR a.fakturerbar = 2)) "_
-&" WHERE "& strSQLkrijob &" AND (j.risiko > -1 OR j.risiko = -3) AND jobstatus = 1 AND a.navn IS NOT NULL "& strSQLkrijobDatoKri &""_
+&" WHERE "& strSQLkrijob &" AND "& strSQLrisiko &" AND jobstatus = 1 AND a.navn IS NOT NULL "& strSQLkrijobDatoKri &""_
 &" GROUP BY a.id ORDER BY jobnavn, jobnr, a.fase, a.sortorder, a.navn LIMIT 5000"
 
 '"& jobid &"
@@ -1601,11 +1617,20 @@ redim medarbIPgrp(1000)
 
 lastknavn = ""
 lastjobnavn = ""
+
+
+select case lto
+case "oko"
+strSQLrisiko = "(risiko > -1 OR risiko = -3 OR risiko = -2)"
+case else
+strSQLrisiko = "(risiko > -1 OR risiko = -3)"
+end select
+
 strSQLjob = "SELECT jobnavn, jobnr, j.id AS jid, jobknr, "_
 &" kkundenavn, k.kid, a.id AS aid, a.fase, jo_gnstpris, aktbudget FROM job AS j "_
 &" LEFT JOIN kunder AS k ON (kid = jobknr) "_
 &" LEFT JOIN aktiviteter AS a ON (a.job = j.id AND (a.fakturerbar = 1 OR a.fakturerbar = 2)) "_
-&" WHERE "& strSQLkrijob &" AND (j.risiko > -1 OR j.risiko = -3) AND jobstatus = 1 AND a.navn IS NOT NULL "& strSQLkrijobDatoKri &""_
+&" WHERE "& strSQLkrijob &" AND "& strSQLrisiko &" AND jobstatus = 1 AND a.navn IS NOT NULL "& strSQLkrijobDatoKri &""_
 &" GROUP BY a.id ORDER BY jobnavn, jobnr, a.fase, a.sortorder, a.navn LIMIT 5000"
 '"& jobid &"
 'response.write strSQLjob
@@ -2458,11 +2483,19 @@ else
     sortorderThis = "kkundenavn, jobnavn, jobnr"
 end if
 
+select case lto
+case "oko"
+strSQLrisiko = "(risiko > -1 OR risiko = -3 OR risiko = -2)"
+case else
+strSQLrisiko = "(risiko > -1 OR risiko = -3)"
+end select
+
+
 strSQLjob = "SELECT jobnavn, jobnr, j.id AS jid, jobknr, j.budgettimer AS jobbudgettimer, jo_gnstpris, "_
 &" kkundenavn, k.kid, a.id AS aid, a.navn AS aktnavn, a.budgettimer AS aktbudgettimer, aktbudget, aktbudgetsum, a.fase, jobtpris FROM job AS j "_
 &" LEFT JOIN kunder AS k ON (kid = jobknr) "_
 &" LEFT JOIN aktiviteter AS a ON (a.job = j.id AND (a.fakturerbar = 1 OR a.fakturerbar = 2) AND a.navn IS NOT NULL) "_
-&" WHERE (j.risiko > -1 OR j.risiko = -3) AND j.jobstatus = 1 "& sogValSQLKri &""_
+&" WHERE "& strSQLrisiko &" AND j.jobstatus = 1 "& sogValSQLKri &""_
 &" GROUP BY a.id ORDER BY "& sortorderThis &", a.fase, a.sortorder, a.navn LIMIT "& lmt
 
 'response.write strSQLjob

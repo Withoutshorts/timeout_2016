@@ -2167,6 +2167,9 @@
                                                                                 end select
 
                                                                       
+                                                                            'if session("mid") = 1 then
+                                                                            'Response.write "SQLdatoKriTimer: " & SQLdatoKriTimer & " month(useDateStSQL) " & month(useDateStSQL) &" < "&  month(aktBudgettjkOnRegAarSt)
+                                                                            'end if
 
                                                                         '** Timer real kun valgte medarb **'
                                                                         'aktdata(iRowLoop, 38) = 0
@@ -2426,8 +2429,8 @@
 
                                                             
 
-                                                            if cint(visAktlinjerSimpel_realtimer) = 1 _
-                                                            OR (lto = "oko" AND left(aktnavn, 10) = "Intern tid") then
+                                                            if cint(visAktlinjerSimpel_realtimer) = 1 then ' _
+                                                            'OR (lto = "oko" AND left(aktnavn, 10) = "Intern tid") then
                                                     
                                                 
                                                                 if cint(visAktlinjerSimpel_realtimer) = 1 then
@@ -2465,9 +2468,9 @@
                                                             end if
 
                                                              
-                                                            if (lto = "oko" AND left(aktnavn, 10) = "Intern tid") then
-                                                            strAktiviteter = strAktiviteter & "<span style='font-family:Arial; font-size:9px; color:#5582d2;'>Real. timer: <b>"& formatnumber(akt_timerTot_medarb, 2) &"</b></span>"
-                                                            end if
+                                                            'if (lto = "oko" AND left(aktnavn, 10) = "Intern tid") then
+                                                            'strAktiviteter = strAktiviteter & "<span style='font-family:Arial; font-size:9px; color:#5582d2;'>Real. timer: <b>"& formatnumber(akt_timerTot_medarb, 2) &"</b></span>"
+                                                            'end if
                                                             
                                                             strAktiviteter = strAktiviteter & "<br>"
                         
@@ -2485,7 +2488,8 @@
                                                             '****************************************
                                                             
 
-                                                            if (cint(aktBudgettjkOn) = 1) AND (job_fakturerbar = 1 OR job_fakturerbar = 90) then
+                                                            if (cint(aktBudgettjkOn) = 1) AND (job_fakturerbar = 1 OR job_fakturerbar = 90) _
+                                                            OR (lto = "oko" AND left(aktnavn, 10) = "Intern tid")  then
                                                                          
                                                               
                                                                      
@@ -10572,8 +10576,9 @@ t = visGuide
 
 <%
 '**** Stade indmelding ****'
-if session("forste") = "j" then
-    call stadeindm(usemrn, 2, now) '1
+call stadeOn()
+if session("forste") = "j" AND cint(jobasnvigv) = 1 then 
+    call stadeindm(usemrn, 1, now) '1 -2
 end if
 %>
 

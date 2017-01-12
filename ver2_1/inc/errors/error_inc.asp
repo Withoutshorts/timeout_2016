@@ -767,6 +767,12 @@ varErrorText = "Du mangler at indtaste dit Frima"
 case 181
 varErrorText = "Ugyldig Email"
 
+case 182
+varErrorText = "Det angivne budget på timeforbrug (Nettoomsætning) er ikke udfyldt korrekt. / Beløbet er ikke højt nok."
+
+case 183
+varErrorText = "De angivne Job-ansvarlige % og Salgs-ansvarlig %<br> skal altid udgøre 100%.<br><br>Angivet Job Ansv. %: "& jobProcent100 &"<br>Angivet Salgs Ansv. %: "& salgsProcent100
+
 case else
 varErrorText = errortype
 end select

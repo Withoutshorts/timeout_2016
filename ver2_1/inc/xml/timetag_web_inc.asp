@@ -4,12 +4,12 @@ Dim objXMLHTTP_ttw, objXMLDOM_ttw, i_ttw, strHTML_ttw
 
 Set objXMLDom_ttw = Server.CreateObject("Microsoft.XMLDOM")
 Set objXmlHttp_ttw = Server.CreateObject("Msxml2.ServerXMLHTTP")
-objXmlHttp_ttw.open "GET", "http://localhost/Git/timeout_2016/ver2_1/inc/xml/timetag_web.xml", False
+'objXmlHttp_ttw.open "GET", "http://localhost/Git/timeout_2016/ver2_1/inc/xml/timetag_web.xml", False
 'objXmlHttp_ttw.open "GET", "http://localhost/inc/xml/timetag_web.xml", False
 'objXmlHttp_ttw.open "GET", "http://outzource.dk/timeout_xp/wwwroot/ver2_10/inc/xml/timetag_web.xml", False
 'objXmlHttp_ttw.open "GET", "https://timeout.cloud/timeout_xp/wwwroot/ver3_99/inc/xml/timetag_web.xml", False
 'objXmlHttp_ttw.open "GET", "https://outzource.dk/timeout_xp/wwwroot/ver2_14/inc/xml/timetag_web.xml", False
-'objXmlHttp_ttw.open "GET", "https://timeout.cloud/timeout_xp/wwwroot/ver2_14/inc/xml/timetag_web.xml", False
+objXmlHttp_ttw.open "GET", "https://timeout.cloud/timeout_xp/wwwroot/ver2_14/inc/xml/timetag_web.xml", False
 
 objXmlHttp_ttw.send
 
@@ -104,7 +104,6 @@ Set oNodes_ttw = objXmlDom_ttw.documentElement.selectNodes(sXPathQuery_ttw)
           ttw_txt_023 = oNode_ttw.selectSingleNode("txt_23").Text
           ttw_txt_024 = oNode_ttw.selectSingleNode("txt_24").Text
           ttw_txt_025 = oNode_ttw.selectSingleNode("txt_25").Text
-          ttw_txt_026 = oNode_ttw.selectSingleNode("txt_26").Text
 
   
           

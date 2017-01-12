@@ -38,13 +38,7 @@ if datepart("d", now, 2,2) > 22 OR (datepart("m", now, 2,2) = 1 AND datepart("d"
 'call erERPaktiv()
 
 stexptxt = ""
-jobasnvigv = 0
-strSQLigv = "SELECT jobasnvigv FROM licens WHERE id = 1"
-oRec.open strSQLigv, oConn, 3
-if not oRec.EOF then
-jobasnvigv = oRec("jobasnvigv")
-end if
-oRec.close
+call stadeOn()
 
 if jobasnvigv = 1 then 'AND(session("mid") = 59 OR session("mid") = 1) then 'DW + support 
 
@@ -200,7 +194,15 @@ if media <> "export" then
 
 
 
-<h4>Stade, igangværende- job og -tilbud<br /><span style="font-size:11px; color:#5C75AA;">Job hvor <%=meTxt %> er <u>jobansvarlig</u> (maks. <%=lmt%>)</span></h4>
+<h4>
+    
+    <%if visning = 1 then %>
+<span style="color:red;" id="s_luk_igv">[X]</span>
+<%end if %>
+    
+    Stade, igangværende- job og -tilbud<br /><span style="font-size:11px; color:#5C75AA;">Job hvor <%=meTxt %> er <u>jobansvarlig</u> (maks. <%=lmt%>)</span></h4>
+
+
 
 <%if media <> "print" then %>
 
@@ -219,11 +221,9 @@ if media <> "export" then
 
 <input type="hidden" value="<%=usemrn %>" name="i_mid" />
 
-</td><td valign=top style="width:20px;">
-
-<%if visning = 1 then %>
-<span style="color:red; font-size:11px;" id="s_luk_igv">[X]</span>
-<%end if %>
+</td>
+    
+<td valign=top>
 
 <%if (visning = 2 OR visning = 3) then 'AND level = 1  
 
@@ -268,8 +268,11 @@ end if
 <tr><td colspan=20 align=right style="padding:20px 20px 20px 0px;"><input type="submit" value="Opdater >>" /></td></tr>
 <%end if %>
 
-<tr><td valign=bottom>Job</td><td valign=bottom>Bruttooms <%=basisValISO%></td><td valign=bottom>WIP<br /><span style="font-size:9px;">Job: Afslutt. %<br />
-Tilb.: Sandsy. %</span></td><td valign=bottom align=center>Faktureret <%=basisValISO%></td>
+<tr>
+<td valign=bottom>Job</td>
+<td valign=bottom>Bruttooms <%=basisValISO%></td><td valign=bottom>WIP<br /><span style="font-size:9px;">Job: Afslutt. %<br />Tilb.: Sandsy. %</span></td>
+<td valign=bottom align=center>Faktureret <%=basisValISO%></td>
+<td valign=bottom align=center>Sikret Oms. <%=basisValISO%><br />(Bruttooms. - Fakt.)</td>
 <td valign=bottom align=right>Forv. fakturering<br /><br /><%=left(monthname(datepart("m", mth_1, 2,2)), 3) &" "& datepart("yyyy", mth_1, 2,2) %></td>
 
 <%for mththis = 2 to 15 
@@ -381,6 +384,26 @@ end if
         end select
 
 
+    strSQlfaktot = "SELECT SUM(if (f.faktype = 0, f.beloeb * (f.kurs / 100), f.beloeb * -1 * (f.kurs / 100)) ) AS faktureret  "_
+    & "FROM fakturaer AS f WHERE (f.jobid = "& oRec("jid") &" AND f.shadowcopy <> 1 AND f.medregnikkeioms <> 1 AND f.medregnikkeioms <> 2) "
+
+    oRec3.open strSQlfaktot, oConn, 3
+    if not oRec3.EOF then
+
+    if isNull(oRec3("faktureret")) <> true then
+        erfaktureretBel = formatnumber(oRec3("faktureret"), 2) 
+      else
+        erfaktureretBel = 0
+    end if 
+        
+    end if
+    oRec3.close
+        
+    sikretOms = (oRec("jo_bruttooms") - erfaktureretBel)
+    
+
+
+
 if media <> "export" then
 %>
 
@@ -483,29 +506,15 @@ end if
 </td>
 
 
-    <%strSQlfaktot = "SELECT SUM(if (f.faktype = 0, f.beloeb * (f.kurs / 100), f.beloeb * -1 * (f.kurs / 100)) ) AS faktureret  "_
-    & "FROM fakturaer AS f WHERE (f.jobid = "& oRec("jid") &" AND f.shadowcopy <> 1 AND f.medregnikkeioms <> 1 AND f.medregnikkeioms <> 2) "
-
-    oRec3.open strSQlfaktot, oConn, 3
-    if not oRec3.EOF then
-
-    if isNull(oRec3("faktureret")) <> true then
-        erfaktureretBel = formatnumber(oRec3("faktureret"), 2) 
-      else
-        erfaktureretBel = 0
-    end if 
-        
-    end if
-    oRec3.close%>
-
+   
 
 
 
 <td style="border-bottom:1px #CCCCCC solid; white-space:nowrap; padding-top:10px;" valign="top" align=right><%=erfaktureretBel%></td> 
-
+<td style="border-bottom:1px #CCCCCC solid; white-space:nowrap; padding-top:10px;" valign="top" align=right><%=formatnumber(sikretOms, 2)%></td>
 <%
 
-
+sikretOmsTot = sikretOmsTot + (sikretOms) 
 faktureretTot = faktureretTot + (erfaktureretBel) 
 
 '** 1-15
@@ -572,7 +581,7 @@ end select
 
 
 stexptxt = stexptxt & rtimproc &";"
-stexptxt = stexptxt & formatnumber(oRec("faktureret"), 2) &";"
+stexptxt = stexptxt & formatnumber(erfaktureretBel, 2) &";" & formatnumber(sikretOms, 2) & ";"
 
 call forvfak(media, jid, yUse, mUse)
 
@@ -589,6 +598,7 @@ if media <> "export" then
  %>
  <tr><td colspan="3" align=right>Total stade (forv. fakt.):</td>
     <td align=right><%=formatnumber(stadeThisMthTot, 2) %></td>
+    <td>&nbsp;</td>
     <td align=right><%=formatnumber(stadeThisMthTot_1, 2) %></td>
     <td align=right><%=formatnumber(stadeThisMthTot_2, 2) %></td>
     <td align=right><%=formatnumber(stadeThisMthTot_3, 2) %></td>
@@ -608,6 +618,7 @@ if media <> "export" then
  </tr>
  <tr><td colspan="3" align=right>Total faktureret:</td>
     <td align=right><%=formatnumber(faktureretTot, 2) %></td>
+    <td align=right><%=formatnumber(sikretOmsTot, 2) %></td> 
     <td align=right><%=formatnumber(faktureretThisMthTot_1, 2) %></td>
     <td align=right><%=formatnumber(faktureretThisMthTot_2, 2) %></td>
     <td align=right><%=formatnumber(faktureretThisMthTot_3, 2) %></td>
@@ -721,7 +732,7 @@ function stadeopdater()
     
     oConn.execute(strSQL) 
 
-  
+    'stadeInsert = 0
     for ii = 1 to 15
 
     i_md1_bel = request("i_md"& ii &"_"& jobids(i))
@@ -741,15 +752,17 @@ function stadeopdater()
     milepal_dato_1 = request("i_md"& ii &"_dt_"& jobids(i)) 
     milepal_dato_1 = year(milepal_dato_1) &"/"& month(milepal_dato_1) &"/15"
     
-    'Response.write "<br>HER 110: "& milepal_dato_1 &"<br>"
+    'Response.write "<br>HER jobid:"& jobids(i) &" mpDato: "& milepal_dato_1 &" i_md1_bel: "& i_md1_bel &"<br>"
     'Response.flush
 
-   findes_1 = request("i_findes"& ii &"_"& jobids(i))
-
+    findes_1 = request("i_findes"& ii &"_"& jobids(i))
+    strSQL = "UPDATE milepale SET belob = 0 WHERE id = -1" 'Nulstiller
     if cdbl(findes_1) = 0 then
         if cdbl(i_md1_bel) <> 0 then
         strSQL = "INSERT INTO milepale (navn, type, beskrivelse, editor, milepal_dato, jid, belob) VALUES "_
         &" ('Faktura', 1, 'Faktura', '"& session("user") &"', '"& milepal_dato_1 &"', "& jobids(i) &", "& i_md1_bel &")"
+        'stadeInsert = 1
+        'i_md1_bel = 0
         end if
     else
         if cdbl(i_md1_bel) <> 0 then
@@ -760,9 +773,12 @@ function stadeopdater()
         
     end if
 
-    oconn.execute(strSQL)
-    'Response.write strSQL & "<br>"
+    'Response.write "HER jobid:"& jobids(i) &" mpDato: "& milepal_dato_1 &" i_md1_bel: "& i_md1_bel &"<br>"
+    'Response.write strSQL & "<br><br>" 
     'Response.flush
+    oconn.execute(strSQL)
+    
+    
 
 
     end if
@@ -778,6 +794,8 @@ function stadeopdater()
 
     next 'job loop
 
+    'Response.end
+    
 
     '** Opdaterer status ****'s
 
@@ -928,7 +946,7 @@ for i = 1 to 15
   if not oRec3.EOF then
 
   if not ISNULL(oRec3("faktureret_"& i)) = true then
-  faktureretThisMth = oRec3("faktureret_"& i)
+  faktureretThisMth = oRec3("faktureret_"& i)/1
   else
   faktureretThisMth = 0
   end if
@@ -941,53 +959,53 @@ for i = 1 to 15
 
     select case i
    case 1
-  faktureretThisMthTot_1 = faktureretThisMthTot_1 + faktureretThisMth
-  stadeThisMthTot_1 = stadeThisMthTot_1 + bThisUse
+  faktureretThisMthTot_1 = faktureretThisMthTot_1/1 + faktureretThisMth/1
+  stadeThisMthTot_1 = stadeThisMthTot_1/1 + bThisUse/1
    case 2
-  faktureretThisMthTot_2 = faktureretThisMthTot_2 + faktureretThisMth
-    stadeThisMthTot_2 = stadeThisMthTot_2 + bThisUse
+  faktureretThisMthTot_2 = faktureretThisMthTot_2/1 + faktureretThisMth/1
+    stadeThisMthTot_2 = stadeThisMthTot_2/1 + bThisUse/1
    case 3
-   faktureretThisMthTot_3 = faktureretThisMthTot_3 + faktureretThisMth
-    stadeThisMthTot_3 = stadeThisMthTot_3 + bThisUse
+   faktureretThisMthTot_3 = faktureretThisMthTot_3/1 + faktureretThisMth/1
+    stadeThisMthTot_3 = stadeThisMthTot_3/1 + bThisUse/1
    case 4
-   faktureretThisMthTot_4 = faktureretThisMthTot_4 + faktureretThisMth
-    stadeThisMthTot_4 = stadeThisMthTot_4 + bThisUse
+   faktureretThisMthTot_4 = faktureretThisMthTot_4/1 + faktureretThisMth/1
+    stadeThisMthTot_4 = stadeThisMthTot_4/1 + bThisUse/1
     case 5
-   faktureretThisMthTot_5 = faktureretThisMthTot_5 + faktureretThisMth
-    stadeThisMthTot_5 = stadeThisMthTot_5 + bThisUse
+   faktureretThisMthTot_5 = faktureretThisMthTot_5/1 + faktureretThisMth/1
+    stadeThisMthTot_5 = stadeThisMthTot_5/1 + bThisUse/1
      case 6
-   faktureretThisMthTot_6 = faktureretThisMthTot_6 + faktureretThisMth
-    stadeThisMthTot_6 = stadeThisMthTot_6 + bThisUse
+   faktureretThisMthTot_6 = faktureretThisMthTot_6/1 + faktureretThisMth/1
+    stadeThisMthTot_6 = stadeThisMthTot_6/1 + bThisUse/1
      case 7
-   faktureretThisMthTot_7 = faktureretThisMthTot_7 + faktureretThisMth
-    stadeThisMthTot_7 = stadeThisMthTot_7 + bThisUse
+   faktureretThisMthTot_7 = faktureretThisMthTot_7/1 + faktureretThisMth/1
+    stadeThisMthTot_7 = stadeThisMthTot_7/1 + bThisUse/1
    case 8
-   faktureretThisMthTot_8 = faktureretThisMthTot_8 + faktureretThisMth
-    stadeThisMthTot_8 = stadeThisMthTot_8 + bThisUse
+   faktureretThisMthTot_8 = faktureretThisMthTot_8/1 + faktureretThisMth/1
+    stadeThisMthTot_8 = stadeThisMthTot_8/1 + bThisUse/1
    case 9
-   faktureretThisMthTot_9 = faktureretThisMthTot_9 + faktureretThisMth
-    stadeThisMthTot_9 = stadeThisMthTot_9 + bThisUse
+   faktureretThisMthTot_9 = faktureretThisMthTot_9/1 + faktureretThisMth/1
+    stadeThisMthTot_9 = stadeThisMthTot_9/1 + bThisUse/1
    case 10
-   faktureretThisMthTot_10 = faktureretThisMthTot_10 + faktureretThisMth
-    stadeThisMthTot_10 = stadeThisMthTot_10 + bThisUse
+   faktureretThisMthTot_10 = faktureretThisMthTot_10/1 + faktureretThisMth/1
+    stadeThisMthTot_10 = stadeThisMthTot_10/1 + bThisUse/1
    case 11
-   faktureretThisMthTot_11 = faktureretThisMthTot_11 + faktureretThisMth
-    stadeThisMthTot_11 = stadeThisMthTot_11 + bThisUse
+   faktureretThisMthTot_11 = faktureretThisMthTot_11/1 + faktureretThisMth/1
+    stadeThisMthTot_11 = stadeThisMthTot_11/1 + bThisUse/1
    case 12
-   faktureretThisMthTot_12 = faktureretThisMthTot_12 + faktureretThisMth
-    stadeThisMthTot_12 = stadeThisMthTot_12 + bThisUse
+   faktureretThisMthTot_12 = faktureretThisMthTot_12/1 + faktureretThisMth/1
+    stadeThisMthTot_12 = stadeThisMthTot_12/1 + bThisUse/1
    case 13
-   faktureretThisMthTot_13 = faktureretThisMthTot_13 + faktureretThisMth
-    stadeThisMthTot_13 = stadeThisMthTot_13 + bThisUse
+   faktureretThisMthTot_13 = faktureretThisMthTot_13/1 + faktureretThisMth/1
+    stadeThisMthTot_13 = stadeThisMthTot_13/1 + bThisUse/1
    case 14
-   faktureretThisMthTot_14 = faktureretThisMthTot_14 + faktureretThisMth
-    stadeThisMthTot_14 = stadeThisMthTot_14 + bThisUse
+   faktureretThisMthTot_14 = faktureretThisMthTot_14/1 + faktureretThisMth/1
+    stadeThisMthTot_14 = stadeThisMthTot_14/1 + bThisUse/1
    case 15
-   faktureretThisMthTot_15 = faktureretThisMthTot_15 + faktureretThisMth
-    stadeThisMthTot_15 = stadeThisMthTot_15 + bThisUse
+   faktureretThisMthTot_15 = faktureretThisMthTot_15/1 + faktureretThisMth/1
+    stadeThisMthTot_15 = stadeThisMthTot_15/1 + bThisUse/1
    end select
   
-    stadeThisMthTot = stadeThisMthTot + bThisUse
+    stadeThisMthTot = stadeThisMthTot/1 + bThisUse/1
 
   Response.flush
 
@@ -1034,7 +1052,7 @@ sub ekportogprint_fn()
     
     if media = "export" then 
 
-    strEkspHeader = "Kontakt;Kontakt id;Job;Job.nr;Jobansvarlig;Status;Brutto.Oms.(Budget);Sandsynlighed %;Restestimat;t./%;Faktureret;"_
+    strEkspHeader = "Kontakt;Kontakt id;Job;Job.nr;Jobansvarlig;Status;Brutto.Oms.(Budget);Sandsynlighed %;Restestimat;t./%;Faktureret;Sikret Oms.;"_
     &"Forv. fak. "& left(monthname(datepart("m", mth_1, 2,2)), 3) &" "& datepart("yyyy", mth_1, 2,2) &";"_
     &"Forv. fak. "& left(monthname(datepart("m", mth_2, 2,2)), 3) &" "& datepart("yyyy", mth_2, 2,2) &";"_
     &"Forv. fak. "& left(monthname(datepart("m", mth_3, 2,2)), 3) &" "& datepart("yyyy", mth_3, 2,2) &";"_
@@ -1125,8 +1143,8 @@ sub ekportogprint_fn()
 
 
  if media <> "print" AND media <> "export" then
-    ptop = 20
-    pleft = 1760
+    ptop = 40
+    pleft = 1260
     pwdt = 190
 
 call eksportogprint(ptop,pleft, pwdt)

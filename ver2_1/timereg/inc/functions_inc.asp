@@ -527,9 +527,11 @@ end function
 
 
  '*** Bruges af ERP fak og fak godkendt **'
+public ekspTxt_kk
  function joblog(jobid,stdatoKri,slutdato,aftid)
    laktaktid = 0
    
+   ekspTxt_kk = ""
   
    
    if jobid <> 0 then
@@ -543,7 +545,7 @@ end function
 				
 				<%
 				strSQL = "SELECT tmnr, tmnavn, tdato, timer, timerkom, "_
-				&" taktivitetnavn, taktivitetid, tfaktim, jobnavn, jobnr, a.faktor, timepris, t.valuta, v.valutakode "_
+				&" taktivitetnavn, taktivitetid, tfaktim, jobnavn, jobnr, a.faktor, timepris, t.valuta, v.valutakode, avarenr, t.kurs AS kurs, tjobnavn, tjobnr "_
 				&" FROM timer t "_
                 &" LEFT JOIN job j ON (j.jobnr = t.tjobnr)"_
                 &" LEFT JOIN aktiviteter a ON (a.id = t.taktivitetid)"_
@@ -551,18 +553,23 @@ end function
 				&" WHERE "&  strSQLjobaftKri &" AND tfaktim <> 5 AND "_
 				&" (Tdato BETWEEN '" & stdatoKri &"' AND '"& slutdato &"') AND a.id = taktivitetid ORDER BY jobnr, tdato DESC"
 				
-				'thisfile
-				'if lto = "acc" then
-			    'response.write "thisfile "& thisfile & strSQL
-                'end if
 				
-                    'response.write strSQL
-                    'Response.Flush
 				oRec.open strSQL, oConn, 3 
 				x = 0
 				while not oRec.EOF 
 					
+
+                if lto = "bf" OR lto = "intranet - local" then
+
+                    if x > 0 then
+                    ekspTxt_kk = ekspTxt_kk & "xx99123sy#z"
+                    else
+                    ekspTxt_kk = ekspTxt_kk 
+                    end if
 			    
+                end if
+
+
 			    if oRec("jobnr") <> lastjobnr then
 						
 						            if oRec("tfaktim") = 1 then
@@ -634,6 +641,9 @@ end function
 					            Response.Write "</tr>"
 					
 					end if
+
+
+
 					
 					                '*** Timepris ***'
 					                '**** job på print ell. ved fakopr ***'
@@ -689,7 +699,37 @@ end function
 					end if
 					
 					
-					
+                       if lto = "bf" OR lto = "intranet - local" then
+                            
+                                if isNull(oRec("avarenr")) <> true AND len(trim(oRec("avarenr"))) > 5 AND instr(oRec("avarenr"), "M") <> 0 AND (lto = "bf" OR lto = "intranet - local") then
+
+                                kontoTxt = trim(oRec("avarenr"))
+                                kontonrLen = len(kontoTxt)
+                                kontonrM = instr(kontoTxt, "M") 
+                                kontonrLeft = mid(kontoTxt, 2, kontonrM-2)
+                                kontonrRight = mid(kontoTxt, kontonrM+1, kontonrLen)
+
+                                else
+
+                                kontonrLeft = oRec("avarenr")
+                                kontonrRight = 0
+
+                                end if
+
+                                call meStamdata(oRec("tmnr"))
+                                bilagsnr = "" 'year(oRec("tdato"))&month(oRec("tdato"))&day(oRec("tdato")) 
+
+                                ekspTxt_kk = ekspTxt_kk & chr(34) & formatdatetime(oRec("tdato"), 2) & chr(34) &";"& chr(34) & oRec("tjobnavn") &" ["& meInit &"]" & chr(34) &";" & bilagsnr &";"& chr(34) & kontonrLeft & chr(34) &";" & chr(34) & oRec("taktivitetnavn") & chr(34) &";"
+                            
+                                belob = formatnumber(oRec("timer") * oRec("timepris"), 2)
+                                frakurs = oRec("kurs")
+                                valBelobBeregnet = belob
+                               
+
+	                            ekspTxt_kk = ekspTxt_kk & formatnumber(valBelobBeregnet, 2) &";;;"& chr(34) & kontonrRight & chr(34) &""
+
+
+				        end if 'lto BF kk
 				
 				x = x + 1
 				lastjobnr = oRec("jobnr")  
@@ -702,6 +742,8 @@ end function
 				end if
 				%>
 				
+
+
 									
     
     <%
@@ -797,7 +839,7 @@ end function
 		    <td><input id="FM_visjoblog" name="FM_visjoblog" <%=visjoblogCHK %> type="checkbox" /> <b>Vedhæft joblog på faktura.</b></td>
 		</tr>
 		<tr>
-			<td>Joblog i valgt periode. (Både fakturerbare og ikke-faktorerbare timer vises i jobloggen.) <br />
+			<td>Joblog i valgt periode (kun fakturerbare og ikke-faktorerbare timer) <br />
 			Periode afgrænsning: <%=formatdatetime(showStDato, 1)%> - <%=formatdatetime(showSlutDato, 1)%>
 			<br />
               

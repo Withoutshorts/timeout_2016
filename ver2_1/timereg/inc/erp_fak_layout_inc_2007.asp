@@ -540,11 +540,18 @@ afbd = 0
 else
 afbd = 0
 end if
+
+    select case lto
+    case "jttek"
+    afsenderCol = "#000000"
+	case else
+    afsenderCol = "#000000"
+    end select
 %>
 <table cellspacing="0" cellpadding="0" border="<%=afbd%>" width=100%>
 
 <tr>
-	<td valign="top" style="padding:<%=pdtop4%>;" class="afsender2">
+	<td valign="top" style="padding:<%=pdtop4%>; color:<%=afsenderCol%>;" class="afsender2">
 	
 	<%
     '** Afsender navn og adr. ***'
@@ -573,19 +580,65 @@ end if
 	<%=yourLand & "<br>"%>
 	
 	
-	<%if intVisafstlf = 1 then
+
+    <%select case lto
+    case "jttek", "outz", "bf" 'T: F:
+        
+    if intVisafstlf = 1 then
+	Response.write "<br>"& ucase(left(erp_txt_003, 1)) &": "& yourTlf
+	end if
+	
+    if intVisafsfax = 1 then
+	Response.write "<br>"& ucase(left(erp_txt_023, 1)) &": "& yourFax
+	end if
+
+    case else 'Tlf: / Fax:
+
+    if intVisafstlf = 1 then
 	Response.write "<br>"& erp_txt_003 &": "& yourTlf
-	end if%>
+	end if
 	
-	<%if intVisafsfax = 1 then
+    if intVisafsfax = 1 then
 	Response.write "<br>"& erp_txt_023 &": "& yourFax
+	end if
+        
+        
+    end select %>
+
+	
+	<%
+
+    select case lto
+    case "xx" 
+         
+
+         '** Vores email med Email linje betegnelse: GL. standard   
+        if intVisafsemail = 1 then
+	    Response.write "<br>"& erp_txt_024 &": " & yourEmail
+	    end if
+
+       
+    
+    case else 'Uden Email linje overskrift: MODERNE 2016
+       
+         '** Vores email    
+        if intVisafsemail = 1 then
+	    Response.write "<br>"& yourEmail
+	    end if 
+   
+
+    end select    
+        
+    %>
+	
+        
+	<%
+    '*** WWW
+    if len(trim(yourWWW)) <> 0 AND lto = "jttek" then
+	Response.write "<br>" & yourWWW
 	end if%>
-	
-	
-	<%if intVisafsemail = 1 then
-	Response.write "<br>"& erp_txt_024 &": " & yourEmail
-	end if%>
-	
+    
+
 	
 	<%end select%>
 
@@ -622,22 +675,39 @@ end if
 	<br /><%=erp_txt_056 %>: <%=vorref%><br />
 	<%end if%>
 	
+
+    <%'*** BANK **** %>
 	<br />
 	<%=yourBank%><br>
+
+    <%
+    '**** KONTONR ****    
+    select case lto
+        
+    case "jttek"%>
+
+    Account:
+    <%if len(trim(yourRegnr)) <> 0 then%>
+	<%=yourRegnr & " "& yourKontonr%> 
+    <%end if %>
+    <br>
+
+        
+    <%case else %>
 	<%=erp_txt_008 %>:<br />
    
     <%if len(trim(yourRegnr)) <> 0 then%>
 	<%=yourRegnr%> - 
     <%end if %>
     <%=yourKontonr%><br>
-   
 
+    <%end select %>
 
 	<%if intVisafsswift = 1 then%>
 	<%=erp_txt_010 %>:&nbsp;<%=yourSwift%><br>
 	<%end if%>
 	
-	<%if intVisafsiban = 1 then%>
+	<%if intVisafsiban = 1 OR lto = "jttek" then%>
 	<%=erp_txt_009 %>:&nbsp;<%=yourIban%><br>
 	<%end if%>
    

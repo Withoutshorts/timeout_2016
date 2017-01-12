@@ -246,11 +246,22 @@ Session.LCID = 1030
 			
 			sprog = request("FM_sprog")
 
+
+            '**************** Change version
             if len(trim(request("FM_visskiftversion"))) <> 0 AND request("FM_visskiftversion") <> 0 then
             visskiftversion = request("FM_visskiftversion")
             else
             visskiftversion = 0
             end if
+
+            '***************** Create user ok ****'
+             if len(trim(request("FM_opretmedarb"))) <> 0 AND request("FM_opretmedarb") <> 0 then
+            create_newemployee = request("FM_opretmedarb")
+            else
+            create_newemployee = 0
+            end if
+                 
+
 			
             '** Vis timer som start / stop tid
             if len(trim(request("FM_timer_ststop"))) <> 0 then
@@ -557,7 +568,7 @@ Session.LCID = 1030
 					&" opsagtdato = '"& opsagtdato &"', sprog = "& sprog &", nyhedsbrev = "& nyhedsbrev &", "_
 					&" madr = '"& madr & "', mpostnr = '"& mpostnr &"', mcity = '"& mcity &"', mland = '"& mland &"', "_
 					&" mtlf = '"& mtlf &"', mcpr = '"& mcpr &"', mkoregnr = '"& mkoregnr &"', "_
-                    &" visskiftversion = "& visskiftversion &", medarbejdertype_grp = "& intMedarbejdertype_grp &", timer_ststop = "& timer_ststop &""_
+                    &" visskiftversion = "& visskiftversion &", medarbejdertype_grp = "& intMedarbejdertype_grp &", timer_ststop = "& timer_ststop &", create_newemployee = "& create_newemployee &""_
 			        &" WHERE Mid = "& id &""
 					
 					
@@ -674,7 +685,7 @@ Session.LCID = 1030
 						    &" (Mnavn, Mnr, Mansat, login, pw, Brugergruppe, Medarbejdertype, "_
 						    &" editor, dato, Medarbejderinfo, Email, tsacrm, smilord, exchkonto, init, "_
 						    &" timereg, ansatdato, opsagtdato, sprog, nyhedsbrev, "_
-						    &" madr, mpostnr, mcity, mland, mtlf, mcpr, mkoregnr, visskiftversion, medarbejdertype_grp, timer_ststop) VALUES ("_
+						    &" madr, mpostnr, mcity, mland, mtlf, mcpr, mkoregnr, visskiftversion, medarbejdertype_grp, timer_ststop, create_newemployee) VALUES ("_
 						    &" '"& strNavn &"',"_
 						    &" "& strMnr &","_
 						    &" '"& strAnsat &"',"_
@@ -692,7 +703,7 @@ Session.LCID = 1030
 						    &" '"& ansatdato &"', '"& opsagtdato &"', "& sprog &", "_
 						    &" "& nyhedsbrev &", "_
 						    &" '"& madr & "', '"& mpostnr &"', '"& mcity &"', '"& mland &"', "_
-					        &" '"& mtlf &"', '"& mcpr &"', '"& mkoregnr &"', "& visskiftversion &", "& intMedarbejdertype_grp &", "& timer_ststop &")"
+					        &" '"& mtlf &"', '"& mcpr &"', '"& mkoregnr &"', "& visskiftversion &", "& intMedarbejdertype_grp &", "& timer_ststop &", "& create_newemployee &")"
     						
                             'Response.write strSQLminsert
                             'Response.flush
@@ -1001,7 +1012,7 @@ Session.LCID = 1030
 		&" medarbejdertype, type, navn, medarbejdere.editor, medarbejdere.dato, "_
 		&" Medarbejderinfo, email, tsacrm, smilord, exchkonto, init, timereg, ansatdato, "_
 		&" opsagtdato, sprog, nyhedsbrev,  "_
-		&" madr, mpostnr, mcity, mland, mtlf, mcpr, mkoregnr, visskiftversion, timer_ststop "_
+		&" madr, mpostnr, mcity, mland, mtlf, mcpr, mkoregnr, visskiftversion, timer_ststop, create_newemployee "_
 		&" FROM medarbejdere, brugergrupper, medarbejdertyper "_
 		&" WHERE mid = "& id &" AND brugergrupper.id = brugergruppe AND medarbejdertyper.id = medarbejdertype"
 		
@@ -1050,6 +1061,8 @@ Session.LCID = 1030
             medarbejdertype = oRec("medarbejdertype")
 
             timer_ststop = oRec("timer_ststop")
+
+            create_newemployee = oRec("create_newemployee")
 			
 		end if
 		oRec.close
@@ -1062,7 +1075,7 @@ Session.LCID = 1030
 
         strSQL = "SELECT Mnr FROM medarbejdere ORDER BY Mnr"
 		oRec.open strSQL, oConn, 3
-		
+		if not oRec.EOF then
 		oRec.movelast
 		
 		strNavn = ""
@@ -1088,9 +1101,10 @@ Session.LCID = 1030
 
         medarbejdertype = 0
         timer_ststop = 0
+        create_newemployee = 0
 
        
-		
+		end if
 		oRec.close
 
 
@@ -1148,6 +1162,12 @@ Session.LCID = 1030
             timer_ststopCHK = ""
             end if
 
+
+            if cint(create_newemployee) = 1 then
+            create_newemployeeCHK = "CHECKED"
+            else
+            create_newemployeeCHK = ""
+            end if
             
 
 		if intSmil = 1 then
@@ -1495,6 +1515,8 @@ Session.LCID = 1030
                                     <input id="nyhedsbrev" name="nyhedsbrev" type="radio" value="0" <%=chkny0 %> /> </div>
                               </div>
 
+                              
+
                               <div class="row">
                                   <div class="col-lg-1">&nbsp</div>
                                   <div class="col-lg-2">Exchange/Domæne Navn:</div>
@@ -1503,10 +1525,15 @@ Session.LCID = 1030
                                   </div>
                                   
                               </div>
+                              <br /><br />
                               <div class="row">
                                   <div class="col-lg-1">&nbsp</div>
-                                  <div class="col-lg-2 pad-b20">Tillad medarbejder skifter TimeOut version. (hvis findes):</div>
-                                  <div class="col-lg-3"><input type="checkbox" name="FM_visskiftversion" value="1" <%=visskiftversionCHK %>/> Ja, må gerne skifte internt (fra timereg. siden), uden at skulle logge ind igen  </div> 
+                                  <div class="col-lg-2 pad-b20">Tillad medarbejder at:</div>
+                                  <div class="col-lg-6">
+                                     
+                                      <input type="checkbox" name="FM_visskiftversion" value="1" <%=visskiftversionCHK %>/> Skifte TimeOut version. (fra timereg. siden), uden at skulle logge ind igen.<br />
+                                      <input type="checkbox" name="FM_opretmedarb" value="1" <%=create_newemployeeCHK %>/> Oprette andre medarbejdere (ikke med admin rettigheder).
+                                  </div> 
                                <div class="col-lg-6">&nbsp</div>  
                               </div>
                               <%else %>
@@ -2192,7 +2219,7 @@ Session.LCID = 1030
                 <th style="width: 18%">Rettigheder</th>
                 <th style="width: 15%">Email</th>
                 <th style="width: 10%">Ansat</th>
-                <th style="width: 10%">Login</th>
+                <th style="width: 10%">Sidste Login</th>
                 <th style="width: 5%">Joblog</th>
                 <th style="width: 5%">Slet</th>
 
@@ -2259,18 +2286,12 @@ Session.LCID = 1030
                       visAlleSQLval = " AND mansat <> -1 "
                       end if
 
-                        select case oRec("mansat")
-                        case 3
-                           mStatus = "Passiv"
-                        case 1
-                           mStatus = "Aktiv"
-                        case 2
-                           mStatus = "De-aktiv"
-                        end select
+                       
 
                        mtypenavn = oRec("mtypenavn")
                        mBrugergruppe = oRec("brugergruppenavn")
                    
+                       call mstatus_lastlogin
 
                           
                      if media <> "eksport" then
@@ -2296,7 +2317,7 @@ Session.LCID = 1030
                             <td><%=left(mBrugergruppe, 20) %></td>
                             <td><a href="mailto:<%=oRec("email") %>"><%=oRec("email") %></a></td>
                             <td><%=oRec("ansatdato") %></td>
-                            <td><%=oRec("lastlogin") %></td>
+                            <td><%=lastLoginDateFm%></td>
                             <td style="text-align:center;"> <a href="../timereg/joblog.asp?menu=timereg&FM_medarb=<%=oRec("Mid")%>&FM_job=0&selmedarb=<%=oRec("Mid")%>" target="_blank"><span class="fa fa-external-link"></span></a></td>
                             <td style="text-align:center;"><a href="medarb.asp?menu=tok&func=slet&id=<%=oRec("mid")%>"><span style="color:darkred;" class="fa fa-times"></span></a></td>
                         </tr>

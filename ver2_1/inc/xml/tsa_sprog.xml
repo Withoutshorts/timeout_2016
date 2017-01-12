@@ -88,7 +88,7 @@
 
     <txt_54>Nej</txt_54>
     <txt_55>Ja</txt_55>
-    <txt_56>Gem kommentar>></txt_56>
+    <txt_56>Gem kommentar</txt_56>
     <txt_57>Aftale lukket</txt_57>
     <txt_58>
       - Vær opmærksom på at dette job er tilknyttet en aftale der er lukket!
@@ -739,7 +739,7 @@
     <txt_53>Skjul kommentar på kundesiden</txt_53>
     <txt_54>Ikke</txt_54>
     <txt_55>Ja</txt_55>
-    <txt_56>Lagre kommentar>></txt_56>
+    <txt_56>Lagre kommentar</txt_56>
     <txt_57>Avtalen stengt</txt_57>
     <txt_58>- Vær oppmerksom på at denne jobben er knyttet til en avtale som er stengt!</txt_58>
     <txt_59>Det er ikke funnet noen aktiviteter på den valgte jobben, eller jobben er stengt.</txt_59>
@@ -1280,7 +1280,7 @@
     <txt_53>Hide kommentar på kundsidan</txt_53>
     <txt_54>ingen</txt_54>
     <txt_55>ja</txt_55>
-    <txt_56>Spara kommentar>></txt_56>
+    <txt_56>Spara kommentar</txt_56>
     <txt_57>avtal stängd</txt_57>
     <txt_58>- Var medveten om att det här jobbet är förknippad med ett avtal som är stängd!</txt_58>
     <txt_59>Det finns inte någon verksamhet på den valda jobbet eller jobbet är stängd.</txt_59>
@@ -1821,7 +1821,7 @@
     <txt_53>Verstecken Kommentar auf der Kundenseite</txt_53>
     <txt_54>keine</txt_54>
     <txt_55>ja</txt_55>
-    <txt_56>Speichern Kommentar>></txt_56>
+    <txt_56>Speichern Kommentar</txt_56>
     <txt_57>Vereinbarung geschlossen</txt_57>
     <txt_58>Seien Sie sich bewusst, dass dieser Job mit einer Vereinbarung verknüpft ist, das geschlossen ist -!</txt_58>
     <txt_59>Es gibt keine Aktivitäten auf dem ausgewählten Job gefunden, oder der Job ist geschlossen.</txt_59>
@@ -2360,7 +2360,7 @@
     <txt_53>Masquer commentaire sur côté client</txt_53>
     <txt_54>aucun</txt_54>
     <txt_55>oui</txt_55>
-    <txt_56>Enregistrer un commentaire>></txt_56>
+    <txt_56>Enregistrer un commentaire</txt_56>
     <txt_57>accord fermé</txt_57>
     <txt_58>- Soyez conscient que ce travail est associée à un accord qui est fermé!</txt_58>
     <txt_59>Il ne se trouve pas toutes les activités sur le travail sélectionné, ou le travail est fermé.</txt_59>
@@ -2932,7 +2932,7 @@
 
     <txt_54>No</txt_54>
     <txt_55>Yes</txt_55>
-    <txt_56>Save comment>></txt_56>
+    <txt_56>Save comment</txt_56>
     <txt_57>Agreement closed</txt_57>
     <txt_58>
       - Be aware that this job is associated with a closed agreement!
@@ -3591,7 +3591,7 @@
     <txt_53>Ocultar comentario en el lado del cliente</txt_53>
     <txt_54>no</txt_54>
     <txt_55>sí</txt_55>
-    <txt_56>Guardar comentario>></txt_56>
+    <txt_56>Guardar comentario</txt_56>
     <txt_57>cerrado un acuerdo</txt_57>
     <txt_58>- Tenga en cuenta que este trabajo se asocia con un acuerdo que se cierra!</txt_58>
     <txt_59>No se encuentra ninguna actividad en el trabajo seleccionado, o el trabajo está cerrado.</txt_59>

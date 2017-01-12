@@ -214,13 +214,7 @@ function stattopmenu()
 <%
 
 
-jobasnvigv = 0
-strSQLigv = "SELECT jobasnvigv FROm licens WHERE id = 1"
-oRec.open strSQLigv, oConn, 3
-if not oRec.EOF then
-jobasnvigv = oRec("jobasnvigv")
-end if
-oRec.close
+call stadeOn()
 
 if jobasnvigv = 1 AND level = 1 then %>
 &nbsp;&nbsp;|&nbsp;&nbsp;<a href='stat_opdater_igv.asp?menu=stat' class='rmenu'>Stade-indmeldinger</a>

@@ -159,7 +159,13 @@ if len(session("user")) = 0 then
 
 
     eksDataAkt = 0
+
+
+    if len(trim(request("eksDataMile"))) <> 0 then
+    eksDataMile = 1
+    else
     eksDataMile = 0
+    end if
 
     end if
 
@@ -1112,7 +1118,10 @@ if len(session("user")) = 0 then
 	        while not oRec5.EOF 
 	        
                 
-            strTxtExport = strTxtExport & cellerForAkt_og_Faser & cellerAkt & Chr(34) & trim(oRec5("navn")) & Chr(34) &";"& Chr(34) & oRec5("milepal_dato") & chr(34) &";"& Chr(34) & oRec5("typenavn") & Chr(34) &";"& Chr(34) & oRec5("belob") & Chr(34)  & vbcrlf 
+                len_cellerForAkt_og_Faser = len(cellerForAkt_og_Faser)
+                left_cellerForAkt_og_Faser = left(cellerForAkt_og_Faser, len_cellerForAkt_og_Faser - 4)
+
+            strTxtExport = strTxtExport &";;" & strJobnavn &";"& strJobnr &";"& left_cellerForAkt_og_Faser & cellerAkt & Chr(34) & trim(oRec5("navn")) & Chr(34) &";"& Chr(34) & oRec5("milepal_dato") & chr(34) &";"& Chr(34) & oRec5("typenavn") & Chr(34) &";"& Chr(34) & oRec5("belob") & Chr(34)  & vbcrlf 
 	        oRec5.movenext
 	        wend
 	        oRec5.close

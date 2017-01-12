@@ -30,12 +30,11 @@
     <txt_23 >Timer</txt_23>
     <txt_24 >Vælg aktivitet..</txt_24>
     <txt_25 >Ingen aktiviteter fundet</txt_25>
-    <txt_26 >Vælg job</txt_26>
 
   </dk>
   
 
-  <!--- Dansk -->
+  <!--- Engelsk -->
   <uk>
 
     <txt_1 >TimeOut mobile</txt_1>
@@ -63,7 +62,6 @@
     <txt_23 >Hours</txt_23>
     <txt_24 >Select activity..</txt_24>
     <txt_25 >No activities found</txt_25>
-    <txt_26 >Choose Job:</txt_26>
 
   </uk>
   

@@ -385,6 +385,15 @@ Public Class oz_importakt
                 'objConn2.Close()
 
 
+                Dim strSQLsalgsomkinsDEL As String = ("DELETE FROM materiale_forbrug WHERE jobid = " & jobId)  '*** Tilføjet 20161220
+
+                'Return "XX HER XX errThis SQL: " & strSQLsalgsomkins
+
+                objCmd2 = New OdbcCommand(strSQLsalgsomkinsDEL, objConn2)
+                objDR2 = objCmd2.ExecuteReader '(CommandBehavior.closeConnection)
+                objDR2.Close()
+
+
 
             End If
 

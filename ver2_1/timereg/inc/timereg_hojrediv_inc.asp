@@ -16,7 +16,7 @@ function hojreDiv()
       '**Vis ikke højremenu ofr disse '***
       if (lto = "xintranet - local") OR (lto = "demo") OR (lto = "adra") OR (lto = "wwf") OR (lto = "ngf") OR (lto = "ascendis") OR (lto = "akelius") OR _
       (lto = "hvk_bbb") OR (lto = "mmmi" AND meType = 10) OR (lto = "xdencker") OR (lto = "biofac") OR (lto = "epi_uk") OR (lto = "tec") OR (lto = "esn") OR _
-      (lto = "micmatic") OR (lto = "aalund") OR (lto = "nonstop") OR (lto = "oko") OR (lto = "wilke") OR (lto = "cisu") OR (lto = "hidalgo") OR (lto = "bf") OR (lto = "cst") OR (lto = "plan") then
+      (lto = "micmatic") OR (lto = "aalund") OR (lto = "nonstop") OR (lto = "oko") OR (lto = "wilke") OR (lto = "cisu") OR (lto = "hidalgo") OR (lto = "bf") OR (lto = "cst") OR (lto = "plan") OR (lto = "epi2017") then
 
             if lto = "wwf" OR lto = "xintranet - local" then 
             %>
@@ -48,13 +48,13 @@ function hojreDiv()
                 aarFinansSl = year(tjekdag(1)) & "-6-30"
                 end if
 
-                strDatoRs = " AND ((md >= "& month(aarFinansSt) &" AND aar = "& year(aarFinansSt) &") OR (md <= "& month(aarFinansSl) &" AND aar = "& year(aarFinansSl) &"))"
+                strDatoRs = " AND ((md >= "& month(aarFinansSt) &" AND aar = "& year(aarFinansSt) &") OR (md <= "& month(aarFinansSl) &" AND aar = "& year(aarFinansSl) &") OR (aar > "& year(aarFinansSt) &"))"
                 
             case else
                  aarFinansSt = year(tjekdag(1)) & "-1-1"
                  aarFinansSl = year(tjekdag(1)) & "-12-31"
 
-                 strDatoRs = " AND ((md >= "& month(aarFinansSt) &" AND aar = "& year(aarFinansSt) &") AND (md <= "& month(aarFinansSl) &" AND aar = "& year(aarFinansSl) &"))"
+                 strDatoRs = " AND ((md >= "& month(aarFinansSt) &" AND aar = "& year(aarFinansSt) &") AND (md <= "& month(aarFinansSl) &" AND aar = "& year(aarFinansSl) &") OR (aar > "& year(aarFinansSt) &"))"
 
             end select
 

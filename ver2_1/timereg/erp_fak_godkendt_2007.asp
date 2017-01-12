@@ -169,7 +169,7 @@
 	strSQL_lftJ = " job j ON (j.id = jobid) "
 
             select case lto
-            case "nt", "intranet - local"
+            case "nt", "xintranet - local"
             strSQL_sel = strSQL_sel & "supplier_invoiceno, "
             
             end select
@@ -269,7 +269,7 @@
 
 
             select case lto
-            case "nt", "intranet - local"
+            case "nt", "xintranet - local"
             supplier_invoiceno = oRec("supplier_invoiceno")
             end select
 
@@ -941,7 +941,7 @@
 		strSQL = "SELECT adresse, postnr, city, land, telefon, email, "_
 		&" regnr, kkundenavn, kontonr, regnr_b, regnr_c, regnr_d, regnr_e, regnr_f, kontonr_b, kontonr_c, kontonr_d, kontonr_e, kontonr_f, cvr, bank, swift, iban,"_
         &" bank_b, swift_b, iban_b, bank_c, bank_d, bank_e, bank_f, swift_c, iban_c, swift_d, swift_e, swift_f, iban_d, iban_e, iban_f, kid, kkundenr, nace, "_
-		&" fax FROM kunder WHERE kid = " & afsender
+		&" fax, url FROM kunder WHERE kid = " & afsender
 		oRec.open strSQL, oConn, 3
 		if not oRec.EOF then 
 			
@@ -996,6 +996,7 @@
 			yourLand = oRec("land")
 			yourEmail = oRec("email")
 			yourTlf = oRec("telefon")
+            yourWWW = oRec("url")
 
             yourNace = oRec("nace")
 			
@@ -1958,6 +1959,46 @@
 		
 		</table>
 		</div>
+
+        <%
+         '******************* Kasseklade Eksport **************************' 
+                if lto = "bf" OR lto = "intranet - local" then
+            
+
+                    call TimeOutVersion()
+    
+                    ekspTxt = replace(ekspTxt_kk, "xx99123sy#z", vbcrlf)
+                  
+	                thisFakid = id
+	                filnavnDato = thisFakid 'year(now)&"_"&month(now)& "_"&day(now)
+	                filnavnKlok = ""       '"_"&datepart("h", now)&"_"&datepart("n", now)&"_"&datepart("s", now)
+
+                    fileext = "txt"
+                  
+
+				   
+				                Set objFSO = server.createobject("Scripting.FileSystemObject")
+				
+				                if request.servervariables("PATH_TRANSLATED") = "C:\www\timeout_xp\wwwroot\ver2_1\timereg\erp_opr_faktura_fs.asp" then
+					                Set objNewFile = objFSO.createTextFile("c:\www\timeout_xp\wwwroot\ver2_1\inc\log\data\invoice_kasserapport_"&filnavnDato&"_"&lto&"."& fileext, True, False)
+					                Set objNewFile = nothing
+					                Set objF = objFSO.OpenTextFile("c:\www\timeout_xp\wwwroot\ver2_1\inc\log\data\invoice_kasserapport_"&filnavnDato&"_"&lto&"."& fileext, 8)
+				                else
+					                Set objNewFile = objFSO.createTextFile("d:\webserver\wwwroot\timeout_xp\wwwroot\"& toVer &"\inc\log\data\invoice_kasserapport_"&filnavnDato&"_"&lto&"."& fileext, True, False)
+					                Set objNewFile = nothing
+					                Set objF = objFSO.OpenTextFile("d:\webserver\wwwroot\timeout_xp\wwwroot\"& toVer &"\inc\log\data\invoice_kasserapport_"&filnavnDato&"_"&lto&"."& fileext, 8)
+				                end if
+				
+				
+                                file = "invoice_kasserapport_"&filnavnDato&"_"&lto&"."& fileext
+				
+                                objF.WriteLine(ekspTxt)
+				                objF.close
+				
+				               
+
+                end if 'media%>
+
 		
 		<br><br>&nbsp;
 		<!-- Joblog slut -->

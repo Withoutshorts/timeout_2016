@@ -2063,6 +2063,7 @@ end if
             
             if cint(SmiWeekOrMonth) <> 2 then
 
+                
                 if cint(sm_sidsteugedag) = 53 then 'tjekker for gammel SQL server 3.23
                 strSQLgl323 = " OR " & periodeKri &" = 0" 
                 sqlDatoKri = "("& periodeKri &" = "& sm_sidsteugedag &" "& strSQLgl323 &")"
@@ -2071,20 +2072,25 @@ end if
                 sqlDatoKri = periodeKri &" = "& sm_sidsteugedag 
                 end if
 
-                
+                if cint(sm_sidsteugedag) >= 52 then
+                sqlYearKri = " AND (YEAR(uge) = "& sm_aar &" OR YEAR(uge) = "& sm_aar+1 &")"
+                else
+                sqlYearKri = " AND YEAR(uge) = "& sm_aar &""    
+                end if
 
             else
             
-                sqlDatoKri = periodeKri &" = '"& sm_sidsteugedag & "'"    
+                sqlDatoKri = periodeKri &" = '"& sm_sidsteugedag & "'" 
+                sqlYearKri = " AND YEAR(uge) = "& sm_aar &""   
 
             end if
 
 
             strSQLafslut = "SELECT status, afsluttet, uge, ugegodkendt, ugegodkendtaf, ugegodkendtTxt, ugegodkendtdt FROM ugestatus WHERE "_
-            &" "& sqlDatoKri &" AND YEAR(uge) = "& sm_aar &" AND mid = "& sm_mid 
+            &" "& sqlDatoKri &" "& sqlYearKri &" AND mid = "& sm_mid 
 		    
             'if session("mid") = 1 then
-            'Response.write "HER:<br>"& strSQLafslut & "<br><br>" '& "//" & sm_sidsteugedag & "//"& sldatoSQL
+            'Response.write "HER:<br>"& strSQLafslut & "<br><br>//" & sm_sidsteugedag & "//"& sldatoSQL
 		    'Response.flush
             'end if
             
@@ -2335,7 +2341,23 @@ function godekendugeseddel(thisfile, godkenderID, medarbid, stDatoSQL)
 
         end if
 
-         ugstatusSQL = "SELECT id, mid FROM ugestatus AS u WHERE mid = "& medarbid & " AND YEAR(u.uge) = '"& detteaar &"'"
+
+                
+             if cint(SmiWeekOrMonth) <> 2 then
+ 
+                if cint(denneuge) >= 52 then
+                sqlYearKri = " AND (YEAR(uge) = "& detteaar &" OR YEAR(uge) = "& detteaar+1 &")"
+                else
+                sqlYearKri = " AND YEAR(uge) = "& detteaar &""    
+                end if
+
+             else
+                   
+                sqlYearKri = " AND YEAR(uge) = "& detteaar &""   
+
+             end if
+
+         ugstatusSQL = "SELECT id, mid FROM ugestatus AS u WHERE mid = "& medarbid & " " & sqlYearKri
 
         if cint(SmiWeekOrMonth) = 0 then
         
@@ -2345,6 +2367,7 @@ function godekendugeseddel(thisfile, godkenderID, medarbid, stDatoSQL)
             else
             ugstatusSQL = ugstatusSQL & " AND WEEK(u.uge, 3) = '"& denneuge &"'"
             end if
+
 
         else
         ugstatusSQL = ugstatusSQL & " AND MONTH(u.uge) = '"& dettemd &"'"
@@ -2437,15 +2460,31 @@ function afviseugeseddel(thisfile, afsenderMid, modtagerMid, varTjDatoUS_man, va
         
                             strSQLupUgeseddel = "UPDATE ugestatus SET ugegodkendt = 2, ugegodkendtaf = "& afsenderMid &", ugegodkendtdt = '"& ugegodkendtdtnow &"', ugegodkendtTxt = '"& ugegodkendtTxt &"' WHERE mid = "& modtagerMid 
                             
+                            
+                                if cint(SmiWeekOrMonth) <> 2 then
+ 
+                                    if cint(denneuge) >= 52 then
+                                    sqlYearKri = " AND (YEAR(uge) = "& detteaar &" OR YEAR(uge) = "& detteaar+1 &")"
+                                    else
+                                    sqlYearKri = " AND YEAR(uge) = "& detteaar &""    
+                                    end if
+
+                                 else
+                   
+                                    sqlYearKri = " AND YEAR(uge) = "& detteaar &""   
+
+                                 end if
+
+
                             if cint(SmiWeekOrMonth) = 0 then
                     
                                     if cint(denneuge) = 53 then
-                                    strSQLupUgeseddel = strSQLupUgeseddel &" AND YEAR(uge) = '"& detteaar &"' AND  (WEEK(uge, 3) = '"& denneuge &"' OR WEEK(uge, 3) = '0')"
+                                    strSQLupUgeseddel = strSQLupUgeseddel &" "& sqlYearKri &" AND (WEEK(uge, 3) = '"& denneuge &"' OR WEEK(uge, 3) = '0')"
                                     else
-                                    strSQLupUgeseddel = strSQLupUgeseddel &" AND YEAR(uge) = '"& detteaar &"' AND  WEEK(uge, 3) = '"& denneuge &"'"
+                                    strSQLupUgeseddel = strSQLupUgeseddel &" "& sqlYearKri &" AND WEEK(uge, 3) = '"& denneuge &"'"
                                     end if
                             else
-                            strSQLupUgeseddel = strSQLupUgeseddel &" AND YEAR(uge) = '"& detteaar &"' AND  MONTH(uge) = '"& dettemd &"'"
+                            strSQLupUgeseddel = strSQLupUgeseddel &" "& sqlYearKri &" AND  MONTH(uge) = '"& dettemd &"'"
                             end if
 	                        'Response.Write strSQLupUgeseddel
                             'Response.end

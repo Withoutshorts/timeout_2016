@@ -47,7 +47,7 @@
 
                 <li style="border-bottom:1px #000000 solid;">
                 <a href="<%=relpathTT%>timetag_web_kpi.asp"><%=ttw_txt_017 %></a>
-                </li>         
+                </li>           
               
             </ul>
 

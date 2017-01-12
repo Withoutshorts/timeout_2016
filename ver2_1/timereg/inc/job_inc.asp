@@ -1290,6 +1290,7 @@ sub projektberegner
 
                  <%
                  'showMtberegn = 1
+                    '** Budget medarbejdertype
                     if cint(showMtberegn) = 1 then
                   
                    netto_bd = "border:0px;"
@@ -1301,28 +1302,48 @@ sub projektberegner
                    netto_bd2 = ""
                    netto_fz = 11
                    netto_fc = "#000000"
-                   end if%>
+                   end if
+                     
+                    '** Hidden timer felter nettoomsætning 
+                    Select case lto
+                    case "epi2017", "intranet - local"
+                        txtFldHiddenHours = "hidden"
+                        showFldHours = 0
+                        nettoOmsTxtWdt = 460
+                    case else
+                        txtFldHiddenHours = "text"
+                        showFldHours = 1
+                        nettoOmsTxtWdt = 270
+                    end select
+                    %>
 
 				<tr>
                     <td colspan=6 style="border:0px;" valign=top>
 
-                   
+                    
                     <table width="100%" border="0" cellspacing="0" cellpadding="0">
                     <tr>
-					    <td style="width:270px; padding:10px 5px 2px 2px; font-size:11px;"><b>Nettoomsætning, timer:</b> <br /><span style="font-size:9px; color:#999999;">Oms. før salgsomk.</span></td>
-					    <td valign="bottom" style="font-size:9px;"><span style="color:Red;">*</span> <b>Timer</b></td>
+					    <td style="width:<%=nettoOmsTxtWdt%>px; padding:10px 5px 2px 2px; font-size:11px;"><b>Nettoomsætning</b> <br /><span style="font-size:9px; color:#999999;">Intern omsætning på timer før salgsomk.</span></td>
+					    <%if cint(showFldHours) = 1 then %>
+                        <td valign="bottom" style="font-size:9px;"><span style="color:Red;">*</span> <b>Timer</b></td>
 					    <td valign="bottom" style="width:195px; font-size:9px;"><b>Timepris</b></td>
 					    <td valign="bottom" style="width:45px; font-size:9px;"><b>Faktor</b></td>
-					    <td valign="bottom" style="width:100px; font-size:9px;"><span style="color:Red;">*</span><b> Beløb <%=basisValISO %></b></td>
+                        
+					    
+                        <td valign="bottom" style="width:100px; font-size:9px;"><span style="color:Red;">*</span><b> Beløb <%=basisValISO %></b></td>
 				        <td valign="bottom" style="width:40px; font-size:8px; color:#999999;">Salgs<br />timepris</b></td>
 				    </tr>
-				
-                        
-
-				<tr bgcolor="#FFFFFF">
-					
+				    <tr bgcolor="#FFFFFF">
+					<%end if %>
                     
-                    <%'*** Gns. timepris og kostpris på oprettede medarbejdertyper ****' 
+                    <%
+
+                    virkgnssalgspris = 0	    
+					virkgnskostpris = 0
+					antalM = 0
+
+                    if cint(showFldHours) = 1 then    
+                    '*** Gns. timepris og kostpris på oprettede medarbejdertyper ****' 
 						    
 					strSQLgt = "SELECT (mt.kostpris * count(m.mid)) AS virkgnskostpris, (mt.timepris * count(m.mid)) AS virkgnssalgspris, count(m.mid) AS antalm"_
 					&" FROM medarbejdertyper mt "_
@@ -1332,12 +1353,7 @@ sub projektberegner
 						    
 					'Response.Write strSQLgt
 					'Response.flush
-                    
-
-                    virkgnssalgspris = 0	    
-					virkgnskostpris = 0
-					antalM = 0
-						    
+                    	    
 						    
 					oRec2.open strSQLgt, oConn, 3
 					while not oRec2.EOF
@@ -1355,16 +1371,19 @@ sub projektberegner
                     '******* Gns timepris ***'
                     call gnstp_fn(antalM, virkgnskostpris)
 
+                    end if
+                   
 
-                    
+
+                    if cint(showFldHours) = 1 then  
                     %>
                     <td id="xpb_jobnavn">Gns. timepris / kostpris: <span style="color:#999999; font-size:9px;"><%=gnsSalgsogKostprisTxt &" "& basisValISO %></span></td>
-						  
-					<td style="padding:3px;"><input type="text" id="FM_budgettimer" name="FM_budgettimer" value="<%=replace(formatnumber(strBudgettimer, 2), ".", "")%>" style="width:60px;"" onkeyup="tjektimer('FM_budgettimer'), beregnintbelob()" class="nettooms"></td>
+				    <td style="padding:3px;"><input type="text" id="FM_budgettimer" name="FM_budgettimer" value="<%=replace(formatnumber(strBudgettimer, 2), ".", "")%>" style="width:60px;"" onkeyup="tjektimer('FM_budgettimer'), beregnintbelob()" class="nettooms"></td>
 					<td class=lille><input type="text" id="FM_gnsinttpris" name="FM_gnsinttpris" value="<%=replace(formatnumber(jo_gnstpris, 2), ".", "")%>" style="width:67px;" onkeyup="tjektimer('FM_gnsinttpris'), beregnintbelob()" class="nettooms"> <%=basisValISO %></td>
 					<td>x <input type="text" id="FM_intfaktor" name="FM_intfaktor" value="<%=replace(formatnumber(jo_gnsfaktor, 2), ".", "")%>" style="width:30px;" onkeyup="tjektimer('FM_intfaktor'), beregnintbelob()" class="nettooms"></td>
 					<td>= <input type="text" id="FM_interntbelob" name="FM_interntbelob" value="<%=replace(formatnumber(jo_gnsbelob, 2), ".", "")%>" style="width:75px;" onkeyup="tjektimer('FM_interntbelob'), beregninttp()" class="nettooms"></td>
-					<input id="FM_interntomkost" name="FM_interntomkost" value="<%=replace(formatnumber(jo_udgifter_intern, 2), ".", "")%>" type="hidden" />
+					
+                    <input id="FM_interntomkost" name="FM_interntomkost" value="<%=replace(formatnumber(jo_udgifter_intern, 2), ".", "")%>" type="hidden" />
 					
                     <%if strBudgettimer <> 0 then
                     tgt_tp = (jo_gnsbelob / strBudgettimer)
@@ -1373,14 +1392,38 @@ sub projektberegner
                     end if%>
                              
 					<td ><input id="pb_tg_timepris" value="<%=tgt_tp%>" type="text" style="width:30px; font-size:9px; font-family:arial; border:0px;" maxlength="0"/></td>
+					
+                    
+                    <%else %>
+                 
+                     <td style="padding:3px; width:80px;">Timer:<br /><input type="text" id="FM_budgettimer" name="FM_budgettimer" value="<%=replace(formatnumber(strBudgettimer, 2), ".", "")%>" style="width:60px;"" onkeyup="tjektimer('FM_budgettimer')" class="nettooms"></td>
+					<td style="padding:3px; width:80px;"><font color=red size=2>*</font> Beløb:<br /> <input type="text" id="FM_interntbelob" name="FM_interntbelob" value="<%=replace(formatnumber(jo_gnsbelob, 2), ".", "")%>" style="width:75px; border:1px solid red; padding:2px;" onkeyup="tjektimer('FM_interntbelob'), settotalbelob()" class="nettooms" /></td>
+					<td style="padding:3px 3px 3px 12px; font-size:11px;"><br /><%=basisValISO %></td>
+                    <input type="hidden" id="FM_gnsinttpris" name="FM_gnsinttpris" value="<%=replace(formatnumber(jo_gnstpris, 2), ".", "")%>" style="width:67px;" onkeyup="tjektimer('FM_gnsinttpris')"></td>
+					<input type="hidden" id="FM_intfaktor" name="FM_intfaktor" value="<%=replace(formatnumber(jo_gnsfaktor, 2), ".", "")%>" style="width:30px;" onkeyup="tjektimer('FM_intfaktor')"</td>
+					<input type="hidden" id="FM_interntomkost" name="FM_interntomkost" value="<%=replace(formatnumber(jo_udgifter_intern, 2), ".", "")%>" />
+					
+                   
+                 
+                    <%end if %>
+
 							
 					<!--&nbsp; antal fakturerbare timer.&nbsp;<br>-->
 					<input type="hidden" name="FM_ikkebudgettimer_s" value="<%=SQLBless3(ikkeBudgettimer)%>">
+                    <input type="hidden" id="showFldHours" value="<%=showFldHours%>">
 														
 				</tr>
                   </table>
                 <!-- End Netto Table -->
-
+                        <%select case lto 
+                        case "xintranet - local", "wwf", "bf", "oko"
+                            showFordelpFinansaar = 1 
+                        case else 
+                            showFordelpFinansaar = 0
+                        end select 
+                            
+                            
+                        if cint(showFordelpFinansaar) = 1 then%>
                         <br /><br />
 
 
@@ -1471,13 +1514,14 @@ sub projektberegner
                   </div>
                        
                 <!-- End Netto Table -->
+                <%end if %>
 
                 <input type="hidden" name="antalOpenCalc" id="antalOpenCalc" value="<%=antalOpenCalc %>" />
                 <input type="hidden" name="antalMtypGrp" id="antalMtypGrp" value="<%=antalMtypGrp%>" />
                 </td></tr>
 
 
-                <%if cint(showMtberegn) = 0 then %>
+                <%if cint(showMtberegn) = 0 AND (lto <> "intranet - local" AND lto <> "epi2017") then %>
                 <tr>
 					<td colspan=6 style="border:0px;"> <input id="FM_ign_tp" value="1" type="checkbox" /> Åbn for manuel indtastning og beregning af Brutto- og Netto -omsætning.</td>
 				</tr>
@@ -1561,7 +1605,7 @@ sub projektberegner
                                 <div id="tilfojstamdiv" style="padding:5px 5px 5px 2px; border:10px #CCCCCC solid; background-color:#FFFFFF; position:absolute; top:200px; left:20px; height:650px; overflow:auto; width:650px; z-index:20000000;"><!-- AktTD Div -->
                                
                                 <div id="jq_stamaktgrp_settings" style="position:relative; padding:0px; left:40px; top:20px; width:550px; border:0px; font-size:11px; background-color:#FFFFFF;">
-                                <h4>Tilføj aktiviteter: <span style="font-size:11px; font-weight:normal;">(<a href="#a_indforstamgrp" class=vmenu id="a_indforstamgrp" name="a_indforstamgrp">+ Projektgrupper & medarb. timepriser</a>)</span>
+                                <h4>Tilføj aktiviteter: <span style="font-size:11px; font-weight:normal;"><a href="#a_indforstamgrp" class=vmenu id="a_indforstamgrp" name="a_indforstamgrp">[+] Indstil Proj.gruppeadgang & medarb. timepriser på aktiviteter.</a></span>
                                 <%if func = "red" then %>
                                 &nbsp;&nbsp;<a href="#" <a href="#" id="stgrp_luk" class=red>[x]</a>
                                 <%end if %>
@@ -1573,7 +1617,7 @@ sub projektberegner
                                     'call infoUnisport(uWdt, uTxt)
                                 
                                     select case lto
-                                    case "epi", "epi_no", "epi_sta", "epi_ab", "epi_cati", "cisu", "plan"
+                                    case "epi", "epi_no", "epi_sta", "epi_ab", "epi_cati", "cisu", "plan", "epi2017"
                                     opfodCHK0 = ""
                                     opfodCHK1 = "CHECKED"
                                     case else
@@ -1584,14 +1628,14 @@ sub projektberegner
 
                                 
                                 
-                                %><br /><br /> 
-                                <div id="div_indforstamgrp" style="position:relative; visibility:hidden; display:none; width:550px; padding:10px; border:1px #cccccc dashed;">
+                                %>
+                                <div id="div_indforstamgrp" style="position:relative; visibility:hidden; display:none; width:550px; padding:20px; border:0">
                                 <b>Projektgrupper:</b><br />
 
                                     <input id="Radio1" name="pgrp_arvefode" value="0" type="radio" <%=opfodCHK0 %> /><b> 1) Nedarv</b> projektgrupper fra job til de stamaktiviter der tilføjes til jobbet.<br />
                                     <input id="Radio4" name="pgrp_arvefode" value="1" type="radio" <%=opfodCHK1 %> /><b> 2) Fød job</b> med de projektgrupper hver stam-aktivitet er født.
                                     <br /><br />
-                                    <b>Medarbejder-timepriser:</b><br />
+                                    <b>Medarbejder-timepriser på aktiviteter:</b><br />
 					                <%
 					                '**** Nedarb timepriser fra job eller behold de medarbejder timepriser der er angive på aktiviteterne ***'
 					                select case lto
@@ -1599,7 +1643,7 @@ sub projektberegner
 					                tpCHK1 = ""
 					                tpCHK2 = "CHECKED"
 							
-					                case "execon", "immenso", "epi", "epi_no", "epi_sta", "epi_ab", "epi_cati"
+					                case "execon", "immenso", "epi", "epi_no", "epi_sta", "epi_ab", "epi_cati", "epi2017"
 					                tpCHK1 = "CHECKED"
 					                tpCHK2 = ""
 							
@@ -1613,8 +1657,8 @@ sub projektberegner
 							
 					                end select
 					                %>
-					                <input type="radio" name="FM_timepriser" value="0" <%=tpCHK1 %>> <b>1)</b> Nedarv fra job. (brug den timepris hver <b>medarbejdertype</b> er oprettet med) 
-					                <br /><input type="radio" name="FM_timepriser" value="1" <%=tpCHK2 %>> <b>2)</b> Behold de medarbejder-timepriser <b>stam-aktiviteterne</b> er født med. (se stam-aktivitetsgrupper)
+					                <input type="radio" name="FM_timepriser" value="0" <%=tpCHK1 %>> <b>1)</b> Nedarv fra job. (brug den timepris hver <b>Medarbejdertype</b> er oprettet med) 
+					                <br /><input type="radio" name="FM_timepriser" value="1" <%=tpCHK2 %>> <b>2)</b> Behold de Medarbejder-timepriser <b>Stam-aktiviteterne</b> er født med. (se stam-aktivitetsgrupper)
 					               </div>
 
 
@@ -1923,14 +1967,18 @@ sub projektberegner
                 
 
                     <%if func <> "red" then
-                        select case lto
-                        case "intranet - local", "dencker"
+                        'select case lto
+                        'case "intranet - local", "dencker", "epi2017"
+
+                        'call jobopr_mandatory_fn()
+
+                        if cint(show_salgsomk_mandatoryOn) = 1 then
                         ulg_Vsb = "hidden"
                         ulg_Dsp = "none"
-                        case else
+                        else
                         ulg_Vsb = "visible"
                         ulg_Dsp = ""
-                        end select
+                        end if
                     else
                     ulg_Vsb = "hidden"
                     ulg_Dsp = "none"
@@ -4375,9 +4423,9 @@ sub minioverblik
                     if lastGrp <> 0 AND lastGrp <> "" AND lastGrp <> thisGrp AND m <> 0 then
                     %>
 
-                     <tr style="background-color:#cccccc;">
+                     <tr style="background-color:#c4c4c4;">
                         <td colspan="6" class="lille"><b><%=lastGrpNavn%> ialt:</b></td>
-                        <td align="right" class="lille"><b><%=formatnumber(matforbrugGrpSubTot, 2) &" "& basisValISO_f8 %></b></td>
+                        <td align="right" class="lille"><u><%=formatnumber(matforbrugGrpSubTot, 2) &" "& basisValISO_f8 %></u></td>
                      </tr>    
 
                     <%matforbrugGrpSubTot = 0
@@ -4426,9 +4474,9 @@ sub minioverblik
                     oRec2.close 
                     
                     %>
-                       <tr style="background-color:#cccccc;">
+                       <tr style="background-color:#c4c4c4;">
                         <td colspan="6" class="lille"><b><%=lastGrpNavn%>:</b></td>
-                         <td align="right" class="lille"><b><%=formatnumber(matforbrugGrpSubTot, 2) &" "& basisValISO_f8 %></b></td>
+                         <td align="right" class="lille"><u><%=formatnumber(matforbrugGrpSubTot, 2) &" "& basisValISO_f8 %></u></td>
                 
                     </tr>    
                     <%
@@ -4442,8 +4490,8 @@ sub minioverblik
                 </div>
                      <table cellpadding=1 cellspacing=0 border=0 width=100%>
                     <tr bgcolor="#FFDFDF"><td class=lille colspan=4><b>Ialt: <%=antalmatreg%></b><img src="ill/blank.gif" width="200" height="1" border="0" /></td>
-                    <td class=lille align=right><b><%=formatnumber(salgsomkostKost, 2)%></b> <%=basisValISO_f8 %></td>
-                    <td class=lille align=right><b><%=formatnumber(salgsomkostSalg, 2)%> </b><%=basisValISO_f8%></td></tr>
+                    <td class=lille align=right><b><u><%=formatnumber(salgsomkostKost, 2)%></u></b> <%=basisValISO_f8 %></td>
+                    <td class=lille align=right><b><u><%=formatnumber(salgsomkostSalg, 2)%> </u></b><%=basisValISO_f8%></td></tr>
                    </table>
             
             </td>
@@ -4815,7 +4863,7 @@ sub timepriser
                                 &"Hvis der ændres <b>projektgrupper</b>, skal du opdatere jobbet, før den aktuelle liste af medarbejdere vises her på timepris-siden.<br><br>"
 
                                 if cdbl(tp_jobaktid) <> 0 then
-                                uTxt = uTxt &"<b>Multiopdater</b><br><input type='checkbox' name='FM_opdateralleakt' value='1'> Opdater aktiviteter med samme navn som valgte på ALLE job. (for valgte medarbejdere)"
+                                uTxt = uTxt &"<b>Multiopdater</b><br><input type='checkbox' name='FM_opdateralleakt' value='1'> Opdater aktiviteter med samme navn som valgte på <u>ALLE</u> job. (alle job, både lukkede, aktive og passive, for valgte medarbejdere)"
                                 end if
 								uWdt = 400
 								

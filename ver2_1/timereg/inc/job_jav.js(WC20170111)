@@ -2905,13 +2905,9 @@ $(document).ready(function () {
     //alert("her")
 	//timer = document.getElementById("FM_budgettimer").value.replace(".", "")
 	//timer = timer.replace(",", ".")
-	    //timer = Math.round(timer * 100) / 100
-
-	    //showFldHours = document.getElementById("showFldHours").value
+	//timer = Math.round(timer * 100) / 100
 
 	    //if ($("#FM_ign_tp").is(':checked') == false) {
-
-	    //if (showFldHours == 1) {
 
 	        gnsinttpris = document.getElementById("FM_gnsinttpris").value.replace(".", "")
 	        gnsinttpris = gnsinttpris.replace(",", ".")
@@ -2959,8 +2955,7 @@ $(document).ready(function () {
 
 	     
 
-	        //}
-	        //}
+	    //}
 
 	   
 	        settotalbelob();

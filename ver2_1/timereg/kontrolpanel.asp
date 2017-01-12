@@ -1059,6 +1059,27 @@ if len(session("user")) = 0 then
             else
             fomr_mandatory = 0
             end if
+
+
+            if len(trim(request("budget_mandatory"))) <> 0 then
+            budget_mandatory = 1
+            else
+            budget_mandatory = 0
+            end if
+
+            if len(trim(request("tilbud_mandatory"))) <> 0 then
+            tilbud_mandatory = 1
+            else
+            tilbud_mandatory = 0
+            end if
+
+            if len(trim(request("show_salgsomk_mandatory"))) <> 0 then
+            show_salgsomk_mandatory = 1
+            else
+            show_salgsomk_mandatory = 0
+            end if
+
+            
                            
             
             '**** Tømmer alle aktive jovblister ved ændring af Positiv indstilling ***'
@@ -1130,7 +1151,9 @@ if len(session("user")) = 0 then
             &" traveldietexp_on = "& traveldietexp_on &", traveldietexp_maxhours = "& traveldietexp_maxhours & ", "_
             &" medarbtypligmedarb = " & medarbtypligmedarb &", pa_aktlist = " & pa_aktlist & ", "_
             &" smiley_agg_lukhard = " & smiley_agg_lukhard & ","_
-            &" week_showbase_norm_kommegaa = "& week_showbase_norm_kommegaa &", mobil_week_reg_job_dd = "& mobil_week_reg_job_dd &", mobil_week_reg_akt_dd = " & mobil_week_reg_akt_dd & ", mobil_week_reg_akt_dd_forvalgt = " & mobil_week_reg_akt_dd_forvalgt
+            &" week_showbase_norm_kommegaa = "& week_showbase_norm_kommegaa &", mobil_week_reg_job_dd = "& mobil_week_reg_job_dd &", "_
+            &" mobil_week_reg_akt_dd = " & mobil_week_reg_akt_dd & ", mobil_week_reg_akt_dd_forvalgt = " & mobil_week_reg_akt_dd_forvalgt & ","_
+            &" budget_mandatory = "& budget_mandatory &", tilbud_mandatory = "& tilbud_mandatory &", show_salgsomk_mandatory = "& show_salgsomk_mandatory &""
 			
 			
 			strSQL = strSQL & strSQLat & " WHERE id = 1"
@@ -1281,7 +1304,8 @@ if len(session("user")) = 0 then
         &" SmiWeekOrMonth, SmiantaldageCount, SmiantaldageCountClock, SmiTeamlederCount, hidesmileyicon, visAktlinjerSimpel, fomr_mandatory, akt_maksbudget_treg, minimumslageremail, fomr_account, "_
         &" visAktlinjerSimpel_datoer, visAktlinjerSimpel_timebudget, visAktlinjerSimpel_realtimer, visAktlinjerSimpel_restimer, "_
         &" visAktlinjerSimpel_medarbtimepriser, visAktlinjerSimpel_medarbrealtimer, visAktlinjerSimpel_akttype, timesimon, timesimh1h2, timesimtp, budgetakt, akt_maksforecast_treg, "_
-        &" traveldietexp_on, traveldietexp_maxhours, medarbtypligmedarb, pa_aktlist, smiley_agg_lukhard, week_showbase_norm_kommegaa, mobil_week_reg_job_dd, mobil_week_reg_akt_dd, mobil_week_reg_akt_dd_forvalgt "_
+        &" traveldietexp_on, traveldietexp_maxhours, medarbtypligmedarb, pa_aktlist, smiley_agg_lukhard, week_showbase_norm_kommegaa, mobil_week_reg_job_dd, mobil_week_reg_akt_dd, mobil_week_reg_akt_dd_forvalgt, "_
+        &" budget_mandatory, tilbud_mandatory, show_salgsomk_mandatory "_
 	    &" FROM licens WHERE id = 1"
 		
 		'Response.Write strSQL
@@ -1513,6 +1537,10 @@ if len(session("user")) = 0 then
             mobil_week_reg_akt_dd = oRec("mobil_week_reg_akt_dd") 
             mobil_week_reg_akt_dd_forvalgt = oRec("mobil_week_reg_akt_dd_forvalgt")
 
+            budget_mandatory = oRec("budget_mandatory")
+            tilbud_mandatory = oRec("tilbud_mandatory")
+            show_salgsomk_mandatory = oRec("show_salgsomk_mandatory")
+
 		end if
 		oRec.close 
 
@@ -1684,8 +1712,18 @@ if len(session("user")) = 0 then
             </tr>
 
 
-            <tr>
-            <td style="padding:15px; border-top:1px #5582d2 dashed;">
+       
+
+
+              <tr>
+                     <td style="padding:15px; border-top:1px #5582d2 dashed;">
+                        <h3>Indstilllinger for joboprettesle:</h3></td>
+
+
+              </tr>
+        
+               <tr>
+            <td style="padding:15px;">
             <h3>Konto på budget på aktivitetslinjer og salgsomkostninger (job oprettelse)</h3>
            
           <%select case cint(budgetakt)
@@ -1709,31 +1747,27 @@ if len(session("user")) = 0 then
               <input type="radio" name="budgetAkt" value="2" <%=budgetAktCHK2 %> /> Vis kontonr. pr. aktivitet og salgsomk. - åbent textfelt. (dynamisk kontoplan)  
              </td>
             </tr>
-
-
-        
+              
             <tr>
-            <td style="padding:15px; border-top:1px #5582d2 dashed;">
-            <h3>Medarbejdertype følger medarbejder 1:1</h3>
+            <td style="padding:15px;">
+            <h3>Budget på medarbejdertype</h3>
            
-          <%if cint(medarbtypligmedarb) = 1 then
-          medarbtypligmedarbCHK = "CHECKED"
+          <%if cint(bdgmtypon) = 1 then
+          bdgmtyponCHK = "CHECKED"
           else
-          medarbtypligmedarbCHK = ""
+          bdgmtyponCHK = ""
           end if
           %>
 
-           <input type="checkbox" name="medarbtypligmedarb" value="0" <%=medarbtypligmedarbCHK %> /> Medarbejdertype følger medarbejder 1:1.<br />
-                 Medarbejdertype bliver step 2 i medarbejderoprettelse.
-   
+           <input type="checkbox" name="bdgmtypon" value="1" <%=bdgmtyponCHK %> /> Aktiver mulighed for at angive budget på medarbejdertyper. (på job)
              </td>
             </tr>
 
-              
+
 
 
                     <tr>
-            <td style="padding:15px; border-top:1px #5582d2 dashed;">
+            <td style="padding:15px;">
             <h3>Forretningsområde obligatorisk</h3>
            
           <%if cint(fomr_mandatory) = 1 then
@@ -1746,6 +1780,70 @@ if len(session("user")) = 0 then
            <input type="checkbox" name="fomr_mandatory" value="1" <%=fomr_mandatoryCHK %> /> Forretningsområde skal angives ved joboprettelse
              </td>
             </tr>
+
+
+              <tr>
+            <td style="padding:15px;">
+            <h3>Budget obligatorisk</h3>
+           
+          <%if cint(budget_mandatory) = 1 then
+          budget_mandatoryCHK = "CHECKED"
+          else
+          budget_mandatoryCHK = ""
+          end if
+          %>
+
+           <input type="checkbox" name="budget_mandatory" value="1" <%=budget_mandatoryCHK %> /> Budget (nettoomsætning) skal angives ved joboprettelse. (skal være højere end 999,-)
+             </td>
+            </tr>
+
+              <tr>
+            <td style="padding:15px;">
+            <h3>Salgsomkostninger / ulev. som popup ved joboprettelse</h3>
+           
+          <%if cint(show_salgsomk_mandatory) = 1 then
+          show_salgsomk_mandatoryCHK = "CHECKED"
+          else
+          show_salgsomk_mandatoryCHK = ""
+          end if
+          %>
+
+           <input type="checkbox" name="show_salgsomk_mandatory" value="1" <%=show_salgsomk_mandatoryCHK %> /> Vis <b>IKKE</b> Salgsomkostninger / ulev. som popup ved joboprettelse. (som stamaktiviteter)
+             </td>
+            </tr>
+
+            
+
+              <tr>
+            <td style="padding:15px;">
+            <h3>Job starter altid som et tilbud</h3>
+           
+          <%if cint(tilbud_mandatory) = 1 then
+          tilbud_mandatoryCHK = "CHECKED"
+          else
+          tilbud_mandatoryCHK = ""
+          end if
+          %>
+
+           <input type="checkbox" name="tilbud_mandatory" value="1" <%=tilbud_mandatoryCHK %> /> Ja, job starter altid som et tilbud ved joboprettelse.
+             </td>
+            </tr>
+
+           <tr>
+            <td style="padding:15px;">
+            <h3>Salgsansvarlige</h3>
+           
+          <%if cint(salgsans) = 1 then
+          salgsansCHK = "CHECKED"
+          else
+          salgsansCHK = ""
+          end if
+          %>
+
+           <input type="checkbox" name="FM_salgsans" value="1" <%=salgsansCHK %> /> Aktiver mulighed for at angive salgsansvarlige på job.
+             </td>
+            </tr>
+
 
 
                <tr>
@@ -1787,20 +1885,23 @@ if len(session("user")) = 0 then
             </tr>
 
 
-                     <tr>
+             <tr>
             <td style="padding:15px; border-top:1px #5582d2 dashed;">
-            <h3>Salgsansvarlige</h3>
+            <h3>Medarbejdertype følger medarbejder 1:1</h3>
            
-          <%if cint(salgsans) = 1 then
-          salgsansCHK = "CHECKED"
+          <%if cint(medarbtypligmedarb) = 1 then
+          medarbtypligmedarbCHK = "CHECKED"
           else
-          salgsansCHK = ""
+          medarbtypligmedarbCHK = ""
           end if
           %>
 
-           <input type="checkbox" name="FM_salgsans" value="1" <%=salgsansCHK %> /> Aktiver mulighed for at angive salgsansvarlige på job.
+           <input type="checkbox" name="medarbtypligmedarb" value="0" <%=medarbtypligmedarbCHK %> /> Medarbejdertype følger medarbejder 1:1.<br />
+                 Medarbejdertype bliver step 2 i medarbejderoprettelse.
+   
              </td>
             </tr>
+
 
 
              <tr>
@@ -1925,21 +2026,7 @@ if len(session("user")) = 0 then
 
 
             
-                 <tr>
-            <td style="padding:15px; border-top:1px #5582d2 dashed;">
-            <h3>Budget på medarbejdertype</h3>
-           
-          <%if cint(bdgmtypon) = 1 then
-          bdgmtyponCHK = "CHECKED"
-          else
-          bdgmtyponCHK = ""
-          end if
-          %>
-
-           <input type="checkbox" name="bdgmtypon" value="1" <%=bdgmtyponCHK %> /> Aktiver mulighed for at angive budget på medarbejdertyper. (på job)
-             </td>
-            </tr>
-
+                 
 
              <tr>
             <td style="padding:15px; border-top:1px #5582d2 dashed;">

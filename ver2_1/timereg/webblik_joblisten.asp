@@ -633,15 +633,15 @@ if len(session("user")) = 0 then
 		response.cookies("webblik")("prioitet") = sorter
 		
 		
-		stCHK0 = ""
-		stCHK1 = ""
-		stCHK2 = ""
-        stCHK3 = ""
-        stCHK31 = ""
-        stCHK4 = ""
-		stCHK5 = ""
-        stCHK6 = ""
-        stCHK7 = ""
+		prioCHK0 = ""
+		prioCHK1 = ""
+		prioCHK2 = ""
+        prioCHK3 = ""
+        prioCHK31 = ""
+        prioCHK4 = ""
+		prioCHK5 = ""
+        prioCHK6 = ""
+        prioCHK7 = ""
         'stCHK8 = ""
 
         'prioTxt8 = "Projektgruppe (eksl. ''Alle-gruppen'')"
@@ -658,44 +658,44 @@ if len(session("user")) = 0 then
 		
 		select case cint(sorter)
 		case 1
-	    stCHK1 = "SELECTED"
+	    prioCHK1 = "SELECTED"
 		vlgPrioTxt = prioTxt1
 		
 		case 2
 		
-		stCHK2 = "SELECTED"
+		prioCHK2 = "SELECTED"
 		vlgPrioTxt = prioTxt2
 	    
         case 3
-	    stCHK3 = "SELECTED"
+	    prioCHK3 = "SELECTED"
 		vlgPrioTxt = prioTxt3
 
          case 31
-	    stCHK31 = "SELECTED"
+	    prioCHK31 = "SELECTED"
 		vlgPrioTxt = prioTxt31
 
         case 4
-		stCHK4 = "SELECTED"
+		prioCHK4 = "SELECTED"
 		vlgPrioTxt = prioTxt4
 		
         case 5
-		stCHK5 = "SELECTED"
+		prioCHK5 = "SELECTED"
 		vlgPrioTxt = prioTxt5
 
         case 6
-		stCHK6 = "SELECTED"
+		prioCHK6 = "SELECTED"
 		vlgPrioTxt = prioTxt6
 
          case 7
-		stCHK7 = "SELECTED"
+		prioCHK7 = "SELECTED"
 		vlgPrioTxt = prioTxt7
 
            case 8
-		stCHK8 = "SELECTED"
+		prioCHK8 = "SELECTED"
 		vlgPrioTxt = prioTxt8
 
 		case else
-		stCHK0 = "SELECTED"
+		prioCHK0 = "SELECTED"
 	    vlgPrioTxt = prioTxt0
 		
 		end select
@@ -1687,20 +1687,20 @@ if len(session("user")) = 0 then
 		<%if print <> "j" then %>
 		
 		<select name="FM_sorter" id="FM_sorter" style="font-size:11px; width:320px;">
-		<option value="1" <%=stCHK1%>>Priroitet (drag'n drop mode)</option>
-		<option value="0" <%=stCHK0%>>Slutdato</option>
-		<option value="2" <%=stCHK2%>>Startdato</option>
-        <option value="3" <%=stCHK3%>>Kunde</option>
-        <option value="31" <%=stCHK31%>>Kunde - Priroitet (drag'n drop mode)</option>
-        <option value="4" <%=stCHK4%>>Jobnavn</option>
-		<option value="5" <%=stCHK5%>>Jobnr (stigende)</option>
-        <option value="6" <%=stCHK6%>>Jobnr (faldende)</option>
+		<option value="1" <%=prioCHK1%>>Priroitet (drag'n drop mode)</option>
+		<option value="0" <%=prioCHK0%>>Slutdato</option>
+		<option value="2" <%=prioCHK2%>>Startdato</option>
+        <option value="3" <%=prioCHK3%>>Kunde</option>
+        <option value="31" <%=prioCHK31%>>Kunde - Priroitet (drag'n drop mode)</option>
+        <option value="4" <%=prioCHK4%>>Jobnavn</option>
+		<option value="5" <%=prioCHK5%>>Jobnr (stigende)</option>
+        <option value="6" <%=prioCHK6%>>Jobnr (faldende)</option>
 
             <%select case lto 
                case "epi", "epi_ab", "epi_sta", "epi_no"
                 
                 case else%>
-        <option value="7" <%=stCHK7%>>Projektgruppe - Priroitet (drag'n drop mode)</option>
+        <option value="7" <%=prioCHK7%>>Projektgruppe - Priroitet (drag'n drop mode)</option>
               <!--<option value="8" <%=stCHK8%>>Projektgruppe (eksl. "Alle-gruppen")</option>-->
             <%end select %>
         
@@ -1925,7 +1925,11 @@ if len(session("user")) = 0 then
         <td class=alt style="padding:3px;" valign=bottom><b>Faktisk faktureret</b>
        
 		</td>
-        <td class=alt style="padding:3px;" valign=bottom><b>Betalingsplan</b><br /> terminer</td>
+        <td class=alt style="padding:3px;" valign=bottom><b>Betalingsplan</b><br /> terminer 
+             <%if jobasnvigv = 1 then %>
+              (stadeindm.)
+             <%end if %>
+            </td>
 
 		<td class=alt style="padding:3px;" valign=bottom><b>Balance <%=basisValISO_f8 %></b></td>
 
@@ -4214,6 +4218,15 @@ if len(session("user")) = 0 then
                     </td><td class="lille"><input id="Submit1" type="submit" value=".csv fil eksport" style="font-size:9px; width:90px;"/><br />
                         <input type="checkbox" value="1" name="xeksDataStd" checked disabled /> Stamdata<br />
                           <input type="checkbox" value="1" name="eksDataNrl" <%=eksDataNrlCHK %> /> Nøgletal, Realiseret, Forr.omr., Projektgrupper mm.<br />
+                        <input type="checkbox" value="1" name="eksDataMile" /> Milepæle/Terminer 
+                        
+                        <%
+                        call stadeOn()
+                        if jobasnvigv = 1 then %>
+                        (stade)
+                        <%end if %>
+                        
+                        <br />
                         <input type="checkbox" value="1" name="eksDataJsv" />  <%
                         call salgsans_fn()    
                         if cint(showSalgsAnv) = 1 then  %>

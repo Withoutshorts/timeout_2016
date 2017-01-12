@@ -3559,7 +3559,15 @@ while not oRec.EOF
                                      <%if cint(oRec("kunde_levbetint")) <> 2 then%>
                                      <%=dt_confb_etd %>
                                      <%else %>
-                                     <%=dt_confb_eta %> <span style="font-size:8px;">ETA</span>
+                                     
+                                         <%if len(trim(dt_confb_etd)) <> 0 then %>
+                                         <%=dt_confb_etd %> <span style="font-size:8px;">ETD</span><br />
+                                         <%end if %>
+
+                                         <%if len(trim(dt_confb_eta)) <> 0 then %>
+                                         <%=dt_confb_eta %> <span style="font-size:8px;">ETA</span>
+                                         <%end if %>
+
                                      <%end if %>
                                  </td>
                                   <%end if 'rapporttype %>

@@ -1071,10 +1071,18 @@
             'end if
 
             '** Fakturerings index HVIS Grundlag er normtid
-            if cdbl(ntimper) > cdbl(faktimerGTselmedarb) AND ntimper <> 0 then
-            medarbSelIndex = (faktimerGTselmedarb/ntimper)
+            if cdbl(ntimper) > cdbl(faktimerGTselmedarb) then
+                if ntimper <> 0 AND faktimerGTselmedarb <> 0 then
+                medarbSelIndex = (faktimerGTselmedarb/ntimper)
+                else
+                medarbSelIndex = 0
+                end if
             else
-            medarbSelIndex = (ntimper/faktimerGTselmedarb)
+                if ntimper <> 0 AND faktimerGTselmedarb <> 0 then
+                medarbSelIndex = (ntimper/faktimerGTselmedarb)
+                else
+                medarbSelIndex = 0
+                end if
             end if
 
 

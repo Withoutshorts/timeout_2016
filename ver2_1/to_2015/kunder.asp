@@ -25,7 +25,7 @@
 <!--#include file="../inc/regular/topmenu_inc.asp"-->
 
 
-<script src="js/kunder_jav.js" type="text/javascript"></script>
+
 
 
 
@@ -771,12 +771,13 @@
 		end if
 	end if
 
-
+  
 
     '********************************************************************
     '**************** CREATE / EDIT *************************************                                 
     case "red", "opret"
     
+    %><script src="js/kunder_jav.js" type="text/javascript"></script><%
 
     if func = "opret" then
 
@@ -1279,7 +1280,6 @@
                             </div> 
                         </div>
 
-                       
 
                             <div class="row">
                                  <div class="col-lg-1">&nbsp;</div>
@@ -1330,6 +1330,18 @@
                                     </div>
                                       
                                     </div>
+
+                              <div class="row">
+                        <div class="col-lg-1">&nbsp;</div>
+                        <div class="col-lg-2">WWW: (Domæner)</div>
+                        <div class="col-lg-8">   
+                              <textarea id="FM_www" name="FM_www" style="height:80px;" class="form-control input-small"><%=strWWW%></textarea>
+                            </div>
+
+                       
+                        </div>
+
+
                                 </div>
                        </div>
                     </div>
@@ -1344,6 +1356,26 @@
                         </div> <!-- /.panel-heading -->
                         <div id="collapseTwo" class="panel-collapse collapse">
                         <div class="panel-body">
+                        Følgende konti er knyttet til denne kunde via kontoplanen: (sættes i ERP)<br />
+                            <div style="height:100px; padding:10px 10px 10px 10px; overflow:auto;">
+                        <%  
+                            
+                            strSQLkp = "SELECT k.kontonr, k.navn, k.id, k.kid FROM kontoplan AS k "_
+			                &" WHERE k.kid = "& id &" ORDER BY k.kontonr, k.navn"
+                            
+                            oRec6.open strSQLkp, oConn, 3
+                            while not oRec6.EOF 
+                            %>
+                            <%=oRec6("navn") & " kontonr: " & oRec6("kontonr") %><br />
+                            <%
+                            oRec6.movenext
+                            wend 
+                            oRec6.close
+                            %>
+                        </div>
+
+                        <br /><br />
+                        Nedenstående konti benyttes udelukkende som afsender konti på faktura layout.<br /><br />
                        
                          <div class="row">
                         <div class="col-lg-1">&nbsp;</div>
@@ -1384,6 +1416,7 @@
                               <div class="col-lg-6">&nbsp;</div> 
                             </div>
                             
+
                             <div class="row">
                                <div class="col-lg-1">&nbsp</div>
                                 <div class="col-lg-2 pad-t10"><a href="#" id="visflkonti" >Flere bankkonti</a></div>
@@ -1964,7 +1997,7 @@
 <%
 case else    
 
-    
+    %><script src="js/kunder_list_jav.js" type="text/javascript"></script><%
 
     if len(trim(request("lastkid"))) <> 0 then
     lastkid = request("lastkid")
@@ -2222,9 +2255,11 @@ case else
 
 	
 	            '** Udskriv query til skærm **
-	            'Response.write strSQL
+	            'if session("mid") = 1 then
+                'Response.write strSQL
 	            'Response.flush
-	            '*****************************
+	            'end if
+                '*****************************
 	            cnt = 0
         
                     oRec.open strSQL, oConn, 3

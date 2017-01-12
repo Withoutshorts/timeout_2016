@@ -5,7 +5,11 @@
 <!--#include file="../inc/regular/stat_func.asp"-->
 <!--#include file="inc/isint_func.asp"-->
 
+<!--#include file="../inc/regular/header_lysblaa_inc.asp"-->
+
 <!--#include file="../inc/regular/topmenu_inc.asp"-->
+
+ <script src="inc/stat_opdater_igv_jav.js"></script>
 
 <script>
     function popUp(URL, width, height, left, top) {
@@ -13,13 +17,13 @@
     }
 </script>
 
+
+
 <%
 
 
 if len(session("user")) = 0 then
-	%>
-	<!--#include file="../inc/regular/header_inc.asp"-->
-	<% 
+	
 	errortype = 5
 	call showError(errortype)
 	else
@@ -50,20 +54,12 @@ if len(session("user")) = 0 then
 
      call stadeopdater()
 
-     'Response.write "her"
-     'Response.end
-
-     'Response.Write("<script language=""JavaScript"">window.opener.location.href = 'stat_opdater_igv.asp';</script>")
-     'Response.flush
-     'Response.Write("<script language=""JavaScript"">window.location.href('stat_opdater_igv.asp?func=opdater&usemrn="+ usemrn +"');</script>")
      
      Response.redirect "stat_opdater_igv.asp?func=opdater&usemrn="& usemrn &"&mthuse="& mthuse
 
      case "opdater"
 
-     %>
-     <!--#include file="../inc/regular/header_hvd_inc.asp"-->
-     <%
+   
      '**** Stade indmelding ****'
      call stadeindm(usemrn, 2, mthuse)
 
@@ -78,9 +74,7 @@ if len(session("user")) = 0 then
 
      case "opdateralle"
 
-       %>
-     <!--#include file="../inc/regular/header_hvd_inc.asp"-->
-     <%
+     
      '**** Stade indmelding ****'
      call stadeindm(0, 3, mthuse)
 
@@ -96,8 +90,8 @@ if len(session("user")) = 0 then
 
 
 
-      <!--#include file="../inc/regular/header_lysblaa_inc.asp"-->
-     <script src="inc/stat_opdater_igv_jav.js"></script>
+      
+    
 	
 	
 	
@@ -105,24 +99,6 @@ if len(session("user")) = 0 then
 
 
     
-
-   
-<!--
-	<div id="topmenu" style="position:absolute; left:0; top:42; visibility:visible;">
-	
-	<%'call tsamainmenu(7)%>
-	</div>
-	
-	
-	<div id="sekmenu" style="position:absolute; left:15; top:82; visibility:visible;">
-	<%
-	
-		'call stattopmenu()
-	
-
-	%>
-	</div>
--->
 
 
     <%call menu_2014()%>
