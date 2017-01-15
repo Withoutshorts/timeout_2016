@@ -2005,6 +2005,12 @@ case else
     lastkid = 0
     end if
 
+    if len(trim(request("land"))) <> 0 then
+    landSEL = request("land")
+    else
+    landSEL = ""
+    end if
+
 %>
 
 <!--Kunde liste-->
@@ -2034,7 +2040,7 @@ case else
                 <div class="well">
                          <h4 class="panel-title-well">Søgefilter</h4>
                          <div class="row">
-                             <div class="col-lg-3">
+                             <div class="col-lg-4">
                                  Søg på Navn: <br />
 			                    <input type="text" name="FM_soeg" id="FM_soeg" class="form-control input-small" placeholder="% Wildcard" value="<%=thiskri%>">
 
@@ -2077,7 +2083,10 @@ case else
                          'sel = eruseasfak
                         
                         autosubmit = 1
-                        call ktyper(name, 150, intuseasfak, autosubmit, level, lto) %></div>
+                        call ktyper(name, 150, intuseasfak, autosubmit, level, lto) %>
+
+
+                               </div>
 
                               <div class="col-lg-2">
 
@@ -2115,7 +2124,42 @@ case else
 
                               </div>
 
-                               <div class="col-lg-3"><br />
+                               <div class="col-lg-2">Land: 
+                                    <select name="land" class="form-control input-small" onchange="submit();">
+
+                                        <%if landSEL = "" then
+                                         isSelected = "SELECTED"
+                                         else
+                                         isSelected = ""
+                                        end if %>
+
+                                        <option value="" <%=isSelected%>>Alle</option>
+                                   
+                                        <%strSQL = "SELECT land FROM kunder WHERE land <> '' AND land IS NOT NULL GROUP BY land ORDER BY land"
+                                         oRec.open strSQL, oConn, 3
+						                    while not oRec.EOF
+
+                                            if landSEL = oRec("land") then
+                                            isSelected = "SELECTED"
+                                            else
+                                            isSelected = ""
+                                            end if
+
+                                         %>
+						                    <option value="<%=oRec("land")%>" <%=isSelected%>><%=oRec("land")%></option>
+						                    <%
+						                    oRec.movenext
+						                    wend
+						                    oRec.close
+                                       
+                                       %>
+                                         
+                                        </select>
+                                </div>
+                                </div><!-- ROW -->
+
+                    <div class="row">
+                               <div class="col-lg-12"><br />
                                     <button type="submit" class="btn btn-secondary btn-sm pull-right"><b>Vis kunder >></b></button>
                                    </div>
                                    <!--<input type="submit" class="btn btn-sm btn-secondary pull-right" value=" Søg " /></div>--> 
@@ -2182,6 +2226,7 @@ case else
                 <th style="width: 15%">Navn</th>
                 <th style="width: 5%">Postnr.</th>
                 <th style="width: 15%">By</th>
+                <th style="width: 15%">Land</th>
                 <th style="width: 5%">Telefon</th>
                 <th style="width: 2%">Type</th>
                 <th style="width: 3%">Segment</th>
@@ -2227,6 +2272,12 @@ case else
 	                end if
 		
 		            kansSQLKri = useopraf_editor
+
+                    if len(trim(landSEL)) <> 0 then
+                    landSELSQL = " AND land = '"& landSEL &"'"
+                    else
+                    landSELSQL = ""
+                    end if
 	
 	            if menu = "crm" then 'NOT IN USE 2050905
 
@@ -2247,7 +2298,7 @@ case else
 		            &" LEFT JOIN medarbejdere m1 ON m1.mid = kundeans1"_
 		            &" LEFT JOIN medarbejdere m2 ON m2.mid = kundeans2"_
 		            &" LEFT JOIN kundetyper AS kt ON (kt.id = kunder.ktype)"_
-		            &" WHERE "& sqlsearchKri &" "& kansSQLKri &" "& useasfakSQL &" AND ketype <> 'xx' "& typeKri & sortBy & " LIMIT 4000" 'ketype <> e
+		            &" WHERE "& sqlsearchKri &" "& kansSQLKri &" "& useasfakSQL &" AND ketype <> 'xx' "& typeKri & landSELSQL & sortBy & " LIMIT 4000" 'ketype <> e
 	            end if
 
     	        kids = "0"
@@ -2281,6 +2332,7 @@ case else
                     <td> <a href="kunder.asp?func=red&id=<%=oRec("kid") %>"><%=oRec("kkundenavn") %></a> </td>
                     <td><%=oRec("postnr") %></td>
                     <td><%=oRec("city") %></td>
+                    <td><%=oRec("land") %></td>
                     <td><%=oRec("telefon") %></td>
                     <td><%
                     
@@ -2380,6 +2432,7 @@ case else
                 <th>Navn</th>
                 <th>Postnr.</th>
                 <th>By</th>
+                <th>Land</th>
                 <th>Telefon</th>
                 <th>Type</th>
                 <th>Segment</th>

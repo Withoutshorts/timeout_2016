@@ -575,8 +575,23 @@ if len(strLicenskey) <> 0 then
     case "2.2012-1012-TO136" 'Epinion AS OSLO / Epinion Baromater STAVANGER = EPI_NO
 	'lto = "epi_no"
     lto = "epi_no"
-    strConnThis = "timeout_epi_no64"
+    'strConnThis = "timeout_epi_no64"
 	'strConnThis = "driver={MySQL ODBC 3.51 Driver};server=localhost; Port=3306; uid=to_outzource2;pwd=SKba200473;database=timeout_epi_no;"
+
+      %>
+    <div style="position:absolute; left:200px; top:100px; width:600px; padding:20px; background-color:#ffffff;">
+    <img src="ill/outzource_logo_200.gif" /><br /><br />
+    Hi TimeOut users in Epinion NO<br />
+   <br />
+   TimeOut is closed down during Data-transfer to another instance of the Epinion database. It will be open again on monday.
+    <br /><br />
+    Best regards 
+    Outzource And Epinion Finance Copenhagen (Jenny Helbrink jhe@epinionglobal.com)
+    </div>
+
+
+    <%response.end
+
 
     case "2.2012-1013-TO137" 'Kestner
 	lto = "kestner"

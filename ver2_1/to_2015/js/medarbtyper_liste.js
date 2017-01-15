@@ -17,7 +17,7 @@
    
         var table = $('#example').DataTable({
             "iDisplayLength": 50,
-            "order": [2, "asc"]
+            "order": [1, "asc"]
         });
 
    

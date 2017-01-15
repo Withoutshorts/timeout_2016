@@ -801,7 +801,7 @@ case "dbopr", "dbred"
 
                             
                                 '*****************************************************************************************************************
-                                '************** Opdater eksisterende timer på aåbne på denne medarb.type 
+                                '************** Opdater eksisterende timer på åbne job på denne medarb.type 
                                 '*****************************************************************************************************************
 
                                         if request("FM_opdater_timepriser") = "1" then
@@ -871,6 +871,10 @@ case "dbopr", "dbred"
 
 
                        
+                        'if session("mid") = 1 then
+                        '        Response.end
+                        'end if
+ 
 
                         '*****************************************************************************************************************
                          '*** Opdater åbne job med internkostpris **'
@@ -1364,12 +1368,14 @@ case "dbopr", "dbred"
                                  useDate = formatdatetime(now,2)%>
                                 <div class="row">
                                     <div class="col-lg-1">&nbsp</div>
-                                    <div class="col-lg-7"><br /><br />
-                                        <b>Opdater eksisterende timepriser:</b><br />
-                                        <input id="Checkbox1" type="checkbox" name="FM_opdater_timepriser" value="1" />&nbsp Opdater timepriser, for denne medarb.type på:<br />
-                                        - alle fakturerbare aktiviteter der IKKE er sat til Fastpris. <br />
-                                        - alle eksisterende <u>åbne</u> job<br />Fra d. <input type="text" name="FM_opdatertpfra" value="<%=useDate %>" style="font-size:9px; width:60px;" /> til dd.
-                                        (også lukkede uger og hvis der foreligger faktura)
+                                    <div class="col-lg-9"><br /><br />
+                                        <b>Opdater timepriser på:</b><br />
+                                        <input id="Checkbox1" type="checkbox" name="FM_opdater_timepriser" value="1" />&nbsp Opdater timepriser, for denne medarb.type.<br />
+                                        - Timepristabellen på alle fakturerbare aktiviteter på åbne job. <br />
+                                        - Alle registrerede timer på fakturerbare aktiviteter på <u>åbne</u> job <b>fra d. </b><input type="text" name="FM_opdatertpfra" value="<%=useDate %>" style="font-size:9px; width:60px;" /> til dd.
+                                        - også lukkede uger og hvis der foreligger faktura.
+                                        <br />
+                                     (Gælder ikke aktiviteter der er sat til fastpris)
                                     </div>
                                 </div>
                            <%end if %>
@@ -1721,7 +1727,7 @@ case "dbopr", "dbred"
                     <th style="width: 22%">Navn</th>
                     <th style="width: 20%">Hovedgruppe</th>
                     <th style="width: 5%">Søstergrp?</th>
-                    <th style="width: 20%">Medlemmer <br /><span style="font-size:10px;">(antal) (historisk)</span></th>
+                    <th style="width: 20%">Medlemmer <br /><span style="font-size:10px;">(antal aktive + passive)</span></th>
                     <th style="width: 8%">Timepris</th>
                     <th style="width: 8%">Kostpris</th>
                     <th style="width: 10%">Norm. timer</th>
@@ -1760,11 +1766,10 @@ case "dbopr", "dbred"
 
 	                ugetotal = formatnumber(oRec("normtimer_son") + oRec("normtimer_man") + oRec("normtimer_tir") + oRec("normtimer_ons") + oRec("normtimer_tor") + oRec("normtimer_fre") + oRec("normtimer_lor"), 2)
 	
-	                '** Antal medab i type ***'
+	                '** Antal medab i type Aktive ***'
 	                strSQL2 = "SELECT count(Mid) AS mids FROM medarbejdere WHERE medarbejdertype = "& oRec("id") & " AND mansat <> 2 GROUP BY medarbejdertype"
 	                
                    
-                    
                     oRec2.open strSQL2, oConn, 3
 	                if not oRec2.EOF then
 
@@ -1782,12 +1787,32 @@ case "dbopr", "dbred"
 
 
 
-                    if antalx <> "0" then
+                    if cdbl(antalx) <> 0 then
 	                Antal = antalx
                     else
                     antalx = 0
                     Antal = 0
                     end if
+
+
+                     '** Antal medab i type Passive ***'
+	                strSQL2 = "SELECT count(Mid) AS mids FROM medarbejdere WHERE medarbejdertype = "& oRec("id") & " AND mansat = 3 GROUP BY medarbejdertype"
+	                
+                    antalxPas = 0
+                    oRec2.open strSQL2, oConn, 3
+	                if not oRec2.EOF then
+
+                    if IsNull(oRec2("mids")) <> true then
+	                'x = oRec2("mids")
+	                antalxPas = oRec2("mids")
+                    else
+                    'x = 0
+	                antalxPas = 0
+                    end if
+                    'oRec2.movenext
+	                
+                    end if
+	                oRec2.close
 	
 	
 	                t = 0
@@ -1819,7 +1844,8 @@ case "dbopr", "dbred"
                     <td><%if oRec("sostergp") <> 0 then %>
                     (id: <%=oRec("sostergp") %>)
                     <%end if %></td> 
-                    <td><a href="medarbtyper.asp?menu=medarb&func=med&id=<%=oRec("id")%>">Se medlemmer</a> <b>(<%=antalx%>)</b> (<%=t %>)</td>
+                    <td><a href="medarbtyper.asp?menu=medarb&func=med&id=<%=oRec("id")%>">Se medlemmer</a> <b>(<%=antalx%>)</b><br />
+                       <span style="font-size:10px">Heraf pasive: <%=antalxPas %>, historisk: <%=t %></span></td>
                     <td><%=oRec("timepris") &" "& oRec("valutakode") %></td>
                     <td><%=oRec("kostpris") &" "& basisValISO%></td>
                     <td><%=formatnumber(ugetotal)%> t. (<%=formatnumber(ugetotal/5, 1)%>)</td>

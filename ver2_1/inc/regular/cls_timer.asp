@@ -424,9 +424,13 @@ function alttimepris(useaktid, intjobid, strMnr, upd)
                             alttp_timeprisAlt = 0
 							foundone = "n"
 							strSQL = "SELECT id AS tpid, jobid, aktid, medarbid, timeprisalt, 6timepris, 6valuta FROM timepriser WHERE jobid = "& intjobid &" AND aktid = "& useaktid &" AND medarbid =  "& strMnr
-							'Response.Write strSQL & "<br>"
+							
+                            'if session("mid") = 1 AND strMnr = 16 then
+                            'Response.Write "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"& strSQL & "<br>"
                             'Response.flush	
-						    oRec2.open strSQL, oConn, 3 
+						    'end if
+    
+                            oRec2.open strSQL, oConn, 3 
 							if not oRec2.EOF then
 							        
 							        foundone = "y"
@@ -437,7 +441,7 @@ function alttimepris(useaktid, intjobid, strMnr, upd)
 									
                                     alttp_timeprisAlt = timeprisAlt
 
-									if cdbl(intTimepris) = 0 AND cint(timeprisAlt) <> 6 then
+									if (cdbl(intTimepris) = 0 AND cint(timeprisAlt) <> 6) OR cint(upd) = 1 then
 									
 							
 							            Select case timeprisAlt
@@ -463,29 +467,35 @@ function alttimepris(useaktid, intjobid, strMnr, upd)
 							            end select
 							            
 							            
-							        strSQL3 = "SELECT mid, "&timeprisalernativ&" AS useTimepris, "& valutaAlt &" AS useValuta, medarbejdertype FROM medarbejdere "_
-                                    &" LEFT JOIN medarbejdertyper ON (medarbejdertyper.id = medarbejdertype) WHERE mid =" & strMnr
+							                    strSQL3 = "SELECT mid, "&timeprisalernativ&" AS useTimepris, "& valutaAlt &" AS useValuta, medarbejdertype FROM medarbejdere "_
+                                                &" LEFT JOIN medarbejdertyper ON (medarbejdertyper.id = medarbejdertype) WHERE mid =" & strMnr
 									
-									'Response.Write strSQL3
-									'Response.flush
-									oRec3.open strSQL3, oConn, 3 
-									if not oRec3.EOF then
-									intTimepris = oRec3("useTimepris")
-									intValuta = oRec3("useValuta")
+									            'Response.Write strSQL3
+									            'Response.flush
+									            oRec3.open strSQL3, oConn, 3 
+									            if not oRec3.EOF then
+									            intTimepris = oRec3("useTimepris")
+									            intValuta = oRec3("useValuta")
+									            end if
+									            oRec3.close
+									
+
+                                                 intTimepris = replace(intTimepris, ",", ".")
+
+                                                     
+									                if cint(upd) = 1 then
+									                strSQLupdtp = "UPDATE timepriser SET 6timepris = "& intTimepris &", 6valuta = "& intValuta &" WHERE id = " & tpid
+	    							                'Response.write "strSQLupdtp:    " & strSQLupdtp
+                                                    'Response.flush	
+                                                    oConn.execute(strSQLupdtp)
+
+                                                       
+									                end if
+									            
+				
 									end if
-									oRec3.close
-									
-									intTimepris = replace(intTimepris, ",", ".")
-									
-									
-									
-									if cint(upd) = 1 then
-									strSQLupdtp = "UPDATE timepriser SET 6timepris = "& intTimepris &", 6valuta = "& intValuta &" WHERE id = " & tpid
-									oConn.execute(strSQLupdtp)
-									end if
-									
-									
-									end if
+				
+                                       
 									
 									strSQLval = "SELECT valutakode, kurs AS valutaKurs FROM valutaer WHERE id = " & intValuta
 									oRec3.open strSQLval, oConn, 3 

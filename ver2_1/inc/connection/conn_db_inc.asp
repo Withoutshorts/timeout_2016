@@ -676,6 +676,19 @@ if len(strLicenskey) <> 0 then
 	lto = "epi_uk"
 	strConnThis = "driver={MySQL ODBC 3.51 Driver};server=localhost; Port=3306; uid=to_outzource2;pwd=SKba200473;database=timeout_epi_uk;"
 
+    %>
+    <div style="position:absolute; left:200px; top:100px; width:600px; padding:20px; background-color:#ffffff;">
+    <img src="ill/outzource_logo_200.gif" /><br /><br />
+    Hi TimeOut users in Epinion UK<br />
+   <br />
+   TimeOut is closed down during Data-transfer to another instance of the Epinion database. It will be open again on monday.
+    <br /><br />
+    Best regards 
+    Outzource And Epinion Finance Copenhagen (Jenny Helbrink jhe@epinionglobal.com)
+    </div>
+
+
+    <%response.end
 
     case "2.2014-0501-TO149" 'NorthTex
 	'lto = "nt"

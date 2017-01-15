@@ -497,7 +497,7 @@ end select
                  <li><a href="<%=toSubVerPath14 %><%=lnkAfstem %>"><%=tsa_txt_389 %></a></li>
 
                  <%select case lto
-                 case "oko", "epi", "epi_2017", "wilke", "intranet - local", "outz", "dencker", "essens", "synergi1", "jttek", "hidalgo", "demo", "bf", "plan", "acc"
+                 case "oko", "epi", "epi2017", "wilke", "intranet - local", "outz", "dencker", "essens", "synergi1", "jttek", "hidalgo", "demo", "bf", "plan", "acc"
                      
                      if level = 1 OR (lto = "wilke") OR (lto = "outz") OR (lto = "dencker") OR (lto = "hidalgo") OR (lto = "acc") then%>
                     <li><a href="<%=toSubVerPath15 %>medarbdashboard.asp"><%=tsa_txt_529 %></a></li>
@@ -511,31 +511,41 @@ end select
                    <%if level <= 7 then %>
 
 
-                          <% 
-                          '*** OVERSKRIFT projektleder funktioner    
-                         
-                            %>
+                       <% 
+                       '*** OVERSKRIFT projektleder funktioner    
+                       %>
 
-                            <h3 class="menuh3"><%=tsa_txt_439 %></h3>
+                        <h3 class="menuh3"><%=tsa_txt_439 %></h3>
+
+
+
+
+                       <%'** Igangværende arbejde ***'
+                        select case lto
+                
+                        case "tec", "esn"%>
+                        <%case else 
+                            
+                                if level <= 2 OR level = 6 then%>
+                               <li><a href="<%=toSubVerPath14 %>webblik_joblisten.asp"><%=tsa_txt_452 %></a></li>
+                        <%      end if
+                        end select %>
                            
                             
                       <% 
-                      '**** Ressource forecast    
-                      select case lto
-                
-                     case "tec", "esn", "nonstop"
-                     
-
+                     '**** Ressource forecast    
+                     select case lto
+                     case "tec", "esn", "nonstop", "epi2017"
                      case else
                     
-                     if level <= 2 OR level = 6 then %>
-
-                     <li><a href="<%=toSubVerPath14 %>ressource_belaeg_jbpla.asp"><%=tsa_txt_440 %></a></li>
-                     <%end if%>
+                             if level <= 2 OR level = 6 then %>
+                            <li><a href="<%=toSubVerPath14 %>ressource_belaeg_jbpla.asp"><%=tsa_txt_440 %></a></li>
+                             <%end if%>
 
                     <%end select %>
 
-	                <%end if %>
+	               
+                  <%end if %>
 
                 
 
@@ -594,13 +604,8 @@ end select
 
                  <%
 
-            jobasnvigv = 0
-            strSQLigv = "SELECT jobasnvigv FROM licens WHERE id = 1"
-            oRec.open strSQLigv, oConn, 3
-            if not oRec.EOF then
-            jobasnvigv = oRec("jobasnvigv")
-            end if
-            oRec.close
+
+            call stadeOn()
 
             if jobasnvigv = 1 then %>
             <li><a href="<%=toSubVerPath14 %>stat_opdater_igv.asp?func=opdater" target="_blank"><%=tsa_txt_462 %></a>
@@ -760,7 +765,8 @@ end select
 
                     <%if level <= 2 OR level = 6 then %>
                   <h3 class="menuh3"><%=tsa_txt_439 %></h3>
-                   <li><a href="<%=toSubVerPath14 %>webblik_joblisten.asp"><%=tsa_txt_452 %></a></li>
+                   
+                  <li><a href="<%=toSubVerPath14 %>webblik_joblisten.asp"><%=tsa_txt_452 %></a></li>
                  
 
                  
@@ -943,11 +949,17 @@ end select
                 
            <%if level = 1 then %>
 	        <li><a href='<%=toSubVerPath15 %>medarb.asp?visikkemedarbejdere=1'><%=global_txt_125 %></a></li>
-
-           
-           <li><a href='<%=toSubVerPath15 %>medarb.asp?menu=medarb&func=opret'><%=global_txt_183 %></a></li>
+            <li><a href='<%=toSubVerPath15 %>medarb.asp?menu=medarb&func=opret'><%=global_txt_183 %></a></li>
            <%else %>
+
+             
+
              <li><a href='<%=toSubVerPath15 %>medarb.asp?menu=medarb&func=red&id=<%=session("mid")%>'><%=global_txt_184 %></a></li>
+
+            <%if cint(create_newemployee) = 1 then %>
+            <li><a href='<%=toSubVerPath15 %>medarb.asp?menu=medarb&func=opret'><%=global_txt_183 %></a></li>
+            <%end if %>
+
            <%end if %>
 
           

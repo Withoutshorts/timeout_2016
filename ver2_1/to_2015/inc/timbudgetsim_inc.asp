@@ -1092,6 +1092,15 @@ function medarbfelter(jobnr, jobid, aktid, h1aar, h2aar, h1md, h2md, bgttpris)
                         if cint(timesimtp) = 1 then
                 
                         strSQLmedtp = "SELECT 6timepris FROM timepriser WHERE jobid = " & jobid & " AND aktid = "& aktid &" AND medarbid = "& antalm(m,1)  
+                    
+                           'if session("mid") = 1 AND antalm(m,1) = 16 then
+                        
+                           ' response.write "strSQLmedtp: " & strSQLmedtp & "<br>"
+                           ' response.flush
+
+                           'end if
+                 
+                 
                          oRec3.open strSQLmedtp, oConn, 3
                          if not oRec3.EOF then
 
@@ -1103,18 +1112,23 @@ function medarbfelter(jobnr, jobid, aktid, h1aar, h2aar, h1md, h2md, bgttpris)
 
                         end if
 
-                        if cint(tpFundetAkt) = 0 then 'Nedarver
-                        strSQLmedtp = "SELECT 6timepris FROM timepriser WHERE jobid = " & jobid & " AND aktid = 0 AND medarbid = "& antalm(m,1)  
-                         oRec3.open strSQLmedtp, oConn, 3
-                         if not oRec3.EOF then
+
+
+
+                        '*** MÅ IKKE NEDARVE ØKO. SÅ FREMGÅR DET IKKE AT DER MANGLER EN TP på aktviiteten 20161220
+
+                        'if cint(tpFundetAkt) = 0 then 'Nedarver
+                        'strSQLmedtp = "SELECT 6timepris FROM timepriser WHERE jobid = " & jobid & " AND aktid = 0 AND medarbid = "& antalm(m,1)  
+                        ' oRec3.open strSQLmedtp, oConn, 3
+                        ' if not oRec3.EOF then
 
                        
-                            medarbTp = oRec3("6timepris")
+                        '    medarbTp = oRec3("6timepris")
 
-                         end if
-                         oRec3.close
+                        ' end if
+                        ' oRec3.close
 
-                        end if
+                        'end if
 
                     end if
 
@@ -1189,8 +1203,8 @@ function medarbfelter(jobnr, jobid, aktid, h1aar, h2aar, h1md, h2md, bgttpris)
 
             <input type="hidden" name="FM_medid" value="<%=antalm(m,1) %>" />
 
-            <%if cdbl(medarbTp) > cdbl(bgttpris) then
-                bgHfc = "" '"lightpink"
+            <%if cdbl(medarbTp) = 0 then 'cdbl(medarbTp) > cdbl(bgttpris) OR 20161220
+                bgHfc = "lightpink"
              else
                 bgHfc = ""
              end if

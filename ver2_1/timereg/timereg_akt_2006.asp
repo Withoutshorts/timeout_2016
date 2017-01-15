@@ -5338,12 +5338,12 @@
 						
 					        
 					        '*** tjekker for alternativ timepris på aktivitet
-							call alttimepris(aktids(j), jobids(j), medarbejderid, 1)
+							call alttimepris(aktids(j), jobids(j), medarbejderid, 0)
 							
 							'** Er der alternativ timepris på jobbet
 							if foundone = "n" then
 								
-                                call alttimepris(0, jobids(j), medarbejderid, 1)
+                                call alttimepris(0, jobids(j), medarbejderid, 0)
                                 
 							end if
 							

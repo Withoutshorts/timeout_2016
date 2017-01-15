@@ -516,20 +516,25 @@
 	  <txt_148>Health</txt_148>
 
 	  <txt_150>Break</txt_150>
-	  <txt_151>Night</txt_151>
-	  <txt_152>Weekend</txt_152>
-	  <txt_153>Weekend Night</txt_153>
-	  <txt_154>Evening</txt_154>
-	  <txt_155>Weekend Eve.</txt_155>
+
+    <txt_151>Interv. Bonus 15</txt_151>
+    <txt_152>Interv. Bonus 20</txt_152>
+    <txt_153>Weekend Nat</txt_153>
+    <txt_154>Interv. Bonus 10</txt_154>
+    
+    <txt_155>Weekend Eve.</txt_155>
 	  <txt_157>Ad-hoc</txt_157>
 	  <txt_158>Pcs.</txt_158>
 
 	  <txt_159>Time in lieu wants pay out</txt_159>
 	  <txt_160>Doctor</txt_160>
-	  <txt_161>E1</txt_161>
-	  <txt_162>E2</txt_162>
+	  
+   
+    <txt_161>Recruting bonus</txt_161>
+    <txt_162>CATI</txt_162>
 
-	  <txt_164>Extra days planned</txt_164>
+
+    <txt_164>Extra days planned</txt_164>
 	  <txt_165>Holiday without pay</txt_165>
 	  <txt_166>Day</txt_166>
 
