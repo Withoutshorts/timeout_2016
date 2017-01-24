@@ -47,7 +47,11 @@
 
                 <li style="border-bottom:1px #000000 solid;">
                 <a href="<%=relpathTT%>timetag_web_kpi.asp">Nøgletal</a>
-                </li>           
+                </li>
+                
+                <li style="border-bottom:1px #000000 solid;">
+                <a href="../timereg/stempelur.asp?menu=stat&func=dbloginhist&FM_usedatokri=1&medarbSel=<%=useMid%>">Log ud</a>
+                </li>            
               
             </ul>
 
