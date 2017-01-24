@@ -35,7 +35,7 @@
         <%end if %>
 
         <%select case lto 
-          case "epi", "epi_no", "epi_uk", "epi_ab"
+          case "epi", "epi_no", "epi_uk", "epi_ab", "epi2017"
             
             
          if level = 1 then %>

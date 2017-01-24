@@ -115,7 +115,7 @@ Session.LCID = 1030
                                 end if
 
                                 
-                                strSQLtypegrupper = "SELECT id, type FROM medarbejdertyper mt WHERE "& mtypgrpSQL &" ORDER BY type"
+                                strSQLtypegrupper = "SELECT id, type, timepris, timepris_a2, timepris_a3, timepris_a4, timepris_a5, kostpris, normtimer_man, normtimer_tir, normtimer_ons, normtimer_tor, normtimer_fre, normtimer_lor, normtimer_son FROM medarbejdertyper mt WHERE "& mtypgrpSQL &" ORDER BY type"
 	
                                 'Response.write strSQLtypegrupper
                                 'Response.flush
@@ -219,8 +219,9 @@ Session.LCID = 1030
 
                                     else
                                                 '";"& opsagtdatoTxt
-                                                ekspTxt = ekspTxt & mTypegruppeNavn & ";" & oRec("mnavn") & ";" & oRec("init") & ";"& mstatus &";" & oRec("ansatdato") &";"& lastLoginDateFm &";"& lastTregDato &";xx99123sy#z"
-
+                                                ekspTxt = ekspTxt & mTypegruppeNavn & ";" & oRec("mnavn") & ";" & oRec("init") & ";"& mstatus &";" & oRec("ansatdato") &";"& lastLoginDateFm &";"& lastTregDato &";"
+                                                ekspTxt = ekspTxt & oRec3("timepris") &";"& oRec3("timepris_a2") &";"& oRec3("timepris_a3") &";"& oRec3("timepris_a4") &";"& oRec3("timepris_a5") &";"& oRec3("kostpris") &";"
+                                                ekspTxt = ekspTxt & oRec3("normtimer_man") &";"& oRec3("normtimer_tir") &";"& oRec3("normtimer_ons") &";"& oRec3("normtimer_tor") &";"& oRec3("normtimer_fre") &";"& oRec3("normtimer_lor") &";"& oRec3("normtimer_son") &";xx99123sy#z"
                                     end if
 
 
@@ -304,7 +305,7 @@ Session.LCID = 1030
 				
 				
 				                '**** Eksport fil, kolonne overskrifter ***
-	                            strOskrifter = "Medarbejdetype; Medarbejder; Init; Status; Ansatdato; Sidst logget ind; Seneste tidsreg.;"
+	                            strOskrifter = "Medarbejdetype; Medarbejder; Init; Status; Ansatdato; Sidst logget ind; Seneste tidsreg.;Timepris;Timepris2;Timepris3;Timepris4;Timepris5;Kostpris;Normtimer Man.;Normtimer Tir.;Normtimer Ons.;Normtimer Tor.;Normtimer Fre.;Normtimer Lør.;Normtimer Søn.;"
 				
 				
 				
@@ -855,7 +856,7 @@ case "dbopr", "dbred"
 					                  
                                                     'Response.flush
                                                     'Response.write strSQLtp & "<br>"
-
+                                                    'Response.end
 					                                oConn.execute(strSQLtp)
                                                     
                                                     'Response.end

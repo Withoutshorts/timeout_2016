@@ -592,7 +592,7 @@ end if
     end if
 
 
-     if len(trim(request("FM_kunde"))) <> 0 then
+    if len(trim(request("FM_kunde"))) <> 0 then
     kid = request("FM_kunde")
   
         if kid <> 0 then
@@ -749,11 +749,13 @@ end if
             if len(request("FM_sog")) <> 0 AND request("FM_sog") <> "Søg.." then
             sogKri = request("FM_sog")
             kSQLkri = "AND kkundenavn LIKE '"& sogKri &"%' OR kkundenr = '"& sogKri &"'"
-
+           
             else
 
                 sogKri = "Søg.."
                 kSQLkri = "AND kid <> 0"   
+               
+               
 
             end if
 
@@ -764,7 +766,8 @@ end if
             kSQLkri = "AND kkundenavn LIKE '"& sogKri &"%' OR kkundenr = '"& sogKri &"'"
             else
             sogKri = "Søg.."
-            kSQLkri = "AND kid <> 0"
+            kSQLkri = "AND kid <> 0"   
+              
             end if
 
         end if

@@ -584,8 +584,9 @@ public venter_ultimo
     						
 						    strSQL2 = "SELECT sum(timer.timer) AS antaltimer FROM timer WHERE taktivitetid =" & thisaktid(x) &""_
 						    &" AND timepris = "&SQLBless(useMedarbejderTimepris)&" AND "_
-						    &" (Tdato BETWEEN '" & stdatoKri &"' AND '"& slutdato &"') AND valuta = "& valutaID 
+						    &" (Tdato BETWEEN '" & stdatoKriAktSpecifik(x) &"' AND '"& slutdato &"') AND valuta = "& valutaID 
     						
+                            'stdatoKri
 						    'Response.Write strSQL2
 						    oRec2.open strSQL2, oConn, 3
 						    if not oRec2.EOF then
@@ -1337,7 +1338,7 @@ public venter_ultimo
 										
 										strSQL2 = "SELECT sum(timer) AS timer FROM timer WHERE Tmnr = "&oRec3("medarbejderid")&" "_
 										&" AND taktivitetid ="& thisaktid(x) &" AND "_
-										&" (Tdato BETWEEN '" & stdatoKri &"' AND '"& slutdato &"')"
+										&" (Tdato BETWEEN '" & stdatoKriAktSpecifik(x) &"' AND '"& slutdato &"')"
 										
 										
 										'Response.Write strSQL2 & "<br>"

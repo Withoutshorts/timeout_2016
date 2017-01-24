@@ -1,5 +1,8 @@
 <%response.buffer = true%>
 
+<META HTTP-EQUIV="CACHE-CONTROL" CONTENT="NO-CACHE">
+<META HTTP-EQUIV="EXPIRES" CONTENT="Mon, 22 Jul 2002 11:12:01 GMT">
+
 <!--#include file="../inc/connection/conn_db_inc.asp"-->
 <!--#include file="../inc/errors/error_inc.asp"-->
 <!--#include file="../inc/regular/global_func.asp"-->
@@ -850,17 +853,11 @@ if len(session("user")) = 0 then
 		startDatoNum = cdate(strStartDay &"/"& Request("FM_start_mrd") &"/"& Request("FM_start_aar")) 
 		slutDatoNum = cdate(strSlutDay &"/"& Request("FM_slut_mrd")  &"/"& slutaar)
 		
-		'Response.write startDatoNum & "==" & slutDatoNum
-		
-		'Response.Write "request(FM_kunde)" & request("FM_kunde")
-		
-        
-    'Response.Write request("FM_kunde") & request("FM_navn") & " "& request("FM_jnr")
-    'Response.end
+	
 
 		'** Tjekker om alle felter er udfyldt korrekt **
 		if len(request("FM_navn")) = 0 OR len(request("FM_navn")) > 100 OR len(trim(request("FM_jnr"))) = 0 OR len(request("FM_kunde")) = 0 OR _
-		len(request("FM_jnr")) > 20 OR startDatoNum > slutDatoNum OR _
+		len(request("FM_jnr")) > 20 OR _
 		cint(instr(request("FM_navn"), "'")) > 0 OR _
         ((lcase(request("FM_navn")) = "jobnavn.." AND func = "dbred" AND instr(lto, "epi") <> 0) OR _
         (lcase(request("FM_navn")) = "jobnavn.." AND func = "dbred" AND instr(lto, "epi") = 0)) then
@@ -872,6 +869,15 @@ if len(session("user")) = 0 then
 		
 		else
 		
+            	'** Tjekker om SLUTDATO udfyldt korrekt ** EPI pga auto opret og startdato starter i minus 1
+		        if (startDatoNum > slutDatoNum AND instr(lto, "epi") = 0) OR _
+                (startDatoNum > slutDatoNum AND func = "dbred" AND instr(lto, "epi") <> 0) then
+		
+		        call visErrorFormat
+		        errortype = 184
+		        call showError(errortype)
+		        Response.end
+                end if
 		
 		    %>
 			<!--#include file="inc/isint_func.asp"-->
@@ -909,9 +915,34 @@ if len(session("user")) = 0 then
 
             end if
 			
+
+            '*********************************************************************'
+				'************************** Internt / eksternt job *******************'
+				'*********************************************************************'
+				'*** Altid Eksternt job ***'
+						
+						if request("FM_usetilbudsnr") = "j" then
+						strStatus = 3 'tilbud
+						else
+							if request("FM_status") <> 3 then
+							strStatus = request("FM_status")
+							else
+							strStatus = 1 'aktivt, hvis der ved en fejl at valgt tilbud
+							end if
+						end if
+
+
+
+            '*********  Sandsynlighed ***********************
+            if len(trim(request("FM_sandsynlighed"))) <> 0 then
+			sandsynlighed = formatnumber(request("FM_sandsynlighed"), 0)
+			else
+			sandsynlighed = 0
+			end if
+
 			isInt = 0    
 		    call erDetInt(request("FM_sandsynlighed"))
-            if isInt > 0 then
+            if isInt > 0 OR (lto = "epi2017" AND strStatus = 3 AND (len(trim(sandsynlighed ) ) = 0 OR sandsynlighed > 100 OR sandsynlighed < 1 )) then
             call visErrorFormat
     		
 		    errortype = 31
@@ -1101,11 +1132,7 @@ if len(session("user")) = 0 then
 			    end if
 			    
 			    
-			    if len(trim(request("FM_sandsynlighed"))) <> 0 then
-			    sandsynlighed = formatnumber(request("FM_sandsynlighed"), 0)
-			    else
-			    sandsynlighed = 0
-			    end if
+			   
                 			    
 			    
 			    
@@ -1670,10 +1697,10 @@ if len(session("user")) = 0 then
 
                 '''Tjekekr om brutto beløb er mindre end netto beløb
                 select case lto 
-                case "epi", "epi_no", "epi_sta", "epi_ab", "epi_uk", "epi2017"
+                case "epi", "epi_no", "epi_sta", "epi_ab", "epi_uk", "epi2017", "intranet - local"
                 strBudgetTjk = replace(strBudget, ".", ",")
                 jo_gnsbelobTjk = replace(jo_gnsbelob, ".", ",")
-                if cdbl(strBudgetTjk) < cdbl(jo_gnsbelobTjk) then
+                if cdbl(strBudgetTjk) < cdbl(jo_gnsbelobTjk) AND func = "dbred" then
                 
                         call visErrorFormat
 				        errortype = 165
@@ -1850,20 +1877,7 @@ if len(session("user")) = 0 then
                  '****************************************
 				
 				
-				'*********************************************************************'
-				'************************** Internt / eksternt job *******************'
-				'*********************************************************************'
-				'*** Altid Eksternt job ***'
-						
-						if request("FM_usetilbudsnr") = "j" then
-						strStatus = 3 'tilbud
-						else
-							if request("FM_status") <> 3 then
-							strStatus = request("FM_status")
-							else
-							strStatus = 1 'aktivt, hvis der ved en fejl at valgt tilbud
-							end if
-						end if
+				
 				
 
 
@@ -1990,6 +2004,7 @@ if len(session("user")) = 0 then
 				    end if 
 					
 					
+                     lincensindehaver_faknr_prioritet_job = request("FM_lincensindehaver_faknr_prioritet_job")
 					
 					 if cint(jobnrFindes) <> 1 AND cint(tilbudsnrFindes) <> 1 then		
 					 
@@ -2011,7 +2026,7 @@ if len(session("user")) = 0 then
                                 &" jobans_proc_1, jobans_proc_2, jobans_proc_3, jobans_proc_4, jobans_proc_5, restestimat, stade_tim_proc, "_
                                 &" virksomheds_proc, syncslutdato, altfakadr, preconditions_met, laasmedtpbudget,"_
                                 &" salgsans1, salgsans2, salgsans3, salgsans4, salgsans5, "_
-                                &" salgsans1_proc, salgsans2_proc, salgsans3_proc, salgsans4_proc, salgsans5_proc, filepath1, fomr_konto, jfak_sprog, jfak_moms, alert "_
+                                &" salgsans1_proc, salgsans2_proc, salgsans3_proc, salgsans4_proc, salgsans5_proc, filepath1, fomr_konto, jfak_sprog, jfak_moms, alert, lincensindehaver_faknr_prioritet_job "_
                                 &") VALUES "_
 							    &"('"& strNavn &"', "_
 							    &"'"& strjnr &"', "_ 
@@ -2048,7 +2063,8 @@ if len(session("user")) = 0 then
                                 &" "& jobans_proc_1 & ", "& jobans_proc_2 & ", "& jobans_proc_3 & ", "& jobans_proc_4 & ", "& jobans_proc_5 & ", "& restestimat &", "& stade_tim_proc &","_
                                 &" "& virksomheds_proc &", "& syncslutdato &", "& altfakadr &", "& preconditions_met &", "& laasmedtpbudget &", "_
                                 &" "& salgsans1 &","& salgsans2 &","& salgsans3 &","& salgsans4 &","& salgsans5 &", "_
-                                &" "& salgsans_proc_1 &","& salgsans_proc_2 &","& salgsans_proc_3 &","& salgsans_proc_4 &","& salgsans_proc_5 &", '"& filepath1 &"', "& fomr_konto &", "& jfak_sprog &", "& jfak_moms &", "& alert &""_
+                                &" "& salgsans_proc_1 &","& salgsans_proc_2 &","& salgsans_proc_3 &","& salgsans_proc_4 &","& salgsans_proc_5 &", "_
+                                &" '"& filepath1 &"', "& fomr_konto &", "& jfak_sprog &", "& jfak_moms &", "& alert &", "& lincensindehaver_faknr_prioritet_job &""_
                                 &")")
     							
 							    'Response.write strFakturerbart & "<br><br>"
@@ -2217,7 +2233,7 @@ if len(session("user")) = 0 then
 								'for a = 1 to 1
 								
                                     if len(trim(intAktfavgp_use(a))) <> 0 then
-								    call tilknytstamakt(a, intAktfavgp_use(a), trim(strAktFase_use(1)), 0)
+								    call tilknytstamakt(a, intAktfavgp_use(a), trim(strAktFase_use(1)), 0, varjobId)
 								
 								        'if a = 0 then
 									    'intAktfavgp_1 = intAktfavgp_use(a)
@@ -2313,7 +2329,8 @@ if len(session("user")) = 0 then
                             &" syncslutdato = "& syncslutdato &", altfakadr = "& altfakadr &", preconditions_met = "& preconditions_met &", laasmedtpbudget = "& laasmedtpbudget &", "_
                             &" salgsans1 = "& salgsans1 &", salgsans2 = "& salgsans2 &", salgsans3 = "& salgsans3 &", salgsans4 = "& salgsans4 &", salgsans5 = "& salgsans5 &", "_
                             &" salgsans1_proc = "& salgsans_proc_1 &", salgsans2_proc = "& salgsans_proc_2 &", salgsans3_proc = "& salgsans_proc_3 &", salgsans4_proc = "& salgsans_proc_4 &", "_
-                            &" salgsans5_proc = "& salgsans_proc_5 &", filepath1 = '"& filepath1 &"', fomr_konto = "& fomr_konto &", jfak_sprog = "& jfak_sprog &", jfak_moms = "& jfak_moms &", alert = "& alert &""_
+                            &" salgsans5_proc = "& salgsans_proc_5 &", filepath1 = '"& filepath1 &"', fomr_konto = "& fomr_konto &","_
+                            &" jfak_sprog = "& jfak_sprog &", jfak_moms = "& jfak_moms &", alert = "& alert &", lincensindehaver_faknr_prioritet_job = "& lincensindehaver_faknr_prioritet_job &""_
 							&" WHERE id = "& id 
 							
 							'Response.Write strSQL
@@ -2790,7 +2807,7 @@ if len(session("user")) = 0 then
                                     'Response.Write "a" & a & " val: "& intAktfavgp_use(a) &"<br>"
                                     'Response.flush
                                     if len(trim(intAktfavgp_use(a))) <> 0 then
-								    call tilknytstamakt(a, intAktfavgp_use(a), trim(strAktFase_use(1)), 0)
+								    call tilknytstamakt(a, intAktfavgp_use(a), trim(strAktFase_use(1)), 0, varjobId)
                                     end if
 							
                                 next
@@ -4110,7 +4127,7 @@ if len(session("user")) = 0 then
 	<!--#include file="../inc/regular/header_lysblaa_inc.asp"-->
     
     <%if step = 2 then %>
-    <script src="inc/job_jav.js"></script>
+    <script src="inc/job_jav_2017.js"></script>
     <%else %>
     <script src="inc/job_listen_jav.js"></script>
     <%end if 
@@ -4589,12 +4606,14 @@ if len(session("user")) = 0 then
     stade_tim_proc = 0
 
     select case lto
-    case "epi", "epi_no", "epi_sta", "intranet - local", "epi_ab", "epi_cati", "epi_uk"
+    case "epi", "epi_no", "epi_sta", "intranet - local", "epi_ab", "epi_cati", "epi_uk", "epi2017"
 	virksomheds_proc = 50
 	syncslutdato = 0 '1
+    intSandsynlighed = 10
     case else
     virksomheds_proc = 0
 	syncslutdato = 0
+    intSandsynlighed = 0
     end select
     
     altfakadrCHK = ""
@@ -4624,7 +4643,8 @@ if len(session("user")) = 0 then
 	&" jo_gnstpris, jo_gnsfaktor, jo_gnsbelob, jo_bruttofortj, jo_dbproc, "_
 	&" udgifter, risiko, sdskpriogrp, usejoborakt_tp, ski, job_internbesk, abo, ubv, sandsynlighed, "_
     &" diff_timer, diff_sum, jo_udgifter_ulev, jo_udgifter_intern, jo_bruttooms, restestimat, stade_tim_proc, virksomheds_proc, "_
-    &" syncslutdato, lukkedato, altfakadr, preconditions_met, laasmedtpbudget, filepath1, fomr_konto, jfak_moms, jfak_sprog, useasfak, alert "_
+    &" syncslutdato, lukkedato, altfakadr, preconditions_met, laasmedtpbudget, filepath1, fomr_konto, jfak_moms, jfak_sprog, useasfak, alert,"_
+    &" lincensindehaver_faknr_prioritet_job "_
     &" FROM job, kunder WHERE id = " & id &" AND kunder.Kid = jobknr"
 	
 	'Response.Write strSQL
@@ -4765,6 +4785,7 @@ if len(session("user")) = 0 then
     jfak_sprog = oRec("jfak_sprog")
 
 	job_internbesk_alert = oRec("alert")
+    lincensindehaver_faknr_prioritet_job = oRec("lincensindehaver_faknr_prioritet_job")
 
 	oRec.close
 	
@@ -5072,7 +5093,14 @@ if len(session("user")) = 0 then
 				
 					<input type="hidden" id="FM_nexttnr" value="<%=strNexttilbudsnr %>">
 
-					&nbsp;&nbsp;<input id="Text1" name="FM_sandsynlighed" value="<%=intSandsynlighed %>" type="text" style="width:30px;"/> % sandsynlighed for at vinde tilbud. &nbsp;
+                    <%select case lto
+                    case "epi2017"
+                        sandBdr = "border:1px red solid;"
+                    case else
+                        sandBdr = ""
+                    end select %>
+
+					&nbsp;&nbsp;<input id="Text1" name="FM_sandsynlighed" value="<%=intSandsynlighed %>" type="text" style="width:30px; <%=sandBdr%>"/> % sandsynlighed for at vinde tilbud. &nbsp;
             <br /><span style="font-size:10px; font-family:arial; color:#999999;">(Pipelineværdi = Brutto oms. - Udgifter lev. * sandsynlighed)</span>
             
 	       
@@ -5477,6 +5505,13 @@ if len(session("user")) = 0 then
 									  
 										</select>&nbsp;&nbsp;<a href="javascript:NewWin_popupcal('../inc/regular/popupcalender_inc.asp?use=6')"><img src="../ill/popupcal.gif" alt="" border="0" width="16" height="15"></a></td>
 										
+                                        <%select case lto
+                                        case "epi2017", "xintranet - local"
+                                        sltuDatoCol = "border:1px red solid;"
+                                                
+                                        case else
+                                        sltuDatoCol = ""    
+                                        end select %>
 										
 										<td style="">&nbsp;</td>
 										</tr>
@@ -5484,7 +5519,7 @@ if len(session("user")) = 0 then
 											<td style="padding-top:0px; padding-left:5px;" rowspan=2 align=right>&nbsp;</td>
 											<td valign=top style="padding-top:5px; padding-bottom:4px;"><b>Slut dato:</b>&nbsp;
 											</td>
-											<td style="padding-bottom:4px;"><select name="FM_slut_dag" id="FM_slut_dag">
+											<td style="padding-bottom:4px;"><select name="FM_slut_dag" id="FM_slut_dag" style="<%=sltuDatoCol%>">
 										<option value="<%=strDag_slut%>"><%=strDag_slut%></option> 
 									   	<option value="1">1</option>
 									   	<option value="2">2</option>
@@ -5518,7 +5553,7 @@ if len(session("user")) = 0 then
 									   	<option value="30">30</option>
 										<option value="31">31</option></select>&nbsp;
 										
-										<select name="FM_slut_mrd" id="FM_slut_mrd">
+										<select name="FM_slut_mrd" id="FM_slut_mrd" style="<%=sltuDatoCol%>">
 										<option value="<%=strMrd_slut%>"><%=strMrdNavn_slut%></option>
 										<option value="1">jan</option>
 									   	<option value="2">feb</option>
@@ -5534,7 +5569,7 @@ if len(session("user")) = 0 then
 									   	<option value="12">dec</option></select>
 										
 										
-										<select name="FM_slut_aar" id="FM_slut_aar">
+										<select name="FM_slut_aar" id="FM_slut_aar" style="<%=sltuDatoCol%>">
 										<option value="<%=strAar_slut%>">
 										<%if id <> 0 then%>
 										20<%=strAar_slut%>
@@ -5549,18 +5584,22 @@ if len(session("user")) = 0 then
 		                                <%next %>
 									   
 									   </select>&nbsp;&nbsp;<a href="javascript:NewWin_popupcal('../inc/regular/popupcalender_inc.asp?use=5')"><img src="../ill/popupcal.gif" alt="" border="0" width="16" height="15"></a>&nbsp;&nbsp;
-												<br />
+												
+                                                <%if lto <> "epi2017" then %>
+                                                
+                                                <br />
 												<%if strAar_slut = 44 then
 												chald = "checked"
 												else
 												chald = ""
 												end if%>
 												<input type="checkbox" name="FM_datouendelig" value="j" <%=chald%>> Aldrig: (1. jan 2044)
-                                                
+                                                <%end if %>
                                                </td>
 										<td style="">&nbsp;</td>
 									</tr>
                                      
+                                     <%if lto <> "epi2017" then %>
 									<tr bgcolor="#ffffff">
 										
 										<td colspan=2 style="padding:10px 5px 10px 0px;"><b>Beregn slutdato.</b>
@@ -5570,21 +5609,28 @@ if len(session("user")) = 0 then
 										</td>
 										<td style="">&nbsp;</td>
 									</tr>
+                                    <%end if %>
 
                                     <tr bgcolor="#ffffff"><td colspan=4 style="padding:10px 0px 0px 8px;">
-                                                <%if syncslutdato = 1 then
+                                               
+                                         <%if lto <> "epi2017" then %>
+                                        
+                                                 <%if syncslutdato = 1 then
                                                 syncslutdatoCHK = "CHECKED"
                                                 else
                                                 syncslutdatoCHK = ""
                                                 end if %>
                                                 <b>Hold datoer aktuelle:</b>
                                                  <br />	<input type="checkbox" name="FM_syncslutdato" value="j" <%=syncslutdatoCHK %>> Sync. slutdato, så den følger sidste timereg. / sidste faktura / dd. (ved luk job) 
+
+                                        <%end if %>    
+
                                                   <br />	<input type="checkbox" name="FM_syncaktdatoer" value="j"> Sync. start- og slut- datoer på aktiviteter, så de nedarver fra job.<br />&nbsp;
                                        </td></tr>
 									
 	<tr bgcolor="#FFFFFF">
         <td colspan=4 style="padding:10px 0px 10px 8px;">
-        <b>Restestimat:</b>&nbsp;&nbsp;<input id="FM_restestimat" name="FM_restestimat" type="text" size="6" value="<%=restestimat %>" />&nbsp;
+        <b>Restestimat: (WIP)</b>&nbsp;&nbsp;<input id="FM_restestimat" name="FM_restestimat" type="text" size="6" value="<%=restestimat %>" />&nbsp;
         <select id="FM_stade_tim_proc" name="FM_stade_tim_proc">
            
            <%
@@ -5796,7 +5842,7 @@ if len(session("user")) = 0 then
 							oRec.close 
 							%>
 						</select>
-						</td><td style="white-space:nowrap;"><input id="FM_jobans_proc_<%=ja %>" name="FM_jobans_proc_<%=ja %>" value="<%=formatnumber(jobans_proc, 1) %>" type="text" style="width:40px;" /> %</td></tr>
+						</td><td style="white-space:nowrap;"><input id="FM_jobans_proc_<%=ja %>" name="FM_jobans_proc_<%=ja %>" value="<%=formatnumber(jobans_proc, 1) %>" type="text" style="width:40px; <%=sltuDatoCol%>;" /> %</td></tr>
                             
 						<%next %>
 						
@@ -5817,23 +5863,23 @@ if len(session("user")) = 0 then
 						select case sa
 						case 1
 						'jbansImg = "<img src='../ill/ac0019-24.gif' width='24' height='24' alt='Jobansvarlig' border='0'>"
-						saansTxt = "Salgsansv. 1"
+						saansTxt = "Salgsan. 1"
 						salgsansField = "salgsans1, salgsans1_proc"
 						case 2
 						'jbansImg = "<img src='../ill/ac0020-24.gif' width='24' height='24' alt='Jobejer' border='0'>"
-						saansTxt = "Salgsansv. 2"
+						saansTxt = "Salg 2"
 						salgsansField = "salgsans2, salgsans2_proc"
 						case 3
 						'jbansImg = "<img src='../ill/blank.gif' width='24' height='24' alt='Jobejer' border='0'>"
-						saansTxt = "Salgsansv. 3"
+						saansTxt = "Salg 3"
 						salgsansField = "salgsans3, salgsans3_proc"
 						case 4
 						'jbansImg = "<img src='../ill/blank.gif' width='24' height='24' alt='Jobejer' border='0'>"
-						saansTxt = "Salgsansv. 4"
+						saansTxt = "Salg 4"
 						salgsansField = "salgsans4, salgsans4_proc"
 						case 5
 						'jbansImg = "<img src='../ill/blank.gif' width='24' height='24' alt='Jobejer' border='0'>"
-						saansTxt = "Salgsansv. 5"
+						saansTxt = "Salg 5"
 						salgsansField = "salgsans5, salgsans5_proc"
 						end select
 						
@@ -5921,7 +5967,7 @@ if len(session("user")) = 0 then
 							oRec.close 
 							%>
 						</select>
-						</td><td style="white-space:nowrap;"><input id="FM_salgsans_proc_<%=sa %>" name="FM_salgsans_proc_<%=sa %>" value="<%=formatnumber(salgsans_proc, 1) %>" type="text" style="width:40px;" /> %</td></tr>
+						</td><td style="white-space:nowrap;"><input id="FM_salgsans_proc_<%=sa %>" name="FM_salgsans_proc_<%=sa %>" value="<%=formatnumber(salgsans_proc, 1) %>" type="text" style="width:40px; <%=sltuDatoCol%>;" /> %</td></tr>
                             
 						<%next %>
 						
@@ -5937,12 +5983,13 @@ if len(session("user")) = 0 then
 
 
 
-						<br><br>
+						<br>
 						<%
                         
                         if level = 1 then 
                              if (lto <> "epi" AND lto <> "epi2017") OR (lto = "epi" AND (thisMid = 6 OR thisMid = 11 OR thisMid = 59 OR thisMid = 1 OR thisMid = 1720)) OR (lto = "epi_no" AND thisMid = 2) OR (lto = "epi_ab" AND thisMid = 2) OR (lto = "epi_sta" AND thisMid = 2) OR (lto = "epi_cati" AND thisMid = 2) OR (lto = "epi_uk" AND thisMid = 2) then%>
                             <input type="text" name="FM_virksomheds_proc" value="<%=formatnumber(virksomheds_proc, 0) %>" style="width:40px;" /> Virksomhedsandel af salg i %
+                            <br />
                             <%else %>
                               <input type="hidden" name="FM_virksomheds_proc" value="<%=formatnumber(virksomheds_proc, 0) %>"/>
                             <%end if %>
@@ -5950,7 +5997,7 @@ if len(session("user")) = 0 then
                         <input type="hidden" name="FM_virksomheds_proc" value="<%=formatnumber(virksomheds_proc, 0) %>"/>
                         <%end if %>
 					    
-                        <br /><br />
+                        
                         <%if func <> "red" then
 
                             select case lto
@@ -5981,7 +6028,7 @@ if len(session("user")) = 0 then
 
                         <input type="checkbox" value="1" name="FM_adviser_jobans" <%=advJobansCHK %> />Adviser valgte medarbejdere om at de er tilføjet som jobansvarlig / jobejer.
 
-                        <br><br>&nbsp;
+                       
 						</td>
 						<td style="">&nbsp;</td>
 					</tr>
@@ -6040,18 +6087,23 @@ if len(session("user")) = 0 then
 							case 10
 							strProj = strProj_10
 							end select
+
+                                strSQLpg = "SELECT id, navn FROM projektgrupper WHERE navn IS NOT NULL ORDER BY navn LIMIT 250"
+
+                             
+
 							%>
 							<tr>
 								<td style="">&nbsp;</td>
 								<td valign="top" style="padding-left:5px; width:140px;">Projektgruppe <%=p%>:</td>
 								<td><select name="FM_projektgruppe_<%=p%>" style="width:200px;">
 								<%
-									strSQL = "SELECT id, navn FROM projektgrupper ORDER BY navn"
-									oRec.open strSQL, oConn, 3
 									
-									While not oRec.EOF 
-									projgId = oRec("id")
-									projgNavn = oRec("navn")
+									oRec3.open strSQLpg, oConn, 3
+									
+									While not oRec3.EOF 
+									projgId = oRec3("id")
+									projgNavn = oRec3("navn")
 									
                                     'if projgNavn = "Alle" then
                                     'projgNavn = "Alle-gruppen (alle medarbejdere)"
@@ -6067,9 +6119,11 @@ if len(session("user")) = 0 then
 									%>
 									<option value="<%=projgId%>" <%=varSelected%>><%=projgNavn%></option>
 									<%
-									oRec.movenext
+									oRec3.movenext
 									wend
-									oRec.close%>
+									oRec3.close%>
+
+
 						</select>
                         
                        
@@ -6266,6 +6320,7 @@ if len(session("user")) = 0 then
                                     div_tild_forr_Lft = "0px"
                                     div_tild_forr_Top = "0px"
                                     div_tild_forr_z = "0"
+                                    fomr_div_wdt = 390
 
                                     if cint(fomr_mandatoryOn) = 1 then
                                     div_tild_forr_VZB = "visible"
@@ -6281,10 +6336,28 @@ if len(session("user")) = 0 then
 
                                         
                                         if func = "opret" AND step = "2" then
-                                        div_tild_forr_Pos = "absolute"
-                                        div_tild_forr_Lft = "600px"
-                                        div_tild_forr_Top = "300px"
-                                        div_tild_forr_z = "400000"
+
+                                            select case lto
+                                            case "xdencker", "xintranet - local"
+                                            div_tild_forr_Pos = "absolute"
+                                            div_tild_forr_Lft = "20px"
+                                            div_tild_forr_Top = "80px"
+                                            div_tild_forr_z = "400000"
+                                            fomr_div_wdt = 390 
+                                            case "epi2017", "dencker", "intranet - local"
+                                            div_tild_forr_Pos = "absolute"
+                                            div_tild_forr_Lft = "30px"
+                                            div_tild_forr_Top = "-30px"
+                                            div_tild_forr_z = "400000"
+                                            fomr_div_wdt = 500
+                                            case else
+                                            div_tild_forr_Pos = "absolute"
+                                            div_tild_forr_Lft = "250px"
+                                            div_tild_forr_Top = "250px"
+                                            div_tild_forr_z = "400000"
+                                            fomr_div_wdt = 390
+                                            end select
+
                                         end if
 
                                     else
@@ -6293,7 +6366,7 @@ if len(session("user")) = 0 then
 
                                         div_tild_forr_bdr = "0"
                                         div_tild_forr_pd = "0"
-
+                                        
                                     end if
                                     %>
 
@@ -6301,7 +6374,7 @@ if len(session("user")) = 0 then
 
 						
                            
-                            <div id="div_tild_forr" style="position:<%=div_tild_forr_Pos%>; left:<%=div_tild_forr_Lft%>; top:<%=div_tild_forr_Top%>; z-index:<%=div_tild_forr_z%>; width:390px; visibility:<%=div_tild_forr_VZB%>; display:<%=div_tild_forr_DSP%>; border:<%=div_tild_forr_bdr%>px #CCCCCC solid;  padding:<%=div_tild_forr_pd%>px; background-color:#FFFFFF;">
+                            <div id="div_tild_forr" style="position:<%=div_tild_forr_Pos%>; left:<%=div_tild_forr_Lft%>; top:<%=div_tild_forr_Top%>; z-index:<%=div_tild_forr_z%>; width:<%=fomr_div_wdt%>px; visibility:<%=div_tild_forr_VZB%>; display:<%=div_tild_forr_DSP%>; border:<%=div_tild_forr_bdr%>px #CCCCCC solid;  padding:<%=div_tild_forr_pd%>px; background-color:#FFFFFF;">
                               <!--Forretningsområder er baseret på de forretningsområder der er tildelt på aktiviteteterne: <br /><b><%=strFomr_navn%></b>-->
                             
                             <table cellpadding=0 cellspacing=0 border=0 width=100%>
@@ -6406,8 +6479,7 @@ if len(session("user")) = 0 then
                                 Vælg herunder blandt de forretningsområder der har tilknyttet en omsætningskonto, og hvor fakturaer på dette job skal posteres på denne konto:<br />  
                                 <%=strchkbox %>
 
-                                <br />
-                                <br />
+                               
                                 
                                 <%if func <> "red" then
 
@@ -6434,7 +6506,7 @@ if len(session("user")) = 0 then
                                 <span style="font-size:11px; color:#999999;"><br />
                                 Forretningsområder <b>skal</b> fordeles ned på aktiviteter for at blive talt med i statitikken over timeforbrug på hvert forretningsområde. Der kan manuelt tildeles forretningsområder nede på hver enkelt aktivitet.
                                 </span>
-                                --><br /><br />&nbsp;
+                                -->
                                 </td>
                                 </tr></table>
                             </div>
@@ -6455,7 +6527,7 @@ if len(session("user")) = 0 then
 
                  <!-- Avanceret indstillinger 2 -->
 				<tr bgcolor="#FFFFFF">
-								<td colspan=4 style="padding:10px 0px 0px 10px;">
+								<td colspan=4 style="padding:0px 0px 0px 10px;">
                                 <a href="#" class=vmenu id="a_tild_ava">+ Avanceret indstillinger </a><br />
                                 Tildel bla. prioitet, faktura-indstillinger, pre-konditioner, kundeadgang mm.
 
@@ -6614,8 +6686,34 @@ if len(session("user")) = 0 then
 						<td>&nbsp;</td>
 						<td colspan=3 style="padding:30px 5px 10px 0px;"><h4>Fakturaindstillinger:<br /><span style="font-size:11px; font-weight:lighter;">(Nedarves fra kunde ved joboprettelse)</span></h4>
 					 
+                            <%'call multible_licensindehavereOn() 
+                             'if cint(multible_licensindehavere) = 1 then
+                                multiKSQL = " useasfak = 1 "
+                             'else
+                             '   multiKSQL = ""
+                             'end if
+                            %>
+                            Faktureres af følgende licensindehaver (juridisk enhed):<br /><select name="FM_lincensindehaver_faknr_prioritet_job" style="width:380px;">
+							<%strSQL = "SELECT kid, kkundenavn, kkundenr FROM kunder WHERE "& multiKSQL &" ORDER BY kkundenavn" 
+							oRec.open strSQL, oConn, 3
+							while not oRec.EOF 
+							 if oRec("kid") = cint(lincensindehaver_faknr_prioritet_job) then
+							 kSEL = "SELECTED"
+							 else
+							 kSEL = ""
+							 end if%>
+							<option value="<%=oRec("kid") %>" <%=kSEL %>><%=oRec("kkundenavn") &" "& oRec("kkundenr") %></option>
+							<%
+							oRec.movenext
+							wend
+							oRec.close%>
+							
+							</select>
+                            
+
+                            <br /><br />
 					  
-							<b>Valuta:</b><br /><select name="FM_valuta" style="width:380px;">
+							Valuta:<br /><select name="FM_valuta" style="width:380px;">
 							<%strSQL = "SELECT id, valuta, valutakode, kurs FROM valutaer WHERE id <> 0 ORDER BY id " 
 							oRec.open strSQL, oConn, 3
 							while not oRec.EOF 
@@ -6633,7 +6731,7 @@ if len(session("user")) = 0 then
 							</select>
 
                             <br /><br />
-                             <b>Moms:</b> <br />
+                            Moms: <br />
 
                            
 
@@ -6659,7 +6757,7 @@ if len(session("user")) = 0 then
         
                 <br /><br />
         
-                <b>Sprog:</b> <br />
+                Sprog: <br />
                       <%strSQLsprog = "SELECT id, navn FROM fak_sprog WHERE id <> 0 ORDER BY id " %>
                     <select name="FM_jfak_sprog">
 
@@ -6725,7 +6823,7 @@ if len(session("user")) = 0 then
                    </table>
                 
                 </div>
-                <br />&nbsp;
+                <br /><br /><br /><br /><br />&nbsp;
 
                 </td>
                 </tr>
@@ -7041,22 +7139,27 @@ end select '*** Step %>
 
 	
 	
-	<%if (lto = "epi" OR lto = "epi_no" OR lto = "epi_sta" OR lto = "xintranet - local" OR lto = "epi_ab" OR lto = "epi_cati" OR lto = "epi_uk") AND func <> "red" AND step = 2 then 
+	<%if (lto = "epi" OR lto = "epi_no" OR lto = "epi_sta" OR lto = "xintranet - local" OR lto = "epi_ab" OR lto = "epi_cati" OR lto = "epi_uk" OR lto = "epi2017") AND func <> "red" AND step = 2 then 
 
     %>
-    <div id="load" style="position:absolute; display:; visibility:visible; top:200px; left:135px; width:1000px; height:600px; background-color:#ffffff; border:10px #9ACD32 solid; padding:10px; z-index:100000000;">
+    <div id="load" style="position:absolute; display:none; visibility:hidden; top:245px; left:200px; width:860px; height:400px; background-color:#ffffff; border:5px yellowgreen dashed; padding:10px; z-index:100000000;">
     <table cellpadding=0 cellspacing=5 border=0 width=100%><tr><td>
-	<img src="../ill/outzource_logo_200.gif" /><br /><br />
-	TimeOut forbereder dit nye projekt, vent veligst. <br />Der kan gå op til 20 sek...
+	<!--<img src="../ill/outzource_logo_200.gif" /><br /><br />-->
+	<h4>TimeOut prepares your new project</h4>
+    
+    TimeOut ties it all together and making sure you will get alle the activities you need to get a correct timerecording.<br /><br />
+    It should take no more than 5 seconds...
 
         <br /><br /><br />
 
+        <!--
            <div id="auopr_5" style="color:#5582d2; font-size:14px; border:0px #999999 solid; width:980px; padding:1px;"></div><br />
 
     <div id="auopr_1">Indlæser aktiviteter..</div><br />
     <div id="auopr_2"></div><br />
     <div id="auopr_3"></div><br />
     <div id="auopr_4"></div><br />
+        -->
 
 
       
@@ -7068,7 +7171,7 @@ end select '*** Step %>
        
     'response.end
    
-    Response.Write("<script>autoopret();</script>") 
+    'Response.Write("<script>autoopret();</script>") 
     end if %>
 
 
@@ -7924,10 +8027,10 @@ end select '*** Step %>
 
     
 	
-	'*** Antal aktiviteter på job ***
+	'*** Antal aktiviteter på job *** KUN AKTIVE I DETTE VIEW 
 	strAktnavn = ""
     lastFase = ""
-    strSQL2 = "SELECT id, navn, fase, aktstatus FROM aktiviteter WHERE job = "& oRec("id") & " ORDER BY fase, sortorder, navn"
+    strSQL2 = "SELECT id, navn, fase, aktstatus FROM aktiviteter WHERE job = "& oRec("id") & " AND aktstatus = 1 ORDER BY fase, sortorder, navn"
 	oRec5.open strSQL2, oConn, 3
 	while not oRec5.EOF 
 	x = x + 1
@@ -8211,7 +8314,7 @@ end select '*** Step %>
 	&nbsp;</td>
 	
         <td valign=top style="padding:4px 10px 0px 5px;">
-            Aktiviteter
+            Aktiviteter (aktive)
 		 <%
 		'********* Aktiviteter ****
 		if editok = 1 then%>

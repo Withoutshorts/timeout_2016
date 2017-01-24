@@ -125,7 +125,7 @@
                     if jobkundesog = "all" then 
                         strSQLSogKri = " AND (jobnr <> '' AND kkundenavn <> '') "
                     else
-                        strSQLSogKri = " AND (jobnr LIKE '"& jobkundesog &"%' OR jobnavn LIKE '"& jobkundesog &"%' OR "_
+                        strSQLSogKri = " AND (jobnr LIKE '"& jobkundesog &"%' OR jobnavn LIKE '%"& jobkundesog &"%' OR "_
                         &" kkundenavn LIKE '"& jobkundesog &"%' OR kkundenr = '"& jobkundesog &"' OR k.kinit = '"& jobkundesog &"') AND kkundenavn <> ''"
                     end if            
 
@@ -187,12 +187,14 @@
 
 
                     if jobkundesog <> "-1" then 'kunde job sog DD
-                        strJobogKunderTxt = strJobogKunderTxt & "<li class=""span_job"" id=""chbox_job_"& oRec("jid") &"""><input type=""hidden"" id=""hiddn_job_"& oRec("jid") &""" value="""& oRec("jobnavn") & " ("& oRec("jobnr") &")"">"
-                        strJobogKunderTxt = strJobogKunderTxt & "<input type=""hidden"" id=""hiddn_jid_"& oRec("jid") &""" value="& oRec("jid") &"> "& oRec("jobnavn") & " ("& oRec("jobnr") &")"
-                
+                       
                         if lto = "hestia" OR lto = "intranet - local" then
+                        strJobogKunderTxt = strJobogKunderTxt & "<br><li class=""span_job"" id=""chbox_job_"& oRec("jid") &"""><input type=""hidden"" id=""hiddn_job_"& oRec("jid") &""" value="""& oRec("jobnavn") & " ("& oRec("jobnr") &")"">"
+                        strJobogKunderTxt = strJobogKunderTxt & "<input type=""hidden"" id=""hiddn_jid_"& oRec("jid") &""" value="& oRec("jid") &"><b>"& oRec("jobnavn") & "</b> ("& oRec("jobnr") &")"
                         strJobogKunderTxt = strJobogKunderTxt &" ..... "& oRec("jobstartdato") & ""
                         else
+                        strJobogKunderTxt = strJobogKunderTxt & "<li class=""span_job"" id=""chbox_job_"& oRec("jid") &"""><input type=""hidden"" id=""hiddn_job_"& oRec("jid") &""" value="""& oRec("jobnavn") & " ("& oRec("jobnr") &")"">"
+                        strJobogKunderTxt = strJobogKunderTxt & "<input type=""hidden"" id=""hiddn_jid_"& oRec("jid") &""" value="& oRec("jid") &">"& left(oRec("jobnavn"), 30) & " ("& oRec("jobnr") &")"
                         strJobogKunderTxt = strJobogKunderTxt 
                         end if
     
@@ -379,13 +381,13 @@
 
                    strSQL = "SELECT a.id AS aid, navn AS aktnavn "_
                    &" FROM timereg_usejob AS tu LEFT JOIN aktiviteter AS a ON (a.id = tu.aktid) "_
-                   &" WHERE tu.medarb = "& medid &" AND tu.jobid = "& jobid &" AND aktid <> 0 "& strSQlAktSog &" AND aktstatus = 1 AND ("& aty_sql_hide_on_treg &") "& forecastAktids &" ORDER BY sortorder, navn LIMIT 150"   
+                   &" WHERE tu.medarb = "& medid &" AND tu.jobid = "& jobid &" AND aktid <> 0 "& strSQlAktSog &" AND aktstatus = 1 AND ("& aty_sql_hide_on_treg &") "& forecastAktids &" AND a.navn IS NOT NULL ORDER BY sortorder, navn LIMIT 150"   
                    'AND ("& replace(aty_sql_realhours, "tfaktim", "a.fakturerbar") &")
                    else 
 
                    strSQL = "SELECT a.id AS aid, navn AS aktnavn "_
                    &" FROM timereg_usejob AS tu LEFT JOIN aktiviteter AS a ON (a.job = tu.jobid) "_
-                   &" WHERE tu.medarb = "& medid &" AND tu.jobid = "& jobid &" AND aktid = 0 "& strSQlAktSog &" AND aktstatus = 1  AND ("& aty_sql_hide_on_treg &") "& forecastAktids &" ORDER BY sortorder, navn LIMIT 150" 
+                   &" WHERE tu.medarb = "& medid &" AND tu.jobid = "& jobid &" AND aktid = 0 "& strSQlAktSog &" AND aktstatus = 1  AND ("& aty_sql_hide_on_treg &") "& forecastAktids &" AND a.navn IS NOT NULL ORDER BY sortorder, navn LIMIT 150" 
                    'AND ("& replace(aty_sql_realhours, "tfaktim", "a.fakturerbar") &")
                    end if
 

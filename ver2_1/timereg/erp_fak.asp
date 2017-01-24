@@ -302,6 +302,7 @@ if len(session("user")) = 0 then
                             '******************'
 	                        '*** Faktura nr ***'
 	                        '******************'
+                             afsender = request("FM_afsender")
 
                             call findFaknr(func)
                            
@@ -700,7 +701,7 @@ if len(session("user")) = 0 then
 							
 							vorref = request("FM_vorref")
 
-                            afsender = request("FM_afsender")
+                           
 							
 							'*** Vis kun totalbeløb ***'
 							if len(request("FM_hidesumaktlinier")) <> 0 then
@@ -1796,7 +1797,7 @@ if len(session("user")) = 0 then
     '********************************************************************************************'
 	
 	
-	
+	call multible_licensindehavereOn()
 	
 	
 	timeforbrug = 0
@@ -1809,6 +1810,7 @@ if len(session("user")) = 0 then
 
     'redim thisaktidFlereTp(arrsize)
 	Redim thisaktid(arrsize)
+    Redim stdatoKriAktSpecifik(arrsize)
 	Redim thisaktnavn(arrsize)
 	Redim thisAktTimer(arrsize), thisAktTimerSum(arrsize)
 	Redim thisAktBeloeb(arrsize)
@@ -2419,6 +2421,7 @@ if len(session("user")) = 0 then
                                             end if
 
                                            end if 
+                                           oRec6.close
 
 
                             end if 'intType
@@ -2442,7 +2445,7 @@ if len(session("user")) = 0 then
 		strSQL = "SELECT jobTpris, budgettimer, fastpris, jobknr, jobnr, "_
 		&" jobnavn, ikkebudgettimer, jobans1, jobans2, kundekpers, beskrivelse, j.valuta, "_
 		&" jobstartdato, jobslutdato, jobfaktype, rekvnr, jobstatus, usejoborakt_tp, ski, abo, ubv, s.navn AS aftalenavn, jfak_moms, jfak_sprog, "_
-        &" aftalenr, serviceaft, job_internbesk, j.kommentar, jo_bruttooms, altfakadr, supplier, alert FROM job j "_
+        &" aftalenr, serviceaft, job_internbesk, j.kommentar, jo_bruttooms, altfakadr, supplier, alert, lincensindehaver_faknr_prioritet_job FROM job j "_
         &" LEFT JOIN serviceaft s ON (s.id = j.serviceaft) WHERE j.id = " & jobid
 
         'Response.write strSQL
@@ -2538,6 +2541,8 @@ if len(session("user")) = 0 then
                     end if
                     oRec2.close
 
+            lincensindehaver_faknr_prioritet_job = oRec("lincensindehaver_faknr_prioritet_job")
+
 		end if
 		oRec.close
 
@@ -2619,6 +2624,9 @@ if len(session("user")) = 0 then
 	
 	'call sideoverskrift(oleft, otop, owdt, oimg, oskrift)
 	
+
+       
+
 	%>
 	
 	<!-- main -->
@@ -2628,7 +2636,7 @@ if len(session("user")) = 0 then
 	<h4 style="padding:5px 0px 2px 5px;"><%=oskrift %></h4>
     <div id="sidetop" style="position:absolute; left:0px; top:5px; visibility:visible; z-index:100;">
     
-    
+   
     
    
 	
@@ -2654,6 +2662,11 @@ if len(session("user")) = 0 then
         sprog = sprog
         else
         sprog = 1
+        end if
+
+        if func <> "red" AND lto = "bf" then 'Overruler på opret
+        valuta = 5
+        sprog = 2
         end if
 
 		strAtt = intKundekpers
@@ -2817,7 +2830,7 @@ if len(session("user")) = 0 then
         momssats = 0
         end if
 
-        if lto = "adra" then 'altid 0
+        if lto = "adra" OR lto = "bf" then 'altid 0
         momssats = 0
         end if
        
@@ -3027,7 +3040,7 @@ if len(session("user")) = 0 then
 	               
 	               
                 <%select case lto
-                    case "nt", "intranet - local", "bf"
+                    case "nt", "xintranet - local", "bf"
                     sideDivVzb = "hidden"
                     sideDivDsp = "none"
                     sideDivVzbAlt = "visible"
@@ -3042,6 +3055,8 @@ if len(session("user")) = 0 then
                     end select
                     %>
 
+
+         
 
 	               <!-- Sideload -->
 	              <div id="sideload" style="position:absolute; top:161px; left:205px; display:; visibility:visible; border:3px #cccccc solid; padding:2px; background-color:#FFFFFF; padding:10px; width:300px; z-index:20000;">
@@ -3238,6 +3253,7 @@ if len(session("user")) = 0 then
 	
 	
     
+           
     
     
     
@@ -3310,6 +3326,10 @@ if len(session("user")) = 0 then
     oRec.movenext
     wend
     oRec.close%>
+
+
+
+        
 	
 
        
@@ -3604,12 +3624,23 @@ if len(session("user")) = 0 then
         if func = "red" then
 		afskidSQLkri = "kid = " & afsender
         else
-        afskidSQLkri = "useasfak = 1"
+
+            
+            if cint(multible_licensindehavere) = 1 AND jobid <> 0 then 
+            afskidSQLkri = "useasfak = 1 AND lincensindehaver_faknr_prioritet = "& lincensindehaver_faknr_prioritet_job &""
+            else
+            afskidSQLkri = "useasfak = 1"
+            end if
+
         end if
 
 		
 		strSQL = "SELECT adresse, postnr, city, land, telefon, fax, email, regnr, kkundenavn, kontonr, cvr, bank, swift, iban, kid FROM kunder WHERE " & afskidSQLkri
-		oRec.open strSQL, oConn, 3
+		
+            'if session("mid") = 1 then
+            'Response.write "SQL: " & strSQL
+            'end if    
+        oRec.open strSQL, oConn, 3
 		if not oRec.EOF then 
 			yourbank = oRec("bank")
 			yourRegnr = oRec("regnr")
@@ -3656,7 +3687,9 @@ if len(session("user")) = 0 then
 		    <td>
 		    <select id="FM_afsender" name="FM_afsender" style="width:300px; font-size:10px;" size=8">
 		    
-		    <%strSQLaltaf = "SELECT kid, kkundenavn, kkundenr, adresse, postnr, city, land, telefon, cvr, swift, iban, regnr, kontonr, regnr_b, kontonr_b, regnr_c, kontonr_c FROM kunder WHERE useasfak = 1 OR useasfak = 2 ORDER BY useasfak " 'Selskab, licensejer eller datter selskab **'
+		    <%strSQLaltaf = "SELECT kid, kkundenavn, kkundenr, adresse, postnr, city, land, telefon, cvr, swift, iban, regnr, kontonr, regnr_b, kontonr_b, regnr_c, kontonr_c FROM kunder WHERE useasfak = 1 ORDER BY kkundenavn "
+             'OR useasfak = 2 Fjernet 20170117 PGA muli licensindehavere og dermed flere fakturanr. Rækkefølger 
+             'Selskab, licensejer eller datter selskab **'
 		    oRec.open strSQLaltaf, oConn, 3 
 		    
             'kidSel = 0
@@ -3691,8 +3724,8 @@ if len(session("user")) = 0 then
 		    oRec.open strSQlvorref, oConn, 3 
 		    while not oRec.EOF  
 		    
-		    if ( oRec("mid") = cint(jobans1) AND func <> "red" AND (lto = "epi" OR lto = "epi_no" OR lto = "epi_ab" OR lto = "epi_sta") _
-            OR ( oRec("mid") = cint(session("mid") ) AND func <> "red" AND (lto <> "epi" AND lto <> "epi_no" AND lto <> "epi_ab" AND lto <> "epi_sta" AND lto <> "synergi1") OR (vorref = oRec("mnavn") AND func = "red"))) _
+		    if ( oRec("mid") = cint(jobans1) AND func <> "red" AND (instr(lto, "epi") <> 0) _
+            OR ( oRec("mid") = cint(session("mid") ) AND func <> "red" AND (lto <> "epi" AND lto <> "epi_no" AND lto <> "epi2017" AND lto <> "synergi1") OR (vorref = oRec("mnavn") AND func = "red"))) _
             then 'OR (lto = "jttek" AND func = "red") 
             vfSEL = "SELECTED"
 		    else
@@ -4044,6 +4077,12 @@ if len(session("user")) = 0 then
 		         chkvp = ""
     		 
 		    end if
+
+            select case lto 'Overruler
+            case "bf"
+            chkvp = "CHECKED"
+            end select
+
 		
 		else
 		     
@@ -4777,6 +4816,7 @@ if len(session("user")) = 0 then
         
 
 		</div>
+
 		
 
         <%select case lto

@@ -20,7 +20,7 @@
 $(window).load(function () {
 
 
-
+    
     
 
    
@@ -4339,7 +4339,7 @@ function opd_akt_endhed_forkalk(nyenhed,val) {
 
 	
 
-      
+	
 
 
    

@@ -1645,7 +1645,7 @@ end function
 
 
 
-function tilknytstamakt(a, intAktfavgp, strAktFase, opretAlleAktiGrp)
+function tilknytstamakt(a, intAktfavgp, strAktFase, opretAlleAktiGrp, varjobId)
 		'Response.write "her a "& a &", og grp:" & intAktfavgp & "<br>"
 		'Response.flush
 		                ause = trim(intAktfavgp) ' a ' + 1
@@ -1677,8 +1677,29 @@ function tilknytstamakt(a, intAktfavgp, strAktFase, opretAlleAktiGrp)
 							
 							aktid = oRec2("id")
                 
+                            if cint(opretAlleAktiGrp) <> 2 then
                            	aktNavn = trim(request("FM_stakt_navn_"& ause &"_"& oRec2("id"))) 'oRec2("navn")
 						    aktNavn = replace(aktNavn, "'", "")
+                            else
+                            '2 = multiopret fra stamskabelon
+
+                            aktNavn = oRec2("navn")
+                            
+                            startDato = "2002-01-01"
+                            slutDato = "2002-01-01"
+
+                            strSQLjobstdatoer = "SELECT jobstartdato, jobslutdato FROM job WHERE id = " & varjobId
+                            oRec6.open strSQLjobstdatoer, oConn, 3 
+                            if not oRec6.EOF then 
+                            startDato = oRec6("jobstartdato")
+                            slutDato = oRec6("jobslutdato")
+                            end if
+                            oRec6.close
+
+                            startDato = year(startDato) & "/" & month(startDato) &"/"& day(startDato)
+                            slutDato = year(slutDato) & "/" & month(slutDato) &"/"& day(slutDato)
+
+                            end if
 
          					aktFakbar = oRec2("fakturerbar")
 							aktFomr = oRec2("fomr")
@@ -1862,7 +1883,8 @@ function tilknytstamakt(a, intAktfavgp, strAktFase, opretAlleAktiGrp)
 						    '*** Tilføj fravalgt ***'
 						    'Response.write "chk: "& request("FM_stakt_tilfoj_"& ause &"_"& oRec2("id") &"") & "("& ause &"- "& oRec2("id") &")<br>"
 						    'Response.flush
-						    if request("FM_stakt_tilfoj_"& ause &"_"& oRec2("id") &"") = "1" OR cint(opretAlleAktiGrp) = 1 then
+                            'Multitildel fra Fra stamskabelon cint(opretAlleAktiGrp) = 2
+						    if request("FM_stakt_tilfoj_"& ause &"_"& oRec2("id") &"") = "1" OR cint(opretAlleAktiGrp) = 1 OR cint(opretAlleAktiGrp) = 2 then
 
 
                           

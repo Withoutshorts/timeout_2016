@@ -1895,45 +1895,48 @@ erHellig = 0
 				
                     select case day(tjekdennedag)
 
-                    case 1
-				    helligdagnavn = "1 maj"
+                        case 1
+				        helligdagnavn = "1 maj"
 				        
-                        
-                    erHellig = 1
-
+                        select case lto
+                        case "wwf"
+                        erHellig = 0
+                        case else
+                        erHellig = 1
+                        end select
 
 
 				    case 12
 
 
 		            
-                    select case lto
-                    case "akelius"
-                    helligdagnavn = ""
-                    erHellig = 0
-                    case "tec"
-                    helligdagnavn = "St. Bededag"
-                    erHellig = 0
-                    case else
-                    helligdagnavn = "St. Bededag"
-                    erHellig = 1
-                    end select
+                        select case lto
+                        case "akelius"
+                        helligdagnavn = ""
+                        erHellig = 0
+                        case "tec"
+                        helligdagnavn = "St. Bededag"
+                        erHellig = 0
+                        case else
+                        helligdagnavn = "St. Bededag"
+                        erHellig = 1
+                        end select
 				   
               
-                    end select
+                    
 
 
 
-                case 25
-				helligdagnavn = "Kristi Himmelfart"
+                    case 25
+				    helligdagnavn = "Kristi Himmelfart"
 				        
-                         if lto = "tec" OR lto = "xesn" then
-				         erHellig = 0
-                         else
-                         erHellig = 1
-                         end if
+                             if lto = "tec" OR lto = "xesn" then
+				             erHellig = 0
+                             else
+                             erHellig = 1
+                             end if
 
-                case 26
+                    case 26
 
                     if lto = "epi" OR lto = "epi_no" OR lto = "epi_sta" OR lto = "epi_ab" OR lto = "epi_cati" OR lto = "epi_uk" then
                     helligdagnavn = "Feriefridag"
@@ -1944,6 +1947,8 @@ erHellig = 0
                     helligdagnavn = "Fridag"
 				    erHellig = 1
                     end if
+
+                    end select
                
 
 			case 6

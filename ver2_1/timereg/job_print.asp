@@ -1840,12 +1840,22 @@ if len(trim(session("user"))) = 0 AND cint(nosession) = 0  then
 	
 	<%  
 	    '** Afsender information ****'
-		strSQLlogo = "SELECT f.filnavn, k.kid, k.logo, k.kkundenavn, k.kkundenr, k.adresse, "_
-		&" k.postnr, k.city, k.telefon, k.land, k.fax, k.cvr, k.bank, k.regnr, k.kontonr FROM kunder k "_
-		&" LEFT JOIN filer f ON (f.id = k.logo) WHERE k.useasfak = 1"
 		
+        if lto = "jttek" then
+        strSQLmultibleKunder = "kid = 76"
+        else
+        strSQLmultibleKunder = "k.useasfak = 1"
+        end if
+
+        
+        strSQLlogo = "SELECT f.filnavn, k.kid, k.logo, k.kkundenavn, k.kkundenr, k.adresse, "_
+		&" k.postnr, k.city, k.telefon, k.land, k.fax, k.cvr, k.bank, k.regnr, k.kontonr FROM kunder k "_
+		&" LEFT JOIN filer f ON (f.id = k.logo) WHERE " & strSQLmultibleKunder
+		
+        'if session("mid") = 1 then
 		'Response.Write strSQLlogo
 		'Response.flush
+        'end if
 		
 		oRec.open strSQLlogo, oConn, 3
 		if not oRec.EOF then

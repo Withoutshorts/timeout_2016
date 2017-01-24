@@ -1021,6 +1021,7 @@ if len(session("user")) = 0 then
 				startDato = Request("FM_start_aar") & "/" & Request("FM_start_mrd") & "/" & strStartDay 
 				slutDato = Request("FM_slut_aar") & "/" & Request("FM_slut_mrd") & "/" & strSlutDay 
 				
+                isstamakt = request("isstamakt")
 				
 			    jobids = split(request("FM_jnr"), ", ")
 				jobidswrt = ""
@@ -1049,7 +1050,7 @@ if len(session("user")) = 0 then
 
                   '**************************************'
 				
-				'Response.Write "her" & request("FM_jnr")
+				'Response.Write "her" & request("FM_jnr") & " FUNC: " & func & " isstamakt = " & isstamakt
 	            'Response.end
 
 
@@ -1112,7 +1113,7 @@ if len(session("user")) = 0 then
 				
 				
 				
-						if func = "dbopr" then
+						if func = "dbopr" OR (func = "dbred" AND jobids(j) <> 0 AND isstamakt = 1) then 'Ved opret | ELLER Rediger Stam-akt multitildel på job
 						
 						
 						        '** ST DATO og SL DATO ved opret stamakt og tildel på job ***'
@@ -2109,6 +2110,14 @@ if len(session("user")) = 0 then
 	<input type="hidden" name="rdir" value="<%=rdir%>">
 	<input type="hidden" name="id" value="<%=id%>">
 	<input type="hidden" name="jobid" value="<%=jobid%>">
+
+    <%if func = "redstam" OR func = "opretstam" then
+        isstamakt = 1
+     else
+        isstamakt = 0
+     end if %>
+
+    <input type="hidden" name="isstamakt" value="<%=isstamakt%>">
 	<input type="hidden" name="jobnavn" value="<%=request("jobnavn")%>">
 	<input type="hidden" name="FM_OLDaktId" value="<%=id%>">
 	<input type="hidden" name="FM_timertildelt" value="<%=totaltimertildelt%>">
@@ -2204,13 +2213,14 @@ if len(session("user")) = 0 then
 	<%
 	    level = session("rettigheder")
 	    if level = 1 then 'AND (func = "opret" OR func = "opretstam") then
-		whSQL = "jobstatus = 1 OR j.id = "& jobid 
+        
+		whSQL = "(jobstatus = 1 OR jobstatus = 3) OR j.id = "& jobid 
 		
-            if (func = "opret" OR func = "opretstam") then
+            if (func = "opret" OR func = "opretstam" OR func = "redstam") then
             sz = "6"
 		    mul = "multiple"
 		    hgt = 120
-		    jtxt = " (multi-tildel samtidig på andre job)"
+		    jtxt = " (multi-tildel samtidig på andre aktive job og tilbud)"
             else
             sz = "1"
 		    mul = ""
@@ -2237,12 +2247,14 @@ if len(session("user")) = 0 then
 		&" LEFT JOIN aktiviteter a ON (a.job = j.id) "_
 		&" WHERE "& whSQL &" GROUP BY j.id ORDER BY kkundenavn, jobnr"
 		
-		'Response.Write strSQLjob
-		'Response.flush
+            'if session("mid") = 1 then
+		    'Response.Write strSQLjob
+		    'Response.flush
+            'end if
 		
 		%>
 		
-            <select name="FM_jnr" id="FM_jnr" <%=mul%> size="<%=sz%>" style="width:450px;">
+            <select name="FM_jnr" id="FM_jnr" <%=mul%> size="<%=sz%>" style="width:700px;">
             <%if func = "opretstam" OR func = "redstam" then 
             
             'if cint(strjobnr) = 0 then
@@ -2259,23 +2271,25 @@ if len(session("user")) = 0 then
 		
 		oRec2.open strSQLjob, oConn, 3
 		t = 2
+        antaljob = 0
 		while not oRec2.EOF
 		
-		if cint(jobid) = cint(oRec2("id")) AND sel0j <> "SELECTED" then
+		if cint(jobid) = cdbl(oRec2("id")) AND sel0j <> "SELECTED" then
 		selj = "SELECTED"
 		else
 		selj = ""
 		end if%>
 		  <option value="<%=oRec2("id") %>" <%=selj %>><%=oRec2("kkundenavn") %> (<%=oRec2("kkundenr") %>) | (<%=oRec2("jobnr") %>) <%=oRec2("jobnavn") %> | Antal atk.: <%=oRec2("antalA") %> </option>
            
-		<%
+		<%antaljob = antaljob + 1 
 		oRec2.movenext
 		Wend
 		oRec2.close
 		
 		%>
 		 </select>
-		 
+		 <br />
+        Antal aktive job og tilbud: <%=antaljob %>
 		</td>
 	</tr>
 	<tr>
@@ -3011,14 +3025,14 @@ if len(session("user")) = 0 then
 
 
             
-            <%if func = "opretstam" then %>
+            <%if func = "opretstam" OR func = "redstam"  then %>
             <%
 
 
             uWdt = 350
-            uTop = 1465
-            uLeft = 420
-            uTxt = "<b>Ved multi-tildel Stam-aktivitet på eksisterende job:</b> (gælder kun nu mens stam-aktiviteten oprettes)<br />"_
+            uTop = 370
+            uLeft = 780
+            uTxt = "<b>Ved multi-tildel Stam-aktivitet på eksisterende job:</b> (gælder kun nu mens stam-aktiviteten oprettes/redigeres)<br />"_
             &"<input name=""FM_overfor_tp"" id=""FM_overfor_tp"" value=""j"" type=""checkbox"" /><b>Brug valgte timepriser</b> på denne stam-aktivitet. (ellers nedarves timepriser fra de job aktiviteten overføres til)<br />"_
             &"<br><input type=""radio"" name=""FM_pgrp_arvefode"" value=""1""><b>Brug valgte projektgrupper.</b> Hvis projektgruppen ikke findes på jobbet, oprettes den (hvis ikke alle 10 projektgrupper på jobbet allerede er udfyldt). <br />"_
             &"<br><input type=""radio"" name=""FM_pgrp_arvefode"" value=""0"" CHECKED><b>Nedarv fra job</b> (projektgrupper nedarves automatisk fra de job aktiviteten tilføjes til)"
@@ -3373,7 +3387,7 @@ if len(session("user")) = 0 then
 	<!-- job faneblad -->
 	<table cellspacing="2" cellpadding="2" border="0" width=200>
 	<tr><td colspan=2>
-	    <a href="akt_gruppe.asp?menu=job&func=favorit" class=vmenu> << Stam-aktivitetsgrupper</a><br /><br />
+	    <a href="../to_2015/akt_gruppe.asp?menu=job&func=favorit" class=vmenu> << Stam-aktivitetsgrupper</a><br /><br />
     
 	</td></tr>
 		

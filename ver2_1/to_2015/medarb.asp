@@ -1425,7 +1425,7 @@ Session.LCID = 1030
 
                     
 
-                      <%if cint(level) = 1 then %>
+                        <%if cint(level) <= 2 OR cint(level) = 6 then %>
                     <!-- Medarbejder -->
                     <div class="panel panel-default">
                         <div class="panel-heading">
@@ -1981,24 +1981,30 @@ Session.LCID = 1030
                               <%end if %>
 
 
-                               <%if cint(level) = 1 then %>
+                               <%if cint(level) <= 2 OR cint(level) = 6 then %>
                               <div class="row">
                                    <div class="col-lg-12"><br />&nbsp</div>
                                 </div>
                               <div class="row">
                                   
                                   <div class="col-lg-1">&nbsp</div>
-                                  <div class="col-lg-2 pad-t5">Medarbejders startside:</div>
+                                  <div class="col-lg-2"><b>Default startside:</b></div>
                                   <div class="col-lg-5">
-                                       <input type="radio" name="FM_tsacrm" value="0" <%=strCRMcheckedTSA%>> Timeregistrering (default) &nbsp  <input type="checkbox" name="FM_timer_ststop" value="1" <%=timer_ststopCHK%> /> Indtast timer som start og stop tid <br>
+                                     
+                                             <%if cint(level) <= 2 OR cint(level) = 6 then%> 
+                                             <input type="radio" name="FM_tsacrm" value="0" <%=strCRMcheckedTSA%>> Timeregistrering (default) 
+                                      <br />&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp  <input type="checkbox" name="FM_timer_ststop" value="1" <%=timer_ststopCHK%> /> Indtast timer som start og stop tid <br>
           
-                                     <input type="radio" name="FM_tsacrm" value="6" <%=strCRMcheckedTSA_6%>> Ugeseddel<br>
+                                          <br /> <input type="radio" name="FM_tsacrm" value="6" <%=strCRMcheckedTSA_6%>> Ugeseddel<br>
+                                              <%end if %>
 
+
+                                        <%if level = 1 then %>
 
                                         <%call erStempelurOn()
                 
                                         if cint(stempelurOn) = 1 then %>
-                                      <input type="radio" name="FM_tsacrm" value="3" <%=strCRMcheckedTSA_3%>> Stempelur (Komme / Gå)  <br>
+                                            <input type="radio" name="FM_tsacrm" value="3" <%=strCRMcheckedTSA_3%>> Stempelur (Komme / Gå)  <br>
                                         <%end if %>
 		
 		                             <input type="radio" name="FM_tsacrm" value="2" <%=strCRMcheckedRes%>> Ressourceplanner<br>
@@ -2009,6 +2015,9 @@ Session.LCID = 1030
                                      <%if licensType = "CRM" then%>
                                      <input type="radio" name="FM_tsacrm" value="1" <%=strCRMcheckedCRM%>> CRM Kalender<br>
                                     <%end if%>
+
+                                      <%end if 'level = 1 %>
+
                                   </div>
                             <%else %>
                                     <input type="hidden" name="FM_tsacrm" value="<%=intCRM %>">
@@ -2030,7 +2039,7 @@ Session.LCID = 1030
                    
 
                       <%if func = "red" then %>
-                              <br />
+                              <br /><br /><br />
                 <div style="font-weight: lighter;">Sidst opdateret den <b><%=strDato%></b> af <b><%=strEditor%></b></div>
 
                             <%if func = "red" then %>

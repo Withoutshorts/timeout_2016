@@ -35,7 +35,7 @@ if len(trim(session("user"))) = 0 then
     momskonto = 1 
     
     strSQL = "SELECT f.fid, f.jobid, f.editor, f.faknr, f.fakdato, f.beloeb, f.faktype, "_
-    &" f.konto, f.modkonto, f.moms, j.jobnavn, f.jobbesk, f.aftaleid, f.subtotaltilmoms, f.momskonto, f.kurs, f.moms, f.medregnikkeioms, f.fak_laast FROM fakturaer f "_
+    &" f.konto, f.modkonto, f.moms, j.jobnavn, f.jobbesk, f.aftaleid, f.subtotaltilmoms, f.momskonto, f.kurs, f.moms, f.medregnikkeioms, f.fak_laast, f.afsender FROM fakturaer f "_
     &" LEFT JOIN job j ON j.id = f.jobid WHERE fid = " & fakid
     oRec.open strSQL, oConn, 3
     if not oRec.EOF then
@@ -67,6 +67,7 @@ if len(trim(session("user"))) = 0 then
 
         faknr = oRec("faknr")
         fak_laast = oRec("fak_laast")
+        afsender = oRec("afsender")
     
     end if
     oRec.close

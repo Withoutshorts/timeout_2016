@@ -288,7 +288,7 @@ dblkostprisUse = replace(dblkostprisUse, ",", ".")
                     select case tfaktimvalue
                     'case 11,13,14,18,19,20,21,23,26,120,121,122 '** Ferie typer planlagt og afholdt + syg og barn syg + omsorgsdag PL + Aldersreduktion PL + Omsorg 2,10, K PL **'
                     case "900"
-                    case 1,2,5 'alle andre typer end fakturerbar og ikke fakturerbar + Km bliver adviseret til teamleder, der abonnerer.
+                    case 1,2,5,6 'alle andre typer end fakturerbar og ikke fakturerbar + Km og SALG bliver adviseret til teamleder, der abonnerer.
 
                     case else
                     EmailNotificer = 1

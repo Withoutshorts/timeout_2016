@@ -1,6 +1,6 @@
 
 <%
-    public fctimer, strAfgSQL, strAfgSQLtimer, feltTxtValFc
+    public fctimer, strAfgSQL, strAfgSQLtimer, feltTxtValFc, fcBelob, fctimerTot, fcBelobTot
     public timerBrugt, timerTastet
     'public feltTxtValFc
     function ressourcefc_tjk(ibudgetaar, ibudgetmd, aar, md, usemrn, aktid, timerTastet)
@@ -43,23 +43,60 @@
                 feltTxtVal = 0
                 
                 '** Tjekker resouceforecast
-                strSQLtimfc = "SELECT COALESCE(SUM(timer), 0) AS fctimer FROM ressourcer_md WHERE aktid = "& aktid & " AND medid = "& usemrn &" "& strAfgSQL
-                
+                if usemrn <> 0 then ' forecest pr akt og medarb
+                strSQLtimfc = "SELECT COALESCE(SUM(timer), 0) AS fctimer FROM ressourcer_md WHERE aktid = "& aktid &" AND medid = "& usemrn &" "& strAfgSQL
+                else 'forecast GT på akt samlet for alle medarb incl beløb
+                strSQLtimfc = "SELECT COALESCE(SUM(r.timer), 0) AS fctimer, SUM(tp.6timepris*r.timer) AS fcBelob FROM ressourcer_md AS r" _
+                &" LEFT JOIN timepriser AS tp ON (tp.aktid = r.aktid AND tp.medarbid = r.medid) "_  
+                &" WHERE r.aktid = "& aktid &" "& strAfgSQL & " GROUP BY r.aktid, r.medid"
+                end if            
+
                'response.write strSQLtimfc
-               'response.end
-
-
+               'response.flush
+            
+                fctimerTot = 0
+                fcBelobTot = 0 
+                fcBelob = 0
                 fctimer = 0
                 oRec5.open strSQLtimfc, oConn, 3
                 while not oRec5.EOF
                
                 fctimer = oRec5("fctimer")
+                fcBelob = oRec5("fcBelob")
                  
+                fctimerTot = fctimerTot + oRec5("fctimer")
+                fcBelobTot = fcBelobTot + oRec5("fcBelob")
+
                 oRec5.movenext
                 wend
                 oRec5.close
 
 
+                if fctimerTot <> 0 then
+                fctimerTot = fctimerTot
+                else
+                fctimerTot = 0
+                end if
+
+                if fcBelobTot <> 0 then
+                fcBelobTot = fcBelobTot
+                else
+                fcBelobTot = 0
+                end if
+
+                if fcBelob <> 0 then
+                fcBelob = fcBelob
+                else
+                fcBelob = 0
+                end if
+
+                if fctimer <> 0 then
+                fctimer = fctimer
+                else
+                fctimer = 0
+                end if
+     
+             
                 
                 timerBrugt = 0
                

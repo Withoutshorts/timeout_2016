@@ -152,11 +152,43 @@ oRec6.close
 end function
 
 
+'**** Miltible juridiske enheder / Flere mulighed afsendere på fakturaer '*******'
+public multible_licensindehavere, multi_fakturanr, multi_fakturanr_2, multi_fakturanr_3, multi_fakturanr_4, multi_fakturanr_5
+function multible_licensindehavereOn()
+multible_licensindehavere = 0
+multi_fakturanr = 0
+multi_fakturanr_2 = 0
+multi_fakturanr_3 = 0
+multi_fakturanr_4 = 0
+multi_fakturanr_5 = 0
+strSQLigv = "SELECT multible_licensindehavere, fakturanr, fakturanr_2, fakturanr_3, fakturanr_4, fakturanr_5 FROM licens WHERE id = 1"
+oRec6.open strSQLigv, oConn, 3
+if not oRec6.EOF then
+multible_licensindehavere = oRec6("multible_licensindehavere")
+
+multi_fakturanr = oRec6("fakturanr")
+multi_fakturanr_2 = oRec6("fakturanr_2")
+multi_fakturanr_3 = oRec6("fakturanr_3")
+multi_fakturanr_4 = oRec6("fakturanr_4")
+multi_fakturanr_5 = oRec6("fakturanr_5")
+
+end if
+oRec6.close
+end function
+
+
 
 
 '*** Afsluttede uger *****
 public afslUgerMedab
-redim afslUgerMedab(3000) '2500 '400 '4 år
+
+if instr(lto,"epi") <> 0 then
+redimAntalM = 6000
+else
+redimAntalM = 3000
+end if
+
+redim afslUgerMedab(redimAntalM) '2500 '400 '4 år
 function afsluger(medarbid, stdato, sldato)
 		
         call smileyAfslutSettings()

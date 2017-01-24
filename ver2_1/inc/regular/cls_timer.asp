@@ -419,6 +419,9 @@ end function
 public intTimepris, foundone, intValuta, valutaISO, alttp_valutaKurs, alttp_timeprisAlt
 function alttimepris(useaktid, intjobid, strMnr, upd) 
                             
+                            intValuta = 1
+                            alttp_valutaKurs = 100
+
                             intTimepris = 0
 							timeprisAlt = 0
                             alttp_timeprisAlt = 0

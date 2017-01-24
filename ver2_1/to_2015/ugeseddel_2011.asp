@@ -870,6 +870,53 @@ if len(session("user")) = 0 then
 
         <%end select %>
       
+        <%select case lto
+         case "epi2017", "intranet - local"
+
+            thisEpiDay = datepart("w", now, 2,2)  
+            visGuide = 0
+            strSQLvisguide = "SELECt visguide FROM medarbejdere WHERE mid = "& session("mid")
+            oRec.open strSQLvisguide, oConn, 3
+            if not oRec.EOF then
+             visGuide = oRec("visguide")
+            end if
+            oRec.close
+
+            'session("show_skiftStSide_vist") <> "11" AND
+            if (thisEpiDay = 1 OR thisEpiDay = 2) AND visGuide <> 99 then
+            show_skiftStSide = 1
+            'session("show_skiftStSide_vist") = 1
+            else
+            show_skiftStSide = 0
+            end if
+
+         case else
+            show_skiftStSide = 0
+         end select 
+            
+            
+         if cint(show_skiftStSide) = 1 then%>
+        <form action="../timereg/timereg_akt_2006.asp">
+            <input type="hidden" name="func" value="epitregpage" />
+            <div id="d_epinote" style="position:absolute; top:70px; left:850px; width:400px; border:10px #999999 solid; z-index:10000000; background-color:#ffffff; padding:20px;">
+                <span style="float:right;"><a href="#" id="a_epinote" style="color:red;">[X]</a></span>
+                <h4>Velcome to Epinion version 2017</h4> 
+                We have put together all Epinion versions Of TimeOut in one solution: Epi 2017.<br /><br />
+                You will be able to search for all your projects across DK, NO and UK in this database. <br /><br />
+                If You wish to keep your old timecording page and use it as your default, you can choose it heere. 
+                <br /><input type="checkbox" name="FM_oldtreg" value="1" /> I want the old timecording page.<br /> 
+                <input type="checkbox" name="FM_dontshowvisguide" value="1" /> Don't show this message again. <input type="submit" class="btn btn-sm btn-default" value=" >> " /><br /><br>
+                You can always change it in your userprofile or select it form the main menu.<br /><br />
+                
+                If you are missing a project don't hesitate to write to Epinion Finance.<br /><br />
+                If You experience any troubles with the new version send an email and a screenshot to support@outzource.dk  
+                
+
+
+            </div>
+
+        </form>
+        <%end if%>
        
         <form id="filterkri" method="post" action="ugeseddel_2011.asp">
             <input type="hidden" name="FM_sesMid" id="FM_sesMid" value="<%=session("mid") %>">

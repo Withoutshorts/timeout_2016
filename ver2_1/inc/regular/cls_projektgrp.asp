@@ -1359,7 +1359,7 @@ end sub
 
 
 
-                'Response.write "<br>aj: " & aj &" fm_alle " & fm_alle  & " func  "& func  &" nedfod "& nedfod &" aid = "& aid &" jid: "& jid &"<br>"
+                'Response.write "<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;aj: " & aj &" fm_alle " & fm_alle  & " func  "& func  &" nedfod "& nedfod &" aid = "& aid &" jid: "& jid &"<br>"
                 'Response.flush 
 
                   if jid <> 0 then 'jobids(j) <> 0 : er det en stamakt (=0)
@@ -1672,8 +1672,8 @@ end sub
 
 
                 '** Output **'
-                'Response.write "aj:" & aj & "jid " & jid & "nedfod "& nedfod 
-                'Response.end
+                'Response.write "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;aj:" & aj & "jid " & jid & "nedfod "& nedfod 
+                'Response.flush
 
                 '*** A) Ved opret stamakt, tilføj til stamgrp
                 '** B) Ved rediger akt / stam akt skal grupper altid følge de valgte på akt. (med mindre nedarv er valgt nedfod = 0)
@@ -1684,7 +1684,7 @@ end sub
                 'aj = 1 job
 
 
-                if cint(aj) = 2 AND cint(jid) = 0 _
+                if cint(aj) = 2 AND cdbl(jid) = 0 _
                  OR (cint(aj) = 2 AND cint(nedfod) = -1) then
 
                 strProjektgr1 = grp1
@@ -1706,7 +1706,7 @@ end sub
 
                 '** Ved opret/rediger akt på job og nedarv fra job, bruse de progrp der blev fundet på jobbet **'
                 '** Ved tilføj stamgrp til job og FØD job valgt | aj = 1 & nedfod = 1
-                if (cint(aj) = 2 AND cint(nedfod) = 0 AND cint(jid) <> 0) OR cint(aj) = 1 AND cint(nedfod) = 1  then
+                if (cint(aj) = 2 AND cint(nedfod) = 0 AND cdbl(jid) <> 0) OR cint(aj) = 1 AND cint(nedfod) = 1  then
 
                 strProjektgr1 = strProjektgr1Tjk
 				strProjektgr2 = strProjektgr2Tjk

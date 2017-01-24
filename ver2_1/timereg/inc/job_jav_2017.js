@@ -1645,13 +1645,19 @@ $(document).ready(function () {
 
         //if ($("#step").val() == 2) {
         $("#div_tild_forr").hide("slow");
+        lto = $("#lto").val();
 
+        //alert("lto: " + lto)
+
+        if (lto == "epi2017") {
         $("#load").css("display", "");
         $("#load").css("visibility", "visible");
         $("#load").show("slow");
         
 
         autoopret();
+        }
+
         //}
 
     });

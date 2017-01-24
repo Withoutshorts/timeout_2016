@@ -1381,7 +1381,8 @@ sub projektberegner
 				    <td style="padding:3px;"><input type="text" id="FM_budgettimer" name="FM_budgettimer" value="<%=replace(formatnumber(strBudgettimer, 2), ".", "")%>" style="width:60px;"" onkeyup="tjektimer('FM_budgettimer'), beregnintbelob()" class="nettooms"></td>
 					<td class=lille><input type="text" id="FM_gnsinttpris" name="FM_gnsinttpris" value="<%=replace(formatnumber(jo_gnstpris, 2), ".", "")%>" style="width:67px;" onkeyup="tjektimer('FM_gnsinttpris'), beregnintbelob()" class="nettooms"> <%=basisValISO %></td>
 					<td>x <input type="text" id="FM_intfaktor" name="FM_intfaktor" value="<%=replace(formatnumber(jo_gnsfaktor, 2), ".", "")%>" style="width:30px;" onkeyup="tjektimer('FM_intfaktor'), beregnintbelob()" class="nettooms"></td>
-					<td>= <input type="text" id="FM_interntbelob" name="FM_interntbelob" value="<%=replace(formatnumber(jo_gnsbelob, 2), ".", "")%>" style="width:75px;" onkeyup="tjektimer('FM_interntbelob'), beregninttp()" class="nettooms"></td>
+					<td>= <input type="text" id="FM_interntbelob" name="FM_interntbelob" <%=interntbelobDIS %> value="<%=replace(formatnumber(jo_gnsbelob, 2), ".", "")%>" style="width:75px;" onkeyup="tjektimer('FM_interntbelob'), beregninttp()" class="nettooms">
+                    </td>
 					
                     <input id="FM_interntomkost" name="FM_interntomkost" value="<%=replace(formatnumber(jo_udgifter_intern, 2), ".", "")%>" type="hidden" />
 					
@@ -1394,10 +1395,21 @@ sub projektberegner
 					<td ><input id="pb_tg_timepris" value="<%=tgt_tp%>" type="text" style="width:30px; font-size:9px; font-family:arial; border:0px;" maxlength="0"/></td>
 					
                     
-                    <%else %>
+                    <%else
+                        
+                         if (func = "opret" AND step = 2) AND (lto = "epi2017" OR lto = "intranet - local") then
+                            interntbelobDIS = "DISABLED"
+                         else
+                            interntbelobDIS = ""
+                         end if %>
+                        
+                        
+                       
                  
                      <td style="padding:3px; width:80px;">Timer:<br /><input type="text" id="FM_budgettimer" name="FM_budgettimer" value="<%=replace(formatnumber(strBudgettimer, 2), ".", "")%>" style="width:60px;"" onkeyup="tjektimer('FM_budgettimer')" class="nettooms"></td>
-					<td style="padding:3px; width:80px;"><font color=red size=2>*</font> Beløb:<br /> <input type="text" id="FM_interntbelob" name="FM_interntbelob" value="<%=replace(formatnumber(jo_gnsbelob, 2), ".", "")%>" style="width:75px; border:1px solid red; padding:2px;" onkeyup="tjektimer('FM_interntbelob'), settotalbelob()" class="nettooms" /></td>
+					<td style="padding:3px; width:80px;"><font color=red size=2>*</font> Beløb:<br /> <input type="text" id="FM_interntbelob" name="FM_interntbelob" <%=interntbelobDIS %> value="<%=replace(formatnumber(jo_gnsbelob, 2), ".", "")%>" style="width:75px; border:1px solid red; padding:2px;" onkeyup="tjektimer('FM_interntbelob'), settotalbelob()" class="nettooms" />
+
+					</td>
 					<td style="padding:3px 3px 3px 12px; font-size:11px;"><br /><%=basisValISO %></td>
                     <input type="hidden" id="FM_gnsinttpris" name="FM_gnsinttpris" value="<%=replace(formatnumber(jo_gnstpris, 2), ".", "")%>" style="width:67px;" onkeyup="tjektimer('FM_gnsinttpris')"></td>
 					<input type="hidden" id="FM_intfaktor" name="FM_intfaktor" value="<%=replace(formatnumber(jo_gnsfaktor, 2), ".", "")%>" style="width:30px;" onkeyup="tjektimer('FM_intfaktor')"</td>
@@ -3736,13 +3748,44 @@ sub minioverblik
             end if
             %>
             
+            <%
+            call timesimon_fn()   'Timesimulering ON
+            call aktBudgettjkOn_fn() 'Timesimulering SETTINGS
 
+                select case lto
+                case "epi2017"
+                timesimon = 0
+                case else
+                timesimon = timesimon
+                end select
+
+                if cint(timesimon) = 1 then 
+                    
+                    timerTastet = 0 
+                    ibudgetaar = aktBudgettjkOn_afgr
+                    ibudgetmd = datePart("m", aktBudgettjkOnRegAarSt, 2,2) 
+                    aar = datepart("yyyy", now, 2,2)
+                    md = datepart("m", now, 2,2)
+              
+
+                end if
+
+            %>
 	        <table cellpadding=0 cellspacing=0 border=0 width=100%>
 	        <tr bgcolor="#5582d2">
 	        <td class=lille><b>Navn</b></td>
             <td class=lille><b>Periode</b></td>
-	        <td class=lille><b>Status</b></td>
+
+            <%
+            if cint(timesimon) = 1 then %>
+                <td class=lille><b>Forecast</b></td>
+            <td class=lille><b>Beløb</b></td>
+            <%else%>
+                <td class=lille><b>Status</b></td>
             <td class=lille><b>Type</b></td>
+            <%end if%>
+
+	        
 	        <td class=lille align=right><b>Forkalk.<br />Timer / Stk.</b></td>
             <td class=lille align=right><b>Time / Stk. pris</b></td>
             <td class=lille align=right><b>Budget</b></td>
@@ -3833,21 +3876,49 @@ sub minioverblik
 	            
                 
                 <td class=lillegray style="border-bottom:<%=borderAktMatlinesPx%>px #cccccc solid;"><%=formatdatetime(oRec2("aktstartdato"), 2)  &" - "& formatdatetime(oRec2("aktslutdato"), 2) %></td>
-                <td class=lille style="border-bottom:<%=borderAktMatlinesPx%>px #cccccc solid;">
-	            <%select case oRec2("aktstatus")
-	            case 1
-	            aktstat = "Aktiv"
-	            case 2
-	            aktstat = "Passiv"
-	            case else
-	            aktstat = "Lukket"
-	            end select
-	             %>
-	            <%=aktstat %></td>
-                
-                       <%call akttyper(oRec2("aty_id"), 1) %>
 
-                 <td class=lille style="border-bottom:<%=borderAktMatlinesPx%>px #cccccc solid;"><%=left(akttypenavn, 10) %>.</td>
+
+             <%
+             if cint(timesimon) = 1 then %>
+                    <td class=lille align="right">
+
+                        <%
+                        usemrn = 0
+                        aktid = oRec2("id")
+                       
+                 
+
+                        call ressourcefc_tjk(ibudgetaar, ibudgetmd, aar, md, usemrn, aktid, timerTastet)%>
+
+                        <%=formatnumber(fctimerTot, 0) &" t." %> 
+
+                        <%fctimerTotGt = fctimerTotGt + fctimerTot  %>
+                    </td>
+                    <td class=lille align="right"><%=formatnumber(fcbelobTot, 0) &" "& basisValISO_f8 %></td>
+
+                       <%fcBelobTotGt = fcBelobTotGt + fcBelobTot  %>
+            <%else%>
+               
+           
+                        <td class=lille style="border-bottom:<%=borderAktMatlinesPx%>px #cccccc solid;">
+	                    <%select case oRec2("aktstatus")
+	                    case 1
+	                    aktstat = "Aktiv"
+	                    case 2
+	                    aktstat = "Passiv"
+	                    case else
+	                    aktstat = "Lukket"
+	                    end select
+	                     %>
+	                    <%=aktstat %></td>
+                
+                         <%call akttyper(oRec2("aty_id"), 1) %>
+
+                         <td class=lille style="border-bottom:<%=borderAktMatlinesPx%>px #cccccc solid;"><%=left(akttypenavn, 10) %>.</td>
+
+                 <%end if%>
+
+
                  <%select case oRec2("bgr")
                  case 0
                  bgr = "ingen"
@@ -3956,9 +4027,17 @@ sub minioverblik
                 
                  <td>&nbsp;</td>
 	            <td>&nbsp;</td>
+
+                <% if cint(timesimon) = 1 then %> 
+                     <td class=lille align="right"><b><%=formatnumber(fctimerTotGt, 0) &"</b> t."%></td>
+                     <td class=lille align="right"><b><%=formatnumber(fcbelobTotGt, 0) &"</b> "& basisValISO_f8 %></td>
+                    
+                <% else %>
 	            <td>&nbsp;</td>
                 <td>&nbsp;</td>
-                
+                <%end if %>
+
+
 	            <td align=right class=lille><b><%=formatnumber(lastFaseForkalkTimer,2) %></b> t.</td>
                 <td>&nbsp;</td>
 	            <td align=right class=lille><b><%=formatnumber(lastFaseSum, 2) %></b> <%=basisValISO_f8 %></td>
@@ -4501,7 +4580,7 @@ sub minioverblik
 
 
 
-        <%if (thisfile <> "jobprintoverblik" AND lto = "synergi1") OR (lto <> "synergi1" AND lto <> "oko" AND lto <> "sdeo" AND lto <> "intranet - local") then%>
+        <%if (thisfile <> "jobprintoverblik" AND lto = "synergi1") OR (lto <> "synergi1" AND lto <> "oko" AND lto <> "sdeo" AND lto <> "xintranet - local") then%>
         <tr><td>
 
 

@@ -1,11 +1,11 @@
-ï»¿
+
 
 <!--#include file="../inc/connection/conn_db_inc.asp"-->
 <!--#include file="../inc/regular/header_lysblaa_2015_inc.asp"-->
 <!--#include file="../inc/errors/error_inc.asp"-->
 <!--#include file="../inc/regular/global_func.asp"-->
-<!--include file="inc/budget_firapport_inc.asp"-->
 <!--#include file="../inc/regular/topmenu_inc.asp"-->
+
 <style>
     thead input {
         width: 100%;
@@ -33,9 +33,12 @@ display: none;
 		SQLBless = tmp
 		end function
 
+
+    call menu_2014()
+
     %>
 
-        <!--#include file="to-menu.asp"-->
+       
 
     <div id="wrapper">
         <div class="content">    
@@ -60,7 +63,7 @@ display: none;
 	'*** Her slettes en akt gruppe ***
     
 
-    '*** IndsÃ¦tter i delete historik ****' 
+    '*** Indsætter i delete historik ****' 
         
         '** gruppen **'
         
@@ -88,7 +91,7 @@ display: none;
 
 
     case "dbopr", "dbred"
-	'*** Her indsÃ¦ttes en ny type i db ****
+	'*** Her indsættes en ny type i db ****
 		if len(request("FM_navn")) = 0 then
 		%>
 		<!--#include file="../inc/regular/header_inc.asp"-->
@@ -106,22 +109,57 @@ display: none;
         skabelonType = request("FM_type")
         aktgrp_account = 0 'request("FM_aktgrp_account")
 		
+       
         '** Nulstiller forvalgt **'
+        if cint(forvalgt) = 1 then
         oConn.execute("UPDATE akt_gruppe SET forvalgt = 0 WHERE id <> 0 AND skabelonType = "& skabelonType)
-		
+        end if
+       
 
 		if func = "dbopr" then
 		oConn.execute("INSERT INTO akt_gruppe (navn, editor, dato, forvalgt, skabelontype, aktgrp_account) VALUES ('"& strNavn &"', '"& strEditor &"', '"& strDato &"', "& forvalgt &", "& skabelontype &", "& aktgrp_account &")")
 		else
 		oConn.execute("UPDATE akt_gruppe SET navn ='"& strNavn &"', editor = '" &strEditor &"', dato = '" & strDato &"', forvalgt = "& forvalgt &", skabelontype = "& skabelontype &", aktgrp_account = "& aktgrp_account &" WHERE id = "&id&"")
 		end if
+
+
+            if func = "dbred" then
+                '***** Multitildel ***********
+
+                
+
+                if len(trim(request("FM_jnr"))) <> 0 then
+
+                '*** Nedarv / Fød ***'
+                '** 0 = Nedarv ******'
+                '** 1 = Fød *********'
+
+                pgrp_arvefode = request("pgrp_arvefode") ''Tilføjes længere ned hvor Stam-aktiviteter tilføjes
+
+
+                                    jobids = split(request("FM_jnr"), ", ")
+                                    intAktfavgp_use = id
+								    strAktFase_use = "" 
+                                    firstLoop = 0
+								    for a = 0 to UBOUND(jobids)
+								
+                                        if len(trim(intAktfavgp_use)) <> 0 then
+								            call tilknytstamakt(a, intAktfavgp_use, strAktFase_use, 2, jobids(a))
+                                        end if
+							
+                                    next
+
+               
+                end if
+            end if
+
 		
 		Response.redirect "akt_gruppe.asp?menu=job&shokselector=1"
 		end if
 
 
     case "opret", "red"
-	'*** Her indlÃ¦ses form til rediger/oprettelse af ny type ***
+	'*** Her indlæses form til rediger/oprettelse af ny type ***
 	if func = "opret" then
 	strNavn = ""
 	strTimepris = ""
@@ -168,7 +206,7 @@ display: none;
 <div class="container">
     <div class="portlet">
             <h3 class="portlet-title">
-            <u>Stam-aktivitestgrupper</u>
+            <u>Stam-aktivitetsgrupper</u>
             </h3>
 
         <form action="akt_gruppe.asp?menu=tok&func=<%=dbfunc%>" method="post">
@@ -176,7 +214,7 @@ display: none;
         <div class="row">
             <div class="col-lg-10">&nbsp</div>
             <div class="col-lg-2 pad-b10">
-            <button type="submit" class="btn btn-success btn-sm pull-right"><b>OpdatÃ©r</b></button>
+            <button type="submit" class="btn btn-success btn-sm pull-right"><b>Opdatér</b></button>
             </div>
         </div>
 
@@ -185,8 +223,8 @@ display: none;
                 <div class="well well-white">
             <div class="row">
                 <div class="col-lg-1">&nbsp</div>
-                <div class="col-lg-2"><b>Aktivitetsgruppe:</b> (Navn)</div>
-                <div class="col-lg-2">
+                <div class="col-lg-2"><b>Gruppenavn:</b></div>
+                <div class="col-lg-5">
                     <input name="FM_navn" type="text" class="form-control input-small" value="<%=strNavn %>" placeholder="Navn"/>
                 </div>
             </div>
@@ -216,10 +254,77 @@ display: none;
                     </select>
                 </div>
             </div>
+
+            <%if func = "red" then  %>
+             <div class="row">
+                <div class="col-lg-1">&nbsp</div>
+                <div class="col-lg-6"><br /><br /><b>Multi-tildel på aktive job og tilbud:</b><br />
+               
+                    <%
+
+                   whSQL = "(jobstatus = 1 OR jobstatus = 3)"
+                   strSQLjob = "SELECT jobnavn, jobnr, j.id, kid, kkundenavn, kkundenr, count(a.id) AS antalA FROM job j "_
+		            &" LEFT JOIN kunder ON (kid = jobknr) "_
+		            &" LEFT JOIN aktiviteter a ON (a.job = j.id) "_
+		            &" WHERE "& whSQL &" GROUP BY j.id ORDER BY jobnr"
+		
+		            'Response.Write strSQLjob
+		            'Response.flush
+		
+		            %>
+		
+            <select name="FM_jnr" multiple size=10 style="width:700px;">
+          
+              
+		        <%
+		
+		        oRec2.open strSQLjob, oConn, 3
+		        lastkid = 0
+                antaljob = 0
+		        while not oRec2.EOF
+
+
+                    'if lastkid <> oRec2("kid") then
+
+                        'if antaljob <> 0 then
+                        %>
+                        <!--<option DISABLED></option>-->
+                        <%'end if
+
+                    %><!--<option DISABLED><%=oRec2("kkundenavn") %> (<%=oRec2("kkundenr") %>)</option>-->
+                    <%'end if %>
+		          <option value="<%=oRec2("id") %>"><%=oRec2("jobnr") &" "& oRec2("jobnavn") %> Antal atk.: <%=oRec2("antalA") %> </option>
+           
+		        <%
+                lastKid = oRec2("kid")    
+                antaljob = antaljob + 1 
+		        oRec2.movenext
+		        Wend
+		        oRec2.close
+		
+		        %>
+		         </select>
+		         <br />
+                Antal aktive job og tilbud: <%=antaljob %>
+                    <br /><br />
+                    <b>Projektgrupper:</b><br />
+                    <input type="radio" name="pgrp_arvefode" value="0" /> Nedarv fra job<br />
+                    <input type="radio" name="pgrp_arvefode" value="1" CHECKED /> Behold dem stam-aktiviteter er født med
+                </div>
+            </div>
+            <%end if %>
                     
         </div>
+
+
+             
+
          </section>
-             <br /><br /><br /><div style="font-weight: lighter;">Sidst opdateret den <b><%=strDato%></b> af <b><%=strEditor%></b></div>
+
+             <br /><br /><br />
+                <%if func = "red" then %>
+                <div style="font-weight: lighter;">Sidst opdateret den <b><%=strDato%></b> af <b><%=strEditor%></b></div>
+                <%end if %>
         </div>
         </form>
     </div>
@@ -246,7 +351,7 @@ display: none;
         <div class="container">
             <div class="portlet">
             <h3 class="portlet-title">
-            <u>Kopier stam-aktivitestgruppe</u>
+            <u>Kopier stam-aktivitetsgruppe</u>
             </h3>
 
                 <form method=post action="akt_gruppe.asp?func=kopierja&id=<%=id%>">
@@ -261,25 +366,25 @@ display: none;
             <div class="portlet-body">
                 <div class="row">                 
                     <div class="col-lg-1">&nbsp</div>
-                    <h4 class="col-lg-2">Stam-aktivitestgruppe:</h4>
+                    <h4>Stam-aktivitetsgruppe</h4>
                 </div>
 
                 <div class="row">                 
                     <div class="col-lg-1">&nbsp</div>
-                    <div class="col-lg-2"><b>GruppeNavn:</b></div>
+                    <div class="col-lg-2"><b>Gruppenavn:</b></div>
                     <div class="col-lg-3"><input type="text" name="FM_grpnavn" class="form-control input-small" id="FM_grpnavn" value="Kopi af: <%=grpNavn%>"></div>
                     <div class="col-lg-1 pad-b20">&nbsp</div>
                 </div>
 
                 <div class="row">                 
                     <div class="col-lg-1">&nbsp</div>
-                    <h4 class="col-lg-2 pad-t20">Aktiviteterne:</h4>
+                    <h4>Aktiviteterne</h4>
                 </div>
 
                 <div class="row">                 
                     <div class="col-lg-1">&nbsp</div>
                     <div class="col-lg-2"><b>Aktivitetsnavn:</b></div>
-                    <div class="col-lg-3"><input type="checkbox" name="FM_udskift_navn" id="FM_udskift_navn" value="1">&nbsp Ja, omdÃ¸b navn pÃ¥ aktiviteter.<br>
+                    <div class="col-lg-3"><input type="checkbox" name="FM_udskift_navn" id="FM_udskift_navn" value="1">&nbsp;Ja, omdøb navn på aktiviteter.<br>
 		            Udskift denne del af aktivitets navnet:<br>
                         <input type="text" name="FM_aktnavn_for" class="form-control input-small" id="FM_aktnavn_for" value="">
 		                med dette:
@@ -290,7 +395,7 @@ display: none;
                 <div class="row">                 
                     <div class="col-lg-1">&nbsp</div>
                     <div class="col-lg-2"><b>Fase:</b></div>
-                    <div class="col-lg-2"><input type="checkbox" name="FM_udskift_fase" id="Checkbox1" value="1">&nbsp Ja, omdÃ¸b fase pÃ¥ aktiviteter.<br>
+                    <div class="col-lg-2"><input type="checkbox" name="FM_udskift_fase" id="Checkbox1" value="1">&nbsp;Ja, omdøb fase på aktiviteter.<br>
 	                    Udskift denne del af fase navnet:<br> 
 	                    <input type="text" name="FM_fase_for" class="form-control input-small" id="Text1" value="">
 	                    med dette:
@@ -300,14 +405,14 @@ display: none;
                 <div class="row">                 
                     <div class="col-lg-1">&nbsp</div>
                     <div class="col-lg-2"><b>Faktor:</b></div>
-                    <div class="col-lg-2"><input type="checkbox" name="FM_udskift_faktor" id="FM_udskift_faktor" value="1">Ja, udskift faktor.<br>
+                    <div class="col-lg-2"><input type="checkbox" name="FM_udskift_faktor" id="FM_udskift_faktor" value="1">&nbsp;Ja, udskift faktor.<br>
 		                <input type="text" name="FM_faktor" id="FM_faktor" class="form-control input-small" value="" /><br /></div>
                 </div>
 
                 <div class="row">                 
                     <div class="col-lg-1">&nbsp</div>
-                    <div class="col-lg-2"><b>ForretningsomrÃ¥der:</b></div>
-                    <div class="col-lg-4"><input type="checkbox" name="FM_udskift_fomr" id="FM_udskift_fomr" value="1">Ja, udskift forretningsomrÃ¥der med:<br>
+                    <div class="col-lg-2"><b>Forretningsområder:</b></div>
+                    <div class="col-lg-4"><input type="checkbox" name="FM_udskift_fomr" id="FM_udskift_fomr" value="1">&nbsp;Ja, udskift forretningsområder med:<br>
 			            <select name="FM_fomr" class="form-control input-small" multible="multible" size="4">
 		            <option value="0">Ingen</option>
 		            <%
@@ -327,13 +432,13 @@ display: none;
 
                 <div class="row">                 
                     <div class="col-lg-1">&nbsp</div>
-                    <div class="col-lg-2"><b>TidslÃ¥s:</b></div>
-                    <div class="col-lg-4"><input type="checkbox" name="FM_udskift_tidslaas" id="FM_udskift_tidslaas" value="1">Ja, udskift tidslÃ¥s.<br>
-		            <input type="checkbox" name="FM_tidslaas" id="FM_tidslaas" value="1">TidslÃ¥s aktiv. Der skal <b>kun</b> kunne registreres timer mellem:<br> 
+                    <div class="col-lg-2"><b>Tidslås:</b></div>
+                    <div class="col-lg-4"><input type="checkbox" name="FM_udskift_tidslaas" id="FM_udskift_tidslaas" value="1">Ja, udskift tidslås.<br>
+		            <input type="checkbox" name="FM_tidslaas" id="FM_tidslaas" value="1">Tidslås aktiv. Der skal <b>kun</b> kunne registreres timer mellem:<br> 
 		            kl. <input type="text" name="FM_tidslaas_start" id="FM_tidslaas_start" class="form-control input-small" size="3" value="07:00"> og kl.
 		            <input type="text" name="FM_tidslaas_slut" id="FM_tidslaas_slut" class="form-control input-small" size="3" value="23:30"> (Format: tt:mm)
 		
-		            <br />PÃ¥ fÃ¸lgende dage:<br />
+		            <br />På følgende dage:<br />
                          Man 
                         <input id="FM_tidslaas_man" name="FM_tidslaas_man" value="1" CHECKED type="checkbox"/>&nbsp;&nbsp;
                          Tir
@@ -344,9 +449,9 @@ display: none;
                         <input id="FM_tidslaas_tor" name="FM_tidslaas_tor" value="1" CHECKED type="checkbox"/>&nbsp;&nbsp;
                          Fre 
                         <input id="FM_tidslaas_fre" name="FM_tidslaas_fre" value="1" CHECKED type="checkbox"/>&nbsp;&nbsp;
-                         LÃ¸r 
+                         Lør 
                         <input id="FM_tidslaas_lor" name="FM_tidslaas_lor" value="1" type="checkbox"/>&nbsp;&nbsp;
-                         SÃ¸n 
+                         Søn 
                         <input id="FM_tidslaas_son" name="FM_tidslaas_son" value="1" type="checkbox"/>&nbsp;&nbsp;</div>
                 </div>
             </div>
@@ -357,7 +462,7 @@ display: none;
 <%
     case "kopierja"
     
-    'Response.write "sÃ¥ er vi her"
+    'Response.write "så er vi her"
 	
 			
 			'** Faktor **
@@ -369,7 +474,7 @@ display: none;
 			aktFaktor = replace(request("FM_faktor"), ",", ".")
 				
 			%>
-			<!--#include file="inc/isint_func.asp"-->
+			<!--#include file="../timereg/inc/isint_func.asp"-->
 			<%
 			call erDetInt(dblFaktor)
 			if isInt > 0 then
@@ -550,7 +655,7 @@ display: none;
 			end function
 			
 			
-			'** ForretningsomrÃ¥de ***
+			'** Forretningsområde ***
 			if len(request("FM_udskift_fomr")) <> 0 then
 			udskiftFomr = 1
 			else
@@ -561,7 +666,7 @@ display: none;
 
 
                   '************************************'
-                  '***** ForrretningsomrÃ¥der **********'
+                  '***** Forrretningsområder **********'
                   '************************************'
 
                   if cint(udskiftFomr) = 1 then
@@ -781,7 +886,7 @@ display: none;
 									
                                                     
                                                     '********************************'
-                                                    '***** ForretningsomrÃ¥der ******'
+                                                    '***** Forretningsområder ******'
                                                     '********************************'
                     
                     
@@ -850,7 +955,7 @@ case else
 
 <script src="js/akt_gruppe.js" type="text/javascript"></script>> 
 
-<!--aktivitest grupper liste-->
+<!--aktivitetsgrupper liste-->
 <div class="container">
       <div class="portlet">
         <h3 class="portlet-title">
@@ -873,7 +978,7 @@ case else
                   <thead>
                       <tr>
                           <th>Id</th>
-                          <th>Stam aktivitest gruppe</th>
+                          <th>Stamaktivitets-gruppe</th>
                           <th>Forvalgt</th>
                           <th>Se gruppe</th>
                           <th>Kopier</th>
@@ -882,7 +987,7 @@ case else
                   </thead>
                   <tbody>
                       <%
-	                    strSQL = "SELECT id, navn, forvalgt, skabelontype FROM akt_gruppe WHERE id <> 2 ORDER BY navn" 'gl. kÃ¸rsels gruppe
+	                    strSQL = "SELECT id, navn, forvalgt, skabelontype FROM akt_gruppe WHERE id <> 2 ORDER BY navn" 'gl. kørsels gruppe
 	                    oRec.open strSQL, oConn, 3
 	                    while not oRec.EOF 
 	                    %>
@@ -907,7 +1012,7 @@ case else
 					          %>
                               
                           </td>
-                          <td><a href="aktiv.asp?menu=job&func=favorit&id=<%=oRec("id")%>&stamakgrpnavn=<%=oRec("navn")%>">Se / Rediger Stam-aktiviteter i grp.&nbsp;</a>(<%=intAntal%>)</td>
+                          <td><a href="../timereg/aktiv.asp?menu=job&func=favorit&id=<%=oRec("id")%>&stamakgrpnavn=<%=oRec("navn")%>">Se / Rediger Stam-aktiviteter i grp.&nbsp;</a>(<%=intAntal%>)</td>
                           <td><a href="akt_gruppe.asp?func=kopier&id=<%=oRec("id")%>" class=rmenu><span style="display: block; text-align: center;" class="fa fa-copy"></span></a></td>
                           <td><a href="akt_gruppe.asp?menu=tok&func=slet&id=<%=oRec("id")%>"><span style="color:darkred; display: block; text-align: center;" class="fa fa-times"></span></a></td>
                       </tr>

@@ -671,17 +671,62 @@ if len(session("user")) = 0 then
 	ignper = 0
 	end if
 
+    if len(trim(request("FM_afsender"))) <> 0 then
+    afsender = request("FM_afsender")
+    else
 
-    
+        call licKid()
+        afsender = licensindehaverKid
 
-     
+    end if
 
-    
 
-    
-	
-    
+ 
+    'call multible_licensindehavereOn()
+
+    'if cint(multible_licensindehavere) = 1 then
     %>
+    <b>Afsender:</b> (licensindhv.)&nbsp;&nbsp;
+            <%if print <> "j" then%>
+            <select name="FM_afsender" style="width:305px;" onchange="submit();">
+            <%  
+             end if
+
+                strSQLaf = "SELECT Kkundenavn, Kkundenr, kid FROM kunder "_
+				&" WHERE useasfak = 1 ORDER BY Kkundenavn" 
+                
+                oRec.open strSQLaf, oConn, 3
+				while not oRec.EOF
+				
+				if cint(afsender) = oRec("kid") then
+				isSelected = "SELECTED"
+				vlgtAfsender = oRec("Kkundenavn") & " ("& oRec("Kkundenr") &")"
+				else
+				isSelected = ""
+                end if
+				
+				
+				if print <> "j" then
+                %>
+                <option value="<%=oRec("kid") %>" <%=isSelected %>><%=oRec("Kkundenavn") & " ("& oRec("Kkundenr") &")"%></option>
+                <%
+                 end if 
+                    
+                    
+                oRec.movenext
+                wend
+                oRec.close%>
+
+
+       
+        <%if print <> "j" then %>
+         </select><br /><br />
+        <%else %>
+        <br /><%=vlgtAfsender %><br /><br />
+        <%end if %>
+    
+   
+
     <b><%=erp_txt_231%></b><br />
         <%
         
@@ -689,9 +734,9 @@ if len(session("user")) = 0 then
 		strKundeKri = " AND kid <> 0 "
 		vlgtKunde = " Alle "
         
-        strSQL = "SELECT Kkundenavn, Kkundenr, kid, COUNT(f.fid) AS antalfak, f.fakadr FROM fakturaer AS f "_
+                strSQL = "SELECT Kkundenavn, Kkundenr, kid, COUNT(f.fid) AS antalfak, f.fakadr FROM fakturaer AS f "_
 				&" LEFT JOIN kunder AS k ON (kid = f.fakadr) "_
-				&" WHERE "& ketypeKri &" "& strKundeKri &" AND f.fid <> 0 AND shadowcopy = 0 AND kid IS NOT NULL GROUP BY f.fakadr ORDER BY Kkundenavn"
+				&" WHERE "& ketypeKri &" "& strKundeKri &" AND afsender = "& afsender &" AND f.fid <> 0 AND shadowcopy = 0 AND kid IS NOT NULL GROUP BY f.fakadr ORDER BY Kkundenavn"
 				
                 'if lto = "essens" then
                 'Response.write strSQL
@@ -702,11 +747,11 @@ if len(session("user")) = 0 then
         %>
         <select id="FM_kunde" name="FM_kunde" style="width:450px;" size=12> 
         
-        <%if cint(kundeid) = 0 then 
-        isAllSel = "SELECTED"
-        else
-        isAllSel = ""
-        end if%>
+            <%if cint(kundeid) = 0 then 
+            isAllSel = "SELECTED"
+            else
+            isAllSel = ""
+            end if%>
 
 		<option value="0" <%=isAllSel %>>Alle</option>
 		<%end if
@@ -1147,7 +1192,7 @@ if len(session("user")) = 0 then
         '** visk Kun faktuaer / kreditnotaer
         strSQLFak = strSQLFak & kunFakSQL & kunKreSQL
 
-		strSQLFak = strSQLFak &" GROUP BY f.fid ORDER BY "& sortOrderKri &" DESC"
+		strSQLFak = strSQLFak &" AND afsender = "& afsender &" GROUP BY f.fid ORDER BY "& sortOrderKri &" DESC"
 	        
 	        'Response.Write strSQLFak &"<br>" 
 	        'Response.Flush

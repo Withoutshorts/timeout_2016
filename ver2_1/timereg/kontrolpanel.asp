@@ -642,7 +642,31 @@ if len(session("user")) = 0 then
 			        
 			        end if
 			        
-			        
+			
+            '***** Multible licensejere *************
+            if len(trim(request("FM_multible_licensindehavere"))) <> 0 then
+            multible_licensindehavere = 1
+            else
+            multible_licensindehavere = 0
+            end if
+
+            fakturanr_2 = request("FM_erp_fakturanr_2")
+            kreditnr_2 = request("FM_erp_kreditnr_2")
+            fakturanr_kladde_2 = request("FM_erp_fakturanr_kladde_2")
+
+            fakturanr_3 = request("FM_erp_fakturanr_3")
+            kreditnr_3 = request("FM_erp_kreditnr_3")
+            fakturanr_kladde_3 = request("FM_erp_fakturanr_kladde_3")
+
+            fakturanr_4 = request("FM_erp_fakturanr_4")
+            kreditnr_4 = request("FM_erp_kreditnr_4")
+            fakturanr_kladde_4 = request("FM_erp_fakturanr_kladde_4")
+                           
+            fakturanr_5 = request("FM_erp_fakturanr_5")
+            kreditnr_5 = request("FM_erp_kreditnr_5")
+            fakturanr_kladde_5 = request("FM_erp_fakturanr_kladde_5")
+                           
+                                   
 			
 			if len(request("FM_tsa_jobnr")) <> 0 then
 			jobnr = request("FM_tsa_jobnr")
@@ -1153,9 +1177,21 @@ if len(session("user")) = 0 then
             &" smiley_agg_lukhard = " & smiley_agg_lukhard & ","_
             &" week_showbase_norm_kommegaa = "& week_showbase_norm_kommegaa &", mobil_week_reg_job_dd = "& mobil_week_reg_job_dd &", "_
             &" mobil_week_reg_akt_dd = " & mobil_week_reg_akt_dd & ", mobil_week_reg_akt_dd_forvalgt = " & mobil_week_reg_akt_dd_forvalgt & ","_
-            &" budget_mandatory = "& budget_mandatory &", tilbud_mandatory = "& tilbud_mandatory &", show_salgsomk_mandatory = "& show_salgsomk_mandatory &""
-			
-			
+            &" budget_mandatory = "& budget_mandatory &", tilbud_mandatory = "& tilbud_mandatory &", show_salgsomk_mandatory = "& show_salgsomk_mandatory &", "_
+            &" multible_licensindehavere = "& multible_licensindehavere &", "_
+            &" fakturanr_2 = "& fakturanr_2 &", "_
+            &" kreditnr_2 = "& kreditnr_2 &", "_
+            &" fakturanr_kladde_2  = "& fakturanr_kladde_2  &","_
+                &" fakturanr_3 = "& fakturanr_3 &", "_
+            &" kreditnr_3 = "& kreditnr_3 &", "_
+            &" fakturanr_kladde_3  = "& fakturanr_kladde_3  &","_
+                &" fakturanr_4 = "& fakturanr_4 &", "_
+            &" kreditnr_4 = "& kreditnr_4 &", "_
+            &" fakturanr_kladde_4  = "& fakturanr_kladde_4  &","_
+                &" fakturanr_5 = "& fakturanr_5 &", "_
+            &" kreditnr_5 = "& kreditnr_5 &", "_
+            &" fakturanr_kladde_5  = "& fakturanr_kladde_5  
+
 			strSQL = strSQL & strSQLat & " WHERE id = 1"
 			
 			'Response.Write strSQL
@@ -1305,8 +1341,21 @@ if len(session("user")) = 0 then
         &" visAktlinjerSimpel_datoer, visAktlinjerSimpel_timebudget, visAktlinjerSimpel_realtimer, visAktlinjerSimpel_restimer, "_
         &" visAktlinjerSimpel_medarbtimepriser, visAktlinjerSimpel_medarbrealtimer, visAktlinjerSimpel_akttype, timesimon, timesimh1h2, timesimtp, budgetakt, akt_maksforecast_treg, "_
         &" traveldietexp_on, traveldietexp_maxhours, medarbtypligmedarb, pa_aktlist, smiley_agg_lukhard, week_showbase_norm_kommegaa, mobil_week_reg_job_dd, mobil_week_reg_akt_dd, mobil_week_reg_akt_dd_forvalgt, "_
-        &" budget_mandatory, tilbud_mandatory, show_salgsomk_mandatory "_
-	    &" FROM licens WHERE id = 1"
+        &" budget_mandatory, tilbud_mandatory, show_salgsomk_mandatory, "_
+        &" multible_licensindehavere, "_
+        &" fakturanr_2, "_
+        &" kreditnr_2, "_
+        &" fakturanr_kladde_2,"_
+        &" fakturanr_3, "_
+        &" kreditnr_3, "_
+        &" fakturanr_kladde_3,"_
+        &" fakturanr_4, "_
+        &" kreditnr_4, "_
+        &" fakturanr_kladde_4, "_
+        &" fakturanr_5, "_
+        &" kreditnr_5, "_
+        &" fakturanr_kladde_5"_
+        &" FROM licens WHERE id = 1"
 		
 		'Response.Write strSQL
 		'Response.Flush
@@ -1540,6 +1589,21 @@ if len(session("user")) = 0 then
             budget_mandatory = oRec("budget_mandatory")
             tilbud_mandatory = oRec("tilbud_mandatory")
             show_salgsomk_mandatory = oRec("show_salgsomk_mandatory")
+
+
+            multible_licensindehavere = oRec("multible_licensindehavere")
+            fakturanr_2 = oRec("fakturanr_2") 
+            kreditnr_2 = oRec("kreditnr_2")
+            fakturanr_kladde_2 = oRec("fakturanr_kladde_2")
+            fakturanr_3 = oRec("fakturanr_3")
+            kreditnr_3 = oRec("kreditnr_3")
+            fakturanr_kladde_3 = oRec("fakturanr_kladde_3")
+            fakturanr_4 = oRec("fakturanr_4")
+            kreditnr_4 = oRec("kreditnr_4")
+            fakturanr_kladde_4 = oRec("fakturanr_kladde_4")
+            fakturanr_5 = oRec("fakturanr_5")
+            kreditnr_5 = oRec("kreditnr_5")
+            fakturanr_kladde_5 = oRec("fakturanr_kladde_5")
 
 		end if
 		oRec.close 
@@ -2998,7 +3062,9 @@ if len(session("user")) = 0 then
                     if func = "exchopd" then
                     Response.write "<font color=red><b>Opdateret!</b><br><br></font>"
                     end if
-                    %>            
+                    %>    
+                
+                      
                         
             Seneste <b>Faktura</b> havde nr: 
             <input id="FM_erp_fakturanr" name="FM_erp_fakturanr" style="width:100px;" type="text" value="<%=fakturanr%>" /><br />hel tal, maks 10 karakterer. 
@@ -3022,6 +3088,54 @@ if len(session("user")) = 0 then
             <span style="background-color:lightpink;">
             <b>Vær opmærksom på at nummerrækkefølger IKKE overlapper hinanden, da I så vil få en fejl ved faktura oprettelse.</b></span>
             
+            <%if cint(multible_licensindehavere) = 1 then
+                multible_licensindehavereCHK = "CHECKED"
+             else
+                multible_licensindehavereCHK = ""
+             end if %>
+
+            <br /><br />
+            <input type="checkbox" name="FM_multible_licensindehavere" value="1" <%=multible_licensindehavereCHK%>/><b>Tillad multible juridiske enheder</b> afsender fakturaer fra TimeOut. (medfører ekstralicens til TimeOut)<br />
+
+            <%for f = 2 to 5%>
+            <br />                    
+            Licens indehaver <%=f %>
+            <br />
+
+                <%select case f
+                  case 2
+                    fakturanr = fakturanr_2
+                    kreditnr = kreditnr_2
+                    fakturanr_kladde = fakturanr_kladde_2
+                   case 3
+                     fakturanr = fakturanr_3
+                    kreditnr = kreditnr_3
+                    fakturanr_kladde = fakturanr_kladde_3
+                    case 4
+                     fakturanr = fakturanr_4
+                    kreditnr = kreditnr_4
+                    fakturanr_kladde = fakturanr_kladde_4
+                    case 5
+                     fakturanr = fakturanr_5
+                    kreditnr = kreditnr_5
+                    fakturanr_kladde = fakturanr_kladde_5
+                   end select %>
+
+              Seneste <b>Faktura</b> havde nr: 
+            <input name="FM_erp_fakturanr_<%=f%>" style="width:100px;" type="text" value="<%=fakturanr%>" />
+         
+                <br />
+            Seneste <b>Kreditnota</b> havde nr: 
+            <input name="FM_erp_kreditnr_<%=f%>" style="width:100px;" type="text" value="<%=kreditnr%>" /> 
+            
+            <br />
+            Seneste <b>Fakturakladde (interne/handels fakturaer)</b> havde nr: 
+            <input  name="FM_erp_fakturanr_kladde_<%=f%>" style="width:100px;" type="text" value="<%=fakturanr_kladde%>" />
+            
+                    <br />
+                    
+                <%next %>
+
              
             <br>
             <br /><br />

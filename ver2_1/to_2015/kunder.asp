@@ -454,6 +454,12 @@
 				intuseasfak = 0
 				end if
 				
+                if len(trim(request("FM_lincensindehaver_faknr_prioritet"))) then
+                lincensindehaver_faknr_prioritet = request("FM_lincensindehaver_faknr_prioritet")
+                else
+                lincensindehaver_faknr_prioritet = 0
+                end if
+
 				strKomm = SQLBless2(request("FM_Komm"))
 				strLevbet = SQLBless2(request("FM_levbet"))
 				strBetbet = SQLBless2(request("FM_betbet"))
@@ -498,7 +504,12 @@
 				
 				
                 '*** Hvis denne kunde vælges som primær licens indehaver nulstilles den eksisterende ****'
-				if intuseasfak = 1 then
+                '*** Ændret 20170117
+                '*** Det er tilladt at have multible selskaber
+            
+                call multible_licensindehavereOn()
+
+				if intuseasfak = 1 AND cint(multible_licensindehavere) = 0 then
 				oConn.execute("UPDATE kunder SET useasfak = 0 WHERE useasfak = 1")
 				end if
 		        
@@ -554,7 +565,7 @@
 				& "useasfak, "_
 				& "logo, swift, swift_b, swift_c, swift_d, swift_e, swift_f, iban, iban_b, iban_c, iban_d, iban_e, iban_f, ktype, kundeans1, "_
 				&" kundeans2, nace, kfak_moms, kfak_sprog, kfak_valuta, "_
-				&" sdskpriogrp "& strSQLinsflds &") VALUES "_
+				&" sdskpriogrp "& strSQLinsflds &", lincensindehaver_faknr_prioritet) VALUES "_
 		 		& " ('"& strNavn &"', '"& strKnr &"', '"& strEditor &"', '"& strDato &"', "_
 				& "'" & strAdr &"', "_ 
 				& "'" & strPostnr &"', "_ 
@@ -592,7 +603,7 @@
                 &"'"& strIban &"', '"& strIban_b &"', '"& strIban_c &"', '"& strIban_d &"', '"& strIban_e &"', '"& strIban_f &"', "_
 				& "" & intKtype &", "& intKundeans1 &", "& intKundeans2 &","_
 				&" '"& strNACE &"', "& kfak_moms &", "& kfak_sprog &", "& kfak_valuta &", "_
-				&" "& priogrp &", "& strSQLinsval &")"
+				&" "& priogrp &", "& strSQLinsval &", "& lincensindehaver_faknr_prioritet &")"
 				
 				
 				'Response.Write "strSQLins " & strSQLins
@@ -660,7 +671,7 @@
                 & "iban_e = '" & strIban_e &"', "_
                 & "iban_f = '" & strIban_f &"', "_
                 & "kundeans1 = "& intKundeans1 &", kundeans2 = "& intKundeans2 &", nace = '"& strNACE &"', kfak_moms = "& kfak_moms &", kfak_sprog = "& kfak_sprog &", kfak_valuta = "& kfak_valuta &", "_
-				& "sdskpriogrp = "& priogrp &""
+				& "sdskpriogrp = "& priogrp &", lincensindehaver_faknr_prioritet = "& lincensindehaver_faknr_prioritet 
 				
 				if request("FM_opdater_txt_felter") = "1" then
 				strSQLupdate = strSQLupdate & ", beskrivelse = '" & strKomm & "', "_
@@ -808,7 +819,7 @@
     valuta = basisValId '** Basis
 
 
-    headerTxt = "opret"
+    headerTxt = global_txt_180 '"opret"
     
                                     
    else
@@ -848,7 +859,7 @@
     & "bank_e, swift_e, iban_e, "_
     & "bank_f, swift_f, iban_f, "_
     & "useasfak, "_
-	& "logo, ktype, kundeans1, kundeans2, nace, betbet, levbet, sdskpriogrp, betbetint, kfak_moms, kfak_sprog, kfak_valuta "_
+	& "logo, ktype, kundeans1, kundeans2, nace, betbet, levbet, sdskpriogrp, betbetint, kfak_moms, kfak_sprog, kfak_valuta, lincensindehaver_faknr_prioritet "_
 	&" FROM kunder WHERE Kid=" & id
 	
 	oRec.open strSQL,oConn, 3
@@ -919,6 +930,7 @@
 	
 	
 	eruseasfak = oRec("useasfak")
+    lincensindehaver_faknr_prioritet = oRec("lincensindehaver_faknr_prioritet")
 
     useasfakCHK1 = ""
     useasfakCHK2 = ""
@@ -980,7 +992,10 @@
 
     dbfunc = "dbred"
     
-    headerTxt = "rediger"
+    kundeOskriftTrim = global_txt_124
+    kundeOskriftTrim_len = len(kundeOskriftTrim)
+    kundeOskriftTrim_left = left(kundeOskriftTrim, kundeOskriftTrim_len - 1)
+    headerTxt = tsa_txt_251 &" "& kundeOskriftTrim_left '"rediger"
 
     end if
     
@@ -990,7 +1005,7 @@
     <div class="container">
       <div class="portlet">
         <h3 class="portlet-title">
-          <u><%=left(global_txt_124, 5) &" "& headerTxt%></u>
+          <u><%=headerTxt%></u>
             
         </h3>
           
@@ -1020,7 +1035,7 @@
           '*** Rettigheder til at opdatere kunde? 
           submitLevelOK = 1      
           select case lto 
-          case "epi", "epi_no", "epi_uk", "epi_ab", "intranet - local"
+          case "epi", "epi_no", "epi_uk", "epi_ab", "intranet - local", "epi2017"
 
                  
                 if level <> 1 AND eruseasfak <> 5 AND func = "red" then
@@ -1375,7 +1390,120 @@
                         </div>
 
                         <br /><br />
+                        <%if cint(eruseasfak) = 1 OR cint(eruseasfak) = 0 then 
+                            
+                        if cint(eruseasfak) = 1 then%>
+                        Denne kunde står som licensindehaver og bruger fakturarækkefølge gruppe nr: (se kontrolpanel)<br />
+                        <%else %>
+                        Job/Projekter på denne kunde faktureres som udgangspunkt af følgende licensindehaver: <br /> 
+                        <%end if%>
+
+
+                        <%
+                            
+                            faknr_prioritet_0_SELECTED = ""
+                            faknr_prioritet_2_SELECTED = ""
+                            faknr_prioritet_3_SELECTED = ""
+                            faknr_prioritet_4_SELECTED = ""
+                            faknr_prioritet_5_SELECTED = ""
+
+                            select case lincensindehaver_faknr_prioritet
+                            case 0
+                            faknr_prioritet_0_SELECTED = "SELECTED" 
+                            case 2
+                            faknr_prioritet_2_SELECTED = "SELECTED"
+                            case 3
+                            faknr_prioritet_3_SELECTED = "SELECTED"
+                            case 4
+                            faknr_prioritet_4_SELECTED = "SELECTED"
+                            case 5
+                            faknr_prioritet_5_SELECTED = "SELECTED"
+                         end select  
+                            
+                        call multible_licensindehavereOn()%>
+
+                            <select name="FM_lincensindehaver_faknr_prioritet" style="width:300px;">
+                            <%if cint(eruseasfak) = 1 then %>
+                        
+                            <option value="0" <%=faknr_prioritet_0_SELECTED %>>1 (sidste fakturanr: <%=multi_fakturanr %>)</option>
+                                
+                                <%if cint(multible_licensindehavere) = 1 then %>
+                                <option value="2" <%=faknr_prioritet_2_SELECTED %>>2 (sidste fakturanr: <%=multi_fakturanr_2 %>)</option>
+                                <option value="3" <%=faknr_prioritet_3_SELECTED %>>3 (sidste fakturanr: <%=multi_fakturanr_3 %>)</option>
+                                <option value="4" <%=faknr_prioritet_4_SELECTED %>>4 (sidste fakturanr: <%=multi_fakturanr_4 %>)</option>
+                                <option value="5" <%=faknr_prioritet_5_SELECTED %>>5 (sidste fakturanr: <%=multi_fakturanr_5 %>)</option>
+                                <%end if %>
+
+                            <%else%>
+
+                                 <%
+                                  strSQLklicensow = "SELECT kkundenavn, kkundenr FROM kunder WHERE useasfak = 1 AND lincensindehaver_faknr_prioritet = 0 "
+                                  oRec6.open strSQLklicensow, oConn, 3
+                                  if not oRec6.EOF then  
+                                    strLicensindehaver0 = oRec6("kkundenavn") &" "& oRec6("kkundenr")
+                                  end if
+                                  oRec6.close  
+
+                                     if cint(multible_licensindehavere) = 1 then 
+
+                                 strSQLklicensow = "SELECT kkundenavn, kkundenr FROM kunder WHERE useasfak = 1 AND lincensindehaver_faknr_prioritet = 2 "
+                                  oRec6.open strSQLklicensow, oConn, 3
+                                  if not oRec6.EOF then  
+                                    strLicensindehaver2 = oRec6("kkundenavn") &" "& oRec6("kkundenr")
+                                  end if
+                                  oRec6.close  
+
+                                     strSQLklicensow = "SELECT kkundenavn, kkundenr FROM kunder WHERE useasfak = 1 AND lincensindehaver_faknr_prioritet = 3 "
+                                  oRec6.open strSQLklicensow, oConn, 3
+                                  if not oRec6.EOF then  
+                                    strLicensindehaver3 = oRec6("kkundenavn") &" "& oRec6("kkundenr")
+                                  end if
+                                  oRec6.close  
+
+                                     strSQLklicensow = "SELECT kkundenavn, kkundenr FROM kunder WHERE useasfak = 1 AND lincensindehaver_faknr_prioritet = 4 "
+                                  oRec6.open strSQLklicensow, oConn, 3
+                                  if not oRec6.EOF then  
+                                    strLicensindehaver4 = oRec6("kkundenavn") &" "& oRec6("kkundenr")
+                                  end if
+                                  oRec6.close  
+
+                                     strSQLklicensow = "SELECT kkundenavn, kkundenr FROM kunder WHERE useasfak = 1 AND lincensindehaver_faknr_prioritet = 5 "
+                                  oRec6.open strSQLklicensow, oConn, 3
+                                  if not oRec6.EOF then  
+                                    strLicensindehaver5 = oRec6("kkundenavn") &" "& oRec6("kkundenr")
+                                  end if
+                                  oRec6.close  
+
+                                     end if
+
+                                  %>
+                                
+                                  
+
+                                <option value="1" <%=faknr_prioritet_1_SELECTED %>>1 (<%=strLicensindehaver0 %>)</option>
+                                
+                                <%if cint(multible_licensindehavere) = 1 then %>
+                                <option value="2" <%=faknr_prioritet_2_SELECTED %>>2 (<%=strLicensindehaver2 %>)</option>
+                                <option value="3" <%=faknr_prioritet_3_SELECTED %>>3 (<%=strLicensindehaver3 %>)</option>
+                                <option value="4" <%=faknr_prioritet_4_SELECTED %>>4 (<%=strLicensindehaver4 %>)</option>
+                                <option value="5" <%=faknr_prioritet_5_SELECTED %>>5 (<%=strLicensindehaver5 %>)</option>
+                                <%end if %>
+
+                             <%end if%>
+
+                        </select>
+                        <%end if %>
+
+
+                            
+                         <%if cint(eruseasfak) = 1 then %>
+
+                            
+
+                        <br /><br />
                         Nedenstående konti benyttes udelukkende som afsender konti på faktura layout.<br /><br />
+
+                            
                        
                          <div class="row">
                         <div class="col-lg-1">&nbsp;</div>
@@ -1516,7 +1644,11 @@
                                 
                                 
                                 
-                             <%next%>
+                             <%next
+                                 
+                                 
+                             end if 'eruseasfak = 1%>
+                            
 
                  </div>
                         </div>
@@ -1731,7 +1863,7 @@
                     <div class="panel panel-default">
                         <div class="panel-heading">
                           <h4 class="panel-title">
-                            <a class="accordion-toggle" data-toggle="collapse" data-target="#collapseFour">Faktura</a>
+                            <a class="accordion-toggle" data-toggle="collapse" data-target="#collapseFour">Faktura indstilllinger (debitor)</a>
                           </h4>
                         </div> <!-- /.panel-heading -->
                         <div id="collapseFour" class="panel-collapse collapse">
@@ -2351,6 +2483,7 @@ case else
                      useasfakTxt = "Leverandør"
                     case 7
                     useasfakTxt = "Underleverandør"
+                    
                     case else
                     useasfakTxt = ""
                     end select

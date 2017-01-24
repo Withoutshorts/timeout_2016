@@ -331,7 +331,7 @@ level = session("rettigheder")
        <tr>
        <td>
        
-       <b>Type:</b>&nbsp;
+        Type:&nbsp;
 		<%
 		'** Faktype ***
 		select case intType
@@ -359,9 +359,23 @@ level = session("rettigheder")
 		%>
 		
         <select id="FM_type" name="FM_type" style="width:100px; font-size:11px;">
+                <%select case lto
+                    case "intranet - local", "bf"
+                    %>
+                     <option value=0 <%=selTypNUL %>>Invoice</option>
+                <option value=1 <%=selTypET %>>Creditnote</option>
+                    <%
+                        opretTxt = "Create new"
+                    
+                case else %>    
                 <option value=0 <%=selTypNUL %>>Faktura</option>
                 <option value=1 <%=selTypET %>>Kreditnota</option>
-             <!--<option value=2 <%=selTypTO%>>Rykker</option>-->
+                <%
+                    opretTxt = "Opret ny"
+                    
+                    end select %>
+             
+            <!--<option value=2 <%=selTypTO%>>Rykker</option>-->
          </select> 
        
      
@@ -369,7 +383,7 @@ level = session("rettigheder")
        </td>
        
        <td align=center valign=middle style="padding:3px; border:1px #6CAE1C solid; background-color:#DCF5BD;">
-       <input id="Submit2" type="submit" value=" Opret ny >> " />
+       <input id="Submit2" type="submit" value=" <%=opretTxt%> >> " />
            </td></tr>
 	    </table>
 	

@@ -26,18 +26,44 @@
 	    </table>
 	    -->
 	 
-
-	 <form action="erp_opr_faktura_fs.asp?formsubmitted=1" method="POST">
+     <%select case lto
+            case "intranet - local", "bf" 
+              %>
+              <form action="erp_opr_faktura_fs.asp?formsubmitted=1&visjobogaftaler=1" method="POST">
+             <% 
+            case else
+               %>
+            <form action="erp_opr_faktura_fs.asp?formsubmitted=1" method="POST">
+           <%
+             end select  %>
+	
         <table style="width:280px;">
 	 
 	 <tr>
 	   <td bgcolor="#ffffff" style="padding:10px 10px 10px 10px; border:0px #8caae6 solid;">
-           <b>Søg på kunde:</b><br />
-            <input id="FM_sog" name="FM_sog" type="text" value="<%=sogKri %>" style="width:205px; font-size:11px; border:2px yellowgreen solid;">&nbsp;<input id="Submit0" type="submit" value=">>" style="font-size:9px;" />
+           <%select case lto
+            case "intranet - local", "bf" 
+              %>
+             Search Project:
+             <% 
+            case else
+               %>
+           Søg på kunde:
+           <%
+             end select  %>
+            
+            <br /><input id="FM_sog" name="FM_sog" type="text" value="<%=sogKri %>" style="width:205px; border:2px yellowgreen solid; padding:2px;">&nbsp;<input id="Submit0" type="submit" value=">>" style="font-size:9px;" />
+           
            <br /><span style="color:#999999; font-size:9px;">(% wildcard)</span></td></tr> 
 	 </table>
          </form>
 	    
+
+    <%select case lto
+      case "bf", "intranet - local"
+        
+       case else %>
+
         <form action="erp_opr_faktura_fs.asp?formsubmitted=1&visjobogaftaler=1" method="POST">
             <input type="hidden" name="FM_sog" value="<%=sogKri %>" />
 	 <table style="width:280px;">
@@ -45,7 +71,7 @@
 	  <tr>
 	   <td bgcolor="#FFFFFF" style="padding:10px 10px 10px 10px; border:0px #8caae6 solid;">
 	
-	 <b>Kunde(r):</b><br />
+	 Kunde(r):<br />
       <select name="FM_kunde" id="FM_kunde" size="1" style="width:215px; font-size:11px;">
 		<%
 		
@@ -78,7 +104,7 @@
 	 </table>
         </form>
 
-
+    <%end select %>
     <!--
 	</div>
 	-->

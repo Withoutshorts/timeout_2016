@@ -23,32 +23,42 @@ else
 	
     'strDag_slut = day(now())
 
-	if strMrd = 12 then
-	strMrd_slut = 1
-	else
-	strMrd_slut_temp = dateadd("m", 1, strDag&"/"&strMrd&"/"&strAar)
-	strMrd_slut = month(strMrd_slut_temp)
-	end if
+    select case lto 
+    case "epi2017", "xintranet - local"
 
-    if strMrd_slut = 1 then
-	strAar_slut_temp = dateadd("yyyy", 1, strDag&"/"&strMrd&"/"&strAar)
-	strAar_slut = year(strAar_slut_temp)
-	else
-	strAar_slut = year(now()) 
-	end if
+    slutDato_temp = dateadd("d", -1, strDag&"/"&strMrd&"/"&strAar)
+    strMrd_slut = month(slutDato_temp)
+	strDag_slut = day(slutDato_temp)
+	strAar_slut = year(slutDato_temp) 
+
+    case else
+
+	    if strMrd = 12 then
+	    strMrd_slut = 1
+	    else
+	    strMrd_slut_temp = dateadd("m", 1, strDag&"/"&strMrd&"/"&strAar)
+	    strMrd_slut = month(strMrd_slut_temp)
+	    end if
+
+        if strMrd_slut = 1 then
+	    strAar_slut_temp = dateadd("yyyy", 1, strDag&"/"&strMrd&"/"&strAar)
+	    strAar_slut = year(strAar_slut_temp)
+	    else
+	    strAar_slut = year(now()) 
+	    end if
 	
-    ''if strDag > 28 then
-    '* SKAL IKKE VÆLGE NY dato på TIL FAKTURERING, da den altid skal stå til DD som faktura dato
-    if strDag > 28 AND thisfile <> "erp_tilfakturering.asp" then
-	strDag_slut = 1
-    strMrd_slut_temp = dateadd("m", 2,  strDag&"/"&strMrd&"/"&strAar)
-	strMrd_slut = month(strMrd_slut_temp)
-	strAar_slut = year(strMrd_slut_temp)
-    else
-    strDag_slut = day(now())
-    end if 
+        ''if strDag > 28 then
+        '* SKAL IKKE VÆLGE NY dato på TIL FAKTURERING, da den altid skal stå til DD som faktura dato
+        if strDag > 28 AND thisfile <> "erp_tilfakturering.asp" then
+	    strDag_slut = 1
+        strMrd_slut_temp = dateadd("m", 2,  strDag&"/"&strMrd&"/"&strAar)
+	    strMrd_slut = month(strMrd_slut_temp)
+	    strAar_slut = year(strMrd_slut_temp)
+        else
+        strDag_slut = day(now())
+        end if 
         
-		
+	end select
 	          
 
 	

@@ -477,10 +477,19 @@ if len(strLicenskey) <> 0 then
     case "2.2010-1802-TO115" 'Internet Service
 	    lto = "is"
 		strConnThis = "driver={MySQL ODBC 3.51 Driver};server=localhost; Port=3306; uid=to_outzource2;pwd=SKba200473;database=timeout_is;"
-    case "2.2010-2004-TO116" 'Epinion
+    
+     case "2.2010-2004-TO1162016" 'Epinion
 	    lto = "epi"
         strConnThis = "timeout_epi64"
+		
+
+    case "2.2010-2004-TO116" 'Epinion
+	    'lto = "epi"
+        'strConnThis = "timeout_epi64"
 		'strConnThis = "driver={MySQL ODBC 3.51 Driver};server=localhost; Port=3306; uid=to_outzource2;pwd=SKba200473;database=timeout_epi;"
+
+        response.redirect "https://timeout.cloud/timeout_xp/wwwroot/ver2_14/login.asp?key=9K2016-0410-TO171&lto=epi2017"
+
     case "2.2010-2605-TO117" 'JT-Teknik
 	    lto = "jttek"
 		'strConnThis = "driver={MySQL ODBC 3.51 Driver};server=localhost; Port=3306; uid=to_outzource2;pwd=SKba200473;database=timeout_jttek;"
@@ -564,33 +573,32 @@ if len(strLicenskey) <> 0 then
     case "2.2012-1010-TO135" 'Epinion Baromater STABÆK
 	'lto = "epi_sta"
 	'strConnThis = "driver={MySQL ODBC 3.51 Driver};server=localhost; Port=3306; uid=to_outzource2;pwd=SKba200473;database=timeout_epi_sta;"
-    lto = "epi_no"
+    'lto = "epi_no"
 	'strConnThis = "driver={MySQL ODBC 3.51 Driver};server=localhost; Port=3306; uid=to_outzource2;pwd=SKba200473;database=timeout_epi_no;"
-    strConnThis = "timeout_epi_no64"
+    'strConnThis = "timeout_epi_no64"
 
-     case "2.2012-1010-TO135b" 'Epinion Baromater STAVANGER BAK
+    response.redirect "https://timeout.cloud/timeout_xp/wwwroot/ver2_14/login.asp?key=9K2016-0410-TO171&lto=epi2017"
+
+    'case "2.2012-1010-TO135b" 'Epinion Baromater STAVANGER BAK
 	lto = "epi_sta"
-	strConnThis = "driver={MySQL ODBC 3.51 Driver};server=localhost; Port=3306; uid=to_outzource2;pwd=SKba200473;database=timeout_epi_sta;"'_bak
-        
+	'strConnThis = "driver={MySQL ODBC 3.51 Driver};server=localhost; Port=3306; uid=to_outzource2;pwd=SKba200473;database=timeout_epi_sta;"'_bak
+    response.redirect "https://timeout.cloud/timeout_xp/wwwroot/ver2_14/login.asp?key=9K2016-0410-TO171&lto=epi2017" 
+       
     case "2.2012-1012-TO136" 'Epinion AS OSLO / Epinion Baromater STAVANGER = EPI_NO
 	'lto = "epi_no"
-    lto = "epi_no"
+    'lto = "epi_no"
     'strConnThis = "timeout_epi_no64"
 	'strConnThis = "driver={MySQL ODBC 3.51 Driver};server=localhost; Port=3306; uid=to_outzource2;pwd=SKba200473;database=timeout_epi_no;"
 
-      %>
-    <div style="position:absolute; left:200px; top:100px; width:600px; padding:20px; background-color:#ffffff;">
-    <img src="ill/outzource_logo_200.gif" /><br /><br />
-    Hi TimeOut users in Epinion NO<br />
-   <br />
-   TimeOut is closed down during Data-transfer to another instance of the Epinion database. It will be open again on monday.
-    <br /><br />
-    Best regards 
-    Outzource And Epinion Finance Copenhagen (Jenny Helbrink jhe@epinionglobal.com)
-    </div>
+    response.redirect "https://timeout.cloud/timeout_xp/wwwroot/ver2_14/login.asp?key=9K2016-0410-TO171&lto=epi2017"
 
+   
 
-    <%response.end
+     case "2.2012-1012-TO1362016" 'Epinion AS OSLO 2016
+	 lto = "epi_no"
+     strConnThis = "timeout_epi_no64"
+	
+
 
 
     case "2.2012-1013-TO137" 'Kestner

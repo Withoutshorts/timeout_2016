@@ -671,12 +671,19 @@ if len(strLicenskey) <> 0 then
 
     <%response.end
 
+    case "2.2014-0331-TO1482016" 'Epinion UK
 
-     case "2.2014-0331-TO148" 'Epinion UK
-	lto = "epi_uk"
+    lto = "epi_uk"
 	strConnThis = "driver={MySQL ODBC 3.51 Driver};server=localhost; Port=3306; uid=to_outzource2;pwd=SKba200473;database=timeout_epi_uk;"
 
-    %>
+     case "2.2014-0331-TO148" 'Epinion UK
+
+    response.redirect "https://timeout.cloud/timeout_xp/wwwroot/ver2_14/login.asp?key=9K2016-0410-TO171&lto=epi2017"
+
+	'lto = "epi_uk"
+	'strConnThis = "driver={MySQL ODBC 3.51 Driver};server=localhost; Port=3306; uid=to_outzource2;pwd=SKba200473;database=timeout_epi_uk;"
+
+    %><!--
     <div style="position:absolute; left:200px; top:100px; width:600px; padding:20px; background-color:#ffffff;">
     <img src="ill/outzource_logo_200.gif" /><br /><br />
     Hi TimeOut users in Epinion UK<br />
@@ -685,10 +692,11 @@ if len(strLicenskey) <> 0 then
     <br /><br />
     Best regards 
     Outzource And Epinion Finance Copenhagen (Jenny Helbrink jhe@epinionglobal.com)
-    </div>
+    </div>-->
 
 
-    <%response.end
+    <%
+    'response.end
 
     case "2.2014-0501-TO149" 'NorthTex
 	'lto = "nt"

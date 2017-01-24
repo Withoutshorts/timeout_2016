@@ -50,7 +50,12 @@ $(document).ready(function() {
 
 
 
+    $("#a_epinote").click(function () {
 
+
+        $("#d_epinote").hide();
+
+    });
 
 
 
@@ -218,10 +223,12 @@ $(document).ready(function() {
          if (jq_newfilterval.length > 0 || mobil_week_reg_akt_dd == "1") {
 
             $.post("?jq_newfilterval=" + jq_newfilterval + "&jq_jobid=" + jq_jobid + "&jq_medid=" + jq_medid + "&jq_aktid=" + jq_aktid + "&jq_pa=" + jq_pa + "&varTjDatoUS_man=" + varTjDatoUS_man, { control: "FN_sogakt", AjaxUpdateField: "true" }, function (data) {
-
+            //alert("cc")
+            //$("#dv_akt_test").html(data);
             $("#dv_akt_" + thisval).html(data);
 
-          
+           //alert("END")
+
 
             if (mobil_week_reg_akt_dd != "1") {
 
@@ -261,8 +268,14 @@ $(document).ready(function() {
 
                 });
 
-            } 
+            } else {
 
+              
+
+            }
+
+
+     
 
         });
 

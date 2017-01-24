@@ -124,9 +124,60 @@ end sub
 public intFaknum, intFaknumFindes, opdFaknrSerie, sqlfld
 function findFaknr(func)
 
-    
+        call multible_licensindehavereOn()
+        if cint(multible_licensindehavere) = 1 then
 
-    strSQL = "SELECT fakturanr, kreditnr, fakturanr_kladde FROM licens WHERE id = 1"
+            if cint(afsender) <> 0 then
+            afsender = afsender
+            else
+            afsender = 0
+            end if
+
+                strSQLafsender = "SELECT lincensindehaver_faknr_prioritet FROM kunder WHERE kid = "& afsender
+                oRec.open strSQLafsender, oConn, 3
+                if not oRec.EOF then
+                lincensindehaver_faknr_prioritet = oRec("lincensindehaver_faknr_prioritet")
+                end if
+                oRec.close
+
+        else
+
+        lincensindehaver_faknr_prioritet = 0
+
+        end if
+
+
+                   select case lincensindehaver_faknr_prioritet
+                   case 0
+                    fakturanrUse = "fakturanr"
+                    kreditnrUse = "kreditnr"
+                    fakturanr_kladdeUse = "fakturanr_kladde"
+                   case 2
+                    fakturanrUse = "fakturanr_2"
+                    kreditnrUse = "kreditnr_2"
+                    fakturanr_kladdeUse = "fakturanr_kladde_2"
+                   case 3
+                     fakturanrUse = "fakturanr_3"
+                    kreditnrUse = "kreditnr_3"
+                    fakturanr_kladdeUse = "fakturanr_kladde_3"
+                    case 4
+                     fakturanrUse = "fakturanr_4"
+                    kreditnrUse = "kreditnr_4"
+                    fakturanr_kladdeUse = "fakturanr_kladde_4"
+                    case 5
+                     fakturanrUse = "fakturanr_5"
+                    kreditnrUse = "kreditnr_5"
+                    fakturanr_kladdeUse = "fakturanr_kladde_5"
+                    case else
+                    fakturanrUse = "fakturanr"
+                    kreditnrUse = "kreditnr"
+                    fakturanr_kladdeUse = "fakturanr_kladde"
+
+                   end select
+
+            
+            
+            strSQL = "SELECT "& fakturanrUse &" AS fakturanr, "& kreditnrUse&" AS kreditnr, "& fakturanr_kladdeUse &" AS fakturanr_kladde FROM licens WHERE id = 1"
 	        oRec.open strSQL, oConn, 3
             if not oRec.EOF then
 
@@ -139,25 +190,25 @@ function findFaknr(func)
         	            
 	                   
                                         
-                                                if cint(intFakbetalt) = 0 OR cint(medregnikkeioms) = 1 OR cint(medregnikkeioms) = 2 then ' kladde / intern / Handelsfak
+                                               if cint(intFakbetalt) = 0 OR cint(medregnikkeioms) = 1 OR cint(medregnikkeioms) = 2 then ' kladde / intern / Handelsfak
                                     
                                                      intFaknum = oRec("fakturanr_kladde") + 1
-	                                                 sqlfld = "fakturanr_kladde"
+	                                                 sqlfld = fakturanr_kladdeUse '"fakturanr_kladde"
 
                                                 else '*** Godkendt (ikke intern)
 
                                                     select case intType
 	                                                case 0
 	                                                intFaknum = oRec("fakturanr") + 1
-	                                                sqlfld = "fakturanr"
+	                                                sqlfld = fakturanrUse '"fakturanr"
 	                                                case 1
         	            
 	                                                if oRec("kreditnr") <> "-1" then '*** Samme nummer rækkkefølge **'
 	                                                intFaknum = oRec("kreditnr") + 1
-	                                                sqlfld = "kreditnr"
+	                                                sqlfld = kreditnrUse '"kreditnr"
 	                                                else
 	                                                intFaknum = oRec("fakturanr") + 1
-	                                                sqlfld = "fakturanr"
+	                                                sqlfld = fakturanrUse '"fakturanr"
 	                                                end if
         	            
 	                                                end select
@@ -194,7 +245,7 @@ function findFaknr(func)
                                             if (cint(medregnikkeioms) = 1 OR cint(medregnikkeioms) = 2) AND cint(medregnikkeioms_opr) = 0 then ' --> nu intern 
 
                                                 intFaknum = oRec("fakturanr_kladde") + 1
-	                                            sqlfld = "fakturanr_kladde" 
+	                                            sqlfld = fakturanr_kladdUsee '"fakturanr_kladde" 
 
                                                 opdFaknrSerie = 1
                                                 
@@ -211,15 +262,15 @@ function findFaknr(func)
                                                     select case intType
 	                                                case 0
 	                                                intFaknum = oRec("fakturanr") + 1
-	                                                sqlfld = "fakturanr"
+	                                                sqlfld = fakturanrUse '"fakturanr"
 	                                                case 1
         	            
 	                                                if oRec("kreditnr") <> "-1" then '*** Samme nummer rækkkefølge **'
 	                                                intFaknum = oRec("kreditnr") + 1
-	                                                sqlfld = "kreditnr"
+	                                                sqlfld = kreditnrUse '"kreditnr"
 	                                                else
 	                                                intFaknum = oRec("fakturanr") + 1
-	                                                sqlfld = "fakturanr"
+	                                                sqlfld = fakturanrUse '"fakturanr"
 	                                                end if
         	            
 	                                                end select
@@ -303,6 +354,9 @@ function opdater_fakturanr_rakkefgl(opdFaknrSerie, intFaknumFindes, sqlfld, intF
 
     if cint(opdFaknrSerie) = 1 AND cint(intFaknumFindes) = 0 then
     strSQL = "UPDATE licens SET "& sqlfld &" = "& intFaknum &" WHERE id = 1"
+    
+    'response.write "strSQL: " & strSQL
+    'repsonse.flush
     oConn.execute(strSQL)
     end if
 

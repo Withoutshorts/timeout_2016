@@ -1,8 +1,8 @@
 
 
 <%
-strConnect = "driver={MySQL ODBC 3.51 Driver};server=195.189.130.210; Port=3306; uid=outzource;pwd=SKba200473;database=timeout_lyng;"
-
+'strConnect = "driver={MySQL ODBC 3.51 Driver};server=195.189.130.210; Port=3306; uid=outzource;pwd=SKba200473;database=timeout_lyng;"
+strConnect = "driver={MySQL ODBC 3.51 Driver};server=194.150.108.154; Port=3306; uid=to_outzource2;pwd=SKba200473;database=timeout_epi2017;"
 	
 Response.write strConnect & "<br><br>"
 
@@ -23,7 +23,7 @@ oConn.open strConnect
 
 dim mid
 
-strSQL = "SELECT mid, mnavn FROM medarbejdere WHERE mid = 1 AND mansat = 1 ORDER BY mnavn LIMIT 50"
+strSQL = "SELECT mid, mnavn FROM medarbejdere WHERE mid >= 1 AND mansat = 1 ORDER BY mnavn LIMIT 500"
 
 Response.Write strSQL & "<hr>"
 Response.flush

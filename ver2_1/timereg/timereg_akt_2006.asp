@@ -4040,6 +4040,8 @@
         lmt = " LIMIT 0, 100"
         case "jttek"
         lmt = " LIMIT 0, 200"
+        case "epi2017"
+        lmt = " LIMIT 0, 200"
         case else
         lmt = " LIMIT 0, 100"
         end select
@@ -4071,14 +4073,14 @@
                                     jobsogArr = split(jobsog, ",")
                                     
 
-                                   
+                                   'jobkundesog
 
                                     for j = 0 TO UBOUND(jobsogArr)
 
                                     jobSogTxt = trim(jobsogArr(j)) 
 
                                     if j = 0 then
-                                      strJobSogKri = " AND ((kkundenavn LIKE '%"& jobSogTxt &"%' OR kkundenr = '"& jobSogTxt &"' OR Kinit = '"& jobkundesog &"') "
+                                      strJobSogKri = " AND ((kkundenavn LIKE '%"& jobSogTxt &"%' OR kkundenr = '"& jobSogTxt &"' OR Kinit = '"& jobSogTxt &"') "
                                     else
                                         if j = 1 then
                                         strJobSogKri = strJobSogKri & " AND ((jobnr LIKE '"& jobSogTxt &"%' OR jobnavn LIKE '%"& jobSogTxt &"%') "
@@ -4196,7 +4198,7 @@
             strSQL = strSQL &" LEFT JOIN aktiviteter AS a ON (a.job = j.id AND a.easyreg = 1) "
             end if
             
-            strSQL = strSQL & "WHERE "& strSQLwh &" "& strJobSogKri &" "& dtWhcls &" AND kkundenavn <> '' "& jobansvSQLkri &" GROUP BY j.id ORDER BY " & sqlOrderBy & lmt
+            strSQL = strSQL & "WHERE "& strSQLwh &" "& strJobSogKri &" "& dtWhcls &" AND kkundenavn <> '' "& jobansvSQLkri &" GROUP BY j.id ORDER BY " & sqlOrderBy & lmt 
             
         end if
 
@@ -4218,9 +4220,11 @@
         seljobid = "#0#"
         end if
         
-        'Response.Write strSQL & " <br>seljobid: " & seljobid
-        'Response.write "</option></select>"
-        'Response.end
+        'if session("mid") = 1 then
+        ' response.Write strSQL & " <br>seljobid: " & seljobid
+        ' Response.write "</option></select>"
+        ' Response.end
+        'end if
         
         lastknr = 0
         jobids_easyreg = 0
@@ -4557,6 +4561,9 @@
         '12: TimeOut Mobile
         'xx: Tilret fra ugeseddel / afvigelsese håndtering == Beholder origin
 
+
+        'REsponse.write "HER"
+        'Response.end
 
 
 	if func = "db" then
@@ -5961,6 +5968,47 @@
 	end if '** func = db **'
 	
 	
+
+    
+    '**************************************************************'
+    '************* Opdater EPI default treg side ********'
+    '**************************************************************'
+	
+    if func = "epitregpage" then
+
+     if len(trim(request("FM_oldtreg"))) <> 0 then
+     oldtreg = 1
+     else
+     oldtreg = 0
+     end if
+
+     if cint(oldtreg) = 1 then
+     strSQlupd = "UPDATE medarbejdere SET tsacrm = 0, visguide = 99 WHERE mid = "& session("mid")
+     oConn.execute(strSQlupd)
+     end if
+   
+     if len(trim(request("FM_dontshowvisguide"))) <> 0 AND cint(oldtreg) = 0 then
+     strSQlupd = "UPDATE medarbejdere SET visguide = 99 WHERE mid = "& session("mid")
+     oConn.execute(strSQlupd)
+
+     Response.redirect "../to_2015/ugeseddel_2011.asp"
+
+     else
+    
+     Response.redirect "timereg_akt_2006.asp"
+     end if
+
+     
+
+     
+
+    'Response.end
+
+  
+
+    end if
+
+
 
 
     '**************************************************************'
@@ -7380,9 +7428,11 @@
             end select
             
                       if cint(showGuiden) = 1 then%>
-                    <a href="javascript:popUp('guiden_2006.asp?mid=<%=usemrn%>','850','620','150','120');" target="_self" class=rmenu>
+                    <a href="guiden_2006.asp?mid=<%=usemrn%>" target="_blank" class=rmenu>
 		            <%=tsa_txt_082%> >>
 		            </a>
+                    <!-- javascript:popUp('guiden_2006.asp?mid=<%=usemrn%>','850','620','150','120'); target=_self -->
+
                     <%else %>
 		            &nbsp;
                     <%end if %>
@@ -7472,7 +7522,7 @@
 	    </div>
 
         <%select case lto
-        case "mi", "intranet - local", "hvk_bbb", "jttek"
+        case "mi", "intranet - local", "hvk_bbb", "jttek", "epi2017"
         lmtTxt = "200"
         case else
         lmtTxt = "100"

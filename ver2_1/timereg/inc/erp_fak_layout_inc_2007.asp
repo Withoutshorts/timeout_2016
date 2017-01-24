@@ -36,7 +36,7 @@ function fakheader()
 		        pdtop2 = "0px 0px 0px 0px"
 		        pdtop3 = "55px 0px 0px 0px"
 		        pdtop4 = "10px 2px 10px 10px"
-                case "epi", "epi_no", "epi_sta", "epi_ab", "epi_uk"
+                case "epi", "epi_no", "epi_sta", "epi_ab", "epi_uk", "epi2017"
                 pdtop1 = "0px 10px 0px 10px"
 		        pdtop2 = "0px 0px 20px 0px"
 		        pdtop3 = "-10px 0px 0px 0px"
@@ -203,7 +203,7 @@ end select
 		                                                        filnavn = ""
 		
 		                                                        strSQLlogo = "SELECT f.filnavn, k.kid, k.logo FROM kunder k "_
-		                                                        &" LEFT JOIN filer f ON (f.id = k.logo) WHERE k.useasfak = 1"
+		                                                        &" LEFT JOIN filer f ON (f.id = k.logo) WHERE k.kid = "& afsender
 		
 		                                                        'Response.Write strSQLlogo
 		                                                        'Response.flush
@@ -271,7 +271,7 @@ end select
 		                                                        case "outz"
 		                                                        wdt = 120
                                                                 hgt = 140
-                                                                case "epi", "epi_no", "epi_sta", "epi_ab"
+                                                                case "epi", "epi_no", "epi_sta", "epi_ab", "epi2017"
 		                                                        wdt = 80
                                                                 hgt = 140
 		                           
@@ -418,7 +418,7 @@ function modtager_layout()
 	<%
 	'*** M65 afsender linie ***'
 	select case lto
-	case "acc", "syncronic", "pcm", "essens", "execon", "immenso", "epi", "epi_no", "epi_sta", "jttek", "qwert", "intranet - local", "synergi1", "epi_ab", "epi_uk"
+	case "acc", "syncronic", "pcm", "essens", "execon", "immenso", "epi", "epi_no", "epi_sta", "jttek", "qwert", "intranet - local", "synergi1", "epi_ab", "epi_uk", "epi2017"
 	
 	case "dencker", "tooltest", "optionone"
 	%>

@@ -50,7 +50,8 @@ Public Class ozreportws
         Dim show_atd As String = "0"
         Dim show_fc As String = "0"
 
-        Dim strMids As String = ""
+        'Dim strMids As String = ""
+        Dim strMids(100000) As String
 
         '*** Alle der tæller med i dagligt timeregnskab ***'
         Dim strConn_admin As String
@@ -227,6 +228,10 @@ Public Class ozreportws
                 Dim sumRealtimerPer As String = 0
 
 
+
+
+
+
                 Dim flname2 As String = "timeout_rapport_" & rapporttype & "_" & lto & "_" & fnEnd & ".csv"
 
                 Using writer As StreamWriter = New StreamWriter("D:\webserver\wwwroot\timeout_xp\wwwroot\ver2_14\inc\upload\" & lto & "\" & flname2, False, Encoding.GetEncoding("iso-8859-1"))
@@ -240,6 +245,16 @@ Public Class ozreportws
                     Dim strSQLjobans As String = "SELECT j.id AS jobid, jobnr, jobnavn, a.navn AS aktnavn, a.id AS aktid FROM job AS j " _
                     & " LEFT JOIN aktiviteter AS a ON (a.job = j.id AND (fakturerbar = 1 OR fakturerbar = 2)) " _
                     & " WHERE jobans1 = " & medid & " OR jobans2 = " & medid & " AND jobstatus = 1"
+
+
+                    'Dim strSQLMedarbT As String = "SELECT mid AS medid, mnavn, init FROM medarbejdere WHERE " & strMids(objDR.Item("aktid")) & " GROUP BY mid ORDER BY mnavn"
+                    'Dim strSQLerrTest As String = "INSERT INTO job (beskrivelse) VALUES ('HEJ " & strSQLjobans & " SLUT')"
+
+                    'objCmd = New OdbcCommand(strSQLerrTest, objConn)
+                    'objDR = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
+                    'objDR.Close()
+
+
                     objCmd = New OdbcCommand(strSQLjobans, objConn)
                     objDR = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
 
@@ -261,15 +276,17 @@ Public Class ozreportws
 
                             '******************************************************************************************************************************
                             '** Finder Alle medarbejdere med fc
-                            strMids = " (mid = 0 "
-                            Dim strSQLjobMedarb As String = "SELECT medid FROM ressourcer_md WHERE jobid = " & objDR.Item("jobid") & " GROUP BY medid"
+
+                            strMids(objDR.Item("aktid")) = " (mid = 0 "
+                            Dim strSQLjobMedarb As String = "SELECT medid FROM ressourcer_md WHERE jobid = " & objDR.Item("jobid") & " AND medid IS NOT NULL GROUP BY medid"
                             objCmd = New OdbcCommand(strSQLjobMedarb, objConn)
                             objDR2 = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
 
                             While objDR2.Read() = True
 
-
-                                strMids = strMids & " OR mid = " & objDR2.Item("medid")
+                                If Len(Trim((objDR2.Item("medid")))) <> 0 Then
+                                    strMids(objDR.Item("aktid")) = strMids(objDR.Item("aktid")) & " OR mid = " & objDR2.Item("medid")
+                                End If
 
 
                             End While
@@ -279,34 +296,37 @@ Public Class ozreportws
 
                             '** Finder Alle medarbejdere med timer på
 
-                            strSQLjobMedarb = "SELECT tmnr FROM timer WHERE tjobnr = '" & objDR.Item("jobnr") & "' GROUP BY tmnr"
+                            strSQLjobMedarb = "SELECT tmnr FROM timer WHERE tjobnr = '" & objDR.Item("jobnr") & "' AND tmnr IS NOT NULL GROUP BY tmnr"
                             objCmd = New OdbcCommand(strSQLjobMedarb, objConn)
                             objDR2 = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
 
                             While objDR2.Read() = True
 
-                                If InStr(strMids, objDR2.Item("tmnr")) = -1 Then
-                                    strMids = strMids & " OR mid = " & objDR2.Item("tmnr")
+                                If InStr(strMids(objDR.Item("aktid")), objDR2.Item("tmnr")) = -1 And Len(Trim((objDR2.Item("tmnr")))) <> 0 Then
+                                    strMids(objDR.Item("aktid")) = strMids(objDR.Item("aktid")) & " OR mid = " & objDR2.Item("tmnr")
                                 End If
 
 
                             End While
                             objDR2.Close()
 
-                            strMids = strMids & ")"
+                            strMids(objDR.Item("aktid")) = strMids(objDR.Item("aktid")) & ")"
                             '******************************************************************************************************************************
                             '************ END 
 
                         Else
 
-                            strMids = strMids
+                            strMids(objDR.Item("aktid")) = strMids(objDR.Item("aktid"))
 
 
                         End If
 
 
 
-                        Dim strSQLMedarb As String = "SELECT mid AS medid, mnavn, init FROM medarbejdere WHERE " & strMids & " GROUP BY mid ORDER BY mnavn"
+
+                        '" & strMids(objDR.Item("aktid")) & "
+
+                        Dim strSQLMedarb As String = "SELECT mid AS medid, mnavn, init FROM medarbejdere WHERE " & strMids(objDR.Item("aktid")) & " GROUP BY mid ORDER BY mnavn"
                         objCmd = New OdbcCommand(strSQLMedarb, objConn)
                         objDR3 = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
 
@@ -326,7 +346,7 @@ Public Class ozreportws
                             '** HENTER ALLE job MED Forecast                        
                             '** TOTAL
                             Dim strSQLjobFC As String = "SELECT SUM(timer) AS sumFCtimer FROM ressourcer_md WHERE " _
-                            & " jobid = " & objDR.Item("jobid") & " AND aktid = " & objDR.Item("jobid") & " AND medid = " & objDR3.Item("medid") & " GROUP BY medid"
+                            & " jobid = " & objDR.Item("jobid") & " AND aktid = " & objDR.Item("aktid") & " AND medid = " & objDR3.Item("medid") & " GROUP BY medid"
                             objCmd = New OdbcCommand(strSQLjobFC, objConn)
                             objDR2 = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
 
@@ -525,38 +545,79 @@ Public Class ozreportws
 
                 Dim ugeNrLastWeek As Integer = 0
 
-                ExpTxtheader = "Medarbejder;Medarb. Nr;Initialer;Norm. tid;Løntimer (komme/gå);Realiseret tid;(heraf fakturerbare);"
-
-                If lto = "dencker" Then
-                    ExpTxtheader = ExpTxtheader & "E1;"
-                End If
-
-                ExpTxtheader = ExpTxtheader & "Syg/barn syg;Ferie/Feriefri;Anden fravær;"
 
                 Select Case lto
-                    Case "cst", "kejd_pb", "outz"
-                        ExpTxtheader = ExpTxtheader & "Bal. (Norm./Løntimer komme/gå);"
+                    Case "bf", "epi2017"
+
+                        ExpTxtheader = "Employee;Employee No.;Initials;Rated hours;Office Hours;Hours Timerecording;(invoicable);"
+
+                        If lto = "dencker" Then
+                            ExpTxtheader = ExpTxtheader & "E1;"
+                        End If
+
+                        ExpTxtheader = ExpTxtheader & "Sick/Child Sick;Vacation;Other;"
+
+                        Select Case lto
+                            Case "cst", "kejd_pb", "outz"
+                                ExpTxtheader = ExpTxtheader & "Bal. (Norm./Løntimer komme/gå);"
+                            Case Else
+                                ExpTxtheader = ExpTxtheader & "Bal. (Norm./Real.);"
+                        End Select
+
+
+
+                        If show_atd = "1" Then
+                            ExpTxtheader = ExpTxtheader & "Effective % (løntimer/fakturerbare timer real.);Effektiv % ÅTD - " & startDatoAtDSQL & " - (løntimer/fakturerbare timer real.);"
+                        End If
+
+                        If show_atd = "2" Then
+                            ExpTxtheader = ExpTxtheader & "Real. ÅTD;Bal. (Norm./Real.) ÅTD;"
+                        End If
+
+
+                        ExpTxtheader = ExpTxtheader & "Uge afsluttet;Uge godkendt;"
+
+                        If InStr(lto, "xepi") Then
+                            ExpTxtheader = ExpTxtheader & "Projekgrupper;"
+                        End If
+
+
                     Case Else
-                        ExpTxtheader = ExpTxtheader & "Bal. (Norm./Real.);"
+
+
+                        ExpTxtheader = "Medarbejder;Medarb. Nr;Initialer;Norm. tid;Løntimer (komme/gå);Realiseret tid;(heraf fakturerbare);"
+
+                        If lto = "dencker" Then
+                            ExpTxtheader = ExpTxtheader & "E1;"
+                        End If
+
+                        ExpTxtheader = ExpTxtheader & "Syg/barn syg;Ferie/Feriefri;Anden fravær;"
+
+                        Select Case lto
+                            Case "cst", "kejd_pb", "outz"
+                                ExpTxtheader = ExpTxtheader & "Bal. (Norm./Løntimer komme/gå);"
+                            Case Else
+                                ExpTxtheader = ExpTxtheader & "Bal. (Norm./Real.);"
+                        End Select
+
+
+
+                        If show_atd = "1" Then
+                            ExpTxtheader = ExpTxtheader & "Effektiv % (løntimer/fakturerbare timer real.);Effektiv % ÅTD - " & startDatoAtDSQL & " - (løntimer/fakturerbare timer real.);"
+                        End If
+
+                        If show_atd = "2" Then
+                            ExpTxtheader = ExpTxtheader & "Real. ÅTD;Bal. (Norm./Real.) ÅTD;"
+                        End If
+
+
+                        ExpTxtheader = ExpTxtheader & "Uge afsluttet;Uge godkendt;"
+
+                        If InStr(lto, "xepi") Then
+                            ExpTxtheader = ExpTxtheader & "Projekgrupper;"
+                        End If
+
                 End Select
-
-
-
-                If show_atd = "1" Then
-                    ExpTxtheader = ExpTxtheader & "Effektiv % (løntimer/fakturerbare timer real.);Effektiv % ÅTD - " & startDatoAtDSQL & " - (løntimer/fakturerbare timer real.);"
-                End If
-
-                If show_atd = "2" Then
-                    ExpTxtheader = ExpTxtheader & "Real. ÅTD;Bal. (Norm./Real.) ÅTD;"
-                End If
-
-
-                ExpTxtheader = ExpTxtheader & "Uge afsluttet;Uge godkendt;"
-
-                If InStr(lto, "epi") Then
-                    ExpTxtheader = ExpTxtheader & "Projekgrupper;"
-                End If
-
 
                 Dim flname As String = "timeout_rapport_" & rapporttype & "_" & lto & "_" & fnEnd & ".csv"
                 Using writer As StreamWriter = New StreamWriter("D:\webserver\wwwroot\timeout_xp\wwwroot\ver2_14\inc\upload\" & lto & "\" & flname, False, Encoding.GetEncoding("iso-8859-1"))
@@ -732,7 +793,9 @@ Public Class ozreportws
                         employeeIDs = employeeIDs
                     End If
 
-                    Dim strSQLm As String = "SELECT mid, mnavn, mnr, init , normtimer_man, normtimer_tir, normtimer_ons, normtimer_tor, normtimer_fre, normtimer_lor, normtimer_son "
+                    'employeeIDs = " AND (mid = 0)"
+
+                    Dim strSQLm As String = "SELECT mid, mnavn, mnr, init, normtimer_man, normtimer_tir, normtimer_ons, normtimer_tor, normtimer_fre, normtimer_lor, normtimer_son "
                     strSQLm = strSQLm & " FROM medarbejdere AS m "
                     strSQLm = strSQLm & " LEFT JOIN medarbejdertyper AS mt ON (mt.id = m.medarbejdertype) WHERE mansat = 1 " & employeeIDs & " GROUP BY mid ORDER BY mnavn"
 
@@ -1238,7 +1301,7 @@ Public Class ozreportws
 
                         '************** projektgrupper ****************
 
-                        If InStr(lto, "epi") Then
+                        If InStr(lto, "xepi") Then
 
 
 

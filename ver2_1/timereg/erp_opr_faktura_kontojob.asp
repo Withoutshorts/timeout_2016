@@ -61,25 +61,66 @@
 	 
 	
 	  <tr>
-	      <td colspan=2 bgcolor="#FFFFFF" style="padding:10px 10px 10px 10px; border:0px #8caae6 solid; border-bottom:0px;"><b>Vælg job eller aftale:</b><br />
+	      <td colspan=2 bgcolor="#FFFFFF" style="padding:10px 10px 10px 10px; border:0px #8caae6 solid; border-bottom:0px;">
+              
+            <%select case lto
+            case "intranet - local", "bf" 
+             %>
+            Choose project:
+             <% 
+
+                vaelgJObTxt = "Select.."
+	            
+	            jobonoffSQLkri = " AND (jobstatus = 1 OR jobstatus = 2) "
+	             
+                 kSQLkri = replace(kSQLkri, "AND", "")
+                 kSQLkri = replace(kSQLkri, "kkundenavn", "jobnavn")
+                 kSQLkri = replace(kSQLkri, "kkundenr", "jobnr")
+
+                strSQL = "SELECT id, jobnavn, jobnr, jobstatus FROM job WHERE ("& kSQLkri &") "& jobonoffSQLkri &" ORDER BY jobnavn"
+
+            case else
+               %>
+            Vælg job eller aftale:
+             <%
+
+                  vaelgJObTxt = "Vælg job.."
+
+                  if cint(jobonoff) = 1 then
+	                jobonoffSQLkri = " AND jobstatus <> 99 "
+	                else
+	                jobonoffSQLkri = " AND (jobstatus = 1 OR jobstatus = 2) "
+	                end if
+
+                    strSQL = "SELECT id, jobnavn, jobnr, jobstatus FROM job WHERE "& kidSQL &" "& jobonoffSQLkri &" ORDER BY jobnavn"
+
+             end select  %>
+	
+              <br />
 	   
 	    <%
-	    if cint(jobonoff) = 1 then
-	    jobonoffSQLkri = " AND jobstatus <> 99 "
-	    else
-	    jobonoffSQLkri = " AND (jobstatus = 1 OR jobstatus = 2) "
-	    end if
+	   
 	    
 	    
-	    strSQL = "SELECT id, jobnavn, jobnr, jobstatus FROM job WHERE "& kidSQL &" "& jobonoffSQLkri &" ORDER BY jobnavn"
+	  
 	    'Response.Write strSQL
 	     %>
 	     <!--<input id="jobelaft" name="jobelaft" type="radio" value="1" <%=jobelaft1CHK %> onclick="naft()" />-->
-	     <select id="kFM_job" name="FM_job" style="width:250px; font-family:verdana; font-size:11px;" onchange="naft()">
-	     <option value="0">Vælg job..</option>
-	     <%
+	     <select id="kFM_job" name="FM_job" style="width:250px;" onchange="naft()">
+
+              <%select case lto
+            case "intranet - local", "bf" 
+             case else%>
+
+	     <option value="0"><%=vaelgJObTxt %></option>
+	     <% end select
+
+             antalJob = 0
+
 	        oRec.open strSQL, oConn, 3
             while not oRec.EOF
+
+
             if cint(jobid) = oRec("id") then
             jidSel = "SELECTED"
             else
@@ -107,49 +148,72 @@
             
             </option>
             <%
+            antalJob = antalJob + 1 
             oRec.movenext
             wend
             oRec.close%>
+
+              <%select case lto
+            case "intranet - local", "bf" 
+
+                  if cint(antalJob) = 0 then
+                  %>
+                   <option value="0">No match - search again</option>
+                  <%end if
+             case else%>
+
+	    
+	     <% end select
+             %>
            </select>
            
           <br /><img src="../ill/blank.gif" height="4" width="1" border="0"/><br />
              
 	    <%
 	    
-	    if cint(jobonoff) = 1 then
-	    aftonoffSQLkri = " AND status <> 99 "
-	    else
-	    aftonoffSQLkri = " AND status = 1 "
-	    end if
+             select case lto
+            case "intranet - local", "bf" 
+
+            case else
+
+	                if cint(jobonoff) = 1 then
+	                aftonoffSQLkri = " AND status <> 99 "
+	                else
+	                aftonoffSQLkri = " AND status = 1 "
+	                end if
 	    
 	    
-	    strSQL = "SELECT id, navn, aftalenr, status FROM serviceaft WHERE "& aftKidSQL &" " & aftonoffSQLkri & " ORDER BY navn"
-	    'Response.Write strSQL
-	     %>
-	     <!--<input id="jobelaft2" name="jobelaft" type="radio" value="2" <%=jobelaft2CHK %> onclick="njob()" />-->
-	     <select id="kFM_aftale" name="FM_aftale" style="width:250px; font-family:verdana; font-size:11px;" onchange="njob()">
-	     <option value="0">Vælg aftale..</option>
-	     <%
-	        oRec.open strSQL, oConn, 3
-            while not oRec.EOF
-             if cint(aftaleid) = oRec("id") then
-            aidSel = "SELECTED"
-            else
-            aidSel = ""
-            end if%>
-            <option value="<%=oRec("id") %>" <%=aidSel %>><%=oRec("navn") %> (<%=oRec("aftalenr") %>)
+	                strSQL = "SELECT id, navn, aftalenr, status FROM serviceaft WHERE "& aftKidSQL &" " & aftonoffSQLkri & " ORDER BY navn"
+	                'Response.Write strSQL
+	                 %>
+	                 <!--<input id="jobelaft2" name="jobelaft" type="radio" value="2" <%=jobelaft2CHK %> onclick="njob()" />-->
+	                 <select id="kFM_aftale" name="FM_aftale" style="width:250px;" onchange="njob()">
+	                 <option value="0">Vælg aftale..</option>
+	                 <%
+	                    oRec.open strSQL, oConn, 3
+                        while not oRec.EOF
+                         if cint(aftaleid) = oRec("id") then
+                        aidSel = "SELECTED"
+                        else
+                        aidSel = ""
+                        end if%>
+                        <option value="<%=oRec("id") %>" <%=aidSel %>><%=oRec("navn") %> (<%=oRec("aftalenr") %>)
                 
-                <%if oRec("status") <> 1 then %>
-                - Lukket
-                <%end if %>
+                            <%if oRec("status") <> 1 then %>
+                            - Lukket
+                            <%end if %>
             
-            </option>
-            <%
-            oRec.movenext
-            wend
-            oRec.close%>
-           </select></td>
-	 </tr>
+                        </option>
+                        <%
+                        oRec.movenext
+                        wend
+                        oRec.close%>
+                       </select>
+
+                <%end select %>
+
+	      </td>
+	             </tr>
          </table>
 	
 

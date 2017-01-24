@@ -2970,6 +2970,31 @@ INSERT INTO dbversion (dbversion) VALUES (20161221.1)
 ALTER TABLE licens ADD (show_salgsomk_mandatory Int NOT NULL DEFAULT 0);
 INSERT INTO dbversion (dbversion) VALUES (20161221.2) 
 
+
+<br /><br />20170117.1<br />
+ALTER TABLE licens ADD (multible_licensindehavere Int NOT NULL DEFAULT 0, 
+fakturanr_2 Int NOT NULL DEFAULT 0, kreditnr_2 Int NOT NULL DEFAULT 0,
+fakturanr_3 Int NOT NULL DEFAULT 0, kreditnr_3 Int NOT NULL DEFAULT 0,
+fakturanr_4 Int NOT NULL DEFAULT 0, kreditnr_4 Int NOT NULL DEFAULT 0,
+fakturanr_5 Int NOT NULL DEFAULT 0, kreditnr_5 Int NOT NULL DEFAULT 0);
+INSERT INTO dbversion (dbversion) VALUES (20170117.1);
+
+ALTER TABLE licens ADD (
+fakturanr_kladde_2 Int NOT NULL DEFAULT 0,
+fakturanr_kladde_3 Int NOT NULL DEFAULT 0,
+fakturanr_kladde_4 Int NOT NULL DEFAULT 0,
+fakturanr_kladde_5 Int NOT NULL DEFAULT 0);
+INSERT INTO dbversion (dbversion) VALUES (20170117.2);
+
+ALTER TABLE kunder ADD (
+lincensindehaver_faknr_prioritet Int NOT NULL DEFAULT 0);
+INSERT INTO dbversion (dbversion) VALUES (20170117.3);
+ 
+ALTER TABLE job ADD (
+lincensindehaver_faknr_prioritet_job Int NOT NULL DEFAULT 0);
+INSERT INTO dbversion (dbversion) VALUES (20170117.4);
+
+
 <%
 
 

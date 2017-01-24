@@ -80,7 +80,6 @@ varErrorText = "Der mangler at blive indtastet en af følgende informationer: <br
 &"<li>Jobnavn er på <b>mere end 150</b> karakterer. ("& len(request("FM_navn")) &")"_
 &"<li>Jobnr. "_
 &"<li>Jobnr. er på <b>mere end 20</b> karakterer."_
-&"<li>Startdato er en <b>senere dato </b>end slutdato."_
 &"<li>Der mangler at blive tilknyttet en <b>kunde</b>.</ul>"
 
 case 15
@@ -149,7 +148,7 @@ varErrorText = "<b>Timer</b> skal være > 0 når budget er angivet som fast pris."
 'case 31 'Not in use
 'varErrorText = "<b>Timer</b> skal være mellem 0 og 24, og <b>minutter</b> skal være mellem 0 og 60."
 case 31 
-varErrorText = "Sandsynlighed indeholder ulovlige karakterer."
+varErrorText = "Sandsynlighed indeholder ulovlige karakterer eller er ikke udfyldt.<br>Sandsynlighed skal være mellem 1 og 100%."
 case 32
 varErrorText = "Aktivitet start datoen er en tidligere dato end job start datoen, som er:<br> <b>"& formatdatetime(jobstdate, 1) &"</b>"
 
@@ -772,6 +771,9 @@ varErrorText = "Det angivne budget på timeforbrug (Nettoomsætning) er ikke udfyl
 
 case 183
 varErrorText = "De angivne Job-ansvarlige % og Salgs-ansvarlig %<br> skal altid udgøre 100%.<br><br>Angivet Job Ansv. %: "& jobProcent100 &"<br>Angivet Salgs Ansv. %: "& salgsProcent100
+
+case 184 
+varErrorText = "Slutdato ("& slutDatoNum &") ligger før Startdato ("& startDatoNum &") "
 
 case else
 varErrorText = errortype

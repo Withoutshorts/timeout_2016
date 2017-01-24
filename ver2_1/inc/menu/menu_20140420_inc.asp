@@ -950,6 +950,7 @@ end select
            <%if level = 1 then %>
 	        <li><a href='<%=toSubVerPath15 %>medarb.asp?visikkemedarbejdere=1'><%=global_txt_125 %></a></li>
             <li><a href='<%=toSubVerPath15 %>medarb.asp?menu=medarb&func=opret'><%=global_txt_183 %></a></li>
+            <li><a href='<%=toSubVerPath15 %>medarb.asp?menu=medarb&func=red&id=<%=session("mid")%>'><%=global_txt_184 %></a></li>
            <%else %>
 
              
@@ -1008,7 +1009,7 @@ end select
            <h3 class="menuh3"><%=tsa_txt_448 %></h3>
 
                   <li><a href="<%=toSubVerPath15 %>projektgrupper.asp"><%=tsa_txt_481 %></a></li>
-                  <li><a href="<%=toSubVerPath14 %>akt_gruppe.asp?menu=job&func=favorit"><%=tsa_txt_482 %></a></li>
+                  <li><a href="<%=toSubVerPath15 %>akt_gruppe.asp?menu=job&func=favorit"><%=tsa_txt_482 %></a></li>
                   <li><a href="<%=toSubVerPath15 %>ulev_gruppe.asp?menu=job&func=favorit"><%=tsa_txt_483 %></a></li>
                   <li><a href="<%=toSubVerPath15 %>fomr.asp"><%=tsa_txt_460 %></a></li>
                   <li><a href="<%=toSubVerPath15 %>milepale_typer.asp"><%=tsa_txt_484 %></a></li>

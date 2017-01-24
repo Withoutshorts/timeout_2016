@@ -19,7 +19,7 @@ dim mid
 x = 0
 
 'grpn = "Letbane"
-strSQL = "SELECT mid FROM medarbejdere WHERE (mid > 0 AND mansat = 3 AND left(init, 3) = 'INO')" 'AND mland = '" & grpn & "'"
+strSQL = "SELECT mid FROM medarbejdere WHERE (mid > 0)" 'AND mansat = 3 AND left(init, 3) = 'INO''AND mland = '" & grpn & "'"
 
 Response.Write strSQL & "<hr>"
 Response.flush

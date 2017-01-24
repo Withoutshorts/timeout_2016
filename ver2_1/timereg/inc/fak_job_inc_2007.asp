@@ -304,8 +304,39 @@
 						               
 						                    '*** Realisrede timer ***'
 						                    '** antal registerede timer pr. akt. **'
+                                            select case lto 
+                                            case "intranet - local", "bf" '*** Aktivitetsspecifik dato. Kun Hvis den har været på faktura
+
+                                                        'if cint(oRec("aid")) = 6015 then
+                                                        stdatoKriAktSpecifik(x) = "2016/01/01"
+                                                        strSQLAktDatospecifikSQL = "SELECT fakid, fakdato FROM faktura_det LEFT JOIN fakturaer ON (fid = fakid) WHERE aktid = "& oRec("aid") &" ORDER BY fakdato DESC" 
+                                                        oRec6.open strSQLAktDatospecifikSQL, oConn, 3
+
+                                                        'response.write strSQLAktDatospecifikSQL
+                                                        'response.flush
+
+                                                        if not oRec6.EOF then
+                                                            stdatoKriAktSpecifikThis = dateAdd("d", 1, oRec6("fakdato"))
+                                                            stdatoKriAktSpecifik(x) = year(stdatoKriAktSpecifikThis) & "/" & month(stdatoKriAktSpecifikThis) & "/"& day(stdatoKriAktSpecifikThis)
+                                                        end if        
+                                                        oRec6.close
+                                                        
+                                                        'response.write "stdatoKriAktSpecifik: " & stdatoKriAktSpecifik & "<br>"
+                                                        
+                                                        'else
+                                                        'stdatoKriAktSpecifik = stdatoKri
+                                                        'end if 
+
+                                            case else
+
+                                                        stdatoKriAktSpecifik(x) = stdatoKri
+
+                                            end select
+
+                                           
+
 						                    strSQL2 = "SELECT sum(t.timer) AS timerthis, sum(t.timer*t.timepris) AS beloeb FROM timer AS t "_
-						                    &" WHERE t.taktivitetid =" & oRec("aid") &" AND (t.tdato BETWEEN '" & stdatoKri &"' AND '"& slutdato &"') GROUP BY t.taktivitetid"
+						                    &" WHERE t.taktivitetid =" & oRec("aid") &" AND (t.tdato BETWEEN '" & stdatoKriAktSpecifik(x) &"' AND '"& slutdato &"') GROUP BY t.taktivitetid"
 
                                             'Response.Write strSQL2
                                             'Response.flush
@@ -832,8 +863,9 @@
 				    &" fms.venter_brugt, fms.venter AS venter_ultimo FROM timer "_
 				    &" LEFT JOIN medarbejdere m ON (m.mid = tmnr) "_
 				    &" LEFT JOIN fak_med_spec fms ON (fms.aktid = "& thisaktid(x) &" AND fms.mid = tmnr AND fms.fakid = "& lastFakid & ") "_
-				    &" WHERE taktivitetid = "& thisaktid(x) &" AND (Tdato BETWEEN '" & stdatoKri &"' AND '"& slutdato &"') GROUP BY tmnr"
+				    &" WHERE taktivitetid = "& thisaktid(x) &" AND (Tdato BETWEEN '" & stdatoKriAktSpecifik(x) &"' AND '"& slutdato &"') GROUP BY tmnr"
 				    
+                        'stdatoKri
                    
                     medidIsWrt = "AND (mid <> 0 "
 					medarbOptionList_0 = ""

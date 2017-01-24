@@ -2069,7 +2069,7 @@
 		<a href="#" class=vmenu id="oioxml"><%=erp_txt_225 %></a> 
         
         <%select case lto
-	    case "epi", "epi_no", "epi_sta", "outz", "intranet - local", "synergi1", "epi_ab", "rek"
+	    case "epi", "epi_no", "epi_sta", "outz", "intranet - local", "synergi1", "epi_ab", "rek", "epi2017"
         showvans = 1
         %>
         (Afsend XML fil til E-posthus)
