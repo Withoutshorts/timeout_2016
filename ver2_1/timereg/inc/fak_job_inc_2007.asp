@@ -8,14 +8,14 @@
  <div id="aktdiv" style="position:absolute; visibility:hidden; display:none; z-index:2000; left:5px; top:105px; width:700px; border:1px yellowgreen solid; padding:5px 5px 5px 5px; background-color:#ffffff;">
     <table width=100% border=0 cellspacing=0 cellpadding=5>
 	<tr>
-	<td valign=top><h4>Aktiviteter (fakturalinier) <br />
-        <span style="font-size:11px; font-weight:normal; color:#999999;">Aktive aktiviteter, lukkede og passive med timer på i periode, samt fast-forvalgte faktura aktiviteter</span>
+	<td valign=top><h4><%=erp_txt_314 %> (<%=erp_txt_315 %>) <br />
+        <span style="font-size:11px; font-weight:normal; color:#999999;"><%=erp_txt_316 %></span>
 
          <% response.Flush
 
     if cint(pcSpecial) = 1 then '1pc Grundfos, forvalgt antal timer altid sat til 1 
     %>
-        <br /><span style="font-size:11px; font-weight:normal; color:red;">Antal timer forvalgt på aktiviteter sat til 1, hvis timeforbrug > 0, grundet faktura system hos kunde</span>
+        <br /><span style="font-size:11px; font-weight:normal; color:red;"><%=erp_txt_317 %></span>
 
     <%
     end if
@@ -54,8 +54,8 @@
 				
                 if cdbl(timerPaLukkeogPassiveAkt) <> 0 then	
                 %>
-                <span style="background-color:lightpink; width:500px; padding:3px;">Der er fundet en eller flere lukkede/passive aktiviteter med timer 
-                på i den valgte periode, derfor vises lukkede og passive aktiviteter på denne faktura oprettelse.</span><br /><br />
+                <span style="background-color:lightpink; width:500px; padding:3px;"><%=erp_txt_318 %> 
+                <%=erp_txt_319 %></span><br /><br />
                 <%
                 end if	                
 
@@ -188,7 +188,7 @@
 		            strAktAnchor = strAktAnchor & "<input type=""hidden"" name=""rowId"" value='F"& thisaktid(x) &"' />"
                     strAktAnchor = strAktAnchor & "<input type=""hidden"" id='altsort_F"& thisaktid(x) &"' value=""1"" />"
 
-                    strAktAnchor = strAktAnchor & "<input type=""checkbox"" class=""ch_akt_x"" id=""ch_akt_"&x&""" CHECKED>&nbsp;<img src=""../ill/pile_drag.gif"" alt=""Træk og sorter"" border=""0"" id='drag_"&x&"' class=""drag"" />&nbsp;<span id='sort_F"& thisaktid(x) &"' style='color:#999999; font-size:7px;'>" & thisaktsort(x) & "</span>&nbsp;"
+                    strAktAnchor = strAktAnchor & "<input type=""checkbox"" class=""ch_akt_x"" id=""ch_akt_"&x&""" CHECKED>&nbsp;<img src=""../ill/pile_drag.gif"" alt=""Træk og sorter"" border=""0"" id='drag_"&x&"' class=""drag"" />&nbsp;<span id='sort_F"& thisaktid(x) &"' style='color:#999999; font-size:7px;'>" & thisaktsort(x) & "</span>&nbsp;" 'mangler
 					strAktAnchor = strAktAnchor & "</td><td style=""border-bottom:1px #cccccc solid; font-size:9px; white-space:inherit; width:200px;""><a id='"& thisaktid(x) &"' href='#"& thisaktid(x) &"' class='qlinks'>"& thisaktnavn(x) & "</a></td>"_
 					&"<td style=""border-bottom:1px #cccccc solid; font-size:9px;"" align=center>"& aktbgNavn &"</td>"_
 					&"<td align=right class=lille style=""border-bottom:1px #cccccc solid;"">"& formatnumber(thisAktForkalk(x), 2) &"</td>"_
@@ -429,7 +429,7 @@
 
                     if ir = 0 AND func = "red" then
                     strAktAnchor = strAktAnchor & "<tr bgcolor=""#FFFFFF""><td colspan=10 class=lille>"
-				    strAktAnchor = strAktAnchor & "<br><b>Aktiviteter ikke med på faktura:</b></td></tr>"
+				    strAktAnchor = strAktAnchor & "<br><b>"& erp_txt_322 &":</b></td></tr>"
                     end if
 				
 					if (lcase(lastFase) <> lcase(thisAktFase(x)) AND len(trim(thisAktFase(x))) <> 0) OR (len(trim(lastFase)) = 0 AND len(trim(thisAktFase(x))) <> 0)  then
@@ -457,9 +457,9 @@
 
                     select case oRec("aktstatus") 
                     case 0
-                    aktstTXT = " (Lukket)"
+                    aktstTXT = " ("& erp_txt_323 &")"
                     case 2
-                    aktstTXT = " (Passiv)"
+                    aktstTXT = " ("& erp_txt_324 &")"
                     case else
                     aktstTXT = "" 
                     end select
@@ -477,7 +477,7 @@
                     strAktAnchor = strAktAnchor & "<input type=""hidden"" id='altsort_A"& thisaktid(x) &"' value=""0"" />"
 		
                     
-                    strAktAnchor = strAktAnchor & "<input type=""checkbox"" class=""ch_akt_x"" id=""ch_akt_"&x&""">&nbsp;<img src=""../ill/pile_drag.gif"" alt=""Træk og sorter"" border=""0"" id='drag_"&x&"' class=""drag"" />&nbsp;<span id='sort_A"&thisaktid(x)&"' style='color:#999999; font-size:7px;'>" & thisaktsort(x) & "</span>&nbsp;"
+                    strAktAnchor = strAktAnchor & "<input type=""checkbox"" class=""ch_akt_x"" id=""ch_akt_"&x&""">&nbsp;<img src=""../ill/pile_drag.gif"" alt=""Træk og sorter"" border=""0"" id='drag_"&x&"' class=""drag"" />&nbsp;<span id='sort_A"&thisaktid(x)&"' style='color:#999999; font-size:7px;'>" & thisaktsort(x) & "</span>&nbsp;" 'mangler
 					strAktAnchor = strAktAnchor & "</td><td style=""border-bottom:1px #cccccc solid; font-size:9px; white-space:inherit; width:200px;""><a id='"& thisaktid(x) &"' href='#"& thisaktid(x) &"' class='qlinks'>"& thisaktnavn(x) & "</a>"& aktstTXT &"</td>"_
 					&"<td style=""border-bottom:1px #cccccc solid; font-size:9px;"" align=center>"& aktbgNavn &"</td>"_
 					&"<td align=right class=lille style=""border-bottom:1px #cccccc solid;"">"& formatnumber(thisAktForkalk(x), 2) &"</td>"_
@@ -548,9 +548,9 @@
 	end if
 
 	%>
-	<span> <br /><input id="FM_hidesumaktlinier" name="FM_hidesumaktlinier" value="1" type="checkbox" <%=hidesumaktlinierCHK %> /> Skjul <b>udspecificering</b> af aktivitets- og materiale -linier på faktura. (vis kun total beløb)
-	 <br /><input id="FM_hidefasesum" name="FM_hidefasesum" value="1" type="checkbox" <%=hidefasesumCHK %> /> Skjul <b>faser</b> og mellemregning
-     <br /><input id="akttilfra" name="FM_akttilfra" value="1" type="checkbox"/> Sum-aktivitetslinier <b>Til / Fra</b> (kun dem med timer/forkalkulation på)
+	<span> <br /><input id="FM_hidesumaktlinier" name="FM_hidesumaktlinier" value="1" type="checkbox" <%=hidesumaktlinierCHK %> /> <%=erp_txt_325 %> <b><%=erp_txt_326 %></b> <%=erp_txt_327 %>
+	 <br /><input id="FM_hidefasesum" name="FM_hidefasesum" value="1" type="checkbox" <%=hidefasesumCHK %> /> <%=erp_txt_325 %> <b><%=erp_txt_328 %></b> <%=erp_txt_329 %>
+     <br /><input id="akttilfra" name="FM_akttilfra" value="1" type="checkbox"/> <%=erp_txt_330 %> <b><%=erp_txt_331 %></b> (<%=erp_txt_332 %>)
 
 
      
@@ -572,7 +572,7 @@
         
       
         <table border="0" cellspacing="0" cellpadding="0"><tr>
-            <td style="width:350px; padding:20px 10px 10px 10px;">Tilføj faktor på alle aktiviteter <input type="text" id="FM_globalfaktor" value="<%=formatnumber(globalfaktor,2) %>" style="width:30px; font-size:10px;" /> (beløbet udgør: <span id="gblfaktorbelob_udgor">0,00</span> DKK) &nbsp;&nbsp;</td>
+            <td style="width:350px; padding:20px 10px 10px 10px;"><%=erp_txt_333 %> <input type="text" id="FM_globalfaktor" value="<%=formatnumber(globalfaktor,2) %>" style="width:30px; font-size:10px;" /> (<%=erp_txt_334 %>: <span id="gblfaktorbelob_udgor">0,00</span> DKK) &nbsp;&nbsp;</td>
             <td align="right" style="padding:20px 10px 10px 10px;"><input type="button" id="bt_beregn_globalfaktor" name="bt_beregn_globalfaktor" value="Tilføj >>" style="font-size:10px;"/>
         <input type="button" value="<< Fortryd" id ="bt_beregn_globalfaktor_fortryd" style="font-size:10px; visibility:hidden; display:none;" />
         </td></tr></table>
@@ -580,7 +580,7 @@
 
     <%if cint(ign_akttype_inst) = 1 then %>
     <br /><br />&nbsp;
-    <div style="padding:2px; background:lightpink;"><b>Nb.: Ignorer aktivitetstype indstilling er slået til. Alle aktiviteter vises uanset type. </b><br /> Du kan ændre indstilling til venstre under "Fak. pre-indstillinger"</div>
+    <div style="padding:2px; background:lightpink;"><b><%=erp_txt_335 %> </b><br /> <%=erp_txt_336 %></div>
     <%end if %>
 
 	<br />
@@ -591,44 +591,44 @@
 
 	<tr bgcolor="#FFFFFF">
 	    <% if cint(usefastpris) = 0 then%>
-	     <td colspan=8><a name="top" class=vmenu id="top"><b>Links til aktiviteter og faser på denne faktura:</b></a>
-             <br><span style="color:#999999;">Du kan trække i en aktivitet for at sortere rækkefølgen. Du kan ikke trække en aktivitet ud af en fase.</span>
+	     <td colspan=8><a name="top" class=vmenu id="top"><b><%=erp_txt_337 %>:</b></a>
+             <br><span style="color:#999999;"><%=erp_txt_338 %></span>
 	     </td>
-	    <td class=lille style="border:1px solid #999999; border-bottom:0px; background-color:#D6Dff5;">Jobtype:<br /> <b>Lbn. timer</b></td>
+	    <td class=lille style="border:1px solid #999999; border-bottom:0px; background-color:#D6Dff5;"><%=erp_txt_339 %>:<br /> <b><%=erp_txt_340 %></b></td>
 	    <td>&nbsp;</td>
 	 
 	    <%else %>
-	       <td colspan=6><a name="top" class=vmenu id="top"><b>Links til aktiviteter og faser på denne faktura:</b></a>
-               <br><span style="color:#999999;">Du kan trække i en aktivitet for at sortere rækkefølgen. <br /> Du kan ikke trække en aktivitet ud af en fase.</span>
+	       <td colspan=6><a name="top" class=vmenu id="top"><b><%=erp_txt_341 %>:</b></a>
+               <br><span style="color:#999999;"><%=erp_txt_342 %> <br /> <%=erp_txt_343 %></span>
 	       </td>
-	    <td class=lille style="border:1px solid #999999; border-bottom:0px; background-color:#D6Dff5;">Jobtype:<br /><b>Fastpris</b></td>
+	    <td class=lille style="border:1px solid #999999; border-bottom:0px; background-color:#D6Dff5;"><%=erp_txt_344 %>:<br /><b><%=erp_txt_345 %></b></td>
 	    <td colspan=3>&nbsp;</td>
 	   
 	    <%end if%>
 	</tr>
 	
 	
-	<tr bgcolor="#8cAAe6"><td class=lille><b>Vælg</b><br />og sortér</td>
-        <td class=lille><b>Faser og aktiviteter</b></td>
-	<td class=lille><b>Grund-<br />lag</b></td>
-	<td align=right class=lille><b>Forkalk. tim.</b></td>
-    <td align=right class=lille><b>Forkalk. stk.</b></td>
-    <td align=right class=lille><b>Enhedspris</b></td>
-	<td align=right class=lille style="padding-right:5px; background-color:<%=bgfastpr%>;"><b>Budget</b><br />(Fastpris)</td>
+	<tr bgcolor="#8cAAe6"><td class=lille><b><%=erp_txt_346 %></b><br /><%=erp_txt_346 %></td>
+        <td class=lille><b><%=erp_txt_348 %></b></td>
+	<td class=lille><b>Grund-<br />lag</b></td> <!-- mangler -->
+	<td align=right class=lille><b><%=erp_txt_351 %></b></td>
+    <td align=right class=lille><b><%=erp_txt_352 %></b></td>
+    <td align=right class=lille><b><%=erp_txt_353 %></b></td>
+	<td align=right class=lille style="padding-right:5px; background-color:<%=bgfastpr%>;"><b><%=erp_txt_354 %></b><br />(<%=erp_txt_355 %>)</td>
 	<td align=right class=lille>
-	<b>Real. tim.</b> i periode
+	<b><%=erp_txt_356 %></b> <%=erp_txt_357 %>
 	<%if func = "red" then %>
-	<br />/<b>Antal angivet på fak.</b>
+	<br />/<b><%=erp_txt_358 %></b>
 	<%end if %>
-    <br />~ Gns. tp
+    <br />~ <%=erp_txt_359 %>
 	</td>
 	
-	<td align=right class=lille style="background-color:<%=bglbntim%>;"><b>Omsætning</b><br />(Lbn. timer)
+	<td align=right class=lille style="background-color:<%=bglbntim%>;"><b><%=erp_txt_360 %></b><br />(<%=erp_txt_340 %>)
 	<%if func = "red" then %>
-	<br />/<b>Bel. angivet på fak.</b>
+	<br />/<b><%=erp_txt_361 %></b>
 	<%end if %>
 	</td>
-	<td align=right class=lille><b>Ændring i antal</b><br /> denne faktura</td></tr>
+	<td align=right class=lille><b><%=erp_txt_362 %></b><br /> <%=erp_txt_363 %></td></tr>
 	<%=strAktAnchor%>
 	</table>
 	<br /><br /><br />
@@ -700,18 +700,18 @@
     %>
 	
 	&nbsp;<font class=roed>(<%=akttypenavn %>)</font>
-	&nbsp;&nbsp;<a href="#" class="tiltoppen">^ Til toppen ^</a> 
+	&nbsp;&nbsp;<a href="#" class="tiltoppen">^ <%=erp_txt_364 %> ^</a> 
 	<!--&nbsp;&nbsp;<a href="#" id="<%=thisaktid(x)%>" class=naeste> Næste >></a> -->
 	</h4>
 	</td>
 	</tr>
 	<tr><td valign="top" style="padding:2px 20px 5px 0px;">
-	Fase: <input type="text" name="FM_aktfase_<%=x%>" id="FM_aktfase_<%=x%>" value="<%=replace(thisAktFase(x), "_", " ") %>" style="font-size:9px; width:200px;" />&nbsp;&nbsp;
-	Sortering: <input type="text" name="aktsort_<%=x%>" id="aktsort_<%=thisaktid(x)%>" value="<%=thisaktsort(x)%>" class="sortFase" style="font-size:9px; width:30px;"> 
+	<%=erp_txt_365 %>: <input type="text" name="FM_aktfase_<%=x%>" id="FM_aktfase_<%=x%>" value="<%=replace(thisAktFase(x), "_", " ") %>" style="font-size:9px; width:200px;" />&nbsp;&nbsp;
+	<%=erp_txt_366 %>: <input type="text" name="aktsort_<%=x%>" id="aktsort_<%=thisaktid(x)%>" value="<%=thisaktsort(x)%>" class="sortFase" style="font-size:9px; width:30px;"> 
         <!--<input type="checkbox" class="xsortFaseCHK" id="xaktsort_chk_<%=x%>" checked /><span style="font-size:9px; color:#999999;">Sortér alle aktiviteter i fase samlet</span>-->
     <input value="<%=lcase(trim(thisAktFase(x))) %>" id="fs_<%=x%>" type="hidden" />
-	<br /><img src="../blank gif" width="1" height="5" /><br />Faktor: <input type="text" name="aktfaktor_<%=x%>" id="aktfaktor_<%=x%>" value="<%=thisaktfaktor(x) %>" style="font-size:9px; width:30px;">
-	<input id="beregnfaktor_<%=x%>" type="button" value="Beregn" style="font-size:9px;" onClick="opd_timer_faktor(<%=x%>)" /> (ej sum-akt.) 
+	<br /><img src="../blank gif" width="1" height="5" /><br />Faktor: <input type="text" name="aktfaktor_<%=x%>" id="aktfaktor_<%=x%>" value="<%=thisaktfaktor(x) %>" style="font-size:9px; width:30px;"> <!-- mangler -->
+	<input id="beregnfaktor_<%=x%>" type="button" value="Beregn" style="font-size:9px;" onClick="opd_timer_faktor(<%=x%>)" /> (<%=erp_txt_367 %>.) 
 	
 	</td>
 	<td align=right style="padding:0px 20px 5px 0px;">
@@ -782,14 +782,14 @@
 						<td class=lille style="padding:2px 2px 2px 5px;">Vis</td>
 						<td class=lille style="width:70px;">Antal - #</td>
                         <td class=lille style="width:100px; padding:2px 2px 2px 5px;">Ventetimer <br />
-                        <font class=megetlillesort>Saldo | Brugt | Ultimo</font></td>
-						<td class=lille style="padding:2px 2px 2px 5px;">Medarbejder(e)</td>
-						<td class=lille style="padding:2px 2px 2px 5px;">Enh.pris</td>
-						<td class=lille style="padding:2px 2px 2px 5px;">Valuta</td>
-						<td class=lille style="padding:2px 2px 2px 5px;">Enhed</td>
-						<td class=lille style="padding:2px 2px 2px 5px;" align=center>Rabat</td>
-						<td class=lille style="width:80px; padding:2px 2px 2px 5px;" align=right>Pris ialt&nbsp;&nbsp;&nbsp;</td>
-						<td style="width:80px; padding:2px 2px 2px 5px;"><font class=megetlillesort>Afrund</td>
+                        <font class=megetlillesort><%=erp_txt_371 %> | <%=erp_txt_372 %> | <%=erp_txt_373 %></font></td>
+						<td class=lille style="padding:2px 2px 2px 5px;"><%=erp_txt_374 %></td>
+						<td class=lille style="padding:2px 2px 2px 5px;"><%=erp_txt_375 %></td>
+						<td class=lille style="padding:2px 2px 2px 5px;"><%=erp_txt_376 %></td>
+						<td class=lille style="padding:2px 2px 2px 5px;"><%=erp_txt_377 %></td>
+						<td class=lille style="padding:2px 2px 2px 5px;" align=center><%=erp_txt_378 %></td>
+						<td class=lille style="width:80px; padding:2px 2px 2px 5px;" align=right><%=erp_txt_379 %>&nbsp;&nbsp;&nbsp;</td>
+						<td style="width:80px; padding:2px 2px 2px 5px;"><font class=megetlillesort><%=erp_txt_380 %></td>
 					</tr>
 					<!--<tr bgcolor="#66CC33"><td colspan=6 style="border-bottom:1px #003399 solid; border-left:1px #003399 solid; border-right:1px #003399 solid;"><img src="../ill/blank.gif" width="1" height="2" alt="" border="0"><br></td></tr>-->
 			
@@ -1044,8 +1044,8 @@
 					%>
 					<tr bgcolor="#FFFFFF"><td colspan=11 style="padding:10px;">
 					    
-					    <div style="color:darkred; border:1px #cccccc solid; padding:5px 5px 5px 5px;"><b>Kun medarbejder-linier</b> med tilsvarende timepris, som sum-aktiviteter der bliver vist på fakturaen, bliver indlæst til afstemning.<br />
-                        Hvis <b>Sum-akt. Samle-linien er slået til</b> bliver alle medarb. linier indlæst.</div>
+					    <div style="color:darkred; border:1px #cccccc solid; padding:5px 5px 5px 5px;"><b><%=erp_txt_381 %></b> <%=erp_txt_382 %><br />
+                        <%=erp_txt_383 %> <b><%=erp_txt_384 %></b> <%=erp_txt_385 %></div>
 					    
                         <!--
                         <br />
@@ -1180,9 +1180,9 @@
 	%>
 	<table>
 	<tr>
-		<td colspan=6 style="padding:20px;"><br><br><b>Denne faktura <u>kladde</u> er oprettet uden der er valgt nogen aktiviteter.</b> <br>
-		Der er derfor ikke nogen aktiviteter eller medarbejder timer der kan redigeres.<br><br>
-		Slet denne kladde fra faktura-oversigten og opret en ny faktura med dette faktura nummer.</font><br><br>&nbsp;</td>
+		<td colspan=6 style="padding:20px;"><br><br><b><%=erp_txt_386 %> <u><%=erp_txt_387 %></u> <%=erp_txt_388 %></b> <br>
+		<%=erp_txt_389 %><br><br>
+		<%=erp_txt_390 %></font><br><br>&nbsp;</td>
 	<tr>
 	<%
 	end if
@@ -1195,7 +1195,7 @@
 	
     
      <div id=aktdiv_2 style="position:relative; visibility:hidden; display:none; top:80px; width:700px; left:5px; border:0px #8cAAe6 solid;">
-        <table width=700 cellspacing=0 cellpadding=5 border=0><tr><td><a href="#" onclick="showdiv('jobbesk')" class=vmenu><< Forrige</a></td><td align=right><a href="#" onclick="showdiv('matdiv')" class=vmenu>Næste >></a></td></tr></table>
+        <table width=700 cellspacing=0 cellpadding=5 border=0><tr><td><a href="#" onclick="showdiv('jobbesk')" class=vmenu><< <%=erp_txt_391 %></a></td><td align=right><a href="#" onclick="showdiv('matdiv')" class=vmenu><%=erp_txt_392 %> >></a></td></tr></table>
     </div>
     
 	
@@ -1206,7 +1206,7 @@
 	
 	
 	<div id="aktsubtotal" style="position:absolute; left:730px; top:104px; width:200px; z-index:2000; border:1px yellowgreen solid; background-color:#ffffff; padding:5px;">
-    <b>Fakturalinier:</b> (aktiviteter)<br />
+    <b><%=erp_txt_393 %>:</b> (<%=erp_txt_394 %>)<br />
     <table cellspacing=5 cellpadding=0 border=0 width=100%><tr>
 	<td><!--Antal ialt:-->
 	<%
@@ -1224,7 +1224,7 @@
 	<div style="position:relative; width:45; height:20px; border-bottom:0px YellowGreen dashed; background-color:#ffffff; padding-right:3px;" align="right" id="divtimertot">
 	<!--<b><=intTimer%></b>--></div>
 	</td>
-	<td align="right">Subtotal:
+	<td align="right"><%=erp_txt_395 %>:
 		<!-- strBeloeb -->
 		<%
 		if len(totalbelob) <> 0 then

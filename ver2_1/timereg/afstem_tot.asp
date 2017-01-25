@@ -60,7 +60,7 @@
         %>
          <div id="gtdv" style="position:relative; top:<%=gtDvTop%>px; left:0px; visibility:visible; display:;">
         <table><tr><td>
-        <b>Grandtotal <%=periodeTxt %></b>
+        <b><%=afstem_txt_001 %> <%=periodeTxt %></b>
           </td></tr></table>
 
         <table cellspacing=5 cellpadding=2 border=0><tr> 
@@ -70,8 +70,8 @@
     if lto <> "cst" AND lto <> "kejd_pb" AND lto <> "tec" AND lto <> "esn" then
     %>
     <!-- saldobalancer -->
-    <td align=right class=lille style="background-color:pink; border-bottom:2px silver solid; width:80px; white-space:nowrap;"><b>Flekssaldo +/-</b><br /> 
-    Realiseret<br /> / Normtid<br />
+    <td align=right class=lille style="background-color:pink; border-bottom:2px silver solid; width:80px; white-space:nowrap;"><b><%=afstem_txt_002 %> +/-</b><br /> 
+    <%=afstem_txt_006 %><br /> / <%=afstem_txt_004 %><br />
     <%=realNormBal %>
     </td>
     <%
@@ -81,8 +81,8 @@
     
      if session("stempelur") <> 0 then %>
     
-     <td align=right class=lille style="background-color:#DCF5BD; border-bottom:2px silver solid; width:80px; white-space:nowrap;"><b>Flekssaldo +/-</b><br /> 
-    Komme/g&aring; tid<br /> / Normtid<br />
+     <td align=right class=lille style="background-color:#DCF5BD; border-bottom:2px silver solid; width:80px; white-space:nowrap;"><b><%=afstem_txt_002 %> +/-</b><br /> 
+     <%=afstem_txt_001 %><br /> / <%=afstem_txt_004 %><br />
      <%=normLontBal %>
     </td>
 
@@ -90,7 +90,7 @@
     
     ltf = ltf + 160
     if lto <> "cst" AND lto <> "kejd_pb" AND lto <> "tec" AND lto <> "esn"  then %>
-     <td align=right class=lille style="border-bottom:2px silver solid; width:80px; white-space:nowrap;"><b>Balance +/-</b><br />
+     <td align=right class=lille style="border-bottom:2px silver solid; width:80px; white-space:nowrap;"><b><%=afstem_txt_005 %> +/-</b><br />
     Realiseret<br />/ Komme/g&aring; tid<br />
     <%=realLontBal %>
     </td>
@@ -111,9 +111,9 @@
                
             <%select case lto
                case "tec", "esn"
-                overarbTxt = "Afspad."
+                overarbTxt = afstem_txt_007
                case else 
-                overarbTxt = "Overarb."
+                overarbTxt = afstem_txt_098
                 end select %>
 
 
@@ -121,7 +121,7 @@
 	         <td align=right style="border-bottom:2px silver solid; width:80px; white-space:nowrap;" valign=bottom class=lille><%=overarbTxt &" optjent:" %><br /> <%=formatnumber(afspTimer(x), 2)%></td>
             <%end if %>
              
-            <td align=right class=lille style="border-bottom:2px silver solid; width:80px; white-space:nowrap;;" valign=bottom>Afspaderet:<br /> <%=formatnumber(afspTimerBr(x), 2)%></td>
+            <td align=right class=lille style="border-bottom:2px silver solid; width:80px; white-space:nowrap;;" valign=bottom><%=afstem_txt_007 %>:<br /> <%=formatnumber(afspTimerBr(x), 2)%></td>
 
           
 	             <%
@@ -140,9 +140,9 @@
 	             aAfspadBalTot = aAfspadBalTot + (AfspadBal)
                  
                  if lto <> "lw" AND lto <> "kejd_pb" AND lto <> "fk" then %>
-	             <td align=right class=lille style="border-bottom:2px silver solid; width:80px; white-space:nowrap;" valign=bottom>Udbetalt:<br /><%=formatnumber(afspTimerUdb(x), 2)%></td>
-	             <td align=right class=lille style="border-bottom:2px silver solid; width:80px; white-space:nowrap;" valign=bottom>&Oslash;nsk. udb.:<br /><%=formatnumber(afspadUdbBal, 2)%></td>
-	             <td align=right class=lille style="border-bottom:2px silver solid; width:80px; white-space:nowrap;" valign=bottom>Overarb. tilgode saldo:<br /><%=formatnumber(AfspadBal, 2)%></td>
+	             <td align=right class=lille style="border-bottom:2px silver solid; width:80px; white-space:nowrap;" valign=bottom><%=afstem_txt_008 %>:<br /><%=formatnumber(afspTimerUdb(x), 2)%></td>
+	             <td align=right class=lille style="border-bottom:2px silver solid; width:80px; white-space:nowrap;" valign=bottom><%=afstem_txt_009 %>:<br /><%=formatnumber(afspadUdbBal, 2)%></td>
+	             <td align=right class=lille style="border-bottom:2px silver solid; width:80px; white-space:nowrap;" valign=bottom><%=afstem_txt_010 %>:<br /><%=formatnumber(AfspadBal, 2)%></td>
         	 
                     <%end if %>
 	         
@@ -484,7 +484,7 @@ if session("user") = "" then
     <table cellpadding=0 cellspacing=0 border=0 width=100%>
 	<tr>
 	
-	<td valign=top><h4>Afstemning (Saldo)<br />
+	<td valign=top><h4><%=afstem_txt_011 %> (<%=afstem_txt_012 %>)<br />
     <span style="font-size:11px; font-weight:lighter;">
      <%call meStamdata(usemrn) %>
     <%=meTxt %>, ansat: <%=formatdatetime(meAnsatDato, 1) %>
@@ -502,7 +502,7 @@ if session("user") = "" then
    
     <%if media <> "print" AND media <> "export" AND show = 12 then
      %>   
-        <div id="gt_msg" style="width:200px; padding:20px; position:absolute; left:120px; background-color:snow; z-index:999999999; border:2px #6CAE1C dashed; display:none; visibility:hidden;">Grandtotal og flexsaldo er flyttet til bunden af deres respektive kolonner på måned/måned oversigten.</div>
+        <div id="gt_msg" style="width:200px; padding:20px; position:absolute; left:120px; background-color:snow; z-index:999999999; border:2px #6CAE1C dashed; display:none; visibility:hidden;"><%=afstem_txt_013 %></div>
 
         
      <%end if %> 
@@ -563,10 +563,10 @@ if session("user") = "" then
     %>
 
 	|&nbsp;&nbsp;Ferie <%=global_txt_163 %>:
-	<a href="afstem_tot.asp?usemrn=<%=intMid %>&show=4&varTjDatoUS_man=<%=varTjDatoUS_man %>" class=vmenu>nuværende</a> 
+	<a href="afstem_tot.asp?usemrn=<%=intMid %>&show=4&varTjDatoUS_man=<%=varTjDatoUS_man %>" class=vmenu><%=afstem_txt_014 %></a> 
 
      /
-    <a href="afstem_tot.asp?usemrn=<%=intMid %>&show=4&yuse=<%=year(prevyearsFe) %>&varTjDatoUS_man=<%=varTjDatoUS_man %>" class=gray>forrige ferieår (<%=year(prevyearsFe)%>)</a>&nbsp;
+    <a href="afstem_tot.asp?usemrn=<%=intMid %>&show=4&yuse=<%=year(prevyearsFe) %>&varTjDatoUS_man=<%=varTjDatoUS_man %>" class=gray><%=afstem_txt_015 %> (<%=year(prevyearsFe)%>)</a>&nbsp;
 	<br />
 	<br />
                 <%
@@ -591,7 +591,7 @@ if session("user") = "" then
 	<img src="../inc/jquery/images/ajax-loader.gif" />
        
 	</td></tr>
-        <tr><td colspan="2" class="lille">Forventet laodtid: 5-20 sek.</td></tr>
+        <tr><td colspan="2" class="lille"><%=afstem_txt_016 %></td></tr>
 	</table>
 
 	</div>
@@ -723,7 +723,7 @@ if session("user") = "" then
 
       <% 
     if show = 12 then
-    Response.Write "År >> Dato</b> &nbsp;"
+    Response.Write "År >> Dato</b> &nbsp;" 'mangler
 
         
     %>
@@ -732,10 +732,10 @@ if session("user") = "" then
   
          
          <%if cint(showfremtidTxt) = 1 OR ((month(now) = 1 AND day(now) < 10) AND lto = "esn" OR lto = "tec") then '10 %>
-         <span style="color:darkred; border:1px red solid; padding:4px;"><b>Bemærk</b> at flekssaldo mv. først stemmer når forrige år er opgjort.</span>
+         <span style="color:darkred; border:1px red solid; padding:4px;"><b><%=afstem_txt_017 %></b> <%=afstem_txt_018 %></span>
          <%else%>
              
-         <span style="color:darkred;">Opgjort pr. <b><%=formatdatetime(ddato, 1) %></b> <%=showigartxt %></span> 
+         <span style="color:darkred;"><%=afstem_txt_019 %> <b><%=formatdatetime(ddato, 1) %></b> <%=showigartxt %></span> 
          <%end if %>
          
          <br /><br />&nbsp;
@@ -751,7 +751,7 @@ if session("user") = "" then
 
     
     else %>
-    Måned >> Dato</b>
+    <%=afstem_txt_020 %></b>
     <%
     
      'if sort <> 0 then
@@ -801,12 +801,12 @@ if session("user") = "" then
 	  <%if session("stempelur") <> 0 then 
           %> 
          <%if show = 77 then %>
-         <td valign=bottom class=lille style="border-bottom:1px silver solid; white-space:nowrap; width:50px;"><b>Komme/Gå tid</b></td>
+         <td valign=bottom class=lille style="border-bottom:1px silver solid; white-space:nowrap; width:50px;"><b><%=afstem_txt_003 %></b></td>
 
                      <%select case lto
                                        case "kejd_pb", "xintranet - local"
                                         case else %>
-                    <td valign=bottom class=lille style="border-bottom:1px silver solid; white-space:nowrap; width:50px;"><b>Pauser</b></td>
+                    <td valign=bottom class=lille style="border-bottom:1px silver solid; white-space:nowrap; width:50px;"><b><%=afstem_txt_021 %></b></td>
                     <%end select %>
         
 
@@ -814,7 +814,7 @@ if session("user") = "" then
 
       
 
-	         <td valign=bottom class=lille style="border-bottom:1px silver solid; white-space:nowrap; width:50px;"><b>Komme/Gå<br /> optjent</b>
+	         <td valign=bottom class=lille style="border-bottom:1px silver solid; white-space:nowrap; width:50px;"><b><%=afstem_txt_074 %></b>
 
              <%if lto = "dencker" then %>
              <br />(løntimer)

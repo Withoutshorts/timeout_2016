@@ -84,7 +84,7 @@
             Vælg job eller aftale:
              <%
 
-                  vaelgJObTxt = "Vælg job.."
+                  vaelgJObTxt = "Vælg job.." 'mangler
 
                   if cint(jobonoff) = 1 then
 	                jobonoffSQLkri = " AND jobstatus <> 99 "
@@ -129,17 +129,17 @@
             <option value="<%=oRec("id") %>" <%=jidSel %>><%=oRec("jobnavn") %> (<%=oRec("jobnr") %>)
             <%select case oRec("jobstatus")
             case 0 
-                jobstatusTxt = " - Lukket"
+                jobstatusTxt = " - "& erp_txt_323 &""
             case 1 
                 jobstatusTxt = ""
             case 2 
-                jobstatusTxt = " - Til Fakt."
+                jobstatusTxt = " - Til Fakt." 'mangler
             case 3 
-                jobstatusTxt = " - Tilbud"
+                jobstatusTxt = " - "& erp_txt_427 &""
             case 4 
-                jobstatusTxt = " - Gennemsyn"
+                jobstatusTxt = " - "& erp_txt_428 &""
             case else
-                jobstatusTxt = " - Passiv"
+                jobstatusTxt = " - "& erp_txt_324 &""
             end select %>
                 
                 <%=jobstatusTxt %>
@@ -200,7 +200,7 @@
                         <option value="<%=oRec("id") %>" <%=aidSel %>><%=oRec("navn") %> (<%=oRec("aftalenr") %>)
                 
                             <%if oRec("status") <> 1 then %>
-                            - Lukket
+                            - <%erp_txt_429 %>
                             <%end if %>
             
                         </option>
@@ -220,11 +220,11 @@
           <table style="width:280px;">
 	    <tr>
         <td bgcolor="#FFFFFF" colspan="2" style="padding:10px 10px 10px 10px;">
-	    <b>Periode:</b> (slutdato = fakturadato)<br />
+	    <b><%=erp_txt_297 %>:</b> (<%=erp_txt_461 %>)<br />
 	    <!--#include file="inc/weekselector_s.asp"-->
 	  
 	 
-	    <br /><input name="FM_igdato" id="Checkbox2" type="checkbox" value="1" <%=chkigDato%> /> Ignorér datointerval på faktura historik
+	    <br /><input name="FM_igdato" id="Checkbox2" type="checkbox" value="1" <%=chkigDato%> /> <%=erp_txt_462 %>
          <br /><span style="float:right; clear:left;"><input id="Button1" type="submit" value=">>" style="font-size: 9px;"/></span>
            <!--<input id="Button1" type="image" src="../ill/pilstorxp.gif" onClick="nextstep2()" />-->
 	    </td></tr>

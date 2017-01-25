@@ -330,7 +330,7 @@ varTjDatoUS_tor = dateAdd("d", 3, varTjDatoUS_man)
 
     <br />
     <div class="row">
-        <h4 class="col-lg-12"> <a href="ugeseddel_2011.asp?usemrn=<%=usemrn%>&varTjDatoUS_man=<%=prev_varTjDatoUS_man %>&varTjDatoUS_son=<%=prev_varTjDatoUS_son %>&nomenu=<%=nomenu %>&media=<%=media%>"><</a> &nbsp Uge <%=thisWeek %> &nbsp <a href="ugeseddel_2011.asp?usemrn=<%=usemrn%>&varTjDatoUS_man=<%=next_varTjDatoUS_man %>&varTjDatoUS_son=<%=next_varTjDatoUS_son %>&nomenu=<%=nomenu %>">></a></h4>
+        <h4 class="col-lg-12"> <a href="ugeseddel_2011.asp?usemrn=<%=usemrn%>&varTjDatoUS_man=<%=prev_varTjDatoUS_man %>&varTjDatoUS_son=<%=prev_varTjDatoUS_son %>&nomenu=<%=nomenu %>&media=<%=media%>"><</a> &nbsp <%=week_txt_004 %> <%=thisWeek %> &nbsp <a href="ugeseddel_2011.asp?usemrn=<%=usemrn%>&varTjDatoUS_man=<%=next_varTjDatoUS_man %>&varTjDatoUS_son=<%=next_varTjDatoUS_son %>&nomenu=<%=nomenu %>">></a></h4>
     </div>
 
     <%end if %>
@@ -601,7 +601,7 @@ varTjDatoUS_tor = dateAdd("d", 3, varTjDatoUS_man)
    
                                    <%if len(trim(oRec("fase"))) <> 0 then %>
                                    <br />
-                                   <span style="color:#5582d2;">fase: <%=replace(oRec("fase"), "_", " ")%></span>
+                                   <span style="color:#5582d2;"><%=week_txt_005 %>: <%=replace(oRec("fase"), "_", " ")%></span>
                                    <%end if %>
 
                                     <%if len(trim(oRec("timerkom"))) <> 0 then %>
@@ -849,7 +849,7 @@ varTjDatoUS_tor = dateAdd("d", 3, varTjDatoUS_man)
                 <%if lastDato <> oRec("tdato") then %>
                <tr>
 
-                   <td colspan="7"><span style="color:red;">Registreringer uden match:</span></td>
+                   <td colspan="7"><span style="color:red;"><%=week_txt_006 %>:</span></td>
 
                </tr>
                     <%end if %>
@@ -916,7 +916,7 @@ varTjDatoUS_tor = dateAdd("d", 3, varTjDatoUS_man)
                <!--<div id="dv_job_<%=u %>" class="dv_job" style="position:absolute; background-color:#FFFFFF; visibility:hidden; display:none; width:250px; height:200px; overflow:auto; padding:10px; border:1px #999999 solid;"></div>-->
                
                 <select id="dv_job_<%=u %>" class="form-control input-small chbox_job" size="10" style="visibility:hidden; display:none;">
-                                 <option>Søger..</option>
+                                 <option><%=week_txt_007 %>..</option>
                              </select>
 
 
@@ -976,7 +976,7 @@ varTjDatoUS_tor = dateAdd("d", 3, varTjDatoUS_man)
            </td>
            <td valign="top" align="right"><input type="text" name="FM_timer" value="<%=formatnumber(oRec("timer"), 2) %>" style="width:60px;" class="form-control input-small" />
                <input type="hidden" name="FM_timer" value="xx"/>
-               <button class="btn btn-sm btn-success"><b>Indlæs >></b></button>
+               <button class="btn btn-sm btn-success"><b><%=week_txt_008 %> >></b></button>
              
             
            </td>

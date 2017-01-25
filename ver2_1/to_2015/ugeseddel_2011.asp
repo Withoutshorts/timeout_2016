@@ -103,7 +103,7 @@
                  'response.write "<option>strSQL " & strSQL & "</option>"
                  'response.end
                 if (jobkundesog = "-1") then
-                    strJobogKunderTxt = strJobogKunderTxt & "<option value=""-1"" SELECTED>Vælg job:</option>"
+                    strJobogKunderTxt = strJobogKunderTxt & "<option value=""-1"" SELECTED>"& week_txt_009 &":</option>"
                 end if            
 
                  
@@ -140,7 +140,7 @@
 
               
                 if cint(k) = 0 then
-                strJobogKunderTxt = strJobogKunderTxt & "<option value=""-1"" DISABLED>Ingen kunder/job fundet</option>"
+                strJobogKunderTxt = strJobogKunderTxt & "<option value=""-1"" DISABLED>"& week_txt_010 &"</option>"
                 end if
 
 
@@ -402,7 +402,7 @@
 
                 
                 if afundet = 0 then
-                strAktTxt = strAktTxt & "<option value=""-1"" DISABLED>Ingen aktiviteter fundet</option>" 
+                strAktTxt = strAktTxt & "<option value=""-1"" DISABLED>"& week_txt_011 &"</option>" 
                 end if          
 
 
@@ -682,7 +682,7 @@ if len(session("user")) = 0 then
 
         id = request("id")
 
-        slttxt = "Du er ved at slette en timeregistrering uden match.<br> Er Du sikker på Du vil gøre dette?"
+        slttxt = ""& week_txt_001 &"<br> "& week_txt_002 &""
         slturl = rdirfile & "?func=slet_tip_ok&id="&id&"&usemrn="&usemrn&"&varTjDatoUS_man="&varTjDatoUS_man&"&showadviseringmsg=1&nomenu="&nomenu '&"&varTjDatoUS_son="&varTjDatoUS_son
 
        call sltque(slturl,slttxt,slturlalt,slttxtalt,110,90)
@@ -1309,7 +1309,7 @@ if len(session("user")) = 0 then
     <div class="well" style="width:35%;">
       <div class="portlet">
         <h3 class="portlet-title">
-          <u>Funktioner:</u><!-- ugeseddel -->
+          <u><%=week_txt_003 %>:</u><!-- ugeseddel -->
         </h3>
 
           

@@ -351,7 +351,179 @@
     <txt_290>Tilpas evt. internkonto til dette forretningsområde, hvis omsætningen i ERP system skal fordeles på specifikke omsætningskonti.</txt_290>
 
     
-    
+    <txt_291 >Alle</txt_291>
+    <txt_292 >Afsender</txt_292>
+    <txt_293 >licensindehv.</txt_293>
+    <txt_294 >Fakturaer</txt_294>
+    <txt_295 >Kreditnotaer</txt_295>
+    <txt_296 >søgekri. skal være udfyldt</txt_296>
+    <txt_297 >Periode</txt_297>
+    <txt_298 >fastpris</txt_298>
+    <txt_299 >lbn. timer</txt_299>
+    <txt_300 >Aftale</txt_300>
+    <txt_301 >Print</txt_301>
+    <txt_302 >Den økonomi ansvarlige</txt_302>
+    <txt_303 >Regnskabs afd.</txt_303>
+    <txt_304 >Administrationen</txt_304>
+    <txt_305 >Der er ikke fundet nogen materialer i det valgte interval.</txt_305>
+    <txt_306 >Søg på materialer i boksene ovenfor.</txt_306>
+    <txt_307 >Der vises maks</txt_307>
+    <txt_308 >resultater i søgningen.</txt_308>
+    <txt_309 >Du er ved at</txt_309>
+    <txt_310 >Slette</txt_310>
+    <txt_311 >en</txt_311>
+    <txt_312 >faktura-skrivelse!</txt_312>
+    <txt_313 >Er du sikker på du ønsker at slette fakturaen? Fakturaen kan ikke genskabes.</txt_313>
+    <txt_314 >Aktiviteter</txt_314>
+    <txt_315 >fakturalinier</txt_315>
+    <txt_316 >Aktive aktiviteter, lukkede og passive med timer på i periode, samt fast-forvalgte faktura aktiviteter</txt_316>
+    <txt_317 >Antal timer forvalgt på aktiviteter sat til 1, hvis timeforbrug > 0, grundet faktura system hos kunde</txt_317>
+    <txt_318 >Der er fundet en eller flere lukkede/passive aktiviteter med timer</txt_318>
+    <txt_319 >på i den valgte periode, derfor vises lukkede og passive aktiviteter på denne faktura oprettelse.</txt_319>
+    <txt_320 >Tim.</txt_320>
+    <txt_321 >Stk.</txt_321>
+    <txt_322 >Aktiviteter ikke med på faktura</txt_322>
+    <txt_323 >Lukket</txt_323>
+    <txt_324 >Passiv</txt_324>
+    <txt_325 >Skjul</txt_325>
+    <txt_326 >udspecificering</txt_326>
+    <txt_327 >af aktivitets- og materiale -linier på faktura. (vis kun total beløb)</txt_327>
+    <txt_328 >faser</txt_328>
+    <txt_329 >og mellemregning</txt_329>
+    <txt_330 >Sum-aktivitetslinier</txt_330>
+    <txt_331 >Til / Fra</txt_331>
+    <txt_332 >kun dem med timer/forkalkulation på</txt_332>
+    <txt_333 >Tilføj faktor på alle aktiviteter</txt_333>
+    <txt_334 >beløbet udgør:</txt_334>
+    <txt_335 >Nb.: Ignorer aktivitetstype indstilling er slået til. Alle aktiviteter vises uanset type.</txt_335>
+    <txt_336 >Du kan ændre indstilling til venstre under "Fak. pre-indstillinger"</txt_336>
+    <txt_337 >Links til aktiviteter og faser på denne faktura</txt_337>
+    <txt_338 >Du kan trække i en aktivitet for at sortere rækkefølgen. Du kan ikke trække en aktivitet ud af en fase.</txt_338>
+    <txt_339 >Jobtype</txt_339>
+    <txt_340 >Lbn. timer</txt_340>
+    <txt_341 >Links til aktiviteter og faser på denne faktura</txt_341>
+    <txt_342 >Du kan trække i en aktivitet for at sortere rækkefølgen.</txt_342>
+    <txt_343 >Du kan ikke trække en aktivitet ud af en fase.</txt_343>
+    <txt_344 >Jobtype</txt_344>
+    <txt_345 >Fastpris</txt_345>
+    <txt_346 >Vælg</txt_346>
+    <txt_347 >og sortér</txt_347>
+    <txt_348 >Faser og aktiviteter</txt_348>
+    <txt_349 >Grund</txt_349>
+    <txt_350 >lag</txt_350>
+    <txt_351 >Forkalk. tim.</txt_351>
+    <txt_352 >Forkalk. stk.</txt_352>
+    <txt_353 >Enhedspris</txt_353>
+    <txt_354 >Budget</txt_354>
+    <txt_355 >Fastpris</txt_355>
+    <txt_356 >Real. tim.</txt_356>
+    <txt_357 >i periode</txt_357>
+    <txt_358 >Antal angivet på fak.</txt_358>
+    <txt_359 >Gns. tp</txt_359>
+    <txt_360 >Omsætning</txt_360>
+    <txt_361 >Bel. angivet på fak.</txt_361>
+    <txt_362 >Ændring i antal</txt_362>
+    <txt_363 >denne faktura</txt_363>
+    <txt_364 >Til toppen</txt_364>
+    <txt_365 >Fase</txt_365>
+    <txt_366 >Sortering</txt_366>
+    <txt_367 >ej sum-akt.</txt_367>
+    <txt_368 >Se faktura</txt_368>
+    <txt_369 >Antal</txt_369>
+    <txt_370 >Ventetimer</txt_370>
+    <txt_371 >Saldo</txt_371>
+    <txt_372 >Brugt</txt_372>
+    <txt_373 >Ultimo</txt_373>
+    <txt_374 >Medarbejder(e)</txt_374>
+    <txt_375 >Enh.pris</txt_375>
+    <txt_376 >Valuta</txt_376>
+    <txt_377 >Enhed</txt_377>
+    <txt_378 >Rabat</txt_378>
+    <txt_379 >Pris ialt</txt_379>
+    <txt_380 >Afrund</txt_380>
+    <txt_381 >Kun medarbejder-linier</txt_381>
+    <txt_382 >med tilsvarende timepris, som sum-aktiviteter der bliver vist på fakturaen, bliver indlæst til afstemning.</txt_382>
+    <txt_383 >Hvis</txt_383>
+    <txt_384 >Sum-akt. Samle-linien er slået til</txt_384>
+    <txt_385 >bliver alle medarb. linier indlæst.</txt_385>
+    <txt_386 >Denne faktura</txt_386>
+    <txt_387 >kladde</txt_387>
+    <txt_388 >er oprettet uden der er valgt nogen aktiviteter.</txt_388>
+    <txt_389 >Der er derfor ikke nogen aktiviteter eller medarbejder timer der kan redigeres.</txt_389>
+    <txt_390 >Slet denne kladde fra faktura-oversigten og opret en ny faktura med dette faktura nummer.</txt_390>
+    <txt_391 >Forrige</txt_391>
+    <txt_392 >Næste</txt_392>
+    <txt_393 >Fakturalinier</txt_393>
+    <txt_394 >aktiviteter</txt_394>
+    <txt_395 >Subtotal</txt_395>
+    <txt_396 >Fakturerings valuta</txt_396>
+    <txt_397 >Materialer / Udlæg</txt_397>
+    <txt_398 >Materiale forbrug / Udlæg</txt_398>
+    <txt_399 >Intern kode</txt_399>
+    <txt_400 >Vis kun materialer til videre-fakturering (oprettet som ekstern)</txt_400>
+    <txt_401 >Vis alle</txt_401>
+    <txt_402 >Periode</txt_402>
+    <txt_403 >Ignorer periode (vis alle ikke fakturerede materialer)</txt_403>
+    <txt_404 >Hent nye</txt_404>
+    <txt_405 >Fordel materialer på fakturalayout</txt_405>
+    <txt_406 >Materialeforbrug vises som liste i bunden af faturaen</txt_406>
+    <txt_407 >Materialer vises som sum fordelt på grupper.</txt_407>
+    <txt_408 >Materialer vises fordelt på aktiveter/faser</txt_408>
+    <txt_409 >Forrige</txt_409>
+    <txt_410 >Næste</txt_410>
+    <txt_411 >Materialer</txt_411>
+    <txt_412 >Subtotal</txt_412>
+    <txt_413 >Forvalgt konto på forrretningsområde forvælger konto. Hvis ikke der findes konto på forretningsområde, vælges forvalgt konto fra kontoplan.</txt_413>
+    <txt_414 >kunde konto</txt_414>
+    <txt_415 >Hent timer i valgt. per.</txt_415>
+    <txt_416 >Hent nye</txt_416>
+    <txt_417 >Næste</txt_417>
+    <txt_418 >Se faktura</txt_418>
+    <txt_419 >job no.</txt_419>
+    <txt_420 >aft. no.</txt_420>
+    <txt_421 >sek.</txt_421>
+    <txt_422 >Vor Ref.</txt_422>
+    <txt_423 >Ingen</txt_423>
+    <txt_424 >Bankkonto</txt_424>
+    <txt_425 >Aktiv</txt_425>
+    <txt_426 >Passiv/til fak.</txt_426>
+    <txt_427 >Tilbud</txt_427>
+    <txt_428 >Gennemsyn</txt_428>
+    <txt_429 >Lukket</txt_429>
+    <txt_430 >overskriver rekvnr. på job</txt_430>
+    <txt_431 >Husk at vælge antal sider i step 1</txt_431>
+    <txt_432 >Sideskift</txt_432>
+    <txt_433 >Vedhæft joblog på faktura</txt_433>
+    <txt_434 >Joblog i valgt periode (kun fakturerbare og ikke-faktorerbare timer)</txt_434>
+    <txt_435 >Periode afgrænsning</txt_435>
+    <txt_436 >Forrige</txt_436>
+    <txt_437 >Vedhæft materiale log på faktura.</txt_437>
+    <txt_438 >Materiale-log i valgt periode.</txt_438>
+    <txt_439 >Dato</txt_439>
+    <txt_440 >Navn</txt_440>
+    <txt_441 >Varenr</txt_441>
+    <txt_442 >Antal</txt_442>
+    <txt_443 >Enheds pris</txt_443>
+    <txt_444 >Enhed</txt_444>
+    <txt_445 >Pris ialt</txt_445>
+    <txt_446 >Der findes ingen fakturaer i det valgte interval.</txt_446>
+    <txt_447 >Ialt</txt_447>
+    <txt_448 >Inkl. kladder og interne. Ekskl. moms</txt_448>
+    <txt_449 >Faktura pre. indstillinger</txt_449>
+    <txt_450 >Visning af medarbejder timer</txt_450>
+    <txt_451 >på faktura print skal automatisk være slået til</txt_451>
+    <txt_452 >Forvælg "vis joblog og materiale log" på faktura print?</txt_452>
+    <txt_453 >Ja</txt_453>
+    <txt_454 >Nej</txt_454>
+    <txt_455 >Forvælg "vis tlf." på faktura print</txt_455>
+    <txt_456 >Forvælg "vis email adresse" faktura print?</txt_456>
+    <txt_457 >Slå "luk job ved fakturering" til.</txt_457>
+    <txt_458 >Ignorer akttype-instillinger (vis alle aktiviteter uanset om typen er sat til at blive vist på faktura)</txt_458>
+    <txt_459 >Beløb</txt_459>
+    <txt_460 >Timer</txt_460>
+    <txt_461 >slutdato = fakturadato</txt_461>
+    <txt_462 >Ignorér datointerval på faktura historik</txt_462>
+
 
 
   </dk>
@@ -1898,6 +2070,180 @@
     <txt_288>Currency, VAT and language are inherited from job/service agreement</txt_288>
     <txt_289>Businessarea</txt_289>
     <txt_290>Adjust internal account to fit businessarea if needed</txt_290>
+    
+  <txt_291 >All</txt_291>
+  <txt_292 >Sender</txt_292>
+  <txt_293 >Licenseown.</txt_293>
+  <txt_294 >Invoices</txt_294>
+  <txt_295 >Kreditnotes</txt_295>
+  <txt_296 >Search cri. has to match</txt_296>
+  <txt_297 >Period</txt_297>
+  <txt_298 >Fixed price</txt_298>
+  <txt_299 >Time/Matr.</txt_299>
+  <txt_300 >Agreement</txt_300>
+  <txt_301 >Print</txt_301>
+  <txt_302 >Finance resposible</txt_302>
+  <txt_303 >Finance dept.</txt_303>
+  <txt_304 >Administration</txt_304>
+  <txt_305 >No Materials were found in the choosen interval.</txt_305>
+  <txt_306 >Search for Materials in the above boxes.</txt_306>
+  <txt_307 >A maximun is shown</txt_307>
+  <txt_308 >Search results</txt_308>
+  <txt_309 >Du are about to</txt_309>
+  <txt_310 >Delete</txt_310>
+  <txt_311 >an</txt_311>
+  <txt_312 >Invoices!</txt_312>
+  <txt_313 >Are you sure you want to delete the invoice? The invoice CANNOT be re-created.</txt_313>
+  <txt_314 >Activities</txt_314>
+  <txt_315 >Invoice lines</txt_315>
+  <txt_316 >Active activities, closed and passive w/ hours in the period, and pre-fixed invoice activities</txt_316>
+  <txt_317 >Numbers of hours pre-set on activities set to 1, if usages > 0 due to invoice system at the customer</txt_317>
+  <txt_318 >One or more closed/passive activities with hours have been found</txt_318>
+  <txt_319 >in the chosen period thus are closed and passive activities shown on this invoice.</txt_319>
+  <txt_320 >Hrs.</txt_320>
+  <txt_321 >Pcs.</txt_321>
+  <txt_322 >Activities not on this invoice</txt_322>
+  <txt_323 >Closed</txt_323>
+  <txt_324 >Passive</txt_324>
+  <txt_325 >Hide</txt_325>
+  <txt_326 >Specification</txt_326>
+  <txt_327 >of activity and materials on the invoice. (show only total amounts)</txt_327>
+  <txt_328 >phases</txt_328>
+  <txt_329 >and intercompany</txt_329>
+  <txt_330 >Sum-activity lines</txt_330>
+  <txt_331 >To / From</txt_331>
+  <txt_332 >for hours/pre-calculated only</txt_332>
+  <txt_333 >Add factor on all activities</txt_333>
+  <txt_334 >amount is:</txt_334>
+  <txt_335 >NB.: Ignore activitytype is on. All activities are shown regardless type.</txt_335>
+  <txt_336 >You can edit settings to the left: "Invo. Pre-settings"</txt_336>
+  <txt_337 >Links to activities and phases on this invoice</txt_337>
+  <txt_338 >Activity sorting can be changed by drag and drop. An activitiy cannot be pulled of a phase.</txt_338>
+  <txt_339 >jobtype</txt_339>
+  <txt_340 >Time/Matr.</txt_340>
+  <txt_341 >Links to activities and phases on this invoice</txt_341>
+  <txt_342 >Activity sorting can be changed by drag and drop.</txt_342>
+  <txt_343 >An activitiy cannot be pulled of a phase.</txt_343>
+  <txt_344 >jobtype</txt_344>
+  <txt_345 >Fixed price</txt_345>
+  <txt_346 >Choose</txt_346>
+  <txt_347 >and sort</txt_347>
+  <txt_348 >Phases and activities</txt_348>
+  <txt_349 >Basis</txt_349>
+  <txt_350 >Basis</txt_350>
+  <txt_351 >Pre-calc. Hrs.</txt_351>
+  <txt_352 >Pre-calc. Pcs.</txt_352>
+  <txt_353 >Price</txt_353>
+  <txt_354 >Budget</txt_354>
+  <txt_355 >Fixed price</txt_355>
+  <txt_356 >Stated hrs.</txt_356>
+  <txt_357 >in the period</txt_357>
+  <txt_358 >Numbers on invoice</txt_358>
+  <txt_359 >Avr. Rate</txt_359>
+  <txt_360 >Turnover</txt_360>
+  <txt_361 >Amount on invoice</txt_361>
+  <txt_362 >Change in numbers</txt_362>
+  <txt_363 >This invoice</txt_363>
+  <txt_364 >To the Top</txt_364>
+  <txt_365 >Phase</txt_365>
+  <txt_366 >Sorting</txt_366>
+  <txt_367 >not a sum-act.</txt_367>
+  <txt_368 >see invoice</txt_368>
+  <txt_369 >number</txt_369>
+  <txt_370 >Waiting hours</txt_370>
+  <txt_371 >Balance</txt_371>
+  <txt_372 >Used</txt_372>
+  <txt_373 >Ultimo</txt_373>
+  <txt_374 >Employee(s)</txt_374>
+  <txt_375 >Price</txt_375>
+  <txt_376 >Currency</txt_376>
+  <txt_377 >Unit</txt_377>
+  <txt_378 >Discount</txt_378>
+  <txt_379 >Pris total</txt_379>
+  <txt_380 >Round off</txt_380>
+  <txt_381 >Only employee-lines</txt_381>
+  <txt_382 >with matching hourly rate as sum-activities shown on the invoice will be staded for balancing</txt_382>
+  <txt_383 >If</txt_383>
+  <txt_384 >Sum-act. Total-line is on</txt_384>
+  <txt_385 >all employ. Lices will be staded.</txt_385>
+  <txt_386 >This Invoice</txt_386>
+  <txt_387 >draft</txt_387>
+  <txt_388 >has been created without activities.</txt_388>
+  <txt_389 >Thus no activities or hours can be edited.</txt_389>
+  <txt_390 >Delete this invoice from the overview and create a new invoice with this invoice number.</txt_390>
+  <txt_391 >Previous</txt_391>
+  <txt_392 >Next</txt_392>
+  <txt_393 >Invoice lines</txt_393>
+  <txt_394 >activities</txt_394>
+  <txt_395 >Sub-total</txt_395>
+  <txt_396 >Invoice currency</txt_396>
+  <txt_397 >Materials / Outlays</txt_397>
+  <txt_398 >Consumption / Expenses</txt_398>
+  <txt_399 >Internal code</txt_399>
+  <txt_400 >Show only materials for invoicing (created as external)</txt_400>
+  <txt_401 >Show all</txt_401>
+  <txt_402 >Period</txt_402>
+  <txt_403 >Ignore period (show all not-invoice materials)</txt_403>
+  <txt_404 >Get new</txt_404>
+  <txt_405 >Distribute materials on the invoice layout</txt_405>
+  <txt_406 >Consumption is shown a list at the bottum of the invoice</txt_406>
+  <txt_407 >Materials are shown as a SUM divided in groups.</txt_407>
+  <txt_408 >Materials are shown divided on activities/phases.</txt_408>
+  <txt_409 >Previous</txt_409>
+  <txt_410 >Next</txt_410>
+  <txt_411 >Materials</txt_411>
+  <txt_412 >Sub-total</txt_412>
+  <txt_413 >Preset account on businessareas presets the account. If no account is on the businessarea the preset account from the accountplan is chosen.</txt_413>
+  <txt_414 >Customer account</txt_414>
+  <txt_415 >Get hours for the period</txt_415>
+  <txt_416 >Get new</txt_416>
+  <txt_417 >Next</txt_417>
+  <txt_418 >See invoice</txt_418>
+  <txt_419 >Job no.</txt_419>
+  <txt_420 >Agree. No.</txt_420>
+  <txt_421 >Sec.</txt_421>
+  <txt_422 >Our ref.</txt_422>
+  <txt_423 >None</txt_423>
+  <txt_424 >Bank account</txt_424>
+  <txt_425 >Active</txt_425>
+  <txt_426 >Passive/For Invoi.</txt_426>
+  <txt_427 >Offer</txt_427>
+  <txt_428 >Processed</txt_428>
+  <txt_429 >Closed</txt_429>
+  <txt_430 >Overwrite rec.no. on job</txt_430>
+  <txt_431 >Remember to choose pages in step 1</txt_431>
+  <txt_432 >Pagebreak</txt_432>
+  <txt_433 >Attach joblog to invoice</txt_433>
+  <txt_434 >joblog in the period (only invoisable and non-invoiceable hours)</txt_434>
+  <txt_435 >Accruals</txt_435>
+  <txt_436 >Previous</txt_436>
+  <txt_437 >Attach material log to invoice.</txt_437>
+  <txt_438 >Material-log in the priod.</txt_438>
+  <txt_439 >Date</txt_439>
+  <txt_440 >Name</txt_440>
+  <txt_441 >Item no.</txt_441>
+  <txt_442 >Numbers</txt_442>
+  <txt_443 >Price</txt_443>
+  <txt_444 >Unit</txt_444>
+  <txt_445 >Total Price</txt_445>
+  <txt_446 >No invoices in this period</txt_446>
+  <txt_447 >Total</txt_447>
+  <txt_448 >Incl. draft and internal. Excl. VAT</txt_448>
+  <txt_449 >Invoice pre settings</txt_449>
+  <txt_450 >View of employee hours</txt_450>
+  <txt_451 >on the invoice print has to automatic</txt_451>
+  <txt_452 >Choose "show joblog and material log" on invoice print?</txt_452>
+  <txt_453 >Yes</txt_453>
+  <txt_454 >No</txt_454>
+  <txt_455 >Preset "show phonene." on invoice print</txt_455>
+  <txt_456 >preset "show e-mail adr." on invoice print</txt_456>
+  <txt_457 >Turn on "close job when invoicing"</txt_457>
+  <txt_458 >Ignore act.type-settings (show all activities regard. The type is shown on invoice)</txt_458>
+  <txt_459 >Amount</txt_459>
+  <txt_460 >Hours</txt_460>
+  <txt_461 >Enddate = invoicedate</txt_461>
+  <txt_462 >Ignore date interval on invoice history</txt_462>
+
 
   </uk>
 

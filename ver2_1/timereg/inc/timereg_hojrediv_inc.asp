@@ -10,6 +10,7 @@ function hojreDiv()
 
 
 
+
       if browstype_client <> "ip" then '**Vis ikke på iPhone
       
       
@@ -24,8 +25,8 @@ function hojreDiv()
             <table cellpadding=0 cellspacing=0 border=0>
                 <tr><td>
 
-                    <b>Favorit links</b><br />
-                    <a href="joblog_timetotaler.asp?FM_medarb=<%=usemrn %>&vis_restimer=1&nomenu=1" target="_blank" class="vmenu">Se personligt timeforbrug og budget >></a>
+                    <b><%=timereg_txt_124 %></b><br />
+                    <a href="joblog_timetotaler.asp?FM_medarb=<%=usemrn %>&vis_restimer=1&nomenu=1" target="_blank" class="vmenu"><%=timereg_txt_125 %> >></a>
 
                     </td></tr></table>
                 </div>
@@ -65,7 +66,7 @@ function hojreDiv()
             
             <table cellpadding=2 cellspacing=0 border=0 width="100%">
                 
-                <tr bgcolor="#5C75AA"><td colspan="2" class="alt"><b>Dine job med timebudget/forecast FY </b><br /></td></tr>
+                <tr bgcolor="#5C75AA"><td colspan="2" class="alt"><b><%=timereg_txt_126 %> </b><br /></td></tr>
                 
                     
                     
@@ -101,7 +102,7 @@ function hojreDiv()
                      
                     if re = 0 then   
                     %>
-                    <tr bgcolor="#FFFFFF"><td colspan="2">- ingen </td></tr>
+                    <tr bgcolor="#FFFFFF"><td colspan="2">- <%=timereg_txt_155 %> </td></tr>
                     <%end if %>
 
                     </table>
@@ -123,11 +124,11 @@ function hojreDiv()
             <td align=center id="a_denneuge" style="white-space:nowrap; width:100px; padding:1px; background-color:#EFF3FF; border-right:1px #d6dff5 solid; border-bottom:0px;">
 			<a href="#" id="A1" class=rmenu>+ Igangv.</a></td>
              <td align=center id="a_todos" style="white-space:nowrap; width:120px; padding:1px; background-color:#EFF3FF; border-right:1px #d6dff5 solid; border-bottom:0px;">
-			<a href="#" id="A2" class=rmenu>+ ToDo's</a></td>
+			<a href="#" id="A2" class=rmenu>+ <%=timereg_txt_128 %></a></td>
 			</td>
             <%if level <= 2 then%>
 			<td align=center id="a_tildel" style="white-space:nowrap; width:120px; padding:1px; background-color:#EFF3FF; border-right:1px #d6dff5 solid; border-bottom:0px;">
-			<a href="#" id="A3" class=rmenu>+ Tildel job</a></td>
+			<a href="#" id="A3" class=rmenu>+ <%=timereg_txt_129 %></a></td>
 			<%end if%>
         </tr>
     </table>
@@ -138,7 +139,7 @@ function hojreDiv()
          <table cellpadding=2 cellspacing=0 border=0 width=100%>
          
          <tr bgcolor="#5C75AA"><td class=alt style="width:165px;" colspan=2><b>
-         Tildel job til aktivjobliste:</b>
+         <%=timereg_txt_130 %>:</b>
          </td>
        
          </tr>
@@ -184,7 +185,7 @@ function hojreDiv()
 
          
          <br /><br />
-         Medarbejder(e):<br /> 
+         <%=timereg_txt_131 %>:<br /> 
          <div id="div_tildeljoblisten_msel"></div>
         
         </td></tr>
@@ -216,21 +217,21 @@ function hojreDiv()
          <%=tsa_txt_376 %>:</b>
          </td></tr>
          <tr><td class=lille>
-         Viser aktive job (maks <%=jdu_lmt %>) hvor Du er: <br /><input type="checkbox" value="1" id="denneuge_jobans" name="denneuge_jobans" /> Jobansvarlig / jobejer
+         <%=timereg_txt_132 %> (<%=timereg_txt_133 %> <%=jdu_lmt %>) <%=timereg_txt_134 %>: <br /><input type="checkbox" value="1" id="denneuge_jobans" name="denneuge_jobans" /> <%=timereg_txt_135 %>
          <br />
-         Vis seneste 2 uger + 
+         <%=timereg_txt_136 %> + 
          <select id="denneuge_ignrper" style="font-size:9px; width:50px;">
-            <option value="1">1 uge</option>
-            <option value="2">2 uge</option>
-            <option value="3">3 uge</option>
-            <option value="4">4 uge</option>
-         </select> frem
+            <option value="1">1 <%=timereg_txt_137 %></option>
+            <option value="2">2 <%=timereg_txt_138 %></option>
+            <option value="3">3 <%=timereg_txt_138 %></option>
+            <option value="4">4 <%=timereg_txt_138 %></option>
+         </select> <%=timereg_txt_139 %>
          <input type="hidden" value="<%=jdu_lmt %>" id="denneuge_limit"/>
          <!--
          <input type="checkbox" value="1" name="denneuge_ignrper" id="denneuge_ignrper" /> Slutdato uge <%=datepart("ww", tjekdag(1), 2,2) %> <br /> 
          ellers +1 md. og forrige 3 md.
          -->
-         <br /><input type="checkbox" value="1" name="denneuge_alfa" id="denneuge_alfa" />  Sortér alfabetisk
+         <br /><input type="checkbox" value="1" name="denneuge_alfa" id="denneuge_alfa" />  <%=timereg_txt_140 %>
          </td></tr>
          <input type="hidden" value="<%=lto%>" name="dennuge_lto" id="dennuge_lto" />
          
@@ -251,9 +252,9 @@ function hojreDiv()
 	    
        
         <table cellpadding=2 cellspacing=0 border=0 width=100%>
-         <tr bgcolor="#5C75AA"><td id="todotd" colspan="2" style="padding:3px; height:20px;" class=alt><b>ToDo liste</b> (seneste 20)</td></tr>
-         <tr><td colspan="2"> <a href="webblik_todo.asp?nomenu=1" class=rmenu target="_blank">Se / rediger ToDo listen >></a></td></tr>
-         <tr><td class=lille style="padding-left:5px;">ToDo's</td><td class=lille align=right style="padding-right:5px;">Afslut</td></tr>
+         <tr bgcolor="#5C75AA"><td id="todotd" colspan="2" style="padding:3px; height:20px;" class=alt><b><%=timereg_txt_141 %></b> (<%=timereg_txt_142 %>)</td></tr>
+         <tr><td colspan="2"> <a href="webblik_todo.asp?nomenu=1" class=rmenu target="_blank"><%=timereg_txt_143 %> >></a></td></tr>
+         <tr><td class=lille style="padding-left:5px;">ToDo's</td><td class=lille align=right style="padding-right:5px;"><%=timereg_txt_144 %></td></tr>
         <% 
         
         idag_365 = dateadd("d", -365, now)
@@ -508,13 +509,13 @@ function notificerEmail(usemrn, EmailNotificerTxt, visning, modtagerid)
 
 
             			                                'Mailer.Subject = "Til Teamleder for: "& afsNavn  
-                                                        myMail.Subject= "Til Teamleder for: "& afsNavn  
+                                                        myMail.Subject= ""& timereg_txt_145 &": "& afsNavn  
                                     
 		                                                strBody = "<br><br>"
-                                                        strBody = strBody & "Følgende medarbejder har registreret en ferie eller fraværs aktivitet som Du skal have besked om:<br><br> "
+                                                        strBody = strBody & ""& timereg_txt_146 &":<br><br> "
                                                         strBody = strBody & EmailNotificerTxt
 						           
-                                                        strBody = strBody & "<br><br><br><br>Du modtager denne mail da Du står som Notifikations modtager for ovenstående medarbejder."
+                                                        strBody = strBody & "<br><br><br><br>"& timereg_txt_147 &""
 
                                                     
                                                                 'if lto = "esn" then
@@ -524,15 +525,15 @@ function notificerEmail(usemrn, EmailNotificerTxt, visning, modtagerid)
                                                                 '                       
                                                                 'end if			
 
-                                                        strBody = strBody &"<br><br><br><br>Med venlig hilsen<br><i>" 
+                                                        strBody = strBody &"<br><br><br><br>"& timereg_txt_148 &"<br><i>" 
             
                                                         if cstr(trim((afsNavn))) <> cstr(trim((session("user")))) then
-		                                                strBody = strBody & session("user") & " på vegne af "& afsNavn &"</i>"
+		                                                strBody = strBody & session("user") & " "& timereg_txt_149 &" "& afsNavn &"</i>"
                                                         else
                                                         strBody = strBody & afsNavn &"</i>"
                                                         end if
 
-                                                         strBody = strBody & "<br><br>Denne mail ar afsendt af TimeOut notifikations service<br><br>&nbsp;"
+                                                         strBody = strBody & "<br><br>"& timereg_txt_150 &"<br><br>&nbsp;"
                             
 
 
@@ -580,10 +581,10 @@ function notificerEmail(usemrn, EmailNotificerTxt, visning, modtagerid)
 
 
                                                 'Mailer.Subject = "Din leder har indtastet fravær på dine vegne"
-                                                myMail.Subject= "Din leder har indtastet fravær på dine vegne"
+                                                myMail.Subject= ""& timereg_txt_151 &""
                                     
 		                                        strBody = "<br><br>"
-                                                strBody = strBody & "Din leder "& session("user") &" har indtastet følgende fravær for dig:<br><br> "
+                                                strBody = strBody & ""& timereg_txt_152 &" "& session("user") &" "& timereg_txt_153 &":<br><br> "
                                                 strBody = strBody & EmailNotificerTxt
 		        
                                                                 
@@ -595,9 +596,9 @@ function notificerEmail(usemrn, EmailNotificerTxt, visning, modtagerid)
                                                         'end if				           
 
 
-                                                strBody = strBody &"<br><br><br><br>Med venlig hilsen<br><i>" 
+                                                strBody = strBody &"<br><br><br><br>"& timereg_txt_148 &"<br><i>" 
                                                 strBody = strBody & session("user") & "</i>"
-                                                strBody = strBody & "<br><br>Denne mail ar afsendt af TimeOut notifikations service<br><br>&nbsp;"
+                                                strBody = strBody & "<br><br>"& timereg_txt_154 &"<br><br>&nbsp;"
                                   
 
 

@@ -2617,9 +2617,9 @@ if len(session("user")) = 0 then
     oskrift = erp_txt_197 &" "& typTxt
 
     if jobid <> 0 then
-    oskrift = oskrift &" <span style=""font-size:11px; font-weight:lighter;""> job no.: ("&  intjobnr &")</span>"
+    oskrift = oskrift &" <span style=""font-size:11px; font-weight:lighter;""> "& erp_txt_419 &": ("&  intjobnr &")</span>"
 	else
-    oskrift = oskrift &" <span style=""font-size:11px; font-weight:lighter;""> aft. no.: ("&  intaftnr &")</span>"
+    oskrift = oskrift &" <span style=""font-size:11px; font-weight:lighter;""> "& erp_txt_420 &": ("&  intaftnr &")</span>"
     end if
 	
 	'call sideoverskrift(oleft, otop, owdt, oimg, oskrift)
@@ -3847,7 +3847,7 @@ if len(session("user")) = 0 then
 
          %>
 
-			<td><br />Bankkonto:<br /><select name="FM_afs_bankkonto" id="FM_afs_bankkonto" style="width:300px;">
+			<td><br /><%=erp_txt_424 %>:<br /><select name="FM_afs_bankkonto" id="FM_afs_bankkonto" style="width:300px;">
             <option value="0" <%=kontonr_sel0 %>><%=bank &": "& regnr &" "& kontonr %></option>
             <option value="1" <%=kontonr_sel1 %>><%=bank_b &": "& regnr_b &" "& kontonr_b %></option>
             <option value="2" <%=kontonr_sel2 %>><%=bank_c &": "& regnr_c &" "& kontonr_c %></option>
@@ -4598,7 +4598,7 @@ if len(session("user")) = 0 then
          wend
          oRec2.close  %>
 
-        <option value="0">Ingen</option>
+        <option value="0"><%=erp_txt_423 %></option>
 
 
     </select>
@@ -4614,7 +4614,7 @@ if len(session("user")) = 0 then
 	<tr><td valign=top style="padding:12px 5px 2px 5px;"><b><%=erp_txt_128 %></b><br />
 	 <span style="color:#999999;"><%=erp_txt_129 %></span></td></tr>-->
 	<tr>
-	<td valign=top style="padding:12px 5px 2px 5px;"><b><%=erp_txt_130 %></b> (kunde konto)<br />
+	<td valign=top style="padding:12px 5px 2px 5px;"><b><%=erp_txt_130 %></b> (<%=erp_txt_414 %>)<br />
 	
 		<%
 		if func = "red" then
@@ -4755,7 +4755,7 @@ if len(session("user")) = 0 then
 		
 		end if%>
 		</select><br />
-		   <span style="color:#999999;">Forvalgt konto på forrretningsområde forvælger konto. Hvis ikke der findes konto på forretningsområde, vælges forvalgt konto fra kontoplan. </span>
+		   <span style="color:#999999;"><%=erp_txt_413 %></span>
 		
             &nbsp;
 		</td>
@@ -4834,7 +4834,7 @@ if len(session("user")) = 0 then
 
        %>
 		<div id="fidiv_2" style="position:absolute; visibility:<%=showNaesteVzb%>; display:<%=showNaesteDsp%>; top:840px; width:720px; left:5px; border:0px #8cAAe6 solid;">
-        <table width=100% cellspacing=0 cellpadding=5 border=0><tr><td></td><td align=right><a href="#" onclick="showdiv('modtagdiv')" class=vmenu>Næste >></a></td></tr></table>
+        <table width=100% cellspacing=0 cellpadding=5 border=0><tr><td></td><td align=right><a href="#" onclick="showdiv('modtagdiv')" class=vmenu><%=erp_txt_417 %> >></a></td></tr></table>
 		</div>
        
 	<!-- Faktura indstillinger SLUT -->
@@ -4874,13 +4874,13 @@ if len(session("user")) = 0 then
     
     select case fastpris 
     case "1"
-	jType = "Fastpris"
+	jType = erp_txt_345
 	case "3"
     jType = "Salesorder"
     case "4"
     jType = "Commission"    
     case else
-	jType = "lbn. timer"
+	jType = erp_txt_299
 	end select
     
     chklukjob = 0
@@ -4948,7 +4948,7 @@ if len(session("user")) = 0 then
 		
 		<tr><td >Periode:</td><td ><b><%=formatdatetime(jobstdato, 2) %></b> til <b><%=formatdatetime(jobsldato, 2) %></b> </td></tr>
 		<tr><td  valign=top style="padding-top:5px;"><%=erp_txt_147 %><br />
-            <span style="font-size:9px; color:#999999;">(overskriver rekvnr. på job) </span>
+            <span style="font-size:9px; color:#999999;">(<%=erp_txt_430 %>) </span>
 		    </td><td ><input type="text" name="FM_rekvnr" style="font-size:9px; width:150px;" value="<%=rekvnr %>" /></td></tr>
 
         <%if aftaleId <> 0 then %>
@@ -4956,10 +4956,10 @@ if len(session("user")) = 0 then
         <%end if %>
 		
 		<%if cint(ski) = 1 then 
-		skiTxt = "Ja"
+		skiTxt = erp_txt_453
 		skiCHK = "CHECKED"
 		else
-		skiTxt = "Nej"
+		skiTxt = erp_txt_454
 		skiCHK = ""
 		end if%>
 		
@@ -4994,7 +4994,7 @@ if len(session("user")) = 0 then
                 
                  %>
 
-                <b><%=formatnumber(beloebFaktureret, 2) %> DKK</b> (<%=antalFak%> fak. / <%=antalKre %> kredit.)
+                <b><%=formatnumber(beloebFaktureret, 2) %> DKK</b> (<%=antalFak%> fak. / <%=antalKre %> kredit.) <!-- Mangler -->
 		                                                             </td></tr>
 
 
@@ -5120,7 +5120,7 @@ if len(session("user")) = 0 then
      
 
         if ja = 0 then
-        strJobPaaAft = "(ingen)"
+        strJobPaaAft = erp_txt_423
         end if
         %>
 
@@ -5223,7 +5223,7 @@ if len(session("user")) = 0 then
 	
 	<br />
      <%
-		                uTxt = "<b>Sideskift:</b><br>Husk at vælge antal sider i step 1"
+		                uTxt = "<b>"& erp_txt_432 &":</b><br>"& erp_txt_431 &""
 						uWdt = 300
 								
 					    call infoUnisport(uWdt, uTxt) 

@@ -836,11 +836,11 @@ public ekspTxt_kk
 		
 		<table width=100% border=0 cellspacing=0 cellpadding=0>
 		<tr>
-		    <td><input id="FM_visjoblog" name="FM_visjoblog" <%=visjoblogCHK %> type="checkbox" /> <b>Vedhæft joblog på faktura.</b></td>
+		    <td><input id="FM_visjoblog" name="FM_visjoblog" <%=visjoblogCHK %> type="checkbox" /> <b>Vedhæft joblog på faktura.</b></td> <!-- mangler -->
 		</tr>
 		<tr>
-			<td>Joblog i valgt periode (kun fakturerbare og ikke-faktorerbare timer) <br />
-			Periode afgrænsning: <%=formatdatetime(showStDato, 1)%> - <%=formatdatetime(showSlutDato, 1)%>
+			<td><%erp_txt_434 %> <br />
+			<%erp_txt_435 %>: <%=formatdatetime(showStDato, 1)%> - <%=formatdatetime(showSlutDato, 1)%>
 			<br />
               
                 
@@ -869,7 +869,7 @@ public ekspTxt_kk
 	end if %>
 	    
 	    <div id=joblogdiv_2 style="position:absolute; visibility:hidden; display:none; top:776px; width:700px; left:5px; border:0px #8cAAe6 solid;">
-        <table width=700 cellspacing=0 cellpadding=5 border=0><tr><td><a href="#" onclick="showdiv('<%=forr%>')" class=vmenu><< Forrige</a></td><td align=right><a href="#" onclick="showdiv('<%=nst%>')" class=vmenu>Næste >></a></td></tr></table>
+        <table width=700 cellspacing=0 cellpadding=5 border=0><tr><td><a href="#" onclick="showdiv('<%=forr%>')" class=vmenu><< <%erp_txt_436 %></a></td><td align=right><a href="#" onclick="showdiv('<%=nst%>')" class=vmenu><%erp_txt_392 %> >></a></td></tr></table>
         </div>
 	    
 		<!-- Joblog slut -->
@@ -890,10 +890,10 @@ public ekspTxt_kk
     	 <table width=100% cellspacing=0 cellpadding=0 border=0>
         <tr>
         <td valign=top>
-            <input id="FM_vismatlog" name="FM_vismatlog" <%=matLogChk %> type="checkbox" value="1" /> <b>Vedhæft materiale log på faktura.</b>
+            <input id="FM_vismatlog" name="FM_vismatlog" <%=matLogChk %> type="checkbox" value="1" /> <b><%erp_txt_437 %></b>
             <br />
-            Materiale-log i valgt periode.<br />
-            Periode afgrænsning: <%=formatdatetime(showStDato, 1)%> - <%=formatdatetime(showSlutDato, 1)%>
+            <%erp_txt_438 %><br />
+            <%erp_txt_435 %>: <%=formatdatetime(showStDato, 1)%> - <%=formatdatetime(showSlutDato, 1)%>
 			
         </td>
         </tr>
@@ -905,13 +905,13 @@ public ekspTxt_kk
            <div style="position:relative; visibility:visible; height:500px; border:0px orange dashed; overflow:auto; background-color:#ffffe1; z-index:200; padding:10px 10px 10px 10px;">
             <table width=100% cellspacing=0 cellpadding=0 border=0>
             <tr>
-            <td><b>Dato</b></td>
-            <td><b>Navn</b></td>
-            <td><b>Varenr</b></td>
-            <td align=right><b>Antal</b></td>
-            <td align=right><b>Enheds pris</b></td>
-            <td align=right><b>Enhed</b></td>
-            <td align=right><b>Pris ialt</b></td>
+            <td><b><%erp_txt_439 %></b></td>
+            <td><b><%erp_txt_440 %></b></td>
+            <td><b><%erp_txt_441 %></b></td>
+            <td align=right><b><%erp_txt_442 %></b></td>
+            <td align=right><b><%erp_txt_443 %></b></td>
+            <td align=right><b><%erp_txt_444 %></b></td>
+            <td align=right><b><%erp_txt_445 %></b></td>
         </tr><%
         
         call matLog(jobid, stdatoKri, slutdato, aftid)
@@ -930,7 +930,7 @@ public ekspTxt_kk
 	end if %>
        
         <div id=matlogdiv_2 style="position:absolute; visibility:hidden; display:none; top:776px; width:600px; left:5px; border:0px #8cAAe6 solid;">
-        <table width=700 cellspacing=0 cellpadding=5 border=0><tr><td><a href="#" onclick="showdiv('aktdiv')" class=vmenu><< Forrige</a></td><td align=right><a href="#" onclick="showdiv('<%=nst%>')" class=vmenu>Næste >></a></td></tr></table>
+        <table width=700 cellspacing=0 cellpadding=5 border=0><tr><td><a href="#" onclick="showdiv('aktdiv')" class=vmenu><< <%erp_txt_391 %></a></td><td align=right><a href="#" onclick="showdiv('<%=nst%>')" class=vmenu><%erp_txt_392 %> >></a></td></tr></table>
         </div>
     <%
     end function

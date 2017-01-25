@@ -163,24 +163,24 @@ level = session("rettigheder")
 	ikkefakbaretimer = 0
 	end if%>
 	
-	<br />Timer forkalk.: 
+	<br />Timer forkalk.: <!-- Mangler --> 
         <b><%=formatnumber(fakbaretimer+ikkefakbaretimer, 2) %></b>
         <br />
 	
-	Budget: <font class="megetlillesort"><%=basisValISO%></font> <b><%=formatnumber(budget, 2) %></b><br />
+	<%erp_txt_354 %>: <font class="megetlillesort"><%=basisValISO%></font> <b><%=formatnumber(budget, 2) %></b><br />
 	
 	<%
 	if fastpris = 1 then
 	fastprisTxt = "Fastpris"
 	    if usejoborakt_tp = 1 then
-	    fastprisTxt = fastprisTxt & " (aktiviteter)"
+	    fastprisTxt = fastprisTxt & " ("& erp_txt_394 &")"
 	    end if
 	else
-	fastprisTxt = "Lbn. Timer"
+	fastprisTxt = erp_txt_340
 	end if
 	
 	 %>
-	Jobtype: <b><%=fastprisTxt %></b>
+	<%erp_txt_339 %>: <b><%=fastprisTxt %></b>
 	
 	<%
 	if len(trim(m1navn)) <> 0 then
@@ -264,9 +264,9 @@ level = session("rettigheder")
 	&nbsp;
 	<%end if %><br />
 	<%if aftAdviType = 2 then %>
-	Periode baseret
+	Periode baseret <!-- mangler -->
 	<%else %>
-	Enhed. / Klip baseret
+	Enhed. / Klip baseret <!-- mangler -->
 	<%end if %>
 	</td></tr> 
 	
@@ -331,7 +331,7 @@ level = session("rettigheder")
        <tr>
        <td>
        
-        Type:&nbsp;
+        Type:&nbsp; <!-- mangler -->
 		<%
 		'** Faktype ***
 		select case intType
@@ -368,10 +368,10 @@ level = session("rettigheder")
                         opretTxt = "Create new"
                     
                 case else %>    
-                <option value=0 <%=selTypNUL %>>Faktura</option>
-                <option value=1 <%=selTypET %>>Kreditnota</option>
+                <option value=0 <%=selTypNUL %>>Faktura</option> <!-- mangler -->
+                <option value=1 <%=selTypET %>>Kreditnota</option> <!-- mangler -->
                 <%
-                    opretTxt = "Opret ny"
+                    opretTxt = "Opret ny" 'mangler
                     
                     end select %>
              
@@ -390,7 +390,7 @@ level = session("rettigheder")
 	
 	<!-- Fakturaer mini historik --->
 <br /><br />
- <a href="#" id="showfakind" style="color:#999999; font-size:9px; font-weight:lighter;">[ Fak. Pre-indstill. ]</a>
+ <a href="#" id="showfakind" style="color:#999999; font-size:9px; font-weight:lighter;">[ Fak. Pre-indstill. ]</a> <!--mangler -->
 
 	<div id=fakturaer style="position:relative; height:260px; top:0px; background-color:#ffffff; visibility:visible; display:; width:275px; overflow:scroll; z-index:1;">
 	
@@ -498,12 +498,12 @@ level = session("rettigheder")
                 <!-- erp_fak_godkendt_2007.asp?id=<%=oRec3("fid")%>&FM_usedatointerval=1&jobid=<%=jobid%>&aftid=<%=aftid%>&kid=<%=kid%>&FM_start_dag_ival=<%=strDag%>&FM_start_mrd_ival=<%=strMrd %>&FM_start_aar_ival=<%=strAar%>&FM_slut_dag_ival=<%=strDag_slut%>&FM_slut_mrd_ival=<%=strMrd_slut%>&FM_slut_aar_ival=<%=strAar_slut%> -->
             <%
             if oRec3("betalt") <> 1 AND (cdate(oRec3("fakdato")) > cdate("25/8/2007")) then%>
-            <a href="erp_opr_faktura_fs.asp?func=red&id=<%=oRec3("fid")%>&visminihistorik=1&visfaktura=1&visjobogaftaler=1&FM_usedatokri=1&FM_job=<%=jobid%>&FM_aftale=<%=aftid%>&FM_kunde=<%=kid%>&FM_start_dag=<%=strDag%>&FM_start_mrd=<%=strMrd %>&FM_start_aar=<%=strAar%>&FM_slut_dag=<%=strDag_slut%>&FM_slut_mrd=<%=strMrd_slut%>&FM_slut_aar=<%=strAar_slut%>"><img src="../ill/redigerfak.gif" border="0" alt="Rediger faktura" /></a>
+            <a href="erp_opr_faktura_fs.asp?func=red&id=<%=oRec3("fid")%>&visminihistorik=1&visfaktura=1&visjobogaftaler=1&FM_usedatokri=1&FM_job=<%=jobid%>&FM_aftale=<%=aftid%>&FM_kunde=<%=kid%>&FM_start_dag=<%=strDag%>&FM_start_mrd=<%=strMrd %>&FM_start_aar=<%=strAar%>&FM_slut_dag=<%=strDag_slut%>&FM_slut_mrd=<%=strMrd_slut%>&FM_slut_aar=<%=strAar_slut%>"><img src="../ill/redigerfak.gif" border="0" alt="Rediger faktura" /></a> <!-- Mangler --
                 <!--  -- >
             <!-- &rykkreopr=j -->
             <%
                 if oRec3("fak_laast") <> 1 then ' har faktura været låst?? 
-                %><a href="erp_opr_faktura_fs.asp?func=slet&id=<%=oRec3("fid")%>&visminihistorik=1&visfaktura=0&visjobogaftaler=1"><img src="../ill/sletfak.gif" border="0" alt="Slet faktura" /></a><br />
+                %><a href="erp_opr_faktura_fs.asp?func=slet&id=<%=oRec3("fid")%>&visminihistorik=1&visfaktura=0&visjobogaftaler=1"><img src="../ill/sletfak.gif" border="0" alt="Slet faktura" /></a><br /> <!-- mangler -->
                 <%end if %>
 
                 <!-- &FM_usedatokri=1&FM_job=<%=jobid%>&FM_aftale=<%=aftid%>&FM_kunde=<%=kid%>&FM_start_dag=<%=strDag%>&FM_start_mrd=<%=strMrd %>&FM_start_aar=<%=strAar%>&FM_slut_dag=<%=strDag_slut%>&FM_slut_mrd=<%=strMrd_slut%>&FM_slut_aar=<%=strAar_slut%> -->
@@ -519,7 +519,7 @@ level = session("rettigheder")
                   
                 
                 <a href="erp_opr_faktura_fs.asp?func=fortryd&id=<%=oRec3("fid")%>&visminihistorik=1&visfaktura=0&visjobogaftaler=1" class=vmenualt>
-                    <img src="../ill/fortryd.gif" border="0" alt="Fortryd godkend" /></a>
+                    <img src="../ill/fortryd.gif" border="0" alt="Fortryd godkend" /></a> <!-- mangler -->
                    
                 
                 <%end if 
@@ -647,9 +647,9 @@ level = session("rettigheder")
         <tr>
             <td colspan=4 align=right style="padding:10px 8px 0px 2px;">
             <%if f = 1 then %>
-            (Der findes ingen fakturaer i det valgte interval.)
+            (<%erp_txt_446 %>)
             <%else %>
-            Ialt: <b> <%=formatnumber(totbel, 2) &" "& basisValISO%></b> <br />Inkl. kladder og interne. Ekskl. moms</td></tr>
+            <%erp_txt_447 %>: <b> <%=formatnumber(totbel, 2) &" "& basisValISO%></b> <br /><%erp_txt_448 %></td></tr>
             <%end if %>
         
         <tr><td colspan=4 style="padding:10px 2px 0px 5px;">
@@ -759,10 +759,10 @@ level = session("rettigheder")
         <form id=prefak action="erp_opr_faktura_fs.asp?formsubmitted=3&visfaktura=1&visjobogaftaler=1&visminihistorik=1&func=opdprefak" method="post">
             <tr><td align="right" style="padding:10px 10px 10px 10px;"><span id="luk_fakpre" style="color:red;">[X]</span></td></tr>
         <tr><td style="padding:10px 10px 10px 10px;">
-        <h4>Faktura pre. indstillinger:</h4>
+        <h4><%erp_txt_449 %>:</h4>
         
-        <b>A)</b> Visning af medarbejder timer
-		på faktura print skal automatisk være slået til:<br />
+        <b>A)</b> <%erp_txt_450 %>
+		<%erp_txt_451 %>:<br />
 		<%
 		if request.cookies("erp")("tvmedarb") = "1" then
 		chkA = "CHECKED"
@@ -772,11 +772,11 @@ level = session("rettigheder")
 		chkA = ""
 		end if
 		%>
-		<input type="radio" name="FM_chkmed" value="1" <%=chkA%>> Ja 
-		<input type="radio" name="FM_chkmed" value="0" <%=chkB%>> Nej
+		<input type="radio" name="FM_chkmed" value="1" <%=chkA%>> <%erp_txt_453 %> 
+		<input type="radio" name="FM_chkmed" value="0" <%=chkB%>> <%erp_txt_454 %>
 		
 		<br /><br />
-		<b>B)</b> Forvælg "vis joblog og materiale log" på faktura print? <br />
+		<b>B)</b> <%erp_txt_452 %> <br />
 		<%
 		if request.cookies("erp")("tvlogs") = "1" then
 		chklogA = "CHECKED"
@@ -786,12 +786,12 @@ level = session("rettigheder")
 		chklogA = ""
 		end if
 		%>
-		<input type="radio" name="FM_chklog" value="1" <%=chklogA%>> Ja 
-		<input type="radio" name="FM_chklog" value="0" <%=chklogB%>> Nej
+		<input type="radio" name="FM_chklog" value="1" <%=chklogA%>> <%erp_txt_453 %> 
+		<input type="radio" name="FM_chklog" value="0" <%=chklogB%>> <%erp_txt_454 %>
 		
 		
 		<br /><br />
-		<b>C)</b> Forvælg "vis tlf." på faktura print? <br />
+		<b>C)</b> <%erp_txt_455 %> <br />
 		<%
 		if request.cookies("erp")("tvtlffax") = "1" then
 		chktlffaxA = "CHECKED"
@@ -801,11 +801,11 @@ level = session("rettigheder")
 		chktlffaxA = ""
 		end if
 		%>
-		<input type="radio" name="FM_chktlffax" value="1" <%=chktlffaxA%>> Ja 
-		<input type="radio" name="FM_chktlffax" value="0" <%=chktlffaxB%>> Nej
+		<input type="radio" name="FM_chktlffax" value="1" <%=chktlffaxA%>> <%erp_txt_453 %> 
+		<input type="radio" name="FM_chktlffax" value="0" <%=chktlffaxB%>> <%erp_txt_454 %>
 		
 		<br /><br />
-		<b>D)</b> Forvælg "vis email adresse" faktura print? <br />
+		<b>D)</b> <%erp_txt_456 %> <br />
 		<%
 		if request.cookies("erp")("tvemail") = "1" then
 		chkemailA = "CHECKED"
@@ -815,8 +815,8 @@ level = session("rettigheder")
 		chkemailA = ""
 		end if
 		%>
-		<input type="radio" name="FM_chkemail" value="1" <%=chkemailA%>> Ja 
-		<input type="radio" name="FM_chkemail" value="0" <%=chkemailB%>> Nej
+		<input type="radio" name="FM_chkemail" value="1" <%=chkemailA%>> <%erp_txt_453 %> 
+		<input type="radio" name="FM_chkemail" value="0" <%=chkemailB%>> <%erp_txt_454 %>
 		
 		<!--
 		<br /><br />
@@ -839,7 +839,7 @@ level = session("rettigheder")
 		
 		
 		<br /><br />
-		<b>E)</b> Slå "luk job ved fakturering" til.<br />
+		<b>E)</b> <%erp_txt_457 %><br />
 		<%
 		if request.cookies("erp")("lukjob") = "1" then
 		chklukjobA = "CHECKED"
@@ -849,8 +849,8 @@ level = session("rettigheder")
 		chklukjobA = ""
 		end if
 		%>
-		<input type="radio" name="FM_chklukjob" value="1" <%=chklukjobA%>> Ja 
-		<input type="radio" name="FM_chklukjob" value="0" <%=chklukjobB%>> Nej
+		<input type="radio" name="FM_chklukjob" value="1" <%=chklukjobA%>> <%erp_txt_453 %> 
+		<input type="radio" name="FM_chklukjob" value="0" <%=chklukjobB%>> <%erp_txt_454 %>
 
 
         <br /><br />
@@ -859,7 +859,7 @@ level = session("rettigheder")
         else
         ign_akttype_inst_CHK = ""
         end if %>
-        <b>F)</b>  <input id="Checkbox1" name="ign_akttype_inst" value="1" type="checkbox" <%=ign_akttype_inst_CHK %> /> Ignorer akttype-instillinger (vis alle aktiviteter uanset om typen er sat til at blive vist på faktura)
+        <b>F)</b>  <input id="Checkbox1" name="ign_akttype_inst" value="1" type="checkbox" <%=ign_akttype_inst_CHK %> /> <%erp_txt_458 %>
 	  
 
 		
@@ -873,7 +873,7 @@ level = session("rettigheder")
          
 
             <tr><td align=right style="padding:10px 10px 10px 10px;">
-            <input id="Submit3" type="submit" value="Opdater >>" />
+            <input id="Submit3" type="submit" value="Opdater >>" /> <!-- Mangler -->
 	    </td></tr>
 		</form>
 		</table>
@@ -899,8 +899,8 @@ level = session("rettigheder")
 	<div id=lommeregner style="position:absolute; background-color:#ffffff; width:275px; height:230px; top:64px; border:0px #5582d2 solid; visibility:hidden; display:none; z-index:1;">
 	<table cellspacing=0 cellpadding=0 border=0><form id=beregn name=beregn>
 	<tr>
-		<td style="padding:10px 2px 0px 10px;" valign=top>Beløb: <input type="text" name="beregn_belob" id="beregn_belob" value="0" size="4" style="font-size:9px;"> <b>/</b> </td>
-	    <td style="padding:10px 2px 0px 2px;" valign=top>Timer: <input type="text" name="beregn_timer" id="beregn_timer" value="0" size="4" style="font-size:9px;"></td>
+		<td style="padding:10px 2px 0px 10px;" valign=top><%erp_txt_459 %>: <input type="text" name="beregn_belob" id="beregn_belob" value="0" size="4" style="font-size:9px;"> <b>/</b> </td>
+	    <td style="padding:10px 2px 0px 2px;" valign=top><%erp_txt_460 %>: <input type="text" name="beregn_timer" id="beregn_timer" value="0" size="4" style="font-size:9px;"></td>
 	    <td style="padding:10px 2px 0px 2px;" valign=top><input type="button" name="beregn" id="beregn" value=" = " onClick="beregntimepris()" style="font-size:9px;">&nbsp; <input type="text" name="beregn_tp" id="beregntp" value="0" style="width:58px; font-size:9px;"></td>
 	</tr></form></table>								
 	</div>

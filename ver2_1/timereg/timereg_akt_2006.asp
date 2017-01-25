@@ -2826,7 +2826,7 @@
                                                         felt = felt &"<div style='position:relative; background-color:"&fmbgcol&"; top:5px; border:0; height:12px; padding:3px; width:"& tfeltwth &"px; font-family:arial; font-size:10px; line-height:12px;'>"& timerThis
                                 
                                                         if cint(origin) <> 0 then
-                                                        felt = felt &"<span style=""font-size:9px; color:#999999;""> (se ugeseddel)</span>"
+                                                        felt = felt &"<span style=""font-size:9px; color:#999999;""> ("& timereg_txt_001 &")</span>"
                                                         end if
 
                                                         felt = felt &"</div>"
@@ -2939,7 +2939,7 @@
                                     
                                                         if cint(origin) <> 0 then 'Må ikke opdatere timer på registrering fra Excel, Vietnam, TiemTag, Timeout mobile. Da det dobler op pga. der kan være flere linjer der er grundlag
                                                         felt = felt &"<input type='hidden' name='FM_sttid' value=''><span style=""background-color:"&fmbgcol&"; height:12px; width:"& tfeltwth-10 &"px; font-family:arial; font-size:10px; padding:3px; line-height:12px; border:0px;"">"& timerThis &"</span>"_
-								                        &""& br &"<input type='hidden' name='FM_sltid' value=''><span style=""font-size:9px; color:#999999;""> (se ugeseddel)</span>"
+								                        &""& br &"<input type='hidden' name='FM_sltid' value=''><span style=""font-size:9px; color:#999999;""> (timereg_txt_001)</span>"
 								                
 								                        else
                                                         
@@ -3053,10 +3053,10 @@
                     '***Submit i bubnd / tom liste besked
                     if (fo = 0 OR acn = 0) AND (sortByVal <> 5 AND sortByVal <> 6) then
                     strAktiviteter = strAktiviteter & "<tr><td bgcolor='#FFFFFF' colspan='9' valign='top' style='padding:20px 0px 20px 20px;'>"_
-                    &"Der blev ikke fundet nogen <b>aktiviteter</b> p&aring; dette job i den valgte periode.<br><br> - Tjek at du har <b>rettigheder til aktiviteterne</b>, og at de ligger i det korrekte <b>tidsinterval</b> (startdato nyere end mandag i valgte uge).<br> - Hvis jobbet har status som et tilbud vises kun <b>salgs-aktiviteter.</b>"
+                    &""& timereg_txt_002 &" <b>"& timereg_txt_003 &"</b> "& timereg_txt_004 &"<br><br> - "& timereg_txt_005 &" <b>"& timereg_txt_006 &"</b>, "& timereg_txt_007 &" <b>"& timereg_txt_008 &"</b> ("& timereg_txt_009 &").<br> - "& timereg_txt_010 &" <b>"& timereg_txt_011 &"</b>"
                                     
                      if cint(aktBudgettjkOn) = 1 then
-                     strAktiviteter = strAktiviteter & "<br> - Der <b>findes ikke forecast / timebudget</b> p&aring; aktiviteterne endnu. (og forecast-filter er sl&aring;et til)"
+                     strAktiviteter = strAktiviteter & "<br> - "& timereg_txt_012 &" <b>"& timereg_txt_013 &"</b> "& timereg_txt_014 &""
                      end if               
                     
                                     
@@ -3104,7 +3104,7 @@
 
                 if (cint(sortByVal) = 5 OR cint(sortByVal) = 6) AND cint(intEasyreg) <> 1 then 
                 '** tilføj timer på **
-                strAktiviteter = strAktiviteter &"<tr bgcolor=#FFFFFF><td colspan=9><br><br><br><b>Tilf&oslash;j aktiviteter til liste:</b> (v&aelig;lg aktiviteter fra personlig aktiv-jobliste)</td></tr>"
+                strAktiviteter = strAktiviteter &"<tr bgcolor=#FFFFFF><td colspan=9><br><br><br><b>"& timereg_txt_015 &":</b> ("& timereg_txt_016 &")</td></tr>"
 
                  
                 strSQLaktopt = "SELECT a.id AS aid, j.id AS jid, navn AS aktnavn, a.fase, k.kkundenavn, k.kkundenr, k.kid, j.jobnavn, j.jobnr, a.fakturerbar, j.jobstatus FROM aktiviteter AS a "_
@@ -3199,8 +3199,8 @@
                 call jq_format(aktOptions)
                 aktOptions = jq_formatTxt
 
-               strAktiviteter = strAktiviteter &"<tr><td colspan=9 bgcolor=""#FFFFFF""><select id=""nyaktivitet"" size=""10"" multiple style=""width:650px; font-size:11px;""><option value=0>Kontakt | Job | Fase: Aktivitet</option>"& aktOptions &"</select><br>Valgte aktiviteter vil komme med p&aring; listen ovenfor. Der g&aring;r ca. 2-3 sek.</td></tr>"
-               strAktiviteter = strAktiviteter &"<tr><td align=right colspan=9 bgcolor=""#FFFFFF"">&nbsp;<input id=""nyaktivitet_but"" value=""Tilf&oslash;j >>"" type=""button""><br><br><br>&nbsp;</td></tr>"
+               strAktiviteter = strAktiviteter &"<tr><td colspan=9 bgcolor=""#FFFFFF""><select id=""nyaktivitet"" size=""10"" multiple style=""width:650px; font-size:11px;""><option value=0>"& timereg_txt_017 &" | "& timereg_txt_018 &" | "& timereg_txt_019 &": "& timereg_txt_020 &"</option>"& aktOptions &"</select><br>"& timereg_txt_021 &" "& timereg_txt_022 &"</td></tr>"
+               strAktiviteter = strAktiviteter &"<tr><td align=right colspan=9 bgcolor=""#FFFFFF"">&nbsp;<input id=""nyaktivitet_but"" value="""& timereg_txt_023 &" >>"" type=""button""><br><br><br>&nbsp;</td></tr>"
                 end if
          
         
@@ -3294,12 +3294,12 @@
          strJoiDUge = "<table cellspacing=0 cellpadding=0 border=0 width='100%'><tr><td>"
          
          if level <= 2 then
-         strJoiDUge = strJoiDUge & "<a href='webblik_joblisten.asp?nomenu=1&rdir=treg&FM_kunde=0&FM_medarb_jobans="&session("mid")&"&st_sl_dato=2' target=""_blank"" class=""rmenu"">+ Rediger <br>igangv.job</a>"
+         strJoiDUge = strJoiDUge & "<a href='webblik_joblisten.asp?nomenu=1&rdir=treg&FM_kunde=0&FM_medarb_jobans="&session("mid")&"&st_sl_dato=2' target=""_blank"" class=""rmenu"">+ "& timereg_txt_024 &" <br>"& timereg_txt_025 &"</a>"
          else
          strJoiDUge = strJoiDUge &"&nbsp;"
          end if
          
-         strJoiDUge = strJoiDUge &"</td><td class=lille align=right><b>Fork.</b></td><td class=lille align=right><b>Real.</b></td><td class=lille align=right><b>Fak.</b></td>"
+         strJoiDUge = strJoiDUge &"</td><td class=lille align=right><b>"& timereg_txt_108 &"</b></td><td class=lille align=right><b>"& timereg_txt_026 &"</b></td><td class=lille align=right><b>"& timereg_txt_027 &"</b></td>"
 
 
 
@@ -3591,8 +3591,8 @@
          wend
          oRec3.close  
 
-         strTildelJob = strTildelJob & "<tr><td class=lille><br><input type=""checkbox"" name=""tuid_progrp_alle"" id=""tuid_progrp_alle"" value=""1"" /> Opdater alle medarb. i valgte grp.</td></tr>"
-         strTildelJob = strTildelJob & "<tr><td align=right><input type=""submit"" value="" Opdater >>"" style=""font-size:9px;""></td></tr></table>"
+         strTildelJob = strTildelJob & "<tr><td class=lille><br><input type=""checkbox"" name=""tuid_progrp_alle"" id=""tuid_progrp_alle"" value=""1"" /> "& timereg_txt_028 &"</td></tr>"
+         strTildelJob = strTildelJob & "<tr><td align=right><input type=""submit"" value="" "& timereg_txt_109 &" >>"" style=""font-size:9px;""></td></tr></table>"
          
 
          call jq_format(strTildelJob)
@@ -3860,7 +3860,7 @@
 
 
         if viseasyreg <> 0 then
-        Response.Write "Der er valgt Easyreg. <br>Alle Easyreg. aktiviteter p&aring; de valgte kunder vises."
+        Response.Write ""& timereg_txt_029 &" <br>"& timereg_txt_030 &""
         Response.end
 
         end if 
@@ -3874,7 +3874,7 @@
         end if
 
         if vishr <> 0 then
-        Response.Write "Der er valgt HR liste. <br>Alle interne job, sygdom, ferie, interntid etc. (prioitet = -2)<br><br>Tilf&oslash;j job til HR listen ved at redigere job --> Avanceret --> S&aelig;t prioitet = -2"
+        Response.Write ""& timereg_txt_031 &" <br>"& timereg_txt_032 &"<br><br>"& timereg_txt_033 &""
         Response.end
 
         end if 
@@ -6090,10 +6090,10 @@
             <!--<b><%=tsa_txt_001%>:</b><br /><br />-->
 
             <%if instr(formatdatetime(cDateUge, 2), "1899") <> 0 then %>
-            Der er opstået en fejl.<br />
-            Du har glemt at vælge uge/måned!<br /><br />
+            <%=timereg_txt_034 %><br />
+            <%=timereg_txt_035 %><br /><br />
             <br />
-            <a href="javascript:history.back()" class=vmenu><< Tilbage</a>
+            <a href="javascript:history.back()" class=vmenu><< <%=timereg_txt_036 %></a>
             <br /><br />&nbsp;
 
             <%else%>
@@ -7191,7 +7191,7 @@
 	<img src="../inc/jquery/images/ajax-loader.gif" /><br />&nbsp;
   
 	</td></tr>
-    <tr><td colspan=2>  <div id="load_cdown">Forventet loadtid: 4-7 sekunder...</div></td></tr>
+    <tr><td colspan=2>  <div id="load_cdown"><%=timereg_txt_038 %></div></td></tr>
     </table>
 
 	</div>
@@ -7397,7 +7397,7 @@
         
         if cint(visIgnorerprojgrp) = 1 then%>
         <br /><input type="checkbox" name="FM_ignorer_projektgrupper" id="FM_ignorer_projektgrupper" value="1" <%=selIgn%>> <%=tsa_txt_074%> <span id="a_ignproj_info" style="color:#999999;"><b>?</b></span>
-        <div id="sp_ignproj_info" style="color:#999999; display:none; visibility:hidden; padding:5px; border:0px #cccccc solid;"><br /><b>Administrator:</b> Viser alle aktiviteter.<br /><b>Teamleder:</b> viser egne rettigheder på aktiviteter, så Du kan taste for andre medarbejdere på de aktiviteter Du har rettighed til.
+        <div id="sp_ignproj_info" style="color:#999999; display:none; visibility:hidden; padding:5px; border:0px #cccccc solid;"><br /><b><%=timereg_txt_039 %>:</b> <%=timereg_txt_040 %><br /><b><%=timereg_txt_041 %>:</b> <%=timereg_txt_042 %>
         <p id="al_ignproj_info" style="color:#999999;">X</p></div>
         <%else %>
         <input type="checkbox" name="FM_ignorer_projektgrupper" id="FM_ignorer_projektgrupper" value="1" style="visibility:hidden;" >
@@ -7444,7 +7444,7 @@
 				</td>
 				
 				
-	    <td valign=top style="height:250px; padding-top:5px;"><b>Filter:</b><br />
+	    <td valign=top style="height:250px; padding-top:5px;"><b><%=timereg_txt_043 %>:</b><br />
             <input id="FM_nyeste" name="FM_nyeste" type="radio" value="1" <%=selNye%> /> <%=tsa_txt_334 %>
             
             <%
@@ -7462,7 +7462,7 @@
             case else
             end select %>
             
-            &nbsp;&nbsp;<input id="FM_classicreg" name="FM_classicreg" type="radio" value="1" <%=selClassic%> /> <%=tsa_txt_374 %> (vis alle)
+            &nbsp;&nbsp;<input id="FM_classicreg" name="FM_classicreg" type="radio" value="1" <%=selClassic%> /> <%=tsa_txt_374 %> (<%=timereg_txt_110 %>)
 
             <%select case lto
             case "xintranet - local", "mmmi", "unik"
@@ -7762,7 +7762,7 @@
 
 		<div id="jinf_knap" style="position:absolute; left:870px; top:632px; width:210px; visibility:<%=jinf_knap_vzb%>; display:<%=jinf_knap_dsp%>; z-index:100; border:1px #cccccc solid; padding:2px; background-color:#ffffff;">
 	    <table cellpadding=2 cellspacing=0 border=0 width=100%>
-	     <tr bgcolor="#5C75AA"><td style="padding:3px; height:20px;" class=alt><b>Links</b></td></tr>
+	     <tr bgcolor="#5C75AA"><td style="padding:3px; height:20px;" class=alt><b><%=timereg_txt_044 %></b></td></tr>
 	     <tr bgcolor="#FFFFFF">		        
 				<td>
                 <a href="materialer_indtast.asp?id=<%=jobid%>&fromsdsk=<%=fromsdsk%>&aftid=<%=aftid%>" target="_blank" class=rmenu><%=tsa_txt_021 %> >></a>
@@ -8248,11 +8248,11 @@
 
                            <br><br><br><br><br><br><br><br><br><br><br /><br />                      
                     <div style="position:relative; left:20px; background-color:#FFFFFF; width:420px; padding:10px;">
-                    <h4>Du kan ikke længere registrere timer</h4> 
-                        Det skyldes højst sandsynligt en af følgende årsager:<br /><br />
-                        A) Du har for mange uafsluttede uger. <br /><br />
-                        B) Din bruger er blevet de-aktiviteret. <br /><br />
-                        C) Din fratrædelsesdato er overskreddet. <br /><br />&nbsp;
+                    <h4><%=timereg_txt_045 %></h4> 
+                        <%=timereg_txt_046 %><br /><br />
+                        <%=timereg_txt_047 %> <br /><br />
+                        <%=timereg_txt_048 %> <br /><br />
+                        <%=timereg_txt_049 %> <br /><br />&nbsp;
 
                         
                      
@@ -8359,7 +8359,7 @@
      <%call meStamdata(usemrn) %>
         
 	 <h4><a href="#" name="anc_s0" id="pagesetadv_but" style="font-size:9px; color:#999999; font-weight:lighter;">[ + <%=tsa_txt_302%> ]</a> 
-      &nbsp;<a href="#" name="anc_s1" id="A4" onclick="showmultiDiv()" style="font-size:9px; color:#999999; font-weight:lighter;">[ + Multitildel ]</a>
+      &nbsp;<a href="#" name="anc_s1" id="A4" onclick="showmultiDiv()" style="font-size:9px; color:#999999; font-weight:lighter;">[ + <%=timereg_txt_051 %> ]</a>
          
             
       <br /><%=tsa_txt_385 %>: <span style="font-size:11px; font-weight:lighter;"><%=meTxt %>
@@ -8445,7 +8445,7 @@
    call showuploadimport_fn() 
    if cint(showuploadimport) = 1 then%>
    
-   <br /> <a href="../../ver2_14/timereg_net/importer_timer.aspx?lto=<%=lto%>&editor=<%=session("user") %>&mid=<%=usemrn %>" class=rmenu target="_blank"> Upload & importér .csv fil >></a>
+   <br /> <a href="../../ver2_14/timereg_net/importer_timer.aspx?lto=<%=lto%>&editor=<%=session("user") %>&mid=<%=usemrn %>" class=rmenu target="_blank"> <%=timereg_txt_050 %> >></a>
    
    <%end if
 
@@ -8461,9 +8461,9 @@
           
         
 	 <h4><a href="#" name="anc_s0" id="pagesetadv_but" style="font-size:9px; color:#999999; font-weight:lighter;">[ + <%=tsa_txt_302%> ]</a> 
-      &nbsp;<a href="#" name="anc_s1" id="A4" onclick="showmultiDiv()" style="font-size:9px; color:#999999; font-weight:lighter;">[ + Multitildel ]</a>
+      &nbsp;<a href="#" name="anc_s1" id="A4" onclick="showmultiDiv()" style="font-size:9px; color:#999999; font-weight:lighter;">[ + <%=timereg_txt_051 %> ]</a>
          
-    <br />HR listen: <span style="font-size:11px; font-weight:lighter;"><%=meTxt %>	<hr /> 
+    <br /><%=timereg_txt_052 %>: <span style="font-size:11px; font-weight:lighter;"><%=meTxt %>	<hr /> 
 
    <%
    nextDvminus = 18 
@@ -8582,7 +8582,7 @@
 		                '*** Min indtast ETS **'
 		
 		                if lto = "ets-track" OR lto = "xintranet - local" then %>
-		                <tr><td colspan=2><input id="minindtast_on" name="minindtast_on" type="checkbox" value="1" CHECKED /> <span style="color:#000000;">Gennemtving min. indtastning 7,4 timer / 8,0 timer</span>
+		                <tr><td colspan=2><input id="minindtast_on" name="minindtast_on" type="checkbox" value="1" CHECKED /> <span style="color:#000000;"><%=timereg_txt_053 %></span>
 		                 </td></tr>
 		                <%end if
 
@@ -8600,10 +8600,10 @@
                                    if cint(sortBy) = 5 OR cint(sortBy) = 6 then%>
 		                          <tr><td colspan=2 style="background-color:#FFFFFF; padding:10px;">
                               
-                                        <input name="visallemedarb_blandetliste" id="visallemedarb_blandetliste" type="checkbox" value="1" /> Vis alle medarbejdere tilknyttet (via aktiv jobliste)
+                                        <input name="visallemedarb_blandetliste" id="visallemedarb_blandetliste" type="checkbox" value="1" /> <%=timereg_txt_054 %>
                                     
-                                          job: <input type="text" name="jobnr_blandetliste" id="jobnr_blandetliste" style="width:150px;" /> <input type="button"  id="bn_visallemedarb_blandetliste" value=">>" /><br />
-                                      <span style="font-size:9px; color:#CCCCCC;">Maks. 50 medarbejdere</span>
+                                          <%=timereg_txt_055 %>: <input type="text" name="jobnr_blandetliste" id="jobnr_blandetliste" style="width:150px;" /> <input type="button"  id="bn_visallemedarb_blandetliste" value=">>" /><br />
+                                      <span style="font-size:9px; color:#CCCCCC;"><%=timereg_txt_056 %></span>
                                        </td></tr>
 		              
 		                        <%end if
@@ -8663,7 +8663,7 @@
                                                        <%normtidpruge = formatnumber(oRec("normtimer_man") + oRec("normtimer_tir") + oRec("normtimer_ons") + oRec("normtimer_tor") + oRec("normtimer_fre") + oRec("normtimer_lor") + oRec("normtimer_son"),2)  %>
 
 
-                                                    <option DISABLED><%=oRec("mtypenavn") %> // norm: <%=normtidpruge %> t. pr. uge</option>
+                                                    <option DISABLED><%=oRec("mtypenavn") %> // <%=timereg_txt_111 %>: <%=normtidpruge %> <%=timereg_txt_112 %></option>
                                                     <%end if
                                                     
                                                     
@@ -8734,7 +8734,7 @@
                      %>
                 
                      <tr bgcolor="#DCF5BD">
-                        <td colspan=2 style="border-right:1px #CCCCCC solid; border-left:2px #CCCCCC solid; border-top:2px #CCCCCC solid; white-space:nowrap;">Fordel timer på Easyreg. aktiviteter</td>
+                        <td colspan=2 style="border-right:1px #CCCCCC solid; border-left:2px #CCCCCC solid; border-top:2px #CCCCCC solid; white-space:nowrap;"><%=timereg_txt_057 %></td>
         
                         <%for e = 1 to 7 %>
                         <td style="border-right:1px #CCCCCC solid; border-top:2px #CCCCCC solid;">
@@ -8744,7 +8744,7 @@
      
                      </tr>
                      <tr bgcolor="#DCF5BD">
-                     <td colspan=2 style="border-right:1px #CCCCCC solid; border-left:2px #CCCCCC solid; border-top:1px #CCCCCC solid; border-bottom:2px #CCCCCC solid;">(0 = nulstil)</td>
+                     <td colspan=2 style="border-right:1px #CCCCCC solid; border-left:2px #CCCCCC solid; border-top:1px #CCCCCC solid; border-bottom:2px #CCCCCC solid;">(<%=timereg_txt_057 %>)</td>
                      <%for e = 1 to 7 %>
                             <td style="border-right:1px #CCCCCC solid; border-top:1px #CCCCCC solid; border-bottom:2px #CCCCCC solid; width:55px;">
                                 <input id="ea_kn_<%=e %>" type="button" value="Calc. =" style="font-family:arial; font-size:9px;" /></td>
@@ -9487,7 +9487,7 @@
                                                     <tr><td valign=top>
 
                                                     <%'if cint(usemrn) <> cint(aktdata(iRowLoop, 54)) then %>
-                                                    <span style="font-size:10px; color:#999999;"> Prioritet: <%=antalJobLinier %> | Pers. Prioritet: <%=aktdata(iRowLoop, 52) %> <br /> <i>Oprettet af&nbsp;  
+                                                    <span style="font-size:10px; color:#999999;"> <%=timereg_txt_060 %>: <%=antalJobLinier %> | <%=timereg_txt_059 %>. <%=timereg_txt_060 %>: <%=aktdata(iRowLoop, 52) %> <br /> <i><%=timereg_txt_061 %>&nbsp;  
                                                     <%call meStamdata(aktdata(iRowLoop, 54)) %>
                                                     <a href="mailto:<%=meEmail %>?subject=Vedr. job <%=left(aktdata(iRowLoop, 5), 35) %> (<%=aktdata(iRowLoop, 31) %>)" class="rmenu"><%=meInit %></a> d. <%=aktdata(iRowLoop, 55)%> 
                                                     </i></span>
@@ -9554,7 +9554,7 @@
                                                     end select 
                                                     
                                                     if cint(shwTw) = 1 then%>
-                                                    <input type="text" style="width:258px; font-size:9px; font-family:Arial; color:#999999; font-style:italic;" maxlength="101" value="Job tweet..(åben for alle)" class="FM_job_komm" name="FM_job_komm_<%=aktdata(iRowLoop, 4)%>" id="FM_job_komm_<%=aktdata(iRowLoop, 4)%>"> <a href="#" class="aa_job_komm" id="aa_job_komm_<%=aktdata(iRowLoop, 4)%>">Gem</a>
+                                                    <input type="text" style="width:258px; font-size:9px; font-family:Arial; color:#999999; font-style:italic;" maxlength="101" value="Job tweet..(åben for alle)" class="FM_job_komm" name="FM_job_komm_<%=aktdata(iRowLoop, 4)%>" id="FM_job_komm_<%=aktdata(iRowLoop, 4)%>"> <a href="#" class="aa_job_komm" id="aa_job_komm_<%=aktdata(iRowLoop, 4)%>"><%=timereg_txt_062 %></a>
                                                     <div id="dv_job_komm_<%=aktdata(iRowLoop, 4)%>" style="width:258px; font-size:9px; font-family:Arial; color:#000000; font-style:italic; overflow-y:auto; overflow-x:hidden; height:30px;"><%=aktdata(iRowLoop, 58) %></div>
                                                     <%else %>
                                                     &nbsp;
@@ -9562,7 +9562,7 @@
                                                     </td>
                                                     <td valign="top" align=right class=lille style="background-color:#FFFFFF; width:40px; padding:2px 2px 0px 10px; border-bottom:3px #8caae6 solid;">
                                                     <%if cint(intHR) <> 1 then %>
-                                                    <span style="color:#999999; font-size:9px; font-style:oblique;">Fjern<br /><input class="fjern_job" type="checkbox" value="1" id="fjern_job_<%=aktdata(iRowLoop, 4)%>"/></span>
+                                                    <span style="color:#999999; font-size:9px; font-style:oblique;"><%=timereg_txt_063 %><br /><input class="fjern_job" type="checkbox" value="1" id="fjern_job_<%=aktdata(iRowLoop, 4)%>"/></span>
                                                     <%else %>
                                                     &nbsp;
                                                     <%end if %></td>
@@ -9836,19 +9836,19 @@
                     <div id="Div2" class="jqcorner" style="position:relative; background-color:#ffffff; padding:3px 3px 3px 3px; width:<%=gbldivWdt-25%>px; border:10px #CCCCCC solid; left:0px; visibility:visible; display:; z-index:100">
                     <table cellspacing="0" cellpadding="2" border="0" width="100%"><tr><td style="padding:20px 3px 20px 3px;">
          
-                   <h4>Kan ikke vise følgende job</h4>
-                   TimeOut kan ikke åbne følgende job på din aktive jobliste af en eller flere grunde:<br /><br />
+                   <h4><%=timereg_txt_064 %></h4>
+                   <%=timereg_txt_065 %>:<br /><br />
 
-                   - Der er ikke oprettet aktiviteter på jobbet <br />
-                   - Du ikke har adgang til aktiviteterne<br>
-                   - Startdato på jobbet er efter ugens startdato<br />
-                    - Du har overskredet maksimun antal aktivitslinjer på siden<br /><br /><br />
+                   - <%=timereg_txt_066 %> <br />
+                   - <%=timereg_txt_067 %><br>
+                   - <%=timereg_txt_068 %><br />
+                    - <%=timereg_txt_069 %><br /><br /><br />
 
-                    <b>Prøv at:</b><br />
-                     - Klik på jobbet herunder for at <b>tilføje projektgrupper</b><br />
-                     - Find jobbet <b>på joblisten</b> for at ændre <b>startdato</b><br />
-                     - Tilføj <b>aktiviteter</b> på jobbet<br />
-                     - Fjern job på den aktive jobliste (maksimum antal aktivitetslinjer er overskreddet)<br />
+                    <b><%=timereg_txt_070 %></b><br />
+                     - <%=timereg_txt_071 %> <b><%=timereg_txt_072 %></b><br />
+                     - <%=timereg_txt_073 %> <b><%=timereg_txt_074 %></b> <%=timereg_txt_075 %> <b><%=timereg_txt_076 %></b><br />
+                     - <%=timereg_txt_077 %> <b><%=timereg_txt_078 %></b> <%=timereg_txt_079 %><br />
+                     - <%=timereg_txt_080 %><br />
 
                    
                      <%afslutaktDiv = 1
@@ -9864,7 +9864,7 @@
                    end if
 
                    if CDate(varTjDatoUS_man) < cDate(oRec5("jobstartdato")) then
-                   Response.write " <span style=""color:darkred;"">"& formatdatetime(oRec5("jobstartdato"), 1) & " !</span> <span style=""color:#999999;"">(startdato på job er efter den valgte uge)</span>"
+                   Response.write " <span style=""color:darkred;"">"& formatdatetime(oRec5("jobstartdato"), 1) & " !</span> <span style=""color:#999999;"">("& timereg_txt_081 &")</span>"
                    end if
                
                end if
@@ -10094,8 +10094,8 @@
 		<input id="sm2" type="submit" value="<%=tsa_txt_085 %> >> "></td>
 	</tr>
 	<tr bgcolor="#ffffff"><td colspan=10>
-    <br />Antal job: <%=antalJobLinier %>
-    <br />Antal aktivitetslinier: <%=antalaktlinier %> (<%=loops %>)</td></tr>
+    <br /><%=timereg_txt_082 %>: <%=antalJobLinier %>
+    <br /><%=timereg_txt_083 %>: <%=antalaktlinier %> (<%=loops %>)</td></tr>
     <input id="antalaktlinier" value="<%=antalaktlinier %>" type="hidden" />
    <input id="loops" value="<%=loops %>" type="hidden" />
     
@@ -10137,7 +10137,7 @@
       <tr><td align=right>
 	<a href="#" class="vmenu" id="close_kom_easy"><%=tsa_txt_056 %>
     &nbsp;<img src="../ill/ikon_luk_komm.png" alt="<%=tsa_txt_056 %>" border="0"> </a><br />
-    <br />Kommentar bliver først gemt når timer indlæses. Indlæses på alle aktiviteter den valgte dag.
+    <br /><%=timereg_txt_084 %>
 	</td></tr></table>
 	</div>
 
@@ -10153,7 +10153,7 @@
 	<table width=100% cellspacing=0 cellpadding=0 border=0>
 	<tr>
 	<td >
-    <h4>Tilføj til timeregistrering<br /><span style="font-size:11px; font-weight:lighter; color:#999999;">Tilføj kommentar og udlæg / materialeforbrug til din timeregistrering på denne aktivitet</span></h4>
+    <h4><%=timereg_txt_085 %><br /><span style="font-size:11px; font-weight:lighter; color:#999999;"><%=timereg_txt_086 %></span></h4>
 
 	<span id="sp_komm" style="font-size:14px;">[-]</span> <span style="font-size:14px; font-weight:bolder;"><%=tsa_txt_051 %></span>
     </td>
@@ -10186,8 +10186,8 @@
 
 	        <%if kmDialogOnOff = 1 then %>
 	        <br />
-	        Ved kørselsregistrering,
-	        er dette en bopælstur?
+	        <%=timereg_txt_087 %>
+	        <%=timereg_txt_088 %>
 	        <select name="FM_bopalstur" id="FM_bopalstur" style="font-size:9px;">
 	        <option value="0" SELECTED><%=tsa_txt_054 %></option>
 	        <option value="1"><%=tsa_txt_055 %></option>
@@ -10201,7 +10201,7 @@
 	</tr>
     <tr class="tr_kom" style="visibility:visible; display:;"><td colspan="2" align=right style="border-bottom:10px #CCCCCC solid;"><br /><br />
         <input type="button" value="<%=tsa_txt_056 %> >>" id="clskom"  onclick="closekomm();"/>
-         <br /><span style="color:#999999;">Kommentar gemmes først i forbindelse med timeregistrering.</span><br /><br />&nbsp;
+         <br /><span style="color:#999999;"><%=timereg_txt_089 %></span><br /><br />&nbsp;
         </td></tr>
 
     
@@ -10270,8 +10270,8 @@
     <tr><td colspan="2">
         <br />
 
-        <span id="sp_mat_forbrug" style="font-size:14px;">[+]</span> <span style="font-size:14px; font-weight:bolder;">Materiale forbrug</span><br /> [<span id="a_otf" style="color:#5582d2;">Opret "on th fly"</span>] &nbsp; [<span id="a_lager" style="color:#5582d2;">Tilføj fra lager</span>]<br />
-        <span style="color:#999999;">Tilknyt materialeforbrug til denne timeregistrering.</span>&nbsp;
+        <span id="sp_mat_forbrug" style="font-size:14px;">[+]</span> <span style="font-size:14px; font-weight:bolder;"><%=timereg_txt_090 %></span><br /> [<span id="a_otf" style="color:#5582d2;"><%=timereg_txt_091 %></span>] &nbsp; [<span id="a_lager" style="color:#5582d2;"><%=timereg_txt_092 %></span>]<br />
+        <span style="color:#999999;"><%=timereg_txt_093 %></span>&nbsp;
         </td></tr>
 
          
@@ -10371,7 +10371,7 @@
 	            <div id="korseldiv" style="position:absolute; left:125px; top:300px; background-color:#ffffff; width:600px; border:10px #CCCCCC solid; padding:10px; visibility:hidden; display:none; z-index:200; height:400px; overflow:auto;">
 				 
                     
-                    <a href="javascript:popUp('kontaktpers.asp?func=opr&id=0&kid=<%=kid%>&rdir=treg','550','500','20','20')" target="_self" class=remnu>+ Tilføj ny kontakt</a>
+                    <a href="javascript:popUp('kontaktpers.asp?func=opr&id=0&kid=<%=kid%>&rdir=treg','550','500','20','20')" target="_self" class=remnu>+ <%=timereg_txt_094 %></a>
 				<table border=0 cellspacing=0 cellpadding=0 width=100%>
 				<form action="#" method="post">
 				<tr><td align=right><span id="jq_hideKpersdiv" style="color:#999999; font-size:14px;">X</span></td></tr>
@@ -10382,7 +10382,7 @@
 
                         <select id="ko0" style="width:500px;"><option value="0">....</option></select><br /><br />
 
-                        <h4>Du har kørt til:</h4>
+                        <h4><%=timereg_txt_095 %>:</h4>
                         <select id="ko1" style="width:500px;"><option value="0">....</option></select>
 
 
@@ -10487,7 +10487,7 @@
 		end if
 		%>
 		
-		<input type="checkbox" name="FM_igakttype" id="FM_igakttype" value="1" <%=ignorerakttypeCHK%>> <%=tsa_txt_377 %> (ellers vises kun salgs-aktiviteter)
+		<input type="checkbox" name="FM_igakttype" id="FM_igakttype" value="1" <%=ignorerakttypeCHK%>> <%=tsa_txt_377 %> (<%=timereg_txt_196 %>)
             <input id="FM_chkfor_igakttype" name="FM_chkfor_igakttype" type="hidden" value="1"/>
 		
 		
@@ -10532,7 +10532,7 @@
 		end if
 		%>
 		
-		<input type="checkbox" name="FM_visSimpelAktLinje" id="FM_visSimpelAktLinje" value="1" <%=visSimpelAktLinjeCHK%> DISABLED> <%=tsa_txt_382 %> (sættes i kontrolpanel)
+		<input type="checkbox" name="FM_visSimpelAktLinje" id="FM_visSimpelAktLinje" value="1" <%=visSimpelAktLinjeCHK%> DISABLED> <%=tsa_txt_382 %> (<%=timereg_txt_097 %>)
 
 
          <input id="Hidden4" name="FM_chkfor_visSimpelAktLinje" type="hidden" value="1"/>
@@ -10549,7 +10549,7 @@
         'if bxbgtfilter_Type = "hidden" then
 
             %>
-             <input type="checkbox" id="viskunejobmbudget" value="1" <%=viskunejobmbudgetCHK %> disabled/> <span style="color:#000000;">Vis kun job/aktiviteter med <%=fcTxt %> på, for valgte medarbejder (sættes i kontrolpanel)</span>
+             <input type="checkbox" id="viskunejobmbudget" value="1" <%=viskunejobmbudgetCHK %> disabled/> <span style="color:#000000;"><%=timereg_txt_098 %> <%=fcTxt %> <%=timereg_txt_099 %></span>
              <input type="hidden" value="<%=viskunejobmbudget %>" name="viskunejobmbudget" />
     
             <%
@@ -10595,10 +10595,10 @@
             call sidemsgId(itop,ileft,iwdt,iId,idsp,ivzb)
             %>
 			
-            <b>Der er valgt mere end 20 job eller mere end 200 aktiviteter på denne liste</b><br><br />
-	        Hvis der er vises mere end 20 job (<b><%=antalJobLinier %></b>) eller over 200 aktiviteter (<b><%=antalaktlinier%></b>), bliver visningen langsommere (> 10 sek.) og det er lettere at miste overblikket. 
+            <b><%=timereg_txt_100 %></b><br><br />
+	        <%=timereg_txt_101 %> (<b><%=antalJobLinier %></b>) <%=timereg_txt_102 %> (<b><%=antalaktlinier%></b>), <%=timereg_txt_103 %> 
             <br><br>
-            Du bør derfor overveje at vælge færre job eller rydde op i antallet af aktiviteter.
+            <%=timereg_txt_104 %>
             <br><br>
 	        
 	        
@@ -10755,9 +10755,9 @@ else
 	                    <%=strprojektgrpOK %>
 
                         <br /><br />
-                        <b>Nulstil</b><br />
-                        Hvis du søgningen er stoppet kan du nulstille søgningen ved at klikke her.<br />
-                        <a href="timereg_akt_2006.asp?jobid=0&showakt=1" class=vmenu>Nulstil søgning >></a>
+                        <b><%=timereg_txt_105 %></b><br />
+                        <%=timereg_txt_106 %><br />
+                        <a href="timereg_akt_2006.asp?jobid=0&showakt=1" class=vmenu><%=timereg_txt_107 %> >></a>
 	                    <br /><br />
                        
 	                   

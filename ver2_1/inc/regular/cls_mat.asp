@@ -661,19 +661,19 @@ public strMedarbOptionsHTML
          <tr>
                      
                      <%if cint(vis) = 1 then %>
-                     <td>Dato</td>
+                     <td><%=timereg_txt_115 %></td>
                      <%end if %>
                    
-                     <td>Antal</td>
-                     <td><%=tsa_txt_227 %> (mat. nr.)<br />Leverand&oslash;r<br />Lokation</td>
+                     <td><%=timereg_txt_116 %></td>
+                     <td><%=tsa_txt_227 %> (<%=timereg_txt_117 %>)<br /><%=timereg_txt_118 %><br /><%=timereg_txt_119 %></td>
 
                        
-                     <td>Pris</td>
+                     <td><%=timereg_txt_120 %></td>
                      <td><%=tsa_txt_225 &"<br>"& tsa_txt_226 &"<br>"& tsa_txt_213 %></td>
-                     <td>Salgspris</td>
+                     <td><%=timereg_txt_121 %></td>
 
-                     <td>Valuta</td>
-                     <td>Intern kode</td>
+                     <td><%=timereg_txt_122 %></td>
+                     <td><%=timereg_txt_123 %></td>
                      <!--<td>Bilagsnr.</td>
                      <td>&nbsp;</td>-->
                  </tr>
@@ -1208,7 +1208,7 @@ public strMedarbOptionsHTML
         <tr>
 	    <td><b><%=tsa_txt_225 &" - "& tsa_txt_226 &" "&tsa_txt_213 %>:</b> <br />
 	    <select id="sogmatgrp" size="<%=sz %>" name="sogmatgrp" style="width:220px;">  <!-- onchange="submit();"-->
-                <option value="0" selected>Alle</option>
+                <option value="0" selected><%=timereg_txt_113 %></option>
             <% 
 	     
                    strSQL3 = "SELECT mg.id, mg.navn, mg.av, kkundenavn, kkundenr, mgkundeid, mg.nummer AS grpnrtxt FROM materiale_grp AS mg "_
@@ -1267,7 +1267,7 @@ public strMedarbOptionsHTML
             
             
             <select size="<%=sz %>" id="soglev" name="soglev" style="width:200px;" > <!-- onchange="submit();"-->
-                <option value="0" SELECTED>Alle</option>
+                <option value="0" SELECTED><%=timereg_txt_113 %></option>
             <% 
 	     
                    strSQL3 = "SELECT id, navn FROM leverand WHERE id <> 0 ORDER BY navn"
@@ -1292,7 +1292,7 @@ public strMedarbOptionsHTML
             </td>
 	
 		<td valign="top">
-		<b>Materiale:</b><br />
+		<b><%=timereg_txt_114 %>:</b><br />
 		<input type="hidden" name="FM_indlaest" id="FM_indlaest" value="<%=strIndlaest%>">
 		<input type="text" name="FM_sog" id="FM_sog" value="<%=sogeKri%>" style="width:220px; border:2px yellowgreen solid;" placeholder="Søg materiale navn eller nummer" onFocus="rydSog();"> &nbsp;
         </td>

@@ -7,8 +7,10 @@
 
 <!--#include file="../xml/dashboard_xml_inc.asp"-->
 <!--#include file="../xml/timetag_web_inc.asp"-->
-
-
+<!--#include file="../xml/weeklynote_sprog_inc.asp"-->
+<!--#include file="../xml/timereg_akt_sprog_inc.asp"-->
+<!--#include file="../xml/funktioner_sprog_inc.asp"-->
+<!--#include file="../xml/afstem_sprog_inc.asp"-->
 
 
 <!--#include file="cls_aktiviteter.asp"-->

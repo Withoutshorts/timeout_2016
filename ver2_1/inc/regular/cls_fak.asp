@@ -38,7 +38,7 @@ sub erpslet
                 slttxtalt = ""
 	            slturlalt = ""
 	
-	            slttxt = "<br>Du er ved at <b>Slette</b> en <b>faktura-skrivelse!</b><br> Er du sikker på du ønsker at slette fakturaen? Fakturaen kan ikke genskabes."
+	            slttxt = "<br>"& erp_txt_309 &" <b>"& erp_txt_310 &"b> "& erp_txt_311 &" <b>"& erp_txt_312 &"</b><br> "& erp_txt_313 &""
 	
                 if rdir = "hist" then
                 slturl = "erp_opr_faktura_fs.asp?func=sletja&visjobogaftaler=0&visfaktura=0&visminihistorik=0&nomenu=1&id="&id&"&rdir="&rdir 

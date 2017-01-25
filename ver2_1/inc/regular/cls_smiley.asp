@@ -19,11 +19,11 @@ public cDateUge, cDateAfs, cDateUgeTilAfslutning, smileysttxt, smileyImg, weekaf
                 
                 select case cint(SmiWeekOrMonth) 
                 case 0 '0: ugebasis, 1: Måned
-                weekafslTxt = "i den følgende uge"
+                weekafslTxt = funk_txt_001
                 case 1
-                weekafslTxt = "i den følgende måned"
+                weekafslTxt = funk_txt_002
                 case 2
-                weekafslTxt = "den følgende hverdag"
+                weekafslTxt = funk_txt_003
                 end select
 
 
@@ -313,15 +313,15 @@ function ugeAfsluttetStatus(tjkDato, showAfsuge, ugegodkendt, ugegodkendtaf, Smi
               
 
                         
-                      <span style="color:#999999; font-size:12px; background-color:#F7f7f7; padding:5px;"><span style="color:yellowgreen;"><i>V</i></span> - <%=periodeTxt%> er <b>afsluttet</b> af medarbejderen</span>&nbsp;
+                      <span style="color:#999999; font-size:12px; background-color:#F7f7f7; padding:5px;"><span style="color:yellowgreen;"><i>V</i></span> - <%=periodeTxt%> <%=funk_txt_071 %> <b><%=funk_txt_004 %></b> <%=funk_txt_005 %></span>&nbsp;
             
             
                         <%
                         select case lto
                         case "tec", "esn"
-                        lukTxt = "lukket"
+                        lukTxt = funk_txt_006
                         case else
-                        lukTxt = "godkendt"
+                        lukTxt = funk_txt_007
                         end select    
                             
                             
@@ -329,19 +329,19 @@ function ugeAfsluttetStatus(tjkDato, showAfsuge, ugegodkendt, ugegodkendtaf, Smi
                         select case ugegodkendt
                         case 1
                         call meStamdata(ugegodkendtaf)
-                        ugegodkendtStatusTxt = " Periode er <b>"& lukTxt &"</b> af <a href='mailto:"&meEmail&"'>"& left(meNavn, 10) & " ["& meInit &"]</a>"
+                        ugegodkendtStatusTxt = ""& funk_txt_008 &" <b>"& lukTxt &"</b> af <a href='mailto:"&meEmail&"'>"& left(meNavn, 10) & " ["& meInit &"]</a>"
                         ugstCol = "yellowgreen" '"#DCF5BD"
                         ugstFtc = "green"
                         ugstBd = "#6CAE1C"
                         case 2
                         call meStamdata(ugegodkendtaf)
-                        ugegodkendtStatusTxt = " Periode er <b>afvist</b> af <a href='mailto:"&meEmail&"'>"& left(meNavn, 10) & " ["& meInit &"]</a>"
+                        ugegodkendtStatusTxt = " "& funk_txt_008 &" <b>"& funk_txt_009 &"</b> af <a href='mailto:"&meEmail&"'>"& left(meNavn, 10) & " ["& meInit &"]</a>"
                        
                         ugstCol = "#FF6666"
                         ugstFtc = "#000000"
                         ugstBd = "#CCCCCC"
                         case else
-                        ugegodkendtStatusTxt = " Perioden er endnu ikke "& lukTxt &"/afvist"
+                        ugegodkendtStatusTxt = " "& funk_txt_011 &" "& lukTxt &"/"& funk_txt_009 &""
                         ugstCol = ""
                         ugstFtc = "#999999"
                         ugstBd = "#cccccc"
@@ -354,8 +354,8 @@ function ugeAfsluttetStatus(tjkDato, showAfsuge, ugegodkendt, ugegodkendtaf, Smi
                         </span>
 
                             <%if cint(ugegodkendt) = 2 then 'afvist 
-                              response.write "<br><br><div style=""color:#999999; padding:0px; font-size:12px;"">Når en periode er afvist, skal Du blot rette afviste registreringer, og sende mail (klik på navnet ovenfor) til din godkender om at dine registreringer er rettet. <br>Du skal IKKE godkende perioden på ny.<br><br>"_
-                              &"<b>Kommentar fra godkender:</b><br>"& ugegodkendtTxt &"</div>"
+                              response.write "<br><br><div style=""color:#999999; padding:0px; font-size:12px;"">"& funk_txt_012 &"<br>"& funk_txt_013 &"<br><br>"_
+                              &"<b>"& funk_txt_014 &":</b><br>"& ugegodkendtTxt &"</div>"
                               end if %>
 
 
@@ -380,10 +380,10 @@ function godkendugeseddel(fmlink, usemrn, varTjDatoUS_man, rdir)
 
               select case cint(SmiWeekOrMonth) 
               case 0 'uge
-                periodeTxt = "Uge"
+                periodeTxt = ""& funk_txt_015 &""
                 periodeNavn = datepart("ww", varTjDatoUS_son, 2,2)
               case 1
-                periodeTxt = "Måned"
+                periodeTxt = ""& funk_txt_016 &""
                 periodeNavn = left(monthname(datepart("m", varTjDatoUS_son, 2,2)), 3) & "."
              case 2
                  periodeNavn = weekdayname(weekday(varTjDatoUS_son, 2), 0,2) 
@@ -392,15 +392,15 @@ function godkendugeseddel(fmlink, usemrn, varTjDatoUS_man, rdir)
 
              select case lto
                 case "tec", "esn"
-                lukTxt = "lukkes"
-                lukTxt1 = "lukket"
-                lukTxt2 = "Luk"
-                teamlederTxt = "For godkender (leder)"
+                lukTxt = ""& funk_txt_017 &""
+                lukTxt1 = ""& funk_txt_018 &""
+                lukTxt2 = ""& funk_txt_019 &""
+                teamlederTxt = ""& funk_txt_020 &""
                 case else
-                lukTxt = "godkendes"
-                lukTxt1 = "godkendt"
-                lukTxt2 = "Godkend"
-                teamlederTxt = "For godkender (Teamleder)"
+                lukTxt = ""& funk_txt_021 &""
+                lukTxt1 = ""& funk_txt_022 &""
+                lukTxt2 = ""& funk_txt_023 &""
+                teamlederTxt = ""& funk_txt_024 &""
                 end select
               
                %>
@@ -422,8 +422,8 @@ function godkendugeseddel(fmlink, usemrn, varTjDatoUS_man, rdir)
                        if cint(ugegodkendt) = 2 then
 
                         call meStamdata(ugegodkendtaf)%>
-                        <div style="background-color:#FF6666; padding:5px;"><b><%=periodeTxt %> er afvist!</b><br />
-                        <span style="font-size:9px; line-height:12px; color:#ffffff;"><i><%=ugegodkendtdt %> af <%=meNavn %></i></span>
+                        <div style="background-color:#FF6666; padding:5px;"><b><%=periodeTxt %> <%=funk_txt_025 %>!</b><br />
+                        <span style="font-size:9px; line-height:12px; color:#ffffff;"><i><%=ugegodkendtdt %> <%=funk_txt_026 %> <%=meNavn %></i></span>
                         <%if len(trim(ugegodkendtTxt)) <> 0 then %>
                         <br />
                         <span style="font-size:9px; line-height:12px; color:#000000;"><i><%=left(ugegodkendtTxt, 200) %></i></span>
@@ -440,7 +440,7 @@ function godkendugeseddel(fmlink, usemrn, varTjDatoUS_man, rdir)
                                 
 
                            <span style="font-size:11px;"><b><%=lukTxt2 &" "& periodeTxt %></b></span><br />
-                           Når en <%=periodeTxt &" "& lukTxt %>, <%=lukTxt %> alle periodens registreringer automatisk.<br /><br />
+                           <%=funk_txt_027 %> <%=periodeTxt &" "& lukTxt %>, <%=lukTxt %> <%=funk_txt_028 %><br /><br />
                 
                            <input id="Submit2" type="submit" value="<%=lukTxt2 &" "& periodeTxt %> >>" style="font-size:9px; width:120px;" />
              
@@ -450,8 +450,8 @@ function godkendugeseddel(fmlink, usemrn, varTjDatoUS_man, rdir)
                 <%else 
                         
                         call meStamdata(ugegodkendtaf)%>
-                        <div style="color:green; font-size:11px; background-color:yellowgreen; padding:5px;"><b>Denne <%=periodeTxt %> er <%=lukTxt1 %>!</b><br />
-                        <span style="font-size:9px; line-height:12px; color:#ffffff;"><i><%=ugegodkendtdt %> af <%=meNavn %></i></span></div>
+                        <div style="color:green; font-size:11px; background-color:yellowgreen; padding:5px;"><b><%=funk_txt_029 %> <%=periodeTxt %> <%=funk_txt_071 %> <%=lukTxt1 %>!</b><br />
+                        <span style="font-size:9px; line-height:12px; color:#ffffff;"><i><%=ugegodkendtdt %> <%=funk_txt_026 %> <%=meNavn %></i></span></div>
                 
                 <%end if %>
 
@@ -462,16 +462,16 @@ function godkendugeseddel(fmlink, usemrn, varTjDatoUS_man, rdir)
                 <tr><td class=lille>
 
                   <span style="font-size:11px;"><b><%= lukTxt2 &" "&periodeTxt %></b></span><br />
-                 Denne <%=periodeTxt %> kan IKKE <%=lukTxt%> før den er afsluttet af medarbejder.<br />
+                 <%=funk_txt_029 %> <%=periodeTxt %> <%=funk_txt_030 %> <%=lukTxt%> <%=funk_txt_031 %><br />
                 
             
 
                 <%if len(trim(request("showadviseringmsg"))) <> 0 then %>
                 <br />
-                  <div style="color:#000000; font-size:11px; background-color:#cccccc; padding:20px;"><b>Besked afsendt!</b></div>
+                  <div style="color:#000000; font-size:11px; background-color:#cccccc; padding:20px;"><b><%=funk_txt_032 %></b></div>
                 <%else %>
                   <br />
-                  <b>Send email</b> med besked om at <%=periodeTxt %> mangler af blive afsluttet<br /><br />
+                  <b><%=funk_txt_033 %></b> <%=funk_txt_034 %> <%=periodeTxt %> <%=funk_txt_035 %><br /><br />
                 <input id="Submit1" type="submit" value="Send besked >>" style="font-size:9px; width:120px;" />
                 <%end if %>
            
@@ -487,11 +487,11 @@ function godkendugeseddel(fmlink, usemrn, varTjDatoUS_man, rdir)
                <table width=90% cellpadding=0 cellspacing=0 border=0>
                <tr><td class=lille>
                <br />
-               <span style="font-size:11px;"><b>Afvis denne <%=periodeTxt %></b></span><br />
-               Begrundelse:<br />
+               <span style="font-size:11px;"><b><%=funk_txt_036 %> <%=periodeTxt %></b></span><br />
+               <%=funk_txt_037 %>:<br />
                <textarea name="FM_afvis_grund" style="width:200px; height:40px;"></textarea><br /><br />
                 <input id="Submit3" type="submit" value="Afvis <%=periodeTxt %> >>" style="font-size:9px; width:120px;" /><br />
-                 <span style="color:#999999;">Afsender email til medarbejer om at ugeseddel er afvist, og åbner evt. allerede <%=lukTxt1 %> ugeseddel op igen.</span>
+                 <span style="color:#999999;"><%=funk_txt_038 %> <%=lukTxt1 %> <%=funk_txt_039 %></span>
                   </td></tr></table>
                  
                </form>
@@ -556,18 +556,18 @@ function afslutuge(weekSelected, visning, tjkDag7, rdir, SmiWeekOrMonth)
         case 0 'uge aflsutning
 
 	        if visning = 0 then 'denne uge
-            sidsteUgeTxt = "valgte uge"
+            sidsteUgeTxt = funk_txt_040
             sidstedagisidsteuge = dateadd("d", -7, weekSelected)
             else
-            sidsteUgeTxt = "sidste uge"
+            sidsteUgeTxt = funk_txt_041
             sidstedagisidsteuge = dateadd("d", -7, weekSelected)
             end if
 
         case 1
-        sidsteUgeTxt = "sidste måned"
+        sidsteUgeTxt = funk_txt_042
         sidstedagisidsteuge = weekSelected 'dateadd("d", -31, weekSelected)
         case 2
-        sidsteUgeTxt = "sidste dag"
+        sidsteUgeTxt = funk_txt_043
         sidstedagisidsteuge = year(weekSelected) & "-" & month(weekSelected) & "-" & day(weekSelected) 'dateadd("d", -31, weekSelected)
         end select
 	    
@@ -724,9 +724,9 @@ function afslutuge(weekSelected, visning, tjkDag7, rdir, SmiWeekOrMonth)
 
                       %>
                     <div style="background-color:#ffdfdf; padding:10px;">
-                        <b>funktionen endnu ikke aktiv hos jer.</b><br />
-                     Vi arbejder på at tilpasse funktionen, så I kan afslutte jeres perioder på månedsbasis.<br /> 
-                     I vil få nærmere besked når I skal begynde på måneds-afslutning.
+                        <b><%=funk_txt_044 %></b><br />
+                     <%=funk_txt_045 %><br /> 
+                     <%=funk_txt_046 %>
              
           
                         </div>
@@ -879,7 +879,7 @@ function afslutuge(weekSelected, visning, tjkDag7, rdir, SmiWeekOrMonth)
                     %>
 
                     <%if datepart("ww", tjkDag7, 2 ,2) <> datepart("ww", sidstedagisidsteAfsluge, 2 ,2) AND thisfile <> "ugeseddel_2011.asp" then  %>
-                    (<a href="<%=menu2015lnk%>timereg_akt_2006.asp?showakt=1&strdag=<%=day(sidstedagisidsteAfsluge)%>&strmrd=<%=month(sidstedagisidsteAfsluge)%>&straar=<%=year(sidstedagisidsteAfsluge)%>" class="vmenu">se uge <%=datePart("ww", sidstedagisidsteAfsluge, 2,2) %>..</a>)
+                    (<a href="<%=menu2015lnk%>timereg_akt_2006.asp?showakt=1&strdag=<%=day(sidstedagisidsteAfsluge)%>&strmrd=<%=month(sidstedagisidsteAfsluge)%>&straar=<%=year(sidstedagisidsteAfsluge)%>" class="vmenu"><%=funk_txt_047 %> <%=datePart("ww", sidstedagisidsteAfsluge, 2,2) %>..</a>)
                     <%end if %> 
                         
                     <%
@@ -969,8 +969,8 @@ function afslutuge(weekSelected, visning, tjkDag7, rdir, SmiWeekOrMonth)
                 <!-- DER FINDES TIMER UDEN MATCH FRA F.eks TT -->
                 <%if afslutugekri = 10 then %>
                 <div style="color:#000000; background-color:#ffdfdf; padding:10px;">
-                <b>Periode kan ikke afsluttes</b> da der findes herreløse timer uden match.<br /> Disse timer er enten uploadet via excel eller indtastet via f.eks TimeTag.<br /><br />
-                Der er bl.a timer d. <b><%=afslugeDatoTimerudenMatch %></b>
+                <b><%=funk_txt_048 %></b> <%=funk_txt_049 %><br /> <%=funk_txt_050 %><br /><br />
+                <%=funk_txt_051 %> <b><%=afslugeDatoTimerudenMatch %></b>
                  </div>
                 <%end if %>
             
@@ -1006,7 +1006,7 @@ function afslutuge(weekSelected, visning, tjkDag7, rdir, SmiWeekOrMonth)
 
                           <%case 2 %>
                             
-                                <%=tsa_txt_410 %>: Først kommende hverdag kl. <%=left(formatdatetime(cDateUge, 3), 5) %>
+                                <%=tsa_txt_410 %>: <%=funk_txt_052 %> <%=left(formatdatetime(cDateUge, 3), 5) %>
                           <%end select %>
 
                          </span>
@@ -1598,8 +1598,8 @@ end if
 <tr bgcolor="#5c75AA">
     <td>&nbsp;</td>
 	<td width=400 class=alt><b><%=tsa_txt_101 %></b></td>
-	<td class=alt align=right>Afsluttet<br /> til tiden</td>
-	<td class=alt align=right>Afsluttet<br /> for sent</td>
+	<td class=alt align=right><%=funk_txt_053 %><br /> <%=funk_txt_054 %></td>
+	<td class=alt align=right><%=funk_txt_053 %><br /> <%=funk_txt_055 %></td>
 	<td class=alt align=right><b><%=tsa_txt_104 %></b></td>
 	<td valign=top style="padding:1px 5px 2px 10px;">
 	<%if visning = 100 then %>
@@ -1770,11 +1770,11 @@ end if
 
 		        if cdate(cDateUge) >= cdate(cDateAfs) then
 		        intStatusAfs = 2 '** Afsluttet korrekt
-		        smileysttxt = "<span style=""color:green;""> - afsluttet korrekt <i>V</i> </span>"
+		        smileysttxt = "<span style=""color:green;""> - "& funk_txt_056 &" <i>V</i> </span>"
                 smileyImg = "gladsmil_2.gif"
 		        else
 		        intStatusAfs = 1 '** Afsluttet forsent
-		        smileysttxt = "<span style=""color:red;""> - afsluttet for sent!</span>"
+		        smileysttxt = "<span style=""color:red;""> - "& funk_txt_057 &"</span>"
                 smileyImg = "sur_1.gif"
 		        end if
 		        
@@ -2019,8 +2019,8 @@ end if
 	sub afslutMsgTxt
         %>
           <label style="color:#999999;">
-          Du kan, som administrator eller leder/teamleder, godkende eller afvise de enkelte timeregisteringer. Når perioden bliver lukket/godkendt, kan kun administator ændre.<br /><br />
-          En uge kan først godkendes eller afvises, når medarbejderen har afsluttet perioden. En medarbejder kan ændre i sine indtastninger indtil ugen er lukket/godkendt af lederen.</label>
+          <%=funk_txt_058 %><br /><br />
+          <%=funk_txt_059 %></label>
 
         <%
     end sub
@@ -2285,15 +2285,15 @@ end if
                     <div style="position:relative; background-color:#cccccc; height:2000px; width:2000px; top:20px; left:-80px; padding:40px; z-index:20000;">
                     
                         <%=now %>
-                        <h4>Du kan ikke længere registrere timer i TimeOut</h4>
+                        <h4><%=funk_txt_063 %></h4>
                     
-                        Hej <%=session("user") %><br /><br />
-                        Du har overskreddet grænsen for hvornår din forrige periode senest skal være afsluttet.
+                        <%=funk_txt_064 %> <%=session("user") %><br /><br />
+                        <%=funk_txt_065 %>
                         <br /><br />
-                        Kontakt din teamleder eller administrator for at få åbnet din periode igen.
+                        <%=funk_txt_066 %>
 
                         <br /><br />
-                        Send <a href="mailto:ad@dencker.net?subject=TimeOut bruger har ikke fået afsluttet sin dag til tiden." target="_blank">mail til din Teamleder</a> med besked herom.
+                        <%=funk_txt_067 %> <a href="mailto:ad@dencker.net?subject=TimeOut bruger har ikke fået afsluttet sin dag til tiden." target="_blank"><%=funk_txt_068 %></a> <%=funk_txt_069 %>
 
                        
                         <!--  <h4>Du kan ikke længere registrere timer</h4> 
@@ -2658,12 +2658,12 @@ function afslutugereminder(thisfile, afsenderMid, modtagerMid, varTjDatoUS_man, 
                            
                                     if cint(SmiWeekOrMonth) = 0 then
                                     thisWeek = datepart("ww", varTjDatoUS_man, 2, 2) 
-                                    thisWeekTxt = "Din ugeseddel uge:"
-                                    thisWeekSbj = "uge"
+                                    thisWeekTxt = ""& funk_txt_072 &":"
+                                    thisWeekSbj = funk_txt_073
                                     else
                                     thisWeek = monthname(datepart("m", varTjDatoUS_man, 2, 2)) 
-                                    thisWeekTxt = "Måned:"
-                                    thisWeekSbj = "måned"
+                                    thisWeekTxt = ""& funk_txt_074 &":"
+                                    thisWeekSbj = funk_txt_075
                                     end if   
 
 					  	            'Sender notifikations mail
@@ -2694,7 +2694,7 @@ function afslutugereminder(thisfile, afsenderMid, modtagerMid, varTjDatoUS_man, 
 
                     
                                     Set myMail=CreateObject("CDO.Message")
-                                    myMail.Subject="TimeOut - Du har endnu ikke afsluttet "& thisWeekSbj & ": "& thisWeek
+                                    myMail.Subject="TimeOut - "& funk_txt_076 &" "& thisWeekSbj & ": "& thisWeek
                                     myMail.From = "timeout_no_reply@outzource.dk"
 				                     
 
@@ -2704,9 +2704,9 @@ function afslutugereminder(thisfile, afsenderMid, modtagerMid, varTjDatoUS_man, 
                                     end if
 
                                     strBody = "Hej " & modtNavn &  vbCrLf & vbCrLf
-                                    strBody = strBody & thisWeekTxt &" "& thisWeek &" - er endnu ikke afsluttet, husk at få den afsluttet snarest." & vbCrLf & vbCrLf
+                                    strBody = strBody & thisWeekTxt &" "& thisWeek &" - "& funk_txt_078 &"" & vbCrLf & vbCrLf
                                    
-		                            strBody = strBody &"Med venlig hilsen" & vbCrLf
+		                            strBody = strBody &""& funk_txt_079 &"" & vbCrLf
 		                            strBody = strBody & afsNavn &", "& afsEmail & vbCrLf & vbCrLf                       
 
                                     myMail.TextBody= strBody
@@ -2801,7 +2801,7 @@ sub smiley_uge_kriterie_opfyldt
                     
                     <%if afslutugekri <> 0 then %>
                       <br /> <span style="color:#999999; font-size:11px;">
-                        Kriterie: <%=afslutugekri_proc %> %  
+                        <%=funk_txt_070 %>: <%=afslutugekri_proc %> %  
 
                            <%select case cint(SmiWeekOrMonth)
                         case 2%> 

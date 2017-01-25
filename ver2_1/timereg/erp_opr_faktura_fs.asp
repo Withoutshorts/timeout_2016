@@ -109,19 +109,19 @@ case "FN_getKpers"
 				                else
 				                selth1 = ""
 				                end if%>	
-				                <option value="991" <%=selth1%>>Den &oslash;konomi ansvarlige</option>
+				                <option value="991" <%=selth1%>><%=erp_txt_302 %></option>
 				                <%if strAtt = "992" then
 				                selth2 = "SELECTED"
 				                else
 				                selth2 = ""
 				                end if%>	
-				                <option value="992" <%=selth2%>>Regnskabs afd.</option>
+				                <option value="992" <%=selth2%>><%=erp_txt_303 %></option>
 				                <%if strAtt = "993" then
 				                selth3 = "SELECTED"
 				                else
 				                selth3 = ""
 				                end if%>	
-				                <option value="993" <%=selth3%>>Administrationen</option>
+				                <option value="993" <%=selth3%>><%=erp_txt_304 %></option>
 					                
 					           
                                     <%
@@ -298,7 +298,7 @@ case "FN_getKpers"
                             oRec.close
                            
                             if m = 0 then%>
-	                        <tr><td colspan=9><br />(Der er ikke fundet nogen materialer i det valgte interval.)</td></tr>
+	                        <tr><td colspan=9><br />(<%=erp_txt_305 %>)</td></tr>
 	                        <%end if  %>
                                 
                              <input id="jq_matbeltot" value="<%=matSubTotalAll %>" type="hidden" />
@@ -752,7 +752,7 @@ end if
            
             else
 
-                sogKri = "Søg.."
+                sogKri = "Søg.." 'mangler
                 kSQLkri = "AND kid <> 0"   
                
                

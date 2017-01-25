@@ -18,7 +18,7 @@
 	                      <table width=100% border=0 cellspacing=0 cellpadding=0 bgcolor="#ffffff">
 	                    <tr>
 	                        <td colspan=2 style="padding:5px 5px 5px 10px; border:1px #CCCCCC solid;">
-	                            <b>Fakturerings valuta</b><br />
+	                            <b><%=erp_txt_396 %></b><br />
 	                            <%call selectAllValuta(3,jftp) %>
                     	        
 	                        </td>
@@ -26,7 +26,7 @@
 	                    </table>
 	                    </div>
                         
-                        <h4>Materialer / Udlæg</h4>
+                        <h4><%=erp_txt_397 %></h4>
                         
                       
                          
@@ -36,14 +36,14 @@
 
                              <%
                 nWdt = 220
-                nTxt = "Materiale forbrug / Udlæg"
+                nTxt = erp_txt_398
                 nLnk = "materialer_indtast.asp?id="&jobid&"&fromsdsk=0&aftid="&aftid&"&useFM_jobsog=0"
                 nTgt = "_blank"
                 call opretNy_2013(nWdt, nTxt, nLnk, nTgt)
                                  
                                  
                 nWdt = 220
-                nTxt = "Indtast fra lager"
+                nTxt = "Indtast fra lager" 'mangler
                 nLnk = "materialer_indtast.asp?id="&jobid&"&fromsdsk=0&aftid="&aftid&"&useFM_jobsog=0&vis=lag"
                 nTgt = "_blank"
                 call opretNy_2013(nWdt, nTxt, nLnk, nTgt) %>
@@ -92,19 +92,19 @@
 	                        <table cellpadding=2 cellspacing=1 border=0 width=100%>
                            
 	                        <tr>
-	                            <td colspan=2><b>Intern kode</b><br />
-                                    <input id="FM_mat_viskuneks1" name="FM_mat_viskuneks" value="1" type="radio" <%=viskeksCHK1 %> /> Vis kun materialer til videre-fakturering (oprettet som ekstern)
-                                    <br /><input id="FM_mat_viskuneks0" name="FM_mat_viskuneks" value="0" type="radio" <%=viskeksCHK0 %>/> Vis alle</td>
+	                            <td colspan=2><b><%=erp_txt_399 %></b><br />
+                                    <input id="FM_mat_viskuneks1" name="FM_mat_viskuneks" value="1" type="radio" <%=viskeksCHK1 %> /> <%=erp_txt_400 %>
+                                    <br /><input id="FM_mat_viskuneks0" name="FM_mat_viskuneks" value="0" type="radio" <%=viskeksCHK0 %>/> <%=erp_txt_401 %></td>
 	                        </tr>
 	                        <tr>
-	                            <td><br /><b>Periode</b><br />
-                                    <input id="FM_mat_ignper" name="FM_mat_ignper" value="1" type="checkbox" <%=matignperCHK %> /> Ignorer periode (vis alle ikke fakturerede materialer)</td>
+	                            <td><br /><b><%=erp_txt_402 %></b><br />
+                                    <input id="FM_mat_ignper" name="FM_mat_ignper" value="1" type="checkbox" <%=matignperCHK %> /> <%=erp_txt_403 %></td>
                                      <td>
                                    &nbsp;</td>
 	                        </tr>
                                  <tr>
                                     <td colspan="2" style="padding-right:20px;">
-                                    <input id="FM_mat_hentnye" type="button" value=" Hent nye >> " /></td>
+                                    <input id="FM_mat_hentnye" type="button" value=" <%=erp_txt_404 %> >> " /></td>
                                 </tr>
 	                       
 	                        </table>
@@ -127,11 +127,11 @@
 	                         showmatasgrpSEL0 = "SELECTED"
 	                         end select%>
                             <br />
-                            <b>Fordel materialer på fakturalayout:</b><br /> 
+                            <b><%=erp_txt_405 %>:</b><br /> 
                                 <select id="FM_showmatasgrp" name="FM_showmatasgrp">
-                                    <option value="0" <%=showmatasgrpSEL0 %>>Materialeforbrug vises som liste i bunden af faturaen</option>
-                                <option value="1" <%=showmatasgrpSEL1 %>>Materialer vises som sum fordelt på grupper.</option> <!-- (materialer uden gruppe vises som diverse) -->
-                                    <option value="2" <%=showmatasgrpSEL2 %>>Materialer vises fordelt på aktiveter/faser</option>
+                                    <option value="0" <%=showmatasgrpSEL0 %>><%=erp_txt_406 %></option>
+                                <option value="1" <%=showmatasgrpSEL1 %>><%=erp_txt_407 %></option> <!-- (materialer uden gruppe vises som diverse) -->
+                                    <option value="2" <%=showmatasgrpSEL2 %>><%=erp_txt_408 %></option>
                                 </select><br />&nbsp;
                             
                             <!--<input id="FM_showmatasgrp" name="FM_showmatasgrp" value="1" type="checkbox" <%=showmatasgrpCHK%> /> -->
@@ -146,7 +146,7 @@
 	
 	
 	 <div id=matdiv_2 style="position:relative; visibility:hidden; display:none; top:80px; width:700px; left:5px; border:0px #8cAAe6 solid;">
-        <table width=700 cellspacing=0 cellpadding=5 border=0><tr><td><a href="#" onclick="showdiv('aktdiv')" class=vmenu><< Forrige</a></td><td align=right><a href="#" onclick="showdiv('betdiv')" class=vmenu>Næste >></a></td></tr></table>
+        <table width=700 cellspacing=0 cellpadding=5 border=0><tr><td><a href="#" onclick="showdiv('aktdiv')" class=vmenu><< <%=erp_txt_391 %></a></td><td align=right><a href="#" onclick="showdiv('betdiv')" class=vmenu><%=erp_txt_392 %> >></a></td></tr></table>
     </div>
 	
 	
@@ -155,9 +155,9 @@
 	
 	
 	<div id="matsubtotal" style="position:absolute; left:730px; top:184px; width:200px; z-index:2000; border:1px orange solid; background-color:#ffffff; padding:5px;">
-    <b>Materialer:</b><br />
+    <b><%=erp_txt_411 %>:</b><br />
 	<table cellspacing=5 cellpadding=0 border=0 width=100%><tr>
-	<td align=right>Subtotal:
+	<td align=right><%=erp_txt_412 %>:
 	<%
 	'*********************************************************
 	'Subtotal
