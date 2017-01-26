@@ -23,7 +23,7 @@ oConn.open strConnect
 
 dim mid
 
-strSQL = "SELECT mid, mnavn FROM medarbejdere WHERE mid >= 1 AND mansat = 1 ORDER BY mnavn LIMIT 500"
+strSQL = "SELECT mid, mnavn FROM medarbejdere WHERE mid > 32272 AND mansat = 1 ORDER BY mid LIMIT 100"
 
 Response.Write strSQL & "<hr>"
 Response.flush
@@ -47,8 +47,8 @@ Response.write "<u>"& oRec5("mnavn") & "</u><br>"
     &" WHERE (jobstatus = 1 OR jobstatus = 3) AND kunder.Kid = j.jobknr  "& strPgrpSQLkri &""_
 	&" GROUP BY j.id, kid ORDER BY Kkundenavn, jobnavn"
 	
-    Response.write strSQLj & "<br><br>"	
-	Response.flush
+    'Response.write strSQLj & "<br><br>"	
+	'Response.flush
 	
     	
     oRec4.open strSQLj, oConn, 3
@@ -56,7 +56,7 @@ Response.write "<u>"& oRec5("mnavn") & "</u><br>"
 
     jobFandtes = 0
     
-    Response.write oRec4("jobnavn") & "<br>"
+    'Response.write oRec4("jobnavn") & "<br>"
             
             strSQLTU = "SELECT jobid FROM timereg_usejob WHERE jobid = "& oRec4("jid") & " AND medarb = "& oRec5("mid")
             oRec3.open strSQLTU, oConn, 3
@@ -74,6 +74,7 @@ Response.write "<u>"& oRec5("mnavn") & "</u><br>"
 
               Response.write "<b>"& strSQLins &"</b><br>"
               'oConn.execute(strSQLins)
+              response.flush
                                    
 
             end if

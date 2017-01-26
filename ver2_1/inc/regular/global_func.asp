@@ -8,6 +8,9 @@
 <!--#include file="../xml/dashboard_xml_inc.asp"-->
 <!--#include file="../xml/timetag_web_inc.asp"-->
 
+<!--#include file="../xml/weeklynote_sprog_inc.asp"-->
+<!--#include file="../xml/timereg_akt_sprog_inc.asp"-->
+<!--#include file="../xml/funktioner_sprog_inc.asp"-->
 
 
 
@@ -183,7 +186,7 @@ end function
 public afslUgerMedab
 
 if instr(lto,"epi") <> 0 then
-redimAntalM = 6000
+redimAntalM = 40000
 else
 redimAntalM = 3000
 end if

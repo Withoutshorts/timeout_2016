@@ -528,23 +528,32 @@ end function
 
  '*** Bruges af ERP fak og fak godkendt **'
 public ekspTxt_kk
- function joblog(jobid,stdatoKri,slutdato,aftid)
+ function joblog(jobid,stdatoKri,slutdato,aftid, viskunfakturalinjer)
    laktaktid = 0
-   
    ekspTxt_kk = ""
   
-   
-   if jobid <> 0 then
-   strSQLjobaftKri = "j.id = "& jobid &" AND tjobnr = j.jobnr"
-   else
-   strSQLjobaftKri = "seraft = "& aftid &" AND tjobnr = j.jobnr "
-   end if
-   %>
-    
-    
-				
-				<%
-				strSQL = "SELECT tmnr, tmnavn, tdato, timer, timerkom, "_
+
+       if jobid <> 0 then
+       strSQLjobaftKri = "j.id = "& jobid &" AND tjobnr = j.jobnr"
+       else
+       strSQLjobaftKri = "seraft = "& aftid &" AND tjobnr = j.jobnr "
+       end if
+
+    if viskunfakturalinjer <> 0 then 'fakturaid = Vis KUN linjer med på den faktura BF diffrentirede linjer på faktura
+
+
+                strSQL = "SELECT tmnr, tmnavn, tdato, timer, timerkom, "_
+				&" taktivitetnavn, taktivitetid, tfaktim, jobnavn, jobnr, a.faktor, timepris, t.valuta, v.valutakode, avarenr, t.kurs AS kurs, tjobnavn, tjobnr "_
+				&" FROM faktura_det fd "_
+                &" LEFT JOIN timer t ON (taktivitetid = fd.aktid AND tfaktim <> 5 AND tdato BETWEEN '" & stdatoKri &"' AND '"& slutdato &"')"_
+                &" LEFT JOIN job j ON (j.jobnr = t.tjobnr)"_
+                &" LEFT JOIN aktiviteter a ON (a.id = fd.aktid)"_
+				&" LEFT JOIN valutaer v ON (v.id = t.valuta)"_
+				&" WHERE a.id = fd.aktid AND fd.fakid = "& id &" ORDER BY jobnr, tdato DESC"
+
+    else
+
+                strSQL = "SELECT tmnr, tmnavn, tdato, timer, timerkom, "_
 				&" taktivitetnavn, taktivitetid, tfaktim, jobnavn, jobnr, a.faktor, timepris, t.valuta, v.valutakode, avarenr, t.kurs AS kurs, tjobnavn, tjobnr "_
 				&" FROM timer t "_
                 &" LEFT JOIN job j ON (j.jobnr = t.tjobnr)"_
@@ -552,7 +561,14 @@ public ekspTxt_kk
 				&" LEFT JOIN valutaer v ON (v.id = t.valuta)"_
 				&" WHERE "&  strSQLjobaftKri &" AND tfaktim <> 5 AND "_
 				&" (Tdato BETWEEN '" & stdatoKri &"' AND '"& slutdato &"') AND a.id = taktivitetid ORDER BY jobnr, tdato DESC"
-				
+
+    end if
+   
+  
+   
+			
+				'Response.write strSQL
+                'Response.flush
 				
 				oRec.open strSQL, oConn, 3 
 				x = 0
@@ -836,11 +852,11 @@ public ekspTxt_kk
 		
 		<table width=100% border=0 cellspacing=0 cellpadding=0>
 		<tr>
-		    <td><input id="FM_visjoblog" name="FM_visjoblog" <%=visjoblogCHK %> type="checkbox" /> <b>Vedhæft joblog på faktura.</b></td>
+		    <td><input id="FM_visjoblog" name="FM_visjoblog" <%=visjoblogCHK %> type="checkbox" /> <b><%=erp_txt_500 %></b></td>
 		</tr>
 		<tr>
-			<td>Joblog i valgt periode (kun fakturerbare og ikke-faktorerbare timer) <br />
-			Periode afgrænsning: <%=formatdatetime(showStDato, 1)%> - <%=formatdatetime(showSlutDato, 1)%>
+			<td><%=erp_txt_434 %> <br />
+			<%=erp_txt_435 %>: <%=formatdatetime(showStDato, 1)%> - <%=formatdatetime(showSlutDato, 1)%>
 			<br />
               
                 
@@ -850,8 +866,8 @@ public ekspTxt_kk
 		<td><div style="position:relative; visibility:visible; left:0px; top:0px; height:550px; border:0px YellowGreen dashed; padding:10px 10px 10px 10px; overflow:auto; background-color:#ffffe1; z-index:200;">
 		
 		<table border=0 cellspacing=0 cellpadding=0><%
-		
-		call joblog(jobid, stdatoKri, slutdato, aftid)
+		viskunfakturalinjer = 0
+		call joblog(jobid, stdatoKri, slutdato, aftid, viskunfakturalinjer)
 		
 		%>
 		</table>
@@ -869,7 +885,7 @@ public ekspTxt_kk
 	end if %>
 	    
 	    <div id=joblogdiv_2 style="position:absolute; visibility:hidden; display:none; top:776px; width:700px; left:5px; border:0px #8cAAe6 solid;">
-        <table width=700 cellspacing=0 cellpadding=5 border=0><tr><td><a href="#" onclick="showdiv('<%=forr%>')" class=vmenu><< Forrige</a></td><td align=right><a href="#" onclick="showdiv('<%=nst%>')" class=vmenu>Næste >></a></td></tr></table>
+        <table width=700 cellspacing=0 cellpadding=5 border=0><tr><td><a href="#" onclick="showdiv('<%=forr%>')" class=vmenu><< <%=erp_txt_436 %></a></td><td align=right><a href="#" onclick="showdiv('<%=nst%>')" class=vmenu><%=erp_txt_392 %> >></a></td></tr></table>
         </div>
 	    
 		<!-- Joblog slut -->
@@ -890,10 +906,10 @@ public ekspTxt_kk
     	 <table width=100% cellspacing=0 cellpadding=0 border=0>
         <tr>
         <td valign=top>
-            <input id="FM_vismatlog" name="FM_vismatlog" <%=matLogChk %> type="checkbox" value="1" /> <b>Vedhæft materiale log på faktura.</b>
+            <input id="FM_vismatlog" name="FM_vismatlog" <%=matLogChk %> type="checkbox" value="1" /> <b><%=erp_txt_437 %></b>
             <br />
-            Materiale-log i valgt periode.<br />
-            Periode afgrænsning: <%=formatdatetime(showStDato, 1)%> - <%=formatdatetime(showSlutDato, 1)%>
+            <%=erp_txt_438 %><br />
+            <%=erp_txt_435 %>: <%=formatdatetime(showStDato, 1)%> - <%=formatdatetime(showSlutDato, 1)%>
 			
         </td>
         </tr>
@@ -905,13 +921,13 @@ public ekspTxt_kk
            <div style="position:relative; visibility:visible; height:500px; border:0px orange dashed; overflow:auto; background-color:#ffffe1; z-index:200; padding:10px 10px 10px 10px;">
             <table width=100% cellspacing=0 cellpadding=0 border=0>
             <tr>
-            <td><b>Dato</b></td>
-            <td><b>Navn</b></td>
-            <td><b>Varenr</b></td>
-            <td align=right><b>Antal</b></td>
-            <td align=right><b>Enheds pris</b></td>
-            <td align=right><b>Enhed</b></td>
-            <td align=right><b>Pris ialt</b></td>
+            <td><b><%=erp_txt_439 %></b></td>
+            <td><b><%=erp_txt_440 %></b></td>
+            <td><b><%=erp_txt_441 %></b></td>
+            <td align=right><b><%=erp_txt_442 %></b></td>
+            <td align=right><b><%=erp_txt_443 %></b></td>
+            <td align=right><b><%=erp_txt_444 %></b></td>
+            <td align=right><b><%=erp_txt_445 %></b></td>
         </tr><%
         
         call matLog(jobid, stdatoKri, slutdato, aftid)
@@ -930,7 +946,7 @@ public ekspTxt_kk
 	end if %>
        
         <div id=matlogdiv_2 style="position:absolute; visibility:hidden; display:none; top:776px; width:600px; left:5px; border:0px #8cAAe6 solid;">
-        <table width=700 cellspacing=0 cellpadding=5 border=0><tr><td><a href="#" onclick="showdiv('aktdiv')" class=vmenu><< Forrige</a></td><td align=right><a href="#" onclick="showdiv('<%=nst%>')" class=vmenu>Næste >></a></td></tr></table>
+        <table width=700 cellspacing=0 cellpadding=5 border=0><tr><td><a href="#" onclick="showdiv('aktdiv')" class=vmenu><< <%=erp_txt_391 %></a></td><td align=right><a href="#" onclick="showdiv('<%=nst%>')" class=vmenu><%=erp_txt_392 %> >></a></td></tr></table>
         </div>
     <%
     end function

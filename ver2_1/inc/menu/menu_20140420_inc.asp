@@ -227,6 +227,47 @@ case "nonstop"
     end if
 
 
+case "bf"
+
+    tregmenu_2014 = 1
+
+    if (level <= 3 OR level = 6) then
+    projmenu_2014 = 1
+    else
+    projmenu_2014 = 0
+    end if
+
+    statmenu_2014 = 1
+
+    if level <= 3 OR level = 6 then
+    kundmenu_2014 = 1
+    else
+    kundmenu_2014 = 0
+    end if
+
+    marbmenu_2014 = 1
+    lagemenu_2014 = 0
+    
+    
+    
+    if level = 1 then
+    admimenu_2014 = 1
+    else
+    admimenu_2014 = 0
+    end if 
+
+    if cint(erpOnOff) = 1 AND (level <= 2 OR level = 6) then
+    erpfmenu_2014 = 1 
+    else
+    erpfmenu_2014 = 0
+    end if
+    
+    if cint(dsksOnOff) = 1 AND (level <= 2 OR level = 6) then
+    helpmenu_2014 = 1
+    else
+    helpmenu_2014 = 0
+    end if
+
 
 case else
     tregmenu_2014 = 1
@@ -907,9 +948,18 @@ end select
 
 
                     <% 
-                     'if (lto = "oko") OR lto = "intranet - local" then 'jobresume %>
+                     'if (lto = "oko") OR lto = "intranet - local" then 'jobresume 
+                        
+                        
+                         select case lto
+                         case "bf"
+                        
+                         case else%>
+
 
                          <li><a href="<%=toSubVerPath14 %>jobprintoverblik.asp?menu=job&id=0" target="_blank">Joboverblik / Resume</a></li>
+
+                         <%end select %>
 
                     <%'end if %>
 
@@ -1093,11 +1143,18 @@ end select
        <ul class="menupkt_n2" id="ul_menu-slider-7" style="display:none; visibility:visible;">
                 <h3 class="menuh3"><%=tsa_txt_505 %></h3>
             
-                
+                <%select case lto 
+                case "bf"
+                 case else %>
 	        <li><a href='<%=toSubVerPath14 %>erp_tilfakturering.asp'><%=tsa_txt_506 %></a></li>
+            <%end select %>
+
            <li><a href='<%=toSubVerPath14 %>erp_opr_faktura_fs.asp?reset=0'><%=tsa_txt_507 %></a></li>
+           <li><a href='<%=toSubVerPath14 %>erp_fakhist.asp'><%=tsa_txt_508 %></a></li>
            
-            <li><a href='<%=toSubVerPath14 %>erp_fakhist.asp'><%=tsa_txt_508 %></a></li>
+             <%select case lto 
+                case "bf"
+                 case else %>
            <li><a href='<%=toSubVerPath14 %>erp_fakturaer_find.asp'><%=tsa_txt_509 %></a></li>
 
            <h3 class="menuh3"><%=tsa_txt_510 %></h3>
@@ -1135,6 +1192,7 @@ end select
             <%'end if %>
         <%end if %>
 
+             <%end select %>
 
 
             

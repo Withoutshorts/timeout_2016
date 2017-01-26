@@ -1953,11 +1953,18 @@
 		
 		
 		<%  
-           
-		call joblog(jobid, stdatoKri, slutdato, aftid)
+        select case lto 
+        case "bf", "intranet - local"
+        viskunfakturalinjer = id
+        case else
+        viskunfakturalinjer = 0 
+        end select
+        
+		call joblog(jobid, stdatoKri, slutdato, aftid, viskunfakturalinjer)
 		%>
 		
 		</table>
+         
 		</div>
 
         <%
@@ -1984,9 +1991,9 @@
 					                Set objNewFile = nothing
 					                Set objF = objFSO.OpenTextFile("c:\www\timeout_xp\wwwroot\ver2_1\inc\log\data\invoice_kasserapport_"&filnavnDato&"_"&lto&"."& fileext, 8)
 				                else
-					                Set objNewFile = objFSO.createTextFile("d:\webserver\wwwroot\timeout_xp\wwwroot\"& toVer &"\inc\log\data\invoice_kasserapport_"&filnavnDato&"_"&lto&"."& fileext, True, False)
+					                Set objNewFile = objFSO.createTextFile("d:\webserver\wwwroot\timeout_xp\wwwroot\"& toVer &"\inc\upload\"& lto &"\invoice_kasserapport_"&filnavnDato&"_"&lto&"."& fileext, True, False)
 					                Set objNewFile = nothing
-					                Set objF = objFSO.OpenTextFile("d:\webserver\wwwroot\timeout_xp\wwwroot\"& toVer &"\inc\log\data\invoice_kasserapport_"&filnavnDato&"_"&lto&"."& fileext, 8)
+					                Set objF = objFSO.OpenTextFile("d:\webserver\wwwroot\timeout_xp\wwwroot\"& toVer &"\inc\upload\"& lto &"\invoice_kasserapport_"&filnavnDato&"_"&lto&"."& fileext, 8)
 				                end if
 				
 				

@@ -3454,7 +3454,7 @@ sub minioverblik
         
         call timesimon_fn()
 
-        if cint(timesimon) = 1 then
+        if cint(timesimon) = 1 then 'BF skal til den gamle = 0
         fcLinkj = "../to_2015/timbudgetsim.asp?FM_fy="&year(now)&"&FM_visrealprdato=1-1-"&year(now)&"&FM_sog="& strJobnr '& "&jobid="& jobid &"&func=forecast"
         else
         fcLinkj = "ressource_belaeg_jbpla.asp?FM_sog="& strJobnr
@@ -3755,6 +3755,8 @@ sub minioverblik
                 select case lto
                 case "epi2017"
                 timesimon = 0
+                case "bf"
+                timesimon = 1
                 case else
                 timesimon = timesimon
                 end select

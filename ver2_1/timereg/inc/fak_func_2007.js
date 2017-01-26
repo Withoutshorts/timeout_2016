@@ -1016,7 +1016,7 @@ $(document).ready(function () {
             //divbelobtot_umoms
             //ialtbeløb tot
             $("#FM_beloeb_umoms").val(totbel_umoms);
-            $("#divbelobtot_umoms").html("Ikke momspligtigt beløb: <br> (" + totbel_umoms + " " + valutaValLabel + ") ");
+            $("#divbelobtot_umoms").html("" & erp_txt_182 & ": <br> (" + totbel_umoms + " " + valutaValLabel + ") ");
 
         });
 
@@ -1077,7 +1077,7 @@ $(document).ready(function () {
 
                 //totbel_umoms = altid = 0 når nettobeløb angive manuelt, timeOut beregner momsens ved indlæs opret/rediger i db
                 $("#FM_beloeb_umoms").val(0);
-                $("#divbelobtot_umoms").html("Ikke momspligtigt beløb: <br> (0 " + valutaValLabel + ") ");
+                $("#divbelobtot_umoms").html("" & erp_txt_182 & ": <br> (0 " + valutaValLabel + ") ");
 
             }
         }
@@ -1200,7 +1200,9 @@ $(document).ready(function () {
 
     function GetCustDesc(alertmoms) {
 
-       
+        //alert("HER" + lto)
+
+        if ((lto != "intranet - local" && lto != "bf") || (alertmoms == 0 )) {
 
         if (document.getElementById("FM_usealtadr").checked == true) {
             var attkid = "att"
@@ -1261,7 +1263,7 @@ $(document).ready(function () {
         }
 
       
-        
+        } // lto
        
 
 
@@ -2518,7 +2520,7 @@ function setmTxt(aktid, n, x) {
 				    document.getElementById("divbelobtot").innerHTML = "<b>" + valutaKodeFak + "</b>"
 				    //+ document.getElementById("FM_beloeb").value + " " 
 				    document.getElementById("divtimerbelobtot").innerHTML = "<b>" + document.getElementById("FM_timer_beloeb").value + " " + valutaKodeFak + "</b>"
-				    document.getElementById("divbelobtot_umoms").innerHTML = "Ikke momspligtigt beløb: <br> (" + document.getElementById("FM_beloeb_umoms").value + " " + valutaKodeFak + ") "
+				    document.getElementById("divbelobtot_umoms").innerHTML = "" & erp_txt_182 & ": <br> (" + document.getElementById("FM_beloeb_umoms").value + " " + valutaKodeFak + ") "
 				    
 				    
 				    if (lto != 'nt' && lto != 'intranet - local') {
@@ -3799,7 +3801,7 @@ function setmTxt(aktid, n, x) {
 
 	            belobialtHTML = document.getElementById("FM_beloeb").value
 	            document.getElementById("divbelobtot").innerHTML = "<b>"+ valutaKodeFak + "</b>"
-	            document.getElementById("divbelobtot_umoms").innerHTML = "Ikke momspligtigt beløb: <br> (" + beloeb_umoms + " " + valutaKodeFak + ") "
+	            document.getElementById("divbelobtot_umoms").innerHTML = "" & erp_txt_182 & ": <br> (" + beloeb_umoms + " " + valutaKodeFak + ") "
 	            
 	}
 

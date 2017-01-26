@@ -418,7 +418,7 @@ function modtager_layout()
 	<%
 	'*** M65 afsender linie ***'
 	select case lto
-	case "acc", "syncronic", "pcm", "essens", "execon", "immenso", "epi", "epi_no", "epi_sta", "jttek", "qwert", "intranet - local", "synergi1", "epi_ab", "epi_uk", "epi2017"
+	case "acc", "syncronic", "pcm", "essens", "execon", "immenso", "epi", "epi_no", "epi_sta", "jttek", "qwert", "intranet - local", "synergi1", "epi_ab", "epi_uk", "epi2017", "bf"
 	
 	case "dencker", "tooltest", "optionone"
 	%>

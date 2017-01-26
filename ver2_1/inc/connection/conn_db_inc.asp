@@ -737,9 +737,9 @@ if len(strLicenskey) <> 0 then
 
 
     case "2.2014-0930-TO153" 'Glad
-	lto = "glad"
-	strConnThis = "driver={MySQL ODBC 3.51 Driver};server=localhost; Port=3306; uid=to_outzource2;pwd=SKba200473;database=timeout_glad;"
-
+	'lto = "glad"
+	'strConnThis = "driver={MySQL ODBC 3.51 Driver};server=localhost; Port=3306; uid=to_outzource2;pwd=SKba200473;database=timeout_glad;"
+    response.redirect "https://timeout.cloud/timeout_xp/wwwroot/ver2_14/login.asp?key=2.2014-0930-TO153&lto=glad"
 
     case "2.2014-1001-TO154" 'Lyng
 	lto = "lyng"

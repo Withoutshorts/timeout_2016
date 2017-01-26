@@ -1,0 +1,609 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<sprog>
+
+  <!--- Dansk -->
+  <dk>
+
+    <txt_1 >i den følgende uge</txt_1>
+    <txt_2 >i den følgende måned</txt_2>
+    <txt_3 >den følgende hverdag</txt_3>
+    <txt_4 >afsluttet</txt_4>
+    <txt_5 >af medarbejderen</txt_5>
+    <txt_6 >lukket</txt_6>
+    <txt_7 >godkendt</txt_7>
+    <txt_8 >Periode er</txt_8>
+    <txt_9 >afvist</txt_9>
+    <txt_10 >af</txt_10>
+    <txt_11 >Perioden er endnu ikke</txt_11>
+    <txt_12 >Når en periode er afvist, skal Du blot rette afviste registreringer, og sende mail (klik på navnet ovenfor) til din godkender om at dine registreringer er rettet.</txt_12>
+    <txt_13 >Du skal IKKE godkende perioden på ny.</txt_13>
+    <txt_14 >Kommentar fra godkender</txt_14>
+    <txt_15 >Uge</txt_15>
+    <txt_16 >Måned</txt_16>
+    <txt_17 >lukkes</txt_17>
+    <txt_18 >lukket</txt_18>
+    <txt_19 >Luk</txt_19>
+    <txt_20 >For godkender (leder)</txt_20>
+    <txt_21 >godkendes</txt_21>
+    <txt_22 >godkendt</txt_22>
+    <txt_23 >Godkend</txt_23>
+    <txt_24 >For godkender (Teamleder)</txt_24>
+    <txt_25 >er afvist</txt_25>
+    <txt_26 >af</txt_26>
+    <txt_27 >Når en</txt_27>
+    <txt_28 >alle periodens registreringer automatisk.</txt_28>
+    <txt_29 >Denne</txt_29>
+    <txt_30 >kan IKKE</txt_30>
+    <txt_31 >før den er afsluttet af medarbejder.</txt_31>
+    <txt_32 >Besked afsendt!</txt_32>
+    <txt_33 >Send email</txt_33>
+    <txt_34 >med besked om at</txt_34>
+    <txt_35 >mangler af blive afsluttet</txt_35>
+    <txt_36 >Afvis denne</txt_36>
+    <txt_37 >Begrundelse</txt_37>
+    <txt_38 >Afsender email til medarbejer om at ugeseddel er afvist, og åbner evt. allerede</txt_38>
+    <txt_39 >ugeseddel op igen.</txt_39>
+    <txt_40 >valgte uge</txt_40>
+    <txt_41 >sidste uge</txt_41>
+    <txt_42 >sidste måned</txt_42>
+    <txt_43 >sidste dag</txt_43>
+    <txt_44 >funktionen endnu ikke aktiv hos jer.</txt_44>
+    <txt_45 >Vi arbejder på at tilpasse funktionen, så I kan afslutte jeres perioder på månedsbasis.</txt_45>
+    <txt_46 >I vil få nærmere besked når I skal begynde på måneds-afslutning.</txt_46>
+    <txt_47 >se uge</txt_47>
+    <txt_48 >Periode kan ikke afsluttes</txt_48>
+    <txt_49 >da der findes herreløse timer uden match.</txt_49>
+    <txt_50 >Disse timer er enten uploadet via excel eller indtastet via f.eks TimeTag.</txt_50>
+    <txt_51 >Der er bl.a timer d.</txt_51>
+    <txt_52 >Først kommende hverdag kl.</txt_52>
+    <txt_53 >Afsluttet</txt_53>
+    <txt_54 >til tiden</txt_54>
+    <txt_55 >for sent</txt_55>
+    <txt_56 >afsluttet korrekt</txt_56>
+    <txt_57 >afsluttet for sent!</txt_57>
+    <txt_58 >Du kan, som administrator eller leder/teamleder, godkende eller afvise de enkelte timeregisteringer.</txt_58>
+    <txt_59 >Når perioden bliver lukket/godkendt, kan kun administator ændre.</txt_59>
+    <txt_60 >En uge kan først godkendes eller afvises, når medarbejderen har afsluttet perioden.</txt_60>
+    <txt_61 >En medarbejder kan ændre i sine indtastninger indtil ugen er lukket/godkendt af lederen.</txt_61>
+    <txt_62 >2.Påskedag</txt_62>
+    <txt_63 >Du kan ikke længere registrere timer i TimeOut</txt_63>
+    <txt_64 >Hej</txt_64>
+    <txt_65 >Du har overskreddet grænsen for hvornår din forrige periode senest skal være afsluttet.</txt_65>
+    <txt_66 >Kontakt din teamleder eller administrator for at få åbnet din periode igen.</txt_66>
+    <txt_67 >Send</txt_67>
+    <txt_68 >mail til din Teamleder</txt_68>
+    <txt_69 >med besked herom.</txt_69>
+    <txt_70 >Kriterie</txt_70>
+    <txt_71 >er</txt_71>
+    <txt_72 >Din ugeseddel uge</txt_72>
+    <txt_73 >uge</txt_73>
+    <txt_74 >Måned</txt_74>
+    <txt_75 >måned</txt_75>
+    <txt_76 >Du har endnu ikke afsluttet</txt_76>
+    <txt_77 >Hej</txt_77>
+    <txt_78 >er endnu ikke afsluttet, husk at få den afsluttet snarest.</txt_78>
+    <txt_79 >Med venlig hilsen</txt_79>
+
+
+  </dk>
+
+
+  <!--- Norsk -->
+  <no>
+
+    <txt_1 >Following week</txt_1>
+    <txt_2 >Following month</txt_2>
+    <txt_3 >following weekday</txt_3>
+    <txt_4 >completed</txt_4>
+    <txt_5 >by the employee</txt_5>
+    <txt_6 >closed</txt_6>
+    <txt_7 >approved</txt_7>
+    <txt_8 >Period is</txt_8>
+    <txt_9 >not approved</txt_9>
+    <txt_10 >by</txt_10>
+    <txt_11 >The period is not yet</txt_11>
+    <txt_12 >If a period is not approved all you have to do is correct your regitrations and mail (click the above name) your approver that you have corrected accordingly.</txt_12>
+    <txt_13 >You do NOT have to complete again</txt_13>
+    <txt_14 >Comments from you approver</txt_14>
+    <txt_15 >Week</txt_15>
+    <txt_16 >Month</txt_16>
+    <txt_17 >closing</txt_17>
+    <txt_18 >closed</txt_18>
+    <txt_19 >close</txt_19>
+    <txt_20 >For approver (leader)</txt_20>
+    <txt_21 >approves</txt_21>
+    <txt_22 >approved</txt_22>
+    <txt_23 >Approve</txt_23>
+    <txt_24 >For approver (leader)</txt_24>
+    <txt_25 >is rejected</txt_25>
+    <txt_26 >by</txt_26>
+    <txt_27 >When a</txt_27>
+    <txt_28 >all the registrations of period automaticly</txt_28>
+    <txt_29 >This</txt_29>
+    <txt_30 >can Not</txt_30>
+    <txt_31 >until it has been completed by the employee.</txt_31>
+    <txt_32 >Message send!</txt_32>
+    <txt_33 >Send e-mail</txt_33>
+    <txt_34 >whit info that</txt_34>
+    <txt_35 >needs to be completed</txt_35>
+    <txt_36 >Reject this</txt_36>
+    <txt_37 >Reason</txt_37>
+    <txt_38 >Sends an e-mail to the employee that the weeklynote is rejected and might open</txt_38>
+    <txt_39 >the weeklynote again.</txt_39>
+    <txt_40 >Choosen week</txt_40>
+    <txt_41 >last week</txt_41>
+    <txt_42 >las month</txt_42>
+    <txt_43 >last day</txt_43>
+    <txt_44 >The function is not active.</txt_44>
+    <txt_45 >We are working on this feature so will be able to completete per month.</txt_45>
+    <txt_46 >You will be notified.</txt_46>
+    <txt_47 >see week</txt_47>
+    <txt_48 >Period cannot be completed</txt_48>
+    <txt_49 >due to one or more regi. without match.</txt_49>
+    <txt_50 >These hours are either uploaded or entered with TimeTag/Mobile.</txt_50>
+    <txt_51 >Examples from this date:</txt_51>
+    <txt_52 >First weekday at</txt_52>
+    <txt_53 >completed</txt_53>
+    <txt_54 >on time</txt_54>
+    <txt_55 >to late</txt_55>
+    <txt_56 >correct completion</txt_56>
+    <txt_57 >completed to late !</txt_57>
+    <txt_58 >You can, as administrator or leader, approve or reject the registrations.</txt_58>
+    <txt_59 >When the period is approved, only administrators can edit.</txt_59>
+    <txt_60 >A week can be approved when the employee has completed the period.</txt_60>
+    <txt_61 >An employee can make changes to the registrations until the period has been approved.</txt_61>
+    <txt_62 >2nd day of Easter</txt_62>
+    <txt_63 >You can no longer register time in TimeOut.</txt_63>
+    <txt_64 >Hello</txt_64>
+    <txt_65 >You have exceeded the deadline for week completion.</txt_65>
+    <txt_66 >Please contact your leader or administrator to have the periode re-opened.</txt_66>
+    <txt_67 >Send</txt_67>
+    <txt_68 >mail you leader</txt_68>
+    <txt_69 >with info that</txt_69>
+    <txt_70 >Criteria</txt_70>
+    <txt_71 >is</txt_71>
+    <txt_72 >Your timesheet week</txt_72>
+    <txt_73 >week</txt_73>
+    <txt_74 >Month</txt_74>
+    <txt_75 >month</txt_75>
+    <txt_76 >You have not yet completed</txt_76>
+    <txt_77 >Hi</txt_77>
+    <txt_78 >is not yet complete, remember to have it completed soon.</txt_78>
+    <txt_79 >With best regards</txt_79>
+
+  </no>
+  
+  
+  <!--- Svensk -->
+  <se>
+
+    <txt_1 >Following week</txt_1>
+    <txt_2 >Following month</txt_2>
+    <txt_3 >following weekday</txt_3>
+    <txt_4 >completed</txt_4>
+    <txt_5 >by the employee</txt_5>
+    <txt_6 >closed</txt_6>
+    <txt_7 >approved</txt_7>
+    <txt_8 >Period is</txt_8>
+    <txt_9 >not approved</txt_9>
+    <txt_10 >by</txt_10>
+    <txt_11 >The period is not yet</txt_11>
+    <txt_12 >If a period is not approved all you have to do is correct your regitrations and mail (click the above name) your approver that you have corrected accordingly.</txt_12>
+    <txt_13 >You do NOT have to complete again</txt_13>
+    <txt_14 >Comments from you approver</txt_14>
+    <txt_15 >Week</txt_15>
+    <txt_16 >Month</txt_16>
+    <txt_17 >closing</txt_17>
+    <txt_18 >closed</txt_18>
+    <txt_19 >close</txt_19>
+    <txt_20 >For approver (leader)</txt_20>
+    <txt_21 >approves</txt_21>
+    <txt_22 >approved</txt_22>
+    <txt_23 >Approve</txt_23>
+    <txt_24 >For approver (leader)</txt_24>
+    <txt_25 >is rejected</txt_25>
+    <txt_26 >by</txt_26>
+    <txt_27 >When a</txt_27>
+    <txt_28 >all the registrations of period automaticly</txt_28>
+    <txt_29 >This</txt_29>
+    <txt_30 >can Not</txt_30>
+    <txt_31 >until it has been completed by the employee.</txt_31>
+    <txt_32 >Message send!</txt_32>
+    <txt_33 >Send e-mail</txt_33>
+    <txt_34 >whit info that</txt_34>
+    <txt_35 >needs to be completed</txt_35>
+    <txt_36 >Reject this</txt_36>
+    <txt_37 >Reason</txt_37>
+    <txt_38 >Sends an e-mail to the employee that the weeklynote is rejected and might open</txt_38>
+    <txt_39 >the weeklynote again.</txt_39>
+    <txt_40 >Choosen week</txt_40>
+    <txt_41 >last week</txt_41>
+    <txt_42 >las month</txt_42>
+    <txt_43 >last day</txt_43>
+    <txt_44 >The function is not active.</txt_44>
+    <txt_45 >We are working on this feature so will be able to completete per month.</txt_45>
+    <txt_46 >You will be notified.</txt_46>
+    <txt_47 >see week</txt_47>
+    <txt_48 >Period cannot be completed</txt_48>
+    <txt_49 >due to one or more regi. without match.</txt_49>
+    <txt_50 >These hours are either uploaded or entered with TimeTag/Mobile.</txt_50>
+    <txt_51 >Examples from this date:</txt_51>
+    <txt_52 >First weekday at</txt_52>
+    <txt_53 >completed</txt_53>
+    <txt_54 >on time</txt_54>
+    <txt_55 >to late</txt_55>
+    <txt_56 >correct completion</txt_56>
+    <txt_57 >completed to late !</txt_57>
+    <txt_58 >You can, as administrator or leader, approve or reject the registrations.</txt_58>
+    <txt_59 >When the period is approved, only administrators can edit.</txt_59>
+    <txt_60 >A week can be approved when the employee has completed the period.</txt_60>
+    <txt_61 >An employee can make changes to the registrations until the period has been approved.</txt_61>
+    <txt_62 >2nd day of Easter</txt_62>
+    <txt_63 >You can no longer register time in TimeOut.</txt_63>
+    <txt_64 >Hello</txt_64>
+    <txt_65 >You have exceeded the deadline for week completion.</txt_65>
+    <txt_66 >Please contact your leader or administrator to have the periode re-opened.</txt_66>
+    <txt_67 >Send</txt_67>
+    <txt_68 >mail you leader</txt_68>
+    <txt_69 >with info that</txt_69>
+    <txt_70 >Criteria</txt_70>
+    <txt_71 >is</txt_71>
+    <txt_72 >Your timesheet week</txt_72>
+    <txt_73 >week</txt_73>
+    <txt_74 >Month</txt_74>
+    <txt_75 >month</txt_75>
+    <txt_76 >You have not yet completed</txt_76>
+    <txt_77 >Hi</txt_77>
+    <txt_78 >is not yet complete, remember to have it completed soon.</txt_78>
+    <txt_79 >With best regards</txt_79>
+
+    
+  </se>
+  
+  
+  <!--- Tysk -->
+  <de>
+
+    <txt_1 >Following week</txt_1>
+    <txt_2 >Following month</txt_2>
+    <txt_3 >following weekday</txt_3>
+    <txt_4 >completed</txt_4>
+    <txt_5 >by the employee</txt_5>
+    <txt_6 >closed</txt_6>
+    <txt_7 >approved</txt_7>
+    <txt_8 >Period is</txt_8>
+    <txt_9 >not approved</txt_9>
+    <txt_10 >by</txt_10>
+    <txt_11 >The period is not yet</txt_11>
+    <txt_12 >If a period is not approved all you have to do is correct your regitrations and mail (click the above name) your approver that you have corrected accordingly.</txt_12>
+    <txt_13 >You do NOT have to complete again</txt_13>
+    <txt_14 >Comments from you approver</txt_14>
+    <txt_15 >Week</txt_15>
+    <txt_16 >Month</txt_16>
+    <txt_17 >closing</txt_17>
+    <txt_18 >closed</txt_18>
+    <txt_19 >close</txt_19>
+    <txt_20 >For approver (leader)</txt_20>
+    <txt_21 >approves</txt_21>
+    <txt_22 >approved</txt_22>
+    <txt_23 >Approve</txt_23>
+    <txt_24 >For approver (leader)</txt_24>
+    <txt_25 >is rejected</txt_25>
+    <txt_26 >by</txt_26>
+    <txt_27 >When a</txt_27>
+    <txt_28 >all the registrations of period automaticly</txt_28>
+    <txt_29 >This</txt_29>
+    <txt_30 >can Not</txt_30>
+    <txt_31 >until it has been completed by the employee.</txt_31>
+    <txt_32 >Message send!</txt_32>
+    <txt_33 >Send e-mail</txt_33>
+    <txt_34 >whit info that</txt_34>
+    <txt_35 >needs to be completed</txt_35>
+    <txt_36 >Reject this</txt_36>
+    <txt_37 >Reason</txt_37>
+    <txt_38 >Sends an e-mail to the employee that the weeklynote is rejected and might open</txt_38>
+    <txt_39 >the weeklynote again.</txt_39>
+    <txt_40 >Choosen week</txt_40>
+    <txt_41 >last week</txt_41>
+    <txt_42 >las month</txt_42>
+    <txt_43 >last day</txt_43>
+    <txt_44 >The function is not active.</txt_44>
+    <txt_45 >We are working on this feature so will be able to completete per month.</txt_45>
+    <txt_46 >You will be notified.</txt_46>
+    <txt_47 >see week</txt_47>
+    <txt_48 >Period cannot be completed</txt_48>
+    <txt_49 >due to one or more regi. without match.</txt_49>
+    <txt_50 >These hours are either uploaded or entered with TimeTag/Mobile.</txt_50>
+    <txt_51 >Examples from this date:</txt_51>
+    <txt_52 >First weekday at</txt_52>
+    <txt_53 >completed</txt_53>
+    <txt_54 >on time</txt_54>
+    <txt_55 >to late</txt_55>
+    <txt_56 >correct completion</txt_56>
+    <txt_57 >completed to late !</txt_57>
+    <txt_58 >You can, as administrator or leader, approve or reject the registrations.</txt_58>
+    <txt_59 >When the period is approved, only administrators can edit.</txt_59>
+    <txt_60 >A week can be approved when the employee has completed the period.</txt_60>
+    <txt_61 >An employee can make changes to the registrations until the period has been approved.</txt_61>
+    <txt_62 >2nd day of Easter</txt_62>
+    <txt_63 >You can no longer register time in TimeOut.</txt_63>
+    <txt_64 >Hello</txt_64>
+    <txt_65 >You have exceeded the deadline for week completion.</txt_65>
+    <txt_66 >Please contact your leader or administrator to have the periode re-opened.</txt_66>
+    <txt_67 >Send</txt_67>
+    <txt_68 >mail you leader</txt_68>
+    <txt_69 >with info that</txt_69>
+    <txt_70 >Criteria</txt_70>
+    <txt_71 >is</txt_71>
+    <txt_72 >Your timesheet week</txt_72>
+    <txt_73 >week</txt_73>
+    <txt_74 >Month</txt_74>
+    <txt_75 >month</txt_75>
+    <txt_76 >You have not yet completed</txt_76>
+    <txt_77 >Hi</txt_77>
+    <txt_78 >is not yet complete, remember to have it completed soon.</txt_78>
+    <txt_79 >With best regards</txt_79>
+
+  </de>
+  
+  
+  <!--- Fransk -->
+  <fr>
+
+    <txt_1 >Following week</txt_1>
+    <txt_2 >Following month</txt_2>
+    <txt_3 >following weekday</txt_3>
+    <txt_4 >completed</txt_4>
+    <txt_5 >by the employee</txt_5>
+    <txt_6 >closed</txt_6>
+    <txt_7 >approved</txt_7>
+    <txt_8 >Period is</txt_8>
+    <txt_9 >not approved</txt_9>
+    <txt_10 >by</txt_10>
+    <txt_11 >The period is not yet</txt_11>
+    <txt_12 >If a period is not approved all you have to do is correct your regitrations and mail (click the above name) your approver that you have corrected accordingly.</txt_12>
+    <txt_13 >You do NOT have to complete again</txt_13>
+    <txt_14 >Comments from you approver</txt_14>
+    <txt_15 >Week</txt_15>
+    <txt_16 >Month</txt_16>
+    <txt_17 >closing</txt_17>
+    <txt_18 >closed</txt_18>
+    <txt_19 >close</txt_19>
+    <txt_20 >For approver (leader)</txt_20>
+    <txt_21 >approves</txt_21>
+    <txt_22 >approved</txt_22>
+    <txt_23 >Approve</txt_23>
+    <txt_24 >For approver (leader)</txt_24>
+    <txt_25 >is rejected</txt_25>
+    <txt_26 >by</txt_26>
+    <txt_27 >When a</txt_27>
+    <txt_28 >all the registrations of period automaticly</txt_28>
+    <txt_29 >This</txt_29>
+    <txt_30 >can Not</txt_30>
+    <txt_31 >until it has been completed by the employee.</txt_31>
+    <txt_32 >Message send!</txt_32>
+    <txt_33 >Send e-mail</txt_33>
+    <txt_34 >whit info that</txt_34>
+    <txt_35 >needs to be completed</txt_35>
+    <txt_36 >Reject this</txt_36>
+    <txt_37 >Reason</txt_37>
+    <txt_38 >Sends an e-mail to the employee that the weeklynote is rejected and might open</txt_38>
+    <txt_39 >the weeklynote again.</txt_39>
+    <txt_40 >Choosen week</txt_40>
+    <txt_41 >last week</txt_41>
+    <txt_42 >las month</txt_42>
+    <txt_43 >last day</txt_43>
+    <txt_44 >The function is not active.</txt_44>
+    <txt_45 >We are working on this feature so will be able to completete per month.</txt_45>
+    <txt_46 >You will be notified.</txt_46>
+    <txt_47 >see week</txt_47>
+    <txt_48 >Period cannot be completed</txt_48>
+    <txt_49 >due to one or more regi. without match.</txt_49>
+    <txt_50 >These hours are either uploaded or entered with TimeTag/Mobile.</txt_50>
+    <txt_51 >Examples from this date:</txt_51>
+    <txt_52 >First weekday at</txt_52>
+    <txt_53 >completed</txt_53>
+    <txt_54 >on time</txt_54>
+    <txt_55 >to late</txt_55>
+    <txt_56 >correct completion</txt_56>
+    <txt_57 >completed to late !</txt_57>
+    <txt_58 >You can, as administrator or leader, approve or reject the registrations.</txt_58>
+    <txt_59 >When the period is approved, only administrators can edit.</txt_59>
+    <txt_60 >A week can be approved when the employee has completed the period.</txt_60>
+    <txt_61 >An employee can make changes to the registrations until the period has been approved.</txt_61>
+    <txt_62 >2nd day of Easter</txt_62>
+    <txt_63 >You can no longer register time in TimeOut.</txt_63>
+    <txt_64 >Hello</txt_64>
+    <txt_65 >You have exceeded the deadline for week completion.</txt_65>
+    <txt_66 >Please contact your leader or administrator to have the periode re-opened.</txt_66>
+    <txt_67 >Send</txt_67>
+    <txt_68 >mail you leader</txt_68>
+    <txt_69 >with info that</txt_69>
+    <txt_70 >Criteria</txt_70>
+    <txt_71 >is</txt_71>
+    <txt_72 >Your timesheet week</txt_72>
+    <txt_73 >week</txt_73>
+    <txt_74 >Month</txt_74>
+    <txt_75 >month</txt_75>
+    <txt_76 >You have not yet completed</txt_76>
+    <txt_77 >Hi</txt_77>
+    <txt_78 >is not yet complete, remember to have it completed soon.</txt_78>
+    <txt_79 >With best regards</txt_79>
+    
+  </fr>
+  
+    
+
+  <!-- Engelsk -->
+  <uk>
+
+    <txt_1 >Following week</txt_1>
+    <txt_2 >Following month</txt_2>
+    <txt_3 >following weekday</txt_3>
+    <txt_4 >completed</txt_4>
+    <txt_5 >by the employee</txt_5>
+    <txt_6 >closed</txt_6>
+    <txt_7 >approved</txt_7>
+    <txt_8 >Period is</txt_8>
+    <txt_9 >not approved</txt_9>
+    <txt_10 >by</txt_10>
+    <txt_11 >The period is not yet</txt_11>
+    <txt_12 >If a period is not approved all you have to do is correct your regitrations and mail (click the above name) your approver that you have corrected accordingly.</txt_12>
+    <txt_13 >You do NOT have to complete again</txt_13>
+    <txt_14 >Comments from you approver</txt_14>
+    <txt_15 >Week</txt_15>
+    <txt_16 >Month</txt_16>
+    <txt_17 >closing</txt_17>
+    <txt_18 >closed</txt_18>
+    <txt_19 >close</txt_19>
+    <txt_20 >For approver (leader)</txt_20>
+    <txt_21 >approves</txt_21>
+    <txt_22 >approved</txt_22>
+    <txt_23 >Approve</txt_23>
+    <txt_24 >For approver (leader)</txt_24>
+    <txt_25 >is rejected</txt_25>
+    <txt_26 >by</txt_26>
+    <txt_27 >When a</txt_27>
+    <txt_28 >all the registrations of period automaticly</txt_28>
+    <txt_29 >This</txt_29>
+    <txt_30 >can Not</txt_30>
+    <txt_31 >until it has been completed by the employee.</txt_31>
+    <txt_32 >Message send!</txt_32>
+    <txt_33 >Send e-mail</txt_33>
+    <txt_34 >whit info that</txt_34>
+    <txt_35 >needs to be completed</txt_35>
+    <txt_36 >Reject this</txt_36>
+    <txt_37 >Reason</txt_37>
+    <txt_38 >Sends an e-mail to the employee that the weeklynote is rejected and might open</txt_38>
+    <txt_39 >the weeklynote again.</txt_39>
+    <txt_40 >Choosen week</txt_40>
+    <txt_41 >last week</txt_41>
+    <txt_42 >las month</txt_42>
+    <txt_43 >last day</txt_43>
+    <txt_44 >The function is not active.</txt_44>
+    <txt_45 >We are working on this feature so will be able to completete per month.</txt_45>
+    <txt_46 >You will be notified.</txt_46>
+    <txt_47 >see week</txt_47>
+    <txt_48 >Period cannot be completed</txt_48>
+    <txt_49 >due to one or more regi. without match.</txt_49>
+    <txt_50 >These hours are either uploaded or entered with TimeTag/Mobile.</txt_50>
+    <txt_51 >Examples from this date:</txt_51>
+    <txt_52 >First weekday at</txt_52>
+    <txt_53 >completed</txt_53>
+    <txt_54 >on time</txt_54>
+    <txt_55 >to late</txt_55>
+    <txt_56 >correct completion</txt_56>
+    <txt_57 >completed to late !</txt_57>
+    <txt_58 >You can, as administrator or leader, approve or reject the registrations.</txt_58>
+    <txt_59 >When the period is approved, only administrators can edit.</txt_59>
+    <txt_60 >A week can be approved when the employee has completed the period.</txt_60>
+    <txt_61 >An employee can make changes to the registrations until the period has been approved.</txt_61>
+    <txt_62 >2nd day of Easter</txt_62>
+    <txt_63 >You can no longer register time in TimeOut.</txt_63>
+    <txt_64 >Hello</txt_64>
+    <txt_65 >You have exceeded the deadline for week completion.</txt_65>
+    <txt_66 >Please contact your leader or administrator to have the periode re-opened.</txt_66>
+    <txt_67 >Send</txt_67>
+    <txt_68 >mail you leader</txt_68>
+    <txt_69 >with info that</txt_69>
+    <txt_70 >Criteria</txt_70>
+    <txt_71 >is</txt_71>
+    <txt_72 >Your timesheet week</txt_72>
+    <txt_73 >week</txt_73>
+    <txt_74 >Month</txt_74>
+    <txt_75 >month</txt_75>
+    <txt_76 >You have not yet completed</txt_76>
+    <txt_77 >Hi</txt_77>
+    <txt_78 >is not yet complete, remember to have it completed soon.</txt_78>
+    <txt_79 >With best regards</txt_79>
+
+  </uk>
+
+
+  <!--- Spansk -->
+  <es>
+    <txt_1 >Following week</txt_1>
+    <txt_2 >Following month</txt_2>
+    <txt_3 >following weekday</txt_3>
+    <txt_4 >completed</txt_4>
+    <txt_5 >by the employee</txt_5>
+    <txt_6 >closed</txt_6>
+    <txt_7 >approved</txt_7>
+    <txt_8 >Period is</txt_8>
+    <txt_9 >not approved</txt_9>
+    <txt_10 >by</txt_10>
+    <txt_11 >The period is not yet</txt_11>
+    <txt_12 >If a period is not approved all you have to do is correct your regitrations and mail (click the above name) your approver that you have corrected accordingly.</txt_12>
+    <txt_13 >You do NOT have to complete again</txt_13>
+    <txt_14 >Comments from you approver</txt_14>
+    <txt_15 >Week</txt_15>
+    <txt_16 >Month</txt_16>
+    <txt_17 >closing</txt_17>
+    <txt_18 >closed</txt_18>
+    <txt_19 >close</txt_19>
+    <txt_20 >For approver (leader)</txt_20>
+    <txt_21 >approves</txt_21>
+    <txt_22 >approved</txt_22>
+    <txt_23 >Approve</txt_23>
+    <txt_24 >For approver (leader)</txt_24>
+    <txt_25 >is rejected</txt_25>
+    <txt_26 >by</txt_26>
+    <txt_27 >When a</txt_27>
+    <txt_28 >all the registrations of period automaticly</txt_28>
+    <txt_29 >This</txt_29>
+    <txt_30 >can Not</txt_30>
+    <txt_31 >until it has been completed by the employee.</txt_31>
+    <txt_32 >Message send!</txt_32>
+    <txt_33 >Send e-mail</txt_33>
+    <txt_34 >whit info that</txt_34>
+    <txt_35 >needs to be completed</txt_35>
+    <txt_36 >Reject this</txt_36>
+    <txt_37 >Reason</txt_37>
+    <txt_38 >Sends an e-mail to the employee that the weeklynote is rejected and might open</txt_38>
+    <txt_39 >the weeklynote again.</txt_39>
+    <txt_40 >Choosen week</txt_40>
+    <txt_41 >last week</txt_41>
+    <txt_42 >las month</txt_42>
+    <txt_43 >last day</txt_43>
+    <txt_44 >The function is not active.</txt_44>
+    <txt_45 >We are working on this feature so will be able to completete per month.</txt_45>
+    <txt_46 >You will be notified.</txt_46>
+    <txt_47 >see week</txt_47>
+    <txt_48 >Period cannot be completed</txt_48>
+    <txt_49 >due to one or more regi. without match.</txt_49>
+    <txt_50 >These hours are either uploaded or entered with TimeTag/Mobile.</txt_50>
+    <txt_51 >Examples from this date:</txt_51>
+    <txt_52 >First weekday at</txt_52>
+    <txt_53 >completed</txt_53>
+    <txt_54 >on time</txt_54>
+    <txt_55 >to late</txt_55>
+    <txt_56 >correct completion</txt_56>
+    <txt_57 >completed to late !</txt_57>
+    <txt_58 >You can, as administrator or leader, approve or reject the registrations.</txt_58>
+    <txt_59 >When the period is approved, only administrators can edit.</txt_59>
+    <txt_60 >A week can be approved when the employee has completed the period.</txt_60>
+    <txt_61 >An employee can make changes to the registrations until the period has been approved.</txt_61>
+    <txt_62 >2nd day of Easter</txt_62>
+    <txt_63 >You can no longer register time in TimeOut.</txt_63>
+    <txt_64 >Hello</txt_64>
+    <txt_65 >You have exceeded the deadline for week completion.</txt_65>
+    <txt_66 >Please contact your leader or administrator to have the periode re-opened.</txt_66>
+    <txt_67 >Send</txt_67>
+    <txt_68 >mail you leader</txt_68>
+    <txt_69 >with info that</txt_69>
+    <txt_70 >Criteria</txt_70>
+    <txt_71 >is</txt_71>
+    <txt_72 >Your timesheet week</txt_72>
+    <txt_73 >week</txt_73>
+    <txt_74 >Month</txt_74>
+    <txt_75 >month</txt_75>
+    <txt_76 >You have not yet completed</txt_76>
+    <txt_77 >Hi</txt_77>
+    <txt_78 >is not yet complete, remember to have it completed soon.</txt_78>
+    <txt_79 >With best regards</txt_79>
+
+ </es>
+
+
+</sprog>

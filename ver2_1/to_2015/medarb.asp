@@ -749,22 +749,64 @@ Session.LCID = 1030
 						    oRec.movenext
 						    wend
 						    oRec.close 
-    						
-    						
+
+                            '**** HVIS der ikke er andre medarbejdere af typen bruges medarbejdertypens standard timepriser
+                             if cint(medtypeid) = 0 then
+                                if len(trim(request("FM_medarbejdertype_follow_tp"))) <> 0 then
+                                 medarbejdertype_follow_tp = request("FM_medarbejdertype_follow_tp")
+                                else
+                                 medarbejdertype_follow_tp = 0
+                                end if
+
+                                        '*** Vælger 1 medarb. af typen
+                                        strSQL = "SELECT mid FROM medarbejdere WHERE Medarbejdertype = "& medarbejdertype_follow_tp & " LIMIT 1"
+						                oRec.open strSQL, oConn, 3 
+						                if not oRec.EOF then
+						                medtypeid = oRec("mid")
+						                oRec.movenext
+						                end if
+						                oRec.close 
+
+                             end if
+
                             ct = 0
                             strAktIDsWrt = ""
-						    strSQL = "SELECT aktid, timeprisalt, 6timepris, 6valuta FROM timepriser WHERE jobid = 0 AND medarbid = "& medtypeid &" GROUP BY aktid, timeprisalt" 
-						    'Response.write strSQL & "<br>"
+                          
+                            
+                                    '************** HENTER ÅBEN JOB OG TILBUD ***********
+                                    strJobids = "(jobid = 0 "
+                                    whSQL = "(jobstatus = 1 OR jobstatus = 3)"
+                                    strSQLjob = "SELECT j.id AS jid FROM job j "_
+		                            &" WHERE "& whSQL &" GROUP BY j.id"
+
+                                    oRec2.open strSQLjob, oConn, 3
+		                            while not oRec2.EOF
+                 
+                                        strJobids = strJobids & " OR jobid = " & oRec2("jid")
+
+                                    oRec2.movenext
+                                    wend 
+                                    oRec2.close
+
+                       
+                                    strJobids = strJobids & ")"
+
+                            strSQL = "SELECT aktid, jobid, timeprisalt, 6timepris, 6valuta FROM timepriser WHERE "& strJobids &" AND medarbid = "& medtypeid &" GROUP BY aktid, timeprisalt" 
+						  
+                            'Response.write strSQL & "<br>"
     						
 						    oRec.open strSQL, oConn, 3 
 						    while not oRec.EOF 
 
-                                tprisUse = replace(oRec("6timepris"), ".", "")
-                                tprisUse = replace(tprisUse, ",", ".")
-    						
+                                tprisUse = replace(tprisUse, ".", "")
+                                tprisUse = replace(oRec("6timepris"), ",", ".")
+
+                               
+                                timeprisAlt = oRec("timeprisalt") 'kolononne valgt
+                               
 							    strSQLinsTp = "INSERT INTO timepriser ( "_
 							    &" jobid, aktid, medarbid, timeprisalt, 6timepris, 6valuta) "_
-							    &" VALUES (0, "& oRec("aktid") &", "& intMid &", "& oRec("timeprisalt") &", "& tprisUse &", "& oRec("6valuta") &")"
+							    &" VALUES ("& oRec("jobid") &", "& oRec("aktid") &", "& intMid &", "& timeprisAlt &", "& tprisUse &", "& oRec("6valuta") &")"
 
                                 'Response.Write strSQLinsTp & "<br>"
                                 'Response.flush
@@ -778,10 +820,12 @@ Session.LCID = 1030
 						    oRec.movenext
 						    wend
 						    oRec.close 
-    						
+    					
+                        'response.end	
     					'Response.write strAktIDsWrt & "<br><br> "
+                        
 
-                        '*** Indlæser default timepris på de aktiviteter der ikke bliver fundet *****'
+                        '*** Indlæser default timepris på de STAM-aktiviteter der EVT ikke bliver fundet *****'
                         '*** finder tp på type ***
                         tprisUse = 0
                         valutaUse = 1
@@ -1575,18 +1619,20 @@ Session.LCID = 1030
                                         </div>
                                  </div>
 
-                                  <div class="col-lg-8"> 
+                                  <div class="col-lg-8">
 
-                                      <% if func = "red" then
-	                                    antalhist = 0
-	                                    strSQLantalth = "SELECT COUNT(id) AS antalhist FROM medarbejdertyper_historik WHERE mid = "& id &" GROUP BY mid"
-	                                    oRec.open strSQLantalth, oConn, 3
-	                                    if not oRec.EOF then
+                                  
+                                  <% if func = "red" then
+
+	                                        antalhist = 0
+	                                        strSQLantalth = "SELECT COUNT(id) AS antalhist FROM medarbejdertyper_historik WHERE mid = "& id &" GROUP BY mid"
+	                                        oRec.open strSQLantalth, oConn, 3
+	                                        if not oRec.EOF then
 	                                        
-	                                        antalhist = oRec("antalhist") 
+	                                            antalhist = oRec("antalhist") 
 	            
-	                                    end if
-	                                    oRec.close
+	                                        end if
+	                                        oRec.close
 	        
 	                                    if antalhist >= 30 then
 	                                    dis = "DISABLED"
@@ -1594,11 +1640,13 @@ Session.LCID = 1030
 	                                    dis = ""
 	                                    end if
 	        
-	                                    else
+	                                  else
 	                                    dis = ""
-	                                    end if %>
+	                                 end if %>
 
-                                  <select class="form-control input-small" <%=dis %> name="FM_medtype" id="FM_medtype" style="width:540px;">
+
+                                     
+                                  <select class="form-control input-small" <%=dis%> name="FM_medtype" id="FM_medtype" style="width:540px;">
                                      
                                     <%	strSQL = "SELECT medarbejdertype, mt.type, mt.id, mgruppe, "_
                                     &" mtg.navn AS mtgnavn "_ 
@@ -1608,25 +1656,25 @@ Session.LCID = 1030
             
             
 		                        <%
-		                        if func = "red" then
+		                                if func = "red" then
 		
 		
             
-                                    oRec.open strSQL, oConn, 3
-			                        if not oRec.EOF then
+                                            oRec.open strSQL, oConn, 3
+			                                if not oRec.EOF then
 			        
-                                    if oRec("mgruppe") <> 0 then
-                                    mtgNavn = " [hovedgruppe:  "& oRec("mtgnavn") &"]"
-                                    else
-                                    mtgNavn = ""
-                                    end if
-                                    %>
-			                        <option value="<%=oRec("id")%>" SELECTED><%=oRec("type")%> <span style="font-size:8px;"><%=mtgNavn%></span></option>
-			                        <%
-			                        end if
-			                        oRec.close
+                                            if oRec("mgruppe") <> 0 then
+                                            mtgNavn = " [hovedgruppe:  "& oRec("mtgnavn") &"]"
+                                            else
+                                            mtgNavn = ""
+                                            end if
+                                            %>
+			                                <option value="<%=oRec("id")%>" SELECTED><%=oRec("type")%> <span style="font-size:8px;"><%=mtgNavn%></span></option>
+			                                <%
+			                                end if
+			                                oRec.close
 
-		                        end if
+		                                end if
 		
 		                        'strSQL = "SELECT id, type FROM medarbejdertyper ORDER BY type"
 		                        strSQL = "SELECT mt.type, mt.id, mgruppe, "_
@@ -1677,8 +1725,32 @@ Session.LCID = 1030
                                       call medarbtypligmedarb_fn()%>
                                       <input type="hidden" name="medarbtypligmedarb" value="<%=medarbtypligmedarb %>" />   
                                       <%end if %>
-                                  
+
+                                      <%if func = "opret" then
+                                        %>
+                                        <br /><span style="color:red;">Tildel timepriser</span> på stam-aktiviteter og åbne job og tilbud.<br />
+                                        Følg denne medarb.type (hvis den valgte medarb.type er ny, og dette er den første medarbejder af denne type)
+                                        <select name="FM_medarbejdertype_follow_tp" class="form-control input-small" style="width:200px;">
+                                        <%
+                                         strSQL = "SELECT mt.type, mt.id FROM medarbejdertyper mt WHERE mt.id <> 0 ORDER BY type"
                                 
+                                        
+                                                oRec.open strSQL, oConn, 3
+		                                        While not oRec.EOF
+                
+                                                 %>
+		                                        <option value="<%=oRec("id")%>"><%=oRec("type")%></option>
+		                                        <%
+
+                              
+		                                        oRec.movenext
+		                                        Wend
+		                                        oRec.close
+		                                        %>
+		                                        </select> 
+                                
+                                      <%end if %>
+
                               <%
                               else
 
@@ -1700,8 +1772,8 @@ Session.LCID = 1030
 
                                  <%if cint(level) = 1 then %>
                                 <br /><br /><b>Medarbejdertype historik:</b> (maks 30)<br />
-                                <span style="color:#999999;">Første type skal altid følge ansat dato. Derfor kan den ikke opdateres.<br />
-                                Normtid følger altid historikken. Vær opmærksom på ferieoptjent ved ændret normtid.</span> <br /><br />
+                               Første type skal altid følge ansat dato. Derfor kan den ikke opdateres.<br />
+                                Normtid følger altid historikken. Vær opmærksom på ferieoptjent ved ændret normtid.<br /><br />
 		                        <%end if
 		
 			                    strSQL = "SELECT mtypedato, mt.type AS mttype, mth.id AS mtypeid FROM medarbejdertyper_historik AS mth, "_
@@ -2249,7 +2321,7 @@ Session.LCID = 1030
 		            if cint(visikkemedarbejdere) <> 1 then
 		
 			            if usekri = 1 then '**SøgeKri
-			            sqlsearchKri = " (mnavn LIKE '"& thiskri &"%' OR init LIKE '"& thiskri &"%' OR (mnr LIKE '"& thiskri &"%' AND mnr <> '0'))" 
+			            sqlsearchKri = " (mnavn LIKE '%"& thiskri &"%' OR init LIKE '"& thiskri &"%' OR (mnr LIKE '"& thiskri &"%' AND mnr <> '0'))" 
 			            else
 			            sqlsearchKri = " (mid <> 0)"
 			            end if

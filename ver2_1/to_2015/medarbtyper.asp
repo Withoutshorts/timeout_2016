@@ -813,7 +813,7 @@ case "dbopr", "dbred"
                                             '** Finder alle åbne job
                                             '** Finder tilhørende Aktiviteter KUN DEM DER IKKE ER SAT TIL FAST TP
                                             strSQLjob = "SELECT j.id AS jobid, j.jobnr, a.id AS aktid FROM job AS j "_
-                                            &" LEFT JOIN aktiviteter AS a ON (a.job = j.id AND fakturerbar = 1 AND brug_fasttp = 0) WHERE jobstatus = 1 AND a.id IS NOT NULL"
+                                            &" LEFT JOIN aktiviteter AS a ON (a.job = j.id AND (fakturerbar = 1 OR fakturerbar = 2) AND brug_fasttp = 0) WHERE jobstatus = 1 AND a.id IS NOT NULL"
                                             oRec5.open strSQLjob, oConn, 3
                                             while not oRec5.EOF  
 
@@ -1370,9 +1370,9 @@ case "dbopr", "dbred"
                                 <div class="row">
                                     <div class="col-lg-1">&nbsp</div>
                                     <div class="col-lg-9"><br /><br />
-                                        <b>Opdater timepriser på:</b><br />
-                                        <input id="Checkbox1" type="checkbox" name="FM_opdater_timepriser" value="1" />&nbsp Opdater timepriser, for denne medarb.type.<br />
-                                        - Timepristabellen på alle fakturerbare aktiviteter på åbne job. <br />
+                                        <b>Opdater timepriser:</b><br />
+                                        <input id="Checkbox1" type="checkbox" name="FM_opdater_timepriser" value="1" />&nbsp Opdater timepriser, for denne medarbejdertype på:<br />
+                                        - Timepristabellen på alle fakturerbare/Ikke fakturerbare aktiviteter på åbne job. <br />
                                         - Alle registrerede timer på fakturerbare aktiviteter på <u>åbne</u> job <b>fra d. </b><input type="text" name="FM_opdatertpfra" value="<%=useDate %>" style="font-size:9px; width:60px;" /> til dd.
                                         - også lukkede uger og hvis der foreligger faktura.
                                         <br />

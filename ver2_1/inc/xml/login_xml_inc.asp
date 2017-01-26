@@ -10,8 +10,8 @@ Set objXmlHttp = Server.CreateObject("Msxml2.ServerXMLHTTP")
 'objXmlHttp.open "GET", "https://outzource.dk/timeout_xp/wwwroot/ver2_1/inc/xml/login_sprog.xml", False
 'objXmlHttp.open "GET", "https://timeout.cloud/timeout_xp/wwwroot/ver3_99/inc/xml/login_sprog.xml", False
 'objXmlHttp.open "GET", "https://outzource.dk/timeout_xp/wwwroot/ver2_14/inc/xml/login_sprog.xml", False
-'objXmlHttp.open "GET", "https://timeout.cloud/timeout_xp/wwwroot/ver2_14/inc/xml/login_sprog.xml", False
-objXmlHttp.open "GET", "https://outzource.dk/timeout_xp/wwwroot/ver2_14/inc/xml/login_sprog.xml", False
+objXmlHttp.open "GET", "https://timeout.cloud/timeout_xp/wwwroot/ver2_14/inc/xml/login_sprog.xml", False
+'objXmlHttp.open "GET", "https://outzource.dk/timeout_xp/wwwroot/ver2_14/inc/xml/login_sprog.xml", False
 
 objXmlHttp.send
 
@@ -33,7 +33,7 @@ Dim sXPathQuery_login
 
 sprog = 1 'DK
 select case lto
-case "epi_uk", "intranet - local"
+case "epi_uk", "intranet - local", "bf", "outz", "epi2017"
 sprog = 2
 end select
 

@@ -2617,9 +2617,9 @@ if len(session("user")) = 0 then
     oskrift = erp_txt_197 &" "& typTxt
 
     if jobid <> 0 then
-    oskrift = oskrift &" <span style=""font-size:11px; font-weight:lighter;""> job no.: ("&  intjobnr &")</span>"
+    oskrift = oskrift &" <span style=""font-size:11px; font-weight:lighter;""> "& erp_txt_419 &": ("&  intjobnr &")</span>"
 	else
-    oskrift = oskrift &" <span style=""font-size:11px; font-weight:lighter;""> aft. no.: ("&  intaftnr &")</span>"
+    oskrift = oskrift &" <span style=""font-size:11px; font-weight:lighter;""> "& erp_txt_420 &": ("&  intaftnr &")</span>"
     end if
 	
 	'call sideoverskrift(oleft, otop, owdt, oimg, oskrift)
@@ -2677,7 +2677,20 @@ if len(session("user")) = 0 then
 		visjoblog = chklog
 		
 		
-		
+		 if func <> "red" then
+
+            select case lto 
+            case "bf", "intranet - local"
+            visjoblog = 1
+            case else
+		    visjoblog = chklog
+		    end select
+
+        else
+            visjoblog = chklog
+        end if
+
+
 		
 		'*** Skal rabat kolonne være slået til default. ***'
 		select case lto
@@ -3218,7 +3231,7 @@ if len(session("user")) = 0 then
          <div id="visikkefak" style="position:absolute; display:<%=sideDivDspAlt%>; visibility:<%=sideDivVzbAlt%>; top:105px; height:296px; width:670px; padding:20px; background-color:#FFFFFF; left:5px; z-index:2;"> 
              Your Invoice is now ready for rewiev. <br /><br />
              Click on the green botton in the upper right corner to review your invoice. <br /><br />
-             <%if level = 1 then %>
+             <%if level = 1 OR (lto = "bf" AND (level <= 2 OR level = 6)) then %>
              <span id="sp_editfak" style="color:#5582d2;"><u>Click here to edit</u></span>
              <%end if %>
             </div>
@@ -3243,7 +3256,7 @@ if len(session("user")) = 0 then
 		<input type="hidden" name="FM_slut_aar" id="gen_FM_slut_aar" value="<%=request("FM_slut_aar")%>">
 		  
 		  <%if func <> "red" then %> 
-		  <input id="Button1" onclick="opdaterFakdato()" type="submit" value="Hent timer i valgt. per. >>" style="font-size:9px;" /> <span style="color:#999999; font-size:9px;"><%=erp_txt_215 %></span>
+		  <input id="Button1" onclick="opdaterFakdato()" type="submit" value="<%=erp_txt_415 %> >>" style="font-size:9px;" /> <span style="color:#999999; font-size:9px;"><%=erp_txt_215 %></span>
 	      <%end if %>
 		
 		</form>
@@ -3430,20 +3443,30 @@ if len(session("user")) = 0 then
 		                end if
 		                
 		                thisakt_rabat = intRabat
-		                
+
+
+                            '*** Overruler modtager med jobnavn
+                            select case lto 
+                            case "bf", "intranet - local"
+                            modtageradr = "To:<br>"& strJobnavn & " ("& intjobnr &")" 
+                            skiftModtagerDis = "DISABLED"
+                            case else 
+                            modtageradr = modtageradr 
+                            skiftModtagerDis = ""
+                            end select
+
+                           	                
 		                %>
 		                <tr>
 		                <td valign=top style="height:110px;" align=left>
 		                <input type="hidden" id="momsland" value="<%=strLandShow %>" />
                         <input type="hidden" id="afsmomsland" value="<%=thisAfsenderLand %>" />
                         <div id="DIV_modtageradr" style="width:310px; height:100px; padding:4px; border:1px #8CAAE6 solid; overflow:auto;">
-                       <%=modtageradr%>
-                            
-
-                        </div>
+                           <%=modtageradr%> 
+                            </div>
                             
                             <textarea style="position:absolute; visibility:hidden; width:310px; height:101px; padding:4px; border:1px #CCCCCC solid; top:30px; left:5px;" id="FM_modtageradr" name="FM_modtageradr">
-                            <%=modtageradr%>
+                            <%=modtageradr%> 
                             </textarea>   
                             <span style="font-size:9px; color:#999999; line-height:10px;"><%=erp_txt_217 %></span>
                             <input type="button" id="gem_adr" style="position:absolute; display:none; visibility:hidden; top:30px; left:320px;" value="luk" />
@@ -3523,7 +3546,7 @@ if len(session("user")) = 0 then
                                 <br /><b><%=erp_txt_060 %></b> <%=erp_txt_061 %><br />
                                 <span style="font-size:9px; color:#999999;"><%=erp_txt_062 %></span><br /> 
                                 <input type="hidden" value="<%=func %>" id="altadrFunc" />
-                                <input id="FM_usealtadr" name="FM_usealtadr" type="checkbox" value="1" <%=usealtadrCHK %> /> Ja 
+                                <input id="FM_usealtadr" name="FM_usealtadr" type="checkbox" value="1" <%=skiftModtagerDis %> <%=usealtadrCHK %> /> Ja 
                                 <%if func = "red" then %> 
                                 <%=erp_txt_063 %><span style="font-size:9px; color:#999999;"><%=erp_txt_064 %></span> 
                                 <%end if %><br />
@@ -3847,7 +3870,7 @@ if len(session("user")) = 0 then
 
          %>
 
-			<td><br />Bankkonto:<br /><select name="FM_afs_bankkonto" id="FM_afs_bankkonto" style="width:300px;">
+			<td><br /><%=erp_txt_424 %>:<br /><select name="FM_afs_bankkonto" id="FM_afs_bankkonto" style="width:300px;">
             <option value="0" <%=kontonr_sel0 %>><%=bank &": "& regnr &" "& kontonr %></option>
             <option value="1" <%=kontonr_sel1 %>><%=bank_b &": "& regnr_b &" "& kontonr_b %></option>
             <option value="2" <%=kontonr_sel2 %>><%=bank_c &": "& regnr_c &" "& kontonr_c %></option>
@@ -3877,7 +3900,7 @@ if len(session("user")) = 0 then
 	end if %>
 	
 	    <div id=modtagdiv_2 style="position:absolute; visibility:hidden; display:none; top:586px; width:720px; left:5px; border:0px #8cAAe6 solid;">
-        <table width=100% cellspacing=0 cellpadding=5 border=0><tr><td><a href="#" onclick="showdiv('fidiv')" class=vmenu><%=erp_txt_072 %></a></td><td align=right><a href="#" onclick="showdiv('<%=nst %>')" class=vmenu><%=erp_txt_073 %></a></td></tr></table>
+        <table width=100% cellspacing=0 cellpadding=5 border=0><tr><td><a href="#" onclick="showdiv('fidiv')" class=vmenu><< <%=erp_txt_072 %></a></td><td align=right><a href="#" onclick="showdiv('<%=nst %>')" class=vmenu><%=erp_txt_073 %> >></a></td></tr></table>
 		 </div>
 
 	
@@ -4216,7 +4239,7 @@ if len(session("user")) = 0 then
         end if
 	    
             select case lto
-            case "nt", "epi_uk"
+            case "nt", "epi_uk", "intranet - local", "bf" 
             lang = 1
             case else
             lang = 0
@@ -4245,7 +4268,6 @@ if len(session("user")) = 0 then
             'response.write "betbetint: "& betbetint
 
 	        call betalingsbetDage(betbetint, hideffdato, lang, nameid)
-    	    
 	        if Not InStr(strForfaldsdato, "-") then
 	        strForfaldsdato = strDag & "-" & strMrd & "-" & strAar
 	        end if
@@ -4598,7 +4620,7 @@ if len(session("user")) = 0 then
          wend
          oRec2.close  %>
 
-        <option value="0">Ingen</option>
+        <option value="0"><%=erp_txt_423 %></option>
 
 
     </select>
@@ -4614,7 +4636,7 @@ if len(session("user")) = 0 then
 	<tr><td valign=top style="padding:12px 5px 2px 5px;"><b><%=erp_txt_128 %></b><br />
 	 <span style="color:#999999;"><%=erp_txt_129 %></span></td></tr>-->
 	<tr>
-	<td valign=top style="padding:12px 5px 2px 5px;"><b><%=erp_txt_130 %></b> (kunde konto)<br />
+	<td valign=top style="padding:12px 5px 2px 5px;"><b><%=erp_txt_130 %></b> (<%=erp_txt_414 %>)<br />
 	
 		<%
 		if func = "red" then
@@ -4755,7 +4777,7 @@ if len(session("user")) = 0 then
 		
 		end if%>
 		</select><br />
-		   <span style="color:#999999;">Forvalgt konto på forrretningsområde forvælger konto. Hvis ikke der findes konto på forretningsområde, vælges forvalgt konto fra kontoplan. </span>
+		   <span style="color:#999999;"><%=erp_txt_413 %></span>
 		
             &nbsp;
 		</td>
@@ -4820,7 +4842,7 @@ if len(session("user")) = 0 then
 		
 
         <%select case lto
-         case "nt", "intranet - local" 
+         case "nt", "intranet - local", "bf" 
           
             showNaesteVzb = "hidden"
             showNaesteDsp = "none"
@@ -4834,7 +4856,7 @@ if len(session("user")) = 0 then
 
        %>
 		<div id="fidiv_2" style="position:absolute; visibility:<%=showNaesteVzb%>; display:<%=showNaesteDsp%>; top:840px; width:720px; left:5px; border:0px #8cAAe6 solid;">
-        <table width=100% cellspacing=0 cellpadding=5 border=0><tr><td></td><td align=right><a href="#" onclick="showdiv('modtagdiv')" class=vmenu>Næste >></a></td></tr></table>
+        <table width=100% cellspacing=0 cellpadding=5 border=0><tr><td></td><td align=right><a href="#" onclick="showdiv('modtagdiv')" class=vmenu><%=erp_txt_417 %> >></a></td></tr></table>
 		</div>
        
 	<!-- Faktura indstillinger SLUT -->
@@ -4874,13 +4896,13 @@ if len(session("user")) = 0 then
     
     select case fastpris 
     case "1"
-	jType = "Fastpris"
+	jType = erp_txt_345
 	case "3"
     jType = "Salesorder"
     case "4"
     jType = "Commission"    
     case else
-	jType = "lbn. timer"
+	jType = erp_txt_299
 	end select
     
     chklukjob = 0
@@ -4948,7 +4970,7 @@ if len(session("user")) = 0 then
 		
 		<tr><td >Periode:</td><td ><b><%=formatdatetime(jobstdato, 2) %></b> til <b><%=formatdatetime(jobsldato, 2) %></b> </td></tr>
 		<tr><td  valign=top style="padding-top:5px;"><%=erp_txt_147 %><br />
-            <span style="font-size:9px; color:#999999;">(overskriver rekvnr. på job) </span>
+            <span style="font-size:9px; color:#999999;">(<%=erp_txt_430 %>) </span>
 		    </td><td ><input type="text" name="FM_rekvnr" style="font-size:9px; width:150px;" value="<%=rekvnr %>" /></td></tr>
 
         <%if aftaleId <> 0 then %>
@@ -4956,10 +4978,10 @@ if len(session("user")) = 0 then
         <%end if %>
 		
 		<%if cint(ski) = 1 then 
-		skiTxt = "Ja"
+		skiTxt = erp_txt_453
 		skiCHK = "CHECKED"
 		else
-		skiTxt = "Nej"
+		skiTxt = erp_txt_454
 		skiCHK = ""
 		end if%>
 		
@@ -4994,7 +5016,7 @@ if len(session("user")) = 0 then
                 
                  %>
 
-                <b><%=formatnumber(beloebFaktureret, 2) %> DKK</b> (<%=antalFak%> fak. / <%=antalKre %> kredit.)
+                <b><%=formatnumber(beloebFaktureret, 2) %> DKK</b> (<%=antalFak &" "& erp_txt_501%>  / <%=antalKre & " "& erp_txt_502 %>)
 		                                                             </td></tr>
 
 
@@ -5120,7 +5142,7 @@ if len(session("user")) = 0 then
      
 
         if ja = 0 then
-        strJobPaaAft = "(ingen)"
+        strJobPaaAft = erp_txt_423
         end if
         %>
 
@@ -5223,7 +5245,7 @@ if len(session("user")) = 0 then
 	
 	<br />
      <%
-		                uTxt = "<b>Sideskift:</b><br>Husk at vælge antal sider i step 1"
+		                uTxt = "<b>"& erp_txt_432 &":</b><br>"& erp_txt_431 &""
 						uWdt = 300
 								
 					    call infoUnisport(uWdt, uTxt) 
@@ -5274,8 +5296,8 @@ if len(session("user")) = 0 then
 
   
 
-	<div id=jobbesk_2 style="position:absolute; visibility:hidden; display:none; top:<%=eidtorHgt+600%>px; width:720px; left:5px; border:0px #8cAAe6 solid;">
-        <table width=100% cellspacing=0 cellpadding=5 border=0><tr><td><a href="#" onclick="showdiv('modtagdiv')" class=vmenu><%=erp_txt_072 %></a></td><td align=right><a href="#" onclick="showdiv('aktdiv')" class=vmenu><%=erp_txt_073 %></a></td></tr></table>
+	<div id=jobbesk_2 style="position:absolute; visibility:hidden; display:none; top:<%=eidtorHgt+700%>px; width:720px; left:5px; border:0px #8cAAe6 solid;">
+        <table width=100% cellspacing=0 cellpadding=5 border=0><tr><td><a href="#" onclick="showdiv('modtagdiv')" class=vmenu><< <%=erp_txt_072 %></a></td><td align=right><a href="#" onclick="showdiv('aktdiv')" class=vmenu><%=erp_txt_073 %> >></a></td></tr></table>
     
     
     
@@ -5370,7 +5392,7 @@ if len(session("user")) = 0 then
 		<br>
 		<input type="checkbox" name="FM_gembetbet" id="FM_gembetbet" value="1"><%=erp_txt_169 %> <b><%=erp_txt_170 %></b> <%=erp_txt_171 %><br>
 		
-		<%if level = 0 then%>
+		<%if level = 1 then%>
 		<input type="checkbox" name="FM_gembetbetalle" id="FM_gembetbetalle" value="1"><%=erp_txt_172 %> <b><%=erp_txt_173 %></b> <%=erp_txt_174 %><br>
 		<%end if%>
 		<input type="hidden" name="FM_kundeid" id="FM_kundeid" value="<%=intKid%>">
@@ -5383,8 +5405,8 @@ if len(session("user")) = 0 then
 
 	
 	 <div id=betdiv_2 style="position:relative; visibility:hidden; display:none; top:80px; width:600px; left:5px; border:0px #8cAAe6 solid;">
-        <table width=720 cellspacing=0 cellpadding=5 border=0><tr><td><a href="#" onclick="showdiv('aktdiv')" class=vmenu><%=erp_txt_072 %></a></td><td align=right>
-            &nbsp;<input name="subm_on" id="subm_on" type="submit" value="Se faktura >>" /></td></tr></table>
+        <table width=720 cellspacing=0 cellpadding=5 border=0><tr><td><a href="#" onclick="showdiv('aktdiv')" class=vmenu><< <%=erp_txt_072 %></a></td><td align=right>
+            &nbsp;<input name="subm_on" id="subm_on" type="submit" value="<%=erp_txt_464 %> >>" /></td></tr></table>
     </div>
 	
 	
