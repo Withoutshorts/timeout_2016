@@ -638,7 +638,72 @@ For Each oNode_erp in oNodes_erp
 
             erp_txt_460 = oNode_erp.selectSingleNode("txt_460").Text
             erp_txt_461 = oNode_erp.selectSingleNode("txt_461").Text
-            erp_txt_462 = oNode_erp.selectSingleNode("txt_462").Text 
+            erp_txt_462 = oNode_erp.selectSingleNode("txt_462").Text
+    
+            erp_txt_463 = oNode_erp.selectSingleNode("txt_463").Text
+            erp_txt_464 = oNode_erp.selectSingleNode("txt_464").Text
+            erp_txt_465 = oNode_erp.selectSingleNode("txt_465").Text
+            erp_txt_466 = oNode_erp.selectSingleNode("txt_466").Text
+            erp_txt_467 = oNode_erp.selectSingleNode("txt_467").Text
+            erp_txt_468 = oNode_erp.selectSingleNode("txt_468").Text
+            erp_txt_469 = oNode_erp.selectSingleNode("txt_469").Text
+
+            erp_txt_470 = oNode_erp.selectSingleNode("txt_470").Text
+            erp_txt_471 = oNode_erp.selectSingleNode("txt_471").Text
+            erp_txt_472 = oNode_erp.selectSingleNode("txt_472").Text
+            erp_txt_473 = oNode_erp.selectSingleNode("txt_473").Text
+            erp_txt_474 = oNode_erp.selectSingleNode("txt_474").Text
+            erp_txt_475 = oNode_erp.selectSingleNode("txt_475").Text
+            erp_txt_476 = oNode_erp.selectSingleNode("txt_476").Text
+            erp_txt_477 = oNode_erp.selectSingleNode("txt_477").Text
+            erp_txt_478 = oNode_erp.selectSingleNode("txt_478").Text
+            erp_txt_479 = oNode_erp.selectSingleNode("txt_479").Text
+
+            erp_txt_480 = oNode_erp.selectSingleNode("txt_480").Text
+            erp_txt_481 = oNode_erp.selectSingleNode("txt_481").Text
+            erp_txt_482 = oNode_erp.selectSingleNode("txt_482").Text
+            erp_txt_483 = oNode_erp.selectSingleNode("txt_483").Text
+            erp_txt_484 = oNode_erp.selectSingleNode("txt_484").Text
+            erp_txt_485 = oNode_erp.selectSingleNode("txt_485").Text
+            erp_txt_486 = oNode_erp.selectSingleNode("txt_486").Text
+            erp_txt_487 = oNode_erp.selectSingleNode("txt_487").Text
+            erp_txt_488 = oNode_erp.selectSingleNode("txt_488").Text
+            erp_txt_489 = oNode_erp.selectSingleNode("txt_489").Text
+
+            erp_txt_490 = oNode_erp.selectSingleNode("txt_490").Text
+            erp_txt_491 = oNode_erp.selectSingleNode("txt_491").Text
+            erp_txt_492 = oNode_erp.selectSingleNode("txt_492").Text
+            erp_txt_493 = oNode_erp.selectSingleNode("txt_493").Text
+            erp_txt_494 = oNode_erp.selectSingleNode("txt_494").Text
+            erp_txt_495 = oNode_erp.selectSingleNode("txt_495").Text
+            erp_txt_496 = oNode_erp.selectSingleNode("txt_496").Text
+            erp_txt_497 = oNode_erp.selectSingleNode("txt_497").Text
+            erp_txt_498 = oNode_erp.selectSingleNode("txt_498").Text
+            erp_txt_499 = oNode_erp.selectSingleNode("txt_499").Text
+
+            erp_txt_500 = oNode_erp.selectSingleNode("txt_500").Text
+            erp_txt_501 = oNode_erp.selectSingleNode("txt_501").Text
+            erp_txt_502 = oNode_erp.selectSingleNode("txt_502").Text
+            erp_txt_503 = oNode_erp.selectSingleNode("txt_503").Text
+            erp_txt_504 = oNode_erp.selectSingleNode("txt_504").Text
+            erp_txt_505 = oNode_erp.selectSingleNode("txt_505").Text
+            erp_txt_506 = oNode_erp.selectSingleNode("txt_506").Text 
+            erp_txt_507 = oNode_erp.selectSingleNode("txt_507").Text
+            erp_txt_508 = oNode_erp.selectSingleNode("txt_508").Text
+            erp_txt_509 = oNode_erp.selectSingleNode("txt_509").Text
+            erp_txt_510 = oNode_erp.selectSingleNode("txt_510").Text
+            erp_txt_511 = oNode_erp.selectSingleNode("txt_511").Text
+            erp_txt_512 = oNode_erp.selectSingleNode("txt_512").Text
+            erp_txt_513 = oNode_erp.selectSingleNode("txt_513").Text
+            erp_txt_514 = oNode_erp.selectSingleNode("txt_514").Text
+            erp_txt_515 = oNode_erp.selectSingleNode("txt_515").Text
+            erp_txt_516 = oNode_erp.selectSingleNode("txt_516").Text
+            erp_txt_517 = oNode_erp.selectSingleNode("txt_517").Text
+            erp_txt_518 = oNode_erp.selectSingleNode("txt_518").Text
+            erp_txt_519 = oNode_erp.selectSingleNode("txt_519").Text
+            erp_txt_520 = oNode_erp.selectSingleNode("txt_520").Text
+            erp_txt_521 = oNode_erp.selectSingleNode("txt_521").Text
+            erp_txt_522 = oNode_erp.selectSingleNode("txt_522").Text
            
 
 next

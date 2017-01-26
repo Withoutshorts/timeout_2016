@@ -188,7 +188,7 @@
 		            strAktAnchor = strAktAnchor & "<input type=""hidden"" name=""rowId"" value='F"& thisaktid(x) &"' />"
                     strAktAnchor = strAktAnchor & "<input type=""hidden"" id='altsort_F"& thisaktid(x) &"' value=""1"" />"
 
-                    strAktAnchor = strAktAnchor & "<input type=""checkbox"" class=""ch_akt_x"" id=""ch_akt_"&x&""" CHECKED>&nbsp;<img src=""../ill/pile_drag.gif"" alt=""Træk og sorter"" border=""0"" id='drag_"&x&"' class=""drag"" />&nbsp;<span id='sort_F"& thisaktid(x) &"' style='color:#999999; font-size:7px;'>" & thisaktsort(x) & "</span>&nbsp;" 'mangler
+                    strAktAnchor = strAktAnchor & "<input type=""checkbox"" class=""ch_akt_x"" id=""ch_akt_"&x&""" CHECKED>&nbsp;<img src=""../ill/pile_drag.gif"" alt="""& erp_txt_503 &""" border=""0"" id='drag_"&x&"' class=""drag"" />&nbsp;<span id='sort_F"& thisaktid(x) &"' style='color:#999999; font-size:7px;'>" & thisaktsort(x) & "</span>&nbsp;" 
 					strAktAnchor = strAktAnchor & "</td><td style=""border-bottom:1px #cccccc solid; font-size:9px; white-space:inherit; width:200px;""><a id='"& thisaktid(x) &"' href='#"& thisaktid(x) &"' class='qlinks'>"& thisaktnavn(x) & "</a></td>"_
 					&"<td style=""border-bottom:1px #cccccc solid; font-size:9px;"" align=center>"& aktbgNavn &"</td>"_
 					&"<td align=right class=lille style=""border-bottom:1px #cccccc solid;"">"& formatnumber(thisAktForkalk(x), 2) &"</td>"_
@@ -477,7 +477,7 @@
                     strAktAnchor = strAktAnchor & "<input type=""hidden"" id='altsort_A"& thisaktid(x) &"' value=""0"" />"
 		
                     
-                    strAktAnchor = strAktAnchor & "<input type=""checkbox"" class=""ch_akt_x"" id=""ch_akt_"&x&""">&nbsp;<img src=""../ill/pile_drag.gif"" alt=""Træk og sorter"" border=""0"" id='drag_"&x&"' class=""drag"" />&nbsp;<span id='sort_A"&thisaktid(x)&"' style='color:#999999; font-size:7px;'>" & thisaktsort(x) & "</span>&nbsp;" 'mangler
+                    strAktAnchor = strAktAnchor & "<input type=""checkbox"" class=""ch_akt_x"" id=""ch_akt_"&x&""">&nbsp;<img src=""../ill/pile_drag.gif"" alt="""& erp_txt_503 &""" border=""0"" id='drag_"&x&"' class=""drag"" />&nbsp;<span id='sort_A"&thisaktid(x)&"' style='color:#999999; font-size:7px;'>" & thisaktsort(x) & "</span>&nbsp;"
 					strAktAnchor = strAktAnchor & "</td><td style=""border-bottom:1px #cccccc solid; font-size:9px; white-space:inherit; width:200px;""><a id='"& thisaktid(x) &"' href='#"& thisaktid(x) &"' class='qlinks'>"& thisaktnavn(x) & "</a>"& aktstTXT &"</td>"_
 					&"<td style=""border-bottom:1px #cccccc solid; font-size:9px;"" align=center>"& aktbgNavn &"</td>"_
 					&"<td align=right class=lille style=""border-bottom:1px #cccccc solid;"">"& formatnumber(thisAktForkalk(x), 2) &"</td>"_
@@ -610,7 +610,7 @@
 	
 	<tr bgcolor="#8cAAe6"><td class=lille><b><%=erp_txt_346 %></b><br /><%=erp_txt_346 %></td>
         <td class=lille><b><%=erp_txt_348 %></b></td>
-	<td class=lille><b>Grund-<br />lag</b></td> <!-- mangler -->
+	<td class=lille><b><%=erp_txt_504 %></b></td> 
 	<td align=right class=lille><b><%=erp_txt_351 %></b></td>
     <td align=right class=lille><b><%=erp_txt_352 %></b></td>
     <td align=right class=lille><b><%=erp_txt_353 %></b></td>
@@ -710,7 +710,7 @@
 	<%=erp_txt_366 %>: <input type="text" name="aktsort_<%=x%>" id="aktsort_<%=thisaktid(x)%>" value="<%=thisaktsort(x)%>" class="sortFase" style="font-size:9px; width:30px;"> 
         <!--<input type="checkbox" class="xsortFaseCHK" id="xaktsort_chk_<%=x%>" checked /><span style="font-size:9px; color:#999999;">Sortér alle aktiviteter i fase samlet</span>-->
     <input value="<%=lcase(trim(thisAktFase(x))) %>" id="fs_<%=x%>" type="hidden" />
-	<br /><img src="../blank gif" width="1" height="5" /><br />Faktor: <input type="text" name="aktfaktor_<%=x%>" id="aktfaktor_<%=x%>" value="<%=thisaktfaktor(x) %>" style="font-size:9px; width:30px;"> <!-- mangler -->
+	<br /><img src="../blank gif" width="1" height="5" /><br /><%=erp_txt_505 %><: <input type="text" name="aktfaktor_<%=x%>" id="aktfaktor_<%=x%>" value="<%=thisaktfaktor(x) %>" style="font-size:9px; width:30px;"> <!-- mangler -->
 	<input id="beregnfaktor_<%=x%>" type="button" value="Beregn" style="font-size:9px;" onClick="opd_timer_faktor(<%=x%>)" /> (<%=erp_txt_367 %>.) 
 	
 	</td>

@@ -3810,7 +3810,6 @@ if len(session("user")) = 0 then
 	    
 	     
 	    call betalingsbetDage(betbetint, hideffdato)
-    	    
 	        if Not InStr(strForfaldsdato, "-") then
 	        strForfaldsdato = strDag & "-" & strMrd & "-" & strAar
 	        end if
@@ -4817,7 +4816,7 @@ if len(session("user")) = 0 then
 		
 		<input type="hidden" id="FM_beloeb_umoms" name="FM_beloeb_umoms" value="<%=thistotbel_Umoms%>">
 		<br /><br />
-		<div style="position:relative; width:120px; border-bottom:0px #86B5E4 dashed; font-family:arial; color:#999999; font-size:10px; padding-right:3px;" align="right" name="divbelobtot_umoms" id="divbelobtot_umoms">Ikke momspligtigt beløb:<br /> (<%=thistotbel_Umoms &" "& valutakodeSEL%>)</div>
+		<div style="position:relative; width:120px; border-bottom:0px #86B5E4 dashed; font-family:arial; color:#999999; font-size:10px; padding-right:3px;" align="right" name="divbelobtot_umoms" id="divbelobtot_umoms"><%=erp_txt_182 %>:<br /> (<%=thistotbel_Umoms &" "& valutakodeSEL%>)</div>
 		
 		</td>
 	</tr>

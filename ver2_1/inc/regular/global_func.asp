@@ -11,6 +11,7 @@
 <!--#include file="../xml/timereg_akt_sprog_inc.asp"-->
 <!--#include file="../xml/funktioner_sprog_inc.asp"-->
 <!--#include file="../xml/afstem_sprog_inc.asp"-->
+<!--#include file="../xml/week_real_sprog_inc.asp"-->
 
 
 <!--#include file="cls_aktiviteter.asp"-->

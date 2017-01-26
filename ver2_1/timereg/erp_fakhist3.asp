@@ -686,7 +686,7 @@ if len(session("user")) = 0 then
 
     'if cint(multible_licensindehavere) = 1 then
     %>
-    <b>Afsender:</b> (licensindhv.)&nbsp;&nbsp;
+    <b><%=erp_txt_515 %>:</b> (<%=erp_txt_516 %>)&nbsp;&nbsp;
             <%if print <> "j" then%>
             <select name="FM_afsender" style="width:305px;" onchange="submit();">
             <%  
@@ -902,9 +902,9 @@ if len(session("user")) = 0 then
             <input id="FM_viskun_kladder" name="FM_viskun_kladder" value="1" type="checkbox" <%=viskunklCHK%> /> <%=erp_txt_094 %>
 
             <br /><br />
-            <input id="FM_viskun_fak" name="FM_viskun_fak" value="1" type="checkbox" <%=viskunFakCHK%> /> Fakturaer
+            <input id="FM_viskun_fak" name="FM_viskun_fak" value="1" type="checkbox" <%=viskunFakCHK%> /> <%=erp_txt_294 %>
             <br />
-            <input id="FM_viskun_kre" name="FM_viskun_kre" value="1" type="checkbox" <%=viskunKreCHK%> /> Kreditnotaer
+            <input id="FM_viskun_kre" name="FM_viskun_kre" value="1" type="checkbox" <%=viskunKreCHK%> /> <%=erp_txt_295 %>
 
 
 
@@ -934,7 +934,7 @@ if len(session("user")) = 0 then
         
 	    <br /> 
 	    <%if print <> "j" then %>
-	    <input id="FM_sog" name="FM_sog" value="<%=showSog%>" type="text" style="width:325px;" />&nbsp;<input type="checkbox" value="1" name="FM_ignper" <%=ignperCHK %> /> <%=erp_txt_245 %> <span style="color:#999999;">(søgekri. skal være udfyldt)</span><br />
+	    <input id="FM_sog" name="FM_sog" value="<%=showSog%>" type="text" style="width:325px;" />&nbsp;<input type="checkbox" value="1" name="FM_ignper" <%=ignperCHK %> /> <%=erp_txt_245 %> <span style="color:#999999;">(<%=erp_txt_517 %>)</span><br />
         <%=erp_txt_246 %><br />
         <%=erp_txt_247 %>
 	    <%else %>
@@ -965,7 +965,7 @@ if len(session("user")) = 0 then
 	%>
 	
 	<br />
-	<br><b>Periode:</b>&nbsp;
+	<br><b><%=erp_txt_049 %>:</b>&nbsp;
 	<%=formatdatetime(strDag&"/"& strMrd &"/"& strAar, 1) & " - " & formatdatetime(strDag_slut &"/"& strMrd_slut &"/"& strAar_slut, 1)%>
 	
 	<br />
@@ -997,7 +997,7 @@ if len(session("user")) = 0 then
     <table cellspacing=0 cellpadding=4 border=0 width=100% bgcolor="#ffffff">
   <%if print <> "j" then %>
     <tr><td colspan="20" align="right">  
-            <input id="Submit5" type="submit" value="Opdater >>" />
+            <input id="Submit5" type="submit" value="<%=erp_txt_499 %> >>" />
            </td></tr>
          <%end if %>
 
@@ -1246,9 +1246,9 @@ if len(session("user")) = 0 then
             <!--<u>Job:</u>--> <b><%=oRec3("jobnavn") %> (<%=oRec3("jobnr") %>)</b>
             <br /><span style="font-size:9px;">
             <%if oRec3("fastpris") = "1" then %>
-            <i>- fastpris</i>
+            <i>- <%=erp_txt_298 %></i>
             <%else %>
-            <i>- lbn. timer</i>
+            <i>- <%=erp_txt_299 %></i>
             <%end if %> </span>
 
 
@@ -1350,9 +1350,9 @@ if len(session("user")) = 0 then
 
 
              if oRec3("faktype") = 1 then
-             strFaktypeNavn = "kreditnota"
+             strFaktypeNavn = erp_txt_002
              else
-             strFaktypeNavn = "faktura"
+             strFaktypeNavn = erp_txt_001
              end if
 
         strknavn = oRec3("kkundenavn")
@@ -1544,10 +1544,10 @@ if len(session("user")) = 0 then
         <td valign=top style="border-bottom:1px #C4C4C4 solid;">
         <%select case oRec3("faktype")
         case 1
-        strType = "Kreditnota"
+        strType = erp_txt_002
         minus = "-"
         case else
-        strType = "Faktura"
+        strType = erp_txt_001
         minus = ""
         end select
         
@@ -1765,7 +1765,7 @@ if len(session("user")) = 0 then
         
         <td colspan=10 align=right valign=top><br />
         <%if print <> "j" then %>
-            <input id="Submit1" type="submit" value="Opdater >>" />
+            <input id="Submit1" type="submit" value="<%=erp_txt_499 %> >>" />
             <%end if %>
         &nbsp;</td>
     </tr>
@@ -1817,7 +1817,7 @@ if len(session("user")) = 0 then
      <input id="Hidden2" name="fakids" value="<%=eksportFid%>" type="hidden" />
      <tr>
     <td valign=top align=center><input type=image src="../ill/export1.png" /></td>
-    <td><input id="Submit4" type="submit" value="A) Detail .csv fil eksport" style="font-size:9px; width:160px;" />
+    <td><input id="Submit4" type="submit" value="<%=erp_txt_519 %>" style="font-size:9px; width:160px;" />
     <!--<br /><font class=megetlillesort><%=erp_txt_282 %>-->
     </td>
     </tr>
@@ -1828,7 +1828,7 @@ if len(session("user")) = 0 then
      <input id="fakids" name="fakids" value="<%=eksportFid%>" type="hidden" />
      <tr>
     <td valign=top align=center><input type=image src="../ill/export1.png" /></td>
-    <td><input id="Submit2" type="submit" value="B) Standard .csv fil eksport." style="font-size:9px; width:160px;" />
+    <td><input id="Submit2" type="submit" value="<%=erp_txt_520 %>" style="font-size:9px; width:160px;" />
         <!--<br /><font class=megetlillesort><%=erp_txt_283 %>-->
     </td>
     </tr>
@@ -1838,7 +1838,7 @@ if len(session("user")) = 0 then
      <input id="Hidden1" name="fakids" value="<%=eksportFid%>" type="hidden" />
      <tr>
     <td valign=top align=center><input type=image src="../ill/export1.png" /></td>
-    <td><input id="Submit3" type="submit" value="C) Minimun .txt fil eksport." style="font-size:9px; width:160px;" />
+    <td><input id="Submit3" type="submit" value="<%=erp_txt_521 %>" style="font-size:9px; width:160px;" />
         <!--<br /><font class=megetlillesort><%=erp_txt_284 %>-->
     </td>
     </tr>

@@ -1,0 +1,917 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<sprog>
+
+  <!--- Dansk -->
+  <dk>
+
+    <txt_1 >Forventet loadtid</txt_1>
+    <txt_2 >sek.</txt_2>
+    <txt_3 >Luk</txt_3>
+    <txt_4 >er</txt_4>
+    <txt_5 >for medarbejdere</txt_5>
+    <txt_6 >Godkend</txt_6>
+    <txt_7 >Periode</txt_7>
+    <txt_8 >År</txt_8>
+    <txt_9 >Måned</txt_9>
+    <txt_10 >1. kvartal</txt_10>
+    <txt_11 >2. kvartal</txt_11>
+    <txt_12 >3. kvartal</txt_12>
+    <txt_13 >4. kvartal</txt_13>
+    <txt_14 >ÅTD</txt_14>
+    <txt_15 >Eksporter direkte til excel (hurtigere load)</txt_15>
+    <txt_16 >Filter</txt_16>
+    <txt_17 >avanceret</txt_17>
+    <txt_18 >Opdel norm på</txt_18>
+    <txt_19 >Hele måneder</txt_19>
+    <txt_20 >Hele uger</txt_20>
+    <txt_21 >Vis kun uger/måneder med</txt_21>
+    <txt_22 >mere</txt_22>
+    <txt_23 >mindre</txt_23>
+    <txt_24 >end</txt_24>
+    <txt_25 >time(r)</txt_25>
+    <txt_26 >på deres</txt_26>
+    <txt_27 >Fleks (realiseret / normeret)</txt_27>
+    <txt_28 >Fleks (komme/gå / normeret)</txt_28>
+    <txt_29 >Balance (realiseret / komme/gå)</txt_29>
+    <txt_30 >pr. uge</txt_30>
+    <txt_31 >Vis kun ikke afsluttede uger/måneder</txt_31>
+    <txt_32 >Vis kun ikke godkendte uger/måneder</txt_32>
+    <txt_33 >Vis afstemning</txt_33>
+    <txt_34 >Opgjort pr.</txt_34>
+    <txt_35 >Komme/Gå (løntimer, hh:mm)</txt_35>
+    <txt_36 >Komme/Gå (100 digit)</txt_36>
+    <txt_37 >Tillæg</txt_37>
+    <txt_38 >Komme/Gå tid Sum</txt_38>
+    <txt_39 >Komme-Gå/Norm. hh:mm</txt_39>
+    <txt_40 >Komme-Gå/Norm. 100 digit</txt_40>
+    <txt_41 >Akkumuleret (Komme-Gå/Norm. hh:mm)</txt_41>
+    <txt_42 >Akkumuleret (Komme-Gå/Norm. 100 digit)</txt_42>
+    <txt_43 >Heraf fakturerbare timer</txt_43>
+    <txt_44 >Korrektion Realiseret</txt_44>
+    <txt_45 >Real. / Norm.</txt_45>
+    <txt_46 >Akkumuleret (Real. / Norm.)</txt_46>
+    <txt_47 >Udbetalt</txt_47>
+    <txt_48 >Ønsk. Udbe.</txt_48>
+    <txt_49 >Særligferie</txt_49>
+    <txt_50 >Feriefridage Afholdt</txt_50>
+    <txt_51 >Ferie Afholdt</txt_51>
+    <txt_52 >Ferie Afholdt u. løn</txt_52>
+    <txt_53 >1 maj timer</txt_53>
+    <txt_54 >Omsorgsdage</txt_54>
+    <txt_55 >dage</txt_55>
+    <txt_56 >Tjenestefri</txt_56>
+    <txt_57 >timer</txt_57>
+    <txt_58 >Barsel/Orlov</txt_58>
+    <txt_59 >dage</txt_59>
+    <txt_60 >Læge</txt_60>
+    <txt_61 >Syg</txt_61>
+    <txt_62 >Barn syg</txt_62>
+    <txt_63 >Afsluttet</txt_63>
+    <txt_64 >Godkendt</txt_64>
+    <txt_65 >Afventer</txt_65>
+    <txt_66 >Godkendt</txt_66>
+    <txt_67 >Afvist</txt_67>
+    <txt_68 >Henter data for medarbejder</txt_68>
+    <txt_69 >Uge</txt_69>
+    <txt_70 >dato</txt_70>
+    <txt_71 >Komme / Gå tid</txt_71>
+    <txt_72 >løntimer</txt_72>
+    <txt_73 >Tillæg</txt_73>
+    <txt_74 >Ferie</txt_74>
+    <txt_75 >sygdom</txt_75>
+    <txt_76 >korrektion</txt_76>
+    <txt_77 >etc. indberettet</txt_77>
+    <txt_78 >Sum</txt_78>
+    <txt_79 >Komme/gå tid</txt_79>
+    <txt_80 >tillæg</txt_80>
+    <txt_81 >Normtid</txt_81>
+    <txt_82 >Akkumuleret</txt_82>
+    <txt_83 >Timer</txt_83>
+    <txt_84 >indberettet</txt_84>
+    <txt_85 >på aktiviteter</txt_85>
+    <txt_86 >realiseret</txt_86>
+    <txt_87 >indberettet på aktivit.</txt_87>
+    <txt_88 >heraf</txt_88>
+    <txt_89 >fak.bare</txt_89>
+    <txt_90 >Korrektion</txt_90>
+    <txt_91 >overført saldo fra</txt_91>
+    <txt_92 >senest afsluttet</txt_92>
+    <txt_93 >løn-periode</txt_93>
+    <txt_94 >Indberettet</txt_94>
+    <txt_95 >Normeret</txt_95>
+    <txt_96 >Realiseret</txt_96>
+    <txt_97 >Indberettet</txt_97>
+    <txt_98 >Balance</txt_98>
+    <txt_99 >enh.</txt_99>
+    <txt_100 >Afspads.</txt_100>
+    <txt_101 >Udbetalt</txt_101>
+    <txt_102 >Ønsk. Udbe.</txt_102>
+    <txt_103 >Ferie afholdt</txt_103>
+    <txt_104 >Ferie afholdt u. løn</txt_104>
+    <txt_105 >Incl. udbetalt</txt_105>
+    <txt_106 >1 Maj timer</txt_106>
+    <txt_107 >Omsorgs</txt_107>
+    <txt_108 >lukket</txt_108>
+    <txt_109 >godkendt</txt_109>
+    <txt_110 >afsluttet?</txt_110>
+    <txt_111 >Din CSV. fil er klar</txt_111>
+    <txt_112 >Be om afslutn.</txt_112>
+    <txt_113 >Medarbejder</txt_113>
+    <txt_114 >Mnr</txt_114>
+    <txt_115 >Initialer</txt_115>
+    <txt_116 >Projektgrupper</txt_116>
+    <txt_117 >afd.</txt_117>
+    <txt_118 >År</txt_118>
+    <txt_119 >Måned</txt_119>
+    <txt_120 >Uge</txt_120>
+    <txt_122 >hh:mm</txt_122>
+    <txt_123 >100 digit</txt_123>
+    <txt_124 >Real. / Lønt.</txt_124>
+
+    
+  </dk>
+
+
+  <!--- Norsk -->
+  <no>
+
+    <txt_1 >Expected loadtime</txt_1>
+    <txt_2 >sec.</txt_2>
+    <txt_3 >Close</txt_3>
+    <txt_4 >is</txt_4>
+    <txt_5 >for employees</txt_5>
+    <txt_6 >Approve</txt_6>
+    <txt_7 >Period</txt_7>
+    <txt_8 >Year</txt_8>
+    <txt_9 >Month</txt_9>
+    <txt_10 >1. Quater</txt_10>
+    <txt_11 >2. Quater</txt_11>
+    <txt_12 >3. Quater</txt_12>
+    <txt_13 >4. Quater</txt_13>
+    <txt_14 >YTD</txt_14>
+    <txt_15 >Exports directly to Excel (faster loadtime)</txt_15>
+    <txt_16 >Filter</txt_16>
+    <txt_17 >Advanced</txt_17>
+    <txt_18 >Split Rated into</txt_18>
+    <txt_19 >Full months</txt_19>
+    <txt_20 >Full weeks</txt_20>
+    <txt_21 >Show only weeks/months with</txt_21>
+    <txt_22 >more</txt_22>
+    <txt_23 >less</txt_23>
+    <txt_24 >than</txt_24>
+    <txt_25 >hour(s)</txt_25>
+    <txt_26 >on their</txt_26>
+    <txt_27 >Flex (stated / rated)</txt_27>
+    <txt_28 >Flex (Come/go / rated)</txt_28>
+    <txt_29 >Balance (stated / come/go)</txt_29>
+    <txt_30 >per week</txt_30>
+    <txt_31 >Show only NOT completed weeks/months</txt_31>
+    <txt_32 >Show only NOT approved weeks/months</txt_32>
+    <txt_33 >Show balance</txt_33>
+    <txt_34 >Balanced per</txt_34>
+    <txt_35 >Come/go (office hours, hh:mm)</txt_35>
+    <txt_36 >Come/go (100 digit)</txt_36>
+    <txt_37 >Supplement</txt_37>
+    <txt_38 >Come/go time Total</txt_38>
+    <txt_39 >Come/go Rated. hh:mm</txt_39>
+    <txt_40 >Come/go Rated. 100 digit</txt_40>
+    <txt_41 >Accumulated (Come/go Rated. hh:mm)</txt_41>
+    <txt_42 >Accumulated (Come/go Rated. 100 digit)</txt_42>
+    <txt_43 >Hereoff invoiceble</txt_43>
+    <txt_44 >Correction Stated</txt_44>
+    <txt_45 >Stad. / Rated.</txt_45>
+    <txt_46 >Accumulated (Stad. / Rated)</txt_46>
+    <txt_47 >Disbursed</txt_47>
+    <txt_48 >Want disbu.</txt_48>
+    <txt_49 >Special vacation</txt_49>
+    <txt_50 >Special holiday</txt_50>
+    <txt_51 >Vacation</txt_51>
+    <txt_52 >Vacation wo. Sal.</txt_52>
+    <txt_53 >1 May hours</txt_53>
+    <txt_54 >Care days</txt_54>
+    <txt_55 >days</txt_55>
+    <txt_56 >Of duty</txt_56>
+    <txt_57 >hours</txt_57>
+    <txt_58 >Maternity/Leave</txt_58>
+    <txt_59 >days</txt_59>
+    <txt_60 >Doctor</txt_60>
+    <txt_61 >Sick</txt_61>
+    <txt_62 >Child sick</txt_62>
+    <txt_63 >Completed</txt_63>
+    <txt_64 >Approved</txt_64>
+    <txt_65 >Awaits</txt_65>
+    <txt_66 >Approved</txt_66>
+    <txt_67 >Rejected</txt_67>
+    <txt_68 >Retrieves data for employee</txt_68>
+    <txt_69 >Week</txt_69>
+    <txt_70 >date</txt_70>
+    <txt_71 >Come / Go</txt_71>
+    <txt_72 >Officehours</txt_72>
+    <txt_73 >Supplement</txt_73>
+    <txt_74 >Vacation</txt_74>
+    <txt_75 >Illness</txt_75>
+    <txt_76 >correction</txt_76>
+    <txt_77 >etc. Reported</txt_77>
+    <txt_78 >Total</txt_78>
+    <txt_79 >Come / Go</txt_79>
+    <txt_80 >Supplement</txt_80>
+    <txt_81 >Rated time</txt_81>
+    <txt_82 >Accumulated</txt_82>
+    <txt_83 >Hours</txt_83>
+    <txt_84 >reported</txt_84>
+    <txt_85 >on activities</txt_85>
+    <txt_86 >Stated</txt_86>
+    <txt_87 >reported on activity</txt_87>
+    <txt_88 >herof</txt_88>
+    <txt_89 >Invoi.ble</txt_89>
+    <txt_90 >Correction</txt_90>
+    <txt_91 >transferd balance from</txt_91>
+    <txt_92 >last completed</txt_92>
+    <txt_93 >Salary period</txt_93>
+    <txt_94 >Reported</txt_94>
+    <txt_95 >Rated</txt_95>
+    <txt_96 >Stated</txt_96>
+    <txt_97 >Reported</txt_97>
+    <txt_98 >Balance</txt_98>
+    <txt_99 >uni.</txt_99>
+    <txt_100 >Time off</txt_100>
+    <txt_101 >Disbursed</txt_101>
+    <txt_102 >Want disbu.</txt_102>
+    <txt_103 >Vacation</txt_103>
+    <txt_104 >Vacation wo. Sal.</txt_104>
+    <txt_105 >incl. Disbursed</txt_105>
+    <txt_106 >1 May hours</txt_106>
+    <txt_107 >Care</txt_107>
+    <txt_108 >closed</txt_108>
+    <txt_109 >approved</txt_109>
+    <txt_110 >Completed?</txt_110>
+    <txt_111 >The CSV. File is ready</txt_111>
+    <txt_112 >Ask for com.</txt_112>
+    <txt_113 >Employee</txt_113>
+    <txt_114 >Em num.</txt_114>
+    <txt_115 >Initials</txt_115>
+    <txt_116 >Project groups</txt_116>
+    <txt_117 >dept.</txt_117>
+    <txt_118 >Year</txt_118>
+    <txt_119 >Month</txt_119>
+    <txt_120 >Week</txt_120>
+    <txt_122 >hh:mm</txt_122>
+    <txt_123 >100 digit</txt_123>
+    <txt_124 >Real. / Sal. h.</txt_124>
+  
+  </no>
+  
+  
+  <!--- Svensk -->
+  <se>
+
+    <txt_1 >Expected loadtime</txt_1>
+    <txt_2 >sec.</txt_2>
+    <txt_3 >Close</txt_3>
+    <txt_4 >is</txt_4>
+    <txt_5 >for employees</txt_5>
+    <txt_6 >Approve</txt_6>
+    <txt_7 >Period</txt_7>
+    <txt_8 >Year</txt_8>
+    <txt_9 >Month</txt_9>
+    <txt_10 >1. Quater</txt_10>
+    <txt_11 >2. Quater</txt_11>
+    <txt_12 >3. Quater</txt_12>
+    <txt_13 >4. Quater</txt_13>
+    <txt_14 >YTD</txt_14>
+    <txt_15 >Exports directly to Excel (faster loadtime)</txt_15>
+    <txt_16 >Filter</txt_16>
+    <txt_17 >Advanced</txt_17>
+    <txt_18 >Split Rated into</txt_18>
+    <txt_19 >Full months</txt_19>
+    <txt_20 >Full weeks</txt_20>
+    <txt_21 >Show only weeks/months with</txt_21>
+    <txt_22 >more</txt_22>
+    <txt_23 >less</txt_23>
+    <txt_24 >than</txt_24>
+    <txt_25 >hour(s)</txt_25>
+    <txt_26 >on their</txt_26>
+    <txt_27 >Flex (stated / rated)</txt_27>
+    <txt_28 >Flex (Come/go / rated)</txt_28>
+    <txt_29 >Balance (stated / come/go)</txt_29>
+    <txt_30 >per week</txt_30>
+    <txt_31 >Show only NOT completed weeks/months</txt_31>
+    <txt_32 >Show only NOT approved weeks/months</txt_32>
+    <txt_33 >Show balance</txt_33>
+    <txt_34 >Balanced per</txt_34>
+    <txt_35 >Come/go (office hours, hh:mm)</txt_35>
+    <txt_36 >Come/go (100 digit)</txt_36>
+    <txt_37 >Supplement</txt_37>
+    <txt_38 >Come/go time Total</txt_38>
+    <txt_39 >Come/go Rated. hh:mm</txt_39>
+    <txt_40 >Come/go Rated. 100 digit</txt_40>
+    <txt_41 >Accumulated (Come/go Rated. hh:mm)</txt_41>
+    <txt_42 >Accumulated (Come/go Rated. 100 digit)</txt_42>
+    <txt_43 >Hereoff invoiceble</txt_43>
+    <txt_44 >Correction Stated</txt_44>
+    <txt_45 >Stad. / Rated.</txt_45>
+    <txt_46 >Accumulated (Stad. / Rated)</txt_46>
+    <txt_47 >Disbursed</txt_47>
+    <txt_48 >Want disbu.</txt_48>
+    <txt_49 >Special vacation</txt_49>
+    <txt_50 >Special holiday</txt_50>
+    <txt_51 >Vacation</txt_51>
+    <txt_52 >Vacation wo. Sal.</txt_52>
+    <txt_53 >1 May hours</txt_53>
+    <txt_54 >Care days</txt_54>
+    <txt_55 >days</txt_55>
+    <txt_56 >Of duty</txt_56>
+    <txt_57 >hours</txt_57>
+    <txt_58 >Maternity/Leave</txt_58>
+    <txt_59 >days</txt_59>
+    <txt_60 >Doctor</txt_60>
+    <txt_61 >Sick</txt_61>
+    <txt_62 >Child sick</txt_62>
+    <txt_63 >Completed</txt_63>
+    <txt_64 >Approved</txt_64>
+    <txt_65 >Awaits</txt_65>
+    <txt_66 >Approved</txt_66>
+    <txt_67 >Rejected</txt_67>
+    <txt_68 >Retrieves data for employee</txt_68>
+    <txt_69 >Week</txt_69>
+    <txt_70 >date</txt_70>
+    <txt_71 >Come / Go</txt_71>
+    <txt_72 >Officehours</txt_72>
+    <txt_73 >Supplement</txt_73>
+    <txt_74 >Vacation</txt_74>
+    <txt_75 >Illness</txt_75>
+    <txt_76 >correction</txt_76>
+    <txt_77 >etc. Reported</txt_77>
+    <txt_78 >Total</txt_78>
+    <txt_79 >Come / Go</txt_79>
+    <txt_80 >Supplement</txt_80>
+    <txt_81 >Rated time</txt_81>
+    <txt_82 >Accumulated</txt_82>
+    <txt_83 >Hours</txt_83>
+    <txt_84 >reported</txt_84>
+    <txt_85 >on activities</txt_85>
+    <txt_86 >Stated</txt_86>
+    <txt_87 >reported on activity</txt_87>
+    <txt_88 >herof</txt_88>
+    <txt_89 >Invoi.ble</txt_89>
+    <txt_90 >Correction</txt_90>
+    <txt_91 >transferd balance from</txt_91>
+    <txt_92 >last completed</txt_92>
+    <txt_93 >Salary period</txt_93>
+    <txt_94 >Reported</txt_94>
+    <txt_95 >Rated</txt_95>
+    <txt_96 >Stated</txt_96>
+    <txt_97 >Reported</txt_97>
+    <txt_98 >Balance</txt_98>
+    <txt_99 >uni.</txt_99>
+    <txt_100 >Time off</txt_100>
+    <txt_101 >Disbursed</txt_101>
+    <txt_102 >Want disbu.</txt_102>
+    <txt_103 >Vacation</txt_103>
+    <txt_104 >Vacation wo. Sal.</txt_104>
+    <txt_105 >incl. Disbursed</txt_105>
+    <txt_106 >1 May hours</txt_106>
+    <txt_107 >Care</txt_107>
+    <txt_108 >closed</txt_108>
+    <txt_109 >approved</txt_109>
+    <txt_110 >Completed?</txt_110>
+    <txt_111 >The CSV. File is ready</txt_111>
+    <txt_112 >Ask for com.</txt_112>
+    <txt_113 >Employee</txt_113>
+    <txt_114 >Em num.</txt_114>
+    <txt_115 >Initials</txt_115>
+    <txt_116 >Project groups</txt_116>
+    <txt_117 >dept.</txt_117>
+    <txt_118 >Year</txt_118>
+    <txt_119 >Month</txt_119>
+    <txt_120 >Week</txt_120>
+    <txt_122 >hh:mm</txt_122>
+    <txt_123 >100 digit</txt_123>
+    <txt_124 >Real. / Sal. h.</txt_124>
+
+  </se>
+  
+  
+  <!--- Tysk -->
+  <de>
+
+    <txt_1 >Expected loadtime</txt_1>
+    <txt_2 >sec.</txt_2>
+    <txt_3 >Close</txt_3>
+    <txt_4 >is</txt_4>
+    <txt_5 >for employees</txt_5>
+    <txt_6 >Approve</txt_6>
+    <txt_7 >Period</txt_7>
+    <txt_8 >Year</txt_8>
+    <txt_9 >Month</txt_9>
+    <txt_10 >1. Quater</txt_10>
+    <txt_11 >2. Quater</txt_11>
+    <txt_12 >3. Quater</txt_12>
+    <txt_13 >4. Quater</txt_13>
+    <txt_14 >YTD</txt_14>
+    <txt_15 >Exports directly to Excel (faster loadtime)</txt_15>
+    <txt_16 >Filter</txt_16>
+    <txt_17 >Advanced</txt_17>
+    <txt_18 >Split Rated into</txt_18>
+    <txt_19 >Full months</txt_19>
+    <txt_20 >Full weeks</txt_20>
+    <txt_21 >Show only weeks/months with</txt_21>
+    <txt_22 >more</txt_22>
+    <txt_23 >less</txt_23>
+    <txt_24 >than</txt_24>
+    <txt_25 >hour(s)</txt_25>
+    <txt_26 >on their</txt_26>
+    <txt_27 >Flex (stated / rated)</txt_27>
+    <txt_28 >Flex (Come/go / rated)</txt_28>
+    <txt_29 >Balance (stated / come/go)</txt_29>
+    <txt_30 >per week</txt_30>
+    <txt_31 >Show only NOT completed weeks/months</txt_31>
+    <txt_32 >Show only NOT approved weeks/months</txt_32>
+    <txt_33 >Show balance</txt_33>
+    <txt_34 >Balanced per</txt_34>
+    <txt_35 >Come/go (office hours, hh:mm)</txt_35>
+    <txt_36 >Come/go (100 digit)</txt_36>
+    <txt_37 >Supplement</txt_37>
+    <txt_38 >Come/go time Total</txt_38>
+    <txt_39 >Come/go Rated. hh:mm</txt_39>
+    <txt_40 >Come/go Rated. 100 digit</txt_40>
+    <txt_41 >Accumulated (Come/go Rated. hh:mm)</txt_41>
+    <txt_42 >Accumulated (Come/go Rated. 100 digit)</txt_42>
+    <txt_43 >Hereoff invoiceble</txt_43>
+    <txt_44 >Correction Stated</txt_44>
+    <txt_45 >Stad. / Rated.</txt_45>
+    <txt_46 >Accumulated (Stad. / Rated)</txt_46>
+    <txt_47 >Disbursed</txt_47>
+    <txt_48 >Want disbu.</txt_48>
+    <txt_49 >Special vacation</txt_49>
+    <txt_50 >Special holiday</txt_50>
+    <txt_51 >Vacation</txt_51>
+    <txt_52 >Vacation wo. Sal.</txt_52>
+    <txt_53 >1 May hours</txt_53>
+    <txt_54 >Care days</txt_54>
+    <txt_55 >days</txt_55>
+    <txt_56 >Of duty</txt_56>
+    <txt_57 >hours</txt_57>
+    <txt_58 >Maternity/Leave</txt_58>
+    <txt_59 >days</txt_59>
+    <txt_60 >Doctor</txt_60>
+    <txt_61 >Sick</txt_61>
+    <txt_62 >Child sick</txt_62>
+    <txt_63 >Completed</txt_63>
+    <txt_64 >Approved</txt_64>
+    <txt_65 >Awaits</txt_65>
+    <txt_66 >Approved</txt_66>
+    <txt_67 >Rejected</txt_67>
+    <txt_68 >Retrieves data for employee</txt_68>
+    <txt_69 >Week</txt_69>
+    <txt_70 >date</txt_70>
+    <txt_71 >Come / Go</txt_71>
+    <txt_72 >Officehours</txt_72>
+    <txt_73 >Supplement</txt_73>
+    <txt_74 >Vacation</txt_74>
+    <txt_75 >Illness</txt_75>
+    <txt_76 >correction</txt_76>
+    <txt_77 >etc. Reported</txt_77>
+    <txt_78 >Total</txt_78>
+    <txt_79 >Come / Go</txt_79>
+    <txt_80 >Supplement</txt_80>
+    <txt_81 >Rated time</txt_81>
+    <txt_82 >Accumulated</txt_82>
+    <txt_83 >Hours</txt_83>
+    <txt_84 >reported</txt_84>
+    <txt_85 >on activities</txt_85>
+    <txt_86 >Stated</txt_86>
+    <txt_87 >reported on activity</txt_87>
+    <txt_88 >herof</txt_88>
+    <txt_89 >Invoi.ble</txt_89>
+    <txt_90 >Correction</txt_90>
+    <txt_91 >transferd balance from</txt_91>
+    <txt_92 >last completed</txt_92>
+    <txt_93 >Salary period</txt_93>
+    <txt_94 >Reported</txt_94>
+    <txt_95 >Rated</txt_95>
+    <txt_96 >Stated</txt_96>
+    <txt_97 >Reported</txt_97>
+    <txt_98 >Balance</txt_98>
+    <txt_99 >uni.</txt_99>
+    <txt_100 >Time off</txt_100>
+    <txt_101 >Disbursed</txt_101>
+    <txt_102 >Want disbu.</txt_102>
+    <txt_103 >Vacation</txt_103>
+    <txt_104 >Vacation wo. Sal.</txt_104>
+    <txt_105 >incl. Disbursed</txt_105>
+    <txt_106 >1 May hours</txt_106>
+    <txt_107 >Care</txt_107>
+    <txt_108 >closed</txt_108>
+    <txt_109 >approved</txt_109>
+    <txt_110 >Completed?</txt_110>
+    <txt_111 >The CSV. File is ready</txt_111>
+    <txt_112 >Ask for com.</txt_112>
+    <txt_113 >Employee</txt_113>
+    <txt_114 >Em num.</txt_114>
+    <txt_115 >Initials</txt_115>
+    <txt_116 >Project groups</txt_116>
+    <txt_117 >dept.</txt_117>
+    <txt_118 >Year</txt_118>
+    <txt_119 >Month</txt_119>
+    <txt_120 >Week</txt_120>
+    <txt_122 >hh:mm</txt_122>
+    <txt_123 >100 digit</txt_123>
+    <txt_124 >Real. / Sal. h.</txt_124>
+
+  </de>
+  
+  
+  <!--- Fransk -->
+  <fr>
+
+    <txt_1 >Expected loadtime</txt_1>
+    <txt_2 >sec.</txt_2>
+    <txt_3 >Close</txt_3>
+    <txt_4 >is</txt_4>
+    <txt_5 >for employees</txt_5>
+    <txt_6 >Approve</txt_6>
+    <txt_7 >Period</txt_7>
+    <txt_8 >Year</txt_8>
+    <txt_9 >Month</txt_9>
+    <txt_10 >1. Quater</txt_10>
+    <txt_11 >2. Quater</txt_11>
+    <txt_12 >3. Quater</txt_12>
+    <txt_13 >4. Quater</txt_13>
+    <txt_14 >YTD</txt_14>
+    <txt_15 >Exports directly to Excel (faster loadtime)</txt_15>
+    <txt_16 >Filter</txt_16>
+    <txt_17 >Advanced</txt_17>
+    <txt_18 >Split Rated into</txt_18>
+    <txt_19 >Full months</txt_19>
+    <txt_20 >Full weeks</txt_20>
+    <txt_21 >Show only weeks/months with</txt_21>
+    <txt_22 >more</txt_22>
+    <txt_23 >less</txt_23>
+    <txt_24 >than</txt_24>
+    <txt_25 >hour(s)</txt_25>
+    <txt_26 >on their</txt_26>
+    <txt_27 >Flex (stated / rated)</txt_27>
+    <txt_28 >Flex (Come/go / rated)</txt_28>
+    <txt_29 >Balance (stated / come/go)</txt_29>
+    <txt_30 >per week</txt_30>
+    <txt_31 >Show only NOT completed weeks/months</txt_31>
+    <txt_32 >Show only NOT approved weeks/months</txt_32>
+    <txt_33 >Show balance</txt_33>
+    <txt_34 >Balanced per</txt_34>
+    <txt_35 >Come/go (office hours, hh:mm)</txt_35>
+    <txt_36 >Come/go (100 digit)</txt_36>
+    <txt_37 >Supplement</txt_37>
+    <txt_38 >Come/go time Total</txt_38>
+    <txt_39 >Come/go Rated. hh:mm</txt_39>
+    <txt_40 >Come/go Rated. 100 digit</txt_40>
+    <txt_41 >Accumulated (Come/go Rated. hh:mm)</txt_41>
+    <txt_42 >Accumulated (Come/go Rated. 100 digit)</txt_42>
+    <txt_43 >Hereoff invoiceble</txt_43>
+    <txt_44 >Correction Stated</txt_44>
+    <txt_45 >Stad. / Rated.</txt_45>
+    <txt_46 >Accumulated (Stad. / Rated)</txt_46>
+    <txt_47 >Disbursed</txt_47>
+    <txt_48 >Want disbu.</txt_48>
+    <txt_49 >Special vacation</txt_49>
+    <txt_50 >Special holiday</txt_50>
+    <txt_51 >Vacation</txt_51>
+    <txt_52 >Vacation wo. Sal.</txt_52>
+    <txt_53 >1 May hours</txt_53>
+    <txt_54 >Care days</txt_54>
+    <txt_55 >days</txt_55>
+    <txt_56 >Of duty</txt_56>
+    <txt_57 >hours</txt_57>
+    <txt_58 >Maternity/Leave</txt_58>
+    <txt_59 >days</txt_59>
+    <txt_60 >Doctor</txt_60>
+    <txt_61 >Sick</txt_61>
+    <txt_62 >Child sick</txt_62>
+    <txt_63 >Completed</txt_63>
+    <txt_64 >Approved</txt_64>
+    <txt_65 >Awaits</txt_65>
+    <txt_66 >Approved</txt_66>
+    <txt_67 >Rejected</txt_67>
+    <txt_68 >Retrieves data for employee</txt_68>
+    <txt_69 >Week</txt_69>
+    <txt_70 >date</txt_70>
+    <txt_71 >Come / Go</txt_71>
+    <txt_72 >Officehours</txt_72>
+    <txt_73 >Supplement</txt_73>
+    <txt_74 >Vacation</txt_74>
+    <txt_75 >Illness</txt_75>
+    <txt_76 >correction</txt_76>
+    <txt_77 >etc. Reported</txt_77>
+    <txt_78 >Total</txt_78>
+    <txt_79 >Come / Go</txt_79>
+    <txt_80 >Supplement</txt_80>
+    <txt_81 >Rated time</txt_81>
+    <txt_82 >Accumulated</txt_82>
+    <txt_83 >Hours</txt_83>
+    <txt_84 >reported</txt_84>
+    <txt_85 >on activities</txt_85>
+    <txt_86 >Stated</txt_86>
+    <txt_87 >reported on activity</txt_87>
+    <txt_88 >herof</txt_88>
+    <txt_89 >Invoi.ble</txt_89>
+    <txt_90 >Correction</txt_90>
+    <txt_91 >transferd balance from</txt_91>
+    <txt_92 >last completed</txt_92>
+    <txt_93 >Salary period</txt_93>
+    <txt_94 >Reported</txt_94>
+    <txt_95 >Rated</txt_95>
+    <txt_96 >Stated</txt_96>
+    <txt_97 >Reported</txt_97>
+    <txt_98 >Balance</txt_98>
+    <txt_99 >uni.</txt_99>
+    <txt_100 >Time off</txt_100>
+    <txt_101 >Disbursed</txt_101>
+    <txt_102 >Want disbu.</txt_102>
+    <txt_103 >Vacation</txt_103>
+    <txt_104 >Vacation wo. Sal.</txt_104>
+    <txt_105 >incl. Disbursed</txt_105>
+    <txt_106 >1 May hours</txt_106>
+    <txt_107 >Care</txt_107>
+    <txt_108 >closed</txt_108>
+    <txt_109 >approved</txt_109>
+    <txt_110 >Completed?</txt_110>
+    <txt_111 >The CSV. File is ready</txt_111>
+    <txt_112 >Ask for com.</txt_112>
+    <txt_113 >Employee</txt_113>
+    <txt_114 >Em num.</txt_114>
+    <txt_115 >Initials</txt_115>
+    <txt_116 >Project groups</txt_116>
+    <txt_117 >dept.</txt_117>
+    <txt_118 >Year</txt_118>
+    <txt_119 >Month</txt_119>
+    <txt_120 >Week</txt_120>
+    <txt_122 >hh:mm</txt_122>
+    <txt_123 >100 digit</txt_123>
+    <txt_124 >Real. / Sal. h.</txt_124>
+  
+  </fr>
+  
+    
+
+  <!-- Engelsk -->
+  <uk>
+
+    <txt_1 >Expected loadtime</txt_1>
+    <txt_2 >sec.</txt_2>
+    <txt_3 >Close</txt_3>
+    <txt_4 >is</txt_4>
+    <txt_5 >for employees</txt_5>
+    <txt_6 >Approve</txt_6>
+    <txt_7 >Period</txt_7>
+    <txt_8 >Year</txt_8>
+    <txt_9 >Month</txt_9>
+    <txt_10 >1. Quater</txt_10>
+    <txt_11 >2. Quater</txt_11>
+    <txt_12 >3. Quater</txt_12>
+    <txt_13 >4. Quater</txt_13>
+    <txt_14 >YTD</txt_14>
+    <txt_15 >Exports directly to Excel (faster loadtime)</txt_15>
+    <txt_16 >Filter</txt_16>
+    <txt_17 >Advanced</txt_17>
+    <txt_18 >Split Rated into</txt_18>
+    <txt_19 >Full months</txt_19>
+    <txt_20 >Full weeks</txt_20>
+    <txt_21 >Show only weeks/months with</txt_21>
+    <txt_22 >more</txt_22>
+    <txt_23 >less</txt_23>
+    <txt_24 >than</txt_24>
+    <txt_25 >hour(s)</txt_25>
+    <txt_26 >on their</txt_26>
+    <txt_27 >Flex (stated / rated)</txt_27>
+    <txt_28 >Flex (Come/go / rated)</txt_28>
+    <txt_29 >Balance (stated / come/go)</txt_29>
+    <txt_30 >per week</txt_30>
+    <txt_31 >Show only NOT completed weeks/months</txt_31>
+    <txt_32 >Show only NOT approved weeks/months</txt_32>
+    <txt_33 >Show balance</txt_33>
+    <txt_34 >Balanced per</txt_34>
+    <txt_35 >Come/go (office hours, hh:mm)</txt_35>
+    <txt_36 >Come/go (100 digit)</txt_36>
+    <txt_37 >Supplement</txt_37>
+    <txt_38 >Come/go time Total</txt_38>
+    <txt_39 >Come/go Rated. hh:mm</txt_39>
+    <txt_40 >Come/go Rated. 100 digit</txt_40>
+    <txt_41 >Accumulated (Come/go Rated. hh:mm)</txt_41>
+    <txt_42 >Accumulated (Come/go Rated. 100 digit)</txt_42>
+    <txt_43 >Hereoff invoiceble</txt_43>
+    <txt_44 >Correction Stated</txt_44>
+    <txt_45 >Stad. / Rated.</txt_45>
+    <txt_46 >Accumulated (Stad. / Rated)</txt_46>
+    <txt_47 >Disbursed</txt_47>
+    <txt_48 >Want disbu.</txt_48>
+    <txt_49 >Special vacation</txt_49>
+    <txt_50 >Special holiday</txt_50>
+    <txt_51 >Vacation</txt_51>
+    <txt_52 >Vacation wo. Sal.</txt_52>
+    <txt_53 >1 May hours</txt_53>
+    <txt_54 >Care days</txt_54>
+    <txt_55 >days</txt_55>
+    <txt_56 >Of duty</txt_56>
+    <txt_57 >hours</txt_57>
+    <txt_58 >Maternity/Leave</txt_58>
+    <txt_59 >days</txt_59>
+    <txt_60 >Doctor</txt_60>
+    <txt_61 >Sick</txt_61>
+    <txt_62 >Child sick</txt_62>
+    <txt_63 >Completed</txt_63>
+    <txt_64 >Approved</txt_64>
+    <txt_65 >Awaits</txt_65>
+    <txt_66 >Approved</txt_66>
+    <txt_67 >Rejected</txt_67>
+    <txt_68 >Retrieves data for employee</txt_68>
+    <txt_69 >Week</txt_69>
+    <txt_70 >date</txt_70>
+    <txt_71 >Come / Go</txt_71>
+    <txt_72 >Officehours</txt_72>
+    <txt_73 >Supplement</txt_73>
+    <txt_74 >Vacation</txt_74>
+    <txt_75 >Illness</txt_75>
+    <txt_76 >correction</txt_76>
+    <txt_77 >etc. Reported</txt_77>
+    <txt_78 >Total</txt_78>
+    <txt_79 >Come / Go</txt_79>
+    <txt_80 >Supplement</txt_80>
+    <txt_81 >Rated time</txt_81>
+    <txt_82 >Accumulated</txt_82>
+    <txt_83 >Hours</txt_83>
+    <txt_84 >reported</txt_84>
+    <txt_85 >on activities</txt_85>
+    <txt_86 >Stated</txt_86>
+    <txt_87 >reported on activity</txt_87>
+    <txt_88 >herof</txt_88>
+    <txt_89 >Invoi.ble</txt_89>
+    <txt_90 >Correction</txt_90>
+    <txt_91 >transferd balance from</txt_91>
+    <txt_92 >last completed</txt_92>
+    <txt_93 >Salary period</txt_93>
+    <txt_94 >Reported</txt_94>
+    <txt_95 >Rated</txt_95>
+    <txt_96 >Stated</txt_96>
+    <txt_97 >Reported</txt_97>
+    <txt_98 >Balance</txt_98>
+    <txt_99 >uni.</txt_99>
+    <txt_100 >Time off</txt_100>
+    <txt_101 >Disbursed</txt_101>
+    <txt_102 >Want disbu.</txt_102>
+    <txt_103 >Vacation</txt_103>
+    <txt_104 >Vacation wo. Sal.</txt_104>
+    <txt_105 >incl. Disbursed</txt_105>
+    <txt_106 >1 May hours</txt_106>
+    <txt_107 >Care</txt_107>
+    <txt_108 >closed</txt_108>
+    <txt_109 >approved</txt_109>
+    <txt_110 >Completed?</txt_110>
+    <txt_111 >The CSV. File is ready</txt_111>
+    <txt_112 >Ask for com.</txt_112>
+    <txt_113 >Employee</txt_113>
+    <txt_114 >Em num.</txt_114>
+    <txt_115 >Initials</txt_115>
+    <txt_116 >Project groups</txt_116>
+    <txt_117 >dept.</txt_117>
+    <txt_118 >Year</txt_118><txt_119 >Month</txt_119>
+    <txt_120 >Week</txt_120>
+    <txt_122 >hh:mm</txt_122>
+    <txt_123 >100 digit</txt_123>
+    <txt_124 >Real. / Sal. h.</txt_124>
+
+
+  </uk>
+
+
+  <!--- Spansk -->
+  <es>
+
+    <txt_1 >Expected loadtime</txt_1>
+    <txt_2 >sec.</txt_2>
+    <txt_3 >Close</txt_3>
+    <txt_4 >is</txt_4>
+    <txt_5 >for employees</txt_5>
+    <txt_6 >Approve</txt_6>
+    <txt_7 >Period</txt_7>
+    <txt_8 >Year</txt_8>
+    <txt_9 >Month</txt_9>
+    <txt_10 >1. Quater</txt_10>
+    <txt_11 >2. Quater</txt_11>
+    <txt_12 >3. Quater</txt_12>
+    <txt_13 >4. Quater</txt_13>
+    <txt_14 >YTD</txt_14>
+    <txt_15 >Exports directly to Excel (faster loadtime)</txt_15>
+    <txt_16 >Filter</txt_16>
+    <txt_17 >Advanced</txt_17>
+    <txt_18 >Split Rated into</txt_18>
+    <txt_19 >Full months</txt_19>
+    <txt_20 >Full weeks</txt_20>
+    <txt_21 >Show only weeks/months with</txt_21>
+    <txt_22 >more</txt_22>
+    <txt_23 >less</txt_23>
+    <txt_24 >than</txt_24>
+    <txt_25 >hour(s)</txt_25>
+    <txt_26 >on their</txt_26>
+    <txt_27 >Flex (stated / rated)</txt_27>
+    <txt_28 >Flex (Come/go / rated)</txt_28>
+    <txt_29 >Balance (stated / come/go)</txt_29>
+    <txt_30 >per week</txt_30>
+    <txt_31 >Show only NOT completed weeks/months</txt_31>
+    <txt_32 >Show only NOT approved weeks/months</txt_32>
+    <txt_33 >Show balance</txt_33>
+    <txt_34 >Balanced per</txt_34>
+    <txt_35 >Come/go (office hours, hh:mm)</txt_35>
+    <txt_36 >Come/go (100 digit)</txt_36>
+    <txt_37 >Supplement</txt_37>
+    <txt_38 >Come/go time Total</txt_38>
+    <txt_39 >Come/go Rated. hh:mm</txt_39>
+    <txt_40 >Come/go Rated. 100 digit</txt_40>
+    <txt_41 >Accumulated (Come/go Rated. hh:mm)</txt_41>
+    <txt_42 >Accumulated (Come/go Rated. 100 digit)</txt_42>
+    <txt_43 >Hereoff invoiceble</txt_43>
+    <txt_44 >Correction Stated</txt_44>
+    <txt_45 >Stad. / Rated.</txt_45>
+    <txt_46 >Accumulated (Stad. / Rated)</txt_46>
+    <txt_47 >Disbursed</txt_47>
+    <txt_48 >Want disbu.</txt_48>
+    <txt_49 >Special vacation</txt_49>
+    <txt_50 >Special holiday</txt_50>
+    <txt_51 >Vacation</txt_51>
+    <txt_52 >Vacation wo. Sal.</txt_52>
+    <txt_53 >1 May hours</txt_53>
+    <txt_54 >Care days</txt_54>
+    <txt_55 >days</txt_55>
+    <txt_56 >Of duty</txt_56>
+    <txt_57 >hours</txt_57>
+    <txt_58 >Maternity/Leave</txt_58>
+    <txt_59 >days</txt_59>
+    <txt_60 >Doctor</txt_60>
+    <txt_61 >Sick</txt_61>
+    <txt_62 >Child sick</txt_62>
+    <txt_63 >Completed</txt_63>
+    <txt_64 >Approved</txt_64>
+    <txt_65 >Awaits</txt_65>
+    <txt_66 >Approved</txt_66>
+    <txt_67 >Rejected</txt_67>
+    <txt_68 >Retrieves data for employee</txt_68>
+    <txt_69 >Week</txt_69>
+    <txt_70 >date</txt_70>
+    <txt_71 >Come / Go</txt_71>
+    <txt_72 >Officehours</txt_72>
+    <txt_73 >Supplement</txt_73>
+    <txt_74 >Vacation</txt_74>
+    <txt_75 >Illness</txt_75>
+    <txt_76 >correction</txt_76>
+    <txt_77 >etc. Reported</txt_77>
+    <txt_78 >Total</txt_78>
+    <txt_79 >Come / Go</txt_79>
+    <txt_80 >Supplement</txt_80>
+    <txt_81 >Rated time</txt_81>
+    <txt_82 >Accumulated</txt_82>
+    <txt_83 >Hours</txt_83>
+    <txt_84 >reported</txt_84>
+    <txt_85 >on activities</txt_85>
+    <txt_86 >Stated</txt_86>
+    <txt_87 >reported on activity</txt_87>
+    <txt_88 >herof</txt_88>
+    <txt_89 >Invoi.ble</txt_89>
+    <txt_90 >Correction</txt_90>
+    <txt_91 >transferd balance from</txt_91>
+    <txt_92 >last completed</txt_92>
+    <txt_93 >Salary period</txt_93>
+    <txt_94 >Reported</txt_94>
+    <txt_95 >Rated</txt_95>
+    <txt_96 >Stated</txt_96>
+    <txt_97 >Reported</txt_97>
+    <txt_98 >Balance</txt_98>
+    <txt_99 >uni.</txt_99>
+    <txt_100 >Time off</txt_100>
+    <txt_101 >Disbursed</txt_101>
+    <txt_102 >Want disbu.</txt_102>
+    <txt_103 >Vacation</txt_103>
+    <txt_104 >Vacation wo. Sal.</txt_104>
+    <txt_105 >incl. Disbursed</txt_105>
+    <txt_106 >1 May hours</txt_106>
+    <txt_107 >Care</txt_107>
+    <txt_108 >closed</txt_108>
+    <txt_109 >approved</txt_109>
+    <txt_110 >Completed?</txt_110>
+    <txt_111 >The CSV. File is ready</txt_111>
+    <txt_112 >Ask for com.</txt_112>
+    <txt_113 >Employee</txt_113>
+    <txt_114 >Em num.</txt_114>
+    <txt_115 >Initials</txt_115>
+    <txt_116 >Project groups</txt_116>
+    <txt_117 >dept.</txt_117>
+    <txt_118 >Year</txt_118>
+    <txt_119 >Month</txt_119>
+    <txt_120 >Week</txt_120>
+    <txt_122 >hh:mm</txt_122>
+    <txt_123 >100 digit</txt_123>
+    <txt_124 >Real. / Sal. h.</txt_124>
+  
+ </es>
+
+
+</sprog>

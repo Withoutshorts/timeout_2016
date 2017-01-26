@@ -43,7 +43,7 @@
                                  
                                  
                 nWdt = 220
-                nTxt = "Indtast fra lager" 'mangler
+                nTxt = erp_txt_506
                 nLnk = "materialer_indtast.asp?id="&jobid&"&fromsdsk=0&aftid="&aftid&"&useFM_jobsog=0&vis=lag"
                 nTgt = "_blank"
                 call opretNy_2013(nWdt, nTxt, nLnk, nTgt) %>

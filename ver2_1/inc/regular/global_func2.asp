@@ -654,7 +654,7 @@ end function
   
     <table cellpadding=2 cellspacing=0 border=0 width=100%>
     <tr>
-    <td height=30 bgcolor="#ffffff" style="border-bottom:0px #cccccc solid;" colspan=2><h4>Print & Funktioner</h4></td>
+    <td height=30 bgcolor="#ffffff" style="border-bottom:0px #cccccc solid;" colspan=2><h4><%=erp_txt_522 %></h4></td>
     </tr>
 	<%
 	end function
@@ -902,7 +902,7 @@ end function
 	<div id="sideinfo" class="jqcorner" style="position:relative; padding:0px 10px 10px 10px; width:<%=iWdt %>; left:<%=iLeft%>px; top:<%=iTop%>px; visibility:visible; z-index:1;">
     <table cellpadding=2 cellspacing=0 border=0 width=100%>
     <tr>
-        <td colspan="2" align=left style="border-bottom:0px #C4c4c4 solid;"><h4>Hjælp & Sideinfo:</h4></td></tr>
+        <td colspan="2" align=left style="border-bottom:0px #C4c4c4 solid;"><h4><%=erp_txt_518 %></h4></td></tr>
 	<tr>
 	</table>
 	<table cellpadding=0 cellspacing=0 border=0 width=100%>

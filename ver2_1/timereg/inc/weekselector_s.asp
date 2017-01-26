@@ -754,7 +754,7 @@ if dontshowDD <> "1" then
         <input name="FM_start_mrd" id="FM_start_mrd" type="hidden" value="<%=strMrd%>" />
         <input name="FM_start_aar" id="FM_start_aar" type="hidden" value="<%=strAar%>" />
 
-&nbsp;til&nbsp;
+&nbsp;<%=erp_txt_514 %>&nbsp;
 <input type="text" name="FM_sldato" id="FM_sldato" value="<%=strDag_slut%>.<%=strMrd_slut%>.<%=strAar_slut%>" style="display:none; margin-right:5px; width:80px;" />
 		
 		<input type="hidden" name="FM_slut_dag" id="FM_slut_dag" value="<%=strDag_slut%>">

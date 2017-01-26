@@ -273,7 +273,7 @@
     <txt_220>+ Opret ny</txt_220>
     <txt_221>(systemdato)</txt_221>
 
-    <txt_222>Udskrift funktioner:</txt_222>
+    <txt_222>Udskrift funktioner2h:</txt_222>
     <txt_223>Print</txt_223>
     <txt_224>PDF</txt_224>
     <txt_225>OIO XML</txt_225>
@@ -523,8 +523,66 @@
     <txt_460 >Timer</txt_460>
     <txt_461 >slutdato = fakturadato</txt_461>
     <txt_462 >Ignorér datointerval på faktura historik</txt_462>
-
-
+    <txt_463 >Se din faktura her</txt_463>
+    <txt_464 >Opret og Se fakt.</txt_464>
+    <txt_465 >Vis</txt_465>
+    <txt_466 >Navn</txt_466>
+    <txt_467 >Varenr</txt_467>
+    <txt_468 >Aktivtet/fase</txt_468>
+    <txt_469 >Antal</txt_469>
+    <txt_470 >Pris pr. stk.</txt_470>
+    <txt_471 >Valuta</txt_471>
+    <txt_472 >Enhed</txt_472>
+    <txt_473 >Rabat</txt_473>
+    <txt_474 >Momsfri</txt_474>
+    <txt_475 >Pris ialt</txt_475>
+    <txt_476 >Valuta</txt_476>
+    <txt_477 >Funktioner</txt_477>
+    <txt_478 >Fakturerings valuta på faktura</txt_478>
+    <txt_479 >Rabat</txt_479>
+    <txt_480 >ikke medarb. linier</txt_480>
+    <txt_481 >Timer</txt_481>
+    <txt_482 >Stk.</txt_482>
+    <txt_483 >Enheder</txt_483>
+    <txt_484 >Km.</txt_484>
+    <txt_485 >Ingen (Skjul)</txt_485>
+    <txt_486 >Kurs gemt på faktura</txt_486>
+    <txt_487 >Aktuel kurs</txt_487>
+    <txt_488 >Søg..</txt_488>
+    <txt_489 >Vælg job..</txt_489>
+    <txt_490 >Til Fakt.</txt_490>
+    <txt_491 >Timer forkalk.</txt_491>
+    <txt_492 >Periode baseret</txt_492>
+    <txt_493 >Enhed. / Klip baseret</txt_493>
+    <txt_494 >Type</txt_494>
+    <txt_495 >Faktura</txt_495>
+    <txt_496 >Kreditnota</txt_496>
+    <txt_497 >Opret ny</txt_497>
+    <txt_498 >Fak. Pre-indstill.</txt_498>
+    <txt_499 >Opdater</txt_499>
+    <txt_500 >Vedhæft joblog på faktura.</txt_500>
+    <txt_501 >fak.</txt_501>
+    <txt_502 >kredit.</txt_502>
+    <txt_503 >Træk og sorter</txt_503>
+    <txt_504 >Grundlag</txt_504>
+    <txt_505 >Faktor</txt_505>
+    <txt_506 >Indtast fra lager</txt_506>
+    <txt_507 >Ikke Km. aktiviteter</txt_507>
+    <txt_508 >Slet faktura</txt_508>
+    <txt_509 >Fortryd godkend</txt_509>
+    <txt_510 >Rediger faktura</txt_510>
+    <txt_511 >Til fakturering</txt_511>
+    <txt_512 >siden sidste fak., ikke interne</txt_512>
+    <txt_513 >Materialer</txt_513>
+    <txt_514 >Til</txt_514>
+    <txt_515 >Afsender</txt_515>
+    <txt_516 >licensindhv.</txt_516>
+    <txt_517 >søgekri. skal være udfyldt</txt_517>
+    <txt_518 >Hjælp og Sideinfo</txt_518>
+    <txt_519 >A) Detail .csv fil eksport</txt_519>
+    <txt_520 >B) Standard .csv fil eksport.</txt_520>
+    <txt_521 >C) Minimun .txt fil eksport.</txt_521>
+    <txt_522 >Print og Funktioner</txt_522>
 
   </dk>
 
@@ -2243,7 +2301,66 @@
   <txt_460 >Hours</txt_460>
   <txt_461 >Enddate = invoicedate</txt_461>
   <txt_462 >Ignore date interval on invoice history</txt_462>
-
+  <txt_463 >See your invoice here</txt_463>
+  <txt_464 >Create and See invoice</txt_464>
+  <txt_465 >Wise</txt_465>
+  <txt_466 >Name</txt_466>
+  <txt_467 >Item no</txt_467>
+  <txt_468 >Activity / phase</txt_468>
+  <txt_469 >Number</txt_469>
+  <txt_470 >Price. PCS.</txt_470>
+  <txt_471 >Currency</txt_471>
+  <txt_472 >Unit</txt_472>
+  <txt_473 >Discount</txt_473>
+  <txt_474 >tax free</txt_474>
+  <txt_475 >Price total</txt_475>
+  <txt_476 >Currency</txt_476>
+  <txt_477 >Features</txt_477>
+  <txt_478 >Billing currency on the invoice</txt_478>
+  <txt_479 >Discount</txt_479>
+  <txt_480 >not empl. lines</txt_480>
+  <txt_481 >Hours</txt_481>
+  <txt_482 >PCS.</txt_482>
+  <txt_483 >Units</txt_483>
+  <txt_484 >Km.</txt_484>
+  <txt_485 >None (hide)</txt_485>
+  <txt_486 >Kurs stored on the invoice</txt_486>
+  <txt_487 >Current price</txt_487>
+  <txt_488 >Search..</txt_488>
+  <txt_489 >Choose job..</txt_489>
+  <txt_490 >To Invoicing</txt_490>
+  <txt_491 >hours calcified</txt_491>
+  <txt_492 >period based</txt_492>
+  <txt_493 >Unit. / Cut based</txt_493>
+  <txt_494 >Type</txt_494>
+  <txt_495 >Invoice</txt_495>
+  <txt_496 >Credit</txt_496>
+  <txt_497 >Create new</txt_497>
+  <txt_498 >Invoice. Pre-install.</txt_498>
+  <txt_499 >Update</txt_499>
+  <txt_500 >Attach job log on the invoice.</txt_500>
+  <txt_501 >inv.</txt_501>
+  <txt_502 >credit.</txt_502>
+  <txt_503 >Drag and varieties</txt_503>
+  <txt_504 >basis</txt_504>
+  <txt_505 >factor</txt_505>
+  <txt_506 >Enter from storage</txt_506>
+  <txt_507 >Not Km. activities</txt_507>
+  <txt_508 >Delete invoice</txt_508>
+  <txt_509 >Undo confirm</txt_509>
+  <txt_510 >Edit invoice</txt_510>
+  <txt_511 >To invoicing</txt_511>
+  <txt_512 >since last fak., not internal</txt_512>
+  <txt_513 >Materials</txt_513>
+  <txt_514 >To</txt_514>
+  <txt_515 >Sender</txt_515>
+  <txt_516 >Licence holder</txt_516>
+  <txt_517 >search criteria. must be filled</txt_517>
+  <txt_518 >Help and Page Info</txt_518>
+  <txt_519 >A) Detailed .csv file export</txt_519>
+  <txt_520 >B) Standard .csv file export.</txt_520>
+  <txt_521 >C) Minimum .txt file export.</txt_521>
+  <txt_522 >Print and Functions</txt_522>
 
   </uk>
 

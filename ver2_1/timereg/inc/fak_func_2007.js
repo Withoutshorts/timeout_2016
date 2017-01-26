@@ -1016,7 +1016,7 @@ $(document).ready(function () {
             //divbelobtot_umoms
             //ialtbeløb tot
             $("#FM_beloeb_umoms").val(totbel_umoms);
-            $("#divbelobtot_umoms").html("Ikke momspligtigt beløb: <br> (" + totbel_umoms + " " + valutaValLabel + ") ");
+            $("#divbelobtot_umoms").html("" & erp_txt_182 & ": <br> (" + totbel_umoms + " " + valutaValLabel + ") ");
 
         });
 

@@ -1655,7 +1655,7 @@
 
                                     else
 
-                                    gkTxt = "Be om afslutn."
+                                    gkTxt = weekreal_txt_112
 
                                     
 

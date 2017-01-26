@@ -3243,7 +3243,7 @@ if len(session("user")) = 0 then
 		<input type="hidden" name="FM_slut_aar" id="gen_FM_slut_aar" value="<%=request("FM_slut_aar")%>">
 		  
 		  <%if func <> "red" then %> 
-		  <input id="Button1" onclick="opdaterFakdato()" type="submit" value="Hent timer i valgt. per. >>" style="font-size:9px;" /> <span style="color:#999999; font-size:9px;"><%=erp_txt_215 %></span>
+		  <input id="Button1" onclick="opdaterFakdato()" type="submit" value="<%=erp_txt_415 %> >>" style="font-size:9px;" /> <span style="color:#999999; font-size:9px;"><%=erp_txt_215 %></span>
 	      <%end if %>
 		
 		</form>
@@ -3343,7 +3343,7 @@ if len(session("user")) = 0 then
                      
                     <table cellspacing="0" cellpadding="5" border="0" width="100%">
 	                <tr>
-	                    <td style="border:1px #ffffff solid;" bgcolor="#8caae6" class=alt><b><%=erp_txt_216 %> </b></td>
+	                    <td style="border:1px #ffffff solid;" bgcolor="#8caae6" class=alt><b><%=erp_txt_216 %>hej </b></td>
 	                </tr>
 	                
                 		<%
@@ -4216,7 +4216,7 @@ if len(session("user")) = 0 then
         end if
 	    
             select case lto
-            case "nt", "epi_uk"
+            case "nt", "epi_uk", "intranet - local", "bf" 
             lang = 1
             case else
             lang = 0
@@ -4245,7 +4245,6 @@ if len(session("user")) = 0 then
             'response.write "betbetint: "& betbetint
 
 	        call betalingsbetDage(betbetint, hideffdato, lang, nameid)
-    	    
 	        if Not InStr(strForfaldsdato, "-") then
 	        strForfaldsdato = strDag & "-" & strMrd & "-" & strAar
 	        end if
@@ -4994,7 +4993,7 @@ if len(session("user")) = 0 then
                 
                  %>
 
-                <b><%=formatnumber(beloebFaktureret, 2) %> DKK</b> (<%=antalFak%> fak. / <%=antalKre %> kredit.) <!-- Mangler -->
+                <b><%=formatnumber(beloebFaktureret, 2) %> DKK</b> (<%=antalFak%> <%=erp_txt_501%> / <%=antalKre %> <%=erp_txt_502 %>)
 		                                                             </td></tr>
 
 

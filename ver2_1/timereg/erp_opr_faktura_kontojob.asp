@@ -84,7 +84,7 @@
             Vælg job eller aftale:
              <%
 
-                  vaelgJObTxt = "Vælg job.." 'mangler
+                  vaelgJObTxt = erp_txt_489
 
                   if cint(jobonoff) = 1 then
 	                jobonoffSQLkri = " AND jobstatus <> 99 "
@@ -133,7 +133,7 @@
             case 1 
                 jobstatusTxt = ""
             case 2 
-                jobstatusTxt = " - Til Fakt." 'mangler
+                jobstatusTxt = " - "& erp_txt_490 &""
             case 3 
                 jobstatusTxt = " - "& erp_txt_427 &""
             case 4 
@@ -200,7 +200,7 @@
                         <option value="<%=oRec("id") %>" <%=aidSel %>><%=oRec("navn") %> (<%=oRec("aftalenr") %>)
                 
                             <%if oRec("status") <> 1 then %>
-                            - <%erp_txt_429 %>
+                            - <%=erp_txt_429 %>
                             <%end if %>
             
                         </option>

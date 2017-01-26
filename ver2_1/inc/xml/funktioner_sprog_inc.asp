@@ -168,7 +168,29 @@ Set oNodes_funk = objXmlDom_funk.documentElement.selectNodes(sXPathQuery_funk)
             funk_txt_077 = oNode_funk.selectSingleNode("txt_77").Text
             funk_txt_078 = oNode_funk.selectSingleNode("txt_78").Text
             funk_txt_079 = oNode_funk.selectSingleNode("txt_79").Text
+    
+          funk_txt_080 = oNode_funk.selectSingleNode("txt_80").Text
+          funk_txt_081 = oNode_funk.selectSingleNode("txt_81").Text
+          funk_txt_082 = oNode_funk.selectSingleNode("txt_82").Text
+          funk_txt_083 = oNode_funk.selectSingleNode("txt_83").Text
           
+          funk_txt_084 = oNode_funk.selectSingleNode("txt_84").Text
+          funk_txt_085 = oNode_funk.selectSingleNode("txt_85").Text
+          funk_txt_086 = oNode_funk.selectSingleNode("txt_86").Text
+          
+          funk_txt_087 = oNode_funk.selectSingleNode("txt_87").Text
+          
+          funk_txt_088 = oNode_funk.selectSingleNode("txt_88").Text
+          funk_txt_089 = oNode_funk.selectSingleNode("txt_89").Text
+          funk_txt_090 = oNode_funk.selectSingleNode("txt_90").Text
+          
+          funk_txt_091 = oNode_funk.selectSingleNode("txt_91").Text
+          funk_txt_092 = oNode_funk.selectSingleNode("txt_92").Text
+          funk_txt_093 = oNode_funk.selectSingleNode("txt_93").Text
+          funk_txt_094 = oNode_funk.selectSingleNode("txt_94").Text
+          funk_txt_095 = oNode_funk.selectSingleNode("txt_95").Text      
+
+
     next
 
 

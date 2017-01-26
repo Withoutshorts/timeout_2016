@@ -1100,9 +1100,9 @@ strSQLmansat = strSQLmansat & ")"
 end if
 
 %>
-    <td valign=top style="padding-top:20px; width:426px;"><b>Projektgrupper:</b><br />
+    <td valign=top style="padding-top:20px; width:426px;"><b><%=funk_txt_080 %>:</b><br />
     <span style="font-size:10px; line-height:12px; color:#999999; padding-top:4px;">
-        Admin.: alle projektgrupper, ellers dem du er teamleder for.
+        <%=funk_txt_081 %>
         </span><br />
        
        <% 
@@ -1188,7 +1188,7 @@ end if
       
       if pf = 0 then
       %>
-       <option value="-1" SELECTED>Ingen projektgruppe fundet</option>
+       <option value="-1" SELECTED><%=funk_txt_082 %></option>
        
       <%
       end if
@@ -1198,14 +1198,14 @@ end if
       
 
             <br />
-        <input id="FM_visdeakmed" name="FM_visdeakmed" type="checkbox" <%=visdeakmedCHK %> /> Vis de-aktiverede medarbejdere.  <br /><input id="FM_visdeakmed12" name="FM_visdeakmed12" type="checkbox" <%=visdeakmed12CHK %> /> Vis kun De-akt. opsagt indenfor seneste 12 md.<br />
-        <input id="FM_vispasmed" name="FM_vispasmed" type="checkbox" <%=vispasmedCHK %> /> Vis passive medarbejdere<br />&nbsp;
+        <input id="FM_visdeakmed" name="FM_visdeakmed" type="checkbox" <%=visdeakmedCHK %> /> <%=funk_txt_083 %>  <br /><input id="FM_visdeakmed12" name="FM_visdeakmed12" type="checkbox" <%=visdeakmed12CHK %> /> <%=funk_txt_084 %><br />
+        <input id="FM_vispasmed" name="FM_vispasmed" type="checkbox" <%=vispasmedCHK %> /> <%=funk_txt_085 %><br />&nbsp;
      
         <input type="hidden" id="jq_userid" value="<%=medarbid%>" />
          
         </td>
   
-	<td valign=top style="padding-top:20px;"><b>Medarbejdere:</b> (<span id="antalmedarblist"><%=antalMedgrp+1 %></span>)
+	<td valign=top style="padding-top:20px;"><b><%=funk_txt_086 %>:</b> (<span id="antalmedarblist"><%=antalMedgrp+1 %></span>)
     <br /><img src="../ill/blank.gif" width="50" height="11"  border="0"/><br /> 
 	<%
 	mft = 0 
@@ -1224,8 +1224,8 @@ end if
             vlgtmtypgrp = 0
             call mtyperIGrp_fn(vlgtmtypgrp,1)    
             
-            strOptionsJq = "<option value='0' DISABLED>Medarbejdertypegruppe(r)</option>"
-            strOptionsJq = strOptionsJq & "<option value='0'>Alle</option>"
+            strOptionsJq = "<option value='0' DISABLED>"& funk_txt_087 &"</option>"
+            strOptionsJq = strOptionsJq & "<option value='0'>"& funk_txt_088 &"</option>"
             'strOptionsJq = "<option value='0' DISABLED></option>"
             
             'for t = 1 to UBOUND(mtypgrpids)
@@ -1286,14 +1286,14 @@ end if
 
      <%if thisfile = "joblog_timetotaler" then %>
              <br />
-              <input type="checkbox" name="FM_vis_medarbejdertyper" id="FM_vis_medarbejdertyper" value="1" <%=vis_medarbejdertyperChk %> />Udspecificer på medarbejdertyper<br />
+              <input type="checkbox" name="FM_vis_medarbejdertyper" id="FM_vis_medarbejdertyper" value="1" <%=vis_medarbejdertyperChk %> /><%=funk_txt_089 %><br />
 
                 <%if cint(bdgmtypon_val) = 1 AND cint(bdgmtypon_prgrp) > 1 then  %>
-               <input type="checkbox" name="FM_vis_medarbejdertyper_grp" id="FM_vis_medarbejdertyper_grp" value="1" <%=vis_medarbejdertyper_grpChk %> />Udspecificer på medarbejdertype-grupper
-               <br /> <span style="font-size:9px; color:#999999;">(ignorerer projektgrupper. Viser alle medarb. uanset status)</span><br /><br />  
+               <input type="checkbox" name="FM_vis_medarbejdertyper_grp" id="FM_vis_medarbejdertyper_grp" value="1" <%=vis_medarbejdertyper_grpChk %> /><%=funk_txt_090 %>
+               <br /> <span style="font-size:9px; color:#999999;">(<%=funk_txt_091 %>)</span><br /><br />  
             <%end if %>    
 
-              <input type="checkbox" name="FM_visMedarbNullinier" id="FM_visMedarbNullinier" value="1" <%=vis_visMedarbNullinierChk %> />Vis medarbejdere uden timer i periode.
+              <input type="checkbox" name="FM_visMedarbNullinier" id="FM_visMedarbNullinier" value="1" <%=vis_visMedarbNullinierChk %> /><%=funk_txt_092 %>
               
              
 		    <%end if %>
@@ -1316,7 +1316,7 @@ end if
 	<input id="FM_medarb_hidden" name="FM_medarb_hidden" type="hidden" value="<%=strFMmedarb_hd%>" />
 
 
-       <br /><br /><img src="../ill/blank.gif" width="200" height="1" border="0" /><input id="Submit2" type="submit" value="Vis medarbejdere >> " style="font-size:9px;" />
+       <br /><br /><img src="../ill/blank.gif" width="200" height="1" border="0" /><input id="Submit2" type="submit" value="<%=funk_txt_093 %> >> " style="font-size:9px;" />
 	</td>
 
 <% 

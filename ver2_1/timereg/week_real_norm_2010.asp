@@ -469,7 +469,7 @@ if len(session("user")) = 0 then
 	<img src="../inc/jquery/images/ajax-loader.gif" /><br />&nbsp;
   
 	</td></tr>
-    <tr><td colspan=2>  <div id="load_cdown">Forventet loadtid: <%=forvloadtid %> sek.</div></td></tr>
+    <tr><td colspan=2>  <div id="load_cdown"><%=weekreal_txt_001 %>: <%=forvloadtid %> <%=weekreal_txt_002 %></div></td></tr>
     </table>
 
 	</div>
@@ -519,9 +519,9 @@ if len(session("user")) = 0 then
 
     select case lto
     case "tec", "esn"
-        oskrift = "Luk "& peridoeTxt &"(er) for medarbejdere"
+        oskrift = ""& weekreal_txt_003 &" "& peridoeTxt &" ("& weekreal_txt_004 &") " & weekreal_txt_005 &""
     case else
-        oskrift = "Godkend "& peridoeTxt &"(er) for medarbejdere"
+        oskrift = ""& weekreal_txt_006 &" "& peridoeTxt &" ("& weekreal_txt_004 &") "& weekreal_txt_005 &""
     end select
 
 	
@@ -548,7 +548,7 @@ if len(session("user")) = 0 then
     
     
        
-	<td valign=top style="width:300px; padding-top:5px;"><br /><b>Periode</b><br /><br />År:
+	<td valign=top style="width:300px; padding-top:5px;"><br /><b><%=weekreal_txt_007 %></b><br /><br /><%=weekreal_txt_008 %>:
         <select id="Select2" name="yuse">
         <%
 	ysel = now
@@ -567,7 +567,7 @@ if len(session("user")) = 0 then
             
         </select>
         <br /><br />
-        Måned:<br />
+        <%=weekreal_txt_009 %>:<br />
         <select id="Select3" name="muse" size=5 style="width:200px;">
         
             <%for m = 1 to 12 
@@ -582,20 +582,20 @@ if len(session("user")) = 0 then
             <option value="<%=m %>" <%=mSele %>><%=monthname(m) %></option>
             <%next %>
 
-             <option value="13" <%=mSele13 %>>1. kvartal</option>
-            <option value="14" <%=mSele14 %>>2. kvartal</option>
-            <option value="15" <%=mSele15 %>>3. kvartal</option>
-            <option value="16" <%=mSele16 %>>4. kvartal</option>
-            <option value="17" <%=mSele17 %>>ÅTD</option>
+             <option value="13" <%=mSele13 %>><%=weekreal_txt_010 %></option>
+            <option value="14" <%=mSele14 %>><%=weekreal_txt_011 %></option>
+            <option value="15" <%=mSele15 %>><%=weekreal_txt_012 %></option>
+            <option value="16" <%=mSele16 %>><%=weekreal_txt_013 %></option>
+            <option value="17" <%=mSele17 %>><%=weekreal_txt_014 %></option>
 
         </select>
         <br /><br />
-        <input type="checkbox" id="FM_eksporter_direkte" name="FM_eksporter_direkte" value="1" />Eksporter direkte til excel (hurtigere load) 
+        <input type="checkbox" id="FM_eksporter_direkte" name="FM_eksporter_direkte" value="1" /><%=weekreal_txt_015 %> 
           <br /><br />
        
 
       
-        <span id="sp_filterava" style="color:#5582d2;">[+] <b>Filter:</b> </span>(avanceret)<br />
+        <span id="sp_filterava" style="color:#5582d2;">[+] <b><%=weekreal_txt_016 %>:</b> </span>(<%=weekreal_txt_017 %>)<br />
 
 
    
@@ -605,34 +605,34 @@ if len(session("user")) = 0 then
         <div id="div_filterava" style="display:none; visibility:hidden;">
         <table style="padding:10px;">
 
-            <tr><td><br /><b>Opdel norm på</b><br />
+            <tr><td><br /><b><%=weekreal_txt_018 %></b><br />
         
         
 
-        Hele måneder <input type="radio" name="FM_md_week" value="1" <%=opdelNormMDWeekChk1 %> /><br />Hele uger<input type="radio" name="FM_md_week" value="0" <%=opdelNormMDWeekChk0 %> />  <br /><br />&nbsp;</td></tr>
+        <%=weekreal_txt_019 %> <input type="radio" name="FM_md_week" value="1" <%=opdelNormMDWeekChk1 %> /><br /><%=weekreal_txt_020 %><input type="radio" name="FM_md_week" value="0" <%=opdelNormMDWeekChk0 %> />  <br /><br />&nbsp;</td></tr>
 
         <tr><td>
-        <input id="Checkbox1" name="FM_useSogKri" value="1" type="checkbox" <%=skCHK %> />Vis kun uger/måneder med 
+        <input id="Checkbox1" name="FM_useSogKri" value="1" type="checkbox" <%=skCHK %> /><%=weekreal_txt_021 %> 
         <select id="Select4" name="FM_moreorless">
             
-            <option value="0" <%=mlSEL0 %>>mere</option>
-            <option value="1" <%=mlSEL1 %>>mindre</option>
-        </select> end 
-        <input id="Text1" type="text" name="FM_timekri" value="<%=timeKri %>" style="width:30px;" /> time(r)
+            <option value="0" <%=mlSEL0 %>><%=weekreal_txt_022 %></option>
+            <option value="1" <%=mlSEL1 %>><%=weekreal_txt_023 %></option>
+        </select> <%=weekreal_txt_024 %> 
+        <input id="Text1" type="text" name="FM_timekri" value="<%=timeKri %>" style="width:30px;" /> <%=weekreal_txt_025 %>
                 </td></tr><tr><td>
-        på deres 
+        <%=weekreal_txt_026 %> 
          <select id="Select5" name="FM_saldokri">
-            <option value="0" <%=slSEL0%>>Fleks (realiseret / normeret)</option>
-            <option value="1" <%=slSEL1%>>Fleks (komme/gå / normeret)</option>
-            <option value="2" <%=slSEL2%>>Balance (realiseret / komme/gå)</option> 
+            <option value="0" <%=slSEL0%>><%=weekreal_txt_027 %></option>
+            <option value="1" <%=slSEL1%>><%=weekreal_txt_028 %></option>
+            <option value="2" <%=slSEL2%>><%=weekreal_txt_029 %></option> 
             
-        </select> pr. uge
+        </select> <%=weekreal_txt_030 %>
         </td></tr>
             </tr><td>
 	    
                 <br />
-          <input id="Checkbox2" name="FM_useSogKriAfs" value="1" type="checkbox" <%=skCHKafs %> />Vis kun ikke afsluttede uger/måneder<br />
-          <input id="Checkbox3" name="FM_useSogKriGk" value="1" type="checkbox" <%=skCHKgk %> />Vis kun ikke godkendte uger/måneder<br />
+          <input id="Checkbox2" name="FM_useSogKriAfs" value="1" type="checkbox" <%=skCHKafs %> /><%=weekreal_txt_031 %><br />
+          <input id="Checkbox3" name="FM_useSogKriGk" value="1" type="checkbox" <%=skCHKgk %> /><%=weekreal_txt_032 %><br />
         
        </td></tr>         
                 </table>
@@ -641,7 +641,7 @@ if len(session("user")) = 0 then
 	</tr>
     <tr>
         <td valign="bottom" align=right colspan=3>
-	     <input id="Submit1" type="submit" value=" Vis afstemning >> " />
+	     <input id="Submit1" type="submit" value=" <%=weekreal_txt_033 %> >> " />
 	</td>
 	</tr>
 	
@@ -784,7 +784,7 @@ if len(session("user")) = 0 then
 	<h4><%=monthname(month(startMd))%> - <%=monthname(month(endMd)) &" "& year(endMd) %><br />
     <%end if %>
 
-    <span style="color:darkred; font-size:9px;">Opgjort pr. <b><%=formatdatetime(opgjortprdato, 1) %></b> <%=showigartxt %></span></h4>
+    <span style="color:darkred; font-size:9px;"><%=weekreal_txt_034 %> <b><%=formatdatetime(opgjortprdato, 1) %></b> <%=showigartxt %></span></h4>
 	
     </td></tr></table>
     
@@ -795,7 +795,7 @@ if len(session("user")) = 0 then
     <%
     
     	
-	strEksportTxt = "Medarbejder;Mnr;Initialer;Projektgrupper/afd.;År;Måned;Uge;"& tsa_txt_173 & " (hh:mm); "& tsa_txt_173 & " (100 digit);"
+	strEksportTxt = ""& weekreal_txt_113 &""& weekreal_txt_114 &";"& weekreal_txt_115 &";"& weekreal_txt_116 &"/"& weekreal_txt_117 &";"& weekreal_txt_118 &";"& weekreal_txt_119 &";"& weekreal_txt_120 &";"& tsa_txt_173 & " ("& weekreal_txt_122 &"); "& tsa_txt_173 & " ("& weekreal_txt_123 &");"
 	    
 
 	
@@ -803,14 +803,14 @@ if len(session("user")) = 0 then
 	
 	if session("stempelur") <> 0 then
         
-        strEksportTxt = strEksportTxt & "Komme/Gå (løntimer, hh:mm); Komme/Gå (100 digit);"
+        strEksportTxt = strEksportTxt & ""& weekreal_txt_035 &"; "& weekreal_txt_036 &";"
 
         if showkgtil = 1 then
-	    strEksportTxt = strEksportTxt & "Tillæg +/-;Komme/Gå tid Sum;" 
+	    strEksportTxt = strEksportTxt & ""& weekreal_txt_037 &" +/-;"& weekreal_txt_038 &";" 
         end if
 	
-      strEksportTxt = strEksportTxt & tsa_txt_284 & "+/- (Komme-Gå/Norm. hh:mm); +/- (Komme-Gå/Norm. 100 digit);"
-      strEksportTxt = strEksportTxt & tsa_txt_284 & "+/- Akkumuleret (Komme-Gå/Norm. hh:mm);+/- Akkumuleret (Komme-Gå/Norm. 100 digit);"
+      strEksportTxt = strEksportTxt & tsa_txt_284 & "+/- ("& weekreal_txt_039 &"); +/- ("& weekreal_txt_040 &");"
+      strEksportTxt = strEksportTxt & tsa_txt_284 & "+/- "& weekreal_txt_041 &";+/- "& weekreal_txt_042 &";"
     
     end if
         
@@ -819,14 +819,14 @@ if len(session("user")) = 0 then
         strEksportTxt = strEksportTxt  & tsa_txt_172 & ";"
 
     	if lto <> "cst" AND lto <> "kejd_pb" AND lto <> "tec" AND lto <> "esn" then
-	    strEksportTxt = strEksportTxt & "Heraf fakturerbare timer;"
+	    strEksportTxt = strEksportTxt & ""& weekreal_txt_043 &";"
 	    
         if cint(showkgtil) = 1 then 
-        strEksportTxt = strEksportTxt  &"Korrektion Realiseret;"
+        strEksportTxt = strEksportTxt  &""& weekreal_txt_044 &";"
         end if
 
-          strEksportTxt = strEksportTxt & tsa_txt_284 & " +/- (Real. / Norm.);"
-            strEksportTxt = strEksportTxt & tsa_txt_284 & " +/- Akkumuleret (Real. / Norm.);"
+          strEksportTxt = strEksportTxt & tsa_txt_284 & " +/- ("& weekreal_txt_045 &");"
+            strEksportTxt = strEksportTxt & tsa_txt_284 & " +/- "& weekreal_txt_046 &";"
         
         end if
 	    
@@ -837,7 +837,7 @@ if len(session("user")) = 0 then
 	      
 	
 	         if lto <> "cst" AND lto <> "kejd_pb" AND lto <> "tec" AND lto <> "esn" then
-	        strEksportTxt = strEksportTxt & tsa_txt_284 & " (Real. / Lønt.);"
+	        strEksportTxt = strEksportTxt & tsa_txt_284 & " ("& weekreal_txt_124 &");"
 	        end if
 	end if
 	
@@ -853,7 +853,7 @@ if len(session("user")) = 0 then
 
 	                if lto <> "fk" AND lto <> "kejd_pb" AND lto <> "adra" AND lto <> "cisu" then
                         if lto <> "tec" AND lto <> "esn" then
-                        strEksportTxt = strEksportTxt & "Udbetalt;Ønsk. Udbe.;"
+                        strEksportTxt = strEksportTxt & ""& weekreal_txt_047 &";"& weekreal_txt_048 &";"
                         end if
                         strEksportTxt = strEksportTxt & tsa_txt_283 &" "& tsa_txt_280 & ";"
                     end if
@@ -880,17 +880,17 @@ if len(session("user")) = 0 then
 
     select case lto
     case "tec", "esn"
-    ferieFriTxt = "Særligferie"
+    ferieFriTxt = ""& weekreal_txt_049 &""
     case else 
-    ferieFriTxt = "Feriefridage Afholdt"
+    ferieFriTxt = ""& weekreal_txt_050 &""
     end select
 	
 
-    strEksportTxt = strEksportTxt & "Ferie Afholdt;Ferie Afholdt u. løn;"& ferieFriTxt &";"
+    strEksportTxt = strEksportTxt & ""& weekreal_txt_051 &";"& weekreal_txt_052 &";"& ferieFriTxt &";"
 
          select case lto
                 case "xintranet - local", "fk" 
-                 strEksportTxt = strEksportTxt &"1 maj timer;"
+                 strEksportTxt = strEksportTxt &""& weekreal_txt_053 &";"
                 end select
                 
                
@@ -898,25 +898,25 @@ if len(session("user")) = 0 then
 
                 select case lto
                 case "xintranet - local", "fk", "kejd_pb", "adra" 
-                 strEksportTxt = strEksportTxt &"Omsorgsdage ~ dage;"
+                 strEksportTxt = strEksportTxt &""& weekreal_txt_054 &" ~ "& weekreal_txt_055 &";"
                 end select
     
             
 
                     select case lto
                 case "xintranet - local", "fk", "kejd_pb"
-                 strEksportTxt = strEksportTxt &"Tjenestefri ~ timer;"
+                 strEksportTxt = strEksportTxt &""& weekreal_txt_056 &" ~ "& weekreal_txt_057 &";"
                 end select
 
                 select case lto
                 case "xintranet - local", "fk", "kejd_pb" 
-                 strEksportTxt = strEksportTxt &"Barsel/Orlov ~ dage;"
+                 strEksportTxt = strEksportTxt &""& weekreal_txt_058 &" ~ "& weekreal_txt_055 &";"
                 end select
                 
 
                  select case lto
                 case "xxintranet - local", "fk" 
-                 strEksportTxt = strEksportTxt &"Læge ~ timer;"
+                 strEksportTxt = strEksportTxt &""& weekreal_txt_060 &" ~ "& weekreal_txt_057 &";"
                 end select
 
                 
@@ -929,16 +929,16 @@ if len(session("user")) = 0 then
 
                '*** KUN ADMIN, HVIS DU ER TEAMLEDER (temaledere kan kun se denne side for de medarb. de er teamledere for, hvis ikke level = 1. TeamlederKri er tjekket i toppen) 
                if session("rettigheder") <= 2 OR session("rettigheder") = 6 OR (session("mid") = usemrn) then
-               strEksportTxt = strEksportTxt & "Syg ~ dage;"
+               strEksportTxt = strEksportTxt & ""& weekreal_txt_061 &" ~ "& weekreal_txt_055 &";"
                end if
 
                if session("rettigheder") <= 2 OR session("rettigheder") = 6 OR (session("mid") = usemrn) then
-               strEksportTxt = strEksportTxt & "Barn syg ~ dage;"
+               strEksportTxt = strEksportTxt & ""& weekreal_txt_062 &" ~ "& weekreal_txt_055 &""
                end if
 
                
 
-                strEksportTxt = strEksportTxt & "Afsluttet;Godkendt, 0:Afventer, 1:Godkendt, 2:Afvist"
+                strEksportTxt = strEksportTxt & ""& weekreal_txt_063 &";"& weekreal_txt_064 &", 0:"& weekreal_txt_065 &", 1:"& weekreal_txt_066 &", 2:"& weekreal_txt_067 &""
     
     
     '******************************************************************************
@@ -948,7 +948,7 @@ if len(session("user")) = 0 then
           if func = "export" then
        
 	     %><div style="position:absolute; left:40px; top:220px; width:800px; z-index:-1;">
-         <b>Henter data for medarbejder:</b>
+         <b><%=weekreal_txt_068 %> </b>
           <%
          end if
 
@@ -1006,22 +1006,22 @@ if len(session("user")) = 0 then
     <br /><br />
 	<h4><%=meNavn & " ["& meInit &"]"%></h4>
     <table cellspacing=0 cellpadding=<%=tpd %> border=0 width="100%"><tr>
-    <td valign=bottom style="border-bottom:1px silver solid;" class=lille><b>Uge</b> - dato</td>
+    <td valign=bottom style="border-bottom:1px silver solid;" class=lille><b><%=weekreal_txt_069 %></b> - <%=weekreal_txt_070 %></td>
 	
 	    <td align=right valign=bottom class=lille style="border-bottom:1px silver solid;"><b><%=tsa_txt_173%></b></td>
 
           <%if session("stempelur") <> 0 then %> 
-       <td align=right valign=bottom class=lille style="border-bottom:1px silver solid;"><b>Komme / Gå tid</b><br />(løntimer)</td>
+       <td align=right valign=bottom class=lille style="border-bottom:1px silver solid;"><b><%=weekreal_txt_071 %></b><br />(<%=weekreal_txt_072 %>)</td>
 
 	  <%if showkgtil = 1 then %>
-	 <td align=right valign=bottom class=lille style="border-bottom:1px silver solid;"><b>Tillæg +/-</b><br />Ferie, <br />sygdom, <br />korrektion<br /> etc. indberettet</td>
-	 <td align=right valign=bottom class=lille style="border-bottom:1px silver solid;"><b>= Sum</b><br />Komme/gå tid<br /> + tillæg</td>
+	 <td align=right valign=bottom class=lille style="border-bottom:1px silver solid;"><b><%=weekreal_txt_073 %> +/-</b><br /><%=weekreal_txt_074 %>, <br /><%=weekreal_txt_075 %>, <br /><%=weekreal_txt_076 %><br /> <%=weekreal_txt_077 %></td>
+	 <td align=right valign=bottom class=lille style="border-bottom:1px silver solid;"><b>= <%=weekreal_txt_078 %></b><br /><%=weekreal_txt_079 %><br /> + <%=weekreal_txt_080 %></td>
      <%end if %>
 	 
     
     <%if lto <> "kejd_pb" then %>
-	 <td align=right valign=bottom class=lille style="border:1px #DCF5BD solid; border-bottom:1px silver solid;"><b><%=tsa_txt_284%> +/-</b><br />Komme/gå tid<br /> / Normtid</td>
-     <td bgcolor="#DCF5BD" valign=bottom class=lille style="border:0px silver solid; border-bottom:1px silver solid; white-space:nowrap;"><b><%=tsa_txt_284%> +/-<br / >Akkumuleret</b><br />Komme/gå tid<br /> / Normtid</td>
+	 <td align=right valign=bottom class=lille style="border:1px #DCF5BD solid; border-bottom:1px silver solid;"><b><%=tsa_txt_284%> +/-</b><br /><%=weekreal_txt_068 %><br /> / <%=weekreal_txt_081 %></td>
+     <td bgcolor="#DCF5BD" valign=bottom class=lille style="border:0px silver solid; border-bottom:1px silver solid; white-space:nowrap;"><b><%=tsa_txt_284%> +/-<br / ><%=weekreal_txt_082 %></b><br /><%=weekreal_txt_079 %><br /> / <%=weekreal_txt_081 %></td>
 	 <%end if %>
 	 
 	 <%end if %>
@@ -1032,23 +1032,23 @@ if len(session("user")) = 0 then
        <%select case lto 
        case "kejd_pb"
        %>
-       <b>Timer</b><br /> indberettet<br /> på aktiviteter
+       <b><%=weekreal_txt_083 %></b><br /> <%=weekreal_txt_084 %><br /> <%=weekreal_txt_085 %>
        <%
        case else
        %>
-       <b>Timer<br /> realiseret</b>
-      <br />(indberettet på aktivit.)
+       <b><%=weekreal_txt_083 %><br /> <%=weekreal_txt_086 %></b>
+      <br />(<%=weekreal_txt_087 %>)
        <%
        end select %>
       
       </td>
 	  <%if lto <> "cst" AND lto <> "kejd_pb" AND lto <> "tec" AND lto <> "esn" then %>
-	 <td class=lille align=right valign=bottom style="border-bottom:1px silver solid;">(heraf<br />fak.bare)</td>
+	 <td class=lille align=right valign=bottom style="border-bottom:1px silver solid;">(<%=weekreal_txt_088 %><br /><%=weekreal_txt_089 %>)</td>
     <%end if %>
 
 
       <%if cint(showkgtil) = 1 AND (lto <> "cst" AND lto <> "tec" AND lto <> "esn") then %>
-	    <td class=lille valign=bottom style="border-bottom:1px silver solid;"><b>Korrektion</b><br />(overført saldo fra<br /> senest afsluttet<br /> løn-periode)</td>
+	    <td class=lille valign=bottom style="border-bottom:1px silver solid;"><b><%=weekreal_txt_090 %></b><br />(<%=weekreal_txt_091 %><br /> <%=weekreal_txt_092 %><br /> <%=weekreal_txt_093 %>)</td>
         <%end if %>
 	
 
@@ -1057,27 +1057,27 @@ if len(session("user")) = 0 then
 
            <%select case lto
            case "kejd_pb"%>
-          <br /> Indberettet <br />/ Normeret
+          <br /> <%=weekreal_txt_094 %> <br />/ <%=weekreal_txt_095 %>
             <%case else %>  
-          <br />Realiseret<br /> / Normeret
+          <br /><%=weekreal_txt_096 %><br /> / <%=weekreal_txt_095 %>
 	        <%end select %>
 
 
 	  </td>
-       <td valign=bottom class=lille bgcolor="pink" style="border:0px pink solid; border-bottom:1px silver solid; white-space:nowrap;"><b><%=tsa_txt_284%> +/- <br / >Akkumuleret</b>
+       <td valign=bottom class=lille bgcolor="pink" style="border:0px pink solid; border-bottom:1px silver solid; white-space:nowrap;"><b><%=tsa_txt_284%> +/- <br / ><%=weekreal_txt_082 %></b>
 
             <%select case lto
            case "kejd_pb"%>
-          <br /> Indberettet <br />/ Normeret
+          <br /> <%=weekreal_txt_097 %> <br />/ <%=weekreal_txt_095 %>
             <%case else %>  
-          <br />Realiseret<br /> / Normeret
+          <br /><%=weekreal_txt_096 %><br /> / <%=weekreal_txt_095 %>
 	        <%end select %>
 
        </td>
         <%end if %>
 
 	        <%if session("stempelur") <> 0 AND (lto <> "kejd_pb" AND lto <> "cst" AND lto <> "tec" AND lto <> "esn") then %>
-	        <td align=right valign=bottom class=lille style="border-bottom:1px silver solid;"><b>Balance +/-</b><br />Realiseret<br />/ Komme/gå tid</td>
+	        <td align=right valign=bottom class=lille style="border-bottom:1px silver solid;"><b><%=weekreal_txt_098 %> +/-</b><br /><%=weekreal_txt_096 %><br />/ <%=weekreal_txt_079 %></td>
             <%end if %>
 
 	  <%  if m = 0 then
@@ -1092,15 +1092,15 @@ if len(session("user")) = 0 then
 	                   <%if instr(akttype_sel, "#30#") <> 0 OR instr(akttype_sel, "#31#") <> 0 then %>
 
                 <%if lto <> "fk" AND lto <> "kejd_pb" AND lto <> "adra" AND lto <> "cisu" then %>
-	             <td align=right valign=bottom class=lille style="border-bottom:1px silver solid;"><b><%=tsa_txt_283%><br /> <%=tsa_txt_164%></b><br />(enh.)</td>
+	             <td align=right valign=bottom class=lille style="border-bottom:1px silver solid;"><b><%=tsa_txt_283%><br /> <%=tsa_txt_164%></b><br />(<%=weekreal_txt_099 %>)</td>
                 <%end if %>
-	                      <td align=right valign=bottom style="border-bottom:1px silver solid; white-space:nowrap;" class=lille><b>Afspads.</b></td>
+	                      <td align=right valign=bottom style="border-bottom:1px silver solid; white-space:nowrap;" class=lille><b><%=weekreal_txt_100 %></b></td>
                            
                            <%if lto <> "fk" AND lto <> "kejd_pb" AND lto <> "adra" AND lto <> "cisu" then 
                                
                                if lto <> "tec" AND lto <> "esn" then%>
-	                               <td valign=bottom style="border-bottom:1px silver solid;" class=lille><b>Udbetalt</b></td>
-	                               <td valign=bottom style="border-bottom:1px silver solid;" class=lille><b>Ønsk. Udbe.</b></td>
+	                               <td valign=bottom style="border-bottom:1px silver solid;" class=lille><b><%=weekreal_txt_101 %></b></td>
+	                               <td valign=bottom style="border-bottom:1px silver solid;" class=lille><b><%=weekreal_txt_102 %></b></td>
 	                            <%end if %>
                            <td valign=bottom style="border-bottom:1px silver solid;" class=lille><b><%=tsa_txt_283 &" "& tsa_txt_280 %></b></td>
                            <%end if %>
@@ -1136,11 +1136,11 @@ if len(session("user")) = 0 then
        case "tec", "esn", "intranet - local"
                      %>
                      <td valign=bottom style="border-bottom:1px silver solid; width:50px;" class=lille><b><%=global_txt_172 %></b><br />
-	                ~ dage</td>
+	                ~ <%=weekreal_txt_055 %></td>
                      <td valign=bottom style="border-bottom:1px silver solid; width:50px;" class=lille><b><%=global_txt_148 %></b><br />
-	                ~ timer</td>
+	                ~ <%=weekreal_txt_057 %></td>
                      <td valign=bottom style="border-bottom:1px silver solid; width:50px;" class=lille><b><%=global_txt_179 %></b><br />
-	                ~ timer</td>
+	                ~ <%=weekreal_txt_057 %></td>
                     <%
 
 
@@ -1153,11 +1153,11 @@ if len(session("user")) = 0 then
 
              %>
 
-     <td valign=bottom style="border-bottom:1px silver solid;" class=lille><b>Ferie afholdt</b><br />
-	 ~ dage</td>
+     <td valign=bottom style="border-bottom:1px silver solid;" class=lille><b><%=weekreal_txt_103 %></b><br />
+	 ~ <%=weekreal_txt_055 %></td>
 
-          <td valign=bottom style="border-bottom:1px silver solid;" class=lille><b>Ferie afholdt u. løn</b><br />
-	 ~ dage</td>
+          <td valign=bottom style="border-bottom:1px silver solid;" class=lille><b><%=weekreal_txt_104 %></b><br />
+	 ~ <%=weekreal_txt_055 %></td>
 
 
       
@@ -1167,19 +1167,19 @@ if len(session("user")) = 0 then
       
     select case lto
     case "tec", "esn"
-    ferieFriTxt = "Særligferie"
+    ferieFriTxt = weekreal_txt_049
     case else 
-    ferieFriTxt = "Feriefridage afholdt"
+    ferieFriTxt = weekreal_txt_050
     end select %>
     
       <td valign=bottom style="border-bottom:1px silver solid;" class=lille><b><%=ferieFriTxt %></b><br />
-	 ~ dage<br />
+	 ~ <%=weekreal_txt_055 %><br />
      <% 
     select case lto
     case "tec", "esn"
     
     case else 
-    %>(Incl. udbetalt)<%
+    %>(<%=weekreal_txt_105 %>)<%
     end select %>
      
 
@@ -1193,7 +1193,7 @@ if len(session("user")) = 0 then
 
           <%select case lto
             case "xintranet - local", "fk" %>
-         <td valign=bottom style="border-bottom:1px silver solid;" class=lille><b>1 Maj timer</b></td>
+         <td valign=bottom style="border-bottom:1px silver solid;" class=lille><b><%=weekreal_txt_053 %></b></td>
 
          <%
               if m = 0 then
@@ -1217,8 +1217,8 @@ if len(session("user")) = 0 then
              
              select case lto
             case "xintranet - local", "fk", "kejd_pb", "adra" %>
-        <td valign=bottom style="border-bottom:1px silver solid;" class=lille><b>Omsorgs<br />dage</b><br />
-	 ~ dage<br />
+        <td valign=bottom style="border-bottom:1px silver solid;" class=lille><b><%=weekreal_txt_107 %><br /><%=weekreal_txt_055 %></b><br />
+	 ~ <%=weekreal_txt_055 %><br />
      </td>
     <%      
 
@@ -1231,7 +1231,7 @@ if len(session("user")) = 0 then
           select case lto
             case "xintranet - local", "fk", "kejd_pb" %>
         <td valign=bottom style="border-bottom:1px silver solid;" class=lille><b><%=global_txt_179 %></b><br />
-	 ~ timer<br />
+	 ~ <%=weekreal_txt_057 %><br />
      </td>
     <%      
 
@@ -1246,8 +1246,8 @@ if len(session("user")) = 0 then
           select case lto
             case "xintranet - local", "fk", "kejd_pb" 
              globalWdt = globalWdt + 50%>
-        <td valign=bottom style="border-bottom:1px silver solid;" class=lille><b>Barsel/Orlov</b><br />
-	 ~ dage<br />
+        <td valign=bottom style="border-bottom:1px silver solid;" class=lille><b><%=weekreal_txt_058 %></b><br />
+	 ~ <%=weekreal_txt_055 %><br />
      </td>
    
     <%
@@ -1262,8 +1262,8 @@ if len(session("user")) = 0 then
             case "xxintranet - local", "fk" 
              globalWdt = globalWdt + 50%>
        
-        <td valign=bottom style="border-bottom:1px silver solid;" class=lille><b>Læge</b><br />
-	 ~ timer<br />
+        <td valign=bottom style="border-bottom:1px silver solid;" class=lille><b><%=weekreal_txt_060 %></b><br />
+	 ~ <%=weekreal_txt_057 %><br />
      </td>
     <%
     
@@ -1273,8 +1273,8 @@ if len(session("user")) = 0 then
 
     	 
 	  <%if level <= 2 OR level = 6 OR (session("mid") = usemrn) then %>
-	 <td valign=bottom style="border-bottom:1px silver solid;" class=lille><b>Syg</b><br />~ dage</td>
-         <td valign=bottom style="border-bottom:1px silver solid;" class=lille><b>Barn syg</b><br />~ dage</td>
+	 <td valign=bottom style="border-bottom:1px silver solid;" class=lille><b><%=weekreal_txt_061 %></b><br />~ <%=weekreal_txt_055 %></td>
+         <td valign=bottom style="border-bottom:1px silver solid;" class=lille><b><%=weekreal_txt_062 %></b><br />~ <%=weekreal_txt_055 %></td>
 	 <%
                  if m = 0 then
                  globalWdt = globalWdt + 100
@@ -1285,14 +1285,14 @@ if len(session("user")) = 0 then
          
          select case lto
          case "tec", "esn"
-         gkTxt = "lukket"
+         gkTxt = weekreal_txt_108
          case else
-         gkTxt = "godkendt"
+         gkTxt = weekreal_txt_109
          end select%>
 	 
 
 
-	    <td style="border-bottom:1px silver solid;" valign=bottom class=lille><b><%=peridoeTxt %> <br />afsluttet?</b></td>
+	    <td style="border-bottom:1px silver solid;" valign=bottom class=lille><b><%=peridoeTxt %> <br /><%=weekreal_txt_110 %></b></td>
         <td style="border-bottom:1px silver solid;" valign=bottom class=lille><b><%=peridoeTxt %><br /><%=gkTxt %>?</b></td>
     </tr>
     <%
@@ -1588,7 +1588,7 @@ call eksportogprint(ptop,pleft,pwdt)
     <td valign=top align=center>
    <input type=image src="../ill/export1.png" onclick="popUp('week_real_norm_2010.asp?func=export&muse=<%=mnow%>&yuse=<%=year(ugp) %>&FM_moreorless=<%=moreorless %>&FM_saldokri=<%=saldokri %>&FM_timekri=<%=timeKri %>&FM_medarb=<%=thisMiduse%>&FM_md_week=<%=useMDorWeek%>', 400, 200, 200, 100)" />
     </td>
-    <td class=lille><input id="Submit3" type="button" value="Eksportér til .csv >> " style="font-size:9px; width:130px;" onclick="popUp('week_real_norm_2010.asp?func=export&muse=<%=mnow%>&yuse=<%=year(ugp) %>&FM_moreorless=<%=moreorless %>&FM_saldokri=<%=saldokri %>&FM_timekri=<%=timeKri %>&FM_medarb=<%=thisMiduse%>&FM_md_week=<%=useMDorWeek%>', 400, 200, 200, 100)" /></td>
+    <td class=lille><input id="Submit3" type="button" value="<%=funk_txt_094 %> >>" style="font-size:9px; width:130px;" onclick="popUp('week_real_norm_2010.asp?func=export&muse=<%=mnow%>&yuse=<%=year(ugp) %>&FM_moreorless=<%=moreorless %>&FM_saldokri=<%=saldokri %>&FM_timekri=<%=timeKri %>&FM_medarb=<%=thisMiduse%>&FM_md_week=<%=useMDorWeek%>', 400, 200, 200, 100)" /></td>
 </tr>
 </form>
 <!--
@@ -1606,7 +1606,7 @@ call eksportogprint(ptop,pleft,pwdt)
 
     <td valign=top align=center>
    <input type=image src="../ill/printer3.png"/>
-    </td><td class=lille><input id="Submit6" type="submit" value="Print venlig" style="font-size:9px; width:130px;" /></td>
+    </td><td class=lille><input id="Submit6" type="submit" value="<%=funk_txt_095 %>" style="font-size:9px; width:130px;" /></td>
 </tr>
 </form>
 <!--
@@ -1703,7 +1703,7 @@ call eksportogprint(ptop,pleft,pwdt)
 	            </tr>
 	            <tr>
 	            <td valign=top bgcolor="#ffffff" style="padding:5px 5px 5px 15px;">
-	            <a href="../inc/log/data/<%=file%>" class=vmenu target="_blank" onClick="Javascript:window.close()">Din CSV. fil er klar >></a>
+	            <a href="../inc/log/data/<%=file%>" class=vmenu target="_blank" onClick="Javascript:window.close()"><%=weekreal_txt_111 %> >></a>
 	            </td></tr>
 	            </table>
                 <%

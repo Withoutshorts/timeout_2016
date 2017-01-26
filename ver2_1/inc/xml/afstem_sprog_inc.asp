@@ -189,6 +189,18 @@ Set oNodes_afstem = objXmlDom_afstem.documentElement.selectNodes(sXPathQuery_afs
    afstem_txt_099 = oNode_afstem.selectSingleNode("txt_99").Text
    afstem_txt_100 = oNode_afstem.selectSingleNode("txt_100").Text
    afstem_txt_101 = oNode_afstem.selectSingleNode("txt_101").Text
+   afstem_txt_102 = oNode_afstem.selectSingleNode("txt_102").Text
+   afstem_txt_103 = oNode_afstem.selectSingleNode("txt_103").Text
+   afstem_txt_104 = oNode_afstem.selectSingleNode("txt_104").Text
+   afstem_txt_105 = oNode_afstem.selectSingleNode("txt_105").Text
+   afstem_txt_106 = oNode_afstem.selectSingleNode("txt_106").Text
+   afstem_txt_107 = oNode_afstem.selectSingleNode("txt_107").Text
+   afstem_txt_108 = oNode_afstem.selectSingleNode("txt_108").Text
+   afstem_txt_109 = oNode_afstem.selectSingleNode("txt_109").Text
+   afstem_txt_110 = oNode_afstem.selectSingleNode("txt_110").Text
+   afstem_txt_111 = oNode_afstem.selectSingleNode("txt_111").Text
+   afstem_txt_112 = oNode_afstem.selectSingleNode("txt_112").Text
+   afstem_txt_113 = oNode_afstem.selectSingleNode("txt_113").Text
           
     next
 

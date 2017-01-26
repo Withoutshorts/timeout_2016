@@ -297,8 +297,8 @@ case "FN_getKpers"
                             wend
                             oRec.close
                            
-                            if m = 0 then%>
-	                        <tr><td colspan=9><br />(<%=erp_txt_305 %>)</td></tr>
+                            if m = 0 then %>
+	                        <tr><td colspan=9><br />(No Materials were found in the choosen interval.)</td></tr>
 	                        <%end if  %>
                                 
                              <input id="jq_matbeltot" value="<%=matSubTotalAll %>" type="hidden" />
@@ -752,7 +752,7 @@ end if
            
             else
 
-                sogKri = "Søg.." 'mangler
+                sogKri = erp_txt_488
                 kSQLkri = "AND kid <> 0"   
                
                
@@ -864,7 +864,7 @@ end if
                                 sletTop = 355
                                 sletLft = 0
 
-                                call erpslet
+                                call erpslet  
                 
                             case "sletja"
 

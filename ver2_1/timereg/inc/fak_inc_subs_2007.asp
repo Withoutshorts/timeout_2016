@@ -41,7 +41,7 @@ end select
 		oRec.close%>
 		
 		</select>
-		&nbsp;<input id="setAll" type="button" value=" Opdater >> " style="font-size:9px;" onClick=<%=jfunc%> />
+		&nbsp;<input id="setAll" type="button" value=" <%=erp_txt_499 %> >> " style="font-size:9px;" onClick=<%=jfunc%> />
 		
 		<%if func = "red" then %><br />
 		Kurs gemt på faktura: <b><%=kurs %></b> - Aktuel kurs: <%=aktuelKurs %>
@@ -2253,8 +2253,8 @@ public venter_ultimo
   
      <div id="knap_godkend" style="position:absolute; visibility:visible; display:; top:46px; width:125px; left:580px; border:1px #6CAE1C solid; padding:3px 5px 10px 5px; background-color:#DCF5BD;">
          <table cellspacing=0 cellpadding=0 border=0 width=100%><tr>
-                        <td class=lille>Se din faktura her:<br /> 
-                            <input id="Submit1" type="submit" value="Opret & Se fakt." />
+                        <td class=lille><%=erp_txt_463 %>:<br /> 
+                            <input id="Submit1" type="submit" value="<%=erp_txt_464 %>" />
                         </td>
                        </tr></table>
 	</div>
@@ -2267,18 +2267,18 @@ public venter_ultimo
    %>
    <td>
     &nbsp;</td>
-    <td class=lille>Vis</td>
-    <td class=lille>Navn</td>
-    <td class=lille>Varenr</td>
-    <td class=lille>Aktivtet/fase</td>
-    <td class=lille>Antal</td>
-    <td class=lille>Pris pr. stk.</td>
-    <td class=lille>Valuta</td>
-    <td class=lille>Enhed</td>
-    <td class=lille>Rabat</td>
-    <td class=lille>Momsfri</td>
-    <td class=lille align=right>Pris ialt&nbsp;</td>
-    <td class=lille>Valuta</td>
+    <td class=lille><%=erp_txt_465 %></td>
+    <td class=lille><%=erp_txt_466 %></td>
+    <td class=lille><%=erp_txt_467 %></td>
+    <td class=lille><%=erp_txt_468 %></td>
+    <td class=lille><%=erp_txt_469 %></td>
+    <td class=lille><%=erp_txt_470 %></td>
+    <td class=lille><%=erp_txt_471 %></td>
+    <td class=lille><%=erp_txt_472 %></td>
+    <td class=lille><%=erp_txt_473 %></td>
+    <td class=lille><%=erp_txt_474 %></td>
+    <td class=lille align=right><%=erp_txt_475 %>&nbsp;</td>
+    <td class=lille><%=erp_txt_476 %></td>
    <%
    end sub
    
@@ -2293,14 +2293,14 @@ public venter_ultimo
     <table width=100% border=0 cellspacing=0 cellpadding=0 bgcolor="#FFFFFF">
 	<tr>
 	    <td colspan=2 style="padding:10px 5px 2px 10px;">
-            <h4>Funktioner</h4>
-	        <b>Fakturerings valuta på faktura</b><br />
+            <h4><%=erp_txt_477 %></h4>
+	        <b><%=erp_txt_478 %></b><br />
 	        <%call selectAllValuta(2, jftp) %>
 	   </td>
 	</tr>
 	<tr>
 		<td colspan=2 style="padding:8px 5px 10px 10px;"> 
-		<b>Rabat</b> <span style="color:#999999; font-size:9px;">(ikke medarb. linier)</span><br />
+		<b><%=erp_txt_479 %></b> <span style="color:#999999; font-size:9px;">(<%=erp_txt_480 %>)</span><br />
 		
                                 <%
                                
@@ -2400,12 +2400,12 @@ public venter_ultimo
 	chke1 = "CHECKED"
 	end select%>
           
-		<br /><br /><b>Enheder</b> <span style="color:#999999; font-size:9px;">(Ikke Km. aktiviteter)</span><br />  
-		<input type="radio" name="FM_enheds_ang" id="FM_enheds_ang0" value="0" <%=chke1%> onclick="opd_akt_endhed('Pr. time','0')"> Timer<br />
-		<input type="radio" name="FM_enheds_ang" id="FM_enheds_ang1" value="1" <%=chke2%> onclick="opd_akt_endhed('Pr. stk.','1')"> Stk.<br />
-		<input type="radio" name="FM_enheds_ang" id="FM_enheds_ang2" value="2" <%=chke3%> onclick="opd_akt_endhed('Pr. enhed','2')"> Enheder<br />
-		<input type="radio" name="FM_enheds_ang" id="FM_enheds_ang3" value="3" <%=chke4%> onclick="opd_akt_endhed('Pr. km.','3')"> Km.<br />
-		<input type="radio" name="FM_enheds_ang" id="FM_enheds_ang-1" value="-1" <%=chke_1%> onclick="opd_akt_endhed('Ingen','-1')"> Ingen (Skjul)<br />
+		<br /><br /><b><%=erp_txt_483 %></b> <span style="color:#999999; font-size:9px;">(<%=erp_txt_507 %>)</span><br />  
+		<input type="radio" name="FM_enheds_ang" id="FM_enheds_ang0" value="0" <%=chke1%> onclick="opd_akt_endhed('Pr. time','0')"> <%=erp_txt_481 %><br />
+		<input type="radio" name="FM_enheds_ang" id="FM_enheds_ang1" value="1" <%=chke2%> onclick="opd_akt_endhed('Pr. stk.','1')"> <%=erp_txt_482 %><br />
+		<input type="radio" name="FM_enheds_ang" id="FM_enheds_ang2" value="2" <%=chke3%> onclick="opd_akt_endhed('Pr. enhed','2')"> <%=erp_txt_483 %><br />
+		<input type="radio" name="FM_enheds_ang" id="FM_enheds_ang3" value="3" <%=chke4%> onclick="opd_akt_endhed('Pr. km.','3')"> <%=erp_txt_484 %><br />
+		<input type="radio" name="FM_enheds_ang" id="FM_enheds_ang-1" value="-1" <%=chke_1%> onclick="opd_akt_endhed('Ingen','-1')"> <%=erp_txt_485 %><br />
 		
 		<!--
 		<br /><b>Vis antal som Timer ell. Faktor (Enheder)</b>:<br />
