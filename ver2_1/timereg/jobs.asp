@@ -3208,7 +3208,7 @@ if len(session("user")) = 0 then
                                            if instr(request.servervariables("LOCAL_ADDR"), "195.189.130.210") <> 0 then
                                            strBody = strBody &"<br><br><br>Gå til TimeOut her:<br>https://outzource.dk/"&lto&"/default.asp?tomobjid="&jobid
                                            else
-                                           strBody = strBody &"<br><br><br>Gå til TimeOut her:<br>https://timeout.cloud/"&lto&"/default.asp?tomobjid="&jobid
+                                           strBody = strBody &"<br><br><br>Gå til TimeOut hertest:<br>https://timeout.cloud/"&lto&"/default.asp?tomobjid="&jobid
                                            end if
                                     end if
                                     

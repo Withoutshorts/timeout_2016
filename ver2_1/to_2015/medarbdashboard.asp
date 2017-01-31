@@ -1260,15 +1260,12 @@
                          
 
                  </div>
-                       <div class="col-lg-1">&nbsp;</div>
-                      
-                      <div class="col-lg-4">
-                     <%=dsb_txt_011 %> (<%=formatnumber(medarbSelHoursFomrGT, 2) %> t.)
+                                           
+                         <div class="col-lg-5">
+                        <%=dsb_txt_011 %> (<%=formatnumber(medarbSelHoursFomrGT, 2) %> t.)
                              
-                    <div id="donut-chart" class="chart-holder" style="width: 95%;"></div>
-                    
-
-                 </div>
+                        <div id="donut-chart" class="chart-holder" style="width:95%"></div>
+                        </div>
 
                   </div><!-- END ROW -->
 

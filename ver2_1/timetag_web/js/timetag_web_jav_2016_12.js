@@ -40,27 +40,26 @@ function isNum_treg(passedVal) {
 
 
 
-$(document).ready(function() {
+$(document).ready(function () {
 
-
-   
+    thisfmjob = $("#FM_jobid").val();
+    thisJobid = $("#dv_job").val();
+    alert(thisfmjob + "test")
 
     mobil_week_reg_job_dd = $("#mobil_week_reg_job_dd").val()
 
     //alert("HER:" + mobil_week_reg_job_dd)
     if (mobil_week_reg_job_dd == "1") {
         sogjobogkunde();
-        
     }
 
 
     //Kun ved job = DD
     $("#dv_job").change(function () {
 
-       
         mobil_week_reg_job_dd = $("#mobil_week_reg_job_dd").val()
         mobil_week_reg_akt_dd = $("#mobil_week_reg_akt_dd").val()
-        //alert("søger: j:" + mobil_week_reg_job_dd + " a:" + mobil_week_reg_akt_dd)
+       // alert("søger: j:" + mobil_week_reg_job_dd + " a:" + mobil_week_reg_akt_dd)
 
         if (mobil_week_reg_job_dd == "1") {
 
@@ -378,8 +377,7 @@ $(document).ready(function() {
 
     $("#FM_job").keyup(function () {
 
-
-      
+        
         mobil_week_reg_job_dd = $("#mobil_week_reg_job_dd").val()
         mobil_week_reg_akt_dd = $("#mobil_week_reg_akt_dd").val()
 
@@ -414,10 +412,9 @@ $(document).ready(function() {
     
 
     $("#FM_akt").keyup(function () {
-
         $("#dv_job").hide();
         $("#dv_mat").hide();
-
+        
         sogakt();
 
     });
