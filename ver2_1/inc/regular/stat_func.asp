@@ -510,8 +510,11 @@ end function
 		strSQL = "SELECT jobnavn, jobnr, jobstatus, id, k.kkundenavn, k.kkundenr FROM job j "_
 		&" LEFT JOIN kunder k ON (k.kid = j.jobknr) "_
 		&" WHERE "& strKnrSQLkri &" "& kundeAnsSQLKri &" "& jobstKri &"  "& strJobAftSQL &" ORDER BY k.kkundenavn, j.jobnavn"
-		'Response.write strSQL
+		if session("mid") = 1 then
+        'Response.write strSQL
 		'Response.flush
+          
+        end if
 		%>
 		
 		
@@ -532,6 +535,7 @@ end function
 				oRec.open strSQL, oConn, 3
 				while not oRec.EOF
 
+               
 
                 if strFomr_reljobids <> "0" AND thisfile = "joblog_timetotaler" then
                 useForOmrKri = 1
@@ -558,7 +562,7 @@ end function
                 <%
                 end if
 
-				if cint(jobid) = cint(oRec("id")) then
+				if cdbl(jobid) = cdbl(oRec("id")) then
 				isSelected = "SELECTED"
 				else
 				isSelected = ""
@@ -585,13 +589,15 @@ end function
 
                 end if 'del af forretninsomr 
 
+               
+
 				oRec.movenext
 				wend
 				oRec.close
 				
 				
 				
-				if cint(jobid) = -1 then
+				if cdbl(jobid) = -1 then
 				jChk = "SELECTED"
 				else
 				jChk = ""
@@ -944,7 +950,7 @@ end function
 	jobKri = " mf.jobid = 0 "
 	
 	'Hvis der er valgt et job ==> Vælg et enkelt job
-	if cint(jobid) <> 0 then
+	if cdbl(jobid) <> 0 then
             
             '**Ignorer valgt status ved søg på jobnr **''
             'if len(trim(jobSogVal)) <> 0 then
@@ -1603,6 +1609,10 @@ end function
 			else
 			jobid = 0
 			end if
+
+            'if session("mid") = 1 then
+            '       Response.write "Jobid"& jobid &"="& request("FM_job") 
+            'end if
 			
 	end if
 	

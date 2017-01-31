@@ -121,7 +121,7 @@
             while not oRec.EOF
 
 
-            if cint(jobid) = oRec("id") then
+            if cdbl(jobid) = oRec("id") then
             jidSel = "SELECTED"
             else
             jidSel = ""

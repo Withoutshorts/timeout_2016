@@ -257,13 +257,12 @@ $(document).ready(function() {
 
     $("#sbmmat").click(function () {
 
-        nytMatantal = $("#FM_matantal").val()
-
-       
-      
+        nytMatantal = $("#FM_matantal").val().replace(".", ",")
+        lto = $("#jq_lto").val()
+        //alert(lto)
 
         if (isNum_treg(nytMatantal)) {
-            //return true
+           //return true
         } else {
 
             nytMatantal = 0
@@ -271,13 +270,30 @@ $(document).ready(function() {
             return false 
         }
        
-       
-        //alert("HER: " + nytMatantal)
+        //alert(nytMatantal.length)
+
+        nytMatantal_stkpris = $("#FM_matantal_stkpris").val().replace(".", ",")
+
+
+        if (isNum_treg(nytMatantal_stkpris)) {
+            //return true
+        } else {
+
+            nytMatantal_stkpris = 0
+            $("#FM_matantal_stkpris").val(0)
+            return false
+        }
+
+        //alert("HER: " + nytMatantal_stkpris)
         
 
-        if (nytMatantal.length > 0 && nytMatantal > 0 && $("#FM_matnavn").val() != 'Tilføj Materiale' && $("#FM_matnavn").val() != 'flere?' && $("#FM_matnavn").val() != '') {
+        if (nytMatantal.length > 0 && $("#FM_matnavn").val() != 'Tilføj Materiale' && $("#FM_matnavn").val() != 'flere?' && $("#FM_matnavn").val() != '') {
 
-            nytMatnavn = $("#FM_matantal").val() + " " + $("#FM_matnavn").val()
+            if (lto == 'intranet - local' || lto == 'tbg') {
+                nytMatnavn = nytMatantal + " " + $("#FM_matnavn").val() + " á " + nytMatantal_stkpris + " DKK"
+            } else {
+                nytMatnavn = nytMatantal + " " + $("#FM_matnavn").val()
+            }
 
             prevIndlast = $("#dv_mat_sbm").html();
 
@@ -304,12 +320,28 @@ $(document).ready(function() {
             //alert(nytMatantal)
 
             if (prevMatAntals.length > 0) {
-                $("#FM_matantals").val(prevMatAntals + ", " + nytMatantal);
+                $("#FM_matantals").val(prevMatAntals + "#" + nytMatantal);
             } else {
                 $("#FM_matantals").val(nytMatantal);
             }
 
             $("#FM_matantal").val('')
+
+
+            prevMatAntals_stkpris = $("#FM_matantals_stkpris").val();
+
+
+            //alert(prevMatAntals_stkpris.length)
+
+            if (prevMatAntals_stkpris.length > 0) {
+                $("#FM_matantals_stkpris").val(prevMatAntals_stkpris + "#" + nytMatantal_stkpris);
+            } else {
+                $("#FM_matantals_stkpris").val(nytMatantal_stkpris);
+            }
+
+            $("#FM_matantal_stkpris").val('')
+
+
             $("#FM_matnavn").val('flere?')
 
         }
@@ -1001,7 +1033,7 @@ $(document).ready(function() {
 
 
     function isNum_treg(passedVal) {
-        invalidChars = " /:;<>abcdefghijklmnopqrstuvwxyzæøå"
+        invalidChars = " /:;<>abcdefghijklmnopqrstuvwxyzæøå!#¤%&())=?"
 
         //alert("her")
 

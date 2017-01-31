@@ -291,7 +291,13 @@ dblkostprisUse = replace(dblkostprisUse, ",", ".")
                     case 1,2,5,6 'alle andre typer end fakturerbar og ikke fakturerbar + Km og SALG bliver adviseret til teamleder, der abonnerer.
 
                     case else
-                    EmailNotificer = 1
+
+                            select case lto
+                            case "epi2017"
+                            EmailNotificer = 0
+                            case else
+                            EmailNotificer = 1
+                            end select
 
                     timerthisENotiTxt = replace(timerthis, ".", ",")
                     EmailNotificerTxt = EmailNotificerTxt & strMnavn & " har registreret "& timerthisENotiTxt & " timer på "& aktnavn & " d. "& formatdatetime(datoThis, 2) &"</br>"

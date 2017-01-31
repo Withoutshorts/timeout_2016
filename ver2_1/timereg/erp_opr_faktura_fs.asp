@@ -84,7 +84,8 @@ case "FN_getKpers"
 				                oRec2.open strSQLkpersCount, oConn, 3
                 					
 					                while not oRec2.EOF
-						                if cint(strAtt) = cint(oRec2("id")) then
+						                
+                                        if cdbl(strAtt) = cdbl(oRec2("id")) then
 						                attSel = "SELECTED"
 						                else
 						                attSel = ""
@@ -365,7 +366,7 @@ case "FN_getCustDesc"
             if not oRec.EOF then
                             
                             
-                            if cint(vis_land) = 1 AND len(trim(oRec("land"))) <> 0 then
+                            if cdbl(vis_land) = 1 AND len(trim(oRec("land"))) <> 0 then
 			                land = trim("<br>"&oRec("land"))
 			                else
 			                land = ""
@@ -391,10 +392,10 @@ case "FN_getCustDesc"
                             end select
 
 
-                            if cint(vis_cvr) = 1 then
+                            if cdbl(vis_cvr) = 1 then
 
 
-                                if cint(useK) = 1 then 'kontakt
+                                if cdbl(useK) = 1 then 'kontakt
 
                                 if isNull(oRec("cvr")) <> true AND len(trim(oRec("cvr"))) > 0 then
                                 cvr = trim("<br>"& cvrTxt &": "& oRec("cvr") & cvrTxt2)
@@ -404,7 +405,7 @@ case "FN_getCustDesc"
 
                                 else
 
-                                'if cint(useK) = 2 then 'kpers
+                                'if cdbl(useK) = 2 then 'kpers
                 
                                     'if cvr = "<br>"& cvrTxt &":" then
                     
@@ -437,7 +438,7 @@ case "FN_getCustDesc"
            
             strAdr = strAdr & oRec("navn")  
             
-              if cint(useK) = 2 then 'kpers
+              if cdbl(useK) = 2 then 'kpers
                 
                 if isNull(oRec("afdeling")) <> true AND len(trim(oRec("afdeling"))) <> 0 then
                 strAdr = strAdr & " - " & oRec("afdeling")
@@ -556,7 +557,7 @@ end if
 
 
 
-	if len(session("user")) = 0 AND cint(nosession) = 0 then
+	if len(session("user")) = 0 AND cdbl(nosession) = 0 then
 	%>
     <!--#include file="../inc/regular/header_lysblaa_nojava_inc.asp"-->
 	<%
@@ -653,7 +654,7 @@ end if
 	
 	
 
-         if cint(reset) = 1 then 
+         if cdbl(reset) = 1 then 
 		        
 		        if len(request("fid")) <> 0 then
 		        fid = request("fid")
@@ -706,7 +707,7 @@ end if
         end if
 
 
-           if cint(vislukkedejob) = 1 then
+           if cdbl(vislukkedejob) = 1 then
 		   jobonoffCHK = "CHECKED"
 		   else
 		   jobonoffCHK = ""
@@ -735,7 +736,7 @@ end if
         end if
 
 
-                if cint(igDato) = 1 then
+                if cdbl(igDato) = 1 then
 	            chkigDato = "CHECKED"
                 else
                 chkigDato = ""
@@ -828,7 +829,7 @@ end if
       
 	  -->
 	
-	<%if cint(visaspopup) = 0 then %>
+	<%if cdbl(visaspopup) = 0 then %>
 	            <!--#include file="../inc/regular/header_lysblaa_inc.asp"-->
 
                 <SCRIPT language=javascript src="inc/fak_func_2007.js"></script>
@@ -849,14 +850,14 @@ end if
             
                         <%
                         '** Mini historik og faktura opretteles/rediger links
-                        if cint(visjobogaftaler) = 1 then %>
+                        if cdbl(visjobogaftaler) = 1 then %>
                         <!--#include file="erp_opr_faktura_kontojob.asp"-->
                         <%end if %>
 
             
                         <%
                         '** Mini historik og faktura opretteles/rediger links
-                        if cint(visminihistorik) = 1 then 
+                        if cdbl(visminihistorik) = 1 then 
                 
                             select case func 
                             case "slet"
@@ -895,7 +896,7 @@ end if
                 </div>
 
 
-                <%if cint(visfaktura) = 1 then %>
+                <%if cdbl(visfaktura) = 1 then %>
                 <div id="faktura_main" style="position:absolute; width:1000px; left:390px; top:82px;">
         	            <!--#include file="erp_fak.asp"-->
                 </div>
@@ -905,7 +906,7 @@ end if
      <%end if 'visaspopup = 0 %>
 
 
-    <%if (func = "slet" OR func = "sletja") AND cint(visaspopup) = 1 then
+    <%if (func = "slet" OR func = "sletja") AND cdbl(visaspopup) = 1 then
                             
                             %><!--#include file="../inc/regular/header_lysblaa_inc.asp"--><%
 
@@ -931,9 +932,9 @@ end if
 
 
 
-       <%if cint(visfaktura) = 2 then 
+       <%if cdbl(visfaktura) = 2 then 
            
-            if cint(visaspopup) = 0 then%>
+            if cdbl(visaspopup) = 0 then%>
             <div id="faktura_main" style="position:absolute; width:1000px; left:390px; top:102px;">
             <%end if 
            
@@ -955,7 +956,7 @@ end if
             
         	<!--#include file="erp_fak_godkendt_2007.asp"-->
             
-            <%if cint(visaspopup) = 0 then%>
+            <%if cdbl(visaspopup) = 0 then%>
             </div>
             <%end if %>
         <%end if %>

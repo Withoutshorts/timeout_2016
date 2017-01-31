@@ -3408,7 +3408,7 @@ if len(session("user")) = 0 then
                             strKom = oRec("betbet")
 			                end select
 			                
-			                if lcase(strLand) <> "danmark" OR lto = "epi" OR lto = "epi_no" OR lto = "epi_sta" OR lto = "dencker" OR lto = "epi_ab" then
+			                if lcase(strLand) <> "danmark" OR lto = "epi" OR lto = "epi_no" OR lto = "epi_sta" OR lto = "dencker" OR lto = "epi_ab" OR lto = "epi2017" then
 			                strLand = oRec("land")
 			                strLandShow = strLand
 			                lndCHK = "CHECKED"

@@ -1016,7 +1016,7 @@ Session.LCID = 1030
                     <div>
                        
                         <%if request("medarbtypligmedarb") = "1" then 'Medarbejdertype:medarbejder 1:1%> 
-                        <b><a href="medarbtyper.asp?lastmedid=<%=id %>&mtypenavnforvlgt=Mtyp: <%=strNavn %>&func=opret">Videre til medarbejdertype (timepriser og normtid) >></a>    
+                        <b><a href="medarbtyper.asp?lastmedid=<%=id %>&mtypeIdforvlgt=<%=strMedarbejdertype%>&mtypenavnforvlgt=Mtyp: <%=strNavn %>&func=opret">Videre til medarbejdertype (timepriser og normtid) >></a>    
                         <%else%>
                         <b><a href="medarb.asp?menu=medarbejder&lastmedid=<%=id %>">Videre >></a>
                         <%end if %>
@@ -1728,7 +1728,7 @@ Session.LCID = 1030
 
                                       <%if func = "opret" then
                                         %>
-                                        <br /><span style="color:red;">Tildel timepriser</span> på stam-aktiviteter og åbne job og tilbud.<br />
+                                        <br /><span style="color:red;">Tildel timepriser</span> på stam-aktiviteter, åbne job og tilbud.<br />
                                         Følg denne medarb.type (hvis den valgte medarb.type er ny, og dette er den første medarbejder af denne type)
                                         <select name="FM_medarbejdertype_follow_tp" class="form-control input-small" style="width:200px;">
                                         <%

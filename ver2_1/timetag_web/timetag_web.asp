@@ -381,13 +381,13 @@
 
                    strSQL = "SELECT a.id AS aid, navn AS aktnavn "_
                    &" FROM timereg_usejob AS tu LEFT JOIN aktiviteter AS a ON (a.id = tu.aktid) "_
-                   &" WHERE tu.medarb = "& medid &" AND tu.jobid = "& jobid &" AND aktid <> 0 "& strSQlAktSog &" AND aktstatus = 1 AND ("& aty_sql_hide_on_treg &") "& forecastAktids &" AND a.navn IS NOT NULL ORDER BY sortorder, navn LIMIT 150"   
+                   &" WHERE tu.medarb = "& medid &" AND tu.jobid = "& jobid &" AND aktid <> 0 "& strSQlAktSog &" AND aktstatus = 1 AND ("& aty_sql_hide_on_treg &") "& forecastAktids &" AND a.navn IS NOT NULL ORDER BY fase, sortorder, navn LIMIT 150"   
                    'AND ("& replace(aty_sql_realhours, "tfaktim", "a.fakturerbar") &")
                    else 
 
                    strSQL = "SELECT a.id AS aid, navn AS aktnavn "_
                    &" FROM timereg_usejob AS tu LEFT JOIN aktiviteter AS a ON (a.job = tu.jobid) "_
-                   &" WHERE tu.medarb = "& medid &" AND tu.jobid = "& jobid &" AND aktid = 0 "& strSQlAktSog &" AND aktstatus = 1  AND ("& aty_sql_hide_on_treg &") "& forecastAktids &" AND a.navn IS NOT NULL ORDER BY sortorder, navn LIMIT 150" 
+                   &" WHERE tu.medarb = "& medid &" AND tu.jobid = "& jobid &" AND aktid = 0 "& strSQlAktSog &" AND aktstatus = 1  AND ("& aty_sql_hide_on_treg &") "& forecastAktids &" AND a.navn IS NOT NULL ORDER BY fase, sortorder, navn LIMIT 150" 
                    'AND ("& replace(aty_sql_realhours, "tfaktim", "a.fakturerbar") &")
                    end if
 
@@ -422,7 +422,7 @@
 
                strSQL = "SELECT a.id AS aid, navn AS aktnavn, projektgruppe1, projektgruppe2, projektgruppe3, "_
                &" projektgruppe4, projektgruppe5, projektgruppe6, projektgruppe7, projektgruppe8, projektgruppe9, projektgruppe10 FROM aktiviteter AS a "_
-               &" WHERE a.job = " & jobid & " AND a.job <> 0 "& strSQlAktSog &" AND aktstatus = 1 AND ("& aty_sql_hide_on_treg &") ORDER BY sortorder, navn LIMIT 150"      
+               &" WHERE a.job = " & jobid & " AND a.job <> 0 "& strSQlAktSog &" AND aktstatus = 1 AND ("& aty_sql_hide_on_treg &") ORDER BY fase, sortorder, navn LIMIT 150"      
     
 
               
@@ -743,6 +743,12 @@
         showStop = 1
         showDetailDayResumeOrLink = 1
         ststopbtnTxt = "St. / Stop"
+      case "tbg"
+        showAfslutJob = 0
+        showMatreg = 1
+        showStop = 0
+        showDetailDayResumeOrLink = 0
+        ststopbtnTxt = "St. / Stop"
     case else
         showAfslutJob = 0
         showMatreg = 0
@@ -1025,6 +1031,9 @@
                                           <table style="width:100%;"><tr><td style="width:60%; padding:2px 2px 2px 2px;">    
                                           <input type="text" id="FM_matnavn" name="FM_matnavn" placeholder="<%=ttw_txt_009 %>" class="form-control"/></td>
                                           <td style="width:20%; padding:2px 2px 2px 2px;"><input type="number" id="FM_matantal" name="FM_matantal" value="" placeholder="<%=ttw_txt_010 %>." class="form-control"/></td>
+                                          <%if lto = "tbg" OR lto = "intranet - local" then %>
+                                              <td style="width:20%; padding:2px 2px 2px 2px;"><input type="number" id="FM_matantal_stkpris" name="FM_matantal_stkpris" value="" placeholder="Pris" class="form-control"/></td>
+                                          <%end if %>
                                           <td style="width:20%; padding:2px 2px 2px 2px;"><input type="button" value=">>" id="sbmmat" class="btn btn-secondary"/>
                                            </td></tr></table>
                                               </div>
@@ -1054,6 +1063,7 @@
                                        
                                         <input type="hidden" id="FM_matids" name="FM_matids" value=""/>
                                         <input type="hidden" id="FM_matantals" name="FM_matantals" value=""/>
+                                        <input type="hidden" id="FM_matantals_stkpris" name="FM_matantals_stkpris" value=""/>
                                     </div>
                                 </div>
                             </div>

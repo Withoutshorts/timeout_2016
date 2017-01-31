@@ -1972,19 +1972,19 @@ public strMedarbOptionsHTML
 			                            intMatgrp = oRec2("matgrp")
 			                            intprvAntal = oRec2("antal")
 
-                                        if cint(prs) = 1 then
-                                        dblKobsPris = replace(oRec2("indkobspris"),",",".")
-			                            dblSalgsPris = replace(oRec2("salgspris"),",",".")
-                            			end if
+                                            if cint(prs) = 1 then
+                                            dblKobsPris = replace(oRec2("indkobspris"),",",".")
+			                                dblSalgsPris = replace(oRec2("salgspris"),",",".")
+                            			    end if
                             			
 			                            end if
 			                            oRec2.close
                             			
 			        
-			        
+			                                if cint(prs) = 1 then
 			                                dblKobsPris = replace(dblKobsPris,",",".")
 			                                dblSalgsPris = replace(dblSalgsPris,",",".")
-
+                                            end if
 
 
                                             avaProcent = 0
@@ -2004,7 +2004,7 @@ public strMedarbOptionsHTML
     
   function  insertMat_fn(matId, intAntal, strNavn, strVarenr, dblKobsPris, dblSalgsPris, strEnhed, jobid, aktid, strEditor, strDato, usemrn, avaGrp, regDatoSQL, aftid, intValuta, intkode, bilagsnr, dblKurs, personlig, ava)
 
-                         strSQL = "INSERT INTO materiale_forbrug "_
+                            strSQL = "INSERT INTO materiale_forbrug "_
 				            &" (matid, matantal, matnavn, matvarenr, matkobspris, matsalgspris, matenhed, jobid, "_
 				            &" editor, dato, usrid, matgrp, forbrugsdato, serviceaft, valuta, intkode, bilagsnr, kurs, personlig, aktid, ava) VALUES "_
 				            &" ("& matId &", "& intAntal &", '"& strNavn &"', '"& strVarenr &"', "_

@@ -773,7 +773,11 @@ if len(strLicenskey) <> 0 then
     case "9K2016-2012-TO172" 'Eniga
 	lto = "eniga"
 	strConnThis = "timeout_eniga64"
+    
 
+    case "9K2017-0128-TO172" 'TBG
+	lto = "tbg"
+	strConnThis = "timeout_tbg64"
         
     
     'ODBC 3.51 Driver

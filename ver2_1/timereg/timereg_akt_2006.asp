@@ -5818,12 +5818,31 @@
                 aktid = 0
 
                 matIds = split(request("FM_matids"), ", ") '0
-                intAntals = split(request("FM_matantals"), ", ")
-                
+                intAntals = split(request("FM_matantals"), "#")
+
+                'Response.write request("FM_matantals_stkpris")
+                'Response.flush
+
+                intAntals_stkpris = split(request("FM_matantals_stkpris"), "#")
                 
                 for i = 0 to UBOUND(matIds)
 
+                        select case lto
+                        case "hestia"
                         prs = 1 '0: Brug indtastede priser, 1: Hent fast priser fra DB.
+                        case "tbg", "intranet - local"
+                        
+                        dblKobsPris = replace(intAntals_stkpris(i), ",", ".")
+                        dblSalgsPris = dblKobsPris
+                        
+                                'Response.write "dblKobsPris: " & dblKobsPris
+                                'Response.flush
+                                         
+                        prs = 0 
+                        case else
+                        prs = 1
+                        end select
+
 			            call matidStamdata(matIds(i), avaGrp, prs)
                         strNavn = strMatNavn 
                         strVarenr = strMatVarenr
@@ -5837,6 +5856,9 @@
                      else
                      ava = 0
                      end if
+
+
+                    intAntals(i) = replace(intAntals(i), ",", ".")
 
 
                     'call insertMat_fn(matIds(i), intAntals(i), strNavn, strVarenr, dblKobsPris, dblSalgsPris, strEnhed, jobid, strEditor, strDato, thisMid, avaGrp, regDatoSQL, aftid, intValuta, intkode, bilagsnr, dblKurs, personlig)

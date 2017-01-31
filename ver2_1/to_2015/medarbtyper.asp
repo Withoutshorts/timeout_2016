@@ -732,6 +732,10 @@ case "dbopr", "dbred"
 				strEditor = session("user")
 				strDato = session("dato")
 				
+
+                                 'Response.write "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;func:" & func
+                                 'Response.end
+
 				if func = "dbopr" then
 				oConn.execute("INSERT INTO medarbejdertyper (type, timepris, editor, dato, kostpris, normtimer_son, normtimer_man, normtimer_tir, normtimer_ons, normtimer_tor, normtimer_fre, normtimer_lor, "_
 				&" timepris_a1, timepris_a2, timepris_a3, timepris_a4, timepris_a5, "_
@@ -755,6 +759,37 @@ case "dbopr", "dbred"
 
                         end if
                         oRec6.close
+
+
+                     '*** Tilføjer sidst oprettet medarbejder hvis mtype 1:1
+                     call medarbtypligmedarb_fn()
+
+                     if cint(medarbtypligmedarb) = 1 then
+
+                                if len(trim(request("mtypeIdforvlgt"))) <> 0 then '** Metype er oprettet på vej fra medarbejeroprettelse. Sidste medarbejder flyttes over I denne type
+                                mtypeIdforvlgt = request("mtypeIdforvlgt")
+                                else
+                                mtypeIdforvlgt = 0
+                                end if
+
+                                if mtypeIdforvlgt <> 0 then
+
+                                lastMid = 0
+                                strSQlmlast = "SELECT mid FROM medarbejdere WHERE mid <> 0 ORDER BY mid DESC LIMIT 1"
+                                oRec6.open strSQlmlast, oConn, 3 
+                                if not oRec6.EOF then
+
+                                lastMid = oRec6("mid") 
+
+                                end if
+                                oRec6.close
+
+                                strSQlmlastTilfoj = "UPDATE medarbejdere SET medarbejdertype = " & lastId & " WHERE mid = " & lastMid
+                                oConn.execute(strSQlmlastTilfoj)
+
+                                end if
+
+                     end if
                                 
                 else
 
@@ -787,6 +822,9 @@ case "dbopr", "dbred"
                 fraDato = year(fraDato) &"/"& month(fraDato) & "/"& day(fraDato) 
                 end if
 
+                if func = "dbopr" then
+                id = lastId
+                end if
 
                 strSQLm = "SELECT m.mid, m.mnr, mth.mtypedato, mth.id, mth.mtype FROM medarbejdere AS m "_
                 &" LEFT JOIN medarbejdertyper_historik AS mth ON (mth.mid = m.mid AND mth.mtype = m.medarbejdertype) WHERE m.medarbejdertype = "& id
@@ -813,7 +851,8 @@ case "dbopr", "dbred"
                                             '** Finder alle åbne job
                                             '** Finder tilhørende Aktiviteter KUN DEM DER IKKE ER SAT TIL FAST TP
                                             strSQLjob = "SELECT j.id AS jobid, j.jobnr, a.id AS aktid FROM job AS j "_
-                                            &" LEFT JOIN aktiviteter AS a ON (a.job = j.id AND (fakturerbar = 1 OR fakturerbar = 2) AND brug_fasttp = 0) WHERE jobstatus = 1 AND a.id IS NOT NULL"
+                                            &" LEFT JOIN aktiviteter AS a ON (a.job = j.id AND (fakturerbar = 1 OR fakturerbar = 2 OR fakturerbar = 6) AND brug_fasttp = 0) "_
+                                            &" WHERE (jobstatus = 1 OR jobstatus = 3) AND a.id IS NOT NULL"
                                             oRec5.open strSQLjob, oConn, 3
                                             while not oRec5.EOF  
 
@@ -893,7 +932,7 @@ case "dbopr", "dbred"
                             '****må det være via sin projektgruppe
                             '*** Ellers bliver timer ikke opdateret ****
                             strSQLj = "SELECT jobnr, a.id AS aid, a.kostpristarif FROM job AS j "_
-                            &"LEFT JOIN aktiviteter AS a ON (a.job = j.id) WHERE jobstatus = 1" 
+                            &"LEFT JOIN aktiviteter AS a ON (a.job = j.id) WHERE jobstatus = 1 OR jobstatus = 3" 
                            
                             'response.write "strSQLj: " & strSQLj & "<br>"    
                                 
@@ -1034,11 +1073,11 @@ case "dbopr", "dbred"
                 '**** Opdater hovedgruppe på medarbejderlinier
                 '*****************************************************************************************************************
 
-                                if len(trim(request("FM_gruppe_opr"))) <> 0 then
-                                oprHovedgruppe = request("FM_gruppe_opr")
-                                else 
-                                oprHovedgruppe = 0
-                                end if
+                if len(trim(request("FM_gruppe_opr"))) <> 0 then
+                oprHovedgruppe = request("FM_gruppe_opr")
+                else 
+                oprHovedgruppe = 0
+                end if
                 
 
 
@@ -1105,13 +1144,24 @@ case "dbopr", "dbred"
 	case "opret", "red"
 	'*** Her indlæses form til rediger/oprettelse af ny type ***
 	
-	if func = "opret" then
 
+    '***** Medarbejdertype 1:1
     if len(trim(request("mtypenavnforvlgt"))) <> 0 then 'mtype = 1:1 med medarbejder
-    strNavn = request("mtypenavnforvlgt")
+    strNavnFrom = request("mtypenavnforvlgt")
     else
-	strNavn = ""
+	strNavnFrom = ""
     end if
+
+    if len(trim(request("mtypeIdforvlgt"))) <> 0 then 'mtype = 1:1 med medarbejder
+    strFromId = request("mtypeIdforvlgt")
+    else
+	strFromId = 0
+    end if
+
+
+	if func = "opret" AND cint(strFromId) = 0 then
+
+
 	strTimepris = ""
 	varSubVal = "Opret" 
 	varbroedkrumme = "Opret ny"
@@ -1148,6 +1198,12 @@ case "dbopr", "dbred"
     kostpristarif_D = 0
 
 	else
+
+    '**** Medarbtype 1:1
+    if cint(strFromId) <> 0 then
+    id = strFromId
+    end if
+
 	strSQL = "SELECT type, editor, dato, timepris, kostpris, normtimer_son, normtimer_man, "_
 	&" normtimer_tir, normtimer_ons, normtimer_tor, normtimer_fre, normtimer_lor, timepris_a1, "_
 	&" timepris_a2, timepris_a3, timepris_a4, timepris_a5, "_
@@ -1158,7 +1214,14 @@ case "dbopr", "dbred"
 	
 	if not oRec.EOF then
 	
+    if cint(strFromId) <> 0 then
+    strNavn = strNavnFrom
+    strNavnFolger = oRec("type")
+    else
 	strNavn = oRec("type")
+    strNavnFolger = ""
+    end if
+
 	strTimepris = oRec("timepris")
 	strDato = oRec("dato")
 	strEditor = oRec("editor")
@@ -1217,9 +1280,18 @@ case "dbopr", "dbred"
 	
 	
 	ugetotal = formatnumber(normtimer_son + normtimer_man + normtimer_tir + normtimer_ons + normtimer_tor + normtimer_fre + normtimer_lor, 2)
+
+    if cint(strFromId) <> 0 then
+    varSubVal = "Opret" 
+	varbroedkrumme = "Opret ny"
+	dbfunc = "dbopr"
+    else
 	dbfunc = "dbred"
 	varbroedkrumme = "Rediger"
 	varSubVal = "Opdater" 
+    end if
+   
+
 	end if 
 	%>
 	
@@ -1228,10 +1300,11 @@ case "dbopr", "dbred"
             <%if level = 1 then %>
     <div class="container">
     <div class="portlet">
-        <h3 class="portlet-title"><u>Medarbejdertype rediger</u></h3>
+        <h3 class="portlet-title"><u>Medarbejdertype <%=varbroedkrumme %></u></h3>
 
         <form action="medarbtyper.asp?menu=medarb&func=<%=dbfunc%>" method="post">
 	        <input type="hidden" name="id" value="<%=id%>">
+            <input type="hidden" name="mtypeIdforvlgt" value="<%=strFromId%>">
     
                 <div class="row">
                 <div class="col-lg-10">&nbsp</div>
@@ -1245,7 +1318,14 @@ case "dbopr", "dbred"
             <div class="row">
                 <div class="col-lg-1">&nbsp</div>
                 <div class="col-lg-2">Navn:</div>
-                <div class="col-lg-2"><input class="form-control input-small" type="text" name="FM_navn" value="<%=strNavn%>" style="width:350px;"></div>
+                <div class="col-lg-5"><input class="form-control input-small" type="text" name="FM_navn" value="<%=strNavn%>">
+
+                    <%if len(trim(strNavnFolger)) <> 0 then %>
+                    I har 1:1 mellem medarbejder og medarbejdertype slået til.<br />
+                    Data nedarvet fra medarbejdertypen: <b><%=strNavnFolger %></b><br />
+                    Timepriser er allerede lagt ud på stam-skabeloner, åbne job og tilbud. 
+                    <%end if %>
+                </div>
             </div>
              <div class="row"><div class="pad-b10"></div></div>
                 <div class="row">
@@ -1364,7 +1444,7 @@ case "dbopr", "dbred"
                                 </div>
                             </div>
 
-                             <%if func = "red" then 
+                             <%if func = "red" OR len(trim(strNavnFolger)) <> 0 then 
                                  
                                  useDate = formatdatetime(now,2)%>
                                 <div class="row">
@@ -1372,7 +1452,7 @@ case "dbopr", "dbred"
                                     <div class="col-lg-9"><br /><br />
                                         <b>Opdater timepriser:</b><br />
                                         <input id="Checkbox1" type="checkbox" name="FM_opdater_timepriser" value="1" />&nbsp Opdater timepriser, for denne medarbejdertype på:<br />
-                                        - Timepristabellen på alle fakturerbare/Ikke fakturerbare aktiviteter på åbne job. <br />
+                                        - Timepristabellen på alle fakturerbare/Ikke fakturerbare aktiviteter på åbne job og tilbud. <br />
                                         - Alle registrerede timer på fakturerbare aktiviteter på <u>åbne</u> job <b>fra d. </b><input type="text" name="FM_opdatertpfra" value="<%=useDate %>" style="font-size:9px; width:60px;" /> til dd.
                                         - også lukkede uger og hvis der foreligger faktura.
                                         <br />

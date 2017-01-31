@@ -2274,7 +2274,7 @@ if len(session("user")) = 0 then
         antaljob = 0
 		while not oRec2.EOF
 		
-		if cint(jobid) = cdbl(oRec2("id")) AND sel0j <> "SELECTED" then
+		if cdbl(jobid) = cdbl(oRec2("id")) AND sel0j <> "SELECTED" then
 		selj = "SELECTED"
 		else
 		selj = ""
@@ -3248,9 +3248,9 @@ if len(session("user")) = 0 then
         <br /><br />
             
                 <%if func <> "opretstam" AND showtp = 0 then %>
-                <b> Eller angiv <a id="aktshowtp" href="aktiv.asp?menu=job&func=<%=func%>&id=<%=id%>&jobid=<%=jobid%>&jobnavn=<%=request("jobnavn")%>&rdir=<%=rdir %>&nomenu=<%=nomenu%>&showtp=<%=showtpVal%>&aktfavgp=<%=aktfavgp%>" class=vmenu> <u>individuel</u> timepris for hverenkelt medarbejder..</a></b>
+                <b> Eller angiv <a id="aktshowtp" href="aktiv.asp?menu=job&func=<%=func%>&id=<%=id%>&jobid=<%=jobid%>&jobnavn=<%=request("jobnavn")%>&rdir=<%=rdir %>&nomenu=<%=nomenu%>&showtp=<%=showtpVal%>&aktfavgp=<%=aktfavgp%>" class=vmenu> <u>individuel</u> timepris for hver enkelt medarbejder..</a></b>
                 <%else %>
-                 <b> Eller angiv <u>individuel</u> timepris for hverenkelt medarbejder herunder..</b> (klik fast timepris fra i feltet herover)
+                 <b> Eller angiv <u>individuel</u> timepris for hver enkelt medarbejder herunder..</b> (klik fast timepris fra i feltet herover)
                 <%end if %>
            
         

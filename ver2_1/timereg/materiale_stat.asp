@@ -1378,7 +1378,7 @@ if len(session("user")) = 0 then
 		                %>
                 		
 		                <%if editok = 1 AND print <> "j" then%>
-		                <td><input type="text" name="FM_antal" id="FM_antal" size="2" style="font-size:9px;" value="<%=oRec("antal")%>">&nbsp;<%=oRec("enhed")%>&nbsp;
+		                <td><input type="text" name="FM_antal" id="FM_antal" style="font-size:9px; width:60px;" value="<%=oRec("antal")%>">&nbsp;<%=oRec("enhed")%>&nbsp;
 
 		                </td>
 		                
@@ -1402,8 +1402,8 @@ if len(session("user")) = 0 then
                 		
 
                         <%if editok = 1 AND print <> "j" then%>
-                        <td align=right style="padding-right:3px;"><input type="text" name="FM_matkobspris" id="Text1" size="2" style="font-size:9px; width:80px;" value="<%=matkobspris%>"></td>
-                        <td align=right style="padding-right:3px;"><input type="text" name="FM_matsalgspris" id="Text2" size="2" style="font-size:9px; width:80px;" value="<%=matsalgspris%>"></td>
+                        <td align=right style="padding-right:3px;"><input type="text" name="FM_matkobspris" id="Text1" style="font-size:9px; width:60px;" value="<%=matkobspris%>"></td>
+                        <td align=right style="padding-right:3px;"><input type="text" name="FM_matsalgspris" id="Text2" style="font-size:9px; width:60px;" value="<%=matsalgspris%>"></td>
                         <td><input type="image" src="../ill/soeg-knap.gif"></td>
                         <%else %>
 		                <td align=right style="padding-right:3px;"><b><%=matkobspris%></b></td>

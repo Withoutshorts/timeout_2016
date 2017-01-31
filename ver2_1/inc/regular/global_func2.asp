@@ -649,8 +649,11 @@ end function
         if pwdt < 180 then
         pwdt = 180
         end if
+
+        erp_txt_522 = replace(erp_txt_522, "and", "&")
+        erp_txt_522 = replace(erp_txt_522, "og", "&")
 	%>
-	<div id=eksport style="position:absolute; background-color:#ffffff; width:<%=pwdt%>px; left:<%=pleft%>px; top:<%=ptop%>px; padding:10px 10px 10px 10px; z-index:9000000000;">
+	<div id=eksport style="position:absolute; background-color:#ffffff; width:<%=pwdt%>px; left:<%=pleft%>px; top:<%=ptop%>px; padding:10px 10px 10px 10px; z-index:9000;">
   
     <table cellpadding=2 cellspacing=0 border=0 width=100%>
     <tr>

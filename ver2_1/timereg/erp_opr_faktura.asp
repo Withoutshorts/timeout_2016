@@ -54,7 +54,7 @@ level = session("rettigheder")
   
    
     
-    if cint(jobid) = 0 AND cint(aftid) = 0 then
+    if cdbl(jobid) = 0 AND cdbl(aftid) = 0 then
     err = 88
     end if
     
@@ -92,7 +92,7 @@ level = session("rettigheder")
 	
 	<%
 	
-	if cint(jobid) <> 0 then 'job valgt
+	if cdbl(jobid) <> 0 then 'job valgt
 	
 	aftnavn = ""
 	
@@ -397,7 +397,7 @@ level = session("rettigheder")
          
         <table cellpadding=0 cellspacing=0 border=0 width=100%><%
 	 
-	    if cint(igDato) = 1 then
+	    if cdbl(igDato) = 1 then
         SQLkriPer = ""
 	    else
 	    SQLkriPer = " AND ((f.fakdato BETWEEN '"& sqlDatostart &"' AND '"& sqlDatoslut &"') OR (f.labeldato BETWEEN '"& sqlDatostart &"' AND '"& sqlDatoslut &"' AND brugfakdatolabel = 1)) "
@@ -441,7 +441,7 @@ level = session("rettigheder")
             
             select case oRec3("faktype")
             case 0
-                if cint(lastFakfundet) <> 1 AND cint(oRec3("medregnikkeioms")) <> 1 AND cint(oRec3("medregnikkeioms")) <> 2 then
+                if cdbl(lastFakfundet) <> 1 AND cdbl(oRec3("medregnikkeioms")) <> 1 AND cdbl(oRec3("medregnikkeioms")) <> 2 then
                 lastFakfundet = 1
                 lastFak = oRec3("fakdato")
                 lastFaknr = oRec3("faknr")
@@ -456,7 +456,7 @@ level = session("rettigheder")
             'belthis = oRec3("beloeb")
             end select
             
-            if cint(id) = oRec3("fid") then
+            if cdbl(id) = oRec3("fid") then
             bgthis = "#ffff99"
             else
             bgthis = "#ffffff"
@@ -854,7 +854,7 @@ level = session("rettigheder")
 
 
         <br /><br />
-        <%if cint(ign_akttype_inst) = 1 then
+        <%if cdbl(ign_akttype_inst) = 1 then
         ign_akttype_inst_CHK = "CHECKED"
         else
         ign_akttype_inst_CHK = ""

@@ -447,10 +447,19 @@ function modtager_layout()
 	else
 	
             select case lto
-            case "synergi1", "epi_uk"
+            case "synergi1"
             Response.Write replace(modtageradr, "CVR", "VAT")
-            case "epi_no", "epi_sta"
-            Response.Write replace(modtageradr, "CVR", "Organisasjonsnr")  
+            case "epi2017"
+            
+                select case afsender
+                case "30001" 
+                Response.Write replace(modtageradr, "CVR", "Organisasjonsnr")
+                case "10001" 
+                Response.Write replace(modtageradr, "CVR", "VAT")
+                case else
+                Response.Write modtageradr    
+                end select  
+
             case else
             Response.Write modtageradr 
             End select 
@@ -564,15 +573,17 @@ end if
 	case else
 	%>
 
-    <% 
-    select case lto
-    case "epi_no", "epi_sta"
+        <% 
+        select case lto
+        case "epi_no", "epi_sta", "epi2017"
+
+              if cdbl(afsender) = 30001 then 
+              Response.Write yourNace & "<br />"
+              end if  
+       
+        case else
+        end select
         %>
-        <%=yourNace %><br />
-        <%
-    case else
-    end select
-    %>
 	
     <%=yourNavn%><br>
 	<%=yourAdr%><br>
@@ -663,6 +674,16 @@ end if
           <%select case lto
         case "epi_no", "epi_sta"
         erp_txt_011 = "Organisasjonsnr"
+        case "epi2017"
+            
+                if cdbl(afsender) = 30001 then 
+                erp_txt_011 =  "Organisasjonsnr"
+                end if  
+
+                if cdbl(afsender) = 10001 then 
+                erp_txt_011 = "VAT"
+                end if  
+
        case else
         erp_txt_011 = erp_txt_011
         end select
