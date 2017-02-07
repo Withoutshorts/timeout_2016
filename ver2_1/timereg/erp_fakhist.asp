@@ -20,6 +20,7 @@ if len(session("user")) = 0 then
 	
 	menu = "erp"
 	
+   call basisValutaFN()
 	
 	
 	'*** Sætter lokal dato/kr format. Skal indsættes efter kalender.
@@ -994,7 +995,7 @@ if len(session("user")) = 0 then
 
 
     
-    <table cellspacing=0 cellpadding=4 border=0 width=100% bgcolor="#ffffff">
+    <table cellspacing=0 cellpadding=2 border=0 width=100% bgcolor="#ffffff">
   <%if print <> "j" then %>
     <tr><td colspan="20" align="right">  
             <input id="Submit5" type="submit" value="<%=erp_txt_499 %> >>" />
@@ -1151,7 +1152,7 @@ if len(session("user")) = 0 then
 		
 	    strSQLFak = strSQLFak &" k1.navn AS konto, k1.kontonr AS kontonr, "_
 		&" k2.navn AS modkonto, k2.kontonr AS modkontonr, "_
-		&" sum(fms.venter) AS ventetimer, sum(venter_brugt) AS ventetimer_brugt, v.valutakode, v.id AS valid, labeldato, medregnikkeioms, fak_laast, overfort_erp, j.job_internbesk, j.alert "_
+		&" sum(fms.venter) AS ventetimer, sum(venter_brugt) AS ventetimer_brugt, v.valutakode, v.id AS valid, labeldato, medregnikkeioms, fak_laast, overfort_erp, j.job_internbesk, j.alert, afsender "_
 		&" FROM fakturaer f "
 		
 		strSQLFak = strSQLFak &" LEFT JOIN kunder k on ("&kundeidSQL&")"_
@@ -1208,6 +1209,7 @@ if len(session("user")) = 0 then
         jobTotFak = 0
         aftTotFak = 0
         kreTotFak = 0
+        afsender = 0
 		oRec3.open strSQLFak, oConn, 3
         while not oRec3.EOF
         
@@ -1228,7 +1230,7 @@ if len(session("user")) = 0 then
             '** C) jobid og shadowcopy <> 0 Faktura oprettet på aftale, men
             '** der er et job tilknyttet denne aftale, og derofr bliver der også oprettet en faktura på jobbet.
             
-            
+            afsender = oRec3("afsender")
             
            
             
@@ -1266,7 +1268,7 @@ if len(session("user")) = 0 then
 
 
             select case lto
-            case "nt", "intranet - local"
+            case "nt", "xintranet - local"
 
              if cint(oRec3("alert")) = 1 AND len(trim(oRec3("job_internbesk"))) <> 0 then
                  
@@ -1350,39 +1352,24 @@ if len(session("user")) = 0 then
 
 
              if oRec3("faktype") = 1 then
-             strFaktypeNavn = erp_txt_002
+             strFaktypeNavn = "kreditnota" 'erp_txt_002 'SKAL tilpasses der hvor fakturaen bliver oprettet.
              else
-             strFaktypeNavn = erp_txt_001
+             strFaktypeNavn = "faktura" 'erp_txt_001
              end if
 
         strknavn = oRec3("kkundenavn")
         call kundenavnPDF(strknavn)
         strknavn = strKundenavnPDFtxt
 
-        if isNULL(oRec3("labeldato")) <> true then
+              'if isNULL(oRec3("labeldato")) <> true then
 
-            if cdate(oRec3("labeldato")) <= cdate("25-08-2011") then
-            pdfFakNavn = ""&strFaktypeNavn&"_"&lto&"_"&oRec3("faknr")&".pdf"
-            end if
+            
 
-            if cdate(oRec3("labeldato")) > cdate("25-08-2011") AND cdate(oRec3("labeldato")) < cdate("20-09-2011") then
-            pdfFakNavn = ""&strFaktypeNavn&"_"&lto&"_"&strknavn&"_"&oRec3("faknr")&".pdf"
-            end if
+           
 
-            if cdate(oRec3("labeldato")) >= cdate("20-09-2011") then
-
-            select case lto 
-            case "epi_no" 'overflyttet fra epi_sta og epi_osl
-                 if cdate(oRec3("labeldato")) >= cdate("25-06-2014") then
-                 pdfFakNavn = ""&strFaktypeNavn&"_"&lto&"_"&oRec3("faknr")&"_"&strknavn&".pdf"
-                 else
-                 pdfFakNavn = ""&strFaktypeNavn&"_epi_osl_"&oRec3("faknr")&"_"&strknavn&".pdf"
-                 end if
-            case else
+           
             pdfFakNavn = ""&strFaktypeNavn&"_"&lto&"_"&oRec3("faknr")&"_"&strknavn&".pdf"
-            end select
-            end if
-
+            
             if request.servervariables("PATH_TRANSLATED") <> "C:\www\timeout_xp\wwwroot\"&toVer&"\timereg\erp_fakhist.asp" then
 	            pdfurl = "d:\\webserver\wwwroot\timeout_xp\wwwroot\"&toVer&"\inc\upload\"&lto&"\"&pdfFakNavn
 	        else
@@ -1402,13 +1389,10 @@ if len(session("user")) = 0 then
                       Response.Write("&nbsp;")
                 End If
           
-
-          else
-
-             Response.Write("&nbsp;")
-
-          end if
-
+                          'if session("mid") = 1 then
+                          'Response.write pdfurl
+                          'end if
+       
           %>
           </td>
          <td valign=top style="border-bottom:1px #C4C4C4 solid; padding:4px 5px 0px 0px;">
@@ -1431,11 +1415,11 @@ if len(session("user")) = 0 then
 
                 
 
-                 if cdate(oRec3("labeldato")) >= cdate("30-04-2012") then
+                ' if cdate(oRec3("labeldato")) >= cdate("30-04-2012") then
                  xmlFakNavn = ""&strFaktypeNavn&"_xml_"&lto&"_"&oRec3("faknr")&"_"&strknavn&".xml"
-                 else
-                 xmlFakNavn = ""&strFaktypeNavn&"_xml_"&lto&"_"&oRec3("faknr")&".xml"
-                 end if
+                 'else
+                 'xmlFakNavn = ""&strFaktypeNavn&"_xml_"&lto&"_"&oRec3("faknr")&".xml"
+                 'end if
 
                  if request.servervariables("PATH_TRANSLATED") <> "C:\www\timeout_xp\wwwroot\"&toVer&"\timereg\erp_fakhist.asp" then
 	                xmlurl = "d:\\webserver\wwwroot\timeout_xp\wwwroot\"&toVer&"\inc\upload\"&lto&"\"&xmlFakNavn
@@ -1558,9 +1542,9 @@ if len(session("user")) = 0 then
         <%end if %>
         
         </td>
-        <td valign=top style="border-bottom:1px #C4C4C4 solid; padding:2px 5px 0px 5px; white-space:nowrap;">
+        <td valign=top style="border-bottom:1px #C4C4C4 solid; white-space:nowrap;">
         <%if oRec3("betalt") = 1 then %>
-       <a href="erp_opr_faktura_fs.asp?visminihistorik=1&visfaktura=2&visjobogaftaler=1&id=<%=oRec3("fid")%>&FM_kunde=<%=oRec3("kid")%>&FM_job=<%=thisJobId%>&FM_aftale=<%=thisAftaleId%>" class="vmenu" target="_blank"><img src="../ill/godkend_icon_16.gif" border="0" /> <%=erp_txt_095 %></a>
+       <a href="erp_opr_faktura_fs.asp?visminihistorik=1&visfaktura=2&visjobogaftaler=1&id=<%=oRec3("fid")%>&FM_kunde=<%=oRec3("kid")%>&FM_job=<%=thisJobId%>&FM_aftale=<%=thisAftaleId%>" class="vmenu" target="_blank" style="color:yellowgreen;"><%=erp_txt_095 %></a>
         <%else %>
         
          <%if cint(oRec3("betalt")) = 0 AND (cdate(oRec3("fakdato")) > cdate("25/8/2007")) AND print <> "j" then %>
@@ -1603,35 +1587,91 @@ if len(session("user")) = 0 then
         </td>
         -->
        
-        <td valign=top align=right style="border-bottom:1px #C4C4C4 solid; padding:1px 5px 0px 0px;"> 
+        <td valign=top align=right style="border-bottom:1px #C4C4C4 solid; white-space:nowrap; padding:1px 5px 0px 0px;"> 
 
-        <%fakbelob = replace(oRec3("beloeb"), "-", "") %>
+        <%fakBelob = replace(oRec3("beloeb"), "-", "") %>
 
-        <b><%=formatnumber(minus&fakbelob, 2)&" "&oRec3("valutakode") %></b>
+        <b><%=formatnumber(minus&fakBelob, 2) &" "& oRec3("valutakode") %></b> 
       
         <br />
-              
+
         <%
         '*** Beløb i grundvaluta == DKK ***'
-        if oRec3("valid") <> 1 then 
+        'if oRec3("valid") <> 1 then 
+        if cint(oRec3("valid")) <> cint(basisValId) then  '<> 1 20170207
             
-            call beregnValuta(minus&(fakbelob),oRec3("kurs"),100)
-            belobGrundVal = valBelobBeregnet %>
+             'call beregnValuta(minus&(fakbelob),oRec3("kurs"),100)
+
+
+                select case lto
+                case "epi2017"
+
+                    select case afsender
+                    case "1" 'DK
+
+                    call beregnValuta(fakBelob,oRec3("kurs"),100)
+                    fakBelob = valBelobBeregnet
+
+                    basisValISOtxt = basisValISO      
+
+                    case "10001" 'UK
+
+                    call beregnValuta(fakBelob,oRec3("kurs"),100)
+                    fakBelob = valBelobBeregnet
+
+                    call valutaKurs_fakhist(6) ' --> GBP
+
+                    call beregnValuta(fakBelob,100,dblkurs_fakhist/100)
+                    fakBelob = valBelobBeregnet
+                    basisValISOtxt = "GBP"
+                
+                   
+                    case "30001" 'NO
+
+                    call beregnValuta(fakBelob,oRec3("kurs"),100)
+                    fakBelob = valBelobBeregnet
+
+                    call valutaKurs_fakhist(5) ' --> NOK
+
+                    call beregnValuta(fakBelob,100,dblkurs_fakhist/100)
+                    fakBelob = valBelobBeregnet
+                   basisValISOtxt = "NOK"
+                  
+
+                    end select
+
+                case else ' STANDARD omregn til basis valuta
+
+
+                     if cint(oRec3("valid")) <> cint(basisValId) then  '<> 1 20170207
+
+                        call beregnValuta(fakBelob,oRec3("kurs"),100)
+                        fakBelob = valBelobBeregnet
+                        basisValISOtxt = basisValISO
+                       
+
+                     else
+        
+                        fakBelob = fakBelob
+                       basisValISOtxt = basisValISO
+    
+                    end if
+
+                end select
+
+
+              belobGrundVal = fakBelob %>
             
-            ~ <%=formatnumber(belobGrundVal, 2) &" "& basisValISO %>
+            ~ <%=formatnumber(belobGrundVal, 2) &" "& basisValISOtxt %>
         
             <% 
         else
             
-            belobGrundVal = minus&fakbelob/1
+            belobGrundVal = minus&fakBelob/1
         end if 
 
+        
         '** job ell. aftale **'
-        
-        
-
-
-
         if oRec3("faktype") = 1 then '** kreditnota
         kreTotFak = kreTotFak/1 + belobGrundVal
         else
@@ -1669,7 +1709,7 @@ if len(session("user")) = 0 then
        
         </td>
 
-        <td valign=top align=right style="border-bottom:1px #C4C4C4 solid; padding:1px 5px 0px 0px; color:#999999;"> 
+        <td valign=top align=right style="border-bottom:1px #C4C4C4 solid; white-space:nowrap; padding:1px 5px 0px 0px; color:#999999;"> 
 
         <%fakbelobInklMoms = fakbelob/1 + replace(oRec3("moms")/1, "-", "") %>
 
@@ -1759,6 +1799,7 @@ if len(session("user")) = 0 then
         'fakantalIalt = fakantalIalt + (minus&oRec3("fak"))
         'end if
         
+        lastAfsender = afsender 
         Response.flush
         f = f + 1
         eksportFid = eksportFid &","& oRec3("fid")
@@ -1775,29 +1816,61 @@ if len(session("user")) = 0 then
 	if f = 0 then%>
 	<tr><td colspan=14><%=erp_txt_270 %></td></tr>
 	</table>
-	<%else %>
-	<tr><td>
-        &nbsp;</td>
-        <td colspan=3 style="white-space:nowrap;">&nbsp;</td>
+	<%else 
+        
+        
+         select case lto
+            case "epi2017"
+
+                select case lastAfsender 
+                case "1" 'DK
+
+                    basisValISOtxt = basisValISO
+
+
+               case "10001" 'UK
+
+                   basisValISOtxt = "GBP"
+
+
+
+                case "30001" 'NO
+
+                   basisValISOtxt = "NOK"
+
+                end select
+
+            case else ' STANDARD omregn til basis valuta
+
+                basisValISOtxt = basisValISO
+              
+
+            end select
+
+        
+        
+        %>
+	<tr>
+        <td colspan=10 style="white-space:nowrap;">&nbsp;</td>
      
         <!--<td align=right style="padding:0px 5px 0px 0px;">&nbsp;</td>-->
-        <td colspan=5 align=right style="padding:10px 5px 0px 0px;">
+        <td colspan=4 align=right style="padding:10px 5px 0px 0px;">
         <%=erp_txt_271 %> <b><%=f %></b> <%=erp_txt_036 %><br /><br />
-        <%=erp_txt_272 %> <B><%=formatnumber((belobGrundValTot+internTotFak+(kreTotFak)), 2) &" "&basisValISO  %></B> <br />
-        <%=erp_txt_273 & " " & formatnumber(kreTotFak, 2) & " "& basisValISO %>)<br /><br />
-        <%=erp_txt_274 & " " & formatnumber(internTotFak, 2) & " "& basisValISO %><br />
-        <%=erp_txt_280 %> <B><%=formatnumber(belobGrundValTot+(kreTotFak), 2) &" "&basisValISO  %></B> <br /><br />
+        <%=erp_txt_272 %> <B><%=formatnumber((belobGrundValTot+internTotFak+(kreTotFak)), 2) &" "& basisValISOtxt  %></B> <br />
+        <%=erp_txt_273 & " " & formatnumber(kreTotFak, 2) & " "& basisValISOtxt %>)<br /><br />
+        <%=erp_txt_274 & " " & formatnumber(internTotFak, 2) & " "& basisValISOtxt %><br />
+        <%=erp_txt_280 %> <B><%=formatnumber(belobGrundValTot+(kreTotFak), 2) &" "& basisValISOtxt %></B> <br /><br />
         
-        <%=erp_txt_275 &" "& formatnumber(jobTotFak, 2) & " "& basisValISO %><br />
-        <%=erp_txt_276 &" "& formatnumber(aftTotFak, 2) & " "& basisValISO %><br /><br />
+        <%=erp_txt_275 &" "& formatnumber(jobTotFak, 2) & " "& basisValISOtxt %><br />
+        Service <%=lcase(erp_txt_276) &" "& formatnumber(aftTotFak, 2) & " "& basisValISOtxt %><br /><br />
         
-        <%=erp_txt_277 %> <b><%=antalAbneposter %></b> <%=erp_txt_278 &" "& formatnumber(febkbelobAbneposter, 2) &" "&basisValISO  %>
+        <%=erp_txt_277 %> <b><%=antalAbneposter %></b> <%=erp_txt_278 &" "& formatnumber(febkbelobAbneposter, 2) &" "& basisValISOtxt%>
         <br /><br />
         <%=erp_txt_279 %>
         </td>
         
         
-        <td colspan=10 align=right valign=top><br />
+        <td align=right colspan="3" valign=top><br />
         <%if print <> "j" then %>
             <input id="Submit1" type="submit" value="Opdater >>" />
             <%end if %>
@@ -1812,22 +1885,24 @@ if len(session("user")) = 0 then
     <br /><br /><br />&nbsp;
 
     </div>
-    
+    <br /><br /><br />&nbsp;
     
     
     
     <%
     
     if print <> "j" then
+   
+         
+    'itop = 80
+    'ileft = 0
+    'iwdt = 400
     
-    itop = 80
-    ileft = 0
-    iwdt = 400
-    
-    call sideinfo(itop,ileft,iwdt)
+    'call sideinfo(itop,ileft,iwdt)
     %>
-    <%=erp_txt_281 %>
+    <%'erp_txt_281 %>
  
+    <!--
    </td>
     </tr>
     </table>
@@ -1835,6 +1910,7 @@ if len(session("user")) = 0 then
     <br /><br /> <br /><br /><br /> <br /><br /><br />
     <br /><br /><br />
     &nbsp;
+    -->
    <%
         
         

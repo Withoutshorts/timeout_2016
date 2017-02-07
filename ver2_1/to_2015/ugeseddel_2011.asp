@@ -929,8 +929,9 @@ if len(session("user")) = 0 then
                       <table style="font-size:100%; color:black">
                     
                     <tr>
-                        <td style="padding-right:5px; vertical-align:text-top; width:80px;"><input type="CHECKBOX" name="FM_visallemedarb" id="FM_visallemedarb" value="1" <%=visAlleMedarbCHK %> /> <%=tsa_txt_357%> </td>
-                        <td style="padding:0px 0px 4px 16px;">
+                        <!--<td style="padding-right:5px; vertical-align:text-top; width:80px;"><input type="CHECKBOX" name="FM_visallemedarb" id="FM_visallemedarb" value="1" <%=visAlleMedarbCHK %> /> <%=tsa_txt_357%> </td>-->
+                        <td style="padding:0px 0px 4px 12px;">
+                            <input type="CHECKBOX" name="FM_visallemedarb" id="FM_visallemedarb" value="1" <%=visAlleMedarbCHK %> /> <%=tsa_txt_357%><br />
                     
                    
                
@@ -964,11 +965,11 @@ if len(session("user")) = 0 then
         %>
         <form id="container" action="../timereg/timereg_akt_2006.asp?func=db&rdir=ugeseddel_2011" method="post">
         <div class="row">
-            <div class="col-lg-6">
+            <div class="col-lg-7">
                 <table style="font-size:100%; color:black">
                     
                     <tr>
-                        <td style="padding-right:5px; vertical-align:text-top; width:80px;"><b><%=tsa_txt_183%>:</b></td>
+                        <!--<td style="padding-right:5px; vertical-align:text-top; width:80px;"><b><%=tsa_txt_183%>:</b></td>-->
                         <td style="padding-left:10px">
                             <input type="hidden" id="Hidden5" name="year" value="<%=year(now) %>"/>
 
@@ -980,15 +981,13 @@ if len(session("user")) = 0 then
                                     </span>
                               </div>
 
-                            <!--
-                            <input style="width:300px;" type="text" id="Hidden1" name="xFM_datoer" value="<%=day(now) &"/"& month(now) &"/"& year(now) %>" class="form-control input-small"/>
-                            --> 
+                           
                         </td>
                         <td>&nbsp;</td>
                     </tr>
                     
                     <tr>
-                        <td style="padding-right:5px; padding-top:10px; vertical-align:text-top;"><b><%=left(tsa_txt_066, 5) %>/<%=tsa_txt_236 %>:</b></td>
+                        <!--<td style="padding-right:5px; padding-top:10px; vertical-align:text-top;"><b><%=left(tsa_txt_066, 5) %>/<%=tsa_txt_236 %>:</b></td>-->
                         <td style="padding-top:10px; padding-left:10px;">
                              <input type="hidden" name="varTjDatoUS_man" value="<%=varTjDatoUS_man %>">
         
@@ -1025,7 +1024,7 @@ if len(session("user")) = 0 then
                              </select>
 
                             <%else %>
-                            <input type="text" id="FM_job_0" name="FM_job" placeholder="<%=left(tsa_txt_066, 5) %>/<%=tsa_txt_236 %>" class="FM_job form-control input-small"/>
+                            <input type="text" id="FM_job_0" name="FM_job" placeholder="<%=tsa_txt_066 %>/<%=tsa_txt_236 %>" class="FM_job form-control input-small"/>
                            <!-- <div id="dv_job_0" class="dv-closed dv_job" style="border:1px #cccccc solid; padding:10px; visibility:hidden; display:none;"></div>--> <!-- dv_job -->
 
                              <select id="dv_job_0" class="form-control input-small chbox_job" size="10" style="visibility:hidden; display:none;">
@@ -1040,7 +1039,7 @@ if len(session("user")) = 0 then
                     </tr>
 
                     <tr>
-                        <td style="padding-right:5px; padding-top:10px; vertical-align:text-top;"><b><%=tsa_txt_068%>:</b></td>
+                        <!--<td style="padding-right:5px; padding-top:10px; vertical-align:text-top;"><b><%=tsa_txt_068%>:</b></td>-->
                          <td style="padding-top:10px; padding-left:10px; width:225px">
                             <%if cint(mobil_week_reg_akt_dd) = 1 then %>
                                  <input type="hidden" id="FM_akt_0" value="-1"/>
@@ -1064,7 +1063,7 @@ if len(session("user")) = 0 then
                     </tr>
 
                     <tr>
-                        <td style="padding-right:5px; padding-top:10px; vertical-align:text-top;"><b><%=tsa_txt_137%>:</b></td>
+                        <!--<td style="padding-right:5px; padding-top:10px; vertical-align:text-top;"><b><%=tsa_txt_137%>:</b></td>-->
                          <td style="padding-top:10px; padding-left:10px">
                              <input type="hidden" id="FM_sttid" name="FM_sttid" value="00:00"/>
                              <input type="hidden" id="FM_sltid" name="FM_sltid" value="00:00"/>
@@ -1074,7 +1073,7 @@ if len(session("user")) = 0 then
                     </tr>
 
                     <tr>
-                        <td style="padding-right:5px; padding-top:10px; vertical-align:text-top;"><b><%=tsa_txt_051%>:</b></td>
+                        <!--<td style="padding-right:5px; padding-top:10px; vertical-align:text-top;"><b><%=tsa_txt_051%>:</b></td>-->
                         <td style="padding-top:10px; padding-left:10px; text-align:right;">
                             <input type="text" id="FM_kom" name="FM_kom_0" placeholder="<%=tsa_txt_051%>" class="form-control input-small"/><br />
                             <button class="btn btn-sm btn-success"><b><%=tsa_txt_085%> >></b></button>

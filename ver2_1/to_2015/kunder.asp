@@ -1480,7 +1480,7 @@
                                 
                                   
 
-                                <option value="1" <%=faknr_prioritet_1_SELECTED %>>1 (<%=strLicensindehaver0 %>)</option>
+                                <option value="0" <%=faknr_prioritet_1_SELECTED %>>1 (<%=strLicensindehaver0 %>)</option>
                                 
                                 <%if cint(multible_licensindehavere) = 1 then %>
                                 <option value="2" <%=faknr_prioritet_2_SELECTED %>>2 (<%=strLicensindehaver2 %>)</option>

@@ -36,6 +36,12 @@ kid = request("kid")
              strFaktypeNavn = "faktura"
              end if
 
+            'if oRec("faktype") = 1 then
+            'strFaktypeNavn = erp_txt_002 '"kreditnota"
+            'else
+            'strFaktypeNavn = erp_txt_001 '"faktura"
+            'end if
+
              end if
              oRec.close
 
@@ -60,9 +66,12 @@ kid = request("kid")
          'Doc.ImportFromUrl "https://outzource.dk/timeout_xp/wwwroot/"&toVer&"/timereg/erp_opr_faktura_fs.asp?visminihistorik=1&visfaktura=2&visjobogaftaler=1&nosession=9999&media=pdf&FM_job="&jobid&"&FM_aftale="&aftid&"&id="&id&"&key="&session("lto")&"&FM_start_dag_ival="&request("FM_start_dag_ival")&"&FM_start_mrd_ival="&request("FM_start_mrd_ival")&"&FM_start_aar_ival="&request("FM_start_aar_ival")&"&FM_slut_dag_ival="&request("FM_slut_dag_ival")&"&FM_slut_mrd_ival="&request("FM_slut_mrd_ival")&"&FM_slut_aar_ival="&request("FM_slut_aar_ival")&"", "LeftMargin=0, RightMargin=0, TopMargin=0, BottomMargin=0, PageWidth=635, PageHeight=903"
           Doc.ImportFromUrl "https://timeout.cloud/timeout_xp/wwwroot/"&toVer&"/timereg/erp_opr_faktura_fs.asp?visminihistorik=1&visfaktura=2&visjobogaftaler=1&nosession=9999&media=pdf&FM_job="&jobid&"&FM_aftale="&aftid&"&id="&id&"&key="&session("lto")&"&FM_start_dag_ival="&request("FM_start_dag_ival")&"&FM_start_mrd_ival="&request("FM_start_mrd_ival")&"&FM_start_aar_ival="&request("FM_start_aar_ival")&"&FM_slut_dag_ival="&request("FM_slut_dag_ival")&"&FM_slut_mrd_ival="&request("FM_slut_mrd_ival")&"&FM_slut_aar_ival="&request("FM_slut_aar_ival")&"", "LeftMargin=0, RightMargin=0, TopMargin=0, BottomMargin=0, PageWidth=635, PageHeight=903"
 
-         case "synergi1", "xintranet - local"
+         case "synergi1"
          Doc.ImportFromUrl "https://timeout.cloud/timeout_xp/wwwroot/"&toVer&"/timereg/erp_opr_faktura_fs.asp?visminihistorik=1&visfaktura=2&visjobogaftaler=1&nosession=9999&media=pdf&FM_job="&jobid&"&FM_aftale="&aftid&"&id="&id&"&key="&session("lto")&"&FM_start_dag_ival="&request("FM_start_dag_ival")&"&FM_start_mrd_ival="&request("FM_start_mrd_ival")&"&FM_start_aar_ival="&request("FM_start_aar_ival")&"&FM_slut_dag_ival="&request("FM_slut_dag_ival")&"&FM_slut_mrd_ival="&request("FM_slut_mrd_ival")&"&FM_slut_aar_ival="&request("FM_slut_aar_ival")&"", "LeftMargin=40, RightMargin=0, TopMargin=40, BottomMargin=0, PageWidth=635, PageHeight=903, DrawBackground=True"
-         'Doc.ImportFromUrl "http://localhost/timeout_xp/timereg/erp_fak_godkendt_2007.asp?nosession=9999&media=pdf&jobid="&jobid&"&aftid="&aftid&"&id="&id&"&key="&session("lto")&"&FM_start_dag_ival="&request("FM_start_dag_ival")&"&FM_start_mrd_ival="&request("FM_start_mrd_ival")&"&FM_start_aar_ival="&request("FM_start_aar_ival")&"&FM_slut_dag_ival="&request("FM_slut_dag_ival")&"&FM_slut_mrd_ival="&request("FM_slut_mrd_ival")&"&FM_slut_aar_ival="&request("FM_slut_aar_ival")&"", "LeftMargin=40, RightMargin=0, TopMargin=40, BottomMargin=0, PageWidth=635, PageHeight=903, DrawBackground=True"
+         
+         case "intranet - local"
+         Doc.ImportFromUrl "http://localhost/timeout_xp/timereg/erp_fak_godkendt_2007.asp?nosession=9999&media=pdf&jobid="&jobid&"&aftid="&aftid&"&id="&id&"&key="&session("lto")&"&FM_start_dag_ival="&request("FM_start_dag_ival")&"&FM_start_mrd_ival="&request("FM_start_mrd_ival")&"&FM_start_aar_ival="&request("FM_start_aar_ival")&"&FM_slut_dag_ival="&request("FM_slut_dag_ival")&"&FM_slut_mrd_ival="&request("FM_slut_mrd_ival")&"&FM_slut_aar_ival="&request("FM_slut_aar_ival")&"", "LeftMargin=40, RightMargin=0, TopMargin=40, BottomMargin=0, PageWidth=635, PageHeight=903, DrawBackground=True"
+        
          case "essens"
          Doc.ImportFromUrl "https://timeout.cloud/timeout_xp/wwwroot/"&toVer&"/timereg/erp_opr_faktura_fs.asp?visminihistorik=1&visfaktura=2&visjobogaftaler=1&nosession=9999&media=pdf&FM_job="&jobid&"&FM_aftale="&aftid&"&id="&id&"&key="&session("lto")&"&FM_start_dag_ival="&request("FM_start_dag_ival")&"&FM_start_mrd_ival="&request("FM_start_mrd_ival")&"&FM_start_aar_ival="&request("FM_start_aar_ival")&"&FM_slut_dag_ival="&request("FM_slut_dag_ival")&"&FM_slut_mrd_ival="&request("FM_slut_mrd_ival")&"&FM_slut_aar_ival="&request("FM_slut_aar_ival")&"", "LeftMargin=55, RightMargin=0, TopMargin=80, BottomMargin=0, PageWidth=635, PageHeight=903, DrawBackground=True"
          case else

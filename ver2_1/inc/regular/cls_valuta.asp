@@ -106,6 +106,19 @@ end function
        oRec.close
 	end function
 
+    public dblKurs_fakhist
+	function valutaKurs_fakhist(intValuta)
+	    '**** Finder aktuel kurs ***'
+       dblKurs_fakhist = 100
+
+       strSQLdblKurs_fakhist = "SELECT kurs FROM valutaer WHERE id = " & intValuta
+       oRec6.open strSQLdblKurs_fakhist, oConn, 3
+       if not oRec6.EOF then
+       dblKurs_fakhist = replace(oRec6("kurs"), ",", ".")
+       end if 
+       oRec6.close
+	end function
+
 
     public dblKursOR3
 	function valutaKursOR3(intValuta)
@@ -123,7 +136,7 @@ end function
 	function basisValutaFN()
 	    '**** Finder basisValuta ***'
        dblKurs = 100
-       
+       basisValId = 1
         
        strSQL = "SELECT id, valutakode, kurs FROM valutaer WHERE grundvaluta = 1"
        
@@ -160,7 +173,8 @@ end function
     end if
     
     
-    
+    valBelobBeregnet = formatnumber(valBelobBeregnet, 2)
+    valBelobBeregnet = replace(valBelobBeregnet, ".", "")
     valBelobBeregnet = valBelobBeregnet/1
     'Response.Write valBelobBeregnet & "<br>"
     'Response.flush

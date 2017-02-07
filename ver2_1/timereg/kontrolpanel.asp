@@ -3095,7 +3095,7 @@ if len(session("user")) = 0 then
              end if %>
 
             <br /><br />
-            <input type="checkbox" name="FM_multible_licensindehavere" value="1" <%=multible_licensindehavereCHK%>/><b>Tillad multible juridiske enheder</b> afsender fakturaer fra TimeOut. (medfører ekstralicens til TimeOut)<br />
+            <input type="checkbox" name="FM_multible_licensindehavere" value="1" <%=multible_licensindehavereCHK%>/><b>Tillad multible juridiske enheder</b> afsender fakturaer fra TimeOut.<br />
 
             <%for f = 2 to 5%>
             <br />                    

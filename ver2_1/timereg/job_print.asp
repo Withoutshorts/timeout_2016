@@ -1637,14 +1637,14 @@ if len(trim(session("user"))) = 0 AND cint(nosession) = 0  then
                  if media = "pdf" then %>
 
                 <div id="Div4" style="position:absolute; top:0; width:821px; height:1049px; padding:0px; left:0; border:0px #000000 dashed; z-index:-1;">
-             <img alt="" src="https://outzource.dk/timeout_xp/wwwroot/ver2_14/ill/jttek/jttek_brevpapir_20140703.gif" width="821" height="1049" border="0"  /><!-- 769 1087 width="758" height="969" -->
+             <img alt="" src="https://timeout.cloud/timeout_xp/wwwroot/ver2_14/ill/jttek/formkon_logo3.gif" width="821" height="1049" border="0"  /><!-- 769 1087 width="758" height="969" / jttek_brevpapir_20140703 -->
              </div>
                
                <br />
               <%if cint(side2) = 1 then %>
 
               <div id="Div4" style="position:absolute; top:0; width:821px; height:1049px; padding:0px; left:0; border:0px #000000 solid; z-index:-1;">
-             <img alt="" src="https://outzource.dk/timeout_xp/wwwroot/ver2_14/ill/jttek/jttek_brevpapir_20140703.gif" width="821" height="1049" border="0"  /><!-- 769 1087 -->
+             <img alt="" src="https://timeout.cloud/timeout_xp/wwwroot/ver2_14/ill/jttek/formkon_logo3.gif" width="821" height="1049" border="0"  /><!-- 769 1087 / jttek_brevpapir_20140703 -->
              </div>
            
              <%end if %>
@@ -1915,6 +1915,9 @@ if len(trim(session("user"))) = 0 AND cint(nosession) = 0  then
         case "synergi1"
         strkundeHTML = strkundeHTML & "<br><br><br><br><br>"
 	    strkundeHTML = strkundeHTML & afsBy &", den ##header_dt## </td></tr></table>"
+        case "jttek"
+        strkundeHTML = strkundeHTML & "<br><br>"
+	    strkundeHTML = strkundeHTML & afsBy &", d. ##header_dt## </td></tr></table>"
         case else
 	    strkundeHTML = strkundeHTML & "</td><td valign=bottom align=right><br><br><br><br><br>"
 	    strkundeHTML = strkundeHTML & afsBy &", d. ##header_dt## </td></tr></table>"
@@ -1937,8 +1940,8 @@ if len(trim(session("user"))) = 0 AND cint(nosession) = 0  then
 	    '*** Jobnavn / vedr. text ***
         select case lto
         case "jttek"
-        vedrtxtval = "<br><br><br><b><u>"& replace(vedrinfo, "<br>", "") &"</u></b><span style=""float:right;"">"
-        vedrtxtval = vedrtxtval & "<img src=""ill/blank.gif"" width=450 height=1 border=0>"
+        vedrtxtval = "<br><b><u>"& replace(vedrinfo, "<br>", "") &"</u></b><span style=""float:right;"">"
+        vedrtxtval = vedrtxtval & "<img src=""ill/blank.gif"" width=460 height=1 border=0>"
         vedrtxtval = vedrtxtval & "<b><u>No. "& strjobnr &"</u></span><br><br><br>"
         case "dencker", "intranet - local"
         vedrtxtval = "<br><br><br><b><u>"& replace(vedrinfo, "<br>", "") &"</u></b>"

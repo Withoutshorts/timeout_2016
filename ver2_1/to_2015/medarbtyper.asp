@@ -888,12 +888,13 @@ case "dbopr", "dbred"
                                         
                                             
 										    intTimepris = replace(intTimepris, ",", ".")
+                                            alttp_valutaKurs = replace(alttp_valutaKurs, ",", ".")
                                      
 
 			                                        strSQLtp = "UPDATE timer SET timepris = "& intTimepris &", valuta = "& intValuta &", kurs = "& alttp_valutaKurs &""_
 			                                        &" WHERE tdato >= '"& fraDato &"' AND tmnr = "& oRec("mid") &" AND taktivitetid = "& oRec5("aktid") & " AND tjobnr = '"& oRec5("jobnr") &"'"
 					                  
-                                                    'Response.flush
+                                                   ' Response.flush
                                                     'Response.write strSQLtp & "<br>"
                                                     'Response.end
 					                                oConn.execute(strSQLtp)

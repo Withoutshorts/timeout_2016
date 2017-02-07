@@ -1281,9 +1281,12 @@ if len(session("user")) = 0 then
 												&" 1, "& rabatThis &", "& enhedsang_akt &", "& valutaThis &", "& kursThis &", "_
                                                 &" "& aktsortorder &", "& momsfri &", '"& aktFase &"')")
 												
+
+                                                'if session("mid") =  1 then
 												'Response.write strSQL_sumakt  & "<br>"
 												'Response.flush
-												oConn.execute(strSQL_sumakt)
+												'end if
+                                                oConn.execute(strSQL_sumakt)
 												
 										
                                         end if 'show sumaktivitet
@@ -4018,7 +4021,7 @@ if len(session("user")) = 0 then
 		<%'** Bruger afg. dato fra interval som faktura dato **'
 		if func <> "red" then 'cint(usedt_ival) = 1 and
             select  case lto 
-            case "epi", "epi_no", "epi_sta", "epi_ab", "xintranet - local"
+            case "epi", "epi_no", "epi_sta", "epi_ab", "xintranet - local", "epi2017"
             useFakDate = dateadd("m", -3, now)
             strDag = day(useFakDate)
 		    strMrd = month(useFakDate)

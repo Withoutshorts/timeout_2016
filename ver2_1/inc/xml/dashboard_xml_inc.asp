@@ -7,9 +7,9 @@ Set dsb_objXMLDom = Server.CreateObject("Microsoft.XMLDOM")
 Set dsb_objXmlHttp = Server.CreateObject("Msxml2.ServerXMLHTTP")
 'dsb_objXmlHttp.open "GET", "http://localhost/inc/xml/dashboard_sprog.xml", False
 'dsb_objXmlHttp.open "GET", "https://outzource.dk/timeout_xp/wwwroot/ver2_1/inc/xml/dashboard_sprog.xml", False
-dsb_objXmlHttp.open "GET", "https://timeout.cloud/timeout_xp/wwwroot/ver3_99/inc/xml/dashboard_sprog.xml", False
+'dsb_objXmlHttp.open "GET", "https://timeout.cloud/timeout_xp/wwwroot/ver3_99/inc/xml/dashboard_sprog.xml", False
 'dsb_objXmlHttp.open "GET", "http://outzource.dk/timeout_xp/wwwroot/ver2_14/inc/xml/dashboard_sprog.xml", False
-'dsb_objXmlHttp.open "GET", "https://timeout.cloud/timeout_xp/wwwroot/ver2_14/inc/xml/dashboard_sprog.xml", False
+dsb_objXmlHttp.open "GET", "https://timeout.cloud/timeout_xp/wwwroot/ver2_14/inc/xml/dashboard_sprog.xml", False
 'dsb_objXmlHttp.open "GET", "http://outzource.dk/timeout_xp/wwwroot/ver4_22/inc/xml/dashboard_sprog.xml", False
 
 dsb_objXmlHttp.send
@@ -47,17 +47,20 @@ end if
 select case sprog
 case 1
 dsb_sXPathQuery = "//sprog/dk"
-Session.LCID = 1030
+'Session.LCID = 1030
 case 2
 dsb_sXPathQuery = "//sprog/uk"
-Session.LCID = 2057
+'Session.LCID = 2057
 case 3
 dsb_sXPathQuery = "//sprog/se"
-Session.LCID = 1053
+'Session.LCID = 1053
 case else
 dsb_sXPathQuery = "//sprog/dk"
-Session.LCID = 1030
+'Session.LCID = 1030
 end select
+
+'*** ALTID DK ellers er der fejl i alle beløb og valtuaer omregninger hvis der er punktum i tallet.
+Session.LCID = 1030
 
 'Response.Write "Session.LCID" &  Session.LCID
 

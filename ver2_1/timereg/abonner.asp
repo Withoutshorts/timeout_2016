@@ -223,8 +223,8 @@ oskrift = "Abonnér"
          <td><br /><b>B) Rapporttype:</b><br />
         Vælg udgangspunkt:<br />
         <select style="width:230px; font-size:11px;" size="10" name="FM_rapporttype" id="FM_rapporttype">
-            <option value="1" SELECTED>Ugetotaler for valgte medarbejdere (fra pkt. B og C)</option>
-            <option value="2">For projekter hvor valgte modtager (pkt A er jobansvar./jobejer) </option>
+            <option value="1" SELECTED>HR rapport. Ugetotaler for valgte medarbejdere (fra pkt. B og C)</option>
+            <option value="2">Projektleder rapport (jobansvar./jobejer) </option>
         </select>
 
 

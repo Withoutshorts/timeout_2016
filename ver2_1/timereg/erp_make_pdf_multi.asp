@@ -116,11 +116,13 @@ end select
              call kundenavnPDF(strknavn)
              strknavn = strKundenavnPDFtxt
 
-               if oRec("faktype") = 1 then
-             strFaktypeNavn = "kreditnota"
+             if oRec("faktype") = 1 then
+             strFaktypeNavn = "kreditnota" 'erp_txt_002
              else
-             strFaktypeNavn = "faktura"
+             strFaktypeNavn = "faktura" 'erp_txt_001
              end if
+
+                
 
              end if
              oRec.close

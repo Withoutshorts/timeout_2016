@@ -7,6 +7,7 @@
 
 <!--#include file="../inc/connection/aktivedb_inc.asp"-->
 
+
 <%
 
 if len(request("opdateralledb")) <> 0 then
@@ -83,7 +84,7 @@ a = 0
 								Response.write x &"<br>"& strSQL(b) & "<br><br>"
 								Response.flush
 
-								'if x > 0 then 'AND x < 101 then
+								if x > 0 then 'AND x < 101 then
                                 oConn.open strConnect_aktiveDB
 							    
                                 '*** DENNE LINJE INDLÆSER // UDKOMMENTER NÅR FILEN IKKE ER AKTIV
@@ -94,7 +95,7 @@ a = 0
 								
 								oConn.close
 
-							    'end if
+							    end if
 								
 								
 								a = a + 1

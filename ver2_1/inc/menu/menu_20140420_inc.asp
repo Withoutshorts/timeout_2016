@@ -924,7 +924,7 @@ end select
                         <%end if %>
 
 
-                        <%if level = 1 AND (lto = "intranet - local" OR lto = "epi" OR lto = "epi_cati" OR lto = "epi_no" OR lto = "epi_se") then %>
+                        <%if level = 1 AND (lto = "intranet - local" OR lto = "epi" OR lto = "epi_cati" OR lto = "epi_no" OR lto = "epi_se" OR lto = "epi2017") then %>
                         
                          <br /><br />
                         <li><a href="<%=toSubVerPath14 %>timerimperr.asp?menu=stat" ><%=tsa_txt_467 %></a></li>

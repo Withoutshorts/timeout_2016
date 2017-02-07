@@ -270,11 +270,15 @@ $(document).ready(function() {
             return false 
         }
        
-        //alert(nytMatantal.length)
+        
 
-        nytMatantal_stkpris = $("#FM_matantal_stkpris").val().replace(".", ",")
+       
+
+        //alert("HER")
 
         if (lto == 'intranet - local' || lto == 'tbg') {
+
+            nytMatantal_stkpris = $("#FM_matantal_stkpris").val().replace(".", ",")
 
             if (isNum_treg(nytMatantal_stkpris)) {
                 //return true

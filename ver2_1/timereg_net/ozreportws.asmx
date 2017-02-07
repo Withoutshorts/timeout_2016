@@ -244,7 +244,7 @@ Public Class ozreportws
                     'Dim jobidsSQL As String = " AND (tjobnr = '-1'"
                     Dim strSQLjobans As String = "SELECT j.id AS jobid, jobnr, jobnavn, a.navn AS aktnavn, a.id AS aktid FROM job AS j " _
                     & " LEFT JOIN aktiviteter AS a ON (a.job = j.id AND (fakturerbar = 1 OR fakturerbar = 2)) " _
-                    & " WHERE (jobans1 = " & medid & " OR jobans2 = " & medid & ") AND jobstatus = 1 GROUP BY a.id ORDER BY j.jobnavn, a.id"
+                    & " WHERE (jobans1 = " & medid & " OR jobans2 = " & medid & " OR jobans3 = " & medid & " OR jobans4 = " & medid & "OR jobans5 = " & medid & ") AND jobstatus = 1 GROUP BY a.id ORDER BY j.jobnavn, a.id"
 
 
 

@@ -710,7 +710,7 @@
 	<%=erp_txt_366 %>: <input type="text" name="aktsort_<%=x%>" id="aktsort_<%=thisaktid(x)%>" value="<%=thisaktsort(x)%>" class="sortFase" style="font-size:9px; width:30px;"> 
         <!--<input type="checkbox" class="xsortFaseCHK" id="xaktsort_chk_<%=x%>" checked /><span style="font-size:9px; color:#999999;">Sortér alle aktiviteter i fase samlet</span>-->
     <input value="<%=lcase(trim(thisAktFase(x))) %>" id="fs_<%=x%>" type="hidden" />
-	<br /><img src="../blank gif" width="1" height="5" /><br /><%=erp_txt_505 %><: <input type="text" name="aktfaktor_<%=x%>" id="aktfaktor_<%=x%>" value="<%=thisaktfaktor(x) %>" style="font-size:9px; width:30px;"> <!-- mangler -->
+	<br /><img src="../blank gif" width="1" height="5" /><br /><%=erp_txt_505 %>: <input type="text" name="aktfaktor_<%=x%>" id="aktfaktor_<%=x%>" value="<%=thisaktfaktor(x) %>" style="font-size:9px; width:30px;"> <!-- mangler -->
 	<input id="beregnfaktor_<%=x%>" type="button" value="Beregn" style="font-size:9px;" onClick="opd_timer_faktor(<%=x%>)" /> (<%=erp_txt_367 %>.) 
 	
 	</td>

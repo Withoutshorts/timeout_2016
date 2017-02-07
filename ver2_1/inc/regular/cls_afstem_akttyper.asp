@@ -2,9 +2,11 @@
 <%
     
      select case lto
-     case "epi", "epi_sta", "epi_ab", "epi_no", "epi_cati", "tec", "esn"
-     arrayHigh = 1400
-     case "esn", "tec", "intranet - local"
+     case "epi", "epi_sta", "epi_ab", "epi_no", "epi_cati", "epi2017"
+     arrayHigh = 5000
+     case "tec", "esn"
+     arrayHigh = 1500
+     case "intranet - local"
      arrayHigh = 600
      case else
      arrayHigh = 150

@@ -2238,10 +2238,12 @@
 	    Set objFSO = server.createobject("Scripting.FileSystemObject")
     	
         if cint(faktypeXML) = 1 then
-        strFaktypeNavn = "kreditnota"
+        strFaktypeNavn = "kreditnota" 'erp_txt_002 
         else
-        strFaktypeNavn = "faktura"
+        strFaktypeNavn = "faktura" 'erp_txt_001 
         end if
+
+       
 
     	file = ""&strFaktypeNavn&"_xml_"&lto&"_"&varFaknr&"_"&strknavn&"."& ext
     	
@@ -2261,7 +2263,7 @@
             if cint(vans) = 1 then
                 '***  VANS CSC ***
                 select case lto
-	            case "outz", "epi", "synergi1", "epi_no", "epi_sta", "epi_ab" , "rek"
+	            case "outz", "epi", "synergi1", "epi_no", "epi_sta", "epi_ab" , "rek", "epi2017"
 
                      if instr(request.servervariables("LOCAL_ADDR"), "195.189.130.210") <> 0 then
                         

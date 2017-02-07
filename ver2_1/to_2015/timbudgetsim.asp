@@ -275,8 +275,8 @@ if session("user") = "" then
    
 
 
-             jbs = 8000
-             akts = 120000
+             jbs = 100000
+             akts = 500000
 
              dim strJobTxtTds, strAktTxtTds
              redim strJobTxtTds(jbs), strAktTxtTds(akts)
@@ -827,10 +827,15 @@ if session("user") = "" then
         visrealprdatoStartSQL = h1aar & "-7-1"
         visrealprdatoSQL = year(visrealprdato) &"-"& month(visrealprdato) &"-"& day(visrealprdato)
 
-         jbs = 6000
-         akts = 120000 '50000
+         jbs = 100000
+         akts = 500000 '50000
          p = 14
+         select case lto
+         case "epi2017"
+         m = 40000 
+         case else
          m = 2250 '250 '160 '120
+         end select
          mhigh = 0
          phigh = 0
          dim antalm, antalp, h1_medTot, h2_medTot, h1_medTotGT, h2_medTotGT, h1_medTotGTGT
@@ -1075,7 +1080,7 @@ if session("user") = "" then
                                             oRec.open strSQLjob, oConn, 3
                                             while not oRec.EOF 
 
-                                             if cint(jobid) = cint(oRec("id")) then
+                                             if cdbl(jobid) = cdbl(oRec("id")) then
                                              jSel = "SELECTED"
 
                                              projektgruppe1 = oRec("projektgruppe1")
@@ -1120,7 +1125,14 @@ if session("user") = "" then
                                            <%end if %>
 
                                           <%
-                                          strSQLprogrp = "SELECT p.navn AS pgrpnavn, p.id AS pid FROM projektgrupper AS p WHERE p.orgvir = 1 "
+                                         select case lto
+                                         case "epi2017"
+                                         specialprgrpsSQL = " OR (p.id = 63))"
+                                         case else
+                                         specialprgrpsSQL = ")"
+                                         end select 
+
+                                          strSQLprogrp = "SELECT p.navn AS pgrpnavn, p.id AS pid FROM projektgrupper AS p WHERE (p.orgvir = 1 " & specialprgrpsSQL
 
                                           if cint(filterKunprojgrptilknyt) = 1 then  
                                           strSQLprogrp = strSQLprogrp &" AND (p.id = "& projektgruppe1 &" OR p.id = "& projektgruppe2 &" OR p.id = "& projektgruppe3 &" OR p.id = "& projektgruppe3 &" OR p.id = "& projektgruppe4 &" OR p.id = "& projektgruppe5 &" OR "_
@@ -1404,10 +1416,17 @@ redim medarbIPgrp(1000)
              prgrRelMids = " AND (medarbejderId <> 0) "
             end if
 
+                select case lto
+                case "epi2017"
+                specialprgrpsSQL = " (p.id = 63)"
+                case else
+                specialprgrpsSQL = " (p.orgvir = 1)"
+                end select
+
              strSQLMedarb = "SELECT mnavn, init, mid, p.navn AS pgrpnavn, p.id AS pid, ansatdato, opsagtdato FROM projektgrupper AS p "_
              &"LEFT JOIN progrupperelationer AS pr ON (projektgruppeId = p.id "& prgrRelMids &")"_
              &"LEFT JOIN medarbejdere ON (mid = medarbejderId) WHERE mansat <> 2 "& medarbinitSQL &" AND projektgruppeId <> 10 "_
-             &" AND p.orgvir = 1 AND p.id <> 10 AND init <> '' "& minitSQlkri &" "& progrpidSQLkri &"  ORDER BY pgrpnavn, mnavn LIMIT 80"
+             &" AND "& specialprgrpsSQL &" AND p.id <> 10 AND init <> '' "& minitSQlkri &" "& progrpidSQLkri &"  ORDER BY pgrpnavn, mnavn LIMIT 80"
             
                'response.write strSQLMedarb
                'response.Flush

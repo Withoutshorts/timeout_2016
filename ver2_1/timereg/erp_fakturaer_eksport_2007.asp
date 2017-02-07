@@ -13,12 +13,15 @@ if len(session("user")) = 0 then
 	else
 
 
-    select case lto 
-    case "epi_uk"
-         Session.LCID = 1030
-    end select
+    'select case lto 
+    'case "epi_uk"
+    '     Session.LCID = 1030
+    'end select
     
+
+    call basisValutaFN()
 	
+    
 	
 	if len(request("visning")) <> 0 then
 	visning = request("visning")
@@ -339,7 +342,7 @@ if len(session("user")) = 0 then
 	strSQL = "SELECT f.fid, f.faknr, f.fakdato, f.timer, f.beloeb, f.b_dato, f.fakadr, f.faktype, "_
 	&" f.konto, f.modkonto, f.moms, f.erfakbetalt, f.valuta, f.kurs, fak_ski, "_
 	&" k.kkundenr, k.kkundenavn, k.adresse, k.postnr, k.city, k.land, k.telefon, f.valuta, "_
-	&" f.kurs, k.ean, v.valutakode, k.cvr, medregnikkeioms, j.jobnr, s.aftalenr, brugfakdatolabel, labeldato, f.fak_fomr, k.ktype, momssats"_
+	&" f.kurs, k.ean, v.valutakode, k.cvr, medregnikkeioms, j.jobnr, s.aftalenr, brugfakdatolabel, labeldato, f.fak_fomr, k.ktype, momssats, f.afsender"_
 	&" FROM fakturaer f "_
 	&" LEFT JOIN kunder k ON (k.kid = f.fakadr)"_
     &" LEFT JOIN job j ON (j.id = f.jobid)"_
@@ -362,13 +365,20 @@ if len(session("user")) = 0 then
 	    if lto <> "acc" then
 	    strTxtExport = strTxtExport & "CVR;"
 	    end if
+
+        select case lto
+        case "epi2017"
+            basisValISOtxt = "(basis CUR)"
+         case else
+            basisValISOtxt = basisValISO
+        end select 
 	    
-	    strTxtExport = strTxtExport & "Tlf;Faktura nr.;Fakturadato;F/L (Fak. systemdato:0, Labeldato:1);Beløb ekskl. moms "& basisValISO &";Moms;"
+	    strTxtExport = strTxtExport & "Tlf;Faktura nr.;Fakturadato;F/L (Fak. systemdato:0, Labeldato:1);Beløb ekskl. moms "& basisValISOtxt &";Moms;"
         
         strTxtExport = strTxtExport & "Type (0:Faktura, 1:Kreditnota);Konto;Modkonto;Forfaldsdato;Modtaget/Betalt;EAN;"
 	    
         if lto <> "acc" then ' <> "acc" AND lto <> "jttek" AND lto <> "epi" then
-            strTxtExport = strTxtExport & "Beløb inkl. moms "& basisValISO &";"
+            strTxtExport = strTxtExport & "Beløb inkl. moms "& basisValISOtxt &";"
         end if
                     
 	    if lto <> "acc" AND lto <> "synergi1" then '= "execon" OR lto = "immenso" OR lto = "intranet - local" then
@@ -407,6 +417,7 @@ if len(session("user")) = 0 then
     oRec.open strSQL, oConn, 3
 	while not oRec.EOF 
     
+    afsender = oRec("afsender")
     FakKurs = oRec("kurs")
     
     if len(oRec("fid")) <> 0 then
@@ -1088,11 +1099,12 @@ if len(session("user")) = 0 then
 
 
 
-				
-    case 1 'Standard
+	'Eksport B - Simpel / Standard			
+    case 1 
     
     if len(trim(oRec("beloeb"))) <> 0 then
-         if oRec("faktype") = 0 then
+        
+        if oRec("faktype") = 0 then
         Belob_fakvaluta = oRec("beloeb")
         moms_fakvaluta = oRec("moms")
         else
@@ -1104,38 +1116,98 @@ if len(session("user")) = 0 then
     moms_fakvaluta = 0
     end if
 
-    if oRec("valuta") <> 1 then 
+   
             
             'if oRec("beloeb") <> "" then
             'belobsigned = 
-            call beregnValuta(oRec("beloeb"),oRec("kurs"),100)
-            fakBelob = valBelobBeregnet
 
-            call beregnValuta(oRec("moms"),oRec("kurs"),100)
-            fakMoms = valBelobBeregnet
+            select case lto
+            case "epi2017"
+
+                select case afsender
+                case "1" 'DK
+
+                call beregnValuta(oRec("beloeb"),oRec("kurs"),100)
+                fakBelob = valBelobBeregnet
+
+                call beregnValuta(oRec("moms"),oRec("kurs"),100)
+                fakMoms = valBelobBeregnet
+
+
+                case "10001" 'UK
+
+                call beregnValuta(oRec("beloeb"),oRec("kurs"),100)
+                fakBelob = valBelobBeregnet
+
+                call valutaKurs_fakhist(6) ' --> GBP
+
+                call beregnValuta(fakBelob,100,dblkurs_fakhist/100)
+                fakBelob = valBelobBeregnet
+                
+                call beregnValuta(oRec("moms"),oRec("kurs"),100)
+                fakMoms = valBelobBeregnet
+
+                call beregnValuta(fakMoms,100,dblkurs_fakhist/100)
+                fakMoms = valBelobBeregnet
+
+
+
+                case "30001" 'NO
+
+                call beregnValuta(oRec("beloeb"),oRec("kurs"),100)
+                fakBelob = valBelobBeregnet
+
+                call valutaKurs_fakhist(5) ' --> NOK
+
+                call beregnValuta(fakBelob,100,dblkurs_fakhist/100)
+                fakBelob = valBelobBeregnet
+                
+                call beregnValuta(oRec("moms"),oRec("kurs"),100)
+                fakMoms = valBelobBeregnet
+
+                call beregnValuta(fakMoms,100,dblkurs_fakhist/100)
+                fakMoms = valBelobBeregnet
+
+                end select
+
+            case else ' STANDARD omregn til basis valuta
+
+
+                 if cint(oRec("valuta")) <> cint(basisValId) then  '<> 1 20170207
+
+                    call beregnValuta(oRec("beloeb"),oRec("kurs"),100)
+                    fakBelob = valBelobBeregnet
+
+                    call beregnValuta(oRec("moms"),oRec("kurs"),100)
+                    fakMoms = valBelobBeregnet
+
+                 else
+        
+                    fakBelob = oRec("beloeb")
+                    fakMoms = oRec("moms")
+    
+                end if
+
+            end select
 
             
-    else
-        
-        fakBelob = oRec("beloeb")
-        fakMoms = oRec("moms")
-    
-    end if
+   
     
     if oRec("faktype") = 0 then
-    belob = fakBelob
-    antal = oRec("timer")
-    moms = fakMoms
+
+        belob = fakBelob
+        antal = oRec("timer")
+        moms = fakMoms
+    
     else 'Kreditnota
 
        
             
         belob = -(fakBelob) 
         moms = -(fakMoms) 
-
         antal = -(oRec("timer"))
 
-        if cdbl(belob) > 0 then 'skirer fortegen er negtativ på kreditnota også ved fejl indtastniing af n.feks negativ timepris
+        if cdbl(belob) > 0 then 'sikrer fortegen er negtativ på kreditnota også ved fejl indtastniing af n.feks negativ timepris
         belob = belob * -1
         moms = moms * -1
         end if

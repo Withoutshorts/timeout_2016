@@ -69,31 +69,32 @@ end if
 select case sprog
 case 1
 sXPathQuery_global = "//sprog/dk"
-Session.LCID = 1030
+'Session.LCID = 1030
 case 2
 sXPathQuery_global = "//sprog/uk"
-Session.LCID = 2057
+'Session.LCID = 2057
 case 3
 sXPathQuery_global = "//sprog/se"
-Session.LCID = 1053
+'Session.LCID = 1053
 case 4
 sXPathQuery_global = "//sprog/no"
-Session.LCID = 2068
+'Session.LCID = 2068
 case 5
 sXPathQuery_global = "//sprog/es"
-Session.LCID = 1034
+'Session.LCID = 1034
 case 6
 sXPathQuery_global = "//sprog/de"
-Session.LCID = 1031
+'Session.LCID = 1031
 case 7
 sXPathQuery_global = "//sprog/fr"
-Session.LCID = 1036
+'Session.LCID = 1036
 case else
 sXPathQuery_global = "//sprog/dk"
-Session.LCID = 1030
+'Session.LCID = 1030
 end select
 
-
+'*** ALTID DK ellers er der fejl i alle beløb og valtuaer omregninger hvis der er punktum i tallet.
+Session.LCID = 1030
 
 
 

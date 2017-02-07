@@ -7,7 +7,7 @@
 <!--#include file="../inc/errors/error_inc.asp"-->
 <!--#include file="../inc/regular/global_func.asp"-->
 <!--#include file="../inc/regular/job_func.asp"-->
-<!--#include file = "CuteEditor_Files/include_CuteEditor.asp" -->
+<!--#include file="CuteEditor_Files/include_CuteEditor.asp" -->
 <!--#include file="../inc/regular/topmenu_inc.asp"--> 
 <!--#include file="inc/convertDate.asp"-->
 <!--#include file="inc/timbudgetsim_inc.asp"-->
@@ -2733,7 +2733,7 @@ if len(session("user")) = 0 then
                                     
 
                                     if len(trim(request("FM_avarenr"))) <> 0 then
-                                    avarenr = request("FM_avarenr")
+                                    avarenr = trim(request("FM_avarenr"))
                                     else
                                     avarenr = ""
                                     end if
@@ -4647,9 +4647,11 @@ if len(session("user")) = 0 then
     &" lincensindehaver_faknr_prioritet_job "_
     &" FROM job, kunder WHERE id = " & id &" AND kunder.Kid = jobknr"
 	
-	'Response.Write strSQL
-	'Response.flush
-	
+        'if session("mid") = 1 then
+	    'Response.Write strSQL
+	    'Response.flush
+	    'end if
+
 	oRec.open strSQL, oConn, 3
 	
 	if not oRec.EOF then
@@ -6694,15 +6696,15 @@ if len(session("user")) = 0 then
                              'end if
                             %>
                             Faktureres af følgende licensindehaver (juridisk enhed):<br /><select name="FM_lincensindehaver_faknr_prioritet_job" style="width:380px;">
-							<%strSQL = "SELECT kid, kkundenavn, kkundenr FROM kunder WHERE "& multiKSQL &" ORDER BY kkundenavn" 
+							<%strSQL = "SELECT kid, kkundenavn, kkundenr, lincensindehaver_faknr_prioritet FROM kunder WHERE "& multiKSQL &" ORDER BY kkundenavn" 
 							oRec.open strSQL, oConn, 3
 							while not oRec.EOF 
-							 if oRec("kid") = cint(lincensindehaver_faknr_prioritet_job) then
+							 if oRec("lincensindehaver_faknr_prioritet") = cint(lincensindehaver_faknr_prioritet_job) then
 							 kSEL = "SELECTED"
 							 else
 							 kSEL = ""
 							 end if%>
-							<option value="<%=oRec("kid") %>" <%=kSEL %>><%=oRec("kkundenavn") &" "& oRec("kkundenr") %></option>
+							<option value="<%=oRec("lincensindehaver_faknr_prioritet") %>" <%=kSEL %>><%=oRec("kkundenavn") &" "& oRec("kkundenr") %></option>
 							<%
 							oRec.movenext
 							wend
@@ -7959,7 +7961,7 @@ end select '*** Step %>
 
 		
 		'*** bgcolor ***
-		if cint(id) = oRec("id") then
+		if cdbl(id) = oRec("id") then
 		bc = "#FFFF99"
 		else
 			select case right(cnt, 1) 

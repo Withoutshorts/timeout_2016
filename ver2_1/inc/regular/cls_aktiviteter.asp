@@ -1260,7 +1260,7 @@ function hentaktiviterListe(jobid, func, vispasluk, sort)
     strAktListe = strAktListe &"<td>"& left(akttypenavn, 7) &".</td>"
 
     if len(trim(oRec6("avarenr"))) <> 0 then
-    avarenr = oRec6("avarenr") 
+    avarenr = trim(oRec6("avarenr")) 
     else
     avarenr = ""
     end if
@@ -1546,6 +1546,7 @@ function opdateraktliste(jobid, aktids, aktnavn, akttimer, aktantalstk, aktfaser
 
         aktkonto(t) = aktkonto(t) 
         avarenr(t) = replace(avarenr(t), ", #", "")
+        avarenr(t) = trim(avarenr(t))
 	    
 	    aktNavn(t) = trim(aktNavn(t))
 	    aktNavn(t) = replace(aktNavn(t), "'", "")

@@ -58,6 +58,9 @@
 '*** Er global inc_ inkluderet på den aktuelle side?? 
 global_inc = "j"
 
+
+'*** ALTID DK ellers er der fejl i alle beløb og valtuaer omregninger hvis der er punktum i tallet.
+Session.LCID = 1030
             
 call basisValutaFN()
 
@@ -915,17 +918,19 @@ function lcid_sprog(usemid)
         
 
 
-        select case sprog
-        case 1 '//sprog/dk"
-        Session.LCID = 1030
-        case 2 '//sprog/uk"
-        Session.LCID = 2057
-        case 3 '"//sprog/se"
-        Session.LCID = 1053 
-        case else
-        Session.LCID = 1030
-        end select
+        'select case sprog
+        'case 1 '//sprog/dk"
+        'Session.LCID = 1030
+        'case 2 '//sprog/uk"
+        'Session.LCID = 2057
+        'case 3 '"//sprog/se"
+        'Session.LCID = 1053 
+        'case else
+        'Session.LCID = 1030
+        'end select
 
+        '*** ALTID DK ellers er der fejl i alle beløb og valtuaer omregninger hvis der er punktum i tallet.
+        Session.LCID = 1030
         lcid_sprog_Val = Session.LCID
         
 
