@@ -42,7 +42,8 @@ function isNum_treg(passedVal) {
 
 $(document).ready(function() {
 
-
+    alert("awd")
+    sogakt();
    
 
     mobil_week_reg_job_dd = $("#mobil_week_reg_job_dd").val()
@@ -555,7 +556,8 @@ $(document).ready(function() {
 
     function sogakt() {
        
-
+        
+        alert("test")
      
 
         mobil_week_reg_akt_dd = $("#mobil_week_reg_akt_dd").val()

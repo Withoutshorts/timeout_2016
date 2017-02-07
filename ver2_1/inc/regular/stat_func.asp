@@ -234,7 +234,7 @@ end function
 
 	
 	
-	'**** Projektgrupper medarbejdere, kunder job og aftler faste søge filterkriterier i stat.
+	'**** Projektgrupper medarbejdere, kunder job og aftler faste søge filterkriterier i stat.n medarbiprojgrp
 	'**** Grnadtot, Joblog, Oms. Mat.forbrug, Forretningsområder
     public jobstKri, viskunabnejob0, viskunabnejob1, viskunabnejob2, segment, segmentSQLkri
 	sub medkunderjob

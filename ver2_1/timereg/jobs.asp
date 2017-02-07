@@ -3209,6 +3209,7 @@ if len(session("user")) = 0 then
                                            strBody = strBody &"<br><br><br>Gå til TimeOut her:<br>https://outzource.dk/"&lto&"/default.asp?tomobjid="&jobid
                                            else
                                            strBody = strBody &"<br><br><br>Gå til TimeOut her:<br>https://timeout.cloud/"&lto&"/default.asp?tomobjid="&jobid
+                                                                                                   ' "<a href=""https://outzource.dk/"&lto&"/default.asp?tomobjid="&jobid&">Link</a>"
                                            end if
                                     end if
                                     

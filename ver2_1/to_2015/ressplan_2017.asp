@@ -60,7 +60,7 @@ Session.LCID = 1030
 
         non-invoiceble: fbe983
 
-        Absence: fa573c
+        Absence: b3dc6c
 
         Holiday: b3dc6c
 
@@ -280,157 +280,372 @@ Session.LCID = 1030
                             <td style="width:10%; vertical-align:middle"><!--=left(oRec("mnavn"), 20)--><div style="font-size:110%">Oliver Storm</div></td>
 
 
-                            <td style="letter-spacing:-4px;">
-                                
-                                <!------ the div tag with a witdh of 25% should look like this ------>
-                                <a data-toggle="modal" href="#basicModal" style="color:black;">
-                                    <div style="width:25%; height:40px; background-color:#fbe983; display:inline-block; border:1px solid; border-color:#fff">
-                                        <div style="letter-spacing:0px; font-size:110%; text-align:center;">W</div>
-                                           
-                                    </div>
-                                </a>
-
-
-                                <a data-toggle="modal" href="#basicModal" style="color:black;">
-                                    <div style="width:25%; height:40px; background-color:#9fc6e7; display:inline-block; border:1px solid; border-color:#fff">
-                                        <div style="letter-spacing:0px; font-size:110%; text-align:center;">H</div>
-                                            
-                                    </div>
-                                </a>
-                                <a data-toggle="modal" href="#basicModal" style="color:black;">
-                                    <div style="width:25%; height:40px; background-color:#fbe983; display:inline-block; border:1px solid; border-color:#fff">
-                                        <div style="letter-spacing:0px; font-size:110%; text-align:center">I</div>
-                                            
-                                    </div>
-                                </a>
-                                <a data-toggle="modal" href="#basicModal" style="color:black;">
-                                    <div style="width:25%; height:40px; background-color:#fbe983; display:inline-block; border:1px solid; border-color:#fff">
-                                        <div style="letter-spacing:0px; font-size:110%; text-align:center;">G</div>
-                                           
-                                    </div>
-                                </a>
-
-                                <!------ the div tag with a witdh of 100% should look like this ------>
+                            
+                            <td>
                                 <a data-toggle="modal" href="#basicModal" style="color:black;">
                                     <div style="width:100%; height:40px; background-color:#9fc6e7; display:inline-block; border:1px solid; border-color:#fff">
-                                        <div style="letter-spacing:0px; font-size:110%; margin-left:2px;">Support</div>
+                                        <div style="letter-spacing:0px; font-size:110%; margin-left:2px;">Outzource</div>
                                         <div style="text-align:right">             
                                             <span style="font-size:100%; letter-spacing:0px; margin-right:5px; display:none; color:#595959" class="fa fa-exclamation-circle"></span>
-                                            <span style="font-size:100%; letter-spacing:0px; margin-right:3px; display:normal; color:#595959" class="fa fa-refresh"></span>
+                                            <span style="font-size:100%; letter-spacing:0px; margin-right:3px; display:none; color:#595959" class="fa fa-refresh"></span>
                                         </div>      
                                     </div>
                                 </a>
-
                             </td>
-                            <td style="letter-spacing:-4px;">
-                                
-                                <a data-toggle="modal" href="#basicModal" style="color:black;">
-                                    <div style="width:100%; height:40px; background-color:#fbe983; display:inline-block; border:1px solid; border-color:#fff">
-                                        <div style="letter-spacing:0px; font-size:110%; margin-left:2px;">E</div>  
-                                        <div style="text-align:right">             
-                                            <span style="margin-right:12px; font-size:100%; visibility:hidden; color:#595959" class="fa fa-exclamation-circle"></span>
-                                            <span style="margin-right:7px; font-size:100%; visibility:hidden; color:#595959" class="fa fa-refresh"></span>
-                                        </div>   
-                                    </div>
-                                </a>
-                                
-                                 
-                                <!------ the div tag with a witdh of 75% should look like this ------>
-                                <a data-toggle="modal" href="#basicModal" style="color:black;">
-                                    <div style="width:75%; height:40px; background-color:#9fc6e7; display:inline-block; border:1px solid; border-color:#fff">
-                                        <div style="letter-spacing:0px; font-size:110%; margin-left:2px;">WW..</div>
-                                        <div style="text-align:right">             
-                                            <span style="font-size:100%; letter-spacing:0px; margin-right:5px; display:normal; color:#595959" class="fa fa-exclamation-circle"></span>
-                                            <span style="font-size:100%; letter-spacing:0px; margin-right:3px; display:normal; color:#595959" class="fa fa-refresh"></span>
-                                        </div>      
-                                    </div>
-                                </a>
-
-
-
+                            <td>
                                 <a data-toggle="modal" href="#basicModal" style="color:black;">
                                     <div style="width:100%; height:40px; background-color:#9fc6e7; display:inline-block; border:1px solid; border-color:#fff">
-                                        <div style="letter-spacing:0px; font-size:110%; margin-left:2px;">Suppo..</div>
+                                        <div style="letter-spacing:0px; font-size:110%; margin-left:2px;">Outzource</div>
                                         <div style="text-align:right">             
-                                            <span style="font-size:100%; letter-spacing:0px; margin-right:5px; display:normal; color:#595959" class="fa fa-exclamation-circle"></span>
-                                            <span style="font-size:100%; letter-spacing:0px; margin-right:3px; display:normal; color:#595959" class="fa fa-refresh"></span>
-                                        </div>     
-                                    </div> 
-                                </a>
-
-                            </td>
-                            <td style="letter-spacing:-4px;">
-                                
-                                <!------ the div tag with a witdh of 33% should look like this ------>
-                                <a data-toggle="modal" href="#basicModal" style="color:black;">
-                                    <div style="width:33%; height:40px; background-color:#fbe983; display:inline-block; border:1px solid; border-color:#fff">
-                                        <div style="letter-spacing:0px; font-size:110%; text-align:center;">S</div>
-                                        <div style="text-align:right">             
-                                            <span style="margin-right:12px; font-size:100%; visibility:hidden; color:#595959" class="fa fa-exclamation-circle"></span>
-                                            <span style="margin-right:7px; font-size:100%; visibility:hidden; color:#595959" class="fa fa-refresh"></span>
-                                        </div>     
+                                            <span style="font-size:100%; letter-spacing:0px; margin-right:5px; display:none; color:#595959" class="fa fa-exclamation-circle"></span>
+                                            <span style="font-size:100%; letter-spacing:0px; margin-right:3px; display:none; color:#595959" class="fa fa-refresh"></span>
+                                        </div>      
                                     </div>
                                 </a>
-                                
-                                 
-                                
-                                <a data-toggle="modal" href="#basicModal" style="color:black;">
-                                    <div style="width:33%; height:40px; background-color:#9fc6e7; display:inline-block; border:1px solid; border-color:#fff">
-                                        <div style="letter-spacing:0px; font-size:110%; text-align:center;">S</div>
-                                        <div style="text-align:right">             
-                                            <span style="margin-right:12px; font-size:100%; visibility:hidden; color:#595959" class="fa fa-exclamation-circle"></span>
-                                            <span style="margin-right:7px; font-size:100%; visibility:hidden; color:#595959" class="fa fa-refresh"></span>
-                                        </div>    
-                                    </div>
-                                </a>
-
-
-
-                                <a data-toggle="modal" href="#basicModal" style="color:black;">
-                                    <div style="width:33%; height:40px; background-color:#9fc6e7; display:inline-block; border:1px solid; border-color:#fff">
-                                        <div style="letter-spacing:0px; font-size:110%; text-align:center;">P</div>
-                                        <div style="text-align:right">             
-                                            <span style="margin-right:12px; font-size:100%; visibility:hidden; color:#595959" class="fa fa-exclamation-circle"></span>
-                                            <span style="margin-right:7px; font-size:100%; visibility:hidden; color:#595959" class="fa fa-refresh"></span>
-                                        </div>    
-                                    </div> 
-                                </a>
-
                             </td>
                            
                             
                             
                             
-                            <td style="letter-spacing:-4px;">
-                                <!------ a div tag with a witdh of 50% should look like this ------>
+                            <td>
                                 <a data-toggle="modal" href="#basicModal" style="color:black;">
-                                    <div style="width:50%; height:40px; background-color:#fbe983; display:inline-block; border:1px solid; border-color:#fff">
-                                        <div style="letter-spacing:0px; font-size:110%; margin-left:2px;">S..</div>
-                                        <div style="text-align:center">             
-                                            <span style="font-size:100%; letter-spacing:0px; margin-right:2px; visibility:inherit; color:#595959" class="fa fa-exclamation-circle"></span>
-                                            <span style="font-size:100%; letter-spacing:0px; visibility:inherit; color:#595959" class="fa fa-refresh"></span>
-                                        </div>     
+                                    <div style="width:100%; height:40px; background-color:#9fc6e7; display:inline-block; border:1px solid; border-color:#fff">
+                                        <div style="letter-spacing:0px; font-size:110%; margin-left:2px;">Outzource</div>
+                                        <div style="text-align:right">             
+                                            <span style="font-size:100%; letter-spacing:0px; margin-right:5px; display:none; color:#595959" class="fa fa-exclamation-circle"></span>
+                                            <span style="font-size:100%; letter-spacing:0px; margin-right:3px; display:none; color:#595959" class="fa fa-refresh"></span>
+                                        </div>      
                                     </div>
                                 </a>
-                                
-                                <a data-toggle="modal" href="#basicModal" style="color:black;">
-                                    <div style="width:50%; height:40px; background-color:#fbe983; display:inline-block; border:1px solid; border-color:#fff">
-                                        <div style="letter-spacing:0px; font-size:110%; margin-left:2px;">S..</div>
-                                        <div style="text-align:center">             
-                                            <span style="font-size:100%; letter-spacing:0px; margin-right:2px; visibility:inherit; color:#595959" class="fa fa-exclamation-circle"></span>
-                                            <span style="font-size:100%; letter-spacing:0px; visibility:inherit; color:#595959" class="fa fa-refresh"></span>
-                                        </div>     
-                                    </div>
-                                </a>
-                              
                             </td>
 
+                            <td>
+                                <a data-toggle="modal" href="#basicModal" style="color:black;">
+                                    <div style="width:100%; height:40px; background-color:#9fc6e7; display:inline-block; border:1px solid; border-color:#fff">
+                                        <div style="letter-spacing:0px; font-size:110%; margin-left:2px;">Outzource</div>
+                                        <div style="text-align:right">             
+                                            <span style="font-size:100%; letter-spacing:0px; margin-right:5px; display:none; color:#595959" class="fa fa-exclamation-circle"></span>
+                                            <span style="font-size:100%; letter-spacing:0px; margin-right:3px; display:none; color:#595959" class="fa fa-refresh"></span>
+                                        </div>      
+                                    </div>
+                                </a>
+                            </td>
+                            <td>
+                                <a data-toggle="modal" href="#basicModal" style="color:black;">
+                                    <div style="width:100%; height:40px; background-color:#9fc6e7; display:inline-block; border:1px solid; border-color:#fff">
+                                        <div style="letter-spacing:0px; font-size:110%; margin-left:2px;">Outzource</div>
+                                        <div style="text-align:right">             
+                                            <span style="font-size:100%; letter-spacing:0px; margin-right:5px; display:none; color:#595959" class="fa fa-exclamation-circle"></span>
+                                            <span style="font-size:100%; letter-spacing:0px; margin-right:3px; display:none; color:#595959" class="fa fa-refresh"></span>
+                                        </div>      
+                                    </div>
+                                </a>
+                            </td>
+                            <td>
+                                <a data-toggle="modal" href="#basicModal" style="color:black;">
+                                    <div style="width:100%; height:40px; background-color:#9fc6e7; display:inline-block; border:1px solid; border-color:#fff">
+                                        <div style="letter-spacing:0px; font-size:110%; margin-left:2px;">Outzource</div>
+                                        <div style="text-align:right">             
+                                            <span style="font-size:100%; letter-spacing:0px; margin-right:5px; display:none; color:#595959" class="fa fa-exclamation-circle"></span>
+                                            <span style="font-size:100%; letter-spacing:0px; margin-right:3px; display:none; color:#595959" class="fa fa-refresh"></span>
+                                        </div>      
+                                    </div>
+                                </a>
+                            </td>
+                            <td>
+                                <a data-toggle="modal" href="#basicModal" style="color:black;">
+                                    <div style="width:100%; height:40px; background-color:#9fc6e7; display:inline-block; border:1px solid; border-color:#fff">
+                                        <div style="letter-spacing:0px; font-size:110%; margin-left:2px;">Outzource</div>
+                                        <div style="text-align:right">             
+                                            <span style="font-size:100%; letter-spacing:0px; margin-right:5px; display:none; color:#595959" class="fa fa-exclamation-circle"></span>
+                                            <span style="font-size:100%; letter-spacing:0px; margin-right:3px; display:none; color:#595959" class="fa fa-refresh"></span>
+                                        </div>      
+                                    </div>
+                                </a>
+                            </td>
+                            <td>
+                                <a data-toggle="modal" href="#basicModal" style="color:black;">
+                                    <div style="width:100%; height:40px; background-color:#9fc6e7; display:inline-block; border:1px solid; border-color:#fff">
+                                        <div style="letter-spacing:0px; font-size:110%; margin-left:2px;">Outzource</div>
+                                        <div style="text-align:right">             
+                                            <span style="font-size:100%; letter-spacing:0px; margin-right:5px; display:none; color:#595959" class="fa fa-exclamation-circle"></span>
+                                            <span style="font-size:100%; letter-spacing:0px; margin-right:3px; display:none; color:#595959" class="fa fa-refresh"></span>
+                                        </div>      
+                                    </div>
+                                </a>
+                            </td>
+                            <td>
+                                <a data-toggle="modal" href="#basicModal" style="color:black;">
+                                    <div style="width:100%; height:40px; background-color:#9fc6e7; display:inline-block; border:1px solid; border-color:#fff">
+                                        <div style="letter-spacing:0px; font-size:110%; margin-left:2px;">Outzource</div>
+                                        <div style="text-align:right">             
+                                            <span style="font-size:100%; letter-spacing:0px; margin-right:5px; display:none; color:#595959" class="fa fa-exclamation-circle"></span>
+                                            <span style="font-size:100%; letter-spacing:0px; margin-right:3px; display:none; color:#595959" class="fa fa-refresh"></span>
+                                        </div>      
+                                    </div>
+                                </a>
+                            </td>
+                            <td>
+                                <a data-toggle="modal" href="#basicModal" style="color:black;">
+                                    <div style="width:100%; height:40px; background-color:#9fc6e7; display:inline-block; border:1px solid; border-color:#fff">
+                                        <div style="letter-spacing:0px; font-size:110%; margin-left:2px;">Outzource</div>
+                                        <div style="text-align:right">             
+                                            <span style="font-size:100%; letter-spacing:0px; margin-right:5px; display:none; color:#595959" class="fa fa-exclamation-circle"></span>
+                                            <span style="font-size:100%; letter-spacing:0px; margin-right:3px; display:none; color:#595959" class="fa fa-refresh"></span>
+                                        </div>      
+                                    </div>
+                                </a>
+                            </td>
                             <td></td>
                             <td></td>
                             <td></td>
                             <td></td>
                             <td></td>
                             <td></td>
+                            <td></td>
+                                           
+                        </tr>
+
+                        <tr>
+                            <td style="width:10%; vertical-align:middle"><!--=left(oRec("mnavn"), 20)--><div style="font-size:110%">Jesper Aaberg</div></td>
+
+
+                            
+                            <td>
+                                <a data-toggle="modal" href="#basicModal" style="color:black;">
+                                    <div style="width:100%; height:40px; background-color:#fbe983; display:inline-block; border:1px solid; border-color:#fff">
+                                        <div style="letter-spacing:0px; font-size:110%; margin-left:2px;">Outzource</div>
+                                        <div style="text-align:right">             
+                                            <span style="font-size:100%; letter-spacing:0px; margin-right:5px; display:none; color:#595959" class="fa fa-exclamation-circle"></span>
+                                            <span style="font-size:100%; letter-spacing:0px; margin-right:3px; display:none; color:#595959" class="fa fa-refresh"></span>
+                                        </div>      
+                                    </div>
+                                </a>
+                            </td>
+                            <td>
+                                <a data-toggle="modal" href="#basicModal" style="color:black;">
+                                    <div style="width:100%; height:40px; background-color:#fbe983; display:inline-block; border:1px solid; border-color:#fff">
+                                        <div style="letter-spacing:0px; font-size:110%; margin-left:2px;">Outzource</div>
+                                        <div style="text-align:right">             
+                                            <span style="font-size:100%; letter-spacing:0px; margin-right:5px; display:none; color:#595959" class="fa fa-exclamation-circle"></span>
+                                            <span style="font-size:100%; letter-spacing:0px; margin-right:3px; display:none; color:#595959" class="fa fa-refresh"></span>
+                                        </div>      
+                                    </div>
+                                </a>
+                            </td>
+                           
+                            
+                            
+                            
+                            <td>
+                                <a data-toggle="modal" href="#basicModal" style="color:black;">
+                                    <div style="width:100%; height:40px; background-color:#fbe983; display:inline-block; border:1px solid; border-color:#fff">
+                                        <div style="letter-spacing:0px; font-size:110%; margin-left:2px;">Outzource</div>
+                                        <div style="text-align:right">             
+                                            <span style="font-size:100%; letter-spacing:0px; margin-right:5px; display:none; color:#595959" class="fa fa-exclamation-circle"></span>
+                                            <span style="font-size:100%; letter-spacing:0px; margin-right:3px; display:none; color:#595959" class="fa fa-refresh"></span>
+                                        </div>      
+                                    </div>
+                                </a>
+                            </td>
+
+                            <td>
+                                <a data-toggle="modal" href="#basicModal" style="color:black;">
+                                    <div style="width:100%; height:40px; background-color:#fbe983; display:inline-block; border:1px solid; border-color:#fff">
+                                        <div style="letter-spacing:0px; font-size:110%; margin-left:2px;">Outzource</div>
+                                        <div style="text-align:right">             
+                                            <span style="font-size:100%; letter-spacing:0px; margin-right:5px; display:none; color:#595959" class="fa fa-exclamation-circle"></span>
+                                            <span style="font-size:100%; letter-spacing:0px; margin-right:3px; display:none; color:#595959" class="fa fa-refresh"></span>
+                                        </div>      
+                                    </div>
+                                </a>
+                            </td>
+                            <td>
+                                <a data-toggle="modal" href="#basicModal" style="color:black;">
+                                    <div style="width:100%; height:40px; background-color:#fbe983; display:inline-block; border:1px solid; border-color:#fff">
+                                        <div style="letter-spacing:0px; font-size:110%; margin-left:2px;">Outzource</div>
+                                        <div style="text-align:right">             
+                                            <span style="font-size:100%; letter-spacing:0px; margin-right:5px; display:none; color:#595959" class="fa fa-exclamation-circle"></span>
+                                            <span style="font-size:100%; letter-spacing:0px; margin-right:3px; display:none; color:#595959" class="fa fa-refresh"></span>
+                                        </div>      
+                                    </div>
+                                </a>
+                            </td>
+                            <td>
+                                <a data-toggle="modal" href="#basicModal" style="color:black;">
+                                    <div style="width:100%; height:40px; background-color:#fbe983; display:inline-block; border:1px solid; border-color:#fff">
+                                        <div style="letter-spacing:0px; font-size:110%; margin-left:2px;">Outzource</div>
+                                        <div style="text-align:right">             
+                                            <span style="font-size:100%; letter-spacing:0px; margin-right:5px; display:none; color:#595959" class="fa fa-exclamation-circle"></span>
+                                            <span style="font-size:100%; letter-spacing:0px; margin-right:3px; display:none; color:#595959" class="fa fa-refresh"></span>
+                                        </div>      
+                                    </div>
+                                </a>
+                            </td>
+                            <td>
+                                <a data-toggle="modal" href="#basicModal" style="color:black;">
+                                    <div style="width:100%; height:40px; background-color:#fbe983; display:inline-block; border:1px solid; border-color:#fff">
+                                        <div style="letter-spacing:0px; font-size:110%; margin-left:2px;">Outzource</div>
+                                        <div style="text-align:right">             
+                                            <span style="font-size:100%; letter-spacing:0px; margin-right:5px; display:none; color:#595959" class="fa fa-exclamation-circle"></span>
+                                            <span style="font-size:100%; letter-spacing:0px; margin-right:3px; display:none; color:#595959" class="fa fa-refresh"></span>
+                                        </div>      
+                                    </div>
+                                </a>
+                            </td>
+                            <td>
+                                <a data-toggle="modal" href="#basicModal" style="color:black;">
+                                    <div style="width:100%; height:40px; background-color:#fbe983; display:inline-block; border:1px solid; border-color:#fff">
+                                        <div style="letter-spacing:0px; font-size:110%; margin-left:2px;">Outzource</div>
+                                        <div style="text-align:right">             
+                                            <span style="font-size:100%; letter-spacing:0px; margin-right:5px; display:none; color:#595959" class="fa fa-exclamation-circle"></span>
+                                            <span style="font-size:100%; letter-spacing:0px; margin-right:3px; display:none; color:#595959" class="fa fa-refresh"></span>
+                                        </div>      
+                                    </div>
+                                </a>
+                            </td>
+                            <td>
+                                <a data-toggle="modal" href="#basicModal" style="color:black;">
+                                    <div style="width:100%; height:40px; background-color:#fbe983; display:inline-block; border:1px solid; border-color:#fff">
+                                        <div style="letter-spacing:0px; font-size:110%; margin-left:2px;">Outzource</div>
+                                        <div style="text-align:right">             
+                                            <span style="font-size:100%; letter-spacing:0px; margin-right:5px; display:none; color:#595959" class="fa fa-exclamation-circle"></span>
+                                            <span style="font-size:100%; letter-spacing:0px; margin-right:3px; display:none; color:#595959" class="fa fa-refresh"></span>
+                                        </div>      
+                                    </div>
+                                </a>
+                            </td>
+                            <td>
+                                <a data-toggle="modal" href="#basicModal" style="color:black;">
+                                    <div style="width:100%; height:40px; background-color:#fbe983; display:inline-block; border:1px solid; border-color:#fff">
+                                        <div style="letter-spacing:0px; font-size:110%; margin-left:2px;">Outzource</div>
+                                        <div style="text-align:right">             
+                                            <span style="font-size:100%; letter-spacing:0px; margin-right:5px; display:none; color:#595959" class="fa fa-exclamation-circle"></span>
+                                            <span style="font-size:100%; letter-spacing:0px; margin-right:3px; display:none; color:#595959" class="fa fa-refresh"></span>
+                                        </div>      
+                                    </div>
+                                </a>
+                            </td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                                           
+                        </tr>
+
+                        <tr>
+                            <td style="width:10%; vertical-align:middle"><!--=left(oRec("mnavn"), 20)--><div style="font-size:110%">Søren Karlsen</div></td>
+
+
+                            
+                            <td></td>
+                            <td>
+                                <a data-toggle="modal" href="#basicModal" style="color:black;">
+                                    <div style="width:100%; height:40px; background-color:#b3dc6c; display:inline-block; border:1px solid; border-color:#fff">
+                                        <div style="letter-spacing:0px; font-size:110%; margin-left:2px;">ferie</div>
+                                        <div style="text-align:right">             
+                                            <span style="font-size:100%; letter-spacing:0px; margin-right:5px; display:none; color:#595959" class="fa fa-exclamation-circle"></span>
+                                            <span style="font-size:100%; letter-spacing:0px; margin-right:3px; display:none; color:#595959" class="fa fa-refresh"></span>
+                                        </div>      
+                                    </div>
+                                </a>
+                            </td>
+                           
+                            
+                            
+                            
+                            <td>
+                                <a data-toggle="modal" href="#basicModal" style="color:black;">
+                                    <div style="width:100%; height:40px; background-color:#b3dc6c; display:inline-block; border:1px solid; border-color:#fff">
+                                        <div style="letter-spacing:0px; font-size:110%; margin-left:2px;">ferie</div>
+                                        <div style="text-align:right">             
+                                            <span style="font-size:100%; letter-spacing:0px; margin-right:5px; display:none; color:#595959" class="fa fa-exclamation-circle"></span>
+                                            <span style="font-size:100%; letter-spacing:0px; margin-right:3px; display:none; color:#595959" class="fa fa-refresh"></span>
+                                        </div>      
+                                    </div>
+                                </a>
+                            </td>
+
+                            <td>
+                                <a data-toggle="modal" href="#basicModal" style="color:black;">
+                                    <div style="width:100%; height:40px; background-color:#b3dc6c; display:inline-block; border:1px solid; border-color:#fff">
+                                        <div style="letter-spacing:0px; font-size:110%; margin-left:2px;">ferie</div>
+                                        <div style="text-align:right">             
+                                            <span style="font-size:100%; letter-spacing:0px; margin-right:5px; display:none; color:#595959" class="fa fa-exclamation-circle"></span>
+                                            <span style="font-size:100%; letter-spacing:0px; margin-right:3px; display:none; color:#595959" class="fa fa-refresh"></span>
+                                        </div>      
+                                    </div>
+                                </a>
+                            </td>
+                            <td>
+                                <a data-toggle="modal" href="#basicModal" style="color:black;">
+                                    <div style="width:100%; height:40px; background-color:#b3dc6c; display:inline-block; border:1px solid; border-color:#fff">
+                                        <div style="letter-spacing:0px; font-size:110%; margin-left:2px;">ferie</div>
+                                        <div style="text-align:right">             
+                                            <span style="font-size:100%; letter-spacing:0px; margin-right:5px; display:none; color:#595959" class="fa fa-exclamation-circle"></span>
+                                            <span style="font-size:100%; letter-spacing:0px; margin-right:3px; display:none; color:#595959" class="fa fa-refresh"></span>
+                                        </div>      
+                                    </div>
+                                </a>
+                            </td>
+                            <td>
+                                <a data-toggle="modal" href="#basicModal" style="color:black;">
+                                    <div style="width:100%; height:40px; background-color:#b3dc6c; display:inline-block; border:1px solid; border-color:#fff">
+                                        <div style="letter-spacing:0px; font-size:110%; margin-left:2px;">ferie</div>
+                                        <div style="text-align:right">             
+                                            <span style="font-size:100%; letter-spacing:0px; margin-right:5px; display:none; color:#595959" class="fa fa-exclamation-circle"></span>
+                                            <span style="font-size:100%; letter-spacing:0px; margin-right:3px; display:none; color:#595959" class="fa fa-refresh"></span>
+                                        </div>      
+                                    </div>
+                                </a>
+                            </td>
+                            <td>
+                                <a data-toggle="modal" href="#basicModal" style="color:black;">
+                                    <div style="width:100%; height:40px; background-color:#b3dc6c; display:inline-block; border:1px solid; border-color:#fff">
+                                        <div style="letter-spacing:0px; font-size:110%; margin-left:2px;">ferie</div>
+                                        <div style="text-align:right">             
+                                            <span style="font-size:100%; letter-spacing:0px; margin-right:5px; display:none; color:#595959" class="fa fa-exclamation-circle"></span>
+                                            <span style="font-size:100%; letter-spacing:0px; margin-right:3px; display:none; color:#595959" class="fa fa-refresh"></span>
+                                        </div>      
+                                    </div>
+                                </a>
+                            </td>
+                            <td>
+                                <a data-toggle="modal" href="#basicModal" style="color:black;">
+                                    <div style="width:100%; height:40px; background-color:#b3dc6c; display:inline-block; border:1px solid; border-color:#fff">
+                                        <div style="letter-spacing:0px; font-size:110%; margin-left:2px;">ferie</div>
+                                        <div style="text-align:right">             
+                                            <span style="font-size:100%; letter-spacing:0px; margin-right:5px; display:none; color:#595959" class="fa fa-exclamation-circle"></span>
+                                            <span style="font-size:100%; letter-spacing:0px; margin-right:3px; display:none; color:#595959" class="fa fa-refresh"></span>
+                                        </div>      
+                                    </div>
+                                </a>
+                            </td>
+                            <td>
+                                <a data-toggle="modal" href="#basicModal" style="color:black;">
+                                    <div style="width:100%; height:40px; background-color:#b3dc6c; display:inline-block; border:1px solid; border-color:#fff">
+                                        <div style="letter-spacing:0px; font-size:110%; margin-left:2px;">ferie</div>
+                                        <div style="text-align:right">             
+                                            <span style="font-size:100%; letter-spacing:0px; margin-right:5px; display:none; color:#595959" class="fa fa-exclamation-circle"></span>
+                                            <span style="font-size:100%; letter-spacing:0px; margin-right:3px; display:none; color:#595959" class="fa fa-refresh"></span>
+                                        </div>      
+                                    </div>
+                                </a>
+                            </td>
+                            <td>
+                                <a data-toggle="modal" href="#basicModal" style="color:black;">
+                                    <div style="width:100%; height:40px; background-color:#b3dc6c; display:inline-block; border:1px solid; border-color:#fff">
+                                        <div style="letter-spacing:0px; font-size:110%; margin-left:2px;">ferie</div>
+                                        <div style="text-align:right">             
+                                            <span style="font-size:100%; letter-spacing:0px; margin-right:5px; display:none; color:#595959" class="fa fa-exclamation-circle"></span>
+                                            <span style="font-size:100%; letter-spacing:0px; margin-right:3px; display:none; color:#595959" class="fa fa-refresh"></span>
+                                        </div>      
+                                    </div>
+                                </a>
+                            </td>
                             <td></td>
                             <td></td>
                             <td></td>
@@ -464,7 +679,7 @@ Session.LCID = 1030
                         <div class="col-lg-2" style="background-color:#00b33c;"><b>Ferie</b></div>
                     </div>
                     <div class="row">
-                        <div class="col-lg-2" style="background-color:#e60000;"><b>Sygdom</b></div>
+                        <div class="col-lg-2" style="background-color:#e60000;"><b>ferie</b></div>
                     </div> -->
 
 
@@ -816,8 +1031,8 @@ Session.LCID = 1030
                                 
                                
                                 <a data-toggle="modal" href="#basicModal" style="color:black;">
-                                    <div style="width:100%; height:40px; background-color:#fa573c; display:inline-block; border:1px solid; border-color:#fff">
-                                        <div style="letter-spacing:0px; font-size:110%; margin-left:2px;">Illness</div>
+                                    <div style="width:100%; height:40px; background-color:#b3dc6c; display:inline-block; border:1px solid; border-color:#fff">
+                                        <div style="letter-spacing:0px; font-size:110%; margin-left:2px;">ferie</div>
                                         <div style="text-align:right">             
                                             <span style="font-size:100%; letter-spacing:0px; margin-right:5px; display:none; color:#595959" class="fa fa-exclamation-circle"></span>
                                             <span style="font-size:100%; letter-spacing:0px; margin-right:3px; display:none; color:#595959" class="fa fa-refresh"></span>
@@ -832,8 +1047,8 @@ Session.LCID = 1030
                                 
                                
                                 <a data-toggle="modal" href="#basicModal" style="color:black;">
-                                    <div style="width:100%; height:40px; background-color:#fa573c; display:inline-block; border:1px solid; border-color:#fff">
-                                        <div style="letter-spacing:0px; font-size:110%; margin-left:2px;">Illness</div>
+                                    <div style="width:100%; height:40px; background-color:#b3dc6c; display:inline-block; border:1px solid; border-color:#fff">
+                                        <div style="letter-spacing:0px; font-size:110%; margin-left:2px;">ferie</div>
                                         <div style="text-align:right">             
                                             <span style="font-size:100%; letter-spacing:0px; margin-right:5px; display:none; color:#595959" class="fa fa-exclamation-circle"></span>
                                             <span style="font-size:100%; letter-spacing:0px; margin-right:3px; display:none; color:#595959" class="fa fa-refresh"></span>
@@ -842,6 +1057,104 @@ Session.LCID = 1030
                                 </a>
                                 
 
+                            </td>
+
+                            <td></td>
+                            <td></td>
+                            
+
+
+                            
+                        </tr>
+
+                        <tr>
+                            <td style="width:10%; vertical-align:middle;"><!-- =left(oRec("mnavn"), 20) --><div style="font-size:110%">Søren Karlsen</div></td>
+                            
+                            <td style="letter-spacing:-4px;">
+                                
+                                <a data-toggle="modal" href="#basicModal" style="color:black;">
+                                    <div style="width:50%; height:40px; background-color:#9fc6e7; display:inline-block; border:1px solid; border-color:#fff">
+                                        <div style="letter-spacing:0px; font-size:110%; margin-left:2px;">Outzour... </div>
+                                        <div style="text-align:right">             
+                                            <span style="font-size:100%; letter-spacing:0px; margin-right:5px; display:normal; color:#595959" class="fa fa-exclamation-circle"></span>
+                                            <span style="font-size:100%; letter-spacing:0px; margin-right:3px; display:normal; color:#595959" class="fa fa-refresh"></span>
+                                        </div>
+                                    </div>
+                                </a>
+
+                                <a data-toggle="modal" href="#basicModal" style="color:black;">
+                                    <div style="width:50%; height:40px; background-color:#9fc6e7; display:inline-block; border:1px solid; border-color:#fff">
+                                        <div style="letter-spacing:0px; font-size:110%; margin-left:2px;">Kia</div>     
+                                        <div style="text-align:right">             
+                                            <span style="font-size:100%; letter-spacing:0px; margin-right:5px; display:normal; color:#595959" class="fa fa-exclamation-circle"></span>
+                                            <span style="font-size:100%; letter-spacing:0px; margin-right:3px; display:normal; color:#595959" class="fa fa-refresh"></span>
+                                        </div>
+                                    </div>
+                                </a>
+
+                                
+                                <a data-toggle="modal" href="#basicModal" style="color:black;">
+                                    <div style="width:100%; height:40px; background-color:#9fc6e7; display:inline-block; border:1px solid; border-color:#fff">
+                                        <div style="letter-spacing:0px; font-size:110%; margin-left:2px;">Support</div>
+                                        <div style="text-align:right">             
+                                            <span style="font-size:100%; letter-spacing:0px; margin-right:5px; display:normal; color:#595959" class="fa fa-exclamation-circle"></span>
+                                            <span style="font-size:100%; letter-spacing:0px; margin-right:3px; display:normal; color:#595959" class="fa fa-refresh"></span>
+                                        </div>      
+                                    </div>
+                                </a>
+                                
+
+                            </td>
+                                
+                            
+                            
+                            <td style="letter-spacing:-4px;">
+                                <a data-toggle="modal" href="#basicModal" style="color:black;">
+                                    <div style="width:100%; height:40px; background-color:#b3dc6c; display:inline-block; border:1px solid; border-color:#fff">
+                                        <div style="letter-spacing:0px; font-size:110%; margin-left:2px;">ferie</div>     
+                                        <div style="text-align:right">             
+                                            <span style="font-size:100%; letter-spacing:0px; margin-right:5px; visibility:hidden; color:#595959" class="fa fa-exclamation-circle"></span>
+                                            <span style="font-size:100%; letter-spacing:0px; margin-right:3px; visibility:hidden; color:#595959" class="fa fa-refresh"></span>
+                                        </div>
+                                    </div>
+                                </a>                
+                            </td>
+
+
+                            <td style="letter-spacing:-4px;">
+                                <a data-toggle="modal" href="#basicModal" style="color:black;">
+                                    <div style="width:100%; height:40px; background-color:#b3dc6c; display:inline-block; border:1px solid; border-color:#fff">
+                                        <div style="letter-spacing:0px; font-size:110%; margin-left:2px;">ferie</div>     
+                                        <div style="text-align:right">             
+                                            <span style="font-size:100%; letter-spacing:0px; margin-right:5px; visibility:hidden; color:#595959" class="fa fa-exclamation-circle"></span>
+                                            <span style="font-size:100%; letter-spacing:0px; margin-right:3px; visibility:hidden; color:#595959" class="fa fa-refresh"></span>
+                                        </div>
+                                    </div>
+                                </a>                
+                            </td>
+
+                            <td style="letter-spacing:-4px;">
+                                <a data-toggle="modal" href="#basicModal" style="color:black;">
+                                    <div style="width:100%; height:40px; background-color:#b3dc6c; display:inline-block; border:1px solid; border-color:#fff">
+                                        <div style="letter-spacing:0px; font-size:110%; margin-left:2px;">ferie</div>     
+                                        <div style="text-align:right">             
+                                            <span style="font-size:100%; letter-spacing:0px; margin-right:5px; visibility:hidden; color:#595959" class="fa fa-exclamation-circle"></span>
+                                            <span style="font-size:100%; letter-spacing:0px; margin-right:3px; visibility:hidden; color:#595959" class="fa fa-refresh"></span>
+                                        </div>
+                                    </div>
+                                </a>                
+                            </td>
+
+                            <td style="letter-spacing:-4px;">
+                                <a data-toggle="modal" href="#basicModal" style="color:black;">
+                                    <div style="width:100%; height:40px; background-color:#b3dc6c; display:inline-block; border:1px solid; border-color:#fff">
+                                        <div style="letter-spacing:0px; font-size:110%; margin-left:2px;">ferie</div>     
+                                        <div style="text-align:right">             
+                                            <span style="font-size:100%; letter-spacing:0px; margin-right:5px; visibility:hidden; color:#595959" class="fa fa-exclamation-circle"></span>
+                                            <span style="font-size:100%; letter-spacing:0px; margin-right:3px; visibility:hidden; color:#595959" class="fa fa-refresh"></span>
+                                        </div>
+                                    </div>
+                                </a>                
                             </td>
 
                             <td></td>
@@ -1015,12 +1328,6 @@ Session.LCID = 1030
                                                 
                                         </div>
                                     </a>
-                                    <a data-toggle="modal" href="#basicModal" style="color:black;">
-                                        <div style="width:100%; height:40px; background-color:#9fc6e7; display:inline-block; border:1px solid; border-color:#fff">
-                                            <div style="letter-spacing:0px; font-size:110%; margin-left:2px;">P..</div>     
-                                        </div>
-                                    </a>
-
                                 </td>
 
                                 <td style="letter-spacing:-4px;">
@@ -1035,48 +1342,562 @@ Session.LCID = 1030
                                             <div style="letter-spacing:0px; font-size:110%;"></div>     
                                         </div>
                                     </a>
+
+                                </td>
+                                
+                                <td>
                                     <a data-toggle="modal" href="#basicModal" style="color:black;">
-                                        <div style="width:50%; height:40px; background-color:#9fc6e7; display:inline-block; border:1px solid; border-color:#fff">
+                                        <div style="width:100%; height:40px; background-color:#9fc6e7; display:inline-block; border:1px solid; border-color:#fff">
+                                            <div style="letter-spacing:0px; font-size:110%;"></div>     
+                                        </div>
+                                    </a>
+                                </td>
+                                <td>
+                                    <a data-toggle="modal" href="#basicModal" style="color:black;">
+                                        <div style="width:100%; height:40px; background-color:#9fc6e7; display:inline-block; border:1px solid; border-color:#fff">
+                                            <div style="letter-spacing:0px; font-size:110%;">H..</div>     
+                                        </div>
+                                    </a>
+                                </td>
+                                <td>
+                                    <a data-toggle="modal" href="#basicModal" style="color:black;">
+                                        <div style="width:100%; height:40px; background-color:#9fc6e7; display:inline-block; border:1px solid; border-color:#fff">
+                                            <div style="letter-spacing:0px; font-size:110%;"></div>     
+                                        </div>
+                                    </a>
+                                </td>
+                                <td>
+                                    <a data-toggle="modal" href="#basicModal" style="color:black;">
+                                        <div style="width:100%; height:40px; background-color:#9fc6e7; display:inline-block; border:1px solid; border-color:#fff">
+                                            <div style="letter-spacing:0px; font-size:110%;"></div>     
+                                        </div>
+                                    </a>
+                                </td>
+                                <td>
+                                    <a data-toggle="modal" href="#basicModal" style="color:black;">
+                                        <div style="width:100%; height:40px; background-color:#9fc6e7; display:inline-block; border:1px solid; border-color:#fff">
+                                            <div style="letter-spacing:0px; font-size:110%;"></div>     
+                                        </div>
+                                    </a>
+                                </td>
+                                <td>
+                                    <a data-toggle="modal" href="#basicModal" style="color:black;">
+                                        <div style="width:100%; height:40px; background-color:#9fc6e7; display:inline-block; border:1px solid; border-color:#fff">
+                                            <div style="letter-spacing:0px; font-size:110%;"></div>     
+                                        </div>
+                                    </a>
+                                </td>
+                                <td>
+                                    <a data-toggle="modal" href="#basicModal" style="color:black;">
+                                        <div style="width:100%; height:40px; background-color:#9fc6e7; display:inline-block; border:1px solid; border-color:#fff">
+                                            <div style="letter-spacing:0px; font-size:110%;"></div>     
+                                        </div>
+                                    </a>
+                                </td>
+                                <td>
+                                    <a data-toggle="modal" href="#basicModal" style="color:black;">
+                                        <div style="width:100%; height:40px; background-color:#9fc6e7; display:inline-block; border:1px solid; border-color:#fff">
+                                            <div style="letter-spacing:0px; font-size:110%;"></div>     
+                                        </div>
+                                    </a>
+                                </td>
+                                <td>
+                                    <a data-toggle="modal" href="#basicModal" style="color:black;">
+                                        <div style="width:100%; height:40px; background-color:#9fc6e7; display:inline-block; border:1px solid; border-color:#fff">
+                                            <div style="letter-spacing:0px; font-size:110%;"></div>     
+                                        </div>
+                                    </a>
+                                </td>
+                                <td>
+                                    <a data-toggle="modal" href="#basicModal" style="color:black;">
+                                        <div style="width:100%; height:40px; background-color:#9fc6e7; display:inline-block; border:1px solid; border-color:#fff">
+                                            <div style="letter-spacing:0px; font-size:110%;"></div>     
+                                        </div>
+                                    </a>
+                                </td>
+                                <td>&nbsp</td>
+                                <td>&nbsp</td>
+                                <td>
+                                    <a data-toggle="modal" href="#basicModal" style="color:black;">
+                                        <div style="width:100%; height:40px; background-color:#9fc6e7; display:inline-block; border:1px solid; border-color:#fff">
+                                            <div style="letter-spacing:0px; font-size:110%;"></div>     
+                                        </div>
+                                    </a>
+                                </td>
+                                <td>
+                                    <a data-toggle="modal" href="#basicModal" style="color:black;">
+                                        <div style="width:100%; height:40px; background-color:#9fc6e7; display:inline-block; border:1px solid; border-color:#fff">
+                                            <div style="letter-spacing:0px; font-size:110%;"></div>     
+                                        </div>
+                                    </a>
+                                </td>
+                                <td>
+                                    <a data-toggle="modal" href="#basicModal" style="color:black;">
+                                        <div style="width:100%; height:40px; background-color:#9fc6e7; display:inline-block; border:1px solid; border-color:#fff">
+                                            <div style="letter-spacing:0px; font-size:110%;"></div>     
+                                        </div>
+                                    </a>
+                                </td>
+                                <td>
+                                    <a data-toggle="modal" href="#basicModal" style="color:black;">
+                                        <div style="width:100%; height:40px; background-color:#9fc6e7; display:inline-block; border:1px solid; border-color:#fff">
+                                            <div style="letter-spacing:0px; font-size:110%;">S..</div>     
+                                        </div>
+                                    </a>
+                                </td>
+                                <td>
+                                    <a data-toggle="modal" href="#basicModal" style="color:black;">
+                                        <div style="width:100%; height:40px; background-color:#9fc6e7; display:inline-block; border:1px solid; border-color:#fff">
+                                            <div style="letter-spacing:0px; font-size:110%;">O..</div>     
+                                        </div>
+                                    </a>
+                                </td>
+                                <td>&nbsp</td>
+                                <td>&nbsp</td>
+                                <td>
+                                    <a data-toggle="modal" href="#basicModal" style="color:black;">
+                                        <div style="width:100%; height:40px; background-color:#9fc6e7; display:inline-block; border:1px solid; border-color:#fff">
+                                            <div style="letter-spacing:0px; font-size:110%;"></div>     
+                                        </div>
+                                    </a>
+                                </td>
+                                <td>
+                                    <a data-toggle="modal" href="#basicModal" style="color:black;">
+                                        <div style="width:100%; height:40px; background-color:#9fc6e7; display:inline-block; border:1px solid; border-color:#fff">
+                                            <div style="letter-spacing:0px; font-size:110%;"></div>     
+                                        </div>
+                                    </a>
+                                </td>
+                                <td>
+                                    <a data-toggle="modal" href="#basicModal" style="color:black;">
+                                        <div style="width:100%; height:40px; background-color:#9fc6e7; display:inline-block; border:1px solid; border-color:#fff">
+                                            <div style="letter-spacing:0px; font-size:110%;"></div>     
+                                        </div>
+                                    </a>
+                                </td>
+                                <td>
+                                    <a data-toggle="modal" href="#basicModal" style="color:black;">
+                                        <div style="width:100%; height:40px; background-color:#9fc6e7; display:inline-block; border:1px solid; border-color:#fff">
+                                            <div style="letter-spacing:0px; font-size:110%;"></div>     
+                                        </div>
+                                    </a>
+                                </td>
+                                <td>
+                                    <a data-toggle="modal" href="#basicModal" style="color:black;">
+                                        <div style="width:100%; height:40px; background-color:#9fc6e7; display:inline-block; border:1px solid; border-color:#fff">
+                                            <div style="letter-spacing:0px; font-size:110%;"></div>     
+                                        </div>
+                                    </a>
+                                </td>
+                                <td>&nbsp</td>
+                                <td>&nbsp</td>
+                                <td>
+                                    <a data-toggle="modal" href="#basicModal" style="color:black;">
+                                        <div style="width:100%; height:40px; background-color:#9fc6e7; display:inline-block; border:1px solid; border-color:#fff">
+                                            <div style="letter-spacing:0px; font-size:110%;"></div>     
+                                        </div>
+                                    </a>
+                                </td>
+                                <td>
+                                    <a data-toggle="modal" href="#basicModal" style="color:black;">
+                                        <div style="width:100%; height:40px; background-color:#9fc6e7; display:inline-block; border:1px solid; border-color:#fff">
+                                            <div style="letter-spacing:0px; font-size:110%;">O..</div>     
+                                        </div>
+                                    </a>
+                                </td>
+                                <td>
+                                    <a data-toggle="modal" href="#basicModal" style="color:black;">
+                                        <div style="width:100%; height:40px; background-color:#9fc6e7; display:inline-block; border:1px solid; border-color:#fff">
+                                            <div style="letter-spacing:0px; font-size:110%;"></div>     
+                                        </div>
+                                    </a>
+                                </td>
+                               
+                            </tr>
+
+                        <tr>
+                                <td style="width:10%; font-size:110%; vertical-align:middle"><!--=left(oRec("mnavn"), 20)--><div style="font-size:110%">Jepser Aaberg</div></td>
+                                
+
+                                <td style="letter-spacing:-4px;">
+                                    
+                                    <!------------- this is how a box of 100% witdh should look like ------------->
+                                    <a data-toggle="modal" href="#basicModal" style="color:black;">
+                                        <div style="width:100%; height:40px; background-color:#fbe983; display:inline-block; border:1px solid; border-color:#fff">
+                                            <div style="letter-spacing:0px; font-size:110%; margin-left:2px;">S..</div>
+                                                
+                                        </div>
+                                    </a>
+                                </td>
+
+                                <td style="letter-spacing:-4px;">
+                                    <!------------- this is how a box of 50% witdh should look like ------------->
+                                    <a data-toggle="modal" href="#basicModal" style="color:black;">
+                                        <div style="width:50%; height:40px; background-color:#fbe983; display:inline-block; border:1px solid; border-color:#fff">
                                             <div style="letter-spacing:0px; font-size:110%;"></div>     
                                         </div>
                                     </a>
                                     <a data-toggle="modal" href="#basicModal" style="color:black;">
-                                        <div style="width:50%; height:40px; background-color:#9fc6e7; display:inline-block; border:1px solid; border-color:#fff">
+                                        <div style="width:50%; height:40px; background-color:#fbe983; display:inline-block; border:1px solid; border-color:#fff">
                                             <div style="letter-spacing:0px; font-size:110%;"></div>     
                                         </div>
                                     </a>
 
                                 </td>
                                 
+                                <td>
+                                    <a data-toggle="modal" href="#basicModal" style="color:black;">
+                                        <div style="width:100%; height:40px; background-color:#fbe983; display:inline-block; border:1px solid; border-color:#fff">
+                                            <div style="letter-spacing:0px; font-size:110%;"></div>     
+                                        </div>
+                                    </a>
+                                </td>
+                                <td>
+                                    <a data-toggle="modal" href="#basicModal" style="color:black;">
+                                        <div style="width:100%; height:40px; background-color:#fbe983; display:inline-block; border:1px solid; border-color:#fff">
+                                            <div style="letter-spacing:0px; font-size:110%;"></div>     
+                                        </div>
+                                    </a>
+                                </td>
+                                <td>
+                                    <a data-toggle="modal" href="#basicModal" style="color:black;">
+                                        <div style="width:100%; height:40px; background-color:#fbe983; display:inline-block; border:1px solid; border-color:#fff">
+                                            <div style="letter-spacing:0px; font-size:110%;"></div>     
+                                        </div>
+                                    </a>
+                                </td>
+                                <td>
+                                    <a data-toggle="modal" href="#basicModal" style="color:black;">
+                                        <div style="width:100%; height:40px; background-color:#fbe983; display:inline-block; border:1px solid; border-color:#fff">
+                                            <div style="letter-spacing:0px; font-size:110%;"></div>     
+                                        </div>
+                                    </a>
+                                </td>
+                                <td>
+                                    <a data-toggle="modal" href="#basicModal" style="color:black;">
+                                        <div style="width:100%; height:40px; background-color:#fbe983; display:inline-block; border:1px solid; border-color:#fff">
+                                            <div style="letter-spacing:0px; font-size:110%;"></div>     
+                                        </div>
+                                    </a>
+                                </td>
+                                <td>
+                                    <a data-toggle="modal" href="#basicModal" style="color:black;">
+                                        <div style="width:100%; height:40px; background-color:#fbe983; display:inline-block; border:1px solid; border-color:#fff">
+                                            <div style="letter-spacing:0px; font-size:110%;"></div>     
+                                        </div>
+                                    </a>
+                                </td>
+                                <td>
+                                    <a data-toggle="modal" href="#basicModal" style="color:black;">
+                                        <div style="width:100%; height:40px; background-color:#fbe983; display:inline-block; border:1px solid; border-color:#fff">
+                                            <div style="letter-spacing:0px; font-size:110%;"></div>     
+                                        </div>
+                                    </a>
+                                </td>
+                                <td>
+                                    <a data-toggle="modal" href="#basicModal" style="color:black;">
+                                        <div style="width:100%; height:40px; background-color:#fbe983; display:inline-block; border:1px solid; border-color:#fff">
+                                            <div style="letter-spacing:0px; font-size:110%;"></div>     
+                                        </div>
+                                    </a>
+                                </td>
+                                <td>
+                                    <a data-toggle="modal" href="#basicModal" style="color:black;">
+                                        <div style="width:100%; height:40px; background-color:#fbe983; display:inline-block; border:1px solid; border-color:#fff">
+                                            <div style="letter-spacing:0px; font-size:110%;">H..</div>     
+                                        </div>
+                                    </a>
+                                </td>
+                                <td>
+                                    <a data-toggle="modal" href="#basicModal" style="color:black;">
+                                        <div style="width:100%; height:40px; background-color:#fbe983; display:inline-block; border:1px solid; border-color:#fff">
+                                            <div style="letter-spacing:0px; font-size:110%;"></div>     
+                                        </div>
+                                    </a>
+                                </td>
                                 <td>&nbsp</td>
                                 <td>&nbsp</td>
+                                <td>
+                                    <a data-toggle="modal" href="#basicModal" style="color:black;">
+                                        <div style="width:100%; height:40px; background-color:#fbe983; display:inline-block; border:1px solid; border-color:#fff">
+                                            <div style="letter-spacing:0px; font-size:110%;"></div>     
+                                        </div>
+                                    </a>
+                                </td>
+                                <td>
+                                    <a data-toggle="modal" href="#basicModal" style="color:black;">
+                                        <div style="width:100%; height:40px; background-color:#fbe983; display:inline-block; border:1px solid; border-color:#fff">
+                                            <div style="letter-spacing:0px; font-size:110%;"></div>     
+                                        </div>
+                                    </a>
+                                </td>
+                                <td>
+                                    <a data-toggle="modal" href="#basicModal" style="color:black;">
+                                        <div style="width:100%; height:40px; background-color:#fbe983; display:inline-block; border:1px solid; border-color:#fff">
+                                            <div style="letter-spacing:0px; font-size:110%;"></div>     
+                                        </div>
+                                    </a>
+                                </td>
+                                <td>
+                                    <a data-toggle="modal" href="#basicModal" style="color:black;">
+                                        <div style="width:100%; height:40px; background-color:#fbe983; display:inline-block; border:1px solid; border-color:#fff">
+                                            <div style="letter-spacing:0px; font-size:110%;"></div>     
+                                        </div>
+                                    </a>
+                                </td>
+                                <td>
+                                    <a data-toggle="modal" href="#basicModal" style="color:black;">
+                                        <div style="width:100%; height:40px; background-color:#fbe983; display:inline-block; border:1px solid; border-color:#fff">
+                                            <div style="letter-spacing:0px; font-size:110%;"></div>     
+                                        </div>
+                                    </a>
+                                </td>
                                 <td>&nbsp</td>
                                 <td>&nbsp</td>
+                                <td>
+                                    <a data-toggle="modal" href="#basicModal" style="color:black;">
+                                        <div style="width:100%; height:40px; background-color:#fbe983; display:inline-block; border:1px solid; border-color:#fff">
+                                            <div style="letter-spacing:0px; font-size:110%;"></div>     
+                                        </div>
+                                    </a>
+                                </td>
+                                <td>
+                                    <a data-toggle="modal" href="#basicModal" style="color:black;">
+                                        <div style="width:100%; height:40px; background-color:#fbe983; display:inline-block; border:1px solid; border-color:#fff">
+                                            <div style="letter-spacing:0px; font-size:110%;"></div>     
+                                        </div>
+                                    </a>
+                                </td>
+                                <td>
+                                    <a data-toggle="modal" href="#basicModal" style="color:black;">
+                                        <div style="width:100%; height:40px; background-color:#fbe983; display:inline-block; border:1px solid; border-color:#fff">
+                                            <div style="letter-spacing:0px; font-size:110%;"></div>     
+                                        </div>
+                                    </a>
+                                </td>
+                                <td>
+                                    <a data-toggle="modal" href="#basicModal" style="color:black;">
+                                        <div style="width:100%; height:40px; background-color:#fbe983; display:inline-block; border:1px solid; border-color:#fff">
+                                            <div style="letter-spacing:0px; font-size:110%;">A..</div>     
+                                        </div>
+                                    </a>
+                                </td>
+                                <td>
+                                    <a data-toggle="modal" href="#basicModal" style="color:black;">
+                                        <div style="width:100%; height:40px; background-color:#fbe983; display:inline-block; border:1px solid; border-color:#fff">
+                                            <div style="letter-spacing:0px; font-size:110%;"></div>     
+                                        </div>
+                                    </a>
+                                </td>
                                 <td>&nbsp</td>
                                 <td>&nbsp</td>
+                                <td>
+                                    <a data-toggle="modal" href="#basicModal" style="color:black;">
+                                        <div style="width:100%; height:40px; background-color:#fbe983; display:inline-block; border:1px solid; border-color:#fff">
+                                            <div style="letter-spacing:0px; font-size:110%;"></div>     
+                                        </div>
+                                    </a>
+                                </td>
+                                <td>
+                                    <a data-toggle="modal" href="#basicModal" style="color:black;">
+                                        <div style="width:100%; height:40px; background-color:#fbe983; display:inline-block; border:1px solid; border-color:#fff">
+                                            <div style="letter-spacing:0px; font-size:110%;"></div>     
+                                        </div>
+                                    </a>
+                                </td>
+                                <td>
+                                    <a data-toggle="modal" href="#basicModal" style="color:black;">
+                                        <div style="width:100%; height:40px; background-color:#fbe983; display:inline-block; border:1px solid; border-color:#fff">
+                                            <div style="letter-spacing:0px; font-size:110%;"></div>     
+                                        </div>
+                                    </a>
+                                </td>
+                               
+                            </tr>
+
+                        <tr>
+                                <td style="width:10%; font-size:110%; vertical-align:middle"><!--=left(oRec("mnavn"), 20)--><div style="font-size:110%">Søren Karlsen</div></td>
+                                
+
+                                <td style="letter-spacing:-4px;">
+                                    
+                                    <!------------- this is how a box of 100% witdh should look like ------------->
+                                    <a data-toggle="modal" href="#basicModal" style="color:black;">
+                                        <div style="width:100%; height:40px; background-color:#b3dc6c; display:inline-block; border:1px solid; border-color:#fff">
+                                            <div style="letter-spacing:0px; font-size:110%; margin-left:2px;"></div>
+                                                
+                                        </div>
+                                    </a>
+                                </td>
+
+                                <td style="letter-spacing:-4px;">
+                                    
+
+                                </td>
+                                
+                                <td>
+                                   
+                                </td>
+                                <td>
+                                    <a data-toggle="modal" href="#basicModal" style="color:black;">
+                                        <div style="width:100%; height:40px; background-color:#b3dc6c; display:inline-block; border:1px solid; border-color:#fff">
+                                            <div style="letter-spacing:0px; font-size:110%;"></div>     
+                                        </div>
+                                    </a>
+                                </td>
+                                <td>
+                                    <a data-toggle="modal" href="#basicModal" style="color:black;">
+                                        <div style="width:100%; height:40px; background-color:#b3dc6c; display:inline-block; border:1px solid; border-color:#fff">
+                                            <div style="letter-spacing:0px; font-size:110%;"></div>     
+                                        </div>
+                                    </a>
+                                </td>
+                                <td>
+                                    <a data-toggle="modal" href="#basicModal" style="color:black;">
+                                        <div style="width:100%; height:40px; background-color:#b3dc6c; display:inline-block; border:1px solid; border-color:#fff">
+                                            <div style="letter-spacing:0px; font-size:110%;"></div>     
+                                        </div>
+                                    </a>
+                                </td>
+                                <td>
+                                    <a data-toggle="modal" href="#basicModal" style="color:black;">
+                                        <div style="width:100%; height:40px; background-color:#b3dc6c; display:inline-block; border:1px solid; border-color:#fff">
+                                            <div style="letter-spacing:0px; font-size:110%;"></div>     
+                                        </div>
+                                    </a>
+                                </td>
+                                <td>
+                                    <a data-toggle="modal" href="#basicModal" style="color:black;">
+                                        <div style="width:100%; height:40px; background-color:#b3dc6c; display:inline-block; border:1px solid; border-color:#fff">
+                                            <div style="letter-spacing:0px; font-size:110%;"></div>     
+                                        </div>
+                                    </a>
+                                </td>
+                                <td>
+                                    <a data-toggle="modal" href="#basicModal" style="color:black;">
+                                        <div style="width:100%; height:40px; background-color:#b3dc6c; display:inline-block; border:1px solid; border-color:#fff">
+                                            <div style="letter-spacing:0px; font-size:110%;"></div>     
+                                        </div>
+                                    </a>
+                                </td>
+                                <td>
+                                    <a data-toggle="modal" href="#basicModal" style="color:black;">
+                                        <div style="width:100%; height:40px; background-color:#b3dc6c; display:inline-block; border:1px solid; border-color:#fff">
+                                            <div style="letter-spacing:0px; font-size:110%;"></div>     
+                                        </div>
+                                    </a>
+                                </td>
+                                <td>
+                                    <a data-toggle="modal" href="#basicModal" style="color:black;">
+                                        <div style="width:100%; height:40px; background-color:#b3dc6c; display:inline-block; border:1px solid; border-color:#fff">
+                                            <div style="letter-spacing:0px; font-size:110%;"></div>     
+                                        </div>
+                                    </a>
+                                </td>
+                                <td>
+                                    <a data-toggle="modal" href="#basicModal" style="color:black;">
+                                        <div style="width:100%; height:40px; background-color:#b3dc6c; display:inline-block; border:1px solid; border-color:#fff">
+                                            <div style="letter-spacing:0px; font-size:110%;"></div>     
+                                        </div>
+                                    </a>
+                                </td>
                                 <td>&nbsp</td>
                                 <td>&nbsp</td>
+                                <td>
+                                    <a data-toggle="modal" href="#basicModal" style="color:black;">
+                                        <div style="width:100%; height:40px; background-color:#b3dc6c; display:inline-block; border:1px solid; border-color:#fff">
+                                            <div style="letter-spacing:0px; font-size:110%;"></div>     
+                                        </div>
+                                    </a>
+                                </td>
+                                <td>
+                                    <a data-toggle="modal" href="#basicModal" style="color:black;">
+                                        <div style="width:100%; height:40px; background-color:#b3dc6c; display:inline-block; border:1px solid; border-color:#fff">
+                                            <div style="letter-spacing:0px; font-size:110%;"></div>     
+                                        </div>
+                                    </a>
+                                </td>
+                                <td>
+                                    <a data-toggle="modal" href="#basicModal" style="color:black;">
+                                        <div style="width:100%; height:40px; background-color:#b3dc6c; display:inline-block; border:1px solid; border-color:#fff">
+                                            <div style="letter-spacing:0px; font-size:110%;"></div>     
+                                        </div>
+                                    </a>
+                                </td>
+                                <td>
+                                    <a data-toggle="modal" href="#basicModal" style="color:black;">
+                                        <div style="width:100%; height:40px; background-color:#b3dc6c; display:inline-block; border:1px solid; border-color:#fff">
+                                            <div style="letter-spacing:0px; font-size:110%;"></div>     
+                                        </div>
+                                    </a>
+                                </td>
+                                <td>
+                                    <a data-toggle="modal" href="#basicModal" style="color:black;">
+                                        <div style="width:100%; height:40px; background-color:#b3dc6c; display:inline-block; border:1px solid; border-color:#fff">
+                                            <div style="letter-spacing:0px; font-size:110%;"></div>     
+                                        </div>
+                                    </a>
+                                </td>
                                 <td>&nbsp</td>
                                 <td>&nbsp</td>
+                                <td>
+                                    <a data-toggle="modal" href="#basicModal" style="color:black;">
+                                        <div style="width:100%; height:40px; background-color:#b3dc6c; display:inline-block; border:1px solid; border-color:#fff">
+                                            <div style="letter-spacing:0px; font-size:110%;"></div>     
+                                        </div>
+                                    </a>
+                                </td>
+                                <td>
+                                    <a data-toggle="modal" href="#basicModal" style="color:black;">
+                                        <div style="width:100%; height:40px; background-color:#b3dc6c; display:inline-block; border:1px solid; border-color:#fff">
+                                            <div style="letter-spacing:0px; font-size:110%;"></div>     
+                                        </div>
+                                    </a>
+                                </td>
+                                <td>
+                                    <a data-toggle="modal" href="#basicModal" style="color:black;">
+                                        <div style="width:100%; height:40px; background-color:#b3dc6c; display:inline-block; border:1px solid; border-color:#fff">
+                                            <div style="letter-spacing:0px; font-size:110%;"></div>     
+                                        </div>
+                                    </a>
+                                </td>
+                                <td>
+                                    <a data-toggle="modal" href="#basicModal" style="color:black;">
+                                        <div style="width:100%; height:40px; background-color:#b3dc6c; display:inline-block; border:1px solid; border-color:#fff">
+                                            <div style="letter-spacing:0px; font-size:110%;"></div>     
+                                        </div>
+                                    </a>
+                                </td>
+                                <td>
+                                    <a data-toggle="modal" href="#basicModal" style="color:black;">
+                                        <div style="width:100%; height:40px; background-color:#b3dc6c; display:inline-block; border:1px solid; border-color:#fff">
+                                            <div style="letter-spacing:0px; font-size:110%;"></div>     
+                                        </div>
+                                    </a>
+                                </td>
                                 <td>&nbsp</td>
                                 <td>&nbsp</td>
-                                <td>&nbsp</td>
-                                <td>&nbsp</td>
-                                <td>&nbsp</td>
-                                <td>&nbsp</td>
-                                <td>&nbsp</td>
-                                <td>&nbsp</td>
-                                <td>&nbsp</td>
-                                <td>&nbsp</td>
-                                <td>&nbsp</td>
-                                <td>&nbsp</td>
-                                <td>&nbsp</td>
-                                <td>&nbsp</td>
-                                <td>&nbsp</td>
-                                <td>&nbsp</td>
-                                <td>&nbsp</td>
-                                <td>&nbsp</td>
-                                <td>&nbsp</td>
+                                <td>
+                                    <a data-toggle="modal" href="#basicModal" style="color:black;">
+                                        <div style="width:100%; height:40px; background-color:#b3dc6c; display:inline-block; border:1px solid; border-color:#fff">
+                                            <div style="letter-spacing:0px; font-size:110%;"></div>     
+                                        </div>
+                                    </a>
+                                </td>
+                                <td>
+                                    <a data-toggle="modal" href="#basicModal" style="color:black;">
+                                        <div style="width:100%; height:40px; background-color:#b3dc6c; display:inline-block; border:1px solid; border-color:#fff">
+                                            <div style="letter-spacing:0px; font-size:110%;"></div>     
+                                        </div>
+                                    </a>
+                                </td>
+                                <td>
+                                    <a data-toggle="modal" href="#basicModal" style="color:black;">
+                                        <div style="width:100%; height:40px; background-color:#b3dc6c; display:inline-block; border:1px solid; border-color:#fff">
+                                            <div style="letter-spacing:0px; font-size:110%;"></div>     
+                                        </div>
+                                    </a>
+                                </td>
                                
                             </tr>
                             

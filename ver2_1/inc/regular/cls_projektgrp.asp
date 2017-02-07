@@ -241,7 +241,7 @@ oRec5.close
 
 
 end function
-
+    
 
 
 '*** Hvis alle nødvendige er udfyldt ***'
@@ -1261,11 +1261,11 @@ end if
 
 
         else 
-	        
+	        response.Write ("awdawdehjehejehjehje")
             call medarbiprojgrp(progrp, medarbid, mTypeSort, 1)
         end if    
 
-
+       response.write "test tal: " & vis_medarbejdertyper_grp 
 	'call medarbiprojgrp(progrp, medarbid, mTypeSort, 1)
 	'Response.Write progrp &","& medarbid
 	

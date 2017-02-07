@@ -24,7 +24,7 @@
                 oRec.open strSQLjobbesk, oConn, 3 
                 if not oRec.EOF then
         
-                jobbesk = oRec("beskrivelse")
+                jobbesk = oRec("beskrivelse") & " slut"
                 'jobnavn = oRec("jobnavn")
 
                 end if
@@ -38,7 +38,7 @@
 
                     response.write jobbeskTxt
 
-
+        response.Write "test tekst:" & jobbeskTxt
         case "FN_tjktimer_forecast_tt" 
                 '** FORECAST ALERT 
          
@@ -784,7 +784,7 @@
 
 
 
-<script src="js/timetag_web_jav_2016_12.js" type="text/javascript"></script>
+<script src="js/timetag_web_jav_2017_02.js" type="text/javascript"></script>
 
 
 
@@ -910,10 +910,10 @@
                                 <div class="col-lg-12">
                                 <input type="hidden" id="FM_job" value="-1"/>
                                 <select id="dv_job" name="FM_jobid" class="form-control">
-                                 
+
                                 </select>
                                 </div>
-                           </div>
+                         </div>
                         <%else %>
                          <div class="row">
                             <div class="col-lg-12">
@@ -935,6 +935,21 @@
 
                         <%select case lto
                         case "hestia", "intranet - local"
+
+                            jobid = 12704
+
+                            jobbesk = "- Jobbeskrivelse ikke fundet"
+                            'jobnavn = "- Jobnavn ikke fundet"
+                            strSQL = "SELECT jobnavn, beskrivelse FROM job WHERE id = "& jobid
+                            oRec.open strSQL, oConn, 3 
+                            if not oRec.EOF then
+        
+                            jobbesk = oRec("beskrivelse") & " slut"
+                            'jobnavn = oRec("jobnavn")
+
+                            end if
+                            oRec.close
+
                             %><br />
                              <div class="panel-group accordion-panel" id="accordion-paneled1">
                             <div class="panel panel-default">
@@ -944,14 +959,15 @@
                                     <div class="panel-body">
                                          <div class="row">
                                                 <div class="col-lg-12" id="dv_jobbesk" style="padding:5px 5px 5px 25px;">
-                                               <!-- <a href="#" id="jq_jobbesk" target="_blank">Jobbeskrivelse +</a>-->
+                                                
                                                 </div>
+                                             <p>Start: <%=jobbesk %></p>
                                          </div>
                                      </div>
                                  </div>
                                  </div>
                             </div>
-                            </div>
+                            </di>
                             <%
                         end select%>
 

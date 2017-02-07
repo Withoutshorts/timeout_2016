@@ -151,17 +151,49 @@
     end select
 
     
-    if len(trim(request("FM_medarb"))) <> 0 then
-    usemrn = request("FM_medarb")
-    else
-    usemrn = session("mid") 
-    end if
+    'if len(trim(request("FM_medarb"))) <> 0 then
+    'usemrn = request("FM_medarb")
+    'else
+    'usemrn = session("mid")
+    'end if
 
     if len(trim(request("FM_progrp"))) <> 0 then
     pgrp = request("FM_progrp")
     else
     pgrp = 10
     end if
+
+
+
+    medisStr = " AND (mid <> 0 "
+    if len(trim(request("FM_medarb"))) <> 0 then
+    usemrn = request("FM_medarb")
+        
+            if instr(usemrn, ",") <> 0 then
+            medisStr = " AND (mid = 0 "
+            mids = split(request("FM_medarb"), ", ") 
+
+                for d = 0 to UBOUND(mids)
+
+                    medisStr = medisStr & " OR j.id = " & mids(d)
+                
+                next
+
+            '** Nulstil jobid
+            usemrn = 0
+            end if
+    
+    else
+    usemrn = request("FM_medarb")
+    end if
+
+    medisStr = medisStr & ")"
+
+
+
+    
+
+
 
 
     jobidsStr = " AND (j.id <> 0 "
@@ -292,8 +324,7 @@
                                  ingenSEL = "SELECTED"
                                 else
                                  ingenSEL = ""
-                                end if
-
+                                end if                              
                                  %>
                                 <option value="-1" <%=ingenSEL %>>Ingen</option>
                                 </select>
@@ -302,7 +333,7 @@
                 </div>
                 <div class="col-lg-2">
 
-                                 <select name="FM_medarb" <%=progrpmedarbDisabled  %> class="form-control input-small" onchange="submit();">
+                                 <select MULTIPLE name="FM_medarb" <%=progrpmedarbDisabled  %> class="form-control input-small" onchange="submit();">
                                 <%
 
                                     if level <= 2 OR level = 6 then
@@ -322,23 +353,36 @@
                                     oRec3.open strSQLm, oConn, 3
                                     while not oRec3.EOF 
 
-                                    if cint(usemrn) = cint(oRec3("mid")) then
+                                    Strmedarbvalgt = oRec3("mnavn")
+
+                                    if cint(usemrn) = cint(oRec3("mid")) OR instr(medisStr, "OR mid = "& oRec3("mid")) <> 0 then
                                     mSel = "SELECTED"
                                     else
                                     mSel = ""
                                     end if
+                                                     
                                     %>
-                                    <option value="<%=oRec3("mid") %>" <%=mSel %>><%=oRec3("mnavn")& " ["& oRec3("init") &"]" %></option>
+                                    <option value="<%=oRec3("mid") %>" ><%=oRec3("mnavn")& " ["& oRec3("init") &"]" %></option>
                                     <%
                                     oRec3.movenext
                                     wend 
                                     oRec3.close
+                                        
+                                        
                                  %>
                   
                                 </select>
-                
 
                       </div>
+                        <%response.write "test: " & test %>
+                        <% 
+
+                            for i = 0 to cint(usemrn)
+                            response.write "id: "
+
+                            next
+
+                        %>
                       <div class="col-lg-2">
                           <select name="FM_mth" class="form-control input-small" onchange="submit()">
                           <option value="1" <%=mthSel1 %>>Jan</option>
@@ -478,8 +522,12 @@
          
          call akttyper2009(2)
 
-         call meStamdata(usemrn)
         
+       For j = 0 to cint(mids) 
+
+       call meStamdata(mids)
+       
+         
             
         select case usePeriode
         case 0 'uge
@@ -514,6 +562,8 @@
         strDatoStartKri = useYear & "-9-1"
         strDatoEndKri = useYear & "-11-1"
         end select
+
+        next
 
 
         '*** Vis tot på job
@@ -793,7 +843,7 @@
 
         '** Normtimer
         natalDage = dateDiff("d", strDatoStartKri, strDatoEndKri, 2,2)
-        call normtimerPer(usemrn, strDatoStartKri, natalDage, 0)
+        call normtimerPer(mids, strDatoStartKri, natalDage, 0)
         ntimPer = ntimPer
 
 
@@ -824,7 +874,7 @@
            
             indexFc = 0
 
-            strSQLforecast = "SELECT COALESCE(SUM(timer),0) AS fctimer FROM ressourcer_md WHERE medid = "& usemrn &" "& jobisMedLevDato &" GROUP BY medid"
+            strSQLforecast = "SELECT COALESCE(SUM(timer),0) AS fctimer FROM ressourcer_md WHERE medid = "& mids &" "& jobisMedLevDato &" GROUP BY medid"
             'strSQLResPer
             'response.write strSQLforecast
             'response.flush
@@ -848,7 +898,7 @@
 
         '*******************************
         '*** Alle timer periode 
-         strSQlmtimer = "SELECT SUM(timer) AS sumtimer FROM timer AS t WHERE tmnr = "& usemrn & " AND ("& aty_sql_realHours &") AND tdato BETWEEN '"& strDatoStartKri &"' AND '"& strDatoEndKri &"'" 
+         strSQlmtimer = "SELECT SUM(timer) AS sumtimer FROM timer AS t WHERE tmnr = "& mids & " AND ("& aty_sql_realHours &") AND tdato BETWEEN '"& strDatoStartKri &"' AND '"& strDatoEndKri &"'" 
          medarbSelHoursGT = 0
         'response.write strSQlmtimer & "<hr>"
         'response.flush
@@ -875,7 +925,7 @@
         faktimerDBGTselmedarb = 0
         faktimerGTselmedarb = 0
         '*** Fakurerbare timer periode 
-         strSQlmtimer = "SELECT SUM(timer) AS sumtimer, SUM(timer*timepris) AS omsGTselmedarb, SUM(timer*(timepris-kostpris)) AS faktimerDBGTselmedarb FROM timer AS t WHERE tmnr = "& usemrn & " AND ("& aty_sql_realHoursFakbar &") AND tdato BETWEEN '"& strDatoStartKri &"' AND '"& strDatoEndKri &"'" 
+         strSQlmtimer = "SELECT SUM(timer) AS sumtimer, SUM(timer*timepris) AS omsGTselmedarb, SUM(timer*(timepris-kostpris)) AS faktimerDBGTselmedarb FROM timer AS t WHERE tmnr = "& mids & " AND ("& aty_sql_realHoursFakbar &") AND tdato BETWEEN '"& strDatoStartKri &"' AND '"& strDatoEndKri &"'" 
             
         
         'response.write strSQlmtimer & "<hr>"
@@ -932,7 +982,7 @@
 
         '*****************************************
         '************** DE 7 MAIN FORM ***********
-         strSQlmtimer = "SELECT SUM(timer) AS sumtimer, SUM(timer*timepris) AS sumtimeOms, SUM(timer*kostpris) AS sumtimeKost FROM timer WHERE tmnr = "& usemrn & " AND ("& aty_sql_realhours &") AND tdato BETWEEN '"& strDatoStartKri &"' AND '"& strDatoEndKri &"' "& fomraktids(f)
+         strSQlmtimer = "SELECT SUM(timer) AS sumtimer, SUM(timer*timepris) AS sumtimeOms, SUM(timer*kostpris) AS sumtimeKost FROM timer WHERE tmnr = "& mids & " AND ("& aty_sql_realhours &") AND tdato BETWEEN '"& strDatoStartKri &"' AND '"& strDatoEndKri &"' "& fomraktids(f)
             
          hoursDB(f) = 0
          hoursDBindicator(f) = 0
@@ -1102,12 +1152,12 @@
 
 
         '** Real. timer MEDARB PROJEKTGRUPPE ***'
-        call hentbgrppamedarb(usemrn)
+        call hentbgrppamedarb(mids)
         
         '** FJERN ALLE GRUPPEN
         projektgruppeIds = replace(projektgruppeIds, ", 10", "") 
 
-        call medarbiprojgrp(projektgruppeIds, usemrn, 0, -1)
+        call medarbiprojgrp(projektgruppeIds, mids, 0, -1)
 
 
         medarbgrpIdSQLkri = replace(medarbgrpIdSQLkri, "mid", "tmnr")
@@ -1212,7 +1262,7 @@
             <br />
             <div class="row">
                 <div class="col-lg-11">
-                    <h4 class="portlet-title"><u><%=dsb_txt_009%> <span style="font-size:12px; font-weight:lighter;"><%=meTxt %></span> </u>
+                    <h4 class="portlet-title"><u><%=dsb_txt_009%> <span style="font-size:12px; font-weight:lighter;"><%=metxt %></span> </u>
                     </h4>
                 </div>
             </div>
@@ -1260,15 +1310,12 @@
                          
 
                  </div>
-                       <div class="col-lg-1">&nbsp;</div>
-                      
-                      <div class="col-lg-4">
-                     <%=dsb_txt_011 %> (<%=formatnumber(medarbSelHoursFomrGT, 2) %> t.)
+                                           
+                         <div class="col-lg-5">
+                        <%=dsb_txt_011 %> (<%=formatnumber(medarbSelHoursFomrGT, 2) %> t.)
                              
-                    <div id="donut-chart" class="chart-holder" style="width: 95%;"></div>
-                    
-
-                 </div>
+                        <div id="donut-chart" class="chart-holder" style="width:95%"></div>
+                        </div>
 
                   </div><!-- END ROW -->
 
@@ -1312,7 +1359,7 @@
                         &" LEFT JOIN "_
                         &" (Select j.jobnr, j.id, j.jobnavn FROM job AS j) "_
                         &" AS j2 ON j2.jobnr = t.tjobnr "_
-                        &" WHERE (tmnr = "& usemrn & ") AND ("& aty_sql_realhours &") AND tdato BETWEEN '"& strDatoStartKri &"' AND '"& strDatoEndKri &"' GROUP BY t.tjobnr ORDER BY sumtimer DESC LIMIT 100" 
+                        &" WHERE (tmnr = "& mids & ") AND ("& aty_sql_realhours &") AND tdato BETWEEN '"& strDatoStartKri &"' AND '"& strDatoEndKri &"' GROUP BY t.tjobnr ORDER BY sumtimer DESC LIMIT 100" 
 
                          '&" LEFT JOIN aktiviteter AS a ON (a.job = j.id) "_
 
@@ -1418,7 +1465,7 @@
                     
                     <%strSQLr = "SELECT r.jobid, SUM(r.timer) AS restimer, j.jobnavn, j.jobnr FROM ressourcer_md AS r "_
                     &" LEFT JOIN job AS j ON (j.id = r.jobid) "_
-                    &" WHERE r.medid = "& usemrn & " AND r.aktid <> 0 AND jobstatus = 1 GROUP BY r.jobid ORDER BY jobnavn LIMIT 150" 
+                    &" WHERE r.medid = "& mids & " AND r.aktid <> 0 AND jobstatus = 1 GROUP BY r.jobid ORDER BY jobnavn LIMIT 150" 
 
                         'response.write strSQLr
                         'response.flush
@@ -1439,7 +1486,7 @@
 
                             <%
                                sumRealtimer = 0
-                               strSQLtimer = "SELECT SUM(timer) AS sumtimer FROM timer WHERE tjobnr = '"& oRec("jobnr") &"' AND tmnr = "& usemrn & " GROUP BY tmnr"
+                               strSQLtimer = "SELECT SUM(timer) AS sumtimer FROM timer WHERE tjobnr = '"& oRec("jobnr") &"' AND tmnr = "& mids & " GROUP BY tmnr"
                                oRec2.open strSQLtimer, oConn, 3
                                if not oRec2.EOF then
 
@@ -1537,7 +1584,7 @@
                                  &" FROM timer AS t "_
                                  &" LEFT JOIN job AS j ON (jobnr = tjobnr)"_ 
                                  &" LEFT JOIN kunder AS k ON (k.kid = t.tknr) "_
-                                 &" WHERE t.tmnr = "& usemrn & " AND ("& aty_sql_realhours &") AND tdato BETWEEN '"& strDatoStartKri &"' AND '"& strDatoEndKri &"' GROUP BY tknr ORDER BY sumtimer DESC LIMIT 10"
+                                 &" WHERE t.tmnr = "& mids & " AND ("& aty_sql_realhours &") AND tdato BETWEEN '"& strDatoStartKri &"' AND '"& strDatoEndKri &"' GROUP BY tknr ORDER BY sumtimer DESC LIMIT 10"
             
                                 'if session("mid") = 1 then
                                 'response.write strSQlmtimer_k
@@ -1548,7 +1595,7 @@
                                  while not oRec.EOF 
 
                                     restimerThisKunde = 0 
-                                    strSQLresTimer = "SELECT SUM(r.timer) AS fctimer, r.medid, r.aktid, r.aar, r.md FROM ressourcer_md AS r WHERE r.jobid = "& oRec("jid") &" AND medid = "& usemrn 
+                                    strSQLresTimer = "SELECT SUM(r.timer) AS fctimer, r.medid, r.aktid, r.aar, r.md FROM ressourcer_md AS r WHERE r.jobid = "& oRec("jid") &" AND medid = "& mids 
 
                                     oRec2.open strSQLresTimer, oConn, 3
                                     if not oRec2.EOF then 
@@ -1586,7 +1633,7 @@
                                         '*****************************************************************************
                                         '************** SALGS FORM Business Area = 'SALG' fordelt på kunde ***********
                                          strSQlmtimer_fomr = "SELECT SUM(timer) AS sumtimer FROM timer "_
-                                         &" WHERE tmnr = "& usemrn & " AND ("& aty_sql_realhours &") AND tdato BETWEEN '"& strDatoStartKri &"' AND '"& strDatoEndKri &"' "& fomraktidsBA(foBAc) & " AND tknr = "& oRec("tknr") &" GROUP BY tknr"
+                                         &" WHERE tmnr = "& mids & " AND ("& aty_sql_realhours &") AND tdato BETWEEN '"& strDatoStartKri &"' AND '"& strDatoEndKri &"' "& fomraktidsBA(foBAc) & " AND tknr = "& oRec("tknr") &" GROUP BY tknr"
             
                                          
                                         'response.write strSQlmtimer_fomr & "<hr>"
@@ -1704,7 +1751,7 @@
                 <%
                  jobansFundet = 0
                  jobansKrijobids = " AND (tjobnr = '0' "    
-                 strSQKjobans = "SELECT jobnr FROM job WHERE (jobans1 = "& usemrn &" OR jobans2 = "& usemrn &") AND jobslutdato >= '"& strDatoStartKri &"'" 
+                 strSQKjobans = "SELECT jobnr FROM job WHERE (jobans1 = "& mids &" OR jobans2 = "& mids &") AND jobslutdato >= '"& strDatoStartKri &"'" 
                  
                     'response.write strSQKjobans
 
@@ -1850,7 +1897,7 @@
                  kundeansFundet = 0
                  kansKrijobids = " AND (tjobnr = '0' "    
                  strSQKjobans = "SELECT jobnr, kid FROM kunder "_
-                 &" LEFT JOIN job ON (jobknr = kid AND jobslutdato >= '"& strDatoStartKri &"') WHERE (kundeans1 = "& usemrn &" OR kundeans2 = "& usemrn &") " 
+                 &" LEFT JOIN job ON (jobknr = kid AND jobslutdato >= '"& strDatoStartKri &"') WHERE (kundeans1 = "& mids &" OR kundeans2 = "& mids &") " 
                  
                     'response.write strSQKjobans
                     'response.flush
