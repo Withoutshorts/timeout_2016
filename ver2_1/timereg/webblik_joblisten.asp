@@ -1055,8 +1055,8 @@ if len(session("user")) = 0 then
 
                 else
 
-                    if instr(jobnr_sog, "-") <> 0 then '** Interval
-	                jobSogValuse = split(jobnr_sog, "-")
+                    if instr(jobnr_sog, "--") <> 0 then '** Interval
+	                jobSogValuse = split(jobnr_sog, "--")
 	                    
                         call erDetInt(jobSogValuse(0))
                         isInt = isInt
@@ -1400,12 +1400,11 @@ if len(session("user")) = 0 then
     
   
     
-     <br /><br /> 
+      
     
      <% if print <> "j" then %>
-      <b>Søg på jobnr. eller jobnavn:</b>&nbsp;<br />
-      (% Wilcard, <b>219, 346</b>, <b>219-253</b> for interval eller <b>> 231</b> for afgræsning)<br />
-		    <input type="text" name="jobnr_sog" id="jobnr_sog" value="<%=jobnrnavn%>" style="width:258px; border:2px #9ACD32 solid;">
+     <h4>Søg på jobnavn ell. nr.:<br /><span style="font-size:11px; font-weight:lighter; line-height:14px;">(% wildcard, <b>231, 269</b> for specifikke job, <b>201--225</b> (dobbelt bindestreg) for interval, <b><></b> for større/mindre end)</span>
+     <input type="text" name="jobnr_sog" id="jobnr_sog" value="<%=jobnrnavn%>" style="width:375px; border:2px #9ACD32 solid;"></h4>
 		<%
 		
 		else %>
@@ -1414,9 +1413,6 @@ if len(session("user")) = 0 then
 		<%end if %>
 		
 	<br /><br />
-
-    
-    <br /><br /><br /><br />
 	<span id="sp_avanceret_1" style="color:#5582d2;">[+] Avanceret & Præsentation</span>
     <div class="dv_avanceret_1" style="visibility:hidden; display:none;">
     <br /><b>Realiserede timer og faktureret beløb:</b>	
