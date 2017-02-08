@@ -16,7 +16,6 @@ Session.LCID = 1030
 <!--#include file="../inc/errors/error_inc.asp"-->
 
 
-
 <%'** ER SESSION UDLØBET  ****
     if len(session("user")) = 0 then
 	
