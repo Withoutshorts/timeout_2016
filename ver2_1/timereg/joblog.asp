@@ -1588,7 +1588,7 @@ slutDatoKriSQL = strAar_slut &"/"& strMrd_slut &"/"& strDag_slut
 		
 			
             '** På kasserapoort BF skal linjeskift laves inden ny linje så der ikke kommer et skift for meget til sidst
-            if lto = "bf" then 
+
                 if cint(ver) = 1 then
                             if v > 0 then
                             ekspTxt = ekspTxt & "xx99123sy#z"
@@ -1596,9 +1596,9 @@ slutDatoKriSQL = strAar_slut &"/"& strMrd_slut &"/"& strDag_slut
                             ekspTxt = ekspTxt 
                             end if
                 else
-                ekspTxt = ekspTxt & "xx99123sy#z"
+                ekspTxt = ekspTxt 
                 end if
-            end if
+
 
 			
 		    select case ver 
