@@ -714,7 +714,7 @@ Public Class to_import_hours
 
 
 
-                            If lto = "epi" Or lto = "epi_2017" Then
+                            If lto = "epi" Or lto = "epi2017" Then
                                 'EPI hardcoded Vietnametimer **'
                                 valutaGen = 9 '1
                                 intTimepris = 11

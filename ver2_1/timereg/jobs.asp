@@ -7417,7 +7417,7 @@ end select '*** Step %>
 			else
 			    
 
-                if instr(jobnr_sog, ">") > 0 OR instr(jobnr_sog, "<") > 0 OR instr(jobnr_sog, " - ") > 0 then
+                if instr(jobnr_sog, ">") > 0 OR instr(jobnr_sog, "<") > 0 OR instr(jobnr_sog, "--") > 0 then
            
                 if instr(jobnr_sog, ">") > 0 then
                 sogeKri = sogeKri &" (j.jobnr > "& replace(trim(jobnr_sog), ">", "") &" "
@@ -7427,8 +7427,8 @@ end select '*** Step %>
                 sogeKri = sogeKri &" (j.jobnr < '"& replace(trim(jobnr_sog), "<", "") &"' "
                 end if
 
-                if instr(jobnr_sog, " - ") > 0 then
-                jobnr_sogArr = split(jobnr_sog, " - ")
+                if instr(jobnr_sog, "--") > 0 then
+                jobnr_sogArr = split(jobnr_sog, "--")
                
                 for t = 0 to 1
                 
@@ -7631,7 +7631,7 @@ end select '*** Step %>
 		<td colspan=2><br /><b>Søg på jobnr, jobnavn, rekv.nr ell. kunde:</b><br />
 		<input type="text" name="jobnr_sog" id="jobnr_sog" value="<%=show_jobnr_sog%>" style="width:433px; border:2px #6CAE1C solid;">&nbsp;
 		<br />
-        (% = wildcard) Brug ">", "<" ell. " - " til at søge efter jobnr i et interval. (luft omkring " - ")<br />
+        (% = wildcard) Brug ">", "<" ell. "--" (dobbelte) til at søge efter jobnr i et interval.<br />
             <input id="FM_sogakt" name="FM_sogakt" type="checkbox" value="1" <%=sogaktCHK%> /> Vis kun job hvor søgekriterie indgår i en aktivitet på jobbet. 
 
         <br /><br /><br />

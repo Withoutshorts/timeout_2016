@@ -1195,12 +1195,14 @@ for k = 0 TO antalK 'antal kunder
              case "nt", "xintranet - local"
 
             'Ændret til orderdate
+            'dt_confb_etd
 
              strSQL1 = "SELECT jobtpris, jobnavn, jobnr, budgettimer, fastpris, jobstartdato, jobslutdato, fakturerbart, udgifter, jo_bruttooms, orderqty, shippedqty, "_
              &" sales_price_pc, cost_price_pc, tax_pc, freight_pc, cost_price_pc_valuta, sales_price_pc_valuta, jobstatus, jo_dbproc"_
-			 &" FROM job AS j WHERE ("& jobIdSQLKri &") AND YEAR(dt_confb_etd) = "& strYear &" AND MONTH(dt_confb_etd) = "& m &" "& jobstKri &" "& visprkundeSQLjobKri &" ORDER BY jobnavn" 'tilbud
+			 &" FROM job AS j WHERE ("& jobIdSQLKri &") AND YEAR(jobstartdato) = "& strYear &" AND MONTH(jobstartdato) = "& m &" "& jobstKri &" "& visprkundeSQLjobKri &" ORDER BY jobnavn" 'tilbud
 		     ' &" ((orderqty * sales_price_pc) - (orderqty * cost_price_pc + (orderqty * cost_price_pc * tax_pc/100) + (orderqty * freight_pc))) AS profit "_ AND jobstatus <> 3
-             case else
+            
+            case else
              strSQL1 = "SELECT jobtpris, jobnavn, jobnr, budgettimer, fastpris, jobstartdato, jobslutdato, fakturerbart, udgifter, jo_bruttooms"_
 			 &" FROM job AS j WHERE ("& jobIdSQLKri &") AND YEAR(jobstartdato) = "& strYear &" AND MONTH(jobstartdato) = "& m &" AND fakturerbart = 1 "& jobstKri &" "& visprkundeSQLjobKri &" ORDER BY jobnavn" 'tilbud
 		

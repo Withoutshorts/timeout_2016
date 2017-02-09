@@ -1070,7 +1070,7 @@ if len(session("user")) = 0 then
                         end if   
                     else
                     
-                    if instr(jobnr_sog, ">") <> 0 OR instr(jobnr_sog, "<")  <> 0 then '** Afgræsning
+                    if instr(jobnr_sog, ">") <> 0 OR instr(jobnr_sog, "<")  <> 0 then '** Afgrænsning
 	                
                             
                             if instr(jobnr_sog, ">") <> 0 then

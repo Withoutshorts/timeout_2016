@@ -296,10 +296,14 @@
 						usedmids = usedmids &oRec5("mid")&"#"
 						
 						end if
-					oRec5.movenext
+					
+                           
+                    oRec5.movenext
 					wend
 					oRec5.close
 					
+
+                Response.flush 
 				oRec.movenext
 				wend
 				oRec.close
