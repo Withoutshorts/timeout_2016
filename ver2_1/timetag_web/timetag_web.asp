@@ -594,7 +594,7 @@
                          
                 strMat = strMat &"<ul>"
 
-                strSQL = "SELECT m.navn AS matnavn, m.id AS matid, m.matgrp, m.varenr, m.enhed, mg.navn AS grpnavn, mg.id AS mgid FROM materialer AS m "_
+                strSQL = "SELECT m.navn AS matnavn, m.id AS matid, m.matgrp, m.varenr, m.enhed, mg.navn AS grpnavn, mg.id AS mgid, m.salgspris FROM materialer AS m "_
                 &" LEFT JOIN materiale_grp AS mg ON (mg.id = m.id) WHERE m.id <> 0 AND (m.navn LIKE '%"& jobkundesog &"%') ORDER BY m.navn LIMIT 100"   
     
 
@@ -618,6 +618,7 @@
                  
                 strMat = strMat & "<li class=""span_mat"" id=""chbox_mat_"& oRec("matid") &"""><input type=""hidden"" id=""hiddn_mat_"& oRec("matid") &""" value="""& oRec("matnavn") &""">"
                 strMat = strMat & "<input type=""hidden"" id=""hiddn_matid_"& oRec("matid") &""" value="& oRec("matid") &"> "& oRec("matnavn") &" ("& oRec("enhed") &") </li>" 
+                strMat = strMat & "<input type=""hidden"" id=""hiddn_matid_salgspris_"& oRec("matid") &""" value="& oRec("salgspris") &">"
 
                 'strMat = strMat & "<option value="& oRec("matid") &">"& oRec("matnavn") &"</option>"
 
@@ -804,7 +805,7 @@
 
 
 
-<script src="js/timetag_web_jav_2017_02.js" type="text/javascript"></script>
+<script src="js/timetag_web_jav_2017_022.js" type="text/javascript"></script>
 
 
 
@@ -921,7 +922,7 @@
                         <input type="hidden" id="regskabsaarStMd" value="<%=datePart("m", aktBudgettjkOnRegAarSt, 2,2)%>">
                         <input type="hidden" id="regskabsaarUseAar" value="<%=datepart("yyyy", varTjDatoUS_man_tt, 2,2)%>">
                         <input type="hidden" id="regskabsaarUseMd" value="<%=datepart("m", varTjDatoUS_man_tt, 2,2)%>">
-                        <input type="text" id="dv_akttype" value="0">
+                        <input type="hidden" id="dv_akttype" value="0">
 
 
                         <%
@@ -976,48 +977,14 @@
                             <%
                         end select%>
 
-                        <%
-                            
-                            strSQL = "SELECT id, navn FROM aktiviteter WHERE bgr = 2"
-                             oRec2.open strSQL, oConn, 3
-                             if not oRec2.EOF then
-                                  
-                                Strid = oRec2("id")
-                                
-                                response.write "id: " & Strid
-
-                             end if
-                             oRec2.close
-
-                        %>
+                    
 
                        
                        
 
                         <%if cint(mobil_week_reg_akt_dd) = 1 then %>
 
-                            <script type="text/javascript">
-
-
-
-                                function akt_type() {
-                                    //alert("akt_type")
-                                    aktid = $("#dv_akt").val();
-
-                                    $.post("?id=" + aktid, { control: "FN_akttyper", AjaxUpdateField: "true" }, function (data) {
-                                        $("#dv_akttype").val(data);
-                                    });
-                                  
-                                }
-
-                                function akt_change() {
-
-                                    akt_type();
-
-                                }
-
-
-                            </script>
+                            
 
                             <div class="row">
                                     <div class="col-lg-12">
@@ -1046,9 +1013,6 @@
                         </div>
 
 
-                        <%
-                            response.write "Aktivitet: " 
-                        %>
 
                         <%if cint(showStop) = 1 then%>
                            

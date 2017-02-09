@@ -297,11 +297,6 @@ $(document).ready(function() {
             return false 
         }
        
-        
-
-       
-
-        //alert("HER")
 
         if (lto == 'intranet - local' || lto == 'tbg') {
 
@@ -571,7 +566,16 @@ $(document).ready(function() {
                     thismatid = thisvaltrim
                     thismatnavn = $("#hiddn_mat_" + thismatid).val()
 
-                    //alert(thismatnavn + " " + thismatid)
+                    jq_lto = $("#jq_lto").val()
+
+                    
+
+                    if (jq_lto == "tbg" || jq_lto == "intranet - local") {
+                        thismatsalgspris = $("#hiddn_matid_salgspris_" + thismatid).val()
+                        $("#FM_matantal_stkpris").val(thismatsalgspris)
+                    }
+                    //span_mat
+                    //$("#FM_matnavn").val(thismatnavn)
 
                     $("#FM_matnavn").val(thismatnavn)
                     $("#FM_matid").val(thismatid)
