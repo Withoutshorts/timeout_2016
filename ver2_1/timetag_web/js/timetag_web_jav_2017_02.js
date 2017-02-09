@@ -37,13 +37,7 @@ function isNum_treg(passedVal) {
 
 
 
-
-
-
 $(document).ready(function() {
-
-
-   
 
     mobil_week_reg_job_dd = $("#mobil_week_reg_job_dd").val()
 
@@ -104,10 +98,9 @@ $(document).ready(function() {
     });
 
 
-  
 
     //approved
-    $("#sbm_timer").click(function () {
+    $("#sbm_timer").x(function () {
 
         // Skal ikke tilføje logud tid, da det skal kunne indtastes manuelt //
         //if ($("#showstop").val() == "1") {
@@ -566,8 +559,7 @@ $(document).ready(function() {
 
     function sogakt() {
        
-
-     
+        
 
         mobil_week_reg_akt_dd = $("#mobil_week_reg_akt_dd").val()
         mobil_week_reg_job_dd = $("#mobil_week_reg_job_dd").val()
@@ -605,7 +597,7 @@ $(document).ready(function() {
         jq_pa = $("#FM_pa").val()
 
 
-
+         
         varTjDatoUS_man = $("#varTjDatoUS_man").val()
 
         if (jq_newfilterval.length > 0 || mobil_week_reg_akt_dd == "1") {
@@ -640,7 +632,6 @@ $(document).ready(function() {
 
                     $(".luk_aktsog").bind('click', function () {
 
-
                         $("#dv_akt").hide();
                         //$("#dv_akt").attr('class', 'dv-closed');
 
@@ -664,7 +655,6 @@ $(document).ready(function() {
                     $(".span_akt").bind('click', function () {
 
 
-
                         var thisaktid = this.id
                         var thisvallngt = thisaktid.length
                         var thisvaltrim = thisaktid.slice(9, thisvallngt)
@@ -679,6 +669,7 @@ $(document).ready(function() {
                         $("#FM_aktid").val(thisaktid)
                         $("#dv_akt").hide();
                         //$("#dv_akt").attr('class', 'dv-closed');
+
 
                     });
 
@@ -701,8 +692,13 @@ $(document).ready(function() {
 
     }
 
+   // $("#dv_akt").change(function () {
+        //alert("changed");
+     //   akt_type();
 
+    //});
 
+  
     function sogjobbesk(jq_jobid) {
 
         $("#dv_jobbesk").html('');

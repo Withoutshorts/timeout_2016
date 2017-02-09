@@ -4,11 +4,30 @@
 %>
 
 <!--#include file="../inc/connection/conn_db_inc.asp"-->
+<!--#include file="../inc/regular/global_func.asp"-->
 
 <% '**** Søgekriterier AJAX **'
         'section for ajax calls
         if Request.Form("AjaxUpdateField") = "true" then
         Select Case Request.Form("control")
+
+        case "FN_akttyper"
+        if len(trim(request("id"))) then
+        id = request("id")
+        else
+        id = 0
+        end if
+
+        strSQLakttype = "SELECT fakturerbar FROM aktiviteter WHERE id = "& id
+
+        oRec.open strSQLakttype, oConn, 3 
+            if not oRec.EOF then
+            akt_type = oRec("fakturerbar")
+            end if
+        oRec.close
+
+        response.Write akt_type
+
         case "FN_jobbesk"
                 
                 if len(trim(request("id"))) then
@@ -51,6 +70,7 @@
                 ibudgetmd = request("ibudgetaarMd")  
                 aar = request("ibudgetUseAar")
                 md = request("ibudgetUseMd")
+
 
              
                 'response.write "aktid: "+ aktid + " timerTastet: "+ timerTastet
@@ -159,7 +179,7 @@
                 'end if
 
                 if (jobkundesog = "-1") then 'kunde job sog DD
-                    strJobogKunderTxt = strJobogKunderTxt & "<option value=""-1"" SELECTED>Vælg job:</option>"
+                    strJobogKunderTxt = strJobogKunderTxt & "<option value=""-1"" SELECTED>"& ttw_txt_026 &":</option>"
                 end if   
                            
 
@@ -418,7 +438,7 @@
             
                    
                
-
+            
 
                strSQL = "SELECT a.id AS aid, navn AS aktnavn, projektgruppe1, projektgruppe2, projektgruppe3, "_
                &" projektgruppe4, projektgruppe5, projektgruppe6, projektgruppe7, projektgruppe8, projektgruppe9, projektgruppe10 FROM aktiviteter AS a "_
@@ -669,7 +689,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 
-    <!--#include file="../inc/regular/global_func.asp"-->
+    
     <!--#include file="../inc/regular/header_lysblaa_2015_inc.asp"-->
     <!--#include file="../inc/regular/top_menu_mobile.asp"-->
 
@@ -872,7 +892,7 @@
                         todayYear = year(now)      
               
                         select case lto 'mulighed for VÆLG DATO 
-                        case "xplan", "xoutz", "xintranet - local", "hestia"
+                        case "xplan", "xoutz", "xintranet - local", "hestia", "tbg"
                               %> <input type="hidden" id="jq_dato" name="FM_datoer" value="<%=todayDay &"-"& todayMonth &"-"& todayYear%>"/><%
                         case else
                        
@@ -901,8 +921,9 @@
                         <input type="hidden" id="regskabsaarStMd" value="<%=datePart("m", aktBudgettjkOnRegAarSt, 2,2)%>">
                         <input type="hidden" id="regskabsaarUseAar" value="<%=datepart("yyyy", varTjDatoUS_man_tt, 2,2)%>">
                         <input type="hidden" id="regskabsaarUseMd" value="<%=datepart("m", varTjDatoUS_man_tt, 2,2)%>">
-                        
-                        
+                        <input type="text" id="dv_akttype" value="0">
+
+
                         <%
                         '*** GL 
                         if cint(mobil_week_reg_job_dd) = 1 then %>
@@ -955,15 +976,54 @@
                             <%
                         end select%>
 
+                        <%
+                            
+                            strSQL = "SELECT id, navn FROM aktiviteter WHERE bgr = 2"
+                             oRec2.open strSQL, oConn, 3
+                             if not oRec2.EOF then
+                                  
+                                Strid = oRec2("id")
+                                
+                                response.write "id: " & Strid
+
+                             end if
+                             oRec2.close
+
+                        %>
+
                        
                        
 
                         <%if cint(mobil_week_reg_akt_dd) = 1 then %>
+
+                            <script type="text/javascript">
+
+
+
+                                function akt_type() {
+                                    //alert("akt_type")
+                                    aktid = $("#dv_akt").val();
+
+                                    $.post("?id=" + aktid, { control: "FN_akttyper", AjaxUpdateField: "true" }, function (data) {
+                                        $("#dv_akttype").val(data);
+                                    });
+                                  
+                                }
+
+                                function akt_change() {
+
+                                    akt_type();
+
+                                }
+
+
+                            </script>
+
                             <div class="row">
                                     <div class="col-lg-12">
                                         <input type="hidden" id="FM_akt" value="-1"/>
                                         <!--<textarea id="dv_akt_test"></textarea>-->
-                                        <select id="dv_akt" name="FM_aktivitetid" class="form-control">
+                                        <select id="dv_akt" name="FM_aktivitetid" class="form-control" onchange="akt_change();">
                                             <option>..</option>
                                         </select>
                                     </div>
@@ -986,7 +1046,9 @@
                         </div>
 
 
-                        
+                        <%
+                            response.write "Aktivitet: " 
+                        %>
 
                         <%if cint(showStop) = 1 then%>
                            
@@ -1007,6 +1069,13 @@
                             </div>
                         </div>
                         <%else %>
+
+                            <script type="text/javascript">
+
+                                akt_change();
+
+                            </script>
+
                             <input type="hidden" id="FM_sttid" name="FM_sttid" value="00:00"/>
                             <input type="hidden" id="FM_sltid" name="FM_sltid" value="00:00"/>
                             <div class="row">
