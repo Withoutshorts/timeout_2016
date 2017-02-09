@@ -1588,14 +1588,16 @@ slutDatoKriSQL = strAar_slut &"/"& strMrd_slut &"/"& strDag_slut
 		
 			
             '** På kasserapoort BF skal linjeskift laves inden ny linje så der ikke kommer et skift for meget til sidst
-            if cint(ver) = 1 then
-                        if v > 0 then
-                        ekspTxt = ekspTxt & "xx99123sy#z"
-                        else
-                        ekspTxt = ekspTxt 
-                        end if
-            else
-            ekspTxt = ekspTxt & "xx99123sy#z"
+            if lto = "bf" then 
+                if cint(ver) = 1 then
+                            if v > 0 then
+                            ekspTxt = ekspTxt & "xx99123sy#z"
+                            else
+                            ekspTxt = ekspTxt 
+                            end if
+                else
+                ekspTxt = ekspTxt & "xx99123sy#z"
+                end if
             end if
 
 			
@@ -2987,7 +2989,7 @@ if x <> 0 then
                     else
                     ekspTxt = replace(ekspTxt, "xx99123sy#z", vbcrlf)
                     end if
-
+            
 	                
 	
 	                datointerval = request("datointerval")
@@ -3098,7 +3100,7 @@ if x <> 0 then
 				                select case ver
                                 case 1
 				                case else
-                                objF.writeLine("Periode afgrænsning: "& datointerval & vbcrlf)
+                                objF.writeLine("Periode afgrænsninghej: "& datointerval & vbcrlf)
 				                objF.WriteLine(strOskrifter) '& chr(013)
                                 end select
 				                objF.WriteLine(ekspTxt)
