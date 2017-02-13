@@ -448,6 +448,28 @@ if len(session("user")) = 0 then
 	
 	else
 	
+
+        'SET LOCALE for denne side
+        select case sprog
+        case 1
+        Session.LCID = 1030
+        case 2
+        Session.LCID = 2057
+        case 3
+        Session.LCID = 1053
+        case 4
+        Session.LCID = 2068
+        case 5
+        Session.LCID = 1034
+        case 6
+        Session.LCID = 1031
+        case 7
+        Session.LCID = 1036
+        case else
+        Session.LCID = 1030
+        end select
+
+
 	function SQLBless(s)
 		dim tmp
 		tmp = s
@@ -569,9 +591,9 @@ if len(session("user")) = 0 then
 	
 	
 	'*** Sætter lokal dato/kr format. *****
-    call lcid_sprog(session("mid"))
-    Session.LCID = lcid_sprog_Val
-	
+   'call lcid_sprog(session("mid"))
+   'Session.LCID = lcid_sprog_Val
+	lcid_sprog_val = Session.LCID
 
     select case func 
 	case "-"

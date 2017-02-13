@@ -1403,14 +1403,58 @@ if len(session("user")) = 0 then
       
     
      <% if print <> "j" then %>
-     <h4>Søg på jobnavn ell. nr.:<br /><span style="font-size:11px; font-weight:lighter; line-height:14px;">(% wildcard, <b>231, 269</b> for specifikke job, <b>201--225</b> (dobbelt bindestreg) for interval, <b><></b> for større/mindre end)</span>
-     <input type="text" name="jobnr_sog" id="jobnr_sog" value="<%=jobnrnavn%>" style="width:375px; border:2px #9ACD32 solid;"></h4>
+        <br /><br />
+     <b>Søg på jobnavn ell. nr.:<br /><span style="font-size:9px; font-weight:lighter; line-height:14px;">(% wildcard, <b>231, 269</b> specifik, <b>201--225</b> (dobbelt bindestreg) interval, eller <b>< ></b>)</span></b>
+     <input type="text" name="jobnr_sog" id="jobnr_sog" value="<%=jobnrnavn%>" style="width:375px; border:2px #9ACD32 solid;">
 		<%
 		
 		else %>
 		<b>jobnr./jobnavn:</b><br />
 		<%=jobnrnavn%>
 		<%end if %>
+
+
+        <br /><br />
+		<b>Jobstatus, vis:</b><br />
+	
+		
+		
+		
+		
+		<%
+        if print <> "j" then%>
+        <input type="checkbox" name="FM_status0" value="0" <%=stCHK0%>>Aktive&nbsp;&nbsp;
+	    <input type="checkbox" name="FM_status1" value="1" <%=stCHK1%>>Passiv / Til fak.&nbsp;&nbsp;
+	     <input type="checkbox" name="FM_status2" value="2" <%=stCHK2%>>Lukkede&nbsp;&nbsp;<br />
+         <input type="checkbox" name="FM_status3" value="3" <%=stCHK3%>>Tilbud&nbsp;&nbsp;
+         <input type="checkbox" name="FM_status4" value="4" <%=stCHK4%>>Gennemsyn
+	    <%else %>
+
+               <%if stat0 = "1" then%>
+	        - Aktive<br />
+	        <%end if %>
+	    
+	        <%if stat1 = "1" then%>
+	        - Passiv / Til fak.<br />
+	        <%end if %>
+	        
+	         <%if stat2 = "1" then%>
+	        - Lukkede<br />
+	        <%end if %>
+
+             <%if stat3 = "1" then%>
+	        - Tilbud<br />
+	        <%end if %>
+
+             <%if stat4 = "1" then%>
+	        - Gennemsyn<br />
+	        <%end if %>
+	    
+	    
+	    <%end if %>
+	    
+	    
+	     <br />
 		
 	<br /><br />
 	<span id="sp_avanceret_1" style="color:#5582d2;">[+] Avanceret & Præsentation</span>
@@ -1519,53 +1563,7 @@ if len(session("user")) = 0 then
 
 
         <div class="dv_avanceret_1" style="visibility:hidden; display:none;">
-		<br /><br />
-		<b>Jobstatus, vis:</b><br />
-	
 		
-		
-		
-		
-		<%
-        		
-	   
-	
-	    
-	
-	    
-	    if print <> "j" then%>
-        <input type="checkbox" name="FM_status0" value="0" <%=stCHK0%>>Aktive&nbsp;&nbsp;
-	    <input type="checkbox" name="FM_status1" value="1" <%=stCHK1%>>Passiv / Til fak.&nbsp;&nbsp;
-	     <input type="checkbox" name="FM_status2" value="2" <%=stCHK2%>>Lukkede&nbsp;&nbsp;<br />
-         <input type="checkbox" name="FM_status3" value="3" <%=stCHK3%>>Tilbud&nbsp;&nbsp;
-         <input type="checkbox" name="FM_status4" value="4" <%=stCHK4%>>Gennemsyn
-	    <%else %>
-
-               <%if stat0 = "1" then%>
-	        - Aktive<br />
-	        <%end if %>
-	    
-	        <%if stat1 = "1" then%>
-	        - Passiv / Til fak.<br />
-	        <%end if %>
-	        
-	         <%if stat2 = "1" then%>
-	        - Lukkede<br />
-	        <%end if %>
-
-             <%if stat3 = "1" then%>
-	        - Tilbud<br />
-	        <%end if %>
-
-             <%if stat4 = "1" then%>
-	        - Gennemsyn<br />
-	        <%end if %>
-	    
-	    
-	    <%end if %>
-	    
-	    
-	     <br />
    
   
     

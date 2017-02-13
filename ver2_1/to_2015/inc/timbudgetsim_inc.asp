@@ -156,10 +156,53 @@ function jobaktbudgetfelter(jobnr, jobid, aktid, h1aar, h2aar, h1md, h2md, budge
 
                      end if
 
+                
+                    if lto = "wwf" then
+
                
+                            if aktid = 0 then
+                            '** Budgetfordeling pr. FRA JOB ÅR 1
+                            strSQLbudgerFordelFY = "SELECT timer FROM ressourcer_ramme WHERE jobid = " & jobid & " AND aktid = 0 AND aar = "& h1aar+1 &""  
+                    
+                            'if session("mid") = 1 then
+                            'response.write strSQLbudgerFordelFY 
+                            'end if
 
-                  
+                             oRec3.open strSQLbudgerFordelFY, oConn, 3
+                             if not oRec3.EOF then
 
+                                jobbudget_fordeling_aar1 = oRec3("timer")
+
+                             end if
+                             oRec3.close     
+
+                             '** Budgetfordeling pr. FRA JOB ÅR 2
+                            strSQLbudgerFordelFY = "SELECT timer FROM ressourcer_ramme WHERE jobid = " & jobid & " AND aktid = 0 AND aar = "& h1aar+2 &""  
+                    
+                             oRec3.open strSQLbudgerFordelFY, oConn, 3
+                             if not oRec3.EOF then
+
+                                jobbudget_fordeling_aar2 = oRec3("timer")
+
+                             end if
+                             oRec3.close     
+
+
+                             '** Budgetfordeling pr. FRA JOB ÅR 3
+                            strSQLbudgerFordelFY = "SELECT timer FROM ressourcer_ramme WHERE jobid = " & jobid & " AND aktid = 0 AND aar = "& h1aar+3 &""  
+                    
+                             oRec3.open strSQLbudgerFordelFY, oConn, 3
+                             if not oRec3.EOF then
+
+                                jobbudget_fordeling_aar3 = oRec3("timer")
+
+                             end if
+                             oRec3.close     
+    
+    
+                            end if         
+
+                    end if
     'end if
 
 
@@ -473,9 +516,26 @@ function jobaktbudgetfelter(jobnr, jobid, aktid, h1aar, h2aar, h1md, h2md, budge
      if media <> "export" then%>
 
 
-      <td><input type="text" name="FM_<%=aktFMname%>timebudget_FY0" id="FM_timerbudget_FY0_<%=jobid%>_<%=aktid %>" class="jobakt_budgettimer_FY <%=aktclassFY0 %> form-control input-small" value="<%=rammeFY0 %>" style="width:50px; background-color:<%=bgthisFY0%>;" <%=jobDisAbled %> /></td>
-     <td><input type="text" name="FM_<%=aktFMname%>timebudget_FY1" id="FM_timerbudget_FY1_<%=jobid%>_<%=aktid %>" class="jobakt_budgettimer_FY1 <%=aktclassFY1 %> form-control input-small" value="<%=rammeFY1 %>" style="width:50px;"  <%=jobDisAbled %>/></td>
-        <td><input type="text" name="FM_<%=aktFMname%>timebudget_FY2" id="FM_timerbudget_FY2_<%=jobid%>_<%=aktid %>" class="jobakt_budgettimer_FY2 <%=aktclassFY2 %> form-control input-small" value="<%=rammeFY2 %>" style="width:50px;" <%=jobDisAbled %> /></td>
+      <td><input type="text" name="FM_<%=aktFMname%>timebudget_FY0" id="FM_timerbudget_FY0_<%=jobid%>_<%=aktid %>" class="jobakt_budgettimer_FY <%=aktclassFY0 %> form-control input-small" value="<%=rammeFY0 %>" style="width:50px; background-color:<%=bgthisFY0%>;" <%=jobDisAbled %> />
+
+          <%if aktid = 0 AND lto = "wwf" then %>
+            <span style="font-size:9px; line-height:10px;"><%=formatnumber(jobbudget_fordeling_aar1,0)%></span>
+            <%end if %>
+
+
+      </td>
+     <td><input type="text" name="FM_<%=aktFMname%>timebudget_FY1" id="FM_timerbudget_FY1_<%=jobid%>_<%=aktid %>" class="jobakt_budgettimer_FY1 <%=aktclassFY1 %> form-control input-small" value="<%=rammeFY1 %>" style="width:50px;"  <%=jobDisAbled %>/>
+
+         <%if aktid = 0 AND lto = "wwf" then %>
+            <span style="font-size:9px; line-height:10px;"><%=formatnumber(jobbudget_fordeling_aar2,0)%></span>
+            <%end if %>
+
+     </td>
+        <td><input type="text" name="FM_<%=aktFMname%>timebudget_FY2" id="FM_timerbudget_FY2_<%=jobid%>_<%=aktid %>" class="jobakt_budgettimer_FY2 <%=aktclassFY2 %> form-control input-small" value="<%=rammeFY2 %>" style="width:50px;" <%=jobDisAbled %> />
+            <%if aktid = 0 AND lto = "wwf" then %>
+            <span style="font-size:9px; line-height:10px;"><%=formatnumber(jobbudget_fordeling_aar3,0)%></span>
+            <%end if %>
+        </td>
        
         
                 <input type="hidden" name="FM_<%=aktFMname%>timebudget_FY0" value="##" />

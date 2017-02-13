@@ -40,7 +40,7 @@ if len(session("user")) = 0 then
 	'*** Her spørges om det er ok at der slettes en medarbejder ***
 	%>
 	<!--#include file="../inc/regular/header_lysblaa_inc.asp"-->
-	<!--#include file="../inc/regular/topmenu_inc.asp"-->
+	<!--include file="../inc/regular/topmenu_inc.asp"-->
 	<!-------------------------------Sideindhold------------------------------------->
 	<div id="sindhold" style="position:absolute; left:20; top:40; visibility:visible;">
 	<%
@@ -191,7 +191,7 @@ if len(session("user")) = 0 then
 	end if
 	%>
 	<!--#include file="../inc/regular/header_lysblaa_inc.asp"-->
-	<!--#include file="../inc/regular/topmenu_inc.asp"-->
+	<!--include file="../inc/regular/topmenu_inc.asp"-->
 	
 	<!-------------------------------Sideindhold------------------------------------->
 	<div id="sindhold" style="position:absolute; left:20; top:40; visibility:visible;">
@@ -252,7 +252,7 @@ if len(session("user")) = 0 then
 	
 	
 	<!--#include file="../inc/regular/header_lysblaa_inc.asp"-->
-	<!--#include file="../inc/regular/topmenu_inc.asp"-->
+	<!--include file="../inc/regular/topmenu_inc.asp"-->
 	
 	<!-------------------------------Sideindhold------------------------------------->
 	<div id="sindhold" style="position:absolute; left:20; top:40; visibility:visible;">

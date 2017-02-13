@@ -989,7 +989,14 @@ sub projektberegner
                      <table width=100% cellspacing=0 cellpadding=0 border=0>
                      <tr>
                          <td style="padding:12px 2px 2px 2px; font-size:11px; width:460px;"><b>Bruttoomsætning:</b><br /><span style="font-size:9px; color:#999999;">Nettooms. + Salgsomkostninger</span></td>
-                         <td align=right style="padding:12px 20px 2px 2px; font-size:11px;">= <input type="text" id="FM_budget" name="FM_budget" value="<%=replace(formatnumber(jo_bruttooms, 2), ".", "")%>" style="width:75px; font-size:11px; font-family:arial; border:1px red solid;" onkeyup="tjektimer('FM_budget')">&nbsp;&nbsp;&nbsp;&nbsp; <%=basisValISO %></td>
+                         <td align=right style="padding:12px 20px 2px 2px; font-size:11px;">= <input type="text" id="FM_budget" name="FM_budget" value="<%=replace(formatnumber(jo_bruttooms, 2), ".", "")%>" style="width:75px; font-size:11px; font-family:arial; border:1px red solid;" onkeyup="tjektimer('FM_budget')">&nbsp;&nbsp;&nbsp;&nbsp; 
+                             
+                             
+                             <select>
+
+
+                             </select>
+                             <%=basisValISO %></td>
 			
                      </tr>
                      </table>
@@ -1471,8 +1478,10 @@ sub projektberegner
                                 strSQLrammeFY0 = "SELECT timer, fctimepris, fctimeprish2, aar FROM "_
                                 &" ressourcer_ramme WHERE jobid = " & id & " AND aktid = 0 AND medid = 0 ORDER BY aar LIMIT 5" 'AND aar = "& year(Y0)    
 
+                                'if session("mid") = 1 then
                                 'response.write strSQLrammeFY0
                                 'response.flush
+                                'end if
 
                                  fyA = 0
                                  oRec3.open strSQLrammeFY0, oConn, 3
@@ -1503,7 +1512,7 @@ sub projektberegner
 
 
 
-                                for fyA = fyA TO 4
+                                for fyA = fyA TO 2
                                     %>
                                        <tr>
                                          <td>År <%=fyA %></td>

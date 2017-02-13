@@ -99,6 +99,12 @@
                 end if
         
                 medid = request("jq_medid")
+
+                if len(trim(request("thisJobid"))) <> 0 then
+                jq_jobid = request("thisJobid")
+                else
+                jq_jobid = 0
+                end if
                         
 
                         call positiv_aktivering_akt_fn()
@@ -149,10 +155,10 @@
                         &" kkundenavn LIKE '"& jobkundesog &"%' OR kkundenr = '"& jobkundesog &"' OR k.kinit = '"& jobkundesog &"') AND kkundenavn <> ''"
                     end if            
 
-                 lmt = 150
+                 lmt = 50
                  else
                  strSQLSogKri = ""
-                 lmt = 150
+                 lmt = 250
                  end if            
 
 
@@ -170,17 +176,32 @@
                 &" WHERE tu.medarb = "& medid &" AND (j.jobstatus = 1 OR j.jobstatus = 3) "& strSQLPAkri &" "& strSQLDatokri 
             
                 strSQL = strSQL & strSQLSogKri
+
+                if lto = "hestia" then 
+                strSQL = strSQL &" GROUP BY j.id ORDER BY jobnavn LIMIT "& lmt     
+                else
                 strSQL = strSQL &" GROUP BY j.id ORDER BY kkundenavn, jobnavn LIMIT "& lmt     
-                
+                end if
               
                 'if lto = "essens" then
                 'response.write "<option>"& strSQL &"</option>"
                 'response.flush 
                 'end if
 
-                if (jobkundesog = "-1") then 'kunde job sog DD
-                    strJobogKunderTxt = strJobogKunderTxt & "<option value=""-1"" SELECTED>"& ttw_txt_026 &":</option>"
-                end if   
+                'if lto <> "tbg" then '1 job forvalgt i DD
+
+                    if (jobkundesog = "-1") then 'kunde job sog DD
+
+                        if cdbl(jq_jobid) = 0 then
+                        jobSEL0 = "SELECTED"
+                        else
+                        jobSEL0 = ""
+                        end if
+
+                        strJobogKunderTxt = strJobogKunderTxt & "<option value=""-1"" "& jobSEL0 &">:</option>"
+                    end if   
+
+                'end if
                            
 
                 c = 0
@@ -198,8 +219,9 @@
         
                         else
 
-                           
+                            if lto <> "tbg" then '1 job forvalgt i DD
                             strJobogKunderTxt = strJobogKunderTxt & "<option DISABLED>"& left(oRec("kkundenavn"), 20) & "</option>"
+                            end if
 
                         end if
                 
@@ -222,8 +244,16 @@
       
                      else
     
-                        strJobogKunderTxt = strJobogKunderTxt & "<option value="& oRec("jid") &">"& left(oRec("kkundenavn"), 20) &" "& oRec("jobnavn") & " ("& oRec("jobnr") &")"
-        
+                        if cdbl(jq_jobid) = cdbl(oRec("jid")) then
+                        jobSEL = "SELECTED"
+                        else
+                        jobSEL = ""
+                        end if
+
+                      
+                        strJobogKunderTxt = strJobogKunderTxt & "<option value="& oRec("jid") &" "& jobSEL &">"& oRec("jobnavn") & " ("& oRec("jobnr") &")"
+                         
+
                         if lto = "hestia" OR lto = "intranet - local" then
                         strJobogKunderTxt = strJobogKunderTxt &" ..... "& oRec("jobstartdato") & ""
                         else
@@ -590,7 +620,7 @@
             
                 
                 
-                strMat = strMat &"<span style=""color:#999999; font-size:9px; float:right;"" id=""luk_matsog"">X</span>"    
+                strMat = strMat &"<span style=""color:darkred; font-size:11px; float:right;"" id=""luk_matsog"">X</span>"    
                          
                 strMat = strMat &"<ul>"
 
@@ -748,8 +778,13 @@
     indlast = 0
     end if
 
-
+    '** Frvalgt job eller job fra mail
+    select case lto
+    case "tbg"
+    tomobjid = 4
+    case else
     tomobjid = session("tomobjid")
+    end select
 
     select case lto
     case "hestia", "xoutz", "micmatic", "intranet - local"
@@ -758,7 +793,7 @@
         showStop = 0
         showDetailDayResumeOrLink = 0
         ststopbtnTxt = "St. / Stop"
-    case "xintranet - local", "sdutek", "nonstop", "outz", "cc",  "epi", "epi_uk", "epi_ab", "epi_no"
+    case "xintranet - local", "sdutek", "nonstop", "cc",  "epi", "epi_uk", "epi_ab", "epi_no"
         showAfslutJob = 0
         showMatreg = 0
         showStop = 1
@@ -805,7 +840,7 @@
 
 
 
-<script src="js/timetag_web_jav_2017_022.js" type="text/javascript"></script>
+<script src="js/timetag_web_jav_2017_023.js" type="text/javascript"></script>
 
 
 
@@ -990,7 +1025,7 @@
                                     <div class="col-lg-12">
                                         <input type="hidden" id="FM_akt" value="-1"/>
                                         <!--<textarea id="dv_akt_test"></textarea>-->
-                                        <select id="dv_akt" name="FM_aktivitetid" class="form-control" onchange="akt_change();">
+                                        <select id="dv_akt" name="FM_aktivitetid" class="form-control">
                                             <option>..</option>
                                         </select>
                                     </div>
@@ -1034,16 +1069,12 @@
                         </div>
                         <%else %>
 
-                            <script type="text/javascript">
-
-                                akt_change();
-
-                            </script>
+                        
 
                             <input type="hidden" id="FM_sttid" name="FM_sttid" value="00:00"/>
                             <input type="hidden" id="FM_sltid" name="FM_sltid" value="00:00"/>
                             <div class="row">
-                                <div class="col-lg-12"><input type="number" id="FM_timer" name="FM_timer" value="" placeholder="<%=ttw_txt_023 %>" class="form-control"/></div>
+                                <div class="col-lg-12"><input type="text" id="FM_timer" name="FM_timer" value="" placeholder="<%=ttw_txt_023 %>" class="form-control"/></div>
                             </div>
                         <%end if %>
                        
@@ -1051,7 +1082,14 @@
                        
 
                         
-                        <%if cint(showMatreg) = 1 then%>
+                        <%if cint(showMatreg) = 1 then
+                            
+                            if lto = "tbg" then
+                            ttw_txt_008 = "Products"
+                            ttw_txt_009 = "Add Products"
+                            end if
+                            
+                            %>
                          <br />
                         <div class="panel-group accordion-panel" id="accordion-paneled">
                             <div class="panel panel-default">
@@ -1060,23 +1098,31 @@
                                 <div id="collapseOne" class="panel-collapse collapse">
                                     <div class="panel-body">
                                          <div class="row">
-                                          <div class="col-lg-12">
-                                          <table style="width:100%;"><tr><td style="width:60%; padding:2px 2px 2px 2px;">    
+                                          <div class="col-lg-12" style="padding:0px 2px 0px 4px;">
+                                          <table style="width:100%;"><tr><td style="width:60%;">    
                                           <input type="text" id="FM_matnavn" name="FM_matnavn" placeholder="<%=ttw_txt_009 %>" class="form-control"/></td>
-                                          <td style="width:20%; padding:2px 2px 2px 2px;"><input type="number" id="FM_matantal" name="FM_matantal" value="" placeholder="<%=ttw_txt_010 %>." class="form-control"/></td>
                                           <%if lto = "tbg" OR lto = "intranet - local" then %>
-                                              <td style="width:20%; padding:2px 2px 2px 2px;"><input type="number" id="FM_matantal_stkpris" name="FM_matantal_stkpris" value="" placeholder="Pris" class="form-control"/></td>
-                                          <%end if %>
-                                          <td style="width:20%; padding:2px 2px 2px 2px;"><input type="button" value=">>" id="sbmmat" class="btn btn-secondary"/>
-                                           </td></tr></table>
+                                              <td style="width:20%; padding:0px 2px 0px 2px;"><input type="number" id="FM_matantal_stkpris" name="FM_matantal_stkpris" value="" placeholder="Price" class="form-control"/></td>
+                                              <td style="width:20%; padding:0px 2px 0px 2px;"><input type="number" id="FM_matantal" name="FM_matantal" value="" placeholder="<%=ttw_txt_010 %>." class="form-control"/></td>
+                                          
+                                              </tr>  
+                                              <td colspan="3" align="right" style="padding:0px 4px 0px 2px;"><input type="button" value=">>" id="sbmmat" class="btn btn-secondary"/>
+                                           </td></tr>
+                                            <%else %>
+                                              <td style="width:25%; padding:0px 4px 0px 4px;"><input type="number" id="FM_matantal" name="FM_matantal" value="" placeholder="<%=ttw_txt_010 %>." class="form-control"/></td>
+                                          
+                                               <td><input type="button" value=">>" id="sbmmat" class="btn btn-secondary"/>
+                                                </td></tr>
+                                              <%end if %>
+                                         </table>
                                               </div>
                                         </div>
                                         
 
                                              <div class="row">
-                                                  <div class="col-lg-4">
+                                                  <div class="col-lg-4" style="padding:5px 2px 5px 2px;">
                                                       
-                                                                 <div id="dv_mat" class="dv-closed"></div>
+                                                                 <div id="dv_mat" class="dv-closed" style="padding:5px 2px 5px 2px;"></div>
                                                             
                                                       </div>
                                              </div>
@@ -1114,7 +1160,7 @@
                         <br /><br />
                         <div class="row">
                             <div class="col-lg-12">
-                                <button type="submit" class="btn btn-success" style="text-align:center; width:100%"><b><%=ttw_txt_011 %> >></b></button>
+                                <button type="submit" id="sbmtimer" class="btn btn-success" style="text-align:center; width:100%"><b><%=ttw_txt_011 %> >></b></button>
                             </div>
                         </div>
 

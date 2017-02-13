@@ -5989,7 +5989,11 @@ if len(session("user")) = 0 then
 						<%
                         
                         if level = 1 then 
-                             if (lto <> "epi" AND lto <> "epi2017") OR (lto = "epi" AND (thisMid = 6 OR thisMid = 11 OR thisMid = 59 OR thisMid = 1 OR thisMid = 1720)) OR (lto = "epi_no" AND thisMid = 2) OR (lto = "epi_ab" AND thisMid = 2) OR (lto = "epi_sta" AND thisMid = 2) OR (lto = "epi_cati" AND thisMid = 2) OR (lto = "epi_uk" AND thisMid = 2) then%>
+                             'if (lto <> "epi" AND lto <> "epi2017") OR (lto = "epi" AND (thisMid = 6 OR thisMid = 11 OR thisMid = 59 OR thisMid = 1 OR thisMid = 1720)) OR (lto = "epi_no" AND thisMid = 2) OR (lto = "epi_ab" AND thisMid = 2) OR (lto = "epi_sta" AND thisMid = 2) OR (lto = "epi_cati" AND thisMid = 2) OR (lto = "epi_uk" AND thisMid = 2) then
+                            showVAndel = 0
+                            if showVAndel = 1 then
+                            %>
+                            
                             <input type="text" name="FM_virksomheds_proc" value="<%=formatnumber(virksomheds_proc, 0) %>" style="width:40px;" /> Virksomhedsandel af salg i %
                             <br />
                             <%else %>
@@ -6203,7 +6207,11 @@ if len(session("user")) = 0 then
                                  
                                  else
                                  
-                                 forvalgCHK = ""
+                                      if lto = "hestia" then
+                                      forvalgCHK = "CHECKED"
+                                      else
+                                      forvalgCHK = ""
+                                      end if
 
                                  end if %>
 

@@ -67,7 +67,7 @@ sXPathQuery_week = "//sprog/dk"
 end select
 
 '*** ALTID DK ellers er der fejl i alle beløb og valtuaer omregninger hvis der er punktum i tallet.
-Session.LCID = 1030
+'Session.LCID = 1030
 
 
 

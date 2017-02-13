@@ -471,8 +471,8 @@
                        
 
                         ' '** Nulstillerforvalgt job for denne medarbejder ****'
-                         'strSQLUpdFvOff = "UPDATE timereg_usejob SET forvalgt = 0 WHERE medarb = "& medarbejderid &" AND jobid = "& lukjob 
-                         'oConn.Execute(strSQLUpdFvOff)
+                        strSQLUpdFvOff = "UPDATE timereg_usejob SET forvalgt = 0 WHERE medarb = "& medarbejderid &" AND jobid = "& lukjob 
+                        oConn.Execute(strSQLUpdFvOff)
 
                         'response.write "jstatus: "& jstatus
                         'response.end

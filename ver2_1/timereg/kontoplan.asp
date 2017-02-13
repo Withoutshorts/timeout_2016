@@ -908,7 +908,7 @@ if len(session("user")) = 0 then
 	
 	
 	if useKri <> 0 then
-	useSQLKri = " WHERE kontoplan.navn LIKE '"&thiskri&"%' OR kontoplan.kontonr = '"&thiskri&"' OR kkundenavn LIKE '"&thiskri&"%'" 
+	useSQLKri = " WHERE (kontoplan.navn LIKE '"&thiskri&"%' OR kontoplan.kontonr = '"&thiskri&"' OR kkundenavn LIKE '"&thiskri&"%')" 
 	else
 	useSQLKri = " WHERE kontoplan.id > 0 "
 	end if

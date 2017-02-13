@@ -293,7 +293,7 @@ if len(session("user")) = 0 then
 	&" tidspunkt AS faktidspkt, f.betalt, f.faktype, f.betalt, f.valuta, f.kurs, "_
     &" ja1.mnavn AS jobans1, ja1.mnr AS jans1nr, ja2.mnavn AS jobans2, ja2.mnr AS jans2nr, "_
 	& "fd.beskrivelse, fd.antal AS fakdet_antal, fd.enhedspris AS timepris, "_
-	&" fd.aktpris AS fakdet_belob, fd.valuta AS fdvaluta, fd.kurs AS fdkurs, "_
+	&" fd.aktpris AS fakdet_belob, fd.valuta AS fdvaluta, fd.kurs AS fdkurs, f.afsender, "_
 	&" ka.mnavn AS kans, ka.mnr AS kansnr, "_ 
 	&" ka2.mnavn AS kans2, ka2.mnr AS kansnr2,"_
 	&" ska.mnavn AS skans, ska.mnr AS skansnr, "_

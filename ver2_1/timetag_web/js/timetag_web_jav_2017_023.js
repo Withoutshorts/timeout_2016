@@ -2,57 +2,70 @@
 
 
 
-function isNum_treg(passedVal) {
-    invalidChars = " /:;<>abcdefghijklmnopqrstuvwxyzæøå"
 
-    //alert("her")
-
-    if (passedVal == "") {
-        return false
-    }
-
-    for (i = 0; i < invalidChars.length; i++) {
-        badChar = invalidChars.charAt(i)
-        if (passedVal.indexOf(badChar, 0) != -1) {
-            return false
-        }
-    }
-
-    for (i = 0; i < passedVal.length; i++) {
-        if (passedVal.charAt(i) == "." || passedVal.charAt(i) == "-") {
-            return true
-        }
-        else {
-            if (passedVal.charAt(i) < "0") {
-                return false
-            }
-            if (passedVal.charAt(i) > "9") {
-                return false
-            }
-        }
-        return true
-    }
-
-}
 
 
 
 $(document).ready(function() {
 
 
+    ////////////////////// ONLOAD FUNCTIONS  /// 
+
+    setTimeout(function () {
+        // Do something after 5 seconds
+        $("#timer_indlast").hide(1000);
+    }, 2500);
+
+
+    // HVIS Kunde job = DropDown
     jq_lto = $("#jq_lto").val()
     mobil_week_reg_job_dd = $("#mobil_week_reg_job_dd").val()
-    alert("HER: " + jq_lto + " mobil_week_reg_job_dd : " + mobil_week_reg_job_dd)
+    //alert("HER: " + jq_lto + " mobil_week_reg_job_dd : " + mobil_week_reg_job_dd)
     
     if (mobil_week_reg_job_dd == "1") {
         sogjobogkunde();
 
         if (jq_lto == "tbg" || jq_lto == "intranet - local" || jq_lto == "hestia") {
-            alert("HER:" + mobil_week_reg_job_dd)
-        sogakt();
+            //alert("HER:" + mobil_week_reg_job_dd)
+            tomobjid = $("#tomobjid").val()
+            sogakt(tomobjid);
+
+            //KUN 1 gang siden loader
+            $("#tomobjid").val('0')
         }
         
     }
+
+
+   
+    // HVIS Kunde job = TEXT FELT
+    if (mobil_week_reg_job_dd == "0") {
+
+        if ($("#tomobjid").val() != 0) {
+
+
+
+
+            thisJobid = $("#tomobjid").val()
+            $("#FM_jobid").val(thisJobid)
+
+            $.post("?jq_jobid=" + thisJobid, { control: "FN_tomobjid", AjaxUpdateField: "true" }, function (data) {
+
+
+
+
+                $("#FM_job").val(data)
+
+
+            });
+
+
+
+        }
+
+    }
+
+    ////////////////////// ONLOAD FUNCTIONS END /// 
 
 
     //Kun ved job = DD
@@ -86,7 +99,7 @@ $(document).ready(function() {
             }
 
 
-            sogakt();
+            sogakt(0);
 
 
             if (mobil_week_reg_akt_dd != "1") {
@@ -488,7 +501,7 @@ $(document).ready(function() {
         $("#dv_job").hide();
         $("#dv_mat").hide();
 
-        sogakt();
+        sogakt(0);
 
     });
 
@@ -603,38 +616,43 @@ $(document).ready(function() {
 
 
 
-    function sogakt() {
+    function sogakt(tomobjid) {
        
-        
+        tomobjid = tomobjid
 
         mobil_week_reg_akt_dd = $("#mobil_week_reg_akt_dd").val()
         mobil_week_reg_job_dd = $("#mobil_week_reg_job_dd").val()
 
-        //alert(mobil_week_reg_job_dd + " # " + mobil_week_reg_akt_dd)
+        
 
-        if (mobil_week_reg_akt_dd != "1") {
+        if (tomobjid == 0) {
+            if (mobil_week_reg_akt_dd != "1") {
 
-            jq_newfilterval = $("#FM_akt").val()
+                jq_newfilterval = $("#FM_akt").val()
 
-            if (mobil_week_reg_job_dd != "1") {
-                jq_jobid = $("#FM_jobid").val()
+                if (mobil_week_reg_job_dd != "1") {
+                    jq_jobid = $("#FM_jobid").val()
+                } else {
+                    jq_jobid = $("#dv_job").val()
+                }
+
+
             } else {
-                jq_jobid = $("#dv_job").val()
-            }
+                jq_newfilterval = "-1"
 
+                if (mobil_week_reg_job_dd != "1") {
+                    jq_jobid = $("#FM_jobid").val()
+                } else {
+                    jq_jobid = $("#dv_job").val()
+                }
+            }
 
         } else {
-            jq_newfilterval = "-1"
-
-            if (mobil_week_reg_job_dd != "1") {
-                jq_jobid = $("#FM_jobid").val()
-            } else {
-                jq_jobid = $("#dv_job").val()
-            }
+            jq_jobid = tomobjid
         }
 
-
-        
+        //alert(jq_jobid)
+        //alert(mobil_week_reg_job_dd + " # " + mobil_week_reg_akt_dd + " tomobjid: " + tomobjid + " jq_jobid: " + jq_jobid)
        
         //jq_newfilterval = $("#FM_akt").val()
         //jq_jobid = $("#FM_jobid").val()
@@ -794,6 +812,12 @@ $(document).ready(function() {
         jq_medid = $("#FM_medid_k").val()
 
         jq_lto = $("#jq_lto").val()
+        thisJobid = $("#tomobjid").val()
+
+        // SÆTER prvalgt job til når der er indlæst. DD/Jobsøg starter med dette job
+        // $("#tomobjid").val(jq_newfilterval)
+
+        //alert(thisJobid)
 
         if (mobil_week_reg_job_dd != 1) {
 
@@ -814,7 +838,7 @@ $(document).ready(function() {
                 jq_newfilterval = "all"
             }
 
-            $.post("?jq_newfilterval=" + jq_newfilterval + "&jq_medid=" + jq_medid + "&varTjDatoUS_man=" + varTjDatoUS_man + "&jq_lto=" + jq_lto, { control: "FN_sogjobogkunde", AjaxUpdateField: "true" }, function (data) {
+            $.post("?jq_newfilterval=" + jq_newfilterval + "&jq_medid=" + jq_medid + "&varTjDatoUS_man=" + varTjDatoUS_man + "&jq_lto=" + jq_lto + "&thisJobid=" + thisJobid, { control: "FN_sogjobogkunde", AjaxUpdateField: "true" }, function (data) {
 
 
 
@@ -822,7 +846,7 @@ $(document).ready(function() {
 
                 //$("#dv_job").attr('class', 'dv-open');
 
-
+                
 
                 $('#luk_jobsog').bind('mouseover', function () {
 
@@ -872,7 +896,7 @@ $(document).ready(function() {
 
                     // alert("hebnter akrt dd") //
 
-                        sogakt();
+                        sogakt(0);
                     }
 
                     ststop(1);
@@ -908,35 +932,7 @@ $(document).ready(function() {
     
 
 
-    setTimeout(function () {
-        // Do something after 5 seconds
-        $("#timer_indlast").hide(1000);
-    }, 2500);
     
-
-
-    if ($("#tomobjid").val() != 0) {
-
-        
-
-        
-        thisJobid = $("#tomobjid").val()
-        $("#FM_jobid").val(thisJobid)
-
-        $.post("?jq_jobid=" + thisJobid, { control: "FN_tomobjid", AjaxUpdateField: "true" }, function (data) {
-
-
-
-
-            $("#FM_job").val(data)
-
-
-        });
-
-           
-
-    }
-
 
 
 
@@ -955,10 +951,28 @@ $(document).ready(function() {
 
 
 
+    //$("#container").submit(function () {
+    //var timerrpl
+    //timerrpl = $("#FM_timer").val()
+    //timerrpl = timerrpl.replace(".", ",")
+    //$("#FM_timer").val(timerrpl)
+    //});
+
+
     /// Tjekker timer IKKE er over maks forecast.
     $("#FM_timer, #FM_sttid, #FM_sltid").keyup(function () {
 
+
+        var timerrpl
+        timerrpl = $("#FM_timer").val()
+        timerrpl = timerrpl.replace(".", ",")
+        $("#FM_timer").val(timerrpl)
        
+        //sttidrpl = $("#FM_sttid").val().replace(".", ",")
+        //$("#FM_sttid").val(sttidrpl)
+
+        //sltidrpl = $("#FM_sltid").val().replace(".", ",")
+        //$("#FM_sltid").val(sltidrpl)
 
         if (!validZip($("#FM_timer").val())) {
             alert("Der er angivet et ugyldigt tegn.\nYou have typed an invalid character")

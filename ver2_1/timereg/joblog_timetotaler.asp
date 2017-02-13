@@ -2733,7 +2733,8 @@ function LeiRotate() {
                                             '*** og så alligevel, indtil videre beholder vi den gamle beregning: 1 / :999 **'
 
                                             '** Fastpris **'
-							                if cint(oRec("fastpris")) = 999 then '1
+                                            fastpris = oRec("fastpris")
+							                if fastpris = "999" then '1
                 							
                 							
                 							
