@@ -7,6 +7,26 @@
 $(document).ready(function() {
 
 
+    $(".gkuge").click(function () {
+
+
+        var thisid = this.id
+        var thisvallngt = thisid.length
+        var thisvaltrim = thisid.slice(6, thisvallngt)
+        thisval = thisvaltrim
+
+        
+        if ($(this).is(':checked')) {
+            //alert(thisval)
+
+            $(".gkuge_" + thisval).attr('checked', true);
+        } else {
+            $(".gkuge_" + thisval).attr('checked', false);
+        }
+        
+    });
+
+
 
     globalWdt = $("#globalWdt").val()
     $("#medarbafstem_aar").css("width", globalWdt);

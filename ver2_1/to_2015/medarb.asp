@@ -1146,6 +1146,8 @@ Session.LCID = 1030
         medarbejdertype = 0
         timer_ststop = 0
         create_newemployee = 0
+        
+
 
        
 		end if
@@ -1153,10 +1155,15 @@ Session.LCID = 1030
 
 
         select case lto 
+        case "bf", "epi2017", "outz"
+        intCRM = 0
+        sprog = 2
         case "esn", "tec", "intranet - local"
         intCRM = 3
+        sprog = 1
         case else
         intCRM = 0
+        sprog = 1
         end select
 
 	end if

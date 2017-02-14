@@ -2,7 +2,7 @@
 
 <html>
 <head>
-<!--#include file="../inc/connection/aktivedb_inc.asp"-->
+<!--#include file="../inc/connection/aktivedb_r_inc.asp"-->
 <script language=javascript>
 
 function clwin(){

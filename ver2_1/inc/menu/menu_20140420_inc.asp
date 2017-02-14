@@ -1108,6 +1108,13 @@ end select
 
             <li><a href="../timereg_net/importer_job.aspx?lto=<%=lto%>&mid=<%=session("mid")%>&editor=<%=session("user") %>" target="_blank">C5-importer Job (sagslinjer & aktiviteter)</a></li>
            
+           <%end if 
+
+             '**** INDLÆS / IMPORTER  funktioner     
+            if (lto = "dencker" OR lto = "intranet - local") AND level = 1 then %>
+
+            <li><a href="../timereg_net/importer_job_monitor.aspx?lto=<%=lto%>&mid=<%=session("mid")%>&editor=<%=session("user") %>" target="_blank">Monitor-importer Job</a></li>
+           
            <%end if %>
 	
 

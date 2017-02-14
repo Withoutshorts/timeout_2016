@@ -422,8 +422,8 @@ function godkendugeseddel(fmlink, usemrn, varTjDatoUS_man, rdir)
                        if cint(ugegodkendt) = 2 then
 
                         call meStamdata(ugegodkendtaf)%>
-                        <div style="background-color:#FF6666; padding:5px;"><b><%=periodeTxt %> <%=funk_txt_025 %>!</b><br />
-                        <span style="font-size:9px; line-height:12px; color:#ffffff;"><i><%=ugegodkendtdt %> <%=funk_txt_026 %> <%=meNavn %></i></span>
+                        <div style="background-color:#FF6666; padding:5px;"><b><%=periodeTxt &" "& funk_txt_025 %>!</b><br />
+                        <span style="font-size:9px; line-height:12px; color:#ffffff;"><i><%=ugegodkendtdt &" "& funk_txt_026 &" "& meNavn %></i></span>
                         <%if len(trim(ugegodkendtTxt)) <> 0 then %>
                         <br />
                         <span style="font-size:9px; line-height:12px; color:#000000;"><i><%=left(ugegodkendtTxt, 200) %></i></span>
@@ -440,7 +440,7 @@ function godkendugeseddel(fmlink, usemrn, varTjDatoUS_man, rdir)
                                 
 
                            <span style="font-size:11px;"><b><%=lukTxt2 &" "& periodeTxt %></b></span><br />
-                           <%=funk_txt_027 %> <%=periodeTxt &" "& lukTxt %>, <%=lukTxt %> <%=funk_txt_028 %><br /><br />
+                           <%=funk_txt_027 &" "& periodeTxt &" "& lukTxt %>, <%=lukTxt &" "& funk_txt_028 %><br /><br />
                 
                            <input id="Submit2" type="submit" value="<%=lukTxt2 &" "& periodeTxt %> >>" style="font-size:9px; width:120px;" />
              
@@ -450,8 +450,8 @@ function godkendugeseddel(fmlink, usemrn, varTjDatoUS_man, rdir)
                 <%else 
                         
                         call meStamdata(ugegodkendtaf)%>
-                        <div style="color:green; font-size:11px; background-color:yellowgreen; padding:5px;"><b><%=funk_txt_029 %> <%=periodeTxt %> <%=funk_txt_071 %> <%=lukTxt1 %>!</b><br />
-                        <span style="font-size:9px; line-height:12px; color:#ffffff;"><i><%=ugegodkendtdt %> <%=funk_txt_026 %> <%=meNavn %></i></span></div>
+                        <div style="color:green; font-size:11px; background-color:yellowgreen; padding:5px;"><b><%=funk_txt_029 &" "& periodeTxt &" "& funk_txt_071 &" "& lukTxt1 %>!</b><br />
+                        <span style="font-size:9px; line-height:12px; color:#ffffff;"><i><%=ugegodkendtdt &" "& funk_txt_026 &" "& meNavn %></i></span></div>
                 
                 <%end if %>
 
@@ -487,11 +487,11 @@ function godkendugeseddel(fmlink, usemrn, varTjDatoUS_man, rdir)
                <table width=90% cellpadding=0 cellspacing=0 border=0>
                <tr><td class=lille>
                <br />
-               <span style="font-size:11px;"><b><%=funk_txt_036 %> <%=periodeTxt %></b></span><br />
+               <span style="font-size:11px;"><b><%=funk_txt_036 &" "& periodeTxt %></b></span><br />
                <%=funk_txt_037 %>:<br />
                <textarea name="FM_afvis_grund" style="width:200px; height:40px;"></textarea><br /><br />
                 <input id="Submit3" type="submit" value="Afvis <%=periodeTxt %> >>" style="font-size:9px; width:120px;" /><br />
-                 <span style="color:#999999;"><%=funk_txt_038 %> <%=lukTxt1 %> <%=funk_txt_039 %></span>
+                 <span style="color:#999999;"><%=funk_txt_038 &" "& lukTxt1 &" "& funk_txt_039 %></span>
                   </td></tr></table>
                  
                </form>

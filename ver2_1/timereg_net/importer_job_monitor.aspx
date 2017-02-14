@@ -1,4 +1,4 @@
-<%@ Page Language="C#" AutoEventWireup="true" CodeFile="importer_job.cs" Inherits="importer_job" %>
+<%@ Page Language="C#" AutoEventWireup="true" CodeFile="importer_job_monitor.cs" Inherits="importer_job_monitor" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -6,7 +6,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head runat="server">
-    <title>TimeOut import job</title>
+    <title>TimeOut import job - Monitor</title>
 </head>
 <body style="font-family:Arial" leftmargin="20" topmargin="20">
 
@@ -25,7 +25,7 @@
         
 
     <div>
-    <h4>Importer job til TimeOut - maks 8000 linjer <span style="font-size:small; font-weight:normal;"><a href="../inc/xls/indlaesjobTemplate.csv">Download excel template her...</a></span></h4>
+    <h4>Importer job til TimeOut - maks 8000 linjer <span style="font-size:small; font-weight:normal;"><a href="../inc/xls/indlaesjobTemplate_monitor.csv">Download excel template her...</a></span></h4>
     *Bemærk at der skal være en overskriftslinje(header) med kolonne navne i excel filen.<br />
         <asp:Label ID="lblUploadStatus" runat="server" Text=""></asp:Label><br />
         
@@ -38,8 +38,26 @@
         <div>
 
         <table>
+        <tr>
+        <td>
+        Kundenavn:
+        </td>
+        <td>
+            <asp:DropDownList ID="ddlKundenavn" runat="server" AutoPostBack="True" 
+                onselectedindexchanged="ddlKundenavn_SelectedIndexChanged" 
+                ondatabound="ddlKundenavn_DataBound" AppendDataBoundItems="True">
+                <asp:ListItem Text="" Value=""></asp:ListItem>
+            </asp:DropDownList>
+            <asp:RequiredFieldValidator ID="RequiredFieldValidator8" runat="server" 
+                ErrorMessage="*" ControlToValidate="ddlKundenavn" ValidationGroup="Send" ForeColor="Red"></asp:RequiredFieldValidator>
+        </td>      
+        <td>
+            <asp:Label ID="lblKundenavn" runat="server" Text=""></asp:Label>
+        </td>
+        </tr>
 
-           
+
+             
 
       
         <tr>
@@ -83,19 +101,19 @@
 
         <tr>
         <td>
-        Jobansvarlig:
+        Antal:
         </td>
         <td>
-            <asp:DropDownList ID="ddlJobans" runat="server" AutoPostBack="True" 
-                onselectedindexchanged="ddlJobans_SelectedIndexChanged" 
-                ondatabound="ddlJobans_DataBound" AppendDataBoundItems="True">
+            <asp:DropDownList ID="ddlAntal" runat="server" AutoPostBack="True" 
+                onselectedindexchanged="ddlAntal_SelectedIndexChanged" 
+                ondatabound="ddlAntal_DataBound" AppendDataBoundItems="True">
                  <asp:ListItem Text="" Value=""></asp:ListItem>
             </asp:DropDownList>
             <asp:RequiredFieldValidator ID="RequiredFieldValidator3" runat="server" 
-                ErrorMessage="*" ControlToValidate="ddlJobans" ValidationGroup="Send" ForeColor="Red"></asp:RequiredFieldValidator>
+                ErrorMessage="*" ControlToValidate="ddlAntal" ValidationGroup="Send" ForeColor="Red"></asp:RequiredFieldValidator>
         </td>
          <td>
-            <asp:Label ID="lblJobans" runat="server" Text=""></asp:Label>
+            <asp:Label ID="lblAntal" runat="server" Text=""></asp:Label>
         </td>
         </tr>
         
@@ -134,6 +152,10 @@
             <asp:Label ID="lblslDato" runat="server" Text=""></asp:Label>
         </td>
         </tr>
+
+
+
+
 
          
         <tr>

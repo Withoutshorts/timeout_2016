@@ -65,7 +65,7 @@ if len(session("user")) = 0 then
                     &" jobans_proc_1, jobans_proc_2, jobans_proc_3, jobans_proc_4, jobans_proc_5, "_
                     &" salgsans1, salgsans2, salgsans3, salgsans4, salgsans5, "_
                     &" salgsans1_proc, salgsans2_proc, salgsans3_proc, salgsans4_proc, salgsans5_proc, "_
-                    &" virksomheds_proc, syncslutdato, altfakadr, fomr_konto, jfak_sprog, jfak_moms, lincensindehaver_faknr_prioritet_job "_
+                    &" virksomheds_proc, syncslutdato, altfakadr, fomr_konto, jfak_sprog, jfak_moms, lincensindehaver_faknr_prioritet_job, jo_valuta "_
 					&" FROM job LEFT JOIN kunder ON (kunder.Kid = jobknr) WHERE id=" & id 
 					oRec.open strSQL, oConn, 3
 							
@@ -186,6 +186,7 @@ if len(session("user")) = 0 then
                         jfak_moms = oRec("jfak_moms")
 
                         lincensindehaver_faknr_prioritet_job = oRec("lincensindehaver_faknr_prioritet_job")
+                        jo_valuta = oRec("jo_valuta")
 						
 					end if
 						
@@ -279,7 +280,7 @@ if len(session("user")) = 0 then
                             &" diff_timer, diff_sum, jo_udgifter_intern, jo_udgifter_ulev, jo_bruttooms, "_
                             &" jobans_proc_1, jobans_proc_2, jobans_proc_3, jobans_proc_4, jobans_proc_5, virksomheds_proc, syncslutdato, altfakadr, "_
                             &" salgsans1, salgsans2, salgsans3, salgsans4, salgsans5, "_
-                            &" salgsans1_proc, salgsans2_proc, salgsans3_proc, salgsans4_proc, salgsans5_proc, fomr_konto, jfak_sprog, jfak_moms, lincensindehaver_faknr_prioritet_job "_
+                            &" salgsans1_proc, salgsans2_proc, salgsans3_proc, salgsans4_proc, salgsans5_proc, fomr_konto, jfak_sprog, jfak_moms, lincensindehaver_faknr_prioritet_job, jo_valuta "_
                             &") VALUES "_
 							&"('"& strJobNavn &"', "_
 							&"'"& newjobnr &"', "_ 
@@ -328,7 +329,8 @@ if len(session("user")) = 0 then
                             &" "& virksomheds_proc & ","_
                             &" "& syncslutdato & ", "& altfakadr &", "_
                             &" "& salgsans1 &","& salgsans2 &","& salgsans3 &","& salgsans4 &","& salgsans5 &", "_
-                            &" "& salgsans1_proc &","& salgsans2_proc &","& salgsans3_proc &","& salgsans4_proc &","& salgsans5_proc &", "& fomr_konto &", "& jfak_sprog &", "& jfak_moms &", "& lincensindehaver_faknr_prioritet_job &""_
+                            &" "& salgsans1_proc &","& salgsans2_proc &","& salgsans3_proc &","& salgsans4_proc &","& salgsans5_proc &", "_
+                            &" "& fomr_konto &", "& jfak_sprog &", "& jfak_moms &", "& lincensindehaver_faknr_prioritet_job &", "& jo_valuta &""_
                             &")")
 							
                         'if session("mid") = 1 then

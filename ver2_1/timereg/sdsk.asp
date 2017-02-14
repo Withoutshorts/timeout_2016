@@ -3719,13 +3719,13 @@ if len(session("user")) = 0 then
                       </td>
                       <td style="padding:5px 2px 2px 2px; border-top:1px #C4C4C4 solid; white-space:nowrap; width:120px;" valign=top>
                         <%if print <> "j" AND kview <> "j" then %>
-                        <a href="#" onClick="showbesk('<%=oRec("id")%>');return false;" class=vmenu>
+                        <a href="#" onClick="showbesk('<%=oRec("id")%>');" class=vmenu>
                         Log entries (<%=oRec("antallog")%>) </a>
                         <%else %>
                         Log entries (<%=oRec("antallog")%>) 
                         <%end if %>
                         
-        <%if print <> "j" AND kview <> "j" then %><br />
+                      <%if print <> "j" AND kview <> "j" then %><br />
                       <a href="javascript:popUp('sdsk_tilfoj.asp?sdskrelid=<%=oRec("id")%>&id=0&func=opr&lastedit=<%=oRec("id")%>&usekview=<%=kview%>&FM_kontakt=<%=kontaktId%>','600','650','250','30')" class=lgron>Tilføj entry +</a>
                       <%end if %>
                       </td>
@@ -3764,7 +3764,7 @@ if len(session("user")) = 0 then
                       <option value="0">Ingen</option>
                       </select></td>    
                <td valign=top style="padding:5px 5px 2px 2px; border-top:1px #C4C4C4 solid;" class=lille>          
-               <select name="FM_ajaxtype" class="txtField" style="width:140px; font-size:9px;">
+               <select name="FM_ajaxtype" id="FM_ajaxtype" class="txtField" style="width:140px; font-size:9px;">
                       <%
                       strSQL = "SELECT id, navn FROM sdsk_typer ORDER BY navn"
                       oRec2.open strSQL, oConn, 3

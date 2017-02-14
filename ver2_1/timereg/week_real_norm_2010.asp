@@ -55,23 +55,8 @@ if len(session("user")) = 0 then
     rdir = "stat"
     end if
 
-	call erStempelurOn()
 
-    
-	
-	'*** Sætter lokal dato/kr format. *****
-	Session.LCID = 1030
-	
-	'sendemail = request("sendemail")
-	
-	select case func 
-	case "-"
-	
-	case else
-	
-	
-	
-	dim intMids
+    dim intMids
 	redim intMids(1050) '150
 	
 	if len(trim(request("FM_useSogKri"))) <> 0 then
@@ -134,7 +119,7 @@ if len(session("user")) = 0 then
 	else
 	    
         
-         if len(request("FM_medarb")) <> 0 then 'er  der søgrt
+        if len(request("FM_medarb")) <> 0 then 'er  der søgrt
 
         useSogKriGk = 0
 
@@ -290,6 +275,88 @@ if len(session("user")) = 0 then
     else
     mnow = month(now)
     end if
+
+
+
+	call erStempelurOn()
+
+    
+	
+	'*** Sætter lokal dato/kr format. *****
+	Session.LCID = 1030
+	
+	'sendemail = request("sendemail")
+	
+	select case func 
+	case "-"
+
+    case "godkendugeseddel"
+	
+	'*** Godkender ugeseddel ***
+        
+        dim afslutuge_medid_uge, afslutuge_medid_uge_str 
+        dim afslutuge_medid, afslutuge_uge
+
+        
+        'Response.write "HER"
+        afslutuge_medid_uge_str = split(request("FM_afslutuge_medid_uge"), ", ")
+        
+        call smileyAfslutSettings()
+
+
+        for m = 0 TO UBOUND(afslutuge_medid_uge_str)
+
+        afslutuge_medid_uge = split(afslutuge_medid_uge_str(m), "_")
+        redim afslutuge_medid(m) 
+        afslutuge_medid(m) = afslutuge_medid_uge(0)
+	    redim afslutuge_uge(m)
+        afslutuge_uge(m) = afslutuge_medid_uge(1)
+
+        'Response.write afslutuge_medid(m) & "<br>" 
+        varTjDatoUS_man = afslutuge_uge(m)
+	    varTjDatoUS_manSQL = year(afslutuge_uge(m))&"/"&month(afslutuge_uge(m))&"/"&day(afslutuge_uge(m))
+        varTjDatoUS_son = dateAdd("d", 6, afslutuge_uge(m))
+        varTjDatoUS_sonSQL = year(varTjDatoUS_son)&"/"&month(varTjDatoUS_son)&"/"&day(varTjDatoUS_son)
+	    
+        '** GODKENDER TIMERNE DER ER INDTASTET
+	    strSQLup = "UPDATE timer SET godkendtstatus = 1, godkendtstatusaf = '"& session("user") &"' WHERE tmnr = "& afslutuge_medid(m) 
+	    if cint(SmiWeekOrMonth) = 0 then
+        strSQLup = strSQLup & " AND tdato BETWEEN '"& varTjDatoUS_manSQL &"' AND '" & varTjDatoUS_sonSQL & "'" 
+        else
+        varTjDatoUS_man_mth = datepart("m", varTjDatoUS_man,2,2)
+        strSQLup = strSQLup & " AND MONTH(tdato) = '"& varTjDatoUS_man_mth & "'" 
+        end if
+
+        strSQLup = strSQLup & " AND godkendtstatus <> 1" 
+
+	    oConn.execute(strSQLup)
+	    
+        'if session("mid") = 1 then
+	    'Response.Write strSQLup
+	    'Response.flush
+        'end if
+        
+        
+        '*** Godkend uge status ****'
+        call godekendugeseddel(thisfile, session("mid"), afslutuge_medid(m), afslutuge_uge(m))
+
+
+        next
+	    
+	
+	usemrn = request("usemrn")
+    yuse = request("yuse")
+    visdeakmed = request("FM_visdeakmed")
+    vispasmed = request("FM_vispasmed")
+    visdeakmed12 = request("FM_visdeakmed12")
+
+	Response.Redirect rdirfile & "week_real_norm_2010.asp?usemrn="&usemrn&"&varTjDatoUS_man="&varTjDatoUS_man&"&nomenu="&nomenu&"&FM_progrp="&progrp&"&FM_medarb="& thisMiduse&"&muse="&mnow&"&yuse="&yuse&"&FM_visdeakmed="&visdeakmed&"&FM_vispasmed="&vispasmed&"&FM_visdeakmed12="&visdeakmed12
+        	
+	case else
+	
+	
+	
+	
 
    
 
@@ -487,11 +554,9 @@ if len(session("user")) = 0 then
 	<%
 
     if len(trim(request("FM_md_week"))) <> 0 then
-
       useMDorWeek = request("FM_md_week")
     else
       useMDorWeek = SmiWeekOrMonth
-
     end if
 
 
@@ -548,7 +613,7 @@ if len(session("user")) = 0 then
     
     
        
-	<td valign=top style="width:300px; padding-top:5px;"><br /><b>Periode</b><br /><br />År:
+	<td valign=top style="width:400px; padding-top:5px;"><br /><b>Periode</b><br /><br />År:
         <select id="Select2" name="yuse">
         <%
 	ysel = now
@@ -603,13 +668,13 @@ if len(session("user")) = 0 then
 
         <input type="hidden" id="div_filterava_show" value="0" />
         <div id="div_filterava" style="display:none; visibility:hidden;">
-        <table style="padding:10px;">
+        <table style="padding:10px; width:100%;">
 
-            <tr><td><br /><b>Opdel norm på</b><br />
+            <tr><td><br /><h3>Opdel norm på</h3>
         
         
 
-        Hele måneder <input type="radio" name="FM_md_week" value="1" <%=opdelNormMDWeekChk1 %> /><br />Hele uger<input type="radio" name="FM_md_week" value="0" <%=opdelNormMDWeekChk0 %> />  <br /><br />&nbsp;</td></tr>
+        Hele måneder <input type="radio" name="FM_md_week" value="1" <%=opdelNormMDWeekChk1 %> /><br />Hele uger<input type="radio" name="FM_md_week" value="0" <%=opdelNormMDWeekChk0 %> /> </td></tr>
 
         <tr><td>
         <input id="Checkbox1" name="FM_useSogKri" value="1" type="checkbox" <%=skCHK %> />Vis kun uger/måneder med 
@@ -661,6 +726,10 @@ if len(session("user")) = 0 then
    
     end if 'media
     
+
+    visdeakmed = request("FM_visdeakmed")
+    vispasmed = request("FM_vispasmed")
+    visdeakmed12 = request("FM_visdeakmed12")
 
     call akttyper2009(6)
 	akttype_sel = "#-99#, " & aktiveTyper
@@ -772,6 +841,8 @@ if len(session("user")) = 0 then
 	<!--- Table start -->
 	
 	<table cellpadding=0 cellspacing=0 border=0 width="100%">
+    <form id="form_godkend_uger" method="post" action="week_real_norm_2010.asp?func=godkendugeseddel&usemrn=<%=usemrn %>&FM_progrp=<%=progrp%>&FM_medarb=<%=thisMiduse %>&muse=<%=mnow %>&yuse=<%=year(ugp)%>&FM_visdeakmed=<%=visdeakmed%>&FM_vispasmed=<%=vispasmed%>&FM_visdeakmed12=<%=visdeakmed12%>">
+        <input id="Hidden1" name="nomenu" value="<%=nomenu %>" type="hidden" />
      <tr><td colspan="5" valign=top style="padding:0px;">
 
 
@@ -787,7 +858,7 @@ if len(session("user")) = 0 then
     <span style="color:darkred; font-size:9px;">Opgjort pr. <b><%=formatdatetime(opgjortprdato, 1) %></b> <%=showigartxt %></span></h4>
 	
     </td></tr></table>
-    
+         
     <table cellpadding=0 cellspacing=0 border=0 width="100%">
 
     <%end if %>
@@ -948,7 +1019,9 @@ if len(session("user")) = 0 then
           if func = "export" then
        
 	     %><div style="position:absolute; left:40px; top:220px; width:800px; z-index:-1;">
-         <b>Henter data for medarbejder:</b>
+        
+             
+             <b>Henter data for medarbejder:</b>
           <%
          end if
 
@@ -957,11 +1030,7 @@ if len(session("user")) = 0 then
     'normtime_lontimeAkkGT = 0
 	for m = 0 to UBOUND(intMids)
 	
-
-
-	       
-	   
-	 if cint(intMids(m)) <> 0 then
+    if cint(intMids(m)) <> 0 then
 
 
            if media <> "export" then
@@ -1005,7 +1074,9 @@ if len(session("user")) = 0 then
 
     <br /><br />
 	<h4><%=meNavn & " ["& meInit &"]"%></h4>
-    <table cellspacing=0 cellpadding=<%=tpd %> border=0 width="100%"><tr>
+    <table cellspacing=0 cellpadding=<%=tpd %> border=0 width="100%">
+    
+    <tr>
     <td valign=bottom style="border-bottom:1px silver solid;" class=lille><b>Uge</b> - dato</td>
 	
 	    <td align=right valign=bottom class=lille style="border-bottom:1px silver solid;"><b><%=tsa_txt_173%></b></td>
@@ -1293,7 +1364,9 @@ if len(session("user")) = 0 then
 
 
 	    <td style="border-bottom:1px silver solid;" valign=bottom class=lille><b><%=peridoeTxt %> <br />afsluttet?</b></td>
-        <td style="border-bottom:1px silver solid;" valign=bottom class=lille><b><%=peridoeTxt %><br /><%=gkTxt %>?</b></td>
+        <td style="border-bottom:1px silver solid; white-space:nowrap;" valign=bottom class=lille>
+           <input type="checkbox" id="gkuge_<%=intMids(m)%>" class="gkuge" /> <b><%=peridoeTxt %><br /><%=gkTxt %>?</b>
+        </td>
     </tr>
     <%
     globalWdt = globalWdt + 50
@@ -1487,6 +1560,7 @@ if len(session("user")) = 0 then
         <!--<tr><td colspan="20" align="right">Godkend uger: <input type="checkbox" value="1" id="" /></td></tr>-->
         <%end if %>
 
+    
     </table>
 	
 	<%
@@ -1552,7 +1626,10 @@ if len(session("user")) = 0 then
      if media <> "export" then%>
 	
 	
-	</td></tr></table>
+	</td></tr>
+    <tr><td colspan="30" align="right"><br /><input type="submit" value="Godkend >> " /></td></tr>
+    </table>
+    </form>
 
 	
 	<%

@@ -1780,6 +1780,11 @@ if len(session("user")) = 0 then
                 alert = 0
                 end if
 
+                if len(triM(request("FM_jo_valuta"))) <> 0 then
+                jo_valuta = request("FM_jo_valuta")
+                else
+                jo_valuta = 1
+                end if
 
                 '******* Sti til dokumenter på egen filserver *****'
                 if len(trim(request("FM_filepath1"))) <> 0 then 
@@ -2026,7 +2031,8 @@ if len(session("user")) = 0 then
                                 &" jobans_proc_1, jobans_proc_2, jobans_proc_3, jobans_proc_4, jobans_proc_5, restestimat, stade_tim_proc, "_
                                 &" virksomheds_proc, syncslutdato, altfakadr, preconditions_met, laasmedtpbudget,"_
                                 &" salgsans1, salgsans2, salgsans3, salgsans4, salgsans5, "_
-                                &" salgsans1_proc, salgsans2_proc, salgsans3_proc, salgsans4_proc, salgsans5_proc, filepath1, fomr_konto, jfak_sprog, jfak_moms, alert, lincensindehaver_faknr_prioritet_job "_
+                                &" salgsans1_proc, salgsans2_proc, salgsans3_proc, salgsans4_proc, salgsans5_proc, filepath1, fomr_konto, "_
+                                &" jfak_sprog, jfak_moms, alert, lincensindehaver_faknr_prioritet_job, jo_valuta "_
                                 &") VALUES "_
 							    &"('"& strNavn &"', "_
 							    &"'"& strjnr &"', "_ 
@@ -2064,7 +2070,7 @@ if len(session("user")) = 0 then
                                 &" "& virksomheds_proc &", "& syncslutdato &", "& altfakadr &", "& preconditions_met &", "& laasmedtpbudget &", "_
                                 &" "& salgsans1 &","& salgsans2 &","& salgsans3 &","& salgsans4 &","& salgsans5 &", "_
                                 &" "& salgsans_proc_1 &","& salgsans_proc_2 &","& salgsans_proc_3 &","& salgsans_proc_4 &","& salgsans_proc_5 &", "_
-                                &" '"& filepath1 &"', "& fomr_konto &", "& jfak_sprog &", "& jfak_moms &", "& alert &", "& lincensindehaver_faknr_prioritet_job &""_
+                                &" '"& filepath1 &"', "& fomr_konto &", "& jfak_sprog &", "& jfak_moms &", "& alert &", "& lincensindehaver_faknr_prioritet_job &", "& jo_valuta &""_
                                 &")")
     							
 							    'Response.write strFakturerbart & "<br><br>"
@@ -2330,7 +2336,7 @@ if len(session("user")) = 0 then
                             &" salgsans1 = "& salgsans1 &", salgsans2 = "& salgsans2 &", salgsans3 = "& salgsans3 &", salgsans4 = "& salgsans4 &", salgsans5 = "& salgsans5 &", "_
                             &" salgsans1_proc = "& salgsans_proc_1 &", salgsans2_proc = "& salgsans_proc_2 &", salgsans3_proc = "& salgsans_proc_3 &", salgsans4_proc = "& salgsans_proc_4 &", "_
                             &" salgsans5_proc = "& salgsans_proc_5 &", filepath1 = '"& filepath1 &"', fomr_konto = "& fomr_konto &","_
-                            &" jfak_sprog = "& jfak_sprog &", jfak_moms = "& jfak_moms &", alert = "& alert &", lincensindehaver_faknr_prioritet_job = "& lincensindehaver_faknr_prioritet_job &""_
+                            &" jfak_sprog = "& jfak_sprog &", jfak_moms = "& jfak_moms &", alert = "& alert &", lincensindehaver_faknr_prioritet_job = "& lincensindehaver_faknr_prioritet_job &", jo_valuta = "& jo_valuta &""_
 							&" WHERE id = "& id 
 							
 							'Response.Write strSQL
@@ -4582,21 +4588,35 @@ if len(session("user")) = 0 then
     jfak_sprog = 1
     sdskpriogrp = 0
     valuta = basisValId
+    jo_valuta = valuta
    
     if multibletrue = 0 then
     
     '** er der en SDSK priogruppe, valuta,moms og fak sprog på kunde ****
-    strSQL = "SELECT sdskpriogrp, kfak_moms, kfak_sprog, kfak_valuta FROM kunder WHERE kid = "& strKundeId
+    strSQL = "SELECT sdskpriogrp, kfak_moms, kfak_sprog, kfak_valuta, lincensindehaver_faknr_prioritet FROM kunder WHERE kid = "& strKundeId
     oRec.open strSQL, oConn, 3
     if not oRec.EOF then
     sdskpriogrp = oRec("sdskpriogrp")
     jfak_moms = oRec("kfak_moms")
     jfak_sprog = oRec("kfak_sprog")
     valuta = oRec("kfak_valuta")
+    lincensindehaver_faknr_prioritet = oRec("lincensindehaver_faknr_prioritet")
     end if
     oRec.close
+
+        '* NEDARVES FRA KUNDE Licensindehaver VALUTA på faktura
+        strSQLforvalgt_jo_valuta = "SELECT kfak_valuta FROM kunder WHERE lincensindehaver_faknr_prioritet = "& lincensindehaver_faknr_prioritet &" AND useasfak = 1"
+        oRec.open strSQLforvalgt_jo_valuta, oConn, 3
+        if not oRec.EOF then
+        
+        jo_valuta = oRec("kfak_valuta")
+       
+        end if
+        oRec.close
     
     end if 
+
+
 
    
 
@@ -4626,6 +4646,9 @@ if len(session("user")) = 0 then
 
     useasfak = 0
 
+    
+   
+
 	else '*** REDIGER JOB *****'
     
     vlgtmtypgrp = 0
@@ -4644,7 +4667,7 @@ if len(session("user")) = 0 then
 	&" udgifter, risiko, sdskpriogrp, usejoborakt_tp, ski, job_internbesk, abo, ubv, sandsynlighed, "_
     &" diff_timer, diff_sum, jo_udgifter_ulev, jo_udgifter_intern, jo_bruttooms, restestimat, stade_tim_proc, virksomheds_proc, "_
     &" syncslutdato, lukkedato, altfakadr, preconditions_met, laasmedtpbudget, filepath1, fomr_konto, jfak_moms, jfak_sprog, useasfak, alert,"_
-    &" lincensindehaver_faknr_prioritet_job "_
+    &" lincensindehaver_faknr_prioritet_job, jo_valuta "_
     &" FROM job, kunder WHERE id = " & id &" AND kunder.Kid = jobknr"
 	
         'if session("mid") = 1 then
@@ -4724,7 +4747,8 @@ if len(session("user")) = 0 then
 		else
 		ikkeBudgettimer = 0
 		end if
-	end if
+
+	
 	
 	lukafmjob = oRec("lukafmjob") 
 	
@@ -4788,7 +4812,9 @@ if len(session("user")) = 0 then
 
 	job_internbesk_alert = oRec("alert")
     lincensindehaver_faknr_prioritet_job = oRec("lincensindehaver_faknr_prioritet_job")
+    jo_valuta = oRec("jo_valuta")
 
+    end if
 	oRec.close
 	
 	
@@ -4803,6 +4829,14 @@ if len(session("user")) = 0 then
 	
 	
 	end if
+
+
+    '** Sætter valuta til job budget
+    call valutakode_fn(jo_valuta)
+    'basisValISO = valutaKode_CCC
+    public jo_bgt_basisValISO
+    jo_bgt_basisValISO = valutaKode_CCC 
+    jo_bgt_basisValISO_f8 = valutaKode_CCC_f8 
 	
 	if func = "red" then
 

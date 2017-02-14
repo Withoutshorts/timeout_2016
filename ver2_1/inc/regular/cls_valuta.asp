@@ -1,7 +1,7 @@
  
  <%
 
-public valutaKode_CCC 
+public valutaKode_CCC, valutaKode_CCC_f8 
 function valutakode_fn(valid)
 
      valutaKode_CCC = ""
@@ -12,6 +12,7 @@ function valutakode_fn(valid)
 		    if not oRec3.EOF then 
 
             valutaKode_CCC = oRec3("valutaKode")
+            valutaKode_CCC_f8 = "<span style='font-size:7px;'>"& oRec3("valutaKode") &"</span>"
             
             end if
             oRec3.close
@@ -20,10 +21,35 @@ function valutakode_fn(valid)
 end function
 
 
+'** Valutakoder Liste simpel
+function valutaList(valuta, felt)
+
+     %>
+      <select name="<%=felt %>">
+            <%strSQL = "SELECT id, valutakode FROM valutaer WHERE id <> 0 ORDER BY valutakode"
+        	oRec6.open strSQL, oConn, 3
+        	while not oRec6.EOF
+
+                if cint(valuta) = cint(oRec6("id")) then
+                valSel = "SELECTED"
+                else
+                valSel = ""
+                end if
+        				
+            %><option value="<%=oRec6("id")%>" <%=valSel %>><%=oRec6("valutakode") %></option><%
+        				       
+            oRec6.movenext
+        	wend
+        	oRec6.close %>
+                                
 
 
+            </select>
 
+    <%
+end function
 
+'** Valutakoder Liste med kurs
  function valutakoder(i, valuta, layout)
 	
      select case cint(layout) 
@@ -54,7 +80,7 @@ end function
 		    oRec3.open strSQL3, oConn, 3 
 		    while not oRec3.EOF 
     		
-		    if cint(valuta) = oRec3("id") then
+		    if cint(valuta) = cint(oRec3("id")) then
 		    valGrpCHK = "SELECTED"
 
                'KURS VED OPRETTELSE

@@ -39,6 +39,8 @@ function aktivedb(x)
         strConnect_aktiveDB = "timeout_hestia64"
         case 141
         strConnect_aktiveDB = "timeout_nt64"
+        case 146
+        strConnect_aktiveDB = "timeout_glad64"
         case 152
         strConnect_aktiveDB = "timeout_tec64"
         case 154

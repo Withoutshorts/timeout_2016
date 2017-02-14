@@ -1921,6 +1921,16 @@
                               
                             </div>
 
+                               <div class="row">
+                                <div class="col-lg-1 pad-t20">&nbsp</div>
+                                <div class="col-lg-2 pad-t20">Valuta:
+
+                                <%call basisValutaFN()
+            
+                                 call valutakoder(0, valuta, 1) %>
+                                </div>
+                                   </div>
+
                             <div class="row">
                                 <div class="col-lg-1 pad-t20">&nbsp</div>
                                 <div class="col-lg-3 pad-t20">Forfaldsdato: (kreditperiode)

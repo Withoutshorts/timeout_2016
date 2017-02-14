@@ -1947,6 +1947,17 @@ function stempelur_kolonne(lto, showextended)
     showkguds = 0
     showkgsaa = 1
 
+    case "epi2017"
+
+    showkgtim = 0
+    showkgpau = 0
+    showkgtil = 0
+    showkgtot = 0
+    showkgnor = 0
+    showkgsal = 0
+    showkguds = 0
+    showkgsaa = 0
+
     case "fk", "fk_bpm"
 
     showkgtim = 1

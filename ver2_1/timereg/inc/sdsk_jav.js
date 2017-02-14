@@ -9,6 +9,39 @@
     $(document).ready(function () {
 
 
+        
+
+        $(".txtField").change(function () {
+
+
+            //alert("fer")
+
+            var thisid = this.id
+            var thisvallngt = thisid.length
+            var thisvaltrim = thisid.slice(13, thisvallngt)
+            thisval = thisvaltrim
+
+            jobid = $("#jobid_" + thisval).val()
+
+            jobstatus = $(this).val()
+
+
+
+            $.post("?jobid=" + jobid + "&jobstatus=" + jobstatus, { control: "FM_ajaxtype", AjaxUpdateField: "true" }, function (data) {
+            });
+
+            $("#sp_stopd_" + thisval).css("visibility", "visible")
+
+
+            setTimeout(function () {
+                // Do something after 5 seconds
+
+                $("#sp_stopd_" + thisval).css("visibility", "hidden")
+            }, 1000);
+
+        });
+
+
         if (screen.width > 1480) {
 
             gblDivWdt = screen.width - 474

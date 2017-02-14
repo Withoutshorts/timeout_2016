@@ -1651,23 +1651,21 @@
                                         gkTxt = "Godkend/Afvis"
                                         end select
 
-                                   
+                                        strCheckBoxGodkenduge = "<input type=""checkbox"" name=""FM_afslutuge_medid_uge"" value='"&intMid &"_"& varTjDatoUS_man_use&"' class='gkuge_"& intMid &"'>" 
 
                                     else
 
                                     gkTxt = "Be om afslutn."
 
-                                    
+                                        strCheckBoxGodkenduge = ""
 
                                     end if
 
                                     btnstyle = 1
 
-                                    'if cint(showAfsuge) = 0 then
-                                    ugegodkendtTxt = "<a href=""godkenduge.asp?usemrn="&intMid&"&varTjDatoUS_man="&varTjDatoUS_man_use&""" target=""_blank"" style=""font-size:9px; font-weight:lighter;"">"& gkTxt &" >> </a>"
-                                    'else
-                                    'ugegodkendtTxt = "A"
-                                    'end if
+                                    
+                                    ugegodkendtTxt = strCheckBoxGodkenduge &" <a href=""godkenduge.asp?usemrn="&intMid&"&varTjDatoUS_man="&varTjDatoUS_man_use&""" target=""_blank"" style=""font-size:9px; font-weight:lighter;"">"& gkTxt &" >> </a>"
+                                    
                                
                                 else
                                 ugegodkendtTxt = ""
@@ -1719,7 +1717,7 @@
                         <%
                        
                          if cint(SmiWeekOrMonth) <> 1 OR (useSogKriAfs = 1 OR useSogKriGk = 1 OR useSogKri = 1) then%>
-	                     <td class=lille style="border-bottom:1px silver solid; border-right:1px silver solid; white-space:nowrap;" align=center><%=ugegodkendtTxt %>&nbsp;</td>
+	                     <td class=lille style="border-bottom:1px silver solid; border-right:1px silver solid; white-space:nowrap;" align=right><%=ugegodkendtTxt %>&nbsp;</td>
                          <%else 
                              
                              

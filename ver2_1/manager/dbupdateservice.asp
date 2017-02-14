@@ -6,7 +6,7 @@
 <%end if %>
 
 <!--#include file="../inc/connection/aktivedb_inc.asp"-->
-
+<!--include file="../inc/connection/aktivedb_r_inc.asp"-->
 
 <%
 
@@ -2995,6 +2995,11 @@ ALTER TABLE job ADD (
 lincensindehaver_faknr_prioritet_job Int NOT NULL DEFAULT 0);
 INSERT INTO dbversion (dbversion) VALUES (20170117.4);
 
+
+<br /><br />20170213.1<br />
+ALTER TABLE job ADD (
+jo_valuta Int NOT NULL DEFAULT 0);
+INSERT INTO dbversion (dbversion) VALUES (20170213.1) 
 
 <%
 

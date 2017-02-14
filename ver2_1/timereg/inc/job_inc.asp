@@ -919,9 +919,7 @@ sub projektberegner
                    
 	            <table cellspacing="0" cellpadding="0" border="0" bgcolor="#FFFFFF" class="pb_table">
 				<tr bgcolor="#5582d2">
-					<td colspan=6 class=alt style="padding:5px 5px 0px 5px; border:0px;"><h3 class="hv">Job forkalkulation og budget<br />
-                    <span style="font-size:9px; color:#ffffff; line-height:12px;">Indtast direkte i nettoomsætning, eller benyt detaljeret budget på "aktiviter & faser" ell. "medarbejdertyper" nedenfor. (se. konfiguration) </span></h3><!-- Aktiviteter og Salgsomkost.  -->
-                    </td>
+					<td colspan=6 class=alt style="padding:5px 5px 9px 5px; border:0px;"><h3 class="hv">Job forkalkulation og budget</h3></td>
 				</tr>
                   <tr>
                 <td align=right colspan=6 style="border:0px; padding:15px 15px 5px 5px;"> <input class="overfortiljob_u" type="button" value="Gem ændringer på job >>" style="font-family:arial; font-size:9px;"/></td>
@@ -989,14 +987,7 @@ sub projektberegner
                      <table width=100% cellspacing=0 cellpadding=0 border=0>
                      <tr>
                          <td style="padding:12px 2px 2px 2px; font-size:11px; width:460px;"><b>Bruttoomsætning:</b><br /><span style="font-size:9px; color:#999999;">Nettooms. + Salgsomkostninger</span></td>
-                         <td align=right style="padding:12px 20px 2px 2px; font-size:11px;">= <input type="text" id="FM_budget" name="FM_budget" value="<%=replace(formatnumber(jo_bruttooms, 2), ".", "")%>" style="width:75px; font-size:11px; font-family:arial; border:1px red solid;" onkeyup="tjektimer('FM_budget')">&nbsp;&nbsp;&nbsp;&nbsp; 
-                             
-                             
-                             <select>
-
-
-                             </select>
-                             <%=basisValISO %></td>
+                         <td align=right style="padding:12px 20px 2px 2px; font-size:11px;">= <input type="text" id="FM_budget" name="FM_budget" value="<%=replace(formatnumber(jo_bruttooms, 2), ".", "")%>" style="width:75px; font-size:11px; font-family:arial; border:1px red solid;" onkeyup="tjektimer('FM_budget')">&nbsp;&nbsp;&nbsp;&nbsp;<%=basisValISO %></td>
 			
                      </tr>
                      </table>
@@ -1240,17 +1231,7 @@ sub projektberegner
                   call hovedgrpsum(lastGruppenavnTxt, gruppenavnTxt, 0, 0, 0, 1, basisValISO, 1, lastGrpId, lastOpencalc, tpii, 0)
                 end if
                 %>
-                <!--
-                <tr>
-                    <td style="border:0px;">&nbsp;</td>
-                    <td style="height:22px; border:0px;"><input type="button" value="opdater >> " id="mt_calc" style="font-size:8px;" /></td>
-                    <td style="border:0px;">&nbsp;</td>
-                    <td style="font-size:9px; border:0px;"> 
-                    (<input type="text" value="<%=formatnumber(beltot_ff,2) %>" id="FM_mtype_belob_ff_tot" name="FM_mtype_belob_ff_tot" style="width:40px; border:0px; color:#999999; font-size:9px;" />)</td>
-                    <td style="border:0px;">&nbsp;</td>
-                    <td style="font-size:9px; border:0px;">= <input type="text" value="<%=formatnumber(beltot,2) %>" id="FM_mtype_belob_tot" name="FM_mtype_belob_tot" style="width:75px; border:0px; color:#999999; font-size:9px;" /> <%=basisValISO %></td>
-                </tr>
-                -->
+               
 
                  <input type="hidden" value="<%=formatnumber(beltot_ff,2) %>" id="FM_mtype_belob_ff_tot" name="FM_mtype_belob_ff_tot"/>
                  <input type="hidden" value="<%=formatnumber(beltot,2) %>" id="FM_mtype_belob_tot" name="FM_mtype_belob_tot" />
@@ -1278,7 +1259,8 @@ sub projektberegner
                      <table width=100% cellspacing=0 cellpadding=0 border=0>
                      <tr>
                          <td style="padding:12px 2px 2px 2px; font-size:11px; width:460px;"><b>Bruttoomsætning:</b><br /><span style="color:#999999; font-size:9px;">Nettooms. + Salgsomk.</span></td>
-                         <td align=right style="padding:12px 20px 2px 2px; font-size:11px;">= <input type="text" id="FM_budget" name="FM_budget" value="<%=replace(formatnumber(jo_bruttooms, 2), ".", "")%>" style="width:75px; border:0;" onkeyup="tjektimer('FM_budget'), dbManuel()">&nbsp;&nbsp;&nbsp;&nbsp; <%=basisValISO %></td>
+                         <td align=right style="padding:12px 20px 2px 2px; font-size:11px;">= <input type="text" id="FM_budget" name="FM_budget" value="<%=replace(formatnumber(jo_bruttooms, 2), ".", "")%>" style="width:75px; border:0;" onkeyup="tjektimer('FM_budget'), dbManuel()">
+                             &nbsp;&nbsp;&nbsp;&nbsp; <%=jo_bgt_basisValISO %></td>
 			
                      </tr>
                      </table>
@@ -1338,7 +1320,7 @@ sub projektberegner
                         
 					    
                         <td valign="bottom" style="width:100px; font-size:9px;"><span style="color:Red;">*</span><b> Beløb <%=basisValISO %></b></td>
-				        <td valign="bottom" style="width:40px; font-size:8px; color:#999999;">Salgs<br />timepris</b></td>
+				        <td valign="bottom" style="width:40px; font-size:8px; color:#999999;">Salgs<br />timepris</td>
 				    </tr>
 				    <tr bgcolor="#FFFFFF">
 					<%end if %>
@@ -1417,7 +1399,10 @@ sub projektberegner
 					<td style="padding:3px; width:80px;"><font color=red size=2>*</font> Beløb:<br /> <input type="text" id="FM_interntbelob" name="FM_interntbelob" <%=interntbelobDIS %> value="<%=replace(formatnumber(jo_gnsbelob, 2), ".", "")%>" style="width:75px; border:1px solid red; padding:2px;" onkeyup="tjektimer('FM_interntbelob'), settotalbelob()" class="nettooms" />
 
 					</td>
-					<td style="padding:3px 3px 3px 12px; font-size:11px;"><br /><%=basisValISO %></td>
+					<td style="padding:3px 3px 3px 12px; font-size:11px;"><br /> <%
+                             felt = "FM_jo_valuta"
+                             call valutaList(jo_valuta, felt)
+                             %></td>
                     <input type="hidden" id="FM_gnsinttpris" name="FM_gnsinttpris" value="<%=replace(formatnumber(jo_gnstpris, 2), ".", "")%>" style="width:67px;" onkeyup="tjektimer('FM_gnsinttpris')"></td>
 					<input type="hidden" id="FM_intfaktor" name="FM_intfaktor" value="<%=replace(formatnumber(jo_gnsfaktor, 2), ".", "")%>" style="width:30px;" onkeyup="tjektimer('FM_intfaktor')"</td>
 					<input type="hidden" id="FM_interntomkost" name="FM_interntomkost" value="<%=replace(formatnumber(jo_udgifter_intern, 2), ".", "")%>" />
@@ -1842,7 +1827,7 @@ sub projektberegner
                             <span style="padding:2px 2px 2px 2px; font-size:11px; background-color:#FFFFFF; border-bottom:2px #999999 solid;" id="fasertimertot"><b>0,00</span> t.
                         <input id="FM_fasertimertot" value="0" type="hidden" />
 					
-					     = <span style="padding:2px 2px 2px 2px; font-size:11px; background-color:#FFFFFF; border-bottom:2px #999999 solid;;" id="fasersumtot"><b>0,00</b></span> DKK</td>
+					     = <span style="padding:2px 2px 2px 2px; font-size:11px; background-color:#FFFFFF; border-bottom:2px #999999 solid;;" id="fasersumtot"><b>0,00</b></span> <%=jo_bgt_basisValISO %></td>
                         <input id="FM_fasersumtot" value="0" type="hidden" />
 					
 				        </tr>
@@ -2131,7 +2116,7 @@ sub projektberegner
 		            <td style="padding:2px 0px 2px 2px;"><b>Stk. / stk. pris </b></td>
                     <td style="padding:2px 20px 2px 2px;" align=right><b>Indkøbspris</b></td>
 		            <td style="padding:2px 20px 2px 2px;" align=right><b>Faktor</b></td>
-		            <td style="padding:2px 20px 2px 2px;" align=right><b>Salgspris <%=basisValISO %></b></td>
+		            <td style="padding:2px 20px 2px 2px;" align=right><b>Salgspris <%=jo_bgt_basisValISO %></b></td>
 		                 
 		            </tr>
                     <%
@@ -2357,7 +2342,7 @@ sub projektberegner
                     <td style="padding:10px 0px 3px 2px;"><b>Stk. pris.</b></td>
 		            <td align="right" style="padding:10px 20px 3px 2px;"><b>Indkøbspris</b></td>
 		            <td style="padding:10px 10px 3px 2px;"><b>Faktor</b></td>
-		            <td style="padding:10px 0px 3px 10px;"><b>Salgspris <%=basisValISO %></b></td>
+		            <td style="padding:10px 0px 3px 10px;"><b>Salgspris <%=jo_bgt_basisValISO %></b></td>
 		            <td>&nbsp;</td>
 		        </tr>
 
@@ -2479,7 +2464,7 @@ sub projektberegner
 					<input type="hidden" name="FM_ikkebudgettimer" value="<%=SQLBless3(ikkeBudgettimer)%>">
                     <!--&nbsp;antal ikke fakturerbare timer.<br>&nbsp;-->
                     <!--<input id="FM_budget" name="FM_budget" value="<%=replace(formatnumber(jo_bruttooms, 2), ".", "")%>" type="hidden" />-->
-						<td style="width:25px;">&nbsp;<%=basisValISO %></td>
+						<td style="width:25px;">&nbsp;<%=jo_bgt_basisValISO %></td>
 							
 		        </tr>
 		        
@@ -2489,7 +2474,7 @@ sub projektberegner
 					<td style="padding:2px 2px 2px 20px; width:100px;">= <span style="padding:2px 2px 2px 2px; background-color:#FFFFFF; width:60px; border:0px #999999 solid; font-size:9px; font-family:arial;" id="SP_netto"><b><%=replace(formatnumber(jo_gnsbelob, 2), ".", "")%></b></span></td>
 							
 				
-						<td style="width:25px;">&nbsp;<%=basisValISO %></td>
+						<td style="width:25px;">&nbsp;<%=jo_bgt_basisValISO %></td>
 							
 		        </tr>
 
@@ -2500,7 +2485,7 @@ sub projektberegner
                            <input id="FM_salgspris_ulev" name="FM_salgspris_ulev" value="<%=replace(formatnumber(jo_salgspris_ulev, 2), ".", "")%>" type="hidden" />
 							
 				
-						<td style="width:25px;">&nbsp;<%=basisValISO %></td>
+						<td style="width:25px;">&nbsp;<%=jo_bgt_basisValISO %></td>
 							
 		        </tr>
 
@@ -2508,7 +2493,7 @@ sub projektberegner
 					<td colspan=4 style="padding:30px 0px 3px 5px; font-size:11px; font-family:arial;"><b>Udgifter ialt:</b> (intern kost. + salgsomk.)</td>
 					<td style="padding:30px 2px 2px 20px;">= <span style="padding:2px 2px 2px 2px; background-color:#FFFFFF; width:60px; border:0px; border-bottom:0px #999999 solid; font-size:9px; font-family:arial;" id="SP_udgifter"><b><%=replace(formatnumber(udgifter, 2), ".", "")%></b></span></td>
                         <input id="FM_udgifter" name="FM_udgifter" value="<%=replace(formatnumber(udgifter, 2), ".", "")%>" type="hidden" />
-                    <td style="padding:30px 2px 2px 0px;">&nbsp;<%=basisValISO %></td>
+                    <td style="padding:30px 2px 2px 0px;">&nbsp;<%=jo_bgt_basisValISO %></td>
 				</tr>
                         
                 <tr bgcolor="#ffffff">
@@ -2546,7 +2531,7 @@ sub projektberegner
                         
                        </td>
 					<td style="padding:2px 2px 2px 20px;">= <span style="padding:2px 2px 2px 2px; background-color:#FFFFFF; width:60px; border:0px; border-bottom:0px #CCCCCC solid; font-size:9px; font-family:arial;" id="SP_udgifter_intern"><%=replace(formatnumber(jo_udgifter_intern, 2), ".", "")%></span></td>
-					<td>&nbsp;<%=basisValISO %></td>
+					<td>&nbsp;<%=jo_bgt_basisValISO %></td>
                    <input id="FM_udgifter_intern" name="FM_udgifter_intern" value="<%=replace(formatnumber(jo_udgifter_intern, 2), ".", "")%>" type="hidden" />
 				</tr>
                 
@@ -2556,7 +2541,7 @@ sub projektberegner
 					<td colspan=4 style="padding:10px 0px 3px 5px; font-size:11px; font-family:arial;">Salgsomkostninger:</td>
 					<td style="padding:2px 2px 2px 20px;">= <span style="padding:2px 2px 2px 2px; background-color:#FFFFFF; width:60px; border:0px; border-bottom:0px #CCCCCC solid; font-size:9px; font-family:arial;" id="SP_udgifter_ulev"><%=replace(formatnumber(jo_udgifter_ulev, 2), ".", "")%></span></td>
 					<input id="FM_udgifter_ulev" name="FM_udgifter_ulev" value="<%=replace(formatnumber(jo_udgifter_ulev, 2), ".", "")%>" type="hidden" />
-                    <td>&nbsp;<%=basisValISO %></td>
+                    <td>&nbsp;<%=jo_bgt_basisValISO %></td>
 				</tr>
 		                
                 
@@ -2568,7 +2553,7 @@ sub projektberegner
 					<td colspan=4 style="padding:10px 0px 3px 5px; font-size:11px; font-family:arial;"><b>Dækningsbidrag / Bruttofortjeneste:</b> (bruttooms. - udgifter)</td>
 					<td style="padding:2px 2px 2px 20px;">= <span style="padding:2px 2px 2px 2px; background-color:#Eff3ff; width:60px; border:0px; border-bottom:0px #999999 solid; font-size:9px; font-family:arial;" id="SP_bruttofortj"><b><%=replace(formatnumber(jo_bruttofortj, 2), ".", "") %></b></span></td>
 						<input id="FM_bruttofortj" name="FM_bruttofortj" value="<%=replace(formatnumber(jo_bruttofortj, 2), ".", "") %>" type="hidden" />
-                        <td>&nbsp;<%=basisValISO %></td>
+                        <td>&nbsp;<%=jo_bgt_basisValISO %></td>
 				</tr>
 				<tr bgcolor="#ffffff">
 						    
@@ -3623,18 +3608,22 @@ sub minioverblik
             </td>
 	        <td class=lille>
             
-                 <%if cint(oRec2("brugfakdatolabel")) = 1 then %>
-        L: <b><%=replace(formatdatetime(oRec2("labeldato"),2),"-",".")  %></b>&nbsp;
-        <span style="font-size:9px; color:#999999;">(<%=replace(formatdatetime(oRec2("fakdato"),2),"-",".") %>)</span>
-        <%else %>
-        F: <b><%=replace(formatdatetime(oRec2("fakdato"),2),"-",".") %></b>
-        <%end if %>
+                    <%if cint(oRec2("brugfakdatolabel")) = 1 then %>
+                    L: <b><%=replace(formatdatetime(oRec2("labeldato"),2),"-",".")  %></b>&nbsp;
+                    <span style="font-size:9px; color:#999999;">(<%=replace(formatdatetime(oRec2("fakdato"),2),"-",".") %>)</span>
+                    <%else %>
+                    F: <b><%=replace(formatdatetime(oRec2("fakdato"),2),"-",".") %></b>
+                    <%end if %>
 
             
 
             </td>
 	        <%
-	        call beregnValuta(minus&(oRec2("beloeb")),oRec2("kurs"),100)
+	        call beregnValuta(minus&(oRec2("beloeb")),oRec2("kurs"),100) ' TIL DKK Altid til BASIS val først
+            fakBelob = valBelobBeregnet
+            call valutaKurs_fakhist(jo_valuta) ' --> GBP
+            call beregnValuta(fakBelob,100,dblkurs_fakhist/100)
+            
             if oRec2("faktype") <> 1 then
             belobGrundVal = valBelobBeregnet
             else
@@ -3642,28 +3631,34 @@ sub minioverblik
             end if %>
 	        
 	        
-	        <td class=lille align=right><%=formatnumber(belobGrundVal) &" "& basisValISO %></td>
+	        <td class=lille align=right><%=formatnumber(belobGrundVal) &" "& jo_bgt_basisValISO %></td>
 	        
 	        <%
-	        '** Kun aktiviteter timer, enh. stk. IKKE mateiler og KM
+	                    '** Kun aktiviteter timer, enh. stk. IKKE mateiler og KM
                 
-                  if cDate(oRec2("fakdato")) < cDate("01-06-2010") AND (lto = "epi" OR lto = "epi_no" OR lto = "epi_sta" OR lto = "epi_ab" OR lto = "epi_cati") then
-                        belobKunTimerStk = belobGrundVal
-                        else
+                        'if cDate(oRec2("fakdato")) < cDate("01-06-2010") AND (lto = "epi" OR lto = "epi_no" OR lto = "epi_sta" OR lto = "epi_ab" OR lto = "epi_cati") then
+                       
+                        'belobKunTimerStk = belobGrundVal
+                
+                        'else
        
 
 	            call beregnValuta(minus&(oRec2("aktbel")),oRec2("kurs"),100)
+                fakBelob = valBelobBeregnet
+                call valutaKurs_fakhist(jo_valuta) ' --> GBP
+                call beregnValuta(fakBelob,100,dblkurs_fakhist/100)
+
                 if oRec2("faktype") <> 1 then
                 belobKunTimerStk = valBelobBeregnet
                 else
                 belobKunTimerStk = -valBelobBeregnet
                 end if
 
-                end if
+                'end if
             
             %>
 	        
-	        <td class=lille align=right><%=formatnumber(belobKunTimerStk) &" "& basisValISO %></td>
+	        <td class=lille align=right><%=formatnumber(belobKunTimerStk) &" "& jo_bgt_basisValISO %></td>
 	    
 	    </tr>
 	    <%
@@ -3681,8 +3676,8 @@ sub minioverblik
 		%>
 		<tr bgcolor="#DBDB70">
             <td class=lille><b>Ialt:</b></td>
-		    <td class=lille align=right colspan=2><b><%=formatnumber(totFakbel)%></b> <%=basisValISO %></td>
-		    <td class=lille align=right><b><%=formatnumber(totFakbelKunTimer)%></b> <%=basisValISO %></td>
+		    <td class=lille align=right colspan=2><b><%=formatnumber(totFakbel)%></b> <%=jo_bgt_basisValISO %></td>
+		    <td class=lille align=right><b><%=formatnumber(totFakbelKunTimer)%></b> <%=jo_bgt_basisValISO %></td>
 		</tr>
 		</table>
 		
@@ -3849,10 +3844,10 @@ sub minioverblik
 	            
                 <td align=right class=lille><b><%=formatnumber(lastFaseForkalkTimer,2) %></b> t.</td>
                 <td>&nbsp;</td>
-	            <td align=right class=lille><b><%=formatnumber(lastFaseSum, 2) & "</b> "& basisValISO_f8 %></td>
+	            <td align=right class=lille><b><%=formatnumber(lastFaseSum, 2) & "</b> "& jo_bgt_basisValISO_f8 %></td>
 
                 <td align=right class=lille><b><%=formatnumber(lastFaseRealTimer,2) %> t.</td>
-	            <td align=right class=lille><b><%=formatnumber(lastFaseRealbel, 2) & "</b> "& basisValISO_f8 %></td>
+	            <td align=right class=lille><b><%=formatnumber(lastFaseRealbel, 2) & "</b> "& jo_bgt_basisValISO_f8 %></td>
 
                 </tr>
 
@@ -3905,7 +3900,7 @@ sub minioverblik
 
                         <%fctimerTotGt = fctimerTotGt + fctimerTot  %>
                     </td>
-                    <td class=lille align="right"><%=formatnumber(fcbelobTot, 0) &" "& basisValISO_f8 %></td>
+                    <td class=lille align="right"><%=formatnumber(fcbelobTot, 0) &" "& jo_bgt_basisValISO_f8 %></td>
 
                        <%fcBelobTotGt = fcBelobTotGt + fcBelobTot  %>
             <%else%>
@@ -3950,10 +3945,10 @@ sub minioverblik
 
 	            
 	            <td class=lille align=right style="border-bottom:<%=borderAktMatlinesPx%>px #cccccc solid;"><%=formatnumber(oRec2("aktbudget"), 2) %></td>
-	            <td class=lille align=right style="border-bottom:<%=borderAktMatlinesPx%>px #cccccc solid;"><%=formatnumber(oRec2("aktbudgetsum"), 2) &" "& basisValISO_f8 %></td>
+	            <td class=lille align=right style="border-bottom:<%=borderAktMatlinesPx%>px #cccccc solid;"><%=formatnumber(oRec2("aktbudgetsum"), 2) &" "& jo_bgt_basisValISO_f8 %></td>
 
                 <td class=lille align=right style="border-bottom:<%=borderAktMatlinesPx%>px #cccccc solid;"><%=formatnumber(oRec2("realiseret"), 2) %> t.</td>
-	            <td class=lille align=right style="border-bottom:<%=borderAktMatlinesPx%>px #cccccc solid;"><%=formatnumber(oRec2("realbelob"), 2) &" "& basisValISO_f8 %></td>
+	            <td class=lille align=right style="border-bottom:<%=borderAktMatlinesPx%>px #cccccc solid;"><%=formatnumber(oRec2("realbelob"), 2) &" "& jo_bgt_basisValISO_f8 %></td>
 	            
 	            </tr>
 	        
@@ -4041,7 +4036,7 @@ sub minioverblik
 
                 <% if cint(timesimon) = 1 then %> 
                      <td class=lille align="right"><b><%=formatnumber(fctimerTotGt, 0) &"</b> t."%></td>
-                     <td class=lille align="right"><b><%=formatnumber(fcbelobTotGt, 0) &"</b> "& basisValISO_f8 %></td>
+                     <td class=lille align="right"><b><%=formatnumber(fcbelobTotGt, 0) &"</b> "& jo_bgt_basisValISO_f8 %></td>
                     
                 <% else %>
 	            <td>&nbsp;</td>
@@ -4051,10 +4046,10 @@ sub minioverblik
 
 	            <td align=right class=lille><b><%=formatnumber(lastFaseForkalkTimer,2) %></b> t.</td>
                 <td>&nbsp;</td>
-	            <td align=right class=lille><b><%=formatnumber(lastFaseSum, 2) %></b> <%=basisValISO_f8 %></td>
+	            <td align=right class=lille><b><%=formatnumber(lastFaseSum, 2) %></b> <%=jo_bgt_basisValISO_f8 %></td>
 
                 <td align=right class=lille><b><%=formatnumber(lastFaseRealTimer,2) %></b> t.</td>
-	            <td align=right class=lille><b><%=formatnumber(lastFaseRealbel, 2) %></b> <%=basisValISO_f8%></td>
+	            <td align=right class=lille><b><%=formatnumber(lastFaseRealbel, 2) %></b> <%=jo_bgt_basisValISO_f8%></td>
 
             </tr>
             
@@ -4079,9 +4074,9 @@ sub minioverblik
                 strAktiviteterGT = strAktiviteterGT &"<tr bgcolor="& aktGtBgcol &"><td class=lille width="& aktGtwdh &"><b>Ialt:</b></td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>"
                 strAktiviteterGT = strAktiviteterGT &"<td align=right class=lille><b>"& formatnumber(totTimerforkalk,2) &" t.</b></td>"
                 strAktiviteterGT = strAktiviteterGT &"<td width="& aktGtwdh2 &">&nbsp;</td>"
-                strAktiviteterGT = strAktiviteterGT &"<td align=right class=lille><b>"& formatnumber(totSum, 2) &"</b> "& basisValISO_f8 &"</td>"
+                strAktiviteterGT = strAktiviteterGT &"<td align=right class=lille><b>"& formatnumber(totSum, 2) &"</b> "& jo_bgt_basisValISO_f8 &"</td>"
                 strAktiviteterGT = strAktiviteterGT &"<td align=right class=lille><b>"& formatnumber(totReal,2) &" t.</td>"
-                strAktiviteterGT = strAktiviteterGT &"<td align=right class=lille><b>"& formatnumber(totRealbel, 2) &"</b> "& basisValISO_f8 &"</td>"
+                strAktiviteterGT = strAktiviteterGT &"<td align=right class=lille><b>"& formatnumber(totRealbel, 2) &"</b> "& jo_bgt_basisValISO_f8 &"</td>"
                 strAktiviteterGT = strAktiviteterGT &"</tr>"
 
 
@@ -4274,21 +4269,21 @@ sub minioverblik
                     case "oko", "intranet - local", "sdeo"
                     case else %>
                     <td align=right class=lille style="border-bottom:<%=borderAktMatlinesPx%>px #cccccc solid;"><%=oRec2("ju_stk") %></td>
-                    <td align=right class=lille style="border-bottom:<%=borderAktMatlinesPx%>px #cccccc solid;"><%=formatnumber(oRec2("ju_stkpris"), 2) &" "& basisValISO_f8 %></td>
-                    <td align=right class=lille style="border-bottom:<%=borderAktMatlinesPx%>px #cccccc solid;"><%=formatnumber(oRec2("ju_ipris"), 2) &" "& basisValISO_f8%> </td>
+                    <td align=right class=lille style="border-bottom:<%=borderAktMatlinesPx%>px #cccccc solid;"><%=formatnumber(oRec2("ju_stkpris"), 2) &" "& jo_bgt_basisValISO_f8 %></td>
+                    <td align=right class=lille style="border-bottom:<%=borderAktMatlinesPx%>px #cccccc solid;"><%=formatnumber(oRec2("ju_ipris"), 2) &" "& jo_bgt_basisValISO_f8%> </td>
                     <td align=right class=lille style="border-bottom:<%=borderAktMatlinesPx%>px #cccccc solid;"><%=oRec2("ju_faktor") %></td>
                     <%end select %>
 
                     <%if isNull(oRec2("ju_stk")) <> true then %>
-                    <td align=right class=lille style="border-bottom:<%=borderAktMatlinesPx%>px #cccccc solid;"><%=formatnumber(oRec2("ju_belob"), 2) &" "& basisValISO_f8%> </td>
+                    <td align=right class=lille style="border-bottom:<%=borderAktMatlinesPx%>px #cccccc solid;"><%=formatnumber(oRec2("ju_belob"), 2) &" "& jo_bgt_basisValISO_f8%> </td>
                     <%else %>
-                    <td align=right class=lille style="border-bottom:<%=borderAktMatlinesPx%>px #cccccc solid;">0,00 <%=basisValISO_f8 %></td>
+                    <td align=right class=lille style="border-bottom:<%=borderAktMatlinesPx%>px #cccccc solid;">0,00 <%=jo_bgt_basisValISO_f8 %></td>
                     <%end if%>
 
                         <%select case lto
                         case "oko", "intranet - local", "sdeo"  %> 
-                        <td align=right class=lille style="border-bottom:<%=borderAktMatlinesPx%>px #cccccc solid;"><%=formatnumber(realBelob, 2) &" "& basisValISO_f8%> </td>
-                        <td align=right class=lille style="border-bottom:<%=borderAktMatlinesPx%>px #cccccc solid;"><%=formatnumber(restBelob, 2) &" "& basisValISO_f8%> </td>
+                        <td align=right class=lille style="border-bottom:<%=borderAktMatlinesPx%>px #cccccc solid;"><%=formatnumber(realBelob, 2) &" "& jo_bgt_basisValISO_f8%> </td>
+                        <td align=right class=lille style="border-bottom:<%=borderAktMatlinesPx%>px #cccccc solid;"><%=formatnumber(restBelob, 2) &" "& jo_bgt_basisValISO_f8%> </td>
                         <%end select %>
                     
                     
@@ -4346,16 +4341,16 @@ sub minioverblik
                     case else %>
                     <td align=right class=lille>&nbsp;</td>
                     <td align=right class=lille>&nbsp;</td>
-                    <td align=right class=lille><b><%=formatnumber(salgsomkostninger_tot, 2) &" "& basisValISO_f8 %></b></td>
+                    <td align=right class=lille><b><%=formatnumber(salgsomkostninger_tot, 2) &" "& jo_bgt_basisValISO_f8 %></b></td>
                     <td align=right class=lille>&nbsp;</td>
                     <%end select %>
 
-                    <td align=right class=lille><b><%=formatnumber(salgspris_tot, 2) &" "& basisValISO_f8 %></b></td>
+                    <td align=right class=lille><b><%=formatnumber(salgspris_tot, 2) &" "& jo_bgt_basisValISO_f8 %></b></td>
 
                       <% select case lto
                         case "oko", "intranet - local", "sdeo" %>
-                        <td align=right class=lille><%=formatnumber(salgreal_tot, 2) &" "& basisValISO_f8%> </td>
-                        <td align=right class=lille><%=formatnumber(rest_tot, 2) &" "& basisValISO_f8%> </td>
+                        <td align=right class=lille><%=formatnumber(salgreal_tot, 2) &" "& jo_bgt_basisValISO_f8%> </td>
+                        <td align=right class=lille><%=formatnumber(rest_tot, 2) &" "& jo_bgt_basisValISO_f8%> </td>
                         <%end select %>
                      <td></td>
                     
@@ -4372,23 +4367,23 @@ sub minioverblik
                             (100-190)
                          <%end if %>
                     </td>
-                          <td align=right class=lille><b><%=formatnumber(totSum, 2) &" "& basisValISO_f8 %></b></td>
-                      <td align=right class=lille><%=formatnumber(totRealbel, 2) &" "& basisValISO_f8%> </td>
+                          <td align=right class=lille><b><%=formatnumber(totSum, 2) &" "& jo_bgt_basisValISO_f8 %></b></td>
+                      <td align=right class=lille><%=formatnumber(totRealbel, 2) &" "& jo_bgt_basisValISO_f8%> </td>
 
                       <%totRestBel = (totSum-totRealbel) %>
 
-                      <td align=right class=lille><%=formatnumber(totRestBel, 2) &" "& basisValISO_f8%> </td>
+                      <td align=right class=lille><%=formatnumber(totRestBel, 2) &" "& jo_bgt_basisValISO_f8%> </td>
                   
 
                  </tr>
 
                  <tr bgcolor="#FFDFDF">
                     <td class=lille style="padding:2px"><b>Omkostninger Ialt:</b></td>
-                          <td align=right class=lille><b><u><%=formatnumber(totSum+salgspris_tot, 2) &" "& basisValISO_f8 %></u></b></td>
-                      <td align=right class=lille><u><%=formatnumber(totRealbel+salgreal_tot, 2) &" "& basisValISO_f8%> </u></td>
+                          <td align=right class=lille><b><u><%=formatnumber(totSum+salgspris_tot, 2) &" "& jo_bgt_basisValISO_f8 %></u></b></td>
+                      <td align=right class=lille><u><%=formatnumber(totRealbel+salgreal_tot, 2) &" "& jo_bgt_basisValISO_f8%> </u></td>
 
                       <%totOmkRest = ((totSum+salgspris_tot)-(totRealbel+salgreal_tot)) %>
-                     <td align=right class=lille><u><%=formatnumber(totOmkRest, 2) &" "& basisValISO_f8%></u> </td>
+                     <td align=right class=lille><u><%=formatnumber(totOmkRest, 2) &" "& jo_bgt_basisValISO_f8%></u> </td>
 
                   
 
@@ -4515,7 +4510,7 @@ sub minioverblik
 
                      <tr style="background-color:#c4c4c4;">
                         <td colspan="6" class="lille"><b><%=lastGrpNavn%> ialt:</b></td>
-                        <td align="right" class="lille"><u><%=formatnumber(matforbrugGrpSubTot, 2) &" "& basisValISO_f8 %></u></td>
+                        <td align="right" class="lille"><u><%=formatnumber(matforbrugGrpSubTot, 2) &" "& jo_bgt_basisValISO_f8 %></u></td>
                      </tr>    
 
                     <%matforbrugGrpSubTot = 0
@@ -4533,8 +4528,8 @@ sub minioverblik
                     <td class=lille style="border-bottom:<%=borderAktMatlinesPx%>px #cccccc solid;"><%=oRec2("matenhed")%></td>
                     <td class=lille style="border-bottom:<%=borderAktMatlinesPx%>px #cccccc solid;"><%=oRec2("forbrugsdato")%></td>
                     <td class=lille align=right style="border-bottom:<%=borderAktMatlinesPx%>px #cccccc solid;"><%=formatnumber(oRec2("stkkobspris"), 2)%></td>
-                    <td align=right class=lille style="border-bottom:<%=borderAktMatlinesPx%>px #cccccc solid;"><%=formatnumber(oRec2("matkobspris"), 2) &" "& basisValISO_f8 %></td>
-                    <td align=right class=lille style="border-bottom:<%=borderAktMatlinesPx%>px #cccccc solid;"><%=formatnumber(oRec2("matsalgspris"), 2) &" "& basisValISO_f8 %></td>
+                    <td align=right class=lille style="border-bottom:<%=borderAktMatlinesPx%>px #cccccc solid;"><%=formatnumber(oRec2("matkobspris"), 2) &" "& jo_bgt_basisValISO_f8 %></td>
+                    <td align=right class=lille style="border-bottom:<%=borderAktMatlinesPx%>px #cccccc solid;"><%=formatnumber(oRec2("matsalgspris"), 2) &" "& jo_bgt_basisValISO_f8 %></td>
                    
                     </tr>
                     <%
@@ -4565,8 +4560,8 @@ sub minioverblik
                     
                     %>
                        <tr style="background-color:#c4c4c4;">
-                        <td colspan="6" class="lille"><b><%=lastGrpNavn%>:</b></td>
-                         <td align="right" class="lille"><u><%=formatnumber(matforbrugGrpSubTot, 2) &" "& basisValISO_f8 %></u></td>
+                        <td colspan="6" class="lille"><b><%=lastGrpNavn%> ialt:</b></td>
+                         <td align="right" class="lille"><%=formatnumber(matforbrugGrpSubTot, 2) &" "& jo_bgt_basisValISO_f8 %></td>
                 
                     </tr>    
                     <%
@@ -4580,8 +4575,8 @@ sub minioverblik
                 </div>
                      <table cellpadding=1 cellspacing=0 border=0 width=100%>
                     <tr bgcolor="#FFDFDF"><td class=lille colspan=4><b>Ialt: <%=antalmatreg%></b><img src="ill/blank.gif" width="200" height="1" border="0" /></td>
-                    <td class=lille align=right><b><u><%=formatnumber(salgsomkostKost, 2)%></u></b> <%=basisValISO_f8 %></td>
-                    <td class=lille align=right><b><u><%=formatnumber(salgsomkostSalg, 2)%> </u></b><%=basisValISO_f8%></td></tr>
+                    <td class=lille align=right><b><u><%=formatnumber(salgsomkostKost, 2)%></u></b> <%=jo_bgt_basisValISO_f8 %></td>
+                    <td class=lille align=right><b><u><%=formatnumber(salgsomkostSalg, 2)%> </u></b><%=jo_bgt_basisValISO_f8%></td></tr>
                    </table>
             
             </td>
@@ -4620,13 +4615,13 @@ sub minioverblik
                  <tr><td colspan=3>&nbsp;</td></tr>
                 
                      <tr><td style="border-bottom:1px #999999 solid;"><b>Budget</b></td><td align=right style="border-bottom:1px #999999 solid;">Kost.</td><td align=right style="border-bottom:1px #999999 solid;">Salg</td></tr>
-                <tr><td> <b>Bruttoomsætning:</b> (job)</td><td>&nbsp;</td><td align=right> <%=formatnumber(jo_bruttooms, 2) &" "&basisValISO %></td></tr>
-                <tr><td> <b>Nettoomsætning:</b> (job)</td><td align=right> <%=formatnumber(jo_udgifter_intern, 2) &" "&basisValISO%></td><td align="right"><%=formatnumber(jo_gnsbelob, 2) &" "&basisValISO%></td></tr>
-                <tr><td><span style="color:#999999;"><b>Omsætning:</b> (aktiviteter)</span></td><td>&nbsp;</td><td align=right><span style="color:#999999;"><%=formatnumber(totsum, 2) &" "&basisValISO%></span></td></tr>
-                  <tr><td><b>Salgsomkostninger:</b> (job)</td><td align="right"><%=formatnumber(salgsomkostninger_tot) &" "&basisValISO %></td><td align=right><%=formatnumber(salgspris_tot, 2) %></b> <%=basisValISO %></td></tr>
+                <tr><td> <b>Bruttoomsætning:</b> (job)</td><td>&nbsp;</td><td align=right> <%=formatnumber(jo_bruttooms, 2) &" "&jo_bgt_basisValISO %></td></tr>
+                <tr><td> <b>Nettoomsætning:</b> (job)</td><td align=right> <%=formatnumber(jo_udgifter_intern, 2) &" "&jo_bgt_basisValISO%></td><td align="right"><%=formatnumber(jo_gnsbelob, 2) &" "&jo_bgt_basisValISO%></td></tr>
+                <tr><td><span style="color:#999999;"><b>Omsætning:</b> (aktiviteter)</span></td><td>&nbsp;</td><td align=right><span style="color:#999999;"><%=formatnumber(totsum, 2) &" "&jo_bgt_basisValISO%></span></td></tr>
+                  <tr><td><b>Salgsomkostninger:</b> (job)</td><td align="right"><%=formatnumber(salgsomkostninger_tot) &" "&jo_bgt_basisValISO %></td><td align=right><%=formatnumber(salgspris_tot, 2) %></b> <%=jo_bgt_basisValISO %></td></tr>
               
                  
-               <tr><td><b>Dækningsbidrag / Bruttofortjeneste:</b> (budgetteret)</td><td align=right><%=formatnumber(jo_bruttofortj)& " "& basisValISO%></td><td>&nbsp;</td></tr>
+               <tr><td><b>Dækningsbidrag / Bruttofortjeneste:</b> (budgetteret)</td><td align=right><%=formatnumber(jo_bruttofortj)& " "& jo_bgt_basisValISO%></td><td>&nbsp;</td></tr>
                <tr><td><b>DB:</b></td><td align=right><%=formatnumber(jo_dbproc,0)%> %</td><td>&nbsp;</td></tr>
               
                     
@@ -4646,15 +4641,15 @@ sub minioverblik
                    
                     <tr><td style="border-bottom:1px #999999 solid;"><b>Realiseret</b></td><td align=right style="border-bottom:1px #999999 solid;">Kost.</td><td align=right style="border-bottom:1px #999999 solid;">Salg</td></tr>
                
-                       <tr><td><b>Bruttoomsætning:</b> (timer + varesalg)</td><td align=right><%=formatnumber(realKostialt, 2) %></b> <%=basisValISO %></td><td align=right><%=formatnumber(realOmsialt, 2) %></b> <%=basisValISO %></td></tr>
+                       <tr><td><b>Bruttoomsætning:</b> (timer + varesalg)</td><td align=right><%=formatnumber(realKostialt, 2) %></b> <%=jo_bgt_basisValISO %></td><td align=right><%=formatnumber(realOmsialt, 2) %></b> <%=jo_bgt_basisValISO %></td></tr>
               
-                      <tr><td><b>Nettoomsætning:</b> (timer)</td><td align=right><%=formatnumber(realtimerkost, 2) %></b> <%=basisValISO %></td><td align=right><%=formatnumber(totRealbel, 2) %></b> <%=basisValISO %></td></tr>
+                      <tr><td><b>Nettoomsætning:</b> (timer)</td><td align=right><%=formatnumber(realtimerkost, 2) %></b> <%=jo_bgt_basisValISO %></td><td align=right><%=formatnumber(totRealbel, 2) %></b> <%=jo_bgt_basisValISO %></td></tr>
                 
-                <tr><td><b>Salgsomkostninger:</b></td><td align=right><%=formatnumber(salgsomkostKost, 2) %></b> <%=basisValISO %></td><td align=right><%=formatnumber(salgsomkostSalg, 2) %></b> <%=basisValISO %></td></tr>
+                <tr><td><b>Salgsomkostninger:</b></td><td align=right><%=formatnumber(salgsomkostKost, 2) %></b> <%=jo_bgt_basisValISO %></td><td align=right><%=formatnumber(salgsomkostSalg, 2) %></b> <%=jo_bgt_basisValISO %></td></tr>
                 
                    
                  
-                     <tr><td><b>Dækningsbidrag / Bruttofortjeneste:</b> (realiseret)</td><td align=right><%=formatnumber(dbreal)& " "& basisValISO%></td><td>&nbsp;</td></tr>
+                     <tr><td><b>Dækningsbidrag / Bruttofortjeneste:</b> (realiseret)</td><td align=right><%=formatnumber(dbreal)& " "& jo_bgt_basisValISO%></td><td>&nbsp;</td></tr>
                <tr><td><b>DB:</b></td><td align=right><%=formatnumber(dbrealpro,0)%> %</td><td>&nbsp;</td></tr>
                     
                     <tr><td colspan=3>&nbsp;</td></tr>
@@ -4672,16 +4667,16 @@ sub minioverblik
                    
                     %>
                       <tr><td colspan="3" style="border-bottom:1px #999999 solid;"><b>Faktureret</b></td></tr>
-                <tr><td><b>Faktureret omsætning</b></td><td align=right><%=formatnumber(totFakbel) &" "& basisValISO%> </td><td>&nbsp;</td></tr>
+                <tr><td><b>Faktureret omsætning</b></td><td align=right><%=formatnumber(totFakbel) &" "& jo_bgt_basisValISO%> </td><td>&nbsp;</td></tr>
              
-                <tr><td><b>Kost.</b> (timer kost. + varekøb):</td><td align=right><%=formatnumber(realKostialt, 2) &" "&basisValISO %></td><td align=right>&nbsp;</td></tr>
+                <tr><td><b>Kost.</b> (timer kost. + varekøb):</td><td align=right><%=formatnumber(realKostialt, 2) &" "&jo_bgt_basisValISO %></td><td align=right>&nbsp;</td></tr>
                
               
-               <tr><td><b>Dækningsbidrag / Bruttofortjeneste:</b> (faktisk, faktureret oms. - real.kost)</td><td align=right><%=formatnumber(dbfaktisk)& " "& basisValISO%></td><td>&nbsp;</td></tr>
+               <tr><td><b>Dækningsbidrag / Bruttofortjeneste:</b> (faktisk, faktureret oms. - real.kost)</td><td align=right><%=formatnumber(dbfaktisk)& " "& jo_bgt_basisValISO%></td><td>&nbsp;</td></tr>
                <tr><td><b>DB:</b></td><td align=right><%=formatnumber(dbfaktiskpro,0)%> %</td><td>&nbsp;</td></tr>
 
-                   <tr><td style="color:#999999;"><b>Faktisk timepris:</b><br />
-                  (fakturet beløb ekskl. materialer og km. / realiseret timer)</td><td>&nbsp;</td><td align=right style="color:#999999;"><%=formatnumber(gnstpris) & " "& basisValISO%></td></tr>
+                   <tr><td><br /><br /><b>Faktisk timepris:</b><br />
+                  (fakturet beløb ekskl. materialer og km. / realiseret timer)</td><td>&nbsp;</td><td align=right><br /><br /><%=formatnumber(gnstpris) & " "& jo_bgt_basisValISO%></td></tr>
 
 
               <!--<tr><td><b>DB realiseret:</b></td><td align=right><%=formatnumber(gnstpris) & " "& basisValISO%></td></tr>

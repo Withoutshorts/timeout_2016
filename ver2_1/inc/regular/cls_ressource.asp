@@ -181,6 +181,12 @@
                                               
                         kforCastSQL = "SELECT aktid FROM ressourcer_md WHERE medid = " & usemrn & " AND jobid = "& jobid &" GROUP BY medid, aktid"
 
+                        '** Tilføj kun på åben job og åbne aktiviteter
+                        'kforCastSQL = "SELECT aktid FROM ressourcer_md r"
+                        'kforCastSQL = kforCastSQL & " LEFT JOIN job j ON (j.id = r.jobid)"
+                        'kforCastSQL = kforCastSQL & " WHERE r.medid = " & usemrn & " AND r.jobid = "& jobid 
+                        'kforCastSQL = kforCastSQL & " GROUP BY r.medid, r.aktid"
+
                         'response.write kforCastSQL
                         'response.flush
 

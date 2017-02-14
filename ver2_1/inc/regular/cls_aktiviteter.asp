@@ -1135,7 +1135,7 @@ function hentaktiviterListe(jobid, func, vispasluk, sort)
             end if
             
             strAktListe = strAktListe &"<td><b>"& stkTimOskrift &"</b></td>"_
-            &"<td style=""padding-left:10px;""><b>Pris i alt "& basisValISO &"</b></td>"_
+            &"<td style=""padding-left:10px;""><b>Pris i alt</b></td>"_
             &"<td>&nbsp;</td>"_
             &"<td align=right><b>"& resOskrift  &"</b></td>"_
             &"<td align=right><b>Slet</b><br> <input id=""sl_"" class=""faseoskrift_slet"" type=""checkbox"" value=""1"" /></td>"_
