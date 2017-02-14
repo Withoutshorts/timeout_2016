@@ -667,7 +667,7 @@ end function
 %>
             <tr><td colspan="5" style="padding-top:20px;">
             	
-		<h4>Søg på jobnavn ell. nr.:<span style="font-size:11px; font-weight:lighter; line-height:14px;"><br />(% wildcard, <b>231, 269</b> for specifikke job, <b>201--225</b> (dobbelt bindestreg) for interval, <b><></b> for større/mindre end)</span></h4>
+		<h4>Søg på jobnavn ell. nr.: <br /><span style="font-size:11px; font-weight:lighter;">(% wildcard, <b>231, 269</b> for specifikke job, <b>201--225</b> (dobbelt bindestreg) for interval, <b><></b> for større/mindre end)</span></h4>
                 <input name="viskunabnejob0" id="viskunabnejob" type="checkbox" value="1" <%=jost0CHK %> />Vis aktive job &nbsp;
         <input name="viskunabnejob1" id="Radio3" type="checkbox" value="1" <%=jost1CHK %> />Vis tilbud &nbsp;
         <input name="viskunabnejob2" id="Checkbox1" type="checkbox" value="1" <%=jost2CHK %> />Vis lukkede og passive job &nbsp;<br />
