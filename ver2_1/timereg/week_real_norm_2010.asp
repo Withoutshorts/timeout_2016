@@ -302,7 +302,7 @@ if len(session("user")) = 0 then
         afslutuge_medid_uge_str = split(request("FM_afslutuge_medid_uge"), ", ")
         
         call smileyAfslutSettings()
-
+        
 
         for m = 0 TO UBOUND(afslutuge_medid_uge_str)
 
@@ -576,7 +576,7 @@ if len(session("user")) = 0 then
     otop = 0
     owdt = 600
     
-    if cint(SmiWeekOrMonth) = 0 then
+    if cint(SmiWeekOrMonth) = 0 OR cint(SmiWeekOrMonth) = 2 then
         peridoeTxt = tsa_txt_005
     else
         peridoeTxt = tsa_txt_430
@@ -1356,16 +1356,19 @@ if len(session("user")) = 0 then
          
          select case lto
          case "tec", "esn"
-         gkTxt = "lukket"
+         gkTxt = "Luk"
          case else
-         gkTxt = "godkendt"
+         gkTxt = "Godkend"
          end select%>
 	 
 
 
 	    <td style="border-bottom:1px silver solid;" valign=bottom class=lille><b><%=peridoeTxt %> <br />afsluttet?</b></td>
         <td style="border-bottom:1px silver solid; white-space:nowrap;" valign=bottom class=lille>
-           <input type="checkbox" id="gkuge_<%=intMids(m)%>" class="gkuge" /> <b><%=peridoeTxt %><br /><%=gkTxt %>?</b>
+        <% if cint(SmiWeekOrMonth) = 0 then %>
+           <input type="checkbox" id="gkuge_<%=intMids(m)%>" class="gkuge" /> 
+        <%end if %>
+            <b><%=gkTxt &" "& peridoeTxt %>?</b>
         </td>
     </tr>
     <%
@@ -1627,7 +1630,9 @@ if len(session("user")) = 0 then
 	
 	
 	</td></tr>
-    <tr><td colspan="30" align="right"><br /><input type="submit" value="Godkend >> " /></td></tr>
+            <% if cint(SmiWeekOrMonth) = 0 then %>
+            <tr><td colspan="30" align="right"><br /><input type="submit" value="Godkend valgte >> " /></td></tr>
+            <%end if %>
     </table>
     </form>
 

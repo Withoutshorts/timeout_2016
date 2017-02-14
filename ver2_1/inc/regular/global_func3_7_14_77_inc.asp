@@ -1648,10 +1648,12 @@
                                         case "tec", "esn"
                                         gkTxt = "Luk/Afvis"
                                         case else
-                                        gkTxt = "Godkend/Afvis"
+                                        gkTxt = "Afvis/Gk."
                                         end select
 
+                                        if cint(SmiWeekOrMonth) = 0 then
                                         strCheckBoxGodkenduge = "<input type=""checkbox"" name=""FM_afslutuge_medid_uge"" value='"&intMid &"_"& varTjDatoUS_man_use&"' class='gkuge_"& intMid &"'>" 
+                                        end if
 
                                     else
 
@@ -1717,7 +1719,7 @@
                         <%
                        
                          if cint(SmiWeekOrMonth) <> 1 OR (useSogKriAfs = 1 OR useSogKriGk = 1 OR useSogKri = 1) then%>
-	                     <td class=lille style="border-bottom:1px silver solid; border-right:1px silver solid; white-space:nowrap;" align=right><%=ugegodkendtTxt %>&nbsp;</td>
+	                     <td class=lille style="border-bottom:1px silver solid; border-right:1px silver solid; white-space:nowrap;"><%=ugegodkendtTxt %>&nbsp;</td>
                          <%else 
                              
                              
