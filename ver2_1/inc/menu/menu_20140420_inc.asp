@@ -868,8 +868,8 @@ end select
                  <%else %>
 
                          <br /><br />
-
-                        <li><a href="<%=toSubVerPath14 %>joblog_timetotaler.asp"><%=tsa_txt_458 %></a></li>
+                         <!--<li><a href="../to_2015/progtotal_medarb.asp">Test</a></li> -->
+                         <li><a href="<%=toSubVerPath14 %>joblog_timetotaler.asp"><%=tsa_txt_458 %></a></li>
                          <li><a href="<%=toSubVerPath14 %>joblog.asp"><%=tsa_txt_118 %></a></li>
                  
                          <%if level = 1 then %>
