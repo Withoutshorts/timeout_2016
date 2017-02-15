@@ -200,10 +200,6 @@ Public Class oz_importjob2
         'Try
 
 
-        If lto = "dencker" Then
-            lto = "dencker_test"
-        End If
-
 
 
         strConn = "Driver={MySQL ODBC 3.51 Driver};Server=194.150.108.154;Database=timeout_" & lto & ";User=to_outzource2;Password=SKba200473;"
