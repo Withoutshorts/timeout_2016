@@ -58,7 +58,7 @@ a = 0
 					Response.write strSQL(b) & "<br>"
 					Response.flush
 					x = 1
-					numberoflicens = 166
+					numberoflicens = 167
 					For x = 1 To numberoflicens  
 						
 						call aktivedb(x)

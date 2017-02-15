@@ -19,6 +19,8 @@
 	</td></tr></table>
 
     <form id="form1" runat="server">
+        <asp:HiddenField id="importtype" value="2" runat=Server />
+
 
           <label ID="lbl_importtype" runat="server">..</label>
         
@@ -99,27 +101,11 @@
 
 
 
-        <tr>
-        <td>
-        Antal:
-        </td>
-        <td>
-            <asp:DropDownList ID="ddlAntal" runat="server" AutoPostBack="True" 
-                onselectedindexchanged="ddlAntal_SelectedIndexChanged" 
-                ondatabound="ddlAntal_DataBound" AppendDataBoundItems="True">
-                 <asp:ListItem Text="" Value=""></asp:ListItem>
-            </asp:DropDownList>
-            <asp:RequiredFieldValidator ID="RequiredFieldValidator3" runat="server" 
-                ErrorMessage="*" ControlToValidate="ddlAntal" ValidationGroup="Send" ForeColor="Red"></asp:RequiredFieldValidator>
-        </td>
-         <td>
-            <asp:Label ID="lblAntal" runat="server" Text=""></asp:Label>
-        </td>
-        </tr>
+       
         
         <tr>
         <td>
-        Startdato:
+        Job startdato:
         </td>
         <td>
             <asp:DropDownList ID="ddlstDato" runat="server" AutoPostBack="True" 
@@ -137,7 +123,7 @@
 
          <tr>
         <td>
-        Slutdato:
+        Job slutdato:
         </td>
         <td>
             <asp:DropDownList ID="ddlslDato" runat="server" AutoPostBack="True" 
@@ -155,29 +141,135 @@
 
 
 
+      <tr>
+        <td>
+        Sortering:
+        </td>
+        <td>
+        <asp:DropDownList ID="ddlSort" runat="server" AutoPostBack="True" 
+                onselectedindexchanged="ddlSort_SelectedIndexChanged" 
+                ondatabound="ddlSort_DataBound" AppendDataBoundItems="True">
+                 <asp:ListItem Text="" Value=""></asp:ListItem>
+            </asp:DropDownList>
+            <asp:RequiredFieldValidator ID="RequiredFieldValidator9" runat="server" 
+                ErrorMessage="*" ControlToValidate="ddlSort" ValidationGroup="Send" ForeColor="Red"></asp:RequiredFieldValidator>
+        </td>
+        <td>
+        <asp:Label ID="lblSort" runat="server" Text=""></asp:Label>
+        </td>
+        </tr>
+
+        <tr>
+        <td>
+        Forretningsområde:
+        </td>
+        <td>
+        <asp:DropDownList ID="ddlFomr" runat="server" AutoPostBack="True" 
+                onselectedindexchanged="ddlFomr_SelectedIndexChanged" 
+                ondatabound="ddlFomr_DataBound" AppendDataBoundItems="True">
+                 <asp:ListItem Text="" Value=""></asp:ListItem>
+            </asp:DropDownList>
+            <asp:RequiredFieldValidator ID="RequiredFieldValidator10" runat="server" 
+                ErrorMessage="*" ControlToValidate="ddlFomr" ValidationGroup="Send" ForeColor="Red"></asp:RequiredFieldValidator>
+        </td>
+        <td>
+        <asp:Label ID="lblFomr" runat="server" Text=""></asp:Label>
+        </td>
+        </tr>
+
+         <tr>
+        <td>
+        Aktivitetsnavn:
+        </td>
+        <td>
+        <asp:DropDownList ID="ddlAktnavn" runat="server" AutoPostBack="True" 
+                onselectedindexchanged="ddlAktnavn_SelectedIndexChanged" 
+                ondatabound="ddlAktnavn_DataBound" AppendDataBoundItems="True">
+                 <asp:ListItem Text="" Value=""></asp:ListItem>
+            </asp:DropDownList>
+            <asp:RequiredFieldValidator ID="RequiredFieldValidator11" runat="server" 
+                ErrorMessage="*" ControlToValidate="ddlAktnavn" ValidationGroup="Send" ForeColor="Red"></asp:RequiredFieldValidator>
+        </td>
+        <td>
+        <asp:Label ID="lblAktnavn" runat="server" Text=""></asp:Label>
+        </td>
+        </tr>
+
+         <tr>
+        <td>
+        Stk. antal:
+        </td>
+        <td>
+            <asp:DropDownList ID="ddlAntal" runat="server" AutoPostBack="True" 
+                onselectedindexchanged="ddlAntal_SelectedIndexChanged" 
+                ondatabound="ddlAntal_DataBound" AppendDataBoundItems="True">
+                 <asp:ListItem Text="" Value=""></asp:ListItem>
+            </asp:DropDownList>
+            <asp:RequiredFieldValidator ID="RequiredFieldValidator3" runat="server" 
+                ErrorMessage="*" ControlToValidate="ddlAntal" ValidationGroup="Send" ForeColor="Red"></asp:RequiredFieldValidator>
+        </td>
+         <td>
+            <asp:Label ID="lblAntal" runat="server" Text=""></asp:Label>
+        </td>
+        </tr>
+
+
+         <tr>
+        <td>
+        Akt. startdato:
+        </td>
+        <td>
+        <asp:DropDownList ID="ddlAktstdato" runat="server" AutoPostBack="True" 
+                onselectedindexchanged="ddlAktstdato_SelectedIndexChanged" 
+                ondatabound="ddlAktstdato_DataBound" AppendDataBoundItems="True">
+                 <asp:ListItem Text="" Value=""></asp:ListItem>
+            </asp:DropDownList>
+            <asp:RequiredFieldValidator ID="RequiredFieldValidator12" runat="server" 
+                ErrorMessage="*" ControlToValidate="ddlAktstdato" ValidationGroup="Send" ForeColor="Red"></asp:RequiredFieldValidator>
+        </td>
+        <td>
+        <asp:Label ID="lblAktstdato" runat="server" Text=""></asp:Label>
+        </td>
+        </tr>
+
+           <tr>
+        <td>
+        Akt. slutdato:
+        </td>
+        <td>
+        <asp:DropDownList ID="ddlAktsldato" runat="server" AutoPostBack="True" 
+                onselectedindexchanged="ddlAktsldato_SelectedIndexChanged" 
+                ondatabound="ddlAktsldato_DataBound" AppendDataBoundItems="True">
+                 <asp:ListItem Text="" Value=""></asp:ListItem>
+            </asp:DropDownList>
+            <asp:RequiredFieldValidator ID="RequiredFieldValidator13" runat="server" 
+                ErrorMessage="*" ControlToValidate="ddlAktsldato" ValidationGroup="Send" ForeColor="Red"></asp:RequiredFieldValidator>
+        </td>
+        <td>
+        <asp:Label ID="lblAktsldato" runat="server" Text=""></asp:Label>
+        </td>
+        </tr>
+
+            <tr>
+        <td>
+        Aktivitet varenr: (Rap. nr.)
+        </td>
+        <td>
+        <asp:DropDownList ID="ddlAktvarenr" runat="server" AutoPostBack="True" 
+                onselectedindexchanged="ddlAktvarenr_SelectedIndexChanged" 
+                ondatabound="ddlAktvarenr_DataBound" AppendDataBoundItems="True">
+                 <asp:ListItem Text="" Value=""></asp:ListItem>
+            </asp:DropDownList>
+            <asp:RequiredFieldValidator ID="RequiredFieldValidator14" runat="server" 
+                ErrorMessage="*" ControlToValidate="ddlAktvarenr" ValidationGroup="Send" ForeColor="Red"></asp:RequiredFieldValidator>
+        </td>
+        <td>
+        <asp:Label ID="lblAktvarenr" runat="server" Text=""></asp:Label>
+        </td>
+        </tr>
 
 
          
-        <tr>
-        <td>
-        Faktureringsnavn:
-        </td>
-        <td>
-        <asp:DropDownList ID="ddlTimerKom" runat="server" AutoPostBack="True" 
-                onselectedindexchanged="ddlTimerKom_SelectedIndexChanged" 
-                ondatabound="ddlTimerKom_DataBound" AppendDataBoundItems="True">
-                 <asp:ListItem Text="" Value=""></asp:ListItem>
-            </asp:DropDownList>
-            <asp:RequiredFieldValidator ID="RequiredFieldValidator6" runat="server" 
-                ErrorMessage="*" ControlToValidate="ddlTimerKom" ValidationGroup="Send" ForeColor="Red"></asp:RequiredFieldValidator>
-        </td>
-        <td>
-        <asp:Label ID="lblTimerKom" runat="server" Text=""></asp:Label>
-        </td>
-        </tr>
-            
-      
-
 
         </table>
         </div>

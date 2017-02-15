@@ -67,6 +67,8 @@ function aktivedb(x)
         strConnect_aktiveDB = "timeout_eniga64"
         case 166
         strConnect_aktiveDB = "timeout_tbg64"
+        case 167
+        strConnect_aktiveDB = "timeout_gd64"
            
 
 

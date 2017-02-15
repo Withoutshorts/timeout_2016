@@ -18,6 +18,9 @@ using System.Threading;
 /// </summary>
 public class ozUploadFileJob
 {
+
+    // Standard job opret 
+    // Wilke, Øko
     public string id = string.Empty;
     public string dato = string.Empty;
     public string editor = string.Empty;
@@ -33,6 +36,15 @@ public class ozUploadFileJob
     public string lto = string.Empty;
     public string timerkom = string.Empty;
     public string jq_str = string.Empty;
+
+    //Monitor
+    public string kundenavn = string.Empty;
+    public string stkantal = string.Empty;
+    public string aktstdato = string.Empty;
+    public string aktsldato = string.Empty;
+    public string sort = string.Empty;
+    public string fomr = string.Empty;
+    public string aktvarenr = string.Empty;
 
     const int ORIGIN = 10;
     //const int WIN_1252_CP = 1252; // Windows ANSI codepage 1252
@@ -103,6 +115,9 @@ public class ozUploadFileJob
 
         if (ltoIn == "outz" || ltoIn == "intranet - local")
             ltoIn = "intranet";
+
+        if (ltoIn == "dencker")
+            ltoIn = "dencker_test";
 
         //changed back to this query instead of the one below on purpose 01-17-2014 by Lei
         string strSelect = "SELECT init FROM medarbejdere where mid = "+midIn; 
@@ -213,6 +228,9 @@ public class ozUploadFileJob
         if (folder == "outz" || folder == "intranet - local")
             folder = "intranet";
 
+        if (folder == "dencker")
+            folder = "dencker_test";
+
         string conn = "driver={MySQL ODBC 3.51 Driver};server=194.150.108.154; Port=3306; uid=outzource; pwd=SKba200473; database=timeout_" + folder + ";";
 
         using (OdbcConnection connection = new OdbcConnection(conn))
@@ -256,6 +274,9 @@ public class ozUploadFileJob
         if (folder == "outz" || folder == "intranet - local")
             folder = "intranet";
 
+        if (folder == "dencker")
+            folder = "dencker_test";
+
         string conn = "driver={MySQL ODBC 3.51 Driver};server=194.150.108.154; Port=3306; uid=to_outzource2; pwd=SKba200473; database=timeout_" + folder + ";";
 
         using (OdbcConnection connection = new OdbcConnection(conn))
@@ -265,17 +286,56 @@ public class ozUploadFileJob
 
                 stdato = ConvertDate(data.stdato);
                 sldato = ConvertDate(data.sldato);
+
+
+                //string importtype = data.importtype;
+                //Dencker Monitor
+                if (folder == "dencker_test")
+                {
+
+                    aktstdato = ConvertDate(data.aktstdato);
+                    aktsldato = ConvertDate(data.aktsldato);
+
+                    //string strInsert = "INSERT INTO job_import_temp (dato, origin, jobnr, jobnavn, jobans, jobstartdato, jobslutdato, aktnavn, lto, editor, overfort, " +
+                    //" kundenavn, stkantal, aktstdato, aktsldato, sort, fomr, aktvarenr)" +
+                    //" VALUES('" + DateTime.Now.ToString("yyyy-MM-dd") + "',600,'" + data.jobid + "','" + data.jobnavn.Replace("'", "") + "','" + data.jobans + "'," +
+                    //"'" + stdato + "','" + sldato + "','" + data.aktnavn + "','" + folder + "','Timeout - ImportJobService',0 " +
+                    //"'" + data.kundenavn.Replace("'", "") + "', " + data.stkantal + ",'"+ data.aktstdato + "', '" + data.aktsldato + "'," + data.sort + ",'"+ data.fomr +"','"+ data.aktvarenr +"'" +
+                    //")";
+
+                    string strInsert = "INSERT INTO job_import_temp (dato, origin, jobnr, jobnavn, jobans, jobstartdato, jobslutdato, beskrivelse, lto, editor, overfort, kundenavn, aktstdato, aktsldato, stkantal, aktnavn, sort, fomr, aktvarenr) " +
+                    " VALUES ('" + DateTime.Now.ToString("yyyy-MM-dd") + "',600,'" + data.jobid + "','" + data.jobnavn.Replace("'", "") + "','" + data.jobans + "','" + stdato + "',"+
+                    "'" + sldato + "','" + data.timerkom.Replace("'", "") + "','" + folder + "','Timeout - ImportJobService',0,'" + data.kundenavn + "','" + aktstdato + "','" + aktsldato + "', " + data.stkantal + ", '" + data.aktnavn.Replace("'", "") + "'," + data.sort + ",'" + data.fomr + "','" + data.aktvarenr + "')";
+
+
+                    OdbcCommand command = new OdbcCommand(strInsert, connection);
+
+                    connection.Open();
+
+                    // Execute the DataReader and access the data.
+                    intRow = command.ExecuteNonQuery();
+
+                    connection.Close();
+
+                }
+                //Standard Wilke, ØKO
+                else {
+
+                    //string strInsert = "INSERT INTO timer_import_temp (dato, origin, medarbejderid, jobid, aktnavn, timer, tdato, timerkom, lto, editor,overfort)VALUES('" + DateTime.Now.ToString("yyyy-MM-dd") + "',+"+ORIGIN+",'" + data.medarbejderid + "'," + data.jobid + ",'" + data.aktnavn + "'," + data.timer.Replace(',', '.') + ",'" + data.stdato + "','" + data.timerkom + "','" + folder + "','" + editorIn + "',0)";
+                    string strInsert = "INSERT INTO job_import_temp (dato, origin, jobnr, jobnavn, jobans, jobstartdato, jobslutdato, beskrivelse, lto, editor, overfort)VALUES('" + DateTime.Now.ToString("yyyy-MM-dd") + "',600,'" + data.jobid + "','" + data.jobnavn.Replace("'", "") + "','" + data.jobans + "','" + stdato + "','" + sldato + "','" + data.timerkom.Replace("'", "") + "','" + folder + "','Timeout - ImportJobService',0)";
+                    OdbcCommand command = new OdbcCommand(strInsert, connection);
+
+                    connection.Open();
+
+                    // Execute the DataReader and access the data.
+                    intRow = command.ExecuteNonQuery();
+
+                    connection.Close();
+                }
+
+                
+
                
-                //string strInsert = "INSERT INTO timer_import_temp (dato, origin, medarbejderid, jobid, aktnavn, timer, tdato, timerkom, lto, editor,overfort)VALUES('" + DateTime.Now.ToString("yyyy-MM-dd") + "',+"+ORIGIN+",'" + data.medarbejderid + "'," + data.jobid + ",'" + data.aktnavn + "'," + data.timer.Replace(',', '.') + ",'" + data.tdato + "','" + data.timerkom + "','" + folder + "','" + editorIn + "',0)";
-                string strInsert = "INSERT INTO job_import_temp (dato, origin, jobnr, jobnavn, jobans, jobstartdato, jobslutdato, beskrivelse, lto, editor, overfort)VALUES('" + DateTime.Now.ToString("yyyy-MM-dd") + "',600,'" + data.jobid + "','" + data.jobnavn.Replace("'", "") + "','" + data.jobans + "','" + stdato + "','" + sldato + "','" + data.timerkom.Replace("'", "") + "','" + folder + "','Timeout - ImportJobService',0)";
-                OdbcCommand command = new OdbcCommand(strInsert, connection);
-
-                connection.Open();
-
-                // Execute the DataReader and access the data.
-                intRow = command.ExecuteNonQuery();
-
-                connection.Close();
             }
         }
 
@@ -286,6 +346,9 @@ public class ozUploadFileJob
     {
         if (folderIn == "outz" || folderIn == "intranet - local")
             folderIn = "intranet";
+
+        if (folderIn == "dencker")
+            folderIn = "dencker_test";
 
         //Move file
         string path = pathIn + fileIn;
@@ -301,6 +364,9 @@ public class ozUploadFileJob
 
         if (folderIn == "outz" || folderIn == "intranet - local")
             folderIn = "intranet";
+
+        if (folderIn == "dencker")
+            folderIn = "dencker_test";
 
         string sqlIn = "UPDATE timer_import_temp SET Overfort=1 WHERE lto='" + folderIn + "' AND editor='" + editorIn + "'";
         using (OdbcConnection connection = new OdbcConnection("driver={MySQL ODBC 3.51 Driver};server=194.150.108.154; Port=3306; uid=outzource; pwd=SKba200473; database=timeout_" + folderIn + ";"))
@@ -319,6 +385,9 @@ public class ozUploadFileJob
     {
         if (ltoIn == "outz" || ltoIn == "intranet - local")
             ltoIn = "intranet";
+
+        if (ltoIn == "dencker")
+            ltoIn = "dencker_test";
 
         string strRet = string.Empty;
 
@@ -649,26 +718,71 @@ public class ozUploadFileJob
                
 
                 fileRet.jobnavn = datas[headers[0] - 1];
-                
-                //fileRet.medarbejderid = datas[headers[0]-1];
-                
                 fileRet.jobid = datas[headers[1]-1];
-                fileRet.jobans = datas[headers[2]-1]; //Jobans
+               
                 fileRet.stdato = datas[headers[3]-1];
                 fileRet.sldato = datas[headers[4]-1];
-                fileRet.timerkom = datas[headers[5]-1]; //Faktureringstype
-                
+
+                if (folderIn != "dencker")
+                {
+                    fileRet.timerkom = datas[headers[5] - 1]; //Faktureringstype
+                    fileRet.jobans = datas[headers[2] - 1]; //Jobans
+
+                    if (fileRet.timerkom == string.Empty)
+                        fileRet.timerkom = "";
+                }
 
                 if (fileRet.jobid == string.Empty)
                     fileRet.jobid = "0";
-                //if (fileRet.medarbejderid == string.Empty)
-                //    fileRet.medarbejderid = "0";
                 if (fileRet.timer == string.Empty)
                     fileRet.timer = "0";
                 if (fileRet.stdato == string.Empty)
                     fileRet.stdato = "01-01-2001";
                 if (fileRet.sldato == string.Empty)
                     fileRet.sldato = "01-01-2001";
+             
+
+              
+
+                if (folderIn == "dencker") { 
+                //Monitor Dencker
+                
+                fileRet.stkantal = datas[headers[5] - 1];
+                fileRet.aktstdato = datas[headers[8] - 1];
+                fileRet.aktsldato = datas[headers[9] - 1];
+                fileRet.sort = datas[headers[6] - 1];
+                fileRet.fomr = datas[headers[7] - 1];
+                fileRet.aktnavn = datas[headers[10] - 1];
+                fileRet.aktvarenr = datas[headers[11] - 1];
+                    fileRet.kundenavn = datas[headers[2] - 1];
+
+                   
+                    if (fileRet.stkantal == string.Empty)
+                        fileRet.stkantal = "0";
+                    if (fileRet.aktstdato == string.Empty)
+                        fileRet.aktstdato = "01-01-2001";
+                    if (fileRet.aktsldato == string.Empty)
+                        fileRet.aktsldato = "01-01-2001";
+
+                    if (fileRet.sort == string.Empty)
+                        fileRet.sort = "0";
+                    if (fileRet.fomr == string.Empty)
+                        fileRet.fomr = "0";
+                    if (fileRet.aktnavn == string.Empty)
+                        fileRet.aktnavn = "-";
+                    if (fileRet.aktvarenr == string.Empty)
+                        fileRet.aktvarenr = "0";
+                    if (fileRet.kundenavn == string.Empty)
+                        fileRet.kundenavn = "-";
+
+                }
+
+
+
+               
+
+
+
 
                 bool isLevelEnough = CheckUserLevel(folderIn, midIn);
 

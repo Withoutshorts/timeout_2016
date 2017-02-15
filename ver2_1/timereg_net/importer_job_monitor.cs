@@ -54,8 +54,15 @@ public partial class importer_job_monitor : System.Web.UI.Page
 
                 string strRet = string.Empty;
 
+                string lto = Request["lto"];
 
 
+                if (lto == "dencker") 
+                {
+
+                    lto = "dencker_test";
+                }
+                
                 //changed back to this query instead of the one below on purpose 01-17-2014 by Lei
                 string strSelect = "SELECT init FROM medarbejdere where mid = " + Request["mid"];
 
@@ -64,7 +71,8 @@ public partial class importer_job_monitor : System.Web.UI.Page
                 try
                 {
 
-                    string strConn = "driver={MySQL ODBC 3.51 Driver};server=194.150.108.154; Port=3306; uid=to_outzource2; pwd=SKba200473; database=timeout_" + Request["lto"] + "";
+
+                    string strConn = "driver={MySQL ODBC 3.51 Driver};server=194.150.108.154; Port=3306; uid=to_outzource2; pwd=SKba200473; database=timeout_" + lto + "";
                     using (OdbcConnection connection = new OdbcConnection(strConn))
                     {
                         OdbcCommand command = new OdbcCommand(strSelect, connection);
@@ -283,7 +291,12 @@ public partial class importer_job_monitor : System.Web.UI.Page
                 SelectDDL(ddlAntal, "rap. ant.", header, lblAntal, "antal");
                 SelectDDL(ddlstDato, "startperiode", header, lblstDato, "stdato");
                 SelectDDL(ddlslDato, "afsluttet vare", header, lblslDato, "sldato");
-                SelectDDL(ddlTimerKom, "faktureringsnavn", header, lblTimerKom, "timerKom");
+                SelectDDL(ddlSort, "op.", header, lblSort, "sort");
+                SelectDDL(ddlFomr, "prod.grp.", header, lblFomr, "fomr");
+                SelectDDL(ddlAktnavn, "op. beskrivelse", header, lblAktnavn, "aktnavn");
+                SelectDDL(ddlAktstdato, "start", header, lblAktstdato, "aktstdato");
+                SelectDDL(ddlAktsldato, "afsluttet", header, lblAktsldato, "aktsldato");
+                SelectDDL(ddlAktvarenr, "rapp.nr.", header, lblAktvarenr, "aktvarenr");
             }
         }
         catch (Exception ex)
@@ -294,27 +307,38 @@ public partial class importer_job_monitor : System.Web.UI.Page
    
     private string[] GetExcelHeaderList()
     {
-        string[] strRets = { "", "", "", "", "", "", "", "", "", "" }; //,"","","",""
+        string[] strRets = { "", "", "", "", "", "", "", "", "", "", "", "" }; //,"","","",""
 
         try
         {
             Application.Lock();
-            if (Application["kundenavn"] != null)
-                strRets[0] = Application["kundenavn"].ToString();
+           
             if (Application["jobnavn"] != null)
                 strRets[0] = Application["jobnavn"].ToString();
             if (Application["jobid"] != null)
                 strRets[1] = Application["jobid"].ToString();
-            if (Application["antal"] != null)
-                strRets[2] = Application["antal"].ToString();
+            if (Application["kundenavn"] != null)
+                strRets[2] = Application["kundenavn"].ToString();
             if (Application["stdato"] != null)
-                strRets[3] = Application["stdato"].ToString();
+                strRets[3] = Application["aktstdato"].ToString();
             if (Application["sldato"] != null)
                 strRets[4] = Application["sldato"].ToString();
-            if (Application["timerKom"] != null)
-                strRets[5] = Application["timerKom"].ToString();
-              
-             
+            if (Application["antal"] != null)
+                strRets[5] = Application["antal"].ToString();
+            if (Application["sort"] != null)
+                strRets[6] = Application["sort"].ToString();
+            if (Application["fomr"] != null)
+                strRets[7] = Application["fomr"].ToString();
+           
+            if (Application["aktstdato"] != null)
+                strRets[8] = Application["aktstdato"].ToString();
+            if (Application["aktsldato"] != null)
+                strRets[9] = Application["aktsldato"].ToString();
+            if (Application["aktnavn"] != null)
+                strRets[10] = Application["aktnavn"].ToString();
+            if (Application["aktvarenr"] != null)
+                strRets[11] = Application["aktvarenr"].ToString();
+
             Application.UnLock();
         }
         catch (Exception ex)
@@ -327,26 +351,40 @@ public partial class importer_job_monitor : System.Web.UI.Page
 
     private int[] GetExcelIntHeaderList()
     {
-        int[] intRets = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }; //, 0, 0, 0, 0
+        int[] intRets = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }; //, 0, 0, 0, 0
 
         try
         {
 
-            if (ddlKundenavn.SelectedIndex != -1)
-                intRets[0] = ddlKundenavn.SelectedIndex;
+            
             if (ddlJobnavn.SelectedIndex != -1)
                 intRets[0] = ddlJobnavn.SelectedIndex;
             if (ddlJobId.SelectedIndex != -1)
                 intRets[1] = ddlJobId.SelectedIndex;
-            if (ddlAntal.SelectedIndex != -1)
-                intRets[2] = ddlAntal.SelectedIndex;
+            if (ddlKundenavn.SelectedIndex != -1)
+                intRets[2] = ddlKundenavn.SelectedIndex;
             if (ddlstDato.SelectedIndex != -1)
                 intRets[3] = ddlstDato.SelectedIndex;
             if (ddlslDato.SelectedIndex != -1)
                 intRets[4] = ddlslDato.SelectedIndex;
-            if (ddlTimerKom.SelectedIndex != -1)
-                intRets[5] = ddlTimerKom.SelectedIndex;
+
+            if (ddlAntal.SelectedIndex != -1)
+                intRets[5] = ddlAntal.SelectedIndex;
+            if (ddlSort.SelectedIndex != -1)
+                intRets[6] = ddlSort.SelectedIndex;
+            if (ddlFomr.SelectedIndex != -1)
+                intRets[7] = ddlFomr.SelectedIndex;
+            if (ddlAktstdato.SelectedIndex != -1)
+                intRets[8] = ddlAktstdato.SelectedIndex;
+            if (ddlAktsldato.SelectedIndex != -1)
+                intRets[9] = ddlAktsldato.SelectedIndex;
+            if (ddlAktnavn.SelectedIndex != -1)
+                intRets[10] = ddlAktnavn.SelectedIndex;
+            if (ddlAktvarenr.SelectedIndex != -1)
+                intRets[11] = ddlAktvarenr.SelectedIndex;
             
+
+
         }
         catch (Exception ex)
         {
@@ -392,14 +430,47 @@ public partial class importer_job_monitor : System.Web.UI.Page
     }
 
 
-    protected void ddlTimerKom_SelectedIndexChanged(object sender, EventArgs e)
+    protected void ddlSort_SelectedIndexChanged(object sender, EventArgs e)
     {
-        lblTimerKom.Text = "fundet kolonne: " + ddlTimerKom.SelectedValue;
-        Application["timerKom"] = ddlTimerKom.SelectedValue;
+        lblSort.Text = "fundet kolonne: " + ddlSort.SelectedValue;
+        Application["sort"] = ddlSort.SelectedValue;
     }
 
+    protected void ddlFomr_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        lblFomr.Text = "fundet kolonne: " + ddlFomr.SelectedValue;
+        Application["fomr"] = ddlFomr.SelectedValue;
+    }
 
+    protected void ddlAktnavn_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        lblAktnavn.Text = "fundet kolonne: " + ddlAktnavn.SelectedValue;
+        Application["aktnavn"] = ddlAktnavn.SelectedValue;
+    }
 
+    protected void ddlAktstdato_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        lblAktstdato.Text = "fundet kolonne: " + ddlAktstdato.SelectedValue;
+        Application["aktstdato"] = ddlAktstdato.SelectedValue;
+    }
+
+    protected void ddlAktsldato_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        lblAktsldato.Text = "fundet kolonne: " + ddlAktsldato.SelectedValue;
+        Application["aktsldato"] = ddlAktsldato.SelectedValue;
+    }
+
+    protected void ddlAktvarenr_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        lblAktvarenr.Text = "fundet kolonne: " + ddlAktvarenr.SelectedValue;
+        Application["aktvarenr"] = ddlAktvarenr.SelectedValue;
+    }
+
+    /// <summary>
+    /// /////////////////////////////////////////////////////////////////////////////
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
 
     protected void ddlKundenavn_DataBound(object sender, EventArgs e)
     {
@@ -437,10 +508,43 @@ public partial class importer_job_monitor : System.Web.UI.Page
         Application["slDato"] = ddlslDato.SelectedValue;
     }
     
-    protected void ddlTimerKom_DataBound(object sender, EventArgs e)
+    protected void ddlSort_DataBound(object sender, EventArgs e)
     {
-        lblTimerKom.Text = "fundet kolonne: " + ddlTimerKom.SelectedValue;
-        Application["timerKom"] = ddlTimerKom.SelectedValue;
+        lblSort.Text = "fundet kolonne: " + ddlSort.SelectedValue;
+        Application["sort"] = ddlSort.SelectedValue;
     }
+
+    protected void ddlFomr_DataBound(object sender, EventArgs e)
+    {
+        lblFomr.Text = "fundet kolonne: " + ddlFomr.SelectedValue;
+        Application["fomr"] = ddlFomr.SelectedValue;
+    }
+
+    protected void ddlAktnavn_DataBound(object sender, EventArgs e)
+    {
+        lblAktnavn.Text = "fundet kolonne: " + ddlAktnavn.SelectedValue;
+        Application["aktnavn"] = ddlAktnavn.SelectedValue;
+    }
+
+
+    protected void ddlAktstdato_DataBound(object sender, EventArgs e)
+    {
+        lblAktstdato.Text = "fundet kolonne: " + ddlAktstdato.SelectedValue;
+        Application["aktstdato"] = ddlAktstdato.SelectedValue;
+    }
+
+    protected void ddlAktsldato_DataBound(object sender, EventArgs e)
+    {
+        lblAktsldato.Text = "fundet kolonne: " + ddlAktsldato.SelectedValue;
+        Application["aktsldato"] = ddlAktsldato.SelectedValue;
+    }
+
+    protected void ddlAktvarenr_DataBound(object sender, EventArgs e)
+    {
+        lblAktvarenr.Text = "fundet kolonne: " + ddlAktvarenr.SelectedValue;
+        Application["aktvarenr"] = ddlAktvarenr.SelectedValue;
+    }
+
     
+
 }
