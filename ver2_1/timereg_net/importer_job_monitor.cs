@@ -286,7 +286,7 @@ public partial class importer_job_monitor : System.Web.UI.Page
             else
             {
                 SelectDDL(ddlKundenavn, "kundeinfo", header, lblKundenavn, "kundenavn");
-                SelectDDL(ddlJobnavn, "navn", header, lblJobnavn, "jobnavn");
+                SelectDDL(ddlJobnavn, "jobnavn", header, lblJobnavn, "jobnavn");
                 SelectDDL(ddlJobId, "ordrenr.", header, lblJobId, "jobid");
                 SelectDDL(ddlAntal, "rap. ant.", header, lblAntal, "antal");
                 SelectDDL(ddlstDato, "startperiode", header, lblstDato, "stdato");
