@@ -19,6 +19,8 @@
 	</td></tr></table>
 
     <form id="form1" runat="server">
+        <asp:HiddenField id="importtype" value="2" runat=Server />
+
 
           <label ID="lbl_importtype" runat="server">..</label>
         
@@ -99,23 +101,7 @@
 
 
 
-        <tr>
-        <td>
-        Antal:
-        </td>
-        <td>
-            <asp:DropDownList ID="ddlAntal" runat="server" AutoPostBack="True" 
-                onselectedindexchanged="ddlAntal_SelectedIndexChanged" 
-                ondatabound="ddlAntal_DataBound" AppendDataBoundItems="True">
-                 <asp:ListItem Text="" Value=""></asp:ListItem>
-            </asp:DropDownList>
-            <asp:RequiredFieldValidator ID="RequiredFieldValidator3" runat="server" 
-                ErrorMessage="*" ControlToValidate="ddlAntal" ValidationGroup="Send" ForeColor="Red"></asp:RequiredFieldValidator>
-        </td>
-         <td>
-            <asp:Label ID="lblAntal" runat="server" Text=""></asp:Label>
-        </td>
-        </tr>
+       
         
         <tr>
         <td>
@@ -211,6 +197,25 @@
 
          <tr>
         <td>
+        Stk. antal:
+        </td>
+        <td>
+            <asp:DropDownList ID="ddlAntal" runat="server" AutoPostBack="True" 
+                onselectedindexchanged="ddlAntal_SelectedIndexChanged" 
+                ondatabound="ddlAntal_DataBound" AppendDataBoundItems="True">
+                 <asp:ListItem Text="" Value=""></asp:ListItem>
+            </asp:DropDownList>
+            <asp:RequiredFieldValidator ID="RequiredFieldValidator3" runat="server" 
+                ErrorMessage="*" ControlToValidate="ddlAntal" ValidationGroup="Send" ForeColor="Red"></asp:RequiredFieldValidator>
+        </td>
+         <td>
+            <asp:Label ID="lblAntal" runat="server" Text=""></asp:Label>
+        </td>
+        </tr>
+
+
+         <tr>
+        <td>
         Akt. startdato:
         </td>
         <td>
@@ -262,6 +267,7 @@
         <asp:Label ID="lblAktvarenr" runat="server" Text=""></asp:Label>
         </td>
         </tr>
+
 
          
 

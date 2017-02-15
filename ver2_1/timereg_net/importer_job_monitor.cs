@@ -57,7 +57,7 @@ public partial class importer_job_monitor : System.Web.UI.Page
                 string lto = Request["lto"];
 
 
-                if (lto == "intranet - local") 
+                if (lto == "dencker") 
                 {
 
                     lto = "dencker_test";
@@ -307,33 +307,35 @@ public partial class importer_job_monitor : System.Web.UI.Page
    
     private string[] GetExcelHeaderList()
     {
-        string[] strRets = { "", "", "", "", "", "", "", "", "", "", "", "", "" }; //,"","","",""
+        string[] strRets = { "", "", "", "", "", "", "", "", "", "", "", "" }; //,"","","",""
 
         try
         {
             Application.Lock();
-            if (Application["kundenavn"] != null)
-                strRets[0] = Application["kundenavn"].ToString();
+           
             if (Application["jobnavn"] != null)
-                strRets[1] = Application["jobnavn"].ToString();
+                strRets[0] = Application["jobnavn"].ToString();
             if (Application["jobid"] != null)
-                strRets[2] = Application["jobid"].ToString();
-            if (Application["antal"] != null)
-                strRets[3] = Application["antal"].ToString();
+                strRets[1] = Application["jobid"].ToString();
+            if (Application["kundenavn"] != null)
+                strRets[2] = Application["kundenavn"].ToString();
             if (Application["stdato"] != null)
-                strRets[4] = Application["stdato"].ToString();
+                strRets[3] = Application["aktstdato"].ToString();
             if (Application["sldato"] != null)
-                strRets[5] = Application["sldato"].ToString();
+                strRets[4] = Application["sldato"].ToString();
+            if (Application["antal"] != null)
+                strRets[5] = Application["antal"].ToString();
             if (Application["sort"] != null)
                 strRets[6] = Application["sort"].ToString();
             if (Application["fomr"] != null)
                 strRets[7] = Application["fomr"].ToString();
-            if (Application["aktnavn"] != null)
-                strRets[8] = Application["aktnavn"].ToString();
+           
             if (Application["aktstdato"] != null)
-                strRets[9] = Application["aktstdato"].ToString();
+                strRets[8] = Application["aktstdato"].ToString();
             if (Application["aktsldato"] != null)
-                strRets[10] = Application["aktsldato"].ToString();
+                strRets[9] = Application["aktsldato"].ToString();
+            if (Application["aktnavn"] != null)
+                strRets[10] = Application["aktnavn"].ToString();
             if (Application["aktvarenr"] != null)
                 strRets[11] = Application["aktvarenr"].ToString();
 
@@ -349,35 +351,39 @@ public partial class importer_job_monitor : System.Web.UI.Page
 
     private int[] GetExcelIntHeaderList()
     {
-        int[] intRets = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }; //, 0, 0, 0, 0
+        int[] intRets = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }; //, 0, 0, 0, 0
 
         try
         {
 
-            if (ddlKundenavn.SelectedIndex != -1)
-                intRets[0] = ddlKundenavn.SelectedIndex;
+            
             if (ddlJobnavn.SelectedIndex != -1)
-                intRets[1] = ddlJobnavn.SelectedIndex;
+                intRets[0] = ddlJobnavn.SelectedIndex;
             if (ddlJobId.SelectedIndex != -1)
-                intRets[2] = ddlJobId.SelectedIndex;
-            if (ddlAntal.SelectedIndex != -1)
-                intRets[3] = ddlAntal.SelectedIndex;
+                intRets[1] = ddlJobId.SelectedIndex;
+            if (ddlKundenavn.SelectedIndex != -1)
+                intRets[2] = ddlKundenavn.SelectedIndex;
             if (ddlstDato.SelectedIndex != -1)
-                intRets[4] = ddlstDato.SelectedIndex;
+                intRets[3] = ddlstDato.SelectedIndex;
             if (ddlslDato.SelectedIndex != -1)
-                intRets[5] = ddlslDato.SelectedIndex;
+                intRets[4] = ddlslDato.SelectedIndex;
+
+            if (ddlAntal.SelectedIndex != -1)
+                intRets[5] = ddlAntal.SelectedIndex;
             if (ddlSort.SelectedIndex != -1)
                 intRets[6] = ddlSort.SelectedIndex;
-            if (ddlSort.SelectedIndex != -1)
-                intRets[7] = ddlSort.SelectedIndex;
-            if (ddlSort.SelectedIndex != -1)
-                intRets[8] = ddlSort.SelectedIndex;
-            if (ddlSort.SelectedIndex != -1)
-                intRets[9] = ddlSort.SelectedIndex;
-            if (ddlSort.SelectedIndex != -1)
-                intRets[10] = ddlSort.SelectedIndex;
-            if (ddlSort.SelectedIndex != -1)
-                intRets[11] = ddlSort.SelectedIndex;
+            if (ddlFomr.SelectedIndex != -1)
+                intRets[7] = ddlFomr.SelectedIndex;
+            if (ddlAktstdato.SelectedIndex != -1)
+                intRets[8] = ddlAktstdato.SelectedIndex;
+            if (ddlAktsldato.SelectedIndex != -1)
+                intRets[9] = ddlAktsldato.SelectedIndex;
+            if (ddlAktnavn.SelectedIndex != -1)
+                intRets[10] = ddlAktnavn.SelectedIndex;
+            if (ddlAktvarenr.SelectedIndex != -1)
+                intRets[11] = ddlAktvarenr.SelectedIndex;
+            
+
 
         }
         catch (Exception ex)
@@ -538,5 +544,7 @@ public partial class importer_job_monitor : System.Web.UI.Page
         lblAktvarenr.Text = "fundet kolonne: " + ddlAktvarenr.SelectedValue;
         Application["aktvarenr"] = ddlAktvarenr.SelectedValue;
     }
+
+    
 
 }
