@@ -1132,10 +1132,10 @@ end select
            <h3 class="menuh3"><%=tsa_txt_499 %></h3>
 
            
-            <li><a href="<%=toSubVerPath14 %>sdsk_prioitet.asp?menu=tok" target="_blank"><%=tsa_txt_500 %></a></li> 
-            <li><a href="<%=toSubVerPath14 %>sdsk_prio_typ.asp?menu=tok" target="_blank"><%=tsa_txt_501 %></a></li>
-            <li><a href="<%=toSubVerPath14 %>sdsk_prio_grp.asp?menu=tok" target="_blank"><%=tsa_txt_502 %></a></li>
-            <li><a href="<%=toSubVerPath14 %>sdsk_status.asp?menu=tok"><%=tsa_txt_503 %></a></li>
+            <li><a href="<%=toSubVerPath15 %>sdsk_prioitet.asp?menu=tok" target="_blank"><%=tsa_txt_500 %></a></li> 
+            <li><a href="<%=toSubVerPath15 %>sdsk_prio_typ.asp?menu=tok" target="_blank"><%=tsa_txt_501 %></a></li>
+            <li><a href="<%=toSubVerPath15 %>sdsk_prio_grp.asp?menu=tok" target="_blank"><%=tsa_txt_502 %></a></li>
+            <li><a href="<%=toSubVerPath15 %>sdsk_status.asp?menu=tok"><%=tsa_txt_503 %></a></li>
             
             <li><a href="<%=toSubVerPath14 %>sdsk_typer.asp?menu=tok" target="_blank"><%=tsa_txt_504 %></a>
             <%
