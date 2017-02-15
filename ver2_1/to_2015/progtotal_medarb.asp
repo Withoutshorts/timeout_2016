@@ -25,6 +25,18 @@
     usemrn = session("mid") 
     end if
 
+    if len(trim(request("aar"))) <> 0 then
+    aar = request("aar")
+    else
+    aar = "1-1-"& year(now)
+    end if
+
+    if len(trim(request("aarslut"))) <> 0 then
+    aarslut = request("aarslut")
+    else
+    aarslut = "1-1-"& year(now)
+    end if
+
 
     if len(trim(request("FM_job"))) <> 0 then
     jost0CHK = ""
@@ -67,7 +79,7 @@
 
   <div class="wrapper">
       <div class="content">
-
+          <script src="js/traveldietexp_jav.js" type="text/javascript"></script>
           <div class="container">
               <div class="portlet">
                   <h3 class="portlet-title"><u>Projekt Rapport</u></h3>
@@ -123,47 +135,41 @@
                             </div>
 
                             <%
-                                Strstartdate = "2015/01/01"
-                                Strslutdate = "2017/01/01"
                                 
-                                fromDate="2015-01-01"
-                                toDate="2016-01-01"
+                                'response.Write aar & " - " & aarslut 
 
-                                antalmaaned = (DateDiff("m",fromDate,toDate)) 
-                                response.Write antalmaaned
-                             
-                                Strheader = "<th>&nbsphej</th>"
-                                                                                               
+                                antalmaaned = (DateDiff("m",aar,aarslut))
+                                'response.Write(DateDiff("m",aar,aarslut))
+                                                                                                                   
                             %>
 
-                            <div class="col-lg-1">
-                                <select name="FM_start_mrd" class="form-control input-small" onchange="submit();">
-                                    <option value="<%=strDag%>"><%=strDag%></option>
-		                            <option value="1">jan</option>
-	   	                            <option value="2">feb</option>
-	   	                            <option value="3">mar</option>
-	   	                            <option value="4">apr</option>
-	   	                            <option value="5">maj</option>
-	   	                            <option value="6">jun</option>
-	   	                            <option value="7">jul</option>
-	   	                            <option value="8">aug</option>
-	   	                            <option value="9">sep</option>
-	   	                            <option value="10">okt</option>
-	   	                            <option value="11">nov</option>
-	   	                            <option value="12">dec</option>
-                                </select>
-                            </div>
-                            <div class="col-lg-1">
-                                <select name="FM_start_aar" class="form-control input-small" onchange="submit();">
-		                            <option value="<%=strAar%>"><%=strAar%></option>
-		                            <%for x = -10 to 10 
-		                            useY = datepart("yyyy", dateadd("yyyy", x, date()))%>
-		                            <option value="<%=useY%>"><%=right(useY, 2)%></option>
-		                            <%next %>
-		                        </select>
+                            <div class="col-lg-1">Fra:</div>
+                            <div class="col-lg-2">
+                                <div class='input-group date' id='datepicker_stdato'>
+                                <input type="text" class="form-control input-small" name="aar" value="<%=aar %>" placeholder="dd-mm-yyyy" />
+                                <span class="input-group-addon input-small">
+                                        <span class="fa fa-calendar">
+                                        </span>
+                                    </span>
+                                </div>
                             </div>
 
-                           
+                            <div class="col-lg-1">Til:</div>
+                            <div class="col-lg-2">
+                                <div class='input-group date' id='datepicker_stdato'>
+                                <input type="text" class="form-control input-small" name="aarslut" value="<%=aarslut %>" placeholder="dd-mm-yyyy" />
+                                <span class="input-group-addon input-small">
+                                        <span class="fa fa-calendar">
+                                        </span>
+                                    </span>
+                                </div>
+                            </div>  
+                        </div>
+                       
+                        <div class="row">
+                            <br />
+                            <div class="col-lg-10">&nbsp</div>
+                            <div class="col-lg-2"><button type="submit" class="btn btn-secondary btn-sm pull-right"><b>Søg >></b></button></div>
                         </div>                       
 
                         </form>
@@ -283,11 +289,10 @@
                                   </th>
 
                                   <%
-                                      antalmaaned = 12
 
                                       for i = 0 to antalmaaned  
 
-                                        %> <th style="text-align:center;">header</th> <%
+                                        %> <th style="text-align:center;">Måned</th> <%
 
                                       next
                                   %>
