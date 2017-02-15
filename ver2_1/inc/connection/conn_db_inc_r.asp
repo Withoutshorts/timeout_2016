@@ -779,6 +779,9 @@ if len(strLicenskey) <> 0 then
 	lto = "tbg"
 	strConnThis = "timeout_tbg64"
         
+    case "9K2017-0215-TO173" 'GD
+	lto = "gd"
+	strConnThis = "timeout_gd64"
     
     'ODBC 3.51 Driver
 	
