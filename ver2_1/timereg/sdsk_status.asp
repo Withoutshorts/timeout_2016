@@ -3,7 +3,7 @@
 <!--#include file="../inc/regular/global_func.asp"-->
 <!--#include file="../inc/regular/sdsk_func.asp"-->
 <%
-
+    'wd
 sub crmaktstatheader
 %>
 <table border=0 cellpadding=0 cellspacing=0 width="450">
