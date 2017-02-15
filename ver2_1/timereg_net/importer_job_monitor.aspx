@@ -105,7 +105,7 @@
         
         <tr>
         <td>
-        Startdato:
+        Job startdato:
         </td>
         <td>
             <asp:DropDownList ID="ddlstDato" runat="server" AutoPostBack="True" 
@@ -123,7 +123,7 @@
 
          <tr>
         <td>
-        Slutdato:
+        Job slutdato:
         </td>
         <td>
             <asp:DropDownList ID="ddlslDato" runat="server" AutoPostBack="True" 
