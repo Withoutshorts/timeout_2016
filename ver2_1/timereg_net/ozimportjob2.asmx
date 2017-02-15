@@ -194,6 +194,7 @@ Public Class oz_importjob2
         'Dim dt As DataTable
         'Dim dr As DataRow
 
+        Dim orderBySQL As String = ""
         Dim strConn As String
         Dim t As Double = 0
 
@@ -221,10 +222,16 @@ Public Class oz_importjob2
         objConn = New OdbcConnection(strConn)
         objConn.Open()
 
+        Select Case lto
+            Case "dencker", "dencker_test"
+                orderBySQL = " ORDER BY jobnr, sort"
+            Case Else
+                orderBySQL = " ORDER BY id"
+        End Select
 
 
         '*** HENTER JOB FRA JOB_IMPORT_TEMP '****
-        Dim strSQLjnj As String = "SELECT id, dato, editor, origin, jobnavn, jobnr, jobstartdato, jobslutdato, jobans, lto, beskrivelse FROM job_import_temp WHERE id > 0 AND overfort = 0 AND errid = 0"
+        Dim strSQLjnj As String = "SELECT id, dato, editor, origin, jobnavn, jobnr, jobstartdato, jobslutdato, jobans, lto, beskrivelse FROM job_import_temp WHERE id > 0 AND overfort = 0 AND errid = 0 " & orderBySQL
         objCmd = New OdbcCommand(strSQLjnj, objConn)
         objDR = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
 
@@ -523,53 +530,66 @@ Public Class oz_importjob2
                                     intValuta = valutaGen
 
 
-                                    '*** HENTER Aktiviteter **'
-                                    Dim strSQLAkt As String = "SELECT id AS aktid FROM aktiviteter WHERE job =" & jobID & " AND fakturerbar = 1"
-                                    objCmd2 = New OdbcCommand(strSQLAkt, objConn3)
-                                    objDR3 = objCmd2.ExecuteReader '(CommandBehavior.closeConnection)
-                                    While objDR3.Read() = True
+
+                                    '*** OPRETTER AKTIVITETER ***'
+                                    Select Case lto
+                                        Case "dencker", "dencker_test"
+                                            Dim agforvalgtStamgrpKri As String = ""
+                                            Call opretStamAkt(lto, lastID, agforvalgtStamgrpKri, objConn2, objConn, objCmd, objDR2, objDR3, objDR6, objDR4)
+
+                                        Case Else
+
+
+
+
+                                            '*** HENTER Aktiviteter **'
+                                            Dim strSQLAkt As String = "SELECT id AS aktid FROM aktiviteter WHERE job =" & jobID & " AND fakturerbar = 1"
+                                            objCmd2 = New OdbcCommand(strSQLAkt, objConn3)
+                                            objDR3 = objCmd2.ExecuteReader '(CommandBehavior.closeConnection)
+                                            While objDR3.Read() = True
 
 
 
 
 
 
-                                        '*** OPDATERER / INS Timepris **'
-                                        Dim strSQLtprisDEL As String = "SELECT id FROM timepriser WHERE jobid = " & jobID & " AND aktid = " & objDR3("aktid") & " AND medarbid = " & objDR2("mid")
+                                                '*** OPDATERER / INS Timepris **'
+                                                Dim strSQLtprisDEL As String = "SELECT id FROM timepriser WHERE jobid = " & jobID & " AND aktid = " & objDR3("aktid") & " AND medarbid = " & objDR2("mid")
 
-                                        tpFundet = 0
+                                                tpFundet = 0
 
-                                        objCmd2 = New OdbcCommand(strSQLtprisDEL, objConn3)
-                                        objDR6 = objCmd2.ExecuteReader '(CommandBehavior.closeConnection)
+                                                objCmd2 = New OdbcCommand(strSQLtprisDEL, objConn3)
+                                                objDR6 = objCmd2.ExecuteReader '(CommandBehavior.closeConnection)
 
-                                        If objDR6.Read() = True Then
+                                                If objDR6.Read() = True Then
 
-                                            tpFundet = 1
+                                                    tpFundet = 1
 
-                                        End If
-                                        objDR6.Close()
+                                                End If
+                                                objDR6.Close()
 
-                                        If CInt(tpFundet) = 0 Then
+                                                If CInt(tpFundet) = 0 Then
 
-                                            Dim strSQLtprisIns As String = "INSERT INTO timepriser (jobid, aktid, medarbid, timeprisalt, 6timepris, 6valuta) " _
-                                            & " VALUES (" & jobID & ", " & objDR3("aktid") & ", " & objDR2("mid") & ", " & timeprisalt & ", " & intTimepris & ", " & intValuta & ")"
-                                            objCmd2 = New OdbcCommand(strSQLtprisIns, objConn3)
-                                            objDR6 = objCmd2.ExecuteReader '(CommandBehavior.closeConnection)
-                                            objDR6.Close()
+                                                    Dim strSQLtprisIns As String = "INSERT INTO timepriser (jobid, aktid, medarbid, timeprisalt, 6timepris, 6valuta) " _
+                                                    & " VALUES (" & jobID & ", " & objDR3("aktid") & ", " & objDR2("mid") & ", " & timeprisalt & ", " & intTimepris & ", " & intValuta & ")"
+                                                    objCmd2 = New OdbcCommand(strSQLtprisIns, objConn3)
+                                                    objDR6 = objCmd2.ExecuteReader '(CommandBehavior.closeConnection)
+                                                    objDR6.Close()
 
-                                        Else
+                                                Else
 
-                                            Dim strSQLtprisUpd As String = "UPDATE timepriser SET timeprisalt = " & timeprisalt & ", 6timepris = " & intTimepris & ", 6valuta = " & intValuta & "" _
-                                            & " WHERE jobid = " & jobID & " AND aktid = " & objDR3("aktid") & " AND medarbid = " & objDR2("mid")
-                                            objCmd2 = New OdbcCommand(strSQLtprisUpd, objConn3)
-                                            objDR6 = objCmd2.ExecuteReader '(CommandBehavior.closeConnection)
-                                            objDR6.Close()
+                                                    Dim strSQLtprisUpd As String = "UPDATE timepriser SET timeprisalt = " & timeprisalt & ", 6timepris = " & intTimepris & ", 6valuta = " & intValuta & "" _
+                                                    & " WHERE jobid = " & jobID & " AND aktid = " & objDR3("aktid") & " AND medarbid = " & objDR2("mid")
+                                                    objCmd2 = New OdbcCommand(strSQLtprisUpd, objConn3)
+                                                    objDR6 = objCmd2.ExecuteReader '(CommandBehavior.closeConnection)
+                                                    objDR6.Close()
 
-                                        End If
+                                                End If
 
 
-                                    End While
-                                    objDR3.Close()
+                                            End While
+                                            objDR3.Close()
+                                    End Select
 
                                     '** END aktiviteter
 
@@ -577,7 +597,7 @@ Public Class oz_importjob2
 
                                     '*** OPDATERER Timepris på jobbet ****'
                                     Dim strSQLtpris As String = "UPDATE timepriser SET timeprisalt = " & timeprisalt & ", 6timepris = " & intTimepris & ", 6valuta = " & intValuta & "" _
-                                    & " WHERE jobid = " & jobID & " AND aktid = 0 AND medarbid = " & objDR2("mid")
+                                            & " WHERE jobid = " & jobID & " AND aktid = 0 AND medarbid = " & objDR2("mid")
                                     objCmd2 = New OdbcCommand(strSQLtpris, objConn3)
                                     objDR6 = objCmd2.ExecuteReader '(CommandBehavior.closeConnection)
                                     objDR6.Close()
@@ -797,196 +817,9 @@ Public Class oz_importjob2
                         End Select
 
 
-                        '*** Tilføjer stam-aktiviteter ***'
-                        Select Case lto
-                            Case "dencker", "dencker_test"
-                                '*** INDLÆSER AKTIVITETER FRA MONITOR FIL
+                        '*** OPRETTER AKTIVITETER ***'
+                        call opretStamAkt(lto, lastID, agforvalgtStamgrpKri, objConn2, objConn, objCmd, objDR2, objDR3, objDR6, objDR4)
 
-
-
-                            Case Else '"oko", "wilke"
-
-
-
-                                '*** Indlæser STAMaktiviteter ***'
-                                Dim strSQLStamAkt As String = "SELECT a.navn AS aktnavn, aktkonto, fase, a.id AS stamaktid FROM akt_gruppe AS ag" _
-                                & " LEFT JOIN aktiviteter AS a ON (a.aktfavorit = ag.id) WHERE " & agforvalgtStamgrpKri & " AND skabelontype = 0 ORDER BY a.sortorder DESC"
-                                objCmd = New OdbcCommand(strSQLStamAkt, objConn2)
-                                objDR3 = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
-                                While objDR3.Read() = True
-
-
-
-
-
-
-                                    Dim strSQLaktins As String = ("INSERT INTO aktiviteter (navn, job, fakturerbar, " _
-                                    & "projektgruppe1, projektgruppe2, projektgruppe3, projektgruppe4, projektgruppe5, projektgruppe6, projektgruppe7," _
-                                    & "projektgruppe8, projektgruppe9, projektgruppe10, aktstatus, budgettimer, aktbudget, aktbudgetsum, aktstartdato, aktslutdato, aktkonto, fase) VALUES " _
-                                    & " ('" & objDR3("aktnavn") & "', " & lastID & ", 1," _
-                                    & " 10,1,1,1,1,1,1,1,1,1,1,0,0,0,'" & jobstartdato.ToString("yyyy/MM/dd", Globalization.CultureInfo.InvariantCulture) & "', " _
-                                    & "'" & jobslutdato.ToString("yyyy/MM/dd", Globalization.CultureInfo.InvariantCulture) & "', " & objDR3("aktkonto") & ", '" & objDR3("fase") & "')")
-
-                                    objCmd = New OdbcCommand(strSQLaktins, objConn)
-                                    objDR2 = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
-                                    objDR2.Close()
-
-
-                                    '*** Finder aktid ***
-                                    Dim strSQLlastAktID As String = "SELECT id FROM aktiviteter WHERE id <> 0 ORDER BY id DESC"
-                                    objCmd = New OdbcCommand(strSQLlastAktID, objConn)
-                                    objDR2 = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
-
-                                    If objDR2.Read() = True Then
-
-                                        lastAktID = objDR2("id")
-
-                                    End If
-                                    objDR2.Close()
-
-
-
-                                    '** FOMR REL ***********
-                                    Dim strSQLaktfomr As String = ("SELECT for_fomr, for_aktid FROM fomr_rel WHERE for_aktid =  " & objDR3("stamaktid"))
-
-                                    objCmd = New OdbcCommand(strSQLaktfomr, objConn)
-                                    objDR4 = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
-                                    While objDR4.Read() = True
-
-
-
-                                        Dim strSQLaktinsfomr As String = ("INSERT INTO fomr_rel (for_fomr, for_aktid, for_jobid, for_faktor) VALUES  (" & objDR4("for_fomr") & ", " & lastAktID & ", " & lastID & ", 100)")
-
-                                        objCmd = New OdbcCommand(strSQLaktinsfomr, objConn)
-                                        objDR2 = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
-                                        objDR2.Close()
-
-
-                                    End While
-                                    objDR4.Close()
-
-
-
-                                    '**************************************************************'
-                                    '*** Hvis timepris ikke findes på job bruges Gen. timepris fra '
-                                    '*** Fra medarbejdertype, og den oprettes på job              *'
-                                    '*** BLIVER ALTID HENTET FRA Medarb.type for ØKO              *'
-                                    '**************************************************************'
-                                    tprisGen = 0
-                                    valutaGen = 1
-                                    kostpris = 0
-                                    intTimepris = 0
-                                    intValuta = valutaGen
-
-                                    Dim SQLmedtpris As String = "SELECT medarbejdertype, timepris, timepris_a2, timepris_a3, tp0_valuta, kostpris, mnavn, mid FROM medarbejdere " _
-                                    & " LEFT JOIN medarbejdertyper ON (medarbejdertyper.id = medarbejdertype) " _
-                                    & " WHERE mid <> 0 AND mansat = 1 AND medarbejdertyper.id = medarbejdertype GROUP BY mid"
-
-                                    objCmd = New OdbcCommand(SQLmedtpris, objConn2)
-                                    objDR2 = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
-
-                                    While objDR2.Read() = True
-
-                                        If objDR2("kostpris") <> 0 Then
-                                            kostpris = objDR2("kostpris")
-                                        Else
-                                            kostpris = 0
-                                        End If
-
-
-                                        Select Case lto
-                                            Case "oko"
-
-
-                                                Select Case Left(Trim(beskrivelse), 8)
-                                                    Case "NaturErh"
-
-                                                        If objDR2("timepris_a2") <> 0 Then
-
-                                                            tprisGen = objDR2("timepris_a2")
-                                                        Else
-                                                            tprisGen = 0
-                                                        End If
-
-                                                        timeprisalt = 2
-
-                                                    Case "Direktor"
-
-                                                        If objDR2("timepris_a3") <> 0 Then
-
-                                                            tprisGen = objDR2("timepris_a3")
-                                                        Else
-                                                            tprisGen = 0
-                                                        End If
-
-                                                        timeprisalt = 3
-
-                                                    Case Else
-
-                                                        If objDR2("timepris") <> 0 Then
-
-                                                            tprisGen = objDR2("timepris")
-                                                        Else
-                                                            tprisGen = 0
-                                                        End If
-
-                                                        timeprisalt = 0
-
-                                                End Select
-
-
-                                            Case Else
-
-                                                If objDR2("timepris") <> 0 Then
-
-                                                    tprisGen = objDR2("timepris")
-                                                Else
-                                                    tprisGen = 0
-                                                End If
-
-                                                timeprisalt = 0
-
-
-
-
-                                        End Select
-
-
-
-
-                                        valutaGen = objDR2("tp0_valuta")
-
-
-                                        '**** Indlæser timepris på aktiviteter ***'
-                                        intTimepris = tprisGen
-                                        intTimepris = Replace(intTimepris, ",", ".")
-
-                                        intValuta = valutaGen
-
-                                        Dim strSQLtpris As String = "INSERT INTO timepriser (jobid, aktid, medarbid, timeprisalt, 6timepris, 6valuta) " _
-                                        & " VALUES (" & lastID & ", " & lastAktID & ", " & objDR2("mid") & ", " & timeprisalt & ", " & intTimepris & ", " & intValuta & ")"
-
-                                        objCmd2 = New OdbcCommand(strSQLtpris, objConn)
-                                        objDR6 = objCmd2.ExecuteReader '(CommandBehavior.closeConnection)
-
-
-
-                                    End While
-
-                                    objDR2.Close()
-                                    '** Slut timepris **
-
-
-
-
-
-
-
-                                End While
-                                objDR3.Close()
-
-
-                        End Select 'lto STAMAKTIVITETER
 
 
                     End If 'Opdater / opret
@@ -1036,6 +869,216 @@ Public Class oz_importjob2
 
     '   Return eTxt
     'End Function
+
+
+
+    Public Function opretStamAkt(ByVal lto As String, ByVal lastID As Integer, ByVal agforvalgtStamgrpKri As String, ByVal objConn2 As OdbcConnection, ByVal objConn As OdbcConnection, ByVal objCmd As OdbcCommand, ByVal objDR2 As OdbcDataReader, ByVal objDR3 As OdbcDataReader, ByVal objDR6 As OdbcDataReader, ByVal objDR4 As OdbcDataReader) As String
+
+
+
+        '*** Tilføjer stam-aktiviteter ***'
+        Select Case lto
+            Case "dencker", "dencker_test"
+                '*** INDLÆSER AKTIVITETER FRA MONITOR FIL
+                '*** AKTIVTETER VIL ALTID KOMME IND UNDER REDIGER JOB STATE Da job bliver oprettet som første linje i filen / eller findes i forvejen
+
+                Dim strSQLaktins As String = ("INSERT INTO aktiviteter (navn, job, fakturerbar, " _
+                & "projektgruppe1, projektgruppe2, projektgruppe3, projektgruppe4, projektgruppe5, projektgruppe6, projektgruppe7," _
+                & "projektgruppe8, projektgruppe9, projektgruppe10, aktstatus, budgettimer, aktbudget, aktbudgetsum, aktstartdato, aktslutdato, aktkonto, fase) VALUES " _
+                & " ('AKTNAVN', " & lastID & ", 1," _
+                & " 10,1,1,1,1,1,1,1,1,1,1,0,0,0,'" & jobstartdato.ToString("yyyy/MM/dd", Globalization.CultureInfo.InvariantCulture) & "', " _
+                & "'" & jobslutdato.ToString("yyyy/MM/dd", Globalization.CultureInfo.InvariantCulture) & "', 0, '')")
+
+                objCmd = New OdbcCommand(strSQLaktins, objConn)
+                objDR2 = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
+                objDR2.Close()
+
+
+            Case Else '"oko", "wilke"
+
+
+
+                '*** Indlæser STAMaktiviteter ***'
+                Dim strSQLStamAkt As String = "SELECT a.navn AS aktnavn, aktkonto, fase, a.id AS stamaktid FROM akt_gruppe AS ag" _
+                & " LEFT JOIN aktiviteter AS a ON (a.aktfavorit = ag.id) WHERE " & agforvalgtStamgrpKri & " AND skabelontype = 0 ORDER BY a.sortorder DESC"
+                objCmd = New OdbcCommand(strSQLStamAkt, objConn2)
+                objDR3 = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
+                While objDR3.Read() = True
+
+
+
+
+
+
+                    Dim strSQLaktins As String = ("INSERT INTO aktiviteter (navn, job, fakturerbar, " _
+                    & "projektgruppe1, projektgruppe2, projektgruppe3, projektgruppe4, projektgruppe5, projektgruppe6, projektgruppe7," _
+                    & "projektgruppe8, projektgruppe9, projektgruppe10, aktstatus, budgettimer, aktbudget, aktbudgetsum, aktstartdato, aktslutdato, aktkonto, fase) VALUES " _
+                    & " ('" & objDR3("aktnavn") & "', " & lastID & ", 1," _
+                    & " 10,1,1,1,1,1,1,1,1,1,1,0,0,0,'" & jobstartdato.ToString("yyyy/MM/dd", Globalization.CultureInfo.InvariantCulture) & "', " _
+                    & "'" & jobslutdato.ToString("yyyy/MM/dd", Globalization.CultureInfo.InvariantCulture) & "', " & objDR3("aktkonto") & ", '" & objDR3("fase") & "')")
+
+                    objCmd = New OdbcCommand(strSQLaktins, objConn)
+                    objDR2 = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
+                    objDR2.Close()
+
+
+                    '*** Finder aktid ***
+                    Dim strSQLlastAktID As String = "SELECT id FROM aktiviteter WHERE id <> 0 ORDER BY id DESC"
+                    objCmd = New OdbcCommand(strSQLlastAktID, objConn)
+                    objDR2 = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
+
+                    If objDR2.Read() = True Then
+
+                        lastAktID = objDR2("id")
+
+                    End If
+                    objDR2.Close()
+
+
+
+                    '** FOMR REL ***********
+                    Dim strSQLaktfomr As String = ("SELECT for_fomr, for_aktid FROM fomr_rel WHERE for_aktid =  " & objDR3("stamaktid"))
+
+                    objCmd = New OdbcCommand(strSQLaktfomr, objConn)
+                    objDR4 = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
+                    While objDR4.Read() = True
+
+
+
+                        Dim strSQLaktinsfomr As String = ("INSERT INTO fomr_rel (for_fomr, for_aktid, for_jobid, for_faktor) VALUES  (" & objDR4("for_fomr") & ", " & lastAktID & ", " & lastID & ", 100)")
+
+                        objCmd = New OdbcCommand(strSQLaktinsfomr, objConn)
+                        objDR2 = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
+                        objDR2.Close()
+
+
+                    End While
+                    objDR4.Close()
+
+
+
+                    '**************************************************************'
+                    '*** Hvis timepris ikke findes på job bruges Gen. timepris fra '
+                    '*** Fra medarbejdertype, og den oprettes på job              *'
+                    '*** BLIVER ALTID HENTET FRA Medarb.type for ØKO              *'
+                    '**************************************************************'
+                    tprisGen = 0
+                    valutaGen = 1
+                    kostpris = 0
+                    intTimepris = 0
+                    intValuta = valutaGen
+
+                    Dim SQLmedtpris As String = "SELECT medarbejdertype, timepris, timepris_a2, timepris_a3, tp0_valuta, kostpris, mnavn, mid FROM medarbejdere " _
+                    & " LEFT JOIN medarbejdertyper ON (medarbejdertyper.id = medarbejdertype) " _
+                    & " WHERE mid <> 0 AND mansat = 1 AND medarbejdertyper.id = medarbejdertype GROUP BY mid"
+
+                    objCmd = New OdbcCommand(SQLmedtpris, objConn2)
+                    objDR2 = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
+
+                    While objDR2.Read() = True
+
+                        If objDR2("kostpris") <> 0 Then
+                            kostpris = objDR2("kostpris")
+                        Else
+                            kostpris = 0
+                        End If
+
+
+                        Select Case lto
+                            Case "oko"
+
+
+                                Select Case Left(Trim(beskrivelse), 8)
+                                    Case "NaturErh"
+
+                                        If objDR2("timepris_a2") <> 0 Then
+
+                                            tprisGen = objDR2("timepris_a2")
+                                        Else
+                                            tprisGen = 0
+                                        End If
+
+                                        timeprisalt = 2
+
+                                    Case "Direktor"
+
+                                        If objDR2("timepris_a3") <> 0 Then
+
+                                            tprisGen = objDR2("timepris_a3")
+                                        Else
+                                            tprisGen = 0
+                                        End If
+
+                                        timeprisalt = 3
+
+                                    Case Else
+
+                                        If objDR2("timepris") <> 0 Then
+
+                                            tprisGen = objDR2("timepris")
+                                        Else
+                                            tprisGen = 0
+                                        End If
+
+                                        timeprisalt = 0
+
+                                End Select
+
+
+                            Case Else
+
+                                If objDR2("timepris") <> 0 Then
+
+                                    tprisGen = objDR2("timepris")
+                                Else
+                                    tprisGen = 0
+                                End If
+
+                                timeprisalt = 0
+
+
+
+
+                        End Select
+
+
+
+
+                        valutaGen = objDR2("tp0_valuta")
+
+
+                        '**** Indlæser timepris på aktiviteter ***'
+                        intTimepris = tprisGen
+                        intTimepris = Replace(intTimepris, ",", ".")
+
+                        intValuta = valutaGen
+
+                        Dim strSQLtpris As String = "INSERT INTO timepriser (jobid, aktid, medarbid, timeprisalt, 6timepris, 6valuta) " _
+                        & " VALUES (" & lastID & ", " & lastAktID & ", " & objDR2("mid") & ", " & timeprisalt & ", " & intTimepris & ", " & intValuta & ")"
+
+                        objCmd = New OdbcCommand(strSQLtpris, objConn)
+                        objDR6 = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
+
+
+
+                    End While
+
+                    objDR2.Close()
+                    '** Slut timepris **
+
+
+
+
+
+
+
+                End While
+                objDR3.Close()
+
+
+        End Select 'lto STAMAKTIVITETER
+
+    End Function 'Opret aktvitieter
 
 
 End Class
