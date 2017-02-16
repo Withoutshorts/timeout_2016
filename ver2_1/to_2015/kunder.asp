@@ -226,8 +226,10 @@
 
 
     case "dbopr", "dbred"
+
+
 	'*** Her indsættes en ny kunde i db ****
-		if len(request("FM_navn")) = 0 then
+		if (len(request("FM_navn")) = 0 OR len(request("FM_navn")) > 150) then
 		
 		errortype = 13
 		call showError(errortype)

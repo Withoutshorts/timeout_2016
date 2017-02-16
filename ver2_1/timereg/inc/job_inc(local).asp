@@ -3620,13 +3620,10 @@ sub minioverblik
             </td>
 	        <%
 	        call beregnValuta(minus&(oRec2("beloeb")),oRec2("kurs"),100) ' TIL DKK Altid til BASIS val først
-
-            if cint(jo_valuta) <> (basisValId) then
             fakBelob = valBelobBeregnet
             call valutaKurs_fakhist(jo_valuta) ' --> GBP
             call beregnValuta(fakBelob,100,dblkurs_fakhist/100)
-            end if
-
+            
             if oRec2("faktype") <> 1 then
             belobGrundVal = valBelobBeregnet
             else
@@ -3647,12 +3644,9 @@ sub minioverblik
        
 
 	            call beregnValuta(minus&(oRec2("aktbel")),oRec2("kurs"),100)
-
-                if cint(jo_valuta) <> (basisValId) then
                 fakBelob = valBelobBeregnet
                 call valutaKurs_fakhist(jo_valuta) ' --> GBP
                 call beregnValuta(fakBelob,100,dblkurs_fakhist/100)
-                end if
 
                 if oRec2("faktype") <> 1 then
                 belobKunTimerStk = valBelobBeregnet

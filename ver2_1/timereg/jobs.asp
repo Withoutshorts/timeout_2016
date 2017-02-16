@@ -1780,7 +1780,7 @@ if len(session("user")) = 0 then
                 alert = 0
                 end if
 
-                if len(triM(request("FM_jo_valuta"))) <> 0 then
+                if len(trim(request("FM_jo_valuta"))) <> 0 then
                 jo_valuta = request("FM_jo_valuta")
                 else
                 jo_valuta = 1
@@ -4830,6 +4830,10 @@ if len(session("user")) = 0 then
 	
 	end if
 
+    if cint(jo_valuta) = 0 then
+    call basisValutaFN()
+    jo_valuta = basisValId
+    end if
 
     '** Sætter valuta til job budget
     call valutakode_fn(jo_valuta)
@@ -5090,9 +5094,9 @@ if len(session("user")) = 0 then
 		<td style="">&nbsp;</td>
 		<td valign=top style="padding:5px 5px 10px 0px;" colspan=2>
 		<%if func = "red" then%>
-		<b>Tilbudsnr.:</b> <br />
+		<b>Tilbudsnr.:</b><br />
 		<%else %>
-		<b>Tilbud?</b><br />
+		<b>Tilbud?</b><br /> 
 		<%end if %>
 		
 		        <%  if cint(strStatus) = 3 OR (func = "opret" AND cint(tilbud_mandatoryOn) = 1) then

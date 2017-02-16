@@ -70,7 +70,7 @@ varErrorText = "En Kontakt med det valgte <b>Kontakt id</b> eksisterer allerede.
 
 
 case 13
-varErrorText = "<ul><li>Der mangler at blive indtastet et <b>kundenavn</b></ul>"
+varErrorText = "<ul><li>Der mangler at blive indtastet et <b>kundenavn</b><li>Kundenavn er på mere end <b>150</b> karakterer</ul>"
 
 case 14
 varErrorText = "Der mangler at blive indtastet en af følgende informationer: <br> "_

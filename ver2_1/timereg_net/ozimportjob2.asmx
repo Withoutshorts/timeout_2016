@@ -142,6 +142,17 @@ Public Class oz_importjob2
     Public projektKategori As Integer = 0
     Public tpFundet As Integer = 0
 
+    Public aktFields As String = ""
+
+    Public aktnavn As String = ""
+    Public aktstdato As Date
+    Public aktsldato As Date
+    Public fomr As Integer = 0
+    Public sort As Integer
+    Public aktvarenr As String = ""
+    Public antalstk As Double = 0
+
+
     <WebMethod()> Public Function createjob2(ByVal ds As dataset) As String
 
 
@@ -225,18 +236,40 @@ Public Class oz_importjob2
         Select Case lto
             Case "dencker", "dencker_test"
                 orderBySQL = " ORDER BY jobnr, sort"
+                aktFields = ", aktnavn, aktstdato, aktsldato, fomr, sort, aktvarenr, stkantal"
             Case Else
                 orderBySQL = " ORDER BY id"
+                aktFields = ""
         End Select
 
 
         '*** HENTER JOB FRA JOB_IMPORT_TEMP '****
-        Dim strSQLjnj As String = "SELECT id, dato, editor, origin, jobnavn, jobnr, jobstartdato, jobslutdato, jobans, lto, beskrivelse FROM job_import_temp WHERE id > 0 AND overfort = 0 AND errid = 0 " & orderBySQL
+        Dim strSQLjnj As String = "SELECT id, dato, editor, origin, jobnavn, jobnr, jobstartdato, jobslutdato, jobans, lto, beskrivelse " & aktFields & " FROM job_import_temp WHERE id > 0 AND overfort = 0 AND errid = 0 " & orderBySQL
         objCmd = New OdbcCommand(strSQLjnj, objConn)
         objDR = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
 
 
         While objDR.Read() = True
+
+
+            Select Case lto
+                Case "dencker", "dencker_test"
+                    aktnavn = objDR("aktnavn")
+                    aktstdato = objDR("aktstdato")
+                    aktsldato = objDR("aktsldato")
+                    fomr = 0 'objDR("fomr")
+                    sort = objDR("sort")
+                    aktvarenr = objDR("aktvarenr")
+                    antalstk = objDR("stkantal")
+                Case Else
+                    aktnavn = ""
+                    aktstdato = "2002-01-01"
+                    aktsldato = "2002-01-01"
+                    fomr = 0
+                    sort = 0
+                    aktvarenr = ""
+                    antalstk = 0
+            End Select
 
 
 
@@ -534,9 +567,7 @@ Public Class oz_importjob2
                                     '*** OPRETTER AKTIVITETER ***'
                                     Select Case lto
                                         Case "dencker", "dencker_test"
-                                            Dim agforvalgtStamgrpKri As String = ""
-                                            Call opretStamAkt(lto, lastID, agforvalgtStamgrpKri, objConn2, objConn, objCmd, objDR2, objDR3, objDR6, objDR4)
-
+                                            '** DO NOTHING **
                                         Case Else
 
 
@@ -817,8 +848,14 @@ Public Class oz_importjob2
                         End Select
 
 
-                        '*** OPRETTER AKTIVITETER ***'
-                        call opretStamAkt(lto, lastID, agforvalgtStamgrpKri, objConn2, objConn, objCmd, objDR2, objDR3, objDR6, objDR4)
+                        Select Case lto
+                            Case "dencker", "dencker_test"
+                            Case Else
+
+                                '*** OPRETTER STAM AKTIVITETER ***'
+                                Call opretStamAkt(lto, lastID, aktnavn, aktstdato, aktsldato, fomr, sort, aktvarenr, antalstk, agforvalgtStamgrpKri, objConn2, objConn, objCmd, objDR2, objDR3, objDR6, objDR4)
+
+                        End Select
 
 
 
@@ -832,6 +869,31 @@ Public Class oz_importjob2
             End If 'CInt(errThis) = 0
 
 
+
+            Select Case lto
+                Case "dencker", "dencker_test"
+                    '*** OPRETTER AKTIVITETER FRA EXCEL FIL FOR HVER LINJE // MONITOR ***'
+
+                    If (sort = 10) Then
+                        '*** Finder jobid ***
+                        Dim strSQLlastJobID As String = "SELECT id FROM job WHERE id <> 0 ORDER BY id DESC LIMIT 1"
+                        objCmd = New OdbcCommand(strSQLlastJobID, objConn)
+                        objDR2 = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
+
+                        If objDR2.Read() = True Then
+
+                            lastID = objDR2("id")
+
+                        End If
+                        objDR2.Close()
+
+
+                    End If
+
+                    Dim agforvalgtStamgrpKri As String = ""
+                    Call opretStamAkt(lto, lastID, aktnavn, aktstdato, aktsldato, fomr, sort, aktvarenr, antalstk, agforvalgtStamgrpKri, objConn2, objConn, objCmd, objDR2, objDR3, objDR6, objDR4)
+
+            End Select
 
 
 
@@ -872,7 +934,7 @@ Public Class oz_importjob2
 
 
 
-    Public Function opretStamAkt(ByVal lto As String, ByVal lastID As Integer, ByVal agforvalgtStamgrpKri As String, ByVal objConn2 As OdbcConnection, ByVal objConn As OdbcConnection, ByVal objCmd As OdbcCommand, ByVal objDR2 As OdbcDataReader, ByVal objDR3 As OdbcDataReader, ByVal objDR6 As OdbcDataReader, ByVal objDR4 As OdbcDataReader) As String
+    Public Function opretStamAkt(ByVal lto As String, ByVal lastID As Integer, ByVal aktnavn As String, ByVal aktstdato As Date, ByVal aktsldato As Date, ByVal fomr As Integer, ByVal sort As Integer, ByVal aktvarenr As String, ByVal antalstk As Double, ByVal agforvalgtStamgrpKri As String, ByVal objConn2 As OdbcConnection, ByVal objConn As OdbcConnection, ByVal objCmd As OdbcCommand, ByVal objDR2 As OdbcDataReader, ByVal objDR3 As OdbcDataReader, ByVal objDR6 As OdbcDataReader, ByVal objDR4 As OdbcDataReader) As String
 
 
 
@@ -884,10 +946,10 @@ Public Class oz_importjob2
 
                 Dim strSQLaktins As String = ("INSERT INTO aktiviteter (navn, job, fakturerbar, " _
                 & "projektgruppe1, projektgruppe2, projektgruppe3, projektgruppe4, projektgruppe5, projektgruppe6, projektgruppe7," _
-                & "projektgruppe8, projektgruppe9, projektgruppe10, aktstatus, budgettimer, aktbudget, aktbudgetsum, aktstartdato, aktslutdato, aktkonto, fase) VALUES " _
-                & " ('AKTNAVN', " & lastID & ", 1," _
-                & " 10,1,1,1,1,1,1,1,1,1,1,0,0,0,'" & jobstartdato.ToString("yyyy/MM/dd", Globalization.CultureInfo.InvariantCulture) & "', " _
-                & "'" & jobslutdato.ToString("yyyy/MM/dd", Globalization.CultureInfo.InvariantCulture) & "', 0, '')")
+                & "projektgruppe8, projektgruppe9, projektgruppe10, aktstatus, budgettimer, aktbudget, aktbudgetsum, aktstartdato, aktslutdato, aktkonto, fase, avarenr, fomr, sortorder, antalstk, bgr) VALUES " _
+                & " ('" & aktnavn.Replace("'", "") & "', " & lastID & ", 1," _
+                & " 10,1,1,1,1,1,1,1,1,1,1,0,0,0,'" & aktstdato.ToString("yyyy/MM/dd", Globalization.CultureInfo.InvariantCulture) & "', " _
+                & "'" & aktsldato.ToString("yyyy/MM/dd", Globalization.CultureInfo.InvariantCulture) & "', 0, '', '" & aktvarenr & "', " & fomr & ", " & sort & ", " & antalstk & ", 2)")
 
                 objCmd = New OdbcCommand(strSQLaktins, objConn)
                 objDR2 = objCmd.ExecuteReader '(CommandBehavior.closeConnection)

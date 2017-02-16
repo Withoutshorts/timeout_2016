@@ -3001,6 +3001,23 @@ ALTER TABLE job ADD (
 jo_valuta Int NOT NULL DEFAULT 0);
 INSERT INTO dbversion (dbversion) VALUES (20170213.1) 
 
+<br /><br />20170216.1<br />
+5.56 UPDATE ON SELECT<br />
+UPDATE job AS U1, valutaer AS U2 
+SET U1.jo_valuta = U2.id
+WHERE U2.grundvaluta = 1 AND U1.jo_valuta = 0
+
+<br /><br />
+2.23 alternativ UPDATE ON SELECT<br />
+update job a
+left join valutaer b on
+		b.grundvaluta = 1
+set
+    a.jo_valuta = b.id
+Where a.jo_valuta = 0
+<br /><br />
+UPDATE job SET jo_valuta = 1 WHERE jo_valuta = 0 
+
 <%
 
 
