@@ -269,7 +269,7 @@ case "bf"
     end if
 
 
-case "gd", "intranet - local"
+case "gd"
 
     kundmenu_2014 = 1
     marbmenu_2014 = 1

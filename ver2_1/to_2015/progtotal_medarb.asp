@@ -326,12 +326,14 @@
                                                 Stryear = Stryear + 1
                                             end if
                                       
-                                            getdate = Stryear
+                                            getdate = "01" & "/" & months -1 & "/" & Stryear
+
+                                               
                                            
                                            'response.write(monthname(i))
                                             'response.write MonthName(months)
                                                                           
-                                        %> <th style="text-align:center;"><%=MonthName(months - 1) & " " & getdate %></th> <%
+                                        %> <th style="text-align:center;"><%=MonthName(months - 1) & " " & Stryear & "<br>" & getdate %></th> <%
 
                                       next
                                   %>
@@ -361,9 +363,19 @@
                                   <td><%=Strmedarb %></td>  
                                                                   
                                   <%
-                                      for i = 0 to antalmaaned  
 
-                                        %> <td style="text-align:center;">&nbsp</td> <%
+                                      Dim timer_medarb (200)
+                                      Redim u (200)
+
+                                      'Strsqltimer_medarb = "SELECT sum(Timer) as Timer WHERE tjobnr = "& Strjobid & "GROUP BY   "
+                                      
+                                      
+                                      for i = 0 to antalmaaned
+                                      
+                                            
+                                      
+
+                                        %> <td style="text-align:center;">tezs</td> <%
 
                                       next 
                                   %>
