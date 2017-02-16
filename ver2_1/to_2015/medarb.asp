@@ -1016,7 +1016,7 @@ Session.LCID = 1030
                     <div>
                        
                         <%if request("medarbtypligmedarb") = "1" then 'Medarbejdertype:medarbejder 1:1%> 
-                        <b><a href="medarbtyper.asp?lastmedid=<%=id %>&mtypenavnforvlgt=Mtyp: <%=strNavn %>&func=opret">Videre til medarbejdertype (timepriser og normtid) >></a>    
+                        <b><a href="medarbtyper.asp?lastmedid=<%=id %>&mtypeIdforvlgt=<%=strMedarbejdertype%>&mtypenavnforvlgt=Mtyp: <%=strNavn %>&func=opret">Videre til medarbejdertype (timepriser og normtid) >></a>    
                         <%else%>
                         <b><a href="medarb.asp?menu=medarbejder&lastmedid=<%=id %>">Videre >></a>
                         <%end if %>
@@ -1172,6 +1172,7 @@ Session.LCID = 1030
         strCRMcheckedTSA_5 = ""
         strCRMcheckedTSA_6 = ""
         strCRMcheckedTSA_7 = ""
+        strCRMcheckedTSA_8 = ""
 		
 		select case intCRM 
 		case 1
@@ -1188,6 +1189,8 @@ Session.LCID = 1030
         strCRMcheckedTSA_6 = "CHECKED"
         case 7
         strCRMcheckedTSA_7 = "CHECKED"
+        case 8
+        strCRMcheckedTSA_8 = "CHECKED"
 		case else
 		strCRMcheckedTSA = "CHECKED"
 		end select
@@ -1728,7 +1731,7 @@ Session.LCID = 1030
 
                                       <%if func = "opret" then
                                         %>
-                                        <br /><span style="color:red;">Tildel timepriser</span> på stam-aktiviteter og åbne job og tilbud.<br />
+                                        <br /><span style="color:red;">Tildel timepriser</span> på stam-aktiviteter, åbne job og tilbud.<br />
                                         Følg denne medarb.type (hvis den valgte medarb.type er ny, og dette er den første medarbejder af denne type)
                                         <select name="FM_medarbejdertype_follow_tp" class="form-control input-small" style="width:200px;">
                                         <%
@@ -2083,6 +2086,7 @@ Session.LCID = 1030
                                     <input type="radio" name="FM_tsacrm" value="4" <%=strCRMcheckedTSA_4%>> Igangværende job<br>
                                      <input type="radio" name="FM_tsacrm" value="5" <%=strCRMcheckedTSA_5%>> Joblisten<br>
                                       <input type="radio" name="FM_tsacrm" value="7" <%=strCRMcheckedTSA_7%>> Dashboard<br>
+                                      <input type="radio" name="FM_tsacrm" value="8" <%=strCRMcheckedTSA_8%>> Kunder<br>
 
                                      <%if licensType = "CRM" then%>
                                      <input type="radio" name="FM_tsacrm" value="1" <%=strCRMcheckedCRM%>> CRM Kalender<br>

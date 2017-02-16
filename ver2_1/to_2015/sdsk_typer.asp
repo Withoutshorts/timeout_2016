@@ -224,11 +224,7 @@ case "dbopr", "dbred"
                         </tbody>
                     </table>
 
-                   <div class="row">
-                       <div class="col-lg-2">
-                            <a href="Javascript:window.close()" class="btn btn-default btn-sm"><b>Luk vindue</b></a>
-                        </div>
-                   </div>
+                  
 
                 </div>
             </div>

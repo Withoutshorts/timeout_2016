@@ -432,7 +432,7 @@
 
                             <div class="row">
                                 <div class="col-lg-2">
-                                    <a href="Javascript:window.close()" class="btn btn-default btn-sm"><b>Luk vindue</b></a>
+                                    
                                 </div>
                                 <div class="col-lg-8">&nbsp</div>
                                 <div class="col-lg-2 pad-b10">
