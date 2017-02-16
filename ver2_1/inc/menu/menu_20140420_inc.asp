@@ -1137,7 +1137,7 @@ end select
             <li><a href="<%=toSubVerPath15 %>sdsk_prio_grp.asp?menu=tok" target="_blank"><%=tsa_txt_502 %></a></li>
             <li><a href="<%=toSubVerPath15 %>sdsk_status.asp?menu=tok"><%=tsa_txt_503 %></a></li>
             
-            <li><a href="<%=toSubVerPath14 %>sdsk_typer.asp?menu=tok" target="_blank"><%=tsa_txt_504 %></a>
+            <li><a href="<%=toSubVerPath15 %>sdsk_typer.asp?menu=tok" target="_blank"><%=tsa_txt_504 %></a>
             <%
             end if
             %>
