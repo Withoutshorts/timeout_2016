@@ -139,7 +139,9 @@
                                 'response.Write aar & " - " & aarslut 
 
                                 antalmaaned = (DateDiff("m",aar,aarslut))
+                                antalaar = (DateDiff("yyyy",aar,aarslut))
                                 'response.Write(DateDiff("m",aar,aarslut))
+                                'response.Write antalaar
                                                                                                                    
                             %>
 
@@ -279,7 +281,10 @@
                           </tfoot>
 
                       </table> -->
+                      <%
 
+                        
+                      %>
                       <table class="table dataTable table-striped table-bordered table-hover ui-datatable">
                           
                           <thead>
@@ -290,15 +295,48 @@
 
                                   <%
 
-                                      for i = 0 to antalmaaned  
+                                      
 
-                                        %> <th style="text-align:center;">Måned</th> <%
+
+                                      selectedstart_month = Month(aar)
+                                      selectedstart_year = Year(aar)
+                                      'response.write selectedstart_month
+
+                                      startdate = "01" & "/" & selectedstart_month & "/" & selectedstart_year
+
+                                      months = selectedstart_month
+                                      Stryear = selectedstart_year 
+                                      
+                                      'response.write startdate 
+
+                                      for i = 0 to antalmaaned
+
+                                            
+                                            months = months + 1
+                                            Stryear = Stryear
+
+                                            if datemonth > 12 then
+                                                datemonth = 1
+                                            end if
+
+                                            
+                                            
+                                            if months > 13 then
+                                                months = 2
+                                                Stryear = Stryear + 1
+                                            end if
+                                      
+                                            getdate = Stryear
+                                           
+                                           'response.write(monthname(i))
+                                            'response.write MonthName(months)
+                                                                          
+                                        %> <th style="text-align:center;"><%=MonthName(months - 1) & " " & getdate %></th> <%
 
                                       next
                                   %>
 
                                   <th>Total pr. medarbejder</th>
-
                               </tr>
 
                           </thead>

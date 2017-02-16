@@ -1172,6 +1172,7 @@ Session.LCID = 1030
         strCRMcheckedTSA_5 = ""
         strCRMcheckedTSA_6 = ""
         strCRMcheckedTSA_7 = ""
+        strCRMcheckedTSA_8 = ""
 		
 		select case intCRM 
 		case 1
@@ -1188,6 +1189,8 @@ Session.LCID = 1030
         strCRMcheckedTSA_6 = "CHECKED"
         case 7
         strCRMcheckedTSA_7 = "CHECKED"
+        case 8
+        strCRMcheckedTSA_8 = "CHECKED"
 		case else
 		strCRMcheckedTSA = "CHECKED"
 		end select
@@ -2083,6 +2086,7 @@ Session.LCID = 1030
                                     <input type="radio" name="FM_tsacrm" value="4" <%=strCRMcheckedTSA_4%>> Igangværende job<br>
                                      <input type="radio" name="FM_tsacrm" value="5" <%=strCRMcheckedTSA_5%>> Joblisten<br>
                                       <input type="radio" name="FM_tsacrm" value="7" <%=strCRMcheckedTSA_7%>> Dashboard<br>
+                                      <input type="radio" name="FM_tsacrm" value="8" <%=strCRMcheckedTSA_8%>> Kunder<br>
 
                                      <%if licensType = "CRM" then%>
                                      <input type="radio" name="FM_tsacrm" value="1" <%=strCRMcheckedCRM%>> CRM Kalender<br>
