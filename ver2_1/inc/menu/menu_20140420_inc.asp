@@ -269,6 +269,13 @@ case "bf"
     end if
 
 
+case "gd"
+
+    kundmenu_2014 = 1
+    marbmenu_2014 = 1
+    admimenu_2014 = 1
+    dsksOnOff = 0
+
 case else
     tregmenu_2014 = 1
 
@@ -868,8 +875,8 @@ end select
                  <%else %>
 
                          <br /><br />
-
-                        <li><a href="<%=toSubVerPath14 %>joblog_timetotaler.asp"><%=tsa_txt_458 %></a></li>
+                         <!--<li><a href="../to_2015/progtotal_medarb.asp">Test</a></li> -->
+                         <li><a href="<%=toSubVerPath14 %>joblog_timetotaler.asp"><%=tsa_txt_458 %></a></li>
                          <li><a href="<%=toSubVerPath14 %>joblog.asp"><%=tsa_txt_118 %></a></li>
                  
                          <%if level = 1 then %>
@@ -975,14 +982,14 @@ end select
             
                 
 	        <li><a href='<%=toSubVerPath15 %>kunder.asp?visikkekunder=1'><%=global_txt_124 %></a></li>
-           <li><a href='<%=toSubVerPath15 %>kunder.asp?func=opret&ketype=k'><%=global_txt_180 %></a></li>
-            <li><a href='<%=toSubVerPath14 %>serviceaft_osigt.asp?id=0&func=osigtall'><%=global_txt_181 %></a></li>
+            <li><a href='<%=toSubVerPath15 %>kunder.asp?func=opret&ketype=k'><%=global_txt_180 %></a></li>           
+            <li><a href='<%=toSubVerPath14 %>serviceaft_osigt.asp?id=0&func=osigtall'><%=global_txt_181 %></a></li>       
             <li><a href='<%=toSubVerPath15 %>kontaktpers.asp?func=list'><%=global_txt_182 %></a></li>
 
 
            <%if cint(crmOnOff) = 1 then %>
            <h3 class="menuh3"><%=tsa_txt_491 %></h3>
-           <!--<li><a href='<%=toSubVerPath14 %>crmkalender.asp?menu=crm&shokselector=1&ketype=e&selpkt=kal&status=0&id=0&emner=0'>Kalender (gl.)</a></li>-->
+           <!--<li><a href='<%=toSubVerPath14 %>crmkalender.asp?menu=crm&shokselector=1&ketype=e&selpkt=kal&status=0&id=0&emner=0'>Kalender (gl.)</a></li>-->          
            <li><a href='<%=toSubVerPath14 %>kunder.asp?menu=crm'><%=tsa_txt_469 %></a></li>
            <li><a href='<%=toSubVerPath14 %>crmhistorik.asp?menu=crm&ketype=e&func=hist&id=0&selpkt=hist'><%=tsa_txt_470 %></a></li>
            <!--<li><a href='<%=toSubVerPath14 %>crmstat.asp?menu=crm'>CRM statistik</a></li>-->
@@ -1052,7 +1059,9 @@ end select
       <!-- Administration -->
        <ul class="menupkt_n2" id="ul_menu-slider-8" style="display:none; visibility:visible; height:1000px;">
       <h3 class="menuh3"><%=tsa_txt_479 %></h3>
-
+           <%if lto = "intranet - local" or lto = "gd" then
+             else     
+           %>
            <h3 class="menuh3"><%=tsa_txt_480 %></h3>
              <li><a href="<%=toSubVerPath14 %>abonner.asp"><%=tsa_txt_480 %></a></li>
 
@@ -1064,7 +1073,8 @@ end select
                   <li><a href="<%=toSubVerPath15 %>fomr.asp"><%=tsa_txt_460 %></a></li>
                   <li><a href="<%=toSubVerPath15 %>milepale_typer.asp"><%=tsa_txt_484 %></a></li>
                                 
-                             <li><a href="<%=toSubVerPath15 %>stfolder_gruppe.asp?ketype=e"><%=tsa_txt_485 %></a></li>
+                  <li><a href="<%=toSubVerPath15 %>stfolder_gruppe.asp?ketype=e"><%=tsa_txt_485 %></a></li>
+           <%end if %>
 
            <h3 class="menuh3"><%=tsa_txt_486 %></h3>
 
@@ -1085,7 +1095,9 @@ end select
 
            <%end if %>
 
-
+           <%if lto = "intranet - local" or lto = "gd" then
+             else     
+           %>
            <h3 class="menuh3"><%=tsa_txt_492 %></h3>
            
 		
@@ -1108,15 +1120,11 @@ end select
 
             <li><a href="../timereg_net/importer_job.aspx?lto=<%=lto%>&mid=<%=session("mid")%>&editor=<%=session("user") %>" target="_blank">C5-importer Job (sagslinjer & aktiviteter)</a></li>
            
-           <%end if 
-
-             '**** INDLÆS / IMPORTER  funktioner     
-            if (lto = "dencker" OR lto = "intranet - local") AND level = 1 then %>
-
-            <li><a href="../timereg_net/importer_job_monitor.aspx?lto=<%=lto%>&mid=<%=session("mid")%>&editor=<%=session("user") %>" target="_blank">Monitor-importer Job</a></li>
-           
-           <%end if %>
-	
+           <%end if
+                
+            end if ' lto gd
+            %>
+	        
 
 
            <h3 class="menuh3"><%=tsa_txt_471 %></h3>
@@ -1132,12 +1140,12 @@ end select
            <h3 class="menuh3"><%=tsa_txt_499 %></h3>
 
            
-            <li><a href="<%=toSubVerPath14 %>sdsk_prioitet.asp?menu=tok" target="_blank"><%=tsa_txt_500 %></a></li> 
-            <li><a href="<%=toSubVerPath14 %>sdsk_prio_typ.asp?menu=tok" target="_blank"><%=tsa_txt_501 %></a></li>
-            <li><a href="<%=toSubVerPath14 %>sdsk_prio_grp.asp?menu=tok" target="_blank"><%=tsa_txt_502 %></a></li>
-            <li><a href="<%=toSubVerPath14 %>sdsk_status.asp?menu=tok"><%=tsa_txt_503 %></a></li>
+            <li><a href="<%=toSubVerPath15 %>sdsk_prioitet.asp?menu=tok" target="_blank"><%=tsa_txt_500 %></a></li> 
+            <li><a href="<%=toSubVerPath15 %>sdsk_prio_typ.asp?menu=tok" target="_blank"><%=tsa_txt_501 %></a></li>
+            <li><a href="<%=toSubVerPath15 %>sdsk_prio_grp.asp?menu=tok" target="_blank"><%=tsa_txt_502 %></a></li>
+            <li><a href="<%=toSubVerPath15 %>sdsk_status.asp?menu=tok"><%=tsa_txt_503 %></a></li>
             
-            <li><a href="<%=toSubVerPath14 %>sdsk_typer.asp?menu=tok" target="_blank"><%=tsa_txt_504 %></a>
+            <li><a href="<%=toSubVerPath15 %>sdsk_typer.asp?menu=tok" target="_blank"><%=tsa_txt_504 %></a>
             <%
             end if
             %>

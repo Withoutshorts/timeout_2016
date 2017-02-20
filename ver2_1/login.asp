@@ -1161,6 +1161,9 @@ else '** POST *****
                                 
                                 case 7 ' DASHBOARD
 						        response.redirect "to_2015/medarbdashboard.asp"
+
+                                case 8 ' Kunder
+						        response.redirect "to_2015/kunder.asp?visikkekunder=1"
                                 
                                 case else '0
 
