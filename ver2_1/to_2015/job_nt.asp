@@ -220,8 +220,16 @@ end if
     
 %>
 
+<style>
 
- 
+    table, tr, td, .tablecolor 
+    {
+        color:black;
+        padding:0 15px 10px 0px;
+    } 
+
+</style>
+
 
 <div id="wrapper">
 
@@ -1229,7 +1237,7 @@ end if 'Opret / rediger
               <input type="hidden" name="FM_jobid" value="<%=id %>" />
                <input type="hidden" id="showfullscreen" value="0" />
               <%call valutaKurs(1) %>
-            <input type="hidden" id="valuta_kurs_1" value="<%=dblKurs %>" />
+            <input type="hidden" id="valuta_kurs_1" value="<%=dblKurs %>" /> 
             <%call valutaKurs(2) %>
             <input type="hidden" id="valuta_kurs_2" value="<%=dblKurs %>" />
             <%call valutaKurs(3) %>
@@ -1391,11 +1399,121 @@ end if 'Opret / rediger
                        
                             <div class="panel-body">
 
+                            <div class="row">
+    
+                            <div class="col-lg-9">
+
+                            <table class="tablecolor">
+
+                                <tr>
+                                    <td colspan="2">Style <span style="color:red;">*</span> <br />
+                                        <input style="width:400px;" class="form-control input-small" type="text" name="FM_jobnavn" value="<%=jobnavn %>" />
+                                    </td>
+
+                                    <td>Collection <br />
+                                        <input style="width:400px;" class="form-control input-small" type="text" name="FM_collection" value="<%=collection %>" />
+                                    </td>
+                                                                                                        
+                               </tr>
+                                <tr>
+                                    <td>Enquiry startup <br />
+                                        <div class='input-group date'>
+                                            <input class="form-control input-small" type="text" name="FM_dt_enq_st" value="<%=dt_enq_st %>" placeholder="dd-mm-yyyy" />
+                                             <span class="input-group-addon input-small">
+                                                <span class="fa fa-calendar">
+                                                </span>
+                                            </span>
+                                        </div>
+                                    </td>
+                                    <td>Enquiry end
+                                        <div class='input-group date'>
+                                            <input class="form-control input-small" type="text" name="FM_dt_enq_end" value="<%=dt_enq_end %>" placeholder="dd-mm-yyyy" />
+                                            <span class="input-group-addon input-small">
+                                            <span class="fa fa-calendar">
+                                            </span>
+                                            </span>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2">Product group <br />
+                                        <select class="form-control input-small" name="FM_product_group"><%=strFil_PG_Txt %></select>
+                                    </td>
+                                    <td>
+                                        Composition <br />
+                                        <input class="form-control input-small" type="text" name="FM_composition" value="<%=composition %>" />
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        Sourcing deadline <br />
+                                        <div class='input-group date'>
+                                                <input class="form-control input-small" type="text" name="FM_dt_sour_dead" value="<%=dt_sour_dead %>" placeholder="dd-mm-yyyy"/>
+                                                <span class="input-group-addon input-small">
+                                                <span class="fa fa-calendar">
+                                                </span>
+                                            </span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        Proto deadline <br />
+                                        <div class='input-group date'>
+                                                <input class="form-control input-small" type="text" name="FM_dt_proto_dead" value="<%=dt_proto_dead %>" placeholder="dd-mm-yyyy" />
+                                                <span class="input-group-addon input-small">
+                                                <span class="fa fa-calendar">
+                                                </span>
+                                            </span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        Proto sent
+                                        <div class='input-group date'>
+                                            <input class="form-control input-small" type="text" name="FM_dt_proto_sent" value="<%=dt_proto_sent %>" placeholder="dd-mm-yyyy" />
+                                            <span class="input-group-addon input-small">
+                                            <span class="fa fa-calendar">
+                                            </span>
+                                            </span>
+                                      </div>
+                                    </td>
+                                </tr>
+
+                            </table>
+                            </div>
+
+                            <div class="col-lg-3">
+                                <table class="tablecolor">
+                                        
+                                    <tr>
+                                        <td>
+                                            Picture <br />
+                                            <div class="fileinput fileinput-new" data-provides="fileinput">
+                                            <div class="fileinput-preview thumbnail" data-trigger="fileinput" style="width: 250px; height: 200px;"></div>
+                                            <div>
+                                                <span class="btn btn-default btn-file"><span class="fileinput-new">Select image</span><span class="fileinput-exists">Change</span><input type="file" name="..."></span>
+                                                <a href="#" class="btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
+                                            </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+
+                                </table>
+                            </div>
 
 
-             <!-- ENQUIRY INFO START -->
-             <section>
-             <!--<div class="well well-white">-->
+                            </div>
+                            
+
+
+
+
+
+
+          
+
+                     <!-- ENQUIRY INFO START -->
+                     <section>
+                     <!--<div class="well well-white">-->
             
 
           
@@ -1407,10 +1525,12 @@ end if 'Opret / rediger
                                 <input class="form-control input-small" type="text" name="FM_jobnavn" value="<%=jobnavn %>" />
                             </div>
                          
-                            <div class="col-lg-6">
+                            <div class="col-lg-3">
                                 Collection
                                  <input class="form-control input-small" type="text" name="FM_collection" value="<%=collection %>" />
                             </div>
+                             
+
                         </div>
 
 
@@ -1453,7 +1573,7 @@ end if 'Opret / rediger
                                 <select class="form-control input-small" name="FM_product_group"><%=strFil_PG_Txt %></select>
                             </div>
                        
-                            <div class="col-lg-6 pad-t10">
+                            <div class="col-lg-3 pad-t10">
                                 Composition
                                 <input class="form-control input-small" type="text" name="FM_composition" value="<%=composition %>" />
                             </div>
