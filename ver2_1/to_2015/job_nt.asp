@@ -1403,15 +1403,15 @@ end if 'Opret / rediger
     
                             <div class="col-lg-9">
 
-                            <table class="tablecolor">
+                            <table class="tablecolor" style="width:100%">
 
                                 <tr>
                                     <td colspan="2">Style <span style="color:red;">*</span> <br />
-                                        <input style="width:400px;" class="form-control input-small" type="text" name="FM_jobnavn" value="<%=jobnavn %>" />
+                                        <input class="form-control input-small" type="text" name="FM_jobnavn" value="<%=jobnavn %>" />
                                     </td>
 
                                     <td>Collection <br />
-                                        <input style="width:400px;" class="form-control input-small" type="text" name="FM_collection" value="<%=collection %>" />
+                                        <input class="form-control input-small" type="text" name="FM_collection" value="<%=collection %>" />
                                     </td>
                                                                                                         
                                </tr>
@@ -1477,7 +1477,86 @@ end if 'Opret / rediger
                                       </div>
                                     </td>
                                 </tr>
+                                <tr>
+                                    <td>
+                                        SMS Buyer deadline <br />                         
+                                       <div class='input-group date'>
+                                               <input class="form-control input-small" type="text" name="FM_dt_sms_dead" value="<%=dt_sms_dead %>" placeholder="dd-mm-yyyy" />
+                                             <span class="input-group-addon input-small">
+                                                <span class="fa fa-calendar">
+                                                </span>
+                                            </span>
+                                      </div>
+                                    </td>
+                                    <td>
+                                        SMS Supplier DL
+                              
+                                      <div class='input-group date'>
+                                           <input class="form-control input-small" type="text" name="FM_dt_sup_sms_dead" value="<%=dt_sup_sms_dead%>" placeholder="dd-mm-yyyy" />
+                                         <span class="input-group-addon input-small">
+                                            <span class="fa fa-calendar">
+                                            </span>
+                                        </span>
+                                      </div>
+                                    </td>
+                                    <td>
+                                        SMS sent  <br />                             
+                                        <div class='input-group date'>
+                                                <input class="form-control input-small" type="text" name="FM_dt_sms_sent" value="<%=dt_sms_sent %>" placeholder="dd-mm-yyyy" />
+                                                <span class="input-group-addon input-small">
+                                                <span class="fa fa-calendar">
+                                                </span>
+                                            </span>
+                                        </div>
+                                    </td>
+                                </tr>
 
+                                <tr>
+                                    <td>
+                                        Photo Buyer Deadline <br />
+                               
+                                        <div class='input-group date'>
+                                            <input class="form-control input-small" type="text" name="FM_dt_photo_dead" value="<%=dt_photo_dead %>" placeholder="dd-mm-yyyy" />
+                                             <span class="input-group-addon input-small">
+                                                <span class="fa fa-calendar">
+                                                </span>
+                                            </span>
+                                      </div>
+                                    </td>
+                                    <td>
+                                        Photo Supplier DL <br />
+                                
+                                          <div class='input-group date'>
+                                           <input class="form-control input-small" type="text" name="FM_dt_sup_photo_dead" value="<%=dt_sup_photo_dead%>" placeholder="dd-mm-yyyy" />
+                                             <span class="input-group-addon input-small">
+                                                <span class="fa fa-calendar">
+                                                </span>
+                                            </span>
+                                          </div>
+                                    </td>
+                                    <td>
+                                        Photo sent
+                                            <div class='input-group date'>
+                                            <input class="form-control input-small" type="text" name="FM_dt_photo_sent" value="<%=dt_photo_sent %>" placeholder="dd-mm-yyyy" />
+                                                <span class="input-group-addon input-small">
+                                                <span class="fa fa-calendar">
+                                                </span>
+                                            </span>
+                                          </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        Exp order <br />
+                                       <div class='input-group date'>
+                                          <input class="form-control input-small" type="text" name="FM_dt_exp_order" value="<%=dt_exp_order %>" placeholder="dd-mm-yyyy"/>
+                                             <span class="input-group-addon input-small">
+                                                <span class="fa fa-calendar">
+                                                </span>
+                                            </span>
+                                      </div>
+                                    </td>
+                                </tr>
                             </table>
                             </div>
 
@@ -1488,7 +1567,7 @@ end if 'Opret / rediger
                                         <td>
                                             Picture <br />
                                             <div class="fileinput fileinput-new" data-provides="fileinput">
-                                            <div class="fileinput-preview thumbnail" data-trigger="fileinput" style="width: 250px; height: 200px;"></div>
+                                            <div class="fileinput-preview thumbnail" data-trigger="fileinput" style="width: 250px; height: 300px;"></div>
                                             <div>
                                                 <span class="btn btn-default btn-file"><span class="fileinput-new">Select image</span><span class="fileinput-exists">Change</span><input type="file" name="..."></span>
                                                 <a href="#" class="btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
@@ -1504,13 +1583,23 @@ end if 'Opret / rediger
                             </div>
                             
 
+                            <div class="row">
+                               <div class="col-lg-6 pad-t10">
+                                Sample colour &amp Sample Qty.
+                                <textarea name="FM_scsq_note" class="form-control input-small" placeholder="Write your comment here"><%=scsq_note %></textarea>
+                            </div>
 
+                            <div class="col-lg-6 pad-t10 pad-r30">
+                                Sample Note
+                                <textarea name="FM_sample_note" class="form-control input-small" placeholder="Write your comment here"><%=sample_note %></textarea>
+                            </div>
+                         </div>
 
 
 
 
           
-
+                <div style="display:none">
                      <!-- ENQUIRY INFO START -->
                      <section>
                      <!--<div class="well well-white">-->
@@ -1518,7 +1607,7 @@ end if 'Opret / rediger
 
           
       
-
+                         
                          <div class="row">
                              <div class="col-lg-6">
                                 Style <span style="color:red;">*</span>
@@ -1643,7 +1732,7 @@ end if 'Opret / rediger
                                         <span class="fa fa-calendar">
                                         </span>
                                     </span>
-                              </div>
+                                </div>
                             </div>
                             <div class="col-lg-3 pad-t10"> 
                                 SMS sent
@@ -1731,7 +1820,7 @@ end if 'Opret / rediger
                          </div>
                   
                </section>
-            
+            </div>
             <!--ENQUIRY INFO END -->
 
             </div>
