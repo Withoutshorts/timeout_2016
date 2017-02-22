@@ -34,8 +34,9 @@
   
       '  Save the files with his original names in a virtual path of the web server
       '  **************************************************************************
-       	 file.SaveAs("C:\www\timeout_xp\wwwroot\ver2_1\inc\upload\"&lto&"\" & file.FileName) 
-	 	 'file.SaveAs("D:\webserver\wwwroot\timeout_xp\wwwroot\"& toVer &"\inc\upload\"&lto&"\" & file.FileName) '*** Denne sti skal ændres!
+         response.Write "lto: " & lto & file.FileName
+       	 'file.SaveAs("C:\www\timeout_xp\wwwroot\ver3_99\inc\upload\"&lto&"\" & file.FileName) 
+	 	 file.SaveAs("D:\webserver\wwwroot\timeout_xp\wwwroot\"& toVer &"\inc\upload\"&lto&"\" & file.FileName) '*** Denne sti skal ændres!
 		 'file.SaveAs("wwwroot/outsite/upload/" & file.FileName)
 		 
       '  Display the properties of the current file

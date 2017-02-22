@@ -282,7 +282,58 @@ select case func
 	
 	Response.redirect "job_nt.asp"
 	
+case "sletfil"
+'*** Her spørges om det er ok at der slettes en medarbejder ***
+	%>
+    
+    
+    <div class="container" style="width:500px;">
+        <div class="porlet">
+            
+        
+            
+            <div class="portlet-body">
+                <div style="text-align:center;"> Du er ved at <b>slette</b> en fil. Er dette korrekt?
+                    <%if len(trim(slttxtb)) <> 0 then %>
+                    <br /><br />&nbsp;
+                    
+                    <%end if %>
+                </div><br />
+                <div style="text-align:center;"><a  class="btn btn-primary btn-sm" role="button" href="job_nt.asp?func=sletfilok&id=<%=request("id")%>&filnavn=<%=request("filnavn")%>">&nbsp;Ja&nbsp;</a>&nbsp&nbsp&nbsp&nbsp<a class="btn btn-default btn-sm" role="button" href="Javascript:history.back()"><b>Nej</b></a>
+                </div>
+                <br /><br />
+            </div>
 
+        </div>
+    </div>
+    
+    <%
+
+case "sletfilok"
+	'*** Her slettes en fil ***
+	'ktv
+	'strPath =  "E:\www\timeout_xp\wwwroot\ver2_1\upload\"&lto&"\" & Request("filnavn")
+	'Qwert
+	'strPath =  "d:\webserver\wwwroot\timeout_xp\wwwroot\ver2_1\inc\upload\"&lto&"\" & Request("filnavn")
+    strPath = "d:\webserver\wwwroot\timeout_xp\wwwroot\"& toVer &"\inc\upload\"&lto&"\" & Request("filnavn")
+	Response.write strPath
+	
+	on Error resume Next 
+
+	Set FSO = Server.CreateObject("Scripting.FileSystemObject")
+	Set fsoFile = FSO.GetFile(strPath)
+	fsoFile.Delete
+	
+	id = request("id")
+    if len(trim(request("id"))) <> 0 then
+    id = request("id")
+    else
+    id = 0
+    end if
+
+	oConn.execute("DELETE FROM filer WHERE id = "& id &"")
+    response.Write "id er: " & id
+	Response.redirect "job_nt.asp?"
 
 case "dbopr", "dbred"
 
@@ -1560,26 +1611,52 @@ end if 'Opret / rediger
                             </table>
                             </div>
 
+                        <%if func= "red" then %>
                             <div class="col-lg-3">
                                 <table class="tablecolor">
-                                        
+                                    <%
+	                                strSQL = "SELECT id, filnavn FROM filer WHERE jobid = "& id
+                                    
+	                                oRec.open strSQL, oConn, 3
+	                                j = 0
+	                                while not oRec.EOF
+                                    if len(trim(oRec("filnavn"))) <> 0 then                       
+	                                %>
                                     <tr>
                                         <td>
                                             Picture <br />
                                             <div class="fileinput fileinput-new" data-provides="fileinput">
-                                            <div class="fileinput-preview thumbnail" data-trigger="fileinput" style="width: 250px; height: 300px;"></div>
-                                            <div>
-                                                <span class="btn btn-default btn-file"><span class="fileinput-new">Select image</span><span class="fileinput-exists">Change</span><input type="file" name="..."></span>
-                                                <a href="#" class="btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
+                                                <div class="fileinput-preview thumbnail" style="width: 250px; height: 300px;">
+                                                    <img src="../inc/upload/<%=lto%>/<%=oRec("filnavn")%>" alt='' border='0'>                                                   
+                                                </div>
                                             </div>
+                                            <a href="job_nt.asp?func=sletfil&id=<%=oRec("id")%>&filnavn=<%=oRec("filnavn")%>" class="btn btn-default btn-sm">Remove image</a>
+                                        </td>                                        
+                                    </tr>
+                                    <%
+                                    j = j + 1
+	                                end if
+	                                oRec.movenext
+	                                wend
+	                                oRec.close 
+
+                                    if j = 0 then
+                                    %>
+                                    <tr>
+                                        <td>
+                                            Picture <br />
+                                            <div class="fileinput fileinput-new" data-provides="fileinput">
+                                                <div class="fileinput-new thumbnail" style="width: 250px; height: 300px;">                                                  
+                                                </div>
                                             </div>
+                                            <a onclick="Javascript:window.open('upload.asp?menu=fob&func=opret&id=<%=request("jobid")%>', '', 'width=650,height=600,resizable=yes,scrollbars=yes')" class="btn btn-default btn-sm">Select image</a>
                                         </td>
                                     </tr>
-
+                                    <%end if %>
                                 </table>
                             </div>
-
-
+                            <%end if %>
+                               
                             </div>
                             
 
