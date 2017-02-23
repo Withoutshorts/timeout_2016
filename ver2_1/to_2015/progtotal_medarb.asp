@@ -345,48 +345,9 @@
 
                           <tbody>
                             
-
                               <%
-                                  
-                                  strSQLtimer = "SELECT Tmnavn, Tmnr, sum(Timer) as Timer FROM timer WHERE tjobnr = "& Strjobid & " GROUP BY Tmnr "
-                                  
-                                  oRec5.open strSQLtimer, oConn, 3
-      
-                                  while not oRec5.EOF
-
-                                  Strmedarb = oRec5("Tmnavn")
-                                  Strtimer = oRec5("Timer")
                                    
-                              %>
-
-                              <tr>
-                                  <td><%=Strmedarb %></td>  
-                                                                  
-                                  <%
-
-                                      Dim timer_medarb (200)
-                                      Redim u (200)
-
-                                      'Strsqltimer_medarb = "SELECT sum(Timer) as Timer WHERE tjobnr = "& Strjobid & "GROUP BY   "
-                                      
-                                      
-                                      for i = 0 to antalmaaned
-                                      
-                                            
-                                      
-
-                                        %> <td style="text-align:center;">tezs</td> <%
-
-                                      next 
-                                  %>
-
-                                  <td style="text-align:center"><%=Strtimer %></td>
-                              </tr>
-
-                              <%
-                                oRec5.movenext
-                                wend
-                                oRec5.close 
+                                   
                               %>
 
                           </tbody>
