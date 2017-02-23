@@ -125,6 +125,8 @@
 			filnavn = oRec("filnavn")
 			end if
 			oRec.close 
+
+
 %>
 <br><br>
 
@@ -157,11 +159,18 @@ Response.Write("<script language=""JavaScript"">window.opener.document.getElemen
 
 end if
 
-if deletenewfileEntry = 1 then%>
+
+
+if deletenewfileEntry = 1 then %>
 <font class=roed><b>!</b>&nbsp;En fil af samme navn som den uploadede fil <b>fandtes allerede</b> i filarkivet.<br>
 Den eksisterene fil er blevet <b>overskrevet</b> med den nye fil, men den ligger stadigvæk i den oprindelige mappe.<br>
 </font>
-<%end if%>
+
+<%end if %>
+
+
+
+
 
 <br><br>&nbsp;
 

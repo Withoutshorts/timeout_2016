@@ -83,7 +83,7 @@ useid = request("type")
 
 if lto = "intanet - local" or lto = "nt" then
 jobid = request("id")
-filepath1 = request("filepath1")
+'filepath1 = request("filepath1")
 else
 jobid = 0 
 kundeid = request("kundeid")
@@ -125,16 +125,30 @@ if lto = "intranet - local" or lto = "nt" then
                     <div class="portlet-body">
                         <FORM ENCTYPE="multipart/form-data" ACTION="../timereg/upload_bin.asp" METHOD="POST">
 
-                            <div class="row">
-                                <div class="col-lg-2">
+                            <div class="row" style="text-align:center">
+                                <div class="col-md-10">
+                                  <div class="fileinput fileinput-new" data-provides="fileinput">
+                                    <div class="fileinput-preview thumbnail" data-trigger="fileinput" style="width: 300px; height: 350px;"></div>
+                                    <div>
+                                      <span class="btn btn-default btn-file"><span class="fileinput-new">Select image</span><span class="fileinput-exists">Change</span><INPUT NAME="fileupload1" TYPE="file"></span>
+                                      <a href="#" class="btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
+                                    </div>
+                                  </div>
+                                </div> <!-- /.col -->
+                            </div>
+                            <br>
+                            <div class="row" style="text-align:center">
                                     
-                                    <INPUT NAME="fileupload1" TYPE="file" class="btn btn-default btn-file">
+                                <!-- <INPUT NAME="fileupload1" TYPE="file" class="btn btn-default btn-file"> -->
 			                        <!-- Der kan kun uploades 1 fil, pga x i ovenstående sql statement -->
 			                        <!--
 			                        <INPUT NAME="fileupload2" TYPE="file" style="width:200px;"><br>
 			                        <INPUT NAME="fileupload3" TYPE="file" style="width:200px;"><br>-->
 			                        <!--<INPUT NAME="Action"  type="image" src="../ill/opretpil.gif">-->
-                                    <input type="submit" value=" Upload >> " />
+                                     <div class="col-lg-2">
+                                            <button type="submit" class="btn btn-secondary"><b>Upload</b></button>
+                                     </div>
+                                   <!-- <input type="submit" value=" Upload >> " /> -->
                                 </div>
                             </div>
 

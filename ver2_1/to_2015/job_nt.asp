@@ -1611,7 +1611,7 @@ end if 'Opret / rediger
                             </table>
                             </div>
 
-                        <%if func= "red" then %>
+                        
                             <div class="col-lg-3">
                                 <table class="tablecolor">
                                     <%
@@ -1649,13 +1649,13 @@ end if 'Opret / rediger
                                                 <div class="fileinput-new thumbnail" style="width: 250px; height: 300px;">                                                  
                                                 </div>
                                             </div>
-                                            <a onclick="Javascript:window.open('upload.asp?menu=fob&func=opret&id=<%=request("jobid")%>', '', 'width=650,height=600,resizable=yes,scrollbars=yes')" class="btn btn-default btn-sm">Select image</a>
+                                            <a onclick="Javascript:window.open('upload.asp?menu=fob&func=opret&id=<%=request("jobid")%>', '', 'width=650,height=600,resizable=yes,scrollbars=yes')" class="btn btn-default btn-sm">Add image</a>
                                         </td>
                                     </tr>
                                     <%end if %>
                                 </table>
                             </div>
-                            <%end if %>
+                            
                                
                             </div>
                             
@@ -2270,21 +2270,17 @@ end if 'Opret / rediger
 <%
  
     case else   
-
     
-
     if len(trim(request("post"))) <> 0 then
     post = 1
     else
     post = 0
     end if
-
     if len(trim(request("lastid"))) <> 0 then
     lastid = request("lastid")
     else
     lastid = 0
     end if
-
    if len(trim(request("rapporttype"))) <> 0 then
    rapporttype = request("rapporttype")
    response.cookies("orders")("rapporttype") = rapporttype 
@@ -2295,8 +2291,6 @@ end if 'Opret / rediger
         rapporttype = 0
         end if
     end if
-
-
    if len(trim(request("supplier"))) <> 0 then
    supplier = request("supplier")
    response.cookies("orders")("supplier") = supplier 
@@ -2307,7 +2301,6 @@ end if 'Opret / rediger
         supplier = 0
         end if
     end if
-
     if len(trim(request("buyer"))) <> 0 then
    buyer = request("buyer")
    response.cookies("orders")("buyer") = buyer
@@ -2318,7 +2311,6 @@ end if 'Opret / rediger
         buyer = 0
         end if
     end if
-
     
    if len(trim(request("salesrep"))) <> 0 then
    salesrep = request("salesrep")
@@ -2330,33 +2322,27 @@ end if 'Opret / rediger
         salesrep = 0
         end if
     end if
-
     if salesrep <> 0 then
     salesrepSQL = " AND j.jobans1 = "& salesrep
     else
     salesrepSQL = ""
     end if
-
     if supplier <> 0 then
     supplierSQL = " AND j.supplier = "& supplier
     else
     supplierSQL = ""
     end if
-
-
     if buyer <> 0 then
     buyerSQL = " AND k.kid = "& buyer
     else
     buyerSQL = ""
     end if
-
     'Rapporttyper
     '0: overview 
     '1: enquery  / case else
     '2: production
     '3: production no eco
     '4: Sales budget
-
     select case rapporttype
     case 1
     rapporttypeTxt = "Production (Enq. Overview)"
@@ -2369,7 +2355,6 @@ end if 'Opret / rediger
     case else
     rapporttypeTxt = "Orders (Overview)"
     end select
-
     if cint(post) = 1 then
     sogVal = request("FM_sog")
     response.cookies("orders")("sog") = sogVal
@@ -2380,10 +2365,7 @@ end if 'Opret / rediger
         sogVal = ""
         end if
     end if
-
-
     if cint(post) = 1 then' fra Sog submit
-
         if len(trim(request("FM_status1"))) <> 0 then
         strStatusSQL = " AND (jobstatus = 1"
         statusCHK1 = "CHECKED"
@@ -2393,15 +2375,12 @@ end if 'Opret / rediger
         statusCHK1 = ""
         response.cookies("orders")("status1") = ""
         end if
-
     else
-
             if len(trim(request("rapporttype"))) <> 0 then 'altid slået til når der vælges en rapport fra menu, uanset hvilken          
             strStatusSQL = " AND (jobstatus = 1"
             statusCHK1 = "CHECKED"
             response.cookies("orders")("status1") = "1"
             else 'Cookie
-
                 if request.cookies("orders")("status1") <> "" then
                 strStatusSQL = " AND (jobstatus = 1"
                 statusCHK1 = "CHECKED"
@@ -2413,8 +2392,6 @@ end if 'Opret / rediger
             
             end if
     end if
-
-
     if len(trim(request("FM_status2"))) <> 0 then
     strStatusSQL = strStatusSQL & " OR jobstatus = 2"
     statusCHK2 = "CHECKED"
@@ -2432,7 +2409,6 @@ end if 'Opret / rediger
             end if
         end if
     end if
-
   if len(trim(request("FM_status3"))) <> 0 then
     strStatusSQL = strStatusSQL & " OR jobstatus = 3"
     statusCHK3 = "CHECKED"
@@ -2456,7 +2432,6 @@ end if 'Opret / rediger
             end if
         end if
     end if
-
    if len(trim(request("FM_status4"))) <> 0 then
     strStatusSQL = strStatusSQL & " OR jobstatus = 4"
     statusCHK4 = "CHECKED"
@@ -2474,7 +2449,6 @@ end if 'Opret / rediger
             end if
         end if
     end if
-
        if len(trim(request("FM_status0"))) <> 0 then
     strStatusSQL = strStatusSQL & " OR jobstatus = 0"
     statusCHK0 = "CHECKED"
@@ -2492,12 +2466,8 @@ end if 'Opret / rediger
             end if
         end if
     end if
-
-
     
     strStatusSQL = strStatusSQL & ")"
-
-
     if len(trim(request("sort"))) <> 0 then
     sort = request("sort")
     response.cookies("orders")("orderby") = sort
@@ -2508,8 +2478,6 @@ end if 'Opret / rediger
          sort = 1
          end if 
     end if
-
-
      select case sort
         case "1"
         strSQLOdrBy = "kkundenavn, jobnavn"
@@ -2550,11 +2518,9 @@ end if 'Opret / rediger
         case else 
         strSQLOdrBy = "kkundenavn, jobnavn"
         end select
-
      
     strSQLOdrBy = strSQLOdrBy & ", kkundenavn, supplier, jobnavn"
     
-
     if len(trim(request("FM_dt_from"))) <> 0 then
     dt_from = request("FM_dt_from")
         
@@ -2562,52 +2528,39 @@ end if 'Opret / rediger
     dt_from = replace(dt_from, "/", "-")
     dt_from = replace(dt_from, ":", "-")
     dt_from = replace(dt_from, " ", "")
-
      if isDate(dt_from) = false then
     dt_from = "2010-01-01"
     end if
-
     response.cookies("orders")("dt_from") = dt_from
     else
-
         if request.cookies("orders")("dt_from") <> "" then
         dt_from = request.cookies("orders")("dt_from")
         else
         dt_from = dateAdd("m", -3, now)
         end if
-
     end if
-
     dt_fromTxt = formatdatetime(dt_from, 2) 'day(dt_from) &"-"& month(dt_from) &"-"& year(dt_from)
     dt_fromSQL = year(dt_from) &"-"& month(dt_from) &"-"& day(dt_from)
-
     if len(trim(request("FM_dt_to"))) <> 0 then
     dt_to = request("FM_dt_to")
-
     dt_to = replace(dt_to, ".", "-")
     dt_to = replace(dt_to, "/", "-")
     dt_to = replace(dt_to, ":", "-")
     dt_to = replace(dt_to, " ", "")
-
     if isDate(dt_to) = false then
     dt_to = "2010-01-01"
     end if
      
     response.cookies("orders")("dt_to") = dt_to
     else
-
         if request.cookies("orders")("dt_to") <> "" then
         dt_to = request.cookies("orders")("dt_to")
         else
         dt_to = dateAdd("m", -3, now)
         end if
-
     end if
-
      dt_toTxt = formatdatetime(dt_to, 2) '&"-"& month(dt_to) &"-"& year(dt_to)
     dt_toSQL = year(dt_to) &"-"& month(dt_to) &"-"& day(dt_to)
-
-
     if len(trim(request("FM_append_to"))) <> 0 then
     append_to = request("FM_append_to")
     response.cookies("orders")("apend_to") = append_to 
@@ -2618,7 +2571,6 @@ end if 'Opret / rediger
         append_to = "-1"
         end if
     end if
-
   
     appto_1Sel = ""
     appto_2Sel = ""
@@ -2635,7 +2587,6 @@ end if 'Opret / rediger
      appto_13Sel = ""
      appto_14Sel = ""
     appto_15Sel = ""
-
     select case append_to
     case "-1"
     strSQLdtKri = ""
@@ -2685,16 +2636,12 @@ end if 'Opret / rediger
     strSQLdtKri = " AND (dt_confs_etd "
     appto_15Sel = "SELECTED"
     end select
-
     if append_to <> "-1" then
     strSQLdtKri = strSQLdtKri & " BETWEEN '"& dt_fromSQL &"' AND '"& dt_toSQL &"' )"
     end if
-
-
     rapporttype0SEL = ""
     rapporttype1SEL = ""
     rapporttype3SEL = ""
-
     select case rapporttype
     case 0
     rapporttype0SEL = "SELECTED"
@@ -2705,14 +2652,9 @@ end if 'Opret / rediger
     case else
     rapporttype0SEL = "SELECTED"
     end select
-
     'if media = "" then
     'call menu_2014()
     'end if
-
-
-
-
     %>
     
 
@@ -2835,7 +2777,6 @@ end if 'Opret / rediger
                                     else
                                     ssel = ""
                                     end if
-
                              %>
                                   <option value="<%=oRec("kid")%>" <%=ssel %>><%=oRec("kkundenavn") %></option>
                                   <%
@@ -2859,7 +2800,6 @@ end if 'Opret / rediger
                                     else
                                     ssel = ""
                                     end if
-
                              %>
                                   <option value="<%=oRec("kid")%>" <%=ssel %>><%=oRec("kkundenavn") %></option>
                                   <%
@@ -2990,38 +2930,26 @@ end if 'Opret / rediger
 
 
 <%
-
 'if len(trim(sogVal)) <> 0 then
 '    sogValSQL = " AND (k.kkundenavn LIKE '"& sogVal &"%' OR jobnavn LIKE '"& sogVal &"%' OR jobnr LIKE '"& sogVal &"%' )"
 'else
 '    sogValSQL = ""
 'end if
-
-
 call basisValutaFN()
 basisValKursUse = replace(basisValKurs, ".", ",")
-
-
 '************************************************************************
 '****************** Søge funktion , Trim ********************************
 '************************************************************************
 if len(trim(sogVal)) <> 0 then 
                                     
-
                  
-
-
                     if instr(sogVal, ",") <> 0 then
                                     
                     sogValArr = split(sogVal, ",")
                                     
-
                                    
-
                     for j = 0 TO UBOUND(sogValArr)
-
                     sogValTxt = trim(sogValArr(j)) 
-
                     if j = 0 then
                         strsogValKri = " AND ((k.kkundenavn LIKE '%"& sogValTxt &"%' OR k.kkundenr = '"& sogValTxt &"') "
                     else
@@ -3031,25 +2959,19 @@ if len(trim(sogVal)) <> 0 then
                         strsogValKri = strsogValKri & " OR (jobnr LIKE '"& sogValTxt &"%' OR jobnavn LIKE '%"& sogValTxt &"%' OR supplier_invoiceno LIKE '"& sogVal &"%' OR rekvnr LIKE '"& sogVal &"%') "
                         end if
                     end if
-
                     next
-
-
                     strsogValKri = strsogValKri & "))"
                                     
                     else
-
                         if instr(sogVal, ">") <> 0 then
                         sogValTxt = trim(replace(sogVal, ">", "")) 
                             call erDetInt(SQLBless(trim(sogValTxt)))
-
                             if len(trim(sogValTxt)) > 0 AND isInt = 0 then
                             strsogValKri = " AND (jobnr > "& sogValTxt &")"
                             else
                                 strsogValKri = " AND (jobnr < 0)"
                             end if 
                         else
-
                             if instr(sogVal, "<") <> 0 then
                                 sogValTxt = trim(replace(sogVal, "<", ""))
                                             
@@ -3063,9 +2985,6 @@ if len(trim(sogVal)) <> 0 then
                                 end if 
                             
                             else	
-
-
-
                                     '**** Finder jobnr på fakturaer vhsi der er faktureret *****
                                     fakfundet = 0
                                     strSogFaknrJobids = " OR (jobnr = -1"
@@ -3077,15 +2996,12 @@ if len(trim(sogVal)) <> 0 then
     
                                     oRec4.open strSQLfakjob, oConn, 3
                                     while not oRec4.EOF 
-
                                     strSogFaknrJobids = strSogFaknrJobids & " OR jobnr = "& oRec4("jobnr")
-
                                     fakfundet = 1
                                     oRec4.movenext
                                     wend
                                     oRec4.close
                  
-
                                     if cint(fakfundet) = 1 then
                                     strSogFaknrJobids = strSogFaknrJobids & ")"
                                     else
@@ -3093,8 +3009,6 @@ if len(trim(sogVal)) <> 0 then
                                     end if
         
                                     'response.end
-
-
                                     	
 		                    strsogValKri = " AND (jobnr LIKE '"& sogVal &"%' "& strSogFaknrJobids &" OR jobnavn LIKE '%"& sogVal &"%' OR k.kkundenavn LIKE '%"& sogVal &"%' OR k.kkundenr = '"& sogVal &"' OR supplier_invoiceno LIKE '"& sogVal &"%' OR rekvnr LIKE '"& sogVal &"%') "
                                     
@@ -3104,20 +3018,13 @@ if len(trim(sogVal)) <> 0 then
 		else
 		strsogValKri = ""
 		end if				
-
-
     sogValSQL = strsogValKri 
-
     '******************************************************
-
-
 strSQLjobsel = "SELECT j.id, jobnavn, jobnr, k.kkundenavn, k.kid, k2.kkundenavn AS suppliername, jobstatus, supplier, mg.navn AS mgruppenavn, rekvnr, supplier_invoiceno, fastpris, collection, kunde_levbetint, "
-
 if cint(rapporttype) = 0 OR cint(rapporttype) = 3 then
 strSQLjobsel = strSQLjobsel &" jobstartdato, orderqty, shippedqty, product_group, kundekpers, m.mnavn AS salesrep, m.init,"
 strSQLjobsel = strSQLjobsel &" comm_pc, jo_dbproc, destination, dt_confb_etd, dt_confb_eta, dt_confs_etd, dt_actual_etd, sales_price_pc, sales_price_pc_valuta, cost_price_pc, cost_price_pc_valuta, freight_pc, tax_pc,"
 end if
-
 if cint(rapporttype) = 1 then
 strSQLjobsel = strSQLjobsel &" dt_proto_dead, dt_sms_dead, dt_photo_dead, dt_sour_dead, dt_proto_dead, dt_ppapp, dt_shsapp, dt_sup_photo_dead, dt_sup_sms_dead, dt_confb_etd, dt_confb_eta, dt_confs_etd,"
 end if
@@ -3127,19 +3034,15 @@ strSQLjobsel = strSQLjobsel &" jo_bruttooms, jo_udgifter_intern, alert"_
 &" FROM job AS j "_
 &" LEFT JOIN kunder AS k ON (k.kid = j.jobknr)"_
 &" LEFT JOIN kunder AS k2 ON (k2.kid = j.supplier)"
-
 strSQLjobsel = strSQLjobsel &" LEFT JOIN materiale_grp AS mg ON (mg.id = j.product_group)"
-
 if cint(rapporttype) = 0 OR cint(rapporttype) = 3 then
 strSQLjobsel = strSQLjobsel &" LEFT JOIN medarbejdere AS m ON (m.mid = j.jobans1)"
 end if
-
 if post <> 0 OR lastid <> 0 OR media = "exp" then
 strSQLjobsel = strSQLjobsel &" WHERE j.id <> 0 "& sogValSQL &" "& strStatusSQL &" "& strSQLdtKri &" "& salesrepSQL &" "& supplierSQL &" "& buyerSQL &" ORDER BY "& strSQLOdrBy &" LIMIT 2000" 
 else
 strSQLjobsel = strSQLjobsel &" WHERE j.id = -1" 
 end if
-
 'if session("mid") = 1 then
 'response.write strSQLjobsel
 'response.Flush    
@@ -3147,32 +3050,19 @@ end if
  
   jo_bruttooms_tot = 0
   jo_cost_tot = 0
-
   orderqtyTot = 0 
   shippedqtyTot = 0
-
   ordertypeTxt = ""
   strExpTxt = ""
-
-
 oRec.open strSQLjobsel, oConn, 3
 while not oRec.EOF
-
-
-
-
    
-
-
     'if cint(antal_orders) = 0 then
     %>
                  <!--<input type="hidden" id="fakhref_<%=oRec("id") %>" value="../timereg/erp_opr_faktura_fs.asp?visfaktura=1&visjobogaftaler=1&visminihistorik=1&FM_job=<%=oRec("id") %>&FM_kunde=<%=oRec("kid")%>&FM_aftale=0&reset=1&FM_usedatokri=1&FM_start_dag=<%=day(dt_from)%>&FM_start_mrd=<%=month(dt_from)%>&FM_start_aar=<%=year(dt_from)%>&FM_slut_dag=<%=day(dt_to)%>&FM_slut_mrd=<%=month(dt_to)%>&FM_slut_aar=<%=year(dt_to)%>" />-->
                   <input type="text" id="fakhref_<%=oRec("id") %>" value="../timereg/erp_opr_faktura_fs.asp?visfaktura=1&visjobogaftaler=1&visminihistorik=1&FM_job=<%=oRec("id")%>&FM_kunde=<%=oRec("kid")%>&FM_aftale=0&reset=1&FM_usedatokri=1&FM_start_dag=<%=day(dt_from)%>&FM_start_mrd=<%=month(dt_from)%>&FM_start_aar=<%=year(dt_from)%>&FM_slut_dag=<%=day(dt_to)%>&FM_slut_mrd=<%=month(dt_to)%>&FM_slut_aar=<%=year(dt_to)%>" style="visibility:hidden; display:none;" />
                                                         
     <%'end if
-
-
-
       if cint(rapporttype) = 0 OR cint(rapporttype) = 3 then
     
      if oRec("orderqty") <> 0 then
@@ -3181,27 +3071,21 @@ while not oRec.EOF
     else
     orderqty = ""
     end if
-
     
-
      if oRec("shippedqty") <> 0 then
     shippedqty = oRec("shippedqty")
     shippedqtyTot = shippedqtyTot + oRec("shippedqty")
     else
     shippedqty = ""
     end if
-
     if instr(oRec("jobstartdato"), "2010") <> 0 then
     dt_jobstartdato = ""
     else
     dt_jobstartdato = year(oRec("jobstartdato"))&"/"&month(oRec("jobstartdato"))&"/"&day(oRec("jobstartdato"))  'replace(formatdatetime(oRec("jobstartdato"), 2), "-", ".")
     'dt_jobstartdato = formatdatetime(dt_jobstartdato, 2)
     end if
-
     
-
      end if
-
     if cint(rapporttype) = 1 then
     
     if instr(oRec("dt_sour_dead"), "2010") <> 0 then
@@ -3211,7 +3095,6 @@ while not oRec.EOF
     dt_sour_dead = year(oRec("dt_sour_dead"))&"/"&month(oRec("dt_sour_dead"))&"/"&day(oRec("dt_sour_dead")) 
     'dt_sour_dead = formatdatetime(dt_sour_dead, 2)
     end if
-
      if instr(oRec("dt_proto_dead"), "2010") <> 0 then
     dt_proto_dead = ""
     else
@@ -3220,7 +3103,6 @@ while not oRec.EOF
     'dt_proto_dead = formatdatetime(dt_proto_dead, 2)
     end if
      
-
      if instr(oRec("dt_photo_dead"), "2010") <> 0 then
     dt_photo_dead = ""
     else
@@ -3238,9 +3120,6 @@ while not oRec.EOF
     'dt_sms_dead = formatdatetime(dt_sms_dead, 2)
     end if
    
-
-
-
     if instr(oRec("dt_proto_dead"), "2010") <> 0 then
     dt_proto_dead = ""
     else
@@ -3249,7 +3128,6 @@ while not oRec.EOF
     'dt_proto_dead = formatdatetime(dt_proto_dead, 2)
     end if
      
-
      if instr(oRec("dt_ppapp"), "2010") <> 0 then
     dt_ppapp = ""
     else
@@ -3267,7 +3145,6 @@ while not oRec.EOF
     'dt_shsapp = formatdatetime(dt_shsapp, 2)
     end if
    
-
     if instr(oRec("dt_sup_photo_dead"), "2010") <> 0 then
     dt_sup_photo_dead = ""
     else
@@ -3275,7 +3152,6 @@ while not oRec.EOF
     dt_sup_photo_dead = year(oRec("dt_sup_photo_dead"))&"/"&month(oRec("dt_sup_photo_dead"))&"/"&day(oRec("dt_sup_photo_dead")) 
     'dt_sup_photo_dead = formatdatetime(dt_sup_photo_dead, 2)
     end if
-
      if instr(oRec("dt_sup_sms_dead"), "2010") <> 0 then
      dt_sup_sms_dead = ""
      else
@@ -3287,20 +3163,11 @@ while not oRec.EOF
         dt_sup_sms_dead = oRec("dt_sup_sms_dead")
         end if
     end if
-
        
-
     
-
-
-
     end if
-
-
-
     
      if cint(rapporttype) = 1 OR cint(rapporttype) = 3 then
-
       if instr(oRec("dt_confs_etd"), "2010") <> 0 then
     dt_confs_etd = ""
      else
@@ -3308,12 +3175,8 @@ while not oRec.EOF
         dt_confs_etd = year(oRec("dt_confs_etd"))&"/"&month(oRec("dt_confs_etd"))&"/"&day(oRec("dt_confs_etd")) 
         'dt_confs_etd = formatdatetime(dt_confs_etd, 2)
     end if
-
     end if
-
  
-
-
     if oRec("jo_udgifter_intern") <> 0 then
     jo_udgifter_intern = formatnumber(oRec("jo_udgifter_intern"), 2) 
     jo_udgifter_internTxt = formatnumber(oRec("jo_udgifter_intern"), 2) & " DKK"
@@ -3321,7 +3184,6 @@ while not oRec.EOF
     jo_udgifter_intern = ""
     jo_udgifter_internTxt = ""
     end if
-
     if oRec("jo_bruttooms") <> 0 then
     jo_bruttoomsTxt = formatnumber(oRec("jo_bruttooms"), 2) & " DKK"
     jo_bruttooms = formatnumber(oRec("jo_bruttooms"), 2)
@@ -3329,14 +3191,9 @@ while not oRec.EOF
     jo_bruttoomsTxt = ""
     jo_bruttooms = ""
     end if
-
-
-
     if cint(rapporttype) = 0 OR cint(rapporttype) = 3 then
-
         
         if oRec("sales_price_pc") <> 0 then
-
         call valutakode_fn(oRec("sales_price_pc_valuta"))
         sales_price_pc_val = valutaKode_CCC 
         sales_price_pc = formatnumber(oRec("sales_price_pc"), 2) 
@@ -3357,23 +3214,16 @@ while not oRec.EOF
         cost_price_pc_val = ""
         end if
         
-
-
         if oRec("comm_pc") <> 0 then
         comm_pc = formatnumber(oRec("comm_pc"), 2) ' & " %" 
         else
         comm_pc = ""
         end if
-
-
         if oRec("cost_price_pc") <> 0 then
-
         valutaKursOR3(oRec("sales_price_pc_valuta"))
         salgsprisKurs = dblKursOR3
-
         valutaKursOR3(oRec("cost_price_pc_valuta"))
         kostprisKurs = dblKursOR3
-
         tax_pc_calc = 0
         tax_pc_calc = (oRec("cost_price_pc")/1 * (oRec("tax_pc")/100))
         profit_pc = formatnumber((oRec("sales_price_pc") * (salgsprisKurs/100)) - ((oRec("cost_price_pc") + tax_pc_calc + oRec("freight_pc")) * (kostprisKurs/100)) * basisValKursUse/100, 2)  '& " "& basisValISO '& " ("& basisValKursUse &")"
@@ -3387,7 +3237,6 @@ while not oRec.EOF
         else
         jo_dbproc = ""
         end if
-
         
         if oRec("destination") <> "0" then
         destination = oRec("destination")
@@ -3404,11 +3253,7 @@ while not oRec.EOF
         'dt_actual_etd = formatdatetime(dt_actual_etd, 2)
         end if
         
-
-
     end if
-
-
      if instr(oRec("dt_confb_etd"), "2010") <> 0 then
     dt_confb_etd = ""
      else
@@ -3416,20 +3261,15 @@ while not oRec.EOF
     dt_confb_etd = year(oRec("dt_confb_etd"))&"/"&month(oRec("dt_confb_etd"))&"/"&day(oRec("dt_confb_etd")) 
     'dt_confb_etd = formatdatetime(dt_confb_etd, 2)
     end if
-
      if instr(oRec("dt_confb_eta"), "2010") <> 0 then
      dt_confb_eta = ""
      else
      dt_confb_eta = year(oRec("dt_confb_eta"))&"/"&month(oRec("dt_confb_eta"))&"/"&day(oRec("dt_confb_eta")) 
      end if
-
-
     'jo_dbproc_bel_tot = 0
-
      if jo_bruttooms <> "" AND jo_udgifter_intern <> "" then
      jo_dbproc_bel = formatnumber((oRec("jo_bruttooms")/1 - oRec("jo_udgifter_intern")/1), 2)
      jo_dbproc_bel_tot = jo_dbproc_bel_tot/1 + jo_dbproc_bel/1
-
      jo_dbproc_bel = jo_dbproc_bel 
      jo_dbproc_belTxt = jo_dbproc_bel & " DKK"
      else
@@ -3440,7 +3280,6 @@ while not oRec.EOF
     jo_cost_tot = jo_cost_tot + oRec("jo_udgifter_intern")
     jo_bruttooms_tot = jo_bruttooms_tot + oRec("jo_bruttooms")
     
-
    
     select case oRec("jobstatus")
     case 0
@@ -3454,7 +3293,6 @@ while not oRec.EOF
     case 4
     jobstatusTxt = "Review"
     end select
-
     select case oRec("fastpris")
     case 2
     ordertypeTxt = "Commission"
@@ -3462,70 +3300,45 @@ while not oRec.EOF
     ordertypeTxt = "Salesorder"
     end select
                                   
-
-
     if media = "exp" then
-
     strExpTxt = strExpTxt & jobstatusTxt & ";" & oRec("kkundenavn") & ";"& oRec("rekvnr") &";"& oRec("suppliername") &";"& oRec("supplier_invoiceno") &";"& oRec("mgruppenavn") &";"& oRec("jobnavn") &";" & oRec("jobnr") & ";"& ordertypeTxt &";" 
     
-
     if cint(oRec("kunde_levbetint")) <> 2 then
         dt_confb_etd_a_txt = dt_confb_etd
         else
         dt_confb_etd_a_txt = dt_confb_eta
         end if
-
     if cint(rapporttype) = 0 OR cint(rapporttype) = 3 then 
         strExpTxt = strExpTxt & dt_jobstartdato &";"& oRec("destination") &";"& oRec("collection") &";"& oRec("salesrep") &";"& dt_confb_etd_a_txt &";"& dt_actual_etd &";" 
     end if
-
-
      if cint(rapporttype) = 3 then 
     strExpTxt = strExpTxt  & dt_confs_etd & ";"
     end if
-
-
       if cint(rapporttype) = 0 OR cint(rapporttype) = 3 then 
     strExpTxt = strExpTxt & orderqty & ";" & shippedqty & ";" 
     end if
-
     if cint(rapporttype) = 1 then 
     strExpTxt = strExpTxt  & dt_proto_dead & ";" & dt_photo_dead & ";"& dt_sup_photo_dead  &";" & dt_sms_dead & ";" & dt_sup_sms_dead & ";" & dt_ppapp & ";" & dt_shsapp &";" & dt_confb_etd_a_txt & ";" & dt_confs_etd & ";"
     end if
-
-
     
-
      if cint(rapporttype) = 3 then 
     strExpTxt = strExpTxt & cost_price_pc & ";" & cost_price_pc_val & ";"
     end if
-
-
     if cint(rapporttype) = 0 OR cint(rapporttype) = 3 then 
     strExpTxt = strExpTxt & sales_price_pc & ";" & sales_price_pc_val & ";"
     end if
-
     if cint(rapporttype) = 3 then 
     strExpTxt = strExpTxt & comm_pc & ";"& profit_pc & ";" & jo_udgifter_intern & ";DKK;"
     end if
-
     if cint(rapporttype) = 0 OR cint(rapporttype) = 3 then 
     strExpTxt = strExpTxt & jo_bruttooms & ";DKK;"
     end if
-
     if cint(rapporttype) = 3 then 
     strExpTxt = strExpTxt & jo_dbproc_bel & ";DKK;" & jo_dbproc & ";"
     end if
-
-
-
-
     strExpTxt = strExpTxt & ";;;xx99123sy#z"
-
     end if
-
                              if media <> "exp" then
-
                              if cdbl(lastid) = oRec("id") then
                              trbgcol = "#FFFFe1"
                              else
@@ -3694,7 +3507,6 @@ while not oRec.EOF
                                                                 oRec6.open strSQLFakhist, oConn, 3
                                                                 f = 0
                                                                 while not oRec6.EOF
-
                                                                 if f = 0 then
                                                                 %>
 
@@ -3704,10 +3516,8 @@ while not oRec.EOF
                                                                 -->
                                                                 <%
                                                                 end if
-
                                                                 
                                                                      if oRec6("shadowcopy") <> 1 then 
-
                                                                          if oRec6("betalt") <> 1 then %> 
                                                                         <br /><a href="../timereg/erp_opr_faktura_fs.asp?func=red&id=<%=oRec6("fid")%>&visfaktura=2&visjobogaftaler=1&visminihistorik=1&FM_kunde=<%=oRec("kid")%>&FM_job=<%=oRec("id")%>&FM_aftale=0&reset=1&FM_usedatokri=1&FM_start_dag=<%=day(dt_from)%>&FM_start_mrd=<%=month(dt_from)%>&FM_start_aar=<%=year(dt_from)%>&FM_slut_dag=<%=day(dt_to)%>&FM_slut_mrd=<%=month(dt_to)%>&FM_slut_aar=<%=year(dt_to)%>" target="_blank" style="color:#999999; font-size:9px;"><%=oRec6("faknr")%></a> 
                                                                                               
@@ -3769,14 +3579,10 @@ while not oRec.EOF
 <%
 		
     antal_orders = antal_orders + 1
-
 oRec.movenext
 wend
 oRec.close
-
     
-
-
     if media <> "exp" then%>  
 
                         </tbody>
@@ -3916,7 +3722,6 @@ oRec.close
                <div id="dv_grandtotal" style="position:absolute; top:100px;left:1580px; width:400px;">
                  <section class="panel">
                     <header class="panel-heading">Totals for orders on list:</header>
-
                     <div class="panel-body">
                     <div id="dv_topGt">
                         -->
@@ -3968,7 +3773,6 @@ oRec.close
                         </form>
 
             <!--
-
                     </div>
                         </div>
                      </div>
@@ -4351,11 +4155,8 @@ oRec.close
 
 
             <%
-
                
-
                 if media = "exp" then
-
                 strExpTxt = replace(strExpTxt, "xx99123sy#z", vbcrlf)
 	
 	         
@@ -4386,60 +4187,42 @@ oRec.close
                 
                 strOskrifter = "Status;Buyer;Buyer PO no.;Supplier;Sup. Inv. no.;Product grp.;Style;Order No.;Order type;"
                 
-
                 if cint(rapporttype) = 0 OR cint(rapporttype) = 3 then 
                 strOskrifter = strOskrifter & "Order date;Destination;Collection;Sales Rep.;ETD Buyer;Actual ETD;"
                 end if
-
-
                  if cint(rapporttype) = 3 then 
                 strOskrifter = strOskrifter & "ETD Suppl.;"
                 end if
-
                   if cint(rapporttype) = 0 OR cint(rapporttype) = 3 then 
                 strOskrifter = strOskrifter & "Order Qty.;Shipped Qty.;"
                 end if
                 
-
                 if cint(rapporttype) = 1 then 
                 strOskrifter = strOskrifter & "Proto DL;Photo Buyer DL;Photo Suppl. DL;SMS Buyer DL;SMS Suppl. DL;PP App;SHS App;ETD Buyer;ETD Suppl.;"
                 end if
-
                 
                
-
-
                  
                 if cint(rapporttype) = 3 then
                 strOskrifter = strOskrifter & "Cost Price PC;Val;"
                 end if
-
                 if cint(rapporttype) = 0 OR cint(rapporttype) = 3 then
                 strOskrifter = strOskrifter & "Sales Price PC;Val;"
                 end if
-
                  if cint(rapporttype) = 3 then
                 strOskrifter = strOskrifter & "Commision PC;Profit PC;Total Cost Price;Val;"
                 end if
-
                   if cint(rapporttype) = 0 OR cint(rapporttype) = 3 then
                 strOskrifter = strOskrifter & "Total Sales Price;Val;"
                 end if
-
                  if cint(rapporttype) = 3 then
                 strOskrifter = strOskrifter & "Total Profit;Val;Total Profit %;"
                 end if
-
                 
-
-
 				objF.WriteLine(strOskrifter)
 				objF.WriteLine(strExpTxt)
 				objF.close
-
-
                 response.redirect "../inc/log/data/"&file
-
                 %>
                  
                  <!--
@@ -4454,14 +4237,10 @@ oRec.close
                         </div>
                     
                 <%
-
                 end if'media
-
                 if media = "print" then
                 Response.Write("<script language=""JavaScript"">window.print();</script>")
                 end if
-
-
     
  end select %>
 <!--#include file="../inc/regular/footer_inc.asp"-->
