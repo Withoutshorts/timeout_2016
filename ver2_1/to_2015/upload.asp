@@ -83,6 +83,7 @@ useid = request("type")
 
 if lto = "intanet - local" or lto = "nt" then
 jobid = request("id")
+jobnr = request("jobnr")
 'filepath1 = request("filepath1")
 else
 jobid = 0 
@@ -110,8 +111,8 @@ end if
 'Response.write "request(nomenu)" & nomenu
 if lto = "intranet - local" or lto = "nt" then
 
-        strSQLupdnt = "INSERT INTO filer (jobid, type, oprses) "_
-        & " VALUES ("& jobid &", 1, 'x' )"
+        strSQLupdnt = "INSERT INTO filer (filtxt, type, oprses) "_
+        & " VALUES ("& jobnr &", 1, 'x')" 
 
         'response.Write "tegn: " & strSQLupdnt
         'response.Flush

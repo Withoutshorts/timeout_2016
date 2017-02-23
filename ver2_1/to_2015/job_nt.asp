@@ -1649,7 +1649,7 @@ end if 'Opret / rediger
                                                 <div class="fileinput-new thumbnail" style="width: 250px; height: 300px;">                                                  
                                                 </div>
                                             </div>
-                                            <a onclick="Javascript:window.open('upload.asp?menu=fob&func=opret&id=<%=request("jobid")%>', '', 'width=650,height=600,resizable=yes,scrollbars=yes')" class="btn btn-default btn-sm">Add image</a>
+                                            <a onclick="Javascript:window.open('upload.asp?menu=fob&func=opret&jobnr=<%=jobnr%>', '', 'width=650,height=600,resizable=yes,scrollbars=yes')" class="btn btn-default btn-sm">Add image</a>
                                         </td>
                                     </tr>
                                     <%end if %>
