@@ -11,12 +11,6 @@
 <h3 class="portlet-title"><u>Upload</u></h3>
 <div class="portlet-body">
 
-<div class="row">
-    <div class="col-lg-2">
-        Billedet er uploaded
-    </div>
-</div>
-
 
 <%if lto = "nt" then
 
@@ -76,8 +70,15 @@ end if
 
         if deletenewfileEntry = 1 then
         %>
-            <font>En fil af samme navn er allerede lagt op i serveren, omdød billedet eller vælg et andet for at fortsætte</font> <br />
-            <a class="btn btn-default btn-sm" role="button" href="Javascript:history.back()"><b>Tilbage</b></a>
+            <div class="row" style="text-align:center">
+                <div class="col-lg-4">
+                    A file of the same name is already uploaded to the server, rename the image or choose another to continue
+                </div>
+            </div>
+            <br />
+            <div class="row" style="text-align:center">
+                <div class="col-lg-2"><a class="btn btn-default btn-sm" role="button" href="Javascript:history.back()"><b>Back</b></a></div>
+            </div>          
         <%
         
         else
@@ -98,13 +99,30 @@ end if
       	 
          'Response.Write("FileName = " & file.FileName & "<BR>")
 		 if file.Ext = ".gif" OR file.Ext = ".GIF" OR file.Ext = ".jpg" OR file.Ext = ".JPG"  OR file.Ext = ".png" OR file.Ext = ".PNG" then
-		 Response.Write("<img src='../inc/upload/"&lto&"/" & file.FileName & "' width=150 height=100><BR>")
-		 Response.write("<br><b>"& file.FileName &"</b><br><br>Billede her vist som: 150*100 px.")
+         %>
+            <div class="row" style="text-align:center">
+                <div class="col-lg-6">
+                    <%
+                        Response.Write("<img src='../inc/upload/"&lto&"/" & file.FileName & "' width=300 height=350><BR>")
+                        Response.write("<br><b>"& file.FileName &"</b><br><br>The picture is shown as: 300*350 px.") 
+                    %>
+                </div>
+            </div>
+         <%
 		 else
 		 Response.write("<br><b>"& file.FileName &"</b>")
 		 end if
-        	
-		 Response.Write("<br>Fil type og størrelse: <b>"& file.Ext & "</b> / <b> " & file.Size & "</b> bytes.<BR>")
+        
+         %>
+            <div class="row" style="text-align:center">
+                <div class="col-lg-6">
+                    <%
+                        Response.Write("<br>File type and size: <b>"& file.Ext & "</b> / <b> " & file.Size & "</b> bytes.<BR>") 
+                    %>
+                </div>
+            </div>
+         <%
+		 
 			
 		 intCount = intCount + 1
       
@@ -168,12 +186,13 @@ end if
 
         end if
 
-        if deletenewfileEntry = 0 then 
-            %>
-   
-            <a href="javascript:window.open('','_self').close();">Close</a>
-         
-            <%
+        if deletenewfileEntry = 0 then
+             %>
+                <br />
+                <div class="row" style="text-align:center">
+                    <div class="col-lg-6"><a class="btn btn-secondary btn-sm" href="javascript:window.open('','_self').close();">Close</a></div>
+                </div>
+             <%             
          end if
     
    else ' lto = nt 

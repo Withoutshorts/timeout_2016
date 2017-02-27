@@ -111,7 +111,7 @@ end if
 'Response.write "request(nomenu)" & nomenu
 if lto = "intranet - local" or lto = "nt" then
 
-        strSQLupdnt = "INSERT INTO filer (filtxt, type, oprses) "_
+        strSQLupdnt = "INSERT INTO filer (filertxt, type, oprses) "_
         & " VALUES ("& jobnr &", 1, 'x')" 
 
         'response.Write "tegn: " & strSQLupdnt
@@ -124,7 +124,7 @@ if lto = "intranet - local" or lto = "nt" then
                 <div class="portlet">
                      <h3 class="portlet-title"><u>Upload fil</u></h3>
                     <div class="portlet-body">
-                        <FORM ENCTYPE="multipart/form-data" ACTION="../timereg/upload_bin.asp" METHOD="POST">
+                        <FORM ENCTYPE="multipart/form-data" ACTION="upload_bin.asp" METHOD="POST">
 
                             <div class="row" style="text-align:center">
                                 <div class="col-md-10">

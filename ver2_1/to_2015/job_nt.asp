@@ -262,7 +262,7 @@ select case func
 	strSQL = "SELECT id, jobnavn, jobnr FROM job WHERE id = "& id &"" 
 	oRec.open strSQL, oConn, 3
 	if not oRec.EOF then
-		
+		strjobnr = oRec("jobnr")
 		'*** Indsætter i delete historik ****'
 	    call insertDelhist("job", id, oRec("jobnr"), oRec("jobnavn"), session("mid"), session("user"))
 		
@@ -270,9 +270,28 @@ select case func
 	end if
 	oRec.close
 	
+    response.Write strjobnr & "<br>"
 	
+	strsqlfil = "SELECT filnavn FROM filer WHERE filertxt ="& strjobnr &""
+    oRec.open strsqlfil, oConn, 3
+    if not oRec.EOF then
+
+    strfilnavn = oRec("filnavn")
+
+    end if
+    oRec.close
 	
-	
+    strPath = "d:\webserver\wwwroot\timeout_xp\wwwroot\"& toVer &"\inc\upload\"&lto&"\" & strfilnavn
+	Response.write strPath
+
+    on Error resume Next 
+
+	Set FSO = Server.CreateObject("Scripting.FileSystemObject")
+	Set fsoFile = FSO.GetFile(strPath)
+	fsoFile.Delete
+
+    oConn.execute("DELETE FROM filer WHERE filertxt = "& strjobnr &"")
+
 	'Response.flush
 	
 	
@@ -293,13 +312,13 @@ case "sletfil"
         
             
             <div class="portlet-body">
-                <div style="text-align:center;"> Du er ved at <b>slette</b> en fil. Er dette korrekt?
+                <div style="text-align:center;"> You are about to <b>delete</b> a file. Is this correct?
                     <%if len(trim(slttxtb)) <> 0 then %>
                     <br /><br />&nbsp;
                     
                     <%end if %>
                 </div><br />
-                <div style="text-align:center;"><a  class="btn btn-primary btn-sm" role="button" href="job_nt.asp?func=sletfilok&id=<%=request("id")%>&filnavn=<%=request("filnavn")%>">&nbsp;Ja&nbsp;</a>&nbsp&nbsp&nbsp&nbsp<a class="btn btn-default btn-sm" role="button" href="Javascript:history.back()"><b>Nej</b></a>
+                <div style="text-align:center;"><a  class="btn btn-primary btn-sm" role="button" href="job_nt.asp?func=sletfilok&id=<%=request("id")%>&filnavn=<%=request("filnavn")%>">&nbsp;Yes&nbsp;</a>&nbsp&nbsp&nbsp&nbsp<a class="btn btn-default btn-sm" role="button" href="Javascript:history.back()"><b>No</b></a>
                 </div>
                 <br /><br />
             </div>
@@ -1615,7 +1634,7 @@ end if 'Opret / rediger
                             <div class="col-lg-3">
                                 <table class="tablecolor">
                                     <%
-	                                strSQL = "SELECT id, filnavn FROM filer WHERE jobid = "& id
+	                                strSQL = "SELECT id, filnavn FROM filer WHERE filertxt = "& jobnr
                                     
 	                                oRec.open strSQL, oConn, 3
 	                                j = 0
@@ -1634,7 +1653,7 @@ end if 'Opret / rediger
                                         </td>                                        
                                     </tr>
                                     <%
-                                    j = j + 1
+                                    j = j + 1                                    
 	                                end if
 	                                oRec.movenext
 	                                wend
