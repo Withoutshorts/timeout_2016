@@ -1638,7 +1638,7 @@ end if 'Opret / rediger
                                     
 	                                oRec.open strSQL, oConn, 3
 	                                j = 0
-	                                while not oRec.EOF
+	                                if not oRec.EOF then
                                     if len(trim(oRec("filnavn"))) <> 0 then                       
 	                                %>
                                     <tr>
@@ -1655,8 +1655,7 @@ end if 'Opret / rediger
                                     <%
                                     j = j + 1                                    
 	                                end if
-	                                oRec.movenext
-	                                wend
+                                    end if	                                
 	                                oRec.close 
 
                                     if j = 0 then
@@ -3412,6 +3411,31 @@ while not oRec.EOF
                                 <td >
                                      <%if media <> "print" then %>
                                     <a href="job_nt.asp?func=red&jobid=<%=oRec("id")%>"><%=oRec("jobnr") %></a>
+
+                                    <%
+                                        jobnr = oRec("jobnr")
+
+                                        strSQLimg = "SELECT id, filnavn FROM filer WHERE filertxt = "& jobnr
+                                        oRec2.open strSQLimg, oConn, 3
+	                                    j = 0
+	                                    if not oRec2.EOF then
+                                        if len(trim(oRec2("filnavn"))) <> 0 then
+                                        %>
+                                            <a data-toggle="modal" href="#basicModal"><span class="fa fa-file pull-right"></span></a>
+
+                                            <div id="basicModal" class="modal fade" style="margin-top:100px">                        
+                                            <div class="modal-dialog">                        
+                                            <div class="modal-content">                                                          
+                                            <div class="modal-body">
+                                                <div class="row" style="text-align:center"><div class="col-lg-12"><img src="../inc/upload/<%=lto%>/<%=oRec2("filnavn")%>" alt='' border='0' width="150" height="175"></div></div>                                 
+                                            </div></div></div></div>
+                                        <%
+                                        j = j + 1                                    
+	                                    end if
+                                        end if	                                
+	                                    oRec2.close 
+                                    %>
+
                                     <br /><span style="font-size:9px; color:#999999;"><%=ordertypeTxt %></span> 
                                     <%else %>
                                     <%=oRec("jobnr") %>
