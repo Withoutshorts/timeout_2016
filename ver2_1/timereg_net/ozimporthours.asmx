@@ -62,6 +62,8 @@ Public Class to_import_hours
     Public kostpris As String
     Public tprisGen As String
     Public valutaGen As Integer = 1
+    Public kp1_valuta As Integer = 1
+    Public kp1_valuta_kurs As Double = 100
 
     Public emx As String = 100
     Public tempM As String
@@ -236,6 +238,8 @@ Public Class to_import_hours
                 kurs = 100
                 kostpris = 0
                 mTypeSQL = ""
+                kp1_valuta = 1
+                kp1_valuta_kurs = 100
 
                 'If ds.Tables("timer_import_temp").Columns('0') Then '.Contains("origin")
                 'importFrom = ds.Tables("timer_import_temp").Rows(t).Item("origin")
@@ -863,7 +867,7 @@ Public Class to_import_hours
                                 '*** IKKE EPINION tp for stor
 
                                 If foundone = "n" Then
-                                    Dim SQLmedtpris As String = "SELECT timepris AS useTimepris, tp0_valuta, kostpris FROM medarbejdertyper WHERE id = " & medarbejdertypeThis
+                                    Dim SQLmedtpris As String = "SELECT timepris AS useTimepris, tp0_valuta, kostpris, kp1_valuta FROM medarbejdertyper WHERE id = " & medarbejdertypeThis
 
                                     objCmd = New OdbcCommand(SQLmedtpris, objConn2)
                                     objDR = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
@@ -876,8 +880,11 @@ Public Class to_import_hours
                                             kostpris = 0
                                         End If
 
+                                        kp1_valuta = objDR("kp1_valuta")
+
                                         tprisGen = objDR("useTimepris")
                                         valutaGen = objDR("tp0_valuta")
+
 
                                         'Ite = 1
                                         'If Ite = 1 Then 'KUN EPI 'InStr(dbnavn, "epi") = 1 And
@@ -995,10 +1002,12 @@ Public Class to_import_hours
                         If CInt(errThisTOno) = 0 Then
 
                             '** Finder valuta og kurs **'
-                            If Len(Trim(intValuta)) <> 0 And intValuta <> 0 Then
+                            If Len(Trim(intValuta)) <> 0 And intValuta <> 0 And Len(Trim(kp1_valuta)) <> 0 And kp1_valuta <> 0 Then
                                 intValuta = intValuta
+                                kp1_valuta = kp1_valuta
                             Else
                                 intValuta = 0
+                                kp1_valuta = 0
                                 errThisTOno = 4
                             End If
 
@@ -1014,8 +1023,21 @@ Public Class to_import_hours
 
                             objDR.Close()
 
+                            '** Kostprisvaluta **'
+                            Dim strSQLvk As String = "SELECT kurs FROM valutaer WHERE id = " & kp1_valuta
+                            objCmd = New OdbcCommand(strSQLvk, objConn)
+                            objDR = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
+
+                            If objDR.Read() = True Then
+
+                                kp1_valuta_kurs = objDR("kurs")
+
+                            End If
+
+                            objDR.Close()
+
                         End If
-                        '***'		       
+                        '***'		     
                     Catch ex As Exception
                         Throw New Exception("If errThisTOno = 0 SELECT kurs FROM valutaer error: " + ex.Message)
                     End Try
@@ -1126,7 +1148,7 @@ Public Class to_import_hours
                             & " timer, tfaktim, tdato, tmnavn, tmnr, tjobnavn, tjobnr, tknavn, tknr, timerkom, " _
                             & " TAktivitetId, taktivitetnavn, Taar, TimePris, TasteDato, fastpris, tidspunkt, " _
                             & " editor, kostpris, seraft, " _
-                            & " valuta, kurs, extSysId, sttid, sltid, origin" _
+                            & " valuta, kurs, extSysId, sttid, sltid, origin, kpvaluta, kpvaluta_kurs" _
                             & ") " _
                             & " VALUES " _
                             & " (" _
@@ -1141,16 +1163,16 @@ Public Class to_import_hours
                             & "'" & timerkom & "', " _
                             & aktId & ", " _
                             & "'" & aktNavn & "', " _
-                                & Year(Now) & ", " _
-                                & intTimepris & ", " _
-                                & "'" & Year(Now) & "/" & Month(Now) & "/" & Day(Now) & "', " _
-                                & jobFastPris & ", " _
-                                & "'00:00:01', " _
-                                & "'Excel Import', " _
-                                & Replace(kostpris, ",", ".") & ", " _
-                                & jobSeraft & ", " _
-                                & intValuta & ", " _
-                                & Replace(kurs, ",", ".") & ", '" & intTempImpId & "', '00:00:00', '00:00:00', " & importFrom & ")"
+                            & Year(Now) & ", " _
+                            & intTimepris & ", " _
+                            & "'" & Year(Now) & "/" & Month(Now) & "/" & Day(Now) & "', " _
+                            & jobFastPris & ", " _
+                            & "'00:00:01', " _
+                            & "'Excel Import', " _
+                            & Replace(kostpris, ",", ".") & ", " _
+                            & jobSeraft & ", " _
+                            & intValuta & ", " _
+                            & Replace(kurs, ",", ".") & ", '" & intTempImpId & "', '00:00:00', '00:00:00', " & importFrom & ", " & kp1_valuta & ", " & Replace(kp1_valuta_kurs, ",", ".") & ")"
 
 
                             '** Manger salgs og kost priser ***'

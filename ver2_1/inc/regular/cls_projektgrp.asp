@@ -255,6 +255,9 @@ end function
 	    guidjobids = ""
 	    guideasyids = ""
 	    
+
+
+
 	                strSQLpgDel = "DELETE FROM progrupperelationer WHERE medarbejderid = " & id
 					oConn.execute(strSQLpgDel)
 					pgr = split(request("FM_progrp"), ",")
@@ -277,11 +280,12 @@ end function
                         teamleder = 1
                         pgr_len = len(pgr(p))
 
-                        if (notificer) = 1 then
+                        if cint(notificer) = 1 then
                         pgr_left = left(pgr(p), pgr_len - 4)
                         else
                         pgr_left = left(pgr(p), pgr_len - 2)
                         end if
+
                         pgr(p) = pgr_left 
                         else
                         teamleder = 0

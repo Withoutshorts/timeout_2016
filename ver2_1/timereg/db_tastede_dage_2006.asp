@@ -193,22 +193,39 @@ idagErrTjek = day(now)&"/"&month(now)&"/"&year(now)
     strDatoTjk = request.form("dag")&"/"& request.form("mrd")&"/"& request.form("aar")
 	dagsdato = year(now) &"/"& month(now) &"/"& day(now)
 	str_dagsdato = formatdatetime(dagsdato, 1)
+
+    if len(trim(request("FM_off"))) <> 0 then
 	intOff = request("FM_off")
+    else
+    intOff = 0
+    end if
+
 	timerKom = replace(Request("Timerkom"), "'","''")
 	
 	timepris = SQLBless(request.form("timepris"))
 	
 	if len(trim(request("FM_bopal"))) <> 0 then
-	bopal = 1
+	bopal = request("FM_bopal")
 	else
 	bopal = 0
 	end if
 	
 	
-	intValuta = request("FM_valuta")
-	call valutaKurs(intValuta)
-      
 	
+
+	'*** Opdaterer med aktuelle kostpris
+    call mNavnogKostpris(medid)
+    dblkostpris = replace(dblkostpris, ",", ".")
+    intKpValuta = replace(intKpValuta, ",", ".")
+
+    call valutaKurs(intKpValuta)
+    kpvaluta_kurs = dblKurs
+
+    intValuta = request("FM_valuta")
+	call valutaKurs(intValuta)
+    'dblKurs = replace(dblKurs, ",", ".")
+
+
 	if varTimerkomma <> 0 then
 	
 
@@ -252,7 +269,7 @@ idagErrTjek = day(now)&"/"&month(now)&"/"&year(now)
 	    &" offentlig = "& intOff &", timepris = "& timepris &", "_
 	    &" tastedato = '"& dagsdato &"', sttid = '"& sTtid &"', "_
 	    &" sltid = '"&sLtid&"', tfaktim = "& tfaktim &", valuta = "& intValuta &", kurs = "& dblKurs &", "_
-	    &" taktivitetid = "& intAktId &", taktivitetnavn = '"& aktNavn &"', bopal = "& bopal &""_
+	    &" taktivitetid = "& intAktId &", taktivitetnavn = '"& aktNavn &"', bopal = "& bopal &", kostpris = "& dblkostpris &", kpvaluta = "& intKpValuta &", kpvaluta_kurs = "& kpvaluta_kurs &""_
 	    &" WHERE Tid = " & Request.Form("id") 
 	
 	    oConn.execute(strSQL) 

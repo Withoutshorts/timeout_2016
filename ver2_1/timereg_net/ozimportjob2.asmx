@@ -120,7 +120,7 @@ Public Class oz_importjob2
     Public bruttooms As Double
     Public internnote As String = ""
     Public jobansInit As String = ""
-    Public strjobnr As String = ""
+    Public strjobnr As String = "0"
 
     Public strantalArbPakker As String = "0"
 
@@ -151,6 +151,9 @@ Public Class oz_importjob2
     Public sort As Integer
     Public aktvarenr As String = ""
     Public antalstk As Double = 0
+    Public lastJobnr As String = "0"
+
+    Public intCountInserted As Integer = 0
 
 
     <WebMethod()> Public Function createjob2(ByVal ds As dataset) As String
@@ -236,7 +239,7 @@ Public Class oz_importjob2
         Select Case lto
             Case "dencker", "dencker_test"
                 orderBySQL = " ORDER BY jobnr, sort"
-                aktFields = ", aktnavn, aktstdato, aktsldato, fomr, sort, aktvarenr, stkantal"
+                aktFields = ", aktnavn, aktstdato, aktsldato, fomr, sort, aktvarenr, stkantal, kundenavn"
             Case Else
                 orderBySQL = " ORDER BY id"
                 aktFields = ""
@@ -261,6 +264,8 @@ Public Class oz_importjob2
                     sort = objDR("sort")
                     aktvarenr = objDR("aktvarenr")
                     antalstk = objDR("stkantal")
+
+
                 Case Else
                     aktnavn = ""
                     aktstdato = "2002-01-01"
@@ -290,6 +295,7 @@ Public Class oz_importjob2
             jobnavn = Replace(jobnavn, ";", "")
 
             jobnr = objDR("jobnr")
+            jobnrTjk = objDR("jobnr")
 
             jobstartdato = objDR("jobstartdato")
             jobslutdato = objDR("jobslutdato")
@@ -307,9 +313,13 @@ Public Class oz_importjob2
                 beskrivelse = ""
             End If
 
+            Select Case lto
+                Case "dencker", "dencker_test"
+                    kundenavnTxt = objDR("kundenavn")
+                Case Else
+                    kundenavnTxt = beskrivelse
+            End Select
 
-            jobnrTjk = objDR("jobnr")
-            kundenavnTxt = beskrivelse
 
 
 
@@ -345,10 +355,9 @@ Public Class oz_importjob2
             objDR2.Close()
 
 
-
+            '********************************************************************************
             '*** Opretter Job ***'
-
-
+            '********************************************************************************
             Select Case lto
                 Case "oko"
                     kid = 1 ' ALTID ØKOLOGISK
@@ -372,7 +381,7 @@ Public Class oz_importjob2
                     If kid = 0 Then
 
                         '*** OPRETTER KUNDE **
-                        Dim strSQKkundeins As String = "INSERT INTO kunder SET kkundenavn = '" + kundenavnTxt + "', kkundenr = " + jobnr + ", ketype = 'ke', ktype = 0"
+                        Dim strSQKkundeins As String = "INSERT INTO kunder SET kkundenavn = '" + kundenavnTxt + "', kkundenr = '" + jobnr + "', ketype = 'ke', ktype = 0"
                         objCmd = New OdbcCommand(strSQKkundeins, objConn)
                         objDR2 = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
                         objDR2.Close()
@@ -427,37 +436,54 @@ Public Class oz_importjob2
 
                     If CInt(opdaterJob) = 1 Then 'opdater
 
-
-                        Dim strSQLjobUpd As String = ("Update job SET jobnavn = '" & jobnavn & "', jobnr = '" & jobnr & "', jobstatus = 1, " _
-                        & " jobstartdato = '" & jobstartdato.ToString("yyyy/MM/dd", Globalization.CultureInfo.InvariantCulture) & "'," _
-                        & " jobslutdato = '" & jobslutdato.ToString("yyyy/MM/dd", Globalization.CultureInfo.InvariantCulture) & "', editor = '" & editor & "', " _
-                        & " dato = '" & dato.ToString("yyyy/MM/dd", Globalization.CultureInfo.InvariantCulture) & "', beskrivelse = '" & beskrivelse & "', jobans1 = " & jobans & ", " _
-                        & " kundekpers = " & kunderef & " WHERE jobnr = '" & jobnr & "'")
-
-                        objCmd = New OdbcCommand(strSQLjobUpd, objConn)
-                        objDR2 = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
-                        objDR2.Close()
-
-
-                        '*** Tilføjer til timereg_usejob (for en sikkerhedsskyld)
-
-                        '*** Finder jobid ***
-                        jobID = 0
+                        '*** Opdater stadivæk OK? kommer an på hvilke linje SORT (Dencker) der blicver læst fra excel filen
+                        Select Case lto
+                            Case "dencker", "dencker_test"
+                                If (lastJobnr <> jobnrTjk) Then 'CInt(sort) = 10
+                                    opdaterJob = opdaterJob
+                                Else
+                                    opdaterJob = 0
+                                End If
+                            Case Else
+                                opdaterJob = opdaterJob
+                        End Select
 
 
 
-                        '**** Sikrer timereg usejob bliver udfyldt ved rediger job ****
-                        Dim strSQLlastJobID As String = "SELECT id FROM job WHERE jobnr = '" & jobnr & "'"
-                        objCmd = New OdbcCommand(strSQLlastJobID, objConn)
-                        objDR2 = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
+                        If CInt(opdaterJob) = 1 Then 'opdater
 
-                        If objDR2.Read() = True Then
+                            Dim strSQLjobUpd As String = ("Update job SET jobnavn = '" & jobnavn & "', jobnr = '" & jobnr & "', jobstatus = 1, " _
+                            & " jobstartdato = '" & jobstartdato.ToString("yyyy/MM/dd", Globalization.CultureInfo.InvariantCulture) & "'," _
+                            & " jobslutdato = '" & jobslutdato.ToString("yyyy/MM/dd", Globalization.CultureInfo.InvariantCulture) & "', editor = '" & editor & "', " _
+                            & " dato = '" & dato.ToString("yyyy/MM/dd", Globalization.CultureInfo.InvariantCulture) & "', beskrivelse = '" & beskrivelse & "', jobans1 = " & jobans & ", " _
+                            & " kundekpers = " & kunderef & " WHERE jobnr = '" & jobnr & "'")
 
-                            jobID = objDR2("id")
+                            objCmd = New OdbcCommand(strSQLjobUpd, objConn)
+                            objDR2 = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
+                            objDR2.Close()
+
+
+                            '*** Tilføjer til timereg_usejob (for en sikkerhedsskyld)
+
+                            '*** Finder jobid ***
+                            jobID = 0
+
+
+
+                            '**** Sikrer timereg usejob bliver udfyldt ved rediger job ****
+                            Dim strSQLlastJobID As String = "SELECT id FROM job WHERE jobnr = '" & jobnr & "'"
+                            objCmd = New OdbcCommand(strSQLlastJobID, objConn)
+                            objDR2 = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
+
+                            If objDR2.Read() = True Then
+
+                                jobID = objDR2("id")
+
+                            End If
+                            objDR2.Close()
+
 
                         End If
-                        objDR2.Close()
-
 
 
                         '**************************************************************'
@@ -548,7 +574,7 @@ Public Class oz_importjob2
 
 
 
-                                    End Select
+                                    End Select 'lto
 
 
 
@@ -559,9 +585,8 @@ Public Class oz_importjob2
                                     '**** Indlæser timepris på aktiviteter ***'
                                     intTimepris = tprisGen
                                     intTimepris = Replace(intTimepris, ",", ".")
-
                                     intValuta = valutaGen
-
+                                    '** Slut timepris **
 
 
                                     '*** OPRETTER AKTIVITETER ***'
@@ -620,15 +645,16 @@ Public Class oz_importjob2
 
                                             End While
                                             objDR3.Close()
-                                    End Select
 
+
+                                    End Select 'LTO
                                     '** END aktiviteter
 
 
 
                                     '*** OPDATERER Timepris på jobbet ****'
                                     Dim strSQLtpris As String = "UPDATE timepriser SET timeprisalt = " & timeprisalt & ", 6timepris = " & intTimepris & ", 6valuta = " & intValuta & "" _
-                                            & " WHERE jobid = " & jobID & " AND aktid = 0 AND medarbid = " & objDR2("mid")
+                                    & " WHERE jobid = " & jobID & " AND aktid = 0 AND medarbid = " & objDR2("mid")
                                     objCmd2 = New OdbcCommand(strSQLtpris, objConn3)
                                     objDR6 = objCmd2.ExecuteReader '(CommandBehavior.closeConnection)
                                     objDR6.Close()
@@ -640,52 +666,58 @@ Public Class oz_importjob2
                                 objConn3.Close()
                                 '** MEdarbejdertype
 
-                        End Select
-                        '** Slut timepris **
-
-
+                        End Select 'LTO
 
 
 
                         '*** Tilføjer til JOBBANKEN på alle aktive medarbejdere
-                        Dim strSQLamed As String = "SELECT mid FROM medarbejdere WHERE mansat = 1"
-                        objCmd = New OdbcCommand(strSQLamed, objConn2)
-                        objDR2 = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
 
-                        While objDR2.Read() = True
+                        Select Case lto
+                            Case "dencker", "dencker_test"
 
-
-                            Dim strSQLtreguseFindes As String = "SELECT medarb FROM timereg_usejob WHERE medarb = " & objDR2("mid") & " AND jobid = " & jobID
-                            objCmd = New OdbcCommand(strSQLtreguseFindes, objConn)
-                            objDR3 = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
+                            Case Else
 
 
+                                Dim strSQLamed As String = "SELECT mid FROM medarbejdere WHERE mansat = 1"
+                                objCmd = New OdbcCommand(strSQLamed, objConn2)
+                                objDR2 = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
 
-                            timereguseJobFindes = 0
-                            If objDR3.Read() = True Then
-
-                                timereguseJobFindes = 1
-
-                            End If
-                            objDR3.Close()
+                                While objDR2.Read() = True
 
 
-                            If CInt(timereguseJobFindes) = 0 Then
-                                Dim strSQL3 As String = "INSERT INTO timereg_usejob (medarb, jobid, forvalgt, forvalgt_sortorder, forvalgt_af, forvalgt_dt) VALUES " _
-                                & " (" & objDR2("mid") & ", " & jobID & ", 0, 0, 0, '" & dato.ToString("yyyy/MM/dd", Globalization.CultureInfo.InvariantCulture) & "')"
-
-                                objCmd = New OdbcCommand(strSQL3, objConn)
-                                objDR3 = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
-                                objDR3.Close()
-
-
-                            End If
+                                    Dim strSQLtreguseFindes As String = "SELECT medarb FROM timereg_usejob WHERE medarb = " & objDR2("mid") & " AND jobid = " & jobID
+                                    objCmd = New OdbcCommand(strSQLtreguseFindes, objConn)
+                                    objDR3 = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
 
 
 
-                        End While
-                        objDR2.Close()
+                                    timereguseJobFindes = 0
+                                    If objDR3.Read() = True Then
 
+                                        timereguseJobFindes = 1
+
+                                    End If
+                                    objDR3.Close()
+
+
+                                    If CInt(timereguseJobFindes) = 0 Then
+                                        Dim strSQL3 As String = "INSERT INTO timereg_usejob (medarb, jobid, forvalgt, forvalgt_sortorder, forvalgt_af, forvalgt_dt) VALUES " _
+                                        & " (" & objDR2("mid") & ", " & jobID & ", 0, 0, 0, '" & dato.ToString("yyyy/MM/dd", Globalization.CultureInfo.InvariantCulture) & "')"
+
+                                        objCmd = New OdbcCommand(strSQL3, objConn)
+                                        objDR3 = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
+                                        objDR3.Close()
+
+
+                                    End If
+
+
+
+                                End While
+                                objDR2.Close()
+
+
+                        End Select 'LTO
 
 
                     Else 'opret
@@ -694,32 +726,32 @@ Public Class oz_importjob2
 
 
                         Dim strSQLjob As String = ("INSERT INTO job (jobnavn, jobnr, jobknr, jobTpris, jobstatus, jobstartdato," _
-                        & " jobslutdato, editor, dato, projektgruppe1, projektgruppe2, projektgruppe3, projektgruppe4, " _
-                        & " projektgruppe5, projektgruppe6, projektgruppe7, projektgruppe8, projektgruppe9, projektgruppe10, " _
-                        & " fakturerbart, budgettimer, fastpris, kundeok, beskrivelse, " _
-                        & " ikkeBudgettimer, tilbudsnr, jobans1, " _
-                        & " serviceaft, kundekpers, valuta, rekvnr, " _
-                        & " risiko, job_internbesk, " _
-                        & " jo_bruttooms, fomr_konto) VALUES " _
-                        & "('" & jobnavn & "', " _
-                        & "'" & jobnr & "', " _
-                        & "" & kid & ", " _
-                        & "0, " _
-                        & "1, " _
-                        & "'" & jobstartdato.ToString("yyyy/MM/dd", Globalization.CultureInfo.InvariantCulture) & "', " _
-                        & "'" & jobslutdato.ToString("yyyy/MM/dd", Globalization.CultureInfo.InvariantCulture) & "', " _
-                        & "'" & editor & "', " _
-                        & "'" & dato.ToString("yyyy/MM/dd", Globalization.CultureInfo.InvariantCulture) & "', " _
-                        & "10, " _
-                        & "1,1,1,1,1,1,1,1,1," _
-                        & "1,0,0,0," _
-                        & "'" & beskrivelse & "', " _
-                        & "0,0, " _
-                        & "" & jobans & "," _
-                        & "0," & kunderef & ", " _
-                        & "1, '" & rekvisitionsnr & "', " _
-                        & "100,'" & internnote & "'," _
-                        & "" & bruttooms & ", 0)")
+                    & " jobslutdato, editor, dato, projektgruppe1, projektgruppe2, projektgruppe3, projektgruppe4, " _
+                    & " projektgruppe5, projektgruppe6, projektgruppe7, projektgruppe8, projektgruppe9, projektgruppe10, " _
+                    & " fakturerbart, budgettimer, fastpris, kundeok, beskrivelse, " _
+                    & " ikkeBudgettimer, tilbudsnr, jobans1, " _
+                    & " serviceaft, kundekpers, valuta, rekvnr, " _
+                    & " risiko, job_internbesk, " _
+                    & " jo_bruttooms, fomr_konto) VALUES " _
+                    & "('" & jobnavn & "', " _
+                    & "'" & jobnr & "', " _
+                    & "" & kid & ", " _
+                    & "0, " _
+                    & "1, " _
+                    & "'" & jobstartdato.ToString("yyyy/MM/dd", Globalization.CultureInfo.InvariantCulture) & "', " _
+                    & "'" & jobslutdato.ToString("yyyy/MM/dd", Globalization.CultureInfo.InvariantCulture) & "', " _
+                    & "'" & editor & "', " _
+                    & "'" & dato.ToString("yyyy/MM/dd", Globalization.CultureInfo.InvariantCulture) & "', " _
+                    & "10, " _
+                    & "1,1,1,1,1,1,1,1,1," _
+                    & "1,0,0,0," _
+                    & "'" & beskrivelse & "', " _
+                    & "0,0, " _
+                    & "" & jobans & "," _
+                    & "0," & kunderef & ", " _
+                    & "1, '" & rekvisitionsnr & "', " _
+                    & "100,'" & internnote & "'," _
+                    & "" & bruttooms & ", 0)")
 
                         'return "Webservice SQL: " & strSQLjob
 
@@ -874,7 +906,7 @@ Public Class oz_importjob2
                 Case "dencker", "dencker_test"
                     '*** OPRETTER AKTIVITETER FRA EXCEL FIL FOR HVER LINJE // MONITOR ***'
 
-                    If (sort = 10) Then
+                    If (lastJobnr <> jobnrTjk) Then 'Sort = 10
                         '*** Finder jobid ***
                         Dim strSQLlastJobID As String = "SELECT id FROM job WHERE id <> 0 ORDER BY id DESC LIMIT 1"
                         objCmd = New OdbcCommand(strSQLlastJobID, objConn)
@@ -887,6 +919,13 @@ Public Class oz_importjob2
                         End If
                         objDR2.Close()
 
+                        '*** Sætter alle aktiviteter til passiv ved første LOOP, hvis en aktivitet er blevet slettet i Monitor
+                        Dim strSQLAktUpdStatus As String = "UPDATE aktiviteter SET aktstatus = 2" _
+                        & " WHERE job = " & lastID
+                        objCmd2 = New OdbcCommand(strSQLAktUpdStatus, objConn)
+                        objDR6 = objCmd2.ExecuteReader '(CommandBehavior.closeConnection)
+                        objDR6.Close()
+
 
                     End If
 
@@ -895,7 +934,9 @@ Public Class oz_importjob2
 
             End Select
 
+            intCountInserted += 1
 
+            lastJobnr = jobnrTjk
 
 
         End While
@@ -921,6 +962,15 @@ Public Class oz_importjob2
         objConn.Close()
 
 
+
+
+
+
+        'Dim errThisTOnoStr As String = errThisTOno.ToString()
+        Return "Succes " + intCountInserted.ToString() + " linje(r) indlæst.<br><br>Du kan lukke denne side ned nu. [<a href=""Javascript:window.close();"">LUK</a>]"  
+        'jobnr: " + err_jobnr + " errid:" + errThisTOnoStr
+
+
     End Function
 
 
@@ -944,16 +994,43 @@ Public Class oz_importjob2
                 '*** INDLÆSER AKTIVITETER FRA MONITOR FIL
                 '*** AKTIVTETER VIL ALTID KOMME IND UNDER REDIGER JOB STATE Da job bliver oprettet som første linje i filen / eller findes i forvejen
 
-                Dim strSQLaktins As String = ("INSERT INTO aktiviteter (navn, job, fakturerbar, " _
-                & "projektgruppe1, projektgruppe2, projektgruppe3, projektgruppe4, projektgruppe5, projektgruppe6, projektgruppe7," _
-                & "projektgruppe8, projektgruppe9, projektgruppe10, aktstatus, budgettimer, aktbudget, aktbudgetsum, aktstartdato, aktslutdato, aktkonto, fase, avarenr, fomr, sortorder, antalstk, bgr) VALUES " _
-                & " ('" & aktnavn.Replace("'", "") & "', " & lastID & ", 1," _
-                & " 10,1,1,1,1,1,1,1,1,1,1,0,0,0,'" & aktstdato.ToString("yyyy/MM/dd", Globalization.CultureInfo.InvariantCulture) & "', " _
-                & "'" & aktsldato.ToString("yyyy/MM/dd", Globalization.CultureInfo.InvariantCulture) & "', 0, '', '" & aktvarenr & "', " & fomr & ", " & sort & ", " & antalstk & ", 2)")
-
-                objCmd = New OdbcCommand(strSQLaktins, objConn)
+                '*** Finder aktid ***
+                Dim aktFindes As Integer = 0
+                Dim strSQLaktFindes As String = "SELECT id FROM aktiviteter WHERE job = " & lastID & " AND avarenr = " & aktvarenr & ""
+                objCmd = New OdbcCommand(strSQLaktFindes, objConn)
                 objDR2 = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
+
+                If objDR2.Read() = True Then
+
+                    aktFindes = objDR2("id")
+
+                End If
                 objDR2.Close()
+
+                '**** Findes aktivitet ***'
+                If CInt(aktFindes) = 0 Then '** INSERT
+
+                    Dim strSQLaktins As String = ("INSERT INTO aktiviteter (navn, job, fakturerbar, " _
+                    & "projektgruppe1, projektgruppe2, projektgruppe3, projektgruppe4, projektgruppe5, projektgruppe6, projektgruppe7," _
+                    & "projektgruppe8, projektgruppe9, projektgruppe10, aktstatus, budgettimer, aktbudget, aktbudgetsum, aktstartdato, aktslutdato, aktkonto, fase, avarenr, fomr, sortorder, antalstk, bgr) VALUES " _
+                    & " ('" & aktnavn.Replace("'", "") & "', " & lastID & ", 1," _
+                    & " 10,1,1,1,1,1,1,1,1,1,1,0,0,0,'" & aktstdato.ToString("yyyy/MM/dd", Globalization.CultureInfo.InvariantCulture) & "', " _
+                    & "'" & aktsldato.ToString("yyyy/MM/dd", Globalization.CultureInfo.InvariantCulture) & "', 0, '', '" & aktvarenr & "', " & fomr & ", " & sort & ", " & antalstk & ", 2)")
+
+                    objCmd = New OdbcCommand(strSQLaktins, objConn)
+                    objDR2 = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
+                    objDR2.Close()
+
+
+                Else '** UPDATE
+
+                    Dim strSQLaktupd As String = ("UPDATE aktiviteter SET navn = '" & aktnavn.Replace("'", "") & "', aktstatus = 1, aktstartdato = '" & aktstdato.ToString("yyyy/MM/dd", Globalization.CultureInfo.InvariantCulture) & "', aktslutdato = '" & aktsldato.ToString("yyyy/MM/dd", Globalization.CultureInfo.InvariantCulture) & "', fomr = " & fomr & ", sortorder = " & sort & ", antalstk = " & antalstk & " WHERE id = "& aktFindes &"")
+                    objCmd = New OdbcCommand(strSQLaktupd, objConn)
+                    objDR2 = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
+                    objDR2.Close()
+
+
+                End If
 
 
             Case Else '"oko", "wilke"

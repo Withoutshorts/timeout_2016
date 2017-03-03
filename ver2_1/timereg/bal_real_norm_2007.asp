@@ -857,7 +857,7 @@ if len(session("user")) = 0 then
             	<tr><td style="border-bottom:1px #999999 solid;"><a href="#" id="rap_fk_sdlon" class=vmenu>FK lønrap. SD løn</a></td></tr>
             <%end if %>
 
-             <%if instr(lto, "epi") <> 0 OR lto = "intranet - local" then %>
+             <%if instr(lto, "epi") <> 0 OR lto = "intranet - local" OR lto = "plan" then %>
             	<tr><td style="border-bottom:1px #999999 solid;"><a href="#" id="rap_epi_blueg" class=vmenu>Bluegaarden</a></td></tr>
             <%end if %>
 

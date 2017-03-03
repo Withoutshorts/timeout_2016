@@ -63,6 +63,9 @@ Public Class CATI :
     Public kostpris As String
     Public tprisGen As String
     Public valutaGen As Integer = 1
+    Public kp1_valuta As Integer = 1
+    Public kp1_valuta_kurs As Double = 100
+
 
     Public emx As String = 100
     Public tempM As String
@@ -229,6 +232,8 @@ Public Class CATI :
                 kostpris = 0
                 mTypeSQL = ""
                 addBonus10 = 0
+                kp1_valuta = 1
+                kp1_valuta_kurs = 100
 
 
 
@@ -758,7 +763,7 @@ Public Class CATI :
                         tprisGen = 0
                         valutaGen = 1
 
-                        Dim SQLmedtpris As String = "SELECT medarbejdertype, timepris, tp0_valuta, kostpris, mnavn FROM medarbejdere, medarbejdertyper " _
+                        Dim SQLmedtpris As String = "SELECT medarbejdertype, timepris, tp0_valuta, kostpris, kp1_valuta, mnavn FROM medarbejdere, medarbejdertyper " _
                         & " WHERE Mid = " & meID & " AND medarbejdertyper.id = medarbejdertype"
 
                         objCmd = New OdbcCommand(SQLmedtpris, objConn)
@@ -771,6 +776,8 @@ Public Class CATI :
                             Else
                                 kostpris = 0
                             End If
+
+                            kp1_valuta = objDR("kp1_valuta")
 
                             tprisGen = objDR("timepris")
                             valutaGen = objDR("tp0_valuta")
@@ -857,10 +864,12 @@ Public Class CATI :
                     If CInt(errThis) = 0 Then
 
                         '** Finder valuta og kurs **'
-                        If Len(Trim(intValuta)) <> 0 And intValuta <> 0 Then
+                        If Len(Trim(intValuta)) <> 0 And intValuta <> 0 And Len(Trim(kp1_valuta)) <> 0 And kp1_valuta <> 0 Then
                             intValuta = intValuta
+                            kp1_valuta = kp1_valuta
                         Else
                             intValuta = 0
+                            kp1_valuta = 0
                             errThis = 4
                         End If
 
@@ -871,6 +880,19 @@ Public Class CATI :
                         If objDR.Read() = True Then
 
                             kurs = objDR("kurs")
+
+                        End If
+
+                        objDR.Close()
+
+                        '** Kostprisvaluta **'
+                        Dim strSQLvk As String = "SELECT kurs FROM valutaer WHERE id = " & kp1_valuta
+                        objCmd = New OdbcCommand(strSQLvk, objConn)
+                        objDR = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
+
+                        If objDR.Read() = True Then
+
+                            kp1_valuta_kurs = objDR("kurs")
 
                         End If
 
@@ -980,7 +1002,7 @@ Public Class CATI :
                                         & " timer, tfaktim, tdato, tmnavn, tmnr, tjobnavn, tjobnr, tknavn, tknr, timerkom, " _
                                         & " TAktivitetId, taktivitetnavn, Taar, TimePris, TasteDato, fastpris, tidspunkt, " _
                                         & " editor, kostpris, seraft, " _
-                                        & " valuta, kurs, extSysId, sttid, sltid, origin" _
+                                        & " valuta, kurs, extSysId, sttid, sltid, origin, kpvaluta, kpvaluta_kurs" _
                                         & ") " _
                                         & " VALUES " _
                                         & " (" _
@@ -1004,7 +1026,7 @@ Public Class CATI :
                                         & Replace(kostpris, ",", ".") & ", " _
                                         & jobSeraft & ", " _
                                         & intValuta & ", " _
-                                        & Replace(kurs, ",", ".") & ", '" & intCatiId & "', '00:00:00', '00:00:00', " & importFrom & ")"
+                                        & Replace(kurs, ",", ".") & ", '" & intCatiId & "', '00:00:00', '00:00:00', " & importFrom & ", " & kp1_valuta & ", " & Replace(kp1_valuta_kurs, ",", ".") & ")"
 
 
                                         '** Manger salgs og kost priser ***'

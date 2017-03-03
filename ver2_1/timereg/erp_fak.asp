@@ -4158,24 +4158,24 @@ if len(session("user")) = 0 then
 		
 		if func <> "red" then
 		    
-		    if (lto = "epi" OR lto = "epi_no" OR lto = "epi_sta" OR lto = "epi_ab") OR lto = "xintranet - local" then
+		    if instr(lto, "epi") <> 0 then
 		    chkflabel = "CHECKED"
 		    
 		    else
 		
-		    if request.Cookies("erp")("flabel") <> "" then
+		        if request.Cookies("erp")("flabel") <> "" then
     	         
-	             if request.Cookies("erp")("flabel") = "1" then
-		         chkflabel = "CHECKED"
-		         else
-    		     chkflabel = ""
-    		     end if
+	                 if request.Cookies("erp")("flabel") = "1" then
+		             chkflabel = "CHECKED"
+		             else
+    		         chkflabel = ""
+    		         end if
     		
-		    else
+		        else
     		
-		         chkflabel = ""
+		             chkflabel = ""
     		 
-		    end if
+		        end if
 		    
 		    
 		    end if

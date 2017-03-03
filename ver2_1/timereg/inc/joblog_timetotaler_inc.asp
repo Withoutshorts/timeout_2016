@@ -1,10 +1,10 @@
 <%'GIT 20160811 - SK
 
-    public strMedarbOskriftLinie, expTxt
+    public strMedarbOskriftLinie, expTxt, strMedarbOskriftLinieOnlyMonths
     sub medarboSkriftlinje
 
 
-             if cint(directexp) <> 1 AND ((cint(upSpec) = 0 AND jobmedtimer(x,38) = 0)) then
+             if cint(directexp) <> 1 AND ((cint(upSpec) = 0 AND jobmedtimer(x,38) = 0)) then 
     
 			strMedarbOskriftLinie = strMedarbOskriftLinie & "<tr>"
 			strMedarbOskriftLinie = strMedarbOskriftLinie & "<td valign=bottom style='padding:2px; border-top:1px #CCCCCC solid; width:150px; white-space:nowrap;' bgcolor='#F7F7F7'>Kunde<br>Job <span style='font-size:9px;'>(aktiviteter)</span></td>"
@@ -323,9 +323,11 @@
             
 
                                                     strMedarbOskriftLinie = strMedarbOskriftLinie &"</tr><tr bgcolor=#EFf3ff><td colspan="& strMedarbOskriftLinie_cspan &">&nbsp;</td>"
-                                                
+                                                    strMedarbOskriftLinieOnlyMonths = strMedarbOskriftLinieOnlyMonths &"</tr><tr bgcolor=#EFf3ff><td colspan="& strMedarbOskriftLinie_cspan &">&nbsp;</td>"  
+
                                                         if cint(visPrevSaldo) = 1 then
                                                         strMedarbOskriftLinie = strMedarbOskriftLinie &"<td>&nbsp;</td><td>&nbsp;</td>"
+                                                        strMedarbOskriftLinieOnlyMonths = strMedarbOskriftLinieOnlyMonths &"<td>&nbsp;</td><td>&nbsp;</td>"
                                                         end if
 
                                                     end if 'if cint(directexp) <> 1 then 
@@ -345,6 +347,13 @@
                                                              strMedarbOskriftLinie = strMedarbOskriftLinie &"<td align=center style='font-size:8px; border-left:1px #CCCCCC solid'>"& mdThis1 &"<br><img src='../ill/blank.gif' width=45 height=1></td>"_
                                                              &"<td align=center style='font-size:8px;'>"& mdThis2 &"<br><img src='../ill/blank.gif' width=45 height=1></td>"_
                                                              &"<td align=center style='font-size:8px;'>"& mdThis3 &"<br><img src='../ill/blank.gif' width=45 height=1></td>"
+
+                                                             strMedarbOskriftLinieOnlyMonths = strMedarbOskriftLinieOnlyMonths &"<td align=center style='font-size:8px; border-left:1px #CCCCCC solid'>"& mdThis1 &"<br><img src='../ill/blank.gif' width=45 height=1></td>"_
+                                                             &"<td align=center style='font-size:8px;'>"& mdThis2 &"<br><img src='../ill/blank.gif' width=45 height=1></td>"_
+                                                             &"<td align=center style='font-size:8px;'>"& mdThis3 &"<br><img src='../ill/blank.gif' width=45 height=1></td>"
+
+                                                            
+
                                                              end if 'if cint(directexp) <> 1 then 
 
 
@@ -412,6 +421,7 @@
                                             
                                                              if cint(directexp) <> 1 then 
                                                              strMedarbOskriftLinie = strMedarbOskriftLinie &"<td align=center style='font-size:8px; border-left:1px #CCCCCC solid'>"& mdThis &"<br><img src='../ill/blank.gif' width=45 height=1></td>"
+                                                             strMedarbOskriftLinieOnlyMonths = strMedarbOskriftLinieOnlyMonths &"<td align=center style='font-size:8px; border-left:1px #CCCCCC solid'>"& mdThis &"<br><img src='../ill/blank.gif' width=45 height=1></td>"
                                                              end if 'if cint(directexp) <> 1 then                                                      
 
                                                              expTxt = expTxt & replace(mdThis, "<br>", "") &";" 
@@ -497,10 +507,10 @@ sub subTotaler_gt
 
 						
 					    if cint(visfakbare_res) = 1 OR cint(visfakbare_res) = 2 then
-						strJobLinie_Subtotal = strJobLinie_Subtotal & "<br><span style='color=#000000; font-size:8px;'>"& basisValISO &" "& formatnumber(subbudget, 2)&"</span><br>"
+						strJobLinie_Subtotal = strJobLinie_Subtotal & "<br><span style='color=#000000; font-size:8px;'>"& valutaKode_CCC &" "& formatnumber(subbudget, 2)&"</span><br>"
                         
                             if jobid = 0 then
-                            strJobLinie_Subtotal = strJobLinie_Subtotal & "<span style='color:green; font-size:8px;'>"& basisValISO &" "& formatnumber(TimeprisFaktiskSub, 2) &"</span><br></td>"
+                            strJobLinie_Subtotal = strJobLinie_Subtotal & "<span style='color:green; font-size:8px;'>"& valutaKode_CCC &" "& formatnumber(TimeprisFaktiskSub, 2) &"</span><br></td>"
                             else
                             strJobLinie_Subtotal = strJobLinie_Subtotal & "</td>"
                             end if
@@ -556,7 +566,7 @@ sub subTotaler_gt
 
                                
 						if cint(visfakbare_res) = 1 OR cint(visfakbare_res) = 2 then
-						strJobLinie_Subtotal = strJobLinie_Subtotal & "<br><span style='color=#000000; font-size:8px;'>"& basisValISO &" "&formatnumber(subtotaljobOmsIalt, 2)& "</span>" 
+						strJobLinie_Subtotal = strJobLinie_Subtotal & "<br><span style='color=#000000; font-size:8px;'>"& valutaKode_CCC &" "&formatnumber(subtotaljobOmsIalt, 2)& "</span>" 
 						strJobLinie_Subtotal = strJobLinie_Subtotal & "<br><font class=megetlillesilver>bal.: "&formatnumber(subdbialt, 2)&"</td>"
 						else
 						strJobLinie_Subtotal = strJobLinie_Subtotal & "</td>"
@@ -651,7 +661,7 @@ sub subTotaler_gt
                             if cint(visfakbare_res) = 1 OR cint(visfakbare_res) = 2 then
 							
                                 if omsSubTot(v) <> 0 then
-                                strJobLinie_Subtotal = strJobLinie_Subtotal & "<br><span style='color=#000000; font-size:8px;'>"& basisValISO &" "&formatnumber(omsSubTot(v), 2)&"</span></td>"
+                                strJobLinie_Subtotal = strJobLinie_Subtotal & "<br><span style='color=#000000; font-size:8px;'>"& valutaKode_CCC &" "&formatnumber(omsSubTot(v), 2)&"</span></td>"
                                 else
                                 strJobLinie_Subtotal = strJobLinie_Subtotal & "<br>&nbsp;</td>"
                                 end if
@@ -755,6 +765,7 @@ sub subTotaler_gt
                     end if
 
 
+                    expTxt = expTxt & ";" 'valutakode
                   
 							
 					if cint(visfakbare_res) = 1 OR cint(visfakbare_res) = 2 then
@@ -813,6 +824,9 @@ sub exportptOskrifter
                     expTxt = expTxt &"Enheder (I periode);"
                     end if
 
+            
+                    expTxt = expTxt &"Valuta;"            
+        
 
                 if cint(visfakbare_res) = 1 then
 				expTxt = expTxt &"Omsætning ialt (I periode);Balance;"
@@ -1100,7 +1114,9 @@ end sub
 								        end if
 
 
-                                        
+                                                                        
+
+
 								        '*** Norm ***
 								        if cint(vis_normtimer) = 1 then
 								        
@@ -1128,7 +1144,7 @@ end sub
 									         
 
                                                 if jobmedtimer(x,3) <> 0 then
-									                strJobLinie = strJobLinie & "<br><span style='color=#000000; font-size:8px;'>"& basisValISO &" " & formatnumber(jobmedtimer(x,7), 2) & "</span>"
+									                strJobLinie = strJobLinie & "<br><span style='color=#000000; font-size:8px;'>"& valutaKode_CCC &" " & formatnumber(jobmedtimer(x,7), 2) & "</span>"
                                                 else
                                                     strJobLinie = strJobLinie & ""
                                                 end if

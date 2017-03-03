@@ -782,6 +782,15 @@ if len(strLicenskey) <> 0 then
     case "9K2017-0215-TO173" 'GD
 	lto = "gd"
 	strConnThis = "timeout_gd64"
+
+    case "2.084-0311-B033_test" 'Dencker TEST
+	lto = "dencker_test"
+    strConnThis = "timeout_dencker_test64"
+
+    case "2.1507-0911-SB071" 'Assurator
+    lto = "assurator"
+    strConnThis = "timeout_assurator64"
+
     
     'ODBC 3.51 Driver
 	

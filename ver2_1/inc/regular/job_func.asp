@@ -244,7 +244,7 @@ rdir = rdir
 	
 	stamdatLink = "#" 'onClick='showstamdata()	
 
-    if antalmedarb < 25 then
+    if cdbl(antalmedarb) < 25 then
     tprisLink = "#"
     else
 	tprisLink = "jobs.asp?menu=job&func=red&id="&id&"&int=1&rdir="&rdir&"&showdiv=tpriser&FM_mtype="&mtype
@@ -471,7 +471,7 @@ end if
 '*** timepriser ***'
 'lnkidtd = "tdvistp"
 lnkid = "vistp"
-if antalmedarb < 25 then
+if cdbl(antalmedarb) < 25 then
 lnkwdt = 125
 lnktxt = "Medarb. timepriser"
 else

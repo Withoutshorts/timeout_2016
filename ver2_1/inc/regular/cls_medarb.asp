@@ -55,6 +55,47 @@
    
 
 
+'****** Medarbejder timepris og kostpris ********************
+public strMnavn, dblkostpris, tprisGen, valutaGen, mkostpristarif_A, mkostpristarif_B, mkostpristarif_C, mkostpristarif_D, intKpValuta 
+function mNavnogKostpris(strMnr)
+'** Henter navn og kostpris ***'
+
+SQLmedtpris = "SELECT medarbejdertype, timepris, tp0_valuta, kostpris, mnavn, "_
+&" kostpristarif_A, kostpristarif_B, kostpristarif_C, kostpristarif_D, kp1_valuta FROM medarbejdere, medarbejdertyper "_
+&" WHERE Mid = "& strMnr &" AND medarbejdertyper.id = medarbejdertype"
+
+'Response.Write SQLmedtpris
+'Response.flush
+oRec.Open SQLmedtpris, oConn, 3
+
+		if Not oRec.EOF then
+		 	
+		 	if oRec("kostpris") <> "" then
+			dblkostpris = oRec("kostpris")
+			else
+			dblkostpris = 0
+			end if
+		
+		strMnavn = oRec("mnavn")
+		tprisGen = oRec("timepris")
+		valutaGen = oRec("tp0_valuta")
+
+        mkostpristarif_A = oRec("kostpristarif_A")
+        mkostpristarif_B = oRec("kostpristarif_B")
+        mkostpristarif_C = oRec("kostpristarif_C") 
+        mkostpristarif_D = oRec("kostpristarif_D")
+
+        intKpValuta = oRec("kp1_valuta")
+		
+		end if
+
+oRec.close
+
+'** Slut timepris **
+
+
+end function
+
 
 
 

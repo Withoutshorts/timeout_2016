@@ -67,7 +67,7 @@ Public Class ozreportws
         objConn_admin.Open()
 
 
-        Dim strSQLadmin As String = "SELECT email, navn, lto, rapporttype, medid, medarbejdertyper, projektgrupper FROM rapport_abo WHERE id <> 0 AND (rapporttype = 1 OR rapporttype = 0 OR rapporttype = 2)"
+        Dim strSQLadmin As String = "SELECT email, navn, lto, rapporttype, medid, medarbejdertyper, projektgrupper FROM rapport_abo WHERE id <> 0 AND (rapporttype = 1 OR rapporttype = 0 OR rapporttype = 2 OR rapporttype = 3)"
         objCmd_admin = New OdbcCommand(strSQLadmin, objConn_admin)
         objDR_admin = objCmd_admin.ExecuteReader '(CommandBehavior.closeConnection)
 
@@ -124,8 +124,8 @@ Public Class ozreportws
                 Case "outz", "intranet - local"
                     strConn = "Driver={MySQL ODBC 3.51 Driver};Server=localhost;Database=timeout_intranet;User=outzource;Password=SKba200473;"
                     'strConn = "timeout_intranet64"
-                    show_atd = "0"
-                    show_fc = "0"
+                    show_atd = "1"
+                    show_fc = "1"
 
                 Case Else
 
@@ -161,6 +161,7 @@ Public Class ozreportws
             Dim ExpTxtheader As String
             Dim expTxt As String
 
+            Dim medarbidsSQLstring As String = "mid = 0"
 
 
             '*** Alle der tæller med i dagligt timeregnskab ***'
@@ -198,7 +199,7 @@ Public Class ozreportws
 
 
 
-            If rapporttype = 2 Then '** Rapport 2 = projektoverblik for jobansvarlige
+            If CInt(rapporttype) = 2 Or CInt(rapporttype) = 3 Then '** Rapport 2 = projektoverblik for jobansvarlige Rapport = 3 Kun egne projekter
 
 
                 Dim dDato As Date = Date.Now 'tirsdag morgen 07:00
@@ -243,10 +244,16 @@ Public Class ozreportws
                     '** HENTER JOB hvor medarb. er jobansvarlig
                     'Dim jobidsSQL As String = " AND (tjobnr = '-1'"
                     Dim strSQLjobans As String = "SELECT j.id AS jobid, jobnr, jobnavn, a.navn AS aktnavn, a.id AS aktid FROM job AS j " _
-                    & " LEFT JOIN aktiviteter AS a ON (a.job = j.id AND (fakturerbar = 1 OR fakturerbar = 2)) " _
-                    & " WHERE (jobans1 = " & medid & " OR jobans2 = " & medid & " OR jobans3 = " & medid & " OR jobans4 = " & medid & " OR jobans5 = " & medid & ") AND jobstatus = 1 GROUP BY a.id ORDER BY j.jobnavn, a.id"
+                    & " LEFT JOIN aktiviteter AS a ON (a.job = j.id AND (fakturerbar = 1 OR fakturerbar = 2)) "
 
+                    Select Case CInt(rapporttype)
+                        Case 2
+                            strSQLjobans = strSQLjobans & " WHERE (jobans1 = " & medid & " OR jobans2 = " & medid & " OR jobans3 = " & medid & " OR jobans4 = " & medid & " OR jobans5 = " & medid & ") AND jobstatus = 1 AND risiko >= 0"
+                        Case 3
+                            strSQLjobans = strSQLjobans & " WHERE jobstatus = 1 AND risiko >= 0"
+                    End Select
 
+                    strSQLjobans = strSQLjobans & " GROUP BY a.id ORDER BY j.jobnavn, a.id"
 
 
                     objCmd = New OdbcCommand(strSQLjobans, objConn)
@@ -269,56 +276,57 @@ Public Class ozreportws
 
 
                         '******************************************************************************************************************************
-                        '** Finder Alle medarbejdere med fc
+                        '** Finder Alle medarbejdere med FC og TImer **********************************************************************************
+
+                        Select Case CInt(rapporttype)
+                            Case 2
+
+                                '** FC
+                                Dim strSQLjobMedarb As String = "SELECT medid FROM ressourcer_md WHERE jobid = " & objDR.Item("jobid") & " AND aktid = " & objDR.Item("aktid") & ""
+                                objCmd = New OdbcCommand(strSQLjobMedarb, objConn)
+                                objDR2 = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
+
+                                While objDR2.Read() = True
+
+                                    'If Len(Trim((objDR2.Item("medid")))) <> 0 Then
+                                    strMids(objDR.Item("aktid")) = strMids(objDR.Item("aktid")) & " OR mid = " & objDR2.Item("medid")
+                                    'End If
 
 
-                        Dim strSQLjobMedarb As String = "SELECT medid FROM ressourcer_md WHERE jobid = " & objDR.Item("jobid") & " AND aktid = " & objDR.Item("aktid") & ""
-                        objCmd = New OdbcCommand(strSQLjobMedarb, objConn)
-                        objDR2 = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
-
-                        While objDR2.Read() = True
-
-                            'If Len(Trim((objDR2.Item("medid")))) <> 0 Then
-                            strMids(objDR.Item("aktid")) = strMids(objDR.Item("aktid")) & " OR mid = " & objDR2.Item("medid")
-                            'End If
-
-
-                        End While
-                        objDR2.Close()
+                                End While
+                                objDR2.Close()
 
 
 
-                        '** Finder Alle medarbejdere med timer på
+                                '** Finder Alle medarbejdere med timer på
+                                strSQLjobMedarb = "SELECT tmnr FROM timer WHERE tjobnr = '" & objDR.Item("jobnr") & "' AND taktivitetid = " & objDR.Item("aktid") & ""
+                                objCmd = New OdbcCommand(strSQLjobMedarb, objConn)
+                                objDR2 = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
 
-                        strSQLjobMedarb = "SELECT tmnr FROM timer WHERE tjobnr = '" & objDR.Item("jobnr") & "' AND taktivitetid = " & objDR.Item("aktid") & ""
-                        objCmd = New OdbcCommand(strSQLjobMedarb, objConn)
-                        objDR2 = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
+                                While objDR2.Read() = True
 
-                        While objDR2.Read() = True
-
-                            'If InStr(strMids(objDR.Item("aktid")), objDR2.Item("tmnr")) = -1 And Len(Trim((objDR2.Item("tmnr")))) <> 0 Then
-                            strMids(objDR.Item("aktid")) = strMids(objDR.Item("aktid")) & " OR mid = " & objDR2.Item("tmnr")
-                            'End If
-
-
-                        End While
-                        objDR2.Close()
+                                    'If InStr(strMids(objDR.Item("aktid")), objDR2.Item("tmnr")) = -1 And Len(Trim((objDR2.Item("tmnr")))) <> 0 Then
+                                    strMids(objDR.Item("aktid")) = strMids(objDR.Item("aktid")) & " OR mid = " & objDR2.Item("tmnr")
+                                    'End If
 
 
-                        '******************************************************************************************************************************
-                        '************ END 
-
-                        'Else
-
-                        'strMids(objDR.Item("aktid")) = strMids(objDR.Item("aktid"))
+                                End While
+                                objDR2.Close()
 
 
-                        'End If
+                                '******************************************************************************************************************************
+                                '************ END *************************************************************************************************************
 
 
-                        strMids(objDR.Item("aktid")) = strMids(objDR.Item("aktid")) & ")"
 
-                        Dim medarbidsSQLstring As String = strMids(objDR.Item("aktid"))
+
+                                strMids(objDR.Item("aktid")) = strMids(objDR.Item("aktid")) & ")"
+
+                                medarbidsSQLstring = strMids(objDR.Item("aktid"))
+
+                            Case 3
+                                medarbidsSQLstring = "mid = " & medid
+                        End Select
 
 
                         'Dim strSQLMedarbT As String = "SELECT mid AS medid, mnavn, init FROM medarbejdere WHERE " & strMids(objDR.Item("aktid")) & " GROUP BY mid ORDER BY mnavn"
@@ -342,10 +350,10 @@ Public Class ozreportws
                             sumTimerSaldo = 0
 
                             expTxtJobAkt = objDR.Item("jobnavn") & ";" & objDR.Item("jobnr") & ";" & objDR.Item("aktnavn") & ";"
-                            writer.Write(expTxtJobAkt)
+                            'writer.Write(expTxtJobAkt)
 
                             expTxt = objDR3.Item("mnavn") & ";" & objDR3.Item("init") & ";"
-                            writer.Write(expTxt)
+                            'writer.Write(expTxt)
 
                             '** HENTER ALLE job MED Forecast                        
                             '** TOTAL
@@ -357,8 +365,8 @@ Public Class ozreportws
                             If objDR2.Read() = True Then
 
 
-                                expTxt = objDR2.Item("sumFCtimer") & ";"
-                                writer.Write(expTxt)
+                                expTxt = expTxt & objDR2.Item("sumFCtimer") & ";"
+                                'writer.Write(expTxt)
 
                                 sumFCtimer = objDR2.Item("sumFCtimer")
 
@@ -366,7 +374,8 @@ Public Class ozreportws
                             objDR2.Close()
 
                             If sumFCtimer = 0 Then
-                                writer.Write(";")
+                                'writer.Write(";")
+                                expTxt = expTxt & ";"
                             End If
 
 
@@ -380,8 +389,8 @@ Public Class ozreportws
                             If objDR2.Read() = True Then
 
 
-                                expTxt = objDR2.Item("sumtimer") & ";"
-                                writer.Write(expTxt)
+                                expTxt = expTxt & objDR2.Item("sumtimer") & ";"
+                                'writer.Write(expTxt)
 
                                 sumRealtimer = objDR2.Item("sumtimer")
 
@@ -389,16 +398,19 @@ Public Class ozreportws
                             objDR2.Close()
 
                             If sumRealtimer = 0 Then
-                                writer.Write(";")
+                                'writer.Write(";")
+                                expTxt = expTxt & ";"
                             End If
 
 
                             sumTimerSaldo = (sumFCtimer - sumRealtimer)
 
                             If sumTimerSaldo = 0 Then
-                                writer.Write(";")
+                                'writer.Write(";")
+                                expTxt = expTxt & ";"
                             Else
-                                writer.Write(sumTimerSaldo & ";")
+                                'writer.Write(sumTimerSaldo & ";")
+                                expTxt = expTxt & sumTimerSaldo & ";"
                             End If
 
 
@@ -413,8 +425,8 @@ Public Class ozreportws
                             If objDR2.Read() = True Then
 
 
-                                expTxt = objDR2.Item("sumFCtimerPer") & ";"
-                                writer.Write(expTxt)
+                                expTxt = expTxt & objDR2.Item("sumFCtimerPer") & ";"
+                                'writer.Write(expTxt)
 
                                 sumFCtimerPer = objDR2.Item("sumFCtimerPer")
 
@@ -422,7 +434,8 @@ Public Class ozreportws
                             objDR2.Close()
 
                             If sumFCtimerPer = 0 Then
-                                writer.Write(";")
+                                'writer.Write(";")
+                                expTxt = expTxt & ";"
                             End If
 
 
@@ -438,10 +451,8 @@ Public Class ozreportws
                             While objDR2.Read() = True
 
 
-                                expTxt = objDR2.Item("sumtimerPer") & ";"
-                                writer.Write(expTxt)
-
-
+                                expTxt = expTxt & objDR2.Item("sumtimerPer") & ";"
+                                'writer.Write(expTxt)
                                 sumRealtimerPer = objDR2.Item("sumtimerPer")
 
 
@@ -449,11 +460,17 @@ Public Class ozreportws
                             objDR2.Close()
 
                             If sumRealtimerPer = 0 Then
-                                writer.Write(";")
+                                'writer.Write(";")
+                                expTxt = expTxt & ";"
                             End If
 
+                            If CInt(rapporttype) = 2 Or (CInt(rapporttype) = 3 AND (sumRealtimer <> 0 OR sumFCtimer <> 0)) Then
 
-                            writer.WriteLine("")
+                                writer.Write(expTxtJobAkt)
+                                writer.Write(expTxt)
+                                writer.WriteLine("")
+
+                            End If
 
 
                         End While

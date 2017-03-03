@@ -513,6 +513,20 @@ function alttimepris(useaktid, intjobid, strMnr, upd)
 						    
 						    end if 
 							oRec2.close 
+
+
+                                                '***************** KOSTPRISER ********
+                                               ' strSQL3 = "SELECT mid, "&timeprisalernativ&" AS useTimepris, "& valutaAlt &" AS useValuta, medarbejdertype FROM medarbejdere "_
+                                               ' &" LEFT JOIN medarbejdertyper ON (medarbejdertyper.id = medarbejdertype) WHERE mid =" & strMnr
+									
+									            'Response.Write strSQL3
+									            'Response.flush
+									            'oRec3.open strSQL3, oConn, 3 
+									            'if not oRec3.EOF then
+									            'intTimepris = oRec3("useTimepris")
+									            'intKpValuta = oRec3("kp1_valuta")
+									            'end if
+									            'oRec3.close
 						
 						
 						

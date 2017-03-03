@@ -332,8 +332,9 @@ if len(strLicenskey) <> 0 then
         response.redirect "https://outzource.dk/timeout_xp/wwwroot/ver2_1/tak_login.asp"
         '** 1.10.2011 **'
 	case "2.1507-0911-SB071" 'Assurator
-	    lto = "assurator"
-		strConnThis = "driver={MySQL ODBC 3.51 Driver};server=localhost; Port=3306; uid=to_outzource2;pwd=SKba200473;database=timeout_assurator;"
+	    'lto = "assurator"
+		'strConnThis = "driver={MySQL ODBC 3.51 Driver};server=localhost; Port=3306; uid=to_outzource2;pwd=SKba200473;database=timeout_assurator;"
+        response.redirect "https://timeout.cloud/timeout_xp/wwwroot/ver2_14/login.asp?key=2.1507-0911-SB071&lto=assurator"
 	case "2.1508-0802-MB072" 'Böwe Systec Nordic SE
 	    lto = "bsn_se"
 		strConnThis = "driver={MySQL ODBC 3.51 Driver};server=localhost; Port=3306; uid=to_outzource2;pwd=SKba200473;database=timeout_bsn_se;"

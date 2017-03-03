@@ -2275,6 +2275,8 @@
 
                      else
 
+                             
+
                                  'Set objNewFileVans = objFSO.createTextFile("d:\webserver\CSC\CSC VANS\TIL-VANS\"& file &"", True, false)
                                 Set objNewFileVans = objFSO.createTextFile("C:\Program Files\CSC\CSC VANS Transfer Service - 64 Bit\Outbound\Invoice\INPUT\"& file &"", True, false)
 		                        Set objNewFileVans = nothing

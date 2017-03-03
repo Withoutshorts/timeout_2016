@@ -743,6 +743,24 @@ if len(session("user")) = 0 then
 
     call akttyper2009(2)
 	
+
+    if len(trim(request("FM_datoer"))) <> 0 then 'redirect fra timereg_akt_2006 HUSK Dato
+        tregDato = day(request("FM_datoer")) &"/"& month(request("FM_datoer")) &"/"& year(request("FM_datoer"))
+
+        ddDato_ugedag = day(tregDato) &"/"& month(tregDato) &"/"& year(tregDato)
+        ddDato_ugedag_w = datepart("w", ddDato_ugedag, 2, 2)
+            
+        varTjDatoUS_man = dateAdd("d", -(ddDato_ugedag_w-1), ddDato_ugedag)
+
+    else
+        
+        if (datepart("ww", varTjDatoUS_man, 2, 2) = datepart("ww", day(now) &"/"& month(now) &"/"& year(now), 2, 2)) then  'Indeværende uge vises DD
+        tregDato = day(now) &"/"& month(now) &"/"& year(now)
+        else
+        tregDato = day(varTjDatoUS_man) &"/"& month(varTjDatoUS_man) &"/"& year(varTjDatoUS_man)
+        end if
+
+    end if
 	
 	
 	if media <> "export" then
@@ -996,7 +1014,7 @@ if len(session("user")) = 0 then
                             <input type="hidden" id="Hidden5" name="year" value="<%=year(now) %>"/>
 
                               <div class='input-group date'>
-                                      <input type="text" style="width:300px;" class="form-control input-small" name="FM_datoer" id="jq_dato" value="<%=day(now) &"/"& month(now) &"/"& year(now) %>" placeholder="dd-mm-yyyy" />
+                                      <input type="text" style="width:300px;" class="form-control input-small" name="FM_datoer" id="jq_dato" value="<%=tregDato %>" placeholder="dd-mm-yyyy" />
                                         <span class="input-group-addon input-small">
                                         <span class="fa fa-calendar">
                                         </span>

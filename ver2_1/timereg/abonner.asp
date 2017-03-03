@@ -225,6 +225,7 @@ oskrift = "Abonnér"
         <select style="width:230px; font-size:11px;" size="10" name="FM_rapporttype" id="FM_rapporttype">
             <option value="1" SELECTED>HR rapport. Ugetotaler for valgte medarbejdere (fra pkt. B og C)</option>
             <option value="2">Projektleder rapport (jobansvar./jobejer) </option>
+            <option value="3">Projektrapport (kun egne timer) </option>
         </select>
 
 

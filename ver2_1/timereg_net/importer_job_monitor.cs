@@ -105,7 +105,7 @@ public partial class importer_job_monitor : System.Web.UI.Page
                 //lblStatus.Text += "<br>Headers: " + headers + " intHeaders: " + intHeaders;
                 //lblStatus.Text += "<br>Variable LTO: " + Request["lto"] + " Editor: " + Request["editor"] + " Mid:" + Request["mid"];
                 //lblStatus.Text = "<br>Init: " + init + "<br>SQL: " + strSelect;
-                lblStatus.Text = "<br>Data blev indlæst korrekt.<br><br><a href='Javascript:window.close();'>[Luk denne side]</a><br><br>";
+                //lblStatus.Text = "<br>Data blev indlæst korrekt.<br><br><a href='Javascript:window.close();'>[Luk denne side]</a><br><br>";
 
               
                string serviceReturn = string.Empty;
@@ -130,8 +130,9 @@ public partial class importer_job_monitor : System.Web.UI.Page
                                if (countIgnore > 0)
                                    lblStatus.Text = "Status message:<br><br> Filen indeholdt " + rowTotal + " linjer.<br>" + rowsInserted + " linjer indlæst korrekt.<br><br> " + countIgnore + " linjer er ignoreret. <br>" + errorLine;
                                else
-                                   lblStatus.Text = "Status message:<br><br> Filen indeholdt " + rowTotal + " linjer.<br>" + rowsInserted + " linjer indlæst korrekt. [LUK]";
-                           }
+                        //lblStatus.Text = "Status message:<br><br> Filen indeholdt " + rowTotal + " linjer.<br>" + rowsInserted + " linjer indlæst korrekt. [LUK]";
+                        lblStatus.Text = "Status message:<br><br> Filen indeholdt " + rowTotal + " linjer.<br>" + rowsInserted + " linjer indlæst korrekt. <br><br><a href='Javascript:window.close();'>[Luk denne side]</a><br><br>";
+                }
                            else
                            {
                                if (countIgnore > 0)
@@ -285,18 +286,32 @@ public partial class importer_job_monitor : System.Web.UI.Page
                 lblUploadStatus.Text = "<b>Der skal være 13 kolonner i excel filen</b>";
             else
             {
-                SelectDDL(ddlKundenavn, "kundeinfo", header, lblKundenavn, "kundenavn");
-                SelectDDL(ddlJobnavn, "jobnavn", header, lblJobnavn, "jobnavn");
-                SelectDDL(ddlJobId, "ordrenr.", header, lblJobId, "jobid");
-                SelectDDL(ddlAntal, "rap. ant.", header, lblAntal, "antal");
-                SelectDDL(ddlstDato, "startperiode", header, lblstDato, "stdato");
-                SelectDDL(ddlslDato, "afsluttet vare", header, lblslDato, "sldato");
-                SelectDDL(ddlSort, "op.", header, lblSort, "sort");
-                SelectDDL(ddlFomr, "prod.grp.", header, lblFomr, "fomr");
-                SelectDDL(ddlAktnavn, "op. beskrivelse", header, lblAktnavn, "aktnavn");
-                SelectDDL(ddlAktstdato, "start", header, lblAktstdato, "aktstdato");
-                SelectDDL(ddlAktsldato, "afsluttet", header, lblAktsldato, "aktsldato");
-                SelectDDL(ddlAktvarenr, "rapp.nr.", header, lblAktvarenr, "aktvarenr");
+                //SelectDDL(ddlKundenavn, "kundeinfo", header, lblKundenavn, "kundenavn");
+                //SelectDDL(ddlJobnavn, "jobnavn", header, lblJobnavn, "jobnavn");
+                //SelectDDL(ddlJobId, "ordrenr.", header, lblJobId, "jobid");
+                //SelectDDL(ddlAntal, "rap. ant.", header, lblAntal, "antal");
+                //SelectDDL(ddlstDato, "startperiode", header, lblstDato, "stdato");
+                //SelectDDL(ddlslDato, "afsluttet vare", header, lblslDato, "sldato");
+                //SelectDDL(ddlSort, "op.", header, lblSort, "sort");
+                //SelectDDL(ddlFomr, "prod.grp.", header, lblFomr, "fomr");
+                //SelectDDL(ddlAktnavn, "op. beskrivelse", header, lblAktnavn, "aktnavn");
+                //SelectDDL(ddlAktstdato, "start", header, lblAktstdato, "aktstdato");
+                //SelectDDL(ddlAktsldato, "afsluttet", header, lblAktsldato, "aktsldato");
+                //SelectDDL(ddlAktvarenr, "rapp.nr.", header, lblAktvarenr, "aktvarenr");
+
+
+                SelectDDL(ddlKundenavn, "kund_info", header, lblKundenavn, "kundenavn");
+                SelectDDL(ddlJobnavn, "art_ben", header, lblJobnavn, "jobnavn");
+                SelectDDL(ddlJobId, "toh_ordernr", header, lblJobId, "jobid");
+                SelectDDL(ddlAntal, "too_antal_pl", header, lblAntal, "antal");
+                SelectDDL(ddlstDato, "tos_start", header, lblstDato, "stdato");
+                SelectDDL(ddlslDato, "tos_slut", header, lblslDato, "sldato");
+                SelectDDL(ddlSort, "too_op", header, lblSort, "sort");
+                SelectDDL(ddlFomr, "pg_pgrkod", header, lblFomr, "fomr");
+                SelectDDL(ddlAktnavn, "too_ben", header, lblAktnavn, "aktnavn");
+                SelectDDL(ddlAktstdato, "too_start", header, lblAktstdato, "aktstdato");
+                SelectDDL(ddlAktsldato, "too_slut", header, lblAktsldato, "aktsldato");
+                SelectDDL(ddlAktvarenr, "too_rappnr", header, lblAktvarenr, "aktvarenr");
             }
         }
         catch (Exception ex)

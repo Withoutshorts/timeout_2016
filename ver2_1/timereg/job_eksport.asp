@@ -177,7 +177,7 @@ if len(session("user")) = 0 then
 
     '************** FILTYPE ******************
 	select case optiPrint 
-    case 0, 3, 4, 5, 6
+    case 0, 3, 4, 5, 6, 7
     'ext = "txt"
 	ext = "csv"
     'case 2
@@ -243,6 +243,8 @@ if len(session("user")) = 0 then
 	
 	'if optiPrint = 0 OR optiPrint = 2 then
 	select case optiPrint
+    case 7 'Monitor
+    strTxtExport = strTxtExport & "Rap.Nr;Rap.Tid;Rap.Antal;"& vbcrlf
     case 0,2 
     strTxtExport = strTxtExport & "Kontakt;Kontakt id;Jobnavn;Jobnr.;Status;Startdato;Slutdato;Prioitet;"
         
@@ -1328,6 +1330,51 @@ if len(session("user")) = 0 then
     next
 
 
+    case 7 'Monitor
+
+            antaldage = request("antaldage")
+            ddDato = now
+
+            lukkeDatoGT = dateAdd("d", -antaldage, ddDato)
+            lukkeDatoGT = year(lukkeDatoGT) &"/"& month(lukkeDatoGT) &"/"& day(lukkeDatoGT)
+
+            strSQLmonitor = "SELECT j.id as jobid, a.navn, avarenr, a.id as aktid FROM job j "_
+            &" LEFT JOIN aktiviteter a ON (a.job = j.id) WHERE j.lukkedato >= '" & lukkeDatoGT & "' AND j.jobstatus = 0 AND avarenr IS NOT NULL AND a.id IS NOT NULL "
+            
+            oRec2.open strSQLmonitor, oConn, 3     
+            while not oRec2.EOF
+
+                    'Timer
+                    aktTimer = 0
+                    strSQLt = "SELECT SUM(timer) AS sumtimer FROM timer WHERE taktivitetid = "& oRec2("aktid") &" GROUP BY taktivitetid"
+                    'Response.write strSQLt
+                    'Response.flush
+        
+                    oRec3.open strSQLt, oConn, 3
+                    if not oRec3.EOF then
+        
+                    aktTimer = oRec3("sumtimer")
+
+                    end if
+                    oRec3.close 
+
+                    'Materilaer
+                    aktMatantal = 0
+                    strSQLm = "SELECT SUM(matantal) AS summatantal FROM materiale_forbrug WHERE aktid = "& oRec2("aktid") &" GROUP BY aktid"
+                    oRec3.open strSQLm, oConn, 3
+                    if not oRec3.EOF then
+        
+                    aktMatantal = oRec3("summatantal")
+
+                    end if
+                    oRec3.close 
+
+
+            strTxtExport = strTxtExport & oRec2("avarenr") & ";"& aktTimer &";"& aktMatantal & ";"& vbcrlf
+
+            oRec2.movenext
+            wend 
+            oRec2.close
   
     end select
     'end if optiprint

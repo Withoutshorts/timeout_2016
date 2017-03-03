@@ -97,7 +97,7 @@ public partial class importer_job : System.Web.UI.Page
                 //lblStatus.Text += "<br>Headers: " + headers + " intHeaders: " + intHeaders;
                 //lblStatus.Text += "<br>Variable LTO: " + Request["lto"] + " Editor: " + Request["editor"] + " Mid:" + Request["mid"];
                 //lblStatus.Text = "<br>Init: " + init + "<br>SQL: " + strSelect;
-                lblStatus.Text = "<br>Data blev indlæst korrekt.<br><br><a href='Javascript:window.close();'>[Luk denne side]</a><br><br>";
+                //lblStatus.Text = "<br>Data blev indlæst korrekt.<br><br><a href='Javascript:window.close();'>[Luk denne side]</a><br><br>";
 
               
                string serviceReturn = string.Empty;
@@ -122,7 +122,7 @@ public partial class importer_job : System.Web.UI.Page
                                if (countIgnore > 0)
                                    lblStatus.Text = "Status message:<br><br> Filen indeholdt " + rowTotal + " linjer.<br>" + rowsInserted + " linjer indlæst korrekt.<br><br> " + countIgnore + " linjer er ignoreret. <br>" + errorLine;
                                else
-                                   lblStatus.Text = "Status message:<br><br> Filen indeholdt " + rowTotal + " linjer.<br>" + rowsInserted + " linjer indlæst korrekt. [LUK]";
+                                   lblStatus.Text = "Status message:<br><br> Filen indeholdt " + rowTotal + " linjer.<br>" + rowsInserted + " linjer indlæst korrekt. <br><br><a href='Javascript:window.close();'>[Luk denne side]</a><br><br>";
                            }
                            else
                            {

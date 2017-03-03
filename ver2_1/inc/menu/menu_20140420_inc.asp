@@ -1059,7 +1059,7 @@ end select
       <!-- Administration -->
        <ul class="menupkt_n2" id="ul_menu-slider-8" style="display:none; visibility:visible; height:1000px;">
       <h3 class="menuh3"><%=tsa_txt_479 %></h3>
-           <%if lto = "intranet - local" or lto = "gd" then
+           <%if lto = "xintranet - local" or lto = "gd" then
              else     
            %>
            <h3 class="menuh3"><%=tsa_txt_480 %></h3>
@@ -1119,6 +1119,14 @@ end select
             if (lto = "wilke" OR lto = "intranet - local") AND level = 1 then %>
 
             <li><a href="../timereg_net/importer_job.aspx?lto=<%=lto%>&mid=<%=session("mid")%>&editor=<%=session("user") %>" target="_blank">C5-importer Job (sagslinjer & aktiviteter)</a></li>
+           
+           <%end if
+
+
+            '**** INDLÆS / IMPORTER  funktioner     
+            if (lto = "dencker" OR lto = "dencker_test" OR lto = "intranet - local") AND level = 1 then %>
+
+            <li><a href="../timereg_net/importer_job_monitor.aspx?lto=<%=lto%>&mid=<%=session("mid")%>&editor=<%=session("user") %>" target="_blank">Monitor-importer Job & aktiviteter</a></li>
            
            <%end if
                 

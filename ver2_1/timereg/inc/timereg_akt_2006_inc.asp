@@ -35,44 +35,7 @@ end function
 
 
 
-'****** Medarbejder timepris og kostpris ********************
-public strMnavn, dblkostpris, tprisGen, valutaGen, mkostpristarif_A, mkostpristarif_B, mkostpristarif_C, mkostpristarif_D 
-function mNavnogKostpris(strMnr)
-'** Henter navn og kostpris ***'
 
-SQLmedtpris = "SELECT medarbejdertype, timepris, tp0_valuta, kostpris, mnavn, "_
-&" kostpristarif_A, kostpristarif_B, kostpristarif_C, kostpristarif_D FROM medarbejdere, medarbejdertyper "_
-&" WHERE Mid = "& strMnr &" AND medarbejdertyper.id = medarbejdertype"
-
-'Response.Write SQLmedtpris
-'Response.flush
-oRec.Open SQLmedtpris, oConn, 3
-
-		if Not oRec.EOF then
-		 	
-		 	if oRec("kostpris") <> "" then
-			dblkostpris = oRec("kostpris")
-			else
-			dblkostpris = 0
-			end if
-		
-		strMnavn = oRec("mnavn")
-		tprisGen = oRec("timepris")
-		valutaGen = oRec("tp0_valuta")
-
-        mkostpristarif_A = oRec("kostpristarif_A")
-        mkostpristarif_B = oRec("kostpristarif_B")
-        mkostpristarif_C = oRec("kostpristarif_C") 
-        mkostpristarif_D = oRec("kostpristarif_D")
-		
-		end if
-
-oRec.close
-
-'** Slut timepris **
-
-
-end function
 
 
 
@@ -81,9 +44,9 @@ end function
 '*********************************************************************************************************************************
 public EmailNotificerTxt, EmailNotificer, EmailNotificerTxt2, EmailNotificer2, EmailNotificerTxt3, EmailNotificer3 
 
-function opdaterimer(aktid, aktnavn, tfaktimvalue, strFastpris, jobnr, strJobnavn, strJobknr, strJobknavn,_
+function opdaterTimer(aktid, aktnavn, tfaktimvalue, strFastpris, jobnr, strJobnavn, strJobknr, strJobknavn,_
 medid, strMnavn, datothis, timerthis, kommthis, intTimepris,_
-dblkostpris, offentlig, intServiceAft, strYear, sTtid, sLtid, visTimerelTid, stopur, intValuta, bopal, destination, dage, tildeliheledage, origin, extsysid, mtrx)
+dblkostpris, offentlig, intServiceAft, strYear, sTtid, sLtid, visTimerelTid, stopur, intValuta, bopal, destination, dage, tildeliheledage, origin, extsysid, mtrx, intKpValuta)
 
 
 
@@ -189,7 +152,10 @@ dblkostprisUse = replace(dblkostprisUse, ",", ".")
     
     call akttyper2009prop(tfaktimvalue)
     
+    call valutaKurs(intKpValuta)
+    kpvaluta_kurs = dblKurs
     call valutaKurs(intValuta)
+    
 
 
          
@@ -452,7 +418,7 @@ dblkostprisUse = replace(dblkostprisUse, ",", ".")
 				strSQLins = "INSERT INTO timer (Tjobnr, Tjobnavn, Tmnr, Tmnavn, Tdato, "_
 				&" Timer, Timerkom, Tknavn, Tknr, TAktivitetId, TAktivitetNavn, "_
 				&" Tfaktim, Taar, TimePris, TasteDato, fastpris, tidspunkt, "_
-				&" editor, kostpris, offentlig, seraft, sttid, sltid, valuta, kurs, bopal, destination, origin, extsysid) VALUES"_
+				&" editor, kostpris, offentlig, seraft, sttid, sltid, valuta, kurs, bopal, destination, origin, extsysid, kpvaluta, kpvaluta_kurs) VALUES"_
 				& "('" & jobnr & "', '"& strJobnavn &"', " & medid & ", '" & cstr(strMnavn) & "', '"& datothis &"', "_
 				&" "& timerthis &", '"& SQLBless2(kommthis) &"', "_
 				&" '" & SQLBless2(strJobknavn) & "', " & strJobknr & ", "_
@@ -461,7 +427,7 @@ dblkostprisUse = replace(dblkostprisUse, ",", ".")
 				&" '"&year(now)&"/"&month(now)&"/"&day(now)&"', '"& strFastpris  &"', "_
 				&" '" & time & "', '"& session("user") &"', "& dblkostprisUse &", "_
 				&" "& offentlig &", "& intServiceAft &", '"&sTtid&"', '"&sLtid&"', "_
-				&" "& intValuta &", "& dblKurs &", "& bopal &", '"& destination &"', "& origin &", '"& extsysid &"')"
+				&" "& intValuta &", "& dblKurs &", "& bopal &", '"& destination &"', "& origin &", '"& extsysid &"', "& intKpValuta &", "& kpvaluta_kurs &")"
 				
 				end if
 				
@@ -528,7 +494,7 @@ dblkostprisUse = replace(dblkostprisUse, ",", ".")
 						&" Timerkom = '"& kommentarthis &"', "_
 						&" tastedato = '"&year(now)&"/"&month(now)&"/"&day(now)&"', "_
 						&" editor = '"& session("user") &"', offentlig = "& offentlig &", "_
-						&" sttid = '"&sTtid&"', sltid = '"&sLtid&"', valuta = "& intValuta &", kurs = "& dblKurs &", bopal = "& bopal &", "_
+						&" sttid = '"&sTtid&"', sltid = '"&sLtid&"', valuta = "& intValuta &", kurs = "& dblKurs &", bopal = "& bopal &", kpvaluta = "& intKpValuta &", kpvaluta_kurs = "& kpvaluta_kurs &", "_
 						&" destination = '"& destination &"'"_
 						&" WHERE Tjobnr = '"& jobnr & "'"_
 						&" AND Tmnr = "& medid & ""_

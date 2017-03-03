@@ -1141,70 +1141,40 @@ function showsmiley(weekSelected, visning, usemrn, SmiWeekOrMonth)
     end if
 	
 	
-    dim antalAfsDato, antalAfsl
 	antalAfsDato = 0
     antalAfsl = 0
 
-	strSQL3 = "SELECT COALESCE(count(*)) AS antalafsluttede FROM ugestatus "_
+	strSQL3 = "SELECT uge, count(*) AS antalafs FROM ugestatus "_
 	&" WHERE mid = "& usemrn &" AND uge BETWEEN '"& surDatoSQLSTART &"' AND '"& surDatoSQLEND &"'"_
 	&" GROUP BY mid ORDER BY afsluttet DESC"
-    
-    'if lto = "assurator" AND session("mid") = 14 then
+    'if lto = "dencker" then
 	'Response.write strSQL3 & "<br><br>useDateSmileyTjkWeek: "& useDateSmileyTjkWeek & "<br>" & strSQL3 &"<br>"
 	'Response.flush
     'end if
-	
-    'antalAfsDato = antalAfsDato * 1    
-    oRec3.open strSQL3, oConn, 3 
+	oRec3.open strSQL3, oConn, 3 
 	if not oRec3.EOF then
 
-        if isNull(oRec3("antalafsluttede")) <> true then
+        if isNull(oRec3("antalafs")) <> true then
 
-
-        'antalAfsl = 0
-        'if lto = "assurator" then
-        'response.write "afl: #" & oRec3("antalafsluttede") & "#<br>"
-        'antalAfsl = 0
-        'antalAfsl = getLong(oRec3("antalafsluttede")) 
+       
+        'if session("mid") = 1 then
+        'response.write "afl: #" & oRec3("antalafs") & "#<br>"
+        antalAfsl = oRec3("antalafs")
         'response.write "antalAfsl: #" & antalAfsl & "#<br>"
         'antalAfsl = antalAfsl/1
         'response.Flush
-
-         antalAfsl = cdbl(oRec3("antalafsluttede")) 
-
-        'if lto <> "assurator" OR (lto = "assurator" AND session("mid") = 14) then
-
-        '    if (lto = "assurator" AND session("mid") = 14) then
-        '    antalAfsl = cdbl(oRec3("antalafsluttede")) 
-        '    antalAfsDato = antalAfsDato/1 + antalAfsl/1
-        '    else
-        '    antalAfsl = oRec3("antalafsluttede") 
-        '    antalAfsDato = antalAfsDato/1 + antalAfsl/1
-        '    end if
+        'end if
+        antalAfsDato = antalAfsDato + antalAfsl
         
-        'end if
-
-         antalAfsDato = antalAfsDato/1 + antalAfsl/1
-
-        'end if
-        'antalAfsDato = 0
-
-        'antalAfsl = oRec3("antalafs")
-        'if antalAfsl <> 0 then
-        'antalAfsDato = antalAfsDato + antalAfsl
-        'end if
-
-        'antalAfsDato = antalAfsDato
-
         'response.write antalAfsDato & "<br>" 
         'response.flush
 
         else
-        antalAfsl = 0
-        antalAfsDato = antalAfsDato
+         antalAfsl = 0
+         antalAfsDato = antalAfsDato
         end if
 
-	'oRec3.movenext	
+		
 	end if
 	oRec3.close  
 	
@@ -2203,9 +2173,8 @@ end if
             strSQLafslut = "SELECT status, afsluttet, uge, ugegodkendt, ugegodkendtaf, ugegodkendtTxt, ugegodkendtdt FROM ugestatus WHERE "_
             &" ((YEAR(uge) = "& sm_aar &" AND uge >= '"& ansatDatoSQL &"' AND uge >= '"& licensstDatoSQL &"') OR (YEAR(uge) < "& sm_aar &")) AND (mid = "& sm_mid & ")  ORDER BY uge DESC LIMIT 1"
 		    
-            
             'response.write "strSQLafslut: <br>" & strSQLafslut
-            'response.Flush
+
          
             oRec3.open strSQLafslut, oConn, 3 
 		    while not oRec3.EOF 

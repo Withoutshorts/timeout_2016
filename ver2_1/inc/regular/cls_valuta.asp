@@ -1,7 +1,7 @@
  
  <%
 
-public valutaKode_CCC, valutaKode_CCC_f8 
+public valutaKode_CCC, valutaKode_CCC_f8, valutaKurs_CCC 
 function valutakode_fn(valid)
 
      valutaKode_CCC = ""
@@ -13,6 +13,7 @@ function valutakode_fn(valid)
 
             valutaKode_CCC = oRec3("valutaKode")
             valutaKode_CCC_f8 = "<span style='font-size:7px;'>"& oRec3("valutaKode") &"</span>"
+            valutaKurs_CCC = oRec3("kurs")
             
             end if
             oRec3.close
@@ -141,6 +142,20 @@ end function
        oRec6.open strSQLdblKurs_fakhist, oConn, 3
        if not oRec6.EOF then
        dblKurs_fakhist = replace(oRec6("kurs"), ",", ".")
+       end if 
+       oRec6.close
+	end function
+
+
+    public dblKurs_job
+	function valutaKurs_job(intValuta)
+	    '**** Finder aktuel kurs ***'
+       dblKurs_job = 100
+
+       strSQLdblKurs_job = "SELECT kurs FROM valutaer WHERE id = " & intValuta
+       oRec6.open strSQLdblKurs_job, oConn, 3
+       if not oRec6.EOF then
+       dblKurs_job = replace(oRec6("kurs"), ",", ".")
        end if 
        oRec6.close
 	end function

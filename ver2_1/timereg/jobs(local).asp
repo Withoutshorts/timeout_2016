@@ -1,4 +1,5 @@
 <%response.buffer = true%>
+
 <!--
 <META HTTP-EQUIV="CACHE-CONTROL" CONTENT="NO-CACHE">
 <META HTTP-EQUIV="EXPIRES" CONTENT="Mon, 22 Jul 2002 11:12:01 GMT">
@@ -1317,7 +1318,7 @@ if len(session("user")) = 0 then
                     isInt = 0
                     else
 
-                    if instr(lto, "epi2017") <> 0 OR lto = "xintranet - local"  then 
+                    if instr(lto, "epi2017") <> 0 OR lto = "intranet - local"  then 
                     salgsProcent100 = salgsProcent100/1 + procVal 'Skal divideres med 10 da der fjernes komma
                     end if 
 
@@ -1367,7 +1368,7 @@ if len(session("user")) = 0 then
                 end if
 
 
-                if instr(lto, "epi2017") <> 0 OR lto = "xintranet - local" then
+                if instr(lto, "epi2017") <> 0 OR lto = "intranet - local" then
                 
                     if (cdbl(salgsProcent100) <> 100 OR cdbl(jobProcent100) <> 100) AND func = "dbred" then
                 
@@ -7140,7 +7141,7 @@ end select '*** Step %>
 				'**** Nedenstående (Timepriser) vises kun ved rediger *****
                 '**** Og ved klik på timepriser ***'
 
-                if cdbl(antalmedarb) < 25 then
+                if antalmedarb < 25 then
                 tpKriShow = 1
                 else
                     if showdiv = "tpriser" then
@@ -9090,29 +9091,6 @@ call eksportogprint(ptop,pleft, pwdt)
    <input type=image src="../ill/export1.png" />
     </td>
     <td class=lille><input id="Submit7" type="submit" value="F) Eksportér som BU fil >> " style="font-size:9px; width:130px;" /></td>
-</tr>
-</form>
-
-<%end if %>
-
-<%if lto = "dencker" OR lto = "dencker_test" OR lto = "intranet - local" then %>
-<form action="job_eksport.asp?optiprint=7" method="post" target="_blank">
-<tr> <input id="Hidden5" name="jids" value="<%=jids%>" type="hidden" />
-    <td valign=top align=center>
-   <input type=image src="../ill/export1.png" />
-    </td>
-    <td class=lille>
-         d.d -
-        <select name="antaldage" style="font-size:9px;">
-            <%for a = 0 TO 10 %>
-            <option value="<%=a %>">- <%=a %> dage</option>
-            <%next %>
-        </select>
-        </td>
-    </tr>
-<tr><td>&nbsp;</td><td>
-
-        <input id="Submit7" type="submit" value="F) Eksportér til Monitor >> " style="font-size:9px; width:130px;" /></td>
 </tr>
 </form>
 

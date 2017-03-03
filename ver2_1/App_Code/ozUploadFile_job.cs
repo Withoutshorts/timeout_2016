@@ -290,7 +290,7 @@ public class ozUploadFileJob
 
                 //string importtype = data.importtype;
                 //Dencker Monitor
-                if (folder == "dencker_test")
+                if (folder == "dencker_test" || folder == "dencker")
                 {
 
                     aktstdato = ConvertDate(data.aktstdato);
@@ -723,7 +723,7 @@ public class ozUploadFileJob
                 fileRet.stdato = datas[headers[3]-1];
                 fileRet.sldato = datas[headers[4]-1];
 
-                if (folderIn != "dencker")
+                if (folderIn != "dencker" && folderIn != "dencker_test")
                 {
                     fileRet.timerkom = datas[headers[5] - 1]; //Faktureringstype
                     fileRet.jobans = datas[headers[2] - 1]; //Jobans
@@ -744,7 +744,7 @@ public class ozUploadFileJob
 
               
 
-                if (folderIn == "dencker") { 
+                if (folderIn == "dencker" || folderIn == "dencker_test") { 
                 //Monitor Dencker
                 
                 fileRet.stkantal = datas[headers[5] - 1];

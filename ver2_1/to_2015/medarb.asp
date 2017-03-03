@@ -577,9 +577,10 @@ Session.LCID = 1030
 
                     oConn.execute(strSQL)
                     
-					
-					'*** projektgruppe relationer ***'
-					call prgrel(id, func)
+					if cint(level) = 1 then 'Kun Admin må ændre projektgrupper ved rediger medarb.
+					    '*** projektgruppe relationer ***'
+					    call prgrel(id, func)
+                    end if
 
                     'Response.end
 					
@@ -721,9 +722,11 @@ Session.LCID = 1030
 			                oConn.execute(strSQLmthupd)
     						
 						    
+                          
     						'*** projektgruppe relationer ***'
 					        call prgrel(intMid, func)
-					        
+
+
 					        '**** Sætter guiden aktive job aktive ****'
 					        'guideasyids = 0
                             'forvalgt = 0 'off / 1 = on
@@ -1637,7 +1640,7 @@ Session.LCID = 1030
 	                                        end if
 	                                        oRec.close
 	        
-	                                    if antalhist >= 30 then
+	                                    if cint(antalhist) >= 30 then
 	                                    dis = "DISABLED"
 	                                    else
 	                                    dis = ""
@@ -2048,11 +2051,12 @@ Session.LCID = 1030
                                    </div>
                                 <div class="col-lg-7">&nbsp</div>      
                               </div>
-                              <%else %>
+                              <%else 
+                                  
+                                 '** Denne bruges IKKE mere da KUN administratorer må ændre projektgrupper%>
 
-                                 <%call medariprogrpFn(id) %>
-                               
-                                 <input name="FM_progrp" type="hidden" value="<%=replace(medariprogrpTxt, "#", "") %>" />
+                                 <%'call medariprogrpFn(id) %>
+                                <input name="FM_progrp" type="hidden" value="0" /> <!-- <%=replace(medariprogrpTxt, "#", "") %> --> 
                               <%end if %>
 
 

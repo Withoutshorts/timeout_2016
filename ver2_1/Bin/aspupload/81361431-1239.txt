@@ -1,0 +1,4 @@
+REGEDIT4
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Persits Software\AspUpload3\RegKey]
+@="gkA0IspSiGwER7Jzx/mlAXuUsPOqCAKoRBwu1TnO5PRPva+XutTnBBIu8p6eLyNUw4GD6SOAxpOk"

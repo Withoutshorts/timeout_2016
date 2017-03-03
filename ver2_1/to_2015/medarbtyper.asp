@@ -670,6 +670,8 @@ case "dbopr", "dbred"
 							tp3_valuta = request("FM_valuta_3")
 							tp4_valuta = request("FM_valuta_4")
 							tp5_valuta = request("FM_valuta_5")
+
+                            kp1_valuta = request("FM_valuta_6")
 							
 
                             mtsortorder = request("FM_sortorder")
@@ -736,19 +738,19 @@ case "dbopr", "dbred"
                                  'Response.write "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;func:" & func
                                  'Response.end
 
-				if func = "dbopr" then
-				oConn.execute("INSERT INTO medarbejdertyper (type, timepris, editor, dato, kostpris, normtimer_son, normtimer_man, normtimer_tir, normtimer_ons, normtimer_tor, normtimer_fre, normtimer_lor, "_
-				&" timepris_a1, timepris_a2, timepris_a3, timepris_a4, timepris_a5, "_
-				&" tp0_valuta, tp1_valuta, tp2_valuta, tp3_valuta, tp4_valuta, tp5_valuta, sostergp, mtsortorder, mgruppe, afslutugekri, afslutugekri_proc, noflex, "_
-                &" kostpristarif_A, kostpristarif_B, kostpristarif_C, kostpristarif_D) VALUES"_
-				&" ('"& strNavn &"', "& strTimepris &", '"& strEditor &"', '"& strDato &"', "& dubKostpris &", "_
-				&" "& normtimer_son &", "& normtimer_man &", "& normtimer_tir &", "& normtimer_ons &", "_
-				&" "& normtimer_tor &", "& normtimer_fre &", "& normtimer_lor &", "& strTimepris1 &", "_
-				&" "& strTimepris2 &", "& strTimepris3 &", "& strTimepris4 &", "& strTimepris5 &", "_
-				&" "& tp0_valuta &","& tp1_valuta &","& tp2_valuta &","& tp3_valuta &","& tp4_valuta &","& tp5_valuta &", "& sostergp &", "_
-                &" "& mtsortorder &", "& mgruppe &","& afslutugekri &","& afslutugekri_proc &", "& noflex &", "_
-                &" "& kostpristarif_A &","& kostpristarif_B &","& kostpristarif_C &","& kostpristarif_D &""_
-				&" )")
+				        if func = "dbopr" then
+				        oConn.execute("INSERT INTO medarbejdertyper (type, timepris, editor, dato, kostpris, normtimer_son, normtimer_man, normtimer_tir, normtimer_ons, normtimer_tor, normtimer_fre, normtimer_lor, "_
+				        &" timepris_a1, timepris_a2, timepris_a3, timepris_a4, timepris_a5, "_
+				        &" tp0_valuta, tp1_valuta, tp2_valuta, tp3_valuta, tp4_valuta, tp5_valuta, sostergp, mtsortorder, mgruppe, afslutugekri, afslutugekri_proc, noflex, "_
+                        &" kostpristarif_A, kostpristarif_B, kostpristarif_C, kostpristarif_D, kp1_valuta) VALUES"_
+				        &" ('"& strNavn &"', "& strTimepris &", '"& strEditor &"', '"& strDato &"', "& dubKostpris &", "_
+				        &" "& normtimer_son &", "& normtimer_man &", "& normtimer_tir &", "& normtimer_ons &", "_
+				        &" "& normtimer_tor &", "& normtimer_fre &", "& normtimer_lor &", "& strTimepris1 &", "_
+				        &" "& strTimepris2 &", "& strTimepris3 &", "& strTimepris4 &", "& strTimepris5 &", "_
+				        &" "& tp0_valuta &","& tp1_valuta &","& tp2_valuta &","& tp3_valuta &","& tp4_valuta &","& tp5_valuta &", "& sostergp &", "_
+                        &" "& mtsortorder &", "& mgruppe &","& afslutugekri &","& afslutugekri_proc &", "& noflex &", "_
+                        &" "& kostpristarif_A &","& kostpristarif_B &","& kostpristarif_C &","& kostpristarif_D &", "& kp1_valuta &""_
+				        &" )")
 				
                 
                         strSQlast = "SELECT id FROM medarbejdertyper WHERE id <> 0 ORDER BY id DESC"
@@ -802,7 +804,7 @@ case "dbopr", "dbred"
 				&" tp2_valuta = "& tp2_valuta &", tp3_valuta = "& tp3_valuta &", "_
 				&" tp4_valuta = "& tp4_valuta &", tp5_valuta = "& tp5_valuta &", sostergp = "& sostergp &", mtsortorder = "& mtsortorder &", "_
                 &" mgruppe = "& mgruppe &", afslutugekri = "& afslutugekri &", afslutugekri_proc = "& afslutugekri_proc &", noflex = "& noflex &", "_
-                &" kostpristarif_A = "& kostpristarif_A &", kostpristarif_B = "& kostpristarif_B &", kostpristarif_C = "& kostpristarif_C &", kostpristarif_D = "& kostpristarif_D &""_
+                &" kostpristarif_A = "& kostpristarif_A &", kostpristarif_B = "& kostpristarif_B &", kostpristarif_C = "& kostpristarif_C &", kostpristarif_D = "& kostpristarif_D &", kp1_valuta = "& kp1_valuta &""_
 				&" WHERE id = "&id&""
 
                 'response.write strSQLupd
@@ -826,9 +828,18 @@ case "dbopr", "dbred"
                 id = lastId
                 end if
 
-                strSQLm = "SELECT m.mid, m.mnr, mth.mtypedato, mth.id, mth.mtype FROM medarbejdere AS m "_
-                &" LEFT JOIN medarbejdertyper_historik AS mth ON (mth.mid = m.mid AND mth.mtype = m.medarbejdertype) WHERE m.medarbejdertype = "& id
 
+                call valutaKurs(kp1_valuta)
+                kpvaluta_kurs = dblKurs
+
+                if instr(lto, "epi") <> 0 then 'Tjekker ikke mtypehistorik
+                strSQLm = "SELECT m.mid, m.mnr, m.ansatdato AS mtypedato FROM medarbejdere AS m "_
+                &" WHERE m.medarbejdertype = "& id & " AND (mansat = 1 OR mansat = 3)" 'Aktive og passive
+               
+                else
+                strSQLm = "SELECT m.mid, m.mnr, mth.mtypedato, mth.id, mth.mtype FROM medarbejdere AS m "_
+                &" LEFT JOIN medarbejdertyper_historik AS mth ON (mth.mid = m.mid AND mth.mtype = m.medarbejdertype) WHERE m.medarbejdertype = "& id & " AND (mansat = 1 OR mansat = 3)" 'Aktive og passive
+                end if
                 'Response.write strSQLm & "<br>"
                 'Response.flush
 
@@ -923,11 +934,22 @@ case "dbopr", "dbred"
                          if len(trim(request("FM_opd_intern"))) <> 0 then
 
 
+                          
+
                             if IsNull(oRec("mtypedato")) = true then
                             fromDt = "2000-1-1"
                             else
                             fromDt = year(oRec("mtypedato")) &"/"& month(oRec("mtypedato")) &"/"& day(oRec("mtypedato"))
                             end if
+
+
+                            brugSimpelKostprisUpdate = 1
+                            if cint(brugSimpelKostprisUpdate) = 1 then 'Tjekker ikke adgange via projektgrupper mtypehistorik men opdaterer alle kostpriser på valgte type 
+
+                                strSQLt = "UPDATE timer SET kostpris = "& dubKostpris &", kpvaluta = "& kp1_valuta &",  kpvaluta_kurs = "& kpvaluta_kurs &" WHERE tmnr = " & oRec("mid") & "  AND tdato >= '"& fromDt &"'"
+                                oConn.execute(strSQLt)
+
+                            else
 
                             '*** Ignorer projektgruppe rel, da hvis medarbejderen har været med på jobbet, 
                             '****må det være via sin projektgruppe
@@ -958,9 +980,9 @@ case "dbopr", "dbred"
                              dubKostprisUse = dubKostpris 
                              end select
 
-                            if isNull(oRec2("aid")) <> true  then 'AND dubKostpris <> ""
+                            if isNull(oRec2("aid")) <> true then 'AND dubKostpris <> ""
                         
-                            strSQLt = "UPDATE timer SET kostpris = "& dubKostprisUse &" WHERE tjobnr = '" & oRec2("jobnr") & "' AND tmnr = " & oRec("mid") & " AND taktivitetid = "& oRec2("aid") &" AND tdato >= '"& fromDt &"'"
+                            strSQLt = "UPDATE timer SET kostpris = "& dubKostprisUse &", kpvaluta = "& kp1_valuta &",  kpvaluta_kurs = "& kpvaluta_kurs &" WHERE tjobnr = '" & oRec2("jobnr") & "' AND tmnr = " & oRec("mid") & " AND taktivitetid = "& oRec2("aid") &" AND tdato >= '"& fromDt &"'"
                             'response.write "kostprisTarif: " & oRec2("kostpristarif") & "<br>"
                             'Response.Write strSQLt & "<br>"
                             'Response.flush
@@ -971,6 +993,10 @@ case "dbopr", "dbred"
                             oRec2.movenext
                             wend
                             oRec2.close
+
+
+                            end if
+
 
                         end if
 
@@ -1209,7 +1235,7 @@ case "dbopr", "dbred"
 	&" normtimer_tir, normtimer_ons, normtimer_tor, normtimer_fre, normtimer_lor, timepris_a1, "_
 	&" timepris_a2, timepris_a3, timepris_a4, timepris_a5, "_
 	&" tp0_valuta, tp1_valuta, tp2_valuta, tp3_valuta, tp4_valuta, tp5_valuta, sostergp, mtsortorder, mgruppe, afslutugekri, afslutugekri_proc, noflex, "_
-    &" kostpristarif_A, kostpristarif_B, kostpristarif_C, kostpristarif_D "_
+    &" kostpristarif_A, kostpristarif_B, kostpristarif_C, kostpristarif_D, kp1_valuta "_
 	&" FROM medarbejdertyper WHERE id=" & id
 	oRec.open strSQL,oConn, 3
 	
@@ -1261,6 +1287,8 @@ case "dbopr", "dbred"
     kostpristarif_B = oRec("kostpristarif_B")
     kostpristarif_C = oRec("kostpristarif_C")
     kostpristarif_D = oRec("kostpristarif_D")
+
+    kp1_valuta = oRec("kp1_valuta")
 
 	end if
 	oRec.close
@@ -1452,7 +1480,7 @@ case "dbopr", "dbred"
                                     <div class="col-lg-1">&nbsp</div>
                                     <div class="col-lg-9"><br /><br />
                                         <b>Opdater timepriser:</b><br />
-                                        <input id="Checkbox1" type="checkbox" name="FM_opdater_timepriser" value="1" />&nbsp Opdater timepriser, for denne medarbejdertype på:<br />
+                                        <input id="Checkbox1" type="checkbox" name="FM_opdater_timepriser" value="1" />&nbsp Opdater timepriser, for denne medarbejdertype (aktive + passive medarb.) på:<br />
                                         - Timepristabellen på alle fakturerbare/Ikke fakturerbare aktiviteter på åbne job og tilbud. <br />
                                         - Alle registrerede timer på fakturerbare aktiviteter på <u>åbne</u> job <b>fra d. </b><input type="text" name="FM_opdatertpfra" value="<%=useDate %>" style="font-size:9px; width:60px;" /> til dd.
                                         - også lukkede uger og hvis der foreligger faktura.
@@ -1467,7 +1495,7 @@ case "dbopr", "dbred"
                                 <div class="col-lg-1">&nbsp</div>
                                 <div class="col-lg-2"><b>Intern kostpris:</b></div>
                                 <div class="col-lg-2"><input type="text" class="form-control input-small" name="FM_kostpris" value="<%=dubKostpris%>"></div>
-                                <div class="col-lg-1"><%=basisValISO %></div>
+                                <div class="col-lg-2"><%call valutaKoder(6, kp1_valuta, 1) %></div>
                             </div>
 
                             <div class="row pad-t20">
@@ -1501,7 +1529,7 @@ case "dbopr", "dbred"
                             <%if func = "red" then %>
                                 <div class="row">
                                     <div class="col-lg-3">&nbsp</div>
-                                    <div class="col-lg-4"><input id="Checkbox1" type="checkbox" name="FM_opd_intern" value="1" />&nbsp Opdater interne kostpriser/tariffer, for denne type, <br />på alle eksisterende <u>åbne</u> job.</div>
+                                    <div class="col-lg-4"><input id="Checkbox1" type="checkbox" name="FM_opd_intern" value="1" />&nbsp Opdater interne kostpriser/tariffer, for denne type, <br />på alle eksisterende <u>åbne</u> job. (aktive + passive medarb.)</div>
                                 </div>
                            <%end if %>
 

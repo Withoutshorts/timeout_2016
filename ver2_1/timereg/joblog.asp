@@ -1529,7 +1529,7 @@ slutDatoKriSQL = strAar_slut &"/"& strMrd_slut &"/"& strDag_slut
 	&" a.fakturerbar,"_
 	&" Tknavn, Tmnr, Tmnavn, Timer, Tid, Tfaktim, TimePris, Timerkom, Tknr, t.kurs, "_
 	&" sttid, sltid, a.faktor, godkendtstatus, godkendtstatusaf, kkundenr, kkundenavn, t.timerkom, "_
-	&" m.mnr, m.init, mnavn, m.mid, a.id AS aid, a.sortorder, v.valutakode, t.valuta, k.kid, t.kostpris, m.mcpr, "_
+	&" m.mnr, m.init, mnavn, m.mid, a.id AS aid, a.sortorder, v.valutakode, t.valuta, k.kid, t.kostpris, kpvaluta, kpvaluta_kurs, m.mcpr, "_
 	&" a.fase, a.antalstk, a.aktbudgetsum, a.bgr, a.aktbudget, t.editor, a.avarenr "_
 	&" FROM timer t "_
 	&" LEFT JOIN aktiviteter a ON (a.id = TAktivitetId)"_
@@ -2398,7 +2398,7 @@ slutDatoKriSQL = strAar_slut &"/"& strMrd_slut &"/"& strDag_slut
     				    
     				    
     				                if media <> "export" then%>
-    				                <b><%=tpris %></b>
+    				                <%=tpris %>
 				                    <%end if 
 				                
                                     select case ver 
@@ -2485,6 +2485,7 @@ slutDatoKriSQL = strAar_slut &"/"& strMrd_slut &"/"& strDag_slut
 				                '*** Alle fakturerbare ***'
 				   
 				                if cint(aty_fakbar) = 1 OR cint(aty_medpafak) = 1 then
+
 				                    if media <> "export" then
 				                    %>
     				                <%=formatnumber(oRec("kostpris"), 2)%>
@@ -2523,15 +2524,21 @@ slutDatoKriSQL = strAar_slut &"/"& strMrd_slut &"/"& strDag_slut
 				                else
 				                kostTot = oRec("kostpris")*oRec("timer")
 				                end if 
+
+
+                                call valutakode_fn(oRec("kpvaluta"))
+
 				    
 				                 if media <> "export" then%>
-				                 <%=formatnumber(kostTot, 2)&" "& basisValISO%>
-			                     <%end if
+				                 <%=formatnumber(kostTot, 2)&" "& valutaKode_CCC%> 
+			                     <%
+                                 'basisValISO    
+                                 end if
 
                                  select case ver 
                                 case 1
     			                case else
-			                     ekspTxt = ekspTxt & formatnumber(kostTot, 2) &";"& basisValISO &";"
+			                     ekspTxt = ekspTxt & formatnumber(kostTot, 2) &";"& valutaKode_CCC &";" 'basisValISO
                                 end select
     			     
     			                 else

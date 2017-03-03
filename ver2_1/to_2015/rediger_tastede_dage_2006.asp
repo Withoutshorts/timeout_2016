@@ -288,9 +288,10 @@
                                 </tr>
                                 <tr>
                                     <td><b>Tidspunkt:</b></td>
-                                    <td><input type="text" name="FM_sttid" value="<%=sttid%>" class="form-control input-small"></td>
-                                    <td style="text-align:center">-</td>
-                                    <td><input type="text" name="FM_sltid" value="<%=sltid%>" class="form-control input-small"></td>
+                                    <td><input type="text" name="FM_sttid" value="<%=sttid%>" class="form-control input-small" placeholder="hh:mm"></td>
+                                    
+                                    <td><input type="text" name="FM_sltid" value="<%=sltid%>" class="form-control input-small" placeholder="hh:mm"></td>
+                                    <td style="text-align:center">&nbsp;</td>
                                 </tr>
 
 
@@ -322,6 +323,7 @@
                                         </td>
                                   </tr>
                                 
+                                   <!-- Denne funktion holder pause 20170223
 
                                     <tr>
                                         <td><input type="checkbox" value="1" name="FM_opdater_timepriser" /></td>
@@ -332,6 +334,8 @@
                                         <td><input type="text" name="FM_opdatertpfra" value="<%=formatdatetime(now,2) %>" class="form-control input-small"/></td>
                                         <td>til dags dato</td>
                                     </tr>
+
+                                    -->
 
                                  
                                   <%else %>
@@ -347,6 +351,7 @@
                                 <tr>
                                     <td colspan="6"><textarea name="Timerkom" rows="5" class="form-control input-small"><%=StrTimerkom%></textarea></td>
                                 </tr>
+                                <!-- Denne funktion holder pause 
                                 <tr>
                                     <td colspan="2"><%=tsa_txt_053 %>:</td>
                                     <td>
@@ -365,6 +370,9 @@
 	                                    </select>
                                     </td>
                                 </tr>
+
+
+                                
                                 <%if kmDialogOnOff = 1 then %>
                                   <tr>
                                     <td colspan="3">
@@ -381,6 +389,9 @@
                                   <%else %>
                                 <input id="name="FM_bopal"" name="FM_bopal" value="0" type="hidden" />
                                 <%end if %>
+
+                                -->
+                                 <input name="FM_bopal" value="0" type="hidden" />
 
                             </table>
 

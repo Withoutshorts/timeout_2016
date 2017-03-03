@@ -15,7 +15,11 @@
     'Response.Write "request.Cookies(tsa)(usegl2006) " & request.Cookies("tsa")("usegl2006")
     %>
     
-    
+<!--
+<META HTTP-EQUIV="CACHE-CONTROL" CONTENT="NO-CACHE">
+<META HTTP-EQUIV="EXPIRES" CONTENT="Mon, 22 Jul 2002 11:12:01 GMT">
+    -->
+
     
     <!--#include file="../inc/connection/conn_db_inc.asp"-->
    
@@ -5554,11 +5558,11 @@
                             'response.flush 
             				
 				            '**** Indlæser timer i DB, alm timereg. i timer *****'
-				            call opdaterimer(aktids(j), strAktNavn, tfaktimvalue, strFastpris, intJobnr, strJobnavn, strJobknr,_
+				            call opdaterTimer(aktids(j), strAktNavn, tfaktimvalue, strFastpris, intJobnr, strJobnavn, strJobknr,_
 				            strJobknavn, medarbejderid, strMnavn,_
 				            useDato, useTimerThis, strKomm, intTimepris,_
 				            dblkostpris, offentlig, intServiceAft, strYear,_
-				            tSttid(y), tSltid(y), visTimerelTid, stopur, intValuta, bopal, destination, 0, 0, origin, extsysid, mtrx)
+				            tSttid(y), tSltid(y), visTimerelTid, stopur, intValuta, bopal, destination, 0, 0, origin, extsysid, mtrx, intKpValuta)
             				
     				    
     				    
@@ -5616,11 +5620,11 @@
                              'Response.flush
 
                                
-                            call opdaterimer(aktids(j), strAktNavn, tfaktimvalue, strFastpris, intJobnr, strJobnavn, strJobknr,_
+                            call opdaterTimer(aktids(j), strAktNavn, tfaktimvalue, strFastpris, intJobnr, strJobnavn, strJobknr,_
 				            strJobknavn, medarbejderid, strMnavn,_
 				            useDato, useTimer, strKomm, intTimepris,_
 				            dblkostpris, offentlig, intServiceAft, strYear,_
-				            usetSttid, usetSltid, visTimerelTid, stopur, intValuta, bopal, destination, useDage, tildeliheledage, origin, extsysid, mtrx)
+				            usetSttid, usetSltid, visTimerelTid, stopur, intValuta, bopal, destination, useDage, tildeliheledage, origin, extsysid, mtrx, intKpValuta)
     				        
     				        
     				        isAktMedidDatoWrt = isAktMedidDatoWrt & ",#"&aktids(j)&"_"&medarbejderid&"_"&useDato&"#"
@@ -5684,10 +5688,10 @@
 			                '**** Indlæser timer i DB *****'
               
 
-				            call opdaterimer(aktids(j), strAktNavn, tfaktimvalue, strFastpris, intJobnr, strJobnavn, strJobknr,_
+				            call opdaterTimer(aktids(j), strAktNavn, tfaktimvalue, strFastpris, intJobnr, strJobnavn, strJobknr,_
 				            strJobknavn, medarbejderid, strMnavn,_
 				            useDatoer(j), useTimer(j), strKomm, intTimepris,_
-				            dblkostpris, offentlig, intServiceAft, strYear, tSttid, tSltid, visTimerelTid, stopur, intValuta, bopal, destination, 0, 0, origin, extsysid, mtrx)
+				            dblkostpris, offentlig, intServiceAft, strYear, tSttid, tSltid, visTimerelTid, stopur, intValuta, bopal, destination, 0, 0, origin, extsysid, mtrx, intKpValuta)
  
 			            '*** Opdaterer stopur timer overført *****'
 			            strSQLstopU = "UPDATE stopur SET timereg_overfort = 1 WHERE id = "& entrysids(j) 
@@ -5975,7 +5979,7 @@
         'response.write "ugeseddel_2011.asp?usemrn="&usemrn&"&varTjDatoUS_man="&varTjDatoUS_man
         'response.end
 
-        Response.Redirect "../to_2015/ugeseddel_2011.asp?usemrn="&usemrn&"&varTjDatoUS_man="&varTjDatoUS_man
+        Response.Redirect "../to_2015/ugeseddel_2011.asp?usemrn="&usemrn&"&varTjDatoUS_man="&varTjDatoUS_man&"&FM_datoer="& useDato
 
         
 

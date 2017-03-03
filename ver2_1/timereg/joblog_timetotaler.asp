@@ -56,7 +56,33 @@ thisfile = "joblog_timetotaler"
    
     response.cookies("cc_vis_fakbare_res")("aktn") = vis_aktnavn
 
+    
+    if len(trim(request("FM_valuta"))) <> 0 then
+    gt_valuta = request("FM_valuta")
+    response.cookies("tsa")("gt_valuta") = gt_valuta
 
+        else
+        
+           if request.cookies("tsa")("gt_valuta") <> "" then
+            gt_valuta = request.cookies("tsa")("gt_valuta")
+           else
+
+            call basisValutaFN()
+            gt_valuta = basisValId
+           end if
+
+    end if
+
+    call valutakode_fn(gt_valuta)
+
+      
+    if csv_pivot <> "0" then
+    csv_pivotSEL0 = ""
+    csv_pivotSEL1 = "CHECKED"
+    else
+    csv_pivotSEL0 = "CHECKED"
+    csv_pivotSEL1 = ""
+    end if
    
 
     if len(trim(request("csv_pivot"))) <> 0 then
@@ -1380,27 +1406,25 @@ function LeiRotate() {
 			    <input type="radio" name="vis_fakbare_res" id="vis_fakbare_res0" value="0" <%=fakChk%>> Vis <b>timer</b> (på akt.typer der er med i dagligt timeregnskab)<br />
                 <input type="radio" name="vis_fakbare_res" id="vis_fakbare_res2" value="2" <%=fakChk2%>> Vis <b>timer og kostpriser</b><br />
                 <input type="radio" name="vis_fakbare_res" id="vis_fakbare_res1" value="1" <%=fakChk1%>> Vis <b>timer og omsætning</b>
-                
-
+               
                 
                 <%
                 if cint(vis_medarbejdertyper) <> 1 then%>
-               
-               &nbsp;<input type="checkbox" value="1" name="vis_redaktor" id="vis_redaktor" <%=vis_redaktorCHK%> /> Rediger timepriser
-                
+                &nbsp;&nbsp;<input type="checkbox" value="1" name="vis_redaktor" id="vis_redaktor" <%=vis_redaktorCHK%> /> Rediger timepriser
                 <%
                 else
                 %>
-               &nbsp;<input type="checkbox" value="1" name="vis_redaktor" id="Checkbox1" DISABLED /> <span style="color:#999999;">Rediger timepriser</span>
+                &nbsp;&nbsp;<input type="checkbox" value="1" name="vis_redaktor" id="Checkbox1" DISABLED /> <span style="color:#999999;">Rediger timepriser</span>
                 <%
                 end if
                 %>
-                
-                <br /><br />
                
-                  
-
+                <br /><br />Vis beløb i følgende valuta:
+                <%call valutaList(gt_valuta, "FM_valuta") %>
                 
+
+
+                <br /><br />
                 <input type="checkbox" value="1" name="vis_fakturerbare" id="vis_fakturerbare" <%=vis_fakturerbareCHK%> /> Vis kun <b>fakturerbare timer</b><br />
                 <span style="background-color:#FFFFe1;"> <input type="checkbox" value="1" name="vis_godkendte" id="vis_godkendte" <%=vis_godkendteCHK%> /> Vis kun <b>godkendte timer</b> </span><br />
                 
@@ -1542,7 +1566,7 @@ function LeiRotate() {
                             Hvis der vælges et enkelt job bliver timeforbruget udspecificeret på aktiviteter.
                             <br /><br />
                             <b>Beløb</b><br />
-                            Alle timepriser og beløb er vist i <%=basisValISO %>.&nbsp;
+                            Alle timepriser og beløb er vist i jobbets basisvaluta.&nbsp;
                 		
                 		
 		                </td>
@@ -1824,9 +1848,9 @@ function LeiRotate() {
 			'**** Kun timer eller beregn fakbare timer og omsætning ***'
 			if cint(visfakbare_res) = 1 OR cint(visfakbare_res) = 2 then 
 			    if cint(visfakbare_res) = 1 then
-                vgtTimePris = " COALESCE(sum(t.timer*(t.timepris*(t.kurs/100))),0) AS vaegtettimepris, "
+                vgtTimePris = " COALESCE(sum(t.timer*(t.timepris*(t.kurs/"& replace(valutaKurs_CCC, ",", ".") &"))),0) AS vaegtettimepris, "
                 else 'kostpris
-                vgtTimePris = " COALESCE(sum(t.timer*(t.kostpris*(t.kurs/100))),0) AS vaegtettimepris, "
+                vgtTimePris = " COALESCE(sum(t.timer*(t.kostpris*(t.kpvaluta_kurs/"& replace(valutaKurs_CCC, ",", ".") &"))),0) AS vaegtettimepris, "
                 end if
 			else
 		    vgtTimePris = ""
@@ -2368,8 +2392,8 @@ function LeiRotate() {
 			&" COALESCE(sum(t.timer), 0) AS sumtimer, "& vgtTimePris &" t.tmnr, t.tmnavn, t.timepris, t.kostpris, t.tdato, m.mnavn, m.mnr, m.mid, m.init, "
 
            
-			strSQL = strSQL &" j.jobTpris, j.fakturerbart, j.budgettimer, j.ikkebudgettimer, j.fastpris, j.usejoborakt_tp, m.medarbejdertype AS mtype "& aktSQLFields &","_
-			&" k.kkundenavn, k.kkundenr, k.adresse, k.postnr, k.city, k.telefon, t.kurs AS oprkurs, t.valuta, "_
+			strSQL = strSQL &" j.jobTpris, j.fakturerbart, j.budgettimer, j.ikkebudgettimer, j.fastpris, j.usejoborakt_tp, jo_valuta, m.medarbejdertype AS mtype "& aktSQLFields &","_
+			&" k.kkundenavn, k.kkundenr, k.adresse, k.postnr, k.city, k.telefon, t.kurs AS oprkurs, t.valuta, kpvaluta, kpvaluta_kurs, "_
 			&" m2.mnavn AS m2mnavn, m2.init AS m2init, m2.mnr AS m2mnr, m3.mnavn AS m3mnavn, m3.init AS m3init, m3.mnr AS m3mnr "
 			
             if cint(vis_kpers) = 1 then
@@ -2647,7 +2671,13 @@ function LeiRotate() {
 						else
 						jobbelob = 0
 						end if
-						
+
+                    
+					    if cint(visfakbare_res) = 1 then 'timepris eller kostpris
+						jobmedtimer(x,27) = oRec("oprkurs")
+						else
+                        jobmedtimer(x,27) = oRec("kpvaluta_kurs")
+                        end if	
 						
 						'*** Job eller aktiviteter VISES **'
 						'** Budget / Forkalk **'
@@ -2688,8 +2718,14 @@ function LeiRotate() {
 						    jobmedtimer(x,19) = bdgTim
 						end if
 						
-						jobmedtimer(x,27) = oRec("oprkurs")
-						
+
+                        
+                        '*** Omregner Job / ajkt budget til valgte valuta 
+                        call valutaKurs_job(oRec("jo_valuta")) ' --> job valuta
+
+                        call beregnValuta(jobmedtimer(x,18),jobmedtimer(x,27),valutaKurs_CCC)
+					    jobmedtimer(x,18) = valBelobBeregnet
+
 						
 						
 						'*** Timepriser bruges på forkalk og hvis det er fastpris job ***'
@@ -2735,7 +2771,7 @@ function LeiRotate() {
                                             '** Fastpris **'
                                             fastpris = oRec("fastpris")
 							                if fastpris = "999" then '1
-                							
+                							'**** BRUGES IKKE **** 2010
                 							
                 							
 						                        '** Beløb **'jobmedtimer(x,7)
@@ -2752,16 +2788,22 @@ function LeiRotate() {
 							                '** Beløb **'
 							                '*** Bliver beregnet i SQL kald ***'
 							                jobmedtimer(x,7) = oRec("vaegtettimepris") 
+
+                                        
+                                            
                 							
 							                    '*** Timepris / Kostprise ***'
+                                                call valutaKurs_job(oRec("jo_valuta")) ' --> job valuta
+
                                                 if cint(visfakbare_res) = 1 then
-							                    call beregnValuta(oRec("timepris"),jobmedtimer(x,27),100)
-							                    jobmedtimer(x,10) = valBelobBeregnet
+							                        
+                                                    call beregnValuta(oRec("timepris"),jobmedtimer(x,27),valutaKurs_CCC)
+							                        jobmedtimer(x,10) = valBelobBeregnet
                 							
                                                 else 'kostpris
 
-                                                call beregnValuta(oRec("kostpris"),jobmedtimer(x,27),100)
-							                    jobmedtimer(x,10) = valBelobBeregnet
+                                                    call beregnValuta(oRec("kostpris"),jobmedtimer(x,27),valutaKurs_CCC)
+                                                    jobmedtimer(x,10) = valBelobBeregnet
 
                                                 end if
 
@@ -2772,7 +2814,7 @@ function LeiRotate() {
             							
                                         '*** bruge kun pseudo da, der ikke beregnes timepris ved vis kun timer
 							            '*** Timepris ***'
-							            call beregnValuta(oRec("timepris"),jobmedtimer(x,27),100)
+							            call beregnValuta(oRec("timepris"),jobmedtimer(x,27),valutaKurs_CCC)
 							            jobmedtimer(x,10) = valBelobBeregnet
             						
 						            end if
@@ -2996,6 +3038,13 @@ function LeiRotate() {
             if cint(upSpec) = 0 then
             strJobLinie_top = strJobLinie_top & strMedarbOskriftLinie
             end if
+
+            if cint(upSpec) = 1 then
+            strJobLinie_top = strJobLinie_top & strMedarbOskriftLinieOnlyMonths
+            end if
+
+            
+
 		'end if		
                             
 
@@ -3387,7 +3436,7 @@ function LeiRotate() {
 
         
                                                 if media <> "print" then
-                                                strJobLinie = strJobLinie & "<a href='joblog_timetotaler.asp?FM_jobsog="&jobaktNr&"&FM_udspec=1&nomenu=1&FM_medarb="&thisMiduse&"&FM_fomr="&fomr&"' target='_blank' class='vmenu'>[+] "& jobaktNavn &"</a>"
+                                                strJobLinie = strJobLinie & "<a href='joblog_timetotaler.asp?FM_jobsog="&jobaktNr&"&FM_udspec=1&nomenu=1&FM_medarb="&thisMiduse&"&FM_fomr="&fomr&"&FM_md_split="&md_splitVal&"' target='_blank' class='vmenu'>[+] "& jobaktNavn &"</a>"
                                                 else
                                                 strJobLinie = strJobLinie & left(jobaktNavn, 25) 
                                                 end if
@@ -3522,7 +3571,7 @@ function LeiRotate() {
 									        if cint(visfakbare_res) = 1 OR cint(visfakbare_res) = 2 then
 									        
                                             if cint(directexp) <> 1 AND ((cint(upSpec) = 0 AND jobmedtimer(x,38) = 0) OR (cint(upSpec) = 1 AND jobmedtimer(x,38) <> 0)) then 
-									        strJobLinie = strJobLinie & "<br><span style='color=#000000; font-size:9px;'>"& basisValISO &" "& formatnumber(jobmedtimer(x,18),2) & "</span>"
+									        strJobLinie = strJobLinie & "<br><span style='color=#000000; font-size:9px;'>"& valutaKode_CCC &" "& formatnumber(jobmedtimer(x,18),2) & "</span>"
                                             end if        
 
                                                    if jobmedtimer(x,38) = 0 then '** Udspec på aktiviteter
@@ -3798,9 +3847,12 @@ function LeiRotate() {
                                                 end if
 
 												if cint(vis_enheder) = 1 AND ((cint(upSpec) = 0 AND jobmedtimer(x,38) = 0) OR (cint(upSpec) = 1 AND jobmedtimer(x,38) <> 0))  then
-												expTxt = expTxt &formatnumber(jobmedtimer(x,26), 2)&";"
+												expTxt = expTxt & formatnumber(jobmedtimer(x,26), 2)&";"
 												end if
 											
+
+                                            expTxt = expTxt & valutaKode_CCC &";" 
+
 
 
 											if cint(visfakbare_res) = 1 OR cint(visfakbare_res) = 2 then
@@ -3811,7 +3863,7 @@ function LeiRotate() {
 											
 											'*** ~ca timepris ved fastpris, aktiviteter grundlag og jobvisning ***
 									        if cint(directexp) <> 1 AND ((cint(upSpec) = 0 AND jobmedtimer(x,38) = 0) OR (cint(upSpec) = 1 AND jobmedtimer(x,38) <> 0)) then 
-                                            strJobLinie = strJobLinie &"<br><span style='color:#000000; font-size:8px;'>"& basisValISO &" "& formatnumber(jobmedtimer(x,17)/1, 2)&"</span><br>"
+                                            strJobLinie = strJobLinie &"<br><span style='color:#000000; font-size:8px;'>"& valutaKode_CCC &" "& formatnumber(jobmedtimer(x,17)/1, 2)&"</span><br>"
 											end if 'if cint(directexp) <> 1 then 
 
 												
@@ -4323,6 +4375,9 @@ function LeiRotate() {
                                                                         if cint(vis_enheder) = 1 then
 							                                            expTxt = expTxt &";" 
 							                                            end if
+
+                                            
+                                                                       
 							
 							                                            if cint(visfakbare_res) = 1 OR cint(visfakbare_res) = 2 then
 							                                            expTxt = expTxt &";;"
@@ -4540,7 +4595,7 @@ function LeiRotate() {
 						if cint(visfakbare_res) = 1 OR cint(visfakbare_res) = 2 then
 
                             if cint(directexp) <> 1 then
-						    strJobLinie_total = strJobLinie_total & "<br><span style='color=#000000; font-size:8px;'>"& basisValISO &" "& formatnumber(totbudget, 2)&"</span></td>"
+						    strJobLinie_total = strJobLinie_total & "<br><span style='color=#000000; font-size:8px;'>"& valutaKode_CCC &" "& formatnumber(totbudget, 2)&"</span></td>"
                             end if 'if cint(directexp) <> 1 then                
 
                             expTxt = expTxt & formatnumber(totbudget, 0) &";"
@@ -4581,12 +4636,18 @@ function LeiRotate() {
         
                              expTxt = expTxt & formatnumber(enhederPrevSaldoTot,2) &";"
                              end if
+
+                            
+                               
                         
                         if cint(directexp) <> 1 then
                         strJobLinie_total = strJobLinie_total &"</td>"
                         end if 'if cint(directexp) <> 1 then
 
                         end if 
+
+                    
+                     
 
 						
                         '***********************'
@@ -4627,6 +4688,8 @@ function LeiRotate() {
 
 								expTxt = expTxt & formatnumber(totaltotaljboTimerIalt,2) &";"
 
+                                expTxt = expTxt & ""& valutaKode_CCC &";" 'valutakode
+
 
                                 select case lto
                                 case "mmmi", "xintranet - local"
@@ -4651,7 +4714,7 @@ function LeiRotate() {
 						        if cint(visfakbare_res) = 1 OR cint(visfakbare_res) = 2 then
                     
                                 if cint(directexp) <> 1 then
-						        strJobLinie_total = strJobLinie_total & "<br><span style='color=#000000; font-size:8px;'>"& basisValISO &" "&formatnumber(totaltotaljobOmsIalt, 2)& "</span>" 
+						        strJobLinie_total = strJobLinie_total & "<br><span style='color=#000000; font-size:8px;'>"& valutaKode_CCC &" "&formatnumber(totaltotaljobOmsIalt, 2)& "</span>" 
 						        strJobLinie_total = strJobLinie_total & "<br><span style='color=#000000; font-size:8px;'>bal.: "&formatnumber(dbialt, 2)&"</span></td>"
 		                        end if 'if cint(directexp) <> 1 then				
 
@@ -4745,6 +4808,7 @@ function LeiRotate() {
                               expTxt = expTxt & formatnumber(enhederGTot,2) &";"
                               end if
 				
+                              
 
                 end if
 				
@@ -4849,7 +4913,7 @@ function LeiRotate() {
 
                                                     if len(trim(medabTotOmsprMd(v, mth))) <> 0 AND medabTotOmsprMd(v, mth) <> 0 then
                                                     if cint(directexp) <> 1 then
-                                                    strJobLinie_total = strJobLinie_total & "<br><span style='color=#000000; font-size:8px;'>"& basisValISO &" "& formatnumber(medabTotOmsprMd(v, mth), 2) & "</span>"
+                                                    strJobLinie_total = strJobLinie_total & "<br><span style='color=#000000; font-size:8px;'>"& valutaKode_CCC &" "& formatnumber(medabTotOmsprMd(v, mth), 2) & "</span>"
                                                     end if 'if cint(directexp) <> 1 then
                                                     expTxt = expTxt & formatnumber(medabTotOmsprMd(v, mth), 2) &";;"
                                                     else
@@ -4980,7 +5044,7 @@ function LeiRotate() {
                                         
                                         if cint(directexp) <> 1 then
                                             if omsTot(v) <> 0 then
-							                strJobLinie_total = strJobLinie_total & "<br><span style='color=#000000; font-size:8px;'>"& basisValISO &" "&formatnumber(omsTot(v), 2)&"</span></td>"
+							                strJobLinie_total = strJobLinie_total & "<br><span style='color=#000000; font-size:8px;'>"& valutaKode_CCC &" "&formatnumber(omsTot(v), 2)&"</span></td>"
                                             else
                                             strJobLinie_total = strJobLinie_total & "&nbsp;</td>"
                                             end if
@@ -5012,7 +5076,7 @@ function LeiRotate() {
 
            
             strJobLinie_total = strJobLinie_total & "<b>Opdater timepriser</b><br>Opdaterer timeregistreringer i valgte måned (grønne).<br><br>"_
-            &"<input type='Checkbox' value='1' name='FM_opdater_tp_job'> Opdater samtidig de timepriser der er indtastet på job / aktivitet, så fremtidige timeregistreringer følger denne pris (gælder ikke de aktiviteter der er sat til ens pris for alle).<br><br>n: nedarver fra job<br><br>Alle priser er "& basisValISO &". Valuta ændres på jobbet."_
+            &"<input type='Checkbox' value='1' name='FM_opdater_tp_job'> Opdater samtidig de timepriser der er indtastet på job / aktivitet, så fremtidige timeregistreringer følger denne pris (gælder ikke de aktiviteter der er sat til ens pris for alle).<br><br>n: nedarver fra job<br><br>Alle priser er "& valutaKode_CCC &". Valuta ændres på jobbet."_
             &"</td><tr><td align=right><input type='submit' value='Opdater >>'></td></tr></table></form>"
             else
             strJobLinie_total = strJobLinie_total & no_redaktorTxt &"</td></tr></table>"

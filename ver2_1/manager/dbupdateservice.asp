@@ -58,7 +58,7 @@ a = 0
 					Response.write strSQL(b) & "<br>"
 					Response.flush
 					x = 1
-					numberoflicens = 167
+					numberoflicens = 168
 					For x = 1 To numberoflicens  
 						
 						call aktivedb(x)
@@ -3017,6 +3017,33 @@ set
 Where a.jo_valuta = 0
 <br /><br />
 UPDATE job SET jo_valuta = 1 WHERE jo_valuta = 0 
+
+<br /><br />20170222.1<br />
+ALTER TABLE medarbejdertyper ADD (
+kp1_valuta Int NOT NULL DEFAULT 1);
+
+UPDATE medarbejdertyper AS U1, valutaer AS U2 
+SET U1.kp1_valuta = U2.id
+WHERE U2.grundvaluta = 1 AND U1.kp1_valuta = 1;
+INSERT INTO dbversion (dbversion) VALUES (20170222.1) 
+
+<br /><br />20170223.1<br />
+ALTER TABLE timer ADD (
+kpvaluta Int NOT NULL DEFAULT 1);
+
+UPDATE timer AS U1, valutaer AS U2 
+SET U1.kpvaluta = U2.id
+WHERE U2.grundvaluta = 1 AND U1.kpvaluta = 1;
+INSERT INTO dbversion (dbversion) VALUES (20170223.1) 
+
+<br /><br />20170224.1<br />
+ALTER TABLE timer ADD (
+kpvaluta_kurs double(12,2) NOT NULL DEFAULT 100);
+
+UPDATE timer AS U1, valutaer AS U2 
+SET U1.kpvaluta_kurs = U2.kurs
+WHERE U2.grundvaluta = 1 AND U1.kpvaluta = U2.id;
+INSERT INTO dbversion (dbversion) VALUES (20170224.1) 
 
 <%
 

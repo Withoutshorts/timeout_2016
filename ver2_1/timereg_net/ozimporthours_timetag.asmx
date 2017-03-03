@@ -61,7 +61,8 @@ Public Class to_import_timetag
     Public kostpris As String
     Public tprisGen As String
     Public valutaGen As Integer = 1
-
+    Public kp1_valuta As Integer = 1
+    Public kp1_valuta_kurs As Double = 100
 
 
     Public emx As String = 100
@@ -276,12 +277,18 @@ Public Class to_import_timetag
                 kurs = 100
                 kostpris = 0
                 mTypeSQL = ""
-
+                kp1_valuta = 1
+                kp1_valuta_kurs = 100
 
                 importFrom = ds.Tables(0).Rows(t).Item(3)
 
 
                 dbnavn = ""
+
+
+                '**************************************************************************************************************
+                '**** START TILDEL VÆRDER FRA DATASET
+                '**************************************************************************************************************
 
                 Try
                     'If ds.Tables("timer_import_temp").Columns.Contains("lto") Then
@@ -387,18 +394,6 @@ Public Class to_import_timetag
 
 
                 cdDatoSQL = Year(cdDato) & "/" & Month(cdDato) & "/" & Day(cdDato)
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -544,38 +539,7 @@ Public Class to_import_timetag
 
 
 
-                            '*
 
-                            'dlbTimer = Replace(dlbTimer, ".", ",")
-                            'If InStr(dlbTimer, ",") = 1 Then '< 10 timer
-                            'trmhrs = Left(dlbTimer, 1)
-                            'trmmin = (Mid(dlbTimer, 2, 2) * 100) / 60
-                            'Else
-                            'trmhrs = Left(dlbTimer, 2)
-                            'trmmin = (Mid(dlbTimer, 3, 2) * 100) / 60
-                            'End If
-
-
-
-
-
-
-
-
-
-                            'trmmin = Left(trmmin, 2)
-
-                            'dlbTimer = trmhrs & trmmin
-                            ''& "." & trmmin trmhrs 
-                            '*********
-
-
-
-
-                            'If lto = "outz" Then
-
-                            'timerkom = timerkom &"/"& dlbTimer &"/"& Mid(dlbTimer, 2, 1) 
-                            'Dim timerOrg As string = dlbTimer
 
                             dlbTimer = Replace(dlbTimer, ".", ",")
 
@@ -600,11 +564,6 @@ Public Class to_import_timetag
                             'If trmminTjk < 10 Then 'STRANGE: Noget med 05 min bliver = 5 og dermed forveksles med 50 min.
                             If ((Mid(dlbTimer, 3, 1) = "0" And Mid(dlbTimer, 2, 1) = ",") And (Mid(dlbTimer, 4, 1) = "0" Or Mid(dlbTimer, 4, 1) = "1" Or Mid(dlbTimer, 4, 1) = "2" Or Mid(dlbTimer, 4, 1) = "3" Or Mid(dlbTimer, 4, 1) = "4" Or Mid(dlbTimer, 4, 1) = "5" Or Mid(dlbTimer, 4, 1) = "6")) _
                             Or ((Mid(dlbTimer, 4, 1) = "0" And Mid(dlbTimer, 3, 1) = ",") And (Mid(dlbTimer, 4, 1) = "0" Or Mid(dlbTimer, 5, 1) = "1" Or Mid(dlbTimer, 5, 1) = "2" Or Mid(dlbTimer, 5, 1) = "3" Or Mid(dlbTimer, 5, 1) = "4" Or Mid(dlbTimer, 5, 1) = "5" Or Mid(dlbTimer, 5, 1) = "6")) Then
-                                '< 10 timer
-
-                                '
-                                '
-
 
 
                                 If Left(Replace(trmmin, ".", ""), 3) <> "999" Then '6 min / 7 min.
@@ -697,52 +656,7 @@ Public Class to_import_timetag
                             End If
 
                             dlbTimer = dlbTimer & trmmin
-                            ' timerkom = timerkom & "/" & dlbTimer
-                            ' dlbTimer = 1 'dlbTimer & trmmin
 
-                            'Else
-
-
-                            'Dim trmmin As Double
-                            'Dim trmhrs As String
-
-                            'dlbTimer = Replace(dlbTimer, ".", ",")
-
-                            'If InStr(dlbTimer, ",") = 2 Then '< 10 timer
-                            'trmhrs = Left(dlbTimer, 2)
-
-
-
-                            'trmmin = (Mid(dlbTimer, 3, 2) * 100) / 60
-
-                            ' Else
-                            '    trmhrs = Left(dlbTimer, 3)
-
-
-                            'trmmin = (Mid(dlbTimer, 4, 2) * 100) / 60
-                            'End If
-
-                            'trmmin = FormatNumber(trmmin, 0)
-
-                            'If FormatNumber(trmmin, 0) < 10 Then
-                            'dlbTimer = trmhrs & "0" & trmmin
-                            'Else
-                            'dlbTimer = trmhrs & trmmin
-                            'End If
-
-                            'End If
-
-
-
-
-                            ' If CInt(intMedarbId) = 10 Then
-                            '    timerkom = timerkom & "/X dlbTimer:  " & dlbTimer
-                            'End If
-
-                            '& "." & trmmin trmhrs 
-
-                            'response.write "dlbTimer: " & dlbTimer
-                            'response.end()
 
 
                         End If
@@ -780,9 +694,9 @@ Public Class to_import_timetag
                 End Try
 
 
-
-
-
+                '**************************************************************************************************************
+                '**** SLUT TILDEL VÆRDER FRA DATASET
+                '**************************************************************************************************************
 
 
 
@@ -1170,7 +1084,7 @@ Public Class to_import_timetag
                             tprisGen = 0
                             valutaGen = 1
 
-                            Dim SQLmedtpris As String = "SELECT medarbejdertype, timepris, tp0_valuta, kostpris, mnavn FROM medarbejdere, medarbejdertyper " _
+                            Dim SQLmedtpris As String = "SELECT medarbejdertype, timepris, tp0_valuta, kostpris, mnavn, kp1_valuta FROM medarbejdere, medarbejdertyper " _
                             & " WHERE Mid = " & meID & " AND medarbejdertyper.id = medarbejdertype"
 
                             objCmd = New OdbcCommand(SQLmedtpris, objConn)
@@ -1183,6 +1097,8 @@ Public Class to_import_timetag
                                 Else
                                     kostpris = 0
                                 End If
+
+                                kp1_valuta = objDR("kp1_valuta")
 
                                 tprisGen = objDR("timepris")
                                 valutaGen = objDR("tp0_valuta")
@@ -1270,13 +1186,16 @@ Public Class to_import_timetag
 
                     Try
 
+
                         If CInt(errThisTOno) = 0 Then
 
                             '** Finder valuta og kurs **'
-                            If Len(Trim(intValuta)) <> 0 And intValuta <> 0 Then
+                            If Len(Trim(intValuta)) <> 0 And intValuta <> 0 And Len(Trim(kp1_valuta)) <> 0 And kp1_valuta <> 0 Then
                                 intValuta = intValuta
+                                kp1_valuta = kp1_valuta
                             Else
                                 intValuta = 0
+                                kp1_valuta = 0
                                 errThisTOno = 4
                             End If
 
@@ -1292,8 +1211,21 @@ Public Class to_import_timetag
 
                             objDR.Close()
 
+                            '** Kostprisvaluta **'
+                            Dim strSQLvk As String = "SELECT kurs FROM valutaer WHERE id = " & kp1_valuta
+                            objCmd = New OdbcCommand(strSQLvk, objConn)
+                            objDR = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
+
+                            If objDR.Read() = True Then
+
+                                kp1_valuta_kurs = objDR("kurs")
+
+                            End If
+
+                            objDR.Close()
+
                         End If
-                        '***'		       
+                        '***'		            
                     Catch ex As Exception
                         Throw New Exception("If errThisTOno = 0 SELECT kurs FROM valutaer error: " + ex.Message)
                     End Try
@@ -1414,7 +1346,7 @@ Public Class to_import_timetag
                             'Select Case dbnavn
                             'Case "wilke" 'SKLA rettes
                             ' 'intTempImpId = 0
-                             intTempImpId = 99
+                            intTempImpId = 99
                             'End Select
 
 
@@ -1424,7 +1356,7 @@ Public Class to_import_timetag
                             & " timer, tfaktim, tdato, tmnavn, tmnr, tjobnavn, tjobnr, tknavn, tknr, timerkom, " _
                             & " TAktivitetId, taktivitetnavn, Taar, TimePris, TasteDato, fastpris, tidspunkt, " _
                             & " editor, kostpris, seraft, " _
-                            & " valuta, kurs, extSysId, sttid, sltid, origin" _
+                            & " valuta, kurs, extSysId, sttid, sltid, origin, kpvaluta, kpvaluta_kurs" _
                             & ") " _
                             & " VALUES " _
                             & " (" _
@@ -1448,7 +1380,7 @@ Public Class to_import_timetag
                             & Replace(kostpris, ",", ".") & ", " _
                             & jobSeraft & ", " _
                             & intValuta & ", " _
-                            & Replace(kurs, ",", ".") & ", '" & intTempImpId & "', '" & stTid & "', '" & slTid & "', " & importFrom & ")"
+                            & Replace(kurs, ",", ".") & ", '" & intTempImpId & "', '" & stTid & "', '" & slTid & "', " & importFrom & ", " & kp1_valuta & ", " & Replace(kp1_valuta_kurs, ",", ".") & ")"
 
 
                             '** Mangler salgs og kost priser ***'
