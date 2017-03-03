@@ -5,12 +5,7 @@
 <!--#include file="../inc/regular/topmenu_inc.asp"-->
 <!--#include file="../inc/regular/header_lysblaa_2015_inc.asp"-->
 
-<%
-    func = request("func")
-    select case func
-    
-    case "modal" 
-%>
+
 
 <div class="wrapper">
     <div class="content">
@@ -82,23 +77,6 @@
 </div>
     </div>
 </div>
-
-
-<%
-    end select
-     
-%>
-
-
-
-
-
-
-
-
-
-
-
 
 
 

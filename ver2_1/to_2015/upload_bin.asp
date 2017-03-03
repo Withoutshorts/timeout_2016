@@ -114,13 +114,13 @@ end if
 		 end if
         
          %>
-            <div class="row" style="text-align:center">
+           <!-- <div class="row" style="text-align:center">
                 <div class="col-lg-6">
                     <%
                         Response.Write("<br>File type and size: <b>"& file.Ext & "</b> / <b> " & file.Size & "</b> bytes.<BR>") 
                     %>
                 </div>
-            </div>
+            </div> -->
          <%
 		 
 			
@@ -188,6 +188,12 @@ end if
 
         if deletenewfileEntry = 0 then
              %>
+                <br />
+                <div class="row" style="text-align:center">
+                    <div class="col-lg-6">
+                        Click <b>close</b> and <b>submit</b> to countinue
+                    </div>
+                </div>
                 <br />
                 <div class="row" style="text-align:center">
                     <div class="col-lg-6"><a class="btn btn-secondary btn-sm" href="javascript:window.open('','_self').close();">Close</a></div>

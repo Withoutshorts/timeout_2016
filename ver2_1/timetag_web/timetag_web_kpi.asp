@@ -108,6 +108,15 @@
                     nTimerPerPrDay = 0
                     end if
                     
+
+
+
+
+
+
+
+
+
                     flexsaldo = (realtimerIalt - ntimPer)
 
 
@@ -117,8 +126,9 @@
 
                 <!------ Ferie saldo ----->
                 <%
-                    
                      
+                    
+
                     ferieafholdt = 0
                     strSQL3 = "SELECT SUM(timer) AS ferieafholdt FROM timer WHERE tmnr = "& usemrn &" AND tdato BETWEEN '"& sqlDatoStartFerie &"' AND '"& sqlDatoEndFerie &"' AND tfaktim = 14 GROUP BY tmnr"
                     oRec3.open strSQL3, oConn, 3
@@ -134,8 +144,11 @@
                         ferieafholdt = 0
                     end if
 
-                    'response.Write "<br> af:" & ferieafholdt
+                    response.Write "<br> af:" & ferieafholdt
                     
+
+
+
                     ferieoptjent = 0
                     strSQL4 = "SELECT SUM(timer) AS ferieoptjent FROM timer WHERE tmnr = "& usemrn &" AND tdato BETWEEN '"& sqlDatoStartFerie &"' AND '"& sqlDatoEndFerie &"' AND (tfaktim = 15 OR tfaktim = 111 OR tfaktim = 112) GROUP BY tmnr"
                     oRec4.open strSQL4, oConn, 3
@@ -145,15 +158,24 @@
                     oRec4.close
                    
                     if ferieoptjent <> 0 then
-                        ferieoptjent = ferieoptjent
+                        ferieoptjent = ferieoptjent/normtimerStDag
                     else
                         ferieoptjent = 0
                     end if
 
                     'response.Write "<br> op:" & ferieoptjent
 
+                    'response.Write "<br>"
+                    'response.Write ferieafholdt & "<br>" & ferieoptjent
+                    
+
 
                     ferieSaldo = ferieoptjent - ferieafholdt
+
+
+                    ferieBal = 0
+                    call ferieBal_fn(ferieOptjtimer(x), ferieOptjOverforttimer(x), ferieOptjUlontimer(x), ferieAFTimer(x), ferieAFulonTimer(x), ferieUdbTimer(x))
+                    
 
                     'response.Write "<br> tal: " & ferieoptjent
                 %>
@@ -223,7 +245,7 @@
 
                     <tr>
                         <td><%=ttw_txt_018 %></td>
-                        <td style="text-align:right"><%=formatnumber(ferieSaldo, 2) %> d.</td>
+                        <td style="text-align:right"><%=formatnumber(feriesaldo, 2) %> d.</td>
                         <td style="vertical-align:middle"><div style="height:10px; width:10px; background-color:<%=flexferieCol%>;"></div></td>
                     </tr>
 
