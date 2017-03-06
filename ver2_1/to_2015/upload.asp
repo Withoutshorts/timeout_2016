@@ -2,7 +2,7 @@
 <!--#include file="../inc/errors/error_inc.asp"-->
 <!--#include file="../inc/regular/global_func.asp"-->
 
-<!--#include file="../inc/regular/header_lysblaa_2015_inc.asp"-->
+
 <%
 
 
@@ -118,8 +118,10 @@ if lto = "intranet - local" or lto = "nt" then
         'response.Flush
         oConn.Execute(strSQLupdnt)
 %>
+
+        <!--#include file="../inc/regular/header_lysblaa_2015_inc.asp"-->
         <div class="wrapper">
-            <div class="content">
+            
                 <div class="container">
                 <div class="portlet">
                      <h3 class="portlet-title"><u>Upload fil</u></h3>
@@ -157,7 +159,7 @@ if lto = "intranet - local" or lto = "nt" then
                         </FORM>
                     </div>
                 </div>
-                </div>
+                
             </div>
         </div>
 

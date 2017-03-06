@@ -11,6 +11,34 @@ response.buffer = true
         'section for ajax calls
         if Request.Form("AjaxUpdateField") = "true" then
         Select Case Request.Form("control")
+        case "FN_pic"
+
+         
+                jobnr = request("jq_jobnr") 
+
+	                                strSQL = "SELECT id, filnavn FROM filer WHERE filertxt = "& jobnr
+                                    
+                                    filnavn = "Picture Not Found"
+	                                oRec.open strSQL, oConn, 3
+	                                j = 0
+	                                if not oRec.EOF then
+                                    if len(trim(oRec("filnavn"))) <> 0 then                       
+	            
+                                          
+                                    filnavn = "<img src='../inc/upload/nt/"&oRec("filnavn")&"' alt='' border='0'>"                              
+
+
+                                    j = j + 1                                    
+	                                end if
+                                    end if	                                
+	                                oRec.close 
+
+
+                                 response.write filnavn
+                
+        
+        response.end
+
         case "FN_afd"
         
             if len(trim(request("jq_kid"))) <> 0 then
@@ -1341,7 +1369,7 @@ end if 'Opret / rediger
                                   <div class="col-lg-2">
                                     Order No. <span style="color:red;">*</span>
                                    <input class="form-control input-small" type="text" name="" value="<%=jobnr %>" DISABLED />
-                                   <input class="form-control input-small"type="hidden" name="FM_jobnr" value="<%=jobnr %>" />
+                                   <input class="form-control input-small"type="hidden" id="FM_jobnr" name="FM_jobnr" value="<%=jobnr %>" />
 
                                 </div>
                         
@@ -1664,10 +1692,11 @@ end if 'Opret / rediger
                                         <td>
                                             Picture <br />
                                             <div class="fileinput fileinput-new" data-provides="fileinput">
-                                                <div class="fileinput-new thumbnail" style="width: 250px; height: 300px;">                                                  
+                                                <div class="fileinput-new thumbnail" style="width: 250px; height: 300px;" id="nt_file">                                                  
                                                 </div>
                                             </div>
                                             <a onclick="Javascript:window.open('upload.asp?menu=fob&func=opret&jobnr=<%=jobnr%>', '', 'width=650,height=600,resizable=yes,scrollbars=yes')" class="btn btn-default btn-sm">Add image</a>
+                                            &nbsp;<span id="sp_updatepic" style="color:#5582d2; float:right;">Update Picture</span>
                                         </td>
                                     </tr>
                                     <%end if %>

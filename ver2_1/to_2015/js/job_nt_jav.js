@@ -119,9 +119,26 @@ $(document).ready(function () {
     //$('.wrapper').css("left", "20px")
 
 
+    $("#sp_updatepic").click(function () {
 
- 
+        
+        var jobnr_val = $("#FM_jobnr").val()
 
+
+
+        $.post("?jq_jobnr=" + jobnr_val, { control: "FN_pic", AjaxUpdateField: "true", cust: 0 }, function (data) {
+
+            $("#nt_file").html(data);
+            
+
+        });
+
+    });
+
+    $("#sp_updatepic").mouseover(function () {
+
+        $(this).css('cursor', 'pointer');
+    });
 
 
     if ($("#fastpris").val() == "2") { //commision

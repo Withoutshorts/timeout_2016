@@ -5878,9 +5878,15 @@
 
                 end if
 
+        
+             
 
                 '*** Nulstiller evt. forvalgt job udsendt via mail **'
                 session("tomobjid") = 0
+
+
+                 'Response.write "<br><br>Mail er afsendt.<br><a href='timereg_akt_2006.asp?showakt=1'>Videre..</a>" 
+                 'Response.end
 
 
         end if 'origin

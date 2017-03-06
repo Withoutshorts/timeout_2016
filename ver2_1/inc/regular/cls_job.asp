@@ -233,7 +233,90 @@ end function
             				
 				            end if
 				            oRec.close
+
+
+
+                            select case lto
+                            case "dencker", "intranet - local"
+
+                             '*** Henter timeforbrug fakturerbare **
+
+                            strTime_forbrug = "<br><br>Timeforbrug:<br>"
+				            fakturerbaretimer = 0
+                            strSQL = "SELECT SUM(timer) AS sumtimer FROM timer WHERE tfaktim = 1 AND tjobnr = '"& intJobnr &"' GROUP BY tjobnr, tfaktim"
+				            oRec.open strSQL, oConn, 3
             				
+				            if not oRec.EOF then
+            				
+                            fakturerbaretimer = oRec("sumtimer")
+                            strTime_forbrug = strTime_forbrug & "Fakturabare timer: " & formatnumber(fakturerbaretimer, 2) & "<br>"
+
+                            end if
+				            oRec.close
+
+                             '*** Henter timeforbrug ikke fakturerbare **
+				            ikkefakturerbaretimer = 0
+                            strSQL = "SELECT SUM(timer) AS sumtimer FROM timer WHERE tfaktim = 2 AND tjobnr = '"& intJobnr &"' GROUP BY tjobnr, tfaktim"
+				            oRec.open strSQL, oConn, 3
+            				
+				            if not oRec.EOF then
+            				
+                            ikkefakturerbaretimer = oRec("sumtimer")
+                            strTime_forbrug = strTime_forbrug & "Ikke fakturabare timer: " & formatnumber(ikkefakturerbaretimer, 2) & "<br>"
+
+                            end if
+				            oRec.close
+
+                            
+                           
+            				
+
+                            '*** Henter timeforbrug E1 ubemandet **
+				            e1 = 0
+                            strSQL = "SELECT SUM(timer) AS sumtimer FROM timer WHERE tfaktim = 90 AND tjobnr = '"& intJobnr &"' GROUP BY tjobnr, tfaktim"
+				            oRec.open strSQL, oConn, 3
+            				
+				            if not oRec.EOF then
+            				
+                            e1 = oRec("sumtimer")
+                            strTime_forbrug = strTime_forbrug & "Ubemandet: " & formatnumber(e1, 2) & "<br>"
+
+                            end if
+				            oRec.close
+
+
+                            '*** Henter materialeforbrug**
+				            matforbrug = 0
+                            matsalgspris = 0
+                            matnavn = ""
+
+                            strMat_forbrug = "<br><br>Materialeforbrug: <br>"
+                            strSQL = "SELECT matnavn, SUM(matantal) as matantal, SUM(salgspris) AS salgspris FROM materialeforbrug WHERE jobid = "& lukjob &" GROUP BY matnavn"
+				            oRec.open strSQL, oConn, 3
+            				
+				            while not oRec.EOF 
+            				
+                            matsalgspris = oRec("salgspris") 
+                            matforbrug = oRec("matantal")
+                            matnavn = oRec("matnavn")
+
+                            strMat_forbrug = strMat_forbrug & matnavn & ": "& matforbrug &" stk., pris: "& formatnumber(matsalgspris,2) & "<br>"  
+                           
+                            oRec.movenext
+                            wend
+				            oRec.close
+
+                            'Response.write strTime_forbrug
+                            'Response.write strMat_forbrug & "<br><br>"
+
+
+                            end select
+
+                            'Sum af bemandet timer (fakturerbare)
+                            'Sum af ikke fakturerbare
+                            'Sum af ubemandet maskintid (E1)
+                            'Sum af registreret materiale
+
             				
     
             					
@@ -261,6 +344,7 @@ end function
 						            'Mailer.AddRecipient "" & jobans1 & "", "" & jobans1email & ""
 		                            'Mailer.AddRecipient "" & jobans2 & "", "" & jobans2email & ""
 
+                                    'myMail.To= "TimeOut Support<support@outzource.dk>"
                                     myMail.To= ""& jobans1 &"<"& jobans1email &">"
                                     myMail.Cc= ""& jobans2 &"<"& jobans2email &">"
 
@@ -281,7 +365,7 @@ end function
                                     'Mailer.AddRecipient "Anders Dencker", "ad@dencker.net"
                                     'myMail.Bcc= "Anders Dencker<ad@dencker.net>"
                                      myMail.Bcc= "Dencker Ordrer<ordre@dencker.net>"
-            
+                                     'myMail.Bcc= "TimeOut Support<support@outzource.dk>"
                                     end if
 
                                     'if lto = "fe" then
@@ -303,6 +387,13 @@ end function
 						            strBody = strBody &"Job: "& jobnavnThis &" ("& intJobnr &")<br><br> "
                                     strBody = strBody &"..er nu afsluttet.<br><br>"
                                     strBody = strBody &"Jobstatus er: "& jstatusTxt &"<br><br>"
+
+                                    select case lto
+                                    case "dencker"
+                                    strBody = strBody & strTime_forbrug
+                                    strBody = strBody & strMat_forbrug & "<br><br>"
+                                    end select
+
 		                            strBody = strBody &"Med venlig hilsen<br>"
 		                            strBody = strBody & session("user") & "<br><br>"
             		                
