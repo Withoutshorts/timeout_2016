@@ -350,8 +350,27 @@
                                   dim timer_md, dato_medid, medarbid, medidnavn
                                   Redim timer_md(x), dato_medid(x), medarbid(x), medidnavn(x)
                                   
-                                  strSQL = "SELECT SUM(timer), tmnr, tdato"
-                                   
+                                  strSQL = "SELECT tmnr, tmnavn, tdato, sum(timer) as Timer FROM timer WHERE tjobnr = "& Strjobid & " GROUP by tmnr, year(tdato), month(tdato) Order by tdato "
+                                  oRec.open strSQL, oConn, 3
+                                  While not oRec.EOF
+                                  medarbid(oRec("tmnr")) = oRec("tmnr")
+                                  'medidnavn(oRec("tmnavn")) = oRec("tmnavn")
+                                  
+
+                                  'oRec.movenext
+                                  Wend 
+                                  oRec.close
+                                  
+                                  for m = 0 TO UBound(medarbid)
+
+                                  %>
+                                        <tr>
+                                            <td><%=medarbid(m) %></td>
+                                        </tr>
+                                  <%
+
+                                  next
+       
                               %>
 
                           </tbody>
