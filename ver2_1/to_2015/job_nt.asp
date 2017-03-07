@@ -198,7 +198,7 @@ response.buffer = true
 
 
 
-<script src="js/job_nt_jav.js"></script>
+<script src="js/job_nt_jav_201703.js"></script>
 
 
 <%
