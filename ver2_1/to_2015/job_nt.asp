@@ -3456,7 +3456,7 @@ while not oRec.EOF
                                             <div class="modal-dialog">                        
                                             <div class="modal-content">                                                          
                                             <div class="modal-body">
-                                                <div class="row" style="text-align:center"><div class="col-lg-12"><img src="../inc/upload/<%=lto%>/<%=oRec2("filnavn")%>" alt='' border='0' width="150" height="175"></div></div>                                 
+                                                <div class="row" style="text-align:center"><div class="col-lg-12"><img src="../inc/upload/<%=lto%>/<%=oRec2("filnavn")%>" alt='' border='0' width="300" height="350"></div></div>                                 
                                             </div></div></div></div>
                                         <%
                                         j = j + 1                                    
