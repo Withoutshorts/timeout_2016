@@ -346,8 +346,11 @@
                           <tbody>
                             
                               <%
-                                   
-
+                                  x = 200
+                                  dim timer_md, dato_medid, medarbid, medidnavn
+                                  Redim timer_md(x), dato_medid(x), medarbid(x), medidnavn(x)
+                                  
+                                  strSQL = "SELECT SUM(timer), tmnr, tdato"
                                    
                               %>
 
