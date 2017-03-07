@@ -327,7 +327,7 @@ select case func
 	
 	
 	
-	Response.redirect "job_nt.asp"
+	Response.redirect "job_nt.asp?func=table"
 	
 case "sletfil"
 '*** Her spørges om det er ok at der slettes en medarbejder ***
@@ -380,7 +380,7 @@ case "sletfilok"
 
 	oConn.execute("DELETE FROM filer WHERE id = "& id &"")
     response.Write "id er: " & id
-	Response.redirect "job_nt.asp?"
+	Response.redirect "job_nt.asp?func=table"
 
 case "dbopr", "dbred"
 
@@ -867,7 +867,7 @@ case "dbopr", "dbred"
     end if
 
 
-    response.redirect "job_nt.asp?lastid="&lastid
+    response.redirect "job_nt.asp?func=table&lastid="&lastid
 
 case "bulk"
 
@@ -1018,7 +1018,7 @@ case "bulk"
 
     lastid = jobid
 
-    response.redirect "job_nt.asp?lastid="&lastid
+    response.redirect "job_nt.asp?func=table&lastid="&lastid
 
 
 case "opret", "red"
@@ -1696,7 +1696,7 @@ end if 'Opret / rediger
                                                 </div>
                                             </div>
                                             <a onclick="Javascript:window.open('upload.asp?menu=fob&func=opret&jobnr=<%=jobnr%>', '', 'width=650,height=600,resizable=yes,scrollbars=yes')" class="btn btn-default btn-sm">Add image</a>
-                                            &nbsp;<span id="sp_updatepic" style="color:#5582d2; float:right;">Update Picture</span>
+                                            <span id="sp_updatepic" style="color:#5582d2; float:right; padding-top:5px; font-size:125%; color:dimgrey" class="fa fa-refresh"></span>
                                         </td>
                                     </tr>
                                     <%end if %>
@@ -2726,7 +2726,7 @@ end if 'Opret / rediger
             <!--SEARCH START -->
 
 
-              <form class="panel-body" method="post" action="job_nt.asp?post=1">
+              <form class="panel-body" method="post" action="job_nt.asp?func=table&post=1">
              <section>
                 <div class="well well-white">
                     
@@ -3450,9 +3450,9 @@ while not oRec.EOF
 	                                    if not oRec2.EOF then
                                         if len(trim(oRec2("filnavn"))) <> 0 then
                                         %>
-                                            <a data-toggle="modal" href="#basicModal"><span class="fa fa-file pull-right"></span></a>
+                                            <a data-toggle="modal" href="#basicModal_<%=jobnr %>"><span class="fa fa-file pull-right"></span></a>
 
-                                            <div id="basicModal" class="modal fade" style="margin-top:100px">                        
+                                            <div id="basicModal_<%=jobnr %>" class="modal fade" style="margin-top:100px">                        
                                             <div class="modal-dialog">                        
                                             <div class="modal-content">                                                          
                                             <div class="modal-body">
