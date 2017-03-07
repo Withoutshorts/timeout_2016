@@ -742,7 +742,7 @@ public ekspTxt_kk
                                 valBelobBeregnet = belob
                                
 
-	                            ekspTxt_kk = ekspTxt_kk & formatnumber(valBelobBeregnet, 2) &";;;"& chr(34) & kontonrRight & chr(34) &""
+	                            ekspTxt_kk = ekspTxt_kk & replace(formatnumber(valBelobBeregnet, 2), ".", ",") &";;;"& chr(34) & kontonrRight & chr(34) &""
 
 
 				        end if 'lto BF kk

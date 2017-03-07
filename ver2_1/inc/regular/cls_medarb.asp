@@ -3,7 +3,7 @@
  
   
 
- public meNavn, meNr, meInit, meTxt, meEmail, meType, meAnsatDato, meOpsagtdato, meforecaststamp, meBrugergruppe, meVisskiftversion, meMansat, timer_ststop, create_newemployee
+ public meNavn, meNr, meInit, meTxt, meEmail, meType, meAnsatDato, meOpsagtdato, meforecaststamp, meBrugergruppe, meVisskiftversion, meMansat, timer_ststop, create_newemployee, meCPR
      'Public Shared Function meStamdata(medid)
     Function meStamdata(medid)  
 
@@ -15,7 +15,7 @@
 
        meVisskiftversion = 0
        
-        strSQLmnavn = "SELECT mnavn, init, mnr, email, medarbejdertype, ansatdato, opsagtdato, forecaststamp, brugergruppe, visskiftversion, mansat, timer_ststop, create_newemployee "_
+        strSQLmnavn = "SELECT mnavn, init, mnr, email, medarbejdertype, ansatdato, opsagtdato, forecaststamp, brugergruppe, visskiftversion, mansat, timer_ststop, create_newemployee, mcpr "_
         &" FROM medarbejdere WHERE mid = "& medid
 
 	    oRec3.open strSQLmnavn, oConn, 3
@@ -31,6 +31,7 @@
         meBrugergruppe = oRec3("brugergruppe")
         meVisskiftversion = oRec3("visskiftversion")'
         meMansat = oRec3("mansat")
+        meCPR = oRec3("mcpr")
     	
 	    meTxt = meNavn ' & " ("& meNr & ")"
     	

@@ -1253,6 +1253,8 @@ if len(session("user")) = 0 then
 
                         
                         '*** Finder nyeste kunde og job oplysninger ***'
+
+                        '** Flyt alle aktiviteter
                         
                         strKundenavn = "..if"
                         intKid = 0
@@ -2290,6 +2292,7 @@ if len(session("user")) = 0 then
 		 </select>
 		 <br />
         Antal aktive job og tilbud: <%=antaljob %>
+            <br /><input type="checkbox" name="FM_flyttalleakt" value="1" /> Flyt alle aktiviteter på dette job til ovenstående.
 		</td>
 	</tr>
 	<tr>

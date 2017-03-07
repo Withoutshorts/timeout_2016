@@ -639,11 +639,14 @@ $(document).ready(function () {
 
         //alert(this.id + " jobid: " + jobid)
 
+        sbesklukjobFunc(jobid);
 
         // Fjern job fra aktiv liste
         fjernjob(jobid);
 
-        sbesklukjobFunc(jobid);
+        
+
+        //alert("Der bliver afsendt en mail")
 
         $("#timeregfm").submit();
 

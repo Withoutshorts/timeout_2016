@@ -861,6 +861,12 @@ if len(session("user")) = 0 then
             	<tr><td style="border-bottom:1px #999999 solid;"><a href="#" id="rap_epi_blueg" class=vmenu>Bluegaarden</a></td></tr>
             <%end if %>
 
+         <!--
+             <%if instr(lto, "epi") <> 0 OR lto = "intranet - local" then %>
+            	<tr><td style="border-bottom:1px #999999 solid;"><a href="#" id="rap_epi_blueg_no" class=vmenu>Bluegaarden</a></td></tr>
+            <%end if %>
+                -->
+
 			</table>
 			
 			</td><td valign=top style="padding:3px; width:125px; border:1px #D6DFf5 solid;">
@@ -979,10 +985,29 @@ pwdt = 200
                  </td>
  
                 </tr>
-               
+                 </form>
+                <% end if%>
+
+                   <%
+                 '*** Bluegaarden NO
+                 if instr(lto, "epi") <> 0 OR lto = "intranet - local" then%>
+                 <form action="bal_real_norm_2007.asp?media=export&exporttype=201" method="post" target="_blank">
+                 <input id="Hidden2" name="FM_medarb" value="<%=thisMiduse%>" type="hidden" />
+                 <input id="Hidden1" name="FM_medarb_hidden" value="<%=thisMiduse%>" type="hidden" />
+
+                
+                <tr>
+    
+  
+                <td align=center><input type=image src="../ill/export1.png" /></td>
+                <td><input id="Submit4" type="submit" value=".csv bluegaarden NO" style="font-size:9px; width:120px;" />
+                 </td>
+ 
+                </tr>
+                 </form>
                 <% end if%>
    
-            </form>
+          
 
              <form action="bal_real_norm_2007.asp?media=print" method="post" target="_blank">
                  <input id="Hidden3" name="FM_medarb" value="<%=thisMiduse%>" type="hidden" />
@@ -1318,7 +1343,7 @@ pwdt = 200
         Response.write  "<br><b><span style=""font-size:10px;"">Periode afgrænsning:</span><br> "& formatdatetime(startdato, 1) & " - "&  formatdatetime(slutdato, 1) & "</b>"
         end if
 
-            if media = "export" AND request("sd_lon_fil") <> "1" AND cint(exporttype) <> 200 then 'bluegaarden then
+            if media = "export" AND request("sd_lon_fil") <> "1" AND cint(exporttype) <> 200 AND cint(exporttype) <> 201 then 'bluegaarden then
             strEksportTxtMd = "xx99123sy#z xx99123sy#zPeriode afgrænsning: "& formatdatetime(startdato, 1) & " - "&  formatdatetime(slutdato, 1)
             strEksportTxt = strEksportTxt & strEksportTxtMd
             end if

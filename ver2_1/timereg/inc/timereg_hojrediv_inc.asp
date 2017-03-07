@@ -471,7 +471,7 @@ function notificerEmail(usemrn, EmailNotificerTxt, visning, modtagerid)
 
                                                                         '*** Henter modtager **
 				                                                        strSQL = "SELECT mnavn, email FROM medarbejdere"_
-				                                                        &" WHERE mid = "& erNotificerArr(n)
+				                                                        &" WHERE mansat = 1 AND mid = "& erNotificerArr(n)
 				                                                        oRec5.open strSQL, oConn, 3
             				
 				                                                        if not oRec5.EOF then
@@ -546,7 +546,7 @@ function notificerEmail(usemrn, EmailNotificerTxt, visning, modtagerid)
                                                        '*** Henter modtager **
                                                     
 				                                        strSQL = "SELECT mnavn, email, mcpr FROM medarbejdere"_
-				                                        &" WHERE mid = "& modtagerid
+				                                        &" WHERE mansat = 1 AND mid = "& modtagerid
 				                                    
                                                         oRec5.open strSQL, oConn, 3
                                                         if not oRec5.EOF then
@@ -610,7 +610,7 @@ function notificerEmail(usemrn, EmailNotificerTxt, visning, modtagerid)
                                                 '*** Henter modtager **
                                                     
 				                                strSQL = "SELECT mnavn, email, mcpr FROM medarbejdere"_
-				                                &" WHERE mid = "& modtagerid
+				                                &" WHERE mansat = 1 AND mid = "& modtagerid
 				                                    
                                                 oRec5.open strSQL, oConn, 3
                                                 if not oRec5.EOF then

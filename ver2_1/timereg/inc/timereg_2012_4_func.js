@@ -637,6 +637,8 @@ $(document).ready(function () {
         var idlngt = thisid.length;
         var jobid = thisid.slice(10, idlngt);
 
+        var lto = $("#jq_lto").val()
+
         //alert(this.id + " jobid: " + jobid)
 
 
@@ -644,6 +646,8 @@ $(document).ready(function () {
         fjernjob(jobid);
 
         sbesklukjobFunc(jobid);
+
+        //alert("alert"+ lto)
 
         $("#timeregfm").submit();
 

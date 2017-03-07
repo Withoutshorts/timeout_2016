@@ -150,7 +150,13 @@
 	    
 	    medarbEmail(x) = meEmail 'oRec("email")
 	    medarbNavn(x) = meNavn '& "("& meType &")" 'oRec("mnavn")
+    
+        if cint(exporttype) <> 201 then
 	    medarbNr(x) = meNr 'oRec("mnr")
+        else
+        medarbNr(x) = meCPR
+        end if
+
 	    medarbInit(x) = meInit 'oRec("init")
 	    medarbId(x) =  intMid 'oRec("mid")
 	    
@@ -1117,8 +1123,13 @@
 	 <td style="width:200px; border-right:1px #D6DfF5 solid; border-bottom:1px #D6DfF5 solid;" class=alt>&nbsp;</td>
 	 
 	 <%
-         if cint(exporttype) = 200 then 'bluegaarden
-         strEksportTxtHeader = strEksportTxtHeader & "Medarb. Nr.;" 
+         if cint(exporttype) = 200 OR cint(exporttype) = 201 then 'bluegaarden / 201: bluegaarden NO
+
+            if cint(exporttype) = 200 then
+            strEksportTxtHeader = strEksportTxtHeader & "Medarb. Nr.;" 
+            else
+            strEksportTxtHeader = strEksportTxtHeader & "Arbeidsgiver;Fødselsnr;Navn (valgfritt);"
+            end if
          else
          strEksportTxtHeader = strEksportTxtHeader & tsa_txt_147 & ";Medarb. Nr.;Init;" 
          end if%>
@@ -1129,7 +1140,10 @@
              <td class=lille  valign=bottom bgcolor="#DCF5BD" style="width:50px; border-right:1px #D6DfF5 solid; border-bottom:1px #D6DfF5 solid;"><%=tsa_txt_158%></td>
 	        <td class=lille  valign=bottom bgcolor="#DCF5BD" style="width:50px; border-right:1px #D6DfF5 solid; border-bottom:1px #D6DfF5 solid;"><%=tsa_txt_259%></td> 
          <%
+             if cint(exporttype) <> 201 then
              strEksportTxtHeader = strEksportTxtHeader & tsa_txt_158 &";"& tsa_txt_259 &";"
+             end if
+
              end if 
          %>
 	 
@@ -1207,7 +1221,7 @@
 	
 	 
 	 <%
-     if cint(exporttype) <> 200 then 'bluegaarden
+     if cint(exporttype) <> 200 AND cint(exporttype) <> 201 then 'bluegaarden
 
          if instr(akttype_sel, "#-20#") = 0 then 
          strEksportTxtHeader = strEksportTxtHeader & tsa_txt_157 &";"& tsa_txt_172 &" "& tsa_txt_179 &";" & tsa_txt_160 & ";" & tsa_txt_161 & ";" & tsa_txt_163 & ";"& tsa_txt_540 &";"
@@ -1217,7 +1231,11 @@
       
        else
 
+         if cint(exporttype) <> 201 then
          strEksportTxtHeader = strEksportTxtHeader & tsa_txt_157 & ";"
+         else
+         strEksportTxtHeader = strEksportTxtHeader & "Antall;"
+         end if
          
       end if  %>
 	 
@@ -1860,7 +1878,7 @@
 	 </tr>
 	 
 	 <%
-	 if cint(exporttype) <> 200 then 'bluegaarden
+	 if cint(exporttype) <> 200 AND cint(exporttype) <> 201 then 'bluegaarden
      strEksportTxtHeader = strEksportTxtHeader & ";Startdato;Slutdato;"
      end if
 
@@ -1910,8 +1928,14 @@
 	 
 	 <%
          
-     if cint(exporttype) = 200 then 'bluegaarden
-     strEksport(x) = strEksport(x) & medarbNr(x) &";"
+     if cint(exporttype) = 200 OR cint(exporttype) = 201 then 'bluegaarden / NO
+
+        if cint(exporttype) = 200 then
+        strEksport(x) = strEksport(x) & medarbNr(x) &";"
+        else
+        strEksport(x) = strEksport(x) & "5900520;" & medarbNr(x) &";" & medarbNavn(x) &";"
+        end if
+
      else    
      strEksport(x) = strEksport(x) & medarbNavn(x) &"; "& medarbNr(x) &";"& medarbInit(x) &";"
      end if
@@ -1943,7 +1967,11 @@
          </td>
          
          <%
+
+          if cint(exporttype) <> 201 then '** Bluegaarden NO
           strEksport(x) = strEksport(x) & normTimerTxtExp &";"& showNormTimerdagTxt & ";"
+          end if
+
           end if
          
           if (instr(akttype_sel, "#-5#") <> 0 OR instr(akttype_sel, "#-10#") <> 0) AND stempelurOn = 1 then 
@@ -2147,7 +2175,7 @@
 	
 	 
 	 <%
-        if cint(exporttype) <> 200 then 
+        if cint(exporttype) <> 200 AND cint(exporttype) <> 201 then 
         strEksport(x) = strEksport(x) & realTimerTxtExp &";" & realTimerprUgeTxtExp & ";"& realfTimerTxtExp &";"& realIfTimerTxtExp & ";"& formatnumber(iebal,0) & ";"& faktureringsgrad &";"
         end if 
          %>
@@ -2155,7 +2183,7 @@
 	
     <%end if 
         
-         if cint(exporttype) = 200 then 'bluegaarden
+         if cint(exporttype) = 200 OR cint(exporttype) = 201 then 'bluegaarden
          strEksport(x) = strEksport(x) & realTimerTxtExp &";"
          end if
 
@@ -2178,7 +2206,7 @@
 	 
 	  
 	      <%
-          if cint(exporttype) <> 200 then 
+          if cint(exporttype) <> 200 AND cint(exporttype) <> 201 then 
           strEksport(x) = strEksport(x) & balRealNormTxtExp &";" 
           end if%>
 	  
@@ -3809,7 +3837,7 @@
 	 <%
 
      
-     if cint(exporttype) <> 200 then
+     if cint(exporttype) <> 200 AND cint(exporttype) <> 201 then
      strEksport(x) = strEksport(x) & ";"&startdato&";"&slutdato&";"
      end if
 

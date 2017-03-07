@@ -483,7 +483,7 @@
 
                         call lukjobmail(jstatus, lukjob, medarbejderid)
                        
-            	
+            	        'Response.end    
 	              
                        
 

@@ -3767,7 +3767,7 @@ if len(session("user")) = 0 then
 		<td valign=top style="padding:6px 3px 3px 3px; white-space:nowrap; border-top:<%=btop%>px #cccccc solid; border-right:0px #cccccc solid;" class=lille>
         WIP (<%=formatnumber(afsl_proc,0) %>% af budget)
         <table width=100% cellspacing=1 cellpadding=1 bgcolor="#cccccc">
-        <tr><td class=lille align=right style="background-color:#FFFFFF; white-space:nowrap;"><%if lto <> "epi" AND lto <> "epi_no" AND lto <> "epi_ab" AND lto <> "epi_sta" AND lto <> "intranet - local" then %>
+        <tr><td class=lille align=right style="background-color:#FFFFFF; white-space:nowrap;"><%if instr(lto, "epi") = 0 then %>
         (forv.: <%=formatnumber(totalforbrugt, 0) %> t.) 
         <%end if %>
         <%=formatnumber(timerforbrugt, 0) %> t.</td></tr>

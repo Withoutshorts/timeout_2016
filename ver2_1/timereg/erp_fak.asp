@@ -3098,7 +3098,7 @@ if len(session("user")) = 0 then
 	                    end if
 	                    oRec.close 
 
-                        if antalaktCount => 100 then
+                        if cint(antalaktCount) => 100 then
                         %>
                         <br />
                         <%=erp_txt_187 %><br /><br /> <%=erp_txt_188 %><br />
