@@ -2407,11 +2407,7 @@ if len(session("user")) = 0 then
 	
 
 			<tr>
-				<td valign=top style="padding:40px 0px 0px 40px; width:150px;"><b>Type:</b> (egenskab)
-				
-				
-                    
-              </td>
+				<td valign=top style="padding:40px 0px 0px 40px; width:150px;"><b>Type:</b> (egenskab)</td>
 				<td style="padding:40px 0px 0px 0px;">
 				        <select id="FM_fakturerbart" name="FM_fakturerbart" style="width:400px;">
                        <%call akttyper2009(1)
@@ -2490,7 +2486,7 @@ if len(session("user")) = 0 then
     %>
 	
 	<tr>
-		<td style="padding-left:40px;" valign=top><br /><b>Forretningsområde(r):</b><br />
+		<td style="padding-left:40px; width:100px;" valign=top><br /><b>Forretningsområde(r):</b><br />
         <span style="color:#999999;">Hvis forretningsområde ændres, sker dette med tilbagevirkende kraft. Hvis der vælges flere områder, tæller timer med i begge områder 100%</span></td>
 		<td valign=top><br /><select name="FM_fomr" size="8" multiple="multiple" style="width:400px;">
 		<option value="0">Ingen valgt</option>

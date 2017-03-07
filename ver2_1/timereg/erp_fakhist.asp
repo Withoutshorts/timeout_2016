@@ -682,6 +682,25 @@ if len(session("user")) = 0 then
     end if
 
 
+    select case lto
+    case "bf"
+    '** Medarb. må kun se nationale kontore
+    call medariprogrpFn(session("mid"))
+
+            useasfakSQL = "useasfak = -1"
+
+            if instr(medariprogrpTxt, "14") <> 0 then
+            useasfakSQL = "useasfak = 1 AND kid = 6"
+            end if
+
+            if level = 1 then
+            useasfakSQL = "useasfak = 1"
+            end if
+
+    case else
+      useasfakSQL = "useasfak = 1"
+    end select
+
  
     'call multible_licensindehavereOn()
 
@@ -694,7 +713,7 @@ if len(session("user")) = 0 then
              end if
 
                 strSQLaf = "SELECT Kkundenavn, Kkundenr, kid FROM kunder "_
-				&" WHERE useasfak = 1 ORDER BY Kkundenavn" 
+				&" WHERE "& useasfakSQL &" ORDER BY Kkundenavn" 
                 
                 oRec.open strSQLaf, oConn, 3
 				while not oRec.EOF

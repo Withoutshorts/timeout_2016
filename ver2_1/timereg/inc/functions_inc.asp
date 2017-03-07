@@ -717,13 +717,20 @@ public ekspTxt_kk
 					
                        if lto = "bf" OR lto = "intranet - local" then
                             
-                                if isNull(oRec("avarenr")) <> true AND len(trim(oRec("avarenr"))) > 5 AND instr(oRec("avarenr"), "M") <> 0 AND (lto = "bf" OR lto = "intranet - local") then
+                                if isNull(oRec("avarenr")) <> true AND len(trim(oRec("avarenr"))) >= 7 AND instr(oRec("avarenr"), "M") >= 5 AND (lto = "bf" OR lto = "intranet - local") then
 
                                 kontoTxt = trim(oRec("avarenr"))
                                 kontonrLen = len(kontoTxt)
                                 kontonrM = instr(kontoTxt, "M") 
-                                kontonrLeft = mid(kontoTxt, 2, kontonrM-2)
-                                kontonrRight = mid(kontoTxt, kontonrM+1, kontonrLen)
+                               
+                                    'if session("mid") = 1 then
+                                    'kontonrLeft = "_L_" & kontoTxt 'mid(kontoTxt, 2, kontonrM-2)
+                                    'kontonrRight = "_R_" & kontoTxt 'mid(kontoTxt, kontonrM+1, kontonrLen)
+                                    'else
+                                    kontonrLeft = mid(kontoTxt, 2, kontonrM-2)
+                                    kontonrRight = mid(kontoTxt, kontonrM+1, kontonrLen)
+                                    'end if
+
 
                                 else
 
