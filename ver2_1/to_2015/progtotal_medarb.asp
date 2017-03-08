@@ -1,4 +1,4 @@
-
+ 
 
 <!--#include file="../inc/connection/conn_db_inc.asp"-->
 <!--#include file="../inc/errors/error_inc.asp"-->
@@ -300,9 +300,13 @@
 
                                       selectedstart_month = Month(aar)
                                       selectedstart_year = Year(aar)
+
+                                      
                                       'response.write selectedstart_month
 
-                                      startdate = "01" & "/" & selectedstart_month & "/" & selectedstart_year
+                                      startdate = "01/" & selectedstart_month & "/" & selectedstart_year
+
+                                      
 
                                       months = selectedstart_month
                                       Stryear = selectedstart_year 
@@ -311,29 +315,22 @@
 
                                       for i = 0 to antalmaaned
 
-                                            
                                             months = months + 1
-                                            Stryear = Stryear
-
-                                            if datemonth > 12 then
-                                                datemonth = 1
-                                            end if
-
-                                            
                                             
                                             if months > 13 then
                                                 months = 2
                                                 Stryear = Stryear + 1
                                             end if
+                                            
                                       
-                                            getdate = "01" & "/" & months -1 & "/" & Stryear
+                                            'getdate = months & "/" & Stryear
 
                                                
                                            
                                            'response.write(monthname(i))
                                             'response.write MonthName(months)
                                                                           
-                                        %> <th style="text-align:center;"><%=MonthName(months - 1) & " " & Stryear & "<br>" & getdate %></th> <%
+                                        %> <th style="text-align:center;"><%=MonthName(months - 1) & " " & Stryear %></th> <%
 
                                       next
                                   %>
@@ -346,29 +343,76 @@
                           <tbody>
                             
                               <%
+                                  startmonth = Month(aar)
+                                  startyear = Year(aar)
+                                  slutmonth = Month(aarslut)
+                                  slutyear = Year(aarslut)
+                                  
+                                  startdato = startyear & "-" & startmonth & "-1"
+                                  slutdato = slutyear & "-" & slutmonth & "-1"
+
+                                  response.Write "start: " & startdato & "slut: " & slutdato 
+
+                                    
+                                  lastmid = 0
                                   x = 200
                                   dim timer_md, dato_medid, medarbid, medidnavn
                                   Redim timer_md(x), dato_medid(x), medarbid(x), medidnavn(x)
                                   
-                                  strSQL = "SELECT tmnr, tmnavn, tdato, sum(timer) as Timer FROM timer WHERE tjobnr = "& Strjobid & " GROUP by tmnr, year(tdato), month(tdato) Order by tdato "
+                                  strSQL = "SELECT tmnr, tmnavn, tdato, sum(timer) as Timer FROM timer WHERE tjobnr = "& Strjobid & " AND tdato BETWEEN '"& startdato &"' AND '"& slutdato &"' AND tmnr is not null GROUP by tmnr, year(tdato), month(tdato) Order by tmnr, tdato "
+                                  'response.Write strSQL
+                                  'repsonse.flush
                                   oRec.open strSQL, oConn, 3
+                                  d = 0
                                   While not oRec.EOF
-                                  medarbid(oRec("tmnr")) = oRec("tmnr")
-                                  'medidnavn(oRec("tmnavn")) = oRec("tmnavn")
-                                  
 
-                                  'oRec.movenext
+                                  medarbid(oRec("tmnr")) = oRec("tmnr")
+                                  timer_md(d) = oRec("timer")
+                                  dato_medid(d) = year(oRec("tdato")) & month(oRec("tdato"))
+                                  medidnavn(oRec("tmnr")) = oRec("tmnavn")
+                                  d = d + 1
+                                  oRec.movenext
                                   Wend 
                                   oRec.close
-                                  
+                                  d = 0
                                   for m = 0 TO UBound(medarbid)
-
+                                   if medarbid(m) <> lastmid and len(trim(medidnavn(m))) <> 0 then
                                   %>
                                         <tr>
-                                            <td><%=medarbid(m) %></td>
-                                        </tr>
-                                  <%
+                                            <td><%=medidnavn(m) & " " & medarbid(m) %></td>
 
+                                            <%
+                                                for d = 0 TO antalmaaned
+                                                        
+                                                        if d = 0 then
+                                                        tjekdatoym = startdato
+                                                        else
+                                                        tjekdatoym = dateadd("m",1,tjekdatoym)
+                                                        end if
+
+                                                        tjekdatoym = startyear & startmonth
+                                                        if tjekdatoym = dato_medid(d) then
+                                                         %>
+                                                        <td><%=timer_md(d) %> <%response.write d %></td>
+                                                    <% 
+                                                        else
+                                                        
+                                                    %>
+                                                         
+                                                        <td><%response.write d %></td>
+                                                    <%
+                                                        end if
+                                                   
+
+                                                next  
+                                            %>
+
+                                            <td>total</td>
+                                        </tr>
+                                  <%lastmid = medarbid(m) 
+                                        end if
+
+                                        
                                   next
        
                               %>
