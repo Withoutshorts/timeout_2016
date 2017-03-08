@@ -376,7 +376,7 @@
                                   oRec.close
                                   d = 0
                                   for m = 0 TO UBound(medarbid)
-                                   if medarbid(m) <> lastmid and len(trim(medidnavn(m))) <> 0 then
+                                  if medarbid(m) <> lastmid and len(trim(medidnavn(m))) <> 0 then
                                   %>
                                         <tr>
                                             <td><%=medidnavn(m) & " " & medarbid(m) %></td>
