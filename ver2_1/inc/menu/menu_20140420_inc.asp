@@ -274,6 +274,7 @@ case "gd"
     kundmenu_2014 = 1
     marbmenu_2014 = 1
     admimenu_2014 = 1
+    helpmenu_2014 = 1
     dsksOnOff = 0
 
 case else
@@ -986,6 +987,10 @@ end select
             <li><a href='<%=toSubVerPath14 %>serviceaft_osigt.asp?id=0&func=osigtall'><%=global_txt_181 %></a></li>       
             <li><a href='<%=toSubVerPath15 %>kontaktpers.asp?func=list'><%=global_txt_182 %></a></li>
 
+           
+           <%if lto = "gd" then %>            
+           <li><a href="<%=toSubVerPath14 %>filer.asp"><%=tsa_txt_451 %></a></li>
+           <%end if %>
 
            <%if cint(crmOnOff) = 1 then %>
            <h3 class="menuh3"><%=tsa_txt_491 %></h3>
