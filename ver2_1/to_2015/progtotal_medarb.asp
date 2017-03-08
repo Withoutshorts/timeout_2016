@@ -381,19 +381,19 @@
                                         <tr>
                                             <td><%=medidnavn(m) & " " & medarbid(m) %></td>
 
-                                            <%
+                                            <%  months = selectedstart_month 
                                                 for d = 0 TO antalmaaned
-                                                        
-                                                        if d = 0 then
+                                                        months = months + 1
+                                                        if months = 0 then
                                                         tjekdatoym = startdato
                                                         else
                                                         tjekdatoym = dateadd("m",1,tjekdatoym)
                                                         end if
 
                                                         tjekdatoym = startyear & startmonth
-                                                        if tjekdatoym = dato_medid(d) then
+                                                        if tjekdatoym = dato_medid(months) then
                                                          %>
-                                                        <td><%=timer_md(d) %> <%response.write d %></td>
+                                                        <td><%=timer_md(months) %> <%response.write months %></td>
                                                     <% 
                                                         else
                                                         
