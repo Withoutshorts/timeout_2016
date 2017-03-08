@@ -131,14 +131,12 @@ Session.LCID = 1030
                                 <div class="col-lg-2">Important:</div>
                                 <div class="col-lg-4"><input type="checkbox" value="0" /></div>
                             </div>
-                            <div id="showmonth" style="display:none">
+                            <div>
                                 <div class="row">
-                                    <div class="col-lg-2">Repeat on:</div>
-                                    <div class="col-lg-2"><input type="radio" name="monthdet" value="1" /> Day</div>
-                                    <div class="col-lg-2"><input type="radio" name="monthdet" value="2" /> Date</div>
-
-                                </div>
-                               
+                                    <div class="col-lg-2">End after:</div>
+                                    <div class="col-lg-2"><input type="number" name="antalre" value="99" class="form-control input-small" /></div>
+                                    <div class="col-lg-2">Recurrences</div>
+                                </div>                               
                             </div>
                             <br />
                             <div class="row">

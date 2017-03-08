@@ -285,7 +285,6 @@ end if
 
     .picmodal:hover,
     .picmodal:focus {
-    color: #000;
     text-decoration: none;
     cursor: pointer;
 }
@@ -3487,7 +3486,7 @@ while not oRec.EOF
                                         if len(trim(oRec2("filnavn"))) <> 0 then
                                         %>
                                           
-                                            <span id="modal_<%=jobnr %>" class="fa fa-file pull-right picmodal"></span>
+                                            <span id="modal_<%=jobnr %>" style="color:cornflowerblue;" class="fa fa-image pull-right picmodal"></span>
                                            <!-- <button id="modal_<%=jobnr %>" class="picmodal">Open Modal</button> -->
                                             
                                             <!-- The Modal -->
@@ -3500,14 +3499,6 @@ while not oRec.EOF
 
                                             </div>
 
-                                            <!--  <a data-toggle="modal" href="#basicModal_<%=jobnr %>"><span class="fa fa-file pull-right"></span></a>
-
-                                            <div id="basicModal_<%=jobnr %>" class="modal fade" style="margin-top:100px">                        
-                                            <div class="modal-dialog">                        
-                                            <div class="modal-content">                                                          
-                                            <div class="modal-body">
-                                                <div class="row" style="text-align:center"><div class="col-lg-12"><img src="../inc/upload/<%=lto%>/<%=oRec2("filnavn")%>" alt='' border='0' width="300" height="350"></div></div>                                 
-                                            </div></div></div></div> -->
                                         <%
                                         j = j + 1                                    
 	                                    end if
