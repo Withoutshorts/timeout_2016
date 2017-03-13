@@ -97,7 +97,7 @@
 
                 
                         <div class="row">
-                            <div class="col-lg-2"><%=dsb_txt_003 %>:</div>
+                            <div class="col-lg-1">Projekt:</div>
 
                             <div class="col-lg-4">
                                 
@@ -145,7 +145,7 @@
                                                                                                                    
                             %>
 
-                            <div class="col-lg-1">Fra:</div>
+                            <div class="col-lg-1" style="text-align:right">Fra:</div>
                             <div class="col-lg-2">
                                 <div class='input-group date' id='datepicker_stdato'>
                                 <input type="text" class="form-control input-small" name="aar" value="<%=aar %>" placeholder="dd-mm-yyyy" />
@@ -156,7 +156,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-lg-1">Til:</div>
+                            <div class="col-lg-1" style="text-align:right">Til:</div>
                             <div class="col-lg-2">
                                 <div class='input-group date' id='datepicker_stdato'>
                                 <input type="text" class="form-control input-small" name="aarslut" value="<%=aarslut %>" placeholder="dd-mm-yyyy" />
@@ -165,15 +165,10 @@
                                         </span>
                                     </span>
                                 </div>
-                            </div>  
+                            </div>
+                            <div class="col-lg-1"><button type="submit" class="btn btn-secondary btn-sm pull-right"><b>Søg >></b></button></div>  
                         </div>
-                       
-                        <div class="row">
-                            <br />
-                            <div class="col-lg-10">&nbsp</div>
-                            <div class="col-lg-2"><button type="submit" class="btn btn-secondary btn-sm pull-right"><b>Søg >></b></button></div>
-                        </div>                       
-
+                                             
                         </form>
                       </div>
 
@@ -285,13 +280,11 @@
 
                         
                       %>
-                      <table class="table dataTable table-striped table-bordered table-hover ui-datatable">
-                          
+                      <table style="background-color:white;" class="table dataTable table-striped table-bordered table-hover ui-datatable">
+
                           <thead>
                               <tr>
-                                  <th>Projekt: <%=jobid %> <br />
-                                      Periode:
-                                  </th>
+                                    <th>Medarbejder</th>
 
                                   <%
 
@@ -321,16 +314,14 @@
                                                 months = 2
                                                 Stryear = Stryear + 1
                                             end if
-                                            
-                                      
-                                            'getdate = months & "/" & Stryear
-
-                                               
                                            
-                                           'response.write(monthname(i))
-                                            'response.write MonthName(months)
+                                      
+                                            getdate = Monthname(months -1 ,True) & "<br>" & Stryear
+                                            'getdate = (Ucase(getdate))   
+                                      
                                                                           
-                                        %> <th style="text-align:center;"><%=MonthName(months - 1) & " " & Stryear %></th> <%
+                                        %> <th style="text-align:center;"><%=UCase(Left(getdate,1)) & Mid(getdate,2) %></th> 
+                                  <%
 
                                       next
                                   %>
@@ -348,97 +339,165 @@
                                   slutmonth = Month(aarslut)
                                   slutyear = Year(aarslut)
                                   
-                                  startdato = startyear & "-" & startmonth & "-1"
-                                  slutdato = slutyear & "-" & slutmonth & "-1"
+                                  startdato = startyear & "-" & (startmonth) & "-1"
+                                  slutdato = slutyear & "-" & (slutmonth + 1) & "-0"
 
-                                  response.Write "start: " & startdato & "slut: " & slutdato 
+                                  'response.Write "start: " & startdato & "slut: " & slutdato 
 
                                     
                                   lastmid = 0
-                                  x = 200
-                                  dim timer_md, dato_medid, medarbid, medidnavn
-                                  Redim timer_md(x), dato_medid(x), medarbid(x), medidnavn(x)
+                                  m = 200
+                                  d = 2000
+                                  lasttmnr = 0
+                                  dim timer_md, dato_medid, medarbid, medidnavn, manedstot
+                                  Redim timer_md(m,d), dato_medid(m,d), medarbid(m), medidnavn(m), manedstot(antalmaaned)
                                   
-                                  strSQL = "SELECT tmnr, tmnavn, tdato, sum(timer) as Timer FROM timer WHERE tjobnr = "& Strjobid & " AND tdato BETWEEN '"& startdato &"' AND '"& slutdato &"' AND tmnr is not null GROUP by tmnr, year(tdato), month(tdato) Order by tmnr, tdato "
+                                  strSQL = "SELECT tmnr, tmnavn, tdato, sum(timer) as Timer FROM timer WHERE tfaktim <> 5 AND tjobnr = "& Strjobid & " AND tdato BETWEEN '"& startdato &"' AND '"& slutdato &"' AND tmnr is not null GROUP by tmnr, year(tdato), month(tdato) Order by tmnr, tdato "
                                   'response.Write strSQL
                                   'repsonse.flush
                                   oRec.open strSQL, oConn, 3
                                   d = 0
+                                  m = -1
                                   While not oRec.EOF
 
-                                  medarbid(oRec("tmnr")) = oRec("tmnr")
-                                  timer_md(d) = oRec("timer")
-                                  dato_medid(d) = year(oRec("tdato")) & month(oRec("tdato"))
-                                  medidnavn(oRec("tmnr")) = oRec("tmnavn")
+                                  if lasttmnr <> oRec("tmnr") then
+                                     
+                                     m = m + 1                                     
+                                    
+                                  end if
+                                  
+                                  'd = year(oRec("tdato")) & month(oRec("tdato"))
+                                  medarbid(m) = oRec("tmnr")
+                                  timer_md(m,d) = oRec("timer")
+                                  dato_medid(m,d) = year(oRec("tdato")) & month(oRec("tdato"))
+                                  medidnavn(m) = oRec("tmnavn")
+                                  'response.Write "<br>m" & m & "d" & d & "dato" & dato_medid(m,d)
+                                  'lasttmnr = oRec("tmnr")
+                                  
+
+                                  lasttmnr = oRec("tmnr")
+                                  'm = m + 1
                                   d = d + 1
                                   oRec.movenext
                                   Wend 
                                   oRec.close
-                                  d = 0
-                                  for m = 0 TO UBound(medarbid)
-                                  if medarbid(m) <> lastmid and len(trim(medidnavn(m))) <> 0 then
+
+                                  m_end = m
+                                  m = 0
+                                
+
+                                  'response.Write "m" & m & "d" & d  
+                                  for m = 0 TO m_end
+                                  'if medarbid(m) <> lastmid and len(trim(medidnavn(m))) <> 0 then
                                   %>
                                         <tr>
-                                            <td><%=medidnavn(m) & " " & medarbid(m) %></td>
+                                            <td><%=medidnavn(m) %></td>
 
-                                            <%  months = selectedstart_month 
-                                                for d = 0 TO antalmaaned
-                                                        months = months + 1
-                                                        if months = 0 then
-                                                        tjekdatoym = startdato
+                                            <%
+                                                'expTxt = expTxt & medidnavn(m) & ";" 
+
+                                               for i = 0 to antalmaaned  
+
+                                                       
+                                                               
+                                                        if i = 0 then
+                                                        tjekdato = startdato
                                                         else
-                                                        tjekdatoym = dateadd("m",1,tjekdatoym)
+                                                        tjekdato = dateadd("m",1,tjekdato)                                                       
                                                         end if
+                                                        foundone = 0
 
-                                                        tjekdatoym = startyear & startmonth
-                                                        if tjekdatoym = dato_medid(months) then
-                                                         %>
-                                                        <td><%=timer_md(months) %> <%response.write months %></td>
-                                                    <% 
-                                                        else
                                                         
-                                                    %>
-                                                         
-                                                        <td><%response.write d %></td>
-                                                    <%
-                                                        end if
-                                                   
+                                                        for d = 0 to Ubound(timer_md)
 
-                                                next  
+                                                            tjekdatoym = year(tjekdato) & month(tjekdato)
+
+                                                            if tjekdatoym = dato_medid(m,d) then
+                                                             
+                                                            tdval = formatnumber(timer_md(m,d), 2) '& "<br>m" & m & "<br>d" & d & "<br>" & dato_medid(m,d) & ""
+                                                            foundone = 1
+                                                            manedstot(i) = manedstot(i) + timer_md(m,d) 
+                                                            'expTxt = expTxt & timer_md(m,d) & ";"  
+                                                            end if
+                                                            if cint(foundone) = 0 then 
+                                                            tdval = "&nbsp" '& m & "<br>" & d & "<b>" & tjekdatoym
+                                                            'expTxt = expTxt & ";"  
+                                                            end if
+                                                                                                                       
+                                                        next 
+                                                    
+                                                        %>
+                                                        <td style="text-align:right;"><%=tdval %> </td>
+                                                        <%
+                                                        
+                                                next
+                                                
                                             %>
 
-                                            <td>total</td>
-                                        </tr>
-                                  <%lastmid = medarbid(m) 
-                                        end if
+                                            <td style="text-align:right">
+                                                <%
+                                                    strSQLtimer = "SELECT sum(timer) as Timer FROM timer WHERE tfaktim <> 5 AND tjobnr ="& Strjobid & " AND tmnr ="& medarbid(m) & " AND tdato BETWEEN '"& startdato &"' AND '"& slutdato &"'"
+                                                    'response.Write strSQLtimer
+                                                    'response.Flush
+                                                    oRec.open strSQLtimer, oConn, 3
+                                                    if not oRec.EOF then
 
-                                        
+                                                    timerperiode = oRec("Timer")
+
+                                                    end if
+                                                    oRec.close
+                                                    
+                                                %>
+                                                <%=formatnumber(timerperiode, 2) %>
+                                            </td>
+                                        </tr>
+                                  <%
+                                        'end if
+
+                                     lastmid = medarbid(m)    
                                   next
        
                               %>
-
+                              
                           </tbody>
 
                           <tfoot>
 
                               <tr>
-                                  <th>Total pr. månded</th>
+                                  <th>Total</th>
                                   
                                   <%
                                       for i = 0 to antalmaaned  
 
-                                        %> <th style="text-align:center;">0</th> <%
+                                        %> <th style="text-align:right;"><%=formatnumber(manedstot(i), 2) %></th> <%
 
                                       next 
                                   %>
 
-                                  <th style="text-align:center">0000</th>
+                                  <th style="text-align:right">
+                                      <%
+                                          strSQLtimertotal = "SELECT sum(timer) as Timer FROM timer WHERE tfaktim <> 5 AND tjobnr ="& Strjobid & " AND tdato BETWEEN '"& startdato &"' AND '"& slutdato &"'"
+
+                                          'response.Write strSQLtimertotal
+
+                                          oRec.open strSQLtimertotal, oConn, 3
+                                          if not oRec.EOF then
+
+                                            timertotal = oRec("Timer")
+
+                                          end if
+                                          oRec.close
+                                      %>
+
+                                      <%=formatnumber(timertotal, 2) %>
+                                  </th>
                               </tr>
 
                           </tfoot>
-
+                          
                       </table>
 
+                    </div>
                   </div>
               </div>
           </div>
@@ -446,5 +505,41 @@
 
       </div>
   </div>  
+
+
+
+ <!--
+    
+     '************** STI OG MAPPE ******************
+	
+<!--
+    strTxtExport = strTxtExport & "Kontakt;Kontakt id;Jobnavn;Jobnr.;Status;Startdato;Slutdato;Prioitet;"
+
+	Set objFSO = server.createobject("Scripting.FileSystemObject")
+	
+	if request.servervariables("PATH_TRANSLATED") = "C:\www\timeout_xp\wwwroot\ver2_1\timereg\job_eksport.asp" then
+							
+		Set objNewFile = objFSO.createTextFile("c:\www\timeout_xp\wwwroot\ver2_1\inc\log\data\jobexp_"&filnavnDato&"_"&filnavnKlok&"_"&lto&"."&ext&"", True, False)
+		Set objNewFile = nothing
+		Set objF = objFSO.OpenTextFile("c:\www\timeout_xp\wwwroot\ver2_1\inc\log\data\jobexp_"&filnavnDato&"_"&filnavnKlok&"_"&lto&"."&ext&"", 8)
+	
+	else
+		
+		Set objNewFile = objFSO.createTextFile("d:\webserver\wwwroot\timeout_xp\wwwroot\"&toVer&"\inc\log\data\jobexp_"&filnavnDato&"_"&filnavnKlok&"_"&lto&"."&ext&"", True, false)
+		Set objNewFile = nothing
+		Set objF = objFSO.OpenTextFile("d:\webserver\wwwroot\timeout_xp\wwwroot\"&toVer&"\inc\log\data\jobexp_"&filnavnDato&"_"&filnavnKlok&"_"&lto&"."&ext&"", 8, -1)
+		
+	end if
+	
+	file = "jobexp_"&filnavnDato&"_"&filnavnKlok&"_"&lto&"."&ext&""
+    
+    	objFSO.WriteLine(strTxtExport)
+    objFSO.WriteLine(expTxt)
+	'Response.write strTxtExport
+	
+	objFSO.close
+    
+    Response.redirect "../inc/log/data/"& file &""	
+     %> -->
 
 <!--#include file="../inc/regular/footer_inc.asp"-->
