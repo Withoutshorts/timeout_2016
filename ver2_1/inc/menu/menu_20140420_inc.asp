@@ -887,6 +887,8 @@ end select
 
 
                                      <li><a href="<%=toSubVerPath14 %>fomr.asp?func=stat"><%=tsa_txt_460 %></a></li>
+                                
+                                    <li><a href="<%=toSubVerPath15 %>medarb_protid.asp">Medarbejder - projekttid</a></li>
 
                                      <br /><br />
                                      <%if session("stempelur") <> 0 then %>
