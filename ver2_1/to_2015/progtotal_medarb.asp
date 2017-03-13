@@ -338,10 +338,14 @@
                                   startyear = Year(aar)
                                   slutmonth = Month(aarslut)
                                   slutyear = Year(aarslut)
-                                  
+                                                                 
                                   startdato = startyear & "-" & (startmonth) & "-1"
                                   slutdato = slutyear & "-" & (slutmonth + 1) & "-0"
 
+                                  if slutmonth = 12 then
+                                  slutdato = (slutyear + 1) & "-" & 1 & "-0"
+                                  end if
+                                 
                                   'response.Write "start: " & startdato & "slut: " & slutdato 
 
                                     
@@ -384,7 +388,7 @@
 
                                   m_end = m
                                   m = 0
-                                
+                                  timerperiode = 0
 
                                   'response.Write "m" & m & "d" & d  
                                   for m = 0 TO m_end
@@ -436,6 +440,7 @@
 
                                             <td style="text-align:right">
                                                 <%
+
                                                     strSQLtimer = "SELECT sum(timer) as Timer FROM timer WHERE tfaktim <> 5 AND tjobnr ="& Strjobid & " AND tmnr ="& medarbid(m) & " AND tdato BETWEEN '"& startdato &"' AND '"& slutdato &"'"
                                                     'response.Write strSQLtimer
                                                     'response.Flush
@@ -467,6 +472,7 @@
                                   <th>Total</th>
                                   
                                   <%
+
                                       for i = 0 to antalmaaned  
 
                                         %> <th style="text-align:right;"><%=formatnumber(manedstot(i), 2) %></th> <%
@@ -484,6 +490,10 @@
                                           if not oRec.EOF then
 
                                             timertotal = oRec("Timer")
+                                            if timertotal <> 0 then
+                                            else
+                                            timertotal = 0
+                                            end if
 
                                           end if
                                           oRec.close
