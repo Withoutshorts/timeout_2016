@@ -93,6 +93,7 @@
                 if len(trim(request("jq_newfilterval"))) <> 0 then
                 filterVal = 1 
                 jobkundesog = request("jq_newfilterval")
+
                 else
                 filterVal = 0
                 jobkundesog = "6xxxxxfsdf554"
@@ -308,6 +309,7 @@
                 if len(trim(request("jq_newfilterval"))) <> 0 then
                 filterVal = 1 
                 aktsog = request("jq_newfilterval")
+
                 else
                 filterVal = 0
                 aktsog = "6xxxxxfsdf554"
@@ -799,7 +801,7 @@
         showStop = 1
         showDetailDayResumeOrLink = 1
         ststopbtnTxt = "St. / Stop"
-      case "tbg"
+      case "tbg", "hidalgo"
         showAfslutJob = 0
         showMatreg = 1
         showStop = 0

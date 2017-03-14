@@ -539,7 +539,7 @@ sub kundeopl
 	if func = "opret" AND step = 1 then%>
 	<tr>
 		<td colspan=4 height="20" style="padding:10px 10px 10px 10px;">
-		<b>Vælg Kontakt:</b>&nbsp;&nbsp;(<a href="../to_2015/kunder.asp?func=opret&ketype=k&hidemenu=1&showdiv=onthefly&rdir=1" target="_blank" class=vmenu>Opret ny her..</a>)</td>
+		<b>Vælg Kunde:</b>&nbsp;&nbsp;(<a href="../to_2015/kunder.asp?func=opret&ketype=k&hidemenu=1&showdiv=onthefly&rdir=1" target="_blank" class=vmenu>Opret ny her..</a>)</td>
 	</tr>
     <tr>
 		<td colspan=4 height="20" style="padding:10px 10px 10px 10px;">
@@ -564,8 +564,10 @@ sub kundeopl
 		
 		    <%if func = "opret" AND step = 1 then %>
             <input name="FM_kunde" id="FM_kunde_nul" value=0 type="hidden" />
-			<select name="FM_kunde" id="jq_kunde_sel" size="20" multiple="multiple" style="width:650px;">
-			<%else %>
+			<!--<input type="text" id="test" style="width:1000px;" />-->
+            <select name="FM_kunde" id="jq_kunde_sel" size="20" multiple="multiple" style="width:650px;">
+			
+           <%else %>
 			
 			            <%if func = "opret" AND step = 2 then 
 			            dsab = "DISABLED"
@@ -575,6 +577,8 @@ sub kundeopl
 			            else
 			            dsab = ""
 			            end if%>
+
+            
 			<select name="FM_kunde" id="FM_kunde" <%=dsab %> size=1 style="width:<%=kwidth%>px;">
           
 			
@@ -612,7 +616,7 @@ sub kundeopl
             
             end if
 
-			strSQL = "SELECT Kkundenavn, Kkundenr, Kid, kundeans1, kundeans2 FROM kunder WHERE ketype <> 'e' ORDER BY Kkundenavn"
+			strSQL = "SELECT Kkundenavn, Kkundenr, Kid, kundeans1, kundeans2 FROM kunder WHERE ketype <> 'e' AND (useasfak = 1 OR useasfak = 0 OR useasfak = 5) ORDER BY Kkundenavn"
 			oRec.open strSQL, oConn, 3
 			kans1 = ""
 			kans2 = ""
@@ -3309,6 +3313,8 @@ sub minioverblik
 
 
                     <%if thisfile <> "jobprintoverblik" then
+
+                        
                         %>
                      <div style="width:680px; height:200px; overflow:scroll; border:1px #cccccc solid; padding:5px 5px 5px 5px;"><%
                        else
@@ -3324,12 +3330,18 @@ sub minioverblik
                             <th style="text-align:right;">Real. Timer</th>
                         </tr>
 
-                            <%strSQlrealtimer = "SELECT mid, init, SUM(t.timer) AS sumtimer, mnavn FROM medarbejdere AS m "_
+                            <%
+                            call akttyper2009(2)    
+                                
+                            strSQlrealtimer = "SELECT mid, init, SUM(t.timer) AS sumtimer, mnavn FROM medarbejdere AS m "_
                             &" LEFT JOIN timer AS t ON (t.tmnr = m.mid AND tjobnr = '"& strJobnr &"' AND ("& aty_sql_realhours &")) "_
                             &" WHERE mid <> 0 GROUP BY mid ORDER BY mnavn"
                              
-                            'response.write strSQlrealtimer
+
+                            'if session("mid") = 1 then
+                            '.write strSQlrealtimer
                             'response.flush 
+                            'end if
                             
                             realtimerDetalTot = 0
                             rt = 0
@@ -3592,8 +3604,11 @@ sub minioverblik
 	    <tr>
 	        <td class=lille>
             <%if thisfile <> "jobprintoverblik" then %>
+
+                <%if cint(useasfak) <= 2 then%>
                     <a href="erp_opr_faktura_fs.asp?visminihistorik=1&visfaktura=2&visjobogaftaler=1&id=<%=oRec2("fid")%>&FM_jobonoff=<%=FM_jobonoffval%>&FM_kunde=<%=oRec2("fakadr")%>&FM_job=<%=oRec2("jobid")%>&FM_aftale=<%=oRec2("aftaleid")%>&fromfakhist=1" class="lgron" target="_blank"><%=oRec2("faknr")%></a>
-          
+                <%end if %>
+
             <%else %>
             <%=oRec2("faknr") %>
             <%end if %>

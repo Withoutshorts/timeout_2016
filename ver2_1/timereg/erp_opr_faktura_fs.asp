@@ -749,7 +749,7 @@ end if
 
             if len(request("FM_sog")) <> 0 AND request("FM_sog") <> "Søg.." then
             sogKri = request("FM_sog")
-            kSQLkri = "AND kkundenavn LIKE '"& sogKri &"%' OR kkundenr = '"& sogKri &"'"
+            kSQLkri = "AND (kkundenavn LIKE '"& sogKri &"%' OR kkundenr = '"& sogKri &"')"
            
             else
 
@@ -764,7 +764,7 @@ end if
 
             if request.cookies("erpfak")("sog") <> "" AND request.cookies("erpfak")("sog") <> "Søg.." then
             sogKri = request.cookies("erpfak")("sog")
-            kSQLkri = "AND kkundenavn LIKE '"& sogKri &"%' OR kkundenr = '"& sogKri &"'"
+            kSQLkri = "AND (kkundenavn LIKE '"& sogKri &"%' OR kkundenr = '"& sogKri &"')"
             else
             sogKri = "Søg.."
             kSQLkri = "AND kid <> 0"   

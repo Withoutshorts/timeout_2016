@@ -64,7 +64,7 @@
 	      <td colspan=2 bgcolor="#FFFFFF" style="padding:10px 10px 10px 10px; border:0px #8caae6 solid; border-bottom:0px;">
               
             <%select case lto
-            case "intranet - local", "bf" 
+            case "xintranet - local", "bf" 
              %>
             Choose project:
              <% 
@@ -109,7 +109,7 @@
 	     <select id="kFM_job" name="FM_job" style="width:250px;" onchange="naft()">
 
               <%select case lto
-            case "intranet - local", "bf" 
+            case "xintranet - local", "bf" 
              case else%>
 
 	     <option value="0"><%=vaelgJObTxt %></option>
@@ -172,7 +172,7 @@
 	    <%
 	    
              select case lto
-            case "intranet - local", "bf" 
+            case "xintranet - local", "bf" 
 
             case else
 

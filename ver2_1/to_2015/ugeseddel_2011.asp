@@ -42,6 +42,15 @@
                 if len(trim(request("jq_newfilterval"))) <> 0 then
                 filterVal = 1 
                 jobkundesog = request("jq_newfilterval")
+                
+
+                'if session("mid") = 1 then
+                '*** ∆ÿ≈ **'
+                'call jq_format(jobkundesog)
+                'jobkundesog = jq_formatTxt
+                'end if
+                
+
                 else
                 filterVal = 0
                 jobkundesog = "6xxxxxfsdf554"
@@ -81,7 +90,7 @@
                 if filterVal <> 0 then
 
                  if jobkundesog <> "-1" then
-                 strSQLSogKri = " AND (jobnr LIKE '"& jobkundesog &"%' OR jobnavn LIKE '"& jobkundesog &"%' OR "_
+                 strSQLSogKri = " AND (jobnr LIKE '"& jobkundesog &"%' OR jobnavn LIKE '%"& jobkundesog &"%' OR "_
                  &" kkundenavn LIKE '"& jobkundesog &"%' OR kkundenr = '"& jobkundesog &"' OR k.kinit = '"& jobkundesog &"') AND kkundenavn <> ''"
                  lmt = 50
                  else
@@ -99,9 +108,11 @@
                 strSQL = strSQL & strSQLSogKri
                 strSQL = strSQL &" GROUP BY j.id ORDER BY kkundenavn, jobnavn LIMIT "& lmt       
     
-
-                 'response.write "<option>strSQL " & strSQL & "</option>"
-                 'response.end
+                'if session("mid") = 1 then
+                ' response.write "<option>strSQL " & strSQL & "</option>"
+                ' response.end
+                'end if
+    
                 if (jobkundesog = "-1") then
                     strJobogKunderTxt = strJobogKunderTxt & "<option value=""-1"" SELECTED>"& week_txt_009 &":</option>"
                 end if            
@@ -165,6 +176,7 @@
                 if len(trim(request("jq_newfilterval"))) <> 0 then
                 filterVal = 1 
                 aktsog = request("jq_newfilterval")
+             
                 else
                 filterVal = 0
                 aktsog = "6xxxxxfsdf554"

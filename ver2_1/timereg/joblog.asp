@@ -2088,8 +2088,8 @@ slutDatoKriSQL = strAar_slut &"/"& strMrd_slut &"/"& strDag_slut
 				                AND (cdate(lastfakdato) <  cdate(oRec("Tdato"))) then %>
     					
     					
-    					
-					                <a href="rediger_tastede_dage_2006.asp?id=<%=oRec("Tid")%>" target="_blank" class=vmenu>
+    					            <a href="#" onclick="Javascript:window.open('../to_2015/rediger_tastede_dage_2006.asp?id=<%=oRec("tid") %>', '', 'width=450,height=675,resizable=yes,scrollbars=yes')" class=vmenu>
+					                <!--<a href="../to_2015/rediger_tastede_dage_2006.asp?id=<%=oRec("Tid")%>" target="_blank" class=vmenu>-->
     					
 					                <%=oRec("anavn")%>
     					
@@ -2227,7 +2227,7 @@ slutDatoKriSQL = strAar_slut &"/"& strMrd_slut &"/"& strDag_slut
 
 
 				            if media <> "export" then%>
-				            <td style="padding-top:3px; padding-left:5px; border-top:1px #cccccc solid;" valign="top"><%=left(oRec("Tmnavn"),25)%>&nbsp;(<%=oRec("mnr")%>)
+				            <td style="padding-top:3px; padding-left:5px; border-top:1px #cccccc solid;" valign="top"><%=left(oRec("Tmnavn"),25)%>&nbsp;[<%=oRec("init")%>]
                     
                                 <%if cint(showcpr) = 1 then%>
                                 <br /><span style="color:#999999;">CPR: <%=oRec("mcpr") %></span> 

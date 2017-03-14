@@ -571,7 +571,7 @@ function jobaktbudgetfelter(jobnr, jobid, aktid, h1aar, h2aar, h1md, h2md, budge
 
                </td>
 
-        <td style="padding-right:2px;"><input type="text" name="" class="form-control input-small" style="width:60px;" value="<%=realTimeOmsTxt%>" DISABLED />
+        <td style="padding-right:2px;"><input type="text" name="" class="form-control input-small" style="width:60px;" value="<%=realTimeOmsTxt%>" DISABLED /> 
         <input type="hidden" id="realtimep_jobakt_<%=jobid%>_<%=aktid %>" value="<%=realTimeOms%>" /></td>
 
         <%if cint(timesimtp) = 100 then '*** 1??%> 
@@ -939,10 +939,34 @@ function medarbfelter(jobnr, jobid, aktid, h1aar, h2aar, h1md, h2md, bgttpris)
                      progrpTotTxt = ""
                      end if
 
+                     'AVG tp på gruppen
+                     if cint(timesimtp) = 1 then
 
+                     strSQLmedrd = "SELECT AVG(6timepris) AS avgGrpTp FROM timepriser WHERE jobid = " & jobid &" "& aktKri &" AND (medarbid = 0 "& replace(medarbIPgrp(p), "medid", "medarbid") &") GROUP BY aktid" 
+                     'response.Write "<br>strSQLmedrd: " & strSQLmedrd & " - p: "& p
+                     'response.flush
+                     jobFcGtBelob = 0
+                     jobFcGtAvgTp = 0
+                     oRec3.open strSQLmedrd, oConn, 3
+                     if not oRec3.EOF then
+
+                        jobFcGtAvgTp = formatnumber(oRec3("avgGrpTp"), 2)
+                        jobFcGtBelob = oRec3("avgGrpTp") * progrpTot
+
+                     end if
+                     oRec3.close 
+
+                     end if
+                              
+                     if progrpTot <> 0 then 
+                     jobFcGtBelobTxt = formatnumber(jobFcGtBelob, 0) & " DKK <br>Avg. tp: "& jobFcGtAvgTp
+                     else
+                     jobFcGtBelobTxt = ""
+                     end if
+                      
                                 
                                 
-                                '************************************************************************************************
+                               '************************************************************************************************
                                 '** REAL timer pr. dato på Gruppen ***'
                                '************************************************************************************************
 
@@ -1023,6 +1047,11 @@ function medarbfelter(jobnr, jobid, aktid, h1aar, h2aar, h1md, h2md, bgttpris)
             <%if cint(visKunFCFelter) = 0 OR cint(visKunFCFelter) = 1 then %>
              <td><input type="text" id="afd_jobakt_<%=jobid%>_<%=aktid %>_<%=p %>" class="form-control input-small afd_jobakt afd_jobakt_<%=p %> afd_jobakt_<%=jobid%>_<%=aktid %>" style="width:60px; text-align:right; background-color:<%=fcBgCol%>;" value="<%=progrpTotTxt %>" DISABLED />
             
+                 <%if cint(timesimtp) = 1 AND jobFcGtBelobTxt <> "" then %>
+                 <div style="font-size:10px;" id="saldoBelgts_<%=jobid%>_<%=aktid %>"><%=jobFcGtBelobTxt %></div> 
+                 <%end if %>
+
+
                  <%if cint(timesimtp) = 1 then %>
                  <span id="afd_jobaktbels_<%=jobid%>_<%=aktid %>_<%=p %>" class="afd_jobaktbels afd_jobaktbels_<%=p %> afd_jobaktbels_<%=jobid%>_<%=aktid %>" style="text-align:left; font-size:10px; display:none; visibility:hidden;">0 DKK</span>
                  <input type="hidden" id="afd_jobaktbel_<%=jobid%>_<%=aktid %>_<%=p %>" class="afd_jobaktbel afd_jobaktbel_<%=p %> afd_jobaktbel_<%=jobid%>_<%=aktid %>" value="0" />
@@ -1288,7 +1317,11 @@ function medarbfelter(jobnr, jobid, aktid, h1aar, h2aar, h1md, h2md, bgttpris)
                 end select
             
              %>
-            <td class="afd_p_<%=p%> afd_p" style="visibility:<%=pvzb%>; display:<%=pdsp%>;"><input name="FM_tp" type="<%=h1h2type %>" value="<%=formatnumber(medarbTp,0) %>" style="width:45px; background-color:<%=bgHfc%>;" id="mh1t_jobaktmid_<%=jobid%>_<%=aktid %>_<%=antalm(m,1)%>" class="<%=mt1jacls%> form-control input-small mh1t mh1t_jobaktmid_<%=jobid%>_<%=aktid%>" maxlength="<%=h1h2Maxl %>" <%=tpmedarbDisabled %> /></td>
+            <td class="afd_p_<%=p%> afd_p" style="visibility:<%=pvzb%>; display:<%=pdsp%>;"><input name="FM_tp" type="<%=h1h2type %>" value="<%=formatnumber(medarbTp,0) %>" style="width:45px; background-color:<%=bgHfc%>;" id="mh1t_jobaktmid_<%=jobid%>_<%=aktid %>_<%=antalm(m,1)%>" class="<%=mt1jacls%> form-control input-small mh1t mh1t_jobaktmid_<%=jobid%>_<%=aktid%>" maxlength="<%=h1h2Maxl %>" <%=tpmedarbDisabled %> />
+                  <%if aktid <> 0 then %>
+                  <div style="font-size:8px; float:right;">DKK</div>
+                  <%end if %>
+            </td>
             <%end if %>
 
 

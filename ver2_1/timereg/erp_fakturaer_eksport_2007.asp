@@ -1124,52 +1124,63 @@ if len(session("user")) = 0 then
             select case lto
             case "epi2017"
 
-                select case afsender
-                case "1" 'DK
+                    fakBelob = formatnumber(oRec("beloeb"), 2)
+                    fakMoms = formatnumber(oRec("moms"), 2)
 
-                call beregnValuta(oRec("beloeb"),oRec("kurs"),100)
-                fakBelob = valBelobBeregnet
+                    select case afsender
+                    case "1" 'DK
 
-                call beregnValuta(oRec("moms"),oRec("kurs"),100)
-                fakMoms = valBelobBeregnet
+                    if cint(oRec("valuta")) <> 1 then
+                    call beregnValuta(oRec("beloeb"),oRec("kurs"),100)
+                    fakBelob = valBelobBeregnet
 
+                    call beregnValuta(oRec("moms"),oRec("kurs"),100)
+                    fakMoms = valBelobBeregnet
 
-                case "10001" 'UK
+                    end if
 
-                call beregnValuta(oRec("beloeb"),oRec("kurs"),100)
-                fakBelob = valBelobBeregnet
+                    basisValISOtxt = basisValISO      
 
-                call valutaKurs_fakhist(6) ' --> GBP
+                    case "10001" 'UK
 
-                call beregnValuta(fakBelob,100,dblkurs_fakhist/100)
-                fakBelob = valBelobBeregnet
+            
+                    if cint(oRec("valuta")) <> 6 then
+                    call valutaKurs_fakhist(6) ' --> GBP
+                    call beregnValuta(oRec("beloeb"),oRec("kurs"),dblkurs_fakhist/100)
+                    fakBelob = valBelobBeregnet
+
+                    call beregnValuta(oRec("moms"),oRec("kurs"),dblkurs_fakhist/100)
+                    fakMoms = valBelobBeregnet
+
+                    end if
+
+                    basisValISOtxt = "GBP"
                 
-                call beregnValuta(oRec("moms"),oRec("kurs"),100)
-                fakMoms = valBelobBeregnet
+                   
+                    case "30001" 'NO
 
-                call beregnValuta(fakMoms,100,dblkurs_fakhist/100)
-                fakMoms = valBelobBeregnet
-
-
-
-                case "30001" 'NO
-
-                call beregnValuta(oRec("beloeb"),oRec("kurs"),100)
-                fakBelob = valBelobBeregnet
-
-                call valutaKurs_fakhist(5) ' --> NOK
-
-                call beregnValuta(fakBelob,100,dblkurs_fakhist/100)
-                fakBelob = valBelobBeregnet
+                    'call beregnValuta(fakBelob,oRec3("kurs"),100)
+                    'fakBelob = valBelobBeregnet
                 
-                call beregnValuta(oRec("moms"),oRec("kurs"),100)
-                fakMoms = valBelobBeregnet
+                    if cint(oRec("valuta")) <> 5 then
+                    call valutaKurs_fakhist(5) ' --> NOK
+                    call beregnValuta(oRec("beloeb"),oRec("kurs"),dblkurs_fakhist/100)
+                    fakBelob = valBelobBeregnet
 
-                call beregnValuta(fakMoms,100,dblkurs_fakhist/100)
-                fakMoms = valBelobBeregnet
+                    call beregnValuta(oRec("moms"),oRec("kurs"),dblkurs_fakhist/100)
+                    fakMoms = valBelobBeregnet
+                    end if
 
-                end select
+                    basisValISOtxt = "NOK"
+                  
 
+                    end select
+
+                    fakBelob = replace(fakBelob, ".", "")
+                    fakMoms = replace(fakMoms, ".", "")
+    
+
+              
             case else ' STANDARD omregn til basis valuta
 
 
@@ -1183,8 +1194,8 @@ if len(session("user")) = 0 then
 
                  else
         
-                    fakBelob = oRec("beloeb")
-                    fakMoms = oRec("moms")
+                    fakBelob = replace(formatnumber(oRec("beloeb"), 2), ".", "")
+                    fakMoms = replace(formatnumber(oRec("moms"), 2), ".", "")
     
                 end if
 

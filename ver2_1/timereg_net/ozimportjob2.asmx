@@ -156,7 +156,7 @@ Public Class oz_importjob2
     Public intCountInserted As Integer = 0
 
 
-    <WebMethod()> Public Function createjob2(ByVal ds As dataset) As String
+    <WebMethod()> Public Function createjob2(ByVal ds As DataSet) As String
 
 
 
@@ -734,7 +734,7 @@ Public Class oz_importjob2
                     & " risiko, job_internbesk, " _
                     & " jo_bruttooms, fomr_konto) VALUES " _
                     & "('" & jobnavn & "', " _
-                    & "'" & jobnr & "', " _
+                    & "'" & strjobnr & "', " _
                     & "" & kid & ", " _
                     & "0, " _
                     & "1, " _
@@ -954,10 +954,20 @@ Public Class oz_importjob2
         objDR2.Close()
 
 
-        Dim strSQLjobnrUpd As String = "UPDATE licens SET jobnr = " & jobnr & " WHERE id = 1"
-        objCmd = New OdbcCommand(strSQLjobnrUpd, objConn)
-        objDR2 = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
-        objDR2.Close()
+        Dim childAgeAsInt As Integer
+        If Integer.TryParse(jobnr, childAgeAsInt) Then
+            ' childAge successfully parsed as Integer
+
+            Dim strSQLjobnrUpd As String = "UPDATE licens SET jobnr = " & jobnr & " WHERE id = 1"
+            objCmd = New OdbcCommand(strSQLjobnrUpd, objConn)
+            objDR2 = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
+            objDR2.Close()
+
+        Else
+            ' childAge is not an Integer
+        End If
+
+
 
         objConn.Close()
 
@@ -967,7 +977,7 @@ Public Class oz_importjob2
 
 
         'Dim errThisTOnoStr As String = errThisTOno.ToString()
-        Return "Succes " + intCountInserted.ToString() + " linje(r) indlæst.<br><br>Du kan lukke denne side ned nu. [<a href=""Javascript:window.close();"">LUK</a>]"  
+        Return "Succes " + intCountInserted.ToString() + " linje(r) indlæst.<br><br>Du kan lukke denne side ned nu. [<a href=""Javascript:window.close();"">LUK</a>]"
         'jobnr: " + err_jobnr + " errid:" + errThisTOnoStr
 
 
@@ -1024,7 +1034,7 @@ Public Class oz_importjob2
 
                 Else '** UPDATE
 
-                    Dim strSQLaktupd As String = ("UPDATE aktiviteter SET navn = '" & aktnavn.Replace("'", "") & "', aktstatus = 1, aktstartdato = '" & aktstdato.ToString("yyyy/MM/dd", Globalization.CultureInfo.InvariantCulture) & "', aktslutdato = '" & aktsldato.ToString("yyyy/MM/dd", Globalization.CultureInfo.InvariantCulture) & "', fomr = " & fomr & ", sortorder = " & sort & ", antalstk = " & antalstk & " WHERE id = "& aktFindes &"")
+                    Dim strSQLaktupd As String = ("UPDATE aktiviteter SET navn = '" & aktnavn.Replace("'", "") & "', aktstatus = 1, aktstartdato = '" & aktstdato.ToString("yyyy/MM/dd", Globalization.CultureInfo.InvariantCulture) & "', aktslutdato = '" & aktsldato.ToString("yyyy/MM/dd", Globalization.CultureInfo.InvariantCulture) & "', fomr = " & fomr & ", sortorder = " & sort & ", antalstk = " & antalstk & " WHERE id = " & aktFindes & "")
                     objCmd = New OdbcCommand(strSQLaktupd, objConn)
                     objDR2 = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
                     objDR2.Close()

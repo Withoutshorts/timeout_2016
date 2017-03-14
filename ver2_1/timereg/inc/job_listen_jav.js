@@ -1,4 +1,4 @@
-ï»¿// JScript File
+// JScript File
 
 
 
@@ -9,7 +9,7 @@ $(window).load(function () {
 
 
 
-// KundesÃ¸g //
+// Kundesøg //
 function getKundelisten() {
 
     var visalle = 1 //bruges ikke
@@ -24,11 +24,12 @@ function getKundelisten() {
             //var idlngt = sog_val.val()
             //alert(idlngt.lenght)
             //if (idlngt.lenght == 1) {
-            //    alert("Du er ved at foretege en sÃ¸gning..")
+            //    alert("Du er ved at foretege en søgning..")
             //}
-            //alert("Der sÃ¸ges...")
+            //alert("Der søges...")
+            //$("#test").val(data);
             $("#jq_kunde_sel").html(data);
-
+          
             //$("#jq_kunde_sel").focus();
 
             //$("#Submit2").focus();
@@ -105,7 +106,7 @@ $(document).ready(function () {
    
 
 
-    //alert("SÃ¥ er siden klar..")
+    //alert("Så er siden klar..")
 
    
 
@@ -126,9 +127,9 @@ $(document).ready(function () {
                 //var idlngt = sog_val.val()
                 //alert(idlngt.lenght)
                 //if (idlngt.lenght == 1) {
-                //    alert("Du er ved at foretege en sÃ¸gning..")
+                //    alert("Du er ved at foretege en søgning..")
                 //}
-                //alert("Der sÃ¸ges...")
+                //alert("Der søges...")
                 $("#FM_kundekpers").html(data);
 
                 //$("#jq_kunde_sel").focus();

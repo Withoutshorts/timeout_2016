@@ -530,7 +530,7 @@ end function
 public ekspTxt_kk
  function joblog(jobid,stdatoKri,slutdato,aftid, viskunfakturalinjer)
    laktaktid = 0
-   ekspTxt_kk = ""
+  
   
 
        if jobid <> 0 then
@@ -539,20 +539,33 @@ public ekspTxt_kk
        strSQLjobaftKri = "seraft = "& aftid &" AND tjobnr = j.jobnr "
        end if
 
-    if viskunfakturalinjer <> 0 then 'fakturaid = Vis KUN linjer med på den faktura BF diffrentirede linjer på faktura
+    if viskunfakturalinjer <> 0 then 
+    ekspTxt_kk = ""
+    '*** Henter fakturalinjer der er med på faktura på medarbejdere / ellers hebnter joblog
+    'fakturaid = Vis KUN linjer med på den faktura BF diffrentirede linjer på faktura :: Kasserapport
 
 
-                strSQL = "SELECT tmnr, tmnavn, tdato, timer, timerkom, "_
-				&" taktivitetnavn, taktivitetid, tfaktim, jobnavn, jobnr, a.faktor, timepris, t.valuta, v.valutakode, avarenr, t.kurs AS kurs, tjobnavn, tjobnr "_
-				&" FROM faktura_det fd "_
-                &" LEFT JOIN timer t ON (taktivitetid = fd.aktid AND tfaktim <> 5 AND tdato BETWEEN '" & stdatoKri &"' AND '"& slutdato &"')"_
-                &" LEFT JOIN job j ON (j.jobnr = t.tjobnr)"_
-                &" LEFT JOIN aktiviteter a ON (a.id = fd.aktid)"_
-				&" LEFT JOIN valutaer v ON (v.id = t.valuta)"_
-				&" WHERE a.id = fd.aktid AND fd.fakid = "& id &" ORDER BY jobnr, tdato DESC"
+                'strSQL = "SELECT tmnr, tmnavn, tdato, timer, timerkom, "_
+				'&" taktivitetnavn, taktivitetid, tfaktim, jobnavn, jobnr, a.faktor, timepris, t.valuta, v.valutakode, avarenr, t.kurs AS kurs, tjobnavn, tjobnr "_
+				'&" FROM faktura_det fd "_
+                '&" LEFT JOIN timer t ON (taktivitetid = fd.aktid AND tfaktim <> 5 AND tdato BETWEEN '" & stdatoKri &"' AND '"& slutdato &"')"_
+                '&" LEFT JOIN job j ON (j.jobnr = t.tjobnr)"_
+                '&" LEFT JOIN aktiviteter a ON (a.id = fd.aktid)"_
+				'&" LEFT JOIN valutaer v ON (v.id = t.valuta)"_
+				'&" WHERE a.id = fd.aktid AND fd.fakid = "& id &" ORDER BY jobnr, tdato DESC"
+
+                strSQL = "SELECT fakid, aktid, mid, fak AS timer, tekst AS tmnavn, jobnavn, jobnr, fms.valuta, v.valutakode, "_
+                &" fms.kurs AS kurs, avarenr, fakturerbar, fakdato, a.navn AS aktnavn, fms.beloeb FROM fak_med_spec fms "_
+                &" LEFT JOIN aktiviteter a ON (a.id = fms.aktid) "_
+                &" LEFT JOIN job j ON (j.id = a.job) "_
+                &" LEFT JOIN fakturaer f ON (f.fid = fms.fakid) "_
+                &" LEFT JOIN valutaer v ON (v.id = fms.valuta) "_ 
+                &" WHERE fakid = "& id
+
 
     else
 
+                ekspTxt_kk = ekspTxt_kk
                 strSQL = "SELECT tmnr, tmnavn, tdato, timer, timerkom, "_
 				&" taktivitetnavn, taktivitetid, tfaktim, jobnavn, jobnr, a.faktor, timepris, t.valuta, v.valutakode, avarenr, t.kurs AS kurs, tjobnavn, tjobnr "_
 				&" FROM timer t "_
@@ -566,24 +579,20 @@ public ekspTxt_kk
    
   
    
-			
+			    'if session("mid") = 1 then
 				'Response.write strSQL
                 'Response.flush
-				
+				'end if
+
 				oRec.open strSQL, oConn, 3 
 				x = 0
 				while not oRec.EOF 
 					
 
-                if lto = "bf" OR lto = "intranet - local" then
+                if cint(viskunfakturalinjer) = 0 then '*** Joblog eller faktura FAK_MED_SPEC LOG
 
-                    if x > 0 then
-                    ekspTxt_kk = ekspTxt_kk & "xx99123sy#z"
-                    else
-                    ekspTxt_kk = ekspTxt_kk 
-                    end if
-			    
-                end if
+
+               
 
 
 			    if oRec("jobnr") <> lastjobnr then
@@ -714,46 +723,61 @@ public ekspTxt_kk
 					Response.write "<tr><td colspan=6 style='padding:2px 5px 5px 5px;' class=lille><i>"& oRec("timerkom") & "</i></td></tr>"
 					end if
 					
+
+                    else 'FAK_MED_SPEC
+
 					
-                       if lto = "bf" OR lto = "intranet - local" then
+                        
+
+                           if lto = "bf" OR lto = "intranet - local" then
+
+                                    if x > 0 then
+                                    ekspTxt_kk = ekspTxt_kk & "xx99123sy#z"
+                                    else
+                                    ekspTxt_kk = ekspTxt_kk 
+                                    end if
+
                             
-                                if isNull(oRec("avarenr")) <> true AND len(trim(oRec("avarenr"))) >= 7 AND instr(oRec("avarenr"), "M") >= 5 AND (lto = "bf" OR lto = "intranet - local") then
+                                    if isNull(oRec("avarenr")) <> true AND len(trim(oRec("avarenr"))) >= 7 AND instr(oRec("avarenr"), "M") >= 5 AND (lto = "bf" OR lto = "intranet - local") then
 
-                                kontoTxt = trim(oRec("avarenr"))
-                                kontonrLen = len(kontoTxt)
-                                kontonrM = instr(kontoTxt, "M") 
+                                    kontoTxt = trim(oRec("avarenr"))
+                                    kontonrLen = len(kontoTxt)
+                                    kontonrM = instr(kontoTxt, "M") 
                                
-                                    'if session("mid") = 1 then
-                                    'kontonrLeft = "_L_" & kontoTxt 'mid(kontoTxt, 2, kontonrM-2)
-                                    'kontonrRight = "_R_" & kontoTxt 'mid(kontoTxt, kontonrM+1, kontonrLen)
-                                    'else
-                                    kontonrLeft = mid(kontoTxt, 2, kontonrM-2)
-                                    kontonrRight = mid(kontoTxt, kontonrM+1, kontonrLen)
-                                    'end if
+                                        'if session("mid") = 1 then
+                                        'kontonrLeft = "_L_" & kontoTxt 'mid(kontoTxt, 2, kontonrM-2)
+                                        'kontonrRight = "_R_" & kontoTxt 'mid(kontoTxt, kontonrM+1, kontonrLen)
+                                        'else
+                                        kontonrLeft = mid(kontoTxt, 2, kontonrM-2)
+                                        kontonrRight = mid(kontoTxt, kontonrM+1, kontonrLen)
+                                        'end if
 
 
-                                else
+                                    else
 
-                                kontonrLeft = oRec("avarenr")
-                                kontonrRight = 0
+                                    kontonrLeft = oRec("avarenr")
+                                    kontonrRight = 0
 
-                                end if
+                                    end if
 
-                                call meStamdata(oRec("tmnr"))
-                                bilagsnr = "" 'year(oRec("tdato"))&month(oRec("tdato"))&day(oRec("tdato")) 
+                                    call meStamdata(oRec("mid"))
+                                    bilagsnr = "" 'year(oRec("tdato"))&month(oRec("tdato"))&day(oRec("tdato")) 
 
-                                ekspTxt_kk = ekspTxt_kk & chr(34) & formatdatetime(oRec("tdato"), 2) & chr(34) &";"& chr(34) & oRec("tjobnavn") &" ["& meInit &"]" & chr(34) &";" & bilagsnr &";"& chr(34) & kontonrLeft & chr(34) &";" & chr(34) & oRec("taktivitetnavn") & chr(34) &";"
+                                    ekspTxt_kk = ekspTxt_kk & chr(34) & formatdatetime(oRec("fakdato"), 2) & chr(34) &";"& chr(34) & oRec("jobnavn") &" ["& meInit &"]" & chr(34) &";" & bilagsnr &";"& chr(34) & kontonrLeft & chr(34) &";" & chr(34) & oRec("aktnavn") & chr(34) &";"
                             
-                                belob = formatnumber(oRec("timer") * oRec("timepris"), 2)
-                                frakurs = oRec("kurs")
-                                valBelobBeregnet = belob
+                                    belob = formatnumber(oRec("beloeb"), 2)'formatnumber(oRec("timer") * oRec("enhedspris"), 2)
+                                    frakurs = oRec("kurs")
+                                    valBelobBeregnet = belob
                                
 
-	                            ekspTxt_kk = ekspTxt_kk & replace(formatnumber(valBelobBeregnet, 2), ".", ",") &";;;"& chr(34) & kontonrRight & chr(34) &""
+	                                ekspTxt_kk = ekspTxt_kk & replace(formatnumber(valBelobBeregnet, 2), ".", "") &";;;"& chr(34) & kontonrRight & chr(34) &""
 
 
-				        end if 'lto BF kk
+				            end if 'lto BF kk
 				
+                        end if '** joblog / fak_med_Spec
+
+
 				x = x + 1
 				lastjobnr = oRec("jobnr")  
 				oRec.movenext

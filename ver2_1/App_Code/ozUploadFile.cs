@@ -187,7 +187,7 @@ public class ozUploadFile
         //timerkom        = 10
 
         //, medarbejderid, jobid, aktnavn, timer, tdato, lto, timerkom'
-        string strSelect = "SELECT id, dato, editor, origin, medarbejderid, jobid, aktnavn, timer, tdato, lto, timerkom, aktid FROM timer_import_temp WHERE overfort = 0 ORDER BY id limit 3000";
+        string strSelect = "SELECT id, dato, editor, origin, medarbejderid, jobid, aktnavn, timer, tdato, lto, timerkom, aktid FROM timer_import_temp WHERE overfort = 0 ORDER BY id limit 1000";
         //'dato, editor, origin,'
         try
         {
@@ -268,7 +268,7 @@ public class ozUploadFile
                     dataRow["timer"] = reader.GetValue(7);
                     dataRow["tdato"] = reader.GetValue(8);
                     dataRow["lto"] = reader.GetValue(9);    //10 Overfort omited here
-                    dataRow["timerkom"] = reader.GetValue(11); 
+                    dataRow["timerkom"] = reader.GetValue(10); //11
 
                     dataTable.Rows.Add(dataRow);
                 }

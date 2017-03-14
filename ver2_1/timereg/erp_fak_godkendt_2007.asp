@@ -1009,8 +1009,9 @@
 			  
 			  session.LCID = 1033
 			  
+
 			  
-			   call htmlparseCSV(yourAdr)
+			  call htmlparseCSV(yourAdr)
               yourAdr = htmlparseCSVtxt
 			  
 			  'call utf_format(yourNavn)
@@ -1069,11 +1070,13 @@
                 
                 strXML = strXML &"<com:PaymentChannelCode>"&EncodeUTF8(PaymentChannelCode)&"</com:PaymentChannelCode>"
                 
+                if lto = "epi2017" AND afsender = "30001" then ' NO
                 'if lto = "epi_no" then
                 'strXML = strXML &"<com:PayeeFinancialAccount><com:ID>"&yourIban&"</com:ID>"
-                'else
+                 strXML = strXML &"<com:PayeeFinancialAccount><com:ID>"&yourRegnr&yourKontonr&"</com:ID>"
+                else
                 strXML = strXML &"<com:PayeeFinancialAccount><com:ID>"&yourKontonr&"</com:ID>"
-                'end if
+                end if
 
                 strXML = strXML &"<com:TypeCode>BANK</com:TypeCode><com:FiBranch>"
                 strXML = strXML &"<com:ID>"&yourRegnr&"</com:ID>"
@@ -1081,6 +1084,7 @@
                 strXML = strXML &"<com:FinancialInstitution>"
                 
                 'if lto = "epi_no" then
+                'if lto = "epi2017" AND afsender = "30001" then ' NO
                 'strXML = strXML &"<com:ID>"&EncodeUTF8(yourSwift)&"</com:ID>"
                 'else
                 strXML = strXML &"<com:ID>null</com:ID>"
@@ -1935,6 +1939,15 @@
 		stDatoKri = request("FM_start_aar_ival") &"/"& request("FM_start_mrd_ival") &"/"& request("FM_start_dag_ival")  
 		slutdato = request("FM_slut_aar_ival") &"/"& request("FM_slut_mrd_ival") &"/"& request("FM_slut_dag_ival")  
 		
+
+        '**** Kasserapport BF '*** 20170313
+        '**** Henter altid fakturalinjer på medarbejdere til kasserapport
+        if lto = "bf" OR lto = "intranet - local" then
+        viskunfakturalinjer = id
+        call joblog(jobid, stdatoKri, slutdato, aftid, viskunfakturalinjer)
+        end if
+
+
 		
 		'*** Joblog ****
 		if visjoblog = 1 then%>
@@ -1955,7 +1968,7 @@
 		<%  
         select case lto 
         case "bf", "intranet - local"
-        viskunfakturalinjer = id
+        viskunfakturalinjer = 0 'id
         case else
         viskunfakturalinjer = 0 
         end select

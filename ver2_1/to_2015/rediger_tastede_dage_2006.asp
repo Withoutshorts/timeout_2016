@@ -112,8 +112,8 @@
 
                             <%'if browstype_client <> "ip" then  %>
 
-
-                            <table class="table" style="border:hidden">
+                            <%=tsa_txt_182 %>: <b><%=editor%></b> <b><%=formatdatetime(tastedato, 1)%></b><br>
+                            <table class="table" style="border:hidden; width:400px;">
 
                                 <tr>
                                     <td style="width:25%;"></td>                                                       

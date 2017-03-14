@@ -8884,7 +8884,7 @@
 	'call hentbgrppamedarb(usemrn)
 	
 	iRowLoop = 1
-	m = 58 '16
+	m = 59 '16
     if cint(intEasyreg) = 1 then
     x = 3500 ' Bør kun være 750, men der kan forekomme mere end 100 Easyreg. aktiviteter indtil loft effketureres
     else
@@ -8924,7 +8924,7 @@
     'a.incidentid, a.aktstartdato, a.aktslutdato, a.beskrivelse, 
 	
 	
-	strSQL = strSQL &", kkundenavn, kkundenr, kid, kundeans1 "
+	strSQL = strSQL &", kkundenavn, kkundenr, kid, kundeans1, useasfak "
     strSQL = strSQL &" FROM job j"
     strSQL = strSQL &" LEFT JOIN aktiviteter AS a ON (a.job = j.id) "
 	
@@ -9273,7 +9273,7 @@
     
 
    
-
+    aktdata(iRowLoop, 59) = oRec("useasfak")
 
      end if
 	

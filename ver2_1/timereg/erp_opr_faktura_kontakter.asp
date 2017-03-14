@@ -27,7 +27,7 @@
 	    -->
 	 
      <%select case lto
-            case "intranet - local", "bf" 
+            case "xintranet - local", "bf" 
               %>
               <form action="erp_opr_faktura_fs.asp?formsubmitted=1&visjobogaftaler=1" method="POST">
              <% 
@@ -42,7 +42,7 @@
 	 <tr>
 	   <td bgcolor="#ffffff" style="padding:10px 10px 10px 10px; border:0px #8caae6 solid;">
            <%select case lto
-            case "intranet - local", "bf" 
+            case "xintranet - local", "bf" 
               %>
              Search Project:
              <% 
@@ -60,7 +60,7 @@
 	    
 
     <%select case lto
-      case "bf", "intranet - local"
+      case "bf", "xintranet - local"
         
        case else %>
 

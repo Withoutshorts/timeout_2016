@@ -227,7 +227,10 @@ function sideoverskrift(oleft, otop, owdt, oimg, oskrift)
 	    end if
 	end if
 	
-
+    select case lto
+    case "bf"
+    chkMedarblinier = 1
+    end select
 
 	Response.Cookies("erp")("tvmedarb") = chkMedarblinier
 	

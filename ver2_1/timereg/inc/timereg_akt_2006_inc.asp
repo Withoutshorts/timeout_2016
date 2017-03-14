@@ -1361,8 +1361,12 @@ end if
                                                            <br /><a href="#" onclick="Javascript:window.open('../timereg/tilknytprojektgrupper.asp?id=<%=aktdata(iRowLoop, 4)%>&medid=<%=usemrn %>', '', 'width=650,height=500,resizable=yes,scrollbars=yes')" class=rmenu>Tilføj projektgruppe til job >></a>
 				                                        <%end if %>
 
-                                                        <%if level <= 2 OR level = 6 then %>
-                                                        <br /><a href="../timereg/erp_opr_faktura_fs.asp?visjobogaftaler=1&visminihistorik=1&FM_kunde=<%=aktdata(iRowLoop, 42)%>&FM_job=<%=aktdata(iRowLoop, 4)%>&FM_aftale=0&reset=1&FM_usedatokri=&1FM_start_dag=<%=day(tjekdag(1))%>&FM_start_mrd=<%=month(tjekdag(1))%>&FM_start_aar=<%=year(tjekdag(1))%>&FM_slut_dag=<%=day(tjekdag(7))%>&FM_slut_mrd=<%=month(tjekdag(7))%>&FM_slut_aar=<%=year(tjekdag(7))%>" target="_blank" class=rmenu>Opret faktura >> </a>
+                                                        <%if level <= 2 OR level = 6 then
+                                                            
+                                                             if cint(aktdata(iRowLoop, 59)) <= 2 then%>
+                                                            <br /><a href="../timereg/erp_opr_faktura_fs.asp?visjobogaftaler=1&visminihistorik=1&FM_kunde=<%=aktdata(iRowLoop, 42)%>&FM_job=<%=aktdata(iRowLoop, 4)%>&FM_aftale=0&reset=1&FM_usedatokri=&1FM_start_dag=<%=day(tjekdag(1))%>&FM_start_mrd=<%=month(tjekdag(1))%>&FM_start_aar=<%=year(tjekdag(1))%>&FM_slut_dag=<%=day(tjekdag(7))%>&FM_slut_mrd=<%=month(tjekdag(7))%>&FM_slut_aar=<%=year(tjekdag(7))%>" target="_blank" class=rmenu>Opret faktura >> </a>
+                                                            <%end if %>
+                                                    
                                                         <%end if %>
 
 

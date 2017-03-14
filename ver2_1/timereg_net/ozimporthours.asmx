@@ -377,7 +377,7 @@ Public Class to_import_hours
 
                 Try
                     '*** if record findes i timereg i forvejen ****'
-                    intTempImpId = 0 'ds.Tables(0).Rows(t).Item(0)
+                    intTempImpId = ds.Tables(0).Rows(t).Item(0) '0 
                 Catch ex As Exception
                     Throw New Exception("Get intTempImpId error:" + ex.Message)
                 End Try
@@ -515,7 +515,7 @@ Public Class to_import_hours
 
                     Try
                         '*** Er timer angive korrekt ***'
-                        If Len(Trim(dlbTimer)) = 0 Or InStr(dlbTimer, "-") <> 0 Or dlbTimer = 0 Then
+                        If Len(Trim(dlbTimer)) = 0 Or dlbTimer = 0 Then '** Or InStr(dlbTimer, "-") <> 0
 
                             dlbTimer = 0
                             errThisTOno = 7

@@ -846,7 +846,30 @@ case else
 		%> 
               <tr>
                 <td><a href="kunder.asp?func=red&id=<%=oRec2("kid")%>"><%=oRec2("kkundenavn") %></a></td>   
-                <td><a href="kontaktpers.asp?func=red&id=<%=oRec2("id") %>"><%=oRec2("navn") %></a></td>
+                <td><a href="kontaktpers.asp?func=red&id=<%=oRec2("id") %>"><%=oRec2("navn") %></a>
+
+                    <%
+                        
+                        if cint(kptype) <> 0 then
+            
+                            if cint(kptype) = 1 then
+                            kptypeTxt = "Faktura adr."
+                            else
+                            kptypeTxt = "Lev. adr."
+                            end if
+
+
+                        Response.write " ("& kptypeTxt &")"
+
+                        end if 
+                        
+                        
+                     %>
+                        
+
+
+
+                </td>
                 <td><%=strAf_kpers %></td>
                   <td><a href=mailto:<%=strKpersEmail %>><%=strKpersEmail %></a></td>
                 <td><%=oRec2("mobiltlf") %></td>

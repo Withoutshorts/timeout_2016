@@ -689,8 +689,24 @@ if len(session("user")) = 0 then
 
             useasfakSQL = "useasfak = -1"
 
-            if instr(medariprogrpTxt, "14") <> 0 then
+            if instr(medariprogrpTxt, "2") <> 0 then 'Togo
             useasfakSQL = "useasfak = 1 AND kid = 6"
+            end if
+
+            if instr(medariprogrpTxt, "21") <> 0 then 'Binin
+            useasfakSQL = "useasfak = 1 AND kid = 7"
+            end if
+
+            if instr(medariprogrpTxt, "26") <> 0 then 'Burkino Faso
+            useasfakSQL = "useasfak = 1 AND kid = 11"
+            end if
+
+            if instr(medariprogrpTxt, "25") <> 0 then 'Mali
+            useasfakSQL = "useasfak = 1 AND kid = 10"
+            end if
+
+            if instr(medariprogrpTxt, "3") <> 0 then
+            useasfakSQL = "useasfak = 1"
             end if
 
             if level = 1 then
@@ -1628,33 +1644,39 @@ if len(session("user")) = 0 then
                     select case afsender
                     case "1" 'DK
 
+                    if cint(oRec3("valid")) <> 1 then
                     call beregnValuta(fakBelob,oRec3("kurs"),100)
                     fakBelob = valBelobBeregnet
+                    end if
 
                     basisValISOtxt = basisValISO      
 
                     case "10001" 'UK
 
-                    call beregnValuta(fakBelob,oRec3("kurs"),100)
-                    fakBelob = valBelobBeregnet
+                    'call beregnValuta(fakBelob,oRec3("kurs"),100)
+                    'fakBelob = valBelobBeregnet
 
+                    if cint(oRec3("valid")) <> 6 then
                     call valutaKurs_fakhist(6) ' --> GBP
-
-                    call beregnValuta(fakBelob,100,dblkurs_fakhist/100)
+                    call beregnValuta(fakBelob,oRec3("kurs"),dblkurs_fakhist/100)
                     fakBelob = valBelobBeregnet
+                    end if
+
                     basisValISOtxt = "GBP"
                 
                    
                     case "30001" 'NO
 
-                    call beregnValuta(fakBelob,oRec3("kurs"),100)
-                    fakBelob = valBelobBeregnet
-
+                    'call beregnValuta(fakBelob,oRec3("kurs"),100)
+                    'fakBelob = valBelobBeregnet
+                
+                    if cint(oRec3("valid")) <> 5 then
                     call valutaKurs_fakhist(5) ' --> NOK
-
-                    call beregnValuta(fakBelob,100,dblkurs_fakhist/100)
+                    call beregnValuta(fakBelob,oRec3("kurs"),dblkurs_fakhist/100)
                     fakBelob = valBelobBeregnet
-                   basisValISOtxt = "NOK"
+                    end if
+
+                    basisValISOtxt = "NOK"
                   
 
                     end select

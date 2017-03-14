@@ -1,8 +1,5 @@
 <%response.buffer = true%>
-<!--
-<META HTTP-EQUIV="CACHE-CONTROL" CONTENT="NO-CACHE">
-<META HTTP-EQUIV="EXPIRES" CONTENT="Mon, 22 Jul 2002 11:12:01 GMT">
--->
+
 
 <!--#include file="../inc/connection/conn_db_inc.asp"-->
 <!--#include file="../inc/errors/error_inc.asp"-->
@@ -12,7 +9,6 @@
 <!--#include file="../inc/regular/topmenu_inc.asp"--> 
 <!--#include file="inc/convertDate.asp"-->
 <!--#include file="inc/timbudgetsim_inc.asp"-->
-
 
 
 
@@ -26,9 +22,9 @@
 if Request.Form("AjaxUpdateField") = "true" then
 
 %>
-<!--  Added by Lei 17-06-2013-->
-    <!-- <link rel="stylesheet" href="../inc/jquery/jquery-ui-1.10.3.custom/css/ui-lightness/jquery-ui-1.10.3.custom.min.css" /> -->     
-    <script src="../inc/jquery/jquery-1.10.1.min.js" type="text/javascript"></script>
+    
+   
+ <script src="../inc/jquery/jquery-1.10.1.min.js" type="text/javascript"></script>
     <script src="../inc/jquery/jquery-ui-1.10.3.custom/js/jquery-ui-1.10.3.custom.min.js" type="text/javascript"></script>
 
     <style>
@@ -105,23 +101,24 @@ case "FN_getKundelisten_2013"
               
               if len(trim(request.Form("cust"))) <> 0 then
               jq_sog_val = request.Form("cust")
+
               else
               jq_sog_val = ""
               end if
 
 
               if jq_sog_val <> "" then
-              jq_sog_valSQL = " AND (Kkundenavn LIKE '"& jq_sog_val &"%' OR Kkundenr LIKE '"& jq_sog_val &"%')"
+              jq_sog_valSQL = " AND (Kkundenavn LIKE '%"& jq_sog_val &"%' OR Kkundenr LIKE '"& jq_sog_val &"%')"
               else
               jq_sog_valSQL = ""
               end if
 
               'jq_sog_valSQL = " AND (Kkundenavn LIKE 'p%')"
 
-                strSQL = "SELECT Kkundenavn, Kkundenr, Kid, kundeans1, kundeans2 FROM kunder WHERE ketype <> 'e' "& jq_sog_valSQL &" ORDER BY Kkundenavn LIMIT 50"
+                strSQL = "SELECT Kkundenavn, Kkundenr, Kid, kundeans1, kundeans2 FROM kunder WHERE ketype <> 'e' AND (useasfak = 0 OR useasfak = 1 OR useasfak = 5) "& jq_sog_valSQL &" ORDER BY Kkundenavn LIMIT 50"
 			    
-                'if session("mid") = 34 then
-                'Response.write "<option>"& jq_sog_valSQL &" :: "& strSQL& "</option>"
+                'if session("mid") = 1 then
+                'Response.write "<option>"& jq_sog_val &" sQL:_ "& strSQL & "</option>"
                 'Response.end
                 'end if
                 
@@ -130,9 +127,7 @@ case "FN_getKundelisten_2013"
 			    kans1 = ""
 			    kans2 = ""
 			    while not oRec.EOF
-				
-			    
-                
+
 
             	strSQL2 = "SELECT mnavn, mnr FROM medarbejdere WHERE mid = "&oRec("kundeans1")
 				oRec2.open strSQL2, oConn, 3 
@@ -301,6 +296,13 @@ if len(session("user")) = 0 then
 		SQLBless2 = tmp
 	end function
 	
+
+    select case lto
+         case "intranet - local", "epi2017"
+            maxCharJobNavn = 50
+         case else
+            maxCharJobNavn = 100
+         end select
 
 	
 	'*** Altid = 1 for en sikkedrheds skyld, men den bruges ikke mere pr. 1/10-2005 ***
@@ -857,7 +859,9 @@ if len(session("user")) = 0 then
 	
 
 		'** Tjekker om alle felter er udfyldt korrekt **
-		if len(request("FM_navn")) = 0 OR len(request("FM_navn")) > 100 OR len(trim(request("FM_jnr"))) = 0 OR len(request("FM_kunde")) = 0 OR _
+		if len(request("FM_navn")) = 0 OR _
+        ((len(request("FM_navn")) > 50 AND (instr(lto, "epi") <> 0 OR lto = "intranet - local")) OR (len(request("FM_navn")) > 100 AND instr(lto, "epi") = 0)) OR _
+        len(trim(request("FM_jnr"))) = 0 OR len(request("FM_kunde")) = 0 OR _
 		len(request("FM_jnr")) > 20 OR _
 		cint(instr(request("FM_navn"), "'")) > 0 OR _
         ((lcase(request("FM_navn")) = "jobnavn.." AND func = "dbred" AND instr(lto, "epi") <> 0) OR _
@@ -5043,7 +5047,9 @@ if len(session("user")) = 0 then
         <input type="hidden" name="FM_jnr" id="Text2" value="0">
         <%end if %>
         
-        <br /><span style="font-size:10px; font-family:arial; color:#999999;">Jobnavn maks 100 karakterer. " (situationstegn) er ikke tilladt i jobnavn / jobnr. alfanumerisk</span>
+        
+
+        <br /><span style="font-size:10px; font-family:arial; color:#999999;">Jobnavn maks <%=maxCharJobNavn %> karakterer. " (situationstegn) er ikke tilladt i jobnavn / jobnr. alfanumerisk</span>
  
        
       

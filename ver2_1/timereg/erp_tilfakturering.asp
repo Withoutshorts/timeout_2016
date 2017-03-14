@@ -782,7 +782,7 @@ if len(session("user")) = 0 then
     <%=strPeriode %>
 
 	<%if print <> "j" then%>
-	&nbsp;&nbsp;|&nbsp;&nbsp;<a href="erp_tilfakturering.asp?mNavn=<%=mNavn%>&FM_medarb_jobans=<%=medarb_jobans%>&job_kans=<%=job_kans%>&print=j&FM_jobstatus0=<%=jobStat0%>&FM_jobstatus1=<%=jobStat1%>&FM_jobstatus2=<%=jobStat2%>&FM_nuljob=<%=request("FM_nuljob")%>&FM_ignorer_pg=<%=ign_progrp%>&FM_visjob=<%=request("FM_visjob")%>&FM_visaft=<%=request("FM_visaft")%>&FM_sog=''" class=vmenu target="_blank">Print venlig version</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="erp_opr_faktura_fs.asp" class=vmenu target="oprfak">Opret ny faktura skrivelse..</a>
+	&nbsp;&nbsp;|&nbsp;&nbsp;<a href="erp_tilfakturering.asp?mNavn=<%=mNavn%>&FM_medarb_jobans=<%=medarb_jobans%>&job_kans=<%=job_kans%>&print=j&FM_jobstatus0=<%=jobStat0%>&FM_jobstatus1=<%=jobStat1%>&FM_jobstatus2=<%=jobStat2%>&FM_nuljob=<%=request("FM_nuljob")%>&FM_ignorer_pg=<%=ign_progrp%>&FM_visjob=<%=request("FM_visjob")%>&FM_visaft=<%=request("FM_visaft")%>&FM_sog=''" class=vmenu target="_blank">Print venlig version</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="erp_opr_faktura_fs.asp" class=vmenu target="oprfak">Opret ny faktura..</a>
 	<%end if%>
 	
 	<br />
@@ -943,7 +943,7 @@ if len(session("user")) = 0 then
     &" LEFT JOIN medarbejdere m2 ON (m2.mid = j.jobans2)"_
     &" LEFT JOIN medarbejdere m3 ON (m3.mid = k.kundeans1)"_
     &" LEFT JOIN medarbejdere m4 ON (m4.mid = k.kundeans2)"_
-    &" WHERE  "& sqlKundeKri2 &" "& kansKri &""_ 
+    &" WHERE  "& sqlKundeKri2 &" "& kansKri &" AND useasfak <= 2"_ 
 	&" ORDER BY kkundenavn, kkundenr, jobnavn, jobslutdato"  
 	
     ''if session("mid") = 1 then
