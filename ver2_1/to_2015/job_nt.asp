@@ -254,9 +254,44 @@ end if
     {
         color:black;
         padding:0 15px 10px 0px;
-    } 
+    }
+    
+    
+    
+    /* The Modal (background) */
+    .modal {
+        display: none; /* Hidden by default */
+        position: fixed; /* Stay in place */
+        z-index: 1; /* Sit on top */
+        padding-top: 100px; /* Location of the box */
+        left: 0;
+        top: 0;
+        width: 100%; /* Full width */
+        height: 100%; /* Full height */
+        overflow: auto; /* Enable scroll if needed */
+        background-color: rgb(0,0,0); /* Fallback color */
+        background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    }
 
+    /* Modal Content */
+    .modal-content {
+        background-color: #fefefe;
+        margin: auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 300px;
+        height: 350px;
+    }
+
+    .picmodal:hover,
+    .picmodal:focus {
+    text-decoration: none;
+    cursor: pointer;
+}
+   
 </style>
+
+
 
 
 <div id="wrapper">
@@ -2726,7 +2761,7 @@ end if 'Opret / rediger
             <!--SEARCH START -->
 
 
-              <form class="panel-body" method="post" action="job_nt.asp?func=table&post=1">
+              <form class="panel-body" method="post" action="job_nt.asp?post=1">
              <section>
                 <div class="well well-white">
                     
@@ -3450,14 +3485,20 @@ while not oRec.EOF
 	                                    if not oRec2.EOF then
                                         if len(trim(oRec2("filnavn"))) <> 0 then
                                         %>
-                                            <a data-toggle="modal" href="#basicModal_<%=jobnr %>"><span class="fa fa-file pull-right"></span></a>
+                                          
+                                            <span id="modal_<%=jobnr %>" style="color:cornflowerblue;" class="fa fa-image pull-right picmodal"></span>
+                                           <!-- <button id="modal_<%=jobnr %>" class="picmodal">Open Modal</button> -->
+                                            
+                                            <!-- The Modal -->
+                                            <div id="myModal_<%=jobnr %>" class="modal">
 
-                                            <div id="basicModal_<%=jobnr %>" class="modal fade" style="margin-top:100px">                        
-                                            <div class="modal-dialog">                        
-                                            <div class="modal-content">                                                          
-                                            <div class="modal-body">
-                                                <div class="row" style="text-align:center"><div class="col-lg-12"><img src="../inc/upload/<%=lto%>/<%=oRec2("filnavn")%>" alt='' border='0' width="300" height="350"></div></div>                                 
-                                            </div></div></div></div>
+                                              <!-- Modal content -->
+                                              <div class="modal-content">
+                                                <img src="../inc/upload/<%=lto%>/<%=oRec2("filnavn")%>" alt='' border='0' width="100%" height="100%">
+                                              </div>
+
+                                            </div>
+
                                         <%
                                         j = j + 1                                    
 	                                    end if
@@ -4315,4 +4356,42 @@ oRec.close
                 end if
     
  end select %>
+
+
+
+<script type="text/javascript">
+
+
+$(".picmodal").click(function() {
+
+    var modalid = this.id
+    var idlngt = modalid.length
+    var idtrim = modalid.slice(6, idlngt)
+
+    //var modalidtxt = $("#myModal_" + idtrim);
+    var modal = document.getElementById('myModal_' + idtrim);
+
+    modal.style.display = "block";
+
+    window.onclick = function (event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+
+});
+
+
+</script>
+
+
+
+
+
+
+
+
+
+
+
 <!--#include file="../inc/regular/footer_inc.asp"-->
