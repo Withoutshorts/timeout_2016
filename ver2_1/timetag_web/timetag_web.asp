@@ -807,6 +807,12 @@
         showStop = 0
         showDetailDayResumeOrLink = 0
         ststopbtnTxt = "St. / Stop"
+    case "eniga"
+        showAfslutJob = 0
+        showMatreg = 0
+        showStop = 1
+        showDetailDayResumeOrLink = 0
+        ststopbtnTxt = "St. / Stop"
     case else
         showAfslutJob = 0
         showMatreg = 0
