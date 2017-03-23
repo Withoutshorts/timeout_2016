@@ -92,8 +92,12 @@ session("spmettanigol") = session("spmettanigol") + request("attempt")
 
 
    
+    if lto = "outz" then
+    latitude = 0
+    latitude = request("FM_latitude")
+    longitude = request("FM_longitude")
 
-   
+    end if
 
     if lto = "demo" then
 	uval = "Guest"
@@ -172,7 +176,6 @@ session("spmettanigol") = session("spmettanigol") + request("attempt")
 				
 			
 
-
     %>
      
 	<!--<script src="inc/jquery/jquery-1.3.2.min.js" type="text/javascript"></script>
@@ -221,15 +224,15 @@ session("spmettanigol") = session("spmettanigol") + request("attempt")
     <div class="account-body">
 
        <img src="to_2015/img/outzource_logo_4c.jpg" width="200" />
-                <br /><label>Mobile</label>
+                <br /><label>Mobiletest</label>
     <!--<div id="header"><%=login_txt_010 %></div>-->
-    <form id="container" action="login.asp" method="POST">
+    <form id="container" action="login.asp?&latitude=<%=latitude %>" method="POST">
         
         <div class="form-group">
 
             
                     <input type="text" id="m_login" class="form-control" name="login" placeholder="<%=login_txt_019 %>" value="<%=uval %>"/>
-            </div>
+        </div>
        
         
        
@@ -249,16 +252,66 @@ session("spmettanigol") = session("spmettanigol") + request("attempt")
            
             </div>
        
-        
 
-          
+                 
+                
+           
                 <input type="submit" class="btn btn-secondary btn-block btn-sm" value="Logind >> "/><br />
                 <span style="font-size:10px; color:#999999;">[<%=lto %>]</span>
+
+                <button onclick="getLocation()" class="btn btn-secondary btn-block btn-sm">Gps</button>
+                <input type="text" name="FM_latitude" id="latitude" value="2" />
+                <input type="text" name="FM_longitude" id="longitude" value="3" />
+
+        <script type="text/javascript">
+            var x = document.getElementById("latitude");
+            var y = document.getElementById("longitude");
+            alert("gps")
+            function getLocation() {
+                if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(showPosition, showError);
+                } else { 
+                    x.innerHTML = "Geolocation is not supported by this browser.";
+                }
+            }
+
+            function showPosition(position) {
+                         
+                x.innerHTML = position.coords.latitude;
+                y.innerHTML = position.coords.longitude;
+
+                alert(position.coords.longitude + " " + position.coords.latitude);
+            }
+
+            function showError(error) {
+                switch(error.code) {
+                    case error.PERMISSION_DENIED:
+                        x.innerHTML = "User denied the request for Geolocation."
+                        break;
+                    case error.POSITION_UNAVAILABLE:
+                        x.innerHTML = "Location information is unavailable."
+                        break;
+                    case error.TIMEOUT:
+                        x.innerHTML = "The request to get user location timed out."
+                        break;
+                    case error.UNKNOWN_ERROR:
+                        x.innerHTML = "An unknown error occurred."
+                        break;
+                }
+            }
+        </script>
+                
+
+                
+                     
+</form>
+
+            
+        
+        <%
+            'Response.Write "string: " & laangdegrad
+        %>
       
-           
-
-    </form>
-
     </div></div>
 
     <!--
