@@ -235,6 +235,69 @@ $(document).ready(function () {
     });
 
 
+    $(".s_forkalk").keyup(function () { 
+
+        //alert("forkalktimer");
+
+        var thisid = this.id
+        var thisvallngt = thisid.length
+        var thisvaltrim = thisid.slice(11, thisvallngt)
+        thisval = thisvaltrim
+        
+        jobid = $("#jobid_" + thisval).val()
+
+        //alert(jobid)
+     
+        jobforklak = $(this).val()
+        //alert(jobforklak)
+
+        $.post("?jobid=" + jobid + "&budgettimer=" + jobforklak, { control: "FN_updatejovforkalktimer", AjaxUpdateField: "true" }, function (data) {
+        });
+
+        $("#sp_forkalk_" + thisval).css("visibility", "visible")
+
+
+        setTimeout(function () {
+            // Do something after 5 seconds
+
+            $("#sp_forkalk_" + thisval).css("visibility", "hidden")
+        }, 1000);
+
+    });
+
+
+    $(".s_brutoms").keyup(function () {
+
+        var thisid = this.id
+        var thisvallngt = thisid.length
+        var thisvaltrim = thisid.slice(11, thisvallngt)
+        thisval = thisvaltrim
+
+        jobid = $("#jobid_" + thisval).val()
+        //alert(jobid)
+        jobbruttooms = $(this).val()
+
+
+
+        //alert(jobbruttooms)
+
+        $.post("?jobid=" + jobid + "&jo_bruttooms=" + jobbruttooms, { control: "FN_updatejovbrutoms", AjaxUpdateField: "true" }, function (data) {
+        });
+
+
+        $("#sp_forkalk_" + thisval).css("visibility", "visible")
+
+
+        setTimeout(function () {
+            // Do something after 5 seconds
+
+            $("#sp_forkalk_" + thisval).css("visibility", "hidden")
+        }, 1000);
+
+
+    });
+
+
     $(".s_jobdato").change(function () {
 
 

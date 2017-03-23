@@ -80,9 +80,33 @@ case "FN_updatejobprio"
 
                  jobid = request("jobid")   
                  jobprioitet = request("jobprioitet")
-                 
+
                  '** Job kommentar ****'
                  strSQLUpdj = "UPDATE job SET risiko = "& jobprioitet &" WHERE id = "& jobid 
+                 oConn.Execute(strSQLUpdj)
+
+case "FN_updatejovforkalktimer"
+                
+
+                 jobid = request("jobid")   
+                 jobforklak = request("budgettimer")
+                 
+                 jobforklak = replace(jobforklak, ",",".")
+
+                 '** Job kommentar ****'
+                 strSQLUpdj = "UPDATE job SET budgettimer = "& jobforklak &", ikkebudgettimer = 0 WHERE id = "& jobid 
+                 oConn.Execute(strSQLUpdj)
+
+case "FN_updatejovbrutoms"
+                
+
+                 jobid = request("jobid")   
+                 jobbruttooms = request("jo_bruttooms")
+                 
+                 jobbruttooms = replace(jobbruttooms, ",",".")
+
+                 '** Job kommentar ****'
+                 strSQLUpdj = "UPDATE job SET jo_bruttooms = "& jobbruttooms &" WHERE id = "& jobid 
                  oConn.Execute(strSQLUpdj)
 
  case "FN_updatejobdato"
@@ -3394,20 +3418,28 @@ if len(session("user")) = 0 then
 
 
 
-
+        <%select case visSimpel 
+        case 0,1
+        %>
 
         <!-- budget -->
-	
-		
+	    <%
+            forkalkvalue = timerTildelt
+            bruttooms = jobbudget
+        %>
+		<td valign="top" style="padding:6px 3px 3px 3px; border-top:<%=btop%>px #cccccc solid;" class=lille align=right><input id="FM_forkalk_<%=c %>" type="text" class="s_forkalk" value="<%=forkalkvalue %>" style="width:75px;"/>
+            <div style="padding-top:3px;"></div>
+            <input id="FM_brutoms_<%=c %>" type="text" class="s_brutoms" value="<%=bruttooms %>" style="width:75px;"/>
+
+            <span id="sp_forkalk_<%=c %>" style="color:green; font-size:12px; visibility:hidden;" ><i>V</i></span>
+		</td>
         
 		
-       	<%select case visSimpel 
-        case 0,1
-               %>
-         <td valign=top style="padding:6px 3px 3px 3px; border-top:<%=btop%>px #cccccc solid; border-left:1px #cccccc solid; white-space:nowrap;">
-               <%=formatnumber(timerTildelt, 2) & " t." %><br />
+       	
+       <!--  <td valign=top style="padding:6px 3px 3px 3px; border-top:<%=btop%>px #cccccc solid; border-left:1px #cccccc solid; white-space:nowrap;">
+               <%=formatnumber(timerTildelt, 2) & " t." %>hej<br />
                <%=formatnumber(jobbudget, 2) &" "& basisValISO_f8%> 
-             </td>
+        </td> -->
         <%
         case 2%>
 
