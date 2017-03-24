@@ -86,7 +86,13 @@ end function
 
                'KURS VED OPRETTELSE
                if thisfile = "job_nt.asp" AND func = "red" then
-               oprKurs = formatnumber((bruttooms / (orderqty * sales_price_pc)), 2)
+
+                if sales_price_pc <> 0 then
+                oprKurs = formatnumber((bruttooms / (orderqty * sales_price_pc)), 2)
+                else
+                oprKurs = 0
+                end if
+
                end if
 
 		    else
@@ -151,6 +157,12 @@ end function
 	function valutaKurs_job(intValuta)
 	    '**** Finder aktuel kurs ***'
        dblKurs_job = 100
+
+        if len(trim(intValuta)) <> 0 then
+        intValuta = intValuta
+        else
+        intValuta = 1
+        end if 
 
        strSQLdblKurs_job = "SELECT kurs FROM valutaer WHERE id = " & intValuta
        oRec6.open strSQLdblKurs_job, oConn, 3

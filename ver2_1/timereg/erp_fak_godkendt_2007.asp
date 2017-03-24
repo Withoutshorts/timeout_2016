@@ -719,6 +719,8 @@
             'call utf_format(strBy)
             'strBy = utf_formatTxt
 			
+            '** EPI NO
+            intCVRXML = replace(intCVR, "no", "")
 			
 		    strXML = strXML & "<com:BuyersReferenceID schemeID=""EAN"">"&ean&"</com:BuyersReferenceID>"
 		    strXML = strXML & "<com:ReferencedOrder>"
@@ -726,7 +728,7 @@
             strXML = strXML & "<com:IssueDate>"&fakdatoXML&"</com:IssueDate>" 
             strXML = strXML & "</com:ReferencedOrder>"
 		    strXML = strXML & "<com:BuyerParty>"
-            strXML = strXML & "<com:ID schemeID=""CVR"">"&intCVR&"</com:ID>"
+            strXML = strXML & "<com:ID schemeID=""CVR"">"& intCVRXML &"</com:ID>"
             strXML = strXML & "<com:PartyName>"
             strXML = strXML & "<com:Name><![CDATA["&EncodeUTF8(strKnavn)&"]]></com:Name>"
             strXML = strXML & "</com:PartyName>"
@@ -1026,9 +1028,12 @@
               
               'call utf_format(yourCity)
               'yourCity = utf_formatTxt
+
+               '** EPI NO 
+               yourCVRXML = replace(yourCVR, "mva", "")
 			  
 			  strXML = strXML &"<com:SellerParty>"
-              strXML = strXML &"<com:ID schemeID=""CVR"">"&yourCVR&"</com:ID>" 
+              strXML = strXML &"<com:ID schemeID=""CVR"">"& yourCVRXML &"</com:ID>" 
               strXML = strXML &"<com:PartyName>"
               strXML = strXML &"<com:Name><![CDATA["&EncodeUTF8(yourNavn)&"]]></com:Name>" 
               strXML = strXML &"</com:PartyName>"
@@ -1040,7 +1045,7 @@
               strXML = strXML &"<com:Country><com:Code listID=""ISO 3166-1"">DK</com:Code></com:Country>" 
               strXML = strXML &"</com:Address>"
               strXML = strXML &"<com:PartyTaxScheme>"
-              strXML = strXML &"<com:CompanyTaxID schemeID=""CVR"">"& yourCVR &"</com:CompanyTaxID>" 
+              strXML = strXML &"<com:CompanyTaxID schemeID=""CVR"">"& yourCVRXML &"</com:CompanyTaxID>" 
               strXML = strXML &"</com:PartyTaxScheme>"
               strXML = strXML &"</com:SellerParty>"
               

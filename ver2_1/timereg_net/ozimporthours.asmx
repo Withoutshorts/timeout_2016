@@ -669,8 +669,16 @@ Public Class to_import_hours
                             '*** Finder akt. oplysninger ****'
                             '*** aktivitet skal være aktiv ****'
                             '*** Fase ??? ***'
+                            Dim strSQLstatus As String
+                            If InStr(lto, "epi") = 1 And intMedarbId = "Asia" Then
+                                strSQLstatus = ""
+                            Else
+                                strSQLstatus = " AND aktstatus = 1"
+                            End If
+
+
                             Dim strSQLa As String
-                            strSQLa = "SELECT id, fakturerbar, navn FROM aktiviteter WHERE job = " & jobId & " AND navn = '" & aktnavnUse & "' AND aktstatus = 1" ' AND fakturerbar = " & akttypeUse & "" 'Interviewer '
+                            strSQLa = "SELECT id, fakturerbar, navn FROM aktiviteter WHERE job = " & jobId & " AND navn = '" & aktnavnUse & "'" & strSQLstatus ' AND fakturerbar = " & akttypeUse & "" 'Interviewer '
 
 
                             objCmd = New OdbcCommand(strSQLa, objConn)
@@ -1082,31 +1090,37 @@ Public Class to_import_hours
 
                     Try
                         '***** er uge lukket '***
-                        If CInt(errThisTOno) = 0 Then
+
+                        If InStr(lto, "epi") = 1 And intMedarbId = "Asia" Then
+
+                            If CInt(errThisTOno) = 0 Then
 
 
-                            ugeErLukket = 0
-                            Dim strSQLk As String = "SELECT mid, uge FROM ugestatus WHERE (WEEK(uge) = WEEK('" & cdDatoSQL & "') AND YEAR(uge) = YEAR('" & cdDatoSQL & "')) AND mid = " & meID
-                            objCmd = New OdbcCommand(strSQLk, objConn)
-                            objDR = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
+                                ugeErLukket = 0
+                                Dim strSQLk As String = "SELECT mid, uge FROM ugestatus WHERE (WEEK(uge) = WEEK('" & cdDatoSQL & "') AND YEAR(uge) = YEAR('" & cdDatoSQL & "')) AND mid = " & meID
+                                objCmd = New OdbcCommand(strSQLk, objConn)
+                                objDR = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
 
-                            If objDR.Read() = True Then
+                                If objDR.Read() = True Then
 
-                                ugeErLukket = 1
+                                    ugeErLukket = 1
 
+
+                                End If
+
+                                objDR.Close()
+                                '***'
+
+
+                                '**** IGNORER UGE lukket midlertidigt *****'
+                                If ugeErLukket = 1 Then
+                                    errThisTOno = 9
+                                End If
 
                             End If
 
-                            objDR.Close()
-                            '***'
+                       End If 'epi asia
 
-
-                            '**** IGNORER UGE lukket midlertidigt *****'
-                            If ugeErLukket = 1 Then
-                                errThisTOno = 9
-                            End If
-
-                        End If
                     Catch ex As Exception
                         Throw New Exception("er uge lukket, SELECT mid, uge FROM usestatus error: " + ex.Message)
                     End Try

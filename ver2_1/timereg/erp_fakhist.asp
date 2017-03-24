@@ -1624,7 +1624,10 @@ if len(session("user")) = 0 then
        
         <td valign=top align=right style="border-bottom:1px #C4C4C4 solid; white-space:nowrap; padding:1px 5px 0px 0px;"> 
 
-        <%fakBelob = replace(oRec3("beloeb"), "-", "") %>
+        <%
+        fakBelob = replace(oRec3("beloeb"), "-", "") 
+        fakMoms = replace(oRec3("moms"), "-", "") 
+        %>
 
         <b><%=formatnumber(minus&fakBelob, 2) &" "& oRec3("valutakode") %></b> 
       
@@ -1647,7 +1650,13 @@ if len(session("user")) = 0 then
                     if cint(oRec3("valid")) <> 1 then
                     call beregnValuta(fakBelob,oRec3("kurs"),100)
                     fakBelob = valBelobBeregnet
+
+                    call beregnValuta(oRec3("moms"),oRec3("kurs"),100)
+                    fakMoms = valBelobBeregnet
+
                     end if
+
+                  
 
                     basisValISOtxt = basisValISO      
 
@@ -1660,6 +1669,10 @@ if len(session("user")) = 0 then
                     call valutaKurs_fakhist(6) ' --> GBP
                     call beregnValuta(fakBelob,oRec3("kurs"),dblkurs_fakhist/100)
                     fakBelob = valBelobBeregnet
+                
+                    call beregnValuta(oRec3("moms"),oRec3("kurs"),dblkurs_fakhist/100)
+                    fakMoms = valBelobBeregnet
+
                     end if
 
                     basisValISOtxt = "GBP"
@@ -1674,6 +1687,10 @@ if len(session("user")) = 0 then
                     call valutaKurs_fakhist(5) ' --> NOK
                     call beregnValuta(fakBelob,oRec3("kurs"),dblkurs_fakhist/100)
                     fakBelob = valBelobBeregnet
+
+                    call beregnValuta(oRec3("moms"),oRec3("kurs"),dblkurs_fakhist/100)
+                    fakMoms = valBelobBeregnet
+
                     end if
 
                     basisValISOtxt = "NOK"
@@ -1690,10 +1707,13 @@ if len(session("user")) = 0 then
                         fakBelob = valBelobBeregnet
                         basisValISOtxt = basisValISO
                        
+                        call beregnValuta(oRec3("moms"),oRec3("kurs"),100)
+                        fakMoms = valBelobBeregnet
 
                      else
         
-                        fakBelob = fakBelob
+                       fakBelob = fakBelob
+                       fakMoms = fakMoms
                        basisValISOtxt = basisValISO
     
                     end if
@@ -1752,7 +1772,12 @@ if len(session("user")) = 0 then
 
         <td valign=top align=right style="border-bottom:1px #C4C4C4 solid; white-space:nowrap; padding:1px 5px 0px 0px; color:#999999;"> 
 
-        <%fakbelobInklMoms = fakbelob/1 + replace(oRec3("moms")/1, "-", "") %>
+        <%
+        if oRec3("faktype") = 0 then    
+        fakbelobInklMoms = oRec3("beloeb")/1 + replace(oRec3("moms")/1, "-", "") 
+        else
+        fakbelobInklMoms = oRec3("beloeb")/1 + replace(oRec3("moms")/1, "-", "")     
+        end if%>
 
         <b><%=formatnumber(minus&fakbelobInklMoms, 2)&" "&oRec3("valutakode") %></b>
         </td>

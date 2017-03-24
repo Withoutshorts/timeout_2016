@@ -221,14 +221,14 @@ if len(session("user")) = 0 then
 	%>
 	<!--#include file="../inc/regular/header_lysblaa_inc.asp"-->
 	
-	
+	<%
 	
 	slttxtalt = ""
 	slturlalt = ""
 	
-	slttxt = "Du er ved at <b>slette</b> en aktivitet.<br>"_
-    &"Du vil samtidig slette alle timeregistreringer på denne aktivitet.<br>"_
-	&"Timeregistreringerne vil <b>ikke kunne genskabes</b>. <br>"
+	slttxt = "Du er ved at <b>slette</b> en AKTIVITET.<br><br>"_
+    &"Du vil samtidig slette alle timeregistreringer på denne aktivitet."_
+	&"<br><br>Timeregistreringerne vil <b>ikke kunne genskabes</b>. <br><br><br>"
     slturl = "aktiv.asp?menu=job&func=sletok&jobid="&jobid&"&jobnavn="&request("jobnavn")&"&id="&id&"&rdir="&rdir
 	
 	call sltque(slturl,slttxt,slturlalt,slttxtalt,210,100)
@@ -240,9 +240,11 @@ if len(session("user")) = 0 then
 	
 	call delakt(id)
 	
+     Response.Write("<script language=""JavaScript"">window.opener.location.reload();</script>")
+	 Response.Write("<script language=""JavaScript"">window.close();</script>")
+       
 	
-	
-	Response.redirect "aktiv.asp?menu=job&jobid="&jobid&"&jobnavn="&request("jobnavn")&"&rdir="&rdir
+	'Response.redirect "aktiv.asp?menu=job&jobid="&jobid&"&jobnavn="&request("jobnavn")&"&rdir="&rdir
 	
 	case "opdprogp"
 	
@@ -1071,8 +1073,9 @@ if len(session("user")) = 0 then
 				
 				
                 
-				
+				'**************************************************
                 '**** Projektgrupper ****'
+                '**************************************************
                 aj = 2 '** Hvad bliver opdateret? Aktivitet eller job 1 = job, 2 = akt.
                 aid = 0 '** Aktid
                 
@@ -1140,61 +1143,78 @@ if len(session("user")) = 0 then
 	                            slutDato = slutDato 
         	                    
 	                            end if 
+
+                                aktfindes = 0
+						        if lto = "epi2017" then
+
+                            
+                                    strSQLsel = "SELECT id FROM aktiviteter WHERE job = "& jobids(j) &" AND navn = 'Epinion Asia (Vietnam) time'"
+                                    oRec8.open strSQLsel, oConn, 3
+                                    if not oRec8.EOF then
+                            
+                                    aktfindes = 1
+                            
+                                    end if
+                                    oRec8.close
+
+						        end if
+
+                        if cint(aktfindes) = 0 then
+						
+						        strSQL = "INSERT INTO aktiviteter (navn, beskrivelse, job, fakturerbar, aktfavorit, aktstartdato, aktslutdato, "_
+						        &" editor, dato, projektgruppe1, projektgruppe2, projektgruppe3, projektgruppe4, projektgruppe5, "_
+						        &" projektgruppe6, projektgruppe7, projektgruppe8, projektgruppe9, projektgruppe10, "_
+						        &" budgettimer, aktstatus, fomr, faktor, aktbudget, tidslaas, tidslaas_st, tidslaas_sl, antalstk, "_
+						        &" tidslaas_man, tidslaas_tir, tidslaas_ons, "_
+						        &" tidslaas_tor, tidslaas_fre, tidslaas_lor, tidslaas_son, fase, bgr, aktbudgetsum, easyreg, sortorder, fravalgt, brug_fasttp, "_
+                                &" brug_fastkp, fasttp, fasttp_val, fastkp, fastkp_val, avarenr, kostpristarif, aktkonto "_
+						        &") VALUES "_
+						        &" ('"& strNavn &"', "_
+						        &"'"& strBeskrivelse &"', "_ 
+						        &""& jobids(j) &", "_  
+						        &""& strFakturerbart &", "_ 
+						        &""& int_aktFav &", "_ 
+						        &"'"&startDato &"', "_ 
+						        &"'"&slutDato &"', "_
+						        &"'"&strEditor &"', "_
+						        &"'"&strDato &"', "_ 
+						        &""&strProjektgr1 &", "_ 
+						        &""&strProjektgr2 &", "_
+						        &""&strProjektgr3 &", "_
+						        &""&strProjektgr4 &", "_
+						        &""&strProjektgr5 &", "_
+						        &""&strProjektgr6 &", "_ 
+						        &""&strProjektgr7 &", "_
+						        &""&strProjektgr8 &", "_
+						        &""&strProjektgr9 &", "_
+						        &""&strProjektgr10 &", "_       
+						        &""& SQLBlessP(useBudgettimer) &", "_
+						        &""& intaktstatus &", "& intFomr &", "& dblFaktor &", "& intBudget &", "_
+						        &" "& tidslaas &", '"& tidslaas_st &"', '"& tidslaas_sl &"', "_
+						        &" "& antalstk &", "_
+						        &" "& tidslaas_man &", "& tidslaas_tir &", "& tidslaas_ons &", "_
+						        &" "& tidslaas_tor &", "& tidslaas_fre &", "& tidslaas_lor &", "& tidslaas_son 
+						
+						        if len(trim(strFase)) <> 0 then
+						        strSQL = strSQL & ", '"& strFase &"', "
+						        else
+						        strSQL = strSQL & ", NULL , "
+						        end if
+						
+						        strSQL = strSQL & intBgr &", "& intBudgetTot &", "& easyreg &", "& sortorder &", "& fravalgt &", "& brug_fasttp &","_
+                                &""& brug_fastkp &", "& fasttp &", "& fasttp_val &", "& fastkp &", "& fastkp_val &", '"& avarenr &"', '"& kostpristarif &"', "& aktkonto &")"
 						
 						
 						
-						strSQL = "INSERT INTO aktiviteter (navn, beskrivelse, job, fakturerbar, aktfavorit, aktstartdato, aktslutdato, "_
-						&" editor, dato, projektgruppe1, projektgruppe2, projektgruppe3, projektgruppe4, projektgruppe5, "_
-						&" projektgruppe6, projektgruppe7, projektgruppe8, projektgruppe9, projektgruppe10, "_
-						&" budgettimer, aktstatus, fomr, faktor, aktbudget, tidslaas, tidslaas_st, tidslaas_sl, antalstk, "_
-						&" tidslaas_man, tidslaas_tir, tidslaas_ons, "_
-						&" tidslaas_tor, tidslaas_fre, tidslaas_lor, tidslaas_son, fase, bgr, aktbudgetsum, easyreg, sortorder, fravalgt, brug_fasttp, "_
-                        &" brug_fastkp, fasttp, fasttp_val, fastkp, fastkp_val, avarenr, kostpristarif, aktkonto "_
-						&") VALUES "_
-						&" ('"& strNavn &"', "_
-						&"'"& strBeskrivelse &"', "_ 
-						&""& jobids(j) &", "_  
-						&""& strFakturerbart &", "_ 
-						&""& int_aktFav &", "_ 
-						&"'"&startDato &"', "_ 
-						&"'"&slutDato &"', "_
-						&"'"&strEditor &"', "_
-						&"'"&strDato &"', "_ 
-						&""&strProjektgr1 &", "_ 
-						&""&strProjektgr2 &", "_
-						&""&strProjektgr3 &", "_
-						&""&strProjektgr4 &", "_
-						&""&strProjektgr5 &", "_
-						&""&strProjektgr6 &", "_ 
-						&""&strProjektgr7 &", "_
-						&""&strProjektgr8 &", "_
-						&""&strProjektgr9 &", "_
-						&""&strProjektgr10 &", "_       
-						&""& SQLBlessP(useBudgettimer) &", "_
-						&""& intaktstatus &", "& intFomr &", "& dblFaktor &", "& intBudget &", "_
-						&" "& tidslaas &", '"& tidslaas_st &"', '"& tidslaas_sl &"', "_
-						&" "& antalstk &", "_
-						&" "& tidslaas_man &", "& tidslaas_tir &", "& tidslaas_ons &", "_
-						&" "& tidslaas_tor &", "& tidslaas_fre &", "& tidslaas_lor &", "& tidslaas_son 
+						        'Response.write strSQL & "<br>"
+						        'Response.flush
+						        'Response.end
 						
-						if len(trim(strFase)) <> 0 then
-						strSQL = strSQL & ", '"& strFase &"', "
-						else
-						strSQL = strSQL & ", NULL , "
-						end if
+						        oConn.execute(strSQL)
 						
-						strSQL = strSQL & intBgr &", "& intBudgetTot &", "& easyreg &", "& sortorder &", "& fravalgt &", "& brug_fasttp &","_
-                        &""& brug_fastkp &", "& fasttp &", "& fasttp_val &", "& fastkp &", "& fastkp_val &", '"& avarenr &"', '"& kostpristarif &"', "& aktkonto &")"
-						
-						
-						
-						'Response.write strSQL & "<br>"
-						'Response.flush
-						'Response.end
-						
-						oConn.execute(strSQL)
-						
-						strSQL = ""
+						        strSQL = ""
+
+                        end if 'aktfindes = 0
 						
 						else
 						
@@ -1253,9 +1273,6 @@ if len(session("user")) = 0 then
 
                         
                         '*** Finder nyeste kunde og job oplysninger ***'
-
-                        '** Flyt alle aktiviteter
-                        
                         strKundenavn = "..if"
                         intKid = 0
                         strJobnavn = "..if"
@@ -1292,7 +1309,7 @@ if len(session("user")) = 0 then
 
                                         
 
-						end if
+				end if
 						
 			    '*************************************'
 				'*** Opdater værdi og timer på job ***'
@@ -1553,9 +1570,79 @@ if len(session("user")) = 0 then
 				   
 				    
 					
+                    lastJobID = jobids(j)
+
 					end if 'jobidswrt
 					next 'jobid(j)
+
+
+
+
+
+
+
+                        '***************************************************************
+                        '*** FLytter ALLE aktiviteter på dette job ****'
+                        '**  
+                        '***************************************************************
+                        if len(trim(request("FM_flyttalleakt"))) <> 0 then                        
+                            
+                        jobid_new = lastJobID
+                        
+                        strKundenavn = "..if"
+                        intKid = 0
+                        strJobnavn = "..if"
+                        strJobnr = 0
+                        
+                        strSQLjobogKunde = "SELECT k.kkundenavn, k.kid, j.jobnavn, j.jobnr FROM job AS j "_
+                        &" LEFT JOIN kunder AS k ON (k.kid = jobknr) WHERE j.id = "& jobid_new 
+
+                        'Response.Write strSQLjobogKunde
+                        'Response.flush
+
+						oRec6.open strSQLjobogKunde, oConn, 3
+                        if not oRec6.EOF then
+
+                        strKundenavn = oRec6("kkundenavn")
+                        intKid = oRec6("kid")
+                        strJobnavn = oRec6("jobnavn")
+                        strJobnr = oRec6("jobnr")
+
+                        end if
+                        oRec6.close
+
+
+                        strSQLAkt = "SELECT id FROM aktiviteter WHERE job = "& jobid
+                        oRec.open strSQLAkt, oConn, 3
+                        while not oRec.EOF
+
+
+
+						'*** Opdaterer time tabellen ***
+                        '*** timepriser kan afvige på det nye projekt ***'
+						oConn.execute("UPDATE timer SET "_
+						& " Tknavn = '"& replace(strKundenavn, "'", "''") &"', Tknr = "& intKid &", "_
+						& " Tjobnavn = '"& strJobnavn &"', "_
+						& " Tjobnr = '"& strJobnr &"'"_
+						& " WHERE TAktivitetId = "& oRec("id") &""_
+						& "")
+
+                       
+                        oRec.movenext
+                        wend
+                        oRec.close
+                      
+                            
+                        '*** Flytter Aktiviteter ***'
+						oConn.execute("UPDATE aktiviteter SET job = "& jobid_new &""_
+						& " WHERE job = "& jobid &""_
+						& "")
+                                      
+                            
+                        end if 'FLYT ALLE AKT
+						
 					
+
 					
 					'Response.end
 						
@@ -2140,15 +2227,21 @@ if len(session("user")) = 0 then
 	<%end if%>
 	<tr><td colspan=2 align="right" style="padding:20px 60px 10px 10px;"><input type="submit" value="Opdater >>" /></td></tr>
 	<tr>
-		<td style="padding:10px 0px 3px 40px;" colspan=2><img src="../ill/akt_24.png" alt="" border="0">&nbsp;<font color=red size=2>*</font> <b>Aktivitets navn:</b>
+		<td style="padding:10px 0px 3px 40px;" colspan=2><font color=red size=2>*</font> <b>Aktivitets navn:</b>
             <%if func = "red" then %>
             &nbsp;<span style="color:#999999;">(id: <%=id %>)</span>
             <%end if %>
+
+               
             
             <br />
 		<input type="text" name="FM_navn" value="<%=strNavn%>" style="width:450px;" maxlength=100>
         &nbsp;&nbsp;&nbsp;Akt. nr / Varenr:&nbsp;<input type="text" name="FM_avarenr" value="<%=strAvarenr%>" style="width:150px;" maxlength=50><br />
-		<span style="color:#999999; font-size:9px;">(maks 100 karak. må ikke indeholde 'aprostrof eller "situations-tegn)</span> </td>
+		<span style="color:#999999; font-size:9px;">(maks 100 karak. må ikke indeholde 'aprostrof eller "situations-tegn)</span>
+
+        
+
+		</td>
 	</tr>
       
         <%if func = "opretstam" OR func = "redstam" then %>
@@ -2184,7 +2277,12 @@ if len(session("user")) = 0 then
 	<option value="1">Aktiv</option>
 	<option value="2">Passiv</option>
 	<option value="0">Lukket</option>
-		</select></td>
+		</select>
+
+            <%if func = "red" then %>
+             <span style="float:right; color:red; padding:0px 60px 10px 2px;"><a href="aktiv.asp?func=slet&id=<%=id %>" class="red">[X]</a></span>
+            <%end if %>
+		</td>
 	</tr>
 	<tr>
 		<td style="padding:10px 0px 3px 40px;" colspan=2><b>Fase:</b><br />
@@ -2291,8 +2389,18 @@ if len(session("user")) = 0 then
 		%>
 		 </select>
 		 <br />
-        Antal aktive job og tilbud: <%=antaljob %>
-            <br /><input type="checkbox" name="FM_flyttalleakt" value="1" /> Flyt alle aktiviteter på dette job til ovenstående.
+            Antal aktive job og tilbud: <%=antaljob %>
+            
+            <%if level = 1 AND func = "red" then %>
+            <br /><br /><input type="checkbox" name="FM_flyttalleakt" value="1" /> Flyt alle aktiviteter på dette job til ovenstående.
+            <%end if %>
+
+
+           <!--<br /><input type="checkbox" name="FM_flyttalleakt" value="1" /> Flyt timer på denne aktivitet alle aktiviteter på dette job til ovenstående.-->
+            
+
+
+
 		</td>
 	</tr>
 	<tr>

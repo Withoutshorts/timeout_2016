@@ -1109,7 +1109,7 @@ Session.LCID = 1030
 
             timer_ststop = oRec("timer_ststop")
 
-            create_newemployee = oRec("create_newemployee")
+            create_newemployeeThisMid = oRec("create_newemployee")
 			
 		end if
 		oRec.close
@@ -1148,7 +1148,7 @@ Session.LCID = 1030
 
         medarbejdertype = 0
         timer_ststop = 0
-        create_newemployee = 0
+        create_newemployeeThisMid = 0
 
        
 		end if
@@ -1213,7 +1213,7 @@ Session.LCID = 1030
             end if
 
 
-            if cint(create_newemployee) = 1 then
+            if cint(create_newemployeeThisMid) = 1 then
             create_newemployeeCHK = "CHECKED"
             else
             create_newemployeeCHK = ""
@@ -1475,7 +1475,10 @@ Session.LCID = 1030
 
                     
 
-                        <%if cint(level) <= 2 OR cint(level) = 6 then %>
+                        <%
+                            
+                     'call meStamdata(session("mid"))       
+                     if cint(level) <= 2 OR cint(level) = 6 OR cint(meCreate_newemployee) = 1 then %>
                     <!-- Medarbejder -->
                     <div class="panel panel-default">
                         <div class="panel-heading">
@@ -1490,7 +1493,7 @@ Session.LCID = 1030
                         <%end if %>
 
                             
-                              <%if cint(level) = 1 then %>
+                              <%if cint(level) = 1 OR cint(meCreate_newemployee) = 1 then %>
                               <div class="row">
                                   <div class="col-lg-1">&nbsp</div>
                                   <div class="col-lg-2">Ansat:</div>
@@ -1557,7 +1560,9 @@ Session.LCID = 1030
 	                            chkny0 = ""
 	                            chkny1 = "CHECKED"
 	                            end if 
-	                            %>	
+	                            
+                                  
+                              if cint(level) = 1 then%>	
                               <div class="row">
                                   <div class="col-lg-1">&nbsp</div>
                                   <div class="col-lg-2 pad-t20 pad-b20">Nyhedsbrev:</div>
@@ -1587,6 +1592,16 @@ Session.LCID = 1030
                                <div class="col-lg-6">&nbsp</div>  
                               </div>
                               <%else %>
+                                
+                                    <input type="hidden" name="FM_exch" value="<%=strExch%>"/>
+                                    <input type="hidden" name="nyhedsbrev" value="<%=nyhedsbrev%>"/>
+                                    <input type="hidden" name="FM_visskiftversion" value="<%=visskiftversion%>"/>
+                                    <input type="hidden" name="FM_opretmedarb" value="<%=create_newemployee%>"/>
+
+                              <%end if 'level %>
+
+
+                              <%else %>
 
                                     <input type="hidden" name="ansatdato" value="<%=ansatdato%>"/>
                                     <input type="hidden" name="opsagtdato" value="<%=opsagtdato%>" />
@@ -1594,12 +1609,13 @@ Session.LCID = 1030
                                     <input type="hidden" name="FM_exch" value="<%=strExch%>"/>
                                     <input type="hidden" name="nyhedsbrev" value="<%=nyhedsbrev%>"/>
                                     <input type="hidden" name="FM_visskiftversion" value="<%=visskiftversion%>"/>
+                                    <input type="hidden" name="FM_opretmedarb" value="<%=create_newemployee%>"/>
 
                               <%end if 'level%>
 
 
 
-                              <%if cint(level) = 1 then %>
+                              <%if cint(level) = 1 OR cint(meCreate_newemployee) = 1 then %>
                               <div class="row">
                                   <div class="col-lg-1">&nbsp</div>
                                   <div class="col-lg-2">
@@ -1732,7 +1748,8 @@ Session.LCID = 1030
                                       <input type="hidden" name="medarbtypligmedarb" value="<%=medarbtypligmedarb %>" />   
                                       <%end if %>
 
-                                      <%if func = "opret" then
+                                     
+                                        <%if func = "opret" AND level = 1  then
                                         %>
                                         <br /><span style="color:red;">Tildel timepriser</span> på stam-aktiviteter, åbne job og tilbud.<br />
                                         Følg denne medarb.type (hvis den valgte medarb.type er ny, og dette er den første medarbejder af denne type)
@@ -1841,13 +1858,13 @@ Session.LCID = 1030
                                 <%
                             end if
                               
-                              if cint(level) = 1 then %>
+                              if cint(level) = 1 OR cint(meCreate_newemployee) = 1 then %>
                              </div>
                              </div><!-- ROW -->
                               <%end if %>
 
 
-                              <%if cint(level) = 1 then %>
+                              <%if cint(level) = 1 OR cint(meCreate_newemployee) = 1 then %>
                                <div class="row">
                                   <div class="col-lg-1">&nbsp</div>
                                   <div class="col-lg-2"><br /><br />Systemrettigheder:&nbsp&nbsp<a data-toggle="modal" href="#styledModalSstGrp3"><span class="fa fa-info-circle"></span></a></div>
@@ -1889,7 +1906,7 @@ Session.LCID = 1030
 
 
 
-                                        if cint(level) = 1 then
+                                        if cint(level) = 1 OR cint(meCreate_newemployee) = 1 then
                                        
 		
 		                                '** Hvis der oprettes ny medarbejder sættes brugergruppe 2 () til default ***
@@ -1920,14 +1937,14 @@ Session.LCID = 1030
                                              <input type="hidden" name="FM_bgruppe" value="<%=brugergpValgt%>"/>
                                         <%end if%>
 
-                                    <%if cint(level) = 1 then %>
+                                    <%if cint(level) = 1 OR cint(meCreate_newemployee) = 1 then %>
                                   </div>
                                    <div class="col-lg-5">&nbsp</div>
                               </div>
                               <%end if %>
 
 
-                              <%if cint(level) = 1 then %>
+                              <%if cint(level) = 1 OR cint(meCreate_newemployee) = 1 then %>
                               <div class="row">
                                   <div class="col-lg-1">&nbsp</div>
                            
@@ -2029,7 +2046,7 @@ Session.LCID = 1030
 	                                    oRec2.open strSQLrpg, oConn, 3 
 	                                    while not oRec2.EOF 
 
-                                        if cint(level) = 1 OR oRec2("opengp") = 1 then
+                                        if cint(level) = 1 OR cint(meCreate_newemployee) = 1 OR oRec2("opengp") = 1 then
                                         %>
                                         <option value=<%=oRec2("pid")%>><%=oRec2("navn") %></option>
 
@@ -2060,7 +2077,7 @@ Session.LCID = 1030
                               <%end if %>
 
 
-                               <%if cint(level) <= 2 OR cint(level) = 6 then %>
+                               <%if cint(level) <= 2 OR cint(level) = 6 OR cint(meCreate_newemployee) = 1 then %>
                               <div class="row">
                                    <div class="col-lg-12"><br />&nbsp</div>
                                 </div>
@@ -2344,8 +2361,20 @@ Session.LCID = 1030
                     vispasoglukKri = " AND mansat = 1"
                     end if
 
-                     if level <> 1 then 
-                     strSQLAdminRights = " AND mid = " & session("mid") 
+
+                     '** Admin må søge
+                     if cint(meCreate_newemployee) = 1 AND level <> 1 then 'Hvis opret medab = OK må man godt søge i dem man står som editor på
+
+                        if cint(meCreate_newemployee) = 1 then
+                            strSQLAdminRights = " AND m.editor = '"& meNavn &"'"
+                        end if
+
+                     else
+
+                         if level <> 1 then 
+                         strSQLAdminRights = " AND mid = " & session("mid") 
+                         end if
+
                      end if
                      %>
                 
@@ -2408,7 +2437,13 @@ Session.LCID = 1030
                             <td><%=oRec("ansatdato") %></td>
                             <td><%=lastLoginDateFm%></td>
                             <td style="text-align:center;"> <a href="../timereg/joblog.asp?menu=timereg&FM_medarb=<%=oRec("Mid")%>&FM_job=0&selmedarb=<%=oRec("Mid")%>" target="_blank"><span class="fa fa-external-link"></span></a></td>
-                            <td style="text-align:center;"><a href="medarb.asp?menu=tok&func=slet&id=<%=oRec("mid")%>"><span style="color:darkred;" class="fa fa-times"></span></a></td>
+                            <td style="text-align:center;">
+                                <%if cint(level) = 1 then %>
+                                <a href="medarb.asp?menu=tok&func=slet&id=<%=oRec("mid")%>"><span style="color:darkred;" class="fa fa-times"></span></a>
+                                <%else %>
+                                &nbsp;
+                                <%end if %>
+                            </td>
                         </tr>
                
                   <% end if 'media

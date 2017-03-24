@@ -293,7 +293,7 @@ display: none;
 
                     %><!--<option DISABLED><%=oRec2("kkundenavn") %> (<%=oRec2("kkundenr") %>)</option>-->
                     <%'end if %>
-		          <option value="<%=oRec2("id") %>"><%=oRec2("jobnr") &" "& oRec2("jobnavn") %> Antal atk.: <%=oRec2("antalA") %> </option>
+		          <option value="<%=oRec2("id") %>"><%=oRec2("jobnr") &" "& oRec2("jobnavn") %> Antal akt.: <%=oRec2("antalA") %> </option>
            
 		        <%
                 lastKid = oRec2("kid")    

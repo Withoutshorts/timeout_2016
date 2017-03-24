@@ -54,7 +54,7 @@ public class ozUploadFileJob
         // Sets the CurrentCulture property to Danish Denmark
         Thread.CurrentThread.CurrentCulture = new CultureInfo("da-DK");
         
-	}
+    }
 
     public string Upload(FileUpload fu, string path)
     {
@@ -296,6 +296,16 @@ public class ozUploadFileJob
                     aktstdato = ConvertDate(data.aktstdato);
                     aktsldato = ConvertDate(data.aktsldato);
 
+                    string aktnavn = data.aktnavn.ToString();
+
+                    //System.Text.Encoding iso = System.Text.Encoding.GetEncoding("ISO-8859-1");
+                    //System.Text.Encoding utf8 = System.Text.Encoding.UTF8;
+                    //byte[] utfBytes = utf8.GetBytes(aktnavn);
+                    //byte[] isoBytes = System.Text.Encoding.Convert(utf8, iso, utfBytes);
+                    //aktnavn = iso.GetString(isoBytes);
+                    
+                    aktnavn = aktnavn.Replace("'", "");
+
                     //string strInsert = "INSERT INTO job_import_temp (dato, origin, jobnr, jobnavn, jobans, jobstartdato, jobslutdato, aktnavn, lto, editor, overfort, " +
                     //" kundenavn, stkantal, aktstdato, aktsldato, sort, fomr, aktvarenr)" +
                     //" VALUES('" + DateTime.Now.ToString("yyyy-MM-dd") + "',600,'" + data.jobid + "','" + data.jobnavn.Replace("'", "") + "','" + data.jobans + "'," +
@@ -305,7 +315,7 @@ public class ozUploadFileJob
 
                     string strInsert = "INSERT INTO job_import_temp (dato, origin, jobnr, jobnavn, jobans, jobstartdato, jobslutdato, beskrivelse, lto, editor, overfort, kundenavn, aktstdato, aktsldato, stkantal, aktnavn, sort, fomr, aktvarenr) " +
                     " VALUES ('" + DateTime.Now.ToString("yyyy-MM-dd") + "',600,'" + data.jobid + "','" + data.jobnavn.Replace("'", "") + "','" + data.jobans + "','" + stdato + "',"+
-                    "'" + sldato + "','" + data.timerkom.Replace("'", "") + "','" + folder + "','Timeout - ImportJobService',0,'" + data.kundenavn + "','" + aktstdato + "','" + aktsldato + "', " + data.stkantal + ", '" + data.aktnavn.Replace("'", "") + "'," + data.sort + ",'" + data.fomr + "','" + data.aktvarenr + "')";
+                    "'" + sldato + "','" + data.timerkom.Replace("'", "") + "','" + folder + "','Timeout - ImportJobService',0,'" + data.kundenavn + "','" + aktstdato + "','" + aktsldato + "', " + data.stkantal + ", '" + aktnavn + "'," + data.sort + ",'" + data.fomr + "','" + data.aktvarenr + "')";
 
 
                     OdbcCommand command = new OdbcCommand(strInsert, connection);
@@ -687,7 +697,10 @@ public class ozUploadFileJob
 
 
 
-            string[] allLines = File.ReadAllLines(pathIn + filenameIn, System.Text.Encoding.UTF7);
+            string[] allLines = File.ReadAllLines(pathIn + filenameIn, System.Text.Encoding.GetEncoding(1250));
+            //System.Text.Encoding.GetEncoding(1252) 
+            //System.Text.Encoding.UTF7
+            //iso-8859-1
 
             countIgnore = 0;
             countInserted = 0;
@@ -707,13 +720,7 @@ public class ozUploadFileJob
 
 
 
-                //string jobnavnThis;
-                
-                //System.Text.Encoding iso = System.Text.Encoding.GetEncoding("ISO-8859-1");
-                //System.Text.Encoding utf8 = System.Text.Encoding.UTF8;
-                //byte[] utfBytes = utf8.GetBytes(jobnavnThis);
-                //byte[] isoBytes = System.Text.Encoding.Convert(utf8, iso, utfBytes);
-                //string msg = iso.GetString(isoBytes);
+               
 
                
 
@@ -753,7 +760,16 @@ public class ozUploadFileJob
                 fileRet.sort = datas[headers[6] - 1];
                 fileRet.fomr = datas[headers[7] - 1];
                 fileRet.aktnavn = datas[headers[10] - 1];
-                fileRet.aktvarenr = datas[headers[11] - 1];
+
+                    //string jobnavnThis;
+
+                    //System.Text.Encoding iso = System.Text.Encoding.GetEncoding("ISO-8859-1");
+                    //System.Text.Encoding utf8 = System.Text.Encoding.UTF8;
+                    //byte[] utfBytes = utf8.GetBytes(fileRet.aktnavn);
+                    //byte[] isoBytes = System.Text.Encoding.Convert(utf8, iso, utfBytes);
+                    //fileRet.aktnavn = iso.GetString(isoBytes);
+
+                    fileRet.aktvarenr = datas[headers[11] - 1];
                     fileRet.kundenavn = datas[headers[2] - 1];
 
                    
@@ -816,7 +832,9 @@ public class ozUploadFileJob
     {
         List<string> lstRet = new List<string>();
 
-        string[] allLines = File.ReadAllLines(pathIn + filenameIn, System.Text.Encoding.ASCII);
+        string[] allLines = File.ReadAllLines(pathIn + filenameIn, System.Text.Encoding.GetEncoding(1250));
+        //ASCII
+        //iso-8859-1
 
         string[] datas = allLines[0].Split(';');
 

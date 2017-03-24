@@ -1073,7 +1073,7 @@ else '** POST *****
 			
 			    'New server
                 if instr(request.servervariables("LOCAL_ADDR"), "195.189.130.210") <> 0 then
-                response.redirect "https://outzource.dk/timeout_xp/wwwroot/ver2_14/timetag_web/timetag_web.asp?flushsessionuser=1"
+                response.redirect "http://outzource.dk/timeout_xp/wwwroot/ver2_14/timetag_web/timetag_web.asp?flushsessionuser=1"
                 else
                 response.redirect "https://timeout.cloud/timeout_xp/wwwroot/ver2_14/timetag_web/timetag_web.asp?flushsessionuser=1"
                 end if

@@ -888,7 +888,15 @@ end select
 
                                      <li><a href="<%=toSubVerPath14 %>fomr.asp?func=stat"><%=tsa_txt_460 %></a></li>
                                 
+                        <%end if %>
+
+                        <%if (level <= 2 OR level = 6) OR lto = "fk" then %>
+
                                     <li><a href="<%=toSubVerPath15 %>medarb_protid.asp">Medarbejder - projekttid</a></li>
+
+                        <%end if %>
+
+                       <%if level = 1 then %>
 
                                      <br /><br />
                                      <%if session("stempelur") <> 0 then %>
@@ -907,7 +915,7 @@ end select
                          <li><a href="<%=toSubVerPath14 %>bal_real_norm_2007.asp?dontdisplayresult=1"><%=replace(tsa_txt_466, "|", "&") %></a></li>
 
 
-                <%end if %>
+                        <%end if %>
                 
                  
                          <%if level = 1 then %>
@@ -1015,15 +1023,20 @@ end select
 	        <li><a href='<%=toSubVerPath15 %>medarb.asp?visikkemedarbejdere=1'><%=global_txt_125 %></a></li>
             <li><a href='<%=toSubVerPath15 %>medarb.asp?menu=medarb&func=opret'><%=global_txt_183 %></a></li>
             <li><a href='<%=toSubVerPath15 %>medarb.asp?menu=medarb&func=red&id=<%=session("mid")%>'><%=global_txt_184 %></a></li>
-           <%else %>
-
-             
-
-             <li><a href='<%=toSubVerPath15 %>medarb.asp?menu=medarb&func=red&id=<%=session("mid")%>'><%=global_txt_184 %></a></li>
+           <%else 
+               
+               
+               
+            %>
 
             <%if cint(create_newemployee) = 1 then %>
+            <li><a href='<%=toSubVerPath15 %>medarb.asp?visikkemedarbejdere=1'><%=global_txt_125 %></a></li>
             <li><a href='<%=toSubVerPath15 %>medarb.asp?menu=medarb&func=opret'><%=global_txt_183 %></a></li>
             <%end if %>
+
+            <li><a href='<%=toSubVerPath15 %>medarb.asp?menu=medarb&func=red&id=<%=session("mid")%>'><%=global_txt_184 %></a></li>
+
+         
 
            <%end if %>
 
@@ -1081,6 +1094,13 @@ end select
                   <li><a href="<%=toSubVerPath15 %>milepale_typer.asp"><%=tsa_txt_484 %></a></li>
                                 
                   <li><a href="<%=toSubVerPath15 %>stfolder_gruppe.asp?ketype=e"><%=tsa_txt_485 %></a></li>
+
+                  <li><a href="<%=toSubVerPath15 %>job_movecustomer_multiple.asp">Flyt job til ny kunde</a></li>
+                   <li><a href="<%=toSubVerPath15 %>akt_movejob_multiple.asp">Flyt aktivitet til nyt job</a></li> 
+
+                    
+
+
            <%end if %>
 
            <h3 class="menuh3"><%=tsa_txt_486 %></h3>
