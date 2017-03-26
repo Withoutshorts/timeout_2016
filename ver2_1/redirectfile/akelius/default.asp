@@ -6,7 +6,7 @@
 
 '** Brug denne på produktions server **'
 'response.redirect "https://outzource.dk/timeout_xp/wwwroot/ver2_14/login.asp?key=2.2015-0806-TO161&lto=akelius"
-response.redirect "http://outzource.dk/timeout_xp/wwwroot/ver2_14/login.asp?key=2.2015-0806-TO161&lto=akelius"
+response.redirect "https://timeout.cloud/timeout_xp/wwwroot/ver2_14/login.asp?key=2.2015-0806-TO161&lto=akelius"
 
 '** Version lukket ned ***'
 'response.redirect "https://outzource.dk/timeout_xp/wwwroot/ver2_1/tak_login.asp"

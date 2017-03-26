@@ -18,7 +18,8 @@
 'end if
 
 '** Brug denne på produktions server **'
-response.redirect "http://outzource.dk/timeout_xp/wwwroot/ver2_14/login.asp?key=2.2014-1007-TO155&lto=sdutek"
+'response.redirect "http://outzource.dk/timeout_xp/wwwroot/ver2_14/login.asp?key=2.2014-1007-TO155&lto=sdutek"
+response.redirect "https://timeout.cloud/timeout_xp/wwwroot/ver2_14/login.asp?key=2.2014-1007-TO155&lto=sdutek"
 '&tomobjid="&tomobjid&"&usr="&usr
 
 '** Brug denne på produktions server **'

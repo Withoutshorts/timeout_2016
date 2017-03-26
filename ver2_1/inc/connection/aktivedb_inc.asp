@@ -177,8 +177,8 @@ function aktivedb(x)
 	    'strConnect_aktiveDB = "driver={MySQL ODBC 3.51 Driver};server=localhost; Port=3306; uid=outzource;pwd=SKba200473;database=timeout_optionone;"
 		'case 87
 	    'strConnect_aktiveDB = "driver={MySQL ODBC 3.51 Driver};server=localhost; Port=3306; uid=outzource;pwd=SKba200473;database=timeout_fk;"
-		case 88
-	    strConnect_aktiveDB = "driver={MySQL ODBC 3.51 Driver};server=localhost; Port=3306; uid=outzource;pwd=SKba200473;database=timeout_immenso;"
+		'case 88
+	    'strConnect_aktiveDB = "driver={MySQL ODBC 3.51 Driver};server=localhost; Port=3306; uid=outzource;pwd=SKba200473;database=timeout_immenso;"
 		'case 89
 	    'strConnect_aktiveDB = "driver={MySQL ODBC 3.51 Driver};server=localhost; Port=3306; uid=outzource;pwd=SKba200473;database=timeout_essens;"
 		'case 90
@@ -233,8 +233,8 @@ function aktivedb(x)
         strConnect_aktiveDB = "driver={MySQL ODBC 3.51 Driver};server=localhost; Port=3306; uid=outzource;pwd=SKba200473;database=timeout_bm;"
         'case 114
         'strConnect_aktiveDB = "driver={MySQL ODBC 3.51 Driver};server=localhost; Port=3306; uid=outzource;pwd=SKba200473;database=timeout_qwert;"
-        case 115
-        strConnect_aktiveDB = "driver={MySQL ODBC 3.51 Driver};server=localhost; Port=3306; uid=outzource;pwd=SKba200473;database=timeout_mi;"
+        'case 115
+        'strConnect_aktiveDB = "driver={MySQL ODBC 3.51 Driver};server=localhost; Port=3306; uid=outzource;pwd=SKba200473;database=timeout_mi;"
         case 116
         strConnect_aktiveDB = "driver={MySQL ODBC 3.51 Driver};server=localhost; Port=3306; uid=outzource;pwd=SKba200473;database=timeout_fk_bpm;"
         'case 117
@@ -295,8 +295,8 @@ function aktivedb(x)
         'strConnect_aktiveDB = "driver={MySQL ODBC 3.51 Driver};server=localhost; Port=3306; uid=outzource;pwd=SKba200473;database=timeout_tec;"
         'case 144
         'strConnect_aktiveDB = "driver={MySQL ODBC 3.51 Driver};server=localhost; Port=3306; uid=outzource;pwd=SKba200473;database=timeout_zylinc;"
-        case 145
-        strConnect_aktiveDB = "driver={MySQL ODBC 3.51 Driver};server=localhost; Port=3306; uid=outzource;pwd=SKba200473;database=timeout_sdutek;"
+        'case 145
+        'strConnect_aktiveDB = "driver={MySQL ODBC 3.51 Driver};server=localhost; Port=3306; uid=outzource;pwd=SKba200473;database=timeout_sdutek;"
         'case 146
         'strConnect_aktiveDB = "driver={MySQL ODBC 3.51 Driver};server=localhost; Port=3306; uid=outzource;pwd=SKba200473;database=timeout_glad;"
         case 147
@@ -311,8 +311,8 @@ function aktivedb(x)
         'strConnect_aktiveDB = "driver={MySQL ODBC 3.51 Driver};server=localhost; Port=3306; uid=outzource;pwd=SKba200473;database=timeout_micmatic;"
         'case 152
         'strConnect_aktiveDB = "driver={MySQL ODBC 3.51 Driver};server=localhost; Port=3306; uid=outzource;pwd=SKba200473;database=timeout_aalund;"
-        case 153
-        strConnect_aktiveDB = "driver={MySQL ODBC 3.51 Driver};server=localhost; Port=3306; uid=outzource;pwd=SKba200473;database=timeout_akelius;"
+        'case 153
+        'strConnect_aktiveDB = "driver={MySQL ODBC 3.51 Driver};server=localhost; Port=3306; uid=outzource;pwd=SKba200473;database=timeout_akelius;"
         'case 154
         'strConnect_aktiveDB = "driver={MySQL ODBC 3.51 Driver};server=localhost; Port=3306; uid=outzource;pwd=SKba200473;database=timeout_ascendis;"
        ' case 155

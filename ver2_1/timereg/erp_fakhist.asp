@@ -864,7 +864,7 @@ if len(session("user")) = 0 then
 	   
 	    else
           select case lto
-          case "epi", "epi_no", "epi_sta", "intranet - local", "epi_ab"
+          case "epi", "epi_no", "epi_sta", "intranet - local", "epi_ab", "epi2017"
             sort = 4
             sortCHK4 = "CHECKED"
 	        sortCHK3 = ""

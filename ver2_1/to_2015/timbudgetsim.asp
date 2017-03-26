@@ -839,9 +839,9 @@ if session("user") = "" then
          mhigh = 0
          phigh = 0
          dim antalm, antalp, h1_medTot, h2_medTot, h1_medTotGT, h2_medTotGT, h1_medTotGTGT
-         public thisMedarbRealTimerGT, thisMedarbRealTimerGTAndre, aktbgtTimerArr, jobbgtTimerArr, jobbgtBelobArr
+         public thisMedarbRealTimerGT, thisMedarbRealTimerGTAndre, aktbgtTimerArr, jobbgtTimerArr, jobbgtBelobArr, jobbgtBelobTimerArr
          redim antalm(m,2), antalp(p), h1_medTot(m), h2_medTot(m), h1_medTotGT(m), h2_medTotGT(m), h1_medTotGTGT(m), thisMedarbRealTimerGT(m), thisMedarbRealTimerGTAndre(m)
-         redim aktbgtTimerArr(akts), jobbgtTimerArr(jbs), jobbgtBelobArr(jbs)
+         redim aktbgtTimerArr(akts), jobbgtTimerArr(jbs), jobbgtBelobArr(jbs), jobbgtBelobTimerArr(jbs)
          public mhigh, phigh
 
 
@@ -1277,28 +1277,67 @@ while not oRec.EOF
          if lastjobnavn <> lcase(oRec("jobnavn")) then
 
 
-              strJobTxtTds(oRec("jid")) = strJobTxtTds(oRec("jid")) & "<tr id='tr_job_"& oRec("jid") &"' style='background-color:"& cssBgCol &";'><td style='white-space:nowrap;'><span style=""color:#5582d2;"" id='an_"& oRec("jid") &"' class='fp_jid'><b>["& jobPlusMinusiconLnk &"]</b></span>&nbsp;<b>"& left(oRec("jobnavn"), 20) &"</b> ("& oRec("jobnr") &") "_
-              &"</td><td style='white-space:nowrap; text-align:right;'>"& formatnumber(oRec("jobbudgettimer"), 0) &" t."
+                                        jobbudget_fordeling_fy = 0
+                                        strSQLbudgerFordelFY = "SELECT SUM(timer) AS budgettimer FROM ressourcer_ramme WHERE jobid = " & oRec("jid") & " AND aktid <> 0 AND aar = "& year(y0) &""  
+                    
+                                   
+                                         oRec3.open strSQLbudgerFordelFY, oConn, 3
+                                         if not oRec3.EOF then
 
-              strJobTxtTds(oRec("jid")) = strJobTxtTds(oRec("jid")) &"<input type=""hidden"" id=""jobaktT_"& oRec("jid") &"_0"" value="& formatnumber(oRec("jobbudgettimer"), 0) &">"
+                                            jobbudget_fordeling_fy = oRec3("budgettimer")
+
+                                         end if
+                                         oRec3.close   
+
+                                         if jobbudget_fordeling_fy <> 0 then
+                                         jobbudget_fordeling_fy = formatnumber(forjobbudget_fordeling_fy, 0)
+                                         else
+                                         jobbudget_fordeling_fy = 0
+                                         end if
+
+
+                                        '** USE FY 
+                                        select case lto
+                                        case "wwf", "intranet - local"
+                                        useFY = 1 
+                                        case else
+                                        useFY = 1
+                                        end select
+                                            
+                                        'end if
+                                        
+                                            if cint(useFY) = 1 then
+                                            jobbudget_fordeling_fy = jobbudget_fordeling_fy
+                                            else
+                                            jobbudget_fordeling_fy = formatnumber(oRec("jobbudgettimer"), 0)
+                                            end if
+
+
+              strJobTxtTds(oRec("jid")) = strJobTxtTds(oRec("jid")) & "<tr id='tr_job_"& oRec("jid") &"' style='background-color:"& cssBgCol &";'><td style='white-space:nowrap;'><span style=""color:#5582d2;"" id='an_"& oRec("jid") &"' class='fp_jid'><b>["& jobPlusMinusiconLnk &"]</b></span>&nbsp;<b>"& left(oRec("jobnavn"), 20) &"</b> ("& oRec("jobnr") &") "_
+              &"</td><td style='white-space:nowrap; text-align:right;'>FY: "& jobbudget_fordeling_fy &" t."
+
+              strJobTxtTds(oRec("jid")) = strJobTxtTds(oRec("jid")) &"<input type=""hidden"" id=""jobaktT_"& oRec("jid") &"_0"" value="& jobbudget_fordeling_fy &">"
          
               if cint(timesimtp) = 1 then
                     
                         if oRec("jobtpris") <> 0 then
-                        jobbudget = formatnumber(oRec("jobtpris"), 0) & " DKK"
+                        jobbudget = "GT job: "& formatnumber(oRec("jobbudgettimer"), 0) &" t.<br>"& formatnumber(oRec("jobtpris"), 0) & " DKK"
                         else
                         jobbudget = ""
                         end if
 
           
-                    strJobTxtTds(oRec("jid")) = strJobTxtTds(oRec("jid")) &"<div style=""font-size:10px;"" id=""jobaktBudgets_"& oRec("jid") &"_0"">"& jobbudget &"</div>"
+                    strJobTxtTds(oRec("jid")) = strJobTxtTds(oRec("jid")) &"<div style=""font-size:10px; line-height:14px; color:#999999;"" id=""jobaktBudgets_"& oRec("jid") &"_0"">"& jobbudget &"</div>"
                     strJobTxtTds(oRec("jid")) = strJobTxtTds(oRec("jid")) &"<input type=""hidden"" id=""jobaktBudget_"& oRec("jid") &"_0"" value="& formatnumber(oRec("jobtpris"), 0) &">"
               end if
-              
-              strJobTxtTds(oRec("jid")) = strJobTxtTds(oRec("jid")) &"</td>"
 
-              jobbgtTimerArr(oRec("jid")) = formatnumber(oRec("jobbudgettimer"), 0)
+
+               
+              strJobTxtTds(oRec("jid")) = strJobTxtTds(oRec("jid")) &"</td>" '&"<br><span style=""font-size:10px;"">FY: "& formatnumber(jobbudget_fordeling_fy, 2) &" t.</span></td>"
+
+              jobbgtTimerArr(oRec("jid")) = jobbudget_fordeling_fy 'formatnumber(oRec("jobbudgettimer"), 0)
               jobbgtBelobArr(oRec("jid")) = formatnumber(oRec("jobtpris"), 0)
+              jobbgtBelobTimerArr(oRec("jid")) = formatnumber(oRec("jobbudgettimer"), 0)
        
               i = i + 1
               x = x + 1
@@ -1345,14 +1384,36 @@ while not oRec.EOF
                     
                         if oRec("aktbudgetsum") <> 0 then
                         aktbudget = formatnumber(oRec("aktbudgetsum"), 0) &" DKK"
-                        strAktTxtTds(oRec("aid")) = strAktTxtTds(oRec("aid")) &"<div style=""font-size:10px;"">"& aktbudget &"</div>"
+                        strAktTxtTds(oRec("aid")) = strAktTxtTds(oRec("aid")) &"<span style=""font-size:10px;"">"& aktbudget &"</span>"
                         end if
 
 
                    
               end if
        
-              strAktTxtTds(oRec("aid")) = strAktTxtTds(oRec("aid")) &"</td>"
+
+                
+                                        aktbudget_fordeling_fy = 0
+                                        strSQLbudgerFordelFY = "SELECT SUM(timer) AS budgettimer FROM ressourcer_ramme WHERE jobid = " & oRec("jid") & " AND aktid = "& oRec("aid") &" AND aar = "& year(y0) &""  
+                    
+                                   
+                                         oRec3.open strSQLbudgerFordelFY, oConn, 3
+                                         if not oRec3.EOF then
+
+                                            aktbudget_fordeling_fy = oRec3("budgettimer")
+
+                                         end if
+                                         oRec3.close   
+
+                                        if aktbudget_fordeling_fy <> 0 then
+                                                aktbudget_fordeling_fyTxt = "<span style=""font-size:11px;"">FY: "& formatnumber(aktbudget_fordeling_fy, 2) &" t.</span>"
+                                        else
+                                                aktbudget_fordeling_fyTxt = ""
+                                        end if
+
+
+
+              strAktTxtTds(oRec("aid")) = strAktTxtTds(oRec("aid")) &""& aktbudget_fordeling_fyTxt &"</td>"
 
 
         if isNull(oRec("fase")) <> true then
@@ -1386,13 +1447,13 @@ redim medarbIPgrp(1000)
          <tr> 
 
             <th style="width:10%;">Job (nr) / Akt.</th>
-            <th style="width:3%;">Budget<br /><span style="font-size:9px;">FY GT</span></th>
+            <th style="width:3%; background-color:#999999;">Budget<br /><span style="font-size:9px;">FY GT</span></th>
             <th style="width:3%;">Forecast<br /><span style="font-size:9px;">FY GT</span></th>
             <th style="width:3%; white-space:nowrap;">Real.<br /><span style="font-size:9px;">Pr. dato GT</span></th>
             <th style="width:3%; white-space:nowrap;">Saldo<br /><span style="font-size:9px;">Real./Fc.</span></th> 
 
              <%if cint(timesimtp) = 1 then %>
-            <th style="width:3%; white-space:nowrap;">Saldo<br /><span style="font-size:9px;">Bgt./Fc.</span></th>  
+            <th style="width:3%; white-space:nowrap; background-color:#999999;">Saldo<br /><span style="font-size:9px;">Bgt./Fc.</span></th>  
            <%end if
              
              if cint(progrpid) <> 0 then  

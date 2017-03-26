@@ -196,7 +196,7 @@
 		            &" LEFT JOIN job j ON (j.id = a.job) "_
                     &" LEFT JOIN kunder ON (kid = jobknr) "_
                     &" LEFT JOIN timer ON (taktivitetid = a.id) "_
-                    &" WHERE "& whSQL &" GROUP BY taktivitetid ORDER BY kkundenavn, jobnavn, a.navn"
+                    &" WHERE "& whSQL &" GROUP BY taktivitetid ORDER BY jobnr, jobnavn, a.navn"
 		
 		            'Response.Write strSQLjob
 		            'Response.flush
@@ -215,15 +215,7 @@
 		        while not oRec2.EOF
 
 
-                    if lastkid <> oRec2("kid") then
-
-                        if antaljob <> 0 then
-                        %>
-                        <option DISABLED></option>
-                        <%end if
-
-                    %><option DISABLED><%=oRec2("kkundenavn") %> (<%=oRec2("kkundenr") %>)</option>
-                    <%end if
+                  
 
 
                     if lastjid <> oRec2("jobid") then
@@ -233,7 +225,7 @@
                         <option DISABLED></option>
                         <%end if
 
-                    %><option DISABLED><%=oRec2("jobnavn") %> (<%=oRec2("jobnr") %>)</option>
+                    %><option DISABLED><%=oRec2("jobnr") %> - <%=oRec2("jobnavn") %> [<%=oRec2("kkundenavn") %> (<%=oRec2("kkundenr") %>)]</option>
                     <%end if %>
                         
                               
@@ -273,19 +265,11 @@
 		            &" LEFT JOIN job j ON (j.id = a.job) "_
                     &" LEFT JOIN kunder ON (kid = jobknr) "_
                     &" LEFT JOIN timer ON (taktivitetid = a.id) "_
-                    &" WHERE "& whSQL &" GROUP BY taktivitetid ORDER BY kkundenavn, jobnavn, a.navn"
+                    &" WHERE "& whSQL &" GROUP BY a.id ORDER BY jobnr, jobnavn, a.navn"
 			        oRec2.open strSQLjobnew, oConn, 3
 			        while not oRec2.EOF
 				
-                            if lastkid <> oRec2("kid") then
-
-                                if antaljob <> 0 then
-                                %>
-                                <option DISABLED></option>
-                                <%end if
-
-                            %><option DISABLED><%=oRec2("kkundenavn") %> (<%=oRec2("kkundenr") %>)</option>
-                            <%end if
+                           
 
 
                             if lastjid <> oRec2("jobid") then
@@ -295,7 +279,7 @@
                                 <option DISABLED></option>
                                 <%end if
 
-                            %><option DISABLED><%=oRec2("jobnavn") %> (<%=oRec2("jobnr") %>)</option>
+                            %><option DISABLED><%=oRec2("jobnr") %> - <%=oRec2("jobnavn") %> [<%=oRec2("kkundenavn") %> (<%=oRec2("kkundenr") %>)]</option>
                                  <option value="-<%=oRec2("jobid") %>">>> Opret som ny aktivitet</option>
                             <%end if %>
                         
