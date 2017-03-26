@@ -578,7 +578,7 @@ function fordelpaaaktType(intMid, startDato, slutDato, visning, akttype_sel, x)
                     end if
 	     
 	     case 14
-
+         '***** Ferie afholdt ****
          call normtimerPer(intMid, oRec6("tdato"), 0, 0)
 	     if ntimPer <> 0 then
          ntimPerUse = ntimPer
@@ -595,32 +595,7 @@ function fordelpaaaktType(intMid, startDato, slutDato, visning, akttype_sel, x)
 
                     if cint(per14wrt) = 0 then 
 
-	                     ''*** Ferie afholdt i per **'
-	                     strSQLper = "SELECT SUM(timer) AS sumTimerPer, tdato FROM timer af WHERE af.tmnr = "& intMid &" AND af.tfaktim = 14 AND "_
-	                     &" af.tdato BETWEEN '"& startdato &"' AND '"& slutdato &"' GROUP BY af.tfaktim, af.tdato ORDER BY tdato DESC"
-	                
-	                    'Response.Write strSQLper
-	                    'Response.flush
-	                   
-	                    oRec5.open strSQLper, oConn, 3
-	                    while not oRec5.EOF 
-
-                         call normtimerPer(intMid, oRec5("tdato"), 0, 0)
-	                     if ntimPer <> 0 then
-                         ntimPerUse = ntimPer
-                         else
-                         ntimPerUse = 1
-                         end if 
-
-                        ferieAFPerTimer(x) = ferieAFPerTimer(x) + (oRec5("sumtimerPer") / ntimPerUse)
-                        ferieAFPerTimertimer(x) = ferieAFPerTimertimer(x) + (oRec5("sumtimerPer") / 1)
-
-                        '*** Første dage i peridode ***'
-                        ferieAFPerstDato(x) = oRec5("tdato") 
-                        
-                        oRec5.movenext
-	                    wend
-	                    oRec5.close
+	                     call ferieAfholdtPer(startdato, slutdato, intMid, x)
 
                          per14wrt = 1
 
@@ -1702,4 +1677,41 @@ function fordelpaaaktType(intMid, startDato, slutDato, visning, akttype_sel, x)
 
 
 end function   
+
+
+
+
+function ferieAfholdtPer(startdato, slutdato, intMid, x)
+
+
+                         ''*** Ferie afholdt i per **'
+	                     strSQLper = "SELECT SUM(timer) AS sumTimerPer, tdato FROM timer af WHERE af.tmnr = "& intMid &" AND af.tfaktim = 14 AND "_
+	                     &" af.tdato BETWEEN '"& startdato &"' AND '"& slutdato &"' GROUP BY af.tfaktim, af.tdato ORDER BY tdato DESC"
+	                
+	                    'Response.Write strSQLper
+	                    'Response.flush
+	                   
+	                    oRec5.open strSQLper, oConn, 3
+	                    while not oRec5.EOF 
+
+                         call normtimerPer(intMid, oRec5("tdato"), 0, 0)
+	                     if ntimPer <> 0 then
+                         ntimPerUse = ntimPer
+                         else
+                         ntimPerUse = 1
+                         end if 
+
+                        ferieAFPerTimer(x) = ferieAFPerTimer(x) + (oRec5("sumtimerPer") / ntimPerUse)
+                        ferieAFPerTimertimer(x) = ferieAFPerTimertimer(x) + (oRec5("sumtimerPer") / 1)
+
+                        '*** Første dage i peridode ***'
+                        ferieAFPerstDato(x) = oRec5("tdato") 
+                        
+                        oRec5.movenext
+	                    wend
+	                    oRec5.close
+
+
+end function
+
 %>

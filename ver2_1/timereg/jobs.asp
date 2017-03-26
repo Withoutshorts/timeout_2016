@@ -2352,8 +2352,9 @@ if len(session("user")) = 0 then
 
 
 
-
+                                                '********************************************
                                                 '****** opdaterer tilbudsnr ved rediger ****'
+                                                '********************************************
                                                 if request("FM_usetilbudsnr") = "j" then
 				                                nyttlbnr = tlbnr
                                                      
@@ -2376,7 +2377,9 @@ if len(session("user")) = 0 then
                                                 '***********************************'
                                                 '** Opdaterer kundeoplysninger *****'
                                                 '***********************************'
-
+                                                
+                                                
+                            
 								
 								                '*** Overfører gamle timeregistreringer til ny aftale (hvis der skiftes aftale) **'
 								                if request("FM_overforGamleTimereg") = "1" then
@@ -2422,7 +2425,9 @@ if len(session("user")) = 0 then
 								                oConn.execute(strSQLFakadr)
 								
 								
-								varJobId = id
+						                        
+                        
+                                varJobId = id
 								
 
                                
@@ -7451,8 +7456,14 @@ end select '*** Step %>
         visliste = 1
         else
 
-            if  request.cookies("tsa")("jobsog") <> "" then
+            if request.cookies("tsa")("jobsog") <> "" then
+           
             jobnr_sog = request.cookies("tsa")("jobsog")
+            
+                if jobnr_sog = "%" then
+                jobnr_sog = ""
+                end if
+
             else
             jobnr_sog = ""
             end if
@@ -7900,7 +7911,7 @@ end select '*** Step %>
 	'***********************************************************
 	strSQL = "SELECT j.id, jobnavn, jobnr, kkundenavn, kid, jobknr, jobTpris, jobstatus, jobstartdato, "_
 	&" jobslutdato, j.budgettimer, fakturerbart, Kkundenr, ikkebudgettimer, jobans1, jobans2, jobans3, jobans4, jobans5, fastpris, jobans_proc_1, jobans_proc_2, jobans_proc_3, jobans_proc_4, jobans_proc_5, virksomheds_proc, "_
-	&" s.navn AS aftnavn, rekvnr, tilbudsnr, sandsynlighed, jo_bruttooms, kundekpers, serviceaft, lukkedato, preconditions_met"
+	&" s.navn AS aftnavn, rekvnr, tilbudsnr, sandsynlighed, jo_bruttooms, kundekpers, serviceaft, lukkedato, preconditions_met, jo_valuta"
 	
     strSQL = strSQL &", j.projektgruppe1, j.projektgruppe2, j.projektgruppe3, j.projektgruppe4, j.projektgruppe5, j.projektgruppe6, j.projektgruppe7, j.projektgruppe8, j.projektgruppe9, j.projektgruppe10 "
 	   
@@ -8423,8 +8434,10 @@ end select '*** Step %>
 		
 		<%end if %>
 		</td>
+
+        <%call valutakode_fn(oRec("jo_valuta")) %>
 		<td align=right valign=top style="padding:4px 5px 0px 5px;" class=lille>
-		<%=formatnumber(oRec("jo_bruttooms"), 2) &" "& basisValISO %> 
+		<%=formatnumber(oRec("jo_bruttooms"), 2) &" "& valutaKode_CCC %> 
 		</td>
 		
 		<td align=right valign=top style="padding:4px 15px 4px 4px;" class=lille>Forkalk: <%=formatnumber(budgettimertot)%><br>
@@ -8583,6 +8596,7 @@ end select '*** Step %>
 			    
 			    deleteok = 0
 			    faktotbel = 0
+                fakturaBel_tot = 0
 			    strSQLffak = "SELECT f.fid, f.faknr, f.aftaleid, f.faktype, f.jobid, f.fakdato, f.beloeb, "_
 			    &" f.faktype, f.kurs, SUM(fd.aktpris) AS aktbel, brugfakdatolabel, labeldato, fakadr FROM fakturaer f "_
 			    &" LEFT JOIN faktura_det AS fd ON (fd.fakid = f.fid AND fd.enhedsang <> 3)"_
@@ -8644,25 +8658,30 @@ end select '*** Step %>
 
                      end if
             
+                fakturaBel_tot = fakturaBel_tot + (belobGrundVal)
                 faktotbel = faktotbel + belobKunTimerStk
 			    f = f + 1
 			    oRec3.movenext
 			    wend
 			    oRec3.close
-                
+
+                fakturaBel_tot_gt = fakturaBel_tot_gt + fakturaBel_tot
 			    %>
                 </table>
-			    </div>
-                
+               
 
-            <%if totReal <> 0 then 
+			    </div>
+                 Faktureret (basisvaluta):<br /> 
+                 <b><%=formatnumber(fakturaBel_tot, 2) & " "& basisValISO %></b>
+
+                 <%if totReal <> 0 then 
 	        gnstpris = faktotbel/totReal
 	        else 
 	        gnstpris = 0
 	        end if%>
 	        
             <%if gnstpris <> 0 then %>
-            Faktisk timepris:<br />
+            <br />Faktisk timepris:<br />
 	        <b><%=formatnumber(gnstpris) & " "& basisValISO %></b>
             
             <!-- <span class="qmarkhelp" id="qm0001" style="font-size:11px; color:#999999; font-weight:bolder;">?</span><span id="qmarkhelptxt_qm0001" style="visibility:hidden; color:#999999; display:none; padding:3px; z-index:4000;">(faktureret beløb - (materialeforbrug + km)) / timer realiseret</span>-->
@@ -8676,12 +8695,12 @@ end select '*** Step %>
 	        gnsPrisTot = gnsPrisTot
 	        'totRealialt = totRealialt
 	        end if
-	        
-	        totRealialt = totRealialt + (proaf)
-	        %>
 
-			    
-		</td>
+            totRealialt = totRealialt + (proaf)
+                %>
+
+
+         </td>
 		<td align=right class=lille style="white-space:nowrap; padding:4px 4px 0px 4px;" valign=top>
         <% for p = 1 to 10
         
@@ -8732,8 +8751,22 @@ end select '*** Step %>
 	
 	if cnt > 0 then%>
     	<tr style="background-color:#FFFFFF;">
-		<td colspan=20 style="padding-right:30px; padding-top:5px;" align=right><br /><input type="submit" name="statusliste" value="Opdater liste >>"><br />&nbsp;</td>
-	</tr>
+         <td colspan=8>&nbsp;</td>
+		<td>
+            <%if fakturaBel_tot_gt <> 0 then %>
+            <br />Faktureret total: <br /><b><%=formatnumber(fakturaBel_tot_gt, 2) & " "& basisValISO %></b>
+            <%end if %>
+
+            <%if totRealialt <> 0 AND gnsPrisTot <> 0 then %>
+            <br><br>Gns. faktisk timepris:<br><b><%=formatnumber(gnsPrisTot/totRealialt, 2) &" "& basisValISO  %></b> 
+            <%end if %>
+
+		</td>
+             <td colspan=11>&nbsp;</td>
+        </tr>
+        <tr style="background-color:#FFFFFF;">
+            <td colspan=20 style="padding-right:30px; padding-top:5px;" align=right><br /><input type="submit" name="statusliste" value="Opdater liste >>"><br />&nbsp;</td>
+	    </tr>
     <%end if %>
 	</table>
 	</div>
@@ -9242,7 +9275,7 @@ call eksportogprint(ptop,pleft, pwdt)
     uTxt = uTxt  &"<br><b>" & cnt & "</b> timepris linier i denne visning."
     end if
 
-    uTxt = uTxt  &"<br><br>Gns. faktisk timepris:<br><b> "& formatnumber(gnsPrisTot/totRealialt) &" "& basisValISO &" </b> "
+    'uTxt = uTxt  &"<br><br>Gns. faktisk timepris:<br><b> "& formatnumber(gnsPrisTot/totRealialt) &" "& basisValISO &" </b>"
 	'&" Gns. faktisk timepris = (faktureret beløb ekskl. mat. og km. / real. timer)<br>"_
 	'&" Gælder for de viste job, hvor der forefindes fakturaer og realiserede timer.<br>Gns. timepris er vægtet i forhold til timeforbrug på de enkelte job."
 	

@@ -444,12 +444,7 @@ sub kundeopl_options_2016
 				    kSel = ""
 				    end if
 				
-				
-
-
-
-			
-				
+					
 			%>
 			<option value="<%=oRec("Kid")%>" <%=kSel%>><%=oRec("Kkundenavn")%>&nbsp;&nbsp;(<%=oRec("Kkundenr")%>)</option>
 			<%
@@ -635,6 +630,14 @@ sub kundeopl
 		</select>
 
 
+            <%if func = "xred" AND level = 1 then%>
+                 <!--  
+                 <input type="hidden" value="<%=strKnr %>" name="FM_kunde_opr" />
+                  <br /><input type="checkbox" name="FM_flyttallejob" value="1" /> Flyt alle job på den oprindelige kunde til den netop valgte ovenstående kunde.<br />
+                 Gælder også aktiviteter og fakturaer.
+                -->
+                
+            <%end if %>
 
 		
 		</td>
@@ -1299,7 +1302,7 @@ sub projektberegner
                      
                     '** Hidden timer felter nettoomsætning 
                     Select case lto
-                    case "epi2017", "intranet - local"
+                    case "epi2017", "xintranet - local"
                         txtFldHiddenHours = "hidden"
                         showFldHours = 0
                         nettoOmsTxtWdt = 460
@@ -1323,8 +1326,8 @@ sub projektberegner
 					    <td valign="bottom" style="width:45px; font-size:9px;"><b>Faktor</b></td>
                         
 					    
-                        <td valign="bottom" style="width:100px; font-size:9px;"><span style="color:Red;">*</span><b> Beløb <%=basisValISO %></b></td>
-				        <td valign="bottom" style="width:40px; font-size:8px; color:#999999;">Salgs<br />timepris</td>
+                        <td valign="bottom" style="width:100px; font-size:9px;"><span style="color:Red;">*</span><b> Beløb</b></td>
+				        <td valign="bottom" style="width:40px; font-size:9px;"><b>Valuta</b><!--Salgs<br />timepris--></td>
 				    </tr>
 				    <tr bgcolor="#FFFFFF">
 					<%end if %>
@@ -1368,24 +1371,44 @@ sub projektberegner
                    
 
 
-                    if cint(showFldHours) = 1 then  
+                    if cint(showFldHours) = 1 then
+                        
+                        
+                    call valutakode_fn(jo_valuta)  
                     %>
                     <td id="xpb_jobnavn">Gns. timepris / kostpris: <span style="color:#999999; font-size:9px;"><%=gnsSalgsogKostprisTxt &" "& basisValISO %></span></td>
 				    <td style="padding:3px;"><input type="text" id="FM_budgettimer" name="FM_budgettimer" value="<%=replace(formatnumber(strBudgettimer, 2), ".", "")%>" style="width:60px;"" onkeyup="tjektimer('FM_budgettimer'), beregnintbelob()" class="nettooms"></td>
-					<td class=lille><input type="text" id="FM_gnsinttpris" name="FM_gnsinttpris" value="<%=replace(formatnumber(jo_gnstpris, 2), ".", "")%>" style="width:67px;" onkeyup="tjektimer('FM_gnsinttpris'), beregnintbelob()" class="nettooms"> <%=basisValISO %></td>
-					<td>x <input type="text" id="FM_intfaktor" name="FM_intfaktor" value="<%=replace(formatnumber(jo_gnsfaktor, 2), ".", "")%>" style="width:30px;" onkeyup="tjektimer('FM_intfaktor'), beregnintbelob()" class="nettooms"></td>
+					<td class=lille><input type="text" id="FM_gnsinttpris" name="FM_gnsinttpris" value="<%=replace(formatnumber(jo_gnstpris, 2), ".", "")%>" style="width:67px;" onkeyup="tjektimer('FM_gnsinttpris'), beregnintbelob()" class="nettooms">
+                    
+                     </td>
+					
+                        
+                    <td>x <input type="text" id="FM_intfaktor" name="FM_intfaktor" value="<%=replace(formatnumber(jo_gnsfaktor, 2), ".", "")%>" style="width:30px;" onkeyup="tjektimer('FM_intfaktor'), beregnintbelob()" class="nettooms"></td>
 					<td>= <input type="text" id="FM_interntbelob" name="FM_interntbelob" <%=interntbelobDIS %> value="<%=replace(formatnumber(jo_gnsbelob, 2), ".", "")%>" style="width:75px;" onkeyup="tjektimer('FM_interntbelob'), beregninttp()" class="nettooms">
+
+                        
+
                     </td>
 					
                     <input id="FM_interntomkost" name="FM_interntomkost" value="<%=replace(formatnumber(jo_udgifter_intern, 2), ".", "")%>" type="hidden" />
 					
-                    <%if strBudgettimer <> 0 then
-                    tgt_tp = (jo_gnsbelob / strBudgettimer)
-                    else
-                    tgt_tp = 0
-                    end if%>
+                   
                              
-					<td ><input id="pb_tg_timepris" value="<%=tgt_tp%>" type="text" style="width:30px; font-size:9px; font-family:arial; border:0px;" maxlength="0"/></td>
+					<td >
+                         <%
+                             felt = "FM_jo_valuta"
+                             call valutaList(jo_valuta, felt)
+                             %>
+                    </td>
+
+                         <%
+                         '*** Salgstimepris     
+                         if strBudgettimer <> 0 then
+                        tgt_tp = (jo_gnsbelob / strBudgettimer)
+                        else
+                        tgt_tp = 0
+                        end if%>
+                        <input id="pb_tg_timepris" value="<%=tgt_tp%>" type="hidden" style="width:30px; font-size:9px; font-family:arial; border:0px;" maxlength="0"/>
 					
                     
                     <%else

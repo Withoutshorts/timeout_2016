@@ -55,10 +55,15 @@
                 <!------ Flex saldo ----->
                 <%
                     
-
+                    if session("mid") = 1 AND lto = "hestia" then
+                    usemrn = 84
+                    else
                     usemrn = session("mid")
+                    end if
+
+
                     call akttyper2009(2)
-                    call meStamdata(session("mid"))
+                    call meStamdata(usemrn)
                     call licensStartDato()
                     licensstdato = licensstdato
                     meAnsatDato = meAnsatDato
@@ -70,6 +75,14 @@
                     else
                     useStDatoKri = licensstdato
                     end if
+
+                    call lonKorsel_lukketPerPrDato(now)
+                    if lonKorsel_lukketPerDt > useStDatoKri then
+                    useStDatoKri = dateAdd("d", 1, day(lonKorsel_lukketPerDt) &"/"& month(lonKorsel_lukketPerDt) &"/"& year(lonKorsel_lukketPerDt))
+                    else
+                    useStDatoKri = useStDatoKri
+                    end if
+
 
                     sqlDatoStart = year(useStDatoKri)&"/"&month(useStDatoKri)&"/"&day(useStDatoKri)
                     sqlDatoStartATD =  year(now)&"/1/1"
@@ -91,69 +104,89 @@
                     
                     ntimPer = 0
                     realtimerIalt = 0
-                    strSQL2 = "SELECT tmnavn, SUM(timer) AS realtimer FROM timer WHERE tmnr = "& usemrn &" AND ("& aty_sql_realhours &") AND tdato BETWEEN '"& sqlDatoStart &"' AND '"& sqlDatoEnd &"' GROUP BY tmnr"
+                    strSQL2 = "SELECT tmnavn, SUM(timer) AS realtimer FROM timer WHERE tmnr = "& usemrn &" AND ("& aty_sql_realhours &" OR tfaktim = 114) AND tdato BETWEEN '"& sqlDatoStart &"' AND '"& sqlDatoEnd &"' GROUP BY tmnr"
+
+                    'if session("mid") = 1 then
+                    'Response.write strSQL2
+                    'Response.flush
+                    'end if
 
                     oRec2.open strSQL2, oConn, 3
                     if not oRec2.EOF then
+                    '114 = Korrektion Ultimo
                     realtimerIalt = oRec2("realtimer")
                     end if
 
                     oRec2.close
                               
-                    call normtimerPer(usemrn, meAnsatDato, daysansat, 0)
+                    call normtimerPer(usemrn, useStDatoKri, daysansat, 0)
+                    ntimPerFlex = ntimPer
 
-                    if daysansat <> 0 then
-                    nTimerPerPrDay = formatnumber((ntimPer/daysansat), 2)
-                    else
-                    nTimerPerPrDay = 0
-                    end if
+                    'if daysansat <> 0 then
+                    'nTimerPerPrDay = formatnumber((ntimPer/daysansat), 2)
+                    'else
+                    'nTimerPerPrDay = 0
+                    'end if
                     
-                    flexsaldo = (realtimerIalt - ntimPer)
+                    'balRealNormTxt = formatnumber(( realTimer(x) + korrektionReal(x) ) - normTimer(x),2)
+
+                    flexsaldo = (realtimerIalt - ntimPerFlex)
 
 
-                    call nortimerStandardDag(meType)
+                    'call nortimerStandardDag(meType)
             
                 %>
 
                 <!------ Ferie saldo ----->
                 <%
                     
-                     
                     ferieafholdt = 0
-                    strSQL3 = "SELECT SUM(timer) AS ferieafholdt FROM timer WHERE tmnr = "& usemrn &" AND tdato BETWEEN '"& sqlDatoStartFerie &"' AND '"& sqlDatoEndFerie &"' AND tfaktim = 14 GROUP BY tmnr"
-                    oRec3.open strSQL3, oConn, 3
-                    if not oRec3.EOF then
-                    ferieafholdt = oRec3("ferieafholdt")
-                    end if
-                    oRec3.close
+                    call ferieAfholdtPer(sqlDatoStartFerie, sqlDatoEndFerie, usemrn, 0) 
+
+                    
+                    'strSQL3 = "SELECT SUM(timer) AS ferieafholdt FROM timer WHERE tmnr = "& usemrn &" AND tdato BETWEEN '"& sqlDatoStartFerie &"' AND '"& sqlDatoEndFerie &"' AND tfaktim = 14 GROUP BY tmnr"
+                    'oRec3.open strSQL3, oConn, 3
+                    'if not oRec3.EOF then
+                    'ferieafholdt = oRec3("ferieafholdt")
+                    'end if
+                    'oRec3.close
                    
 
-                    if ferieafholdt <> 0 then
-                        ferieafholdt = ferieafholdt/normtimerStDag
+                    if ferieAFPerTimer(0) <> 0 then
+                        ferieafholdt = ferieAFPerTimer(0)
                     else
                         ferieafholdt = 0
                     end if
 
-                    'response.Write "<br> af:" & ferieafholdt
+                    'response.Write "<br> af:" & ferieAFPerTimer(0)
                     
                     ferieoptjent = 0
-                    strSQL4 = "SELECT SUM(timer) AS ferieoptjent FROM timer WHERE tmnr = "& usemrn &" AND tdato BETWEEN '"& sqlDatoStartFerie &"' AND '"& sqlDatoEndFerie &"' AND (tfaktim = 15 OR tfaktim = 111 OR tfaktim = 112) GROUP BY tmnr"
-                    oRec4.open strSQL4, oConn, 3
-                    if not oRec4.EOF then
-                    ferieoptjent = oRec4("ferieoptjent")
-                    end if
-                    oRec4.close
+                    strSQL4 = "SELECT timer AS ferieoptjent, tdato FROM timer WHERE tmnr = "& usemrn &" AND tdato BETWEEN '"& sqlDatoStartFerie &"' AND '"& sqlDatoEndFerie &"' AND (tfaktim = 15 OR tfaktim = 111 OR tfaktim = 112) ORDER BY tdato"
+                    
+                    'if session("mid") = 1 then
+                    'Response.write strSQL4
+                    'Response.flush
+                    'end if
+                    
+                    oRec8.open strSQL4, oConn, 3
+                    while not oRec8.EOF 
+                    
+                         call normtimerPer(usemrn, oRec8("tdato"), 6, 0)
+	                     if ntimPer <> 0 then
+                         normTimerGns5 = (ntimManIgnHellig + ntimTirIgnHellig + ntimOnsIgnHellig + ntimTorIgnHellig + ntimFreIgnHellig + ntimLorIgnHellig + ntimSonIgnHellig)  / 5
+                         else
+                         normTimerGns5 = 1
+                         end if 
+
+               
+                    ferieoptjent = ferieoptjent + (oRec8("ferieoptjent")*1/normTimerGns5)
+                    
+                    oRec8.movenext
+                    wend
+                    oRec8.close
                    
-                    if ferieoptjent <> 0 then
-                        ferieoptjent = ferieoptjent
-                    else
-                        ferieoptjent = 0
-                    end if
-
-                    'response.Write "<br> op:" & ferieoptjent
-
-
-                    ferieSaldo = ferieoptjent - ferieafholdt
+                
+                    ferieSaldo = (ferieoptjent - ferieafholdt)
 
                     'response.Write "<br> tal: " & ferieoptjent
                 %>
@@ -162,36 +195,43 @@
                 <%
 
                     sygtot = 0
-                    strSQL5 = "SELECT SUM(timer) AS sygtimer FROM timer WHERE tmnr = "& usemrn &" AND tfaktim = 20 AND tdato BETWEEN '"& sqlDatoStartATD &"' AND '"& sqlDatoEnd &"' GROUP BY tmnr"
+                    strSQL5 = "SELECT timer AS sygtimer, tdato FROM timer WHERE tmnr = "& usemrn &" AND tfaktim = 20 AND tdato BETWEEN '"& sqlDatoStartATD &"' AND '"& sqlDatoEnd &"' ORDER BY tdato"
                     
-                    oRec5.open strSQL5, oConn, 3
-                    if not oRec5.EOF then
-                    sygtot = oRec5("sygtimer")
-                    end if
-                    oRec5.close
+                    oRec8.open strSQL5, oConn, 3
+                    while not oRec8.EOF 
+
+                         call normtimerPer(usemrn, oRec8("tdato"), 0, 0)
+	                     if ntimPer <> 0 then
+                         ntimPerUse = ntimPer
+                         else
+                         ntimPerUse = 1
+                         end if 
+
+                    sygtot = sygtot + (oRec8("sygtimer")*1 / ntimPerUse)
+                    oRec8.movenext
+                    wend 
+                    oRec8.close
                     
-
-                    if sygtot <> 0 AND normtimerStDag <> 0 then 
-                        sygtot = sygtot/normtimerStDag
-                    else
-                        sygtot = 0
-                    end if
-
 
                     barnsygtot = 0
-                    strSQL6 = "SELECT SUM(timer) As barnsygtimer FROM timer WHERE tmnr = "&usemrn&" AND tfaktim = 21 AND tdato BETWEEN '"& sqlDatoStartATD &"' AND '"& sqlDatoEnd &"' GROUP BY tmnr"
-                    oRec6.open strSQL6, oConn, 3
-                    if not oRec6.EOF then
-                    barnsygtot = oRec6("barnsygtimer")
-                    end if
-                    oRec6.close
+                    strSQL6 = "SELECT timer As barnsygtimer, tdato FROM timer WHERE tmnr = "&usemrn&" AND tfaktim = 21 AND tdato BETWEEN '"& sqlDatoStartATD &"' AND '"& sqlDatoEnd &"' ORDER BY tdato"
+                    oRec8.open strSQL6, oConn, 3
+                    while not oRec8.EOF
+
+                         call normtimerPer(usemrn, oRec8("tdato"), 0, 0)
+	                     if ntimPer <> 0 then
+                         ntimPerUse = ntimPer
+                         else
+                         ntimPerUse = 1
+                         end if 
+
+                    barnsygtot = barnsygtot + (oRec8("barnsygtimer")*1/ntimPerUse)
+                    oRec8.movenext
+                    wend 
+                    oRec8.close
                    
 
-                    if barnsygtot <> 0 AND normtimerStDag then 
-                        barnsygtot = barnsygtot/normtimerStDag
-                    else
-                        barnsygtot = 0
-                    end if
+                   
 
                     if ferieSaldo < 0 then
                     flexferieCol = "red"
@@ -223,7 +263,7 @@
 
                     <tr>
                         <td><%=ttw_txt_018 %></td>
-                        <td style="text-align:right"><%=formatnumber(ferieSaldo, 2) %> d.</td>
+                        <td style="text-align:right"><%=formatnumber(ferieSaldo,2) %> d.</td>
                         <td style="vertical-align:middle"><div style="height:10px; width:10px; background-color:<%=flexferieCol%>;"></div></td>
                     </tr>
 

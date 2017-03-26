@@ -154,7 +154,7 @@ Public Class oz_importjob2
     Public lastJobnr As String = "0"
 
     Public intCountInserted As Integer = 0
-
+    Public strAktFase As String = ""
 
     <WebMethod()> Public Function createjob2(ByVal ds As DataSet) As String
 
@@ -336,9 +336,22 @@ Public Class oz_importjob2
             End If
             objDR2.Close()
 
+            Select Case lto
+                Case "dencker", "dencker_test"
+                    strjobnr = jobnr.ToString
+                    Dim intPos_ As Integer = InStr(strjobnr, "-")
+                    If (intPos_ > 1) Then
 
-            strjobnr = jobnr.ToString
+                        Dim strjobnr_opr As String = strjobnr
+                        strjobnr = Left(strjobnr, intPos_ - 1)
+                        strAktFase = "Pos-" + Right(strjobnr_opr, 1) + "-" + strjobnr
 
+                    End If
+                    'strjobnr.Replace("-", "")
+
+                Case Else
+                    strjobnr = jobnr.ToString
+            End Select
 
             '*** Tjekker om jobnr findes ***
             Dim opdaterJob As Integer = 0
@@ -356,7 +369,7 @@ Public Class oz_importjob2
 
 
             '********************************************************************************
-            '*** Opretter Job ***'
+            '*** Opretter Kunde ***'
             '********************************************************************************
             Select Case lto
                 Case "oko"
@@ -418,7 +431,9 @@ Public Class oz_importjob2
             'Call DecodeUTF8(jobnavn)
             'jobnavn = 
 
-
+            '********************************************************************************
+            '*** Opretter Job ***'
+            '********************************************************************************
             If CInt(errThis) = 0 Then
 
 
@@ -439,7 +454,7 @@ Public Class oz_importjob2
                         '*** Opdater stadivæk OK? kommer an på hvilke linje SORT (Dencker) der blicver læst fra excel filen
                         Select Case lto
                             Case "dencker", "dencker_test"
-                                If (lastJobnr <> jobnrTjk) Then 'CInt(sort) = 10
+                                If (lastJobnr <> strjobnr) Then 'CInt(sort) = 10
                                     opdaterJob = opdaterJob
                                 Else
                                     opdaterJob = 0
@@ -906,7 +921,7 @@ Public Class oz_importjob2
                 Case "dencker", "dencker_test"
                     '*** OPRETTER AKTIVITETER FRA EXCEL FIL FOR HVER LINJE // MONITOR ***'
 
-                    If (lastJobnr <> jobnrTjk) Then 'Sort = 10
+                    If (lastJobnr <> strjobnr) Then 'Sort = 10
                         '*** Finder jobid ***
                         Dim strSQLlastJobID As String = "SELECT id FROM job WHERE id <> 0 ORDER BY id DESC LIMIT 1"
                         objCmd = New OdbcCommand(strSQLlastJobID, objConn)
@@ -936,7 +951,7 @@ Public Class oz_importjob2
 
             intCountInserted += 1
 
-            lastJobnr = jobnrTjk
+            lastJobnr = strjobnr
 
 
         End While
@@ -1020,12 +1035,14 @@ Public Class oz_importjob2
                 '**** Findes aktivitet ***'
                 If CInt(aktFindes) = 0 Then '** INSERT
 
+
+
                     Dim strSQLaktins As String = ("INSERT INTO aktiviteter (navn, job, fakturerbar, " _
                     & "projektgruppe1, projektgruppe2, projektgruppe3, projektgruppe4, projektgruppe5, projektgruppe6, projektgruppe7," _
                     & "projektgruppe8, projektgruppe9, projektgruppe10, aktstatus, budgettimer, aktbudget, aktbudgetsum, aktstartdato, aktslutdato, aktkonto, fase, avarenr, fomr, sortorder, antalstk, bgr) VALUES " _
                     & " ('" & aktnavn.Replace("'", "") & "', " & lastID & ", 1," _
                     & " 10,1,1,1,1,1,1,1,1,1,1,0,0,0,'" & aktstdato.ToString("yyyy/MM/dd", Globalization.CultureInfo.InvariantCulture) & "', " _
-                    & "'" & aktsldato.ToString("yyyy/MM/dd", Globalization.CultureInfo.InvariantCulture) & "', 0, '', '" & aktvarenr & "', " & fomr & ", " & sort & ", " & antalstk & ", 2)")
+                    & "'" & aktsldato.ToString("yyyy/MM/dd", Globalization.CultureInfo.InvariantCulture) & "', 0, '" & strAktFase & "', '" & aktvarenr & "', " & fomr & ", " & sort & ", " & antalstk & ", 2)")
 
                     objCmd = New OdbcCommand(strSQLaktins, objConn)
                     objDR2 = objCmd.ExecuteReader '(CommandBehavior.closeConnection)

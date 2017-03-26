@@ -157,8 +157,10 @@ function jobaktbudgetfelter(jobnr, jobid, aktid, h1aar, h2aar, h1md, h2md, budge
                      end if
 
                 
-                    if lto = "wwf" then
+                    if lto = "wwf" OR lto = "intranet - local" then
 
+                    
+                            
                
                             if aktid = 0 then
                             '** Budgetfordeling pr. FRA JOB ÅR 1
@@ -200,7 +202,8 @@ function jobaktbudgetfelter(jobnr, jobid, aktid, h1aar, h2aar, h1md, h2md, budge
                              oRec3.close     
     
     
-                            end if         
+                            end if   
+          
 
                     end if
     'end if
@@ -762,18 +765,31 @@ function medarbfelter(jobnr, jobid, aktid, h1aar, h2aar, h1md, h2md, bgttpris)
                          jobFcGtBelobTxt = ""
                          end if
 
+                
+                        '**** Beløb og timerSaldo GT fra job (- FY ØKO bruger job budget som FY og lukker job hvert år)
                         if isNull(jobFcGtBelob) <> true AND isNull(jobbgtBelobArr(jobid)) <> true then
                         jobFcGtSaldo = jobbgtBelobArr(jobid) - jobFcGtBelob
                         jobFcGtSaldo = formatnumber(jobFcGtSaldo,0)
                         else
-                        jobFcGtSaldo = 0
+                        jobFcGtSaldo = jobbgtBelobArr(jobid) '0
                         end if
 
-                        if isNull(jobFcGt) <> true AND isNull(jobbgtTimerArr(jobid)) <> true then
-                        jobFcGtTimerSaldo = formatnumber(jobbgtTimerArr(jobid) - jobFcGt, 0)
+                        if isNull(jobFcGt) <> true AND isNull(jobbgtBelobTimerArr(jobid)) <> true then
+                        jobFcGtSaldoTimer = jobbgtBelobTimerArr(jobid) - jobFcGt
+                        jobFcGtSaldoTimer = formatnumber(jobFcGtSaldoTimer,0)
                         else
-                        jobFcGtTimerSaldo = 0
+                        jobFcGtSaldoTimer =  jobbgtBelobTimerArr(jobid) '0
                         end if
+
+
+                        
+                        '**** timerSaldo FY
+                        if isNull(jobFcGt) <> true AND isNull(jobbgtTimerArr(jobid)) <> true then
+                        jobFcFYTimerSaldo = formatnumber(jobbgtTimerArr(jobid) - jobFcGt, 0)
+                        else
+                        jobFcFYTimerSaldo = jobbgtTimerArr(jobid) '0
+                        end if
+
                     
                          if cint(filtervisallejobvlgtmedarb) = 1 OR minit <> "" then
                          fcjobaktGTtype = "hidden"
@@ -824,6 +840,8 @@ function medarbfelter(jobnr, jobid, aktid, h1aar, h2aar, h1md, h2md, bgttpris)
                                     <input type="hidden" id="fcjobaktBelgt_<%=jobid%>_<%=aktid%>" class="fcjobaktBelgt" value="<%=jobFcGtBelob %>"/>
                              
                                     <%end if %>
+
+                                  
 
                              <!--(tp: <%=gnsTp %>)-->
                          </td>
@@ -898,8 +916,10 @@ function medarbfelter(jobnr, jobid, aktid, h1aar, h2aar, h1md, h2md, bgttpris)
                              <td style="text-align:right; white-space:nowrap;"> 
 
                              <%if aktid = 0 then%>
-                              <span id="saldoTgts_<%=jobid%>_<%=aktid %>"><%=jobFcGtTimerSaldo %> t.</span>
-                               <div style="font-size:10px;" id="saldoBelgts_<%=jobid%>_<%=aktid %>"><%=jobFcGtSaldo %> DKK</div>
+                              <div id="saldoTgts_<%=jobid%>_<%=aktid %>"><%=jobFcFYTimerSaldo %> t.</div>
+                                 
+                                 <div style="font-size:10px; line-height:12px; color:#999999;" id="saldoBelgts_<%=jobid%>_<%=aktid %>">
+                                    <%=jobFcGtSaldotimer %> t. <br /><%=jobFcGtSaldo %> DKK</div>
                               <%end if %>
 
                              </td>
@@ -911,6 +931,12 @@ function medarbfelter(jobnr, jobid, aktid, h1aar, h2aar, h1md, h2md, bgttpris)
 
 
 
+
+                    '*******************************************************************************************
+                    '*** PROJEKTGRUPPE ********************
+                    '*******************************************************************************************
+
+
                      '** Total FORECAST på gruppen '*****
                         if aktid <> 0 then
                         aktKri = " AND aktid = "& aktid
@@ -920,6 +946,9 @@ function medarbfelter(jobnr, jobid, aktid, h1aar, h2aar, h1md, h2md, bgttpris)
                         grpBy = "jobid"
                         end if
 
+
+
+                    if cint(timesimtp) = 0 then '** Beregn IKKE timepriser
 
                      strSQLmedrd = "SELECT SUM(timer) AS sumtimer FROM ressourcer_md WHERE jobid = " & jobid &" "& aktKri &" AND (medid = 0 "& medarbIPgrp(p) &") AND (aar = "& h1aar &" AND md = "& h1md &") GROUP BY "& grpBy 
                      'response.Write "<br>strSQLmedrd: " & strSQLmedrd & " - p: "& p
@@ -933,37 +962,64 @@ function medarbfelter(jobnr, jobid, aktid, h1aar, h2aar, h1md, h2md, bgttpris)
                      end if
                      oRec3.close 
 
+                    
+
+                    else '*** Forecast incl timepriser pr. gruppe
+
+                     strSQLmedrd = "SELECT SUM(rmd.timer) AS sumtimer, 6timepris AS avgGrpTp, COUNT(medarbid) AS antalmedtp FROM ressourcer_md rmd "_
+                     &" LEFT JOIN timepriser tp ON (tp.jobid = rmd.jobid AND tp.aktid = rmd.aktid AND (tp.medarbid = rmd.medid)) "_     
+                     &" WHERE rmd.jobid = " & jobid &" "& replace(aktKri, "aktid", "rmd.aktid") &" AND (medid = 0 "& medarbIPgrp(p) &") AND (aar = "& h1aar &" AND md = "& h1md &")"_
+                     &" GROUP BY tp.6timepris" 
+                     
+                     'strSQLmedrd = "SELECT AVG(6timepris) AS avgGrpTp FROM timepriser WHERE jobid = " & jobid &" "& aktKri &" AND (medarbid = 0 "& replace(medarbIPgrp(p), "medid", "medarbid") &") GROUP BY aktid" 
+                     'response.Write "<br>strSQLmedrd: " & strSQLmedrd  '& " - p: "& p
+                     'response.flush
+                     progrpTot = 0
+                     jobFcGtBelob = 0
+                     jobFcGtAvgTp = 0
+                     c = 0
+                     oRec3.open strSQLmedrd, oConn, 3
+                     while not oRec3.EOF 
+
+                        progrpTot = progrpTot + oRec3("sumtimer")
+
+                            'response.Write "SUMTIMER: "& oRec3("sumtimer") & "<br>" 
+                            'Response.write "AVGTP: "& oRec3("avgGrpTp") &"/"& oRec3("antalmedtp") & "<hr>"
+
+                        if isNULL(oRec3("avgGrpTp")) <> true AND oRec3("avgGrpTp") <> 0 then
+                        jobFcGtAvgTp = jobFcGtAvgTp + (oRec3("avgGrpTp") / oRec3("antalmedtp"))
+                        jobFcGtBelob =  jobFcGtBelob + (oRec3("sumtimer") *  oRec3("avgGrpTp"))
+                        end if
+
+                     c = c + 1
+                     oRec3.movenext
+                     wend
+                     oRec3.close 
+
+                     if c <> 0 then
+                     jobFcGtAvgTp = formatnumber(jobFcGtBelob/progrpTot, 2)
+                     jobFcGtBelob = formatnumber((jobFcGtBelob), 2)
+                     else 
+                     jobFcGtAvgTp = 0
+                     jobFcGtBelob = 0
+                     end if
+
+                     end if
+
                      if progrpTot <> 0 then 
                      progrpTotTxt = formatnumber(progrpTot, 0)
                      else
                      progrpTotTxt = ""
                      end if
-
-                     'AVG tp på gruppen
-                     if cint(timesimtp) = 1 then
-
-                     strSQLmedrd = "SELECT AVG(6timepris) AS avgGrpTp FROM timepriser WHERE jobid = " & jobid &" "& aktKri &" AND (medarbid = 0 "& replace(medarbIPgrp(p), "medid", "medarbid") &") GROUP BY aktid" 
-                     'response.Write "<br>strSQLmedrd: " & strSQLmedrd & " - p: "& p
-                     'response.flush
-                     jobFcGtBelob = 0
-                     jobFcGtAvgTp = 0
-                     oRec3.open strSQLmedrd, oConn, 3
-                     if not oRec3.EOF then
-
-                        jobFcGtAvgTp = formatnumber(oRec3("avgGrpTp"), 2)
-                        jobFcGtBelob = oRec3("avgGrpTp") * progrpTot
-
-                     end if
-                     oRec3.close 
-
-                     end if
                               
                      if progrpTot <> 0 then 
-                     jobFcGtBelobTxt = formatnumber(jobFcGtBelob, 0) & " DKK <br>Avg. tp: "& jobFcGtAvgTp
+                     jobFcGtBelobTxt = formatnumber(jobFcGtBelob, 0) & " DKK <div style='font-size:8px; line-height:10px;'>"& jobFcGtAvgTp & " /t.</div>"
                      else
                      jobFcGtBelobTxt = ""
                      end if
                       
+
+                    
                                 
                                 
                                '************************************************************************************************
@@ -1048,7 +1104,7 @@ function medarbfelter(jobnr, jobid, aktid, h1aar, h2aar, h1md, h2md, bgttpris)
              <td><input type="text" id="afd_jobakt_<%=jobid%>_<%=aktid %>_<%=p %>" class="form-control input-small afd_jobakt afd_jobakt_<%=p %> afd_jobakt_<%=jobid%>_<%=aktid %>" style="width:60px; text-align:right; background-color:<%=fcBgCol%>;" value="<%=progrpTotTxt %>" DISABLED />
             
                  <%if cint(timesimtp) = 1 AND jobFcGtBelobTxt <> "" then %>
-                 <div style="font-size:10px;" id="saldoBelgts_<%=jobid%>_<%=aktid %>"><%=jobFcGtBelobTxt %></div> 
+                 <div style="font-size:10px; color:#999999;" id="saldoBelgts_<%=jobid%>_<%=aktid %>"><%=jobFcGtBelobTxt %></div> 
                  <%end if %>
 
 

@@ -3,7 +3,7 @@
  
   
 
- public meNavn, meNr, meInit, meTxt, meEmail, meType, meAnsatDato, meOpsagtdato, meforecaststamp, meBrugergruppe, meVisskiftversion, meMansat, timer_ststop, create_newemployee, meCPR
+ public meNavn, meNr, meInit, meTxt, meEmail, meType, meAnsatDato, meOpsagtdato, meforecaststamp, meBrugergruppe, meVisskiftversion, meMansat, timer_ststop, create_newemployee, meCPR, meCreate_newemployee
      'Public Shared Function meStamdata(medid)
     Function meStamdata(medid)  
 
@@ -48,6 +48,7 @@
         timer_ststop = oRec3("timer_ststop")
 
         create_newemployee = oRec3("create_newemployee")
+        meCreate_newemployee = create_newemployee
 
 	    end if
 	    oRec3.close

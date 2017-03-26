@@ -2992,16 +2992,16 @@ end if 'Opret / rediger
 
             <%select case cint(rapporttype) 
             case 0
-            tblListWdt = 1450
+            tblListWdt = 1510
             case 1 'Prod / Enquery
-            tblListWdt = 1550 
+            tblListWdt = 1650 
             case 3 'Overview
-            tblListWdt = 2100
+            tblListWdt = 2150
             end select    %>
         
        
             <input type="hidden" id="rapporttype" value="<%=rapporttype%>" />
-             <div class="portlet-body" id="xtbl_orderlist" style="width:<%=tblListWdt%>px; padding:0px 20px 20px 0px; background-color:#ffffff;">          
+             <div class="portlet-body" id="xtbl_orderlist" style="width:<%=tblListWdt%>px; padding:0px 0px 0px 0px; background-color:#ffffff;">          
                 <%
                 
                 call tableheader %>
@@ -3631,11 +3631,13 @@ while not oRec.EOF
                                                                 end if
                                                                 
                                                                      if oRec6("shadowcopy") <> 1 then 
+
                                                                          if oRec6("betalt") <> 1 then %> 
                                                                         <br /><a href="../timereg/erp_opr_faktura_fs.asp?func=red&id=<%=oRec6("fid")%>&visfaktura=2&visjobogaftaler=1&visminihistorik=1&FM_kunde=<%=oRec("kid")%>&FM_job=<%=oRec("id")%>&FM_aftale=0&reset=1&FM_usedatokri=1&FM_start_dag=<%=day(dt_from)%>&FM_start_mrd=<%=month(dt_from)%>&FM_start_aar=<%=year(dt_from)%>&FM_slut_dag=<%=day(dt_to)%>&FM_slut_mrd=<%=month(dt_to)%>&FM_slut_aar=<%=year(dt_to)%>" target="_blank" style="color:#999999; font-size:9px;"><%=oRec6("faknr")%></a> 
                                                                                               
                                                                         <%else %>
-                                                                        <br /><a href="../timereg/erp_opr_faktura_fs.asp?func=red&id=<%=oRec6("fid")%>&visfaktura=2&visjobogaftaler=1&visminihistorik=1&FM_kunde=<%=oRec("kid")%>&FM_job=<%=oRec("id")%>&FM_aftale=0&reset=1&FM_usedatokri=1&FM_start_dag=<%=day(dt_from)%>&FM_start_mrd=<%=month(dt_from)%>&FM_start_aar=<%=year(dt_from)%>&FM_slut_dag=<%=day(dt_to)%>&FM_slut_mrd=<%=month(dt_to)%>&FM_slut_aar=<%=year(dt_to)%>" target="_blank" style="color:green; font-size:9px;"><i>V</i>&nbsp;&nbsp;<%=oRec6("faknr")%></a> 
+                                                                        <br />
+                                                                        <a href="../timereg/erp_opr_faktura_fs.asp?func=red&id=<%=oRec6("fid")%>&visfaktura=2&visjobogaftaler=1&visminihistorik=1&FM_kunde=<%=oRec("kid")%>&FM_job=<%=oRec("id")%>&FM_aftale=0&reset=1&FM_usedatokri=1&FM_start_dag=<%=day(dt_from)%>&FM_start_mrd=<%=month(dt_from)%>&FM_start_aar=<%=year(dt_from)%>&FM_slut_dag=<%=day(dt_to)%>&FM_slut_mrd=<%=month(dt_to)%>&FM_slut_aar=<%=year(dt_to)%>" target="_blank" style="color:green; font-size:9px;"><i>V</i>&nbsp;&nbsp;<%=oRec6("faknr")%></a> 
                                                                    
                                                                         <%end if%>
 
@@ -3645,8 +3647,42 @@ while not oRec.EOF
                                                                         if oRec6("betalt") <> 1 then  %>
                                                                         <br /><span style="color:#999999; font-size:10px;">(<%=oRec6("faknr")%>)</span> 
                                                                         <%else %>
-                                                                       
-                                                                         <br /><span style="color:green; font-size:10px;"><i>V</i>&nbsp; <%=oRec6("faknr")%></span> 
+                                                                        
+                                                                         <br />
+                                                                             
+                                                                           
+                                                                              
+                                                                              <% 
+                                                                                  strSQLFakorg = "SELECT jobnr, f.jobid, f.fid AS fakid, fakadr FROM fakturaer f "_
+                                                                                  &" LEFT JOIN job j ON (j.id = f.jobid) WHERE faknr = "& oRec6("faknr") &" AND shadowcopy <> 1 "
+
+                                                                                  'response.write strSQLFakorg
+                                                                                  'response.flush
+
+                                                                                  fak_ordrenr = 0
+                                                                                  fakid = 0
+                                                                                  fak_jobid = 0
+                                                                                  fak_kid = 0
+                                                                                  oRec8.open strSQLFakorg, oConn, 3
+                                                                                  if not oRec8.EOF then
+
+                                                                                  fak_ordrenr = oRec8("jobnr")
+                                                                                  fakid = oRec8("fakid")
+                                                                                  fak_jobid = oRec8("jobid") 
+                                                                                  fak_kid = oRec8("fakadr")
+
+                                                                                  end if
+                                                                                  oRec8.close
+
+                                                                                  %>
+                                                                                   
+
+                                                                                    <a href="../timereg/erp_opr_faktura_fs.asp?func=red&id=<%=fakid%>&visfaktura=2&visjobogaftaler=1&visminihistorik=1&FM_kunde=<%=fak_kid%>&FM_job=<%=fak_jobid%>&FM_aftale=0&reset=1&FM_usedatokri=1&FM_start_dag=<%=day(dt_from)%>&FM_start_mrd=<%=month(dt_from)%>&FM_start_aar=<%=year(dt_from)%>&FM_slut_dag=<%=day(dt_to)%>&FM_slut_mrd=<%=month(dt_to)%>&FM_slut_aar=<%=year(dt_to)%>" target="_blank" style="color:dodgerblue; font-size:9px;">
+                                                                                        <i>V</i>&nbsp; <%=oRec6("faknr")%> 
+                                                                                        <br />(invoiced on: <%=fak_ordrenr %>)</a>
+                                                                   
+
+                                                                               
                                                                         <%end if%>
 
 

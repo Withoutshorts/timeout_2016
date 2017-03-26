@@ -516,6 +516,11 @@ if len(session("user")) = 0 then
 								    'intTotal = replace(intBelob, ".", ",")
 								    intNetto = replace(intTotalMoms, ".", ",") 
 	                                intMoms = momsBelob
+                                            
+                                            if intMoms < 0 then 'NT
+                                                    intMoms = intMoms * -1
+                                            end if
+
 	                                intTotal = replace(intBeloeb, ".", ",")
 
                                     
@@ -604,7 +609,9 @@ if len(session("user")) = 0 then
 								            
 								            
 								            intMoms = replace(replace(formatnumber(intMoms, 2), ".", ""), ",", ".")
-								    
+								            
+                                           
+
 									'***** Slut konti, moms og posteringer ***'
 									'*****************************************'
 									

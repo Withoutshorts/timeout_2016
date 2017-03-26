@@ -775,6 +775,12 @@ varErrorText = "De angivne Job-ansvarlige % og Salgs-ansvarlig %<br> skal altid 
 case 184 
 varErrorText = "Slutdato ("& slutDatoNum &") ligger før Startdato ("& startDatoNum &") "
 
+case 185 
+varErrorText = "Du mangler at vælge enten job eller kunde."
+
+case 186 
+varErrorText = "Du mangler at vælge enten eksisterende aktivitet eller ny aktivitet.<br><br>Dato er ikke angivet i et gyldigt datoformat."
+
 case else
 varErrorText = errortype
 end select

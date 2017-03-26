@@ -791,7 +791,22 @@ if len(strLicenskey) <> 0 then
     lto = "assurator"
     strConnThis = "timeout_assurator64"
 
-    
+    case "2.2015-0806-TO161" 'Akelius
+    lto = "akelius"
+    strConnThis = "timeout_akelius64"
+
+    case "2.2011-0308-TO124" 'Magnus Informatik
+    lto = "mi"
+    strConnThis = "timeout_mi64"
+
+    case "2.2008-2112-TO097" 'Immenso 
+    lto = "immenso"
+    strConnThis = "timeout_immenso64"
+
+    case "2.2014-1007-TO155" 'SDU Tek
+    lto = "sdutek"
+    strConnThis = "timeout_sdutek64"
+
     'ODBC 3.51 Driver
 	
 	case else 'ktv udvikling (hvis der ikke er en cookie)

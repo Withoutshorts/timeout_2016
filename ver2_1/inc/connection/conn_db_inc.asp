@@ -423,8 +423,9 @@ if len(strLicenskey) <> 0 then
         'response.redirect "https://outzource.dk/timeout_xp/wwwroot/ver2_14/login_nede.asp"
 		'strConnThis = "driver={MySQL ODBC 3.51 Driver};server=localhost; Port=3306; uid=to_outzource2;pwd=SKba200473;database=timeout_fk;"
 	case "2.2008-2112-TO097" 'Immenso 
-	    lto = "immenso"
-		strConnThis = "driver={MySQL ODBC 3.51 Driver};server=localhost; Port=3306; uid=to_outzource2;pwd=SKba200473;database=timeout_immenso;"
+	    'lto = "immenso"
+		'strConnThis = "driver={MySQL ODBC 3.51 Driver};server=localhost; Port=3306; uid=to_outzource2;pwd=SKba200473;database=timeout_immenso;"
+        response.redirect "https://timeout.cloud/timeout_xp/wwwroot/ver2_14/login.asp?key=2.2008-2112-TO097&lto=immenso"
 	case "2.2009-0105-TO098" 'Essens 
 	    lto = "essens"
         response.redirect "https://timeout.cloud/timeout_xp/wwwroot/ver2_14/login.asp?key=2.2009-0105-TO098&lto=essens"
@@ -536,8 +537,9 @@ if len(strLicenskey) <> 0 then
 	    lto = "qwert"
 		strConnThis = "driver={MySQL ODBC 3.51 Driver};server=localhost; Port=3306; uid=to_outzource2;pwd=SKba200473;database=timeout_qwert;"
 	case "2.2011-0308-TO124" 'Magnus Informatik A/S
-	    lto = "mi"
-		strConnThis = "driver={MySQL ODBC 3.51 Driver};server=localhost; Port=3306; uid=to_outzource2;pwd=SKba200473;database=timeout_mi;"
+	    'lto = "mi"
+		'strConnThis = "driver={MySQL ODBC 3.51 Driver};server=localhost; Port=3306; uid=to_outzource2;pwd=SKba200473;database=timeout_mi;"
+        response.redirect "https://timeout.cloud/timeout_xp/wwwroot/ver2_14/login.asp?key=2.2011-0308-TO1248&lto=mi"
 	case "2.2011-0314-TO125" 'Frederiksberg Kommune By og Miljø
 	    'lto = "fk_bpm"
 		'strConnThis = "driver={MySQL ODBC 3.51 Driver};server=localhost; Port=3306; uid=to_outzource2;pwd=SKba200473;database=timeout_fk_bpm;"
@@ -733,8 +735,9 @@ if len(strLicenskey) <> 0 then
 
 
     case "2.2014-1007-TO155" 'SDU Tek
-	lto = "sdutek"
-	strConnThis = "driver={MySQL ODBC 3.51 Driver};server=localhost; Port=3306; uid=to_outzource2;pwd=SKba200473;database=timeout_sdutek;"
+	'lto = "sdutek"
+	'strConnThis = "driver={MySQL ODBC 3.51 Driver};server=localhost; Port=3306; uid=to_outzource2;pwd=SKba200473;database=timeout_sdutek;"
+    response.redirect "https://timeout.cloud/timeout_xp/wwwroot/ver2_14/login.asp?key=2.2014-1007-TO155&lto=sdutek"
 
 
     case "2.2014-0930-TO153" 'Glad
@@ -786,8 +789,9 @@ if len(strLicenskey) <> 0 then
 
 
     case "2.2015-0806-TO161" 'Akelius
-	lto = "akelius"
-	strConnThis = "driver={MySQL ODBC 3.51 Driver};server=localhost; Port=3306; uid=to_outzource2;pwd=SKba200473;database=timeout_akelius;"
+	'lto = "akelius"
+	'strConnThis = "driver={MySQL ODBC 3.51 Driver};server=localhost; Port=3306; uid=to_outzource2;pwd=SKba200473;database=timeout_akelius;"
+    response.redirect "https://timeout.cloud/timeout_xp/wwwroot/ver2_14/login.asp?key=2.2015-0806-TO161&lto=akelius"
 
     case "892015-0829-TO162" 'Ascendis
 	lto = "ascendis"

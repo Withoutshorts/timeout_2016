@@ -300,7 +300,7 @@ if len(session("user")) = 0 then
 	&" ska2.mnavn AS skans2, ska2.mnr AS skansnr2,"_
 	&" fd.aktid AS fdaktid, a.fase,"_
 	& "a.navn AS aktnavn, fo.navn AS fomr, fd.enhedsang As fakdet_enhedsang, "_
-	&" fd.rabat AS fakdet_rabat, v2.valutakode AS v2valutakode, medregnikkeioms, brugfakdatolabel, labeldato, fd.momsfri, f.fak_fomr, f.momssats, f.konto, f.modkonto, f.b_dato"_
+	&" fd.rabat AS fakdet_rabat, v2.valutakode AS v2valutakode, v3.valutakode AS v3valutakode, medregnikkeioms, brugfakdatolabel, labeldato, fd.momsfri, f.fak_fomr, f.momssats, f.konto, f.modkonto, f.b_dato"_
 	&" FROM fakturaer f "_
 	&" LEFT JOIN job j ON (j.id = f.jobid)"_ 
 	&" LEFT JOIN kunder k ON (k.kid = j.jobknr)"_ 
@@ -316,6 +316,7 @@ if len(session("user")) = 0 then
 	&" LEFT JOIN medarbejdere ska ON (ska.mid = sk2.kundeans1)"_ 
 	&" LEFT JOIN medarbejdere ska2 ON (ska2.mid = sk2.kundeans2)"_
 	&" LEFT JOIN valutaer v2 ON (v2.id = fd.valuta)"_
+    &" LEFT JOIN valutaer v3 ON (v3.id = f.valuta)"_
 	&" WHERE "& fakidKri &" ORDER BY f.fakdato DESC, tidspunkt DESC"
 	
 	'Response.write strSQL & "<hr>"
@@ -483,6 +484,7 @@ if len(session("user")) = 0 then
                     fakistdato = formatdatetime(oRec("istdato"))
                     fakistdato2 = formatdatetime(oRec("istdato2"))
 
+                    'A detail bliver der ikke omregnet til basis VAL
                     fakBelobexMoms = formatnumber(oRec("beloeb"),2)
                     fakMoms = formatnumber(oRec("moms"),2)
                     fakBelobinclMoms = formatnumber((oRec("beloeb")+oRec("moms")),2)
@@ -567,7 +569,9 @@ if len(session("user")) = 0 then
 		                    'strTxtExportStam = strTxtExportStam & ";"
 
                             if instr(lto, "epi") <> 0 OR lto = "intranet - local" then 'Alle EPI forfaldsto med på alle linjer
-                            strTxtExport = strTxtExport &";;;;;;;;;;;;;;;;;;;;;;;"& oRec("b_dato") &";"
+                            strTxtExport = strTxtExport &";;;;;;"& oRec("v3valutakode") &";;;;;;;;;;;;;;;;;"& oRec("b_dato") &";"
+                            else
+                            strTxtExport = strTxtExport &";;;;;;"& oRec("v3valutakode") &";" ';;;;;;;;;;;;;;;;"& oRec("b_dato") &";"
                             end if
 
                             
@@ -1209,6 +1213,7 @@ if len(session("user")) = 0 then
         belob = fakBelob
         antal = oRec("timer")
         moms = fakMoms
+
     
     else 'Kreditnota
 
@@ -1220,9 +1225,12 @@ if len(session("user")) = 0 then
 
         if cdbl(belob) > 0 then 'sikrer fortegen er negtativ på kreditnota også ved fejl indtastniing af n.feks negativ timepris
         belob = belob * -1
+        end if
+        
+        if cdbl(moms) > 0 then
         moms = moms * -1
         end if
-   
+
     end if
     
     if len(trim(oRec("adresse"))) <> 0 then
@@ -1315,7 +1323,14 @@ if len(session("user")) = 0 then
 							 end if
 							 oRec4.close
                              
-                             
+                       
+              
+            if oRec("faktype") = 1 then 'kreditnot
+                   aktbeloebPos = aktbeloebPos * -1
+            end if
+
+            aktbeloebPos = replace(aktbeloebPos, ".", "")
+
             strTxtExport = strTxtExport & aktbeloebPos & ";" & oRec("medregnikkeioms") & ";"
             strTxtExport = strTxtExport & oRec("valutakode") &";"
             strTxtExport = strTxtExport & Belob_fakvaluta &";"
