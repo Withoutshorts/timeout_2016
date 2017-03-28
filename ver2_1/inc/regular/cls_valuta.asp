@@ -26,7 +26,7 @@ end function
 function valutaList(valuta, felt)
 
      %>
-      <select name="<%=felt %>">
+      <select name="<%=felt %>" id="<%=felt%>" class="s_valuta">
             <%strSQL = "SELECT id, valutakode FROM valutaer WHERE id <> 0 ORDER BY valutakode"
         	oRec6.open strSQL, oConn, 3
         	while not oRec6.EOF

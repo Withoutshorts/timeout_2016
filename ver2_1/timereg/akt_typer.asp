@@ -304,7 +304,7 @@ if len(session("user")) = 0 then
             <input id="aty_on_realhours" name="aty_on_realhours" type="hidden" value="#" />
             </td>
             <td>
-         	<%select case oRec("aty_on_invoiceble") 
+         	<%select case cint(oRec("aty_on_invoiceble")) 
          	case 1 
          	aty_on_invoiceble_SEL1 = "SELECTED"
          	aty_on_invoiceble_SEL2 = ""
@@ -318,10 +318,12 @@ if len(session("user")) = 0 then
          	aty_on_invoiceble_SEL2 = ""
          	aty_on_invoiceble_SEL0 = "SELECTED"
             end select %>
+
+               
                 <select id="aty_on_invoiceble" name="aty_on_invoiceble" style="width:80px; font-size:9px; font-family:arial;">
-                    <option value=1 <%=aty_on_invoiceble_SEL1 %>>Fakturerbar</option>
-                    <option value=2 <%=aty_on_invoiceble_SEL2 %>>Ikke Fak.bar</option>
-                    <option value=0 <%=aty_on_invoiceble_SEL0 %>>Administrativ</option>
+                    <option value="1" <%=aty_on_invoiceble_SEL1 %>>Fakturerbar</option>
+                    <option value="2" <%=aty_on_invoiceble_SEL2 %>>Ikke Fak.bar</option>
+                    <option value="0" <%=aty_on_invoiceble_SEL0 %>>Administrativ</option>
                 </select>
             <input id="aty_on_invoiceble" name="aty_on_invoiceble" type="hidden" value="#" />
             </td>
@@ -346,7 +348,7 @@ if len(session("user")) = 0 then
                     <option value=2 <%=aty_on_calender_SEL2 %>>Ja - fravær (orange)</option>
                     <option value=0 <%=aty_on_calender_SEL0 %>>Nej</option>
                 </select>
-            <input id="aty_on_invoiceble" name="aty_on_invoiceble" type="hidden" value="#" />
+            <input id="aty_on_calender" name="aty_on_calender" type="hidden" value="#" />
             </td>
 
 

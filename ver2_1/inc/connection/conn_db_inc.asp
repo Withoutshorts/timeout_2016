@@ -707,8 +707,9 @@ if len(strLicenskey) <> 0 then
     response.redirect "https://timeout.cloud/timeout_xp/wwwroot/ver2_14/login.asp?key=2.2014-0501-TO149&lto=nt"
 
     case "2.2014-0505-TO150" 'Øens Tag og VVS entreprise
-	lto = "otvvs"
-	strConnThis = "driver={MySQL ODBC 3.51 Driver};server=localhost; Port=3306; uid=to_outzource2;pwd=SKba200473;database=timeout_otvvs;"
+	'lto = "otvvs"
+	'strConnThis = "driver={MySQL ODBC 3.51 Driver};server=localhost; Port=3306; uid=to_outzource2;pwd=SKba200473;database=timeout_otvvs;"
+    response.redirect "https://timeout.cloud/timeout_xp/wwwroot/ver2_14/login.asp?key=2.2014-0505-TO150&lto=otvvs"
 
     case "2.2014-0702-TO151" 'TEC
 	lto = "tec"

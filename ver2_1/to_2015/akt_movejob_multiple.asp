@@ -225,7 +225,7 @@
                         <option DISABLED></option>
                         <%end if
 
-                    %><option DISABLED><%=oRec2("jobnr") %> - <%=oRec2("jobnavn") %> [<%=oRec2("kkundenavn") %> (<%=oRec2("kkundenr") %>)]</option>
+                    %><option><%=oRec2("jobnr") %> - <%=oRec2("jobnavn") %> [<%=oRec2("kkundenavn") %> (<%=oRec2("kkundenr") %>)]</option>
                     <%end if %>
                         
                               
@@ -258,7 +258,7 @@
             <div class="row">
                 <div class="col-lg-1">&nbsp</div>
                 <div class="col-lg-6"><br /><br /><b>Flyt til job/akt.:</b> (sammenlæg: vælg 1, eller opret som ny)<br />
-                    <select name="FM_newakt" size=10 style="width:700px;">
+                    <select name="FM_newakt" size=20 style="width:700px;">
                   
                     <%   whSQL = "(jobstatus = 1)"
                     strSQLjobnew = "SELECT jobnavn, jobnr, j.id AS jobid, kid, kkundenavn, kkundenr, a.navn AS aktnavn, a.id AS aktid, FORMAT(SUM(timer), 2) AS sumtimer FROM aktiviteter a "_
@@ -279,7 +279,7 @@
                                 <option DISABLED></option>
                                 <%end if
 
-                            %><option DISABLED><%=oRec2("jobnr") %> - <%=oRec2("jobnavn") %> [<%=oRec2("kkundenavn") %> (<%=oRec2("kkundenr") %>)]</option>
+                            %><option value="-<%=oRec2("jobid") %>"><%=oRec2("jobnr") %> - <%=oRec2("jobnavn") %> [<%=oRec2("kkundenavn") %> (<%=oRec2("kkundenr") %>)]</option>
                                  <option value="-<%=oRec2("jobid") %>">>> Opret som ny aktivitet</option>
                             <%end if %>
                         

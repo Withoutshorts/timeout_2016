@@ -653,16 +653,18 @@ function showuploadimport_fn()
 end function
 
 
-public showEasyreg_val
+public showEasyreg_val, showeasyreg_per
 function showEasyreg_fn()
     
     showEasyreg_val = 0
-	strSQL6 = "SELECT showeasyreg FROM licens l WHERE id = 1"
+    showeasyreg_per = 0
+	strSQL6 = "SELECT showeasyreg, showeasyreg_per FROM licens l WHERE id = 1"
 	oRec6.open strSQL6, oConn, 3
 	If not oRec6.EOF then
 	
 	showEasyreg_val = oRec6("showeasyreg")
-	
+	showeasyreg_per = oREc6("showeasyreg_per")
+
 	end if
     oRec6.close
 

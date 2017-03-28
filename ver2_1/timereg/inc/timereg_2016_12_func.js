@@ -3063,21 +3063,30 @@ $(document).ready(function () {
     /// Easyreg funktioner //
     $(".ea_kom").click(function () {
 
+       
+
         var thisid = this.id;
 
         var idlngt = thisid.length;
         var idtrim = thisid.slice(5, idlngt);
+
+        //alert(idtrim)
+
         showEasyKom(idtrim);
+
+
     });
 
     function showEasyKom(idthis) {
+
         $("#kom_easy").css("visibility", "visible");
         $("#kom_easy").css("display", "");
-        $.scrollTo('+=100px', 800);
+        //$.scrollTo('+=100px', 800);
         $("#FM_kommentar_easy").focus();
         $("#FM_kom_dagtype").val(idthis)
 
     }
+
 
     $("#close_kom_easy").click(function () {
 

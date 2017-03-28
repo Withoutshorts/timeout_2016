@@ -3045,6 +3045,11 @@ SET U1.kpvaluta_kurs = U2.kurs
 WHERE U2.grundvaluta = 1 AND U1.kpvaluta = U2.id;
 INSERT INTO dbversion (dbversion) VALUES (20170224.1) 
 
+<br /><br />20170326.1<br />
+ALTER TABLE licens ADD (
+showeasyreg_per Int NOT NULL DEFAULT 0);
+INSERT INTO dbversion (dbversion) VALUES (20170326.1) 
+
 <%
 
 

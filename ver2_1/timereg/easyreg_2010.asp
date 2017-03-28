@@ -169,7 +169,7 @@ else
 	
 	tTop = 0
 	tLeft = 0
-	tWdth = 600
+	tWdth = 800
 	
 	
 	call tableDiv(tTop,tLeft,tWdth)

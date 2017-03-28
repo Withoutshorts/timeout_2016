@@ -298,6 +298,39 @@ $(document).ready(function () {
     });
 
 
+    $(".s_valuta").change(function () {
+
+        var thisid = this.id
+        var thisvallngt = thisid.length
+        var thisvaltrim = thisid.slice(13, thisvallngt)
+        thisval = thisvaltrim
+
+        jobid = $("#jobid_" + thisval).val()
+        //alert(thisval)
+        jo_valuta = $(this).val()
+
+
+
+        //alert(jobbruttooms)
+
+        $.post("?jobid=" + jobid + "&jo_valuta=" + jo_valuta, { control: "FN_updatejobvaluta", AjaxUpdateField: "true" }, function (data) {
+        });
+
+
+        $("#sp_forkalk_" + thisval).css("visibility", "visible")
+
+
+        setTimeout(function () {
+            // Do something after 5 seconds
+
+            $("#sp_forkalk_" + thisval).css("visibility", "hidden")
+        }, 1000);
+
+
+    });
+
+
+
     $(".s_jobdato").change(function () {
 
 

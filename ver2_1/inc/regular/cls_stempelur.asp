@@ -1936,10 +1936,10 @@ function stempelur_kolonne(lto, showextended)
 
 
     select case lcase(lto)
-    case "xintranet - local"
+    case "intranet - local"
 
     showkgtim = 1
-    showkgpau = 0
+    showkgpau = 1
     showkgtil = 1
     showkgtot = 1
     showkgnor = 1
@@ -2684,7 +2684,10 @@ next
 	totSon = sonMin - (sonMinPause - (sonFraTimer))
 	
     showextended = 0
-	call stempelur_kolonne(lto, showextended)
+
+    if cint(intEasyreg) <> 1 then
+	    call stempelur_kolonne(lto, showextended)
+    end if
 	
 	
 	select case visning 

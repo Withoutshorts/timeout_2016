@@ -97,9 +97,9 @@
 
                 
                         <div class="row">
-                            <div class="col-lg-1">Projekt:</div>
+                          
 
-                            <div class="col-lg-4">
+                            <div class="col-lg-6">Projekt:<br />
                                 
                                 <%
                                     strSQLjob = "SELECT id, jobnr, jobnavn FROM job order by jobnavn"                                                 
@@ -145,8 +145,11 @@
                                                                                                                    
                             %>
 
-                            <div class="col-lg-1" style="text-align:right">Fra:</div>
-                            <div class="col-lg-2">
+                            
+                                
+                                
+                           
+                            <div class="col-lg-2">Fra: (hele måneder)<br />
                                 <div class='input-group date' id='datepicker_stdato'>
                                 <input type="text" class="form-control input-small" name="aar" value="<%=aar %>" placeholder="dd-mm-yyyy" />
                                 <span class="input-group-addon input-small">
@@ -156,8 +159,8 @@
                                 </div>
                             </div>
 
-                            <div class="col-lg-1" style="text-align:right">Til:</div>
-                            <div class="col-lg-2">
+                            
+                            <div class="col-lg-2">Til:<br />
                                 <div class='input-group date' id='datepicker_stdato'>
                                 <input type="text" class="form-control input-small" name="aarslut" value="<%=aarslut %>" placeholder="dd-mm-yyyy" />
                                 <span class="input-group-addon input-small">
@@ -166,7 +169,7 @@
                                     </span>
                                 </div>
                             </div>
-                            <div class="col-lg-1"><button type="submit" class="btn btn-secondary btn-sm pull-right"><b>Søg >></b></button></div>  
+                            <div class="col-lg-1"><br /><button type="submit" class="btn btn-secondary btn-sm pull-right"><b>Søg >></b></button></div>  
                         </div>
                                              
                         </form>
@@ -184,100 +187,7 @@
                           
                           oRec4.close 
                           'response.Write "test" & Strjobid
-                      %>
-
-                     <!-- <table class="table dataTable table-striped table-bordered table-hover ui-datatable">
-                          
-                          <thead>
-                              <tr>
-                                  <th>Projekt: <%=jobid %> <br />
-                                      Periode:
-                                  </th>
-                                  <th style="text-align:center">Jan</th>
-                                  <th style="text-align:center">Feb</th>
-                                  <th style="text-align:center">Mar</th>
-                                  <th style="text-align:center">Apr</th>
-                                  <th style="text-align:center">Maj</th>
-                                  <th style="text-align:center">Jun</th>
-                                  <th style="text-align:center">Jul</th>
-                                  <th style="text-align:center">Aug</th>
-                                  <th style="text-align:center">Sep</th>
-                                  <th style="text-align:center">Okt</th>
-                                  <th style="text-align:center">Nov</th>
-                                  <th style="text-align:center">Dec</th>
-                                  <th style="text-align:center">Total pr. medarbejder</th>
-          
-                                      
-                              </tr>
-                          </thead>
-
-
-
-                          <tbody>
-                            
-
-                              <%
-                                  
-                                  strSQLtimer = "SELECT Tmnavn, Tmnr, sum(Timer) as Timer FROM timer WHERE tjobnr = "& Strjobid & " GROUP BY Tmnr "
-                                  
-                                  oRec5.open strSQLtimer, oConn, 3
-      
-                                  while not oRec5.EOF
-
-                                  Strmedarb = oRec5("Tmnavn")
-                                  Strtimer = oRec5("Timer")
-                                   
-                              %>
-
-                              <tr>
-                                  <td><%=Strmedarb %></td>                                  
-                                  <td>&nbsp</td>
-                                  <td>&nbsp</td>
-                                  <td>&nbsp</td>
-                                  <td>&nbsp</td>
-                                  <td>&nbsp</td>
-                                  <td>&nbsp</td>
-                                  <td>&nbsp</td>
-                                  <td>&nbsp</td>
-                                  <td>&nbsp</td>
-                                  <td>&nbsp</td>
-                                  <td>&nbsp</td>
-                                  <td>&nbsp</td>
-                                  <td style="text-align:center"><%=Strtimer %></td>
-                              </tr>
-
-                              <%
-                                oRec5.movenext
-                                wend
-                                oRec5.close 
-                              %>
-
-                          </tbody>
-
-                          <tfoot>
-
-                              <tr>
-                                  <th>Total pr. månded</th>
-                                  <th style="text-align:center">0</th>
-                                  <th style="text-align:center">0</th>
-                                  <th style="text-align:center">0</th>
-                                  <th style="text-align:center">0</th>
-                                  <th style="text-align:center">0</th>
-                                  <th style="text-align:center">0</th>
-                                  <th style="text-align:center">0</th>
-                                  <th style="text-align:center">0</th>
-                                  <th style="text-align:center">0</th>
-                                  <th style="text-align:center">0</th>
-                                  <th style="text-align:center">0</th>
-                                  <th style="text-align:center">0</th>
-                                  <th style="text-align:center">0000</th>
-                              </tr>
-
-                          </tfoot>
-
-                      </table> -->
-                      <%
-
+                   
                         
                       %>
                       <table style="background-color:white;" class="table dataTable table-striped table-bordered table-hover ui-datatable">
@@ -339,12 +249,17 @@
                                   slutmonth = Month(aarslut)
                                   slutyear = Year(aarslut)
                                                                  
-                                  startdato = startyear & "-" & (startmonth) & "-1"
-                                  slutdato = slutyear & "-" & (slutmonth + 1) & "-0"
+                                  startdato = startyear & "/" & (startmonth) & "/1"
+                                  'slutdato = slutyear & "/" & (slutmonth + 1) & "/1"
 
-                                  if slutmonth = 12 then
-                                  slutdato = (slutyear + 1) & "-" & 1 & "-0"
-                                  end if
+                                  slutdato = dateAdd("m", 1, "1/"& slutmonth &"/"& slutyear) 
+                                  slutdato = dateAdd("d", -1, slutdato)
+                                  slutdato = year(slutdato) & "/" & month(slutdato) & "/" & day(slutdato)
+
+
+                                  'if slutmonth = 12 then
+                                  'slutdato = (slutyear + 1) & "/1/1"
+                                  'end if
                                  
                                   'response.Write "start: " & startdato & "slut: " & slutdato 
 
@@ -356,9 +271,9 @@
                                   dim timer_md, dato_medid, medarbid, medidnavn, manedstot
                                   Redim timer_md(m,d), dato_medid(m,d), medarbid(m), medidnavn(m), manedstot(antalmaaned)
                                   
-                                  strSQL = "SELECT tmnr, tmnavn, tdato, sum(timer) as Timer FROM timer WHERE tfaktim <> 5 AND tjobnr = "& Strjobid & " AND tdato BETWEEN '"& startdato &"' AND '"& slutdato &"' AND tmnr is not null GROUP by tmnr, year(tdato), month(tdato) Order by tmnr, tdato "
+                                  strSQL = "SELECT tmnr, tmnavn, tdato, sum(timer) as Timer FROM timer WHERE tfaktim <> 5 AND tjobnr = '"& Strjobid & "' AND tdato BETWEEN '"& startdato &"' AND '"& slutdato &"' AND tmnr is not null GROUP by tmnr, year(tdato), month(tdato) Order by tmnr, tdato "
                                   'response.Write strSQL
-                                  'repsonse.flush
+                                  'response.flush
                                   oRec.open strSQL, oConn, 3
                                   d = 0
                                   m = -1
@@ -393,9 +308,12 @@
                                   'response.Write "m" & m & "d" & d  
                                   for m = 0 TO m_end
                                   'if medarbid(m) <> lastmid and len(trim(medidnavn(m))) <> 0 then
+
+                                  call meStamdata(medarbid(m)) 
+
                                   %>
                                         <tr>
-                                            <td><%=medidnavn(m) %></td>
+                                            <td style="white-space:nowrap;"><%=left(medidnavn(m), 10) & " ["& meInit &"]" %></td>
 
                                             <%
                                                 'expTxt = expTxt & medidnavn(m) & ";" 
@@ -441,7 +359,7 @@
                                             <td style="text-align:right">
                                                 <%
 
-                                                    strSQLtimer = "SELECT sum(timer) as Timer FROM timer WHERE tfaktim <> 5 AND tjobnr ="& Strjobid & " AND tmnr ="& medarbid(m) & " AND tdato BETWEEN '"& startdato &"' AND '"& slutdato &"'"
+                                                    strSQLtimer = "SELECT sum(timer) as Timer FROM timer WHERE tfaktim <> 5 AND tjobnr = '"& Strjobid & "' AND tmnr ="& medarbid(m) & " AND tdato BETWEEN '"& startdato &"' AND '"& slutdato &"'"
                                                     'response.Write strSQLtimer
                                                     'response.Flush
                                                     oRec.open strSQLtimer, oConn, 3
@@ -482,7 +400,7 @@
 
                                   <th style="text-align:right">
                                       <%
-                                          strSQLtimertotal = "SELECT sum(timer) as Timer FROM timer WHERE tfaktim <> 5 AND tjobnr ="& Strjobid & " AND tdato BETWEEN '"& startdato &"' AND '"& slutdato &"'"
+                                          strSQLtimertotal = "SELECT sum(timer) as Timer FROM timer WHERE tfaktim <> 5 AND tjobnr = '"& Strjobid & "' AND tdato BETWEEN '"& startdato &"' AND '"& slutdato &"' GROUP BY tjobnr"
 
                                           'response.Write strSQLtimertotal
 

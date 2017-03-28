@@ -807,6 +807,10 @@ if len(strLicenskey) <> 0 then
     lto = "sdutek"
     strConnThis = "timeout_sdutek64"
 
+    case "2.2014-0505-TO150" 'Øens Tag og VVS entreprise
+    lto = "otvvs"
+    strConnThis = "timeout_otvvs64"
+
     'ODBC 3.51 Driver
 	
 	case else 'ktv udvikling (hvis der ikke er en cookie)

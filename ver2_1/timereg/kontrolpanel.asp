@@ -880,6 +880,7 @@ if len(session("user")) = 0 then
             showeasyreg = 0
             end if
 
+            showeasyreg_per = request("showeasyreg_per")
 
             if len(trim(request("forcebudget_onakttreg"))) <> 0 then
             forcebudget_onakttreg = 1
@@ -1182,16 +1183,16 @@ if len(session("user")) = 0 then
             &" fakturanr_2 = "& fakturanr_2 &", "_
             &" kreditnr_2 = "& kreditnr_2 &", "_
             &" fakturanr_kladde_2  = "& fakturanr_kladde_2  &","_
-                &" fakturanr_3 = "& fakturanr_3 &", "_
+            &" fakturanr_3 = "& fakturanr_3 &", "_
             &" kreditnr_3 = "& kreditnr_3 &", "_
             &" fakturanr_kladde_3  = "& fakturanr_kladde_3  &","_
-                &" fakturanr_4 = "& fakturanr_4 &", "_
+            &" fakturanr_4 = "& fakturanr_4 &", "_
             &" kreditnr_4 = "& kreditnr_4 &", "_
             &" fakturanr_kladde_4  = "& fakturanr_kladde_4  &","_
-                &" fakturanr_5 = "& fakturanr_5 &", "_
+            &" fakturanr_5 = "& fakturanr_5 &", "_
             &" kreditnr_5 = "& kreditnr_5 &", "_
-            &" fakturanr_kladde_5  = "& fakturanr_kladde_5  
-
+            &" fakturanr_kladde_5  = "& fakturanr_kladde_5 &","_  
+            &" showeasyreg_per = "& showeasyreg_per &""
 			strSQL = strSQL & strSQLat & " WHERE id = 1"
 			
 			'Response.Write strSQL
@@ -1354,7 +1355,7 @@ if len(session("user")) = 0 then
         &" fakturanr_kladde_4, "_
         &" fakturanr_5, "_
         &" kreditnr_5, "_
-        &" fakturanr_kladde_5"_
+        &" fakturanr_kladde_5, showeasyreg_per "_
         &" FROM licens WHERE id = 1"
 		
 		'Response.Write strSQL
@@ -1511,6 +1512,8 @@ if len(session("user")) = 0 then
 
 			
             showeasyreg = oRec("showeasyreg")
+            showeasyreg_per = oRec("showeasyreg_per")
+
             forcebudget_onakttreg = oRec("forcebudget_onakttreg")
             showupload = oRec("showupload")
 
@@ -2135,10 +2138,45 @@ if len(session("user")) = 0 then
           else
           showeasyregCHK = ""
           end if
+
+          showeasyreg_perSEL0 = ""
+          showeasyreg_perSEL7 = ""
+          showeasyreg_perSEL21 = ""
+              showeasyreg_perSEL28 = ""
+              showeasyreg_perSEL90 = ""
+              showeasyreg_perSEL180 = ""
+              showeasyreg_perSEL365 = ""
+             
+          select case showeasyreg_per
+          case 0
+          showeasyreg_perSEL0 = "SELECTED"
+          case 7
+          showeasyreg_perSEL7 = "SELECTED"
+              case 21
+          showeasyreg_perSEL21 = "SELECTED"
+         case 28
+          showeasyreg_perSEL28 = "SELECTED"
+              case 90
+          showeasyreg_perSEL90 = "SELECTED"
+              case 180
+          showeasyreg_perSEL180 = "SELECTED"
+              case 365
+          showeasyreg_perSEL365 = "SELECTED"
+          end select
           %>
 
            <input type="checkbox" name="showeasyreg" value="1" <%=showeasyregCHK %> /> Brug Easyreg. registrering på timereg. siden. <br />
            Giver mulighed for at TimeOut selv fordeler dagens arbejde ud på de forvalgte Easyreg. aktiviteter.
+            <br />
+          Periode begrænsning på easyreglisten, maks: <select name="showeasyreg_per">
+                               <option value="0" <%=showeasyreg_perSEL0 %>>Ingen begrænsning</option>
+                               <option value="7" <%=showeasyreg_perSEL7 %>>7 dage</option>
+                               <option value="21" <%=showeasyreg_perSEL21 %>>3 Uger</option>
+                               <option value="28" <%=showeasyreg_perSEL28 %>>4 Uger</option>
+                               <option value="90" <%=showeasyreg_perSEL90 %>>3 Måneder</option>
+                               <option value="180" <%=showeasyreg_perSEL180 %>>6 Måneder</option>
+                               <option value="365" <%=showeasyreg_perSEL365 %>>1 år</option> 
+                               </select> gamle job (efter jobstartdato)
           </td>
             </tr>
             

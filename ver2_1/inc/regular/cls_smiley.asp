@@ -879,7 +879,7 @@ function afslutuge(weekSelected, visning, tjkDag7, rdir, SmiWeekOrMonth)
                     %>
 
                     <%if datepart("ww", tjkDag7, 2 ,2) <> datepart("ww", sidstedagisidsteAfsluge, 2 ,2) AND thisfile <> "ugeseddel_2011.asp" then  %>
-                    (<a href="<%=menu2015lnk%>timereg_akt_2006.asp?showakt=1&strdag=<%=day(sidstedagisidsteAfsluge)%>&strmrd=<%=month(sidstedagisidsteAfsluge)%>&straar=<%=year(sidstedagisidsteAfsluge)%>" class="vmenu"><%=funk_txt_047 %> <%=datePart("ww", sidstedagisidsteAfsluge, 2,2) %>..</a>)
+                    (<a href="<%=menu2015lnk%>timereg_akt_2006.asp?showakt=1&strdag=<%=day(sidstedagisidsteAfsluge)%>&strmrd=<%=month(sidstedagisidsteAfsluge)%>&straar=<%=year(sidstedagisidsteAfsluge)%>" class="vmenu"><%=funk_txt_047 &" "& datePart("ww", sidstedagisidsteAfsluge, 2,2) %>..</a>)
                     <%end if %> 
                         
                     <%

@@ -97,6 +97,17 @@ case "FN_updatejovforkalktimer"
                  strSQLUpdj = "UPDATE job SET budgettimer = "& jobforklak &", ikkebudgettimer = 0 WHERE id = "& jobid 
                  oConn.Execute(strSQLUpdj)
 
+
+case "FN_updatejobvaluta"
+
+                 jobid = request("jobid")   
+                 jo_valuta = request("jo_valuta")
+                 
+            
+                 '** Job valuta ****'
+                 strSQLUpdj = "UPDATE job SET jo_valuta = "& jo_valuta &" WHERE id = "& jobid 
+                 oConn.Execute(strSQLUpdj)
+
 case "FN_updatejovbrutoms"
                 
 
@@ -105,7 +116,7 @@ case "FN_updatejovbrutoms"
                  
                  jobbruttooms = replace(jobbruttooms, ",",".")
 
-                 '** Job kommentar ****'
+                 '** Job bruttooms ****'
                  strSQLUpdj = "UPDATE job SET jo_bruttooms = "& jobbruttooms &" WHERE id = "& jobid 
                  oConn.Execute(strSQLUpdj)
 
@@ -2247,7 +2258,7 @@ if len(session("user")) = 0 then
 	&" ikkebudgettimer, budgettimer, jobtpris, COALESCE(sum(r.timer), 0) AS restimer, stade_tim_proc, "_
 	&" risiko, udgifter, rekvnr, forventetslut, restestimat, jobstatus, j.kommentar, s.navn AS aftnavn, "_
     &" jo_dbproc, jo_bruttooms, jo_udgifter_intern, jo_udgifter_ulev, jo_bruttofortj, jo_gnsfaktor, "_
-    &" jobans_proc_1, jobans_proc_2, jobans_proc_3, jobans_proc_4, jobans_proc_5, virksomheds_proc, lukkedato, preconditions_met "
+    &" jobans_proc_1, jobans_proc_2, jobans_proc_3, jobans_proc_4, jobans_proc_5, virksomheds_proc, lukkedato, preconditions_met, jo_valuta"
 	
         
 
@@ -2492,7 +2503,9 @@ if len(session("user")) = 0 then
 		jobbudget = oRec("jo_bruttooms")
 		else
 		jobbudget = 0
-		end if      
+		end if
+            
+        jo_valuta = oRec("jo_valuta")      
 
         if len(oRec("restestimat")) <> 0 then
 		restestimat = oRec("restestimat")
@@ -3047,7 +3060,7 @@ if len(session("user")) = 0 then
 		 else
 		 prioFMType = "text"
 		 end if%>
-         <input name="FM_risiko" id="FM_risiko_<%=c %>" type="<%=prioFMType %>" value="<%=thissortID%>" class="s_prio" style="width:30px; font-size:11px; font-family:arial;" />
+         <input name="FM_risiko" id="FM_risiko_<%=c %>" type="<%=prioFMType %>" value="<%=thissortID%>" class="s_prio" style="width:30px;" />
          
                 
          <span id="sp_propd_<%=c %>" style="color:green; font-size:12px; visibility:hidden;" ><i>V</i></span><br />
@@ -3075,8 +3088,9 @@ if len(session("user")) = 0 then
          %>
 
                 
-
+        <!--
          <a href="webblik_joblisten21.asp?nomenu=1&FM_kunde=<%=oRec("jobknr") %>&jobnr_sog=<%=oRec("jobnr") %>&FM_start_dag=<%=start_dag%>&FM_start_mrd=<%=start_mrd%>&FM_start_aar=<%=start_aar%>&FM_slut_dag=<%=slut_dag%>&FM_slut_mrd=<%=slut_mrd%>&FM_slut_aar=<%=slut_aar%>&FM_usedatokri=1" target="_blank" class=rmenu>+ Gantt</a>
+                -->
 					
         
          
@@ -3091,7 +3105,7 @@ if len(session("user")) = 0 then
             case 0
             case 1,2
             %>
-        <td valign=top style="padding:6px 3px 3px 3px; white-space:nowrap; border-top:<%=btop%>px #cccccc solid; border-right:1px #CCCCCC solid; border-left:1px #CCCCCC solid;">F: <a href="ressource_belaeg_jbpla.asp" class=vmenu target=_blank><%=formatnumber(oRec("restimer"), 2)%> t.</a>
+        <td valign=top style="padding:6px 3px 3px 3px; white-space:nowrap; border-top:<%=btop%>px #cccccc solid; border-right:1px #CCCCCC solid; border-left:1px #CCCCCC solid;"><span style="font-size:9px; color:#000000;">Forecast:<br /></span><a href="ressource_belaeg_jbpla.asp" target=_blank style="color:#999999; font-size:11px; font-weight:lighter;"><%=formatnumber(oRec("restimer"), 2)%> t.</a>
    </td>
 		<%end select %>
 
@@ -3162,10 +3176,11 @@ if len(session("user")) = 0 then
 
 
         <td valign=top style="padding:6px 3px 3px 3px; border-top:<%=btop%>px #cccccc solid; border-left:<%=bdleftreal%>px #CCCCCC solid; border-right:<%=bdrightreal%>px #cccccc solid; white-space:nowrap;">
-         
        
+       
+
             <table border="0" cellspacing="1" cellpadding="0"><tr><td valign="top">
-            <%=formatnumber(timerforbrugt, 2)%> t.
+             <span style="font-size:9px; color:#000000;">Realiseret:</span> <b><%=formatnumber(timerforbrugt, 2)%></b> t.
 
                    <span style="font-size:9px; color:#999999;">
             <% if cint(realfakpertot) <> 0 then %> 
@@ -3427,11 +3442,23 @@ if len(session("user")) = 0 then
             forkalkvalue = timerTildelt
             bruttooms = jobbudget
         %>
-		<td valign="top" style="padding:6px 3px 3px 3px; border-top:<%=btop%>px #cccccc solid;" class=lille align=right><input id="FM_forkalk_<%=c %>" type="text" class="s_forkalk" value="<%=forkalkvalue %>" style="width:75px;"/>
-            <div style="padding-top:3px;"></div>
-            <input id="FM_brutoms_<%=c %>" type="text" class="s_brutoms" value="<%=bruttooms %>" style="width:75px;"/>
-
-            <span id="sp_forkalk_<%=c %>" style="color:green; font-size:12px; visibility:hidden;" ><i>V</i></span>
+		<td valign="top" style="padding:6px 3px 3px 3px; border-top:<%=btop%>px #cccccc solid; white-space:nowrap;" class=lille align=right>
+             <span style="font-size:9px; color:#000000; float:left; padding-left:4px;">Budget:</span>
+            <div style="padding:2px; float:right;">
+           <input id="FM_forkalk_<%=c %>" type="text" class="s_forkalk" value="<%=forkalkvalue %>" style="width:65px; text-align:right;"/> t.<br />
+           </div>
+            <div style="padding:2px; float:right;">
+            <input id="FM_brutoms_<%=c %>" type="text" class="s_brutoms" value="<%=bruttooms %>" style="width:75px; text-align:right;"/>
+            </div>
+            <div style="padding:2px; float:right;">
+              <%
+                             felt = "FM_jo_valuta_"& c
+                             call valutaList(jo_valuta, felt)
+                             %>
+            <br />
+                <span id="sp_forkalk_<%=c %>" style="color:green; font-size:12px; visibility:hidden;" ><i>V</i></span>
+            </div>
+            
 		</td>
         
 		
@@ -3445,7 +3472,7 @@ if len(session("user")) = 0 then
 
         <td valign=top class=lille style="padding:6px 3px 3px 3px; border-top:<%=btop%>px #cccccc solid; border-right:0px #cccccc solid; white-space:nowrap;">
         Budget  <%if editok = 1 then%>
-		        <a href="jobs.asp?menu=job&func=red&id=<%=oRec("id")%>&int=1&rdir=webblik&showdiv=forkalk" class=rmenu>(+ rediger)</a> 
+		        <a href="jobs.asp?menu=job&func=red&id=<%=oRec("id")%>&int=1&rdir=webblik&showdiv=forkalk" class=rmenu target="_blank">(+ rediger)</a> 
                 <%end if %>
         <table width=100% cellspacing=1 cellpadding=1 bgcolor="#cccccc">
         <tr>
@@ -4008,7 +4035,10 @@ if len(session("user")) = 0 then
 
     OmsRealTot = OmsRealTot + OmsReal
 	
-	budgetIalt = budgetIalt + oRec("jo_bruttooms") 'oRec("jobtpris")
+	call valutaKurs_fakhist(oRec("jo_valuta"))
+    call beregnValuta(oRec("jo_bruttooms"),dblKurs_fakhist,100)
+    budgetIalt = budgetIalt + valBelobBeregnet/100 'oRec("jo_bruttooms") 'oRec("jobtpris")
+
 	'budgettimerIalt = budgettimerIalt + (oRec("budgettimer") + oRec("ikkebudgettimer"))
 	
      salgsOmkFaktiskTot = salgsOmkFaktiskTot + salgsOmkFaktisk/1
@@ -4142,7 +4172,7 @@ if len(session("user")) = 0 then
                %>
            <td align=right class=lille valign=top style="border-top:1px #cccccc solid; white-space:nowrap; border-right:1px #cccccc solid; padding:6px 3px 3px 3px;">
     <b><%=formatnumber(budgettimerIalt, 2)%> t.</b><br />
-    <b><%=formatnumber(budgetIalt, 2)&" "& basisValISO_f8%> </b>
+    <b><%=formatnumber(budgetIalt, 2)&" "& basisValISO_f8%>  </b>
                </td>
 
        <%

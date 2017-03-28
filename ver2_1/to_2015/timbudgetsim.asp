@@ -1278,8 +1278,11 @@ while not oRec.EOF
 
 
                                         jobbudget_fordeling_fy = 0
-                                        strSQLbudgerFordelFY = "SELECT SUM(timer) AS budgettimer FROM ressourcer_ramme WHERE jobid = " & oRec("jid") & " AND aktid <> 0 AND aar = "& year(y0) &""  
+                                        strSQLbudgerFordelFY = "SELECT SUM(timer) AS budgettimer FROM ressourcer_ramme WHERE jobid = " & oRec("jid") & " AND aktid <> 0 AND aar = "& year(y0) &" GROUP BY jobid"  
                     
+                                        'Response.write strSQLbudgerFordelFY
+                                            
+
                                    
                                          oRec3.open strSQLbudgerFordelFY, oConn, 3
                                          if not oRec3.EOF then
@@ -1290,7 +1293,7 @@ while not oRec.EOF
                                          oRec3.close   
 
                                          if jobbudget_fordeling_fy <> 0 then
-                                         jobbudget_fordeling_fy = formatnumber(forjobbudget_fordeling_fy, 0)
+                                         jobbudget_fordeling_fy = formatnumber(jobbudget_fordeling_fy, 0)
                                          else
                                          jobbudget_fordeling_fy = 0
                                          end if
@@ -1314,7 +1317,7 @@ while not oRec.EOF
 
 
               strJobTxtTds(oRec("jid")) = strJobTxtTds(oRec("jid")) & "<tr id='tr_job_"& oRec("jid") &"' style='background-color:"& cssBgCol &";'><td style='white-space:nowrap;'><span style=""color:#5582d2;"" id='an_"& oRec("jid") &"' class='fp_jid'><b>["& jobPlusMinusiconLnk &"]</b></span>&nbsp;<b>"& left(oRec("jobnavn"), 20) &"</b> ("& oRec("jobnr") &") "_
-              &"</td><td style='white-space:nowrap; text-align:right;'>FY: "& jobbudget_fordeling_fy &" t."
+              &"</td><td style='white-space:nowrap; text-align:right; color:#999999;'>FY: "& jobbudget_fordeling_fy &" t."
 
               strJobTxtTds(oRec("jid")) = strJobTxtTds(oRec("jid")) &"<input type=""hidden"" id=""jobaktT_"& oRec("jid") &"_0"" value="& jobbudget_fordeling_fy &">"
          
@@ -1384,7 +1387,7 @@ while not oRec.EOF
                     
                         if oRec("aktbudgetsum") <> 0 then
                         aktbudget = formatnumber(oRec("aktbudgetsum"), 0) &" DKK"
-                        strAktTxtTds(oRec("aid")) = strAktTxtTds(oRec("aid")) &"<span style=""font-size:10px;"">"& aktbudget &"</span>"
+                        strAktTxtTds(oRec("aid")) = strAktTxtTds(oRec("aid")) &"<span style=""font-size:10px;"">"& aktbudget &"</span><br>"
                         end if
 
 
@@ -1406,7 +1409,7 @@ while not oRec.EOF
                                          oRec3.close   
 
                                         if aktbudget_fordeling_fy <> 0 then
-                                                aktbudget_fordeling_fyTxt = "<span style=""font-size:11px;"">FY: "& formatnumber(aktbudget_fordeling_fy, 2) &" t.</span>"
+                                                aktbudget_fordeling_fyTxt = "<span style=""font-size:11px; color:#999999;"">FY: "& formatnumber(aktbudget_fordeling_fy, 2) &" t.</span>"
                                         else
                                                 aktbudget_fordeling_fyTxt = ""
                                         end if

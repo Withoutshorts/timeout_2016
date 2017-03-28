@@ -607,29 +607,79 @@ public class ozUploadFileJob
                 countAll++;
 
                 ozUploadFileJob fileRet = new ozUploadFileJob();
-                fileRet.medarbejderid = row[headers[0]].ToString().Trim();
-                fileRet.jobid = row[headers[1]].ToString().Trim();
-                fileRet.jobnavn = row[headers[2]].ToString().Trim();
-                fileRet.stdato = row[headers[3]].ToString().Trim();
-                fileRet.aktnavn = row[headers[4]].ToString().Trim();
-                fileRet.timerkom = row[headers[5]].ToString().Trim();
 
-                if (fileRet.medarbejderid == string.Empty && fileRet.jobid == string.Empty && fileRet.timer == string.Empty && fileRet.stdato == string.Empty && fileRet.aktnavn == string.Empty && fileRet.timerkom == string.Empty)
+               
+
+                fileRet.jobnavn = row[headers[0]].ToString().Trim();
+                fileRet.jobid = row[headers[1]].ToString().Trim();
+
+                fileRet.stdato = row[headers[3]].ToString().Trim();
+                fileRet.sldato = row[headers[4]].ToString().Trim();
+
+                if (folderIn != "dencker" && folderIn != "dencker_test")
                 {
-                    countIgnore++;
-                    errorLines += "Linje " + countAll + " - fejlkode: Tom linje.<br>";
-                    continue;
+                    fileRet.timerkom = row[headers[5]].ToString().Trim(); //Faktureringstype
+                    fileRet.jobans = row[headers[2]].ToString().Trim(); //Jobans
+
+                    if (fileRet.timerkom == string.Empty)
+                        fileRet.timerkom = "";
                 }
-                else if (fileRet.jobid == string.Empty)
+
+                if (fileRet.jobid == string.Empty)
                     fileRet.jobid = "0";
-                else if (fileRet.jobid == string.Empty)
-                    fileRet.jobid = "0";
-                else if (fileRet.medarbejderid == string.Empty)
-                    fileRet.medarbejderid = "0";
-                else if (fileRet.timer == string.Empty)
+                if (fileRet.timer == string.Empty)
                     fileRet.timer = "0";
-                else if (fileRet.stdato == string.Empty)
+                if (fileRet.stdato == string.Empty)
                     fileRet.stdato = "01-01-2001";
+                if (fileRet.sldato == string.Empty)
+                    fileRet.sldato = "01-01-2001";
+
+
+
+
+                if (folderIn == "dencker" || folderIn == "dencker_test")
+                {
+                    //Monitor Dencker
+
+                    fileRet.stkantal = row[headers[5]].ToString().Trim();
+                    fileRet.aktstdato = row[headers[8]].ToString().Trim();
+                    fileRet.aktsldato = row[headers[9]].ToString().Trim();
+                    fileRet.sort = row[headers[6]].ToString().Trim();
+                    fileRet.fomr = row[headers[7]].ToString().Trim();
+                    fileRet.aktnavn = row[headers[10]].ToString().Trim();
+
+
+                    fileRet.aktvarenr = row[headers[11]].ToString().Trim();
+                    fileRet.kundenavn = row[headers[2]].ToString().Trim(); ;
+
+
+                    if (fileRet.stkantal == string.Empty)
+                        fileRet.stkantal = "0";
+                    if (fileRet.aktstdato == string.Empty)
+                        fileRet.aktstdato = "01-01-2001";
+                    if (fileRet.aktsldato == string.Empty)
+                        fileRet.aktsldato = "01-01-2001";
+
+                    if (fileRet.sort == string.Empty)
+                        fileRet.sort = "0";
+                    if (fileRet.fomr == string.Empty)
+                        fileRet.fomr = "0";
+                    if (fileRet.aktnavn == string.Empty)
+                        fileRet.aktnavn = "-";
+                    if (fileRet.aktvarenr == string.Empty)
+                        fileRet.aktvarenr = "0";
+                    if (fileRet.kundenavn == string.Empty)
+                        fileRet.kundenavn = "-";
+
+                }
+
+                //
+
+          
+
+              
+                //
+
 
                  bool isLevelEnough = CheckUserLevel(folderIn, midIn);
 
@@ -697,7 +747,9 @@ public class ozUploadFileJob
 
 
 
-            string[] allLines = File.ReadAllLines(pathIn + filenameIn, System.Text.Encoding.GetEncoding(1250));
+            string[] allLines = File.ReadAllLines(pathIn + filenameIn, System.Text.Encoding.Default);
+
+            //GetEncoding(1250)
             //System.Text.Encoding.GetEncoding(1252) 
             //System.Text.Encoding.UTF7
             //iso-8859-1
@@ -761,14 +813,7 @@ public class ozUploadFileJob
                 fileRet.fomr = datas[headers[7] - 1];
                 fileRet.aktnavn = datas[headers[10] - 1];
 
-                    //string jobnavnThis;
-
-                    //System.Text.Encoding iso = System.Text.Encoding.GetEncoding("ISO-8859-1");
-                    //System.Text.Encoding utf8 = System.Text.Encoding.UTF8;
-                    //byte[] utfBytes = utf8.GetBytes(fileRet.aktnavn);
-                    //byte[] isoBytes = System.Text.Encoding.Convert(utf8, iso, utfBytes);
-                    //fileRet.aktnavn = iso.GetString(isoBytes);
-
+                    
                     fileRet.aktvarenr = datas[headers[11] - 1];
                     fileRet.kundenavn = datas[headers[2] - 1];
 
@@ -832,9 +877,10 @@ public class ozUploadFileJob
     {
         List<string> lstRet = new List<string>();
 
-        string[] allLines = File.ReadAllLines(pathIn + filenameIn, System.Text.Encoding.GetEncoding(1250));
+        string[] allLines = File.ReadAllLines(pathIn + filenameIn, System.Text.Encoding.Default);
         //ASCII
         //iso-8859-1
+        //GetEncoding(1250)
 
         string[] datas = allLines[0].Split(';');
 
