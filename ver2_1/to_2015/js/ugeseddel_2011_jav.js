@@ -202,7 +202,7 @@ $(document).ready(function() {
 
         varTjDatoUS_man = $("#varTjDatoUS_man").val()
 
-        
+        alert(jq_jobid)
 
         //$(".chbox_job").hide();
 

@@ -1,12 +1,243 @@
-
-
 <!--#include file="../inc/connection/conn_db_inc.asp"-->
+
+     
+<%
+ '**** Søgekriterier AJAX **'
+        'section for ajax calls
+        if Request.Form("AjaxUpdateField") = "true" then
+        Select Case Request.Form("control")
+
+    case "FN_sogjobogkunde" 
+
+        
+                '*** SØG kunde & Job            
+                
+                if len(trim(request("jq_newfilterval"))) <> 0 then
+                filterVal = 1 
+                jobkundesog = request("jq_newfilterval")
+                else
+                filterVal = 0
+                jobkundesog = "6xxxxxfsdf554"
+                end if
+        
+                medid = request("jq_medid")
+
+                if filterVal <> 0 then
+            
+                 lastKid = 0
+                
+                  'strJobogKunderTxt = strJobogKunderTxt &"<span style=""color:red; font-size:9px; float:right;"" class=""luk_jobsog"">[X]</span>"    
+                         
+
+
+                strSQL = "SELECT j.id AS jid, j.jobnavn, j.jobnr, j.jobstatus, k.kkundenavn, k.kkundenr, k.kid FROM timereg_usejob AS tu "_ 
+                &" LEFT JOIN job AS j ON (j.id = tu.jobid) "_
+                &" LEFT JOIN kunder AS k ON (k.kid = j.jobknr) "_
+                &" WHERE tu.medarb = "& medid &" AND (j.jobstatus = 1 OR j.jobstatus = 3) AND "_
+                &" (jobnr LIKE '"& jobkundesog &"%' OR jobnavn LIKE '%"& jobkundesog &"%' OR "_
+                &" kkundenavn LIKE '"& jobkundesog &"%' OR kkundenr = '"& jobkundesog &"' OR k.kinit = '"& jobkundesog &"')  AND kkundenavn <> ''"_
+                &" GROUP BY j.id ORDER BY kkundenavn, jobnavn LIMIT 50"       
+    
+
+                 'response.write "strSQL " &strSQL
+                 'response.end
+
+                oRec.open strSQL, oConn, 3
+                while not oRec.EOF
+        
+               ' if lastKid <> oRec("kid") then
+                'strJobogKunderTxt = strJobogKunderTxt &"<br><br><b>"& oRec("kkundenavn") &" "& oRec("kkundenr") &"</b><br>"
+               ' end if 
+                 
+                'strJobogKunderTxt = strJobogKunderTxt & "<input type=""hidden"" id=""hiddn_job_"& oRec("jid") &""" value="""& oRec("jobnavn") & " ("& oRec("jobnr") &")"">"
+                'strJobogKunderTxt = strJobogKunderTxt & "<input type=""checkbox"" class=""chbox_job"" id=""chbox_job_"& oRec("jid") &""" value="& oRec("jid") &"> "& oRec("jobnavn") & " ("& oRec("jobnr") &")" &"<br>" 
+                strJobogKunderTxt = strJobogKunderTxt & "<option value="& oRec("jid") &" "& jobSEL &">"& oRec("jobnavn") & " ("& oRec("jobnr") &")"
+                
+                lastKid = oRec("kid") 
+                oRec.movenext
+                wend
+                oRec.close
+
+              
+
+
+                    '*** ÆØÅ **'
+                    call jq_format(strJobogKunderTxt)
+                    strJobogKunderTxt = jq_formatTxt
+
+                    response.write strJobogKunderTxt
+
+                end if
+
+
+
+     case "FN_sogakt"
+
+               
+                '*** Søg Aktiviteter 
+                
+
+                if len(trim(request("jq_newfilterval"))) <> 0 then
+                filterVal = 1 
+                aktsog = request("jq_newfilterval")
+                else
+                filterVal = 0
+                aktsog = "6xxxxxfsdf554"
+                end if
+        
+                medid = request("jq_medid")
+                aktid = request("jq_aktid")
+    
+                if len(trim(request("jq_jobid"))) <> 0 then        
+                jobid = request("jq_jobid")
+                else
+                jobid = 0
+                end if
+
+                'positiv aktivering
+                pa = 0
+               ' if len(trim(request("jq_pa") )) <> 0 then
+                'pa = request("jq_pa") 
+                'else
+                'pa = 0
+               ' end if
+        
+                'pa = 0
+            
+
+                if filterVal <> 0 then
+            
+                 
+    
+                'strAktTxt = strAktTxt &"<span style=""color:#999999; font-size:9px; float:right;"" class=""luk_aktsog"">X</span>"    
+                         
+
+               if pa = "1" then
+               strSQL= "SELECT a.id AS aid, navn AS aktnavn FROM timereg_usejob LEFT JOIN aktiviteter AS a ON (a.id = tu.aktid) "_
+               &" WHERE tu.medarb = "& usemrn &" AND tu.jobid = "& jobid &" AND aktid <> 0 AND a.navn LIKE '%"& aktsog &"%' AND aktstatus = 1 ORDER BY navn"   
+
+
+               else
+
+
+                        '*** Finder medarbejders projektgrupper 
+                        '** Medarbejder projektgrupper **'
+                        medarbPGrp = "#0#" 
+                        strMpg = "SELECT projektgruppeId, medarbejderId, teamleder FROM progrupperelationer WHERE medarbejderId = "& medid & " GROUP BY projektgruppeId"
+
+                        oRec5.open strMpg, oConn, 3
+                        while not oRec5.EOF
+                        medarbPGrp = medarbPGrp & ",#"& oRec5("projektgruppeId") &"#"         
+        
+                        oRec5.movenext
+                        wend
+                        oRec5.close 
+
+
+           
+
+
+
+
+               strSQL= "SELECT a.id AS aid, navn AS aktnavn, projektgruppe1, projektgruppe2, projektgruppe3, "_
+               &" projektgruppe4, projektgruppe5, projektgruppe6, projektgruppe7, projektgruppe8, projektgruppe9, projektgruppe10 FROM aktiviteter AS a "_
+               &" WHERE a.job = " & jobid & " AND navn LIKE '%"& aktsog &"%' AND aktstatus = 1 ORDER BY navn"      
+    
+
+               
+            
+                end if
+
+                 'response.write "strSQL " &strSQL
+                 'response.end
+
+
+                oRec.open strSQL, oConn, 3
+                while not oRec.EOF
+        
+                 showAkt = 0
+                if instr(medarbPGrp, "#"& oRec("projektgruppe1") &"#") <> 0 _
+                OR instr(medarbPGrp, "#"& oRec("projektgruppe2") &"#") <> 0 _
+                OR instr(medarbPGrp, "#"& oRec("projektgruppe3") &"#") <> 0 _
+                OR instr(medarbPGrp, "#"& oRec("projektgruppe4") &"#") <> 0 _
+                OR instr(medarbPGrp, "#"& oRec("projektgruppe5") &"#") <> 0 _
+                OR instr(medarbPGrp, "#"& oRec("projektgruppe6") &"#") <> 0 _
+                OR instr(medarbPGrp, "#"& oRec("projektgruppe7") &"#") <> 0 _
+                OR instr(medarbPGrp, "#"& oRec("projektgruppe8") &"#") <> 0 _
+                OR instr(medarbPGrp, "#"& oRec("projektgruppe9") &"#") <> 0 _
+                OR instr(medarbPGrp, "#"& oRec("projektgruppe10") &"#") <> 0 then
+                showAkt = 1
+                end if 
+
+
+                
+                
+                if cint(showAkt) = 1 then 
+                 
+                'strAktTxt = strAktTxt & "<input type=""hidden"" id=""hiddn_akt_"& oRec("aid") &""" value="""& oRec("aktnavn") &""">"
+                'strAktTxt = strAktTxt & "<input type=""checkbox"" class=""chbox_akt"" id=""chbox_akt_"& oRec("aid") &""" value="& oRec("aid") &"> "& oRec("aktnavn") &"<br>" 
+                strAktTxt = strAktTxt & "<option value="& oRec("aid") &" "& optionFcDis &">"& oRec("aktnavn") &" "& fcsaldo_txt &"</option>"             
+
+                end if
+                
+                oRec.movenext
+                wend
+                oRec.close
+
+              
+
+
+                    '*** ÆØÅ **'
+                    call jq_format(strAktTxt)
+                    strAktTxt = jq_formatTxt
+
+
+                    response.write strAktTxt
+
+                end if    
+
+
+
+
+
+        case "tilfoj_akt"
+
+        jobid = request("FM_jobid")
+        aktid = request("FM_aktid")
+        medid = request("FM_medid_id")
+
+        'oConn.execute("UPDATE timereg_usejob SET favorit = 1 WHERE aktid = "&aktid&"")
+        Strtilfojakt = "INSERT INTO timereg_usejob SET jobid = "&jobid &", favorit = 1, aktid ="& aktid& ", medarb = "& medid
+        oConn.execute(Strtilfojakt)
+
+
+        akt_jobid = jobid
+        akt_aktid = aktid
+
+
+        'response.Write Strtilfojakt
+        'response.end 
+
+        'Response.redirect "favorit.asp?"
+
+        'strSQLUpdjWiphist = "INSERT INTO wip_historik (dato, restestimat, stade_tim_proc, medid, jobid) VALUES ('"& ddDato &"', "& rest &", "& timerproc &", "& session("mid") &", "& jobid &")"
+        'oConn.Execute(strSQLUpdjWiphist)
+
+
+        end select
+        response.end
+        end if
+    %>
+
+
 <!--#include file="../inc/errors/error_inc.asp"-->
 <!--#include file="../inc/regular/global_func.asp"-->
 <!--#include file="../inc/regular/topmenu_inc.asp"-->
 <!--#include file="../timereg/inc/convertDate.asp"-->
 <!--#include file="../inc/regular/header_lysblaa_2015_inc.asp"-->
 
+<script src="js/favorit_jav.js"></script>
+<link rel="stylesheet" href="../../bower_components/bootstrap-datepicker/css/datepicker3.css">
 
 <style>
 
@@ -18,14 +249,11 @@
    
 </style>
 
-
+<%call menu_2014 %>
 <div class="wrapper">
 <div class="content">
 
-<%
-
-
-
+    <%
     if len(session("user")) = 0 then
 	%>
 	
@@ -39,7 +267,7 @@
     func = request("func")
 
 
-	call menu_2014 
+	'call menu_2014 
 
 
     stDato = request("stDato")
@@ -100,6 +328,27 @@
 
         response.Redirect "favorit.asp"
 
+
+    case "tilfojfavorit"
+
+        id = request("id")
+                            
+            %>
+                <div class="container">
+                <div class="portlet">
+                    <h3 class="portlet-title"><u>Favorit liste</u></h3>
+                    <div class="portlet-body">
+                        <%response.Write "favor" & id  %>
+                    </div>
+
+                </div>
+                </div>
+            <%
+
+        oConn.execute("UPDATE timereg_usejob SET favorit = 1 WHERE aktid = "&id&"")
+
+        response.Redirect "favorit.asp"
+
     case else
 
 %>
@@ -145,6 +394,19 @@
                                     %>
                                 </select>
                             </div>
+
+                            <div class="col-lg-2">
+                                <div class='input-group date' id='datepicker_stdato'>
+                                <input type="text" class="form-control input-small" name="aarslut" value="<%=aarslut %>" placeholder="dd-mm-yyyy" />
+                                <span class="input-group-addon input-small">
+                                        <span class="fa fa-calendar">
+                                        </span>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-lg-5"></div>
+                            <h4 class="col-lg-2" style="text-align:right"><a href="#" ><</a>&nbsp Uge 12 &nbsp<a href="#" >></a></h4>
+                            
                         </div>
                         </form>
                         <%response.Write "id: " & medid%>
@@ -154,6 +416,7 @@
 
                             <thead>
                                 <tr>
+                                    <th>Kunde/Job</th>
                                     <th>Aktivitet</th>
 
                                     <%
@@ -170,12 +433,15 @@
 
                                             showdate = DatePart("yyyy",varTjDatoUS_use) & "-" & Right("0" & DatePart("m",varTjDatoUS_use), 2) & "-" & Right("0" & DatePart("d",varTjDatoUS_use), 2)
 
+                                            'showweekdayname = weekdayname(weekday(varTjDatoUS_use, 1))
+                                            daynamenum = weekday(varTjDatoUS_use,1)
 
+                                            daynameword = WeekDayName(daynamenum,true)
 
                                             'response.Write weekdayname(weekday(varTjDatoUS_use, 1))
 
                                             %>
-                                                <th style="width:75px"><%=weekdayname(weekday(varTjDatoUS_use, 1)) %> <br />
+                                                <th style="width:75px"><%=UCase(Left(daynameword,1)) & Mid(daynameword,2) %> <br />
                                                     <%=showdate %>
                                                 </th>
                                             <%
@@ -183,7 +449,7 @@
                                             next
                                     %>
                                     <th>Total</th>
-                                    <th>Fjern favorit</th>
+                                    <th></th>
                                 </tr>
                             </thead>
 
@@ -203,9 +469,8 @@
                                      'response.Write "favs: " & favoriter
                                      'response.Write "<br>" & jobid
                                      for i = 1 to favoriter
-                                        
-                                         i = i + 1
-
+                                        i = i + 1
+                                        'response.Write i
                                         StrSQLjob = "SELECT id, jobnavn FROM job WHERE id ="& jobid
 
                                         oRec3.open StrSQLjob, oConn, 3
@@ -221,10 +486,11 @@
                                         aktNavn = oRec2("navn")
                                         TaktId = oRec2("id")
                                         aktbudgettimer = oRec2("budgettimer")
-                                        'response.Write TaktId
+                                        
                                         %>
                                         <tr>
-                                            <td><span style="font-size:75%"><%=jobnavn %></span><br /><%=aktNavn %>
+                                            <td><%=jobnavn %></td>
+                                            <td><%=aktNavn %>
 
                                                 <span id="modal_<%=TaktId %>" style="color:cornflowerblue;" class="fa fa-book pull-right picmodal"></span>                                               
                                                 <div id="myModal_<%=TaktId %>" style="display:none">
@@ -352,13 +618,85 @@
                                     wend
                                     oRec.close 
                                     %>
+
+
+                                  <!--  <tr>
+                                        <td colspan="10"><input type="text" id="aktiviteter_sog" class="aktivitet_sog form-control input-small" />
+                                            <select id="aktiviteterfelt" class="form-control input-small chbox_job" size="10" style="visibility:hidden; display:none;">
+                                            <option><%=week_txt_007 %>..</option>
+                                            </select>
+                                        </td>
+                                        
+                                    </tr> -->
+
+                                    <tr style="visibility:hidden; display:none;" id="FN_akt_tilfojed">
+                                        <td><input type="text" value="<%=akt_jobid %>" /></td>
+                                        <td><input type="text" value="<%=akt_aktid %>" /></td>
+
+
+                                        <%for i = 0 to 8 %>
+                                        <td></td>
+                                        <%next %>
+                                    </tr>    
+
+                                    <tr>  
+
+                                        <input type="hidden" value="0" name="FM_pa" />
+                                        <input type="hidden" id="FM_jobid" value=""/>
+
+                                        <td><input type="text" class="FM_job form-control input-small" id="FM_job" value=""/>
+                                          <!-- <div id="dv_job"></div> -->
+                                            <select id="dv_job" class="form-control input-small chbox_job" size="10" style="visibility:hidden; display:none;">
+                                                <option><%=week_txt_007 %>..</option>
+                                            </select>
+                                        </td>                                           
+                             
+
+                                        <td>
+                                            <input type="hidden" name="FM_aktivitetid" id="FM_aktid" value=""/>
+                                            <input type="text" class="aktivitet_sog form-control input-small" id="FM_akt" value="" />
+                                            <!--<div id="dv_akt"></div> -->
+                                            <select id="dv_akt" class="form-control input-small chbox_akt" size="10" style="visibility:hidden; display:none;">
+                                                <option><%=week_txt_007 %>..</option>
+                                            </select>
+                                        </td>
+                                        <td style="text-align:center">
+                                            <input type="hidden" id="FM_medid_id" value="<%=medid %>" />
+                                            <button type="submit" class="tilfoj_akt btn btn-success btn-sm"><b>Tilføj</b></button>
+                                            <div id="dv_akttil"></div>
+                                        </td>
+                                        <% for d = 0 to 7 %>
+                                        <td></td>
+                                        <%next %>
+                                    </tr>
+
                             </tbody>
 
                         </table>
 
-                        <%
+  
+                           
+                            <%
+                                strSQL = "SELECT id, medarb, aktid, favorit FROM timereg_usejob WHERE medarb ="& medid & " AND aktid <> 0"
+                            %>
+                               <!-- <select name="FM_favorittilfoj" class="form-control input-small"  onchange="submit();"> -->
+                            <%
+                              
 
-                        %>
+                                  oRec.open strSQL, oConn, 3
+
+                                  While not oRec.EOF
+
+                                  aktid = oRec("aktid")
+                                %>
+                                   <!-- <a href="favorit.asp?func=tilfojfavorit&id=<%=aktid %>"><%=aktid %></a> -->
+                                <%
+                                  oRec.movenext
+                                  wend                     
+                                  oRec.close
+                              %>                               
+                           <!-- </select> -->
+                        
 
                     </div>
                 </div>
