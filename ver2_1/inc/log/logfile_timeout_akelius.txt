@@ -1,0 +1,2321 @@
+TimeOut - Support			08-06-2015	07:57:06	77.212.15.88
+TimeOut - Support			08-06-2015	08:13:27	94.144.63.150
+TimeOut - Support			08-06-2015	08:16:08	94.144.63.150
+TimeOut - Support			08-06-2015	08:16:39	94.144.63.150
+Anders Dahl-Hilstad			18-06-2015	10:15:02	194.140.240.2
+TimeOut - Support			19-06-2015	12:46:30	94.144.63.150
+Anders Dahl-Hilstad			30-06-2015	10:48:25	194.140.240.2
+TimeOut - Support			01-07-2015	08:15:27	2.131.230.205
+TimeOut - Support			25-08-2015	09:59:55	2.130.89.78
+TimeOut - Support			31-08-2015	08:40:37	2.131.69.43
+TimeOut - Support			31-08-2015	10:20:39	194.140.240.3
+TimeOut - Support			31-08-2015	11:11:38	194.140.240.3
+TimeOut - Support			31-08-2015	16:28:59	2.131.69.43
+TimeOut - Support			02-09-2015	08:37:44	77.212.15.224
+TimeOut - Support			02-09-2015	09:32:23	2.131.69.43
+Jon Egil Grotvedt			09-09-2015	11:49:12	194.140.240.2
+TimeOut - Support			09-09-2015	14:00:09	2.131.69.43
+Jon Egil Grotvedt			11-09-2015	10:16:10	85.166.0.196
+TimeOut - Support			11-09-2015	13:21:04	2.131.69.43
+Jon Egil Grotvedt			15-09-2015	08:38:26	194.140.240.2
+Jon Egil Grotvedt			15-09-2015	13:21:44	194.140.240.2
+Jon Egil Grotvedt			20-09-2015	14:17:57	194.140.240.2
+Jon Egil Grotvedt			22-09-2015	13:15:39	194.140.240.2
+Jon Egil Grotvedt			23-09-2015	07:17:39	194.140.240.2
+TimeOut - Support			06-10-2015	13:41:58	77.212.15.224
+TimeOut - Support			06-10-2015	13:49:11	77.212.15.224
+TimeOut - Support			06-10-2015	13:53:30	77.212.15.224
+TimeOut - Support			06-10-2015	13:53:54	77.212.15.224
+TimeOut - Support			06-10-2015	13:54:08	77.212.15.224
+TimeOut - Support			26-10-2015	13:25:34	77.212.15.224
+Jon Egil Grotvedt			03-11-2015	14:54:56	194.140.240.2
+Jon Egil Grotvedt			03-11-2015	14:59:18	194.140.240.2
+Jon Egil Grotvedt			03-11-2015	15:10:22	194.140.240.2
+TimeOut - Support			17-11-2015	09:03:33	62.116.192.234
+TimeOut - Support			17-11-2015	09:19:24	62.116.192.234
+Carl F Rode Kjeldsberg			17-11-2015	09:26:52	194.140.240.2
+Carl Fredrik Lindeman			17-11-2015	09:29:34	194.140.240.2
+Rune Heggen Arntsen			17-11-2015	10:05:11	89.11.205.159
+Thomas Telso			17-11-2015	11:57:49	194.140.240.2
+Gro Anita Haugmo			19-11-2015	10:10:08	194.140.240.2
+Jon Egil Grotvedt			19-11-2015	14:14:06	194.140.240.2
+Elin Ekern			19-11-2015	14:46:42	194.140.240.2
+Gro Anita Haugmo			23-11-2015	07:56:06	194.140.240.2
+Liv Sterten			25-11-2015	10:35:20	194.140.240.2
+Anders Dahl-Hilstad			25-11-2015	12:41:51	194.140.240.2
+Gro Anita Haugmo			25-11-2015	12:42:25	194.140.240.2
+Jon Egil Grotvedt			25-11-2015	12:55:06	194.140.240.2
+Stian Holmen			25-11-2015	14:13:02	194.140.240.2
+Tine Lill Christensen			25-11-2015	14:13:46	194.140.240.2
+Jon Egil Grotvedt			25-11-2015	15:12:03	194.140.240.2
+Jon Egil Grotvedt			26-11-2015	09:31:27	194.140.240.2
+Jon Egil Grotvedt			26-11-2015	13:59:35	194.140.240.2
+Jon Egil Grotvedt			27-11-2015	08:54:16	194.140.240.2
+Jon Egil Grotvedt			30-11-2015	08:14:54	194.140.240.2
+Elin Ekern			30-11-2015	14:01:54	194.140.240.2
+Tine Lill Christensen			30-11-2015	14:04:55	194.140.240.2
+Carl Fredrik Lindeman			30-11-2015	14:08:12	194.140.240.2
+Carl Fredrik Lindeman			01-12-2015	08:22:32	194.140.240.2
+Anders Dahl-Hilstad			01-12-2015	10:49:15	194.140.240.2
+Elin Ekern			01-12-2015	11:41:36	194.140.240.2
+Jon Egil Grotvedt			01-12-2015	12:13:05	194.140.240.2
+Gro Anita Haugmo			01-12-2015	13:14:58	194.140.240.2
+Thomas Holstad			01-12-2015	14:06:26	194.140.240.2
+Liv Sterten			01-12-2015	14:08:17	194.140.240.2
+Carl Fredrik Lindeman			01-12-2015	14:27:02	194.140.240.2
+Tine Lill Christensen			01-12-2015	14:42:03	194.140.240.2
+Tine Lill Christensen			01-12-2015	15:21:02	194.140.240.2
+Carl F Rode Kjeldsberg			01-12-2015	15:38:29	194.140.240.2
+Tine Lill Christensen			01-12-2015	16:24:16	194.140.240.2
+Jon Egil Grotvedt			02-12-2015	07:28:48	194.140.240.2
+Elin Ekern			02-12-2015	07:51:02	194.140.240.2
+Carl Fredrik Lindeman			02-12-2015	07:54:27	194.140.240.2
+Gro Anita Haugmo			02-12-2015	07:55:24	194.140.240.2
+Anders Dahl-Hilstad			02-12-2015	08:20:54	194.140.240.2
+Anne Marte Bye			02-12-2015	08:20:58	194.140.240.2
+Liv Sterten			02-12-2015	08:27:52	194.140.240.2
+Tine Lill Christensen			02-12-2015	09:04:39	194.140.240.2
+Carl F Rode Kjeldsberg			02-12-2015	09:05:05	194.140.240.2
+Fredrik Jernberg			02-12-2015	09:20:08	194.140.240.2
+Bjørnar Bolsøy			02-12-2015	09:57:36	194.140.240.2
+TimeOut - Support			02-12-2015	10:07:17	213.83.134.147
+TimeOut - Support			02-12-2015	10:17:03	213.83.134.147
+TimeOut - Support			02-12-2015	10:19:23	213.83.134.147
+Gro Anita Haugmo			02-12-2015	10:56:47	194.140.240.2
+Gro Anita Haugmo			02-12-2015	10:57:59	194.140.240.2
+Gro Anita Haugmo			02-12-2015	10:58:11	194.140.240.2
+Tine Lill Christensen			02-12-2015	11:10:33	194.140.240.2
+Elin Ekern			02-12-2015	11:54:16	194.140.240.2
+Jon Egil Grotvedt			02-12-2015	11:54:38	194.140.240.2
+Anne Marte Bye			02-12-2015	12:10:01	194.140.240.2
+TimeOut - Support			02-12-2015	12:43:41	62.116.192.234
+Fredrik Markhus			02-12-2015	13:20:47	194.140.240.2
+Thomas Holstad			02-12-2015	14:15:08	194.140.240.2
+Tine Lill Christensen			02-12-2015	14:27:23	194.140.240.2
+Carl Fredrik Lindeman			02-12-2015	14:46:20	194.140.240.2
+Carl Fredrik Lindeman			02-12-2015	14:48:00	194.140.240.2
+Rune Heggen Arntsen			02-12-2015	15:21:30	89.11.205.159
+Fredrik Markhus			02-12-2015	15:27:24	83.143.84.90
+Carl Fredrik Lindeman			02-12-2015	15:30:32	194.140.240.2
+Thomas Holstad			02-12-2015	16:23:08	194.140.240.2
+Bjørnar Bolsøy			02-12-2015	18:55:23	194.140.240.2
+Gro Anita Haugmo			03-12-2015	07:19:48	194.140.240.2
+Thomas Telso			03-12-2015	07:20:47	194.140.240.2
+Elin Ekern			03-12-2015	07:35:14	194.140.240.2
+Rune Heggen Arntsen			03-12-2015	08:00:26	89.11.205.159
+Carl Fredrik Lindeman			03-12-2015	08:06:27	194.140.240.2
+Liv Sterten			03-12-2015	08:24:01	194.140.240.2
+Fredrik Jernberg			03-12-2015	08:38:29	194.140.240.2
+Tine Lill Christensen			03-12-2015	09:35:50	194.140.240.2
+Anders Dahl-Hilstad			03-12-2015	12:15:16	194.140.240.2
+Thomas Telso			03-12-2015	15:20:55	194.140.240.2
+Rune Heggen Arntsen			03-12-2015	15:49:37	89.11.205.159
+Fredrik Markhus			03-12-2015	15:57:48	194.140.240.2
+Thomas Holstad			03-12-2015	16:57:17	194.140.240.2
+Elin Ekern			04-12-2015	07:23:25	194.140.240.2
+Thomas Telso			04-12-2015	07:37:53	194.140.240.2
+Carl Fredrik Lindeman			04-12-2015	08:13:57	194.140.240.2
+Anne Marte Bye			04-12-2015	08:18:50	194.140.240.2
+Tine Lill Christensen			04-12-2015	08:22:21	194.140.240.2
+Rune Heggen Arntsen			04-12-2015	08:31:35	89.11.205.159
+Gro Anita Haugmo			04-12-2015	08:34:20	194.140.240.2
+Thomas Holstad			04-12-2015	09:07:36	194.140.240.2
+Liv Sterten			04-12-2015	11:22:49	194.140.240.2
+Anne Marte Bye			04-12-2015	12:49:50	194.140.240.2
+Thomas Holstad			04-12-2015	13:09:35	194.140.240.2
+Thomas Telso			04-12-2015	14:02:41	194.140.240.2
+Carl Fredrik Lindeman			04-12-2015	16:09:31	194.140.240.2
+Thomas Holstad			04-12-2015	16:14:06	194.140.240.2
+Carl Fredrik Lindeman			06-12-2015	10:02:18	46.9.254.156
+Gro Anita Haugmo			07-12-2015	06:38:29	194.140.240.2
+Carl Fredrik Lindeman			07-12-2015	07:48:14	194.140.240.2
+Rune Heggen Arntsen			07-12-2015	07:57:54	89.11.205.159
+Thomas Telso			07-12-2015	08:16:42	194.140.240.2
+Elin Ekern			07-12-2015	08:16:45	194.140.240.2
+Fredrik Jernberg			07-12-2015	08:31:38	194.140.240.2
+Thomas Holstad			07-12-2015	09:01:02	194.140.240.2
+Fredrik Markhus			07-12-2015	11:42:35	88.90.24.250
+Elin Ekern			07-12-2015	13:09:07	194.140.240.2
+Carl F Rode Kjeldsberg			07-12-2015	13:20:13	194.140.240.2
+Rune Heggen Arntsen			07-12-2015	13:44:17	89.11.205.159
+Thomas Telso			07-12-2015	13:57:14	194.140.240.2
+Carl Fredrik Lindeman			07-12-2015	14:38:47	194.140.240.2
+Gro Anita Haugmo			07-12-2015	15:15:27	194.140.240.2
+Liv Sterten			07-12-2015	15:17:30	194.140.240.2
+Carl Fredrik Lindeman			07-12-2015	15:20:29	194.140.240.2
+Liv Sterten			07-12-2015	16:04:39	194.140.240.2
+Tine Lill Christensen			07-12-2015	16:10:30	194.140.240.2
+Thomas Holstad			07-12-2015	16:28:41	194.140.240.2
+Thomas Telso			08-12-2015	07:00:40	194.140.240.2
+Jon Egil Grotvedt			08-12-2015	07:31:18	194.140.240.2
+Elin Ekern			08-12-2015	07:45:18	194.140.240.2
+Liv Sterten			08-12-2015	08:21:51	194.140.240.2
+Carl Fredrik Lindeman			08-12-2015	08:25:06	194.140.240.2
+Gro Anita Haugmo			08-12-2015	08:25:49	194.140.240.2
+Tine Lill Christensen			08-12-2015	08:44:17	194.140.240.2
+Rune Heggen Arntsen			08-12-2015	09:01:44	89.11.205.159
+Thomas Holstad			08-12-2015	09:09:20	194.140.240.2
+Anne Marte Bye			08-12-2015	12:34:24	194.140.240.2
+Thomas Telso			08-12-2015	14:15:34	194.140.240.2
+Tine Lill Christensen			08-12-2015	15:37:44	194.140.240.2
+Carl Fredrik Lindeman			08-12-2015	16:24:15	194.140.240.2
+Carl F Rode Kjeldsberg			08-12-2015	16:25:47	194.140.240.2
+Rune Heggen Arntsen			08-12-2015	16:28:15	89.11.205.159
+Rune Heggen Arntsen			08-12-2015	16:29:20	89.11.205.159
+Rune Heggen Arntsen			08-12-2015	16:30:30	89.11.205.159
+Carl Fredrik Lindeman			09-12-2015	08:02:02	194.140.240.2
+Elin Ekern			09-12-2015	08:06:38	194.140.240.2
+Gro Anita Haugmo			09-12-2015	08:17:42	194.140.240.2
+Tine Lill Christensen			09-12-2015	08:26:23	194.140.240.2
+Liv Sterten			09-12-2015	08:29:08	194.140.240.2
+Thomas Holstad			09-12-2015	08:46:26	194.140.240.2
+Anders Dahl-Hilstad			09-12-2015	12:23:00	194.140.240.2
+Carl Fredrik Lindeman			09-12-2015	15:46:12	194.140.240.2
+Thomas Holstad			09-12-2015	16:38:54	194.140.240.2
+Gro Anita Haugmo			10-12-2015	06:57:01	194.140.240.2
+Thomas Telso			10-12-2015	08:02:38	194.140.240.2
+Gro Anita Haugmo			10-12-2015	08:18:02	194.140.240.2
+Liv Sterten			10-12-2015	08:23:01	194.140.240.2
+Carl Fredrik Lindeman			10-12-2015	08:28:57	194.140.240.2
+Liv Sterten			10-12-2015	08:36:10	194.140.240.2
+Thomas Holstad			10-12-2015	08:47:38	194.140.240.2
+Rune Heggen Arntsen			10-12-2015	10:11:21	194.140.240.2
+Rune Heggen Arntsen			10-12-2015	13:37:48	194.140.240.2
+Gro Anita Haugmo			10-12-2015	13:55:24	194.140.240.2
+Thomas Telso			10-12-2015	14:25:27	194.140.240.2
+Bjørnar Bolsøy			10-12-2015	16:03:51	194.140.240.2
+Bjørnar Bolsøy			10-12-2015	16:13:38	194.140.240.2
+Carl Fredrik Lindeman			10-12-2015	16:24:19	194.140.240.2
+Thomas Telso			11-12-2015	07:10:36	194.140.240.2
+Carl F Rode Kjeldsberg			11-12-2015	08:08:11	194.140.240.2
+Carl Fredrik Lindeman			11-12-2015	08:14:27	194.140.240.2
+Liv Sterten			11-12-2015	08:18:21	194.140.240.2
+Tine Lill Christensen			11-12-2015	08:23:40	194.140.240.2
+Rune Heggen Arntsen			11-12-2015	08:25:47	89.11.205.159
+Rune Heggen Arntsen			11-12-2015	13:01:35	89.11.205.159
+Rune Heggen Arntsen			11-12-2015	13:05:51	89.11.205.159
+Rune Heggen Arntsen			11-12-2015	13:08:12	89.11.205.159
+Rune Heggen Arntsen			11-12-2015	13:16:10	89.11.205.159
+Thomas Holstad			11-12-2015	13:49:23	194.140.240.2
+Rune Heggen Arntsen			11-12-2015	15:39:54	89.11.205.159
+Rune Heggen Arntsen			11-12-2015	15:44:39	89.11.205.159
+Carl Fredrik Lindeman			11-12-2015	15:58:42	194.140.240.2
+Elin Ekern			13-12-2015	13:24:47	194.140.240.2
+Thomas Telso			14-12-2015	07:03:58	194.140.240.2
+Jon Egil Grotvedt			14-12-2015	07:32:44	194.140.240.2
+Elin Ekern			14-12-2015	07:32:52	194.140.240.2
+Rune Heggen Arntsen			14-12-2015	07:58:22	79.160.26.132
+Carl Fredrik Lindeman			14-12-2015	09:38:40	194.140.240.2
+Liv Sterten			14-12-2015	09:43:35	194.140.240.2
+Carl F Rode Kjeldsberg			14-12-2015	13:28:00	194.140.240.2
+Thomas Telso			14-12-2015	14:12:22	194.140.240.2
+Thomas Holstad			14-12-2015	16:18:02	194.140.240.2
+Rune Heggen Arntsen			15-12-2015	06:49:05	194.140.240.2
+Thomas Telso			15-12-2015	07:15:30	194.140.240.2
+Elin Ekern			15-12-2015	07:35:09	194.140.240.2
+Elin Ekern			15-12-2015	07:58:55	194.140.240.2
+Liv Sterten			15-12-2015	08:27:28	194.140.240.2
+Carl Fredrik Lindeman			15-12-2015	08:44:50	194.140.240.2
+Thomas Holstad			15-12-2015	08:53:06	194.140.240.2
+Carl F Rode Kjeldsberg			15-12-2015	09:46:17	194.140.240.2
+Thomas Telso			15-12-2015	14:11:42	194.140.240.2
+Carl F Rode Kjeldsberg			15-12-2015	16:37:23	194.140.240.2
+Thomas Holstad			15-12-2015	16:39:36	194.140.240.2
+Gro Anita Haugmo			16-12-2015	07:09:01	194.140.240.2
+Elin Ekern			16-12-2015	07:49:00	194.140.240.2
+Liv Sterten			16-12-2015	08:25:22	194.140.240.2
+Thomas Holstad			16-12-2015	08:41:46	194.140.240.2
+Jon Egil Grotvedt			16-12-2015	09:16:12	194.140.240.2
+Carl F Rode Kjeldsberg			16-12-2015	11:03:00	194.140.240.2
+Thomas Telso			16-12-2015	12:18:52	194.140.240.2
+Carl Fredrik Lindeman			16-12-2015	12:57:12	194.140.240.2
+Carl Fredrik Lindeman			16-12-2015	15:31:02	194.140.240.2
+Carl F Rode Kjeldsberg			16-12-2015	16:03:11	194.140.240.2
+Thomas Holstad			16-12-2015	16:40:46	194.140.240.2
+Thomas Telso			17-12-2015	07:06:16	194.140.240.2
+Elin Ekern			17-12-2015	07:48:05	194.140.240.2
+Carl Fredrik Lindeman			17-12-2015	07:54:24	194.140.240.2
+Liv Sterten			17-12-2015	08:45:03	194.140.240.2
+Rune Heggen Arntsen			17-12-2015	09:04:43	89.11.205.159
+Thomas Telso			17-12-2015	13:52:44	194.140.240.2
+Tine Lill Christensen			17-12-2015	14:13:41	148.122.56.254
+Carl Fredrik Lindeman			17-12-2015	15:14:49	194.140.240.2
+Rune Heggen Arntsen			17-12-2015	16:16:23	89.11.205.159
+Thomas Holstad			17-12-2015	16:17:47	194.140.240.2
+Thomas Telso			18-12-2015	07:08:46	194.140.240.2
+Elin Ekern			18-12-2015	07:09:28	194.140.240.2
+Carl Fredrik Lindeman			18-12-2015	07:44:17	194.140.240.2
+Anders Dahl-Hilstad			18-12-2015	08:19:36	194.140.240.2
+Liv Sterten			18-12-2015	08:26:07	194.140.240.2
+Rune Heggen Arntsen			18-12-2015	08:32:25	89.11.205.159
+Thomas Telso			18-12-2015	12:38:26	194.140.240.2
+Rune Heggen Arntsen			18-12-2015	15:14:44	89.11.205.159
+Rune Heggen Arntsen			18-12-2015	15:31:15	89.11.205.159
+TimeOut - Support			18-12-2015	15:36:25	62.116.192.234
+Carl F Rode Kjeldsberg			18-12-2015	15:45:13	194.140.240.2
+Rune Heggen Arntsen			18-12-2015	15:49:47	89.11.205.159
+Carl F Rode Kjeldsberg			18-12-2015	16:03:15	194.140.240.2
+Liv Sterten			18-12-2015	16:04:34	194.140.240.2
+Gro Anita Haugmo			21-12-2015	07:25:06	194.140.240.2
+Elin Ekern			21-12-2015	07:27:38	194.140.240.2
+Liv Sterten			21-12-2015	08:15:54	194.140.240.2
+Rune Heggen Arntsen			21-12-2015	08:18:27	89.11.205.159
+Tine Lill Christensen			21-12-2015	08:23:45	194.140.240.2
+Gro Anita Haugmo			21-12-2015	08:38:45	194.140.240.2
+Carl F Rode Kjeldsberg			21-12-2015	09:07:15	194.140.240.2
+Thomas Telso			21-12-2015	10:39:16	194.140.240.2
+Thomas Telso			21-12-2015	15:21:41	194.140.240.2
+Bjørnar Bolsøy			21-12-2015	15:34:24	194.140.240.2
+Liv Sterten			21-12-2015	16:14:11	194.140.240.2
+Elin Ekern			22-12-2015	07:35:27	194.140.240.2
+Rune Heggen Arntsen			22-12-2015	07:59:54	89.11.205.159
+Carl Fredrik Lindeman			22-12-2015	08:10:50	194.140.240.2
+Liv Sterten			22-12-2015	08:29:59	194.140.240.2
+Carl F Rode Kjeldsberg			22-12-2015	09:00:18	194.140.240.2
+Gro Anita Haugmo			22-12-2015	09:18:53	194.140.240.2
+Tine Lill Christensen			22-12-2015	09:27:30	194.140.240.2
+Carl F Rode Kjeldsberg			22-12-2015	15:43:44	194.140.240.2
+Carl Fredrik Lindeman			22-12-2015	16:38:53	194.140.240.2
+Elin Ekern			23-12-2015	07:53:25	194.140.240.2
+Rune Heggen Arntsen			23-12-2015	08:04:19	89.11.205.159
+Carl Fredrik Lindeman			23-12-2015	08:05:11	194.140.240.2
+Thomas Telso			23-12-2015	08:10:16	194.140.240.2
+Gro Anita Haugmo			23-12-2015	08:10:56	194.140.240.2
+Carl F Rode Kjeldsberg			23-12-2015	09:18:33	194.140.240.2
+Thomas Telso			23-12-2015	12:27:01	194.140.240.2
+Carl Fredrik Lindeman			28-12-2015	08:03:21	194.140.240.2
+Gro Anita Haugmo			28-12-2015	08:29:06	194.140.240.2
+Rune Heggen Arntsen			28-12-2015	08:55:01	89.11.205.159
+Thomas Holstad			28-12-2015	08:59:22	194.140.240.2
+Rune Heggen Arntsen			28-12-2015	14:02:51	89.11.205.159
+Thomas Holstad			28-12-2015	14:09:43	194.140.240.2
+Elin Ekern			29-12-2015	08:33:34	194.140.240.2
+Gro Anita Haugmo			29-12-2015	08:58:16	194.140.240.2
+Thomas Holstad			29-12-2015	14:11:41	194.140.240.2
+Gro Anita Haugmo			29-12-2015	14:32:59	194.140.240.2
+Elin Ekern			30-12-2015	08:17:58	194.140.240.2
+Liv Sterten			30-12-2015	08:50:51	194.140.240.2
+Tine Lill Christensen			30-12-2015	11:18:40	194.140.240.2
+Gro Anita Haugmo			04-01-2016	07:50:21	194.140.240.2
+Elin Ekern			04-01-2016	07:52:59	194.140.240.2
+Thomas Telso			04-01-2016	08:13:16	194.140.240.2
+Tine Lill Christensen			04-01-2016	08:24:21	194.140.240.2
+Liv Sterten			04-01-2016	08:25:46	194.140.240.2
+Rune Heggen Arntsen			04-01-2016	08:27:51	89.11.205.159
+Carl Fredrik Lindeman			04-01-2016	09:03:57	194.140.240.2
+Fredrik Markhus			04-01-2016	09:26:52	51.175.189.19
+Thomas Telso			04-01-2016	15:29:05	194.140.240.2
+Jon Egil Grotvedt			05-01-2016	07:27:01	194.140.240.2
+Thomas Telso			05-01-2016	07:31:35	194.140.240.2
+Elin Ekern			05-01-2016	07:40:57	194.140.240.2
+Gro Anita Haugmo			05-01-2016	07:57:55	194.140.240.2
+Liv Sterten			05-01-2016	08:22:06	194.140.240.2
+Rune Heggen Arntsen			05-01-2016	08:31:11	89.11.205.159
+Carl Fredrik Lindeman			05-01-2016	08:55:21	194.140.240.2
+Gro Anita Haugmo			05-01-2016	13:20:51	194.140.240.2
+Thomas Telso			05-01-2016	14:56:17	194.140.240.2
+Thomas Holstad			05-01-2016	16:05:33	194.140.240.2
+Rune Heggen Arntsen			06-01-2016	07:59:58	89.11.205.159
+Elin Ekern			06-01-2016	08:04:40	194.140.240.2
+Carl Fredrik Lindeman			06-01-2016	08:11:59	194.140.240.2
+Liv Sterten			06-01-2016	08:21:20	194.140.240.2
+Gro Anita Haugmo			06-01-2016	08:36:32	194.140.240.2
+Tine Lill Christensen			06-01-2016	14:08:32	194.140.240.2
+Carl Fredrik Lindeman			06-01-2016	15:56:59	194.140.240.2
+Rune Heggen Arntsen			06-01-2016	16:01:27	89.11.205.159
+Liv Sterten			06-01-2016	16:15:52	194.140.240.2
+Carl F Rode Kjeldsberg			06-01-2016	16:40:40	194.140.240.2
+Gro Anita Haugmo			07-01-2016	07:48:38	194.140.240.2
+Thomas Telso			07-01-2016	07:52:37	194.140.240.2
+Elin Ekern			07-01-2016	07:55:34	194.140.240.2
+Rune Heggen Arntsen			07-01-2016	07:57:24	89.11.205.159
+Carl Fredrik Lindeman			07-01-2016	08:03:48	194.140.240.2
+Liv Sterten			07-01-2016	08:19:22	194.140.240.2
+Carl F Rode Kjeldsberg			07-01-2016	09:15:56	194.140.240.2
+Fredrik Jernberg			07-01-2016	11:14:58	194.140.240.2
+Thomas Telso			07-01-2016	13:05:27	194.140.240.2
+Thomas Telso			07-01-2016	14:09:11	194.140.240.2
+Thomas Telso			07-01-2016	15:04:28	194.140.240.2
+Carl Fredrik Lindeman			07-01-2016	15:41:55	194.140.240.2
+Rune Heggen Arntsen			07-01-2016	18:02:04	89.11.205.159
+Thomas Telso			08-01-2016	07:10:12	194.140.240.2
+Carl Fredrik Lindeman			08-01-2016	07:49:09	194.140.240.2
+Rune Heggen Arntsen			08-01-2016	07:58:35	89.11.205.159
+Anders Dahl-Hilstad			08-01-2016	08:29:31	194.140.240.2
+Carl F Rode Kjeldsberg			08-01-2016	09:37:34	194.140.240.2
+Thomas Telso			08-01-2016	11:08:52	194.140.240.2
+Tine Lill Christensen			08-01-2016	14:31:26	194.140.240.2
+Carl Fredrik Lindeman			08-01-2016	14:54:50	194.140.240.2
+Carl Fredrik Lindeman			08-01-2016	15:33:36	194.140.240.2
+Tine Lill Christensen			08-01-2016	15:36:12	194.140.240.2
+Carl F Rode Kjeldsberg			08-01-2016	15:58:34	194.140.240.2
+Rune Heggen Arntsen			08-01-2016	16:11:03	89.11.205.159
+Thomas Telso			11-01-2016	07:32:25	194.140.240.2
+Anders Dahl-Hilstad			11-01-2016	07:42:56	194.140.240.2
+Elin Ekern			11-01-2016	07:43:06	194.140.240.2
+Gro Anita Haugmo			11-01-2016	07:56:56	194.140.240.2
+Carl Fredrik Lindeman			11-01-2016	08:12:02	194.140.240.2
+Tine Lill Christensen			11-01-2016	08:32:09	194.140.240.2
+Liv Sterten			11-01-2016	08:34:48	194.140.240.2
+Rune Heggen Arntsen			11-01-2016	08:39:57	89.11.205.159
+Carl Fredrik Lindeman			11-01-2016	15:44:37	194.140.240.2
+Carl F Rode Kjeldsberg			11-01-2016	15:59:56	194.140.240.2
+Thomas Telso			12-01-2016	07:09:46	194.140.240.2
+Jon Egil Grotvedt			12-01-2016	07:39:24	194.140.240.2
+Elin Ekern			12-01-2016	08:01:50	194.140.240.2
+Gro Anita Haugmo			12-01-2016	08:04:15	194.140.240.2
+TimeOut - Support			12-01-2016	08:09:07	62.116.192.234
+Liv Sterten			12-01-2016	08:20:56	194.140.240.2
+Anne Marte Bye			12-01-2016	08:22:09	194.140.240.2
+Rune Heggen Arntsen			12-01-2016	08:36:41	89.11.205.159
+Anders Dahl-Hilstad			12-01-2016	09:24:34	194.140.240.2
+Carl F Rode Kjeldsberg			12-01-2016	09:24:51	194.140.240.2
+Carl Fredrik Lindeman			12-01-2016	10:25:27	194.140.240.2
+Anders Dahl-Hilstad			12-01-2016	11:04:23	194.140.240.2
+Thomas Telso			12-01-2016	14:25:10	194.140.240.2
+Carl Fredrik Lindeman			12-01-2016	15:53:56	194.140.240.2
+Gro Anita Haugmo			12-01-2016	20:20:31	194.140.240.2
+Rune Heggen Arntsen			12-01-2016	21:01:24	89.11.205.159
+Jon Egil Grotvedt			13-01-2016	07:26:58	194.140.240.2
+Liv Sterten			13-01-2016	08:22:40	194.140.240.2
+Elin Ekern			13-01-2016	08:23:01	194.140.240.2
+Anne Marte Bye			13-01-2016	08:25:09	194.140.240.2
+Carl Fredrik Lindeman			13-01-2016	08:27:32	194.140.240.2
+Rune Heggen Arntsen			13-01-2016	08:29:56	89.11.205.159
+Tine Lill Christensen			13-01-2016	08:30:12	194.140.240.2
+Gro Anita Haugmo			13-01-2016	09:08:05	194.140.240.2
+Rune Heggen Arntsen			13-01-2016	13:58:41	89.11.205.159
+Carl F Rode Kjeldsberg			13-01-2016	15:05:14	194.140.240.2
+Carl Fredrik Lindeman			13-01-2016	16:57:27	194.140.240.2
+Jon Egil Grotvedt			14-01-2016	06:46:04	194.140.240.2
+Thomas Telso			14-01-2016	07:22:23	194.140.240.2
+Elin Ekern			14-01-2016	07:47:13	194.140.240.2
+Gro Anita Haugmo			14-01-2016	07:51:58	194.140.240.2
+Anne Marte Bye			14-01-2016	07:56:39	194.140.240.2
+Carl Fredrik Lindeman			14-01-2016	08:24:51	194.140.240.2
+Liv Sterten			14-01-2016	08:47:51	194.140.240.2
+Anders Dahl-Hilstad			14-01-2016	10:30:10	194.140.240.2
+Tine Lill Christensen			14-01-2016	11:17:29	194.140.240.2
+Thomas Telso			14-01-2016	14:55:31	194.140.240.2
+Anne Marte Bye			14-01-2016	15:06:56	194.140.240.2
+Carl Fredrik Lindeman			14-01-2016	15:55:21	194.140.240.2
+Carl F Rode Kjeldsberg			14-01-2016	16:33:16	194.140.240.2
+Rune Heggen Arntsen			14-01-2016	21:29:34	194.140.240.2
+Gro Anita Haugmo			14-01-2016	21:47:31	194.140.240.2
+Elin Ekern			15-01-2016	07:15:22	194.140.240.2
+Gro Anita Haugmo			15-01-2016	07:49:12	194.140.240.2
+Liv Sterten			15-01-2016	08:21:10	194.140.240.2
+Carl Fredrik Lindeman			15-01-2016	08:26:52	194.140.240.2
+Tine Lill Christensen			15-01-2016	08:45:25	194.140.240.2
+Thomas Holstad			15-01-2016	09:03:09	194.140.240.2
+Thomas Telso			15-01-2016	13:16:19	194.140.240.2
+Anders Dahl-Hilstad			15-01-2016	13:32:52	194.140.240.2
+Thomas Telso			15-01-2016	14:15:24	194.140.240.2
+Gro Anita Haugmo			15-01-2016	15:25:46	194.140.240.2
+Carl F Rode Kjeldsberg			15-01-2016	16:29:21	194.140.240.2
+Carl Fredrik Lindeman			15-01-2016	16:57:25	194.140.240.2
+Rune Heggen Arntsen			16-01-2016	10:51:57	79.160.26.132
+Gro Anita Haugmo			16-01-2016	11:29:30	194.140.240.2
+Rune Heggen Arntsen			16-01-2016	23:20:57	79.160.26.132
+Rune Heggen Arntsen			17-01-2016	10:15:51	79.160.26.132
+Gro Anita Haugmo			17-01-2016	11:00:30	194.140.240.2
+Rune Heggen Arntsen			17-01-2016	21:00:28	79.160.26.132
+Gro Anita Haugmo			17-01-2016	23:54:49	194.140.240.2
+Thomas Telso			18-01-2016	07:23:07	194.140.240.2
+Elin Ekern			18-01-2016	07:50:50	194.140.240.2
+Carl Fredrik Lindeman			18-01-2016	08:11:22	194.140.240.2
+Gro Anita Haugmo			18-01-2016	08:20:48	194.140.240.2
+Liv Sterten			18-01-2016	08:37:10	194.140.240.2
+Anne Marte Bye			18-01-2016	09:14:28	194.140.240.2
+Anders Dahl-Hilstad			18-01-2016	12:45:39	194.140.240.2
+Thomas Telso			18-01-2016	14:23:31	194.140.240.2
+Carl F Rode Kjeldsberg			18-01-2016	16:00:26	194.140.240.2
+Gro Anita Haugmo			18-01-2016	16:03:37	194.140.240.2
+Carl Fredrik Lindeman			18-01-2016	16:05:49	194.140.240.2
+Thomas Telso			19-01-2016	07:25:46	194.140.240.2
+Anne Marte Bye			19-01-2016	07:47:10	194.140.240.2
+Elin Ekern			19-01-2016	08:06:50	194.140.240.2
+Carl Fredrik Lindeman			19-01-2016	08:10:21	194.140.240.2
+Liv Sterten			19-01-2016	08:29:26	194.140.240.2
+Gro Anita Haugmo			19-01-2016	10:16:05	194.140.240.2
+Tine Lill Christensen			19-01-2016	12:56:35	194.140.240.2
+Thomas Telso			19-01-2016	14:25:33	194.140.240.2
+Carl Fredrik Lindeman			19-01-2016	15:54:53	194.140.240.2
+Carl F Rode Kjeldsberg			19-01-2016	16:15:08	194.140.240.2
+Rune Heggen Arntsen			20-01-2016	07:58:16	89.11.205.159
+Anne Marte Bye			20-01-2016	08:00:28	194.140.240.2
+Carl Fredrik Lindeman			20-01-2016	08:06:27	194.140.240.2
+Elin Ekern			20-01-2016	08:11:19	194.140.240.2
+Liv Sterten			20-01-2016	08:59:09	194.140.240.2
+Tine Lill Christensen			20-01-2016	11:42:20	194.140.240.2
+Anne Marte Bye			20-01-2016	12:32:26	194.140.240.2
+Carl Fredrik Lindeman			20-01-2016	15:42:51	194.140.240.2
+Carl F Rode Kjeldsberg			20-01-2016	16:39:06	194.140.240.2
+Rune Heggen Arntsen			20-01-2016	18:46:53	89.11.205.159
+Elin Ekern			21-01-2016	07:38:49	194.140.240.2
+Carl Fredrik Lindeman			21-01-2016	08:07:14	194.140.240.2
+Rune Heggen Arntsen			21-01-2016	08:14:04	89.11.205.159
+Elin Ekern			21-01-2016	08:42:37	194.140.240.2
+Tine Lill Christensen			21-01-2016	09:59:01	194.140.240.2
+Thomas Telso			21-01-2016	10:44:00	194.140.240.2
+Carl Fredrik Lindeman			21-01-2016	15:58:09	194.140.240.2
+Carl F Rode Kjeldsberg			21-01-2016	16:02:38	194.140.240.2
+Thomas Holstad			21-01-2016	17:32:00	194.140.240.2
+Rune Heggen Arntsen			22-01-2016	08:00:32	89.11.205.159
+Carl Fredrik Lindeman			22-01-2016	08:07:53	194.140.240.2
+Tine Lill Christensen			22-01-2016	10:15:15	194.140.240.2
+Anne Marte Bye			22-01-2016	12:37:35	194.140.240.2
+Carl F Rode Kjeldsberg			22-01-2016	15:04:53	194.140.240.2
+Carl Fredrik Lindeman			22-01-2016	15:54:53	194.140.240.2
+Thomas Telso			25-01-2016	07:04:35	194.140.240.2
+Gro Anita Haugmo			25-01-2016	08:00:10	194.140.240.2
+Carl Fredrik Lindeman			25-01-2016	08:27:36	194.140.240.2
+Liv Sterten			25-01-2016	08:27:53	194.140.240.2
+Rune Heggen Arntsen			25-01-2016	09:02:12	89.11.205.159
+Tine Lill Christensen			25-01-2016	09:03:38	194.140.240.2
+Thomas Telso			25-01-2016	14:00:34	194.140.240.2
+Carl Fredrik Lindeman			25-01-2016	15:49:45	194.140.240.2
+Carl F Rode Kjeldsberg			25-01-2016	16:13:13	194.140.240.2
+Rune Heggen Arntsen			25-01-2016	16:28:19	89.11.205.159
+Carl Fredrik Lindeman			26-01-2016	07:53:41	46.9.254.156
+Carl Fredrik Lindeman			26-01-2016	07:53:43	46.9.254.156
+Carl Fredrik Lindeman			26-01-2016	07:53:44	46.9.254.156
+Carl Fredrik Lindeman			26-01-2016	07:55:59	46.9.254.156
+Carl Fredrik Lindeman			26-01-2016	07:56:06	46.9.254.156
+Gro Anita Haugmo			26-01-2016	07:59:04	194.140.240.2
+Rune Heggen Arntsen			26-01-2016	09:00:04	89.11.205.159
+Carl Fredrik Lindeman			26-01-2016	13:22:05	194.140.240.2
+Carl F Rode Kjeldsberg			26-01-2016	15:04:22	194.140.240.2
+Rune Heggen Arntsen			26-01-2016	16:04:41	89.11.205.159
+Gro Anita Haugmo			27-01-2016	08:18:40	194.140.240.2
+Liv Sterten			27-01-2016	08:20:55	194.140.240.2
+Carl Fredrik Lindeman			27-01-2016	08:25:48	194.140.240.2
+Rune Heggen Arntsen			27-01-2016	08:29:25	89.11.205.159
+Tine Lill Christensen			27-01-2016	10:45:47	194.140.240.2
+Anne Marte Bye			27-01-2016	14:53:41	194.140.240.2
+Rune Heggen Arntsen			27-01-2016	16:27:21	89.11.205.159
+Gro Anita Haugmo			28-01-2016	07:23:50	194.140.240.2
+Thomas Telso			28-01-2016	07:38:06	194.140.240.2
+Carl Fredrik Lindeman			28-01-2016	08:05:55	194.140.240.2
+Liv Sterten			28-01-2016	08:24:25	194.140.240.2
+Anne Marte Bye			28-01-2016	13:15:31	194.140.240.2
+Carl Fredrik Lindeman			28-01-2016	15:51:17	194.140.240.2
+Carl Fredrik Lindeman			29-01-2016	07:57:38	194.140.240.2
+Gro Anita Haugmo			29-01-2016	08:09:18	194.140.240.2
+Thomas Telso			29-01-2016	08:14:17	194.140.240.2
+Liv Sterten			29-01-2016	08:21:15	194.140.240.2
+Anne Marte Bye			29-01-2016	08:25:56	194.140.240.2
+Rune Heggen Arntsen			29-01-2016	09:19:27	89.11.205.159
+Carl Fredrik Lindeman			29-01-2016	16:06:50	194.140.240.2
+Rune Heggen Arntsen			29-01-2016	16:36:50	89.11.205.159
+Gro Anita Haugmo			31-01-2016	11:49:02	194.140.240.2
+Gro Anita Haugmo			01-02-2016	07:14:06	194.140.240.2
+Thomas Telso			01-02-2016	07:20:21	194.140.240.2
+Liv Sterten			01-02-2016	07:58:23	194.140.240.2
+Carl Fredrik Lindeman			01-02-2016	08:05:41	194.140.240.2
+Rune Heggen Arntsen			01-02-2016	08:55:41	89.11.205.159
+Thomas Telso			01-02-2016	14:14:30	194.140.240.2
+Carl Fredrik Lindeman			01-02-2016	15:51:47	194.140.240.2
+Carl Fredrik Lindeman			02-02-2016	08:07:58	194.140.240.2
+Gro Anita Haugmo			02-02-2016	08:16:45	194.140.240.2
+Rune Heggen Arntsen			02-02-2016	08:59:40	89.11.205.159
+Tine Lill Christensen			02-02-2016	09:45:38	194.140.240.2
+Tine Lill Christensen			02-02-2016	10:18:42	194.140.240.2
+Anne Marte Bye			02-02-2016	10:56:48	194.140.240.2
+Gro Anita Haugmo			02-02-2016	12:55:09	194.140.240.2
+Liv Sterten			02-02-2016	13:44:09	194.140.240.2
+Carl F Rode Kjeldsberg			02-02-2016	14:02:46	194.140.240.2
+Bjørnar Bolsøy			02-02-2016	14:27:01	194.140.240.2
+Anders Dahl-Hilstad			02-02-2016	15:06:08	194.140.240.2
+Thomas Telso			02-02-2016	15:20:05	194.140.240.2
+Carl Fredrik Lindeman			02-02-2016	15:22:01	194.140.240.2
+Thomas Holstad			02-02-2016	15:24:32	194.140.240.2
+Jon Egil Grotvedt			03-02-2016	06:21:12	194.140.240.2
+Anne Marte Bye			03-02-2016	07:47:17	194.140.240.2
+Carl Fredrik Lindeman			03-02-2016	08:16:35	194.140.240.2
+Liv Sterten			03-02-2016	08:24:40	194.140.240.2
+Rune Heggen Arntsen			03-02-2016	09:01:06	89.11.205.159
+Carl F Rode Kjeldsberg			03-02-2016	09:17:29	194.140.240.2
+Anders Dahl-Hilstad			03-02-2016	13:03:00	194.140.240.2
+Anders Dahl-Hilstad			03-02-2016	13:08:15	194.140.240.2
+Tine Lill Christensen			03-02-2016	13:26:06	194.140.240.2
+Fredrik Jernberg			03-02-2016	13:26:33	194.140.240.2
+Rune Heggen Arntsen			03-02-2016	15:36:38	89.11.205.159
+Carl Fredrik Lindeman			03-02-2016	15:36:47	194.140.240.2
+Thomas Holstad			03-02-2016	16:18:10	194.140.240.2
+Carl F Rode Kjeldsberg			03-02-2016	16:22:23	194.140.240.2
+Gro Anita Haugmo			04-02-2016	07:10:37	194.140.240.2
+Thomas Telso			04-02-2016	07:21:22	194.140.240.2
+Jon Egil Grotvedt			04-02-2016	07:35:25	194.140.240.2
+Liv Sterten			04-02-2016	08:24:04	194.140.240.2
+Carl Fredrik Lindeman			04-02-2016	08:24:39	194.140.240.2
+Anders Dahl-Hilstad			04-02-2016	08:39:54	194.140.240.2
+Rune Heggen Arntsen			04-02-2016	08:58:56	89.11.205.159
+Bjørnar Bolsøy			04-02-2016	11:01:57	194.140.240.2
+Thomas Telso			04-02-2016	14:08:44	194.140.240.2
+Thomas Holstad			04-02-2016	15:11:29	194.140.240.2
+Carl Fredrik Lindeman			04-02-2016	15:50:55	194.140.240.2
+Rune Heggen Arntsen			04-02-2016	15:59:59	89.11.205.159
+Liv Sterten			04-02-2016	16:30:18	194.140.240.2
+Carl F Rode Kjeldsberg			04-02-2016	16:35:43	194.140.240.2
+Bjørnar Bolsøy			04-02-2016	17:03:45	194.140.240.2
+Rune Heggen Arntsen			05-02-2016	07:57:43	89.11.205.159
+Carl Fredrik Lindeman			05-02-2016	08:04:20	194.140.240.2
+Gro Anita Haugmo			05-02-2016	08:14:27	194.140.240.2
+Liv Sterten			05-02-2016	08:22:52	194.140.240.2
+Thomas Holstad			05-02-2016	08:42:29	194.140.240.2
+Thomas Telso			05-02-2016	13:15:10	194.140.240.2
+Thomas Holstad			05-02-2016	15:04:20	194.140.240.2
+Carl Fredrik Lindeman			05-02-2016	15:25:11	194.140.240.2
+Carl F Rode Kjeldsberg			05-02-2016	16:06:15	194.140.240.2
+Rune Heggen Arntsen			05-02-2016	16:22:29	89.11.205.159
+Gro Anita Haugmo			06-02-2016	18:43:47	194.140.240.2
+Jon Egil Grotvedt			08-02-2016	07:40:44	194.140.240.2
+Carl Fredrik Lindeman			08-02-2016	07:48:10	194.140.240.2
+Gro Anita Haugmo			08-02-2016	07:56:50	194.140.240.2
+Liv Sterten			08-02-2016	08:25:01	194.140.240.2
+Rune Heggen Arntsen			08-02-2016	08:59:59	89.11.205.159
+Thomas Holstad			08-02-2016	09:23:42	194.140.240.2
+Tine Lill Christensen			08-02-2016	09:30:44	194.140.240.2
+Elin Ekern			08-02-2016	11:44:32	194.140.240.2
+Anne Marte Bye			08-02-2016	14:20:01	194.140.240.2
+Carl Fredrik Lindeman			08-02-2016	15:13:20	194.140.240.2
+Liv Sterten			08-02-2016	16:12:21	194.140.240.2
+Jon Egil Grotvedt			09-02-2016	07:28:11	194.140.240.2
+Gro Anita Haugmo			09-02-2016	07:48:44	194.140.240.2
+Elin Ekern			09-02-2016	07:55:45	194.140.240.2
+Carl Fredrik Lindeman			09-02-2016	08:27:30	194.140.240.2
+Liv Sterten			09-02-2016	08:28:03	194.140.240.2
+Jon Egil Grotvedt			09-02-2016	08:29:25	194.140.240.2
+Bjørnar Bolsøy			09-02-2016	12:10:10	194.140.240.2
+Gro Anita Haugmo			09-02-2016	15:48:44	194.140.240.2
+Carl F Rode Kjeldsberg			09-02-2016	16:07:45	194.140.240.2
+Jon Egil Grotvedt			10-02-2016	07:41:43	194.140.240.2
+Gro Anita Haugmo			10-02-2016	07:58:31	194.140.240.2
+Elin Ekern			10-02-2016	08:10:02	194.140.240.2
+Liv Sterten			10-02-2016	08:15:28	194.140.240.2
+Thomas Holstad			10-02-2016	08:24:41	194.140.240.2
+Rune Heggen Arntsen			10-02-2016	08:27:46	89.11.205.159
+Carl Fredrik Lindeman			10-02-2016	08:42:19	194.140.240.2
+Anne Marte Bye			10-02-2016	08:50:12	194.140.240.2
+Tine Lill Christensen			10-02-2016	09:30:08	194.140.240.2
+Bjørnar Bolsøy			10-02-2016	09:43:26	194.140.240.2
+Carl F Rode Kjeldsberg			10-02-2016	16:07:06	194.140.240.2
+Thomas Holstad			10-02-2016	16:10:21	194.140.240.2
+Gro Anita Haugmo			11-02-2016	07:52:57	194.140.240.2
+Elin Ekern			11-02-2016	08:01:56	194.140.240.2
+Liv Sterten			11-02-2016	08:19:59	194.140.240.2
+Thomas Holstad			11-02-2016	08:40:26	194.140.240.2
+Rune Heggen Arntsen			11-02-2016	08:58:26	89.11.205.159
+Gro Anita Haugmo			11-02-2016	09:28:09	194.140.240.2
+Elin Ekern			11-02-2016	11:15:19	194.140.240.2
+Bjørnar Bolsøy			11-02-2016	13:28:28	194.140.240.2
+Jon Egil Grotvedt			11-02-2016	15:32:50	194.140.240.2
+Carl Fredrik Lindeman			11-02-2016	15:51:09	194.140.240.2
+Carl F Rode Kjeldsberg			11-02-2016	16:37:38	194.140.240.2
+Gro Anita Haugmo			12-02-2016	07:24:19	194.140.240.2
+Liv Sterten			12-02-2016	08:19:33	194.140.240.2
+Carl Fredrik Lindeman			12-02-2016	08:22:46	194.140.240.2
+Elin Ekern			12-02-2016	08:31:21	194.140.240.2
+Thomas Holstad			12-02-2016	08:48:16	194.140.240.2
+Rune Heggen Arntsen			12-02-2016	15:57:30	194.140.240.2
+Thomas Holstad			12-02-2016	16:16:16	194.140.240.2
+Carl Fredrik Lindeman			12-02-2016	16:39:11	194.140.240.2
+Gro Anita Haugmo			13-02-2016	09:13:38	194.140.240.2
+Liv Sterten			14-02-2016	11:55:06	194.140.240.2
+Thomas Holstad			14-02-2016	13:34:27	194.140.240.2
+Gro Anita Haugmo			14-02-2016	19:32:12	194.140.240.2
+Gro Anita Haugmo			15-02-2016	07:16:06	194.140.240.2
+Thomas Telso			15-02-2016	07:31:21	194.140.240.2
+Elin Ekern			15-02-2016	07:44:00	194.140.240.2
+Anne Marte Bye			15-02-2016	08:20:14	194.140.240.2
+Liv Sterten			15-02-2016	08:22:57	194.140.240.2
+Carl Fredrik Lindeman			15-02-2016	08:24:22	194.140.240.2
+Rune Heggen Arntsen			15-02-2016	08:33:05	89.11.205.159
+Rune Heggen Arntsen			15-02-2016	09:00:56	89.11.205.159
+Carl F Rode Kjeldsberg			15-02-2016	09:07:38	194.140.240.2
+Carl Fredrik Lindeman			15-02-2016	15:57:17	194.140.240.2
+Bjørnar Bolsøy			15-02-2016	16:28:34	194.140.240.2
+Thomas Holstad			15-02-2016	18:48:18	194.140.240.2
+Gro Anita Haugmo			15-02-2016	21:18:43	194.140.240.2
+Thomas Holstad			15-02-2016	21:21:02	194.140.240.2
+Rune Heggen Arntsen			16-02-2016	08:06:19	194.140.240.2
+Elin Ekern			16-02-2016	08:07:59	194.140.240.2
+Liv Sterten			16-02-2016	08:19:26	194.140.240.2
+Gro Anita Haugmo			16-02-2016	09:17:29	194.140.240.2
+Thomas Telso			16-02-2016	09:24:13	194.140.240.2
+Carl Fredrik Lindeman			16-02-2016	09:25:22	194.140.240.2
+Carl F Rode Kjeldsberg			16-02-2016	09:34:13	194.140.240.2
+Bjørnar Bolsøy			16-02-2016	11:38:11	194.140.240.2
+Thomas Telso			16-02-2016	15:07:03	194.140.240.2
+Thomas Telso			16-02-2016	16:22:03	194.140.240.2
+Thomas Holstad			16-02-2016	16:56:18	194.140.240.2
+Gro Anita Haugmo			17-02-2016	06:55:27	194.140.240.2
+Elin Ekern			17-02-2016	08:22:26	194.140.240.2
+Carl Fredrik Lindeman			17-02-2016	08:27:35	194.140.240.2
+Thomas Telso			17-02-2016	09:28:45	194.140.240.2
+Bjørnar Bolsøy			17-02-2016	09:41:53	194.140.240.2
+Jon Egil Grotvedt			17-02-2016	13:46:07	194.140.240.2
+Anders Dahl-Hilstad			17-02-2016	14:40:26	194.140.240.2
+Anne Marte Bye			17-02-2016	14:40:32	194.140.240.2
+Carl Fredrik Lindeman			17-02-2016	15:33:16	194.140.240.2
+Carl F Rode Kjeldsberg			17-02-2016	16:08:10	194.140.240.2
+Thomas Holstad			17-02-2016	16:45:43	194.140.240.2
+Thomas Telso			17-02-2016	17:47:14	194.140.240.2
+Gro Anita Haugmo			18-02-2016	07:47:59	194.140.240.2
+Elin Ekern			18-02-2016	08:03:10	194.140.240.2
+Carl Fredrik Lindeman			18-02-2016	08:43:19	194.140.240.2
+Rune Heggen Arntsen			18-02-2016	08:53:36	79.160.26.132
+Carl F Rode Kjeldsberg			18-02-2016	09:15:21	194.140.240.2
+Thomas Holstad			18-02-2016	10:04:57	194.140.240.2
+Bjørnar Bolsøy			18-02-2016	10:47:49	194.140.240.2
+Liv Sterten			18-02-2016	12:41:47	194.140.240.2
+Carl Fredrik Lindeman			18-02-2016	15:26:09	194.140.240.2
+Gro Anita Haugmo			18-02-2016	21:25:20	194.140.240.2
+Thomas Telso			19-02-2016	07:21:23	194.140.240.2
+Gro Anita Haugmo			19-02-2016	07:42:03	194.140.240.2
+Elin Ekern			19-02-2016	07:58:37	194.140.240.2
+Carl Fredrik Lindeman			19-02-2016	08:13:52	194.140.240.2
+Liv Sterten			19-02-2016	08:23:08	194.140.240.2
+Rune Heggen Arntsen			19-02-2016	09:00:35	89.11.205.159
+Thomas Holstad			19-02-2016	13:17:24	194.140.240.2
+Thomas Telso			19-02-2016	13:25:05	194.140.240.2
+Gro Anita Haugmo			22-02-2016	08:15:08	194.140.240.2
+Gro Anita Haugmo			22-02-2016	08:15:11	194.140.240.2
+Carl Fredrik Lindeman			22-02-2016	08:30:25	194.140.240.2
+Rune Heggen Arntsen			22-02-2016	08:55:39	89.11.205.159
+Carl F Rode Kjeldsberg			22-02-2016	09:17:52	194.140.240.2
+Thomas Telso			22-02-2016	13:16:58	194.140.240.2
+Carl Fredrik Lindeman			22-02-2016	15:57:40	194.140.240.2
+Carl Fredrik Lindeman			23-02-2016	08:02:31	194.140.240.2
+Gro Anita Haugmo			23-02-2016	08:04:41	194.140.240.2
+Rune Heggen Arntsen			23-02-2016	08:26:31	89.11.205.159
+Carl F Rode Kjeldsberg			23-02-2016	10:36:21	194.140.240.2
+Thomas Telso			23-02-2016	13:51:40	194.140.240.2
+Carl F Rode Kjeldsberg			23-02-2016	16:17:44	194.140.240.2
+Elin Ekern			24-02-2016	08:09:22	194.140.240.2
+Bjørnar Bolsøy			24-02-2016	08:17:06	194.140.240.2
+Liv Sterten			24-02-2016	08:25:47	194.140.240.2
+Gro Anita Haugmo			24-02-2016	09:24:00	194.140.240.2
+Carl F Rode Kjeldsberg			24-02-2016	15:43:50	194.140.240.2
+Rune Heggen Arntsen			24-02-2016	20:28:33	62.20.23.34
+Thomas Telso			25-02-2016	07:19:05	194.140.240.2
+Gro Anita Haugmo			25-02-2016	08:02:25	194.140.240.2
+Liv Sterten			25-02-2016	08:17:01	194.140.240.2
+Bjørnar Bolsøy			25-02-2016	08:33:13	194.140.240.2
+Elin Ekern			25-02-2016	08:33:59	194.140.240.2
+Elin Ekern			25-02-2016	13:14:47	194.140.240.2
+Bjørnar Bolsøy			25-02-2016	14:45:57	194.140.240.2
+Gro Anita Haugmo			25-02-2016	15:32:05	194.140.240.2
+Liv Sterten			25-02-2016	16:13:09	194.140.240.2
+Gro Anita Haugmo			26-02-2016	08:04:38	194.140.240.2
+Elin Ekern			26-02-2016	08:21:39	194.140.240.2
+Liv Sterten			26-02-2016	08:25:09	194.140.240.2
+Thomas Telso			26-02-2016	11:57:50	194.140.240.2
+Bjørnar Bolsøy			26-02-2016	15:33:26	194.140.240.2
+Liv Sterten			26-02-2016	16:05:49	194.140.240.2
+Rune Heggen Arntsen			27-02-2016	10:02:49	89.11.205.159
+Rune Heggen Arntsen			27-02-2016	17:44:48	89.11.205.159
+Rune Heggen Arntsen			27-02-2016	19:39:02	89.11.205.159
+Thomas Telso			27-02-2016	21:23:32	194.140.240.2
+Rune Heggen Arntsen			28-02-2016	10:25:42	89.11.205.159
+Thomas Telso			28-02-2016	10:36:59	194.140.240.2
+Thomas Telso			28-02-2016	13:49:08	194.140.240.2
+Rune Heggen Arntsen			28-02-2016	19:28:31	89.11.205.159
+Thomas Telso			28-02-2016	21:36:17	194.140.240.2
+Gro Anita Haugmo			29-02-2016	07:13:34	194.140.240.2
+Carl Fredrik Lindeman			29-02-2016	08:02:49	194.140.240.2
+Elin Ekern			29-02-2016	08:07:25	194.140.240.2
+Liv Sterten			29-02-2016	08:20:39	194.140.240.2
+Thomas Telso			29-02-2016	08:52:45	194.140.240.2
+Thomas Holstad			29-02-2016	09:01:36	194.140.240.2
+Rune Heggen Arntsen			29-02-2016	11:02:34	51.175.52.166
+Bjørnar Bolsøy			29-02-2016	15:56:11	194.140.240.2
+Thomas Telso			29-02-2016	16:06:42	194.140.240.2
+Thomas Holstad			29-02-2016	16:19:58	194.140.240.2
+Elin Ekern			01-03-2016	07:37:22	194.140.240.2
+Gro Anita Haugmo			01-03-2016	07:38:03	194.140.240.2
+Carl Fredrik Lindeman			01-03-2016	08:08:44	194.140.240.2
+Liv Sterten			01-03-2016	08:28:21	194.140.240.2
+Rune Heggen Arntsen			01-03-2016	09:00:28	51.175.52.166
+Thomas Holstad			01-03-2016	09:06:03	194.140.240.2
+Elin Ekern			01-03-2016	13:52:05	194.140.240.2
+Anders Dahl-Hilstad			01-03-2016	13:57:56	194.140.240.2
+Carl Fredrik Lindeman			01-03-2016	15:55:07	194.140.240.2
+Carl F Rode Kjeldsberg			01-03-2016	16:20:49	194.140.240.2
+Bjørnar Bolsøy			01-03-2016	16:41:03	194.140.240.2
+Thomas Telso			01-03-2016	17:21:02	194.140.240.2
+Gro Anita Haugmo			02-03-2016	07:50:47	194.140.240.2
+Elin Ekern			02-03-2016	07:57:56	194.140.240.2
+Liv Sterten			02-03-2016	08:22:14	194.140.240.2
+Liv Sterten			02-03-2016	08:32:14	194.140.240.2
+Rune Heggen Arntsen			02-03-2016	08:43:23	194.140.240.2
+Carl F Rode Kjeldsberg			02-03-2016	09:42:18	194.140.240.2
+Thomas Holstad			02-03-2016	11:48:30	194.140.240.2
+Rune Heggen Arntsen			02-03-2016	12:17:55	194.140.240.2
+Gro Anita Haugmo			02-03-2016	12:26:49	194.140.240.2
+Rune Heggen Arntsen			02-03-2016	12:40:26	194.140.240.2
+TimeOut - Support			02-03-2016	13:53:43	62.116.192.234
+TimeOut - Support			02-03-2016	13:54:24	62.116.192.234
+TimeOut - Support			02-03-2016	13:57:20	62.116.192.234
+Elin Ekern			02-03-2016	14:06:35	194.140.240.2
+Tine Lill Christensen			02-03-2016	14:51:16	194.140.240.2
+TimeOut - Support			02-03-2016	15:07:22	62.116.192.234
+Carl Fredrik Lindeman			02-03-2016	15:39:59	194.140.240.2
+Carl F Rode Kjeldsberg			02-03-2016	16:33:30	194.140.240.2
+Thomas Holstad			02-03-2016	16:45:42	194.140.240.2
+Thomas Holstad			02-03-2016	16:58:10	194.140.240.2
+Carl Fredrik Lindeman			03-03-2016	08:03:45	194.140.240.2
+Elin Ekern			03-03-2016	08:09:35	194.140.240.2
+Anne Marte Bye			03-03-2016	08:16:32	194.140.240.2
+Gro Anita Haugmo			03-03-2016	08:30:44	194.140.240.2
+Liv Sterten			03-03-2016	08:31:05	194.140.240.2
+Rune Heggen Arntsen			03-03-2016	08:55:25	89.11.205.159
+Thomas Telso			03-03-2016	14:32:33	194.140.240.2
+Carl F Rode Kjeldsberg			03-03-2016	16:06:21	194.140.240.2
+Gro Anita Haugmo			04-03-2016	08:15:18	194.140.240.2
+Carl Fredrik Lindeman			04-03-2016	08:25:29	194.140.240.2
+Tine Lill Christensen			04-03-2016	08:28:33	194.140.240.2
+Rune Heggen Arntsen			04-03-2016	08:29:10	89.11.205.159
+Liv Sterten			04-03-2016	08:31:09	194.140.240.2
+Elin Ekern			04-03-2016	08:39:25	194.140.240.2
+Elin Ekern			04-03-2016	09:34:37	194.140.240.2
+Jon Egil Grotvedt			04-03-2016	12:35:32	194.140.240.2
+Carl Fredrik Lindeman			04-03-2016	15:37:23	194.140.240.2
+Thomas Holstad			04-03-2016	16:36:22	194.140.240.2
+Jon Egil Grotvedt			07-03-2016	07:43:15	194.140.240.2
+Elin Ekern			07-03-2016	07:59:42	194.140.240.2
+Carl Fredrik Lindeman			07-03-2016	08:01:00	194.140.240.2
+Gro Anita Haugmo			07-03-2016	08:20:05	194.140.240.2
+Tine Lill Christensen			07-03-2016	08:21:12	194.140.240.2
+Liv Sterten			07-03-2016	08:23:43	194.140.240.2
+Rune Heggen Arntsen			07-03-2016	08:29:56	89.11.205.159
+Thomas Telso			07-03-2016	12:05:09	194.140.240.2
+Carl Fredrik Lindeman			07-03-2016	15:54:40	194.140.240.2
+Thomas Holstad			07-03-2016	16:45:08	194.140.240.2
+Elin Ekern			08-03-2016	07:09:31	194.140.240.2
+Liv Sterten			08-03-2016	08:24:19	194.140.240.2
+Rune Heggen Arntsen			08-03-2016	08:33:16	89.11.205.159
+Carl Fredrik Lindeman			08-03-2016	08:34:15	194.140.240.2
+Anders Dahl-Hilstad			08-03-2016	13:04:33	194.140.240.2
+Tine Lill Christensen			08-03-2016	16:18:04	194.140.240.2
+Thomas Holstad			08-03-2016	16:32:45	194.140.240.2
+Rune Heggen Arntsen			08-03-2016	16:36:07	89.11.205.159
+Elin Ekern			09-03-2016	07:32:50	194.140.240.2
+Liv Sterten			09-03-2016	08:23:03	194.140.240.2
+Carl Fredrik Lindeman			09-03-2016	08:40:42	194.140.240.2
+Thomas Holstad			09-03-2016	09:09:20	194.140.240.2
+Elin Ekern			09-03-2016	12:21:16	194.140.240.2
+Thomas Holstad			09-03-2016	16:26:22	194.140.240.2
+Thomas Telso			09-03-2016	21:33:05	194.140.240.2
+Elin Ekern			10-03-2016	07:33:46	194.140.240.2
+Elin Ekern			10-03-2016	14:31:56	194.140.240.2
+Elin Ekern			11-03-2016	08:13:02	194.140.240.2
+Elin Ekern			11-03-2016	08:54:20	194.140.240.2
+TimeOut - Support			11-03-2016	10:54:55	62.116.192.234
+TimeOut - Support			11-03-2016	11:27:33	62.116.192.234
+Carl F Rode Kjeldsberg			11-03-2016	15:34:05	194.140.240.2
+Gro Anita Haugmo			14-03-2016	05:54:30	194.140.240.2
+Elin Ekern			14-03-2016	07:53:24	194.140.240.2
+Carl Fredrik Lindeman			14-03-2016	08:05:36	194.140.240.2
+Rune Heggen Arntsen			14-03-2016	08:54:43	89.11.205.159
+Liv Sterten			14-03-2016	09:18:01	194.140.240.2
+Carl F Rode Kjeldsberg			14-03-2016	09:26:58	194.140.240.2
+Gro Anita Haugmo			14-03-2016	09:48:58	194.140.240.2
+Carl Fredrik Lindeman			14-03-2016	15:04:56	194.140.240.2
+Carl Fredrik Lindeman			14-03-2016	15:34:51	194.140.240.2
+Carl Fredrik Lindeman			14-03-2016	15:34:51	194.140.240.2
+Thomas Holstad			14-03-2016	16:47:58	194.140.240.2
+Gro Anita Haugmo			15-03-2016	06:56:57	194.140.240.2
+Elin Ekern			15-03-2016	07:30:38	194.140.240.2
+Carl Fredrik Lindeman			15-03-2016	08:12:33	194.140.240.2
+Liv Sterten			15-03-2016	08:23:52	194.140.240.2
+Rune Heggen Arntsen			15-03-2016	08:28:41	89.11.205.159
+Thomas Holstad			15-03-2016	09:09:26	194.140.240.2
+Carl F Rode Kjeldsberg			15-03-2016	09:16:51	194.140.240.2
+Tine Lill Christensen			15-03-2016	09:37:07	194.140.240.2
+Anders Dahl-Hilstad			15-03-2016	12:45:02	194.140.240.2
+Gro Anita Haugmo			15-03-2016	20:03:27	194.140.240.2
+Gro Anita Haugmo			16-03-2016	07:27:10	194.140.240.2
+Elin Ekern			16-03-2016	07:27:19	194.140.240.2
+Rune Heggen Arntsen			16-03-2016	08:26:53	89.11.205.159
+Liv Sterten			16-03-2016	08:30:46	194.140.240.2
+Thomas Telso			16-03-2016	09:04:10	194.140.240.2
+Carl Fredrik Lindeman			16-03-2016	09:13:50	194.140.240.2
+Tine Lill Christensen			16-03-2016	10:06:26	194.140.240.2
+Thomas Holstad			16-03-2016	13:37:04	194.140.240.2
+Carl Fredrik Lindeman			16-03-2016	16:05:05	194.140.240.2
+Carl F Rode Kjeldsberg			16-03-2016	16:36:11	194.140.240.2
+Rune Heggen Arntsen			16-03-2016	17:00:02	89.11.205.159
+Thomas Holstad			16-03-2016	17:00:46	194.140.240.2
+Rune Heggen Arntsen			16-03-2016	18:32:08	89.11.205.159
+Anders Dahl-Hilstad			16-03-2016	21:23:34	194.140.240.2
+Gro Anita Haugmo			16-03-2016	22:33:26	194.140.240.2
+Gro Anita Haugmo			17-03-2016	06:46:26	194.140.240.2
+Elin Ekern			17-03-2016	07:36:52	194.140.240.2
+Carl Fredrik Lindeman			17-03-2016	08:18:18	194.140.240.2
+Liv Sterten			17-03-2016	08:25:58	194.140.240.2
+Rune Heggen Arntsen			17-03-2016	08:56:29	194.140.240.2
+Thomas Holstad			17-03-2016	09:10:30	194.140.240.2
+Anders Dahl-Hilstad			17-03-2016	09:21:46	194.140.240.2
+Tine Lill Christensen			17-03-2016	09:42:59	194.140.240.2
+Carl F Rode Kjeldsberg			17-03-2016	15:26:54	194.140.240.2
+Thomas Holstad			17-03-2016	16:13:21	194.140.240.2
+Liv Sterten			17-03-2016	16:15:25	194.140.240.2
+Gro Anita Haugmo			17-03-2016	18:41:56	194.140.240.2
+Rune Heggen Arntsen			17-03-2016	18:51:27	194.140.240.2
+Elin Ekern			18-03-2016	07:33:03	194.140.240.2
+Liv Sterten			18-03-2016	08:24:05	194.140.240.2
+Gro Anita Haugmo			18-03-2016	08:32:24	194.140.240.2
+Carl Fredrik Lindeman			18-03-2016	08:39:50	194.140.240.2
+Bjørnar Bolsøy			18-03-2016	10:01:35	194.140.240.2
+Carl F Rode Kjeldsberg			18-03-2016	15:53:51	194.140.240.2
+Thomas Holstad			18-03-2016	16:25:01	194.140.240.2
+Elin Ekern			21-03-2016	08:04:26	194.140.240.2
+Carl Fredrik Lindeman			21-03-2016	08:52:07	194.140.240.2
+Tine Lill Christensen			21-03-2016	10:04:42	194.140.240.2
+Carl Fredrik Lindeman			21-03-2016	15:53:12	194.140.240.2
+Carl Fredrik Lindeman			21-03-2016	15:54:42	194.140.240.2
+Carl F Rode Kjeldsberg			21-03-2016	16:02:43	194.140.240.2
+Bjørnar Bolsøy			21-03-2016	16:18:48	194.140.240.2
+Carl Fredrik Lindeman			22-03-2016	08:02:28	194.140.240.2
+Liv Sterten			22-03-2016	08:15:25	194.140.240.2
+Liv Sterten			22-03-2016	08:23:31	194.140.240.2
+Thomas Holstad			22-03-2016	09:00:14	194.140.240.2
+Carl F Rode Kjeldsberg			22-03-2016	16:03:56	194.140.240.2
+Gro Anita Haugmo			23-03-2016	06:30:44	194.140.240.2
+Liv Sterten			23-03-2016	08:05:23	194.140.240.2
+Carl F Rode Kjeldsberg			23-03-2016	12:10:07	194.140.240.2
+Thomas Holstad			23-03-2016	12:25:55	194.140.240.2
+TimeOut - Support			23-03-2016	14:44:18	62.116.192.234
+Thomas Telso			29-03-2016	07:28:27	194.140.240.2
+Elin Ekern			29-03-2016	07:40:05	194.140.240.2
+Carl Fredrik Lindeman			29-03-2016	07:53:56	194.140.240.2
+Thomas Telso			29-03-2016	08:19:39	194.140.240.2
+Liv Sterten			29-03-2016	08:24:19	194.140.240.2
+Thomas Holstad			29-03-2016	09:04:38	194.140.240.2
+Carl F Rode Kjeldsberg			29-03-2016	16:25:50	194.140.240.2
+Thomas Holstad			29-03-2016	16:55:42	194.140.240.2
+Elin Ekern			30-03-2016	06:53:54	194.140.240.2
+Carl Fredrik Lindeman			30-03-2016	08:15:22	194.140.240.2
+Gro Anita Haugmo			30-03-2016	08:19:06	194.140.240.2
+Liv Sterten			30-03-2016	08:27:22	194.140.240.2
+Rune Heggen Arntsen			30-03-2016	09:00:43	89.11.205.159
+Thomas Holstad			30-03-2016	10:01:28	194.140.240.2
+Tine Lill Christensen			30-03-2016	11:52:37	194.140.240.2
+Rune Heggen Arntsen			30-03-2016	15:00:29	89.11.205.159
+Carl Fredrik Lindeman			30-03-2016	15:56:04	194.140.240.2
+Carl F Rode Kjeldsberg			30-03-2016	16:30:03	194.140.240.2
+Thomas Holstad			30-03-2016	16:47:02	194.140.240.2
+Elin Ekern			31-03-2016	07:30:19	194.140.240.2
+Carl Fredrik Lindeman			31-03-2016	07:36:17	194.140.240.2
+Gro Anita Haugmo			31-03-2016	08:06:18	194.140.240.2
+Liv Sterten			31-03-2016	08:21:40	194.140.240.2
+Rune Heggen Arntsen			31-03-2016	08:26:41	89.11.205.159
+Carl F Rode Kjeldsberg			31-03-2016	15:55:46	194.140.240.2
+Elin Ekern			01-04-2016	07:13:47	194.140.240.2
+Carl Fredrik Lindeman			01-04-2016	08:12:28	194.140.240.2
+Rune Heggen Arntsen			01-04-2016	08:27:51	89.11.205.159
+TimeOut - Support			01-04-2016	15:12:02	62.116.192.234
+Carl Fredrik Lindeman			01-04-2016	16:22:59	194.140.240.2
+Thomas Telso			04-04-2016	07:09:35	194.140.240.2
+Gro Anita Haugmo			04-04-2016	08:04:15	194.140.240.2
+Elin Ekern			04-04-2016	08:07:24	194.140.240.2
+Liv Sterten			04-04-2016	08:19:03	194.140.240.2
+Rune Heggen Arntsen			04-04-2016	08:27:31	89.11.205.159
+Carl Fredrik Lindeman			04-04-2016	08:31:49	194.140.240.2
+Carl F Rode Kjeldsberg			04-04-2016	09:39:38	194.140.240.2
+Thomas Telso			04-04-2016	12:59:21	194.140.240.2
+Bjørnar Bolsøy			04-04-2016	13:50:48	194.140.240.2
+Thomas Holstad			04-04-2016	17:04:43	194.140.240.2
+Elin Ekern			05-04-2016	07:01:31	194.140.240.2
+Jon Egil Grotvedt			05-04-2016	07:26:56	194.140.240.2
+Liv Sterten			05-04-2016	08:17:49	194.140.240.2
+Liv Sterten			05-04-2016	08:18:26	194.140.240.2
+Gro Anita Haugmo			05-04-2016	08:19:19	194.140.240.2
+Carl Fredrik Lindeman			05-04-2016	08:25:17	194.140.240.2
+Rune Heggen Arntsen			05-04-2016	09:06:53	194.140.240.2
+TimeOut - Support			05-04-2016	10:53:53	62.116.192.234
+Thomas Telso			05-04-2016	11:23:04	194.140.240.2
+Jon Egil Grotvedt			05-04-2016	11:42:10	194.140.240.2
+Gro Anita Haugmo			05-04-2016	11:42:49	194.140.240.2
+Thomas Telso			05-04-2016	13:30:54	194.140.240.2
+Bjørnar Bolsøy			05-04-2016	14:08:17	194.140.240.2
+Carl F Rode Kjeldsberg			05-04-2016	15:36:54	194.140.240.2
+Thomas Holstad			05-04-2016	16:16:28	194.140.240.2
+Rune Heggen Arntsen			05-04-2016	16:36:40	194.140.240.2
+Elin Ekern			06-04-2016	07:00:12	194.140.240.2
+Liv Sterten			06-04-2016	07:43:46	194.140.240.2
+Gro Anita Haugmo			06-04-2016	07:44:18	194.140.240.2
+Carl Fredrik Lindeman			06-04-2016	07:53:46	194.140.240.2
+Rune Heggen Arntsen			06-04-2016	08:02:48	89.11.205.159
+Tine Lill Christensen			06-04-2016	08:26:27	194.140.240.2
+Jon Egil Grotvedt			06-04-2016	08:32:52	194.140.240.2
+Fredrik Jernberg			06-04-2016	08:44:13	194.140.240.2
+Gro Anita Haugmo			06-04-2016	08:46:17	194.140.240.2
+Thomas Holstad			06-04-2016	09:14:49	194.140.240.2
+Anne Marte Bye			06-04-2016	10:14:15	194.140.240.2
+Bjørnar Bolsøy			06-04-2016	10:28:14	194.140.240.2
+Carl F Rode Kjeldsberg			06-04-2016	10:28:38	194.140.240.2
+Thomas Holstad			06-04-2016	10:33:07	194.140.240.2
+Stian Holmen			06-04-2016	11:24:43	194.140.240.2
+Elin Ekern			06-04-2016	14:02:21	194.140.240.2
+Bjørnar Bolsøy			06-04-2016	14:27:20	194.140.240.2
+Gro Anita Haugmo			06-04-2016	14:40:09	194.140.240.2
+Stian Holmen			06-04-2016	14:46:42	194.140.240.2
+Liv Sterten			06-04-2016	15:11:21	194.140.240.2
+Carl F Rode Kjeldsberg			06-04-2016	15:19:00	194.140.240.2
+Stian Holmen			06-04-2016	15:29:19	194.140.240.2
+Jon Egil Grotvedt			06-04-2016	15:38:31	194.140.240.2
+Bjørnar Bolsøy			06-04-2016	16:02:05	194.140.240.2
+Stian Holmen			06-04-2016	16:02:23	194.140.240.2
+Rune Heggen Arntsen			06-04-2016	16:05:15	89.11.205.159
+Thomas Holstad			06-04-2016	16:22:10	194.140.240.2
+Stian Holmen			06-04-2016	21:48:45	77.19.208.33
+Elin Ekern			07-04-2016	06:58:06	194.140.240.2
+Jon Egil Grotvedt			07-04-2016	07:29:20	194.140.240.2
+Thomas Telso			07-04-2016	07:30:42	194.140.240.2
+Elin Ekern			07-04-2016	07:32:25	194.140.240.2
+Gro Anita Haugmo			07-04-2016	08:20:14	194.140.240.2
+Bjørnar Bolsøy			07-04-2016	08:30:08	194.140.240.2
+Rune Heggen Arntsen			07-04-2016	08:33:35	89.11.205.159
+Thomas Holstad			07-04-2016	09:31:25	194.140.240.2
+Thomas Holstad			07-04-2016	09:32:57	194.140.240.2
+Stian Holmen			07-04-2016	09:35:22	194.140.240.2
+TimeOut - Support			07-04-2016	10:24:13	62.116.192.234
+Liv Sterten			07-04-2016	10:26:49	194.140.240.2
+TimeOut - Support			07-04-2016	10:37:31	62.116.192.234
+Carl Fredrik Lindeman			07-04-2016	10:43:03	194.140.240.2
+Tine Lill Christensen			07-04-2016	10:57:01	194.140.240.2
+Carl Fredrik Lindeman			07-04-2016	10:59:47	194.140.240.2
+Gro Anita Haugmo			07-04-2016	11:54:30	194.140.240.2
+Elin Ekern			07-04-2016	12:09:11	194.140.240.2
+Stian Holmen			07-04-2016	12:49:37	194.140.240.2
+Thomas Holstad			07-04-2016	13:50:39	194.140.240.2
+Jon Egil Grotvedt			07-04-2016	13:52:18	194.140.240.2
+TimeOut - Support			07-04-2016	15:07:27	62.116.192.234
+Rune Heggen Arntsen			07-04-2016	15:29:44	89.11.205.159
+Carl Fredrik Lindeman			07-04-2016	16:14:44	194.140.240.2
+Thomas Holstad			07-04-2016	16:16:39	194.140.240.2
+Jon Egil Grotvedt			08-04-2016	07:03:41	194.140.240.2
+Thomas Telso			08-04-2016	07:57:00	194.140.240.2
+Gro Anita Haugmo			08-04-2016	08:07:17	194.140.240.2
+Liv Sterten			08-04-2016	08:16:47	194.140.240.2
+Liv Sterten			08-04-2016	08:20:48	194.140.240.2
+Elin Ekern			08-04-2016	08:24:49	194.140.240.2
+Thomas Holstad			08-04-2016	08:31:37	194.140.240.2
+Rune Heggen Arntsen			08-04-2016	08:32:27	89.11.205.159
+Carl Fredrik Lindeman			08-04-2016	08:41:07	194.140.240.2
+Thomas Holstad			08-04-2016	09:17:28	194.140.240.2
+Rune Heggen Arntsen			08-04-2016	09:42:39	89.11.205.159
+TimeOut - Support			08-04-2016	10:59:40	62.116.192.234
+Bjørnar Bolsøy			08-04-2016	11:23:10	194.140.240.2
+Tine Lill Christensen			08-04-2016	13:38:43	194.140.240.2
+Thomas Holstad			08-04-2016	14:51:09	194.140.240.2
+Liv Sterten			08-04-2016	16:05:17	194.140.240.2
+Jon Egil Grotvedt			08-04-2016	16:35:56	194.140.240.2
+Jon Egil Grotvedt			08-04-2016	17:01:28	194.140.240.2
+Thomas Holstad			10-04-2016	16:17:07	194.140.240.2
+Rune Heggen Arntsen			10-04-2016	19:08:02	51.175.52.166
+Gro Anita Haugmo			11-04-2016	07:59:58	194.140.240.2
+Gro Anita Haugmo			11-04-2016	08:21:53	194.140.240.2
+Elin Ekern			11-04-2016	08:22:53	194.140.240.2
+Liv Sterten			11-04-2016	08:25:08	194.140.240.2
+Gro Anita Haugmo			11-04-2016	08:29:27	194.140.240.2
+Carl Fredrik Lindeman			11-04-2016	08:38:57	194.140.240.2
+Stian Holmen			11-04-2016	09:09:49	194.140.240.2
+Thomas Holstad			11-04-2016	09:40:48	194.140.240.2
+Tine Lill Christensen			11-04-2016	09:48:03	194.140.240.2
+Jon Egil Grotvedt			11-04-2016	12:44:46	194.140.240.2
+Carl Fredrik Lindeman			11-04-2016	16:37:12	194.140.240.2
+Thomas Telso			12-04-2016	07:19:58	194.140.240.2
+Rune Heggen Arntsen			12-04-2016	07:57:28	51.175.52.166
+Carl Fredrik Lindeman			12-04-2016	07:59:13	194.140.240.2
+Elin Ekern			12-04-2016	08:07:28	194.140.240.2
+Jon Egil Grotvedt			12-04-2016	08:08:28	194.140.240.2
+Gro Anita Haugmo			12-04-2016	08:14:57	194.140.240.2
+Liv Sterten			12-04-2016	08:16:46	194.140.240.2
+Thomas Holstad			12-04-2016	08:53:39	194.140.240.2
+Anne Marte Bye			12-04-2016	12:58:43	194.140.240.2
+Anne Marte Bye			12-04-2016	13:37:52	194.140.240.2
+Bjørnar Bolsøy			12-04-2016	14:03:47	194.140.240.2
+Thomas Telso			12-04-2016	14:08:06	194.140.240.2
+Anders Dahl-Hilstad			12-04-2016	14:10:20	194.140.240.2
+Rune Heggen Arntsen			12-04-2016	15:54:03	51.175.52.166
+Anders Dahl-Hilstad			12-04-2016	16:13:15	194.140.240.2
+Carl Fredrik Lindeman			12-04-2016	16:41:48	194.140.240.2
+Carl Fredrik Lindeman			12-04-2016	16:42:26	194.140.240.2
+Liv Sterten			13-04-2016	07:31:21	194.140.240.2
+Gro Anita Haugmo			13-04-2016	07:55:11	194.140.240.2
+Liv Sterten			13-04-2016	07:56:50	194.140.240.2
+Carl Fredrik Lindeman			13-04-2016	08:02:54	194.140.240.2
+Rune Heggen Arntsen			13-04-2016	08:03:41	51.175.52.166
+Elin Ekern			13-04-2016	08:07:25	194.140.240.2
+Elin Ekern			13-04-2016	08:12:24	194.140.240.2
+Thomas Holstad			13-04-2016	09:00:26	194.140.240.2
+Anne Marte Bye			13-04-2016	09:31:38	194.140.240.2
+Jon Egil Grotvedt			13-04-2016	12:21:15	194.140.240.2
+Bjørnar Bolsøy			13-04-2016	12:38:04	194.140.240.2
+Anne Marte Bye			13-04-2016	12:41:04	194.140.240.2
+Stian Holmen			13-04-2016	12:52:06	194.140.240.2
+Thomas Holstad			13-04-2016	13:01:37	194.140.240.2
+Jon Egil Grotvedt			13-04-2016	14:07:47	194.140.240.2
+Carl Fredrik Lindeman			13-04-2016	16:09:51	194.140.240.2
+Rune Heggen Arntsen			13-04-2016	16:29:20	51.175.52.166
+Jon Egil Grotvedt			13-04-2016	20:51:24	80.213.161.225
+Gro Anita Haugmo			14-04-2016	08:11:57	194.140.240.2
+Carl Fredrik Lindeman			14-04-2016	08:13:32	194.140.240.2
+Liv Sterten			14-04-2016	08:21:27	194.140.240.2
+Rune Heggen Arntsen			14-04-2016	08:31:53	51.175.52.166
+Thomas Holstad			14-04-2016	08:59:45	194.140.240.2
+Elin Ekern			14-04-2016	09:15:51	194.140.240.2
+Carl F Rode Kjeldsberg			14-04-2016	09:16:57	194.140.240.2
+Thomas Holstad			14-04-2016	09:55:12	194.140.240.2
+Anne Marte Bye			14-04-2016	09:58:47	194.140.240.2
+Jon Egil Grotvedt			14-04-2016	10:07:15	194.140.240.2
+Anders Dahl-Hilstad			14-04-2016	10:13:01	194.140.240.2
+Thomas Telso			14-04-2016	10:25:13	194.140.240.2
+Jon Egil Grotvedt			14-04-2016	10:44:19	194.140.240.2
+Bjørnar Bolsøy			14-04-2016	10:52:05	194.140.240.2
+Gro Anita Haugmo			14-04-2016	15:32:19	194.140.240.2
+Carl Fredrik Lindeman			14-04-2016	16:56:13	194.140.240.2
+Jon Egil Grotvedt			15-04-2016	07:31:31	194.140.240.2
+Elin Ekern			15-04-2016	07:51:11	194.140.240.2
+Liv Sterten			15-04-2016	08:17:44	194.140.240.2
+Carl Fredrik Lindeman			15-04-2016	08:50:18	194.140.240.2
+Thomas Telso			15-04-2016	09:58:24	194.140.240.2
+Knut Dullum			15-04-2016	10:02:55	194.140.240.2
+Carl F Rode Kjeldsberg			15-04-2016	10:13:57	194.140.240.2
+Stian Holmen			15-04-2016	11:15:47	194.140.240.2
+Knut Dullum			15-04-2016	12:18:19	194.140.240.2
+Anders Dahl-Hilstad			15-04-2016	12:46:52	194.140.240.2
+Elin Ekern			15-04-2016	13:31:56	194.140.240.2
+Thomas Telso			15-04-2016	13:40:08	194.140.240.2
+Carl Fredrik Lindeman			15-04-2016	14:08:10	194.140.240.2
+Thomas Holstad			15-04-2016	16:13:25	194.140.240.2
+Thomas Holstad			15-04-2016	16:15:39	194.140.240.2
+Thomas Holstad			15-04-2016	16:18:59	194.140.240.2
+Thomas Holstad			15-04-2016	16:19:29	194.140.240.2
+Thomas Holstad			15-04-2016	16:20:16	194.140.240.2
+Stian Holmen			17-04-2016	22:56:26	84.208.185.105
+Gro Anita Haugmo			18-04-2016	07:16:54	194.140.240.2
+Gro Anita Haugmo			18-04-2016	07:27:58	194.140.240.2
+Jon Egil Grotvedt			18-04-2016	08:13:22	194.140.240.2
+Elin Ekern			18-04-2016	08:16:03	194.140.240.2
+Liv Sterten			18-04-2016	08:23:09	194.140.240.2
+Rune Heggen Arntsen			18-04-2016	08:57:04	51.175.52.166
+Thomas Holstad			18-04-2016	09:39:11	194.140.240.2
+Anne Marte Bye			18-04-2016	10:05:02	194.140.240.2
+Stian Holmen			18-04-2016	12:00:36	194.140.240.2
+Stian Holmen			18-04-2016	12:02:14	194.140.240.2
+Bjørnar Bolsøy			18-04-2016	13:35:09	194.140.240.2
+Thomas Telso			18-04-2016	13:49:16	194.140.240.2
+Thomas Holstad			18-04-2016	14:53:27	194.140.240.2
+Carl F Rode Kjeldsberg			18-04-2016	16:16:13	194.140.240.2
+Rune Heggen Arntsen			18-04-2016	21:24:38	51.175.52.166
+Gro Anita Haugmo			19-04-2016	07:14:57	194.140.240.2
+Elin Ekern			19-04-2016	08:06:53	194.140.240.2
+Liv Sterten			19-04-2016	08:07:55	194.140.240.2
+Jon Egil Grotvedt			19-04-2016	08:30:34	194.140.240.2
+Rune Heggen Arntsen			19-04-2016	08:42:04	194.140.240.2
+Thomas Telso			19-04-2016	10:55:36	194.140.240.2
+Thomas Holstad			19-04-2016	11:08:25	194.140.240.2
+Tine Lill Christensen			19-04-2016	13:40:19	194.140.240.2
+Thomas Holstad			19-04-2016	14:06:33	194.140.240.2
+Elin Ekern			19-04-2016	14:26:55	194.140.240.2
+Carl F Rode Kjeldsberg			19-04-2016	15:56:55	194.140.240.2
+Thomas Holstad			19-04-2016	16:36:15	194.140.240.2
+Carl Fredrik Lindeman			20-04-2016	07:59:17	194.140.240.2
+Elin Ekern			20-04-2016	08:12:10	194.140.240.2
+Liv Sterten			20-04-2016	08:21:31	194.140.240.2
+Rune Heggen Arntsen			20-04-2016	08:31:26	51.175.52.166
+Jon Egil Grotvedt			20-04-2016	09:40:14	194.140.240.2
+Anne Marte Bye			20-04-2016	10:48:16	194.140.240.2
+Gro Anita Haugmo			20-04-2016	14:03:06	194.140.240.2
+TimeOut - Support			20-04-2016	14:04:57	62.116.192.234
+Thomas Holstad			20-04-2016	15:53:31	194.140.240.2
+Rune Heggen Arntsen			20-04-2016	16:07:44	51.175.52.166
+Carl F Rode Kjeldsberg			20-04-2016	16:10:17	194.140.240.2
+Carl Fredrik Lindeman			21-04-2016	07:55:28	194.140.240.2
+Carl Fredrik Lindeman			21-04-2016	07:55:31	194.140.240.2
+Gro Anita Haugmo			21-04-2016	08:00:04	194.140.240.2
+Liv Sterten			21-04-2016	08:05:04	194.140.240.2
+Liv Sterten			21-04-2016	08:11:17	194.140.240.2
+Elin Ekern			21-04-2016	08:28:37	194.140.240.2
+Rune Heggen Arntsen			21-04-2016	08:29:01	51.175.52.166
+Jon Egil Grotvedt			21-04-2016	08:50:19	194.140.240.2
+Thomas Holstad			21-04-2016	08:59:57	194.140.240.2
+Anne Marte Bye			21-04-2016	10:45:50	194.140.240.2
+Liv Sterten			21-04-2016	13:04:24	194.140.240.2
+Thomas Telso			21-04-2016	13:50:43	194.140.240.2
+Fredrik Jernberg			21-04-2016	14:52:41	194.140.240.2
+Carl F Rode Kjeldsberg			21-04-2016	16:07:56	194.140.240.2
+Thomas Holstad			21-04-2016	16:21:35	194.140.240.2
+Elin Ekern			22-04-2016	07:32:56	194.140.240.2
+Rune Heggen Arntsen			22-04-2016	07:57:45	81.166.160.133
+Carl Fredrik Lindeman			22-04-2016	08:27:34	194.140.240.2
+Elin Ekern			22-04-2016	09:23:21	194.140.240.2
+Bjørnar Bolsøy			22-04-2016	10:26:54	194.140.240.2
+Thomas Holstad			22-04-2016	11:41:17	194.140.240.2
+Stian Holmen			22-04-2016	14:40:55	194.140.240.2
+Tine Lill Christensen			22-04-2016	15:00:20	194.140.240.2
+Carl Fredrik Lindeman			22-04-2016	15:15:01	194.140.240.2
+Fredrik Jernberg			22-04-2016	15:43:05	194.140.240.2
+Carl F Rode Kjeldsberg			22-04-2016	15:56:29	194.140.240.2
+Liv Sterten			22-04-2016	16:13:06	194.140.240.2
+Knut Dullum			23-04-2016	19:24:12	84.215.32.210
+Thomas Telso			25-04-2016	07:08:22	194.140.240.2
+Gro Anita Haugmo			25-04-2016	07:12:00	194.140.240.2
+Rune Heggen Arntsen			25-04-2016	07:43:23	81.166.160.133
+Elin Ekern			25-04-2016	08:01:32	194.140.240.2
+Liv Sterten			25-04-2016	08:06:04	194.140.240.2
+Jon Egil Grotvedt			25-04-2016	08:40:49	194.140.240.2
+Carl Fredrik Lindeman			25-04-2016	08:46:44	194.140.240.2
+Anne Marte Bye			25-04-2016	08:52:13	194.140.240.2
+Thomas Holstad			25-04-2016	08:59:32	194.140.240.2
+Jon Egil Grotvedt			25-04-2016	09:37:13	194.140.240.2
+Knut Dullum			25-04-2016	09:51:01	194.140.240.2
+TimeOut - Support			25-04-2016	11:24:47	93.167.126.77
+Anders Dahl-Hilstad			25-04-2016	12:24:37	194.140.240.2
+Carl F Rode Kjeldsberg			25-04-2016	12:27:52	194.140.240.2
+Jon Egil Grotvedt			25-04-2016	12:30:28	194.140.240.2
+Thomas Holstad			25-04-2016	12:52:50	194.140.240.2
+Tine Lill Christensen			25-04-2016	12:56:24	194.140.240.2
+Carl Fredrik Lindeman			25-04-2016	16:30:33	194.140.240.2
+Thomas Holstad			25-04-2016	16:50:09	194.140.240.2
+Rune Heggen Arntsen			26-04-2016	07:31:08	81.166.160.133
+Gro Anita Haugmo			26-04-2016	07:48:50	194.140.240.2
+Liv Sterten			26-04-2016	08:05:33	194.140.240.2
+Elin Ekern			26-04-2016	08:14:59	194.140.240.2
+Jon Egil Grotvedt			26-04-2016	08:19:12	194.140.240.2
+Anne Marte Bye			26-04-2016	08:30:57	194.140.240.2
+Thomas Telso			26-04-2016	08:34:13	194.140.240.2
+Thomas Holstad			26-04-2016	09:07:19	194.140.240.2
+Carl F Rode Kjeldsberg			26-04-2016	10:50:12	194.140.240.2
+Bjørnar Bolsøy			26-04-2016	11:47:09	194.140.240.2
+Rune Heggen Arntsen			26-04-2016	14:56:05	81.166.160.133
+Thomas Holstad			26-04-2016	16:34:17	194.140.240.2
+Carl Fredrik Lindeman			26-04-2016	16:47:18	46.9.254.156
+Carl Fredrik Lindeman			26-04-2016	16:47:19	46.9.254.156
+Elin Ekern			27-04-2016	07:28:34	194.140.240.2
+Rune Heggen Arntsen			27-04-2016	07:44:19	51.175.52.166
+Gro Anita Haugmo			27-04-2016	08:13:56	194.140.240.2
+Jon Egil Grotvedt			27-04-2016	08:22:55	194.140.240.2
+Carl Fredrik Lindeman			27-04-2016	08:35:25	194.140.240.2
+Carl Fredrik Lindeman			27-04-2016	08:38:28	194.140.240.2
+Liv Sterten			27-04-2016	08:45:47	194.140.240.2
+Anne Marte Bye			27-04-2016	08:46:43	194.140.240.2
+Thomas Holstad			27-04-2016	09:00:11	194.140.240.2
+Anders Dahl-Hilstad			27-04-2016	10:36:20	194.140.240.2
+Rune Heggen Arntsen			27-04-2016	10:36:53	81.166.160.133
+Carl Fredrik Lindeman			27-04-2016	16:13:48	194.140.240.2
+Liv Sterten			27-04-2016	16:32:52	194.140.240.2
+Thomas Holstad			27-04-2016	16:33:06	194.140.240.2
+Jon Egil Grotvedt			28-04-2016	07:08:18	194.140.240.2
+Elin Ekern			28-04-2016	07:53:25	194.140.240.2
+Carl Fredrik Lindeman			28-04-2016	07:53:54	194.140.240.2
+Liv Sterten			28-04-2016	08:04:40	194.140.240.2
+Rune Heggen Arntsen			28-04-2016	08:14:31	81.166.160.133
+Thomas Holstad			28-04-2016	09:05:53	194.140.240.2
+Carl F Rode Kjeldsberg			28-04-2016	10:52:58	194.140.240.2
+Rune Heggen Arntsen			28-04-2016	15:45:35	81.166.160.133
+Carl Fredrik Lindeman			28-04-2016	15:54:42	194.140.240.2
+Carl F Rode Kjeldsberg			28-04-2016	16:04:49	194.140.240.2
+Liv Sterten			28-04-2016	16:12:16	194.140.240.2
+Thomas Holstad			28-04-2016	16:16:45	194.140.240.2
+Gro Anita Haugmo			29-04-2016	06:52:16	194.140.240.2
+Elin Ekern			29-04-2016	07:42:39	194.140.240.2
+Jon Egil Grotvedt			29-04-2016	07:52:14	194.140.240.2
+Liv Sterten			29-04-2016	08:14:20	194.140.240.2
+Anders Dahl-Hilstad			29-04-2016	08:20:39	194.140.240.2
+Carl Fredrik Lindeman			29-04-2016	08:23:04	194.140.240.2
+TimeOut - Support			29-04-2016	08:43:02	62.116.192.234
+Tine Lill Christensen			29-04-2016	08:47:01	194.140.240.2
+Rune Heggen Arntsen			29-04-2016	08:59:27	194.140.240.2
+Thomas Holstad			29-04-2016	08:59:28	194.140.240.2
+Stian Holmen			29-04-2016	09:10:27	194.140.240.2
+Jon Egil Grotvedt			29-04-2016	15:06:37	194.140.240.2
+Carl Fredrik Lindeman			29-04-2016	15:18:34	194.140.240.2
+Tine Lill Christensen			29-04-2016	15:26:52	194.140.240.2
+Fredrik Jernberg			29-04-2016	15:29:08	194.140.240.2
+Thomas Holstad			29-04-2016	16:12:59	194.140.240.2
+Carl F Rode Kjeldsberg			29-04-2016	16:17:43	194.140.240.2
+Thomas Holstad			30-04-2016	14:37:29	194.140.240.2
+Thomas Holstad			30-04-2016	14:37:55	194.140.240.2
+Jon Egil Grotvedt			01-05-2016	13:15:21	194.140.240.2
+Elin Ekern			02-05-2016	07:14:05	194.140.240.2
+Thomas Telso			02-05-2016	07:47:17	194.140.240.2
+Rune Heggen Arntsen			02-05-2016	08:05:33	81.166.160.133
+Liv Sterten			02-05-2016	08:08:46	194.140.240.2
+Liv Sterten			02-05-2016	08:11:22	194.140.240.2
+Anne Marte Bye			02-05-2016	08:39:52	194.140.240.2
+Thomas Holstad			02-05-2016	09:12:23	194.140.240.2
+Gro Anita Haugmo			02-05-2016	09:37:25	194.140.240.2
+Bjørnar Bolsøy			02-05-2016	10:09:30	194.140.240.2
+Stian Holmen			02-05-2016	10:16:10	194.140.240.2
+Tine Lill Christensen			02-05-2016	10:30:01	194.140.240.2
+Jon Egil Grotvedt			02-05-2016	12:16:18	194.140.240.2
+Carl F Rode Kjeldsberg			02-05-2016	12:52:21	194.140.240.2
+Rune Heggen Arntsen			02-05-2016	16:01:18	81.166.160.133
+Jon Egil Grotvedt			03-05-2016	06:52:08	194.140.240.2
+Gro Anita Haugmo			03-05-2016	07:03:35	194.140.240.2
+Elin Ekern			03-05-2016	07:09:01	194.140.240.2
+Carl Fredrik Lindeman			03-05-2016	08:13:24	194.140.240.2
+Liv Sterten			03-05-2016	08:15:45	194.140.240.2
+Liv Sterten			03-05-2016	08:16:02	194.140.240.2
+Gro Anita Haugmo			03-05-2016	08:24:34	194.140.240.2
+Rune Heggen Arntsen			03-05-2016	08:33:01	194.140.240.2
+Thomas Holstad			03-05-2016	09:06:08	194.140.240.2
+Knut Dullum			03-05-2016	09:51:02	194.140.240.2
+Carl F Rode Kjeldsberg			03-05-2016	10:50:41	194.140.240.2
+Anne Marte Bye			03-05-2016	12:32:53	194.140.240.2
+Carl Fredrik Lindeman			03-05-2016	15:23:19	194.140.240.2
+Elin Ekern			03-05-2016	15:57:34	194.140.240.2
+Anders Dahl-Hilstad			03-05-2016	16:27:14	194.140.240.2
+Anders Dahl-Hilstad			03-05-2016	17:24:41	194.140.240.2
+Jon Egil Grotvedt			04-05-2016	07:20:52	194.140.240.2
+Elin Ekern			04-05-2016	07:53:50	194.140.240.2
+Liv Sterten			04-05-2016	08:06:22	194.140.240.2
+Rune Heggen Arntsen			04-05-2016	08:30:49	81.166.160.133
+Thomas Holstad			04-05-2016	09:00:20	194.140.240.2
+Gro Anita Haugmo			04-05-2016	09:19:39	194.140.240.2
+Jon Egil Grotvedt			04-05-2016	09:27:36	194.140.240.2
+Thomas Holstad			04-05-2016	12:57:12	194.140.240.2
+Rune Heggen Arntsen			04-05-2016	13:46:48	81.166.160.133
+Thomas Holstad			04-05-2016	16:30:23	194.140.240.2
+Thomas Holstad			04-05-2016	16:33:37	194.140.240.2
+Liv Sterten			06-05-2016	08:02:41	194.140.240.2
+Carl F Rode Kjeldsberg			06-05-2016	10:16:27	194.140.240.2
+Liv Sterten			06-05-2016	16:06:53	194.140.240.2
+Jon Egil Grotvedt			08-05-2016	13:43:58	194.140.240.2
+Thomas Telso			09-05-2016	06:51:55	194.140.240.2
+Jon Egil Grotvedt			09-05-2016	07:45:51	194.140.240.2
+Liv Sterten			09-05-2016	08:07:32	194.140.240.2
+Rune Heggen Arntsen			09-05-2016	08:31:35	81.166.160.133
+Anne Marte Bye			09-05-2016	08:49:02	194.140.240.2
+Elin Ekern			09-05-2016	08:52:43	194.140.240.2
+Carl Fredrik Lindeman			09-05-2016	09:21:00	194.140.240.2
+Carl Fredrik Lindeman			09-05-2016	09:21:15	194.140.240.2
+Elin Ekern			09-05-2016	09:25:45	194.140.240.2
+Stian Holmen			09-05-2016	10:28:29	194.140.240.2
+Carl Fredrik Lindeman			09-05-2016	10:31:11	194.140.240.2
+Thomas Holstad			09-05-2016	10:43:58	194.140.240.2
+Bjørnar Bolsøy			09-05-2016	12:30:47	194.140.240.2
+Anne Marte Bye			09-05-2016	12:48:21	194.140.240.2
+Tine Lill Christensen			09-05-2016	13:41:38	194.140.240.2
+Fredrik Jernberg			09-05-2016	13:55:50	194.140.240.2
+Carl F Rode Kjeldsberg			09-05-2016	16:06:44	194.140.240.2
+Liv Sterten			09-05-2016	16:08:44	194.140.240.2
+Rune Heggen Arntsen			09-05-2016	16:14:31	81.166.160.133
+Jon Egil Grotvedt			10-05-2016	07:06:09	194.140.240.2
+Liv Sterten			10-05-2016	08:09:50	194.140.240.2
+Elin Ekern			10-05-2016	08:24:02	194.140.240.2
+Rune Heggen Arntsen			10-05-2016	08:29:07	81.166.160.133
+Thomas Holstad			10-05-2016	08:59:17	194.140.240.2
+Anne Marte Bye			10-05-2016	09:27:37	194.140.240.2
+Carl F Rode Kjeldsberg			10-05-2016	10:42:04	194.140.240.2
+Rune Heggen Arntsen			10-05-2016	10:42:59	81.166.160.133
+Bjørnar Bolsøy			10-05-2016	11:41:27	194.140.240.2
+Thomas Holstad			10-05-2016	12:10:22	194.140.240.2
+Thomas Holstad			10-05-2016	16:23:08	194.140.240.2
+Jon Egil Grotvedt			11-05-2016	06:53:09	194.140.240.2
+Gro Anita Haugmo			11-05-2016	07:08:57	194.140.240.2
+Gro Anita Haugmo			11-05-2016	07:17:32	194.140.240.2
+Elin Ekern			11-05-2016	07:27:19	194.140.240.2
+Rune Heggen Arntsen			11-05-2016	08:15:59	81.166.160.133
+Liv Sterten			11-05-2016	08:18:34	194.140.240.2
+Knut Dullum			11-05-2016	08:40:46	194.140.240.2
+Knut Dullum			11-05-2016	08:45:17	194.140.240.2
+Thomas Holstad			11-05-2016	08:59:20	194.140.240.2
+Bjørnar Bolsøy			11-05-2016	12:03:18	194.140.240.2
+Jon Egil Grotvedt			11-05-2016	13:01:18	194.140.240.2
+Liv Sterten			11-05-2016	14:11:40	194.140.240.2
+Gro Anita Haugmo			11-05-2016	15:07:57	194.140.240.2
+Rune Heggen Arntsen			11-05-2016	16:06:53	81.166.160.133
+Carl F Rode Kjeldsberg			11-05-2016	16:27:47	194.140.240.2
+Thomas Holstad			11-05-2016	17:11:55	194.140.240.2
+Thomas Holstad			11-05-2016	17:12:35	194.140.240.2
+Gro Anita Haugmo			12-05-2016	06:44:46	194.140.240.2
+Liv Sterten			12-05-2016	08:11:40	194.140.240.2
+Jon Egil Grotvedt			12-05-2016	08:16:47	194.140.240.2
+Elin Ekern			12-05-2016	08:33:20	194.140.240.2
+Rune Heggen Arntsen			12-05-2016	08:39:24	194.140.240.2
+Elin Ekern			12-05-2016	08:39:29	194.140.240.2
+Thomas Holstad			12-05-2016	10:48:36	194.140.240.2
+Liv Sterten			12-05-2016	15:51:04	194.140.240.2
+Elin Ekern			13-05-2016	07:15:04	194.140.240.2
+Jon Egil Grotvedt			13-05-2016	08:06:15	194.140.240.2
+Thomas Holstad			13-05-2016	08:45:51	194.140.240.2
+Rune Heggen Arntsen			13-05-2016	08:47:34	81.166.160.133
+Anne Marte Bye			13-05-2016	09:45:57	194.140.240.2
+Anne Marte Bye			13-05-2016	10:16:22	194.140.240.2
+Thomas Holstad			13-05-2016	12:00:12	194.140.240.2
+Rune Heggen Arntsen			13-05-2016	16:12:43	81.166.160.133
+Thomas Holstad			13-05-2016	16:25:00	194.140.240.2
+Gro Anita Haugmo			13-05-2016	17:07:16	194.140.240.2
+Thomas Telso			18-05-2016	06:49:27	194.140.240.2
+Thomas Telso			18-05-2016	06:53:51	194.140.240.2
+Rune Heggen Arntsen			18-05-2016	07:44:21	81.166.160.133
+Liv Sterten			18-05-2016	08:25:48	194.140.240.2
+Jon Egil Grotvedt			18-05-2016	08:38:40	194.140.240.2
+Elin Ekern			18-05-2016	08:38:52	194.140.240.2
+Stian Holmen			18-05-2016	09:04:45	194.140.240.2
+Thomas Holstad			18-05-2016	09:05:51	194.140.240.2
+Carl F Rode Kjeldsberg			18-05-2016	10:38:30	194.140.240.2
+Carl Fredrik Lindeman			18-05-2016	11:42:48	194.140.240.2
+Carl F Rode Kjeldsberg			18-05-2016	16:01:35	194.140.240.2
+Thomas Holstad			18-05-2016	16:59:14	194.140.240.2
+Jon Egil Grotvedt			19-05-2016	07:22:24	194.140.240.2
+Elin Ekern			19-05-2016	08:20:02	194.140.240.2
+Thomas Holstad			19-05-2016	08:43:42	194.140.240.2
+Rune Heggen Arntsen			19-05-2016	08:51:14	194.140.240.2
+Carl F Rode Kjeldsberg			19-05-2016	08:58:30	194.140.240.2
+Jon Egil Grotvedt			19-05-2016	12:41:55	194.140.240.2
+Rune Heggen Arntsen			19-05-2016	15:17:58	194.140.240.2
+Carl F Rode Kjeldsberg			19-05-2016	16:15:19	194.140.240.2
+Rune Heggen Arntsen			20-05-2016	07:50:52	51.175.52.166
+Thomas Holstad			20-05-2016	08:30:01	194.140.240.2
+Carl F Rode Kjeldsberg			20-05-2016	09:17:21	194.140.240.2
+Anne Marte Bye			20-05-2016	09:33:26	194.140.240.2
+Jon Egil Grotvedt			20-05-2016	12:38:41	194.140.240.2
+Rune Heggen Arntsen			20-05-2016	14:35:29	51.175.52.166
+Carl F Rode Kjeldsberg			20-05-2016	16:44:49	194.140.240.2
+Jon Egil Grotvedt			23-05-2016	07:09:06	194.140.240.2
+Gro Anita Haugmo			23-05-2016	07:16:32	194.140.240.2
+Elin Ekern			23-05-2016	08:19:43	194.140.240.2
+Rune Heggen Arntsen			23-05-2016	08:31:26	81.166.160.133
+Thomas Holstad			23-05-2016	08:59:04	194.140.240.2
+Anne Marte Bye			23-05-2016	09:20:52	194.140.240.2
+Jon Egil Grotvedt			23-05-2016	10:06:46	194.140.240.2
+Carl Fredrik Lindeman			23-05-2016	15:17:45	194.140.240.2
+Rune Heggen Arntsen			23-05-2016	15:48:34	81.166.160.133
+Rune Heggen Arntsen			24-05-2016	07:23:14	194.140.240.2
+Gro Anita Haugmo			24-05-2016	07:51:53	194.140.240.2
+Elin Ekern			24-05-2016	08:02:54	194.140.240.2
+Thomas Telso			24-05-2016	12:18:29	194.140.240.2
+Anne Marte Bye			24-05-2016	12:46:52	194.140.240.2
+Stian Holmen			24-05-2016	12:51:32	84.208.185.105
+Tine Lill Christensen			24-05-2016	13:01:57	194.140.240.2
+Rune Heggen Arntsen			24-05-2016	14:55:49	194.140.240.2
+Carl F Rode Kjeldsberg			24-05-2016	16:05:22	194.140.240.2
+Thomas Holstad			24-05-2016	16:24:53	194.140.240.2
+Thomas Holstad			24-05-2016	19:49:17	194.140.240.2
+Gro Anita Haugmo			24-05-2016	21:30:18	194.140.240.2
+Gro Anita Haugmo			25-05-2016	07:37:03	194.140.240.2
+Rune Heggen Arntsen			25-05-2016	08:31:17	81.166.160.133
+Thomas Holstad			25-05-2016	08:57:14	194.140.240.2
+Elin Ekern			25-05-2016	09:16:46	194.140.240.2
+Anders Dahl-Hilstad			25-05-2016	15:19:34	194.140.240.2
+Rune Heggen Arntsen			25-05-2016	15:58:36	194.140.240.2
+Carl F Rode Kjeldsberg			25-05-2016	16:05:45	194.140.240.2
+Bjørnar Bolsøy			25-05-2016	16:30:47	194.140.240.2
+Thomas Holstad			25-05-2016	16:32:59	194.140.240.2
+Rune Heggen Arntsen			25-05-2016	23:44:11	51.175.52.166
+Rune Heggen Arntsen			26-05-2016	00:57:56	51.175.52.166
+Gro Anita Haugmo			26-05-2016	06:19:18	194.140.240.2
+Liv Sterten			26-05-2016	08:10:45	194.140.240.2
+Elin Ekern			26-05-2016	08:22:56	194.140.240.2
+Rune Heggen Arntsen			26-05-2016	08:25:51	81.166.160.133
+Thomas Holstad			26-05-2016	08:44:52	194.140.240.2
+Carl F Rode Kjeldsberg			26-05-2016	14:26:41	194.140.240.2
+Carl F Rode Kjeldsberg			26-05-2016	14:38:02	194.140.240.2
+Jon Egil Grotvedt			26-05-2016	16:25:49	194.140.240.2
+Rune Heggen Arntsen			26-05-2016	17:51:57	81.166.160.133
+Gro Anita Haugmo			26-05-2016	18:31:00	194.140.240.2
+Gro Anita Haugmo			27-05-2016	06:53:08	194.140.240.2
+Elin Ekern			27-05-2016	07:48:07	194.140.240.2
+Liv Sterten			27-05-2016	08:02:14	194.140.240.2
+Liv Sterten			27-05-2016	08:15:59	194.140.240.2
+Rune Heggen Arntsen			27-05-2016	08:19:34	81.166.160.133
+Thomas Holstad			27-05-2016	08:58:36	194.140.240.2
+Knut Dullum			27-05-2016	14:35:24	194.140.240.2
+Tine Lill Christensen			27-05-2016	14:46:30	194.140.240.2
+Thomas Holstad			27-05-2016	16:24:16	194.140.240.2
+Rune Heggen Arntsen			29-05-2016	19:33:32	51.175.52.166
+Gro Anita Haugmo			30-05-2016	06:41:40	194.140.240.2
+Anders Dahl-Hilstad			30-05-2016	07:11:43	194.140.240.2
+Liv Sterten			30-05-2016	07:51:07	194.140.240.2
+Tine Lill Christensen			30-05-2016	08:33:40	194.140.240.2
+Elin Ekern			30-05-2016	08:42:27	194.140.240.2
+Rune Heggen Arntsen			30-05-2016	08:49:49	81.166.160.133
+Thomas Holstad			30-05-2016	08:59:34	194.140.240.2
+Jon Egil Grotvedt			30-05-2016	09:14:08	194.140.240.2
+Carl Fredrik Lindeman			30-05-2016	10:32:12	194.140.240.2
+Bjørnar Bolsøy			30-05-2016	11:34:18	194.140.240.2
+Bjørnar Bolsøy			30-05-2016	12:09:11	194.140.240.2
+Carl F Rode Kjeldsberg			30-05-2016	16:01:31	194.140.240.2
+Rune Heggen Arntsen			30-05-2016	16:08:08	81.166.160.133
+Jon Egil Grotvedt			31-05-2016	06:36:17	194.140.240.2
+Liv Sterten			31-05-2016	08:04:48	194.140.240.2
+Rune Heggen Arntsen			31-05-2016	08:07:04	89.11.205.159
+Elin Ekern			31-05-2016	08:10:28	194.140.240.2
+Gro Anita Haugmo			31-05-2016	08:21:41	194.140.240.2
+Thomas Holstad			31-05-2016	09:02:09	194.140.240.2
+Thomas Holstad			31-05-2016	09:20:28	194.140.240.2
+Anders Dahl-Hilstad			31-05-2016	13:33:58	194.140.240.2
+TimeOut - Support			31-05-2016	13:34:49	62.116.192.234
+Tine Lill Christensen			31-05-2016	14:21:00	194.140.240.2
+Carl F Rode Kjeldsberg			31-05-2016	16:20:26	194.140.240.2
+Thomas Holstad			31-05-2016	16:39:12	194.140.240.2
+Gro Anita Haugmo			31-05-2016	22:17:59	194.140.240.2
+Jon Egil Grotvedt			01-06-2016	06:41:01	194.140.240.2
+Elin Ekern			01-06-2016	07:15:05	194.140.240.2
+Liv Sterten			01-06-2016	08:06:52	194.140.240.2
+Gro Anita Haugmo			01-06-2016	08:49:36	194.140.240.2
+Thomas Holstad			01-06-2016	09:01:19	194.140.240.2
+Anne Marte Bye			01-06-2016	09:43:32	194.140.240.2
+Carl F Rode Kjeldsberg			01-06-2016	15:48:41	194.140.240.2
+Jon Egil Grotvedt			02-06-2016	06:44:32	194.140.240.2
+Elin Ekern			02-06-2016	07:27:55	194.140.240.2
+Jon Egil Grotvedt			02-06-2016	08:14:33	194.140.240.2
+Liv Sterten			02-06-2016	08:16:51	194.140.240.2
+Carl Fredrik Lindeman			02-06-2016	08:42:37	194.140.240.2
+Rune Heggen Arntsen			02-06-2016	09:47:12	194.140.240.2
+Thomas Telso			02-06-2016	09:56:23	194.140.240.2
+TimeOut - Support			02-06-2016	10:14:36	62.116.192.234
+Jon Egil Grotvedt			02-06-2016	13:19:49	194.140.240.2
+Thomas Telso			02-06-2016	13:28:13	194.140.240.2
+Jon Egil Grotvedt			02-06-2016	13:36:24	194.140.240.2
+TimeOut - Support			02-06-2016	13:43:36	62.116.192.234
+Thomas Telso			02-06-2016	14:14:01	194.140.240.2
+Carl F Rode Kjeldsberg			02-06-2016	14:54:30	194.140.240.2
+Jon Egil Grotvedt			02-06-2016	15:54:09	194.140.240.2
+Thomas Holstad			02-06-2016	16:24:03	194.140.240.2
+Thomas Holstad			02-06-2016	16:25:10	194.140.240.2
+Anders Dahl-Hilstad			03-06-2016	06:59:37	194.140.240.2
+Elin Ekern			03-06-2016	07:57:13	194.140.240.2
+Jon Egil Grotvedt			03-06-2016	08:01:07	194.140.240.2
+Carl Fredrik Lindeman			03-06-2016	08:05:50	194.140.240.2
+Gro Anita Haugmo			03-06-2016	08:11:41	194.140.240.2
+Rune Heggen Arntsen			03-06-2016	08:27:03	89.11.205.159
+Thomas Holstad			03-06-2016	09:02:30	194.140.240.2
+Tine Lill Christensen			03-06-2016	14:47:07	194.140.240.2
+Carl Fredrik Lindeman			03-06-2016	15:08:02	194.140.240.2
+Thomas Holstad			03-06-2016	16:06:18	194.140.240.2
+Thomas Telso			06-06-2016	07:29:19	194.140.240.2
+Gro Anita Haugmo			06-06-2016	07:42:43	194.140.240.2
+Carl Fredrik Lindeman			06-06-2016	08:04:19	194.140.240.2
+Thomas Holstad			06-06-2016	08:25:11	194.140.240.2
+Rune Heggen Arntsen			06-06-2016	08:28:23	89.11.205.159
+Christine Adelbrant			06-06-2016	11:55:03	194.140.240.2
+Fredrik Jernberg			06-06-2016	12:41:56	194.140.240.2
+Jon Egil Grotvedt			06-06-2016	13:14:50	194.140.240.2
+Stian Holmen			06-06-2016	13:36:20	194.140.240.2
+Carl F Rode Kjeldsberg			06-06-2016	13:58:01	194.140.240.2
+Carl F Rode Kjeldsberg			06-06-2016	15:18:03	194.140.240.2
+Thomas Holstad			06-06-2016	16:09:34	194.140.240.2
+Gro Anita Haugmo			06-06-2016	16:16:54	194.140.240.2
+Gro Anita Haugmo			06-06-2016	16:17:58	194.140.240.2
+Liv Sterten			07-06-2016	08:10:23	194.140.240.2
+Rune Heggen Arntsen			07-06-2016	08:26:09	89.11.205.159
+Carl Fredrik Lindeman			07-06-2016	08:31:08	194.140.240.2
+Thomas Holstad			07-06-2016	08:53:44	194.140.240.2
+Gro Anita Haugmo			07-06-2016	09:15:13	194.140.240.2
+Christine Adelbrant			07-06-2016	09:37:19	194.140.240.2
+Rune Heggen Arntsen			07-06-2016	11:27:40	89.11.205.159
+Anders Dahl-Hilstad			07-06-2016	14:32:46	194.140.240.2
+Jon Egil Grotvedt			07-06-2016	15:16:31	194.140.240.2
+Thomas Holstad			07-06-2016	15:18:57	194.140.240.2
+Liv Sterten			07-06-2016	15:21:16	194.140.240.2
+Carl Fredrik Lindeman			07-06-2016	15:41:33	194.140.240.2
+Anders Dahl-Hilstad			07-06-2016	15:43:33	194.140.240.2
+Jon Egil Grotvedt			08-06-2016	07:57:36	194.140.240.2
+Liv Sterten			08-06-2016	08:05:39	194.140.240.2
+Carl Fredrik Lindeman			08-06-2016	08:18:02	194.140.240.2
+Rune Heggen Arntsen			08-06-2016	08:22:31	194.140.240.2
+Thomas Holstad			08-06-2016	08:59:53	194.140.240.2
+Gro Anita Haugmo			08-06-2016	12:22:57	194.140.240.2
+Tine Lill Christensen			08-06-2016	15:06:13	194.140.240.2
+Carl F Rode Kjeldsberg			08-06-2016	16:13:20	194.140.240.2
+Thomas Holstad			08-06-2016	16:43:29	194.140.240.2
+Rune Heggen Arntsen			09-06-2016	08:02:26	51.175.48.124
+Liv Sterten			09-06-2016	08:02:48	194.140.240.2
+Carl Fredrik Lindeman			09-06-2016	08:24:38	194.140.240.2
+Thomas Holstad			09-06-2016	08:59:29	194.140.240.2
+Knut Dullum			09-06-2016	12:04:48	194.140.240.2
+Thomas Telso			09-06-2016	12:05:54	194.140.240.2
+Carl F Rode Kjeldsberg			09-06-2016	16:08:34	194.140.240.2
+Christine Adelbrant			09-06-2016	16:10:15	194.140.240.2
+Thomas Holstad			09-06-2016	16:33:48	194.140.240.2
+Rune Heggen Arntsen			10-06-2016	08:08:52	51.175.48.124
+Liv Sterten			10-06-2016	08:17:46	194.140.240.2
+Carl Fredrik Lindeman			10-06-2016	09:59:08	194.140.240.2
+Carl F Rode Kjeldsberg			10-06-2016	10:14:48	194.140.240.2
+Thomas Holstad			10-06-2016	16:02:05	194.140.240.2
+Thomas Holstad			10-06-2016	16:09:11	194.140.240.2
+Rune Heggen Arntsen			10-06-2016	16:28:21	89.11.205.159
+Rune Heggen Arntsen			13-06-2016	08:12:18	138.62.237.155
+Elin Ekern			13-06-2016	08:28:44	194.140.240.2
+Liv Sterten			13-06-2016	08:37:47	194.140.240.2
+Thomas Holstad			13-06-2016	09:00:05	194.140.240.2
+Rune Heggen Arntsen			13-06-2016	09:26:14	138.62.237.155
+Gro Anita Haugmo			13-06-2016	09:42:02	194.140.240.2
+Carl Fredrik Lindeman			13-06-2016	11:43:54	194.140.240.2
+Carl F Rode Kjeldsberg			13-06-2016	15:56:46	194.140.240.2
+Christine Adelbrant			13-06-2016	16:01:29	194.140.240.2
+Thomas Holstad			13-06-2016	16:24:47	194.140.240.2
+Bjørnar Bolsøy			13-06-2016	16:25:45	194.140.240.2
+Jon Egil Grotvedt			14-06-2016	06:39:20	194.140.240.2
+Gro Anita Haugmo			14-06-2016	07:28:22	194.140.240.2
+Liv Sterten			14-06-2016	08:12:12	194.140.240.2
+Elin Ekern			14-06-2016	08:30:14	194.140.240.2
+Thomas Holstad			14-06-2016	09:00:04	194.140.240.2
+Jon Egil Grotvedt			14-06-2016	12:48:18	194.140.240.2
+Bjørnar Bolsøy			14-06-2016	15:39:24	194.140.240.2
+Christine Adelbrant			14-06-2016	16:00:46	194.140.240.2
+Carl Fredrik Lindeman			14-06-2016	16:25:02	194.140.240.2
+Jon Egil Grotvedt			15-06-2016	06:45:31	194.140.240.2
+Liv Sterten			15-06-2016	08:02:47	194.140.240.2
+Gro Anita Haugmo			15-06-2016	08:29:06	194.140.240.2
+Elin Ekern			15-06-2016	08:33:11	194.140.240.2
+Rune Heggen Arntsen			15-06-2016	08:57:52	89.11.205.159
+Carl Fredrik Lindeman			15-06-2016	09:00:05	194.140.240.2
+Jon Egil Grotvedt			15-06-2016	09:05:22	194.140.240.2
+Christine Adelbrant			15-06-2016	10:00:29	194.140.240.2
+Bjørnar Bolsøy			15-06-2016	11:05:16	194.140.240.2
+Thomas Holstad			15-06-2016	11:15:01	194.140.240.2
+Christine Adelbrant			15-06-2016	13:02:24	194.140.240.2
+Christine Adelbrant			15-06-2016	13:11:38	194.140.240.2
+Anne Marte Bye			15-06-2016	15:18:16	194.140.240.2
+Thomas Holstad			15-06-2016	15:43:53	194.140.240.2
+Christine Adelbrant			15-06-2016	15:56:02	194.140.240.2
+Tine Lill Christensen			15-06-2016	15:59:12	194.140.240.2
+Gro Anita Haugmo			16-06-2016	08:07:10	194.140.240.2
+Elin Ekern			16-06-2016	08:28:59	194.140.240.2
+Rune Heggen Arntsen			16-06-2016	08:29:59	89.11.205.159
+Anne Marte Bye			16-06-2016	08:50:49	194.140.240.2
+Thomas Holstad			16-06-2016	08:59:39	194.140.240.2
+Christine Adelbrant			16-06-2016	09:03:54	194.140.240.2
+Liv Sterten			16-06-2016	10:00:15	194.140.240.2
+Bjørnar Bolsøy			16-06-2016	13:20:14	194.140.240.2
+Carl F Rode Kjeldsberg			16-06-2016	15:14:14	194.140.240.2
+Rune Heggen Arntsen			16-06-2016	16:57:08	89.11.205.159
+Jon Egil Grotvedt			17-06-2016	07:14:26	194.140.240.2
+Elin Ekern			17-06-2016	07:37:19	194.140.240.2
+Rune Heggen Arntsen			17-06-2016	08:00:48	89.11.205.159
+Liv Sterten			17-06-2016	08:09:29	194.140.240.2
+Gro Anita Haugmo			17-06-2016	08:29:16	194.140.240.2
+Anne Marte Bye			17-06-2016	09:20:24	194.140.240.2
+Thomas Holstad			17-06-2016	09:39:57	194.140.240.2
+Christine Adelbrant			17-06-2016	09:40:41	194.140.240.2
+Liv Sterten			17-06-2016	15:14:27	194.140.240.2
+Jon Egil Grotvedt			17-06-2016	15:26:05	194.140.240.2
+Fredrik Jernberg			17-06-2016	15:26:31	194.140.240.2
+Tine Lill Christensen			17-06-2016	15:28:52	194.140.240.2
+Rune Heggen Arntsen			17-06-2016	16:04:37	89.11.205.159
+Carl F Rode Kjeldsberg			17-06-2016	16:32:21	194.140.240.2
+Jon Egil Grotvedt			20-06-2016	06:43:31	194.140.240.2
+Rune Heggen Arntsen			20-06-2016	07:10:32	194.140.240.2
+Carl Fredrik Lindeman			20-06-2016	07:57:06	194.140.240.2
+Elin Ekern			20-06-2016	08:04:15	194.140.240.2
+Liv Sterten			20-06-2016	08:27:25	194.140.240.2
+Christine Adelbrant			20-06-2016	09:04:35	194.140.240.2
+Thomas Holstad			20-06-2016	09:45:41	194.140.240.2
+Tine Lill Christensen			20-06-2016	12:06:26	194.140.240.2
+Tine Lill Christensen			20-06-2016	12:13:08	194.140.240.2
+Christine Adelbrant			20-06-2016	16:28:18	194.140.240.2
+Liv Sterten			21-06-2016	08:04:46	194.140.240.2
+Elin Ekern			21-06-2016	08:14:24	194.140.240.2
+Gro Anita Haugmo			21-06-2016	08:21:00	194.140.240.2
+Rune Heggen Arntsen			21-06-2016	08:26:36	51.175.48.124
+Carl Fredrik Lindeman			21-06-2016	08:29:48	194.140.240.2
+Carl F Rode Kjeldsberg			21-06-2016	14:12:14	194.140.240.2
+Thomas Holstad			21-06-2016	16:12:17	194.140.240.2
+Rune Heggen Arntsen			22-06-2016	07:14:59	194.140.240.2
+Gro Anita Haugmo			22-06-2016	07:26:28	194.140.240.2
+Elin Ekern			22-06-2016	07:47:09	194.140.240.2
+Jon Egil Grotvedt			22-06-2016	07:59:02	194.140.240.2
+Liv Sterten			22-06-2016	08:02:20	194.140.240.2
+Carl Fredrik Lindeman			22-06-2016	08:06:18	194.140.240.2
+Thomas Holstad			22-06-2016	09:00:40	194.140.240.2
+Thomas Holstad			22-06-2016	09:37:27	194.140.240.2
+Anne Marte Bye			22-06-2016	11:59:29	194.140.240.2
+Christine Adelbrant			22-06-2016	13:14:27	194.140.240.2
+Carl F Rode Kjeldsberg			22-06-2016	15:58:39	194.140.240.2
+Carl Fredrik Lindeman			22-06-2016	16:31:48	194.140.240.2
+Gro Anita Haugmo			23-06-2016	07:18:27	194.140.240.2
+Thomas Telso			23-06-2016	07:20:37	194.140.240.2
+Elin Ekern			23-06-2016	07:28:45	194.140.240.2
+Liv Sterten			23-06-2016	08:05:52	194.140.240.2
+Liv Sterten			23-06-2016	08:12:12	194.140.240.2
+Tine Lill Christensen			23-06-2016	08:30:08	194.140.240.2
+Rune Heggen Arntsen			23-06-2016	08:47:23	89.11.205.159
+Thomas Holstad			23-06-2016	08:59:50	194.140.240.2
+Anders Dahl-Hilstad			23-06-2016	09:02:15	194.140.240.2
+Carl Fredrik Lindeman			23-06-2016	09:06:21	194.140.240.2
+Christine Adelbrant			23-06-2016	09:06:27	194.140.240.2
+Anne Marte Bye			23-06-2016	12:13:00	194.140.240.2
+Rune Heggen Arntsen			14-12-2016	17:00:56	51.175.48.124
+Jon Egil Grotvedt			15-12-2016	07:14:34	194.140.240.2
+Elin Ekern			15-12-2016	07:52:07	194.140.240.2
+Liv Sterten			15-12-2016	08:16:51	194.140.240.2
+Rune Heggen Arntsen			15-12-2016	08:25:17	194.140.240.2
+Gro Anita Haugmo			15-12-2016	09:54:56	194.140.240.2
+Thomas Holstad			15-12-2016	10:25:18	194.140.240.2
+Tine Lill Christensen			15-12-2016	14:33:13	194.140.240.2
+Carl F Rode Kjeldsberg			15-12-2016	16:29:47	194.140.240.2
+Jon Egil Grotvedt			16-12-2016	06:55:30	194.140.240.2
+Liv Sterten			16-12-2016	08:19:54	194.140.240.2
+Rune Heggen Arntsen			16-12-2016	08:37:11	194.140.240.2
+Elin Ekern			16-12-2016	09:08:33	194.140.240.2
+Elin Ekern			16-12-2016	09:08:42	194.140.240.2
+Rune Heggen Arntsen			18-12-2016	09:48:18	51.175.48.124
+Liv Sterten			18-12-2016	12:14:17	194.140.240.2
+Jon Egil Grotvedt			19-12-2016	07:00:08	194.140.240.2
+Liv Sterten			19-12-2016	08:04:19	194.140.240.2
+Rune Heggen Arntsen			19-12-2016	08:57:00	51.175.48.124
+Carl Fredrik Lindeman			19-12-2016	11:04:35	194.140.240.2
+Elin Ekern			19-12-2016	13:14:44	194.140.240.2
+Elin Ekern			19-12-2016	13:15:45	194.140.240.2
+Thomas Teslo			19-12-2016	13:58:10	194.140.240.2
+Carl Fredrik Lindeman			19-12-2016	16:59:33	194.140.240.2
+Rune Heggen Arntsen			19-12-2016	22:56:52	51.175.48.124
+Liv Sterten			19-12-2016	23:15:22	194.140.240.2
+Jon Egil Grotvedt			20-12-2016	06:59:53	194.140.240.2
+Elin Ekern			20-12-2016	07:42:52	194.140.240.2
+Liv Sterten			20-12-2016	08:12:59	194.140.240.2
+Rune Heggen Arntsen			20-12-2016	08:20:12	194.140.240.2
+Liv Sterten			20-12-2016	12:43:22	194.140.240.2
+Trude Olsen			20-12-2016	13:00:45	194.140.240.2
+Tine Lill Christensen			20-12-2016	13:26:39	194.140.240.2
+Liv Sterten			20-12-2016	14:48:23	194.140.240.2
+Rune Heggen Arntsen			20-12-2016	15:06:54	194.140.240.2
+Carl F Rode Kjeldsberg			20-12-2016	15:18:26	194.140.240.2
+Knut Dullum			20-12-2016	15:39:20	194.140.240.2
+Jon Egil Grotvedt			21-12-2016	07:01:00	194.140.240.2
+Elin Ekern			21-12-2016	07:42:38	194.140.240.2
+Rune Heggen Arntsen			21-12-2016	08:09:38	51.175.48.124
+Tine Lill Christensen			21-12-2016	14:20:33	194.140.240.2
+Trude Olsen			21-12-2016	14:37:23	194.140.240.2
+Rune Heggen Arntsen			21-12-2016	16:10:02	51.175.48.124
+Jon Egil Grotvedt			22-12-2016	07:01:55	194.140.240.2
+Rune Heggen Arntsen			22-12-2016	08:02:34	51.175.48.124
+Liv Sterten			22-12-2016	08:11:19	194.140.240.2
+Carl Fredrik Lindeman			22-12-2016	18:38:16	194.140.240.2
+Rune Heggen Arntsen			23-12-2016	08:33:59	51.175.48.124
+Carl Fredrik Lindeman			23-12-2016	15:35:36	194.140.240.2
+Thomas Holstad			23-12-2016	16:15:24	194.140.240.2
+Rune Heggen Arntsen			23-12-2016	16:30:05	51.175.48.124
+Carl Fredrik Lindeman			26-12-2016	11:54:46	62.16.243.76
+Rune Heggen Arntsen			27-12-2016	08:17:41	194.140.240.2
+Tine Lill Christensen			27-12-2016	08:32:29	194.140.240.2
+Knut Dullum			27-12-2016	10:14:01	194.140.240.2
+Thomas Teslo			27-12-2016	10:24:55	194.140.240.2
+Rune Heggen Arntsen			27-12-2016	10:31:43	194.140.240.2
+Jon Egil Grotvedt			28-12-2016	08:05:18	194.140.240.2
+Rune Heggen Arntsen			28-12-2016	08:17:20	51.175.48.124
+Elin Ekern			28-12-2016	08:23:29	194.140.240.2
+Carl Fredrik Lindeman			28-12-2016	08:46:05	62.16.243.76
+Carl Fredrik Lindeman			28-12-2016	08:46:07	62.16.243.76
+Fredrik Jernberg			28-12-2016	12:27:15	194.140.240.2
+Tine Lill Christensen			28-12-2016	12:30:23	194.140.240.2
+Rune Heggen Arntsen			29-12-2016	07:35:33	51.175.48.124
+Carl Fredrik Lindeman			29-12-2016	07:57:38	194.140.240.2
+Carl Fredrik Lindeman			29-12-2016	07:57:47	194.140.240.2
+Elin Ekern			29-12-2016	08:21:12	194.140.240.2
+Liv Sterten			29-12-2016	08:53:41	194.140.240.2
+Jon Egil Grotvedt			29-12-2016	09:14:19	194.140.240.2
+Carl Fredrik Lindeman			29-12-2016	14:43:04	194.140.240.2
+Elin Ekern			30-12-2016	07:59:15	194.140.240.2
+Jon Egil Grotvedt			30-12-2016	08:53:55	194.140.240.2
+Liv Sterten			30-12-2016	08:54:19	194.140.240.2
+Elin Ekern			30-12-2016	11:56:28	194.140.240.2
+Fredrik Jernberg			30-12-2016	12:09:45	194.140.240.2
+Rune Heggen Arntsen			31-12-2016	10:59:27	89.11.205.159
+Jon Egil Grotvedt			02-01-2017	05:56:40	194.140.240.2
+Thomas Teslo			02-01-2017	07:39:48	194.140.240.2
+Elin Ekern			02-01-2017	07:49:19	194.140.240.2
+Rune Heggen Arntsen			02-01-2017	08:00:21	51.175.48.124
+Liv Sterten			02-01-2017	08:05:03	194.140.240.2
+Thomas Teslo			02-01-2017	08:19:20	194.140.240.2
+Carl Fredrik Lindeman			02-01-2017	08:22:44	194.140.240.2
+Thomas Holstad			02-01-2017	09:08:41	194.140.240.2
+Knut Dullum			02-01-2017	09:27:38	194.140.240.2
+Carl F Rode Kjeldsberg			02-01-2017	10:07:31	194.140.240.2
+Trude Olsen			02-01-2017	10:52:15	194.140.240.2
+TimeOut - Support			02-01-2017	11:24:09	62.116.192.234
+Thomas Holstad			02-01-2017	16:17:17	194.140.240.2
+Carl Fredrik Lindeman			02-01-2017	16:33:24	194.140.240.2
+Knut Dullum			02-01-2017	17:33:45	194.140.240.2
+Rune Heggen Arntsen			02-01-2017	18:37:44	51.175.48.124
+Anders Dahl-Hilstad			03-01-2017	06:00:53	194.140.240.2
+Liv Sterten			03-01-2017	08:03:27	194.140.240.2
+Rune Heggen Arntsen			03-01-2017	08:20:45	194.140.240.2
+Anne Marte Bye			03-01-2017	08:25:41	194.140.240.2
+Tine Lill Christensen			03-01-2017	13:17:08	194.140.240.2
+Carl F Rode Kjeldsberg			03-01-2017	16:29:05	194.140.240.2
+Knut Dullum			03-01-2017	16:40:52	194.140.240.2
+Thomas Holstad			03-01-2017	16:56:01	194.140.240.2
+Rune Heggen Arntsen			04-01-2017	08:02:52	51.175.48.124
+Jon Egil Grotvedt			04-01-2017	08:42:56	194.140.240.2
+Tine Lill Christensen			04-01-2017	09:03:57	194.140.240.2
+Anne Marte Bye			04-01-2017	09:22:51	194.140.240.2
+Thomas Holstad			04-01-2017	15:41:09	194.140.240.2
+Carl F Rode Kjeldsberg			04-01-2017	16:22:03	194.140.240.2
+Carl Fredrik Lindeman			04-01-2017	16:39:21	194.140.240.2
+Rune Heggen Arntsen			04-01-2017	16:40:52	51.175.48.124
+Rune Heggen Arntsen			05-01-2017	07:00:07	51.175.48.124
+Elin Ekern			05-01-2017	07:38:47	194.140.240.2
+Tine Lill Christensen			05-01-2017	08:29:38	194.140.240.2
+Jon Egil Grotvedt			05-01-2017	08:31:53	194.140.240.2
+Anne Marte Bye			05-01-2017	08:37:14	194.140.240.2
+Thomas Holstad			05-01-2017	09:05:35	194.140.240.2
+Anders Dahl-Hilstad			05-01-2017	12:14:34	194.140.240.2
+Carl F Rode Kjeldsberg			05-01-2017	16:13:27	194.140.240.2
+Rune Heggen Arntsen			05-01-2017	16:59:54	51.175.48.124
+Rune Heggen Arntsen			05-01-2017	18:30:34	51.175.48.124
+Jon Egil Grotvedt			06-01-2017	07:45:21	194.140.240.2
+Anne Marte Bye			06-01-2017	08:32:38	194.140.240.2
+Liv Sterten			06-01-2017	08:39:52	194.140.240.2
+Rune Heggen Arntsen			06-01-2017	09:02:15	51.175.48.124
+Elin Ekern			06-01-2017	09:39:54	194.140.240.2
+Tine Lill Christensen			06-01-2017	12:25:40	194.140.240.2
+TimeOut - Support			06-01-2017	13:16:03	62.116.192.234
+Rune Heggen Arntsen			07-01-2017	10:23:11	51.175.48.124
+Rune Heggen Arntsen			07-01-2017	20:25:45	51.175.48.124
+Rune Heggen Arntsen			07-01-2017	21:42:47	51.175.48.124
+Rune Heggen Arntsen			08-01-2017	10:32:48	51.175.48.124
+Liv Sterten			08-01-2017	13:24:17	194.140.240.2
+Rune Heggen Arntsen			08-01-2017	15:10:57	51.175.48.124
+Jon Egil Grotvedt			09-01-2017	07:07:21	194.140.240.2
+Gro Anita Haugmo			09-01-2017	07:08:24	194.140.240.2
+Gro Anita Haugmo			09-01-2017	07:41:28	194.140.240.2
+Elin Ekern			09-01-2017	07:48:12	194.140.240.2
+Liv Sterten			09-01-2017	08:09:35	194.140.240.2
+Carl F Rode Kjeldsberg			09-01-2017	08:11:17	194.140.240.2
+Carl Fredrik Lindeman			09-01-2017	08:18:27	194.140.240.2
+Thomas Holstad			09-01-2017	08:58:43	194.140.240.2
+Thomas Holstad			09-01-2017	08:58:56	194.140.240.2
+Thomas Holstad			09-01-2017	08:58:58	194.140.240.2
+Tine Lill Christensen			09-01-2017	09:00:25	194.140.240.2
+Rune Heggen Arntsen			09-01-2017	09:04:02	51.175.48.124
+Anne Marte Bye			09-01-2017	09:33:24	194.140.240.2
+Rune Heggen Arntsen			09-01-2017	12:17:07	51.175.48.124
+Thomas Teslo			09-01-2017	14:21:41	194.140.240.2
+Anders Dahl-Hilstad			10-01-2017	06:05:44	194.140.240.2
+Jon Egil Grotvedt			10-01-2017	06:41:52	194.140.240.2
+Rune Heggen Arntsen			10-01-2017	07:43:59	51.175.48.124
+Elin Ekern			10-01-2017	07:44:09	194.140.240.2
+Thomas Holstad			10-01-2017	08:46:39	194.140.240.2
+Liv Sterten			10-01-2017	09:42:07	194.140.240.2
+Tine Lill Christensen			10-01-2017	10:25:05	194.140.240.2
+Carl F Rode Kjeldsberg			10-01-2017	16:26:47	194.140.240.2
+Thomas Holstad			10-01-2017	16:26:56	194.140.240.2
+Rune Heggen Arntsen			10-01-2017	19:03:30	51.175.48.124
+Rune Heggen Arntsen			10-01-2017	20:28:05	51.175.48.124
+Jon Egil Grotvedt			11-01-2017	06:47:34	194.140.240.2
+Elin Ekern			11-01-2017	07:41:52	194.140.240.2
+Rune Heggen Arntsen			11-01-2017	08:32:49	194.140.240.2
+Thomas Holstad			11-01-2017	09:01:09	194.140.240.2
+Thomas Holstad			11-01-2017	09:01:21	194.140.240.2
+Carl F Rode Kjeldsberg			11-01-2017	16:00:49	194.140.240.2
+Thomas Holstad			11-01-2017	16:58:22	194.140.240.2
+Jon Egil Grotvedt			12-01-2017	06:36:19	194.140.240.2
+Gro Anita Haugmo			12-01-2017	06:57:10	194.140.240.2
+Elin Ekern			12-01-2017	07:37:56	194.140.240.2
+Liv Sterten			12-01-2017	08:04:22	194.140.240.2
+Anne Marte Bye			12-01-2017	08:45:30	194.140.240.2
+Anders Dahl-Hilstad			12-01-2017	08:55:57	194.140.240.2
+Rune Heggen Arntsen			12-01-2017	08:59:19	51.175.48.124
+Thomas Holstad			12-01-2017	09:15:23	194.140.240.2
+Knut Dullum			12-01-2017	10:04:50	194.140.240.2
+Anders Dahl-Hilstad			12-01-2017	14:51:36	194.140.240.2
+Thomas Holstad			12-01-2017	16:13:08	194.140.240.2
+Carl F Rode Kjeldsberg			12-01-2017	16:34:39	194.140.240.2
+Knut Dullum			12-01-2017	17:32:26	194.140.240.2
+Jon Egil Grotvedt			13-01-2017	07:00:27	194.140.240.2
+Elin Ekern			13-01-2017	07:23:03	194.140.240.2
+Liv Sterten			13-01-2017	08:05:09	194.140.240.2
+Anne Marte Bye			13-01-2017	08:23:56	194.140.240.2
+Thomas Holstad			13-01-2017	08:30:00	194.140.240.2
+Rune Heggen Arntsen			13-01-2017	08:54:23	51.175.48.124
+Rune Heggen Arntsen			13-01-2017	11:15:32	51.175.48.124
+Tine Lill Christensen			13-01-2017	13:19:03	194.140.240.2
+Carl Fredrik Lindeman			13-01-2017	15:20:29	194.140.240.2
+Carl F Rode Kjeldsberg			13-01-2017	16:06:15	194.140.240.2
+Thomas Holstad			13-01-2017	16:57:43	194.140.240.2
+Knut Dullum			15-01-2017	17:22:02	84.215.32.210
+Elin Ekern			16-01-2017	07:44:18	194.140.240.2
+Rune Heggen Arntsen			16-01-2017	08:01:11	51.175.48.124
+Trude Olsen			16-01-2017	08:01:54	194.140.240.2
+Thomas Teslo			16-01-2017	08:16:25	194.140.240.2
+Thomas Holstad			16-01-2017	09:00:54	194.140.240.2
+Thomas Holstad			16-01-2017	09:01:06	194.140.240.2
+Gro Anita Haugmo			16-01-2017	09:18:37	194.140.240.2
+Carl Fredrik Lindeman			16-01-2017	12:03:53	194.140.240.2
+Carl Fredrik Lindeman			16-01-2017	12:04:02	194.140.240.2
+Tine Lill Christensen			16-01-2017	14:33:36	194.140.240.2
+Gro Anita Haugmo			16-01-2017	15:17:03	194.140.240.2
+Thomas Holstad			16-01-2017	16:14:18	194.140.240.2
+Carl F Rode Kjeldsberg			16-01-2017	16:15:38	194.140.240.2
+Knut Dullum			16-01-2017	16:32:27	194.140.240.2
+Elin Ekern			17-01-2017	07:34:20	194.140.240.2
+Rune Heggen Arntsen			17-01-2017	08:20:50	194.140.240.2
+Anne Marte Bye			17-01-2017	08:30:40	194.140.240.2
+Trude Olsen			17-01-2017	08:33:06	194.140.240.2
+Thomas Holstad			17-01-2017	09:16:08	194.140.240.2
+Tine Lill Christensen			17-01-2017	15:26:29	194.140.240.2
+Carl F Rode Kjeldsberg			17-01-2017	16:33:57	194.140.240.2
+Trude Olsen			17-01-2017	17:05:21	194.140.240.2
+Elin Ekern			18-01-2017	07:00:05	194.140.240.2
+Rune Heggen Arntsen			18-01-2017	08:24:46	51.175.48.124
+Tine Lill Christensen			18-01-2017	13:08:34	194.140.240.2
+Thomas Holstad			18-01-2017	16:11:48	194.140.240.2
+Rune Heggen Arntsen			18-01-2017	16:22:39	51.175.48.124
+Knut Dullum			18-01-2017	17:47:38	194.140.240.2
+Rune Heggen Arntsen			18-01-2017	20:32:05	51.175.48.124
+Elin Ekern			19-01-2017	07:44:48	194.140.240.2
+Elin Ekern			19-01-2017	07:44:50	194.140.240.2
+Liv Sterten			19-01-2017	08:18:01	194.140.240.2
+Liv Sterten			19-01-2017	08:29:44	194.140.240.2
+Rune Heggen Arntsen			19-01-2017	08:30:23	51.175.48.124
+Thomas Holstad			19-01-2017	09:03:42	194.140.240.2
+Thomas Holstad			19-01-2017	09:03:58	194.140.240.2
+Stian Holmen			19-01-2017	09:08:24	194.140.240.2
+Fredrik Jernberg			19-01-2017	15:52:36	194.140.240.2
+Trude Olsen			19-01-2017	16:17:30	194.140.240.2
+Trude Olsen			19-01-2017	16:19:43	194.140.240.2
+Carl F Rode Kjeldsberg			19-01-2017	16:25:14	84.212.81.3
+Knut Dullum			19-01-2017	16:49:33	194.140.240.2
+Thomas Holstad			19-01-2017	17:02:20	194.140.240.2
+Gro Anita Haugmo			20-01-2017	06:54:49	194.140.240.2
+Elin Ekern			20-01-2017	07:43:14	194.140.240.2
+Liv Sterten			20-01-2017	08:15:32	194.140.240.2
+Rune Heggen Arntsen			20-01-2017	08:25:32	194.140.240.2
+Anne Marte Bye			20-01-2017	09:38:02	194.140.240.2
+Tine Lill Christensen			20-01-2017	09:47:59	194.140.240.2
+Tine Lill Christensen			20-01-2017	10:04:18	194.140.240.2
+Fredrik Jernberg			20-01-2017	12:17:11	194.140.240.2
+Carl F Rode Kjeldsberg			20-01-2017	16:05:29	194.140.240.2
+Thomas Holstad			20-01-2017	18:45:15	194.140.240.2
+Thomas Holstad			20-01-2017	19:51:15	194.140.240.2
+Elin Ekern			23-01-2017	07:49:26	194.140.240.2
+Gro Anita Haugmo			23-01-2017	08:03:01	194.140.240.2
+Liv Sterten			23-01-2017	08:04:43	194.140.240.2
+Thomas Teslo			23-01-2017	08:06:11	194.140.240.2
+Carl Fredrik Lindeman			23-01-2017	08:57:44	194.140.240.2
+Rune Heggen Arntsen			23-01-2017	08:58:22	51.175.48.124
+Tine Lill Christensen			23-01-2017	08:58:24	194.140.240.2
+Thomas Holstad			23-01-2017	09:08:13	194.140.240.2
+Thomas Holstad			23-01-2017	09:08:25	194.140.240.2
+Trude Olsen			23-01-2017	09:56:04	194.140.240.2
+Carl F Rode Kjeldsberg			23-01-2017	15:25:39	194.140.240.2
+Thomas Holstad			23-01-2017	15:53:15	194.140.240.2
+Elin Ekern			24-01-2017	07:34:30	194.140.240.2
+Anders Dahl-Hilstad			24-01-2017	07:54:59	194.140.240.2
+Liv Sterten			24-01-2017	08:05:33	194.140.240.2
+Rune Heggen Arntsen			24-01-2017	08:19:47	194.140.240.2
+Thomas Holstad			24-01-2017	08:58:56	194.140.240.2
+Anne Marte Bye			24-01-2017	10:33:15	194.140.240.2
+Tine Lill Christensen			24-01-2017	15:36:49	194.140.240.2
+Knut Dullum			24-01-2017	16:07:16	194.140.240.2
+Thomas Holstad			24-01-2017	16:48:14	194.140.240.2
+Jon Egil Grotvedt			25-01-2017	06:37:21	194.140.240.2
+Elin Ekern			25-01-2017	07:39:07	194.140.240.2
+Liv Sterten			25-01-2017	08:10:38	194.140.240.2
+Rune Heggen Arntsen			25-01-2017	09:01:03	51.175.48.124
+Thomas Holstad			25-01-2017	09:06:21	194.140.240.2
+Tine Lill Christensen			25-01-2017	09:33:33	194.140.240.2
+Carl F Rode Kjeldsberg			25-01-2017	09:47:28	194.140.240.2
+Gro Anita Haugmo			26-01-2017	07:27:41	194.140.240.2
+Elin Ekern			26-01-2017	07:40:14	194.140.240.2
+Liv Sterten			26-01-2017	08:03:46	194.140.240.2
+Rune Heggen Arntsen			26-01-2017	08:33:51	51.175.48.124
+Thomas Holstad			26-01-2017	08:44:09	194.140.240.2
+Anne Marte Bye			26-01-2017	09:56:16	194.140.240.2
+Liv Sterten			26-01-2017	16:33:50	194.140.240.2
+Knut Dullum			26-01-2017	18:06:57	194.140.240.2
+Jon Egil Grotvedt			27-01-2017	06:48:52	194.140.240.2
+Liv Sterten			27-01-2017	08:08:18	194.140.240.2
+Rune Heggen Arntsen			27-01-2017	08:30:16	51.175.48.124
+Tine Lill Christensen			27-01-2017	10:00:57	194.140.240.2
+Jon Egil Grotvedt			30-01-2017	06:51:30	194.140.240.2
+Jon Egil Grotvedt			30-01-2017	07:03:01	194.140.240.2
+Elin Ekern			30-01-2017	07:46:38	194.140.240.2
+Liv Sterten			30-01-2017	08:10:42	194.140.240.2
+Thomas Teslo			30-01-2017	08:19:27	194.140.240.2
+Rune Heggen Arntsen			30-01-2017	08:37:51	51.175.48.124
+Tine Lill Christensen			30-01-2017	08:57:45	194.140.240.2
+Thomas Holstad			30-01-2017	09:00:25	194.140.240.2
+Carl Fredrik Lindeman			30-01-2017	09:42:46	194.140.240.2
+Tine Lill Christensen			30-01-2017	09:42:58	194.140.240.2
+Tine Lill Christensen			30-01-2017	12:35:19	194.140.240.2
+Carl F Rode Kjeldsberg			30-01-2017	16:05:49	194.140.240.2
+Thomas Holstad			30-01-2017	16:12:23	194.140.240.2
+Jon Egil Grotvedt			31-01-2017	07:07:33	194.140.240.2
+Elin Ekern			31-01-2017	07:46:32	194.140.240.2
+Liv Sterten			31-01-2017	08:12:35	194.140.240.2
+Rune Heggen Arntsen			31-01-2017	08:48:47	51.175.48.124
+Thomas Holstad			31-01-2017	09:14:37	194.140.240.2
+Gro Anita Haugmo			31-01-2017	12:44:18	194.140.240.2
+Knut Dullum			31-01-2017	16:52:51	194.140.240.2
+Thomas Holstad			31-01-2017	20:11:20	194.140.240.2
+Liv Sterten			31-01-2017	20:17:53	194.140.240.2
+Liv Sterten			01-02-2017	08:12:33	194.140.240.2
+Rune Heggen Arntsen			01-02-2017	08:15:23	194.140.240.2
+Tine Lill Christensen			01-02-2017	08:27:22	194.140.240.2
+Thomas Holstad			01-02-2017	08:38:16	194.140.240.2
+Jon Egil Grotvedt			01-02-2017	11:52:33	194.140.240.2
+Elin Ekern			01-02-2017	13:40:57	194.140.240.2
+Rune Heggen Arntsen			01-02-2017	15:35:34	194.140.240.2
+Jon Egil Grotvedt			02-02-2017	06:58:05	194.140.240.2
+Gro Anita Haugmo			02-02-2017	07:46:30	194.140.240.2
+Rune Heggen Arntsen			02-02-2017	08:08:30	51.175.48.124
+Thomas Holstad			02-02-2017	09:11:16	194.140.240.2
+Carl Fredrik Lindeman			02-02-2017	13:05:13	194.140.240.2
+Tine Lill Christensen			02-02-2017	13:45:50	194.140.240.2
+Liv Sterten			02-02-2017	16:01:02	194.140.240.2
+Knut Dullum			02-02-2017	16:19:36	194.140.240.2
+Thomas Holstad			02-02-2017	18:55:07	194.140.240.2
+Liv Sterten			03-02-2017	08:01:25	194.140.240.2
+Rune Heggen Arntsen			03-02-2017	08:06:25	51.175.48.124
+Elin Ekern			03-02-2017	08:52:46	194.140.240.2
+Elin Ekern			03-02-2017	12:16:03	194.140.240.2
+Tine Lill Christensen			03-02-2017	13:08:41	194.140.240.2
+Carl F Rode Kjeldsberg			03-02-2017	14:10:57	84.212.81.3
+Elin Ekern			06-02-2017	07:42:07	194.140.240.2
+Rune Heggen Arntsen			06-02-2017	07:56:43	51.175.48.124
+Liv Sterten			06-02-2017	08:10:49	194.140.240.2
+Tine Lill Christensen			06-02-2017	08:33:00	194.140.240.2
+Thomas Holstad			06-02-2017	09:02:07	194.140.240.2
+Carl Fredrik Lindeman			06-02-2017	09:20:50	194.140.240.2
+Anne Marte Bye			06-02-2017	09:34:23	194.140.240.2
+Thomas Teslo			06-02-2017	13:35:36	194.140.240.2
+Carl Fredrik Lindeman			06-02-2017	14:42:03	194.140.240.2
+Trude Olsen			06-02-2017	16:34:24	194.140.240.2
+Carl F Rode Kjeldsberg			06-02-2017	17:06:41	194.140.240.2
+Elin Ekern			07-02-2017	07:36:51	194.140.240.2
+Rune Heggen Arntsen			07-02-2017	08:28:28	194.140.240.2
+Liv Sterten			07-02-2017	08:29:19	194.140.240.2
+Gro Anita Haugmo			07-02-2017	09:39:06	194.140.240.2
+Tine Lill Christensen			07-02-2017	09:52:06	194.140.240.2
+Anders Dahl-Hilstad			07-02-2017	10:06:27	194.140.240.2
+Bjørnar Bolsøy			07-02-2017	12:41:45	194.140.240.2
+Anders Dahl-Hilstad			07-02-2017	14:17:55	194.140.240.2
+Carl F Rode Kjeldsberg			07-02-2017	16:17:44	194.140.240.2
+Thomas Holstad			07-02-2017	16:39:29	194.140.240.2
+Knut Dullum			07-02-2017	16:43:34	194.140.240.2
+Elin Ekern			08-02-2017	07:43:05	194.140.240.2
+Liv Sterten			08-02-2017	08:23:33	194.140.240.2
+Anders Dahl-Hilstad			08-02-2017	08:24:05	194.140.240.2
+Rune Heggen Arntsen			08-02-2017	08:35:10	51.175.48.124
+Thomas Holstad			08-02-2017	09:40:02	194.140.240.2
+Knut Dullum			08-02-2017	15:55:03	194.140.240.2
+Carl F Rode Kjeldsberg			08-02-2017	16:12:57	194.140.240.2
+Anne Marte Bye			08-02-2017	16:28:57	194.140.240.2
+Jon Egil Grotvedt			09-02-2017	06:53:56	194.140.240.2
+Elin Ekern			09-02-2017	07:32:45	194.140.240.2
+Liv Sterten			09-02-2017	08:04:47	194.140.240.2
+Knut Dullum			09-02-2017	08:19:16	84.215.32.210
+Rune Heggen Arntsen			09-02-2017	08:26:32	51.175.48.124
+Bjørnar Bolsøy			09-02-2017	08:38:04	194.140.240.2
+Thomas Holstad			09-02-2017	09:00:40	194.140.240.2
+Tine Lill Christensen			09-02-2017	09:10:13	194.140.240.2
+Gro Anita Haugmo			09-02-2017	10:16:24	194.140.240.2
+Anne Marte Bye			09-02-2017	10:48:28	194.140.240.2
+Elin Ekern			09-02-2017	14:27:12	194.140.240.2
+Liv Sterten			09-02-2017	15:50:15	194.140.240.2
+Carl F Rode Kjeldsberg			09-02-2017	16:09:57	194.140.240.2
+Thomas Holstad			09-02-2017	16:12:23	194.140.240.2
+Elin Ekern			10-02-2017	07:18:44	194.140.240.2
+Liv Sterten			10-02-2017	08:14:38	194.140.240.2
+Bjørnar Bolsøy			10-02-2017	09:56:12	194.140.240.2
+Tine Lill Christensen			10-02-2017	10:07:29	194.140.240.2
+Thomas Holstad			10-02-2017	16:06:42	194.140.240.2
+Rune Heggen Arntsen			11-02-2017	10:45:28	51.175.48.124
+Rune Heggen Arntsen			12-02-2017	10:48:51	51.175.48.124
+Rune Heggen Arntsen			12-02-2017	19:40:40	51.175.48.124
+Jon Egil Grotvedt			13-02-2017	06:44:14	194.140.240.2
+Elin Ekern			13-02-2017	07:37:32	194.140.240.2
+Liv Sterten			13-02-2017	08:09:10	194.140.240.2
+Rune Heggen Arntsen			13-02-2017	08:28:47	51.175.48.124
+Thomas Holstad			13-02-2017	09:00:38	194.140.240.2
+Tine Lill Christensen			13-02-2017	09:09:28	194.140.240.2
+Bjørnar Bolsøy			13-02-2017	09:46:49	194.140.240.2
+Thomas Teslo			13-02-2017	10:06:08	194.140.240.2
+Carl Fredrik Lindeman			13-02-2017	11:34:47	194.140.240.2
+Carl F Rode Kjeldsberg			13-02-2017	13:24:49	194.140.240.2
+Carl F Rode Kjeldsberg			13-02-2017	16:02:20	194.140.240.2
+Thomas Holstad			13-02-2017	17:31:37	194.140.240.2
+Knut Dullum			13-02-2017	17:45:22	194.140.240.2
+Liv Sterten			13-02-2017	18:17:40	194.140.240.2
+Rune Heggen Arntsen			13-02-2017	20:06:41	51.175.48.124
+Gro Anita Haugmo			14-02-2017	07:39:34	194.140.240.2
+Elin Ekern			14-02-2017	07:40:45	194.140.240.2
+Liv Sterten			14-02-2017	08:13:58	194.140.240.2
+Rune Heggen Arntsen			14-02-2017	08:24:22	194.140.240.2
+Bjørnar Bolsøy			14-02-2017	09:12:46	194.140.240.2
+Tine Lill Christensen			14-02-2017	10:49:14	194.140.240.2
+Bjørnar Bolsøy			14-02-2017	11:11:34	194.140.240.2
+Elin Ekern			15-02-2017	07:44:42	194.140.240.2
+Liv Sterten			15-02-2017	08:25:06	194.140.240.2
+Bjørnar Bolsøy			15-02-2017	08:58:20	194.140.240.2
+Thomas Holstad			15-02-2017	09:01:03	194.140.240.2
+Anders Dahl-Hilstad			15-02-2017	12:04:34	194.140.240.2
+Anders Dahl-Hilstad			15-02-2017	12:19:01	194.140.240.2
+Tine Lill Christensen			15-02-2017	13:33:18	194.140.240.2
+Carl F Rode Kjeldsberg			15-02-2017	15:20:17	194.140.240.2
+Liv Sterten			15-02-2017	16:13:51	194.140.240.2
+Thomas Holstad			15-02-2017	17:14:58	194.140.240.2
+Elin Ekern			16-02-2017	07:43:29	194.140.240.2
+Liv Sterten			16-02-2017	08:06:25	194.140.240.2
+Anders Dahl-Hilstad			16-02-2017	08:43:28	194.140.240.2
+Anne Marte Bye			16-02-2017	08:47:47	194.140.240.2
+Bjørnar Bolsøy			16-02-2017	09:21:40	194.140.240.2
+Tine Lill Christensen			16-02-2017	09:39:46	194.140.240.2
+Anders Dahl-Hilstad			16-02-2017	09:47:34	194.140.240.2
+Anders Dahl-Hilstad			16-02-2017	09:59:25	194.140.240.2
+Jon Egil Grotvedt			16-02-2017	16:07:40	194.140.240.2
+Carl F Rode Kjeldsberg			16-02-2017	16:07:48	194.140.240.2
+Carl Fredrik Lindeman			16-02-2017	17:18:18	194.140.240.2
+Elin Ekern			17-02-2017	07:47:32	194.140.240.2
+Liv Sterten			17-02-2017	08:03:24	194.140.240.2
+Jon Egil Grotvedt			17-02-2017	08:36:30	194.140.240.2
+Rune Heggen Arntsen			17-02-2017	08:48:03	2.150.53.101
+Bjørnar Bolsøy			17-02-2017	09:59:44	194.140.240.2
+Anders Dahl-Hilstad			19-02-2017	18:51:36	194.140.240.2
+Jon Egil Grotvedt			20-02-2017	06:49:21	194.140.240.2
+Elin Ekern			20-02-2017	07:49:15	194.140.240.2
+Liv Sterten			20-02-2017	08:08:48	194.140.240.2
+Rune Heggen Arntsen			20-02-2017	08:29:06	51.175.48.124
+Gro Anita Haugmo			20-02-2017	08:42:54	194.140.240.2
+Thomas Holstad			20-02-2017	09:08:52	194.140.240.2
+Bjørnar Bolsøy			20-02-2017	12:07:20	194.140.240.2
+Rune Heggen Arntsen			20-02-2017	19:18:33	51.175.48.124
+Liv Sterten			20-02-2017	23:45:33	194.140.240.2
+Liv Sterten			20-02-2017	23:46:21	194.140.240.2
+Rune Heggen Arntsen			21-02-2017	07:32:31	51.175.48.124
+Elin Ekern			21-02-2017	07:43:04	194.140.240.2
+Liv Sterten			21-02-2017	08:21:59	194.140.240.2
+Gro Anita Haugmo			21-02-2017	08:29:25	194.140.240.2
+Anders Dahl-Hilstad			21-02-2017	10:01:18	194.140.240.2
+Bjørnar Bolsøy			21-02-2017	13:50:39	194.140.240.2
+Bjørnar Bolsøy			21-02-2017	14:14:36	194.140.240.2
+Rune Heggen Arntsen			21-02-2017	14:39:46	51.175.48.124
+Knut Dullum			21-02-2017	15:25:02	194.140.240.2
+Elin Ekern			22-02-2017	07:04:43	194.140.240.2
+Jon Egil Grotvedt			22-02-2017	07:11:50	194.140.240.2
+Thomas Holstad			22-02-2017	09:08:28	194.140.240.2
+Liv Sterten			22-02-2017	10:19:04	194.140.240.2
+Bjørnar Bolsøy			22-02-2017	11:42:18	194.140.240.2
+Liv Sterten			23-02-2017	08:15:50	194.140.240.2
+Carl F Rode Kjeldsberg			23-02-2017	09:30:03	194.140.240.2
+Bjørnar Bolsøy			23-02-2017	11:02:10	194.140.240.2
+Thomas Teslo			23-02-2017	11:03:54	194.140.240.2
+Anders Dahl-Hilstad			23-02-2017	14:41:12	194.140.240.2
+Carl F Rode Kjeldsberg			23-02-2017	16:37:00	194.140.240.2
+Liv Sterten			24-02-2017	08:04:47	194.140.240.2
+Fredrik Jernberg			24-02-2017	09:49:34	194.140.240.2
+Jon Egil Grotvedt			24-02-2017	16:02:09	194.140.240.2
+Carl F Rode Kjeldsberg			24-02-2017	16:03:09	194.140.240.2
+Jon Egil Grotvedt			27-02-2017	06:44:27	194.140.240.2
+Elin Ekern			27-02-2017	07:53:23	194.140.240.2
+Liv Sterten			27-02-2017	08:06:32	194.140.240.2
+Rune Heggen Arntsen			27-02-2017	08:23:19	51.175.48.124
+Thomas Holstad			27-02-2017	09:03:13	194.140.240.2
+Tine Lill Christensen			27-02-2017	09:11:55	194.140.240.2
+Bjørnar Bolsøy			27-02-2017	12:39:14	194.140.240.2
+Thomas Holstad			27-02-2017	16:10:42	194.140.240.2
+Carl F Rode Kjeldsberg			27-02-2017	16:18:26	194.140.240.2
+Rune Heggen Arntsen			27-02-2017	18:39:48	51.175.48.124
+Elin Ekern			28-02-2017	07:57:19	194.140.240.2
+Liv Sterten			28-02-2017	08:08:01	194.140.240.2
+Rune Heggen Arntsen			28-02-2017	08:27:10	51.175.48.124
+Thomas Holstad			28-02-2017	09:01:27	194.140.240.2
+Tine Lill Christensen			28-02-2017	11:11:22	194.140.240.2
+Jon Egil Grotvedt			28-02-2017	11:15:17	194.140.240.2
+Thomas Teslo			28-02-2017	12:10:25	194.140.240.2
+Anne Marte Bye			28-02-2017	13:46:22	194.140.240.2
+Carl F Rode Kjeldsberg			28-02-2017	16:00:53	194.140.240.2
+Thomas Holstad			28-02-2017	16:33:17	194.140.240.2
+Knut Dullum			28-02-2017	16:58:56	194.140.240.2
+Trude Olsen			28-02-2017	18:53:25	194.140.240.2
+Rune Heggen Arntsen			28-02-2017	20:21:48	51.175.48.124
+Rune Heggen Arntsen			28-02-2017	22:20:47	51.175.48.124
+Jon Egil Grotvedt			01-03-2017	07:13:30	194.140.240.2
+Elin Ekern			01-03-2017	07:26:56	194.140.240.2
+Gro Anita Haugmo			01-03-2017	07:51:45	194.140.240.2
+Rune Heggen Arntsen			01-03-2017	08:12:35	194.140.240.2
+Liv Sterten			01-03-2017	08:25:59	194.140.240.2
+Anne Marte Bye			01-03-2017	08:39:58	194.140.240.2
+Tine Lill Christensen			01-03-2017	08:45:35	194.140.240.2
+Thomas Holstad			01-03-2017	09:09:52	194.140.240.2
+Bjørnar Bolsøy			01-03-2017	15:23:20	194.140.240.2
+Carl F Rode Kjeldsberg			01-03-2017	16:37:18	194.140.240.2
+Jon Egil Grotvedt			02-03-2017	06:48:45	194.140.240.2
+Elin Ekern			02-03-2017	07:35:55	194.140.240.2
+Liv Sterten			02-03-2017	08:17:21	194.140.240.2
+Anne Marte Bye			02-03-2017	08:18:51	194.140.240.2
+Rune Heggen Arntsen			02-03-2017	08:31:40	51.175.48.124
+Thomas Holstad			02-03-2017	08:59:41	194.140.240.2
+Bjørnar Bolsøy			02-03-2017	13:24:37	194.140.240.2
+Carl F Rode Kjeldsberg			02-03-2017	16:58:32	194.140.240.2
+Thomas Holstad			02-03-2017	17:11:38	194.140.240.2
+Elin Ekern			03-03-2017	07:27:16	194.140.240.2
+Rune Heggen Arntsen			03-03-2017	08:46:06	51.175.48.124
+Bjørnar Bolsøy			03-03-2017	08:53:43	194.140.240.2
+Tine Lill Christensen			03-03-2017	11:49:34	194.140.240.2
+Thomas Holstad			03-03-2017	14:55:35	194.140.240.2
+Jon Egil Grotvedt			06-03-2017	06:52:20	194.140.240.2
+Elin Ekern			06-03-2017	07:52:50	194.140.240.2
+Liv Sterten			06-03-2017	08:08:07	194.140.240.2
+Tine Lill Christensen			06-03-2017	08:26:09	194.140.240.2
+Rune Heggen Arntsen			06-03-2017	08:30:20	51.175.48.124
+Thomas Holstad			06-03-2017	09:06:26	194.140.240.2
+Trude Olsen			06-03-2017	10:48:32	194.140.240.2
+Jon Egil Grotvedt			06-03-2017	12:58:51	194.140.240.2
+Thomas Teslo			06-03-2017	14:54:46	194.140.240.2
+Bjørnar Bolsøy			06-03-2017	15:31:37	194.140.240.2
+Carl F Rode Kjeldsberg			06-03-2017	15:32:56	194.140.240.2
+Thomas Holstad			06-03-2017	16:28:40	194.140.240.2
+Jon Egil Grotvedt			06-03-2017	20:23:30	194.140.240.2
+Elin Ekern			07-03-2017	07:33:25	194.140.240.2
+Liv Sterten			07-03-2017	08:17:07	194.140.240.2
+Anders Dahl-Hilstad			07-03-2017	08:21:02	194.140.240.2
+Rune Heggen Arntsen			07-03-2017	08:25:29	194.140.240.2
+Thomas Holstad			07-03-2017	08:58:52	194.140.240.2
+Tine Lill Christensen			07-03-2017	09:03:28	194.140.240.2
+Bjørnar Bolsøy			07-03-2017	10:01:55	194.140.240.2
+Rune Heggen Arntsen			07-03-2017	10:22:06	194.140.240.2
+Trude Olsen			07-03-2017	11:04:55	194.140.240.2
+Jon Egil Grotvedt			07-03-2017	11:23:50	194.140.240.2
+Trude Olsen			07-03-2017	11:54:17	194.140.240.2
+Carl F Rode Kjeldsberg			07-03-2017	16:08:38	194.140.240.2
+Thomas Holstad			07-03-2017	16:56:16	194.140.240.2
+Jon Egil Grotvedt			08-03-2017	06:33:38	194.140.240.2
+Gro Anita Haugmo			08-03-2017	07:00:48	194.140.240.2
+Elin Ekern			08-03-2017	07:25:42	194.140.240.2
+Rune Heggen Arntsen			08-03-2017	07:43:27	51.175.48.124
+Liv Sterten			08-03-2017	08:06:20	194.140.240.2
+Tine Lill Christensen			08-03-2017	08:39:38	194.140.240.2
+Trude Olsen			08-03-2017	10:11:39	194.140.240.2
+Knut Dullum			08-03-2017	16:53:05	194.140.240.2
+Elin Ekern			09-03-2017	07:37:51	194.140.240.2
+Rune Heggen Arntsen			09-03-2017	08:27:38	51.175.48.124
+Anne Marte Bye			09-03-2017	09:15:36	194.140.240.2
+Bjørnar Bolsøy			09-03-2017	09:48:33	194.140.240.2
+Elin Ekern			09-03-2017	13:35:58	194.140.240.2
+Thomas Holstad			09-03-2017	18:10:49	194.140.240.2
+Rune Heggen Arntsen			09-03-2017	21:35:15	51.175.48.124
+Jon Egil Grotvedt			10-03-2017	07:04:55	194.140.240.2
+Elin Ekern			10-03-2017	07:23:59	194.140.240.2
+Rune Heggen Arntsen			10-03-2017	07:50:45	51.175.48.124
+Thomas Holstad			10-03-2017	08:58:36	194.140.240.2
+Tine Lill Christensen			10-03-2017	09:22:13	194.140.240.2
+Anders Dahl-Hilstad			10-03-2017	12:20:39	194.140.240.2
+Bjørnar Bolsøy			10-03-2017	14:40:27	194.140.240.2
+Thomas Holstad			10-03-2017	17:05:29	194.140.240.2
+Rune Heggen Arntsen			12-03-2017	10:16:55	51.175.48.124
+Jon Egil Grotvedt			12-03-2017	16:22:37	194.140.240.2
+Rune Heggen Arntsen			12-03-2017	16:54:16	51.175.48.124
+Elin Ekern			13-03-2017	07:40:13	194.140.240.2
+Rune Heggen Arntsen			13-03-2017	08:12:46	51.175.48.124
+Tine Lill Christensen			13-03-2017	10:09:31	194.140.240.2
+Anne Marte Bye			13-03-2017	10:22:17	194.140.240.2
+Jon Egil Grotvedt			14-03-2017	06:52:10	194.140.240.2
+Rune Heggen Arntsen			14-03-2017	07:00:19	194.140.240.2
+Elin Ekern			14-03-2017	07:36:09	194.140.240.2
+Liv Sterten			14-03-2017	08:06:32	194.140.240.2
+Liv Sterten			14-03-2017	08:16:32	194.140.240.2
+Tine Lill Christensen			14-03-2017	08:29:09	194.140.240.2
+Thomas Holstad			14-03-2017	08:59:49	194.140.240.2
+Anne Marte Bye			14-03-2017	10:41:18	194.140.240.2
+Thomas Holstad			14-03-2017	16:03:18	194.140.240.2
+Thomas Holstad			14-03-2017	16:31:58	194.140.240.2
+Rune Heggen Arntsen			14-03-2017	18:24:25	193.214.5.20
+Rune Heggen Arntsen			14-03-2017	21:51:00	213.115.120.174
+Elin Ekern			15-03-2017	07:41:15	194.140.240.2
+Jon Egil Grotvedt			15-03-2017	07:44:42	194.140.240.2
+Liv Sterten			15-03-2017	07:58:00	194.140.240.2
+Thomas Holstad			15-03-2017	08:43:23	194.140.240.2
+Carl F Rode Kjeldsberg			15-03-2017	10:09:19	194.140.240.2
+Tine Lill Christensen			15-03-2017	12:16:57	194.140.240.2
+Stian Holmen			15-03-2017	14:25:02	194.140.240.2
+Jon Egil Grotvedt			15-03-2017	14:30:06	194.140.240.2
+Carl Fredrik Lindeman			15-03-2017	14:34:01	194.140.240.2
+Carl Fredrik Lindeman			15-03-2017	15:39:45	194.140.240.2
+Fredrik Jernberg			15-03-2017	15:46:00	194.140.240.2
+Thomas Holstad			15-03-2017	15:57:26	194.140.240.2
+Trude Olsen			15-03-2017	21:53:43	194.140.240.2
+Rune Heggen Arntsen			16-03-2017	08:33:29	194.140.240.2
+Thomas Holstad			16-03-2017	08:53:26	194.140.240.2
+Thomas Holstad			16-03-2017	08:53:29	194.140.240.2
+Tine Lill Christensen			16-03-2017	11:41:44	194.140.240.2
+Carl F Rode Kjeldsberg			16-03-2017	14:19:33	194.140.240.2
+Thomas Holstad			16-03-2017	16:34:27	194.140.240.2
+Trude Olsen			16-03-2017	16:36:25	194.140.240.2
+Rune Heggen Arntsen			16-03-2017	17:42:58	194.140.240.2
+Jon Egil Grotvedt			17-03-2017	06:54:34	194.140.240.2
+Elin Ekern			17-03-2017	07:51:13	194.140.240.2
+Elin Ekern			17-03-2017	08:03:52	194.140.240.2
+Tine Lill Christensen			17-03-2017	08:12:48	194.140.240.2
+Rune Heggen Arntsen			17-03-2017	08:17:27	51.175.48.124
+Trude Olsen			17-03-2017	08:56:18	194.140.240.2
+Thomas Holstad			17-03-2017	09:04:52	194.140.240.2
+Trude Olsen			17-03-2017	13:08:37	194.140.240.2
+Carl F Rode Kjeldsberg			17-03-2017	15:19:02	194.140.240.2
+Tine Lill Christensen			17-03-2017	15:28:45	194.140.240.2
+Thomas Holstad			17-03-2017	16:19:08	194.140.240.2
+Rune Heggen Arntsen			18-03-2017	18:37:07	51.175.48.124
+Rune Heggen Arntsen			18-03-2017	21:22:26	51.175.48.124
+Rune Heggen Arntsen			18-03-2017	22:43:22	51.175.48.124
+Rune Heggen Arntsen			19-03-2017	10:15:46	51.175.48.124
+Jon Egil Grotvedt			20-03-2017	06:58:15	194.140.240.2
+Elin Ekern			20-03-2017	07:38:43	194.140.240.2
+Tine Lill Christensen			20-03-2017	08:16:12	194.140.240.2
+Fredrik Jernberg			20-03-2017	08:42:06	194.140.240.2
+Thomas Teslo			20-03-2017	08:53:05	194.140.240.2
+Thomas Holstad			20-03-2017	09:00:22	194.140.240.2
+Anne Marte Bye			20-03-2017	09:48:09	194.140.240.2
+Tine Lill Christensen			20-03-2017	10:29:23	194.140.240.2
+Tine Lill Christensen			20-03-2017	11:06:55	194.140.240.2
+Bjørnar Bolsøy			20-03-2017	11:13:10	194.140.240.2
+Bjørnar Bolsøy			20-03-2017	11:13:38	194.140.240.2
+Fredrik Jernberg			20-03-2017	11:14:15	194.140.240.2
+Liv Sterten			20-03-2017	12:28:55	194.140.240.2
+Knut Dullum			20-03-2017	14:59:11	194.140.240.2
+Carl Fredrik Lindeman			20-03-2017	15:56:59	194.140.240.2
+Carl F Rode Kjeldsberg			20-03-2017	16:18:34	194.140.240.2
+Rune Heggen Arntsen			20-03-2017	19:03:14	51.175.48.124
+Jon Egil Grotvedt			21-03-2017	07:01:54	194.140.240.2
+Anne Marte Bye			21-03-2017	07:30:46	194.140.240.2
+Elin Ekern			21-03-2017	07:42:58	194.140.240.2
+Liv Sterten			21-03-2017	08:21:50	194.140.240.2
+Tine Lill Christensen			21-03-2017	08:27:47	85.165.236.96
+Fredrik Jernberg			21-03-2017	08:30:32	194.140.240.2
+Bjørnar Bolsøy			21-03-2017	08:54:44	194.140.240.2
+Thomas Holstad			21-03-2017	08:58:55	194.140.240.2
+Carl Fredrik Lindeman			21-03-2017	10:43:17	194.140.240.2
+Thomas Holstad			21-03-2017	16:15:53	194.140.240.2
+Carl F Rode Kjeldsberg			21-03-2017	16:39:33	194.140.240.2
+Rune Heggen Arntsen			21-03-2017	16:49:49	194.140.240.2
+Fredrik Jernberg			21-03-2017	17:31:03	194.140.240.2
+Jon Egil Grotvedt			22-03-2017	06:44:28	194.140.240.2
+Elin Ekern			22-03-2017	07:07:17	194.140.240.2
+Liv Sterten			22-03-2017	08:14:11	194.140.240.2
+Tine Lill Christensen			22-03-2017	08:32:42	194.140.240.2
+Fredrik Jernberg			22-03-2017	08:43:20	194.140.240.2
+Thomas Holstad			22-03-2017	09:00:34	194.140.240.2
+Carl Fredrik Lindeman			22-03-2017	09:07:12	194.140.240.2
+Fredrik Jernberg			22-03-2017	14:08:26	194.140.240.2
+Elin Ekern			23-03-2017	07:41:07	194.140.240.2
+Fredrik Jernberg			23-03-2017	08:25:51	194.140.240.2
+Liv Sterten			23-03-2017	08:26:35	194.140.240.2
+Tine Lill Christensen			23-03-2017	08:30:27	194.140.240.2
+Thomas Holstad			23-03-2017	08:37:39	194.140.240.2
+Carl F Rode Kjeldsberg			23-03-2017	09:46:17	194.140.240.2
+Carl Fredrik Lindeman			23-03-2017	13:53:27	194.140.240.2
+TimeOut - Support			23-03-2017	15:45:42	62.116.192.234
+Fredrik Jernberg			23-03-2017	16:20:11	194.140.240.2
+Carl Fredrik Lindeman			23-03-2017	16:58:01	194.140.240.2
+Jon Egil Grotvedt			24-03-2017	06:55:08	194.140.240.2
+Elin Ekern			24-03-2017	07:11:16	194.140.240.2
+Rune Heggen Arntsen			24-03-2017	08:04:58	51.175.48.124
+Liv Sterten			24-03-2017	08:15:50	194.140.240.2
+Fredrik Jernberg			24-03-2017	08:44:27	194.140.240.2
+Carl Fredrik Lindeman			24-03-2017	08:57:01	194.140.240.2
+Thomas Holstad			24-03-2017	08:58:31	194.140.240.2
+Tine Lill Christensen			24-03-2017	09:21:42	194.140.240.2
+Tine Lill Christensen			24-03-2017	15:48:42	194.140.240.2
+Rune Heggen Arntsen			25-03-2017	10:53:16	51.175.48.124
+Rune Heggen Arntsen			25-03-2017	14:00:06	51.175.48.124
