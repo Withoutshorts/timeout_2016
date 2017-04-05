@@ -176,13 +176,24 @@ $(document).ready(function () {
 
     $(".tilfoj_akt").click(function () {
 
-
+        thisid = this.id
+       
         jobid = $("#FM_jobid").val()
         aktid = $("#FM_aktid").val()
         medid = $("#FM_medid_id").val()
 
-        $("#FN_akt_tilfojed").css("display", "");
-        $("#FN_akt_tilfojed").css("visibility", "visible");
+        //alert(thisid)
+
+       // next_akt_id = $(".next_akt_id").attr('id')
+       // var akt_id_lngt = next_akt_id.length
+       // var akt_id_trim = next_akt_id.slice(16, akt_id_lngt)
+       // this_next_akt_id = akt_id_trim
+
+       // alert("id " + next_akt_id)
+
+        $("#FN_akt_tilfojed_" + thisid).css("display", "");
+        $("#FN_akt_tilfojed_" + thisid).css("visibility", "visible");
+        
 
         //alert(medid)
 
@@ -193,8 +204,15 @@ $(document).ready(function () {
             
             //alert("cc")
 
+            //next_akt_id = $(".next_akt_id").val()
+
+            alert("id " + thisid)
+
+            $('input[id="next_akt_jobid_'+ thisid +'"]').val(jobid);
+            $('input[id="next_akt_aktid_' + thisid + '"]').val(aktid);
             
             
+            alert(thisid)
             
         });
 

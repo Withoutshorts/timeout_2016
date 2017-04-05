@@ -629,15 +629,27 @@
                                         
                                     </tr> -->
 
-                                    <tr style="visibility:hidden; display:none;" id="FN_akt_tilfojed">
-                                        <td><input type="text" value="<%=akt_jobid %>" /></td>
-                                        <td><input type="text" value="<%=akt_aktid %>" /></td>
+                                    <%
+                                        next_akt_id = 0 
+                                        for a = 0 to 5
+                                        next_akt_id = next_akt_id + 1
+
+                                        response.Write "next_akt_id :" & next_akt_id
+                                    %>
+                                    <tr class="next_akt_id" style="visibility:hidden; display:none;" id="FN_akt_tilfojed_<%=next_akt_id %>">
+                                        <td><input type="text" value="" id="next_akt_jobid_<%=next_akt_id %>" class="form-control input-small" readonly /></td>
+                                        <td><input type="text" value="" id="next_akt_aktid_<%=next_akt_id %>" class="form-control input-small" readonly /></td>
 
 
-                                        <%for i = 0 to 8 %>
-                                        <td></td>
+                                        <%for i = 0 to 6 %>
+                                        <td><input type="text" style="width:75px;" class="form-control input-small" name="FM_timerdag" value="0" /></td>
                                         <%next %>
+                                        <td>&nbsp</td>
+                                        <td>&nbsp</td>
                                     </tr>    
+                                    <%
+                                        next 
+                                    %>
 
                                     <tr>  
 
@@ -658,11 +670,11 @@
                                             <!--<div id="dv_akt"></div> -->
                                             <select id="dv_akt" class="form-control input-small chbox_akt" size="10" style="visibility:hidden; display:none;">
                                                 <option><%=week_txt_007 %>..</option>
-                                            </select>
+                                            </select>                                     
                                         </td>
                                         <td style="text-align:center">
                                             <input type="hidden" id="FM_medid_id" value="<%=medid %>" />
-                                            <button type="submit" class="tilfoj_akt btn btn-success btn-sm"><b>Tilføj</b></button>
+                                            <button type="submit" class="tilfoj_akt btn btn-success btn-sm" id="1"><b>Tilføj</b></button>
                                             <div id="dv_akttil"></div>
                                         </td>
                                         <% for d = 0 to 7 %>
