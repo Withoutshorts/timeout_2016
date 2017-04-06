@@ -1041,7 +1041,7 @@ if len(session("user")) = 0 then
                     <tr>
                         <!--<td style="padding-right:5px; padding-top:10px; vertical-align:text-top;"><b><%=left(tsa_txt_066, 5) %>/<%=tsa_txt_236 %>:</b></td>-->
                         <td style="padding-top:10px; padding-left:10px;">
-                             <input type="hidden" name="varTjDatoUS_man" value="<%=varTjDatoUS_man %>">
+                            <input type="hidden" name="varTjDatoUS_man" value="<%=varTjDatoUS_man %>">
         
                             <input type="hidden" name="usemrn" id="treg_usemrn" value="<%=usemrn%>">
 

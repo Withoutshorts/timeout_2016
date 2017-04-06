@@ -423,12 +423,15 @@ dblkostprisUse = replace(dblkostprisUse, ",", ".")
 				&" "& timerthis &", '"& SQLBless2(kommthis) &"', "_
 				&" '" & SQLBless2(strJobknavn) & "', " & strJobknr & ", "_
 				&" "& aktid &", '"& SQLBless2(aktnavn) &"', "_
-				&" "& tfaktimvalue &", "& strYear &", "& SQLBless(intTimepris) &", "_
+				&" "& tfaktimvalue &", 2017, "& SQLBless(intTimepris) &", "_
 				&" '"&year(now)&"/"&month(now)&"/"&day(now)&"', '"& strFastpris  &"', "_
 				&" '" & time & "', '"& session("user") &"', "& dblkostprisUse &", "_
 				&" "& offentlig &", "& intServiceAft &", '"&sTtid&"', '"&sLtid&"', "_
-				&" "& intValuta &", "& dblKurs &", "& bopal &", '"& destination &"', "& origin &", '"& extsysid &"', "& intKpValuta &", "& kpvaluta_kurs &")"
+				&" "& intValuta &", "& dblKurs &", "& bopal &", 'dist', "& origin &", '0', "& intKpValuta &", "& kpvaluta_kurs &")"
 				
+                'response.Write "<br><br><br>" & strSQLins
+                'response.flush 
+
 				end if
 				
 				

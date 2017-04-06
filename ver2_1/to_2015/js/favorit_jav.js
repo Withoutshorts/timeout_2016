@@ -173,15 +173,23 @@ $(document).ready(function () {
 
     }
 
+    var clicks = 1;
 
     $(".tilfoj_akt").click(function () {
 
-        thisid = this.id
+        //thisid = this.id
        
         jobid = $("#FM_jobid").val()
         aktid = $("#FM_aktid").val()
         medid = $("#FM_medid_id").val()
 
+        jobnavn = $("#FM_job").val()
+        aktnavn = $("#FM_akt").val()
+
+        next_akt_id = $("#next_akt_id").val()
+
+        //alert (medid)
+        
         //alert(thisid)
 
        // next_akt_id = $(".next_akt_id").attr('id')
@@ -191,14 +199,13 @@ $(document).ready(function () {
 
        // alert("id " + next_akt_id)
 
-        $("#FN_akt_tilfojed_" + thisid).css("display", "");
-        $("#FN_akt_tilfojed_" + thisid).css("visibility", "visible");
+       
         
 
         //alert(medid)
 
         $.post("?FM_jobid=" + jobid + "&FM_aktid=" + aktid + "&FM_medid_id=" + medid, { control: "tilfoj_akt", AjaxUpdateField: "true" }, function (data) {
-
+            //alert("fe")
             $("#dv_akttil").html(data);
 
             
@@ -206,13 +213,26 @@ $(document).ready(function () {
 
             //next_akt_id = $(".next_akt_id").val()
 
-            alert("id " + thisid)
+            $("#FN_akt_tilfojed_" + next_akt_id).css("display", "");
+            $("#FN_akt_tilfojed_" + next_akt_id).css("visibility", "visible");
 
-            $('input[id="next_akt_jobid_'+ thisid +'"]').val(jobid);
-            $('input[id="next_akt_aktid_' + thisid + '"]').val(aktid);
+            $('input[id="next_akt_jobid_' + next_akt_id + '"]').val(jobnavn);
+            $('input[id="next_akt_aktid_' + next_akt_id + '"]').val(aktnavn);
             
+            clicks++;
+
+            if (clicks > 11)
+            {
+                alert("Klik submit inden du opretter flere aktiviteter")
+            }
+
+            //alert(clicks)
+
+            $("#next_akt_id").val(clicks)
             
-            alert(thisid)
+            $("#FM_job").val("")
+            $("#FM_akt").val("")
+            
             
         });
 

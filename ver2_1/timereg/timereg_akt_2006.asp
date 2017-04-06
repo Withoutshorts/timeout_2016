@@ -15,10 +15,7 @@
     'Response.Write "request.Cookies(tsa)(usegl2006) " & request.Cookies("tsa")("usegl2006")
     %>
     
-<!--
-<META HTTP-EQUIV="CACHE-CONTROL" CONTENT="NO-CACHE">
-<META HTTP-EQUIV="EXPIRES" CONTENT="Mon, 22 Jul 2002 11:12:01 GMT">
-    -->
+
 
     
     <!--#include file="../inc/connection/conn_db_inc.asp"-->
@@ -4609,7 +4606,7 @@
 	multitildel = 1
 	else
 	multitildel = 0
-	end if
+	end if 
 	
 	if len(trim(request("tildeliheledageSet"))) <> 0 AND multitildel = 1 then
 
@@ -4694,7 +4691,17 @@
                     
 
                     'response.write "HER:"
+                    'response.write "extsysid" & request("extsysid") & "<br> easyreg - ikke bruges" & request.cookies("easyreg") & "<br> jobid: - ikke bruges" & request("jobid") & "<br> tildelalle: - ikke bruges" & request("tildelalle")
+                    'response.Write "<br> fm_startdag: " & request("FM_start_dag") & "<br> fm_startmd: " & request("FM_start_mrd") & "<br> fm_startar: " &  straar = request("FM_start_aar") & 
+                    
 
+                    'response.write "<br>" & request("extsysid")
+                    'response.write "<br>" & request("year")
+                    'response.Write "<br> jobidS :" & request("FM_jobid") & "<br> aktidS:" & request("FM_aktivitetid")
+                    'response.Write "<br> Medids: " & request("FM_medid")
+
+                    
+                    
                     'response.write "FM_dager, FM_feltnr, dato;:"& request("FM_datoer") &" <br>jobid: "& request("FM_jobid") & "<br>aktid: " & request("FM_aktivitetid") & "<br>medid: "& request("FM_medid") & "<br>timer "& request("FM_timer")
 
                     'response.end
@@ -4765,6 +4772,25 @@
 	                
 	                
 	               
+
+
+                    response.write "<br>" & request("extsysid")
+                    response.write "<br>" & request("year")
+                    response.Write "<br> jobidS :" & request("FM_jobid") & "<br> aktidS:" & request("FM_aktivitetid")
+                    response.Write "<br> Medids: " & request("FM_medid")
+                    response.Write "<br><br><br><br>"
+
+                    response.Write "<br> Timer: " & request("FM_timer")
+                    response.Write "<br> dager: " & request("FM_dager")
+                    response.Write "<br> datoer: " & request("FM_datoer")
+                    response.Write "<br> tidst: " & request("FM_sttid")
+                    response.Write "<br> tidsl: " & request("FM_sltid")
+                    response.Write "<br> feltnr: " & request("FM_feltnr")
+                    response.Write "<br> realid: " & request("FM_vistimereltid")
+                    response.Write "<br> realid: " & Request("year")
+        
+
+
                 	
 	                 
 	                
@@ -5590,14 +5616,17 @@
     				        muDag = 0
 				            useDato = datoer(y)
 
-                            if rdir = "xtimetag_web" OR rdir = "ugeseddel_2011" then
+                            if rdir = "xtimetag_web" OR rdir = "ugeseddel_2011" or rdir = "favorit.asp" then
                             useDage = ""
                             usetSltid = ""
                             usetSttid = ""
                             else
-				            useDage = tDage(y)
-                            usetSltid = tSltid(y)
-                            usetSttid = tSttid(y)
+				            'useDage = tDage(y)
+                            'usetSltid = tSltid(y)
+                            'usetSttid = tSttid(y)
+                            useDage = ""
+                            usetSltid = ""
+                            usetSttid = ""
 				            end if  
                                  
                            
@@ -5743,7 +5772,14 @@
         next 'm (multideldel)
 	
 	    
-	    '** Tjekker indlæs værdier **' 
+	    '** Tjekker indlæs værdier **'
+                                
+                                
+                                
+        response.Write "<br><br><br><br>"
+        response.Write "TEst" & aktids(j) 
+       
+                                 
 	    'Response.end
 	
 	
@@ -5981,7 +6017,8 @@
 
         Response.Redirect "../to_2015/ugeseddel_2011.asp?usemrn="&usemrn&"&varTjDatoUS_man="&varTjDatoUS_man&"&FM_datoer="& useDato
 
-        
+        case "favorit"
+                                 Response.Redirect "../to_2015/favorit.asp?usemrn="&usemrn&"&varTjDatoUS_man="&varTjDatoUS_man&"&FM_datoer="& useDato
 
         case else
 	    Response.Redirect "timereg_akt_2006.asp?showakt=1" 
@@ -5993,7 +6030,7 @@
 	
 	end if '** func = db **'
 	
-	
+	wd
 
     
     '**************************************************************'

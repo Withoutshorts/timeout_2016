@@ -249,7 +249,7 @@
    
 </style>
 
-<%call menu_2014 %>
+
 <div class="wrapper">
 <div class="content">
 
@@ -263,11 +263,22 @@
        response.End
 	end if
 
+    call menu_2014
 
     func = request("func")
 
 
-	'call menu_2014 
+	if func = "db" then
+
+
+        aktids = request("FM_aktivitetids")
+        strAktNavn = request("FM_aktnavn")
+
+        response.Write "test tekst: " & aktids & strAktNavn
+        response.End
+
+
+    end if
 
 
     stDato = request("stDato")
@@ -349,6 +360,9 @@
 
         response.Redirect "favorit.asp"
 
+
+
+
     case else
 
 %>
@@ -362,6 +376,9 @@
                     <div class="portlet-body">
 
                         <form action="favorit.asp?sogsubmitted=1" method="post">
+
+                         
+
                         <input type="hidden" name="varTjDatoUS_man" id="varTjDatoUS_man" value="<%=varTjDatoUS_man %>">
                         <div class="row">
                             <div class="col-lg-3">
@@ -395,6 +412,8 @@
                                 </select>
                             </div>
 
+                            
+
                             <div class="col-lg-2">
                                 <div class='input-group date' id='datepicker_stdato'>
                                 <input type="text" class="form-control input-small" name="aarslut" value="<%=aarslut %>" placeholder="dd-mm-yyyy" />
@@ -411,8 +430,18 @@
                         </form>
                         <%response.Write "id: " & medid%>
 
+                        <form action="../timereg/timereg_akt_2006.asp?func=db&rdir=favorit" method="post">
 
-                        <table class="table dataTable table-striped table-bordered ui-datatable">
+                            <input type="hidden" name="FM_medid" value="<%=medid %>" />
+                            <input type="hidden" id="Hidden4" name="FM_dager" value="7"/>
+                            <input type="hidden" name="FM_sttid" value="00:00"/>
+                            <input type="hidden" name="FM_sltid" value="00:00"/>
+                            <input type="hidden" id="" name="FM_vistimereltid" value="0"/>
+
+
+                        <table class="table table-striped dataTable table-bordered ui-datatable">
+                            
+                            
 
                             <thead>
                                 <tr>
@@ -475,7 +504,7 @@
 
                                         oRec3.open StrSQLjob, oConn, 3
                                         if not oRec3.EOF then
-
+                                        jobids = oRec3("id")
                                         jobnavn = oRec3("jobnavn")
 
                                         StrSQLakt = "SELECT id, navn, beskrivelse, budgettimer FROM aktiviteter WHERE id ="& aktid
@@ -489,8 +518,11 @@
                                         
                                         %>
                                         <tr>
-                                            <td><%=jobnavn %></td>
-                                            <td><%=aktNavn %>
+                                            <td><input type="hidden" value="<%=jobids %>" name="FM_jobid" />
+                                                <%=jobnavn %></td>
+                                            <td>
+                                                <input type="hidden" value="<%=TaktId %>" name="FM_aktivitetid" />
+                                                <%=aktNavn %>
 
                                                 <span id="modal_<%=TaktId %>" style="color:cornflowerblue;" class="fa fa-book pull-right picmodal"></span>                                               
                                                 <div id="myModal_<%=TaktId %>" style="display:none">
@@ -540,22 +572,39 @@
 
                                                     timerdato = year(timerdato) & "-" & month(timerdato) & "-" & day(timerdato) 
 
-                                                    StrSQLtimer = "SELECT TAktivitetId, Timer FROM timer WHERE TAktivitetId ="& TaktId & " AND tdato = "& "'" & timerdato & "'"
+                                                    StrSQLtimer = "SELECT TAktivitetId, Timer, extsysId, tdato FROM timer WHERE TAktivitetId ="& TaktId & " AND tdato = "& "'" & timerdato & "'"
                                                 
                                                      oRec4.open StrSQLtimer, oConn, 3
                                                      if not oRec4.EOF then
                                                 
+                                                     Stryear = oRec4("tdato")
                                                      timerdag = oRec4("Timer")
                                                     
                                                     %>
-                                                        <td><input type="text" style="width:75px;" class="form-control input-small" name="FM_timerdag" value="<%=timerdag %>" /></td>
+                                                        <td>
+                                                            <input type="hidden" name="FM_feltnr" value="<%=l %>" />
+                                                            <input type="hidden" name="year" value="<%=year(now) %>" />
+                                                            <input type="hidden" value="<%=oRec4("extsysId")%>" name="extsysId" />
+                                                            <input type="hidden" value="<%=timerdato %>" name="FM_datoer" />
+                                                            <input type="hidden" value="dist" name="FM_destination_<%=l %>" />
+                                                            <input type="text" style="width:75px;" class="form-control input-small" name="FM_timer" value="<%=timerdag %>" />
+                                                            <input type="hidden" name="FM_timer" value="xx"/>
+                                                            <input type="hidden" id="FM_kom" name="FM_kom_<%=l %>" placeholder="<%=tsa_txt_051%>" class="form-control input-small"/>
+                                                        </td>
                                                     <%
 
 
                                                     else
                                                     timerdag = 0
                                                     %>
-                                                        <td><input type="text" style="width:75px;" class="form-control input-small" name="FM_timerdag" value="<%=timerdag %>" /></td>
+                                                        <td>
+                                                            <input type="hidden" name="FM_feltnr" value="<%=l %>" />
+                                                            <!-- <input type="hidden"name="year" value="<%=year(Stryear) %>" /> -->
+                                                            <input type="hidden" value="<%=timerdato %>" name="FM_datoer" />
+                                                            <input type="text" style="width:75px;" class="form-control input-small" name="FM_timer" value="<%=timerdag %>" />
+                                                            <input type="hidden" name="FM_timer" value="xx"/>
+                                                            <input type="text" id="FM_kom" name="FM_kom_<%=l %>" placeholder="<%=tsa_txt_051%>" class="form-control input-small"/>
+                                                        </td>
                                                     <%
 
                                                      end if 
@@ -631,7 +680,7 @@
 
                                     <%
                                         next_akt_id = 0 
-                                        for a = 0 to 5
+                                        for a = 0 to 10
                                         next_akt_id = next_akt_id + 1
 
                                         response.Write "next_akt_id :" & next_akt_id
@@ -651,7 +700,7 @@
                                         next 
                                     %>
 
-                                    <tr>  
+                                    <tr style="border-bottom:inherit">  
 
                                         <input type="hidden" value="0" name="FM_pa" />
                                         <input type="hidden" id="FM_jobid" value=""/>
@@ -672,20 +721,29 @@
                                                 <option><%=week_txt_007 %>..</option>
                                             </select>                                     
                                         </td>
-                                        <td style="text-align:center">
-                                            <input type="hidden" id="FM_medid_id" value="<%=medid %>" />
-                                            <button type="submit" class="tilfoj_akt btn btn-success btn-sm" id="1"><b>Tilføj</b></button>
+                                        
+                                        <td style="text-align:center;" colspan="9">
+                                           <input type="hidden" id="FM_medid_id" class="form-control input-small" value="<%=medid %>" />
+                                            <input type="hidden" value="1" id="next_akt_id" />                                                                                      
+                                            <a class="tilfoj_akt btn btn-default btn-sm" id="1" style="width:100%"><b>Tilføj</b></a>
                                             <div id="dv_akttil"></div>
-                                        </td>
-                                        <% for d = 0 to 7 %>
-                                        <td></td>
-                                        <%next %>
+                                        </td>                                     
                                     </tr>
+                                    
 
                             </tbody>
 
                         </table>
 
+
+                        <div class="row">
+                            <div class="col-lg-10">&nbsp</div>
+                            <div class="col-lg-2 pad-b10">
+                                <button type="submit" class="btn btn-success btn-sm pull-right"><b>Opdatér</b></button>
+                            </div>
+                        </div>
+
+                        </form>
   
                            
                             <%
