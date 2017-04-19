@@ -15,7 +15,10 @@
     'Response.Write "request.Cookies(tsa)(usegl2006) " & request.Cookies("tsa")("usegl2006")
     %>
     
-
+<!--
+<META HTTP-EQUIV="CACHE-CONTROL" CONTENT="NO-CACHE">
+<META HTTP-EQUIV="EXPIRES" CONTENT="Mon, 22 Jul 2002 11:12:01 GMT">
+    -->
 
     
     <!--#include file="../inc/connection/conn_db_inc.asp"-->
@@ -927,6 +930,27 @@
             strSQLAktDatoKri = ""
 	        end if
 
+           
+            if cint(intEasyreg) = 1 then
+
+                    call showEasyreg_fn()
+                    'select case lto
+                    'case "dencker", "intranet - local"
+
+                        if cint(showeasyreg_per) <> 0 then 
+
+                        ugeSlDato3uger = dateadd("d", -showeasyreg_per, stDato)   
+                        ugeSlDato3uger = year(ugeSlDato3uger) &"/"& month(ugeSlDato3uger) &"/"& day(ugeSlDato3uger)      
+                        strSQLAktDatoKri = " AND (j.jobstartdato >= '"& ugeSlDato3uger &"')"
+
+                        end if
+                    'end select 
+
+             end if
+
+
+
+
             '**** Table aktiviteter start ***
             'strAktiviteter = "<table><form action=""timereg_akt_2006.asp?func=db"" method=""post""><tr><td><input type=""text"" name=""FM_timer"" id=""FM_timer"" value=""2"">TImer<br><input type=submit></td></tr></form></table>"
             'Response.write strAktiviteter
@@ -1540,7 +1564,7 @@
                                   
                                 
                                     
-                                    if intEasyreg = 1 then
+                                    if cint(intEasyreg) = 1 then
 
                                          ordBySQL =  "a.fase, a.sortorder, a.navn"
                                          lmt = "0,150"
@@ -1584,6 +1608,8 @@
 
                                     strSQLakt = strSQLakt & aktidsSQL &")" & strSQLAktDatoKri & " "& strSQLAktStatusKri &" "& forecastAktids &" "& strJobnrJobnavnSog &" GROUP BY a.id ORDER BY " & ordBySQL & " LIMIT " & lmt
                                     
+                                      
+
                                     'if session("mid") = 1 then
                                     'Response.Write "<br> sql: "& strSQLakt & "<br>"
                                     'Response.write "lto" & lto
@@ -2489,7 +2515,7 @@
                                                             '****************************************
                                                             
 
-                                                            if (cint(aktBudgettjkOn) = 1) AND (job_fakturerbar = 1 OR job_fakturerbar = 90) _
+                                                            if (cint(aktBudgettjkOn) = 1) AND (job_fakturerbar = 1 OR (job_fakturerbar = 2 AND (lto = "bf" OR lto = "intranet - local")) OR job_fakturerbar = 90) _
                                                             OR (lto = "oko" AND left(aktnavn, 10) = "Intern tid")  then
                                                                          
                                                               
@@ -4168,7 +4194,7 @@
         end select
 
 
-
+       
 
         
         if cint(ignProj) = 0 AND cint(vissmartreg) <> 1 then
@@ -4222,9 +4248,9 @@
         end if
         
         'if session("mid") = 1 then
-        ' response.Write strSQL & " <br>seljobid: " & seljobid
-        ' Response.write "</option></select>"
-        ' Response.end
+        'response.Write strSQL & " <br>seljobid: " & seljobid
+        'Response.write "</option></select>"
+        'Response.end
         'end if
         
         lastknr = 0
@@ -4606,7 +4632,7 @@
 	multitildel = 1
 	else
 	multitildel = 0
-	end if 
+	end if
 	
 	if len(trim(request("tildeliheledageSet"))) <> 0 AND multitildel = 1 then
 
@@ -4691,17 +4717,7 @@
                     
 
                     'response.write "HER:"
-                    'response.write "extsysid" & request("extsysid") & "<br> easyreg - ikke bruges" & request.cookies("easyreg") & "<br> jobid: - ikke bruges" & request("jobid") & "<br> tildelalle: - ikke bruges" & request("tildelalle")
-                    'response.Write "<br> fm_startdag: " & request("FM_start_dag") & "<br> fm_startmd: " & request("FM_start_mrd") & "<br> fm_startar: " &  straar = request("FM_start_aar") & 
-                    
 
-                    'response.write "<br>" & request("extsysid")
-                    'response.write "<br>" & request("year")
-                    'response.Write "<br> jobidS :" & request("FM_jobid") & "<br> aktidS:" & request("FM_aktivitetid")
-                    'response.Write "<br> Medids: " & request("FM_medid")
-
-                    
-                    
                     'response.write "FM_dager, FM_feltnr, dato;:"& request("FM_datoer") &" <br>jobid: "& request("FM_jobid") & "<br>aktid: " & request("FM_aktivitetid") & "<br>medid: "& request("FM_medid") & "<br>timer "& request("FM_timer")
 
                     'response.end
@@ -4772,25 +4788,6 @@
 	                
 	                
 	               
-
-
-                    response.write "<br>" & request("extsysid")
-                    response.write "<br>" & request("year")
-                    response.Write "<br> jobidS :" & request("FM_jobid") & "<br> aktidS:" & request("FM_aktivitetid")
-                    response.Write "<br> Medids: " & request("FM_medid")
-                    response.Write "<br><br><br><br>"
-
-                    response.Write "<br> Timer: " & request("FM_timer")
-                    response.Write "<br> dager: " & request("FM_dager")
-                    response.Write "<br> datoer: " & request("FM_datoer")
-                    response.Write "<br> tidst: " & request("FM_sttid")
-                    response.Write "<br> tidsl: " & request("FM_sltid")
-                    response.Write "<br> feltnr: " & request("FM_feltnr")
-                    response.Write "<br> realid: " & request("FM_vistimereltid")
-                    response.Write "<br> realid: " & Request("year")
-        
-
-
                 	
 	                 
 	                
@@ -5616,17 +5613,14 @@
     				        muDag = 0
 				            useDato = datoer(y)
 
-                            if rdir = "xtimetag_web" OR rdir = "ugeseddel_2011" or rdir = "favorit.asp" then
+                            if rdir = "xtimetag_web" OR rdir = "ugeseddel_2011" or rdir = "favorit" then
                             useDage = ""
                             usetSltid = ""
                             usetSttid = ""
                             else
-				            'useDage = tDage(y)
-                            'usetSltid = tSltid(y)
-                            'usetSttid = tSttid(y)
-                            useDage = ""
-                            usetSltid = ""
-                            usetSttid = ""
+				            useDage = tDage(y)
+                            usetSltid = tSltid(y)
+                            usetSttid = tSttid(y)
 				            end if  
                                  
                            
@@ -5772,14 +5766,7 @@
         next 'm (multideldel)
 	
 	    
-	    '** Tjekker indlæs værdier **'
-                                
-                                
-                                
-        response.Write "<br><br><br><br>"
-        response.Write "TEst" & aktids(j) 
-       
-                                 
+	    '** Tjekker indlæs værdier **' 
 	    'Response.end
 	
 	
@@ -6018,7 +6005,7 @@
         Response.Redirect "../to_2015/ugeseddel_2011.asp?usemrn="&usemrn&"&varTjDatoUS_man="&varTjDatoUS_man&"&FM_datoer="& useDato
 
         case "favorit"
-                                 Response.Redirect "../to_2015/favorit.asp?usemrn="&usemrn&"&varTjDatoUS_man="&varTjDatoUS_man&"&FM_datoer="& useDato
+        Response.Redirect "../to_2015/favorit.asp?"
 
         case else
 	    Response.Redirect "timereg_akt_2006.asp?showakt=1" 
@@ -6030,7 +6017,7 @@
 	
 	end if '** func = db **'
 	
-	wd
+	
 
     
     '**************************************************************'
@@ -8407,7 +8394,7 @@
 	<h4>Easyreg. listen 
 	    <%if level = 1 then %>
         <span>
-	    <a href="javascript:popUp('easyreg_2010.asp','800','720','20','20')" class=rmenu><%=lcase(tsa_txt_251)%> >></a>
+	    <a href="javascript:popUp('easyreg_2010.asp','1000','720','20','20')" class=rmenu><%=lcase(tsa_txt_251)%> >></a>
         </span>
 	    <%end if %>
         <hr />
@@ -8796,21 +8783,30 @@
      
                      %>
                 
-                     <tr bgcolor="#DCF5BD">
-                        <td colspan=2 style="border-right:1px #CCCCCC solid; border-left:2px #CCCCCC solid; border-top:2px #CCCCCC solid; white-space:nowrap;"><%=timereg_txt_057 %></td>
+                     <tr>
+                        <td style="white-space:nowrap; border-right:1px #CCCCCC solid;"><%=timereg_txt_057 %>
+                            <%
+                            call showEasyreg_fn()
+                    
+                            if cint(showeasyreg_per) <> 0 then  
+                            %>
+                            <br />Jobstartdato maks <%=showeasyreg_per %> uger gl.
+                            <%end if%>
+
+                        </td>
         
                         <%for e = 1 to 7 %>
-                        <td style="border-right:1px #CCCCCC solid; border-top:2px #CCCCCC solid;">
+                        <td style="border-right:1px #CCCCCC solid; border-top:2px #CCCCCC solid; white-space:nowrap;">
                             <input id="ea_<%=e %>" type="text" style="width:46px; font-size:9px;" /><a href="#" id="ea_k_<%=e%>" class="ea_kom"><font color="#999999"> + </font></a></td>
                         <%next %>
      
      
                      </tr>
-                     <tr bgcolor="#DCF5BD">
-                     <td colspan=2 style="border-right:1px #CCCCCC solid; border-left:2px #CCCCCC solid; border-top:1px #CCCCCC solid; border-bottom:2px #CCCCCC solid;">(<%=timereg_txt_057 %>)</td>
+                     <tr>
+                     <td style="border-right:1px #CCCCCC solid;">&nbsp;</td>
                      <%for e = 1 to 7 %>
                             <td style="border-right:1px #CCCCCC solid; border-top:1px #CCCCCC solid; border-bottom:2px #CCCCCC solid; width:55px;">
-                                <input id="ea_kn_<%=e %>" type="button" value="Calc. =" style="font-family:arial; font-size:9px;" /></td>
+                                <input id="ea_kn_<%=e %>" type="button" value="Tildel =" style="font-family:arial; font-size:9px;" /></td>
                         <%next %>
      
 
@@ -9949,7 +9945,9 @@
 
 
 
-            if antalJobLinier = 0 then %>
+            
+                       
+           if antalJobLinier = 0 then %>
 
             <br /><br />
              <div id="Div6" class="jqcorner" style="position:relative; background-color:#ffffff; padding:3px 3px 3px 3px; width:720px; border:10px #CCCCCC solid; left:0px; visibility:visible; display:; z-index:100">
@@ -9985,106 +9983,106 @@
              '******************************************************
              '** Vis ugetotaler i bunden ***'
              '******************************************************
-             if (lto = "xintranet - local") OR lto = "xepi" OR (lto = "mmmi" AND meType = 10) then 
+             if (lto = "xintranet - local") OR lto = "xepi" OR (lto = "mmmi" AND meType = 10) OR cint(intEasyreg) = 10 then 
              
              else%>
 
 
-             <h4><%=tsa_txt_387 %>:</h4>
-     <div id="dagstotaler" style="position:relative; background-color:#ffffff; padding:3px 3px 3px 3px; width:745px; left:0px; visibility:visible; display:; z-index:100;">
-     <table cellspacing="0" cellpadding="2" border="0" width="100%" bgcolor="#cccccc">
+                 <h4><%=tsa_txt_387 %>:</h4>
+                 <div id="dagstotaler" style="position:relative; background-color:#ffffff; padding:3px 3px 3px 3px; width:745px; left:0px; visibility:visible; display:; z-index:100;">
+                 <table cellspacing="0" cellpadding="2" border="0" width="100%" bgcolor="#cccccc">
 
-     <% 
-     call dageDatoer(2) %>
-     <%=dageDatoerTxt %>
+                 <% 
+                 call dageDatoer(2) %>
+                 <%=dageDatoerTxt %>
      
        
-    <% '** Henter timer i valgte uge ***'
-    'response.write "<hr>"
-    timerdenneuge_dothis = 0
-    call timerDenneUge(usemrn, lto, varTjDatoUS_man, aty_sql_realhours, timerdenneuge_dothis, SmiWeekOrMonth)
+                <% '** Henter timer i valgte uge ***'
+                'response.write "<hr>"
+                timerdenneuge_dothis = 0
+                call timerDenneUge(usemrn, lto, varTjDatoUS_man, aty_sql_realhours, timerdenneuge_dothis, SmiWeekOrMonth)
         
 
-        %>
-        <tr bgcolor="#FFFFFF">
-             <td colspan=2 valign=top style="border-bottom:1px #CCCCCC solid;"><b><%=tsa_txt_038 %>:</b></td>
-        <%
+                    %>
+                    <tr bgcolor="#FFFFFF">
+                         <td colspan=2 valign=top style="border-bottom:1px #CCCCCC solid;"><b><%=tsa_txt_038 %>:</b></td>
+                    <%
 
-        for tDay = 0 to 6
+                    for tDay = 0 to 6
     
-        select case tDay
-        case 0
-        timerThis = manTimer
-        txtThis = manTxt
-            normtimer_This = normtimer_man
-        case 1
-        timerThis = tirTimer
-        txtThis = tirTxt
-            normtimer_This = normtimer_tir
-        case 2
-        timerThis = onsTimer
-        txtThis = onsTxt
-            normtimer_This = normtimer_ons
-        case 3
-        timerThis = torTimer
-        txtThis = torTxt
-            normtimer_This = normtimer_tor
-        case 4
-        timerThis = freTimer
-        txtThis = freTxt
-            normtimer_This = normtimer_fre
-        case 5
-        timerThis = lorTimer
-        txtThis = lorTxt
-        normtimer_This = normtimer_lor
-        case 6
-        timerThis = sonTimer
-        txtThis = sonTxt 
-        normtimer_This = normtimer_son
-        end select
+                    select case tDay
+                    case 0
+                    timerThis = manTimer
+                    txtThis = manTxt
+                        normtimer_This = normtimer_man
+                    case 1
+                    timerThis = tirTimer
+                    txtThis = tirTxt
+                        normtimer_This = normtimer_tir
+                    case 2
+                    timerThis = onsTimer
+                    txtThis = onsTxt
+                        normtimer_This = normtimer_ons
+                    case 3
+                    timerThis = torTimer
+                    txtThis = torTxt
+                        normtimer_This = normtimer_tor
+                    case 4
+                    timerThis = freTimer
+                    txtThis = freTxt
+                        normtimer_This = normtimer_fre
+                    case 5
+                    timerThis = lorTimer
+                    txtThis = lorTxt
+                    normtimer_This = normtimer_lor
+                    case 6
+                    timerThis = sonTimer
+                    txtThis = sonTxt 
+                    normtimer_This = normtimer_son
+                    end select
 
-        if cdbl(timerThis) > 12 then
-        timerThisHgt = 12
-        else
-        timerThisHgt = timerThis
-        end if
+                    if cdbl(timerThis) > 12 then
+                    timerThisHgt = 12
+                    else
+                    timerThisHgt = timerThis
+                    end if
 
-             timerThisHgt = (timerThisHgt * 100) / 4
-             timerThisHgt = replace(timerThisHgt, ",", ".")
+                         timerThisHgt = (timerThisHgt * 100) / 4
+                         timerThisHgt = replace(timerThisHgt, ",", ".")
 
-        if timerThis <> 0 then
-            timerThisTxt = formatnumber(timerThis, 2)
-        else
-            timerThisTxt = ""
-        end if
+                    if timerThis <> 0 then
+                        timerThisTxt = formatnumber(timerThis, 2)
+                    else
+                        timerThisTxt = ""
+                    end if
 
-        if timerThis > 0 then
+                    if timerThis > 0 then
 
-        if cdbl(timerThis) > 0 then
-        bgColTma = "yellowgreen"
-        'bgColTmaAlt = "#000000"
-        end if
+                    if cdbl(timerThis) > 0 then
+                    bgColTma = "yellowgreen"
+                    'bgColTmaAlt = "#000000"
+                    end if
 
-        if cdbl(timerThis) > 7 then
-        bgColTma = "green"
-        'bgColTmaAlt = "#000000"
-        end if
+                    if cdbl(timerThis) > 7 then
+                    bgColTma = "green"
+                    'bgColTmaAlt = "#000000"
+                    end if
 
-         if cdbl(timerThis) > 10 then
-        bgColTma = "red"
-        'bgColTmaAlt = "#000000"
-        end if
+                     if cdbl(timerThis) > 10 then
+                    bgColTma = "red"
+                    'bgColTmaAlt = "#000000"
+                    end if
 
-        else
-            bgColTma = "#FFFFFF"
-        end if
+                    else
+                        bgColTma = "#FFFFFF"
+                    end if
 
-            %>  <td  align=right valign=bottom style="border-bottom:1px #CCCCCC solid;"><div style="background-color:<%=bgColTma%>; font-size:8px; height:<%=timerThisHgt%>px; width:65px; padding:2px; overflow-x:auto;"><u><%=timerThisTxt%></u>
-            <%=txtThis %></div></td>
-            <%
-        next
+                        %>  <td  align=right valign=bottom style="border-bottom:1px #CCCCCC solid;"><div style="background-color:<%=bgColTma%>; font-size:8px; height:<%=timerThisHgt%>px; width:65px; padding:2px; overflow-x:auto;"><u><%=timerThisTxt%></u>
+                        <%=txtThis %></div></td>
+                        <%
+                    next
         
-     %>
+                 %>
    
 	
    
@@ -10092,84 +10090,88 @@
  
    
   
-	<td  align=right valign=bottom valign=top style="border-bottom:1px #CCCCCC solid; white-space:nowrap;">= <a href="<%=lnkUge%>" class=vmenu><%=formatnumber(totTimerWeek, 2)%></a></td>
+	            <td  align=right valign=bottom valign=top style="border-bottom:1px #CCCCCC solid; white-space:nowrap;">= <a href="<%=lnkUge%>" class=vmenu><%=formatnumber(totTimerWeek, 2)%></a></td>
 	
-    </tr>
+                </tr>
 
 
 
-      <tr bgcolor="#FFFFFF">
-    <td colspan=2 ><%=tsa_txt_259 %>:</td>
-    <td  align=right><%=formatnumber(normtimer_man, 2)%></td>
-	<td  align=right><%=formatnumber(normtimer_tir, 2)%></td>
-	<td  align=right><%=formatnumber(normtimer_ons, 2)%></td>
-	<td  align=right><%=formatnumber(normtimer_tor, 2)%></td>
-	<td  align=right><%=formatnumber(normtimer_fre, 2)%></td>
-	<td  align=right><%=formatnumber(normtimer_lor, 2)%></td>
-	<td  align=right><%=formatnumber(normtimer_son, 2)%></td>
-	<td  align=right>= <%=formatnumber(totNormTimer, 2)%></td>
+                  <tr bgcolor="#FFFFFF">
+                <td colspan=2 ><%=tsa_txt_259 %>:</td>
+                <td  align=right><%=formatnumber(normtimer_man, 2)%></td>
+	            <td  align=right><%=formatnumber(normtimer_tir, 2)%></td>
+	            <td  align=right><%=formatnumber(normtimer_ons, 2)%></td>
+	            <td  align=right><%=formatnumber(normtimer_tor, 2)%></td>
+	            <td  align=right><%=formatnumber(normtimer_fre, 2)%></td>
+	            <td  align=right><%=formatnumber(normtimer_lor, 2)%></td>
+	            <td  align=right><%=formatnumber(normtimer_son, 2)%></td>
+	            <td  align=right>= <%=formatnumber(totNormTimer, 2)%></td>
 	
-    </tr>
+                </tr>
 
 
-    <%
-    manTimerBalance = (manTimer - normtimer_man) 
-    tirTimerBalance = (tirTimer - normtimer_tir) 
-    onsTimerBalance = (onsTimer - normtimer_ons) 
-    torTimerBalance = (torTimer - normtimer_tor) 
-    freTimerBalance = (freTimer - normtimer_fre) 
-    lorTimerBalance = (lorTimer - normtimer_lor) 
-    sonTimerBalance = (sonTimer - normtimer_son) 
-    totBalance = (manTimerBalance + tirTimerBalance + onsTimerBalance + torTimerBalance + freTimerBalance + lorTimerBalance + sonTimerBalance)
+                <%
+                manTimerBalance = (manTimer - normtimer_man) 
+                tirTimerBalance = (tirTimer - normtimer_tir) 
+                onsTimerBalance = (onsTimer - normtimer_ons) 
+                torTimerBalance = (torTimer - normtimer_tor) 
+                freTimerBalance = (freTimer - normtimer_fre) 
+                lorTimerBalance = (lorTimer - normtimer_lor) 
+                sonTimerBalance = (sonTimer - normtimer_son) 
+                totBalance = (manTimerBalance + tirTimerBalance + onsTimerBalance + torTimerBalance + freTimerBalance + lorTimerBalance + sonTimerBalance)
 
-    %>
+                %>
 
-    <tr bgcolor="#FFFFFF">
-		<td colspan=2 style="border-bottom:1px #CCCCCC solid;" >Balance:</td>
-		<td  align=right style="border-bottom:1px #CCCCCC solid;"><%=formatnumber(manTimerBalance, 2)%></td>
-	<td  align=right style="border-bottom:1px #CCCCCC solid;"><%=formatnumber(tirTimerBalance, 2)%></td>
-	<td  align=right style="border-bottom:1px #CCCCCC solid;"><%=formatnumber(onsTimerBalance, 2)%></td>
-	<td  align=right style="border-bottom:1px #CCCCCC solid;"><%=formatnumber(torTimerBalance, 2)%></td>
-	<td  align=right style="border-bottom:1px #CCCCCC solid;"><%=formatnumber(freTimerBalance, 2)%></td>
-	<td  align=right style="border-bottom:1px #CCCCCC solid;"><%=formatnumber(lorTimerBalance, 2)%></td>
-	<td  align=right style="border-bottom:1px #CCCCCC solid;"><%=formatnumber(sonTimerBalance, 2)%></td>
-    <td  align=right style="border-bottom:1px #CCCCCC solid;">= <%=formatnumber(totBalance, 2)%></td>
+                <tr bgcolor="#FFFFFF">
+		            <td colspan=2 style="border-bottom:1px #CCCCCC solid;" >Balance:</td>
+		            <td  align=right style="border-bottom:1px #CCCCCC solid;"><%=formatnumber(manTimerBalance, 2)%></td>
+	            <td  align=right style="border-bottom:1px #CCCCCC solid;"><%=formatnumber(tirTimerBalance, 2)%></td>
+	            <td  align=right style="border-bottom:1px #CCCCCC solid;"><%=formatnumber(onsTimerBalance, 2)%></td>
+	            <td  align=right style="border-bottom:1px #CCCCCC solid;"><%=formatnumber(torTimerBalance, 2)%></td>
+	            <td  align=right style="border-bottom:1px #CCCCCC solid;"><%=formatnumber(freTimerBalance, 2)%></td>
+	            <td  align=right style="border-bottom:1px #CCCCCC solid;"><%=formatnumber(lorTimerBalance, 2)%></td>
+	            <td  align=right style="border-bottom:1px #CCCCCC solid;"><%=formatnumber(sonTimerBalance, 2)%></td>
+                <td  align=right style="border-bottom:1px #CCCCCC solid;">= <%=formatnumber(totBalance, 2)%></td>
 
-	</tr>
-
-
+	            </tr>
 
 
-    <%'*** If Stempelur = 1 then 
-    call erStempelurOn
-    if stempelurOn = 1 then
+
+
+                <%'*** If Stempelur = 1 then 
+
+                
+
+                call erStempelurOn
+                if stempelurOn = 1 then
     
-    call fLonTimerPer(varTjDatoUS_man, 6, 20, usemrn)
+                call fLonTimerPer(varTjDatoUS_man, 6, 20, usemrn)
 
-    
-    
-    end if %>
+                end if %>
 
       
 
-	<tr bgcolor="#ffffff">
-		<td colspan=10 align=right valign=top style="padding-top:10px;">
-		<input id="sm2" type="submit" value="<%=tsa_txt_085 %> >> "></td>
-	</tr>
-	<tr bgcolor="#ffffff"><td colspan=10>
-    <br /><%=timereg_txt_082 %>: <%=antalJobLinier %>
-    <br /><%=timereg_txt_083 %>: <%=antalaktlinier %> (<%=loops %>)</td></tr>
-    <input id="antalaktlinier" value="<%=antalaktlinier %>" type="hidden" />
-   <input id="loops" value="<%=loops %>" type="hidden" />
+	            <tr bgcolor="#ffffff">
+		            <td colspan=10 align=right valign=top style="padding-top:10px;">
+		            <input id="sm2" type="submit" value="<%=tsa_txt_085 %> >> "></td>
+	            </tr>
+	            <tr bgcolor="#ffffff"><td colspan=10>
+                <br /><%=timereg_txt_082 %>: <%=antalJobLinier %>
+                <br /><%=timereg_txt_083 %>: <%=antalaktlinier %> (<%=loops %>)</td></tr>
+                <input id="antalaktlinier" value="<%=antalaktlinier %>" type="hidden" />
+               <input id="loops" value="<%=loops %>" type="hidden" />
     
   
-    </table>
+                </table>
 
    
 	 
 
     </div><!-- dagstotalerdiv -->
    <%end if %>
+       
+       
+                  
  
     
   
@@ -10191,9 +10193,9 @@
         
         
      '*** EASY REG ***************%>
-    
-    <div id="kom_easy" name="kom_easy" style="position:absolute; visibility:hidden; display:none; left:80px; top:110px; z-index:950000000; width:400px; background-color:#ffffff; padding:10px 10px 10px 10px; border:10px #CCCCCC solid;">
-	<table width=100% cellpadding=0 cellspacing=2 border=0><tr><td></td>
+    <div id="kom_easy" name="kom_easy" style="position:absolute; visibility:hidden; display:none; left:110px; top:610px; z-index:1950000000; width:600px; background-color:#ffffff; padding:20px; border:10px #CCCCCC solid;">
+	<h3>Kommentar</h3>
+    <table width=100% cellpadding=0 cellspacing=2 border=0><tr><td>
 	<textarea cols="60" rows="10" id="FM_kommentar_easy" name="FM_kommentar_easy"></textarea><br>
         <input id="FM_kom_dagtype" value="1" type="hidden" />
       </td></tr>
@@ -10210,7 +10212,10 @@
 
 
 
-     <%'*** STANDARD KOMMENTAR ***' %>
+     <%
+      if cint(intEasyreg) <> 1 then
+         
+         '*** STANDARD KOMMENTAR ***' %>
     
 	<div id="kom" style="position:absolute; visibility:hidden; display:none; z-index:30000; top:0px; left:0px; width:650px; background-color:#ffffFF; padding:20px; border:10px #CCCCCC solid;">
 	<table width=100% cellspacing=0 cellpadding=0 border=0>
@@ -10408,7 +10413,7 @@
 
 
   </div><!-- kom -->
-  
+  <%end if %>
   
 
 
@@ -10690,8 +10695,10 @@ t = visGuide
 <%
 '**** Stade indmelding ****'
 call stadeOn()
-if session("forste") = "j" AND cint(jobasnvigv) = 1 then 
-    call stadeindm(usemrn, 1, now) '1 -2
+if instr(lto, "epi") = 0 then
+    if session("forste") = "j" AND cint(jobasnvigv) = 1 then 
+        call stadeindm(usemrn, 1, now) '1 -2
+    end if
 end if
 %>
 

@@ -312,8 +312,7 @@
     prev_varTjDatoUS_man = year(prev_varTjDatoUS_man) &"/"& month(prev_varTjDatoUS_man) &"/"& day(prev_varTjDatoUS_man)
 	prev_varTjDatoUS_son = year(prev_varTjDatoUS_son) &"/"& month(prev_varTjDatoUS_son) &"/"& day(prev_varTjDatoUS_son)
 
-
-
+    weeknumber = year(varTjDatoUS_man) & "-" & month(varTjDatoUS_man) & "-" & day(varTjDatoUS_man)
 
     select case func 
 
@@ -375,11 +374,12 @@
                     <h3 class="portlet-title"><u>Favorit liste</u></h3>
                     <div class="portlet-body">
 
-                        <form action="favorit.asp?sogsubmitted=1" method="post">
 
-                         
-
+                        <form action="favorit.asp?sogsubmitted=1" method="post">                  
                         <input type="hidden" name="varTjDatoUS_man" id="varTjDatoUS_man" value="<%=varTjDatoUS_man %>">
+                        
+
+
                         <div class="row">
                             <div class="col-lg-3">
                                  
@@ -424,11 +424,12 @@
                                 </div>
                             </div>
                             <div class="col-lg-5"></div>
-                            <h4 class="col-lg-2" style="text-align:right"><a href="#" ><</a>&nbsp Uge 12 &nbsp<a href="#" >></a></h4>
+                            <h4 class="col-lg-2" style="text-align:right"><a href="favorit.asp?varTjDatoUS_man=<%=prev_varTjDatoUS_man %>" ><</a>&nbsp Uge <%=datepart("ww",weeknumber)  %> &nbsp<a href="favorit.asp?varTjDatoUS_man=<%=next_varTjDatoUS_man %>" >></a></h4>
                             
                         </div>
                         </form>
                         <%response.Write "id: " & medid%>
+
 
                         <form action="../timereg/timereg_akt_2006.asp?func=db&rdir=favorit" method="post">
 
@@ -437,6 +438,7 @@
                             <input type="hidden" name="FM_sttid" value="00:00"/>
                             <input type="hidden" name="FM_sltid" value="00:00"/>
                             <input type="hidden" id="" name="FM_vistimereltid" value="0"/>
+                            <input type="hidden" id="Hidden5" name="year" value="<%=year(now) %>"/>
 
 
                         <table class="table table-striped dataTable table-bordered ui-datatable">
@@ -484,30 +486,65 @@
 
                             <tbody>
                                 <%
+                                     
                                      favoriter = 0
+                                     lastaktid = 0
+                                     i = 10
+
+                                     'Dim jobid, aktid, medarb
+                                     Redim jobid(i), aktid(i), medarb(i)
+
                                      StrSqlfav = "SELECT medarb, jobid, aktid, forvalgt_af FROM timereg_usejob WHERE medarb = "& medid & " AND favorit <> 0" 
                                      
                                      oRec.open StrSqlfav, oConn, 3
+
+                                      i = 0
+
                                      while not oRec.EOF
 
-                                     jobid = oRec("jobid")
-                                     aktid = oRec("aktid")
-                                     medarb = oRec("medarb")
+                                     
 
-                                     favoriter = favoriter + 1
-                                     'response.Write "favs: " & favoriter
-                                     'response.Write "<br>" & jobid
-                                     for i = 1 to favoriter
+                                     jobid(i) = oRec("jobid")
+                                     aktid(i) = oRec("aktid")
+                                     medarb(i) = oRec("medarb")
+
+                                    if lastaktid <> oRec("aktid") then
+
                                         i = i + 1
-                                        'response.Write i
-                                        StrSQLjob = "SELECT id, jobnavn FROM job WHERE id ="& jobid
+                                     
+                                     end if
+
+                                   
+
+                                    'response.Write jobid(i) & "<br>"
+                                    'response.Write aktid(i) & "<br>"
+                                    
+                                     lastaktid = oRec("aktid")
+                                     
+                                     favoriter = favoriter + 1
+
+                                     'response.write aktid(i) & "<br>"
+
+                                     oRec.movenext
+                                     wend
+                                     oRec.close
+
+                                    i_end = i
+                                    i = 0
+                                    response.write "<br> d" & i_end
+                                                                         
+                                     for i = 0 to i_end -1
+                                                              
+                                        response.Write "aktid1: " & aktid(i)
+
+                                        StrSQLjob = "SELECT id, jobnavn FROM job WHERE id ="& jobid(i)
 
                                         oRec3.open StrSQLjob, oConn, 3
                                         if not oRec3.EOF then
                                         jobids = oRec3("id")
                                         jobnavn = oRec3("jobnavn")
 
-                                        StrSQLakt = "SELECT id, navn, beskrivelse, budgettimer FROM aktiviteter WHERE id ="& aktid
+                                        StrSQLakt = "SELECT id, navn, beskrivelse, budgettimer FROM aktiviteter WHERE id ="& aktid(i)
 
                                         oRec2.open StrSqlakt, oConn, 3
                                         if not oRec2.EOF then
@@ -579,11 +616,11 @@
                                                 
                                                      Stryear = oRec4("tdato")
                                                      timerdag = oRec4("Timer")
+                                                     extsysid = oRec4("extsysId")
                                                     
                                                     %>
                                                         <td>
                                                             <input type="hidden" name="FM_feltnr" value="<%=l %>" />
-                                                            <input type="hidden" name="year" value="<%=year(now) %>" />
                                                             <input type="hidden" value="<%=oRec4("extsysId")%>" name="extsysId" />
                                                             <input type="hidden" value="<%=timerdato %>" name="FM_datoer" />
                                                             <input type="hidden" value="dist" name="FM_destination_<%=l %>" />
@@ -595,11 +632,17 @@
 
 
                                                     else
+
                                                     timerdag = 0
+
+                                                    'if timerdag = 0 then 
+                                                        'extsysid = 0
+                                                    'end if
+
                                                     %>
                                                         <td>
                                                             <input type="hidden" name="FM_feltnr" value="<%=l %>" />
-                                                            <!-- <input type="hidden"name="year" value="<%=year(Stryear) %>" /> -->
+                                                            <input type="hidden" value="0" name="extsysId" />
                                                             <input type="hidden" value="<%=timerdato %>" name="FM_datoer" />
                                                             <input type="text" style="width:75px;" class="form-control input-small" name="FM_timer" value="<%=timerdag %>" />
                                                             <input type="hidden" name="FM_timer" value="xx"/>
@@ -663,9 +706,7 @@
 
                                     next
 
-                                    oRec.movenext
-                                    wend
-                                    oRec.close 
+                                     
                                     %>
 
 

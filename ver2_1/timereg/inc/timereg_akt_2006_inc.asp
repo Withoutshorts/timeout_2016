@@ -423,15 +423,12 @@ dblkostprisUse = replace(dblkostprisUse, ",", ".")
 				&" "& timerthis &", '"& SQLBless2(kommthis) &"', "_
 				&" '" & SQLBless2(strJobknavn) & "', " & strJobknr & ", "_
 				&" "& aktid &", '"& SQLBless2(aktnavn) &"', "_
-				&" "& tfaktimvalue &", 2017, "& SQLBless(intTimepris) &", "_
+				&" "& tfaktimvalue &", "& strYear &", "& SQLBless(intTimepris) &", "_
 				&" '"&year(now)&"/"&month(now)&"/"&day(now)&"', '"& strFastpris  &"', "_
 				&" '" & time & "', '"& session("user") &"', "& dblkostprisUse &", "_
 				&" "& offentlig &", "& intServiceAft &", '"&sTtid&"', '"&sLtid&"', "_
-				&" "& intValuta &", "& dblKurs &", "& bopal &", 'dist', "& origin &", '0', "& intKpValuta &", "& kpvaluta_kurs &")"
+				&" "& intValuta &", "& dblKurs &", "& bopal &", '"& destination &"', "& origin &", '"& extsysid &"', "& intKpValuta &", "& kpvaluta_kurs &")"
 				
-                'response.Write "<br><br><br>" & strSQLins
-                'response.flush 
-
 				end if
 				
 				
@@ -659,7 +656,7 @@ call erugeAfslutte(useYear, usePeriod, usemrn, SmiWeekOrMonth, 0)
    'ugeafsluttetTxt = ugeafsluttetTxt & "<br>aktBudgettjkOn: " & aktBudgettjkOn & " resforecastMedOverskreddet: "& resforecastMedOverskreddet & " lto: " & lto & " level: "& level
 
     '''** Er forecast på aktivitet overskreddet *****'
-    if (cint(aktBudgettjkOn) = 1 AND (cint(resforecastMedOverskreddet) = 1 OR cint(resforecastMedOverskreddet) = 2) AND (job_fakturerbar = 1 OR (job_fakturerbar = 90 AND lto = "mmmi"))) then  'level > 1 fjernet 20160104 == Vis amme indstillinger for alle
+    if (cint(aktBudgettjkOn) = 1 AND (cint(resforecastMedOverskreddet) = 1 OR cint(resforecastMedOverskreddet) = 2) AND (job_fakturerbar = 1 OR (job_fakturerbar = 2 AND (lto = "bf" OR lto = "intranet - local")) OR (job_fakturerbar = 90 AND lto = "mmmi"))) then  'level > 1 fjernet 20160104 == Vis amme indstillinger for alle
     '** Kun fakturerbare aktiviteter / WWF fravær / + E1 UNIK og MMMI
     '** Admin må gerne indtaste
             
