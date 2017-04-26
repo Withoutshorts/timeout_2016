@@ -9,9 +9,8 @@ $(document).ready(function () {
   
     $(".mat_save").click(function () {
 
-        alert("HEj")
-
-        
+        thisid = this.id
+        alert(thisid)
 
     });
    

@@ -429,6 +429,7 @@ dblkostprisUse = replace(dblkostprisUse, ",", ".")
 				&" "& offentlig &", "& intServiceAft &", '"&sTtid&"', '"&sLtid&"', "_
 				&" "& intValuta &", "& dblKurs &", "& bopal &", '"& destination &"', "& origin &", '"& extsysid &"', "& intKpValuta &", "& kpvaluta_kurs &")"
 				
+
 				end if
 				
 				
@@ -501,6 +502,7 @@ dblkostprisUse = replace(dblkostprisUse, ",", ".")
 						&" AND Tdato = '" & datothis & "' AND TAktivitetId = "& aktid
 						
 						'Response.write "Upd A: "& strSQLupd & "<br>"
+                        'response.Flush
 						
 						else
 						
@@ -519,6 +521,7 @@ dblkostprisUse = replace(dblkostprisUse, ",", ".")
 						&" AND Tdato = '" & datothis & "' AND TAktivitetId = "& aktid 
 						
 						'Response.write "Upd B: "& strSQLupd & "<br>"
+
 						
 						end if
 						

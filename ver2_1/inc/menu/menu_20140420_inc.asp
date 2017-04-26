@@ -490,9 +490,16 @@ end select
                     usemrn = session("mid")
                 end if
 
+                if len(trim(medid)) <> 0 then
+                    medid = medid
+                else
+                    medid = session("mid")
+                end if
+
                 'lnkTreg = "timereg_akt_2006.asp?showakt=1&hideallbut_first=2&strdag="&day(varTjDatoUS_man)&"&strmrd="& month(varTjDatoUS_man) &"&straar="&year(varTjDatoUS_man)
                 lnkTimeregside = "timereg_akt_2006.asp?usemrn="&usemrn&"&varTjDatoUS_man="&varTjDatoUS_man&"&strdag="&strdagTreg&"&strMrd="&strMrdTreg&"&strAar="&strAarTreg
                 lnkUgeseddel = "ugeseddel_2011.asp?usemrn="&usemrn&"&varTjDatoUS_man="&stDato_ugeseddel_kommegaa_US_man'&"&varTjDatoUS_son="&varTjDatoUS_son
+                lnkFavorit = "favorit.asp?FM_medid="&medid&"&varTjDatoUS_man="&stDato_ugeseddel_kommegaa_US_man
 	            lnkAfstem = "afstem_tot.asp?usemrn="&usemrn&"&show=5&varTjDatoUS_man="&varTjDatoUS_man'&"&varTjDatoUS_son="&varTjDatoUS_son
                 lnkLogind = "logindhist_2011.asp?usemrn="&usemrn&"&varTjDatoUS_man="&stDato_ugeseddel_kommegaa_US_man'&"&varTjDatoUS_son="&varTjDatoUS_son 
                 
@@ -510,10 +517,12 @@ end select
                  end select
            
                
-
-                 %>  <li><a href="<%=toSubVerPath15 %><%=lnkUgeseddel%>"><%=tsa_txt_337 %></a></li>
-                      
-                
+                     
+                 %>                   
+                <li><a href="<%=toSubVerPath15 %><%=lnkUgeseddel%>"><%=tsa_txt_337 %></a></li>
+                <%if lto = "outz" then %>
+                <li><a href="<%=toSubVerPath15 %><%=lnkFavorit%>">Favorit liste</a></li>
+                <%end if %>
                 
 
                

@@ -3015,9 +3015,9 @@
                                                     felt = felt &"<input type='hidden' name='FM_timer' id='FM_timer' value='xx'><input type='hidden' name='FM_dager' id='FM_dager' value='xx'><input type='hidden' name='FM_datoer' id='FM_datoer' value='"& tjekdag(x) &"'>"_
                                                     &"<input class='d_kom_cls_"&x&"' type='hidden' name='FM_kom_"&job_iRowLoops_cn&""&x&"' id='FM_kom_"&job_iRowLoops_cn&""&x&"' value='"&timerKomThis&"'>"_
                                                     &"<input type='hidden' name='FM_feltnr' id='FM_feltnr' value='"&job_iRowLoops_cn&""&x&"'>"
-                                                    
+
                                                     felt = felt &"</td>"
-                            
+
                                                     end if
 								
 								
@@ -3062,7 +3062,6 @@
             oRec6.close
             'next
             
-            'response.Write "feltnrfeltnrfeltnrfeltnrfeltnr"
 
             next 'mn
 
@@ -5614,7 +5613,7 @@
     				        muDag = 0
 				            useDato = datoer(y)
 
-                            if rdir = "xtimetag_web" OR rdir = "ugeseddel_2011" or rdir = "favorit" then
+                            if rdir = "xtimetag_web" OR rdir = "ugeseddel_2011" then
                             useDage = ""
                             usetSltid = ""
                             usetSttid = ""
@@ -6005,11 +6004,7 @@
 
         Response.Redirect "../to_2015/ugeseddel_2011.asp?usemrn="&usemrn&"&varTjDatoUS_man="&varTjDatoUS_man&"&FM_datoer="& useDato
 
-        case "favorit"
-        varTjDatoUS_man = request("varTjDatoUS_man")
-        medid = request("FM_medid")
-
-        Response.Redirect "../to_2015/favorit.asp?FM_medid="&medid&"&varTjDatoUS_man="&varTjDatoUS_man
+        
 
         case else
 	    Response.Redirect "timereg_akt_2006.asp?showakt=1" 

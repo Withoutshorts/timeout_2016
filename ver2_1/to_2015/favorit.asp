@@ -4,6 +4,7 @@
 <%
  '**** Søgekriterier AJAX **'
         'section for ajax calls
+
         if Request.Form("AjaxUpdateField") = "true" then
         Select Case Request.Form("control")
 
@@ -227,6 +228,8 @@
         end select
         response.end
         end if
+
+        
     %>
 
 
@@ -325,7 +328,8 @@
 
 
     medid = request("FM_medid")
-
+    response.Write "medid: " & medid
+        
 
     varTjDatoUS_man = request("varTjDatoUS_man")
     varTjDatoUS_son = dateAdd("d", 6, varTjDatoUS_man)
@@ -350,7 +354,8 @@
 
     case "fjernfavorit"
 
-
+        medid = request("FM_medid")
+        varTjDatoUS_man = request("varTjDatoUS_man")
         id = request("id")
 
         %>
@@ -368,7 +373,7 @@
 
         oConn.execute("UPDATE timereg_usejob SET favorit = 0 WHERE aktid = "&id&"")
 
-        response.Redirect "favorit.asp"
+        response.Redirect "favorit.asp?FM_medid="&medid&"&varTjDatoUS_man="&varTjDatoUS_man
 
 
     case "tilfojfavorit"
@@ -403,12 +408,10 @@
             <div class="container">
                 <div class="portlet">
                     <h3 class="portlet-title"><u>Favorit liste</u></h3>
-                    <div class="portlet-body">
-
-                        <form action="favorit.asp?sogsubmitted=1" method="post">                  
+                    <div class="portlet-body">                        
+                        <form action="favorit.asp?" method="post">
+                                              
                         <input type="hidden" name="varTjDatoUS_man" id="varTjDatoUS_man" value="<%=varTjDatoUS_man %>">
-                        
-
 
                         <div class="row">
                             <div class="col-lg-3">
@@ -443,26 +446,28 @@
                             </div>
 
                             
-
-                            <div class="col-lg-2">
-                                <div class='input-group date' id='datepicker_stdato'>
+                           
+                           <div class="col-lg-2">
+                                <!--<div class='input-group date' id='datepicker_stdato'>
                                 <input type="text" class="form-control input-small" name="aarslut" value="<%=aarslut %>" placeholder="dd-mm-yyyy" />
                                 <span class="input-group-addon input-small">
                                         <span class="fa fa-calendar">
                                         </span>
                                     </span>
-                                </div>
+                                </div> -->
                             </div>
                             <div class="col-lg-5"></div>
-                            <h4 class="col-lg-2" style="text-align:right"><a href="favorit.asp?varTjDatoUS_man=<%=prev_varTjDatoUS_man %>" ><</a>&nbsp Uge <%=datepart("ww",weeknumber)  %> &nbsp<a href="favorit.asp?varTjDatoUS_man=<%=next_varTjDatoUS_man %>" >></a></h4>
+                            <h4 class="col-lg-2" style="text-align:right"><a href="favorit.asp?FM_medid=<%=medid %>&varTjDatoUS_man=<%=prev_varTjDatoUS_man %>" ><</a>&nbsp Uge <%=datepart("ww",weeknumber)  %> &nbsp<a href="favorit.asp?FM_medid=<%=medid %>&varTjDatoUS_man=<%=next_varTjDatoUS_man %>" >></a></h4>
                             
                         </div>
                         </form>
-                        <%response.Write "id: " & medid%>
+                        <%'response.Write "id: " & medid%>
 
 
-                        <form action="../timereg/timereg_akt_2006.asp?func=db&rdir=favorit" method="post">
-
+                        <form action="../timereg/timereg_akt_2006.asp?func=db&rdir=favorit&medid=<%=medid %>&varTjDatoUS_man=<%=varTjDatoUS_man%>" method="post">
+                            
+                            
+                            <input type="hidden" name="varTjDatoUS_man" value="<%=varTjDatoUS_man %>" />
                             <input type="hidden" name="FM_medid" value="<%=medid %>" />
                             <input type="hidden" id="Hidden4" name="FM_dager" value="7"/>
                             <input type="hidden" name="FM_sttid" value="00:00"/>
@@ -566,9 +571,9 @@
                                     'response.write "<br> d" & i_end
                                     'response.Write "lastid: " & lastjobid 
                                     
-                                                                         
+                                    y = 0                                
                                      for i = 0 to i_end -1
-                                                              
+                                                          
                                         'response.Write "aktid1: " & aktid(i)
 
                                         StrSQLjob = "SELECT id, jobnavn FROM job WHERE id ="& jobid(i)
@@ -634,6 +639,9 @@
                                                 
                                                 for l = 0 to 6
                                                      
+                                                    y = y + 1
+                                                    'response.Write y
+
                                                     if l = 0 then
                                                         timerdato = varTjDatoUS_man
                                                     else
@@ -643,7 +651,7 @@
 
                                                     timerdato = year(timerdato) & "-" & month(timerdato) & "-" & day(timerdato) 
 
-                                                    StrSQLtimer = "SELECT TAktivitetId, Timer, extsysId, tdato, Timerkom FROM timer WHERE TAktivitetId ="& TaktId & " AND tdato = "& "'" & timerdato & "'"
+                                                    StrSQLtimer = "SELECT TAktivitetId, sum(timer) as Timer, extsysId, tdato, Timerkom, origin FROM timer WHERE TAktivitetId ="& TaktId & " AND tdato = "& "'" & timerdato & "' AND tmnr ="& medid
                                                 
                                                      oRec4.open StrSQLtimer, oConn, 3
                                                      if not oRec4.EOF then
@@ -651,110 +659,113 @@
                                                      Stryear = oRec4("tdato")
                                                      timerdag = oRec4("Timer")
                                                      extsysid = oRec4("extsysId")
-                                                     
+                                                     timerkcoment = oRec4("Timerkom")
+                                                     origin = oRec4("origin")
                                                      
                                                     %>
-                                                        <td>                                                 
-                                                            <input type="hidden" name="FM_feltnr" value="<%=l %>" />
+                                                        <td>                                           
+                                                            <input type="hidden" name="FM_feltnr" value="<%=y %>" />
                                                            <!-- <input type="hidden" value="<%=oRec4("extsysId")%>" name="extsysId" /> -->
                                                             <input type="hidden" value="<%=timerdato %>" name="FM_datoer" />
-                                                            <input type="hidden" value="dist" name="FM_destination_<%=l %>" />                                                       
+                                                            <input type="hidden" value="dist" name="FM_destination_<%=y %>" />
+                                                          <!-- <input type="hidden" value="<%=oRec4("Timerkom") %>" name="FM_kom_<%=y %>" /> --> 
+                                                            <%if origin <> 0 then %>
+                                                            <input type="hidden" name="FM_timer" value=""/>
+                                                            <input type="text" class="form-control input-small" style="width:75px;" value="<%=timerdag %>" readonly />
+                                                            <span>Se ugeseddel</span>
+                                                            <%else %>                                                     
                                                             <input type="text" class="form-control input-small" style="width:75px;" name="FM_timer" value="<%=timerdag %>" />
-                                                            <span id="modal_<%=l %>" class="kommodal">+</span>
-                                                            <div id="kommentarmodal_<%=l %>" class="modal">
-                                                                <div class="modal-content"><%response.write Taktid %>
-                                                                   <!-- <input type="text" id="FM_kom" name="FM_kom_<%=l %>" placeholder="<%=tsa_txt_051%>" value="<%=oRec4("Timerkom") %>" class="form-control input-small"/>  -->                                                       
-                                                                    <div class="row">
-                                                                        <div class="col-lg-2"><b>Kommentar:</b></div>
-                                                                    </div>
-                                                                    <div class="row">
-                                                                        <div class="col-lg-12"><textarea rows="2" name="FM_kom_<%=l %>" class="form-control input-small"><%=oRec4("Timerkom") %></textarea></div>
-                                                                    </div>
-
-                                                                    <br /><br />
-
-                                                                    <div class="panel-group accordion-panel" id="accordion-paneled">
-                                                                    <!-- PersonData -->
-                                                                    <div class="panel panel-default">
-                                                                        <div class="panel-heading">
-                                                                          <h6 class="panel-title">
-                                                                            <a class="accordion-toggle" data-toggle="collapse" data-target="#collapse_<%=l %>">
-                                                                            Udlæg
-                                                                            </a>
-                                                                          </h6>
-                                                                        </div> <!-- /.panel-heading -->
-                                                                        <div id="collapse_<%=l %>" class="panel-collapse collapse">                                                                        
-                                                                         <div class="panel-body">
-                                                                             <div class="row">
-                                                                                 <div class="col-lg-4">Antal:</div>
-                                                                                 <div class="col-lg-4"><input type="text" value="1" name="" id="" class="form-control input-small" /></div>
-                                                                             </div>
-                                                                             <div class="row">
-                                                                                 <div class="col-lg-4">Mat. navn:</div>
-                                                                                 <div class="col-lg-4"><input type="text" value="" name="" id="" class="form-control input-small" /></div>
-                                                                             </div>
-                                                                             <div class="row">
-                                                                                 <div class="col-lg-4">Indkøbspris:</div>
-                                                                                 <div class="col-lg-3"><input type="text" value="" name="" id="" class="form-control input-small" /></div>
-                                                                                 <div class="col-lg-4">
-                                                                                     <select class="form-control input-small">
-                                                                                         <option value="1">DKK</option>
-                                                                                         <option value="2">SEK</option>
-                                                                                         <option value="3">EUR</option>
-                                                                                     </select>
-                                                                                 </div>
-                                                                             </div>
-                                                                             <div class="row">
-                                                                                 <div class="col-lg-4">Gruppe:</div>
-                                                                                 <div class="col-lg-4">
-                                                                                     <select class="form-control input-small">
-                                                                                         <option value="0">Hotel</option>
-                                                                                         <option value="1">Transport</option>
-                                                                                         <option value="2">Andre</option>
-                                                                                     </select>
-                                                                                 </div>
-                                                                             </div>
-                                                                                                                                                         
-                                                                            <%
-                                                                            strSQLudlag = "SELECT matnavn, m.forbrugsdato, m.matsalgspris, v.valutakode FROM materiale_forbrug as m "_ 
-                                                                            & "LEFT JOIN valutaer as v ON (v.id = m.valuta) WHERE aktid ="& Taktid &" AND forbrugsdato ='"& timerdato &"'"
-                                                                            oRec8.open strSQLudlag, oConn, 3
-                                                                            'response.write strSQLudlag
-                                                                            'response.Flush
-                                                                            'if oRec8("forbrugsdato") <> 0 then
-                                                                            %>
-                                                                             <div class="row">
-                                                                                 <div class="col-lg-6"><span style="font-size:75%">Indlæste materialer:</span></div>
-                                                                             </div> 
-                                                                            <%
-                                                                            'end if
-
-                                                                            while not oRec8.EOF
-                                                                            strforbrugsdato = oRec8("Forbrugsdato")
-                                                                            matnavn = oRec8("matnavn")
-                                                                            matsalgspris = oRec8("matsalgspris")
-                                                                            valutakode = oRec8("valutakode")                                                                                                                                                                                                                        
-                                                                             %>                                                                                                                                
-                                                                             <div class="row"><div class="col-lg-12" style="font-size:75%"><%response.Write matnavn & " " & matsalgspris & " " & valutakode %></div></div>
-                                                                             <% 
-                                                                                oRec8.movenext
-                                                                                wend                                                                                 
-                                                                                oRec8.close 
-                                                                              %>                           
-                                                                             <div class="row">
-                                                                                 <div class="col-lg-12 pull-right">
-                                                                                     <a class="btn btn-sm btn-default pull-right mat_save"><b>Gem</b></a>
-                                                                                 </div>
-                                                                             </div>
-                                                                              
-                                                                         </div>
-                                                                        </div> <!-- /.panel-collapse -->
-                                                                      </div> <!-- /.panel -->
-                                                                     </div>
-
-                                                                </div>
-                                                            </div>
                                                             
+                                                            <span id="modal_<%=y%>" class="kommodal">+</span>
+                                                                <div id="kommentarmodal_<%=y%>" class="modal">
+                                                                        <div class="modal-content">                                                                                                                        
+                                                                            <div class="row">
+                                                                                <div class="col-lg-2"><b>Kommentar:</b></div>
+                                                                            </div>
+                                                                            <div class="row">
+                                                                                <div class="col-lg-12"><textarea rows="2" name="FM_kom_<%=y %>" class="form-control input-small"><%=oRec4("Timerkom") %></textarea></div>
+                                                                            </div>
+
+                                                                            <br /><br />
+
+                                                                            <div class="panel-group accordion-panel" id="accordion-paneled">
+                                                                    
+                                                                            <div class="panel panel-default">
+                                                                                <div class="panel-heading">
+                                                                                    <h6 class="panel-title"><a class="accordion-toggle" data-toggle="collapse" data-target="#collapse_<%=y %>">Udlæg</a></h6>
+                                                                                </div>
+                                                                                <div id="collapse_<%=y %>" class="panel-collapse collapse">                                                                        
+                                                                                    <div class="panel-body">
+
+                                                                                        <div class="row">
+                                                                                            <div class="col-lg-4">Antal:</div>
+                                                                                            <div class="col-lg-4"><input type="text" value="1" name="" id="" class="form-control input-small" /></div>
+                                                                                        </div>
+                                                                                        <div class="row">
+                                                                                            <div class="col-lg-4">Mat. navn:</div>
+                                                                                            <div class="col-lg-4"><input type="text" value="" name="" id="" class="form-control input-small" /></div>
+                                                                                        </div>
+                                                                                        <div class="row">
+                                                                                            <div class="col-lg-4">Indkøbspris:</div>
+                                                                                            <div class="col-lg-3"><input type="text" value="" name="" id="" class="form-control input-small" /></div>
+                                                                                            <div class="col-lg-4">
+                                                                                                <select class="form-control input-small">
+                                                                                                    <option value="1">DKK</option>
+                                                                                                    <option value="2">SEK</option>
+                                                                                                    <option value="3">EUR</option>
+                                                                                                </select>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <div class="row">
+                                                                                            <div class="col-lg-4">Gruppe:</div>
+                                                                                            <div class="col-lg-4">
+                                                                                                <select class="form-control input-small">
+                                                                                                    <option value="0">Hotel</option>
+                                                                                                    <option value="1">Transport</option>
+                                                                                                    <option value="2">Andre</option>
+                                                                                                </select>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                                                                                         
+                                                                                    <%
+                                                                                    strSQLudlag = "SELECT matnavn, m.forbrugsdato, m.matsalgspris, v.valutakode FROM materiale_forbrug as m "_ 
+                                                                                    & "LEFT JOIN valutaer as v ON (v.id = m.valuta) WHERE aktid ="& Taktid &" AND forbrugsdato ='"& timerdato &"'"
+                                                                                    oRec8.open strSQLudlag, oConn, 3
+                                                                                    'response.write strSQLudlag
+                                                                                    'response.Flush
+                                                                                    'if oRec8("forbrugsdato") <> 0 then
+                                                                                    %>
+                                                                                        <div class="row">
+                                                                                            <div class="col-lg-6"><span style="font-size:75%">Indlæste materialer:</span></div>
+                                                                                        </div> 
+                                                                                    <%
+                                                                                    'end if
+
+                                                                                    while not oRec8.EOF
+                                                                                    strforbrugsdato = oRec8("Forbrugsdato")
+                                                                                    matnavn = oRec8("matnavn")
+                                                                                    matsalgspris = oRec8("matsalgspris")
+                                                                                    valutakode = oRec8("valutakode")                                                                                                                                                                                                                        
+                                                                                        %>                                                                                                                                
+                                                                                        <div class="row"><div class="col-lg-12" style="font-size:75%"><%response.Write matnavn & " " & matsalgspris & " " & valutakode %></div></div>
+                                                                                        <% 
+                                                                                        oRec8.movenext
+                                                                                        wend                                                                                 
+                                                                                        oRec8.close 
+                                                                                        %>                           
+                                                                                        <div class="row">
+                                                                                            <div class="col-lg-12 pull-right">
+                                                                                                <a id="<%=Taktid %>" class="btn btn-sm btn-default pull-right mat_save"><b>Gem</b></a>
+                                                                                            </div>
+                                                                                        </div>
+                                                                              
+                                                                                    </div>
+                                                                                </div>
+                                                                                </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            </div>
+                                                                            <%end if  %>
                                                             <input type="hidden" name="FM_timer" value="xx"/>
                                                         </td>
                                                     <%
@@ -770,12 +781,12 @@
 
                                                     %>
                                                         <td>
-                                                            <input type="hidden" name="FM_feltnr" value="<%=l %>" />
+                                                            <input type="hidden" name="FM_feltnr" value="<%=y %>" />
                                                          <!--   <input type="hidden" value="0" name="extsysId" /> -->
                                                             <input type="hidden" value="<%=timerdato %>" name="FM_datoer" />
                                                             <input type="text" style="width:75px;" class="form-control input-small" name="FM_timer" value="<%=timerdag %>" />
                                                             <input type="hidden" name="FM_timer" value="xx"/>
-                                                            <input type="hidden" id="FM_kom" name="FM_kom_<%=l %>" placeholder="<%=tsa_txt_051%>" class="form-control input-small"/>
+                                                            <input type="hidden" id="FM_kom" name="FM_kom_<%=y %>" placeholder="<%=tsa_txt_051%>" class="form-control input-small"/>
                                                         </td>
                                                     <%
 
@@ -807,7 +818,7 @@
 
                                                     'response.Write ugestart_dato & "SØNDAG: " & ugeslut_dato
                                                     
-                                                    StrSqlweektotal = "SELECT sum(timer) as timer FROM timer WHERE TAktivitetId ="& TaktId & " AND tdato BETWEEN '"& ugestart_dato &"' AND '"& ugeslut_dato &"'" 
+                                                    StrSqlweektotal = "SELECT sum(timer) as timer FROM timer WHERE TAktivitetId ="& TaktId & " AND tdato BETWEEN '"& ugestart_dato &"' AND '"& ugeslut_dato &"' AND tmnr ="&medid 
                                                 
                                                     oRec7.open StrSqlweektotal, oConn, 3
                                                     if not oRec7.EOF then
@@ -826,7 +837,7 @@
                                             </td>
 
                                             <td>
-                                                <a href="favorit.asp?id=<%=oRec2("id") %>&func=fjernfavorit"><span style="color:darkred; display: block; text-align: center;" class="fa fa-times"></span></a>
+                                                <a href="favorit.asp?id=<%=oRec2("id") %>&FM_medid=<%=medid %>&varTjDatoUS_man=<%=varTjDatoUS_man%>&func=fjernfavorit"><span style="color:darkred; display: block; text-align: center;" class="fa fa-times"></span></a>
                                             </td>
 
                                         </tr>
