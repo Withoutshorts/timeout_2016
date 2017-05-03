@@ -1,7 +1,7 @@
-<?xml version="1.0"?>
+﻿<?xml version="1.0"?>
 <configuration>
   <connectionStrings>
-    <add name="ConnectionString" connectionString="Data Source=192.168.1.113;Database=timeout_demo;User ID=root;Password=ct?786214#pl" />
+    <add name="ConnectionString" connectionString="Data Source=194.150.108.154;Database=timeout_oliver;User ID=root;Password=ct?786214#pl" />
   </connectionStrings>
   <system.webServer>
     <security>
@@ -12,18 +12,23 @@
     <directoryBrowse enabled="false"/>
     <httpErrors errorMode="Detailed"/>
     <staticContent>
-    
+
     </staticContent>
   </system.webServer>
   <system.web>
+    <compilation debug="false" targetFramework="4.0">
+      <assemblies>
+        <add assembly="MySql.Data, Version=6.9.9.0, Culture=neutral, PublicKeyToken=C5687FC88969C44D"/>
+      </assemblies>
+    </compilation>
     <httpRuntime executionTimeout="7200" maxRequestLength="2097151"/>
-    
+
     <httpCookies domain="timeout.cloud"/>
     <pages validateRequest="false"/>
   </system.web>
   <appSettings>
     <add key="dk.outzource_importhours.ozimporthours" value="https://outzource.dk/timeout_xp/wwwroot/ver2_10/timereg_net/ozimporthours.asmx"/>
     <add key="importjob2_ds.ozimportjob2_ds" value="http://timeout.cloud/timeout_xp/wwwroot/ver2_14/timereg_net/ozimportjob2_ds.asmx"/>
-  <add key="dk_rack.outzource_importhours.ozimporthours" value="https://timeout.cloud/timeout_xp/wwwroot/ver2_14/timereg_net/ozimporthours.asmx"/>
+    <add key="dk_rack.outzource_importhours.ozimporthours" value="https://timeout.cloud/timeout_xp/wwwroot/ver2_14/timereg_net/ozimporthours.asmx"/>
   </appSettings>
 </configuration>

@@ -41,8 +41,8 @@ public partial class national_holidays : System.Web.UI.Page
     /// </summary>
     private void BindNationalHolidays()
     {
-        SqlConnection sqlConnection = new MySqlConnection();
-        MySqlCommand sqlCommand;
+        SqlConnection sqlConnection = new SqlConnection();
+        SqlCommand sqlCommand;
         string holidatHTML = string.Empty;
         
         try
@@ -59,19 +59,19 @@ public partial class national_holidays : System.Web.UI.Page
 
             holidatHTML += "</tr>";
 
-            sqlConnection = new MySqlConnection(connString);
+            sqlConnection = new SqlConnection(connString);        
             sqlConnection.Open();
 
             sqlCommand = sqlConnection.CreateCommand();
             sqlCommand.CommandText = holidayQuery;
 
-            MySqlDataAdapter sqlDataAdapter = new MySqlDataAdapter(sqlCommand);
+            SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(sqlCommand);
             DataSet dsHoliday = new DataSet();
             sqlDataAdapter.Fill(dsHoliday);
 
             sqlCommand.CommandText = holidayDatesQuery;
 
-            sqlDataAdapter = new MySqlDataAdapter(sqlCommand);
+            sqlDataAdapter = new SqlDataAdapter(sqlCommand);
             DataSet dsHolidayDates = new DataSet();
             sqlDataAdapter.Fill(dsHolidayDates);
 
