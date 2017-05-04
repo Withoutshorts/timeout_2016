@@ -34,9 +34,12 @@
 %>
 
 <script src="js/komme_gaa_jav.js" type="text/javascript"></script>
-<link rel="stylesheet" href="css/bootstrap-timepicker.css">
-<link rel="stylesheet" href="jasny-bootstrap.css">
-<script src="js/bootstrap-3-timerpicker.js" type="text/javascript"></script>
+
+<link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.2/css/bootstrap-combined.min.css" rel="stylesheet">
+<link rel="stylesheet" type="text/css" media="screen"
+href="http://tarruda.github.com/bootstrap-datetimepicker/assets/css/bootstrap-datetimepicker.min.css">
+
+
 
 <div class="wrapper">
     <div class="content">
@@ -45,18 +48,34 @@
             <div class="portlet">
                 <div class="portlet-body">
 
-                    <div class="form-group">
-                    <label class="control-label col-md-2">24 Hour Mode:</label>
-                    <div class="col-md-10">
-                    <div class="bootstrap-timepicker">
-                    <input type="text" id="timepicker5" class="form-control" placeholder="Choose Time">
-                    </div> <!-- /.input-group -->
-                    </div> <!-- /.col -->
-                    </div> <!-- /.form-group -->
+                   
 
-                    <input type="time" />
 
-                    <p class="tpick">hej</p>
+                    <div id="datetimepicker" class="input-append date">
+                    <input type="text"></input>
+                    <span class="add-on">
+                    <i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
+                    </span>
+                    </div>
+                    
+                    
+                    <script type="text/javascript"
+                    src="http://tarruda.github.com/bootstrap-datetimepicker/assets/js/bootstrap-datetimepicker.min.js">
+                    </script>
+                    <script type="text/javascript"
+                    src="http://tarruda.github.com/bootstrap-datetimepicker/assets/js/bootstrap-datetimepicker.pt-BR.js">
+                    </script>
+                    <script type="text/javascript">
+                      $('#datetimepicker').datetimepicker({
+                        format: 'dd/MM/yyyy hh:mm:ss',
+                        language: 'pt-BR'
+                      });
+                    </script>
+
+
+
+
+
                     <div class="row">
                         <div class="col-lg-12" style="text-align:center;>
                             <a href="#"><img src="img/Dencker_logo.png" width="100" /></a>
@@ -84,9 +103,9 @@
 
                         'response.Write lastid & login
 
-                        if isNull(logud) <> false then 
-                        response.Write "logud nu"
-                        end if
+                        'if isNull(logud) <> false then 
+                        'response.Write "logud nu"
+                        'end if
                         
                     %>
                     
