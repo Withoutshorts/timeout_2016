@@ -223,7 +223,7 @@ $(document).ready(function () {
 
             if (clicks > 11)
             {
-                alert("Klik submit inden du opretter flere aktiviteter")
+                alert("Klik opdater inden du opretter flere aktiviteter")
             }
 
             //alert(clicks)

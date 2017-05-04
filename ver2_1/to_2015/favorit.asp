@@ -611,13 +611,13 @@
                                         'response.Write jobnavn
                                         %>
                                         <tr>
-                                            <td><input type="hidden" value="<%=jobids %>" name="FM_jobid" />
+                                            <td style="vertical-align:middle"><input type="hidden" value="<%=jobids %>" name="FM_jobid" />
                                                 <%=jobnavn %></td>
-                                            <td>
+                                            <td style="vertical-align:middle">
                                                 <input type="hidden" value="<%=TaktId %>" name="FM_aktivitetid" />
                                                 <%=aktNavn %>
 
-                                                <span id="modal_<%=TaktId %>" style="color:cornflowerblue;" class="fa fa-book pull-right picmodal"></span>                                               
+                                                <span id="modal_<%=TaktId %>" class="fa fa-arrow-down pull-right picmodal"></span>                                               
                                                 <div id="myModal_<%=TaktId %>" style="display:none">
                                                 
                                                     <%
@@ -864,7 +864,7 @@
                                                  
                                             %>
 
-                                            <td>
+                                            <td style="text-align:center; vertical-align:middle">
                                                 <%
                                                     ugestart_dato = year(datoMan) & "-" & month(datoMan) & "-" & day(datoMan)
                                                     ugeslut_dato = year(datoSon) & "-" & month(datoSon) & "-" & day(datoSon)
