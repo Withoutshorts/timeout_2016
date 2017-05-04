@@ -225,7 +225,22 @@
         'oConn.Execute(strSQLUpdjWiphist)
 
 
-        end select
+
+
+        case "tilfoj_mat"
+    
+        mat_jobid = request("mat_jobid")
+        mat_aktid = request("mat_aktid")
+        mat_antal = request("mat_antal")
+        mat_navn = request("mat_navn")
+        mat_kobpris = request("mat_kobpris")
+        mat_enhed = request("mat_enhed")
+        
+        strsqlmat = "INSERT INTO materiale_forbrug SET jobid ="& mat_jobid & ", aktid ="& mat_aktid & ", matantal ="& mat_antal & ", matnavn ='"& mat_navn &"', matkobspris ="& mat_kobpris & ", matenhed ='"& mat_enhed & "'"
+        oConn.execute(strsqlmat)
+        
+
+        end select                  
         response.end
         end if
 
@@ -408,7 +423,9 @@
             <div class="container">
                 <div class="portlet">
                     <h3 class="portlet-title"><u>Favorit liste</u></h3>
-                    <div class="portlet-body">                        
+                    <div class="portlet-body">
+                       
+                                                                    
                         <form action="favorit.asp?" method="post">
                                               
                         <input type="hidden" name="varTjDatoUS_man" id="varTjDatoUS_man" value="<%=varTjDatoUS_man %>">
@@ -668,15 +685,16 @@
                                                            <!-- <input type="hidden" value="<%=oRec4("extsysId")%>" name="extsysId" /> -->
                                                             <input type="hidden" value="<%=timerdato %>" name="FM_datoer" />
                                                             <input type="hidden" value="dist" name="FM_destination_<%=y %>" />
-                                                          <!-- <input type="hidden" value="<%=oRec4("Timerkom") %>" name="FM_kom_<%=y %>" /> --> 
                                                             <%if origin <> 0 then %>
                                                             <input type="hidden" name="FM_timer" value=""/>
                                                             <input type="text" class="form-control input-small" style="width:75px;" value="<%=timerdag %>" readonly />
                                                             <span>Se ugeseddel</span>
-                                                            <%else %>                                                     
-                                                            <input type="text" class="form-control input-small" style="width:75px;" name="FM_timer" value="<%=timerdag %>" />
+                                                            <%else %>
+                                                            <div class="row">                                                     
+                                                            <div class="col-lg-10" style="padding-right:5px!important"><input type="text" class="form-control input-small" name="FM_timer" value="<%=timerdag %>" /></div>
+                                                            <div class="col-lg-1" style="padding-left :0px!important"><span id="modal_<%=y%>" class="kommodal">+</span></div>
+                                                            </div>
                                                             
-                                                            <span id="modal_<%=y%>" class="kommodal">+</span>
                                                                 <div id="kommentarmodal_<%=y%>" class="modal">
                                                                         <div class="modal-content">                                                                                                                        
                                                                             <div class="row">
@@ -694,22 +712,50 @@
                                                                                 <div class="panel-heading">
                                                                                     <h6 class="panel-title"><a class="accordion-toggle" data-toggle="collapse" data-target="#collapse_<%=y %>">Udlæg</a></h6>
                                                                                 </div>
-                                                                                <div id="collapse_<%=y %>" class="panel-collapse collapse">                                                                        
+                                                                                <div id="collapse_<%=y %>" class="panel-collapse collapse">  
+                                                                                    
+                                                                                   <!-- <input type="hidden" id="matreg_lto" value="<%=lto %>" />
+                                                                                    <input type="hidden" id="matreg_func" value="dbopr" />
+                                                                                    <input type="hidden" id="matregid" name="matregid" value="0" />
+                                                                                    <input type="hidden" id="matreg_jobid" name="jobid" value="0" />
+                                                                                    <input type="hidden" id="matreg_aftid" name="aftid" value="0" />
+                                                                                    <input type="hidden" id="matreg_medid" value="<%=medid %>" />
+                                                                                    <input type="hidden" id="matreg_aktid" name="aktid" value="0" />
+                                                                                    <input type="hidden" id="matreg_regdato_0" name="regdato" value="01-01-2002" /> -->
+
+
+                                                                                    <input type="hidden" id="mat_id" value="0" />
+                                                                                    <input type="hidden" id="mat_salgspris" value="0" />
+                                                                                    <input type="hidden" id="mat_jobid_<%=y %>" value="<%=jobids %>" />
+                                                                                    <input type="hidden" id="mat_dato" value="<%=timerdato %>" />
+                                                                                    <input type="hidden" id="mat_editor" value="<%=medid %>" /> <!---Skal være usemrn og IKKE medid --->                                                                                  
+                                                                                    <input type="hidden" id="mat_userid" value="<%=medid %>" />
+                                                                                    <input type="hidden" id="mat_grp" value="0" />
+                                                                                    <input type="hidden" id="mat_forbrugsdato" value="<%=timerdato %>" />
+                                                                                    <input type="hidden" id="mat_serviceaft" value="0" />
+                                                                                    <input type="hidden" id="mat_endhed_<%=y %>" value="Stk." />
+                                                                                    <input type="hidden" id="mat_aktid_<%=y %>" value="<%=Taktid %>" /> 
+
+                                                                                                                                                          
                                                                                     <div class="panel-body">
+                                                                                        
+                                                                                        <div class="row" id="error_felt_<%=y %>" style="visibility:hidden">
+                                                                                            <span id="error_txt_<%=y %>" class="col-lg-12" style="color:red"></span>
+                                                                                        </div>
 
                                                                                         <div class="row">
                                                                                             <div class="col-lg-4">Antal:</div>
-                                                                                            <div class="col-lg-4"><input type="text" value="1" name="" id="" class="form-control input-small" /></div>
+                                                                                            <div class="col-lg-4"><input type="text" value="1" id="mat_antal_<%=y %>" class="form-control input-small" /></div>
                                                                                         </div>
                                                                                         <div class="row">
                                                                                             <div class="col-lg-4">Mat. navn:</div>
-                                                                                            <div class="col-lg-4"><input type="text" value="" name="" id="" class="form-control input-small" /></div>
+                                                                                            <div class="col-lg-4"><input type="text" value="" id="mat_navn_<%=y %>" class="form-control input-small" /></div>
                                                                                         </div>
                                                                                         <div class="row">
                                                                                             <div class="col-lg-4">Indkøbspris:</div>
-                                                                                            <div class="col-lg-3"><input type="text" value="" name="" id="" class="form-control input-small" /></div>
+                                                                                            <div class="col-lg-3"><input type="text" value="" id="mat_kobpris_<%=y %>" class="form-control input-small" /></div>
                                                                                             <div class="col-lg-4">
-                                                                                                <select class="form-control input-small">
+                                                                                                <select class="form-control input-small" id="mat_valuta">
                                                                                                     <option value="1">DKK</option>
                                                                                                     <option value="2">SEK</option>
                                                                                                     <option value="3">EUR</option>
@@ -726,7 +772,11 @@
                                                                                                 </select>
                                                                                             </div>
                                                                                         </div>
-                                                                                                                                                         
+                                                                                       
+                                                                                        
+                                                                                        
+                                                                                        
+                                                                                    <!------------- Henter allerede udlæg ---------------->                                                                  
                                                                                     <%
                                                                                     strSQLudlag = "SELECT matnavn, m.forbrugsdato, m.matsalgspris, v.valutakode FROM materiale_forbrug as m "_ 
                                                                                     & "LEFT JOIN valutaer as v ON (v.id = m.valuta) WHERE aktid ="& Taktid &" AND forbrugsdato ='"& timerdato &"'"
@@ -755,11 +805,14 @@
                                                                                         %>                           
                                                                                         <div class="row">
                                                                                             <div class="col-lg-12 pull-right">
-                                                                                                <a id="<%=Taktid %>" class="btn btn-sm btn-default pull-right mat_save"><b>Gem</b></a>
+                                                                                              <!--  <a id="<%=Taktid %>" class="btn btn-sm btn-default pull-right mat_save"><b>Gem</b></a> -->
+                                                                                                <a class="btn btn-sm btn-default pull-right mat_save matreg_sb" id="<%=y %>"><b>Gem</b></a>
                                                                                             </div>
                                                                                         </div>
                                                                               
                                                                                     </div>
+
+
                                                                                 </div>
                                                                                 </div>
                                                                                 </div>
