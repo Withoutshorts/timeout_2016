@@ -37,6 +37,12 @@ public class ozUploadFileJob
     public string timerkom = string.Empty;
     public string jq_str = string.Empty;
 
+    //D1
+    public string kundenr = string.Empty;
+
+    //T1 TIA
+    public string projgrp = string.Empty;
+
     //Monitor
     public string kundenavn = string.Empty;
     public string stkantal = string.Empty;
@@ -157,17 +163,18 @@ public class ozUploadFileJob
 
 
 
-    public string Submit(string pathIn, string filenameIn, string[] headers, int[] intHeader, string folderIn, string editorIn, ref int countIgnore, ref int countInserted, string initIn, ref string errorLine, string midIn)
+    public string Submit(string pathIn, string filenameIn, string[] headers, int[] intHeader, string folderIn, string editorIn, ref int countIgnore, ref int countInserted, string initIn, ref string errorLine, string midIn, string importtype)
     {      
         string strRet = string.Empty;
 
         try
         {
-            List<ozUploadFileJob> lstRow = Read(pathIn, filenameIn, headers, intHeader, ref countIgnore, ref countInserted, initIn, ref errorLine, midIn, folderIn);
-            int intRow = Insert(lstRow, folderIn, editorIn);
+            List<ozUploadFileJob> lstRow = Read(pathIn, filenameIn, headers, intHeader, ref countIgnore, ref countInserted, initIn, ref errorLine, midIn, folderIn, importtype);
+            int intRow = Insert(lstRow, folderIn, editorIn, importtype);
             if (intRow > 0)
             {
-                strRet = CallWebservice(folderIn);
+                //importtype = "D6";
+                strRet = CallWebservice(folderIn, importtype);
             }
 
             if (strRet == null)
@@ -189,7 +196,7 @@ public class ozUploadFileJob
 
 
 
-    public List<string> ReadHeader(string pathIn, string filenameIn, string folder, string editorIn)
+    public List<string> ReadHeader(string pathIn, string filenameIn, string folder, string editorIn, string importtype)
     {
         List<string> headerData = new List<string>();
 
@@ -263,7 +270,9 @@ public class ozUploadFileJob
         return isRet;
     }
 
-    private int Insert(List<ozUploadFileJob> lstData, string folder, string editorIn)
+
+
+    private int Insert(List<ozUploadFileJob> lstData, string folder, string editorIn, string importtype)
     {
 
 
@@ -290,11 +299,46 @@ public class ozUploadFileJob
 
                 //string importtype = data.importtype;
                 //Dencker Monitor
-                if (folder == "dencker_test" || folder == "dencker")
+                if (folder == "dencker_test" || folder == "dencker" || folder == "tia")
                 {
 
                     aktstdato = ConvertDate(data.aktstdato);
                     aktsldato = ConvertDate(data.aktsldato);
+
+                    if ((importtype == "d1") || importtype == "t1") {
+
+                        if (importtype == "d1") { 
+                        string strInsert = "INSERT INTO job_import_temp (dato, origin, jobnr, jobnavn, jobans, jobstartdato, jobslutdato, beskrivelse, lto, editor, overfort, kundenavn, kundenr)"+
+                        " VALUES ('" + DateTime.Now.ToString("yyyy-MM-dd") + "',602,'" + data.jobid + "','" + data.jobnavn.Replace("'", "") + "','" + data.jobans + "','" + stdato + "','" + sldato + "',"+
+                        "'" + data.timerkom + "','" + folder + "','Timeout - ImportJobService',0, '" + data.kundenavn + "', '" + data.kundenr + "')";
+                        OdbcCommand command = new OdbcCommand(strInsert, connection);
+                        connection.Open();
+
+                        // Execute the DataReader and access the data.
+                        intRow = command.ExecuteNonQuery();
+
+                        connection.Close();
+
+                        }
+
+
+                        if (importtype == "t1") {
+                            string strInsert = "INSERT INTO job_import_temp (dato, origin, jobnr, jobnavn, jobans, jobstartdato, jobslutdato, beskrivelse, lto, editor, overfort, kundenavn, kundenr, projgrp) " +
+                            " VALUES ('" + DateTime.Now.ToString("yyyy-MM-dd") + "',603,'" + data.jobid + "','" + data.jobnavn.Replace("'", "") + "','" + data.jobans + "'," +
+                            "'" + stdato + "','" + sldato + "','" + data.timerkom + "','" + folder + "','Timeout - ImportJobService',0, '" + data.kundenavn + "', '" + data.kundenr + "', '" + data.projgrp + "')";
+                            OdbcCommand command = new OdbcCommand(strInsert, connection);
+                            connection.Open();
+
+                            // Execute the DataReader and access the data.
+                            intRow = command.ExecuteNonQuery();
+
+                            connection.Close();
+
+                        }
+
+
+                    }
+                    else { 
 
                     string aktnavn = data.aktnavn.ToString();
 
@@ -316,23 +360,27 @@ public class ozUploadFileJob
                     string strInsert = "INSERT INTO job_import_temp (dato, origin, jobnr, jobnavn, jobans, jobstartdato, jobslutdato, beskrivelse, lto, editor, overfort, kundenavn, aktstdato, aktsldato, stkantal, aktnavn, sort, fomr, aktvarenr) " +
                     " VALUES ('" + DateTime.Now.ToString("yyyy-MM-dd") + "',600,'" + data.jobid + "','" + data.jobnavn.Replace("'", "") + "','" + data.jobans + "','" + stdato + "',"+
                     "'" + sldato + "','" + data.timerkom.Replace("'", "") + "','" + folder + "','Timeout - ImportJobService',0,'" + data.kundenavn + "','" + aktstdato + "','" + aktsldato + "', " + data.stkantal + ", '" + aktnavn + "'," + data.sort + ",'" + data.fomr + "','" + data.aktvarenr + "')";
+                        OdbcCommand command = new OdbcCommand(strInsert, connection);
+                        connection.Open();
 
+                        // Execute the DataReader and access the data.
+                        intRow = command.ExecuteNonQuery();
 
-                    OdbcCommand command = new OdbcCommand(strInsert, connection);
+                        connection.Close();
+                    }
 
-                    connection.Open();
+                    
 
-                    // Execute the DataReader and access the data.
-                    intRow = command.ExecuteNonQuery();
-
-                    connection.Close();
+                   
 
                 }
                 //Standard Wilke, ØKO
                 else {
 
                     //string strInsert = "INSERT INTO timer_import_temp (dato, origin, medarbejderid, jobid, aktnavn, timer, tdato, timerkom, lto, editor,overfort)VALUES('" + DateTime.Now.ToString("yyyy-MM-dd") + "',+"+ORIGIN+",'" + data.medarbejderid + "'," + data.jobid + ",'" + data.aktnavn + "'," + data.timer.Replace(',', '.') + ",'" + data.stdato + "','" + data.timerkom + "','" + folder + "','" + editorIn + "',0)";
-                    string strInsert = "INSERT INTO job_import_temp (dato, origin, jobnr, jobnavn, jobans, jobstartdato, jobslutdato, beskrivelse, lto, editor, overfort)VALUES('" + DateTime.Now.ToString("yyyy-MM-dd") + "',600,'" + data.jobid + "','" + data.jobnavn.Replace("'", "") + "','" + data.jobans + "','" + stdato + "','" + sldato + "','" + data.timerkom.Replace("'", "") + "','" + folder + "','Timeout - ImportJobService',0)";
+                    string strInsert = "INSERT INTO job_import_temp (dato, origin, jobnr, jobnavn, jobans, jobstartdato, jobslutdato, beskrivelse, lto, editor, overfort) "+
+                    " VALUES ('" + DateTime.Now.ToString("yyyy-MM-dd") + "',600,'" + data.jobid + "','" + data.jobnavn.Replace("'", "") + "','" + data.jobans + "',"+
+                    "'" + stdato + "','" + sldato + "','" + data.timerkom.Replace("'", "") + "','" + folder + "','Timeout - ImportJobService',0)";
                     OdbcCommand command = new OdbcCommand(strInsert, connection);
 
                     connection.Open();
@@ -391,7 +439,7 @@ public class ozUploadFileJob
         return intRow;
     }
 
-    private string CallWebservice(string ltoIn)
+    private string CallWebservice(string ltoIn, string importtype)
     {
         if (ltoIn == "outz" || ltoIn == "intranet - local")
             ltoIn = "intranet";
@@ -400,12 +448,13 @@ public class ozUploadFileJob
             ltoIn = "dencker_test";
 
         string strRet = string.Empty;
-
+        //importtype = "D9";
 
         //// Create two DataTable instances.
         DataTable table1 = new DataTable("TB_to_var");
         table1.Columns.Add("lto");
-        table1.Rows.Add(""+ ltoIn +"");
+        table1.Columns.Add("importtype");
+        table1.Rows.Add(""+ ltoIn, importtype + "");
 
         //// Create a DataSet and put both tables in it.
         DataSet dsData = new DataSet("DS_to_var");
@@ -454,18 +503,18 @@ public class ozUploadFileJob
         return lstRet;
     }
 
-    private List<ozUploadFileJob> Read(string pathIn, string filenameIn, string[] headers, int[] intHeader, ref int countIgnore, ref int countInserted, string initIn, ref string errorLines, string midIn, string folderIn)
+    private List<ozUploadFileJob> Read(string pathIn, string filenameIn, string[] headers, int[] intHeader, ref int countIgnore, ref int countInserted, string initIn, ref string errorLines, string midIn, string folderIn, string importtype)
     {
         List<ozUploadFileJob> lstData = new List<ozUploadFileJob>();
 
         try
         {           
             if (filenameIn.ToLower().Contains(".xlsx"))
-                lstData = ReadXlsx2007(pathIn, filenameIn, headers, ref countInserted, ref countIgnore, initIn, ref errorLines, midIn, folderIn);
+                lstData = ReadXlsx2007(pathIn, filenameIn, headers, ref countInserted, ref countIgnore, initIn, ref errorLines, midIn, folderIn, importtype);
             else if (filenameIn.ToLower().Contains(".xls"))
-                lstData = ReadXls2003(pathIn, filenameIn, headers, ref countInserted, ref countIgnore, initIn, ref errorLines, midIn, folderIn);
+                lstData = ReadXls2003(pathIn, filenameIn, headers, ref countInserted, ref countIgnore, initIn, ref errorLines, midIn, folderIn, importtype);
             else if (filenameIn.ToLower().Contains(".csv"))
-                lstData = ReadCsv(pathIn, filenameIn, intHeader, ref countInserted, ref countIgnore, initIn, ref errorLines, midIn, folderIn);          
+                lstData = ReadCsv(pathIn, filenameIn, intHeader, ref countInserted, ref countIgnore, initIn, ref errorLines, midIn, folderIn, importtype);          
         }
         catch (Exception ex)
         {
@@ -491,7 +540,7 @@ public class ozUploadFileJob
     }
    
     #region Read file
-    private List<ozUploadFileJob> ReadXls2003(string pathIn, string filenameIn, string[] headers, ref int countInserted, ref int countIgnore, string initIn, ref string errorLines, string midIn, string folderIn)
+    private List<ozUploadFileJob> ReadXls2003(string pathIn, string filenameIn, string[] headers, ref int countInserted, ref int countIgnore, string initIn, ref string errorLines, string midIn, string folderIn, string importtype)
     {
         List<ozUploadFileJob> lstRet = new List<ozUploadFileJob>();
 
@@ -587,7 +636,7 @@ public class ozUploadFileJob
         return lstRet;
     }
 
-    private List<ozUploadFileJob> ReadXlsx2007(string pathIn, string filenameIn, string[] headers, ref int countInserted, ref int countIgnore, string initIn, ref string errorLines, string midIn, string folderIn)
+    private List<ozUploadFileJob> ReadXlsx2007(string pathIn, string filenameIn, string[] headers, ref int countInserted, ref int countIgnore, string initIn, ref string errorLines, string midIn, string folderIn, string importtype)
     {
         List<ozUploadFileJob> lstRet = new List<ozUploadFileJob>();
 
@@ -738,7 +787,7 @@ public class ozUploadFileJob
         return lstRet;
     }
 
-    private List<ozUploadFileJob> ReadCsv(string pathIn, string filenameIn, int[] headers, ref int countInserted, ref int countIgnore, string initIn, ref string errorLines, string midIn, string folderIn)
+    private List<ozUploadFileJob> ReadCsv(string pathIn, string filenameIn, int[] headers, ref int countInserted, ref int countIgnore, string initIn, ref string errorLines, string midIn, string folderIn, string importtype)
     {
         List<ozUploadFileJob> lstRet = new List<ozUploadFileJob>();
 
@@ -772,23 +821,28 @@ public class ozUploadFileJob
 
 
 
-               
-
-               
-
                 fileRet.jobnavn = datas[headers[0] - 1];
                 fileRet.jobid = datas[headers[1]-1];
                
                 fileRet.stdato = datas[headers[3]-1];
                 fileRet.sldato = datas[headers[4]-1];
 
-                if (folderIn != "dencker" && folderIn != "dencker_test")
+                if ((folderIn != "dencker" && folderIn != "dencker_test") || (importtype == "d1") || (importtype == "t1"))
                 {
                     fileRet.timerkom = datas[headers[5] - 1]; //Faktureringstype
                     fileRet.jobans = datas[headers[2] - 1]; //Jobans
 
+                    fileRet.kundenavn = datas[headers[6] - 1];
+                    fileRet.kundenr = datas[headers[7] - 1];
+
                     if (fileRet.timerkom == string.Empty)
                         fileRet.timerkom = "";
+                }
+
+
+                if (importtype == "t1")
+                {
+                    fileRet.projgrp = datas[headers[8] - 1];
                 }
 
                 if (fileRet.jobid == string.Empty)
@@ -803,7 +857,7 @@ public class ozUploadFileJob
 
               
 
-                if (folderIn == "dencker" || folderIn == "dencker_test") { 
+                if ((folderIn == "dencker" || folderIn == "dencker_test") && (importtype != "d1")) { 
                 //Monitor Dencker
                 
                 fileRet.stkantal = datas[headers[5] - 1];

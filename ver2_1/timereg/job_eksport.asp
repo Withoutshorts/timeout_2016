@@ -289,7 +289,7 @@ if len(session("user")) = 0 then
 
 
                     if eksDataNrl = 1 then
-	                strTxtExport = strTxtExport &"Fastpris:1/Lbn Timer:0;Forkalk. Timer;Budget. Bruttooms.;"
+	                strTxtExport = strTxtExport &"Fastpris:1/Lbn Timer:0;Forkalk. Timer;Budget. Bruttooms.;Valuta;Kurs;"
   
     
                           if cint(bdgmtypon_val) = 1 then 'budget på mtyper slået til
@@ -426,7 +426,7 @@ if len(session("user")) = 0 then
     end if
     
     strSQL = strSQL &" rekvnr, serviceaft, kommentar, jo_dbproc, udgifter, jo_bruttooms, jo_bruttofortj, jo_udgifter_intern, jo_udgifter_ulev, "_
-    &" restestimat, stade_tim_proc, kp.navn AS kontaktpers, preconditions_met "_
+    &" restestimat, stade_tim_proc, kp.navn AS kontaktpers, preconditions_met, jo_valuta, jo_valuta_kurs "_
     &" FROM job AS j"
 
     strSQL = strSQL & " LEFT JOIN kunder AS k ON (k.kid = j.jobknr) "
@@ -636,6 +636,10 @@ if len(session("user")) = 0 then
     internKost = oRec("jo_udgifter_intern")
 
     preconditions_met = oRec("preconditions_met")
+
+    jo_valuta = oRec("jo_valuta")
+    call valutakode_fn(jo_valuta)
+    jo_valuta_kurs = oRec("jo_valuta_kurs")
 
 		'*** Export ****
 		'objF.WriteLine("Id "&  chr(009) &" Kundenavn "&  chr(009) &"Kundenr "& chr(009) &"Jobnavn "& chr(009)&"Aktivitet "& chr(009) &"Kunde "& chr(009) &"Timer / Enheder"& chr(009) &"Heraf fakturerbare timer"& chr(009) &"Reg. Timepris (uanset fastpris/lbn.tim.)"& chr(009) &"Gns.fak. Timepris" & chr(009) & "Medarbejder "& chr(009) &"Kommentar ")
@@ -856,8 +860,8 @@ if len(session("user")) = 0 then
           
         
         if eksDataNrl = 1 then
-        strTxtExport = strTxtExport & Chr(34) & intFaspris & Chr(34) &";"& Chr(34) & formatnumber(timerialt, 2) & Chr(34) &";"& Chr(34) & formatnumber(dblBudget,2) & Chr(34) &";"
-        
+        strTxtExport = strTxtExport & Chr(34) & intFaspris & Chr(34) &";"& Chr(34) & formatnumber(timerialt, 2) & Chr(34) &";"
+        strTxtExport = strTxtExport & Chr(34) & formatnumber(dblBudget,2) & Chr(34) &";"& Chr(34) & valutaKode_CCC & Chr(34) &";"& Chr(34) & jo_valuta_kurs & Chr(34) &";"
                 
             if cint(bdgmtypon_val) = 1 then 
             

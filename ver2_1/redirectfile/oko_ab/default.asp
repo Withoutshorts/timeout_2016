@@ -6,7 +6,7 @@
 
 '** Brug denne på produktions server **'
 'response.redirect "https://outzource.dk/timeout_xp/wwwroot/ver2_10/login.asp?key=2.2013-1002-TO147&lto=oko"
-response.redirect "http://timeout.cloud/timeout_xp/wwwroot/ver2_14/login.asp?key=2.2013-1002-TO147&lto=oko"
+response.redirect "https://timeout.cloud/timeout_xp/wwwroot/ver2_14/login.asp?key=2.2013-1002-TO147&lto=oko"
 
 '** Version lukket ned ***'
 'response.redirect "https://outzource.dk/timeout_xp/wwwroot/ver2_1/tak_login.asp"

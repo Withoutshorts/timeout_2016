@@ -265,8 +265,8 @@
 
                                     
                                   lastmid = 0
-                                  m = 200
-                                  d = 2000
+                                  m = 1000
+                                  d = 10000
                                   lasttmnr = 0
                                   dim timer_md, dato_medid, medarbid, medidnavn, manedstot
                                   Redim timer_md(m,d), dato_medid(m,d), medarbid(m), medidnavn(m), manedstot(antalmaaned)

@@ -291,7 +291,10 @@ end function
 		            <input type="checkbox" name="FM_jobans" id="cFM_jobans" value="1" <%=jobansChk%>>&nbsp;Jobansvarlig
                     <input type="checkbox" name="FM_jobans2" id="cFM_jobans2" value="1" <%=jobansChk2%>>&nbsp;Jobejer
                     <input type="checkbox" name="FM_jobans3" id="cFM_jobans3" value="1" <%=jobansChk3%>>&nbsp;Jobmedans. 1-3
-                   
+
+                        <%if cint(showSalgsAnv) = 1 AND thisfile = "pipeline" then %>
+                        <br /><input type="checkbox" name="FM_salgsans" id="cFM_slagsansv" value="1" <%=salgsansChk%>>&nbsp;Salgsansv. 1-5
+                        <%end if %>
             		
 	              </td>
             	 
@@ -351,7 +354,12 @@ end function
         if cint(jobans) = 1 OR cint(jobans2) = 1 OR cint(jobans3) = 1 then
         strKnrSQLkri = strKnrSQLkri & " )"
         end if
-        
+
+
+        '*** Salgsansv
+        if cint(salgsans) = 1 then
+        strKnrSQLkri = strKnrSQLkri & " AND (" & salgsansSQLkri &")" 
+        end if
 
         
 		'*** kundeans ****'
@@ -510,11 +518,11 @@ end function
 		strSQL = "SELECT jobnavn, jobnr, jobstatus, id, k.kkundenavn, k.kkundenr FROM job j "_
 		&" LEFT JOIN kunder k ON (k.kid = j.jobknr) "_
 		&" WHERE "& strKnrSQLkri &" "& kundeAnsSQLKri &" "& jobstKri &"  "& strJobAftSQL &" ORDER BY k.kkundenavn, j.jobnavn"
-		if session("mid") = 1 then
+		
+        'if session("mid") = 1 then
         'Response.write strSQL
-		'Response.flush
-          
-        end if
+		'Response.flush  
+        'end if
 		%>
 		
 		
@@ -1143,7 +1151,7 @@ end function
 	
 	public strKnrSQLkri, visKundejobans, kundejobansCHK1, kundejobansCHK0, kontakt_keyaccountVAL
 	public kundeans, kundeansChk, jobans, jobans2, jobansChk, jobansVal2, jobansVal, kansVal, jobansChk2, jobans1Val
-    public jobans3, jobansChk3, jobansVal3 
+    public jobans3, jobansChk3, jobansVal3, salgsans, salgsansChk, salgsansVal 
 	function kundeogjobans()
 	
 
@@ -1275,6 +1283,37 @@ end function
                       end if
 				end if
 
+
+                '*** Salgsansv ***
+				if len(request("FM_kundejobans_ell_alle")) <> 0 then
+                'if len(request("FM_jobans")) <> 0 then
+				salgsans = request("FM_salgsans")
+					select case cint(salgsans)
+					case 1 
+					salgsansChk = "CHECKED"
+					salgsansVal = " - Salgsansvarlig 1-5"
+					case else
+					salgsansVal = ""    
+				    salgsansChk = ""
+					end select
+
+                    response.cookies("tsa")("salgsans") = salgsans
+
+				else
+                        if request.cookies("tsa")("salgsans") = "1" then
+                        salgsans = 1
+                        jobansChk = "CHECKED"
+					    jobansVal = " - Jobansvarlig"
+                        else
+				        jobansVal = ""
+				        jobansChk = ""
+				        salgsans = 0
+                        end if
+				
+                end if
+				
+               salgsansVal = salgsans
+
                 
 	
 	
@@ -1296,6 +1335,10 @@ end function
 	jobansVal = ""
 	jobansVal2 = ""
     jobansVal3 = ""
+                    
+    salgsansChk = ""
+	salgsans = 0
+	salgsansVal = ""
 	end if		
 	
 	
@@ -1548,11 +1591,28 @@ end function
 	'Response.Write "request(FM_jobsog): "& request("FM_jobsog") & " jobid = "& request("FM_job")
 	'end if
 
-    if len(trim(request("FM_aktnavnsog"))) <> 0 AND cint(vis_aktnavn) = 1 then
-    aktNavnSogVal = trim(request("FM_aktnavnsog"))
+    if len(trim(request("vis_fakbare_res"))) <> 0 then
+
+        if len(trim(request("FM_aktnavnsog"))) <> 0 AND cint(vis_aktnavn) = 1 then
+        aktNavnSogVal = trim(request("FM_aktnavnsog"))
+        else
+        aktNavnSogVal = ""
+        end if
+
     else
-    aktNavnSogVal = ""
+
+        if request.cookies("cc_vis_fakbare_res")("aktn_val") <> "" AND cint(vis_aktnavn) = 1 then
+        aktNavnSogVal = request.cookies("cc_vis_fakbare_res")("aktn_val")
+        else
+        aktNavnSogVal = ""
+        end if
+        
+
     end if
+
+
+    response.cookies("cc_vis_fakbare_res")("aktn_val") = aktNavnSogVal
+
 
 	
 	if len(trim(request("FM_jobsog"))) <> 0 then

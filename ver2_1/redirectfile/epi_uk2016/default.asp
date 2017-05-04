@@ -11,7 +11,8 @@ else
 end if
 
 '** Brug denne på produktions server **'
-response.redirect "https://outzource.dk/timeout_xp/wwwroot/ver2_14/login.asp?key=2.2014-0331-TO1482016&lto=epi_uk&tomobjid="&tomobjid
+'response.redirect "https://outzource.dk/timeout_xp/wwwroot/ver2_14/login.asp?key=2.2014-0331-TO1482016&lto=epi_uk&tomobjid="&tomobjid
+response.redirect "https://timeout.cloud/timeout_xp/wwwroot/ver2_14/login.asp?key=2.2014-0331-TO1482016&lto=epi_uk"
 
 '** Version lukket ned ***'
 'response.redirect "https://outzource.dk/timeout_xp/wwwroot/ver2_1/tak_login.asp"

@@ -600,19 +600,21 @@ end if
         kidSQL = " jobknr = "& kid
         aftKidSQL = " kundeid = "& kid 
         else
-        kidSQL = " jobknr <> "& kid 
-        aftKidSQL = " kundeid <> "& kid 
+        kidSQL = "jobknr = -1" '" jobknr <> "& kid 
+        aftKidSQL = " kundeid = -1" '" kundeid <> "& kid 
         end if 
        
     else
         if len(trim(request.Cookies("erp")("kid"))) <> 0 then
-         kid = request.cookies("erp")("kid")
+        kid = request.cookies("erp")("kid")
         kidSQL = " jobknr = "& request.Cookies("erp")("kid")
         aftKidSQL = " kundeid = "& request.Cookies("erp")("kid") 
         else
         kid = 0
-        kidSQL = " jobknr <> "& kid 
-        aftKidSQL = " kundeid <> "& kid 
+        'kidSQL = " jobknr <> "& kid 
+        'aftKidSQL = " kundeid <> "& kid 
+        kidSQL = "jobknr = -1" '" jobknr <> "& kid 
+        aftKidSQL = " kundeid = -1" '" kundeid <> "& kid 
         end if
     end if
     

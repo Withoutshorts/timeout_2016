@@ -3094,14 +3094,15 @@ if len(session("user")) = 0 then
                          antalaktCount = 0
                          if jobid <> 0 then
 	                    
-	                    strSQL = "SELECT COUNT(a.id) AS antalaktCount FROM aktiviteter a LEFT JOIN akt_typer AS aty ON (aty.aty_id = a.fakturerbar) WHERE job = "& jobid &" AND aktstatus = 1 AND aty_on_invoice = 1 GROUP BY job" 
+	                    strSQL = "SELECT COALESCE(COUNT(a.id)) AS antalaktCount FROM aktiviteter a "_
+                        &" LEFT JOIN akt_typer AS aty ON (aty.aty_id = a.fakturerbar) WHERE job = "& jobid &" AND aktstatus = 1 AND aty_on_invoice = 1 AND aty.aty_id IS NOT NULL GROUP BY job" 
 	                    
 	                    'Response.Write strSQL
 	                    'Response.flush
 	                    
 	                    oRec.open strSQL, oConn, 3
 	                    if not oRec.EOF then
-	                    antalaktCount = oRec("antalaktCount")
+                            antalaktCount = cdbl(oRec("antalaktCount"))/1
 	                    end if
 	                    oRec.close 
 
@@ -3116,7 +3117,11 @@ if len(session("user")) = 0 then
 	                    
 	                    <%=erp_txt_194 %> <b><%=antalaktCount & " " & erp_txt_189 %></b>  <%=erp_txt_190 %><br /><br />
                         <b><%=erp_txt_191 %></b><br />
-	                    <%=erp_txt_192 & " " &formatnumber((antalaktCount*0.2), 0) & " " & erp_txt_193 & " <b>" & formatnumber((antalaktCount*1.4), 0) %> </b> sek.
+	                      
+                       
+                            <%=erp_txt_192 & " " & formatnumber((cdbl(antalaktCount)*0.2), 0) & " " & erp_txt_193 & " <b>" & formatnumber((antalaktCount*1.4), 0) %> </b> sek.
+                           
+                        
                         <%end if %>
 
                         <%else %>
@@ -3129,7 +3134,7 @@ if len(session("user")) = 0 then
 	
 	                    </td></tr></table>
                   
-                  
+                     
                
 	              </div>
 	                
@@ -3358,10 +3363,10 @@ if len(session("user")) = 0 then
        
 	   <!-- Modtager og Afsender -- vises først på fakturalayout -->
 	
-	                <div id="modtagdiv" style="position:absolute; visibility:hidden; display:none; top:105px; width:720px; left:5px; border:1px #8cAAe6 solid;">
+	  <div id="modtagdiv" style="position:absolute; visibility:visible; display:; top:105px; width:720px; left:5px; border:1px #8cAAe6 solid;">
                      
                        
-                        <table cellspacing="0" cellpadding="0" border="0" width=100% bgcolor="#ffffff">
+                     <table cellspacing="0" cellpadding="0" border="0" width=100% bgcolor="#ffffff">
                      <tr><td valign=top style="width:350px;">
                      
                     <table cellspacing="0" cellpadding="5" border="0" width="100%">
@@ -5228,8 +5233,18 @@ if len(session("user")) = 0 then
                         strJobBesk = ""
                         end if
 	                    
+
+                            select case lto
+                            case "synergi1", "intranet - local"
+                                if func <> "red" then
+                                content = "<span style=""color:red; font-size:14px;"">Bemærk nyt kontonr!<br></span>" & strJobBesk
+                                else
+                                content = strJobBesk
+                                end if
+
+                            case else
                             content = strJobBesk
-            			
+            			    end select
 			            
 			            Set editorJ = New CuteEditor
             					

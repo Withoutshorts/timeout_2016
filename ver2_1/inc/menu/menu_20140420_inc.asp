@@ -546,9 +546,9 @@ end select
                  <li><a href="<%=toSubVerPath14 %><%=lnkAfstem %>"><%=tsa_txt_389 %></a></li>
 
                  <%select case lto
-                 case "oko", "epi", "epi2017", "wilke", "intranet - local", "outz", "dencker", "essens", "synergi1", "jttek", "hidalgo", "demo", "bf", "plan", "acc"
+                 case "oko", "epi", "epi2017", "wilke", "intranet - local", "outz", "dencker", "essens", "synergi1", "jttek", "hidalgo", "demo", "bf", "plan", "acc", "assurator", "glad"
                      
-                     if level = 1 OR (lto = "wilke") OR (lto = "outz") OR (lto = "dencker") OR (lto = "hidalgo") OR (lto = "acc") then%>
+                    if level = 1 OR (lto = "wilke") OR (lto = "outz") OR (lto = "dencker") OR (lto = "hidalgo") OR (lto = "acc") OR (lto = "epi2017") OR (lto = "assurator") OR (lto = "glad") then%>
                     <li><a href="<%=toSubVerPath15 %>medarbdashboard.asp"><%=tsa_txt_529 %></a></li>
                     <%end if %>
                  <%end select %>
@@ -836,10 +836,16 @@ end select
                    <li><a href="<%=toSubVerPath14 %>webblik_joblisten21.asp"><%=tsa_txt_454 %></a></li>
                    <li><a href="<%=toSubVerPath14 %>webblik_milepale.asp"><%=tsa_txt_455 %></a></li>
 
+                  <%if (level = 1 OR session("mid") = 35) then 'Kim B epinion %>
                   <li><a href="<%=toSubVerPath14 %>pipeline.asp?menu=webblik&FM_kunde=0&FM_progrupper=10"><%=tsa_txt_456 %></a></li>
+                  <%end if %>
 
                   <%if lto = "outz" OR lto = "intranet - local" then %>
                     <li><a href="<%=toSubVerPath14 %>jbpla_w.asp">Planlægningskalender (TEST)</a></li>
+                  <%end if %>
+
+                     <%if lto = "outz" OR lto = "intranet - local" OR lto = "essens" OR lto = "hidalgo" then %>
+                    <li><a href="../ressource_planner/ressplan_2017.aspx" target="_blank">Ressource Planner</a></li>
                   <%end if %>
 
                    <%end if %>
@@ -892,30 +898,33 @@ end select
 
                         <%if (level <= 2 OR level = 6) OR lto = "fk" then %>
 
-                                    <li><a href="<%=toSubVerPath15 %>medarb_protid.asp">Medarbejder - projekttid</a></li>
+                                    <li><a href="<%=toSubVerPath15 %>medarb_protid.asp"><%=menu_txt_010 %></a></li>
 
                         <%end if %>
 
                        <%if level = 1 then %>
 
-                                     <br /><br />
-                                     <%if session("stempelur") <> 0 then %>
-                                        <li><a href="<%=toSubVerPath14 %>stempelur.asp?func=stat"><%=tsa_txt_463 %></a></li>
+                                         <br /><br />
+                                         <%if session("stempelur") <> 0 then %>
+                                            <li><a href="<%=toSubVerPath14 %>stempelur.asp?func=stat"><%=tsa_txt_463 %></a></li>
 
-                                    <%end if %>
+                                        <%end if %>
                  
              
 
-                         <li><a href="<%=toSubVerPath14 %>saleandvalue.asp"><%=replace(tsa_txt_464, "|", "&") %></a></li>
+                             <li><a href="<%=toSubVerPath14 %>saleandvalue.asp"><%=replace(tsa_txt_464, "|", "&") %></a></li>
 
-                         <%if cint(smilaktiv) <> 0 then  %>
-                         <li><a href="<%=toSubVerPath14 %>smileystatus.asp"><%=tsa_txt_465 %></a></li>
+                             <%if cint(smilaktiv) <> 0 then  %>
+                             <li><a href="<%=toSubVerPath14 %>smileystatus.asp"><%=tsa_txt_465 %></a></li>
+                             <%end if %>
+
                          <%end if %>
 
-                         <li><a href="<%=toSubVerPath14 %>bal_real_norm_2007.asp?dontdisplayresult=1"><%=replace(tsa_txt_466, "|", "&") %></a></li>
 
+                         <%if level = 1 OR ((level <= 2 OR level = 6) AND lto = "epi2017") then %>
 
-                        <%end if %>
+                            <li><a href="<%=toSubVerPath14 %>bal_real_norm_2007.asp?dontdisplayresult=1"><%=replace(tsa_txt_466, "|", "&") %></a></li>
+                         <%end if %>
                 
                  
                          <%if level = 1 then %>
@@ -932,6 +941,7 @@ end select
 
                         <%if level <= 2 OR level = 6 then '** Indtil teamleder er impl. på kørsels siden **"%>
                         <li><a href="<%=toSubVerPath14 %>stat_korsel.asp?menu=stat" ><%=tsa_txt_265 %></a></li>
+                        <li><a href="<%=toSubVerPath14 %>pipeline.asp?menu=webblik&FM_kunde=0&FM_progrupper=10"><%=tsa_txt_456 %></a></li>
                         <%end if %>
 
                         <br /><br />
@@ -940,6 +950,8 @@ end select
                         <%if level = 1 then %>
                         <li><a href="<%=toSubVerPath14 %>materiale_stat.asp?menu=stat" ><%=tsa_txt_156 %></a></li>
                         <%end if %>
+
+                        
 
 
                         <%if level = 1 AND (lto = "intranet - local" OR lto = "epi" OR lto = "epi_cati" OR lto = "epi_no" OR lto = "epi_se" OR lto = "epi2017") then %>
@@ -1122,8 +1134,10 @@ end select
 
            <%end if %>
 
-           <%if lto = "intranet - local" or lto = "gd" then
-             else     
+           <%if lto = "gd" then
+
+
+           else     
            %>
            <h3 class="menuh3"><%=tsa_txt_492 %></h3>
            
@@ -1152,8 +1166,18 @@ end select
 
             '**** INDLÆS / IMPORTER  funktioner     
             if (lto = "dencker" OR lto = "dencker_test" OR lto = "intranet - local") AND level = 1 then %>
+             <li><a href="../timereg_net/importer_job.aspx?lto=<%=lto%>&mid=<%=session("mid")%>&editor=<%=session("user") %>&importtype=d1" target="_blank">Monitor-importer job</a></li>
+            <li><a href="../timereg_net/importer_job_monitor.aspx?lto=<%=lto%>&mid=<%=session("mid")%>&editor=<%=session("user") %>" target="_blank">Monitor-importer aktiviteter</a></li>
+           
+           <%end if
 
-            <li><a href="../timereg_net/importer_job_monitor.aspx?lto=<%=lto%>&mid=<%=session("mid")%>&editor=<%=session("user") %>" target="_blank">Monitor-importer Job & aktiviteter</a></li>
+
+             '**** INDLÆS / IMPORTER  funktioner     
+            if (lto = "tia" OR lto = "intranet - local") AND level = 1 then %>
+            
+             <li><a href="../timereg_net/importer_job.aspx?lto=<%=lto%>&mid=<%=session("mid")%>&editor=<%=session("user") %>&importtype=t1" target="_blank">NAV-importer job/proj.</a></li>
+            <li><a href="../timereg_net/importer_akt.aspx?lto=<%=lto%>&mid=<%=session("mid")%>&editor=<%=session("user") %>&importtype=t2" target="_blank">NAV-importer tasks/aktiviteter</a></li>
+             <li><a href="../timereg_net/importer_med.aspx?lto=<%=lto%>&mid=<%=session("mid")%>&editor=<%=session("user") %>&importtype=t3" target="_blank">NAV-importer medarbejdere</a></li>
            
            <%end if
                 

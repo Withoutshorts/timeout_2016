@@ -809,11 +809,49 @@ case "dbopr", "dbred"
 
         if cint(kopier_ordre) = 1 then
 
-         call lastjobnr_fn()
+
+            '**** KOPIER FILER ***
+            filfundet = 0
+            strSQL = "SELECT id, filnavn, editor, filertxt FROM filer WHERE filertxt = '"& jobnr &"'"
+            oRec.open strSQL, oConn, 3
+            if not oRec.EOF then
+        
+            strSQLfilerKopy = "INSERT INTO filer SET filnavn = '"& oRec("filnavn") & "', filertxt = '#NEWJOBID#', type = 1, adg_admin = 1, editor = '"& editor &"', dato = '"& dd_dato &"'" 
+            filfundet = 1
+
+            end if
+            oRec.close
+
+
+        call lastjobnr_fn()
         jobnr = nextjobnr
+        jobstatus = 1 'ALTID AKTIV
+
+         if cint(filfundet) = 1 then
+         strSQLfilerKopy = replace(strSQLfilerKopy, "#NEWJOBID#", jobnr)
+         oConn.execute(strSQLfilerKopy)
+         end if
+
+
+        '****** NULSTILLER ORDER INFO ***'
+        rekvnr = ""
+        dt_jobstdato = year(now) &"/"& month(now) &"/"& day(now)
+        destination = destination '** ??
+        transport = "0"
+        dt_confb_etd = "2010-01-01"
+        dt_confs_etd = "2010-01-01"
+        dt_confb_eta = "2010-01-01"
+        dt_confs_eta = "2010-01-01"
+        dt_actual_etd = "2010-01-01"
+        dt_actual_eta = "2010-01-01"
+        shippedqty = 0
+        supplier_invoiceno = ""
+        beskrivelse = ""
 
         end if
 
+
+       
 
  
 
@@ -858,9 +896,7 @@ case "dbopr", "dbred"
        oRec.close
 
                 
-                
-          
-			
+    	
         
 
       '*** Opdater jobnr rækkefælge ***'
@@ -901,8 +937,12 @@ case "dbopr", "dbred"
 
     end if
 
-
+    if cint(kopier_ordre) = 1 then
+    response.redirect "job_nt.asp?func=red&jobid="&lastid
+    else
     response.redirect "job_nt.asp?func=table&lastid="&lastid
+    end if
+
 
 case "bulk"
 

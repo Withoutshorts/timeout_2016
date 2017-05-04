@@ -10,8 +10,11 @@ Session.LCID = 1030
 '** NO
 'strConnect = "driver={MySQL ODBC 3.51 Driver};server=194.150.108.154; Port=3306; uid=outzource;pwd=SKba200473;database=timeout_epi_no;"
 '** UK
-strConnect = "driver={MySQL ODBC 3.51 Driver};server=195.189.130.210; Port=3306; uid=outzource;pwd=SKba200473;database=timeout_epi_uk;"
+'strConnect = "driver={MySQL ODBC 3.51 Driver};server=195.189.130.210; Port=3306; uid=outzource;pwd=SKba200473;database=timeout_epi_uk;"
 	
+'**EPI2017
+strConnect = "driver={MySQL ODBC 3.51 Driver};server=194.150.108.154; Port=3306; uid=outzource;pwd=SKba200473;database=timeout_epi2017;"
+
 Response.write strConnect & "<br><br>"
 
 Set oConn = Server.CreateObject("ADODB.Connection")
@@ -23,7 +26,7 @@ oConn.open strConnect
 
 
 strSQL = "SELECT pwc.dato, pwc.konto, pwc.postext, pwc.belob, pwc.jobnr, pwc.init, pwc.extsysid, pwc.id, "_
-&" j.id AS jid, serviceaft, m.mid FROM mat_pwc_import_201701 AS pwc "_
+&" j.id AS jid, serviceaft, m.mid FROM mat_pwc_import_2017043 AS pwc "_
 &" LEFT JOIN job AS j ON (j.jobnr = pwc.jobnr) "_
 &" LEFT JOIN medarbejdere AS m ON (m.init = pwc.init) WHERE pwc.postext <> '' ORDER BY extsysid" 
 ' AND 
@@ -127,7 +130,7 @@ while not oRec.EOF
 				&" 0, '"& regDatoSQL &"', "& aftid &", "& intValuta &", "_
 				&" "& intkode &", '"& bilagsnr &"', "& dblKurs &", "& personlig &", "& extsysid &")"
 				
-				Response.Write strSQL & "<br>"
+				Response.Write "OK1<br>"& strSQL & "<br>"
 				Response.flush
 				
                 'oConn.execute(strSQL)

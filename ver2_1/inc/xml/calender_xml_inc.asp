@@ -5,11 +5,11 @@ Dim objXMLHTTP_calender, objXMLDOM_calender, i_calender, strHTML_calender
 Set objXMLDom_calender = Server.CreateObject("Microsoft.XMLDOM")
 Set objXmlHttp_calender = Server.CreateObject("Msxml2.ServerXMLHTTP")
 'objXmlHttp_calender.open "GET", "http://localhost/Git/timeout_2016/ver2_1/inc/xml/calender_sprog.xml", False
-'objXmlHttp_calender.open "GET", "http://localhost/inc/xml/calender_sprog.xml", False
+objXmlHttp_calender.open "GET", "http://localhost/inc/xml/calender_sprog.xml", False
 'objXmlHttp_calender.open "GET", "http://outzource.dk/timeout_xp/wwwroot/ver2_10/inc/xml/calender_sprog.xml", False
 'objXmlHttp_calender.open "GET", "https://timeout.cloud/timeout_xp/wwwroot/ver3_99/inc/xml/calender_sprog.xml", False
 'objXmlHttp_calender.open "GET", "https://outzource.dk/timeout_xp/wwwroot/ver2_14/inc/xml/calender_sprog.xml", False
-objXmlHttp_calender.open "GET", "https://timeout.cloud/timeout_xp/wwwroot/ver2_14/inc/xml/calender_sprog.xml", False
+'objXmlHttp_calender.open "GET", "https://timeout.cloud/timeout_xp/wwwroot/ver2_14/inc/xml/calender_sprog.xml", False
 
 objXmlHttp_calender.send
 

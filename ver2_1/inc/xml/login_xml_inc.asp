@@ -6,11 +6,11 @@ Dim objXMLHTTP_login, objXMLDOM_login, i_login, strHTML_login
 Set objXMLDom = Server.CreateObject("Microsoft.XMLDOM")
 Set objXmlHttp = Server.CreateObject("Msxml2.ServerXMLHTTP")
 'objXmlHttp.open "GET", "http://localhost/Git/timeout_2016/ver2_1/inc/xml/login_sprog.xml", False
-'objXmlHttp.open "GET", "http://localhost/inc/xml/login_sprog.xml", False
+objXmlHttp.open "GET", "http://localhost/inc/xml/login_sprog.xml", False
 'objXmlHttp.open "GET", "https://outzource.dk/timeout_xp/wwwroot/ver2_1/inc/xml/login_sprog.xml", False
 'objXmlHttp.open "GET", "https://timeout.cloud/timeout_xp/wwwroot/ver3_99/inc/xml/login_sprog.xml", False
 'objXmlHttp.open "GET", "https://outzource.dk/timeout_xp/wwwroot/ver2_14/inc/xml/login_sprog.xml", False
-objXmlHttp.open "GET", "https://timeout.cloud/timeout_xp/wwwroot/ver2_14/inc/xml/login_sprog.xml", False
+'objXmlHttp.open "GET", "https://timeout.cloud/timeout_xp/wwwroot/ver2_14/inc/xml/login_sprog.xml", False
 'objXmlHttp.open "GET", "https://outzource.dk/timeout_xp/wwwroot/ver2_14/inc/xml/login_sprog.xml", False
 
 objXmlHttp.send

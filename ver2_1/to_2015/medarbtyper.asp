@@ -712,7 +712,12 @@ case "dbopr", "dbred"
                             afslutugekri = 0
                             end if
 							
-                            
+                            if len(trim(request("FM_mt_mobil_visstopur"))) <> 0 then
+                            mt_mobil_visstopur = 1
+                            else
+                            mt_mobil_visstopur = 0
+                            end if
+
 
 							if request("FM_Kostpris") < 0 OR strTimepris < 0 OR strTimepris1 < 0 OR strTimepris2 < 0 OR strTimepris3 < 0 OR strTimepris4 < 0 OR strTimepris5 < 0 then
 							%>
@@ -742,14 +747,14 @@ case "dbopr", "dbred"
 				        oConn.execute("INSERT INTO medarbejdertyper (type, timepris, editor, dato, kostpris, normtimer_son, normtimer_man, normtimer_tir, normtimer_ons, normtimer_tor, normtimer_fre, normtimer_lor, "_
 				        &" timepris_a1, timepris_a2, timepris_a3, timepris_a4, timepris_a5, "_
 				        &" tp0_valuta, tp1_valuta, tp2_valuta, tp3_valuta, tp4_valuta, tp5_valuta, sostergp, mtsortorder, mgruppe, afslutugekri, afslutugekri_proc, noflex, "_
-                        &" kostpristarif_A, kostpristarif_B, kostpristarif_C, kostpristarif_D, kp1_valuta) VALUES"_
+                        &" kostpristarif_A, kostpristarif_B, kostpristarif_C, kostpristarif_D, kp1_valuta, mt_mobil_visstopur) VALUES"_
 				        &" ('"& strNavn &"', "& strTimepris &", '"& strEditor &"', '"& strDato &"', "& dubKostpris &", "_
 				        &" "& normtimer_son &", "& normtimer_man &", "& normtimer_tir &", "& normtimer_ons &", "_
 				        &" "& normtimer_tor &", "& normtimer_fre &", "& normtimer_lor &", "& strTimepris1 &", "_
 				        &" "& strTimepris2 &", "& strTimepris3 &", "& strTimepris4 &", "& strTimepris5 &", "_
 				        &" "& tp0_valuta &","& tp1_valuta &","& tp2_valuta &","& tp3_valuta &","& tp4_valuta &","& tp5_valuta &", "& sostergp &", "_
                         &" "& mtsortorder &", "& mgruppe &","& afslutugekri &","& afslutugekri_proc &", "& noflex &", "_
-                        &" "& kostpristarif_A &","& kostpristarif_B &","& kostpristarif_C &","& kostpristarif_D &", "& kp1_valuta &""_
+                        &" "& kostpristarif_A &","& kostpristarif_B &","& kostpristarif_C &","& kostpristarif_D &", "& kp1_valuta &", "& mt_mobil_visstopur &""_
 				        &" )")
 				
                 
@@ -804,7 +809,7 @@ case "dbopr", "dbred"
 				&" tp2_valuta = "& tp2_valuta &", tp3_valuta = "& tp3_valuta &", "_
 				&" tp4_valuta = "& tp4_valuta &", tp5_valuta = "& tp5_valuta &", sostergp = "& sostergp &", mtsortorder = "& mtsortorder &", "_
                 &" mgruppe = "& mgruppe &", afslutugekri = "& afslutugekri &", afslutugekri_proc = "& afslutugekri_proc &", noflex = "& noflex &", "_
-                &" kostpristarif_A = "& kostpristarif_A &", kostpristarif_B = "& kostpristarif_B &", kostpristarif_C = "& kostpristarif_C &", kostpristarif_D = "& kostpristarif_D &", kp1_valuta = "& kp1_valuta &""_
+                &" kostpristarif_A = "& kostpristarif_A &", kostpristarif_B = "& kostpristarif_B &", kostpristarif_C = "& kostpristarif_C &", kostpristarif_D = "& kostpristarif_D &", kp1_valuta = "& kp1_valuta &", mt_mobil_visstopur = "& mt_mobil_visstopur &""_
 				&" WHERE id = "&id&""
 
                 'response.write strSQLupd
@@ -1235,7 +1240,7 @@ case "dbopr", "dbred"
 	&" normtimer_tir, normtimer_ons, normtimer_tor, normtimer_fre, normtimer_lor, timepris_a1, "_
 	&" timepris_a2, timepris_a3, timepris_a4, timepris_a5, "_
 	&" tp0_valuta, tp1_valuta, tp2_valuta, tp3_valuta, tp4_valuta, tp5_valuta, sostergp, mtsortorder, mgruppe, afslutugekri, afslutugekri_proc, noflex, "_
-    &" kostpristarif_A, kostpristarif_B, kostpristarif_C, kostpristarif_D, kp1_valuta "_
+    &" kostpristarif_A, kostpristarif_B, kostpristarif_C, kostpristarif_D, kp1_valuta, mt_mobil_visstopur "_
 	&" FROM medarbejdertyper WHERE id=" & id
 	oRec.open strSQL,oConn, 3
 	
@@ -1289,6 +1294,7 @@ case "dbopr", "dbred"
     kostpristarif_D = oRec("kostpristarif_D")
 
     kp1_valuta = oRec("kp1_valuta")
+    mt_mobil_visstopur = oRec("mt_mobil_visstopur")
 
 	end if
 	oRec.close
@@ -1298,6 +1304,12 @@ case "dbopr", "dbred"
     noflexCHK = "CHECKED"
     else
     noflexCHK = ""
+    end if
+
+    if cint(mt_mobil_visstopur) <> 0 then
+    mt_mobil_visstopurCHK = "CHECKED"
+    else
+    mt_mobil_visstopurCHK = ""
     end if
 
 
@@ -1652,6 +1664,20 @@ case "dbopr", "dbred"
                              
                             </div>
 
+                             <div class="row pad-t20">
+                                <div class="col-lg-1">&nbsp</div>
+                                <div class="col-lg-2">Mobil:<br />
+                                   Speciel indstillinger på denne type på mobil.
+                                
+                                </div>
+                                <div class="col-lg-4"><input type="checkbox" value="1" name="FM_mt_mobil_visstopur" <%=mt_mobil_visstopurCHK %> /><br />
+                                    Vis jobliste som dropdown<br />
+                                    Vis aktliste som dropdown (første forvalgt)<br />
+                                    Vis start/stop.
+                                </div>
+                             
+                            </div>
+
 
                            
                                   
@@ -1711,13 +1737,17 @@ case "dbopr", "dbred"
 
                              <div class="row pad-t20"><!-- RoW -->
                                   <div class="col-lg-1">&nbsp</div>
-                                 <div class="col-lg-2">
+                                 <div class="col-lg-6">
                            
                                        
-                                       <h6>Målsætning på <br />forretningsområde i %</h6>
+                                       <h4>Målsætning på forretningsområde i %</h4>
 		                 
 		                  
                                 </div>
+                            </div>
+
+                           <div class="row pad-t20"><!-- RoW -->
+                                 <div class="col-lg-2">&nbsp</div>
                                  <div class="col-lg-6">
                                      <table><tr>
 
@@ -1776,6 +1806,9 @@ case "dbopr", "dbred"
                                        
                                          
                                     %></tr></table>
+                                     <br /><br />&nbsp;
+                                     </div>
+
                                  </div><!-- RoW end -->
 
 

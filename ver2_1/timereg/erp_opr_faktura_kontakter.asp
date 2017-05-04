@@ -75,13 +75,14 @@
       <select name="FM_kunde" id="FM_kunde" size="1" style="width:215px; font-size:11px;">
 		<%
 		
-		
+		        foundKid = 0
 				strSQL = "SELECT Kkundenavn, Kkundenr, Kid FROM kunder WHERE ketype <> 'e' AND (useasfak <= 2) "& kSQLkri &" ORDER BY Kkundenavn"
 				oRec.open strSQL, oConn, 3
 				while not oRec.EOF
 				
 				if cint(kid) = cint(oRec("Kid")) then
 				isSelected = "SELECTED"
+                foundKid = 1
 				else
 				isSelected = ""
 				end if
@@ -91,8 +92,14 @@
 				oRec.movenext
 				wend
 				oRec.close
+
+                if cint(foundKid) = 0 then
 				%>
-				<option value="0">Ingen</option>
+				<option value="0" SELECTED>Ingen</option>
+                <%else %>
+                <option value="0">Ingen</option>
+                <%end if %>
+
 		</select>&nbsp;<input type="submit" value=">>" style="font-size: 9px;"  />
            <!--<input id="Button1" type="image" src="../ill/pilstorxp.gif" onclick="nextstep1()" />-->
 

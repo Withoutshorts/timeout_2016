@@ -97,7 +97,8 @@ session("spmettanigol") = session("spmettanigol") + request("attempt")
 
     if lto = "demo" then
 	uval = "Guest"
-	
+	'uval = "Support"
+
     		else
 			    if Request.Cookies("login")("usrval") <> "" then
 			    uval = Request.Cookies("login")("usrval")
@@ -120,7 +121,8 @@ session("spmettanigol") = session("spmettanigol") + request("attempt")
    
 
     if lto = "demo" then
-			pawval = "1234"
+			pawval = "gu1234"
+            'pawval = "su1234"
 			else
 			    if Request.Cookies("login")("pwval") <> "" then
 			    pawval = Request.Cookies("login")("pwval")

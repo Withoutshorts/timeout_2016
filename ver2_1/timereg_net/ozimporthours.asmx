@@ -357,22 +357,7 @@ Public Class to_import_hours
 
 
 
-                '*** Test indlæser ellae records i err db ***'
 
-                'Dim strSQLer As String = "INSERT INTO timer_imp_err (dato, extsysid, errid, jobid, jobnr, med_init, timeregdato, timer, origin) " _
-                '& " VALUES " _
-                '& " ('" & Year(Now) & "/" & Month(Now) & "/" & Day(Now) & "', 0, 99, 0,'" & intJobNrTxt & " t:" & dlbTimer & " dt: " & Year(cdDato) & "/" & Month(cdDato) & "/" & Day(cdDato) & " sysID: " & intTempImpId & " medid: " & intMedarbId & "', '0', '2000-01-01', 0, 1)"
-
-                'Dim strSQLerrTest As String = "INSERT INTO timer_imp_err (dato, jobnr, timer, med_init) VALUES ('" & cdDato & "', '" & intJobNr & "', '" & dlbTimer & "', '" & intMedarbId & "')"
-
-                'Dim strSQLerrTest As String = "INSERT INTO timer_imp_err (dato, extsysid, errid) VALUES ('" & cdDatoSQL & "', '" & cdDato & "', '1')"
-
-                'objCmd = New OdbcCommand(strSQLerrTest, objConn)
-                'objDR = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
-                'objDR.Close()
-
-                'errThisTOno = 6
-                '*** end **'
 
 
                 Try
@@ -452,6 +437,24 @@ Public Class to_import_hours
                     Throw New Exception("Get dlbTimer error:" + ex.Message)
                 End Try
 
+
+
+                '*** Test indlæser ellae records i err db ***'
+
+                'Dim strSQLer As String = "INSERT INTO timer_imp_err (dato, extsysid, errid, jobid, jobnr, med_init, timeregdato, timer, origin) " _
+                '& " VALUES " _
+                '& " ('" & Year(Now) & "/" & Month(Now) & "/" & Day(Now) & "', 0, 99, 0,'" & intJobNrTxt & " t:" & dlbTimer & " dt: " & Year(cdDato) & "/" & Month(cdDato) & "/" & Day(cdDato) & " sysID: " & intTempImpId & " medid: " & intMedarbId & "', '0', '2000-01-01', 0, 1)"
+
+                'Dim strSQLerrTest As String = "INSERT INTO timer_imp_err (dato, jobnr, timer, med_init) VALUES ('2017-04-24', '" & intJobNr & "', '" & dlbTimer & "', '" & intMedarbId & "')"
+
+                'Dim strSQLerrTest As String = "INSERT INTO timer_imp_err (dato, extsysid, errid) VALUES ('" & cdDatoSQL & "', '" & cdDato & "', '1')"
+
+                'objCmd = New OdbcCommand(strSQLerrTest, objConn)
+                'objDR = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
+                'objDR.Close()
+
+                'errThisTOno = 6
+                '*** end **'
 
 
                 'Return "<br>HEJ DER 9: dbnavn: " + dbnavn + " cdDato: " + cdDato
@@ -670,7 +673,7 @@ Public Class to_import_hours
                             '*** aktivitet skal være aktiv ****'
                             '*** Fase ??? ***'
                             Dim strSQLstatus As String
-                            If InStr(lto, "epi") = 1 And intMedarbId = "Asia" Then
+                            If InStr(lto, "epi") = 1 Then 'And intMedarbId = "Asia" Then
                                 strSQLstatus = ""
                             Else
                                 strSQLstatus = " AND aktstatus = 1"
@@ -1091,7 +1094,7 @@ Public Class to_import_hours
                     Try
                         '***** er uge lukket '***
 
-                        If InStr(lto, "epi") = 1 And intMedarbId = "Asia" Then
+                        If InStr(lto, "epi") = 1 Then 'And intMedarbId = "Asia"
 
                             If CInt(errThisTOno) = 0 Then
 
@@ -1119,7 +1122,7 @@ Public Class to_import_hours
 
                             End If
 
-                       End If 'epi asia
+                        End If 'epi asia
 
                     Catch ex As Exception
                         Throw New Exception("er uge lukket, SELECT mid, uge FROM usestatus error: " + ex.Message)

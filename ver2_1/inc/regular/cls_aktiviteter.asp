@@ -1967,6 +1967,14 @@ function tilknytstamakt(a, intAktfavgp, strAktFase, opretAlleAktiGrp, varjobId)
 							else
 							useNewAktid = 0
 							end if
+
+                    
+                            '*******************************************************************************************
+                            '**** Planlæg / Akt_bookings
+                            '*******************************************************************************************
+                             call addresbooking(session("mid"), useNewAktid, varjobId, startDato, "06:00", slutDato, "07:00", lto)
+
+
 							
                             '**** Ved opret aktiviteter på job ****'
 							'**** Overfører de timepriser hver enkelt stamaktivitet er født med, for hver enkelt medarbejder ****

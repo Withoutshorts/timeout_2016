@@ -5,8 +5,8 @@
 <!--include file="../inc/connection/aktivedb_r_inc.asp"-->
 <%end if %>
 
-<!--#include file="../inc/connection/aktivedb_inc.asp"-->
-<!--include file="../inc/connection/aktivedb_r_inc.asp"-->
+<!--include file="../inc/connection/aktivedb_inc.asp"-->
+<!--#include file="../inc/connection/aktivedb_r_inc.asp"-->
 
 <%
 
@@ -58,7 +58,7 @@ a = 0
 					Response.write strSQL(b) & "<br>"
 					Response.flush
 					x = 1
-					numberoflicens = 168
+					numberoflicens = 169
 					For x = 1 To numberoflicens  
 						
 						call aktivedb(x)
@@ -84,7 +84,7 @@ a = 0
 								Response.write x &"<br>"& strSQL(b) & "<br><br>"
 								Response.flush
 
-								if x > 0 then 'AND x < 101 then
+								if x > 0 then 'AND x <> 130 then
                                 oConn.open strConnect_aktiveDB
 							    
                                 '*** DENNE LINJE INDLÆSER // UDKOMMENTER NÅR FILEN IKKE ER AKTIV
@@ -2885,6 +2885,7 @@ CREATE TABLE national_holidays (
 nh_id INT NOT NULL AUTO_INCREMENT,
 nh_name INT NOT NULL DEFAULT 0,
 nh_duration INT NOT NULL DEFAULT 0,
+nh_date date DATE NOT NULL DEFAULT '2010-01-01',
 nh_editor VARCHAR(50),
 nh_editor_date DATE NOT NULL DEFAULT '2010-01-01',
 PRIMARY KEY (nh_id)
@@ -3049,6 +3050,60 @@ INSERT INTO dbversion (dbversion) VALUES (20170224.1)
 ALTER TABLE licens ADD (
 showeasyreg_per Int NOT NULL DEFAULT 0);
 INSERT INTO dbversion (dbversion) VALUES (20170326.1) 
+
+
+<br /><br />20170329.1<br />
+ALTER TABLE login_historik ADD (
+lh_longitude double (25,20) NOT NULL DEFAULT 0,
+lh_latitude double (25,20) NOT NULL DEFAULT 0,
+lh_longitude_logud double (25,20) NOT NULL DEFAULT 0,
+lh_latitude_logud double (25,20) NOT NULL DEFAULT 0);
+INSERT INTO dbversion (dbversion) VALUES (20170329.1) 
+
+<br /><br />20170331.1<br />
+ALTER TABLE medarbejdertyper ADD (
+mt_mobil_visstopur INT NOT NULL DEFAULT 0);
+INSERT INTO dbversion (dbversion) VALUES (20170331.1) 
+
+<br /><br />20170410.1<br />
+ALTER TABLE job ADD (
+jo_valuta_kurs double (12,2) NOT NULL DEFAULT 100);
+INSERT INTO dbversion (dbversion) VALUES (20170410.1)
+
+<br /><br />20170410.2<br />
+UPDATE job AS U1, valutaer AS U2 
+SET U1.jo_valuta_kurs = U2.kurs
+WHERE U2.id = U1.jo_valuta
+INSERT INTO dbversion (dbversion) VALUES (20170410.2) 
+
+<br /><br />20170308.1<br />
+CREATE TABLE akt_bookings (
+ab_id INT NOT NULL AUTO_INCREMENT,
+ab_name INT NOT NULL DEFAULT 0,
+ab_date DATE NOT NULL DEFAULT '2010-01-01',
+ab_startdate DATETIME DEFAULT NULL,
+ab_enddate DATETIME DEFAULT NULL,
+ab_medid INT NOT NULL DEFAULT 0,
+ab_aktid INT NOT NULL DEFAULT 0,
+ab_jobid INT NOT NULL DEFAULT 0,
+ab_serie INT NOT NULL DEFAULT 0,
+ab_editor VARCHAR(50),
+ab_editor_date DATE NOT NULL DEFAULT '2010-01-01',
+ab_important INT NOT NULL DEFAULT 0,
+ab_end_after INT NOT NULL DEFAULT 0,
+PRIMARY KEY (ab_id)
+);
+INSERT INTO dbversion (dbversion) VALUES (20170308.1);
+
+
+<br /><br />
+CREATE TABLE akt_bookings_rel (
+abl_id INT NOT NULL AUTO_INCREMENT,
+abl_bookid INT NOT NULL DEFAULT 0,
+abl_medid INT NOT NULL DEFAULT 0,
+PRIMARY KEY (abl_id)
+);
+INSERT INTO dbversion (dbversion) VALUES (20170320.1)
 
 <%
 

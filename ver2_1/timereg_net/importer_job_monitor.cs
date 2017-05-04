@@ -14,6 +14,11 @@ public partial class importer_job_monitor : System.Web.UI.Page
 
     protected void Page_Load(object sender, EventArgs e)
     {
+
+        //string importtype = Request["importtype"];
+        //hdn_importtype.Value = importtype;
+
+
     }
 
 
@@ -107,15 +112,15 @@ public partial class importer_job_monitor : System.Web.UI.Page
                 //lblStatus.Text = "<br>Init: " + init + "<br>SQL: " + strSelect;
                 //lblStatus.Text = "<br>Data blev indlæst korrekt.<br><br><a href='Javascript:window.close();'>[Luk denne side]</a><br><br>";
 
-              
-               string serviceReturn = string.Empty;
+                string importtype = Request["importtype"];
+                string serviceReturn = string.Empty;
                string errorLine = string.Empty;
 
                
                
                if (init != string.Empty)
                 
-               serviceReturn = service.Submit(path, txtFileName.Text, headers, intHeaders, Request["lto"], Request["editor"], ref countIgnore, ref countSent, init, ref errorLine, Request["mid"]);
+               serviceReturn = service.Submit(path, txtFileName.Text, headers, intHeaders, Request["lto"], Request["editor"], ref countIgnore, ref countSent, init, ref errorLine, Request["mid"], importtype);
 
                lblStatus.Text += "INFO fra Webservice: "+ serviceReturn.ToString() + "<br>";
 
@@ -280,7 +285,7 @@ public partial class importer_job_monitor : System.Web.UI.Page
         {
             ozUploadFileJob service = new ozUploadFileJob();
             String path = Server.MapPath(PATH2UPLOAD);
-            List<string> header = service.ReadHeader(path, txtFileName.Text, Request["lto"], Request["editor"]);
+            List<string> header = service.ReadHeader(path, txtFileName.Text, Request["lto"], Request["editor"], Request["importtype"]);
 
             if (header.Count < 13)
                 lblUploadStatus.Text = "<b>Der skal være 13 kolonner i excel filen</b>";

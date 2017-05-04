@@ -15,10 +15,7 @@
     'Response.Write "request.Cookies(tsa)(usegl2006) " & request.Cookies("tsa")("usegl2006")
     %>
     
-<!--
-<META HTTP-EQUIV="CACHE-CONTROL" CONTENT="NO-CACHE">
-<META HTTP-EQUIV="EXPIRES" CONTENT="Mon, 22 Jul 2002 11:12:01 GMT">
-    -->
+
 
     
     <!--#include file="../inc/connection/conn_db_inc.asp"-->
@@ -159,7 +156,6 @@
 
                 call ressourcefc_tjk(ibudgetaar, ibudgetmd, aar, md, usemrn, aktid, timerTastet)
 
-                
              
                 response.write feltTxtValFc
                 response.end
@@ -1955,7 +1951,7 @@
 
                                                                            
                                                                                 if level = 1 OR lcase(lto) = "kejd_pb" OR lcase(lto) = "kejd_pb2" then
-                                                                                strAktiviteter = strAktiviteter & "<a href=""jobs.asp?menu=job&func=red&id="&job_jid&"&int=1&rdir=treg"" style=""font-size:"&jPx&"px; color:#000000; line-height:"&jPx+2&"px;"">"& left(job_jobnavn,jLft) &" ("& job_jobnr &")</a> "& job_jobstatusTxt &""
+                                                                                strAktiviteter = strAktiviteter & "<a href=""jobs.asp?menu=job&func=red&id="&job_jid&"&int=1&rdir=treg"" style=""font-size:"&jPx&"px; color:#5582d2; line-height:"&jPx+2&"px;"">"& left(job_jobnavn,jLft) &" ("& job_jobnr &")</a> "& job_jobstatusTxt &""
                                                                                 else
                                                                                 strAktiviteter = strAktiviteter & "<span style='font-size:"& jPx &"px; color:#000000; line-height:"&jPx+2&"px;'>"& left(job_jobnavn, jLft) & " ("& job_jobnr &")</span>"
                                                                                 end if

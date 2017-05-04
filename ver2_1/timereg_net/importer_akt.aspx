@@ -7,7 +7,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head runat="server">
-    <title>TimeOut import - Sagslinjer</title>
+    <title>TimeOut import - Akt./ Sagslinjer</title>
 </head>
 <body style="font-family:Arial" leftmargin="20" topmargin="20">
 
@@ -37,7 +37,7 @@
         <table>
         <tr>
         <td>
-        Job.:
+         <asp:label runat="server" ID="feltnr1navn">Job:</asp:label>
         </td>
         <td>
             <asp:DropDownList ID="ddlJobId" runat="server" AutoPostBack="True" 
@@ -55,7 +55,7 @@
 
         <tr>
         <td>
-        Beskrivelse:
+          <asp:label runat="server" ID="feltnr2navn">Beskrivelse:</asp:label>
         </td>
         <td>
             <asp:DropDownList ID="ddlAktnavn" runat="server" AutoPostBack="True" 
@@ -72,8 +72,8 @@
         </tr>
         <tr>
         <td>
-        <!--Akt. /Varenr.:-->
-        Løbenr. NAV:
+       
+          <asp:label runat="server" ID="feltnr3navn">Løbenr. NAV:</asp:label>
         </td>
         <td>
             <asp:DropDownList ID="ddlAktnr" runat="server" AutoPostBack="True" 
@@ -92,7 +92,7 @@
 
         <tr>
         <td>
-        Konto:
+         <asp:label runat="server" ID="feltnr4navn">Konto:</asp:label>
         </td>
         <td>
         <asp:DropDownList ID="ddlKonto" runat="server" AutoPostBack="True" 
@@ -110,7 +110,7 @@
 
          <tr>
         <td>
-        Type:
+         <asp:label runat="server" ID="feltnr5navn">Type:</asp:label>
         </td>
         <td>
             <asp:DropDownList ID="ddlLinjetype" runat="server" AutoPostBack="True" 
@@ -126,12 +126,13 @@
         </td>
         </tr>
 
-        
+          <%if (importtype != "t2")
+              {  %>
 
 
         <tr>
         <td>
-        Timer/Stk.:
+         <asp:label runat="server" ID="feltnr6navn">Timer/Stk.:</asp:label>
         </td>
         <td>
             <asp:DropDownList ID="ddlAkttimer" runat="server" AutoPostBack="True" 
@@ -149,7 +150,7 @@
 
              <tr>
         <td>
-        Stk. pris:
+        <asp:label runat="server" ID="feltnr7navn">Stk. pris:</asp:label>
         </td>
         <td>
             <asp:DropDownList ID="ddlAkttpris" runat="server" AutoPostBack="True" 
@@ -168,7 +169,7 @@
 
              <tr>
         <td>
-        Beløb:
+         <asp:label runat="server" ID="feltnr8navn">Beløb:</asp:label>
         </td>
         <td>
             <asp:DropDownList ID="ddlAktsum" runat="server" AutoPostBack="True" 
@@ -185,7 +186,7 @@
         </tr>
         
 
-        
+        <%}; %>
        
         
        

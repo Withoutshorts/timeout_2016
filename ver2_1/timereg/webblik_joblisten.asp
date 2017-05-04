@@ -2255,10 +2255,15 @@ if len(session("user")) = 0 then
     &" jobans3, m3.mnavn AS mnavn3,"_
     &" jobans4, m4.mnavn AS mnavn4,"_
     &" jobans5, m5.mnavn AS mnavn5,"_
-	&" ikkebudgettimer, budgettimer, jobtpris, COALESCE(sum(r.timer), 0) AS restimer, stade_tim_proc, "_
+	&" ikkebudgettimer, budgettimer, COALESCE(sum(r.timer), 0) AS restimer, stade_tim_proc, "_
 	&" risiko, udgifter, rekvnr, forventetslut, restestimat, jobstatus, j.kommentar, s.navn AS aftnavn, "_
-    &" jo_dbproc, jo_bruttooms, jo_udgifter_intern, jo_udgifter_ulev, jo_bruttofortj, jo_gnsfaktor, "_
-    &" jobans_proc_1, jobans_proc_2, jobans_proc_3, jobans_proc_4, jobans_proc_5, virksomheds_proc, lukkedato, preconditions_met, jo_valuta"
+    &" jo_dbproc, "_
+    &" (jo_bruttooms * jo_valuta_kurs/100) AS jo_bruttooms, "_
+    &" (jo_udgifter_intern * jo_valuta_kurs/100) AS jo_udgifter_intern, "_
+    &" (jo_udgifter_ulev * jo_valuta_kurs/100) AS jo_udgifter_ulev, "_
+    &" (jo_bruttofortj * jo_valuta_kurs/100) AS jo_bruttofortj, jo_gnsfaktor, "_
+    &" (jobtpris * jo_valuta_kurs/100) AS jobtpris, "_
+    &" jobans_proc_1, jobans_proc_2, jobans_proc_3, jobans_proc_4, jobans_proc_5, virksomheds_proc, lukkedato, preconditions_met, jo_valuta, jo_valuta_kurs"
 	
         
 
@@ -2556,11 +2561,11 @@ if len(session("user")) = 0 then
 		    
 		    end if
 		    
-		    stadeTxt = "Stade: ~ "& formatnumber(stade, 0) & "% afsluttet"
+		    stadeTxt = "Stade: "& formatnumber(stade, 0) & "% afsluttet"
 		    afsl_proc = stade
 		else
 	        
-	        stadeTxt = "Stade: ~ " & formatnumber(restestimat, 0) & "% afsluttet"
+	        stadeTxt = "Stade: " & formatnumber(restestimat, 0) & "% afsluttet"
 		    afsl_proc = restestimat
 		end if
 
@@ -3483,9 +3488,21 @@ if len(session("user")) = 0 then
         </td></tr>
 
         <tr>
-        <td class=lille style="background-color:#F7f7f7;">Bruttooms:</td>
+        <td class=lille style="background-color:#F7f7f7; vertical-align:top;">Bruttooms:</td>
         <td class=lille align=right style="background-color:#F7f7f7; white-space:nowrap;">
 		<b><%=formatnumber(jobbudget, 2) &" "& basisValISO_f8%> </b>
+
+            <%if cint(oRec("jo_valuta")) <> cint(basisValId) then 
+                 call beregnValuta(jobbudget,100,oRec("jo_valuta_kurs"))
+                jobbudget_opr_curr = valBelobBeregnet
+
+                call valutakode_fn(oRec("jo_valuta"))
+                 %>
+
+            <br />(<%=formatnumber(jobbudget_opr_curr, 2) & " "& valutaKode_CCC_f8  %>)
+
+            <%end if %>
+
 		</td></tr>
 
         <tr>
@@ -3558,7 +3575,7 @@ if len(session("user")) = 0 then
          
          <td class=lille style="background-color:#F7F7F7;">Timepris:</td>
          <td class=lille align=right style="background-color:#F7F7F7; white-space:nowrap;">
-		~ <%=formatnumber(budget_gns_timepris, 2)&" "&basisValISO_f8 %>/t.
+		 <%=formatnumber(budget_gns_timepris, 2)&" "&basisValISO_f8 %>/t.
 		</td></tr>
 		
 	
@@ -3585,7 +3602,7 @@ if len(session("user")) = 0 then
          <tr>
          <td class=lille style="background-color:#FFFFFF; white-space:nowrap;">Kost. pr. time.:</td>
         <td class=lille align=right style="background-color:#FFFFFF; white-space:nowrap;">
-        ~ <%=formatnumber(budget_gns_kostpris, 2) &" "& basisValISO_f8 %> /t.
+        <%=formatnumber(budget_gns_kostpris, 2) &" "& basisValISO_f8 %> /t.
         </td></tr>
 
 
@@ -3617,7 +3634,7 @@ if len(session("user")) = 0 then
 
         <!-- Realiseret --> 
 		<td valign=top style="padding:6px 3px 3px 3px; border-top:<%=btop%>px #cccccc solid; white-space:nowrap; border-right:0px #cccccc solid;" class=lille>
-        Realiseret
+        <%=tsa_txt_017 %>
         <table width=100% cellspacing=1 cellpadding=1 bgcolor="#cccccc">
         <tr><td class=lille align=right style="background-color:#FFFFFF; white-space:nowrap;">
 		<b><%=formatnumber(timerforbrugt, 2)%> t.</b>
@@ -3629,6 +3646,10 @@ if len(session("user")) = 0 then
 
         <tr><td class=lille align=right style="background-color:#F7f7f7; white-space:nowrap;">
         <b><%=formatnumber(bruttoOmsReal, 2) &" "& basisValISO_f8%> </b>
+            <%if cint(oRec("jo_valuta")) <> cint(basisValId) then %>
+                <br>&nbsp;
+            <%end if%>
+
         </td>
         </tr>
 
@@ -3717,7 +3738,7 @@ if len(session("user")) = 0 then
         
         %>
             <tr><td class=lille align=right style="background-color:#F7F7F7; white-space:nowrap;">
-		~ <%=formatnumber(tp, 2)&" "& basisValISO_f8%>/t.
+		<%=formatnumber(tp, 2)&" "& basisValISO_f8%>/t.
 		</td></tr>
 
         <tr><td class=lille align=right style="background-color:#FFFFFF; white-space:nowrap;"><%=formatnumber(salgsOmkFaktisk,2) &" "& basisValISO_f8%></td></tr>
@@ -3735,7 +3756,7 @@ if len(session("user")) = 0 then
          end if%>
         </td></tr>
            <tr><td class=lille align=right style="background-color:#FFFFFF; white-space:nowrap;">
-         ~ <%=formatnumber(gnskostprtime, 2) &" "& basisValISO_f8%>/t.
+         <%=formatnumber(gnskostprtime, 2) &" "& basisValISO_f8%>/t.
            </td>
         </tr>
 
@@ -3756,7 +3777,7 @@ if len(session("user")) = 0 then
       </td></tr>
 
          <tr><td class=lille align=right style="background-color:#ffdfdf;">
-         Real. DB: <b><%=formatnumber(realDB,0) %></b> %
+         <%=left(tsa_txt_168, 4) %> DB: <b><%=formatnumber(realDB,0) %></b> %
        
       </td></tr>
       
@@ -3832,6 +3853,11 @@ if len(session("user")) = 0 then
         <%=formatnumber(timerforbrugt, 0) %> t.</td></tr>
         <tr><td class=lille align=right style="background-color:#F7f7f7; white-space:nowrap;">
 		<b><%=formatnumber(OmsWIP, 2) &" "&basisValISO_f8%></b>
+
+             <%if cint(oRec("jo_valuta")) <> cint(basisValId) then %>
+                <br>&nbsp;
+            <%end if%>
+
         </td></tr>
         <tr><td class=lille align=right style="background-color:#FFFFFF;"><%=formatnumber(nettoWIP, 2) &" "& basisValISO_f8%></td></tr>
 
@@ -3857,15 +3883,15 @@ if len(session("user")) = 0 then
             
             end if%>
          
-         <tr><td class=lille align=right style="background-color:#F7f7f7; white-space:nowrap;">~ <%=formatnumber(wipTp, 2) &" "& basisValISO_f8%>/t.</td></tr>
-         <tr><td class=lille align=right style="background-color:#FFFFFF; white-space:nowrap;"> <%=formatnumber(salgsOmkWIP, 2) &" "& basisValISO_f8%></td></tr>
+         <tr><td class=lille align=right style="background-color:#F7f7f7; white-space:nowrap;"><%=formatnumber(wipTp, 2) &" "& basisValISO_f8%>/t.</td></tr>
+         <tr><td class=lille align=right style="background-color:#FFFFFF; white-space:nowrap;"><%=formatnumber(salgsOmkWIP, 2) &" "& basisValISO_f8%></td></tr>
 
            <tr><td class=lille align=right style="background-color:#F7f7f7; white-space:nowrap;">
          <%=formatnumber(interKostWip, 2) &" "& basisValISO_f8%>
          </td></tr>
          
 
-         <tr><td class=lille align=right style="background-color:#FFFFFF;"> ~ <%=formatnumber(wipGnskostprtime, 2)&" "& basisValISO_f8%>/t.</td></tr>
+         <tr><td class=lille align=right style="background-color:#FFFFFF;"> <%=formatnumber(wipGnskostprtime, 2)&" "& basisValISO_f8%>/t.</td></tr>
 
             <tr><td class=lille align=right style="background-color:#FFFFFF;"><b><%=formatnumber(forvDbbel,0) & " "& basisValISO_f8 %></b> 
       </td></tr>
@@ -3883,12 +3909,19 @@ if len(session("user")) = 0 then
         <!--- Faktureret --->
 
         <td valign=top style="padding:6px 3px 3px 3px; border-top:<%=btop%>px #cccccc solid; white-space:nowrap; border-right:0px #cccccc solid;" class=lille>
-        Faktureret
+        <%=tsa_txt_155 %>
           <table width=100% cellspacing=1 cellpadding=1 bgcolor="#cccccc">
           <tr><td class=lille align=right style="background-color:#FFFFFF;">&nbsp;</td></tr>
         <tr><td class=lille align=right style="background-color:#F7f7f7; white-space:nowrap;">
-		<b><%=formatnumber(faktureret)&" "& basisValISO_f8%></b></td></tr>
-        <tr><td class=lille align=right style="background-color:#FFFFFF; color:#999999; white-space:nowrap;">(<%=formatnumber(faktureretTimerEnhStk,2) &" "& basisValISO_f8%>) *</td></tr>
+		<b><%=formatnumber(faktureret)&" "& basisValISO_f8%></b>
+
+             <%if cint(oRec("jo_valuta")) <> cint(basisValId) then %>
+                <br>&nbsp;
+            <%end if%>
+
+
+            </td></tr>
+        <tr><td class=lille align=right style="background-color:#FFFFFF; color:#000000; white-space:nowrap;">(<%=formatnumber(faktureretTimerEnhStk,2) &" "& basisValISO_f8%>) *</td></tr>
 
               <%if cint(bdgmtypon_val) = 1 then 
             
@@ -3910,10 +3943,10 @@ if len(session("user")) = 0 then
 
 
               <tr><td class=lille align=right style="background-color:#F7f7f7; white-space:nowrap;">
-           ~ <%=formatnumber(gnstimepris) &" "& basisValISO_f8%>/t.  </td></tr>
+           <%=formatnumber(gnstimepris) &" "& basisValISO_f8%>/t.  </td></tr>
          <tr><td class=lille align=right style="background-color:#FFFFFF; white-space:nowrap;"><%=formatnumber(salgsOmkFaktisk,2) &" "& basisValISO_f8%></td></tr>
          <tr><td class=lille align=right style="background-color:#F7f7f7; white-space:nowrap;"><%=formatnumber(kostpris,2) &" "& basisValISO_f8%></td></tr>
-           <tr><td class=lille align=right style="background-color:#FFFFFF; white-space:nowrap;"> ~ <%=formatnumber(gnskostprtime, 2)&" "& basisValISO_f8%>/t.</td></tr>
+           <tr><td class=lille align=right style="background-color:#FFFFFF; white-space:nowrap;"><%=formatnumber(gnskostprtime, 2)&" "& basisValISO_f8%>/t.</td></tr>
            <tr><td class=lille align=right style="background-color:#FFFFFF;"><b><%=formatnumber(db2bel,0) & " "& basisValISO_f8 %></b> 
       </td></tr>
          <tr><td class=lille align=right style="background-color:#ffdfdf; white-space:nowrap;">

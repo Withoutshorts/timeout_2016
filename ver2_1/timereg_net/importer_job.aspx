@@ -4,7 +4,6 @@
 
 
 <html xmlns="http://www.w3.org/1999/xhtml">
-
 <head runat="server">
     <title>TimeOut import job</title>
 </head>
@@ -21,7 +20,8 @@
     <form id="form1" runat="server">
 
           <label ID="lbl_importtype" runat="server">..</label>
-        
+          <asp:HiddenField id="hdn_importtype" runat="server" Value="" />
+             <!--<asp:TextBox id="txt_importtype" runat="server" Value="" />-->
         
 
     <div>
@@ -39,7 +39,45 @@
 
         <table>
 
-           
+        <%if (importtype == "d1" || importtype == "t1")
+            {  %>
+        <tr>
+        <td>
+        Kundenavn:
+        </td>
+        <td>
+            <asp:DropDownList ID="ddlKnavn" runat="server" AutoPostBack="True" 
+                onselectedindexchanged="ddlKnavn_SelectedIndexChanged" 
+                ondatabound="ddlKnavn_DataBound" AppendDataBoundItems="True">
+                <asp:ListItem Text="" Value=""></asp:ListItem>
+            </asp:DropDownList>
+            <asp:RequiredFieldValidator ID="RequiredFieldValidator8" runat="server" 
+                ErrorMessage="*" ControlToValidate="ddlKnavn" ValidationGroup="Send" ForeColor="Red"></asp:RequiredFieldValidator>
+        </td>      
+        <td>
+            <asp:Label ID="lblKnavn" runat="server" Text=""></asp:Label>
+        </td>
+        </tr>
+
+         <tr>
+        <td>
+        Kundenr:
+        </td>
+        <td>
+            <asp:DropDownList ID="ddlKnr" runat="server" AutoPostBack="True" 
+                onselectedindexchanged="ddlKnr_SelectedIndexChanged" 
+                ondatabound="ddlKnr_DataBound" AppendDataBoundItems="True">
+                <asp:ListItem Text="" Value=""></asp:ListItem>
+            </asp:DropDownList>
+            <asp:RequiredFieldValidator ID="RequiredFieldValidator9" runat="server" 
+                ErrorMessage="*" ControlToValidate="ddlKnr" ValidationGroup="Send" ForeColor="Red"></asp:RequiredFieldValidator>
+        </td>      
+        <td>
+            <asp:Label ID="lblKnr" runat="server" Text=""></asp:Label>
+        </td>
+        </tr>
+
+        <%}; %>           
 
       
         <tr>
@@ -136,9 +174,10 @@
         </tr>
 
          
+       
         <tr>
         <td>
-        Faktureringsnavn:
+        <asp:label runat="server" ID="feltnr5navn">Faktureringsnavn:</asp:label>
         </td>
         <td>
         <asp:DropDownList ID="ddlTimerKom" runat="server" AutoPostBack="True" 
@@ -154,8 +193,27 @@
         </td>
         </tr>
             
+          <%if (importtype == "t1")
+              {  %>
       
-
+             <tr>
+        <td>
+        <asp:label runat="server" ID="Label1">Costcenter:</asp:label>
+        </td>
+        <td>
+        <asp:DropDownList ID="ddlProjgrp" runat="server" AutoPostBack="True" 
+                onselectedindexchanged="ddlProjgrp_SelectedIndexChanged" 
+                ondatabound="ddlProjgrp_DataBound" AppendDataBoundItems="True">
+                 <asp:ListItem Text="" Value=""></asp:ListItem>
+            </asp:DropDownList>
+            <asp:RequiredFieldValidator ID="RequiredFieldValidator10" runat="server" 
+                ErrorMessage="*" ControlToValidate="ddlProjgrp" ValidationGroup="Send" ForeColor="Red"></asp:RequiredFieldValidator>
+        </td>
+        <td>
+        <asp:Label ID="lblProjgrp" runat="server" Text=""></asp:Label>
+        </td>
+        </tr>
+            <%}; %>
 
         </table>
         </div>

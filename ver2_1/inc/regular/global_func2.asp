@@ -1403,6 +1403,9 @@ function opdaterFeriePl(level, highV)
 		        &" LEFT JOIN aktiviteter a ON (a.fakturerbar = "& afholdtVal &" AND a.aktstatus = 1 AND a.job = j.id) "_
 		        &" WHERE j.jobstatus = 1 AND a.id <> 'NULL' GROUP BY a.id ORDER BY a.id DESC"
 		        
+                'response.write strSQLfeafn
+                'response.flush
+
 		    
 		        oRec3.open strSQLfeafn, oCOnn, 3
 		        if not oRec3.EOF then

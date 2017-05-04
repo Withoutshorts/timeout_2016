@@ -11,9 +11,36 @@ using System.Data;
 public partial class importer_akt : System.Web.UI.Page
 {
     const string PATH2UPLOAD = "~/inc/excelUpload/";
+    public string importtype = "";
 
     protected void Page_Load(object sender, EventArgs e)
     {
+        importtype = Request["importtype"];
+
+      
+        feltnr1navn.Text = "Job:";
+        feltnr2navn.Text = "Beskrivelse:";
+        feltnr3navn.Text = "Løbenr. (NAV):";
+        feltnr4navn.Text = "Konto:";
+        feltnr5navn.Text = "Type:";
+        feltnr6navn.Text = "Timer/Stk.:";
+        feltnr7navn.Text = "Stk. pris:";
+        feltnr8navn.Text = "Beløb:";
+
+
+        if (importtype == "t2")
+        {
+            feltnr1navn.Text = "Project No.:";
+            feltnr2navn.Text = "Description:";
+            feltnr3navn.Text = "Task No.:";
+            feltnr4navn.Text = "Blocked:";
+            feltnr5navn.Text = "Ress. chargeable:";
+            //feltnr6navn.Text = "Timer/Stk.:";
+            //feltnr7navn.Text = "Stk. pris:";
+            //feltnr8navn.Text = "Beløb:";
+
+        }
+
     }
 
 
@@ -105,7 +132,7 @@ public partial class importer_akt : System.Web.UI.Page
 
                 if (init != string.Empty)
                     
-                serviceReturn = service.Submit(path, txtFileName.Text, headers, intHeaders, Request["lto"], Request["editor"], ref countIgnore, ref countSent, init, ref errorLine, Request["mid"]);
+                serviceReturn = service.Submit(path, txtFileName.Text, headers, intHeaders, Request["lto"], Request["editor"], ref countIgnore, ref countSent, init, ref errorLine, Request["mid"], Request["importtype"]);
 
                 lblStatus.Text += serviceReturn.ToString();
 
@@ -264,21 +291,39 @@ public partial class importer_akt : System.Web.UI.Page
         {
             ozUploadFileAkt service = new ozUploadFileAkt();
             String path = Server.MapPath(PATH2UPLOAD);
-            List<string> header = service.ReadHeader(path, txtFileName.Text, Request["lto"], Request["editor"]);
+            List<string> header = service.ReadHeader(path, txtFileName.Text, Request["lto"], Request["editor"], Request["importtype"]);
 
             if (header.Count < 8)
                 lblUploadStatus.Text = "<b>Der skal være 8 kolonner i excel filen</b>";
             else
             {
 
-                SelectDDL(ddlLinjetype, "type", header, lblLinjetype, "linjetype");
-                SelectDDL(ddlJobId, "sagsnummer", header, lblJobId, "jobid");
-                SelectDDL(ddlAktnavn, "beskrivelse", header, lblAktnavn, "aktnavn");
-                SelectDDL(ddlAktnr, "nummer", header, lblAktnr, "aktnr");
-                SelectDDL(ddlKonto, "sagsopgavenummer", header, lblKonto, "konto");
-                SelectDDL(ddlAkttimer, "antal", header, lblAkttimer, "akttimer");
-                SelectDDL(ddlAkttpris, "kostpris", header, lblAkttpris, "akttpris");
-                SelectDDL(ddlAktsum, "kostbeloeb", header, lblAktsum, "aktsum");
+                string importtype = Request["importtype"];
+
+                if (importtype == "t2") {
+
+                    SelectDDL(ddlLinjetype, "chargeable", header, lblLinjetype, "linjetype");
+                    SelectDDL(ddlJobId, "projectnumber", header, lblJobId, "jobid");
+                    SelectDDL(ddlAktnavn, "description", header, lblAktnavn, "aktnavn");
+                    SelectDDL(ddlAktnr, "tasknumber", header, lblAktnr, "aktnr");
+                    SelectDDL(ddlKonto, "blocked", header, lblKonto, "konto");
+
+                } else { 
+
+                    SelectDDL(ddlLinjetype, "type", header, lblLinjetype, "linjetype");
+                    SelectDDL(ddlJobId, "sagsnummer", header, lblJobId, "jobid");
+                    SelectDDL(ddlAktnavn, "beskrivelse", header, lblAktnavn, "aktnavn");
+                    SelectDDL(ddlAktnr, "nummer", header, lblAktnr, "aktnr");
+                    SelectDDL(ddlKonto, "sagsopgavenummer", header, lblKonto, "konto");
+                }
+
+
+                if (importtype != "t2")
+                {
+                    SelectDDL(ddlAkttimer, "antal", header, lblAkttimer, "akttimer");
+                    SelectDDL(ddlAkttpris, "kostpris", header, lblAkttpris, "akttpris");
+                    SelectDDL(ddlAktsum, "kostbeloeb", header, lblAktsum, "aktsum");
+                }
                 
                 
             }

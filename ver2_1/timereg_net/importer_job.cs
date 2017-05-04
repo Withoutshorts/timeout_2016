@@ -11,9 +11,27 @@ using System.Data;
 public partial class importer_job : System.Web.UI.Page
 {
     const string PATH2UPLOAD = "~/inc/excelUpload/";
+    public string importtype = "";
+
 
     protected void Page_Load(object sender, EventArgs e)
     {
+
+        importtype = Request["importtype"];
+        hdn_importtype.Value = importtype;
+        if (importtype == "d1")
+        {
+            feltnr5navn.Text = "Linjetype:";
+        } else {
+            feltnr5navn.Text = "Faktureringsnavn:";
+        }
+
+        if (importtype == "t1"){
+            feltnr5navn.Text = "Internal project:";
+        }
+
+        //txt_importtype.Text = importtype;
+
     }
 
 
@@ -95,11 +113,11 @@ public partial class importer_job : System.Web.UI.Page
                 //lblStatus.Text += "<br>Path: " + path;
                 //lblStatus.Text += "<br>txtFileName.Text: " + txtFileName.Text;
                 //lblStatus.Text += "<br>Headers: " + headers + " intHeaders: " + intHeaders;
-                //lblStatus.Text += "<br>Variable LTO: " + Request["lto"] + " Editor: " + Request["editor"] + " Mid:" + Request["mid"];
+                //lblStatus.Text += "<br>Variable LTO: " + Request["lto"] + " Editor: " + Request["editor"] + " Mid:" + Request["mid"] + " importtype: " + Request["importtype"];
                 //lblStatus.Text = "<br>Init: " + init + "<br>SQL: " + strSelect;
                 //lblStatus.Text = "<br>Data blev indlæst korrekt.<br><br><a href='Javascript:window.close();'>[Luk denne side]</a><br><br>";
 
-              
+               string importtype = Request["importtype"];
                string serviceReturn = string.Empty;
                string errorLine = string.Empty;
 
@@ -107,7 +125,7 @@ public partial class importer_job : System.Web.UI.Page
                
                if (init != string.Empty)
                 
-               serviceReturn = service.Submit(path, txtFileName.Text, headers, intHeaders, Request["lto"], Request["editor"], ref countIgnore, ref countSent, init, ref errorLine, Request["mid"]);
+               serviceReturn = service.Submit(path, txtFileName.Text, headers, intHeaders, Request["lto"], Request["editor"], ref countIgnore, ref countSent, init, ref errorLine, Request["mid"], importtype);
 
                lblStatus.Text += "INFO fra Webservice: "+ serviceReturn.ToString() + "<br>";
 
@@ -271,18 +289,53 @@ public partial class importer_job : System.Web.UI.Page
         {
             ozUploadFileJob service = new ozUploadFileJob();
             String path = Server.MapPath(PATH2UPLOAD);
-            List<string> header = service.ReadHeader(path, txtFileName.Text, Request["lto"], Request["editor"]);
+            List<string> header = service.ReadHeader(path, txtFileName.Text, Request["lto"], Request["editor"], Request["importtype"]);
 
             if (header.Count < 6)
-                lblUploadStatus.Text = "<b>Der skal være 6 kolonner i excel filen</b>";
+                lblUploadStatus.Text = "<b>Der skal være 6-8 kolonner i excel filen</b>";
             else
             {
-                SelectDDL(ddlJobnavn, "beskrivelse", header, lblJobnavn, "jobnavn");
-                SelectDDL(ddlJobId, "nummer", header, lblJobId, "jobid");
-                SelectDDL(ddlJobans, "ansvarlig", header, lblJobans, "jobans");
-                SelectDDL(ddlstDato, "startdato", header, lblstDato, "stdato");
-                SelectDDL(ddlslDato, "slutdato", header, lblslDato, "sldato");
-                SelectDDL(ddlTimerKom, "faktureringsnavn", header, lblTimerKom, "timerKom");
+
+                string importtype = Request["importtype"];
+                if (importtype == "d1" || importtype == "t1")
+                {
+                    if (importtype == "d1")
+                    {
+                        SelectDDL(ddlKnavn, "k_namn", header, lblKnavn, "knavn");
+                        SelectDDL(ddlKnr, "k_kod", header, lblKnr, "knr");
+                        SelectDDL(ddlJobnavn, "kor_txt", header, lblJobnavn, "jobnavn");
+                        SelectDDL(ddlJobId, "ko_nr", header, lblJobId, "jobid");
+                        SelectDDL(ddlJobans, "ko_kref", header, lblJobans, "jobans");
+                        SelectDDL(ddlstDato, "kor_ldat", header, lblstDato, "stdato");
+                        SelectDDL(ddlslDato, "kor_uldat", header, lblslDato, "sldato");
+                        SelectDDL(ddlTimerKom, "kor_rtyp", header, lblTimerKom, "timerKom");
+                    }
+                    else {
+
+                        SelectDDL(ddlKnavn, "kundenavn", header, lblKnavn, "knavn");
+                        SelectDDL(ddlKnr, "kundenr", header, lblKnr, "knr");
+                        SelectDDL(ddlJobnavn, "projektnavn", header, lblJobnavn, "jobnavn");
+                        SelectDDL(ddlJobId, "projektnummer", header, lblJobId, "jobid");
+                        SelectDDL(ddlJobans, "projektansvarlig", header, lblJobans, "jobans");
+                        SelectDDL(ddlstDato, "startdato", header, lblstDato, "stdato");
+                        SelectDDL(ddlslDato, "slutdato", header, lblslDato, "sldato");
+                        SelectDDL(ddlTimerKom, "internal", header, lblTimerKom, "timerKom");
+                        SelectDDL(ddlProjgrp, "costcenter", header, lblProjgrp, "projgrp");
+                    }
+
+                }
+                else
+                {
+                    SelectDDL(ddlJobnavn, "beskrivelse", header, lblJobnavn, "jobnavn");
+                    SelectDDL(ddlJobId, "nummer", header, lblJobId, "jobid");
+                    SelectDDL(ddlJobans, "ansvarlig", header, lblJobans, "jobans");
+                    SelectDDL(ddlstDato, "startdato", header, lblstDato, "stdato");
+                    SelectDDL(ddlslDato, "slutdato", header, lblslDato, "sldato");
+                    SelectDDL(ddlTimerKom, "faktureringsnavn", header, lblTimerKom, "timerKom");
+                }
+
+
+             
             }
         }
         catch (Exception ex)
@@ -293,7 +346,7 @@ public partial class importer_job : System.Web.UI.Page
    
     private string[] GetExcelHeaderList()
     {
-        string[] strRets = { "", "", "", "", "", "", "", "", "", "" }; //,"","","",""
+        string[] strRets = { "", "", "", "", "", "", "", "", "", "", "", "", "" }; //,"","","",""
 
         try
         {
@@ -310,8 +363,14 @@ public partial class importer_job : System.Web.UI.Page
                 strRets[4] = Application["sldato"].ToString();
             if (Application["timerKom"] != null)
                 strRets[5] = Application["timerKom"].ToString();
-              
-             
+            if (Application["knavn"] != null)
+                strRets[6] = Application["knavn"].ToString();
+            if (Application["knr"] != null)
+                strRets[7] = Application["knr"].ToString();
+            if (Application["projgrp"] != null)
+                strRets[8] = Application["projgrp"].ToString();
+
+
             Application.UnLock();
         }
         catch (Exception ex)
@@ -324,7 +383,7 @@ public partial class importer_job : System.Web.UI.Page
 
     private int[] GetExcelIntHeaderList()
     {
-        int[] intRets = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }; //, 0, 0, 0, 0
+        int[] intRets = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }; //, 0, 0, 0, 0
 
         try
         {
@@ -340,7 +399,13 @@ public partial class importer_job : System.Web.UI.Page
                 intRets[4] = ddlslDato.SelectedIndex;
             if (ddlTimerKom.SelectedIndex != -1)
                 intRets[5] = ddlTimerKom.SelectedIndex;
-            
+            if (ddlKnavn.SelectedIndex != -1)
+                intRets[6] = ddlKnavn.SelectedIndex;
+            if (ddlKnr.SelectedIndex != -1)
+                intRets[7] = ddlKnr.SelectedIndex;
+            if (ddlProjgrp.SelectedIndex != -1)
+                intRets[8] = ddlProjgrp.SelectedIndex;
+
         }
         catch (Exception ex)
         {
@@ -387,6 +452,26 @@ public partial class importer_job : System.Web.UI.Page
     }
 
 
+    protected void ddlKnavn_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        lblKnavn.Text = "fundet kolonne: " + ddlKnavn.SelectedValue;
+        Application["knavn"] = ddlKnavn.SelectedValue;
+    }
+
+    protected void ddlKnr_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        lblKnr.Text = "fundet kolonne: " + ddlKnr.SelectedValue;
+        Application["knr"] = ddlKnr.SelectedValue;
+    }
+
+    protected void ddlProjgrp_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        lblProjgrp.Text = "fundet kolonne: " + ddlProjgrp.SelectedValue;
+        Application["projgrp"] = ddlProjgrp.SelectedValue;
+    }
+
+
+
 
     protected void ddlJobnavn_DataBound(object sender, EventArgs e)
     {
@@ -424,5 +509,24 @@ public partial class importer_job : System.Web.UI.Page
         lblTimerKom.Text = "fundet kolonne: " + ddlTimerKom.SelectedValue;
         Application["timerKom"] = ddlTimerKom.SelectedValue;
     }
-    
+
+
+    protected void ddlKnavn_DataBound(object sender, EventArgs e)
+    {
+        lblKnavn.Text = "fundet kolonne: " + ddlKnavn.SelectedValue;
+        Application["Knavn"] = ddlKnavn.SelectedValue;
+    }
+
+    protected void ddlKnr_DataBound(object sender, EventArgs e)
+    {
+        lblKnr.Text = "fundet kolonne: " + ddlKnr.SelectedValue;
+        Application["Knr"] = ddlKnr.SelectedValue;
+    }
+
+    protected void ddlProjgrp_DataBound(object sender, EventArgs e)
+    {
+        lblProjgrp.Text = "fundet kolonne: " + ddlProjgrp.SelectedValue;
+        Application["Projgrp"] = ddlProjgrp.SelectedValue;
+    }
+
 }

@@ -1842,18 +1842,30 @@ erHellig = 0
             case 4
 
                 select case day(tjekdennedag)
+
 				case 9
 				helligdagnavn = "Palmesøndag"
 
 
-               case 10,11,12
+               case 10,11
                
                     if instr(lto, "epi") then
                     helligdagnavn = "Feriefridag"
 				    erHellig = 1
                     end if
 
-				
+
+               case 12 
+                    if lto = "plan" or lto = "xintranet - local" then
+                    helligdagnavn = "Plandag"
+				    erHellig = 1
+                    end if
+
+                    if instr(lto, "epi") then
+                    helligdagnavn = "Feriefridag"
+				    erHellig = 1
+                    end if
+                    
 
                 case 13
 				helligdagnavn = "Skærtorsdag"
@@ -1899,7 +1911,7 @@ erHellig = 0
 				        helligdagnavn = "1 maj"
 				        
                         select case lto
-                        case "wwf", "tec", "esn", "oko"
+                        case "wwf", "tec", "esn", "oko", "fk", "eniga", "adra", "hestia", "plan"
                         erHellig = 0
                         case else
                         erHellig = 1
@@ -1930,7 +1942,7 @@ erHellig = 0
                     case 25
 				    helligdagnavn = "Kristi Himmelfart"
 				        
-                             if lto = "xtec" OR lto = "xesn" then
+                             if lto = "tec" OR lto = "esn" then
 				             erHellig = 0
                              else
                              erHellig = 1
@@ -1945,6 +1957,11 @@ erHellig = 0
 
                     if lto = "mi" OR lto = "cst" OR lto = "acc" OR lto = "cisu" OR lto = "adra" then
                     helligdagnavn = "Fridag"
+				    erHellig = 1
+                    end if
+
+                    if lto = "plan" or lto = "xintranet - local" then
+                    helligdagnavn = "Plandag"
 				    erHellig = 1
                     end if
 

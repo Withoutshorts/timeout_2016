@@ -284,7 +284,11 @@ Public Class CATI :
                         aktnavnUse = "CATI interviewtimer import"
                         akttypeUse = 91
                         timerkom = ""
-                        mTypeSQL = " AND medarbejdertype = 14"
+                        'mTypeSQL = ""
+                        '** Rettet til ALLE den 24.4.2017
+                        '** Rettet til KUN INTW DK i medarb.type 14,45,46 28.4.2017
+
+                        mTypeSQL = " AND (medarbejdertype = 14 OR medarbejdertype = 45 OR medarbejdertype = 46)"
                 End Select
 
                 'intCatiId = 999

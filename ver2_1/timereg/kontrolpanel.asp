@@ -1046,7 +1046,11 @@ if len(session("user")) = 0 then
                             
             
                            
-
+            if len(request("FM_SmiWeekOrMonth_HR")) <> 0 then
+                    SmiWeekOrMonth_HR = 1 
+            else 
+                    SmiWeekOrMonth_HR = 0
+            end if
 
             SmiWeekOrMonth = request("FM_SmiWeekOrMonth")
 
@@ -1192,7 +1196,7 @@ if len(session("user")) = 0 then
             &" fakturanr_5 = "& fakturanr_5 &", "_
             &" kreditnr_5 = "& kreditnr_5 &", "_
             &" fakturanr_kladde_5  = "& fakturanr_kladde_5 &","_  
-            &" showeasyreg_per = "& showeasyreg_per &""
+            &" showeasyreg_per = "& showeasyreg_per &", smiweekormonth_hr = "& SmiWeekOrMonth_HR &""
 			strSQL = strSQL & strSQLat & " WHERE id = 1"
 			
 			'Response.Write strSQL
@@ -1355,7 +1359,7 @@ if len(session("user")) = 0 then
         &" fakturanr_kladde_4, "_
         &" fakturanr_5, "_
         &" kreditnr_5, "_
-        &" fakturanr_kladde_5, showeasyreg_per "_
+        &" fakturanr_kladde_5, showeasyreg_per, smiweekormonth_hr "_
         &" FROM licens WHERE id = 1"
 		
 		'Response.Write strSQL
@@ -1607,6 +1611,9 @@ if len(session("user")) = 0 then
             fakturanr_5 = oRec("fakturanr_5")
             kreditnr_5 = oRec("kreditnr_5")
             fakturanr_kladde_5 = oRec("fakturanr_kladde_5")
+
+
+            SmiWeekOrMonth_HR = oRec("smiWeekormonth_hr")
 
 		end if
 		oRec.close 
@@ -2350,7 +2357,13 @@ if len(session("user")) = 0 then
                         <option value="1" <%=SmiWeekOrMonth1SEL %>>Månedsbasis</option>
                         <option value="2" <%=SmiWeekOrMonth2SEL %>>Dagligt</option>
                     </select>
-                  
+                    <br />
+                    <%if cint(SmiWeekOrMonth_HR) = 1 then
+                    SmiWeekOrMonth_HRChk = "CHECKED"
+                    else
+                    SmiWeekOrMonth_HRChk = ""
+                    end if %>
+                     <input type="checkbox" name="FM_SmiWeekOrMonth_HR" id="Checkbox2" value="1" <%=SmiWeekOrMonth_HRChk%>> Ved uge afslut, afslut da midtuge ved månedsskift. 
                     <br />
                     <br />
                     Perioden skal være afsluttet af medarbejderen den først kommende 

@@ -277,7 +277,17 @@ if len(session("user")) = 0 then
                                         'jo_bruttooms_ny = replace(jo_bruttooms_ny, ",", ".")
 
                                         strSQLopdajob = "UPDATE job SET jo_udgifter_intern = "& jo_udgifter_intern_ny &", jo_bruttooms = "& jo_bruttooms_ny &" WHERE id = "& oRec("id")
-                                        
+                    
+                                      
+                                        'response.write "<br>"& strSQLopdajob
+                                        'response.end
+                                        oConn.execute(strSQLopdajob)
+
+                                        case else
+
+                                         strSQLopdajob = "UPDATE job SET jo_valuta_kurs = "& intKurs &" WHERE jo_valuta = "& id
+                    
+                                      
                                         'response.write "<br>"& strSQLopdajob
                                         'response.end
                                         oConn.execute(strSQLopdajob)

@@ -726,8 +726,11 @@ call erugeAfslutte(useYear, usePeriod, usemrn, SmiWeekOrMonth, 0)
     call lonKorsel_lukketPer(varTjDato_ugedag, job_internt) 'Hr -2 job bliver kun lukket ifh.- lønperiode
 
     'Response.write "lonKorsel_lukketIO = " & lonKorsel_lukketIO 
+    'response.Write ugeNrAfsluttet & "ww:"& datepart("d", ugeNrAfsluttet, 2, 2) &"="& usePeriod &" varTjDato_ugedag: "& varTjDato_ugedag &" splithr: "& splithr &"<br>"
 
-    if ( ((datepart("ww", ugeNrAfsluttet, 2, 2) = usePeriod AND cint(SmiWeekOrMonth) = 0) OR (datepart("m", ugeNrAfsluttet, 2, 2) = usePeriod AND cint(SmiWeekOrMonth) = 1 )) AND cint(ugegodkendt) = 1 AND smilaktiv = 1 AND autogk = 1 AND ugeNrAfsluttet <> "1-1-2044") OR _
+    if (( (datepart("ww", ugeNrAfsluttet, 2, 2) = usePeriod AND cint(SmiWeekOrMonth) = 0 AND splithr = 0) OR (cdate(ugeNrAfsluttet) >= cdate(varTjDato_ugedag) AND cint(SmiWeekOrMonth) = 0 AND splithr = 1) _
+    OR (datepart("m", ugeNrAfsluttet, 2, 2) = usePeriod AND cint(SmiWeekOrMonth) = 1 )) _
+    AND cint(ugegodkendt) = 1 AND smilaktiv = 1 AND autogk = 1 AND ugeNrAfsluttet <> "1-1-2044") OR _
     (smilaktiv = 1 AND autolukvdato = 1 AND (day(now) > autolukvdatodato AND DatePart("yyyy", varTjDato_ugedag, 2, 2) = year(now) AND DatePart("m", varTjDato_ugedag, 2, 2) < month(now)) OR _
     (smilaktiv = 1 AND autolukvdato = 1 AND (day(now) > autolukvdatodato AND DatePart("yyyy", varTjDato_ugedag, 2, 2) < year(now) AND DatePart("m", varTjDato_ugedag, 2, 2) = 12)) OR _
     (smilaktiv = 1 AND autolukvdato = 1 AND DatePart("yyyy", varTjDato_ugedag, 2, 2) < year(now) AND DatePart("m", varTjDato_ugedag, 2, 2) <> 12) OR _

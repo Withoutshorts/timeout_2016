@@ -721,6 +721,7 @@
 			
             '** EPI NO
             intCVRXML = replace(intCVR, "no", "")
+            'intCVRXML = replace(intCVRXML, "mva", "")
 			
 		    strXML = strXML & "<com:BuyersReferenceID schemeID=""EAN"">"&ean&"</com:BuyersReferenceID>"
 		    strXML = strXML & "<com:ReferencedOrder>"

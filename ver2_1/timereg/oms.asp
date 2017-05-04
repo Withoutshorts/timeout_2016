@@ -574,12 +574,13 @@ if len(session("user")) = 0 then
         
                     else
             
-                    strSQLf = "SELECT COALESCE(sum(jo_bruttooms)) AS beloeb, kkundenavn, kkundenr, jobknr AS fakadr FROM job AS j "_
+                    strSQLf = "SELECT COALESCE(sum(jo_bruttooms * jo_valuta_kurs/100)) AS beloeb, kkundenavn, kkundenr, jobknr AS fakadr FROM job AS j "_
                     &" LEFT JOIN kunder AS k ON (kid = jobknr "& ktypeKri &") "_
                     &" LEFT JOIN valutaer AS v ON (v.id = j.valuta) "_  
                     &" WHERE (YEAR(jobstartdato) = '"& strYear &"') AND risiko > -1 GROUP BY jobknr ORDER BY beloeb DESC LIMIT "& topList 
                     end if
 
+                    '*** NT? * KURS?? 
                     '* v.kurs/100) ER jo_bruttooms ALTD omrenget til DKK på ordrerne
                     'OR faktype = 1
                 
@@ -692,7 +693,7 @@ for k = 0 TO antalK 'antal kunder
 
 	strSQL = "SELECT Tid, Tdato, t.timer, Tfaktim, Tjobnr, Tjobnavn, Taar, "_
 	&" TAktivitetId, TAktivitetNavn, Tmnr, Tmnavn, timepris, kostpris, t.fastpris, "_
-	&" j.jobtpris, j.budgettimer, j.jobnavn, j.jobnr, t.kurs, j.jo_bruttooms "_
+	&" j.jobtpris, j.budgettimer, j.jobnavn, j.jobnr, t.kurs, (j.jo_bruttooms * (jo_valuta_kurs/100)) AS jo_bruttooms "_
 	&" FROM timer t "_
 	&" LEFT JOIN job j ON (j.jobnr = tjobnr) "_
 	&" WHERE ("& jobnrSQLkri &") AND "& replace(medarbSQlKri, "m.mid", "t.tmnr") &" AND ("& aty_sql_realhours &") AND "_
@@ -1203,15 +1204,18 @@ for k = 0 TO antalK 'antal kunder
 		     ' &" ((orderqty * sales_price_pc) - (orderqty * cost_price_pc + (orderqty * cost_price_pc * tax_pc/100) + (orderqty * freight_pc))) AS profit "_ AND jobstatus <> 3
             
             case else
-             strSQL1 = "SELECT jobtpris, jobnavn, jobnr, budgettimer, fastpris, jobstartdato, jobslutdato, fakturerbart, udgifter, jo_bruttooms"_
+             strSQL1 = "SELECT jobtpris, jobnavn, jobnr, budgettimer, fastpris, jobstartdato, jobslutdato, fakturerbart, udgifter, (jo_bruttooms * (jo_valuta_kurs/100)) AS jo_bruttooms"_
 			 &" FROM job AS j WHERE ("& jobIdSQLKri &") AND YEAR(jobstartdato) = "& strYear &" AND MONTH(jobstartdato) = "& m &" AND fakturerbart = 1 "& jobstKri &" "& visprkundeSQLjobKri &" ORDER BY jobnavn" 'tilbud
 		
              end select
                 
 		
+            'if session("mid") = 6 AND lto = "nt" AND m = 4 then
 			'Response.write "Budget:<br>"
 			'Response.write strSQL1 &"<br>"
-			oRec.open strSQL1, oConn, 0, 1
+            'end if
+			
+            oRec.open strSQL1, oConn, 0, 1
 			while not oRec.EOF 
 			        
 			       mrdJobUdgifter(m) = mrdJobUdgifter(m) + oRec("udgifter") '**** Altid angivet i basisValISO_f8**'

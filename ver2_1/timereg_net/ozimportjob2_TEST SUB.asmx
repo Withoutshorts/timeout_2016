@@ -12,6 +12,8 @@ Imports System.Data.Odbc
 '*** DENNE SERVICE BENYTTES BL.A AF 
 '*** OKO
 '*** Wilke (bruger ozimportjob2_ds)
+'*** DENCKER
+'*** TIA
 '***************************************************************************************
 
 

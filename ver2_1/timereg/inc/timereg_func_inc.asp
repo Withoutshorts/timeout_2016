@@ -203,6 +203,7 @@ if len(lastfakdato) <> 0 AND diff <= 0 then
 		else
 			'** Hvis fakuge = den valgte uge ***
 			'** Tidspunkt sættes altid til 23:59:59 på fakturaer, fra d. 8/9-2004
+            'lastfakdato = "10-05-2017"
 			select case DatePart("w", lastfakdato, 2)
 			case 7
 			fakbgcol_son = "limegreen"

@@ -27,6 +27,7 @@ $(window).load(function () {
 
     // run code
     //GetMatTilFak();
+
     if ($("#tjekantalakt_all").val() < 100) {
         $("#sideload").hide("fast");
     }

@@ -19,8 +19,8 @@
 	</td></tr></table>
 
     <form id="form1" runat="server">
-        <asp:HiddenField id="importtype" value="2" runat=Server />
-
+        <!--<asp:HiddenField id="importtype" value="2" runat=Server />-->
+        <asp:HiddenField id="hdn_importtype" runat="server" Value="" />
 
           <label ID="lbl_importtype" runat="server">..</label>
         
@@ -64,7 +64,8 @@
       
         <tr>
         <td>
-        Jobnavn:
+        <!--Jobnavn:-->
+            Pos. navn
         </td>
         <td>
             <asp:DropDownList ID="ddlJobnavn" runat="server" AutoPostBack="True" 

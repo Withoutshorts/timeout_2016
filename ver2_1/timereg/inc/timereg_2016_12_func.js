@@ -18,7 +18,7 @@ function GetCustDesc(visning) {
     //visning tidligere = focusofoff
 
 
-
+    
     var thisC = $("#FM_kontakt")
     var mrn = document.getElementById("usemrn").value;
     var ignprg = 0;
@@ -1180,6 +1180,8 @@ $(document).ready(function () {
     function tjektimer(thisid) {
 
 
+    
+
             if (!validZip(document.getElementById(thisid).value)) {
                 alert("Der er angivet et ugyldigt tegn.\nYou have typed an invalid character")
                 document.getElementById(thisid).value = '';
@@ -1341,6 +1343,9 @@ $(document).ready(function () {
             } //akt_maksbudget_treg
 
 
+
+           
+
        
             //MAKS forecast på aktivitet
             if (akt_maksforecast_treg == 1 && akttype == 1) { //kun fakturerbare
@@ -1352,18 +1357,23 @@ $(document).ready(function () {
                 ibudgetUseAar = $("#regskabsaarUseAar").val()
                 treg_usemrn = $("#treg_usemrn").val()
                 
+               
+
+
+              
                 $.post("?aktid=" + aktid + "&timer_tastet=" + timer_tastet + "&treg_usemrn=" + treg_usemrn + "&ibudgetaar=" + ibudgetaar + "&ibudgetaarMd=" + ibudgetaarMd + "&ibudgetUseMd=" + ibudgetUseMd + "&ibudgetUseAar=" + ibudgetUseAar, { control: "FN_tjktimer_forecast", AjaxUpdateField: "true", cust: thisval }, function (data) {
                    
+                    //alert(data)
                     
 
                     $("#aktnotificer_fc").val(data);
 
-                    //alert(data)
-                   
+                    
                     var fcoverskreddet = 0;
                     fcoverskreddet = $("#aktnotificer_fc").val().replace(",", ".")
                     fcoverskreddet = fcoverskreddet * 1
 
+                    //alert("HER 3" + akt_maksforecast_treg + " == type: " + akttype + " fcoverskreddet: " + fcoverskreddet)
                     
                     //fcoverskreddet = -2
                     if (fcoverskreddet < 0) {

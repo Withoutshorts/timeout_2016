@@ -138,17 +138,17 @@ public class ozUploadFileAkt
 
 
 
-    public string Submit(string pathIn, string filenameIn, string[] headers, int[] intHeader, string folderIn, string editorIn, ref int countIgnore, ref int countInserted, string initIn, ref string errorLine, string midIn)
+    public string Submit(string pathIn, string filenameIn, string[] headers, int[] intHeader, string folderIn, string editorIn, ref int countIgnore, ref int countInserted, string initIn, ref string errorLine, string midIn, string importtype)
     {      
         string strRet = string.Empty;
 
         try
         {
-            List<ozUploadFileAkt> lstRow = Read(pathIn, filenameIn, headers, intHeader, ref countIgnore, ref countInserted, initIn, ref errorLine, midIn, folderIn);
-            int intRow = Insert(lstRow, folderIn, editorIn);
+            List<ozUploadFileAkt> lstRow = Read(pathIn, filenameIn, headers, intHeader, ref countIgnore, ref countInserted, initIn, ref errorLine, midIn, folderIn, importtype);
+            int intRow = Insert(lstRow, folderIn, editorIn, importtype);
             if (intRow > 0)
             {
-                strRet = CallWebservice(folderIn);
+                strRet = CallWebservice(folderIn, importtype);
             }
 
 
@@ -171,7 +171,7 @@ public class ozUploadFileAkt
 
 
 
-    public List<string> ReadHeader(string pathIn, string filenameIn, string folder, string editorIn)
+    public List<string> ReadHeader(string pathIn, string filenameIn, string folder, string editorIn, string importtype)
     {
         List<string> headerData = new List<string>();
 
@@ -248,7 +248,7 @@ public class ozUploadFileAkt
         return isRet;
     }
 
-    private int Insert(List<ozUploadFileAkt> lstData, string folder, string editorIn)
+    private int Insert(List<ozUploadFileAkt> lstData, string folder, string editorIn, string importtype)
     {
         int intRow = 0;
 
@@ -263,6 +263,25 @@ public class ozUploadFileAkt
             connection.Open();
             foreach (ozUploadFileAkt data in lstData)
             {
+
+                if (importtype == "t2")
+                {
+
+                   string strInsert = "INSERT INTO akt_import_temp (dato, origin, jobnr, aktnavn, aktnr, beskrivelse, lto, editor, overfort) ";
+                    strInsert += " VALUES ('" + DateTime.Now.ToString("yyyy-MM-dd") + "',911,'" + data.jobid + "','" + data.aktnavn + "','" + data.aktnr + "',";
+                    strInsert += "'','tia','Timeout - ImportAktService ',0)";
+                    OdbcCommand command = new OdbcCommand(strInsert, connection);
+
+
+
+                    // Execute the DataReader and access the data.
+                    intRow = command.ExecuteNonQuery();
+                    //intRow = "";
+                    //command.ExecuteNonQuery();
+
+
+                }
+                else { 
                 //data.tdato = ConvertDate(data.tdato);
                 data.akttimer = data.akttimer.Replace(".", "");
                 //data.akttimer = data.akttimer.Replace(".", "");
@@ -288,10 +307,11 @@ public class ozUploadFileAkt
                
 
                 // Execute the DataReader and access the data.
-                intRow = command.ExecuteNonQuery();
-                //intRow = "";
-                //command.ExecuteNonQuery();
-               
+                    intRow = command.ExecuteNonQuery();
+                    //intRow = "";
+                    //command.ExecuteNonQuery();
+                }
+
             }
             connection.Close();
         }
@@ -334,14 +354,25 @@ public class ozUploadFileAkt
         return intRow;
     }
 
-    private string CallWebservice(string ltoIn)
+    private string CallWebservice(string ltoIn, string importtype)
     {
         if (ltoIn == "outz" || ltoIn == "intranet - local")
             ltoIn = "intranet";
 
         string strRet = string.Empty;
 
-        DataSet dsData = new DataSet();
+        //// Create two DataTable instances.
+        DataTable table1 = new DataTable("TB_to_var");
+        table1.Columns.Add("lto");
+        table1.Columns.Add("importtype");
+        table1.Rows.Add("" + ltoIn, importtype + "");
+
+        //// Create a DataSet and put both tables in it.
+        DataSet dsData = new DataSet("DS_to_var");
+        dsData.Tables.Add(table1);
+
+        //DataSet dsData = new DataSet();
+      
         //dsData = ReadDS(ltoIn);
 
         //dk.outzource.to_import service = new dk.outzource.to_import();
@@ -388,18 +419,18 @@ public class ozUploadFileAkt
         return lstRet;
     }
 
-    private List<ozUploadFileAkt> Read(string pathIn, string filenameIn, string[] headers, int[] intHeader, ref int countIgnore, ref int countInserted, string initIn, ref string errorLines, string midIn, string folderIn)
+    private List<ozUploadFileAkt> Read(string pathIn, string filenameIn, string[] headers, int[] intHeader, ref int countIgnore, ref int countInserted, string initIn, ref string errorLines, string midIn, string folderIn, string importtype)
     {
         List<ozUploadFileAkt> lstData = new List<ozUploadFileAkt>();
 
         try
         {           
             if (filenameIn.ToLower().Contains(".xlsx"))
-                lstData = ReadXlsx2007(pathIn, filenameIn, headers, ref countInserted, ref countIgnore, initIn, ref errorLines, midIn, folderIn);
+                lstData = ReadXlsx2007(pathIn, filenameIn, headers, ref countInserted, ref countIgnore, initIn, ref errorLines, midIn, folderIn, importtype);
             else if (filenameIn.ToLower().Contains(".xls"))
-                lstData = ReadXls2003(pathIn, filenameIn, headers, ref countInserted, ref countIgnore, initIn, ref errorLines, midIn, folderIn);
+                lstData = ReadXls2003(pathIn, filenameIn, headers, ref countInserted, ref countIgnore, initIn, ref errorLines, midIn, folderIn, importtype);
             else if (filenameIn.ToLower().Contains(".csv"))
-                lstData = ReadCsv(pathIn, filenameIn, intHeader, ref countInserted, ref countIgnore, initIn, ref errorLines, midIn, folderIn);          
+                lstData = ReadCsv(pathIn, filenameIn, intHeader, ref countInserted, ref countIgnore, initIn, ref errorLines, midIn, folderIn, importtype);          
         }
         catch (Exception ex)
         {
@@ -425,7 +456,7 @@ public class ozUploadFileAkt
     }
    
     #region Read file
-    private List<ozUploadFileAkt> ReadXls2003(string pathIn, string filenameIn, string[] headers, ref int countInserted, ref int countIgnore, string initIn, ref string errorLines, string midIn, string folderIn)
+    private List<ozUploadFileAkt> ReadXls2003(string pathIn, string filenameIn, string[] headers, ref int countInserted, ref int countIgnore, string initIn, ref string errorLines, string midIn, string folderIn, string importtype)
     {
         List<ozUploadFileAkt> lstRet = new List<ozUploadFileAkt>();
 
@@ -521,7 +552,7 @@ public class ozUploadFileAkt
         return lstRet;
     }
 
-    private List<ozUploadFileAkt> ReadXlsx2007(string pathIn, string filenameIn, string[] headers, ref int countInserted, ref int countIgnore, string initIn, ref string errorLines, string midIn, string folderIn)
+    private List<ozUploadFileAkt> ReadXlsx2007(string pathIn, string filenameIn, string[] headers, ref int countInserted, ref int countIgnore, string initIn, ref string errorLines, string midIn, string folderIn, string importtype)
     {
         List<ozUploadFileAkt> lstRet = new List<ozUploadFileAkt>();
 
@@ -622,7 +653,7 @@ public class ozUploadFileAkt
         return lstRet;
     }
 
-    private List<ozUploadFileAkt> ReadCsv(string pathIn, string filenameIn, int[] headers, ref int countInserted, ref int countIgnore, string initIn, ref string errorLines, string midIn, string folderIn)
+    private List<ozUploadFileAkt> ReadCsv(string pathIn, string filenameIn, int[] headers, ref int countInserted, ref int countIgnore, string initIn, ref string errorLines, string midIn, string folderIn, string importtype)
     {
         List<ozUploadFileAkt> lstRet = new List<ozUploadFileAkt>();
 
@@ -648,12 +679,15 @@ public class ozUploadFileAkt
                 fileRet.jobid = datas[headers[0]-1];
                 fileRet.aktnavn = datas[headers[1]-1];
                 fileRet.aktnr = datas[headers[2]-1];
+
+                if (importtype != "t2") { 
                 fileRet.akttimer = datas[headers[3]-1];
                 fileRet.akttpris = datas[headers[4]-1];
                 fileRet.aktsum = datas[headers[5]-1];
                 //fileRet.timerkom = datas[headers[6]-1];
                 fileRet.konto = datas[headers[6]-1];
                 fileRet.linjetype = datas[headers[7]-1];
+                }
 
                 //if (fileRet.jobid == string.Empty)
                 //    fileRet.jobid = "0";

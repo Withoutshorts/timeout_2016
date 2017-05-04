@@ -2363,17 +2363,18 @@ Session.LCID = 1030
 
 
                      '** Admin må søge
+                    strSQLAdminRights = ""
                      if cint(meCreate_newemployee) = 1 AND level <> 1 then 'Hvis opret medab = OK må man godt søge i dem man står som editor på
 
-                        if cint(meCreate_newemployee) = 1 then
-                            strSQLAdminRights = " AND m.editor = '"& meNavn &"'"
-                        end if
+                     '   if cint(meCreate_newemployee) = 1 then
+                         'strSQLAdminRights = " AND m.editor = '"& meNavn &"'"
+                     '   end if
 
                      else
 
-                         if level <> 1 then 
-                         strSQLAdminRights = " AND mid = " & session("mid") 
-                         end if
+                          if level <> 1 then 
+                             strSQLAdminRights = " AND mid = " & session("mid") 
+                          end if
 
                      end if
                      %>
@@ -2381,7 +2382,7 @@ Session.LCID = 1030
 
 
 
-                   <%strSQL = "SELECT mnavn, mid, email, lastlogin, init, mnr, mansat, brugergruppe, medarbejdertype, mt.type AS mtypenavn, b.navn AS brugergruppenavn, ansatdato FROM medarbejdere AS m "_
+                   <%strSQL = "SELECT mnavn, mid, email, lastlogin, init, mnr, mansat, brugergruppe, medarbejdertype, mt.type AS mtypenavn, b.navn AS brugergruppenavn, ansatdato, m.editor FROM medarbejdere AS m "_
                     &"LEFT JOIN medarbejdertyper AS mt ON (mt.id = m.medarbejdertype) "_
                     &"LEFT JOIN brugergrupper AS b ON (b.id = m.brugergruppe) WHERE "& sqlsearchKri &" "& vispasoglukKri &" "& strSQLAdminRights &" ORDER BY mnavn LIMIT 4000" 
         
@@ -2423,8 +2424,33 @@ Session.LCID = 1030
 
                         <tr style="background-color:<%=trBgCol%>;">
                             
-                            <td> <a href="medarb.asp?func=red&id=<%=oRec("mid") %>"><%=left(oRec("mnavn"), 30) %>
-                                
+                            <td>
+                                 <% 
+                                  editOk = 0   
+                                  if cint(meCreate_newemployee) = 1 AND level <> 1 then 'Hvis opret medab = OK må man godt søge på alle, men kun redigere i dem man selv har oprettet
+
+                                        if oRec("editor") = session("user") then
+                                        editOk = 1
+                                        end if
+
+                                 else 
+
+                                     if cint(level) = 1 then
+                                      editOk = 1
+                                     else
+                                      editOk = 0
+                                     end if
+
+                                 end if
+
+                                     'Response.write editOk & " " & meCreate_newemployee & " session(user): " & session("user") & " level: " & level & " editor: "& oRec("editor")
+
+                                 if cint(editOk) = 1 then%>
+                                  <a href="medarb.asp?func=red&id=<%=oRec("mid") %>"><%=left(oRec("mnavn"), 30) %>
+                                 <%else %>
+                                  <%=left(oRec("mnavn"), 30) %>
+                                 <%end if %>
+
                                    <%if len(trim(oRec("init"))) <> 0 then%>
                                    &nbsp;[<%=oRec("init") %>]
                                    <%end if %>

@@ -241,7 +241,7 @@ function licKid()
 end function
 
 
-public SmiWeekOrMonth, SmiantaldageCount, SmiantaldageCountClock, SmiTeamlederCount
+public SmiWeekOrMonth, SmiantaldageCount, SmiantaldageCountClock, SmiTeamlederCount, SmiWeekOrMonth_HR
 function smileyAfslutSettings()
 
 
@@ -250,15 +250,17 @@ function smileyAfslutSettings()
                 SmiantaldageCount = 1 'mandag
                 SmiantaldageCountClock = "12:00:00"
                 SmiTeamlederCount = 1
+                SmiWeekOrMonth_HR = 0
                 
         
-                strSQL = "SELECT SmiWeekOrMonth, SmiantaldageCount, SmiantaldageCountClock, SmiTeamlederCount FROM licens WHERE id = 1"
+                strSQL = "SELECT SmiWeekOrMonth, SmiantaldageCount, SmiantaldageCountClock, SmiTeamlederCount, smiweekormonth_hr FROM licens WHERE id = 1"
                 oRec6.open strSQL, oConn, 3
                 if not oRec6.EOF then
             
                 SmiWeekOrMonth = oRec6("SmiWeekOrMonth")
                 SmiantaldageCount = oRec6("SmiantaldageCount")
-                
+                SmiWeekOrMonth_HR = oRec6("smiweekormonth_hr")
+
                 if oRec6("SmiantaldageCountClock") = 24 then
                 SmiantaldageCountClock = "23:59:00"
                 else
@@ -658,12 +660,12 @@ function showEasyreg_fn()
     
     showEasyreg_val = 0
     showeasyreg_per = 0
-	strSQL6 = "SELECT showeasyreg, showeasyreg_per FROM licens l WHERE id = 1"
+	strSQL6 = "SELECT showeasyreg, showeasyreg_per FROM licens WHERE id = 1"
 	oRec6.open strSQL6, oConn, 3
 	If not oRec6.EOF then
 	
 	showEasyreg_val = oRec6("showeasyreg")
-	showeasyreg_per = oREc6("showeasyreg_per")
+	showeasyreg_per = oRec6("showeasyreg_per")
 
 	end if
     oRec6.close

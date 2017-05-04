@@ -6,12 +6,45 @@
 <!--#include file="../inc/connection/conn_db_inc.asp"-->
 <!--#include file="../inc/regular/global_func.asp"-->
 
-<% '**** Søgekriterier AJAX **'
+<%'**** Søgekriterier AJAX **'
+
         'section for ajax calls
         if Request.Form("AjaxUpdateField") = "true" then
         Select Case Request.Form("control")
+        case "FN_geolocation"
+
+             '*** Tilføjer longitude og latitude til seneste åbne loginf for dem der har stempelur slået til *********
+            
+             call erStempelurOn()
+             
+            longitude = request("jq_longitude")
+            latitude = request("jq_latitude")
+
+             if cint(stempelurOn) = 1 then
+             strSQLlatestlogin = "SELECT id FROM login_historik WHERE mid =  " & session("mid") & " AND stempelurindstilling > 0 AND lh_latitude = 0 AND logud IS NULL ORDER BY id DESC LIMIT 1 "
+			 oRec.open strSQLlatestlogin, oConn, 3
+             if not oRec.EOF then	   
+
+         
+	                    strSQLAddLong = "UPDATE login_historik SET "_
+	                    &" lh_longitude = "& longitude &", lh_latitude = "& latitude &""_
+	                    &" WHERE id = "& oRec("id")
+    				   
+				       oConn.execute(strSQLAddLong)  
+            
+              
+               end if
+               oRec.close
+              
+             end if
+        
+
+
 
         case "FN_akttyper"
+    
+    
+    
         if len(trim(request("id"))) then
         id = request("id")
         else
@@ -759,6 +792,17 @@
 
     call meStamdata(session("mid"))
 
+    '** Special settings medarbejdertype
+    mt_mobil_visstopur = 0
+    strSQLmeType = "SELECT mt_mobil_visstopur FROM medarbejdertyper WHERE id = " & meType
+    oRec4.open strSQLmeType, oConn, 3
+    if not oRec4.EOF then
+        
+    mt_mobil_visstopur = oRec4("mt_mobil_visstopur")
+
+    end if 
+    oRec4.close
+
 
     '** Select eller søgeboks
     call mobil_week_reg_dd_fn()
@@ -773,6 +817,7 @@
     '** MAKS budget / Forecast incl. peridoe afgrænsning
     call akt_maksbudget_treg_fn()
 
+    call erStempelurOn()
 
     if len(trim(request("indlast"))) <> 0 AND session("timetag_web_indMsgShown") <> "1" then
     indlast = 1
@@ -795,13 +840,28 @@
         showStop = 0
         showDetailDayResumeOrLink = 0
         ststopbtnTxt = "St. / Stop"
-    case "xintranet - local", "sdutek", "nonstop", "cc",  "epi", "epi_uk", "epi_ab", "epi_no"
+    case "xintranet - local", "sdutek", "nonstop", "cc" ', "epi", "epi_uk", "epi_ab", "epi_no"
         showAfslutJob = 0
         showMatreg = 0
         showStop = 1
         showDetailDayResumeOrLink = 1
         ststopbtnTxt = "St. / Stop"
-      case "tbg", "hidalgo"
+    case "epi2017"
+        showAfslutJob = 0
+        showMatreg = 0
+        
+        if cint(mt_mobil_visstopur) = 1 then
+        showStop = 1
+        mobil_week_reg_akt_dd = 1
+        mobil_week_reg_job_dd = 1
+        mobil_week_reg_akt_dd_forvalgt = 1
+        else
+        showStop = 0
+        end if
+        
+        showDetailDayResumeOrLink = 1
+        ststopbtnTxt = "St. / Stop"
+    case "tbg", "hidalgo"
         showAfslutJob = 0
         showMatreg = 1
         showStop = 0
@@ -888,6 +948,14 @@
 </head>
     
 
+    <!--
+     <button onclick="getLocation()">Try It</button>
+    <p id="demo"></p>
+        -->
+
+
+       
+
 
         <%call mobile_header %>
 
@@ -955,6 +1023,10 @@
 
                         <input type="hidden" id="mobil_week_reg_akt_dd" name="" value="<%=mobil_week_reg_akt_dd %>"/>
                         <input type="hidden" id="mobil_week_reg_job_dd" name="" value="<%=mobil_week_reg_job_dd %>"/> 
+
+                        <input type="hidden" id="jq_longitude" name="" value="0"/>
+                        <input type="hidden" id="jq_latitude" name="" value="0"/>
+                        <input type="hidden" id="jq_stempeluron" name="" value="<%=stempelurOn %>"/>  
                         
                                               
                         <!-- Forecast max felter -->
@@ -967,6 +1039,12 @@
                         <input type="hidden" id="regskabsaarUseMd" value="<%=datepart("m", varTjDatoUS_man_tt, 2,2)%>">
                         <input type="hidden" id="dv_akttype" value="0">
 
+
+                         
+             
+        
+
+            
 
                         <%
                         '*** GL 
@@ -1280,10 +1358,13 @@
                         <input type="submit" class="inactive" value="Tilføj timer & materialer"/>
                         -->
 
+
+
                     </form>
 
-
-
+                    
+                       
+                
 
                 </div>
             </div>

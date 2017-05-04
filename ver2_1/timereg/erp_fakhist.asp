@@ -1183,7 +1183,7 @@ if len(session("user")) = 0 then
 		&" k.kkundenavn, k.kkundenr, f.brugfakdatolabel, f.istdato2, f.fakbetkom, "_
 		&" j.id AS jid, j.jobnavn, j.jobnr, j.jobslutdato, j.jobstartdato, j.jobstatus, j.fastpris, j.serviceaft, f.istdato, f.istdato2, f.visperiode, j.jobstatus, f.moms, "_
 		&" s.navn AS aftnavn, s.advitype , s.aftalenr, s.pris, "_
-		&" s.stdato, s.sldato, sj.navn AS sjaftnavn, sj.aftalenr AS sjaftalenr, "
+		&" s.stdato, s.sldato, sj.navn AS sjaftnavn, sj.aftalenr AS sjaftalenr, j.beskrivelse, "
 		
 	    strSQLFak = strSQLFak &" k1.navn AS konto, k1.kontonr AS kontonr, "_
 		&" k2.navn AS modkonto, k2.kontonr AS modkontonr, "_
@@ -1821,6 +1821,21 @@ if len(session("user")) = 0 then
             <%else %>
             <%=oRec3("fakbetkom") %>&nbsp;
             <%end if %>		
+
+            <%select case lto
+            case "nt", "intranet - local"
+
+                if len(trim(oRec3("beskrivelse"))) <> 0 then
+                %>
+                <br /><span style="color:red;">! invoicenote</span>
+                    <div style="visibility:visible; display:; font-size:9px; height:50px; overflow-y:auto;"><%=oRec3("beskrivelse") %></div>
+                <%
+                end if
+
+            case else
+                
+            end select %>
+
 		</td>
 
         <%if oRec3("overfort_erp") = 1 then

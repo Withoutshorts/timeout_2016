@@ -769,7 +769,7 @@ function afslutuge(weekSelected, visning, tjkDag7, rdir, SmiWeekOrMonth)
                 <%end select %>
                 
                 <span style="font-size:11px;"><%=tsa_txt_409 %>:</span><br />
-                <span style="font-size:14px; display:block; padding:2px; border:0px #999999 solid; width:200px; font-weight:bolder;">
+                <span style="font-size:14px; display:block; padding:2px; border:0px #999999 solid; width:400px; font-weight:bolder;">
 
                     <%
 
@@ -818,19 +818,19 @@ function afslutuge(weekSelected, visning, tjkDag7, rdir, SmiWeekOrMonth)
                 
                 select case cint(SmiWeekOrMonth)
                 case 0, 2
-                if ((cint(maaAfslutteUge) = 1 AND cint(afslutugekri) <> 10) OR cint(level) = 1) then
-                'AND lto <> "tec" AND lto <> "esn"  
-                'Må ikke kune afslutte alle uger når der er Kriterier opstillet på min. timer pr. uge
-                'Eller hvis man afslutter på månedsbasis (afslut alle måender til d.d funktion ikke klar)
-                        
-                        
-                if cint(level) = 1 OR SmiWeekOrMonth = 2 then%>
-                <input type="checkbox" name="FM_afslutuge" id="FM_afslutuge" value="1" onClick="showlukalleuger()" <%=FM_afslutugeDIS %>> 
-                <%else %>
-                <input type="checkbox" name="FM_afslutuge" id="FM_afslutuge" value="1" <%=FM_afslutugeDIS %>>
-                <%end if %>
 
-                <%end if
+                    if ((cint(maaAfslutteUge) = 1 AND cint(afslutugekri) <> 10) OR cint(level) = 1) then
+                    'AND lto <> "tec" AND lto <> "esn"  
+                    'Må ikke kune afslutte alle uger når der er Kriterier opstillet på min. timer pr. uge
+                    'Eller hvis man afslutter på månedsbasis (afslut alle måender til d.d funktion ikke klar)
+                                       
+                        if cint(level) = 1 OR SmiWeekOrMonth = 2 then%>
+                        <input type="checkbox" name="FM_afslutuge" id="FM_afslutuge" value="1" onClick="showlukalleuger()" <%=FM_afslutugeDIS %>> 
+                        <%else %>
+                        <input type="checkbox" name="FM_afslutuge" id="FM_afslutuge" value="1" <%=FM_afslutugeDIS %>>
+                        <%end if 
+
+                    end if
                   
                 case 1
 
@@ -847,10 +847,7 @@ function afslutuge(weekSelected, visning, tjkDag7, rdir, SmiWeekOrMonth)
                    sidstedagisidsteuge: <%=sidstedagisidsteuge %><br />
                    ww: <%=datepart("ww", sidstedagisidsteuge, 2, 2) %>
                     -->
-                   
                   
-
-                
                
                
                 <%
@@ -861,10 +858,17 @@ function afslutuge(weekSelected, visning, tjkDag7, rdir, SmiWeekOrMonth)
                 <%=tsa_txt_005 %>: <%=datePart("ww", sidstedagisidsteAfsluge, 2,2) %>, 
                    
                    <%if datePart("ww", sidstedagisidsteAfsluge, 2,2) = 53 then%> 
-                   <%=datePart("yyyy", dateAdd("yyyy", -1, sidstedagisidsteAfsluge), 2,2) %>   / <%=datePart("yyyy", sidstedagisidsteAfsluge, 2,2) %>  
+                   <%=datePart("yyyy", dateAdd("yyyy", -1, sidstedagisidsteAfsluge), 2,2) %> / <%=datePart("yyyy", sidstedagisidsteAfsluge, 2,2) %>  
                    <%else%>
                    <%=datePart("yyyy", sidstedagisidsteAfsluge, 2,2) %>
                    <%end if %>
+
+                    
+                <%if cint(SmiWeekOrMonth_HR) = 1 AND cint(SmiWeekOrMonth) = 0 then
+                %>
+                <br /><span style="font-weight:normal;"><input type="checkbox" name="FM_afslutuge_hr" id="FM_afslutuge_hr" value="1"> Afslut uge nu! (pr. dd. ved månedsskift eller lønkørsel)</span><br />
+                <%
+                end if%>
 
                 <%case 1 'MD %>
                 <%=monthname(datePart("m", sidstedagisidsteAfsluge, 2,2)) %>, <%=datePart("yyyy", sidstedagisidsteAfsluge, 2,2) %>
@@ -879,7 +883,7 @@ function afslutuge(weekSelected, visning, tjkDag7, rdir, SmiWeekOrMonth)
                     %>
 
                     <%if datepart("ww", tjkDag7, 2 ,2) <> datepart("ww", sidstedagisidsteAfsluge, 2 ,2) AND thisfile <> "ugeseddel_2011.asp" then  %>
-                    (<a href="<%=menu2015lnk%>timereg_akt_2006.asp?showakt=1&strdag=<%=day(sidstedagisidsteAfsluge)%>&strmrd=<%=month(sidstedagisidsteAfsluge)%>&straar=<%=year(sidstedagisidsteAfsluge)%>" class="vmenu"><%=funk_txt_047 &" "& datePart("ww", sidstedagisidsteAfsluge, 2,2) %>..</a>)
+                    <!--(<a href="<%=menu2015lnk%>timereg_akt_2006.asp?showakt=1&strdag=<%=day(sidstedagisidsteAfsluge)%>&strmrd=<%=month(sidstedagisidsteAfsluge)%>&straar=<%=year(sidstedagisidsteAfsluge)%>" class="vmenu"><%=funk_txt_047 &" "& datePart("ww", sidstedagisidsteAfsluge, 2,2) %>..</a>)-->
                     <%end if %> 
                         
                     <%
@@ -1808,12 +1812,18 @@ end if
                 smileyImg = "sur_1.gif"
 		        end if
 		        
+                '**Afslutter SKÆV uge ved månedsskift eller lønkørsel. TIA
+                splithr = 0
+                if len(request("FM_afslutuge_hr")) <> 0 then
+                cDateUgeTilAfslutning = cDateAfs
+                splithr = 1
+                end if
                
         	    'cDateUgeSQL = year(cDateUge) & "/" & month(cDateUge) &"/"& day(cDateUge)	
 		        medarbejderid = request("FM_mid")
                 call meStamdata(medarbejderid)
         		
-		        strSQLafslut = "INSERT INTO ugestatus (uge, afsluttet, mid, status) VALUES ('"& cDateUgeTilAfslutning &"', '"& cDateAfs &"', "& medarbejderid &", "& intStatusAfs &")" 
+		        strSQLafslut = "INSERT INTO ugestatus (uge, afsluttet, mid, status, splithr) VALUES ('"& cDateUgeTilAfslutning &"', '"& cDateAfs &"', "& medarbejderid &", "& intStatusAfs &", "& splithr &")" 
 		        'Response.Write strSQLafslut
 		        'Response.flush
 		        oConn.execute(strSQLafslut)
@@ -1882,14 +1892,11 @@ end if
 			        else
 			        afslutalle = 0
 			        end if
-        			
-                    
-                
+        			         
 			        
 			        if afslutalle = 1 then
         					
-                            
-
+                           
 					        detteAar = year(request("FM_afslutuge_sidstedag"))
                             
                             sidsteUgeAfsl = request("FM_afslutuge_sidstedag")
@@ -2065,7 +2072,7 @@ end if
     public showAfsugeTxt
     public showAfsugeTxt_tot, ugegodkendtTxt_tot, btnstyle, ugeNrStatus
 
-    public ugeNrAfsluttet, showAfsuge, cdAfs, ugegodkendt, ugegodkendtaf, ugegodkendtTxt, ugegodkendtdt, showAfsugeVisAfsluttetpaaGodkendUgesedler
+    public ugeNrAfsluttet, showAfsuge, cdAfs, ugegodkendt, ugegodkendtaf, ugegodkendtTxt, ugegodkendtdt, showAfsugeVisAfsluttetpaaGodkendUgesedler, splithr
     function erugeAfslutte(sm_aar, sm_sidsteugedag, sm_mid, SmiWeekOrMonth, erugeAfslutte_do)
             
           
@@ -2116,7 +2123,7 @@ end if
             end if
 
 
-            strSQLafslut = "SELECT status, afsluttet, uge, ugegodkendt, ugegodkendtaf, ugegodkendtTxt, ugegodkendtdt FROM ugestatus WHERE "_
+            strSQLafslut = "SELECT status, afsluttet, uge, ugegodkendt, ugegodkendtaf, ugegodkendtTxt, ugegodkendtdt, splithr FROM ugestatus WHERE "_
             &" "& sqlDatoKri &" "& sqlYearKri &" AND mid = "& sm_mid 
 		    
             'if session("mid") = 1 then
@@ -2136,6 +2143,8 @@ end if
                 ugegodkendtaf = oRec3("ugegodkendtaf")
                 ugegodkendtTxt = oRec3("ugegodkendtTxt")
                 ugegodkendtdt = oRec3("ugegodkendtdt")
+                
+                splithr = oRec3("splithr")
     		
 		    end if
 		    oRec3.close 

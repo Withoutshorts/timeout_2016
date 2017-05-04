@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://tempuri.org/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://tempuri.org/">
+      <s:element name="addmed">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ds">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="addmedResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="addmedResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="addmedSoapIn">
+    <wsdl:part name="parameters" element="tns:addmed" />
+  </wsdl:message>
+  <wsdl:message name="addmedSoapOut">
+    <wsdl:part name="parameters" element="tns:addmedResponse" />
+  </wsdl:message>
+  <wsdl:portType name="oz_importmedSoap">
+    <wsdl:operation name="addmed">
+      <wsdl:input message="tns:addmedSoapIn" />
+      <wsdl:output message="tns:addmedSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="oz_importmedSoap" type="tns:oz_importmedSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="addmed">
+      <soap:operation soapAction="http://tempuri.org/addmed" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="oz_importmedSoap12" type="tns:oz_importmedSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="addmed">
+      <soap12:operation soapAction="http://tempuri.org/addmed" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="oz_importmed">
+    <wsdl:port name="oz_importmedSoap" binding="tns:oz_importmedSoap">
+      <soap:address location="http://timeout2.outzource.dk/timeout_xp/wwwroot/ver2_14/timereg_net/ozimportmed.asmx" />
+    </wsdl:port>
+    <wsdl:port name="oz_importmedSoap12" binding="tns:oz_importmedSoap12">
+      <soap12:address location="http://timeout2.outzource.dk/timeout_xp/wwwroot/ver2_14/timereg_net/ozimportmed.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

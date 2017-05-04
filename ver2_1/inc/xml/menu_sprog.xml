@@ -16,6 +16,10 @@
 
     <txt_8>Service-Desk</txt_8>
     <txt_9>Administration</txt_9>
+
+    <txt_10>Medarbejder - Projekttid</txt_10>
+    
+
   </dk>
 
 
@@ -32,6 +36,7 @@
     <txt_7 >Økonomi</txt_7>
     <txt_8 >Tjenesten-Desk</txt_8>
     <txt_9 >Administrasjon</txt_9>
+    <txt_10>Medarbejder - Projekttid</txt_10>
 
   </no>
 
@@ -48,6 +53,7 @@
     <txt_7 >Ekonomi</txt_7>
     <txt_8 >Service Desk</txt_8>
     <txt_9 >Administrering</txt_9>
+    <txt_10>Medarbejder - Projekttid</txt_10>
 
   </se>
 
@@ -64,6 +70,7 @@
     <txt_7 >Wirtschaft</txt_7>
     <txt_8 >Service-Desk</txt_8>
     <txt_9 >Verwaltung</txt_9>
+    <txt_10>Employee - Projecttime</txt_10>
 
   </de>
 
@@ -79,7 +86,7 @@
     <txt_7 >Économie</txt_7>
     <txt_8 >Service-Bureau</txt_8>
     <txt_9 >Administration</txt_9>
-
+    <txt_10>Employee - Projecttime</txt_10>
   </fr>
   
  
@@ -96,6 +103,7 @@
 
     <txt_8>Service-Desk</txt_8>
     <txt_9>Administration</txt_9>
+    <txt_10>Employee - Projecttime</txt_10>
 
   </uk>
 
@@ -111,6 +119,7 @@
     <txt_7 >Economía</txt_7>
     <txt_8 >Service-Desk</txt_8>
     <txt_9 >Administración</txt_9>
+    <txt_10>Employee - Projecttime</txt_10>
 
   </es>
 

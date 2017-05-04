@@ -488,6 +488,11 @@ if len(request("FM_afslutuge")) <> 0 then
 cDateUge = year(request("FM_afslutuge_sidstedag"))&"/"&month(request("FM_afslutuge_sidstedag"))&"/"&day(request("FM_afslutuge_sidstedag"))
 cDateAfs = year(now)&"/"&month(now)&"/"&day(now)
 
+'**Afslutter SKÆV uge ved månedsskift eller lønkørsel. TIA
+if len(request("FM_afslutuge_hr")) <> 0 then
+cDateUge = cDateAfs
+end if
+
 'Response.write cDate(cDateUge) &" >= " & cdate(cDateAfs) 
 
 if cDate(cDateUge) >= cdate(cDateAfs) then

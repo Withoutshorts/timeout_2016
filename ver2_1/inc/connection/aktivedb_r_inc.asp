@@ -19,6 +19,8 @@ function aktivedb(x)
         strConnect_aktiveDB = "timeout_immenso64"
 		case 89
         strConnect_aktiveDB = "timeout_essens64"
+        case 91
+	    strConnect_aktiveDB = "timeout_cst64"
         case 107
 		strConnect_aktiveDB = "timeout_epi64"
 		case 108
@@ -35,12 +37,16 @@ function aktivedb(x)
 		strConnect_aktiveDB = "timeout_kejd_pb64"
         case 126
 		strConnect_aktiveDB = "timeout_epi_no64"
+        case 130
+		strConnect_aktiveDB = "timeout_rek64"
 		case 136
         strConnect_aktiveDB = "timeout_hidalgo64"
 	    case 138
         strConnect_aktiveDB = "timeout_oko64"
 		case 139
         strConnect_aktiveDB = "timeout_hestia64"
+        case 140
+        strConnect_aktiveDB = "timeout_epi_uk64" 
         case 141
         strConnect_aktiveDB = "timeout_nt64"
         case 142
@@ -81,6 +87,8 @@ function aktivedb(x)
         strConnect_aktiveDB = "timeout_gd64"
         case 168
         strConnect_aktiveDB = "timeout_assurator64"
+        case 169
+        strConnect_aktiveDB = "timeout_tia64"
          
 
 	case else

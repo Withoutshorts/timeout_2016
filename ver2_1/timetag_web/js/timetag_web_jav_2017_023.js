@@ -6,10 +6,31 @@
 
 
 
+
+
 $(document).ready(function() {
 
 
-    ////////////////////// ONLOAD FUNCTIONS  /// 
+    
+
+   
+
+
+    ////////////////////// ONLOAD FUNCTIONS  ////////////////////////// 
+
+    jq_lto = $("#jq_lto").val()
+
+    jq_stempeluron = $("#jq_stempeluron").val()
+
+    if (jq_stempeluron == 1) {
+
+
+        getLocation()
+
+      
+    }
+
+   
 
     setTimeout(function () {
         // Do something after 5 seconds
@@ -18,7 +39,6 @@ $(document).ready(function() {
 
 
     // HVIS Kunde job = DropDown
-    jq_lto = $("#jq_lto").val()
     mobil_week_reg_job_dd = $("#mobil_week_reg_job_dd").val()
     //alert("HER: " + jq_lto + " mobil_week_reg_job_dd : " + mobil_week_reg_job_dd)
     
@@ -44,18 +64,12 @@ $(document).ready(function() {
         if ($("#tomobjid").val() != 0) {
 
 
-
-
             thisJobid = $("#tomobjid").val()
             $("#FM_jobid").val(thisJobid)
 
             $.post("?jq_jobid=" + thisJobid, { control: "FN_tomobjid", AjaxUpdateField: "true" }, function (data) {
 
-
-
-
                 $("#FM_job").val(data)
-
 
             });
 
@@ -1133,6 +1147,49 @@ $(document).ready(function() {
     }
 
 
+    // geo gps getLocation
+    var x = document.getElementById("demo");
+    function getLocation() {
+
+
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(showPosition);
+        } else {
+            x.innerHTML = "Geolocation is not supported by this browser.";
+        }
+    }
+    function showPosition(position) {
+
+        //x.innerHTML = "Latitude: " + position.coords.latitude +
+        //"<br>Longitude: " + position.coords.longitude;
+
+        //alert(position.coords.longitude)
+
+        $("#jq_longitude").val(position.coords.longitude)
+        $("#jq_latitude").val(position.coords.latitude)
+
+
+        jq_longitude = $("#jq_longitude").val()
+        jq_latitude = $("#jq_latitude").val()
+
+        //alert("HER: " + jq_latitude)
+
+        if ($("#jq_longitude").val() != 0) {
+
+
+            $.post("?jq_longitude=" + jq_longitude + "&jq_latitude=" + jq_latitude, { control: "FN_geolocation", AjaxUpdateField: "true" }, function (data) {
+
+                //$("#FM_job").val(data)
+
+                //alert("Du er her: " + jq_latitude)
+
+            });
+
+
+
+        }
+
+    }
 
 
 });

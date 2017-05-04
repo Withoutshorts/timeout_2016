@@ -1021,7 +1021,10 @@ if len(session("user")) = 0 then
 				intBgr = request("FM_bgr")
 					
 				startDato = Request("FM_start_aar") & "/" & Request("FM_start_mrd") & "/" & strStartDay 
-				slutDato = Request("FM_slut_aar") & "/" & Request("FM_slut_mrd") & "/" & strSlutDay 
+				slutDato = Request("FM_slut_aar") & "/" & Request("FM_slut_mrd") & "/" & strSlutDay
+                            
+                startDatoTid = Request("FM_start_tid") & ":00"
+				slutDatoTid = Request("FM_slut_tid") & ":00"
 				
                 isstamakt = request("isstamakt")
 				
@@ -1094,13 +1097,13 @@ if len(session("user")) = 0 then
                 'Response.write nedfod
                 'Response.end
 
+                '*************************************************
+                '*** PROJEKTGRUPPER
+                '*************************************************
                 call tilfojProGrp(func,aj,jid,aid,nedfod,request("FM_projektgruppe_1"),request("FM_projektgruppe_2"),request("FM_projektgruppe_3"),request("FM_projektgruppe_4"),request("FM_projektgruppe_5"),request("FM_projektgruppe_6"),request("FM_projektgruppe_7"),request("FM_projektgruppe_8"),request("FM_projektgruppe_9"),request("FM_projektgruppe_10"), firstLoop)
 
                         
-				
-				
-
-
+			
 				
 				'**** Er det stamakt. eller alm. akt. ***'
 				if jobids(j) = 0 then
@@ -1145,19 +1148,19 @@ if len(session("user")) = 0 then
 	                            end if 
 
                                 aktfindes = 0
-						        if lto = "epi2017" then
+						        'if lto = "epi2017" then
 
                             
-                                    strSQLsel = "SELECT id FROM aktiviteter WHERE job = "& jobids(j) &" AND navn = 'Epinion Asia (Vietnam) time'"
-                                    oRec8.open strSQLsel, oConn, 3
-                                    if not oRec8.EOF then
+                                 '   strSQLsel = "SELECT id FROM aktiviteter WHERE job = "& jobids(j) &" AND navn = 'Epinion Asia (Vietnam) time'"
+                                 '   oRec8.open strSQLsel, oConn, 3
+                                 '   if not oRec8.EOF then
                             
-                                    aktfindes = 1
+                                 '   aktfindes = 1
                             
-                                    end if
-                                    oRec8.close
+                                 '   end if
+                                 '   oRec8.close
 
-						        end if
+						        'end if
 
                         if cint(aktfindes) = 0 then
 						
@@ -1167,7 +1170,7 @@ if len(session("user")) = 0 then
 						        &" budgettimer, aktstatus, fomr, faktor, aktbudget, tidslaas, tidslaas_st, tidslaas_sl, antalstk, "_
 						        &" tidslaas_man, tidslaas_tir, tidslaas_ons, "_
 						        &" tidslaas_tor, tidslaas_fre, tidslaas_lor, tidslaas_son, fase, bgr, aktbudgetsum, easyreg, sortorder, fravalgt, brug_fasttp, "_
-                                &" brug_fastkp, fasttp, fasttp_val, fastkp, fastkp_val, avarenr, kostpristarif, aktkonto "_
+                                &" brug_fastkp, fasttp, fasttp_val, fastkp, fastkp_val, avarenr, kostpristarif, aktkonto, aktsttid, aktsltid "_
 						        &") VALUES "_
 						        &" ('"& strNavn &"', "_
 						        &"'"& strBeskrivelse &"', "_ 
@@ -1193,7 +1196,7 @@ if len(session("user")) = 0 then
 						        &" "& tidslaas &", '"& tidslaas_st &"', '"& tidslaas_sl &"', "_
 						        &" "& antalstk &", "_
 						        &" "& tidslaas_man &", "& tidslaas_tir &", "& tidslaas_ons &", "_
-						        &" "& tidslaas_tor &", "& tidslaas_fre &", "& tidslaas_lor &", "& tidslaas_son 
+						        &" "& tidslaas_tor &", "& tidslaas_fre &", "& tidslaas_lor &", "& tidslaas_son
 						
 						        if len(trim(strFase)) <> 0 then
 						        strSQL = strSQL & ", '"& strFase &"', "
@@ -1202,7 +1205,7 @@ if len(session("user")) = 0 then
 						        end if
 						
 						        strSQL = strSQL & intBgr &", "& intBudgetTot &", "& easyreg &", "& sortorder &", "& fravalgt &", "& brug_fasttp &","_
-                                &""& brug_fastkp &", "& fasttp &", "& fasttp_val &", "& fastkp &", "& fastkp_val &", '"& avarenr &"', '"& kostpristarif &"', "& aktkonto &")"
+                                &""& brug_fastkp &", "& fasttp &", "& fasttp_val &", "& fastkp &", "& fastkp_val &", '"& avarenr &"', '"& kostpristarif &"', "& aktkonto &", '"& startDatoTid &"', '" & slutDatoTid &"')"
 						
 						
 						
@@ -1250,7 +1253,7 @@ if len(session("user")) = 0 then
 						&" tidslaas_fre = "& tidslaas_fre &", tidslaas_lor = "& tidslaas_lor &", "_
 						&" tidslaas_son = "& tidslaas_son &", bgr = "& intBgr &", aktbudgetsum = "& intBudgetTot &", easyreg = "& easyreg &", sortorder = "& sortorder &", fravalgt = " & fravalgt &", "_
                         &" brug_fasttp = "& brug_fasttp &", brug_fastkp = "& brug_fastkp &", fasttp = "& fasttp &", fasttp_val = "& fasttp_val &","_
-                        &" fastkp = "& fastkp&", fastkp_val = "& fastkp_val &", avarenr = '"& avarenr &"', kostpristarif = '"& kostpristarif &"', aktkonto = "& aktkonto &"" 
+                        &" fastkp = "& fastkp&", fastkp_val = "& fastkp_val &", avarenr = '"& avarenr &"', kostpristarif = '"& kostpristarif &"', aktkonto = "& aktkonto &", aktsttid = '"& startDatoTid &"', aktsltid = '"& slutDatoTid &"'" 
 						
 						if len(trim(strFase)) <> 0 then
 						strSQLupd = strSQLupd & ", fase = '"& strFase &"'"
@@ -1640,11 +1643,21 @@ if len(session("user")) = 0 then
                                       
                             
                         end if 'FLYT ALLE AKT
-						
-					
+                        '*******************************************************************************************
+
+
+
+
+                        '*******************************************************************************************
+                        '**** Planlæg / Akt_bookings
+                        '*******************************************************************************************
+                        call addresbooking(session("mid"), useAktid, lastJobID, startDato, startDatoTid, slutDato, slutDatoTid, lto)
 
 					
-					'Response.end
+					
+
+                    'Response.write "<br><br>Booking gennemført"
+				    'Response.end
 						
 						
 						if jobid <> 0 then 'Bliver der oprettet en stam akt eller en alm akt.
@@ -1790,6 +1803,9 @@ if len(session("user")) = 0 then
     strAvarenr = ""
     kostpristarif = "0"
 
+        aktsttid = "00:00"
+        aktsltid = "00:00"
+
 	else
 	
 	
@@ -1803,7 +1819,7 @@ if len(session("user")) = 0 then
 	&" faktor, aktbudget, tidslaas, tidslaas_st, tidslaas_sl, antalstk, "_
 	&" tidslaas_man, tidslaas_tir, tidslaas_ons, "_
 	&" tidslaas_tor, tidslaas_fre, tidslaas_lor, tidslaas_son, fase, bgr, easyreg, sortorder, fravalgt, "_
-    &" brug_fasttp, fasttp, fasttp_val, brug_fastkp, fastkp, fastkp_val, avarenr, kostpristarif, aktkonto "_
+    &" brug_fasttp, fasttp, fasttp_val, brug_fastkp, fastkp, fastkp_val, avarenr, kostpristarif, aktkonto, aktsttid, aktsltid "_
 	&" FROM aktiviteter WHERE id=" & id
 	oRec.open strSQL,oConn, 3
 	
@@ -1890,6 +1906,15 @@ if len(session("user")) = 0 then
         strAvarenr = oRec("avarenr")
         kostpristarif = oRec("kostpristarif")
         aktkonto = oRec("aktkonto")
+
+        aktsttid = formatdatetime(oRec("aktsttid"), 3)
+        aktsltid = formatdatetime(oRec("aktsltid"), 3)
+
+        aktsttid_len = len(aktsttid)
+        aktsttid = left(aktsttid, aktsttid_len - 3)
+
+        aktsltid_len = len(aktsltid)
+        aktsltid = left(aktsltid, aktsltid_len - 3)
 
 		end if
 		
@@ -2279,8 +2304,13 @@ if len(session("user")) = 0 then
 	<option value="0">Lukket</option>
 		</select>
 
+
+
             <%if func = "red" then %>
+              
+
              <span style="float:right; color:red; padding:0px 60px 10px 2px;"><a href="aktiv.asp?func=slet&id=<%=id %>" class="red">[X]</a></span>
+              
             <%end if %>
 		</td>
 	</tr>
@@ -2355,7 +2385,9 @@ if len(session("user")) = 0 then
 		%>
 		
             <select name="FM_jnr" id="FM_jnr" <%=mul%> size="<%=sz%>" style="width:700px;">
-            <%if func = "opretstam" OR func = "redstam" then 
+            <%
+            sel0j = "" 
+            if func = "opretstam" OR func = "redstam" then 
             
             'if cint(strjobnr) = 0 then
 		    sel0j = "SELECTED"
@@ -2378,8 +2410,9 @@ if len(session("user")) = 0 then
 		selj = "SELECTED"
 		else
 		selj = ""
-		end if%>
-		  <option value="<%=oRec2("id") %>" <%=selj %>><%=oRec2("kkundenavn") %> (<%=oRec2("kkundenr") %>) | (<%=oRec2("jobnr") %>) <%=oRec2("jobnavn") %> | Antal atk.: <%=oRec2("antalA") %> </option>
+		end if
+          %>
+		  <option value="<%=oRec2("id") %>" <%=selj %>><%=oRec2("kkundenavn") %> (<%=oRec2("kkundenr") %>) | <%=oRec2("jobnavn") %> (<%=oRec2("jobnr") %>) | Antal atk.: <%=oRec2("antalA") %> </option>
            
 		<%antaljob = antaljob + 1 
 		oRec2.movenext
@@ -2878,7 +2911,9 @@ if len(session("user")) = 0 then
                 useY = datepart("yyyy", dateadd("yyyy", x, date()))%>
                   <option value="<%=right(useY, 2)%>"><%=useY%></option>
                 <%next %>
-				</select>
+				</select>&nbsp;
+                kl.: <input type="text" value="<%=aktsttid %>" name="FM_start_tid" placeholder="00:00" style="width:60px;" />
+				
 				&nbsp;&nbsp;<a href="javascript:NewWin_popupcal('../inc/regular/popupcalender_inc.asp?use=6')"><img src="../ill/popupcal.gif" alt="" border="0" width="16" height="15"></a></td>
 										
 				
@@ -2949,9 +2984,12 @@ if len(session("user")) = 0 then
                   <option value="<%=right(useY, 2)%>"><%=useY%></option>
                 <%next %>
 				</select>
+
+                &nbsp;kl.: <input type="text" value="<%=aktsltid %>" name="FM_slut_tid" placeholder="00:00" style="width:60px;" />
 				
 				&nbsp;&nbsp;<a href="javascript:NewWin_popupcal('../inc/regular/popupcalender_inc.asp?use=5')"><img src="../ill/popupcal.gif" alt="" border="0" width="16" height="15"></a><br />&nbsp;&nbsp;
-												
+				<br />
+                    <span style="float:inherit; color:#5582d2; padding:0px 60px 10px 2px;"><a href="../to_2015/akt_bookings.asp?func=red&id=<%=id %>" target="_blank">[Planlæg]</a></span>								
 				
 				</td>
 			</tr>
@@ -2959,7 +2997,7 @@ if len(session("user")) = 0 then
 		 <%end if %>
 			
 		
-         
+                    
         		
 			
 				<tr>
@@ -2976,7 +3014,7 @@ if len(session("user")) = 0 then
                         neCHK = ""
                         onclkfn = ""
                         end if%>
-					<input type="checkbox" name="FM_pgrp_arvefode" value="0" <%=neCHK %> onclick="<%=onclkfn %>"> Nedarv fra job. (de projektgrupper der har adgang til jobbet skal også have adgang til denne aktivitet.)<br>
+					<input type="checkbox" name="FM_pgrp_arvefode" value="0" <%=neCHK %> onclick="<%=onclkfn%>"> Nedarv fra job. (de projektgrupper der har adgang til jobbet skal også have adgang til denne aktivitet.)<br>
                     <%end if %>
 					</td>
 			    </tr>

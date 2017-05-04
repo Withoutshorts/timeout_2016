@@ -26,14 +26,14 @@ $(function () {
 
 	data = [
 		//{ label: "Ferie & Fravær", data: Math.floor(fravar) },
-		{ label: "" + navn_0 + " " + proc_0 + " %", data: Math.floor(proc_0) },
-		{ label: "" + navn_1 + " " + proc_1 + " %", data: Math.floor(proc_1) },
-        { label: "" + navn_2 + " " + proc_2 + " %", data: Math.floor(proc_2) },
-        { label: "" + navn_3 + " " + proc_3 + " %", data: Math.floor(proc_3) },
-        { label: "" + navn_4 + " " + proc_4 + " %", data: Math.floor(proc_4) },
-        { label: "" + navn_5 + " " + proc_5 + " %", data: Math.floor(proc_5) },
-		{ label: "" + navn_6 + " " + proc_6 + " %", data: Math.floor(proc_6) },
-	    { label: "" + navn_7 + " " + proc_7 + " %", data: Math.floor(proc_7) }
+		{ label: " " + navn_0 + " " + proc_0 + " %", data: Math.floor(proc_0) },
+		{ label: " " + navn_1 + " " + proc_1 + " %", data: Math.floor(proc_1) },
+        { label: " " + navn_2 + " " + proc_2 + " %", data: Math.floor(proc_2) },
+        { label: " " + navn_3 + " " + proc_3 + " %", data: Math.floor(proc_3) },
+        { label: " " + navn_4 + " " + proc_4 + " %", data: Math.floor(proc_4) },
+        { label: " " + navn_5 + " " + proc_5 + " %", data: Math.floor(proc_5) },
+		{ label: " " + navn_6 + " " + proc_6 + " %", data: Math.floor(proc_6) },
+	    { label: " " + navn_7 + " " + proc_7 + " %", data: Math.floor(proc_7) }
         //{ label: "Norm", data: Math.floor(norm) },
 	]
 

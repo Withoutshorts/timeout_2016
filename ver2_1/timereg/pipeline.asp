@@ -57,8 +57,51 @@ if len(session("user")) = 0 then
 	else
 	strMrd = month(now)
 	end if
+
+    if len(trim(request("seomsfor_antalmd"))) <> 0 then
+    seomsfor_antalmd = request("seomsfor_antalmd")
+    else
+    seomsfor_antalmd = 12
+    end if
+
+    
+    if len(trim(request("directexcel"))) <> 0 then
+    directexcel = 1
+    else
+    directexcel = 0
+    end if
+
+    if cint(directexcel) = 1 then
+        directexcelChk = "CHECKED"
+    else
+        directexcelChk = ""
+    end if
+        
+
+	dim seomsfor_antalmdHigend
+    seomsfor_antalmdHigend = seomsfor_antalmd - 1
+
+    if len(trim(request("FM_start_mrd"))) <> 0 then
 	
-	
+        if len(trim(request("FM_ign_per"))) <> 0 then    
+          ign_per = 1
+        else
+          ign_per = 0
+        end if
+
+    else
+
+        ign_per = 0
+
+    end if
+
+
+    if cint(ign_per) = 1 then
+        ign_perCHK = "CHECKED"
+    else
+        ign_perCHK = ""
+    end if
+
 	'**************************************************
 	'***** Faste Filter kriterier *********************
 	'**************************************************
@@ -76,6 +119,7 @@ if len(session("user")) = 0 then
 	jobAnsSQLkri = ""
 	jobAns2SQLkri = ""
 	fakmedspecSQLkri = ""
+    salgsansSQLkri = ""
 	
 	if len(trim(request("FM_progrp"))) <> 0 then
 	progrp = request("FM_progrp")
@@ -115,6 +159,12 @@ if len(session("user")) = 0 then
 	else
 	kundeid = 0
 	end if
+
+    call salgsans_fn()
+
+
+    
+
 	
 	'*** Kundeans ***
 	strKnrSQLkri = ""
@@ -131,6 +181,11 @@ if len(session("user")) = 0 then
 			     jobAnsSQLkri = "jobans1 = "& intMids(m)  
 			     jobAns2SQLkri = "jobans2 = "& intMids(m)
                  jobAns3SQLkri = "jobans3 = "& intMids(m) & " OR jobans4 = "& intMids(m) & " OR jobans5 = "& intMids(m)
+
+                   if cint(showSalgsAnv) = 1 then
+                   salgsansSQLkri = "salgsans1 = "& intMids(m) & " OR salgsans2 = "& intMids(m) & " OR salgsans3 = "& intMids(m) & " OR salgsans4 = "& intMids(m) & " OR salgsans5 = "& intMids(m) 
+                   end if
+
 			     fakmedspecSQLkri = "fms.mid = "& intMids(m)
 			     else
 			     medarbSQlKri = medarbSQlKri & " OR m.mid = " & intMids(m)
@@ -138,6 +193,11 @@ if len(session("user")) = 0 then
 			     jobAnsSQLkri = jobAnsSQLkri & " OR jobans1 = "& intMids(m)  
 			     jobAns2SQLkri = jobAns2SQLkri & " OR jobans2 = "& intMids(m)
                  jobAns3SQLkri = jobAns3SQLkri & " OR jobans3 = "& intMids(m) & " OR jobans4 = "& intMids(m) & " OR jobans5 = "& intMids(m)
+
+                  if cint(showSalgsAnv) = 1 then
+                   salgsansSQLkri = salgsansSQLkri & " OR salgsans1 = "& intMids(m) & " OR salgsans2 = "& intMids(m) & " OR salgsans3 = "& intMids(m) & " OR salgsans4 = "& intMids(m) & " OR salgsans5 = "& intMids(m) 
+                   end if
+
 			     fakmedspecSQLkri = fakmedspecSQLkri & " OR fms.mid = "& intMids(m)
 			     end if
 			     
@@ -145,9 +205,14 @@ if len(session("user")) = 0 then
 			    
 			    medarbSQlKri = medarbSQlKri & ")"
 			    
-			jobAnsSQLkri =  " ("& jobAnsSQLkri &")"
-			jobAns2SQLkri =  "xx (" & jobAns2SQLkri &")"
-			jobAns3SQLkri =  "xx (" & jobAns3SQLkri &")"
+			    jobAnsSQLkri =  " ("& jobAnsSQLkri &")"
+			    jobAns2SQLkri =  "xx (" & jobAns2SQLkri &")"
+			    jobAns3SQLkri =  "xx (" & jobAns3SQLkri &")"
+            
+                   if cint(showSalgsAnv) = 1 then
+                   salgsansSQLkri =" (" & salgsansSQLkri &")"
+                   end if
+
             fakmedspecSQLkri = " AND ("& fakmedspecSQLkri &")"
 			
 	
@@ -219,20 +284,6 @@ if len(session("user")) = 0 then
 	<!--include file="../inc/regular/topmenu_inc.asp"-->
 
 	
-	<!--
-	<div id="topmenu" style="position:absolute; left:0; top:42; visibility:visible;">
-	<%
-        call tsamainmenu(7)
-    %>
-	</div>
-	<div id="sekmenu" style="position:absolute; left:15; top:82; visibility:visible;">
-	<%
-        call stattopmenu()
-    %>
-	</div>
-        -->
-
-
 
 	<%
 
@@ -334,7 +385,7 @@ if len(session("user")) = 0 then
 	<tr>
 		<td valign=top>
         <br />
-        <b>Fra:</b> 
+        <b>Startdato fra:</b> 
 	<select name="FM_start_mrd">
 		<option value="<%=strMrd%>"><%=strMrdNavn%></option>
 		<option value="1">jan</option>
@@ -371,9 +422,33 @@ if len(session("user")) = 0 then
 			next%>
 		</select>
 
-     og 12 md frem.
+            og
 
-	</td>
+        <%
+        
+            seomsfor_antalmd12sel = ""
+            seomsfor_antalmd24sel = ""
+            seomsfor_antalmd36sel = ""    
+            
+        select case seomsfor_antalmd
+        case 12
+        seomsfor_antalmd12sel = "SELECTED" 
+        case 24
+        seomsfor_antalmd24sel = "SELECTED"
+        case 36
+        seomsfor_antalmd36sel = "SELECTED"
+        end select
+            %>
+     <select name="seomsfor_antalmd">
+         <option value="12" <%=seomsfor_antalmd12sel%>>12 md frem.</option>
+         <option value="24" <%=seomsfor_antalmd24sel%>>24 md frem.</option>
+         <option value="36" <%=seomsfor_antalmd36sel%>>36 md frem.</option>
+     </select>  <br />
+            <span style="font-size:10px; color:#999999;">Ved 12 md. bliver fakturaplan udspec. pr. md i valgte interval</span>
+     <br />
+   <input type="checkbox" name="FM_ign_per" value="1" <%=ign_perCHK %> /> Ignorer periode<br />
+   <input type="checkbox" name="directexcel" value="1" <%=directexcelChk %> /> Eksporter direkte til excel
+   </td>
 	<td align=right>
 	&nbsp;<input type="submit" value=" Kør >> ">
 	</td></tr>
@@ -461,14 +536,35 @@ if len(session("user")) = 0 then
 
     end if
 
+
+    call basisValutaFN()
+
+
+    if cint(showSalgsAnv) = 1 then
+        cps = 33
+    else
+        cps = 18
+    end if
+
     
-    dim strMrdno(11)
-    dim strMrdnm(11)
-    dim strYearno(11)
-    dim strDayno(11)
-    dim tableHTML(11)
-    dim mdIdTot(11)
-    for m = 0 to 11
+    
+     
+
+    redim strMrdno(seomsfor_antalmdHigend)
+    redim strMrdnm(seomsfor_antalmdHigend)
+    redim strYearno(seomsfor_antalmdHigend)
+    redim strDayno(seomsfor_antalmdHigend)
+    redim tableHTML(seomsfor_antalmdHigend)
+    redim mdIdTot(seomsfor_antalmdHigend)
+    redim mdIdBruttoOmsTot(seomsfor_antalmdHigend)
+    redim mdIdFakturaTot(seomsfor_antalmdHigend)
+    redim mdIdStadeTot(seomsfor_antalmdHigend)
+    redim stadesum_prmd(seomsfor_antalmdHigend)
+    redim stadesum_prmdGT(seomsfor_antalmdHigend)
+    stadesum_prGT = 0
+
+
+    for m = 0 to seomsfor_antalmdHigend
 
     strMrdno(m) = strMrd + m
     if strMrdno(m) <= 12 then
@@ -479,13 +575,14 @@ if len(session("user")) = 0 then
     strYearno(m) = strYear + 1
     end if
 
-    if m = 11 then
+    if m = seomsfor_antalmdHigend then
     strMrdEnd = strMrdno(m)
     strYearEnd = strYearno(m) 
     end if
 
+    if seomsfor_antalmdHigend = 11 then
     strMrdnm(m) = monthname(strMrdno(m))
-
+    end if
 
     select case strMrdno(m)
     case 1,3,5,7,8,10,12
@@ -502,11 +599,13 @@ if len(session("user")) = 0 then
     end select
 
 
-    if m = 11 then
+    if m = seomsfor_antalmdHigend then
     strDayEnd = strDayno(m)
     end if
 
-    tableHTML(m) = "<table cellspacing=1 cellpadding=0 border=0 width='100%'>"
+    if cint(directexcel) <> 1 then
+    tableHTML(m) = "<table cellspacing=0 cellpadding=0 border=0 width='100%'>"
+    end if
 
     next
     
@@ -514,19 +613,13 @@ if len(session("user")) = 0 then
 
    
 
-    if media <> "export" then %>
+    if media <> "export" AND cint(directexcel) <> 1 then %>
 	
-    <table cellspacing="0" cellpadding="0" border="0"><tr><td valign=top style="width:504px;">
+    <table cellspacing="0" cellpadding="0" border="0">
+        
+     <tr><td valign=top>
 	
-	<table cellspacing="1" cellpadding="0" border="0" bgcolor="#d6dff5" width=100%>
-	<tr bgcolor="#5582D2">
-    <%
-    for m = 0 to 11
-    %>
-    <td class=alt style="width:40px; padding:2px;" valign=bottom class=lille><%=left(strMrdnm(m), 3) &" "& right(strYearno(m), 2) %></td>
-    <%
-    next
-     %></tr><%
+	<%
 
     
 
@@ -534,16 +627,41 @@ if len(session("user")) = 0 then
 	'strBudget = "<table cellspacing=1 cellpadding=0 border=1>"
 	strJob = "<table cellspacing=0 cellpadding=0 border=0><tr bgcolor=""#5582d2""><td class=alt valign=bottom style=""padding:2px; border-right:1px #cccccc solid; width:250px;""><b>Jobnavn (nr)</b><br>Kunde (knr)</td>"_
     &"<td class=alt valign=bottom style=""padding:2px; border-right:1px #cccccc solid;""><b>Brutto oms. "&basisValISO&"</b>"_
-    &"<td class=alt valign=bottom style=""padding:2px;"" class=alt><b>Startdato</b> (måneder)</td>"_
-    &"<td class=alt valign=bottom style=""padding:2px;""><b>Sand. %</b></td>"_
+    &"<td class=alt valign=bottom style=""padding:2px; border-right:1px #cccccc solid;"" class=alt><b>Startdato</b> (måneder)</td>"_
+    &"<td class=alt valign=bottom style=""padding:2px; border-right:1px #cccccc solid;"" class=alt><b>Status</b></td>"_
+    &"<td class=alt valign=bottom style=""padding:2px; border-right:1px #cccccc solid;"" class=alt><b>Lukkedato</b></td>"_
+    &"<td class=alt valign=bottom style=""padding:2px; border-right:1px #cccccc solid;""><b>Sand. %</b></td>"_
     &"<td class=alt style=""padding:2px; border-right:1px #cccccc solid;""><b>Pipeline værdi</b><br>(Brutto Oms - Udgifter ulev. * Sand.) "& basisValISO &"</td>"_
-    &"<td style=""padding:2px; border-right:1px #cccccc solid;"" valign=bottom class=lille colspan=3><b>Job-ansv.</b><br>Værdi "& basisValISO &"</td>"_
-    &"<td style=""padding:2px; border-right:1px #cccccc solid;"" valign=bottom class=lille colspan=3><b>Job-ejer</b><br>Værdi "& basisValISO &"</td>"_
-    &"<td style=""padding:2px; border-right:1px #cccccc solid;"" valign=bottom class=lille colspan=3><b>Med-ansv.1</b><br>Værdi "& basisValISO &"</td>"_
-    &"<td style=""padding:2px; border-right:1px #cccccc solid;"" valign=bottom class=lille colspan=3><b>Med-ansv.2</b><br>Værdi "& basisValISO &"</td>"_
-    &"<td style=""padding:2px; border-right:1px #cccccc solid;"" valign=bottom class=lille colspan=3><b>Med-ansv.3</b><br>Værdi "& basisValISO &"</td>"_
-    &"<td class=alt style=""padding:2px;"" valign=bottom><b>Kode</b></td>"_
-    &"</tr>"
+    &"<td class=alt valign=bottom style=""padding:2px; border-right:1px #cccccc solid;""><b>Stade / Fak. plan</b> "& basisValISO &"</td>"
+
+        if seomsfor_antalmdHigend = 11 then
+          for m = 0 to seomsfor_antalmdHigend
+
+            strJob = strJob &"<td class=alt valign=bottom style=""padding:2px; background-color:#999999; border-right:1px #cccccc solid;""><b>Fak. plan</b><br> "& left(monthname(strMrdno(m)), 3) &" "& right(strYearno(m), 2) &"</td>"
+
+          next
+        end if
+
+    strJob = strJob &"<td class=alt valign=bottom style=""padding:2px; border-right:1px #cccccc solid;""><b>Faktureret</b> "& basisValISO &"</td>"_
+    &"<td class=alt style=""padding:2px; border-right:1px #cccccc solid;"" valign=bottom colspan=3><b>Job-ansv.</b><br>Værdi "& basisValISO &"</td>"_
+    &"<td class=alt style=""padding:2px; border-right:1px #cccccc solid;"" valign=bottom colspan=3><b>Job-ejer</b><br>Værdi "& basisValISO &"</td>"_
+    &"<td class=alt style=""padding:2px; border-right:1px #cccccc solid;"" valign=bottom colspan=3><b>Job medansv. 3</b><br>Værdi "& basisValISO &"</td>"_
+    &"<td class=alt style=""padding:2px; border-right:1px #cccccc solid;"" valign=bottom colspan=3><b>Job medansv. 4</b><br>Værdi "& basisValISO &"</td>"_
+    &"<td class=alt style=""padding:2px; border-right:1px #cccccc solid;"" valign=bottom colspan=3><b>Job medansv. 5</b><br>Værdi "& basisValISO &"</td>"
+    
+    if cint(showSalgsAnv) = 1 then
+
+    strJob = strJob &"<td class=alt style=""padding:2px; border-right:1px #cccccc solid;"" valign=bottom colspan=3><b>Salgsansvr. 1</b><br>Værdi "& basisValISO &"</td>"_
+    &"<td class=alt style=""padding:2px; border-right:1px #cccccc solid;"" valign=bottom colspan=3><b>Salgsansvr. 2</b><br>Værdi "& basisValISO &"</td>"_
+    &"<td class=alt style=""padding:2px; border-right:1px #cccccc solid;"" valign=bottom colspan=3><b>Salgsansvr. 3</b><br>Værdi "& basisValISO &"</td>"_
+    &"<td class=alt style=""padding:2px; border-right:1px #cccccc solid;"" valign=bottom colspan=3><b>Salgsansvr. 4</b><br>Værdi "& basisValISO &"</td>"_
+    &"<td class=alt style=""padding:2px; border-right:1px #cccccc solid;"" valign=bottom colspan=3><b>Salgsansvr. 5</b><br>Værdi "& basisValISO &"</td>"
+
+    end if
+
+    strJob = strJob &"<td class=alt style=""padding:2px; border-right:1px #cccccc solid;"" valign=bottom><b>Forretningsområder (units)</b>"
+    'strJob = strJob &"<td class=alt style=""padding:2px;"" valign=bottom><b>Kode</b></td>"_
+    strJob = strJob &"</tr>"
 	
     end if
     
@@ -556,36 +674,91 @@ if len(session("user")) = 0 then
 	strViskunKri = " AND jobstatus = 3 " 'tilbud
 	end select
 	
-
+    select case lto
+    case "epi2017"
 	kvotient = 10000
+    mdpeer = 5000000
+    case else 
+    kvotient = 100
+    mdpeer = 100000
+    end select
 	
     jobnrSQLkri = replace(jobnrSQLkri, "tjobnr", "jobnr")
     
   
 
-	strSQL = "SELECT job.id AS jobid, jobnr, jobnavn, jobstartdato, jobslutdato, jobTpris, fakturerbart, budgettimer, fastpris, jobstatus, sandsynlighed, jo_udgifter_ulev, "_
-    &" jobans1, jobans2, jobans3, jobans4, jobans5, jobans_proc_1, jobans_proc_2, jobans_proc_3, jobans_proc_4, jobans_proc_5, "_
-    &" m1.mnavn AS m1navn, m1.mnr AS m1mnr, m1.init AS m1init, "_
+	strSQL = "SELECT job.id AS jobid, jobnr, jobnavn, jobstartdato, jobslutdato, lukkedato, jo_bruttooms, jobTpris, fakturerbart, budgettimer, fastpris, jobstatus, sandsynlighed, jo_udgifter_ulev, jo_valuta, jo_valuta_kurs, "_
+    &" jobans1, jobans2, jobans3, jobans4, jobans5, jobans_proc_1, jobans_proc_2, jobans_proc_3, jobans_proc_4, jobans_proc_5, "
+
+
+    if cint(showSalgsAnv) = 1 then
+
+    strSQL = strSQL &" salgsans1, salgsans2, salgsans3, salgsans4, salgsans5, salgsans1_proc, salgsans2_proc, salgsans3_proc, salgsans4_proc, salgsans5_proc, "
+
+     end if
+
+    strSQL = strSQL &" m1.mnavn AS m1navn, m1.mnr AS m1mnr, m1.init AS m1init, "_
     &" m2.mnavn AS m2navn, m2.mnr AS m2mnr, m2.init AS m2init, "_
     &" m3.mnavn AS m3navn, m3.mnr AS m3mnr, m3.init AS m3init, "_
     &" m4.mnavn AS m4navn, m4.mnr AS m4mnr, m4.init AS m4init, "_
-    &" m5.mnavn AS m5navn, m5.mnr AS m5mnr, m5.init AS m5init, "_
-    &" kkundenavn, kkundenr "_
+    &" m5.mnavn AS m5navn, m5.mnr AS m5mnr, m5.init AS m5init, "
+
+
+    if cint(showSalgsAnv) = 1 then
+
+        strSQL = strSQL &" s1.mnavn AS s1navn, s1.mnr AS s1mnr, s1.init AS s1init, "_
+        &" s2.mnavn AS s2navn, s2.mnr AS s2mnr, s2.init AS s2init, "_
+        &" s3.mnavn AS s3navn, s3.mnr AS s3mnr, s3.init AS s3init, "_
+        &" s4.mnavn AS s4navn, s4.mnr AS s4mnr, s4.init AS s4init, "_
+        &" s5.mnavn AS s5navn, s5.mnr AS s5mnr, s5.init AS s5init, "
+
+
+     end if
+
+    strSQL = strSQL &" kkundenavn, kkundenr "_
     &" FROM job"_
     &" LEFT JOIN kunder k ON (k.kid = jobknr) "_
     &" LEFT JOIN medarbejdere m1 ON (m1.mid = jobans1) "_
     &" LEFT JOIN medarbejdere m2 ON (m2.mid = jobans2) "_
     &" LEFT JOIN medarbejdere m3 ON (m3.mid = jobans3) "_
     &" LEFT JOIN medarbejdere m4 ON (m4.mid = jobans4) "_
-    &" LEFT JOIN medarbejdere m5 ON (m5.mid = jobans5) "_
-    &" WHERE ("& jobnrSQLkri &")  AND jobstartdato BETWEEN '"&strYear&"/"& strMrd &"/1"&"' AND '"&strYearEnd&"/"& strMrdEnd &"/"& strDayEnd &""&"' GROUP BY job.id ORDER BY jobstartdato, jobnavn" 
+    &" LEFT JOIN medarbejdere m5 ON (m5.mid = jobans5) "
 
+     if cint(showSalgsAnv) = 1 then
+
+    strSQL = strSQL &" LEFT JOIN medarbejdere s1 ON (s1.mid = salgsans1) "_
+    &" LEFT JOIN medarbejdere s2 ON (s2.mid = jobans2) "_
+    &" LEFT JOIN medarbejdere s3 ON (s3.mid = jobans3) "_
+    &" LEFT JOIN medarbejdere s4 ON (s4.mid = jobans4) "_
+    &" LEFT JOIN medarbejdere s5 ON (s5.mid = jobans5) "
+
+
+     end if
+
+        strSQL = strSQL &" WHERE ("& jobnrSQLkri &") "& replace(jobstKri, "j.", "job.")         
+         
+        stDatoSQLkri  = strYear &"/"& strMrd &"/1"
+        endDatoSQLkri = strYearEnd&"/"& strMrdEnd &"/"& strDayEnd 
+        
+        if cint(ign_per) <> 1 then
+        strSQL = strSQL &" AND jobstartdato BETWEEN '"& stDatoSQLkri &"' AND '"& endDatoSQLkri &"'"
+        end if
+
+        strSQL = strSQL &" GROUP BY job.id ORDER BY jobstartdato, jobnavn" 
+
+    '" AND "& jobAnsSQLkri &""
+
+   ' Response.Write " " & slagsansSQLkri &" "& jobAnsSQLkri &"<br>"
+
+    'if session("mid") = 1 then
     'Response.Write strSQL
     'Response.flush
+    'end if
 
     'strExport = "xx99123sy#z"
     lastMonth = 0
-	mdTot = 0		
+	mdTot = 0
+    mdBruttoOmsTot = 0		
 			
 			
     
@@ -600,129 +773,7 @@ if len(session("user")) = 0 then
 	bgcolthis = "#FFFFFF"
 	end select
 	
-    if media <> "export" then 
-
-	select case y
-	case 1, 47, 93, 126, 172
-	col = "#0083D7"
-	case 2, 48, 94, 127, 173
-	col = "#0099FF"
-	case 3, 49, 95, 128, 714
-	col = "Dimgray"
-	case 4, 50, 96, 129, 175
-	col = "#003399"
-	case 5, 51, 97, 130, 176
-	col = "#006600"
-	case 6, 52, 98, 131, 177
-	col = "#006699"
-	case 7, 53, 99, 132, 178
-	col = "#34A4DE"
-	case 8, 54, 100, 133, 179
-	col = "#B4E2FF"
-	case 9, 55, 101, 134, 180
-	col = "#DEFFFF"
-	case 10, 56, 102, 135, 181
-	col = "#FFCCFF"
-	case 11, 57, 103, 136,182
-	col = "#CCCCFF"
-	case 12, 58, 104, 137, 183
-	col = "#996600"
-	case 13, 59, 105, 138,184
-	col = "#CC9900"
-	case 14, 60, 106, 139,185
-	col = "#FFFF99"
-	case 15, 61, 107, 140,186
-	col = "#333366"
-	case 16, 62, 108, 141,187
-	col = "#FFFF00"
-	case 17, 63, 109, 142,188
-	col = "#FFDB9D"
-	case 18, 64, 110, 143,189
-	col = "#FFCC66"
-	case 19, 65, 111, 144,190
-	col = "#FF9933"
-	case 20, 66, 112, 145,191
-	col = "#FF794B"
-	case 21, 67, 113, 146,192
-	col = "#FF3300"
-	case 22, 68, 114, 147,193
-	col = "#990000"
-	case 23, 69, 115, 148,194
-	col = "#9999FF"
-	case 24, 70, 116, 149,195
-	col = "#6666CC"
-	case 25, 71, 117, 150,196
-	col = "#9999CC"
-	case 26, 72, 118, 151,197
-	col = "#666699"
-	case 27, 73, 119, 152,198
-	col = "#FFCC00"
-	case 28, 74, 120, 153,199
-	col = "#009900"
-	case 29, 75, 121, 154,200
-	col = "#66CC33"
-	case 30, 76, 122, 155,201
-	col = "Silver"
-	case 31, 77, 123, 156,202
-	col = "LightGrey"
-	case 32, 78, 125, 157,203
-	col = "DarkGray"
-	case 33, 79, 158,204
-	col = "Olive"
-	case 34, 80, 159,205
-    col = "#0066CC"
-	case 35, 81, 160,206
-	col = "#99FF66"
-	case 36, 82, 161,207
-	col = "#CCFFCC"
-	case 37, 83, 162,208
-	col = "RosyBrown"
-	case 38, 84, 163,209
-	col = "Honeydew"
-	case 39, 85, 164,210
-	col = "CornflowerBlue"
-	case 40, 86, 165,211
-	col = "DarkMagenta"
-	case 41, 78, 166,212
-	col = "skyblue"
-	case 42, 88, 167,213
-	col = "Thistle"
-	case 43, 89, 168,214
-	col = "Tomato"
-	case 44, 90, 169,215
-	col = "Gold"
-	case 45, 91, 170,216
-	col = "yellow"
-	case 46, 92, 171,217
-	col = "black"
-	case else
-
-        select case right(y,1)
-        case 1
-	    col = "#5582d2"
-        case 2
-	    col = "Olive"
-	    case 3
-        col = "#0066CC"
-	    case 4
-	    col = "#99FF66"
-	    case 5
-	    col = "#CCFFCC"
-	    case 6
-	    col = "RosyBrown"
-	    case 7
-	    col = "Honeydew"
-	    case 8
-	    col = "CornflowerBlue"
-	    case 9
-	    col = "DarkMagenta"
-	    case 0
-	    col = "skyblue"
-        end select
-	   
-	end select
-
-    end if
+   
     
 
 	stmonth = month(oRec("jobstartdato"))
@@ -730,229 +781,357 @@ if len(session("user")) = 0 then
 	thisdays = datediff("m", oRec("jobstartdato"), oRec("jobslutdato"))
 	thisbudget = pipelinevalue 'oRec("jobtpris")
 	
-
+        if cint(directexcel) <> 1 then
 
    
-        if datepart("m", oRec("jobstartdato"),2,2) <> lastMonth then
+            if datepart("m", oRec("jobstartdato"),2,2) <> lastMonth then
 
-            if y <> 1 then
-            strJob = strJob & "<tr bgcolor='#FFFFFF'><td colspan=5 align=right style='padding:2px 10px 2px 2px; border-bottom:1px #cccccc solid;' class=lille><b>"& formatnumber(mdTot, 2) &"</b></td><td colspan=16 style='padding:3px; border-bottom:1px #cccccc solid;'>&nbsp;</td></tr>"
-            mdTot = 0
+                if y <> 1 then
+                'strJob = strJob & "<tr bgcolor='#FFFFFF'><td style='padding:2px 10px 2px 2px; border-bottom:1px #cccccc solid;' class=lille><br>&nbsp;</td><td colspan=4 align=right style='padding:2px 10px 2px 2px; border-bottom:1px #cccccc solid;' class=lille valign=top><b>"& formatnumber(mdTot, 2) &"</b></td><td colspan="& cps &" style='padding:3px; border-bottom:1px #cccccc solid;'>&nbsp;</td></tr>"
+                strJob = strJob & "<tr bgcolor='#FFFFFF'><td style='padding:2px 10px 2px 2px;' class=lille>Total:</td>"
+                strJob = strJob & "<td align=right style='padding:2px 10px 2px 2px;' class=lille><b>"& formatnumber(mdBruttoOmsTot, 2) &"</b></td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>"
+                strJob = strJob & "<td align=right style='padding:2px 10px 2px 2px;' class=lille><b>"& formatnumber(mdTot, 2) &"</b></td>"
+        
+                    
+                     if seomsfor_antalmdHigend = 11 then
+                      for m = 0 to seomsfor_antalmdHigend
+
+                        strJob = strJob &"<td>&nbsp;</td>"
+
+                      next
+                    end if
+
+
+                strJob = strJob &"<td colspan="& cps &" style='padding:3px; border-bottom:0px #cccccc solid;'>&nbsp;</td></tr>"
+    
+        
+                mdTot = 0
+                mdBruttoOmsTot = 0
+                end if
+
+
+            if seomsfor_antalmdHigend = 11 then
+            cpsMonthTr = 35
+            else
+            cpsMonthTr = 23
+            end if
+
+            'strJob = strJob & "<tr bgcolor='#FFFFFF'><td colspan="& cpsMonthTr &" style='padding:3px;'>&nbsp;</td></tr>"
+            strJob = strJob & "<tr bgcolor='#D6dff5'><td colspan="& cpsMonthTr &" style='padding:3px;'><b>"& monthname(datepart("m",oRec("jobstartdato"),2,2)) &" "& datepart("yyyy",oRec("jobstartdato"), 2,2) &"</b></td></tr>"
+    
             end if
 
 
-        strJob = strJob & "<tr bgcolor='#D6dff5'><td colspan=21 style='padding:3px; border-bottom:1px #cccccc solid;'><b>"& monthname(datepart("m",oRec("jobstartdato"),2,2)) &" "& datepart("yyyy",oRec("jobstartdato"), 2,2) &"</b></td></tr>"
-    
         end if
-
     
     
     '*** Tilbud Pipelineværdi = bruttooms - udgifter * sand *** / Ellers = bruttooms - udgifter
     if oRec("jobstatus") = 3 then
-    pipelinevalue = formatnumber((oRec("jobtpris") - oRec("jo_udgifter_ulev")) * (oRec("sandsynlighed")/100),2)
+    pipelinevalue = formatnumber((oRec("jo_bruttooms") - oRec("jo_udgifter_ulev")) * (oRec("sandsynlighed")/100),2)
     else
-    pipelinevalue = formatnumber((oRec("jobtpris") - oRec("jo_udgifter_ulev")),2)
+    pipelinevalue = formatnumber((oRec("jo_bruttooms") - oRec("jo_udgifter_ulev")),2)
     end if 
 
+    jo_bruttooms = oRec("jo_bruttooms")
+
+    if cint(oRec("jo_valuta")) <> cint(basisValId) then
+
+    call valutakode_fn(oRec("jo_valuta"))
+    call beregnValuta(pipelinevalue,oRec("jo_valuta_kurs"),100)
+    pipelinevalue = formatnumber(valBelobBeregnet, 2)
+   
+   
+    call beregnValuta(jo_bruttooms,oRec("jo_valuta_kurs"),100)
+    jo_bruttooms = formatnumber(valBelobBeregnet, 2)
+
+    end if
+
+    'pipelinevalue = oRec("jo_bruttooms")
 
 	if cint(datepart("yyyy",oRec("jobstartdato"))) <= cint(strYear) AND cint(datepart("yyyy",oRec("jobslutdato"))) >= cint(strYear) then
-	strJob = strJob & "<tr bgcolor="& bgcolthis &"><td valign=top style='padding:2px; border-right:1px #cccccc solid;' class=lille><input type='hidden' name='FM_colthis_"&y&"' value='"&col&"'>"
 	
-	if media <> "print" AND level <=2 OR level = 6 then
-	strJob = strJob & "<a href='jobs.asp?menu=job&func=red&int=1&id="&oRec("jobid")&"&rdir=pipe&nomenu=1' class='rmenu' target=""_blank"">" & left(oRec("jobnavn"), 35) & " ("& oRec("jobnr")  &")</a>"
-	else
-	strJob = strJob & "<b>"& left(oRec("jobnavn"), 35)  & "</b> ("& oRec("jobnr")  &")"
-	end if
+    if cint(directexcel) <> 1 then
+    strJob = strJob & "<tr bgcolor="& bgcolthis &"><td valign=top style='padding:2px; border-right:1px #cccccc solid;' class=lille><input type='hidden' name='FM_colthis_"&y&"' value='"&col&"'>"
+	strJob = strJob & left(oRec("kkundenavn"), 15) & " ("& oRec("kkundenr") &")" & "<br>"
+
+	    if media <> "print" AND level <=2 OR level = 6 then
+	    strJob = strJob & "<a href='jobs.asp?menu=job&func=red&int=1&id="&oRec("jobid")&"&rdir=pipe&nomenu=1' class='vmenu' target=""_blank"">" & left(oRec("jobnavn"), 35) & " ("& oRec("jobnr")  &")</a>"
+	    else
+	    strJob = strJob & "<b>"& left(oRec("jobnavn"), 35)  & "</b> ("& oRec("jobnr")  &")"
+	    end if
+
+    end if
 
     strExport = strExport & oRec("jobnavn") & ";"& oRec("jobnr") &";"
 	
     Select case oRec("jobstatus")
     case 3 
-    strJob = strJob & " (Tilbud)"
+    jobstatusExpTxt = "Tilbud"
+    'strJob = strJob & " Tilbud"
     sandsynlighedTxt = oRec("sandsynlighed") & "%"
     case 0
-    strJob = strJob & " (Lukket)"
+    jobstatusExpTxt = "Lukket"
+    'strJob = strJob & " Lukket"
     sandsynlighedTxt = ""
     case 2
-    strJob = strJob & " (Passivt)"
+    jobstatusExpTxt = "Passivt"
+    'strJob = strJob & " Passivt"
     sandsynlighedTxt = ""
     case else
-    strJob = strJob & ""
+    jobstatusExpTxt = "Aktivt"
+    'strJob = strJob & "Aktivt"
     sandsynlighedTxt = ""
     end select
     
-    strJob = strJob & "<br>" & left(oRec("kkundenavn"), 15) & " ("& oRec("kkundenr") &")"
+   strExport = strExport & jobstatusExpTxt &";"
 
+    if cint(directexcel) <> 1 then
 	strJob = strJob & "</td>" 
+    end if
 
    strExport = strExport & oRec("kkundenavn") & ";"& oRec("kkundenr") &";"
 	
-	strJob = strJob & "<td valign=top align=right style='padding:2px 5px 2px 2px; border-right:1px #cccccc solid; white-space:nowrap;' class=lille>" & formatnumber(oRec("jobtpris"), 2) &"</td>"_
-	&"<td valign=top align=right style='padding:2px; white-space:nowrap;' class=lille>"& formatdatetime(oRec("jobstartdato"), 2) &" ("& thisdays &") </td>"_
-    &"<td valign=top align=right style='padding:2px;' class=lille>"& sandsynlighedTxt &"</td>"_
-	&"<td valign=top align=right style='padding:2px 10px 2px 2px; border-right:1px #cccccc solid; white-space:nowrap;' class=lille>"& pipelinevalue &"</td>"
+    if cint(directexcel) <> 1 then
+	    strJob = strJob & "<td valign=top align=right style='padding:2px 5px 2px 2px; border-right:1px #cccccc solid; white-space:nowrap;' class=lille>" & jo_bruttooms &"</td>"_
+	    &"<td valign=top align=right style='padding:2px; white-space:nowrap; border-right:1px #cccccc solid;' class=lille>"& formatdatetime(oRec("jobstartdato"), 2) &" ("& thisdays &") </td>"_
+         &"<td valign=top style='padding:2px; white-space:nowrap; border-right:1px #cccccc solid;' class=lille>"& jobstatusExpTxt &"</td>"_
+        &"<td valign=top align=right style='padding:2px; white-space:nowrap; border-right:1px #cccccc solid;' class=lille>"
+        
+            if oRec("jobstatus") = 0 then
+             strJob = strJob & formatdatetime(oRec("lukkedato"), 2)
+             else
+            strJob = strJob &"&nbsp;"
+            end if 
     
-    
-    strExport = strExport & formatnumber(oRec("jobtpris"), 2) &";"& formatdatetime(oRec("jobstartdato"), 2) &";"& sandsynlighedTxt &";"& pipelinevalue & ";" 
+        strJob = strJob &"</td>"_
+        &"<td valign=top align=right style='padding:2px; border-right:1px #cccccc solid;' class=lille>"& sandsynlighedTxt &"</td>"_
+	    &"<td valign=top align=right style='padding:2px 10px 2px 2px; border-right:1px #cccccc solid; white-space:nowrap;' class=lille>"& pipelinevalue &"</td>"
+    end if
+
+
+    '*** Stade / fakturering likividitet 'ALTID DKK
+    stadesum = 0
+    strSQLmilepale = "SELECT SUM(belob) AS stadesum FROM milepale WHERE type = 1 AND jid = "& oRec("jobid") &" GROUP BY jid"
+    oRec6.open strSQLmilepale, oConn, 3
+    if not oRec6.EOF then
+        
+    stadesum = oRec6("stadesum")
+
+    end if 
+    oRec6.close
+
+   stadesum_prGT = stadesum_prGT + stadesum
+
+
+    '*** Faktureret Omregnes til DKK
+    fakturasum = 0
+    strSQLfaktureret = "SELECT IF(faktype = 0, COALESCE(sum(f.beloeb * (f.kurs/100)),0), COALESCE(sum(f.beloeb * -1 * (f.kurs/100)),0)) AS beloeb FROM fakturaer AS f WHERE shadowcopy <> 1 AND jobid = "& oRec("jobid") &" GROUP BY jobid"
+    oRec6.open strSQLfaktureret, oConn, 3
+    if not oRec6.EOF then
+        
+    fakturasum = oRec6("beloeb")
+
+    end if 
+    oRec6.close
+
+    if fakturasum <> 0 then
+    fakturasumTxt = formatnumber(fakturasum, 2)
+    fakturasumExp = formatnumber(fakturasum, 2)
+    else
+    fakturasumTxt = ""
+    fakturasumExp = 0
+    end if
+
+    if stadesum <> 0 then
+    stadesumTxt = formatnumber(stadesum, 2)
+    stadesumExp = formatnumber(stadesum, 2)
+    else
+    stadesumTxt = ""
+    stadesumExp = 0
+    end if
+
+    if cint(directexcel) <> 1 then
+    strJob = strJob & "<td valign=top align=right style='padding:2px 5px 2px 2px; border-right:1px #cccccc solid; white-space:nowrap;' class=lille>" & stadesumTxt &"</td>"
+    end if
+
+    strExport = strExport & jo_bruttooms &";"& formatdatetime(oRec("jobstartdato"), 2) &";"& formatdatetime(oRec("jobslutdato"), 2) &";"& formatdatetime(oRec("lukkedato"), 2) &";"& sandsynlighedTxt &";"& pipelinevalue & ";" & stadesumExp &";"
     
      
-    if oRec("jobans1") <> 0 then
-
-
-    if len(trim(oRec("m1init"))) <> 0 then
-    uNit1 = oRec("m1init")
-    else
-    uNit1 = "("& oRec("m1mnr") &")"
-    end if
-
-    strJob = strJob &" <td valign=top style='padding:2px 2px 2px 2px;' class=lille>"& uNit1 &"</td>"
-
-    jobans1proc = oRec("jobans_proc_1")
-    if jobans1proc <> 0 then
-    jobans1val = pipelinevalue * (jobans1proc/100)
-    else
-    jobans1val = 0
-    end if
-
-  
-    strJob = strJob &"<td valign=top align=right style='padding:2px 10px 2px 2px;' class=lille>"& oRec("jobans_proc_1") &"%</td>"_
-    &"<td valign=top align=right style='padding:2px 10px 2px 2px; border-right:1px #cccccc solid;' class=lille>"& formatnumber(jobans1val, 2) &"</td>"
-
-    strExport = strExport & uNit1 &";"& jobans1proc &";"& jobans1val & ";"
-
-    else
-        strJob = strJob &"<td colspan=3 style=""border-right:1px #cccccc solid;"">&nbsp;</td>"
+    '*** Stade / fakturering likividitet 'ALTID DKK PR MD 
+    '*** ALTID 12 md
+    if seomsfor_antalmdHigend = 11 then
+        for m = 0 to seomsfor_antalmdHigend
     
-    strExport = strExport & ";;;"
-    end if
-
+        stadesum_prmd(m) = 0
+        strSQLmilepale = "SELECT SUM(belob) AS stadesum FROM milepale WHERE type = 1 AND jid = "& oRec("jobid") &" AND (MONTH(milepal_dato) = "& strMrdno(m) &" AND YEAR(milepal_dato) = "& strYearno(m) &") GROUP BY jid"
     
+            'response.write strSQLmilepale & "<br>"
+            'response.flush
+        
+        oRec6.open strSQLmilepale, oConn, 3
+        if not oRec6.EOF then
+        
+        stadesum_prmd(m) = oRec6("stadesum")
+        
+
+        end if 
+        oRec6.close
+
+        
+       stadesum_prmdGT(m) = stadesum_prmdGT(m) + stadesum_prmd(m)
+
+
+       if cint(directexcel) <> 1 then
+
+            if stadesum_prmd(m) <> 0 then
+            stadesumTxt_prmd = formatnumber(stadesum_prmd(m), 2)
+            else
+            stadesumTxt_prmd = ""
+            end if
+
+        strJob = strJob & "<td valign=top align=right style='padding:2px 5px 2px 2px; border-right:1px #cccccc solid; white-space:nowrap;' class=lille>" & stadesumTxt_prmd &"</td>"
+        end if
+
+            if stadesum_prmd(m) <> 0 then
+            stadesumTxt_prmdExp = formatnumber(stadesum_prmd(m), 2)
+            else
+            stadesumTxt_prmdExp = 0
+            end if
+
+        strExport = strExport & stadesumTxt_prmdExp & ";"
     
-    if oRec("jobans2") <> 0 then
-
-    if len(trim(oRec("m2init"))) <> 0 then
-    uNit2 = oRec("m2init")
-    else
-    uNit2 = "("&oRec("m2mnr") &")"
-    end if
-
-
-    strJob = strJob &"<td valign=top style='padding:2px 2px 2px 2px;' class=lille>"& uNit2 &"</td>"
-
-    
-    jobans2proc = oRec("jobans_proc_2")
-    if jobans2proc <> 0 then
-    jobans2val = pipelinevalue * (jobans2proc/100)
-    else
-    jobans2val = 0
+        next
     end if
 
    
-    strJob = strJob &"<td valign=top align=right style='padding:2px 10px 2px 2px;' class=lille>"& oRec("jobans_proc_2") &"%</td>"_
-    &"<td valign=top align=right style='padding:2px 10px 2px 2px; border-right:1px #cccccc solid;' class=lille>"& formatnumber(jobans2val, 2) &"</td>"
-
-    strExport = strExport & uNit2 &";"& jobans2proc &";"& jobans2val & ";"
-
-    else
-        strJob = strJob &"<td colspan=3 style=""border-right:1px #cccccc solid;"">&nbsp;</td>"
     
-    strExport = strExport & ";;;"
+
+    if cint(directexcel) <> 1 then
+    strJob = strJob & "<td valign=top align=right style='padding:2px 5px 2px 2px; border-right:1px #cccccc solid; white-space:nowrap;' class=lille>" & fakturasumTxt &"</td>"
     end if
 
+    strExport = strExport & fakturasumExp & ";"
 
-    if oRec("jobans3") <> 0 then
+    for m = 1 to 5
 
-    if len(trim(oRec("m3init"))) <> 0 then
-    uNit3 = oRec("m3init")
+    if oRec("jobans"&m) <> 0 then 
+
+    if len(trim(oRec("m"&m&"init"))) <> 0 then
+    uNit5 = oRec("m"&m&"init")
     else
-    uNit3 = "("&oRec("m3mnr") &")"
+    uNit5 = "("& oRec("m"&m&"mnr") &")"
     end if
 
-    strJob = strJob &"<td valign=top style='padding:2px 2px 2px 2px;' class=lille>"& uNit3 &"</td>"
-
-    
-    jobans3proc = oRec("jobans_proc_3")
-    if jobans3proc <> 0 then
-    jobans3val = pipelinevalue * (jobans3proc/100)
-    else
-    jobans3val = 0
-    end if
-
-   
-    strJob = strJob &"<td valign=top align=right style='padding:2px 10px 2px 2px;' class=lille>"& oRec("jobans_proc_3") &"%</td>"_
-    &"<td valign=top align=right style='padding:2px 10px 2px 2px; border-right:1px #cccccc solid;' class=lille>"& formatnumber(jobans3val, 2) &"</td>"
-
-    strExport = strExport & uNit3 &";"& jobans3proc &";"& jobans3val & ";"
-
-    else
-        strJob = strJob &"<td colspan=3 style=""border-right:1px #cccccc solid;"">&nbsp;</td>"
-        strExport = strExport & ";;;"
-    end if
-
-    
-    
-    if oRec("jobans4") <> 0 then 
-    
-    
-    if len(trim(oRec("m4init"))) <> 0 then
-    uNit4 = oRec("m4init")
-    else
-    uNit4 = "("&oRec("m4mnr") &")"
-    end if
-
-    strJob = strJob &"<td valign=top style='padding:2px 2px 2px 2px;' class=lille>"& uNit4 &"</td>"
-
-
-    jobans4proc = oRec("jobans_proc_4")
-    if jobans4proc <> 0 then
-    jobans4val = pipelinevalue * (jobans4proc/100)
-    else
-    jobans4val = 0
-    end if
-    
-    strJob = strJob &"<td valign=top align=right style='padding:2px 10px 2px 2px;' class=lille>"& oRec("jobans_proc_4") &"%</td>"_
-    &"<td valign=top align=right style='padding:2px 10px 2px 2px; border-right:1px #cccccc solid;' class=lille>"& formatnumber(jobans4val, 2) &"</td>"
-    
-    strExport = strExport & uNit4 &";"& jobans4proc &";"& jobans4val & ";"
-
-    else
-        strJob = strJob &"<td colspan=3 style=""border-right:1px #cccccc solid;"">&nbsp;</td>"
-        strExport = strExport & ";;;"
-    end if
-
-
-    if oRec("jobans5") <> 0 then 
-
-    if len(trim(oRec("m5init"))) <> 0 then
-    uNit5 = oRec("m5init")
-    else
-    uNit5 = "("&oRec("m5mnr") &")"
-    end if
-
+    if cint(directexcel) <> 1 then
     strJob = strJob &"<td valign=top style='padding:2px 2px 2px 2px;' class=lille>"& uNit5 &"</td>"
+    end if
 
-    jobans5proc = oRec("jobans_proc_5")
+    jobans5proc = oRec("jobans_proc_"&m)
     if jobans5proc <> 0 then
     jobans5val = pipelinevalue * (jobans5proc/100)
     else
     jobans5val = 0
     end if
 
-
-    strJob = strJob &"<td valign=top align=right style='padding:2px 10px 2px 2px;' class=lille>"& oRec("jobans_proc_5") &"%</td>"_
-    &"<td valign=top align=right style='padding:2px 10px 2px 2px; border-right:1px #cccccc solid;' class=lille>"& formatnumber(jobans5val, 2) &"</td>"
+    if cint(directexcel) <> 1 then
+        strJob = strJob &"<td valign=top align=right style='padding:2px 10px 2px 2px;' class=lille>"& oRec("jobans_proc_"&m) &"%</td>"_
+        &"<td valign=top align=right style='padding:2px 10px 2px 2px; border-right:1px #cccccc solid;' class=lille>"& formatnumber(jobans5val, 2) &"</td>"
+    end if
 
     strExport = strExport & uNit5 &";"& jobans5proc &";"& jobans5val & ";"
 
     else
+        
+        if cint(directexcel) <> 1 then
         strJob = strJob &"<td colspan=3 style=""border-right:1px #cccccc solid;"">&nbsp;</td>"
+        end if
+
         strExport = strExport & ";;;"
     end if
 
-    strJob = strJob &"<td bgcolor="& col &" style='padding:2px 10px 2px 2px;'>&nbsp;</td></tr>"
+
+    next
+
+    if cint(showSalgsAnv) = 1 then
+
+    for s = 1 To 5
+
+    
+
+                 if oRec("salgsans"&s) <> 0 then 
+
+                    if len(trim(oRec("s"&s&"init"))) <> 0 then
+                    sNit = oRec("s"&s&"init")
+                    else
+                    sNit = "("& oRec("s"&s&"mnr") &")"
+                    end if
+
+                    if cint(directexcel) <> 1 then
+                    strJob = strJob &"<td valign=top style='padding:2px 2px 2px 2px;' class=lille>"& sNit &"</td>"
+                    end if
+
+                    salgsansProc = oRec("salgsans"&s&"_proc")
+                    if salgsansProc <> 0 then
+                    salgsansProcval = pipelinevalue * (salgsansProc/100)
+                    else
+                    salgsansProcval = 0
+                    end if
+
+                    if cint(directexcel) <> 1 then
+                    strJob = strJob &"<td valign=top align=right style='padding:2px 10px 2px 2px;' class=lille>"& oRec("salgsans"&s&"_proc") &"%</td>"_
+                    &"<td valign=top align=right style='padding:2px 10px 2px 2px; border-right:1px #cccccc solid;' class=lille>"& formatnumber(salgsansProcval, 2) &"</td>"
+                    end if
+
+                    strExport = strExport & sNit &";"& salgsansProc &";"& salgsansProcval & ";"
+
+                    else
+                        if cint(directexcel) <> 1 then
+                        strJob = strJob &"<td colspan=3 style=""border-right:1px #cccccc solid;"">&nbsp;</td>"
+                        end if
+                        strExport = strExport & ";;;"
+                    end if
+
+
+     Next
+
+     end if
+
+
+    '*** Fomr ****'
+    fomrTxt = ""
+    fomrTxtTD = ""
+    'strSQLfaktureret = "SELECT SUM(beloeb) AS fakturasum FROM fakturaer WHERE faktype = 1 AND shadowcopy <> 1 AND jobid = "& oRec("jobid") &" GROUP BY jobid"
+    strSQLfomr = "SELECT for_fomr, for_jobid, fomr.business_unit FROM fomr_rel "_
+    &"LEFT JOIN fomr ON (fomr.id = for_fomr) WHERE for_jobid = " & oRec("jobid") & " GROUP BY business_unit"
+    
+    'response.write strSQLfomr
+    'response.flush
+        
+    oRec6.open strSQLfomr, oConn, 3
+    if not oRec6.EOF then
+        
+    fomrTxt = fomrTxt & oRec6("business_unit") &";"
+    fomrTxtTD = fomrTxtTD & oRec6("business_unit") &"<br>"
+
+    end if 
+    oRec6.close
+
+    if cint(directexcel) <> 1 then
+    strJob = strJob &"<td style=""border-right:1px #cccccc solid; vertical-align:top;"">"& fomrTxtTD &"</td>"
+    end if
+    strExport = strExport & fomrTxt
+    
+    if cint(directexcel) <> 1 then
+    'strJob = strJob &"<td bgcolor="& col &" style='padding:2px 10px 2px 2px;'>&nbsp;</td></tr>"
+    strJob = strJob &"</tr>"
+    end if
+
+    if cint(directexcel) <> 1 then
 
     if media <> "print" then
-    strJob = strJob  &"<tr><td colspan=21 bgcolor=""#cccccc"" style=""height:1px;""><img src=""../ill/blank.gif"" width=""30"" height=""1"" alt="""" border=""0"" style=""border:0px;""></td></tr>"
+    strJob = strJob  &"<tr><td colspan=100 bgcolor=""#cccccc"" style=""height:1px;""><img src=""../ill/blank.gif"" width=""30"" height=""1"" alt="""" border=""0"" style=""border:0px;""></td></tr>"
+    end if
+
     end if
 
     strExport = strExport & "xx99123sy#z"
@@ -974,26 +1153,36 @@ if len(session("user")) = 0 then
 	<!-- januar -->
 	<%
 
-    for m = 0 to 11
+    'for m = 0 to 11
 
-    
+   
 
-	if (cdate(oRec("jobstartdato")) <= cdate(""& strDayno(m) &"/"& strMrdno(m)  &"/"& strYearno(m))) AND (cdate(oRec("jobstartdato")) >= cdate("1/"& strMrdno(m) &"/"&strYearno(m))) then
-	tableHTML(m) = tableHTML(m) & "<tr><td><div id='j"&y&"' name='j"&y&"' style='position:relative;visibility:visible; background-color:"& col &"; border:1px "& col &" dashed;  height="&thisheight&" z-index:1000;'><img src='ill/blank.gif' width='30' height="&thisheight&" alt='"& oRec("jobnr") &"&nbsp;" & oRec("jobnavn") &"  " &  formatcurrency(thispipeline,2) &"' border='0'></div></td></tr>"
-	mdIdTot(m) = mdIdTot(m) + cdbl(pipelinevalue)
-	else
-	Response.write "<div id='j"&y&"' name='j"&y&"' style='position:relative;visibility:hidden;  height:0; width:0; z-index:1000; display:none;'></div>"
-	end if
+	'if (cdate(oRec("jobstartdato")) <= cdate(""& strDayno(m) &"/"& strMrdno(m)  &"/"& strYearno(m))) AND (cdate(oRec("jobstartdato")) >= cdate("1/"& strMrdno(m) &"/"&strYearno(m))) then
+	'tableHTML(m) = tableHTML(m) & "<tr><td><div id='j"&y&"' name='j"&y&"' style='position:relative;visibility:visible; background-color:"& col &"; border:1px "& col &" dashed;  height="&thisheight&" z-index:1000;'><img src='ill/blank.gif' width='30' height="&thisheight&" alt='"& oRec("jobnr") &"&nbsp;" & oRec("jobnavn") &"  " &  formatcurrency(thispipeline,2) &"' border='0'></div></td></tr>"
+	'mdIdTot(m) = mdIdTot(m) + cdbl(pipelinevalue)
+	'else
+	'Response.write "<div id='j"&y&"' name='j"&y&"' style='position:relative;visibility:hidden;  height:0; width:0; z-index:1000; display:none;'></div>"
+	'end if
     
-    next
+    'next
     %>
 	
 
 	
 	
 	
-	<%mdTot = mdTot + pipelinevalue
-    
+	<%
+    mdIdTot(datepart("m",oRec("jobstartdato"),2,2)-1) = mdIdTot(datepart("m",oRec("jobstartdato"),2,2)-1) + cdbl(pipelinevalue)    
+    mdIdBruttoOmsTot(datepart("m",oRec("jobstartdato"),2,2)-1) = mdIdBruttoOmsTot(datepart("m",oRec("jobstartdato"),2,2)-1) + cdbl(jo_bruttooms)
+
+    mdIdFakturaTot(datepart("m",oRec("jobstartdato"),2,2)-1) = mdIdFakturaTot(datepart("m",oRec("jobstartdato"),2,2)-1) + cdbl(fakturasum)
+    mdIdStadeTot(datepart("m",oRec("jobstartdato"),2,2)-1) = mdIdStadeTot(datepart("m",oRec("jobstartdato"),2,2)-1) + cdbl(stadesum)
+
+    mdTot = mdTot + cdbl(pipelinevalue)
+    mdTotGT = mdTotGT + cdbl(pipelinevalue)
+    mdBruttoOmsTot = mdBruttoOmsTot + cdbl(jo_bruttooms)
+    mdBruttoOmsTotGT = mdBruttoOmsTotGT + cdbl(jo_bruttooms)
+    lastMthName = monthname(datepart("m",oRec("jobstartdato"),2,2)) &" "& datepart("yyyy",oRec("jobstartdato"), 2,2)
 	y = y + 1
 	end if
 	
@@ -1001,94 +1190,254 @@ if len(session("user")) = 0 then
 	wend
 	oRec.close
 	
-    if y <> 1 then
-    strJob = strJob & "<tr bgcolor='#FFFFFF'><td colspan=5 align=right style='padding:2px 10px 2px 2px; border-bottom:1px #cccccc solid;' class=lille><b>"& formatnumber(mdTot, 2) &"</b></td><td colspan=16 style='padding:3px; border-bottom:1px #cccccc solid;'>&nbsp;</td></tr>"
-    end if
+  
+    if cint(directexcel) <> 1 then
+
+        if y > 1 then
+        strJob = strJob & "<tr bgcolor='#FFFFFF'><td style='padding:2px 10px 2px 2px; border-bottom:1px #cccccc solid;' class=lille>Total:</td>"
+        strJob = strJob & "<td align=right style='padding:2px 10px 2px 2px; border-bottom:1px #cccccc solid;' class=lille><b>"& formatnumber(mdBruttoOmsTot, 2) &"</b></td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>"
+        strJob = strJob & "<td align=right style='padding:2px 10px 2px 2px; border-bottom:1px #cccccc solid;' class=lille><b>"& formatnumber(mdTot, 2) &"</b></td>"
+        
+        if seomsfor_antalmdHigend = 11 then
+        for m = 0 TO seomsfor_antalmdHigend
+
+         strJob = strJob & "<td style='padding:3px; border-bottom:1px #cccccc solid;'>&nbsp;</td>"
+
+        next
+        end if
+
+        strJob = strJob & "<td colspan="& cps &" style='padding:3px; border-bottom:1px #cccccc solid;'>&nbsp;</td></tr>"
+    
+        strJob = strJob & "<tr bgcolor='lightpink'><td style='padding:2px 10px 2px 2px;'>Grandtotal:</td>"
+        strJob = strJob & "<td align=right style='padding:2px 10px 2px 2px;'><b>"& formatnumber(mdBruttoOmsTotGT, 2) &"</b></td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>"
+        strJob = strJob & "<td align=right style='padding:2px 10px 2px 2px;'><b>"& formatnumber(mdTotGT, 2) &"</b></td><td><b>"& formatnumber(stadesum_prGT,2) &"</b></td>"
+        
+        if seomsfor_antalmdHigend = 11 then
+            for m = 0 TO seomsfor_antalmdHigend
+
+             strJob = strJob & "<td align=right style='padding:2px 10px 2px 2px; font-size:10px;'>"& left(monthname(strMrdno(m)), 3) &" "& right(strYearno(m), 2) &"<br>"& formatnumber(stadesum_prmdGT(m), 2) &"</td>"
+
+            next
+        end if
+        
+        
+        strJob = strJob & "<td colspan="& cps &" style='padding:3px; border-bottom:1px #cccccc solid;'>&nbsp;</td></tr>"
+        end if
 
 
 	
 	'strBudget = strBudget & "</table>" 
 	strJob = strJob & "</table>" 
-	
-    for m = 0 to 11
-
-    tableHTML(m) = tableHTML(m) & "</table>"
-
-    next
-
-     %>
-	
-	<%
-    if media <> "export" then 
-    
-    '*** Pipeline table ****%>
-
-    <%for m = 0 to 11 
-    
-     select case right(m, 1)
-     case 0,2,4
-     bgt = "whitesmoke"
-     case else
-     bgt = "#FFFFFF"
-     end select
-
+    end if
     %>
-	<td bgcolor=<%=bgt%> valign="bottom"><%=tableHTML(m)%></td>
-	<%next %>
-	
-	
-	<%
-	if media <> "print" then
-	clthis = "mlille"
-	else
-	clthis = "lille-print"
-	end if
-	%>
-	
-    </tr>
-	<tr>
-	 <%for m = 0 to 11 
     
-     select case right(m, 1)
-     case 0,2,4
-     bgt = "whitesmoke"
-     case else
-     bgt = "#FFFFFF"
-     end select
-     
-     if mdIdTot(m) <> 0 then
-     mdIdTot(m) = cdbl(mdIdTot(m))/kvotient
-     else
-     mdIdTot(m) = 0
-     end if
-     
-     %>
-	<td bgcolor=<%=bgt%> valign="bottom" align=right class=lille><%=formatnumber(mdIdTot(m), 0) %> x10k</td>
-	<%next %>
-	
-	</tr>
-	</table><br><br />
-	<font class=megetlillesort>Kvo. <%=kvotient%>, antal job og tilbud: <%=y-2%></font>
-	
-    
-    </td><td valign=top style="width:794px;">
+  
   
 	
 	<% '*** job table ***
+    if media <> "export" AND cint(directexcel) <> 1 then
+
 	if media <> "print" then
 	bgcoltable = "#d6dff5"
 	else
 	bgcoltable = "#ffffff"
 	end if
     %>
+    <!-- Job Pipeline Table -->
     <table cellspacing="1" cellpadding="0" border="0" width=100% bgcolor="<%=bgcoltable%>">
 	<tr><td valign="top"><%=strJob%></td>
 	</tr>
 	</table>
 
+         <br /><br /><br /><br /><br /><br />
+
+
+    <%if cint(seomsfor_antalmdHigend) = 11 AND cint(ign_per) <> 1 then %>
+    
+    <!--- BAR CHART --->
+    <div style="padding:20px; border:10px #CCCCCC solid; background-color:#FFFFFF;">
+    <table cellspacing="1" cellpadding="0" border="0">
+	<tr>
+     <td>Måned:</td>
+    <%
+    for m = 0 to 11
+    %>
+    
+    <td colspan="4" style="padding:2px;" valign=bottom align="center"><b><%=left(strMrdnm(m), 3) &" "& right(strYearno(m), 2) %></b></td>
+    <%
+    next
+
+    %>
+    </tr>
+        <tr><td>&nbsp;</td>
+    <%
+     
+    for m = 0 to 11
+
+        if mdIdBruttoOmsTot(m) <> 0 then
+            mdIdBruttoOmsTotHgt = formatnumber((mdIdBruttoOmsTot(m)/mdpeer) * 100, 0)
+            'if mdIdBruttoOmsTotHgt > 100 then
+            '    mdIdBruttoOmsTotHgt = 100 - mdIdBruttoOmsTotHgt
+            'end if
+        else
+        mdIdBruttoOmsTotHgt = 0
+        end if
+
+        if mdIdBruttoOmsTotHgt > 100 then
+        mdIdBruttoOmsTotHgt = 100
+        else
+        mdIdBruttoOmsTotHgt = mdIdBruttoOmsTotHgt
+        end if
+
+        'if mdIdBruttoOmsTotHgt > 99 then
+        'bgthisDv = "green"
+        'end if
+
+        'if mdIdBruttoOmsTotHgt >= 70 AND mdIdBruttoOmsTotHgt < 99 then
+        'bgthisDv = "#5582d2"
+        'end if 
+
+        'if mdIdBruttoOmsTotHgt >= 30 AND mdIdBruttoOmsTotHgt < 70 then
+        bgthisDv = "#d6dff5"
+        'end if
+
+        'if mdIdBruttoOmsTotHgt >= 10 AND mdIdBruttoOmsTotHgt < 30 then
+        'bgthisDv = "orange"
+        'end if
+
+        'if mdIdBruttoOmsTotHgt < 10 then
+        'bgthisDv = "darkred"
+        'end if
+
+
+        if mdIdFakturaTot(m) <> 0 then
+        mdIdFakturaTotHgt = formatnumber((mdIdFakturaTot(m)/mdpeer) * 100, 0)
+        else
+        mdIdFakturaTotHgt = 0
+        end if
+
+        if mdIdFakturaTotHgt > 100 then
+        mdIdFakturaTotHgt = 100
+        else
+        mdIdFakturaTotHgt = mdIdFakturaTotHgt
+        end if
+
+        
+        bgFakDv = "yellowgreen"
+       
+
+     
+        if mdIdstadeTot(m) <> 0 then
+        mdIdstadeTotHgt = formatnumber((mdIdstadeTot(m)/mdpeer) * 100, 0)
+        else
+        mdIdstadeTotHgt = 0
+        end if
+
+        if mdIdstadeTotHgt > 100 then
+        mdIdstadeTotHgt = 100
+        else
+        mdIdstadeTotHgt = mdIdstadeTotHgt
+        end if
+
+        
+        bgStadeDv = "#CCCCCC"
+
+        
+        if mdIdBruttoOmsTotHgt >= 100 then
+        mdIdBruttoOmsTotHgtBdrTop = "10"
+        else
+        mdIdBruttoOmsTotHgtBdrTop = "0"
+        end if
+
+        if mdIdStadeTotHgt >= 100 then
+        mdIdStadeTotHgtBdrTop = "10"
+        else
+        mdIdStadeTotHgtBdrTop = "0"
+        end if
+
+        if mdIdFakturaTotHgt >= 100 then
+        mdIdFakturaTotHgtBdrTop = "10"
+        else
+        mdIdFakturaTotHgtBdrTop = "0"
+        end if
+    %>
+    
+    <td style="padding:0px; border:1px #CCCCCC solid;" valign=bottom>
+        <div style="height:<%=mdIdBruttoOmsTotHgt*2%>px; border-top:<%=mdIdBruttoOmsTotHgtBdrTop%>px #5582d2 solid; width:20px; vertical-align:bottom; background-color:<%=bgthisDv%>;">&nbsp;</div>
+      </td>
+     <td style="padding:0px; border:1px #CCCCCC solid;" valign=bottom>
+         <div style="height:<%=mdIdstadeTotHgt*2%>px; border-top:<%=mdIdStadeTotHgtBdrTop%>px #999999 solid; width:20px; vertical-align:bottom; background-color:<%=bgStadeDv%>;">&nbsp;</div>
+      </td>
+       <td style="padding:0px; border:1px #CCCCCC solid;" valign=bottom>
+         <div style="height:<%=mdIdFakturaTotHgt*2%>px; border-top:<%=mdIdFakturaTotHgtBdrTop%>px green solid; width:20px; vertical-align:bottom; background-color:<%=bgFakDv%>;">&nbsp;</div>
+       </td>
+         <td style="padding:0px; border:0px #CCCCCC solid; width:10px;">&nbsp;</td>
+    <%
+    next
+     %>
+    </tr>
+        <tr><td>&nbsp;</td>
+    <%
+
+  
+
+    for m = 0 to seomsfor_antalmdHigend
+    %>
+    
+    <td colspan="4" style="padding:2px; font-size:9px; text-align:right;" valign=top>
+        <%if mdIdBruttoOmsTot(m) <> 0 then %>
+        Bgt.: <%=formatnumber(mdIdBruttoOmsTot(m), 0) %><br />
+        <%end if %>
+
+         <%if mdIdFakturaTot(m) <> 0 then %>
+        Pro.:<%=formatnumber(mdIdFakturaTot(m), 0) %><br />
+        <%end if %>
+
+          <%if mdIdStadeTot(m) <> 0 then %>
+        Inv.:<%=formatnumber(mdIdStadeTot(m), 0) %><br />
+        <%end if %>
+
+        
+    </td>
+    <%
+    next
+
+   
+
+    %>
+
+    </tr>
+        </table><br><br />
+	<font class=megetlillesort>Antal job og tilbud: <%=y-2%> <!-- Kvo. <%=kvotient%>,  -->
+        <br />
+        Progress stated og invoiced er fordelt udfra de måneder hvor jobbbet har startdato, så der kan sammenlignes med budget. 
+        </font>
+
+    <table>
+        <tr>
+    <td style="padding:0px; border:1px #CCCCCC solid;" valign=bottom>
+        <div style="height:20px; width:20px; vertical-align:bottom; background-color:<%=bgthisDv%>;">Bgt.</div>
+      </td>
+     <td style="padding:0px; border:1px #CCCCCC solid;" valign=bottom>
+         <div style="height:20px; width:20px; vertical-align:bottom; background-color:<%=bgStadeDv%>;">Pro.</div>
+      </td>
+       <td style="padding:0px; border:1px #CCCCCC solid;" valign=bottom>
+         <div style="height:20px; width:20px; vertical-align:bottom; background-color:<%=bgFakDv%>;">Inv.</div>
+       </td>
+        </tr>
+
+
+        </table>
+    </div>
+    <%else %>
+         <br /><br />
+         <font class=megetlillesort>Antal job og tilbud: <%=y-2%> <!-- Kvo. <%=kvotient%>,  -->
+	<%end if 'antalmd + ign_per %>
+    
     </td>
     </tr>
     </table>
+    
 	
      </div><!-- table div -->
 	
@@ -1125,7 +1474,7 @@ if len(session("user")) = 0 then
 
     '******************* Eksport **************************' 
 
-if media = "export" then
+if media = "export" OR cint(directexcel) = 1 then
 
     
   call TimeOutVersion() 
@@ -1160,15 +1509,37 @@ if media = "export" then
 				'**** Eksport fil, kolonne overskrifter ***
 				
 				
-				strOskrifter = "Job;Job Nr;Kontakt;Knr;Brutto Oms "& basisValISO &";Startdato;Sandsynlighed %;Pipelineværdi "& basisValISO &";Jobansv.;Andel %;Værdi "& basisValISO &";"_
+				strOskrifter = "Job;Job Nr;Jobstatus;Kontakt;Knr;Brutto Oms "& basisValISO &";Startdato;Slutdato;Lukkedato;Sandsynlighed %;Pipelineværdi "& basisValISO &";Faktureringsplan (stade) "& basisValISO &";"
+        
+                  if seomsfor_antalmdHigend = 11 then
+                      for m = 0 to seomsfor_antalmdHigend
+
+                        strOskrifter = strOskrifter &" "& left(monthname(strMrdno(m)), 3) &" - "& strYearno(m) &";"
+
+                      next
+                   end if
+
+        
+                strOskrifter = strOskrifter & "Faktureret "& basisValISO &";Jobansv.;Andel %;Værdi "& basisValISO &";"_
                 & "Jobejer.;Andel %;Værdi "& basisValISO &";Jobmedansv1.;Andel %;Værdi "& basisValISO &";Jobmedansv2.;Andel %;Værdi "& basisValISO &";Jobmedansv3.;Andel %;Værdi "& basisValISO &";"
+
+                
+				if cint(showSalgsAnv) = 1 then
+
+                for s = 1 to 5
+                    strOskrifter = strOskrifter & "Salgsansv. "&s&";Andel %;Værdi "& basisValISO &";"
+                next
+
+                end if
+				
+                strOskrifter = strOskrifter &"Fomr;Fomr;Fomr;Fomr;Fomr;"
 				
 				
+				if cint(ign_per) <> 1 then
+				objF.writeLine("Periode afgrænsning: "& monthname(strMrdno(0)) &" "& strYearno(0) &" + "& seomsfor_antalmd &" md "& vbcrlf)
+                end if
 				
-				
-				
-				objF.writeLine("Periode afgrænsning: "& monthname(strMrdno(0)) &" "& strYearno(0) &" + 12 md "& vbcrlf)
-				objF.WriteLine(strOskrifter & chr(013))
+                objF.WriteLine(strOskrifter & chr(013))
 				objF.WriteLine(ekspTxt)
 				objF.close
 				
@@ -1179,11 +1550,21 @@ if media = "export" then
 	            <img src="../ill/outzource_logo_200.gif" />
 	            </td>
 	            </tr>
+                <%if cint(directexcel) = 1 then%>
+                    
+                    <tr>
+	            <td valign=top bgcolor="#ffffff" style="padding:5px 5px 5px 15px;">
+	            <a href="../inc/log/data/<%=file%>" class=vmenu target="_blank">Din CSV. fil er klar >></a>
+	            </td></tr>
+                    
+                <%else%>
 	            <tr>
 	            <td valign=top bgcolor="#ffffff" style="padding:5px 5px 5px 15px;">
 	            <a href="../inc/log/data/<%=file%>" class=vmenu target="_blank" onClick="Javascript:window.close()">Din CSV. fil er klar >></a>
 	            </td></tr>
+                <%end if %>
 	            </table>
+    
 	            
 	          
 	            
@@ -1219,13 +1600,13 @@ lnk = "&FM_kunde="&kundeid&"&FM_job="&jobid&"&FM_medarb="&thisMiduse&"&FM_medarb
         
       <tr>
         <td align=center>
-        <a href="#" onclick="Javascript:window.open('pipeline.asp?media=export<%=lnk%>', '', 'width=350,height=120,resizable=no,scrollbars=no')" class=rmenu><img src="../ill/export1.png" border=0></a>
-        </td><td><a href="#" onclick="Javascript:window.open('pipeline.asp?media=export<%=lnk%>', '', 'width=350,height=120,resizable=no,scrollbars=no')" class=rmenu>.csv fil eksport</a></td>
+        <a href="#" onclick="Javascript:window.open('pipeline.asp?media=export<%=lnk%>', '', 'width=350,height=120,resizable=no,scrollbars=no')" class=vmenu><img src="../ill/export1.png" border=0></a>
+        </td><td><a href="#" onclick="Javascript:window.open('pipeline.asp?media=export<%=lnk%>', '', 'width=350,height=120,resizable=no,scrollbars=no')" class=vmenu>.csv fil eksport</a></td>
        </tr>
     <tr>
-   <td align=center><a href="pipeline.asp?media=print<%=lnk%>" target="_blank"  class='rmenu'>
+   <td align=center><a href="pipeline.asp?media=print<%=lnk%>" target="_blank"  class='vmenu'>
    &nbsp;<img src="../ill/printer3.png" border=0 alt="" /></a>
-    </td><td><a href="pipeline.asp?media=print<%=lnk%>" target="_blank" class="rmenu">Print version</a></td>
+    </td><td><a href="pipeline.asp?media=print<%=lnk%>" target="_blank" class="vmenu">Print version</a></td>
    </tr>
    
     <tr><td colspan="2"><br /><br />

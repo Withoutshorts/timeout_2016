@@ -1791,6 +1791,11 @@ if len(session("user")) = 0 then
                 jo_valuta = 1
                 end if
 
+
+                '*** Finder kurs ***
+                call valutaKurs(jo_valuta)
+                dblKurs = dblKurs 
+
                 '******* Sti til dokumenter på egen filserver *****'
                 if len(trim(request("FM_filepath1"))) <> 0 then 
                 filepath1 = request("FM_filepath1")
@@ -2037,7 +2042,7 @@ if len(session("user")) = 0 then
                                 &" virksomheds_proc, syncslutdato, altfakadr, preconditions_met, laasmedtpbudget,"_
                                 &" salgsans1, salgsans2, salgsans3, salgsans4, salgsans5, "_
                                 &" salgsans1_proc, salgsans2_proc, salgsans3_proc, salgsans4_proc, salgsans5_proc, filepath1, fomr_konto, "_
-                                &" jfak_sprog, jfak_moms, alert, lincensindehaver_faknr_prioritet_job, jo_valuta "_
+                                &" jfak_sprog, jfak_moms, alert, lincensindehaver_faknr_prioritet_job, jo_valuta, jo_valuta_kurs "_
                                 &") VALUES "_
 							    &"('"& strNavn &"', "_
 							    &"'"& strjnr &"', "_ 
@@ -2075,7 +2080,7 @@ if len(session("user")) = 0 then
                                 &" "& virksomheds_proc &", "& syncslutdato &", "& altfakadr &", "& preconditions_met &", "& laasmedtpbudget &", "_
                                 &" "& salgsans1 &","& salgsans2 &","& salgsans3 &","& salgsans4 &","& salgsans5 &", "_
                                 &" "& salgsans_proc_1 &","& salgsans_proc_2 &","& salgsans_proc_3 &","& salgsans_proc_4 &","& salgsans_proc_5 &", "_
-                                &" '"& filepath1 &"', "& fomr_konto &", "& jfak_sprog &", "& jfak_moms &", "& alert &", "& lincensindehaver_faknr_prioritet_job &", "& jo_valuta &""_
+                                &" '"& filepath1 &"', "& fomr_konto &", "& jfak_sprog &", "& jfak_moms &", "& alert &", "& lincensindehaver_faknr_prioritet_job &", "& jo_valuta &", "& dblKurs &""_
                                 &")")
     							
 							    'Response.write strFakturerbart & "<br><br>"
@@ -2245,6 +2250,8 @@ if len(session("user")) = 0 then
 								
                                     if len(trim(intAktfavgp_use(a))) <> 0 then
 								    call tilknytstamakt(a, intAktfavgp_use(a), trim(strAktFase_use(1)), 0, varjobId)
+
+                                  
 								
 								        'if a = 0 then
 									    'intAktfavgp_1 = intAktfavgp_use(a)
@@ -2341,7 +2348,8 @@ if len(session("user")) = 0 then
                             &" salgsans1 = "& salgsans1 &", salgsans2 = "& salgsans2 &", salgsans3 = "& salgsans3 &", salgsans4 = "& salgsans4 &", salgsans5 = "& salgsans5 &", "_
                             &" salgsans1_proc = "& salgsans_proc_1 &", salgsans2_proc = "& salgsans_proc_2 &", salgsans3_proc = "& salgsans_proc_3 &", salgsans4_proc = "& salgsans_proc_4 &", "_
                             &" salgsans5_proc = "& salgsans_proc_5 &", filepath1 = '"& filepath1 &"', fomr_konto = "& fomr_konto &","_
-                            &" jfak_sprog = "& jfak_sprog &", jfak_moms = "& jfak_moms &", alert = "& alert &", lincensindehaver_faknr_prioritet_job = "& lincensindehaver_faknr_prioritet_job &", jo_valuta = "& jo_valuta &""_
+                            &" jfak_sprog = "& jfak_sprog &", jfak_moms = "& jfak_moms &", alert = "& alert &", "_
+                            &" lincensindehaver_faknr_prioritet_job = "& lincensindehaver_faknr_prioritet_job &", jo_valuta = "& jo_valuta &", jo_valuta_kurs = "& dblKurs &""_
 							&" WHERE id = "& id 
 							
 							'Response.Write strSQL
@@ -7481,31 +7489,46 @@ end select '*** Step %>
 			else
 			    
 
-                if instr(jobnr_sog, ">") > 0 OR instr(jobnr_sog, "<") > 0 OR instr(jobnr_sog, "--") > 0 then
+                if instr(jobnr_sog, ">") > 0 OR instr(jobnr_sog, "<") > 0 OR instr(jobnr_sog, "--") > 0 OR instr(jobnr_sog, ";") > 0 then
            
-                if instr(jobnr_sog, ">") > 0 then
-                sogeKri = sogeKri &" (j.jobnr > "& replace(trim(jobnr_sog), ">", "") &" "
-                end if
+                    if instr(jobnr_sog, ">") > 0 then
+                    sogeKri = sogeKri &" (j.jobnr > "& replace(trim(jobnr_sog), ">", "") &" "
+                    end if
 
-                if instr(jobnr_sog, "<") > 0 then
-                sogeKri = sogeKri &" (j.jobnr < '"& replace(trim(jobnr_sog), "<", "") &"' "
-                end if
+                    if instr(jobnr_sog, "<") > 0 then
+                    sogeKri = sogeKri &" (j.jobnr < '"& replace(trim(jobnr_sog), "<", "") &"' "
+                    end if
 
-                if instr(jobnr_sog, "--") > 0 then
-                jobnr_sogArr = split(jobnr_sog, "--")
+                    if instr(jobnr_sog, "--") > 0 then
+                    jobnr_sogArr = split(jobnr_sog, "--")
                
-                for t = 0 to 1
+                    for t = 0 to 1
                 
-                if t = 0 then
-                jobSogKriA = jobnr_sogArr(0)
-                else
-                jobSogKriB = jobnr_sogArr(1)
-                end if
+                    if t = 0 then
+                    jobSogKriA = jobnr_sogArr(0)
+                    else
+                    jobSogKriB = jobnr_sogArr(1)
+                    end if
                 
-                next
+                    next
 
-                sogeKri = sogeKri &" (j.jobnr BETWEEN '"& trim(jobSogKriA) &"' AND '"& trim(jobSogKriB) &"'"
-                end if
+                    sogeKri = sogeKri &" (j.jobnr BETWEEN '"& trim(jobSogKriA) &"' AND '"& trim(jobSogKriB) &"'"
+                    end if
+
+
+                    if instr(jobnr_sog, ";") > 0 then
+            
+                    sogeKri = " (j.jobnr = '-1' "
+
+                    jobnr_sogArr = split(jobnr_sog, ";")
+               
+                    for t = 0 to UBOUND(jobnr_sogArr)
+                     sogeKri = sogeKri &" OR j.jobnr = '"& trim(jobnr_sogArr(t)) &"'"
+                    next
+
+                              
+
+                    end if
 
                 else
 
@@ -7695,9 +7718,9 @@ end select '*** Step %>
 		<td colspan=2><br /><b>Søg på jobnr, jobnavn, rekv.nr ell. kunde:</b><br />
 		<input type="text" name="jobnr_sog" id="jobnr_sog" value="<%=show_jobnr_sog%>" style="width:433px; border:2px #6CAE1C solid;">&nbsp;
 		<br />
-        (% = wildcard) Brug ">", "<" ell. "--" (dobbelte) til at søge efter jobnr i et interval.<br />
-            <input id="FM_sogakt" name="FM_sogakt" type="checkbox" value="1" <%=sogaktCHK%> /> Vis kun job hvor søgekriterie indgår i en aktivitet på jobbet. 
-
+        (% = wildcard) Brug ";" semikolon, ">", "<" ell. "--" (dobbelte) til at søge efter jobnr i et interval.<br />
+        
+        <input id="FM_sogakt" name="FM_sogakt" type="checkbox" value="1" <%=sogaktCHK%> /> Vis kun job hvor søgekriterie indgår i en aktivitet på jobbet. 
         <br /><br /><br />
         <div style="border:1px #CCCCCC solid; padding:5px;">
         <input type="checkbox" name="FM_vis_timepriser" <%=vis_timepriserCHK %> value="1" />
