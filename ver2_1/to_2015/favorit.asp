@@ -688,7 +688,7 @@
                                                             <%if origin <> 0 then %>
                                                             <input type="hidden" name="FM_timer" value=""/>
                                                             <input type="text" class="form-control input-small" style="width:75px;" value="<%=timerdag %>" readonly />
-                                                            <span>Se ugeseddel</span>
+                                                            <span style="font-size:50%">Se ugeseddel</span>
                                                             <%else %>
                                                             <div class="row">                                                     
                                                             <div class="col-lg-10" style="padding-right:5px!important"><input type="text" class="form-control input-small" name="FM_timer" value="<%=timerdag %>" /></div>
