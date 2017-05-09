@@ -34,11 +34,11 @@
 %>
 
 <script src="js/komme_gaa_jav.js" type="text/javascript"></script>
-
+<!--
 <link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.2/css/bootstrap-combined.min.css" rel="stylesheet">
 <link rel="stylesheet" type="text/css" media="screen"
 href="http://tarruda.github.com/bootstrap-datetimepicker/assets/css/bootstrap-datetimepicker.min.css">
-
+-->
 
 
 <div class="wrapper">
@@ -51,12 +51,12 @@ href="http://tarruda.github.com/bootstrap-datetimepicker/assets/css/bootstrap-da
                    
 
 
-                    <div id="datetimepicker" class="input-append date">
+                    <!--<div id="datetimepicker" class="input-append date">
                     <input type="text"></input>
                     <span class="add-on">
                     <i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
                     </span>
-                    </div>
+                    </div> -->
                     
                     
                     <script type="text/javascript"
@@ -144,7 +144,7 @@ href="http://tarruda.github.com/bootstrap-datetimepicker/assets/css/bootstrap-da
                     <%case "gaa" 
                     
                         lastid = request("lastid")
-                        response.Write lastid
+                        'response.Write lastid
                             
                     %>
 
@@ -182,19 +182,19 @@ href="http://tarruda.github.com/bootstrap-datetimepicker/assets/css/bootstrap-da
                                         </div>
                                         
 
-                                        <div class="form-group">
+                                    <!--    <div class="form-group">
                                         <label class="control-label col-md-2">24 Hour Mode:</label>
                                         <div class="col-md-10">
                                         <div class="bootstrap-timepicker">
                                         <input type="text" id="timepicker5" class="form-control" placeholder="Choose Time">
-                                        </div> <!-- /.input-group -->
-                                        </div> <!-- /.col -->
-                                        </div> <!-- /.form-group -->
+                                        </div> 
+                                        </div>
+                                        </div> <!-- /.form-group --> 
 
 
                                         <div class="row">
                                             <div class="col-lg-12">
-                                                <%response.Write "Minutter " & DateDiff("n",oRec("login"),loguddate) %>
+                                                <%response.Write "Minutter: " & DateDiff("n",oRec("login"),loguddate) %>
                                             </div>
                                         </div>
 
