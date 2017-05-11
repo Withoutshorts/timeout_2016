@@ -7,6 +7,7 @@ function stamakt(useCookie,forvalgt,fsnavn,a)
 '** Hvis nu folk ikke ønsker at indele i faser **'
 fsnavn = ""
 
+                   
                     '**** Henter alle stam-aktiviteter i grupper ***'
                     '** Henter aktiviteter i gruppen til projektberegner ***'
 			        strSQLakt = "SELECT a.navn, a.id, a.aktfavorit, ag.navn AS agnavn, aktbudget, "_
@@ -2688,6 +2689,15 @@ sub minioverblik
             end if
 
 	call tableDivAbs(oTop,oLeft,oWdth,oHgt,oId, oVzb, oDsp, oZindex)
+
+
+
+        strSQLval = "SELECT id, jo_valuta_kurs FROM job WHERE id ="& id
+        
+        oRec2.open strSQLval, oConn, 3
+        jo_valuta_kurs = oRec2("jo_valuta_kurs")
+        oRec2.close
+
 	    
         %>
         <table cellpadding=0 cellspacing=0 border=0 width=100%>
@@ -3500,7 +3510,13 @@ sub minioverblik
 
             
 
-            <a href="<%=fcLinkj%>" class=vmenu target="_blank">Ressource Forecast >></a>
+            <a href="<%=fcLinkj%>" class=vmenu target="_blank">Ressource Forecast >></a><br />
+
+            <%select case lto
+            case "intranet - local", "essens", "dencker", "outz", "hidalgo" %>
+            <a href="../ressource_planner/ressplan_2017.aspx?sortbypresel=2&jobidpresel=<%=id %>" class=vmenu target="_blank">Planlægning >></a>
+            <%end select %>
+
         </td>
 		</tr>
        
@@ -3843,12 +3859,14 @@ sub minioverblik
             <td class=lille align=right><b>Real. oms.</b> <br />(timer *<br> medarb. timepris)</td>
 	        </tr>
             
-            
-	        
-	        <%strSQLakt = "SELECT a.id, a.navn, job, beskrivelse, fakturerbar, aktstartdato, "_
+
+	        <%
+            jo_valuta_kursSQL = replace(jo_valuta_kurs, ",", ".")    
+                
+            strSQLakt = "SELECT a.id, a.navn, job, beskrivelse, fakturerbar, aktstartdato, "_
 	        &" aktslutdato, budgettimer, aktstatus, aktbudget, fomr.navn AS fomr, aty_id, "_
 	        &" antalstk, tidslaas, a.fase, a.sortorder, a.bgr, aktbudgetsum, "_
-            &" COALESCE(sum(t.timer),0) AS realiseret, COALESCE(SUM(timer * timepris *(kurs/100)),0) AS realbelob, COALESCE(SUM(timer * kostpris *(kurs/100)), 0) AS realtimerkost, aktstartdato, aktslutdato, aty_desc "_
+            &" COALESCE(sum(t.timer),0) AS realiseret, COALESCE(SUM(timer * timepris *(kurs/"& jo_valuta_kursSQL &")),0) AS realbelob, COALESCE(SUM(timer * kostpris *(kpvaluta_kurs/"& jo_valuta_kursSQL &")), 0) AS realtimerkost, aktstartdato, aktslutdato, aty_desc "_
 	        &" FROM aktiviteter a LEFT JOIN fomr ON (fomr.id = a.fomr) "_
 	        &" LEFT JOIN timer AS t ON (t.taktivitetid = a.id)"_
             &" LEFT JOIN akt_typer aty ON (aty_id = a.fakturerbar) "_
@@ -4514,8 +4532,8 @@ sub minioverblik
                     antalmatreg = 0
                     salgsomkostSalg = 0
                     salgsomkostKost = 0
-                    strSQLudl = "SELECT matnavn, forbrugsdato, matenhed, matantal AS antal, (matkobspris * (kurs/100)) AS stkkobspris, matkobspris * matantal * (kurs/100) AS matkobspris, "_
-                     &" matsalgspris * matantal * (kurs/100) AS matsalgspris, mf_konto, mg.navn AS matgruppenavn, k.kontonr, k.navn AS kontonavn, matgrp FROM materiale_forbrug AS mf "_
+                    strSQLudl = "SELECT matnavn, forbrugsdato, matenhed, matantal AS antal, (matkobspris * (kurs/100)) AS stkkobspris, (matkobspris * matantal * (kurs/"& jo_valuta_kursSQL &")) AS matkobspris, "_
+                     &" (matsalgspris * matantal * (kurs/"& jo_valuta_kursSQL &")) AS matsalgspris, mf_konto, mg.navn AS matgruppenavn, k.kontonr, k.navn AS kontonavn, matgrp FROM materiale_forbrug AS mf "_
                      &" LEFT JOIN materiale_grp AS mg ON (mg.id = matgrp) "_
                      &" LEFT JOIN kontoplan AS k ON (k.id = mf_konto) WHERE jobid = "& id & " "& strKontonrKri &" GROUP BY mf.id ORDER BY  "& strMatforbrugSQLOrderBy &"" 
                         
@@ -4799,7 +4817,7 @@ sub timepriser
 						Tildel timepriser for de medarbejdere der er tilknyttet dette job. (via projektgrupper)<br>
                         Timepriser 1-5 er hentet fra medarbejdertypen.<br />
                         <%if level = 1 then %>
-                        <a href="medarbtyper.asp" class=vmenu target="_blank">Ret kostpriser her >></a><br />
+                        <a href="../to_2015/medarbtyper.asp" class=vmenu target="_blank">Ret kostpriser her >></a><br />
                         <%end if %>  
 
                         <%if func = "opret" then%>
