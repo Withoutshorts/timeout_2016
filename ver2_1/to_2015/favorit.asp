@@ -255,7 +255,11 @@
 <!--#include file="../inc/regular/header_lysblaa_2015_inc.asp"-->
 
 <script src="js/favorit_jav.js"></script>
-<link rel="stylesheet" href="../../bower_components/bootstrap-datepicker/css/datepicker3.css">
+<!-- <link rel="stylesheet" href="../../bower_components/bootstrap-datepicker/css/datepicker3.css"> -->
+
+<script type="text/javascript" src="js/plugins/flot/jquery.flot.js"></script>
+<script type="text/javascript" src="js/demos/flot/stacked-vertical_favorit.js"></script>
+
 
 <style>
 
@@ -463,17 +467,9 @@
                             </div>
 
                             
-                           
-                           <div class="col-lg-2">
-                                <!--<div class='input-group date' id='datepicker_stdato'>
-                                <input type="text" class="form-control input-small" name="aarslut" value="<%=aarslut %>" placeholder="dd-mm-yyyy" />
-                                <span class="input-group-addon input-small">
-                                        <span class="fa fa-calendar">
-                                        </span>
-                                    </span>
-                                </div> -->
-                            </div>
-                            <div class="col-lg-5"></div>
+                           <!--- Dato vælger --->
+                            
+                            <div class="col-lg-7"></div>
                             <h4 class="col-lg-2" style="text-align:right"><a href="favorit.asp?FM_medid=<%=medid %>&varTjDatoUS_man=<%=prev_varTjDatoUS_man %>" ><</a>&nbsp Uge <%=datepart("ww",weeknumber)  %> &nbsp<a href="favorit.asp?FM_medid=<%=medid %>&varTjDatoUS_man=<%=next_varTjDatoUS_man %>" >></a></h4>
                             
                         </div>
@@ -617,7 +613,7 @@
                                                 <input type="hidden" value="<%=TaktId %>" name="FM_aktivitetid" />
                                                 <%=aktNavn %>
 
-                                                <span id="modal_<%=TaktId %>" class="fa fa-arrow-down pull-right picmodal"></span>                                               
+                                                <span id="modal_<%=TaktId %>" class="fa fa-chevron-down pull-right picmodal" style="color:#8c8c8c"></span>                                               
                                                 <div id="myModal_<%=TaktId %>" style="display:none">
                                                 
                                                     <%
@@ -688,7 +684,7 @@
                                                             <%if origin <> 0 then %>
                                                             <input type="hidden" name="FM_timer" value=""/>
                                                             <input type="text" class="form-control input-small" style="width:75px;" value="<%=timerdag %>" readonly />
-                                                            <span style="font-size:50%">Se ugeseddel</span>
+                                                            <span style="font-size:50%"><a style="color:dimgrey;" href="ugeseddel_2011.asp?usemrn=<%=medid %>&varTjDatoUS_man=<%=varTjDatoUS_man %>">Se ugeseddel</a></span>
                                                             <%else %>
                                                             <div class="row">                                                     
                                                             <div class="col-lg-10" style="padding-right:5px!important"><input type="text" class="form-control input-small" name="FM_timer" value="<%=timerdag %>" /></div>
@@ -889,7 +885,7 @@
                                                 <%=timerweektotal %>
                                             </td>
 
-                                            <td>
+                                            <td style="vertical-align:middle">
                                                 <a href="favorit.asp?id=<%=oRec2("id") %>&FM_medid=<%=medid %>&varTjDatoUS_man=<%=varTjDatoUS_man%>&func=fjernfavorit"><span style="color:darkred; display: block; text-align: center;" class="fa fa-times"></span></a>
                                             </td>
 
@@ -1005,6 +1001,79 @@
                               %>                               
                            <!-- </select> -->
                         
+
+
+                        <%
+                             select case lto
+                                case "tec", "esn", "intranet - local", "outz"
+                                aty_sql_realhours = " tfaktim <> 0"
+                                case "xdencker", "xintranet - local"
+                                aty_sql_realhours = " tfaktim = 1"
+                                case else
+                                aty_sql_realhours = aty_sql_realhours &""_
+		                        & "tfaktim = 30 OR tfaktim = 31 OR tfaktim = 7 OR tfaktim = 11" 'spørg søren om det er rigtigt at  tfaktim skal være noget her
+                                end select
+
+                            timerdenneuge_dothis = 0
+                            SmiWeekOrMonth = 0
+                            'response.Write SmiWeekOrMonth
+                            call timerDenneUge(medid, lto, varTjDatoUS_man, aty_sql_realhours, timerdenneuge_dothis, SmiWeekOrMonth)
+                            
+                            'response.Write manTimer
+                            
+                            
+                            
+                            
+                            'henter norm timer minus dencker
+                            Select case lto
+                            case "dencker"
+                            
+                            case else
+                            'response.Write "medid: " & varTjDatoUS_man
+                            call normtimerPer(medid, varTjDatoUS_man, 6, 0)
+
+                            end select
+
+
+                            'response.Write "<br> norm:" & ntimMan
+                             
+
+                        %>
+
+
+
+
+                        <br /><br /><br /><br />
+
+
+                        <input type="hidden" id="timerdagman" value="<%=replace(manTimer, ",", ".") %>" />
+                        <input type="hidden" id="timerdagtir" value="<%=replace(tirTimer, ",", ".") %>" />
+                        <input type="hidden" id="timerdagons" value="<%=replace(onsTimer, ",", ".") %>" />
+                        <input type="hidden" id="timerdagtor" value="<%=replace(torTimer, ",", ".") %>" />
+                        <input type="hidden" id="timerdagfre" value="<%=replace(freTimer, ",", ".") %>" />
+                        <input type="hidden" id="timerdaglor" value="<%=replace(lorTimer, ",", ".") %>" />
+                        <input type="hidden" id="timerdagson" value="<%=replace(sonTimer, ",", ".") %>" />
+
+
+                        <input type="hidden" id="normdagman" value="<%=replace(ntimMan, ",", ".") %>" />
+                        <input type="hidden" id="normdagtir" value="<%=replace(ntimTir, ",", ".") %>" />
+                        <input type="hidden" id="normdagons" value="<%=replace(ntimOns, ",", ".") %>" />
+                        <input type="hidden" id="normdagtor" value="<%=replace(ntimTor, ",", ".") %>" />
+                        <input type="hidden" id="normdagfre" value="<%=replace(ntimFre, ",", ".") %>" />
+                        <input type="hidden" id="normdaglor" value="<%=replace(ntimLor, ",", ".") %>" />
+                        <input type="hidden" id="normdagson" value="<%=replace(ntimSon, ",", ".") %>" />
+
+
+                        <div class="row">
+                           <div class="col-lg-5"><div id="stacked-vertical-chart" class="chart-holder-200"></div></div>
+                        </div>
+
+                        <%                         
+                            d = "25-05-2017" 
+                            mondayofsameweek = DateAdd("d", -((Weekday(d) + 7 - 2) Mod 7), d)
+                            response.Write "mandag:" & mondayofsameweek 
+                        %>
+
 
                     </div>
                 </div>

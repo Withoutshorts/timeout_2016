@@ -8,7 +8,8 @@ $(document).ready(function () {
 
     $(".FM_job").keyup(function () {
 
-
+        //alert("keupup")
+        $(".aktivitet_sog").val("")
 
         var thisid = this.id
         var thisvallngt = thisid.length

@@ -444,12 +444,7 @@ sub kundeopl_options_2016
 				    kSel = ""
 				    end if
 				
-				
-
-
-
-			
-				
+					
 			%>
 			<option value="<%=oRec("Kid")%>" <%=kSel%>><%=oRec("Kkundenavn")%>&nbsp;&nbsp;(<%=oRec("Kkundenr")%>)</option>
 			<%
@@ -635,6 +630,14 @@ sub kundeopl
 		</select>
 
 
+            <%if func = "xred" AND level = 1 then%>
+                 <!--  
+                 <input type="hidden" value="<%=strKnr %>" name="FM_kunde_opr" />
+                  <br /><input type="checkbox" name="FM_flyttallejob" value="1" /> Flyt alle job på den oprindelige kunde til den netop valgte ovenstående kunde.<br />
+                 Gælder også aktiviteter og fakturaer.
+                -->
+                
+            <%end if %>
 
 		
 		</td>
@@ -1299,7 +1302,7 @@ sub projektberegner
                      
                     '** Hidden timer felter nettoomsætning 
                     Select case lto
-                    case "epi2017", "intranet - local"
+                    case "epi2017", "xintranet - local"
                         txtFldHiddenHours = "hidden"
                         showFldHours = 0
                         nettoOmsTxtWdt = 460
@@ -1323,8 +1326,8 @@ sub projektberegner
 					    <td valign="bottom" style="width:45px; font-size:9px;"><b>Faktor</b></td>
                         
 					    
-                        <td valign="bottom" style="width:100px; font-size:9px;"><span style="color:Red;">*</span><b> Beløb <%=basisValISO %></b></td>
-				        <td valign="bottom" style="width:40px; font-size:8px; color:#999999;">Salgs<br />timepris</td>
+                        <td valign="bottom" style="width:100px; font-size:9px;"><span style="color:Red;">*</span><b> Beløb</b></td>
+				        <td valign="bottom" style="width:40px; font-size:9px;"><b>Valuta</b><!--Salgs<br />timepris--></td>
 				    </tr>
 				    <tr bgcolor="#FFFFFF">
 					<%end if %>
@@ -1368,24 +1371,44 @@ sub projektberegner
                    
 
 
-                    if cint(showFldHours) = 1 then  
+                    if cint(showFldHours) = 1 then
+                        
+                        
+                    call valutakode_fn(jo_valuta)  
                     %>
                     <td id="xpb_jobnavn">Gns. timepris / kostpris: <span style="color:#999999; font-size:9px;"><%=gnsSalgsogKostprisTxt &" "& basisValISO %></span></td>
 				    <td style="padding:3px;"><input type="text" id="FM_budgettimer" name="FM_budgettimer" value="<%=replace(formatnumber(strBudgettimer, 2), ".", "")%>" style="width:60px;"" onkeyup="tjektimer('FM_budgettimer'), beregnintbelob()" class="nettooms"></td>
-					<td class=lille><input type="text" id="FM_gnsinttpris" name="FM_gnsinttpris" value="<%=replace(formatnumber(jo_gnstpris, 2), ".", "")%>" style="width:67px;" onkeyup="tjektimer('FM_gnsinttpris'), beregnintbelob()" class="nettooms"> <%=basisValISO %></td>
-					<td>x <input type="text" id="FM_intfaktor" name="FM_intfaktor" value="<%=replace(formatnumber(jo_gnsfaktor, 2), ".", "")%>" style="width:30px;" onkeyup="tjektimer('FM_intfaktor'), beregnintbelob()" class="nettooms"></td>
+					<td class=lille><input type="text" id="FM_gnsinttpris" name="FM_gnsinttpris" value="<%=replace(formatnumber(jo_gnstpris, 2), ".", "")%>" style="width:67px;" onkeyup="tjektimer('FM_gnsinttpris'), beregnintbelob()" class="nettooms">
+                    
+                     </td>
+					
+                        
+                    <td>x <input type="text" id="FM_intfaktor" name="FM_intfaktor" value="<%=replace(formatnumber(jo_gnsfaktor, 2), ".", "")%>" style="width:30px;" onkeyup="tjektimer('FM_intfaktor'), beregnintbelob()" class="nettooms"></td>
 					<td>= <input type="text" id="FM_interntbelob" name="FM_interntbelob" <%=interntbelobDIS %> value="<%=replace(formatnumber(jo_gnsbelob, 2), ".", "")%>" style="width:75px;" onkeyup="tjektimer('FM_interntbelob'), beregninttp()" class="nettooms">
+
+                        
+
                     </td>
 					
                     <input id="FM_interntomkost" name="FM_interntomkost" value="<%=replace(formatnumber(jo_udgifter_intern, 2), ".", "")%>" type="hidden" />
 					
-                    <%if strBudgettimer <> 0 then
-                    tgt_tp = (jo_gnsbelob / strBudgettimer)
-                    else
-                    tgt_tp = 0
-                    end if%>
+                   
                              
-					<td ><input id="pb_tg_timepris" value="<%=tgt_tp%>" type="text" style="width:30px; font-size:9px; font-family:arial; border:0px;" maxlength="0"/></td>
+					<td >
+                         <%
+                             felt = "FM_jo_valuta"
+                             call valutaList(jo_valuta, felt)
+                             %>
+                    </td>
+
+                         <%
+                         '*** Salgstimepris     
+                         if strBudgettimer <> 0 then
+                        tgt_tp = (jo_gnsbelob / strBudgettimer)
+                        else
+                        tgt_tp = 0
+                        end if%>
+                        <input id="pb_tg_timepris" value="<%=tgt_tp%>" type="hidden" style="width:30px; font-size:9px; font-family:arial; border:0px;" maxlength="0"/>
 					
                     
                     <%else
@@ -3477,7 +3500,13 @@ sub minioverblik
 
             
 
-            <a href="<%=fcLinkj%>" class=vmenu target="_blank">Ressource Forecast >></a>
+            <a href="<%=fcLinkj%>" class=vmenu target="_blank">Ressource Forecast >></a><br />
+
+            <%select case lto
+            case "intranet - local", "essens", "dencker", "outz", "hidalgo" %>
+            <a href="../ressource_planner/ressplan_2017.aspx?sortbypresel=2&jobidpresel=<%=id %>" class=vmenu target="_blank">Planlægning >></a>
+            <%end select %>
+
         </td>
 		</tr>
        
@@ -3822,10 +3851,13 @@ sub minioverblik
             
             
 	        
-	        <%strSQLakt = "SELECT a.id, a.navn, job, beskrivelse, fakturerbar, aktstartdato, "_
+	        <%
+            jo_valuta_kursSQL = replace(jo_valuta_kurs, ",", ".")    
+                
+            strSQLakt = "SELECT a.id, a.navn, job, beskrivelse, fakturerbar, aktstartdato, "_
 	        &" aktslutdato, budgettimer, aktstatus, aktbudget, fomr.navn AS fomr, aty_id, "_
 	        &" antalstk, tidslaas, a.fase, a.sortorder, a.bgr, aktbudgetsum, "_
-            &" COALESCE(sum(t.timer),0) AS realiseret, COALESCE(SUM(timer * timepris *(kurs/100)),0) AS realbelob, COALESCE(SUM(timer * kostpris *(kurs/100)), 0) AS realtimerkost, aktstartdato, aktslutdato, aty_desc "_
+            &" COALESCE(sum(t.timer),0) AS realiseret, COALESCE(SUM(timer * timepris *(kurs/"& jo_valuta_kursSQL &")),0) AS realbelob, COALESCE(SUM(timer * kostpris *(kpvaluta_kurs/"& jo_valuta_kursSQL &")), 0) AS realtimerkost, aktstartdato, aktslutdato, aty_desc "_
 	        &" FROM aktiviteter a LEFT JOIN fomr ON (fomr.id = a.fomr) "_
 	        &" LEFT JOIN timer AS t ON (t.taktivitetid = a.id)"_
             &" LEFT JOIN akt_typer aty ON (aty_id = a.fakturerbar) "_
@@ -4491,8 +4523,8 @@ sub minioverblik
                     antalmatreg = 0
                     salgsomkostSalg = 0
                     salgsomkostKost = 0
-                    strSQLudl = "SELECT matnavn, forbrugsdato, matenhed, matantal AS antal, (matkobspris * (kurs/100)) AS stkkobspris, matkobspris * matantal * (kurs/100) AS matkobspris, "_
-                     &" matsalgspris * matantal * (kurs/100) AS matsalgspris, mf_konto, mg.navn AS matgruppenavn, k.kontonr, k.navn AS kontonavn, matgrp FROM materiale_forbrug AS mf "_
+                    strSQLudl = "SELECT matnavn, forbrugsdato, matenhed, matantal AS antal, (matkobspris * (kurs/100)) AS stkkobspris, (matkobspris * matantal * (kurs/"& jo_valuta_kursSQL &")) AS matkobspris, "_
+                     &" (matsalgspris * matantal * (kurs/"& jo_valuta_kursSQL &")) AS matsalgspris, mf_konto, mg.navn AS matgruppenavn, k.kontonr, k.navn AS kontonavn, matgrp FROM materiale_forbrug AS mf "_
                      &" LEFT JOIN materiale_grp AS mg ON (mg.id = matgrp) "_
                      &" LEFT JOIN kontoplan AS k ON (k.id = mf_konto) WHERE jobid = "& id & " "& strKontonrKri &" GROUP BY mf.id ORDER BY  "& strMatforbrugSQLOrderBy &"" 
                         
@@ -4776,7 +4808,7 @@ sub timepriser
 						Tildel timepriser for de medarbejdere der er tilknyttet dette job. (via projektgrupper)<br>
                         Timepriser 1-5 er hentet fra medarbejdertypen.<br />
                         <%if level = 1 then %>
-                        <a href="medarbtyper.asp" class=vmenu target="_blank">Ret kostpriser her >></a><br />
+                        <a href="../to_2015/medarbtyper.asp" class=vmenu target="_blank">Ret kostpriser her >></a><br />
                         <%end if %>  
 
                         <%if func = "opret" then%>
