@@ -59,7 +59,7 @@ href="http://tarruda.github.com/bootstrap-datetimepicker/assets/css/bootstrap-da
                     </div> -->
                     
                     
-                    <script type="text/javascript"
+                   <!-- <script type="text/javascript"
                     src="http://tarruda.github.com/bootstrap-datetimepicker/assets/js/bootstrap-datetimepicker.min.js">
                     </script>
                     <script type="text/javascript"
@@ -70,7 +70,7 @@ href="http://tarruda.github.com/bootstrap-datetimepicker/assets/css/bootstrap-da
                         format: 'dd/MM/yyyy hh:mm:ss',
                         language: 'pt-BR'
                       });
-                    </script>
+                    </script> -->
 
 
 
@@ -169,16 +169,18 @@ href="http://tarruda.github.com/bootstrap-datetimepicker/assets/css/bootstrap-da
                                         oRec.open strSQLinfo, oConn, 3
                                         loguddate = Year(now) & "-" & Month(now) & "-" & Day(now) & " " & Time 
                                         
+                                        timerialt = DateDiff("n",oRec("login"),loguddate) / 60
+                                        
                                         
                                         %>
                                     
                                         
 
                                         <div class="row">
-                                            <div class="col-lg-3">Dn logind tid:</div> <div class="col-lg-2"><%response.Write oRec("login")  %></div>
+                                            <div class="col-lg-3">Din logind tid:</div><div class="col-lg-4"><%response.Write oRec("login")  %></div>
                                         </div>
                                         <div class="row">
-                                            <div class="col-lg-3">Dn logud tid:</div> <div class="col-lg-2"><%response.Write Year(now) & "-" & Month(now) & "-" & Day(now) & " " & Time  %></div>
+                                            <div class="col-lg-3">Din logud tid:</div><div class="col-lg-4"><%response.Write Right("0" & DatePart("d",Date), 2) & "-" & Right("0" & DatePart("m",Date), 2) & "-" & Year(Now) & " " & Time  %></div>
                                         </div>
                                         
 
@@ -191,11 +193,9 @@ href="http://tarruda.github.com/bootstrap-datetimepicker/assets/css/bootstrap-da
                                         </div>
                                         </div> <!-- /.form-group --> 
 
-
+                                        <br />
                                         <div class="row">
-                                            <div class="col-lg-12">
-                                                <%response.Write "Minutter: " & DateDiff("n",oRec("login"),loguddate) %>
-                                            </div>
+                                            <div class="col-lg-12">Timer: <%=formatnumber(timerialt, 2)%></div>
                                         </div>
 
 
