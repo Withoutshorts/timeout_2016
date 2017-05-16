@@ -1064,14 +1064,94 @@
                         <input type="hidden" id="normdagson" value="<%=replace(ntimSon, ",", ".") %>" />
 
 
-                        <div class="row">
+                       <!--<div class="row">
                            <div class="col-lg-5"><div id="stacked-vertical-chart" class="chart-holder-200"></div></div>
                         </div>
+                        -->
+
+                        <%
+                            maxHeight = "200px"
+                            Width = "9%"
+                            
+                            dateTir = DateAdd("d",1,varTjDatoUS_man)
+                            dateOns = DateAdd("d",2,varTjDatoUS_man)
+                            dateTor = DateAdd("d",3,varTjDatoUS_man)
+                            dateFre = DateAdd("d",4,varTjDatoUS_man)
+                            dateLor = DateAdd("d",5,varTjDatoUS_man)
+                            dateSon = DateAdd("d",6,varTjDatoUS_man)
+
+                            timerHeight_man = manTimer * 30
+                            timerHeight_tir = tirTimer * 30
+                            timerHeight_ons = onsTimer * 30
+                            timerHeight_tor = torTimer * 30
+                            timerHeight_fre = freTimer * 30
+                            timerHeight_lor = lorTimer * 30
+                            timerHeight_son = sonTimer * 30
+
+                            response.Write timerHeight_man
+                             
+                        %>
+
+                        <div class="row">
+                            <div class="col-lg-8">
+                                <table class="table dataTable table-striped table-bordered table-hover ui-datatable">
+                                    <tr>
+                                        <th colspan="8"><h3>Ugetotal</h3></th>
+                                    </tr>
+
+                                    <tr>
+                                        <td></td>
+                                        <td>Ma<br /><%=varTjDatoUS_man %></td>
+                                        <td>Ti<br /><%=dateTir %></td>
+                                        <td>On<br /><%=dateOns %></td>
+                                        <td>To<br /><%=dateTor %></td>
+                                        <td>Fr<br /><%=dateFre %></td>
+                                        <td>Lø<br /><%=dateLor %></td>
+                                        <td>Sø<br /><%=dateSon %></td>
+                                    </tr>
+
+                                    <tr>
+                                        <td><div style="height:200px;"></div></td>
+                                        <td style="vertical-align:bottom; width:<%=Width%>;"><div style="width:100%; height:<%=timerHeight_man%>px; background-color:forestgreen; max-height:222px;"></div></td>
+                                        <td style="vertical-align:bottom; width:<%=Width%>;"><div style="width:100%; height:<%=timerHeight_tir%>px; background-color:forestgreen; max-height:200px;"></div></td>
+                                        <td style="vertical-align:bottom; width:<%=Width%>;"><div style="width:100%; height:<%=timerHeight_ons%>px; background-color:forestgreen; max-height:200px;"></div></td>
+                                        <td style="vertical-align:bottom; width:<%=Width%>;"><div style="width:100%; height:<%=timerHeight_tor%>px; background-color:forestgreen; max-height:200px;"></div></td>
+                                        <td style="vertical-align:bottom; width:<%=Width%>;"><div style="width:100%; height:<%=timerHeight_fre%>px; background-color:forestgreen; max-height:200px;"></div></td>
+                                        <td style="vertical-align:bottom; width:<%=Width%>;"><div style="width:100%; height:<%=timerHeight_lor%>px; background-color:forestgreen; max-height:200px;"></div></td>
+                                        <td style="vertical-align:bottom; width:<%=Width%>;"><div style="width:100%; height:<%=timerHeight_son%>px; background-color:forestgreen; max-height:200px;"></div></td>
+                                    </tr>
+
+                                    <tr style="text-align:center">
+                                        <td style="text-align:left; width:25%">Opgjorte Timer:</td>
+                                        <td><%=replace(manTimer, ",", ".") %></td>
+                                        <td><%=replace(TirTimer, ",", ".") %></td>
+                                        <td><%=replace(OnsTimer, ",", ".") %></td>
+                                        <td><%=replace(TorTimer, ",", ".") %></td>
+                                        <td><%=replace(FreTimer, ",", ".") %></td>
+                                        <td><%=replace(LorTimer, ",", ".") %></td>
+                                        <td><%=replace(SonTimer, ",", ".") %></td>
+                                    </tr>
+
+                                    <tr style="text-align:center">
+                                        <td style="text-align:left">Norm:</td>
+                                        <td><%=replace(ntimTir, ",", ".") %></td>
+                                        <td><%=replace(ntimOns, ",", ".") %></td>
+                                        <td><%=replace(ntimTir, ",", ".") %></td>
+                                        <td><%=replace(ntimTor, ",", ".") %></td>
+                                        <td><%=replace(ntimFre, ",", ".") %></td>
+                                        <td><%=replace(ntimLor, ",", ".") %></td>
+                                        <td><%=replace(ntimSon, ",", ".") %></td>
+                                    </tr>
+                                    
+                                </table>
+                            </div>
+                        </div>
+
 
                         <%                         
                             d = "25-05-2017" 
                             mondayofsameweek = DateAdd("d", -((Weekday(d) + 7 - 2) Mod 7), d)
-                            response.Write "mandag:" & mondayofsameweek 
+                            'response.Write "mandag:" & mondayofsameweek 
                         %>
 
 
