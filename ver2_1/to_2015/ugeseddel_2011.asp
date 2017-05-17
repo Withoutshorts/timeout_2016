@@ -848,7 +848,13 @@ if len(session("user")) = 0 then
         </h3>
           <%end if %>
         <div class="portlet-body">
-            
+            <div class='input-group date'>
+                                      <input type="text" style="width:300px;" class="form-control input-small" name="FM_datoer" id="jq_dato" value="<%=tregDato %>" placeholder="dd-mm-yyyy" />
+                                        <span class="input-group-addon input-small">
+                                        <span class="fa fa-calendar">
+                                        </span>
+                                    </span>
+                              </div>
       
         <%   
                                 

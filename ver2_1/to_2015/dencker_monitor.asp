@@ -33,12 +33,10 @@
     func = request("func") 
 %>
 
-<script src="js/dencker_monitor.js" type="text/javascript"></script>
-<!--
-<link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.2/css/bootstrap-combined.min.css" rel="stylesheet">
-<link rel="stylesheet" type="text/css" media="screen"
-href="http://tarruda.github.com/bootstrap-datetimepicker/assets/css/bootstrap-datetimepicker.min.css">
--->
+
+<script src="js/timepicker.js"></script>
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js"></script>
 
 
 <div class="wrapper">
@@ -47,34 +45,6 @@ href="http://tarruda.github.com/bootstrap-datetimepicker/assets/css/bootstrap-da
         <div class="container">
             <div class="portlet">
                 <div class="portlet-body">
-
-                   
-
-
-                    <!--<div id="datetimepicker" class="input-append date">
-                    <input type="text"></input>
-                    <span class="add-on">
-                    <i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
-                    </span>
-                    </div> -->
-                    
-                    
-                   <!-- <script type="text/javascript"
-                    src="http://tarruda.github.com/bootstrap-datetimepicker/assets/js/bootstrap-datetimepicker.min.js">
-                    </script>
-                    <script type="text/javascript"
-                    src="http://tarruda.github.com/bootstrap-datetimepicker/assets/js/bootstrap-datetimepicker.pt-BR.js">
-                    </script>
-                    <script type="text/javascript">
-                      $('#datetimepicker').datetimepicker({
-                        format: 'dd/MM/yyyy hh:mm:ss',
-                        language: 'pt-BR'
-                      });
-                    </script> -->
-
-
-
-
 
                     <div class="row">
                         <div class="col-lg-12" style="text-align:center;>
@@ -167,21 +137,34 @@ href="http://tarruda.github.com/bootstrap-datetimepicker/assets/css/bootstrap-da
                                         strSQLinfo = "SELECT login, logud FROM login_historik WHERE id="& lastid
                                         'response.Write strSQLinfo
                                         oRec.open strSQLinfo, oConn, 3
-                                        loguddate = Year(now) & "-" & Month(now) & "-" & Day(now) & " " & Time 
+                                        loguddate = Right("0" & DatePart("d",Date), 2) & "-" & Right("0" & DatePart("m",Date), 2) & "-" & Year(Now) & " " & Time
                                         
                                         timerialt = DateDiff("n",oRec("login"),loguddate) / 60
                                         
+                                        'logindate = Day(oRec("login")) & "-" & Month(oRec("login")) & "-" & Year(oRec("login"))
+
                                         
                                         %>
                                     
                                         
 
-                                        <div class="row">
-                                            <div class="col-lg-3">Din logind tid:</div><div class="col-lg-4"><%response.Write oRec("login")  %></div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-lg-3">Din logud tid:</div><div class="col-lg-4"><%response.Write Right("0" & DatePart("d",Date), 2) & "-" & Right("0" & DatePart("m",Date), 2) & "-" & Year(Now) & " " & Time  %></div>
-                                        </div>
+                                    <div class="row">
+                                        <div class="col-lg-3">Din logind tid:</div><div class="col-lg-4"><%response.Write oRec("login")  %></div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-3">Din logud tid:</div><div class="col-lg-4"><%response.Write Right("0" & DatePart("d",Date), 2) & "-" & Right("0" & DatePart("m",Date), 2) & "-" & Year(Now) & " " & Time  %></div>
+                                    </div>
+                                    
+                                  <!--<div class="row">
+                                        <div class="col-lg-3">Din login tid:</div>
+                                        <div class="col-lg-4"><input type="text" value="<%=oRec("login") %>" class="form-control input-small" /></div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-lg-3">Din logud tid:</div>
+                                        <div class="col-lg-4"><input type="text" value="<%=loguddate %>" class="form-control input-small" /></div>
+                                    </div> -->
+                                        
                                         
 
                                     <!--    <div class="form-group">
