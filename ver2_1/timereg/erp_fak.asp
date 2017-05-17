@@ -3363,7 +3363,7 @@ if len(session("user")) = 0 then
        
 	   <!-- Modtager og Afsender -- vises først på fakturalayout -->
 	
-	  <div id="modtagdiv" style="position:absolute; visibility:visible; display:; top:105px; width:720px; left:5px; border:1px #8cAAe6 solid;">
+	  <div id="modtagdiv" style="position:absolute; display:<%=sideDivDsp%>; visibility:<%=sideDivVzb%>; top:105px; width:720px; left:5px; border:1px #8cAAe6 solid;">
                      
                        
                      <table cellspacing="0" cellpadding="0" border="0" width=100% bgcolor="#ffffff">

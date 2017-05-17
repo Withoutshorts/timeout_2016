@@ -13,16 +13,16 @@ Imports System.Data.Odbc
 
 Public Class CATI :
 
-    public testValue As string
+    Public testValue As String
     Public testmode As Integer = 0
 
-    Public timerkom As string
+    Public timerkom As String
     Public intMedarbId As String
     Public intCatiId, intJobNr As String
     Public dlbTimer As String
 
     Public cdDato As String
-    public importFrom AS String
+    Public importFrom As String
 
     Public errThis As Integer = 0
 
@@ -49,7 +49,7 @@ Public Class CATI :
 
     Public extsysid As Double
 
-    public intJobNrTxt As String
+    Public intJobNrTxt As String
 
     Public intTimepris As String = 0
     Public timeprisAlt As Double = 0
@@ -151,7 +151,7 @@ Public Class CATI :
     End Function
 
 
-    Public Weekdaynb As integer
+    Public Weekdaynb As Integer
     Public Function Weekday(ByVal DateValue As DateTime) As Integer
 
 
@@ -288,7 +288,8 @@ Public Class CATI :
                         '** Rettet til ALLE den 24.4.2017
                         '** Rettet til KUN INTW DK i medarb.type 14,45,46 28.4.2017
 
-                        mTypeSQL = " AND (medarbejdertype = 14 OR medarbejdertype = 45 OR medarbejdertype = 46)"
+                        'mTypeSQL = " AND (medarbejdertype = 14 OR medarbejdertype = 45 OR medarbejdertype = 46)"
+                        mTypeSQL = " AND (medarbejdertype = 46 OR medarbejdertype = 1)"
                 End Select
 
                 'intCatiId = 999
@@ -508,14 +509,25 @@ Public Class CATI :
                                 If (intJobNr.Substring(0, 2)) = "P_" Then
 
                                     intJobNr = Replace(intJobNr, "P_", "")
-                                    intJobNr = Left(intJobNr, 5)
+
+                                    If (intJobNr.Length = 7) Then
+                                        intJobNr = Left(intJobNr, 7)
+                                    Else
+                                        intJobNr = Left(intJobNr, 5)
+                                    End If
+
 
 
                                 Else
 
                                     If (intJobNr.Substring(0, 1)) = "P" Then
                                         intJobNr = Replace(intJobNr, "P", "")
-                                        intJobNr = Left(intJobNr, 5)
+
+                                        If (intJobNr.Length = 7) Then
+                                            intJobNr = Left(intJobNr, 7)
+                                        Else
+                                            intJobNr = Left(intJobNr, 5)
+                                        End If
 
                                     Else
 

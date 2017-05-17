@@ -321,7 +321,7 @@ end function
 					oRec.open strSQL, oConn, 3
 					while not oRec.EOF 
 					
-					if cint(oRec("Mid")) = cint(usemrn) then
+					if cdbl(oRec("mid")) = cdbl(usemrn) then
 					rchk = "SELECTED"
 					else
 					rchk = ""

@@ -827,6 +827,16 @@ public class ozUploadFileJob
                 fileRet.stdato = datas[headers[3]-1];
                 fileRet.sldato = datas[headers[4]-1];
 
+                if (folderIn == "oko")
+                {
+                    fileRet.timerkom = datas[headers[5] - 1]; //Faktureringstype
+                    fileRet.jobans = datas[headers[2] - 1]; //Jobans
+
+                    if (fileRet.timerkom == string.Empty)
+                        fileRet.timerkom = "";
+                } else { 
+
+
                 if ((folderIn != "dencker" && folderIn != "dencker_test") || (importtype == "d1") || (importtype == "t1"))
                 {
                     fileRet.timerkom = datas[headers[5] - 1]; //Faktureringstype
@@ -839,6 +849,8 @@ public class ozUploadFileJob
                         fileRet.timerkom = "";
                 }
 
+
+              
 
                 if (importtype == "t1")
                 {
@@ -893,8 +905,8 @@ public class ozUploadFileJob
                 }
 
 
+                } //OKO
 
-               
 
 
 

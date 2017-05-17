@@ -956,7 +956,7 @@ sub fakuraKolonneOverskrifter
                 <% 
                 '** Skjul antal og enh kolonner **'
                 if (cint(hideantenh) <> 1 AND aktmat = 1) OR aktmat <> 1 then%>
-                <td align=right style="width:90px; padding-right:2px; border-bottom:1px #999999 solid;"><b><%=erp_txt_015 %></b></td>
+                <td align=right style="width:100px; padding-right:2px; border-bottom:1px #999999 solid;"><b><%=erp_txt_015 %></b></td>
                  <%else %>
                 <td style="border-bottom:1px #999999 solid;">&nbsp;</td>
                 <%end if %>

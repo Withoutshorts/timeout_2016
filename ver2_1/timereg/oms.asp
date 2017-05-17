@@ -563,9 +563,9 @@ if len(session("user")) = 0 then
                     
                     '*' Vis ud fra faktureret top 20/10/5
                     '("& jobidFakSQLkri &") AND
-
+                    'SELECT f.fakadr, IF(faktype = 0, COALESCE(sum(f.beloeb * (f.kurs/100)),0), COALESCE(sum(f.beloeb * -1 * (f.kurs/100)),0)) AS beloeb
                     if cint(toplist_kunder_jobbudget_fak) = 0 then
-                    strSQLf = "SELECT f.fakadr, IF(faktype = 0, COALESCE(sum(f.beloeb * (f.kurs/100)),0), COALESCE(sum(f.beloeb * -1 * (f.kurs/100)),0)) AS beloeb, kkundenavn, kkundenr FROM fakturaer AS f "_
+                    strSQLf = "SELECT f.fakadr, SUM(IF(faktype = 0, f.beloeb * (f.kurs/100), f.beloeb * -1 * (f.kurs/100))) AS beloeb, kkundenavn, kkundenr FROM fakturaer AS f "_
                     &" LEFT JOIN kunder AS k ON (kid = fakadr "& ktypeKri &") "_
                     &" WHERE "_
     	            &" ((YEAR(fakdato) = '"& strYear &"' AND brugfakdatolabel = 0) "_

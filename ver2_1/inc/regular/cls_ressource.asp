@@ -247,7 +247,7 @@
         function addresbooking(medid, aktid, jobid, startDato, startDatoTid, slutDato, slutDatoTid, lto)
     	                
                         select case lto
-                        case "essens", "intranet - local", "hidalgo", "outz"
+                        case "essens", "intranet - local", "hidalgo", "outz", "jttek", "dencker"
                             show_planlag = 1
                         case else
                             show_planlag = 0

@@ -2084,8 +2084,10 @@ if len(session("user")) = 0 then
                                 &")")
     							
 							    'Response.write strFakturerbart & "<br><br>"
+                                'if session("mid") = 1 then
 							    'Response.write strSQLjob
-							    'Response.end 
+							    'Response.flush 
+                                'end if
     							
 							    oConn.execute(strSQLjob)	
 								
@@ -3329,6 +3331,7 @@ if len(session("user")) = 0 then
 
                                   
                                     myMail.To= "Dencker - Ordre<ordre@dencker.net>"
+                                    myMail.Bcc= "Dencker - Ordre<sk@outzource.dk>"
                                     myMail.Subject= "Ny ordre: "& jobnavnThis &" ("& intJobnr &") | " & strkkundenavn  
 
 
@@ -4664,7 +4667,7 @@ if len(session("user")) = 0 then
 
     useasfak = 0
 
-    
+    jo_valuta_kurs = 100
    
 
 	else '*** REDIGER JOB *****'
@@ -4685,7 +4688,7 @@ if len(session("user")) = 0 then
 	&" udgifter, risiko, sdskpriogrp, usejoborakt_tp, ski, job_internbesk, abo, ubv, sandsynlighed, "_
     &" diff_timer, diff_sum, jo_udgifter_ulev, jo_udgifter_intern, jo_bruttooms, restestimat, stade_tim_proc, virksomheds_proc, "_
     &" syncslutdato, lukkedato, altfakadr, preconditions_met, laasmedtpbudget, filepath1, fomr_konto, jfak_moms, jfak_sprog, useasfak, alert,"_
-    &" lincensindehaver_faknr_prioritet_job, jo_valuta "_
+    &" lincensindehaver_faknr_prioritet_job, jo_valuta, jo_valuta_kurs "_
     &" FROM job, kunder WHERE id = " & id &" AND kunder.Kid = jobknr"
 	
         'if session("mid") = 1 then
@@ -4831,6 +4834,7 @@ if len(session("user")) = 0 then
 	job_internbesk_alert = oRec("alert")
     lincensindehaver_faknr_prioritet_job = oRec("lincensindehaver_faknr_prioritet_job")
     jo_valuta = oRec("jo_valuta")
+    jo_valuta_kurs = oRec("jo_valuta_kurs")
 
     end if
 	oRec.close
@@ -7934,7 +7938,7 @@ end select '*** Step %>
 	'***********************************************************
 	strSQL = "SELECT j.id, jobnavn, jobnr, kkundenavn, kid, jobknr, jobTpris, jobstatus, jobstartdato, "_
 	&" jobslutdato, j.budgettimer, fakturerbart, Kkundenr, ikkebudgettimer, jobans1, jobans2, jobans3, jobans4, jobans5, fastpris, jobans_proc_1, jobans_proc_2, jobans_proc_3, jobans_proc_4, jobans_proc_5, virksomheds_proc, "_
-	&" s.navn AS aftnavn, rekvnr, tilbudsnr, sandsynlighed, jo_bruttooms, kundekpers, serviceaft, lukkedato, preconditions_met, jo_valuta"
+	&" s.navn AS aftnavn, rekvnr, tilbudsnr, sandsynlighed, jo_bruttooms, kundekpers, serviceaft, lukkedato, preconditions_met, jo_valuta, jo_valuta_kurs"
 	
     strSQL = strSQL &", j.projektgruppe1, j.projektgruppe2, j.projektgruppe3, j.projektgruppe4, j.projektgruppe5, j.projektgruppe6, j.projektgruppe7, j.projektgruppe8, j.projektgruppe9, j.projektgruppe10 "
 	   
@@ -7962,12 +7966,18 @@ end select '*** Step %>
 	gnsPrisTot = 0
 	totRealialt = 0
     thisMid = session("mid")
-	
+	jo_valuta_kurs = 100
+
+    'if session("mid") = 1 then
 	'Response.write strSQL
 	'Response.Flush
+    'end if
 	
 	oRec.open strSQL, oConn, 3
 	while not oRec.EOF
+
+
+    jo_valuta_kurs = oRec("jo_valuta_kurs")
 
     call forretningsomrJobId(oRec("id"))
 

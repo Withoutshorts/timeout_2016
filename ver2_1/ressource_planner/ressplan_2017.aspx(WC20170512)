@@ -130,7 +130,7 @@
 
     <%--Modal popup--%>
 
-    <label id="lblsql" runat="server">SQL:  </label>
+    <!--<label id="lblsql" runat="server">SQL:  </label>-->
 
     <form id="taskform" runat="server" name="taskModalForm">
         <input type="hidden" runat="server" id="ddsortbyTypePresel" name="ddsortbyTypePresel" value="" />
@@ -444,6 +444,6 @@
         </table>
     </script>
 
-    <script type="text/javascript" src="js/ressplan_20175.js"></script>      
+    <script type="text/javascript" src="js/ressplan_20173.js"></script>      
 </body>
 </html>

@@ -1297,7 +1297,11 @@ if len(session("user")) = 0 then
                 if request.cookies("webblik")("jk_ans") <> 0 then
                 medarb_jobans = request.cookies("webblik")("jk_ans")
                 else
-                medarb_jobans = 0
+                    if lto = "dencker" then
+                    medarb_jobans = session("mid")
+                    else
+                    medarb_jobans = 0
+                    end if
                 end if
         end if
         %>

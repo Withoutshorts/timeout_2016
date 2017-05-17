@@ -33,6 +33,9 @@
     <!-- Custom styles for TimeOut  -->
     <link href="css/mpvready-style-timeout.css" rel="stylesheet" />
 
+    <!-- New-->
+    <link href="css/jquery.multiselect.css" rel="stylesheet" />
+
     <!-- New: Bootstrap Date-Picker Plugin -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css" />
 
@@ -45,6 +48,7 @@
     <%--New: For jquery template--%>
     <script src="http://code.jquery.com/jquery-latest.min.js"></script>
     <script src="http://ajax.microsoft.com/ajax/jquery.templates/beta1/jquery.tmpl.min.js"></script>
+
 
     <%--New: Bootstrap muliselect dropdown--%>
     <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css" />
@@ -62,6 +66,7 @@
     <%-- jQuery validation --%>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery.validation/1.15.1/jquery.validate.min.js"></script>
 
+
     <style>
         .container{width:auto; margin:0px 20px;}
         table th, table td { font-size: 11px; min-width: 35px;background-color: white !important; }
@@ -71,7 +76,7 @@
         .today-color {background-color: #ffd1d1 !important;}
         .bg-color {background-color: #f5f5f5 !important;}
         .pointer {cursor: pointer;}
-        .ddcls { vertical-align: middle; border-top: hidden; min-width:140px; width: 140px;border-right-width: 1px !important; }
+        .ddcls { vertical-align: middle; border-top: hidden; width: 140px;border-right-width: 1px !important; }
         .month-header { text-align: center; border-top: hidden; background-color: white; font-size: 15px; }
         .day-header, .week-header { text-align: center; border-top: hidden; background-color: white; }
         .day-header .header, .week-header .header {font-size: 15px;}
@@ -123,14 +128,13 @@
         .fit-to-screen > div{ float: left;margin-top: 21px;margin-left: 5px;}
         #daytbl .header-div-marg, #weektbl .header-div-marg{margin-left:276px;}
         table.dataTable {margin-bottom:20px !important;}
-        .multiselect-item .input-group-addon, .multiselect-item .input-group-btn {display:none;}
     </style>
 </head>
 <body>
 
     <%--Modal popup--%>
 
-    <label id="lblsql" runat="server">SQL:  </label>
+    <!--<label id="lblsql" runat="server">SQL:  </label>-->
 
     <form id="taskform" runat="server" name="taskModalForm">
         <input type="hidden" runat="server" id="ddsortbyTypePresel" name="ddsortbyTypePresel" value="" />
@@ -438,12 +442,14 @@
             </tr>
             <tr id="monthtbldate" class="last-header">
                 <th class="ddcls">
-                    <select data-style="btn-primary" id="olivermonthdd" multiple="multiple" onchange="resourceChange()" class="oliver form-control input-small"></select> 
+                    <select data-style="btn-primary" id="olivermonthdd" onchange="resourceChange()" multiple="multiple" class="oliver form-control input-small"></select> 
                 </th>
             </tr>
         </table>
     </script>
 
-    <script type="text/javascript" src="js/ressplan_20175.js"></script>      
+    <script type="text/javascript" src="js/ressplan_20174.js"></script>
+
+      
 </body>
 </html>

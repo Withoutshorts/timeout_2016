@@ -529,6 +529,8 @@ end function
  '*** Bruges af ERP fak og fak godkendt **'
 public ekspTxt_kk
  function joblog(jobid,stdatoKri,slutdato,aftid, viskunfakturalinjer)
+
+   session.LCID = 1030
    laktaktid = 0
   
   

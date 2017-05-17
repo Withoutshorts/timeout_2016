@@ -35,7 +35,6 @@ var actTypes = {
 };
 
 $(document).ready(function () {
-
     //alert("HER")
 
     //$("#sortbymonthdd").select('1');
@@ -90,11 +89,9 @@ function loadTemplate(templatename) {
 
     $('.oliver').multiselect({
         selectAllValue: 'multiselect-all',
-        //enableCaseInsensitiveFiltering: true,
-        //enableFiltering: true,
-        ////maxHeight: '300',
-        buttonWidth: '140'
-    });
+        enableCaseInsensitiveFiltering: true,
+        enableFiltering: true
+    });    
 }
 
 function changeDayGroup(type) {
@@ -656,12 +653,13 @@ function populateDropdown() {
     }
 
     /********** View type dropdown *********************************/
-    //var viewtypedd = ['View type', 'Project time', 'Absence', 'Important'];
-    var viewtypedd = ['Project time'];
+    var viewtypedd = ['View type', 'Project time', 'Absence', 'Important'];
+    //var viewtypedd = ['Project time'];
     var viewtypeoption = '';
     for (var i = 0; i < viewtypedd.length; i++) {
         viewtypeoption += '<option value="' + i + '">' + viewtypedd[i] + '</option>';
     }
+    
     $('.viewtype').append(viewtypeoption);
 
     if (viewtypeSelectedValue != "") {
@@ -698,13 +696,12 @@ function bindResources() {
             success: function (response) {
                 var olivereoption = '';
                 olivereoption = response.d;
-                if (olivereoption != "0") {
-
+                
+                if (olivereoption != "0" && olivereoption != '') {
                     $(".oliver").empty().append(olivereoption);
                     $(".oliver").multiselect('rebuild');
 
-                    if (oliverSelectedValue !== "" && oliverSelectedValue !== null) {
-                        
+                    if (oliverSelectedValue !== "" && oliverSelectedValue !== null) {                        
                         $('.oliver').multiselect('select', oliverSelectedValue);
                     }
                 }
@@ -712,7 +709,6 @@ function bindResources() {
                     $(".oliver").empty();
                     $(".oliver").multiselect('rebuild');
                 }
-
                
                 resourceChange();
             },
@@ -2065,5 +2061,3 @@ function setFitToScreen(cntrl){
         $('#headerdiv').removeClass('table-responsive brd-table');
     }
 }
-
-

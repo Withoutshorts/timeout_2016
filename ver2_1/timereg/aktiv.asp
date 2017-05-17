@@ -2989,7 +2989,7 @@ if len(session("user")) = 0 then
 				
 				&nbsp;&nbsp;<a href="javascript:NewWin_popupcal('../inc/regular/popupcalender_inc.asp?use=5')"><img src="../ill/popupcal.gif" alt="" border="0" width="16" height="15"></a><br />&nbsp;&nbsp;
 				<br />
-                    <span style="float:inherit; color:#5582d2; padding:0px 60px 10px 2px;"><a href="../to_2015/akt_bookings.asp?func=red&id=<%=id %>" target="_blank">[Planlæg]</a></span>								
+                   <!-- <span style="float:inherit; color:#5582d2; padding:0px 60px 10px 2px;"><a href="../to_2015/akt_bookings.asp?func=red&id=<%=id %>" target="_blank">[Planlæg]</a></span>-->								
 				
 				</td>
 			</tr>

@@ -17,7 +17,7 @@ function hojreDiv()
       '**Vis ikke højremenu ofr disse '***
       if (lto = "xintranet - local") OR (lto = "demo") OR (lto = "adra") OR (lto = "wwf") OR (lto = "ngf") OR (lto = "ascendis") OR (lto = "akelius") OR _
       (lto = "hvk_bbb") OR (lto = "mmmi" AND meType = 10) OR (lto = "xdencker") OR (lto = "biofac") OR (lto = "epi_uk") OR (lto = "tec") OR (lto = "esn") OR _
-      (lto = "micmatic") OR (lto = "aalund") OR (lto = "nonstop") OR (lto = "oko") OR (lto = "wilke") OR (lto = "cisu") OR (lto = "hidalgo") OR (lto = "bf") OR (lto = "cst") OR (lto = "plan") OR (lto = "epi2017") then
+      (lto = "micmatic") OR (lto = "aalund") OR (lto = "nonstop") OR (lto = "oko") OR (lto = "wilke") OR (lto = "cisu") OR (lto = "hidalgo") OR (lto = "bf") OR (lto = "cst") OR (lto = "plan") then
 
             if lto = "wwf" OR lto = "xintranet - local" then 
             %>
@@ -113,6 +113,10 @@ function hojreDiv()
 
             <%
       else
+
+
+
+     if (lto <> "epi2017") OR (lto = "epi2017" AND level = 1) then
       %>
 
 
@@ -358,6 +362,8 @@ function hojreDiv()
 
 	<%
     '****************** Slut højreDIV ***********************'
+    end if ' epio2017 level
+
 
     end if '**vis ikke højre menu for
 

@@ -428,7 +428,7 @@ Public Class oz_importakt
                 If lto = "oko" Then
                     varLobenr = (jobId + aktkonto + aktnr) ' Regnestykke jobid 221 + 126 + 10000 PRESSE WEB jobnr 1262 = 10346
                 Else
-                    varLobenr = (jobId + aktnr)
+                    varLobenr = id '(jobId + aktnr)
                 End If
 
 
@@ -464,7 +464,7 @@ Public Class oz_importakt
 
                         End If
 
-                        If aktnr <> 0 Then 'Posterings lbn. 
+                        If aktnr <> "0" Then 'Posterings lbn. 
 
                             If CInt(findesAkt) = 0 Or lto = "oko" Then
 
@@ -477,9 +477,9 @@ Public Class oz_importakt
                                     Dim strSQLaktins As String = ("INSERT INTO aktiviteter (editor, dato, navn, aktnr, job, fakturerbar, " _
                                     & "projektgruppe1, projektgruppe2, projektgruppe3, projektgruppe4, projektgruppe5, projektgruppe6, projektgruppe7," _
                                     & "projektgruppe8, projektgruppe9, projektgruppe10, aktstatus, budgettimer, aktbudget, aktbudgetsum, aktstartdato, aktslutdato, aktkonto, fase, extsysid) VALUES " _
-                                    & " ('TO_import-nav','" & Now.ToString("yyyy/MM/dd", Globalization.CultureInfo.InvariantCulture) & "', '" & aktnavn & "', " & aktkonto & "," & jobId & ", 1," _
+                                    & " ('TO_import-nav','" & Now.ToString("yyyy/MM/dd", Globalization.CultureInfo.InvariantCulture) & "', '" & aktnavn & "', '" & aktnr & "'," & jobId & ", 1," _
                                     & " 10,1,1,1,1,1,1,1,1,1,1," & akttimer & ", " & akttpris & ", " & aktsum & ",'" & jobstartdato.ToString("yyyy/MM/dd", Globalization.CultureInfo.InvariantCulture) & "'" _
-                                    & ",'" & jobslutdato.ToString("yyyy/MM/dd", Globalization.CultureInfo.InvariantCulture) & "', " & kontoId & ", '', " & varLobenr & ")")
+                                    & ",'" & jobslutdato.ToString("yyyy/MM/dd", Globalization.CultureInfo.InvariantCulture) & "', 0, '', 999)")
 
                                     'Return strSQLaktins
 
@@ -517,7 +517,7 @@ Public Class oz_importakt
                                     '& " budgettimer = " & akttimer & ", aktbudget = " & akttpris & ", aktbudgetsum = " & aktsum & ", aktkonto = " & kontoId & ", fase = '01. NAV-SUM' WHERE extsysid = " & varLobenr & " AND job = " & jobId)
 
                                     Dim strSQLaktupd As String = ("UPDATE aktiviteter SET editor = 'TO_import-nav', dato = '" & Now.ToString("yyyy/MM/dd", Globalization.CultureInfo.InvariantCulture) & "', " _
-                                    & " navn = '" & aktnavn & "', aktnr = " & aktnr & ", job = " & jobId & " " _
+                                    & " navn = '" & aktnavn & "', aktnr = '" & aktnr & "', job = " & jobId & " " _
                                     & " WHERE extsysid = " & varLobenr & " AND job = " & jobId)
 
 

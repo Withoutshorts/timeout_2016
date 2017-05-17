@@ -908,7 +908,12 @@ else '** POST *****
 				if len(request("FM_stempelur")) <> 0 then
 				intStempelur = request("FM_stempelur")
 				else
-				intStempelur = 0
+                    select case lto 
+                    case "epi2017"
+                    intStempelur = 1
+                    case else
+				    intStempelur = 0
+                    end select
 				end if
 				
                 session("dontLogind") = 0

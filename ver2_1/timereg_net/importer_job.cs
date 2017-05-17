@@ -347,10 +347,16 @@ public partial class importer_job : System.Web.UI.Page
     private string[] GetExcelHeaderList()
     {
         string[] strRets = { "", "", "", "", "", "", "", "", "", "", "", "", "" }; //,"","","",""
+        //string[] strRets = { "", "", "", "", "", "", "" }; //,"","","",""
 
         try
         {
+
+
             Application.Lock();
+
+            string importtype = Request["importtype"];
+
             if (Application["jobnavn"] != null)
                 strRets[0] = Application["jobnavn"].ToString();
             if (Application["jobid"] != null)
@@ -363,12 +369,22 @@ public partial class importer_job : System.Web.UI.Page
                 strRets[4] = Application["sldato"].ToString();
             if (Application["timerKom"] != null)
                 strRets[5] = Application["timerKom"].ToString();
-            if (Application["knavn"] != null)
+
+
+          
+            if (importtype == "d1" || importtype == "t1")
+            {
+
+
+                if (Application["knavn"] != null)
                 strRets[6] = Application["knavn"].ToString();
-            if (Application["knr"] != null)
+                if (Application["knr"] != null)
                 strRets[7] = Application["knr"].ToString();
-            if (Application["projgrp"] != null)
+                if (Application["projgrp"] != null)
                 strRets[8] = Application["projgrp"].ToString();
+
+
+            }
 
 
             Application.UnLock();
@@ -383,10 +399,19 @@ public partial class importer_job : System.Web.UI.Page
 
     private int[] GetExcelIntHeaderList()
     {
-        int[] intRets = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }; //, 0, 0, 0, 0
+
+        string importtype = Request["importtype"];
+
+      
+       
+        //int[] intRets = { 0, 0, 0, 0, 0, 0};
+        int[] intRets = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 
         try
         {
+
+           
+
             if (ddlJobnavn.SelectedIndex != -1)
                 intRets[0] = ddlJobnavn.SelectedIndex;
             if (ddlJobId.SelectedIndex != -1)
@@ -399,13 +424,17 @@ public partial class importer_job : System.Web.UI.Page
                 intRets[4] = ddlslDato.SelectedIndex;
             if (ddlTimerKom.SelectedIndex != -1)
                 intRets[5] = ddlTimerKom.SelectedIndex;
-            if (ddlKnavn.SelectedIndex != -1)
-                intRets[6] = ddlKnavn.SelectedIndex;
-            if (ddlKnr.SelectedIndex != -1)
-                intRets[7] = ddlKnr.SelectedIndex;
-            if (ddlProjgrp.SelectedIndex != -1)
-                intRets[8] = ddlProjgrp.SelectedIndex;
 
+
+            if (importtype == "d1" || importtype == "t1")
+            {
+            if (ddlKnavn.SelectedIndex != -1)
+            intRets[6] = ddlKnavn.SelectedIndex;
+            if (ddlKnr.SelectedIndex != -1)
+            intRets[7] = ddlKnr.SelectedIndex;
+            if (ddlProjgrp.SelectedIndex != -1)
+            intRets[8] = ddlProjgrp.SelectedIndex;
+            }
         }
         catch (Exception ex)
         {

@@ -952,7 +952,7 @@ function medarbiprojgrp(progrp, medid, mtypesorter, seloptions)
                                 
                     if mSel = "" then
                     
-                        if cint(intMids(t)) = cint(medarbgrpId(m)) then
+                        if cdbl(intMids(t)) = cdbl(medarbgrpId(m)) then
                         mSel = "SELECTED"
                         else
                         mSel = ""

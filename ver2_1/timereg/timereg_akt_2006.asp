@@ -8712,7 +8712,7 @@
                                                     <%end if
                                                     
                                                     
-                                                    if cint(oRec("Mid")) = cint(usemrn) then
+                                                    if cdbl(oRec("Mid")) = cdbl(usemrn) then
 					                                rchk = "SELECTED"
 					                                else
 					                                rchk = ""

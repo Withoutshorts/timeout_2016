@@ -541,9 +541,9 @@ if len(session("user")) = 0 then
 
 
     if cint(showSalgsAnv) = 1 then
-        cps = 33
+        cps = 35
     else
-        cps = 18
+        cps = 20
     end if
 
     
@@ -609,8 +609,10 @@ if len(session("user")) = 0 then
 
     next
     
+    sqlDatostartFY = year(now) & "-1-1" 
+    sqlDatoslutFY = year(now) & "-12-31"
 
-
+    stadeStDato = strYear & "-" & strMrd & "-1"
    
 
     if media <> "export" AND cint(directexcel) <> 1 then %>
@@ -643,6 +645,8 @@ if len(session("user")) = 0 then
         end if
 
     strJob = strJob &"<td class=alt valign=bottom style=""padding:2px; border-right:1px #cccccc solid;""><b>Faktureret</b> "& basisValISO &"</td>"_
+    &"<td class=alt valign=bottom style=""padding:2px; border-right:1px #cccccc solid;""><b>Faktureret FY "& year(now) &"</b> "& basisValISO &"</td>"_
+    &"<td class=alt valign=bottom style=""padding:2px; border-right:1px #cccccc solid;""><b>Faktureret før FY "& year(now) &"</b> "& basisValISO &"</td>"_
     &"<td class=alt style=""padding:2px; border-right:1px #cccccc solid;"" valign=bottom colspan=3><b>Job-ansv.</b><br>Værdi "& basisValISO &"</td>"_
     &"<td class=alt style=""padding:2px; border-right:1px #cccccc solid;"" valign=bottom colspan=3><b>Job-ejer</b><br>Værdi "& basisValISO &"</td>"_
     &"<td class=alt style=""padding:2px; border-right:1px #cccccc solid;"" valign=bottom colspan=3><b>Job medansv. 3</b><br>Værdi "& basisValISO &"</td>"_
@@ -811,9 +815,9 @@ if len(session("user")) = 0 then
 
 
             if seomsfor_antalmdHigend = 11 then
-            cpsMonthTr = 35
+            cpsMonthTr = 37
             else
-            cpsMonthTr = 23
+            cpsMonthTr = 25
             end if
 
             'strJob = strJob & "<tr bgcolor='#FFFFFF'><td colspan="& cpsMonthTr &" style='padding:3px;'>&nbsp;</td></tr>"
@@ -911,7 +915,7 @@ if len(session("user")) = 0 then
 
     '*** Stade / fakturering likividitet 'ALTID DKK
     stadesum = 0
-    strSQLmilepale = "SELECT SUM(belob) AS stadesum FROM milepale WHERE type = 1 AND jid = "& oRec("jobid") &" GROUP BY jid"
+    strSQLmilepale = "SELECT SUM(belob) AS stadesum FROM milepale WHERE type = 1 AND jid = "& oRec("jobid") &" AND milepal_dato >= '"& stadeStDato &"' GROUP BY jid"
     oRec6.open strSQLmilepale, oConn, 3
     if not oRec6.EOF then
         
@@ -922,10 +926,24 @@ if len(session("user")) = 0 then
 
    stadesum_prGT = stadesum_prGT + stadesum
 
+   if stadesum <> 0 then
+    stadesumTxt = formatnumber(stadesum, 2)
+    stadesumExp = formatnumber(stadesum, 2)
+    else
+    stadesumTxt = ""
+    stadesumExp = 0
+    end if
+
 
     '*** Faktureret Omregnes til DKK
     fakturasum = 0
-    strSQLfaktureret = "SELECT IF(faktype = 0, COALESCE(sum(f.beloeb * (f.kurs/100)),0), COALESCE(sum(f.beloeb * -1 * (f.kurs/100)),0)) AS beloeb FROM fakturaer AS f WHERE shadowcopy <> 1 AND jobid = "& oRec("jobid") &" GROUP BY jobid"
+    strSQLfaktureret = "SELECT SUM(IF(faktype = 0, f.beloeb * (f.kurs/100), f.beloeb * -1 * (f.kurs/100))) AS beloeb FROM fakturaer AS f WHERE shadowcopy <> 1 AND jobid = "& oRec("jobid") &" GROUP BY jobid"
+   
+    'if session("mid") = 1 then
+    '    Response.write strSQLfaktureret
+    '    Response.flush
+    'end if   
+        
     oRec6.open strSQLfaktureret, oConn, 3
     if not oRec6.EOF then
         
@@ -942,13 +960,46 @@ if len(session("user")) = 0 then
     fakturasumExp = 0
     end if
 
-    if stadesum <> 0 then
-    stadesumTxt = formatnumber(stadesum, 2)
-    stadesumExp = formatnumber(stadesum, 2)
+
+
+    '*** Faktureret Omregnes til DKK FINANSÅR
+    strSQLperFak = " AND ((brugfakdatolabel = 0 AND f.fakdato BETWEEN '"& sqlDatostartFY &"' AND '"& sqlDatoslutFY &"')"
+    strSQLperFak = strSQLperFak &" OR (brugfakdatolabel = 1 AND f.labeldato BETWEEN '"& sqlDatostartFY &"' AND '"& sqlDatoslutFY &"'))"
+
+    fakturasumFY = 0
+    strSQLfaktureret = "SELECT SUM(IF(faktype = 0, f.beloeb * (f.kurs/100), f.beloeb * -1 * (f.kurs/100))) AS beloeb FROM fakturaer AS f WHERE "_
+    &" shadowcopy <> 1 AND jobid = "& oRec("jobid") &" "& strSQLperFak &" GROUP BY jobid"
+   
+    'if session("mid") = 1 then
+    '    Response.write strSQLfaktureret
+    '    Response.flush
+    'end if   
+        
+    oRec6.open strSQLfaktureret, oConn, 3
+    if not oRec6.EOF then
+        
+    fakturasumFY = oRec6("beloeb")
+
+    end if 
+    oRec6.close
+
+    if fakturasumFY <> 0 then
+    fakturasumFYTxt = formatnumber(fakturasumFY, 2)
+    fakturasumFYExp = formatnumber(fakturasumFY, 2)
     else
-    stadesumTxt = ""
-    stadesumExp = 0
+    fakturasumFYTxt = ""
+    fakturasumFYExp = 0
     end if
+
+    fakturasumForFY = formatnumber((fakturasum - fakturasumFY), 2)
+    if fakturasumForFY <> 0 then
+    fakturasumForFYTxt = formatnumber(fakturasumForFY, 2)
+    fakturasumForFYExp = formatnumber(fakturasumForFY, 2)
+    else
+    fakturasumForFYTxt = ""
+    fakturasumForFYExp = 0
+    end if
+    
 
     if cint(directexcel) <> 1 then
     strJob = strJob & "<td valign=top align=right style='padding:2px 5px 2px 2px; border-right:1px #cccccc solid; white-space:nowrap;' class=lille>" & stadesumTxt &"</td>"
@@ -1008,9 +1059,11 @@ if len(session("user")) = 0 then
 
     if cint(directexcel) <> 1 then
     strJob = strJob & "<td valign=top align=right style='padding:2px 5px 2px 2px; border-right:1px #cccccc solid; white-space:nowrap;' class=lille>" & fakturasumTxt &"</td>"
+    strJob = strJob & "<td valign=top align=right style='padding:2px 5px 2px 2px; border-right:1px #cccccc solid; white-space:nowrap;' class=lille>" & fakturasumFYTxt &"</td>"
+    strJob = strJob & "<td valign=top align=right style='padding:2px 5px 2px 2px; border-right:1px #cccccc solid; white-space:nowrap;' class=lille>" & fakturasumForFYTxt &"</td>"
     end if
 
-    strExport = strExport & fakturasumExp & ";"
+    strExport = strExport & fakturasumExp & ";" & fakturasumFYExp & ";" & fakturasumForFYExp &";"
 
     for m = 1 to 5
 
@@ -1520,7 +1573,7 @@ if media = "export" OR cint(directexcel) = 1 then
                    end if
 
         
-                strOskrifter = strOskrifter & "Faktureret "& basisValISO &";Jobansv.;Andel %;Værdi "& basisValISO &";"_
+                strOskrifter = strOskrifter & "Faktureret "& basisValISO &";Faktureret FY "& basisValISO &";Faktureret før FY "& basisValISO &";Jobansv.;Andel %;Værdi "& basisValISO &";"_
                 & "Jobejer.;Andel %;Værdi "& basisValISO &";Jobmedansv1.;Andel %;Værdi "& basisValISO &";Jobmedansv2.;Andel %;Værdi "& basisValISO &";Jobmedansv3.;Andel %;Værdi "& basisValISO &";"
 
                 

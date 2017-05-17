@@ -256,14 +256,25 @@ Public Class oz_importjob2
         'Exit Function
 
 
-        If (importtype = "d1") Then
+        If (importtype = "d1" Or importtype = "t1") Then
+
+            If (importtype = "d1") Then
+                '*** KUN FØRSTE linje 4 for hver job. Linje 4 = jobnavn
+                Dim strSQLjnj As String = "SELECT id, dato, editor, origin, jobnavn, jobnr, jobstartdato, jobslutdato, jobans, lto, beskrivelse, kundenavn, kundenr FROM job_import_temp WHERE id > 0 AND overfort = 0 AND errid = 0 AND beskrivelse = 4 GROUP BY jobnr ORDER BY jobnr"
+                'Dim strSQLjnj As String = "SELECT id FROM job_import_temp WHERE id > 0 AND overfort = 10 AND errid = 0 " & orderBySQL
+                objCmd = New OdbcCommand(strSQLjnj, objConn)
+                objDR = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
 
 
-            '*** KUN FØRSTE linje 4 for hver job. Linje 4 = jobnavn
-            Dim strSQLjnj As String = "SELECT id, dato, editor, origin, jobnavn, jobnr, jobstartdato, jobslutdato, jobans, lto, beskrivelse, kundenavn, kundenr FROM job_import_temp WHERE id > 0 AND overfort = 0 AND errid = 0 AND beskrivelse = 4 GROUP BY jobnr ORDER BY jobnr"
-            'Dim strSQLjnj As String = "SELECT id FROM job_import_temp WHERE id > 0 AND overfort = 10 AND errid = 0 " & orderBySQL
-            objCmd = New OdbcCommand(strSQLjnj, objConn)
-            objDR = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
+            Else
+
+                '*** KUN FØRSTE linje 4 for hver job. Linje 4 = jobnavn
+                Dim strSQLjnj As String = "SELECT id, dato, editor, origin, jobnavn, jobnr, jobstartdato, jobslutdato, jobans, lto, beskrivelse, kundenavn, kundenr FROM job_import_temp WHERE id > 0 AND overfort = 0 AND errid = 0  GROUP BY jobnr ORDER BY jobnr"
+                'Dim strSQLjnj As String = "SELECT id FROM job_import_temp WHERE id > 0 AND overfort = 10 AND errid = 0 " & orderBySQL
+                objCmd = New OdbcCommand(strSQLjnj, objConn)
+                objDR = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
+
+            End If
 
         Else
 
@@ -356,6 +367,8 @@ Public Class oz_importjob2
 
             lto = objDR("lto")
 
+
+
             beskrivelse = IsDBNull(objDR("beskrivelse")) '** VARCHAR FOR IKKE AT FEJLE (TEXT fejler)
             If beskrivelse <> True Then
                 beskrivelse = objDR("beskrivelse")
@@ -365,7 +378,8 @@ Public Class oz_importjob2
             End If
 
 
-            If (importtype = "d1") Then
+
+            If (importtype = "d1" Or importtype = "t1") Then
 
                 kundenavnTxt = objDR("kundenavn")
                 kundenrTxt = objDR("kundenr")
@@ -421,7 +435,11 @@ Public Class oz_importjob2
                             strjobnr = Left(strjobnr, intPos_ - 1)
                             strAktFase = "Pos-" + Right(strjobnr_opr, 1) + "-" + jobnavn 'strjobnr
 
+                        Else
 
+
+
+                            strAktFase = "Pos-1-" + jobnavn 'strjobnr
 
                         End If
 
@@ -525,6 +543,7 @@ Public Class oz_importjob2
             '********************************************************************************
             '*** Opretter Job ***'
             '********************************************************************************
+            errThis = 0
             If CInt(errThis) = 0 Then
 
 
@@ -532,7 +551,7 @@ Public Class oz_importjob2
 
 
                 'Return "Webservice Msg dt jobnrTjk: "+ jobnrTjk +" opretJobOk: "+ opretJobOk 
-                If (importtype = "d1" And beskrivelse = "4") Or (lto <> "dencker" And lto <> "dencker_test") Then
+                If (importtype = "d1" And beskrivelse = "4") Or (lto <> "dencker" And lto <> "dencker_test") Or importtype = "t1" Then
                     opretJobOk = 1
                 Else
                     opretJobOk = 0
@@ -543,7 +562,9 @@ Public Class oz_importjob2
                     objConn2 = New OdbcConnection(strConn)
                     objConn2.Open()
 
-
+                    If beskrivelse = "4" Then
+                        beskrivelse = ""
+                    End If
 
                     If CInt(opdaterJob) = 1 Then 'opdater
 

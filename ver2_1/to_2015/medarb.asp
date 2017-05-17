@@ -2416,7 +2416,7 @@ Session.LCID = 1030
                      if media <> "eksport" then
                        
                        
-                       if cint(lastmedid) = cint(oRec("mid")) then
+                       if cdbl(lastmedid) = cdbl(oRec("mid")) then
                        trBgCol = "#FFFFE1" 
                        else
                        trBgCol = ""

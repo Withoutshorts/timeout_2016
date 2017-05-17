@@ -1046,7 +1046,12 @@
         end if
 
 
-     
+        '**' Normtimer ATD
+        if year(now) = year(strDatoStartKri) then
+        natalDageytd = dateDiff("d", strDatoStartKri, day(now) & "/" & month(now) & "/" & year(now), 2,2)
+        call normtimerPer(usemrn, strDatoStartKri, natalDageytd, 0)
+        ntimPerytd = ntimPer
+        end if
 
         '** Normtimer
         natalDage = dateDiff("d", strDatoStartKri, strDatoEndKri, 2,2)
@@ -1644,7 +1649,7 @@
                           <%select case lto
                           case "epi2017"
                           %>
-                        <p class="row-stat-label">Invoiced job & sales resp.</p>
+                        <p class="row-stat-label">Invoiced job & sales resp. <br />Job startdate & invoice date in selected period</p>
                         <h3 class="row-stat-value"><span style="font-size:14px;">Job:</span> <%=formatnumber(jobansInv, 2)%> <span style="font-size:14px;">DKK</span></h3>
                         <br /><span style="font-size:11px; color:#999999;"> [Invoiced in period * job %]</span>
                      
@@ -1690,6 +1695,13 @@
                          end if%>
 
                          <span style="font-size:9px; color:#999999;"><%=avgTxt%></span><%=dsb_txt_014 %>: <%=formatnumber(ntimper, 2) %> t. <br />
+
+                         <%if usePeriode = 3 AND year(now) = year(strDatoStartKri) then 'ATD 
+                             
+                             %>
+                             <span style="font-size:9px; color:#999999;"><%=avgTxt%></span>Norm. YTD: <%=formatnumber(ntimperytd, 2) %> t.<br />
+                             <%
+                         end if%>
                         
 
                          <%select case lto
@@ -1715,8 +1727,19 @@
                                            
                          <div class="col-lg-5">
                         <%=dsb_txt_011 %> (<%=formatnumber(medarbSelHoursFomrGT, 2) %> t.)<br />
+                        <span style="color:#999999;"><%=mTypeNavn %></span>
+                       
+                             <!--
+                              <%select case lto 
+                        case "epi2017"
+                            %>
+                             <span style="color:#999999;"><%=mTypeNavn %></span>
+                             <%
+                        case else%>
                         <span style="font-size:11px; color:#999999;"><%=dsb_txt_011 %> based on Employeetype: <b><%=mTypeNavn %></b></span>
-                             
+                        <%end select %>
+                             -->
+
                         <div id="donut-chart" class="chart-holder" style="width:95%"></div>
                         </div>
 
@@ -2356,18 +2379,20 @@
                                             jobansInv = 0
                                             salgsansBgt = 0
                                             salgsansInv = 0
+                                            salgsansProc = 0
+                                            jobsansProc = 0
                                             j = 1
                                             for j = 1 to 5
                     
-                                                'if isNull(oRec("jobans"&j)) <> true then
+                                                if isNull(oRec("jobans"&j)) <> true then
 
                                                     if cdbl(oRec("jobans"&j)) = cdbl(usemrn) then
                                                     jobansBgt = jobansBgt + (jo_bruttooms * (oRec("jobans_proc_"&j) / 100))
                                                     jobansInv = jobansInv + (fakbeloeb * (oRec("jobans_proc_"&j) / 100))
-                                                    jobsansProc = oRec("jobans_proc_"&j)
+                                                    jobsansProc = jobsansProc + oRec("jobans_proc_"&j)
                                                     end if
 
-                                                'end if
+                                                end if
                                            
                     
                                                 if isNull(oRec("salgsans"&j)) <> true then
@@ -2375,7 +2400,7 @@
                                                     if cdbl(oRec("salgsans"&j)) = cdbl(usemrn) then
                                                     salgsansBgt = salgsansBgt + (jo_bruttooms * (oRec("salgsans"&j&"_proc") / 100))
                                                     salgsansInv = salgsansInv + (fakbeloeb * (oRec("salgsans"&j&"_proc") / 100))
-                                                    salgsansProc = oRec("salgsans"&j&"_proc")
+                                                    salgsansProc = salgsansProc + oRec("salgsans"&j&"_proc")
                                                     end if
 
                                                 end if

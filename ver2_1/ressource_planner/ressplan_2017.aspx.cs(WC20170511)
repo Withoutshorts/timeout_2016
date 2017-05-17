@@ -11,20 +11,7 @@ public partial class ressplan_2017 : System.Web.UI.Page
 {
     #region Variable Declaration
 
-    //static string connString = Convert.ToString(System.Configuration.ConfigurationManager.ConnectionStrings["ConnectionString"]);
-    //static string connString = "driver={MySQL ODBC 3.51 Driver};server=194.150.108.154; Port=3306; uid=to_outzource2; pwd=SKba200473; database=timeout_dencker;";
-
-    //public string lto =             ["lto"];
-
-    //if (lblsql.InnerHtml == "essens")
-       // {
-    //static string connString = "driver={MySQL ODBC 3.51 Driver};server=194.150.108.154; Port=3306; uid=to_outzource2; pwd=SKba200473; database=timeout_dencker;";
-    //};
-
-    public string connString = "";
-
-    //static string connString = "Data Source=127.0.0.1;Database=timeout_intranet;User ID = root; Password=";
-    //"driver={MySQL ODBC 3.51 Driver};server=localhost; Port=3306; uid=root; pwd=; database=timeout_intranet;";
+    static string connString = Convert.ToString(System.Configuration.ConfigurationManager.ConnectionStrings["ConnectionString"]);
 
     #endregion
 
@@ -37,17 +24,11 @@ public partial class ressplan_2017 : System.Web.UI.Page
     /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
     protected void Page_Load(object sender, EventArgs e)
     {
-
-        //string lto = "intrnaet";
-
-
         ////sqlquery = query;
-        //connString = "Data Source=127.0.0.1;Database=timeout_intranet;User ID = root; Password=";
-        //lblsql.InnerHtml = connString;
+        //sblsql.InnerHtml = "Hej 10";
 
         //string command = GetEmployeeQuery_SK("1,53,104", "2017-01-01", "2018-01-01", 3);
         //lblsql.InnerHtml = command;
-
 
         string sortbyPresel = Request["sortbypresel"];
         if (sortbyPresel == "2")
@@ -89,17 +70,6 @@ public partial class ressplan_2017 : System.Web.UI.Page
         MySqlConnection sqlConnection = new MySqlConnection();
         MySqlCommand sqlCommand;
 
-        string lto = "intranet";
-
-
-        //if (lto == "intranet - local") {
-        //    lto = "intranet"; 
-        //};
-
-        //string connString = "Data Source=194.150.108.154;Database=timeout_jttek;User ID = to_outzource2; Password=SKba200473";
-        string connString = "Data Source=127.0.0.1;Database=timeout_"+ lto + ";User ID = root; Password=";
-
-
         try
         {
             sqlConnection = new MySqlConnection(connString);
@@ -140,10 +110,6 @@ public partial class ressplan_2017 : System.Web.UI.Page
         MySqlConnection sqlConnection = new MySqlConnection();
         MySqlCommand sqlCommand;
 
-        string connString = "Data Source=127.0.0.1;Database=timeout_intranet;User ID = root; Password=";
-        //string connString = "Data Source=194.150.108.154;Database=timeout_jttek;User ID = to_outzource2; Password=SKba200473";
-
-
         try
         {
             sqlConnection = new MySqlConnection(connString);
@@ -183,14 +149,20 @@ public partial class ressplan_2017 : System.Web.UI.Page
         {
             if (sortby == 1) // Customer
             {
+                //sqlCommand.CommandText = "SELECT DISTINCT(kunder.kid), kunder.kkundenavn FROM aktiviteter LEFT JOIN job ON job.`id` = aktiviteter.`job` LEFT JOIN kunder ON kunder.`Kid` = job.`jobknr` WHERE kunder.kid IS NOT NULL ORDER BY kunder.kkundenavn ";
+                //query = "SELECT DISTINCT(kunder.kid), kunder.kkundenavn, projektgrupper.navn FROM aktiviteter LEFT JOIN medarbejdere ON aktiviteter.id = medarbejdere.MID LEFT JOIN progrupperelationer ON medarbejdere.MID = progrupperelationer.medarbejderid LEFT JOIN projektgrupper ON progrupperelationer.projektgruppeid = projektgrupper.id LEFT JOIN job ON job.`id` = aktiviteter.`job` LEFT JOIN kunder ON kunder.`Kid` = job.`jobknr` WHERE kunder.kid IS NOT NULL ORDER BY kunder.kkundenavn";
                 query = "SELECT Kid, kkundenavn FROM kunder";
             }
             else if (sortby == 2) // job
             {
-                query = "SELECT DISTINCT(job.id), job.jobnavn, job.jobnr, kunder.Kkundenr, kunder.kkundenavn FROM job LEFT JOIN kunder ON kunder.`Kid` = job.`jobknr` WHERE job.id IS NOT NULL AND jobstatus = 1 ORDER BY kunder.kkundenavn";
+                //query = "SELECT DISTINCT(job.id), job.jobnavn  FROM aktiviteter LEFT JOIN job ON job.`id` = aktiviteter.`job` LEFT JOIN kunder ON kunder.`Kid` = job.`jobknr` WHERE job.id IS NOT NULL ORDER BY job.jobnavn";
+                //query = "SELECT DISTINCT(job.id), job.jobnavn  FROM aktiviteter LEFT JOIN job ON job.`id`  = aktiviteter.`job` LEFT JOIN kunder ON kunder.`kid` = job.`jobknr` WHERE job.id IS NOT NULL";
+                query = "SELECT DISTINCT(job.id), job.jobnavn, job.jobknr, kunder.kkundenavn FROM job LEFT JOIN kunder ON kunder.`Kid` = job.`jobknr` WHERE job.id IS NOT NULL AND jobstatus = 1 AND risiko > 0 ORDER BY kunder.kkundenavn";
             }
             else if (sortby == 3) // Group
             {
+                //sqlCommand.CommandText = "SELECT projektgrupper.id,projektgrupper.navn FROM projektgrupper LEFT JOIN progrupperelationer ON (progrupperelationer.projektgruppeid = projektgrupper.id) LEFT JOIN medarbejdere ON(mid = progrupperelationer.medarbejderid) ORDER BY projektgrupper.navn";
+                //query = "SELECT projektgrupper.id,projektgrupper.navn FROM projektgrupper LEFT JOIN progrupperelationer ON(progrupperelationer.projektgruppeid = projektgrupper.id) LEFT JOIN medarbejdere ON (MID = progrupperelationer.medarbejderid) LEFT JOIN aktiviteter ON medarbejdere.MID = aktiviteter.pl_employee ORDER BY projektgrupper.navn";
                 query = "SELECT id,navn FROM projektgrupper";
             }
             else if (sortby == 4) // Employee
@@ -226,12 +198,10 @@ public partial class ressplan_2017 : System.Web.UI.Page
         query = "SELECT akt_bookings.ab_id AS BookingId, " +
                         "aktiviteter.id AS ActivityId, " +
                         "aktiviteter.navn AS ActivityName, " +
-                        "job.id AS JobId, " +                        
+                        "job.id AS JobId, " +
                         "job.jobnavn AS JobName, " +
-                        "kunder.Kid AS CustomerId, " +                        
+                        "kunder.Kid AS CustomerId, " +
                         "kunder.kkundenavn AS CustomerName, " +
-                        "job.jobnr AS JobNo, " +
-                        "kunder.Kkundenr AS CustomerNo, " +
                         "medarbejdere.Mid AS EmployeeId, " +
                         "medarbejdere.Mnavn AS EmployeeName," +
                         "akt_bookings.ab_startdate AS StartDate, " +
@@ -280,8 +250,6 @@ public partial class ressplan_2017 : System.Web.UI.Page
                         "job.jobnavn AS JobName, " +
                         "kunder.Kid AS CustomerId, " +
                         "kunder.kkundenavn AS CustomerName, " +
-                        "job.jobnr AS JobNo, " +
-                        "kunder.Kkundenr AS CustomerNo, " +
                         "medarbejdere.Mid AS EmployeeId, " +
                         "medarbejdere.Mnavn AS EmployeeName," +
                         "akt_bookings.ab_startdate AS StartDate, " +
@@ -329,8 +297,6 @@ public partial class ressplan_2017 : System.Web.UI.Page
                         "job.jobnavn AS JobName, " +
                         "kunder.Kid AS CustomerId, " +
                         "kunder.kkundenavn AS CustomerName, " +
-                        "job.jobnr AS JobNo, " +
-                        "kunder.Kkundenr AS CustomerNo, " +
                         "medarbejdere.Mid AS EmployeeId, " +
                         "medarbejdere.Mnavn AS EmployeeName," +
                         "akt_bookings.ab_startdate AS StartDate, " +
@@ -682,8 +648,6 @@ public partial class ressplan_2017 : System.Web.UI.Page
                     job = new Job();
                     job.JobId = Convert.ToInt32(drUsers["JobId"]);
                     job.CustomerId = Convert.ToInt32(drUsers["CustomerId"]);
-                    job.JobNo = Convert.ToInt32(drUsers["JobNo"]);
-                    job.CustomerNo = Convert.ToInt32(drUsers["CustomerNo"]);
                     job.JobName = drUsers["JobName"].ToString();
                     job.CustomerName = drUsers["CustomerName"].ToString();
                     job.Activities = new List<ActivityModel>();
@@ -761,7 +725,6 @@ public partial class ressplan_2017 : System.Web.UI.Page
     {
         string oliverDD = string.Empty;
         string where = string.Empty;
-       
 
         try
         {
@@ -803,17 +766,17 @@ public partial class ressplan_2017 : System.Web.UI.Page
 
                     if (sortby == 2)
                     {
-                        ddText += " (" + Convert.ToString(drUsers["jobnr"]) + ")";
+                        ddText += " (" + Convert.ToString(drUsers["id"]) + ")";
 
-                        string compare = "'" + Convert.ToString(drUsers["kkundenavn"]) + " " + Convert.ToString(drUsers["Kkundenr"]) + "'";
+                        string compare = "'" + Convert.ToString(drUsers["kkundenavn"]) + " " + Convert.ToString(drUsers["jobknr"]) + "'";
                         if (oliverDD.IndexOf(compare) > -1)
                         {
                             int lastIndex = oliverDD.LastIndexOf("</optgroup>");
-                            oliverDD = oliverDD.Insert(lastIndex, "<option value='" + value + "'>" + ddText + "</option>");
+                            oliverDD = oliverDD.Insert(lastIndex, compare + "<option value='" + value + "'>" + ddText + "</option>");
                         }
                         else
                         {
-                            string optGroupLabel = Convert.ToString(drUsers["kkundenavn"]) + " " + Convert.ToString(drUsers["Kkundenr"]);
+                            string optGroupLabel = Convert.ToString(drUsers["kkundenavn"]) + " " + Convert.ToString(drUsers["jobknr"]);
                             oliverDD += "<optgroup label='" + optGroupLabel + "'>" + "<option value='" + value + "'>" + ddText + "</option>" + "</optgroup>";
                         }
                     }
@@ -1227,19 +1190,9 @@ public class Job
     public int JobId = 0;
 
     /// <summary>
-    /// The job no
-    /// </summary>
-    public int JobNo = 0;
-
-    /// <summary>
     /// The customer identifier
     /// </summary>
     public int CustomerId = 0;
-
-    /// <summary>
-    /// The customer no
-    /// </summary>
-    public int CustomerNo = 0;
 
     /// <summary>
     /// The job name

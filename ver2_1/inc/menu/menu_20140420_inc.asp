@@ -902,10 +902,16 @@ end select
 
                         <%end if %>
 
+                       <%if (lto = "epi2017" AND (level = 1 OR session("mid") = 2694) ) then
+                           %>
+                              <li><a href="<%=toSubVerPath14 %>stempelur.asp?func=stat"><%=tsa_txt_463 %></a></li>
+                       <%end if%>
+
+
                        <%if level = 1 then %>
 
                                          <br /><br />
-                                         <%if session("stempelur") <> 0 then %>
+                                         <%if session("stempelur") <> 0 AND lto <> "epi2017" then %>
                                             <li><a href="<%=toSubVerPath14 %>stempelur.asp?func=stat"><%=tsa_txt_463 %></a></li>
 
                                         <%end if %>
@@ -1178,6 +1184,16 @@ end select
              <li><a href="../timereg_net/importer_job.aspx?lto=<%=lto%>&mid=<%=session("mid")%>&editor=<%=session("user") %>&importtype=t1" target="_blank">NAV-importer job/proj.</a></li>
             <li><a href="../timereg_net/importer_akt.aspx?lto=<%=lto%>&mid=<%=session("mid")%>&editor=<%=session("user") %>&importtype=t2" target="_blank">NAV-importer tasks/aktiviteter</a></li>
              <li><a href="../timereg_net/importer_med.aspx?lto=<%=lto%>&mid=<%=session("mid")%>&editor=<%=session("user") %>&importtype=t3" target="_blank">NAV-importer medarbejdere</a></li>
+           
+           <%end if
+
+
+               '**** INDLÆS / IMPORTER  funktioner     
+            if (lto = "epi2017") AND level = 1 then %>
+            
+            <li><a href="../timereg_net/importer_timer.aspx?lto=<%=lto%>&mid=<%=session("mid")%>&editor=<%=session("user") %>" target="_blank">CSV Import timer</a></li>
+            <li><a href="../timereg_net/importer_akt.aspx?lto=<%=lto%>&mid=<%=session("mid")%>&editor=<%=session("user") %>&importtype=e2" target="_blank">CSV  Import omkostninger TEST</a></li>
+            <li><a href="../timereg_net/importer_med.aspx?lto=<%=lto%>&mid=<%=session("mid")%>&editor=<%=session("user") %>&importtype=t2" target="_blank">CSV Import medarbejdere TEST</a></li>
            
            <%end if
                 
