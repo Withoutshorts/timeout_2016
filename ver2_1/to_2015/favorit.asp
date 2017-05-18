@@ -983,15 +983,12 @@
                             </tbody>
 
                         </table>
-
-
-                        <div class="row">
+                            <div class="row">
                             <div class="col-lg-10">&nbsp</div>
                             <div class="col-lg-2 pad-b10">
                                 <button type="submit" class="btn btn-success btn-sm pull-right"><b>Opdatér</b></button>
                             </div>
                         </div>
-
                         </form>
   
                            
@@ -1058,7 +1055,7 @@
 
 
 
-                        <br /><br /><br /><br />
+                        
 
 
                         <input type="hidden" id="timerdagman" value="<%=replace(manTimer, ",", ".") %>" />
@@ -1150,7 +1147,7 @@
 
 
                         <div class="row">
-                            <div class="col-lg-6">
+                            <div class="col-lg-12">
 
                                 <table class="table dataTable table-striped table-bordered table-hover ui-datatable">
                                     <tr>
@@ -1162,13 +1159,13 @@
                                         <th style="width:10%; text-align:center"><%response.Write Month(dateFre) & "-" & Day(dateFre) %></th>
                                         <th style="width:10%; text-align:center"><%response.Write Month(dateLor) & "-" & Day(dateLor) %></th>
                                         <th style="width:10%; text-align:center"><%response.Write Month(dateSon) & "-" & Day(dateSon) %></th>-->
-                                        <th style="width:10%; text-align:center">Ma</th>
-                                        <th style="width:10%; text-align:center">Ti</th>
-                                        <th style="width:10%; text-align:center">On</th>
-                                        <th style="width:10%; text-align:center">To</th>
-                                        <th style="width:10%; text-align:center">Fr</th>
-                                        <th style="width:10%; text-align:center">Lø</th>
-                                        <th style="width:10%; text-align:center">Sø</th>
+                                        <th style="width:75px; text-align:center">Ma</th>
+                                        <th style="width:75px; text-align:center">Ti</th>
+                                        <th style="width:75px; text-align:center">On</th>
+                                        <th style="width:75px; text-align:center">To</th>
+                                        <th style="width:75px; text-align:center">Fr</th>
+                                        <th style="width:75px; text-align:center">Lø</th>
+                                        <th style="width:75px; text-align:center">Sø</th>
                                     </tr>
 
                                     <tr>
@@ -1208,6 +1205,7 @@
                             </div>
                         </div>
 
+                        
 
 
                        <!-- <div class="row">
