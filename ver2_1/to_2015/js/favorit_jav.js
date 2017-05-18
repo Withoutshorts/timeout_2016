@@ -6,6 +6,11 @@
 $(document).ready(function () {
 
 
+    $('.date').datepicker({
+        
+    });
+
+
     $(".FM_job").keyup(function () {
 
         //alert("keupup")

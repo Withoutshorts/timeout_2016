@@ -348,9 +348,12 @@
 
     medid = request("FM_medid")
     response.Write "medid: " & medid
-        
 
-    varTjDatoUS_man = request("varTjDatoUS_man")
+    varTjDatoUS_selectedday = request("varTjDatoUS_selectedday")
+    mondayofsameweek = DateAdd("d", -((Weekday(varTjDatoUS_selectedday) + 7 - 2) Mod 7), varTjDatoUS_selectedday)
+                  
+
+    varTjDatoUS_man = mondayofsameweek
     varTjDatoUS_son = dateAdd("d", 6, varTjDatoUS_man)
 
     datoMan = day(varTjDatoUS_man) &"/"& month(varTjDatoUS_man) &"/"& year(varTjDatoUS_man)
@@ -432,7 +435,7 @@
                                                                     
                         <form action="favorit.asp?" method="post">
                                               
-                        <input type="hidden" name="varTjDatoUS_man" id="varTjDatoUS_man" value="<%=varTjDatoUS_man %>">
+                        <!-- <input type="hidden" name="varTjDatoUS_man" id="varTjDatoUS_man" value="<%=varTjDatoUS_man %>"> -->
 
                         <div class="row">
                             <div class="col-lg-3">
@@ -465,14 +468,26 @@
                                     %>
                                 </select>
                             </div>
+                           
+                           <div class="col-lg-2">
+                               <div class='input-group date'>
+                                    <input type="text" class="form-control input-small" name="varTjDatoUS_selectedday" id="varTjDatoUS_selectedday" value="<%=varTjDatoUS_selectedday %>" />
+                                    <span class="input-group-addon input-small">
+                                    <span class="fa fa-calendar">
+                                    </span>
+                                    </span>
+                                </div>
+                            </div>
 
-                            
-                           <!--- Dato vælger --->
-                            
-                            <div class="col-lg-7"></div>
+                            <div class="col-lg-2">
+                                <button type="submit" class="btn btn-sm btn-default"><b>Gå</b></button>
+                            </div>
+
+                            <div class="col-lg-3"></div>
                             <h4 class="col-lg-2" style="text-align:right"><a href="favorit.asp?FM_medid=<%=medid %>&varTjDatoUS_man=<%=prev_varTjDatoUS_man %>" ><</a>&nbsp Uge <%=datepart("ww",weeknumber)  %> &nbsp<a href="favorit.asp?FM_medid=<%=medid %>&varTjDatoUS_man=<%=next_varTjDatoUS_man %>" >></a></h4>
                             
                         </div>
+
                         </form>
                         <%'response.Write "id: " & medid%>
 
@@ -1070,9 +1085,10 @@
                         -->
 
                         <%
-                            maxHeight = "200px"
-                            Width = "9%"
+                            'maxHeight = "200px"
+                            'Width = "9%"
                             
+                            dateMan = DateAdd("d",0,varTjDatoUS_man)
                             dateTir = DateAdd("d",1,varTjDatoUS_man)
                             dateOns = DateAdd("d",2,varTjDatoUS_man)
                             dateTor = DateAdd("d",3,varTjDatoUS_man)
@@ -1080,19 +1096,121 @@
                             dateLor = DateAdd("d",5,varTjDatoUS_man)
                             dateSon = DateAdd("d",6,varTjDatoUS_man)
 
-                            timerHeight_man = manTimer * 30
-                            timerHeight_tir = tirTimer * 30
-                            timerHeight_ons = onsTimer * 30
-                            timerHeight_tor = torTimer * 30
-                            timerHeight_fre = freTimer * 30
-                            timerHeight_lor = lorTimer * 30
-                            timerHeight_son = sonTimer * 30
+                            'timerHeight_man = manTimer * 30
+                            'timerHeight_tir = tirTimer * 30
+                            'timerHeight_ons = onsTimer * 30
+                            'timerHeight_tor = torTimer * 30
+                            'timerHeight_fre = freTimer * 30
+                            'timerHeight_lor = lorTimer * 30
+                            'timerHeight_son = sonTimer * 30
 
-                            response.Write timerHeight_man
+
+                            balMan = manTimer - ntimMan
+                            balTir = tirTimer - ntimTir
+                            balOns = onsTimer - ntimOns
+                            balTor = torTimer - ntimTor
+                            balFre = freTimer - ntimFre
+                            balLor = lorTimer - ntimLor
+                            balSon = sonTimer - ntimSon
+
+                            if balMan < 0 then 
+                                mancolor = "red;"
+                            else
+                                mancolor = "green;"
+                            end if
+
+                            if balTir < 0 then 
+                                tircolor = "red;"
+                            else
+                                tircolor = "green;"
+                            end if
+
+                            if balOns < 0 then 
+                                onscolor = "red;"
+                            else
+                                onscolor = "green;"
+                            end if
+
+                            if balTor < 0 then 
+                                torcolor = "red;"
+                            else
+                                torcolor = "green;"
+                            end if
+
+                            if balFre < 0 then 
+                                frecolor = "red;"
+                            else
+                                frecolor = "green;"
+                            end if
+
+                            'response.Write balTir 
+                            'response.Write timerHeight_man
                              
                         %>
 
+
                         <div class="row">
+                            <div class="col-lg-6">
+
+                                <table class="table dataTable table-striped table-bordered table-hover ui-datatable">
+                                    <tr>
+                                        <th></th>
+                                        <!--<th style="width:10%; text-align:center"><%response.Write Month(dateMan) & "-" & Day(dateMan)%></th>
+                                        <th style="width:10%; text-align:center"><%response.Write Month(dateTir) & "-" & Day(dateTir) %></th>
+                                        <th style="width:10%; text-align:center"><%response.Write Month(dateOns) & "-" & Day(dateOns) %></th>
+                                        <th style="width:10%; text-align:center"><%response.Write Month(dateTor) & "-" & Day(dateTor) %></th>
+                                        <th style="width:10%; text-align:center"><%response.Write Month(dateFre) & "-" & Day(dateFre) %></th>
+                                        <th style="width:10%; text-align:center"><%response.Write Month(dateLor) & "-" & Day(dateLor) %></th>
+                                        <th style="width:10%; text-align:center"><%response.Write Month(dateSon) & "-" & Day(dateSon) %></th>-->
+                                        <th style="width:10%; text-align:center">Ma</th>
+                                        <th style="width:10%; text-align:center">Ti</th>
+                                        <th style="width:10%; text-align:center">On</th>
+                                        <th style="width:10%; text-align:center">To</th>
+                                        <th style="width:10%; text-align:center">Fr</th>
+                                        <th style="width:10%; text-align:center">Lø</th>
+                                        <th style="width:10%; text-align:center">Sø</th>
+                                    </tr>
+
+                                    <tr>
+                                        <td>Timer:</td>
+                                        <td style="text-align:center"><%=replace(manTimer, ",", ".") %></td>
+                                        <td style="text-align:center"><%=replace(tirTimer, ",", ".") %></td>
+                                        <td style="text-align:center"><%=replace(onsTimer, ",", ".") %></td>
+                                        <td style="text-align:center"><%=replace(torTimer, ",", ".") %></td>
+                                        <td style="text-align:center"><%=replace(freTimer, ",", ".") %></td>
+                                        <td style="text-align:center"><%=replace(lorTimer, ",", ".") %></td>
+                                        <td style="text-align:center"><%=replace(sonTimer, ",", ".") %></td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>Norm:</td>
+                                        <td style="text-align:center"><%=replace(ntimMan, ",", ".") %></td>
+                                        <td style="text-align:center"><%=replace(ntimTir, ",", ".") %></td>
+                                        <td style="text-align:center"><%=replace(ntimOns, ",", ".") %></td>
+                                        <td style="text-align:center"><%=replace(ntimTor, ",", ".") %></td>
+                                        <td style="text-align:center"><%=replace(ntimFre, ",", ".") %></td>
+                                        <td style="text-align:center"><%=replace(ntimLor, ",", ".") %></td>
+                                        <td style="text-align:center"><%=replace(ntimSon, ",", ".") %></td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>Balance:</td>
+                                        <td style="text-align:center; color:<%=mancolor%>"><%=balMan %></td>
+                                        <td style="text-align:center; color:<%=tircolor%>"><%=balTir %></td>
+                                        <td style="text-align:center; color:<%=onscolor%>"><%=balOns %></td>
+                                        <td style="text-align:center; color:<%=torcolor%>"><%=balTor %></td>
+                                        <td style="text-align:center; color:<%=frecolor%>"><%=balFre %></td>
+                                        <td style="text-align:center;"><%=balLor %></td>
+                                        <td style="text-align:center;"><%=balSon %></td>
+                                    </tr>
+                                </table>
+
+                            </div>
+                        </div>
+
+
+
+                       <!-- <div class="row">
                             <div class="col-lg-8">
                                 <table class="table dataTable table-striped table-bordered table-hover ui-datatable">
                                     <tr>
@@ -1145,12 +1263,12 @@
                                     
                                 </table>
                             </div>
-                        </div>
+                        </div> -->
 
 
                         <%                         
-                            d = "25-05-2017" 
-                            mondayofsameweek = DateAdd("d", -((Weekday(d) + 7 - 2) Mod 7), d)
+                            'd = "25-05-2017" 
+                            'mondayofsameweek = DateAdd("d", -((Weekday(d) + 7 - 2) Mod 7), d)
                             'response.Write "mandag:" & mondayofsameweek 
                         %>
 
