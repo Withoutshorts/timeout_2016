@@ -96,8 +96,8 @@ public partial class ressplan_2017 : System.Web.UI.Page
         //    lto = "intranet"; 
         //};
 
-        //string connString = "Data Source=194.150.108.154;Database=timeout_jttek;User ID = to_outzource2; Password=SKba200473";
-        string connString = "Data Source=127.0.0.1;Database=timeout_"+ lto + ";User ID = root; Password=";
+        string connString = "Data Source=194.150.108.154;Database=timeout_hidalgo;User ID = to_outzource2; Password=SKba200473";
+        //string connString = "Data Source=127.0.0.1;Database=timeout_"+ lto + ";User ID = root; Password=";
 
 
         try
@@ -140,8 +140,8 @@ public partial class ressplan_2017 : System.Web.UI.Page
         MySqlConnection sqlConnection = new MySqlConnection();
         MySqlCommand sqlCommand;
 
-        string connString = "Data Source=127.0.0.1;Database=timeout_intranet;User ID = root; Password=";
-        //string connString = "Data Source=194.150.108.154;Database=timeout_jttek;User ID = to_outzource2; Password=SKba200473";
+        //string connString = "Data Source=127.0.0.1;Database=timeout_intranet;User ID = root; Password=";
+        string connString = "Data Source=194.150.108.154;Database=timeout_hidalgo;User ID = to_outzource2; Password=SKba200473";
 
 
         try

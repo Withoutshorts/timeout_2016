@@ -61,17 +61,17 @@
                 oRec5.open strSQLtimfc, oConn, 3
                 while not oRec5.EOF
                
-                fctimer = oRec5("fctimer")
+                    fctimer = oRec5("fctimer")
 
-                if usemrn = 0 then ' forecest pr akt og medarb
-                fcBelob = oRec5("fcBelob")
-                end if
+                    if usemrn = 0 then ' forecest pr akt og medarb
+                    fcBelob = oRec5("fcBelob")
+                    end if
                  
-                fctimerTot = fctimerTot + oRec5("fctimer")
+                    fctimerTot = fctimerTot + oRec5("fctimer")
                 
-                if usemrn = 0 then ' forecest pr akt og medarb
-                fcBelobTot = fcBelobTot + oRec5("fcBelob")
-                end if
+                    if usemrn = 0 then ' forecest pr akt og medarb
+                    fcBelobTot = fcBelobTot + oRec5("fcBelob")
+                    end if
 
                 oRec5.movenext
                 wend

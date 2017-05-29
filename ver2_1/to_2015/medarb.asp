@@ -754,7 +754,7 @@ Session.LCID = 1030
 						    oRec.close 
 
                             '**** HVIS der ikke er andre medarbejdere af typen bruges medarbejdertypens standard timepriser
-                             if cint(medtypeid) = 0 then
+                             if cdbl(medtypeid) = 0 then
                                 if len(trim(request("FM_medarbejdertype_follow_tp"))) <> 0 then
                                  medarbejdertype_follow_tp = request("FM_medarbejdertype_follow_tp")
                                 else

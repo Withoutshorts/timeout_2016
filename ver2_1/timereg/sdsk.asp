@@ -1,4 +1,5 @@
-<%response.Buffer = true %>
+
+
 
 <!--#include file="../inc/connection/conn_db_inc.asp"-->
 <!--#include file="../inc/errors/error_inc.asp"-->
@@ -12,18 +13,28 @@
 
 
 
+
 <%
 'section for ajax calls
 if Request.Form("AjaxUpdateField") = "true" then
 Select Case Request.Form("control")
-case "FM_ajaxstatus"
+case "FM_ajaxtest"
+
+    'Response.write "HEj"
+
+case "FM_ajaxstaid" '"FM_ajaxstatus"
 
                                 
                                 
-                               strMailID = Request.Form("id")
-                               intStatus = Request.Form("value")
+                            
+
+                                id = request("id")
+                                value = request("value") 
                                
-                               id = strMailID
+                               strMailID = id 'Request.Form("id")
+                               intStatus = value ' Request.Form("value")
+
+                               'id = strMailID
                                intAns = 0
                                intKontakt = 0
                                
@@ -162,18 +173,37 @@ case "FM_ajaxstatus"
 
 
 
-                                
+                               
                                                       
-Call AjaxUpdate("sdsk","status","&AElig;ndringen i status blev gemt")                                                           
+Call AjaxUpdateSDSK("sdsk","status","&AElig;ndringen i status blev gemt", value, id)         
+                                                      
 case "FM_sortOrder"
-Call AjaxUpdate("sdsk","sortorder","")
-case "FM_ajaxtype"
-Call AjaxUpdate("sdsk","type","&AElig;ndringen i kategori blev gemt")
-case "FM_ajaxprio"
-Call AjaxUpdate("sdsk","prioitet","&AElig;ndringen i type blev gemt")
-case "FM_ajaxprio_typ"
-Call AjaxUpdate("sdsk","priotype","&AElig;ndringen i prioritet blev gemt")
+
+     id = request("id")
+    value = request("value")
+
+Call AjaxUpdateSDSK("sdsk","sortorder","")
+case "FM_ajaxkatid"
+
+     id = request("id")
+    value = request("value")
+
+Call AjaxUpdateSDSK("sdsk","type","&AElig;ndringen i kategori blev gemt", value, id)
+case "FM_ajaxtypid" '"FM_ajaxprio"
+     id = request("id")
+    value = request("value")
+
+Call AjaxUpdateSDSK("sdsk","prioitet","&AElig;ndringen i type blev gemt", value, id)
+case "FM_ajaxptyid" '"FM_ajaxprio_typ"
+
+     id = request("id")
+    value = request("value")
+
+Call AjaxUpdateSDSK("sdsk","priotype","&AElig;ndringen i prioritet blev gemt", value, id)
 case "FM_CustDesc"
+
+    
+
            strSQL = "Update kunder set beskrivelse = '" & replace(request.Form("value"), "'", "''") & "' where Kid = " & request.Form("id")
            'response.Write strSQL
            oConn.execute(strSQL)
@@ -210,6 +240,8 @@ case "FM_ajaxesttid"
 End select
 Response.End
 end if
+
+
 
 
 if len(session("user")) = 0 then
@@ -2924,10 +2956,12 @@ if len(session("user")) = 0 then
            </table>
            
            </td><td valign=top style="padding-top:10px;">
+
+               <!--<input type="text" id="test" value="0" />-->
            
            <table cellspacing=0 cellpadding=4 border=0>
            
-                      <tr><td align=right style="padding-right:5px;"><b>Prioitet:</b></td><td>
+                      <tr><td align=right style="padding-right:5px;"><b>Prioritet:</b></td><td>
 
                       <input type="hidden" name="FM_prio_tp" id="FM_prio_tp" value="1">
                       <%
@@ -2979,41 +3013,41 @@ if len(session("user")) = 0 then
            <select name="FM_priotype" style="font-family: arial; width:240px;">
            <option value="-1">Alle</option>
            <% end if
-           strSQL = "SELECT id, navn FROM sdsk_prioitet WHERE id  <> 0 ORDER BY navn"
+           
+                strSQL = "SELECT id, navn FROM sdsk_prioitet WHERE id  <> 0 GROUP BY id ORDER BY navn"
 
-                      oRec.open strSQL, oConn, 3 
+                oRec.open strSQL, oConn, 3 
+                while not oRec.EOF
                                                                             
-                                                                            while not oRec.EOF
+                if cint(priotypeSel) = oRec("id") then
+                isSelected = "SELECTED"
+                ptPrio = oRec("navn")
+                else
+                isSelected = ""
+                end if
                                                                             
-                                                                            if cint(priotypeSel) = oRec("id") then
-                                                                            isSelected = "SELECTED"
-                                                                            ptPrio = oRec("navn")
-                                                                            else
-                                                                            isSelected = ""
-                                                                            end if
+                if print <> "j" then
+                %>
+                    <option value="<%=oRec("id")%>" <%=isSelected%>><%=oRec("navn")%></option>
                                                                             
-                                                                            if print <> "j" then
-                                                                            %>
-                                                                                <option value="<%=oRec("id")%>" <%=isSelected%>><%=oRec("navn")%></option>
-                                                                            
-                                                                                <%
+                    <%
                                                                                 
                                                                             
-                                                                            end if
+                end if
                                                                             
-                                                                            oRec.movenext
-                                                                            wend
+                oRec.movenext
+                wend
                                                                             
-                                                                            oRec.close
+                oRec.close
                                                                             
-                                                                            if print <> "j" then%>
-                                                                            </select>
-                                                                            <%else 
-                                                                            if ptPrio = "" then
-                                                                            ptPrio = Request.Form("FM_priotype")
-                                                                            end if %>
-                                                                            <%=ptPrio %>
-                                                                             <%end if %>
+                if print <> "j" then%>
+                </select>
+                <%else 
+                if ptPrio = "" then
+                ptPrio = Request.Form("FM_priotype")
+                end if %>
+                <%=ptPrio %>
+                    <%end if %>
            </td>
            </tr>
            </td></tr>
@@ -3095,7 +3129,7 @@ if len(session("user")) = 0 then
            <tr>
            
            <td align=right>
-           <b>Sortér:</b></td><td><select name="FM_sort" id="FM_sort" style="background-color:#ffff99; width:200px;">
+           <b>Sortér:</b></td><td><select name="FM_sort" id="FM_sort" style="background-color:#ffff99; width:200px;" onchange="submit();">
                       
                       <%
                       sSel_1 = ""
@@ -3257,7 +3291,7 @@ if len(session("user")) = 0 then
            <td class=alt valign=bottom ><b>Status</b></td>
            <td class=alt valign=bottom ><b>Kategori</b></td>
            <td class=alt valign=bottom ><b>Type</b></td>
-    <td class=alt valign=bottom ><b>Prioitet</b></td>
+    <td class=alt valign=bottom ><b>Prioritet</b></td>
            <td class=alt valign=bottom ><b>Filer</b></td>
            <td class=alt valign=bottom >
            <b>Stopur</b>
@@ -3272,7 +3306,7 @@ if len(session("user")) = 0 then
            
            'response.flush
            
-           expTxt = "Id;Opr. Dato & Kl.;Ansvarlig;Respons Dato & Kl.;Kontakt;Kontakt Id;Kontaktperson 1;Email 1;Kontaktperson 2;Email 2;Status;Kategori;Type;Prioitet;Emne;Beskrivelse;"
+           expTxt = "Id;Opr. Dato & Kl.;Ansvarlig;Respons Dato & Kl.;Kontakt;Kontakt Id;Kontaktperson 1;Email 1;Kontaktperson 2;Email 2;Status;Kategori;Type;Prioritet;Emne;Beskrivelse;"
            expTxt = expTxt &"xx99123sy#z"
            
            '**** Firma normalåbningstider fre kontrolpanel ****
@@ -3637,7 +3671,7 @@ if len(session("user")) = 0 then
                        %>
                       
                         <%if print <> "j" AND kview <> "j" then %>
-                      <input type="text" name="FM_ajaxesttid" id="FM_ajaxesttid_<%=oRec("id") %>" size="4" value="<%=formatnumber(esttid, 2) %>" style="font-size:9px;" /> t. 
+                      <input type="text" name="FM_ajaxesttid" id="FM_ajaxesttid_<%=oRec("id") %>" size="4" value="<%=formatnumber(esttid, 2) %>" style="font-size:11px;" /> t. 
                       <input type="hidden" name="FM_ajaxesttid_opr" id="FM_ajaxesttid_opr_<%=oRec("id") %>" value="<%=formatnumber(esttid, 2) %>" />
                           <input type="button" value=">>" id="FM_ajaxestbdt_<%=oRec("id") %>" class="ajx_estimat" style="width:25px; font-size:9px;" />
                       <%else %>
@@ -3647,8 +3681,8 @@ if len(session("user")) = 0 then
                       
                         
                       </td>
-                      <td valign=top class=lille style="padding:5px 5px 2px 10px; border-top:1px #C4C4C4 solid;">
-               <b><%=oRec("kkundenavn")%></b> (<%=oRec("kkundenr")%>)
+                      <td valign=top style="padding:5px 20px 2px 10px; border-top:1px #C4C4C4 solid; white-space:nowrap;">
+               <b><%=oRec("kkundenavn")%></b><br /> (<%=oRec("kkundenr")%>)
                
                
               
@@ -3662,7 +3696,7 @@ if len(session("user")) = 0 then
             
                </td>
                       
-                        <td valign=top style="padding:5px 10px 2px 2px; width:400px; border-top:1px #C4C4C4 solid;"> 
+               <td valign=top style="padding:5px 10px 2px 2px; width:360px; border-top:1px #C4C4C4 solid;"> 
                     
                       
                       <%if oRec("status") = 1 OR oRec("status") = 4 OR oRec("status") = 18 then  %>
@@ -3672,7 +3706,7 @@ if len(session("user")) = 0 then
                       <%if kview = "j" OR print = "j" then%>
                       <b><%=oRec("emne")%></b>
                       <%else%>
-                      <a href="sdsk.asp?func=red&id=<%=oRec("id")%>" class="vmenu"><%=oRec("emne")%></a>
+                      <a href="sdsk.asp?func=red&id=<%=oRec("id")%>"><%=oRec("emne")%></a>
                       <%end if%>
                       
                       
@@ -3681,13 +3715,13 @@ if len(session("user")) = 0 then
                       <%htmlparseCSV(oRec("besk")) 
 		strBesk = htmlparseCSVtxt %>
 		
-		<font class="megetlillesort"><i>
+		<i>
 		<%if len(strBesk) > 150 then %>    
 		<br /><%=left(strBesk, 150) %>..
 		<%else %>
 		<br /><%=strBesk %>
 		<%end if %>
-		</i></font>
+		</i>
                       
                       
                       
@@ -3736,9 +3770,7 @@ if len(session("user")) = 0 then
                       %>
                       <td valign=top style="padding:5px 5px 2px 2px; border-top:1px #C4C4C4 solid;" class=lille>
 
-                       
-
-                      <select name="FM_ajaxstatus" class="txtField" style="width:80px; font-size:9px;">
+                      <select name="FM_ajaxstatus"  id="FM_ajaxstaid_<%=oRec("id") %>" class="txtField" style="width:100px; font-size:11px;">
                       <%
                       if kview = "j" then
                       lmt = " LIMIT 0, 1"
@@ -3763,8 +3795,9 @@ if len(session("user")) = 0 then
                       %>
                       <option value="0">Ingen</option>
                       </select></td>    
-               <td valign=top style="padding:5px 5px 2px 2px; border-top:1px #C4C4C4 solid;" class=lille>          
-               <select name="FM_ajaxtype" id="FM_ajaxtype" class="txtField" style="width:140px; font-size:9px;">
+
+                       <td valign=top style="padding:5px 5px 2px 2px; border-top:1px #C4C4C4 solid;" class=lille>    
+                       <select name="xFM_ajaxtype" id="FM_ajaxkatid_<%=oRec("id") %>" class="txtField" style="width:140px; font-size:11px;">
                       <%
                       strSQL = "SELECT id, navn FROM sdsk_typer ORDER BY navn"
                       oRec2.open strSQL, oConn, 3
@@ -3784,7 +3817,9 @@ if len(session("user")) = 0 then
                       %>
                       <option value="0">Ingen</option>
                       </select></td>
-                                 <td valign=top style="padding:5px 5px 2px 2px; border-top:1px #C4C4C4 solid;" class=lille><%
+
+
+                      <td valign=top style="padding:5px 5px 2px 2px; border-top:1px #C4C4C4 solid;" class=lille><%
                       strSQL = "SELECT p.id, p.navn, p.responstid, pt.navn AS typeNavn FROM kunder k "_
                       &" LEFT JOIN sdsk_prio_grp g ON (g.id = k.sdskpriogrp)"_
                       &" LEFT JOIN sdsk_prioitet p ON (priogrp = g.id) "_
@@ -3792,7 +3827,7 @@ if len(session("user")) = 0 then
                       &" WHERE kid = "& oRec("kundeid") &" ORDER BY p.navn"
                       %>
                       
-                      <select name="FM_ajaxprio" style="width:100px; font-size:9px;" class="txtField">
+                      <select name="xFM_ajaxprio" id="FM_ajaxtypid_<%=oRec("id") %>" style="width:100px; font-size:11px;" class="txtField">
                       <%
                       
                       
@@ -3813,22 +3848,23 @@ if len(session("user")) = 0 then
                       <option value="0">Ingen</option>
                       </select></td>
                       <td valign=top style="padding:5px 5px 2px 2px; border-top:1px #C4C4C4 solid;" class=lille>
-                      <select name="FM_ajaxprio_typ" style="width:60px; font-size:9px;">
+                       
+                      <select name="xFM_ajaxprio_typ" id="FM_ajaxptyid_<%=oRec("id") %>" class="txtField" style="width:60px; font-size:11px;">
                       <option value="0">Ingen</option>
-           <%
-           strSQL = "SELECT id, navn FROM sdsk_prio_typ"
-           oRec2.open strSQL, oConn, 3
-           while not oRec2.EOF
-                      if cint(oRec("priotype")) = cint(oRec2("id")) then
-                      tpSEL = "SELECTED"
-                      else
-                      tpSel = ""
-                      end if%>
+                       <%
+                       strSQL = "SELECT id, navn FROM sdsk_prio_typ"
+                       oRec2.open strSQL, oConn, 3
+                       while not oRec2.EOF
+                                  if cint(oRec("priotype")) = cint(oRec2("id")) then
+                                  tpSEL = "SELECTED"
+                                  else
+                                  tpSel = ""
+                                  end if%>
                       
-           <option value="<%=oRec2("id")%>" <%=tpSel%>><%=oRec2("navn")%></option>
-           <%
-           oRec2.movenext
-           wend
+                       <option value="<%=oRec2("id")%>" <%=tpSel%>><%=oRec2("navn")%></option>
+                       <%
+                       oRec2.movenext
+                       wend
            
            oRec2.close
            %>

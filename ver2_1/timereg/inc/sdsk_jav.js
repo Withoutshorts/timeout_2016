@@ -14,30 +14,44 @@
         $(".txtField").change(function () {
 
 
-            //alert("fer")
+            
 
             var thisid = this.id
             var thisvallngt = thisid.length
             var thisvaltrim = thisid.slice(13, thisvallngt)
             thisval = thisvaltrim
 
-            jobid = $("#jobid_" + thisval).val()
+            thisColoum = thisid.slice(0, 12)
 
-            jobstatus = $(this).val()
+            //alert(thisColoum)
+
+            //id = $("#jobid_" + thisval).val()
+
+            valueTxt = $(this).val()
+
+            //alert("coloum: " + this.id + " value: " + $(this).val())
 
 
+            $.post("?id=" + thisval + "&value=" + valueTxt, { control: thisColoum, AjaxUpdateField: "true" }, function (data) {
+          
 
-            $.post("?jobid=" + jobid + "&jobstatus=" + jobstatus, { control: "FM_ajaxtype", AjaxUpdateField: "true" }, function (data) {
+            //$.post("?jobid=" + jobid + "&jobstatus=" + jobstatus, { control: "FM_ajaxtest", AjaxUpdateField: "true" }, function (data) {
+           
+
+            //$("#sp_stopd_" + thisval).css("visibility", "visible")
+            //alert("HER 4" + data)
+            //$("#test").val("HER 4" +  data)
+
+              
+
             });
 
-            $("#sp_stopd_" + thisval).css("visibility", "visible")
+           
+                //setTimeout(function () {
+                //// Do something after 5 seconds
 
-
-            setTimeout(function () {
-                // Do something after 5 seconds
-
-                $("#sp_stopd_" + thisval).css("visibility", "hidden")
-            }, 1000);
+            //$("#sp_stopd_" + thisval).css("visibility", "hidden")
+            //}, 1000);
 
         });
 

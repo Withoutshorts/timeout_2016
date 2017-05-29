@@ -253,13 +253,14 @@ function smileyAfslutSettings()
                 SmiWeekOrMonth_HR = 0
                 
         
-                strSQL = "SELECT SmiWeekOrMonth, SmiantaldageCount, SmiantaldageCountClock, SmiTeamlederCount, smiweekormonth_hr FROM licens WHERE id = 1"
+                strSQL = "SELECT SmiWeekOrMonth, SmiantaldageCount, SmiantaldageCountClock, SmiTeamlederCount FROM licens WHERE id = 1"
+                ', smiweekormonth_hr AKTIVER TIL TIA afslut uge ved månedsskift
                 oRec6.open strSQL, oConn, 3
                 if not oRec6.EOF then
             
                 SmiWeekOrMonth = oRec6("SmiWeekOrMonth")
                 SmiantaldageCount = oRec6("SmiantaldageCount")
-                SmiWeekOrMonth_HR = oRec6("smiweekormonth_hr")
+                SmiWeekOrMonth_HR = 0 'oRec6("smiweekormonth_hr")
 
                 if oRec6("SmiantaldageCountClock") = 24 then
                 SmiantaldageCountClock = "23:59:00"
@@ -1586,10 +1587,8 @@ function grafik(FM_id, strPic, pictype, txt)
 	
         
         
-     function AjaxUpdate(table, column, msg)
+    function AjaxUpdate(table, column, msg)
 	
-    'Response.Write "her"
-    'Response.end
     if table = "job" then 'må ikke opdatere interne
 
         tjkRisiko = 0
@@ -1610,8 +1609,7 @@ function grafik(FM_id, strPic, pictype, txt)
     if request.Form("value") <> "" AND table <> "" AND column <> "" AND tjkRisiko >= 0 then
 	strSQL = "Update " & table & " set " & column & " = '" & request.Form("value") & "' where id = " & request.Form("id")
 	
-	'Response.Write strSQL
-	'Response.flush
+	
 	oConn.execute(strSQL)
 	
     
@@ -1622,6 +1620,28 @@ function grafik(FM_id, strPic, pictype, txt)
         'Response.end
 
 
+    Response.Write "timeout notifikation: <br />" & msg & strSQL
+	Response.End
+	end if
+	end function
+
+    
+        
+        
+        
+        
+    function AjaxUpdateSDSK(table, column, msg, value, id)
+	
+  
+   
+    if value <> "" AND table <> "" AND column <> "" then
+	
+    strSQL = "Update " & table & " set " & column & " = '" & value & "' where id = " & id
+	
+	
+	oConn.execute(strSQL)
+	
+    
     Response.Write "timeout notifikation: <br />" & msg & strSQL
 	Response.End
 	end if

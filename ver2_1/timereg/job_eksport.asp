@@ -289,7 +289,7 @@ if len(session("user")) = 0 then
 
 
                     if eksDataNrl = 1 then
-	                strTxtExport = strTxtExport &"Fastpris:1/Lbn Timer:0;Forkalk. Timer;Budget. Bruttooms.;Valuta;Kurs;"
+	                strTxtExport = strTxtExport &"Fastpris:1/Lbn Timer:0;Forkalk. Timer;Budget. Bruttooms.;Valuta;Kurs;Budget. Bruttooms. (basis valuta);"
   
     
                           if cint(bdgmtypon_val) = 1 then 'budget på mtyper slået til
@@ -425,7 +425,7 @@ if len(session("user")) = 0 then
     &" ms5.mnavn AS ms5navn, ms5.init AS ms5init, ms5.mnr AS ms5nr, "
     end if
     
-    strSQL = strSQL &" rekvnr, serviceaft, kommentar, jo_dbproc, udgifter, jo_bruttooms, jo_bruttofortj, jo_udgifter_intern, jo_udgifter_ulev, "_
+    strSQL = strSQL &" rekvnr, serviceaft, kommentar, jo_dbproc, udgifter, jo_bruttooms, (jo_bruttooms * jo_valuta_kurs/100) AS jo_bruttooms_basisval, jo_bruttofortj, jo_udgifter_intern, jo_udgifter_ulev, "_
     &" restestimat, stade_tim_proc, kp.navn AS kontaktpers, preconditions_met, jo_valuta, jo_valuta_kurs "_
     &" FROM job AS j"
 
@@ -701,7 +701,7 @@ if len(session("user")) = 0 then
 
 
             'call timeRealOms '** cls_timer
-            call timeRealOms(oRec("jobnr"), sqlDatostRealTimer, sqlDatoslut, nettoomstimer, oRec("fastpris"), budgettimerIalt, aty_sql_realhours) '** cls_timer
+            call timeRealOms(oRec("jobnr"), sqlDatostRealTimer, sqlDatoslut, nettoomstimer, oRec("fastpris"), budgettimerIalt, aty_sql_realhours, jo_valuta_kurs) '** cls_timer
 
             'response.write "timertilfak: "& timertilfak & " faktureretLastFakDato: "& faktureretLastFakDato &" sqlDatostart: "& sqlDatostart & " sqlDatostRealTimer: "& sqlDatostRealTimer
             'response.end
@@ -770,6 +770,8 @@ if len(session("user")) = 0 then
 		end select
 		
         jobbudget = dblBudget
+
+        jo_bruttooms_basisval = oRec("jo_bruttooms_basisval")
 
         
         if timerTildelt <> 0 then
@@ -861,7 +863,7 @@ if len(session("user")) = 0 then
         
         if eksDataNrl = 1 then
         strTxtExport = strTxtExport & Chr(34) & intFaspris & Chr(34) &";"& Chr(34) & formatnumber(timerialt, 2) & Chr(34) &";"
-        strTxtExport = strTxtExport & Chr(34) & formatnumber(dblBudget,2) & Chr(34) &";"& Chr(34) & valutaKode_CCC & Chr(34) &";"& Chr(34) & jo_valuta_kurs & Chr(34) &";"
+        strTxtExport = strTxtExport & Chr(34) & formatnumber(dblBudget,2) & Chr(34) &";"& Chr(34) & valutaKode_CCC & Chr(34) &";"& Chr(34) & jo_valuta_kurs & Chr(34) &";"& Chr(34) & formatnumber(jo_bruttooms_basisval,2) & Chr(34) &";"
                 
             if cint(bdgmtypon_val) = 1 then 
             

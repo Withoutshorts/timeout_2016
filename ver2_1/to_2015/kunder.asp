@@ -2202,7 +2202,7 @@ case else
 						                    oRec.open strSQL, oConn, 3
 						                    while not oRec.EOF
 						
-							                    if cint(medarb) = cint(oRec("mid")) then
+							                    if cdbl(medarb) = cdbl(oRec("mid")) then
 							                    isSelected = "SELECTED"
 							                    else
 							                    isSelected = ""

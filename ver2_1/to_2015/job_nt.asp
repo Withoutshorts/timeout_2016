@@ -538,7 +538,7 @@ case "dbopr", "dbred"
     if len(trim(request("FM_orderqty"))) <> 0 then 
     orderqty = request("FM_orderqty")
     else
-    orderqty = 0
+    orderqty = 1
     end if
    
     

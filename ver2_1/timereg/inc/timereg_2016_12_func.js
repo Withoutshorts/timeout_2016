@@ -1308,33 +1308,9 @@ $(document).ready(function () {
                     timer_opr = $("#FM_timer_opr_" + idtrim).val();
                     $("#" + thisid).val(timer_opr);
                
-                    alert("Forkalkulation overskreddet! \nAntal timer er over forkalkulation på denne aktivitet.\nDer kan maks tastes "+ (makstimertilindtastning) +" timer.")
+                    alert("Forkalkulation overskreddet! \nAntal timer er over forkalkulation (budget) på denne aktivitet.\nDer kan maks tastes "+ (makstimertilindtastning) +" timer.")
 
-                    //$("#aktnotificer_" + jobid).css("padding", "20px 0px 20px 260px");
-                    //$("#aktnotificer_" + jobid).css("background-color", "lightpink");
-                    //$("#aktnotificer_" + jobid).html('<b>Timebudget/Forkalk. overskreddet!</b><br>Timebudgettet (forkalkulationen) er overskreddet p&aring; denne aktivitetslinje.<br>Du kan maks. indtaste <b>' + (makstimertilindtastning) + " time(r)</b> yderligere på denne aktivitet.&nbsp;&nbsp;<span style='color:red;' id='sp_aktnotificer'><b>[X]</b></span>") //"<b>Timebudget opbrugt!</b><br>Timebudget er opbrugt p&aring; denne aktivitet. <br>Du har indtastet <b>"+ formatnumber(data, 2) +" timer for meget.</b>");
-                    
-
-                    //$('#sp_aktnotificer').unbind('mouseover').bind('mouseover', function () {
-
-                    //    $(this).css("cursor", "pointer");
-
-                    //});
-
-
-                    //$('#sp_aktnotificer').unbind('click').bind('click', function () {
-
-                    //    nulstilnofikation();
-
-                    //});
-
-                    //setTimeout(nulstilnofikation, 7000);
-
-                    //function nulstilnofikation() {
-                    //    $("#aktnotificer_" + jobid).css("background-color", "#ffffff");
-                    //    $("#aktnotificer_" + jobid).html("&nbsp;");
-                    //    $("#aktnotificer_" + jobid).css("padding", "0px 0px 0px 0px");
-                    // }
+                  
             
             }
 
@@ -1357,7 +1333,7 @@ $(document).ready(function () {
                 ibudgetUseAar = $("#regskabsaarUseAar").val()
                 treg_usemrn = $("#treg_usemrn").val()
                 
-               
+               //alert("HER")
 
 
               
@@ -1390,6 +1366,7 @@ $(document).ready(function () {
                         //$("#aktnotificer_fc_" + jobid).html('<b>Forecast er opbrugt!</b><br>Dit timeforecast er opbrugt p&aring; denne aktivitet.<br>Du kan derfor maks. indtaste <b>' + (makstimertilindtastning) + " time(r)</b> yderligere på denne aktivitet.&nbsp;&nbsp;<span style='color:red;' id='sp_aktnotificer_fc'><b>[X]</b></span>") //"<b>Timebudget opbrugt!</b><br>Timebudget er opbrugt p&aring; denne aktivitet. <br>Du har indtastet <b>"+ formatnumber(data, 2) +" timer for meget.</b>");
 
                         alert("Forecast er opbrugt!\nDit timeforecast er opbrugt på denne aktivitet.")
+                        //return false
                         
 
                        

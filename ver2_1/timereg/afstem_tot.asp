@@ -2312,6 +2312,16 @@ if session("user") = "" then
             <table cellpadding="0" cellspacing="0" border="0" width="250">
             <tr><td colspan="2"><b>Udspecificering ferie:</b></td></tr>
         <%
+
+               select case lto 
+                case "esn"
+                    visFTimer = 0
+                    visFdage = 1
+                case else
+                    visFTimer = 1
+                    visFdage = 1
+                end select
+
             '**Udspecificering
             strSQLfe = "SELECT tdato, timer, tfaktim FROM timer WHERE tmnr = "& usemrn &" AND tdato BETWEEN '"& ferieaarST &"' AND '"& ferieaarSL &"' AND (tfaktim = 14 OR tfaktim = 19) ORDER BY tdato" 
             
@@ -2327,8 +2337,30 @@ if session("user") = "" then
                 <span style="color:#999999;">(afh. uden løn)</span>&nbsp;&nbsp;&nbsp;
                 <%end if %>
 
+                 
                     
-                    <%=oRec("timer") &" t." %>
+                    <%if cint(visFTimer) = 1 then %>
+                        <%=oRec("timer") &" t." %>
+                    <%end if %>
+
+                    
+                   
+
+                    <%if cint(visFDage) = 1 then %>
+                    <%call normtimerPer(usemrn, oRec("tdato"), 0, 0) %>
+                    
+                    
+
+                    <%if cdbl(ntimPer) <> 0 then %>
+                        <%if cint(visFTimer) = 1 then %>
+                        &nbsp;=&nbsp; 
+                        <%end if %>
+                        <%=formatnumber(oRec("timer")/ntimPer, 1) %> d.
+                    <%end if %>
+
+                    
+
+                    <%end if %>
                 </td></tr>
 
             <%
@@ -2358,7 +2390,32 @@ if session("user") = "" then
             while not oRec.EOF 
 
             %>
-            <tr><td align="right" style="border-bottom:1px #cccccc solid;"><%=formatdatetime(oRec("tdato"), 1) %></td><td align="right" style="border-bottom:1px #cccccc solid;"><%=oRec("timer") &" t." %></td></tr>
+            <tr><td align="right" style="border-bottom:1px #cccccc solid;"><%=formatdatetime(oRec("tdato"), 1) %></td><td align="right" style="border-bottom:1px #cccccc solid;">
+                
+                 <%if cint(visFTimer) = 1 then %>
+                        <%=oRec("timer") &" t." %>
+                    <%end if %>
+
+                    
+                   
+
+                    <%if cint(visFDage) = 1 then %>
+                    <%call normtimerPer(usemrn, oRec("tdato"), 0, 0) %>
+                    
+                    
+
+                    <%if cdbl(ntimPer) <> 0 then %>
+                        <%if cint(visFTimer) = 1 then %>
+                        &nbsp;=&nbsp; 
+                        <%end if %>
+                        <%=formatnumber(oRec("timer")/ntimPer, 1) %> d.
+                    <%end if %>
+
+                    
+
+                    <%end if %>
+
+            </td></tr>
 
             <%
             oRec.movenext

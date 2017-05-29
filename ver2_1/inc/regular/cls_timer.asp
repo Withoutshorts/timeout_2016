@@ -534,30 +534,33 @@ end function
 
 
 public timerforbrugt, kostpris, timeOms, tp, OmsReal, salgsOmkFaktisk, matSalgsprisReal, matKobsprisReal
-function timeRealOms(jobnr, sqlDatostart, sqlDatoslut, nettoomstimer, fastpris, budgettimerIalt, aty_sql_realhours)
+function timeRealOms(jobnr, sqlDatostart, sqlDatoslut, nettoomstimer, fastpris, budgettimerIalt, aty_sql_realhours, jo_valuta_kurs)
          
          
         timerforbrugt = 0
         kostpris = 0
         timeOms = 0   
 
+        jo_valuta_kursSQL = replace(jo_valuta_kurs, ",", ".")    
 
         '*** Timer forbrugt ***
 		'** Hvis mtypebudget slået til og Totalforbrug (konsolideret valgt)
         'Response.write "bdgmtypon_val:" & bdgmtypon_val & " visSimpel:" & visSimpel
         'Response.end
-        if cint(bdgmtypon_val) = 1 AND visSimpel = 2 then
-        strSQL2 = "SELECT sum(t.timer) AS timerforbrugt, sum(kost) AS kostpris, sum(t.belob) AS timeOms FROM timer_konsolideret_tot AS t WHERE jobid = "& oRec("id")
-                    
-                    if realfakpertot <> 0 then
-		            strSQL2 = strSQL2 &" AND dato BETWEEN '"& sqlDatostart &"' AND '"& sqlDatoslut &"'"
-		            end if
         
-                    strSQL2 = strSQL2 &" GROUP BY jobid"
+        '**20170519 - Skal være på orgianel timeprsier, efter kospris valuta er kommet med og forskellige valutaer på job
+        'if cint(bdgmtypon_val) = 1 AND visSimpel = 2 then
+        'strSQL2 = "SELECT sum(t.timer) AS timerforbrugt, sum(kost) AS kostpris, sum(t.belob) AS timeOms FROM timer_konsolideret_tot AS t WHERE jobid = "& oRec("id")
+                    
+        '            if realfakpertot <> 0 then
+		'            strSQL2 = strSQL2 &" AND dato BETWEEN '"& sqlDatostart &"' AND '"& sqlDatoslut &"'"
+		'            end if
+        
+       '             strSQL2 = strSQL2 &" GROUP BY jobid"
 
-        else
+        'else
 
-        strSQL2 = "SELECT sum(t.timer) AS timerforbrugt, sum(kostpris*t.timer*(t.kurs/100)) AS kostpris, sum(t.timer*(t.timepris*(t.kurs/100))) AS timeOms FROM timer t WHERE t.tjobnr = '"& jobnr &"' AND ("& aty_sql_realhours &") "
+        strSQL2 = "SELECT sum(t.timer) AS timerforbrugt, sum(t.kostpris*t.timer*(t.kpvaluta_kurs/"& jo_valuta_kursSQL &")) AS kostpris, sum(t.timer*(t.timepris*(t.kurs/"& jo_valuta_kursSQL &"))) AS timeOms FROM timer t WHERE t.tjobnr = '"& jobnr &"' AND ("& aty_sql_realhours &") "
          
         
 
@@ -566,7 +569,7 @@ function timeRealOms(jobnr, sqlDatostart, sqlDatoslut, nettoomstimer, fastpris, 
 		end if
 
 	    strSQL2 = strSQL2 &" GROUP BY t.tjobnr"
-	    end if	
+	    'end if	
 
 		'if session("mid") = 1 then
         'Response.Write strSQL2 & "<br><br>"
@@ -638,7 +641,7 @@ function timeRealOms(jobnr, sqlDatostart, sqlDatoslut, nettoomstimer, fastpris, 
         'Response.Write "tp:" & tp
 
          '**** Materiale forbrug ****'
-        strSQLmat = "SELECT SUM(matkobspris * matantal * (kurs/100)) AS udgifterfaktisk,  SUM(matsalgspris * matantal * (kurs/100)) AS matSalgspris FROM materiale_forbrug WHERE jobid = "& oRec("id") 
+        strSQLmat = "SELECT SUM(matkobspris * matantal * (kurs/"& jo_valuta_kursSQL &")) AS udgifterfaktisk,  SUM(matsalgspris * matantal * (kurs/"& jo_valuta_kursSQL &")) AS matSalgspris FROM materiale_forbrug WHERE jobid = "& oRec("id") 
         
         if realfakpertot <> 0 then
 		strSQLmat = strSQLmat &" AND forbrugsdato BETWEEN '"& sqlDatostart &"' AND '"& sqlDatoslut &"'"

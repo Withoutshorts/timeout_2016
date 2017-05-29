@@ -75,6 +75,7 @@ Public Class CATI :
     Public akttypeUse As String
 
     Public addBonus10 As Integer = 0
+    Public meMedarbType As Integer = 0
 
     'Public errThisAll As Integer = 0
 
@@ -289,7 +290,9 @@ Public Class CATI :
                         '** Rettet til KUN INTW DK i medarb.type 14,45,46 28.4.2017
 
                         'mTypeSQL = " AND (medarbejdertype = 14 OR medarbejdertype = 45 OR medarbejdertype = 46)"
-                        mTypeSQL = " AND (medarbejdertype = 46 OR medarbejdertype = 1)"
+                        mTypeSQL = " AND (medarbejdertype = 45 OR medarbejdertype = 22 OR medarbejdertype = 47 OR medarbejdertype = 48)"
+                        'medarbejdertype = 46 OR 'OR medarbejdertype = 1
+                        '** CATI / SPSS mtype 1-45-46 skal indlæses. 22, 47 , 48 skal ignoreres helt og heller ikke indlæses i error. 20170517 Jenny
                 End Select
 
                 'intCatiId = 999
@@ -375,6 +378,11 @@ Public Class CATI :
 
 
 
+                '***** SLUT incomming DATASET *****
+
+
+
+
                 '*** Test indlæser ellae records i err db ***'
 
                 'Dim strSQLer As String = "INSERT INTO timer_imp_err (dato, extsysid, errid, jobid, jobnr, med_init, timeregdato, timer, origin) " _
@@ -445,8 +453,8 @@ Public Class CATI :
 
                     If CInt(errThis) <> 1 Then
 
-
-                        Dim strSQLme As String = "SELECT mid, mnavn, mnr FROM medarbejdere WHERE init = '" & intMedarbId & "'" & mTypeSQL 'AND mansat <> 2" & mTypeSQL
+                        meMedarbType = 0
+                        Dim strSQLme As String = "SELECT mid, mnavn, mnr, medarbejdertype FROM medarbejdere WHERE init = '" & intMedarbId & "'" & mTypeSQL 'AND mansat <> 2" & mTypeSQL
 
                         objCmd = New OdbcCommand(strSQLme, objConn)
                         objDR = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
@@ -460,6 +468,7 @@ Public Class CATI :
 
                             meNr = objDR("mnr")
                             meID = objDR("mid")
+                            meMedarbType = objDR("medarbejdertype")
 
                         End If
 
@@ -1010,173 +1019,182 @@ Public Class CATI :
                                     Case Else
 
 
-                                        '*** Indlæser Timer ***'
 
+                                        Select Case meMedarbType
+                                            Case "22", "47", "48" 'INTW NO ignoreres
 
-                                        Dim strSQL As String = "INSERT INTO timer " _
-                                        & "(" _
-                                        & " timer, tfaktim, tdato, tmnavn, tmnr, tjobnavn, tjobnr, tknavn, tknr, timerkom, " _
-                                        & " TAktivitetId, taktivitetnavn, Taar, TimePris, TasteDato, fastpris, tidspunkt, " _
-                                        & " editor, kostpris, seraft, " _
-                                        & " valuta, kurs, extSysId, sttid, sltid, origin, kpvaluta, kpvaluta_kurs" _
-                                        & ") " _
-                                        & " VALUES " _
-                                        & " (" _
-                                        & dlbTimer & ", " & aktFakturerbar & ", " _
-                                        & "'" & Year(cdDato) & "/" & Month(cdDato) & "/" & Day(cdDato) & "', " _
-                                        & "'" & meNavn & "', " _
-                                        & meID & ", " _
-                                        & "'" & jobNavn & "', " _
-                                        & "'" & intJobNr & "', " _
-                                        & "'" & kNavn & "'," _
-                                        & kNr & ", " _
-                                        & "'" & timerkom & "', " _
-                                        & aktId & ", " _
-                                        & "'" & aktNavn & "', " _
-                                        & Year(Now) & ", " _
-                                        & intTimepris & ", " _
-                                        & "'" & Year(Now) & "/" & Month(Now) & "/" & Day(Now) & "', " _
-                                        & jobFastPris & ", " _
-                                        & "'00:00:01', " _
-                                        & "'CaTi Webs Import', " _
-                                        & Replace(kostpris, ",", ".") & ", " _
-                                        & jobSeraft & ", " _
-                                        & intValuta & ", " _
-                                        & Replace(kurs, ",", ".") & ", '" & intCatiId & "', '00:00:00', '00:00:00', " & importFrom & ", " & kp1_valuta & ", " & Replace(kp1_valuta_kurs, ",", ".") & ")"
-
-
-                                        '** Manger salgs og kost priser ***'
-
-                                        'Response.write(strSQL)
-
-                                        objCmd = New OdbcCommand(strSQL, objConn)
-                                        objDR = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
-                                        'objDR.Close() FORBUDT ELLLERS INDLÆSES BONUS IKKE !!!
-
-
-
-                                        '*** tilføj Bonus 10 i Weekend *****
-                                        If CInt(addBonus10) = 1 Then
-
-
-
-
-                                            '** Hvis søndag ell. lørdag
-                                            Dim DateValue As DateTime = Year(cdDato) & "/" & Month(cdDato) & "/" & Day(cdDato)
-
-                                            Call Weekday(DateValue)
-
-                                            If CInt(Weekdaynb) = 0 Then 'Or CInt(Weekdaynb) = 6
-
-                                                ''** Finder Bonus10 Aktivitet på job - Bonus 10 CATIindlaest **'
-                                                Dim strSQLaktbo As String = "SELECT id, navn FROM aktiviteter WHERE fakturerbar = 54 AND navn LIKE 'Bonus 10 CATIindlaest%' AND job = " & jobId
-                                                Dim baktnavn As String = ""
-                                                Dim baktid As Double = 0
-
-                                                objCmd = New OdbcCommand(strSQLaktbo, objConn)
-                                                objDR3 = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
-
-                                                If objDR3.Read() = True Then
-
-
-
-                                                    baktnavn = objDR3("navn")
-                                                    baktnavn = EncodeUTF8(baktnavn)
-                                                    baktnavn = DecodeUTF8(baktnavn)
-                                                    baktid = objDR3("id")
-
-                                                End If
-
-                                                objDR3.Close()
-
-                                                '** Blev der fundet en aktivitet
-                                                If baktid <> 0 Then
-                                                    baktid = baktid
-                                                Else
-                                                    baktid = 0
-                                                    errThis = 13
-                                                End If
-
-
-
-
+                                            Case Else
 
 
                                                 '*** Indlæser Timer ***'
-                                                If CInt(errThis) = 0 Then
+
+                                                Dim strSQL As String = "INSERT INTO timer " _
+                                                & "(" _
+                                                & " timer, tfaktim, tdato, tmnavn, tmnr, tjobnavn, tjobnr, tknavn, tknr, timerkom, " _
+                                                & " TAktivitetId, taktivitetnavn, Taar, TimePris, TasteDato, fastpris, tidspunkt, " _
+                                                & " editor, kostpris, seraft, " _
+                                                & " valuta, kurs, extSysId, sttid, sltid, origin, kpvaluta, kpvaluta_kurs" _
+                                                & ") " _
+                                                & " VALUES " _
+                                                & " (" _
+                                                & dlbTimer & ", " & aktFakturerbar & ", " _
+                                                & "'" & Year(cdDato) & "/" & Month(cdDato) & "/" & Day(cdDato) & "', " _
+                                                & "'" & meNavn & "', " _
+                                                & meID & ", " _
+                                                & "'" & jobNavn & "', " _
+                                                & "'" & intJobNr & "', " _
+                                                & "'" & kNavn & "'," _
+                                                & kNr & ", " _
+                                                & "'" & timerkom & "', " _
+                                                & aktId & ", " _
+                                                & "'" & aktNavn & "', " _
+                                                & Year(Now) & ", " _
+                                                & intTimepris & ", " _
+                                                & "'" & Year(Now) & "/" & Month(Now) & "/" & Day(Now) & "', " _
+                                                & jobFastPris & ", " _
+                                                & "'00:00:01', " _
+                                                & "'CaTi Webs Import', " _
+                                                & Replace(kostpris, ",", ".") & ", " _
+                                                & jobSeraft & ", " _
+                                                & intValuta & ", " _
+                                                & Replace(kurs, ",", ".") & ", '" & intCatiId & "', '00:00:00', '00:00:00', " & importFrom & ", " & kp1_valuta & ", " & Replace(kp1_valuta_kurs, ",", ".") & ")"
+
+
+                                                '** Manger salgs og kost priser ***'
+
+                                                'Response.write(strSQL)
+
+                                                objCmd = New OdbcCommand(strSQL, objConn)
+                                                objDR = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
+                                                'objDR.Close() FORBUDT ELLLERS INDLÆSES BONUS IKKE !!!
 
 
 
-                                                    Dim strSQLbonus As String = "INSERT INTO timer " _
-                                                    & "(" _
-                                                    & " timer, tfaktim, tdato, tmnavn, tmnr, tjobnavn, tjobnr, tknavn, tknr, timerkom, " _
-                                                    & " TAktivitetId, taktivitetnavn, Taar, TimePris, TasteDato, fastpris, tidspunkt, " _
-                                                    & " editor, kostpris, seraft, " _
-                                                    & " valuta, kurs, extSysId, sttid, sltid, origin" _
-                                                    & ") " _
-                                                    & " VALUES " _
-                                                    & " (" & dlbTimer & ", 54, " _
-                                                    & "'" & Year(cdDato) & "/" & Month(cdDato) & "/" & Day(cdDato) & "', " _
-                                                    & "'" & meNavn & "', " _
-                                                    & meID & ", " _
-                                                    & "'" & jobNavn & "', " _
-                                                    & "'" & intJobNr & "', " _
-                                                    & "'" & kNavn & "'," _
-                                                    & kNr & ", " _
-                                                    & "'', " _
-                                                    & baktid & ", " _
-                                                    & "'" & baktnavn & "', " _
-                                                    & Year(Now) & ", 0, " _
-                                                    & "'" & Year(Now) & "/" & Month(Now) & "/" & Day(Now) & "', " _
-                                                    & jobFastPris & ", " _
-                                                    & "'00:00:01', " _
-                                                    & "'CaTi Webs Import', 0, " _
-                                                    & jobSeraft & ", " _
-                                                    & intValuta & ", " _
-                                                    & Replace(kurs, ",", ".") & ", '" & intCatiId & "', '00:00:00', '00:00:00', " & importFrom & ")"
-
-
-
-
-                                                    'Response.write(strSQL)
-
-                                                    objCmd = New OdbcCommand(strSQLbonus, objConn)
-                                                    objDR2 = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
-                                                    'objDR.Close()
-
-
-
-
-
-                                                Else 'Hvis bonus10 akt ikke findes på job
-
-                                                    Dim strSQLer As String = "INSERT INTO timer_imp_err (dato, extsysid, errid, jobid, jobnr, med_init, timeregdato, timer, origin) " _
-                                                        & " VALUES " _
-                                                        & " ('" & Year(Now) & "/" & Month(Now) & "/" & Day(Now) & "', '" & intCatiId & "', " & errThis & ", " & jobId & ",'" & intJobNr & "', '" & intMedarbId & "', '" & Year(cdDato) & "/" & Month(cdDato) & "/" & Day(cdDato) & "', " & dlbTimer & ", " & importFrom & ")"
-
-
-                                                    objCmd = New OdbcCommand(strSQLer, objConn)
-                                                    objDR = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
-                                                    'objDR.Close()
-
-                                                End If
-
-
-                                            End If 'err
+                                                '*** tilføj Bonus 10 i Weekend *****
+                                                If CInt(addBonus10) = 1 Then
 
 
 
 
+                                                    '** Hvis søndag ell. lørdag
+                                                    Dim DateValue As DateTime = Year(cdDato) & "/" & Month(cdDato) & "/" & Day(cdDato)
 
-                                        End If 'bnonus10 = 1
+                                                    Call Weekday(DateValue)
+
+                                                    If CInt(Weekdaynb) = 0 Then 'Or CInt(Weekdaynb) = 6
+
+                                                        ''** Finder Bonus10 Aktivitet på job - Bonus 10 CATIindlaest **'
+                                                        Dim strSQLaktbo As String = "SELECT id, navn FROM aktiviteter WHERE fakturerbar = 54 AND navn LIKE 'Bonus 10 CATIindlaest%' AND job = " & jobId
+                                                        Dim baktnavn As String = ""
+                                                        Dim baktid As Double = 0
+
+                                                        objCmd = New OdbcCommand(strSQLaktbo, objConn)
+                                                        objDR3 = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
+
+                                                        If objDR3.Read() = True Then
 
 
 
-                                        Dim strSQL2 As String = "DELETE FROM timer_imp_err WHERE extsysid = '" & intCatiId & "' AND origin = " & importFrom
+                                                            baktnavn = objDR3("navn")
+                                                            baktnavn = EncodeUTF8(baktnavn)
+                                                            baktnavn = DecodeUTF8(baktnavn)
+                                                            baktid = objDR3("id")
 
-                                        objCmd = New OdbcCommand(strSQL2, objConn)
-                                        objDR = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
-                                        objDR.Close()
+                                                        End If
+
+                                                        objDR3.Close()
+
+                                                        '** Blev der fundet en aktivitet
+                                                        If baktid <> 0 Then
+                                                            baktid = baktid
+                                                        Else
+                                                            baktid = 0
+                                                            errThis = 13
+                                                        End If
+
+
+
+
+
+
+                                                        '*** Indlæser Timer ***'
+                                                        If CInt(errThis) = 0 Then
+
+
+
+                                                            Dim strSQLbonus As String = "INSERT INTO timer " _
+                                                            & "(" _
+                                                            & " timer, tfaktim, tdato, tmnavn, tmnr, tjobnavn, tjobnr, tknavn, tknr, timerkom, " _
+                                                            & " TAktivitetId, taktivitetnavn, Taar, TimePris, TasteDato, fastpris, tidspunkt, " _
+                                                            & " editor, kostpris, seraft, " _
+                                                            & " valuta, kurs, extSysId, sttid, sltid, origin" _
+                                                            & ") " _
+                                                            & " VALUES " _
+                                                            & " (" & dlbTimer & ", 54, " _
+                                                            & "'" & Year(cdDato) & "/" & Month(cdDato) & "/" & Day(cdDato) & "', " _
+                                                            & "'" & meNavn & "', " _
+                                                            & meID & ", " _
+                                                            & "'" & jobNavn & "', " _
+                                                            & "'" & intJobNr & "', " _
+                                                            & "'" & kNavn & "'," _
+                                                            & kNr & ", " _
+                                                            & "'', " _
+                                                            & baktid & ", " _
+                                                            & "'" & baktnavn & "', " _
+                                                            & Year(Now) & ", 0, " _
+                                                            & "'" & Year(Now) & "/" & Month(Now) & "/" & Day(Now) & "', " _
+                                                            & jobFastPris & ", " _
+                                                            & "'00:00:01', " _
+                                                            & "'CaTi Webs Import', 0, " _
+                                                            & jobSeraft & ", " _
+                                                            & intValuta & ", " _
+                                                            & Replace(kurs, ",", ".") & ", '" & intCatiId & "', '00:00:00', '00:00:00', " & importFrom & ")"
+
+
+
+
+                                                            'Response.write(strSQL)
+
+                                                            objCmd = New OdbcCommand(strSQLbonus, objConn)
+                                                            objDR2 = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
+                                                            'objDR.Close()
+
+
+
+
+
+                                                        Else 'Hvis bonus10 akt ikke findes på job
+
+                                                            Dim strSQLer As String = "INSERT INTO timer_imp_err (dato, extsysid, errid, jobid, jobnr, med_init, timeregdato, timer, origin) " _
+                                                                & " VALUES " _
+                                                                & " ('" & Year(Now) & "/" & Month(Now) & "/" & Day(Now) & "', '" & intCatiId & "', " & errThis & ", " & jobId & ",'" & intJobNr & "', '" & intMedarbId & "', '" & Year(cdDato) & "/" & Month(cdDato) & "/" & Day(cdDato) & "', " & dlbTimer & ", " & importFrom & ")"
+
+
+                                                            objCmd = New OdbcCommand(strSQLer, objConn)
+                                                            objDR = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
+                                                            'objDR.Close()
+
+                                                        End If
+
+
+                                                    End If 'err
+
+
+
+
+
+                                                End If 'bnonus10 = 1
+
+
+
+                                                Dim strSQL2 As String = "DELETE FROM timer_imp_err WHERE extsysid = '" & intCatiId & "' AND origin = " & importFrom
+
+                                                objCmd = New OdbcCommand(strSQL2, objConn)
+                                                objDR = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
+                                                objDR.Close()
+
+
+                                        End Select 'Ingorer mtype 22, 47, 48 NO
 
                                 End Select
 
@@ -1200,20 +1218,27 @@ Public Class CATI :
                                     Case "9010"
                                     Case Else
 
-                                        Dim strSQLer As String = "INSERT INTO timer_imp_err (dato, extsysid, errid, jobid, jobnr, med_init, timeregdato, timer, origin) " _
-                                        & " VALUES " _
-                                        & " ('" & Year(Now) & "/" & Month(Now) & "/" & Day(Now) & "', '" & intCatiId & "', " & errThis & ", " & jobId & ",'" & intJobNr & "', '" & intMedarbId & "', '" & Year(cdDato) & "/" & Month(cdDato) & "/" & Day(cdDato) & "', " & dlbTimer & ", " & importFrom & ")"
+                                        Select Case meMedarbType
+                                            Case "22", "47", "48" 'INTW NO ignoreres
+
+                                            Case Else
+
+                                                Dim strSQLer As String = "INSERT INTO timer_imp_err (dato, extsysid, errid, jobid, jobnr, med_init, timeregdato, timer, origin) " _
+                                                & " VALUES " _
+                                                & " ('" & Year(Now) & "/" & Month(Now) & "/" & Day(Now) & "', '" & intCatiId & "', " & errThis & ", " & jobId & ",'" & intJobNr & "', '" & intMedarbId & "', '" & Year(cdDato) & "/" & Month(cdDato) & "/" & Day(cdDato) & "', " & dlbTimer & ", " & importFrom & ")"
 
 
-                                        objCmd = New OdbcCommand(strSQLer, objConn)
-                                        objDR = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
-                                        objDR.Close()
+                                                objCmd = New OdbcCommand(strSQLer, objConn)
+                                                objDR = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
+                                                objDR.Close()
 
-                                        'Response.write(strSQLer)
+                                                'Response.write(strSQLer)
 
-                                        'errThisAll = errThisAll & ";" & errThis & "(" & intCatiId & ")"
+                                                'errThisAll = errThisAll & ";" & errThis & "(" & intCatiId & ")"
 
-                                        'errThisAll = errThisAll + 1    
+                                                'errThisAll = errThisAll + 1    
+
+                                        End Select
 
                                 End Select
 
@@ -1279,7 +1304,7 @@ Public Class CATI :
 
         '*** Mail ***'
 
-        return true
+        Return True
 
     End Function
 

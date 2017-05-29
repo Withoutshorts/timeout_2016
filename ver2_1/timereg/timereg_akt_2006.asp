@@ -1,7 +1,14 @@
   
 
-    <%'GIT 20160811 - SK 8
     
+
+    <%response.buffer = true%>
+
+
+    <META HTTP-EQUIV="CACHE-CONTROL" CONTENT="NO-CACHE">
+    <META HTTP-EQUIV="EXPIRES" CONTENT="Mon, 22 Jul 2002 11:12:01 GMT">
+    
+    <%
     'if request("usegl2006") = "0" then
     'Response.Cookies("tsa")("usegl2006") = "0"
     'else
@@ -4588,6 +4595,11 @@
         'REsponse.write "HER"
         'Response.end
 
+    '***************************************************
+    '*** Tjekker om budget og forecast MAX er slået til
+    call akt_maksbudget_treg_fn()
+    call aktBudgettjkOn_fn()
+    '***************************************************
 
 	if func = "db" then
 
@@ -5976,9 +5988,12 @@
         end select
         end if
 
-        'response.end
+        
          end if
 
+
+        '*** TEST INDLÆS VALUES
+        'response.end              
 
        
 	
@@ -6328,7 +6343,7 @@
     <!--#include file="../inc/regular/header_lysblaa_inc.asp"-->
   
 	<SCRIPT src="inc/smiley_jav.js"></script>
-	<SCRIPT src="inc/timereg_2016_12_func.js"></script>
+	<SCRIPT src="inc/timereg_2017_05_func.js"></script>
    <SCRIPT src="inc/matind_2014_jav.js"></script>
    
 	

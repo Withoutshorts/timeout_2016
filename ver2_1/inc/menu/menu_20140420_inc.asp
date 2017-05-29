@@ -432,7 +432,7 @@ end select
     </div>
 
 
- <nav id="menu-slider" class="menu-slider" style="overflow-y:scroll;">
+ <nav id="menu-slider" class="menu-slider" style="overflow-y:scroll; z-index:1000;">
 
              <span style="color:#999999; float:right; font-size:14px; padding-right:20px;" id="luk_menuslider">X</span>
          
@@ -513,8 +513,12 @@ end select
 
                  %>  <li><a href="<%=toSubVerPath15 %><%=lnkUgeseddel%>"><%=tsa_txt_337 %></a></li>
                       
-                
-                
+                <% select case lto
+                 case "outz", "intranet - local", "hidalgo"
+                    %>
+                    <li><a href="<%=toSubVerPath15 %>favorit.asp?FM_medid=<%=usemrn %>&varTjDatoUS_man=<%=varTjDatoUS_man %>">Favorit</a></li>
+                 <%end select %>
+              
 
                
 
@@ -801,7 +805,7 @@ end select
                  <li><a href="<%=toSubVerPath14 %>jobs.asp?func=opret&id=0"><%=tsa_txt_449 %></a></li>
 
 
-                  <%if lto = "outz" OR lto = "demo" OR lto = "intranet - local" then %>
+                  <%if lto = "outz" OR lto = "demo" OR lto = "intranet - local" OR lto = "hidalgo" then %>
                   <li><a href="<%=toSubVerPath15 %>jobs.asp?func=opret&id=0"><%=tsa_txt_449 %> simpel</a></li>
                   <%end if %>
               
@@ -1312,7 +1316,7 @@ end select
 		                
             </ul>   
  
-        <ul><br /><br /><br /><br /><br /><br /><br /><br /><br />
+        <ul><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
             <br /><br /><br /><br /><br /><br /><br /><br /><br /><li>...</li>&nbsp;</ul>
 
          

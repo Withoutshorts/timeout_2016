@@ -1004,7 +1004,7 @@
                         todayYear = year(now)      
               
                         select case lto 'mulighed for VÆLG DATO 
-                        case "xplan", "xoutz", "xintranet - local", "hestia", "tbg"
+                        case "xplan", "xoutz", "xintranet - local", "tbg"
                               %> <input type="hidden" id="jq_dato" name="FM_datoer" value="<%=todayDay &"-"& todayMonth &"-"& todayYear%>"/><%
                         case else
                        

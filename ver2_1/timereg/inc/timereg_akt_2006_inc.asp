@@ -95,6 +95,38 @@ end if
 end if
 
 
+'**** Tjekker om Budget og forecast er overskrteddet
+
+ibudgetaar = aktBudgettjkOn
+ibudgetmd = datePart("m", aktBudgettjkOnRegAarSt, 2,2)
+aar = datePart("yyyy", datothis, 2,2)
+md = datePart("m", datothis, 2,2)
+
+
+
+
+'*** Dobbeltjekker at budget på aktvititet ikke er overskreddet
+if cint(akt_maksbudget_treg) = 1 then
+    '*** FUNKTION HER
+end if
+
+'*** Dobbeltjekker at forecast pr. medarb. IKKE er overskrteddet
+if cint(akt_maksforecast_treg) = 1 AND cint(tfaktimvalue) = 1 then
+    call ressourcefc_tjk(ibudgetaar, ibudgetmd, aar, md, medid, aktid, timerthis)
+
+    if cdbl(feltTxtValFc) < 0 AND timerthis > 0 then
+        timerthis = -9001
+    end if
+
+end if
+
+
+
+'Response.write "<br>HER ibudgetaar: "& ibudgetaar & "  ibudgetmd: "& ibudgetmd & " aar = " & aar & " md: "& md & " feltTxtValFc: "& feltTxtValFc & "& timerthis:" & timerthis
+
+
+
+
 brug_fasttp = 0
 brug_fastkp = 0
 '*** Tjekker om aktiviteten er sat til ens timpris for alle medarbejdere (overskriver medarbejderens egen timepris)
@@ -414,6 +446,7 @@ dblkostprisUse = replace(dblkostprisUse, ",", ".")
 				'** AND timerthis > 0  then -minus er OK HUSK ret i faktrua opr. 15.05.2008 **'
 				'** Rettet tilbage 20.05.2008 pga fejl i SponsorCar ***' 
 				'** De bruger st. tid og slut tid regsistrering **'
+                timerthis = replace(timerthis, ",", ".")
 				
 				strSQLins = "INSERT INTO timer (Tjobnr, Tjobnavn, Tmnr, Tmnavn, Tdato, "_
 				&" Timer, Timerkom, Tknavn, Tknr, TAktivitetId, TAktivitetNavn, "_
@@ -484,7 +517,8 @@ dblkostprisUse = replace(dblkostprisUse, ",", ".")
 						        'Response.Write "timerthis:" & timerthis 
 						        'Response.end
 						        else
-						        kommentarthis = kommthis 'replace(oRec("timerkom"), "'", "''") 
+						        kommentarthis = kommthis 'replace(oRec("timerkom"), "'", "''")
+                                timerthis = replace(timerthis, ",", ".")
 						        end if
 						
 						strSQLupd = "UPDATE timer SET"_

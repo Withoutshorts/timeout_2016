@@ -2262,7 +2262,7 @@ if len(session("user")) = 0 then
 	&" ikkebudgettimer, budgettimer, COALESCE(sum(r.timer), 0) AS restimer, stade_tim_proc, "_
 	&" risiko, udgifter, rekvnr, forventetslut, restestimat, jobstatus, j.kommentar, s.navn AS aftnavn, "_
     &" jo_dbproc, "_
-    &" (jo_bruttooms * jo_valuta_kurs/100) AS jo_bruttooms, "_
+    &" (jo_bruttooms * jo_valuta_kurs/100) AS jo_bruttooms, jo_bruttooms AS jo_bruttooms_injobvaluta,"_
     &" (jo_udgifter_intern * jo_valuta_kurs/100) AS jo_udgifter_intern, "_
     &" (jo_udgifter_ulev * jo_valuta_kurs/100) AS jo_udgifter_ulev, "_
     &" (jo_bruttofortj * jo_valuta_kurs/100) AS jo_bruttofortj, jo_gnsfaktor, "_
@@ -2339,7 +2339,7 @@ if len(session("user")) = 0 then
 	oRec.open strSQL, oConn, 3 
 	while not oRec.EOF 
 	
-	
+	jo_valuta_kurs = oRec("jo_valuta_kurs")
     nettoomstimer = oRec("jobtpris")
 
 	faktureret = 0
@@ -2434,7 +2434,7 @@ if len(session("user")) = 0 then
     end if
 
     '*** Realiseret timer og omkostninger
-    call timeRealOms(oRec("jobnr"), sqlDatostRealTimer, sqlDatoslut, nettoomstimer, oRec("fastpris"), budgettimerIalt, aty_sql_realhours) '** cls_timer
+    call timeRealOms(oRec("jobnr"), sqlDatostRealTimer, sqlDatoslut, nettoomstimer, oRec("fastpris"), budgettimerIalt, aty_sql_realhours, jo_valuta_kurs) '** cls_timer
     
     timerforbrugtIalt = timerforbrugtIalt + timerforbrugt
 
@@ -3449,17 +3449,16 @@ if len(session("user")) = 0 then
         <!-- budget -->
 	    <%
             forkalkvalue = timerTildelt
-            bruttooms = jobbudget
+            bruttooms = oRec("jo_bruttooms_injobvaluta") 'jobbudget
         %>
-		<td valign="top" style="padding:6px 3px 3px 3px; border-top:<%=btop%>px #cccccc solid; white-space:nowrap;" class=lille align=right>
+		<td valign="top" style="padding:6px 3px 3px 3px; width:100px; border-top:<%=btop%>px #cccccc solid; white-space:nowrap;" class=lille align=right>
              <span style="font-size:9px; color:#000000; float:left; padding-left:4px;">Budget:</span>
             <div style="padding:2px; float:right;">
            <input id="FM_forkalk_<%=c %>" type="text" class="s_forkalk" value="<%=forkalkvalue %>" style="width:65px; text-align:right;"/> t.<br />
            </div>
-            <div style="padding:2px; float:right;">
-            <input id="FM_brutoms_<%=c %>" type="text" class="s_brutoms" value="<%=bruttooms %>" style="width:75px; text-align:right;"/>
-            </div>
-            <div style="padding:2px; float:right;">
+            <div style="padding:2px; float:right; white-space:nowrap;">
+            <input id="FM_brutoms_<%=c %>" type="text" class="s_brutoms" value="<%=bruttooms %>" style="width:55px; text-align:right;"/>
+           
               <%
                              felt = "FM_jo_valuta_"& c
                              call valutaList(jo_valuta, felt)
@@ -3751,7 +3750,7 @@ if len(session("user")) = 0 then
         
 
          <tr><td class=lille align=right style="background-color:#F7F7f7; white-space:nowrap;">
-		 <%=formatnumber(kostpris, 2) &" "& basisValISO_f8%>
+		 <%=formatnumber(kostpris, 2) &" "& basisValISO_f8%> 
           
          <%if timerforbrugt <> 0 then 
          gnskostprtime = kostpris/timerforbrugt
@@ -3768,6 +3767,7 @@ if len(session("user")) = 0 then
          <%
 
          RealOmk = bruttoOmsReal - (salgsOmkFaktisk + kostpris)
+         'dbreal = (totRealbel - realtimerkost) + (salgsomkostSalg - salgsomkostKost)
          realDbbelob = RealOmk
         
          call fn_dbproc(bruttoOmsReal,realDbbelob)

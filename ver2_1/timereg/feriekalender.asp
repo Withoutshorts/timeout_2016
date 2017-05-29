@@ -987,17 +987,25 @@ if len(session("user")) = 0 then
 
          call normtimerPer(intMids(m) , oRec("tdato"), 6, 0)
         '** Optjent altid ignorer helligdage
-	     if ntimPer <> 0 then
-         ntimPerUse = nTimerPerIgnHellig/antalDageMtimerIgnHellig 'ntimPer/nTimerPerIgnHellig 'antalDageMtimer
+	     'if ntimPer <> 0 then
+         'ntimPerUse = nTimerPerIgnHellig/5 '5 DAGES ARB. UGE--> SÆT pr. medarb.type antalDageMtimerIgnHellig 'ntimPer/nTimerPerIgnHellig 'antalDageMtimer
+         'else
+         'ntimPerUse = 1
+         'end if 
+
+         if ntimPer <> 0 then
+         'ntimPerUse = ntimPer/antalDageMtimer
+         normTimerGns5 = (ntimManIgnHellig + ntimTirIgnHellig + ntimOnsIgnHellig + ntimTorIgnHellig + ntimFreIgnHellig + ntimLorIgnHellig + ntimSonIgnHellig)  / 5
          else
-         ntimPerUse = 1
+         normTimerGns5 = 1
          end if 
 
         'if session("mid") = 1 then
-        'response.write "HER: " & oRec("tdato") & " antalDageMtimerIgnHellig: " & antalDageMtimerIgnHellig & " ntimPer: " & ntimPer & " nTimerPerIgnHellig: "& nTimerPerIgnHellig
+        'response.write "<br>HER: " & oRec("tdato") & " antalDageMtimerIgnHellig: " & antalDageMtimerIgnHellig & " ntimPer: " & ntimPer & " nTimerPerIgnHellig: "& nTimerPerIgnHellig & "<br>"_
+        '&" "& intFerieOpt(m) &"="& oRec("timer") &"/"& ntimPerUse &" == "& oRec("timer") / ntimPerUse
         'end if
 
-          intFerieOpt(m) = oRec("timer") / ntimPerUse
+          intFerieOpt(m) = oRec("timer") / normTimerGns5 'ntimPerUse
 
         end if
         oRec.close
