@@ -6,11 +6,11 @@ Dim objXMLHTTP, objXMLDOM, i, strHTML
 Set objXMLDom = Server.CreateObject("Microsoft.XMLDOM")
 Set objXmlHttp = Server.CreateObject("Msxml2.ServerXMLHTTP")
 'objXmlHttp.open "GET", "http://localhost/Git/timeout_2016/ver2_1/inc/xml/tsa_sprog.xml", False
-objXmlHttp.open "GET", "http://localhost/inc/xml/tsa_sprog.xml", False
+'objXmlHttp.open "GET", "http://localhost/inc/xml/tsa_sprog.xml", False
 'objXmlHttp.open "GET", "https://outzource.dk/timeout_xp/wwwroot/ver2_1/inc/xml/tsa_sprog.xml", False
 'objXmlHttp.open "GET", "https://timeout.cloud/timeout_xp/wwwroot/ver3_99/inc/xml/tsa_sprog.xml", False
 'objXmlHttp.open "GET", "http://outzource.dk/timeout_xp/wwwroot/ver2_14/inc/xml/tsa_sprog.xml", False
-'objXmlHttp.open "GET", "https://timeout.cloud/timeout_xp/wwwroot/ver2_14/inc/xml/tsa_sprog.xml", False
+objXmlHttp.open "GET", "https://timeout.cloud/timeout_xp/wwwroot/ver2_14/inc/xml/tsa_sprog.xml", False
 'objXmlHttp.open "GET", "http://outzource.dk/timeout_xp/wwwroot/ver4_22/inc/xml/tsa_sprog.xml", False
 
 objXmlHttp.send

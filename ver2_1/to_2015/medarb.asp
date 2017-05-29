@@ -70,14 +70,14 @@ Session.LCID = 1030
             <div class="porlet">
             
             <h3 class="portlet-title">
-               <u>Medarbejder</u>
+               <u><%=medarb_txt_002 %></u>
             </h3>
             
                 <div class="portlet-body">
-                    <div style="text-align:center;">Du er ved at <b>SLETTE</b> en medarbejder. Er dette korrekt?<br />
-                        Du vil samtidig slette alle timeregistreringer, forecast, projektgrupper mv. på denne medarbejder. Data vil ikke kunne genskabes.
+                    <div style="text-align:center;"><%=medarb_txt_003 %> <b><%=medarb_txt_004 %></b> <%=medarb_txt_005 %><br />
+                        <%=medarb_txt_006 %>
                     </div><br />
-                   <div style="text-align:center;"><a class="btn btn-primary btn-sm" role="button" href="medarb.asp?menu=tok&func=sletok&id=<%=id%>">&nbsp Ja &nbsp</a>&nbsp&nbsp&nbsp&nbsp<a class="btn btn-default btn-sm" role="button" href="medarb.asp?">Nej</a>
+                   <div style="text-align:center;"><a class="btn btn-primary btn-sm" role="button" href="medarb.asp?menu=tok&func=sletok&id=<%=id%>">&nbsp <%=medarb_txt_007 %> &nbsp</a>&nbsp&nbsp&nbsp&nbsp<a class="btn btn-default btn-sm" role="button" href="medarb.asp?"><%=medarb_txt_008 %></a>
                     </div>
                     <br /><br />
                  </div>
@@ -620,8 +620,8 @@ Session.LCID = 1030
                         else
                         to_url = "https://timeout.cloud"
                         end if
-
-                        myMail.TextBody= "" & "Hej "& strNavn & vbCrLf _ 
+                        'mangler
+                        myMail.TextBody= "" & medarb_txt_009 &" "& strNavn & vbCrLf _ 
 					    & "Din medarbejderprofil er blevet opdateret." & vbCrLf _ 
 					    & "Dit brugernavn er: " & strLogin & " og dit password er: " & strPw & vbCrLf & vbCrLf _ 
 					    & "Gem disse oplysninger, til du skal logge ind i TimeOut."  & vbCrLf _ 
@@ -902,20 +902,20 @@ Session.LCID = 1030
                                     end if
                     
                               
-                                    mailtextbody= "" & "Hej "& strNavn & vbCrLf _ 
-					                & "Velkommen til TimeOut." & vbCrLf & vbCrLf _
-					                & "Du er blevet oprettet som bruger i TimeOut" & vbCrLf _ 
-					                & "Dit brugernavn er: " & strLogin & " og dit password er: " & strPw & vbCrLf & vbCrLf _ 
-					                & "Gem disse oplysninger, til du skal logge ind i TimeOut."  & vbCrLf _ 
-					                & "Du kan altid selv ændre dem når du er logget på systemet." & vbCrLf & vbCrLf 
+                                    mailtextbody= "" & medarb_txt_009 &" "& strNavn & vbCrLf _ 
+					                & medarb_txt_010 & vbCrLf & vbCrLf _
+					                & medarb_txt_011 & vbCrLf _ 
+					                & medarb_txt_012 &" "& strLogin & " " & medarb_txt_013 & strPw & vbCrLf & vbCrLf _ 
+					                & medarb_txt_014  & vbCrLf _ 
+					                & medarb_txt_015 & vbCrLf & vbCrLf 
 
                                     if instr(request.servervariables("LOCAL_ADDR"), "195.189.130.210") <> 0 then
-					                mailtextbody = mailtextbody & "Adressen til TimeOut er: https://outzource.dk/"&lto&""& vbCrLf & vbCrLf 
+					                mailtextbody = mailtextbody & medarb_txt_119 &": https://outzource.dk/"&lto&""& vbCrLf & vbCrLf 
                                     else
-                                    mailtextbody = mailtextbody & "Adressen til TimeOut er: http://timeout.cloud/"&lto&""& vbCrLf & vbCrLf 
+                                    mailtextbody = mailtextbody & medarb_txt_119 &": http://timeout.cloud/"&lto&""& vbCrLf & vbCrLf 
                                     end if
 
-					                mailtextbody = mailtextbody & "Med venlig hilsen"& vbCrLf & vbCrLf & strEditor & vbCrLf 
+					                mailtextbody = mailtextbody & medarb_txt_120& vbCrLf & vbCrLf & strEditor & vbCrLf 
 
                         
                                     myMail.TextBody= mailtextbody
@@ -1010,18 +1010,18 @@ Session.LCID = 1030
             <div class="porlet">
             
             <h3 class="portlet-title">
-               <u>Medarbejder oprettet</u>
+               <u><%=medarb_txt_016 %></u>
             </h3>
             
                 <div class="portlet-body">
-                    <div>Du har oprettet / opdateret en medarbejder. 
+                    <div><%=medarb_txt_017 %> 
                     </div><br />
                     <div>
                        
                         <%if request("medarbtypligmedarb") = "1" then 'Medarbejdertype:medarbejder 1:1%> 
-                        <b><a href="medarbtyper.asp?lastmedid=<%=id %>&mtypeIdforvlgt=<%=strMedarbejdertype%>&mtypenavnforvlgt=Mtyp: <%=strNavn %>&func=opret">Videre til medarbejdertype (timepriser og normtid) >></a>    
+                        <b><a href="medarbtyper.asp?lastmedid=<%=id %>&mtypeIdforvlgt=<%=strMedarbejdertype%>&mtypenavnforvlgt=Mtyp: <%=strNavn %>&func=opret"><%=medarb_txt_018 %> >></a>    
                         <%else%>
-                        <b><a href="medarb.asp?menu=medarbejder&lastmedid=<%=id %>">Videre >></a>
+                        <b><a href="medarb.asp?menu=medarbejder&lastmedid=<%=id %>"><%=medarb_txt_019 %> >></a>
                         <%end if %>
                        
                     </div>
@@ -1256,7 +1256,7 @@ Session.LCID = 1030
             <div class="row">
             <div class="col-lg-10">&nbsp</div>
             <div class="col-lg-2 pad-b10">
-            <button type="submit" class="btn btn-success btn-sm pull-right"><b>Opdatér</b></button>
+            <button type="submit" class="btn btn-success btn-sm pull-right"><b><%=medarb_txt_020 %></b></button>
             </div>
             </div>
 
@@ -1265,14 +1265,14 @@ Session.LCID = 1030
                 <div class="well well-white">
                     <div class="row">
                         <div class="col-lg-12">
-                            <h4 class="panel-title-well">Stamdata</h4>
+                            <h4 class="panel-title-well"><%=medarb_txt_021 %></h4>
                         </div>
                     </div>
 
                     <div class="row">
                          <div class="col-lg-1">&nbsp;</div>
 
-                        <div class="col-lg-2 pad-t5">Navn:&nbsp<span style="color:red;">*</span>
+                        <div class="col-lg-2 pad-t5"><%=medarb_txt_022 %>:&nbsp<span style="color:red;">*</span>
                            
 
                         </div>
@@ -1281,7 +1281,7 @@ Session.LCID = 1030
                         </div>
                         <!-- Sortering -->
 
-                        <div class="col-lg-1 pad-t5">Intialer:&nbsp<span style="color:red;">*</span></div>
+                        <div class="col-lg-1 pad-t5"><%=medarb_txt_023 %>:&nbsp<span style="color:red;">*</span></div>
                         <div class="col-lg-2">   
                             <input name="FM_init" type="text" class="form-control input-small" value="<%=strInit%>" />
 
@@ -1291,7 +1291,7 @@ Session.LCID = 1030
                       
                         <!-- Id -->
                         <%if level <= 2 OR level = 6 then%>
-                        <div class="col-lg-1 pad-t5">Medarb.nr:&nbsp<span style="color:red;">*</span></div>
+                        <div class="col-lg-1 pad-t5"><%=medarb_txt_024 %>:&nbsp<span style="color:red;">*</span></div>
                         <div class="col-lg-1">   
                             <input name="FM_Mnr" type="text" class="form-control input-small" value="<%=strMnr%>" /> 
                            
@@ -1308,11 +1308,11 @@ Session.LCID = 1030
                                 <div class="col-lg-1">   
                                     &nbsp;
                                 </div>
-                                <div class="col-lg-2 pad-t5">Login:&nbsp<span style="color:red;">*</span></div>
+                                <div class="col-lg-2 pad-t5"><%=medarb_txt_025 %>:&nbsp<span style="color:red;">*</span></div>
                                 <div class="col-lg-3">   
                                     <input name="FM_login" type="text" class="form-control input-small" value="<%=strLogin %>" />
                                 </div>
-                                <div class="col-lg-1 pad-t5">Password:&nbsp<span style="color:red;">*</span></div>
+                                <div class="col-lg-1 pad-t5"><%=medarb_txt_026 %>:&nbsp<span style="color:red;">*</span></div>
                                 <div class="col-lg-4">   
                                     <%if func = "red" then 
 		                                strPw = "KEEPTHISPW99"
@@ -1326,7 +1326,7 @@ Session.LCID = 1030
 
                     <div class="row">
                         <div class="col-lg-1">&nbsp</div>
-                        <div class="col-lg-2">Status:</div>
+                        <div class="col-lg-2"><%=medarb_txt_027 %>:</div>
                         <div class="col-lg-3">
                             <%
 		                    select case strAnsat
@@ -1345,11 +1345,11 @@ Session.LCID = 1030
 		                    end select 
 		
 	                    %>
-		                        <input type="radio" name="FM_ansat" id="FM_ansat1" value="1" <%=chk1%>> Aktiv <%if func <> "red" then %>
-                                <span style="font-size:10px;">(Der udsendes mail med logind info)</span>
+		                        <input type="radio" name="FM_ansat" id="FM_ansat1" value="1" <%=chk1%>> <%=medarb_txt_029 %> <%if func <> "red" then %>
+                                <span style="font-size:10px;">(<%=medarb_txt_028 %>)</span>
                                 <%end if %>
-		                    <br /><input type="radio" name="FM_ansat" id="FM_ansat2" value="2" <%=chk2%>> Deaktiveret 
-		                    <br /><input type="radio" name="FM_ansat" id="FM_ansat3" value="3" <%=chk3%>> Passiv
+		                    <br /><input type="radio" name="FM_ansat" id="FM_ansat2" value="2" <%=chk2%>> <%=medarb_txt_030 %> 
+		                    <br /><input type="radio" name="FM_ansat" id="FM_ansat3" value="3" <%=chk3%>> <%=medarb_txt_031 %>
 		                    <br />
 
                         </div>
@@ -1358,8 +1358,8 @@ Session.LCID = 1030
                         <div class="col-lg-6">
 
                         <div id="deaktivnote" style="visibility:hidden; display:none; width:450px; padding:20px; background-color:#cccccc;">
-                                Vær opmærksom på at når en medarbejder skifter til de-aktiveret, bliver opsagtdato sat til d.d.<br /><br />
-                                <input type="checkbox" value="1" name="FM_deakdd_cancel" /> Klik af her, hvis opsagtdato ikke <b>skal sættes til d.d</b>
+                                <%=medarb_txt_032 %><br /><br />
+                                <input type="checkbox" value="1" name="FM_deakdd_cancel" /> <%=medarb_txt_033 %> <b><%=medarb_txt_034 %></b>
 
                             </div>
                          </div>
@@ -1377,7 +1377,7 @@ Session.LCID = 1030
                         <div class="panel-heading">
                           <h4 class="panel-title">
                             <a class="accordion-toggle" data-toggle="collapse" data-target="#collapseOne">
-                            Persondata
+                            <%=medarb_txt_035 %>
                             </a>
                           </h4>
                         </div> <!-- /.panel-heading -->
@@ -1385,7 +1385,7 @@ Session.LCID = 1030
                         <div class="panel-body">
                                 <div class="row">
                                  <div class="col-lg-1">&nbsp;</div>
-                        <div class="col-lg-2">Adresse:</div>
+                        <div class="col-lg-2"><%=medarb_txt_036 %>:</div>
                         <div class="col-lg-3">   
                                     <input name="FM_adr" type="text" class="form-control input-small" value="<%=madr%>"  />
                             </div>
@@ -1395,11 +1395,11 @@ Session.LCID = 1030
                                 <div class="col-lg-1">   
                                     &nbsp;
                                     </div>
-                    <div class="col-lg-2">PostNr:</div>
+                    <div class="col-lg-2"><%=medarb_txt_037 %>:</div>
                     <div class="col-lg-1">   
                                     <input name="FM_postnr" type="text" class="form-control input-small" value="<%=mpostnr%>" />           
                     </div>
-                    <div class="col-lg-1">By:</div>
+                    <div class="col-lg-1"><%=medarb_txt_038 %>:</div>
                     <div class="col-lg-3">   
                                     <input name="FM_city" type="text" class="form-control input-small" value="<%=mcity%>" />
                     </div>
@@ -1410,14 +1410,14 @@ Session.LCID = 1030
                                     <div class="col-lg-1">   
                                             &nbsp;
                                             </div>
-                        <div class="col-lg-2">Land:</div>
+                        <div class="col-lg-2"><%=medarb_txt_039 %>:</div>
                         <div class="col-sm-3">
                         <select class="form-control input-small" name="FM_land" style="width:200px;">
 						            <!--#include file="../timereg/inc/inc_option_land.asp"-->
                                 <%if func = "red" then%>
                         		<option SELECTED><%=mland%></option>
 		                        <%else%>
-		                        <option SELECTED>Danmark</option>
+		                        <option SELECTED><%=medarb_txt_040 %></option>
 		                        <%end if%>
 
 		                </select>
@@ -1428,7 +1428,7 @@ Session.LCID = 1030
                                     <div class="col-lg-1">   
                                             &nbsp;
                                             </div>
-                        <div class="col-lg-2">Telefon:</div>
+                        <div class="col-lg-2"><%=medarb_txt_041 %>:</div>
                         <div class="col-lg-2"> 
                         <input name="FM_tel" type="text" class="form-control input-small" value="<%=mtlf%>"/>
                                   </div>
@@ -1438,10 +1438,10 @@ Session.LCID = 1030
                                 <div class="col-lg-1">   
                                     &nbsp;
                                     </div>
-                    <div class="col-lg-2">Email:</div>
+                    <div class="col-lg-2"><%=medarb_txt_042 %>:</div>
                     <div class="col-lg-3">   
                                     <input name="FM_email" type="text" class="form-control input-small" value="<%=strEmail%>" />
-                                    <span style="color:#999999; font-size:10px; line-height:10px;">Hvis email er indtastet, og medarbejder er aktiv, bliver der sendt mail til modtager med logind information.</span>               
+                                    <span style="color:#999999; font-size:10px; line-height:10px;"><%=medarb_txt_043 %></span>               
                     </div>
                                     <div class="col-lg-5">&nbsp;</div>     
                 </div>
@@ -1449,7 +1449,7 @@ Session.LCID = 1030
                                 <div class="col-lg-1">   
                                     &nbsp;
                                     </div>
-                    <div class="col-lg-2">Cpr.nr:</div>
+                    <div class="col-lg-2"><%=medarb_txt_044 %>:</div>
                     <div class="col-lg-3">   
                                     <input name="FM_cpr" type="text" class="form-control input-small" value="<%=mcpr%>" />           
                     </div>
@@ -1459,7 +1459,7 @@ Session.LCID = 1030
                                 <div class="col-lg-1">   
                                     &nbsp;
                                     </div>
-                    <div class="col-lg-2">Registrerings nr. på køretøj:</div>
+                    <div class="col-lg-2"><%=medarb_txt_045 %>:</div>
                     <div class="col-lg-3">   
                                     <input name="FM_regnr" type="text" class="form-control input-small" value="<%=mkoregnr%>" />  
                                           <div class="col-lg-8">   
@@ -1484,7 +1484,7 @@ Session.LCID = 1030
                         <div class="panel-heading">
                           <h4 class="panel-title">
                             <a class="accordion-toggle" data-toggle="collapse" data-target="#collapseTwo">
-                            Medarbejderindstillinger
+                            <%=medarb_txt_046 %>
                             </a>
                           </h4>
                         </div> <!-- /.panel-heading -->
@@ -1496,7 +1496,7 @@ Session.LCID = 1030
                               <%if cint(level) = 1 OR cint(meCreate_newemployee) = 1 then %>
                               <div class="row">
                                   <div class="col-lg-1">&nbsp</div>
-                                  <div class="col-lg-2">Ansat:</div>
+                                  <div class="col-lg-2"><%=medarb_txt_047 %>:</div>
                                   <div class="col-lg-2">
                                         <div class='input-group date'>
                                               <input class="form-control input-small" type="text" name="ansatdato" id="ansatdato" value="<%=ansatdato%>"/>
@@ -1507,7 +1507,7 @@ Session.LCID = 1030
                                         </div>
 
                                   </div>
-                                  <div class="col-lg-1">Fratrådt:</div>
+                                  <div class="col-lg-1"><%=medarb_txt_048 %>:</div>
                                   <div class="col-lg-2">
                                       <div class='input-group date'>
                                       <input class="form-control input-small" type="text" name="opsagtdato" id="opsagtdato" value="<%=opsagtdato%>" />
@@ -1522,7 +1522,7 @@ Session.LCID = 1030
                               
                               <div class="row">
                                   <div class="col-lg-1">&nbsp</div>
-                                  <div class="col-lg-2">Sprog:</div>
+                                  <div class="col-lg-2"><%=medarb_txt_049 %>:</div>
                                   <div class="col-lg-2"><select class="form-control input-small" name="FM_sprog" style="width:160px;">
                                      <%
 
@@ -1565,8 +1565,8 @@ Session.LCID = 1030
                               if cint(level) = 1 then%>	
                               <div class="row">
                                   <div class="col-lg-1">&nbsp</div>
-                                  <div class="col-lg-2 pad-t20 pad-b20">Nyhedsbrev:</div>
-                                  <div class="col-lg-2 pad-t20 pad-b20">Ja tak <input id="nyhedsbrev" name="nyhedsbrev" type="radio" value="1" <%=chkny1 %> />&nbsp;&nbsp;Nej 
+                                  <div class="col-lg-2 pad-t20 pad-b20"><%=medarb_txt_050 %>:</div>
+                                  <div class="col-lg-2 pad-t20 pad-b20"><%=medarb_txt_051 %> <input id="nyhedsbrev" name="nyhedsbrev" type="radio" value="1" <%=chkny1 %> />&nbsp;&nbsp;<%=medarb_txt_008 %> 
                                     <input id="nyhedsbrev" name="nyhedsbrev" type="radio" value="0" <%=chkny0 %> /> </div>
                               </div>
 
@@ -1574,20 +1574,20 @@ Session.LCID = 1030
 
                               <div class="row">
                                   <div class="col-lg-1">&nbsp</div>
-                                  <div class="col-lg-2">Exchange/Domæne Navn:</div>
+                                  <div class="col-lg-2"><%=medarb_txt_052 %>:</div>
                                   <div class="col-lg-6">
-                                      <input class="form-control input-small" type="text" name="FM_exch" value="<%=strExch%>" placeholder="DomæneNavn"/>
+                                      <input class="form-control input-small" type="text" name="FM_exch" value="<%=strExch%>" placeholder="<%=medarb_txt_053 %>"/>
                                   </div>
                                   
                               </div>
                               <br /><br />
                               <div class="row">
                                   <div class="col-lg-1">&nbsp</div>
-                                  <div class="col-lg-2 pad-b20">Tillad medarbejder at:</div>
+                                  <div class="col-lg-2 pad-b20"><%=medarb_txt_054 %>:</div>
                                   <div class="col-lg-6">
                                      
-                                      <input type="checkbox" name="FM_visskiftversion" value="1" <%=visskiftversionCHK %>/> Skifte TimeOut version. (fra timereg. siden), uden at skulle logge ind igen.<br />
-                                      <input type="checkbox" name="FM_opretmedarb" value="1" <%=create_newemployeeCHK %>/> Oprette andre medarbejdere (ikke med admin rettigheder).
+                                      <input type="checkbox" name="FM_visskiftversion" value="1" <%=visskiftversionCHK %>/> <%=medarb_txt_055 %><br />
+                                      <input type="checkbox" name="FM_opretmedarb" value="1" <%=create_newemployeeCHK %>/> <%=medarb_txt_056 %>
                                   </div> 
                                <div class="col-lg-6">&nbsp</div>  
                               </div>
@@ -1620,7 +1620,7 @@ Session.LCID = 1030
                                   <div class="col-lg-1">&nbsp</div>
                                   <div class="col-lg-2">
                                      
-                                      <a href="medarbtyper.asp" target="_blank">Medarb.type:</a>
+                                      <a href="medarbtyper.asp" target="_blank"><%=medarb_txt_057 %>:</a>
                                       
                                       &nbsp&nbsp<a data-toggle="modal" href="#styledModalSstGrp20"><span class="fa fa-info-circle"></span></a>
                                       
