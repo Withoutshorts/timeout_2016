@@ -447,7 +447,7 @@ end if
 
                                     jobnavnThis = oRec5("jobnavn")
                                     intJobnr = oRec5("jobnr")
-                                    strkkundenavn = = oRec5("kkundenavn") 
+                                    strkkundenavn = oRec5("kkundenavn") 
 
                                     end if
                                     oRec5.close
@@ -537,8 +537,8 @@ end if
                                 response.redirect("../timereg/jobs.asp")
 
 
-
-
+        end if
+        
 
     case "opret", "red"
         %>
@@ -1049,7 +1049,7 @@ end if
 								        'call infoUnisport(uWdt, uTxt) 
                                 
                                     
-                                            call fomr_mandatory_fn()
+                                            'call fomr_mandatory_fn()
 
                                             div_tild_forr_Pos = "relative"
                                             div_tild_forr_Lft = "0px"
@@ -1729,8 +1729,8 @@ end if
                <br /><br />
             </div><!-- /.portlet body -->
             </div><!-- /.container -->
-           
-
+        
+            
         <%end select %>
 
 
