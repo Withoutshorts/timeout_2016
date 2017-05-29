@@ -6,14 +6,14 @@
 <!--#include file="../inc/connection/conn_db_inc.asp"-->
 <!--#include file="../inc/regular/global_func.asp"-->
 
-<%'**** Søgekriterier AJAX **'
+<%'**** SÃ¸gekriterier AJAX **'
 
         'section for ajax calls
         if Request.Form("AjaxUpdateField") = "true" then
         Select Case Request.Form("control")
         case "FN_geolocation"
 
-             '*** Tilføjer longitude og latitude til seneste åbne loginf for dem der har stempelur slået til *********
+             '*** TilfÃ¸jer longitude og latitude til seneste Ã¥bne loginf for dem der har stempelur slÃ¥et til *********
             
              call erStempelurOn()
              
@@ -83,7 +83,7 @@
                 oRec.close   
 
 
-                      '*** ÆØÅ **'
+                      '*** Ã†Ã˜Ã… **'
                     call jq_format(jobbesk)
                     jobbeskTxt = jq_formatTxt
 
@@ -121,7 +121,7 @@
                 'jq_lto = request("jq_lto")
                 
 
-                '*** SØG kunde & Job            
+                '*** SÃ˜G kunde & Job            
                 
                 if len(trim(request("jq_newfilterval"))) <> 0 then
                 filterVal = 1 
@@ -149,7 +149,7 @@
                             pa_aktlist = pa_aktlist
                         end if
 
-                        if cint(pa_aktlist) = 0 then 'PA = 0 kan søge i jobbanken / PA = 1 kan kun søge på aktivjobliste
+                        if cint(pa_aktlist) = 0 then 'PA = 0 kan sÃ¸ge i jobbanken / PA = 1 kan kun sÃ¸ge pÃ¥ aktivjobliste
                         strSQLPAkri =  ""
                         else
                         strSQLPAkri =  " AND tu.forvalgt = 1" 
@@ -163,7 +163,7 @@
                 varTjDatoUS_son = year(varTjDatoUS_son) &"/"& month(varTjDatoUS_son) &"/"& day(varTjDatoUS_son)
 
             
-                '*** Datospærring Vis først job når stdato er oprindet
+                '*** DatospÃ¦rring Vis fÃ¸rst job nÃ¥r stdato er oprindet
                 call lukaktvdato_fn()
                 ignJobogAktper = lukaktvdato
 
@@ -320,7 +320,7 @@
        
                 
 
-                    '*** ÆØÅ **'
+                    '*** Ã†Ã˜Ã… **'
                     call jq_format(strJobogKunderTxt)
                     strJobogKunderTxt = jq_formatTxt
 
@@ -336,7 +336,7 @@
           case "FN_sogakt"
 
                
-                '*** Søg Aktiviteter 
+                '*** SÃ¸g Aktiviteter 
                 
 
                 if len(trim(request("jq_newfilterval"))) <> 0 then
@@ -373,10 +373,10 @@
                 varTjDatoUS_son = year(varTjDatoUS_son) &"/"& month(varTjDatoUS_son) &"/"& day(varTjDatoUS_son)
 
 
-                '*** Vis kun aktiviteter med forecast på
+                '*** Vis kun aktiviteter med forecast pÃ¥
                 call aktBudgettjkOn_fn()
                 '*** Skal akt lukkes for timereg. hvis forecast budget er overskrddet..?
-                '** MAKS budget / Forecast incl. peridoe afgrænsning
+                '** MAKS budget / Forecast incl. peridoe afgrÃ¦nsning
                 call akt_maksbudget_treg_fn()
 
                 if cint(aktBudgettjkOnViskunmbgt) = 1 then
@@ -405,7 +405,7 @@
                 call allejobaktmedFC(viskunForecast, medid, jobid, risiko)
 
                 
-                '*** Datospærring Vis først job når stdato er oprindet
+                '*** DatospÃ¦rring Vis fÃ¸rst job nÃ¥r stdato er oprindet
                 call lukaktvdato_fn()
                 ignJobogAktper = lukaktvdato
 
@@ -429,13 +429,13 @@
     
                 
                          
-               'pa = 0 '***ÆNDRES til variable
+               'pa = 0 '***Ã†NDRES til variable
                'if cint(pa) = 1 then
                'strSQL= "SELECT a.id AS aid, navn AS aktnavn FROM timereg_usejob LEFT JOIN aktiviteter AS a ON (a.id = tu.aktid) "_
                '&" WHERE tu.medarb = "& medid &" AND tu.jobid = "& jobid &" AND aktid <> 0 AND a.navn LIKE '%"& aktsog &"%' AND aktstatus = 1 AND ("& replace(aty_sql_realhours, "tfaktim", "a.fakturerbar") &") AND ("& aty_sql_hide_on_treg &") ORDER BY navn LIMIT 20"   
 
                     
-                    '** Select eller søgeboks
+                    '** Select eller sÃ¸geboks
                     call mobil_week_reg_dd_fn()
                     
                     
@@ -458,7 +458,7 @@
 
 
 
-               if cint(pa) = 1 then '**Kun på Personlig aktliste
+               if cint(pa) = 1 then '**Kun pÃ¥ Personlig aktliste
     
     
                    'Positiv aktivering
@@ -552,7 +552,7 @@
                   
 
                 
-                '** Forecast peridore afgrænsning
+                '** Forecast peridore afgrÃ¦nsning
                 'if cint(akt_maksforecast_treg) = 1 then
                 if cint(aktBudgettjkOn) = 1 then
                     call ressourcefc_tjk(ibudgetaar, ibudgetmd, aar, md, medid, oRec("aid"), timerTastet)
@@ -622,7 +622,7 @@
                 end if      
 
 
-                    '*** ÆØÅ **'
+                    '*** Ã†Ã˜Ã… **'
                     call jq_format(strAktTxt)
                     strAktTxt = jq_formatTxt
 
@@ -639,7 +639,7 @@
 
                 
 
-                '*** SØG Mat            
+                '*** SÃ˜G Mat            
                 
                 if len(trim(request("jq_newfilterval"))) <> 0 then
                 filterVal = 1 
@@ -704,7 +704,7 @@
 
                     strMat = strMat &"</ul>"
 
-                    '*** ÆØÅ **'
+                    '*** Ã†Ã˜Ã… **'
                     call jq_format(strMat)
                     strMat = jq_formatTxt
 
@@ -738,7 +738,7 @@
                 oRec.close
                 
             
-                  '*** ÆØÅ **'
+                  '*** Ã†Ã˜Ã… **'
                     call jq_format(strJobnavn)
                     strJobnavn = jq_formatTxt
 
@@ -769,7 +769,7 @@
      flushsessionuser = 0
     end if
 
-    '*** Hvis der ligger coookie, skal telefonen blive på / flushsessionuser = kommer fra logind ****'
+    '*** Hvis der ligger coookie, skal telefonen blive pÃ¥ / flushsessionuser = kommer fra logind ****'
     if request.Cookies("timeouttimeoutcloud")("mobileuser") <> "" AND cint(flushsessionuser) <> 1 then
 
     session("mid") = request.Cookies("timeoutcloud")("mobilemid")
@@ -804,17 +804,17 @@
     oRec4.close
 
 
-    '** Select eller søgeboks
+    '** Select eller sÃ¸geboks
     call mobil_week_reg_dd_fn()
     'mobil_week_reg_job_dd = mobil_week_reg_job_dd
     'mobil_week_reg_akt_dd = 1
     'mobil_week_reg_akt_dd = mobil_week_reg_akt_dd    
 
     call positiv_aktivering_akt_fn()
-     '*** Vis kun aktiviteter med forecast på
+     '*** Vis kun aktiviteter med forecast pÃ¥
     call aktBudgettjkOn_fn()
     '*** Skal akt lukkes for timereg. hvis forecast budget er overskrddet..?
-    '** MAKS budget / Forecast incl. peridoe afgrænsning
+    '** MAKS budget / Forecast incl. peridoe afgrÃ¦nsning
     call akt_maksbudget_treg_fn()
 
     call erStempelurOn()
@@ -885,7 +885,7 @@
    
 
 
-    '** Hvis st_stop er vagt på medarbejder overruler det standard settings ovenfor
+    '** Hvis st_stop er vagt pÃ¥ medarbejder overruler det standard settings ovenfor
     if cint(timer_ststop) = 1 then
         showStop = 1
     else
@@ -1003,7 +1003,7 @@
            
                         todayYear = year(now)      
               
-                        select case lto 'mulighed for VÆLG DATO 
+                        select case lto 'mulighed for VÃ†LG DATO 
                         case "xplan", "xoutz", "xintranet - local", "tbg"
                               %> <input type="hidden" id="jq_dato" name="FM_datoer" value="<%=todayDay &"-"& todayMonth &"-"& todayYear%>"/><%
                         case else
@@ -1355,7 +1355,7 @@
                         -->
 
                         <!--
-                        <input type="submit" class="inactive" value="Tilføj timer & materialer"/>
+                        <input type="submit" class="inactive" value="TilfÃ¸j timer & materialer"/>
                         -->
 
 
