@@ -1631,10 +1631,10 @@ Session.LCID = 1030
                                             <div class="modal-content" style="border:none !important;padding:0;">
                                               <div class="modal-header">
                                                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                                  <h5 class="modal-title">Medarbejdertype</h5>
+                                                  <h5 class="modal-title"><%=medarb_txt_058 %></h5>
                                                 </div>
                                                 <div class="modal-body">
-                                                Bruges til at bestemme hvor mange timer man er ansat og til hvilke timepriser medarbejderen faktures.
+                                                <%=medarb_txt_059 %>
 
                                                 </div>
                                             </div>
@@ -1723,7 +1723,7 @@ Session.LCID = 1030
                                     if lastMtypHgrp <> oRec("mtgNavn") then
                                     %>  
                                         <option value="0" disabled></option>
-                                        <option value="0" disabled>Hovedgruppe: <%=oRec("mtgNavn")%></option>
+                                        <option value="0" disabled><%=medarb_txt_060 %>: <%=oRec("mtgNavn")%></option>
                                     <%
             
                                     end if
@@ -1741,7 +1741,7 @@ Session.LCID = 1030
                                       
                                       
                                       <%if func = "red" AND level = 1 then %>
-                                      <a href="medarbtyper.asp?func=red&id=<%=medarbejdertype %>" target="_blank">Rediger medarbejdertype (timepris, normtid mm.)</a>
+                                      <a href="medarbtyper.asp?func=red&id=<%=medarbejdertype %>" target="_blank"><%=medarb_txt_061 %></a>
                                       <%else
                                           
                                       call medarbtypligmedarb_fn()%>
@@ -1751,8 +1751,8 @@ Session.LCID = 1030
                                      
                                         <%if func = "opret" AND level = 1  then
                                         %>
-                                        <br /><span style="color:red;">Tildel timepriser</span> på stam-aktiviteter, åbne job og tilbud.<br />
-                                        Følg denne medarb.type (hvis den valgte medarb.type er ny, og dette er den første medarbejder af denne type)
+                                        <br /><span style="color:red;"><%=medarb_txt_062 %></span> <%=medarb_txt_063 %><br />
+                                        <%=medarb_txt_064 %>
                                         <select name="FM_medarbejdertype_follow_tp" class="form-control input-small" style="width:200px;">
                                         <%
                                          strSQL = "SELECT mt.type, mt.id FROM medarbejdertyper mt WHERE mt.id <> 0 ORDER BY type"
@@ -1794,9 +1794,9 @@ Session.LCID = 1030
 
 
                                  <%if cint(level) = 1 then %>
-                                <br /><br /><b>Medarbejdertype historik:</b> (maks 30)<br />
-                               Første type skal altid følge ansat dato. Derfor kan den ikke opdateres.<br />
-                                Normtid følger altid historikken. Vær opmærksom på ferieoptjent ved ændret normtid.<br /><br />
+                                <br /><br /><b><%=medarb_txt_065 %>:</b> (<%=medarb_txt_066 %>)<br />
+                               <%=medarb_txt_067 %><br />
+                                <%=medarb_txt_068 %><br /><br />
 		                        <%end if
 		
 			                    strSQL = "SELECT mtypedato, mt.type AS mttype, mth.id AS mtypeid FROM medarbejdertyper_historik AS mth, "_
@@ -1810,7 +1810,7 @@ Session.LCID = 1030
 			
                                 if cint(level) = 1 then %>
 			                    
-			                    <%=oRec("mttype")%> - fra d. 
+			                    <%=oRec("mttype")%> - fra d. <!-- mangler -->
                                 <input id="Hidden4" type="hidden" name="FM_mtyphist_id" value="<%=oRec("mtypeid") %>" />
             
                                     <%if cint(mth) = 1 then %>
@@ -1848,11 +1848,11 @@ Session.LCID = 1030
                             if cint(level) = 1 AND func = "red" then
                             %>
                             <br /><br /><br />
-                            Opdater eksisterende timepriser? (på den aktuelle medarbejdertype)<br />
-                                <span style="color:#999999;">Opdaterer priser på alle timeregistreringer, på alle job uanset status, for denne medarbejder til at følge den nuværende medarbejdertype indstilling, fra den dato medarbejderen er oprettet som denne type.</span><br />
-                                <input type="checkbox" name="FM_opd_mty_kp" id="FM_opd_mty_kp" value="1"/> Opdater eksisterende <b>kostpriser</b> 
+                            <%=medarb_txt_069 %><br />
+                                <span style="color:#999999;"><%=medarb_txt_070 %></span><br />
+                                <input type="checkbox" name="FM_opd_mty_kp" id="FM_opd_mty_kp" value="1"/> <%=medarb_txt_071 %> <b><%=medarb_txt_072 %></b> 
                                  <br />
-                                 <input type="checkbox" name="FM_opd_mty_tp" id="FM_opd_mty_tp" value="1"/> Opdater eksisterende <b>timepriser</b> (overskriver ikke indstillinger på job, men opdaterer timeprisen på eksisterende registreringer)
+                                 <input type="checkbox" name="FM_opd_mty_tp" id="FM_opd_mty_tp" value="1"/> <%=medarb_txt_071 %> <b><%=medarb_txt_073 %></b> (<%=medarb_txt_074 %>)
                                <br />&nbsp;
         
                                 <%
@@ -1867,16 +1867,16 @@ Session.LCID = 1030
                               <%if cint(level) = 1 OR cint(meCreate_newemployee) = 1 then %>
                                <div class="row">
                                   <div class="col-lg-1">&nbsp</div>
-                                  <div class="col-lg-2"><br /><br />Systemrettigheder:&nbsp&nbsp<a data-toggle="modal" href="#styledModalSstGrp3"><span class="fa fa-info-circle"></span></a></div>
+                                  <div class="col-lg-2"><br /><br /><%=medarb_txt_075 %>:&nbsp&nbsp<a data-toggle="modal" href="#styledModalSstGrp3"><span class="fa fa-info-circle"></span></a></div>
                                     <div id="styledModalSstGrp3" class="modal modal-styled fade" style="top:60px;">
                                                     <div class="modal-dialog">
                                                         <div class="modal-content" style="border:none !important;padding:0;">
                                                             <div class="modal-header">
                                                                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                                                <h5 class="modal-title">Systemrettigheder</h5>
+                                                                <h5 class="modal-title"><%=medarb_txt_075 %></h5>
                                                             </div>
                                                             <div class="modal-body">
-                                                                Bruges til at bestemme hvilke rettigheder og hvilke områder af TimeOut medarbejderen har adgang til. 
+                                                                <%=medarb_txt_076 %> 
                                                             </div>
                                                         </div>
                                                     </div>
@@ -1951,7 +1951,7 @@ Session.LCID = 1030
                                    
                                   <div class="col-lg-2 pad-t10">
                                     
-                                      <a href="projektgrupper.asp?" target="_blank">Projektgrupper:</a>
+                                      <a href="projektgrupper.asp?" target="_blank"><%=medarb_txt_077 %>:</a>
                                       &nbsp&nbsp<a data-toggle="modal" href="#styledModalSstGrp40"><span class="fa fa-info-circle"></span></a>
 
                                         <div id="styledModalSstGrp40" class="modal modal-styled fade" style="top:60px;">
@@ -1959,12 +1959,12 @@ Session.LCID = 1030
                                                         <div class="modal-content" style="border:none !important;padding:0;">
                                                             <div class="modal-header">
                                                                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                                                <h5 class="modal-title">Projektgrupper</h5>
+                                                                <h5 class="modal-title"><%=medarb_txt_077 %></h5>
                                                             </div>
                                                             <div class="modal-body">
-                                                                 Projektgrupper bruges til at bestemme hvilke job og 
-                                                                aktiviteter medarbejderen har adgang til på timeregisteringssiden, samt hvis Du er Teamleder hvilke medarbejdere Du har adgang til at se timer for.<br /><br />
-                                                                Alle medarbejdere er <u>ALTID</u> med i "Alle-gruppen")  
+                                                                 <%=medarb_txt_078 %> 
+                                                                <%=medarb_txt_079 %><br /><br />
+                                                                <%=medarb_txt_080 %> <u><%=medarb_txt_081 %></u> <%=medarb_txt_082 %>  
                                                             </div>
                                                         </div>
                                                     </div>
@@ -2007,7 +2007,7 @@ Session.LCID = 1030
                             
                                                             if oRec2("teamleder") <> 0 then
                                                             teaml = "_1"
-                                                            teamlTxt = " (teamleder)"
+                                                            teamlTxt = " ("& medarb_txt_083 &")"
                                                             else
                                                             teaml = ""
                                                             teamlTxt = ""
@@ -2015,7 +2015,7 @@ Session.LCID = 1030
 
                                                             if oRec2("notificer") <> 0 then
                                                             notf = "-1"
-                                                            notfTxt = " (notificer)"
+                                                            notfTxt = " ("& medarb_txt_084 &")"
                                                             else
                                                             notf = ""
                                                             notfTxt = ""
@@ -2084,14 +2084,14 @@ Session.LCID = 1030
                               <div class="row">
                                   
                                   <div class="col-lg-1">&nbsp</div>
-                                  <div class="col-lg-2"><b>Default startside:</b></div>
+                                  <div class="col-lg-2"><b><%=medarb_txt_123 %>:</b></div>
                                   <div class="col-lg-5">
                                      
                                              <%if cint(level) <= 2 OR cint(level) = 6 then%> 
-                                             <input type="radio" name="FM_tsacrm" value="0" <%=strCRMcheckedTSA%>> Timeregistrering (default) 
-                                      <br />&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp  <input type="checkbox" name="FM_timer_ststop" value="1" <%=timer_ststopCHK%> /> Indtast timer som start og stop tid <br>
+                                             <input type="radio" name="FM_tsacrm" value="0" <%=strCRMcheckedTSA%>> <%=medarb_txt_124 %> 
+                                      <br />&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp  <input type="checkbox" name="FM_timer_ststop" value="1" <%=timer_ststopCHK%> /> <%=medarb_txt_085 %> <br>
           
-                                          <br /> <input type="radio" name="FM_tsacrm" value="6" <%=strCRMcheckedTSA_6%>> Ugeseddel<br>
+                                          <br /> <input type="radio" name="FM_tsacrm" value="6" <%=strCRMcheckedTSA_6%>> <%=medarb_txt_086 %><br>
                                               <%end if %>
 
 
@@ -2100,17 +2100,17 @@ Session.LCID = 1030
                                         <%call erStempelurOn()
                 
                                         if cint(stempelurOn) = 1 then %>
-                                            <input type="radio" name="FM_tsacrm" value="3" <%=strCRMcheckedTSA_3%>> Stempelur (Komme / Gå)  <br>
+                                            <input type="radio" name="FM_tsacrm" value="3" <%=strCRMcheckedTSA_3%>> <%=medarb_txt_087 %>  <br>
                                         <%end if %>
 		
-		                             <input type="radio" name="FM_tsacrm" value="2" <%=strCRMcheckedRes%>> Ressourceplanner<br>
-                                    <input type="radio" name="FM_tsacrm" value="4" <%=strCRMcheckedTSA_4%>> Igangværende job<br>
-                                     <input type="radio" name="FM_tsacrm" value="5" <%=strCRMcheckedTSA_5%>> Joblisten<br>
-                                      <input type="radio" name="FM_tsacrm" value="7" <%=strCRMcheckedTSA_7%>> Dashboard<br>
-                                      <input type="radio" name="FM_tsacrm" value="8" <%=strCRMcheckedTSA_8%>> Kunder<br>
+		                             <input type="radio" name="FM_tsacrm" value="2" <%=strCRMcheckedRes%>> <%=medarb_txt_088 %><br>
+                                    <input type="radio" name="FM_tsacrm" value="4" <%=strCRMcheckedTSA_4%>> <%=medarb_txt_089 %><br>
+                                     <input type="radio" name="FM_tsacrm" value="5" <%=strCRMcheckedTSA_5%>> <%=medarb_txt_090 %><br>
+                                      <input type="radio" name="FM_tsacrm" value="7" <%=strCRMcheckedTSA_7%>> <%=medarb_txt_091 %><br>
+                                      <input type="radio" name="FM_tsacrm" value="8" <%=strCRMcheckedTSA_8%>> <%=medarb_txt_092 %><br>
 
                                      <%if licensType = "CRM" then%>
-                                     <input type="radio" name="FM_tsacrm" value="1" <%=strCRMcheckedCRM%>> CRM Kalender<br>
+                                     <input type="radio" name="FM_tsacrm" value="1" <%=strCRMcheckedCRM%>> <%=medarb_txt_093 %><br> 
                                     <%end if%>
 
                                       <%end if 'level = 1 %>
@@ -2137,7 +2137,7 @@ Session.LCID = 1030
 
                       <%if func = "red" then %>
                               <br /><br /><br />
-                <div style="font-weight: lighter;">Sidst opdateret den <b><%=strDato%></b> af <b><%=strEditor%></b></div>
+                <div style="font-weight: lighter;"><%=medarb_txt_094 %> <b><%=strDato%></b> <%=medarb_txt_095 %> <b><%=strEditor%></b></div>
 
                             <%if func = "red" then %>
                             <span style="font-size:9px; color:#999999;"> 
@@ -2155,7 +2155,7 @@ Session.LCID = 1030
                </section>
 
                   <div style="margin-top:15px; margin-bottom:15px;">
-                    <button type="submit" class="btn btn-success btn-sm pull-right"><b>Opdatér</b></button>
+                    <button type="submit" class="btn btn-success btn-sm pull-right"><b><%=medarb_txt_020 %></b></button>
                      
          
                     <div class="clearfix"></div>
@@ -2253,7 +2253,7 @@ Session.LCID = 1030
     <div class="container">
       <div class="portlet">
         <h3 class="portlet-title">
-          <u>Medarbejdere</u>
+          <u><%=medarb_txt_096 %></u>
         </h3>
         
           <%if level = 1 then 
@@ -2280,7 +2280,7 @@ Session.LCID = 1030
                          <div class="row">
                              <div class="col-lg-10">&nbsp;</div>
                              <div class="col-lg-2">
-                            <button class="btn btn-sm btn-success pull-right"><b>Opret ny +</b></button><br />&nbsp;
+                            <button class="btn btn-sm btn-success pull-right"><b><%=medarb_txt_097 %> +</b></button><br />&nbsp;
                             </div>
                         </div>
                 </section>
@@ -2294,18 +2294,18 @@ Session.LCID = 1030
 
                  <form action="medarb.asp?vismedarbejdere=1&sogsubmitted=1" method="POST">
                 <div class="well">
-                         <h4 class="panel-title-well">Søgefilter</h4>
+                         <h4 class="panel-title-well"><%=medarb_txt_098 %></h4>
                          <div class="row">
                              <div class="col-lg-3">
-                                 Søg på Navn: <br />
+                                 <%=medarb_txt_099 %>: <br />
 			                    <input type="text" name="FM_soeg" id="FM_soeg" class="form-control input-small" placeholder="% Wildcard" value="<%=thiskri%>">
                                </div>
                             <div class="col-lg-9"><br />
-                            <button type="submit" class="btn btn-secondary btn-sm pull-right"><b>Vis medarbejdere >></b></button>
+                            <button type="submit" class="btn btn-secondary btn-sm pull-right"><b><%=medarb_txt_100 %> >></b></button>
                             </div>
                              </div>
                     <div class="row">
-                        <div class="col-lg-3"><input id="jq_vispasogluk" name="FM_vispasogluk" type="checkbox" <%=vispasoglukCHK %> value="1" /> Vis alle (passive og de-aktiverede)</div>
+                        <div class="col-lg-3"><input id="jq_vispasogluk" name="FM_vispasogluk" type="checkbox" <%=vispasoglukCHK %> value="1" /> <%=medarb_txt_101 %></div>
                     </div>
                             
                     </div>
@@ -2319,15 +2319,15 @@ Session.LCID = 1030
            
             <thead>
               <tr>
-                <th style="width: 22%">Navn</th>
-                <th style="width: 5%">Status</th>
-                <th style="width: 15%">Medarbejdertype</th>
-                <th style="width: 18%">Rettigheder</th>
-                <th style="width: 15%">Email</th>
-                <th style="width: 10%">Ansat</th>
-                <th style="width: 10%">Sidste Login</th>
-                <th style="width: 5%">Joblog</th>
-                <th style="width: 5%">Slet</th>
+                <th style="width: 22%"><%=medarb_txt_102 %></th>
+                <th style="width: 5%"><%=medarb_txt_103 %></th>
+                <th style="width: 15%"><%=medarb_txt_104 %></th>
+                <th style="width: 18%"><%=medarb_txt_105 %></th>
+                <th style="width: 15%"><%=medarb_txt_106 %></th>
+                <th style="width: 10%"><%=medarb_txt_114 %></th>
+                <th style="width: 10%"><%=medarb_txt_108 %></th>
+                <th style="width: 5%"><%=medarb_txt_109 %></th>
+                <th style="width: 5%"><%=medarb_txt_110 %></th>
 
               </tr>
             </thead>
@@ -2489,15 +2489,15 @@ Session.LCID = 1030
             </tbody>
                <tfoot>
                    <tr>
-                    <th>Navn</th>
-                    <th>Status</th>
-                    <th>Medarbejdertype</th>
-                    <th>Rettigheder</th>
-                    <th>Email</th>
-                    <th>Ansat</th>
-                    <th>Sidste login</th>
-                    <th>Joblog</th>
-                    <th>Slet</th>
+                    <th><%=medarb_txt_102 %></th>
+                    <th><%=medarb_txt_103 %></th>
+                    <th><%=medarb_txt_104 %></th>
+                    <th><%=medarb_txt_105 %></th>
+                    <th><%=medarb_txt_106 %></th>
+                    <th><%=medarb_txt_114 %></th>
+                    <th><%=medarb_txt_108 %></th>
+                    <th><%=medarb_txt_109 %></th>
+                    <th><%=medarb_txt_110 %></th>
                    </tr>
                </tfoot>
           </table>
@@ -2548,8 +2548,8 @@ Session.LCID = 1030
 				                '**** Eksport fil, kolonne overskrifter ***
 				
 			
-				                strOskrifter = "Medarbejder; Nr.; Init; Status; Medarbejertype; Brugergruppe; Email; Ansatdato"
-				
+				                'strOskrifter = "Medarbejder; Nr.; Init; Status; Medarbejertype; Brugergruppe; Email; Ansatdato"
+				                strOskrifter = medarb_txt_002&"; "& medarb_txt_111&"; "& medarb_txt_126&"; "& medarb_txt_127&"; "& medarb_txt_128&"; "& medarb_txt_112&"; "& medarb_txt_106&"; "& medarb_txt_114&"; "
 				
 				
 				
@@ -2568,7 +2568,7 @@ Session.LCID = 1030
 	                            <td valign=top bgcolor="#ffffff" style="padding:5px 5px 5px 15px;">
                 
                              
-	                            <a href="../inc/log/data/<%=file%>" target="_blank" >Din CSV. fil er klar >></a>
+	                            <a href="../inc/log/data/<%=file%>" target="_blank" ><%=medarb_txt_115 %> >></a>
 	                            </td></tr>
 	                            </table>
                                 </div>
@@ -2595,7 +2595,7 @@ Session.LCID = 1030
           <section>
                 <div class="row">
                      <div class="col-lg-12">
-                        <b>Funktioner</b>
+                        <b><%=medarb_txt_116 %></b>
                         </div>
                     </div>
                     <form action="medarb.asp?media=eksport" method="Post" target="_blank">
@@ -2603,7 +2603,7 @@ Session.LCID = 1030
                     <div class="row">
                      <div class="col-lg-12 pad-r30">
                          
-                    <input id="Submit5" type="submit" value="Eksport til csv." class="btn btn-sm" /><br />
+                    <input id="Submit5" type="submit" value="<%=medarb_txt_117 %>" class="btn btn-sm" /><br />
                     <!--Eksporter viste kunder og kontaktpersoner som .csv fil-->
                          
                          </div>
