@@ -1,0 +1,924 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<sprog>
+
+  <!--- Dansk -->
+  <dk>
+
+    <txt_1 >Medarbejdertype</txt_1>
+    <txt_2 >Du er ved at</txt_2>
+    <txt_3 >SLETTE</txt_3>
+    <txt_4 >en medarbejdertype. Er dette korrekt?</txt_4>
+    <txt_5 >Nej</txt_5>
+    <txt_6 >Medarbejdertyper</txt_6>
+    <txt_7 >Aktive og passive medarbejdere af typen</txt_7>
+    <txt_8 >Navn</txt_8>
+    <txt_9 >Intialer</txt_9>
+    <txt_10 >Status</txt_10>
+    <txt_11 >Ansatdato</txt_11>
+    <txt_12 >Sidst logget ind</txt_12>
+    <txt_13 >Seneste tidsreg.</txt_13>
+    <txt_14 >Antal medarbejdere på listen</txt_14>
+    <txt_15 >Funktioner</txt_15>
+    <txt_16 >Eksport til csv.</txt_16>
+    <txt_17 >Din CSV. fil er klar</txt_17>
+    <txt_18 >Timepris</txt_18>
+    <txt_19 >Kostpris</txt_19>
+    <txt_20 >Normtimer</txt_20>
+    <txt_21 >Man.</txt_21>
+    <txt_22 >Tir.</txt_22>
+    <txt_23 >Ons.</txt_23>
+    <txt_24 >Tor.</txt_24>
+    <txt_25 >Fre.</txt_25>
+    <txt_26 >Lør.</txt_26>
+    <txt_27 >Søn.</txt_27>
+    <txt_28 >Du har ikke adgang til denne side</txt_28>
+    <txt_29 >Opdatér</txt_29>
+    <txt_30 >I har 1:1 mellem medarbejder og medarbejdertype slået til.</txt_30>
+    <txt_31 >Data nedarvet fra medarbejdertypen</txt_31>
+    <txt_32 >Timepriser er allerede lagt ud på stam-skabeloner, åbne job og tilbud.</txt_32>
+    <txt_33 >Nomeret tid</txt_33>
+    <txt_34 >Mandag</txt_34>
+    <txt_35 >Tirsdag</txt_35>
+    <txt_36 >Onsdag</txt_36>
+    <txt_37 >Torsdag</txt_37>
+    <txt_38 >Fredag</txt_38>
+    <txt_39 >Lørdag</txt_39>
+    <txt_40 >Søndag</txt_40>
+    <txt_41 >Total</txt_41>
+    <txt_42 >Vis/beregn ikke flekssaldo for denne type.</txt_42>
+    <txt_43 >Time- og kost -priser</txt_43>
+    <txt_44 >TimePris</txt_44>
+    <txt_45 >Alt. Timepris</txt_45>
+    <txt_46 >Alt. Timepriser</txt_46>
+    <txt_47 >Opdater stam-aktivitetsgrupper</txt_47>
+    <txt_48 >Opdater timepriser</txt_48>
+    <txt_49 >Ja</txt_49>
+    <txt_50 >Opdater timepriser, for denne medarbejdertype (aktive + passive medarb.) på</txt_50>
+    <txt_51 >Timepristabellen på alle fakturerbare/Ikke fakturerbare aktiviteter på åbne job og tilbud.</txt_51>
+    <txt_52 >Alle registrerede timer på fakturerbare aktiviteter på</txt_52>
+    <txt_53 >åbne</txt_53>
+    <txt_54 >job</txt_54>
+    <txt_55 >fra d.</txt_55>
+    <txt_56 >til dd.</txt_56>
+    <txt_57 >også lukkede uger og hvis der foreligger faktura.</txt_57>
+    <txt_58 >Gælder ikke aktiviteter der er sat til fastpris</txt_58>
+    <txt_59 >Intern kostpris</txt_59>
+    <txt_60 >Angiv kostpris tariffer</txt_60>
+    <txt_61 >Kostpris tarif A</txt_61>
+    <txt_62 >Kostpris tarif B</txt_62>
+    <txt_63 >Kostpris tarif C</txt_63>
+    <txt_64 >Kostpris tarif D</txt_64>
+    <txt_65 >Opdater interne kostpriser/tariffer, for denne type,</txt_65>
+    <txt_66 >på alle eksisterende</txt_66>
+    <txt_67 >job. (aktive + passive medarb.)</txt_67>
+    <txt_68 >Avanceret indstillinger</txt_68>
+    <txt_69 >Søstergruppe</txt_69>
+    <txt_70 >Nej</txt_70>
+    <txt_71 >Vis IKKE denne type under budget, statistik og forecast</txt_71>
+    <txt_72 >Hovedgruppe</txt_72>
+    <txt_73 >Følger søstergruppe</txt_73>
+    <txt_74 >Sortering</txt_74>
+    <txt_75 >Afslut uge/dag kriterie</txt_75>
+    <txt_76 >Minimumskrav til timeantal</txt_76>
+    <txt_77 >Denne medarbejdertype kan afslutte sin uge når</txt_77>
+    <txt_78 >Ingen (kan altid afslutte)</txt_78>
+    <txt_79 >Realiserede timer</txt_79>
+    <txt_80 >Real. fakturerbare timer</txt_80>
+    <txt_81 >udgør minimun</txt_81>
+    <txt_82 >af komme/gå tid.</txt_82>
+    <txt_83 >af normtid.</txt_83>
+    <txt_84 >Målsætning på</txt_84>
+    <txt_85 >forretningsområde i %</txt_85>
+    <txt_86 >Sidst opdateret den</txt_86>
+    <txt_87 >af</txt_87>
+    <txt_88 >Opdatér</txt_88>
+    <txt_89 >Du har ikke adgang til denne side</txt_89>
+    <txt_90 >Medarbejdertyper</txt_90>
+    <txt_91 >Opret ny</txt_91>
+    <txt_92 >Id</txt_92>
+    <txt_93 >Sort.</txt_93>
+    <txt_94 >Navn</txt_94>
+    <txt_95 >Hovedgruppe</txt_95>
+    <txt_96 >Søstergrp</txt_96>
+    <txt_97 >Medlemmer</txt_97>
+    <txt_98 >antal aktive + passive</txt_98>
+    <txt_99 >Timepris</txt_99>
+    <txt_100 >Kostpris</txt_100>
+    <txt_101 >Norm. timer</txt_101>
+    <txt_102 >Slet</txt_102>
+    <txt_103 >Se medlemmer</txt_103>
+    <txt_104 >Heraf passive</txt_104>
+    <txt_105 >historisk</txt_105>
+    <txt_106 >Funktioner</txt_106>
+    <txt_107 >Eksporter alle medarb.typer til csv.</txt_107>
+    <txt_108 >Du har ikke adgang til denne side</txt_108>
+    <txt_109 >Medarbejder</txt_109>
+    <txt_110 >Opret</txt_110>
+    <txt_111 >Mobil</txt_111>
+    <txt_112 >Speciel indstillinger på denne type på mobil.</txt_112>
+    <txt_113 >Vis jobliste som dropdown</txt_113>
+    <txt_114 >Vis aktliste som dropdown (første forvalgt)</txt_114>
+    <txt_115 >Vis start/stop.</txt_115>
+    <txt_116 >t.</txt_116>
+    <txt_117 >Init</txt_117>
+
+    <txt_118 >Normtimer Man.</txt_118>
+    <txt_119 >Normtimer Tir.</txt_119>
+    <txt_120 >Normtimer Ons.</txt_120>
+    <txt_121 >Normtimer Tor.</txt_121>
+    <txt_122 >Normtimer Fre.</txt_122>
+    <txt_123 >Normtimer Lør.</txt_123>
+    <txt_124 >Normtimer Søn.</txt_124>
+
+  </dk>
+
+
+
+  <!-- Norsk -->
+  <no>
+
+    <txt_1 >Employee type</txt_1>
+    <txt_2 >You are about to</txt_2>
+    <txt_3 >DELETE</txt_3>
+    <txt_4 >an employee type. Please confirm.</txt_4>
+    <txt_5 >No</txt_5>
+    <txt_6 >Employee types</txt_6>
+    <txt_7 >Active and passive employees of the type</txt_7>
+    <txt_8 >Name</txt_8>
+    <txt_9 >Initials</txt_9>
+    <txt_10 >Status</txt_10>
+    <txt_11 >Employment date</txt_11>
+    <txt_12 >Last log-in</txt_12>
+    <txt_13 >Last timereg.</txt_13>
+    <txt_14 >Numbers of employees on the list</txt_14>
+    <txt_15 >Functions</txt_15>
+    <txt_16 >Export to csv.</txt_16>
+    <txt_17 >Your .csv file is ready</txt_17>
+    <txt_18 >Hourly rate</txt_18>
+    <txt_19 >Cost</txt_19>
+    <txt_20 >Rated hours</txt_20>
+    <txt_21 >Mon.</txt_21>
+    <txt_22 >Tue.</txt_22>
+    <txt_23 >Wed.</txt_23>
+    <txt_24 >Thu.</txt_24>
+    <txt_25 >Fri.</txt_25>
+    <txt_26 >Sat.</txt_26>
+    <txt_27 >Sun.</txt_27>
+    <txt_28 >You do not have access to this page</txt_28>
+    <txt_29 >Update</txt_29>
+    <txt_30 >Employee - Employee type is equal.</txt_30>
+    <txt_31 >Data from employee type</txt_31>
+    <txt_32 >Hourly rate is copied to project template, open jobs and offers.</txt_32>
+    <txt_33 >Rated time</txt_33>
+    <txt_34 >Monday</txt_34>
+    <txt_35 >Tuesday</txt_35>
+    <txt_36 >Wednesday</txt_36>
+    <txt_37 >Thursday</txt_37>
+    <txt_38 >Friday</txt_38>
+    <txt_39 >Saturday</txt_39>
+    <txt_40 >Sunday</txt_40>
+    <txt_41 >Total</txt_41>
+    <txt_42 >Do not show/calc. Flex balace for this employee type.</txt_42>
+    <txt_43 >Hourly and cost rates</txt_43>
+    <txt_44 >Hourly rate</txt_44>
+    <txt_45 >Alt. Hourly rate</txt_45>
+    <txt_46 >Alt. Hourly rates</txt_46>
+    <txt_47 >Update project template</txt_47>
+    <txt_48 >Update hourly rates</txt_48>
+    <txt_49 >Yes</txt_49>
+    <txt_50 >Update hourly rates for this employee type (active + passive employees) for</txt_50>
+    <txt_51 >The hourly rate matrix on all invoicable/non invoicable activities on open job and offers.</txt_51>
+    <txt_52 >Alle stated hours on invoicable activities on</txt_52>
+    <txt_53 >open</txt_53>
+    <txt_54 >jobs</txt_54>
+    <txt_55 >from</txt_55>
+    <txt_56 >to today</txt_56>
+    <txt_57 >incl. Closed weeks and if invoices are present.</txt_57>
+    <txt_58 >Does not include activities w. fixed price</txt_58>
+    <txt_59 >Internal cost</txt_59>
+    <txt_60 >Set cost rates</txt_60>
+    <txt_61 >Cost rate A</txt_61>
+    <txt_62 >Cost rate B</txt_62>
+    <txt_63 >Cost rate C</txt_63>
+    <txt_64 >Cost rate D</txt_64>
+    <txt_65 >Update internal cost rates for this employee type</txt_65>
+    <txt_66 >on all existing</txt_66>
+    <txt_67 >jobs (active + passive empl.)</txt_67>
+    <txt_68 >Advanced settings</txt_68>
+    <txt_69 >Sister groups</txt_69>
+    <txt_70 >No</txt_70>
+    <txt_71 >Do NOT show this type on Budget, statistic or forecast</txt_71>
+    <txt_72 >Main group</txt_72>
+    <txt_73 >Follows sistergroup</txt_73>
+    <txt_74 >Sorting</txt_74>
+    <txt_75 >Complete week/day criteria</txt_75>
+    <txt_76 >Minimum hours</txt_76>
+    <txt_77 >This employee type can complete the week when</txt_77>
+    <txt_78 >None (kan allways complete)</txt_78>
+    <txt_79 >Statede hours</txt_79>
+    <txt_80 >Stat. Invoicable hours</txt_80>
+    <txt_81 >at least is</txt_81>
+    <txt_82 >of come/go time.</txt_82>
+    <txt_83 >of rated hours.</txt_83>
+    <txt_84 >Target on</txt_84>
+    <txt_85 >business areas in %</txt_85>
+    <txt_86 >Last updated</txt_86>
+    <txt_87 >by</txt_87>
+    <txt_88 >Update</txt_88>
+    <txt_89 >You do not have access to this page</txt_89>
+    <txt_90 >Employee types</txt_90>
+    <txt_91 >Create</txt_91>
+    <txt_92 >ID</txt_92>
+    <txt_93 >Sort.</txt_93>
+    <txt_94 >Name</txt_94>
+    <txt_95 >Main group</txt_95>
+    <txt_96 >Sister group</txt_96>
+    <txt_97 >Members</txt_97>
+    <txt_98 >no. Of active + passive</txt_98>
+    <txt_99 >Hourly rate</txt_99>
+    <txt_100 >Cost rate</txt_100>
+    <txt_101 >Rated hours</txt_101>
+    <txt_102 >Delete</txt_102>
+    <txt_103 >Show members</txt_103>
+    <txt_104 >Hereof passive</txt_104>
+    <txt_105 >historic</txt_105>
+    <txt_106 >Functions</txt_106>
+    <txt_107 >Export all employee types</txt_107>
+    <txt_108 >You do not have access to this page</txt_108>
+    <txt_109 >Employee</txt_109>
+    <txt_110 >Create</txt_110>
+    <txt_111 >Mobile phone</txt_111>
+    <txt_112 >Special settings on this type on mobile.</txt_112>
+    <txt_113 >Show job list as dropdown</txt_113>
+    <txt_114 >Show activity list as dropdown (first pre-selected)</txt_114>
+    <txt_115 >Show start / stop.</txt_115>
+    <txt_116 >h.</txt_116>
+    <txt_117 >Init</txt_117>
+
+    <txt_118 >Rated hours Mon.</txt_118>
+    <txt_119 >Rated hours Tue.</txt_119>
+    <txt_120 >Rated hours Wed.</txt_120>
+    <txt_121 >Rated hours Thu.</txt_121>
+    <txt_122 >Rated hours Fri.</txt_122>
+    <txt_123 >Rated hours Sat.</txt_123>
+    <txt_124 >Rated hours Sun.</txt_124>
+
+  </no>
+
+
+  <!-- Svensk -->
+  <se>
+
+    <txt_1 >Employee type</txt_1>
+    <txt_2 >You are about to</txt_2>
+    <txt_3 >DELETE</txt_3>
+    <txt_4 >an employee type. Please confirm.</txt_4>
+    <txt_5 >No</txt_5>
+    <txt_6 >Employee types</txt_6>
+    <txt_7 >Active and passive employees of the type</txt_7>
+    <txt_8 >Name</txt_8>
+    <txt_9 >Initials</txt_9>
+    <txt_10 >Status</txt_10>
+    <txt_11 >Employment date</txt_11>
+    <txt_12 >Last log-in</txt_12>
+    <txt_13 >Last timereg.</txt_13>
+    <txt_14 >Numbers of employees on the list</txt_14>
+    <txt_15 >Functions</txt_15>
+    <txt_16 >Export to csv.</txt_16>
+    <txt_17 >Your .csv file is ready</txt_17>
+    <txt_18 >Hourly rate</txt_18>
+    <txt_19 >Cost</txt_19>
+    <txt_20 >Rated hours</txt_20>
+    <txt_21 >Mon.</txt_21>
+    <txt_22 >Tue.</txt_22>
+    <txt_23 >Wed.</txt_23>
+    <txt_24 >Thu.</txt_24>
+    <txt_25 >Fri.</txt_25>
+    <txt_26 >Sat.</txt_26>
+    <txt_27 >Sun.</txt_27>
+    <txt_28 >You do not have access to this page</txt_28>
+    <txt_29 >Update</txt_29>
+    <txt_30 >Employee - Employee type is equal.</txt_30>
+    <txt_31 >Data from employee type</txt_31>
+    <txt_32 >Hourly rate is copied to project template, open jobs and offers.</txt_32>
+    <txt_33 >Rated time</txt_33>
+    <txt_34 >Monday</txt_34>
+    <txt_35 >Tuesday</txt_35>
+    <txt_36 >Wednesday</txt_36>
+    <txt_37 >Thursday</txt_37>
+    <txt_38 >Friday</txt_38>
+    <txt_39 >Saturday</txt_39>
+    <txt_40 >Sunday</txt_40>
+    <txt_41 >Total</txt_41>
+    <txt_42 >Do not show/calc. Flex balace for this employee type.</txt_42>
+    <txt_43 >Hourly and cost rates</txt_43>
+    <txt_44 >Hourly rate</txt_44>
+    <txt_45 >Alt. Hourly rate</txt_45>
+    <txt_46 >Alt. Hourly rates</txt_46>
+    <txt_47 >Update project template</txt_47>
+    <txt_48 >Update hourly rates</txt_48>
+    <txt_49 >Yes</txt_49>
+    <txt_50 >Update hourly rates for this employee type (active + passive employees) for</txt_50>
+    <txt_51 >The hourly rate matrix on all invoicable/non invoicable activities on open job and offers.</txt_51>
+    <txt_52 >Alle stated hours on invoicable activities on</txt_52>
+    <txt_53 >open</txt_53>
+    <txt_54 >jobs</txt_54>
+    <txt_55 >from</txt_55>
+    <txt_56 >to today</txt_56>
+    <txt_57 >incl. Closed weeks and if invoices are present.</txt_57>
+    <txt_58 >Does not include activities w. fixed price</txt_58>
+    <txt_59 >Internal cost</txt_59>
+    <txt_60 >Set cost rates</txt_60>
+    <txt_61 >Cost rate A</txt_61>
+    <txt_62 >Cost rate B</txt_62>
+    <txt_63 >Cost rate C</txt_63>
+    <txt_64 >Cost rate D</txt_64>
+    <txt_65 >Update internal cost rates for this employee type</txt_65>
+    <txt_66 >on all existing</txt_66>
+    <txt_67 >jobs (active + passive empl.)</txt_67>
+    <txt_68 >Advanced settings</txt_68>
+    <txt_69 >Sister groups</txt_69>
+    <txt_70 >No</txt_70>
+    <txt_71 >Do NOT show this type on Budget, statistic or forecast</txt_71>
+    <txt_72 >Main group</txt_72>
+    <txt_73 >Follows sistergroup</txt_73>
+    <txt_74 >Sorting</txt_74>
+    <txt_75 >Complete week/day criteria</txt_75>
+    <txt_76 >Minimum hours</txt_76>
+    <txt_77 >This employee type can complete the week when</txt_77>
+    <txt_78 >None (kan allways complete)</txt_78>
+    <txt_79 >Statede hours</txt_79>
+    <txt_80 >Stat. Invoicable hours</txt_80>
+    <txt_81 >at least is</txt_81>
+    <txt_82 >of come/go time.</txt_82>
+    <txt_83 >of rated hours.</txt_83>
+    <txt_84 >Target on</txt_84>
+    <txt_85 >business areas in %</txt_85>
+    <txt_86 >Last updated</txt_86>
+    <txt_87 >by</txt_87>
+    <txt_88 >Update</txt_88>
+    <txt_89 >You do not have access to this page</txt_89>
+    <txt_90 >Employee types</txt_90>
+    <txt_91 >Create</txt_91>
+    <txt_92 >ID</txt_92>
+    <txt_93 >Sort.</txt_93>
+    <txt_94 >Name</txt_94>
+    <txt_95 >Main group</txt_95>
+    <txt_96 >Sister group</txt_96>
+    <txt_97 >Members</txt_97>
+    <txt_98 >no. Of active + passive</txt_98>
+    <txt_99 >Hourly rate</txt_99>
+    <txt_100 >Cost rate</txt_100>
+    <txt_101 >Rated hours</txt_101>
+    <txt_102 >Delete</txt_102>
+    <txt_103 >Show members</txt_103>
+    <txt_104 >Hereof passive</txt_104>
+    <txt_105 >historic</txt_105>
+    <txt_106 >Functions</txt_106>
+    <txt_107 >Export all employee types</txt_107>
+    <txt_108 >You do not have access to this page</txt_108>
+    <txt_109 >Employee</txt_109>
+    <txt_110 >Create</txt_110>
+    <txt_111 >Mobile phone</txt_111>
+    <txt_112 >Special settings on this type on mobile.</txt_112>
+    <txt_113 >Show job list as dropdown</txt_113>
+    <txt_114 >Show activity list as dropdown (first pre-selected)</txt_114>
+    <txt_115 >Show start / stop.</txt_115>
+    <txt_116 >h.</txt_116>
+    <txt_117 >Init</txt_117>
+    <txt_118 >Rated hours Mon.</txt_118>
+    <txt_119 >Rated hours Tue.</txt_119>
+    <txt_120 >Rated hours Wed.</txt_120>
+    <txt_121 >Rated hours Thu.</txt_121>
+    <txt_122 >Rated hours Fri.</txt_122>
+    <txt_123 >Rated hours Sat.</txt_123>
+    <txt_124 >Rated hours Sun.</txt_124>
+
+  </se>
+
+
+  <!-- Tysk -->
+  <de>
+
+    <txt_1 >Employee type</txt_1>
+    <txt_2 >You are about to</txt_2>
+    <txt_3 >DELETE</txt_3>
+    <txt_4 >an employee type. Please confirm.</txt_4>
+    <txt_5 >No</txt_5>
+    <txt_6 >Employee types</txt_6>
+    <txt_7 >Active and passive employees of the type</txt_7>
+    <txt_8 >Name</txt_8>
+    <txt_9 >Initials</txt_9>
+    <txt_10 >Status</txt_10>
+    <txt_11 >Employment date</txt_11>
+    <txt_12 >Last log-in</txt_12>
+    <txt_13 >Last timereg.</txt_13>
+    <txt_14 >Numbers of employees on the list</txt_14>
+    <txt_15 >Functions</txt_15>
+    <txt_16 >Export to csv.</txt_16>
+    <txt_17 >Your .csv file is ready</txt_17>
+    <txt_18 >Hourly rate</txt_18>
+    <txt_19 >Cost</txt_19>
+    <txt_20 >Rated hours</txt_20>
+    <txt_21 >Mon.</txt_21>
+    <txt_22 >Tue.</txt_22>
+    <txt_23 >Wed.</txt_23>
+    <txt_24 >Thu.</txt_24>
+    <txt_25 >Fri.</txt_25>
+    <txt_26 >Sat.</txt_26>
+    <txt_27 >Sun.</txt_27>
+    <txt_28 >You do not have access to this page</txt_28>
+    <txt_29 >Update</txt_29>
+    <txt_30 >Employee - Employee type is equal.</txt_30>
+    <txt_31 >Data from employee type</txt_31>
+    <txt_32 >Hourly rate is copied to project template, open jobs and offers.</txt_32>
+    <txt_33 >Rated time</txt_33>
+    <txt_34 >Monday</txt_34>
+    <txt_35 >Tuesday</txt_35>
+    <txt_36 >Wednesday</txt_36>
+    <txt_37 >Thursday</txt_37>
+    <txt_38 >Friday</txt_38>
+    <txt_39 >Saturday</txt_39>
+    <txt_40 >Sunday</txt_40>
+    <txt_41 >Total</txt_41>
+    <txt_42 >Do not show/calc. Flex balace for this employee type.</txt_42>
+    <txt_43 >Hourly and cost rates</txt_43>
+    <txt_44 >Hourly rate</txt_44>
+    <txt_45 >Alt. Hourly rate</txt_45>
+    <txt_46 >Alt. Hourly rates</txt_46>
+    <txt_47 >Update project template</txt_47>
+    <txt_48 >Update hourly rates</txt_48>
+    <txt_49 >Yes</txt_49>
+    <txt_50 >Update hourly rates for this employee type (active + passive employees) for</txt_50>
+    <txt_51 >The hourly rate matrix on all invoicable/non invoicable activities on open job and offers.</txt_51>
+    <txt_52 >Alle stated hours on invoicable activities on</txt_52>
+    <txt_53 >open</txt_53>
+    <txt_54 >jobs</txt_54>
+    <txt_55 >from</txt_55>
+    <txt_56 >to today</txt_56>
+    <txt_57 >incl. Closed weeks and if invoices are present.</txt_57>
+    <txt_58 >Does not include activities w. fixed price</txt_58>
+    <txt_59 >Internal cost</txt_59>
+    <txt_60 >Set cost rates</txt_60>
+    <txt_61 >Cost rate A</txt_61>
+    <txt_62 >Cost rate B</txt_62>
+    <txt_63 >Cost rate C</txt_63>
+    <txt_64 >Cost rate D</txt_64>
+    <txt_65 >Update internal cost rates for this employee type</txt_65>
+    <txt_66 >on all existing</txt_66>
+    <txt_67 >jobs (active + passive empl.)</txt_67>
+    <txt_68 >Advanced settings</txt_68>
+    <txt_69 >Sister groups</txt_69>
+    <txt_70 >No</txt_70>
+    <txt_71 >Do NOT show this type on Budget, statistic or forecast</txt_71>
+    <txt_72 >Main group</txt_72>
+    <txt_73 >Follows sistergroup</txt_73>
+    <txt_74 >Sorting</txt_74>
+    <txt_75 >Complete week/day criteria</txt_75>
+    <txt_76 >Minimum hours</txt_76>
+    <txt_77 >This employee type can complete the week when</txt_77>
+    <txt_78 >None (kan allways complete)</txt_78>
+    <txt_79 >Statede hours</txt_79>
+    <txt_80 >Stat. Invoicable hours</txt_80>
+    <txt_81 >at least is</txt_81>
+    <txt_82 >of come/go time.</txt_82>
+    <txt_83 >of rated hours.</txt_83>
+    <txt_84 >Target on</txt_84>
+    <txt_85 >business areas in %</txt_85>
+    <txt_86 >Last updated</txt_86>
+    <txt_87 >by</txt_87>
+    <txt_88 >Update</txt_88>
+    <txt_89 >You do not have access to this page</txt_89>
+    <txt_90 >Employee types</txt_90>
+    <txt_91 >Create</txt_91>
+    <txt_92 >ID</txt_92>
+    <txt_93 >Sort.</txt_93>
+    <txt_94 >Name</txt_94>
+    <txt_95 >Main group</txt_95>
+    <txt_96 >Sister group</txt_96>
+    <txt_97 >Members</txt_97>
+    <txt_98 >no. Of active + passive</txt_98>
+    <txt_99 >Hourly rate</txt_99>
+    <txt_100 >Cost rate</txt_100>
+    <txt_101 >Rated hours</txt_101>
+    <txt_102 >Delete</txt_102>
+    <txt_103 >Show members</txt_103>
+    <txt_104 >Hereof passive</txt_104>
+    <txt_105 >historic</txt_105>
+    <txt_106 >Functions</txt_106>
+    <txt_107 >Export all employee types</txt_107>
+    <txt_108 >You do not have access to this page</txt_108>
+    <txt_109 >Employee</txt_109>
+    <txt_110 >Create</txt_110>
+    <txt_111 >Mobile phone</txt_111>
+    <txt_112 >Special settings on this type on mobile.</txt_112>
+    <txt_113 >Show job list as dropdown</txt_113>
+    <txt_114 >Show activity list as dropdown (first pre-selected)</txt_114>
+    <txt_115 >Show start / stop.</txt_115>
+    <txt_116 >h.</txt_116>
+    <txt_117 >Init</txt_117>
+    <txt_118 >Rated hours Mon.</txt_118>
+    <txt_119 >Rated hours Tue.</txt_119>
+    <txt_120 >Rated hours Wed.</txt_120>
+    <txt_121 >Rated hours Thu.</txt_121>
+    <txt_122 >Rated hours Fri.</txt_122>
+    <txt_123 >Rated hours Sat.</txt_123>
+    <txt_124 >Rated hours Sun.</txt_124>
+
+
+  </de>
+
+
+  <!-- Fransk -->
+  <fr>
+    <txt_1 >Employee type</txt_1>
+    <txt_2 >You are about to</txt_2>
+    <txt_3 >DELETE</txt_3>
+    <txt_4 >an employee type. Please confirm.</txt_4>
+    <txt_5 >No</txt_5>
+    <txt_6 >Employee types</txt_6>
+    <txt_7 >Active and passive employees of the type</txt_7>
+    <txt_8 >Name</txt_8>
+    <txt_9 >Initials</txt_9>
+    <txt_10 >Status</txt_10>
+    <txt_11 >Employment date</txt_11>
+    <txt_12 >Last log-in</txt_12>
+    <txt_13 >Last timereg.</txt_13>
+    <txt_14 >Numbers of employees on the list</txt_14>
+    <txt_15 >Functions</txt_15>
+    <txt_16 >Export to csv.</txt_16>
+    <txt_17 >Your .csv file is ready</txt_17>
+    <txt_18 >Hourly rate</txt_18>
+    <txt_19 >Cost</txt_19>
+    <txt_20 >Rated hours</txt_20>
+    <txt_21 >Mon.</txt_21>
+    <txt_22 >Tue.</txt_22>
+    <txt_23 >Wed.</txt_23>
+    <txt_24 >Thu.</txt_24>
+    <txt_25 >Fri.</txt_25>
+    <txt_26 >Sat.</txt_26>
+    <txt_27 >Sun.</txt_27>
+    <txt_28 >You do not have access to this page</txt_28>
+    <txt_29 >Update</txt_29>
+    <txt_30 >Employee - Employee type is equal.</txt_30>
+    <txt_31 >Data from employee type</txt_31>
+    <txt_32 >Hourly rate is copied to project template, open jobs and offers.</txt_32>
+    <txt_33 >Rated time</txt_33>
+    <txt_34 >Monday</txt_34>
+    <txt_35 >Tuesday</txt_35>
+    <txt_36 >Wednesday</txt_36>
+    <txt_37 >Thursday</txt_37>
+    <txt_38 >Friday</txt_38>
+    <txt_39 >Saturday</txt_39>
+    <txt_40 >Sunday</txt_40>
+    <txt_41 >Total</txt_41>
+    <txt_42 >Do not show/calc. Flex balace for this employee type.</txt_42>
+    <txt_43 >Hourly and cost rates</txt_43>
+    <txt_44 >Hourly rate</txt_44>
+    <txt_45 >Alt. Hourly rate</txt_45>
+    <txt_46 >Alt. Hourly rates</txt_46>
+    <txt_47 >Update project template</txt_47>
+    <txt_48 >Update hourly rates</txt_48>
+    <txt_49 >Yes</txt_49>
+    <txt_50 >Update hourly rates for this employee type (active + passive employees) for</txt_50>
+    <txt_51 >The hourly rate matrix on all invoicable/non invoicable activities on open job and offers.</txt_51>
+    <txt_52 >Alle stated hours on invoicable activities on</txt_52>
+    <txt_53 >open</txt_53>
+    <txt_54 >jobs</txt_54>
+    <txt_55 >from</txt_55>
+    <txt_56 >to today</txt_56>
+    <txt_57 >incl. Closed weeks and if invoices are present.</txt_57>
+    <txt_58 >Does not include activities w. fixed price</txt_58>
+    <txt_59 >Internal cost</txt_59>
+    <txt_60 >Set cost rates</txt_60>
+    <txt_61 >Cost rate A</txt_61>
+    <txt_62 >Cost rate B</txt_62>
+    <txt_63 >Cost rate C</txt_63>
+    <txt_64 >Cost rate D</txt_64>
+    <txt_65 >Update internal cost rates for this employee type</txt_65>
+    <txt_66 >on all existing</txt_66>
+    <txt_67 >jobs (active + passive empl.)</txt_67>
+    <txt_68 >Advanced settings</txt_68>
+    <txt_69 >Sister groups</txt_69>
+    <txt_70 >No</txt_70>
+    <txt_71 >Do NOT show this type on Budget, statistic or forecast</txt_71>
+    <txt_72 >Main group</txt_72>
+    <txt_73 >Follows sistergroup</txt_73>
+    <txt_74 >Sorting</txt_74>
+    <txt_75 >Complete week/day criteria</txt_75>
+    <txt_76 >Minimum hours</txt_76>
+    <txt_77 >This employee type can complete the week when</txt_77>
+    <txt_78 >None (kan allways complete)</txt_78>
+    <txt_79 >Statede hours</txt_79>
+    <txt_80 >Stat. Invoicable hours</txt_80>
+    <txt_81 >at least is</txt_81>
+    <txt_82 >of come/go time.</txt_82>
+    <txt_83 >of rated hours.</txt_83>
+    <txt_84 >Target on</txt_84>
+    <txt_85 >business areas in %</txt_85>
+    <txt_86 >Last updated</txt_86>
+    <txt_87 >by</txt_87>
+    <txt_88 >Update</txt_88>
+    <txt_89 >You do not have access to this page</txt_89>
+    <txt_90 >Employee types</txt_90>
+    <txt_91 >Create</txt_91>
+    <txt_92 >ID</txt_92>
+    <txt_93 >Sort.</txt_93>
+    <txt_94 >Name</txt_94>
+    <txt_95 >Main group</txt_95>
+    <txt_96 >Sister group</txt_96>
+    <txt_97 >Members</txt_97>
+    <txt_98 >no. Of active + passive</txt_98>
+    <txt_99 >Hourly rate</txt_99>
+    <txt_100 >Cost rate</txt_100>
+    <txt_101 >Rated hours</txt_101>
+    <txt_102 >Delete</txt_102>
+    <txt_103 >Show members</txt_103>
+    <txt_104 >Hereof passive</txt_104>
+    <txt_105 >historic</txt_105>
+    <txt_106 >Functions</txt_106>
+    <txt_107 >Export all employee types</txt_107>
+    <txt_108 >You do not have access to this page</txt_108>
+    <txt_109 >Employee</txt_109>
+    <txt_110 >Create</txt_110>
+    <txt_111 >Mobile phone</txt_111>
+    <txt_112 >Special settings on this type on mobile.</txt_112>
+    <txt_113 >Show job list as dropdown</txt_113>
+    <txt_114 >Show activity list as dropdown (first pre-selected)</txt_114>
+    <txt_115 >Show start / stop.</txt_115>
+    <txt_116 >h.</txt_116>
+    <txt_117 >Init</txt_117>
+    <txt_118 >Rated hours Mon.</txt_118>
+    <txt_119 >Rated hours Tue.</txt_119>
+    <txt_120 >Rated hours Wed.</txt_120>
+    <txt_121 >Rated hours Thu.</txt_121>
+    <txt_122 >Rated hours Fri.</txt_122>
+    <txt_123 >Rated hours Sat.</txt_123>
+    <txt_124 >Rated hours Sun.</txt_124>
+
+  </fr>
+
+
+  <!-- Engelsk -->
+  <uk>
+
+    <txt_1 >Employee type</txt_1>
+    <txt_2 >You are about to</txt_2>
+    <txt_3 >DELETE</txt_3>
+    <txt_4 >an employee type. Please confirm.</txt_4>
+    <txt_5 >No</txt_5>
+    <txt_6 >Employee types</txt_6>
+    <txt_7 >Active and passive employees of the type</txt_7>
+    <txt_8 >Name</txt_8>
+    <txt_9 >Initials</txt_9>
+    <txt_10 >Status</txt_10>
+    <txt_11 >Employment date</txt_11>
+    <txt_12 >Last log-in</txt_12>
+    <txt_13 >Last timereg.</txt_13>
+    <txt_14 >Numbers of employees on the list</txt_14>
+    <txt_15 >Functions</txt_15>
+    <txt_16 >Export to csv.</txt_16>
+    <txt_17 >Your .csv file is ready</txt_17>
+    <txt_18 >Hourly rate</txt_18>
+    <txt_19 >Cost</txt_19>
+    <txt_20 >Rated hours</txt_20>
+    <txt_21 >Mon.</txt_21>
+    <txt_22 >Tue.</txt_22>
+    <txt_23 >Wed.</txt_23>
+    <txt_24 >Thu.</txt_24>
+    <txt_25 >Fri.</txt_25>
+    <txt_26 >Sat.</txt_26>
+    <txt_27 >Sun.</txt_27>
+    <txt_28 >You do not have access to this page</txt_28>
+    <txt_29 >Update</txt_29>
+    <txt_30 >Employee - Employee type is equal.</txt_30>
+    <txt_31 >Data from employee type</txt_31>
+    <txt_32 >Hourly rate is copied to project template, open jobs and offers.</txt_32>
+    <txt_33 >Rated time</txt_33>
+    <txt_34 >Monday</txt_34>
+    <txt_35 >Tuesday</txt_35>
+    <txt_36 >Wednesday</txt_36>
+    <txt_37 >Thursday</txt_37>
+    <txt_38 >Friday</txt_38>
+    <txt_39 >Saturday</txt_39>
+    <txt_40 >Sunday</txt_40>
+    <txt_41 >Total</txt_41>
+    <txt_42 >Do not show/calc. Flex balace for this employee type.</txt_42>
+    <txt_43 >Hourly and cost rates</txt_43>
+    <txt_44 >Hourly rate</txt_44>
+    <txt_45 >Alt. Hourly rate</txt_45>
+    <txt_46 >Alt. Hourly rates</txt_46>
+    <txt_47 >Update project template</txt_47>
+    <txt_48 >Update hourly rates</txt_48>
+    <txt_49 >Yes</txt_49>
+    <txt_50 >Update hourly rates for this employee type (active + passive employees) for</txt_50>
+    <txt_51 >The hourly rate matrix on all invoicable/non invoicable activities on open job and offers.</txt_51>
+    <txt_52 >Alle stated hours on invoicable activities on</txt_52>
+    <txt_53 >open</txt_53>
+    <txt_54 >jobs</txt_54>
+    <txt_55 >from</txt_55>
+    <txt_56 >to today</txt_56>
+    <txt_57 >incl. Closed weeks and if invoices are present.</txt_57>
+    <txt_58 >Does not include activities w. fixed price</txt_58>
+    <txt_59 >Internal cost</txt_59>
+    <txt_60 >Set cost rates</txt_60>
+    <txt_61 >Cost rate A</txt_61>
+    <txt_62 >Cost rate B</txt_62>
+    <txt_63 >Cost rate C</txt_63>
+    <txt_64 >Cost rate D</txt_64>
+    <txt_65 >Update internal cost rates for this employee type</txt_65>
+    <txt_66 >on all existing</txt_66>
+    <txt_67 >jobs (active + passive empl.)</txt_67>
+    <txt_68 >Advanced settings</txt_68>
+    <txt_69 >Sister groups</txt_69>
+    <txt_70 >No</txt_70>
+    <txt_71 >Do NOT show this type on Budget, statistic or forecast</txt_71>
+    <txt_72 >Main group</txt_72>
+    <txt_73 >Follows sistergroup</txt_73>
+    <txt_74 >Sorting</txt_74>
+    <txt_75 >Complete week/day criteria</txt_75>
+    <txt_76 >Minimum hours</txt_76>
+    <txt_77 >This employee type can complete the week when</txt_77>
+    <txt_78 >None (kan allways complete)</txt_78>
+    <txt_79 >Statede hours</txt_79>
+    <txt_80 >Stat. Invoicable hours</txt_80>
+    <txt_81 >at least is</txt_81>
+    <txt_82 >of come/go time.</txt_82>
+    <txt_83 >of rated hours.</txt_83>
+    <txt_84 >Target on</txt_84>
+    <txt_85 >business areas in %</txt_85>
+    <txt_86 >Last updated</txt_86>
+    <txt_87 >by</txt_87>
+    <txt_88 >Update</txt_88>
+    <txt_89 >You do not have access to this page</txt_89>
+    <txt_90 >Employee types</txt_90>
+    <txt_91 >Create</txt_91>
+    <txt_92 >ID</txt_92>
+    <txt_93 >Sort.</txt_93>
+    <txt_94 >Name</txt_94>
+    <txt_95 >Main group</txt_95>
+    <txt_96 >Sister group</txt_96>
+    <txt_97 >Members</txt_97>
+    <txt_98 >no. Of active + passive</txt_98>
+    <txt_99 >Hourly rate</txt_99>
+    <txt_100 >Cost rate</txt_100>
+    <txt_101 >Rated hours</txt_101>
+    <txt_102 >Delete</txt_102>
+    <txt_103 >Show members</txt_103>
+    <txt_104 >Hereof passive</txt_104>
+    <txt_105 >historic</txt_105>
+    <txt_106 >Functions</txt_106>
+    <txt_107 >Export all employee types</txt_107>
+    <txt_108 >You do not have access to this page</txt_108>
+    <txt_109 >Employee</txt_109>
+    <txt_110 >Create</txt_110>
+    <txt_111 >Mobile phone</txt_111>
+    <txt_112 >Special settings on this type on mobile.</txt_112>
+    <txt_113 >Show job list as dropdown</txt_113>
+    <txt_114 >Show activity list as dropdown (first pre-selected)</txt_114>
+    <txt_115 >Show start / stop.</txt_115>
+    <txt_116 >h.</txt_116>
+    <txt_117 >Init</txt_117>
+    <txt_118 >Rated hours Mon.</txt_118>
+    <txt_119 >Rated hours Tue.</txt_119>
+    <txt_120 >Rated hours Wed.</txt_120>
+    <txt_121 >Rated hours Thu.</txt_121>
+    <txt_122 >Rated hours Fri.</txt_122>
+    <txt_123 >Rated hours Sat.</txt_123>
+    <txt_124 >Rated hours Sun.</txt_124>
+
+  </uk>
+
+
+  <!-- Spansk -->
+  <es>
+    <txt_1 >Employee type</txt_1>
+    <txt_2 >You are about to</txt_2>
+    <txt_3 >DELETE</txt_3>
+    <txt_4 >an employee type. Please confirm.</txt_4>
+    <txt_5 >No</txt_5>
+    <txt_6 >Employee types</txt_6>
+    <txt_7 >Active and passive employees of the type</txt_7>
+    <txt_8 >Name</txt_8>
+    <txt_9 >Initials</txt_9>
+    <txt_10 >Status</txt_10>
+    <txt_11 >Employment date</txt_11>
+    <txt_12 >Last log-in</txt_12>
+    <txt_13 >Last timereg.</txt_13>
+    <txt_14 >Numbers of employees on the list</txt_14>
+    <txt_15 >Functions</txt_15>
+    <txt_16 >Export to csv.</txt_16>
+    <txt_17 >Your .csv file is ready</txt_17>
+    <txt_18 >Hourly rate</txt_18>
+    <txt_19 >Cost</txt_19>
+    <txt_20 >Rated hours</txt_20>
+    <txt_21 >Mon.</txt_21>
+    <txt_22 >Tue.</txt_22>
+    <txt_23 >Wed.</txt_23>
+    <txt_24 >Thu.</txt_24>
+    <txt_25 >Fri.</txt_25>
+    <txt_26 >Sat.</txt_26>
+    <txt_27 >Sun.</txt_27>
+    <txt_28 >You do not have access to this page</txt_28>
+    <txt_29 >Update</txt_29>
+    <txt_30 >Employee - Employee type is equal.</txt_30>
+    <txt_31 >Data from employee type</txt_31>
+    <txt_32 >Hourly rate is copied to project template, open jobs and offers.</txt_32>
+    <txt_33 >Rated time</txt_33>
+    <txt_34 >Monday</txt_34>
+    <txt_35 >Tuesday</txt_35>
+    <txt_36 >Wednesday</txt_36>
+    <txt_37 >Thursday</txt_37>
+    <txt_38 >Friday</txt_38>
+    <txt_39 >Saturday</txt_39>
+    <txt_40 >Sunday</txt_40>
+    <txt_41 >Total</txt_41>
+    <txt_42 >Do not show/calc. Flex balace for this employee type.</txt_42>
+    <txt_43 >Hourly and cost rates</txt_43>
+    <txt_44 >Hourly rate</txt_44>
+    <txt_45 >Alt. Hourly rate</txt_45>
+    <txt_46 >Alt. Hourly rates</txt_46>
+    <txt_47 >Update project template</txt_47>
+    <txt_48 >Update hourly rates</txt_48>
+    <txt_49 >Yes</txt_49>
+    <txt_50 >Update hourly rates for this employee type (active + passive employees) for</txt_50>
+    <txt_51 >The hourly rate matrix on all invoicable/non invoicable activities on open job and offers.</txt_51>
+    <txt_52 >Alle stated hours on invoicable activities on</txt_52>
+    <txt_53 >open</txt_53>
+    <txt_54 >jobs</txt_54>
+    <txt_55 >from</txt_55>
+    <txt_56 >to today</txt_56>
+    <txt_57 >incl. Closed weeks and if invoices are present.</txt_57>
+    <txt_58 >Does not include activities w. fixed price</txt_58>
+    <txt_59 >Internal cost</txt_59>
+    <txt_60 >Set cost rates</txt_60>
+    <txt_61 >Cost rate A</txt_61>
+    <txt_62 >Cost rate B</txt_62>
+    <txt_63 >Cost rate C</txt_63>
+    <txt_64 >Cost rate D</txt_64>
+    <txt_65 >Update internal cost rates for this employee type</txt_65>
+    <txt_66 >on all existing</txt_66>
+    <txt_67 >jobs (active + passive empl.)</txt_67>
+    <txt_68 >Advanced settings</txt_68>
+    <txt_69 >Sister groups</txt_69>
+    <txt_70 >No</txt_70>
+    <txt_71 >Do NOT show this type on Budget, statistic or forecast</txt_71>
+    <txt_72 >Main group</txt_72>
+    <txt_73 >Follows sistergroup</txt_73>
+    <txt_74 >Sorting</txt_74>
+    <txt_75 >Complete week/day criteria</txt_75>
+    <txt_76 >Minimum hours</txt_76>
+    <txt_77 >This employee type can complete the week when</txt_77>
+    <txt_78 >None (kan allways complete)</txt_78>
+    <txt_79 >Statede hours</txt_79>
+    <txt_80 >Stat. Invoicable hours</txt_80>
+    <txt_81 >at least is</txt_81>
+    <txt_82 >of come/go time.</txt_82>
+    <txt_83 >of rated hours.</txt_83>
+    <txt_84 >Target on</txt_84>
+    <txt_85 >business areas in %</txt_85>
+    <txt_86 >Last updated</txt_86>
+    <txt_87 >by</txt_87>
+    <txt_88 >Update</txt_88>
+    <txt_89 >You do not have access to this page</txt_89>
+    <txt_90 >Employee types</txt_90>
+    <txt_91 >Create</txt_91>
+    <txt_92 >ID</txt_92>
+    <txt_93 >Sort.</txt_93>
+    <txt_94 >Name</txt_94>
+    <txt_95 >Main group</txt_95>
+    <txt_96 >Sister group</txt_96>
+    <txt_97 >Members</txt_97>
+    <txt_98 >no. Of active + passive</txt_98>
+    <txt_99 >Hourly rate</txt_99>
+    <txt_100 >Cost rate</txt_100>
+    <txt_101 >Rated hours</txt_101>
+    <txt_102 >Delete</txt_102>
+    <txt_103 >Show members</txt_103>
+    <txt_104 >Hereof passive</txt_104>
+    <txt_105 >historic</txt_105>
+    <txt_106 >Functions</txt_106>
+    <txt_107 >Export all employee types</txt_107>
+    <txt_108 >You do not have access to this page</txt_108>
+    <txt_109 >Employee</txt_109>
+    <txt_110 >Create</txt_110>
+    <txt_111 >Mobile phone</txt_111>
+    <txt_112 >Special settings on this type on mobile.</txt_112>
+    <txt_113 >Show job list as dropdown</txt_113>
+    <txt_114 >Show activity list as dropdown (first pre-selected)</txt_114>
+    <txt_115 >Show start / stop.</txt_115>
+    <txt_116 >h.</txt_116>
+    <txt_117 >Init</txt_117>
+    <txt_118 >Rated hours Mon.</txt_118>
+    <txt_119 >Rated hours Tue.</txt_119>
+    <txt_120 >Rated hours Wed.</txt_120>
+    <txt_121 >Rated hours Thu.</txt_121>
+    <txt_122 >Rated hours Fri.</txt_122>
+    <txt_123 >Rated hours Sat.</txt_123>
+    <txt_124 >Rated hours Sun.</txt_124>
+
+  </es>
+
+
+</sprog>

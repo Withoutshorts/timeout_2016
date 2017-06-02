@@ -69,14 +69,14 @@ Session.LCID = 1030
     <div class="porlet">
             
             <h3 class="portlet-title">
-               Medarbejdertype
+               <%=medarbtyp_txt_001 %>
             </h3>
             
                 <div class="portlet-body">
-                    <div style="text-align:center;">Du er ved at <b>SLETTE</b> en medarbejdertype. Er dette korrekt?
+                    <div style="text-align:center;"><%=medarbtyp_txt_002 %> <b><%=medarbtyp_txt_003 %></b> <%=medarbtyp_txt_004 %>
                     </div><br />
                   
-                        <div style="text-align:center;"><a class="btn btn-primary btn-sm" role="button" href="medarbtyper.asp?menu=tok&func=sletok&id=<%=id%>">&nbsp Ja &nbsp</a>&nbsp&nbsp&nbsp&nbsp<a class="btn btn-default btn-sm" role="button" href="Javascript:history.back()">Nej</a>
+                        <div style="text-align:center;"><a class="btn btn-primary btn-sm" role="button" href="medarbtyper.asp?menu=tok&func=sletok&id=<%=id%>">&nbsp <%=medarbtyp_txt_049 %> &nbsp</a>&nbsp&nbsp&nbsp&nbsp<a class="btn btn-default btn-sm" role="button" href="Javascript:history.back()"><%=medarbtyp_txt_005 %></a>
                     </div>
                     <br /><br />
                  </div>
@@ -131,19 +131,19 @@ Session.LCID = 1030
                             <!--Medlemmer-->
                             <div class="container">
                             <div class="portlet">
-                                <h3 class="portlet-title"><u>Medarbejdertyper</u></h3>
+                                <h3 class="portlet-title"><u><%=medarbtyp_txt_006 %></u></h3>
 
-                                <div>Aktive og passive medarbejdere af typen <b><%=mTypegruppeNavn%></b></div><br />
+                                <div><%=medarbtyp_txt_007 %> <b><%=mTypegruppeNavn%></b></div><br />
                                 <table class="table dataTable table-striped table-bordered table-hover ui-datatable">
                                     <thead>
                                         <tr>
-                                            <th>Navn</th>
-                                            <th>Intialer</th>
-                                            <th>Status</th>
+                                            <th><%=medarbtyp_txt_008 %></th>
+                                            <th><%=medarbtyp_txt_009 %></th>
+                                            <th><%=medarbtyp_txt_010 %></th>
                                             <!--<th>Email</th>-->
-                                            <th>Ansatdato</th>
-                                            <th>Sidst logget ind</th>
-                                            <th>Seneste tidsreg.</th>
+                                            <th><%=medarbtyp_txt_011 %></th>
+                                            <th><%=medarbtyp_txt_012 %></th>
+                                            <th><%=medarbtyp_txt_013 %></th>
                                             <!--<th>Opsagtdato</th>-->
                                         </tr>
                                     </thead>
@@ -240,7 +240,7 @@ Session.LCID = 1030
                     %>
                     </tbody>
                 </table>
-              Antal medarbejdere på listen: <%=x%>
+              <%=medarbtyp_txt_014 %>: <%=x%>
             </div>
 
                     <br /><br />
@@ -248,7 +248,7 @@ Session.LCID = 1030
                       <section>
                             <div class="row">
                                  <div class="col-lg-12">
-                                    <b>Funktioner</b>
+                                    <b><%=medarbtyp_txt_015 %></b>
                                     </div>
                                 </div>
                                 <form action="medarbtyper.asp?media=eksport&func=med&id=<%=id%>" method="Post" target="_blank">
@@ -256,7 +256,7 @@ Session.LCID = 1030
                                 <div class="row">
                                  <div class="col-lg-12 pad-r30">
                          
-                                <input id="Submit5" type="submit" value="Eksport til csv." class="btn btn-sm" /><br />
+                                <input id="Submit5" type="submit" value="<%=medarbtyp_txt_016 %>" class="btn btn-sm" /><br />
                          
                                      </div>
 
@@ -305,8 +305,8 @@ Session.LCID = 1030
 				
 				
 				                '**** Eksport fil, kolonne overskrifter ***
-	                            strOskrifter = "Medarbejdetype; Medarbejder; Init; Status; Ansatdato; Sidst logget ind; Seneste tidsreg.;Timepris;Timepris2;Timepris3;Timepris4;Timepris5;Kostpris;Normtimer Man.;Normtimer Tir.;Normtimer Ons.;Normtimer Tor.;Normtimer Fre.;Normtimer Lør.;Normtimer Søn.;"
-				
+	                            'strOskrifter = "Medarbejdetype; Medarbejder; Init; Status; Ansatdato; Sidst logget ind; Seneste tidsreg.;Timepris;Timepris2;Timepris3;Timepris4;Timepris5;Kostpris;Normtimer Man.;Normtimer Tir.;Normtimer Ons.;Normtimer Tor.;Normtimer Fre.;Normtimer Lør.;Normtimer Søn.;"
+				                strOskrifter = medarbtyp_txt_001&"; "& medarbtyp_txt_109&"; "& medarbtyp_txt_117&"; "& medarbtyp_txt_010&"; "& medarbtyp_txt_011&"; "& medarbtyp_txt_012&"; "& medarbtyp_txt_013&"; "& medarbtyp_txt_018&";"& medarbtyp_txt_018&"2;"& medarbtyp_txt_018&"3;"& medarbtyp_txt_018&"4;"& medarbtyp_txt_018&"5;"& medarbtyp_txt_019&";"& medarbtyp_txt_118&";"& medarbtyp_txt_119&";"& medarbtyp_txt_120&";"& medarbtyp_txt_121&";"& medarbtyp_txt_122&";"& medarbtyp_txt_123&";"& medarbtyp_txt_124&";"
 				
 				
 				
@@ -325,7 +325,7 @@ Session.LCID = 1030
 	                            <td valign=top bgcolor="#ffffff" style="padding:5px 5px 5px 15px;">
                 
                              
-	                            <a href="../inc/log/data/<%=file%>" target="_blank" >Din CSV. fil er klar >></a>
+	                            <a href="../inc/log/data/<%=file%>" target="_blank" ><%=medarbtyp_txt_017 %> >></a>
 	                            </td></tr>
 	                            </table>
                                 </div>
@@ -346,7 +346,7 @@ Session.LCID = 1030
               
                 
                else%> 
-    	            <div>Du har ikke adgang til denne side</div>      
+    	            <div><%=medarbtyp_txt_028 %></div>      
                     <%end if %>
 
 	
@@ -1341,7 +1341,7 @@ case "dbopr", "dbred"
             <%if level = 1 then %>
     <div class="container">
     <div class="portlet">
-        <h3 class="portlet-title"><u>Medarbejdertype <%=varbroedkrumme %></u></h3>
+        <h3 class="portlet-title"><u><%=medarbtyp_txt_001 %> <%=varbroedkrumme %></u></h3>
 
         <form action="medarbtyper.asp?menu=medarb&func=<%=dbfunc%>" method="post">
 	        <input type="hidden" name="id" value="<%=id%>">
@@ -1350,7 +1350,7 @@ case "dbopr", "dbred"
                 <div class="row">
                 <div class="col-lg-10">&nbsp</div>
                 <div class="col-lg-2 pad-b10">
-                <button type="submit" class="btn btn-success btn-sm pull-right"><b>Opdatér</b></button>
+                <button type="submit" class="btn btn-success btn-sm pull-right"><b><%=medarbtyp_txt_029 %></b></button>
                 </div>
                 </div>
 
@@ -1362,43 +1362,43 @@ case "dbopr", "dbred"
                 <div class="col-lg-5"><input class="form-control input-small" type="text" name="FM_navn" value="<%=strNavn%>">
 
                     <%if len(trim(strNavnFolger)) <> 0 then %>
-                    I har 1:1 mellem medarbejder og medarbejdertype slået til.<br />
-                    Data nedarvet fra medarbejdertypen: <b><%=strNavnFolger %></b><br />
-                    Timepriser er allerede lagt ud på stam-skabeloner, åbne job og tilbud. 
+                    <%=medarbtyp_txt_030 %><br />
+                    <%=medarbtyp_txt_031 %>: <b><%=strNavnFolger %></b><br />
+                    <%=medarbtyp_txt_032 %> 
                     <%end if %>
                 </div>
             </div>
              <div class="row"><div class="pad-b10"></div></div>
                 <div class="row">
                     <div class="col-lg-1">&nbsp</div>
-                    <div class="col-lg-2">Nomeret tid:</div>
-                    <div class="col-lg-1">Mandag <br />
+                    <div class="col-lg-2"><%=medarbtyp_txt_033 %>:</div>
+                    <div class="col-lg-1"><%=medarbtyp_txt_034 %> <br />
                         <input type="text" class="form-control input-small" name="FM_norm_man" value="<%=normtimer_man%>">
                     </div>
-                    <div class="col-lg-1">Tirsdag <br />
+                    <div class="col-lg-1"><%=medarbtyp_txt_035 %> <br />
                         <input type="text" class="form-control input-small" name="FM_norm_tir" value="<%=normtimer_tir%>">
                     </div>
-                    <div class="col-lg-1">Onsdag <br />
+                    <div class="col-lg-1"><%=medarbtyp_txt_036 %> <br />
                         <input type="text" class="form-control input-small" name="FM_norm_ons" value="<%=normtimer_ons%>">
                     </div>
-                    <div class="col-lg-1">Torsdag <br />
+                    <div class="col-lg-1"><%=medarbtyp_txt_037 %> <br />
                         <input type="text" class="form-control input-small" name="FM_norm_tor" value="<%=normtimer_tor%>">
                     </div>
-                    <div class="col-lg-1">Fredag <br />
+                    <div class="col-lg-1"><%=medarbtyp_txt_038 %> <br />
                         <input type="text" class="form-control input-small" name="FM_norm_fre" value="<%=normtimer_fre%>">
                     </div>
-                    <div class="col-lg-1">Lørdag <br />
+                    <div class="col-lg-1"><%=medarbtyp_txt_039 %> <br />
                         <input type="text" class="form-control input-small" name="FM_norm_lor" value="<%=normtimer_lor%>">
                     </div>
-                    <div class="col-lg-1">Søndag <br />
+                    <div class="col-lg-1"><%=medarbtyp_txt_040 %> <br />
                         <input type="text" class="form-control input-small" name="FM_norm_son" value="<%=normtimer_son%>">
                     </div>
-                     <div class="col-lg-1"><br /><b>Total:</b>&nbsp;<u><%=ugetotal%></u></div>
+                     <div class="col-lg-1"><br /><b><%=medarbtyp_txt_041 %>:</b>&nbsp;<u><%=ugetotal%></u></div>
                 </div>
 
                   <div class="row">
                         <div class="col-lg-8">&nbsp;</div>
-                          <div class="col-lg-4"><input type="checkbox" name="FM_noflex" value="<%=noflex %>" <%=noflexChk %> /> Vis/beregn ikke flekssaldo for denne type.
+                          <div class="col-lg-4"><input type="checkbox" name="FM_noflex" value="<%=noflex %>" <%=noflexChk %> /> <%=medarbtyp_txt_042 %>
                        </div>
 
                       </div>
@@ -1413,7 +1413,7 @@ case "dbopr", "dbred"
                     <div class="panel panel-default">
                         <div class="panel-heading">
                           <h4 class="panel-title">
-                            <a class="accordion-toggle" data-toggle="collapse" data-target="#collapseOne">Time- og kost -priser</a>
+                            <a class="accordion-toggle" data-toggle="collapse" data-target="#collapseOne"><%=medarbtyp_txt_043 %></a>
                           </h4>
                         </div> <!-- /.panel-heading -->
                         <div id="collapseOne" class="panel-collapse collapse">
@@ -1422,7 +1422,7 @@ case "dbopr", "dbred"
                            
                             <div class="row">
                                 <div class="col-lg-1">&nbsp</div>
-                                <div class="col-lg-2"><b>TimePris:</b><br /> (Alt. Timepris 1)</div>
+                                <div class="col-lg-2"><b> :</b><br /> (<%=medarbtyp_txt_045 %> 1)</div>
                                 <div class="col-lg-2"><input type="text" class="form-control input-small" name="FM_timepris" value="<%=strTimepris%>"></div>
                                 <div class="col-lg-2"> <%call valutaKoder(0, tp0_valuta, 1) %></div>
                             </div>
@@ -1430,7 +1430,7 @@ case "dbopr", "dbred"
 
                             <div class="row">
                                 <div class="col-lg-1 pad-t10">&nbsp</div>
-                                <div class="col-lg-2 pad-t10">Alt. Timepriser</div>
+                                <div class="col-lg-2 pad-t10"><%=medarbtyp_txt_046 %></div>
                             </div>
                             <!--
                             <div class="row">
@@ -1442,33 +1442,33 @@ case "dbopr", "dbred"
                             -->
                             <div class="row">
                                 <div class="col-lg-1">&nbsp</div>
-                                <div class="col-lg-2">Alt. Timepris 2:</div>
+                                <div class="col-lg-2"><%=medarbtyp_txt_045 %> 2:</div>
                                 <div class="col-lg-2"><input type="text" class="form-control input-small" name="FM_timepris2" value="<%=strTimepris2%>"></div>
 		                        <div class="col-lg-2"><%call valutaKoder(2, tp2_valuta, 1) %></div>
                             </div>
                             <div class="row">
                                 <div class="col-lg-1">&nbsp</div>
-                                <div class="col-lg-2">Alt. Timepris 3:</div>
+                                <div class="col-lg-2"><%=medarbtyp_txt_045 %> 3:</div>
                                 <div class="col-lg-2"><input type="text" class="form-control input-small" name="FM_timepris3" value="<%=strTimepris3%>"></div>
 		                        <div class="col-lg-2"><%call valutaKoder(3, tp3_valuta, 1) %></div>
                             </div>
                             <div class="row">
                                 <div class="col-lg-1">&nbsp</div>
-                                <div class="col-lg-2">Alt. Timepris 4:</div>
+                                <div class="col-lg-2"><%=medarbtyp_txt_045 %> 4:</div>
                                 <div class="col-lg-2"><input type="text" class="form-control input-small" name="FM_timepris4" value="<%=strTimepris4%>"></div>
 		                        <div class="col-lg-2"><%call valutaKoder(4, tp4_valuta, 1) %></div>
                             </div>
                             <div class="row">
                                 <div class="col-lg-1">&nbsp</div>
-                                <div class="col-lg-2">Alt. Timepris 5:</div>
+                                <div class="col-lg-2"><%=medarbtyp_txt_045 %> 5:</div>
                                 <div class="col-lg-2"><input type="text" class="form-control input-small" name="FM_timepris5" value="<%=strTimepris5%>"></div>
 		                        <div class="col-lg-2"><%call valutaKoder(5, tp5_valuta, 1) %></div>
                             </div>
 
                             <div class="row pad-t20">
                                 <div class="col-lg-1">&nbsp</div>
-                                <div class="col-lg-2">Opdater stam-aktivitetsgrupper</div>
-                                <div class="col-lg-4"><input id="Checkbox2" type="checkbox" name="FM_opd_stamgrp" value="1" />&nbsp Ja  <!--opdater timepriserne for alle medarbejdere af denne type på alle aktiviteterne, i nedenstående stamaktivitets-grupper--><br />
+                                <div class="col-lg-2"><%=medarbtyp_txt_047 %></div>
+                                <div class="col-lg-4"><input id="Checkbox2" type="checkbox" name="FM_opd_stamgrp" value="1" />&nbsp <%=medarbtyp_txt_049 %>  <!--opdater timepriserne for alle medarbejdere af denne type på alle aktiviteterne, i nedenstående stamaktivitets-grupper--><br />
                                     <select name="FM_opd_stamgrp_ids" multiple class="form-control input-small">
                                         <%
                                         strSQL = "SELECT navn, id FROM akt_gruppe WHERE id <> 0 AND skabelontype = 0 ORDER BY navn" 
@@ -1491,13 +1491,13 @@ case "dbopr", "dbred"
                                 <div class="row">
                                     <div class="col-lg-1">&nbsp</div>
                                     <div class="col-lg-9"><br /><br />
-                                        <b>Opdater timepriser:</b><br />
-                                        <input id="Checkbox1" type="checkbox" name="FM_opdater_timepriser" value="1" />&nbsp Opdater timepriser, for denne medarbejdertype (aktive + passive medarb.) på:<br />
-                                        - Timepristabellen på alle fakturerbare/Ikke fakturerbare aktiviteter på åbne job og tilbud. <br />
-                                        - Alle registrerede timer på fakturerbare aktiviteter på <u>åbne</u> job <b>fra d. </b><input type="text" name="FM_opdatertpfra" value="<%=useDate %>" style="font-size:9px; width:60px;" /> til dd.
-                                        - også lukkede uger og hvis der foreligger faktura.
+                                        <b><%=medarbtyp_txt_048 %>:</b><br />
+                                        <input id="Checkbox1" type="checkbox" name="FM_opdater_timepriser" value="1" />&nbsp <%=medarbtyp_txt_050 %>:<br />
+                                        - <%=medarbtyp_txt_051 %> <br />
+                                        - <%=medarbtyp_txt_052 %> <u><%=medarbtyp_txt_053 %></u> <%=medarbtyp_txt_054 %> <b><%=medarbtyp_txt_055 %> </b><input type="text" name="FM_opdatertpfra" value="<%=useDate %>" style="font-size:9px; width:60px;" /> <%=medarbtyp_txt_056 %>
+                                        - <%=medarbtyp_txt_057 %>
                                         <br />
-                                     (Gælder ikke aktiviteter der er sat til fastpris)
+                                     (<%=medarbtyp_txt_058 %>)
                                     </div>
                                 </div>
                            <%end if %>
@@ -1505,43 +1505,43 @@ case "dbopr", "dbred"
 
                             <div class="row pad-t20">
                                 <div class="col-lg-1">&nbsp</div>
-                                <div class="col-lg-2"><b>Intern kostpris:</b></div>
+                                <div class="col-lg-2"><b><%=medarbtyp_txt_059 %>:</b></div>
                                 <div class="col-lg-2"><input type="text" class="form-control input-small" name="FM_kostpris" value="<%=dubKostpris%>"></div>
                                 <div class="col-lg-2"><%call valutaKoder(6, kp1_valuta, 1) %></div>
                             </div>
 
                             <div class="row pad-t20">
                                 <div class="col-lg-1">&nbsp</div>
-                                <div class="col-lg-4">Angiv kostpris tariffer<!--tariffer der kan bruges som tillæg til kostpris på specielle aktiviteter, aften og nat aktiviteter mm.---></div>
+                                <div class="col-lg-4"><%=medarbtyp_txt_060 %><!--tariffer der kan bruges som tillæg til kostpris på specielle aktiviteter, aften og nat aktiviteter mm.---></div>
                             </div>
                             <div class="row">
                                 <div class="col-lg-1">&nbsp</div>
-                                <div class="col-lg-2">Kostpris tarif A:</div>
+                                <div class="col-lg-2"><%=medarbtyp_txt_061 %>:</div>
                                 <div class="col-lg-2"><input type="text" class="form-control input-small" value="<%=kostpristarif_A %>" name="FM_kostpristarif_A" /></div>
                                 <div class="col-lg-4"><%=basisValISO %></div>
                             </div>
                             <div class="row">
                                 <div class="col-lg-1">&nbsp</div>
-                                <div class="col-lg-2">Kostpris tarif B:</div>
+                                <div class="col-lg-2"><%=medarbtyp_txt_062 %>:</div>
                                 <div class="col-lg-2"><input type="text" class="form-control input-small" value="<%=kostpristarif_B %>" name="FM_kostpristarif_B" /></div>
                                 <div class="col-lg-4"><%=basisValISO %></div>
                             </div>
                             <div class="row">
                                 <div class="col-lg-1">&nbsp</div>
-                                <div class="col-lg-2">Kostpris tarif C:</div>
+                                <div class="col-lg-2"><%=medarbtyp_txt_063 %>:</div>
                                 <div class="col-lg-2"><input type="text" class="form-control input-small" value="<%=kostpristarif_C %>" name="FM_kostpristarif_C" /></div>
                                 <div class="col-lg-4"><%=basisValISO %></div>
                             </div>
                             <div class="row">
                                 <div class="col-lg-1">&nbsp</div>
-                                <div class="col-lg-2">Kostpris tarif D:</div>
+                                <div class="col-lg-2"><%=medarbtyp_txt_064 %>:</div>
                                 <div class="col-lg-2"><input type="text" class="form-control input-small" value="<%=kostpristarif_D %>" name="FM_kostpristarif_D" /></div>
                                 <div class="col-lg-4"><%=basisValISO %></div>
                             </div>
                             <%if func = "red" then %>
                                 <div class="row">
                                     <div class="col-lg-3">&nbsp</div>
-                                    <div class="col-lg-4"><input id="Checkbox1" type="checkbox" name="FM_opd_intern" value="1" />&nbsp Opdater interne kostpriser/tariffer, for denne type, <br />på alle eksisterende <u>åbne</u> job. (aktive + passive medarb.)</div>
+                                    <div class="col-lg-4"><input id="Checkbox1" type="checkbox" name="FM_opd_intern" value="1" />&nbsp <%=medarbtyp_txt_065 %> <br /><%=medarbtyp_txt_066 %> <u><%=medarbtyp_txt_053 %></u> <%=medarbtyp_txt_067 %></div>
                                 </div>
                            <%end if %>
 
@@ -1562,7 +1562,7 @@ case "dbopr", "dbred"
                     <div class="panel panel-default">
                         <div class="panel-heading">
                           <h4 class="panel-title">
-                            <a class="accordion-toggle" data-toggle="collapse" data-target="#collapseTwo">Avanceret indstillinger</a>
+                            <a class="accordion-toggle" data-toggle="collapse" data-target="#collapseTwo"><%=medarbtyp_txt_068 %></a>
                           </h4>
                         </div> <!-- /.panel-heading -->
                         <div id="collapseTwo" class="panel-collapse collapse">
@@ -1571,7 +1571,7 @@ case "dbopr", "dbred"
 
                             <div class="row pad-t20">
                                 <div class="col-lg-1">&nbsp</div>
-                                <div class="col-lg-2">Søstergruppe:</div>
+                                <div class="col-lg-2"><%=medarbtyp_txt_069 %>:</div>
                                 <div class="col-lg-3">
                                     <select name="FM_soster" id="FM_soster" class="form-control input-small"> 
                                         <%  if cint(sostergp) = 0 then
@@ -1580,7 +1580,7 @@ case "dbopr", "dbred"
                                         mttypSEL = ""
                                         end if  %>
 
-                                        <option value="0" <%=mttypSEL  %>>Nej</option>
+                                        <option value="0" <%=mttypSEL  %>><%=medarbtyp_txt_070 %></option>
 
                                         <%
         
@@ -1612,7 +1612,7 @@ case "dbopr", "dbred"
                                          mttypSEL = ""
                                         end if  %>
 
-                                        <option value="-1" <%=mttypSEL %>>Vis IKKE denne type under budget, statistik og forecast</option> <!-- -->
+                                        <option value="-1" <%=mttypSEL %>><%=medarbtyp_txt_071 %></option> <!-- -->
 
                                         </select>
                                 </div>
@@ -1620,7 +1620,7 @@ case "dbopr", "dbred"
 
                             <div class="row">
                                 <div class="col-lg-1">&nbsp</div>
-                                <div class="col-lg-2">Hovedgruppe:</div>
+                                <div class="col-lg-2"><%=medarbtyp_txt_072 %>:</div>
                                 <div class="col-lg-3">
                                     <select name="FM_gruppe" id="FM_gruppe" class="form-control input-small">              
                                        <%
@@ -1650,7 +1650,7 @@ case "dbopr", "dbred"
                                          mttypSEL = ""
                                         end if%>
 
-                                        <option value="-1" <%=mttypSEL %> style="background-color:#CCCCCC;">// Følger søstergruppe //</option> 
+                                        <option value="-1" <%=mttypSEL %> style="background-color:#CCCCCC;">// <%=medarbtyp_txt_073 %> //</option> 
 
     
                                       </select> 
@@ -1659,21 +1659,21 @@ case "dbopr", "dbred"
 
                             <div class="row pad-t20">
                                 <div class="col-lg-1">&nbsp</div>
-                                <div class="col-lg-2">Sortering:</div>
+                                <div class="col-lg-2"><%=medarbtyp_txt_074 %>:</div>
                                 <div class="col-lg-1"><input type="text" class="form-control input-small" value="<%=mtsortorder%>" name="FM_sortorder" id="FM_sortorder"></div>
                              
                             </div>
-
+                            
                              <div class="row pad-t20">
                                 <div class="col-lg-1">&nbsp</div>
-                                <div class="col-lg-2">Mobil:<br />
-                                   Speciel indstillinger på denne type på mobil.
+                                <div class="col-lg-2"><%=medarbtyp_txt_111 %>:<br />
+                                   <%=medarbtyp_txt_112 %>
                                 
                                 </div>
                                 <div class="col-lg-4"><input type="checkbox" value="1" name="FM_mt_mobil_visstopur" <%=mt_mobil_visstopurCHK %> /><br />
-                                    Vis jobliste som dropdown<br />
-                                    Vis aktliste som dropdown (første forvalgt)<br />
-                                    Vis start/stop.
+                                    <%=medarbtyp_txt_113 %><br />
+                                    <%=medarbtyp_txt_114 %><br />
+                                    <%=medarbtyp_txt_115 %>
                                 </div>
                              
                             </div>
@@ -1707,24 +1707,24 @@ case "dbopr", "dbred"
                                  <div class="col-lg-2">
                            
                                        
-                                       Afslut uge/dag kriterie
+                                       <%=medarbtyp_txt_075 %>
 		                 
 		                  
                                 </div>
-                                 <div class="col-lg-6">Minimumskrav til timeantal<br />Denne medarbejdertype kan afslutte sin uge når:<br />             
+                                 <div class="col-lg-6"><%=medarbtyp_txt_076 %><br /><%=medarbtyp_txt_077 %>:<br />             
                                 <select name="FM_afslutugekri">
-                                        <option value="0" <%=afslutugekri0 %>>Ingen (kan altid afslutte)</option>
-                                        <option value="1" <%=afslutugekri1 %>>Realiserede timer</option>
-                                        <option value="2" <%=afslutugekri2 %>>Real. fakturerbare timer</option>
+                                        <option value="0" <%=afslutugekri0 %>><%=medarbtyp_txt_078 %></option>
+                                        <option value="1" <%=afslutugekri1 %>><%=medarbtyp_txt_079 %></option>
+                                        <option value="2" <%=afslutugekri2 %>><%=medarbtyp_txt_080 %></option>
                 
-		                            </select> udgør minimun <input type="text" style="width:40px;" value="<%=afslutugekri_proc %>" name="FM_afslutugekri_proc"> % 
+		                            </select> <%=medarbtyp_txt_081 %> <input type="text" style="width:40px;" value="<%=afslutugekri_proc %>" name="FM_afslutugekri_proc"> % 
                                             <%select case lto
                                                case "dencker"
                                                 %>
-                                                af komme/gå tid.
+                                                <%=medarbtyp_txt_082 %>
                                                 <%
                                                case else  %>
-                                            af normtid. 
+                                            <%=medarbtyp_txt_083 %> 
                                             <%end select %>
                                     </div>
 
@@ -1740,7 +1740,7 @@ case "dbopr", "dbred"
                                  <div class="col-lg-6">
                            
                                        
-                                       <h4>Målsætning på forretningsområde i %</h4>
+                                       <h4><%=medarbtyp_txt_084 %> <%=medarbtyp_txt_085 %></h4>
 		                 
 		                  
                                 </div>
@@ -1820,12 +1820,12 @@ case "dbopr", "dbred"
                 </section>
              <br /><br /><br />
             <%if func = "red" then %>    
-            <div style="font-weight: lighter;">Sidst opdateret den <b><%=strDato%></b> af <b><%=strEditor%></b></div>
+            <div style="font-weight: lighter;"><%=medarbtyp_txt_086 %> <b><%=strDato%></b> <%=medarbtyp_txt_087 %> <b><%=strEditor%></b></div>
             <%end if %>
         
         </div>
              <div style="margin-top:15px; margin-bottom:15px;">
-            <button type="submit" class="btn btn-success btn-sm pull-right"><b>Opdatér</b></button>
+            <button type="submit" class="btn btn-success btn-sm pull-right"><b><%=medarbtyp_txt_088 %></b></button>
              <div class="clearfix"></div>
         </div>
 
@@ -1833,7 +1833,7 @@ case "dbopr", "dbred"
         </div>
 
         <%else%> 
-    	<div>Du har ikke adgang til denne side</div>      
+    	<div><%=medarbtyp_txt_089 %></div>      
         <%end if %>
 
 <%case else %>
@@ -1845,7 +1845,7 @@ case "dbopr", "dbred"
 
     <div class="container">
     <div class="portlet">
-        <h3 class="portlet-title"><u>Medarbejdertyper</u></h3>
+        <h3 class="portlet-title"><u><%=medarbtyp_txt_090 %></u></h3>
         
         <form action="medarbtyper.asp?menu=medarber&func=opret" method="post">
             <input type="hidden" name="lto" id="lto" value="<%=lto%>">
@@ -1853,7 +1853,7 @@ case "dbopr", "dbred"
                          <div class="row">
                              <div class="col-lg-10">&nbsp;</div>
                              <div class="col-lg-2">
-                            <button class="btn btn-sm btn-success pull-right"><b>Opret ny +</b></button><br />&nbsp;
+                            <button class="btn btn-sm btn-success pull-right"><b><%=medarbtyp_txt_091 %> +</b></button><br />&nbsp;
                             </div>
                         </div>
                 </section>
@@ -1865,17 +1865,17 @@ case "dbopr", "dbred"
         <table id="example" class="table dataTable table-striped table-bordered table-hover ui-datatable">
             <thead>
                 <tr>
-                    <th style="width: 2%">Id</th>
-                    <th style="width: 5%">Sort.</th>
-                    <th style="width: 22%">Navn</th>
-                    <th style="width: 20%">Hovedgruppe</th>
-                    <th style="width: 5%">Søstergrp?</th>
-                    <th style="width: 20%">Medlemmer <br /><span style="font-size:10px;">(antal aktive + passive)</span></th>
-                    <th style="width: 8%">Timepris</th>
-                    <th style="width: 8%">Kostpris</th>
-                    <th style="width: 10%">Norm. timer</th>
+                    <th style="width: 2%"><%=medarbtyp_txt_092 %></th>
+                    <th style="width: 5%"><%=medarbtyp_txt_093 %></th>
+                    <th style="width: 22%"><%=medarbtyp_txt_094 %></th>
+                    <th style="width: 20%"><%=medarbtyp_txt_095 %></th>
+                    <th style="width: 5%"><%=medarbtyp_txt_096 %>?</th>
+                    <th style="width: 20%"><%=medarbtyp_txt_097 %> <br /><span style="font-size:10px;">(<%=medarbtyp_txt_098 %>)</span></th>
+                    <th style="width: 8%"><%=medarbtyp_txt_099 %></th>
+                    <th style="width: 8%"><%=medarbtyp_txt_0100 %></th>
+                    <th style="width: 10%"><%=medarbtyp_txt_101 %></th>
                     
-		            <th>Slet</th>
+		            <th><%=medarbtyp_txt_102 %></th>
 		          
                 </tr>
             </thead>
@@ -1987,11 +1987,11 @@ case "dbopr", "dbred"
                     <td><%if oRec("sostergp") <> 0 then %>
                     (id: <%=oRec("sostergp") %>)
                     <%end if %></td> 
-                    <td><a href="medarbtyper.asp?menu=medarb&func=med&id=<%=oRec("id")%>">Se medlemmer</a> <b>(<%=antalx%>)</b><br />
-                       <span style="font-size:10px">Heraf pasive: <%=antalxPas %>, historisk: <%=t %></span></td>
+                    <td><a href="medarbtyper.asp?menu=medarb&func=med&id=<%=oRec("id")%>"><%=medarbtyp_txt_103 %></a> <b>(<%=antalx%>)</b><br />
+                       <span style="font-size:10px"><%=medarbtyp_txt_104 %>: <%=antalxPas %>, <%=medarbtyp_txt_105 %>: <%=t %></span></td>
                     <td><%=oRec("timepris") &" "& oRec("valutakode") %></td>
                     <td><%=oRec("kostpris") &" "& basisValISO%></td>
-                    <td><%=formatnumber(ugetotal)%> t. (<%=formatnumber(ugetotal/5, 1)%>)</td>
+                    <td><%=formatnumber(ugetotal)%> <%=medarbtyp_txt_116 %> (<%=formatnumber(ugetotal/5, 1)%>)</td>
                     <%if cint(antalx) = 0 AND cint(t) = 0 then%>
 		                    <td style="padding-left:10px; text-align:center;"><a href="medarbtyper.asp?menu=medarb&func=slet&id=<%=oRec("id")%>"><span style="color:darkred;" class="fa fa-times"></span></a></td>
 		              
@@ -2006,17 +2006,17 @@ case "dbopr", "dbred"
             </tbody>
             <tfoot>
 
-                    <th>Id</th>
-                    <th>Sort.</th>
-                    <th>Navn</th>
-                    <th>Hovedgruppe</th>
-                    <th>Søstergrp?</th>
-                    <th>Medlemmer <br /><span style="font-size:10px;">(antal) (historisk)</span></th>
-                    <th>Timepris</th>
-                    <th>Kostpris</th>
-                    <th>Norm. timer</th>
-                   
-		            <th>Slet</th>
+                    <th><%=medarbtyp_txt_092 %></th>
+                    <th><%=medarbtyp_txt_093 %></th>
+                    <th><%=medarbtyp_txt_094 %></th>
+                    <th><%=medarbtyp_txt_095 %></th>
+                    <th><%=medarbtyp_txt_096 %>?</th>
+                    <th><%=medarbtyp_txt_097 %> <br /><span style="font-size:10px;">(<%=medarbtyp_txt_098 %>)</span></th>
+                    <th><%=medarbtyp_txt_099 %></th>
+                    <th><%=medarbtyp_txt_0100 %></th>
+                    <th><%=medarbtyp_txt_101 %></th>
+                    
+		            <th><%=medarbtyp_txt_102 %></th>
                     
 
             </tfoot>
@@ -2031,7 +2031,7 @@ case "dbopr", "dbred"
           <section>
                 <div class="row">
                      <div class="col-lg-12">
-                        <b>Funktioner</b>
+                        <b><%=medarbtyp_txt_106 %></b>
                         </div>
                     </div>
                     <form action="medarbtyper.asp?media=eksport&func=med&id=0" method="Post" target="_blank">
@@ -2039,7 +2039,7 @@ case "dbopr", "dbred"
                     <div class="row">
                      <div class="col-lg-12 pad-r30">
                          
-                    <input id="Submit5" type="submit" value="Eksporter alle medarb.typer til csv." class="btn btn-sm" /><br />
+                    <input id="Submit5" type="submit" value="<%=medarbtyp_txt_107 %>" class="btn btn-sm" /><br />
                          
                          </div>
 
@@ -2055,7 +2055,7 @@ case "dbopr", "dbred"
 
    
         <%else%> 
-    	<div>Du har ikke adgang til denne side</div>      
+    	<div><%=medarbtyp_txt_108 %></div>      
         <%end if %>
 
 
