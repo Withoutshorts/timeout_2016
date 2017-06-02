@@ -604,7 +604,7 @@
                                                           
                                         'response.Write "aktid1: " & aktid(i)
 
-                                        StrSQLjob = "SELECT id, jobnavn FROM job WHERE id ="& jobid(i)
+                                        StrSQLjob = "SELECT id, jobnavn, jobstartdato, jobslutdato FROM job WHERE id ="& jobid(i)
 
                                         oRec3.open StrSQLjob, oConn, 3
                                         if not oRec3.EOF then
@@ -623,23 +623,20 @@
                                         %>
                                         <tr>
                                             <td style="vertical-align:middle"><input type="hidden" value="<%=jobids %>" name="FM_jobid" />
-                                                <%=jobnavn %><a data-toggle="modal" href="#styledModalSstGrp20"><span style="color:#8c8c8c" class="fa fa-file-text pull-right"></span></a>
-                                                <%response.Write jobids & "jobis" %>
-                                                
-                                                <div id="styledModalSstGrp20" class="modal modal-styled fade" style="top:60px;"><!-- modal modal-styled fade -->
-                                                    <div class="modal-dialog">
-                                                        <div class="modal-content" style="border:none !important;padding:0;">
-                                                          <div class="modal-header">
-                                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                                              <h5 class="modal-title">Medarbejdertype</h5>
-                                                            </div>
-                                                            <div class="modal-body">
-                                                            Bruges til at bestemme hvor mange timer man er ansat og til hvilke timepriser medarbejderen faktures.
-
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div> 
+                                                <%=jobnavn %><a data-toggle="modal" href="#styledModalSstGrp20"><span id="jobinfo_<%=jobids %>" style="color:#8c8c8c" class="fa fa-file-text pull-right jobinfo"></span></a>                                                                                              
+                                                 <div id="jobmodal_<%=jobids %>" class="modal">
+                                                     <div class="modal-content" style="width:1000px;">
+                                                         <%response.Write jobids %>
+                                                         <table>
+                                                             <tr>
+                                                                 <td><b>Start & slut dato</b></td>
+                                                             </tr>
+                                                             <tr>
+                                                                 <td><%=oRec3("jobstartdato") & " - " & oRec3("jobslutdato")  %></td>
+                                                             </tr>
+                                                         </table>
+                                                     </div>
+                                                 </div>
 
                                             </td>
 
@@ -1347,7 +1344,6 @@ $(".picmodal").click(function() {
 });
 
 
-
 $(".kommodal").click(function () {
 
     //alert("klik")
@@ -1366,6 +1362,28 @@ $(".kommodal").click(function () {
             modal.style.display = "none";
         }
     }
+
+});
+
+
+
+$(".jobinfo").click(function () {
+    
+    var modalid = this.id
+    var idlngt = modalid.length
+    var idtrim = modalid.slice(8, idlngt)
+    
+    //var modalidtxt = $("#myModal_" + idtrim);
+    var jobmodal = document.getElementById('jobmodal_' + idtrim);
+
+    jobmodal.style.display = "block";
+
+    window.onclick = function (event) {
+        if (event.target == jobmodal) {
+            jobmodal.style.display = "none";
+        }
+    }
+
 
 });
 
