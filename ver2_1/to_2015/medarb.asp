@@ -89,6 +89,10 @@ Session.LCID = 1030
          case "sletok"
         '*** Her slettes en medarbejder ***
 
+    '*** Indsætter i delete historik ****'		
+     call meStamdata(id) 		
+	 call insertDelhist("med", id, meNr, meNavn, session("mid"), session("user"))
+
 	oConn.execute("DELETE FROM budget_medarb_rel WHERE medid = "& id &"")
 	oConn.execute("DELETE FROM medarbejdere WHERE Mid = "& id &"")
 	oConn.execute("DELETE FROM progrupperelationer WHERE MedarbejderId = "& id  &"") 'projektgruppeId = 10 AND
@@ -1052,7 +1056,7 @@ Session.LCID = 1030
      
 	if func = "red" then
 
-        HeaderTxt = "Redigér"
+        HeaderTxt = medarb_txt_121
 
 
 		strSQL = "SELECT mid, mnavn, mnr, mansat, login, pw, lastlogin, brugergruppe, "_
@@ -1118,7 +1122,7 @@ Session.LCID = 1030
 
         else
 
-        HeaderTxt = "Opret"
+        HeaderTxt = medarb_txt_122
 
         strSQL = "SELECT Mnr FROM medarbejdere ORDER BY Mnr"
 		oRec.open strSQL, oConn, 3
@@ -1244,7 +1248,7 @@ Session.LCID = 1030
      <div class="container">
       <div class="portlet">
         <h3 class="portlet-title">
-          <u><%=HeaderTxt & " Medarbejder"%></u>
+          <u><%=HeaderTxt & " " & medarb_txt_002%></u>
         </h3>
         
 
