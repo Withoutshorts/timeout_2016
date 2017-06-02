@@ -620,14 +620,14 @@ Session.LCID = 1030
                         else
                         to_url = "https://timeout.cloud"
                         end if
-                        'mangler
+                        
                         myMail.TextBody= "" & medarb_txt_009 &" "& strNavn & vbCrLf _ 
-					    & "Din medarbejderprofil er blevet opdateret." & vbCrLf _ 
-					    & "Dit brugernavn er: " & strLogin & " og dit password er: " & strPw & vbCrLf & vbCrLf _ 
-					    & "Gem disse oplysninger, til du skal logge ind i TimeOut."  & vbCrLf _ 
-					    & "Du kan altid selv ændre dem når du er logget på systemet." & vbCrLf & vbCrLf _ 
-					    & "Adressen til TimeOut er: "&to_url&"/"&lto&""& vbCrLf & vbCrLf _ 
-					    & "Med venlig hilsen"& vbCrLf & vbCrLf & strEditor & vbCrLf 
+					    & medarb_txt_118 & vbCrLf _ 
+					    & medarb_txt_012 &" "& strLogin & medarb_txt_013 &" "& strPw & vbCrLf & vbCrLf _ 
+					    & medarb_txt_014  & vbCrLf _ 
+					    & medarb_txt_015 & vbCrLf & vbCrLf _ 
+					    & medarb_txt_119&" "&to_url&"/"&lto&""& vbCrLf & vbCrLf _ 
+					    & medarb_txt_120& vbCrLf & vbCrLf & strEditor & vbCrLf 
 
                         
                         myMail.Configuration.Fields.Item _
@@ -1810,7 +1810,7 @@ Session.LCID = 1030
 			
                                 if cint(level) = 1 then %>
 			                    
-			                    <%=oRec("mttype")%> - fra d. <!-- mangler -->
+			                    <%=oRec("mttype")%> - <%=medarb_txt_129 %>
                                 <input id="Hidden4" type="hidden" name="FM_mtyphist_id" value="<%=oRec("mtypeid") %>" />
             
                                     <%if cint(mth) = 1 then %>

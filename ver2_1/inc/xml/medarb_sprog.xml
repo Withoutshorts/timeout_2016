@@ -133,6 +133,7 @@
     <txt_126 >Init</txt_126>
     <txt_127 >Status</txt_127>
     <txt_128 >Medarbejdertype</txt_128>
+    <txt_129 >fra d.</txt_129>
 
   </dk>
 
@@ -269,6 +270,7 @@
     <txt_126 >Init</txt_126>
     <txt_127 >Status</txt_127>
     <txt_128 >Employee type</txt_128>
+    <txt_129 >from d.</txt_129>
 
   </no>
 
@@ -404,7 +406,7 @@
     <txt_126 >Init</txt_126>
     <txt_127 >Status</txt_127>
     <txt_128 >Employee type</txt_128>
-
+    <txt_129 >from d.</txt_129>
 
   </se>
 
@@ -540,7 +542,7 @@
     <txt_126 >Init</txt_126>
     <txt_127 >Status</txt_127>
     <txt_128 >Employee type</txt_128>
-
+    <txt_129 >from d.</txt_129>
 
 
   </de>
@@ -676,7 +678,7 @@
     <txt_126 >Init</txt_126>
     <txt_127 >Status</txt_127>
     <txt_128 >Employee type</txt_128>
-
+    <txt_129 >from d.</txt_129>
 
   </fr>
 
@@ -812,7 +814,7 @@
     <txt_126 >Init</txt_126>
     <txt_127 >Status</txt_127>
     <txt_128 >Employee type</txt_128>
-
+    <txt_129 >from d.</txt_129>
 
   </uk>
 
@@ -947,6 +949,7 @@
     <txt_126 >Init</txt_126>
     <txt_127 >Status</txt_127>
     <txt_128 >Employee type</txt_128>
+    <txt_129 >from d.</txt_129>
 
   </es>
 

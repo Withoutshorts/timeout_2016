@@ -121,7 +121,15 @@
     <txt_114 >Vis aktliste som dropdown (første forvalgt)</txt_114>
     <txt_115 >Vis start/stop.</txt_115>
     <txt_116 >t.</txt_116>
+    <txt_117 >Init</txt_117>
 
+    <txt_118 >Normtimer Man.</txt_118>
+    <txt_119 >Normtimer Tir.</txt_119>
+    <txt_120 >Normtimer Ons.</txt_120>
+    <txt_121 >Normtimer Tor.</txt_121>
+    <txt_122 >Normtimer Fre.</txt_122>
+    <txt_123 >Normtimer Lør.</txt_123>
+    <txt_124 >Normtimer Søn.</txt_124>
 
   </dk>
 
@@ -246,6 +254,15 @@
     <txt_114 >Show activity list as dropdown (first pre-selected)</txt_114>
     <txt_115 >Show start / stop.</txt_115>
     <txt_116 >h.</txt_116>
+    <txt_117 >Init</txt_117>
+
+    <txt_118 >Rated hours Mon.</txt_118>
+    <txt_119 >Rated hours Tue.</txt_119>
+    <txt_120 >Rated hours Wed.</txt_120>
+    <txt_121 >Rated hours Thu.</txt_121>
+    <txt_122 >Rated hours Fri.</txt_122>
+    <txt_123 >Rated hours Sat.</txt_123>
+    <txt_124 >Rated hours Sun.</txt_124>
 
   </no>
 
@@ -369,6 +386,14 @@
     <txt_114 >Show activity list as dropdown (first pre-selected)</txt_114>
     <txt_115 >Show start / stop.</txt_115>
     <txt_116 >h.</txt_116>
+    <txt_117 >Init</txt_117>
+    <txt_118 >Rated hours Mon.</txt_118>
+    <txt_119 >Rated hours Tue.</txt_119>
+    <txt_120 >Rated hours Wed.</txt_120>
+    <txt_121 >Rated hours Thu.</txt_121>
+    <txt_122 >Rated hours Fri.</txt_122>
+    <txt_123 >Rated hours Sat.</txt_123>
+    <txt_124 >Rated hours Sun.</txt_124>
 
   </se>
 
@@ -492,6 +517,14 @@
     <txt_114 >Show activity list as dropdown (first pre-selected)</txt_114>
     <txt_115 >Show start / stop.</txt_115>
     <txt_116 >h.</txt_116>
+    <txt_117 >Init</txt_117>
+    <txt_118 >Rated hours Mon.</txt_118>
+    <txt_119 >Rated hours Tue.</txt_119>
+    <txt_120 >Rated hours Wed.</txt_120>
+    <txt_121 >Rated hours Thu.</txt_121>
+    <txt_122 >Rated hours Fri.</txt_122>
+    <txt_123 >Rated hours Sat.</txt_123>
+    <txt_124 >Rated hours Sun.</txt_124>
 
 
   </de>
@@ -615,6 +648,14 @@
     <txt_114 >Show activity list as dropdown (first pre-selected)</txt_114>
     <txt_115 >Show start / stop.</txt_115>
     <txt_116 >h.</txt_116>
+    <txt_117 >Init</txt_117>
+    <txt_118 >Rated hours Mon.</txt_118>
+    <txt_119 >Rated hours Tue.</txt_119>
+    <txt_120 >Rated hours Wed.</txt_120>
+    <txt_121 >Rated hours Thu.</txt_121>
+    <txt_122 >Rated hours Fri.</txt_122>
+    <txt_123 >Rated hours Sat.</txt_123>
+    <txt_124 >Rated hours Sun.</txt_124>
 
   </fr>
 
@@ -738,6 +779,14 @@
     <txt_114 >Show activity list as dropdown (first pre-selected)</txt_114>
     <txt_115 >Show start / stop.</txt_115>
     <txt_116 >h.</txt_116>
+    <txt_117 >Init</txt_117>
+    <txt_118 >Rated hours Mon.</txt_118>
+    <txt_119 >Rated hours Tue.</txt_119>
+    <txt_120 >Rated hours Wed.</txt_120>
+    <txt_121 >Rated hours Thu.</txt_121>
+    <txt_122 >Rated hours Fri.</txt_122>
+    <txt_123 >Rated hours Sat.</txt_123>
+    <txt_124 >Rated hours Sun.</txt_124>
 
   </uk>
 
@@ -860,6 +909,14 @@
     <txt_114 >Show activity list as dropdown (first pre-selected)</txt_114>
     <txt_115 >Show start / stop.</txt_115>
     <txt_116 >h.</txt_116>
+    <txt_117 >Init</txt_117>
+    <txt_118 >Rated hours Mon.</txt_118>
+    <txt_119 >Rated hours Tue.</txt_119>
+    <txt_120 >Rated hours Wed.</txt_120>
+    <txt_121 >Rated hours Thu.</txt_121>
+    <txt_122 >Rated hours Fri.</txt_122>
+    <txt_123 >Rated hours Sat.</txt_123>
+    <txt_124 >Rated hours Sun.</txt_124>
 
   </es>
 

@@ -214,6 +214,15 @@ Set oNodes_medarbtyp = objXmlDom_medarbtyp.documentElement.selectNodes(sXPathQue
         medarbtyp_txt_114 = oNode_medarbtyp.selectSingleNode("txt_114").Text
         medarbtyp_txt_115 = oNode_medarbtyp.selectSingleNode("txt_115").Text
         medarbtyp_txt_116 = oNode_medarbtyp.selectSingleNode("txt_116").Text
+        medarbtyp_txt_117 = oNode_medarbtyp.selectSingleNode("txt_117").Text
+
+        medarbtyp_txt_118 = oNode_medarbtyp.selectSingleNode("txt_118").Text
+        medarbtyp_txt_119 = oNode_medarbtyp.selectSingleNode("txt_119").Text
+        medarbtyp_txt_120 = oNode_medarbtyp.selectSingleNode("txt_120").Text
+        medarbtyp_txt_121 = oNode_medarbtyp.selectSingleNode("txt_121").Text
+        medarbtyp_txt_122 = oNode_medarbtyp.selectSingleNode("txt_122").Text
+        medarbtyp_txt_123 = oNode_medarbtyp.selectSingleNode("txt_123").Text
+        medarbtyp_txt_124 = oNode_medarbtyp.selectSingleNode("txt_124").Text
           
     next
 

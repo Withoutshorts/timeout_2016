@@ -225,6 +225,7 @@ Set oNodes_medarb = objXmlDom_medarb.documentElement.selectNodes(sXPathQuery_med
         medarb_txt_126 = oNode_medarb.selectSingleNode("txt_126").Text
         medarb_txt_127 = oNode_medarb.selectSingleNode("txt_127").Text
         medarb_txt_128 = oNode_medarb.selectSingleNode("txt_128").Text
+        medarb_txt_129 = oNode_medarb.selectSingleNode("txt_129").Text
           
     next
 
