@@ -623,7 +623,7 @@
                                         %>
                                         <tr>
                                             <td style="vertical-align:middle"><input type="hidden" value="<%=jobids %>" name="FM_jobid" />
-                                                <%=jobnavn %></td>
+                                                <%=jobnavn %><span style="color:#8c8c8c" class="fa fa-file-text pull-right"></span></td>
                                             <td style="vertical-align:middle">
                                                 <input type="hidden" value="<%=TaktId %>" name="FM_aktivitetid" />
                                                 <%=aktNavn %>
@@ -1110,6 +1110,17 @@
                             balLor = lorTimer - ntimLor
                             balSon = sonTimer - ntimSon
 
+                            weekhourstotal = manTimer + tirTimer + onsTimer + torTimer + freTimer + lorTimer + sonTimer
+                            normtotal = ntimMan + ntimTir + ntimOns + ntimTor + ntimFre + ntimLor + ntimSon
+
+                            baltotal = weekhourstotal - normtotal
+
+                            if baltotal < 0 then 
+                                balcolor = "red;"
+                            else
+                                balcolor = "green;"
+                            end if
+
                             if balMan < 0 then 
                                 mancolor = "red;"
                             else
@@ -1166,6 +1177,7 @@
                                         <th style="width:75px; text-align:center">Fr</th>
                                         <th style="width:75px; text-align:center">Lø</th>
                                         <th style="width:75px; text-align:center">Sø</th>
+                                        <th style="width:75px; text-align:center">Total</th>
                                     </tr>
 
                                     <tr>
@@ -1177,8 +1189,9 @@
                                         <td style="text-align:center"><%=replace(freTimer, ",", ".") %></td>
                                         <td style="text-align:center"><%=replace(lorTimer, ",", ".") %></td>
                                         <td style="text-align:center"><%=replace(sonTimer, ",", ".") %></td>
+                                        <td style="text-align:center"><%=replace(weekhourstotal, ",", ".") %></td>
                                     </tr>
-
+                                    
                                     <tr>
                                         <td>Norm:</td>
                                         <td style="text-align:center"><%=replace(ntimMan, ",", ".") %></td>
@@ -1188,6 +1201,7 @@
                                         <td style="text-align:center"><%=replace(ntimFre, ",", ".") %></td>
                                         <td style="text-align:center"><%=replace(ntimLor, ",", ".") %></td>
                                         <td style="text-align:center"><%=replace(ntimSon, ",", ".") %></td>
+                                        <td style="text-align:center"><%=replace(normtotal, ",", ".") %></td>
                                     </tr>
 
                                     <tr>
@@ -1199,6 +1213,7 @@
                                         <td style="text-align:center; color:<%=frecolor%>"><%=balFre %></td>
                                         <td style="text-align:center;"><%=balLor %></td>
                                         <td style="text-align:center;"><%=balSon %></td>
+                                        <td style="text-align:center; color:<%=balcolor%>"><%=replace(baltotal, ",", ".") %></td>
                                     </tr>
                                 </table>
 
