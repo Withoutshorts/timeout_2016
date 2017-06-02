@@ -623,7 +623,26 @@
                                         %>
                                         <tr>
                                             <td style="vertical-align:middle"><input type="hidden" value="<%=jobids %>" name="FM_jobid" />
-                                                <%=jobnavn %><span style="color:#8c8c8c" class="fa fa-file-text pull-right"></span></td>
+                                                <%=jobnavn %><a data-toggle="modal" href="#styledModalSstGrp20"><span style="color:#8c8c8c" class="fa fa-file-text pull-right"></span></a>
+                                                <%response.Write jobids & "jobis" %>
+                                                
+                                                <div id="styledModalSstGrp20" class="modal modal-styled fade" style="top:60px;"><!-- modal modal-styled fade -->
+                                                    <div class="modal-dialog">
+                                                        <div class="modal-content" style="border:none !important;padding:0;">
+                                                          <div class="modal-header">
+                                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                                              <h5 class="modal-title">Medarbejdertype</h5>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                            Bruges til at bestemme hvor mange timer man er ansat og til hvilke timepriser medarbejderen faktures.
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div> 
+
+                                            </td>
+
                                             <td style="vertical-align:middle">
                                                 <input type="hidden" value="<%=TaktId %>" name="FM_aktivitetid" />
                                                 <%=aktNavn %>
