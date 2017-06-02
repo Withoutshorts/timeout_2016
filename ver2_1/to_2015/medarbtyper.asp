@@ -1195,8 +1195,8 @@ case "dbopr", "dbred"
 
 
 	strTimepris = ""
-	varSubVal = "Opret" 
-	varbroedkrumme = "Opret ny"
+	varSubVal = medarbtyp_txt_110 
+	varbroedkrumme = medarbtyp_txt_091
 	dbfunc = "dbopr"
 	
 	strTimepris = 0
@@ -1323,13 +1323,13 @@ case "dbopr", "dbred"
 	ugetotal = formatnumber(normtimer_son + normtimer_man + normtimer_tir + normtimer_ons + normtimer_tor + normtimer_fre + normtimer_lor, 2)
 
     if cint(strFromId) <> 0 then
-    varSubVal = "Opret" 
-	varbroedkrumme = "Opret ny"
+    varSubVal = medarbtyp_txt_110
+	varbroedkrumme = medarbtyp_txt_091
 	dbfunc = "dbopr"
     else
 	dbfunc = "dbred"
-	varbroedkrumme = "Rediger"
-	varSubVal = "Opdater" 
+	varbroedkrumme = medarbtyp_txt_125
+	varSubVal = medarbtyp_txt_126 
     end if
    
 
@@ -1341,7 +1341,7 @@ case "dbopr", "dbred"
             <%if level = 1 then %>
     <div class="container">
     <div class="portlet">
-        <h3 class="portlet-title"><u><%=medarbtyp_txt_001 %> <%=varbroedkrumme %></u></h3>
+        <h3 class="portlet-title"><u><%=medarbtyp_txt_001 & " " %> <%=varbroedkrumme %></u></h3>
 
         <form action="medarbtyper.asp?menu=medarb&func=<%=dbfunc%>" method="post">
 	        <input type="hidden" name="id" value="<%=id%>">
@@ -1422,7 +1422,7 @@ case "dbopr", "dbred"
                            
                             <div class="row">
                                 <div class="col-lg-1">&nbsp</div>
-                                <div class="col-lg-2"><b> :</b><br /> (<%=medarbtyp_txt_045 %> 1)</div>
+                                <div class="col-lg-2"><b><%=medarbtyp_txt_044 %>:</b><br /> (<%=medarbtyp_txt_045 %> 1)</div>
                                 <div class="col-lg-2"><input type="text" class="form-control input-small" name="FM_timepris" value="<%=strTimepris%>"></div>
                                 <div class="col-lg-2"> <%call valutaKoder(0, tp0_valuta, 1) %></div>
                             </div>

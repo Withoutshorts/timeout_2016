@@ -131,6 +131,9 @@
     <txt_123 >Normtimer Lør.</txt_123>
     <txt_124 >Normtimer Søn.</txt_124>
 
+    <txt_125 >Rediger</txt_125>
+    <txt_126 >Opdater</txt_126>
+
   </dk>
 
 
@@ -263,6 +266,9 @@
     <txt_122 >Rated hours Fri.</txt_122>
     <txt_123 >Rated hours Sat.</txt_123>
     <txt_124 >Rated hours Sun.</txt_124>
+    
+    <txt_125 >Edit</txt_125>
+    <txt_126 >Update</txt_126>
 
   </no>
 
@@ -394,6 +400,9 @@
     <txt_122 >Rated hours Fri.</txt_122>
     <txt_123 >Rated hours Sat.</txt_123>
     <txt_124 >Rated hours Sun.</txt_124>
+    
+    <txt_125 >Edit</txt_125>
+    <txt_126 >Update</txt_126>
 
   </se>
 
@@ -525,6 +534,9 @@
     <txt_122 >Rated hours Fri.</txt_122>
     <txt_123 >Rated hours Sat.</txt_123>
     <txt_124 >Rated hours Sun.</txt_124>
+    
+    <txt_125 >Edit</txt_125>
+    <txt_126 >Update</txt_126>
 
 
   </de>
@@ -656,6 +668,9 @@
     <txt_122 >Rated hours Fri.</txt_122>
     <txt_123 >Rated hours Sat.</txt_123>
     <txt_124 >Rated hours Sun.</txt_124>
+    
+    <txt_125 >Edit</txt_125>
+    <txt_126 >Update</txt_126>
 
   </fr>
 
@@ -787,6 +802,9 @@
     <txt_122 >Rated hours Fri.</txt_122>
     <txt_123 >Rated hours Sat.</txt_123>
     <txt_124 >Rated hours Sun.</txt_124>
+    
+    <txt_125 >Edit</txt_125>
+    <txt_126 >Update</txt_126>
 
   </uk>
 
@@ -917,6 +935,9 @@
     <txt_122 >Rated hours Fri.</txt_122>
     <txt_123 >Rated hours Sat.</txt_123>
     <txt_124 >Rated hours Sun.</txt_124>
+    
+    <txt_125 >Edit</txt_125>
+    <txt_126 >Update</txt_126>
 
   </es>
 
