@@ -69,10 +69,16 @@ case "FN_updatejobstatus"
 
                  jobid = request("jobid")   
                  jobstatus = request("jobstatus")
+
+                 medarbejderid = session("mid")
                  
-                 '** Job kommentar ****'
+                 '** Luk Job ****'
                  strSQLUpdj = "UPDATE job SET jobstatus = "& jobstatus &" WHERE id = "& jobid 
                  oConn.Execute(strSQLUpdj)
+
+                
+                 call lukjobmail(jobstatus, jobid, medarbejderid)
+
 
 
 case "FN_updatejobprio"

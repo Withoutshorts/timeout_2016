@@ -678,7 +678,7 @@ Public Class ozreportws
 
 
 
-                                    Dim strSQLmtyp As String = "SELECT mid FROM medarbejdere WHERE mansat = 1 AND medarbejdertype = " & aboMtyperArr(t)
+                                    Dim strSQLmtyp As String = "SELECT mid FROM medarbejdere WHERE (mansat = 1) AND medarbejdertype = " & aboMtyperArr(t)
 
                                     objCmd = New OdbcCommand(strSQLmtyp, objConn)
                                     objDR2 = objCmd.ExecuteReader '(CommandBehavior.closeConnection)

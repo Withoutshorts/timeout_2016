@@ -1,14 +1,12 @@
-  
 
-    
-
-    <%response.buffer = true%>
-
-
-    <META HTTP-EQUIV="CACHE-CONTROL" CONTENT="NO-CACHE">
-    <META HTTP-EQUIV="EXPIRES" CONTENT="Mon, 22 Jul 2002 11:12:01 GMT">
-    
+   
     <%
+
+    '* BUFFER TRUE AND META HTTP-EQUIV="CACHE-CONTROL" CONTENT="NO-CACHE" 
+    '* FÅR JAVSCRIOPT ALERT TIL AT FEJLE ved forecastoverskreddet
+
+
+
     'if request("usegl2006") = "0" then
     'Response.Cookies("tsa")("usegl2006") = "0"
     'else
@@ -477,7 +475,7 @@
 
                        
 
-                        ' '** Nulstillerforvalgt job for denne medarbejder ****'
+                        ''** Nulstillerforvalgt job for denne medarbejder ****'
                         strSQLUpdFvOff = "UPDATE timereg_usejob SET forvalgt = 0 WHERE medarb = "& medarbejderid &" AND jobid = "& lukjob 
                         oConn.Execute(strSQLUpdFvOff)
 
@@ -1577,8 +1575,10 @@
                                         if cint(sortByVal) = 5 OR cint(sortByVal) = 6 then 
                                         
                                         select case lto
-                                        case "oko", "adra", "xintranet - local"
+                                        case "adra", "xintranet - local"
                                         ordBySQL =  "a.sortorder, a.navn"
+                                        case "oko"
+                                        ordBySQL =  "j.jobnr, a.sortorder, a.navn"
                                         case else
                                         ordBySQL =  "k.kkundenavn, j.jobnavn, a.fase, a.sortorder, a.navn"
                                         end select
@@ -1950,7 +1950,7 @@
                                 
                                                                    
 
-                                                                        if cint(InternJobOskriftIsWrt) = 1 then
+                                                                        if cdbl(job_jid) = 3 AND lto = "oko" then 'cint(InternJobOskriftIsWrt) = 1 AND 
 
                                                                         wrtBreak = 0
                                                                         else
@@ -1967,9 +1967,9 @@
 
                                                                         wrtBreak = 1
                                                                         
-                                                                        if lto = "oko" AND cdbl(job_jid) = 3 then   
-                                                                        InternJobOskriftIsWrt = 1
-                                                                        end if
+                                                                        'if lto = "oko" AND cdbl(job_jid) = 3 then   
+                                                                        'InternJobOskriftIsWrt = 1
+                                                                        'end if
 
                                                                         end if
                                     
@@ -3528,7 +3528,7 @@
          
          while not oRec3.EOF 
             
-           if cint(medarbCookie) = cint(oRec3("mid")) then
+           if cdbl(medarbCookie) = cdbl(oRec3("mid")) then
            thisMSel = "SELECTED"
            else
            thisMSel = ""
@@ -5621,7 +5621,7 @@
     				        muDag = 0
 				            useDato = datoer(y)
 
-                            if rdir = "xtimetag_web" OR rdir = "ugeseddel_2011" then
+                            if rdir = "xtimetag_web" OR rdir = "ugeseddel_2011" OR rdir = "favorit" then
                             useDage = ""
                             usetSltid = ""
                             usetSttid = ""

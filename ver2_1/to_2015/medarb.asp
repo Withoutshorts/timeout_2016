@@ -89,6 +89,10 @@ Session.LCID = 1030
          case "sletok"
         '*** Her slettes en medarbejder ***
 
+    '*** Indsætter i delete historik ****'
+     call meStamdata(id) 
+	 call insertDelhist("med", id, meNr, meNavn, session("mid"), session("user"))
+
 	oConn.execute("DELETE FROM budget_medarb_rel WHERE medid = "& id &"")
 	oConn.execute("DELETE FROM medarbejdere WHERE Mid = "& id &"")
 	oConn.execute("DELETE FROM progrupperelationer WHERE MedarbejderId = "& id  &"") 'projektgruppeId = 10 AND
@@ -99,6 +103,8 @@ Session.LCID = 1030
 	oConn.execute("DELETE FROM timepriser WHERE medarbid = "& id &"")
 	
     	
+    	
+
     Response.Redirect "medarb.asp?menu=medarbejder&lastmedid="&id
                      
 					
@@ -2346,7 +2352,7 @@ Session.LCID = 1030
 		            if cint(visikkemedarbejdere) <> 1 then
 		
 			            if usekri = 1 then '**SøgeKri
-			            sqlsearchKri = " (mnavn LIKE '%"& thiskri &"%' OR init LIKE '"& thiskri &"%' OR (mnr LIKE '"& thiskri &"%' AND mnr <> '0'))" 
+			            sqlsearchKri = " (mnavn LIKE '%"& thiskri &"%' OR init LIKE '"& thiskri &"%' OR (mnr LIKE '"& thiskri &"%' AND mnr <> '0') OR email LIKE '"& lcase(thiskri) &"%')" 
 			            else
 			            sqlsearchKri = " (mid <> 0)"
 			            end if

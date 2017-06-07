@@ -1133,9 +1133,10 @@ end function
 	
 	function insertDelhist(deltype, delid, delnr, delnavn, mid, mnavn)
 	
+        dateTimeNow = year(now) & "/"& month(now) & "/"& day(now) &" "& formatdatetime(now, 3) 
 	
-	strSQLdelhist = "INSERT INTO delete_hist (deltype, delid, delnr, delnavn, mid, mnavn) VALUES "_
-	&" ('"& deltype &"', "& delid &", '"& delnr &"', '"& delnavn &"', "& mid &", '"& mnavn &"')"
+	strSQLdelhist = "INSERT INTO delete_hist (deltype, delid, delnr, delnavn, mid, mnavn, dato) VALUES "_
+	&" ('"& deltype &"', "& delid &", '"& delnr &"', '"& delnavn &"', "& mid &", '"& mnavn &"', '"& dateTimeNow &"')"
 	
     'Response.Write strSQLdelhist
 

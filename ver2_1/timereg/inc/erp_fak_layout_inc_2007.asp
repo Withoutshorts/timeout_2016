@@ -362,11 +362,11 @@ sub fakturanr
     
 
         <%if cint(medregnikkeioms) = 1 then %>
-        &nbsp;(intern)
+        &nbsp;<%=erp_txt_265 %>
         <%end if %>
 
         <%if cint(intGodkendt) = 0 then %>
-        &nbsp;(kladde)
+        &nbsp;(<%=lcase(erp_txt_094) %>)
         <%end if %>
 
         <%if cdate(sysFakdato) = "01-01-2002" then %>

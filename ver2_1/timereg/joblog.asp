@@ -1895,7 +1895,7 @@ slutDatoKriSQL = strAar_slut &"/"& strMrd_slut &"/"& strDag_slut
 				
 				              if (cint(oRec("tfaktim")) = 20 OR cint(oRec("tfaktim")) = 21 OR _
 				               cint(oRec("tfaktim")) = 8 OR cint(oRec("tfaktim")) = 81) AND _
-				                level <> 1 AND cint(session("mid")) <> cint(oRec("tmnr")) then 
+				                level <> 1 AND cdbl(session("mid")) <> cdbl(oRec("tmnr")) then 
 	                           hidesygtyper = 1
 	                           else 
 	                           hidesygtyper = 0

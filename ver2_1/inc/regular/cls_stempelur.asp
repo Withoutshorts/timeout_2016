@@ -718,8 +718,12 @@ end function
 '***********************************************************************************************
 '************** Logind historik / Komme / gå timer                              ****************
 '***********************************************************************************************
-public lastMnavn, lastMnr, totalhours, totalmin, totalhoursWeek, totalminWeek
+public lastMnavn, lastMnr, totalhours, totalmin, totalhoursWeek, totalminWeek, stempelUrEkspTxt
 function stempelurlist(medarbSel, showtot, layout, sqlDatoStart, sqlDatoSlut, typ, d_end, lnk)
+
+
+
+if media <> "export" then
 %>
         
 <script language="javascript">
@@ -828,7 +832,9 @@ function stempelurlist(medarbSel, showtot, layout, sqlDatoStart, sqlDatoSlut, ty
 
 </script>
     <%
-	
+	end if 'media
+
+
     'sqlDatoStart = day(sqlDatoStart) &"-"& month(sqlDatoStart) &"-"& year(sqlDatoStart)
 
 	'Response.Write "layout: " & layout & "<br>"
@@ -863,8 +869,9 @@ function stempelurlist(medarbSel, showtot, layout, sqlDatoStart, sqlDatoSlut, ty
 
 
 
-    '** ??
-	
+    
+	if media <> "export" then
+
 	'*** Finder afslutte uger på aktive medarbejdere ***'
 	if cint(medarbSel) = 0 then
 	strSQLmedarb = "SELECT mid FROM medarbejdere WHERE mansat <> '2' AND mansat <> '3'"
@@ -883,12 +890,14 @@ function stempelurlist(medarbSel, showtot, layout, sqlDatoStart, sqlDatoSlut, ty
 	
 	end if
 	
-	
+	end if 'media
 
 
 
     call erStempelurOn() 
   
+
+    if media <> "export" then
 
 
 	
@@ -926,7 +935,7 @@ function stempelurlist(medarbSel, showtot, layout, sqlDatoStart, sqlDatoSlut, ty
     url = "stempelur.asp?menu=stat&func=oprloginhist&id=0&medarbSel="&medarbSel&"&showonlyone="&showonlyone&"&hidemenu="&hidemenu
     '&"&rdir="&rdir
     
-        text = "Opret ny / pause "
+    text = "Opret ny / pause "
     otoppx = 0
     oleftpx = 0
     owdtpx = 140
@@ -977,7 +986,8 @@ function stempelurlist(medarbSel, showtot, layout, sqlDatoStart, sqlDatoSlut, ty
 	
 		<%end if%>
 		<td class=alt style="padding-left:0px;"><b>Indstilling</b><br /> (Faktor / Minimum)</td>
-		<td class=alt align=right><b>Timer</b><br /> (hele min.)</td>
+		<td class=alt align=right><b>Timer:Min</b> <br /> (24:00)</td>
+      
 		<%if showTot <> 1 then 
             
             
@@ -995,6 +1005,8 @@ function stempelurlist(medarbSel, showtot, layout, sqlDatoStart, sqlDatoSlut, ty
 	</tr>
 	<%
 
+    end if
+
 
     '****** Uge Loop ****'
     lastMid = 0
@@ -1011,20 +1023,23 @@ function stempelurlist(medarbSel, showtot, layout, sqlDatoStart, sqlDatoSlut, ty
 
      lastWeek = datepart("ww", sqlDatoStart, 2,2) 
 
+    if media <> "export" then
 
-    '** valgte medarbejdere 
-    for m = 0 to UBOUND(intMids)
+        '** valgte medarbejdere 
+        for m = 0 to UBOUND(intMids)
 
 
-    if cint(layout) = 0 then
-    '*** Total ***
-	if lastMid <> intMids(m) AND m > 0 ANd totalhours > 0 then
-        'Response.write "lastMId:"& lastMid &" lmid:"& oRec("lmid")
+        if cint(layout) = 0 then
+        '*** Total ***
+	        if lastMid <> intMids(m) AND m > 0 ANd totalhours > 0 then
+                'Response.write "lastMId:"& lastMid &" lmid:"& oRec("lmid")
 
-		call tottimer(lastMnavn, lastMnr, totalhours, totalmin, lastMid, sqlDatoStart, sqlDatoSlut, 1)
-		totalhours = 0 
-		totalmin = 0
-	end if
+		        call tottimer(lastMnavn, lastMnr, totalhours, totalmin, lastMid, sqlDatoStart, sqlDatoSlut, 1)
+		        totalhours = 0 
+		        totalmin = 0
+	        end if
+        end if
+
     end if
 	
     if cint(layout) = 0 then
@@ -1098,55 +1113,235 @@ function stempelurlist(medarbSel, showtot, layout, sqlDatoStart, sqlDatoSlut, ty
 	
 	thours = 0
 	tmin = 0
+
+
+    '****** Minutter / time beregning *****
+        timerThis = 0
+		timerThisDIFF = 0
+		
+		if len(oRec("login")) <> 0 AND len(oRec("logud")) <> 0 then
+		    
+		    if cint(oRec("stempelurindstilling")) = -1 then
+		        
+		        timerThisDIFF = oRec("minutter")
+		        useFaktor = 1
+		        
+		    else
+		    
+		        timerThisDIFF = oRec("minutter")
+    		
+		        if timerThisDIFF < oRec("minimum") then
+			        timerThisDIFF = oRec("minimum")
+		        end if
+    		    
+		        if oRec("faktor") > 0 then
+			    useFaktor = oRec("faktor")
+			    else
+			    useFaktor = 0
+			    end if
+			
+			end if
+		
+		
+		timerThis = (timerThisDIFF * useFaktor)
+		'totaltimer = totaltimer + timerThis
+		end if
+		
+		'Response.write timerThis
+		'call timerogminutberegning(0,timerThis)
+		
+		timTemp = formatnumber(timerThis/60, 3)
+		timTemp_komma = split(timTemp, ",")
+		
+		for x = 0 to UBOUND(timTemp_komma)
+			
+			if x = 0 then
+			thours = timTemp_komma(x)
+			end if
+			
+			if x = 1 then
+			tmin = timerThis - (thours * 60)
+			end if
+			
+		next
+		
+		if cint(oRec("stempelurindstilling")) = -1 then
+		totalhours = totalhours - cint(thours)
+		totalmin = totalmin - tmin
+
+        totalhoursWeek = totalhoursWeek - cint(thours)
+		totalminWeek = totalminWeek - tmin
+
+		else
+		totalhours = totalhours + cint(thours)
+		totalmin = totalmin + tmin
+		
+        totalhoursWeek = totalhoursWeek + cint(thours)
+		totalminWeek = totalminWeek + tmin
+        
+        end if
+		
+		if len(tmin) <> 0 then
+		
+			tmin = tmin
+			
+			if tmin = 0 then
+			tmin = "00"
+			end if
+			
+			if len(tmin) = 1 then
+			tmin = "0"&tmin
+			end if
+			
+		else
+		tmin = "00"
+		end if
+
+
+
+    if cint(oRec("stempelurindstilling")) = -1 then 
+		timerMinExpTxt = "-"&thours&":"&left(tmin, 2)
+        minutterExpTxt = "-"&oRec("minutter")
+		else
+        timerMinExpTxt = thours&":"&left(tmin, 2)
+        minutterExpTxt = oRec("minutter")
+    end if
 	
-	
-	
-	%>
-	
-	
-	<%if lastMid <> oRec("lmid") then
+    '** Slut timeberegning
+	'******************************************
+
+
+    '**** System besked ************************
+    sysBeskedTxt = ""
+    select case cint(oRec("manuelt_afsluttet"))
+		case 1 
+        
+		'** tider manuelt ændret **'
+		
+		sysBeskedTxt = "Ja:"
+		
+		    if len(trim(oRec("login_first"))) <> 0 then 
+			sysBeskedTxt = sysBeskedTxt & "("&left(formatdatetime(oRec("login_first"), 3), 5)
+			end if
+			
+			if len(trim(oRec("logud_first"))) <> 0 then 
+			sysBeskedTxt = sysBeskedTxt & "-"&left(formatdatetime(oRec("logud_first"), 3), 5)&")"
+			end if 
+
+           
+			
+		
+		case 2 '** Glemt at logge ud ***'
+       
+		sysBeskedTxt = "Glemt at logge ud!"
+		
+		
+		case 3 'Tidertilret pga stempelur indstillinger og tider manuelt ændret **'
+		sysBeskedTxt = "Ja:"
+		
+		
+		    if len(trim(oRec("login_first"))) <> 0 then 
+			sysBeskedTxt = sysBeskedTxt & "("&left(formatdatetime(oRec("login_first"), 3), 5)
+			end if 
+			
+			if len(trim(oRec("logud_first"))) <> 0 then 
+			sysBeskedTxt = sysBeskedTxt & "-"&left(formatdatetime(oRec("logud_first"), 3), 5)&")"
+			end if 
+			
+			sysBeskedTxt = sysBeskedTxt &"<br />Logind tilpasset pga.<br /> stempelur indstilllinger."
+		
+		
+		
+		case else 
+		
+		end select 
+            
+            
+        '**** SLUT system besked ****
+
+
+
+
+
+            if media <> "export" then    
+                
+                    if lastMid <> oRec("lmid") then
     
   
     
-    if instr(medIDNavnWrt, "#"&oRec("lmid")&"#") = 0 then
+                    if instr(medIDNavnWrt, "#"&oRec("lmid")&"#") = 0 then
 
-    call meStamdata(oRec("lmid"))
 
-        
-        dtUseTxt = dateadd("d", 3, dtUse) '** Sikere det er mid i uge, hvis ugen løber over årsskift
-       
-    %>
-	
-    <tr bgcolor="#F7F7F7">
-		<td>&nbsp;</td>
-		<td colspan="<%=csp%>" style="height:20px; padding:5px;"><h4><span style="font-size:11px; font-weight:lighter;">Komme / Gå tid Uge <%=datepart("ww", dtUseTxt, 2,2) &" "& datepart("yyyy", dtUseTxt, 2,2) %></span><br />
+
+                    call meStamdata(oRec("lmid"))
+
             
-            <%if len(trim(meInit)) <> 0 then %>
-            <%=meNavn & "  ["& meInit &"]"%>
-            <%else %>
-            <%=meTxt%>
-            <%end if %>
-</h4>
-		</td>
-		<td>&nbsp;</td>
-	</tr>
-
-
-	<%
-
-
-   
-
-
-    medIDNavnWrt = medIDNavnWrt & ",#"& oRec("lmid") & "#" 
-    end if
-    
-    end if%>
-
-
-
-   
+        
+                        dtUseTxt = dateadd("d", 3, dtUse) '** Sikere det er mid i uge, hvis ugen løber over årsskift
+       
+                            %>
 	
+                            <tr bgcolor="#F7F7F7">
+		                        <td>&nbsp;</td>
+		                        <td colspan="<%=csp%>" style="height:20px; padding:5px;"><h4><span style="font-size:11px; font-weight:lighter;">Komme / Gå tid Uge <%=datepart("ww", dtUseTxt, 2,2) &" "& datepart("yyyy", dtUseTxt, 2,2) %></span><br />
+            
+                                    <%if len(trim(meInit)) <> 0 then %>
+                                    <%=meNavn & "  ["& meInit &"]"%>
+                                    <%else %>
+                                    <%=meTxt%>
+                                    <%end if %>
+                        </h4>
+		                        </td>
+		                        <td>&nbsp;</td>
+	                        </tr>
+
+
+	                        <%
+
+
+   
+
+
+                    medIDNavnWrt = medIDNavnWrt & ",#"& oRec("lmid") & "#" 
+                    end if
+    
+                    end if
+
+    else
+
+                if lastMid <> oRec("lmid") then
+                if instr(medIDNavnWrt, "#"&oRec("lmid")&"#") = 0 then
+
+
+                call meStamdata(oRec("lmid"))
+
+                end if
+
+                end if
+
+                if isNull(oRec("login")) <> true then
+                loginExpTxt = formatdatetime(oRec("login"), 3)
+                else
+                loginExpTxt = ""
+                end if
+
+                if isNULL(oRec("logud")) <> true then
+                logudExpTxt = formatdatetime(oRec("logud"), 3)
+                else
+                logudExpTxt = ""
+                end if
+
+
+
+                stempelUrEkspTxt = stempelUrEkspTxt & ""& meNavn &";"& meInit & ";" & oRec("dato") & ";" & loginExpTxt & ";"& logudExpTxt & ";"& timerMinExpTxt &";"& minutterExpTxt &";" & useFaktor &";" & oRec("ipn") & ";" & oRec("stempelurindstilling") &";" & oRec("manuelt_oprettet") &";"& chr(34) & sysBeskedTxt & chr(34) &";"& chr(34) & oRec("kommentar") & chr(34) &";" & "xx99123sy#z"
+                
+                medIDNavnWrt = medIDNavnWrt & ",#"& oRec("lmid") & "#" 
+
+    end if 'media
+                
+                
+    if media <> "export" then            
+    %>
 	<tr>
 		<td bgcolor="#CCCCCC" colspan="<%=csp+2%>" style="height:1px;"></td>
 	</tr>
@@ -1463,94 +1658,18 @@ function stempelurlist(medarbSel, showtot, layout, sqlDatoStart, sqlDatoSlut, ty
 		</td>
 		
 		<td align=right>
-		<%
-		timerThis = 0
-		timerThisDIFF = 0
-		
-		if len(oRec("login")) <> 0 AND len(oRec("logud")) <> 0 then
-		    
-		    if cint(oRec("stempelurindstilling")) = -1 then
-		        
-		        timerThisDIFF = oRec("minutter")
-		        useFaktor = 1
-		        
-		    else
-		    
-		        timerThisDIFF = oRec("minutter")
-    		
-		        if timerThisDIFF < oRec("minimum") then
-			        timerThisDIFF = oRec("minimum")
-		        end if
-    		    
-		        if oRec("faktor") > 0 then
-			    useFaktor = oRec("faktor")
-			    else
-			    useFaktor = 0
-			    end if
-			
-			end if
 		
 		
-		timerThis = (timerThisDIFF * useFaktor)
-		'totaltimer = totaltimer + timerThis
-		end if
-		
-		'Response.write timerThis
-		'call timerogminutberegning(0,timerThis)
-		
-		timTemp = formatnumber(timerThis/60, 3)
-		timTemp_komma = split(timTemp, ",")
-		
-		for x = 0 to UBOUND(timTemp_komma)
-			
-			if x = 0 then
-			thours = timTemp_komma(x)
-			end if
-			
-			if x = 1 then
-			tmin = timerThis - (thours * 60)
-			end if
-			
-		next
-		
-		if cint(oRec("stempelurindstilling")) = -1 then
-		totalhours = totalhours - cint(thours)
-		totalmin = totalmin - tmin
-
-        totalhoursWeek = totalhoursWeek - cint(thours)
-		totalminWeek = totalminWeek - tmin
-
-		else
-		totalhours = totalhours + cint(thours)
-		totalmin = totalmin + tmin
-		
-        totalhoursWeek = totalhoursWeek + cint(thours)
-		totalminWeek = totalminWeek + tmin
-        
-        end if
-		
-		if len(tmin) <> 0 then
-		
-			tmin = tmin
-			
-			if tmin = 0 then
-			tmin = "00"
-			end if
-			
-			if len(tmin) = 1 then
-			tmin = "0"&tmin
-			end if
-			
-		else
-		tmin = "00"
-		end if%>
 		
 		<%if cint(oRec("stempelurindstilling")) = -1 then %>
-		-<%=thours%>:<%=left(tmin, 2)%>
+        <%=timerMinExpTxt%>
+		<!---<%=thours%>:<%=left(tmin, 2)%>-->
 		<%else %>
-        <b>
-		<%=thours%>:<%=left(tmin, 2)%></b>
-		<%end if %>
+        <b><%=timerMinExpTxt %></b>
+		<!--<%=thours%>:<%=left(tmin, 2)%>-->
+        <%end if %>
+
+         
 		
 		
 		</td>
@@ -1567,50 +1686,8 @@ function stempelurlist(medarbSel, showtot, layout, sqlDatoStart, sqlDatoSlut, ty
 		
 		<td style="padding-right:5px;">
         <span style="color:#999999; font-size:9px;">
-		<%
-       
-        select case cint(oRec("manuelt_afsluttet"))
-		case 1 
+		<%=sysBeskedTxt %>
         
-		'** tider manuelt ændret **'%>
-		
-		Ja:
-		
-		    <%if len(trim(oRec("login_first"))) <> 0 then %>
-			<%="("&left(formatdatetime(oRec("login_first"), 3), 5)%>
-			<%end if %>
-			
-			<%if len(trim(oRec("logud_first"))) <> 0 then %>
-			<%="-"&left(formatdatetime(oRec("logud_first"), 3), 5)&")"%>
-			<%end if %>
-            <br />
-			
-		
-		<%case 2 '** Glemt at logge ud ***'
-        %>
-		Glemt at logge ud!<br />
-		
-		<%
-		case 3 'Tidertilret pga stempelur indstillinger og tider manuelt ændret **'
-		%>
-		Ja:
-		
-		    <%if len(trim(oRec("login_first"))) <> 0 then %>
-			<%="("&left(formatdatetime(oRec("login_first"), 3), 5)%>
-			<%end if %>
-			
-			<%if len(trim(oRec("logud_first"))) <> 0 then %>
-			<%="-"&left(formatdatetime(oRec("logud_first"), 3), 5)&")"%>
-			<%end if %>
-			
-			<br />
-			Logind tilpasset pga.<br /> stempelur indstilllinger.<br />
-		
-		
-		<%
-		case else %>
-		
-		<%end select %>
 
              </span>
 
@@ -1672,7 +1749,7 @@ function stempelurlist(medarbSel, showtot, layout, sqlDatoStart, sqlDatoSlut, ty
 	lastMid = oRec("lmid")
 
     'Response.write "lastMid b:" & lastMid & "<br>"
-
+    end if 'media
 
 	x = x + 1
 	g = g + 1
@@ -1682,6 +1759,8 @@ function stempelurlist(medarbSel, showtot, layout, sqlDatoStart, sqlDatoSlut, ty
 	oRec.close 
 
 
+
+    if media <> "export" then
 
     '*** Kun fra egen logind historik ***'
     if cint(layout) = 1 then
@@ -1872,13 +1951,15 @@ function stempelurlist(medarbSel, showtot, layout, sqlDatoStart, sqlDatoSlut, ty
 
     end if ' layout
 
+    end if 'media
+
 
     next 'dage/datoer
 
     next 'intmmids
 
 
-
+    if media <> "export" then
 	
 	if g = 0 AND layout <> 1 then%>
 	<tr>
@@ -1923,7 +2004,13 @@ function stempelurlist(medarbSel, showtot, layout, sqlDatoStart, sqlDatoSlut, ty
     
 	</table>
 	</form>
-	<%end function
+
+
+
+
+	<%end if 'media
+        
+    end function
 
 
 

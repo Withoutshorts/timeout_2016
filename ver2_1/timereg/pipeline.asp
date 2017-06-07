@@ -639,7 +639,7 @@ if len(session("user")) = 0 then
         if seomsfor_antalmdHigend = 11 then
           for m = 0 to seomsfor_antalmdHigend
 
-            strJob = strJob &"<td class=alt valign=bottom style=""padding:2px; background-color:#999999; border-right:1px #cccccc solid;""><b>Fak. plan</b><br> "& left(monthname(strMrdno(m)), 3) &" "& right(strYearno(m), 2) &"</td>"
+            strJob = strJob &"<td class=alt valign=bottom style=""padding:2px; background-color:#999999; border-right:1px #cccccc solid;""><b>Fak. plan</b><br>"& basisValISO &"<br> "& left(monthname(strMrdno(m)), 3) &" "& right(strYearno(m), 2) &"</td>"
 
           next
         end if
@@ -919,7 +919,9 @@ if len(session("user")) = 0 then
     oRec6.open strSQLmilepale, oConn, 3
     if not oRec6.EOF then
         
-    stadesum = oRec6("stadesum")
+    '** Omregn til basis valuta
+    stadesum = formatnumber(oRec6("stadesum")*(oRec("jo_valuta_kurs")/100), 2)
+    'stadesum = oRec6("stadesum")
 
     end if 
     oRec6.close
@@ -1022,7 +1024,9 @@ if len(session("user")) = 0 then
         oRec6.open strSQLmilepale, oConn, 3
         if not oRec6.EOF then
         
-        stadesum_prmd(m) = oRec6("stadesum")
+        '** Omregn til basis valuta
+        stadesum_prmd(m) = formatnumber(oRec6("stadesum")*(oRec("jo_valuta_kurs")/100), 2)
+        'stadesum_prmd(m) = oRec6("stadesum")
         
 
         end if 
@@ -1647,7 +1651,7 @@ call eksportogprint(ptop,pleft,pwdt)
 
 lnk = "&FM_kunde="&kundeid&"&FM_job="&jobid&"&FM_medarb="&thisMiduse&"&FM_medarb_hidden="&thisMiduse&"&FM_progrp="&progrp&"&seomsfor="&seomsfor&"&FM_start_mrd="&strMrd&""_
 &"&FM_jobsog="&jobSogVal&"&viskunabnejob0="&viskunabnejob0&"&viskunabnejob1="&viskunabnejob1&"&viskunabnejob2="&viskunabnejob2&""_
-&"&FM_kundejobans_ell_alle="&visKundejobans&"&FM_kundeans="&kundeans&"&FM_jobans="&jobans&"&FM_jobans2="&jobans2&"&FM_jobans3="&jobans3&"&FM_segment="&segment
+&"&FM_kundejobans_ell_alle="&visKundejobans&"&FM_kundeans="&kundeans&"&FM_jobans="&jobans&"&FM_jobans2="&jobans2&"&FM_jobans3="&jobans3&"&FM_segment="&segment&"&FM_ign_per="&ign_per
 %>
 
         
