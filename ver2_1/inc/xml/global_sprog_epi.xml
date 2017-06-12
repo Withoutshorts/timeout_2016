@@ -55,7 +55,7 @@
     <txt_150>Pause</txt_150>
     <txt_151>Interv. Bonus 15</txt_151>
     <txt_152>Interv. Bonus 20</txt_152>
-    <txt_153>Weekend Nat</txt_153>
+    <txt_153>AVI tillæg 15</txt_153>
     <txt_154>Interv. Bonus 10</txt_154>
     <txt_155>Weekend Aften</txt_155>
 	<txt_157>Ad-hoc</txt_157>
@@ -92,7 +92,7 @@
     <txt_193>UlempeWeekend udbetalt</txt_193>
 
     <txt_194>Rejsedage</txt_194>
-    <txt_195>E3</txt_195>
+    <txt_195>IT on duty call</txt_195>
 
 
       <!-- End typer -->
@@ -187,7 +187,7 @@
     <txt_192 >Ulempe1706 betalt</txt_192>
     <txt_193 >Ulempe Weekend betalt</txt_193>
     <txt_194 >Reisedager</txt_194>
-    <txt_195 >E3</txt_195>
+    <txt_195 >IT on duty call</txt_195>
     <txt_140 >aktivitet</txt_140>
     <txt_141 >Timer</txt_141>
     <txt_142 >Aktiviteter</txt_142>
@@ -272,7 +272,7 @@
     <txt_192 >Ulempe1706 betalat</txt_192>
     <txt_193 >UlempeHelgen betalade</txt_193>
     <txt_194 >Resdagar</txt_194>
-    <txt_195 >E3</txt_195>
+    <txt_195 >IT on duty call</txt_195>
     <txt_140 >Aktivitet</txt_140>
     <txt_141 >Timmar</txt_141>
     <txt_142 >Aktiviteter</txt_142>
@@ -358,7 +358,7 @@
     <txt_192 >Ulempe1706 bezahlt</txt_192>
     <txt_193 >Nachteil Wochenende bezahlt</txt_193>
     <txt_194 >Reisetage</txt_194>
-    <txt_195 >E3</txt_195>
+    <txt_195 >IT on duty call</txt_195>
     <txt_140 >Aktivität</txt_140>
     <txt_141 >Stunden</txt_141>
     <txt_142 >Aktivitäten</txt_142>
@@ -442,7 +442,7 @@
     <txt_192 >Inconvénient en 1706 payé</txt_192>
     <txt_193 >Inconvénient Weekend payé</txt_193>
     <txt_194 >Jours voyage</txt_194>
-    <txt_195 >E3</txt_195>
+    <txt_195 >IT on duty call</txt_195>
     <txt_140 >Activité</txt_140>
     <txt_141 >Heures</txt_141>
     <txt_142 >Activités</txt_142>
@@ -519,7 +519,7 @@
 
     <txt_151>Interv. Bonus 15</txt_151>
     <txt_152>Interv. Bonus 20</txt_152>
-    <txt_153>Weekend Nat</txt_153>
+    <txt_153>AVI tillæg 15</txt_153>
     <txt_154>Interv. Bonus 10</txt_154>
     
     <txt_155>Weekend Eve.</txt_155>
@@ -551,7 +551,7 @@
     <txt_193>DisadvantageWeekend payout</txt_193>
 
     <txt_194>Traveldays</txt_194>
-    <txt_195>E3</txt_195>
+    <txt_195>IT on duty call</txt_195>
 
 	  <!-- End typer -->
 
@@ -654,7 +654,7 @@
     <txt_192 >Ulempe1706 pagado</txt_192>
     <txt_193 >Fin de semana desventaja pagado</txt_193>
     <txt_194 >Los días de viaje</txt_194>
-    <txt_195 >E3</txt_195>
+    <txt_195 >IT on duty call</txt_195>
     <txt_140 >Actividad</txt_140>
     <txt_141 >Horas</txt_141>
     <txt_142 >Actividades</txt_142>

@@ -725,6 +725,12 @@ function projgrp(progrp,level,medarbid,visning)
              teamlederKri = teamlederKri & ")"
              'end if
 
+              if len(trim(medarbid)) <> 0 then
+               medarbid = medarbid
+              else
+               medarbid = session("mid")
+              end if
+
              medarbIdKri = " AND pgrel1.medarbejderId = " & medarbid
     
              grpid = "pgrel1.ProjektgruppeId"

@@ -15,6 +15,26 @@
 	else
 	id = request("id")
 	end if
+
+    '** Kopier til querystring MANUELT
+    if len(trim(request("jobnr"))) <> 0 then
+    jobnr = request("jobnr")
+    strSQLjobnr = " AND jobnr = '" & jobnr & "'"
+    else
+    jobnr = ""
+    strSQLjobnr = ""
+    end if
+
+     '** Kopier til querystring MANUELT
+    if len(trim(request("jobnr2"))) <> 0 then
+    jobnr2 = request("jobnr2")
+    strSQLjobnr2 = " AND jobnr = '" & jobnr2 & "'"
+    else
+    jobnr2 = ""
+    strSQLjobnr2 = ""
+    end if
+
+
 	
 		function SQLBless(s)
 		dim tmp
@@ -124,9 +144,18 @@
 
                               '*** Flytter timer pr. dato
                                 '*** Opdaterer timereg tabellen ****
+
+                                medid = request("FM_medid")
+                        
+                                if medid <> 0 then
+                                strSQLmedKri = " AND (tmnr = "& medid & ")"
+                                else
+                                strSQLmedKri = ""
+                                end if
+
 					            strSQLtimer = "UPDATE timer SET "_
 					            & " Tknavn = '"& kkundenavn &"', Tknr = "& kid &", tjobnr = '"& jobnr &"', tjobnavn = '"& jobnavn &"', taktivitetid = "& newakt &", tfaktim = "& fakturerbar &""_
-				                & " WHERE taktivitetid = "& aid & " AND tdato "& forefter &" '"& fraDatoSQL &"'"
+				                & " WHERE taktivitetid = "& aid & " AND tdato "& forefter &" '"& fraDatoSQL &"' "& strSQLmedKri &""
                 								
 				                'Response.write strSQLtimer
 					            'Response.flush
@@ -145,14 +174,13 @@
 		
 
 		
-		Response.redirect "akt_movejob_multiple.asp"
+		Response.redirect "akt_movejob_multiple.asp?jobnr="&jobnr&"&jobnr2="&jobnr2
 		end if
 
 
     case else
 	'*** Her indlæses form til rediger/oprettelse af ny type ***
 	
-
 
 
 
@@ -165,8 +193,29 @@
             <u>Flyt aktivitet og/eller timer til nyt job eller aktivitet</u>
             </h3>
 
+               
+        <div class="row">
+            <div class="col-lg-1">&nbsp</div>
+            <div class="col-lg-8 pad-b10">
+           
+          
+        <form action="akt_movejob_multiple.asp" method="post">
+        Søg specifikke job:<br />
+         Fra jobnr:  <input type="text" name="jobnr" value="<%=jobnr%>">&nbsp;&nbsp;&nbsp;  til jobnr:  <input type="text" name="jobnr2" value="<%=jobnr2%>">
+        
+             <button type="submit" class="btn btn-sm pull-right"><b>Søg jobnr >></b></button>
+
+        </form>
+              
+
+          </div>
+        </div>
+
         <form action="akt_movejob_multiple.asp?func=flyt" method="post">
              <input type="hidden" name="id" value="<%=id%>">
+            <input type="hidden" name="jobnr" value="<%=jobnr%>">
+            <input type="hidden" name="jobnr2" value="<%=jobnr2%>">
+            
         <div class="row">
             <div class="col-lg-10">&nbsp</div>
             <div class="col-lg-2 pad-b10">
@@ -188,10 +237,17 @@
                     Flyt/Sammenlæg aktivitet og timer til valgte job/aktivitet.<br />
                     Ved sammenlæg beholdes aktivitet på det oprindelig job. Ved opret ny, flyttes aktiviteten og alle timer. 
                     Projektgrupper forbliver uændret.
+                    <br />
+                  
+
                     <br /><br /><b>Vælg aktivitet:</b> (på aktive job - vælg 1)<br />
                     <%
 
-                    whSQL = "(jobstatus = 1)"
+                    jobslutdato = day(now) &"-"& month(now) & "-"& year(now)
+                    jobslutdato = dateAdd("m", -2, jobslutdato)
+                    jobslutdatoSQL = year(jobslutdato) &"-"& month(jobslutdato) & "-"& day(jobslutdato) 
+
+                    whSQL = "(jobstatus = 1 OR (jobstatus = 0 AND jobslutdato >= '"& jobslutdatoSQL &"')) "& strSQLjobnr &""
                     strSQLjob = "SELECT jobnavn, jobnr, j.id AS jobid, kid, kkundenavn, kkundenr, a.navn AS aktnavn, a.id AS aktid, FORMAT(SUM(timer), 2) AS sumtimer FROM aktiviteter a "_
 		            &" LEFT JOIN job j ON (j.id = a.job) "_
                     &" LEFT JOIN kunder ON (kid = jobknr) "_
@@ -258,9 +314,13 @@
             <div class="row">
                 <div class="col-lg-1">&nbsp</div>
                 <div class="col-lg-6"><br /><br /><b>Flyt til job/akt.:</b> (sammenlæg: vælg 1, eller opret som ny)<br />
+                   
                     <select name="FM_newakt" size=20 style="width:700px;">
                   
-                    <%   whSQL = "(jobstatus = 1)"
+                    <% 
+                     lastjid = 0  
+                      antaljob = 0 
+                     whSQL = "(jobstatus = 1 OR (jobstatus = 0 AND jobslutdato >= '"& jobslutdatoSQL &"')) "& strSQLjobnr2 &"" 
                     strSQLjobnew = "SELECT jobnavn, jobnr, j.id AS jobid, kid, kkundenavn, kkundenr, a.navn AS aktnavn, a.id AS aktid, FORMAT(SUM(timer), 2) AS sumtimer FROM aktiviteter a "_
 		            &" LEFT JOIN job j ON (j.id = a.job) "_
                     &" LEFT JOIN kunder ON (kid = jobknr) "_
@@ -309,7 +369,7 @@
                     
                     <div class="row">
                 <div class="col-lg-1">&nbsp</div>
-                <div class="col-lg-6"><br /><br /><b>Flyt timer pr. dato</b> <br />
+                <div class="col-lg-8"><br /><br /><b>Flyt timer pr. dato</b> <br />
                 Ved sammenlæg: Vælg fra/til hvilken dato timer skal flyttes, ved opret ny flyttes alle timer.
                     <br />
                    <select name="forefter">
@@ -319,6 +379,24 @@
                    </select> <input type="text" name="FM_fradato" value="<%=day(now) &"/"& month(now) &"/"& year(now) %>" />
 
                 
+
+                    <br /><br />
+                    <b>Vælg medarbejdere:</b> (kun mulig ved sammenlæg, ved flyt flyttes timer på alle medarbejdere)<br />
+                      <select name="FM_medid">
+                       <option value="0">Alle</option>
+
+                          <%strSQLm = "SELECT mid, mnavn, init FROM medarbejdere where mansat = 1 OR (mansat = 3 AND medarbejdertype = 14) ORDER BY mnavn" 
+                              oRec2.open strSQLm, oConn, 3
+			                  while not oRec2.EOF
+                              %>
+                       <option value="<%=oRec2("mid") %>"><%=oRec2("mnavn") & " ["& oRec2("init") &"]" %> </option>
+
+                          <%
+			        oRec2.movenext
+			        wend
+			        oRec2.close %>
+                       
+                   </select>
 
             </div>
             </div>
@@ -332,6 +410,13 @@
 
             
         </div>
+          <div class="row">
+            <div class="col-lg-10">&nbsp</div>
+            <div class="col-lg-2 pad-b10">
+            <button type="submit" class="btn btn-success btn-sm pull-right"><b>Opdatér</b></button>
+            </div>
+        </div>
+
         </form>
     </div>
 </div>

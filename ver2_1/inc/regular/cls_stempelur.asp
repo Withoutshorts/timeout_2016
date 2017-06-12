@@ -1023,24 +1023,25 @@ if media <> "export" then
 
      lastWeek = datepart("ww", sqlDatoStart, 2,2) 
 
-    if media <> "export" then
+   
 
         '** valgte medarbejdere 
         for m = 0 to UBOUND(intMids)
 
+        if media <> "export" then
 
-        if cint(layout) = 0 then
-        '*** Total ***
-	        if lastMid <> intMids(m) AND m > 0 ANd totalhours > 0 then
-                'Response.write "lastMId:"& lastMid &" lmid:"& oRec("lmid")
+            if cint(layout) = 0 then
+            '*** Total ***
+	            if lastMid <> intMids(m) AND m > 0 ANd totalhours > 0 then
+                    'Response.write "lastMId:"& lastMid &" lmid:"& oRec("lmid")
 
-		        call tottimer(lastMnavn, lastMnr, totalhours, totalmin, lastMid, sqlDatoStart, sqlDatoSlut, 1)
-		        totalhours = 0 
-		        totalmin = 0
-	        end if
+		            call tottimer(lastMnavn, lastMnr, totalhours, totalmin, lastMid, sqlDatoStart, sqlDatoSlut, 1)
+		            totalhours = 0 
+		            totalmin = 0
+	            end if
+            end if
+
         end if
-
-    end if
 	
     if cint(layout) = 0 then
     medSQLkri = "AND l.mid = " & intMids(m)

@@ -1145,15 +1145,17 @@ if len(session("user")) = 0 then
 			                                            'Mailer.AddBCC "Anders Dencker", "ad@dencker.net"
                                                         'myMail.Bcc= "Anders Dencker<ad@dencker.net>"
                                                         'Mailer.AddBCC "Per Kristensen", "pk@dencker.net"
-                                                        myMail.Bcc= "Karen<krt@dencker.net>;Anders Dencker<ad@dencker.net>;Per Kristensen<pk@dencker.net>"
-                                                        
+                                                        'myMail.Bcc= "Karen<krt@dencker.net>;Anders Dencker<ad@dencker.net>;Per Kristensen<pk@dencker.net>"
+                                                        myMail.Bcc= "Løn<lon@dencker.net>;"                                                
+
                                                         'Mailer.AddBCC "OutZourCE", "support@outzource.dk"
 			                                            else
 			                                            'Mailer.AddRecipient "Anders Dencker", "ad@dencker.net"
                                                         'myMail.To= "Anders Dencker<ad@dencker.net>"
                                                         'Mailer.AddBCC "Per Kristensen", "pk@dencker.net"
-                                                        myMail.Bcc= "Anders Dencker<ad@dencker.net>;Per Kristensen<pk@dencker.net>"
+                                                        'myMail.Bcc= "Anders Dencker<ad@dencker.net>;Per Kristensen<pk@dencker.net>"
                                                         'Mailer.AddBCC "OutZourCE", "support@outzource.dk"
+                                                         myMail.Bcc= "Løn<lon@dencker.net>;" 
 			                                            end if
 			                                    
 			                                                                              

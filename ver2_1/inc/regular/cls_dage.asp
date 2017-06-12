@@ -1911,7 +1911,7 @@ erHellig = 0
 				        helligdagnavn = "1 maj"
 				        
                         select case lto
-                        case "wwf", "tec", "esn", "oko", "fk", "eniga", "adra", "hestia", "plan", "wilke", "mi"
+                        case "wwf", "tec", "esn", "oko", "fk", "eniga", "adra", "hestia", "plan", "wilke", "mi", "acc"
                         erHellig = 0
                         case else
                         erHellig = 1
