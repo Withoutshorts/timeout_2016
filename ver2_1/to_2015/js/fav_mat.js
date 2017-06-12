@@ -29,7 +29,18 @@ $(document).ready(function () {
         mat_enhed = $("#mat_endhed_" + thisid).val()
         mat_jobid = $("#mat_jobid_" + thisid).val()
         mat_aktid = $("#mat_aktid_" + thisid).val()
+        mat_dato = $("#mat_dato_" + thisid).val()
+        mat_forbrugsdato = $("#mat_forbrugsdato_" + thisid).val()
+        mat_editor = $("#mat_editor").val()
+        mat_usrid = $("#mat_userid").val()
+        mat_gruppe = $("#mat_gruppe_" + thisid).val()
+        mat_salgspris = $("#mat_salgspris_" + thisid).val()
+        mat_bilagsnr = $("#mat_bilagsnr").val()
+        mat_valuta = $("#mat_valuta" + thisid).val()
+        mat_varenr = $("#mat_varenr").val()
       
+        //alert(mat_varenr)
+
         if (mat_navn == "")
         {
            // alert("fejl")
@@ -55,9 +66,9 @@ $(document).ready(function () {
        // alert(mat_jobid)
        // alert(mat_aktid)
 
-        $.post("?mat_jobid=" + mat_jobid + "&mat_aktid=" + mat_aktid + "&mat_antal=" + mat_antal + "&mat_navn=" + mat_navn + "&mat_kobpris=" + mat_kobpris, { control: "tilfoj_mat", AjaxUpdateField: "true" }, function (data) {
+        $.post("?mat_jobid=" + mat_jobid + "&mat_aktid=" + mat_aktid + "&mat_antal=" + mat_antal + "&mat_navn=" + mat_navn + "&mat_kobpris=" + mat_kobpris + "&mat_enhed=" + mat_enhed + "&mat_dato=" + mat_dato + "&mat_forbrugsdato=" + mat_forbrugsdato + "&mat_editor=" + mat_editor + "&mat_usrid=" + mat_usrid + "&mat_gruppe=" + mat_gruppe + "&mat_salgspris=" + mat_salgspris + "&mat_bilagsnr=" + mat_bilagsnr + "&mat_valuta=" + mat_valuta + "&mat_varenr=" + mat_varenr, { control: "tilfoj_mat", AjaxUpdateField: "true" }, function (data) {
 
-            alert("post")
+            alert("post") 
 
         });
 

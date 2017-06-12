@@ -235,8 +235,17 @@
         mat_navn = request("mat_navn")
         mat_kobpris = request("mat_kobpris")
         mat_enhed = request("mat_enhed")
+        mat_dato = request("mat_dato")
+        mat_forbrugsdato = request("mat_forbrugsdato")
+        mat_editor = request("mat_editor")
+        mat_usrid = request("mat_usrid")
+        mat_gruppe = request("mat_gruppe")
+        mat_salgspris = request("mat_salgspris")
+        mat_bilagsnr = request("mat_bilagsnr")
+        mat_valuta = request("mat_valuta")
+        mat_varenr = request("mat_varenr") 
         
-        strsqlmat = "INSERT INTO materiale_forbrug SET jobid ="& mat_jobid & ", aktid ="& mat_aktid & ", matantal ="& mat_antal & ", matnavn ='"& mat_navn &"', matkobspris ="& mat_kobpris & ", matenhed ='"& mat_enhed & "'"
+        strsqlmat = "INSERT INTO materiale_forbrug SET jobid ="& mat_jobid & ", aktid ="& mat_aktid & ", matantal ="& mat_antal & ", matnavn ='"& mat_navn &"', matkobspris ="& mat_kobpris & ", matenhed ='"& mat_enhed &"'" & ", dato ='"& mat_dato &"'" & ", forbrugsdato ='"& mat_forbrugsdato & "'" & ", editor ='"& mat_editor &"'" & ", usrid =" & mat_usrid & ", matgrp ="& mat_gruppe & ", matsalgspris ="& mat_salgspris & ", bilagsnr ='"& mat_bilagsnr & "', valuta ="& mat_valuta & ", matvarenr ='" & mat_varenr & "'"   
         oConn.execute(strsqlmat)
         
 
@@ -268,7 +277,7 @@
     .modal {
         display: none; /* Hidden by default */
         position: fixed; /* Stay in place */
-        z-index: 1; /* Sit on top */
+        z-index: 2; /* Sit on top */
         padding-top: 200px; /* Location of the box */
         left: 0;
         top: 0;
@@ -316,6 +325,19 @@
 	call showError(errortype)
        response.End
 	end if
+
+    if len(trim(request("usemrn"))) <> 0 then
+    usemrn = request("usemrn")
+    else
+    usemrn = session("mid")
+    end if
+
+    struSQLusemedarb = "SELECT mnavn FROM medarbejdere WHERE mid ="& usemrn
+    oRec.open struSQLusemedarb, oConn, 3
+    if not oRec.EOF then
+    medarbejdernavn = oRec("mnavn")
+    end if
+    oRec.close
 
     call menu_2014
 
@@ -431,19 +453,18 @@
                 <div class="portlet">
                     <h3 class="portlet-title"><u>Favorit liste</u></h3>
                     <div class="portlet-body">
-                       
-                                                                    
+                                                                                           
                         <form action="favorit.asp?" method="post">
                                               
                         <!-- <input type="hidden" name="varTjDatoUS_man" id="varTjDatoUS_man" value="<%=varTjDatoUS_man %>"> -->
 
-                        <div class="row">
-                            <div class="col-lg-3">
+                      <!--  <div class="row">
+                            <div class="col-lg-2">
                                  
                                 <%
                                     strSQL = "SELECT Mid, Mnavn, Mnr, Brugergruppe, init FROM medarbejdere WHERE mansat <> 2 GROUP BY mid ORDER BY Mnavn" 
                                 %>
-                                <select name="FM_medid" id="FM_medid" <%=progrpmedarbDisabled  %> class="form-control input-small"  onchange="submit();">
+                                <select name="FM_medid" id="FM_medid" <%=progrpmedarbDisabled  %> class="form-control input-small"  onchange="submit();" style="width:210px">
                                     <%
 
                                     oRec.open strSQL, oConn, 3
@@ -469,8 +490,8 @@
                                 </select>
                             </div>
                            
-                           <div class="col-lg-2">
-                               <div class='input-group date'>
+                           <div class="col-lg-1" style="z-index:1;">
+                               <div class='input-group date' style="padding-left:30px; width:50px">
                                     <input type="text" class="form-control input-small" name="varTjDatoUS_selectedday" id="varTjDatoUS_selectedday" value="<%=varTjDatoUS_selectedday %>" />
                                     <span class="input-group-addon input-small">
                                     <span class="fa fa-calendar">
@@ -486,7 +507,55 @@
                             <div class="col-lg-3"></div>
                             <h4 class="col-lg-2" style="text-align:right"><a href="favorit.asp?FM_medid=<%=medid %>&varTjDatoUS_man=<%=prev_varTjDatoUS_man %>" ><</a>&nbsp Uge <%=datepart("ww",weeknumber)  %> &nbsp<a href="favorit.asp?FM_medid=<%=medid %>&varTjDatoUS_man=<%=next_varTjDatoUS_man %>" >></a></h4>
                             
-                        </div>
+                        </div> -->
+
+                            <table>
+                                <tr>
+                                    <td>
+                                        <%
+                                        strSQL = "SELECT Mid, Mnavn, Mnr, Brugergruppe, init FROM medarbejdere WHERE mansat <> 2 GROUP BY mid ORDER BY Mnavn" 
+                                        %>
+                                        <select name="FM_medid" id="FM_medid" <%=progrpmedarbDisabled  %> class="form-control input-small"  onchange="submit();" style="width:210px">
+                                            <%
+
+                                            oRec.open strSQL, oConn, 3
+                                            while not oRec.EOF
+                                
+                                    
+                                            StrMnavn = oRec("Mnavn")
+                                            StrMinit = oRec("init")
+	
+                                            if cdbl(medid) = cdbl(oRec("Mid")) then
+				                            isSelected = "SELECTED"
+				                            else
+				                            isSelected = ""
+				                            end if
+
+				                            %>
+                                             <option value="<%=oRec("Mid")%>" <%=isSelected%>><%=StrMnavn &" "& StrMinit%></option>
+                                            <%
+                                            oRec.movenext
+                                            wend
+                                            oRec.close  
+                                            %>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <div class="col-lg-2" style="z-index:1;">
+                                            <div class='input-group date' style="width:135px">
+                                                <input type="text" class="form-control input-small" name="varTjDatoUS_selectedday" id="varTjDatoUS_selectedday" value="<%=varTjDatoUS_selectedday %>" />
+                                                <span class="input-group-addon input-small">
+                                                <span class="fa fa-calendar">
+                                                </span>
+                                                </span>
+                                            </div>
+                                        </div>                                                                                                                           
+                                    </td>
+                                    <td>                                       
+                                        <button type="submit" class="btn btn-sm btn-default"><b>Gå</b></button>                                       
+                                    </td>
+                                </tr>
+                            </table>
 
                         </form>
                         <%'response.Write "id: " & medid%>
@@ -543,7 +612,7 @@
 
                                             next
                                     %>
-                                    <th>Total</th>
+                                    <th style="text-align:center; width:55px;">Total</th>
                                     <th></th>
                                 </tr>
                             </thead>
@@ -604,43 +673,145 @@
                                                           
                                         'response.Write "aktid1: " & aktid(i)
 
-                                        StrSQLjob = "SELECT id, jobnavn, jobstartdato, jobslutdato FROM job WHERE id ="& jobid(i)
-
+                                        StrSQLjob = "SELECT id, jobnavn, jobstartdato, jobslutdato, jobans1, jobans2, jobans3, jobans4, jobans5, jobknr, beskrivelse, budgettimer FROM job WHERE id ="& jobid(i)
                                         oRec3.open StrSQLjob, oConn, 3
                                         if not oRec3.EOF then
                                         jobids = oRec3("id")
                                         jobnavn = oRec3("jobnavn")
 
+                                        
                                         StrSQLakt = "SELECT id, navn, beskrivelse, budgettimer FROM aktiviteter WHERE id ="& aktid(i)
-
                                         oRec2.open StrSqlakt, oConn, 3
                                         if not oRec2.EOF then
-
                                         aktNavn = oRec2("navn")
                                         TaktId = oRec2("id")
                                         aktbudgettimer = oRec2("budgettimer")
                                         'response.Write jobnavn
                                         %>
                                         <tr>
-                                            <td style="vertical-align:middle"><input type="hidden" value="<%=jobids %>" name="FM_jobid" />
+                                            <td style="vertical-align:middle; width:200px"><input type="hidden" value="<%=jobids %>" name="FM_jobid" />
                                                 <%=jobnavn %><a data-toggle="modal" href="#styledModalSstGrp20"><span id="jobinfo_<%=jobids %>" style="color:#8c8c8c" class="fa fa-file-text pull-right jobinfo"></span></a>                                                                                              
                                                  <div id="jobmodal_<%=jobids %>" class="modal">
-                                                     <div class="modal-content" style="width:1000px;">
-                                                         <%response.Write jobids %>
-                                                         <table>
-                                                             <tr>
-                                                                 <td><b>Start & slut dato</b></td>
-                                                             </tr>
-                                                             <tr>
-                                                                 <td><%=oRec3("jobstartdato") & " - " & oRec3("jobslutdato")  %></td>
-                                                             </tr>
-                                                         </table>
+                                                     <div class="modal-content" style="width:400px;">
+                                                         <%
+                                                            strSQLkunde = "SELECT kundeans1, kkundenavn FROM kunder WHERE kid ="& oRec3("jobknr")
+                                                            oRec4.open strSQLkunde, oConn, 3
+                                                            if not oRec4.EOF then
+                                                            kundeans = oRec4("kundeans1")
+                                                            kundenavn = oRec4("kkundenavn")
+                                                            end if
+                                                            oRec4.close
+
+                                                            strSQLjobnas = "SELECT mnavn FROM medarbejdere WHERE mid="& oRec3("jobans1")  
+                                                            oRec4.open strSQLjobnas, oConn, 3
+                                                            if not oRec4.EOF then
+                                                            jobansvarlig = oRec4("mnavn")
+                                                            end if
+                                                            oRec4.close
+
+                                                            strSQLkundeans = "SELECT mnavn FROM medarbejdere WHERE mid="& kundeans  
+                                                            oRec4.open strSQLkundeans, oConn, 3
+                                                            if not oRec4.EOF then
+                                                            kundeansvarlig = oRec4("mnavn")
+                                                            end if
+                                                            oRec4.close
+
+                                                            strSQLrealiseret = "SELECT sum(timer) as timer FROM timer WHERE tjobnr ="& jobids
+                                                            oRec4.open strSQLrealiseret, oConn, 3
+                                                            if not oRec4.EOF then
+                                                             realiserettimer = oRec4("timer")
+                                                            end if 
+                                                            oRec4.close
+
+                                                         %>
+                                                       <!--  <div class="row">
+                                                            <div class="col-lg-4">
+                                                                <table>
+                                                                     <tr>
+                                                                         <td><b>Start & slut dato</b>
+                                                                             <br />
+                                                                             <%=oRec3("jobstartdato") & " - " & oRec3("jobslutdato")  %>
+                                                                            <br /><br />
+                                                                         </td>
+                                                                     </tr>
+                                                                    <tr>
+                                                                         <td><b>Jobansvarlig:</b> <%=jobansvarlig %><br />
+                                                                             <b>Kundeansvarlig:</b> <%=kundeansvarlig  %>                                                                             
+                                                                         </td>
+                                                                       
+                                                                     </tr>                                                                                                                                    
+                                                                </table>
+                                                            </div>
+                                                             <div class="col-lg-4">
+                                                                <table>
+                                                                    <tr>
+                                                                        <td><b>Forkalk.</b>: <%=oRec3("budgettimer") %> t.<br />
+                                                                            <b>Realiseret:</b> <%=realiserettimer %> t.
+                                                                        </td>
+                                                                    </tr>
+                                                                </table>
+                                                            </div>
+                                                            <div class="col-lg-4">
+                                                                <table>
+                                                                    <tr>
+                                                                        <td><b>Jobbeskrivelse:</b>
+                                                                            <br />
+                                                                            <textarea rows="5" class="form-control input-small"><%=oRec3("beskrivelse") %></textarea>                                                                            
+                                                                        </td>
+                                                                    </tr>
+                                                                </table>
+                                                            </div>
+                                                        </div> -->
+
+                                                        <div class="row">
+                                                            <div class="col-lg-12">
+                                                                <b><%=kundenavn %></b> - <%=jobnavn %>
+                                                            </div>
+                                                        </div>
+                                                         <br /><br />
+
+                                                        <div class="row">
+                                                             <div class="col-lg-4"><b>Start dato:</b></div>
+                                                             <div class="col-lg-5"><%=oRec3("jobstartdato")%></div>
+                                                        </div>
+                                                        <div class="row">
+                                                             <div class="col-lg-4"><b>Slut dato:</b></div>
+                                                             <div class="col-lg-5"><%=oRec3("jobslutdato")  %></div>
+                                                        </div>
+                                                        <br />
+                                                        <div class="row">
+                                                            <div class="col-lg-4"><b>Jobansvarlig:</b></div>
+                                                            <div class="col-lg-5"><%=jobansvarlig %></div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-lg-4"><b>Kundeansvarlig:</b></div>
+                                                            <div class="col-lg-5"><%=kundeansvarlig %></div>
+                                                        </div>
+                                                        <br />
+
+                                                        <div class="row">
+                                                            <div class="col-lg-4"><b>Forkalkuleret:</b></div>
+                                                            <div class="col-lg-5"><%=oRec3("budgettimer") %> t.</div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-lg-4"><b>Realiseret:</b></div>
+                                                            <div class="col-lg-5"><%=realiserettimer %> t.</div>
+                                                        </div>
+                                                        <br />
+
+                                                        <div class="row">
+                                                            <div class="col-lg-4"><b>Jobbeskrivelse:</b></div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-lg-12"><textarea rows="5" class="form-control input-small"><%=oRec3("beskrivelse") %></textarea></div>
+                                                        </div>                                                    
+
                                                      </div>
                                                  </div>
 
                                             </td>
 
-                                            <td style="vertical-align:middle">
+                                            <td style="vertical-align:middle; width:195px;">
                                                 <input type="hidden" value="<%=TaktId %>" name="FM_aktivitetid" />
                                                 <%=aktNavn %>
 
@@ -706,6 +877,10 @@
                                                      timerkcoment = oRec4("Timerkom")
                                                      origin = oRec4("origin")
                                                      
+                                                     todaydate = DatePart("yyyy",Date) _ 
+                                                                &"-"& Right("0" & DatePart("m",Date), 2) _ 
+                                                                &"-"& Right("0" & DatePart("d",Date), 2)
+
                                                     %>
                                                         <td>                                           
                                                             <input type="hidden" name="FM_feltnr" value="<%=y %>" />
@@ -752,16 +927,16 @@
 
 
                                                                                     <input type="hidden" id="mat_id" value="0" />
-                                                                                    <input type="hidden" id="mat_salgspris" value="0" />
                                                                                     <input type="hidden" id="mat_jobid_<%=y %>" value="<%=jobids %>" />
-                                                                                    <input type="hidden" id="mat_dato" value="<%=timerdato %>" />
-                                                                                    <input type="hidden" id="mat_editor" value="<%=medid %>" /> <!---Skal være usemrn og IKKE medid --->                                                                                  
+                                                                                    <input type="hidden" id="mat_dato_<%=y %>" value="<%=todaydate%>" />
+                                                                                    <input type="hidden" id="mat_editor" value="<%=medarbejdernavn %>" />                                                                                  
                                                                                     <input type="hidden" id="mat_userid" value="<%=medid %>" />
-                                                                                    <input type="hidden" id="mat_grp" value="0" />
-                                                                                    <input type="hidden" id="mat_forbrugsdato" value="<%=timerdato %>" />
+                                                                                    <input type="hidden" id="mat_forbrugsdato_<%=y %>" value="<%=timerdato %>" />
                                                                                     <input type="hidden" id="mat_serviceaft" value="0" />
                                                                                     <input type="hidden" id="mat_endhed_<%=y %>" value="Stk." />
-                                                                                    <input type="hidden" id="mat_aktid_<%=y %>" value="<%=Taktid %>" /> 
+                                                                                    <input type="hidden" id="mat_aktid_<%=y %>" value="<%=Taktid %>" />
+                                                                                    <input type="hidden" id="mat_bilagsnr" value="" />
+                                                                                    <input type="hidden" id="mat_varenr" value="0" /> 
 
                                                                                                                                                           
                                                                                     <div class="panel-body">
@@ -769,7 +944,7 @@
                                                                                         <div class="row" id="error_felt_<%=y %>" style="visibility:hidden">
                                                                                             <span id="error_txt_<%=y %>" class="col-lg-12" style="color:red"></span>
                                                                                         </div>
-
+                                                                                        
                                                                                         <div class="row">
                                                                                             <div class="col-lg-4">Antal:</div>
                                                                                             <div class="col-lg-4"><input type="text" value="1" id="mat_antal_<%=y %>" class="form-control input-small" /></div>
@@ -782,22 +957,69 @@
                                                                                             <div class="col-lg-4">Indkøbspris:</div>
                                                                                             <div class="col-lg-3"><input type="text" value="" id="mat_kobpris_<%=y %>" class="form-control input-small" /></div>
                                                                                             <div class="col-lg-4">
-                                                                                                <select class="form-control input-small" id="mat_valuta">
-                                                                                                    <option value="1">DKK</option>
-                                                                                                    <option value="2">SEK</option>
-                                                                                                    <option value="3">EUR</option>
-                                                                                                </select>
-                                                                                            </div>
+                                                                                                <select name="FM_valuta" id="mat_valuta<%=y %>" class="form-control input-small">
+		                                                                                            <!--<option value="0"><=tsa_txt_229 %></option>-->
+		                                                                                            <%
+		                                                                                            strSQL3 = "SELECT id, valutakode, grundvaluta FROM valutaer ORDER BY valutakode"
+    		
+    		
+		                                                                                            oRec5.open strSQL3, oConn, 3 
+		                                                                                            while not oRec5.EOF 
+    		
+		                                                                                            if cint(valuta) = oRec5("id") then
+		                                                                                            valGrpCHK = "SELECTED"
+		                                                                                            else
+		                                                                                            valGrpCHK = ""
+		                                                                                            end if
+		    
+		   
+		                                                                                            %>
+		                                                                                            <option value="<%=oRec5("id")%>" <%=valGrpCHK %>><%=oRec5("valutakode")%></option>
+		                                                                                            <%
+		                                                                                            oRec5.movenext
+		                                                                                            wend
+		                                                                                            oRec5.close %>
+		                                                                                        </select>
+                                                                                            </div>                                                      
                                                                                         </div>
                                                                                         <div class="row">
                                                                                             <div class="col-lg-4">Gruppe:</div>
-                                                                                            <div class="col-lg-4">
-                                                                                                <select class="form-control input-small">
-                                                                                                    <option value="0">Hotel</option>
-                                                                                                    <option value="1">Transport</option>
-                                                                                                    <option value="2">Andre</option>
-                                                                                                </select>
+                                                                                            <div class="col-lg-4">                                                                                               
+                                                                                                <select class="form-control input-small" name="gruppe" id="mat_gruppe_<%=y %>"><!-- onchange="beregnsalgsprisOTF(0)" -->
+		                                                                                            <option value="0"><%=tsa_txt_200 %></option>
+		                                                                                            <%
+		                                                                                            strSQL = "SELECT id, navn, av FROM materiale_grp ORDER BY navn"
+		                                                                                            oRec.open strSQL, oConn, 3 
+		
+		                                                                                                    while not oRec.EOF 
+		
+		                                                                                                    if cint(matgrp) = oRec("id") then
+		                                                                                                    matgrpSel = "SELECTED"
+		                                                                                                    else
+		                                                                                                    matgrpSel = ""
+		                                                                                                    end if
+		
+		
+    		                                                                                                'matgrpVal = matgrpVal &  "<input id=""avagrpval_"&oRec("id")&""" name=""avagrpval_"&oRec("id")&""" type=""hidden"" value="& oRec("av") &" />"
+    		
+		
+		                                                                                                %>
+		                                                                                                <option value="<%=oRec("id")%>" <%=matgrpSel %>><%=oRec("navn")%>
+		                                                                                                <%if level <= 2 OR level = 6 then %>
+		                                                                                                &nbsp;(<%=oRec("av") %>%)
+		                                                                                                <%end if %></option>
+
+		                                                                                            <%
+		                                                                                            oRec.movenext
+		                                                                                            wend
+		                                                                                            oRec.close %>
+		                                                                                        </select>
                                                                                             </div>
+                                                                                        </div>
+
+                                                                                        <div class="row">
+                                                                                            <div class="col-lg-4">Salgspris:</div>
+                                                                                            <div class="col-lg-4"><input type="text" id="mat_salgspris_<%=y %>" class="form-control input-small" /></div>
                                                                                         </div>
                                                                                        
                                                                                         
@@ -891,7 +1113,7 @@
                                                  
                                             %>
 
-                                            <td style="text-align:center; vertical-align:middle">
+                                            <td style="text-align:center; vertical-align:middle;">
                                                 <%
                                                     ugestart_dato = year(datoMan) & "-" & month(datoMan) & "-" & day(datoMan)
                                                     ugeslut_dato = year(datoSon) & "-" & month(datoSon) & "-" & day(datoSon)
@@ -916,7 +1138,7 @@
                                                 <%=timerweektotal %>
                                             </td>
 
-                                            <td style="vertical-align:middle">
+                                            <td style="vertical-align:middle;">
                                                 <a href="favorit.asp?id=<%=oRec2("id") %>&FM_medid=<%=medid %>&varTjDatoUS_man=<%=varTjDatoUS_man%>&func=fjernfavorit"><span style="color:darkred; display: block; text-align: center;" class="fa fa-times"></span></a>
                                             </td>
 
@@ -970,7 +1192,7 @@
                                         <input type="hidden" value="0" name="FM_pa" />
                                         <input type="hidden" id="FM_jobid" value=""/>
 
-                                        <td><input type="text" class="FM_job form-control input-small" id="FM_job" value=""/>
+                                        <td><input type="text" class="FM_job form-control input-small" id="FM_job" value="" placeholder="Søg kunde/job"/>
                                           <!-- <div id="dv_job"></div> -->
                                             <select id="dv_job" class="form-control input-small chbox_job" size="10" style="visibility:hidden; display:none;">
                                                 <option><%=week_txt_007 %>..</option>
@@ -980,7 +1202,7 @@
 
                                         <td>
                                             <input type="hidden" name="FM_aktivitetid" id="FM_aktid" value=""/>
-                                            <input type="text" class="aktivitet_sog form-control input-small" id="FM_akt" value="" />
+                                            <input type="text" class="aktivitet_sog form-control input-small" id="FM_akt" value="" placeholder="Søg aktivitet" />
                                             <!--<div id="dv_akt"></div> -->
                                             <select id="dv_akt" class="form-control input-small chbox_akt" size="10" style="visibility:hidden; display:none;">
                                                 <option><%=week_txt_007 %>..</option>
@@ -1006,7 +1228,7 @@
                             </div>
                         </div>
                         </form>
-  
+                        <br /><br />
                            
                             <%
                                 strSQL = "SELECT id, medarb, aktid, favorit FROM timereg_usejob WHERE medarb ="& medid & " AND aktid <> 0"
@@ -1177,60 +1399,63 @@
                             <div class="col-lg-12">
 
                                 <table class="table dataTable table-striped table-bordered table-hover ui-datatable">
-                                    <tr>
-                                        <th></th>
-                                        <!--<th style="width:10%; text-align:center"><%response.Write Month(dateMan) & "-" & Day(dateMan)%></th>
-                                        <th style="width:10%; text-align:center"><%response.Write Month(dateTir) & "-" & Day(dateTir) %></th>
-                                        <th style="width:10%; text-align:center"><%response.Write Month(dateOns) & "-" & Day(dateOns) %></th>
-                                        <th style="width:10%; text-align:center"><%response.Write Month(dateTor) & "-" & Day(dateTor) %></th>
-                                        <th style="width:10%; text-align:center"><%response.Write Month(dateFre) & "-" & Day(dateFre) %></th>
-                                        <th style="width:10%; text-align:center"><%response.Write Month(dateLor) & "-" & Day(dateLor) %></th>
-                                        <th style="width:10%; text-align:center"><%response.Write Month(dateSon) & "-" & Day(dateSon) %></th>-->
-                                        <th style="width:75px; text-align:center">Ma</th>
-                                        <th style="width:75px; text-align:center">Ti</th>
-                                        <th style="width:75px; text-align:center">On</th>
-                                        <th style="width:75px; text-align:center">To</th>
-                                        <th style="width:75px; text-align:center">Fr</th>
-                                        <th style="width:75px; text-align:center">Lø</th>
-                                        <th style="width:75px; text-align:center">Sø</th>
-                                        <th style="width:75px; text-align:center">Total</th>
-                                    </tr>
-
-                                    <tr>
-                                        <td>Timer:</td>
-                                        <td style="text-align:center"><%=replace(manTimer, ",", ".") %></td>
-                                        <td style="text-align:center"><%=replace(tirTimer, ",", ".") %></td>
-                                        <td style="text-align:center"><%=replace(onsTimer, ",", ".") %></td>
-                                        <td style="text-align:center"><%=replace(torTimer, ",", ".") %></td>
-                                        <td style="text-align:center"><%=replace(freTimer, ",", ".") %></td>
-                                        <td style="text-align:center"><%=replace(lorTimer, ",", ".") %></td>
-                                        <td style="text-align:center"><%=replace(sonTimer, ",", ".") %></td>
-                                        <td style="text-align:center"><%=replace(weekhourstotal, ",", ".") %></td>
-                                    </tr>
+                                    <thead>
+                                        <tr>
+                                            <th style="width:405px;"></th>
+                                            <!--<th style="width:10%; text-align:center"><%response.Write Month(dateMan) & "-" & Day(dateMan)%></th>
+                                            <th style="width:10%; text-align:center"><%response.Write Month(dateTir) & "-" & Day(dateTir) %></th>
+                                            <th style="width:10%; text-align:center"><%response.Write Month(dateOns) & "-" & Day(dateOns) %></th>
+                                            <th style="width:10%; text-align:center"><%response.Write Month(dateTor) & "-" & Day(dateTor) %></th>
+                                            <th style="width:10%; text-align:center"><%response.Write Month(dateFre) & "-" & Day(dateFre) %></th>
+                                            <th style="width:10%; text-align:center"><%response.Write Month(dateLor) & "-" & Day(dateLor) %></th>
+                                            <th style="width:10%; text-align:center"><%response.Write Month(dateSon) & "-" & Day(dateSon) %></th>-->
+                                            <th style="width:75px; text-align:center">Ma</th>
+                                            <th style="width:75px; text-align:center">Ti</th>
+                                            <th style="width:75px; text-align:center">On</th>
+                                            <th style="width:75px; text-align:center">To</th>
+                                            <th style="width:75px; text-align:center">Fr</th>
+                                            <th style="width:75px; text-align:center">Lø</th>
+                                            <th style="width:75px; text-align:center">Sø</th>
+                                            <th style="width:75px; text-align:center">Total</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Timer:</td>
+                                            <td style="text-align:center"><%=replace(manTimer, ",", ".") %></td>
+                                            <td style="text-align:center"><%=replace(tirTimer, ",", ".") %></td>
+                                            <td style="text-align:center"><%=replace(onsTimer, ",", ".") %></td>
+                                            <td style="text-align:center"><%=replace(torTimer, ",", ".") %></td>
+                                            <td style="text-align:center"><%=replace(freTimer, ",", ".") %></td>
+                                            <td style="text-align:center"><%=replace(lorTimer, ",", ".") %></td>
+                                            <td style="text-align:center"><%=replace(sonTimer, ",", ".") %></td>
+                                            <td style="text-align:center"><%=replace(weekhourstotal, ",", ".") %></td>
+                                        </tr>
                                     
-                                    <tr>
-                                        <td>Norm:</td>
-                                        <td style="text-align:center"><%=replace(ntimMan, ",", ".") %></td>
-                                        <td style="text-align:center"><%=replace(ntimTir, ",", ".") %></td>
-                                        <td style="text-align:center"><%=replace(ntimOns, ",", ".") %></td>
-                                        <td style="text-align:center"><%=replace(ntimTor, ",", ".") %></td>
-                                        <td style="text-align:center"><%=replace(ntimFre, ",", ".") %></td>
-                                        <td style="text-align:center"><%=replace(ntimLor, ",", ".") %></td>
-                                        <td style="text-align:center"><%=replace(ntimSon, ",", ".") %></td>
-                                        <td style="text-align:center"><%=replace(normtotal, ",", ".") %></td>
-                                    </tr>
+                                        <tr>
+                                            <td>Norm:</td>
+                                            <td style="text-align:center"><%=replace(ntimMan, ",", ".") %></td>
+                                            <td style="text-align:center"><%=replace(ntimTir, ",", ".") %></td>
+                                            <td style="text-align:center"><%=replace(ntimOns, ",", ".") %></td>
+                                            <td style="text-align:center"><%=replace(ntimTor, ",", ".") %></td>
+                                            <td style="text-align:center"><%=replace(ntimFre, ",", ".") %></td>
+                                            <td style="text-align:center"><%=replace(ntimLor, ",", ".") %></td>
+                                            <td style="text-align:center"><%=replace(ntimSon, ",", ".") %></td>
+                                            <td style="text-align:center"><%=replace(normtotal, ",", ".") %></td>
+                                        </tr>
 
-                                    <tr>
-                                        <td>Balance:</td>
-                                        <td style="text-align:center; color:<%=mancolor%>"><%=balMan %></td>
-                                        <td style="text-align:center; color:<%=tircolor%>"><%=balTir %></td>
-                                        <td style="text-align:center; color:<%=onscolor%>"><%=balOns %></td>
-                                        <td style="text-align:center; color:<%=torcolor%>"><%=balTor %></td>
-                                        <td style="text-align:center; color:<%=frecolor%>"><%=balFre %></td>
-                                        <td style="text-align:center;"><%=balLor %></td>
-                                        <td style="text-align:center;"><%=balSon %></td>
-                                        <td style="text-align:center; color:<%=balcolor%>"><%=replace(baltotal, ",", ".") %></td>
-                                    </tr>
+                                        <tr>
+                                            <td>Balance:</td>
+                                            <td style="text-align:center; color:<%=mancolor%>"><%=balMan %></td>
+                                            <td style="text-align:center; color:<%=tircolor%>"><%=balTir %></td>
+                                            <td style="text-align:center; color:<%=onscolor%>"><%=balOns %></td>
+                                            <td style="text-align:center; color:<%=torcolor%>"><%=balTor %></td>
+                                            <td style="text-align:center; color:<%=frecolor%>"><%=balFre %></td>
+                                            <td style="text-align:center;"><%=balLor %></td>
+                                            <td style="text-align:center;"><%=balSon %></td>
+                                            <td style="text-align:center; color:<%=balcolor%>"><%=replace(baltotal, ",", ".") %></td>
+                                        </tr>
+                                    </tbody>
                                 </table>
 
                             </div>
