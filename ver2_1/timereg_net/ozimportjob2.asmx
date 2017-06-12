@@ -220,9 +220,9 @@ Public Class oz_importjob2
         'Try
 
 
-        If lto = "dencker" Then
-            lto = "dencker_test"
-        End If
+        'If lto = "dencker" Then
+        ' lto = "dencker_test"
+        'End If
 
 
 

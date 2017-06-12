@@ -9,24 +9,27 @@ using System.Web.Services;
 
 public partial class ressplan_2017 : System.Web.UI.Page
 {
+
+
+
     #region Variable Declaration
 
     //static string connString = Convert.ToString(System.Configuration.ConfigurationManager.ConnectionStrings["ConnectionString"]);
     //static string connString = "driver={MySQL ODBC 3.51 Driver};server=194.150.108.154; Port=3306; uid=to_outzource2; pwd=SKba200473; database=timeout_dencker;";
 
-    //public string lto =             ["lto"];
+    //public string lto =             request["lto"];
 
-    //if (lblsql.InnerHtml == "essens")
-       // {
-    //static string connString = "driver={MySQL ODBC 3.51 Driver};server=194.150.108.154; Port=3306; uid=to_outzource2; pwd=SKba200473; database=timeout_dencker;";
-    //};
+    static string connString = "";
 
-    public string connString = "";
+    //public string connString = "";
 
     //static string connString = "Data Source=127.0.0.1;Database=timeout_intranet;User ID = root; Password=";
     //"driver={MySQL ODBC 3.51 Driver};server=localhost; Port=3306; uid=root; pwd=; database=timeout_intranet;";
 
     #endregion
+
+
+
 
     #region Events
 
@@ -37,6 +40,28 @@ public partial class ressplan_2017 : System.Web.UI.Page
     /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
     protected void Page_Load(object sender, EventArgs e)
     {
+
+        //connString = "driver ={ MySQL ODBC 3.51 Driver}; server = localhost; Port = 3306; uid = root; pwd =; database = timeout_intranet; ";
+
+        string ltoraw = Request["lto"].ToString();
+        string lto = ltoraw.Substring(24, ltoraw.Length - 34);
+        //int ltoL = lto.Length;
+        //lto = lto.Substring(10, ltoL - 10);
+        //lto = lto.Length;
+
+        lbllto.InnerHtml = "LTO: " + lto.ToString();
+
+        //string lto = lbllto.InnerHtml;
+        if (lto == "outz") { 
+        lto = "intranet";
+        };
+
+
+        //connString = "Data Source=127.0.0.1;Database=timeout_" + lto + ";User ID = root; Password=";
+        connString = "Data Source=194.150.108.154; Port=3306; Database=timeout_" + lto + "; User ID = to_outzource2; Password=SKba200473";
+        //connString = "driver={MySQL ODBC 3.51 Driver};server=194.150.108.154; Port=3306; uid=to_outzource2; pwd=SKba200473; database=timeout_"+lto+";";
+        lblsql.InnerHtml = connString;
+
 
         //string lto = "intrnaet";
 
@@ -54,7 +79,8 @@ public partial class ressplan_2017 : System.Web.UI.Page
         {
             ddsortbyTypePresel.Value = Request["sortbypresel"];
         }
-        else {
+        else
+        {
             ddsortbyTypePresel.Value = "0";
         }
 
@@ -77,8 +103,8 @@ public partial class ressplan_2017 : System.Web.UI.Page
 
     #region Methods
 
-    #region Dataset Methods
 
+    #region Dataset Methods
     /// <summary>
     /// Gets the data set by command.
     /// </summary>
@@ -89,14 +115,14 @@ public partial class ressplan_2017 : System.Web.UI.Page
         MySqlConnection sqlConnection = new MySqlConnection();
         MySqlCommand sqlCommand;
 
-        string lto = "intranet";
+        //string lto = "intranet";
 
 
         //if (lto == "intranet - local") {
         //    lto = "intranet"; 
         //};
 
-        string connString = "Data Source=194.150.108.154;Database=timeout_hidalgo;User ID = to_outzource2; Password=SKba200473";
+        ///string connString = "Data Source=194.150.108.154;Database=timeout_hidalgo;User ID = to_outzource2; Password=SKba200473";
         //string connString = "Data Source=127.0.0.1;Database=timeout_"+ lto + ";User ID = root; Password=";
 
 
@@ -127,7 +153,7 @@ public partial class ressplan_2017 : System.Web.UI.Page
             }
         }
 
-        
+
     }
 
     /// <summary>
@@ -135,13 +161,13 @@ public partial class ressplan_2017 : System.Web.UI.Page
     /// </summary>
     /// <param name="command">The command.</param>
     /// <returns>return value by execute non query command</returns>
-    private static int GetExecuteNonQueryByCommand(string command)
+    private static long GetExecuteNonQueryByCommand(string command)
     {
         MySqlConnection sqlConnection = new MySqlConnection();
         MySqlCommand sqlCommand;
 
         //string connString = "Data Source=127.0.0.1;Database=timeout_intranet;User ID = root; Password=";
-        string connString = "Data Source=194.150.108.154;Database=timeout_hidalgo;User ID = to_outzource2; Password=SKba200473";
+        //string connString = "Data Source=194.150.108.154;Database=timeout_hidalgo;User ID = to_outzource2; Password=SKba200473";
 
 
         try
@@ -152,7 +178,8 @@ public partial class ressplan_2017 : System.Web.UI.Page
             sqlCommand = sqlConnection.CreateCommand();
             sqlCommand.CommandText = command;
 
-            return sqlCommand.ExecuteNonQuery();
+            sqlCommand.ExecuteNonQuery();
+            return sqlCommand.LastInsertedId;
         }
         catch (Exception ex)
         {
@@ -212,7 +239,7 @@ public partial class ressplan_2017 : System.Web.UI.Page
     /// </returns>
     private static string GetCustomersQuery(List<string> customerIds, string startDate, string endDate, int viewType)
     {
-        
+
         string query = string.Empty;
         string whereClause = string.Empty;
         string orderByClause = string.Empty;
@@ -226,9 +253,9 @@ public partial class ressplan_2017 : System.Web.UI.Page
         query = "SELECT akt_bookings.ab_id AS BookingId, " +
                         "aktiviteter.id AS ActivityId, " +
                         "aktiviteter.navn AS ActivityName, " +
-                        "job.id AS JobId, " +                        
+                        "job.id AS JobId, " +
                         "job.jobnavn AS JobName, " +
-                        "kunder.Kid AS CustomerId, " +                        
+                        "kunder.Kid AS CustomerId, " +
                         "kunder.kkundenavn AS CustomerName, " +
                         "job.jobnr AS JobNo, " +
                         "kunder.Kkundenr AS CustomerNo, " +
@@ -315,7 +342,7 @@ public partial class ressplan_2017 : System.Web.UI.Page
         string whereClause = string.Empty;
         string orderByClause = string.Empty;
         string strIds = GetStringFromList(jobIds);
-        
+
         whereClause = "WHERE job.id IN (" + strIds + ")";
         whereClause += " AND (date(akt_bookings.ab_enddate) >= '" + startDate + "' AND date(akt_bookings.ab_startdate) <= '" + endDate + "') ";
         whereClause += GetViewTypeQuery(viewType);
@@ -517,41 +544,10 @@ public partial class ressplan_2017 : System.Web.UI.Page
     /// <returns>returns save task query</returns>
     private static string SaveActivityQuery(ActivityModel model)
     {
-        
         string query = string.Empty;
-       
 
-        query = "UPDATE akt_bookings SET ab_editor = '"+ model.Employees + "', ab_startdate = '" + model.StartDateTime.ToString("yyyy-MM-dd HH:mm:ss") + "', ab_enddate = '" + model.EndDateTime.ToString("yyyy-MM-dd HH:mm:ss") + "', ab_serie = 0 WHERE ab_id = " + model.BookingId + ";";
+        query = "UPDATE akt_bookings SET ab_editor = '" + model.Employees + "', ab_startdate = '" + model.StartDateTime.ToString("yyyy-MM-dd HH:mm:ss") + "', ab_enddate = '" + model.EndDateTime.ToString("yyyy-MM-dd HH:mm:ss") + "', ab_serie = 0 WHERE ab_id = " + model.BookingId + ";";
         query += "DELETE FROM akt_bookings_rel WHERE abl_bookid = " + model.BookingId + "";
-        //query += ";INSERT INTO akt_bookings_rel (abl_bookid, abl_medid) VALUES (" + model.BookingId + ", 53)";
-
-
-        foreach (string employeeId in model.Employees)
-        {
-        query += ";INSERT INTO akt_bookings_rel (abl_bookid, abl_medid) VALUES ("+ model.BookingId + ", "+ employeeId + ")";
-        }
-
-        // + model.ActivityId;
-        // ";
-
-        //query = "SET ab_startdate = " + "'" + model.StartDateTime.ToString("yyyy-MM-dd HH:mm:ss") + "'" + ", " +
-        //" ab_enddate = " + "'" + model.EndDateTime.ToString("yyyy-MM-dd HH:mm:ss") + "'" +
-        //" WHERE ab_id = " + model.BookingId + "; ";
-
-        //"ab_serie = " + model.Recurrence + ", " +
-        //"ab_end_after = " + model.NoOfRecurrence + ", " +
-        //"ab_important = " + model.Important + " " +
-        //"WHERE ab_id = " + model.BookingId + "; " +
-
-        //"UPDATE aktiviteter " +
-        //"SET pl_header = " + model.Heading + " " +
-        //"WHERE ab_id = " + model.ActivityId + "; " +
-
-
-        //foreach(string employeeId in model.Employees)
-        //{
-        //query += "INSERT INTO akt_bookings_rel (abl_bookid, abl_medid) VALUES ("+ model.BookingId + ", "+ employeeId + ");";
-        //}
 
         return query;
     }
@@ -700,7 +696,7 @@ public partial class ressplan_2017 : System.Web.UI.Page
                 {
                     ActivityModel existingActivity = existingJob.Activities.Find(delegate (ActivityModel j)
                     {
-                        return j.ActivityId == Convert.ToInt32(drUsers["ActivityId"]);
+                        return j.ActivityId == Convert.ToInt32(drUsers["ActivityId"]) && j.BookingId == Convert.ToInt32(drUsers["BookingId"]);
                     });
 
                     if (existingActivity == null)
@@ -761,7 +757,7 @@ public partial class ressplan_2017 : System.Web.UI.Page
     {
         string oliverDD = string.Empty;
         string where = string.Empty;
-       
+
 
         try
         {
@@ -1159,6 +1155,9 @@ public partial class ressplan_2017 : System.Web.UI.Page
         }
     }
 
+
+
+
     /// <summary>
     /// Saves the task.
     /// </summary>
@@ -1167,17 +1166,35 @@ public partial class ressplan_2017 : System.Web.UI.Page
     [WebMethod]
     public static int SaveActivity(ActivityModel model)
     {
-        
-
-       try
+        try
         {
-             string command = SaveActivityQuery(model);
-             return GetExecuteNonQueryByCommand(command);
-         }
-         catch (Exception ex)
-         {
+            string command = SaveActivityQuery(model);
+            GetExecuteNonQueryByCommand(command);
+
+            long bookingId = 0;
+
+            for (int i = 0; i < model.Employees.Length; i++)
+            {
+                if (i > 0 && model.Split > 0)
+                {
+                    string query = "INSERT INTO akt_bookings (ab_name, ab_date, ab_startdate, ab_enddate, ab_medid, ab_aktid, ab_jobid, ab_serie, ab_editor, ab_editor_date, ab_important, ab_end_after) SELECT ab_name, ab_date, ab_startdate, ab_enddate, ab_medid, ab_aktid, ab_jobid, ab_serie, ab_editor, ab_editor_date, ab_important, ab_end_after from akt_bookings where ab_id = " + model.BookingId + "; ";
+                    bookingId = GetExecuteNonQueryByCommand(query);
+                }
+                else
+                {
+                    bookingId = model.BookingId;
+                }
+
+                string bookingRelQuery = "INSERT INTO akt_bookings_rel (abl_bookid, abl_medid) VALUES (" + bookingId + ", " + model.Employees[i] + "); ";
+                GetExecuteNonQueryByCommand(bookingRelQuery);
+            }
+
+            return 1;
+        }
+        catch (Exception ex)
+        {
             return 0;
-         }
+        }
     }
 
     #endregion
@@ -1269,6 +1286,7 @@ public class ActivityModel
     public string EndDate = string.Empty;
     public string StartTime = string.Empty;
     public string EndTime = string.Empty;
+    public int Split = 0;
     public DateTime StartDateTime;
     public DateTime EndDateTime;
     public string From = string.Empty;
@@ -1285,6 +1303,7 @@ public class ActivityModel
     public string[] Employees;
     public string JobName = string.Empty;
     public string CustomerName = string.Empty;
+
 
     public List<Employee> EmployeeList { get; set; }
 }

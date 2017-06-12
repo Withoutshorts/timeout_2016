@@ -385,7 +385,7 @@ end function
                                     myMail.Subject= strkkundenavn &", "& jobnavnThis &" ("& intJobnr &") - Afsluttet af "& session("user")
 		                           
                                     strBody = "Hej jobansvarlige.<br><br>"
-                                    strBody = strBody &"Mit arbejde er afsluttet på:<br><br>"
+                                    strBody = strBody &"Mit arbejde er afsluttet / Jobbet har skiftet status.<br><br>"
                                     strBody = strBody &"Kunde: "& strkkundenavn &"<br>"
 						            strBody = strBody &"Job: "& jobnavnThis &" ("& intJobnr &")<br><br> "
                                     strBody = strBody &"Jobstatus er: "& jstatusTxt &"<br><br>"

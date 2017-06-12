@@ -1347,6 +1347,11 @@ function saveActivity() {
         model.Employees = $('#empchk').val();
     }
 
+    model.Split = $('#chksplit').prop('checked') ? 1 : 0;
+    model.Important = $('#chkimp').prop('checked') ? 1 : 0;
+
+    //alert(model.Split)
+
     //new Date(model.StartDate + ' ' + model.StartTime);
     /*
     model.StartTime = $('#fromtime').val();
@@ -1362,7 +1367,7 @@ function saveActivity() {
         model.NoOfRecurrence = 0;
     }
 
-    model.Important = $('#chkimp').prop('checked') ? 1 : 0;
+    
 
     if (sortbySelectedValue !== '1' && sortbySelectedValue !== '2') {
         var arrEmployees = [];

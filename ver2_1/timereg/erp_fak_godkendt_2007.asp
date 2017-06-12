@@ -897,11 +897,11 @@
 	case "0"
 	showAtt = ""
 	case "991"
-	showAtt = "Den økonomi ansvarlige"
+	showAtt = erp_txt_302 '"Den økonomi ansvarlige"
 	case "992"
-	showAtt = "Regnskabs afd."
+	showAtt = erp_txt_303 '"Regnskabs afd."
 	case "993"
-	showAtt = "Administrationen"
+	showAtt = erp_txt_304 '"Administrationen"
 	case else
 	
 	strSQL3 = "SELECT id, navn, email FROM kontaktpers WHERE id="& intAtt

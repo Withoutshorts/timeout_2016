@@ -805,7 +805,7 @@ end select
                  <li><a href="<%=toSubVerPath14 %>jobs.asp?func=opret&id=0"><%=tsa_txt_449 %></a></li>
 
 
-                  <%if lto = "outz" OR lto = "demo" OR lto = "intranet - local" OR lto = "hidalgo" then %>
+                  <%if lto = "outz" OR lto = "demo" OR lto = "intranet - local" OR lto = "hidalgo" OR lto = "essens" then %>
                   <li><a href="<%=toSubVerPath15 %>jobs.asp?func=opret&id=0"><%=tsa_txt_449 %> simpel</a></li>
                   <%end if %>
               
@@ -849,7 +849,7 @@ end select
                   <%end if %>
 
                      <%if lto = "outz" OR lto = "intranet - local" OR lto = "essens" OR lto = "hidalgo" then %>
-                    <li><a href="../ressource_planner/ressplan_2017.aspx" target="_blank">Ressource Planner</a></li>
+                    <li><a href="../ressource_planner/ressplan_2017.aspx?lto=234fsdf45t9xxx4cc34vdg56<%=lto %>HrtKvv8344" target="_blank">Ressource Planner</a></li>
                   <%end if %>
 
                    <%end if %>
@@ -900,7 +900,7 @@ end select
                                 
                         <%end if %>
 
-                        <%if (level <= 2 OR level = 6) OR lto = "fk" then %>
+                        <%if (level <= 2 OR level = 6) OR lto = "fk" OR lto ="mmmi" then %>
 
                                     <li><a href="<%=toSubVerPath15 %>medarb_protid.asp"><%=menu_txt_010 %></a></li>
 

@@ -781,6 +781,10 @@ varErrorText = "Du mangler at vælge enten job eller kunde."
 case 186 
 varErrorText = "Du mangler at vælge enten eksisterende aktivitet eller ny aktivitet.<br><br>Dato er ikke angivet i et gyldigt datoformat."
 
+case 187 
+varErrorText = "<b>Forecast er overskreddet på aktivitet!.</b><br><br> Der er tastet/tilføjet: "& timerthisTjkFc & " timer.<br> Tastet før på denne dag: "& timer_opr &" timer. <br>Saldo: " & feltTxtValFc & " timer."
+
+
 case else
 varErrorText = errortype
 end select

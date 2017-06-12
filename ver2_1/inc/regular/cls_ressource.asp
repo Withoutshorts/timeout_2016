@@ -321,7 +321,7 @@
                                     if cint(akt_boooking_findes) = 1 then
 
                                     strSQLupd_akt_booking = "UPDATE akt_bookings "_
-                                    &"SET ab_name = '"& strNavn &"', ab_medid = "& medid &", ab_aktid = "& aktid &", "_
+                                    &"SET ab_medid = "& medid &", ab_aktid = "& aktid &", "_
                                     &" ab_jobid = "& jobid &", ab_date = '"& startDato &"', ab_startdate  ='"& startDato &" "& startDatoTid &"', ab_enddate = '"& slutDato &" "& slutDatoTid &"', "_
                                     &" ab_serie = 0, ab_end_after = 0, ab_important = 0, ab_editor = '"& strEditor &"', ab_editor_date = '"& strEditorDato &"'"_
                                     & " WHERE ab_aktid = "& aktid
@@ -436,7 +436,14 @@
                                      
                                             else 'Single tildel
 
-                                                    strSQLm = "SELECT mid FROM medarbejdere WHERE mnavn = 'uspecificeret' LIMIT 1"
+                                                    select case lto
+                                                    case "essens"
+                                                    strMSQL = " mnavn = 'uspecificeret'"
+                                                    case else
+                                                    strMSQL = " mid = "& session("mid") &""
+                                                    end select
+
+                                                    strSQLm = "SELECT mid FROM medarbejdere WHERE "& strMSQL &" LIMIT 1"
                                                     oRec6.open strSQLm, oConn, 3   
                                                     if not oRec6.EOF then
                             

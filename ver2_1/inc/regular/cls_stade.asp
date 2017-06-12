@@ -270,10 +270,14 @@ end if
 
 <tr>
 <td valign=bottom>Job</td>
-<td valign=bottom>Bruttooms <%=basisValISO%></td><td valign=bottom>WIP<br /><span style="font-size:9px;">Job: Afslutt. %<br />Tilb.: Sandsy. %</span></td>
-<td valign=bottom align=center>Faktureret <%=basisValISO%></td>
-<td valign=bottom align=center>Sikret Oms. <%=basisValISO%><br />(Bruttooms. - Fakt.)</td>
-<td valign=bottom align=right>Forv. fakturering<br /><br /><%=left(monthname(datepart("m", mth_1, 2,2)), 3) &" "& datepart("yyyy", mth_1, 2,2) %></td>
+<td valign=bottom>Bruttooms <br /><b>NOK, EUR, DKK etc.</b><br />(I job valuta)</td>
+<td valign=bottom>Bruttooms <b><%=basisValISO%></b>
+    <br />(basis valuta)
+</td>
+<td valign=bottom>WIP<br /><span style="font-size:9px;">Job: Afslutt. %<br />Tilb.: Sandsy. %</span></td>
+<td valign=bottom align=center>Faktureret <b><%=basisValISO%></b> <br />(basis valuta)</td>
+<td valign=bottom align=center>Sikret Oms. <b><%=basisValISO%></b><br />(Bruttooms. - Fakt.)</td>
+<td valign=bottom align=right>Forv. fakturering <b><br />NOK, EUR etc.</b><br />(I job valuta)<br /><%=left(monthname(datepart("m", mth_1, 2,2)), 3) &" "& datepart("yyyy", mth_1, 2,2) %></td>
 
 <%for mththis = 2 to 15 
     
@@ -292,10 +296,11 @@ end if
 end if 'media
 
 '&" if(f.faktype <> 1, SUM(f.beloeb * (f.kurs / 100)), SUM(f.beloeb * -1 * (f.kurs / 100))) AS faktureret, "
-strSQLj = "SELECT j.id AS jid, jobstartdato, jobnavn, jobnr, kkundenavn, kkundenr, jobstatus, jo_bruttooms, "
+strSQLj = "SELECT j.id AS jid, jobstartdato, jobnavn, jobnr, kkundenavn, kkundenr, jobstatus, jo_bruttooms, jo_valuta, valutakode, jo_valuta_kurs, "
 
 strSQLj = strSQLj &" restestimat, stade_tim_proc, sandsynlighed "& mnavnfld &" FROM job AS j "_
-&" LEFT JOIN kunder AS k ON (k.kid = jobknr) "
+&" LEFT JOIN kunder AS k ON (k.kid = jobknr) "_
+&" LEFT JOIN valutaer AS v ON (v.id = jo_valuta) "
 
 if usemrn <> 0 then
 strSQLj = strSQLj & " WHERE (jobans1 = "& usemrn &") AND risiko >= 0 AND (jobstatus = 1 OR jobstatus = 3) GROUP BY j.id ORDER BY jobstartdato LIMIT "& lmt
@@ -365,8 +370,12 @@ restestimat = oRec("restestimat")
 
 if oRec("jo_bruttooms") <> 0 then
 btoms = formatnumber(oRec("jo_bruttooms"), 2)
+btomsBasisCur = formatnumber(oRec("jo_bruttooms")*(oRec("jo_valuta_kurs")/100), 2)
+btomsBasisCurSikret = btomsBasisCur 
 else
 btoms = ""
+btomsBasisCur = ""
+btomsBasisCurSikret = 0
 end if
 
 
@@ -383,7 +392,7 @@ end if
         jobStatusTxt = "Gennemsyn"
         end select
 
-
+    '*** INVOICED BASSIS CURRENCY ****
     strSQlfaktot = "SELECT SUM(if (f.faktype = 0, f.beloeb * (f.kurs / 100), f.beloeb * -1 * (f.kurs / 100)) ) AS faktureret  "_
     & "FROM fakturaer AS f WHERE (f.jobid = "& oRec("jid") &" AND f.shadowcopy <> 1 AND f.medregnikkeioms <> 1 AND f.medregnikkeioms <> 2) "
 
@@ -399,7 +408,7 @@ end if
     end if
     oRec3.close
         
-    sikretOms = (oRec("jo_bruttooms") - erfaktureretBel)
+    sikretOms = (btomsBasisCurSikret - erfaktureretBel)
     
 
 
@@ -432,11 +441,15 @@ end if
 <td style="border-bottom:1px #CCCCCC solid; white-space:nowrap; padding-top:10px;" valign="top">
 <%if media <> "print" then %>
 <input type="hidden" value="<%=oRec("jid") %>" name="i_jobids" /><input type="hidden" value="<%=oRec("jobstatus") %>" name="i_status" />
-<input type="text" name="i_brutto_<%=oRec("jid") %>" value="<%=btoms%>" style="font-size:10px; width:80px;" />
+<input type="text" name="i_brutto_<%=oRec("jid") %>" value="<%=btoms%>" style="font-size:10px; width:80px;" /> <%=oRec("valutakode") %>
 <%else %>
-&nbsp;<%=btoms%>
+&nbsp;<%=btoms &" "& oRec("valutakode") %>
 <%end if %>
 </td>
+<td style="border-bottom:1px #CCCCCC solid; white-space:nowrap; padding-top:10px; padding-right:20px; text-align:right; vertical-align:top;">
+<%=btomsBasisCur%>
+</td>
+
 <td style="border-bottom:1px #CCCCCC solid; white-space:nowrap; padding-top:10px;" valign="top">
 
 <%if media <> "print" then %>
@@ -523,7 +536,7 @@ call forvfak(media, jid, yUse, mUse)
 
 %>
 
-<td style="border-bottom:1px #CCCCCC solid;" align=center>
+<td style="border-bottom:1px #CCCCCC solid; width:80px; text-align:center;">
 
 <%if media <> "print" then
 
@@ -569,7 +582,7 @@ end if
 else 'media = export
 stexptxt = stexptxt & oRec("kkundenavn") &";"& oRec("kkundenr") &";"& oRec("jobnavn") &";"& oRec("jobnr") & ";"
 stexptxt = stexptxt & meNavn &";"
-stexptxt = stexptxt & jobStatusTxt &";"& btoms &";"
+stexptxt = stexptxt & jobStatusTxt &";"& btoms &";" & btomsBasisCur & ";"
 stexptxt = stexptxt & sandsynlighed  &";"& restestimat &";"
 
 select case oRec("stade_tim_proc")
@@ -596,7 +609,7 @@ oRec.close
 
 if media <> "export" then
  %>
- <tr><td colspan="3" align=right>Total stade (forv. fakt.):</td>
+ <tr><td colspan="4" align=right>Total stade (forv. fakt.) <b><%=basisValISO%></b>:</td>
     <td align=right><%=formatnumber(stadeThisMthTot, 2) %></td>
     <td>&nbsp;</td>
     <td align=right><%=formatnumber(stadeThisMthTot_1, 2) %></td>
@@ -616,7 +629,7 @@ if media <> "export" then
       <td align=right><%=formatnumber(stadeThisMthTot_15, 2) %></td>
     <td>&nbsp;</td>
  </tr>
- <tr><td colspan="3" align=right>Total faktureret:</td>
+ <tr><td colspan="4" align=right>Total faktureret <b><%=basisValISO%></b>:</td>
     <td align=right><%=formatnumber(faktureretTot, 2) %></td>
     <td align=right><%=formatnumber(sikretOmsTot, 2) %></td> 
     <td align=right><%=formatnumber(faktureretThisMthTot_1, 2) %></td>
@@ -924,6 +937,10 @@ for i = 1 to 15
 
   if bThis <> "" then
   bThisUse = bThis 
+
+                call beregnValuta(bThisUse,oRec("jo_valuta_kurs"),100)
+                bThisUse = valBelobBeregnet
+
   else
   bThisUse = 0
   end if
@@ -955,9 +972,8 @@ for i = 1 to 15
   oRec3.close
 
 
-  
-
-    select case i
+    
+  select case i
    case 1
   faktureretThisMthTot_1 = faktureretThisMthTot_1/1 + faktureretThisMth/1
   stadeThisMthTot_1 = stadeThisMthTot_1/1 + bThisUse/1
@@ -1052,7 +1068,7 @@ sub ekportogprint_fn()
     
     if media = "export" then 
 
-    strEkspHeader = "Kontakt;Kontakt id;Job;Job.nr;Jobansvarlig;Status;Brutto.Oms.(Budget);Sandsynlighed %;Restestimat;t./%;Faktureret;Sikret Oms.;"_
+    strEkspHeader = "Kontakt;Kontakt id;Job;Job.nr;Jobansvarlig;Status;Brutto.Oms.(Budget - job valuta);Brutto.Oms. ("& basisValISO &");Sandsynlighed %;Restestimat;t./%;Faktureret;Sikret Oms.;"_
     &"Forv. fak. "& left(monthname(datepart("m", mth_1, 2,2)), 3) &" "& datepart("yyyy", mth_1, 2,2) &";"_
     &"Forv. fak. "& left(monthname(datepart("m", mth_2, 2,2)), 3) &" "& datepart("yyyy", mth_2, 2,2) &";"_
     &"Forv. fak. "& left(monthname(datepart("m", mth_3, 2,2)), 3) &" "& datepart("yyyy", mth_3, 2,2) &";"_

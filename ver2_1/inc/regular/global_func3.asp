@@ -76,7 +76,7 @@
 	'Response.Write intMid
 	'Response.flush 
 	  
-	if cint(intMid) <> 0 then
+	if cdbl(intMid) <> 0 then
 	medarbSQL = " mid = " & intMid & ""
 	else
 	medarbSQL = " mid <> 0 "

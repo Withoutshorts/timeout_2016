@@ -1487,7 +1487,7 @@ if len(session("user")) = 0 then
 			        '**************************************
 				   
                    
-                   '********************************'
+                    '********************************'
                     '***** Forretningsområder ******'
                     '********************************'
                     
@@ -1547,10 +1547,23 @@ if len(session("user")) = 0 then
 						                   end if 
 						                   oRec5.close
 
-                                     
+                                        
+                                                if len(trim(request("FM_opdater_timepriser_alle_aktmnavn"))) <> 0 then
+                                                                
+                                                    aktWhereCls = " AND taktivitetnavn = '"& strNavn &"'"
+
+                                                        '** Ændrer timepris på alle aktiveter med dette navn
+                                                        strSQLakttpallmnavn = "UPDATE aktiviteter SET fasttp = "& fasttp &", editor = '"& strEditor &"', dato = '"& strDato &"' WHERE aktstatus = 1 AND navn = '"& strNavn &"' AND brug_fasttp = 1 AND fasttp_val = "& fasttp_val &""
+                                                        oConn.execute(strSQLakttpallmnavn)
+
+                                                else
+                            
+                                                    aktWhereCls = " AND taktivitetid = "& id
+                                                end if         
+
 
 			                            strSQLtp = "UPDATE timer SET timepris = "& fasttp &", valuta = "& fasttp_val &", kurs = "& nyKurs &""_
-			                            &" WHERE tdato >= '"& fraDato &"' AND taktivitetid = "& id
+			                            &" WHERE tdato >= '"& fraDato &"'" & aktWhereCls
 					                  
 					                    oConn.execute(strSQLtp)
                                         'Response.flush
@@ -3385,6 +3398,9 @@ if len(session("user")) = 0 then
                     <input type="checkbox" value="1" name="FM_opdater_timepriser" /> Opdater timepriser på eksisterende timer<br /><br />
                     Opdater time- og kost -priser (hvis valgt) fra d. <input type="text" name="FM_opdatertpfra" value="<%=useDate %>" style="font-size:9px; width:60px;" /> til dd.<br />
                     (også lukkede uger og hvis der foreligger faktura)
+
+                    <br /><br />
+                    <input type="checkbox" value="1" name="FM_opdater_timepriser_alle_aktmnavn" /> Opdater fast-timepris på alle aktive aktiviteter med samme navn. (der benytter samme valuta)
                     <%end if %>
 
         </div>

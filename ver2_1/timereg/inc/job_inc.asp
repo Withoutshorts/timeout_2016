@@ -3504,7 +3504,7 @@ sub minioverblik
 
             <%select case lto
             case "intranet - local", "essens", "dencker", "outz", "hidalgo" %>
-            <a href="../ressource_planner/ressplan_2017.aspx?sortbypresel=2&jobidpresel=<%=id %>" class=vmenu target="_blank">Planlægning >></a>
+            <a href="../ressource_planner/ressplan_2017.aspx?sortbypresel=2&jobidpresel=<%=id %>&lto=234fsdf45t9xxx4cc34vdg56<%=lto %>HrtKvv8344" class=vmenu target="_blank">Planlægning >></a>
             <%end select %>
 
         </td>

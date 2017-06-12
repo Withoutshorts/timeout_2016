@@ -130,7 +130,7 @@
 
     <%--Modal popup--%>
 
-    <label id="lblsql" runat="server">SQL:  </label>
+   
 
     <form id="taskform" runat="server" name="taskModalForm">
         <input type="hidden" runat="server" id="ddsortbyTypePresel" name="ddsortbyTypePresel" value="" />
@@ -184,7 +184,9 @@
                                                         <span class="input-group-addon input-small">
                                                             <span class="fa fa-calendar"></span>
                                                         </span>
+                                                      
                                                     </div>
+                                                  
                                                     <p class="error-txt" style="display:none;">End Date should be more than start date!</p>
                                                 </div>
                                                 <div class="col-lg-2 lh-34"></div>
@@ -228,9 +230,9 @@
                                                 <div class="col-lg-2 lh-34">Employee:</div>
                                                 <div class="col-lg-4">
                                                     <select id="empchk" name="empchk" class="form-control input-small">
-                                                        <option value="1">Hans</option>
+                                                        <!--<option value="1">Hans</option>
                                                         <option value="2">Per</option>
-                                                        <option value="3">Søren Karlsen</option>
+                                                        <option value="3">Søren Karlsen</option>-->
                                                     </select>
                                                 </div>
                                                 <div class="col-lg-2 lh-34">Customer:</div>
@@ -263,6 +265,15 @@
                                                 <div class="col-lg-4">
                                                     <input id="prodtxt" name="prodtxt" type="text" value="Produkion" class="form-control input-small" readonly="readonly" disabled="disabled" />
                                                 </div>
+                                            </div>
+                                             <div class="row">
+                                                <div class="col-lg-2 lh-34">Split:</div>
+                                                <div class="col-lg-4">
+                                                   <input type="checkbox" value="1" name="chksplit" id="chksplit" /> Split Booking
+                                                   
+                                                </div>
+
+                                              
                                             </div>
                                         </div>
 
@@ -444,6 +455,9 @@
         </table>
     </script>
 
-    <script type="text/javascript" src="js/ressplan_20175.js"></script>      
+     <label id="lblsql" runat="server" style="visibility:hidden;">SQL:</label>
+    <label id="lbllto" runat="server" style="visibility:visible; float:left; padding-left:40px; color:#999999; font-weight:lighter;">LTO:</label>
+
+    <script type="text/javascript" src="js/ressplan_20176.js"></script>      
 </body>
 </html>

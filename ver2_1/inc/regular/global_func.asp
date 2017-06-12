@@ -11,8 +11,7 @@
 <!--#include file="../xml/weeklynote_sprog_inc.asp"-->
 <!--#include file="../xml/timereg_akt_sprog_inc.asp"-->
 <!--#include file="../xml/funktioner_sprog_inc.asp"-->
-<!--#include file="../xml/medarb_xml_inc.asp"-->
-<!--#include file="../xml/medarbtyper_xml_inc.asp"-->
+
 
 
 <!--#include file="cls_aktiviteter.asp"-->

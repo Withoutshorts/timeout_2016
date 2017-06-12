@@ -183,6 +183,9 @@ if len(session("user")) = 0 then
 	call showError(errortype)
 	else
 	
+
+    media = request("media")
+
 	func = request("func")
 	if func = "dbopr" then
 	id = 0
@@ -2435,7 +2438,7 @@ if len(session("user")) = 0 then
    case "stat"
 	
 	
-	
+	if media <> "export" then
 	
 	if hidemenu = 0 then%>
 	
@@ -2462,6 +2465,19 @@ if len(session("user")) = 0 then
 	
 	end if
 
+    else
+
+    
+	%>
+	 <!--#include file="../inc/regular/header_hvd_inc.asp"-->
+     
+	<%
+
+    sideDivTop = 20
+	sideDivLeft = 20
+
+    end if
+
     if len(trim(request("FM_type"))) <> 0 then
     typ = request("FM_type")
     response.Cookies("stat")("logindtyp") = typ
@@ -2480,6 +2496,9 @@ if len(session("user")) = 0 then
 	sumChk = ""
 	showTot = 0
 	end if
+
+
+    if media <> "export" then
 	%>
 
 
@@ -2506,11 +2525,16 @@ if len(session("user")) = 0 then
 
 	</div>
 
+    <%end if %>
    
 
 	<div id="sindhold" style="position:absolute; left:<%=sideDivLeft%>px; top:<%=sideDivTop%>px; visibility:visible;">
 	
 	<% 
+    if media <> "export" then
+
+
+
 	oimg = "ikon_stempelur_48.png"
 	oleft = 0
 	otop = 0
@@ -2576,6 +2600,12 @@ if len(session("user")) = 0 then
 	<%
 	
 	Response.flush
+
+    else
+        dontshowDD = 1
+        %><!--#include file="inc/weekselector_s.asp"--><%
+
+    end if 'media
 	
 	
 	'*** Alle timer, uanset fomr. ***
@@ -2598,6 +2628,8 @@ if len(session("user")) = 0 then
 	
 	call ersmileyaktiv()
 	
+
+    stempelUrEkspTxt = ""
 	call stempelurlist(thisMiduse, showtot, layout, sqlDatoStart, sqlDatoSlut, typ, d_end, lnk)
 	
 	%>
@@ -2605,6 +2637,127 @@ if len(session("user")) = 0 then
 	
 	</div>
 
+
+        <%
+
+        
+                '******************* Eksport **************************' 
+                if media = "export" then
+
+
+
+    
+                    call TimeOutVersion()
+    
+
+
+        
+                 
+                    ekspTxt = replace(stempelUrEkspTxt, "xx99123sy#z", vbcrlf)
+                    
+	                datointerval = request("datointerval")
+	
+	
+	                filnavnDato = year(now)&"_"&month(now)& "_"&day(now)
+	                filnavnKlok = "_"&datepart("h", now)&"_"&datepart("n", now)&"_"&datepart("s", now)
+
+
+                    fileext = "csv"
+                   
+                    
+	
+				                Set objFSO = server.createobject("Scripting.FileSystemObject")
+				
+				                if request.servervariables("PATH_TRANSLATED") = "C:\www\timeout_xp\wwwroot\ver2_1\timereg\stempelur.asp" then
+					                Set objNewFile = objFSO.createTextFile("c:\www\timeout_xp\wwwroot\ver2_1\inc\log\data\stempelurexp_"&filnavnDato&"_"&filnavnKlok&"_"&lto&"."& fileext, True, False)
+					                Set objNewFile = nothing
+					                Set objF = objFSO.OpenTextFile("c:\www\timeout_xp\wwwroot\ver2_1\inc\log\data\stempelurexp_"&filnavnDato&"_"&filnavnKlok&"_"&lto&"."& fileext, 8)
+				                else
+					                Set objNewFile = objFSO.createTextFile("d:\webserver\wwwroot\timeout_xp\wwwroot\"& toVer &"\inc\log\data\stempelurexp_"&filnavnDato&"_"&filnavnKlok&"_"&lto&"."& fileext, True, False)
+					                Set objNewFile = nothing
+					                Set objF = objFSO.OpenTextFile("d:\webserver\wwwroot\timeout_xp\wwwroot\"& toVer &"\inc\log\data\stempelurexp_"&filnavnDato&"_"&filnavnKlok&"_"&lto&"."& fileext, 8)
+				                end if
+				
+				
+                                file = "stempelurexp_"&filnavnDato&"_"&filnavnKlok&"_"&lto&"."& fileext
+				
+				                '**** Eksport fil, kolonne overskrifter ***
+                                strOskrifter = "Medarbejder; Init; Dato; Logget ind; Logget ud; Timer (24:00); Minutter; Faktor; IP; Indstilling; Manuelt opr.; Systembesked; Kommentar;"
+
+                                      strOskrifter = strOskrifter & strExportOskriftDage
+
+
+
+				             
+                                objF.writeLine("Periode afgrænsning: "& datointerval & vbcrlf)
+				                objF.WriteLine(strOskrifter) '& chr(013)
+                              
+				                objF.WriteLine(ekspTxt)
+				                objF.close
+				
+				                %>
+				
+	                            <table border=0 cellspacing=1 cellpadding=0 width="200">
+	                            <tr><td valign=top bgcolor="#ffffff" style="padding:5px;">
+	                            <img src="../ill/outzource_logo_200.gif" />
+	                            </td>
+	                            </tr>
+	                            <tr>
+	                            <td valign=top bgcolor="#ffffff" style="padding:5px 5px 5px 15px;">
+	                            <a href="../inc/log/data/<%=file%>" class=vmenu target="_blank" onClick="Javascript:window.close()">Din CSV. fil er klar >></a>
+	                            </td></tr>
+	                            </table>
+	            
+	          
+	            
+	                            <%
+                
+                
+                                Response.end
+	                            'Response.redirect "../inc/log/data/"& file &""	
+				
+
+
+
+                end if 'media
+
+
+
+
+       if media <> "print" then
+
+            ptop = 0
+            pleft = 840
+            pwdt = 140
+
+            pnteksLnk = "func=stat&FM_medarb_hidden="&thisMiduse&"&datointerval="&strDag&"/"&strMrd&"/"&strAar & " - " & strDag_slut&"/"&strMrd_slut&"/"&strAar_slut
+            pnteksLnk = pnteksLnk & "&rdir="&rdir&"FM_medarb="&thisMiduse&"&FM_start_dag="&strDag&"&FM_start_mrd="&strMrd&"&FM_start_aar="&strAar&"&FM_slut_dag="&strDag_slut&"&FM_slut_mrd="&strMrd_slut&"&FM_slut_aar="&strAar_slut
+            pnteksLnk = pnteksLnk & "&nomenu="&nomenu
+
+           
+
+            call eksportogprint(ptop,pleft,pwdt)
+            %>
+
+        
+        
+        
+                   
+                    
+                  <tr>
+                    <td>
+                
+                        <form action="stempelur.asp?media=export&<%=pnteksLnk%>" target="_blank" method="post"> 
+                        <input type="submit" id="sbm_csv" value="CSV. fil eksport >>" style="font-size:9px;" />
+                        </form>
+
+                    </td>
+                   </tr>
+         
+        </table>
+        </div>
+
+    <%end if %>
    
 
 	<br /><br /><br /><br /><br /><br /><br />&nbsp;

@@ -42,7 +42,7 @@ end function
 '*********************************************************************************************************************************
 '**** Opdaterer timer ************************************************************************************************************
 '*********************************************************************************************************************************
-public EmailNotificerTxt, EmailNotificer, EmailNotificerTxt2, EmailNotificer2, EmailNotificerTxt3, EmailNotificer3 
+public EmailNotificerTxt, EmailNotificer, EmailNotificerTxt2, EmailNotificer2, EmailNotificerTxt3, EmailNotificer3, timerthisTjkFc, timer_opr 
 
 function opdaterTimer(aktid, aktnavn, tfaktimvalue, strFastpris, jobnr, strJobnavn, strJobknr, strJobknavn,_
 medid, strMnavn, datothis, timerthis, kommthis, intTimepris,_
@@ -50,11 +50,73 @@ dblkostpris, offentlig, intServiceAft, strYear, sTtid, sLtid, visTimerelTid, sto
 
 
 
-if len(timerthis) <> 0 then
+if len(trim(timerthis)) <> 0 then
 timerthis = timerthis
 else
 timerthis = 0
 end if
+
+
+
+'**** Tjekker om Budget og forecast er overskrteddet
+
+ibudgetaar = aktBudgettjkOn
+ibudgetmd = datePart("m", aktBudgettjkOnRegAarSt, 2,2)
+aar = datePart("yyyy", datothis, 2,2)
+md = datePart("m", datothis, 2,2)
+
+
+
+
+'*** Dobbeltjekker at budget på aktvititet ikke er overskreddet
+if cint(akt_maksbudget_treg) = 1 then
+    '*** FUNKTION HER
+end if
+
+'*** Dobbeltjekker at forecast pr. medarb. IKKE er overskrteddet
+if cint(akt_maksforecast_treg) = 1 AND cint(tfaktimvalue) = 1 then
+
+            datothisSQLtjkFC = ConvertDateYMD(datothis)
+            strSQLfindes = "SELECT SUM(timer) AS timer_opr, Tjobnr, TAktivitetId, timerkom FROM timer WHERE TAktivitetId = "& aktid &" AND Tjobnr = '"& jobnr &"' AND Tmnr = "& medid &" AND Tdato = '"& datothisSQLtjkFC &"' GROUP BY TAktivitetId"
+            
+			oRec6.Open strSQLfindes, oConn, 3  
+			timer_opr = 0
+			if NOT oRec6.EOF then
+            timer_opr = oRec6("timer_opr")
+            end if
+            oRec6.close
+
+    timerthisTjkFc = 0
+    timerthisTjkFc = (replace(timerthis, ".", ",")/1 - (timer_opr/1))
+    'timerthisTjkFc = replace(timerthisTjkFc, ".", "")
+
+       'Response.write "timerthisTjkFc timer + timer_opr: "& timerthisTjkFc &" "& timerthis & " " & timer_opr/1   
+       'Response.end
+
+    call ressourcefc_tjk(ibudgetaar, ibudgetmd, aar, md, medid, aktid, timerthisTjkFc)
+
+    if cdbl(feltTxtValFc) < 0 AND timerthis > 0 then
+        timerthis = -9001
+        
+        errortype = 187
+	    useleftdiv = "t"
+					%><!--#include file="../../inc/regular/header_lysblaa_inc.asp"--><%
+                    
+	    call showError(errortype)
+		response.end
+        
+
+    end if
+
+end if
+
+
+
+'Response.write "<br>HER ibudgetaar: "& ibudgetaar & "  ibudgetmd: "& ibudgetmd & " aar = " & aar & " md: "& md & " feltTxtValFc: "& feltTxtValFc & "& timerthis:" & timerthis
+
+
+
+
 
 
 if cint(timerround) = 1 AND cint(intEasyreg) <> 1 then 'fra cookie
@@ -93,37 +155,6 @@ else
 timerthis = timerthis
 end if
 end if
-
-
-'**** Tjekker om Budget og forecast er overskrteddet
-
-ibudgetaar = aktBudgettjkOn
-ibudgetmd = datePart("m", aktBudgettjkOnRegAarSt, 2,2)
-aar = datePart("yyyy", datothis, 2,2)
-md = datePart("m", datothis, 2,2)
-
-
-
-
-'*** Dobbeltjekker at budget på aktvititet ikke er overskreddet
-if cint(akt_maksbudget_treg) = 1 then
-    '*** FUNKTION HER
-end if
-
-'*** Dobbeltjekker at forecast pr. medarb. IKKE er overskrteddet
-if cint(akt_maksforecast_treg) = 1 AND cint(tfaktimvalue) = 1 then
-    call ressourcefc_tjk(ibudgetaar, ibudgetmd, aar, md, medid, aktid, timerthis)
-
-    if cdbl(feltTxtValFc) < 0 AND timerthis > 0 then
-        timerthis = -9001
-    end if
-
-end if
-
-
-
-'Response.write "<br>HER ibudgetaar: "& ibudgetaar & "  ibudgetmd: "& ibudgetmd & " aar = " & aar & " md: "& md & " feltTxtValFc: "& feltTxtValFc & "& timerthis:" & timerthis
-
 
 
 
@@ -446,7 +477,7 @@ dblkostprisUse = replace(dblkostprisUse, ",", ".")
 				'** AND timerthis > 0  then -minus er OK HUSK ret i faktrua opr. 15.05.2008 **'
 				'** Rettet tilbage 20.05.2008 pga fejl i SponsorCar ***' 
 				'** De bruger st. tid og slut tid regsistrering **'
-                timerthis = replace(timerthis, ",", ".")
+                'timerthis = replace(timerthis, ",", ".")
 				
 				strSQLins = "INSERT INTO timer (Tjobnr, Tjobnavn, Tmnr, Tmnavn, Tdato, "_
 				&" Timer, Timerkom, Tknavn, Tknr, TAktivitetId, TAktivitetNavn, "_
@@ -518,7 +549,7 @@ dblkostprisUse = replace(dblkostprisUse, ",", ".")
 						        'Response.end
 						        else
 						        kommentarthis = kommthis 'replace(oRec("timerkom"), "'", "''")
-                                timerthis = replace(timerthis, ",", ".")
+                                'timerthis = replace(timerthis, ",", ".")
 						        end if
 						
 						strSQLupd = "UPDATE timer SET"_

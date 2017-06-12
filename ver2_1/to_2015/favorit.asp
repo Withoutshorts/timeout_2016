@@ -483,8 +483,7 @@
                             <input type="hidden" name="varTjDatoUS_man" value="<%=varTjDatoUS_man %>" />
                             <input type="hidden" name="FM_medid" value="<%=medid %>" />
                             <input type="hidden" id="Hidden4" name="FM_dager" value="7"/>
-                            <input type="hidden" name="FM_sttid" value="00:00"/>
-                            <input type="hidden" name="FM_sltid" value="00:00"/>
+                          
                             <input type="hidden" id="" name="FM_vistimereltid" value="0"/>
                             <input type="hidden" id="Hidden5" name="year" value="<%=year(now) %>"/>
                             <input type="hidden" value="0" name="extsysId" />
@@ -681,6 +680,8 @@
                                                            <!-- <input type="hidden" value="<%=oRec4("extsysId")%>" name="extsysId" /> -->
                                                             <input type="hidden" value="<%=timerdato %>" name="FM_datoer" />
                                                             <input type="hidden" value="dist" name="FM_destination_<%=y %>" />
+                                                            <input type="hidden" name="FM_sttid" value="00:00"/>
+                                                            <input type="hidden" name="FM_sltid" value="00:00"/>
                                                             <%if origin <> 0 then %>
                                                             <input type="hidden" name="FM_timer" value=""/>
                                                             <input type="text" class="form-control input-small" style="width:75px;" value="<%=timerdag %>" readonly />
