@@ -645,7 +645,7 @@ function fordelpaaaktType(intMid, startDato, slutDato, visning, akttype_sel, x)
          normTimerGns5 = 1
          end if 
 
-         ferieOptjUlontimer(x) = ferieOptjOverforttimer(x) + oRec6("sumtimer") / normTimerGns5
+         ferieOptjUlontimer(x) = ferieOptjUlontimer(x) + oRec6("sumtimer") / normTimerGns5 'ferieOptjOverforttimer(x) +
 
          
          

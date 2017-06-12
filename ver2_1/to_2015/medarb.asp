@@ -2463,8 +2463,8 @@ Session.LCID = 1030
                                 
                                 </a></td>
                             <td><%=mStatus %></td>
-                            <td><%=left(mtypenavn, 15) %></td>
-                            <td><%=left(mBrugergruppe, 20) %></td>
+                            <td><%=left(mtypenavn, 30) %></td>
+                            <td><%=left(mBrugergruppe, 30) %></td>
                             <td><a href="mailto:<%=oRec("email") %>"><%=oRec("email") %></a></td>
                             <td><%=oRec("ansatdato") %></td>
                             <td><%=lastLoginDateFm%></td>

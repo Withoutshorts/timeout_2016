@@ -30,7 +30,7 @@
 	 end if
 	  
 
-	   fefriBal = 0
+	 fefriBal = 0
 	 fefriBal  = (fefriTimer(x) - (fefriTimerBr(x) + fefriTimerUdb(x)))
 	 
 	 if normTimerDag(x) <> 0 then
