@@ -266,8 +266,7 @@
 <script src="js/favorit_jav.js"></script>
 <!-- <link rel="stylesheet" href="../../bower_components/bootstrap-datepicker/css/datepicker3.css"> -->
 
-<script type="text/javascript" src="js/plugins/flot/jquery.flot.js"></script>
-<script type="text/javascript" src="js/demos/flot/stacked-vertical_favorit.js"></script>
+
 
 
 <style>
@@ -326,13 +325,13 @@
        response.End
 	end if
 
-    if len(trim(request("usemrn"))) <> 0 then
-    usemrn = request("usemrn")
+    if len(trim(request("FM_medid"))) <> 0 then
+    medid = request("FM_medid")
     else
-    usemrn = session("mid")
+    medid = session("mid")
     end if
 
-    struSQLusemedarb = "SELECT mnavn FROM medarbejdere WHERE mid ="& usemrn
+    struSQLusemedarb = "SELECT mnavn FROM medarbejdere WHERE mid ="& medid
     oRec.open struSQLusemedarb, oConn, 3
     if not oRec.EOF then
     medarbejdernavn = oRec("mnavn")
@@ -368,14 +367,17 @@
 
 
 
-    medid = request("FM_medid")
+    
     response.Write "medid: " & medid
 
-    varTjDatoUS_selectedday = request("varTjDatoUS_selectedday")
-    mondayofsameweek = DateAdd("d", -((Weekday(varTjDatoUS_selectedday) + 7 - 2) Mod 7), varTjDatoUS_selectedday)
+    varTjDatoUS_man = request("varTjDatoUS_man")
+    if varTjDatoUS_man = "" then
+        varTjDatoUS_man = Day(now) &"-"& Month(now) &"-"& Year(now)
+    end if
+    mondayofweek = DateAdd("d", -((Weekday(varTjDatoUS_man) + 7 - 2) Mod 7), varTjDatoUS_man)
                   
 
-    varTjDatoUS_man = mondayofsameweek
+    varTjDatoUS_man = mondayofweek
     varTjDatoUS_son = dateAdd("d", 6, varTjDatoUS_man)
 
     datoMan = day(varTjDatoUS_man) &"/"& month(varTjDatoUS_man) &"/"& year(varTjDatoUS_man)
@@ -383,14 +385,14 @@
 
     next_varTjDatoUS_man = dateadd("d", 7, varTjDatoUS_man)
 	next_varTjDatoUS_son = dateadd("d", 7, varTjDatoUS_son)
-    next_varTjDatoUS_man = year(next_varTjDatoUS_man) &"/"& month(next_varTjDatoUS_man) &"/"& day(next_varTjDatoUS_man)
-	next_varTjDatoUS_son = year(next_varTjDatoUS_son) &"/"& month(next_varTjDatoUS_son) &"/"& day(next_varTjDatoUS_son)
+    next_varTjDatoUS_man = day(next_varTjDatoUS_man) & "-" & month(next_varTjDatoUS_man) &"-"& year(next_varTjDatoUS_man)
+	next_varTjDatoUS_son = day(next_varTjDatoUS_son) &"-"& month(next_varTjDatoUS_son) &"-"& year(next_varTjDatoUS_son)
 
 
     prev_varTjDatoUS_man = dateadd("d", -7, varTjDatoUS_man)
 	prev_varTjDatoUS_son = dateadd("d", -7, varTjDatoUS_son)
-    prev_varTjDatoUS_man = year(prev_varTjDatoUS_man) &"/"& month(prev_varTjDatoUS_man) &"/"& day(prev_varTjDatoUS_man)
-	prev_varTjDatoUS_son = year(prev_varTjDatoUS_son) &"/"& month(prev_varTjDatoUS_son) &"/"& day(prev_varTjDatoUS_son)
+    prev_varTjDatoUS_man = day(prev_varTjDatoUS_man) &"-"& month(prev_varTjDatoUS_man) &"-"& year(prev_varTjDatoUS_man) 
+	prev_varTjDatoUS_son = day(prev_varTjDatoUS_son) &"-"& month(prev_varTjDatoUS_son) &"-"& year(prev_varTjDatoUS_son) 
 
     weeknumber = year(varTjDatoUS_man) & "-" & month(varTjDatoUS_man) & "-" & day(varTjDatoUS_man)
 
@@ -543,7 +545,7 @@
                                     <td>
                                         <div class="col-lg-2" style="z-index:1;">
                                             <div class='input-group date' style="width:135px">
-                                                <input type="text" class="form-control input-small" name="varTjDatoUS_selectedday" id="varTjDatoUS_selectedday" value="<%=varTjDatoUS_selectedday %>" />
+                                                <input type="text" class="form-control input-small" name="varTjDatoUS_man" id="varTjDatoUS_man" value="<%=varTjDatoUS_man %>" />
                                                 <span class="input-group-addon input-small">
                                                 <span class="fa fa-calendar">
                                                 </span>
@@ -554,6 +556,8 @@
                                     <td>                                       
                                         <button type="submit" class="btn btn-sm btn-default"><b>Gå</b></button>                                       
                                     </td>
+
+                                   <td style="padding-left:650px; padding-top:15px;"><h4><a href="favorit.asp?FM_medid=<%=medid %>&varTjDatoUS_man=<%=prev_varTjDatoUS_man %>" ><</a>&nbsp Uge <%=datepart("ww",weeknumber)  %> &nbsp<a href="favorit.asp?FM_medid=<%=medid %>&varTjDatoUS_man=<%=next_varTjDatoUS_man %>" >></a></h4></td>
                                 </tr>
                             </table>
 
@@ -561,10 +565,9 @@
                         <%'response.Write "id: " & medid%>
 
 
-                        <form action="../timereg/timereg_akt_2006.asp?func=db&rdir=favorit&medid=<%=medid %>&varTjDatoUS_man=<%=varTjDatoUS_man%>" method="post">
+                        <form action="../timereg/timereg_akt_2006.asp?func=db&rdir=favorit&varTjDatoUS_man=<%=varTjDatoUS_man%>" method="post">
                             
                             
-                            <input type="hidden" name="varTjDatoUS_man" value="<%=varTjDatoUS_man %>" />
                             <input type="hidden" name="FM_medid" value="<%=medid %>" />
                             <input type="hidden" id="Hidden4" name="FM_dager" value="7"/>
                             <input type="hidden" name="FM_sttid" value="00:00"/>
@@ -595,7 +598,7 @@
                                             varTjDatoUS_use = dateAdd("d", l, varTjDatoUS_man)
                                             end if 
 
-                                            showdate = DatePart("yyyy",varTjDatoUS_use) & "-" & Right("0" & DatePart("m",varTjDatoUS_use), 2) & "-" & Right("0" & DatePart("d",varTjDatoUS_use), 2)
+                                            showdate = Right("0" & DatePart("d",varTjDatoUS_use), 2) & "-" & Right("0" & DatePart("m",varTjDatoUS_use), 2) & "-" & DatePart("yyyy",varTjDatoUS_use)
 
                                             'showweekdayname = weekdayname(weekday(varTjDatoUS_use, 1))
                                             daynamenum = weekday(varTjDatoUS_use,1)
@@ -908,7 +911,7 @@
 
                                                                             <br /><br />
 
-                                                                            <div class="panel-group accordion-panel" id="accordion-paneled">
+                                                                            <div class="panel-group accordion-panel" id="accordion-paneled" style="display:none">
                                                                     
                                                                             <div class="panel panel-default">
                                                                                 <div class="panel-heading">
@@ -1064,7 +1067,7 @@
 
                                                                                 </div>
                                                                                 </div>
-                                                                                </div>
+                                                                                </div> 
                                                                             </div>
                                                                             </div>
                                                                             <%end if  %>
@@ -1522,8 +1525,8 @@
 
                         <%                         
                             'd = "25-05-2017" 
-                            'mondayofsameweek = DateAdd("d", -((Weekday(d) + 7 - 2) Mod 7), d)
-                            'response.Write "mandag:" & mondayofsameweek 
+                            'mondayofweek = DateAdd("d", -((Weekday(d) + 7 - 2) Mod 7), d)
+                            'response.Write "mandag:" & mondaysameweek 
                         %>
 
 
