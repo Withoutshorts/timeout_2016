@@ -1125,6 +1125,9 @@ else '** POST *****
                     
                                 response.redirect "to_2015/home_dashboard_demo.asp"
                     else
+                                if lto = "tia" or lto = "intranet - local" then 
+                                    response.redirect "to_2015/favorit.asp?"
+                                end if
 
 						        select case startside 
 						        case 1 
@@ -1172,6 +1175,7 @@ else '** POST *****
                                 case 8 ' Kunder
 						        response.redirect "to_2015/kunder.asp?visikkekunder=1"
                                 
+
                                 case else '0
 
 
