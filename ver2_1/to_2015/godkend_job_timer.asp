@@ -231,7 +231,7 @@
                    
                         
                       %>
-                      <form action="godkend_job_timer.asp?aar=<%=aar %>&aarslut=<%=aarslut %>&FM_job=<%=jobid %>" method="get" id="godkendform" name="godkendform">
+                      <form action="godkend_job_timer.asp?aar=<%=aar %>&aarslut=<%=aarslut %>&FM_job=<%=jobid %>" method="post" id="godkendform" name="godkendform" onClick="reloadpage();">
                       <input type="hidden" value="<%=Strjobid %>" id="godkendjobid" />
                       <table style="background-color:white;" class="table dataTable table-striped table-bordered table-hover ui-datatable">
 
