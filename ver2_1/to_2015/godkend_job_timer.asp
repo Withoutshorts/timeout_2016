@@ -51,6 +51,7 @@
        response.End
 	end if
 
+    func = request("func")
 
     if len(trim(request("FM_medarb"))) <> 0 then
     usemrn = request("FM_medarb")
@@ -103,6 +104,10 @@
 
     jobidsStr = jobidsStr & ")"
 
+    select case func
+        case "db"
+        response.Redirect "godkend_job_timer.asp?aar="&aar&"&aarslut="&aarslut&"&FM_job="&jobid
+    end select
      
 %>
 
@@ -231,7 +236,7 @@
                    
                         
                       %>
-                      <form action="godkend_job_timer.asp?aar=<%=aar %>&aarslut=<%=aarslut %>&FM_job=<%=jobid %>" method="post" id="godkendform" name="godkendform" onClick="reloadpage();">
+                      <form action="godkend_job_timer.asp?func=db&aar=<%=aar %>&aarslut=<%=aarslut %>&FM_job=<%=jobid %>" method="post" id="godkendform" name="godkendform" onClick="reloadpage();">
                       <input type="hidden" value="<%=Strjobid %>" id="godkendjobid" />
                       <table style="background-color:white;" class="table dataTable table-striped table-bordered table-hover ui-datatable">
 

@@ -90,12 +90,8 @@ $(document).ready(function () {
     $(".godkendknap").click(function () {
 
         var $godkedboxes = $('input[name=godkendbox]:checked');
-        var godkedboxeslng = $('input[name=godkendbox]:checked').length;
-        var antalgodkendt = 0
 
             $godkedboxes.each(function () {
-
-            antalgodkendt = antalgodkendt + 1
 
             var thisid = this.id
             var thisvallngt = thisid.length
@@ -127,10 +123,7 @@ $(document).ready(function () {
 
             //alert(antalgodkendt)
             //alert(godkedboxeslng)
-            if (antalgodkendt == godkedboxeslng)
-            {
-                $("#godkendform").submit();
-            }
+            $("#godkendform").submit();
     });
 
 
