@@ -128,7 +128,7 @@
           <script src="js/godkend_job.js" type="text/javascript"></script>
           <div class="container">
               <div class="portlet">
-                  <h3 class="portlet-title"><u><%=godkend_txt_001 %></u> <span style="color:red;">BETA</span></h3>
+                  <h3 class="portlet-title"><u>Medarbejder - projekttid</u></h3>
                   <div class="portlet-body">
 
                       <div class="well">
@@ -145,7 +145,7 @@
                         <div class="row">
                           
 
-                            <div class="col-lg-6"><%=godkend_txt_002 %>:<br />
+                            <div class="col-lg-6">Projekt/job:<br />
                                 
                                 <%
                                     strSQLjob = "SELECT id, jobnr, jobnavn FROM job order by jobnavn"                                                 
@@ -195,7 +195,7 @@
                                 
                                 
                            
-                            <div class="col-lg-2"><%=godkend_txt_003 %>:<br />
+                            <div class="col-lg-2">Fra: (hele måneder)<br />
                                 <div class='input-group date' id='datepicker_stdato'>
                                 <input type="text" class="form-control input-small" name="aar" value="<%=aar %>" placeholder="dd-mm-yyyy" />
                                 <span class="input-group-addon input-small">
@@ -206,7 +206,7 @@
                             </div>
 
                             
-                            <div class="col-lg-2"><%=godkend_txt_004 %>:<br />
+                            <div class="col-lg-2">Til:<br />
                                 <div class='input-group date' id='datepicker_stdato'>
                                 <input type="text" class="form-control input-small" name="aarslut" value="<%=aarslut %>" placeholder="dd-mm-yyyy" />
                                 <span class="input-group-addon input-small">
@@ -215,7 +215,7 @@
                                     </span>
                                 </div>
                             </div>
-                            <div class="col-lg-1"><br /><button type="submit" class="btn btn-secondary btn-sm pull-right"><b><%=godkend_txt_005 %> >></b></button></div>  
+                            <div class="col-lg-1"><br /><button type="submit" class="btn btn-secondary btn-sm pull-right"><b>Søg >></b></button></div>  
                         </div>
                                              
                         </form>
@@ -242,7 +242,7 @@
 
                           <thead>
                               <tr>
-                                    <th><%=godkend_txt_006 %></th>
+                                    <th>Medarbejder</th>
 
                                   <%
 
@@ -284,8 +284,8 @@
                                       next
                                   %>
 
-                                  <th><%=godkend_txt_007 %></th>
-                                  <th style="width:75px;"><%=godkend_txt_008 %></th>
+                                  <th>Total pr. medarbejder</th>
+                                  <th style="width:75px;">Godkendt</th>
                                   <th style="text-align:center"><input type="checkbox" class="godkendalle" /></th>
                               </tr>
 
@@ -562,7 +562,7 @@
                                       <%=formatnumber(timertotal, 2) %>
                                   </th>
                                   <th></th>
-                                  <th style="text-align:center; width:20px;"><a class="btn btn-success btn-sm godkendknap"><%=godkend_txt_009 %></a><!--<button type="submit" class="btn btn-success btn-sm godkendknap">Godkend</button>--></th>
+                                  <th style="text-align:center; width:20px;"><a class="btn btn-success btn-sm godkendknap">Godkend</a><!--<button type="submit" class="btn btn-success btn-sm godkendknap">Godkend</button>--></th>
                               </tr>
 
                           </tfoot>

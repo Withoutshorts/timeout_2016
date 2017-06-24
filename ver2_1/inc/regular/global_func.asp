@@ -13,6 +13,8 @@
 <!--#include file="../xml/funktioner_sprog_inc.asp"-->
 <!--#include file="../xml/medarb_xml_inc.asp"-->
 <!--#include file="../xml/medarbtyper_xml_inc.asp"-->
+<!--#include file="../xml/favorit_xml_inc.asp"-->
+<!--#include file="../xml/godkend_xml_inc.asp"-->
 
 
 <!--#include file="cls_aktiviteter.asp"-->
