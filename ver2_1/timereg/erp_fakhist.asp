@@ -1305,17 +1305,21 @@ if len(session("user")) = 0 then
             select case lto
             case "nt", "xintranet - local"
 
-             if cint(oRec3("alert")) = 1 AND len(trim(oRec3("job_internbesk"))) <> 0 then
+             'if Null(oRec3("alert")) <> true then
+
+                     if cint(oRec3("alert")) = 1 AND len(trim(oRec3("job_internbesk"))) <> 0 then
                  
                
                    
-                     %>
-                    <span id="a_showalert_<%=f %>" class="a_showalert" style="color:red;">&nbsp;<b>!</b>&nbsp;</span>
-                    <br /><span id="sp_showalert_<%=f %>" class="sp_showalert" style="position:relative; visibility:hidden; display:none; background-color:yellow; padding:2px;"><%=left(oRec3("job_internbesk"), 200)%></span>
-                    <%
+                             %>
+                            <span id="a_showalert_<%=f %>" class="a_showalert" style="color:red;">&nbsp;<b>!</b>&nbsp;</span>
+                            <br /><span id="sp_showalert_<%=f %>" class="sp_showalert" style="position:relative; visibility:hidden; display:none; background-color:yellow; padding:2px;"><%=left(oRec3("job_internbesk"), 200)%></span>
+                            <%
                     
                     
-                 end if
+                         end if
+
+              '  end if
            
            end select
 

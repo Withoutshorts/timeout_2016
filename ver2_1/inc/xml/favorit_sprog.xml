@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<sprog>
+
+  <!--- Dansk -->
+  <dk>
+
+    <txt_1 >Favoritliste</txt_1>
+    <txt_2 >Kunde/Job</txt_2>
+    <txt_3 >Aktivitet</txt_3>
+    <txt_4 >Gå</txt_4>
+    <txt_5 >Uge</txt_5>
+    <txt_6 >Ma</txt_6>
+    <txt_7 >Ti</txt_7>
+    <txt_8 >On</txt_8>
+    <txt_9 >To</txt_9>
+    <txt_10 >Fr</txt_10>
+    <txt_11 >Lø</txt_11>
+    <txt_12 >Sø</txt_12>
+    <txt_13 >Total</txt_13>
+    <txt_14 >se ugeseddel</txt_14>
+    <txt_15 >Søg kunde/job</txt_15>
+    <txt_16 >Søg aktivitet</txt_16>
+    <txt_17 >Tilføj</txt_17>
+    <txt_18 >Opdatér</txt_18>
+    <txt_19 >Timer</txt_19>
+    <txt_20 >Norm</txt_20>
+    <txt_21 >Balance</txt_21>
+
+    <txt_22 >Start dato</txt_22>
+    <txt_23 >Slut dato</txt_23>
+    <txt_24 >Jobansvarlig</txt_24>
+    <txt_25 >Kundeansvarlig</txt_25>
+    <txt_26 >Forkalkuleret</txt_26>
+    <txt_27 >Realiseret</txt_27>
+    <txt_28 >Jobbeskrivelse</txt_28>
+
+    <txt_29 >Forkalk.</txt_29>
+    <txt_30 >Real.</txt_30>
+    <txt_31 >Egne.</txt_31>
+    <txt_32 >Kommentar</txt_32>
+
+  </dk>
+
+
+  <!--- Norsk -->
+  <no>
+
+    <txt_1 >Favorits</txt_1>
+    <txt_2 >Customer/Job</txt_2>
+    <txt_3 >Task</txt_3>
+    <txt_4 >Go</txt_4>
+    <txt_5 >Week</txt_5>
+    <txt_6 >Mo</txt_6>
+    <txt_7 >Tu</txt_7>
+    <txt_8 >We</txt_8>
+    <txt_9 >Th</txt_9>
+    <txt_10 >Fr</txt_10>
+    <txt_11 >Sa</txt_11>
+    <txt_12 >Su</txt_12>
+    <txt_13 >Total</txt_13>
+    <txt_14 >see weekly note</txt_14>
+    <txt_15 >Search customer/job</txt_15>
+    <txt_16 >Search task</txt_16>
+    <txt_17 >Add</txt_17>
+    <txt_18 >Update</txt_18>
+    <txt_19 >Hours</txt_19>
+    <txt_20 >Rated</txt_20>
+    <txt_21 >Balance</txt_21>
+
+    <txt_22 >Start date</txt_22>
+    <txt_23 >End date</txt_23>
+    <txt_24 >Job responsible</txt_24>
+    <txt_25 >Account Manager</txt_25>
+    <txt_26 >Estimated</txt_26>
+    <txt_27 >Realized</txt_27>
+    <txt_28 >Job description</txt_28>
+
+    <txt_29 >Estimated.</txt_29>
+    <txt_30 >Real.</txt_30>
+    <txt_31 >Own</txt_31>
+    <txt_32 >Comment</txt_32>
+
+
+  </no>
+
+
+  <!--- Svensk -->
+  <so>
+
+    <txt_1 >Favorits</txt_1>
+    <txt_2 >Customer/Job</txt_2>
+    <txt_3 >Task</txt_3>
+    <txt_4 >Go</txt_4>
+    <txt_5 >Week</txt_5>
+    <txt_6 >Mo</txt_6>
+    <txt_7 >Tu</txt_7>
+    <txt_8 >We</txt_8>
+    <txt_9 >Th</txt_9>
+    <txt_10 >Fr</txt_10>
+    <txt_11 >Sa</txt_11>
+    <txt_12 >Su</txt_12>
+    <txt_13 >Total</txt_13>
+    <txt_14 >see weekly note</txt_14>
+    <txt_15 >Search customer/job</txt_15>
+    <txt_16 >Search task</txt_16>
+    <txt_17 >Add</txt_17>
+    <txt_18 >Update</txt_18>
+    <txt_19 >Hours</txt_19>
+    <txt_20 >Rated</txt_20>
+    <txt_21 >Balance</txt_21>
+
+    <txt_22 >Start date</txt_22>
+    <txt_23 >End date</txt_23>
+    <txt_24 >Job responsible</txt_24>
+    <txt_25 >Account Manager</txt_25>
+    <txt_26 >Estimated</txt_26>
+    <txt_27 >Realized</txt_27>
+    <txt_28 >Job description</txt_28>
+
+    <txt_29 >Estimated.</txt_29>
+    <txt_30 >Real.</txt_30>
+    <txt_31 >Own</txt_31>
+    <txt_32 >Comment</txt_32>
+
+  </so>
+
+
+  <!--- Tysk -->
+  <de>
+
+    <txt_1 >Favorits</txt_1>
+    <txt_2 >Customer/Job</txt_2>
+    <txt_3 >Task</txt_3>
+    <txt_4 >Go</txt_4>
+    <txt_5 >Week</txt_5>
+    <txt_6 >Mo</txt_6>
+    <txt_7 >Tu</txt_7>
+    <txt_8 >We</txt_8>
+    <txt_9 >Th</txt_9>
+    <txt_10 >Fr</txt_10>
+    <txt_11 >Sa</txt_11>
+    <txt_12 >Su</txt_12>
+    <txt_13 >Total</txt_13>
+    <txt_14 >see weekly note</txt_14>
+    <txt_15 >Search customer/job</txt_15>
+    <txt_16 >Search task</txt_16>
+    <txt_17 >Add</txt_17>
+    <txt_18 >Update</txt_18>
+    <txt_19 >Hours</txt_19>
+    <txt_20 >Rated</txt_20>
+    <txt_21 >Balance</txt_21>
+
+    <txt_22 >Start date</txt_22>
+    <txt_23 >End date</txt_23>
+    <txt_24 >Job responsible</txt_24>
+    <txt_25 >Account Manager</txt_25>
+    <txt_26 >Estimated</txt_26>
+    <txt_27 >Realized</txt_27>
+    <txt_28 >Job description</txt_28>
+
+    <txt_29 >Estimated.</txt_29>
+    <txt_30 >Real.</txt_30>
+    <txt_31 >Own</txt_31>
+    <txt_32 >Comment</txt_32>
+
+  </de>
+
+
+  <!--- Fransk -->
+  <fr>
+
+    <txt_1 >Favorits</txt_1>
+    <txt_2 >Customer/Job</txt_2>
+    <txt_3 >Task</txt_3>
+    <txt_4 >Go</txt_4>
+    <txt_5 >Week</txt_5>
+    <txt_6 >Mo</txt_6>
+    <txt_7 >Tu</txt_7>
+    <txt_8 >We</txt_8>
+    <txt_9 >Th</txt_9>
+    <txt_10 >Fr</txt_10>
+    <txt_11 >Sa</txt_11>
+    <txt_12 >Su</txt_12>
+    <txt_13 >Total</txt_13>
+    <txt_14 >see weekly note</txt_14>
+    <txt_15 >Search customer/job</txt_15>
+    <txt_16 >Search task</txt_16>
+    <txt_17 >Add</txt_17>
+    <txt_18 >Update</txt_18>
+    <txt_19 >Hours</txt_19>
+    <txt_20 >Rated</txt_20>
+    <txt_21 >Balance</txt_21>
+
+    <txt_22 >Start date</txt_22>
+    <txt_23 >End date</txt_23>
+    <txt_24 >Job responsible</txt_24>
+    <txt_25 >Account Manager</txt_25>
+    <txt_26 >Estimated</txt_26>
+    <txt_27 >Realized</txt_27>
+    <txt_28 >Job description</txt_28>
+
+    <txt_29 >Estimated.</txt_29>
+    <txt_30 >Real.</txt_30>
+    <txt_31 >Own</txt_31>
+    <txt_32 >Comment</txt_32>
+
+  </fr>
+
+
+
+  <!-- Engelsk -->
+  <uk>
+
+    <txt_1 >Favorits</txt_1>
+    <txt_2 >Customer/Job</txt_2>
+    <txt_3 >Task</txt_3>
+    <txt_4 >Go</txt_4>
+    <txt_5 >Week</txt_5>
+    <txt_6 >Mo</txt_6>
+    <txt_7 >Tu</txt_7>
+    <txt_8 >We</txt_8>
+    <txt_9 >Th</txt_9>
+    <txt_10 >Fr</txt_10>
+    <txt_11 >Sa</txt_11>
+    <txt_12 >Su</txt_12>
+    <txt_13 >Total</txt_13>
+    <txt_14 >see weekly note</txt_14>
+    <txt_15 >Search customer/job</txt_15>
+    <txt_16 >Search task</txt_16>
+    <txt_17 >Add</txt_17>
+    <txt_18 >Update</txt_18>
+    <txt_19 >Hours</txt_19>
+    <txt_20 >Rated</txt_20>
+    <txt_21 >Balance</txt_21>
+
+    <txt_22 >Start date</txt_22>
+    <txt_23 >End date</txt_23>
+    <txt_24 >Job responsible</txt_24>
+    <txt_25 >Account Manager</txt_25>
+    <txt_26 >Estimated</txt_26>
+    <txt_27 >Realized</txt_27>
+    <txt_28 >Job description</txt_28>
+
+    <txt_29 >Estimated.</txt_29>
+    <txt_30 >Real.</txt_30>
+    <txt_31 >Own</txt_31>
+    <txt_32 >Comment</txt_32>
+
+  </uk>
+
+
+  <!--- Spansk -->
+  <es>
+
+    <txt_1 >Favorits</txt_1>
+    <txt_2 >Customer/Job</txt_2>
+    <txt_3 >Task</txt_3>
+    <txt_4 >Go</txt_4>
+    <txt_5 >Week</txt_5>
+    <txt_6 >Mo</txt_6>
+    <txt_7 >Tu</txt_7>
+    <txt_8 >We</txt_8>
+    <txt_9 >Th</txt_9>
+    <txt_10 >Fr</txt_10>
+    <txt_11 >Sa</txt_11>
+    <txt_12 >Su</txt_12>
+    <txt_13 >Total</txt_13>
+    <txt_14 >see weekly note</txt_14>
+    <txt_15 >Search customer/job</txt_15>
+    <txt_16 >Search task</txt_16>
+    <txt_17 >Add</txt_17>
+    <txt_18 >Update</txt_18>
+    <txt_19 >Hours</txt_19>
+    <txt_20 >Rated</txt_20>
+    <txt_21 >Balance</txt_21>
+
+    <txt_22 >Start date</txt_22>
+    <txt_23 >End date</txt_23>
+    <txt_24 >Job responsible</txt_24>
+    <txt_25 >Account Manager</txt_25>
+    <txt_26 >Estimated</txt_26>
+    <txt_27 >Realized</txt_27>
+    <txt_28 >Job description</txt_28>
+
+    <txt_29 >Estimated.</txt_29>
+    <txt_30 >Real.</txt_30>
+    <txt_31 >Own</txt_31>
+    <txt_32 >Comment</txt_32>
+
+  </es>
+
+
+</sprog>

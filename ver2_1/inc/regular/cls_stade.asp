@@ -275,7 +275,7 @@ end if
     <br />(basis valuta)
 </td>
 <td valign=bottom>WIP<br /><span style="font-size:9px;">Job: Afslutt. %<br />Tilb.: Sandsy. %</span></td>
-<td valign=bottom align=center>Faktureret <b><%=basisValISO%></b> <br />(basis valuta)</td>
+<td valign=bottom align=center>Faktureret <b><%=basisValISO%></b> <br />(i faktura valuta)</td>
 <td valign=bottom align=center>Sikret Oms. <b><%=basisValISO%></b><br />(Bruttooms. - Fakt.)</td>
 <td valign=bottom align=right>Forv. fakturering <b><br />NOK, EUR etc.</b><br />(I job valuta)<br /><%=left(monthname(datepart("m", mth_1, 2,2)), 3) &" "& datepart("yyyy", mth_1, 2,2) %></td>
 
@@ -349,6 +349,8 @@ while not oRec.EOF
 
 'end if
 
+jo_valuta = oRec("jo_valuta")
+
 if cint(oRec("stade_tim_proc")) = 0 then 'rest estimat angivet i timer
 afsl_tim_proc = "t."
 else	
@@ -393,7 +395,7 @@ end if
         end select
 
     '*** INVOICED BASSIS CURRENCY ****
-    strSQlfaktot = "SELECT SUM(if (f.faktype = 0, f.beloeb * (f.kurs / 100), f.beloeb * -1 * (f.kurs / 100)) ) AS faktureret  "_
+    strSQlfaktot = "SELECT SUM(if (f.faktype = 0, f.beloeb * (f.kurs / 100), f.beloeb * -1 * (f.kurs / 100)) ) AS faktureret, SUM(if (f.faktype = 0, f.beloeb, f.beloeb * -1) ) AS faktureret_invval, f.valuta  "_
     & "FROM fakturaer AS f WHERE (f.jobid = "& oRec("jid") &" AND f.shadowcopy <> 1 AND f.medregnikkeioms <> 1 AND f.medregnikkeioms <> 2) "
 
     oRec3.open strSQlfaktot, oConn, 3
@@ -401,13 +403,21 @@ end if
 
     if isNull(oRec3("faktureret")) <> true then
         erfaktureretBel = formatnumber(oRec3("faktureret"), 2) 
+        faktureret_invval = formatnumber(oRec3("faktureret_invval"), 2)
+        fakValuta = oRec3("valuta") 
       else
         erfaktureretBel = 0
+        faktureret_invval = 0
+        fakValuta = 1
     end if 
-        
+
+   
     end if
     oRec3.close
-        
+   
+     call valutakode_fn(fakValuta)
+    fakValutaKode = valutaKode_CCC_f8 
+         
     sikretOms = (btomsBasisCurSikret - erfaktureretBel)
     
 
@@ -523,7 +533,12 @@ end if
 
 
 
-<td style="border-bottom:1px #CCCCCC solid; white-space:nowrap; padding-top:10px;" valign="top" align=right><%=erfaktureretBel%></td> 
+<td style="border-bottom:1px #CCCCCC solid; white-space:nowrap; padding-top:10px;" valign="top" align=right><%=erfaktureretBel%>
+    <%if cint(fakValuta) <> cint(jo_valuta) AND faktureret_invval <> 0 then  %>
+    <br /><span style="font-size:10px; color:#999999;"><%=faktureret_invval & " "& fakValutaKode %></span>
+    <%end if %>
+
+</td> 
 <td style="border-bottom:1px #CCCCCC solid; white-space:nowrap; padding-top:10px;" valign="top" align=right><%=formatnumber(sikretOms, 2)%></td>
 <%
 
@@ -594,7 +609,7 @@ end select
 
 
 stexptxt = stexptxt & rtimproc &";"
-stexptxt = stexptxt & formatnumber(erfaktureretBel, 2) &";" & formatnumber(sikretOms, 2) & ";"
+stexptxt = stexptxt & formatnumber(erfaktureretBel, 2) &";"&formatnumber(faktureret_invval, 2) &";"& formatnumber(sikretOms, 2) & ";"
 
 call forvfak(media, jid, yUse, mUse)
 
@@ -1068,7 +1083,7 @@ sub ekportogprint_fn()
     
     if media = "export" then 
 
-    strEkspHeader = "Kontakt;Kontakt id;Job;Job.nr;Jobansvarlig;Status;Brutto.Oms.(Budget - job valuta);Brutto.Oms. ("& basisValISO &");Sandsynlighed %;Restestimat;t./%;Faktureret;Sikret Oms.;"_
+    strEkspHeader = "Kontakt;Kontakt id;Job;Job.nr;Jobansvarlig;Status;Brutto.Oms.(Budget - job valuta);Brutto.Oms. ("& basisValISO &");Sandsynlighed %;Restestimat;t./%;Faktureret ("& basisValISO &");Faktureret (i faktura valuta);Sikret Oms.;"_
     &"Forv. fak. "& left(monthname(datepart("m", mth_1, 2,2)), 3) &" "& datepart("yyyy", mth_1, 2,2) &";"_
     &"Forv. fak. "& left(monthname(datepart("m", mth_2, 2,2)), 3) &" "& datepart("yyyy", mth_2, 2,2) &";"_
     &"Forv. fak. "& left(monthname(datepart("m", mth_3, 2,2)), 3) &" "& datepart("yyyy", mth_3, 2,2) &";"_

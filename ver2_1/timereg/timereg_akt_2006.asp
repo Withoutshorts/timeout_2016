@@ -6003,6 +6003,10 @@
 	    else
 
         select case rdir
+        case "favorit"
+        usemrn = request("usemrn")
+        varTjDatoUS_man = request("varTjDatoUS_man")              
+        Response.Redirect "../to_2015/favorit.asp?varTjDatoUS_man="&varTjDatoUS_man&"&FM_medid="&usemrn
         case "timetag_web"
         Response.Redirect "../timetag_web/timetag_web.asp?indlast=1"
         case "ugeseddel_2011"
@@ -6216,9 +6220,13 @@
 	        <td>
 
             <%select case rdir
-             case "ugeseddel_2011"
+            case "ugeseddel"
             %>
             <a href="../to_2015/ugeseddel_2011.asp?usemrn=<%=usemrn%>&varTjDatoUS_man=<%=varTjDatoUS_man%>"><%=left(tsa_txt_006, 7) %> >></a>
+            <% 
+            case "favorit"
+            %>
+            <a href="../to_2015/favorit.asp?FM_medid=<%=usemrn%>&varTjDatoUS_man=<%=varTjDatoUS_man%>"><%=left(tsa_txt_006, 7) %> >></a>
             <% 
             case "logindhist"
             %>

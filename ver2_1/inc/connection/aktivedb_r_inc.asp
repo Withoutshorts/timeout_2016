@@ -89,6 +89,8 @@ function aktivedb(x)
         strConnect_aktiveDB = "timeout_assurator64"
         case 169
         strConnect_aktiveDB = "timeout_tia64"
+        case 170
+        strConnect_aktiveDB = "timeout_welcom64"
          
 
 	case else

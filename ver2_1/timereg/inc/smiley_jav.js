@@ -49,8 +49,16 @@ $(document).ready(function () {
 
     $("#s1_k").click(function () {
 
-       
+       //alert("HER")
+
+        
+        
+        $('html, body').animate({
+            scrollTop: $("#s1_k").offset().top-100
+        }, 500);
+
         smileyshowhide()
+
     });
 
 

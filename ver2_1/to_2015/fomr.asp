@@ -646,15 +646,15 @@ if len(session("user")) = 0 then
 	    '*** For at spare (trimme) på SQL hvis der vælges alle job alle kunder og vis kun for jobanssvarlige ikke er slået til ****
 		'*** Og der ikke er søgt på jobnavn ***
 		'if cint(kundeid) = 0 AND cint(jobid) = 0 AND cint(jobans) = 0 AND cint(kundeans) = 0 AND len(trim(jobSogVal)) = 0  then 
-		if cint(kundeid) = 0 AND cint(jobid) = 0 AND cint(jobans) = 0 AND cint(jobans2) = 0 AND cint(jobans3) = 0 _
-				 AND cint(kundeans) = 0 AND len(trim(jobSogVal)) = 0 AND cint(aftaleid) = 0 AND cint(segment) = 0 then 
+		'if cint(kundeid) = 0 AND cint(jobid) = 0 AND cint(jobans) = 0 AND cint(jobans2) = 0 AND cint(jobans3) = 0 _
+		'		 AND cint(kundeans) = 0 AND len(trim(jobSogVal)) = 0 AND cint(aftaleid) = 0 AND cint(segment) = 0 then 
 				
 				
-			jidSQLkri =  " OR id <> 0 "
-			jobnrSQLkri = " OR tjobnr <> '0' "
-			'seridFakSQLkri = " OR aftaleid <> 0 
+		'	jidSQLkri =  " OR id <> 0 "
+		'	jobnrSQLkri = " OR tjobnr <> '0' "
+		'	'seridFakSQLkri = " OR aftaleid <> 0 
 			
-		end if
+		'end if
 	
 	
 		'**************** Trimmer SQL states ************************

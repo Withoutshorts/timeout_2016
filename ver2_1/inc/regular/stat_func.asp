@@ -479,6 +479,8 @@ end function
         jobstKri = jobstKri & ")"
 
 
+        'response.write "jobstKri: "& jobstKri
+
 	    if cint(aftaleid) <> 0 then
 	        if cint(aftaleid) <> -1 then
 	        strJobAftSQL = " AND serviceaft = " & aftaleid
@@ -517,7 +519,7 @@ end function
 		
 		strSQL = "SELECT jobnavn, jobnr, jobstatus, id, k.kkundenavn, k.kkundenr FROM job j "_
 		&" LEFT JOIN kunder k ON (k.kid = j.jobknr) "_
-		&" WHERE "& strKnrSQLkri &" "& kundeAnsSQLKri &" "& jobstKri &"  "& strJobAftSQL &" ORDER BY k.kkundenavn, j.jobnavn"
+		&" WHERE "& strKnrSQLkri &" "& kundeAnsSQLKri &" "& jobstKri &" "& strJobAftSQL &" ORDER BY k.kkundenavn, j.jobnavn"
 		
         'if session("mid") = 1 then
         'Response.write strSQL

@@ -377,7 +377,7 @@
                                     oRec3.open strSQLm, oConn, 3
                                     while not oRec3.EOF 
 
-                                    if (cint(usemrn) = cint(oRec3("mid")) AND cint(multipleMids) = 0) OR (cint(multipleMids) = 1 AND instr(strSQLmids, "OR mid = "& oRec3("mid") &"") <> 0)  then
+                                    if (cdbl(usemrn) = cdbl(oRec3("mid")) AND cint(multipleMids) = 0) OR (cint(multipleMids) = 1 AND instr(strSQLmids, "OR mid = "& oRec3("mid") &"") <> 0)  then
                                     mSel = "SELECTED"
                                     meFound = 1
                                     else

@@ -41,7 +41,7 @@ public partial class national_holidays : System.Web.UI.Page
     /// </summary>
     private void BindNationalHolidays()
     {
-        SqlConnection sqlConnection = new MySqlConnection();
+        MySqlConnection sqlConnection = new MySqlConnection();
         MySqlCommand sqlCommand;
         string holidatHTML = string.Empty;
         
@@ -49,7 +49,7 @@ public partial class national_holidays : System.Web.UI.Page
         {
             holidatHTML = "<table width='100%' cellpadding='0' cellspacing='0' id='tbl_Holidays'>";
             holidatHTML += "<tr>";
-            holidatHTML += "<th class='duration'>Duration</th><th class='name'>Name</th>";
+            holidatHTML += "<th class='duration'>Country</th><th class='duration'>Duration</th><th class='name'>Name</th>";
             int year = DateTime.Now.Year;
             for (int i = 1; i <= 10; i++)
             {
@@ -88,6 +88,7 @@ public partial class national_holidays : System.Web.UI.Page
                     drHoliday = dsHoliday.Tables[0].Rows[i];
 
                     holidatHTML += "<tr id='tr_0" + count + "'>";
+                    holidatHTML += "<td class='duration'><select><option>DK</option></select></td>";
                     holidatHTML += "<td class='duration'><select id='ddl_Duration_0" + count + "'>";
 
                     if(Convert.ToInt32(drHoliday["nh_duration"]) == 1)

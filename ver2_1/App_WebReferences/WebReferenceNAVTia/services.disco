@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<discovery xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.xmlsoap.org/disco/">
+  <contractRef ref="http://109.70.55.147:17047/DynamicsNAV70/WS/TestCompany/SystemService" xmlns="http://schemas.xmlsoap.org/disco/scl/" />
+  <contractRef ref="http://109.70.55.147:17047/DynamicsNAV70/WS/TestCompany/Page/TestWS" xmlns="http://schemas.xmlsoap.org/disco/scl/" />
+</discovery>

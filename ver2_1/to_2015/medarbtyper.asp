@@ -692,7 +692,7 @@ case "dbopr", "dbred"
                                     oRec5.close 
                             else
                                 mgruppe = request("FM_gruppe")
-                                if cint(mgruppe) = -1 OR cint(mgruppe) = 0 then
+                                if cint(mgruppe) = -1 then 'OR cint(mgruppe) = 0
                                 mgruppe = 1
                                 end if
 							end if
@@ -1622,7 +1622,8 @@ case "dbopr", "dbred"
                                 <div class="col-lg-1">&nbsp</div>
                                 <div class="col-lg-2"><%=medarbtyp_txt_072 %>:</div>
                                 <div class="col-lg-3">
-                                    <select name="FM_gruppe" id="FM_gruppe" class="form-control input-small">              
+                                    <select name="FM_gruppe" id="FM_gruppe" class="form-control input-small">         
+                                         <option value="0">Ingen</option>     
                                        <%
                                         mttypSELid = 1
                                         strSQLmt = "SELECT id, navn FROM medarbtyper_grp WHERE id <> 0 ORDER BY navn"

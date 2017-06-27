@@ -277,6 +277,23 @@ case "gd"
     helpmenu_2014 = 1
     dsksOnOff = 0
 
+case "tia", "xintranet - local"
+    tregmenu_2014 = 1
+    projmenu_2014 = 1
+    marbmenu_2014 = 1
+    kundmenu_2014 = 1
+
+    if level = 7 then
+    statmenu_2014 = 0
+    else
+    statmenu_2014 = 1
+    end if
+    
+    if level = 1 then
+    admimenu_2014 = 1
+    end if
+
+
 case else
     tregmenu_2014 = 1
 
@@ -504,7 +521,9 @@ end select
                        
                         %>   
                         <li><a href="<%=toSubVerPath14 %><%=lnkTimeregside %>"><%=tsa_txt_116 &" "& tsa_txt_438 %></a></li><%
-                       
+                 
+                case "tia", "xintranet - local"
+                                  
                  case else
                     %>   <li><a href="<%=toSubVerPath14 %><%=lnkTimeregside %>"><%=tsa_txt_116 %></a></li><%
                  end select
@@ -514,7 +533,7 @@ end select
                  %>  <li><a href="<%=toSubVerPath15 %><%=lnkUgeseddel%>"><%=tsa_txt_337 %></a></li>
                       
                 <% select case lto
-                 case "outz", "intranet - local", "hidalgo"
+                 case "outz", "intranet - local", "hidalgo", "tia", "dencker", "eniga"
                     %>
                     <li><a href="<%=toSubVerPath15 %>favorit.asp?FM_medid=<%=usemrn %>&varTjDatoUS_man=<%=varTjDatoUS_man %>">Favorit</a></li>
                  <%end select %>
@@ -529,7 +548,7 @@ end select
                 
                  <% select case lto
                 
-                 case "tec", "esn", "epi", "epi_uk", "epi_no", "epi_as"
+                 case "tec", "esn", "epi", "epi_uk", "epi_no", "epi_as", "tia", "xintranet - local"
                  case else
                     
                      if level <= 7 then %>
@@ -550,19 +569,23 @@ end select
                  <li><a href="<%=toSubVerPath14 %><%=lnkAfstem %>"><%=tsa_txt_389 %></a></li>
 
                  <%select case lto
-                 case "oko", "epi", "epi2017", "wilke", "intranet - local", "outz", "dencker", "essens", "synergi1", "jttek", "hidalgo", "demo", "bf", "plan", "acc", "assurator", "glad"
+                 case "oko", "epi", "epi2017", "wilke", "outz", "dencker", "essens", "synergi1", "jttek", "hidalgo", "demo", "bf", "plan", "acc", "assurator", "glad", "tia", "eniga"
                      
-                    if level = 1 OR (lto = "wilke") OR (lto = "outz") OR (lto = "dencker") OR (lto = "hidalgo") OR (lto = "acc") OR (lto = "epi2017") OR (lto = "assurator") OR (lto = "glad") then%>
+                    if level = 1 OR (lto = "wilke") OR (lto = "outz") OR (lto = "dencker") OR (lto = "hidalgo") OR (lto = "acc") OR (lto = "epi2017") OR (lto = "assurator") OR (lto = "glad") or (lto = "tia") OR (lto = "eniga") then%>
                     <li><a href="<%=toSubVerPath15 %>medarbdashboard.asp"><%=tsa_txt_529 %></a></li>
                     <%end if %>
                  <%end select %>
                 
 
              
-                   
-
-                   <%if level <= 7 then %>
-
+                  
+                
+                   <%if level <= 7 then %> 
+                    
+                       <%if lto = "tia" AND level = 7 then  
+                       
+                         else    
+                       %>
 
                        <% 
                        '*** OVERSKRIFT projektleder funktioner    
@@ -597,6 +620,7 @@ end select
 
                     <%end select %>
 
+                   <%end if %>
 	               
                   <%end if %>
 
@@ -643,6 +667,8 @@ end select
                                   <%end if
 
                          case "nonstop"
+
+                         case "tia", "xintranet - local"
 
                          case else
                     
@@ -810,11 +836,16 @@ end select
                   <%end if %>
               
 
-                  
+                  <%select case lto 
+                    case "tia", "xintranet - local"
+                      
+                    case else 
+                  %>
                   <%if level <= 2 OR level = 6 then %>
                   <li><a href="<%=toSubVerPath14 %>job_print.asp?menu=job&kid=0&id=0"><%=tsa_txt_450 %></a></li>
                   <li><a href="<%=toSubVerPath14 %>filer.asp"><%=tsa_txt_451 %></a></li>
                   <%end if %>
+                  <%end select %>
 
                     <%if level <= 2 OR level = 6 then %>
                   <h3 class="menuh3"><%=tsa_txt_439 %></h3>
@@ -836,13 +867,21 @@ end select
                       </a></li>
                   
 
-                 
+                   <%select case lto 
+                     case "tia", "intranet - local", "outz", "oliver", "hidalgo", "demo"
+                       %>
+                      <li><a href="<%=toSubVerPath15%>godkend_job_timer.asp">Godkend job/projekt timer</a></li>
+                       <%
+                     case else   
+                    %> 
                    <li><a href="<%=toSubVerPath14 %>webblik_joblisten21.asp"><%=tsa_txt_454 %></a></li>
                    <li><a href="<%=toSubVerPath14 %>webblik_milepale.asp"><%=tsa_txt_455 %></a></li>
 
                   <%if (level = 1 OR session("mid") = 35) then 'Kim B epinion %>
                   <li><a href="<%=toSubVerPath14 %>pipeline.asp?menu=webblik&FM_kunde=0&FM_progrupper=10"><%=tsa_txt_456 %></a></li>
                   <%end if %>
+
+                  <%end select %>
 
                   <%if lto = "outz" OR lto = "intranet - local" then %>
                     <li><a href="<%=toSubVerPath14 %>jbpla_w.asp">Planlægningskalender (TEST)</a></li>

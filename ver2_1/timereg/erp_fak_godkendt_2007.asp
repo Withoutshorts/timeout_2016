@@ -2169,29 +2169,52 @@
 		
 		<tr>
 		<%
-		 if intStatus = 0 then
-	    %>
-	    <td width=120 valign=top style="padding-top:6px;">
-	    <a href="Javascript:popUp('godkendfaktura.asp?fakid=<%=id %>','400','250','50','50');" target="_self"  class=vmenu>
-        <%=erp_txt_229 %></a>
-	   </td>
-	    <td valign=top width=170>
-	     <a href="Javascript:popUp('godkendfaktura.asp?fakid=<%=id %>','400','250','50','50');" target="_self"  class=vmenu>
-              <img src="../ill/godkend_pil.gif" border="0" />  </a>  </td>
-          </tr>
-          <tr><td colspan=2 valign=top class=lille>
+		if intStatus = 0 then '** VIS godkend
+
+              select case lto
+                 case "epi2017"
+                    if cint(level) = 1 then
+                    approveInvoiceOk = 1
+                    else
+                    approveInvoiceOk = 0
+                    end if
+
+                 case else
+                    approveInvoiceOk = 1
+                 end select  
+                    
+                if cint(approveInvoiceOk) = 1 then
+
+
+                         %>
+	                    <td width=120 valign=top style="padding-top:6px;">
+	                    <a href="Javascript:popUp('godkendfaktura.asp?fakid=<%=id %>','400','250','50','50');" target="_self"  class=vmenu>
+                        <%=erp_txt_229 %></a>
+	                   </td>
+
+	                    <td valign=top width=170>
+	                     <a href="Javascript:popUp('godkendfaktura.asp?fakid=<%=id %>','400','250','50','50');" target="_self"  class=vmenu>
+                              <img src="../ill/godkend_pil.gif" border="0" />  </a>  </td>
+                          </tr>
+                          <tr><td colspan=2 valign=top class=lille>
         
-        <%select case lto
-	    case "execon", "immenso", "intranet - local" 
-	    Response.Write "Afsender mail med PDF af faktura til bogholderiet."
-	    case else
-	    Response.Write "&nbsp;"
-	    end select%>
-              
-              
-	    </td>
-	    
-	    <% 
+                        <%select case lto
+	                    case "execon", "immenso", "intranet - local" 
+	                    Response.Write "Afsender mail med PDF af faktura til bogholderiet."
+	                    case else
+	                    Response.Write "&nbsp;"
+                        end select
+                        %>
+                                </td>
+                              <%
+
+                    else%>
+                         <td width=120 valign=top colspan=2 style="padding-top:6px;"><br />Only users with Admin rights can approve invoices<br />&nbsp;</td>
+                    <%end if
+                   
+
+
+
 	    else
 	    %>
 	    

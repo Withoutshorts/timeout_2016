@@ -4311,6 +4311,8 @@ if len(session("user")) = 0 then
         'klTjk = ""
         'gkTjk = "CHECKED"
         'else
+
+        '** Hvis åben for Rediger, vil status altid være kladde
         klTjk = "CHECKED"
         gkTjk = ""
         'end if %>
@@ -4318,7 +4320,27 @@ if len(session("user")) = 0 then
 		<tr><td valign=top height=20 style="padding:40px 5px 2px 5px;">
 		<b><%=erp_txt_093 %></b></td><td valign=top style="padding:40px 5px 2px 5px;">
 				<input type="radio" name="FM_betalt" value="0" <%=klTjk %>><%=erp_txt_094 %>&nbsp;&nbsp;&nbsp;
-				<input type="radio" name="FM_betalt" value="1" <%=gkTjk %>><span style="color:yellowgreen;"><b><%=erp_txt_095 %></b></span>
+
+                <%select case lto
+                 case "epi2017"
+                    if cint(level) = 1 then
+                    approveInvoiceOk = 1
+                    else
+                    approveInvoiceOk = 0
+                    end if
+
+                 case else
+                    approveInvoiceOk = 1
+                 end select  
+                    
+                if cint(approveInvoiceOk) = 0 then
+                    approveInvoiceOkDis = "DISABLED"
+                else
+                    approveInvoiceOkDis = ""
+                end if
+                    %>
+
+				<input type="radio" name="FM_betalt" value="1" <%=gkTjk %> <%=approveInvoiceOkDis %> /><span style="color:yellowgreen;"><b><%=erp_txt_095 %></b></span>
                 
 
 		

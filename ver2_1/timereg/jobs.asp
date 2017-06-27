@@ -5014,7 +5014,7 @@ if len(session("user")) = 0 then
     <%if func = "red" then%>
 	<tr>
 		<td colspan=4 bgcolor="#ffffff" height="30" style="  padding-top:5px; padding-left:20px;">
-		Sidst opdateret den <b><%=strLastUptDato%></b> af <b><%=strEditor%></b>
+		Sidst opdateret den <b><%=formatdatetime(strLastUptDato, 2)%></b> af <b><%=strEditor%></b>
 		</td>
 	</tr>
     <%end if%>
@@ -5355,7 +5355,7 @@ if len(session("user")) = 0 then
 		<td>&nbsp;</td>
 		<td style="padding:0px 20px 5px 0px; width:140px;"><b>Rekvisitions Nr.:</b><br />
         (indkøbsordrenr)</td>
-		<td style="padding:0px 0px 5px 5px;"><input type="text" name="FM_rekvnr" id="FM_rekvnr" value="<%=rekvnr%>" size="40"></td>
+		<td style="padding:0px 0px 5px 5px;"><input type="text" name="FM_rekvnr" id="FM_rekvnr" value="<%=rekvnr%>" style="width:260px;"></td>
 		<td>&nbsp;</td>
 	</tr>
 	

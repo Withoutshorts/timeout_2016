@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<definitions xmlns:tns="urn:microsoft-dynamics-schemas/codeunit/TimeOut" targetNamespace="urn:microsoft-dynamics-schemas/codeunit/TimeOut" xmlns="http://schemas.xmlsoap.org/wsdl/">
+  <types>
+    <schema elementFormDefault="qualified" targetNamespace="urn:microsoft-dynamics-schemas/codeunit/TimeOut" xmlns="http://www.w3.org/2001/XMLSchema">
+      <element name="SendJournalData">
+        <complexType>
+          <sequence>
+            <element minOccurs="1" maxOccurs="1" name="date" type="date" />
+            <element minOccurs="1" maxOccurs="1" name="jobNo" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="taskNo" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="resourceNo" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="quantity" type="decimal" />
+            <element minOccurs="1" maxOccurs="1" name="description" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="entryNo" type="int" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="SendJournalData_Result">
+        <complexType>
+          <sequence>
+            <element minOccurs="1" maxOccurs="1" name="return_value" type="boolean" />
+          </sequence>
+        </complexType>
+      </element>
+    </schema>
+  </types>
+  <message name="SendJournalData">
+    <part name="parameters" element="tns:SendJournalData" />
+  </message>
+  <message name="SendJournalData_Result">
+    <part name="parameters" element="tns:SendJournalData_Result" />
+  </message>
+  <portType name="TimeOut_Port">
+    <operation name="SendJournalData">
+      <input name="SendJournalData" message="tns:SendJournalData" />
+      <output name="SendJournalData_Result" message="tns:SendJournalData_Result" />
+    </operation>
+  </portType>
+  <binding name="TimeOut_Binding" type="tns:TimeOut_Port">
+    <binding transport="http://schemas.xmlsoap.org/soap/http" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+    <operation name="SendJournalData">
+      <operation soapAction="urn:microsoft-dynamics-schemas/codeunit/TimeOut:SendJournalData" style="document" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      <input name="SendJournalData">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </input>
+      <output name="SendJournalData_Result">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </output>
+    </operation>
+  </binding>
+  <service name="TimeOut">
+    <port name="TimeOut_Port" binding="tns:TimeOut_Binding">
+      <address location="http://109.70.55.147:17047/TIA/WS/TIA%20DK/Codeunit/TimeOut" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+    </port>
+  </service>
+</definitions>

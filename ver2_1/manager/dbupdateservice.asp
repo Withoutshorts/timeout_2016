@@ -58,7 +58,7 @@ a = 0
 					Response.write strSQL(b) & "<br>"
 					Response.flush
 					x = 1
-					numberoflicens = 169
+					numberoflicens = 170
 					For x = 1 To numberoflicens  
 						
 						call aktivedb(x)
@@ -3105,6 +3105,27 @@ PRIMARY KEY (abl_id)
 );
 INSERT INTO dbversion (dbversion) VALUES (20170320.1)
 
+
+<br /><br />20170613.1<br />
+ALTER TABLE timereg_usejob ADD (
+favorit Int NOT NULL DEFAULT 0);
+INSERT INTO dbversion (dbversion) VALUES (20170613.2) 
+
+
+<br /><br />20170615.1<br />
+ALTER TABLE timer ADD (
+godkendtdato date DEFAULT '2002-01-01');
+INSERT INTO dbversion (dbversion) VALUES (20170615.1) 
+
+<br /><br />20170503.1<br />
+ALTER TABLE licens ADD (
+smiweekormonth_hr Int NOT NULL DEFAULT 0);
+INSERT INTO dbversion (dbversion) VALUES (20170503.1) 
+
+<br /><br />20170503.2<br />
+ALTER TABLE ugestatus ADD (
+splithr Int NOT NULL DEFAULT 0);
+INSERT INTO dbversion (dbversion) VALUES (20170503.2) 
 <%
 
 

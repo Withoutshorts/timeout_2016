@@ -529,7 +529,43 @@ sub kundeopl
 	else
 	strKnr = 0
 	end if
+
+
 	
+           findesFak = 0
+           antalFak = 0
+           if func = "red" then 'AND lto <> "assurator"
+
+           if len(trim(id)) <> 0 then
+                id = id
+            else
+                id = 0
+            end if 
+
+            
+
+            strSQLFindesFak = "SELECT COUNT(fid) AS antalfak FROM fakturaer WHERE jobid = "& id & " GROUP BY jobid"
+           
+
+            'if session("mid") = 1 then
+                'response.write strSQLFindesFak
+                'response.flush
+            'end if
+ 
+            oRec.open strSQLFindesFak, oConn, 3
+			if not oRec.EOF then
+			antalFak = oRec("antalfak")	
+			end if
+			oRec.close
+
+            if antalFak <> 0 then
+                findesFak = 1
+            else
+                findesFak = 0
+            end if
+
+
+            end if
 	
 	if func = "opret" AND step = 1 then%>
 	<tr>
@@ -611,8 +647,17 @@ sub kundeopl
             
             end if
 
+           
+
+            
+
+            if cint(findesFak) = 0 OR func = "opret" then 'If invoiced cant change customer
 			strSQL = "SELECT Kkundenavn, Kkundenr, Kid, kundeans1, kundeans2 FROM kunder WHERE ketype <> 'e' AND (useasfak = 1 OR useasfak = 0 OR useasfak = 5) ORDER BY Kkundenavn"
-			oRec.open strSQL, oConn, 3
+			else
+            strSQL = "SELECT Kkundenavn, Kkundenr, Kid, kundeans1, kundeans2 FROM kunder WHERE kid = "& strKnr &" ORDER BY Kkundenavn"
+            end if
+
+            oRec.open strSQL, oConn, 3
 			kans1 = ""
 			kans2 = ""
 			while not oRec.EOF
@@ -628,7 +673,11 @@ sub kundeopl
 		
 			%>
 		</select>
-
+            
+            <%if findesFak <> 0 then %>
+            <br />Invoices: <%=antalFak %>
+            <%end if %>
+                
 
             <%if func = "xred" AND level = 1 then%>
                  <!--  
@@ -2015,7 +2064,12 @@ sub projektberegner
                     else
                     ulg_Vsb = "hidden"
                     ulg_Dsp = "none"
-                    end if %>
+                    end if 
+                        
+                        
+                        
+                       
+                        %>
 
                       
 
@@ -2029,17 +2083,8 @@ sub projektberegner
 
                 selUGrp(ug) = 0
                 call ulev_tilfoj(ufvlgt, ug)
-                %>
-                       
-                            
-                    <%strSQLugrp = "SELECT jugrp_id, jugrp_navn, jugrp_forvalgt FROM job_ulev_jugrp WHERE jugrp_id <> 0 ORDER BY jugrp_forvalgt, jugrp_navn"
-                            
-                    'Response.Write strSQLugpr%>
-                
-                
-                <%
-                
-                    if func = "red" then%>    
+               
+                if func = "red" then%>    
                 <tr bgcolor="#FFFFFF"><td colspan=6 style="padding:10px 0px 7px 430px; border-bottom:3px #FFCC66 solid;"><br />
                  <span style="padding:5px; background-color:#FFFFFF; border:1px #FFCC66 solid; border-bottom:0px;">
                         
@@ -2072,14 +2117,14 @@ sub projektberegner
 
 
                     <br /><br />
-                    <h4>Salgsomkostninger: 
-                    
-                    <span>&nbsp;&nbsp;<a href="#" <a href="#" id="luk_ulevgrp" class=red>[x]</a></span>
-                   
-
-
+                    <h4>Salgsomkostninger:
+                        <span>&nbsp;&nbsp;<a href="#" <a href="#" id="luk_ulevgrp" class=red>[x]</a></span>
                     </h4>
-                    <b>Udlæg / Mat. gruppe: </b><br /><select id="jq_seljugrp_id" name="FM_jugrp_id" style="width:200px; font-family:arial; font-size:9px;">
+                         <%
+                         strSQLugrp = "SELECT jugrp_id, jugrp_navn, jugrp_forvalgt FROM job_ulev_jugrp WHERE jugrp_id <> 0 AND jugrp_id IS NOT NULL ORDER BY jugrp_forvalgt, jugrp_navn"
+                         'Response.Write strSQLugrp%>
+
+                    <b>Udlæg / Mat. gruppe:</b><br /><select id="jq_seljugrp_id" name="FM_jugrp_id" style="width:200px; font-family:arial; font-size:9px;">
                     <option value="0">Ingen - Vælg gruppe..</option>
                     <%
 	                oRec5.open strSQLugrp, oConn, 3

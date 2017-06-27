@@ -1366,18 +1366,21 @@ slutDatoKriSQL = strAar_slut &"/"& strMrd_slut &"/"& strDag_slut
 				    '& " kans " & cint(kundeans) & " sogval "& len(trim(jobSogVal)) & " aftid "& cint(aftaleid) 
 				    'end if
 				
+                'Response.write "<br>jobstKri2: " & jobstKri & "<br>"
+                'Response.write "jobnrSQLkri: OPR" & jobnrSQLkri & "<br><br>"
+
 				'*** For at spare (trimme) på SQL hvis der vælges alle job alle kunder og vis kun for jobanssvarlige ikke er slået til ****
 				'*** Og der ikke er søgt på jobnavn ***
-				if cint(kundeid) = 0 AND cint(jobid) = 0 AND cint(jobans) = 0 AND cint(jobans2) = 0 AND cint(jobans3) = 0 _
-				 AND cint(kundeans) = 0 AND len(trim(jobSogVal)) = 0 AND cint(aftaleid) = 0 AND cint(segment) = 0 then 
+				'if cint(kundeid) = 0 AND cint(jobid) = 0 AND cint(jobans) = 0 AND cint(jobans2) = 0 AND cint(jobans3) = 0 _
+				' AND cint(kundeans) = 0 AND len(trim(jobSogVal)) = 0 AND cint(aftaleid) = 0 AND cint(segment) = 0 then 
 						
 					
-					'jobidFakSQLkri = " OR jobid <> 0 "
-					jobnrSQLkri = " OR tjobnr <> '0' "
-					jidSQLkri =  " OR id <> 0 "
-					seridFakSQLkri = " OR aftaleid <> 0 "
+					''jobidFakSQLkri = " OR jobid <> 0 "
+					'jobnrSQLkri = " OR tjobnr <> '0' "
+					'jidSQLkri =  " OR id <> 0 "
+					'seridFakSQLkri = " OR aftaleid <> 0 "
 						
-				end if
+				'end if
 	
 	
 		'**************** Trimmer SQL states ************************
@@ -3199,12 +3202,13 @@ if x <> 0 then
             pwdt = 140
 
             pnteksLnk = "FM_segment="&segment&"&viskunabnejob0="&viskunabnejob0&"&viskunabnejob1="&viskunabnejob1&"&viskunabnejob2="&viskunabnejob2
-            pnteksLnk = pnteksLnk & "&FM_orderby_medarb="&fordelpamedarb&"&FM_medarb_hidden="&thisMiduse&"&datointerval="&strDag&"/"&strMrd&"/"&strAar & " - " & strDag_slut&"/"&strMrd_slut&"/"&strAar_slut
+            pnteksLnk = pnteksLnk & "&FM_orderby_medarb="&fordelpamedarb&"&datointerval="&strDag&"/"&strMrd&"/"&strAar & " - " & strDag_slut&"/"&strMrd_slut&"/"&strAar_slut
             pnteksLnk = pnteksLnk & "&rdir="&rdir &"&FM_kunde="&kundeid &"&menu=stat&jobnr="&intJobnr&"&eks="&request("eks")&"&lastFakdag="&lastFakdag&"&selmedarb="&selmedarb&"&selaktid="&selaktid
-            pnteksLnk = pnteksLnk & "&FM_job="&request("FM_job")&"&FM_medarb="&thisMiduse&"&FM_start_dag="&strDag&"&FM_start_mrd="&strMrd&"&FM_start_aar="&strAar&"&FM_slut_dag="&strDag_slut&"&FM_slut_mrd="&strMrd_slut&"&FM_slut_aar="&strAar_slut
+            pnteksLnk = pnteksLnk & "&FM_job="&request("FM_job")&"&FM_start_dag="&strDag&"&FM_start_mrd="&strMrd&"&FM_start_aar="&strAar&"&FM_slut_dag="&strDag_slut&"&FM_slut_mrd="&strMrd_slut&"&FM_slut_aar="&strAar_slut
             pnteksLnk = pnteksLnk & "&FM_kundejobans_ell_alle="&visKundejobans&"&FM_jobsog="&jobSogVal&"&FM_akttype="&vartyper&"&nomenu="&nomenu
 
             call eksportogprint(ptop,pleft,pwdt)
+
             %>
 
         
@@ -3228,18 +3232,27 @@ if x <> 0 then
                         %>
 
                          <form action="joblog.asp?media=export&ver=0&cur=0&<%=pnteksLnk%>" target="_blank" method="post"> 
+                                <input type="hidden" name="FM_medarb_hidden" value="<%=thisMiduse%>" />
+                             <input type="hidden" name="FM_medarb" value="<%=thisMiduse%>" />
                         <input type="submit" id="sbm_csv" value="CSV. fil eksport >>" style="font-size:9px;" />
                                </form>
 
                          <form action="joblog.asp?media=export&ver=1&cur=0&<%=pnteksLnk%>" target="_blank" method="post"> <br />
+
+                             <input type="hidden" name="FM_medarb_hidden" value="<%=thisMiduse%>" />
+                             <input type="hidden" name="FM_medarb" value="<%=thisMiduse%>" />
                              <input type="submit" id="sbm_csv" value="Kasserapport DKK >>" style="font-size:9px;" />
                         </form>
                    
                         <form action="joblog.asp?media=export&ver=1&cur=1&<%=pnteksLnk%>" target="_blank" method="post"> 
+                           <input type="hidden" name="FM_medarb_hidden" value="<%=thisMiduse%>" />
+                             <input type="hidden" name="FM_medarb" value="<%=thisMiduse%>" />
                             <br />
                         <input type="submit" id="sbm_csv" value="Kasserapport Local Cur. >>" style="font-size:9px;" />
                         <%case else %>
                         <form action="joblog.asp?media=export&ver=0&cur=0&<%=pnteksLnk%>" target="_blank" method="post"> 
+                           <input type="hidden" name="FM_medarb_hidden" value="<%=thisMiduse%>" />
+                             <input type="hidden" name="FM_medarb" value="<%=thisMiduse%>" />
                         <input type="submit" id="sbm_csv" value="CSV. fil eksport >>" style="font-size:9px;" />
                         <%end select%>
 

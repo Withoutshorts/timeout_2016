@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<sprog>
+
+  <!--- Dansk -->
+  <dk>
+
+    <txt_1 >Godkend job/projekt timer</txt_1>
+    <txt_2 >Projekt/job</txt_2>
+    <txt_3 >Fra</txt_3>
+    <txt_4 >Til</txt_4>
+    <txt_5 >Søg</txt_5>
+    <txt_6 >Medarbejder</txt_6>
+    <txt_7 >Total</txt_7>
+    <txt_8 >Godkendt</txt_8>
+    <txt_9 >Godkend</txt_9>
+
+  </dk>
+
+
+  <!--- Norsk -->
+  <no>
+
+    <txt_1 >Approve job / project hours</txt_1>
+    <txt_2 >Project / Job</txt_2>
+    <txt_3 >From</txt_3>
+    <txt_4 >To</txt_4>
+    <txt_5 >Search</txt_5>
+    <txt_6 >Employee</txt_6>
+    <txt_7 >Total</txt_7>
+    <txt_8 >Approved</txt_8>
+    <txt_9 >Approve</txt_9>
+
+  </no>
+
+
+  <!--- Svensk -->
+  <so>
+
+    <txt_1 >Approve job / project hours</txt_1>
+    <txt_2 >Project / Job</txt_2>
+    <txt_3 >From</txt_3>
+    <txt_4 >To</txt_4>
+    <txt_5 >Search</txt_5>
+    <txt_6 >Employee</txt_6>
+    <txt_7 >Total</txt_7>
+    <txt_8 >Approved</txt_8>
+    <txt_9 >Approve</txt_9>
+
+  </so>
+
+
+  <!--- Tysk -->
+  <de>
+
+    <txt_1 >Approve job / project hours</txt_1>
+    <txt_2 >Project / Job</txt_2>
+    <txt_3 >From</txt_3>
+    <txt_4 >To</txt_4>
+    <txt_5 >Search</txt_5>
+    <txt_6 >Employee</txt_6>
+    <txt_7 >Total</txt_7>
+    <txt_8 >Approved</txt_8>
+    <txt_9 >Approve</txt_9>
+
+  </de>
+
+
+  <!--- Fransk -->
+  <fr>
+
+    <txt_1 >Approve job / project hours</txt_1>
+    <txt_2 >Project / Job</txt_2>
+    <txt_3 >From</txt_3>
+    <txt_4 >To</txt_4>
+    <txt_5 >Search</txt_5>
+    <txt_6 >Employee</txt_6>
+    <txt_7 >Total</txt_7>
+    <txt_8 >Approved</txt_8>
+    <txt_9 >Approve</txt_9>
+
+  </fr>
+
+
+
+  <!-- Engelsk -->
+  <uk>
+
+    <txt_1 >Approve job / project hours</txt_1>
+    <txt_2 >Project / Job</txt_2>
+    <txt_3 >From</txt_3>
+    <txt_4 >To</txt_4>
+    <txt_5 >Search</txt_5>
+    <txt_6 >Employee</txt_6>
+    <txt_7 >Total</txt_7>
+    <txt_8 >Approved</txt_8>
+    <txt_9 >Approve</txt_9>
+
+  </uk>
+
+
+  <!--- Spansk -->
+  <es>
+
+    <txt_1 >Approve job / project hours</txt_1>
+    <txt_2 >Project / Job</txt_2>
+    <txt_3 >From</txt_3>
+    <txt_4 >To</txt_4>
+    <txt_5 >Search</txt_5>
+    <txt_6 >Employee</txt_6>
+    <txt_7 >Total</txt_7>
+    <txt_8 >Approved</txt_8>
+    <txt_9 >Approve</txt_9>
+
+  </es>
+
+
+</sprog>

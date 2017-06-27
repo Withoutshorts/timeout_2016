@@ -825,6 +825,12 @@ if len(strLicenskey) <> 0 then
     lto = "tia"
 	strConnThis = "timeout_tia64"
    
+    case "9K2017-0621-TO175" 'Welcom
+    lto = "welcom"
+	strConnThis = "timeout_welcom64"
+
+    
+
 
     'ODBC 3.51 Driver
 	

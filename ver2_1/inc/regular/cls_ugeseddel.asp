@@ -156,6 +156,8 @@ sub showafslutuge_ugeseddel
             end select      
 
               
+            'smVzb = "visible"
+            'smDsp = ""
             'Response.write "thisfile: " & thisfile
     	    
             '*** Auto popup ThhisWEEK now SMILEY
@@ -183,6 +185,8 @@ sub showafslutuge_ugeseddel
                             select case thisfile
                             case "stempelur"
                             rdir = "stempelur"
+                            case "favorit.asp"
+                            rdir = "favorit"
                             case else
                             rdir = "ugeseddel"
                             end select

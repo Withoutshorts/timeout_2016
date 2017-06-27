@@ -64,8 +64,10 @@ function timerDenneUge(usemrn, lto, varTjDatoUS_man, aty_sql_typer, dothis, SmiW
             tjkTimerTotDato = year(tjkTimerTotDato) &"/"& month(tjkTimerTotDato) &"/"& day(tjkTimerTotDato)
 
             select case lto
-            case "dencker", "intranet - local", "epi", "epi_no", "epi_ab", "epi_sta", "epi_catitest"
+            case "dencker", "xintranet - local", "epi", "epi_no", "epi_ab", "epi_sta", "epi_catitest", "epi2017"
             timGrpBy = "tknr, tmnr"
+            case "tia", "intranet - local"
+            timGrpBy = "tmnr"
             case else
             timGrpBy = "tjobnr, tmnr"
             end select

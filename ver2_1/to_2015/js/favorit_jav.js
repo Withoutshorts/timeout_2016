@@ -6,6 +6,11 @@
 $(document).ready(function () {
 
 
+    $('.date').datepicker({
+        
+    });
+
+
     $(".FM_job").keyup(function () {
 
         //alert("keupup")
@@ -42,6 +47,7 @@ $(document).ready(function () {
             //alert("cc")
             $("#dv_job").html(data);
 
+
             $(".chbox_job").bind('click', function () {
 
 
@@ -59,9 +65,12 @@ $(document).ready(function () {
 
                 //$(".dv_job").hide();
                 $(".chbox_job").hide();
+
+                sogakt();
                 
             });
 
+            /*
 
             $(".chbox_job").bind('keyup', function () {
 
@@ -85,12 +94,13 @@ $(document).ready(function () {
 
                
             });
+            */
 
         });
     }
 
 
-    $(".aktivitet_sog").keyup(function () {
+    /*$(".aktivitet_sog").focus(function () {
 
         var thisid = this.id
         var thisvallngt = thisid.length
@@ -99,13 +109,25 @@ $(document).ready(function () {
         //alert(thisid)
         sogakt(thisval);
 
-    });
+    });*/
+
+    /*$(".aktivitet_sog").keyup(function () {
+
+        var thisid = this.id
+        var thisvallngt = thisid.length
+        var thisvaltrim = thisid.slice(7, thisvallngt)
+        thisval = thisvaltrim
+        //alert(thisid)
+        sogakt(thisval);
+
+    });*/
 
 
 
-    function sogakt(thisid) {
+    function sogakt() {
 
        
+        
         jq_newfilterval = $("#FM_akt").val()
               
         jq_medid = $("#FM_medid").val()
@@ -114,19 +136,25 @@ $(document).ready(function () {
 
         jq_jobid = $("#FM_jobid").val()
 
+        //alert(jq_jobid)
+
+        /*
         $("#dv_akt").css("display", "");
         $("#dv_akt").css("visibility", "visible");
         $("#dv_akt").show(100);
+        */
         
        // alert(jq_jobid)
         //alert("medid: " + jq_medid + "jobid: " + jq_jobid)
 
         $.post("?jq_newfilterval=" + jq_newfilterval + "&jq_jobid=" + jq_jobid + "&jq_medid=" + jq_medid + "&jq_aktid=" + jq_aktid + "&jq_pa=" + jq_pa, { control: "FN_sogakt", AjaxUpdateField: "true" }, function (data) {
-           // alert("cc")
-            //$("#dv_akt_test").html(data);
+
+
             $("#dv_akt").html(data);
 
-            //alert("END")
+          
+
+                /*
 
 
                 $(".chbox_akt").bind('keyup', function () {
@@ -164,7 +192,7 @@ $(document).ready(function () {
 
                 });
 
-            
+            */
 
 
 
@@ -181,38 +209,31 @@ $(document).ready(function () {
         //thisid = this.id
        
         jobid = $("#FM_jobid").val()
-        aktid = $("#FM_aktid").val()
+        aktid = $("#dv_akt").val()//$("#FM_aktid").val()
         medid = $("#FM_medid_id").val()
 
         jobnavn = $("#FM_job").val()
-        aktnavn = $("#FM_akt").val()
+        aktnavn = $("#dv_akt").text()
 
         next_akt_id = $("#next_akt_id").val()
 
-        //alert (medid)
-        
-        //alert(thisid)
-
-       // next_akt_id = $(".next_akt_id").attr('id')
-       // var akt_id_lngt = next_akt_id.length
-       // var akt_id_trim = next_akt_id.slice(16, akt_id_lngt)
-       // this_next_akt_id = akt_id_trim
-
-       // alert("id " + next_akt_id)
-
        
-        
 
-        //alert(medid)
+        //alert(medid + " j:" + jobid + " a:"+ aktid )
 
         $.post("?FM_jobid=" + jobid + "&FM_aktid=" + aktid + "&FM_medid_id=" + medid, { control: "tilfoj_akt", AjaxUpdateField: "true" }, function (data) {
             //alert("fe")
             $("#dv_akttil").html(data);
 
             
+            $("#favorit").submit();
+
+
             //alert("cc")
 
             //next_akt_id = $(".next_akt_id").val()
+
+            /*
 
             $("#FN_akt_tilfojed_" + next_akt_id).css("display", "");
             $("#FN_akt_tilfojed_" + next_akt_id).css("visibility", "visible");
@@ -234,6 +255,7 @@ $(document).ready(function () {
             $("#FM_job").val("")
             $("#FM_akt").val("")
             
+            */
             
         });
 

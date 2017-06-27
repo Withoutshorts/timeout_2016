@@ -1171,6 +1171,10 @@ else '** POST *****
 
                                 case 8 ' Kunder
 						        response.redirect "to_2015/kunder.asp?visikkekunder=1"
+
+                                case 9 ' Favorit
+                                call sonmaniuge(now)
+						        response.redirect "to_2015/favorit.asp?varTjDatoUS_man="&mandagIuge
                                 
                                 case else '0
 

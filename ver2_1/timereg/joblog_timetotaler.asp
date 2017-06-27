@@ -1763,14 +1763,14 @@ function LeiRotate() {
 				
 				'*** For at spare (trimme) på SQL hvis der vælges alle job alle kunder og vis kun for jobanssvarlige ikke er slået til ****
 				'*** Og der ikke er søgt på jobnavn ***
-				if cdbl(kundeid) = 0 AND cdbl(jobid) = 0 AND cdbl(jobans) = 0 AND cdbl(jobans2) = 0 AND cdbl(jobans3) = 0 AND cdbl(kundeans) = 0 AND len(trim(jobSogVal)) = 0 AND cint(aftaleid) = 0 AND cint(segment) = 0 then 
+				'if cdbl(kundeid) = 0 AND cdbl(jobid) = 0 AND cdbl(jobans) = 0 AND cdbl(jobans2) = 0 AND cdbl(jobans3) = 0 AND cdbl(kundeans) = 0 AND len(trim(jobSogVal)) = 0 AND cint(aftaleid) = 0 AND cint(segment) = 0 then 
 						
 					'jobidFakSQLkri = " OR jobid <> 0 "
-					jobnrSQLkri = " OR tjobnr <> '0' "
-					jidSQLkri =  " OR id <> 0 "
-					seridFakSQLkri = " OR aftaleid <> 0 "
+					'jobnrSQLkri = " OR tjobnr <> '0' "
+					'jidSQLkri =  " OR id <> 0 "
+					'seridFakSQLkri = " OR aftaleid <> 0 "
 						
-				end if
+				'end if
 	
 	
 		'**************** Trimmer SQL states ************************
@@ -5226,7 +5226,6 @@ function LeiRotate() {
                 &"&FM_progrp="& progrp &"&vis_fakbare_res="& visfakbare_res &""_
                 &"&vis_aktnavn="& vis_aktnavn &"&csv_pivot="&csv_pivot&"&FM_kundejobans_ell_alle="& visKundejobans &"&FM_kundeans="&kundeans&"&FM_jobans="& jobans1Val & ""_   
                 &"&FM_jobans2=" & jobans2 &"&FM_jobans3="& jobans3 &""_
-                &"&FM_medarb="& thisMiduse &""_
                 &"&FM_fomr="& fomr &"&FM_kunde="& kundeid &"&FM_visMedarbNullinier="& visMedarbNullinier &"&FM_aftaler="& aftaleid & ""_
                 &"&FM_md_split="& md_splitVal &""_
                 &"&FM_visnuljob="& visnuljob &"&FM_visPrevSaldo="& visPrevSaldo &""_
@@ -5300,6 +5299,7 @@ function LeiRotate() {
 
 
                  <form action="joblog_timetotaler.asp?media=print&FM_usedatointerval=1&<%=prntLnk%>" method="post" target="_blank"> 
+                 <input type="hidden" name="FM_medarb" value="<%=thisMiduse%>" />
 			    <input type="hidden" name="datointerval" id="datointerval" value="<%=formatdatetime(strDag&"/"&strMrd&"/"&strAar, 1) & " - " & formatdatetime(strDag_slut&"/"&strMrd_slut&"/"&strAar_slut, 1)%>">
 			  
                 <tr>

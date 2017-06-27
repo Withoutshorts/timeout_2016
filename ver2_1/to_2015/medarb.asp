@@ -1182,7 +1182,8 @@ Session.LCID = 1030
         strCRMcheckedTSA_6 = ""
         strCRMcheckedTSA_7 = ""
         strCRMcheckedTSA_8 = ""
-		
+		strCRMcheckedTSA_9 = ""
+
 		select case intCRM 
 		case 1
 		strCRMcheckedCRM = "checked"
@@ -1200,6 +1201,8 @@ Session.LCID = 1030
         strCRMcheckedTSA_7 = "CHECKED"
         case 8
         strCRMcheckedTSA_8 = "CHECKED"
+        case 9
+        strCRMcheckedTSA_9 = "CHECKED"
 		case else
 		strCRMcheckedTSA = "CHECKED"
 		end select
@@ -1704,6 +1707,14 @@ Session.LCID = 1030
 
 		                                end if
 		
+
+                                 call medarbtypligmedarb_fn()
+                                  if cint(medarbtypligmedarb) = 1 AND func <> "red" then
+                                                %>
+                                                <!--<option value="" SELECTED>Vælg midlertidig type (medarb. 1:1 medarbtype - ændres i næste step. Vælg MASTER i næste boks)</option>-->
+                                                <%
+                                 end if
+
 		                        'strSQL = "SELECT id, type FROM medarbejdertyper ORDER BY type"
 		                        strSQL = "SELECT mt.type, mt.id, mgruppe, "_
                                 &" mtg.navn AS mtgnavn "_ 
@@ -1758,8 +1769,8 @@ Session.LCID = 1030
                                         <%if func = "opret" AND level = 1  then
                                         %>
                                         <br /><span style="color:red;">Tildel timepriser</span> på stam-aktiviteter, åbne job og tilbud.<br />
-                                        Følg denne medarb.type (hvis den valgte medarb.type er ny, og dette er den første medarbejder af denne type)
-                                        <select name="FM_medarbejdertype_follow_tp" class="form-control input-small" style="width:200px;">
+                                        Følg denne medarb.type (MASTER til om tp 1-5 skal være forvalgt på eksisterende åbne job og tilbud)<br /> 
+                                        <select name="FM_medarbejdertype_follow_tp" class="form-control input-small" style="width:540px;">
                                         <%
                                          strSQL = "SELECT mt.type, mt.id FROM medarbejdertyper mt WHERE mt.id <> 0 ORDER BY type"
                                 
@@ -1777,7 +1788,7 @@ Session.LCID = 1030
 		                                        oRec.close
 		                                        %>
 		                                        </select> 
-                                
+                                                (benyttes hvis den valgte medarb.type er ny, og dette er den første medarbejder af denne type)
                                       <%end if %>
 
                               <%
@@ -2114,6 +2125,7 @@ Session.LCID = 1030
                                      <input type="radio" name="FM_tsacrm" value="5" <%=strCRMcheckedTSA_5%>> Joblisten<br>
                                       <input type="radio" name="FM_tsacrm" value="7" <%=strCRMcheckedTSA_7%>> Dashboard<br>
                                       <input type="radio" name="FM_tsacrm" value="8" <%=strCRMcheckedTSA_8%>> Kunder<br>
+                                      <input type="radio" name="FM_tsacrm" value="9" <%=strCRMcheckedTSA_9%>> Favoritlisten (timereg.)<br>
 
                                      <%if licensType = "CRM" then%>
                                      <input type="radio" name="FM_tsacrm" value="1" <%=strCRMcheckedCRM%>> CRM Kalender<br>

@@ -545,7 +545,9 @@ function afslutuge(weekSelected, visning, tjkDag7, rdir, SmiWeekOrMonth)
     'varTjDatoUS_man = dateAdd("d", -7, varTjDatoUS_son) 
 
 
-    if thisfile = "ugeseddel_2011.asp" then
+    'Response.write "HER RDIR: "& rdir
+
+    if thisfile = "ugeseddel_2011.asp" OR thisfile = "favorit.asp" then
     menu2015lnk = "../timereg/"
     else
     menu2015lnk = ""
@@ -1500,7 +1502,7 @@ function smileystatus(medarbid, visning, useYear)
 
                                                  if print <> "j" then            
 
-					                                if level = 1 AND (thisfile <> "timereg_akt_2006" AND thisfile <> "logindhist_2011.asp" AND thisfile <> "ugeseddel_2011.asp") then
+					                                if level = 1 AND (thisfile <> "timereg_akt_2006" AND thisfile <> "logindhist_2011.asp" AND thisfile <> "ugeseddel_2011.asp" AND thisfile <> "favorit.asp") then
 						                            ugerafsluttet(x,v) = "<a href='smileystatus.asp?func=slet&id="&oRec2("id")&"' class=vmenualt>"& ugeMdNrTxt &"</a>" 
 					                                else
 					                                ugerafsluttet(x,v) = ugeMdNrTxt
@@ -1520,9 +1522,9 @@ function smileystatus(medarbid, visning, useYear)
                                         case 0
                                         ugerafsluttet(x,v) = ugerafsluttet(x,v)
                                         case 1
-                                        ugerafsluttet(x,v) = ugerafsluttet(x,v) & "<i style=""color:green; font-weight:bolder;"">V</i>"
+                                        ugerafsluttet(x,v) = ugerafsluttet(x,v) & "&nbsp;<i style=""color:green;"">V</i>"
                                         case 2
-                                        ugerafsluttet(x,v) = ugerafsluttet(x,v) & "<i style=""color:red; font-weight:bolder;"">%</i>"
+                                        ugerafsluttet(x,v) = ugerafsluttet(x,v) & "&nbsp;<i style=""color:red;"">%</i>"
                                         end select
 
 
@@ -1627,14 +1629,14 @@ end if
 
 <div id="dv_ugeafslutninger" style="position:relative; display:<%=dvdsp%>; visibility:<%=dvwzb%>;">
 
-<table border=0 cellspacing=0 cellpadding=0 width="<%=twdt%>" style="font-weight:lighter;">
+<table border=0 cellspacing=0 cellpadding=0 width="95%">
 
-<tr bgcolor="#5c75AA">
+<tr>
     <td>&nbsp;</td>
-	<td width=400 class=alt><b><%=tsa_txt_101 %></b></td>
-	<td class=alt align=right><%=funk_txt_053 %><br /> <%=funk_txt_054 %></td>
-	<td class=alt align=right><%=funk_txt_053 %><br /> <%=funk_txt_055 %></td>
-	<td class=alt align=right><b><%=tsa_txt_104 %></b></td>
+	<td width=400><!--<b><%=tsa_txt_101 %></b>-->&nbsp;</td>
+	<td align=right style="font-size:11px;"><%=funk_txt_053 &"<br>"& funk_txt_054 %></td>
+	<td align=right style="font-size:11px;"><%=funk_txt_053 &"<br>"& funk_txt_055 %></td>
+	<td align=right style="font-size:11px;"><%=tsa_txt_104 %></td>
 	<td valign=top style="padding:1px 5px 2px 10px;">
 	<%if visning = 100 then %>
 	<a href="#" id="sA2_k" class=red><b>[x]</b></a>
