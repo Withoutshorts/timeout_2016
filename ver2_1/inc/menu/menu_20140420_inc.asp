@@ -496,7 +496,7 @@ end select
              <ul class="menupkt_n2" id="ul_menu-slider-1" style="display:none; visibility:visible;">
                 <h3 class="menuh3" style="font-size:16px; font-weight:200;"><%=tsa_txt_437 %></h3>
                  <!--
-                <summary>I denne sektion har vi samlet alt vedr. Timeregistrering. Du har her mulighed for at registrere timer eller få et overblik over dine nuværende registreringer</summary>
+                <summary>I denne sektion har vi samlet alt vedr. Timeregistrering. Du har her mulighed for at registrere timer eller fï¿½ et overblik over dine nuvï¿½rende registreringer</summary>
                  -->
               
          
@@ -601,7 +601,7 @@ end select
                       
                   if cint(traveldietexp_on) = 1 then
                   %>
-                  <li><a href="<%=toSubVerPath15 %>traveldietexp.asp">Rejse/Diæter</a></li>
+                  <li><a href="<%=toSubVerPath15 %>traveldietexp.asp">Rejse/Diï¿½ter</a></li>
                   <%end if%>
                
 
@@ -635,7 +635,7 @@ end select
 
 
 
-                       <%'** Igangværende arbejde ***'
+                       <%'** Igangvï¿½rende arbejde ***'
                         select case lto
                 
                         case "tec", "esn"%>
@@ -687,7 +687,7 @@ end select
 
                   <%
                    '** Ferie / Sygdoms kalender
-                   '** Level 1 har adgang til sygdom OGSÅ TEC og ESN da der ikke tjekkes på medarbejderlinej niveau i feriekalender
+                   '** Level 1 har adgang til sygdom OGSï¿½ TEC og ESN da der ikke tjekkes pï¿½ medarbejderlinej niveau i feriekalender
                    '** Ellers kun ferie  
                    if level = 1 then %>
 
@@ -923,7 +923,7 @@ end select
                   <%end select %>
 
                   <%if lto = "outz" OR lto = "intranet - local" then %>
-                    <li><a href="<%=toSubVerPath14 %>jbpla_w.asp">Planlægningskalender (TEST)</a></li>
+                    <li><a href="<%=toSubVerPath14 %>jbpla_w.asp">Planlï¿½gningskalender (TEST)</a></li>
                   <%end if %>
 
                      <%if lto = "outz" OR lto = "intranet - local" OR lto = "essens" OR lto = "hidalgo" then %>
@@ -1027,7 +1027,7 @@ end select
                         <li><a href="<%=toSubVerPath14 %>week_real_norm_2010.asp?menu=stat"><%=tsa_txt_356 %></a></li>
                         <%end if %>
 
-                        <%if level <= 2 OR level = 6 then '** Indtil teamleder er impl. på kørsels siden **"%>
+                        <%if level <= 2 OR level = 6 then '** Indtil teamleder er impl. pï¿½ kï¿½rsels siden **"%>
                         <li><a href="<%=toSubVerPath14 %>stat_korsel.asp?menu=stat" ><%=tsa_txt_265 %></a></li>
                         <li><a href="<%=toSubVerPath14 %>pipeline.asp?menu=webblik&FM_kunde=0&FM_progrupper=10"><%=tsa_txt_456 %></a></li>
                         <%end if %>
@@ -1235,7 +1235,7 @@ end select
 		<li><a href="<%=toSubVerPath14 %>javascript:NewWin_help('momsafsluttet.asp');" target="_self"><%=tsa_txt_495 %></a></li>
 
               <%
-            '**** INDLÆS / IMPORTER  funktioner     
+            '**** INDLï¿½S / IMPORTER  funktioner     
             if (lto = "oko" OR lto = "intranet - local") AND level = 1 then %>
 
             <li><a href="../timereg_net/importer_job.aspx?lto=<%=lto%>&mid=<%=session("mid")%>&editor=<%=session("user") %>" target="_blank">NAV-importer sag/job</a></li>
@@ -1244,7 +1244,7 @@ end select
            <%end if
 
 
-             '**** INDLÆS / IMPORTER  funktioner     
+             '**** INDLï¿½S / IMPORTER  funktioner     
             if (lto = "wilke" OR lto = "intranet - local") AND level = 1 then %>
 
             <li><a href="../timereg_net/importer_job.aspx?lto=<%=lto%>&mid=<%=session("mid")%>&editor=<%=session("user") %>" target="_blank">C5-importer Job (sagslinjer & aktiviteter)</a></li>
@@ -1252,7 +1252,7 @@ end select
            <%end if
 
 
-            '**** INDLÆS / IMPORTER  funktioner     
+            '**** INDLï¿½S / IMPORTER  funktioner     
             if (lto = "dencker" OR lto = "dencker_test" OR lto = "intranet - local") AND level = 1 then %>
              <li><a href="../timereg_net/importer_job.aspx?lto=<%=lto%>&mid=<%=session("mid")%>&editor=<%=session("user") %>&importtype=d1" target="_blank">Monitor-importer job</a></li>
             <li><a href="../timereg_net/importer_job_monitor.aspx?lto=<%=lto%>&mid=<%=session("mid")%>&editor=<%=session("user") %>" target="_blank">Monitor-importer aktiviteter</a></li>
@@ -1260,7 +1260,7 @@ end select
            <%end if
 
 
-             '**** INDLÆS / IMPORTER  funktioner     
+             '**** INDLï¿½S / IMPORTER  funktioner     
             if (lto = "tia" OR lto = "intranet - local") AND level = 1 then %>
             
              <li><a href="../timereg_net/importer_job.aspx?lto=<%=lto%>&mid=<%=session("mid")%>&editor=<%=session("user") %>&importtype=t1" target="_blank">NAV-importer job/proj.</a></li>
@@ -1270,7 +1270,7 @@ end select
            <%end if
 
 
-               '**** INDLÆS / IMPORTER  funktioner     
+               '**** INDLï¿½S / IMPORTER  funktioner     
             if (lto = "epi2017") AND level = 1 then %>
             
             <li><a href="../timereg_net/importer_timer.aspx?lto=<%=lto%>&mid=<%=session("mid")%>&editor=<%=session("user") %>" target="_blank">CSV Import timer</a></li>
@@ -1405,7 +1405,7 @@ end select
         <!--
         <nav>
             <h3 class="menuh3">Tidsregistrering</h3>
-            <summary>I denne sektion har vi samlet alt vedr. Timeregistrering. Du har her mulighed for at registrere timer eller få et overblik over dine nuværende registreringer</summary>
+            <summary>I denne sektion har vi samlet alt vedr. Timeregistrering. Du har her mulighed for at registrere timer eller fï¿½ et overblik over dine nuvï¿½rende registreringer</summary>
             <ul id="ul_menu-slider-1">
                 <li><a href="<%=toSubVerPath14 %>timereg_akt_2006.asp">Timeregistrering</a></li>
                 <li><a href="<%=toSubVerPath14 %>index.html">Ugeplan</a></li>
