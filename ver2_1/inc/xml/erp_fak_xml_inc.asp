@@ -9,8 +9,8 @@ Dim sXPathQuery_erp
 
 Set objXMLDOM_erp = Server.CreateObject("Microsoft.XMLDOM")
 Set objXMLHTTP_erp = Server.CreateObject("Msxml2.ServerXMLHTTP")
-'objXMLHTTP_erp.open "GET", "http://localhost/Git/timeout_2016/ver2_1/inc/xml/erp_fak_sprog.xml", False
-objXMLHTTP_erp.open "GET", "http://localhost/inc/xml/erp_fak_sprog.xml", False
+objXMLHTTP_erp.open "GET", "http://localhost/Git/timeout_2016/ver2_1/inc/xml/erp_fak_sprog.xml", False
+'objXMLHTTP_erp.open "GET", "http://localhost/inc/xml/erp_fak_sprog.xml", False
 'objXMLHTTP_erp.open "GET", "https://outzource.dk/timeout_xp/wwwroot/ver2_1/inc/xml/erp_fak_sprog.xml", False
 'objXMLHTTP_erp.open "GET", "https://timeout.cloud/timeout_xp/wwwroot/ver3_99/inc/xml/erp_fak_sprog.xml", False
 'objXMLHTTP_erp.open "GET", "https://outzource.dk/timeout_xp/wwwroot/ver2_14/inc/xml/erp_fak_sprog.xml", False
