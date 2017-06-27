@@ -457,7 +457,7 @@ end select
              <ul class="menupkt_n2" id="ul_menu-slider-1" style="display:none; visibility:visible;">
                 <h3 class="menuh3" style="font-size:16px; font-weight:200;"><%=tsa_txt_437 %></h3>
                  <!--
-                <summary>I denne sektion har vi samlet alt vedr. Timeregistrering. Du har her mulighed for at registrere timer eller få et overblik over dine nuværende registreringer</summary>
+                <summary>I denne sektion har vi samlet alt vedr. Timeregistrering. Du har her mulighed for at registrere timer eller fÃ¥ et overblik over dine nuvÃ¦rende registreringer</summary>
                  -->
               
          
@@ -533,7 +533,7 @@ end select
                  %>  <li><a href="<%=toSubVerPath15 %><%=lnkUgeseddel%>"><%=tsa_txt_337 %></a></li>
                       
                 <% select case lto
-                 case "outz", "intranet - local", "hidalgo", "tia", "dencker", "eniga"
+                 case "outz", "intranet - local", "hidalgo", "tia"
                     %>
                     <li><a href="<%=toSubVerPath15 %>favorit.asp?FM_medid=<%=usemrn %>&varTjDatoUS_man=<%=varTjDatoUS_man %>">Favorit</a></li>
                  <%end select %>
@@ -562,16 +562,16 @@ end select
                       
                   if cint(traveldietexp_on) = 1 then
                   %>
-                  <li><a href="<%=toSubVerPath15 %>traveldietexp.asp">Rejse/Diæter</a></li>
+                  <li><a href="<%=toSubVerPath15 %>traveldietexp.asp">Rejse/DiÃ¦ter</a></li>
                   <%end if%>
                
 
                  <li><a href="<%=toSubVerPath14 %><%=lnkAfstem %>"><%=tsa_txt_389 %></a></li>
 
                  <%select case lto
-                 case "oko", "epi", "epi2017", "wilke", "outz", "dencker", "essens", "synergi1", "jttek", "hidalgo", "demo", "bf", "plan", "acc", "assurator", "glad", "tia", "eniga"
+                 case "oko", "epi", "epi2017", "wilke", "outz", "dencker", "essens", "synergi1", "jttek", "hidalgo", "demo", "bf", "plan", "acc", "assurator", "glad", "tia"
                      
-                    if level = 1 OR (lto = "wilke") OR (lto = "outz") OR (lto = "dencker") OR (lto = "hidalgo") OR (lto = "acc") OR (lto = "epi2017") OR (lto = "assurator") OR (lto = "glad") or (lto = "tia") OR (lto = "eniga") then%>
+                    if level = 1 OR (lto = "wilke") OR (lto = "outz") OR (lto = "dencker") OR (lto = "hidalgo") OR (lto = "acc") OR (lto = "epi2017") OR (lto = "assurator") OR (lto = "glad") or (lto = "tia") then%>
                     <li><a href="<%=toSubVerPath15 %>medarbdashboard.asp"><%=tsa_txt_529 %></a></li>
                     <%end if %>
                  <%end select %>
@@ -596,7 +596,7 @@ end select
 
 
 
-                       <%'** Igangværende arbejde ***'
+                       <%'** IgangvÃ¦rende arbejde ***'
                         select case lto
                 
                         case "tec", "esn"%>
@@ -648,7 +648,7 @@ end select
 
                   <%
                    '** Ferie / Sygdoms kalender
-                   '** Level 1 har adgang til sygdom OGSÅ TEC og ESN da der ikke tjekkes på medarbejderlinej niveau i feriekalender
+                   '** Level 1 har adgang til sygdom OGSÃ… TEC og ESN da der ikke tjekkes pÃ¥ medarbejderlinej niveau i feriekalender
                    '** Ellers kun ferie  
                    if level = 1 then %>
 
@@ -868,23 +868,21 @@ end select
                   
 
                    <%select case lto 
-                     case "tia", "intranet - local", "outz", "oliver", "hidalgo", "demo"
-                       %>
-                      <li><a href="<%=toSubVerPath15%>godkend_job_timer.asp">Godkend job/projekt timer</a></li>
-                       <%
+                     case "tia", "xintranet - local"
+                       
                      case else   
                     %> 
-                   <li><a href="<%=toSubVerPath14 %>webblik_joblisten21.asp"><%=tsa_txt_454 %></a></li>
-                   <li><a href="<%=toSubVerPath14 %>webblik_milepale.asp"><%=tsa_txt_455 %></a></li>
+                   <li><a href="<%=toSubVerPath14 %>webblik_joblisten21.asp"><%=tsa_txt_454 %></a>ga</li>
+                   <li><a href="<%=toSubVerPath14 %>webblik_milepale.asp"><%=tsa_txt_455 %></a>mil</li>
 
                   <%if (level = 1 OR session("mid") = 35) then 'Kim B epinion %>
-                  <li><a href="<%=toSubVerPath14 %>pipeline.asp?menu=webblik&FM_kunde=0&FM_progrupper=10"><%=tsa_txt_456 %></a></li>
+                  <li><a href="<%=toSubVerPath14 %>pipeline.asp?menu=webblik&FM_kunde=0&FM_progrupper=10"><%=tsa_txt_456 %>pip</a></li>
                   <%end if %>
 
                   <%end select %>
 
                   <%if lto = "outz" OR lto = "intranet - local" then %>
-                    <li><a href="<%=toSubVerPath14 %>jbpla_w.asp">Planlægningskalender (TEST)</a></li>
+                    <li><a href="<%=toSubVerPath14 %>jbpla_w.asp">PlanlÃ¦gningskalender (TEST)</a></li>
                   <%end if %>
 
                      <%if lto = "outz" OR lto = "intranet - local" OR lto = "essens" OR lto = "hidalgo" then %>
@@ -988,7 +986,7 @@ end select
                         <li><a href="<%=toSubVerPath14 %>week_real_norm_2010.asp?menu=stat"><%=tsa_txt_356 %></a></li>
                         <%end if %>
 
-                        <%if level <= 2 OR level = 6 then '** Indtil teamleder er impl. på kørsels siden **"%>
+                        <%if level <= 2 OR level = 6 then '** Indtil teamleder er impl. pÃ¥ kÃ¸rsels siden **"%>
                         <li><a href="<%=toSubVerPath14 %>stat_korsel.asp?menu=stat" ><%=tsa_txt_265 %></a></li>
                         <li><a href="<%=toSubVerPath14 %>pipeline.asp?menu=webblik&FM_kunde=0&FM_progrupper=10"><%=tsa_txt_456 %></a></li>
                         <%end if %>
@@ -1196,7 +1194,7 @@ end select
 		<li><a href="<%=toSubVerPath14 %>javascript:NewWin_help('momsafsluttet.asp');" target="_self"><%=tsa_txt_495 %></a></li>
 
               <%
-            '**** INDLÆS / IMPORTER  funktioner     
+            '**** INDLÃ†S / IMPORTER  funktioner     
             if (lto = "oko" OR lto = "intranet - local") AND level = 1 then %>
 
             <li><a href="../timereg_net/importer_job.aspx?lto=<%=lto%>&mid=<%=session("mid")%>&editor=<%=session("user") %>" target="_blank">NAV-importer sag/job</a></li>
@@ -1205,7 +1203,7 @@ end select
            <%end if
 
 
-             '**** INDLÆS / IMPORTER  funktioner     
+             '**** INDLÃ†S / IMPORTER  funktioner     
             if (lto = "wilke" OR lto = "intranet - local") AND level = 1 then %>
 
             <li><a href="../timereg_net/importer_job.aspx?lto=<%=lto%>&mid=<%=session("mid")%>&editor=<%=session("user") %>" target="_blank">C5-importer Job (sagslinjer & aktiviteter)</a></li>
@@ -1213,7 +1211,7 @@ end select
            <%end if
 
 
-            '**** INDLÆS / IMPORTER  funktioner     
+            '**** INDLÃ†S / IMPORTER  funktioner     
             if (lto = "dencker" OR lto = "dencker_test" OR lto = "intranet - local") AND level = 1 then %>
              <li><a href="../timereg_net/importer_job.aspx?lto=<%=lto%>&mid=<%=session("mid")%>&editor=<%=session("user") %>&importtype=d1" target="_blank">Monitor-importer job</a></li>
             <li><a href="../timereg_net/importer_job_monitor.aspx?lto=<%=lto%>&mid=<%=session("mid")%>&editor=<%=session("user") %>" target="_blank">Monitor-importer aktiviteter</a></li>
@@ -1221,7 +1219,7 @@ end select
            <%end if
 
 
-             '**** INDLÆS / IMPORTER  funktioner     
+             '**** INDLÃ†S / IMPORTER  funktioner     
             if (lto = "tia" OR lto = "intranet - local") AND level = 1 then %>
             
              <li><a href="../timereg_net/importer_job.aspx?lto=<%=lto%>&mid=<%=session("mid")%>&editor=<%=session("user") %>&importtype=t1" target="_blank">NAV-importer job/proj.</a></li>
@@ -1231,7 +1229,7 @@ end select
            <%end if
 
 
-               '**** INDLÆS / IMPORTER  funktioner     
+               '**** INDLÃ†S / IMPORTER  funktioner     
             if (lto = "epi2017") AND level = 1 then %>
             
             <li><a href="../timereg_net/importer_timer.aspx?lto=<%=lto%>&mid=<%=session("mid")%>&editor=<%=session("user") %>" target="_blank">CSV Import timer</a></li>
@@ -1366,7 +1364,7 @@ end select
         <!--
         <nav>
             <h3 class="menuh3">Tidsregistrering</h3>
-            <summary>I denne sektion har vi samlet alt vedr. Timeregistrering. Du har her mulighed for at registrere timer eller få et overblik over dine nuværende registreringer</summary>
+            <summary>I denne sektion har vi samlet alt vedr. Timeregistrering. Du har her mulighed for at registrere timer eller fÃ¥ et overblik over dine nuvÃ¦rende registreringer</summary>
             <ul id="ul_menu-slider-1">
                 <li><a href="<%=toSubVerPath14 %>timereg_akt_2006.asp">Timeregistrering</a></li>
                 <li><a href="<%=toSubVerPath14 %>index.html">Ugeplan</a></li>
