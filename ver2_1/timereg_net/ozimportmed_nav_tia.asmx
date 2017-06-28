@@ -145,10 +145,16 @@ Public Class oz_importmed_na
             ansatdato = objDR("ansatdato")
             opsagtdato = objDR("opsagtdato")
 
+            If CDate(opsagtdato) < "2002-01-01" Then
+                opsagtdato = "2044-01-01"
+            End If
+
             mansat = objDR("mansat")
 
+
             'costcenter
-            'linemanager
+            costcenter = objDR("costcenter")
+            linemanager = objDR("linemanager")
             'countrycode
             'weblang
 
@@ -213,14 +219,30 @@ Public Class oz_importmed_na
             'objDR2.Close()
 
 
-            '*** Opretter Medarb i projektgrupper ****
-            Dim strSQLpgrel As String = ("INSERT INTO progrupperelationer (projektgruppeid, medarbejderid) VALUES " _
-            & " (10, " & LastID & ")")
+            If CInt(medidFindes) = 0 Then
 
-            'Return strSQLaktins
+                '*** Opretter Medarb i projektgrupper ****
+                Dim strSQLpgrel As String = ("INSERT INTO progrupperelationer (projektgruppeid, medarbejderid) VALUES " _
+                & " (10, " & LastID & ")")
 
-            objCmd2 = New OdbcCommand(strSQLpgrel, objConn2)
-            objCmd2.ExecuteReader() '(CommandBehavior.closeConnection)
+                'Return strSQLaktins
+
+                objCmd2 = New OdbcCommand(strSQLpgrel, objConn2)
+                objCmd2.ExecuteReader() '(CommandBehavior.closeConnection)
+
+
+                '*** Opretter Medarb i COSTCENTER projektgrupper ****
+                Dim strSQLpgrelc As String = ("INSERT INTO progrupperelationer (projektgruppeid, medarbejderid) VALUES " _
+                & " (" & costcenter & ", " & LastID & ")")
+
+                'Return strSQLaktins
+
+                objCmd2 = New OdbcCommand(strSQLpgrelc, objConn2)
+                objCmd2.ExecuteReader() '(CommandBehavior.closeConnection)
+
+
+            End If
+
 
 
             '**** Opdater overført ************

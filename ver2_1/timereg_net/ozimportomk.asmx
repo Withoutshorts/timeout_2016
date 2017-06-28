@@ -2,7 +2,7 @@
 
 
 
-<%@ WebService language="VB" class="oz_importmed" %>
+<%@ WebService language="VB" class="oz_importomk" %>
 Imports System
 Imports System.Web.Services
 Imports System.Data
@@ -16,7 +16,7 @@ Imports System.Data.Odbc
 '***************************************************************************************
 
 
-Public Class oz_importmed
+Public Class oz_importomk
 
 
     'errThis = 11 jobnr findes i forvejen
@@ -112,19 +112,30 @@ Public Class oz_importmed
 
     Public jobNr As String = "0"
 
-    Public akttimer As String = "0"
-    Public akttpris As String = "0"
-    Public aktsum As String = "0"
-    Public aktsumTilSum As String = "0"
+
+
+    '*** NAV import OMK
+    Public strNavn As String = ""
+    Public dblKobsPris As Double = 0
+    Public dblSalgsPris As Double = 0
+    Public belob As Double = 0
+    Public usemrn As String = "0"
+    Public useMid As String = "0"
+    Public bogforingsdato As Date
+    Public aftid As String = "0"
+    Public intkode As Integer = 0
+    Public intValuta As Integer = 1
+    Public bilagsnr As String = "0"
+    Public dblKurs As Double = 100
+    Public personlig As Integer = 0
+    Public extsysid As String = "9900"
+    '**** SLUT **
+
 
     Public jobId As Integer = 0
     Public kontoId As Integer = 0
 
-    Public jobstartdato As Date
-    Public jobslutdato As Date
 
-    Public aktkonto As String = "0"
-    Public akttype As String = ""
     Public varLobenr As String = "0"
     Public isJobWrt As String = "#0#"
 
@@ -139,12 +150,12 @@ Public Class oz_importmed
 
     Public importtype As String
 
-    Public j, jhigh, jlow As Integer
+    Public j, jhigh, jlow, a As Integer
     Public lastID As Double
 
 
 
-    <WebMethod()> Public Function addmed(ByVal ds As DataSet) As String
+    <WebMethod()> Public Function addomk(ByVal ds As DataSet) As String
 
         'Return "Webservice Msg dt: "  
 
@@ -225,10 +236,11 @@ Public Class oz_importmed
         objConn2.Open()
 
 
-
-
         '*** HENTER AKT fra MED_IMPORT_TEMP '****
-        Dim strSQLakts As String = "SELECT id, dato, editor, origin, jobnr, aktnavn, aktnr, akttimer, akttpris, aktsum, lto, beskrivelse, aktkonto, akttype FROM med_import_temp WHERE id > 0 AND overfort = 0 AND errid = 0 ORDER BY id LIMIT " & jlow & ", " & jhigh & ""
+        Dim strSQLakts As String = "SELECT pwc.dato, pwc.konto, pwc.postext, pwc.belob, pwc.jobnr, pwc.init, pwc.extsysid, pwc.id, "
+        strSQLakts += " j.id AS jid, serviceaft, m.mid, pwc.valutakode, pwc.bogforingsdato FROM mat_import_temp AS pwc "
+        strSQLakts += " LEFT JOIN job AS j ON (j.jobnr = pwc.jobnr) "
+        strSQLakts += " Left JOIN medarbejdere As m On (m.init = pwc.init) WHERE pwc.postext <> '' AND pwc.belob <> 0 ORDER BY pwc.id"
         objCmd = New OdbcCommand(strSQLakts, objConn)
         objDR = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
 
@@ -236,74 +248,107 @@ Public Class oz_importmed
 
         While objDR.Read() = True
 
-
-
-            aktsumTilSum = 0
-            errThis = 0
-
             id = objDR("id")
-            dato = objDR("dato")
-            origin = objDR("origin")
-            editor = objDR("editor")
 
-            jobNr = objDR("jobnr")
+            If IsDBNull(objDR("postext")) <> True Then
+                strNavn = Replace(objDR("postext"), "'", "")
+            Else
+                strNavn = "-"
+            End If
 
-            mednavn = objDR("aktnavn")
-            mednavn = EncodeUTF8(mednavn)
-            mednavn = DecodeUTF8(mednavn)
+            strNavn = EncodeUTF8(strNavn)
+            strNavn = DecodeUTF8(strNavn)
 
-            aktnr = objDR("aktnr")
+            belob = Replace(objDR("belob"), ".", "")
+            belob = Replace(belob, ",", ".")
 
+            'belob = objDR("belob")
 
-            lto = objDR("lto")
+            dblKobsPris = belob
+            dblSalgsPris = belob
 
-            'beskrivelse = IsDBNull(objDR("beskrivelse")) '** VARCHAR FOR IKKE AT FEJLE (TEXT fejler)
-            'If beskrivelse <> True Then
-            ' beskrivelse = objDR("beskrivelse")
-            'beskrivelse = beskrivelse.ToString()
-            'Else
-            'beskrivelse = ""
-            'End If
+            If IsDBNull(objDR("jid")) <> True Then
+                jobId = objDR("jid")
+            Else
+                jobId = 3 '** Intern tid
+            End If
 
-            '*** Opretter Medarb ****
-            Dim strSQLaktins As String = ("INSERT INTO medarbejdere (editor, dato, mnavn, mnr, init, medarbejdertype, brugergruppe, mansat) VALUES " _
-            & " ('TO_import-nav','" & Now.ToString("yyyy/MM/dd", Globalization.CultureInfo.InvariantCulture) & "', '" & mednavn & "', '" & id & "','" & jobNr & "', 2, 6, 1)")
+            editor = "PWC Import"
 
-            'Return strSQLaktins
+            dato = Year(Now) & "/" & Month(Now) & "/" & Day(Now)
 
-            objCmd2 = New OdbcCommand(strSQLaktins, objConn2)
-            objCmd2.ExecuteReader() '(CommandBehavior.closeConnection)
+            If IsDBNull(objDR("mid")) = False Then
 
 
-            '*** Finder jobid ***
-            Dim strSQLlastJobID As String = "SELECT mid FROM medarbejdere WHERE mid <> 0 ORDER BY mid DESC LIMIT 1"
-            objCmd = New OdbcCommand(strSQLlastJobID, objConn)
+                If Len(Trim(objDR("mid"))) > 4 And (Left(LCase(objDR("mid")), 3) <> "itw" And Left(LCase(objDR("mid")), 4) <> "intw") Then
+                    useMid = 620
+                Else
+                    useMid = objDR("mid")
+                End If
+            Else
+                useMid = 621 'materiale forbrug ekstern / ikke fundet
+            End If
+
+            usemrn = useMid
+
+
+            bogforingsdato = objDR("bogforingsdato")
+
+            If IsDBNull(objDR("serviceaft")) <> True Then
+                aftid = objDR("serviceaft")
+            Else
+                aftid = 0
+            End If
+
+            If useMid <> 620 Then
+                intkode = 0
+            Else
+                intkode = 2
+            End If
+
+
+            '*** Finder Valuta ***
+            Dim strSQLValuta As String = "SELECT id, kurs FROM valutaer WHERE valutakode = '" & objDR("valutakode") & "' LIMIT 1"
+            objCmd = New OdbcCommand(strSQLValuta, objConn)
             objDR2 = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
 
             If objDR2.Read() = True Then
 
-                lastID = objDR2("mid")
+                intValuta = objDR2("id")
+                dblKurs = objDR2("kurs")
 
             End If
             objDR2.Close()
 
 
-            '*** Opretter Medarb ****
-            Dim strSQLpgrel As String = ("INSERT INTO progrupperelationer (projektgruppeid, medarbejderid) VALUES " _
-            & " (10, " & lastID & ")")
 
-            'Return strSQLaktins
 
-            objCmd2 = New OdbcCommand(strSQLpgrel, objConn2)
+            bilagsnr = "9900" & objDR("extsysid")
+
+            personlig = 0
+
+            extsysid = objDR("extsysid")
+
+            extsysid = "9900" & extsysid
+
+            Dim strSQLMatIndlas As String = "INSERT INTO materiale_forbrug "
+            strSQLMatIndlas += " (matid, matantal, matnavn, matvarenr, matkobspris, matsalgspris, matenhed, jobid, "
+            strSQLMatIndlas += " editor, dato, usrid, matgrp, forbrugsdato, serviceaft, valuta, intkode, bilagsnr, kurs, personlig, extsysid) VALUES "
+            strSQLMatIndlas += " (0, 1, '" & strNavn & "', '0', "
+            strSQLMatIndlas += " " & dblKobsPris & ", " & dblSalgsPris & ", 'Stk.', " & jobId & ", "
+            strSQLMatIndlas += " '" & editor & "', '" & dato.ToString("yyyy/MM/dd", Globalization.CultureInfo.InvariantCulture) & "', " & usemrn & ", "
+            strSQLMatIndlas += " 0, '" & bogforingsdato.ToString("yyyy/MM/dd", Globalization.CultureInfo.InvariantCulture) & "', " & aftid & ", " & intValuta & ", "
+            strSQLMatIndlas += " " & intkode & ", '" & bilagsnr & "', " & dblKurs & ", " & personlig & ", " & extsysid & ")"
+            objCmd2 = New OdbcCommand(strSQLMatIndlas, objConn2)
             objCmd2.ExecuteReader() '(CommandBehavior.closeConnection)
-            'objDR2.Close()
-            'objConn2.Close(
 
 
+
+            'oConn.execute(strSQL)
 
             '**** Opdater overført ************
 
-            Dim strSQLjobToverfort As String = "UPDATE med_import_temp SET overfort = 1 WHERE id = " & id & ""
+            Dim strSQLjobToverfort As String = "UPDATE mat_import_temp SET overfort = 1 WHERE id = " & id & ""
             objCmd2 = New OdbcCommand(strSQLjobToverfort, objConn2)
             objCmd2.ExecuteReader() '(CommandBehavior.closeConnection)
             'objDR2.Close()
@@ -326,33 +371,9 @@ Public Class oz_importmed
 
 
 
-
-        '**** Opdater overført ************
-
-        'objConn2 = New OdbcConnection(strConn)
-        'objConn2.Open()
-        'Dim strSQLjobToverfort As String = "UPDATE akt_import_temp SET overfort = 1 WHERE id <= " & id & ""
-        'objCmd = New OdbcCommand(strSQLjobToverfort, objConn2)
-        'objDR2 = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
-        'objDR2.Close()
-        'objConn2.Close()
-
-        '**** Delete overført ************
-
-        'objConn2 = New OdbcConnection(strConn)
-        'objConn2.Open()
-        'Dim strSQLjobToverfort As String = "DELETE FROM akt_import_temp WHERE id > 0 AND errid = 0"
-        'objCmd = New OdbcCommand(strSQLjobToverfort, objConn2)
-        'objDR2 = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
-        'objDR2.Close()
-        'objConn2.Close()
-
-
-
-
         'Next
 
-        Return "<br>Last Webservice loop: " & j & "<br>"
+        Return "<br>Last Webservice loop: " & a & "<br>"
 
     End Function
 

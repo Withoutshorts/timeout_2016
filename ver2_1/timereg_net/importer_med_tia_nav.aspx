@@ -11,6 +11,8 @@
 <%@  Import Namespace="System.Web.UI" %> 
 <%@  Import Namespace="System.Web.UI.Webcontrols" %>
 <%@  Import Namespace="System.Collections.Generic" %>
+
+
 <!--@ Page Language="C#" AutoEventWireup="true" CodeFile="importer_job_wilke.cs" Inherits="importer_job_wilke" 
 
     <!--@  Import Namespace="System.Globalization" -->
@@ -33,14 +35,14 @@
         'Response.Write("<br>No (INIT): " + Request("no"))
         minit = Request("no")
 
-        Call hentData()
+        Call hentData(minit)
 
 
 
     End Sub
 
     'Sub hentData(minit As String)
-    Sub hentData()
+    Sub hentData(ByVal minit)
 
 
 
@@ -52,7 +54,8 @@
         Dim med_navn, med_email, med_init, med_importtype, lto, med_mansat As String
         Dim med_expvendorno, med_costcenter, med_linemanager, med_countrycode, med_weblang As String
 
-        Dim med_ansatdato, med_opsagtdato As Date
+        Dim med_ansatdato As Date = "4/10/2008"
+        Dim med_opsagtdato As Date = "4/10/2008"
         Dim med_normtid As String
         'Dim timer As String
         'Dim jobnr As String
@@ -104,18 +107,19 @@
         CallWebServiceTIA.Credentials = New System.Net.NetworkCredential(”tiademo”, ”Monday2017”, ”DEVX01”)
         'CallWebServiceTIA.PreAuthenticate = True
 
-        Dim fetchSize As Integer = 10
+        Dim fetchSize As Integer = 1
         'Dim bookmarkKey As String = null
 
 
         Dim filter As New WebReferenceNAVTia_res.Resources_Filter
         'WebReferenceNAVTia_res.Resources_Filter
         filter.Field = WebReferenceNAVTia_res.Resources_Fields.No
-        filter.Criteria = (minit)
+        filter.Criteria = ("" + minit + "")
         'filter.Criteria.
 
 
-
+        ' a date value in the string format specified:
+        'Dim xmlDate As String = "07/15/2014 7:07:33 AM"
 
 
         Dim filters() As WebReferenceNAVTia_res.Resources_Filter = New WebReferenceNAVTia_res.Resources_Filter(0) {filter}
@@ -147,18 +151,44 @@
             med_importtype = "1"
             med_init = Name.No.ToString()
             med_navn = Name.Name.ToString()
-            med_email = "test@outzource.dk" 'Name.E_Mail.ToString()
-            med_ansatdato = Name.Employment_Date.ToString()
-            med_opsagtdato = Name.Termination_Date.ToString()
+            med_email = Name.E_Mail.ToString() 'Name.Employment_Date.ToString + Name.Employment_Date.ToString '"test@outzource.dk" 'Name.E_Mail.ToString()
+
+            If String.IsNullOrEmpty(Name.Employment_Date.ToString) <> True Then
+                med_ansatdato = Name.Employment_Date
+            Else
+                med_ansatdato = "2001/01/01"
+            End If
+
+            If String.IsNullOrEmpty(Name.Termination_Date.ToString) <> True Then
+                med_opsagtdato = Name.Termination_Date
+            Else
+                med_opsagtdato = "2001/01/01"
+            End If
+
+
+
+
+
+            ' create a DATE variable from that string in a known format:
+            ' med_opsagtdato = DateAndTime.Year(med_opsagtdato) & "-" & DateAndTime.Month(med_opsagtdato) & "-" & DateAndTime.Day(med_opsagtdato)
+
             med_normtid = "10"
             med_mansat = Name.Blocked.ToString()
 
+            If med_mansat = True Then
+                med_mansat = 1
+            Else
+                med_mansat = 0
+            End If
 
             med_expvendorno = "1"
-            med_costcenter = "1"
-            med_linemanager = "0"
+            med_costcenter = Name.Resource_Group_No.ToString()
+            med_linemanager = Name.Line_Manager.ToString()
             med_countrycode = "DK"
             med_weblang = "1031"
+
+            'med_opsagtdato = med_ansatdato.ToString("yyyy/MM/dd")
+            'med_opsagtdato = med_opsagtdato.ToString("yyyy/MM/dd", Globalization.CultureInfo.InvariantCulture)
 
             '" & Now.ToString("yyyy/MM/dd", Globalization.CultureInfo.InvariantCulture) & "
             'med_ansatdato.ToString("yyyy/MM/dd", Globalization.CultureInfo.InvariantCulture)
@@ -179,11 +209,11 @@
             strSQLmedinsTemp += "linemanager, "
             strSQLmedinsTemp += "countrycode, "
             strSQLmedinsTemp += "weblang, lto, editor, overfort) "
-            strSQLmedinsTemp += " VALUES ('2017-06-23', '914','" + med_init + "',"
+            strSQLmedinsTemp += " VALUES ('" & DateAndTime.Year(Now) & "-" & DateAndTime.Month(Now) & "-" & DateAndTime.Day(Now) & "', '914','" + med_init + "',"
             strSQLmedinsTemp += "'" + med_navn + "','" + med_email + "',"
             strSQLmedinsTemp += "'" + med_normtid + "',"
-            strSQLmedinsTemp += "'2017-06-23',"
-            strSQLmedinsTemp += "'2017-08-11','" + med_mansat + "', '" + med_expvendorno + "',"
+            strSQLmedinsTemp += "'" & DateAndTime.Year(med_ansatdato) & "-" & DateAndTime.Month(med_ansatdato) & "-" & DateAndTime.Day(med_ansatdato) & "',"
+            strSQLmedinsTemp += "'" & DateAndTime.Year(med_opsagtdato) & "-" & DateAndTime.Month(med_opsagtdato) & "-" & DateAndTime.Day(med_opsagtdato) & "','" + med_mansat + "', '" + med_expvendorno + "',"
             strSQLmedinsTemp += "'" + med_costcenter + "', '" + med_linemanager + "','" + med_countrycode + "', '" + med_weblang + "',"
             strSQLmedinsTemp += "'tia','Timeout - ImportMedService',0)"
 
@@ -288,7 +318,7 @@
     <asp:TextBox runat="server" ID="meid"></asp:TextBox>
     <asp:TextBox runat="server" ID="meMTxt" Style="width:600px; height:400px; vertical-align:top;">NAV Data:</asp:TextBox>
     </div>
-    <asp:Button runat="server" Text="Hent data" ID="bt" OnClick="hentData"  />
+    <asp:Button runat="server" Text="Hent data" ID="bt"/><!-- OnClick="hentData"   -->
 
     <h4>Reading Data from the connection
     <asp:Label ID="datasrc" runat="server"></asp:Label> to the DataGrid</h4>

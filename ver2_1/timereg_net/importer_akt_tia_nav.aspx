@@ -34,13 +34,13 @@
         'Response.Write("<br>No (INIT): " + Request("no"))
 
         Dim jobno As String = Request("jobno")
-        Call hentData()
+        Call hentData(jobno)
 
 
 
     End Sub
 
-    Sub hentData()
+    Sub hentData(ByVal jobno)
 
 
 
@@ -109,7 +109,7 @@
         CallWebServiceTIA.Credentials = New System.Net.NetworkCredential(”tiademo”, ”Monday2017”, ”DEVX01”)
         'CallWebServiceTIA.PreAuthenticate = True
 
-        Dim fetchSize As Integer = 20
+        Dim fetchSize As Integer = 1
         'Dim bookmarkKey As String = null
 
 
@@ -117,7 +117,8 @@
         'WebReferenceNAVTia_akt.JobTasks_Filter
         filter.Field = WebReferenceNAvTia_akt.JobTasks_Fields.Job_No
         'jobno
-        filter.Criteria = ("DEV1030*")
+        'filter.Criteria = ("DEV1030*")
+        filter.Criteria = ("" & jobno & "")
         'filter.Criteria.
 
 
@@ -162,7 +163,7 @@
             Dim strSQLjobinsTemp As String = "INSERT INTO akt_import_temp (dato, editor, lto, origin, jobnr, "
             strSQLjobinsTemp += "aktnavn, aktnr, "
             strSQLjobinsTemp += "aktkonto, aktstatus, beskrivelse, akttype) "
-            strSQLjobinsTemp += " VALUES ('2017-06-23','NAV import','" + lto + "','914','" + akt_jobnr + "',"
+            strSQLjobinsTemp += " VALUES ('" & DateAndTime.Year(Now) & "-" & DateAndTime.Month(Now) & "-" & DateAndTime.Day(Now) & "','NAV import','" + lto + "','914','" + akt_jobnr + "',"
             strSQLjobinsTemp += "'" + akt_navn + "', '" + akt_jobnr + "" + akt_taskno + "', "
             strSQLjobinsTemp += "'" + akt_jobtaskno + "', '" + akt_status + "', '', '" + akt_type + "')"
 

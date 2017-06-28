@@ -34,13 +34,13 @@
         'Response.Write("<br>No (INIT): " + Request("no"))
 
         Dim jobno As String = Request("no")
-        Call hentData()
+        Call hentData(jobno)
 
 
 
     End Sub
 
-    Sub hentData()
+    Sub hentData(ByVal jobno)
 
 
 
@@ -51,13 +51,12 @@
 
 
         Dim Jobs_kundenr, Jobs_kundenavn, Jobs_jobnavn, Jobs_jobnr, Jobs_status, lto, Jobs_importtype As String
-        Dim Jobs_startdato, Jobs_slutdato As Date
+        Dim Jobs_startdato As Date = "2002-01-01"
+        Dim Jobs_slutdato As Date = "2002-01-01"
         Dim Jobs_risiko, Jobs_jobansvarlig, Jobs_projektgruppe As String
 
         Jobs_risiko = 1
         Jobs_projektgruppe = 0
-
-
 
         Dim taktivitetnavnLst As String = ""
         Dim antalRecords As Integer
@@ -104,7 +103,7 @@
         CallWebServiceTIA.Credentials = New System.Net.NetworkCredential(”tiademo”, ”Monday2017”, ”DEVX01”)
         'CallWebServiceTIA.PreAuthenticate = True
 
-        Dim fetchSize As Integer = 10
+        Dim fetchSize As Integer = 1
         'Dim bookmarkKey As String = null
 
 
@@ -112,7 +111,10 @@
         'WebReferenceNAVTia_job.Jobs_Filter
         filter.Field = WebReferenceNAVTia_job.Jobs_Fields.No
 
-        filter.Criteria = (jobno)
+        'Response.Write("jobno: " + jobno)
+
+        'jobno
+        filter.Criteria = ("" & jobno & "")
         'filter.Criteria.
 
 
@@ -141,8 +143,21 @@
             Jobs_kundenavn = Name.Bill_to_Name.ToString()
             Jobs_jobnavn = Name.Description.ToString()
             Jobs_jobnr = Name.No.ToString()
-            Jobs_startdato = Name.Starting_Date.ToString()
-            Jobs_slutdato = Name.Ending_Date.ToString()
+
+
+            If String.IsNullOrEmpty(Name.Starting_Date) <> True Then
+                Jobs_startdato = Name.Starting_Date
+            Else
+                Jobs_startdato = "2001/01/01"
+            End If
+
+            If String.IsNullOrEmpty(Name.Ending_Date) <> True Then
+                Jobs_slutdato = Name.Starting_Date
+            Else
+                Jobs_slutdato = "2001/01/01"
+            End If
+
+
             Jobs_jobansvarlig = Name.Project_Manager.ToString()
 
             Jobs_risiko = 1
@@ -162,9 +177,9 @@
             strSQLjobinsTemp += "jobans, "
             strSQLjobinsTemp += "kundenavn, "
             strSQLjobinsTemp += "kundenr, projgrp) "
-            strSQLjobinsTemp += " VALUES ('2017-06-23','NAV import','" + lto + "','914','" + Jobs_jobnr + "', '" + Jobs_jobnavn + "',"
-            strSQLjobinsTemp += "'2017-01-01',"
-            strSQLjobinsTemp += "'2017-08-29',"
+            strSQLjobinsTemp += " VALUES ('" & DateAndTime.Year(Now) & "-" & DateAndTime.Month(Now) & "-" & DateAndTime.Day(Now) & "','NAV import','" + lto + "','914','" + Jobs_jobnr + "', '" + Jobs_jobnavn + "',"
+            strSQLjobinsTemp += "'" & DateAndTime.Year(Jobs_startdato) & "-" & DateAndTime.Month(Jobs_startdato) & "-" & DateAndTime.Day(Jobs_startdato) & "',"
+            strSQLjobinsTemp += "'" & DateAndTime.Year(Jobs_slutdato) & "-" & DateAndTime.Month(Jobs_slutdato) & "-" & DateAndTime.Day(Jobs_slutdato) & "',"
             strSQLjobinsTemp += "'" + Jobs_jobansvarlig + "',"
             strSQLjobinsTemp += "'" + Jobs_kundenavn + "','" + Jobs_kundenr + "', '0')"
 
@@ -257,8 +272,9 @@
     <asp:TextBox runat="server" ID="meid"></asp:TextBox>
     <asp:TextBox runat="server" ID="meMTxt" Style="width:600px; height:400px; vertical-align:top;">NAV Data:</asp:TextBox>
     </div>
-    <asp:Button runat="server" Text="Hent data" ID="bt" OnClick="hentData"  />
+    <asp:Button runat="server" Text="Hent data" ID="bt"   />
 
+        <!-- OnClick="hentData(0)"-->
     <h4>Reading Data from the connection
     <asp:Label ID="datasrc" runat="server"></asp:Label> to the DataGrid</h4>
 

@@ -533,7 +533,7 @@ sub kundeopl
 
 	
            findesFak = 0
-           antalFak = 0
+           antalFak = "0"
            if func = "red" then 'AND lto <> "assurator"
 
            if len(trim(id)) <> 0 then
@@ -558,7 +558,7 @@ sub kundeopl
 			end if
 			oRec.close
 
-            if antalFak <> 0 then
+            if antalFak <> "0" then
                 findesFak = 1
             else
                 findesFak = 0

@@ -13,33 +13,40 @@ using System.Web.UI.WebControls;
 using System.Globalization;
 using System.Threading;
 
+
 /// <summary>
 /// Summary description for ozUploadFile
 /// </summary>
-public class ozUploadFileMed
+public class ozUploadFileOmk
 {
     public string id = string.Empty;
     public string dato = string.Empty;
+    public string beskrivelse = string.Empty;
+    public string konto = string.Empty;
+    public string jobid = string.Empty;
+    public string minit = string.Empty;
+    public string belob = string.Empty;
+    public string valuta = string.Empty;
+    public string aktnr = string.Empty;
+
     public string editor = string.Empty;
     public string origin = string.Empty;
-    public string medarbejderid = string.Empty;
-    public string jobid = string.Empty;
-    public string jobnavn = string.Empty;
-    public string aktnavn = string.Empty;
-    public string aktnr = string.Empty;
-    public string akttimer = string.Empty;
-    public string akttpris = string.Empty;
-    public string aktsum = string.Empty;
-    public string timer = string.Empty;
-    public string tdato = string.Empty;
+
     public string lto = string.Empty;
+
+
+    // NOT IN USE
+    public string jobnavn = string.Empty;
+    public string tdato = string.Empty;
+    public string aktnavn = string.Empty;
     public string timerkom = string.Empty;
-    public string linjetype = string.Empty;
-    public string konto = string.Empty;
+    public string timer = string.Empty;
+
+
 
     const int ORIGIN = 10;
 
-	public ozUploadFileMed()
+	public ozUploadFileOmk()
 	{
         // Sets the CurrentCulture property to Danish Denmark
         Thread.CurrentThread.CurrentCulture = new CultureInfo("da-DK");
@@ -101,9 +108,11 @@ public class ozUploadFileMed
             ltoIn = "intranet";
 
         //changed back to this query instead of the one below on purpose 01-17-2014 by Lei
-        string strSelect = "SELECT init FROM medarbejdere where mid = "+midIn; 
+        string strSelect = "SELECT init FROM medarbejdere where mid = "+midIn;
 
         //string strSelect = "SELECT init, brugergruppe FROM medarbejdere where mid = " + midIn + " AND brugergruppe <> 3";
+
+        //ltoIn = "epi2017";
 
         try
         {
@@ -144,7 +153,7 @@ public class ozUploadFileMed
 
         try
         {
-            List<ozUploadFileMed> lstRow = Read(pathIn, filenameIn, headers, intHeader, ref countIgnore, ref countInserted, initIn, ref errorLine, midIn, folderIn, importtype);
+            List<ozUploadFileOmk> lstRow = Read(pathIn, filenameIn, headers, intHeader, ref countIgnore, ref countInserted, initIn, ref errorLine, midIn, folderIn, importtype);
             int intRow = Insert(lstRow, folderIn, editorIn, importtype);
             if (intRow > 0)
             {
@@ -216,6 +225,8 @@ public class ozUploadFileMed
         if (folder == "outz" || folder == "intranet - local")
             folder = "intranet";
 
+       
+
         string conn = "driver={MySQL ODBC 3.51 Driver};server=194.150.108.154; Port=3306; uid=outzource; pwd=SKba200473; database=timeout_" + folder + ";";
 
         using (OdbcConnection connection = new OdbcConnection(conn))
@@ -248,12 +259,13 @@ public class ozUploadFileMed
         return isRet;
     }
 
-    private int Insert(List<ozUploadFileMed> lstData, string folder, string editorIn, string importtype)
+    private int Insert(List<ozUploadFileOmk> lstData, string folder, string editorIn, string importtype)
     {
         int intRow = 0;
 
         if (folder == "outz" || folder == "intranet - local")
             folder = "intranet";
+
 
         string conn = "driver={MySQL ODBC 3.51 Driver};server=194.150.108.154; Port=3306; uid=outzource; pwd=SKba200473; database=timeout_" + folder + ";";
 
@@ -261,20 +273,29 @@ public class ozUploadFileMed
         {
 
             connection.Open();
-            foreach (ozUploadFileMed data in lstData)
+            foreach (ozUploadFileOmk data in lstData)
             {
-                string mnavn = data.aktnavn.ToString().Replace("'", "");
+
+                string beskrivelse = data.beskrivelse.ToString().Replace("'", "");
+                string belob = data.belob.ToString().Replace(".", "");
+                belob = belob.ToString().Replace(",", ".");
+
+                //string posdato = data.dato.ToString();
+                string posdato = ConvertDate(data.dato);
 
 
-                   string strInsert = "INSERT INTO med_import_temp (dato, origin, jobnr, aktnavn, aktnr, beskrivelse, lto, editor, overfort) ";
-                    strInsert += " VALUES ('" + DateTime.Now.ToString("yyyy-MM-dd") + "',914,'" + data.jobid + "','" + mnavn + "','" + data.aktnr + "',";
-                    strInsert += "'','tia','Timeout - ImportMedService ',0)";
-                    OdbcCommand command = new OdbcCommand(strInsert, connection);
+
+                string strInsert = "INSERT INTO mat_import_temp (dato, editor, bogforingsdato, konto, postext, belob, jobnr, init, extsysid, valutakode, lto) ";
+                strInsert += " VALUES ('" + DateTime.Now.ToString("yyyy-MM-dd") + "','NAV - Import excel', '" + posdato + "',";
+                strInsert += "'" + data.konto + "', '"+ beskrivelse  + "',";
+                strInsert += "" + belob + ",'" + data.jobid + "','" + data.minit + "','" + data.aktnr + "', '" + data.valuta + "',";
+                strInsert += "'"+ folder +"')";
+
+                OdbcCommand command = new OdbcCommand(strInsert, connection);
 
 
-
-                    // Execute the DataReader and access the data.
-                    intRow = command.ExecuteNonQuery();
+                // Execute the DataReader and access the data.
+                intRow = command.ExecuteNonQuery();
                     //intRow = "";
                     //command.ExecuteNonQuery();
 
@@ -310,7 +331,9 @@ public class ozUploadFileMed
         if (folderIn == "outz" || folderIn == "intranet - local")
             folderIn = "intranet";
 
-        string sqlIn = "UPDATE timer_import_temp SET Overfort=1 WHERE lto='" + folderIn + "' AND editor='" + editorIn + "'";
+        //folderIn = "epi2017";
+
+        string sqlIn = "UPDATE mat_import_temp SET Overfort=1 WHERE lto='" + folderIn + "' AND editor='" + editorIn + "'";
         using (OdbcConnection connection = new OdbcConnection("driver={MySQL ODBC 3.51 Driver};server=195.189.130.210; Port=3306; uid=outzource; pwd=SKba200473; database=timeout_" + folderIn + ";"))
         {
             OdbcCommand command = new OdbcCommand(sqlIn, connection);
@@ -323,10 +346,13 @@ public class ozUploadFileMed
         return intRow;
     }
 
+
     private string CallWebservice(string ltoIn, string importtype)
     {
         if (ltoIn == "outz" || ltoIn == "intranet - local")
             ltoIn = "intranet";
+
+        //ltoIn = "epi2017";
 
         string strRet = string.Empty;
 
@@ -341,14 +367,13 @@ public class ozUploadFileMed
         dsData.Tables.Add(table1);
 
         //DataSet dsData = new DataSet();
-      
+
         //dsData = ReadDS(ltoIn);
 
         //dk.outzource.to_import service = new dk.outzource.to_import();
         //dk.outzource_addakt.oz_importakt service = new dk.outzource_addakt.oz_importakt();
-        dk_rack.cloud_timeout_importmed.oz_importmed service = new dk_rack.cloud_timeout_importmed.oz_importmed();
-  
-        strRet = service.addmed(dsData);
+        dk_rack.outzource_timeout2_importomk.oz_importomk service = new dk_rack.outzource_timeout2_importomk.oz_importomk();
+        strRet = service.addomk(dsData);
        
         
 
@@ -387,9 +412,9 @@ public class ozUploadFileMed
         return lstRet;
     }
 
-    private List<ozUploadFileMed> Read(string pathIn, string filenameIn, string[] headers, int[] intHeader, ref int countIgnore, ref int countInserted, string initIn, ref string errorLines, string midIn, string folderIn, string importtype)
+    private List<ozUploadFileOmk> Read(string pathIn, string filenameIn, string[] headers, int[] intHeader, ref int countIgnore, ref int countInserted, string initIn, ref string errorLines, string midIn, string folderIn, string importtype)
     {
-        List<ozUploadFileMed> lstData = new List<ozUploadFileMed>();
+        List<ozUploadFileOmk> lstData = new List<ozUploadFileOmk>();
 
         try
         {           
@@ -424,9 +449,9 @@ public class ozUploadFileMed
     }
    
     #region Read file
-    private List<ozUploadFileMed> ReadXls2003(string pathIn, string filenameIn, string[] headers, ref int countInserted, ref int countIgnore, string initIn, ref string errorLines, string midIn, string folderIn, string importtype)
+    private List<ozUploadFileOmk> ReadXls2003(string pathIn, string filenameIn, string[] headers, ref int countInserted, ref int countIgnore, string initIn, ref string errorLines, string midIn, string folderIn, string importtype)
     {
-        List<ozUploadFileMed> lstRet = new List<ozUploadFileMed>();
+        List<ozUploadFileOmk> lstRet = new List<ozUploadFileOmk>();
 
         try
         {
@@ -443,15 +468,15 @@ public class ozUploadFileMed
             {
                 countAll++;
 
-                ozUploadFileMed fileRet = new ozUploadFileMed();
-                fileRet.medarbejderid = row[headers[0]].ToString().Trim();
+                ozUploadFileOmk fileRet = new ozUploadFileOmk();
+                fileRet.minit = row[headers[0]].ToString().Trim();
                 fileRet.jobid = row[headers[1]].ToString().Trim();
                 fileRet.jobnavn = row[headers[2]].ToString().Trim();
                 fileRet.tdato = row[headers[3]].ToString().Trim();
                 fileRet.aktnavn = row[headers[4]].ToString().Trim();
                 fileRet.timerkom = row[headers[5]].ToString().Trim();
 
-                if (fileRet.medarbejderid == string.Empty && fileRet.jobid == string.Empty && fileRet.timer == string.Empty && fileRet.tdato == string.Empty && fileRet.aktnavn == string.Empty && fileRet.timerkom == string.Empty)
+                if (fileRet.minit == string.Empty && fileRet.jobid == string.Empty && fileRet.timer == string.Empty && fileRet.tdato == string.Empty && fileRet.aktnavn == string.Empty && fileRet.timerkom == string.Empty)
                 {
                     countIgnore++;
                     errorLines += "Linje " + countAll + " - fejlkode: Tom linje.<br>";
@@ -463,8 +488,8 @@ public class ozUploadFileMed
                     fileRet.jobid = "0";
                 else if (fileRet.jobid == string.Empty)
                     fileRet.jobid = "0";
-                else if (fileRet.medarbejderid == string.Empty)
-                    fileRet.medarbejderid = "0";
+                else if (fileRet.minit == string.Empty)
+                    fileRet.minit = "0";
                 else if (fileRet.jobnavn == string.Empty)
                     fileRet.jobnavn = "0";
                 else if (fileRet.tdato == string.Empty)
@@ -478,7 +503,7 @@ public class ozUploadFileMed
                  }
                  else
                  {
-                     if (fileRet.medarbejderid == initIn)// check level <=2 || =6
+                     if (fileRet.minit == initIn)// check level <=2 || =6
                          lstRet.Add(fileRet);
                      else
                      {
@@ -520,9 +545,9 @@ public class ozUploadFileMed
         return lstRet;
     }
 
-    private List<ozUploadFileMed> ReadXlsx2007(string pathIn, string filenameIn, string[] headers, ref int countInserted, ref int countIgnore, string initIn, ref string errorLines, string midIn, string folderIn, string importtype)
+    private List<ozUploadFileOmk> ReadXlsx2007(string pathIn, string filenameIn, string[] headers, ref int countInserted, ref int countIgnore, string initIn, ref string errorLines, string midIn, string folderIn, string importtype)
     {
-        List<ozUploadFileMed> lstRet = new List<ozUploadFileMed>();
+        List<ozUploadFileOmk> lstRet = new List<ozUploadFileOmk>();
 
         try
         {
@@ -539,15 +564,15 @@ public class ozUploadFileMed
             {
                 countAll++;
 
-                ozUploadFileMed fileRet = new ozUploadFileMed();
-                fileRet.medarbejderid = row[headers[0]].ToString().Trim();
+                ozUploadFileOmk fileRet = new ozUploadFileOmk();
+                fileRet.minit = row[headers[0]].ToString().Trim();
                 fileRet.jobid = row[headers[1]].ToString().Trim();
                 fileRet.jobnavn = row[headers[2]].ToString().Trim();
                 fileRet.tdato = row[headers[3]].ToString().Trim();
                 fileRet.aktnavn = row[headers[4]].ToString().Trim();
                 fileRet.timerkom = row[headers[5]].ToString().Trim();
 
-                if (fileRet.medarbejderid == string.Empty && fileRet.jobid == string.Empty && fileRet.timer == string.Empty && fileRet.tdato == string.Empty && fileRet.aktnavn == string.Empty && fileRet.timerkom == string.Empty)
+                if (fileRet.minit == string.Empty && fileRet.jobid == string.Empty && fileRet.timer == string.Empty && fileRet.tdato == string.Empty && fileRet.aktnavn == string.Empty && fileRet.timerkom == string.Empty)
                 {
                     countIgnore++;
                     errorLines += "Linje " + countAll + " - fejlkode: Tom linje.<br>";
@@ -557,8 +582,8 @@ public class ozUploadFileMed
                     fileRet.jobid = "0";
                 else if (fileRet.jobid == string.Empty)
                     fileRet.jobid = "0";
-                else if (fileRet.medarbejderid == string.Empty)
-                    fileRet.medarbejderid = "0";
+                else if (fileRet.minit == string.Empty)
+                    fileRet.minit = "0";
                 else if (fileRet.timer == string.Empty)
                     fileRet.timer = "0";
                 else if (fileRet.tdato == string.Empty)
@@ -572,7 +597,7 @@ public class ozUploadFileMed
                  }
                  else
                  {
-                     if (fileRet.medarbejderid == initIn)
+                     if (fileRet.minit == initIn)
                          lstRet.Add(fileRet);
                      else
                      {
@@ -621,9 +646,9 @@ public class ozUploadFileMed
         return lstRet;
     }
 
-    private List<ozUploadFileMed> ReadCsv(string pathIn, string filenameIn, int[] headers, ref int countInserted, ref int countIgnore, string initIn, ref string errorLines, string midIn, string folderIn, string importtype)
+    private List<ozUploadFileOmk> ReadCsv(string pathIn, string filenameIn, int[] headers, ref int countInserted, ref int countIgnore, string initIn, ref string errorLines, string midIn, string folderIn, string importtype)
     {
-        List<ozUploadFileMed> lstRet = new List<ozUploadFileMed>();
+        List<ozUploadFileOmk> lstRet = new List<ozUploadFileOmk>();
 
         try
         {
@@ -642,31 +667,27 @@ public class ozUploadFileMed
                     continue;
                 }
 
-                ozUploadFileMed fileRet = new ozUploadFileMed();
+                ozUploadFileOmk fileRet = new ozUploadFileOmk();
                 string[] datas = allLines[i].Split(';');
-                fileRet.jobid = datas[headers[0]-1];
-                fileRet.aktnavn = datas[headers[1]-1];
-                fileRet.aktnr = datas[headers[2]-1];
 
-                if (importtype != "t2") { 
-                fileRet.akttimer = datas[headers[3]-1];
-                fileRet.akttpris = datas[headers[4]-1];
-                fileRet.aktsum = datas[headers[5]-1];
-                //fileRet.timerkom = datas[headers[6]-1];
-                fileRet.konto = datas[headers[6]-1];
-                fileRet.linjetype = datas[headers[7]-1];
-                }
+                
+                fileRet.dato = datas[headers[0]-1];
+                fileRet.beskrivelse = datas[headers[1]-1];
+                fileRet.konto = datas[headers[2]-1];
 
-                //if (fileRet.jobid == string.Empty)
-                //    fileRet.jobid = "0";
-                //if (fileRet.medarbejderid == string.Empty)
-                //    fileRet.medarbejderid = "0";
-                //if (fileRet.timer == string.Empty)
-                //    fileRet.timer = "0";
-                //if (fileRet.tdato == string.Empty)
-                //    fileRet.tdato = "01-01-2001";
+                fileRet.jobid = datas[headers[3]-1];
+                fileRet.minit = datas[headers[4]-1];
+                fileRet.belob = datas[headers[5]-1];
+                fileRet.valuta = datas[headers[6]-1];
+                fileRet.aktnr = datas[headers[7]-1];
 
-                bool isLevelEnough = CheckUserLevel(folderIn, midIn);
+
+                if (fileRet.dato == string.Empty)
+                    fileRet.dato = "01-01-2001";
+
+           
+
+            bool isLevelEnough = CheckUserLevel(folderIn, midIn);
 
                 if (isLevelEnough)
                 {
@@ -674,7 +695,7 @@ public class ozUploadFileMed
                 }
                 else
                 {
-                    if (fileRet.medarbejderid == initIn)
+                    if (fileRet.minit == initIn)
                         lstRet.Add(fileRet);
                     else
                     {
