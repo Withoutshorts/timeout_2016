@@ -134,7 +134,12 @@
     <txt_127 >Status</txt_127>
     <txt_128 >Medarbejdertype</txt_128>
     <txt_129 >fra d.</txt_129>
-
+    <txt_130 >Følg denne medarb.type (MASTER til om tp 1-5 skal være forvalgt på eksisterende åbne job og tilbud)</txt_130>
+    <txt_131 >benyttes hvis den valgte medarb.type er ny, og dette er den første medarbejder af denne type</txt_131>
+    <txt_132 >Ingen</txt_132>
+    <txt_133 >Favoritlisten</txt_133>
+    <txt_134 >Søg</txt_134>
+    
   </dk>
 
 
@@ -271,7 +276,12 @@
     <txt_127 >Status</txt_127>
     <txt_128 >Employee type</txt_128>
     <txt_129 >from d.</txt_129>
-
+    <txt_130 >Follow this empl. Type. (MASTER for hourly rates 1-5 has to be chosen on existing project which are open or has status as “Offer”)</txt_130>
+    <txt_131 >Used if the selected employee type is new and this is the first employee of this type</txt_131>
+    <txt_132 >None</txt_132>
+    <txt_133 >Favorites</txt_133>
+    <txt_134 >Search</txt_134>
+    
   </no>
 
 
@@ -407,6 +417,11 @@
     <txt_127 >Status</txt_127>
     <txt_128 >Employee type</txt_128>
     <txt_129 >from d.</txt_129>
+    <txt_130 >Follow this empl. Type. (MASTER for hourly rates 1-5 has to be chosen on existing project which are open or has status as “Offer”)</txt_130>
+    <txt_131 >Used if the selected employee type is new and this is the first employee of this type</txt_131>
+    <txt_132 >None</txt_132>
+    <txt_133 >Favorites</txt_133>
+    <txt_134 >Search</txt_134>
 
   </se>
 
@@ -543,7 +558,11 @@
     <txt_127 >Status</txt_127>
     <txt_128 >Employee type</txt_128>
     <txt_129 >from d.</txt_129>
-
+    <txt_130 >Follow this empl. Type. (MASTER for hourly rates 1-5 has to be chosen on existing project which are open or has status as “Offer”)</txt_130>
+    <txt_131 >Used if the selected employee type is new and this is the first employee of this type</txt_131>
+    <txt_132 >None</txt_132>
+    <txt_133 >Favorites</txt_133>
+    <txt_134 >Search</txt_134>
 
   </de>
 
@@ -679,7 +698,12 @@
     <txt_127 >Status</txt_127>
     <txt_128 >Employee type</txt_128>
     <txt_129 >from d.</txt_129>
-
+    <txt_130 >Follow this empl. Type. (MASTER for hourly rates 1-5 has to be chosen on existing project which are open or has status as “Offer”)</txt_130>
+    <txt_131 >Used if the selected employee type is new and this is the first employee of this type</txt_131>
+    <txt_132 >None</txt_132>
+    <txt_133 >Favorites</txt_133>
+    <txt_134 >Search</txt_134>
+    
   </fr>
 
 
@@ -815,6 +839,11 @@
     <txt_127 >Status</txt_127>
     <txt_128 >Employee type</txt_128>
     <txt_129 >from d.</txt_129>
+    <txt_130 >Follow this empl. Type. (MASTER for hourly rates 1-5 has to be chosen on existing project which are open or has status as “Offer”)</txt_130>
+    <txt_131 >Used if the selected employee type is new and this is the first employee of this type</txt_131>
+    <txt_132 >None</txt_132>
+    <txt_133 >Favorites</txt_133>
+    <txt_134 >Search</txt_134>
 
   </uk>
 
@@ -950,6 +979,11 @@
     <txt_127 >Status</txt_127>
     <txt_128 >Employee type</txt_128>
     <txt_129 >from d.</txt_129>
+    <txt_130 >Follow this empl. Type. (MASTER for hourly rates 1-5 has to be chosen on existing project which are open or has status as “Offer”)</txt_130>
+    <txt_131 >Used if the selected employee type is new and this is the first employee of this type</txt_131>
+    <txt_132 >None</txt_132>
+    <txt_133 >Favorites</txt_133>
+    <txt_134 >Search</txt_134>
 
   </es>
 

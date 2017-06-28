@@ -493,7 +493,16 @@
                                             <td style="text-align:right"><%=TimerPaaAkt %> <%'response.Write aktstartdatoUS %></td>
 
                                             <%next %>
-                                            <td></td>
+                                            <td style="text-align:right">
+                                                <%
+                                                    strSQLakttotal = "SELECT taktivitetnavn, sum(timer) as Timer FROM timer WHERE TAktivitetId ="& aktid &" AND tfaktim <> 5 AND tjobnr = '"& Strjobid & "' AND tmnr ="& medarbid(m) & " AND tdato BETWEEN '"& startdato &"' AND '"& slutdato &"'"
+                                                    oRec2.open strSQLakttotal, oConn, 3
+                                                    if not oRec2.EOF then
+                                                    response.Write oRec2("Timer")
+                                                    end if
+                                                    oRec2.close 
+                                                %>
+                                            </td>
 
                                             <td>
                                                 <%

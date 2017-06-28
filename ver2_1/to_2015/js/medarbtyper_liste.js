@@ -5,7 +5,8 @@
     $('#example thead th').not(":eq(0), :eq(1),:eq(3),:eq(4),:eq(5),:eq(6),:eq(7),:eq(8),:eq(9)").each(function () {
 
         var title = $('#example thead th').eq($(this).index()).text();
-        $(this).html('<input type="text" placeholder="Søg ' + title + '" />');
+        var soogtekst = $("#soogtekst").val()
+        $(this).html('<input type="text" placeholder="'+ soogtekst + ' ' + title + '" />');
     });
 
 
