@@ -1358,7 +1358,7 @@ case "dbopr", "dbred"
             <div class="well well-white">
             <div class="row">
                 <div class="col-lg-1">&nbsp</div>
-                <div class="col-lg-2">Navn:</div>
+                <div class="col-lg-2"><%=medarbtyp_txt_008 %>:</div>
                 <div class="col-lg-5"><input class="form-control input-small" type="text" name="FM_navn" value="<%=strNavn%>">
 
                     <%if len(trim(strNavnFolger)) <> 0 then %>
@@ -1741,7 +1741,7 @@ case "dbopr", "dbred"
                                  <div class="col-lg-6">
                            
                                        
-                                       <h4><%=medarbtyp_txt_084 %> <%=medarbtyp_txt_085 %></h4>
+                                       <h4><%=medarbtyp_txt_084 & " " %> <%=medarbtyp_txt_085 %></h4>
 		                 
 		                  
                                 </div>
