@@ -1843,6 +1843,7 @@ case "dbopr", "dbred"
 
      <%if level = 1 then %>
     <script src="js/medarbtyper_liste.js" type="text/javascript"></script>
+    <input type="hidden" id="soogtekst" value="<%=medarb_txt_134 %>" />                            
 
     <div class="container">
     <div class="portlet">

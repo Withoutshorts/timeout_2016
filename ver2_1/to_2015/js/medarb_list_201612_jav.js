@@ -26,7 +26,9 @@ $(document).ready(function () {
     $('#medarb_list thead th').not(":eq(1),:eq(2),:eq(3),:eq(5),:eq(6),:eq(7),:eq(8)").each(function () {
 
         var title = $('#medarb_list thead th').eq($(this).index()).text();
-        $(this).html('<input type="text" placeholder="Søg ' + title + '" />');
+        var soogtekst = $("#soogtekst").val()
+        //alert(soogtekst)
+        $(this).html('<input type="text" placeholder="'+ soogtekst +' ' + title + '" />');
     });
 
     // DataTable
