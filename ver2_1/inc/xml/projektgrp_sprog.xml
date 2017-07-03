@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<sprog>
+
+  <!--- Dansk -->
+  <dk>
+      
+  </dk>
+
+
+  <!--- Norsk -->
+  <no>
+
+  </no>
+
+
+  <!--- Svensk -->
+  <so>
+
+  </so>
+
+
+  <!--- Tysk -->
+  <de>
+
+  </de>
+
+
+  <!--- Fransk -->
+  <fr>  
+
+  </fr>
+
+
+
+  <!-- Engelsk -->
+  <uk>
+
+  </uk>
+
+
+  <!--- Spansk -->
+  <es>
+
+  </es>
+
+
+</sprog>

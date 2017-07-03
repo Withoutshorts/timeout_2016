@@ -249,13 +249,51 @@
 	   
 	    select case visning 
         case 7 
-             
+            
+            visdato = monthname(datepart("m", startDato,2,2)) 'year(startDato)
+            if visdato = "januar" then
+                visdato = afstem_txt_121
+            end if
+            if visdato = "februar" then
+                visdato = afstem_txt_122
+            end if
+            if visdato = "marts" then
+                visdato = afstem_txt_123
+            end if
+            if visdato = "april" then
+                visdato = afstem_txt_124
+            end if
+            if visdato = "maj" then
+                visdato = afstem_txt_125
+            end if
+            if visdato = "juni" then
+                visdato = afstem_txt_126
+            end if
+            if visdato = "juli" then
+                visdato = afstem_txt_127
+            end if
+            if visdato = "august" then
+                visdato = afstem_txt_128
+            end if
+            if visdato = "september" then
+                visdato = afstem_txt_129
+            end if
+            if visdato = "oktober" then
+                visdato = afstem_txt_130
+            end if
+            if visdato = "november" then
+                visdato = afstem_txt_131
+            end if
+            if visdato = "december" then
+                visdato = afstem_txt_132
+            end if
+
             if media <> "export" then%>
 	        <td style="border-bottom:1px silver solid; border-right:1px silver solid; white-space:nowrap;" class=lille>
             <%if media <> "print" then %>
-            <a href="afstem_tot.asp?usemrn=<%=intMid %>&show=77&varTjDatoUS_man=<%=startDato %>&varTjDatoUS_son=<%=startDato%>&yuse=<%=yuse%>" class=rmenu><%=monthname(datepart("m", startDato,2,2)) &" "& year(startDato) %></a>
+            <a href="afstem_tot.asp?usemrn=<%=intMid %>&show=77&varTjDatoUS_man=<%=startDato %>&varTjDatoUS_son=<%=startDato%>&yuse=<%=yuse%>" class=rmenu><%=visdato &" "& year(startDato) %></a>
             <%else %>
-            <b><%=monthname(datepart("m", startDato,2,2)) &" "& year(startDato) %></b>
+            <b><%=visdato &" "& year(startDato) %></b>
             <%end if %>
             </td>
 	        <%
@@ -1610,7 +1648,7 @@
 	                  
 	        
 	                        if cint(showAfsugeVisAfsluttetpaaGodkendUgesedler) = 0 then
-	                        showAfsugeTxt = "Ja"
+	                        showAfsugeTxt = godkendweek_txt_112
 	                        else
 	                        showAfsugeTxt = ""
 	                        end if
@@ -1646,9 +1684,9 @@
 
                                         select case lto
                                         case "tec", "esn"
-                                        gkTxt = "Luk/Afvis"
+                                        gkTxt = godkendweek_txt_101&"/"&godkendweek_txt_107
                                         case else
-                                        gkTxt = "Afvis/Gk."
+                                        gkTxt = godkendweek_txt_111
                                         end select
 
                                         if cint(SmiWeekOrMonth) = 0 then
@@ -1657,7 +1695,7 @@
 
                                     else
 
-                                    gkTxt = "Be om afslutn."
+                                    gkTxt = godkendweek_txt_103
 
                                         strCheckBoxGodkenduge = ""
 
@@ -1747,7 +1785,7 @@
 
 
 	                    <%
-                        if showAfsugeTxt = "Ja" then
+                        if showAfsugeTxt = godkendweek_txt_112 then
                             showAfsugeExp = 1
                         else
                             showAfsugeExp = 0

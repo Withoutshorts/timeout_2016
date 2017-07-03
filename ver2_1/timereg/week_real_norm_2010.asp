@@ -639,6 +639,33 @@ if len(session("user")) = 0 then
         
             <%for m = 1 to 12 
                 
+                select case m
+                case 1
+                visdato = afstem_txt_121
+                case 2
+                visdato = afstem_txt_122
+                case 3
+                visdato = afstem_txt_123
+                case 4
+                visdato = afstem_txt_124
+                case 5
+                visdato = afstem_txt_125
+                case 6
+                visdato = afstem_txt_126
+                case 7
+                visdato = afstem_txt_127
+                case 8
+                visdato = afstem_txt_128
+                case 9
+                visdato = afstem_txt_129
+                case 10
+                visdato = afstem_txt_130
+                case 11
+                visdato = afstem_txt_131
+                case 12
+                visdato = afstem_txt_132
+                end select
+
                 if m = month(ugp) then
                 mSele = "SELECTED"
                 else
@@ -646,7 +673,7 @@ if len(session("user")) = 0 then
                 end if 
                 
             %>       
-            <option value="<%=m %>" <%=mSele %>><%=monthname(m) %></option>
+            <option value="<%=m %>" <%=mSele %>><%=visdato %></option>
             <%next %>
 
              <option value="13" <%=mSele13 %>><%=godkendweek_txt_005 %></option>
@@ -1674,7 +1701,7 @@ call eksportogprint(ptop,pleft,pwdt)
     <td valign=top align=center>
    <input type=image src="../ill/export1.png" onclick="popUp('week_real_norm_2010.asp?func=export&muse=<%=mnow%>&yuse=<%=year(ugp) %>&FM_moreorless=<%=moreorless %>&FM_saldokri=<%=saldokri %>&FM_timekri=<%=timeKri %>&FM_medarb=<%=thisMiduse%>&FM_md_week=<%=useMDorWeek%>', 400, 200, 200, 100)" />
     </td>
-    <td class=lille><input id="Submit3" type="button" value="Eksportér til .csv >> " style="font-size:9px; width:130px;" onclick="popUp('week_real_norm_2010.asp?func=export&muse=<%=mnow%>&yuse=<%=year(ugp) %>&FM_moreorless=<%=moreorless %>&FM_saldokri=<%=saldokri %>&FM_timekri=<%=timeKri %>&FM_medarb=<%=thisMiduse%>&FM_md_week=<%=useMDorWeek%>', 400, 200, 200, 100)" /></td>
+    <td class=lille><input id="Submit3" type="button" value="<%=afstem_txt_109 %> >> " style="font-size:9px; width:130px;" onclick="popUp('week_real_norm_2010.asp?func=export&muse=<%=mnow%>&yuse=<%=year(ugp) %>&FM_moreorless=<%=moreorless %>&FM_saldokri=<%=saldokri %>&FM_timekri=<%=timeKri %>&FM_medarb=<%=thisMiduse%>&FM_md_week=<%=useMDorWeek%>', 400, 200, 200, 100)" /></td>
 </tr>
 </form>
 <!--

@@ -115,7 +115,16 @@
     <txt_100 >Luk måned(er) for medarbejdere</txt_100>
     <txt_101 >Luk</txt_101>
     <txt_102 >Godkend</txt_102>
-    
+    <txt_103 >Be om afslutn.</txt_103>
+    <txt_104 >uge</txt_104>
+    <txt_105 >Godkend ugeseddel uge</txt_105>
+    <txt_106 >Luk</txt_106>
+    <txt_107 >Afslut</txt_107>
+    <txt_108 >Du har ikke adgang til at godkende ugeseddel for denne medarbejder.</txt_108>
+    <txt_109 >Send besked</txt_109>
+    <txt_110 >Afvis</txt_110>
+    <txt_111 >Afvis/Gk.</txt_111>
+    <txt_112 >Ja</txt_112>
     
   </dk>
 
@@ -233,7 +242,17 @@
     <txt_100 >Close month(s) for employees</txt_100>
     <txt_101 >Close</txt_101>
     <txt_102 >Approve</txt_102>
-    
+    <txt_103 >Ask for completion</txt_103>
+    <txt_104 >week</txt_104>
+    <txt_105 >Approve Weekly note week</txt_105>
+    <txt_106 >Close</txt_106>
+    <txt_107 >End</txt_107>
+    <txt_108 >Du har ikke adgang til at godkende ugeseddel for denne medarbejder.</txt_108>
+    <txt_109 >Send message</txt_109>
+    <txt_110 >Reject</txt_110>
+    <txt_111 >Reject/Ap.</txt_111>
+    <txt_112 >Yes</txt_112>
+
   </no>
   
   
@@ -350,7 +369,17 @@
     <txt_100 >Close month(s) for employees</txt_100>
     <txt_101 >Close</txt_101>
     <txt_102 >Approve</txt_102>
-  
+    <txt_103 >Ask for completion</txt_103>
+    <txt_104 >week</txt_104>
+    <txt_105 >Approve Weekly note week</txt_105>
+    <txt_106 >Close</txt_106>
+    <txt_107 >End</txt_107>
+    <txt_108 >Du har ikke adgang til at godkende ugeseddel for denne medarbejder.</txt_108>
+    <txt_109 >Send message</txt_109>
+    <txt_110 >Reject</txt_110>
+    <txt_111 >Reject/Ap.</txt_111>
+    <txt_112 >Yes</txt_112>
+
   </so>
   
   
@@ -467,6 +496,16 @@
     <txt_100 >Close month(s) for employees</txt_100>
     <txt_101 >Close</txt_101>
     <txt_102 >Approve</txt_102>
+    <txt_103 >Ask for completion</txt_103>
+    <txt_104 >week</txt_104>
+    <txt_105 >Approve Weekly note week</txt_105>
+    <txt_106 >Close</txt_106>
+    <txt_107 >End</txt_107>
+    <txt_108 >Du har ikke adgang til at godkende ugeseddel for denne medarbejder.</txt_108>
+    <txt_109 >Send message</txt_109>
+    <txt_110 >Reject</txt_110>
+    <txt_111 >Reject/Ap.</txt_111>
+    <txt_112 >Yes</txt_112>
 
   </de>
   
@@ -584,7 +623,17 @@
     <txt_100 >Close month(s) for employees</txt_100>
     <txt_101 >Close</txt_101>
     <txt_102 >Approve</txt_102>
-  
+    <txt_103 >Ask for completion</txt_103>
+    <txt_104 >week</txt_104>
+    <txt_105 >Approve Weekly note week</txt_105>
+    <txt_106 >Close</txt_106>
+    <txt_107 >End</txt_107>
+    <txt_108 >Du har ikke adgang til at godkende ugeseddel for denne medarbejder.</txt_108>
+    <txt_109 >Send message</txt_109>
+    <txt_110 >Reject</txt_110>
+    <txt_111 >Reject/Ap.</txt_111>
+    <txt_112 >Yes</txt_112>
+
   </fr>
   
     
@@ -702,7 +751,17 @@
     <txt_100 >Close month(s) for employees</txt_100>
     <txt_101 >Close</txt_101>
     <txt_102 >Approve</txt_102>
-   
+    <txt_103 >Ask for completion</txt_103>
+    <txt_104 >week</txt_104>
+    <txt_105 >Approve Weekly note week</txt_105>
+    <txt_106 >Close</txt_106>
+    <txt_107 >End</txt_107>
+    <txt_108 >Du har ikke adgang til at godkende ugeseddel for denne medarbejder.</txt_108>
+    <txt_109 >Send message</txt_109>
+    <txt_110 >Reject</txt_110>
+    <txt_111 >Reject/Ap.</txt_111>
+    <txt_112 >Yes</txt_112>
+    
   </uk>
 
 
@@ -819,6 +878,16 @@
     <txt_100 >Close month(s) for employees</txt_100>
     <txt_101 >Close</txt_101>
     <txt_102 >Approve</txt_102>
+    <txt_103 >Ask for completion</txt_103>
+    <txt_104 >week</txt_104>
+    <txt_105 >Approve Weekly note week</txt_105>
+    <txt_106 >Close</txt_106>
+    <txt_107 >End</txt_107>
+    <txt_108 >Du har ikke adgang til at godkende ugeseddel for denne medarbejder.</txt_108>
+    <txt_109 >Send message</txt_109>
+    <txt_110 >Reject</txt_110>
+    <txt_111 >Reject/Ap.</txt_111>
+    <txt_112 >Yes</txt_112>
 
   </es>
 

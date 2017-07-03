@@ -109,17 +109,17 @@ tloadA = now
        
 
         <span style="float:right;">
-        <table cellpadding=0 cellspacing=0 border=0 width=120>
+    <table cellpadding=0 cellspacing=0 border=0 width=140>
 	<tr>
-	<td valign=top align=right style="padding:0px 10px 0px 0px;"><a href="godkenduge.asp?usemrn=<%=usemrn%>&varTjDatoUS_man=<%=prev_varTjDatoUS_man %>&varTjDatoUS_son=<%=prev_varTjDatoUS_son %>&nomenu=<%=nomenu %>">< uge <%=prevWeek %></a></td>
-   <td style="padding-right:10px;" valign=top align=right><a href="godkenduge.asp?usemrn=<%=usemrn%>&varTjDatoUS_man=<%=next_varTjDatoUS_man %>&varTjDatoUS_son=<%=next_varTjDatoUS_son %>&nomenu=<%=nomenu %>">uge <%=nextWeek %> ></a></td>
+	<td valign=top align=right style="padding:0px 10px 0px 0px;"><a href="godkenduge.asp?usemrn=<%=usemrn%>&varTjDatoUS_man=<%=prev_varTjDatoUS_man %>&varTjDatoUS_son=<%=prev_varTjDatoUS_son %>&nomenu=<%=nomenu %>">< <%=godkendweek_txt_104 &" " %> <%=prevWeek %></a></td>
+   <td style="padding-right:10px;" valign=top align=right><a href="godkenduge.asp?usemrn=<%=usemrn%>&varTjDatoUS_man=<%=next_varTjDatoUS_man %>&varTjDatoUS_son=<%=next_varTjDatoUS_son %>&nomenu=<%=nomenu %>"><%=godkendweek_txt_104 & " " %> <%=nextWeek %> ></a></td>
 	</tr>
 	</table>
             </span>
         <br /><br />
 
         <%if cint(SmiWeekOrMonth) = 0 then 'uge %>
-        <h4>Godkend ugeseddel uge <%=datepart("ww", varTjDatoUS_tor, 2,2)%>
+        <h4><%=godkendweek_txt_105 & " " %> <%=datepart("ww", varTjDatoUS_tor, 2,2)%>
             
             <%if datepart("ww", varTjDatoUS_tor, 2,2) = 53 then
             response.write " - "& datepart("yyyy", dateAdd("yyyy", - 1, varTjDatoUS_tor), 2,2) &" / "& datepart("yyyy", varTjDatoUS_tor, 2,2)
@@ -131,9 +131,9 @@ tloadA = now
             
             select case lto
             case "tec", "esn"
-            LukafslTxt = "Luk" 
+            LukafslTxt = godkendweek_txt_106 
             case else
-            LukafslTxt = "Afslut"
+            LukafslTxt = godkendweek_txt_107
             end select%>
 
         <h4><%=LukafslTxt &" "& monthname(datepart("m", varTjDatoUS_tor, 2,2)) & " - "& datepart("yyyy", varTjDatoUS_tor, 2,2) %>
@@ -154,7 +154,7 @@ tloadA = now
 
         <%else %>
     
-        Du har ikke adgang til at godkende ugeseddel for denne medarbejder.
+        <%=godkendweek_txt_108 %>
 
         <%end if 'level
 

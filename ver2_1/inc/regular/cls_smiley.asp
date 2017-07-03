@@ -436,7 +436,7 @@ function godkendugeseddel(fmlink, usemrn, varTjDatoUS_man, rdir)
 
                            <form action="<%=fmLink%>&func=godkendugeseddel" method="post">
                                <table width=90% cellpadding=0 cellspacing=0 border=0>
-                            <tr><td class=lille><br />
+                            <tr><td class=lille><br /> 
                                 
 
                            <span style="font-size:11px;"><b><%=lukTxt2 &" "& periodeTxt %></b></span><br />
@@ -472,7 +472,7 @@ function godkendugeseddel(fmlink, usemrn, varTjDatoUS_man, rdir)
                 <%else %>
                   <br />
                   <b><%=funk_txt_033 %></b> <%=funk_txt_034 &" "& periodeTxt &" "& funk_txt_035 %><br /><br />
-                <input id="Submit1" type="submit" value="Send besked >>" style="font-size:9px; width:120px;" />
+                <input id="Submit1" type="submit" value="<%=godkendweek_txt_109 %> >>" style="font-size:9px; width:120px;" />
                 <%end if %>
            
              
@@ -490,7 +490,7 @@ function godkendugeseddel(fmlink, usemrn, varTjDatoUS_man, rdir)
                <span style="font-size:11px;"><b><%=funk_txt_036 &" "& periodeTxt %></b></span><br />
                <%=funk_txt_037 %>:<br />
                <textarea name="FM_afvis_grund" style="width:200px; height:40px;"></textarea><br /><br />
-                <input id="Submit3" type="submit" value="Afvis <%=periodeTxt %> >>" style="font-size:9px; width:120px;" /><br />
+                <input id="Submit3" type="submit" value="<%=godkendweek_txt_110 &" " %> <%=periodeTxt %> >>" style="font-size:9px; width:120px;" /><br />
                  <span style="color:#999999;"><%=funk_txt_038 &" "& lukTxt1 &" "& funk_txt_039 %></span>
                   </td></tr></table>
                  

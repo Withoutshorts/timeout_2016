@@ -399,10 +399,10 @@
 
                             <div class="row">
                                 <div class="col-lg-2">
-                                    <a href="../timereg/db_tastede_dage_2006.asp?func=slet&id=<%=id %>" class="btn btn-primary btn-sm pull-left"><b>Slet</b></a>
+                                    <a href="../timereg/db_tastede_dage_2006.asp?func=slet&id=<%=id %>" class="btn btn-primary btn-sm pull-left"><b><%=medarb_txt_110 %></b></a>
                                 </div>
                                 <div class="col-lg-2">
-                                    <button type="submit" class="btn btn-success btn-sm pull-right"><b>Opdatér</b></button>
+                                    <button type="submit" class="btn btn-success btn-sm pull-right"><b><%=medarb_txt_020 %></b></button>
                                 </div>
                             </div>
 

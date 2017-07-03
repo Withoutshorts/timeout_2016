@@ -278,10 +278,36 @@
                                                 Stryear = Stryear + 1
                                             end if
                                            
-                                      
-                                            getdate = Monthname(months -1 ,True) & "<br>" & Stryear
+                                            select case months -1
+                                            case 1
+                                            getdate = godkend_txt_011 &"<br>"& Stryear
+                                            case 2 
+                                            getdate  = godkend_txt_012 &"<br>"& Stryear
+                                            case 3 
+                                            getdate  = godkend_txt_013 &"<br>"& Stryear
+                                            case 4 
+                                            getdate  = godkend_txt_014 &"<br>"& Stryear
+                                            case 5 
+                                            getdate  = godkend_txt_015 &"<br>"& Stryear
+                                            case 6 
+                                            getdate  = godkend_txt_016 &"<br>"& Stryear
+                                            case 7 
+                                            getdate  = godkend_txt_017 &"<br>"& Stryear
+                                            case 8 
+                                            getdate  = godkend_txt_018 &"<br>"& Stryear
+                                            case 9 
+                                            getdate  = godkend_txt_019 &"<br>"& Stryear
+                                            case 10 
+                                            getdate  = godkend_txt_020 &"<br>"& Stryear
+                                            case 11 
+                                            getdate  = godkend_txt_021 &"<br>"& Stryear
+                                            case 12 
+                                            getdate  = godkend_txt_022 &"<br>"& Stryear
+                                            end select    
+
+                                            'getdate = Monthname(months -1 ,True) & "<br>" & Stryear
                                             'getdate = (Ucase(getdate))   
-                                      
+                                             'getdate = getdate & "<br>" & Stryear 
                                                                           
                                         %> <th style="text-align:center;"><%=UCase(Left(getdate,1)) & Mid(getdate,2) %></th> 
                                   <%
