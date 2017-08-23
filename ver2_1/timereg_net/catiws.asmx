@@ -344,11 +344,22 @@ Public Class CATI :
                 'End If
 
                 ' **** Import af valgkamp 2011 fra special server **''
-                If importFrom = "0" Then
-                    If intJobNr = "121212" Then
-                        intJobNr = "14520" '** valgkamp
-                    End If
+                'If importFrom = "0" Then
+                If intJobNr = "121212" Then
+                    intJobNr = "14520" '** valgkamp
                 End If
+
+                If intJobNr = "20174" Then
+                    intJobNr = "2017431"
+                End If
+
+                If intJobNr = "20173" Then
+                    intJobNr = "21462"
+                End If
+
+
+
+                'End If
 
                 If importFrom = "3" Then
                     If intJobNr = "TU2014" Then
@@ -512,7 +523,7 @@ Public Class CATI :
                         Select Case importFrom
                             Case "1"
                                 intJobNr = Replace(intJobNr, "_", "")
-                            Case "3"
+                            Case "3" 'Vietnam
 
 
                                 If (intJobNr.Substring(0, 2)) = "P_" Then
