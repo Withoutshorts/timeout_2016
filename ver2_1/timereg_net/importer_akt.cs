@@ -12,6 +12,7 @@ public partial class importer_akt : System.Web.UI.Page
 {
     const string PATH2UPLOAD = "~/inc/excelUpload/";
     public string importtype = "";
+    public int clm = 8;
 
     protected void Page_Load(object sender, EventArgs e)
     {
@@ -293,19 +294,28 @@ public partial class importer_akt : System.Web.UI.Page
             String path = Server.MapPath(PATH2UPLOAD);
             List<string> header = service.ReadHeader(path, txtFileName.Text, Request["lto"], Request["editor"], Request["importtype"]);
 
-            if (header.Count < 8)
-                lblUploadStatus.Text = "<b>Der skal være 8 kolonner i excel filen</b>";
+            if (importtype == "t2")
+            {
+                clm = 5;
+            }
+            else
+            {
+                clm = 8;
+            };
+
+                if (header.Count < clm)
+                lblUploadStatus.Text = "<b>Der skal være "+ clm + " kolonner i excel filen</b>";
             else
             {
 
-                string importtype = Request["importtype"];
+                 importtype = Request["importtype"];
 
                 if (importtype == "t2") {
 
-                    SelectDDL(ddlLinjetype, "chargeable", header, lblLinjetype, "linjetype");
-                    SelectDDL(ddlJobId, "projectnumber", header, lblJobId, "jobid");
+                    SelectDDL(ddlLinjetype, "fakturerbar", header, lblLinjetype, "linjetype");
+                    SelectDDL(ddlJobId, "job/project", header, lblJobId, "jobid");
                     SelectDDL(ddlAktnavn, "description", header, lblAktnavn, "aktnavn");
-                    SelectDDL(ddlAktnr, "tasknumber", header, lblAktnr, "aktnr");
+                    SelectDDL(ddlAktnr, "jobnr", header, lblAktnr, "aktnr");
                     SelectDDL(ddlKonto, "blocked", header, lblKonto, "konto");
 
                 } else { 

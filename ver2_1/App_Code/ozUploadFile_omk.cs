@@ -277,6 +277,8 @@ public class ozUploadFileOmk
             {
 
                 string beskrivelse = data.beskrivelse.ToString().Replace("'", "");
+                beskrivelse = beskrivelse.ToString().Replace("‘", "");
+                
                 string belob = data.belob.ToString().Replace(".", "");
                 belob = belob.ToString().Replace(",", ".");
 
@@ -353,6 +355,7 @@ public class ozUploadFileOmk
             ltoIn = "intranet";
 
         //ltoIn = "epi2017";
+        importtype = "1";
 
         string strRet = string.Empty;
 

@@ -124,7 +124,7 @@
         oRec4.close
 
       if resTimerThis <> 0 then
-      restimerThis = formatnumber(restimerThis,0)
+      restimerThis = formatnumber(restimerThis,2)
       else
       restimerThis = ""
       end if

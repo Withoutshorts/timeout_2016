@@ -22,6 +22,11 @@ public class ozUploadFileMed
     public string dato = string.Empty;
     public string editor = string.Empty;
     public string origin = string.Empty;
+
+
+    /// <summary>
+    /// Bør slettes bruges IKKE
+    /// </summary>
     public string medarbejderid = string.Empty;
     public string jobid = string.Empty;
     public string jobnavn = string.Empty;
@@ -32,10 +37,31 @@ public class ozUploadFileMed
     public string aktsum = string.Empty;
     public string timer = string.Empty;
     public string tdato = string.Empty;
-    public string lto = string.Empty;
+   
     public string timerkom = string.Empty;
     public string linjetype = string.Empty;
     public string konto = string.Empty;
+
+    // END 
+
+    public string lto = string.Empty;
+    public string minit = string.Empty;
+    public string navn = string.Empty;
+    public string email = string.Empty;
+    public string norm = string.Empty;
+    public string mansat = string.Empty;
+    public string ansatdato = string.Empty;
+    public string opsagtdato = string.Empty;
+    public string evn = string.Empty;
+    public string costcenter = string.Empty;
+    public string linemanager = string.Empty;
+    public string countrycode = string.Empty;
+    public string weblang = string.Empty;
+
+    public string medstdato = string.Empty;
+    public string medsldato = string.Empty;
+
+    public string normthis = string.Empty;
 
     const int ORIGIN = 10;
 
@@ -263,23 +289,92 @@ public class ozUploadFileMed
             connection.Open();
             foreach (ozUploadFileMed data in lstData)
             {
-                string mnavn = data.aktnavn.ToString().Replace("'", "");
+              
 
 
-                   string strInsert = "INSERT INTO med_import_temp (dato, origin, jobnr, aktnavn, aktnr, beskrivelse, lto, editor, overfort) ";
-                    strInsert += " VALUES ('" + DateTime.Now.ToString("yyyy-MM-dd") + "',914,'" + data.jobid + "','" + mnavn + "','" + data.aktnr + "',";
-                    strInsert += "'','tia','Timeout - ImportMedService ',0)";
-                    OdbcCommand command = new OdbcCommand(strInsert, connection);
+                if (folder == "tia")
+                {
+
+                    if (String.IsNullOrEmpty(data.norm) != true && data.norm != "EXT" && data.norm != "80%")
+                    {
+                        normthis = data.norm.ToString().Replace(",", ".");
+                         } else
+                    {
+                        normthis = "0";
+                    };
 
 
+                    if (String.IsNullOrEmpty(data.ansatdato) != true) { 
+                    medstdato = ConvertDate(data.ansatdato);
+                    } else
+                    {
+                        medstdato = "2002-01-01";
+                    };
+
+                    if (String.IsNullOrEmpty(data.opsagtdato) != true)
+                    {
+                        medsldato = ConvertDate(data.opsagtdato);
+                    }
+                    else
+                    {
+                        medsldato = "2002-01-01";
+                    };
+
+
+                    string mnavn = data.navn.ToString().Replace("'", "");
+
+                    string strSQLmedinsTemp = "INSERT INTO med_import_temp_ds (dato, origin, Init, ";
+                    strSQLmedinsTemp += "mnavn, ";
+                    strSQLmedinsTemp += "email, ";
+                    strSQLmedinsTemp += "normtid, ";
+                    strSQLmedinsTemp += "ansatdato, ";
+                    strSQLmedinsTemp += "opsagtdato, ";
+                    strSQLmedinsTemp += "mansat, ";
+                    strSQLmedinsTemp += "expvendorno, ";
+                    strSQLmedinsTemp += "costcenter, ";
+                    strSQLmedinsTemp += "linemanager, ";
+                    strSQLmedinsTemp += "countrycode, ";
+                    strSQLmedinsTemp += "weblang, lto, editor, overfort) ";
+                    strSQLmedinsTemp += " VALUES ('" + DateTime.Now.ToString("yyyy-MM-dd") + "', '910','" + data.minit + "',";
+                    strSQLmedinsTemp += "'" + mnavn + "','" + data.email + "',";
+                    strSQLmedinsTemp += "'" + normthis + "',";
+                    strSQLmedinsTemp += "'" + medstdato + "',";
+                    strSQLmedinsTemp += "'" + medsldato +  "','" + data.mansat + "', '" + data.evn + "',";
+                    strSQLmedinsTemp += "'" + data.costcenter + "', '" + data.linemanager + "','" + data.countrycode + "', '" + data.weblang + "',";
+                    strSQLmedinsTemp += "'tia','Timeout - ImportMedService',0)";
+
+                    OdbcCommand command = new OdbcCommand(strSQLmedinsTemp, connection);
 
                     // Execute the DataReader and access the data.
                     intRow = command.ExecuteNonQuery();
                     //intRow = "";
                     //command.ExecuteNonQuery();
 
+                }
+                else {
 
-                
+                    /// SKAL TILRETTES 20170629
+                    string mnavn = data.navn.ToString().Replace("'", "");
+
+                    string strInsert = "INSERT INTO med_import_temp (dato, origin, jobnr, aktnavn, aktnr, beskrivelse, lto, editor, overfort) ";
+                    strInsert += " VALUES ('" + DateTime.Now.ToString("yyyy-MM-dd") + "',910,'" + data.jobid + "','" + mnavn + "','" + data.aktnr + "',";
+                    strInsert += "'','" + folder + "','Timeout - ImportMedService ',0)";
+                    OdbcCommand command = new OdbcCommand(strInsert, connection);
+
+                    // Execute the DataReader and access the data.
+                    intRow = command.ExecuteNonQuery();
+                    //intRow = "";
+                    //command.ExecuteNonQuery();
+
+                }
+
+
+
+
+
+
+
+
 
             }
             connection.Close();
@@ -346,11 +441,10 @@ public class ozUploadFileMed
 
         //dk.outzource.to_import service = new dk.outzource.to_import();
         //dk.outzource_addakt.oz_importakt service = new dk.outzource_addakt.oz_importakt();
-        dk_rack.cloud_timeout_importmed.oz_importmed service = new dk_rack.cloud_timeout_importmed.oz_importmed();
-  
+        //dk_rack.cloud_timeout_importmed.oz_importmed service = new dk_rack.cloud_timeout_importmed.oz_importmed();
+        dk_rack.outzource_timeout2_importmed_nav.oz_importmed_na service = new dk_rack.outzource_timeout2_importmed_nav.oz_importmed_na();
+
         strRet = service.addmed(dsData);
-       
-        
 
         return strRet;
     }
@@ -644,18 +738,21 @@ public class ozUploadFileMed
 
                 ozUploadFileMed fileRet = new ozUploadFileMed();
                 string[] datas = allLines[i].Split(';');
-                fileRet.jobid = datas[headers[0]-1];
-                fileRet.aktnavn = datas[headers[1]-1];
-                fileRet.aktnr = datas[headers[2]-1];
+                fileRet.minit = datas[headers[0]-1];
+                fileRet.navn = datas[headers[1]-1];
+                fileRet.email = datas[headers[2]-1];
+                fileRet.norm = datas[headers[3]-1];
+              
+                fileRet.ansatdato = datas[headers[4]-1];
+                fileRet.opsagtdato = datas[headers[5]-1];
+                fileRet.mansat = datas[headers[6]-1];
 
-                if (importtype != "t2") { 
-                fileRet.akttimer = datas[headers[3]-1];
-                fileRet.akttpris = datas[headers[4]-1];
-                fileRet.aktsum = datas[headers[5]-1];
-                //fileRet.timerkom = datas[headers[6]-1];
-                fileRet.konto = datas[headers[6]-1];
-                fileRet.linjetype = datas[headers[7]-1];
-                }
+                fileRet.evn = datas[headers[7]-1];
+                fileRet.costcenter = datas[headers[8]-1];
+                fileRet.linemanager = datas[headers[9] - 1];
+                fileRet.countrycode = datas[headers[10] - 1];
+                fileRet.weblang = datas[headers[11] - 1];
+
 
                 //if (fileRet.jobid == string.Empty)
                 //    fileRet.jobid = "0";
@@ -674,7 +771,7 @@ public class ozUploadFileMed
                 }
                 else
                 {
-                    if (fileRet.medarbejderid == initIn)
+                    if (fileRet.minit == initIn)
                         lstRet.Add(fileRet);
                     else
                     {

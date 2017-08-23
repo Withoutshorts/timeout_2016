@@ -404,6 +404,8 @@ function opdaterRessouceRamme(f, FY0, FY1, FY2, jobBudgetFY0, fctimeprisFY0, fct
         Tiuse = replace(Tiuse, ".", "")
         Tiuse = replace(Tiuse, ",", ".")
 
+        'Tiuse = 3000
+
         if len(trim(Tiuse)) <> 0 then
         
 

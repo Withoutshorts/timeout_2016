@@ -467,7 +467,7 @@
                 call meStamdata(medid)
                  
                     if cint(meType) = 14 then
-                    strSQLkunSpecialAkt = " AND (a.navn = 'Data Collection')"
+                    strSQLkunSpecialAkt = " AND (a.navn = 'Data Collection' OR a.navn = 'Break (CPH Airport)')"
                     end if
 
                 end if
@@ -857,6 +857,12 @@
         showStop = 0
         showDetailDayResumeOrLink = 0
         ststopbtnTxt = "St. / Stop"
+      case "dencker"
+        showAfslutJob = 0
+        showMatreg = 0
+        showStop = 0
+        showDetailDayResumeOrLink = 1
+        ststopbtnTxt = "St. / Stop"
     case "xintranet - local", "sdutek", "nonstop", "cc" ', "epi", "epi_uk", "epi_ab", "epi_no"
         showAfslutJob = 0
         showMatreg = 0
@@ -873,7 +879,7 @@
         mobil_week_reg_job_dd = 1
         mobil_week_reg_akt_dd_forvalgt = 1
 
-        strSQLkunDataCol = "AND navn = 'Data collection'"
+        strSQLkunDataCol = "AND (navn = 'Data collection' OR navn = 'Break (CPH Airport)')"
 
         else
         showStop = 0

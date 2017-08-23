@@ -18,7 +18,7 @@ public partial class importer_med : System.Web.UI.Page
         importtype = Request["importtype"];
 
       
-        feltnr1navn.Text = "No.:";
+        feltnr1navn.Text = "No. (Init):";
         feltnr2navn.Text = "Name:";
         feltnr3navn.Text = "Email:";
         feltnr4navn.Text = "Norm time:";
@@ -26,9 +26,15 @@ public partial class importer_med : System.Web.UI.Page
         feltnr6navn.Text = "Termination date:";
         feltnr7navn.Text = "Blocked";
         feltnr8navn.Text = "Expence vendor no.:";
+        feltnr9navn.Text = "Costcenter:";
+        feltnr10navn.Text = "Linemanger:";
+        feltnr11navn.Text = "Country Code:";
+        feltnr12navn.Text = "Weblang:";
+        
 
 
-       
+
+
 
     }
 
@@ -169,15 +175,15 @@ public partial class importer_med : System.Web.UI.Page
 
 
 
-    private string GetJobId(string msgIn)
+    private string GetMinit(string msgIn)
     {
         string errorId = string.Empty;
 
-        int indexJobid = msgIn.IndexOf("jobnr:");
+        int indexMinit = msgIn.IndexOf("jobnr:");
         int indexRightEnd = msgIn.IndexOf(")");
 
-        if (indexJobid != -1)
-            errorId = msgIn.Substring(indexJobid + 6, indexRightEnd - indexJobid);
+        if (indexMinit != -1)
+            errorId = msgIn.Substring(indexMinit + 6, indexRightEnd - indexMinit);
 
         return errorId;
     }
@@ -282,25 +288,31 @@ public partial class importer_med : System.Web.UI.Page
             String path = Server.MapPath(PATH2UPLOAD);
             List<string> header = service.ReadHeader(path, txtFileName.Text, Request["lto"], Request["editor"], Request["importtype"]);
 
-            if (header.Count < 8)
-                lblUploadStatus.Text = "<b>Der skal være 8 kolonner i excel filen</b>";
+            if (header.Count < 12)
+                lblUploadStatus.Text = "<b>Der skal være 12 kolonner i excel filen</b>";
             else
             {
 
                 string importtype = Request["importtype"];
 
-               
-                    SelectDDL(ddlLinjetype, "no", header, lblLinjetype, "linjetype");
-                    SelectDDL(ddlJobId, "name", header, lblJobId, "jobid");
-                    SelectDDL(ddlAktnavn, "email", header, lblAktnavn, "aktnavn");
-                    SelectDDL(ddlAktnr, "norm", header, lblAktnr, "aktnr");
-                    SelectDDL(ddlKonto, "employment", header, lblKonto, "konto");
-                    SelectDDL(ddlAkttimer, "termination", header, lblAkttimer, "akttimer");
-                    SelectDDL(ddlAkttpris, "blocked", header, lblAkttpris, "akttpris");
-                    SelectDDL(ddlAktsum, "expence", header, lblAktsum, "aktsum");
-               
-                
-                
+
+        
+                    SelectDDL(ddlMinit, "initial", header, lblMinit, "minit");
+                    SelectDDL(ddlNavn, "navn", header, lblNavn, "navn");
+                    SelectDDL(ddlEmail, "e-mail", header, lblEmail, "email");
+                    SelectDDL(ddlNorm, "normtid", header, lblNorm, "norm");
+                    SelectDDL(ddlAnsatdato, "employment", header, lblAnsatdato, "ansatdato");
+                    SelectDDL(ddlOpsagtdato, "termination", header, lblOpsagtdato, "opdagtdato");
+                    SelectDDL(ddlMansat, "blocked", header, lblMansat, "mansat");
+                    SelectDDL(ddlEvn, "expvendorno", header, lblEvn, "evn");
+
+                    SelectDDL(ddlCostcenter, "cost center", header, lblCostcenter, "costcenter");
+                    SelectDDL(ddlLinemanager, "linemanager", header, lblLinemanager, "linemanager");
+                    SelectDDL(ddlCcode, "country code", header, lblCcode, "countrycode");
+                    SelectDDL(ddlWeblang, "weblang", header, lblWeblang, "weblang");
+
+
+
             }
         }
         catch (Exception ex)
@@ -311,29 +323,38 @@ public partial class importer_med : System.Web.UI.Page
    
     private string[] GetExcelHeaderList()
     {
-        string[] strRets = { "", "", "", "", "", "", "", "" }; //,"","","",""
+        string[] strRets = { "", "", "", "", "", "", "", "", "", "", "", "" }; //,"","","",""
 
         try
         {
             Application.Lock();
-            if (Application["jobid"] != null)
-                strRets[0] = Application["jobid"].ToString();
-            if (Application["aktnavn"] != null)
-                strRets[1] = Application["aktnavn"].ToString();
-            if (Application["aktnr"] != null)
-                strRets[2] = Application["aktnr"].ToString();
-            if (Application["akttimer"] != null)
-                strRets[3] = Application["akttimer"].ToString();
-            if (Application["akttpris"] != null)
-                strRets[4] = Application["akttpris"].ToString();
-            if (Application["aktsum"] != null)
-                strRets[5] = Application["aktsum"].ToString();
-            if (Application["konto"] != null)
-                strRets[6] = Application["konto"].ToString();
-            if (Application["linjetype"] != null)
-                strRets[7] = Application["linjetype"].ToString();
-             
-             
+            if (Application["minit"] != null)
+                strRets[0] = Application["minit"].ToString();
+            if (Application["navn"] != null)
+                strRets[1] = Application["navn"].ToString();
+            if (Application["email"] != null)
+                strRets[2] = Application["email"].ToString();
+            if (Application["norm"] != null)
+                strRets[3] = Application["norm"].ToString();
+            if (Application["ansatdato"] != null)
+                strRets[4] = Application["ansatdato"].ToString();
+            if (Application["opsagtdato"] != null)
+                strRets[5] = Application["opsagtdato"].ToString();
+            if (Application["mansat"] != null)
+                strRets[6] = Application["mansat"].ToString();
+            if (Application["evn"] != null)
+                strRets[7] = Application["evn"].ToString();
+            if (Application["costcenter"] != null)
+                strRets[8] = Application["costcenter"].ToString();
+            if (Application["linemanager"] != null)
+                strRets[9] = Application["linemanager"].ToString();
+            if (Application["countrycode"] != null)
+                strRets[10] = Application["countrycode"].ToString();
+            if (Application["weblang"] != null)
+                strRets[11] = Application["weblang"].ToString();
+            
+
+
             Application.UnLock();
         }
         catch (Exception ex)
@@ -346,28 +367,36 @@ public partial class importer_med : System.Web.UI.Page
 
     private int[] GetExcelIntHeaderList()
     {
-        int[] intRets = { 0, 0, 0, 0, 0, 0, 0, 0 }; //, 0, 0, 0, 0
+        int[] intRets = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }; //, 0, 0, 0, 0
 
         try
         {
 
-            if (ddlJobId.SelectedIndex != -1)
-                intRets[0] = ddlJobId.SelectedIndex;
-            if (ddlAktnavn.SelectedIndex != -1)
-                intRets[1] = ddlAktnavn.SelectedIndex;
-            if (ddlAktnr.SelectedIndex != -1)
-                intRets[2] = ddlAktnr.SelectedIndex;
-            if (ddlAkttimer.SelectedIndex != -1)
-                intRets[3] = ddlAkttimer.SelectedIndex;
-            if (ddlAkttpris.SelectedIndex != -1)
-                intRets[4] = ddlAkttpris.SelectedIndex;
-            if (ddlAktsum.SelectedIndex != -1)
-                intRets[5] = ddlAktsum.SelectedIndex;
-            if (ddlKonto.SelectedIndex != -1)
-                intRets[6] = ddlKonto.SelectedIndex;
-            if (ddlLinjetype.SelectedIndex != -1)
-                intRets[7] = ddlLinjetype.SelectedIndex;
-           
+            if (ddlMinit.SelectedIndex != -1)
+                intRets[0] = ddlMinit.SelectedIndex;
+            if (ddlNavn.SelectedIndex != -1)
+                intRets[1] = ddlNavn.SelectedIndex;
+            if (ddlEmail.SelectedIndex != -1)
+                intRets[2] = ddlEmail.SelectedIndex;
+            if (ddlNorm.SelectedIndex != -1)
+                intRets[3] = ddlNorm.SelectedIndex;
+            if (ddlAnsatdato.SelectedIndex != -1)
+                intRets[4] = ddlAnsatdato.SelectedIndex;
+            if (ddlOpsagtdato.SelectedIndex != -1)
+                intRets[5] = ddlOpsagtdato.SelectedIndex;
+            if (ddlMansat.SelectedIndex != -1)
+                intRets[6] = ddlMansat.SelectedIndex;
+            if (ddlEvn.SelectedIndex != -1)
+                intRets[7] = ddlEvn.SelectedIndex;
+            if (ddlCostcenter.SelectedIndex != -1)
+                intRets[8] = ddlCostcenter.SelectedIndex;
+            if (ddlLinemanager.SelectedIndex != -1)
+                intRets[9] = ddlLinemanager.SelectedIndex;
+            if (ddlCcode.SelectedIndex != -1)
+                intRets[10] = ddlCcode.SelectedIndex;
+            if (ddlWeblang.SelectedIndex != -1)
+                intRets[11] = ddlWeblang.SelectedIndex;
+
         }
         catch (Exception ex)
         {
@@ -378,110 +407,174 @@ public partial class importer_med : System.Web.UI.Page
     }
 
 
-    protected void ddlJobId_SelectedIndexChanged(object sender, EventArgs e)
+    protected void ddlMinit_SelectedIndexChanged(object sender, EventArgs e)
     {
-        lblJobId.Text = "fundet kolonne: " + ddlJobId.SelectedValue;
-        Application["jobid"] = ddlJobId.SelectedValue;
+        lblMinit.Text = "fundet kolonne: " + ddlMinit.SelectedValue;
+        Application["minit"] = ddlMinit.SelectedValue;
     }
 
-    protected void ddlAktnavn_SelectedIndexChanged(object sender, EventArgs e)
+    protected void ddlNavn_SelectedIndexChanged(object sender, EventArgs e)
     {
-        lblAktnavn.Text = "fundet kolonne: " + ddlAktnavn.SelectedValue;
-        Application["aktnavn"] = ddlAktnavn.SelectedValue;
+        lblNavn.Text = "fundet kolonne: " + ddlNavn.SelectedValue;
+        Application["navn"] = ddlNavn.SelectedValue;
     }
    
-    protected void ddlAktnr_SelectedIndexChanged(object sender, EventArgs e)
+    protected void ddlEmail_SelectedIndexChanged(object sender, EventArgs e)
     {
-        lblAktnr.Text = "fundet kolonne: " + ddlAktnr.SelectedValue;
-        Application["aktnr"] = ddlAktnr.SelectedValue;
+        lblEmail.Text = "fundet kolonne: " + ddlEmail.SelectedValue;
+        Application["email"] = ddlEmail.SelectedValue;
     }
 
-    protected void ddlAkttimer_SelectedIndexChanged(object sender, EventArgs e)
+    protected void ddlNorm_SelectedIndexChanged(object sender, EventArgs e)
     {
-        lblAkttimer.Text = "fundet kolonne: " + ddlAkttimer.SelectedValue;
-        Application["akttimer"] = ddlAkttimer.SelectedValue;
+        lblNorm.Text = "fundet kolonne: " + ddlNorm.SelectedValue;
+        Application["norm"] = ddlNorm.SelectedValue;
     }
 
-    protected void ddlAkttpris_SelectedIndexChanged(object sender, EventArgs e)
+    protected void ddlAnsatdato_SelectedIndexChanged(object sender, EventArgs e)
     {
-        lblAkttpris.Text = "fundet kolonne: " + ddlAkttpris.SelectedValue;
-        Application["akttpris"] = ddlAkttpris.SelectedValue;
+        lblAnsatdato.Text = "fundet kolonne: " + ddlAnsatdato.SelectedValue;
+        Application["ansatdato"] = ddlAnsatdato.SelectedValue;
     }
 
-    protected void ddlAktsum_SelectedIndexChanged(object sender, EventArgs e)
+    protected void ddlOpsagtdato_SelectedIndexChanged(object sender, EventArgs e)
     {
-        lblAktsum.Text = "fundet kolonne: " + ddlAktsum.SelectedValue;
-        Application["aktsum"] = ddlAktsum.SelectedValue;
+        lblOpsagtdato.Text = "fundet kolonne: " + ddlOpsagtdato.SelectedValue;
+        Application["opsagtdato"] = ddlOpsagtdato.SelectedValue;
     }
 
-    protected void ddlKonto_SelectedIndexChanged(object sender, EventArgs e)
+    protected void ddlMansat_SelectedIndexChanged(object sender, EventArgs e)
     {
-        lblKonto.Text = "fundet kolonne: " + ddlKonto.SelectedValue;
-        Application["konto"] = ddlKonto.SelectedValue;
+        lblMansat.Text = "fundet kolonne: " + ddlMansat.SelectedValue;
+        Application["mansat"] = ddlMansat.SelectedValue;
     }
 
-    protected void ddlLinjetype_SelectedIndexChanged(object sender, EventArgs e)
+    protected void ddlEvn_SelectedIndexChanged(object sender, EventArgs e)
     {
-        lblLinjetype.Text = "fundet kolonne: " + ddlLinjetype.SelectedValue;
-        Application["linjetype"] = ddlLinjetype.SelectedValue;
+        lblEvn.Text = "fundet kolonne: " + ddlEvn.SelectedValue;
+        Application["evn"] = ddlEvn.SelectedValue;
+    }
+
+
+    protected void ddlCostcenter_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        lblCostcenter.Text = "fundet kolonne: " + ddlCostcenter.SelectedValue;
+        Application["costcenter"] = ddlCostcenter.SelectedValue;
+    }
+
+    protected void ddlLinemanager_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        lblLinemanager.Text = "fundet kolonne: " + ddlLinemanager.SelectedValue;
+        Application["linemanager"] = ddlLinemanager.SelectedValue;
+    }
+
+    protected void ddlCcode_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        lblCcode.Text = "fundet kolonne: " + ddlCcode.SelectedValue;
+        Application["ccode"] = ddlCcode.SelectedValue;
+    }
+
+    protected void ddlWeblang_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        lblWeblang.Text = "fundet kolonne: " + ddlWeblang.SelectedValue;
+        Application["weblang"] = ddlWeblang.SelectedValue;
     }
 
 
 
-   
 
 
-    protected void ddlJobId_DataBound(object sender, EventArgs e)
+
+
+
+
+
+
+
+
+
+
+
+
+
+    protected void ddlMinit_DataBound(object sender, EventArgs e)
     {
-        lblJobId.Text = "fundet kolonne: " + ddlJobId.SelectedValue;
-        Application["jobid"] = ddlJobId.SelectedValue;
+        lblMinit.Text = "fundet kolonne: " + ddlMinit.SelectedValue;
+        Application["minit"] = ddlMinit.SelectedValue;
     }
 
-    protected void ddlAktnavn_DataBound(object sender, EventArgs e)
+    protected void ddlNavn_DataBound(object sender, EventArgs e)
     {
-        lblAktnavn.Text = "fundet kolonne: " + ddlAktnavn.SelectedValue;
-        Application["aktnavn"] = ddlAktnavn.SelectedValue;
+        lblNavn.Text = "fundet kolonne: " + ddlNavn.SelectedValue;
+        Application["navn"] = ddlNavn.SelectedValue;
     }
     
    
-    protected void ddlAktnr_DataBound(object sender, EventArgs e)
+    protected void ddlEmail_DataBound(object sender, EventArgs e)
     {
-        lblAktnr.Text = "fundet kolonne: " + ddlAktnr.SelectedValue;
-        Application["aktnr"] = ddlAktnr.SelectedValue;
+        lblEmail.Text = "fundet kolonne: " + ddlEmail.SelectedValue;
+        Application["email"] = ddlEmail.SelectedValue;
     }
 
 
-    protected void ddlAkttimer_DataBound(object sender, EventArgs e)
+    protected void ddlNorm_DataBound(object sender, EventArgs e)
     {
-        lblAkttimer.Text = "fundet kolonne: " + ddlAkttimer.SelectedValue;
-        Application["akttimer"] = ddlAkttimer.SelectedValue;
+        lblNorm.Text = "fundet kolonne: " + ddlNorm.SelectedValue;
+        Application["norm"] = ddlNorm.SelectedValue;
     }
 
-    protected void ddlAkttpris_DataBound(object sender, EventArgs e)
+    protected void ddlAnsatdato_DataBound(object sender, EventArgs e)
     {
-        lblAkttpris.Text = "fundet kolonne: " + ddlAkttpris.SelectedValue;
-        Application["akttpris"] = ddlAkttpris.SelectedValue;
-    }
-
-
-    protected void ddlAktsum_DataBound(object sender, EventArgs e)
-    {
-        lblAktsum.Text = "fundet kolonne: " + ddlAktsum.SelectedValue;
-        Application["aktsum"] = ddlAktsum.SelectedValue;
-    }
-
-    protected void ddlKonto_DataBound(object sender, EventArgs e)
-    {
-        lblKonto.Text = "fundet kolonne: " + ddlKonto.SelectedValue;
-        Application["konto"] = ddlKonto.SelectedValue;
+        lblAnsatdato.Text = "fundet kolonne: " + ddlAnsatdato.SelectedValue;
+        Application["ansatdato"] = ddlAnsatdato.SelectedValue;
     }
 
 
-    protected void ddlLinjetype_DataBound(object sender, EventArgs e)
+    protected void ddlOpsagtdato_DataBound(object sender, EventArgs e)
     {
-        lblLinjetype.Text = "fundet kolonne: " + ddlLinjetype.SelectedValue;
-        Application["linjetype"] = ddlLinjetype.SelectedValue;
+        lblOpsagtdato.Text = "fundet kolonne: " + ddlOpsagtdato.SelectedValue;
+        Application["opsagtdato"] = ddlOpsagtdato.SelectedValue;
     }
-   
-    
+
+    protected void ddlMansat_DataBound(object sender, EventArgs e)
+    {
+        lblMansat.Text = "fundet kolonne: " + ddlMansat.SelectedValue;
+        Application["mansat"] = ddlMansat.SelectedValue;
+    }
+
+
+    protected void ddlEvn_DataBound(object sender, EventArgs e)
+    {
+        lblEvn.Text = "fundet kolonne: " + ddlEvn.SelectedValue;
+        Application["evn"] = ddlEvn.SelectedValue;
+    }
+
+
+
+    protected void ddlCostcenter_DataBound(object sender, EventArgs e)
+    {
+        lblCostcenter.Text = "fundet kolonne: " + ddlCostcenter.SelectedValue;
+        Application["costcenter"] = ddlCostcenter.SelectedValue;
+    }
+
+
+    protected void ddlLinemanager_DataBound(object sender, EventArgs e)
+    {
+        lblLinemanager.Text = "fundet kolonne: " + ddlLinemanager.SelectedValue;
+        Application["linemanager"] = ddlLinemanager.SelectedValue;
+    }
+
+    protected void ddlCcode_DataBound(object sender, EventArgs e)
+    {
+        lblCcode.Text = "fundet kolonne: " + ddlCcode.SelectedValue;
+        Application["countrycode"] = ddlCcode.SelectedValue;
+    }
+
+    protected void ddlWeblang_DataBound(object sender, EventArgs e)
+    {
+        lblWeblang.Text = "fundet kolonne: " + ddlWeblang.SelectedValue;
+        Application["weblang"] = ddlWeblang.SelectedValue;
+    }
+
+
 }

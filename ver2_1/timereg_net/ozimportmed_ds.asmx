@@ -165,9 +165,14 @@ Public Class oz_importmed_ds
                 End If
 
                 If String.IsNullOrEmpty(ds.Tables("tb_to_var").Rows(t).Item("mansat")) = False Then
+
                     mansat = ds.Tables("tb_to_var").Rows(0).Item("mansat")
+                    If (mansat = "0") Then
+                        mansat = "2"
+                    End If
+
                 Else
-                    mansat = "0"
+                    mansat = "2"
                 End If
 
                 If String.IsNullOrEmpty(ds.Tables("tb_to_var").Rows(t).Item("expvendorno")) = False Then
@@ -298,6 +303,9 @@ Public Class oz_importmed_ds
             opsagtdato = objDR("opsagtdato")
 
             mansat = objDR("mansat")
+            If mansat = "0" Then
+                mansat = "2"
+            End If
 
             'costcenter
             'linemanager

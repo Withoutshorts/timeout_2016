@@ -433,6 +433,7 @@ function opdaterRessouceRamme(f, FY0, FY1, FY2, jobBudgetFY0, fctimeprisFY0, fct
         Tiuse = replace(Tiuse, ".", "")
         Tiuse = replace(Tiuse, ",", ".")
 
+        
         if len(trim(Tiuse)) <> 0 then
         
 
@@ -482,6 +483,85 @@ function opdaterRessouceRamme(f, FY0, FY1, FY2, jobBudgetFY0, fctimeprisFY0, fct
                 else
                 strSQLupdateJobRamme = "INSERT INTO ressourcer_ramme (timer, jobid, aktid, medid, aar, fctimepris, fctimeprish2) VALUES ("& Tiuse &", "& jobids &", "& aktid &", 0, "& FYuse &", 0, 0)" 
                 end if
+            end if
+
+            'response.write strSQLupdateJobRamme & "<br>"
+            'response.flush
+            oConn.execute(strSQLupdateJobRamme)
+
+
+          
+        end if'tiuse
+
+       
+
+end function 
+
+
+function opdaterRessouceRamme_job(f, FY0, jobBudgetFY0, jobBudgetBelobFY0, jobids, aktid)
+
+
+        fctimepris = 0
+
+       
+        FYuse = FY0
+        Tiuse = trim(jobBudgetFY0)
+        jobBudgetBelobFY0 = trim(jobBudgetBelobFY0)
+
+      
+        if len(trim(FYuse)) <> 0 then
+        FYuse = FYuse
+        else
+        FYuse = "2001"
+        end if
+
+        Tiuse = replace(Tiuse, ".", "")
+        Tiuse = replace(Tiuse, ",", ".")
+
+        jobBudgetBelobFY0 = replace(jobBudgetBelobFY0, ".", "")
+        jobBudgetBelobFY0 = replace(jobBudgetBelobFY0, ",", ".")
+        
+        
+        if len(trim(Tiuse)) <> 0 then
+        
+
+            'response.write "<br><br>FYuse: "& FYuse & "Tiuse: " & Tiuse & ": "
+            'response.flush
+
+            jobBudgetRammeFindes = 0
+            strSQLjobRamme = "SELECT id FROM ressourcer_ramme WHERE jobid = "& jobids &" AND medid = 0 AND aktid = "& aktid &" AND aar = "& FYuse
+
+            'response.write strSQLjobRamme
+            'response.flush
+
+            oRec3.open strSQLjobRamme, oConn, 3
+            if not oRec3.EOF then
+            jobBudgetRammeFindes = oRec3("id")
+            end if 
+            oRec3.close
+
+           
+
+
+            if cdbl(jobBudgetRammeFindes) <> 0 then
+                
+                if Tiuse = "0" then '** Delete
+                
+                strSQLupdateJobRamme = "DELETE FROM ressourcer_ramme WHERE id = " & jobBudgetRammeFindes
+                else
+                
+                strSQLupdateJobRamme = "UPDATE ressourcer_ramme SET timer = " & Tiuse & ", rr_budgetbelob = "& jobBudgetBelobFY0 &" WHERE id = " & jobBudgetRammeFindes
+               
+                end if
+           
+            else
+               
+                if Tiuse <> "0" then
+                strSQLupdateJobRamme = "INSERT INTO ressourcer_ramme (timer, jobid, aktid, medid, aar, fctimepris, fctimeprish2, rr_budgetbelob) VALUES ("& Tiuse &", "& jobids &", "& aktid &", 0, "& FYuse &", 0, 0, "& jobBudgetBelobFY0 &")" 
+                else
+                strSQLupdateJobRamme = "UPDATE ressourcer_ramme SET timer = 0 WHERE id = -1" 'DVS = INGEN
+                end if        
+
             end if
 
             'response.write strSQLupdateJobRamme & "<br>"

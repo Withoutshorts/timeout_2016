@@ -131,13 +131,15 @@ $(document).ready(function () {
         jq_newfilterval = $("#FM_akt").val()
               
         jq_medid = $("#FM_medid").val()
+        FM_medid = $("#FM_medid").val()
         jq_aktid = $("#FM_akt").val()
         jq_pa = $("#FM_pa").val()
 
         jq_jobid = $("#FM_jobid").val()
+        FM_jobid = $("#FM_jobid").val()
 
         //alert(jq_jobid)
-
+        //alert(FM_jobid)
         /*
         $("#dv_akt").css("display", "");
         $("#dv_akt").css("visibility", "visible");
@@ -147,7 +149,7 @@ $(document).ready(function () {
        // alert(jq_jobid)
         //alert("medid: " + jq_medid + "jobid: " + jq_jobid)
 
-        $.post("?jq_newfilterval=" + jq_newfilterval + "&jq_jobid=" + jq_jobid + "&jq_medid=" + jq_medid + "&jq_aktid=" + jq_aktid + "&jq_pa=" + jq_pa, { control: "FN_sogakt", AjaxUpdateField: "true" }, function (data) {
+        $.post("?jq_newfilterval=" + jq_newfilterval + "&jq_jobid=" + jq_jobid + "&jq_medid=" + jq_medid + "&jq_aktid=" + jq_aktid + "&jq_pa=" + jq_pa + "&FM_medid=" + FM_medid + "&FM_jobid=" + FM_jobid, { control: "FN_sogakt", AjaxUpdateField: "true" }, function (data) {
 
 
             $("#dv_akt").html(data);

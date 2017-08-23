@@ -417,14 +417,7 @@ end if
                 erugeafsluttet = instr(medabAflugeId(oRec("mid")), "#"&datepart("ww", oRec("Tdato"), 2, 2)&"#")
                 
                 
-                'if (cint(erugeafsluttet) <> 0 AND autogk = 1 AND smilaktiv = 1) OR _
-                '(smilaktiv = 1 AND autolukvdato = 1 AND _
-                '(day(now) > autolukvdatodato AND DatePart("yyyy", oRec("Tdato")) = year(now) AND DatePart("m", oRec("Tdato")) < month(now)) OR _
-                '(DatePart("yyyy", oRec("Tdato")) < year(now))) then
-
-                        
-                   
-
+               
 
                  strMrd_sm = datepart("m", oRec("Tdato"), 2, 2)
                 strAar_sm = datepart("yyyy", oRec("Tdato"), 2, 2)
@@ -458,18 +451,22 @@ end if
                 
                 call lonKorsel_lukketPer(oRec("Tdato"), risiko)
 		         
-                'if (cint(erugeafsluttet) <> 0 AND smilaktiv = 1 AND autogk = 1 AND ugeNrAfsluttet <> "1-1-2044") OR _
-                 if ( ( datepart("ww", ugeNrAfsluttet, 2, 2) = usePeriod AND cint(SmiWeekOrMonth) = 0) OR (datepart("m", ugeNrAfsluttet, 2, 2) = usePeriod AND cint(SmiWeekOrMonth) = 1 ) AND cint(ugegodkendt) = 1 AND smilaktiv = 1 AND autogk = 1 AND ugeNrAfsluttet <> "1-1-2044") OR _
-                (smilaktiv = 1 AND autolukvdato = 1 AND (day(now) > autolukvdatodato AND DatePart("yyyy", oRec("Tdato")) = year(now) AND DatePart("m", oRec("Tdato")) < month(now)) OR _
-                (smilaktiv = 1 AND autolukvdato = 1 AND (day(now) > autolukvdatodato AND DatePart("yyyy", oRec("Tdato")) < year(now) AND DatePart("m", oRec("Tdato")) = 12)) OR _
-                (smilaktiv = 1 AND autolukvdato = 1 AND DatePart("yyyy", oRec("Tdato")) < year(now) AND DatePart("m", oRec("Tdato")) <> 12) OR _
-                (smilaktiv = 1 AND autolukvdato = 1 AND (year(now) - DatePart("yyyy", oRec("Tdato")) > 1))) OR cint(lonKorsel_lukketIO) = 1 then
+                'if ( ( datepart("ww", ugeNrAfsluttet, 2, 2) = usePeriod AND cint(SmiWeekOrMonth) = 0) OR (datepart("m", ugeNrAfsluttet, 2, 2) = usePeriod AND cint(SmiWeekOrMonth) = 1 ) AND cint(ugegodkendt) = 1 AND smilaktiv = 1 AND autogk = 1 AND ugeNrAfsluttet <> "1-1-2044") OR _
+                '(smilaktiv = 1 AND autolukvdato = 1 AND (day(now) > autolukvdatodato AND DatePart("yyyy", oRec("Tdato")) = year(now) AND DatePart("m", oRec("Tdato")) < month(now)) OR _
+                '(smilaktiv = 1 AND autolukvdato = 1 AND (day(now) > autolukvdatodato AND DatePart("yyyy", oRec("Tdato")) < year(now) AND DatePart("m", oRec("Tdato")) = 12)) OR _
+                '(smilaktiv = 1 AND autolukvdato = 1 AND DatePart("yyyy", oRec("Tdato")) < year(now) AND DatePart("m", oRec("Tdato")) <> 12) OR _
+                '(smilaktiv = 1 AND autolukvdato = 1 AND (year(now) - DatePart("yyyy", oRec("Tdato")) > 1))) OR cint(lonKorsel_lukketIO) = 1 then
                
-                ugeerAfsl_og_autogk_smil = 1
-                else
-                ugeerAfsl_og_autogk_smil = 0
-                end if 
+                'ugeerAfsl_og_autogk_smil = 1
+                'else
+                'ugeerAfsl_og_autogk_smil = 0
+                'end if 
 				
+                '*** tjekker om uge er afsluttet / lukket / lønkørsel
+                call tjkClosedPeriodCriteria(oRec("tdato"), ugeNrAfsluttet, usePeriod, SmiWeekOrMonth, splithr, smilaktiv, autogk, autolukvdato, lonKorsel_lukketIO)
+
+
+
 				if oRec("godkendtstatus") = 0 AND request("print") <> "j" AND ugeerAfsl_og_autogk_smil = 0 AND (cdate(lastfakdato) <  cdate(oRec("Tdato"))) then 'AND level = 1%>
 				
 	            <a href="javascript:popUp('rediger_tastede_dage_2006.asp?id=<%=oRec("Tid")%>','600','500','250','120');" target="_self"; class=vmenu>Kørsel</a>

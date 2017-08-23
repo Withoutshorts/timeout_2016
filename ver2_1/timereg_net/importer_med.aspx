@@ -37,92 +37,92 @@
         <table>
         <tr>
         <td>
-         <asp:label runat="server" ID="feltnr1navn">Job:</asp:label>
+         <asp:label runat="server" ID="feltnr1navn">No. (Init):</asp:label>
         </td>
         <td>
-            <asp:DropDownList ID="ddlJobId" runat="server" AutoPostBack="True" 
-                onselectedindexchanged="ddlJobId_SelectedIndexChanged" 
-                ondatabound="ddlJobId_DataBound" AppendDataBoundItems="True">
+            <asp:DropDownList ID="ddlMinit" runat="server" AutoPostBack="True" 
+                onselectedindexchanged="ddlMinit_SelectedIndexChanged" 
+                ondatabound="ddlMinit_DataBound" AppendDataBoundItems="True">
                  <asp:ListItem Text="" Value=""></asp:ListItem>
             </asp:DropDownList>
             <asp:RequiredFieldValidator ID="RequiredFieldValidator5" runat="server" 
-                ErrorMessage="*" ControlToValidate="ddlJobId" ValidationGroup="Send" ForeColor="Red"></asp:RequiredFieldValidator>
+                ErrorMessage="*" ControlToValidate="ddlMinit" ValidationGroup="Send" ForeColor="Red"></asp:RequiredFieldValidator>
         </td>
          <td>
-            <asp:Label ID="lblJobId" runat="server" Text=""></asp:Label>
+            <asp:Label ID="lblMinit" runat="server" Text=""></asp:Label>
         </td>
         </tr>
 
         <tr>
         <td>
-          <asp:label runat="server" ID="feltnr2navn">Beskrivelse:</asp:label>
+          <asp:label runat="server" ID="feltnr2navn">Navn:</asp:label>
         </td>
         <td>
-            <asp:DropDownList ID="ddlAktnavn" runat="server" AutoPostBack="True" 
-                onselectedindexchanged="ddlAktnavn_SelectedIndexChanged" 
-                ondatabound="ddlAktnavn_DataBound" AppendDataBoundItems="True">
+            <asp:DropDownList ID="ddlNavn" runat="server" AutoPostBack="True" 
+                onselectedindexchanged="ddlNavn_SelectedIndexChanged" 
+                ondatabound="ddlNavn_DataBound" AppendDataBoundItems="True">
                 <asp:ListItem Text="" Value=""></asp:ListItem>
             </asp:DropDownList>
             <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" 
-                ErrorMessage="*" ControlToValidate="ddlAktnavn" ValidationGroup="Send" ForeColor="Red"></asp:RequiredFieldValidator>
+                ErrorMessage="*" ControlToValidate="ddlNavn" ValidationGroup="Send" ForeColor="Red"></asp:RequiredFieldValidator>
         </td>      
         <td>
-            <asp:Label ID="lblAktnavn" runat="server" Text=""></asp:Label>
+            <asp:Label ID="lblNavn" runat="server" Text=""></asp:Label>
         </td>
         </tr>
         <tr>
         <td>
        
-          <asp:label runat="server" ID="feltnr3navn">Løbenr. NAV:</asp:label>
+          <asp:label runat="server" ID="feltnr3navn">Email:</asp:label>
         </td>
         <td>
-            <asp:DropDownList ID="ddlAktnr" runat="server" AutoPostBack="True" 
-                onselectedindexchanged="ddlAktnr_SelectedIndexChanged" 
-                ondatabound="ddlAktnr_DataBound" AppendDataBoundItems="True">
+            <asp:DropDownList ID="ddlEmail" runat="server" AutoPostBack="True" 
+                onselectedindexchanged="ddlEmail_SelectedIndexChanged" 
+                ondatabound="ddlEmail_DataBound" AppendDataBoundItems="True">
                  <asp:ListItem Text="" Value=""></asp:ListItem>
             </asp:DropDownList>
             <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server" 
-                ErrorMessage="*" ControlToValidate="ddlAktnr" ValidationGroup="Send" ForeColor="Red"></asp:RequiredFieldValidator>
+                ErrorMessage="*" ControlToValidate="ddlEmail" ValidationGroup="Send" ForeColor="Red"></asp:RequiredFieldValidator>
         </td>
          <td>
-            <asp:Label ID="lblAktnr" runat="server" Text=""></asp:Label>
+            <asp:Label ID="lblEmail" runat="server" Text=""></asp:Label>
         </td>
         </tr>
 
 
         <tr>
         <td>
-         <asp:label runat="server" ID="feltnr4navn">Konto:</asp:label>
+         <asp:label runat="server" ID="feltnr4navn">Norm time:</asp:label>
         </td>
         <td>
-        <asp:DropDownList ID="ddlKonto" runat="server" AutoPostBack="True" 
-                onselectedindexchanged="ddlKonto_SelectedIndexChanged" 
-                ondatabound="ddlKonto_DataBound" AppendDataBoundItems="True">
+        <asp:DropDownList ID="ddlNorm" runat="server" AutoPostBack="True" 
+                onselectedindexchanged="ddlNorm_SelectedIndexChanged" 
+                ondatabound="ddlNorm_DataBound" AppendDataBoundItems="True">
                  <asp:ListItem Text="" Value=""></asp:ListItem>
             </asp:DropDownList>
             <asp:RequiredFieldValidator ID="RequiredFieldValidator6" runat="server" 
-                ErrorMessage="*" ControlToValidate="ddlKonto" ValidationGroup="Send" ForeColor="Red"></asp:RequiredFieldValidator>
+                ErrorMessage="*" ControlToValidate="ddlNorm" ValidationGroup="Send" ForeColor="Red"></asp:RequiredFieldValidator>
         </td>
         <td>
-        <asp:Label ID="lblKonto" runat="server" Text=""></asp:Label>
+        <asp:Label ID="lblNorm" runat="server" Text=""></asp:Label>
         </td>
         </tr>
 
          <tr>
         <td>
-         <asp:label runat="server" ID="feltnr5navn">Type:</asp:label>
+         <asp:label runat="server" ID="feltnr5navn">Employment date:</asp:label>
         </td>
         <td>
-            <asp:DropDownList ID="ddlLinjetype" runat="server" AutoPostBack="True" 
-                onselectedindexchanged="ddlLinjetype_SelectedIndexChanged" 
-                ondatabound="ddlLinjetype_DataBound" AppendDataBoundItems="True">
+            <asp:DropDownList ID="ddlAnsatdato" runat="server" AutoPostBack="True" 
+                onselectedindexchanged="ddlAnsatdato_SelectedIndexChanged" 
+                ondatabound="ddlAnsatdato_DataBound" AppendDataBoundItems="True">
                  <asp:ListItem Text="" Value=""></asp:ListItem>
             </asp:DropDownList>
             <asp:RequiredFieldValidator ID="RequiredFieldValidator7" runat="server" 
-                ErrorMessage="*" ControlToValidate="ddlLinjetype" ValidationGroup="Send" ForeColor="Red"></asp:RequiredFieldValidator>
+                ErrorMessage="*" ControlToValidate="ddlAnsatdato" ValidationGroup="Send" ForeColor="Red"></asp:RequiredFieldValidator>
         </td>
          <td>
-            <asp:Label ID="lblLinjetype" runat="server" Text=""></asp:Label>
+            <asp:Label ID="lblAnsatdato" runat="server" Text=""></asp:Label>
         </td>
         </tr>
 
@@ -130,56 +130,128 @@
 
         <tr>
         <td>
-         <asp:label runat="server" ID="feltnr6navn">Timer/Stk.:</asp:label>
+         <asp:label runat="server" ID="feltnr6navn">Termination date:</asp:label>
         </td>
         <td>
-            <asp:DropDownList ID="ddlAkttimer" runat="server" AutoPostBack="True" 
-                onselectedindexchanged="ddlAkttimer_SelectedIndexChanged" 
-                ondatabound="ddlAkttimer_DataBound" AppendDataBoundItems="True">
+            <asp:DropDownList ID="ddlOpsagtdato" runat="server" AutoPostBack="True" 
+                onselectedindexchanged="ddlOpsagtdato_SelectedIndexChanged" 
+                ondatabound="ddlOpsagtdato_DataBound" AppendDataBoundItems="True">
                  <asp:ListItem Text="" Value=""></asp:ListItem>
             </asp:DropDownList>
             <asp:RequiredFieldValidator ID="RequiredFieldValidator3" runat="server" 
-                ErrorMessage="*" ControlToValidate="ddlAkttimer" ValidationGroup="Send" ForeColor="Red"></asp:RequiredFieldValidator>
+                ErrorMessage="*" ControlToValidate="ddlOpsagtdato" ValidationGroup="Send" ForeColor="Red"></asp:RequiredFieldValidator>
         </td>
          <td>
-            <asp:Label ID="lblAkttimer" runat="server" Text=""></asp:Label>
+            <asp:Label ID="lblOpsagtdato" runat="server" Text=""></asp:Label>
         </td>
         </tr>
 
              <tr>
         <td>
-        <asp:label runat="server" ID="feltnr7navn">Stk. pris:</asp:label>
+        <asp:label runat="server" ID="feltnr7navn">Blocked:</asp:label>
         </td>
         <td>
-            <asp:DropDownList ID="ddlAkttpris" runat="server" AutoPostBack="True" 
-                onselectedindexchanged="ddlAkttpris_SelectedIndexChanged" 
-                ondatabound="ddlAkttpris_DataBound" AppendDataBoundItems="True">
+            <asp:DropDownList ID="ddlMansat" runat="server" AutoPostBack="True" 
+                onselectedindexchanged="ddlMansat_SelectedIndexChanged" 
+                ondatabound="ddlMansat_DataBound" AppendDataBoundItems="True">
                  <asp:ListItem Text="" Value=""></asp:ListItem>
             </asp:DropDownList>
             <asp:RequiredFieldValidator ID="RequiredFieldValidator4" runat="server" 
-                ErrorMessage="*" ControlToValidate="ddlAkttpris" ValidationGroup="Send" ForeColor="Red"></asp:RequiredFieldValidator>
+                ErrorMessage="*" ControlToValidate="ddlMansat" ValidationGroup="Send" ForeColor="Red"></asp:RequiredFieldValidator>
         </td>
          <td>
-            <asp:Label ID="lblAkttpris" runat="server" Text=""></asp:Label>
+            <asp:Label ID="lblMansat" runat="server" Text=""></asp:Label>
         </td>
         </tr>
         
 
              <tr>
         <td>
-         <asp:label runat="server" ID="feltnr8navn">Beløb:</asp:label>
+         <asp:label runat="server" ID="feltnr8navn">Expence vendor no.:</asp:label>
         </td>
         <td>
-            <asp:DropDownList ID="ddlAktsum" runat="server" AutoPostBack="True" 
-                onselectedindexchanged="ddlAktsum_SelectedIndexChanged" 
-                ondatabound="ddlAktsum_DataBound" AppendDataBoundItems="True">
+            <asp:DropDownList ID="ddlEvn" runat="server" AutoPostBack="True" 
+                onselectedindexchanged="ddlEvn_SelectedIndexChanged" 
+                ondatabound="ddlEvn_DataBound" AppendDataBoundItems="True">
                  <asp:ListItem Text="" Value=""></asp:ListItem>
             </asp:DropDownList>
             <asp:RequiredFieldValidator ID="RequiredFieldValidator8" runat="server" 
-                ErrorMessage="*" ControlToValidate="ddlAktsum" ValidationGroup="Send" ForeColor="Red"></asp:RequiredFieldValidator>
+                ErrorMessage="*" ControlToValidate="ddlEvn" ValidationGroup="Send" ForeColor="Red"></asp:RequiredFieldValidator>
         </td>
          <td>
-            <asp:Label ID="lblAktsum" runat="server" Text=""></asp:Label>
+            <asp:Label ID="lblEvn" runat="server" Text=""></asp:Label>
+        </td>
+        </tr>
+
+             <tr>
+        <td>
+         <asp:label runat="server" ID="feltnr9navn">Costcenter:</asp:label>
+        </td>
+        <td>
+            <asp:DropDownList ID="ddlCostcenter" runat="server" AutoPostBack="True" 
+                onselectedindexchanged="ddlCostcenter_SelectedIndexChanged" 
+                ondatabound="ddlCostcenter_DataBound" AppendDataBoundItems="True">
+                 <asp:ListItem Text="" Value=""></asp:ListItem>
+            </asp:DropDownList>
+            <asp:RequiredFieldValidator ID="RequiredFieldValidator10" runat="server" 
+                ErrorMessage="*" ControlToValidate="ddlCostcenter" ValidationGroup="Send" ForeColor="Red"></asp:RequiredFieldValidator>
+        </td>
+         <td>
+            <asp:Label ID="lblCostcenter" runat="server" Text=""></asp:Label>
+        </td>
+        </tr>
+
+             <tr>
+        <td>
+         <asp:label runat="server" ID="feltnr10navn">Linemanager:</asp:label>
+        </td>
+        <td>
+            <asp:DropDownList ID="ddlLinemanager" runat="server" AutoPostBack="True" 
+                onselectedindexchanged="ddlLinemanager_SelectedIndexChanged" 
+                ondatabound="ddlLinemanager_DataBound" AppendDataBoundItems="True">
+                 <asp:ListItem Text="" Value=""></asp:ListItem>
+            </asp:DropDownList>
+            <asp:RequiredFieldValidator ID="RequiredFieldValidator11" runat="server" 
+                ErrorMessage="*" ControlToValidate="ddlLinemanager" ValidationGroup="Send" ForeColor="Red"></asp:RequiredFieldValidator>
+        </td>
+         <td>
+            <asp:Label ID="lblLinemanager" runat="server" Text=""></asp:Label>
+        </td>
+        </tr>
+
+             <tr>
+        <td>
+         <asp:label runat="server" ID="feltnr11navn">Country code:</asp:label>
+        </td>
+        <td>
+            <asp:DropDownList ID="ddlCcode" runat="server" AutoPostBack="True" 
+                onselectedindexchanged="ddlCcode_SelectedIndexChanged" 
+                ondatabound="ddlCcode_DataBound" AppendDataBoundItems="True">
+                 <asp:ListItem Text="" Value=""></asp:ListItem>
+            </asp:DropDownList>
+            <asp:RequiredFieldValidator ID="RequiredFieldValidator12" runat="server" 
+                ErrorMessage="*" ControlToValidate="ddlCcode" ValidationGroup="Send" ForeColor="Red"></asp:RequiredFieldValidator>
+        </td>
+         <td>
+            <asp:Label ID="lblCcode" runat="server" Text=""></asp:Label>
+        </td>
+        </tr>
+
+             <tr>
+        <td>
+         <asp:label runat="server" ID="feltnr12navn">Weblang:</asp:label>
+        </td>
+        <td>
+            <asp:DropDownList ID="ddlWeblang" runat="server" AutoPostBack="True" 
+                onselectedindexchanged="ddlWeblang_SelectedIndexChanged" 
+                ondatabound="ddlWeblang_DataBound" AppendDataBoundItems="True">
+                 <asp:ListItem Text="" Value=""></asp:ListItem>
+            </asp:DropDownList>
+            <asp:RequiredFieldValidator ID="RequiredFieldValidator13" runat="server" 
+                ErrorMessage="*" ControlToValidate="ddlWeblang" ValidationGroup="Send" ForeColor="Red"></asp:RequiredFieldValidator>
+        </td>
+         <td>
+            <asp:Label ID="lblWeblang" runat="server" Text=""></asp:Label>
         </td>
         </tr>
         

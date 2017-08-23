@@ -1,0 +1,663 @@
+<?xml version="1.0" encoding="utf-8"?>
+<definitions xmlns:tns="urn:microsoft-dynamics-schemas/page/timeoutjobtasks" targetNamespace="urn:microsoft-dynamics-schemas/page/timeoutjobtasks" xmlns="http://schemas.xmlsoap.org/wsdl/">
+  <types>
+    <xsd:schema elementFormDefault="qualified" targetNamespace="urn:microsoft-dynamics-schemas/page/timeoutjobtasks" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+      <xsd:simpleType name="Job_Task_Type">
+        <xsd:restriction base="xsd:string">
+          <xsd:enumeration value="Posting" />
+          <xsd:enumeration value="Heading" />
+          <xsd:enumeration value="Total" />
+          <xsd:enumeration value="Begin_Total" />
+          <xsd:enumeration value="End_Total" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="WIP_Total">
+        <xsd:restriction base="xsd:string">
+          <xsd:enumeration value="_blank_" />
+          <xsd:enumeration value="Total" />
+          <xsd:enumeration value="Excluded" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="Status">
+        <xsd:restriction base="xsd:string">
+          <xsd:enumeration value="Planning" />
+          <xsd:enumeration value="Quote" />
+          <xsd:enumeration value="Order" />
+          <xsd:enumeration value="Completed" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="Type_Filter">
+        <xsd:restriction base="xsd:string">
+          <xsd:enumeration value="Resource" />
+          <xsd:enumeration value="Item" />
+          <xsd:enumeration value="Expense" />
+          <xsd:enumeration value="Payment" />
+          <xsd:enumeration value="Res_Group" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:complexType name="TimeOutJobTasks">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="1" name="Key" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Job_No" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Job_Task_No" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Description" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Job_Task_Type" type="tns:Job_Task_Type" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="WIP_Total" type="tns:WIP_Total" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Job_Posting_Group" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="WIP_Method" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Schedule_Total_Cost" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Schedule_Total_Price" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Usage_Total_Cost" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Usage_Total_Price" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Contract_Total_Cost" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Contract_Total_Price" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Contract_Invoiced_Price" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Contract_Invoiced_Cost" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Posting_Date_Filter" type="xsd:date" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Planning_Date_Filter" type="xsd:date" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Totaling" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="New_Page" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="No_of_Blank_Lines" type="xsd:int" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Indentation" type="xsd:int" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Recognized_Sales_Amount" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Recognized_Costs_Amount" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Recognized_Sales_G_L_Amount" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Recognized_Costs_G_L_Amount" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Global_Dimension_1_Code" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Global_Dimension_2_Code" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Outstanding_Orders" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Amt_Rcd_Not_Invoiced" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Remaining_Total_Cost" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Remaining_Total_Price" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Start_Date" type="xsd:date" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="End_Date" type="xsd:date" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Remaining_Qty_Pr_Resource" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Remaining_Qty" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Completed" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Estimated_Start_Date" type="xsd:date" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Estimated_End_Date" type="xsd:date" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Resource_Budget" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Resource_Usage" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Comment" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Actual_Start_Date" type="xsd:date" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Actual_End_Date" type="xsd:date" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Blocked" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Resource_Budget_Price" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Resource_Usage_Price" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Indention" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Expand" type="xsd:int" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Payment" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="ResQuantity" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Resource_Filter" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Item_Filter" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Work_Type_Filter" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Resourcegroup_Filter" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Expense_Filter" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Payment_Filter" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Item_Budget_Cost" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Item_Budget_Price" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Expense_Budget_Cost" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Expense_Budget_Price" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Payment_Budget_Price" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Total_Budget_Cost" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Total_Budget_Price" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Item_Usage_Cost" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Item_Usage_Price" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Expense_Usage_Cost" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Expense_Usage_Price" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Payments_Price" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Total_Usage_Cost" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Total_Usage_Price" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Status" type="tns:Status" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Time_Registry" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Budget" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Usage" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Pre_Order" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Add_To_Norm_Time" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="ItemQuantity" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Payments_Quantity" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="ExpQuantity" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Disbursement_Registry" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="ResGrpQuantity" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Resource_Grp_Budget_Cost" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Resource_Grp_Budget_Price" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Overall_Completion_Percent" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Related_Tasks" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Total_Budget_Qty" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Project_Description" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="ResGrpQuantity_Total" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Global_Dimension_1_Filter" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Global_Dimension_2_Filter" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Resource_Chargeable" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Item_Chargeable" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Expense_Chargeable" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Chargeable_Filter" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Resource_Planning" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Milestone" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Reserved_Purchase" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Line_Manager_Filter" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Related_Milestones" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Reserved_Purchase_LCY" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Resource_Use_Posted_Currency" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Expense_Use_Posted_Currency" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Item_Use_Posted_Currency" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Resource_Budget_Exists" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Resource_Usage_Discount_Percent" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Item_Usage_Discount_Percent" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Expense_Usage_Discount_Percent" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Resource_Bud_Discount_Percent" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Item_Bud_Discount_Percent" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Expense_Bud_Discount_Percent" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Discount_Amount_LCY" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Budget_Discount_Amount_LCY" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Show" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Resource_Budget_Cost" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Resource_Usage_Cost" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Unit_of_Measure_Code_filter" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Type_Filter" type="tns:Type_Filter" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Resource_Grp_Budget_Discount_Percent" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Budget_Qty_All_Types" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Budget_Version_Filter" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Currency_Filter" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Start_Time_Filter" type="xsd:time" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Budget_Cost_Amount_LCY" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Budget_Sales_Amount_LCY" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Budget_Cost_Amount" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Budget_Sales_Amount" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Invoiced_Price" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="To_Invoice_Price_LCY" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="To_Invoice_Cost_LCY" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Main_Profile_Code_Filter" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="TimeOutJobTasks_List">
+        <xsd:sequence>
+          <xsd:element minOccurs="1" maxOccurs="unbounded" name="TimeOutJobTasks" type="tns:TimeOutJobTasks" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:simpleType name="TimeOutJobTasks_Fields">
+        <xsd:restriction base="xsd:string">
+          <xsd:enumeration value="Job_No" />
+          <xsd:enumeration value="Job_Task_No" />
+          <xsd:enumeration value="Description" />
+          <xsd:enumeration value="Job_Task_Type" />
+          <xsd:enumeration value="WIP_Total" />
+          <xsd:enumeration value="Job_Posting_Group" />
+          <xsd:enumeration value="WIP_Method" />
+          <xsd:enumeration value="Schedule_Total_Cost" />
+          <xsd:enumeration value="Schedule_Total_Price" />
+          <xsd:enumeration value="Usage_Total_Cost" />
+          <xsd:enumeration value="Usage_Total_Price" />
+          <xsd:enumeration value="Contract_Total_Cost" />
+          <xsd:enumeration value="Contract_Total_Price" />
+          <xsd:enumeration value="Contract_Invoiced_Price" />
+          <xsd:enumeration value="Contract_Invoiced_Cost" />
+          <xsd:enumeration value="Posting_Date_Filter" />
+          <xsd:enumeration value="Planning_Date_Filter" />
+          <xsd:enumeration value="Totaling" />
+          <xsd:enumeration value="New_Page" />
+          <xsd:enumeration value="No_of_Blank_Lines" />
+          <xsd:enumeration value="Indentation" />
+          <xsd:enumeration value="Recognized_Sales_Amount" />
+          <xsd:enumeration value="Recognized_Costs_Amount" />
+          <xsd:enumeration value="Recognized_Sales_G_L_Amount" />
+          <xsd:enumeration value="Recognized_Costs_G_L_Amount" />
+          <xsd:enumeration value="Global_Dimension_1_Code" />
+          <xsd:enumeration value="Global_Dimension_2_Code" />
+          <xsd:enumeration value="Outstanding_Orders" />
+          <xsd:enumeration value="Amt_Rcd_Not_Invoiced" />
+          <xsd:enumeration value="Remaining_Total_Cost" />
+          <xsd:enumeration value="Remaining_Total_Price" />
+          <xsd:enumeration value="Start_Date" />
+          <xsd:enumeration value="End_Date" />
+          <xsd:enumeration value="Remaining_Qty_Pr_Resource" />
+          <xsd:enumeration value="Remaining_Qty" />
+          <xsd:enumeration value="Completed" />
+          <xsd:enumeration value="Estimated_Start_Date" />
+          <xsd:enumeration value="Estimated_End_Date" />
+          <xsd:enumeration value="Resource_Budget" />
+          <xsd:enumeration value="Resource_Usage" />
+          <xsd:enumeration value="Comment" />
+          <xsd:enumeration value="Actual_Start_Date" />
+          <xsd:enumeration value="Actual_End_Date" />
+          <xsd:enumeration value="Blocked" />
+          <xsd:enumeration value="Resource_Budget_Price" />
+          <xsd:enumeration value="Resource_Usage_Price" />
+          <xsd:enumeration value="Indention" />
+          <xsd:enumeration value="Expand" />
+          <xsd:enumeration value="Payment" />
+          <xsd:enumeration value="ResQuantity" />
+          <xsd:enumeration value="Resource_Filter" />
+          <xsd:enumeration value="Item_Filter" />
+          <xsd:enumeration value="Work_Type_Filter" />
+          <xsd:enumeration value="Resourcegroup_Filter" />
+          <xsd:enumeration value="Expense_Filter" />
+          <xsd:enumeration value="Payment_Filter" />
+          <xsd:enumeration value="Item_Budget_Cost" />
+          <xsd:enumeration value="Item_Budget_Price" />
+          <xsd:enumeration value="Expense_Budget_Cost" />
+          <xsd:enumeration value="Expense_Budget_Price" />
+          <xsd:enumeration value="Payment_Budget_Price" />
+          <xsd:enumeration value="Total_Budget_Cost" />
+          <xsd:enumeration value="Total_Budget_Price" />
+          <xsd:enumeration value="Item_Usage_Cost" />
+          <xsd:enumeration value="Item_Usage_Price" />
+          <xsd:enumeration value="Expense_Usage_Cost" />
+          <xsd:enumeration value="Expense_Usage_Price" />
+          <xsd:enumeration value="Payments_Price" />
+          <xsd:enumeration value="Total_Usage_Cost" />
+          <xsd:enumeration value="Total_Usage_Price" />
+          <xsd:enumeration value="Status" />
+          <xsd:enumeration value="Time_Registry" />
+          <xsd:enumeration value="Budget" />
+          <xsd:enumeration value="Usage" />
+          <xsd:enumeration value="Pre_Order" />
+          <xsd:enumeration value="Add_To_Norm_Time" />
+          <xsd:enumeration value="ItemQuantity" />
+          <xsd:enumeration value="Payments_Quantity" />
+          <xsd:enumeration value="ExpQuantity" />
+          <xsd:enumeration value="Disbursement_Registry" />
+          <xsd:enumeration value="ResGrpQuantity" />
+          <xsd:enumeration value="Resource_Grp_Budget_Cost" />
+          <xsd:enumeration value="Resource_Grp_Budget_Price" />
+          <xsd:enumeration value="Overall_Completion_Percent" />
+          <xsd:enumeration value="Related_Tasks" />
+          <xsd:enumeration value="Total_Budget_Qty" />
+          <xsd:enumeration value="Project_Description" />
+          <xsd:enumeration value="ResGrpQuantity_Total" />
+          <xsd:enumeration value="Global_Dimension_1_Filter" />
+          <xsd:enumeration value="Global_Dimension_2_Filter" />
+          <xsd:enumeration value="Resource_Chargeable" />
+          <xsd:enumeration value="Item_Chargeable" />
+          <xsd:enumeration value="Expense_Chargeable" />
+          <xsd:enumeration value="Chargeable_Filter" />
+          <xsd:enumeration value="Resource_Planning" />
+          <xsd:enumeration value="Milestone" />
+          <xsd:enumeration value="Reserved_Purchase" />
+          <xsd:enumeration value="Line_Manager_Filter" />
+          <xsd:enumeration value="Related_Milestones" />
+          <xsd:enumeration value="Reserved_Purchase_LCY" />
+          <xsd:enumeration value="Resource_Use_Posted_Currency" />
+          <xsd:enumeration value="Expense_Use_Posted_Currency" />
+          <xsd:enumeration value="Item_Use_Posted_Currency" />
+          <xsd:enumeration value="Resource_Budget_Exists" />
+          <xsd:enumeration value="Resource_Usage_Discount_Percent" />
+          <xsd:enumeration value="Item_Usage_Discount_Percent" />
+          <xsd:enumeration value="Expense_Usage_Discount_Percent" />
+          <xsd:enumeration value="Resource_Bud_Discount_Percent" />
+          <xsd:enumeration value="Item_Bud_Discount_Percent" />
+          <xsd:enumeration value="Expense_Bud_Discount_Percent" />
+          <xsd:enumeration value="Discount_Amount_LCY" />
+          <xsd:enumeration value="Budget_Discount_Amount_LCY" />
+          <xsd:enumeration value="Show" />
+          <xsd:enumeration value="Resource_Budget_Cost" />
+          <xsd:enumeration value="Resource_Usage_Cost" />
+          <xsd:enumeration value="Unit_of_Measure_Code_filter" />
+          <xsd:enumeration value="Type_Filter" />
+          <xsd:enumeration value="Resource_Grp_Budget_Discount_Percent" />
+          <xsd:enumeration value="Budget_Qty_All_Types" />
+          <xsd:enumeration value="Budget_Version_Filter" />
+          <xsd:enumeration value="Currency_Filter" />
+          <xsd:enumeration value="Start_Time_Filter" />
+          <xsd:enumeration value="Budget_Cost_Amount_LCY" />
+          <xsd:enumeration value="Budget_Sales_Amount_LCY" />
+          <xsd:enumeration value="Budget_Cost_Amount" />
+          <xsd:enumeration value="Budget_Sales_Amount" />
+          <xsd:enumeration value="Invoiced_Price" />
+          <xsd:enumeration value="To_Invoice_Price_LCY" />
+          <xsd:enumeration value="To_Invoice_Cost_LCY" />
+          <xsd:enumeration value="Main_Profile_Code_Filter" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:complexType name="TimeOutJobTasks_Filter">
+        <xsd:sequence>
+          <xsd:element minOccurs="1" maxOccurs="1" name="Field" type="tns:TimeOutJobTasks_Fields" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="Criteria" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="Read">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="1" maxOccurs="1" name="Job_No" type="xsd:string" />
+            <xsd:element minOccurs="1" maxOccurs="1" name="Job_Task_No" type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="Read_Result">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="1" name="TimeOutJobTasks" type="tns:TimeOutJobTasks" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="ReadByRecId">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="1" maxOccurs="1" name="recId" type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="ReadByRecId_Result">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="1" name="TimeOutJobTasks" type="tns:TimeOutJobTasks" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="ReadMultiple">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="1" maxOccurs="unbounded" name="filter" type="tns:TimeOutJobTasks_Filter" />
+            <xsd:element minOccurs="0" maxOccurs="1" name="bookmarkKey" type="xsd:string" />
+            <xsd:element minOccurs="1" maxOccurs="1" name="setSize" type="xsd:int" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="ReadMultiple_Result">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="1" name="ReadMultiple_Result" type="tns:TimeOutJobTasks_List" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="IsUpdated">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="1" maxOccurs="1" name="Key" type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="IsUpdated_Result">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="1" maxOccurs="1" name="IsUpdated_Result" type="xsd:boolean" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="GetRecIdFromKey">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="1" maxOccurs="1" name="Key" type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="GetRecIdFromKey_Result">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="1" maxOccurs="1" name="GetRecIdFromKey_Result" type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="Create">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="1" maxOccurs="1" name="TimeOutJobTasks" type="tns:TimeOutJobTasks" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="Create_Result">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="1" maxOccurs="1" name="TimeOutJobTasks" type="tns:TimeOutJobTasks" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="CreateMultiple">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="1" maxOccurs="1" name="TimeOutJobTasks_List" type="tns:TimeOutJobTasks_List" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="CreateMultiple_Result">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="1" maxOccurs="1" name="TimeOutJobTasks_List" type="tns:TimeOutJobTasks_List" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="Update">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="1" maxOccurs="1" name="TimeOutJobTasks" type="tns:TimeOutJobTasks" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="Update_Result">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="1" maxOccurs="1" name="TimeOutJobTasks" type="tns:TimeOutJobTasks" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="UpdateMultiple">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="1" maxOccurs="1" name="TimeOutJobTasks_List" type="tns:TimeOutJobTasks_List" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="UpdateMultiple_Result">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="1" maxOccurs="1" name="TimeOutJobTasks_List" type="tns:TimeOutJobTasks_List" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="Delete">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="1" maxOccurs="1" name="Key" type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="Delete_Result">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="1" maxOccurs="1" name="Delete_Result" type="xsd:boolean" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+    </xsd:schema>
+  </types>
+  <message name="Read">
+    <part name="parameters" element="tns:Read" />
+  </message>
+  <message name="Read_Result">
+    <part name="parameters" element="tns:Read_Result" />
+  </message>
+  <message name="ReadByRecId">
+    <part name="parameters" element="tns:ReadByRecId" />
+  </message>
+  <message name="ReadByRecId_Result">
+    <part name="parameters" element="tns:ReadByRecId_Result" />
+  </message>
+  <message name="ReadMultiple">
+    <part name="parameters" element="tns:ReadMultiple" />
+  </message>
+  <message name="ReadMultiple_Result">
+    <part name="parameters" element="tns:ReadMultiple_Result" />
+  </message>
+  <message name="IsUpdated">
+    <part name="parameters" element="tns:IsUpdated" />
+  </message>
+  <message name="IsUpdated_Result">
+    <part name="parameters" element="tns:IsUpdated_Result" />
+  </message>
+  <message name="GetRecIdFromKey">
+    <part name="parameters" element="tns:GetRecIdFromKey" />
+  </message>
+  <message name="GetRecIdFromKey_Result">
+    <part name="parameters" element="tns:GetRecIdFromKey_Result" />
+  </message>
+  <message name="Create">
+    <part name="parameters" element="tns:Create" />
+  </message>
+  <message name="Create_Result">
+    <part name="parameters" element="tns:Create_Result" />
+  </message>
+  <message name="CreateMultiple">
+    <part name="parameters" element="tns:CreateMultiple" />
+  </message>
+  <message name="CreateMultiple_Result">
+    <part name="parameters" element="tns:CreateMultiple_Result" />
+  </message>
+  <message name="Update">
+    <part name="parameters" element="tns:Update" />
+  </message>
+  <message name="Update_Result">
+    <part name="parameters" element="tns:Update_Result" />
+  </message>
+  <message name="UpdateMultiple">
+    <part name="parameters" element="tns:UpdateMultiple" />
+  </message>
+  <message name="UpdateMultiple_Result">
+    <part name="parameters" element="tns:UpdateMultiple_Result" />
+  </message>
+  <message name="Delete">
+    <part name="parameters" element="tns:Delete" />
+  </message>
+  <message name="Delete_Result">
+    <part name="parameters" element="tns:Delete_Result" />
+  </message>
+  <portType name="TimeOutJobTasks_Port">
+    <operation name="Read">
+      <input name="Read" message="tns:Read" />
+      <output name="Read_Result" message="tns:Read_Result" />
+    </operation>
+    <operation name="ReadByRecId">
+      <input name="ReadByRecId" message="tns:ReadByRecId" />
+      <output name="ReadByRecId_Result" message="tns:ReadByRecId_Result" />
+    </operation>
+    <operation name="ReadMultiple">
+      <input name="ReadMultiple" message="tns:ReadMultiple" />
+      <output name="ReadMultiple_Result" message="tns:ReadMultiple_Result" />
+    </operation>
+    <operation name="IsUpdated">
+      <input name="IsUpdated" message="tns:IsUpdated" />
+      <output name="IsUpdated_Result" message="tns:IsUpdated_Result" />
+    </operation>
+    <operation name="GetRecIdFromKey">
+      <input name="GetRecIdFromKey" message="tns:GetRecIdFromKey" />
+      <output name="GetRecIdFromKey_Result" message="tns:GetRecIdFromKey_Result" />
+    </operation>
+    <operation name="Create">
+      <input name="Create" message="tns:Create" />
+      <output name="Create_Result" message="tns:Create_Result" />
+    </operation>
+    <operation name="CreateMultiple">
+      <input name="CreateMultiple" message="tns:CreateMultiple" />
+      <output name="CreateMultiple_Result" message="tns:CreateMultiple_Result" />
+    </operation>
+    <operation name="Update">
+      <input name="Update" message="tns:Update" />
+      <output name="Update_Result" message="tns:Update_Result" />
+    </operation>
+    <operation name="UpdateMultiple">
+      <input name="UpdateMultiple" message="tns:UpdateMultiple" />
+      <output name="UpdateMultiple_Result" message="tns:UpdateMultiple_Result" />
+    </operation>
+    <operation name="Delete">
+      <input name="Delete" message="tns:Delete" />
+      <output name="Delete_Result" message="tns:Delete_Result" />
+    </operation>
+  </portType>
+  <binding name="TimeOutJobTasks_Binding" type="tns:TimeOutJobTasks_Port">
+    <binding transport="http://schemas.xmlsoap.org/soap/http" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+    <operation name="Read">
+      <operation soapAction="urn:microsoft-dynamics-schemas/page/timeoutjobtasks:Read" style="document" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      <input name="Read">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </input>
+      <output name="Read_Result">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </output>
+    </operation>
+    <operation name="ReadByRecId">
+      <operation soapAction="urn:microsoft-dynamics-schemas/page/timeoutjobtasks:ReadByRecId" style="document" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      <input name="ReadByRecId">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </input>
+      <output name="ReadByRecId_Result">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </output>
+    </operation>
+    <operation name="ReadMultiple">
+      <operation soapAction="urn:microsoft-dynamics-schemas/page/timeoutjobtasks:ReadMultiple" style="document" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      <input name="ReadMultiple">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </input>
+      <output name="ReadMultiple_Result">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </output>
+    </operation>
+    <operation name="IsUpdated">
+      <operation soapAction="urn:microsoft-dynamics-schemas/page/timeoutjobtasks:IsUpdated" style="document" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      <input name="IsUpdated">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </input>
+      <output name="IsUpdated_Result">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </output>
+    </operation>
+    <operation name="GetRecIdFromKey">
+      <operation soapAction="urn:microsoft-dynamics-schemas/page/timeoutjobtasks:GetRecIdFromKey" style="document" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      <input name="GetRecIdFromKey">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </input>
+      <output name="GetRecIdFromKey_Result">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </output>
+    </operation>
+    <operation name="Create">
+      <operation soapAction="urn:microsoft-dynamics-schemas/page/timeoutjobtasks:Create" style="document" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      <input name="Create">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </input>
+      <output name="Create_Result">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </output>
+    </operation>
+    <operation name="CreateMultiple">
+      <operation soapAction="urn:microsoft-dynamics-schemas/page/timeoutjobtasks:CreateMultiple" style="document" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      <input name="CreateMultiple">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </input>
+      <output name="CreateMultiple_Result">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </output>
+    </operation>
+    <operation name="Update">
+      <operation soapAction="urn:microsoft-dynamics-schemas/page/timeoutjobtasks:Update" style="document" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      <input name="Update">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </input>
+      <output name="Update_Result">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </output>
+    </operation>
+    <operation name="UpdateMultiple">
+      <operation soapAction="urn:microsoft-dynamics-schemas/page/timeoutjobtasks:UpdateMultiple" style="document" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      <input name="UpdateMultiple">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </input>
+      <output name="UpdateMultiple_Result">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </output>
+    </operation>
+    <operation name="Delete">
+      <operation soapAction="urn:microsoft-dynamics-schemas/page/timeoutjobtasks:Delete" style="document" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      <input name="Delete">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </input>
+      <output name="Delete_Result">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </output>
+    </operation>
+  </binding>
+  <service name="TimeOutJobTasks_Service">
+    <port name="TimeOutJobTasks_Port" binding="tns:TimeOutJobTasks_Binding">
+      <address location="http://85.236.66.153:7147/PROD_TIMEOUT/WS/TIA%20DK/Page/TimeOutJobTasks" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+    </port>
+  </service>
+</definitions>

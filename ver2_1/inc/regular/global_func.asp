@@ -16,6 +16,12 @@
 <!--#include file="../xml/favorit_xml_inc.asp"-->
 <!--#include file="../xml/godkend_xml_inc.asp"-->
 <!--#include file="../xml/godkend_uge_xml_inc.asp"-->
+<!--#include file="../xml/afstem_xml_inc.asp"-->
+<!--#include file="../xml/projektgrp_xml_inc.asp"-->
+<!--#include file="../xml/kunder_xml_inc.asp"-->
+<!--#include file="../xml/job_xml_inc.asp"-->
+<!--#include file="../xml/joblog_timetot_xml_inc.asp"-->
+
 
 
 
@@ -258,14 +264,14 @@ function smileyAfslutSettings()
                 SmiWeekOrMonth_HR = 0
                 
         
-                strSQL = "SELECT SmiWeekOrMonth, SmiantaldageCount, SmiantaldageCountClock, SmiTeamlederCount FROM licens WHERE id = 1"
+                strSQL = "SELECT SmiWeekOrMonth, SmiantaldageCount, SmiantaldageCountClock, SmiTeamlederCount, smiweekormonth_hr FROM licens WHERE id = 1"
                 ', smiweekormonth_hr AKTIVER TIL TIA afslut uge ved månedsskift
                 oRec6.open strSQL, oConn, 3
                 if not oRec6.EOF then
             
                 SmiWeekOrMonth = oRec6("SmiWeekOrMonth")
                 SmiantaldageCount = oRec6("SmiantaldageCount")
-                SmiWeekOrMonth_HR = 0 'oRec6("smiweekormonth_hr")
+                SmiWeekOrMonth_HR = oRec6("smiweekormonth_hr")
 
                 if oRec6("SmiantaldageCountClock") = 24 then
                 SmiantaldageCountClock = "23:59:00"

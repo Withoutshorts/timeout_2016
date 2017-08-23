@@ -244,7 +244,7 @@ end function
 	
 	if print <> "j" AND media <> "export" AND media <> "print" then
 	%>
-	<tr><td colspan="5"><span id="sp_med" style="color:#5582d2;">[+] Projektgrupper & Medarbejdere</span></td></tr>
+	<tr><td colspan="5"><span id="sp_med" style="color:#5582d2;">[+] <%=joblog_txt_142 &" "%>&<%=" "& joblog_txt_143 %></span></td></tr>
 	<tr id="tr_prog_med" style="display:none; visibility:hidden;">
 	    
 	    <%call progrpmedarb %>
@@ -260,10 +260,10 @@ end function
 
         	if print <> "j" AND media <> "export" AND media <> "print" then
         %>
-         <tr><td colspan="5"><span id="sp_kun" style="color:#5582d2;">[+] Kunder
+         <tr><td colspan="5"><span id="sp_kun" style="color:#5582d2;">[+] <%=joblog_txt_144 %>
 
              <%if thisfile = "joblog_timetotaler" then%>
-              & Forretningsområder
+              & <%=joblog_txt_145 %>
              <%end if %>
 
                              </span></td></tr>
@@ -285,15 +285,14 @@ end function
 		          
             	
 		            <td valign=top style="padding:30px 10px 20px 10px; width:350px; background-color:#F7F7F7;">
-		            <input type="radio" name="FM_kundejobans_ell_alle" value="1" <%=kundejobansCHK1%>><b>B) For key-account</b><br /><span style="font-size:9px; color:#000000;">Viser alle medarbejdere på kunder og job hvor
-		            valgte medarbejder(e) er:</span><br />
-		            <input type="checkbox" name="FM_kundeans" id="cFM_kundeans" value="1" <%=kundeansChk%>>&nbsp;Kundeansvarlig <br>
-		            <input type="checkbox" name="FM_jobans" id="cFM_jobans" value="1" <%=jobansChk%>>&nbsp;Jobansvarlig
-                    <input type="checkbox" name="FM_jobans2" id="cFM_jobans2" value="1" <%=jobansChk2%>>&nbsp;Jobejer
-                    <input type="checkbox" name="FM_jobans3" id="cFM_jobans3" value="1" <%=jobansChk3%>>&nbsp;Jobmedans. 1-3
+		            <input type="radio" name="FM_kundejobans_ell_alle" value="1" <%=kundejobansCHK1%>><b>B) <%=joblog_txt_154 %></b><br /><span style="font-size:9px; color:#000000;"><%=joblog_txt_155 %>:</span><br />
+		            <input type="checkbox" name="FM_kundeans" id="cFM_kundeans" value="1" <%=kundeansChk%>>&nbsp;<%=joblog_txt_156 %> <br>
+		            <input type="checkbox" name="FM_jobans" id="cFM_jobans" value="1" <%=jobansChk%>>&nbsp;<%=joblog_txt_157 %>
+                    <input type="checkbox" name="FM_jobans2" id="cFM_jobans2" value="1" <%=jobansChk2%>>&nbsp;<%=joblog_txt_158 %>
+                    <input type="checkbox" name="FM_jobans3" id="cFM_jobans3" value="1" <%=jobansChk3%>>&nbsp;<%=joblog_txt_159 &" "%>1-3
 
                         <%if cint(showSalgsAnv) = 1 AND thisfile = "pipeline" then %>
-                        <br /><input type="checkbox" name="FM_salgsans" id="cFM_slagsansv" value="1" <%=salgsansChk%>>&nbsp;Salgsansv. 1-5
+                        <br /><input type="checkbox" name="FM_salgsans" id="cFM_slagsansv" value="1" <%=salgsansChk%>>&nbsp;<%=joblog_txt_160 &" "%>. 1-5
                         <%end if %>
             		
 	              </td>
@@ -503,14 +502,14 @@ end function
 	
 	if print <> "j" AND media <> "export" AND media <> "print" then
 	%>
-	 <tr><td colspan="5"><span id="sp_job" style="color:#5582d2;">[+] Job & Aftaler</span></td></tr>
+	 <tr><td colspan="5"><span id="sp_job" style="color:#5582d2;">[+] <%=joblog_txt_161 &" "%>&<%=" "& joblog_txt_162 %></span></td></tr>
          
 
         <tr id="tr_job" style="display:none; visibility:hidden;">
 	
 	
 		<td valign=top style="padding-top:20px;">
-		<b>Vælg job:</b><br />
+		<b><%=joblog_txt_163 %>:</b><br />
 		
       
 		<%
@@ -539,7 +538,7 @@ end function
         else
         selo = ""
         end if %>
-		<option value="0" <%=selo %>>Alle (= timer vises i grandtotal uanset jobstatus)</option>
+		<option value="0" <%=selo %>><%=joblog_txt_188 &" "%>(=<%=" "& joblog_txt_164 %>)</option>
 		<%
 				
 				oRec.open strSQL, oConn, 3
@@ -584,11 +583,11 @@ end function
 
                 select case oRec("jobstatus")
                 case 0
-                jstTxt = " - Lukket"
+                jstTxt = " - " & joblog_txt_165
                 case 2
-                jstTxt = " - Passiv"
+                jstTxt = " - " & joblog_txt_166
                 case 3
-                jstTxt = " - Tilbud"
+                jstTxt = " - " & joblog_txt_167
                 end select
         
 				%>
@@ -613,7 +612,7 @@ end function
 				jChk = ""
 				end if
 				%>
-				<option value="-1" <%=jChk %>>Ingen</option>
+				<option value="-1" <%=jChk %>><%=joblog_txt_168 %></option>
 		</select><br />
 		
 	
@@ -623,7 +622,7 @@ end function
         
         <%if thisfile <> "pipeline" then %>
 
-        <b>Aftaler:</b> (og tilhørende job)&nbsp;<br /><img src="../ill/blank.gif" width="50" height="5"  border="0"/><br />
+        <b><%=joblog_txt_162 %>:</b> (<%=joblog_txt_169 %>)&nbsp;<br /><img src="../ill/blank.gif" width="50" height="5"  border="0"/><br />
 		<%
 			
 		strSQL = "SELECT s.navn, s.aftalenr, s.id, k.kkundenavn, k.kkundenr FROM serviceaft s "_
@@ -634,7 +633,7 @@ end function
 		%>
 		
 		<select name="FM_aftaler" id="FM_aftaler" size=6 style="width:350px; font-size:11px;" onChange="clearJobsog(); submit();">
-		<option value="0">Alle - eller vælg fra liste...</option>
+		<option value="0"><%=joblog_txt_188 %> - <%=joblog_txt_170 %>...</option>
 		<%
 		
 				oRec.open strSQL, oConn, 3
@@ -657,7 +656,7 @@ end function
 				else
 				aChk = ""
 				end if%>
-				<option value="-1" <%=aChk%>>Ingen (viser alle job der ikke er tilknyttet aftale)</option>
+				<option value="-1" <%=aChk%>><%=joblog_txt_168 %> (<%=joblog_txt_171 %>)</option>
 		</select>
         
         
@@ -677,13 +676,13 @@ end function
 %>
             <tr><td colspan="5" style="padding-top:20px;">
             	
-		<h4>Søg på jobnavn ell. nr.: <br /><span style="font-size:11px; font-weight:lighter;">(% wildcard, <b>231, 269</b> for specifikke job, <b>201--225</b> (dobbelt bindestreg) for interval, <b><></b> for større/mindre end)</span></h4>
-                <input name="viskunabnejob0" id="viskunabnejob" type="checkbox" value="1" <%=jost0CHK %> />Vis aktive job &nbsp;
-        <input name="viskunabnejob1" id="Radio3" type="checkbox" value="1" <%=jost1CHK %> />Vis tilbud &nbsp;
-        <input name="viskunabnejob2" id="Checkbox1" type="checkbox" value="1" <%=jost2CHK %> />Vis lukkede og passive job &nbsp;<br />
+		<h4><%=joblog_txt_172 %>: <br /><span style="font-size:11px; font-weight:lighter;">(% wildcard, <b>231, 269</b><%=" "& joblog_txt_173 %>, <b>201--225</b><%=" "& joblog_txt_174 %>, <b><></b><%=" "& joblog_txt_175 %></span></h4>
+                <input name="viskunabnejob0" id="viskunabnejob" type="checkbox" value="1" <%=jost0CHK %> /><%=joblog_txt_176 %> &nbsp;
+        <input name="viskunabnejob1" id="Radio3" type="checkbox" value="1" <%=jost1CHK %> /><%=joblog_txt_177 %> &nbsp;
+        <input name="viskunabnejob2" id="Checkbox1" type="checkbox" value="1" <%=jost2CHK %> /><%=joblog_txt_178 %> &nbsp;<br />
 
                 <input type="text" name="FM_jobsog" id="FM_jobsog" value="<%=jobSogVal%>" style="width:350px; border:2px #6CAE1C solid; font-size:14px;">&nbsp;
-                <input id="Submit1" type="submit" value=" Søg >> " style="font-size:11px;" />
+                <input id="Submit1" type="submit" value=" <%=joblog_txt_189 %> >> " style="font-size:11px;" />
             
          
 
@@ -732,17 +731,17 @@ end function
 
 
        if thisfile <> "saleandvalue" then %>
-	   <input type="radio" name="FM_kundejobans_ell_alle" value="0" <%=kundejobansCHK0%> onclick="clearK_Jobans();"><b>A) Som Virksomhed</b>
+	   <input type="radio" name="FM_kundejobans_ell_alle" value="0" <%=kundejobansCHK0%> onclick="clearK_Jobans();"><b>A)<%=" "& joblog_txt_146 %></b>
        <img src="../ill/blank.gif" width="50" height="5"  border="0"/>
-       Segment: <select name="FM_segment" style="width:176px; font-size:11px;" onchange="submit();"><!-- clearJobsog(), -->
+       <%=joblog_txt_147 %>: <select name="FM_segment" style="width:176px; font-size:11px;" onchange="submit();"><!-- clearJobsog(), -->
 
        <%else %>
          <img src="../ill/blank.gif" width="1" height="5"  border="0"/><br />
-       Segment: <select name="FM_segment" style="width:176px; font-size:11px;" onchange="submit();">
+       <%=joblog_txt_147 %>: <select name="FM_segment" style="width:176px; font-size:11px;" onchange="submit();">
        <%end if %>
 
        
-       <option value=0>Alle</option>
+       <option value=0><%=joblog_txt_153 %></option>
        <%
        oRec.open strSQLsegm, oConn, 3
        while not oRec.EOF 
@@ -800,7 +799,7 @@ end function
         selo = ""
         end if %>
 
-		<option value="0" <%=selo %>>Alle - eller vælg fra liste...</option>
+		<option value="0" <%=selo %>><%=joblog_txt_150 %>...</option>
 		<%
 	end if
 				
@@ -895,14 +894,14 @@ end function
                     if print <> "j" AND media <> "export" AND thisfile = "joblog_timetotaler" AND media <> "print" then
                     
                     %>
-                    <br /><br /><b>Forretningsområder:</b><br />                              
+                    <br /><br /><b><%=joblog_txt_145 %>:</b><br />                              
                     <%
                                            
                                     strSQLf = "SELECT f.navn AS fnavn, f.id, f.konto, kp.kontonr AS kkontonr, kp.navn AS kontonavn FROM fomr AS f "_
                                     &" LEFT JOIN kontoplan AS kp ON (kp.id = f.konto) WHERE f.id <> 0 AND f.jobok = 1 ORDER BY f.navn"
                                     %>
                                     <select name="FM_fomr" id="FM_fomr" multiple="multiple" size="5" style="width:406px;">
-                                    <option value="0">Ingen valgt (viser alle)</option>
+                                    <option value="0"><%=joblog_txt_152 %></option>
                                     
                                     <%
                                     
@@ -1185,7 +1184,7 @@ end function
                 if len(request("FM_kundejobans_ell_alle")) <> 0 then
 				'if len(request("FM_kundeans")) <> 0 then
 				kundeans = request("FM_kundeans")
-					if cint(kundeans) = 1 then 
+					if cdbl(kundeans) = 1 then 
 					kundeansChk = "CHECKED"
 					kansVal = " - Kundeansvalig"
 					else
@@ -1209,9 +1208,14 @@ end function
 
 				'*** Jobans ***
 				if len(request("FM_kundejobans_ell_alle")) <> 0 then
-                'if len(request("FM_jobans")) <> 0 then
-				jobans = request("FM_jobans")
-					select case cint(jobans)
+                    
+                    if len(request("FM_jobans")) <> 0 then
+				    jobans = request("FM_jobans")
+					else
+                    jobans = 0
+                    end if
+                    
+                    select case cdbl(jobans)
 					case 1 
 					jobansChk = "CHECKED"
 					jobansVal = " - Jobansvarlig"
@@ -1241,7 +1245,7 @@ end function
 				'if len(request("FM_jobans2")) <> 0 then
 				if len(request("FM_kundejobans_ell_alle")) <> 0 then
                 jobans2 = request("FM_jobans2")
-					select case cint(jobans2)
+					select case cdbl(jobans2)
 					case 1 
 					jobansVal2 = " - Jobejer"
 					jobansChk2 = "CHECKED"
@@ -1265,7 +1269,7 @@ end function
 				'if len(request("FM_jobans3")) <> 0 then
 				if len(request("FM_kundejobans_ell_alle")) <> 0 then
                 jobans3 = request("FM_jobans3")
-					select case cint(jobans3)
+					select case cdbl(jobans3)
 					case 1 
 					jobansVal3 = " - Jobmedansvarlig 1-3"
 					jobansChk3 = "CHECKED"
@@ -1290,7 +1294,7 @@ end function
 				if len(request("FM_kundejobans_ell_alle")) <> 0 then
                 'if len(request("FM_jobans")) <> 0 then
 				salgsans = request("FM_salgsans")
-					select case cint(salgsans)
+					select case cdbl(salgsans)
 					case 1 
 					salgsansChk = "CHECKED"
 					salgsansVal = " - Salgsansvarlig 1-5"

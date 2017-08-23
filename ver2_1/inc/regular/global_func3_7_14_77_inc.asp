@@ -2,9 +2,9 @@
 'call treg_medarb_afstem_saldo 'cls_afstem
 	  
 
-       '7 =  Aftem. Måned
-       '77 = Afstem dag / dag
-       '14 = Godkend månede / uge
+       '7 =  Aftem. Måned afstem_tot
+       '77 = Afstem dag/dag EXPAND 7
+       '14 = Godkend måned/uge WEEEK_REAL_NORM
 
       level = session("rettigheder")
       call smileyAfslutSettings()
@@ -164,7 +164,7 @@
 
               
                 
-
+                '*** Tjekker om uge er afsluttet af medarbejder. Viser CHK boks og Godkendtstatus
                 call erugeAfslutte(datepart("yyyy", startDatoTor,2,2), sidsteDagKri, intMid, SmiWeekOrMonth, 0) 
                 
                 lastMidtjk = intMid
@@ -564,7 +564,9 @@
 
          
          
-         <%if lto <> "cst" AND lto <> "tec" AND lto <> "esn" then 
+         <%
+          '** Hereby Invoiceable / Heraf fakturerbare  
+          if lto <> "cst" AND lto <> "tec" AND lto <> "esn" then 
       
           if media <> "export" then%>
 
@@ -575,14 +577,28 @@
 
 	         <td align=right class=lille style="border-bottom:1px silver solid; border-right:1px silver solid; white-space:nowrap;">
               <%if realfTimer(x) <> 0 then %>
-             (<%=formatnumber(realfTimer(x),2)%>)
+              <%=formatnumber(realfTimer(x),2)%>
              <%else %>
              &nbsp;
              <%end if %>
              </td>
              
 
-                <%end select %>
+             <%end select %>
+
+
+            <%'** Hereby Non Invoiceable / Heraf Ikke fakturerbare
+            if lto = "tia" OR lto = "intranet - local" then %>
+              
+                <td align=right class=lille style="border-bottom:1px silver solid; border-right:1px silver solid; white-space:nowrap;">
+                <%if realIfTimer(x) <> 0 then %>
+                <%=formatnumber(realIfTimer(x),2)%>
+                <%else %>
+                &nbsp;
+                <%end if %>
+             </td> 
+
+            <% end if%>
 
 
         <%if cint(mtypNoflex) <> 1 then 'noflex %>
@@ -612,6 +628,15 @@
 
                 <%end select %>
 
+
+                <%if lto = "intranet - local" OR lto = "tia" then 
+                    %>
+                    
+                     <%arealifTimerTot = arealifTimerTot + (realifTimer(x)) %>
+                 <%strEksportTxt = strEksportTxt & formatnumber(realifTimer(x),2) & ";" %>
+                    
+                <%end if%>
+
                       <%if cint(mtypNoflex) <> 1 then 'noflex %>
 
                            <%if cint(showkgtil) = 1 then %>
@@ -623,17 +648,17 @@
 
                       end if %>
          
-         <%end if 'lto %> 
-
-
-    
-                    
-     <%if cint(mtypNoflex) <> 1 then 'noflex %>
+         <%end if 'lto 
+             
+             
+             
+        if cint(mtypNoflex) <> 1 then 'noflex %>
 	 
              <%
 
 
-             if lto <> "cst" AND lto <> "tec" AND lto <> "esn" then 
+             if lto <> "cst" AND lto <> "tec" AND lto <> "esn" AND lto <> "tia" then 
+
                           if media <> "export" then
                          %>
 	                     <td align=right style="border-bottom:1px silver solid; border-right:1px silver solid; white-space:nowrap;" class=lille ><b><%=formatnumber(balRealNormtimer,2)%></b></td>
@@ -1469,7 +1494,7 @@
 
                              'Barsel
                         select case lto
-                        case "xintranet - local", "fk", "kejd_pb"
+                        case "intranet - local", "fk", "kejd_pb", "tia"
                         
                          if media <> "export" then%>
 	                     <td class=lille style="border-bottom:1px silver solid; border-right:1px silver solid; white-space:nowrap;" align=right>
@@ -1502,7 +1527,7 @@
 
                                     'Læge
                         select case lto
-                        case "xxintranet - local", "fk", "xkejd_pb"
+                        case "intranet - local", "fk", "xkejd_pb"
                         
                          if media <> "export" then%>
 	                  
@@ -1592,6 +1617,36 @@
 	                     <%'end if '*Visning
 
 
+                       
+                        if realIkkeGKTimer(x) <> 0 then    
+                          realIkkeGKTimerTxt = formatnumber(realIkkeGKTimer(x), 2)
+                          realIkkeGKTimerExpTxt = formatnumber(realIkkeGKTimer(x), 2)
+                        else
+                          realIkkeGKTimerTxt = ""
+                          realIkkeGKTimerExpTxt = 0
+                        end if
+
+                        select case lto
+                        case "esn", "tec"
+                        case else
+
+                        if media <> "export" AND visning = 14 then
+                        %>
+                        <td style="border-bottom:1px silver solid; border-right:1px silver solid; color:#999999;" class=lille align="right"><%=realIkkeGKTimerTxt%>
+                            
+                            <%if realAfvistTimer(x) <> 0 then
+                            Response.write "<span style='color:red;'> ("& formatnumber(realAfvistTimer(x), 2) &")</span>" 
+                            end if%> </td>
+
+                        <%end if
+                       
+                             if (visning = 14) then    
+                            strEksportTxt = strEksportTxt & realIkkeGKTimerExpTxt &";" & realAfvistTimer(x) & ";"
+                            end if     
+                            
+                       end select 
+
+
                          if media <> "export" AND visning = 77 then%>
                          <td class=lille valign="top" style="border-bottom:1px silver solid; border-right:1px silver solid; width:200px; color:#999999; padding-left:3px;"><%=kommentarTxt %>&nbsp;</td>
                         <%end if %>
@@ -1610,7 +1665,7 @@
 	                  
 	        
 	                        if cint(showAfsugeVisAfsluttetpaaGodkendUgesedler) = 0 then
-	                        showAfsugeTxt = "Ja"
+	                        showAfsugeTxt = godkendweek_txt_112
 	                        else
 	                        showAfsugeTxt = ""
 	                        end if
@@ -1619,7 +1674,15 @@
                             
                         
                         if cint(SmiWeekOrMonth) = 0 OR (useSogKriAfs = 1 OR useSogKriGk = 1 OR useSogKri = 1) then%>
-	                    <td class=lille style="border-bottom:1px silver solid; border-right:1px silver solid; white-space:nowrap;" align=center><%=showAfsugeTxt %>&nbsp;</td>
+	                    <td class=lille style="border-bottom:1px silver solid; border-right:1px silver solid; white-space:nowrap;" align=center><%=showAfsugeTxt %>&nbsp;
+
+                            <%if cint(splithr) = 1 then
+                                %>
+                                (Month)
+                            <%
+                            end if %>
+
+	                    </td>
                         <%else
                             
                             'if cint(wth) = 0 then  
@@ -1630,6 +1693,10 @@
                         <%end if %>
             
                         <%end if %>
+
+                      
+	
+
 
                            <%
                            
@@ -1646,9 +1713,9 @@
 
                                         select case lto
                                         case "tec", "esn"
-                                        gkTxt = "Luk/Afvis"
+                                        gkTxt = godkendweek_txt_101&"/"&godkendweek_txt_107
                                         case else
-                                        gkTxt = "Afvis/Gk."
+                                        gkTxt = godkendweek_txt_111
                                         end select
 
                                         if cint(SmiWeekOrMonth) = 0 then
@@ -1657,7 +1724,7 @@
 
                                     else
 
-                                    gkTxt = "Be om afslutn."
+                                    gkTxt = godkendweek_txt_103
 
                                         strCheckBoxGodkenduge = ""
 
@@ -1747,7 +1814,7 @@
 
 
 	                    <%
-                        if showAfsugeTxt = "Ja" then
+                        if showAfsugeTxt = godkendweek_txt_112 then
                             showAfsugeExp = 1
                         else
                             showAfsugeExp = 0

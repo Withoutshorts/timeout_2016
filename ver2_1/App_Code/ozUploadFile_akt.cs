@@ -267,9 +267,12 @@ public class ozUploadFileAkt
                 if (importtype == "t2")
                 {
 
-                   string strInsert = "INSERT INTO akt_import_temp (dato, origin, jobnr, aktnavn, aktnr, beskrivelse, lto, editor, overfort) ";
-                    strInsert += " VALUES ('" + DateTime.Now.ToString("yyyy-MM-dd") + "',911,'" + data.jobid + "','" + data.aktnavn + "','" + data.aktnr + "',";
-                    strInsert += "'','tia','Timeout - ImportAktService ',0)";
+                    data.aktnavn = data.aktnavn.Replace("'", "");
+                    
+
+                   string strInsert = "INSERT INTO akt_import_temp (dato, origin, jobnr, aktnavn, aktnr, beskrivelse, lto, editor, overfort, akttype, aktstatus) ";
+                    strInsert += " VALUES ('" + DateTime.Now.ToString("yyyy-MM-dd") + "',919,'" + data.jobid + "','" + data.aktnavn + "','"+ data.jobid +""+ data.aktnr + "',";
+                    strInsert += "'','tia','Timeout - ImportAktService ',0,'Posting',1)";
                     OdbcCommand command = new OdbcCommand(strInsert, connection);
 
 

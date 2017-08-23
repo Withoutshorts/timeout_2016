@@ -116,9 +116,9 @@ Public Class oz_importomk
 
     '*** NAV import OMK
     Public strNavn As String = ""
-    Public dblKobsPris As Double = 0
-    Public dblSalgsPris As Double = 0
-    Public belob As Double = 0
+    Public dblKobsPris As String = 0
+    Public dblSalgsPris As String = 0
+    Public belob As String = 0
     Public usemrn As String = "0"
     Public useMid As String = "0"
     Public bogforingsdato As Date
@@ -126,7 +126,7 @@ Public Class oz_importomk
     Public intkode As Integer = 0
     Public intValuta As Integer = 1
     Public bilagsnr As String = "0"
-    Public dblKurs As Double = 100
+    Public dblKurs As String = "100"
     Public personlig As Integer = 0
     Public extsysid As String = "9900"
     '**** SLUT **
@@ -240,7 +240,7 @@ Public Class oz_importomk
         Dim strSQLakts As String = "SELECT pwc.dato, pwc.konto, pwc.postext, pwc.belob, pwc.jobnr, pwc.init, pwc.extsysid, pwc.id, "
         strSQLakts += " j.id AS jid, serviceaft, m.mid, pwc.valutakode, pwc.bogforingsdato FROM mat_import_temp AS pwc "
         strSQLakts += " LEFT JOIN job AS j ON (j.jobnr = pwc.jobnr) "
-        strSQLakts += " Left JOIN medarbejdere As m On (m.init = pwc.init) WHERE pwc.postext <> '' AND pwc.belob <> 0 ORDER BY pwc.id"
+        strSQLakts += " Left JOIN medarbejdere As m On (m.init = pwc.init) WHERE pwc.postext <> '' AND pwc.belob <> 0 AND pwc.overfort = 0 ORDER BY pwc.id"
         objCmd = New OdbcCommand(strSQLakts, objConn)
         objDR = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
 
@@ -259,10 +259,12 @@ Public Class oz_importomk
             strNavn = EncodeUTF8(strNavn)
             strNavn = DecodeUTF8(strNavn)
 
-            belob = Replace(objDR("belob"), ".", "")
+            'belob = Replace(objDR("belob"), ".", "")
+            'belob = Replace(belob, ",", ".")
+            'belob = Replace(objDR("belob"), ",", ".")
+            belob = objDR("belob")
+            belob = Replace(belob, ".", "")
             belob = Replace(belob, ",", ".")
-
-            'belob = objDR("belob")
 
             dblKobsPris = belob
             dblSalgsPris = belob
@@ -320,7 +322,9 @@ Public Class oz_importomk
             End If
             objDR2.Close()
 
+            dblKurs = Replace(dblKurs, ",", ".")
 
+            'dblKurs = 100
 
 
             bilagsnr = "9900" & objDR("extsysid")

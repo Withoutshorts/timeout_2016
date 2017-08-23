@@ -1671,10 +1671,10 @@ if len(session("user")) = 0 then
 
                     if cint(oRec3("valid")) <> 6 then
                     call valutaKurs_fakhist(6) ' --> GBP
-                    call beregnValuta(fakBelob,oRec3("kurs"),dblkurs_fakhist/100)
+                    call beregnValuta(fakBelob,oRec3("kurs"),dblkurs_fakhist)
                     fakBelob = valBelobBeregnet
                 
-                    call beregnValuta(oRec3("moms"),oRec3("kurs"),dblkurs_fakhist/100)
+                    call beregnValuta(oRec3("moms"),oRec3("kurs"),dblkurs_fakhist)
                     fakMoms = valBelobBeregnet
 
                     end if
@@ -1689,10 +1689,10 @@ if len(session("user")) = 0 then
                 
                     if cint(oRec3("valid")) <> 5 then
                     call valutaKurs_fakhist(5) ' --> NOK
-                    call beregnValuta(fakBelob,oRec3("kurs"),dblkurs_fakhist/100)
+                    call beregnValuta(fakBelob,oRec3("kurs"),dblkurs_fakhist)
                     fakBelob = valBelobBeregnet
 
-                    call beregnValuta(oRec3("moms"),oRec3("kurs"),dblkurs_fakhist/100)
+                    call beregnValuta(oRec3("moms"),oRec3("kurs"),dblkurs_fakhist)
                     fakMoms = valBelobBeregnet
 
                     end if
@@ -2034,11 +2034,25 @@ if len(session("user")) = 0 then
      <tr>
     <td valign=top align=center><input type=image src="../ill/export1.png" /></td>
     <td><input id="Submit3" type="submit" value="<%=erp_txt_521 %>" style="font-size:9px; width:160px;" />
-        <!--<br /><font class=megetlillesort><%=erp_txt_284 %>-->
+     
     </td>
     </tr>
     </form>
 
+    <%select case lto
+     case "cisu", "intranet - local" %>    
+
+     <form action="erp_fakturaer_eksport_2007.asp?visning=3" method="post" target="_blank">
+     <input id="Hidden1" name="fakids" value="<%=eksportFid%>" type="hidden" />
+     <tr>
+    <td valign=top align=center><input type=image src="../ill/export1.png" /></td>
+    <td><input id="Submit3" type="submit" value="D) Finanskladde CSV" style="font-size:9px; width:160px;" />
+     
+    </td>
+    </tr>
+    </form>
+
+    <%end select %>
    
      <tr>
     <td align=center><a href="erp_fakhist.asp?print=j&FM_job=<%=jobid%>&FM_aftale=<%=aftid%>&FM_sog=<%=showSog%>&FM_viskunabne=<%=viskunabne%>&sort=<%=sort %>&FM_viskun_interne=<%=viskint%>" class=rmenu target=blank><img src="../ill/printer3.png" border=0 alt="" /></a>

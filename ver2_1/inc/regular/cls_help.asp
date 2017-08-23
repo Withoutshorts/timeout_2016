@@ -19,6 +19,15 @@ end if %>
     </tr>
 
     <%select case lto
+     case "tia"
+%>
+    <tr>
+        <td >
+        <a href="https://timeout.cloud/timeout_xp/wwwroot/ver2_14/help_and_faq/FAQ_UK.pptx" target="_blank" >TIA TimeOut FAQ UK</a>
+        </td>
+    </tr>
+      <%
+
      case "tec"%>
     <tr>
         <td >

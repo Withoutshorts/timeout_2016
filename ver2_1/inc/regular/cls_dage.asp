@@ -1,5 +1,5 @@
 <%
-public erHellig, helligdagnavn, helligdagnavnTxt 
+public erHellig, helligdagnavn, helligdagnavnTxt, helligdageIalt 
 function helligdage(tjekdennedag, show, lto)
 
 
@@ -2091,6 +2091,8 @@ erHellig = 0
 		
         helligdagnavnTxt = helligdagnavn
 		helligdagnavn = ""	
+
+        helligdageIalt = helligdageIalt + erHellig
 		
 end function
 

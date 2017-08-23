@@ -55,8 +55,8 @@
 	redim normTimerDag(1400)
 	
 	
-	dim realTimer, medarbNavn, medarbNr, medarbInit, realIfTimer
-	redim realTimer(1400), realIfTimer(1400), medarbNavn(1400), medarbNr(1400), medarbInit(1400)
+	dim realTimer, medarbNavn, medarbNr, medarbInit, realIfTimer, realIkkeGKTimer, realAfvistTimer
+	redim realTimer(1400), realIfTimer(1400), medarbNavn(1400), medarbNr(1400), medarbInit(1400), realIkkeGKTimer(1400), realAfvistTimer(1400) 
 	
 	dim normTimerUge, normTimer
 	redim normTimerUge(1400), normTimer(1400)
@@ -409,7 +409,7 @@
 	    &" t.tdato FROM timer t WHERE t.tmnr = "& intMid &" AND ("& aty_sql_realHoursIkFakbar &")"_
 	    &" AND t.tdato BETWEEN '"& startdato &"' AND '"& slutdato &"' GROUP BY t.tmnr "
 	   
-	   'Response.Write strSQLif
+	   'Response.Write "<br>" & strSQLif
 	   'Response.flush
 	   
 	    oRec2.open strSQLif, oConn, 3
@@ -427,8 +427,61 @@
          end if
 	    
 	    
+
+         '*** Timer Ikke godkendt ***'
+	    strSQLig = "SELECT t.tid, sum(t.timer) AS realIkkeGKTimer,"_
+	    &" t.tdato FROM timer t WHERE t.tmnr = "& intMid &" AND ("& aty_sql_realHours &")"_
+	    &" AND t.tdato BETWEEN '"& startdato &"' AND '"& slutdato &"' AND godkendtstatus = 0 GROUP BY t.tmnr "
+	   
+	   'Response.Write "<br>" & strSQLif
+	   'Response.flush
+	   
+	    oRec2.open strSQLig, oConn, 3
+	    while not oRec2.EOF
+	    realIkkeGKTimer(x) = oRec2("realIkkeGKTimer")
+	    oRec2.movenext
+	    wend
+	    oRec2.close
+	   
+	    if len(trim(realIkkeGKTimer(x))) <> 0 AND realIkkeGKTimer(x) <> 0 then
+         realIkkeGKTimer(x) = realIkkeGKTimer(x)
+         afstemnul(x) = 104
+         else
+         realIkkeGKTimer(x) = 0
+         end if
+
+
+          '*** Timer Afviste ***'
+	    strSQLig = "SELECT t.tid, sum(t.timer) AS realAfvistTimer,"_
+	    &" t.tdato FROM timer t WHERE t.tmnr = "& intMid &" AND ("& aty_sql_realHours &")"_
+	    &" AND t.tdato BETWEEN '"& startdato &"' AND '"& slutdato &"' AND godkendtstatus = 2 GROUP BY t.tmnr "
+	   
+	   'Response.Write "<br>" & strSQLif
+	   'Response.flush
+	   
+	    oRec2.open strSQLig, oConn, 3
+	    while not oRec2.EOF
+	    realAfvistTimer(x) = oRec2("realAfvistTimer")
+	    oRec2.movenext
+	    wend
+	    oRec2.close
+	   
+	    if len(trim(realAfvistTimer(x))) <> 0 AND realAfvistTimer(x) <> 0 then
+         realAfvistTimer(x) = realAfvistTimer(x)
+         afstemnul(x) = 104
+         else
+         realAfvistTimer(x) = 0
+         end if
 	    
 	    end if
+
+
+       
+
+	    
+	   
+
+       
 	
 	    
 	    '*** Ressource Timer ***'

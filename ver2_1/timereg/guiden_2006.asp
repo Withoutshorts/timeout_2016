@@ -169,7 +169,7 @@ else
 
 <!--<SCRIPT language=javascript src="inc/timereg_2006_func.js"></script>-->
 
-<div id="sindhold" style="position:absolute; left:20; top:20; width:60%; height:600; visibility:visible;">
+<div id="sindhold" style="position:absolute; left:20px; top:20px; width:60%; height:600px; visibility:visible;">
 <%
 
 call positiv_aktivering_akt_fn()
@@ -291,14 +291,38 @@ end if
 		<tr bgcolor="<%=trbg%>">
 			<td height=30 style="padding:2px 5px 2px 5px; white-space:nowrap; width:<%=jobWdt%>px; border-top:1px #CCCCCC solid;" valign="top"><span style="font-size:9px;"><%=oRec("Kkundenavn")%> (<%=oRec("Kkundenr")%>)</span><br />
             
-            
+            <%'*** Tjekker om job er på favorit listen, så skal de fjernes derfra først
+            antalfavorit = 0
+            strSQlantalFAv = "SELECT g.jobid, SUM(g.favorit) AS antalfavorit FROM timereg_usejob g WHERE g.jobid = " & oRec("id") & " AND medarb = "& usemrn &" AND favorit = 1 GROUP BY jobid"
+            oRec3.open strSQlantalFAv, oConn, 3
+            if not oRec3.EOF then
+
+                   antalfavorit = 1
+                
+            end if
+            oRec3.close
+
+            if cint(antalfavorit) = 1 then
+            FavorDisabled = "disabled"
+            else
+            FavorDisabled = ""
+            end if
+             %>
+
+
             <b><%=oRec("jobnavn")%></b> (<%=oRec("jobnr")%>)</td>
-			<td valign="top" style="border-top:1px #CCCCCC solid; width:50px;"><input type="checkbox" class="alljobCHK" name="FM_use_job" id="bank_akt_job_<%=oRec("id")%>" value="<%=oRec("id")%>" <%=selJob%>></td>
-            <td valign="top" style="border-top:1px #CCCCCC solid; width:50px;"><input type="checkbox" class="alleaktivejobCHK" name="FM_useaktive_job" id="alx_akt_job_<%=oRec("id")%>" value="1" <%=selAktiveJob%>></td>
+			<td valign="top" style="border-top:1px #CCCCCC solid; width:50px;"><input <%=FavorDisabled %> type="checkbox" class="alljobCHK" name="FM_use_job" id="bank_akt_job_<%=oRec("id")%>" value="<%=oRec("id")%>" <%=selJob%>>
+
+                <%if cint(antalfavorit) = 1 then %>
+                favorit
+                <%end if %>
+
+			</td>
+            <td valign="top" style="border-top:1px #CCCCCC solid; width:50px;"><input <%=FavorDisabled %> type="checkbox" class="alleaktivejobCHK" name="FM_useaktive_job" id="alx_akt_job_<%=oRec("id")%>" value="1" <%=selAktiveJob%>></td>
 
              <%if cint(showEasyreg_val) = 1 then  %>
             <td valign="top" style="border-top:1px #CCCCCC solid; width:50px;">
-			<input type="checkbox" class="alleasyCHK" name="FM_use_easy" value="<%=oRec("id")%>" <%=selEasy%>>
+			<input <%=FavorDisabled %> type="checkbox" class="alleasyCHK" name="FM_use_easy" value="<%=oRec("id")%>" <%=selEasy%>>
 			
 			
 			    <%if oRec("antal_aeasy") <> "0" AND oRec("easyreg") <> 0 AND isNull(oRec("antal_aeasy")) = False then %>
@@ -319,7 +343,7 @@ end if
             <%end if %>
 
 			<%if cint(positiv_aktivering_akt_val) = 1 AND oRec("risiko") >= 0 then  %>
-            <td valign="top" style="border-top:1px #CCCCCC solid; width:200px;"><input type="checkbox" class="all_akt_job" id="all_akt_job_<%=oRec("id")%>" name="FM_alljob_akt" value="0" onclick="tjekstatus('all_akt_job_<%=oRec("id")%>', '<%=oRec("id")%>');"><span style="color:#999999;">alle aktiviteter på job</span></td>
+            <td valign="top" style="border-top:1px #CCCCCC solid; width:200px;"><input <%=FavorDisabled %> type="checkbox" class="all_akt_job" id="all_akt_job_<%=oRec("id")%>" name="FM_alljob_akt" value="0" onclick="tjekstatus('all_akt_job_<%=oRec("id")%>', '<%=oRec("id")%>');"><span style="color:#999999;">alle aktiviteter på job</span></td>
             <%else %>
             <td style="border-top:1px #CCCCCC solid;">&nbsp;</td>
             <%end if %>
@@ -351,7 +375,7 @@ end if
 		    end if
             
             %>
-            	<input type="checkbox" class="all_akt_job_<%=oRec("id")%>" id="akt_<%=oRec3("id")%>" name="FM_use_akt" value="<%=oRec3("id")%>" <%=selAkt%> onclick="tjekstatus('akt_<%=oRec3("id")%>', '<%=oRec("id")%>');"> <%=oRec3("aktnavn") %> 
+            	<input <%=FavorDisabled %> type="checkbox" class="all_akt_job_<%=oRec("id")%>" id="akt_<%=oRec3("id")%>" name="FM_use_akt" value="<%=oRec3("id")%>" <%=selAkt%> onclick="tjekstatus('akt_<%=oRec3("id")%>', '<%=oRec("id")%>');"> <%=oRec3("aktnavn") %> 
                 <%if isnull(oRec3("fase")) <> true AND len(trim(oRec3("fase"))) <> 0 then %>
                 <span style="font-size:9px; color:#999999;">fase: <%=oRec3("fase") %></span>
                 <%end if %>

@@ -55,7 +55,7 @@
     <txt_150>Pause</txt_150>
     <txt_151>Interv. Bonus 15</txt_151>
     <txt_152>Interv. Bonus 20</txt_152>
-    <txt_153>AVI tillæg 15</txt_153>
+    <txt_153>Planday Norm</txt_153>
     <txt_154>Interv. Bonus 10</txt_154>
     <txt_155>Weekend Aften</txt_155>
 	<txt_157>Ad-hoc</txt_157>
@@ -517,10 +517,10 @@
 
 	  <txt_150>Break</txt_150>
 
-    <txt_151>Interv. Bonus 15</txt_151>
-    <txt_152>Interv. Bonus 20</txt_152>
-    <txt_153>AVI tillæg 15</txt_153>
-    <txt_154>Interv. Bonus 10</txt_154>
+    <txt_151>Supplement 15</txt_151>
+    <txt_152>Supplement 20</txt_152>
+    <txt_153>Planday Norm</txt_153>
+    <txt_154>Supplement 10</txt_154>
     
     <txt_155>Weekend Eve.</txt_155>
 	  <txt_157>Ad-hoc</txt_157>
@@ -536,7 +536,7 @@
 
     <txt_164>Extra days planned</txt_164>
 	  <txt_165>Holiday without pay</txt_165>
-    <txt_166>Interv. Bonus 5</txt_166>
+    <txt_166>Supplement 5</txt_166>
 
     <txt_185>Age-reduction account</txt_185>
     <txt_186>Age-reduction used</txt_186>

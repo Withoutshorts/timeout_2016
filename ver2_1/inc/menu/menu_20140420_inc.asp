@@ -561,7 +561,7 @@ end select
                         %>   
                         <li><a href="<%=toSubVerPath14 %><%=lnkTimeregside %>"><%=tsa_txt_116 &" "& tsa_txt_438 %></a></li><%
                  
-                case "tia", "welcom"
+                case "xtia", "welcom"
                                   
                  case else
                     %>   <li><a href="<%=toSubVerPath14 %><%=lnkTimeregside %>"><%=tsa_txt_116 %></a></li><%
@@ -574,7 +574,7 @@ end select
                 <% select case lto
                  case "outz", "intranet - local", "hidalgo", "tia", "dencker", "eniga", "welcom"
                     %>
-                    <li><a href="<%=toSubVerPath15 %>favorit.asp?FM_medid=<%=usemrn %>&varTjDatoUS_man=<%=varTjDatoUS_man %>">Favorit</a></li>
+                    <li><a href="<%=toSubVerPath15 %>favorit.asp?FM_medid=<%=usemrn %>&varTjDatoUS_man=<%=varTjDatoUS_man %>"><%=favorit_txt_001 %></a></li>
                  <%end select %>
               
 
@@ -730,6 +730,14 @@ end select
             <%end if 
                
 
+
+             select case lto 
+
+                     case "tia", "intranet - local", "outz", "oliver", "hidalgo", "demo"
+                       %>
+                      <li><a href="<%=toSubVerPath15%>godkend_job_timer_2017.asp"><%=godkend_txt_010 %></a></li>
+                       <%
+             end select   
 
 
 
@@ -909,7 +917,7 @@ end select
                    <%select case lto 
                      case "tia", "intranet - local", "outz", "oliver", "hidalgo", "demo"
                        %>
-                      <li><a href="<%=toSubVerPath15%>godkend_job_timer.asp">Godkend job/projekt timer</a></li>
+                      <li><a href="<%=toSubVerPath15%>godkend_job_timer_2017.asp"><%=godkend_txt_010 %></a></li>
                        <%
                      case else   
                     %> 
@@ -978,7 +986,7 @@ end select
                                 
                         <%end if %>
 
-                        <%if (level <= 2 OR level = 6) OR lto = "fk" OR lto ="mmmi" then %>
+                        <%if (level <= 2 OR level = 6) OR lto = "fk" OR lto = "mmmi" OR lto = "adra" then %>
 
                                     <li><a href="<%=toSubVerPath15 %>medarb_protid.asp"><%=menu_txt_010 %></a></li>
 
@@ -1032,12 +1040,18 @@ end select
                         <li><a href="<%=toSubVerPath14 %>pipeline.asp?menu=webblik&FM_kunde=0&FM_progrupper=10"><%=tsa_txt_456 %></a></li>
                         <%end if %>
 
+                        <%if level = 1 then %>
+                        <li><a href="<%=toSubVerPath15%>forecast_kapacitet.asp?menu=stat">Forecast & kapacitet</a></li>
+                        <%end if %>
+
                         <br /><br />
 
 
                         <%if level = 1 then %>
                         <li><a href="<%=toSubVerPath14 %>materiale_stat.asp?menu=stat" ><%=tsa_txt_156 %></a></li>
                         <%end if %>
+
+                       
 
                         
 
@@ -1254,7 +1268,7 @@ end select
 
             '**** INDLaeS / IMPORTER  funktioner     
             if (lto = "dencker" OR lto = "dencker_test" OR lto = "intranet - local") AND level = 1 then %>
-             <li><a href="../timereg_net/importer_job.aspx?lto=<%=lto%>&mid=<%=session("mid")%>&editor=<%=session("user") %>&importtype=d1" target="_blank">Monitor-importer job</a></li>
+             <li><a href="../timereg_net/importer_job.aspx?lto=<%=lto%>&mid=<%=session("mid")%>&editor=<%=session("user") %>&importtype=d1" target="_blank">Monitor-importer job (salgsordre)</a></li>
             <li><a href="../timereg_net/importer_job_monitor.aspx?lto=<%=lto%>&mid=<%=session("mid")%>&editor=<%=session("user") %>" target="_blank">Monitor-importer aktiviteter</a></li>
            
            <%end if
@@ -1265,7 +1279,7 @@ end select
             
              <li><a href="../timereg_net/importer_job.aspx?lto=<%=lto%>&mid=<%=session("mid")%>&editor=<%=session("user") %>&importtype=t1" target="_blank">NAV-importer job/proj.</a></li>
             <li><a href="../timereg_net/importer_akt.aspx?lto=<%=lto%>&mid=<%=session("mid")%>&editor=<%=session("user") %>&importtype=t2" target="_blank">NAV-importer tasks/aktiviteter</a></li>
-             <li><a href="../timereg_net/importer_med.aspx?lto=<%=lto%>&mid=<%=session("mid")%>&editor=<%=session("user") %>&importtype=t3" target="_blank">NAV-importer medarbejdere</a></li>
+             <li><a href="../timereg_net/importer_med.aspx?lto=<%=lto%>&mid=<%=session("mid")%>&editor=<%=session("user") %>&importtype=m3" target="_blank">NAV-importer medarbejdere</a></li>
            
            <%end if
 

@@ -640,7 +640,7 @@ ugeafsluttet = 0
 call erugeAfslutte(useYear, usePeriod, usemrn, SmiWeekOrMonth, 0)
 
 
-'Response.Write "lastfakdato" & lastfakdato & "strMrd_sm: "& strMrd_sm & " strWeek: "& strWeek & " usemrn:" & usemrn
+'Response.Write "lastfakdato" & lastfakdato & "strMrd_sm: "& strMrd_sm & " strWeek: "& strWeek & " usemrn:" & usemrn & " splithr: "& splithr & " MMM "
 'Response.end
 
 '** Quickfix, ugeNrAfsluttet bliver slet ikka kaldt og derfor ikke sat
@@ -658,7 +658,6 @@ call erugeAfslutte(useYear, usePeriod, usemrn, SmiWeekOrMonth, 0)
 'Response.Write "herder45"
 'Response.Write day(now) &" > "& autolukvdatodato  &" AND "& DatePart("yyyy", varTjDato_ugedag) &" = "& year(now) & " AND "& DatePart("m", varTjDato_ugedag) &" < "& month(now) & "<br>"
 'Response.Write "aktdata(iRowLoop, 16): " & aktdata(iRowLoop, 16) & "<br>"
-
 'response.write "<br>erIndlast: " & erIndlast
 'end if 
 
@@ -793,16 +792,11 @@ call erugeAfslutte(useYear, usePeriod, usemrn, SmiWeekOrMonth, 0)
     'Response.write "lonKorsel_lukketIO = " & lonKorsel_lukketIO 
     'response.Write ugeNrAfsluttet & "ww:"& datepart("d", ugeNrAfsluttet, 2, 2) &"="& usePeriod &" varTjDato_ugedag: "& varTjDato_ugedag &" splithr: "& splithr &"<br>"
 
-    if (( (datepart("ww", ugeNrAfsluttet, 2, 2) = usePeriod AND cint(SmiWeekOrMonth) = 0 AND splithr = 0) OR (cdate(ugeNrAfsluttet) >= cdate(varTjDato_ugedag) AND cint(SmiWeekOrMonth) = 0 AND splithr = 1) _
-    OR (datepart("m", ugeNrAfsluttet, 2, 2) = usePeriod AND cint(SmiWeekOrMonth) = 1 )) _
-    AND cint(ugegodkendt) = 1 AND smilaktiv = 1 AND autogk = 1 AND ugeNrAfsluttet <> "1-1-2044") OR _
-    (smilaktiv = 1 AND autolukvdato = 1 AND (day(now) > autolukvdatodato AND DatePart("yyyy", varTjDato_ugedag, 2, 2) = year(now) AND DatePart("m", varTjDato_ugedag, 2, 2) < month(now)) OR _
-    (smilaktiv = 1 AND autolukvdato = 1 AND (day(now) > autolukvdatodato AND DatePart("yyyy", varTjDato_ugedag, 2, 2) < year(now) AND DatePart("m", varTjDato_ugedag, 2, 2) = 12)) OR _
-    (smilaktiv = 1 AND autolukvdato = 1 AND DatePart("yyyy", varTjDato_ugedag, 2, 2) < year(now) AND DatePart("m", varTjDato_ugedag, 2, 2) <> 12) OR _
-    (smilaktiv = 1 AND autolukvdato = 1 AND (year(now) - DatePart("yyyy", varTjDato_ugedag, 2, 2) > 1))) OR _
-    cint(lonKorsel_lukketIO) = 1 then
+    '*** tjekker om uge er afsluttet / lukket / lønkørsel
+    call tjkClosedPeriodCriteria(varTjDato_ugedag, ugeNrAfsluttet, usePeriod, SmiWeekOrMonth, splithr, smilaktiv, autogk, autolukvdato, lonKorsel_lukketIO)
+                       
 
-        
+    if cint(ugeerAfsl_og_autogk_smil) = 1 then
         '*** Lønperiode afsluttet ***'
         '*** Uge afsluttet via Smiley Ordning og autogodkend slået til i kontrolpanel **'
         '*** hvis admin level 1 kan timer stadigvæk redigeres indtil der oprettes faktura ***'
@@ -818,8 +812,37 @@ call erugeAfslutte(useYear, usePeriod, usemrn, SmiWeekOrMonth, 0)
     	
 	    ugeafsluttet = 1
         ugeafsluttetTxt = "Uge er afsluttet via smiley, periode er afsluttet via kontrolpanel ell. l&oslash;nk&oslash;rsel / godkendt af teamleder."
+
+
+    end if
+
+    'if (( (datepart("ww", ugeNrAfsluttet, 2, 2) = usePeriod AND cint(SmiWeekOrMonth) = 0 AND splithr = 0) OR (cdate(ugeNrAfsluttet) >= cdate(varTjDato_ugedag) AND cint(SmiWeekOrMonth) = 0 AND splithr = 1) _
+    'OR (datepart("m", ugeNrAfsluttet, 2, 2) = usePeriod AND cint(SmiWeekOrMonth) = 1 )) _
+    'AND cint(ugegodkendt) = 1 AND smilaktiv = 1 AND autogk = 1 AND ugeNrAfsluttet <> "1-1-2044") OR _
+    '(smilaktiv = 1 AND autolukvdato = 1 AND (day(now) > autolukvdatodato AND DatePart("yyyy", varTjDato_ugedag, 2, 2) = year(now) AND DatePart("m", varTjDato_ugedag, 2, 2) < month(now)) OR _
+    '(smilaktiv = 1 AND autolukvdato = 1 AND (day(now) > autolukvdatodato AND DatePart("yyyy", varTjDato_ugedag, 2, 2) < year(now) AND DatePart("m", varTjDato_ugedag, 2, 2) = 12)) OR _
+    '(smilaktiv = 1 AND autolukvdato = 1 AND DatePart("yyyy", varTjDato_ugedag, 2, 2) < year(now) AND DatePart("m", varTjDato_ugedag, 2, 2) <> 12) OR _
+    '(smilaktiv = 1 AND autolukvdato = 1 AND (year(now) - DatePart("yyyy", varTjDato_ugedag, 2, 2) > 1))) OR _
+    'cint(lonKorsel_lukketIO) = 1 then
+
+        
+    '    '*** Lønperiode afsluttet ***'
+    '    '*** Uge afsluttet via Smiley Ordning og autogodkend slået til i kontrolpanel **'
+    '    '*** hvis admin level 1 kan timer stadigvæk redigeres indtil der oprettes faktura ***'
+	'    if cint(level) <> 1 then
+	'        maxl = 0
+	'        fmbgcol = "#F7F7F7"
+	'        fmborcl = "1px #999999 dashed"
+	'    else
+	'        maxl = maxl
+	'        fmbgcol = fmbgcol
+	'        fmborcl = "1px #999999 dashed" 'fmborcl
+	'    end if
     	
-     end if
+	'    ugeafsluttet = 1
+    '    ugeafsluttetTxt = "Uge er afsluttet via smiley, periode er afsluttet via kontrolpanel ell. l&oslash;nk&oslash;rsel / godkendt af teamleder."
+    	
+    ' end if
             
                 
 
@@ -2436,17 +2459,20 @@ function timerIndlaesPeriodeLukket(medarbejderid, regdato, intjobid)
                 call lonKorsel_lukketPer(regdato, -2)
               
                  
-                 'if (cint(erugeafsluttet) <> 0 AND smilaktiv = 1 AND autogk = 1 AND ugeNrAfsluttet <> "1-1-2044") OR _
-                 if ( (( datepart("ww", ugeNrAfsluttet, 2, 2) = usePeriod AND cint(SmiWeekOrMonth) = 0) OR (datepart("m", ugeNrAfsluttet, 2, 2) = usePeriod AND cint(SmiWeekOrMonth) = 1 )) AND cint(ugegodkendt) = 1 AND smilaktiv = 1 AND autogk = 1 AND ugeNrAfsluttet <> "1-1-2044") OR _
-                (smilaktiv = 1 AND autolukvdato = 1 AND (day(now) > autolukvdatodato AND DatePart("yyyy", regdato) = year(now) AND DatePart("m", regdato) < month(now)) OR _
-                (smilaktiv = 1 AND autolukvdato = 1 AND (day(now) > autolukvdatodato AND DatePart("yyyy", regdato) < year(now) AND DatePart("m", regdato) = 12)) OR _
-                (smilaktiv = 1 AND autolukvdato = 1 AND DatePart("yyyy", regdato) < year(now) AND DatePart("m", regdato) <> 12) OR _
-                (smilaktiv = 1 AND autolukvdato = 1 AND (year(now) - DatePart("yyyy", regdato) > 1))) OR cint(lonKorsel_lukketIO) = 1 then
+                'if ( (( datepart("ww", ugeNrAfsluttet, 2, 2) = usePeriod AND cint(SmiWeekOrMonth) = 0) OR (datepart("m", ugeNrAfsluttet, 2, 2) = usePeriod AND cint(SmiWeekOrMonth) = 1 )) AND cint(ugegodkendt) = 1 AND smilaktiv = 1 AND autogk = 1 AND ugeNrAfsluttet <> "1-1-2044") OR _
+                '(smilaktiv = 1 AND autolukvdato = 1 AND (day(now) > autolukvdatodato AND DatePart("yyyy", regdato) = year(now) AND DatePart("m", regdato) < month(now)) OR _
+                '(smilaktiv = 1 AND autolukvdato = 1 AND (day(now) > autolukvdatodato AND DatePart("yyyy", regdato) < year(now) AND DatePart("m", regdato) = 12)) OR _
+                '(smilaktiv = 1 AND autolukvdato = 1 AND DatePart("yyyy", regdato) < year(now) AND DatePart("m", regdato) <> 12) OR _
+                '(smilaktiv = 1 AND autolukvdato = 1 AND (year(now) - DatePart("yyyy", regdato) > 1))) OR cint(lonKorsel_lukketIO) = 1 then
               
-                ugeerAfsl_og_autogk_smil = 1
-                else
-                ugeerAfsl_og_autogk_smil = 0
-                end if 
+                'ugeerAfsl_og_autogk_smil = 1
+                'else
+                'ugeerAfsl_og_autogk_smil = 0
+                'end if 
+
+                
+                '*** tjekker om uge er afsluttet / lukket / lønkørsel
+                call tjkClosedPeriodCriteria(regdato, ugeNrAfsluttet, usePeriod, SmiWeekOrMonth, splithr, smilaktiv, autogk, autolukvdato, lonKorsel_lukketIO)
 		        
 		                
 		                

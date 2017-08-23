@@ -141,6 +141,7 @@ Public Class oz_importakt
     Public matsumGrandTotalJob(5000) As Double
 
     Public importtype As String
+    Public avl As String = ""
 
     Public j, jhigh, jlow As Integer
 
@@ -204,7 +205,7 @@ Public Class oz_importakt
 
 
         jlow = 0
-        jhigh = 10000
+        jhigh = 20000
 
 
         'strConn = "Driver={MySQL ODBC 3.51 Driver};Server=localhost;Database=timeout_epi_catitest;User=outzource;Password=SKba200473;"
@@ -256,7 +257,7 @@ Public Class oz_importakt
 
         '*** HENTER AKT fra AKT_IMPORT_TEMP '****
         Dim strSQLakts As String = "SELECT id, dato, editor, origin, jobnr, aktnavn, aktnr, akttimer, akttpris, aktsum, lto, "
-        strSQLakts += "beskrivelse, aktkonto, akttype " + strAktFields + " FROM akt_import_temp WHERE id > 0 And overfort = 0 And errid = 0 ORDER BY id LIMIT " & jlow & ", " & jhigh & ""
+        strSQLakts += "beskrivelse, aktkonto, akttype " + strAktFields + " FROM akt_import_temp WHERE id > 0 And overfort = 0 And errid = 0 AND aktnavn <> '' ORDER BY id LIMIT " & jlow & ", " & jhigh & ""
         objCmd = New OdbcCommand(strSQLakts, objConn)
         objDR = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
 
@@ -294,7 +295,7 @@ Public Class oz_importakt
                 aktsum = Replace(aktsum, ",", ".")
 
                 aktkonto = objDR("aktkonto")
-                akttype = objDR("akttype")
+
 
             Else
 
@@ -302,10 +303,11 @@ Public Class oz_importakt
                 akttpris = 0
                 aktsum = 0
                 aktkonto = 0
-                akttype = 0
+
 
             End If
 
+            akttype = objDR("akttype")
             lto = objDR("lto")
 
             'beskrivelse = IsDBNull(objDR("beskrivelse")) '** VARCHAR FOR IKKE AT FEJLE (TEXT fejler)
@@ -321,6 +323,9 @@ Public Class oz_importakt
                 aktstatus = objDR("aktstatus")
                 avarenr = "" 'objDR("aktnr")
                 aktFase = objDR("aktnr") 'avarenr
+                'aktkonto = objDR("aktkonto")
+                'aktkonto = aktkonto.Replace("-ACT", "")
+
             Else
                 avarenr = ""
                 aktFase = ""
@@ -348,6 +353,11 @@ Public Class oz_importakt
                 jobId = objDR2("id")
                 jobstartdato = objDR2("jobstartdato")
                 jobslutdato = objDR2("jobslutdato")
+
+
+                If CDate(jobslutdato) <= "01-01-2002" Then
+                    jobslutdato = "01-01-2044"
+                End If
 
             End If
             'objDR2.Close()
@@ -446,8 +456,12 @@ Public Class oz_importakt
 
 
 
-
+            '********************************************************************************************
             '*** Opretter aktiviteter ***'
+            '********************************************************************************************
+
+
+
             If CInt(errThis) = 0 Then
 
                 If lto = "oko" Then
@@ -458,18 +472,19 @@ Public Class oz_importakt
 
 
 
-
-                '*** Konnr > 130 indlæses som SalgsOmkostninger
-
-                If ((Trim(akttype) = "Budget" And lto = "oko") Or importtype = "t2" Or (Trim(akttype) = "Posting" And lto = "tia")) Then
+                '*** Linjetype: Budget / Posting
+                If ((Trim(akttype) = "Budget" And lto = "oko") Or (importtype = "t2" And Trim(akttype) = "Posting") Or (lto = "tia" And Trim(akttype) = "Posting")) Then
 
 
 
-                    If (((CInt(aktkonto) >= 101 And CInt(aktkonto) <= 199) And lto = "oko") Or importtype = "t2" Or lto = "tia") Then
+
+                    'Akt / Omkostning Konto 101 > 199 skal indlæses som akt. / omkostning, eller salgsomkostninger BUDGETTERET job_ulev: OKO
+                    If (((CInt(aktkonto) >= 101 And CInt(aktkonto) <= 199) And lto = "oko") Or (importtype = "t2" Or lto = "tia")) Then
                         'Dim acc As Integer = 100
                         'If CInt(acc) = 100 Then
 
 
+                        findesAkt = 0
 
                         '** Løn kat BUDGET Opdater / Insert ***'
                         If lto = "oko" Then
@@ -477,45 +492,86 @@ Public Class oz_importakt
                         Else
 
                             '*** Hvis findes -_> UPDATE
-                            'objConn2 = New OdbcConnection(strConn)
-                            'objConn2.Open()
-                            Dim strSQLaktfindes As String = "SELECT extsysid FROM aktiviteter WHERE extsysid = " & varLobenr & " AND job = " & jobId
-                            objCmd = New OdbcCommand(strSQLaktfindes, objConn2)
-                            objDR2 = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
-                            findesAkt = 0
-                            If objDR2.Read() = True Then
+                            If lto = "tia" Or importtype = "t2" Then
 
-                                findesAkt = 1
+
+
+                                Dim strSQLaktfindes As String = "Select id FROM aktiviteter WHERE avarenr = '" & aktFase & "' AND fakturerbar = 90 AND avarenr <> '' AND job = " & jobId
+                                objCmd = New OdbcCommand(strSQLaktfindes, objConn2)
+                                objDR2 = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
+                                findesAkt = 0
+
+                                If objDR2.Read() = True Then
+
+                                    'avl = IsDBNull(objDR2("id"))
+                                    findesAkt = 1
+
+                                End If
+                                objDR2.Close()
+
+                                'If avl = True Then
+                                ' findesAkt = 1 'objDR2("id")
+                                'Else
+                                'findesAkt = 0
+                                'End If
+
+                            Else
+
+
+
+                                Dim strSQLaktfindes As String = "SELECT extsysid FROM aktiviteter WHERE extsysid = " & varLobenr & " AND job = " & jobId
+                                objCmd = New OdbcCommand(strSQLaktfindes, objConn2)
+                                objDR2 = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
+                                findesAkt = 0
+                                If objDR2.Read() = True Then
+
+                                    findesAkt = 1
+
+                                End If
+                                objDR2.Close()
+                                'objConn2.Close()
 
                             End If
-                            objDR2.Close()
-                            'objConn2.Close()
+
+                        End If 'lto findesakt
 
 
-                        End If
 
 
 
 
                         If aktnr <> "0" Then 'Posterings lbn. 
 
+
+
+                            '**** Opdater / Insert
                             If CInt(findesAkt) = 0 Or lto = "oko" Then
 
                                 'objConn2 = New OdbcConnection(strConn)
                                 'objConn2.Open()
 
+
+
+
                                 If importtype = "t2" Or lto = "tia" Then
 
 
 
+                                    'If lto = "tia" Then
+
+                                    'Dim strSQLinst As String = "INSERT INTO akt_import_temp (aktnavn) VALUES ('avl: " & avl & " errThis: " & errThis & " findesAkt: " & findesAkt & " aktnr:" & aktnr & " aktFase:" & aktFase & " importtype: " & importtype & " akttype: " & akttype & "')"
+                                    'objCmd2 = New OdbcCommand(strSQLinst, objConn2)
+                                    'objCmd2.ExecuteReader() '(CommandBehavior.closeConnection)
+
+                                    'End If
 
 
                                     Dim strSQLaktins As String = ("INSERT INTO aktiviteter (editor, dato, navn, aktnr, job, fakturerbar, " _
                                     & "projektgruppe1, projektgruppe2, projektgruppe3, projektgruppe4, projektgruppe5, projektgruppe6, projektgruppe7," _
                                     & "projektgruppe8, projektgruppe9, projektgruppe10, aktstatus, budgettimer, aktbudget, aktbudgetsum, aktstartdato, aktslutdato, aktkonto, fase, extsysid, avarenr) VALUES " _
-                                    & " ('TO_import-nav','" & Now.ToString("yyyy/MM/dd", Globalization.CultureInfo.InvariantCulture) & "', '" & aktnavn & "', '" & aktnr & "'," & jobId & ", 1," _
-                                    & " 10,1,1,1,1,1,1,1,1,1,1," & akttimer & ", " & akttpris & ", " & aktsum & ",'" & jobstartdato.ToString("yyyy/MM/dd", Globalization.CultureInfo.InvariantCulture) & "'" _
-                                    & ",'" & jobslutdato.ToString("yyyy/MM/dd", Globalization.CultureInfo.InvariantCulture) & "', " & kontoId & ", '" & aktFase & "', 999, '" & avarenr & "')")
+                                    & " ('TO_import-nav','" & Now.ToString("yyyy/MM/dd", Globalization.CultureInfo.InvariantCulture) & "', '" & aktnavn & "', " & aktkonto & "," & jobId & ", 1," _
+                                    & " 10,1,1,1,1,1,1,1,1,1," & aktstatus & "," & akttimer & ", " & akttpris & ", " & aktsum & ",'" & jobstartdato.ToString("yyyy/MM/dd", Globalization.CultureInfo.InvariantCulture) & "'" _
+                                    & ",'" & jobslutdato.ToString("yyyy/MM/dd", Globalization.CultureInfo.InvariantCulture) & "', " & kontoId & ", 'SUBTASK', 999, '" & aktFase & "')")
 
                                     'Return strSQLaktins
 
@@ -527,73 +583,79 @@ Public Class oz_importakt
                                     'objConn2.Close()
 
 
-                                    If lto = "tia" Then 'INDLÆSER OVERSKRIFTER (OKO model)
 
-                                        Dim strSQLaktinsTia As String = ("INSERT INTO aktiviteter (editor, dato, navn, aktnr, job, fakturerbar, " _
+                                    Dim strSQLaktinsTia As String = ("INSERT INTO aktiviteter (editor, dato, navn, aktnr, job, fakturerbar, " _
                                        & "projektgruppe1, projektgruppe2, projektgruppe3, projektgruppe4, projektgruppe5, projektgruppe6, projektgruppe7," _
                                        & "projektgruppe8, projektgruppe9, projektgruppe10, aktstatus, budgettimer, aktbudget, aktbudgetsum, aktstartdato, aktslutdato, aktkonto, fase, extsysid, avarenr) VALUES " _
                                        & " ('TO_import-nav','" & Now.ToString("yyyy/MM/dd", Globalization.CultureInfo.InvariantCulture) & "', '" & aktnavn & "', " & aktkonto & "," & jobId & ", 90," _
-                                       & " 10,1,1,1,1,1,1,1,1,1,1," & akttimer & ", " & akttpris & ", " & aktsum & ",'" & jobstartdato.ToString("yyyy/MM/dd", Globalization.CultureInfo.InvariantCulture) & "'" _
-                                       & ",'" & jobslutdato.ToString("yyyy/MM/dd", Globalization.CultureInfo.InvariantCulture) & "', " & kontoId & ", '01. NAV-SUM', " & varLobenr & ", '" & aktFase & "')")
+                                       & " 10,1,1,1,1,1,1,1,1,1,2," & akttimer & ", " & akttpris & ", " & aktsum & ",'" & jobstartdato.ToString("yyyy/MM/dd", Globalization.CultureInfo.InvariantCulture) & "'" _
+                                       & ",'" & jobslutdato.ToString("yyyy/MM/dd", Globalization.CultureInfo.InvariantCulture) & "', " & kontoId & ", '01-NAV-SUM', " & varLobenr & ", '" & aktFase & "')")
+
+                                    'Return strSQLaktins
+
+                                    objCmd2 = New OdbcCommand(strSQLaktinsTia, objConn2)
+                                    objCmd2.ExecuteReader() '(CommandBehavior.closeConnection)
+
+                                    'objDR2.Close()
+                                    'objConn2.Close()
+
+
+
+
+
+
+                                Else '20170808 'importtype = "t2" Or lto = "tia"
+
+
+
+
+                                    If lto = "oko" Then 'ALTID INSERT
+
+                                        Dim strSQLaktins As String = ("INSERT INTO aktiviteter (editor, dato, navn, aktnr, job, fakturerbar, " _
+                                        & "projektgruppe1, projektgruppe2, projektgruppe3, projektgruppe4, projektgruppe5, projektgruppe6, projektgruppe7," _
+                                        & "projektgruppe8, projektgruppe9, projektgruppe10, aktstatus, budgettimer, aktbudget, aktbudgetsum, aktstartdato, aktslutdato, aktkonto, fase, extsysid, avarenr) VALUES " _
+                                        & " ('TO_import-nav','" & Now.ToString("yyyy/MM/dd", Globalization.CultureInfo.InvariantCulture) & "', '" & aktnavn & "', " & aktkonto & "," & jobId & ", 90," _
+                                        & " 10,1,1,1,1,1,1,1,1,1,1," & akttimer & ", " & akttpris & ", " & aktsum & ",'" & jobstartdato.ToString("yyyy/MM/dd", Globalization.CultureInfo.InvariantCulture) & "'" _
+                                        & ",'" & jobslutdato.ToString("yyyy/MM/dd", Globalization.CultureInfo.InvariantCulture) & "', " & kontoId & ", '01. NAV-SUM', " & varLobenr & ", '" & avarenr & "')")
 
                                         'Return strSQLaktins
 
-                                        objCmd2 = New OdbcCommand(strSQLaktinsTia, objConn2)
+                                        objCmd2 = New OdbcCommand(strSQLaktins, objConn2)
                                         objCmd2.ExecuteReader() '(CommandBehavior.closeConnection)
 
                                         'objDR2.Close()
                                         'objConn2.Close()
 
-                                    End If
-
-
-                                Else
+                                    End If 'lto
 
 
 
+                                End If '20170808 'importtype = "t2" Or lto = "tia"
 
-                                    Dim strSQLaktins As String = ("INSERT INTO aktiviteter (editor, dato, navn, aktnr, job, fakturerbar, " _
-                                    & "projektgruppe1, projektgruppe2, projektgruppe3, projektgruppe4, projektgruppe5, projektgruppe6, projektgruppe7," _
-                                    & "projektgruppe8, projektgruppe9, projektgruppe10, aktstatus, budgettimer, aktbudget, aktbudgetsum, aktstartdato, aktslutdato, aktkonto, fase, extsysid, avarenr) VALUES " _
-                                    & " ('TO_import-nav','" & Now.ToString("yyyy/MM/dd", Globalization.CultureInfo.InvariantCulture) & "', '" & aktnavn & "', " & aktkonto & "," & jobId & ", 90," _
-                                    & " 10,1,1,1,1,1,1,1,1,1,1," & akttimer & ", " & akttpris & ", " & aktsum & ",'" & jobstartdato.ToString("yyyy/MM/dd", Globalization.CultureInfo.InvariantCulture) & "'" _
-                                    & ",'" & jobslutdato.ToString("yyyy/MM/dd", Globalization.CultureInfo.InvariantCulture) & "', " & kontoId & ", '01. NAV-SUM', " & varLobenr & ", '" & avarenr & "')")
-
-                                    'Return strSQLaktins
-
-                                    objCmd2 = New OdbcCommand(strSQLaktins, objConn2)
-                                    objCmd2.ExecuteReader() '(CommandBehavior.closeConnection)
-
-                                    'objDR2.Close()
-                                    'objConn2.Close()
-
-                                End If
-
-                            Else 'findesAkt
+                                'OKO eller findesAKT = 1 
 
 
-                                If importtype = "t2" Or importtype = "tia1" Then
+
+                            Else 'findesAkt = 1
+
+                                '*** TIA: Ja opdater akt
+                                '*** OKO: Opdater IKKE
 
 
-                                    'Dim strSQLaktupd As String = ("UPDATE aktiviteter SET editor = 'TO_import-nav', dato = '" & Now.ToString("yyyy/MM/dd", Globalization.CultureInfo.InvariantCulture) & "', " _
-                                    '& " navn = '" & aktnavn & "', aktnr = " & aktkonto & ", job = " & jobId & ",  " _
-                                    '& " budgettimer = " & akttimer & ", aktbudget = " & akttpris & ", aktbudgetsum = " & aktsum & ", aktkonto = " & kontoId & ", fase = '01. NAV-SUM' WHERE extsysid = " & varLobenr & " AND job = " & jobId)
+                                If (lto = "tia" Or importtype = "t2") And aktFase <> "" And aktnavn <> "" Then
+                                    '*** TIA: fakturerber kan ikke ændrees da de er fordelt på faser mm, der manuelt er ændret i TO.
 
                                     Dim strSQLaktupd As String = ("UPDATE aktiviteter SET editor = 'TO_import-nav', dato = '" & Now.ToString("yyyy/MM/dd", Globalization.CultureInfo.InvariantCulture) & "', " _
-                                    & " navn = '" & aktnavn & "', aktnr = '" & aktnr & "', job = " & jobId & ", fase = '" & aktFase & "', avarenr = '" & avarenr & "'" _
-                                    & " WHERE extsysid = " & varLobenr & " AND job = " & jobId)
+                                    & " navn = '" & aktnavn & "'" _
+                                    & " WHERE avarenr = '" & aktFase & "' AND avarenr <> '' AND fakturerbar = 90 AND job = " & jobId)
 
-
-                                    'Return strSQLaktins
-
-                                    'objConn2 = New OdbcConnection(strConn)
-                                    'objConn2.Open()
                                     objCmd = New OdbcCommand(strSQLaktupd, objConn2)
                                     objDR2 = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
-                                    'objDR2.Close()
-                                    'objConn2.Close()
 
                                 End If
+
+
+
 
                             End If 'findesAkt
 
@@ -609,36 +671,21 @@ Public Class oz_importakt
                                 aktsumGrandTotalJob(jobId) = aktsumGrandTotalJob(jobId) + aktsumTilSum / 1
                             End If
 
-                            'Else 'aktnr, aktposterings lbn = 0 slet da denne er 0 hvis beløbet er sat = 0 i NAV
-
-                            'If CInt(findesAkt) = 1 Then
-
-                            'Dim strSQLsalgsaktDEL As String = ("DELETE FROM aktiviteter WHERE extsysid = " & varLobenr & " AND jobid = " & jobId)
-
-                            ''Return "XX HER XX errThis SQL: " & strSQLsalgsomkins
-                            'objConn2 = New OdbcConnection(strConn)
-                            'objConn2.Open()
-                            'objCmd = New OdbcCommand(strSQLsalgsaktDEL, objConn2)
-                            'objDR2 = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
-                            'objDR2.Close()
-                            'objConn2.Close()
-
-                            'End If
 
 
-
-
-                        End If 'aktnr
+                        End If 'aktnr <> 0 'GØR IKKE NOGET Hvis Aktnr = 0
 
 
 
                     Else    'aktkonto > 199 Eksternbistand / Salgsomkostninger 
 
+
+
                         If lto = "oko" Then
 
 
 
-                            If aktnr <> 0 Then '** posterings lbn nummer fra NAV
+                            If aktnr <> "0" Then '** posterings lbn nummer fra NAV
 
 
                                 Dim strSQLsalgsomkins As String = ("INSERT INTO job_ulev_ju (ju_navn, ju_ipris, ju_faktor, ju_belob, ju_jobid, ju_favorit, ju_fase, ju_stk, ju_stkpris, ju_fravalgt, extsysid, ju_konto) VALUES " _
@@ -666,9 +713,16 @@ Public Class oz_importakt
 
 
                         End If 'lto
-                    End If 'konto (OKO)
 
-                Else 'Trim(akttype) = "Budget"
+
+
+                    End If 'konto 199 (OKO)
+
+
+                Else 'Linejtype: Trim(akttype) = "Budget" / Eller Posting
+
+                    '** POSTING
+                    '** HVIS LTO = OKO and linjetype = Posting. Indlæs som salgsomkostninger (materialeforbrug)
 
                     If lto = "oko" Then
 
@@ -677,6 +731,15 @@ Public Class oz_importakt
 
                         'objConn2 = New OdbcConnection(strConn)
                         'objConn2.Open()
+
+                        '*** TEST
+                        'If lto = "oko" Then
+                        ' Dim strSQLjobToverfort2 As String = "INSERT INTO akt_import_temp (overfort, aktnavn, akttype, aktkonto) VALUES (13, '" & aktnavn & "', '" & akttype & "', '" & aktkonto & "')"
+                        ' objCmd2 = New OdbcCommand(strSQLjobToverfort2, objConn2)
+                        ' objCmd2.ExecuteReader() '(CommandBehavior.closeConnection)
+                        'End If
+
+
 
                         Dim strSQLomkostninger As String = "SELECT extsysid FROM materiale_forbrug WHERE extsysid = " & varLobenr & " AND jobid = " & jobId
                         objCmd2 = New OdbcCommand(strSQLomkostninger, objConn2)
@@ -689,7 +752,7 @@ Public Class oz_importakt
                         End If
                         objDR2.Close()
 
-
+                        '******** FIDNES OMKOSTNINGER
                         If CInt(findesOmkostning) = 0 And aktsum <> 0 Then 'SKAL TILFØJES NÅR vi begyndner at indlæse fra TiemOut til NAV i feb: And CInt(aktkonto) >= 199
 
                             Dim strSQLsalgsomkins As String = ("INSERT INTO materiale_forbrug (matantal, matnavn, matvarenr, matkobspris, matsalgspris, matenhed, jobid, " _
@@ -720,17 +783,31 @@ Public Class oz_importakt
 
 
 
-                            End If
-
-                        End If
+                            End If 'Aktsum
 
 
-                    End If 'lto
 
-                End If '** Indlæs / opdater
+                        End If 'Findesomkostninger
 
 
-            End If ' 21 jobId findes IKKE i forvejen
+                    End If 'lto = oko
+
+
+
+
+                    'End If '** Indlæs / opdater
+
+                    '********************
+
+                End If '*** Linjetype: Budget / Posting
+
+            End If 'Errthis = 0
+
+
+            '********************
+
+
+            'End If ' Error 21 jobId findes IKKE i forvejen
 
 
 
@@ -760,7 +837,10 @@ Public Class oz_importakt
         '*********************************************************************
         '************* Overfører beløb til GT på job *********************
         '*********************************************************************
+
         If lto = "oko" Then
+
+
             'For Each element As Integer In aktsumGrandTotalJob
             Dim i As Integer = 0
             objConn2 = New OdbcConnection(strConn)
@@ -799,6 +879,8 @@ Public Class oz_importakt
 
             Next
             objConn2.Close()
+
+
         End If 'lto
         '*****************************************************************
 
@@ -831,7 +913,7 @@ Public Class oz_importakt
 
         'Next
 
-        Return "<br>Last Webservice loop: " & j & "<br>"
+        Return "<br>Antal linjer indlæst: " & a & "<br>"
 
     End Function
 

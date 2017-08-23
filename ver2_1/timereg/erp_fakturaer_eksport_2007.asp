@@ -283,10 +283,10 @@ if len(session("user")) = 0 then
     '************************ HEADER + BODY *********************************
     '************************************************************************
 	select case visning
-	case 0 'Detaljer
+	case 0, 3 'Detaljer
 	
 	strSQL = "SELECT f.fid, f.faknr, f.dato AS fdato, "_
-	&" f.fakdato, f.jobid, f.timer AS antal, f.beloeb, f.moms, "_
+	&" f.fakdato, f.jobid AS fakjobid, f.timer AS antal, f.beloeb, f.moms, "_
 	&" f.kommentar, f.faktype, f.parentfak, f.aftaleid, f.enhedsang, f.rabat, f.jobbesk, f.fak_ski, f.istdato, f.istdato2, "_
     &" j.jobnavn, j.jobnr, j.jobknr, j.id AS jobid, "_
 	&" k.Kkundenavn, k.Kkundenr, sk2.Kkundenavn AS sknavn, sk2.Kkundenr AS sknr, "_
@@ -323,20 +323,34 @@ if len(session("user")) = 0 then
 	'Response.flush
 	'Response.end
 		
-    '**** HEADER LINJE - Detaljeret ***
-	strTxtExport = "Linietype;Aftale/Job;Kontakt;Kontakt id;Kontaktansv.1;Kontaktansv.1 nr.;"_
-	&"Kontaktansv.2;Kontaktansv.2 nr.;Jobnavn;Jobnr;Jobansvarlig;Jobansv. nr.;"_
-	&"jobejer;Jobejer nr.;Faktura nr.;Faktura beløb excl. moms; Moms; Faktura beløb incl. moms;Fakturadato (system) / Reg.dato;Måned;År;Periode Startdato;Periode Slutdato;Type;Kladde/Godkendt;"_
-	&"Aktivitetsnavn;Medarb./Materiale Navn;Medarb./Vare Nr;Initialer;Antal;Enhedspris;Valuta;Enhed;Rabat;"_
-	&"Beløb excl. moms;Valuta;Ventetimer brugt;Ventetimer ultimo;Vist på Faktura?;"_
-	&"Forretningsområde;Intern;Medarb.linier findes?(sumakt/andre?);Fakturalinie tekst (20 kar.);"
 
 
-         if instr(lto, "epi") <> 0 OR lto = "intranet - local" then 'Alle EPI
-	     strTxtExport = strTxtExport &"Afdeling;Underafdeling;Momskode;Konto;Modkonto;Forfaldsdato;"
-	     end if
+        '**** HEADER LINJE - Detaljeret ***
+	
+        if visning = 3 then
 
-	strTxtExport = strTxtExport & vbcrlf
+             strTxtExport = "Bogføringsdato;Bilagsnr.;Bogføringstype;Kontotype;Kontonr.;Afd Kode;Bærer Kode;Beskrivelse;Beløb;Modkonto;Bilagstype"
+             strTxtExport = strTxtExport & vbcrlf
+        
+        else  'standard    
+
+
+                strTxtExport = "Linietype;Aftale/Job;Kontakt;Kontakt id;Kontaktansv.1;Kontaktansv.1 nr.;"_
+	            &"Kontaktansv.2;Kontaktansv.2 nr.;Jobnavn;Jobnr;Jobansvarlig;Jobansv. nr.;"_
+	            &"jobejer;Jobejer nr.;Faktura nr.;Faktura beløb excl. moms; Moms; Faktura beløb incl. moms;Fakturadato (system) / Reg.dato;Måned;År;Periode Startdato;Periode Slutdato;Type;Kladde/Godkendt;"_
+	            &"Aktivitetsnavn;Medarb./Materiale Navn;Medarb./Vare Nr;Initialer;Antal;Enhedspris;Valuta;Enhed;Rabat;"_
+	            &"Beløb excl. moms;Valuta;Ventetimer brugt;Ventetimer ultimo;Vist på Faktura?;"_
+	            &"Forretningsområde;Intern;Medarb.linier findes?(sumakt/andre?);Fakturalinie tekst (20 kar.);"
+
+
+                     if instr(lto, "epi") <> 0 OR lto = "intranet - local" then 'Alle EPI
+	                 strTxtExport = strTxtExport &"Afdeling;Underafdeling;Momskode;Konto;Modkonto;Forfaldsdato;"
+	                 end if
+
+	            strTxtExport = strTxtExport & vbcrlf
+
+        end if
+           
 	
 	case 1,2 'Simpel
 	
@@ -356,57 +370,64 @@ if len(session("user")) = 0 then
 	
 	    select case visning
 	    case 1
-	    'Adresse;Postnr;By;Land;
-	    strTxtExport = "Kontakt;Kontakt id;"
+	        'Adresse;Postnr;By;Land;
+	        strTxtExport = "Kontakt;Kontakt id;"
 	    
-	    if lto = "acc" then
-	    strTxtExport = strTxtExport & "Adresse;Postnr;By;Land;"
-	    end if
+	        if lto = "acc" then
+	        strTxtExport = strTxtExport & "Adresse;Postnr;By;Land;"
+	        end if
 	    
-	    if lto <> "acc" then
-	    strTxtExport = strTxtExport & "CVR;"
-	    end if
+	        if lto <> "acc" then
+	        strTxtExport = strTxtExport & "CVR;"
+	        end if
 
-        select case lto
-        case "epi2017"
-            basisValISOtxt = "(basis CUR)"
-         case else
-            basisValISOtxt = basisValISO
-        end select 
+            select case lto
+            case "epi2017"
+                basisValISOtxt = "(basis CUR)"
+             case else
+                basisValISOtxt = basisValISO
+            end select 
 	    
-	    strTxtExport = strTxtExport & "Tlf;Faktura nr.;Fakturadato;F/L (Fak. systemdato:0, Labeldato:1);Beløb ekskl. moms "& basisValISOtxt &";Moms;"
+	        strTxtExport = strTxtExport & "Tlf;Faktura nr.;Fakturadato;F/L (Fak. systemdato:0, Labeldato:1);Beløb ekskl. moms "& basisValISOtxt &";Moms;"
         
-        strTxtExport = strTxtExport & "Type (0:Faktura, 1:Kreditnota);Konto;Modkonto;Forfaldsdato;Modtaget/Betalt;EAN;"
+            strTxtExport = strTxtExport & "Type (0:Faktura, 1:Kreditnota);Konto;Modkonto;Forfaldsdato;Modtaget/Betalt;EAN;"
 	    
-        if lto <> "acc" then ' <> "acc" AND lto <> "jttek" AND lto <> "epi" then
-            strTxtExport = strTxtExport & "Beløb inkl. moms "& basisValISOtxt &";"
-        end if
+            if lto <> "acc" then ' <> "acc" AND lto <> "jttek" AND lto <> "epi" then
+                strTxtExport = strTxtExport & "Beløb inkl. moms "& basisValISOtxt &";"
+            end if
                     
-	    if lto <> "acc" AND lto <> "synergi1" then '= "execon" OR lto = "immenso" OR lto = "intranet - local" then
-	    strTxtExport = strTxtExport &"SKI;Kørsel ekskl. moms;Mat. forbrug / Udlæg ekskl. moms;Aktiviteter ekskl. moms;Intern;Valuta;Beløb ekskl. moms i faktura valuta;Jobnr;Aftale nr;"
-	    end if
+	        if lto <> "acc" AND lto <> "synergi1" then '= "execon" OR lto = "immenso" OR lto = "intranet - local" then
+	        strTxtExport = strTxtExport &"SKI;Kørsel ekskl. moms;Mat. forbrug / Udlæg ekskl. moms;Aktiviteter ekskl. moms;Intern;Valuta;Beløb ekskl. moms i faktura valuta;Jobnr;Aftale nr;"
+	        end if
 
-        if lto = "acc" then 'Accounting
-	    strTxtExport = strTxtExport &"Udlæg (u.leverandør) ekskl. moms;Udlægs konto;Udlægs modkonto;"
-	    end if
+            if lto = "acc" then 'Accounting
+	        strTxtExport = strTxtExport &"Udlæg (u.leverandør) ekskl. moms;Udlægs konto;Udlægs modkonto;"
+	        end if
 
 
-        if lto <> "acc" AND lto <> "synergi1" then
-	    strTxtExport = strTxtExport &"Moms i faktura valuta;"
-	    end if
+            if lto <> "acc" AND lto <> "synergi1" then
+	        strTxtExport = strTxtExport &"Moms i faktura valuta;"
+	        end if
 
-        if instr(lto, "epi") <> 0 then 'Alle EPI
-	    strTxtExport = strTxtExport &"Afdeling;Underafdeling;Momskode;"
-	    end if
+            if instr(lto, "epi") <> 0 then 'Alle EPI
+	        strTxtExport = strTxtExport &"Afdeling;Underafdeling;Momskode;"
+	        end if
 	                
-	    strTxtExport = strTxtExport & vbcrlf
+	        strTxtExport = strTxtExport & vbcrlf
 	    case 2
 	        if lto <> "execon" AND lto <> "immenso" then
 	        strTxtExport = "Debitornr.;Fakturanr.;Fakturadato;Forfaldsdato;Beløb (incl. moms);Valuta;"
 	        strTxtExport = strTxtExport & vbcrlf
 	        end if
+
+        
+
 	    end select
 	
+
+    
+
+
 	end select
 	lastFaknr = 0
     f = 0
@@ -1150,10 +1171,10 @@ if len(session("user")) = 0 then
             
                     if cint(oRec("valuta")) <> 6 then
                     call valutaKurs_fakhist(6) ' --> GBP
-                    call beregnValuta(oRec("beloeb"),oRec("kurs"),dblkurs_fakhist/100)
+                    call beregnValuta(oRec("beloeb"),oRec("kurs"),dblkurs_fakhist)
                     fakBelob = valBelobBeregnet
 
-                    call beregnValuta(oRec("moms"),oRec("kurs"),dblkurs_fakhist/100)
+                    call beregnValuta(oRec("moms"),oRec("kurs"),dblkurs_fakhist)
                     fakMoms = valBelobBeregnet
 
                     end if
@@ -1168,10 +1189,10 @@ if len(session("user")) = 0 then
                 
                     if cint(oRec("valuta")) <> 5 then
                     call valutaKurs_fakhist(5) ' --> NOK
-                    call beregnValuta(oRec("beloeb"),oRec("kurs"),dblkurs_fakhist/100)
+                    call beregnValuta(oRec("beloeb"),oRec("kurs"),dblkurs_fakhist)
                     fakBelob = valBelobBeregnet
 
-                    call beregnValuta(oRec("moms"),oRec("kurs"),dblkurs_fakhist/100)
+                    call beregnValuta(oRec("moms"),oRec("kurs"),dblkurs_fakhist)
                     fakMoms = valBelobBeregnet
                     end if
 
@@ -1408,7 +1429,7 @@ if len(session("user")) = 0 then
     
     
     '** Omregner ikke til DKK valuta men agiver valuta på hver linie **'
-     fakBelob = oRec("beloeb")
+    fakBelob = oRec("beloeb")
     
     if oRec("faktype") = 0 then
     belob = fakBelob
@@ -1439,14 +1460,96 @@ if len(session("user")) = 0 then
     fakforfaldDato = left(fakforfaldDato,4) & right(fakforfaldDato,2)
     
     
-    strTxtExport = strTxtExport & oRec("kkundenr") &","
-    strTxtExport = strTxtExport & oRec("faknr")&","""& fakDato &""","""& fakforfaldDato &""","
-    strTxtExport = strTxtExport & belob &","""& oRec("valutakode") &""""
+    strTxtExport = strTxtExport & oRec("kkundenr") &";"
+    strTxtExport = strTxtExport & oRec("faknr") &";"""& fakDato &""";"""& fakforfaldDato &""";"
+    strTxtExport = strTxtExport & belob &";"""& oRec("valutakode") &""""
 	strTxtExport = strTxtExport & vbcrlf 
     
     
+    case 3 'CISU NAV finanskladde
+
+    '** Omregner ikke til DKK valuta men agiver valuta på hver linie **'
+    fakBelob = oRec("fakdet_belob")
+    fakDato = formatdatetime(oRec("fakdato"), 2)
    
-    
+
+    aktnavn = oRec("beskrivelse") '"Timeforbrug A-E" 'Bør NOK sættes op via form. på stamaktiviter
+
+        for_fomr = 0
+        kontonavn = "xxx"
+        kontonr = 0
+        if oRec("jobid") <> "" then
+        jobid = oRec("jobid")
+        else
+        jobid = 0
+        end if
+        strSQLfomrJob = "SELECT for_fomr FROM fomr_rel WHERE for_jobid = "& jobid &" AND for_aktid = 0"
+
+        'response.write strSQLfomrJob
+        'response.flush
+
+        oRec3.open strSQLfomrJob, oConn, 3
+        if not oRec3.EOF then
+
+          for_fomr = oRec3("for_fomr")
+
+        end if
+        oRec3.close
+
+        if for_fomr <> 0 then
+
+        select case for_fomr
+        case 4,5,6 'FY
+        
+            select case right(aktnavn, 1)
+            case "A"
+            kontonavn = "Fakturerede timer Kat I FY"
+            case "B"
+            kontonavn = "Fakturerede timer Kat II FY"
+            case "C"
+            kontonavn = "Fakturerede timer Kat III FY"
+            case "D"
+            kontonavn = "Fakturerede timer Kat IV FY"
+            case "E"
+            kontonavn = "Fakturerede timer Kat I-IV FY"
+            end select
+
+        case 1,2,3 'B
+
+            select case right(aktnavn, 1)
+            case "A"
+            kontonavn = "Fakturerede timer Kat I B"
+            case "B"
+            kontonavn = "Fakturerede timer Kat II B"
+            case "C"
+            kontonavn = "Fakturerede timer Kat III B"
+            case "D"
+            kontonavn = "Fakturerede timer Kat IV B"
+            case "E"
+            kontonavn = "Fakturerede timer Kat I-IV B"
+            end select
+
+        end select
+
+        strSQLfomrJob = "SELECT kontonr FROM kontoplan WHERE navn = '"& kontonavn &"'"
+        oRec3.open strSQLfomrJob, oConn, 3
+        if not oRec3.EOF then
+
+          kontonr = oRec3("kontonr")
+
+        end if
+        oRec3.close
+
+        end if
+
+
+    'strTxtExport = strTxtExport & oRec("kkundenr") &","
+    'strTxtExport = strTxtExport & oRec("faknr")&",""
+    strTxtExport = strTxtExport & ""& fakDato &";CISU;CISU;CISU;"& kontonr &";"& oRec("kkundenr") &";CISU;"
+    strTxtExport = strTxtExport & ""& chr(34) & aktnavn &" - "& oRec("faknr") & chr(34) &";"
+    strTxtExport = strTxtExport & fakbelob &";CISU;CISU;"
+	strTxtExport = strTxtExport & vbcrlf 
+
     end select		
 	
     

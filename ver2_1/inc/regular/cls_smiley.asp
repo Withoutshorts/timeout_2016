@@ -11,7 +11,7 @@ public cDateUge, cDateAfs, cDateUgeTilAfslutning, smileysttxt, smileyImg, weekaf
         function rettidigafsl(ugeVal, rettidigafsl_do)
             
                'Response.write "rettidigafsl_do: " & rettidigafsl_do & " ugeVal: "& ugeVal &"<br>"
-
+               'Response.end
 
                call smileyAfslutSettings()
 
@@ -436,7 +436,7 @@ function godkendugeseddel(fmlink, usemrn, varTjDatoUS_man, rdir)
 
                            <form action="<%=fmLink%>&func=godkendugeseddel" method="post">
                                <table width=90% cellpadding=0 cellspacing=0 border=0>
-                            <tr><td class=lille><br />
+                            <tr><td class=lille><br /> 
                                 
 
                            <span style="font-size:11px;"><b><%=lukTxt2 &" "& periodeTxt %></b></span><br />
@@ -472,7 +472,7 @@ function godkendugeseddel(fmlink, usemrn, varTjDatoUS_man, rdir)
                 <%else %>
                   <br />
                   <b><%=funk_txt_033 %></b> <%=funk_txt_034 &" "& periodeTxt &" "& funk_txt_035 %><br /><br />
-                <input id="Submit1" type="submit" value="Send besked >>" style="font-size:9px; width:120px;" />
+                <input id="Submit1" type="submit" value="<%=godkendweek_txt_109 %> >>" style="font-size:9px; width:120px;" />
                 <%end if %>
            
              
@@ -490,7 +490,7 @@ function godkendugeseddel(fmlink, usemrn, varTjDatoUS_man, rdir)
                <span style="font-size:11px;"><b><%=funk_txt_036 &" "& periodeTxt %></b></span><br />
                <%=funk_txt_037 %>:<br />
                <textarea name="FM_afvis_grund" style="width:200px; height:40px;"></textarea><br /><br />
-                <input id="Submit3" type="submit" value="Afvis <%=periodeTxt %> >>" style="font-size:9px; width:120px;" /><br />
+                <input id="Submit3" type="submit" value="<%=godkendweek_txt_110 &" " %> <%=periodeTxt %> >>" style="font-size:9px; width:120px;" /><br />
                  <span style="color:#999999;"><%=funk_txt_038 &" "& lukTxt1 &" "& funk_txt_039 %></span>
                   </td></tr></table>
                  
@@ -565,10 +565,10 @@ function afslutuge(weekSelected, visning, tjkDag7, rdir, SmiWeekOrMonth)
             sidstedagisidsteuge = dateadd("d", -7, weekSelected)
             end if
 
-        case 1
+        case 1 'Måned
         sidsteUgeTxt = funk_txt_042
         sidstedagisidsteuge = weekSelected 'dateadd("d", -31, weekSelected)
-        case 2
+        case 2 'Dag
         sidsteUgeTxt = funk_txt_043
         sidstedagisidsteuge = year(weekSelected) & "-" & month(weekSelected) & "-" & day(weekSelected) 'dateadd("d", -31, weekSelected)
         end select
@@ -770,7 +770,7 @@ function afslutuge(weekSelected, visning, tjkDag7, rdir, SmiWeekOrMonth)
                 %>
                 <%end select %>
                 
-                <span style="font-size:11px;"><%=tsa_txt_409 %>:</span><br />
+                <span style="font-size:14px;"><%=tsa_txt_409 %>:</span><br />
                 <span style="font-size:14px; display:block; padding:2px; border:0px #999999 solid; width:400px; font-weight:bolder;">
 
                     <%
@@ -857,7 +857,7 @@ function afslutuge(weekSelected, visning, tjkDag7, rdir, SmiWeekOrMonth)
                     
                 select case cint(SmiWeekOrMonth) 
                 case 0 'uge aflsutning %>
-                <%=tsa_txt_005 %>: <%=datePart("ww", sidstedagisidsteAfsluge, 2,2) %>, 
+                <%=tsa_txt_005 %>: <%=datePart("ww", sidstedagisidsteAfsluge, 2,2) %>,
                    
                    <%if datePart("ww", sidstedagisidsteAfsluge, 2,2) = 53 then%> 
                    <%=datePart("yyyy", dateAdd("yyyy", -1, sidstedagisidsteAfsluge), 2,2) %> / <%=datePart("yyyy", sidstedagisidsteAfsluge, 2,2) %>  
@@ -867,8 +867,36 @@ function afslutuge(weekSelected, visning, tjkDag7, rdir, SmiWeekOrMonth)
 
                     
                 <%if cint(SmiWeekOrMonth_HR) = 1 AND cint(SmiWeekOrMonth) = 0 then
+
+                '*** Afslut MD nu! (ugeafslutning) funktion skal kun vises hvis det er den sidste uge i måneden og den strækker sig ind i næste måned.
+                'sidstedagisidsteAfsluge = Sidstedag (Søndag) i den der skal afsluttes som den næste
+                '*** Tjekker om måned allerede har været afsluttet. Vis da ikke knap igen.
+
+                denneugeStarter = datePart("m", dateAdd("d", -7, sidstedagisidsteAfsluge), 2,2) 
+                denneugeSlutter = datePart("m", sidstedagisidsteAfsluge, 2,2) 
+                tjkHRsplitdenneUge = year(sidstedagisidsteAfsluge) & "-" & month(sidstedagisidsteAfsluge) & "-"& day(sidstedagisidsteAfsluge)
+
+                splithrdenneUge = 0
+                strSQLselHr = "SELECT uge, splithr FROM ugestatus WHERE WEEK(uge, 3) = WEEK('"& tjkHRsplitdenneUge &"', 3) AND mid = " & usemrn & " AND splithr = 1"
+                    
+                'Response.write strSQLselHr
+                'Response.flush
+                oRec6.open strSQLselHr, oConn, 3
+                if not oRec6.EOF then
+
+                    splithrdenneUge = oRec6("splithr")
+
+                end if
+                oRec6.close
+
                 %>
-                <br /><span style="font-weight:normal;"><input type="checkbox" name="FM_afslutuge_hr" id="FM_afslutuge_hr" value="1"> Afslut uge nu! (pr. dd. ved månedsskift eller lønkørsel)</span><br />
+                <%if cint(denneugeStarter) <> cint(denneugeSlutter) AND cint(splithrdenneUge) = 0 then %>
+                <br /><span style="font-weight:normal;"><input type="checkbox" name="FM_afslutuge_hr" id="FM_afslutuge_hr" value="1"> 
+                Complete month now <!--HR spiltweek -->
+                <!-- Afslut indeværende uge nu! (pr. dd. ved månedsskift eller lønkørsel) -->
+                </span><br />
+                <%end if %>
+                
                 <%
                 end if%>
 
@@ -1336,7 +1364,7 @@ function showsmiley(weekSelected, visning, usemrn, SmiWeekOrMonth)
 
 <%
 
-
+'** Viser afsluttede uger ***
 
 public expTxtsm, ugeMdNrTxtTopKri
 function smileystatus(medarbid, visning, useYear)
@@ -1424,7 +1452,7 @@ function smileystatus(medarbid, visning, useYear)
                     tjkAnsatDatoKri = ""
                     end if
         
-					strSQL2 = "SELECT u.status, u.afsluttet, u.uge, u.id, u.ugegodkendt FROM ugestatus u WHERE u.mid = "& oRec("mid") &" AND (uge BETWEEN '"& startdato &"' AND '"& slutdato &"') "& tjkAnsatDatoKri &" ORDER BY uge" 
+					strSQL2 = "SELECT u.status, u.afsluttet, u.uge, u.id, u.ugegodkendt, u.splithr FROM ugestatus u WHERE u.mid = "& oRec("mid") &" AND (uge BETWEEN '"& startdato &"' AND '"& slutdato &"') "& tjkAnsatDatoKri &" ORDER BY uge" 
 					'AND (WEEK(uge,1) BETWEEN 1 AND "& denneuge &" 
 					
                     'if session("mid") = 1 then
@@ -1528,8 +1556,10 @@ function smileystatus(medarbid, visning, useYear)
                                         end select
 
 
-
-                   
+                                       '** HR SPlit uge afsluttet midt i uge ved månedsskift til at køre løn. TIA
+                                       if cint(oRec2("splithr")) = 1 then
+                                          ugerafsluttet(x,v) = ugerafsluttet(x,v) & "&nbsp;<i style=""color:#5582d2;"">(Month)</i>"
+                                       end if
 
 					      
 					
@@ -1782,7 +1812,7 @@ end if
 	
 	
     '*** Afslutter uge ****'
-    if len(request("FM_afslutuge")) <> 0 then
+    if len(request("FM_afslutuge")) <> 0 OR request("FM_afslutuge_hr") then
 		        
           
         'sidstedagisidsteuge
@@ -1817,20 +1847,37 @@ end if
                 '**Afslutter SKÆV uge ved månedsskift eller lønkørsel. TIA
                 splithr = 0
                 if len(request("FM_afslutuge_hr")) <> 0 then
-                cDateUgeTilAfslutning = cDateAfs
+                cDateUgeTilAfslutning = "1-"& month(cDateUgeTilAfslutning) &"-"& year(cDateUgeTilAfslutning)
+                cDateUgeTilAfslutning = dateAdd("d", -1, cDateUgeTilAfslutning)
+                'cDateUgeTilAfslutning = dateAdd("m", 1, cDateUgeTilAfslutning)
+                cDateUgeTilAfslutning = year(cDateUgeTilAfslutning) & "-" & month(cDateUgeTilAfslutning) & "-" & day(cDateUgeTilAfslutning)
                 splithr = 1
                 end if
                
         	    'cDateUgeSQL = year(cDateUge) & "/" & month(cDateUge) &"/"& day(cDateUge)	
 		        medarbejderid = request("FM_mid")
                 call meStamdata(medarbejderid)
+
+
+                '**** SLETTER (Opdaterer for revisionsspor) EVT HRsplit midlertidig godkendt WEEK ***
+                '**** SPLIT HR bruger altid datoen fra den sidste uge i måneden. 
+                '**** FULD uge godkendes igen fra WEEK approval
+                strSQLafslutDelHRsplit = "UPDATE ugestatus SET uge = '2002-01-01' WHERE WEEK(uge, 3) = WEEK('"& cDateUgeTilAfslutning &"', 3) AND mid = "& medarbejderid &" AND splithr = 1" 
+		        'Response.Write strSQLafslutDelHRsplit
+		        'Response.flush
+		        oConn.execute(strSQLafslutDelHRsplit)
+                
         		
 		        strSQLafslut = "INSERT INTO ugestatus (uge, afsluttet, mid, status, splithr) VALUES ('"& cDateUgeTilAfslutning &"', '"& cDateAfs &"', "& medarbejderid &", "& intStatusAfs &", "& splithr &")" 
 		        'Response.Write strSQLafslut
 		        'Response.flush
 		        oConn.execute(strSQLafslut)
 		       
+
+
+                '**************************************************************************************
                 '*** hvis afslutning på daglig basis er en fredag, afsluttes lørdag og søndag samtidigt 
+                '**************************************************************************************
                 if cint(SmiWeekOrMonth) = 2 then
 
                 denneDag_tjkFredag = datepart("w", cDateUgeTilAfslutning, 2, 2)
@@ -1955,7 +2002,7 @@ end if
 					        denneuge = datepart("ww", nyDateUge, 2, 2)
 					        detteaar = datepart("yyyy", nyDateUge, 2,3)
 
-                            perSqlKri = "YEAR(u.uge) = '"& detteaar &"' AND  WEEK(u.uge, 1) = '"& denneuge &"'"
+                            perSqlKri = "YEAR(u.uge) = '"& detteaar &"' AND  WEEK(u.uge, 3) = '"& denneuge &"'"
                             case 2
                         
                             denneDato = Year(nyDateUge) &"/"& month(nyDateUge) & "/" & day(nyDateUge)
@@ -2068,9 +2115,11 @@ end if
 
 
 
+    '***************************************************************************
+    '**** Er uge afsluttet??? ******'
+    '**** Tjekker om den aktuelle uge man har klikket på er afsluttet / lukket
+	'***************************************************************************
 
-    '********** Er uge afsluttet??? ******'
-	
     public showAfsugeTxt
     public showAfsugeTxt_tot, ugegodkendtTxt_tot, btnstyle, ugeNrStatus
 
@@ -2079,7 +2128,7 @@ end if
             
           
              'call smileyAfslutSettings()
-
+             splithr = 0
              ugegodkendt = 0
              showAfsuge = 1
              ugeNrAfsluttet = "1-1-2044"
@@ -2125,19 +2174,27 @@ end if
             end if
 
 
+            'if thisfile <> "week_norm_2010.asp" then
+            'splithrKri = "AND splithr <> 1"
+            'else
+            splithrKri = ""
+            'end if
+
             strSQLafslut = "SELECT status, afsluttet, uge, ugegodkendt, ugegodkendtaf, ugegodkendtTxt, ugegodkendtdt, splithr FROM ugestatus WHERE "_
-            &" "& sqlDatoKri &" "& sqlYearKri &" AND mid = "& sm_mid 
+            &" "& sqlDatoKri &" "& sqlYearKri &" AND mid = "& sm_mid &" "& splithrKri  
 		    
             'if session("mid") = 1 then
-            'Response.write "HER:<br>"& strSQLafslut & "<br><br>//" & sm_sidsteugedag & "//"& sldatoSQL
+            'Response.write "HER:<br>"& strSQLafslut & "<br><br>//" & sm_sidsteugedag & "//"& sldatoSQL & thisfile
 		    'Response.flush
             'end if
             
             oRec3.open strSQLafslut, oConn, 3 
 		    if not oRec3.EOF then
     			
-			    showAfsuge = 0
-			    cdAfs = oRec3("afsluttet")
+                splithr = oRec3("splithr")
+			    
+                showAfsuge = 0
+                cdAfs = oRec3("afsluttet")
 			    ugeNrAfsluttet = oRec3("uge")
                 ugeNrStatus = oRec3("status")
 
@@ -2146,13 +2203,13 @@ end if
                 ugegodkendtTxt = oRec3("ugegodkendtTxt")
                 ugegodkendtdt = oRec3("ugegodkendtdt")
                 
-                splithr = oRec3("splithr")
+                
     		
 		    end if
 		    oRec3.close 
             
             'if session("mid") = 1 then
-             'Response.write "<br>ugeNrAfsluttet : "& ugeNrAfsluttet  & " ugegodkendt: "& ugegodkendt  '& "//" & sm_sidsteugedag & "//"& sldatoSQL
+            'Response.write "<br>ugeNrAfsluttet : "& ugeNrAfsluttet  & " ugegodkendt: "& ugegodkendt & " splithr: "& splithr  '& "//" & sm_sidsteugedag & "//"& sldatoSQL
 		    
            'Response.flush
             'end if
@@ -2161,7 +2218,7 @@ end if
 
 
             '** Altid åben på dagsafslutning
-            if level = 1 AND cint(SmiWeekOrMonth) = 2 then
+            if (level = 1 AND cint(SmiWeekOrMonth) = 2) OR cint(splithr) = 1 then
             showAfsuge = 1
             end if
 
@@ -2212,7 +2269,7 @@ end if
             licensstDatoSQL = year(licensstdato) &"/"& month(licensstdato) &"/"& day(licensstdato) 
             
             strSQLafslut = "SELECT status, afsluttet, uge, ugegodkendt, ugegodkendtaf, ugegodkendtTxt, ugegodkendtdt FROM ugestatus WHERE "_
-            &" ((YEAR(uge) = "& sm_aar &" AND uge >= '"& ansatDatoSQL &"' AND uge >= '"& licensstDatoSQL &"') OR (YEAR(uge) < "& sm_aar &")) AND (mid = "& sm_mid & ")  ORDER BY uge DESC LIMIT 1"
+            &" ((YEAR(uge) = "& sm_aar &" AND uge >= '"& ansatDatoSQL &"' AND uge >= '"& licensstDatoSQL &"') OR (YEAR(uge) < "& sm_aar &")) AND (mid = "& sm_mid & ") AND splithr = 0 ORDER BY uge DESC LIMIT 1"
 		    
             
             'response.write "strSQLafslut: <br>" & strSQLafslut

@@ -115,8 +115,20 @@
     <txt_100 >Luk måned(er) for medarbejdere</txt_100>
     <txt_101 >Luk</txt_101>
     <txt_102 >Godkend</txt_102>
-    
-    
+    <txt_103 >Be om afslutn.</txt_103>
+    <txt_104 >uge</txt_104>
+    <txt_105 >Godkend ugeseddel uge</txt_105>
+    <txt_106 >Luk</txt_106>
+    <txt_107 >Afslut</txt_107>
+    <txt_108 >Du har ikke adgang til at godkende ugeseddel for denne medarbejder.</txt_108>
+    <txt_109 >Send besked</txt_109>
+    <txt_110 >Afvis</txt_110>
+    <txt_111 >Afvis/Gk.</txt_111>
+    <txt_112 >Ja</txt_112>
+    <txt_113 >ikke fakturerbare</txt_113>
+    <txt_114 >Ikke godk. ell. afviste</txt_114>
+    <txt_115 >afviste</txt_115>
+    <txt_116 >af medarb.</txt_116>
   </dk>
 
 
@@ -153,8 +165,8 @@
     <txt_26 >Only show not completed weeks / months</txt_26>
     <txt_27 >Only show unapproved weeks / months</txt_27>
     <txt_28 >computed per</txt_28>
-    <txt_29 >Special holidays</txt_29>
-    <txt_30 >Special holidays held</txt_30>
+    <txt_29 >Extra holidays</txt_29>
+    <txt_30 >Extra holidays held</txt_30>
 
     <txt_31 >Retrieves data for employee</txt_31>
     <txt_32 >Week</txt_32>
@@ -197,8 +209,8 @@
     <txt_66 >hours</txt_66>
     <txt_67 >Holiday held</txt_67>
     <txt_68 >Holiday held without salary</txt_68>
-    <txt_69 >Special holidays</txt_69>
-    <txt_70 >Special holidays held</txt_70>
+    <txt_69 >Extra holidays</txt_69>
+    <txt_70 >Extra holidays held</txt_70>
 
     <txt_71 >1st May hours</txt_71>
     <txt_72 >Care</txt_72>
@@ -233,7 +245,21 @@
     <txt_100 >Close month(s) for employees</txt_100>
     <txt_101 >Close</txt_101>
     <txt_102 >Approve</txt_102>
-    
+    <txt_103 >Ask for completion</txt_103>
+    <txt_104 >week</txt_104>
+    <txt_105 >Approve Weekly note week</txt_105>
+    <txt_106 >Close</txt_106>
+    <txt_107 >End</txt_107>
+    <txt_108 >Du har ikke adgang til at godkende ugeseddel for denne medarbejder.</txt_108>
+    <txt_109 >Send message</txt_109>
+    <txt_110 >Decline</txt_110>
+    <txt_111 >Decline/Ap.</txt_111>
+    <txt_112 >Yes</txt_112>
+    <txt_113 >none invoiceable</txt_113>
+    <txt_114 >Not app. or decl.</txt_114>
+    <txt_115 >declined</txt_115>
+    <txt_116 >by employee</txt_116>
+
   </no>
   
   
@@ -270,8 +296,8 @@
     <txt_26 >Only show not completed weeks / months</txt_26>
     <txt_27 >Only show unapproved weeks / months</txt_27>
     <txt_28 >computed per</txt_28>
-    <txt_29 >Special holidays</txt_29>
-    <txt_30 >Special holidays held</txt_30>
+    <txt_29 >Extra holidays</txt_29>
+    <txt_30 >Extra holidays held</txt_30>
 
     <txt_31 >Retrieves data for employee</txt_31>
     <txt_32 >Week</txt_32>
@@ -314,8 +340,8 @@
     <txt_66 >hours</txt_66>
     <txt_67 >Holiday held</txt_67>
     <txt_68 >Holiday held without salary</txt_68>
-    <txt_69 >Special holidays</txt_69>
-    <txt_70 >Special holidays held</txt_70>
+    <txt_69 >Extra holidays</txt_69>
+    <txt_70 >Extra holidays held</txt_70>
 
     <txt_71 >1st May hours</txt_71>
     <txt_72 >Care</txt_72>
@@ -350,7 +376,21 @@
     <txt_100 >Close month(s) for employees</txt_100>
     <txt_101 >Close</txt_101>
     <txt_102 >Approve</txt_102>
-  
+    <txt_103 >Ask for completion</txt_103>
+    <txt_104 >week</txt_104>
+    <txt_105 >Approve Weekly note week</txt_105>
+    <txt_106 >Close</txt_106>
+    <txt_107 >End</txt_107>
+    <txt_108 >Du har ikke adgang til at godkende ugeseddel for denne medarbejder.</txt_108>
+    <txt_109 >Send message</txt_109>
+    <txt_110 >Decline</txt_110>
+    <txt_111 >Decline/Ap.</txt_111>
+    <txt_112 >Yes</txt_112>
+    <txt_113 >none invoiceable</txt_113>
+    <txt_114 >Not app. or decl.</txt_114>
+    <txt_115 >declined</txt_115>
+    <txt_116 >by employee</txt_116>
+
   </so>
   
   
@@ -387,8 +427,8 @@
     <txt_26 >Only show not completed weeks / months</txt_26>
     <txt_27 >Only show unapproved weeks / months</txt_27>
     <txt_28 >computed per</txt_28>
-    <txt_29 >Special holidays</txt_29>
-    <txt_30 >Special holidays held</txt_30>
+    <txt_29 >Extra holidays</txt_29>
+    <txt_30 >Extra holidays held</txt_30>
 
     <txt_31 >Retrieves data for employee</txt_31>
     <txt_32 >Week</txt_32>
@@ -431,8 +471,8 @@
     <txt_66 >hours</txt_66>
     <txt_67 >Holiday held</txt_67>
     <txt_68 >Holiday held without salary</txt_68>
-    <txt_69 >Special holidays</txt_69>
-    <txt_70 >Special holidays held</txt_70>
+    <txt_69 >Extra holidays</txt_69>
+    <txt_70 >Extra holidays held</txt_70>
 
     <txt_71 >1st May hours</txt_71>
     <txt_72 >Care</txt_72>
@@ -467,6 +507,20 @@
     <txt_100 >Close month(s) for employees</txt_100>
     <txt_101 >Close</txt_101>
     <txt_102 >Approve</txt_102>
+    <txt_103 >Ask for completion</txt_103>
+    <txt_104 >week</txt_104>
+    <txt_105 >Approve Weekly note week</txt_105>
+    <txt_106 >Close</txt_106>
+    <txt_107 >End</txt_107>
+    <txt_108 >Du har ikke adgang til at godkende ugeseddel for denne medarbejder.</txt_108>
+    <txt_109 >Send message</txt_109>
+    <txt_110 >Decline</txt_110>
+    <txt_111 >Decline/Ap.</txt_111>
+    <txt_112 >Yes</txt_112>
+    <txt_113 >none invoiceable</txt_113>
+    <txt_114 >Not app. or decl.</txt_114>
+    <txt_115 >declined</txt_115>
+    <txt_116 >by employee</txt_116>
 
   </de>
   
@@ -504,8 +558,8 @@
     <txt_26 >Only show not completed weeks / months</txt_26>
     <txt_27 >Only show unapproved weeks / months</txt_27>
     <txt_28 >computed per</txt_28>
-    <txt_29 >Special holidays</txt_29>
-    <txt_30 >Special holidays held</txt_30>
+    <txt_29 >Extra holidays</txt_29>
+    <txt_30 >Extra holidays held</txt_30>
 
     <txt_31 >Retrieves data for employee</txt_31>
     <txt_32 >Week</txt_32>
@@ -548,8 +602,8 @@
     <txt_66 >hours</txt_66>
     <txt_67 >Holiday held</txt_67>
     <txt_68 >Holiday held without salary</txt_68>
-    <txt_69 >Special holidays</txt_69>
-    <txt_70 >Special holidays held</txt_70>
+    <txt_69 >Extra holidays</txt_69>
+    <txt_70 >Extra holidays held</txt_70>
 
     <txt_71 >1st May hours</txt_71>
     <txt_72 >Care</txt_72>
@@ -584,7 +638,21 @@
     <txt_100 >Close month(s) for employees</txt_100>
     <txt_101 >Close</txt_101>
     <txt_102 >Approve</txt_102>
-  
+    <txt_103 >Ask for completion</txt_103>
+    <txt_104 >week</txt_104>
+    <txt_105 >Approve Weekly note week</txt_105>
+    <txt_106 >Close</txt_106>
+    <txt_107 >End</txt_107>
+    <txt_108 >Du har ikke adgang til at godkende ugeseddel for denne medarbejder.</txt_108>
+    <txt_109 >Send message</txt_109>
+    <txt_110 >Decline</txt_110>
+    <txt_111 >Decline/Ap.</txt_111>
+    <txt_112 >Yes</txt_112>
+    <txt_113 >none invoiceable</txt_113>
+    <txt_114 >Not app. or decl.</txt_114>
+    <txt_115 >declined</txt_115>
+    <txt_116 >by employee</txt_116>
+
   </fr>
   
     
@@ -622,8 +690,8 @@
     <txt_26 >Only show not completed weeks / months</txt_26>
     <txt_27 >Only show unapproved weeks / months</txt_27>
     <txt_28 >computed per</txt_28>
-    <txt_29 >Special holidays</txt_29>
-    <txt_30 >Special holidays held</txt_30>
+    <txt_29 >Extra holidays</txt_29>
+    <txt_30 >Extra holidays held</txt_30>
 
     <txt_31 >Retrieves data for employee</txt_31>
     <txt_32 >Week</txt_32>
@@ -666,8 +734,8 @@
     <txt_66 >hours</txt_66>
     <txt_67 >Holiday held</txt_67>
     <txt_68 >Holiday held without salary</txt_68>
-    <txt_69 >Special holidays</txt_69>
-    <txt_70 >Special holidays held</txt_70>
+    <txt_69 >Extra holidays</txt_69>
+    <txt_70 >Extra holidays held</txt_70>
 
     <txt_71 >1st May hours</txt_71>
     <txt_72 >Care</txt_72>
@@ -702,7 +770,21 @@
     <txt_100 >Close month(s) for employees</txt_100>
     <txt_101 >Close</txt_101>
     <txt_102 >Approve</txt_102>
-   
+    <txt_103 >Ask for completion</txt_103>
+    <txt_104 >week</txt_104>
+    <txt_105 >Approve Weekly note week</txt_105>
+    <txt_106 >Close</txt_106>
+    <txt_107 >End</txt_107>
+    <txt_108 >Du har ikke adgang til at godkende ugeseddel for denne medarbejder.</txt_108>
+    <txt_109 >Send message</txt_109>
+    <txt_110 >Decline</txt_110>
+    <txt_111 >Decline/Ap.</txt_111>
+    <txt_112 >Yes</txt_112>
+    <txt_113 >none invoiceable</txt_113>
+    <txt_114 >Not app. or decl.</txt_114>
+    <txt_115 >declined</txt_115>
+    <txt_116 >by employee</txt_116>
+
   </uk>
 
 
@@ -739,8 +821,8 @@
     <txt_26 >Only show not completed weeks / months</txt_26>
     <txt_27 >Only show unapproved weeks / months</txt_27>
     <txt_28 >computed per</txt_28>
-    <txt_29 >Special holidays</txt_29>
-    <txt_30 >Special holidays held</txt_30>
+    <txt_29 >Extra holidays</txt_29>
+    <txt_30 >Extra holidays held</txt_30>
 
     <txt_31 >Retrieves data for employee</txt_31>
     <txt_32 >Week</txt_32>
@@ -783,8 +865,8 @@
     <txt_66 >hours</txt_66>
     <txt_67 >Holiday held</txt_67>
     <txt_68 >Holiday held without salary</txt_68>
-    <txt_69 >Special holidays</txt_69>
-    <txt_70 >Special holidays held</txt_70>
+    <txt_69 >Extra holidays</txt_69>
+    <txt_70 >Extra holidays held</txt_70>
 
     <txt_71 >1st May hours</txt_71>
     <txt_72 >Care</txt_72>
@@ -819,6 +901,20 @@
     <txt_100 >Close month(s) for employees</txt_100>
     <txt_101 >Close</txt_101>
     <txt_102 >Approve</txt_102>
+    <txt_103 >Ask for completion</txt_103>
+    <txt_104 >week</txt_104>
+    <txt_105 >Approve Weekly note week</txt_105>
+    <txt_106 >Close</txt_106>
+    <txt_107 >End</txt_107>
+    <txt_108 >Du har ikke adgang til at godkende ugeseddel for denne medarbejder.</txt_108>
+    <txt_109 >Send message</txt_109>
+    <txt_110 >Decline</txt_110>
+    <txt_111 >Decline/Ap.</txt_111>
+    <txt_112 >Yes</txt_112>
+    <txt_113 >none invoiceable</txt_113>
+    <txt_114 >Not app. or decl.</txt_114>
+    <txt_115 >declined</txt_115>
+    <txt_116 >by employee</txt_116>
 
   </es>
 

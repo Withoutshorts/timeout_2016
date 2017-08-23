@@ -4280,7 +4280,7 @@ if len(session("user")) = 0 then
             betbetint = betbetint
             end select
 
-            'response.write "betbetint: "& betbetint
+            'response.write "betbetint: "& betbetint & "lev_betbetint: " & lev_betbetint &" kunde_betbetint: "& kunde_betbetint
 
 	        call betalingsbetDage(betbetint, hideffdato, lang, nameid)
 	        if Not InStr(strForfaldsdato, "-") then

@@ -113,7 +113,7 @@
         Dim row As DataRow
         Dim t As integer = 1
         'AND jobnr BETWEEN 7000 AND 72000
-        Dim strSQLext As String = "SELECT id, origin, jobnr, timeregdato, med_init, timer, timeregdato, extsysid FROM timer_imp_err WHERE id <> 0 AND timeregdato BETWEEN '2017-05-01' AND '2017-05-23' AND errId <> 11 ORDER BY timeregdato" 'AND origin = " & importFrom
+        Dim strSQLext As String = "SELECT id, origin, jobnr, timeregdato, med_init, timer, timeregdato, extsysid FROM timer_imp_err WHERE id <> 0 AND timeregdato BETWEEN '2017-06-01' AND '2017-06-30' AND errId <> 11 ORDER BY timeregdato" 'AND origin = " & importFrom
         objCmd = New OdbcCommand(strSQLext, objConn)
         objDR = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
 

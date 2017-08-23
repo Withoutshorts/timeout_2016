@@ -58,10 +58,10 @@ varErrorText = "Der mangler at blive indtaste en følgende informationer:<br><ul>
 
 
 case 10
-varErrorText = "En Medarbejder med det valgte <b>Medarbejder nr.</b> eksisterer allerede.<br><br>Vælgt et andet."
+varErrorText = "En Medarbejder med det valgte <b>Medarbejder nr.</b> eksisterer allerede.<br><br>Vælg et andet."
 
 case 11
-varErrorText = "En Medarbejder med det valgte <b>Login</b> eksisterer allerede. <br><br>Vælgt et andet."
+varErrorText = "En Medarbejder med det valgte <b>Login</b> eksisterer allerede. <br><br>Vælg et andet."
 
 case 12
 varErrorText = "En Kontakt med det valgte <b>Kontakt id</b> eksisterer allerede.<br>"_
@@ -784,6 +784,8 @@ varErrorText = "Du mangler at vælge enten eksisterende aktivitet eller ny aktivi
 case 187 
 varErrorText = "<b>Forecast er overskreddet på aktivitet!.</b><br><br> Der er tastet/tilføjet: "& timerthisTjkFc & " timer.<br> Tastet før på denne dag: "& timer_opr &" timer. <br>Saldo: " & feltTxtValFc & " timer."
 
+case 188
+varErrorText = "En AKTIV medarbejder med de valgte <b>Initialer</b> eksisterer allerede. <br><br>Vælg en anden kombination af initialer."
 
 case else
 varErrorText = errortype

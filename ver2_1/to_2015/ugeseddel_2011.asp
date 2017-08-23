@@ -913,12 +913,21 @@ if len(session("user")) = 0 then
 
         %>
           
-            <div style="position:relative; background-color:#ffffff; border:1px #cccccc solid; border-bottom:0; padding:4px; width:<%=wdth%>px; top:-70px; left:880px; z-index:0; font-size:11px;"><a href="../timereg/<%=lnkTimeregside%>" class="vmenu"><%=replace(tsa_txt_031, " ", "")%> >></a>
-    
+            
+            <div style="position:relative; background-color:#ffffff; border:1px #cccccc solid; border-bottom:0; padding:4px; width:<%=wdth%>px; top:-70px; left:880px; z-index:0; font-size:11px;">
+           
+            <a href="../timereg/<%=lnkTimeregside%>" class="vmenu"><%=replace(tsa_txt_031, " ", "")%> >></a>
+          
+
             <%if cint(stempelurOn) = 1 then %>
             &nbsp;|&nbsp;<a href="../timereg/<%=lnkLogind%>" class="vmenu"><%=tsa_txt_340 %> >></a>
             <%end if%>
+
+           
             </div>
+        
+
+         
 
         <%end select %>
       

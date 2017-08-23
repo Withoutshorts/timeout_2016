@@ -194,8 +194,10 @@
                         'kforCastSQL = kforCastSQL & " WHERE r.medid = " & usemrn & " AND r.jobid = "& jobid 
                         'kforCastSQL = kforCastSQL & " GROUP BY r.medid, r.aktid"
 
+                        'if session("mid") = 1 then
                         'response.write kforCastSQL
                         'response.flush
+                        'end if
 
                         oRec5.open kforCastSQL, oConn, 3
                         while not oRec5.EOF 
@@ -206,7 +208,7 @@
                         oRec5.close       
 
                                                 
-                        if cint(risiko) < 0 then '+ alle interne
+                        if cint(risiko) < 0 OR (lto = "oko" AND cint(risiko) = -3) then '+ alle interne
 
                         kforCastSQL = "SELECT a.id AS aktid FROM aktiviteter AS a WHERE a.job = "& jobid &" GROUP BY id"
                         oRec5.open kforCastSQL, oConn, 3

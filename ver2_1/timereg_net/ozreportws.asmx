@@ -32,10 +32,10 @@ Public Class ozreportws
         'dim x As integer
         'For x = 0 To 0 Step 1
 
-        Dim startDatoAtDSQL As string
+        Dim startDatoAtDSQL As String
 
 
-        Dim employeeIDsPgrpNavn As string
+        Dim employeeIDsPgrpNavn As String
 
         Dim lstRet As New List(Of ozreportcls)()
 
@@ -45,8 +45,8 @@ Public Class ozreportws
         Dim lto As String
         Dim rapporttype As String
         Dim aboMtyper As String
-        Dim aboPgrp As string
-        Dim medid As string
+        Dim aboPgrp As String
+        Dim medid As String
         Dim show_atd As String = "0"
         Dim show_fc As String = "0"
 
@@ -464,7 +464,7 @@ Public Class ozreportws
                                 expTxt = expTxt & ";"
                             End If
 
-                            If CInt(rapporttype) = 2 Or (CInt(rapporttype) = 3 AND (sumRealtimer <> 0 OR sumFCtimer <> 0)) Then
+                            If CInt(rapporttype) = 2 Or (CInt(rapporttype) = 3 And (sumRealtimer <> 0 Or sumFCtimer <> 0)) Then
 
                                 writer.Write(expTxtJobAkt)
                                 writer.Write(expTxt)
@@ -685,7 +685,10 @@ Public Class ozreportws
 
                                     While objDR2.Read() = True
 
-                                        employeeIDsTyp = employeeIDsTyp & " OR mid = " & objDR2("mid")
+                                        If IsDBNull(objDR2("mid")) <> True Then
+                                            employeeIDsTyp = employeeIDsTyp & " OR mid = " & objDR2("mid")
+                                        End If
+
 
                                     End While
                                     objDR2.Close()
@@ -735,11 +738,14 @@ Public Class ozreportws
 
                                         While objDR2.Read() = True
 
-                                            tjkValue = objDR2("medarbejderId")
+                                            If IsDBNull(objDR2("medarbejderId")) <> True Then
+                                                tjkValue = objDR2("medarbejderId")
 
 
-                                            If InStr(employeeIDsPgrp, "OR mid = " & tjkValue) = 0 Then
-                                                employeeIDsPgrp = employeeIDsPgrp & " OR mid = " & objDR2("medarbejderId")
+                                                If InStr(employeeIDsPgrp, "OR mid = " & tjkValue) = 0 Then
+                                                    employeeIDsPgrp = employeeIDsPgrp & " OR mid = " & objDR2("medarbejderId")
+                                                End If
+
                                             End If
 
                                         End While
@@ -827,156 +833,66 @@ Public Class ozreportws
 
                     While objDR2.Read() = True
 
+                        If IsDBNull(objDR2("mid")) <> True Then
 
-                        normTimer = Replace(FormatNumber(objDR2("normtimer_man") + objDR2("normtimer_tir") + objDR2("normtimer_ons") + objDR2("normtimer_tor") + objDR2("normtimer_fre") + objDR2("normtimer_lor") + objDR2("normtimer_son"), 2), ".", ",")
+                            normTimer = Replace(FormatNumber(objDR2("normtimer_man") + objDR2("normtimer_tir") + objDR2("normtimer_ons") + objDR2("normtimer_tor") + objDR2("normtimer_fre") + objDR2("normtimer_lor") + objDR2("normtimer_son"), 2), ".", ",")
 
-                        writer.Write(objDR2("mnavn") & ";" & objDR2("mnr") & ";" & objDR2("init") & ";" & normTimer & ";")
-
-
-                        '***** Løn timer ***'
-                        lTim = 0
-                        lTimWrt = 0
-                        lTim_addThis = 0
-                        '-->Dim strSQLlt As String = "SELECT minutter FROM login_historik "
-                        'strSQLlt =+ " LEFT JOIN stempelur AS s ON (s.id = stempelurindstilling) WHERE mid = " & objDR2("mid") & " AND (dato BETWEEN '" & startDatoSQL & "' AND '" & slutDatoSQL & "') GROUP BY mid"
-
-                        Dim strSQLlt As String = "SELECT minutter AS minutter, faktor, minimum FROM login_historik AS lh "
-                        strSQLlt = strSQLlt & " LEFT JOIN stempelur AS s ON (s.id = lh.stempelurindstilling) "
-                        strSQLlt = strSQLlt & " WHERE mid = " & objDR2("mid") & " AND (lh.dato BETWEEN '" & startDatoSQL & "' AND '" & slutDatoSQL & "') AND stempelurindstilling <> -1"
+                            writer.Write(objDR2("mnavn") & ";" & objDR2("mnr") & ";" & objDR2("init") & ";" & normTimer & ";")
 
 
-                        objCmd = New OdbcCommand(strSQLlt, objConn)
-                        objDR = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
-
-                        While objDR.Read() = True
-
-                            If IsDBNull(objDR.Item("minutter")) Or IsDBNull(objDR.Item("faktor")) Or IsDBNull(objDR.Item("minimum")) Then
-                                lTim_addThis = 0
-                            Else
-                                lTim_addThis = (objDR.Item("minutter") / 1 * objDR.Item("faktor") / 1)
-
-                                If lTim_addThis >= objDR.Item("minimum") Then
-                                    lTim_addThis = lTim_addThis
-                                Else
-                                    lTim_addThis = objDR.Item("minimum")
-                                End If
-                            End If
-
-
-
-
-                            lTim = lTim + (lTim_addThis / 1)
-
-
-
-                            lTimWrt = 1
-                        End While
-
-                        objDR.Close()
-
-
-                        '** Pauser **'
-                        lTim_pau = 0
-                        lTim_pau_addThis = 0
-
-                        Dim strSQLlt_pau As String = "SELECT minutter AS minutter FROM login_historik WHERE mid = " & objDR2("mid") & " AND (dato BETWEEN '" & startDatoSQL & "' AND '" & slutDatoSQL & "') AND stempelurindstilling = -1"
-
-
-                        objCmd = New OdbcCommand(strSQLlt_pau, objConn)
-                        objDR = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
-
-                        While objDR.Read() = True
-
-                            If IsDBNull(objDR.Item("minutter")) Then
-                                lTim_pau_addThis = 0
-                            Else
-                                lTim_pau_addThis = objDR.Item("minutter") 'Replace(Replace(FormatNumber(CType(objDR.Item("minutter") / 60, String), 2), ",", ""), ".", ",")
-                            End If
-
-                            lTim_pau = (lTim_pau / 1 + lTim_pau_addThis / 1) '& " XX " '(lTim_pau / 1 + (lTim_pau_addThis / 1))
-                            lTimWrt = 1
-
-                        End While
-
-
-                        objDR.Close()
-
-
-
-
-
-                        If lTimWrt = 0 Then
-                            writer.Write(";")
-                        Else
-
-                            'lTim = Replace(Replace(FormatNumber(CType((lTim / 60) - (lTim_pau / 60), String), 2), ",", ""), ".", ",")
-                            lTim = FormatNumber(CType((lTim / 60) - (lTim_pau / 60), String), 2)
-
-                            expTxt = lTim & ";"
-                            writer.Write(expTxt)
-
-                            'lTim = Replace(Replace(FormatNumber(CType(lTim, String), 2), ",", ""), ".", ",")
-                        End If
-
-
-
-
-                        '** løn timer ÅTD ****'
-                        If show_atd = "1" Then
-
-                            Dim lTim_atd_Wrt As String = 0
-                            lTim_atd = 0
+                            '***** Løn timer ***'
+                            lTim = 0
+                            lTimWrt = 0
                             lTim_addThis = 0
-                            Dim strSQLlt_atd As String = "SELECT minutter AS minutter, faktor, minimum FROM login_historik AS lh "
-                            strSQLlt_atd = strSQLlt_atd & " LEFT JOIN stempelur AS s ON (s.id = lh.stempelurindstilling) "
-                            strSQLlt_atd = strSQLlt_atd & " WHERE mid = " & objDR2("mid") & " AND (lh.dato BETWEEN '" & Year(startDatoAtDSQL) & "/" & Month(startDatoAtDSQL) & "/" & Day(startDatoAtDSQL) & "' AND '" & slutDatoSQL & "') AND stempelurindstilling <> -1"
+                            '-->Dim strSQLlt As String = "SELECT minutter FROM login_historik "
+                            'strSQLlt =+ " LEFT JOIN stempelur AS s ON (s.id = stempelurindstilling) WHERE mid = " & objDR2("mid") & " AND (dato BETWEEN '" & startDatoSQL & "' AND '" & slutDatoSQL & "') GROUP BY mid"
+
+                            Dim strSQLlt As String = "SELECT minutter AS minutter, faktor, minimum FROM login_historik AS lh "
+                            strSQLlt = strSQLlt & " LEFT JOIN stempelur AS s ON (s.id = lh.stempelurindstilling) "
+                            strSQLlt = strSQLlt & " WHERE mid = " & objDR2("mid") & " AND (lh.dato BETWEEN '" & startDatoSQL & "' AND '" & slutDatoSQL & "') AND stempelurindstilling <> -1"
 
 
-                            objCmd = New OdbcCommand(strSQLlt_atd, objConn)
+                            objCmd = New OdbcCommand(strSQLlt, objConn)
                             objDR = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
 
                             While objDR.Read() = True
-
 
                                 If IsDBNull(objDR.Item("minutter")) Or IsDBNull(objDR.Item("faktor")) Or IsDBNull(objDR.Item("minimum")) Then
                                     lTim_addThis = 0
                                 Else
                                     lTim_addThis = (objDR.Item("minutter") / 1 * objDR.Item("faktor") / 1)
 
-
                                     If lTim_addThis >= objDR.Item("minimum") Then
                                         lTim_addThis = lTim_addThis
                                     Else
                                         lTim_addThis = objDR.Item("minimum")
                                     End If
-
                                 End If
 
 
 
 
-                                lTim_atd = lTim_atd + (lTim_addThis / 1) 'Replace(Replace(FormatNumber(CType(objDR.Item("minutter") / 60, String), 2), ",", ""), ".", ",")
+                                lTim = lTim + (lTim_addThis / 1)
 
-                                lTim_atd_Wrt = 1
+
+
+                                lTimWrt = 1
                             End While
-
-
-
 
                             objDR.Close()
 
 
                             '** Pauser **'
-                            lTim_atd_pau = 0
+                            lTim_pau = 0
                             lTim_pau_addThis = 0
-                            Dim strSQLlt_atd_pau As String = "SELECT minutter AS minutter FROM login_historik WHERE mid = " & objDR2("mid") & " AND (dato BETWEEN '" & Year(startDatoAtDSQL) & "/" & Month(startDatoAtDSQL) & "/" & Day(startDatoAtDSQL) & "' AND '" & slutDatoSQL & "') AND stempelurindstilling = -1 AND minutter IS NOT NULL"
+
+                            Dim strSQLlt_pau As String = "SELECT minutter AS minutter FROM login_historik WHERE mid = " & objDR2("mid") & " AND (dato BETWEEN '" & startDatoSQL & "' AND '" & slutDatoSQL & "') AND stempelurindstilling = -1"
 
 
-                            objCmd = New OdbcCommand(strSQLlt_atd_pau, objConn)
+                            objCmd = New OdbcCommand(strSQLlt_pau, objConn)
                             objDR = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
 
                             While objDR.Read() = True
-
 
                                 If IsDBNull(objDR.Item("minutter")) Then
                                     lTim_pau_addThis = 0
@@ -984,375 +900,468 @@ Public Class ozreportws
                                     lTim_pau_addThis = objDR.Item("minutter") 'Replace(Replace(FormatNumber(CType(objDR.Item("minutter") / 60, String), 2), ",", ""), ".", ",")
                                 End If
 
+                                lTim_pau = (lTim_pau / 1 + lTim_pau_addThis / 1) '& " XX " '(lTim_pau / 1 + (lTim_pau_addThis / 1))
+                                lTimWrt = 1
 
-
-                                lTim_atd_pau = (lTim_atd_pau / 1 + lTim_pau_addThis / 1) '& " XX " '(lTim_pau / 1 + (lTim_pau_addThis / 1))
-
-                                lTim_atd_Wrt = 1
                             End While
 
 
                             objDR.Close()
 
-                            If lTim_atd_Wrt <> 0 Then
-                                'lTim_atd = 0
-                                lTim_atd = Replace(Replace(FormatNumber(CType(lTim_atd / 60 - (lTim_atd_pau / 60), String), 2), ",", ""), ".", ",")
+
+
+
+
+                            If lTimWrt = 0 Then
+                                writer.Write(";")
                             Else
+
+                                'lTim = Replace(Replace(FormatNumber(CType((lTim / 60) - (lTim_pau / 60), String), 2), ",", ""), ".", ",")
+                                lTim = FormatNumber(CType((lTim / 60) - (lTim_pau / 60), String), 2)
+
+                                expTxt = lTim & ";"
+                                writer.Write(expTxt)
+
+                                'lTim = Replace(Replace(FormatNumber(CType(lTim, String), 2), ",", ""), ".", ",")
+                            End If
+
+
+
+
+                            '** løn timer ÅTD ****'
+                            If show_atd = "1" Then
+
+                                Dim lTim_atd_Wrt As String = 0
                                 lTim_atd = 0
-                            End If
+                                lTim_addThis = 0
+                                Dim strSQLlt_atd As String = "SELECT minutter AS minutter, faktor, minimum FROM login_historik AS lh "
+                                strSQLlt_atd = strSQLlt_atd & " LEFT JOIN stempelur AS s ON (s.id = lh.stempelurindstilling) "
+                                strSQLlt_atd = strSQLlt_atd & " WHERE mid = " & objDR2("mid") & " AND (lh.dato BETWEEN '" & Year(startDatoAtDSQL) & "/" & Month(startDatoAtDSQL) & "/" & Day(startDatoAtDSQL) & "' AND '" & slutDatoSQL & "') AND stempelurindstilling <> -1"
 
 
-                        End If 'show ATD
+                                objCmd = New OdbcCommand(strSQLlt_atd, objConn)
+                                objDR = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
+
+                                While objDR.Read() = True
 
 
+                                    If IsDBNull(objDR.Item("minutter")) Or IsDBNull(objDR.Item("faktor")) Or IsDBNull(objDR.Item("minimum")) Then
+                                        lTim_addThis = 0
+                                    Else
+                                        lTim_addThis = (objDR.Item("minutter") / 1 * objDR.Item("faktor") / 1)
 
 
+                                        If lTim_addThis >= objDR.Item("minimum") Then
+                                            lTim_addThis = lTim_addThis
+                                        Else
+                                            lTim_addThis = objDR.Item("minimum")
+                                        End If
 
-                        '*** Real timer ***'
-                        realTimer = 0
-                        Dim strSQLext As String = "SELECT sum(timer) AS sumtimer, tmnavn FROM timer WHERE tmnr = " & objDR2("mid") & akttyper_realhours
-                        strSQLext = strSQLext & "AND (tdato BETWEEN '" & startDatoSQL & "' AND '" & slutDatoSQL & "') GROUP BY tmnr"
-
-
-                        objCmd = New OdbcCommand(strSQLext, objConn)
-                        objDR = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
-
-                        If objDR.Read() = True Then
-
-                            expTxt = objDR.Item("sumtimer") & ";" 'Replace(Replace(FormatNumber(CType(objDR.Item("sumtimer"), String), 2), ",", ""), ".", ",") & ";"
-                            'expTxt = Replace(FormatNumber(CType(objDR.Item("sumtimer"), String), 2), ".", ",") & ";"
-                            writer.Write(expTxt)
-
-                            realTimer = objDR.Item("sumtimer")
-                        End If
-
-                        objDR.Close()
-
-                        If realTimer = 0 Then
-                            writer.Write(";")
-                        End If
-
-
-                        'bal_norm_real = ((Replace(realTimer, ",", ".") / 1) - (normTimer / 100))
-                        bal_norm_real = (realTimer / 1) - (normTimer / 1)
-                        'bal_norm_real = Replace(Replace(FormatNumber(CType(bal_norm_real, String), 2), ",", ""), ".", ",")
-                        bal_norm_real = FormatNumber(CType(bal_norm_real, String), 2)
+                                    End If
 
 
 
 
+                                    lTim_atd = lTim_atd + (lTim_addThis / 1) 'Replace(Replace(FormatNumber(CType(objDR.Item("minutter") / 60, String), 2), ",", ""), ".", ",")
 
-                        'bal_norm_lontimer = ((Replace(lTim, ",", ".") / 1) - (normTimer / 100))
-                        bal_norm_lontimer = (lTim / 1) - (normTimer / 1)
-                        'bal_norm_lontimer = Replace(Replace(FormatNumber(CType(bal_norm_lontimer, String), 2), ",", ""), ".", ",")
-                        bal_norm_lontimer = FormatNumber(CType(bal_norm_lontimer, String), 2)
-
-
-
-                        '*** Fakturerbare timer ***'
-                        fakBareReal = 0
-
-                        Dim strSQLext2 As String = "SELECT sum(timer) AS sumtimerF, tmnavn FROM timer WHERE tmnr = " & objDR2("mid") & akttyper_invoiceable
-                        strSQLext2 = strSQLext2 & "AND (tdato BETWEEN '" & startDatoSQL & "' AND '" & slutDatoSQL & "') GROUP BY tmnr"
-
-
-                        objCmd = New OdbcCommand(strSQLext2, objConn)
-                        objDR = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
-
-                        If objDR.Read() = True Then
-
-                            'expTxt = Replace(Replace(FormatNumber(CType(objDR.Item("sumtimerF"), String), 2), ",", ""), ".", ",") & ";"
-                            expTxt = objDR.Item("sumtimerF") & ";"
-
-                            writer.Write(expTxt)
-
-                            'fakBareReal = Replace(Replace(FormatNumber(CType(objDR.Item("sumtimerF"), String), 2), ",", ""), ".", ",")
-                            fakBareReal = objDR.Item("sumtimerF")
-
-                        End If
-
-                        objDR.Close()
-
-                        If fakBareReal = 0 Then
-                            writer.Write(";")
-                        End If
-
-                        effektiv_proc = 0
-                        If fakBareReal <> 0 And lTim <> 0 Then
-                            effektiv_proc = (fakBareReal / lTim) * 100
-                            effektiv_proc = Replace(Replace(FormatNumber(CType(effektiv_proc, String), 0), ",", ""), ".", ",") 'fakBareReal &"/"& lTim & "="& 
-                        End If
-
-
-                        Dim strSQLextE1 As String
-                        If lto = "dencker" Then
-
-                            '*** E1 ***'
-                            e1Timer = 0
-                            strSQLextE1 = "SELECT sum(timer) AS sumtimer, tmnavn FROM timer WHERE tmnr = " & objDR2("mid") & " AND tfaktim = 90 "
-                            strSQLextE1 = strSQLextE1 & "AND (tdato BETWEEN '" & startDatoSQL & "' AND '" & slutDatoSQL & "') GROUP BY tmnr"
+                                    lTim_atd_Wrt = 1
+                                End While
 
 
 
-                            objCmd = New OdbcCommand(strSQLextE1, objConn)
+
+                                objDR.Close()
+
+
+                                '** Pauser **'
+                                lTim_atd_pau = 0
+                                lTim_pau_addThis = 0
+                                Dim strSQLlt_atd_pau As String = "SELECT minutter AS minutter FROM login_historik WHERE mid = " & objDR2("mid") & " AND (dato BETWEEN '" & Year(startDatoAtDSQL) & "/" & Month(startDatoAtDSQL) & "/" & Day(startDatoAtDSQL) & "' AND '" & slutDatoSQL & "') AND stempelurindstilling = -1 AND minutter IS NOT NULL"
+
+
+                                objCmd = New OdbcCommand(strSQLlt_atd_pau, objConn)
+                                objDR = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
+
+                                While objDR.Read() = True
+
+
+                                    If IsDBNull(objDR.Item("minutter")) Then
+                                        lTim_pau_addThis = 0
+                                    Else
+                                        lTim_pau_addThis = objDR.Item("minutter") 'Replace(Replace(FormatNumber(CType(objDR.Item("minutter") / 60, String), 2), ",", ""), ".", ",")
+                                    End If
+
+
+
+                                    lTim_atd_pau = (lTim_atd_pau / 1 + lTim_pau_addThis / 1) '& " XX " '(lTim_pau / 1 + (lTim_pau_addThis / 1))
+
+                                    lTim_atd_Wrt = 1
+                                End While
+
+
+                                objDR.Close()
+
+                                If lTim_atd_Wrt <> 0 Then
+                                    'lTim_atd = 0
+                                    lTim_atd = Replace(Replace(FormatNumber(CType(lTim_atd / 60 - (lTim_atd_pau / 60), String), 2), ",", ""), ".", ",")
+                                Else
+                                    lTim_atd = 0
+                                End If
+
+
+                            End If 'show ATD
+
+
+
+
+
+                            '*** Real timer ***'
+                            realTimer = 0
+                            Dim strSQLext As String = "SELECT sum(timer) AS sumtimer, tmnavn FROM timer WHERE tmnr = " & objDR2("mid") & akttyper_realhours
+                            strSQLext = strSQLext & "AND (tdato BETWEEN '" & startDatoSQL & "' AND '" & slutDatoSQL & "') GROUP BY tmnr"
+
+
+                            objCmd = New OdbcCommand(strSQLext, objConn)
                             objDR = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
 
                             If objDR.Read() = True Then
 
-                                'expTxt = Replace(Replace(FormatNumber(CType(objDR.Item("sumtimer"), String), 2), ",", ""), ".", ",") & ";"
-                                expTxt = objDR.Item("sumtimer") & ";"
+                                expTxt = objDR.Item("sumtimer") & ";" 'Replace(Replace(FormatNumber(CType(objDR.Item("sumtimer"), String), 2), ",", ""), ".", ",") & ";"
+                                'expTxt = Replace(FormatNumber(CType(objDR.Item("sumtimer"), String), 2), ".", ",") & ";"
                                 writer.Write(expTxt)
 
-                                e1Timer = objDR.Item("sumtimer")
-
+                                realTimer = objDR.Item("sumtimer")
                             End If
 
                             objDR.Close()
 
-                            If e1Timer = 0 Then
+                            If realTimer = 0 Then
                                 writer.Write(";")
                             End If
 
-                        End If
-
-
-
-
-
-                        If show_atd = "1" Then
-
-                            '*** Fakturerbare timer ÅTD ***'
-                            fakBareReal_atd = 0
-
-                            Dim strSQLext2_atd As String = "SELECT sum(timer) AS sumtimerF, tmnavn FROM timer WHERE tmnr = " & objDR2("mid") & akttyper_invoiceable
-                            strSQLext2_atd = strSQLext2_atd & "AND (tdato BETWEEN '" & Year(startDatoAtDSQL) & "/" & Month(startDatoAtDSQL) & "/" & Day(startDatoAtDSQL) & "' AND '" & slutDatoSQL & "') GROUP BY tmnr"
-
-
-                            objCmd = New OdbcCommand(strSQLext2_atd, objConn)
-                            objDR = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
-
-                            If objDR.Read() = True Then
-
-
-                                'fakBareReal_atd = Replace(Replace(FormatNumber(CType(objDR.Item("sumtimerF"), String), 2), ",", ""), ".", ",")
-                                fakBareReal_atd = objDR.Item("sumtimerF")
-
-
-                            End If
-
-                            objDR.Close()
-
-                            effektiv_proc_atd = 0
-                            If fakBareReal_atd <> 0 And lTim_atd <> 0 Then
-                                effektiv_proc_atd = (fakBareReal_atd / lTim_atd) * 100
-                                effektiv_proc_atd = Replace(Replace(FormatNumber(CType(effektiv_proc_atd, String), 0), ",", ""), ".", ",")
-                            End If
-
-                        End If
-
-
-                        '*** Syg + Barn syg ***'
-                        sygTimer = 0
-                        Dim strSQLext3 As String = "SELECT sum(timer) AS sumtimerS, tmnavn FROM timer WHERE tmnr = " & objDR2("mid") & " AND (tfaktim = 20 OR tfaktim = 21)"
-                        strSQLext3 = strSQLext3 & "AND (tdato BETWEEN '" & startDatoSQL & "' AND '" & slutDatoSQL & "') GROUP BY tmnr"
-
-
-                        objCmd = New OdbcCommand(strSQLext3, objConn)
-                        objDR = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
-
-                        If objDR.Read() = True Then
-
-                            'expTxt = Replace(Replace(FormatNumber(CType(objDR.Item("sumtimerS"), String), 2), ",", ""), ".", ",") & ";"
-                            expTxt = objDR.Item("sumtimerS") & ";"
-                            writer.Write(expTxt)
-
-                            'sygTimer = Replace(Replace(FormatNumber(CType(objDR.Item("sumtimerS"), String), 2), ",", ""), ".", ",")
-                            sygTimer = objDR.Item("sumtimerS")
-
-                        End If
-
-                        objDR.Close()
-
-                        If sygTimer = 0 Then
-                            writer.Write(";")
-                        End If
-
-
-                        '*** Ferie + Feriefridage afholdt / afholdt u. løn / 1 maj timer ***'
-                        ferieTimer = 0
-                        Dim strSQLext4 As String = "SELECT sum(timer) AS sumtimerF, tmnavn FROM timer WHERE tmnr = " & objDR2("mid") & " AND (tfaktim = 13 OR tfaktim = 14 OR tfaktim = 19 OR tfaktim = 25)"
-                        strSQLext4 = strSQLext4 & "AND (tdato BETWEEN '" & startDatoSQL & "' AND '" & slutDatoSQL & "') GROUP BY tmnr"
-
-
-                        objCmd = New OdbcCommand(strSQLext4, objConn)
-                        objDR = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
-
-                        If objDR.Read() = True Then
-
-                            'expTxt = Replace(Replace(FormatNumber(CType(objDR.Item("sumtimerF"), String), 2), ",", ""), ".", ",") & ";"
-                            expTxt = objDR.Item("sumtimerF") & ";"
-                            writer.Write(expTxt)
-
-                            ferieTimer = objDR.Item("sumtimerF")
-
-                        End If
-
-                        objDR.Close()
-
-
-                        If ferieTimer = 0 Then
-                            writer.Write(";")
-                        End If
-
-                        '*** Anden fravær ***'
-                        '** Afspadsering, Flex, sundhed, Læge, Omsorgsdag, Senior 
-                        andreTimer = 0
-                        Dim strSQLext5 As String = "SELECT sum(timer) AS sumtimerA, tmnavn FROM timer WHERE tmnr = " & objDR2("mid") & " AND (tfaktim = 7 OR tfaktim = 8 OR tfaktim = 22 OR tfaktim = 23 OR tfaktim = 24 OR tfaktim = 31)"
-                        strSQLext5 = strSQLext5 & "AND (tdato BETWEEN '" & startDatoSQL & "' AND '" & slutDatoSQL & "') GROUP BY tmnr"
-
-
-                        objCmd = New OdbcCommand(strSQLext5, objConn)
-                        objDR = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
-
-                        If objDR.Read() = True Then
-
-                            'expTxt = Replace(Replace(FormatNumber(CType(objDR.Item("sumtimerA"), String), 2), ",", ""), ".", ",") & ";"
-                            expTxt = objDR.Item("sumtimerA") & ";"
-                            writer.Write(expTxt)
-
-                            'andreTimer = Replace(Replace(FormatNumber(CType(objDR.Item("sumtimerA"), String), 2), ",", ""), ".", ",")
-                            andreTimer = objDR.Item("sumtimerA")
-
-                        End If
-
-                        objDR.Close()
-
-                        If andreTimer = 0 Then
-                            writer.Write(";")
-                        End If
-
-
-                        Select Case lto
-                            Case "cst", "kejd_pb", "outz"
-                                writer.Write(bal_norm_lontimer & ";")
-                            Case Else
-                                writer.Write(bal_norm_real & ";")
-                        End Select
-
-
-                        If show_atd = "1" Then
-                            writer.Write(effektiv_proc & " %;" & effektiv_proc_atd & " %;")
-                        End If
-
-
-
-
-                        '** ÅTD = 2 REAL timer ÅTD
-                        If show_atd = "2" Then
-
-                            '*** Real timer ÅTD ***'
-                            realTimerAtd = 0
-                            Dim strSQLrealAtd As String = "SELECT sum(timer) AS sumtimer, tmnavn FROM timer WHERE tmnr = " & objDR2("mid") & akttyper_realhours
-                            strSQLrealAtd = strSQLrealAtd & "AND (tdato BETWEEN '" & Year(startDatoAtDSQL) & "/" & Month(startDatoAtDSQL) & "/" & Day(startDatoAtDSQL) & "' AND '" & slutDatoSQL & "') GROUP BY tmnr"
-
-                            objCmd = New OdbcCommand(strSQLrealAtd, objConn)
-                            objDR = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
-
-                            If objDR.Read() = True Then
-
-                                expTxt = objDR.Item("sumtimer") & ";"
-                                writer.Write(expTxt)
-
-                                realTimerAtd = objDR.Item("sumtimer")
-                            End If
-
-                            objDR.Close()
-
-                            If realTimerAtd = 0 Then
-                                writer.Write(";")
-                            End If
-
-
-                            ugeNrLastWeek = DatePart("ww", slutDato, Microsoft.VisualBasic.FirstDayOfWeek.Monday, FirstWeekOfYear.FirstFourDays)
 
                             'bal_norm_real = ((Replace(realTimer, ",", ".") / 1) - (normTimer / 100))
-                            bal_norm_realAtd = (realTimerAtd / 1) - (normTimer * ugeNrLastWeek / 1)
+                            bal_norm_real = (realTimer / 1) - (normTimer / 1)
                             'bal_norm_real = Replace(Replace(FormatNumber(CType(bal_norm_real, String), 2), ",", ""), ".", ",")
-                            bal_norm_realAtd = FormatNumber(CType(bal_norm_real, String), 2)
-
-
-                            writer.Write(bal_norm_realAtd & ";")
-
-                        End If 'show ATD
+                            bal_norm_real = FormatNumber(CType(bal_norm_real, String), 2)
 
 
 
 
 
-
-
-                        ugestatus = 0
-                        ugegodkendt = 0
-                        '**Uge afsluttet / godkendt '****'
-                        Dim strSQLu As String = "SELECT status, ugegodkendt FROM ugestatus WHERE mid = " & objDR2("mid") & " AND uge = '" & slutDatoSQL & "' GROUP BY mid"
-                        '** Uge altid = søndag i ugen ***'
-
-                        objCmd = New OdbcCommand(strSQLu, objConn)
-                        objDR = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
-
-                        If objDR.Read() = True Then
-
-                            ugestatus = 1
-                            ugegodkendt = objDR.Item("ugegodkendt")
-
-                            expTxt = "Ja;" & ugegodkendt & ";"
-                            writer.Write(expTxt)
+                            'bal_norm_lontimer = ((Replace(lTim, ",", ".") / 1) - (normTimer / 100))
+                            bal_norm_lontimer = (lTim / 1) - (normTimer / 1)
+                            'bal_norm_lontimer = Replace(Replace(FormatNumber(CType(bal_norm_lontimer, String), 2), ",", ""), ".", ",")
+                            bal_norm_lontimer = FormatNumber(CType(bal_norm_lontimer, String), 2)
 
 
 
-                        End If
+                            '*** Fakturerbare timer ***'
+                            fakBareReal = 0
 
-                        objDR.Close()
-
-
-                        If ugestatus = 0 Then
-                            writer.Write(";;")
-                        End If
+                            Dim strSQLext2 As String = "SELECT sum(timer) AS sumtimerF, tmnavn FROM timer WHERE tmnr = " & objDR2("mid") & akttyper_invoiceable
+                            strSQLext2 = strSQLext2 & "AND (tdato BETWEEN '" & startDatoSQL & "' AND '" & slutDatoSQL & "') GROUP BY tmnr"
 
 
-                        '************** projektgrupper ****************
-
-                        If InStr(lto, "xepi") Then
-
-
-
-                            Dim strSQLpgrpmedlemaf As String = "SELECT p.id AS pgrpid, p.navn as prognavn FROM progrupperelationer AS pr LEFT JOIN projektgrupper AS p ON (p.id = pr.projektgruppeId) " _
-                            & " WHERE pr.medarbejderId  = " & objDR2("mid") & " AND p.id <> 10 GROUP BY pr.projektgruppeId ORDER BY p.id DESC"
-
-
-                            employeeIDsPgrpNavn = ""
-
-                            objCmd = New OdbcCommand(strSQLpgrpmedlemaf, objConn)
+                            objCmd = New OdbcCommand(strSQLext2, objConn)
                             objDR = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
 
-                            While objDR.Read() = True
+                            If objDR.Read() = True Then
 
+                                'expTxt = Replace(Replace(FormatNumber(CType(objDR.Item("sumtimerF"), String), 2), ",", ""), ".", ",") & ";"
+                                expTxt = objDR.Item("sumtimerF") & ";"
 
-                                employeeIDsPgrpNavn = employeeIDsPgrpNavn & objDR("prognavn") & ";"
+                                writer.Write(expTxt)
 
-                            End While
+                                'fakBareReal = Replace(Replace(FormatNumber(CType(objDR.Item("sumtimerF"), String), 2), ",", ""), ".", ",")
+                                fakBareReal = objDR.Item("sumtimerF")
+
+                            End If
+
                             objDR.Close()
 
-                            writer.Write(employeeIDsPgrpNavn)
+                            If fakBareReal = 0 Then
+                                writer.Write(";")
+                            End If
 
-                        End If
+                            effektiv_proc = 0
+                            If fakBareReal <> 0 And lTim <> 0 Then
+                                effektiv_proc = (fakBareReal / lTim) * 100
+                                effektiv_proc = Replace(Replace(FormatNumber(CType(effektiv_proc, String), 0), ",", ""), ".", ",") 'fakBareReal &"/"& lTim & "="& 
+                            End If
+
+
+                            Dim strSQLextE1 As String
+                            If lto = "dencker" Then
+
+                                '*** E1 ***'
+                                e1Timer = 0
+                                strSQLextE1 = "SELECT sum(timer) AS sumtimer, tmnavn FROM timer WHERE tmnr = " & objDR2("mid") & " AND tfaktim = 90 "
+                                strSQLextE1 = strSQLextE1 & "AND (tdato BETWEEN '" & startDatoSQL & "' AND '" & slutDatoSQL & "') GROUP BY tmnr"
+
+
+
+                                objCmd = New OdbcCommand(strSQLextE1, objConn)
+                                objDR = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
+
+                                If objDR.Read() = True Then
+
+                                    'expTxt = Replace(Replace(FormatNumber(CType(objDR.Item("sumtimer"), String), 2), ",", ""), ".", ",") & ";"
+                                    expTxt = objDR.Item("sumtimer") & ";"
+                                    writer.Write(expTxt)
+
+                                    e1Timer = objDR.Item("sumtimer")
+
+                                End If
+
+                                objDR.Close()
+
+                                If e1Timer = 0 Then
+                                    writer.Write(";")
+                                End If
+
+                            End If
+
+
+
+
+
+                            If show_atd = "1" Then
+
+                                '*** Fakturerbare timer ÅTD ***'
+                                fakBareReal_atd = 0
+
+                                Dim strSQLext2_atd As String = "SELECT sum(timer) AS sumtimerF, tmnavn FROM timer WHERE tmnr = " & objDR2("mid") & akttyper_invoiceable
+                                strSQLext2_atd = strSQLext2_atd & "AND (tdato BETWEEN '" & Year(startDatoAtDSQL) & "/" & Month(startDatoAtDSQL) & "/" & Day(startDatoAtDSQL) & "' AND '" & slutDatoSQL & "') GROUP BY tmnr"
+
+
+                                objCmd = New OdbcCommand(strSQLext2_atd, objConn)
+                                objDR = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
+
+                                If objDR.Read() = True Then
+
+
+                                    'fakBareReal_atd = Replace(Replace(FormatNumber(CType(objDR.Item("sumtimerF"), String), 2), ",", ""), ".", ",")
+                                    fakBareReal_atd = objDR.Item("sumtimerF")
+
+
+                                End If
+
+                                objDR.Close()
+
+                                effektiv_proc_atd = 0
+                                If fakBareReal_atd <> 0 And lTim_atd <> 0 Then
+                                    effektiv_proc_atd = (fakBareReal_atd / lTim_atd) * 100
+                                    effektiv_proc_atd = Replace(Replace(FormatNumber(CType(effektiv_proc_atd, String), 0), ",", ""), ".", ",")
+                                End If
+
+                            End If
+
+
+                            '*** Syg + Barn syg ***'
+                            sygTimer = 0
+                            Dim strSQLext3 As String = "SELECT sum(timer) AS sumtimerS, tmnavn FROM timer WHERE tmnr = " & objDR2("mid") & " AND (tfaktim = 20 OR tfaktim = 21)"
+                            strSQLext3 = strSQLext3 & "AND (tdato BETWEEN '" & startDatoSQL & "' AND '" & slutDatoSQL & "') GROUP BY tmnr"
+
+
+                            objCmd = New OdbcCommand(strSQLext3, objConn)
+                            objDR = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
+
+                            If objDR.Read() = True Then
+
+                                'expTxt = Replace(Replace(FormatNumber(CType(objDR.Item("sumtimerS"), String), 2), ",", ""), ".", ",") & ";"
+                                expTxt = objDR.Item("sumtimerS") & ";"
+                                writer.Write(expTxt)
+
+                                'sygTimer = Replace(Replace(FormatNumber(CType(objDR.Item("sumtimerS"), String), 2), ",", ""), ".", ",")
+                                sygTimer = objDR.Item("sumtimerS")
+
+                            End If
+
+                            objDR.Close()
+
+                            If sygTimer = 0 Then
+                                writer.Write(";")
+                            End If
+
+
+                            '*** Ferie + Feriefridage afholdt / afholdt u. løn / 1 maj timer ***'
+                            ferieTimer = 0
+                            Dim strSQLext4 As String = "SELECT sum(timer) AS sumtimerF, tmnavn FROM timer WHERE tmnr = " & objDR2("mid") & " AND (tfaktim = 13 OR tfaktim = 14 OR tfaktim = 19 OR tfaktim = 25)"
+                            strSQLext4 = strSQLext4 & "AND (tdato BETWEEN '" & startDatoSQL & "' AND '" & slutDatoSQL & "') GROUP BY tmnr"
+
+
+                            objCmd = New OdbcCommand(strSQLext4, objConn)
+                            objDR = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
+
+                            If objDR.Read() = True Then
+
+                                'expTxt = Replace(Replace(FormatNumber(CType(objDR.Item("sumtimerF"), String), 2), ",", ""), ".", ",") & ";"
+                                expTxt = objDR.Item("sumtimerF") & ";"
+                                writer.Write(expTxt)
+
+                                ferieTimer = objDR.Item("sumtimerF")
+
+                            End If
+
+                            objDR.Close()
+
+
+                            If ferieTimer = 0 Then
+                                writer.Write(";")
+                            End If
+
+                            '*** Anden fravær ***'
+                            '** Afspadsering, Flex, sundhed, Læge, Omsorgsdag, Senior 
+                            andreTimer = 0
+                            Dim strSQLext5 As String = "SELECT sum(timer) AS sumtimerA, tmnavn FROM timer WHERE tmnr = " & objDR2("mid") & " AND (tfaktim = 7 OR tfaktim = 8 OR tfaktim = 22 OR tfaktim = 23 OR tfaktim = 24 OR tfaktim = 31)"
+                            strSQLext5 = strSQLext5 & "AND (tdato BETWEEN '" & startDatoSQL & "' AND '" & slutDatoSQL & "') GROUP BY tmnr"
+
+
+                            objCmd = New OdbcCommand(strSQLext5, objConn)
+                            objDR = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
+
+                            If objDR.Read() = True Then
+
+                                'expTxt = Replace(Replace(FormatNumber(CType(objDR.Item("sumtimerA"), String), 2), ",", ""), ".", ",") & ";"
+                                expTxt = objDR.Item("sumtimerA") & ";"
+                                writer.Write(expTxt)
+
+                                'andreTimer = Replace(Replace(FormatNumber(CType(objDR.Item("sumtimerA"), String), 2), ",", ""), ".", ",")
+                                andreTimer = objDR.Item("sumtimerA")
+
+                            End If
+
+                            objDR.Close()
+
+                            If andreTimer = 0 Then
+                                writer.Write(";")
+                            End If
+
+
+                            Select Case lto
+                                Case "cst", "kejd_pb", "outz"
+                                    writer.Write(bal_norm_lontimer & ";")
+                                Case Else
+                                    writer.Write(bal_norm_real & ";")
+                            End Select
+
+
+                            If show_atd = "1" Then
+                                writer.Write(effektiv_proc & " %;" & effektiv_proc_atd & " %;")
+                            End If
+
+
+
+
+                            '** ÅTD = 2 REAL timer ÅTD
+                            If show_atd = "2" Then
+
+                                '*** Real timer ÅTD ***'
+                                realTimerAtd = 0
+                                Dim strSQLrealAtd As String = "SELECT sum(timer) AS sumtimer, tmnavn FROM timer WHERE tmnr = " & objDR2("mid") & akttyper_realhours
+                                strSQLrealAtd = strSQLrealAtd & "AND (tdato BETWEEN '" & Year(startDatoAtDSQL) & "/" & Month(startDatoAtDSQL) & "/" & Day(startDatoAtDSQL) & "' AND '" & slutDatoSQL & "') GROUP BY tmnr"
+
+                                objCmd = New OdbcCommand(strSQLrealAtd, objConn)
+                                objDR = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
+
+                                If objDR.Read() = True Then
+
+                                    expTxt = objDR.Item("sumtimer") & ";"
+                                    writer.Write(expTxt)
+
+                                    realTimerAtd = objDR.Item("sumtimer")
+                                End If
+
+                                objDR.Close()
+
+                                If realTimerAtd = 0 Then
+                                    writer.Write(";")
+                                End If
+
+
+                                ugeNrLastWeek = DatePart("ww", slutDato, Microsoft.VisualBasic.FirstDayOfWeek.Monday, FirstWeekOfYear.FirstFourDays)
+
+                                'bal_norm_real = ((Replace(realTimer, ",", ".") / 1) - (normTimer / 100))
+                                bal_norm_realAtd = (realTimerAtd / 1) - (normTimer * ugeNrLastWeek / 1)
+                                'bal_norm_real = Replace(Replace(FormatNumber(CType(bal_norm_real, String), 2), ",", ""), ".", ",")
+                                bal_norm_realAtd = FormatNumber(CType(bal_norm_real, String), 2)
+
+
+                                writer.Write(bal_norm_realAtd & ";")
+
+                            End If 'show ATD
 
 
 
 
 
 
-                        writer.WriteLine("")
+
+                            ugestatus = 0
+                            ugegodkendt = 0
+                            '**Uge afsluttet / godkendt '****'
+                            Dim strSQLu As String = "SELECT status, ugegodkendt FROM ugestatus WHERE mid = " & objDR2("mid") & " AND uge = '" & slutDatoSQL & "' GROUP BY mid"
+                            '** Uge altid = søndag i ugen ***'
+
+                            objCmd = New OdbcCommand(strSQLu, objConn)
+                            objDR = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
+
+                            If objDR.Read() = True Then
+
+                                ugestatus = 1
+                                ugegodkendt = objDR.Item("ugegodkendt")
+
+                                expTxt = "Ja;" & ugegodkendt & ";"
+                                writer.Write(expTxt)
+
+
+
+                            End If
+
+                            objDR.Close()
+
+
+                            If ugestatus = 0 Then
+                                writer.Write(";;")
+                            End If
+
+
+                            '************** projektgrupper ****************
+
+                            If InStr(lto, "xepi") Then
+
+
+
+                                Dim strSQLpgrpmedlemaf As String = "SELECT p.id AS pgrpid, p.navn as prognavn FROM progrupperelationer AS pr LEFT JOIN projektgrupper AS p ON (p.id = pr.projektgruppeId) " _
+                                & " WHERE pr.medarbejderId  = " & objDR2("mid") & " AND p.id <> 10 GROUP BY pr.projektgruppeId ORDER BY p.id DESC"
+
+
+                                employeeIDsPgrpNavn = ""
+
+                                objCmd = New OdbcCommand(strSQLpgrpmedlemaf, objConn)
+                                objDR = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
+
+                                While objDR.Read() = True
+
+
+                                    employeeIDsPgrpNavn = employeeIDsPgrpNavn & objDR("prognavn") & ";"
+
+                                End While
+                                objDR.Close()
+
+                                writer.Write(employeeIDsPgrpNavn)
+
+                            End If
+
+
+
+
+
+
+                            writer.WriteLine("")
+
+                            End If 'If IsDBNull(objDR2("mid")) <> True Then
 
                     End While
 

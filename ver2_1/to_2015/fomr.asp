@@ -1263,7 +1263,7 @@ case else
                             <i>V</i>&nbsp;&nbsp;
                                 <%
                                     antalfomrJob = 0
-                                    strSQLantaljob = " SELECT COUNT(reljob.for_fomr) AS reljob_antal FROM fomr_rel AS reljob WHERE (for_fomr = "& oRec("id") &" AND for_jobid <> 0) "  
+                                    strSQLantaljob = " SELECT COUNT(reljob.for_fomr) AS reljob_antal FROM fomr_rel AS reljob WHERE (for_fomr = "& oRec("id") &" AND for_jobid <> 0) GROUP BY for_jobid "  
                     
                                     oRec2.open strSQLantaljob, oConn, 3
 	                                if not oRec2.EOF then
