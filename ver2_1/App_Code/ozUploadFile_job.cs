@@ -39,6 +39,8 @@ public class ozUploadFileJob
 
     //D1
     public string kundenr = string.Empty;
+    public string kpers = string.Empty;
+    public string rekvnr = string.Empty;
 
     //T1 TIA
     public string projgrp = string.Empty;
@@ -307,12 +309,15 @@ public class ozUploadFileJob
 
                     if ((importtype == "d1") || importtype == "t1") {
 
-                        if (importtype == "d1") { 
-                        string strInsert = "INSERT INTO job_import_temp (dato, origin, jobnr, jobnavn, jobans, jobstartdato, jobslutdato, beskrivelse, lto, editor, overfort, kundenavn, kundenr)"+
-                        " VALUES ('" + DateTime.Now.ToString("yyyy-MM-dd") + "',602,'" + data.jobid + "','" + data.jobnavn.Replace("'", "") + "','" + data.jobans + "','" + stdato + "','" + sldato + "',"+
-                        "'" + data.timerkom + "','" + folder + "','Timeout - ImportJobService',0, '" + data.kundenavn + "', '" + data.kundenr + "')";
-                        OdbcCommand command = new OdbcCommand(strInsert, connection);
-                        connection.Open();
+                        if (importtype == "d1") {
+
+                           
+
+                            string strInsert = "INSERT INTO job_import_temp (dato, origin, jobnr, jobnavn, jobans, jobstartdato, jobslutdato, beskrivelse, lto, editor, overfort, kundenavn, kundenr, kpers, rekvnr)"+
+                            " VALUES ('" + DateTime.Now.ToString("yyyy-MM-dd") + "',602,'" + data.jobid + "','" + data.jobnavn.Replace("'", "") + "','" + data.jobans + "','" + stdato + "','" + sldato + "',"+
+                            "'" + data.timerkom + "','" + folder + "','Timeout - ImportJobService',0, '" + data.kundenavn + "', '" + data.kundenr + "', '"+ data.kpers.Replace("'", "") + "', '"+ data.rekvnr + "')";
+                            OdbcCommand command = new OdbcCommand(strInsert, connection);
+                            connection.Open();
 
                         // Execute the DataReader and access the data.
                         intRow = command.ExecuteNonQuery();
@@ -323,6 +328,10 @@ public class ozUploadFileJob
 
 
                         if (importtype == "t1") {
+
+                            //data.timerkom = "";
+                            data.projgrp = "10";
+
                             string strInsert = "INSERT INTO job_import_temp (dato, origin, jobnr, jobnavn, jobans, jobstartdato, jobslutdato, beskrivelse, lto, editor, overfort, kundenavn, kundenr, projgrp) " +
                             " VALUES ('" + DateTime.Now.ToString("yyyy-MM-dd") + "',603,'" + data.jobid + "','" + data.jobnavn.Replace("'", "") + "','" + data.jobans + "'," +
                             "'" + stdato + "','" + sldato + "','" + data.timerkom + "','" + folder + "','Timeout - ImportJobService',0, '" + data.kundenavn + "', '" + data.kundenr + "', '" + data.projgrp + "')";
@@ -845,14 +854,19 @@ public class ozUploadFileJob
                     fileRet.kundenavn = datas[headers[6] - 1];
                     fileRet.kundenr = datas[headers[7] - 1];
 
-                    if (fileRet.timerkom == string.Empty)
+                        if (fileRet.timerkom == string.Empty)
                         fileRet.timerkom = "";
                 }
 
 
-              
+                    if (importtype == "d1")
+                    {
+                        fileRet.kpers = datas[headers[9] - 1];
+                    fileRet.rekvnr = datas[headers[10] - 1];
+                    }
 
-                if (importtype == "t1")
+
+                    if (importtype == "t1")
                 {
                     fileRet.projgrp = datas[headers[8] - 1];
                 }

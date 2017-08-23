@@ -139,9 +139,11 @@
 
 		
 		                                <%
+
+                                        call akttyper2009(2)
         
                                         if session("rettigheder") = 1 then 
-                                        strSQLakt = "SELECT navn, id FROM aktiviteter WHERE job = "& jobid &" ORDER BY fase, sortorder, navn"
+                                        strSQLakt = "SELECT navn, id FROM aktiviteter a WHERE job = "& jobid &" AND ("& aty_sql_hide_on_treg &") OR (id = "& intAktId &") ORDER BY fase, sortorder, navn"
                                         'Response.write "<br><br><br><br><br><br><br><br><br><br>"& strSQLakt
                                         'Response.flush
 		                                oRec3.open strSQLakt, oConn, 3
@@ -399,10 +401,10 @@
 
                             <div class="row">
                                 <div class="col-lg-2">
-                                    <a href="../timereg/db_tastede_dage_2006.asp?func=slet&id=<%=id %>" class="btn btn-primary btn-sm pull-left"><b>Slet</b></a>
+                                    <a href="../timereg/db_tastede_dage_2006.asp?func=slet&id=<%=id %>" class="btn btn-primary btn-sm pull-left"><b><%=medarb_txt_110 %></b></a>
                                 </div>
                                 <div class="col-lg-2">
-                                    <button type="submit" class="btn btn-success btn-sm pull-right"><b>Opdatér</b></button>
+                                    <button type="submit" class="btn btn-success btn-sm pull-right"><b><%=medarb_txt_020 %></b></button>
                                 </div>
                             </div>
 

@@ -116,7 +116,7 @@ function hojreDiv()
 
 
 
-     if (lto <> "epi2017") OR (lto = "epi2017" AND level = 1) then
+     if (lto <> "epi2017") OR (lto = "epi2017" AND level = 1) OR (lto = "epi2017" AND session("mid") = 2694) then
       %>
 
 

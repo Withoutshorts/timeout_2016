@@ -12,7 +12,7 @@ public partial class importer_job : System.Web.UI.Page
 {
     const string PATH2UPLOAD = "~/inc/excelUpload/";
     public string importtype = "";
-
+    public string maxLinjer = "0";
 
     protected void Page_Load(object sender, EventArgs e)
     {
@@ -27,7 +27,7 @@ public partial class importer_job : System.Web.UI.Page
         }
 
         if (importtype == "t1"){
-            feltnr5navn.Text = "Internal project:";
+            feltnr5navn.Text = "Blocked:";
         }
 
         //txt_importtype.Text = importtype;
@@ -292,35 +292,42 @@ public partial class importer_job : System.Web.UI.Page
             List<string> header = service.ReadHeader(path, txtFileName.Text, Request["lto"], Request["editor"], Request["importtype"]);
 
             if (header.Count < 6)
-                lblUploadStatus.Text = "<b>Der skal være 6-8 kolonner i excel filen</b>";
+                lblUploadStatus.Text = "<b>Der skal være min. 6-10 kolonner i excel filen</b>";
             else
             {
 
                 string importtype = Request["importtype"];
                 if (importtype == "d1" || importtype == "t1")
                 {
-                    if (importtype == "d1")
+                    if (importtype == "d1") // Dencker, Salgsodre Monitor
                     {
                         SelectDDL(ddlKnavn, "k_namn", header, lblKnavn, "knavn");
                         SelectDDL(ddlKnr, "k_kod", header, lblKnr, "knr");
                         SelectDDL(ddlJobnavn, "kor_txt", header, lblJobnavn, "jobnavn");
                         SelectDDL(ddlJobId, "ko_nr", header, lblJobId, "jobid");
-                        SelectDDL(ddlJobans, "ko_kref", header, lblJobans, "jobans");
+                        //ko_gods1   //I == jobansvarlig
+                        SelectDDL(ddlJobans, "ko_gods1", header, lblJobans, "jobans");
                         SelectDDL(ddlstDato, "kor_ldat", header, lblstDato, "stdato");
                         SelectDDL(ddlslDato, "kor_uldat", header, lblslDato, "sldato");
                         SelectDDL(ddlTimerKom, "kor_rtyp", header, lblTimerKom, "timerKom");
-                    }
-                    else {
 
-                        SelectDDL(ddlKnavn, "kundenavn", header, lblKnavn, "knavn");
-                        SelectDDL(ddlKnr, "kundenr", header, lblKnr, "knr");
-                        SelectDDL(ddlJobnavn, "projektnavn", header, lblJobnavn, "jobnavn");
-                        SelectDDL(ddlJobId, "projektnummer", header, lblJobId, "jobid");
-                        SelectDDL(ddlJobans, "projektansvarlig", header, lblJobans, "jobans");
-                        SelectDDL(ddlstDato, "startdato", header, lblstDato, "stdato");
-                        SelectDDL(ddlslDato, "slutdato", header, lblslDato, "sldato");
-                        SelectDDL(ddlTimerKom, "internal", header, lblTimerKom, "timerKom");
-                        SelectDDL(ddlProjgrp, "costcenter", header, lblProjgrp, "projgrp");
+                        //ko_konr    //H == Rekvi nr.
+                        SelectDDL(ddlRekvnr, "ko_konr", header, lblRekvnr, "rekvnr");
+                        //ko_kref    //AK == Kunde kontaktperson
+                        SelectDDL(ddlKpers, "ko_kref", header, lblKpers, "kpers");
+
+                    }
+                    else { // TIA 1 (T1)
+
+                        SelectDDL(ddlKnavn, "name", header, lblKnavn, "knavn");
+                        SelectDDL(ddlKnr, "bill-to customer no.", header, lblKnr, "knr");
+                        SelectDDL(ddlJobnavn, "description", header, lblJobnavn, "jobnavn");
+                        SelectDDL(ddlJobId, "no.", header, lblJobId, "jobid");
+                        SelectDDL(ddlJobans, "project manager", header, lblJobans, "jobans");
+                        SelectDDL(ddlstDato, "starting date", header, lblstDato, "stdato");
+                        SelectDDL(ddlslDato, "ending date", header, lblslDato, "sldato");
+                        SelectDDL(ddlTimerKom, "blocked", header, lblTimerKom, "timerKom");
+                        SelectDDL(ddlProjgrp, "name", header, lblProjgrp, "projgrp");
                     }
 
                 }
@@ -346,7 +353,7 @@ public partial class importer_job : System.Web.UI.Page
    
     private string[] GetExcelHeaderList()
     {
-        string[] strRets = { "", "", "", "", "", "", "", "", "", "", "", "", "" }; //,"","","",""
+        string[] strRets = { "", "", "", "", "", "", "", "", "", "", "", "", "", "", "" }; //,"","","",""
         //string[] strRets = { "", "", "", "", "", "", "" }; //,"","","",""
 
         try
@@ -386,6 +393,19 @@ public partial class importer_job : System.Web.UI.Page
 
             }
 
+            if (importtype == "d1")
+            {
+
+
+                if (Application["kpers"] != null)
+                    strRets[9] = Application["kpers"].ToString();
+                if (Application["rekvnr"] != null)
+                    strRets[10] = Application["rekvnr"].ToString();
+               
+
+
+            }
+
 
             Application.UnLock();
         }
@@ -405,7 +425,7 @@ public partial class importer_job : System.Web.UI.Page
       
        
         //int[] intRets = { 0, 0, 0, 0, 0, 0};
-        int[] intRets = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+        int[] intRets = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 
         try
         {
@@ -435,6 +455,17 @@ public partial class importer_job : System.Web.UI.Page
             if (ddlProjgrp.SelectedIndex != -1)
             intRets[8] = ddlProjgrp.SelectedIndex;
             }
+
+
+            if (importtype == "d1")
+            {
+                if (ddlKpers.SelectedIndex != -1)
+                    intRets[9] = ddlKpers.SelectedIndex;
+                if (ddlRekvnr.SelectedIndex != -1)
+                    intRets[10] = ddlRekvnr.SelectedIndex;
+               
+            }
+
         }
         catch (Exception ex)
         {
@@ -499,6 +530,18 @@ public partial class importer_job : System.Web.UI.Page
         Application["projgrp"] = ddlProjgrp.SelectedValue;
     }
 
+    protected void ddlKpers_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        lblKpers.Text = "fundet kolonne: " + ddlKpers.SelectedValue;
+        Application["kpers"] = ddlKpers.SelectedValue;
+    }
+
+    protected void ddlRekvnr_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        lblRekvnr.Text = "fundet kolonne: " + ddlRekvnr.SelectedValue;
+        Application["rekvnr"] = ddlRekvnr.SelectedValue;
+    }
+
 
 
 
@@ -556,6 +599,18 @@ public partial class importer_job : System.Web.UI.Page
     {
         lblProjgrp.Text = "fundet kolonne: " + ddlProjgrp.SelectedValue;
         Application["Projgrp"] = ddlProjgrp.SelectedValue;
+    }
+
+    protected void ddlKpers_DataBound(object sender, EventArgs e)
+    {
+        lblKpers.Text = "fundet kolonne: " + ddlKpers.SelectedValue;
+        Application["kpers"] = ddlKpers.SelectedValue;
+    }
+
+    protected void ddlRekvnr_DataBound(object sender, EventArgs e)
+    {
+        lblRekvnr.Text = "fundet kolonne: " + ddlRekvnr.SelectedValue;
+        Application["rekvnr"] = ddlRekvnr.SelectedValue;
     }
 
 }

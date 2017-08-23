@@ -68,8 +68,10 @@
 
 	case "slet"
 
-	    oskrift = "kunder" 
-        slttxta = "Du er ved at <b>SLETTE</b> en kunde. Er dette korrekt?<br><br>Du vil samtidig <b><u>slette alle</u></b> tilhørende job, aktiviteter, ressourceforecast og fakturaer på denne kunde."
+	    oskrift = kunder_txt_001 
+        'slttxta = "Du er ved at <b>SLETTE</b> en kunde. Er dette korrekt?<br><br>Du vil samtidig <b><u>slette alle</u></b> tilhørende job, aktiviteter, ressourceforecast og fakturaer på denne kunde."
+         slttxta = kunder_txt_002 &" "& "<b>" & kunder_txt_003 &"</b> "& kunder_txt_004 &". "& kunder_txt_005 &" "& kunder_txt_006 &" "& kunder_txt_007
+ 
         slttxtb = "" 
         slturl = "kunder.asp?func=sletok&id="& id
 
@@ -191,11 +193,11 @@
 	<br><br><br>
 	<table cellspacing="2" cellpadding="2" border="0">
 	<tr>
-	    <td><img src="../ill/alert.gif" width="44" height="45" alt="" border="0">Du er ved at <b>slette</b> en fil. Er dette korrekt?</td>
+	    <td><img src="../ill/alert.gif" width="44" height="45" alt="" border="0"><%=kunder_txt_002&" " %> <b><%=kunder_txt_003&" " %></b><%=kunder_txt_008 %></td>
 	</tr>
 	<tr>
 	   <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-	   <a href="kunder.asp?menu=kund&func=sletfilok&id=<%=id%>&filnavn=<%=request("filnavn")%>&kundeid=<%=request("kundeid")%>&medarb=<%=medarb%>">Ja</a>&nbsp;&nbsp;&nbsp;<a href="javascript:history.back()">Nej</a></td>
+	   <a href="kunder.asp?menu=kund&func=sletfilok&id=<%=id%>&filnavn=<%=request("filnavn")%>&kundeid=<%=request("kundeid")%>&medarb=<%=medarb%>"><%=kunder_txt_009 %></a>&nbsp;&nbsp;&nbsp;<a href="javascript:history.back()"><%=kunder_txt_010 %></a></td>
 	</tr>
 	</table>
 	<br><br>
@@ -751,14 +753,14 @@
         						
 						            %>
 						            <div style="position:absolute; left:190; top:20;">
-						            <h3>Tilføj Konto.</h3>
+						            <h3><%=kunder_txt_011 %></h3>
 						            <table><tr><td>
-						            Når den ønskede konto er oprettet vender du tilbage til<br>
-						            kunde oversigten ved at bruge nedenstående link.<br>
-						            Kontoen er oprettet korrekt når der er klikket på "opret" og det viste popup vindue ikke længere er synligt.<br>
+						            <%=kunder_txt_012 %><br>
+						            <%=kunder_txt_013 %><br>
+						            <%=kunder_txt_014 %><br>
 						            <br>
 						            <%
-						            Response.write "<a href='kunder.asp?menu=kund&shokselector=1&ketype=k&id="&thisKid&"&medarb="&medarb&"'>Tilbage til kontaktoversigten</a>"
+						            Response.write "<a href='kunder.asp?menu=kund&shokselector=1&ketype=k&id="&thisKid&"&medarb="&medarb&"'>"&kunder_txt_015&"</a>"
 						            %></td></tr></table>
 						            </div>
 						            <%
@@ -1024,10 +1026,10 @@
         <!-- Opdater/Annuller knapper -->
         <div style="margin-top:-15px; margin-bottom:15px;">
         <%if func = "red" then %>
-         <a class="btn btn-sm btn-default" href="kontaktpers.asp?kid=<%=id %>&issogsubmitted=1" role="button" target="_blank">Kontaktpersoner</a>
-             <a class="btn btn-sm btn-info" href="kontaktpers.asp?func=opr&kid=<%=id %>" role="button" target="_blank">Opret Kontaktperson +</a>
+         <a class="btn btn-sm btn-default" href="kontaktpers.asp?kid=<%=id %>&issogsubmitted=1" role="button" target="_blank"><%=kunder_txt_016 %></a>
+             <a class="btn btn-sm btn-info" href="kontaktpers.asp?func=opr&kid=<%=id %>" role="button" target="_blank"><%=kunder_txt_017 %> +</a>
             
-            <a class="btn btn-sm btn-default" href="../timereg/filer.asp?kundeid=<%=id%>&jobid=0&nomenu=1" role="button" target="_blank">Filarkiv</a>
+            <a class="btn btn-sm btn-default" href="../timereg/filer.asp?kundeid=<%=id%>&jobid=0&nomenu=1" role="button" target="_blank"><%=kunder_txt_018 %></a>
           <%end if %>  
           
 
@@ -1048,9 +1050,9 @@
 
           
                 <%if cint(submitLevelOK) = 1 then %>     
-                <button type="submit" class="btn btn-success btn-sm pull-right" id="sbm_upd0"><b>Opdatér</b></button>
+                <button type="submit" class="btn btn-success btn-sm pull-right" id="sbm_upd0"><b><%=kunder_txt_019 %></b></button>
                 <%else %>
-                <button type="submit" class="btn btn-sm pull-right" id="sbm_upd0" disabled><b>Du har ikke rettigheder til at opdatere denne kunde.</b></button>
+                <button type="submit" class="btn btn-sm pull-right" id="sbm_upd0" disabled><b><%=kunder_txt_020 %></b></button>
                 <%end if %>
 
             <div class="clearfix"></div>
@@ -1067,18 +1069,18 @@
                 <div class="well well-white">
                     <div class="row">
                         <div class="col-lg-12">
-                            <h4 class="panel-title-well">Stamdata</h4>
+                            <h4 class="panel-title-well"><%=kunder_txt_021 %></h4>
                         </div>
                     </div>
 
                     <div class="row">
                         <div class="col-lg-1">&nbsp;</div>
-                        <div class="col-lg-2">Navn:&nbsp<span style="color:red;">*</span></div>
+                        <div class="col-lg-2"><%=kunder_txt_022 %>:&nbsp<span style="color:red;">*</span></div>
                         <div class="col-lg-3">   
-                              <input type="text" name="FM_navn" class="form-control input-small" value="<%=strNavn %>" placeholder="Navn"/>
+                              <input type="text" name="FM_navn" class="form-control input-small" value="<%=strNavn %>" placeholder="<%=kunder_txt_022 %>"/>
                             </div>
                         <div class="col-lg-1">&nbsp</div>
-                        <div class="col-lg-1">Kundetype:</div>
+                        <div class="col-lg-1"><%=kunder_txt_023 %>:</div>
                         <div class="col-lg-4 pad-r30">   
 
                          
@@ -1124,7 +1126,7 @@
                         <!-- KundeId -->
                   <div class="row">
                          <div class="col-lg-1">&nbsp;</div>
-                        <div class="col-lg-2 pad-t5">Kundenummer:&nbsp<span style="color:red;">*</span>
+                        <div class="col-lg-2 pad-t5"><%=kunder_txt_024 %>:&nbsp<span style="color:red;">*</span>
 
                                
                         </div>
@@ -1175,7 +1177,7 @@
 		                        end select
 		
 		                        if kidAaben = 1 then %>
-		                        <input type="text" class="form-control input-small" name="FM_knr" value="<%=strKnr%>" placeholder="Kundenummer">
+		                        <input type="text" class="form-control input-small" name="FM_knr" value="<%=strKnr%>" placeholder="<%=kunder_txt_024 %>">
 		                        <%else %>
 		                        <input type="text" class="form-control input-small" name="FM_knrdis" value="<%=strKnr%>" DISABLED>
 		                        <input type="hidden" name="FM_knr" value="<%=strKnr%>">
@@ -1187,7 +1189,7 @@
                             -->
                                 <%if func = "opret" then %>
                                 <span style="color:#999999; font-size:10px;">
-		                        Sidste kundenr:
+		                        <%=kunder_txt_025 %>:
 		                        <%strSQL = "SELECT kkundenr, kkundenavn FROM kunder WHERE kid <> 0 ORDER BY kid DESC"
 		                        oRec.open strSQL, oConn, 3
 		                        lastUsedKnr = "0"
@@ -1207,7 +1209,7 @@
                            
                         </div>
                         <div class ="col-lg-1">&nbsp</div>
-                        <div class="col-lg-1">Segment:</div>
+                        <div class="col-lg-1"><%=kunder_txt_026 %>:</div>
                         <div class="col-lg-4 pad-r30">   
                               <select class="form-control input-small" name="FM_type" id="FM_type">
                                 <%if intKtype = 0 then
@@ -1216,7 +1218,7 @@
                                 ktype=SEL = ""
                                 end if%>
 
-                                <option value="0" <%=ktype=SEL %>>Vælg type (Ingen)</option>
+                                <option value="0" <%=ktype=SEL %>><%=kunder_txt_027 %></option>
 		
 		                        <%
 		                        strSQLktype = "SELECT id, navn, rabat FROM kundetyper ORDER BY navn"
@@ -1249,7 +1251,7 @@
                     <div class="panel panel-default">
                         <div class="panel-heading">
                           <h4 class="panel-title">
-                            <a class="accordion-toggle" data-toggle="collapse" data-target="#collapseOne">Kundedata</a>
+                            <a class="accordion-toggle" data-toggle="collapse" data-target="#collapseOne"><%=kunder_txt_028 %></a>
                           </h4>
                         </div> <!-- /.panel-heading -->
                         <div id="collapseOne" class="panel-collapse collapse">
@@ -1257,12 +1259,12 @@
 
                       <div class="row">
                         <div class="col-lg-1">&nbsp;</div>
-                        <div class="col-lg-2">Adresse:</div>
+                        <div class="col-lg-2"><%=kunder_txt_029 %>:</div>
                         <div class="col-lg-3">   
                               <input type="text" name="FM_adr" class="form-control input-small" value="<%=strAdr%>"/>
                             </div>
                         <div class="col-lg-1">&nbsp</div>
-                        <div class="col-lg-2">Alt.tlf:</div>
+                        <div class="col-lg-2"><%=kunder_txt_030 %>:</div>
                         <div class="col-lg-2">   
                               <input type="text" name="FM_alttlf" class="form-control input-small" value="<%=strAlttlf%>"  />
                             </div>
@@ -1271,12 +1273,12 @@
 
                        <div class="row">
                         <div class="col-lg-1">&nbsp;</div>
-                        <div class="col-lg-2">Post Nr.:</div>
+                        <div class="col-lg-2"><%=kunder_txt_031 %>:</div>
                         <div class="col-lg-3">   
                          <input type="text" name="FM_postnr" class="form-control input-small" value="<%=strPostnr%>" />
                         </div>
                         <div class="col-lg-1">&nbsp</div>
-                        <div class="col-lg-2">Fax:</div>
+                        <div class="col-lg-2"><%=kunder_txt_032 %>:</div>
                         <div class="col-lg-2">   
                               <input type="text" name="FM_fax" class="form-control input-small" value="<%=strfax%>"  />
                             </div>
@@ -1285,13 +1287,13 @@
 
                        <div class="row">
                         <div class="col-lg-1">&nbsp;</div>
-                        <div class="col-lg-2">By:</div>
+                        <div class="col-lg-2"><%=kunder_txt_033 %>:</div>
                         <div class="col-lg-3">   
                               <input type="text" name="FM_city" class="form-control input-small" value="<%=strcity%>"  />
                             </div>
 
                         <div class="col-lg-1">&nbsp</div>
-                        <div class="col-lg-2">Email:</div>
+                        <div class="col-lg-2"><%=kunder_txt_034 %>:</div>
                         <div class="col-lg-2">   
                               <input type="text" name="FM_email" class="form-control input-small" value="<%=stremail%>"  />
                             </div> 
@@ -1300,19 +1302,19 @@
 
                             <div class="row">
                                  <div class="col-lg-1">&nbsp;</div>
-                        <div class="col-lg-2">Land:</div>
+                        <div class="col-lg-2"><%=kunder_txt_035 %>:</div>
                         <div class="col-lg-3">   
                               <select class="form-control input-small" name="FM_land">
 						            <!--#include file="../timereg/inc/inc_option_land.asp"-->
                                 <%if func = "red" then%>
                         		<option SELECTED><%=strland%></option>
 		                        <%else%>
-		                        <option SELECTED>Danmark</option>
+		                        <option SELECTED><%=kunder_txt_036 %></option>
 		                        <%end if%>
 		                     </select>
                             </div>
                         <div class="col-lg-1">&nbsp</div>
-                        <div class="col-lg-2">CVR nr:</div>
+                        <div class="col-lg-2"><%=kunder_txt_037 %>:</div>
                         <div class="col-lg-2">   
                               <input type="text" name="FM_cvr" class="form-control input-small" value="<%=intcvr%>"  />
                         </div>
@@ -1321,12 +1323,12 @@
 
                        <div class="row">
                         <div class="col-lg-1">&nbsp;</div>
-                        <div class="col-lg-2">Tel:</div>
+                        <div class="col-lg-2"><%=kunder_txt_038 %>:</div>
                         <div class="col-lg-3">   
                               <input type="text" name="FM_tlf" class="form-control input-small" value="<%=strtlf%>"  />
                             </div>
                         <div class="col-lg-1">&nbsp</div>
-                        <div class="col-lg-2">NCA kode:</div>
+                        <div class="col-lg-2"><%=kunder_txt_039 %>:</div>
                         <div class="col-lg-2">   
                               <input type="text" name="FM_nace" class="form-control input-small" value="<%=strNACE%>"  />
                             </div>
@@ -1335,13 +1337,13 @@
 
                             <div class="row">
                                 <div class="col-lg-1">&nbsp;</div>
-                                <div class="col-lg-2">Mobil:</div>
+                                <div class="col-lg-2"><%=kunder_txt_040 %>:</div>
                                 <div class="col-lg-3">   
                                       <input type="text" name="FM_mobil" class="form-control input-small" value="<%=strmobil%>"  />
                                     </div>
 
                                  <div class="col-lg-1">&nbsp;</div>
-                                <div class="col-lg-2">EAN:</div>
+                                <div class="col-lg-2"><%=kunder_txt_041 %>:</div>
                                 <div class="col-lg-2">   
                                       <input type="text" name="FM_ean" class="form-control input-small" value="<%=strean%>"  />
                                     </div>
@@ -1350,7 +1352,7 @@
 
                               <div class="row">
                         <div class="col-lg-1">&nbsp;</div>
-                        <div class="col-lg-2">WWW: (Domæner)</div>
+                        <div class="col-lg-2">WWW: (<%=kunder_txt_042 %>)</div>
                         <div class="col-lg-8">   
                               <textarea id="FM_www" name="FM_www" style="height:80px;" class="form-control input-small"><%=strWWW%></textarea>
                             </div>
@@ -1368,12 +1370,12 @@
                     <div class="panel panel-default">
                         <div class="panel-heading">
                           <h4 class="panel-title">
-                            <a class="accordion-toggle" data-toggle="collapse" data-target="#collapseTwo">Konti</a>
+                            <a class="accordion-toggle" data-toggle="collapse" data-target="#collapseTwo"><%=kunder_txt_043 %></a>
                           </h4>
                         </div> <!-- /.panel-heading -->
                         <div id="collapseTwo" class="panel-collapse collapse">
                         <div class="panel-body">
-                        Følgende konti er knyttet til denne kunde via kontoplanen: (sættes i ERP)<br />
+                        <%=kunder_txt_044 %><br />
                             <div style="height:100px; padding:10px 10px 10px 10px; overflow:auto;">
                         <%  
                             
@@ -1395,9 +1397,9 @@
                         <%if cint(eruseasfak) = 1 OR cint(eruseasfak) = 0 then 
                             
                         if cint(eruseasfak) = 1 then%>
-                        Denne kunde står som licensindehaver og bruger fakturarækkefølge gruppe nr: (se kontrolpanel)<br />
+                        <%=kunder_txt_115 %><br />
                         <%else %>
-                        Job/Projekter på denne kunde faktureres som udgangspunkt af følgende licensindehaver: <br /> 
+                        <%=kunder_txt_116 %> <br /> 
                         <%end if%>
 
 
@@ -1427,13 +1429,13 @@
                             <select name="FM_lincensindehaver_faknr_prioritet" style="width:300px;">
                             <%if cint(eruseasfak) = 1 then %>
                         
-                            <option value="0" <%=faknr_prioritet_0_SELECTED %>>1 (sidste fakturanr: <%=multi_fakturanr %>)</option>
+                            <option value="0" <%=faknr_prioritet_0_SELECTED %>>1 (<%=kunder_txt_045 %>: <%=multi_fakturanr %>)</option>
                                 
                                 <%if cint(multible_licensindehavere) = 1 then %>
-                                <option value="2" <%=faknr_prioritet_2_SELECTED %>>2 (sidste fakturanr: <%=multi_fakturanr_2 %>)</option>
-                                <option value="3" <%=faknr_prioritet_3_SELECTED %>>3 (sidste fakturanr: <%=multi_fakturanr_3 %>)</option>
-                                <option value="4" <%=faknr_prioritet_4_SELECTED %>>4 (sidste fakturanr: <%=multi_fakturanr_4 %>)</option>
-                                <option value="5" <%=faknr_prioritet_5_SELECTED %>>5 (sidste fakturanr: <%=multi_fakturanr_5 %>)</option>
+                                <option value="2" <%=faknr_prioritet_2_SELECTED %>>2 (<%=kunder_txt_045 %>: <%=multi_fakturanr_2 %>)</option>
+                                <option value="3" <%=faknr_prioritet_3_SELECTED %>>3 (<%=kunder_txt_045 %>: <%=multi_fakturanr_3 %>)</option>
+                                <option value="4" <%=faknr_prioritet_4_SELECTED %>>4 (<%=kunder_txt_045 %>: <%=multi_fakturanr_4 %>)</option>
+                                <option value="5" <%=faknr_prioritet_5_SELECTED %>>5 (<%=kunder_txt_045 %>: <%=multi_fakturanr_5 %>)</option>
                                 <%end if %>
 
                             <%else%>
@@ -1503,18 +1505,18 @@
                             
 
                         <br /><br />
-                        Nedenstående konti benyttes udelukkende som afsender konti på faktura layout.<br /><br />
+                        <%=kunder_txt_046 %><br /><br />
 
                             
                        
                          <div class="row">
                         <div class="col-lg-1">&nbsp;</div>
-                        <div class="col-lg-2">Konto:</div>
-                        <div class="col-lg-1">regnr.:</div>
+                        <div class="col-lg-2"><%=kunder_txt_047 %>:</div>
+                        <div class="col-lg-1"><%=kunder_txt_048 %>:</div>
                         <div class="col-lg-1">   
                              <input type="text" name="FM_regnr" class="form-control input-small" value="<%=intregnr%>"  />
                             </div>
-                        <div class="col-lg-1">Kontonr:</div>
+                        <div class="col-lg-1"><%=kunder_txt_049 %>:</div>
                         <div class="col-lg-2">   
                               <input type="text" name="FM_kontonr" class="form-control input-small" value="<%=intkontonr%>"  />
                             </div>
@@ -1523,7 +1525,7 @@
                     
                             <div class="row">
                         <div class="col-lg-1">&nbsp;</div>
-                        <div class="col-lg-2">Bank navn:</div>
+                        <div class="col-lg-2"><%=kunder_txt_050 %>:</div>
                         <div class="col-lg-3">   
                               <input type="text" name="FM_bank" class="form-control input-small" value="<%=strBank %>"  />
                             </div>
@@ -1531,7 +1533,7 @@
                             </div>
                             <div class="row">
                         <div class="col-lg-1">&nbsp;</div>
-                        <div class="col-lg-2">Swift kode:</div>
+                        <div class="col-lg-2"><%=kunder_txt_051 %>:</div>
                         <div class="col-lg-3">   
                               <input type="text" name="FM_swift" class="form-control input-small" value="<%=strSwift %>"  />
                             </div>
@@ -1539,7 +1541,7 @@
                             </div>
                             <div class="row">
                         <div class="col-lg-1">&nbsp;</div>
-                        <div class="col-lg-2">Iban kode:</div>
+                        <div class="col-lg-2"><%=kunder_txt_052 %>:</div>
                         <div class="col-lg-3">   
                               <input type="text" name="FM_iban" class="form-control input-small" value="<%=strIban %>"  />
                             </div>
@@ -1549,7 +1551,7 @@
 
                             <div class="row">
                                <div class="col-lg-1">&nbsp</div>
-                                <div class="col-lg-2 pad-t10"><a href="#" id="visflkonti" >Flere bankkonti</a></div>
+                                <div class="col-lg-2 pad-t10"><a href="#" id="visflkonti" ><%=kunder_txt_053 %></a></div>
                                 <div class="col-lg-9">&nbsp</div>
                             </div>
 
@@ -1604,12 +1606,12 @@
                             
                            <div class="row tr_konti" id="tr_konto<%=konto_ext %>">
                             <div class="col-lg-1">&nbsp;</div>
-                            <div class="col-lg-2"><br />Konto <%=kontoalt %>:</div>
-                            <div class="col-lg-1"><br />regnr.:</div>
+                            <div class="col-lg-2"><br /><%=kunder_txt_047 %> <%=kontoalt %>:</div>
+                            <div class="col-lg-1"><br /><%=kunder_txt_048 %>:</div>
                             <div class="col-lg-1"><br />   
                                  <input type="text" name="FM_regnr<%=konto_ext %>" class="form-control input-small" value="<%=intregnr%>"  />
                                 </div>
-                            <div class="col-lg-1"><br />Kontonr:</div>
+                            <div class="col-lg-1"><br /><%=kunder_txt_049 %>:</div>
                             <div class="col-lg-2"><br />   
                                   <input type="text" name="FM_kontonr<%=konto_ext %>" class="form-control input-small" value="<%=intkontonr%>"  />
                                 </div>
@@ -1618,7 +1620,7 @@
                     
                             <div class="row tr_konti">
                                 <div class="col-lg-1">&nbsp;</div>
-                                <div class="col-lg-2">Bank navn:</div>
+                                <div class="col-lg-2"><%=kunder_txt_050 %>:</div>
                                 <div class="col-lg-3">   
                                       <input type="text" name="FM_bank<%=konto_ext %>" class="form-control input-small" value="<%=strBank %>"  />
                                     </div>
@@ -1627,7 +1629,7 @@
 
                             <div class="row tr_konti">
                                 <div class="col-lg-1">&nbsp;</div>
-                                <div class="col-lg-2">Swift kode:</div>
+                                <div class="col-lg-2"><%=kunder_txt_051 %>:</div>
                                 <div class="col-lg-3">   
                                       <input type="text" name="FM_swift<%=konto_ext %>" class="form-control input-small" value="<%=strSwift %>"  />
                                     </div>
@@ -1636,7 +1638,7 @@
 
                             <div class="row tr_konti">
                                 <div class="col-lg-1">&nbsp;</div>
-                                <div class="col-lg-2">Iban kode:</div>
+                                <div class="col-lg-2"><%=kunder_txt_052 %>:</div>
                                 <div class="col-lg-3">   
                                       <input type="text" name="FM_iban<%=konto_ext %>" class="form-control input-small" value="<%=strIban %>"  />
                                     </div>
@@ -1659,7 +1661,7 @@
                     <div class="panel panel-default">
                         <div class="panel-heading">
                           <h4 class="panel-title">
-                            <a class="accordion-toggle" data-toggle="collapse" data-target="#collapseThree">Kundeindstillinger</a>
+                            <a class="accordion-toggle" data-toggle="collapse" data-target="#collapseThree"><%=kunder_txt_054 %></a>
                           </h4>
                         </div> <!-- /.panel-heading -->
                         <div id="collapseThree" class="panel-collapse collapse">
@@ -1669,10 +1671,10 @@
                             
                             <div class="row">
                                 <div class ="col-lg-1 pad-t20">&nbsp</div>
-                                <div class ="col-lg-4 pad-t20">Kundeansvarlig/Keyaccount 1 & 2:</div>
+                                <div class ="col-lg-4 pad-t20"><%=kunder_txt_055 %>/Keyaccount 1 & 2:</div>
                                 <div class="col-lg-3 pad-t20">
                                   <select class="form-control input-small" name="FM_kundeans_1" id="FM_kundeans_1">
-		                            <option value="0">Ingen</option>
+		                            <option value="0"><%=kunder_txt_056 %></option>
 			                            <%
 			
 			                            'if func <> "red" then
@@ -1711,7 +1713,7 @@
                                 
                                 <div class="col-lg-3 pad-t20">
                                         <select class="form-control input-small" name="FM_kundeans_2" id="FM_kundeans_2">
-		                                    <option value="0">Ingen</option>
+		                                    <option value="0"><%=kunder_txt_056 %></option>
 			                                    <%
 			
 			                                    'if func <> "red" then
@@ -1754,7 +1756,7 @@
 
                             <div class="row">
                             <div class="col-lg-1">&nbsp</div>
-                            <div class="col-lg-10"><br />Beskrivelse:
+                            <div class="col-lg-10"><br /><%=kunder_txt_057 %>:
                                 <textarea id="TextArea2" name="FM_komm" cols="70" rows="7" class="form-control input-small"><%=strKomm %></textarea>
                             </div>
                            
@@ -1794,15 +1796,15 @@
 
                             <div class ="row">
                                 <div class="col-lg-1 pad-t20">&nbsp</div>
-                                <div class="col-lg-2 pad-t20">Tilknyt Standardfoldere?
-                                    <span style="color:#999999">Der er findes allerede: <b><%=antalfoldere%> folder(e)</b> på denne kunde.
+                                <div class="col-lg-2 pad-t20"><%=kunder_txt_058 %>?
+                                    <span style="color:#999999"><%=kunder_txt_059 %>: <b><%=antalfoldere &" " %><%=kunder_txt_060&" " %></b><%=kunder_txt_061 %>
                                         <!--<br>
 	                                Hvis du ønsker at tilknytte flere foldere kan det enten gøres ved at vælge en ny Standardfolder gruppe her,
 	                               <br> eller ved manuelt at tilføje foldere under fanebladet "Filer".<br>--></span>
                                 </div>
                                 <div class="col-lg-2 pad-t20">
                                 <select class="form-control input-small" name="FM_stfoldergruppe" id="FM_stfoldergruppe">
-		                        <option value="0">Nej</option>
+		                        <option value="0"><%=kunder_txt_010 %></option>
 			                        <%
 			
 			                        strSQL = "SELECT navn, id FROM folder_grupper WHERE id <> 0 ORDER BY navn"
@@ -1830,11 +1832,11 @@
 
                             <div class="row">
                                 <div class="col-lg-1 pad-t20">&nbsp</div>
-                                <div class="col-lg-2 pad-t20">ServiceDesk Aftalegruppe: 
-                                    <span style="color:#999999;">Når der er valgt en gruppe kan der oprettes incindets på denne kunde.</span></div>
+                                <div class="col-lg-2 pad-t20"><%=kunder_txt_062 %>: 
+                                    <span style="color:#999999;"><%=kunder_txt_063 %></span></div>
                                 <div class="col-lg-2 pad-t20">
                                     <select class="form-control input-small" name="FM_prio_grp" id="FM_prio_grp">
-		                            <option value="0">Ingen</option>
+		                            <option value="0"><%=kunder_txt_056 %></option>
 	                            <%
 	                            strSQL = "SELECT id, navn FROM sdsk_prio_grp WHERE id <> 0"
 	                            oRec.open strSQL, oConn, 3
@@ -1865,7 +1867,7 @@
                     <div class="panel panel-default">
                         <div class="panel-heading">
                           <h4 class="panel-title">
-                            <a class="accordion-toggle" data-toggle="collapse" data-target="#collapseFour">Faktura indstilllinger (debitor)</a>
+                            <a class="accordion-toggle" data-toggle="collapse" data-target="#collapseFour"><%=kunder_txt_064 %></a>
                           </h4>
                         </div> <!-- /.panel-heading -->
                         <div id="collapseFour" class="panel-collapse collapse">
@@ -1876,7 +1878,7 @@
 
                             <div class="row">
                                 <div class="col-lg-1">&nbsp</div>
-                                <div class="col-lg-2">Moms:<br />
+                                <div class="col-lg-2"><%=kunder_txt_065 %>:<br />
                                     <%strSQLmoms = "SELECT id, moms FROM fak_moms WHERE id <> 0 ORDER BY id " %>
                                     <select class="form-control input-small" name="FM_kfak_moms" style="width:160px" >
                                     <%oRec6.open strSQLmoms, oConn, 3
@@ -1900,7 +1902,7 @@
 
                             <div class="row">
                                 <div class="col-lg-1 pad-t10">&nbsp</div>
-                                <div class="col-lg-2 pad-t10">Sprog: <br />
+                                <div class="col-lg-2 pad-t10"><%=kunder_txt_066 %>: <br />
                                     <%strSQLsprog = "SELECT id, navn FROM fak_sprog WHERE id <> 0 ORDER BY id " %>
                                     <select class="form-control input-small" name="FM_kfak_sprog" style="width:160px" >
 
@@ -1925,7 +1927,7 @@
 
                                <div class="row">
                                 <div class="col-lg-1 pad-t20">&nbsp</div>
-                                <div class="col-lg-2 pad-t20">Valuta:
+                                <div class="col-lg-2 pad-t20"><%=kunder_txt_067 %>:
 
                                 <%call basisValutaFN()
             
@@ -1935,7 +1937,7 @@
 
                             <div class="row">
                                 <div class="col-lg-1 pad-t20">&nbsp</div>
-                                <div class="col-lg-3 pad-t20">Forfaldsdato: (kreditperiode)
+                                <div class="col-lg-3 pad-t20"><%=kunder_txt_068 %>
                                     <% 
 	                                select case lto
 	                                case "execon", "immenso"
@@ -1958,14 +1960,14 @@
 
                             <div class="row">
                                 <div class="col-lg-1 pad-t20">&nbsp</div>
-                                <div class="col-lg-10 pad-t20">Betallingsbetingelser:
+                                <div class="col-lg-10 pad-t20"><%=kunder_txt_069 %>:
                                     <textarea id="TextArea1" name="FM_betbet" cols="70" rows="7" class="form-control input-small"><%=strBetbet %></textarea>
                                 </div>
                             </div>
 
                             <div class="row">
                                 <div class="col-lg-1 pad-t20">&nbsp</div>
-                                <div class="col-lg-10 pad-t20">Leveringsbetingelser:
+                                <div class="col-lg-10 pad-t20"><%=kunder_txt_070 %>:
                                     <textarea id="TextArea3" name="FM_levbet" cols="70" rows="7" class="form-control input-small"><%=strLevbet %></textarea>
                                 </div>
                             </div>
@@ -1977,7 +1979,7 @@
                     <div class="panel panel-default">
                         <div class="panel-heading">
                           <h4 class="panel-title">
-                            <a class="accordion-toggle" data-toggle="collapse" data-target="#collapseFive">Logoer</a>
+                            <a class="accordion-toggle" data-toggle="collapse" data-target="#collapseFive"><%=kunder_txt_071 %></a>
                           </h4>
                         </div> <!-- /.panel-heading -->
                         <div id="collapseFive" class="panel-collapse collapse">
@@ -1985,9 +1987,9 @@
                         
 
                       
-		                Maks:  bredde: 150px * højde 100px<br />
+		                <%=kunder_txt_072&": " %>150px * 100px<br />
 		             
-		                <a href="../timereg/upload.asp?type=kundelogo&kundeid=<%=id%>&jobid=0" target="_blank">Tilknyt nyt logo</a>
+		                <a href="../timereg/upload.asp?type=kundelogo&kundeid=<%=id%>&jobid=0" target="_blank"><%=kunder_txt_073 %></a>
                             <br />&nbsp;
 		                
                              
@@ -2030,7 +2032,7 @@
 	               %>
                    <div class="row">
                     <div class="col-lg-1">&nbsp</div>
-                   <div class="col-md-2">Ingen logoer er tilknyttet denne kunde.</div>
+                   <div class="col-md-2"><%=kunder_txt_074 %></div>
                    </div>
                    <%
 	              
@@ -2047,7 +2049,7 @@
 	                 %>
                      <div class="row">
                      <div class="col-lg-1">&nbsp</div>
-                     <div class="col-md-2"><input type="radio" name="FM_logo" value="0" <%=logoselingen%>>&nbsp;Intet logo valgt.</div>
+                     <div class="col-md-2"><input type="radio" name="FM_logo" value="0" <%=logoselingen%>>&nbsp;<%=kunder_txt_075 %></div>
                             </div>
                        <%
 	               
@@ -2093,7 +2095,7 @@
     <br /><br /><br />
 
                      <%if func = "red" then %>
-                    <div style="font-weight: lighter;">Sidst opdateret den <b><%=strDato%></b> af <b><%=strEditor%></b></div>       
+                    <div style="font-weight: lighter;"><%=kunder_txt_076&" " %> <b><%=strDato%></b> <%=" "& kunder_txt_077 %> <b><%=strEditor%></b></div>       
                     <%end if %>  
 
         &nbsp;
@@ -2111,7 +2113,7 @@
             <%if cint(submitLevelOK) = 1 then %>     
                  <%call antalFakturaerKid(intKid) %>
 		        <%if cint(antalFak) = 0 then %>
-		        <a class="btn btn-primary btn-sm" role="button" href="kunder.asp?menu=<%=menu %>&func=slet&id=<%=intKid%>&ketype=e&medarb=<%=medarb%>"><b>Slet</b></a>&nbsp;
+		        <a class="btn btn-primary btn-sm" role="button" href="kunder.asp?menu=<%=menu %>&func=slet&id=<%=intKid%>&ketype=e&medarb=<%=medarb%>"><b><%=kunder_txt_078 %></b></a>&nbsp;
 		        <%end if %>
             <%end if %>
             
@@ -2121,9 +2123,9 @@
         <%end if %>
      
                 <%if cint(submitLevelOK) = 1 then %>     
-                <button type="submit" class="btn btn-success btn-sm pull-right" id="sbm_upd2"><b>Opdatér</b></button>
+                <button type="submit" class="btn btn-success btn-sm pull-right" id="sbm_upd2"><b><%=kunder_txt_081 %></b></button>
                 <%else %>
-                <button type="submit" class="btn btn-sm pull-right" id="sbm_upd0" disabled><b>Du har ikke rettigheder til at opdatere denne kunde.</b></button>
+                <button type="submit" class="btn btn-sm pull-right" id="sbm_upd0" disabled><b><%=kunder_txt_080 %></b></button>
                 <%end if %>
 
             
@@ -2141,7 +2143,9 @@
 <%
 case else    
 
-    %><script src="js/kunder_list_jav.js" type="text/javascript"></script><%
+    %><script src="js/kunder_list_jav2.js" type="text/javascript"></script>
+      <input type="hidden" id="sogtekst" value="<%=kunder_txt_118 %>" />  
+    <%
 
     if len(trim(request("lastkid"))) <> 0 then
     lastkid = request("lastkid")
@@ -2171,7 +2175,7 @@ case else
                 <div class="row">
                     <div class="col-lg-10">&nbsp;</div>
                     <div class="col-lg-2">
-                <button class="btn btn-sm btn-success pull-right"><b>Opret ny +</b></button><br />&nbsp;
+                <button class="btn btn-sm btn-success pull-right"><b><%=kunder_txt_081 %> +</b></button><br />&nbsp;
                 </div>
             </div>
         </section>
@@ -2182,10 +2186,10 @@ case else
           
           <section>
                 <div class="well">
-                         <h4 class="panel-title-well">Søgefilter</h4>
+                         <h4 class="panel-title-well"><%=kunder_txt_082 %></h4>
                          <div class="row">
                              <div class="col-lg-4">
-                                 Søg på Navn: <br />
+                                 <%=kunder_txt_083 %>: <br />
 			                    <input type="text" name="FM_soeg" id="FM_soeg" class="form-control input-small" placeholder="% Wildcard" value="<%=thiskri%>">
 
                                </div>
@@ -2195,8 +2199,8 @@ case else
 
                          
                              <div class="col-lg-2">
-                               Kundeans.:<select name="medarb" class="form-control input-small" onchange="submit()">
-				                    <option value="0">Alle</option>
+                               <%=kunder_txt_084 %>:<select name="medarb" class="form-control input-small" onchange="submit()">
+				                    <option value="0"><%=kunder_txt_087 %></option>
 				                    <%
 						                    strSQL = "SELECT mnavn, mid FROM medarbejdere WHERE mansat = 1 ORDER BY mnavn"
 						                    oRec.open strSQL, oConn, 3
@@ -2219,7 +2223,7 @@ case else
 
                                </div>
 
-                               <div class="col-lg-2">Type:
+                               <div class="col-lg-2"><%=kunder_txt_085 %>:
 
                     <%
                          'name = "FM_useasfak"
@@ -2234,7 +2238,7 @@ case else
 
                               <div class="col-lg-2">
 
-                                  Segment: (rabat %)<br /> <select name="ktype" class="form-control input-small" onchange="submit();">
+                                  <%=kunder_txt_086 %>: (<%=kunder_txt_117 %> %)<br /> <select name="ktype" class="form-control input-small" onchange="submit();">
 				                    <option value="0">Alle</option>
                                       
 				                    <%
@@ -2263,12 +2267,12 @@ case else
                                             end if
 						                    %>
 
-                                      <option value="-1" <%=usegmentSEL %>>Uden segment</option>
+                                      <option value="-1" <%=usegmentSEL %>><%=kunder_txt_088 %></option>
 				                    </select>
 
                               </div>
 
-                               <div class="col-lg-2">Land: 
+                               <div class="col-lg-2"><%=kunder_txt_089 %>: 
                                     <select name="land" class="form-control input-small" onchange="submit();">
 
                                         <%if landSEL = "" then
@@ -2277,7 +2281,7 @@ case else
                                          isSelected = ""
                                         end if %>
 
-                                        <option value="" <%=isSelected%>>Alle</option>
+                                        <option value="" <%=isSelected%>><%=kunder_txt_087 %></option>
                                    
                                         <%strSQL = "SELECT land FROM kunder WHERE land <> '' AND land IS NOT NULL GROUP BY land ORDER BY land"
                                          oRec.open strSQL, oConn, 3
@@ -2304,7 +2308,7 @@ case else
 
                     <div class="row">
                                <div class="col-lg-12"><br />
-                                    <button type="submit" class="btn btn-secondary btn-sm pull-right"><b>Vis kunder >></b></button>
+                                    <button type="submit" class="btn btn-secondary btn-sm pull-right"><b><%=kunder_txt_090 %> >></b></button>
                                    </div>
                                    <!--<input type="submit" class="btn btn-sm btn-secondary pull-right" value=" Søg " /></div>--> 
 
@@ -2313,8 +2317,8 @@ case else
                               <%if menu = "crm" then%>
 
                                            <div class="row">
-                                        <div class="col-lg-4">Interesse:<br /><select name="FM_hotnot" style="width:60px;" onchange="submit()">
-		                                <option value="99" <%=hotnotSEL0  %>>Alle</option>
+                                        <div class="col-lg-4"><%=kunder_txt_091 %>:<br /><select name="FM_hotnot" style="width:60px;" onchange="submit()">
+		                                <option value="99" <%=hotnotSEL0  %>><%=kunder_txt_092 %></option>
 		                                <option value="-2" <%=hotnotSEL1  %>>-2 (Not)</option>
 		                                <option value="-1" <%=hotnotSEL2  %>>-1</option>
 		                                <option value="0" <%=hotnotSEL3  %>>0</option>
@@ -2366,17 +2370,17 @@ case else
              
             <thead>
               <tr>
-                <th style="width: 12%">Kundenr.</th>
-                <th style="width: 15%">Navn</th>
-                <th style="width: 5%">Postnr.</th>
-                <th style="width: 15%">By</th>
-                <th style="width: 15%">Land</th>
-                <th style="width: 5%">Telefon</th>
-                <th style="width: 2%">Type</th>
-                <th style="width: 3%">Segment</th>
-                <th style="width: 10%">CVR nr.</th>
-                <th style="width: 10%">Job</th>
-                <th style="width: 10%">Faktura</th>
+                <th style="width: 12%"><%=kunder_txt_093 %></th>
+                <th style="width: 15%"><%=kunder_txt_094 %></th>
+                <th style="width: 5%"><%=kunder_txt_095 %></th>
+                <th style="width: 15%"><%=kunder_txt_096 %></th>
+                <th style="width: 15%"><%=kunder_txt_097 %></th>
+                <th style="width: 5%"><%=kunder_txt_098 %></th>
+                <th style="width: 2%"><%=kunder_txt_099 %></th>
+                <th style="width: 3%"><%=kunder_txt_100 %></th>
+                <th style="width: 10%"><%=kunder_txt_101 %></th>
+                <th style="width: 10%"><%=kunder_txt_102 %></th>
+                <th style="width: 10%"><%=kunder_txt_103 %></th>
               </tr>
             </thead>
               <tbody>
@@ -2482,19 +2486,19 @@ case else
                     
                     select case oRec("useasfak")
                     case 1
-                    useasfakTxt = "Licensindehaver"
+                    useasfakTxt = kunder_txt_104
                     case 2
-                    useasfakTxt = "Datterselskab"
+                    useasfakTxt = kunder_txt_105
                     case 3
-                     useasfakTxt = "Andet"
+                     useasfakTxt = kunder_txt_106
                     case 0
-                     useasfakTxt = "Kunde"
+                     useasfakTxt = kunder_txt_107
                     case 5
-                     useasfakTxt = "CRM-relation"
+                     useasfakTxt = kunder_txt_108
                     case 6
-                     useasfakTxt = "Leverandør"
+                     useasfakTxt = kunder_txt_109
                     case 7
-                    useasfakTxt = "Underleverandør"
+                    useasfakTxt = kunder_txt_110
                     
                     case else
                     useasfakTxt = ""
@@ -2554,9 +2558,9 @@ case else
 
                     <%if cint(antalfak) <> 0 then %>
 			            <%if (level <= 2 OR level = 6) then %>
-			            <a href="erp_fakhist.asp?FM_kunde=<%=oRec("kid") %>" class=vmenu target="_blank"><%=antalfak %></a> stk.
+			            <a href="erp_fakhist.asp?FM_kunde=<%=oRec("kid") %>" class=vmenu target="_blank"><%=antalfak %></a> <%=kunder_txt_111 %>
 			            <%else %>
-			            <%=antalfak %> stk.
+			            <%=antalfak %> <%=kunder_txt_111 %>
 			            <%end if %>
                     <%end if %>
                 </td>
@@ -2573,17 +2577,17 @@ case else
             
             <tfoot>
                <tr>
-                <th>Kundenr.</th>
-                <th>Navn</th>
-                <th>Postnr.</th>
-                <th>By</th>
-                <th>Land</th>
-                <th>Telefon</th>
-                <th>Type</th>
-                <th>Segment</th>
-                <th>CVR nr.</th>
-                <th>Job</th>
-                <th>Faktura</th>
+                <th><%=kunder_txt_093 %></th>
+                <th><%=kunder_txt_094 %></th>
+                <th><%=kunder_txt_095 %></th>
+                <th><%=kunder_txt_096 %></th>
+                <th><%=kunder_txt_097 %></th>
+                <th><%=kunder_txt_098 %></th>
+                <th><%=kunder_txt_099 %></th>
+                <th><%=kunder_txt_100 %></th>
+                <th><%=kunder_txt_101 %></th>
+                <th><%=kunder_txt_102 %></th>
+                <th><%=kunder_txt_103 %></th>
                 </tr>
             </tfoot>
              
@@ -2596,7 +2600,7 @@ case else
             <section>
                 <div class="row">
                      <div class="col-lg-12">
-                        <b>Funktioner</b>
+                        <b><%=kunder_txt_112 %></b>
                         </div>
                     </div>
                   <form action="../timereg/kunder_eksport.asp?kpers=1" method="post" target="_blank">
@@ -2604,7 +2608,7 @@ case else
                      <div class="row">
                      <div class="col-lg-12 pad-r30">
                          
-                    <input id="Submit5" type="submit" value="A) Eksport til csv. detail (incl. kontaktpers.)" class="btn btn-sm" /><br />
+                    <input id="Submit5" type="submit" value="A) <%=kunder_txt_113 %>" class="btn btn-sm" /><br />
                     <!--Eksporter viste kunder og kontaktpersoner som .csv fil-->
                          
                          </div>
@@ -2616,7 +2620,7 @@ case else
                     <input id="Hidden3" name="kids" value="<%=kids%>" type="hidden" />
                  <div class="row">
                      <div class="col-lg-12 pad-r30">
-                         <input id="Submit6" type="submit" value="B) Eksport til .csv simpel" class="btn btn-sm" />
+                         <input id="Submit6" type="submit" value="B) <%=kunder_txt_114 %>" class="btn btn-sm" />
                         <!--Eksporter viste kunder som .csv fil-->
                          
                          </div>

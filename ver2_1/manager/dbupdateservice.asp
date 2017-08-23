@@ -3126,6 +3126,22 @@ INSERT INTO dbversion (dbversion) VALUES (20170503.1)
 ALTER TABLE ugestatus ADD (
 splithr Int NOT NULL DEFAULT 0);
 INSERT INTO dbversion (dbversion) VALUES (20170503.2) 
+
+<br /><br />20170704.1<br />
+ALTER TABLE timer ADD (
+overfort Int NOT NULL DEFAULT 0);
+INSERT INTO dbversion (dbversion) VALUES (20170704.1) 
+
+<br /><br />20170811.1<br />
+ALTER TABLE job ADD (
+jo_usefybudgetingt Int NOT NULL DEFAULT 0);
+INSERT INTO dbversion (dbversion) VALUES (20170811.1) 
+
+<br /><br />20170811.2<br />
+ALTER TABLE ressourcer_ramme ADD (
+rr_budgetbelob double(12,2) NOT NULL DEFAULT 0);
+INSERT INTO dbversion (dbversion) VALUES (20170811.2) 
+
 <%
 
 

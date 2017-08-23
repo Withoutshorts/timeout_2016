@@ -27,7 +27,7 @@ Public Class to_import_hours
     Public meNavn As String
     Public meNr As String
     Public meID As Integer
-    Public medarbejdertypeThis AS Integer = 0
+    Public medarbejdertypeThis As Integer = 0
     Public mTypeSQL As String
 
     Public jobNavn As String
@@ -384,7 +384,7 @@ Public Class to_import_hours
 
                 Try
                     '** Kommentar **' 11??
-                    'timerkom = ""
+                    timerkom = ""
                     If String.IsNullOrEmpty(ds.Tables(0).Rows(t).Item(10)) = False Then
                         timerkom = ds.Tables(0).Rows(t).Item(10)
                         timerkom = timerkom.ToString()
@@ -587,6 +587,17 @@ Public Class to_import_hours
                         Throw New Exception("Set meID error: " + ex.Message)
                     End Try
 
+
+                    '*** Import af Data fra Planday EPI2017
+                    If lto = "epi2017" And (aktnavnUse = "CPH - Mystery shopper" Or aktnavnUse = "CPH - Interviewer") Then
+
+                        intJobNr = "3"
+                        aktnavnUse = "Planday Norm"
+
+                    End If
+
+
+
                     Try
                         '*** Finder job oplysninger ****'
                         If Len(Trim(intJobNr)) <> 0 Then
@@ -678,6 +689,10 @@ Public Class to_import_hours
                             Else
                                 strSQLstatus = " AND aktstatus = 1"
                             End If
+
+
+
+
 
 
                             Dim strSQLa As String

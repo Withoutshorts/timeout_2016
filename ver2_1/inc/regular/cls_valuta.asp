@@ -147,7 +147,7 @@ end function
        strSQLdblKurs_fakhist = "SELECT kurs FROM valutaer WHERE id = " & intValuta
        oRec6.open strSQLdblKurs_fakhist, oConn, 3
        if not oRec6.EOF then
-       dblKurs_fakhist = replace(oRec6("kurs"), ",", ".")
+       dblKurs_fakhist = oRec6("kurs") 'replace(oRec6("kurs"), ",", ".")
        end if 
        oRec6.close
 	end function

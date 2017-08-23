@@ -25,7 +25,20 @@
         
 
     <div>
-    <h4>Importer job til TimeOut - maks 8000 linjer <span style="font-size:small; font-weight:normal;"><a href="../inc/xls/indlaesjobTemplate.csv">Download excel template her...</a></span></h4>
+
+        <%
+
+
+            if (importtype == "t1")
+            { 
+            maxLinjer = "500";
+                }
+            else
+                    {
+                maxLinjer = "8000";
+            } %>
+
+    <h4>Importer job til TimeOut - maks <%=maxLinjer %> linjer <span style="font-size:small; font-weight:normal;"><a href="../inc/xls/indlaesjobTemplate.csv">Download excel template her...</a></span></h4>
     *Bemærk at der skal være en overskriftslinje(header) med kolonne navne i excel filen.<br />
         <asp:Label ID="lblUploadStatus" runat="server" Text=""></asp:Label><br />
         
@@ -198,7 +211,7 @@
       
              <tr>
         <td>
-        <asp:label runat="server" ID="Label1">Costcenter:</asp:label>
+        <asp:label runat="server" ID="feltnr6navn">Costcenter: (NOT IN USE)</asp:label>
         </td>
         <td>
         <asp:DropDownList ID="ddlProjgrp" runat="server" AutoPostBack="True" 
@@ -213,6 +226,53 @@
         <asp:Label ID="lblProjgrp" runat="server" Text=""></asp:Label>
         </td>
         </tr>
+            <%}; %>
+
+
+             <%if (importtype == "d1")
+              {  %>
+      
+      
+
+            
+             <tr>
+        <td>
+        <asp:label runat="server" ID="feltnr7navn">Kunde kontaktperson</asp:label>
+        </td>
+        <td>
+        <asp:DropDownList ID="ddlKpers" runat="server" AutoPostBack="True" 
+                onselectedindexchanged="ddlKpers_SelectedIndexChanged" 
+                ondatabound="ddlKpers_DataBound" AppendDataBoundItems="True">
+                 <asp:ListItem Text="" Value=""></asp:ListItem>
+            </asp:DropDownList>
+            <asp:RequiredFieldValidator ID="RequiredFieldValidator12" runat="server" 
+                ErrorMessage="*" ControlToValidate="ddlKpers" ValidationGroup="Send" ForeColor="Red"></asp:RequiredFieldValidator>
+        </td>
+        <td>
+        <asp:Label ID="lblKpers" runat="server" Text=""></asp:Label>
+        </td>
+        </tr>
+
+            
+             <tr>
+        <td>
+        <asp:label runat="server" ID="feltnr8navn">Rek. nr</asp:label>
+        </td>
+        <td>
+        <asp:DropDownList ID="ddlRekvnr" runat="server" AutoPostBack="True" 
+                onselectedindexchanged="ddlRekvnr_SelectedIndexChanged" 
+                ondatabound="ddlRekvnr_DataBound" AppendDataBoundItems="True">
+                 <asp:ListItem Text="" Value=""></asp:ListItem>
+            </asp:DropDownList>
+            <asp:RequiredFieldValidator ID="RequiredFieldValidator13" runat="server" 
+                ErrorMessage="*" ControlToValidate="ddlRekvnr" ValidationGroup="Send" ForeColor="Red"></asp:RequiredFieldValidator>
+        </td>
+        <td>
+        <asp:Label ID="lblRekvnr" runat="server" Text=""></asp:Label>
+        </td>
+        </tr>
+
+
             <%}; %>
 
         </table>

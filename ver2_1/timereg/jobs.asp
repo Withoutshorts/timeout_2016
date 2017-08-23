@@ -144,7 +144,7 @@ case "FN_getKundelisten_2013"
 				oRec2.close
 				
 				if len(kans1) <> 0 OR len(kans2) <> 0 then
-				anstxt = " --- kontaktansv.: "
+				anstxt = " --- "& job_txt_001 &": "
 				else
 				anstxt = ""
 				end if
@@ -196,7 +196,7 @@ case "FN_getKundeKperslisten"
                 'Response.end
                 
 
-                kundeKpersArr(0) = "<option value='0'>Alle</option>"
+                kundeKpersArr(0) = "<option value='0'>"&job_txt_002&"</option>"
                 z = 1
 
                 oRec.open strSQL, oConn, 3
@@ -236,7 +236,7 @@ case "FN_getKundeKperslisten"
 			wend
 			oRec.close
 
-            kundeKpersArr(z) = "<option value='0'>Ingen kontaktpersoner fundet</option>"
+            kundeKpersArr(z) = "<option value='0'>"&job_txt_003&"</option>"
               
                for z = 0 to UBOUND(kundeKpersArr)
               '*** ÆØÅ **'
@@ -456,19 +456,19 @@ if len(session("user")) = 0 then
 	<!-------------------------------Sideindhold------------------------------------->
 	<%
 	
-	slttxt = "<b>A) Jeg ønsker at slette jobbet helt.</b><br />"_
-	&"Du vil samtidig slette <b>alle aktiviteter, timeregistreringer, materialeforbrug, udlæg og<br> ressourcetimer</b> på dette job."
+	slttxt = "<b>A) "&job_txt_004&"</b><br />"_
+	& job_txt_005 & "<b>"&job_txt_006&"<br> "&job_txt_007&"</b>"&job_txt_008
 	slturl = "jobs.asp?menu=job&func=sletok&id="&id&"&kt=0&fm_kunde_sog="&request("fm_kunde_sog")&"&jobnr_sog="&request("jobnr_sog")&"&filt="&request("filt")&"&rdir="&rdir
 	
 	call sltque(slturl,slttxt,slturlalt,slttxtalt,110,90)
 	
-	slttxtb = "<b>B) Jeg vil nulstille jobbet.</b><br>Jeg ønsker ikke at slette job eller aktiviteter, men nulstille/slette<br> de timeregistreringer og ressourcetimer der findes."
+	slttxtb = "<b>B) "&job_txt_009&"</b><br>"&job_txt_010&"<br> "&job_txt_011
     slturlb = "jobs.asp?menu=job&func=sletok&id="&id&"&kt=1&fm_kunde_sog="&request("fm_kunde_sog")&"&jobnr_sog="&request("jobnr_sog")&"&filt="&request("filt")&"&rdir="&rdir
 	
 	
 	call sltque(slturlb,slttxtb,slturlalt,slttxtalt,540,90)
 	
-	slttxtc = "<b>C) Slet de tilføjede aktiviteter.</b><br>Jeg ønsker ikke at slette jobbet, men slette<br> de tilhørende aktivteter, timeregistreringer og ressourcetimer."
+	slttxtc = "<b>C) "&job_txt_012&"</b><br>"&job_txt_013&"<br>"&job_txt_14
     slturlc = "jobs.asp?menu=job&func=sletok&id="&id&"&kt=2&fm_kunde_sog="&request("fm_kunde_sog")&"&jobnr_sog="&request("jobnr_sog")&"&filt="&request("filt")&"&rdir="&rdir
 	
 	
@@ -567,11 +567,11 @@ if len(session("user")) = 0 then
 	<br><br><br>
 	<table cellspacing="2" cellpadding="2" border="0">
 	<tr>
-	    <td><img src="../ill/alert.gif" width="44" height="45" alt="" border="0">Du er ved at <b>slette</b> en fil. Er dette korrekt?</td>
+	    <td><img src="../ill/alert.gif" width="44" height="45" alt="" border="0"><%=job_txt_015 %> <b><%=job_txt_016 %></b> <%=job_txt_017 %></td>
 	</tr>
 	<tr>
 	   <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-	   <a href="jobs.asp?menu=jobs&func=sletfilok&id=<%=id%>&filnavn=<%=request("filnavn")%>&jobid=<%=request("jobid")%>">Ja</a>&nbsp;&nbsp;&nbsp;<a href="javascript:history.back()">Nej</a></td>
+	   <a href="jobs.asp?menu=jobs&func=sletfilok&id=<%=id%>&filnavn=<%=request("filnavn")%>&jobid=<%=request("jobid")%>"><%=job_txt_018 %></a>&nbsp;&nbsp;&nbsp;<a href="javascript:history.back()"><%=job_txt_019 %></a></td>
 	</tr>
 	</table>
 	<br><br>
@@ -1759,6 +1759,13 @@ if len(session("user")) = 0 then
                 jfak_sprog = request("FM_jfak_sprog")
 
 
+                if len(trim(request("FM_useFYbudgetinGT"))) <> 0 then
+                useFYbudgetinGT = 1
+                else
+                useFYbudgetinGT = 0
+                end if
+
+
 
                 if len(trim(request("FM_opdmedarbtimepriser"))) <> 0 then
                 laasmedtpbudget = 1
@@ -2018,8 +2025,11 @@ if len(session("user")) = 0 then
 					Response.end
 				    end if 
 					
-					
+					 if len(trim(request("FM_lincensindehaver_faknr_prioritet_job"))) <> 0 then
                      lincensindehaver_faknr_prioritet_job = request("FM_lincensindehaver_faknr_prioritet_job")
+                     else
+                     lincensindehaver_faknr_prioritet_job = 0
+                     end if
 					
 					 if cint(jobnrFindes) <> 1 AND cint(tilbudsnrFindes) <> 1 then		
 					 
@@ -2042,7 +2052,7 @@ if len(session("user")) = 0 then
                                 &" virksomheds_proc, syncslutdato, altfakadr, preconditions_met, laasmedtpbudget,"_
                                 &" salgsans1, salgsans2, salgsans3, salgsans4, salgsans5, "_
                                 &" salgsans1_proc, salgsans2_proc, salgsans3_proc, salgsans4_proc, salgsans5_proc, filepath1, fomr_konto, "_
-                                &" jfak_sprog, jfak_moms, alert, lincensindehaver_faknr_prioritet_job, jo_valuta, jo_valuta_kurs "_
+                                &" jfak_sprog, jfak_moms, alert, lincensindehaver_faknr_prioritet_job, jo_valuta, jo_valuta_kurs, jo_usefybudgetingt "_
                                 &") VALUES "_
 							    &"('"& strNavn &"', "_
 							    &"'"& strjnr &"', "_ 
@@ -2080,7 +2090,7 @@ if len(session("user")) = 0 then
                                 &" "& virksomheds_proc &", "& syncslutdato &", "& altfakadr &", "& preconditions_met &", "& laasmedtpbudget &", "_
                                 &" "& salgsans1 &","& salgsans2 &","& salgsans3 &","& salgsans4 &","& salgsans5 &", "_
                                 &" "& salgsans_proc_1 &","& salgsans_proc_2 &","& salgsans_proc_3 &","& salgsans_proc_4 &","& salgsans_proc_5 &", "_
-                                &" '"& filepath1 &"', "& fomr_konto &", "& jfak_sprog &", "& jfak_moms &", "& alert &", "& lincensindehaver_faknr_prioritet_job &", "& jo_valuta &", "& dblKurs &""_
+                                &" '"& filepath1 &"', "& fomr_konto &", "& jfak_sprog &", "& jfak_moms &", "& alert &", "& lincensindehaver_faknr_prioritet_job &", "& jo_valuta &", "& dblKurs &", "& useFYbudgetinGT &""_
                                 &")")
     							
 							    'Response.write strFakturerbart & "<br><br>"
@@ -2351,7 +2361,7 @@ if len(session("user")) = 0 then
                             &" salgsans1_proc = "& salgsans_proc_1 &", salgsans2_proc = "& salgsans_proc_2 &", salgsans3_proc = "& salgsans_proc_3 &", salgsans4_proc = "& salgsans_proc_4 &", "_
                             &" salgsans5_proc = "& salgsans_proc_5 &", filepath1 = '"& filepath1 &"', fomr_konto = "& fomr_konto &","_
                             &" jfak_sprog = "& jfak_sprog &", jfak_moms = "& jfak_moms &", alert = "& alert &", "_
-                            &" lincensindehaver_faknr_prioritet_job = "& lincensindehaver_faknr_prioritet_job &", jo_valuta = "& jo_valuta &", jo_valuta_kurs = "& dblKurs &""_
+                            &" lincensindehaver_faknr_prioritet_job = "& lincensindehaver_faknr_prioritet_job &", jo_valuta = "& jo_valuta &", jo_valuta_kurs = "& dblKurs &", jo_usefybudgetingt = "& useFYbudgetinGT &""_
 							&" WHERE id = "& id 
 							
 							'Response.Write strSQL
@@ -3200,28 +3210,28 @@ if len(session("user")) = 0 then
                                    
                                     
 						            'Mailer.Subject = "Til de jobansvarlige på: "& jobnavnThis &" ("& intJobnr &") | " & strkkundenavn  
-                                    myMail.Subject= "Til de jobansvarlige på: "& jobnavnThis &" ("& intJobnr &") | " & strkkundenavn  
+                                    myMail.Subject = job_txt_020 &": "& jobnavnThis &" ("& intJobnr &") | " & strkkundenavn  
 
 
 		                            strBody = "<br>"
-                                    strBody = strBody &"<b>Kunde:</b> "& strkkundenavn & "<br>" 
-						            strBody = strBody &"<b>Job:</b> "& jobnavnThis &" ("& intJobnr &") <br><br>"
+                                    strBody = strBody &"<b>"&job_txt_021&":</b> "& strkkundenavn & "<br>" 
+						            strBody = strBody &"<b>"&job_txt_022&":</b> "& jobnavnThis &" ("& intJobnr &") <br><br>"
 
                                     if jobans1 <> "0" AND isNULL(jobans1) <> true then
-                                    strBody = strBody &"<b>Jobansvarlig:</b> "& jobans1 &" "& jobans1init &"<br><br>"
+                                    strBody = strBody &"<b>"&job_txt_023&":</b> "& jobans1 &" "& jobans1init &"<br><br>"
                                     end if
 
                                     if jobans2 <> "0" AND isNULL(jobans2) <> true then
-                                    strBody = strBody &"<b>Jobejer:</b> "& jobans2 &" ("& jobans2init &") <br><br>"
+                                    strBody = strBody &"<b>"&job_txt_024&":</b> "& jobans2 &" ("& jobans2init &") <br><br>"
 		                            end if
 
                                     if len(trim(strBesk)) <> 0 then
-                                    strBody = strBody &"<hr><b>Jobbeskrivelse:</b><br>"
+                                    strBody = strBody &"<hr><b>"&job_txt_025&":</b><br>"
                                     strBody = strBody & strBesk &"<br><br><br><br>"
                                     end if
 
                                     if len(trim(job_internbesk)) <> 0 then
-                                    strBody = strBody &"<hr><b>Intern note:</b><br>"
+                                    strBody = strBody &"<hr><b>"&job_txt_026&":</b><br>"
                                     strBody = strBody & job_internbesk &"<br><br>"
                                     end if
 
@@ -3232,16 +3242,16 @@ if len(session("user")) = 0 then
                                    '&key="&strLicenskey&"
                                     if jobAnsAnsat = "1" then
                                            if instr(request.servervariables("LOCAL_ADDR"), "195.189.130.210") <> 0 then
-                                           strBody = strBody &"<br><br><br>Gå til TimeOut her:<br>https://outzource.dk/"&lto&"/default.asp?tomobjid="&jobid
+                                           strBody = strBody &"<br><br><br>"&job_txt_027&":<br>https://outzource.dk/"&lto&"/default.asp?tomobjid="&jobid
                                            else
-                                           strBody = strBody &"<br><br><br>Gå til TimeOut her:<br>https://timeout.cloud/"&lto&"/default.asp?tomobjid="&jobid
+                                           strBody = strBody &"<br><br><br>"&job_txt_027&":<br>https://timeout.cloud/"&lto&"/default.asp?tomobjid="&jobid
                                            end if
                                     end if
                                     
                                   
 
 
-                                    strBody = strBody &"<br><br><br><br><br><br>Med venlig hilsen<br><i>" 
+                                    strBody = strBody &"<br><br><br><br><br><br>"&job_txt_028&"<br><i>" 
 		                            strBody = strBody & session("user") & "</i><br><br>&nbsp;"
 
 
@@ -3446,7 +3456,7 @@ if len(session("user")) = 0 then
                                             Set FSO = Nothing
                                             Set objnewFolder = nothing
 
-                                            response.write "Folder opRettet!"
+                                            response.write job_txt_315 &"!"
                                             response.end
 
                                             end select
@@ -3867,26 +3877,53 @@ if len(session("user")) = 0 then
 
 
 
-                    if func = "dbred" then
+                    showFordelpFinansaar = request("showFordelpFinansaar")
+                    if func = "dbred" AND cint(showFordelpFinansaar) = 1 then
                     '***************************************
                     '**** BUDGET FY ************************
                     '***************************************
                     f = 0
-                    FY0 = request("FM_fy_aar_0")
-                    FY1 = request("FM_fy_aar_1")
-                    FY2 = request("FM_fy_aar_2")
-                    jobBudgetFY0 = request("FM_fy_hours_0")
+                    if len(trim(request("antal_usefybudgetingt"))) <> 0 then
+                    FyMaksAar = request("antal_usefybudgetingt")
+                    else
+                    FyMaksAar = 0
+                    end if
+
+                    for f = 0 to FyMaksAar
+
+                    if len(trim(request("FM_fy_aar_"& f))) <> 0 then
+                    FY0 = request("FM_fy_aar_"& f)
+                    else
+                    FY0 = "2001"
+                    end if
+                    'FY1 = request("FM_fy_aar_1")
+                    'FY2 = request("FM_fy_aar_2")
                     fctimeprisFY0 = 0
                     fctimeprish2FY0 = 0
-                    jobBudgetFY1 = request("FM_fy_hours_1")
-                    jobBudgetFY2 = request("FM_fy_hours_2")
+
+                    if len(trim(request("FM_fy_hours_" & f))) <> 0 then
+                    jobBudgetFY0 = request("FM_fy_hours_" & f)
+                    else
+                    jobBudgetFY0 = 0
+                    end if
+
+                    if len(trim(request("FM_fy_belob_" & f))) <> 0 then
+                    jobBudgetBelobFY0 = request("FM_fy_belob_" & f)
+                    else
+                    jobBudgetBelobFY0 = 0
+                    end if
+                    'jobBudgetFY2 = request("FM_fy_hours_2")
                     jobids = id
                     aktid = 0
 
-                    for f = 0 to 2
-                        call opdaterRessouceRamme(f, FY0, FY1, FY2, jobBudgetFY0, fctimeprisFY0, fctimeprish2FY0, jobBudgetFY1, jobBudgetFY2, jobids, aktid)
+
+
+                   
+                        call opdaterRessouceRamme_job(f, FY0, jobBudgetFY0, jobBudgetBelobFY0, jobids, aktid)
                     next
 
+
+                    'response.end
                     end if
 					
 
@@ -4075,7 +4112,7 @@ if len(session("user")) = 0 then
                             
                             
 			                       <tr><td style="padding:10px;">
-                                   Du har valgt at oprette en tilhørende incident (opgave), den er nu åbnet i et nyt vindue. <br /><a href="<%=rdirLink %>" class=vmenu>klik her for at fortsætte..</a>
+                                   <%=job_txt_029 %> <br /><a href="<%=rdirLink %>" class=vmenu><%=job_txt_030 %>..</a>
                             
 	                        </td></tr></table>
 	                        </div>
@@ -4195,12 +4232,12 @@ if len(session("user")) = 0 then
 	
 	if showaspopup <> "y" then
     call top
-	varbroedkrumme = "Rediger job"
+	varbroedkrumme = job_txt_031
 	
 	else
-	varbroedkrumme = "Opret job"
+	varbroedkrumme = job_txt_032
 	%>
-		<br>&nbsp;&nbsp;&nbsp;&nbsp;<font class="stor-blaa">Opret job ekspress</font>
+		<br>&nbsp;&nbsp;&nbsp;&nbsp;<font class="stor-blaa">job_txt_033</font>
 	<%end if
 
 	
@@ -4230,14 +4267,14 @@ if len(session("user")) = 0 then
 	    
 	    select case step
 	    case 1
-	    varbroedkrumme = "<h3 class=""hv"">Vælg kunde <span style='font-size:10px;'> - Opret nyt job step 1/2</span></h3>"
+	    varbroedkrumme = "<h3 class=""hv"">"&job_txt_034&" <span style='font-size:10px;'> - "&job_txt_035&"</span></h3>"
 	    case 2  
-	    varbroedkrumme = "<h3 class=""hv"">Jobstamdata <span style='font-size:10px;'> - Opret nyt job step 2/2</span></h3>"
+	    varbroedkrumme = "<h3 class=""hv"">"&job_txt_036&" <span style='font-size:10px;'> - "&job_txt_316&"</span></h3>"
 	    end select
 	    
 	    else
 	    
-	    varbroedkrumme = "<h3 class=""hv"">Jobstamdata<span style='font-size:10px;'> - Rediger</span></h3>"
+	    varbroedkrumme = "<h3 class=""hv"">Jobstamdata<span style='font-size:10px;'> - "&job_txt_037&"</span></h3>"
 	    mainTableWidth = 475
 	    
 	    end if
@@ -4285,13 +4322,13 @@ if len(session("user")) = 0 then
     <%
     select case lto
     case "execon" %>
-    <a href="../help_and_faq/TimeOut_job_oprettelse_rev_100924_execon.pdf" class=alt target="_blank">Manual til joboprettelse..</a>
+    <a href="../help_and_faq/TimeOut_job_oprettelse_rev_100924_execon.pdf" class=alt target="_blank"><%=job_txt_038 %>..</a>
     <%case "wwf"
     %>
-    <a href="../help_and_faq/TimeOut_job_oprettelse_rev_110523_wwf.pdf" class=alt target="_blank">Manual til joboprettelse..</a>
+    <a href="../help_and_faq/TimeOut_job_oprettelse_rev_110523_wwf.pdf" class=alt target="_blank"><%=job_txt_038 %>..</a>
     <%
     case else %>
-    <a href="../help_and_faq/TimeOut_job_oprettelse_rev_110523.pdf" class=alt target="_blank">Manual til joboprettelse..</a>
+    <a href="../help_and_faq/TimeOut_job_oprettelse_rev_110523.pdf" class=alt target="_blank"><%=job_txt_038 %>..</a>
     <%end select%>
 
     
@@ -4307,17 +4344,17 @@ if len(session("user")) = 0 then
     %>
       <!-- Popup MSG -->
 	<div id="mtyp_msg1" style="position:absolute; top:200px; left:1250px; width:275px; border:1px #999999 solid; z-index:900000000; background-color:#FFFFe1; padding:10px 10px 10px 10px; visibility:hidden; display:none;">
-    <b>Angiv</b>, hvor stor en del af bruttoomsætningen der skal tildeles de forskellige medarbejdertyper. <br /><br />
-     Du kan enten<br /><br />
-        <b>1) Tildele totalbeløb først</b> og defter angive timer på hver enkelt linje (lås beløb)<br /><br />
-        <b>2) eller tildele timer på hver linje</b> og tilsidst overføre summen til Bruttoomsætningen.<br /><br />
+    <b><%=job_txt_039 %></b>, <%=job_txt_040 %> <br /><br />
+     <%=job_txt_317 %><br /><br />
+        <b>1) <%=job_txt_041 %></b> <%=job_txt_042 %><br /><br />
+        <b>2) <%=job_txt_043 %></b> <%=job_txt_044 %><br /><br />
         <span id="lukms1" style="color:#ea0957; font-size:9px;">[luk]</span>
 	</div>
 	
      <!-- Popup MSG -->
 	<div id="mtyp_msg2" style="position:absolute; top:200px; left:1250px; width:275px; border:1px #999999 solid; z-index:900000000; background-color:#FFFFe1; padding:10px; visibility:hidden; display:none;">
-    <b>Husk at</b> tildel timer på medarbejder-typerne. Faktor sættes ens på alle linier indenfor hver gruppe.<br /><br />
-          <span id="lukms2" style="color:#ea0957; font-size:9px;">[luk]</span>
+    <b><%=job_txt_046 %></b><%=" " & job_txt_047 %><br /><br />
+          <span id="lukms2" style="color:#ea0957; font-size:9px;">[<%=job_txt_045 %>]</span>
 	</div>
 	
     <%
@@ -4450,7 +4487,7 @@ if len(session("user")) = 0 then
 	strjobnr = 0
 	strtilbudsnr = 0
     strNexttilbudsnr = 0
-	strNavn = "Jobnavn.."
+	strNavn = job_txt_055 & ".."
 	
 	dbfunc = "dbopr"
 	strFakturerbart = 1
@@ -4669,6 +4706,12 @@ if len(session("user")) = 0 then
 
     jo_valuta_kurs = 100
    
+    select case lto
+    case "intranet - local", "cisu"
+    jo_usefybudgetingt = 1
+    case else
+    jo_usefybudgetingt = 0
+    end select
 
 	else '*** REDIGER JOB *****'
     
@@ -4688,7 +4731,7 @@ if len(session("user")) = 0 then
 	&" udgifter, risiko, sdskpriogrp, usejoborakt_tp, ski, job_internbesk, abo, ubv, sandsynlighed, "_
     &" diff_timer, diff_sum, jo_udgifter_ulev, jo_udgifter_intern, jo_bruttooms, restestimat, stade_tim_proc, virksomheds_proc, "_
     &" syncslutdato, lukkedato, altfakadr, preconditions_met, laasmedtpbudget, filepath1, fomr_konto, jfak_moms, jfak_sprog, useasfak, alert,"_
-    &" lincensindehaver_faknr_prioritet_job, jo_valuta, jo_valuta_kurs "_
+    &" lincensindehaver_faknr_prioritet_job, jo_valuta, jo_valuta_kurs, jo_usefybudgetingt "_
     &" FROM job, kunder WHERE id = " & id &" AND kunder.Kid = jobknr"
 	
         'if session("mid") = 1 then
@@ -4836,6 +4879,8 @@ if len(session("user")) = 0 then
     jo_valuta = oRec("jo_valuta")
     jo_valuta_kurs = oRec("jo_valuta_kurs")
 
+    jo_usefybudgetingt = oRec("jo_usefybudgetingt")
+
     end if
 	oRec.close
 	
@@ -4851,6 +4896,13 @@ if len(session("user")) = 0 then
 	
 	
 	end if
+
+
+    if cint(jo_usefybudgetingt) <> 0 then
+    jo_usefybudgetingtCHK = "CHECKED"
+    else
+    jo_usefybudgetingtCHK = ""
+    end if
 
     if cint(jo_valuta) = 0 then
     call basisValutaFN()
@@ -5005,16 +5057,16 @@ if len(session("user")) = 0 then
 	
 	if request("showoprtxt") = "j" then 'AND request("int") <> 0 then%>
 	<div id=visopretmed name=visopretmed style="position:absolute; left:140; top:20; width:300px; visibility:visible; z-index:100; background-color:#fffff1; border:1px darkred solid; padding:3px;">
-	<font color="ForestGreen"><b>Jobbet er oprettet!</b></font><br> Du kan nu tilføje ressourcer, se gannt chart, tilføje flere aktiviteter eller klikke dig videre til <a href="jobs.asp?menu=job&shokselector=1" class=vmenu>joboversigten</a> med det samme.<br>
+	<font color="ForestGreen"><b><%=job_txt_048 %>!</b></font><br> <%=job_txt_049 &" " %><a href="jobs.asp?menu=job&shokselector=1" class=vmenu><%=job_txt_050 %></a><%=" " & job_txt_051 %><br>
 	<br><br>
-	<a href="#" onClick="hideoprmed()" class=red>[X] Luk denne meddelelse.</a> 
+	<a href="#" onClick="hideoprmed()" class=red>[X] <%=job_txt_052 %></a> 
 	</div>
 	<%end if%>
 	
     <%if func = "red" then%>
 	<tr>
 		<td colspan=4 bgcolor="#ffffff" height="30" style="  padding-top:5px; padding-left:20px;">
-		Sidst opdateret den <b><%=formatdatetime(strLastUptDato, 2)%></b> af <b><%=strEditor%></b>
+		<%=job_txt_053 %> <b><%=formatdatetime(strLastUptDato, 2)%></b><%=" "&job_txt_054&" " %><b><%=strEditor%></b>
 		</td>
 	</tr>
     <%end if%>
@@ -5034,7 +5086,7 @@ if len(session("user")) = 0 then
 	<tr bgcolor="#FFFFFF">
 		
 		<td style="padding:10px 5px 10px 10px; white-space:nowrap;" colspan="4">
-            <font color=red size=2>*</font> <b>Jobnavn:</b> 
+            <font color=red size=2>*</font> <b><%=job_txt_055 %>:</b> 
         
                 <!--
                 <br /><a href="file:///C:\SK\skole\Fra Historie Online.docx" target="_blank">C:\SK\skole\Fra Historie Online.docx</a>
@@ -5046,7 +5098,7 @@ if len(session("user")) = 0 then
                 -->
 
         <%if func <> "red" then %>
-        (Jobnr. / tilbudsnr. tildeles automatisk)
+        (<%=job_txt_056 %>)
         <%end if %>
 
         <br />
@@ -5059,14 +5111,14 @@ if len(session("user")) = 0 then
         end if%>
 		<input type="text" name="FM_navn" id="FM_navn" value="<%=strNavn%>" style="width:<%=twd%>px; border:1px red solid; font-size:14px; padding:3px;">
         <%if func = "red" then %>
-        <font color=red size=2>*</font> Jobnr.: <input type="text" name="FM_jnr" id="FM_jnr" value="<%=strJobnr%>" style="width:80px; color:#999999; font-style:italic;">
+        <font color=red size=2>*</font> <%=job_txt_057 %>: <input type="text" name="FM_jnr" id="FM_jnr" value="<%=strJobnr%>" style="width:80px; color:#999999; font-style:italic;">
         <%else %>
         <input type="hidden" name="FM_jnr" id="Text2" value="0">
         <%end if %>
         
         
 
-        <br /><span style="font-size:10px; font-family:arial; color:#999999;">Jobnavn maks <%=maxCharJobNavn %> karakterer. " (situationstegn) er ikke tilladt i jobnavn / jobnr. alfanumerisk</span>
+        <br /><span style="font-size:10px; font-family:arial; color:#999999;"><%=job_txt_058 &" " %><%=maxCharJobNavn %><%=" "& job_txt_059 %>. "<%=" "&job_txt_060 %></span>
  
        
       
@@ -5106,7 +5158,7 @@ if len(session("user")) = 0 then
                         
                         if cint(folderfindes) = 0 then %>
                         <br />
-                        <input type="checkbox" value="1" name="FM_opret_folder" <%=opFolderCHK %> /> Opret folder med samme navn som jobbet.
+                        <input type="checkbox" value="1" name="FM_opret_folder" <%=opFolderCHK %> /> <%=job_txt_061 %>
                         
 
                         <%end if %>
@@ -5118,9 +5170,9 @@ if len(session("user")) = 0 then
 		<td style="">&nbsp;</td>
 		<td valign=top style="padding:5px 5px 10px 0px;" colspan=2>
 		<%if func = "red" then%>
-		<b>Tilbudsnr.:</b><br />
+		<b><%=job_txt_062 %>:</b><br />
 		<%else %>
-		<b>Tilbud?</b><br /> 
+		<b><%=job_txt_063 %>?</b><br /> 
 		<%end if %>
 		
 		        <%  if cint(strStatus) = 3 OR (func = "opret" AND cint(tilbud_mandatoryOn) = 1) then
@@ -5130,7 +5182,7 @@ if len(session("user")) = 0 then
 					end if
 					%>
 					
-					<input type="checkbox" id="FM_usetilbudsnr" name="FM_usetilbudsnr" value="j" <%=chkusetb%>>Dette job har status som tilbud.
+					<input type="checkbox" id="FM_usetilbudsnr" name="FM_usetilbudsnr" value="j" <%=chkusetb%>><%=job_txt_064 %>
 		
 	
 			
@@ -5140,7 +5192,7 @@ if len(session("user")) = 0 then
                      tlbplcholderTxt = strNexttilbudsnr
 
                      %>
-                    &nbsp;<span style="color:#999999">(Næste ledige nummer: <%=tlbplcholderTxt %>)</span>
+                    &nbsp;<span style="color:#999999">(<%=job_txt_065 %>: <%=tlbplcholderTxt %>)</span>
                     <%
 
                      else
@@ -5164,8 +5216,8 @@ if len(session("user")) = 0 then
                         sandBdr = ""
                     end select %>
 
-					&nbsp;&nbsp;<input id="Text1" name="FM_sandsynlighed" value="<%=intSandsynlighed %>" type="text" style="width:30px; <%=sandBdr%>"/> % sandsynlighed for at vinde tilbud. &nbsp;
-            <br /><span style="font-size:10px; font-family:arial; color:#999999;">(Pipelineværdi = Brutto oms. - Udgifter lev. * sandsynlighed)</span>
+					&nbsp;&nbsp;<input id="Text1" name="FM_sandsynlighed" value="<%=intSandsynlighed %>" type="text" style="width:30px; <%=sandBdr%>"/> <%="% "& job_txt_066 %> &nbsp;
+            <br /><span style="font-size:10px; font-family:arial; color:#999999;">(<%=job_txt_067 &" " %>=<%=" "& job_txt_068 &" " %>*<%=" "& job_txt_069 %>)</span>
             
 	       
 	</td>
@@ -5177,7 +5229,7 @@ if len(session("user")) = 0 then
                         case "essens", "xintranet - local"
                            %> 
                         <tr><td colspan="4" style="padding:0px 10px 10px 10px;">
-                        Sti på filserver:<br /> <input type="text" name="FM_filepath1" placeholder="c:\..." style="width:450px;" value="<%=filepath1 %>" /> <br /><br />
+                        <%=job_txt_070 %>:<br /> <input type="text" name="FM_filepath1" placeholder="c:\..." style="width:450px;" value="<%=filepath1 %>" /> <br /><br />
                         </td></tr>
                <%   
 
@@ -5187,7 +5239,7 @@ if len(session("user")) = 0 then
     	
 	<tr bgcolor="#FFFFFF">
 		<td colspan="4" style="padding:10px 10px 2px 10px;">
-		<b>Tilknyt job til aftale?</b> <a href="#" onClick="serviceaft('0', '<%=strKundeId%>', '', '0')" class=vmenu>+ Opret ny aftale (reload)</a> <br>
+		<b><%=job_txt_071 %>?</b> <a href="#" onClick="serviceaft('0', '<%=strKundeId%>', '', '0')" class=vmenu>+<%=" "& job_txt_072 %></a> <br>
 		
 		<%
 		strSQL2 = "SELECT id, enheder, stdato, sldato, status, navn, pris, perafg, "_
@@ -5197,7 +5249,7 @@ if len(session("user")) = 0 then
 		'Response.write strSQL2
 		%>
 		<select name="FM_serviceaft" id="FM_serviceaft" style="width:450px;">
-		<option value="0">Nej (fjern)</option>
+		<option value="0"><%=job_txt_073 %></option>
 		
 		<%
 		
@@ -5205,7 +5257,7 @@ if len(session("user")) = 0 then
 		while not oRec2.EOF 
 		
 		if oRec2("advitype") <> 0 then
-		udldato = "&nbsp;&nbsp;&nbsp; startdato: " & formatdatetime(oRec2("stdato"), 2) 
+		udldato = "&nbsp;&nbsp;&nbsp; "&job_txt_318&": " & formatdatetime(oRec2("stdato"), 2) 
 		else
 		udldato = ""
 		end if%>
@@ -5231,8 +5283,8 @@ if len(session("user")) = 0 then
 		</select>
 		
 		<%if func = "red" then %><br>
-		<input type="checkbox" name="FM_overforGamleTimereg" value="1"> Overfør (fjern) eksisterende 
-		<b>timeregistreringer</b> og <b>materiale-forbrug</b> til den valgte aftale. 
+		<input type="checkbox" name="FM_overforGamleTimereg" value="1"> <%=job_txt_074 %> 
+		<b><%=job_txt_075 %></b><%=" "&job_txt_076&" " %><b><%=job_txt_077 %></b><%=" "&job_txt_078 %> 
       
         
         <!--<br />
@@ -5254,9 +5306,9 @@ if len(session("user")) = 0 then
 	end if%>
 	<tr>
 		<td style="">&nbsp;</td>
-		<td style="padding:5px 0px 0px 2px;" colspan=2><b>Job beskrivelse:</b>
+		<td style="padding:5px 0px 0px 2px;" colspan=2><b><%=job_txt_079 %>:</b>
 		<%if showaspopup <> "y" then %>
-		&nbsp;<a href="#" id="a_internnote" class="vmenu"> + Intern note</a><br>
+		&nbsp;<a href="#" id="a_internnote" class="vmenu"> +<%=" "&job_txt_080 %></a><br>
 		<%end if%>
 		
 		                <%
@@ -5308,8 +5360,8 @@ if len(session("user")) = 0 then
 	    
                            <table cellpadding="0" cellspacing="0" border="0" width=100%>
 							  <tr>
-							  <td style="padding:15px 20px 2px 10px;"><b>Intern note:</b><br />
-							  Brug denne information til interne beskeder og arbejdsbeskrivelser. Vises på timereg. siden og ved faktura oprettelse.</td>
+							  <td style="padding:15px 20px 2px 10px;"><b><%=job_txt_080 %>:</b><br />
+							  <%=job_txt_081 %></td>
 	                            <td align=right style="padding:0px 20px 2px 0px;"><a href="#" id="a2_internnote" class=red>[x]</a></td>
 	                        </tr>
                             
@@ -5341,7 +5393,7 @@ if len(session("user")) = 0 then
 		                
 		    <br />
             &nbsp;
-		    <input type=checkbox value="1" name="FM_alert" <%=alertCHK %> /> Alert ved faktura oprettelse.
+		    <input type=checkbox value="1" name="FM_alert" <%=alertCHK %> /> <%=job_txt_082 %>
 		    </td>
 		   
 	    </tr>
@@ -5353,8 +5405,8 @@ if len(session("user")) = 0 then
 	</tr>
 	<tr>
 		<td>&nbsp;</td>
-		<td style="padding:0px 20px 5px 0px; width:140px;"><b>Rekvisitions Nr.:</b><br />
-        (indkøbsordrenr)</td>
+		<td style="padding:0px 20px 5px 0px; width:140px;"><b><%=job_txt_083 %>:</b><br />
+        (<%=job_txt_084 %>)</td>
 		<td style="padding:0px 0px 5px 5px;"><input type="text" name="FM_rekvnr" id="FM_rekvnr" value="<%=rekvnr%>" style="width:260px;"></td>
 		<td>&nbsp;</td>
 	</tr>
@@ -5369,8 +5421,8 @@ if len(session("user")) = 0 then
 	 %>
 	<tr>
 		<td style="" width=8>&nbsp;</td>
-		<td colspan=2 style="padding:0px 20px 10px 0px;"><input id="Checkbox1" name="FM_ski" type="checkbox" value="1" <%=skiCHK %> /> <b>SKI aftale</b>&nbsp;
-		(Staten og kommunernes indkøbs service)</td>
+		<td colspan=2 style="padding:0px 20px 10px 0px;"><input id="Checkbox1" name="FM_ski" type="checkbox" value="1" <%=skiCHK %> /> <b><%=job_txt_085 %></b>&nbsp;
+		(<%=job_txt_086 %>)</td>
 	    <td style="" width=8>&nbsp;</td>
 	</tr>
 	
@@ -5384,7 +5436,7 @@ if len(session("user")) = 0 then
 	 %>
 	<tr>
 		<td style="" width=8>&nbsp;</td>
-		<td colspan=2 style="padding:0px 20px 10px 0px;"><input id="FM_abo" name="FM_abo" type="checkbox" value="1" <%=aboCHK %> /> <b>Abonnement</b>&nbsp;(Lightpakke)</td>
+		<td colspan=2 style="padding:0px 20px 10px 0px;"><input id="FM_abo" name="FM_abo" type="checkbox" value="1" <%=aboCHK %> /> <b><%=job_txt_087 %></b>&nbsp;(<%=job_txt_088 %>)</td>
 	    <td style="" width=8>&nbsp;</td>
 	</tr>
 	
@@ -5397,8 +5449,8 @@ if len(session("user")) = 0 then
 	 %>
 	<tr>
 		<td style="" width=8>&nbsp;</td>
-		<td colspan=2 style="padding:0px 20px 10px 0px;"><input id="Checkbox2" name="FM_ubv" type="checkbox" value="1" <%=ubvCHK %> /> <b>Udbudsvagten</b>&nbsp;
-		(Job omfattet af Udbudsvagten)</td>
+		<td colspan=2 style="padding:0px 20px 10px 0px;"><input id="Checkbox2" name="FM_ubv" type="checkbox" value="1" <%=ubvCHK %> /> <b><%=job_txt_089 %></b>&nbsp;
+		(<%=job_txt_090 %>)</td>
 	    <td style="" width=8>&nbsp;</td>
 	</tr>
 	
@@ -5422,7 +5474,7 @@ if len(session("user")) = 0 then
 	                end if%>
 	                <tr bgcolor="#ffffff">
 		                <td colspan=4 style="padding:10px 0px 5px 10px;">
-                            <input id="FM_opr_incident" type="checkbox" name="FM_opr_incident" value="1" <%=opIncCHK %>/> <b>Opret tilhørende Incident</b> (opgave under ServiceDesk)<br />&nbsp;</td>
+                            <input id="FM_opr_incident" type="checkbox" name="FM_opr_incident" value="1" <%=opIncCHK %>/> <b><%=job_txt_091 %></b> (<%=job_txt_092 %>)<br />&nbsp;</td>
 	                </tr>
 	                <%end if 
                  
@@ -5441,13 +5493,13 @@ if len(session("user")) = 0 then
 					<tr bgcolor="#FFFFFF">
 						<td>&nbsp;</td>
 						<td colspan=2 valign=top style="padding:10px 5px 0px 0px; white-space:nowrap;">
-						<h3>Status og periode</h3></td>
+						<h3><%=job_txt_093 %></h3></td>
 						<td>&nbsp;</td>	
 				   </tr>
 				   <tr bgcolor="#FFFFFF">
 				        <td>&nbsp;</td>
                         <td valign=top style="padding-top:3px; padding-bottom:4px;">
-                        <b>Status:</b></td>
+                        <b><%=job_txt_241 %>:</b></td>
 						<td valign=top style="padding-top:0px; padding-bottom:4px;">
 						
 						             <select name="FM_status" id="FM_status" style="width:160px;">
@@ -5456,18 +5508,18 @@ if len(session("user")) = 0 then
                                     if dbfunc = "dbred" then 
 									select case strStatus
 									case 1
-									strStatusNavn = "Aktiv"
+									strStatusNavn = job_txt_094
 									case 2
-									strStatusNavn = "Til Fakturering" 'passiv
+									strStatusNavn = job_txt_095 'passiv
 									case 0
-									strStatusNavn = "Lukket"
+									strStatusNavn = job_txt_096
                                         if cdate(lkdato) <> "01-01-2002" then
                                         lkDatoThis = " ("& formatdatetime(lkdato, 2) & ")"
                                         end if
 									case 3
-									strStatusNavn = "Tilbud"
+									strStatusNavn = job_txt_097
                                     case 4
-									strStatusNavn = "Gennemsyn"
+									strStatusNavn = job_txt_098
 									end select
 									%>
 									<option value="<%=strStatus%>" SELECTED><%=strStatusNavn%> <%=lkDatoThis %></option>
@@ -5475,18 +5527,18 @@ if len(session("user")) = 0 then
                                     
                                   
                                     %>
-									<option value="1">Aktiv</option>
-									<option value="2">Til Fakturering</option> <!-- Passiv -->
-									<option value="0">Lukket</option>
-                                    <option value="4">Gennemsyn</option>
+									<option value="1"><%=job_txt_094 %></option>
+									<option value="2"><%=job_txt_095 %></option> <!-- Passiv -->
+									<option value="0"><%=job_txt_096 %></option>
+                                    <option value="4"><%=job_txt_098 %></option>
 									
-									<option value="3">Tilbud</option>
+									<option value="3"><%=job_txt_097 %></option>
 									
 									</select> 
 
                                     <%if strStatus = 3 then
                                     %>
-                                    <br /><span style="color:#999999;">Skifter automatisk til aktiv, hvis tilbuds status fravælges i toppen.</span>
+                                    <br /><span style="color:#999999;"><%=job_txt_099 %></span>
                                     <%
                                     end if %>
 									
@@ -5502,7 +5554,7 @@ if len(session("user")) = 0 then
 								<%if showaspopup <> "y" then%>
 									<tr bgcolor="#ffffff">
 										<td style="">&nbsp;</td>
-										<td style="padding-top:4px;"><b>Start dato:</b> <br /><span style="color:#999999; font-size:9px;">job er tilgængelig på timereg. siden fra denne dato</span></td>
+										<td style="padding-top:4px;"><b><%=job_txt_100 %>:</b> <br /><span style="color:#999999; font-size:9px;"><%=job_txt_101 %></span></td>
 										<td style="padding-top:4px;"><select name="FM_start_dag" id="FM_start_dag">
 										<option value="<%=strDag%>"><%=strDag%></option> 
 										<option value="1">1</option>
@@ -5537,20 +5589,35 @@ if len(session("user")) = 0 then
 									   	<option value="30">30</option>
 										<option value="31">31</option></select>&nbsp;
 										
+                                        <%
+                                            if strMrdNavn = "jan" then strMrdNavnTranslate = job_txt_102
+                                            if strMrdNavn = "feb" then strMrdNavnTranslate = job_txt_103
+                                            if strMrdNavn = "mar" then strMrdNavnTranslate = job_txt_104
+                                            if strMrdNavn = "apr" then strMrdNavnTranslate = job_txt_105
+                                            if strMrdNavn = "maj" then strMrdNavnTranslate = job_txt_106
+                                            if strMrdNavn = "jun" then strMrdNavnTranslate = job_txt_107
+                                            if strMrdNavn = "jul" then strMrdNavnTranslate = job_txt_108
+                                            if strMrdNavn = "aug" then strMrdNavnTranslate = job_txt_109
+                                            if strMrdNavn = "sep" then strMrdNavnTranslate = job_txt_110
+                                            if strMrdNavn = "okt" then strMrdNavnTranslate = job_txt_111
+                                            if strMrdNavn = "nov" then strMrdNavnTranslate = job_txt_112
+                                            if strMrdNavn = "dec" then strMrdNavnTranslate = job_txt_113
+                                        %>
+
 										<select name="FM_start_mrd" id="FM_start_mrd">
-										<option value="<%=strMrd%>"><%=strMrdNavn%></option>
-										<option value="1">jan</option>
-									   	<option value="2">feb</option>
-									   	<option value="3">mar</option>
-									   	<option value="4">apr</option>
-									   	<option value="5">maj</option>
-									   	<option value="6">jun</option>
-									   	<option value="7">jul</option>
-									   	<option value="8">aug</option>
-									   	<option value="9">sep</option>
-									   	<option value="10">okt</option>
-									   	<option value="11">nov</option>
-									   	<option value="12">dec</option></select>
+										<option value="<%=strMrd%>"><%=strMrdNavnTranslate%></option>
+										<option value="1"><%=job_txt_102 %></option>
+									   	<option value="2"><%=job_txt_103 %></option>
+									   	<option value="3"><%=job_txt_104 %></option>
+									   	<option value="4"><%=job_txt_105 %></option>
+									   	<option value="5"><%=job_txt_106 %></option>
+									   	<option value="6"><%=job_txt_107 %></option>
+									   	<option value="7"><%=job_txt_108 %></option>
+									   	<option value="8"><%=job_txt_109 %></option>
+									   	<option value="9"><%=job_txt_110 %></option>
+									   	<option value="10"><%=job_txt_111 %></option>
+									   	<option value="11"><%=job_txt_112 %></option>
+									   	<option value="12"><%=job_txt_113 %></option></select>
 										
 										
 										<select name="FM_start_aar" id="FM_start_aar">
@@ -5581,7 +5648,7 @@ if len(session("user")) = 0 then
 										</tr>
 										<tr bgcolor="#ffffff">
 											<td style="padding-top:0px; padding-left:5px;" rowspan=2 align=right>&nbsp;</td>
-											<td valign=top style="padding-top:5px; padding-bottom:4px;"><b>Slut dato:</b>&nbsp;
+											<td valign=top style="padding-top:5px; padding-bottom:4px;"><b><%=job_txt_114 %>:</b>&nbsp;
 											</td>
 											<td style="padding-bottom:4px;"><select name="FM_slut_dag" id="FM_slut_dag" style="<%=sltuDatoCol%>">
 										<option value="<%=strDag_slut%>"><%=strDag_slut%></option> 
@@ -5617,20 +5684,36 @@ if len(session("user")) = 0 then
 									   	<option value="30">30</option>
 										<option value="31">31</option></select>&nbsp;
 										
+                                        <%
+                                            if strMrdNavn_slut = "jan" then strMrdNavnTranslate_slut = job_txt_102
+                                            if strMrdNavn_slut = "feb" then strMrdNavnTranslate_slut = job_txt_103
+                                            if strMrdNavn_slut = "mar" then strMrdNavnTranslate_slut = job_txt_104
+                                            if strMrdNavn_slut = "apr" then strMrdNavnTranslate_slut = job_txt_105
+                                            if strMrdNavn_slut = "maj" then strMrdNavnTranslate_slut = job_txt_106
+                                            if strMrdNavn_slut = "jun" then strMrdNavnTranslate_slut = job_txt_107
+                                            if strMrdNavn_slut = "jul" then strMrdNavnTranslate_slut = job_txt_108
+                                            if strMrdNavn_slut = "aug" then strMrdNavnTranslate_slut = job_txt_109
+                                            if strMrdNavn_slut = "sep" then strMrdNavnTranslate_slut = job_txt_110
+                                            if strMrdNavn_slut = "okt" then strMrdNavnTranslate_slut = job_txt_111
+                                            if strMrdNavn_slut = "nov" then strMrdNavnTranslate_slut = job_txt_112
+                                            if strMrdNavn_slut = "dec" then strMrdNavnTranslate_slut = job_txt_113
+                                        %>
+
 										<select name="FM_slut_mrd" id="FM_slut_mrd" style="<%=sltuDatoCol%>">
-										<option value="<%=strMrd_slut%>"><%=strMrdNavn_slut%></option>
-										<option value="1">jan</option>
-									   	<option value="2">feb</option>
-									   	<option value="3">mar</option>
-									   	<option value="4">apr</option>
-									   	<option value="5">maj</option>
-									   	<option value="6">jun</option>
-									   	<option value="7">jul</option>
-									   	<option value="8">aug</option>
-									   	<option value="9">sep</option>
-									   	<option value="10">okt</option>
-									   	<option value="11">nov</option>
-									   	<option value="12">dec</option></select>
+										<option value="<%=strMrd_slut%>"><%=strMrdNavnTranslate_slut%></option>
+										<option value="<%=strMrd%>"><%=strMrdNavn%></option>
+										<option value="1"><%=job_txt_102 %></option>
+									   	<option value="2"><%=job_txt_103 %></option>
+									   	<option value="3"><%=job_txt_104 %></option>
+									   	<option value="4"><%=job_txt_105 %></option>
+									   	<option value="5"><%=job_txt_106 %></option>
+									   	<option value="6"><%=job_txt_107 %></option>
+									   	<option value="7"><%=job_txt_108 %></option>
+									   	<option value="8"><%=job_txt_109 %></option>
+									   	<option value="9"><%=job_txt_110 %></option>
+									   	<option value="10"><%=job_txt_111 %></option>
+									   	<option value="11"><%=job_txt_112 %></option>
+									   	<option value="12"><%=job_txt_113 %></option></select>
 										
 										
 										<select name="FM_slut_aar" id="FM_slut_aar" style="<%=sltuDatoCol%>">
@@ -5657,7 +5740,7 @@ if len(session("user")) = 0 then
 												else
 												chald = ""
 												end if%>
-												<input type="checkbox" name="FM_datouendelig" value="j" <%=chald%>> Aldrig: (1. jan 2044)
+												<input type="checkbox" name="FM_datouendelig" value="j" <%=chald%>> <%=job_txt_115 %>
                                                 <%end if %>
                                                </td>
 										<td style="">&nbsp;</td>
@@ -5666,10 +5749,10 @@ if len(session("user")) = 0 then
                                      <%if lto <> "epi2017" then %>
 									<tr bgcolor="#ffffff">
 										
-										<td colspan=2 style="padding:10px 5px 10px 0px;"><b>Beregn slutdato.</b>
-										 (angiv antal uger jobbet skal løbe over)
+										<td colspan=2 style="padding:10px 5px 10px 0px;"><b><%=job_txt_116 %></b>
+										 (<%=job_txt_117 %>)
 										 <input type="text" name="FM_antaluger" id="FM_antaluger" size="4" style="font-size:9px;">
-										 <input type="button" value="beregn" onClick="beregnuger();" style="font-size:9px;">&nbsp;&nbsp;
+										 <input type="button" value="<%=job_txt_582 %>" onClick="beregnuger();" style="font-size:9px;">&nbsp;&nbsp;
 										</td>
 										<td style="">&nbsp;</td>
 									</tr>
@@ -5684,17 +5767,17 @@ if len(session("user")) = 0 then
                                                 else
                                                 syncslutdatoCHK = ""
                                                 end if %>
-                                                <b>Hold datoer aktuelle:</b>
-                                                 <br />	<input type="checkbox" name="FM_syncslutdato" value="j" <%=syncslutdatoCHK %>> Sync. slutdato, så den følger sidste timereg. / sidste faktura / dd. (ved luk job) 
+                                                <b><%=job_txt_118 %>:</b>
+                                                 <br />	<input type="checkbox" name="FM_syncslutdato" value="j" <%=syncslutdatoCHK %>> <%=job_txt_119 %> 
 
                                         <%end if %>    
 
-                                                  <br />	<input type="checkbox" name="FM_syncaktdatoer" value="j"> Sync. start- og slut- datoer på aktiviteter, så de nedarver fra job.<br />&nbsp;
+                                                  <br />	<input type="checkbox" name="FM_syncaktdatoer" value="j"> <%=job_txt_120 %><br />&nbsp;
                                        </td></tr>
 									
 	<tr bgcolor="#FFFFFF">
         <td colspan=4 style="padding:10px 0px 10px 8px;">
-        <b>Restestimat: (WIP)</b>&nbsp;&nbsp;<input id="FM_restestimat" name="FM_restestimat" type="text" size="6" value="<%=restestimat %>" />&nbsp;
+        <b><%=job_txt_121 %>: (WIP)</b>&nbsp;&nbsp;<input id="FM_restestimat" name="FM_restestimat" type="text" size="6" value="<%=restestimat %>" />&nbsp;
         <select id="FM_stade_tim_proc" name="FM_stade_tim_proc">
            
            <%
@@ -5709,8 +5792,8 @@ if len(session("user")) = 0 then
            end select
             %>
            
-            <option <%=sele0 %> value="0">timer til rest.</option>
-            <option <%=sele1 %> value="1">% afsluttet</option>
+            <option <%=sele0 %> value="0"><%=job_txt_122 %></option>
+            <option <%=sele1 %> value="1">% <%=job_txt_123 %></option>
         </select><br />&nbsp;
        </td>
     </tr>    
@@ -5757,10 +5840,10 @@ if len(session("user")) = 0 then
                             call salgsans_fn()
                              
                             if cint(showSalgsAnv) = 1 then 
-                            jobansvHeaderTxt = "Job- og Salgs -ansvarlige"
+                            jobansvHeaderTxt = job_txt_124
                             selWdt = "80px"
                             else
-                            jobansvHeaderTxt = "Jobansvarlig og jobejer"
+                            jobansvHeaderTxt = job_txt_125
                             selWdt = "240px"       
                             end if
                                     
@@ -5777,8 +5860,8 @@ if len(session("user")) = 0 then
 						<td style="">&nbsp;</td>
 						<td colspan="2" style="padding-left:5px; padding-top:15px;" valign=top><h3><%=jobansvHeaderTxt %>
 						
-						<span style="font-size:9px; font-style:normal; font-weight:normal; line-height:12px;">- Hvis der angives jobansvarlig og / eller jobejer er det kun disse (eller administratorer) der kan 
-						redigere jobbet, og oprette fakturaer på jobbet. Jobmedansvarlig  1-3 bruges til salg og bonus beregninger mm.</span></h3>
+						<span style="font-size:9px; font-style:normal; font-weight:normal; line-height:12px;">- <%=job_txt_126&" " %> 
+						<%=job_txt_127 %></span></h3>
 						
                             <table style="width:100%;"><tr>  <td>
                            
@@ -5793,26 +5876,26 @@ if len(session("user")) = 0 then
 						case 1
 						'jbansImg = "<img src='../ill/ac0019-24.gif' width='24' height='24' alt='Jobansvarlig' border='0'>"
                         if cint(showSalgsAnv) = 1 then 
-						jbansTxt = "Jobansv."
+						jbansTxt = job_txt_230
                         else
-                        jbansTxt = "Jobansvarlig"
+                        jbansTxt = job_txt_023
                         end if
 						jobansField = "jobans1, jobans_proc_1"
 						case 2
 						'jbansImg = "<img src='../ill/ac0020-24.gif' width='24' height='24' alt='Jobejer' border='0'>"
-						jbansTxt = "Jobejer"
+						jbansTxt = job_txt_024
 						jobansField = "jobans2, jobans_proc_2"
 						case 3
 						'jbansImg = "<img src='../ill/blank.gif' width='24' height='24' alt='Jobejer' border='0'>"
-						jbansTxt = "Medansv. 1"
+						jbansTxt = job_txt_128&" 1"
 						jobansField = "jobans3, jobans_proc_3"
 						case 4
 						'jbansImg = "<img src='../ill/blank.gif' width='24' height='24' alt='Jobejer' border='0'>"
-						jbansTxt = "Medansv. 2"
+						jbansTxt = job_txt_128&" 2"
 						jobansField = "jobans4, jobans_proc_4"
 						case 5
 						'jbansImg = "<img src='../ill/blank.gif' width='24' height='24' alt='Jobejer' border='0'>"
-						jbansTxt = "Medansv. 3"
+						jbansTxt = job_txt_128&" 2"
 						jobansField = "jobans5, jobans_proc_5"
 						end select
 						
@@ -5822,7 +5905,7 @@ if len(session("user")) = 0 then
 						<td>
 						<b><%=jbansTxt %>:</b></td><td>
 						&nbsp;&nbsp;<select name="FM_jobans_<%=ja %>" id="FM_jobans_<%=ja %>" style="width:<%=selWdt%>;">
-						<option value="0">Ingen</option>
+						<option value="0"><%=job_txt_129 %></option>
 							<%
 
                             select case lto
@@ -5891,9 +5974,9 @@ if len(session("user")) = 0 then
                                 if oRec("mansat") <> 1 then
                                 select case oRec("mansat")
                                 case 2
-                                opTxt = opTxt & " - Deaktiveret"
+                                opTxt = opTxt & " -" & job_txt_319
                                 case 3 
-                                opTxt = opTxt & " - Passiv"
+                                opTxt = opTxt & " - " & job_txt_320
                                 end select
                                 end if
 
@@ -5927,23 +6010,23 @@ if len(session("user")) = 0 then
 						select case sa
 						case 1
 						'jbansImg = "<img src='../ill/ac0019-24.gif' width='24' height='24' alt='Jobansvarlig' border='0'>"
-						saansTxt = "Salgsan. 1"
+						saansTxt = job_txt_321 & " 1"
 						salgsansField = "salgsans1, salgsans1_proc"
 						case 2
 						'jbansImg = "<img src='../ill/ac0020-24.gif' width='24' height='24' alt='Jobejer' border='0'>"
-						saansTxt = "Salg 2"
+						saansTxt = job_txt_322 & " 2"
 						salgsansField = "salgsans2, salgsans2_proc"
 						case 3
 						'jbansImg = "<img src='../ill/blank.gif' width='24' height='24' alt='Jobejer' border='0'>"
-						saansTxt = "Salg 3"
+						saansTxt = job_txt_322 & " 3"
 						salgsansField = "salgsans3, salgsans3_proc"
 						case 4
 						'jbansImg = "<img src='../ill/blank.gif' width='24' height='24' alt='Jobejer' border='0'>"
-						saansTxt = "Salg 4"
+						saansTxt = job_txt_322 & " 4"
 						salgsansField = "salgsans4, salgsans4_proc"
 						case 5
 						'jbansImg = "<img src='../ill/blank.gif' width='24' height='24' alt='Jobejer' border='0'>"
-						saansTxt = "Salg 5"
+						saansTxt = job_txt_322 & " 5"
 						salgsansField = "salgsans5, salgsans5_proc"
 						end select
 						
@@ -5953,7 +6036,7 @@ if len(session("user")) = 0 then
 						<td>
 						<b><%=saansTxt %>:</b></td><td>
 						&nbsp;&nbsp;<select name="FM_salgsans_<%=sa %>" id="Select4" style="width:<%=selWdt%>;">
-						<option value="0">Ingen</option>
+						<option value="0"><%=job_txt_129 %></option>
 							<%
 							
 							if func <> "red" then
@@ -6017,9 +6100,9 @@ if len(session("user")) = 0 then
                                 if oRec("mansat") <> 1 then
                                 select case oRec("mansat")
                                 case 2
-                                opTxt = opTxt & " - Deaktiveret"
+                                opTxt = opTxt & " -" & job_txt_319
                                 case 3 
-                                opTxt = opTxt & " - Passiv"
+                                opTxt = opTxt & " - " & job_txt_320
                                 end select
                                 end if
 
@@ -6056,7 +6139,7 @@ if len(session("user")) = 0 then
                             if showVAndel = 1 then
                             %>
                             
-                            <input type="text" name="FM_virksomheds_proc" value="<%=formatnumber(virksomheds_proc, 0) %>" style="width:40px;" /> Virksomhedsandel af salg i %
+                            <input type="text" name="FM_virksomheds_proc" value="<%=formatnumber(virksomheds_proc, 0) %>" style="width:40px;" /> <%=job_txt_130 & " %" %>
                             <br />
                             <%else %>
                               <input type="hidden" name="FM_virksomheds_proc" value="<%=formatnumber(virksomheds_proc, 0) %>"/>
@@ -6094,7 +6177,7 @@ if len(session("user")) = 0 then
 
                         end if %>
 
-                        <input type="checkbox" value="1" name="FM_adviser_jobans" <%=advJobansCHK %> />Adviser valgte medarbejdere om at de er tilføjet som jobansvarlig / jobejer.
+                        <input type="checkbox" value="1" name="FM_adviser_jobans" <%=advJobansCHK %> /><%=job_txt_131 %>
 
                        
 						</td>
@@ -6115,11 +6198,11 @@ if len(session("user")) = 0 then
 							<tr>
 								<td style="">&nbsp;</td>
 								<td colspan=2 style="padding-left:5px;">
-                                 <h4>Projektgrupper <span style="font-size:9px; font-style:normal; font-weight:normal; line-height:11px;">- Hvem skal kunne registrere tid på dette job?</span></h4>
+                                 <h4><%=job_txt_132 %> <span style="font-size:9px; font-style:normal; font-weight:normal; line-height:11px;">- <%=job_txt_133 %>?</span></h4>
                                 
 								<% 
-                                uTxt = "Hvis der fjernes en projektgruppe vil realiserede timer"_
-                                &" på medarbejdere der kun er med i denne projektgruppe ikke længere kunne ses ved fakturaoprettelse."
+                                uTxt = job_txt_134 _
+                                &" "&job_txt_135
 								uWdt = 300
 								
 								call infoUnisport(uWdt, uTxt) 
@@ -6163,7 +6246,7 @@ if len(session("user")) = 0 then
 							%>
 							<tr>
 								<td style="">&nbsp;</td>
-								<td valign="top" style="padding-left:5px; width:140px;">Projektgruppe <%=p%>:</td>
+								<td valign="top" style="padding-left:5px; width:140px;"><%=job_txt_136 %> <%=p%>:</td>
 								<td><select name="FM_projektgruppe_<%=p%>" style="width:200px;">
 								<%
 									
@@ -6245,15 +6328,15 @@ if len(session("user")) = 0 then
                                 
                                 
                                
-								<input type="checkbox" name="FM_opdaterprojektgrupper" id="FM_opdaterprojektgrupper" value="1" <%=syncAktProjGrpCHK %>> <b>Synkroniser aktiviteter</b> til at følge valgte projektgrupper. 
+								<input type="checkbox" name="FM_opdaterprojektgrupper" id="FM_opdaterprojektgrupper" value="1" <%=syncAktProjGrpCHK %>> <b><%=job_txt_137 %></b><%=" "&job_txt_138 %> 
 								<br />
                                 <%end if%>
                 
                   <%
                                 if lto = "xxxx" then ' <> execon 20161013 fjernet%>
                                 <br>
-								<input type="checkbox" name="FM_gemsomdefault" id="FM_gemsomdefault" value="1"><b>Skift standard forvalgt projektgruppe</b> til den gruppe der her vælges som projektgruppe 1.
-								<span style="color:#999999;">Gemmes som cookie i 30 dage.</span>
+								<input type="checkbox" name="FM_gemsomdefault" id="FM_gemsomdefault" value="1"><b><%=job_txt_139 %></b><%=" "&job_txt_140 %>
+								<span style="color:#999999;"><%=job_txt_141 %></span>
                                 <%end if %>
 								
                                
@@ -6279,8 +6362,8 @@ if len(session("user")) = 0 then
 
                                  <br /><br />
                               
-								<input type="checkbox" name="FM_forvalgt" id="FM_forvalgt" <%=forvalgCHK %> value="1"><b>Tilføj "Push" job til aktiv-jobliste.</b> 
-                                Gør dette job aktivt på aktiv-joblisten for alle de medarbejdere der er med i de ovenstående valgte projektgrupper. 
+								<input type="checkbox" name="FM_forvalgt" id="FM_forvalgt" <%=forvalgCHK %> value="1"><b><%=job_txt_142 %></b> 
+                                <%=job_txt_143 %> 
                               
                               
                                                                
@@ -6372,10 +6455,10 @@ if len(session("user")) = 0 then
 
                 <tr bgcolor="#FFFFFF">
 								<td colspan=4 style="padding:10px 0px 0px 10px;">
-                                <a href="#" class=vmenu id="a_tild_forr">+ Forretningsområder </a><br />
-                                Forretningsområder bruges bl.a. til at se tidsforbrug på tværs af kunder og job, og til at se hvilke slags opgaver man bruger sin tid på. 
+                                <a href="#" class=vmenu id="a_tild_forr">+ <%=job_txt_144 %> </a><br />
+                                <%=job_txt_145 %> 
                                   <br /><br />
-                                  Alle aktiviteter på dette job tæller altid med i de forretningsområder der er valgt på jobbet. Specifikke forretningsområder kan vælges på den enkelte aktivitet.  
+                                  <%=job_txt_146 %>  
                                   <br /><br />
                               
                                                       
@@ -6454,7 +6537,7 @@ if len(session("user")) = 0 then
                                 <tr><td align="right"> <a href="#" class=vmenu id="a_tild_forr2" style="color:red;">[X]</a></td></tr>
                                 <%end if %>
                             <tr><td valign=top>
-                            <h4>Forretningsområder: <span style="font-size:11px; font-weight:lighter;">(konto)</span></h4>  
+                            <h4><%=job_txt_144 %>: <span style="font-size:11px; font-weight:lighter;">(<%=job_txt_147 %>)</span></h4>  
                                 
                                
                                                             
@@ -6491,7 +6574,7 @@ if len(session("user")) = 0 then
 
                                     %>
                                 <select name="FM_fomr" id="FM_fomr" multiple="multiple" size="12" style="width:380px;">
-                                <option value="0">Ingen valgt</option>
+                                <option value="0"><%=job_txt_148 %></option>
                                     
                                     <%
                                     fa = 0
@@ -6547,8 +6630,8 @@ if len(session("user")) = 0 then
                                 </select>
                                 <br />
                                 <br />
-                                <b>Forvalgt konto på faktura / ERP system</b><br />
-                                Vælg herunder blandt de forretningsområder der har tilknyttet en omsætningskonto, og hvor fakturaer på dette job skal posteres på denne konto:<br />  
+                                <b><%=job_txt_149 %></b><br />
+                                <%=job_txt_150 %>:<br />  
                                 <%=strchkbox %>
 
                                
@@ -6600,8 +6683,8 @@ if len(session("user")) = 0 then
                  <!-- Avanceret indstillinger 2 -->
 				<tr bgcolor="#FFFFFF">
 								<td colspan=4 style="padding:0px 0px 0px 10px;">
-                                <a href="#" class=vmenu id="a_tild_ava">+ Avanceret indstillinger </a><br />
-                                Tildel bla. prioitet, faktura-indstillinger, pre-konditioner, kundeadgang mm.
+                                <a href="#" class=vmenu id="a_tild_ava">+ <%=job_txt_151 %> </a><br />
+                                <%=job_txt_152 %>
 
 								<br /><br />
 
@@ -6614,7 +6697,7 @@ if len(session("user")) = 0 then
                      <tr bgcolor="#FFFFFF">
 				        <td>&nbsp;</td>
                         <td valign=top style="padding-top:30px;" colspan=3>
-                        <h3>Prioitet:</h3></td>
+                        <h3><%=job_txt_153 %>:</h3></td>
                         <td style="">&nbsp;</td>
                     </tr>
                     <tr>
@@ -6647,12 +6730,12 @@ if len(session("user")) = 0 then
 									 %>
 
                                      <input id="prio" name="prio" type="text" value="<%=intprio %>" style="width:40px;" />
-                                     Prioiteter på nuværende aktive job ligger mellem: <b><%=lowestRiskval%> - <%=highestRiskval%></b><br /><br />
-									 <b>-1 = Internt job</b> vises ikke under fakturering og igangværende job.<br />
-                                     <b>-2 = HR job</b> vises i HR mode på timereg. siden<br />
-                                     <b>-3 = Internt job</b> men der skal kunne laves ressouceforecast på dette job. 
+                                     <%=job_txt_154 %>: <b><%=lowestRiskval%> - <%=highestRiskval%></b><br /><br />
+									 <b>-1 =<%=" "&job_txt_155 %></b><%=" "&job_txt_156 %><br />
+                                     <b>-2 =<%=" "&job_txt_157 %></b><%=" "&job_txt_158 %><br />
+                                     <b>-3 =<%=" "&job_txt_159 %></b><%=" "&job_txt_160 %> 
 									 <br /><br />
-                                     -1 / -2 / -3 medfører enkel visning af aktivitetslinjer på timereg. siden, dvs. der bliver ikke vist tidsforbrug, start- og slut -datoer mv. på aktiviteterne. <br /><br />&nbsp;
+                                     -1 / -2 / -3 <%=job_txt_161 %> <br /><br />&nbsp;
 									
 								
 							</td>
@@ -6682,8 +6765,8 @@ if len(session("user")) = 0 then
                            <tr bgcolor="#FFFFFF">
 				        <td>&nbsp;</td>
                         <td valign=top style="padding-top:30px;" colspan=3>
-                        <h3>Pre-konditioner opfyldt:<br /><span style="font-size:11px; font-weight:normal;">
-                        Underleverandør klar, materialer indkøbt mm.</span></h3></td>
+                        <h3><%=job_txt_162 %>:<br /><span style="font-size:11px; font-weight:normal;">
+                        <%=job_txt_163 %></span></h3></td>
                         <td style="">&nbsp;</td>
                     </tr>
                     <tr>
@@ -6691,9 +6774,9 @@ if len(session("user")) = 0 then
 						<td valign=top colspan=3>	
                         
                         <select name="FM_preconditions_met" id="Select1" size="1" style="width:200px;">
-                        <option value="0" <%=preconditions_met_SEL0 %>>Ikke angivet</option>
-                        <option value="1" <%=preconditions_met_SEL1 %>>Ja</option>
-                        <option value="2" <%=preconditions_met_SEL2 %>>Nej - afvent</option>
+                        <option value="0" <%=preconditions_met_SEL0 %>><%=job_txt_164 %></option>
+                        <option value="1" <%=preconditions_met_SEL1 %>><%=job_txt_165 %></option>
+                        <option value="2" <%=preconditions_met_SEL2 %>><%=job_txt_166 %></option>
                         </select>
 									
 					</td>
@@ -6709,7 +6792,7 @@ if len(session("user")) = 0 then
                     if cint(lukafm) = 1000 then%>
 					<tr bgcolor="#FFFFFF">
 						<td style="">&nbsp;</td>
-						<td style="padding-left:5px; padding-top:30px; padding-bottom:4px;" colspan=3><h3>Mulighed for at lukke job fra timereg. siden?</h3>	
+						<td style="padding-left:5px; padding-top:30px; padding-bottom:4px;" colspan=3><h3><%=job_txt_167 %></h3>	
 						<select name="FM_lukafmjob" style="font-size:9px; width:300px;">
 									<%
 
@@ -6730,10 +6813,10 @@ if len(session("user")) = 0 then
 									end select
 									%>
 									
-									<option value="1" <%=lukafmjob1CHK %>>A - Luk job og send mail til jobansvarlig</option>
-									<option value="2" <%=lukafmjob2CHK %>>B - Luk job, opret nyt (kopi) og send mail til jobansvarlig</option>
-                                    <option value="3" <%=lukafmjob1CHK %>>C - Send mail til jobansvarlig, når en medarbejder er færdig med sin del</option>
-									<option value="0" <%=lukafmjob0CHK %>>Ikke mulighed for at afmelde og lukke job fra timreg. siden.</option>
+									<option value="1" <%=lukafmjob1CHK %>>A - <%=job_txt_168 %></option>
+									<option value="2" <%=lukafmjob2CHK %>>B - <%=job_txt_169 %></option>
+                                    <option value="3" <%=lukafmjob1CHK %>>C - <%=job_txt_170 %></option>
+									<option value="0" <%=lukafmjob0CHK %>><%=job_txt_171 %></option>
 								
 									</select>
 									
@@ -6756,7 +6839,7 @@ if len(session("user")) = 0 then
 
                    <tr>
 						<td>&nbsp;</td>
-						<td colspan=3 style="padding:30px 5px 10px 0px;"><h4>Fakturaindstillinger:<br /><span style="font-size:11px; font-weight:lighter;">(Nedarves fra kunde ved joboprettelse)</span></h4>
+						<td colspan=3 style="padding:30px 5px 10px 0px;"><h4><%=job_txt_172 %>:<br /><span style="font-size:11px; font-weight:lighter;">(<%=job_txt_173 %>)</span></h4>
 					 
                             <%'call multible_licensindehavereOn() 
                              'if cint(multible_licensindehavere) = 1 then
@@ -6785,7 +6868,7 @@ if len(session("user")) = 0 then
 
                             <br /><br />
 					  
-							Valuta:<br /><select name="FM_valuta" style="width:380px;">
+							<%=job_txt_296 %>:<br /><select name="FM_valuta" style="width:380px;">
 							<%strSQL = "SELECT id, valuta, valutakode, kurs FROM valutaer WHERE id <> 0 ORDER BY id " 
 							oRec.open strSQL, oConn, 3
 							while not oRec.EOF 
@@ -6794,7 +6877,7 @@ if len(session("user")) = 0 then
 							 else
 							 vSEL = ""
 							 end if%>
-							<option value="<%=oRec("id") %>" <%=vSEL %>><%=oRec("valuta") %> | <%=oRec("valutakode") %> | kurs: <%=oRec("kurs")%></option>
+							<option value="<%=oRec("id") %>" <%=vSEL %>><%=oRec("valuta") %> | <%=oRec("valutakode") %> | <%=job_txt_174 %>: <%=oRec("kurs")%></option>
 							<%
 							oRec.movenext
 							wend
@@ -6803,7 +6886,7 @@ if len(session("user")) = 0 then
 							</select>
 
                             <br /><br />
-                            Moms: <br />
+                            <%=job_txt_175 %>: <br />
 
                            
 
@@ -6829,7 +6912,7 @@ if len(session("user")) = 0 then
         
                 <br /><br />
         
-                Sprog: <br />
+                <%=job_txt_176 %>: <br />
                       <%strSQLsprog = "SELECT id, navn FROM fak_sprog WHERE id <> 0 ORDER BY id " %>
                     <select name="FM_jfak_sprog">
 
@@ -6863,9 +6946,9 @@ if len(session("user")) = 0 then
 	              
                     <tr>
 		            <td style="padding:30px 10px 10px 0px;" colspan=4>
-                    <h3>Skal job være åben for kunde?</h3>
-                    <input type="checkbox" name="FM_kundese" id="FM_kundese" value="1" <%=kundechk%>>&nbsp;<b>Gør job tilgængeligt for kontakt.</b><br>
-		            Hvis tilgængelig for kontakt tilvælges, udsendes der en mail til kontakt-stamdata emailadressen, med link til kontakt loginside.
+                    <h3><%=job_txt_177 %>?</h3>
+                    <input type="checkbox" name="FM_kundese" id="FM_kundese" value="1" <%=kundechk%>>&nbsp;<b><%=job_txt_178 %></b><br>
+		            <%=job_txt_179 %>
 		
 		
 		            <%if func = "opret" then
@@ -6881,16 +6964,16 @@ if len(session("user")) = 0 then
 			            end if
 		            end if%>
 		            <br><br>
-		            <b>Hvis job åbnes for kontakt, hvornår skal registrerede timer så være tilgængelige?</b><br>
-		            <input type="radio" name="FM_kundese_hv" value="0" <%=hvchk1%>>Offentliggør timer, så snart de er indtastet.<br>
-		            <input type="radio" name="FM_kundese_hv" value="1" <%=hvchk2%>>Offentliggør først timer når jobbet er lukket. (afsluttet/godkendt)
+		            <b><%=job_txt_180 %>?</b><br>
+		            <input type="radio" name="FM_kundese_hv" value="0" <%=hvchk1%>><%=job_txt_181 %><br>
+		            <input type="radio" name="FM_kundese_hv" value="1" <%=hvchk2%>><%=job_txt_182 %>
 		            <br>&nbsp;
                     </td></tr>
                   <%end if%>
                 
                 
                 
-                
+                 
                 
                    </table>
                 
@@ -6920,12 +7003,12 @@ end select '*** Step %>
 	
 	
 	<%if func = "red" then
-	submtxt = "Opdater & Afslut"
+	submtxt = job_txt_183&" & "&job_txt_184
 	else
         if step = "2" then
-	    submtxt = "Opret & Afslut"
+	    submtxt = job_txt_185&" & "&job_txt_184
         else
-        submtxt = "Opret"
+        submtxt = job_txt_185
         end if
 	end if %>
 	
@@ -7019,7 +7102,7 @@ end select '*** Step %>
 	<tr>
 	<tr bgcolor="#5582D2">
 		<td width="8" valign=top><img src="../ill/blank.gif" width="8" height="30" alt="" border="0"></td>
-		<td colspan=4 style="padding-top:3px;"><h3 class="hv">Milepæle & Betalings terminer</h3></td>
+		<td colspan=4 style="padding-top:3px;"><h3 class="hv"><%=job_txt_186 %></h3></td>
 		<td align=right valign=top><img src="../ill/blank.gif" width="8" height="30" alt="" border="0"></td>
 	</tr>
 
@@ -7035,9 +7118,9 @@ end select '*** Step %>
         <%if m = 0 then %>
         <tr bgcolor="#FFFFFF">
 		<td valign="top" height=10>&nbsp;</td>
-		<td colspan=3><br /><h4>Milepæle</h4></td>
+		<td colspan=3><br /><h4><%=job_txt_187 %></h4></td>
         <td align=right>
-        	<a href="javascript:popUp('milepale.asp?menu=job&func=opr&jid=<%=id%>&rdir=redjobcontionue&type=0','650','500','250','120');" target="_self"><span style="color:green; font-size:16px;"><b>+</b></span> Opret ny milepæl</a>
+        	<a href="javascript:popUp('milepale.asp?menu=job&func=opr&jid=<%=id%>&rdir=redjobcontionue&type=0','650','500','250','120');" target="_self"><span style="color:green; font-size:16px;"><b>+</b></span> <%=job_txt_188 %></a>
         </td>
 		<td valign="top" align=right>&nbsp;</td>
 	    </tr>
@@ -7045,16 +7128,16 @@ end select '*** Step %>
 			<td valign="top" height=25 style="border-bottom:1px #CCCCCC solid; padding:4px 4px 2px 4px;">&nbsp;</td>
 			<td valign="top" style="border-bottom:1px #CCCCCC solid; padding:4px 4px 2px 4px;"">
 			<b><%=formatdatetime(strTdato, 1)%></b></td>
-			<td valign="top" style="border-bottom:1px #CCCCCC solid; padding:4px 4px 2px 4px;"">Job startdato</td>
+			<td valign="top" style="border-bottom:1px #CCCCCC solid; padding:4px 4px 2px 4px;""><%=job_txt_189 %></td>
 			<td valign="top" style="border-bottom:1px #CCCCCC solid; padding:4px 4px 2px 4px;"" colspan=2>&nbsp;</td>
 			<td valign="top" style="border-bottom:1px #CCCCCC solid; padding:4px 4px 2px 4px;"" align=right>&nbsp;</td>
 		</tr>
         <%else %>
          <tr bgcolor="#FFFFFF">
 		<td valign="top" height=10>&nbsp;</td>
-		<td colspan=3><br /><h4>Terminer</h4></td>
+		<td colspan=3><br /><h4><%=job_txt_190 %></h4></td>
         <td align=right>
-        	<a href="javascript:popUp('milepale.asp?menu=job&func=opr&jid=<%=id%>&rdir=redjobcontionue&type=1','650','500','250','120');" target="_self"><span style="color:green; font-size:16px;"><b>+</b></span> Opret ny termin</a>
+        	<a href="javascript:popUp('milepale.asp?menu=job&func=opr&jid=<%=id%>&rdir=redjobcontionue&type=1','650','500','250','120');" target="_self"><span style="color:green; font-size:16px;"><b>+</b></span> <%=job_txt_191 %></a>
         </td>
 		<td valign="top" align=right>&nbsp;</td>
 	    </tr>
@@ -7125,7 +7208,7 @@ end select '*** Step %>
 		<tr bgcolor="<%=bgthis %>">
 			<td valign="top" style="border-bottom:1px #CCCCCC solid; padding:4px 4px 2px 4px;"><img src="../ill/blank.gif" width="1" height="25" alt="" border="0"></td>
 			<td valign="top" style="border-bottom:1px #CCCCCC solid; padding:4px 4px 2px 4px;" height=25><b><%=formatdatetime(strUdato, 1)%></b></td>
-			<td valign="top" style="border-bottom:1px #CCCCCC solid; padding:4px 4px 2px 4px;">Job slutdato</td>
+			<td valign="top" style="border-bottom:1px #CCCCCC solid; padding:4px 4px 2px 4px;"><%=job_txt_192 %></td>
 			<td valign="top" style="border-bottom:1px #CCCCCC solid; padding:4px 4px 2px 4px;" colspan=2>&nbsp;</td>
 			<td valign="top" style="border-bottom:1px #CCCCCC solid; padding:4px 4px 2px 4px;" align=right><img src="../ill/blank.gif" width="1" height="25" alt="" border="0"></td>
 		</tr>
@@ -7187,9 +7270,9 @@ end select '*** Step %>
 	<tr>
 		<td colspan=4 bgcolor="#ffffff" height="100" style="border:1px #003399 solid; padding:20px;">
 		<img src="../ill/alert_lille.gif" width="22" height="19" alt="" border="0">&nbsp;<font class=error><b>Fejl!</b></font><br>
-		Du har ikke <b>rettigheder</b> til at redigere dette job. Du skal enten være jobansvarlig, 
-		eller have administrator rettigheder for at redigere dette job.<br><br>
-		Hvis alle medarbejdere skal kunne redigere et job <b>må der ikke</b> være valgt nogen jobansvarlige.
+		<%=job_txt_193&" " %><b><%=job_txt_194 %></b><%=" "&job_txt_195 %> 
+		<%=job_txt_196 %><br><br>
+		<%=job_txt_197&" " %><b><%=job_txt_198 %></b> <%=job_txt_199 %>
 		<br>
 		<br>
 	<a href="Javascript:history.back()"><img src="../ill/pil_left.gif" width="22" height="22" alt="" border="0"></a>
@@ -7268,7 +7351,7 @@ end select '*** Step %>
 	<table cellpadding=0 cellspacing=5 border=0 width=100%><tr><td>
 	<img src="../ill/outzource_logo_200.gif" />
 	<br />
-	Forventet loadtid: 5-45 sek. <br />(ved mere end 1000 job)
+	<%=job_txt_200 %> <br />(<%=job_txt_201 %>)
 	</td><td align=right style="padding-right:40px;">
 	<img src="../inc/jquery/images/ajax-loader.gif" />
 	
@@ -7622,9 +7705,9 @@ end select '*** Step %>
     <table border=0 cellspacing=0 cellpadding=0>
     <form action="jobs.asp?menu=job&shokselector=1&frompost=1" method="post" name="jobnr" id="jobnr">
 	<tr>
-		<td colspan=2><b>Kunde:</b>&nbsp;&nbsp;
+		<td colspan=2><b><%=job_txt_202 %>:</b>&nbsp;&nbsp;
 		<select name="FM_kunde" id="FM_kunde" style="width:380px;" onchange="submit();">
-		<option value="0">Alle <%=writethis%></option>
+		<option value="0"><%=job_txt_002 %> <%=writethis%></option>
 		<%
 				strSQL = "SELECT Kkundenavn, Kkundenr, Kid FROM kunder WHERE ketype <> 'e' ORDER BY Kkundenavn"
 				oRec.open strSQL, oConn, 3
@@ -7649,9 +7732,9 @@ end select '*** Step %>
 
     <tr>
     <input type="hidden" value="<%=hd_kpers %>" name="FM_hd_kpers" id="FM_hd_kpers" />
-		<td colspan=2 style="padding:5px 2px 2px 0px;"><b>Kontaktperson:</b>&nbsp;&nbsp;
+		<td colspan=2 style="padding:5px 2px 2px 0px;"><b><%=job_txt_203 %>:</b>&nbsp;&nbsp;
 		<select name="FM_kundekpers" id="FM_kundekpers" style="width:342px;">
-		<option value="0">Alle (vælg kontakt for at se kontaktpersoner)</option>
+		<option value="0"><%=job_txt_002 & " " %>(<%=job_txt_204 %>)</option>
 		</select>
         </td>
 	</tr>
@@ -7676,9 +7759,9 @@ end select '*** Step %>
 	%>
 	
     <br /><br />
-	<b>Jobansvarlig:</b> (1 ell. 2)&nbsp;&nbsp; 
+	<b><%=job_txt_023 %>:</b> (<%=job_txt_206 %>)&nbsp;&nbsp; 
 	<select name="FM_medarb_jobans" id="FM_medarb_jobans" style="width:310px;">
-            <option value="0">Alle (ignorer)</option>
+            <option value="0"><%=job_txt_002 & " " %>(<%=job_txt_205 %>)</option>
             <%
             mNavn = "Alle"
             
@@ -7709,7 +7792,7 @@ end select '*** Step %>
         </select>
 	</td></tr>
     <tr><td colspan=2><br />
-    <b>Projektgrupper</b>: (vis kun job hvor valgte projektgruppe er tilknyttet..)<br />
+    <b><%=job_txt_132 %></b>: (<%=job_txt_207 %>..)<br />
     <select  name="FM_prjgrp" id="FM_prjgrp" style="width:433px;">
     <%call progrupperIdNavn(prjgrp) %>
     
@@ -7719,19 +7802,19 @@ end select '*** Step %>
    
 
 	<tr bgcolor="#FFFFFF">
-		<td colspan=2><br /><b>Søg på jobnr, jobnavn, rekv.nr ell. kunde:</b><br />
+		<td colspan=2><br /><b><%=job_txt_208 %>:</b><br />
 		<input type="text" name="jobnr_sog" id="jobnr_sog" value="<%=show_jobnr_sog%>" style="width:433px; border:2px #6CAE1C solid;">&nbsp;
 		<br />
-        (% = wildcard) Brug ";" semikolon, ">", "<" ell. "--" (dobbelte) til at søge efter jobnr i et interval.<br />
+        (% = wildcard) <%=job_txt_209 %> ";" <%=job_txt_210 %>, ">", "<" <%=job_txt_211 %> "--" (<%=job_txt_212 %>) <%=job_txt_213 %><br />
         
-        <input id="FM_sogakt" name="FM_sogakt" type="checkbox" value="1" <%=sogaktCHK%> /> Vis kun job hvor søgekriterie indgår i en aktivitet på jobbet. 
+        <input id="FM_sogakt" name="FM_sogakt" type="checkbox" value="1" <%=sogaktCHK%> /> <%=job_txt_214 %> 
         <br /><br /><br />
         <div style="border:1px #CCCCCC solid; padding:5px;">
         <input type="checkbox" name="FM_vis_timepriser" <%=vis_timepriserCHK %> value="1" />
-        <b>Vis som liste med medarbejder-timepriser</b> (maks. 10000 linier)
+        <b><%=job_txt_215 %></b> (<%=job_txt_216 %>)
         <br />
-        Sorter efter: <input type="radio" value="0" name="FM_sorter_tp" <%=sorttpCHK0 %> /> Aktiviteter, ell.
-        &nbsp;<input type="radio" value="1" name="FM_sorter_tp" <%=sorttpCHK1 %> />  Medarbejdere
+        <%=job_txt_217 %>: <input type="radio" value="0" name="FM_sorter_tp" <%=sorttpCHK0 %> /> <%=job_txt_218 %>
+        &nbsp;<input type="radio" value="1" name="FM_sorter_tp" <%=sorttpCHK1 %> />  <%=job_txt_219 %>
         </div>
         <br /><br />&nbsp;
 		</td>
@@ -7748,7 +7831,7 @@ end select '*** Step %>
     <table border=0 cellspacing=0 cellpadding=0>
 
      <tr><td colspan=2>
-         <b>Forretningsområder:</b> <!--<%=strFomr_rel %> <%=left(strFomr_Gblnavn, 75) %>--><br />
+         <b><%=job_txt_144 %>:</b> <!--<%=strFomr_rel %> <%=left(strFomr_Gblnavn, 75) %>--><br />
 
                               
                                 <%
@@ -7762,7 +7845,7 @@ end select '*** Step %>
                                 f0sel = ""
                                 end if%>
 
-                                <option value="#0#" <%=f0sel %>>Alle (ignorer)</option>
+                                <option value="#0#" <%=f0sel %>><%=job_txt_002 &" " %>(<%=job_txt_205 %>)</option>
                                     
                                     <%oRec.open strSQLf, oConn, 3
                                     while not oRec.EOF
@@ -7785,39 +7868,39 @@ end select '*** Step %>
     </td></tr>
 
 	<tr>
-		<td colspan=2 valign=top style="padding-top:15px;"><b>Status filter:</b><br />
+		<td colspan=2 valign=top style="padding-top:15px;"><b><%=job_txt_220 %>:</b><br />
        
 		
-        <input type="CHECKBOX" name="filt" value="1" <%=chk1%>/> Aktive<br />
-        <input type="CHECKBOX" name="filt" value="2" <%=chk2%>/> Passive / Til fakturering<br />
-        <input type="CHECKBOX" name="filt" value="3" <%=chk3%>/> Tilbud<br />
-        <input type="CHECKBOX" name="filt" value="4" <%=chk4%>/> Gennemsyn<br />
-        <input type="CHECKBOX" name="filt" value="0" <%=chk0%>/> Lukkede<br />
+        <input type="CHECKBOX" name="filt" value="1" <%=chk1%>/> <%=job_txt_221 %><br />
+        <input type="CHECKBOX" name="filt" value="2" <%=chk2%>/> <%=job_txt_222 %><br />
+        <input type="CHECKBOX" name="filt" value="3" <%=chk3%>/> <%=job_txt_223 %><br />
+        <input type="CHECKBOX" name="filt" value="4" <%=chk4%>/> <%=job_txt_224 %><br />
+        <input type="CHECKBOX" name="filt" value="0" <%=chk0%>/> <%=job_txt_225 %><br />
 
 		</td>
 	</tr>
 	<tr>
-		<td colspan=2><br /><br /><b>Er job tilknyttet en aftale?</b><br />
-		<input type="radio" name="aftfilt" value="visalle" <%=chk8%>>&nbsp;Vis alle&nbsp;&nbsp;
-		<input type="radio" name="aftfilt" value="serviceaft" <%=chk6%>>&nbsp;Ja&nbsp;&nbsp;
-		<input type="radio" name="aftfilt" value="ikkeserviceaft" <%=chk7%>>&nbsp;Nej&nbsp;&nbsp;
+		<td colspan=2><br /><br /><b><%=job_txt_226 %>?</b><br />
+		<input type="radio" name="aftfilt" value="visalle" <%=chk8%>>&nbsp;<%=job_txt_323 %>&nbsp;&nbsp;
+		<input type="radio" name="aftfilt" value="serviceaft" <%=chk6%>>&nbsp;<%=job_txt_018 %>&nbsp;&nbsp;
+		<input type="radio" name="aftfilt" value="ikkeserviceaft" <%=chk7%>>&nbsp;<%=job_txt_019 %>&nbsp;&nbsp;
 		</td>
 	</tr>
    
 	<tr>
 		<td colspan=2><br /><br />
 
-		<b>Vis kun job med slutdato i følgende periode:</b><br /> 
-            Nej <input type="radio" name="usedatokri" value="n" <%=datoKriNej%>><br />
-            Ja:
-		<input type="radio" name="usedatokri" value="j" <%=datoKriJa%>> <span style="font-size:9px; color:#999999;">(Sorterer efter slutdato)</span> <br />
+		<b><%=job_txt_227 %>:</b><br /> 
+            <%=job_txt_019 %> <input type="radio" name="usedatokri" value="n" <%=datoKriNej%>><br />
+            <%=job_txt_018 %>:
+		<input type="radio" name="usedatokri" value="j" <%=datoKriJa%>> <span style="font-size:9px; color:#999999;">(<%=job_txt_228 %>)</span> <br />
 		<table width=100% cellpadding=0 cellspacing=0>
 			<tr><!--#include file="inc/weekselector_b.asp"--></tr>
 		</table>
 		</td>
     </tr>
     <tr>
-		<td colspan=2 align=right valign=bottom><br /><br /><br /><br /><input id="Submit1" type="submit" value="Vis job >>"/>
+		<td colspan=2 align=right valign=bottom><br /><br /><br /><br /><input id="Submit1" type="submit" value="<%=job_txt_229 %> >>"/>
             &nbsp;</td>
 	</tr>
 	</form>
@@ -7898,32 +7981,32 @@ end select '*** Step %>
 	<%sub tabletop%>
 	
 	<tr bgcolor="#5582D2">
-		<td class='alt' valign=bottom style="width:200px;"><b>Job&nbsp;/&nbsp;Jobansv.<br />Kunde&nbsp;/&nbsp;Per.</b></td>
-		<td class='alt' style="padding-right:10px;" valign=bottom><b>Aktiviteter</b></td>
-        <td class='alt' style="padding-right:10px;" valign=bottom><b>Forretningsomr.</b></td>
-        <td class='alt' valign=bottom style="width:150px; padding-left:20px;"><b>Realiseret %</b><br />(heraf fakturerbare)</td>
-		<td class='alt' valign=bottom style="padding-right:5px; white-space:nowrap;" align=right><b>Brutto oms</b><br />(Budget)</td>
-		<td align=right style="padding-right:5px;" valign=bottom class=alt style="width:100px;"><b>Timer forkalk.</b><br>
-		Realiseret<br>
-		<b>Balance</b></td>
-		<td class='alt' valign=bottom style="padding-left:5px;"><b>Status</b>&nbsp;
+		<td class='alt' valign=bottom style="width:200px;"><b><%=job_txt_022 %>&nbsp;/&nbsp;<%=job_txt_230 %><br /><%=job_txt_021 %>&nbsp;/&nbsp;<%=job_txt_231 %></b></td>
+		<td class='alt' style="padding-right:10px;" valign=bottom><b><%=job_txt_232 %></b></td>
+        <td class='alt' style="padding-right:10px;" valign=bottom><b><%=job_txt_233 %></b></td>
+        <td class='alt' valign=bottom style="width:150px; padding-left:20px;"><b><%=job_txt_234 %> %</b><br />(<%=job_txt_235 %>)</td>
+		<td class='alt' valign=bottom style="padding-right:5px; white-space:nowrap;" align=right><b><%=job_txt_236 %></b><br />(<%=job_txt_237 %>)</td>
+		<td align=right style="padding-right:5px;" valign=bottom class=alt style="width:100px;"><b><%=job_txt_238 %></b><br>
+		<%=job_txt_239 %><br>
+		<b><%=job_txt_240 %></b></td>
+		<td class='alt' valign=bottom style="padding-left:5px;"><b><%=job_txt_241 %></b>&nbsp;
 
    <table cellpadding=0 cellspacing=0 border=0 width="100">
        
-   <tr><td style="font-size:9px; color:#CCCCCC;"><input type="radio" name="st_sel" value="1" id="st_cls_1" />Aktiv</td></tr>
-   <tr><td style="font-size:9px; color:#CCCCCC;"><input type="radio" name="st_sel"  value="2" id="st_cls_2" />Passiv/Fak.</td></tr>  
-   <tr><td style="font-size:9px; color:#CCCCCC;"><input type="radio" name="st_sel"  value="3" id="st_cls_3"/>Tilbud</td></tr>  
-   <tr><td style="font-size:9px; color:#CCCCCC;"><input type="radio" name="st_sel" value="4" id="st_cls_4" />Gen.syn</td></tr> 
-   <tr><td style="font-size:9px; color:#CCCCCC;"><input type="radio" name="st_sel" value="0" id="st_cls_0" />Lukket</td></tr> 
+   <tr><td style="font-size:9px; color:#CCCCCC;"><input type="radio" name="st_sel" value="1" id="st_cls_1" /><%=job_txt_242 %></td></tr>
+   <tr><td style="font-size:9px; color:#CCCCCC;"><input type="radio" name="st_sel"  value="2" id="st_cls_2" /><%=job_txt_243 %></td></tr>  
+   <tr><td style="font-size:9px; color:#CCCCCC;"><input type="radio" name="st_sel"  value="3" id="st_cls_3"/><%=job_txt_244 %></td></tr>  
+   <tr><td style="font-size:9px; color:#CCCCCC;"><input type="radio" name="st_sel" value="4" id="st_cls_4" /><%=job_txt_245 %></td></tr> 
+   <tr><td style="font-size:9px; color:#CCCCCC;"><input type="radio" name="st_sel" value="0" id="st_cls_0" /><%=job_txt_246 %></td></tr> 
 	
   </table>	
             
             </td>
-		<td class='alt' valign=bottom align=center style="padding-left:5px; width:100px;"><b>Funktioner</b></td>
-		<td class='alt' valign=bottom style="width:160px;"><b>Faktura hist.</b><br />
-        Faktisk timepris<br />
-        <span style="font-size:9px; line-height:10px; color:#CCCCCC;">Faktureret beløb <br />(ekskl. mat. og km.) <br />/ real. timer</span></td>
-		<td class='alt' valign=bottom colspan=2><b>Projektgrupper</b>
+		<td class='alt' valign=bottom align=center style="padding-left:5px; width:100px;"><b><%=job_txt_247 %></b></td>
+		<td class='alt' valign=bottom style="width:160px;"><b><%=job_txt_248 %></b><br />
+        <%=job_txt_249 %><br />
+        <span style="font-size:9px; line-height:10px; color:#CCCCCC;"><%=job_txt_250 %> <br />(<%=job_txt_251 %>) <br />/ <%=job_txt_252 %></span></td>
+		<td class='alt' valign=bottom colspan=2><b><%=job_txt_132 %></b>
 		</td>
 		
     </tr>
@@ -8249,9 +8332,9 @@ end select '*** Step %>
 	
 
     if oRec("fastpris") = 1 then
-    strFasptpris = "Fastpris"
+    strFasptpris = job_txt_324
     else
-    strFasptpris = "Lbn. timer"
+    strFasptpris = job_txt_325
     end if
 
 
@@ -8355,15 +8438,44 @@ end select '*** Step %>
                          oRec6.close
 
                          %>
-                         <span style="color:#8caae6; font-size:9px;"><br />Kontaktpers.: <%=kpersNavn %></span>
+                         <span style="color:#8caae6; font-size:9px;"><br /><%=job_txt_253 %>: <%=kpersNavn %></span>
                          <%
 
                          end if
                          
                          %>
 							
+                        <%
+
+                            if month(oRec("jobstartdato")) = 1 then jobstartdatoMonthTxt = job_txt_588 end if
+                            if month(oRec("jobstartdato")) = 2 then jobstartdatoMonthTxt = job_txt_589 end if
+                            if month(oRec("jobstartdato")) = 3 then jobstartdatoMonthTxt = job_txt_590 end if
+                            if month(oRec("jobstartdato")) = 4 then jobstartdatoMonthTxt = job_txt_591 end if
+                            if month(oRec("jobstartdato")) = 5 then jobstartdatoMonthTxt = job_txt_592 end if
+                            if month(oRec("jobstartdato")) = 6 then jobstartdatoMonthTxt = job_txt_593 end if
+                            if month(oRec("jobstartdato")) = 7 then jobstartdatoMonthTxt = job_txt_594 end if
+                            if month(oRec("jobstartdato")) = 8 then jobstartdatoMonthTxt = job_txt_595 end if
+                            if month(oRec("jobstartdato")) = 9 then jobstartdatoMonthTxt = job_txt_596 end if
+                            if month(oRec("jobstartdato")) = 10 then jobstartdatoMonthTxt = job_txt_597 end if
+                            if month(oRec("jobstartdato")) = 11 then jobstartdatoMonthTxt = job_txt_598 end if
+                            if month(oRec("jobstartdato")) = 12 then jobstartdatoMonthTxt = job_txt_599 end if
+
+                            if month(oRec("jobslutdato")) = 1 then jobslutdatoMonthTxt = job_txt_588 end if
+                            if month(oRec("jobslutdato")) = 2 then jobslutdatoMonthTxt = job_txt_589 end if
+                            if month(oRec("jobslutdato")) = 3 then jobslutdatoMonthTxt = job_txt_590 end if
+                            if month(oRec("jobslutdato")) = 4 then jobslutdatoMonthTxt = job_txt_591 end if
+                            if month(oRec("jobslutdato")) = 5 then jobslutdatoMonthTxt = job_txt_592 end if
+                            if month(oRec("jobslutdato")) = 6 then jobslutdatoMonthTxt = job_txt_593 end if
+                            if month(oRec("jobslutdato")) = 7 then jobslutdatoMonthTxt = job_txt_594 end if
+                            if month(oRec("jobslutdato")) = 8 then jobslutdatoMonthTxt = job_txt_595 end if
+                            if month(oRec("jobslutdato")) = 9 then jobslutdatoMonthTxt = job_txt_596 end if
+                            if month(oRec("jobslutdato")) = 10 then jobslutdatoMonthTxt = job_txt_597 end if
+                            if month(oRec("jobslutdato")) = 11 then jobslutdatoMonthTxt = job_txt_598 end if
+                            if month(oRec("jobslutdato")) = 12 then jobslutdatoMonthTxt = job_txt_599 end if
+
+                        %>
 						
-	<br><span style="font-size:9px;"><%=formatdatetime(oRec("jobstartdato"), 1)%> - <%=formatdatetime(oRec("jobslutdato"), 1)%></span>
+	<br><span style="font-size:9px;"><%=day(oRec("jobstartdato"))&". "& jobstartdatoMonthTxt &" "& year(oRec("jobstartdato")) %> - <%=day(oRec("jobslutdato"))&". "& jobslutdatoMonthTxt &" "& year(oRec("jobslutdato")) %></span>
 	
     
 	<% 
@@ -8371,7 +8483,7 @@ end select '*** Step %>
     %>
     <span style="font-size:9px; color:#999999;">
     <%
-	Response.Write "<br>Rekvnr.: "& oRec("rekvnr") 
+	Response.Write "<br>"&job_txt_254&": "& oRec("rekvnr") 
     %>
      </span>
     <%
@@ -8380,7 +8492,7 @@ end select '*** Step %>
   
 	if len(trim(oRec("aftnavn"))) <> 0 then
     %><span style="font-size:9px; background-color:#FFFFe1; color:#000000;"><%
-	Response.Write "<br>Aftale: "& oRec("aftnavn") 
+	Response.Write "<br>"&job_txt_255&": "& oRec("aftnavn") 
     %>
      </span>
     <%
@@ -8388,7 +8500,7 @@ end select '*** Step %>
 	
 	if oRec("jobstatus") = 3 then
     %><span style="font-size:9px; background-color:#ffdfdf; color:#000000;"><%
-	Response.Write "<br>Tilbud: "& oRec("tilbudsnr") &" ("& oRec("sandsynlighed") &" %)"
+	Response.Write "<br>"&job_txt_256&": "& oRec("tilbudsnr") &" ("& oRec("sandsynlighed") &" %)"
     %>
      </span>
     <%
@@ -8399,9 +8511,9 @@ end select '*** Step %>
       case 0
     preconditions_met_Txt = ""
       case 1
-    preconditions_met_Txt = "<br><span style='color:#6CAE1C; font-size:10px; background:#DCF5BD;'>Pre-konditioner opfyldt</span>"
+    preconditions_met_Txt = "<br><span style='color:#6CAE1C; font-size:10px; background:#DCF5BD;'>"&job_txt_257&"</span>"
     case 2
-    preconditions_met_Txt = "<br><span style='color:red; font-size:10px; background:pink;'>Pre-konditioner ikke opfyldt!</span>"
+    preconditions_met_Txt = "<br><span style='color:red; font-size:10px; background:pink;'>"&job_txt_258&"!</span>"
     case else
     preconditions_met_Txt = ""
     end select
@@ -8413,7 +8525,7 @@ end select '*** Step %>
 	&nbsp;</td>
 	
         <td valign=top style="padding:4px 10px 0px 5px;">
-            Aktiviteter (aktive)
+            <%=job_txt_259 %>
 		 <%
 		'********* Aktiviteter ****
 		if editok = 1 then%>
@@ -8444,7 +8556,7 @@ end select '*** Step %>
 		<%if proaf <> 0 then %>
 		
 		
-		<div style="font-size:9px; color:#999999,">Real.:
+		<div style="font-size:9px; color:#999999,"><%=job_txt_260 %>:
 		<span style="width:<%=cint(left(projektcomplt, 3))%>px; background-color:<%=bgdiv%>; height:10px; padding:2px 0px 2px 2px; font-size:9px;">
 		<%if showprojektcomplt > 0 then%>
 		<%=formatpercent(showprojektcomplt/100, 0)%>
@@ -8452,7 +8564,7 @@ end select '*** Step %>
 		</span>
         </div>
 
-        <div style="font-size:9px; color:#999999;">Fakt.: 
+        <div style="font-size:9px; color:#999999;"><%=job_txt_617 &":" %>
         <span style="width:<%=cint(left(projektcompltFakbare, 3))%>px; background-color:#CCCCCC; color:#000000; height:10px; padding:2px 0px 2px 2px; font-size:9px;">
 		<%if showprojektcompltFakbare > 0 then%>
 		<%=formatpercent(showprojektcompltFakbare/100, 0)%>
@@ -8473,11 +8585,11 @@ end select '*** Step %>
 		<%=formatnumber(oRec("jo_bruttooms"), 2) &" "& valutaKode_CCC %> 
 		</td>
 		
-		<td align=right valign=top style="padding:4px 15px 4px 4px;" class=lille>Forkalk: <%=formatnumber(budgettimertot)%><br>
-		Realiseret:  <%=formatnumber(proaf)%><br>
-        <span style="color:#999999;">Heraf fakturerbar.: <%=formatnumber(realfakbare, 2) %></span> <br />
+		<td align=right valign=top style="padding:4px 15px 4px 4px;" class=lille><%=job_txt_261 %>: <%=formatnumber(budgettimertot)%><br>
+		<%=job_txt_239 %>:  <%=formatnumber(proaf)%><br>
+        <span style="color:#999999;"><%=job_txt_262 %>: <%=formatnumber(realfakbare, 2) %></span> <br />
         -----------------------<br />
-        Bal. = <%=formatnumber(restt)%><br />
+        <%=job_txt_263 %> = <%=formatnumber(restt)%><br />
         <span style="color:#999999;"><%=formatnumber(resttfakbare) %></span>
         =====================
 		</td>
@@ -8531,11 +8643,11 @@ end select '*** Step %>
 		</select>
         -->
         
-        <input type="radio" class="FM_listestatus_1" name="FM_listestatus_<%=oRec("id")%>" value="1" id="FM_listestatus_1_<%=oRec("id")%>" <%=stCHK1%>/><span style="color:<%=stBgcol1%>; font-size:9px;">Aktiv</span><br />
-        <input type="radio" class="FM_listestatus_2" name="FM_listestatus_<%=oRec("id")%>" value="2" id="FM_listestatus_2_<%=oRec("id")%>" <%=stCHK2%>/><span style="color:<%=stBgcol2%>; font-size:9px;">Passiv/Fak.</span><br />
-        <input type="radio" class="FM_listestatus_3" name="FM_listestatus_<%=oRec("id")%>" value="3" id="FM_listestatus_3_<%=oRec("id")%>" <%=stCHK3%>/><span style="color:<%=stBgcol3%>; font-size:9px;">Tilbud<br />
-        <input type="radio" class="FM_listestatus_4" name="FM_listestatus_<%=oRec("id")%>" value="4" id="FM_listestatus_4_<%=oRec("id")%>" <%=stCHK4%>/><span style="color:<%=stBgcol4%>; font-size:9px;">Gen.syn</span><br />
-        <input type="radio" class="FM_listestatus_0" name="FM_listestatus_<%=oRec("id")%>" value="0" id="FM_listestatus_0_<%=oRec("id")%>" <%=stCHK0%>/><span style="color:<%=stBgcol0%>; font-size:9px;">Lukket <br /><%=lkDato %></span>
+        <input type="radio" class="FM_listestatus_1" name="FM_listestatus_<%=oRec("id")%>" value="1" id="FM_listestatus_1_<%=oRec("id")%>" <%=stCHK1%>/><span style="color:<%=stBgcol1%>; font-size:9px;"><%=job_txt_242 %></span><br />
+        <input type="radio" class="FM_listestatus_2" name="FM_listestatus_<%=oRec("id")%>" value="2" id="FM_listestatus_2_<%=oRec("id")%>" <%=stCHK2%>/><span style="color:<%=stBgcol2%>; font-size:9px;"><%=job_txt_243 %></span><br />
+        <input type="radio" class="FM_listestatus_3" name="FM_listestatus_<%=oRec("id")%>" value="3" id="FM_listestatus_3_<%=oRec("id")%>" <%=stCHK3%>/><span style="color:<%=stBgcol3%>; font-size:9px;"><%=job_txt_244 %><br />
+        <input type="radio" class="FM_listestatus_4" name="FM_listestatus_<%=oRec("id")%>" value="4" id="FM_listestatus_4_<%=oRec("id")%>" <%=stCHK4%>/><span style="color:<%=stBgcol4%>; font-size:9px;"><%=job_txt_245 %></span><br />
+        <input type="radio" class="FM_listestatus_0" name="FM_listestatus_<%=oRec("id")%>" value="0" id="FM_listestatus_0_<%=oRec("id")%>" <%=stCHK0%>/><span style="color:<%=stBgcol0%>; font-size:9px;"><%=job_txt_246 %> <br /><%=lkDato %></span>
 
 		<%else%>
 		<%=stNavn%>
@@ -8558,8 +8670,8 @@ end select '*** Step %>
 		<td valign=top style="padding:4px 5px 0px 5px; white-space:nowrap;">
 		<%if editok = 1 then %>
 		<a href="job_print.asp?id=<%=oRec("id")%>" class=rmenu>Print / PDF >></a><br />
-		<a href="job_kopier.asp?func=kopier&id=<%=oRec("id")%>&fm_kunde=<%=oRec("kid")%>&filt=<%=request("filt")%>" class=rmenu>Kopier job >></a><br />
-         <a href="materialer_indtast.asp?id=<%=oRec("id")%>&fromsdsk=0&aftid=<%=oRec("serviceaft")%>" target="_blank" class=rmenu>Indtast mat./udlæg >></a>
+		<a href="job_kopier.asp?func=kopier&id=<%=oRec("id")%>&fm_kunde=<%=oRec("kid")%>&filt=<%=request("filt")%>" class=rmenu><%=job_txt_264 %> >></a><br />
+         <a href="materialer_indtast.asp?id=<%=oRec("id")%>&fromsdsk=0&aftid=<%=oRec("serviceaft")%>" target="_blank" class=rmenu><%=job_txt_265 %> >></a>
 
          <%
          
@@ -8608,12 +8720,12 @@ end select '*** Step %>
           %>
 
           <br />
-          <a href="joblog.asp?nomenu=1&FM_job=<%=oRec("id") %>&FM_kunde=<%=oRec("kid")%>&FM_jobsog=<%=oRec("jobnr")%>&viskunabnejob0=<%=viskunabnejob0%>&viskunabnejob1=<%=viskunabnejob1%>&viskunabnejob2=<%=viskunabnejob2%>&<%=dtlink %>" class=rmenu target="_blank">Joblog >></a><br />
-          <a href="jobprintoverblik.asp?menu=job&id=<%=oRec("id")%>&media=printjoboverblik" class=rmenu target="_blank">Print joboverblik >></a><br>
-          <a href="timereg_akt_2006.asp?FM_kontakt=<%=oRec("kid")%>&FM_ignorer_projektgrupper=1&jobid=<%=oRec("id")%>&FM_sog_job_navn_nr=<%=oRec("jobnr")%>&usemrn=<%=session("mid")%>&showakt=1&fromsdsk=1" target="_blank" class=rmenu>Timeregistrering >> </a><br />
+          <a href="joblog.asp?nomenu=1&FM_job=<%=oRec("id") %>&FM_kunde=<%=oRec("kid")%>&FM_jobsog=<%=oRec("jobnr")%>&viskunabnejob0=<%=viskunabnejob0%>&viskunabnejob1=<%=viskunabnejob1%>&viskunabnejob2=<%=viskunabnejob2%>&<%=dtlink %>" class=rmenu target="_blank"><%=job_txt_266&" " %>>></a><br />
+          <a href="jobprintoverblik.asp?menu=job&id=<%=oRec("id")%>&media=printjoboverblik" class=rmenu target="_blank"><%=job_txt_267 %> >></a><br>
+          <a href="timereg_akt_2006.asp?FM_kontakt=<%=oRec("kid")%>&FM_ignorer_projektgrupper=1&jobid=<%=oRec("id")%>&FM_sog_job_navn_nr=<%=oRec("jobnr")%>&usemrn=<%=session("mid")%>&showakt=1&fromsdsk=1" target="_blank" class=rmenu><%=job_txt_268 &" " %>>> </a><br />
           
           <%if cint(useasfak) <= 2 then %>
-          <a href="../timereg/erp_opr_faktura_fs.asp?FM_kunde=<%=oRec("kid")%>&FM_job=<%=oRec("id")%>&FM_aftale=0&<%=dtlink %>&reset=1&FM_usedatokri=1" target="_blank" class=rmenu>Opret faktura >> </a>
+          <a href="../timereg/erp_opr_faktura_fs.asp?FM_kunde=<%=oRec("kid")%>&FM_job=<%=oRec("id")%>&FM_aftale=0&<%=dtlink %>&reset=1&FM_usedatokri=1" target="_blank" class=rmenu><%=job_txt_269 %> >> </a>
 		  <%end if %>
 
 		<%else %>
@@ -8644,9 +8756,9 @@ end select '*** Step %>
 			        
 
                     if oRec3("brugfakdatolabel") = 1 then '** Labeldato
-                    fakDato = "L: "& oRec3("labeldato") & "<br><span style=""color:#999999; size:9px,"">"& oRec3("fakdato") &"</span>"
+                    fakDato = job_txt_623&": "& oRec3("labeldato") & "<br><span style=""color:#999999; size:9px,"">"& oRec3("fakdato") &"</span>"
                     else
-                    fakDato = "F: "& oRec3("fakdato")
+                    fakDato = job_txt_622&": "& oRec3("fakdato")
                     end if
 			       
 			          
@@ -8704,7 +8816,7 @@ end select '*** Step %>
                
 
 			    </div>
-                 Faktureret (basisvaluta):<br /> 
+                 <%=job_txt_270 %>:<br /> 
                  <b><%=formatnumber(fakturaBel_tot, 2) & " "& basisValISO %></b>
 
                  <%if totReal <> 0 then 
@@ -8714,7 +8826,7 @@ end select '*** Step %>
 	        end if%>
 	        
             <%if gnstpris <> 0 then %>
-            <br />Faktisk timepris:<br />
+            <br /><%=job_txt_271 %>:<br />
 	        <b><%=formatnumber(gnstpris) & " "& basisValISO %></b>
             
             <!-- <span class="qmarkhelp" id="qm0001" style="font-size:11px; color:#999999; font-weight:bolder;">?</span><span id="qmarkhelptxt_qm0001" style="visibility:hidden; color:#999999; display:none; padding:3px; z-index:4000;">(faktureret beløb - (materialeforbrug + km)) / timer realiseret</span>-->
@@ -8787,18 +8899,18 @@ end select '*** Step %>
          <td colspan=8>&nbsp;</td>
 		<td>
             <%if fakturaBel_tot_gt <> 0 then %>
-            <br />Faktureret total: <br /><b><%=formatnumber(fakturaBel_tot_gt, 2) & " "& basisValISO %></b>
+            <br /><%=job_txt_326 %>: <br /><b><%=formatnumber(fakturaBel_tot_gt, 2) & " "& basisValISO %></b>
             <%end if %>
 
             <%if totRealialt <> 0 AND gnsPrisTot <> 0 then %>
-            <br><br>Gns. faktisk timepris:<br><b><%=formatnumber(gnsPrisTot/totRealialt, 2) &" "& basisValISO  %></b> 
+            <br><br><%=job_txt_327 %>:<br><b><%=formatnumber(gnsPrisTot/totRealialt, 2) &" "& basisValISO  %></b> 
             <%end if %>
 
 		</td>
              <td colspan=11>&nbsp;</td>
         </tr>
         <tr style="background-color:#FFFFFF;">
-            <td colspan=20 style="padding-right:30px; padding-top:5px;" align=right><br /><input type="submit" name="statusliste" value="Opdater liste >>"><br />&nbsp;</td>
+            <td colspan=20 style="padding-right:30px; padding-top:5px;" align=right><br /><input type="submit" name="statusliste" value="<%=job_txt_272 %> >>"><br />&nbsp;</td>
 	    </tr>
     <%end if %>
 	</table>
@@ -8815,15 +8927,15 @@ end select '*** Step %>
          <table cellspacing="0" cellpadding="2" border="0" bgcolor="#ffffff" width=100%>
 	<tr>
 		<td style="padding-left:20;"><br>
-		<b>Der blev ikke fundet nogen job der macthedede de valgte søgekriterier.</b><br>
-		Vær opmærksom på om du har valgt:<br>
+		<b><%=job_txt_273 %></b><br>
+		<%=job_txt_274 %>:<br>
 			<ul>
-			<li>Et <u>Status filter.</u>
-			<li>En <u>Periode.</u> 
-			<li>Eller en bestemt <u>Kunde.</u></ul>
-			Der betyder at der ikke blev fundet nogen job.
+			<li><%=job_txt_275 &" " %><u><%=job_txt_276 %></u>
+			<li><%=job_txt_328 & " " %><u><%=job_txt_277 %></u> 
+			<li><%=job_txt_278 &" " %><u><%=job_txt_279 %></u></ul>
+			<%=job_txt_280 %>
 		</td>
-	</tr>
+	</tr> <!-- 'her -->
 	
     </table>
     <br /><br />&nbsp;
@@ -8845,14 +8957,14 @@ end select '*** Step %>
 	 %>
 
     <br />
-    <h3>Funktioner</h3>
+    <h3><%=job_txt_247 %></h3>
 	<table cellspacing=1 cellpadding=2 border=0 width=100%>
 	
 
     <%if level = 1 then %>
      <tr style="background-color:#FFFFFF;"><td colspan=2>
  
-         <b>Multiopdater forretningsområder:</b><br />
+         <b><%=job_txt_281 %>:</b><br />
 
                               
                                 <%
@@ -8864,7 +8976,7 @@ end select '*** Step %>
          
                                 %>
                                 <select name="FM_fomr" id="Select3" multiple="multiple" size="5" style="width:450px;">
-                                <option value="#0#">Ingen (fjern)</option>
+                                <option value="#0#"><%=job_txt_129 &" " %>(<%=job_txt_282 %>)</option>
                                
                                     
                                     <%oRec3.open strSQLf, oConn, 3
@@ -8886,8 +8998,8 @@ end select '*** Step %>
                                 </select>
 
         <br />
-         <input id="Checkbox3" type="checkbox" name="FM_formr_opdater" value="1" /> Opdater alle job på listen med ovenstående forretningsområder. (forvalgt konto på job skal ændres manuelt)<br />
-          <input id="Checkbox3" type="checkbox" name="FM_formr_opdater_akt" value="1" /> Opdater også alle tilhørende aktiviteter 
+         <input id="Checkbox3" type="checkbox" name="FM_formr_opdater" value="1" /> <%=job_txt_283 %><br />
+          <input id="Checkbox3" type="checkbox" name="FM_formr_opdater_akt" value="1" /> <%=job_txt_284 %> 
 
 
     </td></tr>
@@ -8898,11 +9010,11 @@ end select '*** Step %>
 
     <tr style="background-color:#FFFFFF;">
 		<td style="padding-right:30px; padding-top:10px;">
-        <b>Slutdato:</b><br />
-        <input type="checkbox" name="FM_opdaterslutdato" value="1">Sæt slutdato på alle ovenstående job = <input type="text" name="FM_opdaterslutdato_dato" value="<%=dtNow%>" style="width:75px;" /> dd-mm-yyyy</td>
+        <b><%=job_txt_285 %>:</b><br />
+        <input type="checkbox" name="FM_opdaterslutdato" value="1"><%=job_txt_286 %> = <input type="text" name="FM_opdaterslutdato_dato" value="<%=dtNow%>" style="width:75px;" /> dd-mm-yyyy</td>
 	</tr>
 	<tr style="background-color:#FFFFFF;">
-		<td style="padding-right:30px; padding-top:5px;" align=right><br /><input type="submit" name="statusliste" value="Opdater liste >>"></td>
+		<td style="padding-right:30px; padding-top:5px;" align=right><br /><input type="submit" name="statusliste" value="<%=job_txt_272 %> >>"></td>
 	</tr></form>
     </table>
 
@@ -8919,20 +9031,20 @@ end select '*** Step %>
     
     else 'vis_timepriser%>
     <br />
-    <b>Timepriser på job</b> <br />
-    Hvis aktiviteten ikke er vist, følger den timeprisen på jobbet.
+    <b><%=job_txt_287 %></b> <br />
+    <%=job_txt_288 %>
 
     <table cellspacing="0" cellpadding="2" border="0" bgcolor="#ffffff" width=100%>
 	
             <tr bgcolor="#5582D2">
-                <td class="alt">Kontakt</td>
-                <td class="alt">Job</td>
-                <td class="alt">Fase</td>
-                <td class="alt">Aktivitet</td>
-                <td class="alt">Medarbejder</td>
-                <td class="alt">Initialer</td>
-                <td class="alt">Timepris</td>
-                <td class="alt">Valuta</td>
+                <td class="alt"><%=job_txt_289 %></td>
+                <td class="alt"><%=job_txt_290 %></td>
+                <td class="alt"><%=job_txt_291 %></td>
+                <td class="alt"><%=job_txt_292 %></td>
+                <td class="alt"><%=job_txt_293 %></td>
+                <td class="alt"><%=job_txt_294 %></td>
+                <td class="alt"><%=job_txt_295 %></td>
+                <td class="alt"><%=job_txt_296 %></td>
                 
             </tr>
             <%
@@ -9089,22 +9201,22 @@ call eksportogprint(ptop,pleft, pwdt)
     <td valign=top align=center>
    <input type=image src="../ill/export1.png" />
     </td>
-    <td class=lille><input id="Submit5" type="submit" value="A) Eksportér jobdata >> " style="font-size:9px; width:130px;" />
+    <td class=lille><input id="Submit5" type="submit" value="A) <%=job_txt_329 %> >> " style="font-size:9px; width:130px;" />
     <input type="hidden" value="1" name="eksDataStd" /><br />
-    <input type="checkbox" value="1" name="xeksDataStd" checked disabled /> Stamdata<br />
-    <input type="checkbox" value="1" name="eksDataNrl" /> Nøgletal, Realiseret, Forr.omr., Projektgrupper mm.<br />
+    <input type="checkbox" value="1" name="xeksDataStd" checked disabled /> <%=job_txt_297 %><br />
+    <input type="checkbox" value="1" name="eksDataNrl" /> <%=job_txt_298 %><br />
     <input type="checkbox" value="1" name="eksDataJsv" /> 
         <%
         call salgsans_fn()    
         if cint(showSalgsAnv) = 1 then  %>
-        Job- og salgs -ansvarlige
+        <%=job_txt_300 %>
         <%else %>
-        Jobansvarlige
+        <%=job_txt_330 %>
         <%end if %><br />
-    <input type="checkbox" value="1" name="eksDataAkt" /> Aktiviteter<br />
-    <input type="checkbox" value="1" name="eksDataMile" /> Milepæle/Terminer
+    <input type="checkbox" value="1" name="eksDataAkt" /> <%=job_txt_232 %><br />
+    <input type="checkbox" value="1" name="eksDataMile" /> <%=job_txt_299 %>
          <%if jobasnvigv = 1 then %>
-              (stadeindm.)
+              (<%=job_txt_301 %>)
              <%end if %>
     </td>
 </tr>
@@ -9117,7 +9229,7 @@ call eksportogprint(ptop,pleft, pwdt)
     <td valign=top align=center>
    <input type=image src="../ill/export1.png" />
     </td>
-    <td class=lille><input id="Submit3" type="submit" value="B) Eksportér timepriser >> " style="font-size:9px; width:130px;" /></td>
+    <td class=lille><input id="Submit3" type="submit" value="B) <%=job_txt_302 %> >> " style="font-size:9px; width:130px;" /></td>
 </tr>
 </form>
 
@@ -9150,7 +9262,7 @@ call eksportogprint(ptop,pleft, pwdt)
 <input id="Hidden4" name="jids" value="<%=jids%>" type="hidden" />
     <td valign=top align=center>
    <input type=image src="../ill/printer3.png" />
-    </td><td class=lille><input id="Submit6" type="submit" value="E) Print som arbejdskort >>" style="font-size:9px; width:130px;" /></td>
+    </td><td class=lille><input id="Submit6" type="submit" value="E) <%=job_txt_303 %> >>" style="font-size:9px; width:130px;" /></td>
 </tr>
 </form>
 
@@ -9161,7 +9273,7 @@ call eksportogprint(ptop,pleft, pwdt)
     <td valign=top align=center>
    <input type=image src="../ill/export1.png" />
     </td>
-    <td class=lille><input id="Submit7" type="submit" value="F) Eksportér som BU fil >> " style="font-size:9px; width:130px;" /></td>
+    <td class=lille><input id="Submit7" type="submit" value="F) <%=job_txt_304 %> >> " style="font-size:9px; width:130px;" /></td>
 </tr>
 </form>
 
@@ -9177,14 +9289,14 @@ call eksportogprint(ptop,pleft, pwdt)
          d.d -
         <select name="antaldage" style="font-size:9px;">
             <%for a = 0 TO 10 %>
-            <option value="<%=a %>">- <%=a %> dage</option>
+            <option value="<%=a %>"> <%=a %> <%=" "& job_txt_305 %></option>
             <%next %>
         </select>
         </td>
     </tr>
 <tr><td>&nbsp;</td><td>
 
-        <input id="Submit7" type="submit" value="F) Eksportér til Monitor >> " style="font-size:9px; width:130px;" /></td>
+        <input id="Submit7" type="submit" value="F) <%=job_txt_306 %> >> " style="font-size:9px; width:130px;" /></td>
 </tr>
 </form>
 
@@ -9272,7 +9384,7 @@ call eksportogprint(ptop,pleft, pwdt)
         %><tr><td colspan="2"><br /><br />
             <%
                 nWdt = 120
-                nTxt = "Opret nyt job"
+                nTxt = job_txt_307
                 nLnk = "jobs.asp?menu=job&func=opret&id=0&int=1"
                 nTgt = ""
                 call opretNy_2013(nWdt, nTxt, nLnk, nTgt) %>
@@ -9283,7 +9395,7 @@ call eksportogprint(ptop,pleft, pwdt)
 
             <%
                 nWdt = 120
-                nTxt = "Opret nyt job fra fil"
+                nTxt = job_txt_308
                 nLnk = "createJobFromFile.aspx?lto="&lto&"&editor="&session("user")
                 nTgt = "_blank"
                 call opretNy_2013(nWdt, nTxt, nLnk, nTgt) %>
@@ -9298,14 +9410,14 @@ call eksportogprint(ptop,pleft, pwdt)
 	end if
 	
 	
-	uTxt = "<b>Antal job oprettet i TimeOut:</b><br><b>"& antalEksterneAktiveJob & "</b> Aktive job."_
-	&"<br><b>" & antalEksterneLukkedeJob &"</b> Lukkede job"_
-	&"<br><b>" & antalTilbud & "</b> Tilbud"
+	uTxt = "<b>"&job_txt_311&":</b><br><b>"& antalEksterneAktiveJob & "</b> "&job_txt_312 _
+	&"<br><b>" & antalEksterneLukkedeJob &"</b> "&job_txt_309 _
+	&"<br><b>" & antalTilbud & "</b> "& job_txt_223
 	
     if cint(vis_timepriser) <> 1 then
-    uTxt = uTxt  &"<br><b>" & cnt & "</b> Job i denne visning"
+    uTxt = uTxt  &"<br><b>" & cnt & "</b> "& job_txt_310
 	else
-    uTxt = uTxt  &"<br><b>" & cnt & "</b> timepris linier i denne visning."
+    uTxt = uTxt  &"<br><b>" & cnt & "</b> "& job_txt_313
     end if
 
     'uTxt = uTxt  &"<br><br>Gns. faktisk timepris:<br><b> "& formatnumber(gnsPrisTot/totRealialt) &" "& basisValISO &" </b>"
@@ -9598,7 +9710,7 @@ call eksportogprint(ptop,pleft, pwdt)
 
 
 
-	<a href="Javascript:history.back()" class="vmenu"><< Tilbage </a>
+	<a href="Javascript:history.back()" class="vmenu"><< <%=job_txt_314 %> </a>
 	<br>
 	<br>
 	</div>

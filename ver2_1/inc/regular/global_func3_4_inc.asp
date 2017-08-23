@@ -49,18 +49,18 @@
 
     <tr>
     <td colspan=6>
-	 <br /><br /><span style="border-bottom:2px #FFFF99 solid; padding:2px;"><b>Feriefridage</b> (<%=ferieFriaarStart%>)</span><br /><br />&nbsp;
+	 <br /><br /><span style="border-bottom:2px #FFFF99 solid; padding:2px;"><b><%=afstem_txt_115 %></b> (<%=ferieFriaarStart%>)</span><br /><br />&nbsp;
 	 </td>
      </tr>
 	  <tr>
 	 
-	 <td valign=bottom align=right class=lille style="border-bottom:1px silver dashed;"><b><%=tsa_txt_174 &" "& tsa_txt_164%></b><br />~ dage</td>
-	 <td valign=bottom align=right class=lille style="border-bottom:1px silver dashed;"><b>Planlagt <br> >> dd.</b><br />~ dage</td>
+	 <td valign=bottom align=right class=lille style="border-bottom:1px silver dashed;"><b><%=tsa_txt_174 &" "& tsa_txt_164%></b><br />~ <%=afstem_txt_044 %></td>
+	 <td valign=bottom align=right class=lille style="border-bottom:1px silver dashed;"><b><%=afstem_txt_116 %> <br> >> <%=afstem_txt_117 %></b><br />~ <%=afstem_txt_044 %></td>
 	 
-	  <td valign=bottom align=right style="border-bottom:1px silver dashed;" class=lille><b><%=tsa_txt_165%></b><br />~ dage</td>
+	  <td valign=bottom align=right style="border-bottom:1px silver dashed;" class=lille><b><%=tsa_txt_165%></b><br />~ <%=afstem_txt_044 %></td>
         <td style="border-bottom:1px silver dashed;">&nbsp;</td>
-	   <td valign=bottom align=right style="border-bottom:1px silver dashed;" class=lille><b>Udbetalt</b><br />~ dage</td>
-	  <td valign=bottom align=right style="border-bottom:1px silver dashed;" class=lille><b><%=tsa_txt_282 &" "& tsa_txt_280 %></b><br />~ dage</td>
+	   <td valign=bottom align=right style="border-bottom:1px silver dashed;" class=lille><b><%=afstem_txt_083 %></b><br />~ <%=afstem_txt_044 %></td>
+	  <td valign=bottom align=right style="border-bottom:1px silver dashed;" class=lille><b><%=tsa_txt_282 &" "& tsa_txt_280 %></b><br />~ <%=afstem_txt_044 %></td>
     
 	 </tr>
 	 
@@ -176,21 +176,21 @@
 	</td></tr>
 	  
 	 <tr>
-	 <td valign=bottom align=right class=lille style="border-bottom:1px silver dashed;"><b><%=tsa_txt_152%> Opt.</b><br />dage</td>
+	 <td valign=bottom align=right class=lille style="border-bottom:1px silver dashed;"><b><%=tsa_txt_152 &" "%> <%=afstem_txt_118 %></b><br /><%=afstem_txt_044 %></td>
 	 
      <% if instr(akttype_sel, "#111#") <> 0 then  %>
-     <td valign=bottom align=right class=lille style="border-bottom:1px silver dashed;"><b><%=global_txt_175%></b><br />dage</td>
+     <td valign=bottom align=right class=lille style="border-bottom:1px silver dashed;"><b><%=global_txt_175%></b><br /><%=afstem_txt_044 %></td>
      <%end if %>
 
      <% if instr(akttype_sel, "#112#") <> 0 then  %>
-     <td valign=bottom align=right class=lille style="border-bottom:1px silver dashed;"><b><%=global_txt_176%></b><br />dage</td>
+     <td valign=bottom align=right class=lille style="border-bottom:1px silver dashed;"><b><%=global_txt_176%></b><br /><%=afstem_txt_044 %></td>
      <%end if %>
 
-     <td valign=bottom align=right class=lille style="border-bottom:1px silver dashed;"><b><%=tsa_txt_317%><br> >> dd.</b><br />dage</td>
-	 <td valign=bottom align=right class=lille style="border-bottom:1px silver dashed;"><b>Afholdt</b><br />dage</td>
-	   <td valign=bottom align=right class=lille style="border-bottom:1px silver dashed;"><b>Afholdt u. løn</b><br />dage</td>
-	   <td valign=bottom align=right style="border-bottom:1px silver dashed;" class=lille><b>Udbetalt</b><br />dage</td>
-	  <td  valign=bottom align=right style="border-bottom:1px silver dashed;" class=lille><b><%=tsa_txt_281 &" "& tsa_txt_280 %></b><br />dage</td>
+     <td valign=bottom align=right class=lille style="border-bottom:1px silver dashed;"><b><%=tsa_txt_317%><br> >> <%=afstem_txt_117 %></b><br /><%=afstem_txt_044 %></td>
+	 <td valign=bottom align=right class=lille style="border-bottom:1px silver dashed;"><b><%=afstem_txt_119 %></b><br /><%=afstem_txt_044 %></td>
+	   <td valign=bottom align=right class=lille style="border-bottom:1px silver dashed;"><b><%=afstem_txt_120 %></b><br /><%=afstem_txt_044 %></td>
+	   <td valign=bottom align=right style="border-bottom:1px silver dashed;" class=lille><b><%=afstem_txt_083 %></b><br /><%=afstem_txt_044 %></td>
+	  <td  valign=bottom align=right style="border-bottom:1px silver dashed;" class=lille><b><%=tsa_txt_281 &" "& tsa_txt_280 %></b><br /><%=afstem_txt_044 %></td>
 	 </tr>
 	  <tr>
 	

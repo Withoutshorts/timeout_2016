@@ -1119,11 +1119,17 @@
                                              '*** Tilføjer ALTID alle dem fra intern 
                                             select case lto
                                             case "oko", "adra", "xintranet - local"
+
+                                                    'if lto = "oko" then
+                                                    'minus3kri = "OR j.risiko = -3"
+                                                    'else
+                                                    minus3kri = ""
+                                                    'end if
                                                
                                                     strSQLaktIdInterne = "SELECT a.id AS aktid, "_
                                                     &" a.projektgruppe1, a.projektgruppe2, a.projektgruppe3, a.projektgruppe4, a.projektgruppe5, a.projektgruppe6, a.projektgruppe7, a.projektgruppe8, a.projektgruppe9, a.projektgruppe10 "_
                                                     &" FROM job AS j "_
-                                                    &" LEFT JOIN aktiviteter AS a ON (a.job = j.id AND aktstatus = 1) WHERE j.risiko = -2 AND jobstatus = 1 AND aktstatus = 1 GROUP BY a.id" 
+                                                    &" LEFT JOIN aktiviteter AS a ON (a.job = j.id AND aktstatus = 1) WHERE (j.risiko = -2 "& minus3kri &") AND jobstatus = 1 AND aktstatus = 1 GROUP BY a.id" 
                                     
                                                     'if session("mid") = 1 then
                                                     'response.write strSQLaktIdInterne
@@ -1302,7 +1308,7 @@
 
 
                                             '*************************************************************************************************
-                                            '*** Henter kun akt med ressource timer for valgte medarb                      *******************
+                                            '*** Henter kun akt med ressource forecase Oko, WWF timer for valgte medarb    *******************
                                             '*************************************************************************************************
                                             
                                             
@@ -1614,7 +1620,7 @@
                                       
 
                                     'if session("mid") = 1 then
-                                    'Response.Write "<br> sql: "& strSQLakt & "<br>"
+                                    'Response.Write "<br><br><br> sql: "& strSQLakt & "<br>"
                                     'Response.write "lto" & lto
                                     'Response.flush
                                     'end if               
@@ -2299,7 +2305,7 @@
                                                     
                                                     if ((visSimpelAktLinje <> "1" AND visHRliste <> "1" AND job_internt > -1) AND _
                                                     (job_fakturerbar = 1 OR job_fakturerbar = 2 OR job_fakturerbar = 5 OR job_fakturerbar = 6 OR job_fakturerbar = 90)) _
-                                                    OR (lto = "oko" AND left(aktnavn, 10) = "Intern tid") then 'fakturerbar, ikke fakbar, Km og Salg + E1
+                                                    OR (lto = "oko" AND (left(aktnavn, 10) = "Intern tid" OR job_internt = -3)) then 'fakturerbar, ikke fakbar, Km og Salg + E1
                                                                       
 
                                                    
@@ -6004,7 +6010,7 @@
 
         select case rdir
         case "favorit"
-        usemrn = request("usemrn")
+        usemrn = request("FM_medid")
         varTjDatoUS_man = request("varTjDatoUS_man")              
         Response.Redirect "../to_2015/favorit.asp?varTjDatoUS_man="&varTjDatoUS_man&"&FM_medid="&usemrn
         case "timetag_web"
@@ -6122,37 +6128,47 @@
         %>
         <!--#include file="../inc/regular/header_lysblaa_inc.asp"-->
         <div style="position:absolute; top:100px; left:200px; width:400px; padding:10px; border:10px #CCCCCC solid; background-color:#ffffff;">
-        
         <table cellspacing="0" cellpadding="10" border="0" bgcolor="#ffffff" width=100%>
 	    <tr>
-	        <td bgcolor="#ffffff" style="padding-top:15px; font-size:16px; font-weight:bolder;">
+	        <td bgcolor="#ffffff" style="padding-top:15px; font-size:16px; font-weight:bolder;"> 
                
 
                 <%if cint(hidesmileyicon) = 0 then %>  
                 <span style="display:block;"><img src="../ill/<%=smileyImg%>" border=0 /></span><br />
                 <%end if %>
                    
-                  <%select case cint(SmiWeekOrMonth) 
-                   case 0  'uge aflsutning  %>
-                   <%=tsa_txt_004 & " din "& tsa_txt_005 %> 
+                  <%
+                   
+                      
+                      
+                   select case cint(SmiWeekOrMonth) 
+                   case 0  'uge aflsutning 
+                      
+                      if cint(splithr) <> 1 then 
+
+                      response.write tsa_txt_004 &" your "& lcase(tsa_txt_005)
+
+                      else%>
+                          <%=tsa_txt_004 & "!" %>
+                      <%end if %>
+
+                        
+
                    <%case 1%>
-                   <%=tsa_txt_004 & " din "& tsa_txt_430 %>
+                   <%=tsa_txt_004 &" "& lcase(tsa_txt_430) %>
                    <%case 2 %>
-                   <%=tsa_txt_004 & " din "& tsa_txt_538 %>
+                   <%=tsa_txt_004 &" "& lcase(tsa_txt_538) %>
                    <%end select%>
                    
              
                 
 
 	        </td>
-	        <td valign="top" align=right bgcolor="#ffffff">
-		    &nbsp;
-		    </td>
+	      
 	        </tr>
 	        <tr>
-	        <td colspan=2 valign=top>
-            <!--<b><%=tsa_txt_001%>:</b><br /><br />-->
-
+	        <td valign=top>
+            
             <%if instr(formatdatetime(cDateUge, 2), "1899") <> 0 then %>
             <%=timereg_txt_034 %><br />
             <%=timereg_txt_035 %><br /><br />
@@ -6162,56 +6178,69 @@
 
             <%else%>
 
+                
 
               
                 
 
-            <% 
-            select case cint(SmiWeekOrMonth) 
-            case 0, 1%>
+                <%'**info og sidste rettidige afslutdato
+                select case cint(SmiWeekOrMonth) 
+                case 0, 1%>
 
 
-	        <%=tsa_txt_002%>:<br /> <%=weekdayname(datepart("w",cDateUge,1)) %> d. 
-	        <%=formatdatetime(cDateUge, 2) &" "& tsa_txt_003 %>. 
-	        <%=formatdatetime(cDateUge, 3) %><br /><br />
-
+                <%if cint(splithr) <> 1 then %>
                 
-	       
-             <%'**Tidstemple for afslutning %>
-             <!--
-	        <%=tsa_txt_004 %>:<br /><%=weekdayname(datepart("w",cDateAfs,1)) %> d. 
-	        <%=formatdatetime(cDateAfs, 2) &" "& tsa_txt_003 &". "& formatdatetime(cDateAfs, 3) %>
-             <br />-->
+	            <%=tsa_txt_002%>:<br /> <%=weekdayname(datepart("w",cDateUge,1)) %> d. 
+	            <%=formatdatetime(cDateUge, 2) &" "& tsa_txt_003 %>. 
+	            <%=formatdatetime(cDateUge, 3) %><br /><br />
+
+               
+               <%end if %>
+
 	        
-            <%case 2%>
+                <%case 2%>
 
                
 
-            <%=tsa_txt_002%>:<br /> <%=weekdayname(datepart("w",cDateUge,1)) %> d. 
-	        <%=formatdatetime(cDateUge, 2) &" "& tsa_txt_003 %>. 
-	        <%=formatdatetime(cDateUge, 3) %><br /><br />
+                <%=tsa_txt_002%>:<br /> <%=weekdayname(datepart("w",cDateUge,1)) %> d. 
+	            <%=formatdatetime(cDateUge, 2) &" "& tsa_txt_003 %>. 
+	            <%=formatdatetime(cDateUge, 3) %><br /><br />
 	       
-            <%end select %>
+                <%end select 
+                '************************************************%>
                 
 
            
 
 
 	            <span style="font-size:14px;">
-                <%select case cint(SmiWeekOrMonth) 
-                case 0 'uge aflsutning  %>
-                <b><%=tsa_txt_005 &" "& datepart("ww", cDateUgeTilAfslutning, 2, 2)%> </b>
-                <%case 1
-                afslutmd = dateAdd("m", -1, cDateUge)
-                %>
-                <b><%=monthname(month(afslutmd)) & ", "& year(afslutmd) %></b>
-                <%case 2 %>
-                <b><%=weekdayname(datepart("w", cDateUgeTilAfslutning, 2, 2), 0,2) %> d. <%=formatdatetime(cDateUgeTilAfslutning, 2) %></b>
-                <%end select %>
 
-                   
-                <%=smileysttxt %></span>
-	        
+                <%if cint(splithr) <> 1 then %>
+
+                    <%select case cint(SmiWeekOrMonth) 
+                    case 0 'uge aflsutning  %>
+                    <b><%=tsa_txt_005 &" "& datepart("ww", cDateUgeTilAfslutning, 2, 2)%> </b>
+                    <%case 1
+                    afslutmd = dateAdd("m", -1, cDateUge)
+                    %>
+                    <b><%=monthname(month(afslutmd)) & ", "& year(afslutmd) %></b>
+                    <%case 2 %>
+                    <b><%=weekdayname(datepart("w", cDateUgeTilAfslutning, 2, 2), 0,2) %> d. <%=formatdatetime(cDateUgeTilAfslutning, 2) %></b>
+                    <%end select %>
+
+                <%end if %>
+
+                <%if cint(splithr) <> 1 then %>
+                <%=smileysttxt %>
+
+                <%else %>
+
+                  
+                       <br />Month completed (split week)<br />
+                      
+
+                <%end if %>
+	            </span> 
            
 
 	                </td>
@@ -6222,18 +6251,18 @@
             <%select case rdir
             case "ugeseddel"
             %>
-            <a href="../to_2015/ugeseddel_2011.asp?usemrn=<%=usemrn%>&varTjDatoUS_man=<%=varTjDatoUS_man%>"><%=left(tsa_txt_006, 7) %> >></a>
+            <a href="../to_2015/ugeseddel_2011.asp?usemrn=<%=usemrn%>&varTjDatoUS_man=<%=varTjDatoUS_man%>"><%=medarb_txt_019 %> >></a>
             <% 
             case "favorit"
             %>
-            <a href="../to_2015/favorit.asp?FM_medid=<%=usemrn%>&varTjDatoUS_man=<%=varTjDatoUS_man%>"><%=left(tsa_txt_006, 7) %> >></a>
+            <a href="../to_2015/favorit.asp?FM_medid=<%=usemrn%>&varTjDatoUS_man=<%=varTjDatoUS_man%>"><%=medarb_txt_019 %> >></a>
             <% 
             case "logindhist"
             %>
-            <a href="logindhist_2011.asp?usemrn=<%=usemrn%>&varTjDatoUS_man=<%=varTjDatoUS_man%>"><%=left(tsa_txt_006, 7) %> >></a>
+            <a href="logindhist_2011.asp?usemrn=<%=usemrn%>&varTjDatoUS_man=<%=varTjDatoUS_man%>"><%=medarb_txt_019 %> >></a>
             <%
              case else %>
-	         <a href="timereg_akt_2006.asp"><%=left(tsa_txt_006, 7)%> >></a>
+	         <a href="timereg_akt_2006.asp"><%=medarb_txt_019%> >></a>
              <%end select %>
         
 		        </td>

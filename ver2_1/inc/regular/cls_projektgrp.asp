@@ -470,7 +470,7 @@ end function
         '*** Sletter eksisteredne tilhørsforhold !! PAS PÅ DENNE '***
         '*** Sletter IKKE Easyreg aktiviteter. De har deres egen side og  ***'
 		if cint(del) = 0 then
-		oConn.execute("DELETE FROM timereg_usejob WHERE medarb = "& medid &"")
+		oConn.execute("DELETE FROM timereg_usejob WHERE medarb = "& medid &" AND favorit <> 1")
 		end if
 		
 		
@@ -559,7 +559,7 @@ end function
 	    
 	    'Response.end
 	    
-		end function
+end function
 
 
 
@@ -699,6 +699,15 @@ function projgrp(progrp,level,medarbid,visning)
     
     redim prjGoptionsId(350), prjGoptionsTxt(350), prjGoptionsAntal(350), prjGTeamleder(350)
     call teamleder_flad_fn()
+
+
+    if thisfile <> "bal_real_norm_2007.asp" AND thisfile <> "week_norm_2010.asp" AND thisfile <> "feriekalender" then
+    prgidTypeKri = " AND orgvir <> 2"
+    else
+    prgidTypeKri = ""
+    end if
+
+    'Response.write "FIle: " & thisfile
     
     'level = session("rettigheder")
     '** Admin, eller indtil projgrp er sat op
@@ -709,7 +718,7 @@ function projgrp(progrp,level,medarbid,visning)
       
             
 
-               strSQL = "SELECT id AS ProjektgruppeId, navn AS pgnavn FROM projektgrupper WHERE id <> 0 ORDER BY navn"
+               strSQL = "SELECT id AS ProjektgruppeId, navn AS pgnavn FROM projektgrupper WHERE id <> 0 "& prgidTypeKri &" ORDER BY navn"
 
 
     else
@@ -746,7 +755,7 @@ function projgrp(progrp,level,medarbid,visning)
             &" pg.id AS pid, pg.navn AS pgnavn FROM "_
             &" progrupperelationer AS pgrel1 "_
             &" LEFT JOIN projektgrupper AS pg ON (pg.id = pgrel1.projektgruppeid) "_
-            &" WHERE "& progrpKri & " AND pg.id = pgrel1.projektgruppeid "& medarbIdKri &" "& teamlederKri &" GROUP BY "& grpby &" ORDER BY pg.navn"
+            &" WHERE "& progrpKri & " AND pg.id = pgrel1.projektgruppeid "& medarbIdKri &" "& teamlederKri &" "& prgidTypeKri &" GROUP BY "& grpby &" ORDER BY pg.navn"
     
         
 
@@ -895,7 +904,7 @@ function medarbiprojgrp(progrp, medid, mtypesorter, seloptions)
 
     instrMedidProgrp = "#0#,"
     'strOptionsJqHd = "0"
-    strOptionsJq = "<option value='0'>Alle</option>" 
+    strOptionsJq = "<option value='0'>"&joblog_txt_188&"</option>" 
 
     oRec3.Open strSQLp, oConn, 0, 1
     m = 0
@@ -1051,6 +1060,17 @@ end function
 public strSQLmansat
 sub progrpmedarb
 
+if thisfile = "forecast_kapcitet.asp" then
+        fm_cls_2015 = "form-control input-small"
+        fm_cls_2015_bt = "btn btn-secondary btn-sm"
+        fm_cls_2015_style = ""
+        fm_cls_2015_style_11 = ""
+else
+        fm_cls_2015 = ""
+        fm_cls_2015_bt = ""
+        fm_cls_2015_style = "font-size:9px;"
+        fm_cls_2015_style_11 = "font-size:11px;"
+end if
 
 '** Aktive, de-aktive, passive **'
 
@@ -1060,7 +1080,7 @@ visdeakmedCHK = ""
 vispasmed = 1
 
 select case lto 
-case "adra", "intranet - local"
+case "adra", "intranet - local", "tia"
 vispasmedCHK = ""
 strSQLmansat = " (m.mansat = 1) " 'viser aktive + passive 
 case else
@@ -1101,7 +1121,7 @@ end if
 if len(trim(request("FM_vispasmed"))) <> 0 then
 vispasmed = 1
 vispasmedCHK = "CHECKED"
-strSQLmansat = strSQLmansat & " OR m.mansat = 3" 'viser de-aktiverede
+strSQLmansat = strSQLmansat & " OR m.mansat = 3" 'viser passive
 end if
 
 
@@ -1162,7 +1182,7 @@ end if
 
        %>
      
-        <select id="FM_progrp" name="FM_progrp" style="width:406px; font-size:11px;" multiple="multiple" size=9>
+        <select id="FM_progrp" name="FM_progrp" style="width:406px; <%=fm_cls_2015_style_11%>" class="<%=fm_cls_2015 %>" multiple="multiple" size=9>
            
             
        <%
@@ -1288,7 +1308,7 @@ end if
 
 
     %>
-    <select name="FM_medarb" id="FM_medarb" multiple style="width:<%=mselWidth%>px; font-size:11px;" size=9>
+    <select name="FM_medarb" id="FM_medarb" multiple style="width:<%=mselWidth%>px; <%=fm_cls_2015_style_11%>" class="<%=fm_cls_2015 %>" size=9>
     <%=strOptionsJq %>
     </select> 
       
@@ -1326,7 +1346,7 @@ end if
 	<input id="FM_medarb_hidden" name="FM_medarb_hidden" type="hidden" value="<%=strFMmedarb_hd%>" />
 
 
-       <br /><br /><img src="../ill/blank.gif" width="200" height="1" border="0" /><input id="Submit2" type="submit" value="<%=godkendweek_txt_080 %> >> " style="font-size:9px;" />
+       <br /><br /><img src="../ill/blank.gif" width="200" height="1" border="0" /><input id="Submit2" type="submit" value="<%=godkendweek_txt_080 %> >> " style="<%=fm_cls_2015_style%>" class="<%=fm_cls_2015_bt %>" />
 	</td>
 
 <% 

@@ -1,0 +1,881 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<sprog>
+
+  <!--- Dansk -->
+  <dk>
+
+    <txt_1 >kunder</txt_1>
+    <txt_2 >Du er ved at</txt_2>
+    <txt_3 >SLETTE</txt_3>
+    <txt_4 >en kunde. Er dette korrekt?</txt_4>
+    <txt_5 >Du vil samtidig</txt_5>
+    <txt_6 >slette alle</txt_6>
+    <txt_7 >tilhørende job, aktiviteter, ressourceforecast og fakturaer på denne kunde.</txt_7>
+    <txt_8 >en fil. Er dette korrekt?</txt_8>
+    <txt_9 >Ja</txt_9>
+    <txt_10 >Nej</txt_10>
+    <txt_11 >Tilføj Konto.</txt_11>
+    <txt_12 >Når den ønskede konto er oprettet vender du tilbage til</txt_12>
+    <txt_13 >kunde oversigten ved at bruge nedenstående link.</txt_13>
+    <txt_14 >Kontoen er oprettet korrekt når der er klikket på "opret" og det viste popup vindue ikke længere er synligt.</txt_14>
+    <txt_15 >Tilbage til kontaktoversigten</txt_15>
+    <txt_16 >Kontaktpersoner</txt_16>
+    <txt_17 >Opret Kontaktperson</txt_17>
+    <txt_18 >Filarkiv</txt_18>
+    <txt_19 >Opdatér</txt_19>
+    <txt_20 >Du har ikke rettigheder til at opdatere denne kunde.</txt_20>
+    <txt_21 >Stamdata</txt_21>
+    <txt_22 >Navn</txt_22>
+    <txt_23 >Kundetype</txt_23>
+    <txt_24 >Kundenummer</txt_24>
+    <txt_25 >Sidste kundenr.</txt_25>
+    <txt_26 >Segment</txt_26>
+    <txt_27 >Vælg type (Ingen)</txt_27>
+    <txt_28 >Kundedata</txt_28>
+    <txt_29 >Adresse</txt_29>
+    <txt_30 >Alt.tlf.</txt_30>
+    <txt_31 >Post Nr.</txt_31>
+    <txt_32 >Fax</txt_32>
+    <txt_33 >By</txt_33>
+    <txt_34 >Email</txt_34>
+    <txt_35 >Land</txt_35>
+    <txt_36 >Danmark</txt_36>
+    <txt_37 >CVR nr.</txt_37>
+    <txt_38 >Tel.</txt_38>
+    <txt_39 >NCA kode</txt_39>
+    <txt_40 >Mobil</txt_40>
+    <txt_41 >EAN</txt_41>
+    <txt_42 >Domæner</txt_42>
+    <txt_43 >Konti</txt_43>
+    <txt_44 >Følgende konti er knyttet til denne kunde via kontoplanen: (sættes i ERP)</txt_44>
+    <txt_45 >sidste fakturanr</txt_45>
+    <txt_46 >Nedenstående konti benyttes udelukkende som afsender konti på faktura layout.</txt_46>
+    <txt_47 >Konto</txt_47>
+    <txt_48 >regnr.</txt_48>
+    <txt_49 >Kontonr.</txt_49>
+    <txt_50 >Bank navn</txt_50>
+    <txt_51 >Swift kode</txt_51>
+    <txt_52 >Iban kode</txt_52>
+    <txt_53 >Flere bankkonti</txt_53>
+    <txt_54 >Kundeindstillinger</txt_54>
+    <txt_55 >Kundeansvarlig</txt_55>
+    <txt_56 >Ingen</txt_56>
+    <txt_57 >Beskrivelse</txt_57>
+    <txt_58 >Tilknyt Standardfoldere</txt_58>
+    <txt_59 >Der findes allerede</txt_59>
+    <txt_60 >folder(e)</txt_60>
+    <txt_61 >på denne kunde.</txt_61>
+    <txt_62 >ServiceDesk Aftalegruppe</txt_62>
+    <txt_63 >Når der er valgt en gruppe kan der oprettes incindets på denne kunde.</txt_63>
+    <txt_64 >Faktura indstillinger (debitor)</txt_64>
+    <txt_65 >Moms</txt_65>
+    <txt_66 >Sprog</txt_66>
+    <txt_67 >Valuta</txt_67>
+    <txt_68 >Forfaldsdato: (kreditperiode)</txt_68>
+    <txt_69 >Betalingsbetingelser</txt_69>
+    <txt_70 >Leveringsbetingelser</txt_70>
+    <txt_71 >Logoer</txt_71>
+    <txt_72 >Maks bredde og højde</txt_72>
+    <txt_73 >Tilknyt nyt logo</txt_73>
+    <txt_74 >Ingen logoer er tilknyttet denne kunde.</txt_74>
+    <txt_75 >Intet logo valgt.</txt_75>
+    <txt_76 >Sidst opdateret den</txt_76>
+    <txt_77 >af</txt_77>
+    <txt_78 >Slet</txt_78>
+    <txt_79 >Opdatér</txt_79>
+    <txt_80 >Du har ikke rettigheder til at opdatere denne kunde.</txt_80>
+    <txt_81 >Opret ny</txt_81>
+    <txt_82 >Søgefilter</txt_82>
+    <txt_83 >Søg på Navn</txt_83>
+    <txt_84 >Kundeans.</txt_84>
+    <txt_85 >Type</txt_85>
+    <txt_86 >Segment</txt_86>
+    <txt_87 >Alle</txt_87>
+    <txt_88 >Uden segment</txt_88>
+    <txt_89 >Land</txt_89>
+    <txt_90 >Vis kunder</txt_90>
+    <txt_91 >Interesse</txt_91>
+    <txt_92 >Alle</txt_92>
+    <txt_93 >Kundenr.</txt_93>
+    <txt_94 >Navn</txt_94>
+    <txt_95 >Postnr.</txt_95>
+    <txt_96 >By</txt_96>
+    <txt_97 >Land</txt_97>
+    <txt_98 >Telefon</txt_98>
+    <txt_99 >Type</txt_99>
+    <txt_100 >Segment</txt_100>
+    <txt_101 >CVR nr.</txt_101>
+    <txt_102 >Job</txt_102>
+    <txt_103 >Faktura</txt_103>
+    <txt_104 >Licensindehaver</txt_104>
+    <txt_105 >Datterselskab</txt_105>
+    <txt_106 >Andet</txt_106>
+    <txt_107 >Kunde</txt_107>
+    <txt_108 >CRM-relation</txt_108>
+    <txt_109 >Leverandør</txt_109>
+    <txt_110 >Underleverandør</txt_110>
+    <txt_111 >stk.</txt_111>
+    <txt_112 >Funktioner</txt_112>
+    <txt_113 >Eksport til csv. detail (incl. kontaktpers.)</txt_113>
+    <txt_114 >Eksport til .csv simpel</txt_114>
+    <txt_115 >Denne kunde står som licensindehaver og bruger fakturarækkefølge gruppe nr: (se kontrolpanel)</txt_115>
+    <txt_116 >Job/Projekter på denne kunde faktureres som udgangspunkt af følgende licensindehaver:</txt_116>
+    <txt_117 >rabat</txt_117>
+    <txt_118 >Søg</txt_118>
+    
+  </dk>
+
+
+  <!--- Norsk -->
+  <no>
+    
+    <txt_1 >Customers</txt_1>
+    <txt_2 >You are about to</txt_2>
+    <txt_3 >DELETE</txt_3>
+    <txt_4 >a customer. Please confirm</txt_4>
+    <txt_5 >You will also</txt_5>
+    <txt_6 >delete all</txt_6>
+    <txt_7 >Related jobs, activities, resource forecasts and invoices on this customer.</txt_7>
+    <txt_8 >a file. Is this correct?</txt_8>
+    <txt_9 >Yes</txt_9>
+    <txt_10 >No</txt_10>
+    <txt_11 >Add Account </txt_11>
+    <txt_12 >Once the required account is created, you will return to</txt_12>
+    <txt_13 >the customer overview, by using the link below</txt_13>
+    <txt_14 >The account is created correctly when clicked "create" and the displayed popup window is no longer visible.</txt_14>
+    <txt_15 >Contact list</txt_15>
+    <txt_16 >Contacts</txt_16>
+    <txt_17 >Create Contact</txt_17>
+    <txt_18 >Filearchive</txt_18>
+    <txt_19 >Update</txt_19>
+    <txt_20 >You do not have permission to update this customer.</txt_20>
+    <txt_21 >Base Data</txt_21>
+    <txt_22 >Name</txt_22>
+    <txt_23 >Type</txt_23>
+    <txt_24 >Customer number</txt_24>
+    <txt_25 >Last customer no.</txt_25>
+    <txt_26 >Segment</txt_26>
+    <txt_27 >Select type (None)</txt_27>
+    <txt_28 >Customer data</txt_28>
+    <txt_29 >Address</txt_29>
+    <txt_30 >Alt. phone number</txt_30>
+    <txt_31 >Postal code</txt_31>
+    <txt_32 >Fax</txt_32>
+    <txt_33 >City</txt_33>
+    <txt_34 >Email</txt_34>
+    <txt_35 >Country</txt_35>
+    <txt_36 >Denmark</txt_36>
+    <txt_37 >CVR no.</txt_37>
+    <txt_38 >Tel.</txt_38>
+    <txt_39 >NCA code</txt_39>
+    <txt_40 >Mobile</txt_40>
+    <txt_41 >EAN</txt_41>
+    <txt_42 >Domains</txt_42>
+    <txt_43 >Accounts</txt_43>
+    <txt_44 >The following accounts are attached to this customer through the account plan: (set in ERP)</txt_44>
+    <txt_45 >Last invoice no.</txt_45>
+    <txt_46 >The following accounts are used solely as sender accounts on invoice layout.</txt_46>
+    <txt_47 >Account</txt_47>
+    <txt_48 >reg. No.</txt_48>
+    <txt_49 >Account No.</txt_49>
+    <txt_50 >Bank name</txt_50>
+    <txt_51 >Swift code</txt_51>
+    <txt_52 >Iban code</txt_52>
+    <txt_53 >Multiple bank accounts</txt_53>
+    <txt_54 >Customer settings</txt_54>
+    <txt_55 >Customer responsible</txt_55>
+    <txt_56 >None</txt_56>
+    <txt_57 >Description</txt_57>
+    <txt_58 >Assign Default Folders</txt_58>
+    <txt_59 >There is already</txt_59>
+    <txt_60 >folder(s)</txt_60>
+    <txt_61 >On this customer.</txt_61>
+    <txt_62 >ServiceDesk Appointment Group</txt_62>
+    <txt_63 >Once a group has been selected, incindets can be created on this customer.</txt_63>
+    <txt_64 >Invoice settings (debtor)</txt_64>
+    <txt_65 >VAT</txt_65>
+    <txt_66 >Language</txt_66>
+    <txt_67 >Currency</txt_67>
+    <txt_68 >Due date: (credit period)</txt_68>
+    <txt_69 >Payment terms</txt_69>
+    <txt_70 >Terms and Conditions</txt_70>
+    <txt_71 >Logos</txt_71>
+    <txt_72 >Max width and height: </txt_72>
+    <txt_73 >Assign new logo</txt_73>
+    <txt_74 >No logos associated with this customer.</txt_74>
+    <txt_75 >No logo is selected.</txt_75>
+    <txt_76 >Last updated</txt_76>
+    <txt_77 >by</txt_77>
+    <txt_78 >Delete</txt_78>
+    <txt_79 >Update</txt_79>
+    <txt_80 >You do not have permission to update this customer.</txt_80>
+    <txt_81 >Create new</txt_81>
+    <txt_82 >Search filter</txt_82>
+    <txt_83 >Search by Name</txt_83>
+    <txt_84 >Customer responsible</txt_84>
+    <txt_85 >Type</txt_85>
+    <txt_86 >Segment</txt_86>
+    <txt_87 >All</txt_87>
+    <txt_88 >Without segment</txt_88>
+    <txt_89 >Country</txt_89>
+    <txt_90 >Show customers</txt_90>
+    <txt_91 >Interest</txt_91>
+    <txt_92 >All</txt_92>
+    <txt_93 >Cus. no.</txt_93>
+    <txt_94 >Name</txt_94>
+    <txt_95 >Postal.</txt_95>
+    <txt_96 >City</txt_96>
+    <txt_97 >Country</txt_97>
+    <txt_98 >Telephone</txt_98>
+    <txt_99 >Type</txt_99>
+    <txt_100 >Segment</txt_100>
+    <txt_101 >CVR no.</txt_101>
+    <txt_102 >Job</txt_102>
+    <txt_103 >Invoice</txt_103>
+    <txt_104 >licence-holder</txt_104>
+    <txt_105 >Subsidiary</txt_105>
+    <txt_106 >Other</txt_106>
+    <txt_107 >Customer</txt_107>
+    <txt_108 >CRM-related</txt_108>
+    <txt_109 >Supplier</txt_109>
+    <txt_110 >Subcontractor</txt_110>
+    <txt_111 >Pcs.</txt_111>
+    <txt_112 >Features</txt_112>
+    <txt_113 >Export to csv. Detail (including contact press)</txt_113>
+    <txt_114 >Export to .csv simple</txt_114>
+    <txt_115 >This customer is set as license holder and uses invoice order group number: (see control panel)</txt_115>
+    <txt_116 >Jobs / Projects on this customer are billed as the basis of the following license holder:</txt_116>
+    <txt_117 >discount</txt_117>
+    <txt_118 >Search</txt_118>
+    
+  </no>
+
+
+  <!--- Svensk -->
+  <so>
+    
+  <txt_1 >Customers</txt_1>
+    <txt_2 >You are about to</txt_2>
+    <txt_3 >DELETE</txt_3>
+    <txt_4 >a customer. Please confirm</txt_4>
+    <txt_5 >You will also</txt_5>
+    <txt_6 >delete all</txt_6>
+    <txt_7 >Related jobs, activities, resource forecasts and invoices on this customer.</txt_7>
+    <txt_8 >a file. Is this correct?</txt_8>
+    <txt_9 >Yes</txt_9>
+    <txt_10 >No</txt_10>
+    <txt_11 >Add Account </txt_11>
+    <txt_12 >Once the required account is created, you will return to</txt_12>
+    <txt_13 >the customer overview, by using the link below</txt_13>
+    <txt_14 >The account is created correctly when clicked "create" and the displayed popup window is no longer visible.</txt_14>
+    <txt_15 >Contact list</txt_15>
+    <txt_16 >Contacts</txt_16>
+    <txt_17 >Create Contact</txt_17>
+    <txt_18 >Filearchive</txt_18>
+    <txt_19 >Update</txt_19>
+    <txt_20 >You do not have permission to update this customer.</txt_20>
+    <txt_21 >Base Data</txt_21>
+    <txt_22 >Name</txt_22>
+    <txt_23 >Type</txt_23>
+    <txt_24 >Customer number</txt_24>
+    <txt_25 >Last customer no.</txt_25>
+    <txt_26 >Segment</txt_26>
+    <txt_27 >Select type (None)</txt_27>
+    <txt_28 >Customer data</txt_28>
+    <txt_29 >Address</txt_29>
+    <txt_30 >Alt. phone number</txt_30>
+    <txt_31 >Postal code</txt_31>
+    <txt_32 >Fax</txt_32>
+    <txt_33 >City</txt_33>
+    <txt_34 >Email</txt_34>
+    <txt_35 >Country</txt_35>
+    <txt_36 >Denmark</txt_36>
+    <txt_37 >CVR no.</txt_37>
+    <txt_38 >Tel.</txt_38>
+    <txt_39 >NCA code</txt_39>
+    <txt_40 >Mobile</txt_40>
+    <txt_41 >EAN</txt_41>
+    <txt_42 >Domains</txt_42>
+    <txt_43 >Accounts</txt_43>
+    <txt_44 >The following accounts are attached to this customer through the account plan: (set in ERP)</txt_44>
+    <txt_45 >Last invoice no.</txt_45>
+    <txt_46 >The following accounts are used solely as sender accounts on invoice layout.</txt_46>
+    <txt_47 >Account</txt_47>
+    <txt_48 >reg. No.</txt_48>
+    <txt_49 >Account No.</txt_49>
+    <txt_50 >Bank name</txt_50>
+    <txt_51 >Swift code</txt_51>
+    <txt_52 >Iban code</txt_52>
+    <txt_53 >Multiple bank accounts</txt_53>
+    <txt_54 >Customer settings</txt_54>
+    <txt_55 >Customer responsible</txt_55>
+    <txt_56 >None</txt_56>
+    <txt_57 >Description</txt_57>
+    <txt_58 >Assign Default Folders</txt_58>
+    <txt_59 >There is already</txt_59>
+    <txt_60 >folder(s)</txt_60>
+    <txt_61 >On this customer.</txt_61>
+    <txt_62 >ServiceDesk Appointment Group</txt_62>
+    <txt_63 >Once a group has been selected, incindets can be created on this customer.</txt_63>
+    <txt_64 >Invoice settings (debtor)</txt_64>
+    <txt_65 >VAT</txt_65>
+    <txt_66 >Language</txt_66>
+    <txt_67 >Currency</txt_67>
+    <txt_68 >Due date: (credit period)</txt_68>
+    <txt_69 >Payment terms</txt_69>
+    <txt_70 >Terms and Conditions</txt_70>
+    <txt_71 >Logos</txt_71>
+    <txt_72 >Max width and height: </txt_72>
+    <txt_73 >Assign new logo</txt_73>
+    <txt_74 >No logos associated with this customer.</txt_74>
+    <txt_75 >No logo is selected.</txt_75>
+    <txt_76 >Last updated</txt_76>
+    <txt_77 >by</txt_77>
+    <txt_78 >Delete</txt_78>
+    <txt_79 >Update</txt_79>
+    <txt_80 >You do not have permission to update this customer.</txt_80>
+    <txt_81 >Create new</txt_81>
+    <txt_82 >Search filter</txt_82>
+    <txt_83 >Search by Name</txt_83>
+    <txt_84 >Customer responsible</txt_84>
+    <txt_85 >Type</txt_85>
+    <txt_86 >Segment</txt_86>
+    <txt_87 >All</txt_87>
+    <txt_88 >Without segment</txt_88>
+    <txt_89 >Country</txt_89>
+    <txt_90 >Show customers</txt_90>
+    <txt_91 >Interest</txt_91>
+    <txt_92 >All</txt_92>
+    <txt_93 >Cus. no.</txt_93>
+    <txt_94 >Name</txt_94>
+    <txt_95 >Postal.</txt_95>
+    <txt_96 >City</txt_96>
+    <txt_97 >Country</txt_97>
+    <txt_98 >Telephone</txt_98>
+    <txt_99 >Type</txt_99>
+    <txt_100 >Segment</txt_100>
+    <txt_101 >CVR no.</txt_101>
+    <txt_102 >Job</txt_102>
+    <txt_103 >Invoice</txt_103>
+    <txt_104 >licence-holder</txt_104>
+    <txt_105 >Subsidiary</txt_105>
+    <txt_106 >Other</txt_106>
+    <txt_107 >Customer</txt_107>
+    <txt_108 >CRM-related</txt_108>
+    <txt_109 >Supplier</txt_109>
+    <txt_110 >Subcontractor</txt_110>
+    <txt_111 >Pcs.</txt_111>
+    <txt_112 >Features</txt_112>
+    <txt_113 >Export to csv. Detail (including contact press)</txt_113>
+    <txt_114 >Export to .csv simple</txt_114>
+    <txt_115 >This customer is set as license holder and uses invoice order group number: (see control panel)</txt_115>
+    <txt_116 >Jobs / Projects on this customer are billed as the basis of the following license holder:</txt_116>
+    <txt_117 >discount</txt_117>
+    <txt_118 >Search</txt_118>
+
+  </so>
+
+
+  <!--- Tysk -->
+  <de>
+    
+  <txt_1 >Customers</txt_1>
+    <txt_2 >You are about to</txt_2>
+    <txt_3 >DELETE</txt_3>
+    <txt_4 >a customer. Please confirm</txt_4>
+    <txt_5 >You will also</txt_5>
+    <txt_6 >delete all</txt_6>
+    <txt_7 >Related jobs, activities, resource forecasts and invoices on this customer.</txt_7>
+    <txt_8 >a file. Is this correct?</txt_8>
+    <txt_9 >Yes</txt_9>
+    <txt_10 >No</txt_10>
+    <txt_11 >Add Account </txt_11>
+    <txt_12 >Once the required account is created, you will return to</txt_12>
+    <txt_13 >the customer overview, by using the link below</txt_13>
+    <txt_14 >The account is created correctly when clicked "create" and the displayed popup window is no longer visible.</txt_14>
+    <txt_15 >Contact list</txt_15>
+    <txt_16 >Contacts</txt_16>
+    <txt_17 >Create Contact</txt_17>
+    <txt_18 >Filearchive</txt_18>
+    <txt_19 >Update</txt_19>
+    <txt_20 >You do not have permission to update this customer.</txt_20>
+    <txt_21 >Base Data</txt_21>
+    <txt_22 >Name</txt_22>
+    <txt_23 >Type</txt_23>
+    <txt_24 >Customer number</txt_24>
+    <txt_25 >Last customer no.</txt_25>
+    <txt_26 >Segment</txt_26>
+    <txt_27 >Select type (None)</txt_27>
+    <txt_28 >Customer data</txt_28>
+    <txt_29 >Address</txt_29>
+    <txt_30 >Alt. phone number</txt_30>
+    <txt_31 >Postal code</txt_31>
+    <txt_32 >Fax</txt_32>
+    <txt_33 >City</txt_33>
+    <txt_34 >Email</txt_34>
+    <txt_35 >Country</txt_35>
+    <txt_36 >Denmark</txt_36>
+    <txt_37 >CVR no.</txt_37>
+    <txt_38 >Tel.</txt_38>
+    <txt_39 >NCA code</txt_39>
+    <txt_40 >Mobile</txt_40>
+    <txt_41 >EAN</txt_41>
+    <txt_42 >Domains</txt_42>
+    <txt_43 >Accounts</txt_43>
+    <txt_44 >The following accounts are attached to this customer through the account plan: (set in ERP)</txt_44>
+    <txt_45 >Last invoice no.</txt_45>
+    <txt_46 >The following accounts are used solely as sender accounts on invoice layout.</txt_46>
+    <txt_47 >Account</txt_47>
+    <txt_48 >reg. No.</txt_48>
+    <txt_49 >Account No.</txt_49>
+    <txt_50 >Bank name</txt_50>
+    <txt_51 >Swift code</txt_51>
+    <txt_52 >Iban code</txt_52>
+    <txt_53 >Multiple bank accounts</txt_53>
+    <txt_54 >Customer settings</txt_54>
+    <txt_55 >Customer responsible</txt_55>
+    <txt_56 >None</txt_56>
+    <txt_57 >Description</txt_57>
+    <txt_58 >Assign Default Folders</txt_58>
+    <txt_59 >There is already</txt_59>
+    <txt_60 >folder(s)</txt_60>
+    <txt_61 >On this customer.</txt_61>
+    <txt_62 >ServiceDesk Appointment Group</txt_62>
+    <txt_63 >Once a group has been selected, incindets can be created on this customer.</txt_63>
+    <txt_64 >Invoice settings (debtor)</txt_64>
+    <txt_65 >VAT</txt_65>
+    <txt_66 >Language</txt_66>
+    <txt_67 >Currency</txt_67>
+    <txt_68 >Due date: (credit period)</txt_68>
+    <txt_69 >Payment terms</txt_69>
+    <txt_70 >Terms and Conditions</txt_70>
+    <txt_71 >Logos</txt_71>
+    <txt_72 >Max width and height: </txt_72>
+    <txt_73 >Assign new logo</txt_73>
+    <txt_74 >No logos associated with this customer.</txt_74>
+    <txt_75 >No logo is selected.</txt_75>
+    <txt_76 >Last updated</txt_76>
+    <txt_77 >by</txt_77>
+    <txt_78 >Delete</txt_78>
+    <txt_79 >Update</txt_79>
+    <txt_80 >You do not have permission to update this customer.</txt_80>
+    <txt_81 >Create new</txt_81>
+    <txt_82 >Search filter</txt_82>
+    <txt_83 >Search by Name</txt_83>
+    <txt_84 >Customer responsible</txt_84>
+    <txt_85 >Type</txt_85>
+    <txt_86 >Segment</txt_86>
+    <txt_87 >All</txt_87>
+    <txt_88 >Without segment</txt_88>
+    <txt_89 >Country</txt_89>
+    <txt_90 >Show customers</txt_90>
+    <txt_91 >Interest</txt_91>
+    <txt_92 >All</txt_92>
+    <txt_93 >Cus. no.</txt_93>
+    <txt_94 >Name</txt_94>
+    <txt_95 >Postal.</txt_95>
+    <txt_96 >City</txt_96>
+    <txt_97 >Country</txt_97>
+    <txt_98 >Telephone</txt_98>
+    <txt_99 >Type</txt_99>
+    <txt_100 >Segment</txt_100>
+    <txt_101 >CVR no.</txt_101>
+    <txt_102 >Job</txt_102>
+    <txt_103 >Invoice</txt_103>
+    <txt_104 >licence-holder</txt_104>
+    <txt_105 >Subsidiary</txt_105>
+    <txt_106 >Other</txt_106>
+    <txt_107 >Customer</txt_107>
+    <txt_108 >CRM-related</txt_108>
+    <txt_109 >Supplier</txt_109>
+    <txt_110 >Subcontractor</txt_110>
+    <txt_111 >Pcs.</txt_111>
+    <txt_112 >Features</txt_112>
+    <txt_113 >Export to csv. Detail (including contact press)</txt_113>
+    <txt_114 >Export to .csv simple</txt_114>
+    <txt_115 >This customer is set as license holder and uses invoice order group number: (see control panel)</txt_115>
+    <txt_116 >Jobs / Projects on this customer are billed as the basis of the following license holder:</txt_116>
+    <txt_117 >discount</txt_117>
+    <txt_118 >Search</txt_118>
+    
+  </de>
+
+
+  <!--- Fransk -->
+  <fr>
+    
+  <txt_1 >Customers</txt_1>
+    <txt_2 >You are about to</txt_2>
+    <txt_3 >DELETE</txt_3>
+    <txt_4 >a customer. Please confirm</txt_4>
+    <txt_5 >You will also</txt_5>
+    <txt_6 >delete all</txt_6>
+    <txt_7 >Related jobs, activities, resource forecasts and invoices on this customer.</txt_7>
+    <txt_8 >a file. Is this correct?</txt_8>
+    <txt_9 >Yes</txt_9>
+    <txt_10 >No</txt_10>
+    <txt_11 >Add Account </txt_11>
+    <txt_12 >Once the required account is created, you will return to</txt_12>
+    <txt_13 >the customer overview, by using the link below</txt_13>
+    <txt_14 >The account is created correctly when clicked "create" and the displayed popup window is no longer visible.</txt_14>
+    <txt_15 >Contact list</txt_15>
+    <txt_16 >Contacts</txt_16>
+    <txt_17 >Create Contact</txt_17>
+    <txt_18 >Filearchive</txt_18>
+    <txt_19 >Update</txt_19>
+    <txt_20 >You do not have permission to update this customer.</txt_20>
+    <txt_21 >Base Data</txt_21>
+    <txt_22 >Name</txt_22>
+    <txt_23 >Type</txt_23>
+    <txt_24 >Customer number</txt_24>
+    <txt_25 >Last customer no.</txt_25>
+    <txt_26 >Segment</txt_26>
+    <txt_27 >Select type (None)</txt_27>
+    <txt_28 >Customer data</txt_28>
+    <txt_29 >Address</txt_29>
+    <txt_30 >Alt. phone number</txt_30>
+    <txt_31 >Postal code</txt_31>
+    <txt_32 >Fax</txt_32>
+    <txt_33 >City</txt_33>
+    <txt_34 >Email</txt_34>
+    <txt_35 >Country</txt_35>
+    <txt_36 >Denmark</txt_36>
+    <txt_37 >CVR no.</txt_37>
+    <txt_38 >Tel.</txt_38>
+    <txt_39 >NCA code</txt_39>
+    <txt_40 >Mobile</txt_40>
+    <txt_41 >EAN</txt_41>
+    <txt_42 >Domains</txt_42>
+    <txt_43 >Accounts</txt_43>
+    <txt_44 >The following accounts are attached to this customer through the account plan: (set in ERP)</txt_44>
+    <txt_45 >Last invoice no.</txt_45>
+    <txt_46 >The following accounts are used solely as sender accounts on invoice layout.</txt_46>
+    <txt_47 >Account</txt_47>
+    <txt_48 >reg. No.</txt_48>
+    <txt_49 >Account No.</txt_49>
+    <txt_50 >Bank name</txt_50>
+    <txt_51 >Swift code</txt_51>
+    <txt_52 >Iban code</txt_52>
+    <txt_53 >Multiple bank accounts</txt_53>
+    <txt_54 >Customer settings</txt_54>
+    <txt_55 >Customer responsible</txt_55>
+    <txt_56 >None</txt_56>
+    <txt_57 >Description</txt_57>
+    <txt_58 >Assign Default Folders</txt_58>
+    <txt_59 >There is already</txt_59>
+    <txt_60 >folder(s)</txt_60>
+    <txt_61 >On this customer.</txt_61>
+    <txt_62 >ServiceDesk Appointment Group</txt_62>
+    <txt_63 >Once a group has been selected, incindets can be created on this customer.</txt_63>
+    <txt_64 >Invoice settings (debtor)</txt_64>
+    <txt_65 >VAT</txt_65>
+    <txt_66 >Language</txt_66>
+    <txt_67 >Currency</txt_67>
+    <txt_68 >Due date: (credit period)</txt_68>
+    <txt_69 >Payment terms</txt_69>
+    <txt_70 >Terms and Conditions</txt_70>
+    <txt_71 >Logos</txt_71>
+    <txt_72 >Max width and height: </txt_72>
+    <txt_73 >Assign new logo</txt_73>
+    <txt_74 >No logos associated with this customer.</txt_74>
+    <txt_75 >No logo is selected.</txt_75>
+    <txt_76 >Last updated</txt_76>
+    <txt_77 >by</txt_77>
+    <txt_78 >Delete</txt_78>
+    <txt_79 >Update</txt_79>
+    <txt_80 >You do not have permission to update this customer.</txt_80>
+    <txt_81 >Create new</txt_81>
+    <txt_82 >Search filter</txt_82>
+    <txt_83 >Search by Name</txt_83>
+    <txt_84 >Customer responsible</txt_84>
+    <txt_85 >Type</txt_85>
+    <txt_86 >Segment</txt_86>
+    <txt_87 >All</txt_87>
+    <txt_88 >Without segment</txt_88>
+    <txt_89 >Country</txt_89>
+    <txt_90 >Show customers</txt_90>
+    <txt_91 >Interest</txt_91>
+    <txt_92 >All</txt_92>
+    <txt_93 >Cus. no.</txt_93>
+    <txt_94 >Name</txt_94>
+    <txt_95 >Postal.</txt_95>
+    <txt_96 >City</txt_96>
+    <txt_97 >Country</txt_97>
+    <txt_98 >Telephone</txt_98>
+    <txt_99 >Type</txt_99>
+    <txt_100 >Segment</txt_100>
+    <txt_101 >CVR no.</txt_101>
+    <txt_102 >Job</txt_102>
+    <txt_103 >Invoice</txt_103>
+    <txt_104 >licence-holder</txt_104>
+    <txt_105 >Subsidiary</txt_105>
+    <txt_106 >Other</txt_106>
+    <txt_107 >Customer</txt_107>
+    <txt_108 >CRM-related</txt_108>
+    <txt_109 >Supplier</txt_109>
+    <txt_110 >Subcontractor</txt_110>
+    <txt_111 >Pcs.</txt_111>
+    <txt_112 >Features</txt_112>
+    <txt_113 >Export to csv. Detail (including contact press)</txt_113>
+    <txt_114 >Export to .csv simple</txt_114>
+    <txt_115 >This customer is set as license holder and uses invoice order group number: (see control panel)</txt_115>
+    <txt_116 >Jobs / Projects on this customer are billed as the basis of the following license holder:</txt_116>
+    <txt_117 >discount</txt_117>
+    <txt_118 >Search</txt_118>
+
+  </fr>
+
+
+
+  <!-- Engelsk -->
+  <uk>
+    
+  <txt_1 >Customers</txt_1>
+    <txt_2 >You are about to</txt_2>
+    <txt_3 >DELETE</txt_3>
+    <txt_4 >a customer. Please confirm</txt_4>
+    <txt_5 >You will also</txt_5>
+    <txt_6 >delete all</txt_6>
+    <txt_7 >Related jobs, activities, resource forecasts and invoices on this customer.</txt_7>
+    <txt_8 >a file. Is this correct?</txt_8>
+    <txt_9 >Yes</txt_9>
+    <txt_10 >No</txt_10>
+    <txt_11 >Add Account </txt_11>
+    <txt_12 >Once the required account is created, you will return to</txt_12>
+    <txt_13 >the customer overview, by using the link below</txt_13>
+    <txt_14 >The account is created correctly when clicked "create" and the displayed popup window is no longer visible.</txt_14>
+    <txt_15 >Contact list</txt_15>
+    <txt_16 >Contacts</txt_16>
+    <txt_17 >Create Contact</txt_17>
+    <txt_18 >Filearchive</txt_18>
+    <txt_19 >Update</txt_19>
+    <txt_20 >You do not have permission to update this customer.</txt_20>
+    <txt_21 >Base Data</txt_21>
+    <txt_22 >Name</txt_22>
+    <txt_23 >Type</txt_23>
+    <txt_24 >Customer number</txt_24>
+    <txt_25 >Last customer no.</txt_25>
+    <txt_26 >Segment</txt_26>
+    <txt_27 >Select type (None)</txt_27>
+    <txt_28 >Customer data</txt_28>
+    <txt_29 >Address</txt_29>
+    <txt_30 >Alt. phone number</txt_30>
+    <txt_31 >Postal code</txt_31>
+    <txt_32 >Fax</txt_32>
+    <txt_33 >City</txt_33>
+    <txt_34 >Email</txt_34>
+    <txt_35 >Country</txt_35>
+    <txt_36 >Denmark</txt_36>
+    <txt_37 >CVR no.</txt_37>
+    <txt_38 >Tel.</txt_38>
+    <txt_39 >NCA code</txt_39>
+    <txt_40 >Mobile</txt_40>
+    <txt_41 >EAN</txt_41>
+    <txt_42 >Domains</txt_42>
+    <txt_43 >Accounts</txt_43>
+    <txt_44 >The following accounts are attached to this customer through the account plan: (set in ERP)</txt_44>
+    <txt_45 >Last invoice no.</txt_45>
+    <txt_46 >The following accounts are used solely as sender accounts on invoice layout.</txt_46>
+    <txt_47 >Account</txt_47>
+    <txt_48 >reg. No.</txt_48>
+    <txt_49 >Account No.</txt_49>
+    <txt_50 >Bank name</txt_50>
+    <txt_51 >Swift code</txt_51>
+    <txt_52 >Iban code</txt_52>
+    <txt_53 >Multiple bank accounts</txt_53>
+    <txt_54 >Customer settings</txt_54>
+    <txt_55 >Customer responsible</txt_55>
+    <txt_56 >None</txt_56>
+    <txt_57 >Description</txt_57>
+    <txt_58 >Assign Default Folders</txt_58>
+    <txt_59 >There is already</txt_59>
+    <txt_60 >folder(s)</txt_60>
+    <txt_61 >On this customer.</txt_61>
+    <txt_62 >ServiceDesk Appointment Group</txt_62>
+    <txt_63 >Once a group has been selected, incindets can be created on this customer.</txt_63>
+    <txt_64 >Invoice settings (debtor)</txt_64>
+    <txt_65 >VAT</txt_65>
+    <txt_66 >Language</txt_66>
+    <txt_67 >Currency</txt_67>
+    <txt_68 >Due date: (credit period)</txt_68>
+    <txt_69 >Payment terms</txt_69>
+    <txt_70 >Terms and Conditions</txt_70>
+    <txt_71 >Logos</txt_71>
+    <txt_72 >Max width and height: </txt_72>
+    <txt_73 >Assign new logo</txt_73>
+    <txt_74 >No logos associated with this customer.</txt_74>
+    <txt_75 >No logo is selected.</txt_75>
+    <txt_76 >Last updated</txt_76>
+    <txt_77 >by</txt_77>
+    <txt_78 >Delete</txt_78>
+    <txt_79 >Update</txt_79>
+    <txt_80 >You do not have permission to update this customer.</txt_80>
+    <txt_81 >Create new</txt_81>
+    <txt_82 >Search filter</txt_82>
+    <txt_83 >Search by Name</txt_83>
+    <txt_84 >Customer responsible</txt_84>
+    <txt_85 >Type</txt_85>
+    <txt_86 >Segment</txt_86>
+    <txt_87 >All</txt_87>
+    <txt_88 >Without segment</txt_88>
+    <txt_89 >Country</txt_89>
+    <txt_90 >Show customers</txt_90>
+    <txt_91 >Interest</txt_91>
+    <txt_92 >All</txt_92>
+    <txt_93 >Cus. no.</txt_93>
+    <txt_94 >Name</txt_94>
+    <txt_95 >Postal.</txt_95>
+    <txt_96 >City</txt_96>
+    <txt_97 >Country</txt_97>
+    <txt_98 >Telephone</txt_98>
+    <txt_99 >Type</txt_99>
+    <txt_100 >Segment</txt_100>
+    <txt_101 >CVR no.</txt_101>
+    <txt_102 >Job</txt_102>
+    <txt_103 >Invoice</txt_103>
+    <txt_104 >licence-holder</txt_104>
+    <txt_105 >Subsidiary</txt_105>
+    <txt_106 >Other</txt_106>
+    <txt_107 >Customer</txt_107>
+    <txt_108 >CRM-related</txt_108>
+    <txt_109 >Supplier</txt_109>
+    <txt_110 >Subcontractor</txt_110>
+    <txt_111 >Pcs.</txt_111>
+    <txt_112 >Features</txt_112>
+    <txt_113 >Export to csv. Detail (including contact press)</txt_113>
+    <txt_114 >Export to .csv simple</txt_114>
+    <txt_115 >This customer is set as license holder and uses invoice order group number: (see control panel)</txt_115>
+    <txt_116 >Jobs / Projects on this customer are billed as the basis of the following license holder:</txt_116>
+    <txt_117 >discount</txt_117>
+    <txt_118 >Search</txt_118>
+    
+  </uk>
+
+
+  <!--- Spansk -->
+  <es>
+    
+  <txt_1 >Customers</txt_1>
+    <txt_2 >You are about to</txt_2>
+    <txt_3 >DELETE</txt_3>
+    <txt_4 >a customer. Please confirm</txt_4>
+    <txt_5 >You will also</txt_5>
+    <txt_6 >delete all</txt_6>
+    <txt_7 >Related jobs, activities, resource forecasts and invoices on this customer.</txt_7>
+    <txt_8 >a file. Is this correct?</txt_8>
+    <txt_9 >Yes</txt_9>
+    <txt_10 >No</txt_10>
+    <txt_11 >Add Account </txt_11>
+    <txt_12 >Once the required account is created, you will return to</txt_12>
+    <txt_13 >the customer overview, by using the link below</txt_13>
+    <txt_14 >The account is created correctly when clicked "create" and the displayed popup window is no longer visible.</txt_14>
+    <txt_15 >Contact list</txt_15>
+    <txt_16 >Contacts</txt_16>
+    <txt_17 >Create Contact</txt_17>
+    <txt_18 >Filearchive</txt_18>
+    <txt_19 >Update</txt_19>
+    <txt_20 >You do not have permission to update this customer.</txt_20>
+    <txt_21 >Base Data</txt_21>
+    <txt_22 >Name</txt_22>
+    <txt_23 >Type</txt_23>
+    <txt_24 >Customer number</txt_24>
+    <txt_25 >Last customer no.</txt_25>
+    <txt_26 >Segment</txt_26>
+    <txt_27 >Select type (None)</txt_27>
+    <txt_28 >Customer data</txt_28>
+    <txt_29 >Address</txt_29>
+    <txt_30 >Alt. phone number</txt_30>
+    <txt_31 >Postal code</txt_31>
+    <txt_32 >Fax</txt_32>
+    <txt_33 >City</txt_33>
+    <txt_34 >Email</txt_34>
+    <txt_35 >Country</txt_35>
+    <txt_36 >Denmark</txt_36>
+    <txt_37 >CVR no.</txt_37>
+    <txt_38 >Tel.</txt_38>
+    <txt_39 >NCA code</txt_39>
+    <txt_40 >Mobile</txt_40>
+    <txt_41 >EAN</txt_41>
+    <txt_42 >Domains</txt_42>
+    <txt_43 >Accounts</txt_43>
+    <txt_44 >The following accounts are attached to this customer through the account plan: (set in ERP)</txt_44>
+    <txt_45 >Last invoice no.</txt_45>
+    <txt_46 >The following accounts are used solely as sender accounts on invoice layout.</txt_46>
+    <txt_47 >Account</txt_47>
+    <txt_48 >reg. No.</txt_48>
+    <txt_49 >Account No.</txt_49>
+    <txt_50 >Bank name</txt_50>
+    <txt_51 >Swift code</txt_51>
+    <txt_52 >Iban code</txt_52>
+    <txt_53 >Multiple bank accounts</txt_53>
+    <txt_54 >Customer settings</txt_54>
+    <txt_55 >Customer responsible</txt_55>
+    <txt_56 >None</txt_56>
+    <txt_57 >Description</txt_57>
+    <txt_58 >Assign Default Folders</txt_58>
+    <txt_59 >There is already</txt_59>
+    <txt_60 >folder(s)</txt_60>
+    <txt_61 >On this customer.</txt_61>
+    <txt_62 >ServiceDesk Appointment Group</txt_62>
+    <txt_63 >Once a group has been selected, incindets can be created on this customer.</txt_63>
+    <txt_64 >Invoice settings (debtor)</txt_64>
+    <txt_65 >VAT</txt_65>
+    <txt_66 >Language</txt_66>
+    <txt_67 >Currency</txt_67>
+    <txt_68 >Due date: (credit period)</txt_68>
+    <txt_69 >Payment terms</txt_69>
+    <txt_70 >Terms and Conditions</txt_70>
+    <txt_71 >Logos</txt_71>
+    <txt_72 >Max width and height: </txt_72>
+    <txt_73 >Assign new logo</txt_73>
+    <txt_74 >No logos associated with this customer.</txt_74>
+    <txt_75 >No logo is selected.</txt_75>
+    <txt_76 >Last updated</txt_76>
+    <txt_77 >by</txt_77>
+    <txt_78 >Delete</txt_78>
+    <txt_79 >Update</txt_79>
+    <txt_80 >You do not have permission to update this customer.</txt_80>
+    <txt_81 >Create new</txt_81>
+    <txt_82 >Search filter</txt_82>
+    <txt_83 >Search by Name</txt_83>
+    <txt_84 >Customer responsible</txt_84>
+    <txt_85 >Type</txt_85>
+    <txt_86 >Segment</txt_86>
+    <txt_87 >All</txt_87>
+    <txt_88 >Without segment</txt_88>
+    <txt_89 >Country</txt_89>
+    <txt_90 >Show customers</txt_90>
+    <txt_91 >Interest</txt_91>
+    <txt_92 >All</txt_92>
+    <txt_93 >Cus. no.</txt_93>
+    <txt_94 >Name</txt_94>
+    <txt_95 >Postal.</txt_95>
+    <txt_96 >City</txt_96>
+    <txt_97 >Country</txt_97>
+    <txt_98 >Telephone</txt_98>
+    <txt_99 >Type</txt_99>
+    <txt_100 >Segment</txt_100>
+    <txt_101 >CVR no.</txt_101>
+    <txt_102 >Job</txt_102>
+    <txt_103 >Invoice</txt_103>
+    <txt_104 >licence-holder</txt_104>
+    <txt_105 >Subsidiary</txt_105>
+    <txt_106 >Other</txt_106>
+    <txt_107 >Customer</txt_107>
+    <txt_108 >CRM-related</txt_108>
+    <txt_109 >Supplier</txt_109>
+    <txt_110 >Subcontractor</txt_110>
+    <txt_111 >Pcs.</txt_111>
+    <txt_112 >Features</txt_112>
+    <txt_113 >Export to csv. Detail (including contact press)</txt_113>
+    <txt_114 >Export to .csv simple</txt_114>
+    <txt_115 >This customer is set as license holder and uses invoice order group number: (see control panel)</txt_115>
+    <txt_116 >Jobs / Projects on this customer are billed as the basis of the following license holder:</txt_116>
+    <txt_117 >discount</txt_117>
+    <txt_118 >Search</txt_118>
+
+  </es>
+
+
+</sprog>

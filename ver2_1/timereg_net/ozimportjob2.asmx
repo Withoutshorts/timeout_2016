@@ -118,7 +118,10 @@ Public Class oz_importjob2
     Public errThis As Integer = 0
     Public kid As Integer
 
+    Public jobStatus As Integer = 1
+
     Public kunderef As Integer = 0
+
     Public rekvisitionsnr As String
     Public bruttooms As Double
     Public internnote As String = ""
@@ -159,6 +162,8 @@ Public Class oz_importjob2
 
     Public intCountInserted As Integer = 0
     Public strAktFase As String = ""
+
+    Public kpers, rekvnr As String
 
     <WebMethod()> Public Function createjob2(ByVal ds As DataSet) As String
 
@@ -241,6 +246,9 @@ Public Class oz_importjob2
         objConn = New OdbcConnection(strConn)
         objConn.Open()
 
+        objConn2 = New OdbcConnection(strConn)
+        objConn2.Open()
+
         'Try
 
         'Dim strSQLjnjUpd As String = "UPDATE job_import_temp SET aktnavn = '" + importtype + "' WHERE id > 0 AND overfort = 0 AND errid = 0 "
@@ -260,8 +268,10 @@ Public Class oz_importjob2
 
             If (importtype = "d1") Then
                 '*** KUN FØRSTE linje 4 for hver job. Linje 4 = jobnavn
-                Dim strSQLjnj As String = "SELECT id, dato, editor, origin, jobnavn, jobnr, jobstartdato, jobslutdato, jobans, lto, beskrivelse, kundenavn, kundenr FROM job_import_temp WHERE id > 0 AND overfort = 0 AND errid = 0 AND beskrivelse = 4 GROUP BY jobnr ORDER BY jobnr"
-                'Dim strSQLjnj As String = "SELECT id FROM job_import_temp WHERE id > 0 AND overfort = 10 AND errid = 0 " & orderBySQL
+                Dim strSQLjnj As String = "SELECT id, dato, editor, origin, jobnavn, jobnr, jobstartdato, jobslutdato, jobans, lto, "
+                strSQLjnj += "beskrivelse, kundenavn, kundenr, kpers, rekvnr FROM job_import_temp "
+                strSQLjnj += "WHERE id > 0 And overfort = 0 And errid = 0 And beskrivelse = 4 GROUP BY jobnr ORDER BY jobnr"
+                'Dim strSQLjnj As String = "Select id FROM job_import_temp WHERE id > 0 And overfort = 10 And errid = 0 " & orderBySQL
                 objCmd = New OdbcCommand(strSQLjnj, objConn)
                 objDR = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
 
@@ -269,8 +279,8 @@ Public Class oz_importjob2
             Else
 
                 '*** KUN FØRSTE linje 4 for hver job. Linje 4 = jobnavn
-                Dim strSQLjnj As String = "SELECT id, dato, editor, origin, jobnavn, jobnr, jobstartdato, jobslutdato, jobans, lto, beskrivelse, kundenavn, kundenr FROM job_import_temp WHERE id > 0 AND overfort = 0 AND errid = 0  GROUP BY jobnr ORDER BY jobnr"
-                'Dim strSQLjnj As String = "SELECT id FROM job_import_temp WHERE id > 0 AND overfort = 10 AND errid = 0 " & orderBySQL
+                Dim strSQLjnj As String = "Select id, dato, editor, origin, jobnavn, jobnr, jobstartdato, jobslutdato, jobans, lto, beskrivelse, kundenavn, kundenr FROM job_import_temp WHERE id > 0 And overfort = 0 And errid = 0  GROUP BY jobnr ORDER BY jobnr"
+                'Dim strSQLjnj As String = "Select id FROM job_import_temp WHERE id > 0 And overfort = 10 And errid = 0 " & orderBySQL
                 objCmd = New OdbcCommand(strSQLjnj, objConn)
                 objDR = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
 
@@ -289,8 +299,8 @@ Public Class oz_importjob2
 
 
             '*** HENTER JOB FRA JOB_IMPORT_TEMP '****
-            Dim strSQLjnj As String = "SELECT id, dato, editor, origin, jobnavn, jobnr, jobstartdato, jobslutdato, jobans, lto, beskrivelse " & aktFields & " FROM job_import_temp WHERE id > 0 AND overfort = 0 AND errid = 0 " & orderBySQL
-            'Dim strSQLjnj As String = "SELECT id FROM job_import_temp WHERE id > 0 AND overfort = 10 AND errid = 0 " & orderBySQL
+            Dim strSQLjnj As String = "Select id, dato, editor, origin, jobnavn, jobnr, jobstartdato, jobslutdato, jobans, lto, beskrivelse " & aktFields & " FROM job_import_temp WHERE id > 0 And overfort = 0 And errid = 0 " & orderBySQL
+            'Dim strSQLjnj As String = "SELECT id FROM job_import_temp WHERE id > 0 And overfort = 10 And errid = 0 " & orderBySQL
             objCmd = New OdbcCommand(strSQLjnj, objConn)
             objDR = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
 
@@ -312,6 +322,11 @@ Public Class oz_importjob2
                 sort = 0
                 aktvarenr = ""
                 antalstk = 0
+
+
+                kunderef = 0
+                kpers = objDR("kpers")
+                rekvisitionsnr = objDR("rekvnr")
 
             Else
 
@@ -336,6 +351,10 @@ Public Class oz_importjob2
                         aktvarenr = ""
                         antalstk = 0
                 End Select
+
+                kpers = ""
+                kunderef = 0
+                rekvisitionsnr = 0
 
             End If
 
@@ -379,7 +398,7 @@ Public Class oz_importjob2
 
 
 
-            If (importtype = "d1" Or importtype = "t1") Then
+            If (importtype = "d1" Or importtype = "t1") Then 'BLA TIA t1
 
                 kundenavnTxt = objDR("kundenavn")
                 kundenrTxt = objDR("kundenr")
@@ -455,7 +474,7 @@ Public Class oz_importjob2
             Dim strSQLjobnrfindes As String = "Select jobnr FROM job WHERE jobnr = '" + strjobnr + "'"
             objCmd = New OdbcCommand(strSQLjobnrfindes, objConn)
             objDR2 = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
-            jobans = 0
+
             If objDR2.Read() = True Then
 
                 errThis = 0
@@ -525,11 +544,53 @@ Public Class oz_importjob2
                     End If
 
 
+                    '*** Kontaktperson ***
+                    If (importtype = "d1") And (lto = "dencker" Or lto = "dencker_test") Then
+
+                        '** Tjekker om Kpers findes ***'
+                        kunderef = 0
+                        Dim strSQKfindKpers As String = "SELECT id FROM kontaktpers WHERE navn = '" & kpers & "' AND kundeid = " & kid & " ORDER BY id DESC LIMIT 1"
+                        objCmd = New OdbcCommand(strSQKfindKpers, objConn)
+                        objDR2 = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
+
+                        If objDR2.Read() = True Then
+
+
+                            kunderef = objDR2("id")
+
+                        End If
+                        objDR2.Close()
+
+
+                        If CInt(kunderef) = 0 Then
+
+                            Dim strSQKkperIns As String = "INSERT INTO kontaktpers (kundeid, navn) VALUES (" & kid & ", '" & kpers & "')"
+                            objCmd = New OdbcCommand(strSQKkperIns, objConn)
+                            objCmd.ExecuteReader() '(CommandBehavior.closeConnection)
+
+
+                            Dim strSQKfindKpersNy As String = "SELECT id FROM kontaktpers WHERE navn = '" & kpers & "' AND kundeid = " & kid & " ORDER BY id DESC LIMIT 1"
+                            objCmd = New OdbcCommand(strSQKfindKpersNy, objConn)
+                            objDR2 = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
+
+                            If objDR2.Read() = True Then
+
+
+                                kunderef = objDR2("id")
+
+                            End If
+                            objDR2.Close()
+
+                        End If
+
+                    End If
+
+
+
             End Select
 
 
-            kunderef = 0
-            rekvisitionsnr = 0
+
             bruttooms = 0
             internnote = ""
 
@@ -557,10 +618,23 @@ Public Class oz_importjob2
                     opretJobOk = 0
                 End If
 
+
+                If importtype = "t1" Or lto = "tia" Then
+
+                    If LCase(beskrivelse) = "all" Then
+                        jobStatus = 0
+                    Else
+                        jobStatus = 1
+                    End If
+                Else
+                    jobStatus = 1
+                End If
+
+
+
                 If CInt(opretJobOk) = 1 Then
 
-                    objConn2 = New OdbcConnection(strConn)
-                    objConn2.Open()
+
 
                     If beskrivelse = "4" Then
                         beskrivelse = ""
@@ -584,10 +658,10 @@ Public Class oz_importjob2
 
                         If CInt(opdaterJob) = 1 Then 'opdater
 
-                            Dim strSQLjobUpd As String = ("Update job SET jobnavn = '" & jobnavn & "', jobnr = '" & jobnr & "', jobstatus = 1, " _
+                            Dim strSQLjobUpd As String = ("Update job SET jobnavn = '" & jobnavn & "', jobnr = '" & jobnr & "', jobstatus = " & jobStatus & ", " _
                             & " jobstartdato = '" & jobstartdato.ToString("yyyy/MM/dd", Globalization.CultureInfo.InvariantCulture) & "'," _
                             & " jobslutdato = '" & jobslutdato.ToString("yyyy/MM/dd", Globalization.CultureInfo.InvariantCulture) & "', editor = '" & editor & "', " _
-                            & " dato = '" & dato.ToString("yyyy/MM/dd", Globalization.CultureInfo.InvariantCulture) & "', beskrivelse = '" & beskrivelse & "', jobans1 = " & jobans & ", " _
+                            & " dato = '" & dato.ToString("yyyy/MM/dd", Globalization.CultureInfo.InvariantCulture) & "', beskrivelse = '" & beskrivelse & "',  jobans1 = " & jobans & ", " _
                             & " kundekpers = " & kunderef & " WHERE jobnr = '" & jobnr & "'")
 
                             objCmd = New OdbcCommand(strSQLjobUpd, objConn)
@@ -869,7 +943,7 @@ Public Class oz_importjob2
                     & "'" & strjobnr & "', " _
                     & "" & kid & ", " _
                     & "0, " _
-                    & "1, " _
+                    & "" & jobStatus & ", " _
                     & "'" & jobstartdato.ToString("yyyy/MM/dd", Globalization.CultureInfo.InvariantCulture) & "', " _
                     & "'" & jobslutdato.ToString("yyyy/MM/dd", Globalization.CultureInfo.InvariantCulture) & "', " _
                     & "'" & editor & "', " _
@@ -910,7 +984,7 @@ Public Class oz_importjob2
                         '*********** timereg_usejob, så der kan søges fra jobbanken KUN VED OPRET JOB *********************
                         Select Case lto
                             Case "oko"
-                            Case "wilke", "dencker", "dencker_test"
+                            Case "wilke", "dencker", "dencker_test", "tia"
 
                                 Dim strProjektgr1 As Integer = 10
                                 Dim strProjektgr2 As Integer = 1
@@ -1025,7 +1099,7 @@ Public Class oz_importjob2
 
                     End If 'Opdater / opret
 
-                    objConn2.Close()
+                    'objConn2.Close() 20170707
                 End If 'opretJobOk kundekundet
 
 
@@ -1115,6 +1189,7 @@ Public Class oz_importjob2
 
 
         objConn.Close()
+        objConn2.Close()
 
 
 

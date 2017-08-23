@@ -175,7 +175,7 @@ end function
                     if timerThis <> 0 then 'hgttimmtyp
                     bdThis = 1
                     timerThis = formatnumber(timerThis,2)
-                    timerThisTxt = formatnumber(timerThis, 2) & " t."
+                    timerThisTxt = formatnumber(timerThis, 2) & " "&job_txt_409
                     else
                     timerThisTxt = ""
                     timerThis = ""
@@ -245,30 +245,58 @@ end function
                 call bdgmtypon_fn()
                 if cint(bdgmtypon_val) = 1 then
                 'case "epi", "xintranet - local", "epi_no", "epi_sta", "epi_ab"
-                medTxt1 = "medarbejdertyper"
+                medTxt1 = job_txt_583
                 tfordGrpBy = "tjobnr, mt.id"
                 mnavnFlt = "mt.type"
                 else
-                medTxt1 = "medarbejdere"
+                medTxt1 = job_txt_584
                 tfordGrpBy = "tjobnr, m.mid"
                 mnavnFlt = "m.mnavn"
                 end if
+
+                'startD
+                if month(stDatoMtypTxt) = 1 then startdatoMonthtxt = job_txt_588 end if
+                if month(stDatoMtypTxt) = 2 then startdatoMonthtxt = job_txt_589 end if
+                if month(stDatoMtypTxt) = 3 then startdatoMonthtxt = job_txt_590 end if
+                if month(stDatoMtypTxt) = 4 then startdatoMonthtxt = job_txt_591 end if
+                if month(stDatoMtypTxt) = 5 then startdatoMonthtxt = job_txt_592 end if
+                if month(stDatoMtypTxt) = 6 then startdatoMonthtxt = job_txt_593 end if
+                if month(stDatoMtypTxt) = 7 then startdatoMonthtxt = job_txt_594 end if
+                if month(stDatoMtypTxt) = 8 then startdatoMonthtxt = job_txt_595 end if
+                if month(stDatoMtypTxt) = 9 then startdatoMonthtxt = job_txt_596 end if
+                if month(stDatoMtypTxt) = 10 then startdatoMonthtxt = job_txt_597 end if
+                if month(stDatoMtypTxt) = 11 then startdatoMonthtxt = job_txt_598 end if
+                if month(stDatoMtypTxt) = 12 then startdatoMonthtxt = job_txt_599 end if
+                
+                'slutD
+                if month(slDatoMtypTxt) = 1 then slutdatoMonthtxt = job_txt_588 end if
+                if month(slDatoMtypTxt) = 2 then slutdatoMonthtxt = job_txt_589 end if
+                if month(slDatoMtypTxt) = 3 then slutdatoMonthtxt = job_txt_590 end if
+                if month(slDatoMtypTxt) = 4 then slutdatoMonthtxt = job_txt_591 end if
+                if month(slDatoMtypTxt) = 5 then slutdatoMonthtxt = job_txt_592 end if
+                if month(slDatoMtypTxt) = 6 then slutdatoMonthtxt = job_txt_593 end if
+                if month(slDatoMtypTxt) = 7 then slutdatoMonthtxt = job_txt_594 end if
+                if month(slDatoMtypTxt) = 8 then slutdatoMonthtxt = job_txt_595 end if
+                if month(slDatoMtypTxt) = 9 then slutdatoMonthtxt = job_txt_596 end if
+                if month(slDatoMtypTxt) = 10 then slutdatoMonthtxt = job_txt_597 end if
+                if month(slDatoMtypTxt) = 11 then slutdatoMonthtxt = job_txt_598 end if
+                if month(slDatoMtypTxt) = 12 then slutdatoMonthtxt = job_txt_599 end if
                 %>
                 
                 <span style="font-size:9px;">
-                <b>Fordeling på <%=medTxt1 %>:</b><br />
+                <b><%=job_txt_585 &" "%> <%=medTxt1 %>:</b><br />
                    
                     <%if cint(per) <> 0 then 
                      
                         if cint(bdgmtypon_val) = 1 AND cint(bdgmtypon_prgrp) > 1 then 
                         stDatoMtyp = year(stDatoMtyp) &"/"& month(stDatoMtyp) &"/1"%>
-                        Per.: 1. <%=left(monthname(month(stDatoMtypTxt)), 3) &" "& year(stDatoMtypTxt) &" - "& dainmo &". "& left(monthname(month(slDatoMtypTxt)), 3) &" "& year(slDatoMtypTxt)%> <!--<span style="color:#999999;">(<%=antalManeder %> måneder)</span>-->
+                        Per.: 1. <%=startdatoMonthtxt &" "& year(stDatoMtypTxt) &" - "& dainmo &". "& slutdatoMonthtxt &" "& year(slDatoMtypTxt)%> <!--<span style="color:#999999;">(<%=antalManeder %> måneder)</span>-->
                         <%
                         else%>
-                        Per.: <%=formatdatetime(stDatoMtypTxt, 1) & " - "& formatdatetime(slDatoMtypTxt, 1)%><!--<span style="color:#999999;"><br />(<%=antalManeder %> måneder, maks. 10 medarb.)</span>  -->
+                        Per.: <%=day(stDatoMtypTxt) &" "& startdatoMonthtxt &" "& year(stDatoMtypTxt) &" - "& day(slDatoMtypTxt) &" "& slutdatoMonthtxt &" "& year(slDatoMtypTxt)  %> <!--<%=formatdatetime(stDatoMtypTxt, 1) & " - "& formatdatetime(slDatoMtypTxt, 1)%><!--<span style="color:#999999;"><br />(<%=antalManeder %> måneder, maks. 10 medarb.)</span>  -->
                         <%end if
                     else %>
-                    Periode: total uanset periode<span style="color:#999999;"><br /> (maks. 10 medarb./typer)</span>
+                    <%=job_txt_568 %>:<%=" "& job_txt_586 %><span style="color:#999999;"><br /> (<%=job_txt_587 %>)</span>
                     <%end if %>
                     </span>
                     <table cellpadding=0 cellspacing=1 border=0>

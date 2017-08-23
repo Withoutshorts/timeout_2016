@@ -7,18 +7,18 @@
              if cint(directexp) <> 1 AND ((cint(upSpec) = 0 AND jobmedtimer(x,38) = 0)) then 
     
 			strMedarbOskriftLinie = strMedarbOskriftLinie & "<tr>"
-			strMedarbOskriftLinie = strMedarbOskriftLinie & "<td valign=bottom style='padding:2px; border-top:1px #CCCCCC solid; width:150px; white-space:nowrap;' bgcolor='#F7F7F7'>Kunde<br>Job <span style='font-size:9px;'>(aktiviteter)</span></td>"
+			strMedarbOskriftLinie = strMedarbOskriftLinie & "<td valign=bottom style='padding:2px; border-top:1px #CCCCCC solid; width:150px; white-space:nowrap;' bgcolor='#F7F7F7'>"&joblog_txt_192&"<br>Job <span style='font-size:9px;'>("&joblog_txt_193&")</span></td>"
 				
 				
 				
 				'*** job totaler oskrifter  **'
 				
 						    if media = "print" then
-                            strFakbtimTxt = "Budget."
-		                    strFakbTxt = "Brutto Oms.&nbsp;"
+                            strFakbtimTxt = joblog_txt_194
+		                    strFakbTxt = joblog_txt_195 &"&nbsp;"
                             else
-							strFakbtimTxt = "Budget timer<br><span style='font-size:9px;'>(forkalk.)</span>"
-		                    strFakbTxt = "Brutto Oms.&nbsp;"
+							strFakbtimTxt = joblog_txt_109 &"<br><span style='font-size:9px;'>("&joblog_txt_110&")</span>"
+		                    strFakbTxt = joblog_txt_195 &"&nbsp;"
                             end if
                            
 				
@@ -38,14 +38,14 @@
                             strMedarbOskriftLinie = strMedarbOskriftLinie & "<td class=lille "&tdstyleTimOms&" bgcolor=#F7F7F7>"
                 
                              if cint(vis_restimer) = 1 then
-                             strMedarbOskriftLinie = strMedarbOskriftLinie &"<span style='color:#999999; font-size:9px;'>Forecast.</span><br>"
+                             strMedarbOskriftLinie = strMedarbOskriftLinie &"<span style='color:#999999; font-size:9px;'>"&joblog_txt_196&"</span><br>"
                              end if
                 
-                             strMedarbOskriftLinie = strMedarbOskriftLinie &"Real. timer<br>"
+                             strMedarbOskriftLinie = strMedarbOskriftLinie & joblog_txt_113 &"<br>"
                     
                     
                             
-                            strMedarbOskriftLinie = strMedarbOskriftLinie &"<span style='font-size:9px;'>(før vlgt. per.)</span></td>"
+                            strMedarbOskriftLinie = strMedarbOskriftLinie &"<span style='font-size:9px;'>("&joblog_txt_112&")</span></td>"
                
                             end if
                 
@@ -56,23 +56,23 @@
 				            strMedarbOskriftLinie = strMedarbOskriftLinie & "<td class=lille "&tdstyleTimOms&" bgcolor=#F7F7F7>"
                 
                              if cint(vis_restimer) = 1 then
-                             strMedarbOskriftLinie = strMedarbOskriftLinie &"<span style='color:#999999; font-size:9px;'>Forecast</span><br>"
+                             strMedarbOskriftLinie = strMedarbOskriftLinie &"<span style='color:#999999; font-size:9px;'>"&joblog_txt_111&"</span><br>"
                              end if
 
                             strMedarbOskriftLinie = strMedarbOskriftLinie &jobaktOskrift&" "
 				
 				                select case cint(visfakbare_res) 
                                 case 1
-				                strMedarbOskriftLinie = strMedarbOskriftLinie & "Real. timer"
-				                strMedarbOskriftLinie = strMedarbOskriftLinie & "<br>Oms.&nbsp;<br>Balance<br><span style='font-size:9px;'>(i per.)</span>&nbsp;"
+				                strMedarbOskriftLinie = strMedarbOskriftLinie & joblog_txt_113
+				                strMedarbOskriftLinie = strMedarbOskriftLinie & "<br>"&joblog_txt_197&"&nbsp;<br>"&joblog_txt_052&"<br><span style='font-size:9px;'>("&joblog_txt_114&")</span>&nbsp;"
 				    
 				                case 2
 
-                                strMedarbOskriftLinie = strMedarbOskriftLinie & "Real. timer"
-				                strMedarbOskriftLinie = strMedarbOskriftLinie & "<br>Kost. ialt&nbsp;<br>Balance<br><span style='font-size:9px;'>(i per.)</span>&nbsp;"
+                                strMedarbOskriftLinie = strMedarbOskriftLinie & joblog_txt_113
+				                strMedarbOskriftLinie = strMedarbOskriftLinie & "<br>"&joblog_txt_198&"&nbsp;<br>"&joblog_txt_052&"<br><span style='font-size:9px;'>("&joblog_txt_114&")</span>&nbsp;"
 
                                 case else
-				                strMedarbOskriftLinie = strMedarbOskriftLinie & "Real. timer<br><span style='font-size:9px;'>(i per.)</span>&nbsp;"
+				                strMedarbOskriftLinie = strMedarbOskriftLinie & joblog_txt_113 &"<br><span style='font-size:9px;'>("&joblog_txt_114&")</span>&nbsp;"
 				    
 				                    'if cint(vis_enheder) = 1 then
 				                    'strMedarbOskriftLinie = strMedarbOskriftLinie &"<br>Enheder&nbsp;"
@@ -98,10 +98,10 @@
                     strMedarbOskriftLinie = strMedarbOskriftLinie &"<td class=lille "&tdstyleTimOms&" bgcolor=#F7F7F7>"
 
                      if cint(vis_restimer) = 1 then
-                     strMedarbOskriftLinie = strMedarbOskriftLinie &"<span style='color:#999999; font-size:9px;'>Forecast</span><br>"
+                     strMedarbOskriftLinie = strMedarbOskriftLinie &"<span style='color:#999999; font-size:9px;'>"&joblog_txt_111&"</span><br>"
                      end if
 
-                     strMedarbOskriftLinie = strMedarbOskriftLinie &"Real. timer<br><span style='font-size:9px;'>(ialt)</span></td>"
+                     strMedarbOskriftLinie = strMedarbOskriftLinie & joblog_txt_113 &"<br><span style='font-size:9px;'>("&joblog_txt_116&")</span></td>"
 
                     end if
 
@@ -492,7 +492,7 @@ sub subTotaler_gt
                
 				
 			    strJobLinie_Subtotal = "<tr>"
-				strJobLinie_Subtotal = strJobLinie_Subtotal & "<td style='padding:4px; border-top:1px #CCCCCC solid;' valign=bottom bgcolor=snow><b>Jobtotal:</b></td>"
+				strJobLinie_Subtotal = strJobLinie_Subtotal & "<td style='padding:4px; border-top:1px #CCCCCC solid;' valign=bottom bgcolor=snow><b>"&joblog_txt_199&":</b></td>"
 						
 						strJobLinie_Subtotal = strJobLinie_Subtotal & "<td class=lille valign=bottom align=right "&tdstyleTimOms2&" bgcolor=snow>" 
 						
@@ -535,7 +535,7 @@ sub subTotaler_gt
 
                         '*** Enheder ***'
 						if cint(vis_enheder) = 1 then
-                        strJobLinie_Subtotal = strJobLinie_Subtotal &"<br><span style='color:#5c75AA; font-size:9px;'> enh. "& formatnumber(enhederPrevSaldoSub,2)  & "</span>"
+                        strJobLinie_Subtotal = strJobLinie_Subtotal &"<br><span style='color:#5c75AA; font-size:9px;'> "&joblog_txt_185&" "& formatnumber(enhederPrevSaldoSub,2)  & "</span>"
                         end if
                         
                         strJobLinie_Subtotal = strJobLinie_Subtotal &"</td>"
@@ -551,7 +551,7 @@ sub subTotaler_gt
 
                         '**** Res timer ***'
                          if cint(vis_restimer) = 1 then
-                         strJobLinie_Subtotal = strJobLinie_Subtotal & "<span style='color:#999999;'>"& formatnumber(restimerSubJob,0) &"</span><br>"
+                         strJobLinie_Subtotal = strJobLinie_Subtotal & "<span style='color:#999999;'>"& formatnumber(restimerSubJob,2) &"</span><br>"
                          end if
 
 
@@ -560,14 +560,14 @@ sub subTotaler_gt
 
 						'*** Enheder ***'
 						if cint(vis_enheder) = 1 then
-                        strJobLinie_Subtotal = strJobLinie_Subtotal &"<br><span style='color:#5c75AA; font-size:9px;'> enh. "& formatnumber(subJobEnh,2)  & "</span>"
+                        strJobLinie_Subtotal = strJobLinie_Subtotal &"<br><span style='color:#5c75AA; font-size:9px;'> "&joblog_txt_185&" "& formatnumber(subJobEnh,2)  & "</span>"
                         end if
                                 
 
                                
 						if cint(visfakbare_res) = 1 OR cint(visfakbare_res) = 2 then
 						strJobLinie_Subtotal = strJobLinie_Subtotal & "<br><span style='color=#000000; font-size:8px;'>"& valutaKode_CCC &" "&formatnumber(subtotaljobOmsIalt, 2)& "</span>" 
-						strJobLinie_Subtotal = strJobLinie_Subtotal & "<br><font class=megetlillesilver>bal.: "&formatnumber(subdbialt, 2)&"</td>"
+						strJobLinie_Subtotal = strJobLinie_Subtotal & "<br><font class=megetlillesilver>"&joblog_txt_186&": "&formatnumber(subdbialt, 2)&"</td>"
 						else
 						strJobLinie_Subtotal = strJobLinie_Subtotal & "</td>"
 						end if
@@ -589,7 +589,7 @@ sub subTotaler_gt
 
                         '**** Res timer ***'
                         if cint(vis_restimer) = 1 then
-                        strJobLinie_Subtotal = strJobLinie_Subtotal & "<span style='color:#999999;'>"& formatnumber(restimerSubGtotalJob,0) &"</span><br>"
+                        strJobLinie_Subtotal = strJobLinie_Subtotal & "<span style='color:#999999;'>"& formatnumber(restimerSubGtotalJob,2) &"</span><br>"
                         end if
                            
                         
@@ -614,7 +614,7 @@ sub subTotaler_gt
                                 efntCol = "#5c75AA"
                                 eSign = "="
                                 end if
-                         strJobLinie_Subtotal = strJobLinie_Subtotal &"<br><span style='color:"&efntCol&"; font-size:9px;'> "& eSign &" enh. "& formatnumber(enhederGSub,2)  & "</span>"
+                         strJobLinie_Subtotal = strJobLinie_Subtotal &"<br><span style='color:"&efntCol&"; font-size:9px;'> "& eSign &" "&joblog_txt_185&" "& formatnumber(enhederGSub,2)  & "</span>"
                          end if
 
                          strJobLinie_Subtotal = strJobLinie_Subtotal &"</td>"
@@ -650,7 +650,7 @@ sub subTotaler_gt
 						
 						if cint(vis_enheder) = 1 then
 						    if subMedabTotenh(v) <> 0 then
-                            strJobLinie_Subtotal = strJobLinie_Subtotal & "<br><span style='color:#5c75AA; font-size:9px;'>enh. " & formatnumber(subMedabTotenh(v), 2) & "</span>"
+                            strJobLinie_Subtotal = strJobLinie_Subtotal & "<br><span style='color:#5c75AA; font-size:9px;'>"&joblog_txt_185&" " & formatnumber(subMedabTotenh(v), 2) & "</span>"
                             else
                             strJobLinie_Subtotal = strJobLinie_Subtotal & "&nbsp;<br>"
                             end if
@@ -1045,7 +1045,7 @@ end sub
 
                                                 if cint(vis_enheder) = 1 then
                                                     if formatnumber(jobmedtimer(x, 25)) <> 0 then
-						                            strJobLinie = strJobLinie & " <br><span style='color:#5c75AA; font-size:9px;'> enh. "& formatnumber(jobmedtimer(x, 25), 2) & "</span>" 
+						                            strJobLinie = strJobLinie & " <br><span style='color:#5c75AA; font-size:9px;'> "&joblog_txt_185&" "& formatnumber(jobmedtimer(x, 25), 2) & "</span>" 
                                                     else
                                                     strJobLinie = strJobLinie & "&nbsp;"
                                                     end if
@@ -1162,7 +1162,7 @@ end sub
                                                     if vis_redaktor = 1 AND cint(visfakbare_res) = 1 then
                                                     
                                                    
-                                                    strJobLinie = strJobLinie &"<br><input type='text' class='f_tp_"&jobmedtimer(x, 4)&"_"&jobmedtimer(x, 0)&"_"&jobmedtimer(x, 12)&"' id='f_tp_"&x&"' value='"& formatnumber(medTpris, 2) & "' name='FM_tp_t' style='color=#6CAE1C; padding:0px; width:40px; height:14px; line-height:9px; font-size:9px;'> /t. <span class='s_tp' id='s_tp_"&jobmedtimer(x, 4)&"_"&jobmedtimer(x, 0)&"_"&jobmedtimer(x, 12)&"__"&x&"' style='font-size:9px; color:#3B5998;'><=></span>"
+                                                    strJobLinie = strJobLinie &"<br><input type='text' class='f_tp_"&jobmedtimer(x, 4)&"_"&jobmedtimer(x, 0)&"_"&jobmedtimer(x, 12)&"' id='f_tp_"&x&"' value='"& formatnumber(medTpris, 2) & "' name='FM_tp_t' style='color=#6CAE1C; padding:0px; width:40px; height:14px; line-height:9px; font-size:9px;'> /"&joblog_txt_200&" <span class='s_tp' id='s_tp_"&jobmedtimer(x, 4)&"_"&jobmedtimer(x, 0)&"_"&jobmedtimer(x, 12)&"__"&x&"' style='font-size:9px; color:#3B5998;'><=></span>"
                                                     strJobLinie = strJobLinie &"<input type='hidden' value='#' name='FM_tp_t'>"
                                                     strJobLinie = strJobLinie &"<input type='hidden' value='"& jobmedtimer(x, 6) & "' name='FM_jobnr_t'>"
                                                     strJobLinie = strJobLinie &"<input type='hidden' value='"& jobmedtimer(x, 0) & "' name='FM_jobid_t'>"
@@ -1174,9 +1174,9 @@ end sub
 
                                                         if jobmedtimer(x,3) <> 0 then
                                                             if cint(visfakbare_res) = 1 then
-                                                            strJobLinie = strJobLinie &"<br><span style='color=#6CAE1C; font-size:9px;'>"& formatnumber(medTpris, 2) & " /t.</span>"
+                                                            strJobLinie = strJobLinie &"<br><span style='color=#6CAE1C; font-size:9px;'>"& formatnumber(medTpris, 2) & " /"&joblog_txt_200&"</span>"
                                                             else
-                                                            strJobLinie = strJobLinie &"<br><span style='color=#FF0000; font-size:9px;'>"& formatnumber(medTpris, 2) & " /t.</span>"
+                                                            strJobLinie = strJobLinie &"<br><span style='color=#FF0000; font-size:9px;'>"& formatnumber(medTpris, 2) & " /"&joblog_txt_200&"</span>"
                                                             end if
                                                         else
                                                             strJobLinie = strJobLinie &""

@@ -34,25 +34,15 @@
         'Response.Write("<br>No (INIT): " + Request("no"))
 
         Dim jobno As String = Request("jobno")
-        Call hentData()
 
+        If (jobno <> "") Then
+            Call hentData(jobno)
+        End If
 
 
     End Sub
 
-    Sub hentData()
-
-
-
-
-
-
-
-
-
-
-
-
+    Sub hentData(ByVal jobno)
 
 
 
@@ -102,52 +92,80 @@
 
         Dim allNames As String = ""
         'Dim CallWebServiceTIA As New WebReferenceNAVTia_akt.Job()
-        Dim CallWebServiceTIA As New WebReferenceNAvTia_akt.JobTasks_Service
 
+
+
+        '** Test ENViRoNMENT
+        'Dim CallWebServiceTIA As New WebReferenceNAvTia_akt.JobTasks_Service
         'CallWebServiceTIA.UseDefaultCredentials = True
         'CallWebServiceTIA.Credentials = New NetworkCredential("xxxx", "xxxx", "xxxx")
-        CallWebServiceTIA.Credentials = New System.Net.NetworkCredential(”tiademo”, ”Monday2017”, ”DEVX01”)
+        'CallWebServiceTIA.Credentials = New System.Net.NetworkCredential(”tiademo”, ”Monday2017”, ”DEVX01”)
+
+        '** PROD ENViRoNMENT
+        Dim CallWebServiceTIA As New WebReferenceNavTiaProd_akt.TimeOutJobTasks_Service
+        CallWebServiceTIA.Credentials = New System.Net.NetworkCredential(”Timeout”, ”Tia2017!”, ”tia.local”)
+
         'CallWebServiceTIA.PreAuthenticate = True
 
-        Dim fetchSize As Integer = 20
+        Dim fetchSize As Integer = 100 '1000 '100
         'Dim bookmarkKey As String = null
 
 
-        Dim filter As New WebReferenceNAvTia_akt.JobTasks_Filter
-        'WebReferenceNAVTia_akt.JobTasks_Filter
-        filter.Field = WebReferenceNAvTia_akt.JobTasks_Fields.Job_No
+        Dim filter As New WebReferenceNavTiaProd_akt.TimeOutJobTasks_Filter
+        'WebReferenceNAvTiaProd_akt.JobTasks_Filter
+        filter.Field = WebReferenceNavTiaProd_akt.TimeOutJobTasks_Fields.Job_No
         'jobno
-        filter.Criteria = ("DEV1030*")
+        'filter.Criteria = ("DEV*")
+        filter.Criteria = ("" & jobno & "")
         'filter.Criteria.
 
 
 
 
 
-        Dim filters() As WebReferenceNAvTia_akt.JobTasks_Filter = New WebReferenceNAvTia_akt.JobTasks_Filter(0) {filter}
+        Dim filters() As WebReferenceNavTiaProd_akt.TimeOutJobTasks_Filter = New WebReferenceNavTiaProd_akt.TimeOutJobTasks_Filter(0) {filter}
 
         Dim names As Array = CallWebServiceTIA.ReadMultiple(filters, Nothing, fetchSize)
 
 
         'Dim row As DataRow
-        Dim t As Integer = 1
+        Dim t As Integer = 0
 
         'Print the collected data.
         For Each Name As Object In names
 
             'Response.Write("HEJ<br>")
-            'meMTxt.Text = WebReferenceNAVTia_akt.JobTasks_Fields.Name.ToString
-            'allNames += allNames + "; " + WebReferenceNAVTia_akt.JobTasks_Fields.Name.ToString()
+            'meMTxt.Text = WebReferenceNAvTiaProd_akt.JobTasks_Fields.Name.ToString
+            'allNames += allNames + "; " + WebReferenceNAvTiaProd_akt.JobTasks_Fields.Name.ToString()
 
 
             akt_importtype = "1"
 
             akt_jobnr = Name.Job_No.ToString()
-            akt_taskno = Name.Job_Task_No.ToString()
-            akt_jobtaskno = Name.Job_Task_No.ToString()
-            akt_navn = Name.Description.ToString()
-            akt_fakturerbar = "1"
+
+            If String.IsNullOrEmpty(Name.Job_Task_No) <> True Then
+                akt_taskno = Name.Job_Task_No.ToString()
+                akt_jobtaskno = Name.Job_Task_No.ToString()
+            Else
+                akt_taskno = "0"
+                akt_jobtaskno = "0"
+            End If
+
+            If String.IsNullOrEmpty(Name.Description) <> True Then
+                akt_navn = Name.Description.ToString()
+            Else
+                akt_navn = ""
+            End If
+
+            akt_fakturerbar = "1" 'SKAL ÆNDRES SÅ DEN FØLGER NAV? MEN hvormange typer har de?
             akt_status = Name.Blocked.ToString()
+
+            If akt_status = True Then
+                akt_status = 0
+            Else
+                akt_status = 1
+            End If
+
             akt_type = Name.Job_Task_Type.ToString()
 
             akt_projektgruppe = 0
@@ -158,18 +176,21 @@
 
             '.ToString("yyyy/MM/dd", Globalization.CultureInfo.InvariantCulture)
 
+            If (akt_navn <> "" And akt_taskno <> "0") Then
 
-            Dim strSQLjobinsTemp As String = "INSERT INTO akt_import_temp (dato, editor, lto, origin, jobnr, "
-            strSQLjobinsTemp += "aktnavn, aktnr, "
-            strSQLjobinsTemp += "aktkonto, aktstatus, beskrivelse, akttype) "
-            strSQLjobinsTemp += " VALUES ('2017-06-23','NAV import','" + lto + "','914','" + akt_jobnr + "',"
-            strSQLjobinsTemp += "'" + akt_navn + "', '" + akt_jobnr + "" + akt_taskno + "', "
-            strSQLjobinsTemp += "'" + akt_jobtaskno + "', '" + akt_status + "', '', '" + akt_type + "')"
+                Dim strSQLjobinsTemp As String = "INSERT INTO akt_import_temp (dato, editor, lto, origin, jobnr, "
+                strSQLjobinsTemp += "aktnavn, aktnr, "
+                strSQLjobinsTemp += "aktkonto, aktstatus, beskrivelse, akttype) "
+                strSQLjobinsTemp += " VALUES ('" & DateAndTime.Year(Now) & "-" & DateAndTime.Month(Now) & "-" & DateAndTime.Day(Now) & "','NAV import','" + lto + "','914','" + akt_jobnr + "',"
+                strSQLjobinsTemp += "'" + akt_navn.Replace("'", "") + "', '" + akt_jobnr + "" + akt_taskno + "', "
+                strSQLjobinsTemp += "'" + akt_jobtaskno + "', '" + akt_status + "', '', '" + akt_type + "')"
 
-            'Return strSQLaktins
+                'Return strSQLaktins
 
-            objCmd2 = New OdbcCommand(strSQLjobinsTemp, objConn)
-            objCmd2.ExecuteReader() '(CommandBehavior.closeConnection)
+                objCmd2 = New OdbcCommand(strSQLjobinsTemp, objConn)
+                objCmd2.ExecuteReader() '(CommandBehavior.closeConnection)
+
+            End If
 
             antalRecords = antalRecords + 1
 
@@ -208,7 +229,8 @@
 
             row = Table1.NewRow()
             row("lto") = "tia"
-            row("importtype") = "tia1"
+            'row("importtype") = "tia1"
+            row("importtype") = "t2" '20170711
 
             'Add row
             Table1.Rows.Add(row)
@@ -255,7 +277,7 @@
     <asp:TextBox runat="server" ID="meid"></asp:TextBox>
     <asp:TextBox runat="server" ID="meMTxt" Style="width:600px; height:400px; vertical-align:top;">NAV Data:</asp:TextBox>
     </div>
-    <asp:Button runat="server" Text="Hent data" ID="bt" OnClick="hentData"  />
+    <asp:Button runat="server" Text="Hent data" ID="bt"   /> <!-- OnClick="hentData" -->
 
     <h4>Reading Data from the connection
     <asp:Label ID="datasrc" runat="server"></asp:Label> to the DataGrid</h4>

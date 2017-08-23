@@ -52,8 +52,13 @@
                  
                 'strJobogKunderTxt = strJobogKunderTxt & "<input type=""hidden"" id=""hiddn_job_"& oRec("jid") &""" value="""& oRec("jobnavn") & " ("& oRec("jobnr") &")"">"
                 'strJobogKunderTxt = strJobogKunderTxt & "<input type=""checkbox"" class=""chbox_job"" id=""chbox_job_"& oRec("jid") &""" value="& oRec("jid") &"> "& oRec("jobnavn") & " ("& oRec("jobnr") &")" &"<br>" 
+                select case lto
+                case "tia"
+                strJobogKunderTxt = strJobogKunderTxt & "<option value="& oRec("jid") &" "& jobSEL &">"& oRec("jobnr") &" - "& oRec("jobnavn") & ""
+                case else
                 strJobogKunderTxt = strJobogKunderTxt & "<option value="& oRec("jid") &" "& jobSEL &">"& oRec("jobnavn") & " ("& oRec("jobnr") &")"
-                
+                end select            
+
                 lastKid = oRec("kid") 
                 oRec.movenext
                 wend
@@ -152,7 +157,7 @@
 
                strSQL= "SELECT a.id AS aid, navn AS aktnavn, projektgruppe1, projektgruppe2, projektgruppe3, "_
                &" projektgruppe4, projektgruppe5, projektgruppe6, projektgruppe7, projektgruppe8, projektgruppe9, projektgruppe10 FROM aktiviteter AS a "_
-               &" WHERE a.job = " & jobid & " AND aktstatus = 1 ORDER BY navn"      
+               &" WHERE a.job = " & jobid & " AND aktstatus = 1 AND fakturerbar <> 90 ORDER BY navn"      
                 'AND navn LIKE '%"& aktsog &"%'
                 'AND ("& aty_sql_hide_on_treg &")
 
@@ -379,7 +384,7 @@
         aktids = request("FM_aktivitetids")
         strAktNavn = request("FM_aktnavn")
 
-        response.Write "test tekst: " & aktids & strAktNavn
+        'response.Write "test tekst: " & aktids & strAktNavn
         response.End
 
 
@@ -398,7 +403,7 @@
 
 
     
-    response.Write "medid: " & medid
+    'response.Write "medid: " & medid
 
     varTjDatoUS_man = request("varTjDatoUS_man")
     if varTjDatoUS_man = "" then
@@ -452,7 +457,7 @@
         response.Redirect "favorit.asp?FM_medid="&medid&"&varTjDatoUS_man="&varTjDatoUS_man
 
 
-    case "tilfojfavorit"
+    case "XXXXXtilfojfavorit"
 
         id = request("id")
                             
@@ -476,6 +481,26 @@
 
 
     case else
+
+    if len(trim(request("FM_medid"))) <> 0 then
+    medid = request("FM_medid")
+    else
+    medid = session("mid") 
+    end if
+
+    'Response.write "<br><br><br><br><br><br><br><div style='left:200px; top:100px; position:relative;'>MEDID: " & request("FM_medid") & "</div>"
+    call ersmileyaktiv()
+    call smileyAfslutSettings()
+
+    if cint(SmiWeekOrMonth) = 0 then
+    usePeriod = datePart("ww", varTjDatoUS_man, 2,2)
+    useYear = year(varTjDatoUS_man)
+    else
+    usePeriod = datePart("m", varTjDatoUS_man, 2,2)
+    useYear = year(varTjDatoUS_man)
+    end if
+
+    call erugeAfslutte(useYear, usePeriod, medid, SmiWeekOrMonth, 0)
 
 %>
 
@@ -543,10 +568,16 @@
                             <table>
                                 <tr>
                                     <td>
-                                        <%
-                                        strSQL = "SELECT Mid, Mnavn, Mnr, Brugergruppe, init FROM medarbejdere WHERE mansat <> 2 GROUP BY mid ORDER BY Mnavn" 
+                                        <%'SKAL UDBYGGES TIL ALLE man er projektelder for
+                                        if cint(level) = 1 then
+                                            sqgMw = " mansat <> 2"
+                                        else
+                                            sqgMw = " mid = "& session("mid") &" AND mansat <> 2"
+                                        end if
+
+                                        strSQL = "SELECT Mid, Mnavn, Mnr, Brugergruppe, init FROM medarbejdere WHERE "& sqgMw &" GROUP BY mid ORDER BY Mnavn" 
                                         %>
-                                        <select name="FM_medid" id="FM_medid" <%=progrpmedarbDisabled  %> class="form-control input-small"  onchange="submit();" style="width:210px">
+                                        <select name="FM_medid" id="FM_medid" <%=progrpmedarbDisabled  %> class="form-control input-small"  onchange="submit();" style="width:240px">
                                             <%
 
                                             oRec.open strSQL, oConn, 3
@@ -563,7 +594,7 @@
 				                            end if
 
 				                            %>
-                                             <option value="<%=oRec("Mid")%>" <%=isSelected%>><%=StrMnavn &" "& StrMinit%></option>
+                                             <option value="<%=oRec("Mid")%>" <%=isSelected%>><%=StrMnavn &" ["& StrMinit & "]"%></option>
                                             <%
                                             oRec.movenext
                                             wend
@@ -599,8 +630,7 @@
                             
                             <input type="hidden" name="FM_medid" value="<%=medid %>" />
                             <input type="hidden" id="Hidden4" name="FM_dager" value="7"/>
-                            <input type="hidden" name="FM_sttid" value="00:00"/>
-                            <input type="hidden" name="FM_sltid" value="00:00"/>
+                           
                             <input type="hidden" id="" name="FM_vistimereltid" value="0"/>
                             <input type="hidden" id="Hidden5" name="year" value="<%=year(now) %>"/>
                             <input type="hidden" value="0" name="extsysId" />
@@ -671,7 +701,7 @@
                                      
                                      favoriter = 0
                                      lastaktid = 0
-                                     i = 10
+                                     i = 150
 
                                      'Dim jobid, aktid, medarb
                                      Redim jobid(i), aktid(i), medarb(i)
@@ -917,8 +947,12 @@
 
                                                     timerdato = year(timerdato) & "-" & month(timerdato) & "-" & day(timerdato) 
 
-                                                    StrSQLtimer = "SELECT TAktivitetId, sum(timer) as Timer, extsysId, tdato, Timerkom, origin FROM timer WHERE TAktivitetId ="& TaktId & " AND tdato = "& "'" & timerdato & "' AND tmnr ="& medid
+                                                     'StrSQLtimer = "SELECT TAktivitetId, sum(timer) as Timer, extsysId, tdato, Timerkom, origin FROM timer WHERE TAktivitetId ="& TaktId & " AND tdato = "& "'" & timerdato & "' AND tmnr ="& medid
+                                                     
+                                                     StrSQLtimer = "SELECT TAktivitetId, sum(timer) as Timer, extsysId, tdato, Timerkom, origin, tjobnr, j.risiko FROM timer t "_
+                                                     &" LEFT JOIN job j ON (j.jobnr = t.tjobnr) WHERE TAktivitetId = "& TaktId & " AND tdato = "& "'" & timerdato & "' AND tmnr ="& medid & ""
                                                 
+
                                                      oRec4.open StrSQLtimer, oConn, 3
                                                      if not oRec4.EOF then
                                                 
@@ -927,24 +961,54 @@
                                                      extsysid = oRec4("extsysId")
                                                      timerkcoment = oRec4("Timerkom")
                                                      origin = oRec4("origin")
+                                                     'job_internt = oRec4("risiko")
                                                      
-                                                     todaydate = DatePart("yyyy",Date) _ 
-                                                                &"-"& Right("0" & DatePart("m",Date), 2) _ 
-                                                                &"-"& Right("0" & DatePart("d",Date), 2)
+                                                     todaydate = DatePart("yyyy",Date, 2,2) &"-"& Right("0" & DatePart("m",Date,2,2), 2) &"-"& Right("0" & DatePart("d",Date,2,2), 2)
+                                                     varTjDato_ugedag = day(timerdato) & "-" & month(timerdato) & "-" & year(timerdato)
+
+                                                     '**** Er periode lukket via lønkørsel **''
+                                                     call lonKorsel_lukketPer(varTjDato_ugedag, job_internt) 'Hr -2 job bliver kun lukket ifh.- lønperiode
+
+                                                  
+                                                    '*** tjekker om uge er afsluttet / lukket / lønkørsel
+                                                    call tjkClosedPeriodCriteria(varTjDato_ugedag, ugeNrAfsluttet, usePeriod, SmiWeekOrMonth, splithr, smilaktiv, autogk, autolukvdato, lonKorsel_lukketIO)
+                       
+
+                                                   
 
                                                     %>
-                                                        <td>                                           
+                                                        <td>  
+                                                            
+                                                            <%  'Response.write "lonKorsel_lukketIO = " & lonKorsel_lukketIO 
+                                                            'response.Write "ugeerAfsl_og_autogk_smil:" &ugeerAfsl_og_autogk_smil  &" ugeNrAfsluttet:" & ugeNrAfsluttet &"="& usePeriod &" varTjDato_ugedag: "& varTjDato_ugedag &" splithr: "& splithr &"<br>"
+                                                            %>                                           
                                                             <input type="hidden" name="FM_feltnr" value="<%=y %>" />
                                                            <!-- <input type="hidden" value="<%=oRec4("extsysId")%>" name="extsysId" /> -->
                                                             <input type="hidden" value="<%=timerdato %>" name="FM_datoer" />
                                                             <input type="hidden" value="dist" name="FM_destination_<%=y %>" />
-                                                            <%if origin <> 0 then %>
+                                                            <%if origin <> 0 OR (cint(ugeerAfsl_og_autogk_smil) = 1 AND level <> 1) then %>
                                                             <input type="hidden" name="FM_timer" value=""/>
-                                                            <input type="text" class="form-control input-small" style="width:75px;" value="<%=timerdag %>" readonly />
-                                                            <span style="font-size:50%"><a style="color:dimgrey;" href="ugeseddel_2011.asp?usemrn=<%=medid %>&varTjDatoUS_man=<%=varTjDatoUS_man %>"><%=favorit_txt_014 %></a></span>
-                                                            <%else %>
+                                                            <input type="hidden" name="FM_sttid" value="00:00"/>
+                                                            <input type="hidden" name="FM_sltid" value="00:00"/>
+                                                            <input type="text" class="form-control input-small" style="width:55px;" value="<%=timerdag %>" readonly />
+                                                                <%if cint(ugeerAfsl_og_autogk_smil) = 0 then 'Er tastest ind via andre medier og UGE ikke godkendt %>
+                                                                <span style="font-size:75%"><a style="color:dimgrey;" href="ugeseddel_2011.asp?usemrn=<%=medid %>&varTjDatoUS_man=<%=varTjDatoUS_man %>"><%=favorit_txt_014 %></a></span>
+                                                                <%end if %>
+                                                            <%else 
+                                                                
+                                                                if cint(ugeerAfsl_og_autogk_smil) = 1 then 'ADMIN kan ændre ser border DASHED
+                                                                bdr = "border:1px #999999 dashed;"
+                                                                else
+                                                                bdr = ""
+                                                                end if
+                                                                
+                                                                %>
+
+                                                             <input type="hidden" name="FM_sttid" value="00:00"/>
+                                                            <input type="hidden" name="FM_sltid" value="00:00"/>
+
                                                             <div class="row">                                                     
-                                                            <div class="col-lg-10" style="padding-right:5px!important"><input type="text" class="form-control input-small" name="FM_timer" value="<%=timerdag %>" /></div>
+                                                            <div class="col-lg-10" style="padding-right:5px!important"><input type="text" class="form-control input-small" name="FM_timer" value="<%=timerdag %>" style="<%=bdr%>" /></div>
                                                             <div class="col-lg-1" style="padding-left :0px!important"><span id="modal_<%=y%>" class="kommodal">+</span></div>
                                                             </div>
                                                             
@@ -1120,6 +1184,8 @@
                                                                             </div>
                                                                             <%end if  %>
                                                             <input type="hidden" name="FM_timer" value="xx"/>
+                                                             <input type="hidden" name="FM_sttid" value="00:00"/>
+                                                            <input type="hidden" name="FM_sltid" value="00:00"/>
                                                         </td>
                                                     <%
 
@@ -1139,6 +1205,8 @@
                                                             <input type="hidden" value="<%=timerdato %>" name="FM_datoer" />
                                                             <input type="text" style="width:75px;" class="form-control input-small" name="FM_timer" value="<%=timerdag %>" />
                                                             <input type="hidden" name="FM_timer" value="xx"/>
+                                                            <input type="hidden" name="FM_sttid" value="00:00"/>
+                                                            <input type="hidden" name="FM_sltid" value="00:00"/>
                                                             <input type="hidden" id="FM_kom" name="FM_kom_<%=y %>" placeholder="<%=tsa_txt_051%>" class="form-control input-small"/>
                                                         </td>
                                                     <%
@@ -1246,9 +1314,9 @@
                                         <!--<input type="hidden" value="0" name="FM_pa" />-->
                                         <input type="hidden" id="FM_jobid" value=""/>
 
-                                        <td><input type="text" class="FM_job form-control input-small" id="FM_job" value="" placeholder="<%=favorit_txt_015 %>"/>
+                                        <td><input type="text" class="FM_job form-control input-small" id="FM_job" value="" placeholder="<%=favorit_txt_015 %>" style="width:225px;"/>
                                           <!-- <div id="dv_job"></div> -->
-                                            <select id="dv_job" class="form-control input-small chbox_job" size="10" style="visibility:hidden; display:none;">
+                                            <select id="dv_job" class="form-control input-small chbox_job" size="10" style="visibility:hidden; display:none; width:225px;">
                                                 <option><%=week_txt_007 %>..</option>
                                             </select>
                                         </td>                                           
@@ -1530,13 +1598,13 @@
 
                                         <tr>
                                             <td><%=favorit_txt_021 %>:</td>
-                                            <td style="text-align:center; color:<%=mancolor%>"><%=balMan %></td>
-                                            <td style="text-align:center; color:<%=tircolor%>"><%=balTir %></td>
-                                            <td style="text-align:center; color:<%=onscolor%>"><%=balOns %></td>
-                                            <td style="text-align:center; color:<%=torcolor%>"><%=balTor %></td>
-                                            <td style="text-align:center; color:<%=frecolor%>"><%=balFre %></td>
-                                            <td style="text-align:center;"><%=balLor %></td>
-                                            <td style="text-align:center;"><%=balSon %></td>
+                                            <td style="text-align:center; color:<%=mancolor%>"><%=formatnumber(balMan, 2) %></td>
+                                            <td style="text-align:center; color:<%=tircolor%>"><%=formatnumber(balTir, 2) %></td>
+                                            <td style="text-align:center; color:<%=onscolor%>"><%=formatnumber(balOns, 2) %></td>
+                                            <td style="text-align:center; color:<%=torcolor%>"><%=formatnumber(balTor, 2) %></td>
+                                            <td style="text-align:center; color:<%=frecolor%>"><%=formatnumber(balFre, 2) %></td>
+                                            <td style="text-align:center;"><%=formatnumber(balLor, 2) %></td>
+                                            <td style="text-align:center;"><%=formatnumber(balSon, 2) %></td>
                                             <td style="text-align:center; color:<%=balcolor%>"><%=formatnumber(baltotal, 2) %></td>
                                         </tr>
                                     </tbody>

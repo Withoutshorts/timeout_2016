@@ -753,13 +753,15 @@ if session("user") = "" then
 	  ujid = split(request("ids"), ",")
 	  'uGodkendt = split(trim(request("FM_godkendt")), "#, ")
        
+     uGodkendtDato = year(now) & "-" & month(now) & "-" & day(now) 
+     editor = session("user")
 
      for u = 0 to UBOUND(ujid)
 	
 	
 	'if trim(left(uGodkendt(u), 1)) = "1" then
 	'uGodkendt(u) = trim(left(uGodkendt(u), 1))
-	editor = session("user")
+	
 	'else
 	'uGodkendt(u) = 0
 	'editor = ""
@@ -775,7 +777,7 @@ if session("user") = "" then
               
 
 				strSQL = "UPDATE timer SET godkendtstatus = "& uGodkendt &", "_
-				&"godkendtstatusaf = '"& editor &"' WHERE tid = " & ujid(u)
+				&"godkendtstatusaf = '"& editor &"', godkendtdato = '"& uGodkendtDato &"' WHERE tid = " & ujid(u)
 				
 				'Response.write strSQL &"<br>"
 				
@@ -2062,18 +2064,20 @@ slutDatoKriSQL = strAar_slut &"/"& strMrd_slut &"/"& strDag_slut
 		        
 		                    call lonKorsel_lukketPer(oRec("Tdato"), jobRisiko)
 		         
-                            'if (cint(erugeafsluttet) <> 0 AND smilaktiv = 1 AND autogk = 1 AND ugeNrAfsluttet <> "1-1-2044") OR _
-                             if ( (( datepart("ww", ugeNrAfsluttet, 2, 2) = usePeriod AND cint(SmiWeekOrMonth) = 0) OR (datepart("m", ugeNrAfsluttet, 2, 2) = usePeriod AND cint(SmiWeekOrMonth) = 1 )) AND cint(ugegodkendt) = 1 AND smilaktiv = 1 AND autogk = 1 AND ugeNrAfsluttet <> "1-1-2044") OR _
-                            (smilaktiv = 1 AND autolukvdato = 1 AND (day(now) > autolukvdatodato AND DatePart("yyyy", oRec("Tdato")) = year(now) AND DatePart("m", oRec("Tdato")) < month(now)) OR _
-                            (smilaktiv = 1 AND autolukvdato = 1 AND (day(now) > autolukvdatodato AND DatePart("yyyy", oRec("Tdato")) < year(now) AND DatePart("m", oRec("Tdato")) = 12)) OR _
-                            (smilaktiv = 1 AND autolukvdato = 1 AND DatePart("yyyy", oRec("Tdato")) < year(now) AND DatePart("m", oRec("Tdato")) <> 12) OR _
-                            (smilaktiv = 1 AND autolukvdato = 1 AND (year(now) - DatePart("yyyy", oRec("Tdato")) > 1))) OR cint(lonKorsel_lukketIO) = 1 then
+                            'if ( (( datepart("ww", ugeNrAfsluttet, 2, 2) = usePeriod AND cint(SmiWeekOrMonth) = 0) OR (datepart("m", ugeNrAfsluttet, 2, 2) = usePeriod AND cint(SmiWeekOrMonth) = 1 )) AND cint(ugegodkendt) = 1 AND smilaktiv = 1 AND autogk = 1 AND ugeNrAfsluttet <> "1-1-2044") OR _
+                            '(smilaktiv = 1 AND autolukvdato = 1 AND (day(now) > autolukvdatodato AND DatePart("yyyy", oRec("Tdato")) = year(now) AND DatePart("m", oRec("Tdato")) < month(now)) OR _
+                            '(smilaktiv = 1 AND autolukvdato = 1 AND (day(now) > autolukvdatodato AND DatePart("yyyy", oRec("Tdato")) < year(now) AND DatePart("m", oRec("Tdato")) = 12)) OR _
+                            '(smilaktiv = 1 AND autolukvdato = 1 AND DatePart("yyyy", oRec("Tdato")) < year(now) AND DatePart("m", oRec("Tdato")) <> 12) OR _
+                            '(smilaktiv = 1 AND autolukvdato = 1 AND (year(now) - DatePart("yyyy", oRec("Tdato")) > 1))) OR cint(lonKorsel_lukketIO) = 1 then
               
-                            ugeerAfsl_og_autogk_smil = 1
-                            else
-                            ugeerAfsl_og_autogk_smil = 0
-                            end if 
+                            'ugeerAfsl_og_autogk_smil = 1
+                            'else
+                            'ugeerAfsl_og_autogk_smil = 0
+                            'end if 
 				
+                             '*** tjekker om uge er afsluttet / lukket / lønkørsel
+                            call tjkClosedPeriodCriteria(oRec("tdato"), ugeNrAfsluttet, usePeriod, SmiWeekOrMonth, splithr, smilaktiv, autogk, autolukvdato, lonKorsel_lukketIO)
+
 				            'if print <> "j" then
 				            'awdt = 350
 				            'else
@@ -2161,7 +2165,9 @@ slutDatoKriSQL = strAar_slut &"/"& strMrd_slut &"/"& strDag_slut
 
                             aktnavnEksp = ""
                             if len(oRec("Anavn")) <> 0 then
-                            aktnavnEksp = replace(oRec("Anavn"), Chr(34), "&quot;")
+                            'aktnavnEksp = replace(oRec("Anavn"), Chr(34), "&quot;")
+                            aktnavnEksp = replace(oRec("Anavn"), "''", "")
+                            aktnavnEksp = replace(oRec("Anavn"), "'", "")
                             else
                             aktnavnEksp = ""
                             end if
@@ -2172,7 +2178,7 @@ slutDatoKriSQL = strAar_slut &"/"& strMrd_slut &"/"& strDag_slut
                             case else
                
 				                    'call akttyper2009Prop(oRec("tfaktim"))
-				                    ekspTxt = ekspTxt & aktnavnEksp &";"& akttypenavn &";"& aty_fakbar &";" 
+				                    ekspTxt = ekspTxt & aktnavnEksp &";"& Chr(34) & akttypenavn & Chr(34) &";"& aty_fakbar &";" 
 				
 				                    if lto = "bowe" then
 					                    ekspTxt = ekspTxt & akttid &";" 
@@ -3260,7 +3266,9 @@ if x <> 0 then
                    </tr>
                
                 </form>
-                  <form action="joblog.asp?print=j&<%=pnteksLnk%>" target="_blank" method="post"> 
+                  <form action="joblog.asp?print=j&cur=0&<%=pnteksLnk%>" target="_blank" method="post"> 
+                       <input type="hidden" name="FM_medarb_hidden" value="<%=thisMiduse%>" />
+                             <input type="hidden" name="FM_medarb" value="<%=thisMiduse%>" />
                  <tr>
                <td valign="top" style="padding-top:10px;">
                     <input type="submit" value="Print >>" style="font-size:9px;" />

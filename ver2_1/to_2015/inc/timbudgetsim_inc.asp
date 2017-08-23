@@ -1522,7 +1522,7 @@ function opdaterRessouceRamme(f, FY0, FY1, FY2, jobBudgetFY0, fctimeprisFY0, fct
             oRec3.close
 
            
-
+            'rr_budgetbelob
 
             if cdbl(jobBudgetRammeFindes) <> 0 then
 

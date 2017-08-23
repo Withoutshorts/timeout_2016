@@ -34,13 +34,16 @@
         'Response.Write("<br>No (INIT): " + Request("no"))
 
         Dim jobno As String = Request("no")
-        Call hentData()
+
+        If (jobno <> "") Then
+            Call hentData(jobno)
+        End If
 
 
 
     End Sub
 
-    Sub hentData()
+    Sub hentData(ByVal jobno)
 
 
 
@@ -51,13 +54,12 @@
 
 
         Dim Jobs_kundenr, Jobs_kundenavn, Jobs_jobnavn, Jobs_jobnr, Jobs_status, lto, Jobs_importtype As String
-        Dim Jobs_startdato, Jobs_slutdato As Date
+        Dim Jobs_startdato As Date = "2002-01-01"
+        Dim Jobs_slutdato As Date = "2002-01-01"
         Dim Jobs_risiko, Jobs_jobansvarlig, Jobs_projektgruppe As String
 
         Jobs_risiko = 1
         Jobs_projektgruppe = 0
-
-
 
         Dim taktivitetnavnLst As String = ""
         Dim antalRecords As Integer
@@ -97,29 +99,39 @@
 
         Dim allNames As String = ""
         'Dim CallWebServiceTIA As New WebReferenceNAVTia_job.Job()
-        Dim CallWebServiceTIA As New WebReferenceNAVTia_job.Jobs_Service
 
+
+        '** Test ENViRoNMENT
+        'Dim CallWebServiceTIA As New WebReferenceNAVTia_job.Jobs_Service
         'CallWebServiceTIA.UseDefaultCredentials = True
         'CallWebServiceTIA.Credentials = New NetworkCredential("xxxx", "xxxx", "xxxx")
-        CallWebServiceTIA.Credentials = New System.Net.NetworkCredential(”tiademo”, ”Monday2017”, ”DEVX01”)
+        'CallWebServiceTIA.Credentials = New System.Net.NetworkCredential(”tiademo”, ”Monday2017”, ”DEVX01”)
         'CallWebServiceTIA.PreAuthenticate = True
 
-        Dim fetchSize As Integer = 10
+        '** PROD ENViRoNMENT
+        Dim CallWebServiceTIA As New WebReferenceNAVTiaProd_job.TimeOutJobs_Service
+        CallWebServiceTIA.Credentials = New System.Net.NetworkCredential(”Timeout”, ”Tia2017!”, ”tia.local”)
+
+
+
+        Dim fetchSize As Integer = 1
         'Dim bookmarkKey As String = null
 
 
-        Dim filter As New WebReferenceNAVTia_job.Jobs_Filter
-        'WebReferenceNAVTia_job.Jobs_Filter
-        filter.Field = WebReferenceNAVTia_job.Jobs_Fields.No
+        Dim filter As New WebReferenceNAVTiaProd_job.TimeOutJobs_Filter
+        'WebReferenceNAVTiaProd_job.Jobs_Filter
+        filter.Field = WebReferenceNAVTiaProd_job.TimeOutJobs_Fields.No
 
-        filter.Criteria = (jobno)
-        'filter.Criteria.
+        'Response.Write("jobno: " + jobno)
+
+        'jobno
+        filter.Criteria = ("" & jobno & "")
 
 
 
 
 
-        Dim filters() As WebReferenceNAVTia_job.Jobs_Filter = New WebReferenceNAVTia_job.Jobs_Filter(0) {filter}
+        Dim filters() As WebReferenceNAVTiaProd_job.TimeOutJobs_Filter = New WebReferenceNAVTiaProd_job.TimeOutJobs_Filter(0) {filter}
 
         Dim names As Array = CallWebServiceTIA.ReadMultiple(filters, Nothing, fetchSize)
 
@@ -131,19 +143,53 @@
         For Each Name As Object In names
 
             'Response.Write("HEJ<br>")
-            'meMTxt.Text = WebReferenceNAVTia_job.Jobs_Fields.Name.ToString
-            'allNames += allNames + "; " + WebReferenceNAVTia_job.Jobs_Fields.Name.ToString()
+            'meMTxt.Text = WebReferenceNAVTiaProd_job.Jobs_Fields.Name.ToString
+            'allNames += allNames + "; " + WebReferenceNAVTiaProd_job.Jobs_Fields.Name.ToString()
 
 
             Jobs_importtype = "1"
             Jobs_status = Name.Blocked.ToString()
-            Jobs_kundenr = Name.Bill_to_Customer_No.ToString()
-            Jobs_kundenavn = Name.Bill_to_Name.ToString()
-            Jobs_jobnavn = Name.Description.ToString()
+
+
+
+            If String.IsNullOrEmpty(Name.Bill_to_Customer_No) <> True Then
+                Jobs_kundenr = Name.Bill_to_Customer_No.ToString()
+            Else
+                Jobs_kundenr = "0"
+            End If
+
+            If String.IsNullOrEmpty(Name.Bill_to_Name) <> True Then
+                Jobs_kundenavn = Name.Bill_to_Name.ToString()
+            Else
+                Jobs_kundenavn = "0"
+            End If
+
+            If String.IsNullOrEmpty(Name.Description) <> True Then
+                Jobs_jobnavn = Name.Description.ToString()
+            Else
+                Jobs_jobnavn = "Project name missing in NAV"
+            End If
+
             Jobs_jobnr = Name.No.ToString()
-            Jobs_startdato = Name.Starting_Date.ToString()
-            Jobs_slutdato = Name.Ending_Date.ToString()
-            Jobs_jobansvarlig = Name.Project_Manager.ToString()
+
+
+            If String.IsNullOrEmpty(Name.Starting_Date) <> True Then
+                Jobs_startdato = Name.Starting_Date
+            Else
+                Jobs_startdato = "2002/01/01"
+            End If
+
+            If String.IsNullOrEmpty(Name.Ending_Date) <> True Then
+                Jobs_slutdato = Name.Starting_Date
+            Else
+                Jobs_slutdato = "2002/01/01"
+            End If
+
+            If String.IsNullOrEmpty(Name.Project_Manager) <> True Then
+                Jobs_jobansvarlig = Name.Project_Manager.ToString()
+            Else
+                Jobs_jobansvarlig = ""
+            End If
 
             Jobs_risiko = 1
             Jobs_projektgruppe = 0
@@ -154,30 +200,41 @@
 
             '.ToString("yyyy/MM/dd", Globalization.CultureInfo.InvariantCulture)
 
+            If (CDate(Jobs_startdato) < "2002-01-01") Then
+                Jobs_startdato = "2002-01-01"
+            End If
 
-            Dim strSQLjobinsTemp As String = "INSERT INTO job_import_temp (dato, editor, lto, origin, jobnr, "
-            strSQLjobinsTemp += "jobnavn, "
-            strSQLjobinsTemp += "jobstartdato, "
-            strSQLjobinsTemp += "jobslutdato, "
-            strSQLjobinsTemp += "jobans, "
-            strSQLjobinsTemp += "kundenavn, "
-            strSQLjobinsTemp += "kundenr, projgrp) "
-            strSQLjobinsTemp += " VALUES ('2017-06-23','NAV import','" + lto + "','914','" + Jobs_jobnr + "', '" + Jobs_jobnavn + "',"
-            strSQLjobinsTemp += "'2017-01-01',"
-            strSQLjobinsTemp += "'2017-08-29',"
-            strSQLjobinsTemp += "'" + Jobs_jobansvarlig + "',"
-            strSQLjobinsTemp += "'" + Jobs_kundenavn + "','" + Jobs_kundenr + "', '0')"
-
-            'Return strSQLaktins
-
-            objCmd2 = New OdbcCommand(strSQLjobinsTemp, objConn)
-            objCmd2.ExecuteReader() '(CommandBehavior.closeConnection)
-
-            antalRecords = antalRecords + 1
+            If (CDate(Jobs_slutdato) < "2002-01-01") Then
+                Jobs_slutdato = "2044-01-01"
+            End If
 
 
-            t = t + 1
+            If (Jobs_kundenr <> "0" And Jobs_kundenavn <> "0") Then
 
+                Dim strSQLjobinsTemp As String = "INSERT INTO job_import_temp (dato, editor, lto, origin, jobnr, "
+                strSQLjobinsTemp += "jobnavn, "
+                strSQLjobinsTemp += "jobstartdato, "
+                strSQLjobinsTemp += "jobslutdato, "
+                strSQLjobinsTemp += "jobans, "
+                strSQLjobinsTemp += "kundenavn, "
+                strSQLjobinsTemp += "kundenr, projgrp, beskrivelse) "
+                strSQLjobinsTemp += " VALUES ('" & DateAndTime.Year(Now) & "-" & DateAndTime.Month(Now) & "-" & DateAndTime.Day(Now) & "','NAV import','" + lto + "','914','" + Jobs_jobnr + "', '" + Jobs_jobnavn + "',"
+                strSQLjobinsTemp += "'" & DateAndTime.Year(Jobs_startdato) & "-" & DateAndTime.Month(Jobs_startdato) & "-" & DateAndTime.Day(Jobs_startdato) & "',"
+                strSQLjobinsTemp += "'" & DateAndTime.Year(Jobs_slutdato) & "-" & DateAndTime.Month(Jobs_slutdato) & "-" & DateAndTime.Day(Jobs_slutdato) & "',"
+                strSQLjobinsTemp += "'" + Jobs_jobansvarlig + "',"
+                strSQLjobinsTemp += "'" + Jobs_kundenavn + "','" + Jobs_kundenr + "', '0', '" + Jobs_status + "')"
+
+                'Return strSQLaktins
+
+                objCmd2 = New OdbcCommand(strSQLjobinsTemp, objConn)
+                objCmd2.ExecuteReader() '(CommandBehavior.closeConnection)
+
+                antalRecords = antalRecords + 1
+
+
+                t = t + 1
+
+            End If
 
             'allNames += allNames + "; " + Name.Name.ToString()
         Next
@@ -257,8 +314,9 @@
     <asp:TextBox runat="server" ID="meid"></asp:TextBox>
     <asp:TextBox runat="server" ID="meMTxt" Style="width:600px; height:400px; vertical-align:top;">NAV Data:</asp:TextBox>
     </div>
-    <asp:Button runat="server" Text="Hent data" ID="bt" OnClick="hentData"  />
+    <asp:Button runat="server" Text="Hent data" ID="bt"   />
 
+        <!-- OnClick="hentData(0)"-->
     <h4>Reading Data from the connection
     <asp:Label ID="datasrc" runat="server"></asp:Label> to the DataGrid</h4>
 

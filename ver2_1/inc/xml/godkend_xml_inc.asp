@@ -89,6 +89,21 @@ Set oNodes_godkend = objXmlDom_godkend.documentElement.selectNodes(sXPathQuery_g
         godkend_txt_007 = oNode_godkend.selectSingleNode("txt_7").Text
         godkend_txt_008 = oNode_godkend.selectSingleNode("txt_8").Text
         godkend_txt_009 = oNode_godkend.selectSingleNode("txt_9").Text
+        godkend_txt_010 = oNode_godkend.selectSingleNode("txt_10").Text
+
+        godkend_txt_011 = oNode_godkend.selectSingleNode("txt_11").Text
+        godkend_txt_012 = oNode_godkend.selectSingleNode("txt_12").Text
+        godkend_txt_013 = oNode_godkend.selectSingleNode("txt_13").Text
+        godkend_txt_014 = oNode_godkend.selectSingleNode("txt_14").Text
+        godkend_txt_015 = oNode_godkend.selectSingleNode("txt_15").Text
+        godkend_txt_016 = oNode_godkend.selectSingleNode("txt_16").Text
+        godkend_txt_017 = oNode_godkend.selectSingleNode("txt_17").Text
+        godkend_txt_018 = oNode_godkend.selectSingleNode("txt_18").Text
+        godkend_txt_019 = oNode_godkend.selectSingleNode("txt_19").Text
+        godkend_txt_020 = oNode_godkend.selectSingleNode("txt_20").Text
+        godkend_txt_021 = oNode_godkend.selectSingleNode("txt_21").Text
+        godkend_txt_022 = oNode_godkend.selectSingleNode("txt_22").Text
+
                 
     next
 

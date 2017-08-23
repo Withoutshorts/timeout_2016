@@ -60,7 +60,7 @@
         %>
          <div id="gtdv" style="position:relative; top:<%=gtDvTop%>px; left:0px; visibility:visible; display:;">
         <table><tr><td>
-        <b>Grandtotal <%=periodeTxt %></b>
+        <b><%=afstem_txt_001 & " " %> <%=periodeTxt %></b>
           </td></tr></table>
 
         <table cellspacing=5 cellpadding=2 border=0><tr> 
@@ -70,8 +70,8 @@
     if lto <> "cst" AND lto <> "kejd_pb" AND lto <> "tec" AND lto <> "esn" then
     %>
     <!-- saldobalancer -->
-    <td align=right class=lille style="background-color:pink; border-bottom:2px silver solid; width:80px; white-space:nowrap;"><b>Flekssaldo +/-</b><br /> 
-    Realiseret<br /> / Normtid<br />
+    <td align=right class=lille style="background-color:pink; border-bottom:2px silver solid; width:80px; white-space:nowrap;"><b><%=afstem_txt_002 %> +/-</b><br /> 
+    <%=afstem_txt_006 %><br /> / <%=afstem_txt_004 %><br />
     <%=realNormBal %>
     </td>
     <%
@@ -81,8 +81,8 @@
     
      if session("stempelur") <> 0 then %>
     
-     <td align=right class=lille style="background-color:#DCF5BD; border-bottom:2px silver solid; width:80px; white-space:nowrap;"><b>Flekssaldo +/-</b><br /> 
-    Komme/g&aring; tid<br /> / Normtid<br />
+     <td align=right class=lille style="background-color:#DCF5BD; border-bottom:2px silver solid; width:80px; white-space:nowrap;"><b><%=afstem_txt_002 %> +/-</b><br /> 
+    <%=afstem_txt_003 %><br /> / <%=afstem_txt_004 %><br />
      <%=normLontBal %>
     </td>
 
@@ -90,8 +90,8 @@
     
     ltf = ltf + 160
     if lto <> "cst" AND lto <> "kejd_pb" AND lto <> "tec" AND lto <> "esn"  then %>
-     <td align=right class=lille style="border-bottom:2px silver solid; width:80px; white-space:nowrap;"><b>Balance +/-</b><br />
-    Realiseret<br />/ Komme/g&aring; tid<br />
+     <td align=right class=lille style="border-bottom:2px silver solid; width:80px; white-space:nowrap;"><b><%=afstem_txt_005 %> +/-</b><br />
+    <%=afstem_txt_006 %><br />/ <%=afstem_txt_003 %><br />
     <%=realLontBal %>
     </td>
     <%
@@ -111,17 +111,17 @@
                
             <%select case lto
                case "tec", "esn"
-                overarbTxt = "Afspad."
+                overarbTxt = afstem_txt_040
                case else 
-                overarbTxt = "Overarb."
+                overarbTxt = afstem_txt_098
                 end select %>
 
 
 	         <%if lto <> "kejd_pb" AND lto <> "fk" then %>
-	         <td align=right style="border-bottom:2px silver solid; width:80px; white-space:nowrap;" valign=bottom class=lille><%=overarbTxt &" optjent:" %><br /> <%=formatnumber(afspTimer(x), 2)%></td>
+	         <td align=right style="border-bottom:2px silver solid; width:80px; white-space:nowrap;" valign=bottom class=lille><%=overarbTxt &" " & afstem_txt_022&":" %><br /> <%=formatnumber(afspTimer(x), 2)%></td>
             <%end if %>
              
-            <td align=right class=lille style="border-bottom:2px silver solid; width:80px; white-space:nowrap;;" valign=bottom>Afspaderet:<br /> <%=formatnumber(afspTimerBr(x), 2)%></td>
+            <td align=right class=lille style="border-bottom:2px silver solid; width:80px; white-space:nowrap;;" valign=bottom><%=afstem_txt_007 %>:<br /> <%=formatnumber(afspTimerBr(x), 2)%></td>
 
           
 	             <%
@@ -140,9 +140,9 @@
 	             aAfspadBalTot = aAfspadBalTot + (AfspadBal)
                  
                  if lto <> "lw" AND lto <> "kejd_pb" AND lto <> "fk" then %>
-	             <td align=right class=lille style="border-bottom:2px silver solid; width:80px; white-space:nowrap;" valign=bottom>Udbetalt:<br /><%=formatnumber(afspTimerUdb(x), 2)%></td>
-	             <td align=right class=lille style="border-bottom:2px silver solid; width:80px; white-space:nowrap;" valign=bottom>&Oslash;nsk. udb.:<br /><%=formatnumber(afspadUdbBal, 2)%></td>
-	             <td align=right class=lille style="border-bottom:2px silver solid; width:80px; white-space:nowrap;" valign=bottom>Overarb. tilgode saldo:<br /><%=formatnumber(AfspadBal, 2)%></td>
+	             <td align=right class=lille style="border-bottom:2px silver solid; width:80px; white-space:nowrap;" valign=bottom><%=afstem_txt_008 %>:<br /><%=formatnumber(afspTimerUdb(x), 2)%></td>
+	             <td align=right class=lille style="border-bottom:2px silver solid; width:80px; white-space:nowrap;" valign=bottom><%=afstem_txt_009 %>:<br /><%=formatnumber(afspadUdbBal, 2)%></td>
+	             <td align=right class=lille style="border-bottom:2px silver solid; width:80px; white-space:nowrap;" valign=bottom><%=afstem_txt_010 %>:<br /><%=formatnumber(AfspadBal, 2)%></td>
         	 
                     <%end if %>
 	         
@@ -484,10 +484,10 @@ if session("user") = "" then
     <table cellpadding=0 cellspacing=0 border=0 width=100%>
 	<tr>
 	
-	<td valign=top><h4>Afstemning (Saldo)<br />
+	<td valign=top><h4><%=afstem_txt_011 &" " %> (<%=afstem_txt_012 %>) <%=afstem_txt_001 %><br />
     <span style="font-size:11px; font-weight:lighter;">
      <%call meStamdata(usemrn) %>
-    <%=meTxt %>, ansat: <%=formatdatetime(meAnsatDato, 1) %>
+    <%=meTxt %>, <%=afstem_txt_114 %>: <%=formatdatetime(meAnsatDato, 1) %>
     </span>
     </h4>
       
@@ -502,7 +502,7 @@ if session("user") = "" then
    
     <%if media <> "print" AND media <> "export" AND show = 12 then
      %>   
-        <div id="gt_msg" style="width:200px; padding:20px; position:absolute; left:120px; background-color:snow; z-index:999999999; border:2px #6CAE1C dashed; display:none; visibility:hidden;">Grandtotal og flexsaldo er flyttet til bunden af deres respektive kolonner på måned/måned oversigten.</div>
+        <div id="gt_msg" style="width:200px; padding:20px; position:absolute; left:120px; background-color:snow; z-index:999999999; border:2px #6CAE1C dashed; display:none; visibility:hidden;"><%=afstem_txt_013 %></div>
 
         
      <%end if %> 
@@ -562,11 +562,11 @@ if session("user") = "" then
     
     %>
 
-	|&nbsp;&nbsp;Ferie <%=global_txt_163 %>:
-	<a href="afstem_tot.asp?usemrn=<%=intMid %>&show=4&varTjDatoUS_man=<%=varTjDatoUS_man %>" class=vmenu>nuværende</a> 
+	|&nbsp;&nbsp;<%=afstem_txt_099 &" " %> <%=global_txt_163 %>:
+	<a href="afstem_tot.asp?usemrn=<%=intMid %>&show=4&varTjDatoUS_man=<%=varTjDatoUS_man %>" class=vmenu><%=afstem_txt_014 %></a> 
 
      /
-    <a href="afstem_tot.asp?usemrn=<%=intMid %>&show=4&yuse=<%=year(prevyearsFe) %>&varTjDatoUS_man=<%=varTjDatoUS_man %>" class=gray>forrige ferieår (<%=year(prevyearsFe)%>)</a>&nbsp;
+    <a href="afstem_tot.asp?usemrn=<%=intMid %>&show=4&yuse=<%=year(prevyearsFe) %>&varTjDatoUS_man=<%=varTjDatoUS_man %>" class=gray><%=afstem_txt_015 %> (<%=year(prevyearsFe)%>)</a>&nbsp;
 	<br />
 	<br />
                 <%
@@ -591,7 +591,7 @@ if session("user") = "" then
 	<img src="../inc/jquery/images/ajax-loader.gif" />
        
 	</td></tr>
-        <tr><td colspan="2" class="lille">Forventet laodtid: 5-20 sek.</td></tr>
+        <tr><td colspan="2" class="lille"><%=afstem_txt_016 %></td></tr>
 	</table>
 
 	</div>
@@ -719,11 +719,11 @@ if session("user") = "" then
    
      
      if media <> "export" then%>
-     <b>Udspecificering
+     <b><%=afstem_txt_0100 %>
 
       <% 
     if show = 12 then
-    Response.Write "År >> Dato</b> &nbsp;"
+    Response.Write afstem_txt_100 &"</b> &nbsp;"
 
         
     %>
@@ -732,10 +732,10 @@ if session("user") = "" then
   
          
          <%if cint(showfremtidTxt) = 1 OR ((month(now) = 1 AND day(now) < 10) AND lto = "esn" OR lto = "tec") then '10 %>
-         <span style="color:darkred; border:1px red solid; padding:4px;"><b>Bemærk</b> at flekssaldo mv. først stemmer når forrige år er opgjort.</span>
+         <span style="color:darkred; border:1px red solid; padding:4px;"><b><%=afstem_txt_017 %></b> <%=afstem_txt_018 %></span>
          <%else%>
              
-         <span style="color:darkred;">Opgjort pr. <b><%=formatdatetime(ddato, 1) %></b> <%=showigartxt %></span> 
+         <span style="color:darkred;"><%=afstem_txt_019 %> <b><%=formatdatetime(ddato, 1) %></b> <%=showigartxt %></span> 
          <%end if %>
          
          <br /><br />&nbsp;
@@ -751,7 +751,7 @@ if session("user") = "" then
 
     
     else %>
-    Måned >> Dato</b>
+    <%=afstem_txt_020 %></b>
     <%
     
      'if sort <> 0 then
@@ -801,12 +801,12 @@ if session("user") = "" then
 	  <%if session("stempelur") <> 0 then 
           %> 
          <%if show = 77 then %>
-         <td valign=bottom class=lille style="border-bottom:1px silver solid; white-space:nowrap; width:50px;"><b>Komme/Gå tid</b></td>
+         <td valign=bottom class=lille style="border-bottom:1px silver solid; white-space:nowrap; width:50px;"><b><%=afstem_txt_113 %></b></td>
 
                      <%select case lto
                                        case "kejd_pb", "xintranet - local"
                                         case else %>
-                    <td valign=bottom class=lille style="border-bottom:1px silver solid; white-space:nowrap; width:50px;"><b>Pauser</b></td>
+                    <td valign=bottom class=lille style="border-bottom:1px silver solid; white-space:nowrap; width:50px;"><b><%=afstem_txt_021 %></b></td>
                     <%end select %>
         
 
@@ -814,10 +814,10 @@ if session("user") = "" then
 
       
 
-	         <td valign=bottom class=lille style="border-bottom:1px silver solid; white-space:nowrap; width:50px;"><b>Komme/Gå<br /> optjent</b>
+	         <td valign=bottom class=lille style="border-bottom:1px silver solid; white-space:nowrap; width:50px;"><b><%=afstem_txt_102 %><br /> <%=afstem_txt_022 %></b>
 
              <%if lto = "dencker" then %>
-             <br />(løntimer)
+             <br />(<%=afstem_txt_023 %>)
              <%end if %>
      
              </td>
@@ -827,8 +827,8 @@ if session("user") = "" then
 
                 <%if cint(showkgtil) = 1 then
                     globalWdt = globalWdt + 50 %>
-	            <td valign=bottom class=lille style="border-bottom:1px silver solid; width:50px;"><b>Tillæg +/-</b><br />Ferie, sygdom, korrektion etc. indberettet</td>
-	            <td valign=bottom class=lille style="border-bottom:1px silver solid; white-space:nowrap; width:50px;"><b>= Sum</b><br />Komme/gå tid<br /> + tillæg</td>
+	            <td valign=bottom class=lille style="border-bottom:1px silver solid; width:50px;"><b><%=afstem_txt_024 %> +/-</b><br /><%=afstem_txt_025 %></td>
+	            <td valign=bottom class=lille style="border-bottom:1px silver solid; white-space:nowrap; width:50px;"><b>= Sum</b><br /><%=afstem_txt_003 %><br /> + <%=afstem_txt_027 %></td>
                 <%end if 
             
 
@@ -848,17 +848,17 @@ if session("user") = "" then
        
                  case else
                   %>
-                 <br />Komme/gå tid<br /> / Normtid
+                 <br /><%=afstem_txt_003 %><br /> / <%=afstem_txt_004 %>
                  <%end select %>
 	         </td>
-	         <td bgcolor="#DCF5BD" valign=bottom class=lille style="border-bottom:1px silver solid; white-space:nowrap; width:50px;"><b><%=tsa_txt_284%> +/-<br / >Akkumuleret</b>
+	         <td bgcolor="#DCF5BD" valign=bottom class=lille style="border-bottom:1px silver solid; white-space:nowrap; width:50px;"><b><%=tsa_txt_284%> +/-<br / ><%=afstem_txt_028 %></b>
          
                  <%select case lto 
                  case "kejd_pb"
        
                  case else
                   %>
-                 <br />Komme/gå tid<br /> / Normtid
+                 <br /><%=afstem_txt_003 %><br /> / <%=afstem_txt_004 %>
                  <%end select %>
          
          
@@ -878,49 +878,62 @@ if session("user") = "" then
        <%select case lto 
        case "kejd_pb"
        %>
-       <b>Timer</b><br /> indberett.<br /> på aktivitet.
+       <b><%=afstem_txt_029 %></b><br /> <%=afstem_txt_030 %><br /> <%=afstem_txt_031 %>
        <%
        case else
        %>
-       <b>Timer<br /> realiseret</b>
-      <br />(indberettet på aktivit.)
+       <b><%=afstem_txt_029 %><br /> <%=afstem_txt_032 %></b>
+      <br />(<%=afstem_txt_033 %>)
        <%
        end select %>
        </td>
+        
+        <% 
+            select case lto
+           case "intranet - local", "tia"
+              afstem_txt_035 = "Project hours"
+              godkendweek_txt_113 = "Admin. hours"
+           end select 
+            %>
 
         <%if lto <> "cst" AND lto <> "kejd_pb" AND lto <> "tec" AND lto <> "esn" then %>
-	   <td class=lille valign=bottom style="border-bottom:1px silver solid; width:50px;">(heraf<br />fak.bare)</td>
+	   <td class=lille valign=bottom style="border-bottom:1px silver solid; width:50px;">(<%=afstem_txt_034 %><br /><%=afstem_txt_035 %>)</td>
+        <%end if %>
+
+          <%if lto = "tia" then %>
+	   <td class=lille valign=bottom style="border-bottom:1px silver solid; width:50px;">(<%=afstem_txt_034 %><br /><%=godkendweek_txt_113 %>)</td>
         <%end if %>
 
 
          <%if cint(mtypNoflex) <> 1 then 'noflex %>
 
+
         <%if cint(showkgtil) = 1 AND (lto <> "cst" AND lto <> "tec" AND lto <> "esn") then %>
-	    <td class=lille valign=bottom style="border-bottom:1px silver solid; width:50px;"><b>Korrektion</b><br />(overført saldo fra senest afsluttet løn-periode)</td>
+	    <td class=lille valign=bottom style="border-bottom:1px silver solid; width:50px;"><b><%=afstem_txt_080 %></b><br />(<%=afstem_txt_036 %>)</td>
         <%end if %>
     
         
 
-               <%if lto <> "cst" AND lto <> "tec" AND lto <> "esn" then %>
+               <%if lto <> "cst" AND lto <> "tec" AND lto <> "esn" AND lto <> "tia" then %>
 	      <td valign=bottom class=lille style="border:1px pink solid; border-bottom:1px silver solid; white-space:nowrap; width:50px;"><b><%=tsa_txt_284%> +/-</b>
            
               <%select case lto
                case "kejd_pb"%>
-              <br /> Indberettet <br />/ Normeret
+              <br /> <%=afstem_txt_037 %> <br />/ <%=afstem_txt_038 %>
                 <%case else %>  
-              <br />Realiseret<br /> / Normeret
+              <br /><%=afstem_txt_006 %><br /> / <%=afstem_txt_038 %>
 	            <%end select %>
 
               </td>
 
-            <td bgcolor="pink" valign=bottom class=lille style="border-bottom:1px silver solid; white-space:nowrap; width:50px;"><b><%=tsa_txt_284%> +/- <br / >Akkumuleret</b>
+            <td bgcolor="pink" valign=bottom class=lille style="border-bottom:1px silver solid; white-space:nowrap; width:50px;"><b><%=tsa_txt_284%> +/- <br / ><%=afstem_txt_028 %></b>
 
 
                   <%select case lto
                case "kejd_pb"%>
-              <br /> Indberettet <br />/ Normeret
+              <br /> <%=afstem_txt_037 %> <br />/ <%=afstem_txt_038 %>
                 <%case else %>  
-              <br />Realiseret<br /> / Normeret</td>
+              <br /><%=afstem_txt_006 %><br /> / <%=afstem_txt_038 %></td>
 	            <%end select %>
 
             </td>
@@ -932,7 +945,7 @@ if session("user") = "" then
      <%if session("stempelur") <> 0 then %> 
 	  <%if lto <> "cst" AND lto <> "kejd_pb" AND lto <> "tec" AND lto <> "esn" then 
           globalWdt = globalWdt + 50%>
-	  <td valign=bottom class=lille style="border-bottom:1px silver solid; white-space:nowrap; width:50px;"><b>Balance +/-</b><br />Realiseret<br />/ Komme/gå tid</td>
+	  <td valign=bottom class=lille style="border-bottom:1px silver solid; white-space:nowrap; width:50px;"><b><%=afstem_txt_005 %> +/-</b><br /><%=afstem_txt_006 %><br />/ <%=afstem_txt_003 %></td>
 	  <%end if %>  
 	    
 	 <%end if %>
@@ -950,24 +963,24 @@ if session("user") = "" then
 
                    select case lto
                    case "tec", "esn"
-                    overarbTxt = "Afspad."
+                    overarbTxt = afstem_txt_040
                    case else 
                     overarbTxt = tsa_txt_283
                     end select 
                   
                   
                %>
-              <td align=right valign=bottom class=lille style="border-bottom:1px silver solid; width:50px;"><b><%=overarbTxt%><br /> <%=tsa_txt_164%></b><br />(enh.)</td>
+              <td align=right valign=bottom class=lille style="border-bottom:1px silver solid; width:50px;"><b><%=overarbTxt%><br /> <%=tsa_txt_164%></b><br />(<%=afstem_txt_039 %>)</td>
 	          <%end if %>
 
-              <td valign=bottom style="border-bottom:1px silver solid; white-space:nowrap; width:50px;" class=lille><b>Afspads.</b><br />~ timer</td>
+              <td valign=bottom style="border-bottom:1px silver solid; white-space:nowrap; width:50px;" class=lille><b><%=afstem_txt_040 %></b><br />~ <%=afstem_txt_041 %></td>
                
                <%if lto <> "lw" AND lto <> "kejd_pb" AND lto <> "fk" AND lto <> "adra" AND lto <> "cisu" then 
                     globalWdt = globalWdt + 100
                    
                    if lto <> "tec" AND lto <> "esn" then%>
-	               <td valign=bottom style="border-bottom:1px silver solid; width:50px;" class=lille><b>Udbetalt</b></td>
-	               <td valign=bottom style="border-bottom:1px silver solid; width:50px;" class=lille><b>Ønsk. Udbe.</b></td>
+	               <td valign=bottom style="border-bottom:1px silver solid; width:50px;" class=lille><b><%=afstem_txt_042 %></b></td>
+	               <td valign=bottom style="border-bottom:1px silver solid; width:50px;" class=lille><b><%=afstem_txt_043 %></b></td>
                     <%end if %>
 	          
                 
@@ -989,14 +1002,14 @@ if session("user") = "" then
          <br /> ~ timer</td>
          -->
            <td valign=bottom style="border-bottom:1px silver solid; width:50px;" class=lille><b><%=global_txt_132 %></b> 
-         <br /> ~ enh</td>
+         <br /> ~ <%=afstem_txt_039 %></td>
            <td valign=bottom style="border-bottom:1px silver solid; width:50px;" class=lille><b><%=global_txt_157 %></b> 
-         <br /> ~ enh</td>
+         <br /> ~ <%=afstem_txt_039 %></td>
 
           <td valign=bottom style="border-bottom:1px silver solid; width:50px;" class=lille><b><%=global_txt_192 %></b> 
-         <br /> ~ enh</td>
-           <td valign=bottom style="border-bottom:1px silver solid; width:50px;" class=lille><b><%=left(global_txt_193, 7) & " udbetalt" %></b> 
-         <br /> ~ enh</td>
+         <br /> ~ <%=afstem_txt_039 %></td>
+           <td valign=bottom style="border-bottom:1px silver solid; width:50px;" class=lille><b><%=left(global_txt_193, 7) & " " & afstem_txt_103 %></b> 
+         <br /> ~ <%=afstem_txt_039 %></td>
 
         <%
     end select
@@ -1006,45 +1019,45 @@ if session("user") = "" then
          
          if visning = 77 then %>
           <td valign=bottom style="border-bottom:1px silver solid; width:50px;" class=lille><b><%=global_txt_166 %></b> 
-         <br /> ~ dage</td>
+         <br /> ~ <%=afstem_txt_044 %></td>
          <%end if 
           
           %>
          <td valign=bottom style="border-bottom:1px silver solid; width:50px;" class=lille><b><%=global_txt_172 %></b> 
-         <br /> ~ dage</td>
+         <br /> ~ <%=afstem_txt_044 %></td>
          
           <%
           if visning = 77 then %>
-          <td valign=bottom style="border-bottom:1px silver solid; width:50px;" class=lille><b><%=left(global_txt_166, 26) &" Saldo"%></b> 
-          <br /> ~ dage</td>
+          <td valign=bottom style="border-bottom:1px silver solid; width:50px;" class=lille><b><%=left(global_txt_166, 26) &" "& afstem_txt_012 %></b> 
+          <br /> ~ <%=afstem_txt_044 %></td>
           <%end if 
              
              
              
           if visning = 77 then  %>
           <td valign=bottom style="border-bottom:1px silver solid; width:50px;" class=lille><b><%=global_txt_151 %></b> 
-         <br /> ~ timer</td>
+         <br /> ~ <%=afstem_txt_041 %></td>
         <%end if %>
 
           <td valign=bottom style="border-bottom:1px silver solid; width:50px;" class=lille><b><%=global_txt_148 %></b> 
-         <br /> ~ timer</td>
+         <br /> ~ <%=afstem_txt_041 %></td>
          
          <%if visning = 77 then  %>
-         <td valign=bottom style="border-bottom:1px silver solid; width:50px;" class=lille><b><%=left(global_txt_151, 28) &" Saldo"%></b> 
-         <br /> ~ timer</td>
+         <td valign=bottom style="border-bottom:1px silver solid; width:50px;" class=lille><b><%=left(global_txt_151, 28) &" "& afstem_txt_012 %></b> 
+         <br /> ~ <%=afstem_txt_041 %></td>
          <%end if %>
          
          <% if visning = 77 then  %>
          <td valign=bottom style="border-bottom:1px silver solid; width:50px;" class=lille><b><%=global_txt_152 %></b> 
-         <br /> ~ timer</td>
+         <br /> ~ <%=afstem_txt_041 %></td>
          <%end if %>
 
           <td valign=bottom style="border-bottom:1px silver solid; width:50px;" class=lille><b><%=global_txt_179 %></b> 
-         <br /> ~ timer</td>
+         <br /> ~ <%=afstem_txt_041 %></td>
        
            <% if visning = 77 then  %>
-          <td valign=bottom style="border-bottom:1px silver solid; width:50px;" class=lille><b><%=left(global_txt_152, 28) &" Saldo"%></b> 
-         <br /> ~ timer</td>
+          <td valign=bottom style="border-bottom:1px silver solid; width:50px;" class=lille><b><%=left(global_txt_152, 28) &" "& afstem_txt_012 %></b> 
+         <br /> ~ <%=afstem_txt_041 %></td>
        <% end if
      end select   
      %>
@@ -1070,7 +1083,7 @@ if session("user") = "" then
                 <td valign=bottom style="border-bottom:1px silver solid; width:50px;" class=lille>
 	     <%call akttyper(28, 1) %>
 	     <b><%=left(akttypenavn, 10)%>.<br />
-          <%=right(akttypenavn, 5)%></b><br />- timer
+          <%=right(akttypenavn, 5)%></b><br />- <%=afstem_txt_041 %>
 	     
 	     </td>
 
@@ -1089,7 +1102,7 @@ if session("user") = "" then
                  <td valign=bottom style="border-bottom:1px silver solid; width:50px;" class=lille>
 	             <%call akttyper(29, 1) %>
 	             <b><%=left(akttypenavn, 10)%>.<br />
-                  Saldo</b>
+                  <%=afstem_txt_012 %></b>
 	     
 	             </td>
          <%end if %>
@@ -1103,39 +1116,39 @@ if session("user") = "" then
 	 
 	 
 	
-	 <td valign=bottom style="border-bottom:1px silver solid; width:50px;" class=lille><b>Ferie afholdt</b> 
+	 <td valign=bottom style="border-bottom:1px silver solid; width:50px;" class=lille><b><%=afstem_txt_045 %></b> 
          <br />
-	 ~ dage 
+	 ~ <%=afstem_txt_044 %> 
        
       </td>
 
-        <td valign=bottom style="border-bottom:1px silver solid; width:50px;" class=lille><b>Ferie afholdt u. løn</b> 
+        <td valign=bottom style="border-bottom:1px silver solid; width:50px;" class=lille><b><%=afstem_txt_046 %></b> 
          <br />
-	 ~ dage 
+	 ~ <%=afstem_txt_044 %> 
        
       </td>
 
          <%select case lto
              case "tec", "esn"
-             ferieFriTxt = "Særligferie"
+             ferieFriTxt = afstem_txt_047
              case else
-             ferieFriTxt = "Feriefridage afholdt"
+             ferieFriTxt = afstem_txt_048
              end select %>
     
       <td valign=bottom style="border-bottom:1px silver solid; width:50px;" class=lille><b><%=ferieFriTxt %></b><br />
-           ~ dage<br />
+           ~ <%=afstem_txt_044 %><br />
            <%select case lto 
              case "kejd_pb", "tec", "esn"
              case else
              %>
-            (Incl. udbetalt)
+            (<%=afstem_txt_049 %>)
             <%
              end select %>
 	 </td>
 
         <%select case lto
             case "xxintranet - local", "fk" %>
-         <td valign=bottom style="border-bottom:1px silver solid; width:50px;" class=lille><b>1 Maj timer</b></td>
+         <td valign=bottom style="border-bottom:1px silver solid; width:50px;" class=lille><b><%=afstem_txt_050 %></b></td>
 
          <%end select
              
@@ -1152,8 +1165,8 @@ if session("user") = "" then
              select case lto
             case "xxintranet - local", "fk", "kejd_pb", "adra" 
              globalWdt = globalWdt + 50%>
-        <td valign=bottom style="border-bottom:1px silver solid; width:50px;" class=lille><b>Omsorgs<br />dage</b><br />
-	 ~ dage<br />
+        <td valign=bottom style="border-bottom:1px silver solid; width:50px;" class=lille><b><%=afstem_txt_051 %><br /><%=afstem_txt_044 %></b><br />
+	 ~ <%=afstem_txt_044 %><br />
      </td>
     <%end select %>
 
@@ -1164,17 +1177,17 @@ if session("user") = "" then
              globalWdt = globalWdt + 50%>
        
         <td valign=bottom style="border-bottom:1px silver solid; width:50px;" class=lille><b><%=global_txt_179 %></b><br />
-	 ~ timer<br />
+	 ~ <%=afstem_txt_041 %><br />
      </td>
     <%end select %>
 
 
         <%
           select case lto
-            case "xxintranet - local", "fk", "kejd_pb" 
+            case "xxintranet - local", "fk", "kejd_pb", "tia" 
              globalWdt = globalWdt + 50%>
-        <td valign=bottom style="border-bottom:1px silver solid; width:50px;" class=lille><b>Barsel/Orlov</b><br />
-	 ~ dage<br />
+        <td valign=bottom style="border-bottom:1px silver solid; width:50px;" class=lille><b><%=afstem_txt_052 %></b><br />
+	 ~ <%=afstem_txt_044 %><br />
      </td>
     
     <%end select %>
@@ -1188,8 +1201,8 @@ if session("user") = "" then
             case "xxintranet - local", "fk" 
              globalWdt = globalWdt + 50%>
        
-        <td valign=bottom style="border-bottom:1px silver solid; width:50px;" class=lille><b>Læge</b><br />
-	 ~ timer<br />
+        <td valign=bottom style="border-bottom:1px silver solid; width:50px;" class=lille><b><%=afstem_txt_053 %></b><br />
+	 ~ <%=afstem_txt_041 %><br />
      </td>
     <%end select %>
 
@@ -1204,16 +1217,16 @@ if session("user") = "" then
       if (level = 1 OR (session("mid") = usemrn)) OR (cint(erTeamlederForVilkarligGruppe) = 1) then
           globalWdt = globalWdt + 100 %>
 	 <td valign=bottom style="border-bottom:1px silver solid; width:50px;" class=lille>
-           <b>Syg</b><br />~ dage</td>
+           <b><%=afstem_txt_054 %></b><br />~ <%=afstem_txt_044 %></td>
 	 <%end if %>
 
          <%if (level = 1 OR (session("mid") = usemrn)) OR (cint(erTeamlederForVilkarligGruppe) = 1) then%>
-	 <td valign=bottom style="border-bottom:1px silver solid; width:50px;" class=lille><b>Barn syg</b><br />~ dage</td>
+	 <td valign=bottom style="border-bottom:1px silver solid; width:50px;" class=lille><b><%=afstem_txt_055 %></b><br />~ <%=afstem_txt_044 %></td>
 	 <%end if %>
 
 
      <%if visning = 77 then %>
-	 <td valign=bottom style="border-bottom:1px silver solid; width:200px;" class=lille><b>Kommentar</b></td>
+	 <td valign=bottom style="border-bottom:1px silver solid; width:200px;" class=lille><b><%=afstem_txt_056 %></b></td>
 	 <%
          
          globalWdt = globalWdt + 200
@@ -1399,7 +1412,7 @@ if session("user") = "" then
     normLontBal = 0 
     realNormBal = 0
    
-    public anormTimerTot, arealTimerTot, atotalTimerPer100, aafspadUdbBalTot, aAfspadBalTot, arealfTimerTot
+    public anormTimerTot, arealTimerTot, atotalTimerPer100, aafspadUdbBalTot, aAfspadBalTot, arealfTimerTot, arealifTimerTot
     public afradragTimerTot, altimerKorFradTot, aafspTimerTot, aafspTimerBrTot, aafspTimerUdbTot
     public ferieAfVal_md, sygDage_barnSyg, ferieAfVal_md_tot, ferieAfulonVal_md_tot, sygDage_barnSyg_tot, ferieFriAfVal_md, ferieFriAfVal_md_tot, normtime_lontimeAkk, balRealNormtimerAkk, korrektionRealTot
     public divfritimer_tot, omsorg_tot, sygeDage_tot, barnSyg_tot, barsel_tot, lageTimer_tot, tjenestefri_tot, rejsedage_tot
@@ -1520,7 +1533,7 @@ if session("user") = "" then
                 cpt = 1
                 end if %>    
 
-	<td class=lille style="white-space:nowrap;" colspan="<%=cpt %>"><b>Total i per.</b></td>
+	<td class=lille style="white-space:nowrap;" colspan="<%=cpt %>"><b><%=afstem_txt_057 %></b></td>
 
         
 	 <%if session("stempelur") <> 0 then 
@@ -1591,7 +1604,11 @@ if session("user") = "" then
              <td align=right style="white-space:nowrap;" class=lille><b><%=formatnumber(arealTimerTot,2)%></b></td>
 	         
             <%if lto <> "cst" ANd lto <> "kejd_pb" AND lto <> "tec" AND lto <> "esn" then %>
-	        <td align=right style="white-space:nowrap;" class=lille>(<%=formatnumber(arealfTimerTot,2)%>)</td>
+	        <td align=right style="white-space:nowrap;" class=lille><%=formatnumber(arealfTimerTot,2)%></td>
+            <%end if %>
+
+            <%if lto = "intranet - local" OR lto = "tia" then %>
+	        <td align=right style="white-space:nowrap;" class=lille><%=formatnumber(arealifTimerTot,2)%></td>
             <%end if %>
 
 
@@ -1605,7 +1622,7 @@ if session("user") = "" then
 	        
 
 
-	    <%if lto <> "cst" AND lto <> "tec" AND lto <> "esn" then %>
+	    <%if lto <> "cst" AND lto <> "tec" AND lto <> "esn" AND lto <> "tia" then %>
 	    <td align=right style="white-space:nowrap;" class=lille><b><%=formatnumber((arealTimerTot - anormTimerTot),2)%></b></td>
         <td align=right style="white-space:nowrap;" class=lille><b><%=formatnumber(balRealNormtimerAkk+(akuPreRealNormBal),2)%></b></td>
          <%end if %>
@@ -1766,7 +1783,7 @@ if session("user") = "" then
 
 
          <%   select case lto
-                        case "xintranet - local", "fk", "kejd_pb"
+                        case "xintranet - local", "fk", "kejd_pb", "tia"
             %>
         	 <td align=right  class=lille><b><%=formatnumber(barsel_tot, 2) %></b></td>
         
@@ -1841,29 +1858,30 @@ if session("user") = "" then
 
 
         if show = 12 then
- 
+        
+        if lto <> "tia" then '= Ingne fleks, ligemeget md GT
             
             
- '*** Finder startDato for afstemning
+         '*** Finder startDato for afstemning
 
- call licensStartDato()
- call lonKorsel_lukketPer(now, -2)
- call meStamdata(usemrn)
+         call licensStartDato()
+         call lonKorsel_lukketPer(now, -2)
+         call meStamdata(usemrn)
 
- if cdate(meAnsatDato) > cdate(licensstdato) then
- listartDato_GT = meAnsatDato
- else
- listartDato_GT = licensstdato
- end if
+         if cdate(meAnsatDato) > cdate(licensstdato) then
+         listartDato_GT = meAnsatDato
+         else
+         listartDato_GT = licensstdato
+         end if
 
- lic_mansat_dt = listartDato_GT
+         lic_mansat_dt = listartDato_GT
 
- if cdate(lonKorsel_lukketPerDt) > cdate(listartDato_GT) then
- lonKorsel_lukketPerDt = dateAdd("d", 1, lonKorsel_lukketPerDt)
- listartDato_GT = year(lonKorsel_lukketPerDt) &"/"& month(lonKorsel_lukketPerDt) &"/"& day(lonKorsel_lukketPerDt)
- else
- listartDato_GT = year(listartDato_GT) &"/"& month(listartDato_GT) &"/"& day(listartDato_GT)
- end if
+         if cdate(lonKorsel_lukketPerDt) > cdate(listartDato_GT) then
+         lonKorsel_lukketPerDt = dateAdd("d", 1, lonKorsel_lukketPerDt)
+         listartDato_GT = year(lonKorsel_lukketPerDt) &"/"& month(lonKorsel_lukketPerDt) &"/"& day(lonKorsel_lukketPerDt)
+         else
+         listartDato_GT = year(listartDato_GT) &"/"& month(listartDato_GT) &"/"& day(listartDato_GT)
+         end if
 
          'response.write "Yuse" & yuse
 
@@ -1888,13 +1906,13 @@ if session("user") = "" then
 
 
         lonPerafsl = dateAdd("d", -1, listartDato_GT)
-        periodeTxt = "<span style=""font-size:9px; color:#000000;"">Grandtotal periode: "& formatdatetime(lic_mansat_dt,1) & " - " & formatdatetime(slutDato_GT, 1) 
-        periodeTxt = periodeTxt & "<br>Senest afstemt (l&oslash;n-periode afsluttet): " & formatdatetime(lonPerafsl, 1) & "<span>"
+        periodeTxt = "<span style=""font-size:9px; color:#000000;"">"&afstem_txt_110&": "& formatdatetime(lic_mansat_dt,1) & " - " & formatdatetime(slutDato_GT, 1) 
+        periodeTxt = periodeTxt & "<br>"& afstem_txt_111 &": " & formatdatetime(lonPerafsl, 1) & "<span>"
         
          %>
  
 	<tr bgcolor="#FFFFFF">
-    <td class=lille style="white-space:nowrap;" colspan="<%=cpt %>"><b>Grandtotal</b></td>
+    <td class=lille style="white-space:nowrap;" colspan="<%=cpt %>"><b><%=afstem_txt_001 %></b></td>
 	
 	
 	<!-- Normtid -->
@@ -1924,7 +1942,7 @@ if session("user") = "" then
         <%if cint(mtypNoflex) <> 1 then 'noflex %>
 
              <%if cint(showkgtil) = 1 then %>
-	         <td align=right style="white-space:nowrap;" class=lille> &nbsp;</td>
+	         <td align=right style="white-space:nowrap;" class=lille> &nbsp;</td> 
 	         <td align=right style="white-space:nowrap;" class=lille> &nbsp;</td>
 	         <%end if
 	 
@@ -1943,13 +1961,14 @@ if session("user") = "" then
             <%end select %>
 
   
-  <%end if %>
+        <%end if %>
+
         <%end if 'noflex %>
 
-             <td align=right style="white-space:nowrap;" class=lille>&nbsp;</td>
+             
+        
+            <td align=right style="white-space:nowrap;" class=lille>&nbsp;</td>
 	         
-
-         
 
             <%'Saldo Norm/Real
             if lto <> "cst" AND lto <> "kejd_pb" AND lto <> "tec" AND lto <> "esn" then %>
@@ -1964,7 +1983,7 @@ if session("user") = "" then
                 <td align=right style="white-space:nowrap;" class=lille>&nbsp;</td>
                 <%end if 
         
-                         if lto <> "cst" AND lto <> "tec" AND lto <> "esn" then %>
+                         if lto <> "cst" AND lto <> "tec" AND lto <> "esn" AND lto <> "tia" then %>
 	                    <td align=right style="white-space:nowrap;" class=lille>&nbsp;</td>
                         <td align=right style="white-space:nowrap;" class=lille bgcolor="pink"><b><%=formatnumber(realNormBal,2)%></b></td>
 
@@ -2194,19 +2213,19 @@ if session("user") = "" then
             <%if media <> "print" then %>
 
              
-                <tr><td style="color:#000000; font-size:9px;" colspan="40">>> Saldo videreført fra tidligere periode<br />
+                <tr><td style="color:#000000; font-size:9px;" colspan="40">>> <%=afstem_txt_058 %><br />
                     <!--<img src="ill/blank.gif" width="1140" height="2" border="1" />-->
 
                      <br />
-                Ferie afholdt er incl. ferie udbetalt.
+                <%=afstem_txt_059 %>
                     </td></tr>
       
                 <!--Hvis overført saldo = 0, er gl. saldo evt. overført som korrektion i den nye periode.--> </td></tr>
                 <tr><td colspan=40 style="color:#999999; font-size:9px;"><br /><br />
-             <b>Regler for startdato for periode til afstemning af grandtotal</b><br /><br />
-                         1) <b>Licensstartdato</b><br />
-                         2) <b>Medarbejder ans&aelig;ttelses-dato</b>, hvis den er nyere end Licensstartdato.<br />
-                         3) <b>Lønperiode afsluttetdato</b>, hvis den er nyere end medarbejder ans&aelig;ttelses-dato. 
+             <b><%=afstem_txt_060 %></b><br /><br />
+                         1) <b><%=afstem_txt_061 %></b><br />
+                         2) <b><%=afstem_txt_062 %></b>, <%=afstem_txt_063 %><br />
+                         3) <b><%=afstem_txt_064 %></b>, <%=afstem_txt_065 %> 
             </td></tr>
         
 
@@ -2214,6 +2233,7 @@ if session("user") = "" then
          <%end if %>
 
      <%end if 'vis = 12%>
+    <%end if 'lto uden fleks TIA%>
 
     </table>
 
@@ -2310,7 +2330,7 @@ if session("user") = "" then
           <table cellpadding="20" cellspacing="1" border="0"><tr><td valign="top">
 
             <table cellpadding="0" cellspacing="0" border="0" width="250">
-            <tr><td colspan="2"><b>Udspecificering ferie afholdt:</b></td></tr>
+            <tr><td colspan="2"><b><%=afstem_txt_066 %>:</b></td></tr>
         <%
 
                select case lto 
@@ -2334,13 +2354,13 @@ if session("user") = "" then
                 <td align="right" style="border-bottom:1px #cccccc solid;">
                     
                     <%if oRec("tfaktim") = 19 then %>
-                <span style="color:#999999;">(afh. uden løn)</span>&nbsp;&nbsp;&nbsp;
+                <span style="color:#999999;">(<%=afstem_txt_067 %>)</span>&nbsp;&nbsp;&nbsp;
                 <%end if %>
 
                  
                     
                     <%if cint(visFTimer) = 1 then %>
-                        <%=oRec("timer") &" t." %>
+                        <%=oRec("timer") &" "&afstem_txt_069 %>
                     <%end if %>
 
                     
@@ -2355,7 +2375,7 @@ if session("user") = "" then
                         <%if cint(visFTimer) = 1 then %>
                         &nbsp;=&nbsp; 
                         <%end if %>
-                        <%=formatnumber(oRec("timer")/ntimPer, 1) %> d.
+                        <%=formatnumber(oRec("timer")/ntimPer, 1) %> <%=afstem_txt_104 %>
                     <%end if %>
 
                     
@@ -2370,7 +2390,7 @@ if session("user") = "" then
 
             %>
                 
-            <tr><td colspan="2"><br /><b>Ferie optjent:</b></td></tr>    
+            <tr><td colspan="2"><br /><b><%=afstem_txt_105 %>:</b></td></tr>    
             <%
 
              '** Tildelt
@@ -2385,17 +2405,17 @@ if session("user") = "" then
                 <td align="right" style="border-bottom:1px #cccccc solid;">
                     
                     <%if oRec("tfaktim") = 111 then %>
-                <span style="color:#999999;">(Ferie overført)</span>&nbsp;&nbsp;&nbsp;
+                <span style="color:#999999;">(<%=afstem_txt_106 %>)</span>&nbsp;&nbsp;&nbsp;
                 <%end if %>
 
                       <%if oRec("tfaktim") = 112 then %>
-                <span style="color:#999999;">(Ferie optj. u. løn)</span>&nbsp;&nbsp;&nbsp;
+                <span style="color:#999999;">(<%=afstem_txt_107 %>)</span>&nbsp;&nbsp;&nbsp;
                 <%end if %>
 
                  
                     
                     <%if cint(visFTimer) = 1 then %>
-                        <%=oRec("timer") &" t." %>
+                        <%=oRec("timer") &" "& afstem_txt_069 %>
                     <%end if %>
 
                     
@@ -2410,7 +2430,7 @@ if session("user") = "" then
                         <%if cint(visFTimer) = 1 then %>
                         &nbsp;=&nbsp; 
                         <%end if %>
-                        <%=formatnumber(oRec("timer")/ntimPer, 1) %> d.
+                        <%=formatnumber(oRec("timer")/ntimPer, 1) %> <%=afstem_txt_104 %>
                     <%end if %>
 
                     
@@ -2435,7 +2455,7 @@ if session("user") = "" then
 
            
         <table cellpadding="0" cellspacing="0" border="0" width="250">
-            <tr><td colspan="2"><b>Udspecificering feriefridage afholdt:</b></td></tr>
+            <tr><td colspan="2"><b><%=afstem_txt_108 %>:</b></td></tr>
         <%
             '**Udspecificering
             strSQLfe = "SELECT tdato, timer FROM timer WHERE tmnr = "& usemrn &" AND tdato BETWEEN '"& ferieaarST &"' AND '"& ferieaarSL &"' AND tfaktim = 13 ORDER BY tdato" 
@@ -2448,7 +2468,7 @@ if session("user") = "" then
             <tr><td align="right" style="border-bottom:1px #cccccc solid;"><%=formatdatetime(oRec("tdato"), 1) %></td><td align="right" style="border-bottom:1px #cccccc solid;">
                 
                  <%if cint(visFTimer) = 1 then %>
-                        <%=oRec("timer") &" t." %>
+                        <%=oRec("timer") &" "& afstem_txt_069 %>
                     <%end if %>
 
                     
@@ -2463,7 +2483,7 @@ if session("user") = "" then
                         <%if cint(visFTimer) = 1 then %>
                         &nbsp;=&nbsp; 
                         <%end if %>
-                        <%=formatnumber(oRec("timer")/ntimPer, 1) %> d.
+                        <%=formatnumber(oRec("timer")/ntimPer, 1) %> <%=afstem_txt_104 %>
                     <%end if %>
 
                     
@@ -2565,6 +2585,10 @@ if session("user") = "" then
                 if lto <> "cst" AND lto <> "kejd_pb" AND lto <> "tec" AND lto <> "esn" then
                 strEkspHeader = strEkspHeader & "(heraf fakturerbare);"
                   end if  
+
+                if lto = "tia" then
+                strEkspHeader = strEkspHeader & "(hereby admin. hours);"
+                end if  
           
 
              if cint(mtypNoflex) <> 1 then 'noflex 
@@ -2575,7 +2599,7 @@ if session("user") = "" then
 
               
 
-                  if lto <> "cst" AND lto <> "tec" AND lto <> "esn" then 
+                  if lto <> "cst" AND lto <> "tec" AND lto <> "esn" AND lto <> "tia" then 
 
                      select case lto
                     case "kejd_pb"
@@ -2661,9 +2685,9 @@ if session("user") = "" then
 
                   select case lto
                  case "tec", "esn"
-                 ferieFriTxt = "Særligferie"
+                 ferieFriTxt = afstem_txt_047
                  case else
-                 ferieFriTxt = "Feriefridage afholdt"
+                 ferieFriTxt = afstem_txt_048
                  end select
 
                strEkspHeader = strEkspHeader &"Ferie afholdt ~ dage;Ferie afholdt u. løn ~ dage;"& ferieFriTxt &" ~ dage;"
@@ -2693,7 +2717,7 @@ if session("user") = "" then
                 end select
 
                 select case lto
-                case "xintranet - local", "fk", "kejd_pb" 
+                case "xintranet - local", "fk", "kejd_pb", "tia" 
                  strEkspHeader = strEkspHeader &"Barsel/Orlov ~ dage;"
                 end select
 
@@ -2820,7 +2844,7 @@ if session("user") = "" then
 	            </tr>
 	            <tr>
 	            <td valign=top bgcolor="#ffffff" style="padding:5px 5px 5px 15px;">
-	            <a href="../inc/log/data/<%=file%>" class=vmenu target="_blank" onClick="Javascript:window.close()">Din CSV. fil er klar >></a>
+	            <a href="../inc/log/data/<%=file%>" class=vmenu target="_blank" onClick="Javascript:window.close()"><%=afstem_txt_097 %> >></a>
 	            </td></tr>
 	            </table>
 
@@ -2871,7 +2895,7 @@ call eksportogprint(ptop,pleft,pwdt)
     <td valign=top align=center>
    <input type=image src="../ill/export1.png" onclick="popUp('afstem_tot.asp?media=export&usemrn=<%=intMid %>&show=<%=show%>&varTjDatoUS_man=<%=varTjDatoUS_man %>&yuse=<%=yuse %>',400,200,200,100)" />
     </td>
-    <td class=lille><input id="Submit3" type="button" value="Eksportér til .csv >> " style="font-size:9px; width:130px;" onclick="popUp('afstem_tot.asp?media=export&usemrn=<%=intMid %>&show=<%=show%>&varTjDatoUS_man=<%=varTjDatoUS_man %>&yuse=<%=yuse %>',400,200,200,100)" /></td>
+    <td class=lille><input id="Submit3" type="button" value="<%=afstem_txt_109 %> >> " style="font-size:9px; width:130px;" onclick="popUp('afstem_tot.asp?media=export&usemrn=<%=intMid %>&show=<%=show%>&varTjDatoUS_man=<%=varTjDatoUS_man %>&yuse=<%=yuse %>',400,200,200,100)" /></td>
 </tr>
 </form>
 
@@ -2882,7 +2906,7 @@ call eksportogprint(ptop,pleft,pwdt)
 
     <td valign=top align=center>
    <input type=image src="../ill/printer3.png"/>
-    </td><td class=lille><input id="Submit6" type="submit" value="Print venlig" style="font-size:9px; width:130px;" /></td>
+    </td><td class=lille><input id="Submit6" type="submit" value="<%=afstem_txt_112 %>" style="font-size:9px; width:130px;" /></td>
 </tr>
 
 

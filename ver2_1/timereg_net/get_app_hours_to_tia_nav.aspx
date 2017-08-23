@@ -25,10 +25,20 @@
 
 
 
+        Dim jobno = Request("jobno")
+        Dim jobtaskno = Request("jobno")
+        Dim action = Request("action")
+
 
         'meMTxt.Text = "HENT DATA"
-        Call hentData()
-        Response.Write("<br>No (INIT): " + Request("no"))
+        If (action = "check") Then ''Tjekker om der er timer på et job/task
+            Call tjekTimer(jobno, jobtaskno)
+        Else 'Henter timer til NAV
+            Call hentData()
+        End If
+
+
+        'Response.Write("<br>No (INIT): " + Request("no"))
 
 
 
@@ -36,28 +46,86 @@
 
     End Sub
 
+
+    Sub tjekTimer(ByRef jobno, ByRef jobtaskno)
+
+        'Dim kategori As Integer
+        Dim lto As String
+        Dim t As Integer = 0
+
+        lto = "tia"
+        'meMTxt.Text = "HEJ SØREN"
+
+        'Dim strConn As String = "Driver={MySQL ODBC 3.51 Driver};Server=localhost;Database=timeout_intranet;User=root;Password=;"
+        Dim strConn As String = "Driver={MySQL ODBC 3.51 Driver};Server=194.150.108.154;Database=timeout_" & lto & ";User=to_outzource2;Password=SKba200473;"
+
+        Dim objConn As OdbcConnection
+        objConn = New OdbcConnection(strConn)
+        objConn.Open()
+
+        Dim objCmd As OdbcCommand
+        Dim objDR As OdbcDataReader
+
+        If (jobtaskno <> "") Then
+
+            Dim avarenr = "" + jobno + "" + jobtaskno + ""
+
+            Dim strSQLmedins As String = "SELECT a.id "
+            strSQLmedins += "FROM aktiviteter as a LEFT JOIN timer AS t ON (taktivitetid = a.id)"
+            strSQLmedins += "WHERE a.avarenr = '" + avarenr + "' AND fakturerbar = 1"
+
+            objCmd = New OdbcCommand(strSQLmedins, objConn)
+            objDR = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
+
+            If objDR.Read() = True Then
+
+                t = 1
+            End If
+            objDR.Close()
+            objConn.Close()
+
+        Else
+
+
+
+            Dim strSQLmedins As String = "SELECT tid "
+            strSQLmedins += "FROM timer AS t "
+            strSQLmedins += "WHERE tjobnr = '" + jobno + "'"
+
+            objCmd = New OdbcCommand(strSQLmedins, objConn)
+            objDR = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
+
+            If objDR.Read() = True Then
+
+                t = 1
+            End If
+            objDR.Close()
+            objConn.Close()
+
+
+
+
+        End If
+
+        If (t > 0) Then 'Job / TASK spærret for redigering
+
+            Response.Write("2")
+
+        Else
+
+            Response.Write("1")
+
+        End If
+
+    End Sub
+
+
+
+
     Sub hentData()
 
 
 
-
-
-
-
-
-        'Dim med_navn, med_email, med_init, med_importtype, lto, med_mansat As String
-        'Dim med_expvendorno, med_costcenter, med_linemanager, med_countrycode, med_weblang As String
-
-        'Dim med_ansatdato, med_opsagtdato As Date
-        'Dim med_normtid As String
-        'Dim timer As String
-        'Dim jobnr As String
-        'Dim jobnavn As String
-        'Dim tdato As String
-        'Dim taktivitetnavn, extsysid As String
-        'Dim taktivitetnavnLst As String = ""
-        'Dim antalRecords As Integer
-        'Dim jobstartdato, jobslutdato As String
 
         'Dim kategori As Integer
         Dim lto As String
@@ -73,10 +141,10 @@
         objConn.Open()
 
         Dim objCmd As OdbcCommand
-        'Dim objCmd2 As OdbcCommand
+        Dim objCmd2 As OdbcCommand
         'Dim objDataSet As New DataSet
         Dim objDR As OdbcDataReader
-        'Dim objDR2 As OdbcDataReader
+        Dim objDR2 As OdbcDataReader
         'Dim objDR3 As OdbcDataReader
         'Dim dt As DataTable
         'Dim dr As DataRow
@@ -92,7 +160,16 @@
         '***************************************************************************************
 
         'Dim row As DataRow
-        Dim t As Integer = 1
+        Dim t As Integer = 0
+        Dim avarenr As String = ""
+        Dim init As String = ""
+        Dim timerKom As String = ""
+        Dim tjobnr As String = ""
+        Dim Timerthis As String = "0"
+        'Decimal = 0
+        Dim tdato As String = ""
+
+        Dim costcenter As String = ""
 
 
         'Dim Table1 As DataTable
@@ -113,9 +190,13 @@
         'Dim column5 As DataColumn = New DataColumn("email")
         'column5.DataType = System.Type.GetType("System.String")
 
+        '** TEST ENViRoNMENT
+        'Dim CallWebService As New WebReferenceNAVTia_sendhours.TimeOut
+        'CallWebService.Credentials = New System.Net.NetworkCredential(”tiademo”, ”Monday2017”, ”DEVX01”)
 
-        Dim CallWebService As New WebReferenceNAVTia_sendhours.TimeOut
-        CallWebService.Credentials = New System.Net.NetworkCredential(”tiademo”, ”Monday2017”, ”DEVX01”)
+        '** PROD ENViRoNMENT
+        Dim CallWebService As New WebReferenceNAVTiaProd_sendhours.TimeOut
+        CallWebService.Credentials = New System.Net.NetworkCredential(”Timeout”, ”Tia2017!”, ”tia.local”)
 
 
 
@@ -125,29 +206,97 @@
         strSQLmedins += "FROM timer AS t "
         strSQLmedins += "LEFT JOIN medarbejdere AS m ON (m.mid = t.tmnr) "
         strSQLmedins += "LEFT JOIN aktiviteter AS a ON (a.id = t.taktivitetid) "
-        strSQLmedins += "WHERE tastedato > '2017-01-01' AND godkendtstatus = 1 "
-
+        strSQLmedins += "WHERE tastedato > '2017-06-01' AND godkendtstatus = 1 AND overfort = 0 AND tmnr <> 1 AND timer <> 0 AND tfaktim <> '90' AND avarenr <> '' AND avarenr IS NOT NULL"
+        'AND init <> 'XXMAK'
         objCmd = New OdbcCommand(strSQLmedins, objConn)
         objDR = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
 
         While objDR.Read() = True
 
 
-            Response.Write("<br>" & objDR("tdato") & "," & objDR("tjobnr") & "," & objDR("avarenr") & "," & objDR("init") & "," & objDR("timer"))
+            'Response.Write("<br>" & objDR("tdato") & "," & objDR("tjobnr") & "," & objDR("avarenr") & "," & objDR("init") & "," & objDR("timer"))
             'Response.Write(objDR("tdato") & "," & objDR("tjobnr") & ",111111," & objDR("init") & "," & objDR("timer") & "," & objDR("timerkom") & "," & objDR("tid"))
-            Response.Flush()
+            'Response.Flush()
             'CallWebService.SendJournalData(objDR("tdato"), objDR("tjobnr"), "1234", objDR("init"), objDR("timer"), "AA", objDR("tid"))
-            Try
-
-                CallWebService.SendJournalData(objDR("tdato"), objDR("tjobnr"), "1234", objDR("init"), objDR("timer"), "AA", objDR("tid"))
-
-            Catch ex As Exception
-
-                Response.Write("FEJL" & ex.ToString())
+            'Try
 
 
 
-            End Try
+            If String.IsNullOrEmpty(objDR("avarenr")) <> True Then
+                avarenr = objDR("avarenr")
+            Else
+                avarenr = "0"
+            End If
+
+            If String.IsNullOrEmpty(objDR("init")) <> True Then
+                init = objDR("init")
+            Else
+                init = ""
+            End If
+
+            'If String.IsNullOrEmpty(objDR("timerkom")) <> True Then
+            'timerKom = objDR("timerkom")
+            'Else
+            timerKom = ""
+            'End If
+
+            If String.IsNullOrEmpty(objDR("tjobnr")) <> True Then
+                tjobnr = objDR("tjobnr")
+            Else
+                tjobnr = "0"
+            End If
+
+            If String.IsNullOrEmpty(objDR("tdato")) <> True Then
+                tdato = objDR("tdato")
+            Else
+                tdato = "2002-01-01"
+            End If
+
+            If String.IsNullOrEmpty(objDR("timer")) <> True Then
+                Timerthis = objDR("timer") '.ToString.Replace(",", ".")
+
+            Else
+                Timerthis = 0
+            End If
+
+
+            avarenr = Replace(avarenr, tjobnr, "")
+
+            'Response.Write("<br>" & objDR("tdato") & "," & objDR("tjobnr") & "," & avarenr & "," & objDR("init") & "," & Timerthis)
+            'Response.Write(objDR("tdato") & "," & objDR("tjobnr") & ",111111," & objDR("init") & "," & objDR("timer") & "," & objDR("timerkom") & "," & objDR("tid"))
+            'Response.Flush()
+
+            If avarenr <> "" And avarenr <> "0" Then
+
+                'CallWebService.SendJournalData(tdato, tjobnr, avarenr, init, Timerthis, timerKom, objDR("tid"))
+
+                If CallWebService.SendJournalData(tdato, tjobnr, avarenr, init, Timerthis, timerKom, objDR("tid")) = False Then
+                    Dim strSQLtimerOverfort As String = "UPDATE timer SET overfort = 2 WHERE tid = " & objDR("tid")
+                    objCmd2 = New OdbcCommand(strSQLtimerOverfort, objConn)
+                    objDR2 = objCmd2.ExecuteReader '(CommandBehavior.closeConnection)
+                Else
+                    Dim strSQLtimerOverfort As String = "UPDATE timer SET overfort = 1 WHERE tid = " & objDR("tid")
+
+                    objCmd2 = New OdbcCommand(strSQLtimerOverfort, objConn)
+                    objDR2 = objCmd2.ExecuteReader '(CommandBehavior.closeConnection)
+                End If
+
+
+            End If
+
+
+
+
+
+
+            'Catch ex As Exception
+
+            'Response.Write("FEJL" & ex.ToString())
+
+
+
+            'End Try
+
 
             'objDR("avarenr")
 
@@ -176,13 +325,14 @@
 
 
 
+
         End While
 
 
         objDR.Close()
         objConn.Close()
 
-        If t > 0 Then
+        If CInt(t) > 0 Then
 
             'datasrc.Text = taktivitetnavnLst
 

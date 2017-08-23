@@ -2363,7 +2363,7 @@ if len(session("user")) = 0 then
                     else
                     SmiWeekOrMonth_HRChk = ""
                     end if %>
-                     <input type="checkbox" name="FM_SmiWeekOrMonth_HR" id="Checkbox2" value="1" <%=SmiWeekOrMonth_HRChk%>> Ved uge afslut, afslut da midtuge ved månedsskift. 
+                     <input type="checkbox" name="FM_SmiWeekOrMonth_HR" id="Checkbox2" value="1" <%=SmiWeekOrMonth_HRChk%>> Ved ugebasis, aktiver mulighed for at afslutte midtuge ved månedsskift. 
                     <br />
                     <br />
                     Perioden skal være afsluttet af medarbejderen den først kommende 
@@ -2441,7 +2441,7 @@ if len(session("user")) = 0 then
                     end if %>
             <input type="checkbox" name="FM_smileyAggressiv" id="Checkbox2" value="1" <%=smileyAggressivChk%>> <b>Vis smiley aggressiv</b> (altid åben) / diskret (lukket) på timreg. siden
             <br />
-            <input type="checkbox" name="FM_smiley_agg_lukhard" id="Checkbox2" value="1" <%=smiley_agg_lukhardChk%>> <b>Hård</b> luk for registrering for medarbejder hvis peridoer ikke afsluttet.
+            <input type="checkbox" name="FM_smiley_agg_lukhard" id="Checkbox2" value="1" <%=smiley_agg_lukhardChk%>> <b>Hård</b> luk for registrering for medarbejder hvis perioder ikke afsluttet.
             <br /><br />
                 
                      - Timereg. siden bliver lukket hvis der er mere end 3 uafsluttede uger. (ved afslut på ugebasis)<br />

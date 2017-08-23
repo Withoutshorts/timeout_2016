@@ -11,6 +11,8 @@
 <%@  Import Namespace="System.Web.UI" %> 
 <%@  Import Namespace="System.Web.UI.Webcontrols" %>
 <%@  Import Namespace="System.Collections.Generic" %>
+
+
 <!--@ Page Language="C#" AutoEventWireup="true" CodeFile="importer_job_wilke.cs" Inherits="importer_job_wilke" 
 
     <!--@  Import Namespace="System.Globalization" -->
@@ -33,14 +35,16 @@
         'Response.Write("<br>No (INIT): " + Request("no"))
         minit = Request("no")
 
-        Call hentData()
+        If (minit <> "") Then
+            Call hentData(minit)
+        End If
 
 
 
     End Sub
 
     'Sub hentData(minit As String)
-    Sub hentData()
+    Sub hentData(ByVal minit)
 
 
 
@@ -52,7 +56,8 @@
         Dim med_navn, med_email, med_init, med_importtype, lto, med_mansat As String
         Dim med_expvendorno, med_costcenter, med_linemanager, med_countrycode, med_weblang As String
 
-        Dim med_ansatdato, med_opsagtdato As Date
+        Dim med_ansatdato As Date = "1/1/2002"
+        Dim med_opsagtdato As Date = "1/1/2044"
         Dim med_normtid As String
         'Dim timer As String
         'Dim jobnr As String
@@ -96,29 +101,37 @@
         '**************************************************************************************************
 
         Dim allNames As String = ""
-        'Dim CallWebServiceTIA As New WebReferenceNAVTia_res.Resources()
-        Dim CallWebServiceTIA As New WebReferenceNAVTia_res.Resources_Service
+
+        '** TEST ENViRoNMENT
+        'Dim CallWebServiceTIA As New WebReferenceNAVTia_res.Resources_Service
+        'CallWebServiceTIA.Credentials = New System.Net.NetworkCredential(”tiademo”, ”Monday2017”, ”DEVX01”)
+
+        '** PROD ENViRoNMENT
+        Dim CallWebServiceTIA As New WebReferenceNAVTiaProd_Res.TimeOutResources_Service
+        CallWebServiceTIA.Credentials = New System.Net.NetworkCredential(”Timeout”, ”Tia2017!”, ”tia.local”)
 
         'CallWebServiceTIA.UseDefaultCredentials = True
         'CallWebServiceTIA.Credentials = New NetworkCredential("xxxx", "xxxx", "xxxx")
-        CallWebServiceTIA.Credentials = New System.Net.NetworkCredential(”tiademo”, ”Monday2017”, ”DEVX01”)
+
         'CallWebServiceTIA.PreAuthenticate = True
 
-        Dim fetchSize As Integer = 10
+        Dim fetchSize As Integer = 1 '50 '1
         'Dim bookmarkKey As String = null
 
 
-        Dim filter As New WebReferenceNAVTia_res.Resources_Filter
-        'WebReferenceNAVTia_res.Resources_Filter
-        filter.Field = WebReferenceNAVTia_res.Resources_Fields.No
-        filter.Criteria = (minit)
+        Dim filter As New WebReferenceNAVTiaProd_Res.TimeOutResources_Filter
+        'WebReferenceNAVTiaProd_Res.TimeOutResources_Filter
+        filter.Field = WebReferenceNAVTiaProd_Res.TimeOutResources_Fields.No
+        'filter.Criteria = ("X*")
+        filter.Criteria = ("" + minit + "")
         'filter.Criteria.
 
 
+        ' a date value in the string format specified:
+        'Dim xmlDate As String = "07/15/2014 7:07:33 AM"
 
 
-
-        Dim filters() As WebReferenceNAVTia_res.Resources_Filter = New WebReferenceNAVTia_res.Resources_Filter(0) {filter}
+        Dim filters() As WebReferenceNAVTiaProd_Res.TimeOutResources_Filter = New WebReferenceNAVTiaProd_Res.TimeOutResources_Filter(0) {filter}
 
         Dim names As Array = CallWebServiceTIA.ReadMultiple(filters, Nothing, fetchSize)
 
@@ -130,8 +143,8 @@
         'meMTxt.Text = Name.ToString
 
         'Next
-        'Dim namevalue = WebReferenceNAVTia_res.Resources_Fields.Name
-        'Dim newRetval As String = WebReferenceNAVTia_res.Resources_Fields.Name.ToString()
+        'Dim namevalue = WebReferenceNAVTiaProd_Res.TimeOutResources_Fields.Name
+        'Dim newRetval As String = WebReferenceNAVTiaProd_Res.TimeOutResources_Fields.Name.ToString()
 
         'Dim row As DataRow
         Dim t As Integer = 1
@@ -140,25 +153,91 @@
         For Each Name As Object In names
 
             'Response.Write("HEJ<br>")
-            'meMTxt.Text = WebReferenceNAVTia_res.Resources_Fields.Name.ToString
-            'allNames += allNames + "; " + WebReferenceNAVTia_res.Resources_Fields.Name.ToString()
+            'meMTxt.Text = WebReferenceNAVTiaProd_Res.TimeOutResources_Fields.Name.ToString
+            'allNames += allNames + "; " + WebReferenceNAVTiaProd_Res.TimeOutResources_Fields.Name.ToString()
 
 
             med_importtype = "1"
-            med_init = Name.No.ToString()
-            med_navn = Name.Name.ToString()
-            med_email = "test@outzource.dk" 'Name.E_Mail.ToString()
-            med_ansatdato = Name.Employment_Date.ToString()
-            med_opsagtdato = Name.Termination_Date.ToString()
-            med_normtid = "10"
+            If String.IsNullOrEmpty(Name.No) <> True Then
+                med_init = Name.No.ToString()
+            Else
+                med_init = "-"
+            End If
+
+            If String.IsNullOrEmpty(Name.Name) <> True Then
+                med_navn = Name.Name.ToString()
+            Else
+                med_navn = "-"
+            End If
+
+            med_navn = med_navn.Replace("'", "")
+            med_init = med_init.Replace("'", "")
+
+            If String.IsNullOrEmpty(Name.E_Mail) <> True Then
+                med_email = Name.E_Mail.ToString() 'Name.Employment_Date.ToString + Name.Employment_Date.ToString '"test@outzource.dk" 'Name.E_Mail.ToString()
+            Else
+                med_email = ""
+            End If
+
+            If String.IsNullOrEmpty(Name.Employment_Date) <> True Then
+                med_ansatdato = Name.Employment_Date
+            Else
+                med_ansatdato = "2001/01/01"
+            End If
+
+            If String.IsNullOrEmpty(Name.Termination_Date) <> True Then
+                med_opsagtdato = Name.Termination_Date
+            Else
+                med_opsagtdato = "2001/01/01"
+            End If
+
+
+
+
+
+            ' create a DATE variable from that string in a known format:
+            ' med_opsagtdato = DateAndTime.Year(med_opsagtdato) & " - " & DateAndTime.Month(med_opsagtdato) & " - " & DateAndTime.Day(med_opsagtdato)
+            If String.IsNullOrEmpty(Name.Norm_Time) <> True Then
+                med_normtid = Name.Norm_Time.ToString()
+            Else
+                med_normtid = "0"
+            End If
+
+            med_normtid = med_normtid.Replace(",", ".")
+
+
             med_mansat = Name.Blocked.ToString()
 
+            If med_mansat = True Then 'If blocked = true
+                med_mansat = 2
+            Else
+                med_mansat = 1
+            End If
 
             med_expvendorno = "1"
-            med_costcenter = "1"
-            med_linemanager = "0"
-            med_countrycode = "DK"
+            If String.IsNullOrEmpty(Name.Resource_Group_No) <> True Then
+                med_costcenter = Name.Resource_Group_No.ToString()
+            Else
+                med_costcenter = "10"
+            End If
+
+
+            If String.IsNullOrEmpty(Name.Line_Manager) <> True Then
+                med_linemanager = Name.Line_Manager.ToString()
+            Else
+                med_linemanager = ""
+            End If
+
+            If String.IsNullOrEmpty(Name.Global_Dimension_1_Code) <> True Then
+                med_countrycode = Name.Global_Dimension_1_Code.ToString() '"DK"
+            Else
+                med_countrycode = "DK"
+            End If
+
             med_weblang = "1031"
+
+            'med_opsagtdato = med_ansatdato.ToString("yyyy/MM/dd")
+            'med_opsagtdato = med_opsagtdato.ToString("yyyy/MM/dd", Globalization.CultureInfo.InvariantCulture)
 
             '" & Now.ToString("yyyy/MM/dd", Globalization.CultureInfo.InvariantCulture) & "
             'med_ansatdato.ToString("yyyy/MM/dd", Globalization.CultureInfo.InvariantCulture)
@@ -179,11 +258,11 @@
             strSQLmedinsTemp += "linemanager, "
             strSQLmedinsTemp += "countrycode, "
             strSQLmedinsTemp += "weblang, lto, editor, overfort) "
-            strSQLmedinsTemp += " VALUES ('2017-06-23', '914','" + med_init + "',"
+            strSQLmedinsTemp += " VALUES ('" & DateAndTime.Year(Now) & "-" & DateAndTime.Month(Now) & "-" & DateAndTime.Day(Now) & "', '914','" + med_init + "',"
             strSQLmedinsTemp += "'" + med_navn + "','" + med_email + "',"
             strSQLmedinsTemp += "'" + med_normtid + "',"
-            strSQLmedinsTemp += "'2017-06-23',"
-            strSQLmedinsTemp += "'2017-08-11','" + med_mansat + "', '" + med_expvendorno + "',"
+            strSQLmedinsTemp += "'" & DateAndTime.Year(med_ansatdato) & "-" & DateAndTime.Month(med_ansatdato) & "-" & DateAndTime.Day(med_ansatdato) & "',"
+            strSQLmedinsTemp += "'" & DateAndTime.Year(med_opsagtdato) & "-" & DateAndTime.Month(med_opsagtdato) & "-" & DateAndTime.Day(med_opsagtdato) & "','" + med_mansat + "', '" + med_expvendorno + "',"
             strSQLmedinsTemp += "'" + med_costcenter + "', '" + med_linemanager + "','" + med_countrycode + "', '" + med_weblang + "',"
             strSQLmedinsTemp += "'tia','Timeout - ImportMedService',0)"
 
@@ -197,8 +276,9 @@
 
             t = t + 1
 
-
-            allNames += allNames + "; " + Name.Name.ToString()
+            If String.IsNullOrEmpty(Name.Name) <> True Then
+                'allNames += allNames + "; " + Name.Name.ToString()
+            End If
         Next
 
         meMTxt.Text = allNames
@@ -208,13 +288,13 @@
 
         'meMTxt.Text = newRetval
 
-        'WebReferenceNAVTia_res.Resources
+        'WebReferenceNAVTiaProd_Res.Resources
         'For Each Name As String In names
         'allNames += allNames + "; " + Name
         'meMTxt.Text = Name
         'Next
 
-        'meMTxt.Text = WebReferenceNAVTia_res.Resources[].
+        'meMTxt.Text = WebReferenceNAVTiaProd_Res.Resources[].
 
         'meMTxt.Text = CallWebServiceTIA.ToString 'names.ToString 'allNames
 
@@ -288,7 +368,7 @@
     <asp:TextBox runat="server" ID="meid"></asp:TextBox>
     <asp:TextBox runat="server" ID="meMTxt" Style="width:600px; height:400px; vertical-align:top;">NAV Data:</asp:TextBox>
     </div>
-    <asp:Button runat="server" Text="Hent data" ID="bt" OnClick="hentData"  />
+    <asp:Button runat="server" Text="Hent data" ID="bt"/><!-- OnClick="hentData"   -->
 
     <h4>Reading Data from the connection
     <asp:Label ID="datasrc" runat="server"></asp:Label> to the DataGrid</h4>

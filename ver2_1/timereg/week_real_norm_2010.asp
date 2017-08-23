@@ -317,9 +317,19 @@ if len(session("user")) = 0 then
 	    varTjDatoUS_manSQL = year(afslutuge_uge(m))&"/"&month(afslutuge_uge(m))&"/"&day(afslutuge_uge(m))
         varTjDatoUS_son = dateAdd("d", 6, afslutuge_uge(m))
         varTjDatoUS_sonSQL = year(varTjDatoUS_son)&"/"&month(varTjDatoUS_son)&"/"&day(varTjDatoUS_son)
+
+        '*** NÅR LM Godkender HR hos TIA må fakturerbare ikke godkendes
+        SELECT CASE lto
+        case "tia"
+        strSQLKriEks = " AND tfaktim <> 1 AND tjobnr = 'ABS1000'"
+        case else
+        strSQLKriEks = ""
+        end select
+
+        godkendtdato = Year(now) &"-"& Month(now) &"-"& Day(now)
 	    
         '** GODKENDER TIMERNE DER ER INDTASTET
-	    strSQLup = "UPDATE timer SET godkendtstatus = 1, godkendtstatusaf = '"& session("user") &"' WHERE tmnr = "& afslutuge_medid(m) 
+	    strSQLup = "UPDATE timer SET godkendtstatus = 1, godkendtstatusaf = '"& session("user") &"', godkendtdato = '"& godkendtdato &"' WHERE tmnr = "& afslutuge_medid(m) 
 	    if cint(SmiWeekOrMonth) = 0 then
         strSQLup = strSQLup & " AND tdato BETWEEN '"& varTjDatoUS_manSQL &"' AND '" & varTjDatoUS_sonSQL & "'" 
         else
@@ -327,7 +337,8 @@ if len(session("user")) = 0 then
         strSQLup = strSQLup & " AND MONTH(tdato) = '"& varTjDatoUS_man_mth & "'" 
         end if
 
-        strSQLup = strSQLup & " AND godkendtstatus <> 1" 
+        strSQLup = strSQLup & " AND godkendtstatus <> 1" & strSQLKriEks
+
 
 	    oConn.execute(strSQLup)
 	    
@@ -740,7 +751,7 @@ if len(session("user")) = 0 then
 	akttype_sel = left_akttype_sel
     
     
-	public anormTimerTot, arealTimerTot, atotalTimerPer100, aafspadUdbBalTot, aAfspadBalTot, arealfTimerTot
+	public anormTimerTot, arealTimerTot, atotalTimerPer100, aafspadUdbBalTot, aAfspadBalTot, arealfTimerTot, arealifTimerTot
     public afradragTimerTot, altimerKorFradTot, aafspTimerTot, aafspTimerBrTot, aafspTimerUdbTot 
     public normtime_lontime, balRealNormtimer, balRealLontimer, bgc, rejsedage_tot
     'public normtime_lontimeAkk, balRealNormtimerAkk, korrektionRealTot, ferieFriAfVal_md_tot,  ferieAfVal_md_tot
@@ -893,10 +904,14 @@ if len(session("user")) = 0 then
 
     	if lto <> "cst" AND lto <> "kejd_pb" AND lto <> "tec" AND lto <> "esn" then
 	    strEksportTxt = strEksportTxt & "Heraf fakturerbare timer;"
+
+                if lto = "intranet - local" OR lto = "tia" then
+                strEksportTxt = strEksportTxt & "Heraf ikke fakturerbare timer;"
+                end if
 	    
-        if cint(showkgtil) = 1 then 
-        strEksportTxt = strEksportTxt  &"Korrektion Realiseret;"
-        end if
+                if cint(showkgtil) = 1 then 
+                strEksportTxt = strEksportTxt  &"Korrektion Realiseret;"
+                end if
 
           strEksportTxt = strEksportTxt & tsa_txt_284 & " +/- (Real. / Norm.);"
             strEksportTxt = strEksportTxt & tsa_txt_284 & " +/- Akkumuleret (Real. / Norm.);"
@@ -1009,7 +1024,11 @@ if len(session("user")) = 0 then
                strEksportTxt = strEksportTxt & "Barn syg ~ dage;"
                end if
 
-               
+                select case lto
+                case "esn", "tec"
+                case else
+                strEksportTxt = strEksportTxt & godkendweek_txt_114 &";" & godkendweek_txt_115 & ";"
+                end select
 
                 strEksportTxt = strEksportTxt & "Afsluttet;Godkendt, 0:Afventer, 1:Godkendt, 2:Afvist"
     
@@ -1081,19 +1100,19 @@ if len(session("user")) = 0 then
     <tr>
     <td valign=bottom style="border-bottom:1px silver solid;" class=lille><b><%=godkendweek_txt_032 %></b> - <%=godkendweek_txt_033 %></td>
 	
-	    <td align=right valign=bottom class=lille style="border-bottom:1px silver solid;"><b><%=tsa_txt_173%></b></td>
+	    <td valign=bottom class=lille style="border-bottom:1px silver solid;"><b><%=tsa_txt_173%></b></td>
 
           <%if session("stempelur") <> 0 then %> 
-       <td align=right valign=bottom class=lille style="border-bottom:1px silver solid;"><b><%=godkendweek_txt_034 %></b><br />(<%=godkendweek_txt_035 %>)</td>
+       <td valign=bottom class=lille style="border-bottom:1px silver solid;"><b><%=godkendweek_txt_034 %></b><br />(<%=godkendweek_txt_035 %>)</td>
 
 	  <%if showkgtil = 1 then %>
-	 <td align=right valign=bottom class=lille style="border-bottom:1px silver solid;"><b><%=godkendweek_txt_036 %> +/-</b><br /><%=godkendweek_txt_037 %>, <br /><%=godkendweek_txt_038 %>, <br /><%=godkendweek_txt_039 %><br /> <%=godkendweek_txt_040 %></td>
-	 <td align=right valign=bottom class=lille style="border-bottom:1px silver solid;"><b>= <%=godkendweek_txt_041 %></b><br /><%=godkendweek_txt_042 %><br /> + <%=godkendweek_txt_043 %></td>
+	 <td valign=bottom class=lille style="border-bottom:1px silver solid;"><b><%=godkendweek_txt_036 %> +/-</b><br /><%=godkendweek_txt_037 %>, <br /><%=godkendweek_txt_038 %>, <br /><%=godkendweek_txt_039 %><br /> <%=godkendweek_txt_040 %></td>
+	 <td valign=bottom class=lille style="border-bottom:1px silver solid;"><b>= <%=godkendweek_txt_041 %></b><br /><%=godkendweek_txt_042 %><br /> + <%=godkendweek_txt_043 %></td>
      <%end if %>
 	 
     
     <%if lto <> "kejd_pb" then %>
-	 <td align=right valign=bottom class=lille style="border:1px #DCF5BD solid; border-bottom:1px silver solid;"><b><%=tsa_txt_284%> +/-</b><br /><%=godkendweek_txt_042 %><br /> / <%=godkendweek_txt_044 %></td>
+	 <td valign=bottom class=lille style="border:1px #DCF5BD solid; border-bottom:1px silver solid;"><b><%=tsa_txt_284%> +/-</b><br /><%=godkendweek_txt_042 %><br /> / <%=godkendweek_txt_044 %></td>
      <td bgcolor="#DCF5BD" valign=bottom class=lille style="border:0px silver solid; border-bottom:1px silver solid; white-space:nowrap;"><b><%=tsa_txt_284%> +/-<br / ><%=godkendweek_txt_045 %></b><br /><%=godkendweek_txt_042 %><br /> / <%=godkendweek_txt_044 %></td>
 	 <%end if %>
 	 
@@ -1101,22 +1120,37 @@ if len(session("user")) = 0 then
 
 
 
-      <td align=right valign=bottom class=lille style="border-bottom:1px silver solid;">
-       <%select case lto 
+      <td valign=bottom class=lille style="border-bottom:1px silver solid;">
+       <%
+        '** Hours total / timer indtastet ialt på alle aktivteter der tæller med i daglig timereg.     
+       select case lto 
        case "kejd_pb"
        %>
        <b><%=godkendweek_txt_046 %></b><br /> <%=godkendweek_txt_047 %><br /> <%=godkendweek_txt_048 %>
        <%
        case else
        %>
-       <b><%=godkendweek_txt_046 %><br /> <%=godkendweek_txt_049 %></b>
+       <b><%=godkendweek_txt_046 &" "& godkendweek_txt_049 %></b>
       <br />(<%=godkendweek_txt_050 %>)
        <%
        end select %>
       
       </td>
-	  <%if lto <> "cst" AND lto <> "kejd_pb" AND lto <> "tec" AND lto <> "esn" then %>
-	 <td class=lille align=right valign=bottom style="border-bottom:1px silver solid;">(<%=godkendweek_txt_051 %><br /><%=godkendweek_txt_052 %>)</td>
+	  <%
+       select case lto
+       case "intranet - local", "tia"
+          godkendweek_txt_052 = "Project hours"
+          godkendweek_txt_113 = "Admin. hours"
+       end select 
+
+      '** Hereby Invoiceable / Heraf fakturerbare    
+      if lto <> "cst" AND lto <> "kejd_pb" AND lto <> "tec" AND lto <> "esn" then %>
+	 <td class=lille valign=bottom style="border-bottom:1px silver solid;">(<%=godkendweek_txt_051 %><br /><%=godkendweek_txt_052 %>)</td>
+    <%end if %>
+
+    <%'** Hereby Non Invoiceable / Heraf Ikke fakturerbare
+     if lto = "tia" OR lto = "intranet - local" then %>
+	 <td class=lille valign=bottom style="border-bottom:1px silver solid;">(<%=godkendweek_txt_051 %><br /><%=godkendweek_txt_113 %>)</td>
     <%end if %>
 
 
@@ -1125,7 +1159,7 @@ if len(session("user")) = 0 then
         <%end if %>
 	
 
-        <%if lto <> "cst" AND lto <> "tec" AND lto <> "esn" then %>
+        <%if lto <> "cst" AND lto <> "tec" AND lto <> "esn" AND lto <> "tia" then %>
 	  <td align=right valign=bottom class=lille style=" border:1px pink solid; border-bottom:1px silver solid;"><b><%=tsa_txt_284%> +/-</b>
 
            <%select case lto
@@ -1289,7 +1323,7 @@ if len(session("user")) = 0 then
 
              
              select case lto
-            case "xintranet - local", "fk", "kejd_pb", "adra" %>
+            case "intranet - local", "fk", "kejd_pb", "adra" %>
         <td valign=bottom style="border-bottom:1px silver solid;" class=lille><b><%=godkendweek_txt_072 %><br /><%=godkendweek_txt_065 %></b><br />
 	 ~ <%=godkendweek_txt_065 %><br />
      </td>
@@ -1302,7 +1336,7 @@ if len(session("user")) = 0 then
 
 
           select case lto
-            case "xintranet - local", "fk", "kejd_pb" %>
+            case "intranet - local", "fk", "kejd_pb" %>
         <td valign=bottom style="border-bottom:1px silver solid;" class=lille><b><%=global_txt_179 %></b><br />
 	 ~ <%=godkendweek_txt_066 %><br />
      </td>
@@ -1317,7 +1351,7 @@ if len(session("user")) = 0 then
 
          <%
           select case lto
-            case "xintranet - local", "fk", "kejd_pb" 
+            case "intranet - local", "fk", "kejd_pb", "tia" 
              globalWdt = globalWdt + 50%>
         <td valign=bottom style="border-bottom:1px silver solid;" class=lille><b><%=godkendweek_txt_073 %></b><br />
 	 ~ <%=godkendweek_txt_065 %><br />
@@ -1332,7 +1366,7 @@ if len(session("user")) = 0 then
 
             <%
           select case lto
-            case "xxintranet - local", "fk" 
+            case "intranet - local", "fk" 
              globalWdt = globalWdt + 50%>
        
         <td valign=bottom style="border-bottom:1px silver solid;" class=lille><b><%=godkendweek_txt_074 %></b><br />
@@ -1354,7 +1388,17 @@ if len(session("user")) = 0 then
                  end if
          end if 
 
+
+        select case lto
+        case "esn", "tec"
+        case else
          
+                    %>
+                     <td class=lille valign=bottom style="border-bottom:1px silver solid;"><b><%=godkendweek_txt_114 %></b><br /> (<%=godkendweek_txt_115 %>)<br />
+                         ~ <%=godkendweek_txt_066 %></td>
+
+                     <%
+         end select
          
          select case lto
          case "tec", "esn"
@@ -1367,7 +1411,7 @@ if len(session("user")) = 0 then
 	 
 
 
-	    <td style="border-bottom:1px silver solid;" valign=bottom class=lille><b><%=peridoeTxt %> <br /><%=godkendweek_txt_077 %>?</b></td>
+	    <td style="border-bottom:1px silver solid;" valign=bottom class=lille><b><%=peridoeTxt %> <br /><%=godkendweek_txt_077 &"?</b><br>("& godkendweek_txt_116 %>)</td>
         <td style="border-bottom:1px silver solid; white-space:nowrap;" valign=bottom class=lille>
         <% if cint(SmiWeekOrMonth) = 0 then %>
            <input type="checkbox" id="gkuge_<%=intMids(m)%>" class="gkuge" /> 
@@ -1578,6 +1622,7 @@ if len(session("user")) = 0 then
 	altimerKorFradTot = 0
 	afradragTimerTot = 0
 	arealfTimerTot = 0
+    arealifTimerTot = 0
 	anormTimerTot = 0
 	atotalTimerPer100 = 0
 	anormtime_lontimeTot = 0
@@ -1674,7 +1719,7 @@ call eksportogprint(ptop,pleft,pwdt)
     <td valign=top align=center>
    <input type=image src="../ill/export1.png" onclick="popUp('week_real_norm_2010.asp?func=export&muse=<%=mnow%>&yuse=<%=year(ugp) %>&FM_moreorless=<%=moreorless %>&FM_saldokri=<%=saldokri %>&FM_timekri=<%=timeKri %>&FM_medarb=<%=thisMiduse%>&FM_md_week=<%=useMDorWeek%>', 400, 200, 200, 100)" />
     </td>
-    <td class=lille><input id="Submit3" type="button" value="Eksportér til .csv >> " style="font-size:9px; width:130px;" onclick="popUp('week_real_norm_2010.asp?func=export&muse=<%=mnow%>&yuse=<%=year(ugp) %>&FM_moreorless=<%=moreorless %>&FM_saldokri=<%=saldokri %>&FM_timekri=<%=timeKri %>&FM_medarb=<%=thisMiduse%>&FM_md_week=<%=useMDorWeek%>', 400, 200, 200, 100)" /></td>
+    <td class=lille><input id="Submit3" type="button" value="<%=afstem_txt_109 %> >> " style="font-size:9px; width:130px;" onclick="popUp('week_real_norm_2010.asp?func=export&muse=<%=mnow%>&yuse=<%=year(ugp) %>&FM_moreorless=<%=moreorless %>&FM_saldokri=<%=saldokri %>&FM_timekri=<%=timeKri %>&FM_medarb=<%=thisMiduse%>&FM_md_week=<%=useMDorWeek%>', 400, 200, 200, 100)" /></td>
 </tr>
 </form>
 <!--

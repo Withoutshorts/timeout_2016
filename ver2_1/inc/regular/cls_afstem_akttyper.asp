@@ -9,7 +9,7 @@
      case "intranet - local"
      arrayHigh = 600
      case else
-     arrayHigh = 150
+     arrayHigh = 250
      end select
  
  

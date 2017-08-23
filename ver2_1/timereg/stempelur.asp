@@ -1439,7 +1439,8 @@ if len(session("user")) = 0 then
 					
 					'**** tjekker om periode er lukket ***'
 					
-					
+		                        call smileyAfslutSettings()			
+
 					            '** er periode godkendt ***'
 		                        tjkDag = thisDato
 		                        erugeafsluttet = instr(afslUgerMedab(useMid(a)), "#"&datepart("ww", tjkDag,2,2)&"_"& datepart("yyyy", tjkDag) &"#")
@@ -1454,18 +1455,22 @@ if len(session("user")) = 0 then
                 		        
 		                        call lonKorsel_lukketPer(tjkDag, -2)
                 		         
-                                if (cint(erugeafsluttet) <> 0 AND smilaktiv = 1 AND autogk = 1 AND ugeNrAfsluttet <> "1-1-2044") OR _
-                                (smilaktiv = 1 AND autolukvdato = 1 AND (day(now) > autolukvdatodato AND DatePart("yyyy", tjkDag) = year(now) AND DatePart("m", tjkDag) < month(now)) OR _
-                                (smilaktiv = 1 AND autolukvdato = 1 AND (day(now) > autolukvdatodato AND DatePart("yyyy", tjkDag) < year(now) AND DatePart("m", tjkDag) = 12)) OR _
-                                (smilaktiv = 1 AND autolukvdato = 1 AND DatePart("yyyy", tjkDag) < year(now) AND DatePart("m", tjkDag) <> 12) OR _
-                                (smilaktiv = 1 AND autolukvdato = 1 AND (year(now) - DatePart("yyyy", tjkDag) > 1))) OR cint(lonKorsel_lukketIO) = 1 then
+                                'if (cint(erugeafsluttet) <> 0 AND smilaktiv = 1 AND autogk = 1 AND ugeNrAfsluttet <> "1-1-2044") OR _
+                                '(smilaktiv = 1 AND autolukvdato = 1 AND (day(now) > autolukvdatodato AND DatePart("yyyy", tjkDag) = year(now) AND DatePart("m", tjkDag) < month(now)) OR _
+                                '(smilaktiv = 1 AND autolukvdato = 1 AND (day(now) > autolukvdatodato AND DatePart("yyyy", tjkDag) < year(now) AND DatePart("m", tjkDag) = 12)) OR _
+                                '(smilaktiv = 1 AND autolukvdato = 1 AND DatePart("yyyy", tjkDag) < year(now) AND DatePart("m", tjkDag) <> 12) OR _
+                                '(smilaktiv = 1 AND autolukvdato = 1 AND (year(now) - DatePart("yyyy", tjkDag) > 1))) OR cint(lonKorsel_lukketIO) = 1 then
                               
-                                ugeerAfsl_og_autogk_smil = 1
-                                else
-                                ugeerAfsl_og_autogk_smil = 0
-                                end if 
+                                'ugeerAfsl_og_autogk_smil = 1
+                                'else
+                                'ugeerAfsl_og_autogk_smil = 0
+                                'end if 
+
+                                '*** tjekker om uge er afsluttet / lukket / lønkørsel
+                                call tjkClosedPeriodCriteria(tjkDag, ugeNrAfsluttet, usePeriod, SmiWeekOrMonth, splithr, smilaktiv, autogk, autolukvdato, lonKorsel_lukketIO)
+
                 					
-				                if ugeerAfsl_og_autogk_smil = 1 AND level <> 100 then	
+				                if ugeerAfsl_og_autogk_smil = 1 AND level <> 1 then	'100? Er det korrekt eller et det en TEST 20170720
 				                
 				                errortype = 108
 				                regDato = day(tjkDag) &"-"& month(tjkDag) &"-"& year(tjkDag)

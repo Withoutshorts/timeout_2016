@@ -150,7 +150,8 @@ session("spmettanigol") = session("spmettanigol") + request("attempt")
         
         
     'if instr(request.servervariables("HTTP_USER_AGENT"), "Smartphone") <> 0 then
-	if browstype_client = "ip" then
+	
+    if browstype_client = "ip" then
     'pixLeft = 20
 	'pixTop = 40
 	'tboxsize = 100
@@ -177,17 +178,7 @@ session("spmettanigol") = session("spmettanigol") + request("attempt")
 
     %>
      
-	<!--<script src="inc/jquery/jquery-1.3.2.min.js" type="text/javascript"></script>
-	<script src="inc/jquery/jquery-ui-1.7.1.custom.min.js" type="text/javascript"></script>
 
-	<script src="inc/jquery/timeout.jquery.js" type="text/javascript"></script>
-	<script src="inc/jquery/jquery.coookie.js" type="text/javascript"></script>
-	<script src="inc/jquery/jquery.scrollTo-1.4.2-min.js" type="text/javascript"></script>
-    <script src="inc/jquery/jquery.timer.js" type="text/javascript"></script>
-    <script src="inc/jquery/jquery.corner.js" type="text/javascript"></script>-->
-
-
-<!--<script src="login_jav.js" type="text/javascript"></script>-->
 
   
 
@@ -197,23 +188,7 @@ session("spmettanigol") = session("spmettanigol") + request("attempt")
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title><%=login_txt_012 %></title>
 
-    <!--
-<script>
-  less = {
-    env: "development",
-    async: false,
-    fileAsync: false,
-    poll: 1000,
-    functions: {},
-    dumpLineNumbers: "comments",
-    relativeUrls: false,
-    rootpath: ""
-  };
-</script>
-
-
-<script src="timetag_web/js/less.js" type="text/javascript"></script>
-        -->
+ 
 <script src="login_jav.js" type="text/javascript"></script>
 
 
@@ -223,7 +198,7 @@ session("spmettanigol") = session("spmettanigol") + request("attempt")
     <div class="account-body">
 
        <img src="to_2015/img/outzource_logo_4c.jpg" width="200" />
-                <br /><label>Mobile</label>
+                <br /><label>TimeOut Mobile</label>
     <!--<div id="header"><%=login_txt_010 %></div>-->
     <form id="container" action="login.asp" method="POST">
         
@@ -242,16 +217,42 @@ session("spmettanigol") = session("spmettanigol") + request("attempt")
        
 
      
-            <div class="checkbox pull-left">
+             <div class="form-group clearfix">
+                <div class="pull-left">					
+              
+                    <input id="huskmig" name="huskmig" type="checkbox" value="1" <%=huskCHK %> /> <%=login_txt_011 %>
+              
+                </div>
+
+                <div class="pull-right">
+                <a href="timereg/sendpw.asp?lto=<%=lto %>" target="_blank" style="color:#999999; font-size:11px; text-decoration:underline;">Forgot password</a>
+                </div>
+            </div>
+
+         <!--   <div class="checkbox pull-left">
                
               <label style="display:inline;">
                     <input id="Checkbox1" name="huskmig" type="checkbox" value="1" <%=huskCHK %> /> <%=login_txt_011 %>
+                  
               </label>
-              
+             -->
            
-            </div>
+           
        
         
+            <!---------------- Stempelur ----------------->
+         
+            <%
+            select case lto
+                case "epi2017" 'KUN AVI DK intw. Sættes automatisk
+                case else
+                call stempelurLoginSetting
+			end select
+            %>
+        
+                     
+                  
+            
 
           
                 <input type="submit" class="btn btn-secondary btn-block btn-sm" value="Logind >> "/><br />
@@ -422,61 +423,7 @@ session("spmettanigol") = session("spmettanigol") + request("attempt")
             <!---------------- Stempelur ----------------->
             <%
 
-                session("stempelur") = 0
-			    strSQL = "SELECT stempelur FROM licens WHERE id = 1"
-			    oRec.open strSQL, oConn, 3 
-			    if not oRec.EOF then
-			
-				    session("stempelur") = oRec("stempelur")
-			
-			    end if
-			    oRec.close  
-			
-			    if session("stempelur") <> 0 then
-                %>
-                    
-
-                    <div class="form-group clearfix">
-                    <div class="pull-left">
-                    <%=login_txt_021 %><br />
-				    <label class="radio-inline" style="text-align:left">
-
-
-                <%
-                strSQL = "SELECT id, navn, faktor, forvalgt FROM stempelur ORDER BY navn"
-				oRec.open strSQL, oConn, 3 
-				st = 0
-                while not oRec.EOF 
-				
-				if oRec("forvalgt") = 1 then
-				chk = "CHECKED"
-				else
-				chk = ""
-				end if
-
-
-                %>
-                
-                        <input type="radio" name="FM_stempelur" value="<%=oRec("id")%>" <%=chk%>> <%=oRec("navn")%><br />                       
-				
-				<%
-
-                st = st + 1
-				oRec.movenext
-				wend
-				oRec.close 
-                
-                %>
-                </label>
-                </div>
-                </div>
-                <%
-			
-			    else
-			    %>
-			        <div class="pull-right"><input type="hidden" name="FM_stempelur" id="FM_stempelur" value="0"></div>
-			    <%
-			    end if
+               call stempelurLoginSetting
 				
             %>
              
@@ -881,7 +828,7 @@ else '** POST *****
                    end select
 
 		        
-               '*** Kosoliderer timer *****'
+               '*** Konsoliderer timer *****'
 
                'Response.Write "<br><br>lto:" & lto & "dt: "& datepart("d", now, 2,2)  & " //last: "& datepart("d", session("strLastlogin"), 2,2) &" level: " & session("rettigheder")
                'Response.end
@@ -897,7 +844,131 @@ else '** POST *****
                    end select
                end if
 
-                
+               '*** Indlæser tillæg fra AVI DK
+               if ((session("mid") = 1 OR session("mid") = 2694 Or session("mid") = 2452 OR session("mid") = 32821 OR session("mid") = 2663) AND (lto = "epi2017" OR lto = "intranet - local")) then    
+
+                '*EPI
+                ddTjkSupplementSL = year(now) & "/" & month(now) & "/"& day(now) 
+
+                ddTjkSupplementST = dateAdd("d", -45, now)
+                ddTjkSupplementST = year(ddTjkSupplementST) & "/" & month(ddTjkSupplementST) & "/"& day(ddTjkSupplementST) 
+                strSQLepiAViDKsupplement = "SELECT tid, tdato, sttid, sltid FROM timer WHERE taktivitetnavn = 'Data Collection' AND tdato BETWEEN '"& ddTjkSupplementST &"' AND '"& ddTjkSupplementSL &"' AND sttid <> '00:00:00' AND origin = 12 AND overfort = 0"
+                'Local
+                'strSQLepiAViDKsupplement = "SELECT tid, tdato, sttid, sltid FROM timer WHERE tjobnavn = 'A-SK Restest simpel' AND taktivitetnavn = 'Support U/B' AND tdato BETWEEN '2017-06-15' AND '2017-07-01'"
+               
+                addSupplement15 = 0
+                addTillaeg = 0
+                oRec6.open strSQLepiAViDKsupplement, oConn, 3
+                while not oRec6.EOF
+
+                addSupplement15 = 0
+                addTillaeg = 0
+                addTillaeg8 = 0
+                addTillaeg20 = 0
+                addTillaegW = 0
+                'addTillaeg20
+
+                    tregDato = oRec6("tdato")
+                    sttidthis = oRec6("tdato") &" "& formatdatetime(oRec6("sttid"), 3)
+                    sltidthis = oRec6("tdato") &" "& formatdatetime(oRec6("sltid"), 3)
+
+                    '**** FØR 08:00
+                    if formatdatetime(oRec6("sttid"), 3) < "08:00:00" then
+                        addSupplement15 = 1
+
+                        if formatdatetime(oRec6("sltid"), 3) > "08:00:00" then
+                            sluttidKri = oRec6("tdato") &" 08:00:00"
+                        else
+                            sluttidKri = sltidthis
+                        end if
+
+                        'Response.write "<br>"& oRec6("tid") &"sttidthis:"& sttidthis &" #"& sltidthis & "<br>"
+                        addTillaeg8 = dateDiff("n", sttidthis, sluttidKri, 2,2)
+                        addTillaeg8 = (addTillaeg8/60) 
+                        
+                      
+                     end if
+
+                     '**** Efter 20:00
+                      if formatdatetime(oRec6("sltid"), 3) > "20:00:00" then
+                        addSupplement15 = 1
+
+                        if formatdatetime(oRec6("sttid"), 3)  > "20:00:00" then
+                           starttidKri = sttidthis
+                        else
+                           starttidKri = oRec6("tdato") &" 20:00:00"
+                        end if
+
+                        'Response.write "<br>"& oRec6("tid") &"sttidthis:"& sttidthis &" #"& sltidthis & "<br>"
+                        addTillaeg20 = dateDiff("n", starttidKri, sltidthis,2,2)
+                        addTillaeg20 = (addTillaeg20/60) 
+                        
+                        
+
+                     end if
+
+
+               
+                    '**** Lør / Søn ELLER Hellig ****'
+                   
+                     call helligdage(oRec6("tdato"), 0, lto)
+                     if datePart("w", oRec6("tdato"), 2,2) = "6" OR datePart("w", oRec6("tdato"), 2,2) = "7" OR cint(erHellig) = 1 then
+                        addSupplement15 = 1
+
+                        'Response.write "<br>"& oRec6("tid") &"sttidthis:"& sttidthis &" #"& sltidthis & "<br>"
+                        addTillaegW = dateDiff("n", sttidthis, sltidthis,2,2)
+                        addTillaegW = (addTillaegW/60) 
+                        'addTillaegW = 5
+                    end if
+
+
+                  
+
+                    addTillaeg = formatnumber(addTillaeg8/1 + addTillaeg20/1 + addTillaegW/1, 2)
+                    addTillaeg = replace(addTillaeg, ".", "") 
+                    addTillaeg = replace(addTillaeg, ",", ".")   
+                    if cint(addSupplement15) = 1 then
+
+                        strSQLTidCopy = "INSERT INTO timer_tmp_for_copy SELECT * FROM timer WHERE tid = "& oRec6("tid")
+                        oConn.execute(strSQLTidCopy)
+
+                        lastTid = 0
+                        strSQLTidLast = "SELECT tid FROM timer WHERE tid > 0 ORDER BY tid DESC LIMIT 1"
+                        oRec5.open strSQLTidLast, oConn, 3
+                        if not oRec5.EOF then
+
+                            lastTid = oRec5("tid") 
+
+                        end if
+                        oRec5.close
+
+                        strSQLTidUpdateAddOne = "UPDATE timer_tmp_for_copy SET tid = "& lastTid + 1
+                        oConn.execute(strSQLTidUpdateAddOne)
+                        
+                        strSQLTidInsert = "INSERT INTO timer SELECT * FROM timer_tmp_for_copy WHERE tid = " & lastTid + 1
+                        oConn.execute(strSQLTidInsert)
+
+                        strSQLTidInsertDEL = "DELETE FROm timer_tmp_for_copy"
+                        oConn.execute(strSQLTidInsertDEL)
+
+                        strSQLTidUpdOfort = "UPDATE timer SET overfort = 1 WHERE tid = " & oRec6("tid")
+                        oConn.execute(strSQLTidUpdOfort)
+
+                        strSQLTidUpdNew = "UPDATE timer SET tfaktim = 51, taktivitetnavn = 'Supplement 15', timer = "& addTillaeg &", origin = 112, editor = 'Supplement Copy' WHERE tid = " & lastTid + 1
+                        oConn.execute(strSQLTidUpdNew)
+
+
+                    end if
+            
+                    
+                oRec6.movenext
+                wend 
+                oRec6.close 
+
+               end if
+
+                'Response.write "Overført OK"
+
 		        'Response.end
 		        
 		        
@@ -1260,6 +1331,94 @@ else '** POST *****
 	
 
 end if
+
+
+
+sub stempelurLoginSetting
+
+             session("stempelur") = 0
+			    strSQL = "SELECT stempelur FROM licens WHERE id = 1"
+			    oRec.open strSQL, oConn, 3 
+			    if not oRec.EOF then
+			
+				    session("stempelur") = oRec("stempelur")
+			
+			    end if
+			    oRec.close  
+			
+			    if session("stempelur") <> 0 then
+
+
+                if browstype_client <> "ip" then
+                %>
+                    
+
+                    <div class="form-group clearfix">
+                          <div class="pull-left">
+                    <%=login_txt_021 %><br />
+				    <label class="radio-inline" style="text-align:left">
+
+                <%
+                    else
+                    %>
+                       
+                           <div class="pull-left clearfix">
+                                 <%=login_txt_021 %><br />
+                          
+                              
+                        <%
+                end if
+                
+                strSQL = "SELECT id, navn, faktor, forvalgt FROM stempelur ORDER BY navn"
+				oRec.open strSQL, oConn, 3 
+				st = 0
+                while not oRec.EOF 
+				
+				if oRec("forvalgt") = 1 then
+				chk = "CHECKED"
+				else
+				chk = ""
+				end if
+
+
+                %>
+                
+                        <input type="radio" name="FM_stempelur" value="<%=oRec("id")%>" <%=chk%>> <%=oRec("navn")%>
+                               <%  if browstype_client <> "ip" then %>
+                               <br />                       
+                               <%else %>
+                               &nbsp;&nbsp;
+                               <%end if %>
+				
+				<%
+
+                st = st + 1
+				oRec.movenext
+				wend
+				oRec.close 
+                
+                if browstype_client <> "ip" then
+                %>
+                </label>
+                </div>
+                </div>
+                <%
+                else
+                    %>
+    <br /> &nbsp;<br />
+                    </div>
+                <%    
+                end if
+			
+			    else
+			    %>
+			        <div class="pull-right"><input type="hidden" name="FM_stempelur" id="FM_stempelur" value="0"></div>
+			    <%
+			    end if
+
+
+end sub
+
 %>
 
 
