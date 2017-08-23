@@ -251,7 +251,7 @@ $(document).ready(function () {
                  // alert("HER 8 decl_tids: " + ThisTids + " mid: " + thisMid)
              
              //$("#decl_tids_mid_" + globalMid).val('');
-             //alert("KØR DDD")
+             //alert("K?R DDD")
 
              $.post("?medid=" + thisMid + "&tids=" + ThisTids + "&kommentar=" + kommentar, { control: "emailnoti", AjaxUpdateField: "true" }, function (data) {
 
