@@ -28,7 +28,7 @@ thisfile = "joblog_timetotaler"
 	'**************************************************
 
 
-     if len(trim(request("vis_fakbare_res"))) <> 0 then '** Er der søgt via FORM 
+     if len(trim(request("vis_fakbare_res"))) <> 0 then '** Er der sï¿½gt via FORM 
             
             if len(request("vis_aktnavn")) <> 0 then 
             vis_aktnavn = 1
@@ -136,7 +136,7 @@ thisfile = "joblog_timetotaler"
     progrp = 0
 	end if
 	
-	'*** Rettigheder på den der er logget ind **'
+	'*** Rettigheder pï¿½ den der er logget ind **'
 	medarbid = session("mid")
     media = request("media") 'bruges ikke da printversion kaldes
 
@@ -144,7 +144,7 @@ thisfile = "joblog_timetotaler"
      
 	if len(request("FM_medarb")) <> 0 OR func = "export" then
 	
-	    if left(request("FM_medarb"), 1) = "0" then 'ikke længere mulig efer jq vælg alle automatisk
+	    if left(request("FM_medarb"), 1) = "0" then 'ikke lï¿½ngere mulig efer jq vï¿½lg alle automatisk
 	        
             if media <> "print" then
 	        thisMiduse = request("FM_medarb_hidden")
@@ -192,7 +192,7 @@ thisfile = "joblog_timetotaler"
          
              strFomr_rel = strFomr_rel & ", #"& fomrArr(f) & "#"  
 
-            '*** Forrretningsområder Kriteerie strFomr_rel            
+            '*** Forrretningsomrï¿½der Kriteerie strFomr_rel            
             strSQLfomrrel = "SELECT for_fomr, for_jobid, for_aktid FROM fomr_rel WHERE for_fomr = " & fomrArr(f) & " GROUP BY for_jobid, for_aktid"
             oRec3.open strSQLfomrrel, oConn, 3
             while not oRec3.EOF 
@@ -298,7 +298,7 @@ thisfile = "joblog_timetotaler"
 	kundeAnsSQLKri = " Kundeans1 <> -1 AND kundeans2 <> -1 "
 	end if
 	
-	'*** forretningsområde ****
+	'*** forretningsomrï¿½de ****
 	if len(request("FM_fomr")) <> 0 then
 	fomrid = request("FM_fomr")
 	else
@@ -308,7 +308,7 @@ thisfile = "joblog_timetotaler"
 
     
 	
-	'***** Valgt job eller søgt på Job ****
+	'***** Valgt job eller sï¿½gt pï¿½ Job ****
 	'** hvis Sog = Ja
 	call jobsog()
 	
@@ -464,7 +464,7 @@ thisfile = "joblog_timetotaler"
 
    
     '**** Vis kun godkenbdte ****
-    if len(request("vis_fakbare_res")) <> 0 then '** Er der søgt via FORM
+    if len(request("vis_fakbare_res")) <> 0 then '** Er der sï¿½gt via FORM
 
         if len(request("vis_godkendte")) <> 0 then 
 	    vis_godkendte = 1
@@ -497,7 +497,7 @@ thisfile = "joblog_timetotaler"
 
 
      '**** Vis kun fakturerbare ****
-    if len(request("vis_fakbare_res")) <> 0 then '** Er der søgt via FORM
+    if len(request("vis_fakbare_res")) <> 0 then '** Er der sï¿½gt via FORM
 
         if len(request("vis_fakturerbare")) <> 0 AND request("vis_fakturerbare") <> 0 then 
 	    vis_fakturerbare = 1
@@ -531,7 +531,7 @@ thisfile = "joblog_timetotaler"
 
    
      '*** Vis kontaktpersoner ***
-	if len(trim(request("vis_kpers"))) <> 0 OR len(request("vis_fakbare_res")) <> 0 then '** Er der søgt via FORM then
+	if len(trim(request("vis_kpers"))) <> 0 OR len(request("vis_fakbare_res")) <> 0 then '** Er der sï¿½gt via FORM then
                     if request("vis_kpers") <> 0 then
                     vis_kpers = request("vis_kpers")
                     else
@@ -556,7 +556,7 @@ thisfile = "joblog_timetotaler"
 	
 
      '*** Vis jobbesk ***
-	if len(trim(request("vis_jobbesk"))) <> 0 OR len(request("vis_fakbare_res")) <> 0 then '** Er der søgt via FORM then
+	if len(trim(request("vis_jobbesk"))) <> 0 OR len(request("vis_fakbare_res")) <> 0 then '** Er der sï¿½gt via FORM then
 
                     if request("vis_jobbesk") <> 0 then
                     vis_jobbesk = request("vis_jobbesk")
@@ -669,8 +669,8 @@ thisfile = "joblog_timetotaler"
 
 
 
-    '*** Udspec. på medarbejdertyper ***' 
-    if len(trim(request("vis_fakbare_res"))) <> 0 then 'Er der søgt via FORM
+    '*** Udspec. pï¿½ medarbejdertyper ***' 
+    if len(trim(request("vis_fakbare_res"))) <> 0 then 'Er der sï¿½gt via FORM
         if len(trim(request("FM_vis_medarbejdertyper"))) <> 0 AND request("FM_vis_medarbejdertyper") <> 0 then
         vis_medarbejdertyper = 1
         else
@@ -695,8 +695,8 @@ thisfile = "joblog_timetotaler"
     response.cookies("cc_vis_fakbare_res")("mtyp") = vis_medarbejdertyper
 
 
-     '*** Udspec. på medarbejdertyperGrp ***' 
-    if len(trim(request("vis_fakbare_res"))) <> 0 then 'Er der søgt via FORM
+     '*** Udspec. pï¿½ medarbejdertyperGrp ***' 
+    if len(trim(request("vis_fakbare_res"))) <> 0 then 'Er der sï¿½gt via FORM
         if len(trim(request("FM_vis_medarbejdertyper_grp"))) <> 0 AND request("FM_vis_medarbejdertyper_grp") <> 0 then
         vis_medarbejdertyper_grp = 1
         else
@@ -723,8 +723,8 @@ thisfile = "joblog_timetotaler"
     response.cookies("cc_vis_fakbare_res").expires = date + 10
 
 
-     '*** Redaktør *****'
-    if len(trim(request("vis_fakbare_res"))) <> 0 then '**Er der søgt via form
+     '*** Redaktï¿½r *****'
+    if len(trim(request("vis_fakbare_res"))) <> 0 then '**Er der sï¿½gt via form
 
    	    if len(trim(request("vis_redaktor"))) <> 0 AND request("vis_redaktor") <> 0 then
 	    vis_redaktor = 1
@@ -754,14 +754,14 @@ thisfile = "joblog_timetotaler"
 
 
     
-    '** hvis uspec på åakt IKKE er valgt eller udspec på medarbejdertyper ER valgt kan der ikke vises redaktør **'
+    '** hvis uspec pï¿½ ï¿½akt IKKE er valgt eller udspec pï¿½ medarbejdertyper ER valgt kan der ikke vises redaktï¿½r **'
     if cint(vis_medarbejdertyper) = 1 OR visfakbare_res <> 1 then
     vis_redaktor = 0
     vis_redaktorCHK = ""
         if visfakbare_res <> 1 then
         no_redaktorTxt = ""
         else
-        no_redaktorTxt = "Der kan ikke vælges <b>Vis som redaktør</b>, når <b>Medarbejdertyper</b> er slået til"
+        no_redaktorTxt = "Der kan ikke vï¿½lges <b>Vis som redaktï¿½r</b>, nï¿½r <b>Medarbejdertyper</b> er slï¿½et til"
         end if
     else
     no_redaktorTxt = ""
@@ -822,7 +822,7 @@ thisfile = "joblog_timetotaler"
      'Response.end
     
 
-    '*** opdarter tp på job ****'
+    '*** opdarter tp pï¿½ job ****'
     if len(request("FM_opdater_tp_job")) <> 0 then
     opdater_tp_job = 1
     else
@@ -857,7 +857,7 @@ thisfile = "joblog_timetotaler"
                 
                     
                     
-                    '***** Opdaterer timepris på job ***'
+                    '***** Opdaterer timepris pï¿½ job ***'
                     if opdater_tp_job = 1 then
                      
                      
@@ -875,8 +875,8 @@ thisfile = "joblog_timetotaler"
 
                             if trim(tpids(x)) <> "n" then 'nedarver
 
-                             'n: sætter akt til at nedarve, derfor ok at slette **
-                             if aktids(x) = 0 then 'job gælder alle aktiviteter UNDT KM
+                             'n: sï¿½tter akt til at nedarve, derfor ok at slette **
+                             if aktids(x) = 0 then 'job gï¿½lder alle aktiviteter UNDT KM
                              
 
 
@@ -962,7 +962,7 @@ thisfile = "joblog_timetotaler"
     end if 'len timepris
 
 
-    '*** timepris opå job ****'
+    '*** timepris opï¿½ job ****'
 
   
     if opdater_tp_job = 1 then
@@ -993,8 +993,8 @@ thisfile = "joblog_timetotaler"
             
             
            
-            'n: sætter akt til at nedarve, derfor ok at slette **
-             if aktids(x) = 0 then 'job gælder alle aktiviteter UNDT km akt
+            'n: sï¿½tter akt til at nedarve, derfor ok at slette **
+             if aktids(x) = 0 then 'job gï¿½lder alle aktiviteter UNDT km akt
                     
 
                              '**IKKE KM akt
@@ -1109,7 +1109,7 @@ thisfile = "joblog_timetotaler"
 	else
 			
 	
-	'*** Sætter lokal dato/kr format. Skal indsættes efter kalender.
+	'*** Sï¿½tter lokal dato/kr format. Skal indsï¿½ttes efter kalender.
 	Session.LCID = 1030
 	%>
 
@@ -1379,17 +1379,17 @@ function LeiRotate() {
 			
 			end select%>
 
-            <tr><td colspan="3" style="padding-left:40px;"><br /><b>Udspecificering på aktiviteter</b>
+            <tr><td colspan="3" style="padding-left:40px;"><br /><b>Udspecificering pï¿½ aktiviteter</b>
 
                
                 <br />
 
-              <input type="checkbox" name="FM_udspec" id="FM_udspec" value="1" <%=upSpecCHK %> /> Udspecificer de(t) valgte/søgte job på aktiviteter.
+              <input type="checkbox" name="FM_udspec" id="FM_udspec" value="1" <%=upSpecCHK %> /> Udspecificer de(t) valgte/sï¿½gte job pï¿½ aktiviteter.
                <!-- 20161128 - lukket end for funktionen - brug expand / collapse <br />
-               <input type="checkbox" name="FM_udspec_all" id="FM_udspec_all" value="1" <%=upSpec_allCHK %> disabled />Vis alle job + udspec. af de(t) søgte job<br />
+               <input type="checkbox" name="FM_udspec_all" id="FM_udspec_all" value="1" <%=upSpec_allCHK %> disabled />Vis alle job + udspec. af de(t) sï¿½gte job<br />
                    -->
             
-               <br /><input type="checkbox" value="1" name="vis_aktnavn" id="vis_aktnavn" <%=vis_aktnavnCHK%> /> Vis kun job (og aktiviteter) hvor <input type="text" name="FM_aktnavnsog" id="FM_aktnavnsog" value="<%=aktNavnSogVal%>" style="width:200px;"> indgår i <b>aktivitetsnavnet</b><br />
+               <br /><input type="checkbox" value="1" name="vis_aktnavn" id="vis_aktnavn" <%=vis_aktnavnCHK%> /> Vis kun job (og aktiviteter) hvor <input type="text" name="FM_aktnavnsog" id="FM_aktnavnsog" value="<%=aktNavnSogVal%>" style="width:200px;"> indgï¿½r i <b>aktivitetsnavnet</b><br />
 		 
 
                 </td></tr>
@@ -1403,9 +1403,9 @@ function LeiRotate() {
 			
 			<tr>
 				<td colspan="3" style="padding:0px 40px 20px 40px;" valign=top>
-			    <input type="radio" name="vis_fakbare_res" id="vis_fakbare_res0" value="0" <%=fakChk%>> Vis <b>timer</b> (på akt.typer der er med i dagligt timeregnskab)<br />
+			    <input type="radio" name="vis_fakbare_res" id="vis_fakbare_res0" value="0" <%=fakChk%>> Vis <b>timer</b> (pï¿½ akt.typer der er med i dagligt timeregnskab)<br />
                 <input type="radio" name="vis_fakbare_res" id="vis_fakbare_res2" value="2" <%=fakChk2%>> Vis <b>timer og kostpriser</b><br />
-                <input type="radio" name="vis_fakbare_res" id="vis_fakbare_res1" value="1" <%=fakChk1%>> Vis <b>timer og omsætning</b>
+                <input type="radio" name="vis_fakbare_res" id="vis_fakbare_res1" value="1" <%=fakChk1%>> Vis <b>timer og omsï¿½tning</b>
                
                 
                 <%
@@ -1419,7 +1419,7 @@ function LeiRotate() {
                 end if
                 %>
                
-                <br /><br />Vis beløb i følgende valuta:
+                <br /><br />Vis belï¿½b i fï¿½lgende valuta:
                 <%call valutaList(gt_valuta, "FM_valuta") %>
                 
 
@@ -1471,7 +1471,7 @@ function LeiRotate() {
    
     </tr>
 
-           <tr><td colspan="5" style="padding-top:20px;"><span id="sp_pre" style="color:#5582d2;">[+] Præsentation</span></td></tr>
+           <tr><td colspan="5" style="padding-top:20px;"><span id="sp_pre" style="color:#5582d2;">[+] Prï¿½sentation</span></td></tr>
          
 
         <tr id="tr_pre" style="display:none; visibility:hidden;">
@@ -1479,24 +1479,24 @@ function LeiRotate() {
 	<td colspan="2" style="padding:10px 40px 40px 40px;">
   
     
-     <b>Præsentation, indstillinger og kolonner:</b><br />
+     <b>Prï¿½sentation, indstillinger og kolonner:</b><br />
         
         
-                 <input type="checkbox" name="FM_directexp" id="directexp" value="1" <%=directexpCHK %>/>Vis direkte i excel (.csv, hurtig visning af store datamængder)<br />
+                 <input type="checkbox" name="FM_directexp" id="directexp" value="1" <%=directexpCHK %>/>Vis direkte i excel (.csv, hurtig visning af store datamï¿½ngder)<br />
 
                 <br />
                 <b>.csv layout:</b><br />
-                <input type="radio" name="csv_pivot" id="csv_pivot0" value="0" <%=csv_pivotSEL0 %>> Layout optimeret (som på skærm)<br />
-                <input type="radio" name="csv_pivot" id="csv_pivot1" value="1" <%=csv_pivotSEL1 %>> Pivot optimeret (kun real. timer på medarb.)
+                <input type="radio" name="csv_pivot" id="csv_pivot0" value="0" <%=csv_pivotSEL0 %>> Layout optimeret (som pï¿½ skï¿½rm)<br />
+                <input type="radio" name="csv_pivot" id="csv_pivot1" value="1" <%=csv_pivotSEL1 %>> Pivot optimeret (kun real. timer pï¿½ medarb.)
 
         
         <br /><br />  <br />
      
-     Vis opdelt på måneder, total, 3 ell. 12 md.<br />Vis periode slutdato - 
+     Vis opdelt pï¿½ mï¿½neder, total, 3 ell. 12 md.<br />Vis periode slutdato - 
       <select name="FM_md_split" style="width:200px;" onchange="submit();" />
       <option value="0" <%=md_split0SEL %>>Ingen (vis total)</option>
-      <option value="3" <%=md_split3SEL %>>3 måneder</option>
-      <option value="12" <%=md_split12SEL %>>12 måneder (ekstra loadtid!)</option>
+      <option value="3" <%=md_split3SEL %>>3 mï¿½neder</option>
+      <option value="12" <%=md_split12SEL %>>12 mï¿½neder (ekstra loadtid!)</option>
       </select>
       <br /><br />
       <b>Sideskift</b> (overskrift) efter hver <input id="FM_sideskiftlinier" type="text" name="FM_sideskiftlinier" value="<%=sideskiftlinier %>" style="width:40px;"/>  linie. A4 ca. 15 A3 ca.30.
@@ -1511,7 +1511,7 @@ function LeiRotate() {
            <td align="right" colspan="2">
 
 
-	<input type="submit" value=" Kør >> "></td>
+	<input type="submit" value=" Kï¿½r >> "></td>
 	</tr>
 	</form>
 	</table>
@@ -1547,26 +1547,26 @@ function LeiRotate() {
                 call sideinfoId(itop,ileft,iwdt,ihgt,iId,phDsp,phVzb,ibtop,ibleft,ibwdt,ibhgt,ibId)
                 %>
                        
-			                <b>Visning af de-aktiverede medarbejdere: </b><br> de-aktiverede medarbejdere medtages ved søgning på "alle".<br>
-			                de-aktiverede medarbejdere kan ikke vælges fra dropdown menu.<br><br>
-			                <b>Jobtyper</b><br /> Fastpris eller Lbn. timer. (vægtet medarbejder timepriser)<br>
-			                Ved fastpris job, hvor aktiviteterne danner grundlag for timepris, er omsætning og timepriser (på jobvisning) 
-			                angivet med et ~, da beløbet er beregnet udfra en tilnærmet timepris. (gns. på akt.). Ved udspecificering på aktiviteter er det den re-elle timepris der vises.<br />
+			                <b>Visning af de-aktiverede medarbejdere: </b><br> de-aktiverede medarbejdere medtages ved sï¿½gning pï¿½ "alle".<br>
+			                de-aktiverede medarbejdere kan ikke vï¿½lges fra dropdown menu.<br><br>
+			                <b>Jobtyper</b><br /> Fastpris eller Lbn. timer. (vï¿½gtet medarbejder timepriser)<br>
+			                Ved fastpris job, hvor aktiviteterne danner grundlag for timepris, er omsï¿½tning og timepriser (pï¿½ jobvisning) 
+			                angivet med et ~, da belï¿½bet er beregnet udfra en tilnï¿½rmet timepris. (gns. pï¿½ akt.). Ved udspecificering pï¿½ aktiviteter er det den re-elle timepris der vises.<br />
 			                <br />
 			                Ved lbn. timer er det altid den realiserede medarbejder timepris der vises.<br />
 			                <br />
 			                <b>Timer</b><br />
-			                Kun realiserede timer på typer der tæller med i det daglige timeregnskab vises. 
-			                <br />Registreringer på ferie, frokost, sygdom og afspadsering er ikke med i Grand-total statistikken.<br />
+			                Kun realiserede timer pï¿½ typer der tï¿½ller med i det daglige timeregnskab vises. 
+			                <br />Registreringer pï¿½ ferie, frokost, sygdom og afspadsering er ikke med i Grand-total statistikken.<br />
                             <br />
                             <b>Key-account</b><br />
-                            Ved brug af "key account" bliver der vist timer for alle medarbejder der er med (tilknyttet via projektgrupper) på de job hvor den valgte Key-account er job ansvarlig / kunde ansvarlig. 
+                            Ved brug af "key account" bliver der vist timer for alle medarbejder der er med (tilknyttet via projektgrupper) pï¿½ de job hvor den valgte Key-account er job ansvarlig / kunde ansvarlig. 
                             <br /><br />
-                            <b>Udspecificering på aktiviteter</b><br />
-                            Hvis der vælges et enkelt job bliver timeforbruget udspecificeret på aktiviteter.
+                            <b>Udspecificering pï¿½ aktiviteter</b><br />
+                            Hvis der vï¿½lges et enkelt job bliver timeforbruget udspecificeret pï¿½ aktiviteter.
                             <br /><br />
-                            <b>Beløb</b><br />
-                            Alle timepriser og beløb er vist i jobbets basisvaluta.&nbsp;
+                            <b>Belï¿½b</b><br />
+                            Alle timepriser og belï¿½b er vist i jobbets basisvaluta.&nbsp;
                 		
                 		
 		                </td>
@@ -1643,7 +1643,7 @@ function LeiRotate() {
 	call valgteaftaler()
 
 
-    '*** Begrænsninger **'
+    '*** Begrï¿½nsninger **'
     antalJobs = split(jobnrSQLkri, "OR")
     antJob = 0
     for i = 0 TO UBOUND (antalJobs)
@@ -1676,7 +1676,7 @@ function LeiRotate() {
     antJobkri12m = 100
 
     perHigh = 730
-    perAarHigh = 2 'år
+    perAarHigh = 2 'ï¿½r
 
     perMid = 368
     perAarMid = 24 'md
@@ -1718,22 +1718,22 @@ function LeiRotate() {
 			<b>Hvis der er valgt:</b><br /><br />
 			
 			<b>A)</b> Der er valgt mere end <b><%=antJobkri %> job</b> og: <br />
-			<br> - Mellem <b>2 og 50</b> medarbejdere og en periode på mere end <b><%=perAarHigh %> år.</b>
-			<br> - Mere end <b>50</b> medarbejdere og en periode på mere end <b><%=perAarMid %> md.</b>
-            <br> - Mere end <b>150</b> medarbejdere og en periode på mere end <b><%=perAarLow %> md.</b>
+			<br> - Mellem <b>2 og 50</b> medarbejdere og en periode pï¿½ mere end <b><%=perAarHigh %> ï¿½r.</b>
+			<br> - Mere end <b>50</b> medarbejdere og en periode pï¿½ mere end <b><%=perAarMid %> md.</b>
+            <br> - Mere end <b>150</b> medarbejdere og en periode pï¿½ mere end <b><%=perAarLow %> md.</b>
             <br> - Mere end <b><%=maksAntalM %></b> medarbejdere. 
             
             
             <br /><br />
 
-            <b>B)</b> En periode på mere end <b>5 år.</b><br /><br />
+            <b>B)</b> En periode pï¿½ mere end <b>5 ï¿½r.</b><br /><br />
 
-            <b>C)</b> 12 måneders opdeling, mere en <b>20 job</b> og flere end <b>50 medarbejdere.</b><br /><br />
+            <b>C)</b> 12 mï¿½neders opdeling, mere en <b>20 job</b> og flere end <b>50 medarbejdere.</b><br /><br />
 
             <span style="color:red;">Du har er valgt: <b><%=antalm %></b> medarbejdere og <b><%=antJob %></b> job.</span><br /><br />
 
             <b>Tip:</b><br />
-            Søg på et specifikt job for at få vist en længere periode / flere medarbejdere.
+            Sï¿½g pï¿½ et specifikt job for at fï¿½ vist en lï¿½ngere periode / flere medarbejdere.
 			
 			</td></tr>
 			</table>
@@ -1753,7 +1753,7 @@ function LeiRotate() {
 	
 	
 		'*****************************************************************************************************'
-		'**** Job der skal indgå i omsætning, budget og forbrugstal *******************************'
+		'**** Job der skal indgï¿½ i omsï¿½tning, budget og forbrugstal *******************************'
 		'*****************************************************************************************************'
 		
 		
@@ -1761,8 +1761,8 @@ function LeiRotate() {
 				
 				
 				
-				'*** For at spare (trimme) på SQL hvis der vælges alle job alle kunder og vis kun for jobanssvarlige ikke er slået til ****
-				'*** Og der ikke er søgt på jobnavn ***
+				'*** For at spare (trimme) pï¿½ SQL hvis der vï¿½lges alle job alle kunder og vis kun for jobanssvarlige ikke er slï¿½et til ****
+				'*** Og der ikke er sï¿½gt pï¿½ jobnavn ***
 				'if cdbl(kundeid) = 0 AND cdbl(jobid) = 0 AND cdbl(jobans) = 0 AND cdbl(jobans2) = 0 AND cdbl(jobans3) = 0 AND cdbl(kundeans) = 0 AND len(trim(jobSogVal)) = 0 AND cint(aftaleid) = 0 AND cint(segment) = 0 then 
 						
 					'jobidFakSQLkri = " OR jobid <> 0 "
@@ -1831,7 +1831,7 @@ function LeiRotate() {
 			'Redim  jobTottimer(0), jobRestimerTot(0), jobOmsTot(0), jobfakbareTimerTot(0)
 			
 			
-			'*** Udspecificer på aktiviteter? **'
+			'*** Udspecificer pï¿½ aktiviteter? **'
 			call akttyper2009(2)
 			
              select case lto
@@ -1845,7 +1845,7 @@ function LeiRotate() {
 			
 			
 			
-			'**** Kun timer eller beregn fakbare timer og omsætning ***'
+			'**** Kun timer eller beregn fakbare timer og omsï¿½tning ***'
 			if cint(visfakbare_res) = 1 OR cint(visfakbare_res) = 2 then 
 			    if cint(visfakbare_res) = 1 then
                 vgtTimePris = " COALESCE(sum(t.timer*(t.timepris*(t.kurs/"& replace(valutaKurs_CCC, ",", ".") &"))),0) AS vaegtettimepris, "
@@ -1881,11 +1881,11 @@ function LeiRotate() {
 			
 			
 			'***********************************************************************'
-			'**** Job og medarbjedere med timer på *********************************'
+			'**** Job og medarbjedere med timer pï¿½ *********************************'
 			'***********************************************************************'
 			
-			'*** Finder de medarbejdere af de valgte der er timer på i den valgte periode ***'
-            if cint(vis_medarbejdertyper_grp) = 1 then 'Fordeling på medarbejertypegrp valgt
+			'*** Finder de medarbejdere af de valgte der er timer pï¿½ i den valgte periode ***'
+            if cint(vis_medarbejdertyper_grp) = 1 then 'Fordeling pï¿½ medarbejertypegrp valgt
                 medarbSQlKri = ""
                 vlgtmtypgrp = thisMiduse '0 'mtypGrupper	    
                 call mtyperIGrp_fn(vlgtmtypgrp,1)
@@ -1925,7 +1925,7 @@ function LeiRotate() {
 
             'vis_medarbejdertyper = vis_medarbejdertyper
 
-             '** Vis kun hvor aktnavn indgår **'
+             '** Vis kun hvor aktnavn indgï¿½r **'
             if cint(vis_aktnavn) = 1 then
             strSQLaktNavnKri = " AND taktivitetnavn LIKE '%"& trim(aktNavnSogVal) &"%'"
             else
@@ -1934,7 +1934,7 @@ function LeiRotate() {
 
             '**********************************************************    
             '**************** LOOP job -- AKT UDSPEC ******************
-            '*** Vis ikke længere både job og akti. udspec. 20161128 **
+            '*** Vis ikke lï¿½ngere bï¿½de job og akti. udspec. 20161128 **
 
             if cint(upSpec) = 0 then 'job	
             ja = 0
@@ -1951,7 +1951,7 @@ function LeiRotate() {
             strJobnbs = "#0#,"
             end if
 
-            '*** Kriterier Job eller udspecificer på akt.
+            '*** Kriterier Job eller udspecificer pï¿½ akt.
 
             'Response.Write "ja: "& ja & " upSpec: "& upSpec &"jobid: "& jobid &"<br>"
             if ja = 1 OR (cint(upSpec) = 1 AND jobid <> 0) then
@@ -2078,7 +2078,7 @@ function LeiRotate() {
 
 			
 			
-			        '*** Finder de job af de valgte der er timer på i den valgte periode ***'
+			        '*** Finder de job af de valgte der er timer pï¿½ i den valgte periode ***'
                     if cint(upSpec) = 1 AND jobid = 0 then
             
                         if upSpec_all = 1 then
@@ -2089,14 +2089,14 @@ function LeiRotate() {
                         sqlJobKritemp0 = sqlJobKritemp0 & sqlJobKritemp1 & ")"
                         else
 
-                        '** Ved valgt job i dd og vis udspec slået til, skal job ikke vises på job niveau
+                        '** Ved valgt job i dd og vis udspec slï¿½et til, skal job ikke vises pï¿½ job niveau
                         sqlJobKritemp0 = "j.id = 0 "
                         end if
 
                     else
 			
                     'if (cint(upSpec) = 1 AND len(trim(jobSogVal)) = 0 AND jobid = 0 then 
-                    ''** Ved alle job valgt i dd og vis udspec slået til, skal job ikke vises på job niveau
+                    ''** Ved alle job valgt i dd og vis udspec slï¿½et til, skal job ikke vises pï¿½ job niveau
                     'sqlJobKritemp0 = "j.id = 0 "
                     'else
                     sqlJobKritemp0 = replace(jidSQLkri, "id", "j.id") 'sqlJobKri
@@ -2129,11 +2129,11 @@ function LeiRotate() {
 					                    while not oRec.EOF
 					                    
 
-                                        '** ForretningsområdeKRI
+                                        '** Forretningsomrï¿½deKRI
                                         foromrKriOK = 1
                                         if strFomr_reljobids <> "0" then
                                        
-                                            if instr(strFomr_reljobids, "#"& oRec("jid") &"#") = 0 then 'IKKE EN DEL AF DE VALGTE FORRETNINGSOMRÅDER
+                                            if instr(strFomr_reljobids, "#"& oRec("jid") &"#") = 0 then 'IKKE EN DEL AF DE VALGTE FORRETNINGSOMRï¿½DER
                                             foromrKriOK = 0
                                             end if                        
             
@@ -2164,7 +2164,7 @@ function LeiRotate() {
 
 
                                     
-                                        '** Hvis Ressource timer er slået til skal de også vises. ********
+                                        '** Hvis Ressource timer er slï¿½et til skal de ogsï¿½ vises. ********
                                         if cint(vis_restimer) = 1 then
                 
                                         sqlJobKritemp0res = replace(jidSQLkri, "id", "jobid")
@@ -2180,11 +2180,11 @@ function LeiRotate() {
                                         oRec.open strSQLjobMforecast, oConn, 3
 					                    while not oRec.EOF                
                                         
-                                          '** ForretningsområdeKRI
+                                          '** Forretningsomrï¿½deKRI
                                         foromrKriOK = 1
                                         if strFomr_relaktids <> "0" then
                                        
-                                            if instr(strFomr_relaktids, "#"& oRec("jobid") &"#") = 0 then 'IKKE EN DEL AF DE VALGTE FORRETNINGSOMRÅDER
+                                            if instr(strFomr_relaktids, "#"& oRec("jobid") &"#") = 0 then 'IKKE EN DEL AF DE VALGTE FORRETNINGSOMRï¿½DER
                                             foromrKriOK = 0
                                             end if                        
             
@@ -2247,11 +2247,11 @@ function LeiRotate() {
 					        while not oRec.EOF
 		
                                         
-                                         '** ForretningsområdeKRI
+                                         '** Forretningsomrï¿½deKRI
                                         foromrKriOK = 1
                                         if strFomr_relaktids <> "0" then
                                        
-                                            if instr(strFomr_relaktids, "#"& oRec("id") &"#") = 0 then 'IKKE EN DEL AF FORRETNINGSOMRÅDE
+                                            if instr(strFomr_relaktids, "#"& oRec("id") &"#") = 0 then 'IKKE EN DEL AF FORRETNINGSOMRï¿½DE
                                             foromrKriOK = 0
                                             end if                        
             
@@ -2286,7 +2286,7 @@ function LeiRotate() {
 					        oRec.close
 
 
-                                        '** Hvis Ressource timer er slået til skal de også vises. ********
+                                        '** Hvis Ressource timer er slï¿½et til skal de ogsï¿½ vises. ********
                                         if cint(vis_restimer) = 1 then
                                         ressourceFCper = " ((aar >= "& year(sqlDatoStart)&" AND md >= "& month(sqlDatoStart) &") AND (aar <= "& year(sqlDatoSlut) &" AND md <= "& month(sqlDatoSlut) &"))"
                                         sqlJobKritemp0res = replace(jidSQLkri, "id", "jobid")
@@ -2301,11 +2301,11 @@ function LeiRotate() {
                                         oRec.open strSQLAktMforecast, oConn, 3
 					                    while not oRec.EOF                
 
-                                         '** ForretningsområdeKRI
+                                         '** Forretningsomrï¿½deKRI
                                         foromrKriOK = 1
                                         if strFomr_relaktids <> "0" then
                                        
-                                            if instr(strFomr_relaktids, "#"& oRec("aktid") &"#") = 0 then 'IKKE EN DEL AF FORRETNINGSOMRÅDE
+                                            if instr(strFomr_relaktids, "#"& oRec("aktid") &"#") = 0 then 'IKKE EN DEL AF FORRETNINGSOMRï¿½DE
                                             foromrKriOK = 0
                                             end if                        
             
@@ -2424,7 +2424,7 @@ function LeiRotate() {
             strSQL = strSQL &" LEFT JOIN job j ON ("& sqlJobKri &") "
 
 
-            if len(trim(aktSQLTables)) <> 0 then 'udpecificer på aktiviteter
+            if len(trim(aktSQLTables)) <> 0 then 'udpecificer pï¿½ aktiviteter
             strSQL = strSQL &" LEFT JOIN aktiviteter AS a ON (a.job = j.id)"
             end if
 
@@ -2648,7 +2648,7 @@ function LeiRotate() {
 						    jobmedtimer(x,33) = 1 
 						    jobmedtimer(x,8) = "Fastpris"
 						    'else
-						    'jobmedtimer(x,8) = " - Fastpris (akt. ~ tilnærm. timepris)"
+						    'jobmedtimer(x,8) = " - Fastpris (akt. ~ tilnï¿½rm. timepris)"
 						    'jobmedtimer(x,33) = 2
 						    'end if
 						else
@@ -2728,7 +2728,7 @@ function LeiRotate() {
 
 						
 						
-						'*** Timepriser bruges på forkalk og hvis det er fastpris job ***'
+						'*** Timepriser bruges pï¿½ forkalk og hvis det er fastpris job ***'
 						'if len(trim(jobmedtimer(x,3))) <> 0 AND jobmedtimer(x,3) <> 0 then
                         'realtimerTP = jobmedtimer(x,3)
                         'else
@@ -2738,11 +2738,11 @@ function LeiRotate() {
                         if bdgTim > 0 then
 						    '** job er basis **'
 							if oRec("usejoborakt_tp") <> 1 then
-                                timeprisThis = (jobbelob / bdgTim) 'realtimerTP '** Skal være real timer
+                                timeprisThis = (jobbelob / bdgTim) 'realtimerTP '** Skal vï¿½re real timer
 						    else
 						        '** Akt er basis og det er aktiviteter der vises **
 						        if cint(jobmedtimer(x,38)) <> 0 then
-						        timeprisThis = (jobmedtimer(x,18)/sumbgr) '** enhedspris på akt
+						        timeprisThis = (jobmedtimer(x,18)/sumbgr) '** enhedspris pï¿½ akt
 						        else
     						    timeprisThis = (jobbelob / bdgTim) 'realtimerTP
 						        end if
@@ -2753,20 +2753,20 @@ function LeiRotate() {
 						
 						
 						
-						            '*** Vis omsætning *******'
+						            '*** Vis omsï¿½tning *******'
 						            if cint(visfakbare_res) = 1 OR cint(visfakbare_res) = 2 then
-                                    '1: Omsætning
+                                    '1: Omsï¿½tning
                                     '2: kostpriser
             							
 							                '*** Timepriser ***'
 							                jobmedtimer(x,7) = 0
                                             
-                                            '*** ÆNDRET pr. 1.9.2011 ** Viser altid den indtastede timepris pr. medarbejer.
-                                            '*** Da det er blevet lettere at ændre medarbejdertype timepris, og da det giver et mere rigtigt billede.
-                                            '*** af at der er indtasts 20 dyre timer til en timepris, selvom den samlede bruttoomsætning ikke er så høj
-                                            '*** Herved vil nedskrivning på job også nemmere komme tilsyne og det vil animere til at sætte den rigtige timepris på medarbejer typen på det enkelte job.
+                                            '*** ï¿½NDRET pr. 1.9.2011 ** Viser altid den indtastede timepris pr. medarbejer.
+                                            '*** Da det er blevet lettere at ï¿½ndre medarbejdertype timepris, og da det giver et mere rigtigt billede.
+                                            '*** af at der er indtasts 20 dyre timer til en timepris, selvom den samlede bruttoomsï¿½tning ikke er sï¿½ hï¿½j
+                                            '*** Herved vil nedskrivning pï¿½ job ogsï¿½ nemmere komme tilsyne og det vil animere til at sï¿½tte den rigtige timepris pï¿½ medarbejer typen pï¿½ det enkelte job.
                                             
-                                            '*** og så alligevel, indtil videre beholder vi den gamle beregning: 1 / :999 **'
+                                            '*** og sï¿½ alligevel, indtil videre beholder vi den gamle beregning: 1 / :999 **'
 
                                             '** Fastpris **'
                                             fastpris = oRec("fastpris")
@@ -2774,7 +2774,7 @@ function LeiRotate() {
                 							'**** BRUGES IKKE **** 2010
                 							
                 							
-						                        '** Beløb **'jobmedtimer(x,7)
+						                        '** Belï¿½b **'jobmedtimer(x,7)
 						                        belobThis = timeprisThis * oRec("sumtimer")
 						                        call beregnValuta(belobThis,jobmedtimer(x,27),100)
 						                        jobmedtimer(x,7) = valBelobBeregnet
@@ -2785,7 +2785,7 @@ function LeiRotate() {
                 							
                 							
 							                else
-							                '** Beløb **'
+							                '** Belï¿½b **'
 							                '*** Bliver beregnet i SQL kald ***'
 							                jobmedtimer(x,7) = oRec("vaegtettimepris") 
 
@@ -2831,13 +2831,13 @@ function LeiRotate() {
 						
 						
 							
-							if cint(jobmedtimer(x,38)) <> 0 then '*** Udspec på aktiviteter 
+							if cint(jobmedtimer(x,38)) <> 0 then '*** Udspec pï¿½ aktiviteter 
 							jora_id = oRec("aid")
 							else
 							jora_id = oRec("jnr")
 							end if
 							
-		                '*** 16 Sumtimer på job ialt / 17 Omsætning ***'
+		                '*** 16 Sumtimer pï¿½ job ialt / 17 Omsï¿½tning ***'
                         
 		                if instr(strJobnbs, "#"& jora_id &"#") = 0 OR cint(csv_pivot) = 1 then
 		                
@@ -2965,7 +2965,7 @@ function LeiRotate() {
             'Response.end
             
             if cint(directexp) = 1 then
-            Response.write "<br><br><br><div class=load>Gør din csv. fil klar, vent et øjeblik. Der går mellem 5 og 10 sekunder.</div>" 
+            Response.write "<br><br><br><div class=load>Gï¿½r din csv. fil klar, vent et ï¿½jeblik. Der gï¿½r mellem 5 og 10 sekunder.</div>" 
             end if
 
             Response.flush
@@ -2986,7 +2986,7 @@ function LeiRotate() {
 			
 			vCntVal = 0
 			
-            '*** Vis redaktør = 1 / 0 hvis medarbejdertyper er slået til ****'
+            '*** Vis redaktï¿½r = 1 / 0 hvis medarbejdertyper er slï¿½et til ****'
             if cint(directexp) <> 1 then 'direkte excel / print
 
             if media <> "print" then
@@ -2999,11 +2999,11 @@ function LeiRotate() {
 
 			strJobLinie_top = strJobLinie_top & "<br><br><table cellspacing=0 cellpadding=0 border=0>"
 			strJobLinie_top = strJobLinie_top & "<tr><td Style='border:0px #8caae6 solid; padding:10px;' bgcolor='#ffffff'>"
-			'strJobLinie_top = strJobLinie_top & "<h3>Timeforbrug, Omsætning og Ressourcetimer.</h3>"
+			'strJobLinie_top = strJobLinie_top & "<h3>Timeforbrug, Omsï¿½tning og Ressourcetimer.</h3>"
 			
 			'if cint(visfakbare_res) = 1 OR cint(visfakbare_res) = 2 then
             '    if cint(visfakbare_res) = 1 then
-			'    strJobLinie_top = strJobLinie_top & "Realiserede fakturerbare timer og omsætning."
+			'    strJobLinie_top = strJobLinie_top & "Realiserede fakturerbare timer og omsï¿½tning."
             '    else
             '    strJobLinie_top = strJobLinie_top & "Realiserede fakturerbare timer og kost."
             '    end if
@@ -3016,7 +3016,7 @@ function LeiRotate() {
             end if 'print
 
 			if media <> "print" then
-            'strJobLinie_top = strJobLinie_top & " <br>Alle timer og beløb er afrundet til 0 decimaler.<br>&nbsp;"
+            'strJobLinie_top = strJobLinie_top & " <br>Alle timer og belï¿½b er afrundet til 0 decimaler.<br>&nbsp;"
             else
             strJobLinie_top = strJobLinie_top & "<h4>Timeout - Grandtotal<br><span style=""font-size:9px;"">"& now &" - Periode: "& formatdatetime(strDag&"/"&strMrd&"/"&strAar, 1) & " - " & formatdatetime(strDag_slut&"/"&strMrd_slut&"/"&strAar_slut, 1) &"</span></h4>"
             end if
@@ -3152,7 +3152,7 @@ function LeiRotate() {
 									
 
 
-									    if jobmedtimer(x,38) <> 0 then '= UDSEPCIFICERING PÅ AKT
+									    if jobmedtimer(x,38) <> 0 then '= UDSEPCIFICERING Pï¿½ AKT
                                         '************************************************************************************
                                         '* job eller akt. udspec
                                         '************************************************************************************
@@ -3165,7 +3165,7 @@ function LeiRotate() {
                                             
                                                                 if cint(directexp) <> 1 then
                                                                 strJobLinie = strJobLinie & "</tr><tr><td colspan=400 style='padding:20px 10px 2px 2px;' bgcolor=#FFFFFF>"_
-    									                        &"Der er valgt udspecificering på følgende job:</td>"
+    									                        &"Der er valgt udspecificering pï¿½ fï¿½lgende job:</td>"
                                                                 end if
 
                                                                     subbudgettimer = 0
@@ -3274,7 +3274,7 @@ function LeiRotate() {
                                                                      strJobLinie = strJobLinie &"<span style='color:#999999; font-size:9px;'>Forecast</span><br>"
                                                                      end if
                                         
-                                                                    strJobLinie = strJobLinie &"Real. timer<br> før valgt per</td>"
+                                                                    strJobLinie = strJobLinie &"Real. timer<br> fï¿½r valgt per</td>"
                                                                 end if
                                                 
                                                                 strJobLinie = strJobLinie &"<td class=lille valign=bottom style='border-top:1px #CCCCCC solid; background-color:#F7F7F7; padding:2px 2px 2px 2px;'>"
@@ -3522,11 +3522,11 @@ function LeiRotate() {
                                         
 										
 										'*************************************'
-										'**** Forkalk. kolonne på Job / akt **'
+										'**** Forkalk. kolonne pï¿½ Job / akt **'
 										'*************************************'
 		                                if cint(directexp) <> 1 then 								
 
-                                                if jobmedtimer(x,38) <> 0 then '** Uspec på aktiviteter
+                                                if jobmedtimer(x,38) <> 0 then '** Uspec pï¿½ aktiviteter
 									            
 									                    strJobLinie = strJobLinie & "<td class=lille align=right "&tdstyleTimOms2&" bgcolor='#EFF3FF'>"
 									                    select case jobmedtimer(x,34) 
@@ -3574,7 +3574,7 @@ function LeiRotate() {
 									        strJobLinie = strJobLinie & "<br><span style='color=#000000; font-size:9px;'>"& valutaKode_CCC &" "& formatnumber(jobmedtimer(x,18),2) & "</span>"
                                             end if        
 
-                                                   if jobmedtimer(x,38) = 0 then '** Udspec på aktiviteter
+                                                   if jobmedtimer(x,38) = 0 then '** Udspec pï¿½ aktiviteter
                                                           
                                                                   
                                                    expTxt = expTxt & formatnumber(jobmedtimer(x,18), 2)&";" 
@@ -3733,7 +3733,7 @@ function LeiRotate() {
 
 
 											'*********************************************************************'
-											'*** Timer og Omsætning kolonne total på job/akt. i valgte periode ***'
+											'*** Timer og Omsï¿½tning kolonne total pï¿½ job/akt. i valgte periode ***'
 											'*********************************************************************'
 
                                             
@@ -3759,7 +3759,7 @@ function LeiRotate() {
                                             end if 'if cint(directexp) <> 1 then                                     
 
 
-                                            '** Res timer på job ***'
+                                            '** Res timer pï¿½ job ***'
                                             if cint(vis_restimer) = 1 then
                 
             
@@ -3857,7 +3857,7 @@ function LeiRotate() {
 
 											if cint(visfakbare_res) = 1 OR cint(visfakbare_res) = 2 then
 											
-											'*** Omsætning / kost.  ***'
+											'*** Omsï¿½tning / kost.  ***'
 											totaltotaljobOmsIalt = (totaltotaljobOmsIalt/1) + (jobmedtimer(x,17)/1) '+ jobOmsIalt
                                             subtotaljobOmsIalt = (subtotaljobOmsIalt/1) + (jobmedtimer(x,17)/1) 
 											
@@ -3924,7 +3924,7 @@ function LeiRotate() {
 
 
                                             '************************************************************'        
-                                            '** Real. Timer på job (Grandtotal / ialt uanset periode) ***'
+                                            '** Real. Timer pï¿½ job (Grandtotal / ialt uanset periode) ***'
                                             '************************************************************'
 
                                             if cint(visPrevSaldo) = 1 then
@@ -3952,7 +3952,7 @@ function LeiRotate() {
                                             strJobLinie = strJobLinie & "<td class=lille valign=bottom align=right "&tdstyleTimOms20&">"
                                             end if 'if cint(directexp) <> 1 then 
 
-                                             '** Res timer på job ***'
+                                             '** Res timer pï¿½ job ***'
                                             if cint(vis_restimer) = 1 then
 
 
@@ -4071,7 +4071,7 @@ function LeiRotate() {
 				
 						'*************************************************************'
                         '**** MAIN
-						'**** Timer på hver Medarbjeder LOOP ***'
+						'**** Timer pï¿½ hver Medarbjeder LOOP ***'
 						'*************************************************************'
 						
                         'lastWrtMd = 1
@@ -4383,7 +4383,7 @@ function LeiRotate() {
 							                                            expTxt = expTxt &";;"
 							                                            end if    
                                                                             
-                                                                         'if cint(vis_normtimer) = 1 then ALDRING MED PÅ eksport når der opldeles på 3 og 12 MD
+                                                                         'if cint(vis_normtimer) = 1 then ALDRING MED Pï¿½ eksport nï¿½r der opldeles pï¿½ 3 og 12 MD
                                                                          'expTxt = expTxt &";" 
                                                                          'end if
 
@@ -4396,7 +4396,7 @@ function LeiRotate() {
                                                                             thisTp = ""
                                                                             end if
 
-                                                                            '*** Finder tp på job / akt ****
+                                                                            '*** Finder tp pï¿½ job / akt ****
                                                                             strSQLtp = "SELECT id, 6timepris FROM timepriser WHERE jobid = "& jobmedtimer(x,0) &" AND aktid = "& jobmedtimer(x,12) &" AND medarbid = "& jobmedtimer(x,4)
                                                                             'Response.write strSQLtp & "<br><br>"
                                                                             oRec.open strSQLtp, oConn, 3
@@ -4405,8 +4405,8 @@ function LeiRotate() {
                                                                                 thisTp = formatnumber(oRec("6timepris"))
 
                                                                             else
-                                                                                '** Find prisen ved hjælp af medarb. typen ***'
-                                                                                '** Kun på job, så man kan se om akt nedarver **'
+                                                                                '** Find prisen ved hjï¿½lp af medarb. typen ***'
+                                                                                '** Kun pï¿½ job, sï¿½ man kan se om akt nedarver **'
 
                                                                                 if jobmedtimer(x,12) = 0 then
                                                                                 strSQLtpmt = "SELECT m.medarbejdertype, mt.timepris FROM medarbejdere AS m "_
@@ -4427,7 +4427,7 @@ function LeiRotate() {
                                                                                 
                                                                                 else 
                                                                                 'Aktiviteter
-                                                                                'Viser tp fra job hvis akt står til at nedarve
+                                                                                'Viser tp fra job hvis akt stï¿½r til at nedarve
 
 
                                                                                  
@@ -4488,8 +4488,8 @@ function LeiRotate() {
                                'else
                                'Response.Write v &"<br>"
 
-								'*** For at krydstjekke bliver restimer og balance summeret som totaler på medarb **'
-								'*** Mens Timer ialt og fakbare timer og Oms. bliver summeret på jobtotaler **'
+								'*** For at krydstjekke bliver restimer og balance summeret som totaler pï¿½ medarb **'
+								'*** Mens Timer ialt og fakbare timer og Oms. bliver summeret pï¿½ jobtotaler **'
 								'restimerTotTot = restimerTotTot + restimerThis
 								
                                 
@@ -4708,7 +4708,7 @@ function LeiRotate() {
 								end if
 								
                                 '************************
-                                '** Omsætnint total *****
+                                '** Omsï¿½tnint total *****
 		                        '************************				    
 
 						        if cint(visfakbare_res) = 1 OR cint(visfakbare_res) = 2 then
@@ -4898,7 +4898,7 @@ function LeiRotate() {
                                                     if cint(vis_normtimer) = 1 then
 
             
-                                                        '** NORM ALDRIG MED PÅ VISNING OPDELT PÅ MD                                  
+                                                        '** NORM ALDRIG MED Pï¿½ VISNING OPDELT Pï¿½ MD                                  
                                                         'if len(trim(medabNormtimer(v))) <> 0 then
                                                         'expTxt = expTxt & formatnumber(medabNormtimer(v), 2) &";"
                                                         'else
@@ -5010,7 +5010,7 @@ function LeiRotate() {
 
 
 						        
-                                  if md_split_cspan = 1 then 'Ingen opdeling på md
+                                  if md_split_cspan = 1 then 'Ingen opdeling pï¿½ md
                                     
                                  
                                
@@ -5075,8 +5075,8 @@ function LeiRotate() {
             updTpDatoY = year(datoStart)
 
            
-            strJobLinie_total = strJobLinie_total & "<b>Opdater timepriser</b><br>Opdaterer timeregistreringer i valgte måned (grønne).<br><br>"_
-            &"<input type='Checkbox' value='1' name='FM_opdater_tp_job'> Opdater samtidig de timepriser der er indtastet på job / aktivitet, så fremtidige timeregistreringer følger denne pris (gælder ikke de aktiviteter der er sat til ens pris for alle).<br><br>n: nedarver fra job<br><br>Alle priser er "& valutaKode_CCC &". Valuta ændres på jobbet."_
+            strJobLinie_total = strJobLinie_total & "<b>Opdater timepriser</b><br>Opdaterer timeregistreringer i valgte mï¿½ned (grï¿½nne).<br><br>"_
+            &"<input type='Checkbox' value='1' name='FM_opdater_tp_job'> Opdater samtidig de timepriser der er indtastet pï¿½ job / aktivitet, sï¿½ fremtidige timeregistreringer fï¿½lger denne pris (gï¿½lder ikke de aktiviteter der er sat til ens pris for alle).<br><br>n: nedarver fra job<br><br>Alle priser er "& valutaKode_CCC &". Valuta ï¿½ndres pï¿½ jobbet."_
             &"</td><tr><td align=right><input type='submit' value='Opdater >>'></td></tr></table></form>"
             else
             strJobLinie_total = strJobLinie_total & no_redaktorTxt &"</td></tr></table>"
@@ -5153,7 +5153,7 @@ function LeiRotate() {
 
                             
 				
-				            objF.writeLine("Periode afgrænsning: "& datoStart &" - "& datoSlut & vbcrlf)
+				            objF.writeLine("Periode afgrï¿½nsning: "& datoStart &" - "& datoSlut & vbcrlf)
 				            'objF.WriteLine(strOskrifter & chr(013))
 				            objF.WriteLine(ekspTxt)
 				            objF.close
@@ -5167,12 +5167,12 @@ function LeiRotate() {
 	                        </tr>
 	                        <tr>
 	                        <td valign=top bgcolor="#ffffff" style="padding:5px 5px 5px 15px;">
-                            Du har valgt at udskrive direkte til .cvs fil.<br /> Du åbner den ved at klikke på linket herunder:<br />
+                            Du har valgt at udskrive direkte til .cvs fil.<br /> Du ï¿½bner den ved at klikke pï¿½ linket herunder:<br />
 	                        <a href="../inc/log/data/<%=file%>" class=vmenu target="_blank">Din CSV. fil er klar >></a>
 	                        </td></tr>
 	                        </table>
 	                        
-                            </div><!-- oCode (når der kommer response.end herunder) --> 
+                            </div><!-- oCode (nï¿½r der kommer response.end herunder) --> 
 	          
 	            
 	                        <%
@@ -5255,8 +5255,8 @@ function LeiRotate() {
             
                 <%if len(strJobLinie) > 30000000 then %>
         <td class=lille>
-        Mængden af data er for stor til eksport. Vælg et mindre interval ell. færre 
-        medarbejdere. Størrelsen på data er: <%=len(strJobLinie) %> og den må ikke overstige 30000000 bytes.
+        Mï¿½ngden af data er for stor til eksport. Vï¿½lg et mindre interval ell. fï¿½rre 
+        medarbejdere. Stï¿½rrelsen pï¿½ data er: <%=len(strJobLinie) %> og den mï¿½ ikke overstige 30000000 bytes.
         <%else %>
     
         <td><input type="submit" id="sbm_csv" value="CSV. fil eksport >>" style="font-size:9px;" /></td>
