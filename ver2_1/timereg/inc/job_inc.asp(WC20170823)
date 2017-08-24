@@ -163,7 +163,7 @@ fsnavn = ""
 			        wend
 			        oRec3.close
 			         
-			         strStamgrp_pb(lastaktFavorit,a) = strStamgrp_pb(lastaktFavorit,a) &"<tr><td colspan=10 style='padding:5px 5px 10px 5px;' align=right><input class=""overfortiljob_a"" type=""button"" value="""&job_txt_555&" >>"" style=""font-family:arial; font-size:9px;"" />"
+			         strStamgrp_pb(lastaktFavorit,a) = strStamgrp_pb(lastaktFavorit,a) &"<tr><td colspan=10 style='padding:5px 5px 10px 5px;' align=right><input class=""overfortiljob_a"" type=""button"" value="&job_txt_555&">>"" style=""font-family:arial; font-size:9px;"" />"
 			         strStamgrp_pb(lastaktFavorit,a) = strStamgrp_pb(lastaktFavorit,a) & "<input id=""Text1"" type=""hidden"" value="& aktFaseSumtot &" /></td></tr></table></td>"
 			       
 			        aktFaseSum(lastaktFavorit) = aktFaseSumtot
