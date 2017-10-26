@@ -64,7 +64,7 @@ sub datoeroverskrift(val)
                     if cint(showasproc) = 1 then
                     timerProcExt = " %"
                     else
-                    timerProcExt = " t."
+                    timerProcExt = " " & resbelaeg_txt_075
                     end if
 		
 		%>
@@ -81,8 +81,8 @@ sub datoeroverskrift(val)
 				
 				
 										if y = 0 then %>
-                                        <td bgcolor="#ffffff" style="padding:3px 3px 3px 3px;">Medarbejder</td>
-										<td bgcolor="#ffffff" style="padding:3px 3px 3px 3px;">Kunde<br /><b>Projekt / Job</b>										
+                                        <td bgcolor="#ffffff" style="padding:3px 3px 3px 3px;"><%=resbelaeg_txt_090 %></td>
+										<td bgcolor="#ffffff" style="padding:3px 3px 3px 3px;"><%=resbelaeg_txt_091 %><br /><b><%=resbelaeg_txt_092 %></b>										
 										<%if val = 2 then %>
 										<br /><%=medarbKundeoplysX(x, 4)%> (<%=medarbKundeoplysX(x, 7)%>)
 										<%end if %>
@@ -90,11 +90,11 @@ sub datoeroverskrift(val)
 										</td>
                                         
                                         <%if cint(visRamme) = 1 then %>
-                                        <td bgcolor="#ffffff" style="width:60px; padding:3px 3px 3px 3px;">Årsramme <br /><span style="color:#999999; font-size:9px;">Timer pr. år</span></td>
+                                        <td bgcolor="#ffffff" style="width:60px; padding:3px 3px 3px 3px;"><%=resbelaeg_txt_093 %> <br /><span style="color:#999999; font-size:9px;"><%=resbelaeg_txt_094 %></span></td>
                                         <%end if %>
                                         
                                         <%if cint(visAkt) = 1 then %>
-                                        <td bgcolor="#ffffff" style="width:100px; padding:3px 3px 3px 3px;">Aktivitet</td>
+                                        <td bgcolor="#ffffff" style="width:100px; padding:3px 3px 3px 3px;"><%=resbelaeg_txt_095 %></td>
 										<%end if
 
 										lastMonth = newMonth
@@ -142,16 +142,31 @@ sub datoeroverskrift(val)
 				
 
                
-                 call datoogDivider(nday)
+                call datoogDivider(nday)
 
+                if month(nday) = 1 then ndayMonthTxt = resbelaeg_txt_078 end if
+                if month(nday) = 2 then ndayMonthTxt = resbelaeg_txt_079 end if
+                if month(nday) = 3 then ndayMonthTxt = resbelaeg_txt_080 end if
+                if month(nday) = 4 then ndayMonthTxt = resbelaeg_txt_081 end if
+                if month(nday) = 5 then ndayMonthTxt = resbelaeg_txt_082 end if
+                if month(nday) = 6 then ndayMonthTxt = resbelaeg_txt_083 end if
+                if month(nday) = 7 then ndayMonthTxt = resbelaeg_txt_084 end if
+                if month(nday) = 8 then ndayMonthTxt = resbelaeg_txt_085 end if
+                if month(nday) = 9 then ndayMonthTxt = resbelaeg_txt_086 end if
+                if month(nday) = 10 then ndayMonthTxt = resbelaeg_txt_087 end if
+                if month(nday) = 11 then ndayMonthTxt = resbelaeg_txt_088 end if
+                if month(nday) = 12 then ndayMonthTxt = resbelaeg_txt_089 end if
+                ndayTxt = ndayMonthTxt & " " & right(newYear, 2) 
 
 				select case periodeSel
 				'case 1
 				'tdvalThis = left(monthname(datepart("d", nday)), 3) & " " & right(newYear, 2)
 				case 3
-				tdvalThis = "<span style=""font-size:9px;"">"& left(monthname(datepart("m", nday,2,2)), 3) & " "& newYear &"</span><br>Uge: " & datepart("ww", nday, 2,2) 
+				'tdvalThis = "<span style=""font-size:9px;"">"& left(monthname(datepart("m", nday,2,2)), 3) & " "& newYear &"</span><br>"&resbelaeg_txt_096&" "& datepart("ww", nday, 2,2)
+                tdvalThis = "<span style=""font-size:9px;"">"& ndayTxt &"</span><br>"&resbelaeg_txt_096&" "& datepart("ww", nday, 2,2) 
 				case else '6,12
-				tdvalThis = left(monthname(datepart("m", nday,2,2)), 3) & " " & right(newYear, 2) '& "<br> Fm "& firstdayOfFirstWeekThis & "<br>Lm"& firstdayOfLastWeekThis & "<br>=="& dividerThisMth(month(nday))  'nday & " D:" & dividerThisMth(month(nday))'
+				'tdvalThis = left(monthname(datepart("m", nday,2,2)), 3) & " " & right(newYear, 2) '& "<br> Fm "& firstdayOfFirstWeekThis & "<br>Lm"& firstdayOfLastWeekThis & "<br>=="& dividerThisMth(month(nday))  'nday & " D:" & dividerThisMth(month(nday))'
+                tdvalThis = ndayTxt
                 end select
 				    
                 
@@ -186,11 +201,12 @@ sub datoeroverskrift(val)
 			
 			if val <> 2 AND cint(visStatus) = 1 then
 			%>
-            <td bgcolor="#ffffff" style="padding:3px 3px 3px 3px; white-space:nowrap;">Budget job<br /><span style="font-size:10px; color:#999999;">timer, beløb og rest.</span></td>
-			<td bgcolor="#ffffff" style="padding:3px 3px 3px 3px; white-space:nowrap;">Forecast<br /><span style="font-size:10px; color:#999999;">ialt (uanset valgt periode)</span></td>
-				<td bgcolor="#ffffff" style="padding:3px 3px 3px 3px; white-space:nowrap;">Realiseret<br /><span style="font-size:10px; color:#999999;">ialt (uanset valgt periode)</span></td>
-                <td bgcolor="#ffffff" style="padding:3px 3px 3px 3px; white-space:nowrap;">Saldo forecast/real.<br /><span style="font-size:10px; color:#999999;">saldo  (uanset valgt periode)</span></td>
-			<%end if
+            <td bgcolor="#ffffff" style="padding:3px 3px 3px 3px; white-space:nowrap;"><%=resbelaeg_txt_097 %><br /><span style="font-size:10px; color:#999999;"><%=resbelaeg_txt_098 %></span></td>
+			<td bgcolor="#ffffff" style="padding:3px 3px 3px 3px; white-space:nowrap;"><%=resbelaeg_txt_099 %><br /><span style="font-size:10px; color:#999999;"><%=resbelaeg_txt_100 %></span></td>
+				<td bgcolor="#ffffff" style="padding:3px 3px 3px 3px; white-space:nowrap;"><%=resbelaeg_txt_101 %><br /><span style="font-size:10px; color:#999999;"><%=resbelaeg_txt_102 %></span></td>
+                <td bgcolor="#ffffff" style="padding:3px 3px 3px 3px; white-space:nowrap;"><%=resbelaeg_txt_103 %><br /><span style="font-size:10px; color:#999999;"><%=resbelaeg_txt_104 %></span></td>
+			<% 
+            end if
 	
 	end sub
 	
@@ -265,16 +281,16 @@ sub datoeroverskrift(val)
                      if periodeSel = 3 then
                     datoOskrift = "Uge "& csvDatoerUge(y) &" - "& left(monthname(csvDatoerMD(y)), 3) &" "& csvDatoerAR(y)  
 
-                    csvTxtTopMd = csvTxtTopMd & datoOskrift &" Forecast " & timerProcExt &";"
+                    csvTxtTopMd = csvTxtTopMd & datoOskrift &" "& resbelaeg_txt_099  &" "& timerProcExt &";"
                     else
                     datoOskrift = left(monthname(csvDatoerMD(y)), 3) &" "& csvDatoerAR(y) 
 
-                    csvTxtTopMd = csvTxtTopMd & datoOskrift &" Forecast "& timerProcExt &";"
+                    csvTxtTopMd = csvTxtTopMd & datoOskrift &" "& resbelaeg_txt_099 &" "& timerProcExt &";"
                     end if
 					
 
                        if cint(expvisreal) = 1 then
-                        csvTxtTopMd = csvTxtTopMd & "Real. timer "& datoOskrift &";"
+                        csvTxtTopMd = csvTxtTopMd & resbelaeg_txt_119 &" "& datoOskrift &";"
                        end if
 
                  call datoogDivider(nday)
@@ -396,7 +412,7 @@ sub datoeroverskrift(val)
                 end if
 
 
-				timerTxt = timerTxt & "<td valign=bottom style='padding:2px 2px 2px 2px; color:#5582d2; font-size:10px; line-height:12px;'><span style='color:#999999;'>n: "& normtimerperThisM &" t.</span>"
+				timerTxt = timerTxt & "<td valign=bottom style='padding:2px 2px 2px 2px; color:#5582d2; font-size:10px; line-height:12px;'><span style='color:#999999;'>n: "& normtimerperThisM &" "& resbelaeg_txt_075 & "</span>"
 
                 resttimerThisM = 0
                 resttimerThisM = (normtimerperThisM - medarbTotalTimer(y))
@@ -429,22 +445,22 @@ sub datoeroverskrift(val)
                 end if
 
                 timerTxt = timerTxt &"<div style='height:"& thishgt &"px; background-color:"& thisBgc &"; padding:2px; color:#000000; line-height:10px;'>" 
-                timerTxt = timerTxt &"f: <b>"& formatnumber(medarbTotalTimer(y), 0)&"</b> t. <span style=""font-size:8px; color:#000000""> ("& formatnumber(belagProcM, 0) &"%) </span>" 
+                timerTxt = timerTxt &"f: <b>"& formatnumber(medarbTotalTimer(y), 0)&"</b>" & resbelaeg_txt_075 & "<span style=""font-size:8px; color:#000000""> ("& formatnumber(belagProcM, 0) &"%) </span>" 
                 if medarbTotalProc(y) > 50 then 'vis saldo når der er brugt mere end 50%
-                timerTxt = timerTxt &"<br><u>s: "& formatnumber(resttimerThisM, 0)&" t.</u>"
+                timerTxt = timerTxt &"<br><u>s: "& formatnumber(resttimerThisM, 0)&" "& resbelaeg_txt_075 & "</u>"
                 end if
                 timerTxt = timerTxt &"</div>"
 
 
                 else
 
-                timerTxt = timerTxt &"<br>f: "& formatnumber(medarbTotalTimer(y), 0)&" t. "
+                timerTxt = timerTxt &"<br>f: "& formatnumber(medarbTotalTimer(y), 0)&" "& resbelaeg_txt_075 & " "
                 
                 if belagProcM <> 0 then
                 timerTxt = timerTxt &"<span style=""font-size:9px; color:#999999;""> ("& formatnumber(belagProcM, 0) &"%) </span>"
                 end if
 
-                timerTxt = timerTxt &"<br><u>s: "& formatnumber(resttimerThisM, 0)&" t. </u>"
+                timerTxt = timerTxt &"<br><u>s: "& formatnumber(resttimerThisM, 0)&" "& resbelaeg_txt_075 &"</u>"
 
                 end if
 
@@ -462,7 +478,7 @@ sub datoeroverskrift(val)
                  
                  if cint(vis_simpel) <> 2 AND periodesel <> 3 then
                  timerTxt = timerTxt &"</br>"
-                 timerTxt = timerTxt &" r: "&formatnumber(medarbTimerReal(y), 0)&" t. "
+                 timerTxt = timerTxt &" r: "&formatnumber(medarbTimerReal(y), 0)&" "& resbelaeg_txt_075 & " "
                 
                  if formatnumber(afvThiMtot,0) <> 0 AND formatnumber(afvThiMtot,0) <> 100 then
                  'timerTxt = timerTxt &" afv.: "& formatnumber(afvThiMtot,0) &"%"
@@ -504,11 +520,11 @@ sub datoeroverskrift(val)
                 end if  %>
 					<tr class="xmedtotal" bgcolor="<%=bgmTot %>">	
                        
-						<td height=20 align=right valign="top" style="padding:2px 5px 2px 2px; color:<%=bgmfnt%>;">Total <%=mNavnTot %><br /><span style="font-size:9px;">Norm, Real.</font></td>
+						<td height=20 align=right valign="top" style="padding:2px 5px 2px 2px; color:<%=bgmfnt%>;"><%=resbelaeg_txt_105 %> <%=mNavnTot %><br /><span style="font-size:9px;"><%=resbelaeg_txt_106 %></font></td>
                          <td style="padding:2px 5px 2px 5px;" valign="top">
 
                              <%if cint(vis_simpel) = 2 then %>
-                             <span id="sp_medarbjoblist_<%=lastxmid%>" class="sp_medarbjoblist" style="color:<%=bgmfnt%>;"><b>[+] Vis alle</b></span> <%=thisMedarbJoblist %>
+                             <span id="sp_medarbjoblist_<%=lastxmid%>" class="sp_medarbjoblist" style="color:<%=bgmfnt%>;"><b>[+] <%=resbelaeg_txt_107 %></b></span> <%=thisMedarbJoblist %>
                              <%else %>
                              &nbsp;
                              <%end if %>
@@ -610,11 +626,11 @@ sub datoeroverskrift(val)
 				timerTxtJob = timerTxtJob & "<td bgcolor=snow style='padding:2px 2px 2px 2px; font-size:10px; color:#999999;'>"
                 
                 if timerMJobTotal(y) <> 0 then
-                timerTxtJob = timerTxtJob & "f: " & formatnumber(timerMJobTotal(y), 0) & " t. "' ("& formatnumber(procMJobTotal(y), 0) & "%)" ' antanlJoblinierprM 'antalJobAktMedlinier 
+                timerTxtJob = timerTxtJob & "f: " & formatnumber(timerMJobTotal(y), 0) & " " & resbelaeg_txt_075 & " " ' ("& formatnumber(procMJobTotal(y), 0) & "%)" ' antanlJoblinierprM 'antalJobAktMedlinier 
                 end if
                 
                 if realMJobTotal(y) <> 0 AND media <> "print" then
-                timerTxtJob = timerTxtJob &"<br><span style=""font-size:10px;"">r: "&formatnumber(realMJobTotal(y), 0)&" t. " 'afv.: "& formatnumber(afvThisJob,0) &"% </span>"
+                timerTxtJob = timerTxtJob &"<br><span style=""font-size:10px;"">r: "&formatnumber(realMJobTotal(y), 0)&" " & resbelaeg_txt_075 & " " 'afv.: "& formatnumber(afvThisJob,0) &"% </span>"
                 else
                 timerTxtJob = timerTxtJob & "<br>&nbsp;"
                 end if
@@ -636,7 +652,7 @@ sub datoeroverskrift(val)
 				if timersumJob <> 0 then%>
 					<tr class="xjobtotal">
                       
-						<td height=20 bgcolor="snow" align=right style="padding:2px 5px 2px 2px; color:#999999;">Total forecast job: <span style="font-size:9px;"><br /> Real.</span></td>
+						<td height=20 bgcolor="snow" align=right style="padding:2px 5px 2px 2px; color:#999999;"><%=resbelaeg_txt_108 %>: <span style="font-size:9px;"><br /> <%=resbelaeg_txt_055 %></span></td>
                             <td bgcolor="snow">&nbsp;</td>
 
                           <%if cint(visRamme) = 1 then %>
@@ -723,11 +739,11 @@ sub datoeroverskrift(val)
 				timerTxt = timerTxt & "<td bgcolor=#F7F7F7 valign=top class=lille style='padding:2px 2px 2px 2px'>"
                 
                 if fcGrandtotal(y) <> 0 then
-                timerTxt = timerTxt & "<b>f: "&formatnumber(fcGrandtotal(y), 0)&"</b> t. "' (" &formatnumber(fpGrandtotal(y)/gtmedarblinier, 0)&"%)"
+                timerTxt = timerTxt & "<b>f: "&formatnumber(fcGrandtotal(y), 0)&"</b>" & resbelaeg_txt_075 & " "' (" &formatnumber(fpGrandtotal(y)/gtmedarblinier, 0)&"%)"
                 end if
                 
                 if realGrandtotal(y) <> 0 AND media <> "print" then
-                timerTxtJob = timerTxtJob &"<br><span style=""font-size:9px;"">r: "&formatnumber(realGrandtotal(y), 0)&" t.</span>"
+                timerTxtJob = timerTxtJob &"<br><span style=""font-size:9px;"">r: "&formatnumber(realGrandtotal(y), 0)&" "& resbelaeg_txt_075 &"</span>"
                 else
                 timerTxtJob = timerTxtJob & "<br>&nbsp;"
                 end if
@@ -747,7 +763,7 @@ sub datoeroverskrift(val)
                 %>
 					<tr>	
                       
-						<td height=20 bgcolor="#F7F7F7" align=right style="padding:2px 5px 2px 2px;"><b>Grandtotal:</b><font class=megetlillesort><br /> Real.</font></td>
+						<td height=20 bgcolor="#F7F7F7" align=right style="padding:2px 5px 2px 2px;"><b><%=resbelaeg_txt_118 %>:</b><font class=megetlillesort><br /> <%=resbelaeg_txt_055 %></font></td>
                           <td bgcolor="#F7F7F7">&nbsp;</td>
 
                         <%if cint(visRamme) = 1 then %>
@@ -996,11 +1012,11 @@ sub datoeroverskrift(val)
 				
 				<tr id="newline_<%=usemrn%>" style="left:5px; top:5px; visibility:hidden; display:none; background-color:#FFFFe1; padding:3px; border:1px #999999 solid;">
                    
-				<td colspan="2" style="padding:2px 5px 4px 5px;"><b>Tilføj nyt forecast:</b>
+				<td colspan="2" style="padding:2px 5px 4px 5px;"><b><%=resbelaeg_txt_109 %>:</b>
 				
                  
 				<br /><select id="selFM_jobid_<%=usemrn%>" name="selFM_jobid" style="width:365px;" onChange="setjobidval('<%=usemrn%>')" class="tilfoj_ny_job">
-                        <option value=0>Vælg job .. (fra pers. aktivliste, uden forecast)</option>
+                        <option value=0><%=resbelaeg_txt_110 %></option>
                  <%
                  
                 
@@ -1084,9 +1100,9 @@ sub datoeroverskrift(val)
                             
 								
 								if j = 0 then%>
-								<option value=0>Ingen aktive job, hvor du har adgang til</option>
-								<option value=0>at angive forecast for den valgte medarbejder.</option>
-                                <option value=0>Eller forecast er allerede angivet.</option>
+								<option value=0><%=resbelaeg_txt_111 %></option>
+								<option value=0><%=resbelaeg_txt_112 %></option>
+                                <option value=0><%=resbelaeg_txt_113 %></option>
                                 
                                 
 
@@ -1100,7 +1116,7 @@ sub datoeroverskrift(val)
 
                                  &nbsp;&nbsp;<a href="#" id="hnl_<%=usemrn%>" class="red">[X]</a>
                                 <%if (cint(session("mid")) = cint(usemrn) OR level = 1) then%>
-				            <br /><a href="javascript:popUp('guiden_2006.asp?mid=<%=usemrn%>&lc=res','700','500','150','120');" target="_self"; class=vmenu>Personlig aktiv jobliste >> </a>
+				            <br /><a href="javascript:popUp('guiden_2006.asp?mid=<%=usemrn%>&lc=res','700','500','150','120');" target="_self"; class=vmenu><%=resbelaeg_txt_114 %> >> </a>
 				            <%end if %>
 								</td>
 
@@ -1211,7 +1227,7 @@ sub datoeroverskrift(val)
                 <td bgcolor="#FFFFFF" >&nbsp;</td>
 
                     
-				<td style="padding:2px 5px 4px 5px; font-size:11px;">Tilføj nyt forecast på<br />
+				<td style="padding:2px 5px 4px 5px; font-size:11px;"><%=resbelaeg_txt_115 %><br />
                 <b><%=jobnavnid %>:</b>&nbsp;<a href="#" id="jnl_<%=jobid %>_<%=medidNL%>" class="red_j" style="font-size:11px; color:red;">[X]</a>
 				<br />
                 <input id="Hidden11" name="selFM_jobid" value="<%=jobidNL%>" type="hidden" />
@@ -1250,8 +1266,8 @@ sub datoeroverskrift(val)
                     aktText = ""
                    %>
                     <select class="aaNLFM_jobid" id="aaNLFM_jobid_<%=jobid %>_<%=medidNL %>" name="sFM_aktid" style="width:100px;">
-                    <option value="0">(uspecificeret)</option>
-                    <option value="0">Vælg aktivitet..?</option>
+                    <option value="0">(<%=resbelaeg_txt_051 %>)</option>
+                    <option value="0"><%=resbelaeg_txt_116 %>..?</option>
                     <%
                   
                     oRec4.open strSQLa, oConn, 3
@@ -1419,7 +1435,7 @@ sub datoeroverskrift(val)
         <%if media <> "print" then 
         call positiv_aktivering_akt_fn()
         if cint(pa_aktlist) = 1 then%>
-               <br /><a href="#" id="anl_<%=mid%>" class="rodstor">Tilføj forecast på job +</a> 
+               <br /><a href="#" id="anl_<%=mid%>" class="rodstor"><%=resbelaeg_txt_117 %> +</a> 
         <%end if %>
 
         <%else %>

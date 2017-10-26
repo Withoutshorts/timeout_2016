@@ -318,42 +318,20 @@ if len(session("user")) = 0 then
         varTjDatoUS_son = dateAdd("d", 6, afslutuge_uge(m))
         varTjDatoUS_sonSQL = year(varTjDatoUS_son)&"/"&month(varTjDatoUS_son)&"/"&day(varTjDatoUS_son)
 
-        '*** NÅR LM Godkender HR hos TIA må fakturerbare ikke godkendes
-        SELECT CASE lto
-        case "tia"
-        strSQLKriEks = " AND tfaktim <> 1 AND tjobnr = 'ABS1000'"
-        case else
-        strSQLKriEks = ""
-        end select
-
-        godkendtdato = Year(now) &"-"& Month(now) &"-"& Day(now)
+       
+        '*** Godkender Timer i DB
+        call godkenderTimeriUge(afslutuge_medid(m), varTjDatoUS_manSQL, varTjDatoUS_sonSQL, SmiWeekOrMonth)
 	    
-        '** GODKENDER TIMERNE DER ER INDTASTET
-	    strSQLup = "UPDATE timer SET godkendtstatus = 1, godkendtstatusaf = '"& session("user") &"', godkendtdato = '"& godkendtdato &"' WHERE tmnr = "& afslutuge_medid(m) 
-	    if cint(SmiWeekOrMonth) = 0 then
-        strSQLup = strSQLup & " AND tdato BETWEEN '"& varTjDatoUS_manSQL &"' AND '" & varTjDatoUS_sonSQL & "'" 
-        else
-        varTjDatoUS_man_mth = datepart("m", varTjDatoUS_man,2,2)
-        strSQLup = strSQLup & " AND MONTH(tdato) = '"& varTjDatoUS_man_mth & "'" 
-        end if
-
-        strSQLup = strSQLup & " AND godkendtstatus <> 1" & strSQLKriEks
-
-
-	    oConn.execute(strSQLup)
+     
 	    
-        'if session("mid") = 1 then
-	    'Response.Write strSQLup
-	    'Response.flush
-        'end if
-        
-        
+       
         '*** Godkend uge status ****'
         call godekendugeseddel(thisfile, session("mid"), afslutuge_medid(m), afslutuge_uge(m))
 
 
         next
 	    
+    'Response.end
 	
 	usemrn = request("usemrn")
     yuse = request("yuse")

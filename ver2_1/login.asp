@@ -844,6 +844,8 @@ else '** POST *****
                    end select
                end if
 
+            
+
                '*** Indlæser tillæg fra AVI DK
                if ((session("mid") = 1 OR session("mid") = 2694 Or session("mid") = 2452 OR session("mid") = 32821 OR session("mid") = 2663) AND (lto = "epi2017" OR lto = "intranet - local")) then    
 
@@ -852,7 +854,7 @@ else '** POST *****
 
                 ddTjkSupplementST = dateAdd("d", -45, now)
                 ddTjkSupplementST = year(ddTjkSupplementST) & "/" & month(ddTjkSupplementST) & "/"& day(ddTjkSupplementST) 
-                strSQLepiAViDKsupplement = "SELECT tid, tdato, sttid, sltid FROM timer WHERE taktivitetnavn = 'Data Collection' AND tdato BETWEEN '"& ddTjkSupplementST &"' AND '"& ddTjkSupplementSL &"' AND sttid <> '00:00:00' AND origin = 12 AND overfort = 0"
+                strSQLepiAViDKsupplement = "SELECT tid, tdato, sttid, sltid FROM timer WHERE taktivitetnavn = 'Data Collection' AND tdato BETWEEN '"& ddTjkSupplementST &"' AND '"& ddTjkSupplementSL &"' AND sttid <> '00:00:00' AND (origin = 11 OR origin = 12) AND overfort = 0"
                 'Local
                 'strSQLepiAViDKsupplement = "SELECT tid, tdato, sttid, sltid FROM timer WHERE tjobnavn = 'A-SK Restest simpel' AND taktivitetnavn = 'Support U/B' AND tdato BETWEEN '2017-06-15' AND '2017-07-01'"
                
@@ -951,7 +953,7 @@ else '** POST *****
                         strSQLTidInsertDEL = "DELETE FROm timer_tmp_for_copy"
                         oConn.execute(strSQLTidInsertDEL)
 
-                        strSQLTidUpdOfort = "UPDATE timer SET overfort = 1 WHERE tid = " & oRec6("tid")
+                        strSQLTidUpdOfort = "UPDATE timer SET overfort = 1, overfortdt = '"& ddTjkSupplementSL &"' WHERE tid = " & oRec6("tid")
                         oConn.execute(strSQLTidUpdOfort)
 
                         strSQLTidUpdNew = "UPDATE timer SET tfaktim = 51, taktivitetnavn = 'Supplement 15', timer = "& addTillaeg &", origin = 112, editor = 'Supplement Copy' WHERE tid = " & lastTid + 1

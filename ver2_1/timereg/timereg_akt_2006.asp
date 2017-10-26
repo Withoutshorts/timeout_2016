@@ -1602,7 +1602,7 @@
                                         ordBySQL =  "a.fase, a.sortorder, a.navn"
 
                                             select case lto
-                                            case "tec"
+                                            case "tec", "dencker"
                                             lmt = "0,200"
                                             case else
                                             lmt = "0,100"
@@ -2133,7 +2133,7 @@
 
                                                                         strSQLres = "SELECT IF(aktid <> 0, SUM(timer), 0) AS restimer, IF(aktid = 0, SUM(timer), 0) AS restimeruspec FROM ressourcer_md WHERE ((jobid = "& job_jid &" AND aktid = "& job_aid &" AND medid = "& usemrn &") OR (jobid = "& job_jid &" AND aktid = 0 AND medid = "& usemrn &")) "& sqlBudgafg &"  GROUP BY aktid, medid" 
                                                                         'if session("mid") = 1 then
-                                                                        'Response.write strSQLres & " aktBudgettjkOnRegAarSt = "& aktBudgettjkOnRegAarSt &" : useDateStSQL : "& useDateStSQL  &" // useDateSlSQL "& useDateSlSQL & "<br>"
+                                                                        'Response.write "<br>"& strSQLres & " aktBudgettjkOnRegAarSt = "& aktBudgettjkOnRegAarSt &" : useDateStSQL : "& useDateStSQL  &" // useDateSlSQL "& useDateSlSQL & "<br>"
                                                                         'Response.end 
                                                                         'end if
 
@@ -2673,7 +2673,7 @@
 
                                             'if t = 100 then
                                             SQldatoX = year(tjekdag(x)) &"/"& month(tjekdag(x)) &"/"& day(tjekdag(x))    
-				                            strSQLtim = "SELECT timer, timerKom, tfaktim, bopal, godkendtstatus, offentlig, sttid, sltid, destination, origin FROM timer WHERE taktivitetid = "& job_aid &" AND tdato = '"& SQldatoX &"' AND tmnr = "& usemrn
+				                            strSQLtim = "SELECT timer, timerKom, tfaktim, bopal, godkendtstatus, offentlig, sttid, sltid, destination, origin, overfort FROM timer WHERE taktivitetid = "& job_aid &" AND tdato = '"& SQldatoX &"' AND tmnr = "& usemrn
 
                                             'Response.Write strSQLtim & "<br><br>"
                                             'Response.end
@@ -2690,6 +2690,7 @@
                                             destinationThis = oRec2("destination")
                                             godkendtstatus = oRec2("godkendtstatus")
                                             origin = oRec2("origin")                              
+                                            overfort = oRec2("overfort")
 
                                                     if len(trim(oRec2("sttid"))) <> 0 then
 		                                                if left(formatdatetime(oRec2("sttid"), 3), 5) <> "00:00" then
@@ -2816,10 +2817,43 @@
 
 								                    call fakfarver(lastfakdato, tjekdag(1), tjekdag(x), erIndlast, usemrn, tfaktimThis, job_tidslass_1, job_tidslass_2, job_tidslass_3, job_tidslass_4, job_tidslass_5, job_tidslass_6, job_tidslass_7, job_tidslass, job_tidslassSt, job_tidslassSl, ignorertidslas, godkendtstatus, job_internt, origin, resforecastMedOverskreddet)
 								                    
+
+
+                                                        '** enkelt timer godkendt/tentativ/afvist
+                                                        select case cint(godkendtstatus)
+                                                        case 0
+                                                        fmborcl = "1px #CCCCCC solid" 'fmborcl
+                                                        case 1
+                                                        fmborcl = "1px yellowgreen solid" 'fmborcl
+                                                        case 3
+                                                        fmborcl = "1px orange solid" 'fmborcl
+                                                        case 2
+                                                            maxl = 5
+	                                                        fmbgcol = "#FFFFFF"
+	                                                        fmborcl = "1px red solid" 'fmborcl
+                                                        end select
+
+                                        
+                                                        select case cint(godkendtstatus)                        
+                                                        case 1,3
+                                                            if cint(level) <> 1 then
+	                                                            maxl = 0
+                                                                fmbgcol = fmbgcol
+	                                                        else
+	                                                            maxl = maxl
+                                                                fmbgcol = "#FFFFFF"
+	                                                        end if
+                                                         end select
+
+                                                         if cint(overfort) = 1 then
+                                                         maxl = 0
+                                                         end if
+
+
                                                     'Response.Write "her  lastfakdato " & lastfakdato
                                                     'Response.end
-                                                    felt = felt & "<td valign='top' bgcolor='"&bgColor&"' style='border-bottom:1px #cccccc solid; border-right:1px #cccccc solid; padding-top:6px;' id='td_"&job_iRowLoops_cn&""&x&"'>"
-								                     
+                                                    felt = felt & "<td valign='top' bgcolor='"&bgColor&"' style='border-bottom:1px #cccccc solid; border-right:1px #cccccc solid; padding-top:11px;' id='td_"&job_iRowLoops_cn&""&x&"'>"
+								                    'felt = felt & "godkendtstatus: " & godkendtstatus 
 								
 								                    if visTimerElTid <> 1 OR (cint(tfaktimThis) <> 1 AND cint(tfaktimThis) <> 2) OR aty_pre <> 0 OR cint(intEasyreg) = 1 then 'OR job_internt <= -1
 								                    '** Alm. timefelt
@@ -2859,7 +2893,7 @@
                                                         felt = felt &"<input type='hidden' name='FM_timer' value='"& timerThis &"'>" 
 								                        end if
 
-                                                        felt = felt &"<div style='position:relative; background-color:"&fmbgcol&"; top:5px; border:0; height:12px; padding:3px; width:"& tfeltwth &"px; font-family:arial; font-size:10px; line-height:12px;'>"& timerThis
+                                                        felt = felt &"<div style='position:relative; background-color:"&fmbgcol&"; border:"&fmborcl&"; height:12px; padding:3px; width:"& tfeltwth &"px; font-family:arial; font-size:10px; line-height:12px;'>"& timerThis
                                 
                                                         if cint(origin) <> 0 then
                                                         felt = felt &"<span style=""font-size:9px; color:#999999;""> ("& timereg_txt_001 &")</span>"
@@ -4069,7 +4103,7 @@
         case "hvk_bbb"
         lmt = " LIMIT 0, 200"
         case "dencker"
-        lmt = " LIMIT 0, 100"
+        lmt = " LIMIT 0, 200"
         case "mi", "intranet - local"
         lmt = " LIMIT 0, 200"
         case "kejd_pb"
@@ -8873,6 +8907,8 @@
      
 
      <div id="timereg_job" style="position:relative; border:0px; top:0px; left:20px; width:740px; visibility:visible; display:; z-index:100">
+
+
     
      <%
     'tTop = 153
@@ -9173,7 +9209,7 @@
     LastJobLoop = 0
     
     
-    'if lto = "glad" AND session("mid") = 1 then
+    'if session("mid") = 1 then
     'response.write strSQL
     'response.flush
     'end if
@@ -9751,10 +9787,10 @@
 			
 			
 			                    '**** Aktiviteterne på hvert job ****'%>
-                                <div id="div_timereg_<%=aktdata(iRowLoop, 4)%>" style="position:relative; background-color:#ffffff; height:<%=dv_akt_hgt%>px; overflow:auto; padding:0px 3px 3px 3px; width:745px; border:0px #8caae6 solid; visibility:<%=job_vzb %>; display:<%=job_dsp%>; z-index:100">
+                                <div id="div_timereg_<%=aktdata(iRowLoop, 4)%>" style="position:relative; top:0px; background-color:#ffffff; height:<%=dv_akt_hgt%>px; overflow:auto; padding:0px 3px 3px 3px; width:745px; border:0px #8caae6 solid; visibility:<%=job_vzb %>; display:<%=job_dsp%>; z-index:100;">
                                 <!-- Henter aktiviteter --->
                                 
-
+                                
                             
                          
                                 <%

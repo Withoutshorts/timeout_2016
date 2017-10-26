@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<sprog>
+
+  <!--- Dansk -->
+  <dk>
+
+    <txt_1 >Godkend job/projekt timer</txt_1>
+    <txt_2 >Projekt/job</txt_2>
+    <txt_3 >Fra</txt_3>
+    <txt_4 >Til</txt_4>
+    <txt_5 >Søg</txt_5>
+    <txt_6 >Medarbejder</txt_6>
+    <txt_7 >Total</txt_7>
+    <txt_8 >Godkendt</txt_8>
+    <txt_9 >Godkend</txt_9>
+    <txt_10 >Godkend projekt timer</txt_10>
+    <txt_11 >Jan</txt_11>
+    <txt_12 >Feb</txt_12>
+    <txt_13 >Mar</txt_13>
+    <txt_14 >Apr</txt_14>
+    <txt_15 >Maj</txt_15>
+    <txt_16 >Jun</txt_16>
+    <txt_17 >Jul</txt_17>
+    <txt_18 >Aug</txt_18>
+    <txt_19 >Sep</txt_19>
+    <txt_20 >Okt</txt_20>
+    <txt_21 >Nov</txt_21>
+    <txt_22 >Dec</txt_22>
+
+  </dk>
+
+
+  <!--- Norsk -->
+  <no>
+
+    <txt_1 >Approve job / project hours</txt_1>
+    <txt_2 >Project / Job</txt_2>
+    <txt_3 >From</txt_3>
+    <txt_4 >To</txt_4>
+    <txt_5 >Search</txt_5>
+    <txt_6 >Employee</txt_6>
+    <txt_7 >Total</txt_7>
+    <txt_8 >Approved</txt_8>
+    <txt_9 >Approve</txt_9>
+    <txt_10 >Approve project hours</txt_10>
+    <txt_11 >Jan</txt_11>
+    <txt_12 >Feb</txt_12>
+    <txt_13 >Mar</txt_13>
+    <txt_14 >Apr</txt_14>
+    <txt_15 >May</txt_15>
+    <txt_16 >Jun</txt_16>
+    <txt_17 >Jul</txt_17>
+    <txt_18 >Aug</txt_18>
+    <txt_19 >Sep</txt_19>
+    <txt_20 >Oct</txt_20>
+    <txt_21 >Nov</txt_21>
+    <txt_22 >Dec</txt_22>
+
+  </no>
+
+
+  <!--- Svensk -->
+  <so>
+
+    <txt_1 >Approve job / project hours</txt_1>
+    <txt_2 >Project / Job</txt_2>
+    <txt_3 >From</txt_3>
+    <txt_4 >To</txt_4>
+    <txt_5 >Search</txt_5>
+    <txt_6 >Employee</txt_6>
+    <txt_7 >Total</txt_7>
+    <txt_8 >Approved</txt_8>
+    <txt_9 >Approve</txt_9>
+    <txt_10 >Approve project hours</txt_10>
+    <txt_11 >Jan</txt_11>
+    <txt_12 >Feb</txt_12>
+    <txt_13 >Mar</txt_13>
+    <txt_14 >Apr</txt_14>
+    <txt_15 >May</txt_15>
+    <txt_16 >Jun</txt_16>
+    <txt_17 >Jul</txt_17>
+    <txt_18 >Aug</txt_18>
+    <txt_19 >Sep</txt_19>
+    <txt_20 >Oct</txt_20>
+    <txt_21 >Nov</txt_21>
+    <txt_22 >Dec</txt_22>
+
+  </so>
+
+
+  <!--- Tysk -->
+  <de>
+
+    <txt_1 >Approve job / project hours</txt_1>
+    <txt_2 >Project / Job</txt_2>
+    <txt_3 >From</txt_3>
+    <txt_4 >To</txt_4>
+    <txt_5 >Search</txt_5>
+    <txt_6 >Employee</txt_6>
+    <txt_7 >Total</txt_7>
+    <txt_8 >Approved</txt_8>
+    <txt_9 >Approve</txt_9>
+    <txt_10 >Approve project hours</txt_10>
+    <txt_11 >Jan</txt_11>
+    <txt_12 >Feb</txt_12>
+    <txt_13 >Mar</txt_13>
+    <txt_14 >Apr</txt_14>
+    <txt_15 >May</txt_15>
+    <txt_16 >Jun</txt_16>
+    <txt_17 >Jul</txt_17>
+    <txt_18 >Aug</txt_18>
+    <txt_19 >Sep</txt_19>
+    <txt_20 >Oct</txt_20>
+    <txt_21 >Nov</txt_21>
+    <txt_22 >Dec</txt_22>
+
+  </de>
+
+
+  <!--- Fransk -->
+  <fr>
+
+    <txt_1 >Approve job / project hours</txt_1>
+    <txt_2 >Project / Job</txt_2>
+    <txt_3 >From</txt_3>
+    <txt_4 >To</txt_4>
+    <txt_5 >Search</txt_5>
+    <txt_6 >Employee</txt_6>
+    <txt_7 >Total</txt_7>
+    <txt_8 >Approved</txt_8>
+    <txt_9 >Approve</txt_9>
+    <txt_10 >Approve project hours</txt_10>
+    <txt_11 >Jan</txt_11>
+    <txt_12 >Feb</txt_12>
+    <txt_13 >Mar</txt_13>
+    <txt_14 >Apr</txt_14>
+    <txt_15 >May</txt_15>
+    <txt_16 >Jun</txt_16>
+    <txt_17 >Jul</txt_17>
+    <txt_18 >Aug</txt_18>
+    <txt_19 >Sep</txt_19>
+    <txt_20 >Oct</txt_20>
+    <txt_21 >Nov</txt_21>
+    <txt_22 >Dec</txt_22>
+
+  </fr>
+
+
+
+  <!-- Engelsk -->
+  <uk>
+
+    <txt_1 >Approve job / project hours</txt_1>
+    <txt_2 >Project / Job</txt_2>
+    <txt_3 >From</txt_3>
+    <txt_4 >To</txt_4>
+    <txt_5 >Search</txt_5>
+    <txt_6 >Employee</txt_6>
+    <txt_7 >Total</txt_7>
+    <txt_8 >Approved</txt_8>
+    <txt_9 >Approve</txt_9>
+    <txt_10 >Approve project hours</txt_10>
+    <txt_11 >Jan</txt_11>
+    <txt_12 >Feb</txt_12>
+    <txt_13 >Mar</txt_13>
+    <txt_14 >Apr</txt_14>
+    <txt_15 >May</txt_15>
+    <txt_16 >Jun</txt_16>
+    <txt_17 >Jul</txt_17>
+    <txt_18 >Aug</txt_18>
+    <txt_19 >Sep</txt_19>
+    <txt_20 >Oct</txt_20>
+    <txt_21 >Nov</txt_21>
+    <txt_22 >Dec</txt_22>
+
+  </uk>
+
+
+  <!--- Spansk -->
+  <es>
+
+    <txt_1 >Approve job / project hours</txt_1>
+    <txt_2 >Project / Job</txt_2>
+    <txt_3 >From</txt_3>
+    <txt_4 >To</txt_4>
+    <txt_5 >Search</txt_5>
+    <txt_6 >Employee</txt_6>
+    <txt_7 >Total</txt_7>
+    <txt_8 >Approved</txt_8>
+    <txt_9 >Approve</txt_9>
+    <txt_10 >Approve project hours</txt_10>
+    <txt_11 >Jan</txt_11>
+    <txt_12 >Feb</txt_12>
+    <txt_13 >Mar</txt_13>
+    <txt_14 >Apr</txt_14>
+    <txt_15 >May</txt_15>
+    <txt_16 >Jun</txt_16>
+    <txt_17 >Jul</txt_17>
+    <txt_18 >Aug</txt_18>
+    <txt_19 >Sep</txt_19>
+    <txt_20 >Oct</txt_20>
+    <txt_21 >Nov</txt_21>
+    <txt_22 >Dec</txt_22>
+
+  </es>
+
+
+</sprog>

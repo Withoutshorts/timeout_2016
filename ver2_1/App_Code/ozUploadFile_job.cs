@@ -124,8 +124,8 @@ public class ozUploadFileJob
         if (ltoIn == "outz" || ltoIn == "intranet - local")
             ltoIn = "intranet";
 
-        if (ltoIn == "dencker")
-            ltoIn = "dencker_test";
+        //if (ltoIn == "dencker")
+        //    ltoIn = "dencker_test";
 
         //changed back to this query instead of the one below on purpose 01-17-2014 by Lei
         string strSelect = "SELECT init FROM medarbejdere where mid = "+midIn; 
@@ -237,8 +237,8 @@ public class ozUploadFileJob
         if (folder == "outz" || folder == "intranet - local")
             folder = "intranet";
 
-        if (folder == "dencker")
-            folder = "dencker_test";
+        //if (folder == "dencker")
+        //    folder = "dencker_test";
 
         string conn = "driver={MySQL ODBC 3.51 Driver};server=194.150.108.154; Port=3306; uid=outzource; pwd=SKba200473; database=timeout_" + folder + ";";
 
@@ -285,8 +285,8 @@ public class ozUploadFileJob
         if (folder == "outz" || folder == "intranet - local")
             folder = "intranet";
 
-        if (folder == "dencker")
-            folder = "dencker_test";
+        // if (folder == "dencker")
+        //     folder = "dencker_test";
 
         string conn = "driver={MySQL ODBC 3.51 Driver};server=194.150.108.154; Port=3306; uid=to_outzource2; pwd=SKba200473; database=timeout_" + folder + ";";
 
@@ -414,8 +414,8 @@ public class ozUploadFileJob
         if (folderIn == "outz" || folderIn == "intranet - local")
             folderIn = "intranet";
 
-        if (folderIn == "dencker")
-            folderIn = "dencker_test";
+        //if (folderIn == "dencker")
+        //    folderIn = "dencker_test";
 
         //Move file
         string path = pathIn + fileIn;
@@ -432,8 +432,8 @@ public class ozUploadFileJob
         if (folderIn == "outz" || folderIn == "intranet - local")
             folderIn = "intranet";
 
-        if (folderIn == "dencker")
-            folderIn = "dencker_test";
+        //if (folderIn == "dencker")
+        //folderIn = "dencker_test";
 
         string sqlIn = "UPDATE timer_import_temp SET Overfort=1 WHERE lto='" + folderIn + "' AND editor='" + editorIn + "'";
         using (OdbcConnection connection = new OdbcConnection("driver={MySQL ODBC 3.51 Driver};server=194.150.108.154; Port=3306; uid=outzource; pwd=SKba200473; database=timeout_" + folderIn + ";"))
@@ -453,8 +453,8 @@ public class ozUploadFileJob
         if (ltoIn == "outz" || ltoIn == "intranet - local")
             ltoIn = "intranet";
 
-        if (ltoIn == "dencker")
-            ltoIn = "dencker_test";
+        //if (ltoIn == "dencker")
+        //    ltoIn = "dencker_test";
 
         string strRet = string.Empty;
         //importtype = "D9";

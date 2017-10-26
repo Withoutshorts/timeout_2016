@@ -782,10 +782,13 @@ case 186
 varErrorText = "Du mangler at vælge enten eksisterende aktivitet eller ny aktivitet.<br><br>Dato er ikke angivet i et gyldigt datoformat."
 
 case 187 
-varErrorText = "<b>Forecast er overskreddet på aktivitet!.</b><br><br> Der er tastet/tilføjet: "& timerthisTjkFc & " timer.<br> Tastet før på denne dag: "& timer_opr &" timer. <br>Saldo: " & feltTxtValFc & " timer."
+varErrorText = "<b>Forecast er overskreddet på aktivitet!.</b><br><br> Der er tastet/tilføjet: "& timerthisTjkFc & " timer på jobnr: "& Tjkjobnr &" .<br> Tastet før på denne dag: "& timer_opr &" timer. <br>Saldo: " & feltTxtValFc & " timer."
 
 case 188
 varErrorText = "En AKTIV medarbejder med de valgte <b>Initialer</b> eksisterer allerede. <br><br>Vælg en anden kombination af initialer."
+
+case 189
+varErrorText = "Du mangler at angive en eller flere af følgende felter:<br> - Evaluering<br> - Timer<br>- Timepris<br> - Kommentar"
 
 case else
 varErrorText = errortype

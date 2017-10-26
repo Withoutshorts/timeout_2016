@@ -381,18 +381,21 @@ btomsBasisCurSikret = 0
 end if
 
 
-        select case oRec("jobstatus")
-        case 0
-        jobStatusTxt = "Lukket"
-        case 1
-        jobStatusTxt = "Aktiv"
-        case 2
-        jobStatusTxt = "Passiv / Til fakturering"
-        case 3
-        jobStatusTxt = "Tilbud"
-        case 4
-        jobStatusTxt = "Gennemsyn"
-        end select
+        'select case oRec("jobstatus")
+        'case 0
+        'jobStatusTxt = "Lukket"
+        'case 1
+        'jobStatusTxt = "Aktiv"
+        'case 2
+        'jobStatusTxt = "Passiv / Til fakturering"
+        'case 3
+        'jobStatusTxt = "Tilbud"
+        'case 4
+        'jobStatusTxt = "Gennemsyn"
+        'end select
+
+        call jobstatus_fn(oRec("jid"), oRec("jobstatus"), 0)
+        jobStatusTxt = jobstatus_fn_txt
 
     '*** INVOICED BASSIS CURRENCY ****
     strSQlfaktot = "SELECT SUM(if (f.faktype = 0, f.beloeb * (f.kurs / 100), f.beloeb * -1 * (f.kurs / 100)) ) AS faktureret, SUM(if (f.faktype = 0, f.beloeb, f.beloeb * -1) ) AS faktureret_invval, f.valuta  "_

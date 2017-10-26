@@ -189,7 +189,7 @@
 	&" f.istdato, momskonto, visperiode, istdato2, brugfakdatolabel, "_
 	&" vorref, fak_ski, momssats, modtageradr, showmatasgrp, hidesumaktlinier, "_
 	&" sideskiftlinier, f.subtotaltilmoms, labeldato, fak_abo, fak_ubv, visikkejobnavn, hidefasesum, "_
-    &" hideantenh, medregnikkeioms, afsender, vis_jobbesk, kontonr_sel, usealtadr, fak_fomr"_
+    &" hideantenh, medregnikkeioms, afsender, vis_jobbesk, kontonr_sel, usealtadr, fak_fomr, fak_rekvinr"_
 	&" FROM fakturaer f "_
 	&" LEFT JOIN "& strSQL_lftJ &""_
 	&" LEFT JOIN valutaer v ON (v.id = f.valuta) WHERE fid = "& id
@@ -257,8 +257,15 @@
 	    strJobBesk = oRec("jobbesk")
     	buyersordId = intJobnr
 
-	    if trim(len(oRec("rekvnr"))) <> 0 then
-	    rekvnr = oRec("rekvnr")
+	    if len(trim(oRec("fak_rekvinr"))) <> 0 OR len(trim(oRec("rekvnr"))) <> 0 then
+
+            if cdate(oRec("fakdato")) <= cDate("14-06-2017") then
+            rekvnr = oRec("rekvnr") '&"/"& oRec("fakdato")
+            else
+            rekvnr = oRec("fak_rekvinr") '& cdate(oRec("fakdato")) 'oRec("rekvnr")
+            end if
+
+	    
         buyersordId = rekvnr
 	    else
 	    rekvnr = "0"
@@ -644,7 +651,7 @@
 	strSQL = "SELECT Kid, kkundenavn, kkundenr, adresse, postnr, city, land, telefon, cvr, ean FROM kunder WHERE Kid = " & intKundeid		
 	end if
 
-        'if session("mid") = 1 AND lto = "nt" then
+        'if session("mid") = 1 then
         'response.write strSQL
         'response.flush
         'end if
@@ -1946,51 +1953,18 @@
 		slutdato = request("FM_slut_aar_ival") &"/"& request("FM_slut_mrd_ival") &"/"& request("FM_slut_dag_ival")  
 		
 
+        
+
         '**** Kasserapport BF '*** 20170313
         '**** Henter altid fakturalinjer på medarbejdere til kasserapport
         if lto = "bf" OR lto = "intranet - local" then
         viskunfakturalinjer = id
         call joblog(jobid, stdatoKri, slutdato, aftid, viskunfakturalinjer)
-        end if
 
 
-		
-		'*** Joblog ****
-		if visjoblog = 1 then%>
-		
-		<!-- joblog -->
-		
-	    <div id="joblog" style="position:relative; width:<%=gblWdt%>px; left:10px; top:250px; visibility:visible; page-break-before:always; background-color:#FFFFFF; border:0px #8caae6 solid; padding:10px 10px 10px 10px;">
-		<table width="100%" border="0" cellspacing="0" cellpadding="0">
-		<tr>
-			<td colspan=6>
-                <%'if lto = "acc" then
-            'Response.write "her " & jobid &", "& stdatoKri &","& slutdato &","& aftid 
-            'end if %>
-                <h4><%=txt_038 %></h4></td>
-		</tr>
-		
-		
-		<%  
-        select case lto 
-        case "bf", "intranet - local"
-        viskunfakturalinjer = 0 'id
-        case else
-        viskunfakturalinjer = 0 
-        end select
-        
-		call joblog(jobid, stdatoKri, slutdato, aftid, viskunfakturalinjer)
-		%>
-		
-		</table>
-         
-		</div>
-
-        <%
-         '******************* Kasseklade Eksport **************************' 
-                if lto = "bf" OR lto = "intranet - local" then
-            
-
+              
+                '******************* Kasseklade Eksport **************************' 
+              
                     call TimeOutVersion()
     
                     ekspTxt = replace(ekspTxt_kk, "xx99123sy#z", vbcrlf)
@@ -2023,7 +1997,48 @@
 				
 				               
 
-                end if 'media%>
+        end if 'LTO
+
+      
+
+
+
+
+
+		'*******************************************************
+		'*** Joblog ****
+		'*******************************************************
+        if visjoblog = 1 then%>
+		
+		<!-- joblog -->
+		
+	    <div id="joblog" style="position:relative; width:<%=gblWdt%>px; left:10px; top:250px; visibility:visible; page-break-before:always; background-color:#FFFFFF; border:0px #8caae6 solid; padding:10px 10px 10px 10px;">
+		<table width="100%" border="0" cellspacing="0" cellpadding="0">
+		<tr>
+			<td colspan=6>
+                <%'if lto = "acc" then
+            'Response.write "her " & jobid &", "& stdatoKri &","& slutdato &","& aftid 
+            'end if %>
+                <h4><%=txt_038 %></h4></td>
+		</tr>
+		
+		
+		<%  
+        select case lto 
+        case "bf", "intranet - local"
+        viskunfakturalinjer = 0 'id
+        case else
+        viskunfakturalinjer = 0 
+        end select
+        
+		call joblog(jobid, stdatoKri, slutdato, aftid, viskunfakturalinjer)
+		%>
+		
+		</table>
+         
+		</div>
+
+        
 
 		
 		<br><br>&nbsp;
@@ -2119,20 +2134,21 @@
 	    
 	    case else
 	    %>
-	   
+	   <!--
 	    <b><%=erp_txt_226 %></b><br />
-            <form><%=erp_txt_227 %> <input type="text" id="FM_sogkpers" /><input id="bt_sogkpers" type="button" value=">>" /></form>
-		
+            <form><%=erp_txt_227 %> <input type="text" id="FM_sogkpers" /><input id="bt_sogkpers" type="button" value=">>" /></form>-->
+		Contacts:<br />
             <div id="kpers_div"><%
 		
 		'pdfurl = "d:\\webserver\wwwroot\timeout_xp\wwwroot\ver2_1\inc\upload\"&lto&"\faktura_"&lto&"_"&faknr&".pdf"
 	    
 		
 		'strSQL = "SELECT navn, email, titel FROM kontaktpers WHERE kundeid = " & kid
-        strSQL = "SELECT kp.navn, kp.email, kp.titel, k.kid, k.kkundenavn FROM kontaktpers AS kp "_
+        strSQL = "SELECT kp.navn, kp.email, kp.titel, k.kid, k.kkundenavn, kp.id AS kpid FROM kontaktpers AS kp "_
         &" LEFT JOIN kunder AS k on (k.kid = kp.kundeid) "_
-        &" WHERE kundeid = "& kid &" ORDER BY k.kkundenavn, kp.navn" 
+        &" WHERE kp.kundeid = "& intKundeid &" ORDER BY k.kkundenavn, kp.navn" 
 		
+         'kid
          lastKid = 0
 		'Response.Write strSQL 
 		'Response.Flush
@@ -2141,18 +2157,27 @@
         while not oRec.EOF
 
         if lastKid <> oRec("kid") then
-        Response.Write "<br><br><b>"& oRec("kkundenavn") & "</b><br>"
+            if lastKid <> 0 then
+            Response.Write "<br><br>"
+            end if
+                
+        Response.Write "<b>"& oRec("kkundenavn") & "</b><br>"
         end if
 
-        Response.Write "<i>"& oRec("navn") & "</i> "
+       ' Response.Write "<i>"& oRec("navn") & "</i> "
         
         if len(trim(oRec("titel"))) <> 0 then
-        Response.Write " ("& oRec("titel") &") "
+        titel = "("& oRec("titel") &") "
+        else
+        titel = ""
         end if
         
         
-        Response.Write " <a href='mailto:"&oRec("email")&"&subject=Faktura: "& varFaknr &"' class=vmenu>" & oRec("email") & "</a><br>"
-        
+        Response.Write "[Email: <a href='mailto:"&oRec("email")&"&subject=Invoice: "& varFaknr &"' class=vmenu>" &  oRec("navn") &" "& titel &"</a>] - "
+        %>
+        [<a href="#" onclick="Javascript:window.open('erp_make_pdf_multi.asp?fakids=<%="0, "&id%>&lto=<%=lto%>&doctype=pdfxml&makepdf=1&kpid=<%=oRec("kpid") %>', '', 'width=350,height=160,resizable=no,scrollbars=no')" class=rmenu>Send PDF</a>]<br>
+        <%
+
         lastKid = oRec("kid") 
 
         oRec.movenext
@@ -2160,7 +2185,7 @@
         oRec.close
 		%>
         </div>
-		<br /><%=erp_txt_228 %>
+		<!--<br /><%=erp_txt_228 %>-->
 		
 		<%end select %>	
 		

@@ -1,4 +1,8 @@
 <%'GIT 20160811 - SK
+
+
+
+'****** AKT LISTEN under BUDGET PÅ JOB
 public aktFaseSum
 dim strStamgrp_pb
 redim strStamgrp_pb(100,5), aktFaseSum(100)
@@ -163,7 +167,7 @@ fsnavn = ""
 			        wend
 			        oRec3.close
 			         
-			         strStamgrp_pb(lastaktFavorit,a) = strStamgrp_pb(lastaktFavorit,a) &"<tr><td colspan=10 style='padding:5px 5px 10px 5px;' align=right><input class=""overfortiljob_a"" type=""button"" value="""&job_txt_555&" >>"" style=""font-family:arial; font-size:9px;"" />"
+			         strStamgrp_pb(lastaktFavorit,a) = strStamgrp_pb(lastaktFavorit,a) &"<tr><td colspan=10 style='padding:5px 5px 10px 5px;' align=right><input class=""overfortiljob_a"" type=""button"" value="""& job_txt_555 &" >>"" style=""font-family:arial; font-size:9px;"" />"
 			         strStamgrp_pb(lastaktFavorit,a) = strStamgrp_pb(lastaktFavorit,a) & "<input id=""Text1"" type=""hidden"" value="& aktFaseSumtot &" /></td></tr></table></td>"
 			       
 			        aktFaseSum(lastaktFavorit) = aktFaseSumtot
@@ -3761,14 +3765,23 @@ sub minioverblik
 
             </td>
 	        <%
-	        call beregnValuta(minus&(oRec2("beloeb")),oRec2("kurs"),100) ' TIL DKK Altid til BASIS val først
+	        
 
-            if cint(jo_valuta) <> (basisValId) OR cint(jo_valuta) <> cint(oRec2("valuta")) then
+            '** 1) NOK <> DKK OR NOK <> NOK then
+            '** 2) DKK <> DKK AND DKK <> NOK then  
+            'cint(jo_valuta) <> (basisValId) OR 
+
+            if cint(jo_valuta) <> cint(oRec2("valuta")) then
+                call beregnValuta(minus&(oRec2("beloeb")),oRec2("kurs"),100) ' TIL DKK Altid til BASIS val først
                 fakBelob = valBelobBeregnet
                 call valutaKurs_fakhist(jo_valuta) ' --> GBP
                 call beregnValuta(fakBelob,100,dblkurs_fakhist)
             else
+                if oRec2("beloeb") <> 0 then
                 valBelobBeregnet = oRec2("beloeb")
+                else
+                valBelobBeregnet = 0
+                end if
             end if
 
             if oRec2("faktype") <> 1 then
@@ -3790,9 +3803,10 @@ sub minioverblik
                         'else
        
 
-	            call beregnValuta(minus&(oRec2("aktbel")),oRec2("kurs"),100)
+	            
 
-                if cint(jo_valuta) <> (basisValId) OR cint(jo_valuta) <> cint(oRec2("valuta")) then
+                if cint(jo_valuta) <> cint(oRec2("valuta")) then
+                    call beregnValuta(minus&(oRec2("aktbel")),oRec2("kurs"),100)
                     fakBelob = valBelobBeregnet
                     call valutaKurs_fakhist(jo_valuta) ' --> GBP
                     call beregnValuta(fakBelob,100,dblkurs_fakhist)
@@ -3967,7 +3981,12 @@ sub minioverblik
             end if
             oRec2.close
 
-
+            select case lto
+            case "oko"
+                AktOrderBySQL = "a.fase, k.kontonr, a.sortorder, a.navn"
+            case else
+                AktOrderBySQL = "a.fase, a.sortorder, a.navn"
+            end select
 
             jo_valuta_kursSQL = replace(jo_valuta_kurs, ",", ".")    
                 
@@ -3977,8 +3996,16 @@ sub minioverblik
             &" COALESCE(sum(t.timer),0) AS realiseret, COALESCE(SUM(timer * timepris *(kurs/"& jo_valuta_kursSQL &")),0) AS realbelob, COALESCE(SUM(timer * kostpris *(kpvaluta_kurs/"& jo_valuta_kursSQL &")), 0) AS realtimerkost, aktstartdato, aktslutdato, aty_desc "_
 	        &" FROM aktiviteter a LEFT JOIN fomr ON (fomr.id = a.fomr) "_
 	        &" LEFT JOIN timer AS t ON (t.taktivitetid = a.id)"_
-            &" LEFT JOIN akt_typer aty ON (aty_id = a.fakturerbar) "_
-	        &" WHERE job = "& id &" AND a.aktfavorit = 0 GROUP BY a.id ORDER BY a.fase, a.sortorder, a.navn" 
+            &" LEFT JOIN akt_typer aty ON (aty_id = a.fakturerbar) "
+            
+            select case lto
+            case "oko"
+            strSQLakt = strSQLakt &" LEFT JOIN kontoplan k ON (k.id = a.aktkonto) "
+            case else
+
+            end select
+
+	        strSQLakt = strSQLakt &" WHERE job = "& id &" AND a.aktfavorit = 0 GROUP BY a.id ORDER BY " & AktOrderBySQL
         	
         	totSum = 0
 	        totTimerforkalk = 0
@@ -4109,7 +4136,7 @@ sub minioverblik
                  case 2
                  bgr = job_txt_335
                  %>
-                 <td class=lille align=right style="border-bottom:<%=borderAktMatlinesPx%>px #cccccc solid;"><%=formatnumber(oRec2("antalstk"), 2) %> <%=job_txt_335 %></td>
+                 <td class=lille align=right style="border-bottom:<%=borderAktMatlinesPx%>px #cccccc solid;"><%=formatnumber(oRec2("antalstk"), 2) %> <%=" "& job_txt_335 %></td>
                  <%
                  end select %>
 
@@ -4140,7 +4167,7 @@ sub minioverblik
 	        if (cint(aty_real) = 1 OR ((lto = "oko" OR lto = "sdeo") AND oRec2("aty_id") = 90)) then
 
                 select case lto
-                case "oko", "sdeo"
+                case "oko", "xsdeo"
 
                     lastFaseRealTimer = lastFaseRealTimer + oRec2("realiseret")
                     lastFaseRealbel = lastFaseRealbel + oRec2("realbelob")
@@ -4625,6 +4652,7 @@ sub minioverblik
 	        
                     <%
 
+
                     select case lto
                     case "oko", "xintranet - local", "xsdeo"
                         strMatforbrugSQLOrderBy = " k.kontonr, forbrugsdato DESC"
@@ -4640,13 +4668,17 @@ sub minioverblik
                     antalmatreg = 0
                     salgsomkostSalg = 0
                     salgsomkostKost = 0
-                    strSQLudl = "SELECT matnavn, forbrugsdato, matenhed, matantal AS antal, (matkobspris * (kurs/100)) AS stkkobspris, (matkobspris * matantal * (kurs/"& jo_valuta_kursSQL &")) AS matkobspris, "_
+
+                    strSQLudl = "SELECT matnavn, forbrugsdato, matenhed, matantal AS antal, (matkobspris * (kurs/"& jo_valuta_kursSQL &")) AS stkkobspris, (matkobspris * matantal * (kurs/"& jo_valuta_kursSQL &")) AS matkobspris, "_
                      &" (matsalgspris * matantal * (kurs/"& jo_valuta_kursSQL &")) AS matsalgspris, mf_konto, mg.navn AS matgruppenavn, k.kontonr, k.navn AS kontonavn, matgrp FROM materiale_forbrug AS mf "_
                      &" LEFT JOIN materiale_grp AS mg ON (mg.id = matgrp) "_
                      &" LEFT JOIN kontoplan AS k ON (k.id = mf_konto) WHERE jobid = "& id & " "& strKontonrKri &" GROUP BY mf.id ORDER BY  "& strMatforbrugSQLOrderBy &"" 
-                        
-                    'Response.Write strSQLudl
-                    'Response.flush
+                     
+                       'if session("mid") = 1 then   
+                       'Response.Write strSQLudl
+                       'Response.flush
+                       'end if
+
                     'salgsomkostReal = 0
                     matforbrugGrpSubTot = 0
                     lastGrpNavn = ""
@@ -4697,7 +4729,7 @@ sub minioverblik
                     <td align=right class=lille style="border-bottom:<%=borderAktMatlinesPx%>px #cccccc solid;"><%=oRec2("antal") %></td>
                     <td class=lille style="border-bottom:<%=borderAktMatlinesPx%>px #cccccc solid;"><%=oRec2("matenhed")%></td>
                     <td class=lille style="border-bottom:<%=borderAktMatlinesPx%>px #cccccc solid;"><%=oRec2("forbrugsdato")%></td>
-                    <td class=lille align=right style="border-bottom:<%=borderAktMatlinesPx%>px #cccccc solid;"><%=formatnumber(oRec2("stkkobspris"), 2)%></td>
+                    <td class=lille align=right style="border-bottom:<%=borderAktMatlinesPx%>px #cccccc solid;"><%=formatnumber(oRec2("stkkobspris"), 2) &" "& jo_bgt_basisValISO_f8%></td>
                     <td align=right class=lille style="border-bottom:<%=borderAktMatlinesPx%>px #cccccc solid;"><%=formatnumber(oRec2("matkobspris"), 2) &" "& jo_bgt_basisValISO_f8 %></td>
                     <td align=right class=lille style="border-bottom:<%=borderAktMatlinesPx%>px #cccccc solid;"><%=formatnumber(oRec2("matsalgspris"), 2) &" "& jo_bgt_basisValISO_f8 %></td>
                    

@@ -81,14 +81,13 @@ if len(session("user")) = 0 then
     response.cookies("tsa")("sm_mids") = thisMiduse
 	
 
-	if print <> "j" AND media <> "export" AND func <> "slet" AND func <> "sletok" then
+	if print <> "j" AND media <> "export" then 'AND func <> "slet" AND func <> "sletok" 
 	%>
 	<!--#include file="../inc/regular/header_lysblaa_inc.asp"-->
-	
-   
-	
 	<%
-    call menu_2014()
+        if func <> "slet" AND func <> "sletok" then
+         call menu_2014()
+        end if
     lft = 90
 	tp = 72
 	else 
@@ -120,7 +119,7 @@ if len(session("user")) = 0 then
 	&"Du er ved at slette en <b>dagsafslutning</b>. Er dette korrekt? (du kan altid afslutte dagen igen)<br><br>"
     end select
 
-     strSQL = "SELECT week(u.uge) AS uge, month(u.uge) AS md, u.uge AS dag, u.afsluttet, week(u.afsluttet) AS afuge, m.mnavn, m.mnr, m.init FROM ugestatus u "_
+     strSQL = "SELECT week(u.uge, 3) AS uge, month(u.uge) AS md, u.uge AS dag, u.afsluttet, week(u.afsluttet) AS afuge, m.mnavn, m.mnr, m.init FROM ugestatus u "_
 		 &" LEFT JOIN medarbejdere m ON (m.mid = u.mid) WHERE u.id = " & id
 		 
 		 'Response.Write strSQL
@@ -152,8 +151,21 @@ if len(session("user")) = 0 then
 
 	
 	case "sletok"
-	'*** Her slettes en medarbejder ***
-	oConn.execute("DELETE FROM ugestatus WHERE id = "& id &"")
+	'*** Her slettes en periodeafslutning ***
+
+        call autogktimer_fn()
+        call smileyAfslutSettings()
+        call ersmileyaktiv()
+
+                if (cint(autogktimer) = 1 OR cint(autogktimer) = 2) AND cint(smilaktiv) = 1 AND cint(autogk) = 2 then
+         
+                call nulstilTentative(autogktimer, id)
+
+                end if
+
+
+      
+    oConn.execute("DELETE FROM ugestatus WHERE id = "& id &"")
 	
 	Response.redirect "smileystatus.asp"
 	
@@ -192,7 +204,7 @@ if len(session("user")) = 0 then
 
     useYear = yearSel
 
-         pTxt = "Smiley Status (ugeafslutning)"
+         pTxt = "Smiley Status (periode-afslutning)"
 
 	if media <> "print" AND media <> "export" then
     

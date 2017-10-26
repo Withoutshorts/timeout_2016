@@ -915,8 +915,10 @@ function beregn_order() {
             $("#jo_dbproc_bel").val(0)
         }
 
-        
-
+        // MAKE shure currency rate is updated
+        $("#update_currate").val(1)
+        //$("#update_currate").attr('checked', true);
+        $("#sp_update_currate").css("visibility", "visible")
 
     //}
 

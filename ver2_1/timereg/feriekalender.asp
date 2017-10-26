@@ -110,7 +110,7 @@ if len(session("user")) = 0 then
                 case 2
 				strOskrifter = "Medarbejder;Nr.;Init;Ferie optjent (incl. overført og opt. u. løn);Ferie afholdt + udb.;Ferie afholdt u. løn;Ferie saldo;Ferie + Feriefridage planlagt;Sygdom; Barn syg; Afspadsering;Feriefridage optjent;Feriefridage afholdt + Udb.;Feriefridage saldo;"
                 case else
-                strOskrifter = "Medarbejder;Nr.;Init;Dato;Type;Timer;Dage;"
+                strOskrifter = "Medarbejder;Nr.;Init;Dato;Type;Timer;Dage;Tastedato;"
                 end select
 
 	'Response.Write "medid first: "& left(request("FM_medarb"), 1)
@@ -419,11 +419,11 @@ if len(session("user")) = 0 then
 
     select case per_interval
     case 1
-	tWdth = 1250
+	tWdth = 750 '1250
 	case 3
-    tWdth = 2025
+    tWdth = 1305 '2025
     case else
-    tWdth = 1945 '1184
+    tWdth = 1225 '1945 '1184
     end select
 	
 	'call tableDiv(tTop,tLeft,tWdth)
@@ -949,6 +949,8 @@ if len(session("user")) = 0 then
 
     lastMid = 0
    
+    response.Write "<br><br>"
+    l = 0
 	for m = 0 to UBOUND(intMids)
 	    
 	    
@@ -972,7 +974,7 @@ if len(session("user")) = 0 then
 
         intFerieOpt(m) = 0
         '** Ferie optjent i ferieår incl. ferie optj. u løn og overført ***'
-        strSQLfeo = "SELECT sum(timer) AS timer, tdato, month(tdato) AS month, tfaktim FROM timer WHERE tmnr = " & intMids(m)  & ""_
+        strSQLfeo = "SELECT sum(timer) AS timer, tdato, month(tdato) AS month, tfaktim, tastedato FROM timer WHERE tmnr = " & intMids(m)  & ""_
 	    &" AND (tfaktim = 15 OR tfaktim = 111 OR tfaktim = 112) AND tdato BETWEEN '"& startDatoFEOSQL &"' AND '"& slutDatoFEOSQL &"' GROUP BY tmnr ORDER BY tdato"
         
 
@@ -1018,7 +1020,7 @@ if len(session("user")) = 0 then
         '** Ferie afholdt + Uløn og udbetalt i ferieår ***'
 
         'if lto = "cst" then
-        strSQLfeau = "SELECT timer, tdato, month(tdato) AS month, tfaktim FROM timer WHERE tmnr = " & intMids(m)  & ""_
+        strSQLfeau = "SELECT timer, tdato, month(tdato) AS month, tfaktim, tastedato FROM timer WHERE tmnr = " & intMids(m)  & ""_
 	    &" AND (tfaktim = 14 OR tfaktim = 19 OR tfaktim = 16) AND tdato BETWEEN '"& startDatoFEOSQL &"' AND '"& slutDatoFEOSQL &"' ORDER BY tdato"
         'else
         'strSQLfeau = "SELECT timer, tdato, month(tdato) AS month, tfaktim FROM timer WHERE tmnr = " & intMids(m)  & ""_
@@ -1064,7 +1066,7 @@ if len(session("user")) = 0 then
 
         intFerieFridageOpt(m) = 0
         '** FerieFridage optjent i ferieår ***'
-        strSQLfeo = "SELECT sum(timer) AS timer, tdato, month(tdato) AS month, tfaktim FROM timer WHERE tmnr = " & intMids(m)  & ""_
+        strSQLfeo = "SELECT sum(timer) AS timer, tdato, month(tdato) AS month, tfaktim, tastedato FROM timer WHERE tmnr = " & intMids(m)  & ""_
 	    &" AND (tfaktim = 12) AND tdato BETWEEN '"& startDatoFEOSQL &"' AND '"& slutDatoFEOSQL &"' GROUP BY "& sqlGrpBy &" ORDER BY tdato"
 	    
         'Response.Write strSQLfeo
@@ -1090,7 +1092,7 @@ if len(session("user")) = 0 then
         
         intFerieFridageAU(m) = 0
         '** FerieFridage afholdt og udbetalt i ferieår ***'
-        strSQLfeau = "SELECT timer, tdato, month(tdato) AS month, tfaktim FROM timer WHERE tmnr = " & intMids(m)  & ""_
+        strSQLfeau = "SELECT timer, tdato, month(tdato) AS month, tfaktim, tastedato FROM timer WHERE tmnr = " & intMids(m)  & ""_
 	    &" AND (tfaktim = 13 OR tfaktim = 17) AND tdato BETWEEN '"& startDatoFEOSQL &"' AND '"& slutDatoFEOSQL &"' ORDER BY tdato"
 	    
         'Response.Write strSQLfeau
@@ -1126,7 +1128,7 @@ if len(session("user")) = 0 then
         lastMth = ""
 
         '***** MAIN SQL ***
-        strSQLt = "SELECT sum(timer) AS timer, tdato, month(tdato) AS month, tfaktim, tmnr, timerkom FROM timer WHERE tmnr = " & intMids(m)  & ""_
+        strSQLt = "SELECT sum(timer) AS timer, tdato, month(tdato) AS month, tfaktim, tmnr, timerkom, tastedato FROM timer WHERE tmnr = " & intMids(m)  & ""_
 	    &" AND ("& sqlTypKri &") AND tdato BETWEEN '"& startDatoPerSQL &"' AND '"& slutDatoPerSQL &"' GROUP BY "& sqlGrpBy &" ORDER BY tdato"
 	    
 	    'Response.Write "antaldays" & antaldays & "<br>"
@@ -1510,7 +1512,7 @@ if len(session("user")) = 0 then
 
              'case 2 
 	         case else
-             ekspTxt = ekspTxt & medarbnavn(m) &";"& medarbnr(m) &";"& medarbinit(m) &";"& oRec("tdato") &";"& tnavn &";"& oRec("timer") &";"& dageVal &";xx99123sy#z"
+             ekspTxt = ekspTxt & medarbnavn(m) &";"& medarbnr(m) &";"& medarbinit(m) &";"& oRec("tdato") &";"& tnavn &";"& oRec("timer") &";"& dageVal &";"& oRec("tastedato") &";xx99123sy#z"
              end select
          end if
 	     
@@ -1735,10 +1737,14 @@ if len(session("user")) = 0 then
         
 
         %>
-        <div id="div1" style="position:absolute; left:<%=leftvaltot %>px; top:<%=(sttop-21)+((tpp)*41)%>px; width:720px; background-color:#FFFFFF; padding:2px; border-bottom:1px #999999 solid;">
-        <table cellpadding=1 cellspacing=1 border=0 width=100%>
-
-        <%if right(m, 1) = 0 then %>
+        <div id="div1" style="position:initial; width:720px; background-color:#FFFFFF; padding:10px; border-bottom:1px #999999 solid;">
+            <%if m = 0 then%>
+            <h4>Sumtotal pr. medarb</h4>
+        <%end if%>
+         <table cellpadding=1 cellspacing=1 border=0 width=100%>
+        <%if m = l then 
+            l = (l + 1) + 10
+        %>
        <tr><td colspan="15" class="lille">Ferieår: <%=ferieaarTxt %> </td></tr>
        <tr>
            <td class="lille" style="white-space:nowrap;">Medarb.</td>
@@ -1759,25 +1765,33 @@ if len(session("user")) = 0 then
            <td class="lille" style="white-space:nowrap;">Rejsedage. <img src="../ill/dot_E7A1EF.gif" width="3" height="10" border="0" alt="Rejsedage" /></td>
 
        </tr>
+
+            <tr>
+                <%for t = 0 to 14 %>
+                <td>&nbsp</td>
+                <%next %>
+            </tr>
+
             <%else %>
 
             <tr>
 
-                 <td class="lille" style="white-space:nowrap;width:40px;">&nbsp;</td>
-                 <td class="lille" style="white-space:nowrap;width:47px;">&nbsp;</td>
-                 <td class="lille" style="white-space:nowrap;width:38px;">&nbsp;</td>
-                 <td class="lille" style="white-space:nowrap;width:45px;">&nbsp;</td>
-                 <td class="lille" style="white-space:nowrap;width:55px;">&nbsp;</td>
-                 <td class="lille" style="white-space:nowrap;width:47px;">&nbsp;</td>
-                 <td class="lille" style="white-space:nowrap;width:43px;">&nbsp;</td>
-                 <td class="lille" style="white-space:nowrap;width:53px;">&nbsp;</td>
-                 <td class="lille" style="white-space:nowrap;width:25px;">&nbsp;</td>
-                 <td class="lille" style="white-space:nowrap;width:28px;">&nbsp;</td>
-                 <td class="lille" style="white-space:nowrap;width:47px;">&nbsp;</td>
-                 <td class="lille" style="white-space:nowrap;width:45px;">&nbsp;</td>
-                 <td class="lille" style="white-space:nowrap;width:45px;">&nbsp;</td>
-                 <td class="lille" style="white-space:nowrap;width:45px;">&nbsp;</td>
-                <td class="lille" style="white-space:nowrap;width:57px;">&nbsp;</td>
+           <td class="lille" style="white-space:nowrap; visibility:hidden">Medarb.</td>
+           <td class="lille" style="white-space:nowrap; visibility:hidden">Ferie optj.</td>
+           <td class="lille" style="white-space:nowrap; visibility:hidden">Afholdt <img src="../ill/dot_gron.gif" width="3" height="10" border="0" alt="Ferie Afholdt" /></td>
+           <td class="lille" style="white-space:nowrap; visibility:hidden">Udbetalt <img src="../ill/dot_darkpink.gif" width="3" height="10" border="0" alt="Ferie Udbetalt" /></td>
+           <td class="lille" style="white-space:nowrap; visibility:hidden">Afh. u. løn <img src="../ill/dot_yellowgron.gif" width="3" height="10" border="0" alt="Ferie Afholdt U. Løn" /></td>
+           <td class="lille" style="white-space:nowrap; visibility:hidden"><b>Ferie Saldo</b></td>
+            <td class="lille" style="white-space:nowrap; visibility:hidden">Planlagt <img src="../ill/dot_graae.gif" width="3" height="10" border="0" alt="Ferie planlagt og Feriefridage planlagt" /></td>
+          
+           <td class="lille" style="white-space:nowrap; padding-left:20px; visibility:hidden">Feriefri</td>
+           <td class="lille" style="white-space:nowrap; visibility:hidden">Afh. <img src="../ill/dot_gul.gif" width="3" height="10" border="0" alt="Feriefridage afholdt" /></td>
+           <td class="lille" style="white-space:nowrap; visibility:hidden">Udb. <img src="../ill/dot_lightpink.gif" width="3" height="10" border="0" alt="Feriefridage udbetalt" /></td>
+           <td class="lille" style="white-space:nowrap; visibility:hidden"><b>Feriefri Sld.</b></td>
+           <td class="lille" style="white-space:nowrap; padding-left:20px; visibility:hidden">Syg <img src="../ill/dot_rod.gif" width="3" height="10" border="0" alt="Syg" /></td>
+           <td class="lille" style="white-space:nowrap; visibility:hidden">Barnsyg <img src="../ill/dot_orange.gif" width="3" height="10" border="0" alt="Barn syg" /></td>
+           <td class="lille" style="white-space:nowrap; visibility:hidden">Afspad. <img src="../ill/dot_blaa.gif" width="3" height="10" border="0" alt="Afspadsering" /></td>
+           <td class="lille" style="white-space:nowrap; visibility:hidden">Rejsedage. <img src="../ill/dot_E7A1EF.gif" width="3" height="10" border="0" alt="Rejsedage" /></td>
        </tr>
 
             <%end if %>
@@ -1830,7 +1844,6 @@ if len(session("user")) = 0 then
      
 	
 	next
-
 
     '**** END LOOP FOR DOTS
 

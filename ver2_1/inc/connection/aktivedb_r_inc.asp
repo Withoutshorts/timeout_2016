@@ -1,4 +1,4 @@
-<%
+  <%
 public strConnect_aktiveDB
 function aktivedb(x)
 		
@@ -9,6 +9,8 @@ function aktivedb(x)
 		strConnect_aktiveDB = "timeout_oliver64" 
         Case 3
 		strConnect_aktiveDB = "timeout_start64"  
+        Case 4
+		strConnect_aktiveDB = "timeout_demo64"  
 		case 23
 		strConnect_aktiveDB = "timeout_dencker64"
         case 55

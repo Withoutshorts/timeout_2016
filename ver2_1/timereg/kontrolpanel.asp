@@ -843,17 +843,45 @@ if len(session("user")) = 0 then
             end if   
                              
 			
-			if len(trim(request("positiv_aktivering_akt"))) <> 0 then
+			if len(trim(request("vis_resplanner"))) <> 0 then
+            vis_resplanner = 1
+            else
+            vis_resplanner = 0
+            end if
+
+            if len(trim(request("vis_favorit"))) <> 0 then
+            vis_favorit = 1
+            else
+            vis_favorit = 0
+            end if
+
+            if len(trim(request("vis_projektgodkend"))) <> 0 then
+            vis_projektgodkend = 1
+            else
+            vis_projektgodkend = 0
+            end if
+
+            if len(trim(request("positiv_aktivering_akt"))) <> 0 then
             positiv_aktivering_akt = 1
             else
             positiv_aktivering_akt = 0
             end if
 
             
+
+
+            
 			if len(trim(request("pa_aktlist"))) <> 0 then
             pa_aktlist = 1
             else
             pa_aktlist = 0
+            end if
+
+                           
+			if len(trim(request("pa_tilfojvmedopret"))) <> 0 then
+            pa_tilfojvmedopret = 1
+            else
+            pa_tilfojvmedopret = 0
             end if
 
             
@@ -1178,7 +1206,7 @@ if len(session("user")) = 0 then
             &" visAktlinjerSimpel_akttype = "& visAktlinjerSimpel_akttype &", timesimon = "& timesimon &", timesimh1h2 = "& timesimh1h2 & ", "_
             &" timesimtp = "& timesimtp &", budgetakt = " & budgetakt &", akt_maksforecast_treg = "& akt_maksforecast_treg &", "_
             &" traveldietexp_on = "& traveldietexp_on &", traveldietexp_maxhours = "& traveldietexp_maxhours & ", "_
-            &" medarbtypligmedarb = " & medarbtypligmedarb &", pa_aktlist = " & pa_aktlist & ", "_
+            &" medarbtypligmedarb = " & medarbtypligmedarb &", pa_aktlist = " & pa_aktlist & ", pa_tilfojvmedopret = "& pa_tilfojvmedopret &", "_
             &" smiley_agg_lukhard = " & smiley_agg_lukhard & ","_
             &" week_showbase_norm_kommegaa = "& week_showbase_norm_kommegaa &", mobil_week_reg_job_dd = "& mobil_week_reg_job_dd &", "_
             &" mobil_week_reg_akt_dd = " & mobil_week_reg_akt_dd & ", mobil_week_reg_akt_dd_forvalgt = " & mobil_week_reg_akt_dd_forvalgt & ","_
@@ -1196,7 +1224,8 @@ if len(session("user")) = 0 then
             &" fakturanr_5 = "& fakturanr_5 &", "_
             &" kreditnr_5 = "& kreditnr_5 &", "_
             &" fakturanr_kladde_5  = "& fakturanr_kladde_5 &","_  
-            &" showeasyreg_per = "& showeasyreg_per &", smiweekormonth_hr = "& SmiWeekOrMonth_HR &""
+            &" showeasyreg_per = "& showeasyreg_per &", smiweekormonth_hr = "& SmiWeekOrMonth_HR &","_
+            &" vis_resplanner = "& vis_resplanner &", vis_favorit = "& vis_favorit &", vis_projektgodkend = "& vis_projektgodkend &""
 			strSQL = strSQL & strSQLat & " WHERE id = 1"
 			
 			'Response.Write strSQL
@@ -1345,7 +1374,7 @@ if len(session("user")) = 0 then
         &" SmiWeekOrMonth, SmiantaldageCount, SmiantaldageCountClock, SmiTeamlederCount, hidesmileyicon, visAktlinjerSimpel, fomr_mandatory, akt_maksbudget_treg, minimumslageremail, fomr_account, "_
         &" visAktlinjerSimpel_datoer, visAktlinjerSimpel_timebudget, visAktlinjerSimpel_realtimer, visAktlinjerSimpel_restimer, "_
         &" visAktlinjerSimpel_medarbtimepriser, visAktlinjerSimpel_medarbrealtimer, visAktlinjerSimpel_akttype, timesimon, timesimh1h2, timesimtp, budgetakt, akt_maksforecast_treg, "_
-        &" traveldietexp_on, traveldietexp_maxhours, medarbtypligmedarb, pa_aktlist, smiley_agg_lukhard, week_showbase_norm_kommegaa, mobil_week_reg_job_dd, mobil_week_reg_akt_dd, mobil_week_reg_akt_dd_forvalgt, "_
+        &" traveldietexp_on, traveldietexp_maxhours, medarbtypligmedarb, pa_aktlist, pa_tilfojvmedopret, smiley_agg_lukhard, week_showbase_norm_kommegaa, mobil_week_reg_job_dd, mobil_week_reg_akt_dd, mobil_week_reg_akt_dd_forvalgt, "_
         &" budget_mandatory, tilbud_mandatory, show_salgsomk_mandatory, "_
         &" multible_licensindehavere, "_
         &" fakturanr_2, "_
@@ -1359,7 +1388,7 @@ if len(session("user")) = 0 then
         &" fakturanr_kladde_4, "_
         &" fakturanr_5, "_
         &" kreditnr_5, "_
-        &" fakturanr_kladde_5, showeasyreg_per, smiweekormonth_hr "_
+        &" fakturanr_kladde_5, showeasyreg_per, smiweekormonth_hr, vis_resplanner, vis_favorit, vis_projektgodkend "_
         &" FROM licens WHERE id = 1"
 		
 		'Response.Write strSQL
@@ -1614,6 +1643,11 @@ if len(session("user")) = 0 then
 
 
             SmiWeekOrMonth_HR = oRec("smiWeekormonth_hr")
+
+            pa_tilfojvmedopret = oRec("pa_tilfojvmedopret")
+            vis_resplanner = oRec("vis_resplanner")
+            vis_favorit = oRec("vis_favorit")
+            vis_projektgodkend = oRec("vis_projektgodkend")
 
 		end if
 		oRec.close 
@@ -2026,6 +2060,17 @@ if len(session("user")) = 0 then
            <input type="checkbox" name="pa_aktlist" value="1" <%=pa_aktlistCHK %> />Mobil (timetag_web), samt ugeseddel og ressourceforecast kan KUN at søge i <b>Personlig aktivjobliste</b> PA=1.
            Ellers kan der søges i hele jobbanken PA=0. Forudsættes at man har adgang via sine projektgrupper. (TimeTag sættes i timetag config)<br />
 
+
+             <%if cint(pa_tilfojvmedopret) = 1 then
+          pa_tilfojvmedopretCHK = "CHECKED"
+          else
+          pa_tilfojvmedopretCHK = ""
+          end if
+          %>
+            <br /><br />
+           <input type="checkbox" name="pa_tilfojvmedopret" value="1" <%=pa_tilfojvmedopretCHK %> />Ved opret medarbejder, tilføj automatisk de job og aktiviteter der er aktive for de eksisterende medarbejdere i de projektgrupper den nye medarbejder er medlem af, til Personlig aktiv jobliste.
+
+
             </td>
             </tr>
 
@@ -2136,6 +2181,62 @@ if len(session("user")) = 0 then
             </tr>
             
 
+          <tr>
+            <td style="padding:15px; border-top:1px #5582d2 dashed;">
+            <h3>Vis Ressourceplanner</h3>
+           
+          <%if cint(vis_resplanner) = 1 then
+          vis_resplannerCHK = "CHECKED"
+          else
+          vis_resplannerCHK = ""
+          end if
+          %>
+
+        
+
+           <input type="checkbox" name="vis_resplanner" value="1" <%=vis_resplannerCHK %> /> Aktiver Ressourceplanner<br />
+           </td>
+            </tr>
+
+           <tr>
+            <td style="padding:15px; border-top:1px #5582d2 dashed;">
+            <h3>Vis favoritsiden</h3>
+           
+          <%if cint(vis_favorit) = 1 then
+          vis_favoritCHK = "CHECKED"
+          else
+          vis_favoritCHK = ""
+          end if
+          %>
+
+        
+
+           <input type="checkbox" name="vis_favorit" value="1" <%=vis_favoritCHK %> /> Aktiver Favoritsiden (timeregistrering)<br />
+           </td>
+            </tr>
+
+
+            <tr>
+            <td style="padding:15px; border-top:1px #5582d2 dashed;">
+            <h3>Vis Projektgodkendelse</h3>
+           
+          <%if cint(vis_projektgodkend) = 1 then
+          vis_projektgodkendCHK = "CHECKED"
+          else
+          vis_projektgodkendCHK = ""
+          end if
+          %>
+
+        
+
+           <input type="checkbox" name="vis_projektgodkend" value="1" <%=vis_projektgodkendCHK %> /> Aktiver Projektgodkendelse<br />
+           </td>
+            </tr>
+
+
+
+
+            
               <tr>
             <td style="padding:15px; border-top:1px #5582d2 dashed;">
             <h3>Easyreg. funktion</h3>
@@ -2469,47 +2570,93 @@ if len(session("user")) = 0 then
                <tr>
                <td style="padding:15px;">
                
-                    <%if autogk = 1 then
-                    autogkChk = "CHECKED"
-                    else
-                    autogkChk = ""
-                    end if %>
+                    <%'if autogk = 1 then
+                    'autogkChk = "CHECKED"
+                    'else
+                    'autogkChk = ""
+                    'end if %>
                 
+                    <%
+
+                    autogkSEL0 = ""
+                    autogkSEL1 = ""
+                    autogkSEL2 = ""    
+                        
+                    if cint(autogk) = 0 then
+                    autogkSEL0 = "SELECTED"
+                    end if
+
+                    if cint(autogk) = 1 then
+                    autogkSEL1 = "SELECTED"
+                    end if
+
+                    if cint(autogk) = 2 then
+                    autogkSEL2 = "SELECTED"
+                    end if
+                    
+                     %>
+                
+                     <b>Luk periode for indtastning når ugen/måneden bliver afsluttet af medarb./godkendt af leder.</b>
+                    <select name="FM_autogk">
+                        <option value="0" <%=autogkSEL0 %>>Luk aldrig</option>
+                        <option value="1" <%=autogkSEL1 %>>Luk når leder godkender</option>
+                        <option value="2" <%=autogkSEL2 %>>Luk når medarbejder afslutter *</option>
+                    </select>
+                    <br />*) Hvis timer eller periode bliver afvist bliver medarbejder afslutningen ophævet og der skal afsluttes igen.<br />
+                    <!--
                     <input type="checkbox" name="FM_autogk" id="FM_autogk" value="1" <%=autogkchk%>>
                     <b>Luk periode for indtastning når ugen/måneden bliver godkendt/lukket (af leder).</b>
-                    <%
+                   -->
+                  
+                    <br>
+                    Administratorer kan stadigvæk ændre i timer indtil der er oprettet en faktura på jobbet.
+                    <br />Der kan godt indtastes materialeforbrug / udgiftsbilag selvom en periode er godkendt og lukket.
+                     <%
                     if func = "exchopd" then
                     Response.write "&nbsp;&nbsp;<font color=red><b>Opdateret!</b></font>"
                     end if
                     %>
-                    <br>
-                    Denne funktion gør at medarbejdere
-                    ikke længere kan indtaste/redigere timer i de uger de har afsluttet.<br />
-                    <b>Administratorer kan stadigvæk ændre i timer indtil der er oprettet en faktura på jobbet.</b>
-                    <br />Der kan godt indtastes materialeforbrug / udgiftsbilag selvom en periode er godkendt og lukket.
-                   
                    </TD>
                    </tr>
                    
                 <tr>
                <td style="padding:15px;">
                
-                    <%if autogktimer = 1 then
-                    autogktimerChk = "CHECKED"
-                    else
-                    autogktimerChk = ""
-                    end if %>
+                    <%
+                    autogktimerSEL0 = ""
+                    autogktimerSEL1 = ""
+                    autogktimerSEL2 = ""    
+                        
+                    if cint(autogktimer) = 0 then
+                    autogktimerSEL0 = "SELECTED"
+                    end if
+
+                    if cint(autogktimer) = 1 then
+                    autogktimerSEL1 = "SELECTED"
+                    end if
+
+                    if cint(autogktimer) = 2 then
+                    autogktimerSEL2 = "SELECTED"
+                    end if
+                    
+                     %>
                 
-                    <input type="checkbox" name="FM_autogktimer" id="Checkbox1" value="1" <%=autogktimerChk%>>
+                   <b>Udfør følgende handling når medarbejder afslutter uge/måned/dag via smiley:</b> <br />
+                    <select name="FM_autogktimer">
+                        <option value="0" <%=autogktimerSEL0 %>>Godkend ikke noget</option>
+                        <option value="1" <%=autogktimerSEL1 %>>Godkend timer</option>
+                        <option value="2" <%=autogktimerSEL2 %>>Tentative (delvis godkend timer - klar til Teamleder</option>
+                    </select>
+                    
+                    <!--<input type="checkbox" name="FM_autogktimer" id="Checkbox1" value="1" <%=autogktimerChk%>>
+                  
                     <b>Godkend automatisk timer når medarbejder afslutter uge/måned/dag via smiley.</b>
+                    -->
                     <%
                     if func = "exchopd" then
                     Response.write "&nbsp;&nbsp;<font color=red><b>Opdateret!</b></font>"
                     end if
                     %>
-                    <br>
-                    Denne funktion gør at medarbejdere
-                    automatisk godkender deres egne timer når de afslutter deres uge/måned/dag via Smiley ordningen.
                    
                    </TD>
                    </tr>

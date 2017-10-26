@@ -1503,9 +1503,9 @@ if len(session("user")) = 0 then
         	        If (fs.FileExists(fileKKurl))=true Then
 
                            if instr(request.servervariables("LOCAL_ADDR"), "195.189.130.210") <> 0 then
-                            Response.Write("<a href=""https://outzource.dk/timeout_xp/wwwroot/"&toVer&"/inc/upload/"&lto&"/"&fileKK&""" target=""blank""><img src=""../ill/addmore55.gif"" border=""0""></a>")
+                            Response.Write("<a href=""https://outzource.dk/timeout_xp/wwwroot/"&toVer&"/inc/upload/"&lto&"/"&fileKK&""" target=""_blank""><img src=""../ill/addmore55.gif"" border=""0""></a>")
                           else
-                            Response.Write("<a href=""https://timeout.cloud/timeout_xp/wwwroot/"&toVer&"/inc/upload/"&lto&"/"&fileKK&""" target=""blank""><img src=""../ill/addmore55.gif"" border=""0""></a>")
+                            Response.Write("<a href=""https://timeout.cloud/timeout_xp/wwwroot/"&toVer&"/inc/upload/"&lto&"/"&fileKK&""" target=""_blank""><img src=""../ill/addmore55.gif"" border=""0""></a>")
                            end if
                     Else
                           Response.Write("&nbsp;")
@@ -1519,7 +1519,7 @@ if len(session("user")) = 0 then
 
                                 If (fs.FileExists(fileKKurl))=true Then
 
-                                      Response.Write("<a href=""http://localhost/inc/log/data/"&fileKK&""" target=""blank""><img src=""../ill/addmore55.gif"" border=""0""></a>")
+                                      Response.Write("<a href=""http://localhost/inc/log/data/"&fileKK&""" target=""_blank""><img src=""../ill/addmore55.gif"" border=""0""></a>")
                                      
                                 Else
                                       Response.Write("&nbsp;")
@@ -2061,7 +2061,7 @@ if len(session("user")) = 0 then
    
    <tr>
     <td align=center valign=top><a href="#" onclick="Javascript:window.open('erp_make_pdf_multi.asp?fakids=<%=eksportFid%>&lto=<%=lto%>&doctype=pdfxml', '', 'width=350,height=120,resizable=no,scrollbars=no')" class=rmenu><img src="../ill/ikon_sendemail_24.png" border=0 alt="" /></a>
-    </td><td><a href="#" onclick="Javascript:window.open('erp_make_pdf_multi.asp?fakids=<%=eksportFid%>&lto=<%=lto%>&doctype=pdfxml', '', 'width=350,height=120,resizable=no,scrollbars=no')" class=rmenu><%=erp_txt_286 %></a>
+    </td><td><a href="#" onclick="Javascript:window.open('erp_make_pdf_multi.asp?fakids=<%=eksportFid%>&lto=<%=lto%>&doctype=pdfxml', '', 'width=350,height=160,resizable=no,scrollbars=no')" class=rmenu><%=erp_txt_286 %></a>
     <font class=megetlillesort><%=erp_txt_287 %>
     <br />&nbsp;</td>
    </tr>

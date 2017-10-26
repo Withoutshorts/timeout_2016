@@ -1,6 +1,187 @@
  
  <%
 
+function opdaterValutaAktiveJob(lto, io, jobids, valutaid, intKurs)
+
+                    if cint(io) = 1 then 'Henter aktuelle kurs 
+
+                        intKurs = 100
+                        strSQLv = "SELECT kurs FROM valutaer WHERE id = " & valutaid
+	                    oRec3.open strSQLv, oConn, 3
+	
+	                    if not oRec3.EOF then
+	
+	                                                         
+	                    intKurs = oRec3("kurs")/100
+	                                                            
+	
+	                    end if
+	                    oRec3.close
+
+                        'intKurs = replace(intKurs, ".", "")
+                        intKurs = replace(intKurs, ",", ".")
+
+                    else
+
+                        intKurs = intKurs
+
+                    end if
+                
+
+                    '*** Henter aktive job i valuta og opdaterer timer
+                    '*** SPECIAL LTO SETTINGS *****'
+                    select case lto
+                    case "nt", "intranet - local"
+                    
+                    if jobids <> 0 then
+                    jobidSQL = " AND id = "& jobids
+                    else
+                    jobidSQL = ""
+                    end if
+     
+                    strSQLopdajobtimer = "SELECT id, jobnr, orderqty, tax_pc, cost_price_pc, sales_price_pc, freight_pc, sales_price_pc_valuta, "_
+                    &" cost_price_pc_valuta, comm_pc, fastpris FROM job WHERE jobstatus = 1 AND cost_price_pc_valuta = "& valutaid & jobidSQL
+                    
+     
+                    case else
+                    strSQLopdajobtimer = "SELECT id, jobnr FROM job WHERE jobstatus = 1 AND valuta = "& valutaid &""
+                    end select
+                   
+                    
+                    'response.write strSQLopdajobtimer & "<br>"
+                 
+                        j = 0
+                    	oRec.open strSQLopdajobtimer, oConn, 3
+        				while not oRec.EOF
+        				            
+                
+
+
+                                    'if cint(j) = 0 then
+
+                        
+                                        '*** SPECIAL LTO SETTINGS *****'
+                                        select case lto
+                                        case "nt", "intranet - local"
+
+
+                                        if oRec("tax_pc") <> 0 then
+                                        tax = 1 + (oRec("tax_pc")/100)
+                                        else
+                                        tax = 1
+                                        end if
+
+                                        orderqty = oRec("orderqty")
+                                        
+                                        freight_pc = oRec("freight_pc")
+                                            
+                                        cost_price_pc = oRec("cost_price_pc")
+                                        
+                                        sales_price_pc = oRec("sales_price_pc")
+
+                                        comm_pc = oRec("comm_pc")
+                                        
+                                        intKursUse = intKurs/100
+                                        
+                                        'response.write "<br><br>((qty: "&  orderqty &" * cost "& cost_price_pc &" * "& tax &") + ("& freight_pc &" * "& orderqty & ")) * kurs: "& (intKursUse)  & " # comm_pc: "& comm_pc
+                                        'response.write "<br>sales_price_pc: "& sales_price_pc
+                                       
+                                        'if oRec("fastpris") = 2 then 'COMI
+
+                                        jo_udgifter_intern_ny = (orderqty * cost_price_pc * tax)
+                                        'response.write "jo_udgifter_intern_ny 1: "& jo_udgifter_intern_ny & "<br>"
+                                        jo_udgifter_intern_ny = jo_udgifter_intern_ny  + (freight_pc * orderqty)
+                                        'response.write "jo_udgifter_intern_ny 2: "& jo_udgifter_intern_ny & "<br>"
+                                        jo_udgifter_intern_ny = jo_udgifter_intern_ny  * (intKursUse)
+                                        'jo_udgifter_intern_ny = formatnumber(jo_udgifter_intern_ny, 2)
+                                        'response.write "jo_udgifter_intern_ny 3: "& jo_udgifter_intern_ny & "<br>"
+
+                                        jo_udgifter_intern_ny = replace(jo_udgifter_intern_ny, ".", "")
+                                        jo_udgifter_intern_ny = replace(jo_udgifter_intern_ny, ",", ".")
+                                        'response.write "jo_udgifter_intern_ny 4: "& jo_udgifter_intern_ny & "<br>"
+
+                                        'else 'salesprice
+
+                                     
+
+                                        'end if                        
+
+                                        jo_bruttooms_ny = (orderqty * sales_price_pc)
+
+                                        if cint(oRec("sales_price_pc_valuta")) = cint(oRec("cost_price_pc_valuta")) then 'salgspris har samme valuta som kost
+                                        
+                                        jo_bruttooms_ny = jo_bruttooms_ny * (intKursUse)
+                                        
+                                        else
+                                                            
+                                                                intSalgsPcKurs = 100
+                                                                strSQLv = "SELECT kurs FROM valutaer WHERE id = " & oRec("sales_price_pc_valuta")
+	                                                            oRec3.open strSQLv, oConn, 3
+	
+	                                                            if not oRec3.EOF then
+	
+	                                                         
+	                                                            intSalgsPcKurs = oRec3("kurs")/100
+	                                                            
+	
+	                                                            end if
+	                                                            oRec3.close
+
+                                        jo_bruttooms_ny = jo_bruttooms_ny * (intSalgsPcKurs)                                    
+                                        end if
+                                        
+                                        'jo_bruttooms_ny = formatnumber(jo_bruttooms_ny, 2)
+                                        
+                                        jo_bruttooms_ny = replace(jo_bruttooms_ny, ".", "")
+                                        jo_bruttooms_ny = replace(jo_bruttooms_ny, ",", ".")
+
+                                        strSQLopdajob = "UPDATE job SET jo_udgifter_intern = "& jo_udgifter_intern_ny &", jo_bruttooms = "& jo_bruttooms_ny &" WHERE id = "& oRec("id")
+                    
+                                      
+                                        'response.write "<br>"& strSQLopdajob
+                                        'response.flush
+                                        'response.end
+                                        oConn.execute(strSQLopdajob)
+
+                                        case else
+
+                                         strSQLopdajob = "UPDATE job SET jo_valuta_kurs = "& intKurs &" WHERE jo_valuta = "& valutaid
+                    
+                                      
+                                        'response.write "<br>"& strSQLopdajob
+                                        'response.end
+                                        oConn.execute(strSQLopdajob)
+
+                                        end select
+                    
+
+
+                                    'end if
+
+
+                                    select case lto
+                                    case "nt", "intranet - local"
+
+
+                                    case else
+                                    '*** Opdaterer alle valutaer på timeregistreringer 
+                                    strSQLopdtimer = "UPDATE timer SET kurs = "& intKurs &" WHERE tjobnr = '"& oRec("jobnr") &"' AND valuta = "& valutaid 
+
+                                    'response.write "<br>" & strSQLopdtimer
+                                    oConn.execute(strSQLopdtimer)            
+                                    end select
+
+                                    
+                        j = j + 1
+        				oRec.movenext
+        				wend
+        				oRec.close
+
+
+end function
+
+
+
 public valutaKode_CCC, valutaKode_CCC_f8, valutaKurs_CCC 
 function valutakode_fn(valid)
 
@@ -87,11 +268,33 @@ end function
                'KURS VED OPRETTELSE
                if thisfile = "job_nt.asp" AND func = "red" then
 
-                if sales_price_pc <> 0 then
-                oprKurs = formatnumber((bruttooms / (orderqty * sales_price_pc)), 2)
-                else
+                'if sales_price_pc <> 0 AND orderqty <> 0 AND i = "sales_price_pc_valuta" then
+                'oprKurs = formatnumber((bruttooms / (orderqty * sales_price_pc)), 2)
+                'else
+                'oprKurs = 0
+                'end if 
+
                 oprKurs = 0
+
+                if i = "cost_price_pc_valuta" OR i = "freight_price_pc_valuta" then
+                oprKurs = cost_price_kurs_used
+
+                        if cdbl(oprKurs) = 1 then 'gl ordrer
+                        oprKurs = formatnumber((bruttooms / (orderqty * sales_price_pc)), 2)
+                        end if
+
                 end if
+
+                if i = "sales_price_pc_valuta" then
+                oprKurs = sales_price_kurs_used
+
+                        if cdbl(oprKurs) = 1 then 'gl ordrer
+                        oprKurs = formatnumber((bruttooms / (orderqty * sales_price_pc)), 2)
+                        end if
+
+                end if
+
+             
 
                end if
 
@@ -112,7 +315,13 @@ end function
                
                'KURS VED OPRETTELSE
                if thisfile = "job_nt.asp" AND func = "red" AND valGrpCHK = "SELECTED" then
+
+               if cdbl(oprKurs) <> 0 then
                kursTxt = " - "& oprKurs & " "& kursTxt  
+               else
+               kursTxt = " - "& kursTxt
+               end if
+
                end if
 		   
 		    %>

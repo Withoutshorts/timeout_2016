@@ -238,6 +238,15 @@ if len(session("user")) = 0 then
         jobStatChk4 = ""
         jobStat4 = 0
         end if
+
+         '** Eval **'
+        if len(trim(request("FM_jobstatus5"))) <> 0 AND request("FM_jobstatus5") <> 0 then 
+        jobStatChk5 = "CHECKED"
+        jobStat5 = 1
+        else
+        jobStatChk5 = ""
+        jobStat5 = 0
+        end if
         
         else
 
@@ -617,7 +626,8 @@ if len(session("user")) = 0 then
         <input id="FM_jobstatus" name="FM_jobstatus1" type="checkbox" value="1" <%=jobStatChk1 %> /> Aktive&nbsp;&nbsp;
         <input id="Checkbox1" name="FM_jobstatus2" type="checkbox" value="1" <%=jobStatChk2 %> /> Passive / Til fakturering<br />
         <input id="Checkbox2" name="FM_jobstatus4" type="checkbox" value="1" <%=jobStatChk4 %> /> Gennemsyn&nbsp;&nbsp;
-        <input id="Checkbox3" name="FM_jobstatus0" type="checkbox" value="1" <%=jobStatChk0 %> /> Lukkede
+        <input id="Checkbox3" name="FM_jobstatus0" type="checkbox" value="1" <%=jobStatChk0 %> /> Lukkede&nbsp;&nbsp;
+        <input id="Checkbox5" name="FM_jobstatus5" type="checkbox" value="1" <%=jobStatChk5 %> /> Eval.
         
         
         <%else %>
@@ -900,9 +910,15 @@ if len(session("user")) = 0 then
     end if
 
      if cint(jobStat4) = 1 then
-    jobStatusKri = jobStatusKri & " OR j.jobstatus = 4)"
+    jobStatusKri = jobStatusKri & " OR j.jobstatus = 4"
     else
-    jobStatusKri = jobStatusKri & " OR j.jobstatus = 104)"
+    jobStatusKri = jobStatusKri & " OR j.jobstatus = 104"
+    end if
+
+    if cint(jobStat5) = 1 then
+    jobStatusKri = jobStatusKri & " OR j.jobstatus = 5)"
+    else
+    jobStatusKri = jobStatusKri & " OR j.jobstatus = 105)"
     end if
 
 	if medarb_jobans <> 0 then
@@ -1140,16 +1156,22 @@ if len(session("user")) = 0 then
         alerts(x) = oRec("alert")
         job_internbesk(x) = oRec("job_internbesk")
         
-        select case oRec("jobstatus")
-        case 0
-        jobstatus(x) = "<font color=red>Lukket</font>"
-        case 1
-        jobstatus(x) = "<font color=yellowgreen>Aktiv</font>"
-        case 2
-        jobstatus(x) = "<font color=silver>Passiv / Til fakturering</font>"
-        case 4
-        jobstatus(x) = "<font color=silver>Gennemsyn</font>"
-        end select
+        if len(trim(oRec("jobstatus"))) <> 0 then
+        call jobstatus_fn(jobid(x), oRec("jobstatus"), 0)
+        jobstatus(x) = "<font color="& jobstatus_fn_txt_col &">"& jobstatus_fn_txt &"</font>"
+        end if
+        'select case oRec("jobstatus")
+        'case 0
+        'jobstatus(x) = "<font color=red>Lukket</font>"
+        'case 1
+        'jobstatus(x) = "<font color=yellowgreen>Aktiv</font>"
+        'case 2
+        'jobstatus(x) = "<font color=silver>Passiv / Til fakturering</font>"
+        'case 4
+        'jobstatus(x) = "<font color=silver>Gennemsyn</font>"
+        ' case 5
+        'jobstatus(x) = "<font color=#999999>Eval.</font>"
+        'end select
 
         jobStatusVal(x) = oRec("jobstatus")
         
@@ -1342,7 +1364,7 @@ if len(session("user")) = 0 then
                 wend
                 oRec2.close
                 
-                '** Ikke godkendte Timer **'
+                '** Ikke godkendte Timer - ikke taget stilling til **'
                 sumtimerIG = 0
                 strSQLtimer = "SELECT sum(timer) AS sumtimerIG FROM timer AS t WHERE "_
                 &" ("& aty_sql_realhours &") AND (tjobnr = '"& oRec("jobnr") &"'"_ 

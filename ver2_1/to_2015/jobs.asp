@@ -236,7 +236,7 @@ end if
                                  '*********** timereg_usejob, så der kan søges fra jobbanken KUN VED OPRET JOB *********************
                                 Select Case lto
                                     Case "oko"
-                                    Case "outz", "intranet - local", "demo"
+                                    Case else '"outz", "intranet - local", "demo"
                        
                                         strProjektgr1 = 10
                                         strProjektgr2 = 1
@@ -775,7 +775,7 @@ end if
 
                 
                     <%
-                    oprjobtype = 2    
+                    oprjobtype = 1    
                     if oprjobtype = 2 then %>
 
                     <div class="panel-group accordion-panel" id="accordion-paneled">

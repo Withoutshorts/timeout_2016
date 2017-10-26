@@ -582,7 +582,7 @@ public ekspTxt_kk
   
    
 			    'if session("mid") = 1 then
-				'Response.write strSQL
+				'Response.write strSQL & "viskunfakturalinjer:" & viskunfakturalinjer
                 'Response.flush
 				'end if
 
@@ -597,77 +597,77 @@ public ekspTxt_kk
                
 
 
-			    if oRec("jobnr") <> lastjobnr then
+			            if oRec("jobnr") <> lastjobnr then
 						
-						            if oRec("tfaktim") = 1 then
-						            imgthis = "&nbsp;"
-						            else
-						            imgthis = "<font class=roed>"& txt_045 &"</font>"
-						            end if
+						                    if oRec("tfaktim") = 1 then
+						                    imgthis = "&nbsp;"
+						                    else
+						                    imgthis = "<font class=roed>"& txt_045 &"</font>"
+						                    end if
             					
             					
-					                if x <> 0 then
-					                pdtop = "30px"
-					                else
-					                pdtop = "5px"
-					                end if
+					                        if x <> 0 then
+					                        pdtop = "30px"
+					                        else
+					                        pdtop = "5px"
+					                        end if
             					 
             					   
-				                    if visjoblog_timepris = 1 then
-				                    visjoblog_timepris_CHK = "CHECKED"
-				                    else
-				                    visjoblog_timepris_CHK = ""
-				                    end if
+				                            if visjoblog_timepris = 1 then
+				                            visjoblog_timepris_CHK = "CHECKED"
+				                            else
+				                            visjoblog_timepris_CHK = ""
+				                            end if
                 					
-				                    if visjoblog_enheder = 1 then
-				                    visjoblog_enheder_CHK = "CHECKED"
-				                    else
-				                    visjoblog_enheder_CHK = ""
-				                    end if
+				                            if visjoblog_enheder = 1 then
+				                            visjoblog_enheder_CHK = "CHECKED"
+				                            else
+				                            visjoblog_enheder_CHK = ""
+				                            end if
 				                    
-				                    if visjoblog_mnavn = 1 then
-				                    visjoblog_mnavn_CHK = "CHECKED"
-				                    else
-				                    visjoblog_mnavn_CHK = ""
-				                    end if
+				                            if visjoblog_mnavn = 1 then
+				                            visjoblog_mnavn_CHK = "CHECKED"
+				                            else
+				                            visjoblog_mnavn_CHK = ""
+				                            end if
             					    
             					   
                                     
             					
             		
             						
-					            Response.write "<tr><td colspan=6 style=padding-top:"&pdtop&";><h4>"& oRec("jobnavn") &" ("& oRec("jobnr") &")</h4></td></tr>"
-					            Response.Write "<tr><td width=100><b>"& erp_txt_042 &"</b></td>"_
-					            &"<td><b>"& erp_txt_046 &"</b> (type)</td>"_
-					            &"<td width=100 align=right><b>"& erp_txt_013 &"</b></td>"
+					                    Response.write "<tr><td colspan=6 style=padding-top:"&pdtop&";><h4>"& oRec("jobnavn") &" ("& oRec("jobnr") &")</h4></td></tr>"
+					                    Response.Write "<tr><td width=100><b>"& erp_txt_042 &"</b></td>"_
+					                    &"<td><b>"& erp_txt_046 &"</b> (type)</td>"_
+					                    &"<td width=100 align=right><b>"& erp_txt_013 &"</b></td>"
             					
-					            if thisfile = "erp_oprfak_fs" then
-					            chkboxesShow1 = ""
-					            chkboxesShow2 = ""
-					            chkboxesShow3 = ""
-					            else
-					            chkboxesShow1 = "<input id='FM_vis_joblog_timepris' name='FM_vis_joblog_timepris' value='1' type='checkbox' "& visjoblog_timepris_CHK &" />"
-					            chkboxesShow2 = "<input id='FM_vis_joblog_enheder' name='FM_vis_joblog_enheder' value='1' type='checkbox' "& visjoblog_enheder_CHK &" />"
-					            chkboxesShow3 = "<input id='FM_vis_joblog_mnavn' name='FM_vis_joblog_mnavn' value='1' type='checkbox' "& visjoblog_mnavn_CHK &" />"
+					                    if thisfile = "erp_oprfak_fs" then
+					                    chkboxesShow1 = ""
+					                    chkboxesShow2 = ""
+					                    chkboxesShow3 = ""
+					                    else
+					                    chkboxesShow1 = "<input id='FM_vis_joblog_timepris' name='FM_vis_joblog_timepris' value='1' type='checkbox' "& visjoblog_timepris_CHK &" />"
+					                    chkboxesShow2 = "<input id='FM_vis_joblog_enheder' name='FM_vis_joblog_enheder' value='1' type='checkbox' "& visjoblog_enheder_CHK &" />"
+					                    chkboxesShow3 = "<input id='FM_vis_joblog_mnavn' name='FM_vis_joblog_mnavn' value='1' type='checkbox' "& visjoblog_mnavn_CHK &" />"
 					            
-					            end if
+					                    end if
             					
-					            if (thisfile = "erp_oprfak_fs" AND visjoblog_timepris = 1) OR thisfile = "erp_fak.asp" then
-					            Response.Write "<td width=100 align=right>"& chkboxesShow1 &"<b>"& txt_015 &"</b></td>"
-					            end if
+					                    if (thisfile = "erp_oprfak_fs" AND visjoblog_timepris = 1) OR thisfile = "erp_fak.asp" then
+					                    Response.Write "<td width=100 align=right>"& chkboxesShow1 &"<b>"& txt_015 &"</b></td>"
+					                    end if
             					
-					            if (thisfile = "erp_oprfak_fs" AND visjoblog_enheder = 1) OR thisfile = "erp_fak.asp" then
-					            Response.Write "<td width=100 align=right>"& chkboxesShow2 &"<b>"& txt_048 &"</b></td>"
-					            end if
+					                    if (thisfile = "erp_oprfak_fs" AND visjoblog_enheder = 1) OR thisfile = "erp_fak.asp" then
+					                    Response.Write "<td width=100 align=right>"& chkboxesShow2 &"<b>"& txt_048 &"</b></td>"
+					                    end if
             					
-            					if (thisfile = "erp_oprfak_fs" AND visjoblog_mnavn = 1) OR thisfile = "erp_fak.asp" then
-					            Response.Write "<td align=right>"& chkboxesShow3 &"<b>"& txt_047 &"</b></td>"
-					            end if
+            					        if (thisfile = "erp_oprfak_fs" AND visjoblog_mnavn = 1) OR thisfile = "erp_fak.asp" then
+					                    Response.Write "<td align=right>"& chkboxesShow3 &"<b>"& txt_047 &"</b></td>"
+					                    end if
             					
             					
-					            Response.Write "</tr>"
+					                    Response.Write "</tr>"
 					
-					end if
+					        end if
 
 
 

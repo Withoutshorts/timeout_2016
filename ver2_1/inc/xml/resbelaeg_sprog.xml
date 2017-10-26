@@ -1,0 +1,1157 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<sprog>
+
+  <!--- Dansk -->
+  <dk>
+
+    <txt_1 >Vent venligst. Forventet loadtid: 3-25 sek.</txt_1>
+    <txt_2 >Ressource Forecast (timebudget)</txt_2>
+    <txt_3 >Projektgrupper</txt_3>
+    <txt_4 >Medarbejdere</txt_4>
+    <txt_5 >Vælg job</txt_5>
+    <txt_6 >Alle</txt_6>
+    <txt_7 >Vis</txt_7>
+    <txt_8 >alle</txt_8>
+    <txt_9 >aktive job.</txt_9>
+    <txt_10 >aktuelle</txt_10>
+
+    <txt_11 >job (kun job, hvis slutdato ligger efter den valgte periode start)</txt_11>
+    <txt_12 >Søg på jobnavn ell. nr.</txt_12>
+    <txt_13 >interval, eller</txt_13>
+    <txt_14 >for specifikke job</txt_14>
+    <txt_15 >Filter</txt_15>
+    <txt_16 >Forecast overskredet</txt_16>
+    <txt_17 >Vis alle aktive job</txt_17>
+    <txt_18 >også uden forecast</txt_18>
+    <txt_19 > alle job på personlig aktivliste</txt_19>
+    <txt_20 >md., maks 10 medarb.</txt_20>
+
+    <txt_21 >Skjul medarbejder(e) uden forecast</txt_21>
+    <txt_22 >Periode fra</txt_22>
+    <txt_23 >Jan</txt_23>
+    <txt_24 >Feb</txt_24>
+    <txt_25 >Mar</txt_25>
+    <txt_26 >Apr</txt_26>
+    <txt_27 >Maj</txt_27>
+    <txt_28 >Jun</txt_28>
+    <txt_29 >Jul</txt_29>
+    <txt_30 >Aug</txt_30>
+
+    <txt_31 >Sep</txt_31>
+    <txt_32 >Okt</txt_32>
+    <txt_33 >Nov</txt_33>
+    <txt_34 >Dec</txt_34>
+    <txt_35 >og</txt_35>
+    <txt_36 >3 Måneder frem (uge/uge)</txt_36>
+    <txt_37 >12 Måneder frem</txt_37>
+    <txt_38 >6 Måneder frem</txt_38>
+    <txt_39 >Præsentation</txt_39>
+    <txt_40 >Vis ikke års-ramme og saldo kolonner</txt_40>
+
+    <txt_41 >Vis ikke aktivitets kolonner</txt_41>
+    <txt_42 >Vis alle linier (standard)</txt_42>
+    <txt_43 >Skjul alle sub-totaler (optimeret til indtastning)</txt_43>
+    <txt_44 >Vis Grafisk (optimeret til overblik)</txt_44>
+    <txt_45 >Timer</txt_45>
+    <txt_46 >Procent</txt_46>
+    <txt_47 >Angiv forecast som</txt_47>
+    <txt_48 >Søg</txt_48>
+    <txt_49 >Indlæs forecast</txt_49>
+    <txt_50 >Uspecificeret</txt_50>
+
+    <txt_51 >uspecificeret</txt_51>
+    <txt_52 >Vælg aktivitet</txt_52>
+    <txt_53 >Tilføj ny linie</txt_53>
+    <txt_54 >Grandtotal forecast</txt_54>
+    <txt_55 >Real.</txt_55>
+    <txt_56 >Normtimer er korrigeret for ferie, barsel og anden planlagt fravær.</txt_56>
+    <txt_57 >forecast</txt_57>
+    <txt_58 >realiseret (indtastet på job/projekter)</txt_58>
+    <txt_59 >saldo</txt_59>
+    <txt_60 >norm.</txt_60>
+
+    <txt_61 >Antal linier</txt_61>
+    <txt_62 >Din CSV. fil er klar</txt_62>
+    <txt_63 >.csv fil eksport (Pivot)</txt_63>
+    <txt_64 >.csv fil eksport</txt_64>
+    <txt_65 >Vis realiserede timer</txt_65>
+    <txt_66 >Funktioner</txt_66>
+    <txt_67 >Overfør timer ikke brugte ressource timer.</txt_67>
+    <txt_68 >Gælder for alle medarbejdere</txt_68>
+    <txt_69 >Overfør saldo fra uge</txt_69>
+    <txt_70 >til følgende uge.</txt_70>
+
+    <txt_71 >Overfør saldo fra</txt_71>
+    <txt_72 >til følgende måned.</txt_72>
+    <txt_73 >Job</txt_73>
+    <txt_74 >år</txt_74>
+    <txt_75 >t.</txt_75>
+    <txt_76 >Print version</txt_76>
+    <txt_77 >Overfør timer</txt_77>
+
+    <txt_78 >jan</txt_78>
+    <txt_79 >feb</txt_79>
+    <txt_80 >mar</txt_80>
+    <txt_81 >apr</txt_81>
+    <txt_82 >maj</txt_82>
+    <txt_83 >jun</txt_83>
+    <txt_84 >jul</txt_84>
+    <txt_85 >aug</txt_85>
+    <txt_86 >sep</txt_86>
+    <txt_87 >okt</txt_87>
+    <txt_88 >nov</txt_88>
+    <txt_89 >dec</txt_89>
+
+    <txt_90 >Medarbejder</txt_90>
+    <txt_91 >Kunde</txt_91>
+    <txt_92 >Projekt / Job</txt_92>
+    <txt_93 >Årsramme</txt_93>
+    <txt_94 >Timer pr. år</txt_94>
+    <txt_95 >Aktivitet</txt_95>
+    <txt_96 >Uge</txt_96>
+    <txt_97 >Budget job</txt_97>
+    <txt_98 >timer, beløb og rest.</txt_98>
+    <txt_99 >Forecast</txt_99>
+    <txt_100 >ialt (uanset valgt periode)</txt_100>
+
+    <txt_101 >Realiseret</txt_101>
+    <txt_102 >ialt (uanset valgt periode)</txt_102>
+    <txt_103 >Saldo forecast/real.</txt_103>
+    <txt_104 >saldo (uanset valgt periode)</txt_104>
+    <txt_105 >Total</txt_105>
+    <txt_106 >Norm, Real.</txt_106>
+    <txt_107 >Vis alle</txt_107>
+    <txt_108 >Total forecast job</txt_108>
+    <txt_109 >Tilføj nyt forecast</txt_109>
+    <txt_110 >Vælg job .. (fra pers. aktivliste, uden forecast)</txt_110>
+
+    <txt_111 >Ingen aktive job, hvor du har adgang til</txt_111>
+    <txt_112 >at angive forecast for den valgte medarbejder.</txt_112>
+    <txt_113 >Eller forecast er allerede angivet.</txt_113>
+    <txt_114 >Personlig aktiv jobliste</txt_114>
+    <txt_115 >Tilføj nyt forecast på</txt_115>
+    <txt_116 >Vælg aktivitet</txt_116>
+    <txt_117 >Tilføj forecast på job</txt_117>
+    <txt_118 >Grandtotal</txt_118>
+    <txt_119 >Real. timer</txt_119>
+
+    <txt_120 >Januar</txt_120>
+    <txt_121 >Februar</txt_121>
+    <txt_122 >Marts</txt_122>
+    <txt_123 >April</txt_123>
+    <txt_124 >Maj</txt_124>
+    <txt_125 >Juni</txt_125>
+    <txt_126 >Juli</txt_126>
+    <txt_127 >August</txt_127>
+    <txt_128 >September</txt_128>
+    <txt_129 >Oktober</txt_129>
+    <txt_130 >November</txt_130>
+    <txt_131 >December</txt_131>
+    <txt_132 >Timer er overflyttet på alle aktive job</txt_132>
+    <txt_133 >Videre</txt_133>
+
+    <txt_134 >januar</txt_134>
+    <txt_135 >februar</txt_135>
+    <txt_136 >marts</txt_136>
+    <txt_137 >april</txt_137>
+    <txt_138 >maj</txt_138>
+    <txt_139 >juni</txt_139>
+    <txt_140 >juli</txt_140>
+    <txt_141 >august</txt_141>
+    <txt_142 >september</txt_142>
+    <txt_143 >oktober</txt_143>
+    <txt_144 >november</txt_144>
+    <txt_145 >december</txt_145>
+
+  </dk>
+
+
+  <!--- Norsk -->
+  <no>
+
+    <txt_1 >Please wait. Expected loading time: 3-25 sec.</txt_1>
+    <txt_2 >Resource Forecast (timebudget)</txt_2>
+    <txt_3 >Project groups</txt_3>
+    <txt_4 >Employees</txt_4>
+    <txt_5 >Select job</txt_5>
+    <txt_6 >All</txt_6>
+    <txt_7 >Show</txt_7>
+    <txt_8 >all</txt_8>
+    <txt_9 >Active jobs.</txt_9>
+    <txt_10 >current</txt_10>
+
+    <txt_11 >Job (only jobs whose end date is after the selected period start)</txt_11>
+    <txt_12 >Search by job name or. no.</txt_12>
+    <txt_13 >Interval, or</txt_13>
+    <txt_14 >For specific jobs</txt_14>
+    <txt_15 >Filter</txt_15>
+    <txt_16 >Forecast exceeded</txt_16>
+    <txt_17 >Show all active jobs</txt_17>
+    <txt_18 >Also without forecast</txt_18>
+    <txt_19 >all jobs on personal activity list</txt_19>
+    <txt_20 >mh., max 10 employees.</txt_20>
+
+    <txt_21 >Hide employee (s) without forecast</txt_21>
+    <txt_22 >Period from</txt_22>
+    <txt_23 >Jan</txt_23>
+    <txt_24 >Feb</txt_24>
+    <txt_25 >Mar</txt_25>
+    <txt_26 >Apr</txt_26>
+    <txt_27 >May</txt_27>
+    <txt_28 >Jun</txt_28>
+    <txt_29 >Jul</txt_29>
+    <txt_30 >Aug</txt_30>
+
+    <txt_31 >Sep</txt_31>
+    <txt_32 >Oct</txt_32>
+    <txt_33 >Nov</txt_33>
+    <txt_34 >Dec</txt_34>
+    <txt_35 >and</txt_35>
+    <txt_36 >3 months forward (week / week)</txt_36>
+    <txt_37 >12 months forward</txt_37>
+    <txt_38 >6 months forward</txt_38>
+    <txt_39 >Presentation</txt_39>
+    <txt_40 >Do not show yearly and balance columns</txt_40>
+
+    <txt_41 >Do not show the activity's columns</txt_41>
+    <txt_42 >Show all lines (default)</txt_42>
+    <txt_43 >Hide all subtotals (optimized for entry)</txt_43>
+    <txt_44 >Show Graphic (optimized for overview)</txt_44>
+    <txt_45 >Hours</txt_45>
+    <txt_46 >Percentage</txt_46>
+    <txt_47 >Set forecast as</txt_47>
+    <txt_48 >Search</txt_48>
+    <txt_49 >Load forecast</txt_49>
+    <txt_50 >Unspecified</txt_50>
+
+    <txt_51 >unspecified</txt_51>
+    <txt_52 >Select activity</txt_52>
+    <txt_53 >Add new line</txt_53>
+    <txt_54 >Grandtotal forecast</txt_54>
+    <txt_55 >Real.</txt_55>
+    <txt_56 >Rated hours are adjusted for vacation, maternity leave and other planned absence.</txt_56>
+    <txt_57 >forecast</txt_57>
+    <txt_58 >Realized (entered on jobs / projects)</txt_58>
+    <txt_59 >balance</txt_59>
+    <txt_60 >rated.</txt_60>
+
+    <txt_61 >Number of lines</txt_61>
+    <txt_62 >Your CSV. file is ready</txt_62>
+    <txt_63 >.csv file export (Pivot)</txt_63>
+    <txt_64 >.csv file export</txt_64>
+    <txt_65 >Show realized hours</txt_65>
+    <txt_66 >features</txt_66>
+    <txt_67 >Transfer hours not used resource hours.</txt_67>
+    <txt_68 >Applies to all employees.</txt_68>
+    <txt_69 >Transfer balance from week</txt_69>
+    <txt_70 >Until the following week.</txt_70>
+
+    <txt_71 >Transfer balance from</txt_71>
+    <txt_72 >To the following month.</txt_72>
+    <txt_73 >Job</txt_73>
+    <txt_74 >year</txt_74>
+    <txt_75 >h.</txt_75>
+    <txt_76 >Print version</txt_76>
+    <txt_77 >Transfer hours</txt_77>
+
+    <txt_78 >jan</txt_78>
+    <txt_79 >feb</txt_79>
+    <txt_80 >mar</txt_80>
+    <txt_81 >apr</txt_81>
+    <txt_82 >may</txt_82>
+    <txt_83 >jun</txt_83>
+    <txt_84 >jul</txt_84>
+    <txt_85 >aug</txt_85>
+    <txt_86 >sep</txt_86>
+    <txt_87 >oct</txt_87>
+    <txt_88 >nov</txt_88>
+    <txt_89 >dec</txt_89>
+
+    <txt_90 >Employee</txt_90>
+    <txt_91 >Customer</txt_91>
+    <txt_92 >Project / Job</txt_92>
+    <txt_93 >Year frame</txt_93>
+    <txt_94 >Hours per year</txt_94>
+    <txt_95 >Activity</txt_95>
+    <txt_96 >Wek</txt_96>
+    <txt_97 >Budget jobs</txt_97>
+    <txt_98 >Hours, amount and rem.</txt_98>
+    <txt_99 >Forecast</txt_99>
+    <txt_100 >In total (regardless of the chosen period)</txt_100>
+
+    <txt_101 >Realized</txt_101>
+    <txt_102 >In total (regardless of the chosen period)</txt_102>
+    <txt_103 >Balance forecast / real.</txt_103>
+    <txt_104 >balance (regardless of period)</txt_104>
+    <txt_105 >Total</txt_105>
+    <txt_106 >Rated, Real.</txt_106>
+    <txt_107 >Show all</txt_107>
+    <txt_108 >Total forecast job</txt_108>
+    <txt_109 >Add new forecast</txt_109>
+    <txt_110 >Select job .. (from the pers. activity list, without forecast)</txt_110>
+
+    <txt_111 >No active job you have access to</txt_111>
+    <txt_112 >to specify the forecast for the selected employee.</txt_112>
+    <txt_113 >Or forecast is already specified.</txt_113>
+    <txt_114 >Personal Active Job List</txt_114>
+    <txt_115 >Add new forecast on</txt_115>
+    <txt_116 >Select activity</txt_116>
+    <txt_117 >Add forecast on job</txt_117>
+    <txt_118 >Grandtotal</txt_118>
+    <txt_119 >Real. hours</txt_119>
+    
+    <txt_120>January</txt_120>
+    <txt_121>February</txt_121>
+    <txt_122>March</txt_122>
+    <txt_123>April</txt_123>
+    <txt_124>May</txt_124>
+    <txt_125>June</txt_125>
+    <txt_126>July</txt_126>
+    <txt_127>August</txt_127>
+    <txt_128>September</txt_128>
+    <txt_129>October</txt_129>
+    <txt_130>November</txt_130>
+    <txt_131>December</txt_131>
+    <txt_132 >Hours have been transferred on all active jobs</txt_132>
+    <txt_133 >Go</txt_133>
+
+    <txt_134>january</txt_134>
+    <txt_135>february</txt_135>
+    <txt_136>march</txt_136>
+    <txt_137>april</txt_137>
+    <txt_138>may</txt_138>
+    <txt_139>june</txt_139>
+    <txt_140>july</txt_140>
+    <txt_141>august</txt_141>
+    <txt_142>september</txt_142>
+    <txt_143>october</txt_143>
+    <txt_144>november</txt_144>
+    <txt_145>december</txt_145>
+
+  </no>
+
+
+  <!--- Svensk -->
+  <so>
+
+    <txt_1 >Please wait. Expected loading time: 3-25 sec.</txt_1>
+    <txt_2 >Resource Forecast (timebudget)</txt_2>
+    <txt_3 >Project groups</txt_3>
+    <txt_4 >Employees</txt_4>
+    <txt_5 >Select job</txt_5>
+    <txt_6 >All</txt_6>
+    <txt_7 >Show</txt_7>
+    <txt_8 >all</txt_8>
+    <txt_9 >Active jobs.</txt_9>
+    <txt_10 >current</txt_10>
+
+    <txt_11 >Job (only jobs whose end date is after the selected period start)</txt_11>
+    <txt_12 >Search by job name or. no.</txt_12>
+    <txt_13 >Interval, or</txt_13>
+    <txt_14 >For specific jobs</txt_14>
+    <txt_15 >Filter</txt_15>
+    <txt_16 >Forecast exceeded</txt_16>
+    <txt_17 >Show all active jobs</txt_17>
+    <txt_18 >Also without forecast</txt_18>
+    <txt_19 >all jobs on personal activity list</txt_19>
+    <txt_20 >mh., max 10 employees.</txt_20>
+
+    <txt_21 >Hide employee (s) without forecast</txt_21>
+    <txt_22 >Period from</txt_22>
+    <txt_23 >Jan</txt_23>
+    <txt_24 >Feb</txt_24>
+    <txt_25 >Mar</txt_25>
+    <txt_26 >Apr</txt_26>
+    <txt_27 >May</txt_27>
+    <txt_28 >Jun</txt_28>
+    <txt_29 >Jul</txt_29>
+    <txt_30 >Aug</txt_30>
+
+    <txt_31 >Sep</txt_31>
+    <txt_32 >Oct</txt_32>
+    <txt_33 >Nov</txt_33>
+    <txt_34 >Dec</txt_34>
+    <txt_35 >and</txt_35>
+    <txt_36 >3 months forward (week / week)</txt_36>
+    <txt_37 >12 months forward</txt_37>
+    <txt_38 >6 months forward</txt_38>
+    <txt_39 >Presentation</txt_39>
+    <txt_40 >Do not show yearly and balance columns</txt_40>
+
+    <txt_41 >Do not show the activity's columns</txt_41>
+    <txt_42 >Show all lines (default)</txt_42>
+    <txt_43 >Hide all subtotals (optimized for entry)</txt_43>
+    <txt_44 >Show Graphic (optimized for overview)</txt_44>
+    <txt_45 >Hours</txt_45>
+    <txt_46 >Percentage</txt_46>
+    <txt_47 >Set forecast as</txt_47>
+    <txt_48 >Search</txt_48>
+    <txt_49 >Load forecast</txt_49>
+    <txt_50 >Unspecified</txt_50>
+
+    <txt_51 >unspecified</txt_51>
+    <txt_52 >Select activity</txt_52>
+    <txt_53 >Add new line</txt_53>
+    <txt_54 >Grandtotal forecast</txt_54>
+    <txt_55 >Real.</txt_55>
+    <txt_56 >Rated hours are adjusted for vacation, maternity leave and other planned absence.</txt_56>
+    <txt_57 >forecast</txt_57>
+    <txt_58 >Realized (entered on jobs / projects)</txt_58>
+    <txt_59 >balance</txt_59>
+    <txt_60 >rated.</txt_60>
+
+    <txt_61 >Number of lines</txt_61>
+    <txt_62 >Your CSV. file is ready</txt_62>
+    <txt_63 >.csv file export (Pivot)</txt_63>
+    <txt_64 >.csv file export</txt_64>
+    <txt_65 >Show realized hours</txt_65>
+    <txt_66 >features</txt_66>
+    <txt_67 >Transfer hours not used resource hours.</txt_67>
+    <txt_68 >Applies to all employees.</txt_68>
+    <txt_69 >Transfer balance from week</txt_69>
+    <txt_70 >Until the following week.</txt_70>
+
+    <txt_71 >Transfer balance from</txt_71>
+    <txt_72 >To the following month.</txt_72>
+    <txt_73 >Job</txt_73>
+    <txt_74 >year</txt_74>
+    <txt_75 >h.</txt_75>
+    <txt_76 >Print version</txt_76>
+    <txt_77 >Transfer hours</txt_77>
+
+    <txt_78 >jan</txt_78>
+    <txt_79 >feb</txt_79>
+    <txt_80 >mar</txt_80>
+    <txt_81 >apr</txt_81>
+    <txt_82 >may</txt_82>
+    <txt_83 >jun</txt_83>
+    <txt_84 >jul</txt_84>
+    <txt_85 >aug</txt_85>
+    <txt_86 >sep</txt_86>
+    <txt_87 >oct</txt_87>
+    <txt_88 >nov</txt_88>
+    <txt_89 >dec</txt_89>
+
+    <txt_90 >Employee</txt_90>
+    <txt_91 >Customer</txt_91>
+    <txt_92 >Project / Job</txt_92>
+    <txt_93 >Year frame</txt_93>
+    <txt_94 >Hours per year</txt_94>
+    <txt_95 >Activity</txt_95>
+    <txt_96 >Wek</txt_96>
+    <txt_97 >Budget jobs</txt_97>
+    <txt_98 >Hours, amount and rem.</txt_98>
+    <txt_99 >Forecast</txt_99>
+    <txt_100 >In total (regardless of the chosen period)</txt_100>
+
+    <txt_101 >Realized</txt_101>
+    <txt_102 >In total (regardless of the chosen period)</txt_102>
+    <txt_103 >Balance forecast / real.</txt_103>
+    <txt_104 >balance (regardless of period)</txt_104>
+    <txt_105 >Total</txt_105>
+    <txt_106 >Rated, Real.</txt_106>
+    <txt_107 >Show all</txt_107>
+    <txt_108 >Total forecast job</txt_108>
+    <txt_109 >Add new forecast</txt_109>
+    <txt_110 >Select job .. (from the pers. activity list, without forecast)</txt_110>
+
+    <txt_111 >No active job you have access to</txt_111>
+    <txt_112 >to specify the forecast for the selected employee.</txt_112>
+    <txt_113 >Or forecast is already specified.</txt_113>
+    <txt_114 >Personal Active Job List</txt_114>
+    <txt_115 >Add new forecast on</txt_115>
+    <txt_116 >Select activity</txt_116>
+    <txt_117 >Add forecast on job</txt_117>
+    <txt_118 >Grandtotal</txt_118>
+    <txt_119 >Real. hours</txt_119>
+
+    <txt_120>January</txt_120>
+    <txt_121>February</txt_121>
+    <txt_122>March</txt_122>
+    <txt_123>April</txt_123>
+    <txt_124>May</txt_124>
+    <txt_125>June</txt_125>
+    <txt_126>July</txt_126>
+    <txt_127>August</txt_127>
+    <txt_128>September</txt_128>
+    <txt_129>October</txt_129>
+    <txt_130>November</txt_130>
+    <txt_131>December</txt_131>
+    <txt_132 >Hours have been transferred on all active jobs</txt_132>
+    <txt_133 >Go</txt_133>
+
+    <txt_134>january</txt_134>
+    <txt_135>february</txt_135>
+    <txt_136>march</txt_136>
+    <txt_137>april</txt_137>
+    <txt_138>may</txt_138>
+    <txt_139>june</txt_139>
+    <txt_140>july</txt_140>
+    <txt_141>august</txt_141>
+    <txt_142>september</txt_142>
+    <txt_143>october</txt_143>
+    <txt_144>november</txt_144>
+    <txt_145>december</txt_145>
+    
+  </so>
+
+
+  <!--- Tysk -->
+  <de>
+    <txt_1 >Please wait. Expected loading time: 3-25 sec.</txt_1>
+    <txt_2 >Resource Forecast (timebudget)</txt_2>
+    <txt_3 >Project groups</txt_3>
+    <txt_4 >Employees</txt_4>
+    <txt_5 >Select job</txt_5>
+    <txt_6 >All</txt_6>
+    <txt_7 >Show</txt_7>
+    <txt_8 >all</txt_8>
+    <txt_9 >Active jobs.</txt_9>
+    <txt_10 >current</txt_10>
+
+    <txt_11 >Job (only jobs whose end date is after the selected period start)</txt_11>
+    <txt_12 >Search by job name or. no.</txt_12>
+    <txt_13 >Interval, or</txt_13>
+    <txt_14 >For specific jobs</txt_14>
+    <txt_15 >Filter</txt_15>
+    <txt_16 >Forecast exceeded</txt_16>
+    <txt_17 >Show all active jobs</txt_17>
+    <txt_18 >Also without forecast</txt_18>
+    <txt_19 >all jobs on personal activity list</txt_19>
+    <txt_20 >mh., max 10 employees.</txt_20>
+
+    <txt_21 >Hide employee (s) without forecast</txt_21>
+    <txt_22 >Period from</txt_22>
+    <txt_23 >Jan</txt_23>
+    <txt_24 >Feb</txt_24>
+    <txt_25 >Mar</txt_25>
+    <txt_26 >Apr</txt_26>
+    <txt_27 >May</txt_27>
+    <txt_28 >Jun</txt_28>
+    <txt_29 >Jul</txt_29>
+    <txt_30 >Aug</txt_30>
+
+    <txt_31 >Sep</txt_31>
+    <txt_32 >Oct</txt_32>
+    <txt_33 >Nov</txt_33>
+    <txt_34 >Dec</txt_34>
+    <txt_35 >and</txt_35>
+    <txt_36 >3 months forward (week / week)</txt_36>
+    <txt_37 >12 months forward</txt_37>
+    <txt_38 >6 months forward</txt_38>
+    <txt_39 >Presentation</txt_39>
+    <txt_40 >Do not show yearly and balance columns</txt_40>
+
+    <txt_41 >Do not show the activity's columns</txt_41>
+    <txt_42 >Show all lines (default)</txt_42>
+    <txt_43 >Hide all subtotals (optimized for entry)</txt_43>
+    <txt_44 >Show Graphic (optimized for overview)</txt_44>
+    <txt_45 >Hours</txt_45>
+    <txt_46 >Percentage</txt_46>
+    <txt_47 >Set forecast as</txt_47>
+    <txt_48 >Search</txt_48>
+    <txt_49 >Load forecast</txt_49>
+    <txt_50 >Unspecified</txt_50>
+
+    <txt_51 >unspecified</txt_51>
+    <txt_52 >Select activity</txt_52>
+    <txt_53 >Add new line</txt_53>
+    <txt_54 >Grandtotal forecast</txt_54>
+    <txt_55 >Real.</txt_55>
+    <txt_56 >Rated hours are adjusted for vacation, maternity leave and other planned absence.</txt_56>
+    <txt_57 >forecast</txt_57>
+    <txt_58 >Realized (entered on jobs / projects)</txt_58>
+    <txt_59 >balance</txt_59>
+    <txt_60 >rated.</txt_60>
+
+    <txt_61 >Number of lines</txt_61>
+    <txt_62 >Your CSV. file is ready</txt_62>
+    <txt_63 >.csv file export (Pivot)</txt_63>
+    <txt_64 >.csv file export</txt_64>
+    <txt_65 >Show realized hours</txt_65>
+    <txt_66 >features</txt_66>
+    <txt_67 >Transfer hours not used resource hours.</txt_67>
+    <txt_68 >Applies to all employees.</txt_68>
+    <txt_69 >Transfer balance from week</txt_69>
+    <txt_70 >Until the following week.</txt_70>
+
+    <txt_71 >Transfer balance from</txt_71>
+    <txt_72 >To the following month.</txt_72>
+    <txt_73 >Job</txt_73>
+    <txt_74 >year</txt_74>
+    <txt_75 >h.</txt_75>
+    <txt_76 >Print version</txt_76>
+    <txt_77 >Transfer hours</txt_77>
+
+    <txt_78 >jan</txt_78>
+    <txt_79 >feb</txt_79>
+    <txt_80 >mar</txt_80>
+    <txt_81 >apr</txt_81>
+    <txt_82 >may</txt_82>
+    <txt_83 >jun</txt_83>
+    <txt_84 >jul</txt_84>
+    <txt_85 >aug</txt_85>
+    <txt_86 >sep</txt_86>
+    <txt_87 >oct</txt_87>
+    <txt_88 >nov</txt_88>
+    <txt_89 >dec</txt_89>
+
+    <txt_90 >Employee</txt_90>
+    <txt_91 >Customer</txt_91>
+    <txt_92 >Project / Job</txt_92>
+    <txt_93 >Year frame</txt_93>
+    <txt_94 >Hours per year</txt_94>
+    <txt_95 >Activity</txt_95>
+    <txt_96 >Wek</txt_96>
+    <txt_97 >Budget jobs</txt_97>
+    <txt_98 >Hours, amount and rem.</txt_98>
+    <txt_99 >Forecast</txt_99>
+    <txt_100 >In total (regardless of the chosen period)</txt_100>
+
+    <txt_101 >Realized</txt_101>
+    <txt_102 >In total (regardless of the chosen period)</txt_102>
+    <txt_103 >Balance forecast / real.</txt_103>
+    <txt_104 >balance (regardless of period)</txt_104>
+    <txt_105 >Total</txt_105>
+    <txt_106 >Rated, Real.</txt_106>
+    <txt_107 >Show all</txt_107>
+    <txt_108 >Total forecast job</txt_108>
+    <txt_109 >Add new forecast</txt_109>
+    <txt_110 >Select job .. (from the pers. activity list, without forecast)</txt_110>
+
+    <txt_111 >No active job you have access to</txt_111>
+    <txt_112 >to specify the forecast for the selected employee.</txt_112>
+    <txt_113 >Or forecast is already specified.</txt_113>
+    <txt_114 >Personal Active Job List</txt_114>
+    <txt_115 >Add new forecast on</txt_115>
+    <txt_116 >Select activity</txt_116>
+    <txt_117 >Add forecast on job</txt_117>
+    <txt_118 >Grandtotal</txt_118>
+    <txt_119 >Real. hours</txt_119>
+
+    <txt_120>January</txt_120>
+    <txt_121>February</txt_121>
+    <txt_122>March</txt_122>
+    <txt_123>April</txt_123>
+    <txt_124>May</txt_124>
+    <txt_125>June</txt_125>
+    <txt_126>July</txt_126>
+    <txt_127>August</txt_127>
+    <txt_128>September</txt_128>
+    <txt_129>October</txt_129>
+    <txt_130>November</txt_130>
+    <txt_131>December</txt_131>
+    <txt_132 >Hours have been transferred on all active jobs</txt_132>
+    <txt_133 >Go</txt_133>
+
+    <txt_134>january</txt_134>
+    <txt_135>february</txt_135>
+    <txt_136>march</txt_136>
+    <txt_137>april</txt_137>
+    <txt_138>may</txt_138>
+    <txt_139>june</txt_139>
+    <txt_140>july</txt_140>
+    <txt_141>august</txt_141>
+    <txt_142>september</txt_142>
+    <txt_143>october</txt_143>
+    <txt_144>november</txt_144>
+    <txt_145>december</txt_145>
+    
+  </de>
+
+
+  <!--- Fransk -->
+  <fr>
+    <txt_1 >Please wait. Expected loading time: 3-25 sec.</txt_1>
+    <txt_2 >Resource Forecast (timebudget)</txt_2>
+    <txt_3 >Project groups</txt_3>
+    <txt_4 >Employees</txt_4>
+    <txt_5 >Select job</txt_5>
+    <txt_6 >All</txt_6>
+    <txt_7 >Show</txt_7>
+    <txt_8 >all</txt_8>
+    <txt_9 >Active jobs.</txt_9>
+    <txt_10 >current</txt_10>
+
+    <txt_11 >Job (only jobs whose end date is after the selected period start)</txt_11>
+    <txt_12 >Search by job name or. no.</txt_12>
+    <txt_13 >Interval, or</txt_13>
+    <txt_14 >For specific jobs</txt_14>
+    <txt_15 >Filter</txt_15>
+    <txt_16 >Forecast exceeded</txt_16>
+    <txt_17 >Show all active jobs</txt_17>
+    <txt_18 >Also without forecast</txt_18>
+    <txt_19 >all jobs on personal activity list</txt_19>
+    <txt_20 >mh., max 10 employees.</txt_20>
+
+    <txt_21 >Hide employee (s) without forecast</txt_21>
+    <txt_22 >Period from</txt_22>
+    <txt_23 >Jan</txt_23>
+    <txt_24 >Feb</txt_24>
+    <txt_25 >Mar</txt_25>
+    <txt_26 >Apr</txt_26>
+    <txt_27 >May</txt_27>
+    <txt_28 >Jun</txt_28>
+    <txt_29 >Jul</txt_29>
+    <txt_30 >Aug</txt_30>
+
+    <txt_31 >Sep</txt_31>
+    <txt_32 >Oct</txt_32>
+    <txt_33 >Nov</txt_33>
+    <txt_34 >Dec</txt_34>
+    <txt_35 >and</txt_35>
+    <txt_36 >3 months forward (week / week)</txt_36>
+    <txt_37 >12 months forward</txt_37>
+    <txt_38 >6 months forward</txt_38>
+    <txt_39 >Presentation</txt_39>
+    <txt_40 >Do not show yearly and balance columns</txt_40>
+
+    <txt_41 >Do not show the activity's columns</txt_41>
+    <txt_42 >Show all lines (default)</txt_42>
+    <txt_43 >Hide all subtotals (optimized for entry)</txt_43>
+    <txt_44 >Show Graphic (optimized for overview)</txt_44>
+    <txt_45 >Hours</txt_45>
+    <txt_46 >Percentage</txt_46>
+    <txt_47 >Set forecast as</txt_47>
+    <txt_48 >Search</txt_48>
+    <txt_49 >Load forecast</txt_49>
+    <txt_50 >Unspecified</txt_50>
+
+    <txt_51 >unspecified</txt_51>
+    <txt_52 >Select activity</txt_52>
+    <txt_53 >Add new line</txt_53>
+    <txt_54 >Grandtotal forecast</txt_54>
+    <txt_55 >Real.</txt_55>
+    <txt_56 >Rated hours are adjusted for vacation, maternity leave and other planned absence.</txt_56>
+    <txt_57 >forecast</txt_57>
+    <txt_58 >Realized (entered on jobs / projects)</txt_58>
+    <txt_59 >balance</txt_59>
+    <txt_60 >rated.</txt_60>
+
+    <txt_61 >Number of lines</txt_61>
+    <txt_62 >Your CSV. file is ready</txt_62>
+    <txt_63 >.csv file export (Pivot)</txt_63>
+    <txt_64 >.csv file export</txt_64>
+    <txt_65 >Show realized hours</txt_65>
+    <txt_66 >features</txt_66>
+    <txt_67 >Transfer hours not used resource hours.</txt_67>
+    <txt_68 >Applies to all employees.</txt_68>
+    <txt_69 >Transfer balance from week</txt_69>
+    <txt_70 >Until the following week.</txt_70>
+
+    <txt_71 >Transfer balance from</txt_71>
+    <txt_72 >To the following month.</txt_72>
+    <txt_73 >Job</txt_73>
+    <txt_74 >year</txt_74>
+    <txt_75 >h.</txt_75>
+    <txt_76 >Print version</txt_76>
+    <txt_77 >Transfer hours</txt_77>
+
+    <txt_78 >jan</txt_78>
+    <txt_79 >feb</txt_79>
+    <txt_80 >mar</txt_80>
+    <txt_81 >apr</txt_81>
+    <txt_82 >may</txt_82>
+    <txt_83 >jun</txt_83>
+    <txt_84 >jul</txt_84>
+    <txt_85 >aug</txt_85>
+    <txt_86 >sep</txt_86>
+    <txt_87 >oct</txt_87>
+    <txt_88 >nov</txt_88>
+    <txt_89 >dec</txt_89>
+
+    <txt_90 >Employee</txt_90>
+    <txt_91 >Customer</txt_91>
+    <txt_92 >Project / Job</txt_92>
+    <txt_93 >Year frame</txt_93>
+    <txt_94 >Hours per year</txt_94>
+    <txt_95 >Activity</txt_95>
+    <txt_96 >Wek</txt_96>
+    <txt_97 >Budget jobs</txt_97>
+    <txt_98 >Hours, amount and rem.</txt_98>
+    <txt_99 >Forecast</txt_99>
+    <txt_100 >In total (regardless of the chosen period)</txt_100>
+
+    <txt_101 >Realized</txt_101>
+    <txt_102 >In total (regardless of the chosen period)</txt_102>
+    <txt_103 >Balance forecast / real.</txt_103>
+    <txt_104 >balance (regardless of period)</txt_104>
+    <txt_105 >Total</txt_105>
+    <txt_106 >Rated, Real.</txt_106>
+    <txt_107 >Show all</txt_107>
+    <txt_108 >Total forecast job</txt_108>
+    <txt_109 >Add new forecast</txt_109>
+    <txt_110 >Select job .. (from the pers. activity list, without forecast)</txt_110>
+
+    <txt_111 >No active job you have access to</txt_111>
+    <txt_112 >to specify the forecast for the selected employee.</txt_112>
+    <txt_113 >Or forecast is already specified.</txt_113>
+    <txt_114 >Personal Active Job List</txt_114>
+    <txt_115 >Add new forecast on</txt_115>
+    <txt_116 >Select activity</txt_116>
+    <txt_117 >Add forecast on job</txt_117>
+    <txt_118 >Grandtotal</txt_118>
+    <txt_119 >Real. hours</txt_119>
+
+    <txt_120>January</txt_120>
+    <txt_121>February</txt_121>
+    <txt_122>March</txt_122>
+    <txt_123>April</txt_123>
+    <txt_124>May</txt_124>
+    <txt_125>June</txt_125>
+    <txt_126>July</txt_126>
+    <txt_127>August</txt_127>
+    <txt_128>September</txt_128>
+    <txt_129>October</txt_129>
+    <txt_130>November</txt_130>
+    <txt_131>December</txt_131>
+    <txt_132 >Hours have been transferred on all active jobs</txt_132>
+    <txt_133 >Go</txt_133>
+
+    <txt_134>january</txt_134>
+    <txt_135>february</txt_135>
+    <txt_136>march</txt_136>
+    <txt_137>april</txt_137>
+    <txt_138>may</txt_138>
+    <txt_139>june</txt_139>
+    <txt_140>july</txt_140>
+    <txt_141>august</txt_141>
+    <txt_142>september</txt_142>
+    <txt_143>october</txt_143>
+    <txt_144>november</txt_144>
+    <txt_145>december</txt_145>
+    
+  </fr>
+
+
+
+  <!-- Engelsk -->
+  <uk>
+    <txt_1 >Please wait. Expected loading time: 3-25 sec.</txt_1>
+    <txt_2 >Resource Forecast (timebudget)</txt_2>
+    <txt_3 >Project groups</txt_3>
+    <txt_4 >Employees</txt_4>
+    <txt_5 >Select job</txt_5>
+    <txt_6 >All</txt_6>
+    <txt_7 >Show</txt_7>
+    <txt_8 >all</txt_8>
+    <txt_9 >Active jobs.</txt_9>
+    <txt_10 >current</txt_10>
+
+    <txt_11 >Job (only jobs whose end date is after the selected period start)</txt_11>
+    <txt_12 >Search by job name or. no.</txt_12>
+    <txt_13 >Interval, or</txt_13>
+    <txt_14 >For specific jobs</txt_14>
+    <txt_15 >Filter</txt_15>
+    <txt_16 >Forecast exceeded</txt_16>
+    <txt_17 >Show all active jobs</txt_17>
+    <txt_18 >Also without forecast</txt_18>
+    <txt_19 >all jobs on personal activity list</txt_19>
+    <txt_20 >mh., max 10 employees.</txt_20>
+
+    <txt_21 >Hide employee (s) without forecast</txt_21>
+    <txt_22 >Period from</txt_22>
+    <txt_23 >Jan</txt_23>
+    <txt_24 >Feb</txt_24>
+    <txt_25 >Mar</txt_25>
+    <txt_26 >Apr</txt_26>
+    <txt_27 >May</txt_27>
+    <txt_28 >Jun</txt_28>
+    <txt_29 >Jul</txt_29>
+    <txt_30 >Aug</txt_30>
+
+    <txt_31 >Sep</txt_31>
+    <txt_32 >Oct</txt_32>
+    <txt_33 >Nov</txt_33>
+    <txt_34 >Dec</txt_34>
+    <txt_35 >and</txt_35>
+    <txt_36 >3 months forward (week / week)</txt_36>
+    <txt_37 >12 months forward</txt_37>
+    <txt_38 >6 months forward</txt_38>
+    <txt_39 >Presentation</txt_39>
+    <txt_40 >Do not show yearly and balance columns</txt_40>
+
+    <txt_41 >Do not show the activity's columns</txt_41>
+    <txt_42 >Show all lines (default)</txt_42>
+    <txt_43 >Hide all subtotals (optimized for entry)</txt_43>
+    <txt_44 >Show Graphic (optimized for overview)</txt_44>
+    <txt_45 >Hours</txt_45>
+    <txt_46 >Percentage</txt_46>
+    <txt_47 >Set forecast as</txt_47>
+    <txt_48 >Search</txt_48>
+    <txt_49 >Load forecast</txt_49>
+    <txt_50 >Unspecified</txt_50>
+
+    <txt_51 >unspecified</txt_51>
+    <txt_52 >Select activity</txt_52>
+    <txt_53 >Add new line</txt_53>
+    <txt_54 >Grandtotal forecast</txt_54>
+    <txt_55 >Real.</txt_55>
+    <txt_56 >Rated hours are adjusted for vacation, maternity leave and other planned absence.</txt_56>
+    <txt_57 >forecast</txt_57>
+    <txt_58 >Realized (entered on jobs / projects)</txt_58>
+    <txt_59 >balance</txt_59>
+    <txt_60 >rated.</txt_60>
+
+    <txt_61 >Number of lines</txt_61>
+    <txt_62 >Your CSV. file is ready</txt_62>
+    <txt_63 >.csv file export (Pivot)</txt_63>
+    <txt_64 >.csv file export</txt_64>
+    <txt_65 >Show realized hours</txt_65>
+    <txt_66 >features</txt_66>
+    <txt_67 >Transfer hours not used resource hours.</txt_67>
+    <txt_68 >Applies to all employees.</txt_68>
+    <txt_69 >Transfer balance from week</txt_69>
+    <txt_70 >Until the following week.</txt_70>
+
+    <txt_71 >Transfer balance from</txt_71>
+    <txt_72 >To the following month.</txt_72>
+    <txt_73 >Job</txt_73>
+    <txt_74 >year</txt_74>
+    <txt_75 >h.</txt_75>
+    <txt_76 >Print version</txt_76>
+    <txt_77 >Transfer hours</txt_77>
+
+    <txt_78 >jan</txt_78>
+    <txt_79 >feb</txt_79>
+    <txt_80 >mar</txt_80>
+    <txt_81 >apr</txt_81>
+    <txt_82 >may</txt_82>
+    <txt_83 >jun</txt_83>
+    <txt_84 >jul</txt_84>
+    <txt_85 >aug</txt_85>
+    <txt_86 >sep</txt_86>
+    <txt_87 >oct</txt_87>
+    <txt_88 >nov</txt_88>
+    <txt_89 >dec</txt_89>
+
+    <txt_90 >Employee</txt_90>
+    <txt_91 >Customer</txt_91>
+    <txt_92 >Project / Job</txt_92>
+    <txt_93 >Year frame</txt_93>
+    <txt_94 >Hours per year</txt_94>
+    <txt_95 >Activity</txt_95>
+    <txt_96 >Wek</txt_96>
+    <txt_97 >Budget jobs</txt_97>
+    <txt_98 >Hours, amount and rem.</txt_98>
+    <txt_99 >Forecast</txt_99>
+    <txt_100 >In total (regardless of the chosen period)</txt_100>
+
+    <txt_101 >Realized</txt_101>
+    <txt_102 >In total (regardless of the chosen period)</txt_102>
+    <txt_103 >Balance forecast / real.</txt_103>
+    <txt_104 >balance (regardless of period)</txt_104>
+    <txt_105 >Total</txt_105>
+    <txt_106 >Rated, Real.</txt_106>
+    <txt_107 >Show all</txt_107>
+    <txt_108 >Total forecast job</txt_108>
+    <txt_109 >Add new forecast</txt_109>
+    <txt_110 >Select job .. (from the pers. activity list, without forecast)</txt_110>
+
+    <txt_111 >No active job you have access to</txt_111>
+    <txt_112 >to specify the forecast for the selected employee.</txt_112>
+    <txt_113 >Or forecast is already specified.</txt_113>
+    <txt_114 >Personal Active Job List</txt_114>
+    <txt_115 >Add new forecast on</txt_115>
+    <txt_116 >Select activity</txt_116>
+    <txt_117 >Add forecast on job</txt_117>
+    <txt_118 >Grandtotal</txt_118>
+    <txt_119 >Real. hours</txt_119>
+
+    <txt_120>January</txt_120>
+    <txt_121>February</txt_121>
+    <txt_122>March</txt_122>
+    <txt_123>April</txt_123>
+    <txt_124>May</txt_124>
+    <txt_125>June</txt_125>
+    <txt_126>July</txt_126>
+    <txt_127>August</txt_127>
+    <txt_128>September</txt_128>
+    <txt_129>October</txt_129>
+    <txt_130>November</txt_130>
+    <txt_131>December</txt_131>
+    <txt_132 >Hours have been transferred on all active jobs</txt_132>
+    <txt_133 >Go</txt_133>
+
+    <txt_134>january</txt_134>
+    <txt_135>february</txt_135>
+    <txt_136>march</txt_136>
+    <txt_137>april</txt_137>
+    <txt_138>may</txt_138>
+    <txt_139>june</txt_139>
+    <txt_140>july</txt_140>
+    <txt_141>august</txt_141>
+    <txt_142>september</txt_142>
+    <txt_143>october</txt_143>
+    <txt_144>november</txt_144>
+    <txt_145>december</txt_145>
+
+  </uk>
+
+
+  <!--- Spansk -->
+  <es>
+    <txt_1 >Please wait. Expected loading time: 3-25 sec.</txt_1>
+    <txt_2 >Resource Forecast (timebudget)</txt_2>
+    <txt_3 >Project groups</txt_3>
+    <txt_4 >Employees</txt_4>
+    <txt_5 >Select job</txt_5>
+    <txt_6 >All</txt_6>
+    <txt_7 >Show</txt_7>
+    <txt_8 >all</txt_8>
+    <txt_9 >Active jobs.</txt_9>
+    <txt_10 >current</txt_10>
+
+    <txt_11 >Job (only jobs whose end date is after the selected period start)</txt_11>
+    <txt_12 >Search by job name or. no.</txt_12>
+    <txt_13 >Interval, or</txt_13>
+    <txt_14 >For specific jobs</txt_14>
+    <txt_15 >Filter</txt_15>
+    <txt_16 >Forecast exceeded</txt_16>
+    <txt_17 >Show all active jobs</txt_17>
+    <txt_18 >Also without forecast</txt_18>
+    <txt_19 >all jobs on personal activity list</txt_19>
+    <txt_20 >mh., max 10 employees.</txt_20>
+
+    <txt_21 >Hide employee (s) without forecast</txt_21>
+    <txt_22 >Period from</txt_22>
+    <txt_23 >Jan</txt_23>
+    <txt_24 >Feb</txt_24>
+    <txt_25 >Mar</txt_25>
+    <txt_26 >Apr</txt_26>
+    <txt_27 >May</txt_27>
+    <txt_28 >Jun</txt_28>
+    <txt_29 >Jul</txt_29>
+    <txt_30 >Aug</txt_30>
+
+    <txt_31 >Sep</txt_31>
+    <txt_32 >Oct</txt_32>
+    <txt_33 >Nov</txt_33>
+    <txt_34 >Dec</txt_34>
+    <txt_35 >and</txt_35>
+    <txt_36 >3 months forward (week / week)</txt_36>
+    <txt_37 >12 months forward</txt_37>
+    <txt_38 >6 months forward</txt_38>
+    <txt_39 >Presentation</txt_39>
+    <txt_40 >Do not show yearly and balance columns</txt_40>
+
+    <txt_41 >Do not show the activity's columns</txt_41>
+    <txt_42 >Show all lines (default)</txt_42>
+    <txt_43 >Hide all subtotals (optimized for entry)</txt_43>
+    <txt_44 >Show Graphic (optimized for overview)</txt_44>
+    <txt_45 >Hours</txt_45>
+    <txt_46 >Percentage</txt_46>
+    <txt_47 >Set forecast as</txt_47>
+    <txt_48 >Search</txt_48>
+    <txt_49 >Load forecast</txt_49>
+    <txt_50 >Unspecified</txt_50>
+
+    <txt_51 >unspecified</txt_51>
+    <txt_52 >Select activity</txt_52>
+    <txt_53 >Add new line</txt_53>
+    <txt_54 >Grandtotal forecast</txt_54>
+    <txt_55 >Real.</txt_55>
+    <txt_56 >Rated hours are adjusted for vacation, maternity leave and other planned absence.</txt_56>
+    <txt_57 >forecast</txt_57>
+    <txt_58 >Realized (entered on jobs / projects)</txt_58>
+    <txt_59 >balance</txt_59>
+    <txt_60 >rated.</txt_60>
+
+    <txt_61 >Number of lines</txt_61>
+    <txt_62 >Your CSV. file is ready</txt_62>
+    <txt_63 >.csv file export (Pivot)</txt_63>
+    <txt_64 >.csv file export</txt_64>
+    <txt_65 >Show realized hours</txt_65>
+    <txt_66 >features</txt_66>
+    <txt_67 >Transfer hours not used resource hours.</txt_67>
+    <txt_68 >Applies to all employees.</txt_68>
+    <txt_69 >Transfer balance from week</txt_69>
+    <txt_70 >Until the following week.</txt_70>
+
+    <txt_71 >Transfer balance from</txt_71>
+    <txt_72 >To the following month.</txt_72>
+    <txt_73 >Job</txt_73>
+    <txt_74 >year</txt_74>
+    <txt_75 >h.</txt_75>
+    <txt_76 >Print version</txt_76>
+    <txt_77 >Transfer hours</txt_77>
+
+    <txt_78 >jan</txt_78>
+    <txt_79 >feb</txt_79>
+    <txt_80 >mar</txt_80>
+    <txt_81 >apr</txt_81>
+    <txt_82 >may</txt_82>
+    <txt_83 >jun</txt_83>
+    <txt_84 >jul</txt_84>
+    <txt_85 >aug</txt_85>
+    <txt_86 >sep</txt_86>
+    <txt_87 >oct</txt_87>
+    <txt_88 >nov</txt_88>
+    <txt_89 >dec</txt_89>
+
+    <txt_90 >Employee</txt_90>
+    <txt_91 >Customer</txt_91>
+    <txt_92 >Project / Job</txt_92>
+    <txt_93 >Year frame</txt_93>
+    <txt_94 >Hours per year</txt_94>
+    <txt_95 >Activity</txt_95>
+    <txt_96 >Wek</txt_96>
+    <txt_97 >Budget jobs</txt_97>
+    <txt_98 >Hours, amount and rem.</txt_98>
+    <txt_99 >Forecast</txt_99>
+    <txt_100 >In total (regardless of the chosen period)</txt_100>
+
+    <txt_101 >Realized</txt_101>
+    <txt_102 >In total (regardless of the chosen period)</txt_102>
+    <txt_103 >Balance forecast / real.</txt_103>
+    <txt_104 >balance (regardless of period)</txt_104>
+    <txt_105 >Total</txt_105>
+    <txt_106 >Rated, Real.</txt_106>
+    <txt_107 >Show all</txt_107>
+    <txt_108 >Total forecast job</txt_108>
+    <txt_109 >Add new forecast</txt_109>
+    <txt_110 >Select job .. (from the pers. activity list, without forecast)</txt_110>
+
+    <txt_111 >No active job you have access to</txt_111>
+    <txt_112 >to specify the forecast for the selected employee.</txt_112>
+    <txt_113 >Or forecast is already specified.</txt_113>
+    <txt_114 >Personal Active Job List</txt_114>
+    <txt_115 >Add new forecast on</txt_115>
+    <txt_116 >Select activity</txt_116>
+    <txt_117 >Add forecast on job</txt_117>
+    <txt_118 >Grandtotal</txt_118>
+    <txt_119 >Real. hours</txt_119>
+
+    <txt_120>January</txt_120>
+    <txt_121>February</txt_121>
+    <txt_122>March</txt_122>
+    <txt_123>April</txt_123>
+    <txt_124>May</txt_124>
+    <txt_125>June</txt_125>
+    <txt_126>July</txt_126>
+    <txt_127>August</txt_127>
+    <txt_128>September</txt_128>
+    <txt_129>October</txt_129>
+    <txt_130>November</txt_130>
+    <txt_131>December</txt_131>
+    <txt_132 >Hours have been transferred on all active jobs</txt_132>
+    <txt_133 >Go</txt_133>
+
+    <txt_134>january</txt_134>
+    <txt_135>february</txt_135>
+    <txt_136>march</txt_136>
+    <txt_137>april</txt_137>
+    <txt_138>may</txt_138>
+    <txt_139>june</txt_139>
+    <txt_140>july</txt_140>
+    <txt_141>august</txt_141>
+    <txt_142>september</txt_142>
+    <txt_143>october</txt_143>
+    <txt_144>november</txt_144>
+    <txt_145>december</txt_145>
+
+  </es>
+
+
+</sprog>

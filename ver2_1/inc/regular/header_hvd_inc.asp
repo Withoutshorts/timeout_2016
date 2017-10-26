@@ -17,6 +17,7 @@
 	<script src="../inc/jquery/timeout.jquery.js" type="text/javascript"></script>
 	<script src="../inc/jquery/jquery.coookie.js" type="text/javascript"></script>
 	<script src="../inc/jquery/jquery.scrollTo-1.4.2-min.js" type="text/javascript"></script>
+    <!--<script src="../inc/jquery/jquery.scrollTo.min.js" type="text/javascript"></script>-->
 	<script src="../inc/jquery/jquery.timer.js" type="text/javascript"></script>
 
 	<script src="../inc/jquery/highcharts/highcharts.js" type="text/javascript"></script>

@@ -1887,7 +1887,19 @@ if media <> "export" then
     <tr>
 		<td bgcolor="#cccccc" colspan="<%=csp+2%>" style="height:1px;"></td>
 	</tr>
-	<tr bgcolor="#FFFFFF">
+
+    <%
+        'tjekker helligdag
+      call helligdage(dtUse, 0, lto)
+
+      if datepart("w", dtUse, 2,2) = 6 or datepart("w", dtUse, 2,2) = 7 or erHellig = 1 then
+      bgcolorFRI = "gainsboro"
+      else
+      bgcolorFRI = "#FFFFFF"
+      end if
+      %>
+
+      <tr bgcolor="<%=bgcolorFRI %>">
         <input type="hidden" value="0" name="id" />
        <input type="hidden" value="<%=usemrn%>" name="mid" />
         <input type="hidden" value="<%=formatdatetime(dtUse, 2) %>" name="logindato" />

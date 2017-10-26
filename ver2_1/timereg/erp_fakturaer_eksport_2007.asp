@@ -300,7 +300,8 @@ if len(session("user")) = 0 then
 	&" ska2.mnavn AS skans2, ska2.mnr AS skansnr2,"_
 	&" fd.aktid AS fdaktid, a.fase,"_
 	& "a.navn AS aktnavn, fo.navn AS fomr, fd.enhedsang As fakdet_enhedsang, "_
-	&" fd.rabat AS fakdet_rabat, v2.valutakode AS v2valutakode, v3.valutakode AS v3valutakode, medregnikkeioms, brugfakdatolabel, labeldato, fd.momsfri, f.fak_fomr, f.momssats, f.konto, f.modkonto, f.b_dato"_
+	&" fd.rabat AS fakdet_rabat, v2.valutakode AS v2valutakode, v3.valutakode AS v3valutakode, medregnikkeioms, "_
+    &" brugfakdatolabel, labeldato, fd.momsfri, f.fak_fomr, f.momssats, f.konto, f.modkonto, f.b_dato "_
 	&" FROM fakturaer f "_
 	&" LEFT JOIN job j ON (j.id = f.jobid)"_ 
 	&" LEFT JOIN kunder k ON (k.kid = j.jobknr)"_ 
@@ -347,6 +348,8 @@ if len(session("user")) = 0 then
 	                 strTxtExport = strTxtExport &"Afdeling;Underafdeling;Momskode;Konto;Modkonto;Forfaldsdato;"
 	                 end if
 
+                     
+
 	            strTxtExport = strTxtExport & vbcrlf
 
         end if
@@ -357,7 +360,7 @@ if len(session("user")) = 0 then
 	strSQL = "SELECT f.fid, f.faknr, f.fakdato, f.timer, f.beloeb, f.b_dato, f.fakadr, f.faktype, "_
 	&" f.konto, f.modkonto, f.moms, f.erfakbetalt, f.valuta, f.kurs, fak_ski, "_
 	&" k.kkundenr, k.kkundenavn, k.adresse, k.postnr, k.city, k.land, k.telefon, f.valuta, "_
-	&" f.kurs, k.ean, v.valutakode, k.cvr, medregnikkeioms, j.jobnr, s.aftalenr, brugfakdatolabel, labeldato, f.fak_fomr, k.ktype, momssats, f.afsender"_
+	&" f.kurs, k.ean, v.valutakode, k.cvr, medregnikkeioms, j.jobnr, s.aftalenr, brugfakdatolabel, labeldato, f.fak_fomr, k.ktype, momssats, f.afsender, f.editor AS oprettetaf, f.dato AS oprettetdato"_
 	&" FROM fakturaer f "_
 	&" LEFT JOIN kunder k ON (k.kid = f.fakadr)"_
     &" LEFT JOIN job j ON (j.id = f.jobid)"_
@@ -413,7 +416,10 @@ if len(session("user")) = 0 then
 	        strTxtExport = strTxtExport &"Afdeling;Underafdeling;Momskode;"
 	        end if
 	                
+            strTxtExport = strTxtExport &"Oprettet af;Oprettet dato;"
+
 	        strTxtExport = strTxtExport & vbcrlf
+
 	    case 2
 	        if lto <> "execon" AND lto <> "immenso" then
 	        strTxtExport = "Debitornr.;Fakturanr.;Fakturadato;Forfaldsdato;Beløb (incl. moms);Valuta;"
@@ -1424,6 +1430,7 @@ if len(session("user")) = 0 then
 	        strTxtExport = strTxtExport &""& fak_AfdTxt &";"& fak_fomrTxt &";"& momssats &";"
 	        end if
 
+            strTxtExport = strTxtExport &""& oRec("oprettetaf") &";"& oRec("oprettetdato") &";"
             
     case 2
     

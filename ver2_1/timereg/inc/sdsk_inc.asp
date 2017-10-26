@@ -151,11 +151,12 @@ function eml_inciCreator()
 			
 			
 			if instr(oRec("email"), "@") <> 0 then
-			modNavn = oRec("mnavn") & "("& oRec("mnr") &") - " & oRec("init")
+			modNavn = oRec("mnavn") & "("& oRec("mnr") &")  " & oRec("init")
 			modEmail = oRec("email")
-			Mailer.AddBCC ""&modNavn&"",""& modEmail 
+			'myMail.BCC = ""&modNavn&""&""& modEmail
+            myMail.CC = myMail.CC & ";"& modEmail
 			bcc = bcc & "Incident ejer: "&oRec("mnavn")&", "& oRec("email") & "<br>"
-		    end if
+		    end if 
 				
 			oRec.movenext
 			wend
@@ -196,7 +197,8 @@ function eml_kogjobAns()
         		if len(request("FM_sendtilkogjans")) <> 0 then
 		        
         		    if instr(oRec("email"), "@") <> 0 then
-                    Mailer.AddBCC ""&modKansNavn&"",""& modKansEmail 
+                    'myMail.Bcc = ""&modKansNavn&""&""& modKansEmail
+                    myMail.CC = myMail.CC & ";"& modKansEmail
                     bcc = bcc & "Pri. Kundeansv: "&oRec("mnavn")&", "& oRec("email") & "<br>"
                     end if
         		
@@ -219,7 +221,8 @@ function eml_kogjobAns()
 		        while not oRec.EOF 
         		
         		 if instr(oRec("email"), "@") <> 0 then
-		         Mailer.AddBCC ""&oRec("mnavn")&"",""& oRec("email")
+		         'myMail.Bcc = ""&oRec("mnavn")&""&""& oRec("email")
+                 myMail.CC = myMail.CC & ";"& oRec("email")
         		 bcc = bcc & "Jobansvarlig: "&oRec("mnavn")&", "& oRec("email") & "<br>"
                  end if
         		
@@ -243,7 +246,8 @@ function eml_Kpers(kpersid)
 		while not oRec.EOF
 			
 		if instr(oRec("email"), "@") <> 0 then
-		Mailer.AddBCC ""&oRec("navn")&"",""& oRec("email")  
+		'myMail.Bcc = ""&oRec("navn")&""&""& oRec("email")
+        myMail.CC = myMail.CC & ";"& oRec("email")  
 		bcc = bcc & "Kontaktperson: "&oRec("navn")&", "& oRec("email") & "<br>"
 	    end if
 		
@@ -286,7 +290,8 @@ function eml_proGrp()
 					
 				        
 						if instr(oRec2("email"), "@") <> 0 then 'AND instr(bcc, oRec2("email")) = 0 then
-						Mailer.AddBCC ""&oRec2("mnavn")&"",""& oRec2("email") 
+						'myMail.Bcc = ""&oRec2("mnavn")&""&""& oRec2("email") 
+                        myMail.CC = myMail.CC & ";"& oRec2("email")
 						bcc = bcc & "Projektgruppe medlem: "&oRec2("mnavn")&", "& oRec2("email") & "<br>" 
 						end if
 						

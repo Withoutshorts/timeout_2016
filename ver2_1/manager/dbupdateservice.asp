@@ -104,7 +104,7 @@ a = 0
 								case "1"
 								'Response.write strSQL
 								oConn.open strConnect_aktiveDB
-								strSQLx = "SELECT l.key, licens, licenstype, erp, crm, sdsk, listatus FROM licens l WHERE id = 1" 
+								strSQLx = "SELECT l.key, licens, licenstype, erp, crm, sdsk, listatus, autogktimer FROM licens l WHERE id = 1" 
 								
 								'Response.Write strSQLx
 								'Response.flush
@@ -115,6 +115,7 @@ a = 0
 								Response.Write "<b>Lincens indehaver: " & oRec("licens") & "</b><br>"
 								Response.write ""& oRec("licenstype") & "<br>"
 								Response.Write "erp: " & oRec("erp") & " crm: " & oRec("crm") & ", sdsk: " & oRec("sdsk") & "<br>"
+                                Response.write "autogktimer: "&  oRec("autogktimer")
 								Response.Write "<br>Listatus: " & oRec("listatus") & "<br>"
 								
 								listatus = oRec("listatus")
@@ -129,8 +130,8 @@ a = 0
 								wend
 								oRec.close
 								
-								
-								
+								   
+								    strSQL(b) = "SELECT * FROM medarbejdere WHERE mid = 1"
 								    oRec.open strSQL(b), oConn, 3
 								    while not oRec.EOF
 								    Response.write oRec("mnavn") & "<br>"
@@ -3141,6 +3142,94 @@ INSERT INTO dbversion (dbversion) VALUES (20170811.1)
 ALTER TABLE ressourcer_ramme ADD (
 rr_budgetbelob double(12,2) NOT NULL DEFAULT 0);
 INSERT INTO dbversion (dbversion) VALUES (20170811.2) 
+
+<br /><br />20170907.1<br />
+CREATE TABLE eval (
+eval_id double NOT NULL AUTO_INCREMENT,
+eval_jobid double NOT NULL DEFAULT 0,
+eval_evalvalue INT NOT NULL DEFAULT 0,
+eval_jobvaluesuggested double NOT NULL DEFAULT 0,
+PRIMARY KEY (eval_id)
+);
+INSERT INTO dbversion (dbversion) VALUES (20170907.1)
+
+
+<br /><br />20170914.2<br />
+ALTER TABLE fakturaer ADD (fak_rekvinr VARCHAR(255) NOT NULL DEFAULT '');
+INSERT INTO dbversion (dbversion) VALUES (20170914.2)
+
+<br /><br />20170919.1<br />
+ALTER TABLE eval ADD (
+eval_comment varchar(255));
+INSERT INTO dbversion (dbversion) VALUES (20170919.1);
+
+<br /><br />20170919.2<br />
+ALTER TABLE kunder ADD (
+kstatus int NOT NULL default 1);
+INSERT INTO dbversion (dbversion) VALUES (20170919.2);
+
+<br /><br />20170922.1<br />
+CREATE TABLE abonner_file_email (
+afe_id INT NOT NULL AUTO_INCREMENT,
+afe_file VARCHAR(250),
+afe_email VARCHAR(250),
+afe_sent INT NOT NULL DEFAULT 0,
+afe_date DATE NOT NULL DEFAULT '2010-01-01',
+PRIMARY KEY (afe_id)
+);
+INSERT INTO dbversion (dbversion) VALUES (20170922.1) 
+
+
+<br /><br />20170927.1<br />
+ALTER TABLE timer ADD (
+overfortdt Date NOT NULL DEFAULT '2002-01-01');
+INSERT INTO dbversion (dbversion) VALUES (20170927.1) 
+
+<br /><br />20171005.1<br />
+CREATE TABLE job_status (
+js_id INT NOT NULL DEFAULT 0,
+js_navn VARCHAR(255) NOT NULL DEFAULT '',
+PRIMARY KEY (js_id));
+INSERT INTO dbversion (dbversion) VALUES (20171005.1);
+
+<br /><br />20171005.2<br />
+INSERT INTO job_status (js_id, js_navn) VALUES (0,'Lukket');
+INSERT INTO job_status (js_id, js_navn) VALUES (1,'Aktiv');
+INSERT INTO job_status (js_id, js_navn) VALUES (2,'Passiv / Til fakturering');
+INSERT INTO job_status (js_id, js_navn) VALUES (3,'Tilbud');
+INSERT INTO job_status (js_id, js_navn) VALUES (4,'Gennemsyn');
+INSERT INTO job_status (js_id, js_navn) VALUES (5,'Evaluering');
+INSERT INTO dbversion (dbversion) VALUES (20171005.2);
+
+<br /><br />20171009.2<br />
+
+ALTER TABLE eval DROP COLUMN eval_diff;
+ALTER TABLE eval DROP COLUMN eval_suggested_hours;
+ALTER TABLE eval DROP COLUMN eval_suggested_hourly_rate;
+ALTER TABLE eval DROP COLUMN eval_original_price;
+
+ALTER TABLE eval ADD 
+(
+eval_diff double(12,2) NOT NULL DEFAULT 0,
+eval_suggested_hours double(12,2) NOT NULL DEFAULT 0,
+eval_suggested_hourly_rate double(12,2) NOT NULL DEFAULT 0,
+eval_original_price double(12,2) NOT NULL DEFAULT 0
+);
+INSERT INTO dbversion (dbversion) VALUES (20171009.2) 
+
+
+<br /><br />20171022.1<br />
+Alter table licens add 
+(
+vis_resplanner INT default 0,
+vis_favorit INT default 1,
+vis_projektgodkend INT default 0,
+pa_tilfojvmedopret INT default 0
+);
+INSERT INTO dbversion (dbversion) VALUES ('20171022.1');
+ALTER TABLE job ADD (
+extracost double(12,2) NOT NULL DEFAULT 0, extracost_txt varchar(255));
+INSERT INTO dbversion (dbversion) VALUES ('20171022.2')
 
 <%
 

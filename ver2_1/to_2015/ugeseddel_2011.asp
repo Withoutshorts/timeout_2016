@@ -191,6 +191,25 @@
                 jobid = 0
                 end if
 
+                 '*** Sales / tilbud kun Salgsaktiviteter
+                '(a.fakturerbar = 6 AND j.jobstatus = 3)
+                jobstatusTjk = 1
+                strSQLtilbud = "SELECT jobstatus FROm job WHERE id = "& jobid
+                oRec5.open strSQLtilbud, oConn, 3
+                if not oRec5.EOF then
+
+                jobstatusTjk = oRec5("jobstatus")
+
+                end if
+                oRec5.close
+
+                if cint(jobstatusTjk) = 3 then 'tilbud
+                onlySalesact = " AND a.fakturerbar = 6"
+                else
+                onlySalesact = ""
+                end if
+
+
                 'positiv aktivering
                 pa = 0
                 'if len(trim(request("jq_pa") )) <> 0 then
@@ -290,14 +309,14 @@
                        if cint(pa_only_specifikke_akt) then
 
                        strSQL = "SELECT a.id AS aid, navn AS aktnavn "_
-                       &" FROM timereg_usejob AS tu LEFT JOIN aktiviteter AS a ON (a.id = tu.aktid) "_
-                       &" WHERE tu.medarb = "& medid &" AND tu.jobid = "& jobid &" AND aktid <> 0 "& strSQlAktSog &" AND aktstatus = 1 AND ("& aty_sql_hide_on_treg &") "& forecastAktids &" ORDER BY fase, sortorder, navn LIMIT 150"   
+                       &" FROM timereg_usejob AS tu LEFT JOIN aktiviteter AS a ON (a.id = tu.aktid "& onlySalesact &") "_
+                       &" WHERE tu.medarb = "& medid &" AND tu.jobid = "& jobid &" AND aktid <> 0 "& strSQlAktSog &" AND aktstatus = 1 AND ("& aty_sql_hide_on_treg &") "& forecastAktids &" "& onlySalesact &" ORDER BY fase, sortorder, navn LIMIT 150"   
                        'AND ("& replace(aty_sql_realhours, "tfaktim", "a.fakturerbar") &")
                        else 
 
                        strSQL = "SELECT a.id AS aid, navn AS aktnavn "_
                        &" FROM timereg_usejob AS tu LEFT JOIN aktiviteter AS a ON (a.job = tu.jobid) "_
-                       &" WHERE tu.medarb = "& medid &" AND tu.jobid = "& jobid &" AND aktid = 0 "& strSQlAktSog &" AND aktstatus = 1 AND ("& aty_sql_hide_on_treg &") "& forecastAktids &" ORDER BY fase, sortorder, navn LIMIT 150"
+                       &" WHERE tu.medarb = "& medid &" AND tu.jobid = "& jobid &" AND aktid = 0 "& strSQlAktSog &" AND aktstatus = 1 AND ("& aty_sql_hide_on_treg &") "& forecastAktids &" "& onlySalesact &" ORDER BY fase, sortorder, navn LIMIT 150"
                        'AND ("& replace(aty_sql_realhours, "tfaktim", "a.fakturerbar") &")
                        end if
 
@@ -328,7 +347,7 @@
 
                    strSQL = "SELECT a.id AS aid, navn AS aktnavn, projektgruppe1, projektgruppe2, projektgruppe3, "_
                    &" projektgruppe4, projektgruppe5, projektgruppe6, projektgruppe7, projektgruppe8, projektgruppe9, projektgruppe10 FROM aktiviteter AS a "_
-                   &" WHERE a.job = " & jobid & " "& strSQLDatoKri &" "& strSQlAktSog &" AND aktstatus = 1 AND ("& aty_sql_hide_on_treg &") "& forecastAktids &" ORDER BY fase, sortorder, navn LIMIT 150"      
+                   &" WHERE a.job = " & jobid & " "& strSQLDatoKri &" "& strSQlAktSog &" AND aktstatus = 1 AND ("& aty_sql_hide_on_treg &") "& forecastAktids &" "& onlySalesact &" ORDER BY fase, sortorder, navn LIMIT 150"      
     
 
                
@@ -521,7 +540,7 @@ if len(session("user")) = 0 then
     case "logindhist"
     rdirfile = "logindhist_2011.asp"
     case "godkenduge"
-    rdirfile = "godkenduge.asp"
+    rdirfile = "../timereg/godkenduge.asp"
     case else
 	rdirfile = "ugeseddel_2011.asp"
 	end select
@@ -610,7 +629,7 @@ if len(session("user")) = 0 then
     select case func 
 	case "-"
 
-    case "opdaterstatus"
+    case "xxxopdaterstatus" 'NOT IN USE 20170927
 
 
         
@@ -637,7 +656,7 @@ if len(session("user")) = 0 then
               
 
 				strSQL = "UPDATE timer SET godkendtstatus = "& uGodkendt &", "_
-				&"godkendtstatusaf = '"& editor &"' WHERE tid = " & ujid(u)
+				&"godkendtstatusaf = '"& editor &"' WHERE tid = " & ujid(u) & " AND overfort = 0 "
 				
 			    'Response.write strSQL &"<br>"
 				
@@ -654,28 +673,19 @@ if len(session("user")) = 0 then
 	case "godkendugeseddel"
 	
 	'*** Godkender ugeseddel ***'
+
+
+
 	
 	    varTjDatoUS_manSQL = year(varTjDatoUS_man)&"/"&month(varTjDatoUS_man)&"/"&day(varTjDatoUS_man)
         varTjDatoUS_sonSQL = year(varTjDatoUS_son)&"/"&month(varTjDatoUS_son)&"/"&day(varTjDatoUS_son)
 	    
-	    strSQLup = "UPDATE timer SET godkendtstatus = 1, godkendtstatusaf = '"& session("user") &"' WHERE tmnr = "& usemrn 
-	    if cint(SmiWeekOrMonth) = 0 then
-        strSQLup = strSQLup & " AND tdato BETWEEN '"& varTjDatoUS_manSQL &"' AND '" & varTjDatoUS_sonSQL & "'" 
-        else
-        varTjDatoUS_man_mth = datepart("m", varTjDatoUS_man,2,2)
-        strSQLup = strSQLup & " AND MONTH(tdato) = '"& varTjDatoUS_man_mth & "'" 
-        end if
-
-        strSQLup = strSQLup & " AND godkendtstatus <> 1" 
-
-	    oConn.execute(strSQLup)
-	    
-        'if session("mid") = 1 then
-	    'Response.Write strSQLup
-	    'Response.end
-        'end if
+	   
         
-        
+         '**** Godkender timer i dbne uge der bnliver godkendt
+        call godkenderTimeriUge(usemrn, varTjDatoUS_manSQL, varTjDatoUS_sonSQL, SmiWeekOrMonth)
+       
+
         '*** Godkend uge status ****'
         call godekendugeseddel(thisfile, session("mid"), usemrn, varTjDatoUS_man)
 	    

@@ -1023,8 +1023,10 @@ if session("user") = "" then
          <%end if 
           
           %>
+         <%if lto <> "esn" then %>
          <td valign=bottom style="border-bottom:1px silver solid; width:50px;" class=lille><b><%=global_txt_172 %></b> 
          <br /> ~ <%=afstem_txt_044 %></td>
+         <%end if %>
          
           <%
           if visning = 77 then %>
@@ -1039,8 +1041,10 @@ if session("user") = "" then
          <br /> ~ <%=afstem_txt_041 %></td>
         <%end if %>
 
+         <%if lto <> "esn" then %>
           <td valign=bottom style="border-bottom:1px silver solid; width:50px;" class=lille><b><%=global_txt_148 %></b> 
          <br /> ~ <%=afstem_txt_041 %></td>
+         <%end if %>
          
          <%if visning = 77 then  %>
          <td valign=bottom style="border-bottom:1px silver solid; width:50px;" class=lille><b><%=left(global_txt_151, 28) &" "& afstem_txt_012 %></b> 
@@ -1052,14 +1056,24 @@ if session("user") = "" then
          <br /> ~ <%=afstem_txt_041 %></td>
          <%end if %>
 
+         <%if lto <> "esn" then %>
           <td valign=bottom style="border-bottom:1px silver solid; width:50px;" class=lille><b><%=global_txt_179 %></b> 
          <br /> ~ <%=afstem_txt_041 %></td>
+         <%end if %>
        
            <% if visning = 77 then  %>
           <td valign=bottom style="border-bottom:1px silver solid; width:50px;" class=lille><b><%=left(global_txt_152, 28) &" "& afstem_txt_012 %></b> 
          <br /> ~ <%=afstem_txt_041 %></td>
-       <% end if
-     end select   
+       <% end if %>
+         
+         <%if visning = 7 and lto = "esn" then  %>
+         <td valign=bottom style="border-bottom:1px silver solid; width:50px;" class=lille><b>Omsorgsdage 2 dage pr. år saldo</b><br />~ dage</td>
+         <td valign=bottom style="border-bottom:1px silver solid; width:50px;" class=lille><b>Omsorgsdage 10 dage pr. barn saldo</b><br />~ timer</td>
+         <td valign=bottom style="border-bottom:1px silver solid; width:50px;" class=lille><b>Omsorgsdage konverteret afspadsering saldo</b><br />~ timer</td> 
+          <!-- her -->
+         <%end if %>
+
+    <% end select   
      %>
 
 
@@ -1079,14 +1093,18 @@ if session("user") = "" then
 	         </td>
 
               <%end if %>
-
-                <td valign=bottom style="border-bottom:1px silver solid; width:50px;" class=lille>
+         <%if lto <> "esn" then %>
+        <td valign=bottom style="border-bottom:1px silver solid; width:50px;" class=lille>
 	     <%call akttyper(28, 1) %>
 	     <b><%=left(akttypenavn, 10)%>.<br />
           <%=right(akttypenavn, 5)%></b><br />- <%=afstem_txt_041 %>
 	     
-	     </td>
+	     </td>   
+         <%end if %>
 
+         <%if visning = 7 and lto = "esn" then %>
+         <td valign=bottom style="border-bottom:1px silver solid; width:50px;" class=lille><b>Aldersredu. saldo</b></td>
+         <%end if %>
 
          <% if visning = 77 then  %>
        
@@ -1263,7 +1281,7 @@ if session("user") = "" then
     '*********************************************'
     '********* Henter AKKu saldo inden Periode ***'
     '*********************************************'
-    public akuPreNormLontBal, akuPreRealNormBal 
+    public akuPreNormLontBal, akuPreRealNormBal, akuPreNormLontBal60 
 
     
     
@@ -1385,8 +1403,9 @@ if session("user") = "" then
                             akuPreNormLontBalTemp(t) = cint(akuPreNormLontBalTemp(t))
                             akuPreNormLontBalTemp(t) = formatnumber(akuPreNormLontBalTemp(t) * 100/60, 0)
 
-                        akuPreNormLontBal = akuPreNormLontBal &",0"& akuPreNormLontBalTemp(t) 
-        
+                        'akuPreNormLontBal = akuPreNormLontBal &",0"& akuPreNormLontBalTemp(t) 'TEC RETTET 20171025
+                        akuPreNormLontBal = akuPreNormLontBal &","& akuPreNormLontBalTemp(t)
+
                         case else
                         akuPreNormLontBal = akuPreNormLontBal &","& formatnumber((akuPreNormLontBalTemp(t) * 100) / 60, 0)
                         end select
@@ -1686,7 +1705,9 @@ if session("user") = "" then
           <td align=right class=lille style="white-space:nowrap;"><b><%=formatnumber(dagTimer_tot, 2) %></b></td>
         <%end if %>
         
-        <td align=right class=lille style="white-space:nowrap;"><b><%=formatnumber(omsorg2afh_tot, 2) %></b></td>
+        <%if lto <> "esn" then %>
+            <td align=right class=lille style="white-space:nowrap;"><b><%=formatnumber(omsorg2afh_tot, 2) %></b></td>
+        <%end if %>
         
         <%if show = 77 then %>
           <td align=right class=lille style="white-space:nowrap;"><b><%=formatnumber(omsorg2Saldo_tot, 2)%></b></td>
@@ -1696,7 +1717,9 @@ if session("user") = "" then
           <td align=right class=lille style="white-space:nowrap;"><b><%=formatnumber(natTimer_tot, 2)%></b></td>
         <%end if %>
         
-        <td align=right class=lille style="white-space:nowrap;"><b><%=formatnumber(sundTimer_tot, 2) %></b></td>
+        <%if lto <> "esn" then %>
+            <td align=right class=lille style="white-space:nowrap;"><b><%=formatnumber(sundTimer_tot, 2) %></b></td>
+        <%end if %>
         
         <%if show = 77 then %>
           <td align=right class=lille style="white-space:nowrap;"><b><%=formatnumber(omsorg10Saldo_tot, 2)%></b></td>
@@ -1706,11 +1729,22 @@ if session("user") = "" then
           <td align=right class=lille style="white-space:nowrap;"><b><%=formatnumber(weekendTimer_tot, 2) %></b></td>
         <%end if %>
 
+       <%if lto <> "esn" then %>
         <td align=right class=lille style="white-space:nowrap;"><b><%=formatnumber(omsorgKAfh_tot, 2) %></b></td>
+       <%end if %> 
         
         <%if show = 77 then %>
         <td align=right class=lille style="white-space:nowrap;"><b><%=formatnumber(OmsorgKSaldo_tot, 2)%></b></td>
         <%end if %>
+
+
+
+        <%if visning = 7 and lto = "esn" then %>
+        <td align=right class=lille style="white-space:nowrap;"><b><%=formatnumber(omsorg2Saldo_tot,2) %></b></td>
+        <td align=right class=lille style="white-space:nowrap;"><b><%=formatnumber(omsorg10Saldo_tot, 2)%></b></td>
+        <td align=right class=lille style="white-space:nowrap;"><b><%=formatnumber(OmsorgKSaldo_tot, 2) %></b></td><!-- her -->
+        <%end if %>
+
         <%
      end select   
      %>
@@ -1721,13 +1755,20 @@ if session("user") = "" then
         <td align=right class=lille style="white-space:nowrap;"><b><%=formatnumber(aldersreduktionOpjTot, 2)%></b></td>
         <%end if %>
         
+        <%if lto <> "esn" then %>
         <td align=right class=lille style="white-space:nowrap;"><b><%=formatnumber(aldersreduktionBrTot, 2)%></b></td>
-        
+        <%end if %>
+
          <%if show = 77 then%>
         <td align=right class=lille style="white-space:nowrap;"><b><%=formatnumber(aldersreduktionUdbTot, 2)%></b></td>
         <td align=right class=lille style="white-space:nowrap;"><b><%=formatnumber(aldersreduktionSaldoTot, 2)%></b></td>
         <%end if %>
     
+        <%if visning = 7 and lto = "esn" then %>
+        <td align=right class=lille style="white-space:nowrap;"><b><%=formatnumber(aldersreduktionSaldoTot, 2)%></b></td>
+        <%end if %>
+
+
 
        <%end if %>
 	  
@@ -2066,8 +2107,13 @@ if session("user") = "" then
         <%end if %>
         <td >&nbsp;</td>
 
+        <%if lto <> "esn" then %>
         <td align=right class=lille style="white-space:nowrap;"><b><%=formatnumber(sundtimer(x), 2) %></b></td>
         <td align=right class=lille style="white-space:nowrap;"><b><%=formatnumber(tjenestefri(x), 2) %></b></td>
+        <%else %>
+        <td>&nbsp</td>
+        <td>&nbsp</td>
+        <%end if %>
           
        <%
      end select   
@@ -2661,7 +2707,11 @@ if session("user") = "" then
                 if visning = 77 then
                 strEkspHeader = strEkspHeader &"Omsorg 2 optj.;Omsorg 2 afh.;Omsorg 2 saldo;Omsorg 10 optj.;Omsorg 10 afh.;Omsorg 10 saldo;Omsorg konverteret optj.;Omsorg konverteret afh.;Omsorg konverteret saldo;"
                 else
+                if lto = "esn" then
+                strEkspHeader = strEkspHeader &"Omsorg 2 saldo;Omsorg 10 saldo;Omsorg konverteret saldo;"
+                else
                 strEkspHeader = strEkspHeader &"Omsorg 2 afholdt;Omsorg 10 afholdt;Omsorg konverteret afholdt;"
+                end if 'esn
                 end if
                 end select   
 
@@ -2672,9 +2722,12 @@ if session("user") = "" then
                         strEkspHeader = strEkspHeader &"Aldersreduktion Optjent;"
                         end if
 
-                          
+                        if lto <> "esn" then
                         strEkspHeader = strEkspHeader &"Aldersreduktion Brugt;"
-                      
+                        else
+                        strEkspHeader = strEkspHeader &"Aldersreduktion Saldo;"
+                        end if            
+
                         if visning = 77 then
                         strEkspHeader = strEkspHeader &"Aldersreduktion Udbetalt;Aldersreduktion Saldo;"
                         end if

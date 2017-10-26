@@ -4,6 +4,55 @@
 
 
 <%
+
+function godkenderTimeriUge(medid, varTjDatoUS_manSQL, varTjDatoUS_sonSQL, SmiWeekOrMonth)
+
+
+        
+         
+             
+
+        call akttyper2009(2)
+
+        '*** NÅR LM Godkender HR hos TIA må fakturerbare ikke godkendes 
+        '*** Hvis godkend projekttimer er slået til. -> lav i kontrolpanel
+        SELECT CASE lto
+        case "tia", "intranet - local"
+        strSQLKriEks = " AND (" & aty_sql_admin & ")"
+        strSQLKriEks = replace(strSQLKriEks, "fakturerbar", "tfaktim")
+        case else
+        strSQLKriEks = ""
+        end select
+
+        godkendtdato = Year(now) &"-"& Month(now) &"-"& Day(now)
+
+
+       '** GODKENDER TIMERNE DER ER INDTASTET
+	    strSQLup = "UPDATE timer SET godkendtstatus = 1, godkendtstatusaf = '"& session("user") &"', godkendtdato = '"& godkendtdato &"' WHERE tmnr = "& medid
+	    if cint(SmiWeekOrMonth) = 0 then
+        strSQLup = strSQLup & " AND tdato BETWEEN '"& varTjDatoUS_manSQL &"' AND '" & varTjDatoUS_sonSQL & "'" 
+        else
+        varTjDatoUS_man_mth = datepart("m", varTjDatoUS_man,2,2)
+        strSQLup = strSQLup & " AND MONTH(tdato) = '"& varTjDatoUS_man_mth & "'" 
+        end if
+
+        strSQLup = strSQLup & " AND godkendtstatus <> 1 " & strSQLKriEks & " AND overfort = 0"
+
+
+        'if session("mid") = 1 then
+	    'Response.Write strSQLup & "<br>"
+	    'Response.flush
+        'end if
+
+	    oConn.execute(strSQLup)
+
+
+        
+
+ end function
+
+
+
 '** Finder dag for sidste rettidgie afslutning. Baseret på kontrolpanel indstilllinger i smileyAfslutSettings()
 public cDateUge, cDateAfs, cDateUgeTilAfslutning, smileysttxt, smileyImg, weekafslTxt, kommegaa60
         
@@ -313,7 +362,35 @@ function ugeAfsluttetStatus(tjkDato, showAfsuge, ugegodkendt, ugegodkendtaf, Smi
               
 
                         
-                      <span style="color:#999999; font-size:12px; background-color:#F7f7f7; padding:5px;"><span style="color:yellowgreen;"><i>V</i></span> - <%=periodeTxt &" "& funk_txt_071 %> <b><%=funk_txt_004 %></b> <%=funk_txt_005 %></span>&nbsp;
+                      <span style="color:#999999; font-size:12px; background-color:#F7f7f7; padding:5px;"><span style="color:yellowgreen;"><i>V</i></span> - <%=periodeTxt &" "& funk_txt_071 %> <b><%=funk_txt_004 %></b> <%=funk_txt_005 %></span>
+                                <%
+
+                                select case lto
+                                case "intranet - local", "tia"
+
+                                'Afviste timer
+                                afvisteTimer = 0
+                                tjkDatoSt = dateAdd("d", -6, tjkDato)
+                                strSQLtim = "SELECT ROUND(SUM(timer),2) AS sumtimer FROM timer WHERE ("& aty_sql_realhours &") AND tdato BETWEEN '"& year(tjkDatoSt) &"-"& month(tjkDatoSt) &"-"& day(tjkDatoSt) &"' AND '"& year(tjkDato) &"-"& month(tjkDato) &"-"& day(tjkDato) &"' AND tmnr = "& usemrn & " AND godkendtstatus = 2 GROUP BY tmnr"
+
+                                'Response.write strSQLtim
+                                'Response.flush      
+
+                                oRec3.open strSQLtim, oConn, 3
+                                if not oRec3.EOF then 
+
+                                afvisteTimer = oRec3("sumtimer") 
+               
+                                end if
+                                oRec3.close
+
+                                end select
+
+                                if cdbl(afvisteTimer) <> 0 then%>
+                                <span style="color:#FFFFFF; font-size:12px; background-color:red; padding:2px;"><%=afvisteTimer%></span>
+                                <%end if %>
+
+
             
             
                         <%
@@ -1905,21 +1982,16 @@ end if
 
 
                 'response.end
-		        
-		        
-		        
-		        '*** Godkender automatisk timer i de afsluttede uger **'
-		        
-		        autogktimer = 0
-		        strSQL = "SELECT autogktimer FROM licens WHERE id = 1"
-		        oRec3.open strSQL, oConn, 3
-		        if not oRec3.EOF then
-		        
-		        autogktimer = oRec3("autogktimer")
-		        
-		        end if
-		        
-		        if cint(autogktimer) = 1 then
+		        call autogktimer_fn()
+
+		        if cint(autogktimer) = 1 OR cint(autogktimer) = 2 then
+
+                select case cint(autogktimer)
+                case 1
+                godkendtstatus = 1
+                case 2
+                godkendtstatus = 3
+                end select
 		        
 		        stDatoGKtimer = cDateUgeTilAfslutning
 		        slDatoGKtimer = dateadd("d", -6, cDateUgeTilAfslutning)
@@ -1927,8 +1999,8 @@ end if
 		        slDatoGKtimer = year(slDatoGKtimer) &"/"& month(slDatoGKtimer) &"/"& day(slDatoGKtimer)
 		        
 		        
-		        strSQLGKtimer = "UPDATE timer SET godkendtstatus = 1, godkendtstatusaf = '"& session("user") &"' WHERE"_
-		        &" tmnr = "& medarbejderid &" AND tdato BETWEEN '"& slDatoGKtimer &"' AND '"& stDatoGKtimer &"'"
+		        strSQLGKtimer = "UPDATE timer SET godkendtstatus = "& godkendtstatus &", godkendtstatusaf = '"& session("user") &"' WHERE"_
+		        &" tmnr = "& medarbejderid &" AND tdato BETWEEN '"& slDatoGKtimer &"' AND '"& stDatoGKtimer &"' AND godkendtstatus <> 1 AND overfort = 0"
 		        
 		        oConn.execute(strSQLGKtimer)
 		       
@@ -1942,9 +2014,17 @@ end if
 			        afslutalle = 0
 			        end if
         			         
-			        
-			        if afslutalle = 1 then
+
+                    'Response.Write "afslutalle: " & afslutalle
+                    'Response.end
+
+                    '***********************************************************
+			        '** Kun afslut på ugebasis kan afslutte ALLE uger i året.
+                    '***********************************************************
+			        if afslutalle = "1" then
         					
+                   
+
                            
 					        detteAar = year(request("FM_afslutuge_sidstedag"))
                             
@@ -1987,6 +2067,7 @@ end if
 
                             'response.write "denneugeLast = "& denneugeLast &", PeriodeInterVal: "& PeriodeInterVal & "<br>"
                             
+                               
 
 					        for u = 0 to PeriodeInterVal 'denneuge 
         					
@@ -2025,18 +2106,24 @@ end if
                       
         					'cint(denneuge) <= cint(denneugeOpr) AND 
 
+                            
+                             'Response.Write "<br>strSQL2: "& strSQL2 &" <br>afslutalle: " & afslutalle & " PeriodeInterVal: " & PeriodeInterVal & "SmiWeekOrMonth: " & SmiWeekOrMonth & " ugefindes: " & ugefindes & " nyDateUge: "& nyDateUge &" >= "& meAnsatDato & " " & datepart("ww", nyDateUge, 2,2) &">="& datepart("ww", meAnsatDato, 2,2)
+                             'Response.end
+
                             select case cint(SmiWeekOrMonth) 
                             case 0,1
 
 						            if cint(ugefindes) = 0 AND ((datepart("ww", nyDateUge, 2,2) >= datepart("ww", meAnsatDato, 2,2) AND datepart("yyyy", nyDateUge, 2,2) = datepart("yyyy", meAnsatDato, 2,2)) OR datepart("yyyy", nyDateUge, 2,2) > datepart("yyyy", meAnsatDato, 2,2)) then
 							        
+                                    'Response.write "OK"
+
                                     sqlDateUge = year(nyDateUge)&"/"&month(nyDateUge)&"/"&day(nyDateUge)
         		
 							        intStatusAfs = 1 '** Afsl. forsent
 							        strSQLafslut = "INSERT INTO ugestatus (uge, afsluttet, mid, status) VALUES ('"& sqlDateUge &"', '"& cDateAfs &"', "& medarbejderid &", "& intStatusAfs &")" 
 							        oConn.execute(strSQLafslut)
                                     
-                                            if cint(autogktimer) = 1 then
+                                            if cint(autogktimer) = 1 then 'Teamleder godkender UGE. Kan kun sætte godkendtstatus = 1
 		        
 		                                    stDatoGKtimer = sqlDateUge
 		                                    slDatoGKtimer = dateadd("d", -6, sqlDateUge)
@@ -2044,10 +2131,12 @@ end if
 		                                    slDatoGKtimer = year(slDatoGKtimer) &"/"& month(slDatoGKtimer) &"/"& day(slDatoGKtimer)
                             		        
                             		        
-		                                    strSQLGKtimer = "UPDATE timer SET godkendtstatus = 1, godkendtstatusaf = '"& session("user") &"' WHERE"_
-		                                    &" tmnr = "& medarbejderid &" AND tdato BETWEEN '"& slDatoGKtimer &"' AND '"& stDatoGKtimer &"'"
+		                                    strSQLGKtimer = "UPDATE timer SET godkendtstatus = "& godkendtstatus &", godkendtstatusaf = '"& session("user") &"' WHERE"_
+		                                    &" tmnr = "& medarbejderid &" AND tdato BETWEEN '"& slDatoGKtimer &"' AND '"& stDatoGKtimer &"' AND godkendtstatus <> 1 AND overfort = 0"
                             		        
-                            		        
+                                            'response.write strSQLGKtimer
+                                            'response.flush                    		        
+
 		                                    oConn.execute(strSQLGKtimer)
 		                                 
         		                            end if
@@ -2067,12 +2156,12 @@ end if
                                     'response.write strSQLafslut &"<br>"
 							        oConn.execute(strSQLafslut)
                                     
-                                            if cint(autogktimer) = 1 then
+                                            if cint(autogktimer) = 1 then 'Teamleder godkender UGE. Kan kun sætte godkendtstatus = 1
 		        
 		                                    stDatoGKtimer = sqlDateUge
 		                                    
-                            		        strSQLGKtimer = "UPDATE timer SET godkendtstatus = 1, godkendtstatusaf = '"& session("user") &"' WHERE"_
-		                                    &" tmnr = "& medarbejderid &" AND tdato = '"& slDatoGKtimer &"'"
+                            		        strSQLGKtimer = "UPDATE timer SET godkendtstatus = "& godkendtstatus &", godkendtstatusaf = '"& session("user") &"' WHERE"_
+		                                    &" tmnr = "& medarbejderid &" AND tdato = '"& slDatoGKtimer &"' AND godkendtstatus <> 1 AND overfort = 0"
                             		        
                             		        
 		                                    oConn.execute(strSQLGKtimer)
@@ -2090,7 +2179,7 @@ end if
         					
 					        next
         					
-        					
+        					     'Response.write "<br>SLUT"
         					     'Response.end
         					
 			        end if
@@ -2123,13 +2212,15 @@ end if
     public showAfsugeTxt
     public showAfsugeTxt_tot, ugegodkendtTxt_tot, btnstyle, ugeNrStatus
 
-    public ugeNrAfsluttet, showAfsuge, cdAfs, ugegodkendt, ugegodkendtaf, ugegodkendtTxt, ugegodkendtdt, showAfsugeVisAfsluttetpaaGodkendUgesedler, splithr
+    public ugeNrAfsluttet, showAfsuge, cdAfs, ugegodkendt, ugegodkendtaf, ugegodkendtTxt, ugegodkendtdt, showAfsugeVisAfsluttetpaaGodkendUgesedler, splithr, ugeAfsluttetAfMedarb
     function erugeAfslutte(sm_aar, sm_sidsteugedag, sm_mid, SmiWeekOrMonth, erugeAfslutte_do)
             
           
              'call smileyAfslutSettings()
              splithr = 0
              ugegodkendt = 0
+             ugeAfsluttet = 0
+             ugeAfsluttetAfMedarb = 0
              showAfsuge = 1
              ugeNrAfsluttet = "1-1-2044"
              ugeNrStatus = 0
@@ -2183,7 +2274,7 @@ end if
             strSQLafslut = "SELECT status, afsluttet, uge, ugegodkendt, ugegodkendtaf, ugegodkendtTxt, ugegodkendtdt, splithr FROM ugestatus WHERE "_
             &" "& sqlDatoKri &" "& sqlYearKri &" AND mid = "& sm_mid &" "& splithrKri  
 		    
-            'if session("mid") = 1 then
+            'if session("mid") = 21 then
             'Response.write "HER:<br>"& strSQLafslut & "<br><br>//" & sm_sidsteugedag & "//"& sldatoSQL & thisfile
 		    'Response.flush
             'end if
@@ -2194,6 +2285,7 @@ end if
                 splithr = oRec3("splithr")
 			    
                 showAfsuge = 0
+                ugeAfsluttetAfMedarb = 1
                 cdAfs = oRec3("afsluttet")
 			    ugeNrAfsluttet = oRec3("uge")
                 ugeNrStatus = oRec3("status")
@@ -2209,7 +2301,7 @@ end if
 		    oRec3.close 
             
             'if session("mid") = 1 then
-            'Response.write "<br>ugeNrAfsluttet : "& ugeNrAfsluttet  & " ugegodkendt: "& ugegodkendt & " splithr: "& splithr  '& "//" & sm_sidsteugedag & "//"& sldatoSQL
+            'Response.write "<br>ugeNrStatus: "& ugeNrStatus &" ugeNrAfsluttet : "& ugeNrAfsluttet  & " ugegodkendt: "& ugegodkendt & " splithr: "& splithr  '& "//" & sm_sidsteugedag & "//"& sldatoSQL
 		    
            'Response.flush
             'end if
@@ -2267,13 +2359,170 @@ end if
 
             ansatDatoSQL = year(meAnsatDato) &"/"& month(meAnsatDato) &"/"& day(meAnsatDato)
             licensstDatoSQL = year(licensstdato) &"/"& month(licensstdato) &"/"& day(licensstdato) 
+
+
+            '****** FINDER HULLER OG EVT afviste
+            '**** tjekker om der er afviste der skal genlukkes 
+            '*** Finder først om der er HULLER (uge der har været genåbnet af administrator)
+         
+            erderHuller = 0
+            erderAfviste = 0
+            if cint(SmiWeekOrMonth) <> 2 then
+            strSQLafslut = "SELECT status, afsluttet, uge, ugegodkendt, ugegodkendtaf, ugegodkendtTxt, ugegodkendtdt FROM ugestatus WHERE "_
+            &" ((YEAR(uge) = "& sm_aar &" AND uge >= '"& ansatDatoSQL &"' AND uge >= '"& licensstDatoSQL &"')) AND (mid = "& sm_mid & ") AND splithr = 0 ORDER BY uge"
+		    
+            'if session("mid") = 1 then
+            'response.write "strSQLafsluthuller: <br>" & strSQLafslut
+            'response.Flush
+            'end if
+
+            'uge 53,52, 01?
+            thisPeriod = 0
+            lastPeriod = 0
+            antalperioder = 0 
             
+            lastPeriodYYYY = year(now)
+            oRec3.open strSQLafslut, oConn, 3 
+		    while not oRec3.EOF 
+    			
+            'sidsteUgenrAfslFundet = 1
+            'sidsteUgenrAfsl = oRec3("uge")
+
+
+           
+            if cint(erderHuller) = 0 then
+
+            select case SmiWeekOrMonth
+            case 0
+            thisPeriod = datePart("ww", oRec3("uge"), 2,2)
+
+                if cint(antalperioder) = 0 then
+                lastPeriod = datePart("ww", oRec3("uge"), 2,2)
+                lastPeriodDt = oRec3("uge")
+               
+          
+                
+                end if
+
+            case 1
+            thisPeriod = datePart("m", oRec3("uge"), 2,2)
+
+                if cint(antalperioder) = 0 then
+                lastPeriod = datePart("m", oRec3("uge"), 2,2)
+                lastPeriodDt = oRec3("uge")
+                
+                'Hvis januar
+                'if cint(lastPeriod) = 2 then 'AND cint(year(meAnsatDato)) < cint(sm_aar) then
+                'lastPeriod = 1
+                'lastPeriodDt = "01-01-"& sm_aar
+                'end if
+
+                end if
+              
+
+            end select
+
+          
+
+            'if session("mid") =  1 then
+            'Response.write "<br>HULLER: "& lastPeriodDt &" = "& oRec3("uge") &" thisPeriod: "& thisPeriod &" > 1  AND ((" & thisPeriod*1 &" - " & lastPeriod*1 &") > 1 == "& ((thisPeriod*1) - (lastPeriod*1)) &") erderHuller: "& erderHuller
+            'Response.flush
+            'end if
+
+            '*** Januar, feb og uge 1,2 må afsluttes ved at åbne uge 2 hhv. februar også. 
+            if ( (cdbl((thisPeriod*1) - (lastPeriod*1)) > 1) OR (cint(thisPeriod) = 2 AND cint(lastPeriod) <> 1)) AND cint(erderHuller) = 0 then 
+            ' AND datePart("yyyy", lastPeriodYYYY, 2,2) = datePart("yyyy", oRec3("uge"), 2,2)) AND _
+            '( (datePart("yyyy", oRec3("uge"), 2,2) >= "2017" )) then 
+            'AND datePart("ww", oRec3("uge"), 2,2) > 31) OR (datePart("yyyy", oRec3("uge"), 2,2) > "2017"
+            'IKKE januar og uge 1
+            
+            if (cint(thisPeriod) = 2 AND cint(lastPeriod) <> 1) then
+            lastPeriodDt = "01-01-"& sm_aar
+            end if
+
+            erderHuller = 1
+            sidsteUgenrAfslFundet = 1
+           
+            select case SmiWeekOrMonth
+            case 0
+            sidsteUgenrAfsl = dateAdd("ww", 0, lastPeriodDt)
+            case 1
+            sidsteUgenrAfsl = dateAdd("m", 0, lastPeriodDt)
+            end select
+
+            'if session("mid") =  1 then
+            'response.write "<br>DER ER HUL! : Aflsut denne: "& sidsteUgenrAfsl &": "& datePart("ww", sidsteUgenrAfsl, 2,2) &"<br>"
+            'end if
+
+           
+
+
+                
+          
+
+            end if
+
+            end if 'cint(erderHuller)) = 0
+
+                select case SmiWeekOrMonth
+                case 0
+                lastPeriod = datePart("ww", oRec3("uge"), 2,2)
+                case 1
+                lastPeriod = datePart("m", oRec3("uge"), 2,2)
+                end select
+
+                lastPeriodYYYY = datePart("yyyy", oRec3("uge"), 2,2)
+                lastPeriodDt = oRec3("uge") 
+
+
+              antalperioder = antalperioder + 1
+
+            oRec3.movenext
+		    wend
+		    oRec3.close 
+
+
+            '*** Finder afviste
+            '*** BRUGES IKKE 
+            '*** MEN bør måske.
+            '*** Såeldes: hvis uge bliver AFVIST at TEAMLEDER --> Så skal den godkendes igen af medarbejder (ESN, TEC, EPI)
+            '*** TIA: ugeafslutningen slettes i ugestatus, når LM godkender så man vil aldrig se denne.
+            erderHullerTagetIbrug = 1
+                if cint(erderHuller) <> 1 AND cint(erderHullerTagetIbrug) <> 1 then
+
+                    strSQLafslut = "SELECT status, afsluttet, uge, ugegodkendt, ugegodkendtaf, ugegodkendtTxt, ugegodkendtdt FROM ugestatus WHERE "_
+                    &" ((YEAR(uge) = "& sm_aar &" AND uge >= '"& ansatDatoSQL &"' AND uge >= '"& licensstDatoSQL &"')) AND (mid = "& sm_mid & ") AND splithr = 0 AND ugegodkendt = 2 ORDER BY uge LIMIT 1"
+		    
+            
+                    'response.write "strSQLafslut: <br>" & strSQLafslut
+                    'response.Flush
+         
+                    oRec3.open strSQLafslut, oConn, 3 
+		            while not oRec3.EOF 
+    			
+                    sidsteUgenrAfslFundet = 1
+                    sidsteUgenrAfsl = oRec3("uge")
+			        erderAfviste = 1
+    		
+                    oRec3.movenext
+		            wend
+		            oRec3.close 
+
+                end if
+
+            end if' SmiWeekOrMonth = 2 (ikke dage, kun ved ugeafslutning og MD afslutning)
+
+
+            '*** Finder NÆSTE uge til afslutning
+            if cint(erderAfviste) <> 1 AND cint(erderHuller) <> 1 then
+
             strSQLafslut = "SELECT status, afsluttet, uge, ugegodkendt, ugegodkendtaf, ugegodkendtTxt, ugegodkendtdt FROM ugestatus WHERE "_
             &" ((YEAR(uge) = "& sm_aar &" AND uge >= '"& ansatDatoSQL &"' AND uge >= '"& licensstDatoSQL &"') OR (YEAR(uge) < "& sm_aar &")) AND (mid = "& sm_mid & ") AND splithr = 0 ORDER BY uge DESC LIMIT 1"
 		    
-            
+            'if session("mid") = 1 then
             'response.write "strSQLafslut: <br>" & strSQLafslut
             'response.Flush
+            'end if
          
             oRec3.open strSQLafslut, oConn, 3 
 		    while not oRec3.EOF 
@@ -2286,6 +2535,12 @@ end if
 		    wend
 		    oRec3.close 
             
+            end if
+
+            
+
+            '******* END FIND HULLER OG AFVISTE ***************
+
 
             'Response.Write "afsluttedeUger_fn: sidsteUgenrAfsl: " & sidsteUgenrAfsl
 
@@ -2524,14 +2779,55 @@ function afviseugeseddel(thisfile, afsenderMid, modtagerMid, varTjDatoUS_man, va
 				            end if
 				            oRec.close
 
-
-                            '*** Afvis ugeseddel ænder ikke statusd på timerne ***'
-                            'strSQLup = "UPDATE timer SET godkendtstatus = 2, godkendtstatusaf = '"& afsNavn &"' WHERE tmnr = "& modtagerMid & " AND tdato BETWEEN '"& varTjDatoUS_man &"' AND '" & varTjDatoUS_son & "'" 
-	                        'oConn.execute(strSQLup)
-
-                            call smileyAfslutSettings()
         
-                            ugegodkendtTxt = txt
+                        
+                          
+                           
+                            call autogktimer_fn()
+                            call smileyAfslutSettings()
+                            call ersmileyaktiv()
+
+                            if (cint(autogktimer) = 1 OR cint(autogktimer) = 2) AND cint(smilaktiv) = 1 AND cint(autogk) = 2 then 'TIA SETUP
+                           
+                            '*** Afvis ugeseddel ænder ikke statusd på timerne ***'
+                            call akttyper2009(2)
+
+                            '*** NÅR LM Godkender HR hos TIA må fakturerbare ikke godkendes 
+                            '*** Hvis godkend projekttimer er slået til. -> lav i kontrolpanel
+                            SELECT CASE lto
+                            case "tia", "xintranet - local"
+                            strSQLKriEks = " AND (" & aty_sql_admin & ")"
+                            strSQLKriEks = replace(strSQLKriEks, "fakturerbar", "tfaktim")
+                            case else
+                            strSQLKriEks = ""
+                            end select
+
+                            godkendtdato = Year(now) &"-"& Month(now) &"-"& Day(now)
+
+                            varTjDatoUS_manSQL = year(varTjDatoUS_man) &"/"& month(varTjDatoUS_man) &"/"& day(varTjDatoUS_man)
+                            varTjDatoUS_sonSQL = year(varTjDatoUS_son) &"/"& month(varTjDatoUS_son) &"/"& day(varTjDatoUS_son)
+
+                           '** GODKENDER TIMERNE DER ER INDTASTET
+	                        strSQLup = "UPDATE timer SET godkendtstatus = 2, godkendtstatusaf = '"& session("user") &"', godkendtdato = '"& godkendtdato &"' WHERE tmnr = "& modtagerMid
+	                        if cint(SmiWeekOrMonth) = 0 then
+                            strSQLup = strSQLup & " AND tdato BETWEEN '"& varTjDatoUS_manSQL &"' AND '" & varTjDatoUS_sonSQL & "'" 
+                            else
+                            varTjDatoUS_man_mth = datepart("m", varTjDatoUS_man,2,2)
+                            strSQLup = strSQLup & " AND MONTH(tdato) = '"& varTjDatoUS_man_mth & "'" 
+                            end if
+
+                            strSQLup = strSQLup & " AND godkendtstatus <> 1 " & strSQLKriEks & " AND overfort = 0"    
+
+
+                            'strSQLup = "UPDATE timer SET godkendtstatus = 2, godkendtstatusaf = '"& afsNavn &"' WHERE tmnr = "& modtagerMid & " AND tdato BETWEEN '"& varTjDatoUS_man &"' AND '" & varTjDatoUS_son & "' AND godkendtstatus <> 1 AND overfort = 0" 
+	                        oConn.execute(strSQLup)
+                            'Response.write "HEJ: " & strSQLup
+                            'Response.end
+                       
+                            end if 'autoGk TIA
+
+                           
+                              ugegodkendtTxt = txt
                               
                               ugegodkendtdtnow = year(now) & "/" & month(now) & "/" & day(now)
                               denneuge = datepart("ww", varTjDatoUS_man, 2,2)
@@ -2556,8 +2852,11 @@ function afviseugeseddel(thisfile, afsenderMid, modtagerMid, varTjDatoUS_man, va
                                 end if
                             
 
-        
-                            strSQLupUgeseddel = "UPDATE ugestatus SET ugegodkendt = 2, ugegodkendtaf = "& afsenderMid &", ugegodkendtdt = '"& ugegodkendtdtnow &"', ugegodkendtTxt = '"& ugegodkendtTxt &"' WHERE mid = "& modtagerMid 
+                            '** TIA hvis autogk = 2 then SLET uge else opdater
+                            strSQLupUgeseddel = "UPDATE ugestatus SET ugegodkendt = 2, ugegodkendtaf = "& afsenderMid &", ugegodkendtdt = '"& ugegodkendtdtnow &"', ugegodkendtTxt = '"& ugegodkendtTxt &"'"
+                        
+                        
+                            strSQLupUgeseddelWhere = " WHERE mid = "& modtagerMid 
                             
                             
                                 if cint(SmiWeekOrMonth) <> 2 then
@@ -2578,22 +2877,53 @@ function afviseugeseddel(thisfile, afsenderMid, modtagerMid, varTjDatoUS_man, va
                             if cint(SmiWeekOrMonth) = 0 then
                     
                                     if cint(denneuge) = 53 then
-                                    strSQLupUgeseddel = strSQLupUgeseddel &" "& sqlYearKri &" AND (WEEK(uge, 3) = '"& denneuge &"' OR WEEK(uge, 3) = '0')"
+                                    strSQLupUgeseddelWhere = strSQLupUgeseddelWhere &" "& sqlYearKri &" AND (WEEK(uge, 3) = '"& denneuge &"' OR WEEK(uge, 3) = '0')"
                                     else
-                                    strSQLupUgeseddel = strSQLupUgeseddel &" "& sqlYearKri &" AND WEEK(uge, 3) = '"& denneuge &"'"
+                                    strSQLupUgeseddelWhere = strSQLupUgeseddelWhere &" "& sqlYearKri &" AND WEEK(uge, 3) = '"& denneuge &"'"
                                     end if
                             else
-                            strSQLupUgeseddel = strSQLupUgeseddel &" "& sqlYearKri &" AND  MONTH(uge) = '"& dettemd &"'"
+                            strSQLupUgeseddelWhere = strSQLupUgeseddelWhere &" "& sqlYearKri &" AND  MONTH(uge) = '"& dettemd &"'"
                             end if
+
+                            strSQLupUgeseddel = strSQLupUgeseddel & strSQLupUgeseddelWhere
 	                        'Response.Write strSQLupUgeseddel
                             'Response.end
                             oConn.execute(strSQLupUgeseddel)
+
+
+
+                            '*** Nulstiller tentative ****'
+                        
+                            call autogktimer_fn()
+                            call smileyAfslutSettings()
+                            call ersmileyaktiv()
+
+                                    if (cint(autogktimer) = 1 OR cint(autogktimer) = 2) AND cint(smilaktiv) = 1 AND cint(autogk) = 2 then
+                                    thisUeId = 0
+                                    strSQLugest = "SELECT id FROM ugestatus "& strSQLupUgeseddelWhere
+                                    oRec6.open strSQLugest, oConn, 3
+                                    if not oRec6.EOF then
+                                
+                                    thisUeId = oRec6("id")
+
+                                    end if
+                                    oRec6.close
+
+
+                                    strSQLupUgeseddelDel = "DELETE from ugestatus WHERe id = "& thisUeId
+                                    oConn.execute(strSQLupUgeseddelDel)
+
+                                    call nulstilTentative(autogktimer, thisUeId)
+
+                
+		                  end if
+
 	    
 	    'Response.Write strSQLup
 	    'Response.end
 	    
 
-          if request.servervariables("PATH_TRANSLATED") <> "C:\www\timeout_xp\wwwroot\ver2_1\timereg\"&thisfile then
+          if request.servervariables("PATH_TRANSLATED") <> "C:\www\timeout_xp\wwwroot\ver2_1\timereg\"&thisfile AND request.servervariables("PATH_TRANSLATED") <> "C:\www\timeout_xp\wwwroot\ver2_1\to_2015\"&thisfile  then
 
                                     
 
@@ -3024,5 +3354,48 @@ sub xsmiley_statusTxt
 
 
 end sub
+
+
+
+function nulstilTentative(autogktimer, id)
+
+
+                select case cint(autogktimer)
+                case 1
+                godkendtstatus = 1
+                case 2
+                godkendtstatus = 3
+                end select
+
+                periodeSt = "2002-01-01"
+                periodeMid = 0
+                strSQLthisPeriode = "SELECT uge, mid FROM ugestatus WHERE id = "& id
+                oRec6.open strSQLthisPeriode, oConn, 3
+                if not oRec6.EOF then
+
+                 periodeSt = oRec6("uge")
+                 periodeMid = oRec6("mid")
+
+                end if
+                oRec6.close
+
+		        
+
+		        stDatoGKtimer = periodeSt
+		        slDatoGKtimer = dateadd("d", -6, stDatoGKtimer)
+		        
+		        stDatoGKtimer = year(stDatoGKtimer) &"/"& month(stDatoGKtimer) &"/"& day(stDatoGKtimer)
+		        slDatoGKtimer = year(slDatoGKtimer) &"/"& month(slDatoGKtimer) &"/"& day(slDatoGKtimer)
+		        
+		        strSQLGKtimer = "UPDATE timer SET godkendtstatus = 0, godkendtstatusaf = '' WHERE"_
+		        &" tmnr = "& periodeMid &" AND tdato BETWEEN '"& slDatoGKtimer &"' AND '"& stDatoGKtimer &"' AND godkendtstatus = 3 AND overfort = 0" '** Kun tentative
+		        
+		        oConn.execute(strSQLGKtimer)
+
+                'Response.write "autogktimer: "& autogktimer &" SmiWeekOrMonth: " & SmiWeekOrMonth & "<br>"& strSQLGKtimer
+                'Response.end
+
+
+end function
     
 %>

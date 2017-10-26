@@ -574,10 +574,21 @@ if len(session("user")) = 0 then
         
                     else
             
+                         'Aktive = Confimed
+                      'Shipped / closed = Actual
+
+                    strSQLIF = "IF (jobstatus = 1 AND kunde_levbetint = 1, YEAR(dt_confb_etd) = "& strYear &","
+                    strSQLIF = strSQLIF &" IF (jobstatus = 1 AND (kunde_levbetint = 2 OR kunde_levbetint = 3), YEAR(dt_confb_eta) = "& strYear &","
+                    strSQLIF = strSQLIF &" IF ((jobstatus = 0 OR jobstatus = 2) AND kunde_levbetint = 1 , YEAR(dt_actual_etd) = "& strYear &","
+                    strSQLIF = strSQLIF &" IF ((jobstatus = 0 OR jobstatus = 2) AND (kunde_levbetint = 2 OR kunde_levbetint = 3), YEAR(dt_actual_eta) = "& strYear  
+                    strSQLIF = strSQLIF &",0))))" 
+
+
                     strSQLf = "SELECT COALESCE(sum(jo_bruttooms * jo_valuta_kurs/100)) AS beloeb, kkundenavn, kkundenr, jobknr AS fakadr FROM job AS j "_
                     &" LEFT JOIN kunder AS k ON (kid = jobknr "& ktypeKri &") "_
                     &" LEFT JOIN valutaer AS v ON (v.id = j.valuta) "_  
-                    &" WHERE (YEAR(jobstartdato) = '"& strYear &"') AND risiko > -1 GROUP BY jobknr ORDER BY beloeb DESC LIMIT "& topList 
+                    &" WHERE ("& strSQLIF &") AND risiko > -1 GROUP BY jobknr ORDER BY beloeb DESC LIMIT "& topList 
+                    'YEAR(jobstartdato) = '"& strYear &"'
                     end if
 
                     '*** NT? * KURS?? 
@@ -1197,22 +1208,75 @@ for k = 0 TO antalK 'antal kunder
 
             'Ændret til orderdate
             'dt_confb_etd
+            'dt_confb_eta
 
-             strSQL1 = "SELECT jobtpris, jobnavn, jobnr, budgettimer, fastpris, jobstartdato, jobslutdato, fakturerbart, udgifter, jo_bruttooms, orderqty, shippedqty, "_
-             &" sales_price_pc, cost_price_pc, tax_pc, freight_pc, cost_price_pc_valuta, sales_price_pc_valuta, jobstatus, jo_dbproc"_
-			 &" FROM job AS j WHERE ("& jobIdSQLKri &") AND YEAR(jobstartdato) = "& strYear &" AND MONTH(jobstartdato) = "& m &" "& jobstKri &" "& visprkundeSQLjobKri &" ORDER BY jobnavn" 'tilbud
-		     ' &" ((orderqty * sales_price_pc) - (orderqty * cost_price_pc + (orderqty * cost_price_pc * tax_pc/100) + (orderqty * freight_pc))) AS profit "_ AND jobstatus <> 3
+            'dt_confs_etd
+            'dt_confs_eta
+
+            'kunde_levbetint, lev_levbetint,
+            'fastpris = 2 Commission = leverandør lev. bet.
+            'fastpris = 3 Salesorder = kunde lev. bet.
+
+             'lev_levbetint FOB 1, DDP 2, CIF 3
+             'kunde_levbetint FOB, DDP, CIF
+
+             
+             'if cint(fastpris) = 2 then 'leverandør data
+
+              '      if cint(lev_levbetint) = 1 then
+              '      nt_datoKri = "dt_confs_etd"
+              '      else
+              '      nt_datoKri = "dt_confs_eta"
+              '      end if
+
+             'else
+
+              '      if cint(kunde_levbetint) = 1 then
+              '      nt_datoKri = "dt_confb_etd"
+              '      else
+              '      nt_datoKri = "dt_confb_eta"
+              '      end if
+
+             'end if
+
+                    'strSQLIF = "IF (fastpris = 2 AND lev_levbetint = 1, YEAR(dt_confs_etd) = "& strYear &" AND MONTH(dt_confs_etd) = "& m &","
+                    'strSQLIF = strSQLIF &" IF (fastpris = 2 AND (lev_levbetint = 2 OR lev_levbetint = 3), YEAR(dt_confs_eta) = "& strYear &" AND MONTH(dt_confs_eta) = "& m &","
+                    'strSQLIF = strSQLIF &" IF (fastpris = 1 AND kunde_levbetint = 1 , YEAR(dt_confb_etd) = "& strYear &" AND MONTH(dt_confb_etd) = "& m &","
+                    'strSQLIF = strSQLIF &" IF (fastpris = 1 AND (kunde_levbetint = 2 OR kunde_levbetint = 3), YEAR(dt_confb_eta) = "& strYear &" AND MONTH(dt_confb_eta) = "& m 
+                    'strSQLIF = strSQLIF &",0))))" 
+
+                      'Aktive = Confimed
+                      'Shipped / closed = Actual
+
+                    strSQLIF = "IF (jobstatus = 1 AND kunde_levbetint = 1, YEAR(dt_confb_etd) = "& strYear &" AND MONTH(dt_confb_etd) = "& m &","
+                    strSQLIF = strSQLIF &" IF (jobstatus = 1 AND (kunde_levbetint = 2 OR kunde_levbetint = 3), YEAR(dt_confb_eta) = "& strYear &" AND MONTH(dt_confb_eta) = "& m &","
+                    strSQLIF = strSQLIF &" IF ((jobstatus = 0 OR jobstatus = 2) AND kunde_levbetint = 1 , YEAR(dt_actual_etd) = "& strYear &" AND MONTH(dt_actual_etd) = "& m &","
+                    strSQLIF = strSQLIF &" IF ((jobstatus = 0 OR jobstatus = 2) AND (kunde_levbetint = 2 OR kunde_levbetint = 3), YEAR(dt_actual_eta) = "& strYear &" AND MONTH(dt_actual_eta) = "& m 
+                    strSQLIF = strSQLIF &",0))))" 
+
+
+                     strSQL1 = "SELECT jobtpris, jobnavn, jobnr, budgettimer, fastpris, jobstartdato, jobslutdato, fakturerbart, udgifter, (jo_bruttooms * (jo_valuta_kurs/100)) AS jo_bruttooms, orderqty, shippedqty, "_
+                     &" sales_price_pc, cost_price_pc, tax_pc, freight_pc, cost_price_pc_valuta, sales_price_pc_valuta, jobstatus, jo_dbproc"_
+			         &" FROM job AS j WHERE "_
+                     &" ("& strSQLIF &") "_
+                     &" "& jobstKri &" "& visprkundeSQLjobKri &" GROUP BY id ORDER BY jobnavn" 
+    
+                     '&" ("& jobIdSQLKri &") AND  "_                 
+                     'tilbud
+		             ' &" ((orderqty * sales_price_pc) - (orderqty * cost_price_pc + (orderqty * cost_price_pc * tax_pc/100) + (orderqty * freight_pc))) AS profit "_ AND jobstatus <> 3
             
             case else
+
              strSQL1 = "SELECT jobtpris, jobnavn, jobnr, budgettimer, fastpris, jobstartdato, jobslutdato, fakturerbart, udgifter, (jo_bruttooms * (jo_valuta_kurs/100)) AS jo_bruttooms"_
 			 &" FROM job AS j WHERE ("& jobIdSQLKri &") AND YEAR(jobstartdato) = "& strYear &" AND MONTH(jobstartdato) = "& m &" AND fakturerbart = 1 "& jobstKri &" "& visprkundeSQLjobKri &" ORDER BY jobnavn" 'tilbud
 		
              end select
                 
 		
-            'if session("mid") = 6 AND lto = "nt" AND m = 4 then
+            'if session("mid") = 1 AND lto = "nt" then
 			'Response.write "Budget:<br>"
 			'Response.write strSQL1 &"<br>"
+            'response.flush
             'end if
 			
             oRec.open strSQL1, oConn, 0, 1
@@ -2332,6 +2396,26 @@ Hvis <b>Key account</b> er slået til, er tallene baseret på alle medarbejdere på
                        
                        <b>Definitioner for beregninger af omsætning og fakturering</b>
 			                <br /><br />
+
+
+
+    <%select case lto 
+     case "nt"
+        %>
+                =============================================================================<br />
+          Datokriterier for job, Commi, Sales kombineret med FOB 1, DDP 2, CIF 3<br />
+          Commission : 2 (fastpris) = leverandør lev. bet.<br />
+          Salesorder : 3 = kunde lev. bet.<br /><br />
+
+           lev_levbetint FOB 1, DDP 2, CIF 3<br />
+           kunde_levbetint FOB, DDP, CIF<br /><br />
+
+           Aktive = Confimed Buyer ETD on FOB else Confimed Buyer ETA<br />
+           Shipped / closed = = Actual Buyer ETD on FOB else Actual Buyer ETA<br /><br />
+        =============================================================================<br />
+        <br />
+        <%
+     end select %>
 			                
 			                
 <b>A1) Budget Brutto oms. Job</b><br>

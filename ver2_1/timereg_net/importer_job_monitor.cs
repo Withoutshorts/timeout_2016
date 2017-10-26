@@ -62,12 +62,12 @@ public partial class importer_job_monitor : System.Web.UI.Page
                 string lto = Request["lto"];
 
 
-                if (lto == "dencker") 
-                {
+                //if (lto == "dencker") 
+                //{
 
-                    lto = "dencker_test";
-                }
-                
+                //lto = "dencker_test";
+                //}
+
                 //changed back to this query instead of the one below on purpose 01-17-2014 by Lei
                 string strSelect = "SELECT init FROM medarbejdere where mid = " + Request["mid"];
 
@@ -314,8 +314,8 @@ public partial class importer_job_monitor : System.Web.UI.Page
                 SelectDDL(ddlSort, "too_op", header, lblSort, "sort");
                 SelectDDL(ddlFomr, "pg_pgrkod", header, lblFomr, "fomr");
                 SelectDDL(ddlAktnavn, "too_ben", header, lblAktnavn, "aktnavn");
-                SelectDDL(ddlAktstdato, "too_start", header, lblAktstdato, "aktstdato");
-                SelectDDL(ddlAktsldato, "too_slut", header, lblAktsldato, "aktsldato");
+                SelectDDL(ddlAktstdato, "omp_start", header, lblAktstdato, "aktstdato"); //too_start
+                SelectDDL(ddlAktsldato, "omp_slut", header, lblAktsldato, "aktsldato"); //too_slut
                 SelectDDL(ddlAktvarenr, "too_rappnr", header, lblAktvarenr, "aktvarenr");
             }
         }

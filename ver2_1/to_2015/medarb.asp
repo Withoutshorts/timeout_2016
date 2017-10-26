@@ -2059,7 +2059,7 @@ Session.LCID = 1030
                             
                                                             if oRec2("teamleder") <> 0 then
                                                             teaml = "_1"
-                                                            teamlTxt = "("&medarb_txt_083&")"
+                                                            teamlTxt = " ("&medarb_txt_083&")"
                                                             else
                                                             teaml = ""
                                                             teamlTxt = ""
@@ -2067,7 +2067,7 @@ Session.LCID = 1030
 
                                                             if oRec2("notificer") <> 0 then
                                                             notf = "-1"
-                                                            notfTxt = "("&medarb_txt_084&")"
+                                                            notfTxt = " ("&medarb_txt_084&")"
                                                             else
                                                             notf = ""
                                                             notfTxt = ""

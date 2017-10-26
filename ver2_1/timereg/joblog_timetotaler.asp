@@ -2669,7 +2669,7 @@ function LeiRotate() {
 						
 						jobbelob = 0
                         bdgTim = 0
-                        if cint(oRec("jo_usefybudgetingt")) = 1 then 'Benyt budget på job pr FY. F.eks CISU  / WWF
+                        if oRec("jo_usefybudgetingt") = 1 then 'Benyt budget på job pr FY. F.eks CISU  / WWF
 
                                 '** Hvis regnskabsår 1.7 ??
 
@@ -3890,12 +3890,13 @@ function LeiRotate() {
 											if cint(visfakbare_res) = 1 OR cint(visfakbare_res) = 2 then
 											
 											'*** Omsætning / kost.  ***'
-											totaltotaljobOmsIalt = (totaltotaljobOmsIalt/1) + (jobmedtimer(x,17)/1) '+ jobOmsIalt
-                                            subtotaljobOmsIalt = (subtotaljobOmsIalt/1) + (jobmedtimer(x,17)/1) 
+		                                    subtotaljobOmsIalt = (subtotaljobOmsIalt/1) + (jobmedtimer(x,17)/1) 
 											
 											'*** ~ca timepris ved fastpris, aktiviteter grundlag og jobvisning ***
 									        if cint(directexp) <> 1 AND ((cint(upSpec) = 0 AND jobmedtimer(x,38) = 0) OR (cint(upSpec) = 1 AND jobmedtimer(x,38) <> 0)) then 
                                             strJobLinie = strJobLinie &"<br><span style='color:#000000; font-size:8px;'>"& valutaKode_CCC &" "& formatnumber(jobmedtimer(x,17)/1, 2)&"</span><br>"
+
+                                            totaltotaljobOmsIalt = (totaltotaljobOmsIalt/1) + (jobmedtimer(x,17)/1) '+ jobOmsIalt
 											end if 'if cint(directexp) <> 1 then 
 
 												

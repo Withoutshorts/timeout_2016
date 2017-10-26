@@ -96,6 +96,78 @@ end function
     end function
 
 
+    public jobstatus_fn_txt, jobstatus_fn_options, jobstatus_fn_txt_col
+    function jobstatus_fn(jobid, jobstatus, io)
+
+        jobstatus_fn_txt = ""
+        jobstatus_fn_options = ""
+
+
+         if len(trim(jobstatus)) <> 0 then
+        jobstatus = jobstatus
+        else
+        jobstatus = -1
+        end if
+
+        if cint(io) = 1 then 'liste options
+        sqlWh = " js_id <> 100 "
+        else
+        sqlWh = " js_id = "& jobstatus
+        end if
+         
+
+        strSQLjobstatus = "SELECT js_id, js_navn FROM job_status WHERE "& sqlWh &" ORDER BY js_id"
+        'response.write strSQLjobstatus
+        'response.flush 
+    
+        oRec6.open strSQLjobstatus, oConn, 3
+        while not oRec6.EOF 
+
+            select case oRec6("js_id")
+            case 1
+		    jobstatus_fn_txt = job_txt_094 'Aktiv
+            jobstatus_fn_txt_col  = "yellowgreen"
+			case 2
+			jobstatus_fn_txt = job_txt_095 'Passiv
+            jobstatus_fn_txt_col  = "#CCCCCC"
+			case 0
+			jobstatus_fn_txt = job_txt_096 'Lukket
+            jobstatus_fn_txt_col  = "red"
+            case 3
+			jobstatus_fn_txt = job_txt_097 'Tilbud
+            jobstatus_fn_txt_col  = "#5582d2"
+            case 4
+			jobstatus_fn_txt = job_txt_098 'Gennemsyn
+            jobstatus_fn_txt_col  = "yellow"
+            case 5
+			jobstatus_fn_txt = "Evaluering" 'Evaluering
+            jobstatus_fn_txt_col  = "orange"
+			end select
+
+           
+            if cint(io) = 1 then
+            
+            'if cint(jobstatus) = cint(oRec6("js_id")) then
+            'statjobSEL = "SELECTED"
+            'else
+            'statjobSEL = ""
+            'end if
+
+            '"& statjobSEL &"
+
+            jobstatus_fn_options = jobstatus_fn_options & "<option value="& oRec6("js_id") &">"& jobstatus_fn_txt &"</option>"
+
+            end if
+            	
+    
+          
+
+        oRec6.movenext
+        wend
+        oRec6.close
+
+    end function
+
 
      public totTerminBelobJob, totTerminBelobGrand
     function terminbelob(jobid, showhtml)
@@ -177,19 +249,21 @@ end function
 		                    oConn.execute(strSQLst)
 
                             '** Ny jobstatus 
-                            select case jstatus
-                            case 0
-                            jstatusTxt = "Lukket"
-                            case 1
-                            jstatusTxt = "Aktiv"
-                            case 2
-                            jstatusTxt = "Passiv / Til Fakturering"
-                            case 3
-                            jstatusTxt = "Tilbud"
-                            case 4
-                            jstatusTxt = "Til gennemsyn"
-                            end select
+                            'select case jstatus
+                            'case 0
+                            'jstatusTxt = "Lukket"
+                            'case 1
+                            'jstatusTxt = "Aktiv"
+                            'case 2
+                            'jstatusTxt = "Passiv / Til Fakturering"
+                            'case 3
+                            'jstatusTxt = "Tilbud"
+                            'case 4
+                            'jstatusTxt = "Til gennemsyn"
+                            'end select
 
+                            call jobstatus_fn(lukjob, jstatus, 0)
+                            jstatusTxt = jobstatus_fn_txt
 
 				            '**** Finder jobansvarlige *****
 				            strSQL = "SELECT job.id AS jid, jobnavn, jobnr, jobans1, jobans2, m1.mnavn AS m1mnavn, m1.email AS m1email,"_

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <system.webServer>
+        <directoryBrowse enabled="true" />
+    </system.webServer>
+    <system.web>
+        <customErrors mode="Off"/>
+        <httpRuntime executionTimeout="180"/>
+      <compilation debug="true"/>
+    </system.web>
+
+    <system.serviceModel>
+
+       
+
+        <services>
+
+            <service behaviorConfiguration="FHLBSF.QRMDMS.Services.FhlbsfQrmdmsService.QRMDMSServiceBehavior" name="FHLBSF.QRMDMS.Services.FhlbsfQrmdmsService.QRMDMSService">
+
+                <endpoint address="" binding="wsHttpBinding" contract="FHLBSF.QRMDMS.Services.FhlbsfQrmdmsService.IQRMDMSService">
+
+                    <identity>
+
+                        <dns value="localhost"/>
+
+                    </identity>
+
+                </endpoint>
+
+                <endpoint address="mex" binding="mexHttpBinding" contract="IMetadataExchange"/>
+
+            </service>
+
+        </services>
+
+        <behaviors>
+
+            <serviceBehaviors>
+
+                <behavior name="FHLBSF.QRMDMS.Services.FhlbsfQrmdmsService.QRMDMSServiceBehavior">
+
+                    <!-- To avoid disclosing metadata information, set the value below to false and remove the metadata endpoint above before deployment -->
+
+                    <serviceMetadata httpGetEnabled="true"/>
+
+                    <!-- To receive exception details in faults for debugging purposes, set the value below to true. Set to false before deployment to avoid disclosing exception information -->
+
+                    <serviceDebug includeExceptionDetailInFaults="true"/>
+
+                </behavior>
+
+            </serviceBehaviors>
+
+        </behaviors>
+
+    </system.serviceModel>
+
+
+
+
+
+    <system.diagnostics>
+        <sources>
+            <source name="System.ServiceModel"
+                    switchValue="Information, ActivityTracing"
+                    propagateActivity="true">
+                <listeners>
+                    <add name="traceListener"
+                        type="System.Diagnostics.XmlWriterTraceListener"
+                        initializeData= "c:\log\Traces.svclog" />
+                </listeners>
+            </source>
+        </sources>
+    </system.diagnostics>
+
+</configuration>

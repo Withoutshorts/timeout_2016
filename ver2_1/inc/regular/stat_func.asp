@@ -289,10 +289,10 @@ end function
 		            <input type="checkbox" name="FM_kundeans" id="cFM_kundeans" value="1" <%=kundeansChk%>>&nbsp;<%=joblog_txt_156 %> <br>
 		            <input type="checkbox" name="FM_jobans" id="cFM_jobans" value="1" <%=jobansChk%>>&nbsp;<%=joblog_txt_157 %>
                     <input type="checkbox" name="FM_jobans2" id="cFM_jobans2" value="1" <%=jobansChk2%>>&nbsp;<%=joblog_txt_158 %>
-                    <input type="checkbox" name="FM_jobans3" id="cFM_jobans3" value="1" <%=jobansChk3%>>&nbsp;<%=joblog_txt_159 &" "%>1-3
+                    <input type="checkbox" name="FM_jobans3" id="cFM_jobans3" value="1" <%=jobansChk3%>>&nbsp;<%=joblog_txt_159 &" 1-3"%>
 
                         <%if cint(showSalgsAnv) = 1 AND thisfile = "pipeline" then %>
-                        <br /><input type="checkbox" name="FM_salgsans" id="cFM_slagsansv" value="1" <%=salgsansChk%>>&nbsp;<%=joblog_txt_160 &" "%>. 1-5
+                        <br /><input type="checkbox" name="FM_salgsans" id="cFM_slagsansv" value="1" <%=salgsansChk%>>&nbsp;<%=joblog_txt_160 &" "%>.
                         <%end if %>
             		
 	              </td>
@@ -313,7 +313,7 @@ end function
 		end if
 
         if cint(jobans) = 1 OR cint(jobans2) = 1 OR cint(jobans3) = 1 then
-        strKnrSQLkri = strKnrSQLkri & " AND (( "
+        strKnrSQLkri = strKnrSQLkri & " OR (( " 'AND
         end if
 		
         jansOneFundet = 0
@@ -357,7 +357,7 @@ end function
 
         '*** Salgsansv
         if cint(salgsans) = 1 then
-        strKnrSQLkri = strKnrSQLkri & " AND (" & salgsansSQLkri &")" 
+        strKnrSQLkri = strKnrSQLkri & " OR (" & salgsansSQLkri &")" 
         end if
 
         
@@ -366,7 +366,7 @@ end function
             if cint(jobans) = 1 OR cint(jobans2) = 1 OR cint(jobans3) = 1 then
             kundeAnsSQLKri = " OR (" & kundeAnsSQLKri &"))"
             else
-		    kundeAnsSQLKri = " AND (" & kundeAnsSQLKri &")"
+		    kundeAnsSQLKri = " OR (" & kundeAnsSQLKri &")" 'AND
             end if
 		else
             if cint(jobans) = 1 OR cint(jobans2) = 1 OR cint(jobans3) = 1 then
@@ -380,9 +380,9 @@ end function
         kundeAnsSQLKri = " AND kundeans1 = -1" 
         end if
 
-        'Response.Write "strKnrSQLkri" & strKnrSQLkri 
+        'Response.Write "<br><br>strKnrSQLkri" & strKnrSQLkri & "<br>" 
         'Response.Write "jobAns2SQLkri" & jobAns2SQLkri & "<br>"
-        'Response.Write "jobAns3SQLkri" & jobAns3SQLkri
+        'Response.Write "jobAns3SQLkri" & jobAns3SQLkri & "<br>"
 		
 
         viskunabnejob0 = 0
@@ -465,7 +465,7 @@ end function
         end if
 
         if cint(viskunabnejob2) <> 0 then
-	    jobstKri = jobstKri & " OR j.jobstatus = 2 OR j.jobstatus = 0 "
+	    jobstKri = jobstKri & " OR j.jobstatus = 2 OR j.jobstatus = 0 OR j.jobstatus = 5 "
 	    end if
 	    
         '*** Hvis der slet ikke er valgt nogen status'er vælges aktive automatisk ***'
@@ -580,7 +580,7 @@ end function
 				jobnavnid = replace(oRec("jobnavn"), "'", "") & " ("& oRec("jobnr") &")"
 				
 			
-
+                jstTxt = ""
                 select case oRec("jobstatus")
                 case 0
                 jstTxt = " - " & joblog_txt_165
@@ -588,6 +588,10 @@ end function
                 jstTxt = " - " & joblog_txt_166
                 case 3
                 jstTxt = " - " & joblog_txt_167
+                case 4
+                jstTxt = " - " & job_txt_098
+                case 5
+                jstTxt = " - Eval."
                 end select
         
 				%>
@@ -677,9 +681,9 @@ end function
             <tr><td colspan="5" style="padding-top:20px;">
             	
 		<h4><%=joblog_txt_172 %>: <br /><span style="font-size:11px; font-weight:lighter;">(% wildcard, <b>231, 269</b><%=" "& joblog_txt_173 %>, <b>201--225</b><%=" "& joblog_txt_174 %>, <b><></b><%=" "& joblog_txt_175 %></span></h4>
-                <input name="viskunabnejob0" id="viskunabnejob" type="checkbox" value="1" <%=jost0CHK %> /><%=joblog_txt_176 %> &nbsp;
-        <input name="viskunabnejob1" id="Radio3" type="checkbox" value="1" <%=jost1CHK %> /><%=joblog_txt_177 %> &nbsp;
-        <input name="viskunabnejob2" id="Checkbox1" type="checkbox" value="1" <%=jost2CHK %> /><%=joblog_txt_178 %> &nbsp;<br />
+        <input name="viskunabnejob0" id="viskunabnejob" type="checkbox" value="1" <%=jost0CHK %> /><%=joblog2_txt_148 %> &nbsp;
+        <input name="viskunabnejob1" id="Radio3" type="checkbox" value="1" <%=jost1CHK %> /><%=joblog2_txt_149 %> &nbsp;
+        <input name="viskunabnejob2" id="Checkbox1" type="checkbox" value="1" <%=jost2CHK %> /><%=joblog2_txt_150 %> &nbsp;<br />
 
                 <input type="text" name="FM_jobsog" id="FM_jobsog" value="<%=jobSogVal%>" style="width:350px; border:2px #6CAE1C solid; font-size:14px;">&nbsp;
                 <input id="Submit1" type="submit" value=" <%=joblog_txt_189 %> >> " style="font-size:11px;" />
