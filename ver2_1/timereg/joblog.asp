@@ -2852,7 +2852,14 @@ slutDatoKriSQL = strAar_slut &"/"& strMrd_slut &"/"& strDag_slut
                                     call htmlparseCSV(komm_note_Txt)
                                     'komm_note_Txt = replace(htmlparseCSVtxt, "vbcrlf", "xxxxx")
                                     'komm_note_Txt = replace(komm_note_Txt, "vbcrlf", "xxxxx")
-                                    ekspTxt = ekspTxt & ""& Chr(34) & komm_note_Txt & Chr(34) &";"
+                                    'komm_note_Txt = replace(komm_note_Txt, "''", "")
+                                    'if right(trim(komm_note_Txt), 1) = "&quot;" OR right(trim(komm_note_Txt), 1) = "&#34;" OR right(trim(komm_note_Txt), 1) = chr(34) OR right(trim(komm_note_Txt), 1) = "''" then
+                                    'addPkt = "#"
+                                    'else
+                                    'addPkt = ""
+                                    'end if
+                                    
+                                    ekspTxt = ekspTxt & ""& Chr(34) & komm_note_Txt & " " & Chr(34) &";" 'Der skal være et mellemum inden sidste chr(34) da der eller vil komme ombrydninsfejl hvis teksten slutter med et "
                                    else
                                     ekspTxt = ekspTxt & ";"
                                    end if

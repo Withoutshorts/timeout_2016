@@ -497,7 +497,7 @@
 	     
         
           
-         lontimeFlexAkk = (normtime_lontimeAkk + (akuPreNormLontBal * 60))
+         lontimeFlexAkk = (normtime_lontimeAkk + (akuPreNormLontBal * 60)) 'akuPreNormLontBal60 
          call timerogminutberegning(lontimeFlexAkk)  
          
          if media <> "export" then%> 
@@ -508,14 +508,19 @@
           <td align=right bgcolor="#DCF5BD" style="border-bottom:1px silver solid; border-right:1px silver solid; white-space:nowrap;" class=lille>
 
            
+              
+                             <%'if session("mid") = 1 then
+                                 
+                                ' Response.write ""& akuPreNormLontBal60 &": ("& lontimeFlexAkk &") " & normtime_lontimeAkk & " + " & akuPreNormLontBal & " *60: " & (akuPreNormLontBal * 60) &" = " & normtime_lontime 
 
+                             'end if%>
 	        
-             <%if (stfor = -1 AND visning = 7) OR (stfor = 0 AND visning = 77) then
-            %>
-            <span style="color:#999999; font-size:9px;"><%=akuPreNormLontBal60 %>  >> </span><br />
-            <%
-            end if 
-            %>
+                             <%if (stfor = -1 AND visning = 7) OR (stfor = 0 AND visning = 77) then
+                            %>
+                            <span style="color:#999999; font-size:9px;"><%=akuPreNormLontBal60 %>  >> </span><br />
+                            <%
+                            end if 
+                            %>
             
                  
 		    <b><%=thoursTot &":"& left(tminTot, 2) %></b>
@@ -671,7 +676,9 @@
                             end if 
                             %>
          
-                         <b><%=formatnumber(balRealNormtimerAkk+(akuPreRealNormBal),2)%></b></td>
+                         <b><%=formatnumber(balRealNormtimerAkk+(akuPreRealNormBal),2)%></b>
+
+                         </td>
                      <%end if %>
     
     
@@ -967,7 +974,7 @@
 
 
 
-                         if media <> "export" then 'AND (visning = 7 OR visning = 77) 
+                         if media <> "export" and lto <> "esn" then 'AND (visning = 7 OR visning = 77) 
                           'Omsorgsdage2 afholdt %>
 	                     <td class=lille style="border-bottom:1px silver solid; border-right:1px silver solid; white-space:nowrap;" align=right>
 
@@ -986,7 +993,7 @@
 
                             'if (visning = 7 OR visning = 77) then
                             omsorg2afh_tot = omsorg2afh_tot + omsorg(x)
-                            strEksportTxt = strEksportTxt & formatnumber(omsorg(x),2) &";"
+                            if lto <> "esn" then strEksportTxt = strEksportTxt & formatnumber(omsorg(x),2) &";" end if
 
                             omsorg2Saldo = (dagTimer(x) - omsorg(x))
                             'end if
@@ -1017,7 +1024,7 @@
 
                             
 
-                            if visning = 77 then
+                            if visning = 77 or (visning = 7 and lto = "esn") then
                             strEksportTxt = strEksportTxt & formatnumber(omsorg2Saldo,2) &";"
                             omsorg2Saldo_tot = omsorg2Saldo_tot + omsorg2Saldo
                             end if
@@ -1049,7 +1056,7 @@
 
 
 
-                         if media <> "export" then 'AND (visning = 7 OR visning = 77)
+                         if media <> "export" and lto <> "esn" then 'AND (visning = 7 OR visning = 77)
                           'Omsorgsdage10 afholdt %>
 	                     <td class=lille style="border-bottom:1px silver solid; border-right:1px silver solid; white-space:nowrap;" align=right>
 
@@ -1069,7 +1076,7 @@
 
                             'if (visning = 7 OR visning = 77) then
                                 sundTimer_tot = sundTimer_tot + sundTimer(x)
-                                strEksportTxt = strEksportTxt & formatnumber(sundTimer(x),2) &";"
+                                if lto <> "esn" then strEksportTxt = strEksportTxt & formatnumber(sundTimer(x),2) &";" end if
                                 omsorg10Saldo = (natTimer(x) - sundTimer(x))
                             'end if
 
@@ -1097,7 +1104,7 @@
 
                             
 
-                            if visning = 77 then
+                            if visning = 77 or (visning = 7 AND lto = "esn") then
                             strEksportTxt = strEksportTxt & formatnumber(omsorg10Saldo,2) &";"
                             omsorg10Saldo_tot = omsorg10Saldo_tot + omsorg10Saldo
                             end if
@@ -1127,7 +1134,7 @@
                             weekendTimer_tot = weekendTimer_tot + weekendTimer(x)
                             end if
 
-                         if media <> "export" then 'AND (visning = 7 OR visning = 77)
+                         if media <> "export" and lto <> "esn" then 'AND (visning = 7 OR visning = 77)
                          'OmsorgsdageK afholdt%>
 	                     <td class=lille style="border-bottom:1px silver solid; border-right:1px silver solid; white-space:nowrap;" align=right>
 
@@ -1146,7 +1153,7 @@
 
                             'if (visning = 7 OR visning = 77) then
                             omsorgKAfh_tot = omsorgKAfh_tot + tjenestefri(x)
-                            strEksportTxt = strEksportTxt & formatnumber(tjenestefri(x),2) &";"
+                            if lto <> "esn" then strEksportTxt = strEksportTxt & formatnumber(tjenestefri(x),2) &";" end if
                             OmsorgKSaldo = (weekendTimer(x) - tjenestefri(x))
                             'end if
 
@@ -1171,12 +1178,33 @@
 
                             
                             
-                            if visning = 77 then
+                            if visning = 77 or (visning = 7 AND lto = "esn") then
                             strEksportTxt = strEksportTxt & formatnumber(OmsorgKSaldo,2) &";"
                             OmsorgKSaldo_tot = OmsorgKSaldo_tot + OmsorgKSaldo
                             end if
+                        %>
 
+                        <%if visning = 7 and lto = "esn" then %>
+                        <td class=lille style="border-bottom:1px silver solid; border-right:1px silver solid; white-space:nowrap;" align=right>
+                            <%if omsorg2Saldo <> 0 then %>
+                            <%=formatnumber(omsorg2Saldo,2) %>
+                            <%end if %> 
+                        </td>
 
+                        <td class=lille style="border-bottom:1px silver solid; border-right:1px silver solid; white-space:nowrap;" align=right>
+                            <%if omsorg10Saldo <> 0 then%>
+                            <%=formatnumber(omsorg10Saldo,2) %>
+                            <%end if %> 
+                        </td>
+
+                        <td class=lille style="border-bottom:1px silver solid; border-right:1px silver solid; white-space:nowrap;" align=right>
+                            <%if OmsorgKSaldo <> 0 then%>
+                            <%=formatnumber(OmsorgKSaldo,2) %>
+                            <%end if %>
+                        </td><!-- her -->
+                        <%end if %>
+
+                        <%
                         end select 
                             
                     'end if 'visning 14 godkend ugesedler%>
@@ -1238,17 +1266,21 @@
 
                     if media <> "export" then
                     %>
-                    <td class=lille style="border-bottom:1px silver solid; border-right:1px silver solid; white-space:nowrap;" align=right><%=aldersreduktionBrTxt%></td>
+                        <%if lto <> "esn" then %>
+                        <td class=lille style="border-bottom:1px silver solid; border-right:1px silver solid; white-space:nowrap;" align=right><%=aldersreduktionBrTxt%></td>
+                        <%end if %>
                     <%
                     else
-                    strEksportTxt = strEksportTxt & formatnumber(aldersreduktionBrTxtExp,2) &";"
+                        if lto <> "esn" then
+                        strEksportTxt = strEksportTxt & formatnumber(aldersreduktionBrTxtExp,2) &";"
+                        end if
                     end if 
 
 
                 
                     
                     
-                           if visning = 77  then 'Kun på afstembning udspec. dage   + ugeseddel
+                           if visning = 77 or visning = 7 and lto = "esn"  then 'Kun på afstembning udspec. dage   + ugeseddel
                     
                                   if aldersreduktionUdb(x) <> 0 then
                                  aldersreduktionUdbTxt = formatnumber(aldersreduktionUdb(x),2) 
@@ -1261,7 +1293,7 @@
                     
                                    aldersreduktionUdbTot = aldersreduktionUdbTot + aldersreduktionUdb(x)  
                     
-                                     if media <> "export" then  %>
+                                     if media <> "export" and visning = 77 and visning <> 7 then  %>
 
                                  <td class=lille style="border-bottom:1px silver solid; border-right:1px silver solid; white-space:nowrap;" align=right><%=aldersreduktionUdbTxt %></td>
 

@@ -475,6 +475,7 @@ varErrorText = "<b>Timeregistrering</b><br>"_
 &" ligger i et datointerval der allerede er faktureret.<br><br>"_
 &" <b>B)</b> Du prøver at registrere timer i en periode der er afsluttet/lukket."
 
+'&" <br>Periode afsluttet: " &  cint(ugeerAfsl_og_autogk_smil) &" AND "& cdate(lastFakdato) &" >= "& cdate(regdato) '"<br>Medarbejderid: " & medarbejderid & " Timeregdato: "& regdato &" Jobid: "& intjobid
 '&" Seneste faktura dato på dette job er: <b>" & lastFakdato &"</b><br><br>"_
 '&" Den valgte registrerings dato er: <b>"& regdato & "</b><br><br>"_
 

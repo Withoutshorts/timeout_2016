@@ -829,6 +829,9 @@ if len(strLicenskey) <> 0 then
     lto = "welcom"
 	strConnThis = "timeout_welcom64"
 
+    case "9K2017-1031-TO176"
+    lto = "adrasudan"
+	strConnThis = "timeout_adrasudan64"
     
 
 

@@ -491,7 +491,7 @@ end select
     </div>
 
 
- <nav id="menu-slider" class="menu-slider" style="overflow-y:scroll; z-index:1000;">
+ <nav id="menu-slider" class="menu-slider" style="overflow-y:scroll; z-index:10000;">
 
              <span style="color:#999999; float:right; font-size:14px; padding-right:20px;" id="luk_menuslider">X</span>
          
@@ -576,9 +576,22 @@ end select
                       
                 <% 'select case lto
                  'case "outz", "intranet - local", "hidalgo", "tia", "dencker", "eniga", "welcom", "mmmi", "epi2017"
-                    if cint(vis_favorit) = 1 then%>
+                    if cint(vis_favorit) = 1 then
+                    
+                    select case lto 
+                    case "bf"
+
+                        if level = 1 then
+                        %>
+                             <li><a href="<%=toSubVerPath15 %>favorit.asp?FM_medid=<%=usemrn %>&varTjDatoUS_man=<%=varTjDatoUS_man %>"><%=favorit_txt_001 %></a></li>
+                        <%
+                        end if    
+
+                    case else%>
                     <li><a href="<%=toSubVerPath15 %>favorit.asp?FM_medid=<%=usemrn %>&varTjDatoUS_man=<%=varTjDatoUS_man %>"><%=favorit_txt_001 %></a></li>
-                 <%end if %>
+                 <% end select
+                     
+                 end if %>
                  <%'end select %>
               
                 
@@ -1092,6 +1105,7 @@ end select
 
 
                     <% 
+
                      'if (lto = "oko") OR lto = "intranet - local" then 'jobresume 
                         
                         
@@ -1107,6 +1121,32 @@ end select
 
                     <%'end if %>
 
+
+                     <h3 class="menuh3">Your Reports</h3>
+                    <%
+                        yr = 0
+
+                        'if yr = 1000 then
+                        strSQLyourRap = "SELECT rap_mid, rap_navn, rap_url, rap_criteria, rap_dato, rap_editor FROM your_rapports WHERE rap_mid = " & session("mid") & " OR rap_mid = 0 ORDER BY rap_navn LIMIT 10"
+                        oRec6.open strSQLyourRap, oConn, 3
+                        while not oRec6.EOF 
+                        
+                        %>
+                        <li><a href="<%=toSubVerPath14 %><%=oRec6("rap_url") & oRec6("rap_criteria")%>" target="_blank" class="a_yourrep"><%=oRec6("rap_navn") %></a></li>
+                        <%
+                        
+                        yr = yr + 1
+                        oRec6.movenext
+                        wend
+                        oRec6.close
+
+                        'end if
+                        
+                    if yr <> 0 then%> 
+                    <li><a href="yourrep.asp" target="_blank" style="color:#999999;">Go to "Your Reports"</a></li>
+                    <%else %>
+                        <li><a href="#" style="color:#999999;">- None</a></li>
+                    <%end if %>
 
                  <%end if %>
 

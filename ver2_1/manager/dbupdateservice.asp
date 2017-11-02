@@ -58,7 +58,7 @@ a = 0
 					Response.write strSQL(b) & "<br>"
 					Response.flush
 					x = 1
-					numberoflicens = 170
+					numberoflicens = 171
 					For x = 1 To numberoflicens  
 						
 						call aktivedb(x)
@@ -88,7 +88,7 @@ a = 0
                                 oConn.open strConnect_aktiveDB
 							    
                                 '*** DENNE LINJE INDLÆSER // UDKOMMENTER NÅR FILEN IKKE ER AKTIV
-                                'oConn.execute(strSQL(b)) 
+                                oConn.execute(strSQL(b)) 
                                 
                                 '* TJECK x NUMBER OF LICENS fra inc/connection/db_conn...asp filen.
 								'* DISSE SKAL STEMME 
@@ -3230,6 +3230,44 @@ INSERT INTO dbversion (dbversion) VALUES ('20171022.1');
 ALTER TABLE job ADD (
 extracost double(12,2) NOT NULL DEFAULT 0, extracost_txt varchar(255));
 INSERT INTO dbversion (dbversion) VALUES ('20171022.2')
+
+
+<br /><br />20171027.1<br />
+ALTER TABLE job MODIFY COLUMN lincensindehaver_faknr_prioritet_job VARCHAR(255);
+UPDATE dbversion SET dbversion = '20171027.1' WHERe id = 1;
+
+ALTER TABLE medarbejdere Add (med_lincensindehaver INT NOT NULL default 0);
+UPDATE dbversion SET dbversion = '20171027.2' WHERe id = 1
+
+<br /><br />20171031.1<br />
+ALTER TABLE eval Add (
+eval_fakbartimer double(12,2) NOT NULL default 0,
+eval_fakbartimepris double(12,2) NOT NULL default 0,
+ubemandet_maskine_timer double(12,2) NOT NULL default 0,
+ubemandet_maskine_timePris double(12,2) NOT NULL default 0,
+laer_timer double(12,2) NOT NULL default 0,
+laer_timepris double(12,2) NOT NULL default 0,
+easy_reg_timepris double(12,2) NOT NULL default 0,
+ikke_fakbar_tid_timer double(12,2) NOT NULL default 0,
+ikke_fakbar_tid_timepris double(12,2) NOT NULL default 0
+);
+UPDATE dbversion SET dbversion = '20171031.1' WHERe id = 1
+
+
+ALTER TABLE eval Add (easy_reg_timer double(12,2) NOT NULL default 0)
+
+<br /><br />20171030.1<br />
+CREATE table your_rapports (
+rap_id INT(11) NOT NULL AUTO_INCREMENT,
+rap_mid INT(11) NOT NULL, 
+rap_navn VARCHAR(255) NOT NULL default 'your_rapport',
+rap_url VARCHAR(255) NOT NULL default 'thisfile',
+rap_criteria TEXT,
+rap_dato DATE DEFAULT '2002-01-01' NOT NULL,
+rap_editor VARCHAR(255),
+PRIMARY KEY (rap_id)
+); 
+UPDATE dbversion SET dbversion = '20171030.1' WHERe id = 1
 
 <%
 

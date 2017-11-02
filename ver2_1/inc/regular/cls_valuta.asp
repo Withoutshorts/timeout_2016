@@ -280,7 +280,15 @@ end function
                 oprKurs = cost_price_kurs_used
 
                         if cdbl(oprKurs) = 1 then 'gl ordrer
-                        oprKurs = formatnumber((bruttooms / (orderqty * sales_price_pc)), 2)
+                        'oprKurs = formatnumber((bruttooms / (orderqty * sales_price_pc)), 2)
+                        
+
+                        if cost_price_pc <> 0 AND orderqty <> 0 then 'AND i = "sales_price_pc_valuta"
+                        oprKurs = formatnumber((bruttooms / (orderqty * cost_price_pc)), 2)
+                        else
+                        oprKurs = 0
+                        end if 
+
                         end if
 
                 end if
@@ -289,7 +297,13 @@ end function
                 oprKurs = sales_price_kurs_used
 
                         if cdbl(oprKurs) = 1 then 'gl ordrer
+                        'oprKurs = formatnumber((bruttooms / (orderqty * sales_price_pc)), 2)
+                        if sales_price_pc <> 0 AND orderqty <> 0 then 'AND i = "sales_price_pc_valuta"
                         oprKurs = formatnumber((bruttooms / (orderqty * sales_price_pc)), 2)
+                        else
+                        oprKurs = 0
+                        end if 
+
                         end if
 
                 end if

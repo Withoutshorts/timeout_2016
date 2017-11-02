@@ -2096,7 +2096,7 @@ if len(session("user")) = 0 then
                                 &" "& virksomheds_proc &", "& syncslutdato &", "& altfakadr &", "& preconditions_met &", "& laasmedtpbudget &", "_
                                 &" "& salgsans1 &","& salgsans2 &","& salgsans3 &","& salgsans4 &","& salgsans5 &", "_
                                 &" "& salgsans_proc_1 &","& salgsans_proc_2 &","& salgsans_proc_3 &","& salgsans_proc_4 &","& salgsans_proc_5 &", "_
-                                &" '"& filepath1 &"', "& fomr_konto &", "& jfak_sprog &", "& jfak_moms &", "& alert &", "& lincensindehaver_faknr_prioritet_job &", "& jo_valuta &", "& dblKurs &", "& useFYbudgetinGT &""_
+                                &" '"& filepath1 &"', "& fomr_konto &", "& jfak_sprog &", "& jfak_moms &", "& alert &", '"& lincensindehaver_faknr_prioritet_job &"', "& jo_valuta &", "& dblKurs &", "& useFYbudgetinGT &""_
                                 &")")
     							
 							    'Response.write strFakturerbart & "<br><br>"
@@ -2374,7 +2374,7 @@ if len(session("user")) = 0 then
                             &" salgsans1_proc = "& salgsans_proc_1 &", salgsans2_proc = "& salgsans_proc_2 &", salgsans3_proc = "& salgsans_proc_3 &", salgsans4_proc = "& salgsans_proc_4 &", "_
                             &" salgsans5_proc = "& salgsans_proc_5 &", filepath1 = '"& filepath1 &"', fomr_konto = "& fomr_konto &","_
                             &" jfak_sprog = "& jfak_sprog &", jfak_moms = "& jfak_moms &", alert = "& alert &", "_
-                            &" lincensindehaver_faknr_prioritet_job = "& lincensindehaver_faknr_prioritet_job &", jo_valuta = "& jo_valuta &", jo_valuta_kurs = "& dblKurs &", jo_usefybudgetingt = "& useFYbudgetinGT &""_
+                            &" lincensindehaver_faknr_prioritet_job = '"& lincensindehaver_faknr_prioritet_job &"', jo_valuta = "& jo_valuta &", jo_valuta_kurs = "& dblKurs &", jo_usefybudgetingt = "& useFYbudgetinGT &""_
 							&" WHERE id = "& id 
 							
 							'Response.Write strSQL
@@ -4726,6 +4726,8 @@ if len(session("user")) = 0 then
     jo_usefybudgetingt = 0
     end select
 
+    lincensindehaver_faknr_prioritet_job = "0"
+
 	else '*** REDIGER JOB *****'
     
     vlgtmtypgrp = 0
@@ -6866,17 +6868,24 @@ if len(session("user")) = 0 then
                              'else
                              '   multiKSQL = ""
                              'end if
+                            lincensindehaver_faknr_prioritet = "0"
                             %>
                             Faktureres af følgende licensindehaver (juridisk enhed):<br /><select name="FM_lincensindehaver_faknr_prioritet_job" style="width:380px;">
 							<%strSQL = "SELECT kid, kkundenavn, kkundenr, lincensindehaver_faknr_prioritet FROM kunder WHERE "& multiKSQL &" ORDER BY kkundenavn" 
 							oRec.open strSQL, oConn, 3
 							while not oRec.EOF 
-							 if oRec("lincensindehaver_faknr_prioritet") = cint(lincensindehaver_faknr_prioritet_job) then
+
+
+                             lincensindehaver_faknr_prioritet = ""& oRec("lincensindehaver_faknr_prioritet") &""
+
+							 if lincensindehaver_faknr_prioritet = lincensindehaver_faknr_prioritet_job then 'VÆR OPMÆRKSOM HER EPI2017, DENCKER, hvis det bliver multiple
 							 kSEL = "SELECTED"
 							 else
 							 kSEL = ""
-							 end if%>
-							<option value="<%=oRec("lincensindehaver_faknr_prioritet") %>" <%=kSEL %>><%=oRec("kkundenavn") &" "& oRec("kkundenr") %></option>
+							 end if
+                            
+                            %>
+							<option value="<%=oRec("lincensindehaver_faknr_prioritet") %>" <%=kSEL %>><%=oRec("kkundenavn") &" ("& oRec("kkundenr")&")" %></option>
 							<%
 							oRec.movenext
 							wend

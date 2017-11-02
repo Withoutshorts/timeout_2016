@@ -303,7 +303,6 @@
             });
 
 
-
             //alert($.cookie('tr_medarb'))
             if ($.cookie('tr_medarb') == '1') {
                 $("#tr_prog_med").css("visibility", "visible")
@@ -330,7 +329,7 @@
                 $("#tr_pre").css("display", "")
             }
 
-
+          
 
             $("#FM_progrp").change(function () {
 

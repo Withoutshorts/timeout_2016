@@ -165,6 +165,9 @@ Public Class oz_importjob2
 
     Public kpers, rekvnr As String
 
+    Public lastIDStr As String = " job.id = 0 "
+
+
     <WebMethod()> Public Function createjob2(ByVal ds As DataSet) As String
 
 
@@ -1042,6 +1045,7 @@ Public Class oz_importjob2
                         End If
                         objDR2.Close()
 
+                        lastIDStr += lastIDStr & " OR job.id = " & lastID
 
                         '*********** timereg_usejob, så der kan søges fra jobbanken KUN VED OPRET JOB *********************
                         Select Case lto
@@ -1267,7 +1271,93 @@ Public Class oz_importjob2
 
 
 
+        '*** d1 Dencker importer salgsordrelisten JOB: SEND MAIL til jobnas. '***
+        If importtype = "d1x" Then
 
+            Dim myMail As Object
+            myMail = CreateObject("CDO.Message")
+            myMail.From = "timeout_no_reply@outzource.dk" 'TimeOut Email Service 
+
+            Dim strBody As String
+            Dim jobnavnThis As String
+            Dim intJobnr As String
+            Dim strkkundenavn As String
+            Dim smtpServer As String
+            Dim strBesk As String
+            Dim job_internbesk As String
+
+            Dim strSQLlastJobID As String = "SELECT job.id AS jid, jobnavn, jobnr, job.beskrivelse, job_internbesk, k.kkundenavn " _
+            & " FROM job " _
+            & " LEFT JOIN kunder AS k ON (k.kid = job.jobknr)" _
+            & " WHERE " & lastIDStr
+            objCmd = New OdbcCommand(strSQLlastJobID, objConn)
+            objDR2 = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
+
+            If objDR2.Read() = True Then
+
+
+                jobnavnThis = objDR2("jobnavn")
+                intJobnr = objDR2("jobnr")
+                strkkundenavn = objDR2("kkundenavn")
+                strBesk = objDR2("strBesk")
+                job_internbesk = objDR2("job_internbesk")
+
+                myMail.To = "Dencker - Ordre<ordre@dencker.net>"
+                myMail.Bcc = "Dencker - Ordre<sk@outzource.dk>"
+                myMail.Subject = "Ny ordre: " & jobnavnThis & " (" & intJobnr & ") | " & strkkundenavn
+
+
+                strBody = "<br>"
+                strBody = strBody & "<b>Kunde:</b> " & strkkundenavn & "<br>"
+                strBody = strBody & "<b>Job:</b> " & jobnavnThis & " (" & intJobnr & ") <br><br>"
+
+
+                If Len(Trim(strBesk)) <> 0 Then
+                    strBody = strBody & "<hr><b>Jobbeskrivelse:</b><br>"
+                    strBody = strBody & strBesk & "<br><br><br><br>"
+                End If
+
+                If Len(Trim(job_internbesk)) <> 0 Then
+                    strBody = strBody & "<hr><b>Intern note:</b><br>"
+                    strBody = strBody & job_internbesk & "<br><br>"
+                End If
+
+
+                strBody = strBody & "<br><br><br><br><br><br>Med venlig hilsen<br><i>"
+                strBody = strBody & "TimeOut Monitor import service </i><br><br>&nbsp;"
+
+
+                'Mailer.BodyText = strBody
+                myMail.HTMLBody = "<html><head></head><body>" & strBody & "</body>"
+
+                myMail.Configuration.Fields.Item _
+                ("http://schemas.microsoft.com/cdo/configuration/sendusing") = 2
+                'Name or IP of remote SMTP server
+
+
+                smtpServer = "formrelay.rackhosting.com"
+
+                myMail.Configuration.Fields.Item _
+                ("http://schemas.microsoft.com/cdo/configuration/smtpserver") = smtpServer
+
+                'Server port
+                myMail.Configuration.Fields.Item _
+                ("http://schemas.microsoft.com/cdo/configuration/smtpserverport") = 25
+                myMail.Configuration.Fields.Update
+
+
+                myMail.Send
+
+
+
+
+            End If
+            objDR2.Close()
+
+            myMail = Nothing
+
+
+        End If
 
 
         'Dim errThisTOnoStr As String = errThisTOno.ToString()

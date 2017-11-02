@@ -1276,7 +1276,7 @@ if session("user") = "" then
     'ddato = "21-1-2013"
     'endfor = 1
     'Response.write "SHWO: "& show &" ddato:" & ddato  &" stfor: " & stfor & "stKri: " & stKri & " endfor+(endKri): "& endfor &" "&endKri & "sort:" & sort &"ddato: "& ddato &" varTjDatoUS_man "& varTjDatoUS_man &"<br>
-      
+      "
 
       'Response.write visning
 

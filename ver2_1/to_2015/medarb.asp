@@ -289,6 +289,8 @@ Session.LCID = 1030
             oRec6.close 
 
             
+
+            med_lincensindehaver = request("FM_med_lincensindehaver")
                 
 			
 			'*** Her tjekkes for dubletter i db ***
@@ -596,7 +598,8 @@ Session.LCID = 1030
 					&" opsagtdato = '"& opsagtdato &"', sprog = "& sprog &", nyhedsbrev = "& nyhedsbrev &", "_
 					&" madr = '"& madr & "', mpostnr = '"& mpostnr &"', mcity = '"& mcity &"', mland = '"& mland &"', "_
 					&" mtlf = '"& mtlf &"', mcpr = '"& mcpr &"', mkoregnr = '"& mkoregnr &"', "_
-                    &" visskiftversion = "& visskiftversion &", medarbejdertype_grp = "& intMedarbejdertype_grp &", timer_ststop = "& timer_ststop &", create_newemployee = "& create_newemployee &""_
+                    &" visskiftversion = "& visskiftversion &", medarbejdertype_grp = "& intMedarbejdertype_grp &", timer_ststop = "& timer_ststop &", "_
+                    &" create_newemployee = "& create_newemployee &", med_lincensindehaver = "& med_lincensindehaver &""_
 			        &" WHERE Mid = "& id &""
 					
 					
@@ -714,7 +717,7 @@ Session.LCID = 1030
 						    &" (Mnavn, Mnr, Mansat, login, pw, Brugergruppe, Medarbejdertype, "_
 						    &" editor, dato, Medarbejderinfo, Email, tsacrm, smilord, exchkonto, init, "_
 						    &" timereg, ansatdato, opsagtdato, sprog, nyhedsbrev, "_
-						    &" madr, mpostnr, mcity, mland, mtlf, mcpr, mkoregnr, visskiftversion, medarbejdertype_grp, timer_ststop, create_newemployee) VALUES ("_
+						    &" madr, mpostnr, mcity, mland, mtlf, mcpr, mkoregnr, visskiftversion, medarbejdertype_grp, timer_ststop, create_newemployee, med_lincensindehaver) VALUES ("_
 						    &" '"& strNavn &"',"_
 						    &" "& strMnr &","_
 						    &" '"& strAnsat &"',"_
@@ -732,7 +735,7 @@ Session.LCID = 1030
 						    &" '"& ansatdato &"', '"& opsagtdato &"', "& sprog &", "_
 						    &" "& nyhedsbrev &", "_
 						    &" '"& madr & "', '"& mpostnr &"', '"& mcity &"', '"& mland &"', "_
-					        &" '"& mtlf &"', '"& mcpr &"', '"& mkoregnr &"', "& visskiftversion &", "& intMedarbejdertype_grp &", "& timer_ststop &", "& create_newemployee &")"
+					        &" '"& mtlf &"', '"& mcpr &"', '"& mkoregnr &"', "& visskiftversion &", "& intMedarbejdertype_grp &", "& timer_ststop &", "& create_newemployee &", "& med_lincensindehaver &")"
     						
                             'Response.write strSQLminsert
                             'Response.flush
@@ -1094,7 +1097,7 @@ Session.LCID = 1030
 		&" medarbejdertype, type, navn, medarbejdere.editor, medarbejdere.dato, "_
 		&" Medarbejderinfo, email, tsacrm, smilord, exchkonto, init, timereg, ansatdato, "_
 		&" opsagtdato, sprog, nyhedsbrev,  "_
-		&" madr, mpostnr, mcity, mland, mtlf, mcpr, mkoregnr, visskiftversion, timer_ststop, create_newemployee "_
+		&" madr, mpostnr, mcity, mland, mtlf, mcpr, mkoregnr, visskiftversion, timer_ststop, create_newemployee, med_lincensindehaver "_
 		&" FROM medarbejdere, brugergrupper, medarbejdertyper "_
 		&" WHERE mid = "& id &" AND brugergrupper.id = brugergruppe AND medarbejdertyper.id = medarbejdertype"
 		
@@ -1145,6 +1148,7 @@ Session.LCID = 1030
             timer_ststop = oRec("timer_ststop")
 
             create_newemployeeThisMid = oRec("create_newemployee")
+            med_lincensindehaver = oRec("med_lincensindehaver")
 			
 		end if
 		oRec.close
@@ -1184,6 +1188,8 @@ Session.LCID = 1030
         medarbejdertype = 0
         timer_ststop = 0
         create_newemployeeThisMid = 0
+
+        med_lincensindehaver = 0
 
        
 		end if
@@ -2120,26 +2126,83 @@ Session.LCID = 1030
                                    </div>
                                 <div class="col-lg-7">&nbsp</div>      
                               </div>
-                              <%else 
+
+                               <%else 
                                   
                                  '** Denne bruges IKKE mere da KUN administratorer må ændre projektgrupper%>
 
                                  <%'call medariprogrpFn(id) %>
+                              
+                              
                                 <input name="FM_progrp" type="hidden" value="0" /> <!-- <%=replace(medariprogrpTxt, "#", "") %> --> 
                               <%end if %>
 
 
+                            <%if level = 1 OR cint(meCreate_newemployee) = 1 then %>
+                            <!-- Juridisk enhed -->
+                             <div class="row">
+                               <div class="col-lg-1">&nbsp</div>
+                                    <div class="col-lg-2">
+                                      
+                            Legal entity:</div>
+                                 
+                                <div class="col-lg-4">   <select name="FM_med_lincensindehaver" class="form-control input-small">
+                                   
+							<%
+
+                             multiKSQL = " useasfak = 1 "
+                            'kSelfundet = 0
+                           
+                            strSQL = "SELECT kid, kkundenavn, kkundenr, lincensindehaver_faknr_prioritet FROM kunder WHERE "& multiKSQL &" ORDER BY kkundenavn" 
+							oRec.open strSQL, oConn, 3
+							while not oRec.EOF 
+							 if oRec("lincensindehaver_faknr_prioritet") = cint(med_lincensindehaver) then
+							 kSEL = "SELECTED"
+                             'kSelfundet = 1
+							 else
+							 kSEL = ""
+							 end if%>
+							<option value="<%=oRec("lincensindehaver_faknr_prioritet") %>" <%=kSEL %>><%=oRec("kkundenavn") &" "& oRec("kkundenr") %></option>
+							<%
+							oRec.movenext
+							wend
+							oRec.close
+                               
+                                'if cint(kSelfundet) = 0 then
+                                'kSel0 = "SELECTED"
+                                'else
+                                'kSel0 = ""
+                                'end if
+                                %>
+							
+                                     <!--<option value="0" <%=kSel0 %>>None (not selected)</option>-->
+							</select>
+
+                             </div>      
+                              </div>
+
+                             <%else %>
+                                <input name="FM_med_lincensindehaver" type="hidden" value="<%=med_lincensindehaver %>" />
+                              <%end if %>
+
+
+
+                              <!-- Start side -->
                                <%if cint(level) <= 2 OR cint(level) = 6 OR cint(meCreate_newemployee) = 1 then %>
-                              <div class="row">
-                                   <div class="col-lg-12"><br />&nbsp</div>
-                                </div>
-                              <div class="row">
-                                  
-                                  <div class="col-lg-1">&nbsp</div>
-                                  <div class="col-lg-2"><b><%=medarb_txt_123 %>:</b></div>
-                                  <div class="col-lg-5">
+                                  <div class="row">
+                                               <div class="col-lg-12"><br />&nbsp</div>
+                                            </div>
+                                          <div class="row">
+
                                      
                                              <%if cint(level) <= 2 OR cint(level) = 6 then%> 
+                                        
+                                              <div class="col-lg-1">&nbsp</div>
+                                              <div class="col-lg-2"><b><%=medarb_txt_123 %>:</b></div>
+                                              <div class="col-lg-5">
+
+
+
                                              <input type="radio" name="FM_tsacrm" value="0" <%=strCRMcheckedTSA%>> <%=medarb_txt_124 %> 
                                       <br />&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp  <input type="checkbox" name="FM_timer_ststop" value="1" <%=timer_ststopCHK%> /> <%=medarb_txt_085 %> <br>
           
@@ -2149,22 +2212,23 @@ Session.LCID = 1030
 
                                         <%if level = 1 then %>
 
-                                        <%call erStempelurOn()
+                                                  <%call erStempelurOn()
                 
-                                        if cint(stempelurOn) = 1 then %>
-                                            <input type="radio" name="FM_tsacrm" value="3" <%=strCRMcheckedTSA_3%>> <%=medarb_txt_087 %>  <br>
-                                        <%end if %>
+                                                            if cint(stempelurOn) = 1 then %>
+                                                                <input type="radio" name="FM_tsacrm" value="3" <%=strCRMcheckedTSA_3%>> <%=medarb_txt_087 %>  <br>
+                                                            <%end if %>
 		
-		                             <input type="radio" name="FM_tsacrm" value="2" <%=strCRMcheckedRes%>> <%=medarb_txt_088 %><br>
-                                    <input type="radio" name="FM_tsacrm" value="4" <%=strCRMcheckedTSA_4%>> <%=medarb_txt_089 %><br>
-                                     <input type="radio" name="FM_tsacrm" value="5" <%=strCRMcheckedTSA_5%>> <%=medarb_txt_090 %><br>
-                                      <input type="radio" name="FM_tsacrm" value="7" <%=strCRMcheckedTSA_7%>> <%=medarb_txt_091 %><br>
-                                      <input type="radio" name="FM_tsacrm" value="8" <%=strCRMcheckedTSA_8%>> <%=medarb_txt_092 %><br>
-                                      <input type="radio" name="FM_tsacrm" value="9" <%=strCRMcheckedTSA_9%>> <%=medarb_txt_133 %><!--mangler--><br>
+		                                         <input type="radio" name="FM_tsacrm" value="2" <%=strCRMcheckedRes%>> <%=medarb_txt_088 %><br>
+                                                <input type="radio" name="FM_tsacrm" value="4" <%=strCRMcheckedTSA_4%>> <%=medarb_txt_089 %><br>
+                                                 <input type="radio" name="FM_tsacrm" value="5" <%=strCRMcheckedTSA_5%>> <%=medarb_txt_090 %><br>
+                                                  <input type="radio" name="FM_tsacrm" value="7" <%=strCRMcheckedTSA_7%>> <%=medarb_txt_091 %><br>
+                                                  <input type="radio" name="FM_tsacrm" value="8" <%=strCRMcheckedTSA_8%>> <%=medarb_txt_092 %><br>
+                                                  <input type="radio" name="FM_tsacrm" value="9" <%=strCRMcheckedTSA_9%>> <%=medarb_txt_133 %><!--mangler--><br>
 
-                                     <%if licensType = "CRM" then%>
-                                     <input type="radio" name="FM_tsacrm" value="1" <%=strCRMcheckedCRM%>> <%=medarb_txt_093 %><br>
-                                    <%end if%>
+                                                 <%if licensType = "CRM" then%>
+                                                 <input type="radio" name="FM_tsacrm" value="1" <%=strCRMcheckedCRM%>> <%=medarb_txt_093 %><br>
+                                                <%end if%>
+
 
                                       <%end if 'level = 1 %>
 
@@ -2179,7 +2243,7 @@ Session.LCID = 1030
                                 
               
                          
-                               <%if cint(level) = 1 then %>
+                               <%if cint(level) = 1 OR cint(meCreate_newemployee) = 1 then %>
 
                           </div> <!-- /.panel-body -->
                         </div> <!-- /.panel-collapse -->
@@ -2188,7 +2252,12 @@ Session.LCID = 1030
                     <%end if %>
                    
 
+                       
                       <%if func = "red" then %>
+                    <div class="row">
+                         
+                           <div class="col-lg-8">
+
                               <br /><br /><br />
                 <div style="font-weight: lighter;"><%=medarb_txt_094 %> <b><%=strDato%></b> <%=medarb_txt_095 %> <b><%=strEditor%></b></div>
 
@@ -2197,9 +2266,13 @@ Session.LCID = 1030
                             TimeOut Id: <%=id %>
                             <%end if %></span><br /><br />&nbsp;
 
+                    </div>
+                        </div>
+
                 <%else %>
                 <br /><br />&nbsp;
                 <%end if %>
+
    
              
 

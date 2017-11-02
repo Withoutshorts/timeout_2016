@@ -841,8 +841,9 @@ case "dbopr", "dbred"
             strSQL = "SELECT id, filnavn, editor, filertxt FROM filer WHERE filertxt = '"& jobnr &"'"
             oRec.open strSQL, oConn, 3
             if not oRec.EOF then
-        
-            strSQLfilerKopy = "INSERT INTO filer SET filnavn = '"& oRec("filnavn") & "', filertxt = '#NEWJOBID#', type = 1, adg_admin = 1, editor = '"& editor &"', dato = '"& dd_dato &"'" 
+            
+            dd_datoSQL = year(now) &"/"& month(now) &"/"& day(now)
+            strSQLfilerKopy = "INSERT INTO filer SET filnavn = '"& oRec("filnavn") & "', filertxt = '#NEWJOBID#', type = 1, adg_admin = 1, editor = '"& editor &"', dato = '"& dd_datoSQL &"'" 
             filfundet = 1
 
             end if
@@ -855,6 +856,8 @@ case "dbopr", "dbred"
 
          if cint(filfundet) = 1 then
          strSQLfilerKopy = replace(strSQLfilerKopy, "#NEWJOBID#", jobnr)
+         'response.write strSQLfilerKopy
+         'response.end
          oConn.execute(strSQLfilerKopy)
          end if
 

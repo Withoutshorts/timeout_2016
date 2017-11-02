@@ -477,14 +477,14 @@ dblkostprisUse = replace(dblkostprisUse, ",", ".")
 
                                 '**** NOSTOP MATRIX ******************************* 
                                 'response.write "<br><br>ORG: "& mtrx &" timerthis: "& timerthis & " sTtid: "& sTtid & " sLtid: "& sLtid & " datepart: " & datepart("w", datoThis, 2,2)
-                                
-                               
-                                 if cint(matrixAktFundet) = 1 then
-                                
-                                               call matrixtimespan(idag, mtrx, sTtid, sLtid, datoThis)
-                                               timerthis = timerthis_mtx
-        
-                                    end if 'MatrsixFundet
+
+
+                                  if cint(matrixAktFundet) = 1 then
+
+                                  call matrixtimespan(idag, mtrx, sTtid, sLtid, datoThis)
+                                  timerthis = timerthis_mtx
+
+                                  end if 'MatrsixFundet
 
 
 
@@ -494,22 +494,22 @@ dblkostprisUse = replace(dblkostprisUse, ",", ".")
 
 
 
-                                '******************************************
+                                  '******************************************
 
-						end if
-					
-					else
-					
-					sTtid = ""
-					sLtid = ""
-					
-					end if
-					
-			
-			if cint(origin) = 11 OR cint(origin) = 12 then 'ved indlæsning fra TimeTag_web (timeout mobile:12) / (ugeseddel:11) skal der altid indlæses aldrig opdateres 
-			strSQLfindes = "SELECT timer, Tjobnr, TAktivitetId, timerkom, godkendtstatus FROM timer WHERE TAktivitetId = -2130 AND Tjobnr = 'WWvsfWWx445' AND Tmnr = -23423440"
-            else
-            strSQLfindes = "SELECT timer, Tjobnr, TAktivitetId, timerkom, godkendtstatus FROM timer WHERE TAktivitetId = "& aktid &" AND Tjobnr = '"& jobnr &"' AND Tmnr = "& medid &" AND Tdato = '"& datothis &"'"
+                                  end if
+
+                                  else
+
+                                  sTtid = ""
+                                  sLtid = ""
+
+                                  end if
+
+
+                                  if cint(origin) = 11 OR cint(origin) = 12 then 'ved indlæsning fra TimeTag_web (timeout mobile:12) / (ugeseddel:11) skal der altid indlæses aldrig opdateres 
+                                  strSQLfindes = "SELECT timer, Tjobnr, TAktivitetId, timerkom, godkendtstatus FROM timer WHERE TAktivitetId = -2130 AND Tjobnr = 'WWvsfWWx445' AND Tmnr = -23423440"
+                                  else
+                                  strSQLfindes = "SELECT timer, Tjobnr, TAktivitetId, timerkom, godkendtstatus FROM timer WHERE TAktivitetId = "& aktid &" AND Tjobnr = '"& jobnr &"' AND Tmnr = "& medid &" AND Tdato = '"& datothis &"'"
             end if
 			oRec.Open strSQLfindes, oConn, 3  
 			
@@ -2452,10 +2452,10 @@ end sub
 
 function timerIndlaesPeriodeLukket(medarbejderid, regdato, intjobid)
        
-        'if session("mid") = 1 then
+
         'Response.Write "medarbejderid: " & medarbejderid & " regdato: "& regdato &" intjobid: "& intjobid
         'response.end
-        'end if
+
 
 
             firstWeekDay = weekday(regdato, 2)
@@ -2561,13 +2561,7 @@ function timerIndlaesPeriodeLukket(medarbejderid, regdato, intjobid)
 		        end if
 		        oRec.close
 		        
-
-                'if session("mid") = 1 then
-                'Response.Write "<br>fakdato: "& lastFakdato
-                'response.end
-                'end if
-
-		        if cint(ugeerAfsl_og_autogk_smil) = 1 OR cdate(lastFakdato) >= cdate(regdato) then 'AND level > 1
+		        if ugeerAfsl_og_autogk_smil = 1 OR cdate(lastFakdato) >= cdate(regdato) then 'AND level > 1
 		        
 		        %>
 			    <!--#include file="../../inc/regular/header_lysblaa_inc.asp"-->

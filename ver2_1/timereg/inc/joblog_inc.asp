@@ -971,6 +971,7 @@ public lastmedarbnavn, medarbtimer, medarbEnheder, medarbFeriePlan
 
                                                     <%
                                                     else
+                                                    'timerTxtExp = replace(timerTxtExp, "''", "")
                                                     ekspTxt = ekspTxt & ""& Chr(34) & timerTxtExp & Chr(34) &";"
                                                     end if
                                                      

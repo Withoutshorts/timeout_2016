@@ -1640,6 +1640,9 @@ if len(session("user")) = 0 then
         <%
         '*** Beløb i grundvaluta == DKK ***'
         'if oRec3("valid") <> 1 then 
+
+        
+
         if cint(oRec3("valid")) <> cint(basisValId) then  '<> 1 20170207
             
              'call beregnValuta(minus&(fakbelob),oRec3("kurs"),100)

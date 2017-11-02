@@ -9,34 +9,8 @@ function godkenderTimeriUge(medid, varTjDatoUS_manSQL, varTjDatoUS_sonSQL, SmiWe
 
 
         
-         '*** HVIS splitHR = 1 Godkend kun timer i den gamle måned dvs frem til 31.
-         if cint(SmiWeekOrMonth) = 0 then
-         splithrdenneUge = 0
-         strSQLselHr = "SELECT uge, splithr FROM ugestatus WHERE WEEK(uge, 3) = WEEK('"& varTjDatoUS_sonSQL &"', 3) AND mid = " & medid 
-                   
-                'if session("mid") =  1 then
-                'Response.write strSQLselHr & "<br>"
-                'Response.flush
-                'end if
-
-                oRec6.open strSQLselHr, oConn, 3
-                if not oRec6.EOF then
-
-                    splithrdenneUge = oRec6("splithr")
-
-                end if
-                oRec6.close
+         
              
-        if cint(splithrdenneUge) = 1 then
-
-            varTjDatoUS_sonTemp = "1/"& month(varTjDatoUS_sonSQL) & "/" & year(varTjDatoUS_sonSQL)
-            varTjDatoUS_sonTempAdd = dateAdd("d", -1, varTjDatoUS_sonTemp)
-            varTjDatoUS_sonSQL = year(varTjDatoUS_sonTempAdd) & "/" & month(varTjDatoUS_sonTempAdd) & "/" & day(varTjDatoUS_sonTempAdd)
-
-        end if
-
-        end if
-
 
         call akttyper2009(2)
 
@@ -66,9 +40,8 @@ function godkenderTimeriUge(medid, varTjDatoUS_manSQL, varTjDatoUS_sonSQL, SmiWe
 
 
         'if session("mid") = 1 then
-	    'response.Write strSQLup & "<br>"
+	    'Response.Write strSQLup & "<br>"
 	    'Response.flush
-        'response.end
         'end if
 
 	    oConn.execute(strSQLup)
@@ -523,18 +496,18 @@ function godkendugeseddel(fmlink, usemrn, varTjDatoUS_man, rdir)
                 if cint(ugegodkendt) <> 1 then 
 
                 
-                               if cint(ugegodkendt) = 2 then
+                       if cint(ugegodkendt) = 2 then
 
-                                call meStamdata(ugegodkendtaf)%>
-                                <div style="background-color:#FF6666; padding:5px;"><b><%=periodeTxt &" "& funk_txt_025 %>!</b><br />
-                                <span style="font-size:9px; line-height:12px; color:#ffffff;"><i><%=ugegodkendtdt &" "& funk_txt_026 &" "& meNavn %></i></span>
-                                <%if len(trim(ugegodkendtTxt)) <> 0 then %>
-                                <br />
-                                <span style="font-size:9px; line-height:12px; color:#000000;"><i><%=left(ugegodkendtTxt, 200) %></i></span>
-                                <%end if %>
-                                </div>
+                        call meStamdata(ugegodkendtaf)%>
+                        <div style="background-color:#FF6666; padding:5px;"><b><%=periodeTxt &" "& funk_txt_025 %>!</b><br />
+                        <span style="font-size:9px; line-height:12px; color:#ffffff;"><i><%=ugegodkendtdt &" "& funk_txt_026 &" "& meNavn %></i></span>
+                        <%if len(trim(ugegodkendtTxt)) <> 0 then %>
+                        <br />
+                        <span style="font-size:9px; line-height:12px; color:#000000;"><i><%=left(ugegodkendtTxt, 200) %></i></span>
+                        <%end if %>
+                        </div>
 
-                                <%end if %>
+                        <%end if %>
 
 
 
@@ -586,8 +559,7 @@ function godkendugeseddel(fmlink, usemrn, varTjDatoUS_man, rdir)
                
                
                if cint(ugegodkendt) <> 2 AND cint(showAfsuge) = 0 then%>
-    
-               <br /><br />
+
                <form action="<%=fmLink%>&func=afvisugeseddel" method="post">
                <table width=90% cellpadding=0 cellspacing=0 border=0>
                <tr><td class=lille>
@@ -718,10 +690,9 @@ function afslutuge(weekSelected, visning, tjkDag7, rdir, SmiWeekOrMonth)
         '** sidsteUgenrAfsl, sidsteUgenrAfslFundet, slip_smiley_agg_lukper
         call afsluttedeUger(detteaar, usemrn, 0)
 		
-        'if session("mid") = 1 then
-        'response.write "sidsteUgenrAfslFundet: "& sidsteUgenrAfslFundet & " dag i uge FØR: "& datepart("w", sidsteUgenrAfsl, 2,2) &" dt:("& sidsteUgenrAfsl &")  sidsteUgenrAfsl: " & sidsteUgenrAfsl & " showAfsuge: " & showAfsuge
-        'end if    
 
+        'response.write "sidsteUgenrAfslFundet: "& sidsteUgenrAfslFundet & " dag i uge FØR: "& datepart("w", sidsteUgenrAfsl, 2,2) &" dt:("& sidsteUgenrAfsl &")  sidsteUgenrAfsl: " & sidsteUgenrAfsl & " showAfsuge: " & showAfsuge
+        
                     if cint(sidsteUgenrAfslFundet) = 1 then
 
                         select case cint(SmiWeekOrMonth)
@@ -2303,7 +2274,7 @@ end if
             strSQLafslut = "SELECT status, afsluttet, uge, ugegodkendt, ugegodkendtaf, ugegodkendtTxt, ugegodkendtdt, splithr FROM ugestatus WHERE "_
             &" "& sqlDatoKri &" "& sqlYearKri &" AND mid = "& sm_mid &" "& splithrKri  
 		    
-            'if session("mid") = 1 then
+            'if session("mid") = 21 then
             'Response.write "HER:<br>"& strSQLafslut & "<br><br>//" & sm_sidsteugedag & "//"& sldatoSQL & thisfile
 		    'Response.flush
             'end if
@@ -2339,7 +2310,7 @@ end if
 
 
             '** Altid åben på dagsafslutning
-            if (level = 1 AND cint(SmiWeekOrMonth) = 2) OR (cint(splithr) = 1 AND thisfile <> "godkenduge.asp") then
+            if (level = 1 AND cint(SmiWeekOrMonth) = 2) OR cint(splithr) = 1 then
             showAfsuge = 1
             end if
 
@@ -2459,8 +2430,7 @@ end if
             'end if
 
             '*** Januar, feb og uge 1,2 må afsluttes ved at åbne uge 2 hhv. februar også. 
-            '**AND (cDate(lastPeriodDt) < cDate(licensstdato) AND  cDate(lastPeriodDt) < cDate(meAnsatDato)) TILFØJET 20171031
-            if (( (cdbl((thisPeriod*1) - (lastPeriod*1)) > 1) OR (cint(thisPeriod) = 2 AND cint(lastPeriod) <> 1)) AND cint(erderHuller) = 0) AND (cDate(lastPeriodDt) < cDate(licensstdato) AND  cDate(lastPeriodDt) < cDate(meAnsatDato)) then 
+            if ( (cdbl((thisPeriod*1) - (lastPeriod*1)) > 1) OR (cint(thisPeriod) = 2 AND cint(lastPeriod) <> 1)) AND cint(erderHuller) = 0 then 
             ' AND datePart("yyyy", lastPeriodYYYY, 2,2) = datePart("yyyy", oRec3("uge"), 2,2)) AND _
             '( (datePart("yyyy", oRec3("uge"), 2,2) >= "2017" )) then 
             'AND datePart("ww", oRec3("uge"), 2,2) > 31) OR (datePart("yyyy", oRec3("uge"), 2,2) > "2017"
@@ -2484,12 +2454,15 @@ end if
             'response.write "<br>DER ER HUL! : Aflsut denne: "& sidsteUgenrAfsl &": "& datePart("ww", sidsteUgenrAfsl, 2,2) &"<br>"
             'end if
 
+           
+
+
+                
+          
+
             end if
 
             end if 'cint(erderHuller)) = 0
-
-
-
 
                 select case SmiWeekOrMonth
                 case 0

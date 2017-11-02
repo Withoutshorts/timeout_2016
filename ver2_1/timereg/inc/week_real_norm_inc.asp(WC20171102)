@@ -293,10 +293,6 @@
     	<td style="border-bottom:1px silver dashed; padding-bottom:20px; white-space:nowrap;">&nbsp;</td>
 	<td style="border-bottom:1px silver dashed; padding-bottom:20px; white-space:nowrap;">&nbsp;</td>
     <%else%>
-    <%if lto = "esn" then %>
-    <td style="border-bottom:1px silver dashed; padding-bottom:20px; white-space:nowrap;" class="lille">&nbsp;</td>
-    <%end if %>
-
 	<td style="border-bottom:1px silver dashed; padding-bottom:20px; white-space:nowrap;" class="lille" align=center><%=showAfsugeTxt_tot%>&nbsp;</td>
 	<td style="border-bottom:1px silver dashed; padding-bottom:20px; white-space:nowrap;" align=center>
         

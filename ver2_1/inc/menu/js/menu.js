@@ -10,6 +10,19 @@
 
 $(document).ready(function () {
 
+    
+
+    //nulstiller filtre ved klik på yourreport fra hovedmenu
+    $(".a_yourrep").click(function () {
+
+        $.cookie('tr_medarb', '0')
+        $.cookie('tr_kun', '0')
+        $.cookie('tr_job', '0')
+        $.cookie('tr_ava', '0')
+        $.cookie('tr_pre', '0')
+
+    });
+
 
     $("#luk_menuslider").mouseover(function () {
 

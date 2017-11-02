@@ -8769,7 +8769,7 @@
 		            
 		                                <div id="multivmed" style="position:relative; padding:20px; background-color:#FFFFFF; width:520px; visibility:hidden; display:none;">
                                         
-                                        <%if lto <> "esn" then%>
+                                        <%if lto <> "esn" then %>
                                         <%
                                         strSQL = "SELECT Mid, Mnavn, Mnr, Brugergruppe, medarbejdertype, mt.type AS mtypenavn, mt.id AS mtid "_
                                         &", normtimer_man, normtimer_tir, normtimer_ons, normtimer_tor, normtimer_fre, normtimer_lor, normtimer_son "_
@@ -8818,8 +8818,7 @@
 
                                                 <%else 'esn - vist efter projektgrupper %>
                                                 <%
-                                                    strSQL = "SELECT Mid, Mnavn, pg.navn, p.Projektgruppeid, Mnr FROM medarbejdere as m LEFT JOIN progrupperelationer as p ON (p.Medarbejderid = Mid)"_
-                                                    &" LEFT JOIN projektgrupper as pg ON (pg.id = p.Projektgruppeid) WHERE p.Projektgruppeid <> 10 AND pg.navn <> '' AND m.mansat <> 2 "& medarbgrpIdSQLkri &" ORDER BY pg.navn, m.Mnavn" 
+                                                    strSQL = "SELECT Mid, Mnavn, pg.navn, p.Projektgruppeid, Mnr FROM medarbejdere as m LEFT JOIN progrupperelationer as p ON (p.Medarbejderid = Mid) LEFT JOIN projektgrupper as pg ON (pg.id = p.Projektgruppeid) WHERE p.Projektgruppeid <> 10 AND pg.navn <> '' AND m.mansat <> 2 "& medarbgrpIdSQLkri &" ORDER BY pg.navn, m.Mnavn" 
                                                 %>
                                                 <h4>Multitildel <span><a href="#" class="red" onclick="showmultiDiv()">[x]</a></span></h4>
                                                 <%=tsa_txt_268 %> (<%=tsa_txt_357 %>)<br /><br />
