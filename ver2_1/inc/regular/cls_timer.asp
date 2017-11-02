@@ -155,6 +155,11 @@ function timerDenneUge(usemrn, lto, varTjDatoUS_man, aty_sql_typer, dothis, SmiW
             wend 
             oRec3.close
 
+            
+            
+         
+
+
             next
 
     totTimerWeek = (manTimer + tirTimer + onsTimer + torTimer + freTimer + lorTimer + sonTimer)
@@ -311,7 +316,7 @@ end function
                         hgttimmtyp = 0
                         timerThis = 0
 
-                        if cint(bdgmtypon_val) = 1 AND cint(bdgmtypon_prgrp) > 1 then 
+                        if cint(bdgmtypon_val) = 1 AND cint(bdgmtypon_prgrp) > 1 then '** Konsoliderede timer
                             
 
 
@@ -361,8 +366,33 @@ end function
 
 
                         else
+
+
+                        if lto = "epi2017" OR lto = "intranet - local" then '<> INTW grupperne
+
+                        strSQlINTWgrp = " (m.medarbejdertype <> 0 "
+
+                        strSQLmtypgrp = "SELECT id FROM medarbejdertyper WHERE mgruppe = 2"
+                        oRec2.open strSQLmtypgrp, oConn, 3
+                        while not oRec2.EOF 
+
+                        strSQlINTWgrp = strSQlINTWgrp & " AND m.medarbejdertype <> " & oRec2("id")
+
+                        oRec2.movenext
+                        wend
+                        oRec2.close
+
+
+                        strSQlINTWgrp = strSQlINTWgrp & ")"
+
+                        'strSQlINTWgrp = " (m.medarbejdertype <> 14 AND m.medarbejdertype <> 22 AND m.medarbejdertype <> 23 AND m.medarbejdertype <> 45"_
+                        '& " AND m.medarbejdertype <> 46 AND m.medarbejdertype <> 47 AND m.medarbejdertype <> 48 AND m.medarbejdertype <> 55 AND m.medarbejdertype <> 56)"
+                        else
+                        strSQlINTWgrp = " (m.medarbejdertype <> 0)"
+                        end if
+
                         strSQLjl = "SELECT sum(timer) AS timer, "& mnavnFlt &" AS navn FROM timer AS t "_
-                        &" LEFT JOIN medarbejdere AS m ON (m.mid = t.tmnr)"_
+                        &" LEFT JOIN medarbejdere AS m ON (m.mid = t.tmnr AND "& strSQlINTWgrp &")"_
                         &" LEFT JOIN medarbejdertyper AS mt ON (mt.id = m.medarbejdertype) "_
                         &" WHERE tjobnr = '"& jobnr & "'"  
                         
@@ -370,13 +400,13 @@ end function
                          strSQLjl = strSQLjl &" AND tdato BETWEEN '"& stDatoMtyp &"' AND '"& slDatoMtyp &"'"
                         end if
 
-                        strSQLjl = strSQLjl &" AND ("& aty_sql_realhours &") GROUP BY "& tfordGrpBy &" ORDER BY timer DESC LIMIT "&lmt
+                        strSQLjl = strSQLjl &" AND ("& aty_sql_realhours &") AND "& strSQlINTWgrp &" GROUP BY "& tfordGrpBy &" ORDER BY timer DESC LIMIT "&lmt
 
                      
 
-                        'if session("mid") = 1 then
-                        '    Response.Write strSQLjl
-                        '    Response.flush
+                        'if session("mid") = 1 AND lto = "sdeo" then
+                            'Response.Write strSQLjl
+                            'Response.flush
                         'end if
 
                         mt = 0
@@ -398,7 +428,52 @@ end function
                         oRec2.close
 
 
-                           end if
+                        if lto = "epi2017" OR lto = "intranet - local" then 'INTW gruppen
+
+                        strSQlINTWgrp = replace(strSQlINTWgrp, "AND", "OR")
+                        strSQlINTWgrp = replace(strSQlINTWgrp, "<>", "=")
+                                
+                        strSQLjl = "SELECT sum(timer) AS timer, "& mnavnFlt &" AS navn FROM timer AS t "_
+                        &" LEFT JOIN medarbejdere AS m ON (m.mid = t.tmnr AND "& strSQlINTWgrp &")"_
+                        &" LEFT JOIN medarbejdertyper AS mt ON (mt.id = m.medarbejdertype) "_
+                        &" WHERE tjobnr = '"& jobnr & "'"  
+                        
+                        if per <> 0 then 
+                         strSQLjl = strSQLjl &" AND tdato BETWEEN '"& stDatoMtyp &"' AND '"& slDatoMtyp &"'"
+                        end if
+
+                        strSQLjl = strSQLjl &" AND ("& aty_sql_realhours &") AND "& strSQlINTWgrp &" GROUP BY mt.mgruppe ORDER BY timer DESC"
+
+                     
+
+                        'if session("mid") = 1 AND lto = "sdeo" then
+                            'Response.Write "<br>"& strSQLjl
+                            'Response.flush
+                        'end if
+
+                        mt = 0
+                        oRec2.open strSQLjl, oConn, 3
+                        while not oRec2.EOF 
+
+                        hgttimmtyp = formatnumber((oRec2("timer")/timerTotJob) * 100, 0) 
+                        timerThis = oRec2("timer")
+                        mNavn = "INTW" 'oRec2("navn")
+
+
+                        call mtimerIperHgt
+                        
+                        
+                        mt = mt + 1
+
+                        oRec2.movenext
+                        wend
+                        oRec2.close
+
+
+                        end if
+
+
+                        end if
 
 
 
@@ -571,7 +646,8 @@ function timeRealOms(jobnr, sqlDatostart, sqlDatoslut, nettoomstimer, fastpris, 
         kostpris = 0
         timeOms = 0   
 
-        jo_valuta_kursSQL = replace(jo_valuta_kurs, ",", ".")    
+        'jo_valuta_kursSQL = replace(jo_valuta_kurs, ",", ".")    
+        jo_valuta_kursSQL = 100
 
         '*** Timer forbrugt ***
 		'** Hvis mtypebudget slået til og Totalforbrug (konsolideret valgt)
@@ -589,6 +665,7 @@ function timeRealOms(jobnr, sqlDatostart, sqlDatoslut, nettoomstimer, fastpris, 
        '             strSQL2 = strSQL2 &" GROUP BY jobid"
 
         'else
+        
 
         strSQL2 = "SELECT sum(t.timer) AS timerforbrugt, sum(t.kostpris*t.timer*(t.kpvaluta_kurs/"& jo_valuta_kursSQL &")) AS kostpris, sum(t.timer*(t.timepris*(t.kurs/"& jo_valuta_kursSQL &"))) AS timeOms FROM timer t WHERE t.tjobnr = '"& jobnr &"' AND ("& aty_sql_realhours &") "
          

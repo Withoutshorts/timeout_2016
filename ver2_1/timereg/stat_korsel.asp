@@ -291,7 +291,7 @@ if len(session("user")) = 0 then
   
    strSQL = "SELECT tid, taktivitetnavn, timer, tfaktim, tjobnavn, tjobnr, tdato, "_
    &" tknr, tknavn, tmnavn, tmnr, kkundenr, godkendtstatus, timerkom, bopal, "_
-   &" m.mnr, m.init, m.mid, destination FROM timer "_
+   &" m.mnr, m.init, m.mid, destination, overfort FROM timer "_
    &" LEFT JOIN kunder K on (kid = tknr) "_
    &" LEFT JOIN medarbejdere m ON (mid = tmnr) WHERE "& medarbSQLkri &" AND "_
    &" tdato BETWEEN '"& sqlDatoStart &"' AND '"& sqlDatoSlut &"' AND tfaktim = 5 ORDER BY tmnr, tdato DESC "
@@ -448,7 +448,7 @@ if len(session("user")) = 0 then
                 call tjkClosedPeriodCriteria(tjkDag, ugeNrAfsluttet, usePeriod, SmiWeekOrMonth, splithr, smilaktiv, autogk, autolukvdato, lonKorsel_lukketIO)
 
 
-                if oRec("godkendtstatus") = 1 then
+                if oRec("godkendtstatus") = 1 OR oRec("godkendtstatus") = 3 OR oRec("overfort") = 1 then '3: tentative
                 ugeerAfsl_og_autogk_smil = 1
                 else
                 ugeerAfsl_og_autogk_smil = ugeerAfsl_og_autogk_smil

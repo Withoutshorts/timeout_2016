@@ -244,7 +244,7 @@ if len(session("user")) = 0 then
 	'if optiPrint = 0 OR optiPrint = 2 then
 	select case optiPrint
     case 7 'Monitor
-    strTxtExport = strTxtExport & "Rap.Nr;Rap.Tid;Rap.Antal;"& vbcrlf
+    strTxtExport = strTxtExport & "Ordrenummer;Rap.Nr;Rap.Tid;Rap.Antal;"& vbcrlf
     case 0,2 
     strTxtExport = strTxtExport & "Kontakt;Kontakt id;Jobnavn;Jobnr.;Status;Startdato;Slutdato;Prioitet;"
         
@@ -289,7 +289,7 @@ if len(session("user")) = 0 then
 
 
                     if eksDataNrl = 1 then
-	                strTxtExport = strTxtExport &"Fastpris:1/Lbn Timer:0;Forkalk. Timer;Budget. Bruttooms.;Valuta;Kurs;Budget. Bruttooms. (basis valuta);"
+	                strTxtExport = strTxtExport &"Fastpris:1/Lbn Timer:0;Forkalk. Timer;Budget. Bruttooms.;Valuta;Kurs;Budget. Bruttooms. (basis valuta, alle kolonner -->);"
   
     
                           if cint(bdgmtypon_val) = 1 then 'budget på mtyper slået til
@@ -622,6 +622,7 @@ if len(session("user")) = 0 then
     end if
 
 	dblBudget = oRec("jo_bruttooms") 'oRec("jobTpris")
+
     nettoomstimer = oRec("jobTpris")
 	intFaspris = oRec("fastpris")
 	rekvnr = oRec("rekvnr")
@@ -769,7 +770,7 @@ if len(session("user")) = 0 then
 		
 		end select
 		
-        jobbudget = dblBudget
+        'jobbudget = dblBudget
 
         jo_bruttooms_basisval = oRec("jo_bruttooms_basisval")
 
@@ -790,13 +791,7 @@ if len(session("user")) = 0 then
         
 
 
-        OmsWIP = (afsl_proc/100) * jobbudget 
-        salgsOmkWIP = salgsOmkFaktisk 
-        nettoWIP = ((afsl_proc/100) * (jobbudget)) - salgsOmkWIP 
-        
-
-
-
+     
          
         '*** bal WIP ****'
 
@@ -823,7 +818,11 @@ if len(session("user")) = 0 then
 		end if
         
 
-        OmsWIP =  (afsl_proc/100) * jobbudget 
+       
+        salgsOmkWIP = salgsOmkFaktisk 
+        nettoWIP = ((afsl_proc/100) * (jo_bruttooms_basisval)) - salgsOmkWIP 'jobbudget 
+
+        OmsWIP = (afsl_proc/100) * jo_bruttooms_basisval 'jobbudget 
         balWIP = (faktureret - OmsWIP)
 
 
@@ -1338,15 +1337,23 @@ if len(session("user")) = 0 then
 
     case 7 'Monitor
 
+            if len(trim(request("antaldage"))) <> 0 then
             antaldage = request("antaldage")
+            else
+            antaldage = 0
+            end if
+
             ddDato = now
 
             lukkeDatoGT = dateAdd("d", -antaldage, ddDato)
             lukkeDatoGT = year(lukkeDatoGT) &"/"& month(lukkeDatoGT) &"/"& day(lukkeDatoGT)
 
-            strSQLmonitor = "SELECT j.id as jobid, a.navn, avarenr, a.id as aktid FROM job j "_
-            &" LEFT JOIN aktiviteter a ON (a.job = j.id) WHERE j.lukkedato >= '" & lukkeDatoGT & "' AND j.jobstatus = 0 AND avarenr IS NOT NULL AND a.id IS NOT NULL "
-            
+            jidsMonitor = request("jids")
+            jidsMonitor = replace(jidsMonitor, ",", " OR j.id = ")
+
+            strSQLmonitor = "SELECT j.id as jobid, a.navn, avarenr, a.id as aktid, jobnr, a.fase FROM job j "_
+            &" LEFT JOIN aktiviteter a ON (a.job = j.id) WHERE ("& jidsMonitor &") AND avarenr IS NOT NULL AND a.id IS NOT NULL "
+            'j.lukkedato >= '" & lukkeDatoGT & "' AND j.jobstatus = 0 'ændret 20171005
             oRec2.open strSQLmonitor, oConn, 3     
             while not oRec2.EOF
 
@@ -1375,8 +1382,21 @@ if len(session("user")) = 0 then
                     end if
                     oRec3.close 
 
+            
+            prodnr = ""
+            if len(trim(oRec2("fase"))) <> 0 then
+            
+                if mid(oRec2("fase"), 6,1) = "-" then
+                prodnr = oRec2("jobnr") & mid(oRec2("fase"), 4,2)
+                else 'Pos > 9
+                prodnr = oRec2("jobnr") & mid(oRec2("fase"), 4,3) 
+                end if
+        
+            else 
+            prodnr = oRec2("jobnr") 
+            end if
 
-            strTxtExport = strTxtExport & oRec2("avarenr") & ";"& aktTimer &";"& aktMatantal & ";"& vbcrlf
+            strTxtExport = strTxtExport & prodnr &";"& oRec2("avarenr") & ";"& aktTimer &";"& aktMatantal & ";"& vbcrlf
 
             oRec2.movenext
             wend 

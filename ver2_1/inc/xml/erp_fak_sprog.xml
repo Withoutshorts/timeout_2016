@@ -490,7 +490,7 @@
     <txt_427 >Tilbud</txt_427>
     <txt_428 >Gennemsyn</txt_428>
     <txt_429 >Lukket</txt_429>
-    <txt_430 >overskriver rekvnr. på job</txt_430>
+    <txt_430 >Opdater rekvnr. på job</txt_430>
     <txt_431 >Husk at vælge antal sider i step 1</txt_431>
     <txt_432 >Sideskift</txt_432>
     <txt_433 >Vedhæft joblog på faktura</txt_433>
@@ -1021,7 +1021,7 @@
     <txt_427 >Offer</txt_427>
     <txt_428 >Processed</txt_428>
     <txt_429 >Closed</txt_429>
-    <txt_430 >Overwrite rec.no. on job</txt_430>
+    <txt_430 >Update rec.no. on job</txt_430>
     <txt_431 >Remember to choose pages in step 1</txt_431>
     <txt_432 >Pagebreak</txt_432>
     <txt_433 >Attach joblog to invoice</txt_433>
@@ -1553,7 +1553,7 @@
     <txt_427 >Offer</txt_427>
     <txt_428 >Processed</txt_428>
     <txt_429 >Closed</txt_429>
-    <txt_430 >Overwrite rec.no. on job</txt_430>
+    <txt_430 >Update rec.no. on job</txt_430>
     <txt_431 >Remember to choose pages in step 1</txt_431>
     <txt_432 >Pagebreak</txt_432>
     <txt_433 >Attach joblog to invoice</txt_433>
@@ -2082,7 +2082,7 @@
     <txt_427 >Offer</txt_427>
     <txt_428 >Processed</txt_428>
     <txt_429 >Closed</txt_429>
-    <txt_430 >Overwrite rec.no. on job</txt_430>
+    <txt_430 >Update rec.no. on job</txt_430>
     <txt_431 >Remember to choose pages in step 1</txt_431>
     <txt_432 >Pagebreak</txt_432>
     <txt_433 >Attach joblog to invoice</txt_433>
@@ -2612,7 +2612,7 @@
     <txt_427 >Offer</txt_427>
     <txt_428 >Processed</txt_428>
     <txt_429 >Closed</txt_429>
-    <txt_430 >Overwrite rec.no. on job</txt_430>
+    <txt_430 >Update rec.no. on job</txt_430>
     <txt_431 >Remember to choose pages in step 1</txt_431>
     <txt_432 >Pagebreak</txt_432>
     <txt_433 >Attach joblog to invoice</txt_433>
@@ -3199,7 +3199,7 @@
   <txt_427 >Offer</txt_427>
   <txt_428 >Processed</txt_428>
   <txt_429 >Closed</txt_429>
-  <txt_430 >Overwrite rec.no. on job</txt_430>
+  <txt_430 >Update rec.no. on job</txt_430>
   <txt_431 >Remember to choose pages in step 1</txt_431>
   <txt_432 >Pagebreak</txt_432>
   <txt_433 >Attach joblog to invoice</txt_433>
@@ -3729,7 +3729,7 @@
     <txt_427 >Offer</txt_427>
     <txt_428 >Processed</txt_428>
     <txt_429 >Closed</txt_429>
-    <txt_430 >Overwrite rec.no. on job</txt_430>
+    <txt_430 >Update rec.no. on job</txt_430>
     <txt_431 >Remember to choose pages in step 1</txt_431>
     <txt_432 >Pagebreak</txt_432>
     <txt_433 >Attach joblog to invoice</txt_433>

@@ -187,7 +187,7 @@ public class ozUploadFile
         //timerkom        = 10
 
         //, medarbejderid, jobid, aktnavn, timer, tdato, lto, timerkom'
-        string strSelect = "SELECT id, dato, editor, origin, medarbejderid, jobid, aktnavn, timer, tdato, lto, timerkom, aktid FROM timer_import_temp WHERE overfort = 0 ORDER BY id limit 1000";
+        string strSelect = "SELECT id, dato, editor, origin, medarbejderid, jobid, aktnavn, timer, tdato, lto, timerkom, aktid FROM timer_import_temp WHERE overfort = 0 ORDER BY id limit 2500";
         //'dato, editor, origin,'
         try
         {

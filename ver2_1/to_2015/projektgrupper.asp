@@ -401,8 +401,8 @@
                    <tr>
                        <th style="width: 45%"><%=progrp_txt_007 %></th>
                        <th style="width: 20%"><%=progrp_txt_008 %></th>
-                       <th style="width: 10%;"><input type="checkbox" value="0" id="FM_chk_all_add"  /> <%=progrp_txt_009&" " %> ?</th>
-                       <th style="width: 5%"><%=progrp_txt_010 %> ?</th>
+                       <th style="width: 10%;"><input type="checkbox" value="0" id="FM_chk_all_add"  /> <%=progrp_txt_009&" " %></th>
+                       <th style="width: 5%"><%=progrp_txt_010 %></th>
                        <th style="width: 5%"><%=progrp_txt_011 %></th>
                        <th style="width: 5%"><%=progrp_txt_012 %></th>
                        <th style="width: 10%"><%=progrp_txt_013 %></th>

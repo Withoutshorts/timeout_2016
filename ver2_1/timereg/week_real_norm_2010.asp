@@ -318,42 +318,20 @@ if len(session("user")) = 0 then
         varTjDatoUS_son = dateAdd("d", 6, afslutuge_uge(m))
         varTjDatoUS_sonSQL = year(varTjDatoUS_son)&"/"&month(varTjDatoUS_son)&"/"&day(varTjDatoUS_son)
 
-        '*** NÅR LM Godkender HR hos TIA må fakturerbare ikke godkendes
-        SELECT CASE lto
-        case "tia"
-        strSQLKriEks = " AND tfaktim <> 1 AND tjobnr = 'ABS1000'"
-        case else
-        strSQLKriEks = ""
-        end select
-
-        godkendtdato = Year(now) &"-"& Month(now) &"-"& Day(now)
+       
+        '*** Godkender Timer i DB
+        call godkenderTimeriUge(afslutuge_medid(m), varTjDatoUS_manSQL, varTjDatoUS_sonSQL, SmiWeekOrMonth)
 	    
-        '** GODKENDER TIMERNE DER ER INDTASTET
-	    strSQLup = "UPDATE timer SET godkendtstatus = 1, godkendtstatusaf = '"& session("user") &"', godkendtdato = '"& godkendtdato &"' WHERE tmnr = "& afslutuge_medid(m) 
-	    if cint(SmiWeekOrMonth) = 0 then
-        strSQLup = strSQLup & " AND tdato BETWEEN '"& varTjDatoUS_manSQL &"' AND '" & varTjDatoUS_sonSQL & "'" 
-        else
-        varTjDatoUS_man_mth = datepart("m", varTjDatoUS_man,2,2)
-        strSQLup = strSQLup & " AND MONTH(tdato) = '"& varTjDatoUS_man_mth & "'" 
-        end if
-
-        strSQLup = strSQLup & " AND godkendtstatus <> 1" & strSQLKriEks
-
-
-	    oConn.execute(strSQLup)
+     
 	    
-        'if session("mid") = 1 then
-	    'Response.Write strSQLup
-	    'Response.flush
-        'end if
-        
-        
+       
         '*** Godkend uge status ****'
         call godekendugeseddel(thisfile, session("mid"), afslutuge_medid(m), afslutuge_uge(m))
 
 
         next
 	    
+    'Response.end
 	
 	usemrn = request("usemrn")
     yuse = request("yuse")
@@ -537,6 +515,8 @@ if len(session("user")) = 0 then
 	
 
     <script src="inc/week_real_norm_jav.js"></script>
+    <script src="../to_2015/js/modal_click2.js"></script>
+    <link rel="stylesheet" type="text/css" href="../to_2015/css/modal_click.css">
 
 
      <div id="loadbar" style="position:absolute; display:; visibility:visible; top:300px; left:300px; width:300px; background-color:#ffffff; border:10px #CCCCCC solid; padding:10px; z-index:100000;">
@@ -1245,9 +1225,15 @@ if len(session("user")) = 0 then
                      <td valign=bottom style="border-bottom:1px silver solid; width:50px;" class=lille><b><%=global_txt_172 %></b><br />
 	                ~ <%=godkendweek_txt_065 %></td>
                      <td valign=bottom style="border-bottom:1px silver solid; width:50px;" class=lille><b><%=global_txt_148 %></b><br />
-	                ~ <%=godkendweek_txt_066 %></td>
+	                <%if lto <> "esn" then %> ~ <%=afstem_txt_041 %><%else %> ~ <%=afstem_txt_044 %> <%end if %></td>
+                    <%if lto <> "esn" then %>
                      <td valign=bottom style="border-bottom:1px silver solid; width:50px;" class=lille><b><%=global_txt_179 %></b><br />
 	                ~ <%=godkendweek_txt_066 %></td>
+                    <%else %>
+                    <td valign=bottom style="border-bottom:1px silver solid; width:50px;" class=lille><b>Opsparingstimer afholdt</b><br />
+	                ~ <%=godkendweek_txt_066 %></td>
+                    <%end if %>
+
                     <%
 
 
@@ -1409,7 +1395,9 @@ if len(session("user")) = 0 then
          gkTxt = godkendweek_txt_102
          end select%>
 	 
-
+        <%if lto = "esn" or lto = "intranet - local" then %>
+        <td style="border-bottom:1px silver solid;" valign=bottom class=lille><b>Kommentar</b></td>
+        <%end if %>
 
 	    <td style="border-bottom:1px silver solid;" valign=bottom class=lille><b><%=peridoeTxt %> <br /><%=godkendweek_txt_077 &"?</b><br>("& godkendweek_txt_116 %>)</td>
         <td style="border-bottom:1px silver solid; white-space:nowrap;" valign=bottom class=lille>

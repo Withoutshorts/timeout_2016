@@ -143,6 +143,8 @@ end sub
 
 function tilfojtilTU(mid, del)
 
+ call positiv_aktivering_akt_fn()
+ pa = pa_aktlist 
 
 
 'mid <> 0 enjelt medarb / alle medab
@@ -208,12 +210,28 @@ while not oRec5.EOF
             '**** Opretter job i TU **
             if jobFandtes = 0 then
 
-              strSQLins = "INSERT INTO timereg_usejob (medarb, jobid) VALUES ("& oRec5("mid") &", "& oRec4("jid") &")"
+                if cint(pa_tilfojvmedopret) = 1 then 'tilføje automatisk til Personlig aktiv jobliste følger projektgruppe.
+
+                    forvalgt_dtSQL = year(now) &"/"& month(now) &"/"& day(now)
+                    strSQLfelt = ", forvalgt, forvalgt_af, forvalgt_dt"
+                    strSQLfeltVal = ", 1, "& session("mid") &", '"& forvalgt_dtSQL & "'"
+
+                else
+
+                    forvalgt_dtSQL = ""
+                    strSQLfelt = ""
+                    strSQLfeltVal = ""
+
+                end if
+
+
+              strSQLins = "INSERT INTO timereg_usejob (medarb, jobid "& strSQLfelt &") VALUES ("& oRec5("mid") &", "& oRec4("jid") & strSQLfeltVal &")"
 
               'Response.write "<b>"& strSQLins &"</b><br>"
               oConn.execute(strSQLins)
 
               strSQLDontDelJob = strSQLDontDelJob & " AND jobid <> "&  oRec4("jid")
+
             end if
 
 
@@ -228,7 +246,7 @@ while not oRec5.EOF
         '** Renser ud i timereg.use job for den valgte medarbejder ****
         strSQLDontDelJob = strSQLDontDelJob & ")"
         if cint(del) = 1 then
-        strSQLdel = "DELETE FROM timereg_usejob WHERE medarb = "& oRec5("mid") & strSQLDontDelJob
+        strSQLdel = "DELETE FROM timereg_usejob WHERE medarb = "& oRec5("mid") & strSQLDontDelJob & " AND favorit <> 1" 'Favorit er ekstra sikring pga TIA bør ikke være nødvendig 20171005
         'Response.write strSQLdel
         oConn.execute(strSQLdel)
         'Response.end
@@ -700,9 +718,15 @@ function projgrp(progrp,level,medarbid,visning)
     redim prjGoptionsId(350), prjGoptionsTxt(350), prjGoptionsAntal(350), prjGTeamleder(350)
     call teamleder_flad_fn()
 
-
+    '* Vis kun HR grupper på HR relaterede sider 
     if thisfile <> "bal_real_norm_2007.asp" AND thisfile <> "week_norm_2010.asp" AND thisfile <> "feriekalender" then
-    prgidTypeKri = " AND orgvir <> 2"
+        
+        if thisfile = "joblog_timetotaler" AND lto = "epi2017" then
+        prgidTypeKri = ""
+        else
+        prgidTypeKri = " AND orgvir <> 2"
+        end if
+
     else
     prgidTypeKri = ""
     end if
@@ -818,8 +842,12 @@ function medarbiprojgrp(progrp, medid, mtypesorter, seloptions)
     
     instrMedidProgrpThisGrp = ""
 
-    redim medarbgrpId(2150), medarbgrpTxt(2150)
-        
+    if lto = "epi2017" then
+        redim medarbgrpId(4550), medarbgrpTxt(4550)
+    else
+        redim medarbgrpId(2050), medarbgrpTxt(2050)
+    end if    
+
     'if progrp = "0, 0, 0" then
     'progrp = "0, 10, 0" 
     'else
@@ -1185,10 +1213,10 @@ end if
         <select id="FM_progrp" name="FM_progrp" style="width:406px; <%=fm_cls_2015_style_11%>" class="<%=fm_cls_2015 %>" multiple="multiple" size=9>
            
             
-       <%
-
+       <% 
            
-      
+           
+       
 
        for p = 0 to prgAntal 
        
@@ -1269,7 +1297,7 @@ end if
                         
                             if mSelMTypGRP(mtgp) = "" then
                    
-                            if cint(intMids(s)) = cint(kunMtypgrp(mtgp)) then
+                            if cdbl(intMids(s)) = cdbl(kunMtypgrp(mtgp)) then
                             mSelMTypGRP(mtgp) = "SELECTED"
                             else
                             mSelMTypGRP(mtgp) = ""
@@ -1295,6 +1323,7 @@ end if
             call medarbiprojgrp(progrp, medarbid, mTypeSort, 1)
         end if    
 
+     
 
 	'call medarbiprojgrp(progrp, medarbid, mTypeSort, 1)
 	'Response.Write progrp &","& medarbid

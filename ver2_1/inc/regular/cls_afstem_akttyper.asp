@@ -496,8 +496,20 @@ function fordelpaaaktType(intMid, startDato, slutDato, visning, akttype_sel, x)
 
 	     case 7
 	     flexTimer(x) = flexTimer(x) + oRec6("sumtimer")
+
 	     case 8
-	     sundTimer(x) = sundTimer(x) + oRec6("sumtimer")
+         if lto <> "esn" then
+	        sundTimer(x) = sundTimer(x) + oRec6("sumtimer")
+         else
+            call normtimerPer(intMid, oRec6("tdato"), 0, 0)
+	        if ntimPer <> 0 then
+            ntimPerUse = ntimPer
+            else
+            ntimPerUse = 1
+            end if
+            sundTimer(x) = sundTimer(x) + (oRec6("sumtimer") / ntimPerUse)
+         end if
+
 	     case 9
 	     pausTimer(x) = pausTimer(x) + oRec6("sumtimer")
 	     case 10
@@ -1050,8 +1062,20 @@ function fordelpaaaktType(intMid, startDato, slutDato, visning, akttype_sel, x)
 	     afspTimerOUdb(x) =  afspTimerOUdb(x) + oRec6("sumtimer")
 	     case 50
 	     dagTimer(x) = dagTimer(x) + oRec6("sumtimer")
+
 	     case 51
-	     natTimer(x) = natTimer(x) + oRec6("sumtimer")
+         if lto <> "esn" then
+	        natTimer(x) = natTimer(x) + oRec6("sumtimer")
+         else
+             call normtimerPer(intMid, oRec6("tdato"), 0, 0)
+	         if ntimPer <> 0 then
+             ntimPerUse = ntimPer
+             else
+             ntimPerUse = 1
+             end if
+             natTimer(x) = natTimer(x) + (oRec6("sumtimer") / ntimPerUse)  
+         end if
+
 	     case 52
 	     weekendTimer(x) = weekendTimer(x) + oRec6("sumtimer")
 	     case 53

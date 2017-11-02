@@ -823,10 +823,10 @@ sub vedr
             <br /><br /> 
 	        <%end if %>
 	    
-	        <%if rekvnr <> "0" then 
+	        <%if rekvnr <> "0" OR lto = "nt" then 
 	        
                 select case lto 
-                  case "nt", "intranet - local"
+                  case "nt", "xintranet - local"
                 %>
                 <br /><!--NorthTex order no.: <%=intJobnr%><br />-->
                 <%if len(trim(supplier_invoiceno)) <> 0 then %>

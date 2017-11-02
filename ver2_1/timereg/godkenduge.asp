@@ -102,7 +102,7 @@ tloadA = now
     call erugeAfslutte(sm_aar, sm_sidsteugedag, sm_mid, SmiWeekOrMonth, 0)
 
 
-    fmlink = "ugeseddel_2011.asp?usemrn="& usemrn &"&varTjDatoUS_man="& varTjDatoUS_man &"&varTjDatoUS_son= "& varTjDatoUS_son &"&nomenu=1&rdir=godkenduge"
+    fmlink = "../to_2015/ugeseddel_2011.asp?usemrn="& usemrn &"&varTjDatoUS_man="& varTjDatoUS_man &"&varTjDatoUS_son= "& varTjDatoUS_son &"&nomenu=1&rdir=godkenduge"
 
     %>
     <div id="sindhold" style="position:absolute; left:40px; top:40px; z-index:0; width:400px; background-color:#FFFFFF; padding:20px;">

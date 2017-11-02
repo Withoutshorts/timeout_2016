@@ -12,8 +12,23 @@ $(window).load(function () {
 });
 
 
-    $(document).ready(function () {
+$(document).ready(function () {
 
+    if ($("#jq_jobid").val() == 0) {
+
+    $(".tr_aktlinje").css("display", "none");
+    $(".tr_aktlinje").css("visibility", "hidden");
+
+
+    for (i = 0; i < 1000; i++) {
+        $(".tr_" + i).css('display', "none");
+        $("#tr_job_" + i).css("background-color", "#FFFFFF");
+    }
+   
+    $(".fp_jid").html('<b>[+]&nbsp;</b>');
+  
+
+    }
         
         $("#load").hide(1000);
         
@@ -135,13 +150,13 @@ $(window).load(function () {
         
         function disVisAllejob() {
 
-            //alert("her")
+            
 
             var thisVal = $("#minit").val()
 
             //alert(thisVal.length)
 
-            if (thisVal.length > 0) {
+            if (thisVal.length > 0 || $("#jq_jobid").val() == 0) {
                 $("#allejob").removeAttr("disabled");
                 $("#viskunemedarbfcreal").attr("disabled", true);
                 $("#viskunemedarbfcreal").prop("checked", false);
@@ -149,8 +164,9 @@ $(window).load(function () {
                 $("#viskunprojgrptilknyt").attr("disabled", true);
                 $("#viskunprojgrptilknyt").prop("checked", false);
                 
-
-                $("#progrpid").attr("disabled", true);
+                if (thisVal.length > 0) {
+                    $("#progrpid").attr("disabled", true);
+                }
 
             } else {
                     //if ($("#progrpid").val() != 0) {
@@ -320,6 +336,9 @@ $(window).load(function () {
 
         });
 
+
+        
+        
 
         // farveskift ved tildel budgettimer //
         $(".jobakt_budgettimer_FY, .jobakt_budgettimer_job").keyup(function () {

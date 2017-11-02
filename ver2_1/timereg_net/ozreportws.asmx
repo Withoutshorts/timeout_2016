@@ -26,12 +26,21 @@ Imports System.IO
 Public Class ozreportws
     Inherits System.Web.Services.WebService
 
+
+
+
+
     <WebMethod()> _
     Public Function oz_report() As List(Of ozreportcls)
+
+
+        Dim fileNameUseForManuel As String
 
         'dim x As integer
         'For x = 0 To 0 Step 1
 
+        Dim flname As String = ""
+        Dim flname2 As String = ""
         Dim startDatoAtDSQL As String
 
 
@@ -66,8 +75,21 @@ Public Class ozreportws
         objConn_admin = New OdbcConnection(strConn_admin)
         objConn_admin.Open()
 
+        Dim strSQlLimits As String = ""
+        Dim i As Integer = 0
 
-        Dim strSQLadmin As String = "SELECT email, navn, lto, rapporttype, medid, medarbejdertyper, projektgrupper FROM rapport_abo WHERE id <> 0 AND (rapporttype = 1 OR rapporttype = 0 OR rapporttype = 2 OR rapporttype = 3)"
+
+
+
+
+
+
+
+
+
+
+
+        Dim strSQLadmin As String = "SELECT email, navn, lto, rapporttype, medid, medarbejdertyper, projektgrupper FROM rapport_abo WHERE id <> 0 AND (rapporttype = 1 OR rapporttype = 0 OR rapporttype = 2 OR rapporttype = 3)" & strSQlLimits 'AND lto = 'epi2017'
         objCmd_admin = New OdbcCommand(strSQLadmin, objConn_admin)
         objDR_admin = objCmd_admin.ExecuteReader '(CommandBehavior.closeConnection)
 
@@ -233,7 +255,7 @@ Public Class ozreportws
 
 
 
-                Dim flname2 As String = "timeout_rapport_" & rapporttype & "_" & lto & "_" & fnEnd & ".csv"
+                flname2 = "timeout_rapport_" & rapporttype & "_" & lto & "_" & fnEnd & ".csv"
 
                 Using writer As StreamWriter = New StreamWriter("D:\webserver\wwwroot\timeout_xp\wwwroot\ver2_14\inc\upload\" & lto & "\" & flname2, False, Encoding.GetEncoding("iso-8859-1"))
 
@@ -500,6 +522,8 @@ Public Class ozreportws
 
                 lstRet.Add(report2)
 
+                fileNameUseForManuel = flname2
+
 
             Else ' rapporttype 0,1 Uge rapport pr. medarb. alle eller valgte medarb.typer og projektgrupper
 
@@ -507,8 +531,33 @@ Public Class ozreportws
 
 
                 Dim dDato As Date = Date.Now 'tirsdag morgen 07:00
-                Dim slutDato As Date = dDato.AddDays(-2) '- 2
-                Dim startDato As Date = dDato.AddDays(-8) '-8
+
+                Dim DayOfWeekNo As Integer = dDato.DayOfWeek
+                Dim stDatoKri As Integer = 0
+                Dim slDatoKri As Integer = 0
+
+                Select Case DayOfWeekNo
+                    Case 0
+                        slDatoKri = 0
+                    Case 1
+                        slDatoKri = 1
+                    Case 2
+                        slDatoKri = 2
+                    Case 3
+                        slDatoKri = 3
+                    Case 4
+                        slDatoKri = 4
+                    Case 5
+                        slDatoKri = 5
+                    Case 6
+                        slDatoKri = 6
+                End Select
+
+                stDatoKri = slDatoKri + 6
+
+                '** Tir = -2 og -8
+                Dim slutDato As Date = dDato.AddDays(-slDatoKri)  '- 2
+                Dim startDato As Date = dDato.AddDays(-stDatoKri) '-8
 
                 Dim format As String = "yyyyMd_hhmmss"
                 Dim fnEnd As String = slutDato.ToString(format) & "_" & medid
@@ -640,7 +689,9 @@ Public Class ozreportws
 
                 End Select
 
-                Dim flname As String = "timeout_rapport_" & rapporttype & "_" & lto & "_" & fnEnd & ".csv"
+                flname = "timeout_rapport_" & rapporttype & "_" & lto & "_" & fnEnd & ".csv"
+                'Dim flname As String = "timeout_rapport_test2.csv"
+                'lto = "outz"
                 Using writer As StreamWriter = New StreamWriter("D:\webserver\wwwroot\timeout_xp\wwwroot\ver2_14\inc\upload\" & lto & "\" & flname, False, Encoding.GetEncoding("iso-8859-1"))
 
                     writer.WriteLine("Periode: " & startDatoTxt & " - " & slutDatoTxt & ", uge: " & DatePart("ww", slutDato, Microsoft.VisualBasic.FirstDayOfWeek.Monday, FirstWeekOfYear.FirstFourDays) & ";")
@@ -1361,7 +1412,7 @@ Public Class ozreportws
 
                             writer.WriteLine("")
 
-                            End If 'If IsDBNull(objDR2("mid")) <> True Then
+                        End If 'If IsDBNull(objDR2("mid")) <> True Then
 
                     End While
 
@@ -1382,6 +1433,7 @@ Public Class ozreportws
                 report2.FileName = flname
                 report2.Folder = lto
 
+                fileNameUseForManuel = flname
 
                 lstRet.Add(report2)
 
@@ -1397,18 +1449,32 @@ Public Class ozreportws
             'lstRet.Add(report2)
 
 
+
+            '*** Filnavn og modtager  **
+            'Dim dgs As Date = Date.Now
+            'Dim strSQKkundeins As String = "INSERT INTO abonner_file_email SET afe_email = '" + modtEmail + "', afe_file = '" + fileNameUseForManuel + "', afe_sent = 0, afe_date = '" & DatePart("yyyy", dgs) & "-" & DatePart("m", dgs) & "-" & DatePart("d", dgs) & "'"
+            'objCmd = New OdbcCommand(strSQKkundeins, objConn)
+            'objDR2 = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
+            'objDR2.Close()
+
+
             objConn.Close()
 
 
             'Next
         End While
         'Loop
+
+
         objDR_admin.Close()
         objConn_admin.Close()
 
 
-
         Return lstRet
+        'Return flname + "HEJ"
+
+        'Return ozreportcls
+
 
     End Function
 
@@ -1426,6 +1492,8 @@ Public Class ozreportcls
 
 
     Public Sub ozreportcls()
+
+        'FileName = "AAAA"
 
     End Sub
 

@@ -24,17 +24,40 @@
 
         meMTxt.Text = "HENT DATA"
 
-
+        datofrom_d.Text = Day(Now)
+        datofrom_m.Text = Month(Now)
+        datofrom_y.Text = Year(Now)
+        datoto_d.Text = Day(Now)
+        datoto_m.Text = Month(Now)
+        datoto_y.Text = Year(Now)
 
 
 
     End Sub
 
-    Sub hentData()
 
 
 
-        meMTxt.Text = "HEJ SØREN"
+    Function hentData()
+
+        Dim ddf As String = Request.Form("datofrom_d")
+        Dim dmf As String = Request.Form("datofrom_m")
+        Dim dyf As String = Request.Form("datofrom_y")
+
+        Dim ddt As String = Request.Form("datoto_d")
+        Dim dmt As String = Request.Form("datoto_m")
+        Dim dyt As String = Request.Form("datoto_y")
+
+        meMTxt.Text = "Henter data.."
+
+
+        datofrom_d.Text = ddf 'datofrom_d.Text.ToString
+        datofrom_m.Text = datofrom_m.Text.ToString
+        datofrom_y.Text = datofrom_y.Text.ToString
+        datoto_d.Text = datoto_d.Text.ToString
+        datoto_m.Text = datoto_m.Text.ToString
+        datoto_y.Text = datoto_y.Text.ToString
+
 
         'Dim strConn As String = "Driver={MySQL ODBC 3.51 Driver};Server=localhost;Database=timeout_intranet;User=root;Password=;"
         Dim strConn As String = "driver={MySQL ODBC 3.51 Driver};server=194.150.108.154; Port=3306; uid=to_outzource2; pwd=SKba200473; database=timeout_epi2017;"
@@ -64,6 +87,13 @@
         Dim taktivitetnavnLst As String = ""
 
 
+
+        Dim fraDato_d As String = datofrom_d.Text.ToString
+        Dim fraDato_m As String = datofrom_m.Text.ToString
+        Dim fraDato_y As String = datofrom_y.Text.ToString
+        Dim tilDato_d As String = datoto_d.Text.ToString
+        Dim tilDato_m As String = datoto_m.Text.ToString
+        Dim tilDato_y As String = datoto_y.Text.ToString
 
 
         'Dim strConn As String
@@ -111,9 +141,9 @@
 
 
         Dim row As DataRow
-        Dim t As integer = 1
+        Dim t As Integer = 1
         'AND jobnr BETWEEN 7000 AND 72000
-        Dim strSQLext As String = "SELECT id, origin, jobnr, timeregdato, med_init, timer, timeregdato, extsysid FROM timer_imp_err WHERE id <> 0 AND timeregdato BETWEEN '2017-06-01' AND '2017-06-30' AND errId <> 11 ORDER BY timeregdato" 'AND origin = " & importFrom
+        Dim strSQLext As String = "SELECT id, origin, jobnr, timeregdato, med_init, timer, timeregdato, extsysid FROM timer_imp_err WHERE id <> 0 AND timeregdato BETWEEN '" & fraDato_y & "-" & fraDato_m & "-" & fraDato_d & "' AND '" & tilDato_y & "-" & tilDato_m & "-" & tilDato_d & "' AND origin = 3 ORDER BY id LIMIT 1000" 'AND errId <> 11 ' AND origin = " & importFrom
         objCmd = New OdbcCommand(strSQLext, objConn)
         objDR = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
 
@@ -132,7 +162,7 @@
             'tdato = objDR("tdato")
             'taktivitetnavn = objDR("taktivitetnavn")
 
-            taktivitetnavnLst = taktivitetnavnLst & "<br>" & t & " " & med_init & " " & jobid & " timer: " & timer & " tdato: " & timeregdato
+            taktivitetnavnLst = taktivitetnavnLst & "<br>" & t & " " & med_init & " jobid: " & jobid & " timer: " & timer & " tdato: " & timeregdato
 
 
 
@@ -185,39 +215,115 @@
         'ws.upDateCatiTimer(ds)
 
 
+        me2MTxt.Text = "Data indlæst igen fra: " & fraDato_d & "-" & fraDato_m & "-" & fraDato_y & " til " & tilDato_d & "-" & tilDato_m & "-" & tilDato_y & ".<br> Du kan lukke denne side ned igen, og refreshe import error siden." '+ strSQLext
 
 
 
 
-
-
-    End Sub
-
-
-
+    End Function
 
 
 </script>
    
-
+<!--#include file="../inc/regular/header_lysblaa_2015_min_inc.asp"-->
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
-    <title></title>
+    <title>TimeOut import cata-timer</title>
 </head>
-<body>
-    <form id="form1" runat="server">
-    <div>
-    <asp:TextBox runat="server" ID="meid"></asp:TextBox>
-    <asp:TextBox runat="server" ID="meMTxt">SØREN</asp:TextBox>
-    </div>
-    <asp:Button runat="server" Text="Hent data" ID="bt" OnClick="hentData"  />
+<body class=" ">
 
-    <h4>Reading Data from the connection
-    <asp:Label ID="datasrc" runat="server"></asp:Label> to the DataGrid</h4>
+    
+      <div class="wrapper">
+      <div class="content">
+         
+          <div class="container">
+         
+            <table cellpadding=0 cellspacing=5 border=0 width=100%><tr><td>
+	<img src="../ill/outzource_logo_200.gif" />
+	
+	</td></tr></table>
+              <div class="portlet">
+                  <h3 class="portlet-title">TimeOut - Cati</h3>
+                  <div class="portlet-body">
+
+                   <!--<div id="div_jobid">DDD</div>-->
+
+
+
+
+       <div class="well">
+
+    <form id="form1" runat="server">
+  
+          <div class="row">
+
+   
+        <div class="col-lg-1">
+       <br /> Fra dato: 
+            </div>
+       <div class="col-lg-1">Dag
+        <asp:TextBox runat="server" class="form-control input-small" ID="datofrom_d"></asp:TextBox> 
+            </div>
+            <div class="col-lg-1">Måned
+            <asp:TextBox runat="server" class="form-control input-small" ID="datofrom_m"></asp:TextBox>  
+             </div>
+            <div class="col-lg-1">År
+             <asp:TextBox class="form-control input-small" runat="server" ID="datofrom_y"></asp:TextBox>
+             </div>
+      
+
+       </div>
+
+         <div class="row">
+        <div class="col-lg-1">
+            Til dato:
+            </div>
+        <div class="col-lg-1">    
+        <asp:TextBox runat="server" class="form-control input-small" ID="datoto_d"></asp:TextBox> 
+            </div>
+         <div class="col-lg-1">
+              <asp:TextBox runat="server" class="form-control input-small" ID="datoto_m"></asp:TextBox> 
+             </div>
+         <div class="col-lg-1">  
+         <asp:TextBox class="form-control input-small" runat="server" ID="datoto_y"></asp:TextBox>
+        </div>
+        
+
+
+    </div>
+
+        <br /><br />
+    <div class="row">
+    <div class="col-lg-4">
+    <asp:Button runat="server" class="btn btn-sm btn-success" Text="Gen-indlæs cati data" ID="bt" OnClick="hentData"  />
+     </div>
+     </div>
+
+    <!--<asp:TextBox runat="server" ID="meid"></asp:TextBox>-->
+    <!-- <asp:TextBox runat="server" ID="meMTxt"></asp:TextBox> -->
+        <br /><br />
+    <div class="row">
+
+        <div class="col-lg-12">
+    <asp:Label runat="server" ID="me2MTxt"></asp:Label>
+       </div>
+                  </div>
+
+    <!--<h4>Reading Data from the connection to the DataGrid</h4>-->
+    <asp:Label ID="datasrc" runat="server"></asp:Label> 
 
     <asp:DataGrid ID="dgNameList" runat="server" /><br />
     </form>
+           </div> <!-- Well -->
+        </div>
+     </div>
+   </div>   
+</div>   
+</div>
+
+      
+      
 </body>
 </html>
 

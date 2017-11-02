@@ -1333,6 +1333,9 @@ end function
             htmlparseCSVtxt = replace(htmlparseCSVtxt, "&#196;", "Ä")
             htmlparseCSVtxt = replace(htmlparseCSVtxt, "&#228;", "ä")
 
+            htmlparseCSVtxt = replace(htmlparseCSVtxt, "&quot;", "")
+            
+
             htmlparseCSVtxt = htmlparseCSVtxt
 
        
@@ -1397,6 +1400,7 @@ function opdaterFeriePl(level, highV)
 		        end select
 		        
 		        aktid = 0
+                afholdetUlon = 0
 		        LoginDato = year(now)&"/"& month(now)&"/"&day(now)
 		        
 		        '** Finder navn og id på afholdt akt. DVS afholdt ferie / feriefri / Alders reduktion mv ***'
@@ -1548,7 +1552,7 @@ function opdaterFeriePl(level, highV)
 
                             
 
-                            'if lto = "esn" AND session("mid") = 1 then
+                            'if session("mid") = 1 then
                             'response.write "fe_optjent: "& fe_optjent
                             'response.Write "<br>fe_afholdtmlon: " & fe_afholdtmlon & "<br>"
                             'response.write "timerthis" & timerthis
@@ -1558,10 +1562,10 @@ function opdaterFeriePl(level, highV)
 
 
                             '*** Overfører til afholdt uden løn
-                            if (fe_afholdtmlon + timerThis) >= fe_optjent AND fe_optjent >= 0 then
+                            if (fe_afholdtmlon + timerThis) >= fe_optjent AND fe_optjent > 0 then
 
 
-                            'if lto = "esn" AND session("mid") = 1 then
+                            'if session("mid") = 1 then
                           
                             'response.write "<br>Finder afholdetUlon: <br><br>"
                             'response.end
@@ -1583,32 +1587,36 @@ function opdaterFeriePl(level, highV)
 		                            &" LEFT JOIN aktiviteter a ON (a.fakturerbar = 19 AND a.aktstatus = 1 AND a.job = j.id) "_
 		                            &" WHERE j.jobstatus = 1 AND a.id <> 'NULL' GROUP BY a.id ORDER BY a.id DESC"
 		        
-		    
+		                            aulonFundet = 0
 		                            oRec3.open strSQLfeafn, oCOnn, 3
 		                            if not oRec3.EOF then
 		        
 		                            if oRec3("id") <> "" then
 		                            aktid = oRec3("id")
 		                            aktnavn = oRec3("navn")
+                                    aulonFundet = 1
 		                            end if
 		        
 		                            end if
 		                            oRec3.close
 
+                                if cint(aulonFundet) then
 
-                                call insertAfholdtTimer
+                                            call insertAfholdtTimer
                     
-                                '*** Sletter den planlagte **'
-		                        strSQLdel = "DELETE FROM timer WHERE tid = "& oRec4("tid")
-		                        oConn.execute(strSQLdel)
+                                            '*** Sletter den planlagte **'
+		                                    strSQLdel = "DELETE FROM timer WHERE tid = "& oRec4("tid")
+		                                    oConn.execute(strSQLdel)
 
 
-                            '*** Nedskriver timer
-                            timerThis = (TimerThisOpr - afholdetUlon)
-                            afholdtVal = afholdtValOpr
+                                            '*** Nedskriver timer
+                                            timerThis = (TimerThisOpr - afholdetUlon)
+                                            afholdtVal = afholdtValOpr
 
-                            aktid = aktidOpr
-		                    aktnavn = aktnavnOpr
+                                            aktid = aktidOpr
+		                                    aktnavn = aktnavnOpr
+
+                                end if
                            
 
 
@@ -1655,7 +1663,7 @@ function opdaterFeriePl(level, highV)
                 
                 end if 'level
                 
-                'if lto = "wwf" AND session("mid") = 1 then
+                'if session("mid") = 1 then
                 'Response.end
                 'end if
 
@@ -1711,7 +1719,7 @@ sub insertAfholdtTimer
 
 
             
-                'if lto = "glad" AND session("mid") = 1 then
+                'if session("mid") = 1 then
                 'response.write strSQLfeins &"<br><br>"
                 'response.flush
                 'end if

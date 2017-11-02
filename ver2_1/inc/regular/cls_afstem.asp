@@ -6,10 +6,19 @@ function tjkClosedPeriodCriteria(tjkDato, ugeNrAfsluttet, usePeriod, SmiWeekOrMo
 
     ugeerAfsl_og_autogk_smil = 0
 
+    'if session("mid") = 1 then
+    'Response.write "<br>ugeNrAfsluttet: " & ugeNrAfsluttet & " > tjkDato: " & tjkDato & " usePeriod: "& usePeriod & "SmiWeekOrMonth: " & SmiWeekOrMonth &""_
+    '& "splithr: "& splithr &", smilaktiv: " & smilaktiv &", autogk: "& autogk &", autolukvdato: "& autolukvdato &", lonKorsel_lukketIO: "& lonKorsel_lukketIO 
+    'end if
 
-    if (( (datepart("ww", ugeNrAfsluttet, 2, 2) = usePeriod AND cint(SmiWeekOrMonth) = 0 AND splithr = 0) OR (cdate(ugeNrAfsluttet) >= cdate(tjkDato) AND cint(SmiWeekOrMonth) = 0 AND splithr = 1) _
-    OR (datepart("m", ugeNrAfsluttet, 2, 2) = usePeriod AND cint(SmiWeekOrMonth) = 1 )) _
-    AND cint(ugegodkendt) = 1 AND smilaktiv = 1 AND autogk = 1 AND ugeNrAfsluttet <> "1-1-2044") OR _
+    'if ( (datepart("ww", ugeNrAfsluttet, 2, 2) = usePeriod AND cint(SmiWeekOrMonth) = 0 AND splithr = 0) OR (cdate(ugeNrAfsluttet) >= cdate(tjkDato) AND cint(SmiWeekOrMonth) = 0 AND splithr = 1) _
+    'OR (datepart("m", ugeNrAfsluttet, 2, 2) = usePeriod AND cint(SmiWeekOrMonth) = 1 )) AND (cint(ugegodkendt) = 1 AND smilaktiv = 1 AND autogk = 1 AND ugeNrAfsluttet <> "1-1-2044") then
+
+    'OR (smilaktiv = 1 AND autogk = 2 AND ugeNrAfsluttet <> "1-1-2044" AND splithr = 0)
+
+    if ( ( (datepart("ww", ugeNrAfsluttet, 2, 2) = usePeriod AND cint(SmiWeekOrMonth) = 0 AND splithr = 0) OR (cdate(ugeNrAfsluttet) >= cdate(tjkDato) AND cint(SmiWeekOrMonth) = 0 AND splithr = 1 AND autogk = 2) _
+    OR (datepart("m", ugeNrAfsluttet, 2, 2) = usePeriod AND cint(SmiWeekOrMonth) = 1 ))_
+    AND ( ( (cint(ugegodkendt) = 1 AND autogk = 1) OR (autogk = 2) ) AND smilaktiv = 1 AND ugeNrAfsluttet <> "1-1-2044") ) OR _
     (smilaktiv = 1 AND autolukvdato = 1 AND (day(now) > autolukvdatodato AND DatePart("yyyy", tjkDato, 2, 2) = year(now) AND DatePart("m", tjkDato, 2, 2) < month(now)) OR _
     (smilaktiv = 1 AND autolukvdato = 1 AND (day(now) > autolukvdatodato AND DatePart("yyyy", tjkDato, 2, 2) < year(now) AND DatePart("m", tjkDato, 2, 2) = 12)) OR _
     (smilaktiv = 1 AND autolukvdato = 1 AND DatePart("yyyy", tjkDato, 2, 2) < year(now) AND DatePart("m", tjkDato, 2, 2) <> 12) OR _
@@ -24,6 +33,10 @@ function tjkClosedPeriodCriteria(tjkDato, ugeNrAfsluttet, usePeriod, SmiWeekOrMo
     	
     end if
 
+    'if session("mid") = 1 then
+    'Response.write "##ugeerAfsl_og_autogk_smil: "& ugeerAfsl_og_autogk_smil
+    'end if
+    
 end function
 
 
@@ -199,9 +212,13 @@ public ntimManIgnHellig, ntimTirIgnHellig, ntimOnsIgnHellig, ntimTorIgnHellig, n
     wend
     oRec2.close
     
+    'if session("mid") = 1 then
     'Response.Write "t: " & t & " interval = "& interval &"<br>"
-    'Response.Write mtyperIntvDato(0) &" "& ltoStDato 
+    'Response.Write mtyperIntvTyp(t) & "##" & mtyperIntvDato(0) &" "& ltoStDato & "<br>"
+     
+
     '*****************************************'
+    'end if
 	
 			
 			stDatoDag = weekday(stDato, 2)

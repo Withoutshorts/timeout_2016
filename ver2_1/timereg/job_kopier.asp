@@ -331,7 +331,7 @@ if len(session("user")) = 0 then
                             &" "& syncslutdato & ", "& altfakadr &", "_
                             &" "& salgsans1 &","& salgsans2 &","& salgsans3 &","& salgsans4 &","& salgsans5 &", "_
                             &" "& salgsans1_proc &","& salgsans2_proc &","& salgsans3_proc &","& salgsans4_proc &","& salgsans5_proc &", "_
-                            &" "& fomr_konto &", "& jfak_sprog &", "& jfak_moms &", "& lincensindehaver_faknr_prioritet_job &", "& jo_valuta &", "& jo_valuta_kurs &""_
+                            &" "& fomr_konto &", "& jfak_sprog &", "& jfak_moms &", '"& lincensindehaver_faknr_prioritet_job &"', "& jo_valuta &", "& jo_valuta_kurs &""_
                             &")")
 							
                         'if session("mid") = 1 then

@@ -58,7 +58,7 @@ a = 0
 					Response.write strSQL(b) & "<br>"
 					Response.flush
 					x = 1
-					numberoflicens = 170
+					numberoflicens = 171
 					For x = 1 To numberoflicens  
 						
 						call aktivedb(x)
@@ -88,7 +88,7 @@ a = 0
                                 oConn.open strConnect_aktiveDB
 							    
                                 '*** DENNE LINJE INDLÆSER // UDKOMMENTER NÅR FILEN IKKE ER AKTIV
-                                'oConn.execute(strSQL(b)) 
+                                oConn.execute(strSQL(b)) 
                                 
                                 '* TJECK x NUMBER OF LICENS fra inc/connection/db_conn...asp filen.
 								'* DISSE SKAL STEMME 
@@ -104,7 +104,7 @@ a = 0
 								case "1"
 								'Response.write strSQL
 								oConn.open strConnect_aktiveDB
-								strSQLx = "SELECT l.key, licens, licenstype, erp, crm, sdsk, listatus FROM licens l WHERE id = 1" 
+								strSQLx = "SELECT l.key, licens, licenstype, erp, crm, sdsk, listatus, autogktimer FROM licens l WHERE id = 1" 
 								
 								'Response.Write strSQLx
 								'Response.flush
@@ -115,6 +115,7 @@ a = 0
 								Response.Write "<b>Lincens indehaver: " & oRec("licens") & "</b><br>"
 								Response.write ""& oRec("licenstype") & "<br>"
 								Response.Write "erp: " & oRec("erp") & " crm: " & oRec("crm") & ", sdsk: " & oRec("sdsk") & "<br>"
+                                Response.write "autogktimer: "&  oRec("autogktimer")
 								Response.Write "<br>Listatus: " & oRec("listatus") & "<br>"
 								
 								listatus = oRec("listatus")
@@ -129,8 +130,8 @@ a = 0
 								wend
 								oRec.close
 								
-								
-								
+								   
+								    strSQL(b) = "SELECT * FROM medarbejdere WHERE mid = 1"
 								    oRec.open strSQL(b), oConn, 3
 								    while not oRec.EOF
 								    Response.write oRec("mnavn") & "<br>"
@@ -3141,6 +3142,132 @@ INSERT INTO dbversion (dbversion) VALUES (20170811.1)
 ALTER TABLE ressourcer_ramme ADD (
 rr_budgetbelob double(12,2) NOT NULL DEFAULT 0);
 INSERT INTO dbversion (dbversion) VALUES (20170811.2) 
+
+<br /><br />20170907.1<br />
+CREATE TABLE eval (
+eval_id double NOT NULL AUTO_INCREMENT,
+eval_jobid double NOT NULL DEFAULT 0,
+eval_evalvalue INT NOT NULL DEFAULT 0,
+eval_jobvaluesuggested double NOT NULL DEFAULT 0,
+PRIMARY KEY (eval_id)
+);
+INSERT INTO dbversion (dbversion) VALUES (20170907.1)
+
+
+<br /><br />20170914.2<br />
+ALTER TABLE fakturaer ADD (fak_rekvinr VARCHAR(255) NOT NULL DEFAULT '');
+INSERT INTO dbversion (dbversion) VALUES (20170914.2)
+
+<br /><br />20170919.1<br />
+ALTER TABLE eval ADD (
+eval_comment varchar(255));
+INSERT INTO dbversion (dbversion) VALUES (20170919.1);
+
+<br /><br />20170919.2<br />
+ALTER TABLE kunder ADD (
+kstatus int NOT NULL default 1);
+INSERT INTO dbversion (dbversion) VALUES (20170919.2);
+
+<br /><br />20170922.1<br />
+CREATE TABLE abonner_file_email (
+afe_id INT NOT NULL AUTO_INCREMENT,
+afe_file VARCHAR(250),
+afe_email VARCHAR(250),
+afe_sent INT NOT NULL DEFAULT 0,
+afe_date DATE NOT NULL DEFAULT '2010-01-01',
+PRIMARY KEY (afe_id)
+);
+INSERT INTO dbversion (dbversion) VALUES (20170922.1) 
+
+
+<br /><br />20170927.1<br />
+ALTER TABLE timer ADD (
+overfortdt Date NOT NULL DEFAULT '2002-01-01');
+INSERT INTO dbversion (dbversion) VALUES (20170927.1) 
+
+<br /><br />20171005.1<br />
+CREATE TABLE job_status (
+js_id INT NOT NULL DEFAULT 0,
+js_navn VARCHAR(255) NOT NULL DEFAULT '',
+PRIMARY KEY (js_id));
+INSERT INTO dbversion (dbversion) VALUES (20171005.1);
+
+<br /><br />20171005.2<br />
+INSERT INTO job_status (js_id, js_navn) VALUES (0,'Lukket');
+INSERT INTO job_status (js_id, js_navn) VALUES (1,'Aktiv');
+INSERT INTO job_status (js_id, js_navn) VALUES (2,'Passiv / Til fakturering');
+INSERT INTO job_status (js_id, js_navn) VALUES (3,'Tilbud');
+INSERT INTO job_status (js_id, js_navn) VALUES (4,'Gennemsyn');
+INSERT INTO job_status (js_id, js_navn) VALUES (5,'Evaluering');
+INSERT INTO dbversion (dbversion) VALUES (20171005.2);
+
+<br /><br />20171009.2<br />
+
+ALTER TABLE eval DROP COLUMN eval_diff;
+ALTER TABLE eval DROP COLUMN eval_suggested_hours;
+ALTER TABLE eval DROP COLUMN eval_suggested_hourly_rate;
+ALTER TABLE eval DROP COLUMN eval_original_price;
+
+ALTER TABLE eval ADD 
+(
+eval_diff double(12,2) NOT NULL DEFAULT 0,
+eval_suggested_hours double(12,2) NOT NULL DEFAULT 0,
+eval_suggested_hourly_rate double(12,2) NOT NULL DEFAULT 0,
+eval_original_price double(12,2) NOT NULL DEFAULT 0
+);
+INSERT INTO dbversion (dbversion) VALUES (20171009.2) 
+
+
+<br /><br />20171022.1<br />
+Alter table licens add 
+(
+vis_resplanner INT default 0,
+vis_favorit INT default 1,
+vis_projektgodkend INT default 0,
+pa_tilfojvmedopret INT default 0
+);
+INSERT INTO dbversion (dbversion) VALUES ('20171022.1');
+ALTER TABLE job ADD (
+extracost double(12,2) NOT NULL DEFAULT 0, extracost_txt varchar(255));
+INSERT INTO dbversion (dbversion) VALUES ('20171022.2')
+
+
+<br /><br />20171027.1<br />
+ALTER TABLE job MODIFY COLUMN lincensindehaver_faknr_prioritet_job VARCHAR(255);
+UPDATE dbversion SET dbversion = '20171027.1' WHERe id = 1;
+
+ALTER TABLE medarbejdere Add (med_lincensindehaver INT NOT NULL default 0);
+UPDATE dbversion SET dbversion = '20171027.2' WHERe id = 1
+
+<br /><br />20171031.1<br />
+ALTER TABLE eval Add (
+eval_fakbartimer double(12,2) NOT NULL default 0,
+eval_fakbartimepris double(12,2) NOT NULL default 0,
+ubemandet_maskine_timer double(12,2) NOT NULL default 0,
+ubemandet_maskine_timePris double(12,2) NOT NULL default 0,
+laer_timer double(12,2) NOT NULL default 0,
+laer_timepris double(12,2) NOT NULL default 0,
+easy_reg_timepris double(12,2) NOT NULL default 0,
+ikke_fakbar_tid_timer double(12,2) NOT NULL default 0,
+ikke_fakbar_tid_timepris double(12,2) NOT NULL default 0
+);
+UPDATE dbversion SET dbversion = '20171031.1' WHERe id = 1
+
+
+ALTER TABLE eval Add (easy_reg_timer double(12,2) NOT NULL default 0)
+
+<br /><br />20171030.1<br />
+CREATE table your_rapports (
+rap_id INT(11) NOT NULL AUTO_INCREMENT,
+rap_mid INT(11) NOT NULL, 
+rap_navn VARCHAR(255) NOT NULL default 'your_rapport',
+rap_url VARCHAR(255) NOT NULL default 'thisfile',
+rap_criteria TEXT,
+rap_dato DATE DEFAULT '2002-01-01' NOT NULL,
+rap_editor VARCHAR(255),
+PRIMARY KEY (rap_id)
+); 
+UPDATE dbversion SET dbversion = '20171030.1' WHERe id = 1
 
 <%
 

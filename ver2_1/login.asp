@@ -844,6 +844,8 @@ else '** POST *****
                    end select
                end if
 
+            
+
                '*** Indlæser tillæg fra AVI DK
                if ((session("mid") = 1 OR session("mid") = 2694 Or session("mid") = 2452 OR session("mid") = 32821 OR session("mid") = 2663) AND (lto = "epi2017" OR lto = "intranet - local")) then    
 
@@ -852,7 +854,7 @@ else '** POST *****
 
                 ddTjkSupplementST = dateAdd("d", -45, now)
                 ddTjkSupplementST = year(ddTjkSupplementST) & "/" & month(ddTjkSupplementST) & "/"& day(ddTjkSupplementST) 
-                strSQLepiAViDKsupplement = "SELECT tid, tdato, sttid, sltid FROM timer WHERE taktivitetnavn = 'Data Collection' AND tdato BETWEEN '"& ddTjkSupplementST &"' AND '"& ddTjkSupplementSL &"' AND sttid <> '00:00:00' AND origin = 12 AND overfort = 0"
+                strSQLepiAViDKsupplement = "SELECT tid, tdato, sttid, sltid FROM timer WHERE taktivitetnavn = 'Data Collection' AND tdato BETWEEN '"& ddTjkSupplementST &"' AND '"& ddTjkSupplementSL &"' AND sttid <> '00:00:00' AND (origin = 11 OR origin = 12) AND overfort = 0"
                 'Local
                 'strSQLepiAViDKsupplement = "SELECT tid, tdato, sttid, sltid FROM timer WHERE tjobnavn = 'A-SK Restest simpel' AND taktivitetnavn = 'Support U/B' AND tdato BETWEEN '2017-06-15' AND '2017-07-01'"
                
@@ -951,7 +953,7 @@ else '** POST *****
                         strSQLTidInsertDEL = "DELETE FROm timer_tmp_for_copy"
                         oConn.execute(strSQLTidInsertDEL)
 
-                        strSQLTidUpdOfort = "UPDATE timer SET overfort = 1 WHERE tid = " & oRec6("tid")
+                        strSQLTidUpdOfort = "UPDATE timer SET overfort = 1, overfortdt = '"& ddTjkSupplementSL &"' WHERE tid = " & oRec6("tid")
                         oConn.execute(strSQLTidUpdOfort)
 
                         strSQLTidUpdNew = "UPDATE timer SET tfaktim = 51, taktivitetnavn = 'Supplement 15', timer = "& addTillaeg &", origin = 112, editor = 'Supplement Copy' WHERE tid = " & lastTid + 1
@@ -1072,38 +1074,84 @@ else '** POST *****
                                     
 
                                     if request.servervariables("PATH_TRANSLATED") <> "C:\www\timeout_xp\wwwroot\ver2_1\login.asp" then
+                                    
 
+                                    Set myMail=CreateObject("CDO.Message")
+                                    myMail.Subject = "Der har været en ny potentiel kunde i demoen"
+                                    myMail.From = "timeout_no_reply@outzource.dk"
+
+                                    myMail.To = "<osn@outzource.dk>; <salg@outzource.dk>; <sk@outzource.dk>"                        
+                    
+                                    if instr(request.servervariables("LOCAL_ADDR"), "195.189.130.210") <> 0 then
+                                    to_url = "https://outzource.dk"
+                                    else
+                                    to_url = "https://timeout.cloud"
+                                    end if
+                        
+                                    myMail.TextBody = "Hej OutZourCE" & vbCrLf & vbCrLf _
+                                    & "Der har været en ny potentiel kunde i demoen : "& vbCrLf & vbCrLf _
+                                    & "Firma: "& firma & vbCrLf _
+						            & "Navn: "& ref & vbCrLf & vbCrLf _
+                                    & "Email: "& email &""& vbCrLf & vbCrLf _
+                                    & "Tel: "& tel &""& vbCrLf & vbCrLf _
+		                            & "Med venlig hilsen" & vbCrLf _
+		                            & session("user") & vbCrLf & vbCrLf
+                        
+                                    myMail.Configuration.Fields.Item _
+                                    ("http://schemas.microsoft.com/cdo/configuration/sendusing")=2
+                                    'Name or IP of remote SMTP server
+                                    
+                                    if instr(request.servervariables("LOCAL_ADDR"), "195.189.130.210") <> 0 then
+                                       smtpServer = "webout.smtp.nu"
+                                    else
+                                       smtpServer = "formrelay.rackhosting.com" 
+                                    end if
+                    
+                                    myMail.Configuration.Fields.Item _
+                                    ("http://schemas.microsoft.com/cdo/configuration/smtpserver")= smtpServer
+
+                                    'Server port
+                                    myMail.Configuration.Fields.Item _
+                                    ("http://schemas.microsoft.com/cdo/configuration/smtpserverport")=25
+                                    myMail.Configuration.Fields.Update
+
+                                    if len(trim(email)) <> 0 then
+                                    myMail.Send
+                                    end if
+                                    set myMail=nothing
+
+                                    end if
                 
-                                    Set Mailer = Server.CreateObject("SMTPsvg.Mailer")
+                                    'Set Mailer = Server.CreateObject("SMTPsvg.Mailer")
 		                            ' Sætter Charsettet til ISO-8859-1
-		                            Mailer.CharSet = 2
-		                            Mailer.FromName = "TimeOut | " & ref &"("& firma &")" 
-		                            Mailer.FromAddress = email
-		                            Mailer.RemoteHost = "webout.smtp.nu" '195.242.131.254 '"webmail.abusiness.dk" '"pasmtp.tele.dk"
-						            Mailer.AddRecipient "Søren Karlsen", "sk@outzource.dk"
-                                    Mailer.AddRecipient "Outzource Salg", "salg@outzource.dk"
+		                            'Mailer.CharSet = 2
+		                            'Mailer.FromName = "TimeOut | " & ref &"("& firma &")" 
+		                            'Mailer.FromAddress = email
+		                            'Mailer.RemoteHost = "webout.smtp.nu" '195.242.131.254 '"webmail.abusiness.dk" '"pasmtp.tele.dk"
+						            'Mailer.AddRecipient "Søren Karlsen", "sk@outzource.dk"
+                                    'Mailer.AddRecipient "Outzource Salg", "salg@outzource.dk"
 		                          
 
                                  
-            					    Mailer.Subject = "Der har været en ny potentiel kunde i demoen"
-		                            strBody = "Hej OutZourCE" & vbCrLf & vbCrLf
-                                    strBody = strBody &"Der har været en ny potentiel kunde i demoen : "& vbCrLf & vbCrLf
-                                    strBody = strBody &"Firma: "& firma & vbCrLf 
-						            strBody = strBody &"Navn: "& ref & vbCrLf & vbCrLf
-                                    strBody = strBody &"Email: "& email &""& vbCrLf & vbCrLf
-                                    strBody = strBody &"Tel: "& tel &""& vbCrLf & vbCrLf
-		                            strBody = strBody &"Med venlig hilsen" & vbCrLf
-		                            strBody = strBody & session("user") & vbCrLf & vbCrLf
+            					    'Mailer.Subject = "Der har været en ny potentiel kunde i demoen"
+		                            'strBody = "Hej OutZourCE" & vbCrLf & vbCrLf
+                                    'strBody = strBody &"Der har været en ny potentiel kunde i demoen : "& vbCrLf & vbCrLf
+                                    'strBody = strBody &"Firma: "& firma & vbCrLf 
+						            'strBody = strBody &"Navn: "& ref & vbCrLf & vbCrLf
+                                    'strBody = strBody &"Email: "& email &""& vbCrLf & vbCrLf
+                                    'strBody = strBody &"Tel: "& tel &""& vbCrLf & vbCrLf
+		                            'strBody = strBody &"Med venlig hilsen" & vbCrLf
+		                            'strBody = strBody & session("user") & vbCrLf & vbCrLf
             		                
             		
             		
-		                            Mailer.BodyText = strBody
+		                            'Mailer.BodyText = strBody
             		
-		                            Mailer.sendmail()
-		                            Set Mailer = Nothing
+		                            'Mailer.sendmail()
+		                            'Set Mailer = Nothing
 
 
-                                    end if
+                                    'end if
         
         
         end if

@@ -1542,6 +1542,7 @@ $(document).ready(function () {
         var thisvaltrim = thisid.slice(10, thisvallngt)
         thisval = thisvaltrim
 
+        //alert(thisval)
 
         timOnOff = $("#FM_jobid_timerOn_" + thisval).val()
 
@@ -1549,7 +1550,41 @@ $(document).ready(function () {
             alert("Der er indtastet / ændret timer på dette job.\nTimeOut indlæser timer..")
             $("#timeregfm").submit();
         } else {
+
+
+
+            //alert("HER 3 er: thisid: " + thisid + " ;;" + document.getElementById("" + thisid + "").offsetTop)
+            //$("#sidediv").animate({ scrollTop: "0px" }, "slow");
+
+            //document.getElementById("" + thisid + "").scrollTop = 200;
+            //$("div_timereg_" + thisval).css("top", "200px");
+            //document.getElementById("div_timereg_" + thisval).scrollTop = 200;
+
+            //alert(thisid)
+
+            //var one = document.querySelector("#" + thisid);
+           
+            //var rect = one.getBoundingClientRect();
+
+            //one.style.top = rect.top + "px";
+            //one.style.left = rect.left + "px";
+            //alert("User clicked at position (" + x + "," + rect.top + ")")
+
+
+            //document.documentElement.pageYOffset = 300;
+            $('html, body').scrollTo($('#div_timereg_' + thisval), { duration: 300, offset: -200 });
+            //$('#sidediv').scrollTo($('#div_timereg_' + thisval), { duration: 300, offset: -200 });
+
+            //$.scroll("#sp_a_timereg_" + thisval + "", 300, { offset: -100 }); //
+            //$.scroll($("#a_timereg_" + thisval + ""), 800);
+
+            //$.scrollTo('#sp_a_timereg_" + thisval + "', 800, { easing: 'elasout' });
+
+
             aktlist(thisval, 1);
+
+           
+
         }
 
 
@@ -1584,9 +1619,12 @@ $(document).ready(function () {
             $("#sp_a_timereg_" + thisval).html('[+]')
         }
 
+
+       
+
         //$(".afase").bind('click', function () {
 
-        $("#div_timereg_" + thisval).html("<table width=100%><tr><td style='padding:20px 20px 20px 20px;'>Henter aktiviteter 1-4 sek...<br /><span style='color:darkred; font-size:10px;'>Maks. 100 aktiviteter pr. job. (200 lto settings)</span></td></tr></table>")
+        $("#div_timereg_" + thisval).html("<table width=100%><tr><td style='padding:20px 20px 20px 20px;'>Henter aktiviteter 1-4 sek...<br /><span style='color:darkred; font-size:10px;'>Maks. 100 (200 lto) aktiviteter pr. job.</span></td></tr></table>")
 
         //alert("der")
         usemrn = $("#usemrn").val()

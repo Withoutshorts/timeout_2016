@@ -521,7 +521,7 @@ varTjDatoUS_tor = dateAdd("d", 3, varTjDatoUS_man)
                                         call tjkClosedPeriodCriteria(tjkDag, ugeNrAfsluttet, usePeriod, SmiWeekOrMonth, splithr, smilaktiv, autogk, autolukvdato, lonKorsel_lukketIO)
 
                 
-                                        if oRec("godkendtstatus") = 1 then
+                                        if oRec("godkendtstatus") = 1 OR oRec("godkendtstatus") = 3 then 'Godkendt ell. Tentative
                                         ugeerAfsl_og_autogk_smil = 1
                                         else
                                         ugeerAfsl_og_autogk_smil = ugeerAfsl_og_autogk_smil
@@ -661,8 +661,27 @@ varTjDatoUS_tor = dateAdd("d", 3, varTjDatoUS_man)
       
                 
                 
-                                if (((ugeerAfsl_og_autogk_smil = 0 AND cint(ugegodkendt) <> 1) OR (level = 1)) AND media <> "print") then%>
-                                    <a href="#" onclick="Javascript:window.open('rediger_tastede_dage_2006.asp?id=<%=oRec("tid") %>', '', 'width=450,height=675,resizable=yes,scrollbars=yes')" class=vmenu><%=formatnumber(oRec("timer"), 2) %></a>
+                                if (((ugeerAfsl_og_autogk_smil = 0 AND cint(ugegodkendt) <> 1) OR (level = 1)) AND media <> "print") then
+                                      
+                                      select case cint(oRec("godkendtstatus"))
+                                         case 2
+                                         gkbgcol = "red"
+                                            
+                                         case 1
+                                         gkbgcol = "yellowgreen"
+                                         
+                                         case 3
+                                       
+                                         gkbgcol = "orange"
+                                         
+
+                                         case else
+                                         
+                                         gkbgcol = "#5582d2"
+                                         end select
+                                      
+                                      %>
+                                    <a href="#" onclick="Javascript:window.open('rediger_tastede_dage_2006.asp?id=<%=oRec("tid") %>', '', 'width=450,height=675,resizable=yes,scrollbars=yes')" class=vmenu style="color:<%=gkbgcol%>;"><%=formatnumber(oRec("timer"), 2) %></a>
 	            
                                 <%else %>
                                     <%=formatnumber(oRec("timer"), 2) %>
@@ -720,6 +739,18 @@ varTjDatoUS_tor = dateAdd("d", 3, varTjDatoUS_man)
                                              gkInputype = "hidden"
                                                    gkInputName = "ids_hd"
                                              end if
+                                        
+                                         case 3
+                                         gkTxt = "<b><i>(V)</i></b>"
+                                         gkbgcol = "orange"
+                                          if ((ugeerAfsl_og_autogk_smil = 0 AND cint(ugegodkendt) <> 1) OR cint(level) = 1) AND media <> "print" then
+                                             gkInputype = "CHECKBOX"
+                                                   gkInputName = "ids"
+                                             else
+                                             gkInputype = "hidden"
+                                                   gkInputName = "ids_hd"
+                                             end if
+
                                          case else
                                          gkTxt = ""
                                              if ((ugeerAfsl_og_autogk_smil = 0 AND cint(ugegodkendt) <> 1) OR cint(level) = 1) AND media <> "print" then
@@ -737,7 +768,7 @@ varTjDatoUS_tor = dateAdd("d", 3, varTjDatoUS_man)
                                          Response.write "<span style=""color:"& gkbgcol &";"">"& gkTxt &"</span>" 
 
                                          select case cint(oRec("godkendtstatus"))
-                                         case 1, 2
+                                         case 1, 2, 3
                                          %>
                                          <br><span style='font-size:9px; color:#999999;'><%=left(oRec("godkendtstatusaf"), 12)  %></span><br />
                                          <%

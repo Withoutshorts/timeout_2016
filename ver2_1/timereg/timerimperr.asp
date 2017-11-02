@@ -66,6 +66,31 @@ if len(session("user")) = 0 then
 	
 
     select case func
+    case "slet"
+
+        sletimperr_ids = split(request("sletimperr_ids"), "##, ")
+
+        for x = 0 to UBOUND(sletimperr_ids)
+        strSQlDEl = ""
+        sletimperr_ids(x) = replace(sletimperr_ids(x), ",", "")
+        sletimperr_ids(x) = replace(sletimperr_ids(x), " ", "")
+        sletimperr_ids(x) = replace(sletimperr_ids(x), "##", "")
+
+        if len(trim(sletimperr_ids(x))) <> 0 then
+
+        strSQlDEl = "DELETE FROM timer_imp_err WHERE id = "& sletimperr_ids(x)
+        oConn.execute(strSQlDEl)
+
+        'response.write strSQlDEl & "<br>"
+
+        end if
+
+        next
+
+         'response.end
+         Response.redirect "timerimperr.asp?FM_sog="&sogTxt&"&FM_origin="&origin
+
+
     case "flyt"
         
         if len(trim(request("FM_oldjobnr"))) <> 0 then
@@ -140,6 +165,10 @@ if len(session("user")) = 0 then
     %>
     <!--#include file="../inc/regular/header_lysblaa_inc.asp"-->
     
+
+
+
+     <script src="inc/timerimperr.js"></script>
 
 	
 	<!--
@@ -221,6 +250,9 @@ if len(session("user")) = 0 then
     8: Dato er i et ukendt format / mangler i import data<br />
     9: Uge er lukket<br />
     13: Bonus Akt. ikke fundet på job<br /><br />
+
+    <a href="../timereg_net/cati_reload_manual.aspx" target="_blank">Genindlæs fejlede timer igen</a>
+        <br /><br />
     
     <%
     ddminusSeven = dateadd("d", -tkMinusDage, now) 
@@ -247,7 +279,7 @@ if len(session("user")) = 0 then
    
    </form>
         
-
+  <form id="timerimperr_sletform" action="timerimperr.asp?func=slet&FM_origin=<%=origin %>&FM_sog=<%=sogTxt%>" method="post">
    <table cellspacing=1 cellpadding=2 border=0 width=100%>
    <%
    
@@ -308,6 +340,7 @@ if len(session("user")) = 0 then
         <td class=alt>Intw nr.</td>
         <td class=alt>Timereg. Dato</td>
         <td class=alt>Timer (1,00 = 1 time)</td>
+        <td class=alt>Slet <input type="checkbox" class="sletimperr_all" id="sletimperr_all_<%=days %>" value="<%=days %>" /></td>
     </tr>
     
     
@@ -349,6 +382,8 @@ if len(session("user")) = 0 then
         <td><%=oRec("med_init") %></td>
         <td><%=oRec("timeregdato") %></td>
         <td><%=oRec("timer") %></td>
+        <td><input type="checkbox" class="sletimperr_<%=days %>" id="sletimperr_<%=oRec("id") %>" value="<%=oRec("id") %>" name="sletimperr_ids" /></td> 
+            <input type="hidden" value="##" name="sletimperr_ids" />
     </tr>
 
 
@@ -360,7 +395,7 @@ if len(session("user")) = 0 then
 
     %>
     <tr>
-    <td colspan=8>Antal ialt: <%=x %></td>
+    <td colspan=10>Antal ialt: <%=x %></td>
     
     </tr>
 
@@ -370,10 +405,16 @@ if len(session("user")) = 0 then
 	
 
     <tr>
-    <td colspan=8>Antal ialt 7 dage: <%=totalAllSeven %></td>
+    <td colspan=10>Antal ialt 7 dage: <%=totalAllSeven %></td>
+    
+    </tr>
+    <tr>
+    <td colspan=10 align="right"><input type="submit" value="Slet valgte >> "></td>
     
     </tr>
     </table>
+    
+    </form>
 
 
 

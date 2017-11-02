@@ -1279,6 +1279,14 @@ $(document).ready(function () {
 
         if ($("#momsland").val() != '') {
 
+            //selAfsenderLand = $("#afsmomsland option:selected").val();
+            //selAfsenderLand = $("#afsmomsland").find(":selected").val();
+            //alert(selAfsenderLand)
+            //$('#txtEntry2').text($(this).find(":selected").text());
+
+            //alert($("#momsland").val() + " : " + $("#afsmomsland").val())
+
+
             if (($("#momsland").val() != $("#afsmomsland").val())) {
                 $("#FM_momssats").val(0)
 

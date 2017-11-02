@@ -482,6 +482,11 @@ Public Class to_import_timetag
                 End Try
 
 
+                timerkom = Replace(timerkom, "'", "")
+                timerkom = EncodeUTF8(timerkom)
+                timerkom = DecodeUTF8(timerkom)
+
+
                 Try
                     '*** Medarbejer ID ****'
                     tempM = IsDBNull(ds.Tables(0).Rows(t).Item(4))

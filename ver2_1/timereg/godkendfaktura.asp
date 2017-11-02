@@ -97,7 +97,7 @@ if len(trim(session("user"))) = 0 then
 	
     '*** Set faktura til godkendt **'
     '*** Opdaterer/Indsætter posterings ID på faktura ***' 
-    strSQL = "UPDATE fakturaer SET betalt = 1, oprid = 0, faknr = "& intFaknum &", fak_laast = 1 WHERE fid = " & fakid
+    strSQL = "UPDATE fakturaer SET betalt = 1, oprid = 0, faknr = "& intFaknum &", fak_laast = 1, editor = '"& session("user") &"', dato = '"& session("dato") &"' WHERE fid = " & fakid
     oConn.execute(strSQL)
 
 

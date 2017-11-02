@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<sprog>
+
+  <!--- Dansk -->
+  <dk>
+
+
+    <txt_1>Timeregistrering</txt_1>
+    <txt_2>Projekter</txt_2>
+    <txt_3>Rapporter</txt_3>
+    <txt_4>Kunder</txt_4>
+    <txt_5>Medarbejdere</txt_5>
+    <txt_6>Lager</txt_6>
+    <txt_7>Økonomi</txt_7>
+
+    <txt_8>Service-Desk</txt_8>
+    <txt_9>Administration</txt_9>
+
+    <txt_10>Medarbejder - Projekttid</txt_10>
+    
+
+  </dk>
+
+
+
+  <!-- Norsk -->
+  <no>
+
+    <txt_1 >Timeregistrering</txt_1>
+    <txt_2 >Prosjekter</txt_2>
+    <txt_3 >Rapporter</txt_3>
+    <txt_4 >Kunder</txt_4>
+    <txt_5 >Ansatte</txt_5>
+    <txt_6 >Lager</txt_6>
+    <txt_7 >Økonomi</txt_7>
+    <txt_8 >Tjenesten-Desk</txt_8>
+    <txt_9 >Administrasjon</txt_9>
+    <txt_10>Medarbejder - Projekttid</txt_10>
+
+  </no>
+
+
+  <!-- Svensk -->
+  <se>
+
+    <txt_1 >Tidrapporter</txt_1>
+    <txt_2 >Projekt</txt_2>
+    <txt_3 >Rapporter</txt_3>
+    <txt_4 >Kunder</txt_4>
+    <txt_5 >Anställda</txt_5>
+    <txt_6 >Lager</txt_6>
+    <txt_7 >Ekonomi</txt_7>
+    <txt_8 >Service Desk</txt_8>
+    <txt_9 >Administrering</txt_9>
+    <txt_10>Medarbejder - Projekttid</txt_10>
+
+  </se>
+
+  
+  <!-- Tysk -->
+  <de>
+
+    <txt_1 >Zeitblatt</txt_1>
+    <txt_2 >Projekte</txt_2>
+    <txt_3 >Berichte</txt_3>
+    <txt_4 >Kundschaft</txt_4>
+    <txt_5 >Mitarbeiter</txt_5>
+    <txt_6 >Lager</txt_6>
+    <txt_7 >Wirtschaft</txt_7>
+    <txt_8 >Service-Desk</txt_8>
+    <txt_9 >Verwaltung</txt_9>
+    <txt_10>Employee - Projecttime</txt_10>
+
+  </de>
+
+  
+  <!-- Fransk -->
+  <fr>
+    <txt_1 >Feuille de temps</txt_1>
+    <txt_2 >Projets</txt_2>
+    <txt_3 >Rapports</txt_3>
+    <txt_4 >Clientèle</txt_4>
+    <txt_5 >Employés</txt_5>
+    <txt_6 >Stock</txt_6>
+    <txt_7 >Économie</txt_7>
+    <txt_8 >Service-Bureau</txt_8>
+    <txt_9 >Administration</txt_9>
+    <txt_10>Employee - Projecttime</txt_10>
+  </fr>
+  
+ 
+  <!-- Engelsk -->
+  <uk>
+
+    <txt_1>Timerecording</txt_1>
+    <txt_2>Projects</txt_2>
+    <txt_3>Reports</txt_3>
+    <txt_4>Customers</txt_4>
+    <txt_5>Employees</txt_5>
+    <txt_6>Stock</txt_6>
+    <txt_7>Economy</txt_7>
+
+    <txt_8>Service-Desk</txt_8>
+    <txt_9>Administration</txt_9>
+    <txt_10>Employee - Projecttime</txt_10>
+
+  </uk>
+
+
+  <!-- Spansk -->
+  <es>
+    <txt_1 >Hoja de tiempo</txt_1>
+    <txt_2 >Proyectos</txt_2>
+    <txt_3 >Informes</txt_3>
+    <txt_4 >Clientes</txt_4>
+    <txt_5 >Empleados</txt_5>
+    <txt_6 >Valores</txt_6>
+    <txt_7 >Economía</txt_7>
+    <txt_8 >Service-Desk</txt_8>
+    <txt_9 >Administración</txt_9>
+    <txt_10>Employee - Projecttime</txt_10>
+
+  </es>
+
+
+</sprog>

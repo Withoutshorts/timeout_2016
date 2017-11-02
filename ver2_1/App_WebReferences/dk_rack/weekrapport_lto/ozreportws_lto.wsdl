@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://tempuri.org/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://tempuri.org/">
+      <s:element name="oz_report_lto">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ds">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="oz_report_ltoResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="oz_report_ltoResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="oz_report_ltoSoapIn">
+    <wsdl:part name="parameters" element="tns:oz_report_lto" />
+  </wsdl:message>
+  <wsdl:message name="oz_report_ltoSoapOut">
+    <wsdl:part name="parameters" element="tns:oz_report_ltoResponse" />
+  </wsdl:message>
+  <wsdl:portType name="ozreportws_ltoSoap">
+    <wsdl:operation name="oz_report_lto">
+      <wsdl:input message="tns:oz_report_ltoSoapIn" />
+      <wsdl:output message="tns:oz_report_ltoSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="ozreportws_ltoSoap" type="tns:ozreportws_ltoSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="oz_report_lto">
+      <soap:operation soapAction="http://tempuri.org/oz_report_lto" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="ozreportws_ltoSoap12" type="tns:ozreportws_ltoSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="oz_report_lto">
+      <soap12:operation soapAction="http://tempuri.org/oz_report_lto" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="ozreportws_lto">
+    <wsdl:port name="ozreportws_ltoSoap" binding="tns:ozreportws_ltoSoap">
+      <soap:address location="https://timeout.cloud/timeout_xp/wwwroot/ver2_14/timereg_net/ozreportws_lto.asmx" />
+    </wsdl:port>
+    <wsdl:port name="ozreportws_ltoSoap12" binding="tns:ozreportws_ltoSoap12">
+      <soap12:address location="https://timeout.cloud/timeout_xp/wwwroot/ver2_14/timereg_net/ozreportws_lto.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

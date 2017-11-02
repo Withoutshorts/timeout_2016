@@ -91,7 +91,7 @@
 
     public aty_sql_real, aty_sql_fak, aty_sql_fak_on, aty_options, aty_sql_frawhours, aty_sql_sel
 	public aty_sql_ikfakbar, aty_sql_fakbar, aty_sql_onfak, aty_sql_realhours, aty_sql_realHoursFakbar
-	public aktiveTyper, aty_sql_realHoursIkFakbar, aty_sql_tilwhours, aty_sql_onfaknotReal, aty_sql_hide_on_treg, aty_sql_active
+	public aktiveTyper, aty_sql_realHoursIkFakbar, aty_sql_tilwhours, aty_sql_onfaknotReal, aty_sql_hide_on_treg, aty_sql_active, aty_sql_admin
     public aty_sql_frawhours2, aty_sql_tilwhours2
 	 
 	function akttyper2009(dothis)
@@ -101,7 +101,8 @@
 	 aty_sql_fakbar = "fakturerbar = 0"
 	 aty_sql_ikfakbar = "fakturerbar = 0"
 	 aty_sql_onfak =  "aktiviteter.fakturerbar = 0"
-	 
+	 aty_sql_admin = "fakturerbar = 0"
+
 	 aty_sql_realhours = "tfaktim = 0"
 	 aty_sql_realHoursFakbar = "t.tfaktim = 0"
 	 aty_sql_realHoursIkFakbar = "t.tfaktim = 0"
@@ -246,6 +247,12 @@
 	      aty_sql_ikfakbar = aty_sql_ikfakbar & " OR fakturerbar = "& oRec4("aty_id")
 	      else
 	      aty_sql_ikfakbar = aty_sql_ikfakbar 
+	      end if
+
+          if oRec4("aty_on_invoiceble") = 0 then
+	      aty_sql_admin = aty_sql_admin & " OR fakturerbar = "& oRec4("aty_id")
+	      else
+	      aty_sql_admin = aty_sql_admin
 	      end if
 	        
 	      
@@ -644,19 +651,19 @@
 			    'case 0
 			    'straktgrpnavn = "Afstemning"
 			    case 1
-			    straktgrpnavn = "Udspecificering<br> atk. typer"
+			    straktgrpnavn = joblog2_txt_137 &"<br>"& joblog2_txt_138 
 			    aktcls = "akt_udspec"
 			    case 2
-			    straktgrpnavn = "Udspecificering<br>akt. typer<br> (kat. 2)"
+			    straktgrpnavn = joblog2_txt_137 &"<br>"& joblog2_txt_138 &"<br>("& joblog2_txt_139 &")" 
 			    aktcls = "akt_flex"
 			    case 3
-			    straktgrpnavn = "Ferie"
+			    straktgrpnavn = joblog2_txt_140
 			    aktcls = "akt_ferie"
 			    case 4
-			    straktgrpnavn = "Overarbejde / Afspadsering"
+			    straktgrpnavn = joblog2_txt_141
 			    aktcls = "akt_overarb"
 			    case 5
-			    straktgrpnavn = "Sygdom / Fravær"
+			    straktgrpnavn = joblog2_txt_142
 			    aktcls = "akt_syg"
 			    case else
 			    straktgrpnavn = ""
@@ -1009,8 +1016,13 @@ function hentaktiviterListe(jobid, func, vispasluk, sort)
     
     samletverdi = 0
     a = 0
+
+    select case lto
+    case "oko"
+    orderBy = "a.fase, k.kontonr, a.sortorder, a.navn"
+    case else
 	orderBy = "a.fase, a.sortorder, a.navn"
-	
+	end select
 	
 	lastFase = ""
 	lastFaseSum = 0

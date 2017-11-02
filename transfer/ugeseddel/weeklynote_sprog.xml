@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<sprog>
+
+  <!--- Dansk -->
+  <dk>
+
+    <txt_1 >Du er ved at slette en timeregistrering uden match.</txt_1>
+    <txt_2 >Er Du sikker på Du vil gøre dette?</txt_2>
+    <txt_3 >Funktioner</txt_3>
+    <txt_4 >Uge</txt_4>
+    <txt_5 >fase</txt_5>
+    <txt_6 >Registreringer uden match</txt_6>
+    <txt_7 >Søger</txt_7>
+    <txt_8 >Indlæs</txt_8>
+    <txt_9 >Vælg job</txt_9>
+    <txt_10 >Ingen kunder/job fundet</txt_10>
+    <txt_11 >Ingen aktiviteter fundet</txt_11>
+
+  </dk>
+
+
+  <!--- Norsk -->
+  <no>
+
+    <txt_1 >You are about to delete a time entry without a match.</txt_1>
+    <txt_2 >Are you sure you want to do this?</txt_2>
+    <txt_3 >Functions</txt_3>
+    <txt_4 >Week</txt_4>
+    <txt_5 >phase</txt_5>
+    <txt_6 >Registrations without a match</txt_6>
+    <txt_7 >Searching</txt_7>
+    <txt_8 >Load</txt_8>
+    <txt_9 >Choose job</txt_9>
+    <txt_10 >No customers / jobs found</txt_10>
+    <txt_11 >No activities found</txt_11>
+
+  </no>
+  
+  
+  <!--- Svensk -->
+  <so>
+
+    <txt_1 >You are about to delete a time entry without a match.</txt_1>
+    <txt_2 >Are you sure you want to do this?</txt_2>
+    <txt_3 >Functions</txt_3>
+    <txt_4 >Week</txt_4>
+    <txt_5 >phase</txt_5>
+    <txt_6 >Registrations without a match</txt_6>
+    <txt_7 >Searching</txt_7>
+    <txt_8 >Load</txt_8>
+    <txt_9 >Choose job</txt_9>
+    <txt_10 >No customers / jobs found</txt_10>
+    <txt_11 >No activities found</txt_11>
+
+  </so>
+  
+  
+  <!--- Tysk -->
+  <de>
+
+    <txt_1 >You are about to delete a time entry without a match.</txt_1>
+    <txt_2 >Are you sure you want to do this?</txt_2>
+    <txt_3 >Functions</txt_3>
+    <txt_4 >Week</txt_4>
+    <txt_5 >phase</txt_5>
+    <txt_6 >Registrations without a match</txt_6>
+    <txt_7 >Searching</txt_7>
+    <txt_8 >Load</txt_8>
+    <txt_9 >Choose job</txt_9>
+    <txt_10 >No customers / jobs found</txt_10>
+    <txt_11 >No activities found</txt_11>
+
+  </de>
+  
+  
+  <!--- Fransk -->
+  <fr>
+
+    <txt_1 >You are about to delete a time entry without a match.</txt_1>
+    <txt_2 >Are you sure you want to do this?</txt_2>
+    <txt_3 >Functions</txt_3>
+    <txt_4 >Week</txt_4>
+    <txt_5 >phase</txt_5>
+    <txt_6 >Registrations without a match</txt_6>
+    <txt_7 >Searching</txt_7>
+    <txt_8 >Load</txt_8>
+    <txt_9 >Choose job</txt_9>
+    <txt_10 >No customers / jobs found</txt_10>
+    <txt_11 >No activities found</txt_11>
+
+  </fr>
+  
+    
+
+  <!-- Engelsk -->
+  <uk>
+
+    <txt_1 >You are about to delete a time entry without a match.</txt_1>
+    <txt_2 >Are you sure you want to do this?</txt_2>
+    <txt_3 >Functions</txt_3>
+    <txt_4 >Week</txt_4>
+    <txt_5 >phase</txt_5>
+    <txt_6 >Registrations without a match</txt_6>
+    <txt_7 >Searching</txt_7>
+    <txt_8 >Load</txt_8>
+    <txt_9 >Choose job</txt_9>
+    <txt_10 >No customers / jobs found</txt_10>
+    <txt_11 >No activities found</txt_11>
+
+  </uk>
+
+
+  <!--- Spansk -->
+  <es>
+
+    <txt_1 >You are about to delete a time entry without a match.</txt_1>
+    <txt_2 >Are you sure you want to do this?</txt_2>
+    <txt_3 >Functions</txt_3>
+    <txt_4 >Week</txt_4>
+    <txt_5 >phase</txt_5>
+    <txt_6 >Registrations without a match</txt_6>
+    <txt_7 >Searching</txt_7>
+    <txt_8 >Load</txt_8>
+    <txt_9 >Choose job</txt_9>
+    <txt_10 >No customers / jobs found</txt_10>
+    <txt_11 >No activities found</txt_11>
+
+ </es>
+
+
+</sprog>

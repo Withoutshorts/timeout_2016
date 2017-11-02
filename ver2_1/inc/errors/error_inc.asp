@@ -475,6 +475,7 @@ varErrorText = "<b>Timeregistrering</b><br>"_
 &" ligger i et datointerval der allerede er faktureret.<br><br>"_
 &" <b>B)</b> Du prøver at registrere timer i en periode der er afsluttet/lukket."
 
+'&" <br>Periode afsluttet: " &  cint(ugeerAfsl_og_autogk_smil) &" AND "& cdate(lastFakdato) &" >= "& cdate(regdato) '"<br>Medarbejderid: " & medarbejderid & " Timeregdato: "& regdato &" Jobid: "& intjobid
 '&" Seneste faktura dato på dette job er: <b>" & lastFakdato &"</b><br><br>"_
 '&" Den valgte registrerings dato er: <b>"& regdato & "</b><br><br>"_
 
@@ -782,10 +783,13 @@ case 186
 varErrorText = "Du mangler at vælge enten eksisterende aktivitet eller ny aktivitet.<br><br>Dato er ikke angivet i et gyldigt datoformat."
 
 case 187 
-varErrorText = "<b>Forecast er overskreddet på aktivitet!.</b><br><br> Der er tastet/tilføjet: "& timerthisTjkFc & " timer.<br> Tastet før på denne dag: "& timer_opr &" timer. <br>Saldo: " & feltTxtValFc & " timer."
+varErrorText = "<b>Forecast er overskreddet på aktivitet!.</b><br><br> Der er tastet/tilføjet: "& timerthisTjkFc & " timer på jobnr: "& Tjkjobnr &" .<br> Tastet før på denne dag: "& timer_opr &" timer. <br>Saldo: " & feltTxtValFc & " timer."
 
 case 188
 varErrorText = "En AKTIV medarbejder med de valgte <b>Initialer</b> eksisterer allerede. <br><br>Vælg en anden kombination af initialer."
+
+case 189
+varErrorText = "Du mangler at angive en eller flere af følgende felter:<br> - Evaluering<br> - Timer<br>- Timepris<br> - Kommentar"
 
 case else
 varErrorText = errortype

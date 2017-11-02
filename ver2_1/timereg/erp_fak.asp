@@ -533,7 +533,12 @@ if len(session("user")) = 0 then
 		                            
 		                            'Response.end
 		                            
-		                            showmoms = replace(intMoms, ".", "")
+		                            'showmoms = replace(intMoms, ".", "")
+
+                                            'if showmoms < 0 then 'NT
+                                            '        showmoms = showmoms * -1
+                                            'end if
+
 								    subtotaltilmoms = replace(intTotalMoms, ",", ".")
 								    
 								  
@@ -879,6 +884,22 @@ if len(session("user")) = 0 then
                             fak_fomr = 0
                             end if
 
+
+                            if len(trim(request("FM_rekvnr"))) <> 0 then
+                            rekvnr = request("FM_rekvnr")
+                            else
+                            rekvnr = ""
+                            end if
+
+                            if len(trim(request("FM_rekvnr_opd"))) <> 0 then
+                            strSQLupd = "UPDATE job SET rekvnr = '"& rekvnr &"' WHERE id = " & jobid
+							oConn.execute(strSQLupd)
+                            end if
+
+
+                            'fakadr_txt = "Bremensgade"
+                            fak_rekvinr = rekvnr '"Rek124555"
+
  									
 							'************************************************************************************
 							'*** Opdaterer / Redigerer faktura 													*
@@ -913,7 +934,7 @@ if len(session("user")) = 0 then
 											&" visafsswift = "& intAfsSwift &", "_
 											&" visafsiban = "& intAfsIban &", "_
 											&" visafscvr = "& intAfsICVR &", "_
-											&" moms = "& replace(showmoms,",",".") &", "_
+											&" moms = "& intMoms &", "_
 											&" enhedsang = "& intEnhedsang &", "_
 											&" varenr = '"& strVarenr &"', jobbesk = '"& jobBesk &"', "_
 											&" timersubtotal = "& timersubtotal &", "_
@@ -937,7 +958,7 @@ if len(session("user")) = 0 then
 											&" fak_abo = "& fak_abo &", fak_ubv = "& fak_ubv &", visikkejobnavn = "& visikkejobnavn &", "_
                                             &" hidefasesum = "& hidefasesum &", hideantenh = "& hideantenh &", medregnikkeioms = "& medregnikkeioms & ", "_
                                             &" afsender = " & afsender & ", vis_jobbesk = "& visjobbesk &", "_
-                                            &" kontonr_sel = "& afs_bankkonto &", totbel_afvige = "& totbel_afvige &", fak_fomr = "& fak_fomr
+                                            &" kontonr_sel = "& afs_bankkonto &", totbel_afvige = "& totbel_afvige &", fak_fomr = "& fak_fomr &", fak_rekvinr = '"& fak_rekvinr &"'"
                                             
                                             '*** Faktura skal låses (markeres at den har været godkendt) Skal kun opdateres ved godkend og skal ikke kunne ændres
                                             if cint(intFakbetalt) = 1 then
@@ -1017,7 +1038,7 @@ if len(session("user")) = 0 then
 							end if '** RED
 							'***
 											
-											
+							
 											
 							'************************************************************************************
 							'*** Opretter faktura *********														*
@@ -1056,7 +1077,8 @@ if len(session("user")) = 0 then
 													&" visjoblog_mnavn, jobfaktype, betbetint, brugfakdatolabel, "_
 													&" istdato2, momssats, modtageradr, usealtadr, vorref, fak_ski, "_
 													&" showmatasgrp, hidesumaktlinier, sideskiftlinier, labeldato, fak_abo, fak_ubv, "_
-                                                    &" visikkejobnavn, hidefasesum, hideantenh, medregnikkeioms, fak_laast, afsender, vis_jobbesk, kontonr_sel, totbel_afvige, fak_fomr) VALUES ("_
+                                                    &" visikkejobnavn, hidefasesum, hideantenh, medregnikkeioms, fak_laast, afsender, vis_jobbesk, "_
+                                                    &" kontonr_sel, totbel_afvige, fak_fomr, fak_rekvinr) VALUES ("_
 													&" '"& intFaknum &"',"_
 													&" '"& fakDato &"',"_
 													&" "& jobid &","_
@@ -1081,7 +1103,8 @@ if len(session("user")) = 0 then
 													&" "& momssats &", '"& modtageradr &"', "& usealtadr &", '"& vorref &"', "_
 													&" "& fak_ski &", "& showmatasgrp &", "& hidesumaktlinier &", "& sideskiftlinier &", "_
 													&" '"& labelDato &"', "& fak_abo &", "& fak_ubv &", "& visikkejobnavn &", "_
-                                                    &" "& hidefasesum &", "& hideantenh &", "& medregnikkeioms &", "& fak_laast &", "& afsender &", "& visjobbesk &", "& afs_bankkonto &", "& totbel_afvige &", "& fak_fomr &")")
+                                                    &" "& hidefasesum &", "& hideantenh &", "& medregnikkeioms &", "& fak_laast &", "& afsender &", "_
+                                                    &" "& visjobbesk &", "& afs_bankkonto &", "& totbel_afvige &", "& fak_fomr &", '"& fak_rekvinr &"')")
 													
 													'Response.Write "subtotaltilmoms: " & subtotaltilmoms & " intMoms: "& intMoms &"<br>"
 													'if lto = "assurator" then
@@ -1669,19 +1692,9 @@ if len(session("user")) = 0 then
 							oConn.execute(strSQLupd)
 							end if
 							
-                            if len(trim(request("FM_rekvnr"))) <> 0 then
-                            rekvnr = request("FM_rekvnr")
-                            else
-                            rekvnr = ""
-                            end if
-
-                            strSQLupd = "UPDATE job SET rekvnr = '"& rekvnr &"' WHERE id = " & jobid
-							oConn.execute(strSQLupd)
-                            'end if
+                           
 							
-							
-							
-							
+				
 							'*** Opretter posteirnger på Execon / Immenso version ***'
 							if intFakbetalt <> 0 then 
 							    call ltoPosteringer
@@ -1871,7 +1884,7 @@ if len(session("user")) = 0 then
 						&" betbetint, brugfakdatolabel, istdato2, "_
 						&" momssats, modtageradr, usealtadr, vorref, fak_ski, showmatasgrp, hidesumaktlinier, "_
 						&" sideskiftlinier, labeldato, fak_abo, fak_ubv, visikkejobnavn, hidefasesum, hideantenh, medregnikkeioms, fak_laast, afsender, vis_jobbesk, "_
-                        &" kontonr_sel, fakglobalfaktor, totbel_afvige, fak_fomr "_
+                        &" kontonr_sel, fakglobalfaktor, totbel_afvige, fak_fomr, fak_rekvinr "_
 						&" FROM fakturaer WHERE Fid = "& id 
 						
 						'Response.Write strSQL
@@ -2008,8 +2021,8 @@ if len(session("user")) = 0 then
                         totbel_afvige = oRec("totbel_afvige")
 
                         fak_fomr = oRec("fak_fomr")
-
-
+                        
+                        rekvnr = oRec("fak_rekvinr")
 
                                 '** NT ***'
                                 select case lto
@@ -2084,7 +2097,7 @@ if len(session("user")) = 0 then
 								            jobans1 = oRec("jobans1")
 								            jobans2 = oRec("jobans2")
 								           
-            								rekvnr = oRec("rekvnr")
+            								'rekvnr = oRec("rekvnr")
             								jobstatus = oRec("jobstatus")
             								
             								usejoborakt_tp = oRec("usejoborakt_tp")
@@ -2451,11 +2464,18 @@ if len(session("user")) = 0 then
 		if jobid <> 0 then
 		
 		call faktureredetimerogbelob()
+
+        if lto = "nt" then
+            strSQkextraJobFlt = ", extracost, extracost_txt"
+
+        else
+            strSQkextraJobFlt = ""
+        end if
 		
 		strSQL = "SELECT jobTpris, budgettimer, fastpris, jobknr, jobnr, "_
 		&" jobnavn, ikkebudgettimer, jobans1, jobans2, kundekpers, beskrivelse, j.valuta, "_
 		&" jobstartdato, jobslutdato, jobfaktype, rekvnr, jobstatus, usejoborakt_tp, ski, abo, ubv, s.navn AS aftalenavn, jfak_moms, jfak_sprog, "_
-        &" aftalenr, serviceaft, job_internbesk, j.kommentar, jo_bruttooms, altfakadr, supplier, alert, lincensindehaver_faknr_prioritet_job FROM job j "_
+        &" aftalenr, serviceaft, job_internbesk, j.kommentar, jo_bruttooms, altfakadr, supplier, alert, lincensindehaver_faknr_prioritet_job "& strSQkextraJobFlt &" FROM job j "_
         &" LEFT JOIN serviceaft s ON (s.id = j.serviceaft) WHERE j.id = " & jobid
 
         'Response.write strSQL
@@ -2552,6 +2572,14 @@ if len(session("user")) = 0 then
                     oRec2.close
 
             lincensindehaver_faknr_prioritet_job = oRec("lincensindehaver_faknr_prioritet_job")
+
+            if lto = "nt" then
+
+            extracost = oRec("extracost")
+            extracost_txt = oRec("extracost_txt")
+
+            end if
+
 
 		end if
 		oRec.close
@@ -2691,7 +2719,7 @@ if len(session("user")) = 0 then
 
             select case lto 
             case "bf", "intranet - local"
-            visjoblog = 1
+            visjoblog = chklog '1
             case else
 		    visjoblog = chklog
 		    end select
@@ -4973,8 +5001,8 @@ if len(session("user")) = 0 then
 		
 		<div style="position:relative; left:14px; top:10px; padding:10px; width:320px; height:250px; background-color:#F7F7F7;">
         <table cellpadding=0 cellspacing=4 border="0" width=100%>
-        <tr><td ><%=erp_txt_142 %></td><td ><b><%=left(strJobnavn, 30) %> (<%=intjobnr %>)</b></td></tr>
-		 <tr><td ><%=erp_txt_143 %></td><td ><b><%=jType %></b></td></tr>
+        <tr><td valign=top style="padding-top:3px;"><%=erp_txt_142 %></td><td ><b><%=left(strJobnavn, 50) %> (<%=intjobnr %>)</b></td></tr>
+		 <tr><td ><%=erp_txt_143 %></td><td ><%=jType %></td></tr>
 		
 		<%select case jobstatus
 		case 1
@@ -4985,15 +5013,52 @@ if len(session("user")) = 0 then
 		jobstatusTxt = "Tilbud"
         case 4
 		jobstatusTxt = "Gennemsyn"
+        case 5
+		jobstatusTxt = "Evaluering"
 		case 0
 		jobstatusTxt = "Lukket"
 		end select %>
 		
-		<tr><td ><%=erp_txt_093 %></td><td ><b><%=jobstatusTxt%></b> </td></tr>
-		<tr><td ><%=erp_txt_144 %></td><td > <b><%=formatnumber(bruttooms, 2) &" "& valutaKode %></b> </td></tr>
-		<tr><td ><%=erp_txt_145 %></td><td > <b><%=formatnumber(intBudgettimer, 2) %></b></td></tr>
-        <tr><td ><%=erp_txt_146 %></td><td > <b><%=intRabat %> %</b> </td></tr>
+		<tr><td ><%=erp_txt_093 %></td><td ><%=jobstatusTxt%></td></tr>
+		<tr><td ><%=erp_txt_144 %></td><td ><%=formatnumber(bruttooms, 2) &" "& valutaKode %> </td></tr>
+		<tr><td ><%=erp_txt_145 %></td><td ><%=formatnumber(intBudgettimer, 2) %></td></tr>
+        <tr><td ><%=erp_txt_146 %></td><td ><%=intRabat %> %</td></tr>
 		
+
+        
+            <%
+            jobEvalFundet = 0
+            eval_suggested_hours = 0
+            eval_jobvaluesuggested = 0
+            eval_evalvalue = 0
+             strSQLEval = "SELECT eval_jobid, eval_evalvalue, eval_jobvaluesuggested, eval_comment, eval_diff, eval_suggested_hours, eval_suggested_hourly_rate FROM eval WHERE eval_jobid = "& jobid 
+             oRec2.open strSQLEval, oConn, 3
+             if not oRec2.EOF then  
+             jobEvalFundet = 1
+             eval_jobvaluesuggested = oRec2("eval_jobvaluesuggested")   
+             eval_evalvalue = oRec2("eval_evalvalue")
+             eval_suggested_hours = oRec2("eval_suggested_hours")
+             end if
+             oRec2.close  
+            
+                
+             if cint(jobEvalFundet) = 1 then%>
+            <tr style="background-color:#CCCCCC;"><td>Eval. værdi:</td><td><%=eval_evalvalue %></td></tr>
+             <tr style="background-color:#CCCCCC;"><td>Eval. foreslået beløb:</td><td><a href="#" onclick="Javascript:window.open('../to_2015/eval.asp?func=red&jobid_til_eval=<%=jobid%>&noupdate=1', '', 'width=1200,height=700,resizable=yes,scrollbars=yes')"><%=formatnumber(eval_jobvaluesuggested, 2) %></a></td></tr>
+            <tr style="background-color:#CCCCCC;"><td>Eval. foreslået timer:</td><td><%=formatnumber(eval_suggested_hours, 2) %></td></tr>
+
+             <%end if%>
+
+
+            <%if lto = "nt" then
+                %>
+                  <tr style="background-color:#CCCCCC;"><td>Extra cost:</td><td><%=formatnumber(extracost, 2)%></td></tr>
+             <tr style="background-color:#CCCCCC;"><td>Extra cost com.:</td><td><%=extracost_txt %></td></tr>
+           
+            <%
+            end if%>
+         
+
 		<!--
 		Faktura grundlag: 
 		<select case jobfaktype
@@ -5006,9 +5071,10 @@ if len(session("user")) = 0 then
 		
 		
 		<tr><td >Periode:</td><td ><b><%=formatdatetime(jobstdato, 2) %></b> til <b><%=formatdatetime(jobsldato, 2) %></b> </td></tr>
-		<tr><td  valign=top style="padding-top:5px;"><%=erp_txt_147 %><br />
-            <span style="font-size:9px; color:#999999;">(<%=erp_txt_430 %>) </span>
-		    </td><td ><input type="text" name="FM_rekvnr" style="font-size:9px; width:150px;" value="<%=rekvnr %>" /></td></tr>
+		<tr><td valign=top style="padding-top:3px;"><%=left(erp_txt_147, 12) %>.:</td>
+            <td ><input type="text" name="FM_rekvnr" style="font-size:9px; width:150px;" value="<%=rekvnr %>" /> 
+                <br />
+                <input type="checkbox" name="FM_rekvnr_opd" value="1" /> <%=erp_txt_430 %></td></tr>
 
         <%if aftaleId <> 0 then %>
         <tr><td ><%=erp_txt_148 %></td><td > <b><%=aftalenavn %></b> </td></tr>
@@ -5257,7 +5323,7 @@ if len(session("user")) = 0 then
 	                    
 
                             select case lto
-                            case "synergi1", "intranet - local"
+                            case "xsynergi1", "xintranet - local"
                                 if func <> "red" then
                                 content = "<span style=""color:red; font-size:14px;"">Bemærk nyt kontonr!<br></span>" & strJobBesk
                                 else

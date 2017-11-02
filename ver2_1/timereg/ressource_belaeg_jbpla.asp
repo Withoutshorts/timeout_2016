@@ -552,17 +552,17 @@ if len(session("user")) = 0 then
 	stDatoDag = 1 
 	rdimnb = 15
 	leftwdt = 350
-	periodeShow = periodeShow & " 3 måneder frem (uge/uge)"
+	periodeShow = periodeShow &" "& resbelaeg_txt_036
 	case 6
 	stDatoDag = 14 '** for at være sikker på at der ikke bliver skrvet en uge ind, der hører til forrige måned.
 	rdimnb = 7
 	leftwdt = 500
-	periodeShow = "6 Måneder frem"
+	periodeShow = resbelaeg_txt_068
 	case 12
 	stDatoDag = 14
 	rdimnb = 13
 	leftwdt = 850
-	periodeShow = "12 Måneder frem"
+	periodeShow = resbelaeg_txt_037
 	end select
 	
     redimNo = 9500
@@ -1652,7 +1652,7 @@ if len(session("user")) = 0 then
 
     strLink = "ressource_belaeg_jbpla.asp?FM_progrp="&progrp&"&FM_medarb="&thisMiduse&"&FM_medarb_hidden="&thisMiduse&"&showonejob="&showonejob&"&id="&id&"&periodeselect="&periodeSel&"&jobselect="&jobnavn&"&mdselect="&request("mdselect")&"&aarselect="&request("aarselect")&"&selectplus="&selectplus&"&selectminus="&selectminus&"&FM_vis_job_u_fc="& vis_job_u_fc &"&FM_vis_job_fc_neg="&vis_job_fc_neg&"&FM_hideEmptyEmplyLines="&hideEmptyEmplyLines&"&FM_vis_simpel="&vis_simpel&"&FM_vis_kolonne_simpel="&vis_kolonne_simpel&"&FM_vis_kolonne_simpel_akt="&vis_kolonne_simpel_akt&"&FM_sog="& sogTxt 
 	
-    response.write "<br><br><div style=""padding:20px;"">Timer er overflyttet på alle aktive job.<br><a href="& strLink &">Videre >></a></div>"                                
+    response.write "<br><br><div style=""padding:20px;"">"&resbelaeg_txt_132&".<br><a href="& strLink &">"&resbelaeg_txt_133&" >></a></div>"                                
     response.end                           
     end if
 
@@ -1798,7 +1798,7 @@ if len(session("user")) = 0 then
 	<div id="load" style="position:absolute; display:; visibility:visible; top:<%=ldTop%>px; left:<%=ldLft%>px; width:300px; background-color:#ffffff; border:10px #6CAE1C solid; padding:20px; z-index:100000000;">
     <table cellpadding=0 cellspacing=5 border=0 width=100%><tr><td>
 	<img src="../ill/outzource_logo_200.gif" /><br />
-	&nbsp;&nbsp;&nbsp;&nbsp;Vent veligst. Forventet loadtid: 3-25 sek.
+	&nbsp;&nbsp;&nbsp;&nbsp;<%=resbelaeg_txt_001 %>
 	</td><td align=right style="padding-right:40px;">
 	<img src="../inc/jquery/images/ajax-loader.gif" />
 	</td></tr></table>
@@ -1858,7 +1858,7 @@ if len(session("user")) = 0 then
 	<table cellspacing="0" cellpadding="0" border="0" width=100%>
 	<form action="ressource_belaeg_jbpla.asp?showonejob=<%=showonejob%>&id=<%=id%>" method="post" name="mdselect" id="mdselect">
 	
-    <tr><td colspan="5"><span id="sp_med" style="color:#5582d2;">[+] Projektgrupper & Medarbejdere</span></td></tr>
+    <tr><td colspan="5"><span id="sp_med" style="color:#5582d2;">[+] <%=resbelaeg_txt_003 &" " %>&<%=" "& resbelaeg_txt_004 %></span></td></tr>
 	<tr id="tr_prog_med" style="display:none; visibility:hidden;">
      <%call progrpmedarb %>
 
@@ -1866,12 +1866,12 @@ if len(session("user")) = 0 then
 	    
        
     </tr>
-	<tr><td colspan="5"><span id="sp_job" style="color:#5582d2;">[+] Vælg job</span></td></tr>
+	<tr><td colspan="5"><span id="sp_job" style="color:#5582d2;">[+]<%=" "& resbelaeg_txt_005 %></span></td></tr>
 	<tr id="tr_job" style="display:none; visibility:hidden;">
 	
 	<%if showonejob <> 1 then%>
 	<td valign=top style="padding-top:20px;" colspan="2"><!--<h4>Vis forecast for job:<span style="font-size:11px; font-weight:lighter;"> (prioitet > -1)</span></h4>-->
-        Job:<br />
+        <%=resbelaeg_txt_073 %>:<br />
 	
 	<%
 		strSQL = "SELECT jobnavn, jobnr, j.id, k.kkundenavn, k.kkundenr, k.kid"_
@@ -1894,7 +1894,7 @@ if len(session("user")) = 0 then
         jallSel = ""
         end if%>
         
-        <option value="0" <%=jallSel %>>Alle</option>
+        <option value="0" <%=jallSel %>><%=resbelaeg_txt_006 %></option>
 		<%
 				
 				oRec.open strSQL, oConn, 3
@@ -1929,29 +1929,29 @@ if len(session("user")) = 0 then
 		</select>
 		<br />
 		
-		       <input id="viskunjobiper0" name="viskunjobiper" value="0" type="radio" <%=viskunjobiper0 %> onclick="submit();" /> Vis <b>alle</b> aktive job.<br />
+		       <input id="viskunjobiper0" name="viskunjobiper" value="0" type="radio" <%=viskunjobiper0 %> onclick="submit();" /> <%=resbelaeg_txt_007 %> <b><%=resbelaeg_txt_008 %></b> <%=resbelaeg_txt_009 %><br />
  
-		       <input id="viskunjobiper1" name="viskunjobiper" value="1" type="radio" <%=viskunjobiper1 %> onclick="submit();" /> Vis <b>aktuelle</b> job (kun job, hvis slutdato ligger efter den valgte periode start)
+		       <input id="viskunjobiper1" name="viskunjobiper" value="1" type="radio" <%=viskunjobiper1 %> onclick="submit();" /> <%=resbelaeg_txt_007 %> <b><%=resbelaeg_txt_010 %></b> <%=resbelaeg_txt_011 %>
         <br /><br />&nbsp;
         </td></tr>
         <tr><td style="padding-top:20px;">      
-        <h4>Søg på jobnavn ell. nr.:</h4>
+        <h4><%=resbelaeg_txt_012 %>:</h4>
 
         <input id="sogtxt" name="FM_sog" value="<%=sogTxt %>" type="text" style="width:350px; font-size:14px; border:2px #6CAE1C solid;;" />
-    <br />(% wildcard, <b>100-200</b> interval, eller <b>58, 89</b> for specifikke job)
+    <br />(% wildcard, <b>100-200</b><%=" " &resbelaeg_txt_013 &" " %><b>58, 89</b><%=" "& resbelaeg_txt_014 %>)
             <br /><br /><br />
            
-            <b>Filter:</b><br />
-               <input type="checkbox" value="1" id="FM_vis_job_fc_neg" name="FM_vis_job_fc_neg" <%=vis_job_fc_negCHK%> />Forecast overskreddet
+            <b><%=resbelaeg_txt_015 %>:</b><br />
+               <input type="checkbox" value="1" id="FM_vis_job_fc_neg" name="FM_vis_job_fc_neg" <%=vis_job_fc_negCHK%> /><%=resbelaeg_txt_016 %>
                 <br />
-               <input type="checkbox" value="1" id="FM_vis_job_u_fc" name="FM_vis_job_u_fc" <%=vis_job_u_fcCHK %> /> Vis alle aktive job <b>også uden forecast</b>
+               <input type="checkbox" value="1" id="FM_vis_job_u_fc" name="FM_vis_job_u_fc" <%=vis_job_u_fcCHK %> /> <%=resbelaeg_txt_017 %> <b><%=resbelaeg_txt_018 %></b>
                    <%call positiv_aktivering_akt_fn()
                    if cint(pa_aktlist) = 1 then %>
-                  <br /> <span style="color:#999999;">(alle job på personlig aktivliste +/-5 md., maks 10 medarb.)</span> 
+                  <br /> <span style="color:#999999;">(<%=resbelaeg_txt_019 &" "  %>+/-5<%=" "&resbelaeg_txt_020 %>)</span> 
                    <%end if %>
                 <br />
            
-            <input type="checkbox" value="1" id="Checkbox1" name="FM_hideEmptyEmplyLines" <%=hideEmptyEmplyLinesCHK %> /> Skjul medarbejder(e) uden forecast<br />        
+            <input type="checkbox" value="1" id="Checkbox1" name="FM_hideEmptyEmplyLines" <%=hideEmptyEmplyLinesCHK %> /> <%=resbelaeg_txt_021 %><br />        
 
 
             
@@ -1977,21 +1977,21 @@ if len(session("user")) = 0 then
 	</td>
 
 	
-    <td valign=top style="padding:20px 30px 10px 10px;"><b>Periode fra:</b><br /> 
+    <td valign=top style="padding:20px 30px 10px 10px;"><b><%=resbelaeg_txt_022 %>:</b><br /> 
 	<select name="mdselect">
 	<option value="<%=monththis%>" SELECTED><%=left(monthname(monththis),3)%></option>
-	<option value="1">Jan</option>
-	<option value="2">Feb</option>
-	<option value="3">Mar</option>
-	<option value="4">Apr</option>
-	<option value="5">Maj</option>
-	<option value="6">Jun</option>
-	<option value="7">Jul</option>
-	<option value="8">Aug</option>
-	<option value="9">Sep</option>
-	<option value="10">Okt</option>
-	<option value="11">Nov</option>
-	<option value="12">Dec</option>
+	<option value="1"><%=resbelaeg_txt_023 %></option>
+	<option value="2"><%=resbelaeg_txt_024 %></option>
+	<option value="3"><%=resbelaeg_txt_025 %></option>
+	<option value="4"><%=resbelaeg_txt_026 %></option>
+	<option value="5"><%=resbelaeg_txt_027 %></option>
+	<option value="6"><%=resbelaeg_txt_028 %></option>
+	<option value="7"><%=resbelaeg_txt_029 %></option>
+	<option value="8"><%=resbelaeg_txt_030 %></option>
+	<option value="9"><%=resbelaeg_txt_031 %></option>
+	<option value="10"><%=resbelaeg_txt_032 %></option>
+	<option value="11"><%=resbelaeg_txt_033 %></option>
+	<option value="12"><%=resbelaeg_txt_034 %></option>
 	</select> <select name="aarselect">
 	<option value="<%=yearthis%>" SELECTED><%=yearthis%></option>
 
@@ -2007,17 +2007,17 @@ if len(session("user")) = 0 then
 
 	
 	
-	</select> og 
+	</select> <%=resbelaeg_txt_035 %> 
 	<select name="periodeselect" style="width:190px;" onchange="submit()">
 	<option value="<%=periodeSel%>" SELECTED><%=periodeShow%></option>
 	<!--<option value="1">1 Måned (dag/dag)</option>-->
-	<option value="3">3 Måneder frem (uge/uge)</option>
+	<option value="3"><%=resbelaeg_txt_036 %></option>
 	<!--<option value="4">4 Måneder frem (måned/måned)</option>-->
     <%select case lto 
         case "kejd_pb"
         case else %>
-	<option value="12">12 Måneder frem</option>
-	<option value="6">6 Måneder frem</option>
+	<option value="12"><%=resbelaeg_txt_037 %></option>
+	<option value="6"><%=resbelaeg_txt_038 %></option>
         <%end select %>
     
     </select>
@@ -2028,15 +2028,15 @@ if len(session("user")) = 0 then
     
 
      <br /><br /><br />
-            <b>Præsentation:</b><br />
-             <input type="checkbox" value="1" id="Checkbox2" <%=vis_kolonne_simpelDisabled %> name="FM_vis_kolonne_simpel" <%=vis_kolonne_simpelCHK %> /> Vis ikke års-ramme og saldo kolonner<br />
-            <input type="checkbox" value="1" id="Checkbox3" <%=vis_kolonne_simpel_aktDisabled %> name="FM_vis_kolonne_simpel_akt" <%=vis_kolonne_simpel_aktCHK %> /> Vis ikke aktivitets kolonner           
+            <b><%=resbelaeg_txt_039 %>:</b><br />
+             <input type="checkbox" value="1" id="Checkbox2" <%=vis_kolonne_simpelDisabled %> name="FM_vis_kolonne_simpel" <%=vis_kolonne_simpelCHK %> /> <%=resbelaeg_txt_040 %><br />
+            <input type="checkbox" value="1" id="Checkbox3" <%=vis_kolonne_simpel_aktDisabled %> name="FM_vis_kolonne_simpel_akt" <%=vis_kolonne_simpel_aktCHK %> /> <%=resbelaeg_txt_041 %>           
             <br />
 
              <select style="width:350px;" id="FM_vis_simpel" name="FM_vis_simpel" onchange="submit();">
-                <option value="0" <%=vis_simpelCHK0 %>>Vis alle linier (standard)</option>
-                <option value="1" <%=vis_simpelCHK1 %>>Skjul alle sub-totaler (optimeret til indtastning)</option>
-                <option value="2" <%=vis_simpelCHK2 %>>Vis Grafisk (optimeret til overblik)</option>
+                <option value="0" <%=vis_simpelCHK0 %>><%=resbelaeg_txt_042 %></option>
+                <option value="1" <%=vis_simpelCHK1 %>><%=resbelaeg_txt_043 %></option>
+                <option value="2" <%=vis_simpelCHK2 %>><%=resbelaeg_txt_044 %></option>
             </select>
             <!--<input type="checkbox" value="1" id="FM_vis_simpel" name="FM_vis_simpel" <%=vis_simpelCHK %> /> Skjul <b>sub-totaler</b> på job og medarbejdere (bedre overblik, hvis der er valgt mange medarbejdere) </span> 
                 -->
@@ -2044,7 +2044,7 @@ if len(session("user")) = 0 then
 
     
    <br /><br /><br />
-       Angiv forecast som  <select name="FM_showasproc" onchange="submit();"><option value="0" <%=showasproc0Sel %>>Timer</option><option value="1" <%=showasproc1Sel %>>Procent</option></select>
+       <%=resbelaeg_txt_047 & "  " %><select name="FM_showasproc" onchange="submit();"><option value="0" <%=showasproc0Sel %>><%=resbelaeg_txt_045 %></option><option value="1" <%=showasproc1Sel %>><%=resbelaeg_txt_046 %></option></select>
   
     <br />&nbsp;
     </td>
@@ -2057,7 +2057,7 @@ if len(session("user")) = 0 then
     <td valign=top style="padding-top:5px;">
      &nbsp;</td>
     <td align=right style="padding-right:40px; padding-top:4px;">
-        <input id="Submit1" type="submit" value=" Søg >> " /></td>
+        <input id="Submit1" type="submit" value="<%=" "& resbelaeg_txt_048 %> >> " /></td>
     </tr>
 
 	</form>
@@ -2569,6 +2569,34 @@ if len(session("user")) = 0 then
 <input type="hidden" name="periodeselect" id="periodeselect" value="<%=periodeSel%>">
 <input type="hidden" name="jobselect" id="Hidden1" value="<%=jobnavn%>">
 
+<%
+    if monththis = 1 then showdateplus = resbelaeg_txt_135 end if
+    if monththis = 2 then showdateplus = resbelaeg_txt_136 end if
+    if monththis = 3 then showdateplus = resbelaeg_txt_137 end if
+    if monththis = 4 then showdateplus = resbelaeg_txt_138 end if
+    if monththis = 5 then showdateplus = resbelaeg_txt_139 end if
+    if monththis = 6 then showdateplus = resbelaeg_txt_140 end if
+    if monththis = 7 then showdateplus = resbelaeg_txt_141 end if
+    if monththis = 8 then showdateplus = resbelaeg_txt_142 end if
+    if monththis = 9 then showdateplus = resbelaeg_txt_143 end if
+    if monththis = 10 then showdateplus = resbelaeg_txt_144 end if
+    if monththis = 11 then showdateplus = resbelaeg_txt_145 end if
+    if monththis = 12 then showdateplus = resbelaeg_txt_134 end if
+
+    if monththis = 1 then showdateminus = resbelaeg_txt_145 end if
+    if monththis = 2 then showdateminus = resbelaeg_txt_134 end if
+    if monththis = 3 then showdateminus = resbelaeg_txt_135 end if
+    if monththis = 4 then showdateminus = resbelaeg_txt_136 end if
+    if monththis = 5 then showdateminus = resbelaeg_txt_137 end if
+    if monththis = 6 then showdateminus = resbelaeg_txt_138 end if
+    if monththis = 7 then showdateminus = resbelaeg_txt_139 end if
+    if monththis = 8 then showdateminus = resbelaeg_txt_140 end if
+    if monththis = 9 then showdateminus = resbelaeg_txt_141 end if
+    if monththis = 10 then showdateminus = resbelaeg_txt_142 end if
+    if monththis = 11 then showdateminus = resbelaeg_txt_143 end if
+    if monththis = 12 then showdateminus = resbelaeg_txt_144 end if
+%>
+
 
 <table cellspacing=0 cellpadding=0 border=0 width=100%>
 		<tr>
@@ -2577,15 +2605,15 @@ if len(session("user")) = 0 then
 	<input type="hidden" name="selectplus" id="selectplus" value="0">
 	
 	 <table cellspacing=4 cellpadding=0 border=0 ><tr><td>
-	<input type="button" name="submitplus" id="submitminus" value="<< <%=monthname(month(dateadd("m", -1, "1/"&monththis&"/"&yearthis)))%>" onClick="selminus()">
+	<input type="button" name="submitplus" id="submitminus" value="<< <%=showdateminus%>" onClick="selminus()">
 	</td><td>
-	<input type="button" name="submitplus" id="submitplus" value="<%=monthname(month(dateadd("m", +1, "1/"&monththis&"/"&yearthis)))%> >>" onClick="seladd()">
+	<input type="button" name="submitplus" id="submitplus" value="<%=showdateplus%> >>" onClick="seladd()">
     </td></tr></table>
 
             </td>
             
             <td align=right style="padding:10px 30px 5px 0px;">
-		<input type="submit" value="Indlæs forecast >> "></td></tr>
+		<input type="submit" value="<%=resbelaeg_txt_049 %> >> "></td></tr>
 </table>
 <%end if %>
 
@@ -2999,7 +3027,7 @@ for x = 0 to antalxx - 1 'UBOUND(medarbKundeoplysX, 1) 'medarbKundeoplysX(x, 0)
                             
                             %><br /><i><%=aktNavn %></i>
                             <%else %>
-                            <i>Uspecificeret</i>
+                            <i><%=resbelaeg_txt_050 %></i>
                             <%end if %>                
 
                         <%end if %>
@@ -3024,7 +3052,7 @@ for x = 0 to antalxx - 1 'UBOUND(medarbKundeoplysX, 1) 'medarbKundeoplysX(x, 0)
                <%else %>
                <%=formatnumber(arrsNormThis, 0) %>
                <%end if %>
-               (år:<%=aarsRamme %>)
+               (<%=resbelaeg_txt_074 %>:<%=aarsRamme %>)
 
                <input id="Text6" type="hidden" name="FM_aarsramme_timer"  value="#" />
                <input id="nl_medid_<%=medarbKundeoplysX(x, 0)%>" type="hidden" name="FM_aarsramme_medarb"  value="<%=medarbKundeoplysX(x, 3) %>" />
@@ -3084,8 +3112,8 @@ for x = 0 to antalxx - 1 'UBOUND(medarbKundeoplysX, 1) 'medarbKundeoplysX(x, 0)
                     
                         if media <> "print" then%>
                     <select class="aaFM_jobid" id="aaFM_jobid_<%=x%>" name="sFM_aktid" style="width:100px;">
-                    <option value="0">(uspecificeret)</option>
-                    <option value="0">Vælg aktivitet..?</option>
+                    <option value="0">(<%=resbelaeg_txt_051 %>)</option>
+                    <option value="0"><%=resbelaeg_txt_052 %>..?</option>
                     <%
                     end if
 
@@ -3124,7 +3152,7 @@ for x = 0 to antalxx - 1 'UBOUND(medarbKundeoplysX, 1) 'medarbKundeoplysX(x, 0)
                     
                     
                       <%if media <> "print" then 'AND cint(visAktiv) = 1 then %>
-	                    	<a href="#" id="anl_a_<%=medarbKundeoplysX(x, 0)%>_<%=medarbKundeoplysX(x, 3) %>" class="rodlille">Tilføj ny linie +</a> &nbsp; 
+	                    	<a href="#" id="anl_a_<%=medarbKundeoplysX(x, 0)%>_<%=medarbKundeoplysX(x, 3) %>" class="rodlille"><%=resbelaeg_txt_053&" " %>+</a> &nbsp; 
 		              <%end if%>
        
                     </td>
@@ -3451,7 +3479,7 @@ for x = 0 to antalxx - 1 'UBOUND(medarbKundeoplysX, 1) 'medarbKundeoplysX(x, 0)
                         <span style="font-size:9px; color:#5582d2;">
                             
                          <%if cint(showasproc) = 1 then %>
-                                  f:  <%=formatnumber(timerThis, 0) %> t. <!-- (<=formatnumber(procThis, 0) %>%) --> / 
+                                  f:  <%=formatnumber(timerThis, 0) %><%=" "& resbelaeg_txt_075 %> <!-- (<=formatnumber(procThis, 0) %>%) --> / 
                                 <%end if%>
 
 					r: <%=formatnumber(sumTimer, 0)%> t.  <!--afv.: <%=formatnumber(afvThis, 0)%>%-->
@@ -4000,8 +4028,8 @@ for x = 0 to antalxx - 1 'UBOUND(medarbKundeoplysX, 1) 'medarbKundeoplysX(x, 0)
 				        <!--- Grandtotal --->
 				
 				        <tr>
-					        <td height=20 bgcolor="#ffffff" align=right style="padding:2px 5px 2px 2px;"><b>Grandtotal forecast:</b><br />
-					        Real.</font></td>
+					        <td height=20 bgcolor="#ffffff" align=right style="padding:2px 5px 2px 2px;"><b><%=resbelaeg_txt_054 %>:</b><br />
+					        <%=resbelaeg_txt_055 %></font></td>
                             <td bgcolor="#ffffff">&nbsp;</td>
 					
 					        <%
@@ -4056,18 +4084,18 @@ for x = 0 to antalxx - 1 'UBOUND(medarbKundeoplysX, 1) 'medarbKundeoplysX(x, 0)
 		                <%if media <> "print" AND media <> "chart" then%>
 		                        <table cellspacing=0 cellpadding=0 border=0 width=100%>
 		                        <tr><td align=right style="padding:10px 30px 5px 0px;">
-		                        <input type="submit" value="Indlæs forecast >> "></td></tr>
+		                        <input type="submit" value="<%=resbelaeg_txt_049 %> >> "></td></tr>
                                 </table>
                         <input id="ymax" name="ymax" value="<%=y-1 %>" type="hidden" />
                         </form> 
                         
-*) Normtimer er korrigeret for ferie, barsel og anden planlagt fravær.<br /><br />
-f: forecast<br />
-r: realiseret (indtastet på job/projekter)<br />
-s: saldo<br />
-n: norm.<br /><br />
+*) <%=resbelaeg_txt_056 %><br /><br />
+f: <%=resbelaeg_txt_057 %><br />
+r: <%=resbelaeg_txt_058 %><br />
+s: <%=resbelaeg_txt_059 %><br />
+n: <%=resbelaeg_txt_060 %><br /><br />
 
-Antal linier: <%=antalJobAktlinierGrand %><br />
+<%=resbelaeg_txt_061 %>: <%=antalJobAktlinierGrand %><br />
 
                                     
                         
@@ -4253,7 +4281,7 @@ Antal linier: <%=antalJobAktlinierGrand %><br />
 	            </tr>
 	            <tr>
 	            <td valign=top bgcolor="#ffffff" style="padding:5px 5px 5px 15px;">
-	            <a href="../inc/log/data/<%=file%>" class=vmenu target="_blank" onClick="Javascript:window.close()">Din CSV. fil er klar >></a>
+	            <a href="../inc/log/data/<%=file%>" class=vmenu target="_blank" onClick="Javascript:window.close()"><%=resbelaeg_txt_062 %> >></a>
 	            </td></tr>
 	            </table>
 
@@ -4297,7 +4325,7 @@ Antal linier: <%=antalJobAktlinierGrand %><br />
                   <input type="image" src="../ill/export1.png" /></td>
                 
                 <td>
-                    <input type="submit" value=".csv fil eksport (Pivot)" style="font-size:10px;" /></td>
+                    <input type="submit" value="<%=resbelaeg_txt_063 %>" style="font-size:10px;" /></td>
                 </tr>
             </form>
         
@@ -4309,11 +4337,11 @@ Antal linier: <%=antalJobAktlinierGrand %><br />
                 </td>
                 
                 <td>
-                <input type="submit" value=".csv fil eksport" style="font-size:10px;" />
+                <input type="submit" value="<%=resbelaeg_txt_064 %>" style="font-size:10px;" />
                 </td>
                 </tr>
 
-                 <tr><td colspan="2"><input type="checkbox" name="FM_expvisreal" value="1" <%=expvisrealCHK %> /> Vis realiserede timer<br />&nbsp;</td></tr>
+                 <tr><td colspan="2"><input type="checkbox" name="FM_expvisreal" value="1" <%=expvisrealCHK %> /> <%=resbelaeg_txt_065 %><br />&nbsp;</td></tr>
 
             </form>
                 
@@ -4322,7 +4350,7 @@ Antal linier: <%=antalJobAktlinierGrand %><br />
                 <tr>
                 <td align=center>  <input type="image" src="../ill/printer3.png" />
                                  
-                             </td><td> <input type="submit" value="Print version" style="font-size:10px;" /></td>
+                             </td><td> <input type="submit" value="<%=resbelaeg_txt_076 %>" style="font-size:10px;" /></td>
                </tr>
         </form>
 
@@ -4331,13 +4359,13 @@ Antal linier: <%=antalJobAktlinierGrand %><br />
 
           <form action="ressource_belaeg_jbpla.asp?func=overfor&<%=lnk%>" method="post">   
                 <tr>
-                <td colspan="2"><br /><br /><b>Funktioner:</b><br />
-                <input type="checkbox" value="1" name="FM_overfor" />Overfør timer ikke brugte ressource timer.
-                    <span style="color:#999999;">Gælder for alle medarbejdere uanset viste. </span><br /><br />
+                <td colspan="2"><br /><b><%=resbelaeg_txt_066 %>:</b><br />
+                <input type="checkbox" value="1" name="FM_overfor" /><%=left(resbelaeg_txt_067, 15) %><br />
+                    <span style="color:#999999;"><%=resbelaeg_txt_068 %> </span><br /><br />
 
 
                     <%if periodeSel = 3 then %>
-                    Overfør saldo fra uge: <select name="FM_overforfra" style="font-size:10px;">
+                    <%=resbelaeg_txt_069 %>: <select name="FM_overforfra">
                                     <%for u = 1 to 53 
                                         
                                         if  datepart("ww", "1/"& monththis & "/" & yearthis, 2,2) = u - 1 then 'datepart("ww", now, 2,2)
@@ -4348,28 +4376,55 @@ Antal linier: <%=antalJobAktlinierGrand %><br />
                                     <option value="<%=u %>" <%=uSel %>>Uge: <%=u & " - "& datepart("yyyy", now, 2,2)%></option>
                                     <%next %>
 
-                                     </select> <br />til følgende uge.
+                                     </select> <%=resbelaeg_txt_070 %>
 
                     <%else %>
 
-                           Overfør saldo fra: <select name="FM_overforfra" style="font-size:10px;">
+                           <%=resbelaeg_txt_071 %>: <select name="FM_overforfra">
                                     <%for u = 1 to 12 
                                         
+                                        select case u
+                                        case 1
+                                        showmonth = resbelaeg_txt_078
+                                        case 2
+                                        showmonth = resbelaeg_txt_079
+                                        case 3
+                                        showmonth = resbelaeg_txt_080
+                                        case 4
+                                        showmonth = resbelaeg_txt_081
+                                        case 5
+                                        showmonth = resbelaeg_txt_082
+                                        case 6
+                                        showmonth = resbelaeg_txt_083
+                                        case 7
+                                        showmonth = resbelaeg_txt_084
+                                        case 8
+                                        showmonth = resbelaeg_txt_085
+                                        case 9
+                                        showmonth = resbelaeg_txt_086
+                                        case 10
+                                        showmonth = resbelaeg_txt_087
+                                        case 11
+                                        showmonth = resbelaeg_txt_088
+                                        case 12
+                                        showmonth = resbelaeg_txt_089
+                                        end select
+
                                         if cint(monththis) = u then 'datepart("m", now, 2,2)
                                         uSEL = "SELECTED"
                                         else
                                         uSel = ""
                                         end if%>
-                                    <option value="<%=u %>" <%=uSel %>><%=left(monthname(u), 3) &" "& yearthis %></option>
+                                    <option value="<%=u %>" <%=uSel %>><%=showmonth &" "& yearthis %></option>
                                     <%next %>
 
-                                     </select> <br />til følgende måned.
+                                     </select> <%=resbelaeg_txt_072 %>
 
                     <%end if %>
 
                     <br /><br />
                     <input type="hidden" name="FM_overforfraAar" value="<%=yearthis %>" />
-                            <span style="float:right;"><input type="submit" value="Overfør timer >>" style="font-size:10px;" /></span></td>
+                            <span style="float:right;"><input type="submit" value="<%=resbelaeg_txt_077 %> >>" style="font-size:10px;" /></span></td>
                </tr>
         </form>
 

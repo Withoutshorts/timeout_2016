@@ -21,8 +21,9 @@
 <!--#include file="../xml/kunder_xml_inc.asp"-->
 <!--#include file="../xml/job_xml_inc.asp"-->
 <!--#include file="../xml/joblog_timetot_xml_inc.asp"-->
-
-
+<!--#include file="../xml/joblog_xml_inc_2.asp"-->
+<!--#include file="../xml/abonner_xml_inc.asp"-->
+<!--#include file="../xml/resbelaeg_xml_inc.asp"-->
 
 
 <!--#include file="cls_aktiviteter.asp"-->
@@ -251,6 +252,34 @@ function licKid()
 
 end function
 
+ public autogktimer
+ function autogktimer_fn()
+		        '*** Godkender automatisk timer i de afsluttede uger **'
+		        
+		        autogktimer = 0
+		        strSQL = "SELECT autogktimer FROM licens WHERE id = 1"
+		        oRec3.open strSQL, oConn, 3
+		        if not oRec3.EOF then
+		        
+		        autogktimer = oRec3("autogktimer")
+		        
+		        end if
+		        oRec3.close
+                '**
+                'autogktimer = 0 'Gør ikke noget, afventer Teamleder
+                'autogktimer = 1 'Godkend med det samme    
+                'autogktimer = 2 'Godkend midlertidigt. DVs SÆT timer til endelig godkendelse hos Teamleder  
+
+                '** godkendtstatus = 0 Ikke taget stilling
+                '** godkendtstatus = 1 godkendt (og låst)
+                '** godkendtstatus = 2 afvist (og åben) - hvis uge åben
+                '** godkendtstatus = 3 Tentativ forhåndsgodkendt af medarbejder. Afventer Teamleder. F.eks kun type 1 overføres til NAV.
+
+
+end function
+
+
+
 
 public SmiWeekOrMonth, SmiantaldageCount, SmiantaldageCountClock, SmiTeamlederCount, SmiWeekOrMonth_HR
 function smileyAfslutSettings()
@@ -290,6 +319,52 @@ function smileyAfslutSettings()
 end function
 
 
+public vis_resplanner
+function vis_resplanner_fn()
+    
+    vis_resplanner = 0
+    strSQL6 = "SELECT vis_resplanner FROM licens l WHERE id = 1"
+	oRec6.open strSQL6, oConn, 3
+	If not oRec6.EOF then
+	
+	vis_resplanner = oRec6("vis_resplanner")
+   
+	end if
+    oRec6.close
+
+end function
+
+
+public vis_favorit
+function vis_favorit_fn()
+    
+    vis_favorit = 0
+    strSQL6 = "SELECT vis_favorit FROM licens l WHERE id = 1"
+	oRec6.open strSQL6, oConn, 3
+	If not oRec6.EOF then
+	
+	vis_favorit = oRec6("vis_favorit")
+   
+	end if
+    oRec6.close
+
+end function
+
+
+public vis_projektgodkend
+function vis_projektgodkend_fn()
+    
+    vis_projektgodkend = 0
+    strSQL6 = "SELECT vis_projektgodkend FROM licens l WHERE id = 1"
+	oRec6.open strSQL6, oConn, 3
+	If not oRec6.EOF then
+	
+	vis_projektgodkend = oRec6("vis_projektgodkend")
+   
+	end if
+    oRec6.close
+
+end function
 
 
 public timesimon, timesimh1h2, timesimtp
@@ -427,17 +502,19 @@ function visAktSimpel_fn()
 
 end function
 
-public positiv_aktivering_akt_val, pa_aktlist
+public positiv_aktivering_akt_val, pa_aktlist, pa_tilfojvmedopret
 function positiv_aktivering_akt_fn()
     
     positiv_aktivering_akt_val = 0
     pa_aktlist = 0
-	strSQL6 = "SELECT positiv_aktivering_akt, pa_aktlist FROM licens l WHERE id = 1"
+    pa_tilfojvmedopret = 0
+	strSQL6 = "SELECT positiv_aktivering_akt, pa_aktlist, pa_tilfojvmedopret FROM licens l WHERE id = 1"
 	oRec6.open strSQL6, oConn, 3
 	If not oRec6.EOF then
 	
     pa_aktlist = oRec6("pa_aktlist")
 	positiv_aktivering_akt_val = oRec6("positiv_aktivering_akt")
+    pa_tilfojvmedopret = oRec6("pa_tilfojvmedopret")
 	
 	end if
     oRec6.close
@@ -1502,10 +1579,12 @@ function grafik(FM_id, strPic, pictype, txt)
 			tminTot = "00"
 			end if
 			
-			if len(tminTot) = 1 then
+            
+            if len(tminTot) = 1 then
 			tminTot = "0"&tminTot
 			end if
 			
+           
 			
 		else
 		tminTot = "00"

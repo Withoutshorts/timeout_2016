@@ -1,194 +1,248 @@
-
+ï»¿
 
 
 
 
 $(document).ready(function () {
 
-   $("#godkendalle").click(function () {
+    $('.date').datepicker({
 
-       //alert("alle"+ this + $(".godkendalle").attr("checked"))
+    });
 
-            $(".godkendbox").each(function () {
+    if ($("#bruguge").is(':checked') == true) {
+        document.getElementById('bruguge_selector').style.display = "";
+        document.getElementById('bruguge_selector_of').style.display = "none";
+    } else {
+        document.getElementById('bruguge_selector').style.display = "none";
+        document.getElementById('bruguge_selector_of').style.display = "";
+    }
 
-           //alert("HER 2" + this.id)
-           //$(this).attr('checked', true);
+    $(".dateweeknum").click(function () {
 
-           if ($("#godkendalle").is(':checked') == true) {
+        if ($("#bruguge").is(':checked') == true) {
+            document.getElementById('bruguge_selector').style.display = "";
+            document.getElementById('bruguge_selector_of').style.display = "none";
+        } else {
+            document.getElementById('bruguge_selector').style.display = "none";
+            document.getElementById('bruguge_selector_of').style.display = "";
+        }
 
-               $(this).prop("checked", true)
-           } else {
-               $(this).prop("checked", false)
-           }
+    });
 
-            });
+
+    $(".medarbliste").click(function () {
+
+        thisid = this.id
+        var medarbTR = document.getElementById('tr_medarbliste_' + thisid)
+        var medarbheader = document.getElementById('aktvisfont_' + thisid);
+
+        if (medarbTR.style.display !== 'none') {
+            medarbTR.style.display = 'none'
+            medarbheader.style.color = ""
+        } else {
+            medarbTR.style.display = ''
+            medarbheader.style.color = "black"
+        }
+
+    });
+
+
+
+
+
+    $("#godkendalle").click(function () {
+
+        //alert("alle"+ this + $(".godkendalle").attr("checked"))
+
+        $(".godkendbox").each(function () {
+
+            //alert("HER 2" + this.id)
+            //$(this).attr('checked', true);
 
             if ($("#godkendalle").is(':checked') == true) {
-                $("#afvisalle").prop("checked", false)
-                $(".afvismedarb").prop("checked", false)
+
+                $(this).prop("checked", true)
+            } else {
+                $(this).prop("checked", false)
             }
 
+        });
 
-      afvisgodkendAll();
- 
-   });
-
-
-   $("#afvisalle").click(function () {
-
-       //alert("alle"+ this + $(".godkendalle").attr("checked"))
-
-       $(".afvisbox").each(function () {
-
-           //alert("HER 2" + this.id)
-           //$(this).attr('checked', true);
-
-           if ($("#afvisalle").is(':checked') == true) {
-
-               $(this).prop("checked", true)
-               $("#godkendalle").prop("checked", false)
-           } else {
-               $(this).prop("checked", false)
-           }
-
-       });
+        if ($("#godkendalle").is(':checked') == true) {
+            $("#afvisalle").prop("checked", false)
+            $(".afvismedarb").prop("checked", false)
+        }
 
 
-       if ($("#afvisalle").is(':checked') == true) {
-           $("#godkendalle").prop("checked", false)
-           $(".godkendmedarb").prop("checked", false)
-           
-       } 
-       
+        //afvisgodkendAll();
 
-       afvisgodkendAll();
-
-   });
+    });
 
 
+    $("#afvisalle").click(function () {
+
+        //alert("alle"+ this + $(".godkendalle").attr("checked"))
+
+        $(".afvisbox").each(function () {
+
+            //alert("HER 2" + this.id)
+            //$(this).attr('checked', true);
+
+            if ($("#afvisalle").is(':checked') == true) {
+
+                $(this).prop("checked", true)
+                $("#godkendalle").prop("checked", false)
+            } else {
+                $(this).prop("checked", false)
+            }
+
+        });
 
 
-   $(".godkendmedarb").click(function () {
+        if ($("#afvisalle").is(':checked') == true) {
+            $("#godkendalle").prop("checked", false)
+            $(".godkendmedarb").prop("checked", false)
 
-      
+        }
 
-       thisid = this.id
-       var arr = thisid.split('_');
 
-       var medid = arr[1];
-       
-      
-       $(".godkendbox_" + medid).each(function () {
+        //afvisgodkendAll();
 
-           
-
-           if ($("#"+thisid).is(':checked') == true) {
-
-               $(this).prop("checked", true)
-           } else {
-               $(this).prop("checked", false)
-           }
-
-       });
-
-       if ($("#" + thisid).is(':checked') == true) {
-           $("#medarbafvis_" + medid).prop("checked", false)
-       }
-     
-
-       afvisgodkendAll();
-   });
+    });
 
 
 
-   $(".afvismedarb").click(function () {
+
+    $(".godkendmedarb").click(function () {
 
 
 
-       thisid = this.id
-       var arr = thisid.split('_');
+        thisid = this.id
+        var arr = thisid.split('_');
 
-       var medid = arr[1];
-
-
-       $(".afvisbox_" + medid).each(function () {
+        var medid = arr[1];
 
 
+        $(".godkendbox_" + medid).each(function () {
 
-           if ($("#" + thisid).is(':checked') == true) {
 
-               $(this).prop("checked", true)
-           } else {
-               $(this).prop("checked", false)
-           }
 
-       });
+            if ($("#" + thisid).is(':checked') == true) {
 
-       if ($("#" + thisid).is(':checked') == true) {
-           $("#medarbgodkend_" + medid).prop("checked", false)
-       }
+                $(this).prop("checked", true)
+            } else {
+                $(this).prop("checked", false)
+            }
+
+        });
+
+        if ($("#" + thisid).is(':checked') == true) {
+            $("#medarbafvis_" + medid).prop("checked", false)
+        }
+
+
+        //afvisgodkendAll();
+    });
+
+
+
+    $(".afvismedarb").click(function () {
+
+
+
+        thisid = this.id
+        var arr = thisid.split('_');
+
+        var medid = arr[1];
+
+
+        $(".afvisbox_" + medid).each(function () {
+
+
+
+            if ($("#" + thisid).is(':checked') == true) {
+
+                $(this).prop("checked", true)
+            } else {
+                $(this).prop("checked", false)
+            }
+
+        });
+
+        if ($("#" + thisid).is(':checked') == true) {
+            $("#medarbgodkend_" + medid).prop("checked", false)
+        }
+
+        //afvisgodkendAll();
+    });
+
+
     
-       afvisgodkendAll();
-   });
 
-     
+    $("#godkendknap").click(function () {
 
+        afvisgodkendAll();
+
+        $("#godkendform").submit();
+
+    });
 
     /// Submitter til DB
 
     //$("#XXgodkendknap").click(function () {
 
 
-   //$(".godkendmedarb, .afvismedarb, .godkendalle, .afvisalle").click(function () {
-   function afvisgodkendAll(){
-       
-          
+    //$(".godkendmedarb, .afvismedarb, .godkendalle, .afvisalle").click(function () {
+    function afvisgodkendAll() {
+
+
+        //alert("HER2")
 
         //var $godkendboxes = $('input[class=godkendbox]:checked');
-       
 
-       //$godkendboxes.each(function () {
 
-      
-       tids = "";
+        //$godkendboxes.each(function () {
+
+
+        tids = "";
         $(".godkendbox").each(function () {
 
-            
-               
+
+
             var thisid = this.id
             var arr = thisid.split('_');
 
-           
+
             var medid = arr[1];
             var aktid = arr[2];
             var tid = arr[3];
-            
-            
+
+
 
             if ($("#" + thisid).is(':checked') == true) {
 
-                
+
                 if (tid > 0) {
                     tids += ", " + tid
-                } 
+                }
 
             }
 
         });
 
-        
-       //alert("godkendt: " + tids);
 
-       //startdato = $("#startdato").val()
-       //slutdato = $("#slutdato").val()
-       //godkendjobid = $("#godkendjobid").val()
+        //alert("godkendt: " + tids);
 
-      
+        //startdato = $("#startdato").val()
+        //slutdato = $("#slutdato").val()
+        //godkendjobid = $("#godkendjobid").val()
 
-       $.post("?multi=1&tid=" + tids, { control: "godkenduge", AjaxUpdateField: "true" }, function (data) {
+
+
+        $.post("?multi=1&tid=" + tids, { control: "godkenduge", AjaxUpdateField: "true" }, function (data) {
 
             //$("#div_jobid").html(data);
-            
+
 
         });
 
@@ -196,117 +250,121 @@ $(document).ready(function () {
 
         //alert("HER")
 
-           
+
         globalMid = 0;
         globalTids = "";
 
         lastMid = 0;
 
         tids = "";
-      
-
-         $(".afvisbox").each(function () {
-
-             var thisid = this.id;
-
-                var arr = thisid.split('_');
-
-                var medid = arr[1];
-                var aktid = arr[2];
-                var tid = arr[3];
-
-               
-                    if ($("#" + thisid).is(':checked') == true) {
 
 
-                        if (tid > 0) {
-                            tids += ", " + tid
-                        }
+        $(".afvisbox").each(function () {
 
-                    }
+            var thisid = this.id;
+
+            var arr = thisid.split('_');
+
+            var medid = arr[1];
+            var aktid = arr[2];
+            var tid = arr[3];
 
 
-              
+            if ($("#" + thisid).is(':checked') == true) {
+
+
+                if (tid > 0) {
+                    tids += ", " + tid
+                }
+
+            }
+
+
+
+        });
+
+
+        //alert("afvist");
+
+        $.post("?multi=1&tid=" + tids, { control: "afvisuge", AjaxUpdateField: "true" }, function (data) {
+
+
+
+            //$("#div_jobid").html(data);
+
+        });
+
+
+        t = 0
+        if (t != 0) {
+
+            $(".decl_tids").each(function () {
+
+                //alert("HEr 9")
+
+                var thisMid = $(this).val();
+
+                //alert(thisMid)
+                var ThisTids = $("#decl_tids_" + thisMid).val();
+                var kommentar = $("#decline_comment_" + thisMid).val()
+                $("#decl_tids_" + thisMid).val('');
+
+                if (ThisTids != "") {
+                    // alert("HER 8 decl_tids: " + ThisTids + " mid: " + thisMid)
+
+                    //$("#decl_tids_mid_" + globalMid).val('');
+                    //alert("KÃ˜R DDD")
+
+                    $.post("?medid=" + thisMid + "&tids=" + ThisTids + "&kommentar=" + kommentar, { control: "emailnoti", AjaxUpdateField: "true" }, function (data) {
+
+                        //alert("godkendt");
+
+                        //$("#div_jobid").html(data);
+
+                    });
+
+                }
+
             });
-           
+        };
 
-         //alert("afvist");
 
-         $.post("?multi=1&tid=" + tids, { control: "afvisuge", AjaxUpdateField: "true" }, function (data) {
 
-             
+        // $("#godkendform").submit();
 
-             //$("#div_jobid").html(data);
-
-         });
-
-       
-         t = 0
-         if (t != 0) {
-
-             $(".decl_tids").each(function () {
-
-                 //alert("HEr 9")
-
-                 var thisMid = $(this).val();
-
-                 //alert(thisMid)
-                 var ThisTids = $("#decl_tids_" + thisMid).val();
-                 var kommentar = $("#decline_comment_" + thisMid).val()
-                 $("#decl_tids_" + thisMid).val('');
-
-                 if (ThisTids != "") {
-                     // alert("HER 8 decl_tids: " + ThisTids + " mid: " + thisMid)
-
-                     //$("#decl_tids_mid_" + globalMid).val('');
-                     //alert("KØR DDD")
-
-                     $.post("?medid=" + thisMid + "&tids=" + ThisTids + "&kommentar=" + kommentar, { control: "emailnoti", AjaxUpdateField: "true" }, function (data) {
-
-                         //alert("godkendt");
-
-                         //$("#div_jobid").html(data);
-
-                     });
-
-                 }
-
-             });
-         };
-        
-           
-     
-       // $("#godkendform").submit();
-
-   }
+    }
     //});
 
 
 
-   $('.sendemail').hover(function () {
-       $(this).css('cursor', 'pointer');
-   });
+    $('.sendemail').hover(function () {
+        $(this).css('cursor', 'pointer');
+    });
 
-    
-    
+
+
     $(".sendemail").click(function () {
 
-        
-       
+
+
         var thisid = this.id;
         var arr = thisid.split('_');
         var thisMid = arr[1];
-      
-        //alert(thisMid)
-        var ThisTids = $("#decl_tids_" + thisMid).val();
-        var kommentar = $("#decline_comment_" + thisMid).val()
-        $("#decl_tids_" + thisMid).val('');
+        var thisAkt = arr[2];
+
+        
+        var ThisTids = $("#decl_tids_" + thisMid + "_" + thisAkt).val();
+
+        //alert(ThisTids)
+
+        var kommentar = $("#decline_comment_" + thisMid + "_" + thisAkt).val()
+        //$("#decl_tids_" + thisMid + "_" + thisAkt).val('');
 
         if (ThisTids != "") {
             // alert("HER 8 decl_tids: " + ThisTids + " mid: " + thisMid)
 
             //$("#decl_tids_mid_" + globalMid).val('');
-            //alert("KØR DDD")
+            //alert("KÃ˜R DDD")
 
             $.post("?medid=" + thisMid + "&tids=" + ThisTids + "&kommentar=" + kommentar, { control: "emailnoti", AjaxUpdateField: "true" }, function (data) {
 
@@ -319,18 +377,34 @@ $(document).ready(function () {
         }
 
 
-        $("#decline_comment_" + thisMid).val('')
-        $("#sendemail_" + thisMid).html('Mail send!');
+        $("#decline_comment_" + thisMid + "_" + thisAkt).val('')
+        $("#sendemail_" + thisMid + "_" + thisAkt).html('Mail send!');
+
+        
+       
+        var time = 1;
+
+        var interval = setInterval(function() { 
+            if (time <= 1) { 
+                //alert(time);
+                $("#sendemail_" + thisMid + "_" + thisAkt).html('Send email with declined info >>');
+                time++;
+            }
+            else { 
+                clearInterval(interval);
+            }
+        }, 5000);
 
 
-      
+
     });
 
 
 
     //$(".godkendbox").each(function () {
-    $(".godkendbox").click(function () {
+    $(".Xgodkendbox").click(function () {
 
+        //alert("HER GK DISABLE")
 
         var thisid = this.id
         var arr = thisid.split('_');
@@ -365,11 +439,11 @@ $(document).ready(function () {
 
     });
 
-   
-    
-    $(".afvisbox").click(function () {
 
-        
+
+    $(".Xafvisbox").click(function () {
+
+
         var thisid = this.id;
 
         var arr = thisid.split('_');
@@ -389,6 +463,7 @@ $(document).ready(function () {
             //return true
 
             decl_tids = $("#decl_tids_" + medid).val();
+            //alert(decl_tids)
             $("#decl_tids_" + medid).val(decl_tids + " OR tid = " + tid);
             //$("#decl_tids_mid_" + medid).val(medid);
             globalMid = medid;
@@ -396,7 +471,7 @@ $(document).ready(function () {
 
             $.post("?tid=" + tid + "&medid=" + medid + "&startdato=" + startdato + "&slutdato=" + slutdato + "&aktid=" + aktid + "&godkendjobid=" + godkendjobid, { control: "afvisuge", AjaxUpdateField: "true" }, function (data) {
 
-                //alert("godkendt");
+                //alert("afvist");
 
                 //$("#div_jobid").html(data);
 
@@ -410,13 +485,44 @@ $(document).ready(function () {
         } // CHECKED = TRUE
 
 
+    });
+
+
+
+
+  /*  $(".godkendmedarb_akt").click(function () {
+
+        var thisid = this.id
+        var arr = thisid.split('_');
+
+
+        var medid = arr[1];
+        var aktid = arr[2];
+        var tid = arr[3];
+
+        alert(medid)
+        alert(aktid)
+        alert(tid)
+
+        startdato = $("#startdato").val()
+        slutdato = $("#slutdato").val()
+        godkendjobid = $("#godkendjobid").val()
+
+        //alert(startdato)
+        //alert(slutdato)
+        //alert(godkendjobid)
+
+        $.post("?tid=" + tid + "&medid=" + medid + "&startdato=" + startdato + "&slutdato=" + slutdato + "&aktid=" + aktid + "&godkendjobid=" + godkendjobid, { control: "godkenduge", AjaxUpdateField: "true" }, function (data) {
+
+            alert("godkendt2");
+
+            //$("#div_jobid").html(data);
+
         });
 
 
-    
+    }); */
 
-
-   
 
 
     $(".aktivilist").click(function () {
@@ -457,7 +563,7 @@ $(document).ready(function () {
          modal.style.display = 'block';
      } */
 
-   
+
 
     //alert("her")
 

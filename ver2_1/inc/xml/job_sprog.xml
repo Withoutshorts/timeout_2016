@@ -411,7 +411,7 @@
     <txt_398 >Stam-aktiviteterne</txt_398>
     <txt_399 >er født med. (se stam-aktivitetsgrupper)</txt_399>
     <txt_400 >Aktiviteter</txt_400>
-    
+
     <txt_401 >Faser</txt_401>
     <txt_402 >Rediger aktivitetsliste udviddet</txt_402>
     <txt_403 >Budget detaljeret - beregn dit projekt og sync. med nettoomsætning.</txt_403>
@@ -468,7 +468,7 @@
     <txt_450 >Videre</txt_450>
 
     <txt_451 >Joboverblik</txt_451>
-    <txt_452 >Funktioner</txt_452> 
+    <txt_452 >Funktioner</txt_452>
     <txt_453 >Konsolider job</txt_453>
     <txt_454 >Kopier job</txt_454>
     <txt_455 >Slet / nulstil job</txt_455>
@@ -581,7 +581,7 @@
     <txt_552 >Opdater</txt_552>
     <txt_553 >Afslut</txt_553>
     <txt_554 >Akt.</txt_554>
-    
+
     <txt_555 >Indlæs gruppe på job</txt_555>
     <txt_556 >Når gruppen er tilføjet, kan du begynde at estimere og angive timepriser på de forskellige aktiviteter.</txt_556>
     <txt_557 >Indlæs gruppe(r) på job</txt_557>
@@ -654,6 +654,7 @@
     <txt_622 >F</txt_622>
     <txt_623 >L</txt_623>
     <txt_624 >Angiv fase</txt_624>
+    <txt_625 >Joboversigt</txt_625>
 
 
 
@@ -1057,7 +1058,7 @@
     <txt_387 >Set proj.group access and rates on activities.</txt_387>
     <txt_388 >Select the desired tribal activity group and</txt_388>
     <txt_389 >Inherit</txt_389>
-    <txt_390 >Project groups from jobs to the root activities added to the job.</txt_390> 
+    <txt_390 >Project groups from jobs to the root activities added to the job.</txt_390>
 
     <txt_391 >Create job</txt_391>
     <txt_392 >With the project groups each tribe activity is born.</txt_392>
@@ -1223,7 +1224,7 @@
     <txt_538 >Update hourly rates</txt_538>
     <txt_539 >Update existing hourly rates</txt_539>
     <txt_540 >If hourly rates changes, all existing time registrations (not pre-selected hourly rates on job) are updated on activities that inherit hourly rates from jobs.</txt_540>
-    
+
     <txt_541 >If a specific activity is selected, only this activity is updated.</txt_541>
     <txt_542 >Update existing hourly rates from</txt_542>
     <txt_543 >Till today</txt_543>
@@ -1239,7 +1240,7 @@
     <txt_552 >Update</txt_552>
     <txt_553 >Finish</txt_553>
     <txt_554 >Act.</txt_554>
-    
+
     <txt_555 >Load group on job</txt_555>
     <txt_556 >Once the group is added, you can start estimating and setting hourly rates for the different activities.</txt_556>
     <txt_557 >Load group(s) onto job</txt_557>
@@ -1312,9 +1313,10 @@
     <txt_622 >I</txt_622>
     <txt_623 >L</txt_623>
     <txt_624 >Specify phase</txt_624>
+    <txt_625 >Job view</txt_625>
 
 
-    
+
   </no>
 
 
@@ -1969,6 +1971,7 @@
     <txt_622 >I</txt_622>
     <txt_623 >L</txt_623>
     <txt_624 >Specify phase</txt_624>
+    <txt_625 >Job view</txt_625>
 
 
   </so>
@@ -2626,6 +2629,7 @@
     <txt_622 >I</txt_622>
     <txt_623 >L</txt_623>
     <txt_624 >Specify phase</txt_624>
+    <txt_625 >Job view</txt_625>
 
 
   </de>
@@ -3283,6 +3287,7 @@
     <txt_622 >I</txt_622>
     <txt_623 >L</txt_623>
     <txt_624 >Specify phase</txt_624>
+    <txt_625 >Job view</txt_625>
 
 
   </fr>
@@ -3941,6 +3946,7 @@
     <txt_622 >I</txt_622>
     <txt_623 >L</txt_623>
     <txt_624 >Specify phase</txt_624>
+    <txt_625 >Job view</txt_625>
 
 
   </uk>
@@ -4598,8 +4604,9 @@
     <txt_622 >I</txt_622>
     <txt_623 >L</txt_623>
     <txt_624 >Specify phase</txt_624>
+    <txt_625 >Job view</txt_625>
 
-    
+
   </es>
 
 

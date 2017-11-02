@@ -1514,10 +1514,9 @@ function LeiRotate() {
       </td>
        </tr>
        <tr>
-           <td align="right" colspan="2">
-
-
-	<input type="submit" value=" <%=joblog_txt_182 %> >> "></td>
+          
+           <td colspan="2" align="right">
+            <input type="submit" value=" <%=joblog_txt_182 %> >> "></td>
 	</tr>
 	</form>
 	</table>
@@ -1784,19 +1783,29 @@ function LeiRotate() {
 		'right_jobidFakSQLkri = right(jobidFakSQLkri, len_jobidFakSQLkri - 3)
 		'jobidFakSQLkri =  right_jobidFakSQLkri
 		
+        if len(jobnrSQLkri) > 0 then
 		len_jobnrSQLkri = len(jobnrSQLkri)
-		right_jobnrSQLkri = right(jobnrSQLkri, len_jobnrSQLkri - 3)
-		jobnrSQLkri =  right_jobnrSQLkri
+        right_jobnrSQLkri = right(jobnrSQLkri, len_jobnrSQLkri - 3)
+		jobnrSQLkri = right_jobnrSQLkri
+        else
+        jobnrSQLkri = " tjobnr <> '0' "
+		end if
 		
+        if len(jidSQLkri) > 0 then
 		len_jidSQLkri = len(jidSQLkri)
 		right_jidSQLkri = right(jidSQLkri, len_jidSQLkri - 3)
-		jidSQLkri =  right_jidSQLkri
+		jidSQLkri = right_jidSQLkri
+        else
+        jidSQLkri =  " id <> 0 "
+        end if
 		
-		
+        if len(seridFakSQLkri) > 0 then
 		len_seridFakSQLkri = len(seridFakSQLkri)
 		right_seridFakSQLkri = right(seridFakSQLkri, len_seridFakSQLkri - 3)
 		seridFakSQLkri =  right_seridFakSQLkri
-		
+        else
+        jobidFakSQLkri = " jobid <> 0 "
+	    end if
 	
 		'*****************************************************************************************************
 	%>
@@ -2669,7 +2678,7 @@ function LeiRotate() {
 						
 						jobbelob = 0
                         bdgTim = 0
-                        if cint(oRec("jo_usefybudgetingt")) = 1 then 'Benyt budget på job pr FY. F.eks CISU  / WWF
+                        if oRec("jo_usefybudgetingt") = 1 then 'Benyt budget på job pr FY. F.eks CISU  / WWF
 
                                 '** Hvis regnskabsår 1.7 ??
 
@@ -3890,12 +3899,13 @@ function LeiRotate() {
 											if cint(visfakbare_res) = 1 OR cint(visfakbare_res) = 2 then
 											
 											'*** Omsætning / kost.  ***'
-											totaltotaljobOmsIalt = (totaltotaljobOmsIalt/1) + (jobmedtimer(x,17)/1) '+ jobOmsIalt
-                                            subtotaljobOmsIalt = (subtotaljobOmsIalt/1) + (jobmedtimer(x,17)/1) 
+		                                    subtotaljobOmsIalt = (subtotaljobOmsIalt/1) + (jobmedtimer(x,17)/1) 
 											
 											'*** ~ca timepris ved fastpris, aktiviteter grundlag og jobvisning ***
 									        if cint(directexp) <> 1 AND ((cint(upSpec) = 0 AND jobmedtimer(x,38) = 0) OR (cint(upSpec) = 1 AND jobmedtimer(x,38) <> 0)) then 
                                             strJobLinie = strJobLinie &"<br><span style='color:#000000; font-size:8px;'>"& valutaKode_CCC &" "& formatnumber(jobmedtimer(x,17)/1, 2)&"</span><br>"
+
+                                            totaltotaljobOmsIalt = (totaltotaljobOmsIalt/1) + (jobmedtimer(x,17)/1) '+ jobOmsIalt
 											end if 'if cint(directexp) <> 1 then 
 
 												
@@ -5300,71 +5310,36 @@ function LeiRotate() {
                 </form>
                 
 
-                <!--
-
-                <form action="printversion.asp?media=print" method="post" target="_blank" name="theForm" onsubmit="BreakItUp()"> 
-
-			    <input type="hidden" name="datointerval" id="datointerval" value="<%=formatdatetime(strDag&"/"&strMrd&"/"&strAar, 1) & " - " & formatdatetime(strDag_slut&"/"&strMrd_slut&"/"&strAar_slut, 1)%>">
-			    <input type="hidden" name="txt1" id="txt1" value="<%=strJobLinie_top%>">
-			    <input type="hidden" name="BigTextArea" id="BigTextArea" value="<%=strJobLinie%>">
-			    <input type="hidden" name="txt20" id="txt20" value="<%=strJobLinie_total%>">
-                <tr>
-               
-                <td><br /><input type="submit" value="Print version >>" style="font-size:9px;" /> </td>
-               </tr>
-               </form>
-
-                -->
-
-
-                <%
-
-              
-               
-
-                
-                   
-
-                %>
-
-               
-
-
-                 <form action="joblog_timetotaler.asp?media=print&FM_usedatointerval=1&<%=prntLnk%>" method="post" target="_blank"> 
+                <form action="joblog_timetotaler.asp?media=print&FM_usedatointerval=1&<%=prntLnk%>" method="post" target="_blank"> 
                  <input type="hidden" name="FM_medarb" value="<%=thisMiduse%>" />
 			    <input type="hidden" name="datointerval" id="datointerval" value="<%=formatdatetime(strDag&"/"&strMrd&"/"&strAar, 1) & " - " & formatdatetime(strDag_slut&"/"&strMrd_slut&"/"&strAar_slut, 1)%>">
 			  
                 <tr>
-               
-                <td><br /><input type="submit" value="Print >>" style="font-size:9px;" /> </td>
+                    <td><br /><input type="submit" value="Print >>" style="font-size:9px;" /> </td>
                </tr>
                </form>
-	            
+
+                 <form action="yourrep.asp?func=dbopr" method="post" target="_blank"> 
+                      <input type="hidden" name="saveasrapport_criteria" value="FM_usedatointerval=1&<%=prntLnk%>&FM_medarb=<%=thisMiduse%>&FM_usedatokri=1" />
+                 <tr>
+                 <td style="font-size:11px; white-space:nowrap;"><br />Save settings as personal report<br />
+                     <%if level = 1 then %>
+                     <input type="checkbox" name="saveasrapport_open" value="1" /> Visible to all users<br />
+                     <%end if %>
+                     Name:<br /> <input type="text" name="saveasrapport_name" value="" style="width:120px; font-size:11px;" />
+                     <input type="submit" value="Save >>" style="font-size:9px;" /> </td>
+                </tr>
+	            </form>
                </table>
             </div>
             
-            
-            
-            
-         
-            
-            
-            
+           
             <%end if
                 
-                'if session("mid") = 1 then
-                'response.write "prntLnk: <br>" & prntLnk
-                'end if
-                
-                %>
-		
-		    <% 'if media = "print" then
-                'Response.Write("<script language=""JavaScript"">window.print();</script>")
-              'end if  %>
-		    
+               
 		  
 		
-<%end if
+   end if
     
     
     

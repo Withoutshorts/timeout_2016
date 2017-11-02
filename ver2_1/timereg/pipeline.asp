@@ -1648,22 +1648,47 @@ pleft = 840
 pwdt = 140
 
 call eksportogprint(ptop,pleft,pwdt)
-
-lnk = "&FM_kunde="&kundeid&"&FM_job="&jobid&"&FM_medarb="&thisMiduse&"&FM_medarb_hidden="&thisMiduse&"&FM_progrp="&progrp&"&seomsfor="&seomsfor&"&FM_start_mrd="&strMrd&""_
+'&FM_medarb="&thisMiduse&"&FM_medarb_hidden="&thisMiduse&"
+lnk = "&FM_kunde="&kundeid&"&FM_job="&jobid&"&FM_progrp="&progrp&"&seomsfor="&seomsfor&"&FM_start_mrd="&strMrd&""_
 &"&FM_jobsog="&jobSogVal&"&viskunabnejob0="&viskunabnejob0&"&viskunabnejob1="&viskunabnejob1&"&viskunabnejob2="&viskunabnejob2&""_
 &"&FM_kundejobans_ell_alle="&visKundejobans&"&FM_kundeans="&kundeans&"&FM_jobans="&jobans&"&FM_jobans2="&jobans2&"&FM_jobans3="&jobans3&"&FM_segment="&segment&"&FM_ign_per="&ign_per
 %>
 
         
       <tr>
-        <td align=center>
-        <a href="#" onclick="Javascript:window.open('pipeline.asp?media=export<%=lnk%>', '', 'width=350,height=120,resizable=no,scrollbars=no')" class=vmenu><img src="../ill/export1.png" border=0></a>
-        </td><td><a href="#" onclick="Javascript:window.open('pipeline.asp?media=export<%=lnk%>', '', 'width=350,height=120,resizable=no,scrollbars=no')" class=vmenu>.csv fil eksport</a></td>
+        <td colspan="2">
+
+
+             <form action="pipeline.asp?media=export<%=lnk%>" target="_blank" method="post"> <br />
+
+                             <input type="hidden" name="FM_medarb_hidden" value="<%=thisMiduse%>" />
+                             <input type="hidden" name="FM_medarb" value="<%=thisMiduse%>" />
+                             <input type="submit" id="sbm_csv" value=".csv fil eksport >>" style="font-size:9px;" />
+                        </form>
+
+        <!--<a href="#" onclick="Javascript:window.open('pipeline.asp?media=export<%=lnk%>', '', 'width=350,height=120,resizable=no,scrollbars=no')" class=vmenu><img src="../ill/export1.png" border=0></a>
+        </td><td><a href="#" onclick="Javascript:window.open('pipeline.asp?media=export<%=lnk%>', '', 'width=350,height=120,resizable=no,scrollbars=no')" class=vmenu>.csv fil eksport</a>
+            -->
+
+             </td>
        </tr>
     <tr>
-   <td align=center><a href="pipeline.asp?media=print<%=lnk%>" target="_blank"  class='vmenu'>
+   <td colspan="2">
+       
+          <form action="pipeline.asp?media=print<%=lnk%>" target="_blank" method="post"> <br />
+
+                             <input type="hidden" name="FM_medarb_hidden" value="<%=thisMiduse%>" />
+                             <input type="hidden" name="FM_medarb" value="<%=thisMiduse%>" />
+                             <input type="submit" id="sbm_csv" value="Print version >>" style="font-size:9px;" />
+                        </form>
+       
+       <!--
+       <a href="pipeline.asp?media=print<%=lnk%>" target="_blank"  class='vmenu'>
    &nbsp;<img src="../ill/printer3.png" border=0 alt="" /></a>
-    </td><td><a href="pipeline.asp?media=print<%=lnk%>" target="_blank" class="vmenu">Print version</a></td>
+    </td><td><a href="pipeline.asp?media=print<%=lnk%>" target="_blank" class="vmenu">Print version</a>
+           -->
+
+         </td>
    </tr>
    
     <tr><td colspan="2"><br /><br />

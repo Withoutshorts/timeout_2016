@@ -1892,6 +1892,7 @@
                                 <tr><th>Jobnavn</th>
                                     <th style="text-align:right;">Forecast</th>
                                     <th style="text-align:right;">Realiseret</th>
+                                    <th style="text-align:right;">Lev. dato</th>
                                 </tr>
                             </thead>
 
@@ -1900,9 +1901,17 @@
             
                     
                     
-                    <%strSQLr = "SELECT r.jobid, SUM(r.timer) AS restimer, j.jobnavn, j.jobnr FROM ressourcer_md AS r "_
+                    <%
+                    select case lto
+                    case "wilke"
+                        sqlMineJobOrderBy = "jobslutdato DESC"
+                     case else
+                        sqlMineJobOrderBy = "jobnavn"
+                    end select    
+                        
+                    strSQLr = "SELECT r.jobid, SUM(r.timer) AS restimer, j.jobnavn, j.jobnr, j.jobslutdato FROM ressourcer_md AS r "_
                     &" LEFT JOIN job AS j ON (j.id = r.jobid) "_
-                    &" WHERE r.medid = "& usemrn & " AND r.aktid <> 0 AND jobstatus = 1 GROUP BY r.jobid ORDER BY jobnavn LIMIT 150" 
+                    &" WHERE r.medid = "& usemrn & " AND r.aktid <> 0 AND jobstatus = 1 GROUP BY r.jobid ORDER BY "& sqlMineJobOrderBy &" LIMIT 150" 
 
                         'response.write strSQLr
                         'response.flush
@@ -1941,6 +1950,7 @@
                                  %>
 
                             <td class="lille" align="right"><%=sumRealtimer%> t.</td>
+                            <td class="lille" align="right"><%=oRec("jobslutdato")%></td>
                         </tr>
                         <%
 
@@ -1952,7 +1962,7 @@
                      
                     if re = 0 then   
                     %>
-                    <tr bgcolor="#FFFFFF"><td colspan="2">- ingen </td></tr>
+                    <tr bgcolor="#FFFFFF"><td colspan="3">- ingen </td></tr>
                     <%end if %>
                       </tbody>
                     </table>
@@ -2352,20 +2362,21 @@
 
                                             strSQLjobansvInv = "SELECT IF(faktype = 0, COALESCE(sum(f.beloeb * (f.kurs/100)),0), COALESCE(sum(f.beloeb * -1 * (f.kurs/100)),0)) AS fakbeloeb FROM fakturaer f WHERE jobid = " & oRec("jid") &""_
                                             &" AND ((brugfakdatolabel = 0 AND f.fakdato BETWEEN '"& strDatoStartKri &"' AND '"& strDatoEndKri &"') "_
-                                            &" OR (brugfakdatolabel = 1 AND f.labeldato BETWEEN '"& strDatoStartKri &"' AND '"& strDatoEndKri &"')) GROUP BY jobid "
+                                            &" OR (brugfakdatolabel = 1 AND f.labeldato BETWEEN '"& strDatoStartKri &"' AND '"& strDatoEndKri &"')) GROUP BY jobid, faktype"
                                             fakbeloeb = 0
 
                                             'if session("mid") = 1 then
-                                            'response.write strSQLjobansvInv
+                                            'response.write "<br>"& strSQLjobansvInv
                                             'response.flush
                                             'end if
 
                                             oRec2.open strSQLjobansvInv, oConn, 3
-                                            if not oRec2.EOF then
+                                            while not oRec2.EOF 
                                     
-                                            fakbeloeb = oRec2("fakbeloeb")
-
-                                            end if
+                                            fakbeloeb = fakbeloeb + (oRec2("fakbeloeb"))
+                                        
+                                            oRec2.movenext
+                                            wend
                                             oRec2.close 
 
                                             'if fakbeloeb <> 0 then

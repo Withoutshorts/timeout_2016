@@ -92,6 +92,15 @@ $(document).ready(function () {
        
     });
 
+    $("#st_cls_5").click(function () {
+
+
+
+        $(".FM_listestatus_5").attr("checked", "checked");
+        $("#st_cls_5").attr("checked", "checked");
+
+    });
+
 
     $("#st_cls_0").click(function () {
 

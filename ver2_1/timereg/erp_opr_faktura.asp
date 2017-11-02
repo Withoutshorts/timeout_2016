@@ -366,8 +366,21 @@ level = session("rettigheder")
                 <option value=1 <%=selTypET %>>Creditnote</option>
                     <%
                         opretTxt = "Create new"
+
+
+                case "epi2017"
+                        
+                        opretTxt = "Create new"
+                        
+                        %>
                     
-                case else %>    
+                <option value=0 <%=selTypNUL %>><%=erp_txt_495 %></option>
+
+                <%if level = 1 then %>
+                <option value=1 <%=selTypET %>><%=erp_txt_496 %></option>
+                <%end if %>
+
+                <%case else %>    
                 <option value=0 <%=selTypNUL %>><%=erp_txt_495 %></option>
                 <option value=1 <%=selTypET %>><%=erp_txt_496 %></option>
                 <%

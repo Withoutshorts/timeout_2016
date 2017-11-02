@@ -198,7 +198,9 @@
         Dim CallWebService As New WebReferenceNAVTiaProd_sendhours.TimeOut
         CallWebService.Credentials = New System.Net.NetworkCredential(”Timeout”, ”Tia2017!”, ”tia.local”)
 
-
+        Dim dDato As Date = Date.Now 'tirsdag morgen 07:00
+        Dim datSQLformat As String = "yyyy-M-d"
+        Dim overfortDatoSQL As String = dDato.ToString(datSQLformat)
 
         ''AND jobnr BETWEEN 7000 AND 72000
 
@@ -206,8 +208,10 @@
         strSQLmedins += "FROM timer AS t "
         strSQLmedins += "LEFT JOIN medarbejdere AS m ON (m.mid = t.tmnr) "
         strSQLmedins += "LEFT JOIN aktiviteter AS a ON (a.id = t.taktivitetid) "
-        strSQLmedins += "WHERE tastedato > '2017-06-01' AND godkendtstatus = 1 AND overfort = 0 AND tmnr <> 1 AND timer <> 0 AND tfaktim <> '90' AND avarenr <> '' AND avarenr IS NOT NULL"
+        strSQLmedins += "WHERE tdato BETWEEN '2017-10-01' AND '2017-12-31' AND overfort = 0 AND godkendtstatus = 1 AND tmnr <> 1 AND timer <> 0 AND tfaktim <> '90' ORDER BY tid" ' AND avarenr <> '' AND avarenr IS NOT NULL ORDER BY tid "
+        'strSQLmedins += "LIMIT 10"
         'AND init <> 'XXMAK'
+        '_dobbel_20171004_3
         objCmd = New OdbcCommand(strSQLmedins, objConn)
         objDR = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
 
@@ -266,23 +270,53 @@
             'Response.Write(objDR("tdato") & "," & objDR("tjobnr") & ",111111," & objDR("init") & "," & objDR("timer") & "," & objDR("timerkom") & "," & objDR("tid"))
             'Response.Flush()
 
-            If avarenr <> "" And avarenr <> "0" Then
+            'If avarenr <> "" And avarenr <> "0" Then
 
-                'CallWebService.SendJournalData(tdato, tjobnr, avarenr, init, Timerthis, timerKom, objDR("tid"))
+            'CallWebService.SendJournalData(tdato, tjobnr, avarenr, init, Timerthis, timerKom, objDR("tid"))
 
-                If CallWebService.SendJournalData(tdato, tjobnr, avarenr, init, Timerthis, timerKom, objDR("tid")) = False Then
-                    Dim strSQLtimerOverfort As String = "UPDATE timer SET overfort = 2 WHERE tid = " & objDR("tid")
-                    objCmd2 = New OdbcCommand(strSQLtimerOverfort, objConn)
-                    objDR2 = objCmd2.ExecuteReader '(CommandBehavior.closeConnection)
-                Else
-                    Dim strSQLtimerOverfort As String = "UPDATE timer SET overfort = 1 WHERE tid = " & objDR("tid")
-
-                    objCmd2 = New OdbcCommand(strSQLtimerOverfort, objConn)
-                    objDR2 = objCmd2.ExecuteReader '(CommandBehavior.closeConnection)
-                End If
+            ' Set up structured error handling.
+            'Try
+            ' Cause a "Divide by Zero" exception.
 
 
-            End If
+            'If CallWebService.SendJournalData(tdato, tjobnr, avarenr, init, Timerthis, timerKom, objDR("tid")) = False Then
+            'Dim strSQLtimerOverfort As String = "UPDATE timer SET overfort = 2, overfortdt = '" & overfortDatoSQL & "' WHERE tid = " & objDR("tid")
+            '''Dim strSQLtimerOverfort As String = "UPDATE timer_dobbel_20171004_3_e SET overfort = 2 WHERE tid = " & objDR("tid")
+            'objCmd2 = New OdbcCommand(strSQLtimerOverfort, objConn)
+            'objDR2 = objCmd2.ExecuteReader '(CommandBehavior.closeConnection)
+            'Else
+            CallWebService.SendJournalData(tdato, tjobnr, avarenr, init, Timerthis, timerKom, objDR("tid"))
+            Dim strSQLtimerOverfort As String = "UPDATE timer SET overfort = 1, overfortdt = '" & overfortDatoSQL & "' WHERE tid = " & objDR("tid")
+            '''Dim strSQLtimerOverfort As String = "UPDATE timer_dobbel_20171004_3_e SET overfort = 1 WHERE tid = " & objDR("tid")
+
+            objCmd2 = New OdbcCommand(strSQLtimerOverfort, objConn)
+            objDR2 = objCmd2.ExecuteReader '(CommandBehavior.closeConnection)
+            'End If
+
+            ' This statement does not execute because program
+            ' control passes to the Catch block when the
+            ' exception occurs.
+
+            ''Catch ex As Exception
+            ''Show the exception's message.
+            'CallWebService.SendJournalError("+ ex.Message + " jobnr i TO:  " & objDR("tjobnr") & " ID:"& objDR("tid"))
+            'Response.Write("2 " + ex.Message + " jobnr i TO: " & objDR("tjobnr") & "<br>")
+
+
+
+            ' Show the stack trace, which is a list of methods
+            ' that are currently executing.
+            'MessageBox.Show("Stack Trace: " & vbCrLf & ex.StackTrace)
+            'Finally
+            ' This line executes whether or not the exception occurs.
+            'MessageBox.Show("in Finally block")
+            ''End Try
+
+
+
+
+
+            'End If
 
 
 
@@ -359,6 +393,8 @@
 
             'Dim CallWebService As New dk_rack.outzource_timeout2_importmed_nav.oz_importmed_na()
             'CallWebService.addmed(ds)
+
+
 
             Response.Write("1")
 

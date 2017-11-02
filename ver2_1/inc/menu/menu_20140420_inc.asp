@@ -26,6 +26,9 @@ function menu_2014()
             end if
            
 
+            call vis_resplanner_fn()
+            call vis_favorit_fn()
+            call vis_projektgodkend_fn()
          
 
 
@@ -399,7 +402,7 @@ end select
                     <ul>
 
                         
-                        <li><a href="<%=toSubVerPath14 %>help.asp">Hj&aelig;lp</a></li>
+                        <li><a href="<%=toSubVerPath15 %>help_faq.asp">Hj&aelig;lp</a></li>
                         <%if lto <> "tec" AND lto <> "esn" then %>
                         <li><a href="https://www.islonline.net/start/ISLLightClient"><%=tsa_txt_433 %></a></li>
                         <%end if %>
@@ -488,7 +491,7 @@ end select
     </div>
 
 
- <nav id="menu-slider" class="menu-slider" style="overflow-y:scroll; z-index:1000;">
+ <nav id="menu-slider" class="menu-slider" style="overflow-y:scroll; z-index:10000;">
 
              <span style="color:#999999; float:right; font-size:14px; padding-right:20px;" id="luk_menuslider">X</span>
          
@@ -571,13 +574,27 @@ end select
 
                  %>  <li><a href="<%=toSubVerPath15 %><%=lnkUgeseddel%>"><%=tsa_txt_337 %></a></li>
                       
-                <% select case lto
-                 case "outz", "intranet - local", "hidalgo", "tia", "dencker", "eniga", "welcom"
-                    %>
-                    <li><a href="<%=toSubVerPath15 %>favorit.asp?FM_medid=<%=usemrn %>&varTjDatoUS_man=<%=varTjDatoUS_man %>"><%=favorit_txt_001 %></a></li>
-                 <%end select %>
-              
+                <% 'select case lto
+                 'case "outz", "intranet - local", "hidalgo", "tia", "dencker", "eniga", "welcom", "mmmi", "epi2017"
+                    if cint(vis_favorit) = 1 then
+                    
+                    select case lto 
+                    case "bf"
 
+                        if level = 1 then
+                        %>
+                             <li><a href="<%=toSubVerPath15 %>favorit.asp?FM_medid=<%=usemrn %>&varTjDatoUS_man=<%=varTjDatoUS_man %>"><%=favorit_txt_001 %></a></li>
+                        <%
+                        end if    
+
+                    case else%>
+                    <li><a href="<%=toSubVerPath15 %>favorit.asp?FM_medid=<%=usemrn %>&varTjDatoUS_man=<%=varTjDatoUS_man %>"><%=favorit_txt_001 %></a></li>
+                 <% end select
+                     
+                 end if %>
+                 <%'end select %>
+              
+                
                
 
                   <%if cint(stempelurOn) = 1 then %>
@@ -731,13 +748,16 @@ end select
                
 
 
-             select case lto 
-
-                     case "tia", "intranet - local", "outz", "oliver", "hidalgo", "demo"
+             'select case lto 
+                 
+                     'case "tia", "intranet - local", "outz", "oliver", "hidalgo", "demo"
+              
+                
+                       if cint(vis_projektgodkend) = 1 then 
                        %>
                       <li><a href="<%=toSubVerPath15%>godkend_job_timer_2017.asp"><%=godkend_txt_010 %></a></li>
-                       <%
-             end select   
+                       <% end if
+             'end select   
 
 
 
@@ -894,52 +914,57 @@ end select
                   <%end if %>
                   <%end select %>
 
-                    <%if level <= 2 OR level = 6 then %>
-                  <h3 class="menuh3"><%=tsa_txt_439 %></h3>
+                            <%if level <= 2 OR level = 6 then %>
+                          <h3 class="menuh3"><%=tsa_txt_439 %></h3>
                    
-                  <li><a href="<%=toSubVerPath14 %>webblik_joblisten.asp"><%=tsa_txt_452 %></a></li>
+                          <li><a href="<%=toSubVerPath14 %>webblik_joblisten.asp"><%=tsa_txt_452 %></a></li>
                  
 
                  
                  
 
-                  <li><a href="<%=toSubVerPath14 %>ressource_belaeg_jbpla.asp"><%=tsa_txt_440 %>
+                          <li><a href="<%=toSubVerPath14 %>ressource_belaeg_jbpla.asp"><%=tsa_txt_440 %>
 
-                      <%if lto = "wwf" then%>
+                              <%if lto = "wwf" then%>
                           
-                      (<%=tsa_txt_453 %>)
+                              (<%=tsa_txt_453 %>)
                           
-                      <%end if %>
+                              <%end if %>
 
-                      </a></li>
+                              </a></li>
                   
 
-                   <%select case lto 
-                     case "tia", "intranet - local", "outz", "oliver", "hidalgo", "demo"
-                       %>
-                      <li><a href="<%=toSubVerPath15%>godkend_job_timer_2017.asp"><%=godkend_txt_010 %></a></li>
-                       <%
-                     case else   
-                    %> 
-                   <li><a href="<%=toSubVerPath14 %>webblik_joblisten21.asp"><%=tsa_txt_454 %></a></li>
-                   <li><a href="<%=toSubVerPath14 %>webblik_milepale.asp"><%=tsa_txt_455 %></a></li>
+                               <%select case lto 
+                                 case "tia", "intranet - local", "outz", "oliver", "hidalgo", "demo"
+                                   %>
+                                  <li><a href="<%=toSubVerPath15%>godkend_job_timer_2017.asp"><%=godkend_txt_010 %></a></li>
+                                   <%
+                                 case else   
+                                %> 
+                               <li><a href="<%=toSubVerPath14 %>webblik_joblisten21.asp"><%=tsa_txt_454 %></a></li>
+                               <li><a href="<%=toSubVerPath14 %>webblik_milepale.asp"><%=tsa_txt_455 %></a></li>
 
-                  <%if (level = 1 OR session("mid") = 35) then 'Kim B epinion %>
-                  <li><a href="<%=toSubVerPath14 %>pipeline.asp?menu=webblik&FM_kunde=0&FM_progrupper=10"><%=tsa_txt_456 %></a></li>
-                  <%end if %>
+                              <%if (level = 1 OR session("mid") = 35) then 'Kim B epinion %>
+                              <li><a href="<%=toSubVerPath14 %>pipeline.asp?menu=webblik&FM_kunde=0&FM_progrupper=10"><%=tsa_txt_456 %></a></li>
+                              <%end if %>
 
-                  <%end select %>
+                              <%end select %>
 
-                  <%if lto = "outz" OR lto = "intranet - local" then %>
-                    <li><a href="<%=toSubVerPath14 %>jbpla_w.asp">Planlægningskalender (TEST)</a></li>
-                  <%end if %>
+                                  <%if lto = "outz" OR lto = "intranet - local" then %>
+                                    <li><a href="<%=toSubVerPath14 %>jbpla_w.asp">Planlægningskalender (TEST)</a></li>
+                                  <%end if %>
 
-                     <%if lto = "outz" OR lto = "intranet - local" OR lto = "essens" OR lto = "hidalgo" then %>
-                    <li><a href="../ressource_planner/ressplan_2017.aspx?lto=234fsdf45t9xxx4cc34vdg56<%=lto %>HrtKvv8344" target="_blank">Ressource Planner</a></li>
-                  <%end if %>
+                                     <%'if lto = "outz" OR lto = "intranet - local" OR lto = "essens" OR lto = "hidalgo" then 
+                                   if cint(vis_resplanner) = 1 then%>
+                                    <li><a href="../ressource_planner/ressplan_2017.aspx?lto=234fsdf45t9xxx4cc34vdg56<%=lto %>HrtKvv8344" target="_blank">Ressource Planner</a></li>
+                                  <%end if %>
 
-                   <%end if %>
+                           <%end if %>
                   
+
+                   
+                  <li><a href="<%=toSubVerPath15 %>eval_liste.asp">Project Evaluation</a></li>
+                 
 
 
                   <%end if %>
@@ -956,7 +981,7 @@ end select
                      <%if cint(statmenu_2014) = 2 then 'nt%>
                 
 
-                           <%if level = 1 then %>
+                           <%if level = 1 AND (session("mid") = 3 OR session("mid") = 6 OR session("mid") = 1) then %>
                  
                                      <li><a href="<%=toSubVerPath14 %>oms.asp"><%=tsa_txt_459 %></a></li>
 
@@ -1080,6 +1105,7 @@ end select
 
 
                     <% 
+
                      'if (lto = "oko") OR lto = "intranet - local" then 'jobresume 
                         
                         
@@ -1095,6 +1121,32 @@ end select
 
                     <%'end if %>
 
+
+                     <h3 class="menuh3">Your Reports</h3>
+                    <%
+                        yr = 0
+
+                        'if yr = 1000 then
+                        strSQLyourRap = "SELECT rap_mid, rap_navn, rap_url, rap_criteria, rap_dato, rap_editor FROM your_rapports WHERE rap_mid = " & session("mid") & " OR rap_mid = 0 ORDER BY rap_navn LIMIT 10"
+                        oRec6.open strSQLyourRap, oConn, 3
+                        while not oRec6.EOF 
+                        
+                        %>
+                        <li><a href="<%=toSubVerPath14 %><%=oRec6("rap_url") & oRec6("rap_criteria")%>" target="_blank" class="a_yourrep"><%=oRec6("rap_navn") %></a></li>
+                        <%
+                        
+                        yr = yr + 1
+                        oRec6.movenext
+                        wend
+                        oRec6.close
+
+                        'end if
+                        
+                    if yr <> 0 then%> 
+                    <li><a href="yourrep.asp" target="_blank" style="color:#999999;">Go to "Your Reports"</a></li>
+                    <%else %>
+                        <li><a href="#" style="color:#999999;">- None</a></li>
+                    <%end if %>
 
                  <%end if %>
 
@@ -1339,8 +1391,18 @@ end select
            <li><a href='<%=toSubVerPath14 %>erp_fakhist.asp'><%=tsa_txt_508 %></a></li>
            
              <%select case lto 
-                case "bf"
-                 case else %>
+            case "bf"
+
+                 call timesimon_fn() %>
+
+                    <%if cint(timesimon) = 1 then %>
+                    <li><a href="<%=toSubVerPath15 %>timbudgetsim.asp">Timebudget simulering (overblik)</a></li>
+                   <li><a href="<%=toSubVerPath15 %>timbudgetsim.asp?func=forecast&jobid=-1" target="_blank">Timebudget simulering (forecast pr. medarb.)</a></li>
+           
+                    <%end if
+
+
+            case else %>
            <li><a href='<%=toSubVerPath14 %>erp_fakturaer_find.asp'><%=tsa_txt_509 %></a></li>
 
            <h3 class="menuh3"><%=tsa_txt_510 %></h3>
@@ -1370,12 +1432,15 @@ end select
            <%call timesimon_fn() %>
 
             <%if cint(timesimon) = 1 then %>
-            <li><a href="<%=toSubVerPath15 %>timbudgetsim.asp">Timebudget simulering</a></li>
+            <li><a href="<%=toSubVerPath15 %>timbudgetsim.asp">Timebudget simulering (overblik)</a></li>
+           <li><a href="<%=toSubVerPath15 %>timbudgetsim.asp?func=forecast&jobid=-1" target="_blank">Timebudget simulering (forecast pr. medarb.)</a></li>
+           
             <%end if %>
 
             <li><a href="<%=toSubVerPath15 %>budget_firapport.asp">Budget & Finansiel rap.</a></li>
 
             <%'end if %>
+
         <%end if %>
 
              <%end select %>
