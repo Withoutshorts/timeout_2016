@@ -25,18 +25,27 @@
     usemrn = session("mid") 
     end if
 
-    if len(trim(request("aar"))) <> 0 then
-    aar = request("aar")
+    media = request("media")
+
+    if media <> "print" then
+        if len(trim(request("aar"))) <> 0 then
+        aar = request("aar")
+        else
+        aar = "1-1-"& year(now)
+        end if
+
+        if len(trim(request("aarslut"))) <> 0 then
+        aarslut = request("aarslut")
+        else
+        aarslut = "1-1-"& year(now)
+        end if
     else
-    aar = "1-1-"& year(now)
+        aar = request("aar")
+        aarslut = request("aarslut")
     end if
 
-    if len(trim(request("aarslut"))) <> 0 then
-    aarslut = request("aarslut")
-    else
-    aarslut = "1-1-"& year(now)
-    end if
-
+    antalmaaned = (DateDiff("m",aar,aarslut))
+    antalaar = (DateDiff("yyyy",aar,aarslut))
 
     if len(trim(request("FM_job"))) <> 0 then
     jost0CHK = ""
@@ -45,6 +54,7 @@
     jost0CHK = "CHECKED"
     end if
 
+    if media <> "print" then
 
     jobidsStr = " AND (j.id <> 0 "
     if len(trim(request("FM_job"))) <> 0 then
@@ -70,24 +80,34 @@
 
     jobidsStr = jobidsStr & ")"
 
+
+    else
+    jobid = request("jobid")
+    end if
      
 %>
 
 
 
-<%call menu_2014 %>
+<%
+    if media <> "print" then
+    call menu_2014
+    end if
+%>
 
   <div class="wrapper">
       <div class="content">
           <script src="js/traveldietexp_jav.js" type="text/javascript"></script>
           <div class="container">
               <div class="portlet">
+                  <%if media <> "print" then %>
                   <h3 class="portlet-title"><u>Medarbejder - projekttid</u></h3>
+                  <%end if %>
                   <div class="portlet-body">
-
+                      <%if media <> "print" then %>
                       <div class="well">
                         <form action="medarb_protid.asp?sogsubmitted=1" method="POST">
-
+                        
                         <div class="row">
                             <div class="col-lg-2">
                                 <h4 class="panel-title-well"><%=dsb_txt_002 %></h4>
@@ -110,7 +130,7 @@
                                     oRec3.open strSQLjob, oConn, 3
                                     while not oRec3.EOF
                                 
-                                    Strjobnavn = oRec3("jobnavn")
+                                    'strjobnavn2 = oRec3("jobnavn")
 
                                     if cdbl(jobid) = cdbl(oRec3("id")) then
 				                    isSelected = "SELECTED"
@@ -138,8 +158,8 @@
                                 
                                 'response.Write aar & " - " & aarslut 
 
-                                antalmaaned = (DateDiff("m",aar,aarslut))
-                                antalaar = (DateDiff("yyyy",aar,aarslut))
+                                'antalmaaned = (DateDiff("m",aar,aarslut))
+                                'antalaar = (DateDiff("yyyy",aar,aarslut))
                                 'response.Write(DateDiff("m",aar,aarslut))
                                 'response.Write antalaar
                                                                                                                    
@@ -174,14 +194,19 @@
                                              
                         </form>
                       </div>
+                      
+                      <%end if 'media print %>
+                      
+                      
 
                       <%
-                           strSQLjobid = "SELECT jobnr FROM job WHERE id ="& jobid
+                           strSQLjobid = "SELECT jobnr, jobnavn FROM job WHERE id = "& jobid
                            oRec4.open strSQLjobid, oConn, 3
 
                            if not oRec4.EOF then
                           
                             Strjobid = oRec4("jobnr")
+                            strJobnavn = oRec4("jobnavn")
 
                            end if
                           
@@ -190,6 +215,11 @@
                    
                         
                       %>
+
+                      <%if media = "print" then %>
+                      <h3 class="portlet-title"><u>Medarbejder - projekttid - <%=strJobnavn %></u></h3>
+                      <%end if %>
+
                       <table style="background-color:white;" class="table dataTable table-striped table-bordered table-hover ui-datatable">
 
                           <thead>
@@ -271,7 +301,7 @@
                                   dim timer_md, dato_medid, medarbid, medidnavn, manedstot
                                   Redim timer_md(m,d), dato_medid(m,d), medarbid(m), medidnavn(m), manedstot(antalmaaned)
                                   
-                                  strSQL = "SELECT tmnr, tmnavn, tdato, sum(timer) as Timer FROM timer WHERE tfaktim <> 5 AND tjobnr = '"& Strjobid & "' AND tdato BETWEEN '"& startdato &"' AND '"& slutdato &"' AND tmnr is not null GROUP by tmnr, year(tdato), month(tdato) Order by tmnr, tdato "
+                                  strSQL = "SELECT tmnr, tmnavn, tdato, sum(timer) as Timer FROM timer WHERE tfaktim <> 5 AND tjobnr = '"& Strjobid & "' AND tdato BETWEEN '"& startdato &"' AND '"& slutdato &"' AND tmnr is not null GROUP by tmnr, year(tdato), month(tdato) Order by tmnavn, tdato "
                                   'response.Write strSQL
                                   'response.flush
                                   oRec.open strSQL, oConn, 3
@@ -424,6 +454,31 @@
                           </tfoot>
                           
                       </table>
+                      <%if media <> "print" then %>
+                      <br /><br /><br />
+                      <section>
+                        <div class="row">
+                             <div class="col-lg-12">
+                                <b>Funktioner</b>
+                                </div>
+                            </div>
+                            <form action="medarb_protid.asp?media=print&aar=<%=aar %>&aarslut=<%=aarslut %>&jobid=<%=jobid %>" method="post" target="_blank"> <!-- søge kriterie skal ind i formen -->
+                  
+                            <div class="row">
+                             <div class="col-lg-12 pad-r30">
+                            <input id="Submit5" type="submit" value="Printvenlig" class="btn btn-sm" /><br />
+                            </div>
+                        </div>
+                        </form>
+                
+                    </section>
+                    <%
+                        
+                    else
+                    Response.Write("<script language=""JavaScript"">window.print();</script>")                                         
+                    end if 
+                    %>
+
 
                     </div>
                   </div>

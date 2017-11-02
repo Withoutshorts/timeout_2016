@@ -61,8 +61,9 @@
     case "slet"
         '***Her spørges om det er ok at slette en medarbejder***
 
-        oskrift = "Projektgrupper" 
-        slttxta = "Du er ved at <b>SLETTE</b> en projektgruppe. Er dette korrekt?"
+        oskrift = progrp_txt_049 
+        slttxta = progrp_txt_001 &" "& progrp_txt_002 &" "& progrp_txt_003
+
         slttxtb = "" 
         slturl = "projektgrupper.asp?menu=tok&func=sletok&id="&id
 
@@ -205,7 +206,7 @@
 
         <div class="container">
             <div class="portlet">
-            <h3 class="portlet-title"><u>Projektgrupper (medlemmer)</u></h3>
+            <h3 class="portlet-title"><u><%=progrp_txt_004 %></u></h3>
 
             <form action="projektgrupper.asp?menu=job&func=opdprorel" method="post">
 	        <input type="hidden" name="FM_projektgruppeId" value="<%=id%>">
@@ -213,7 +214,7 @@
 
             <div class="row">
             <div class="col-lg-10">&nbsp</div>
-            <div class="col-lg-2"><button type="submit" class="btn btn-success btn-sm pull-right"><b>Opdatér</b></button></div>
+            <div class="col-lg-2"><button type="submit" class="btn btn-success btn-sm pull-right"><b><%=progrp_txt_005 %></b></button></div>
             </div>
             <%
 
@@ -279,20 +280,19 @@
 
         <div class="portlet-body">
             <section>
-            <p>Medarbejdere i projektgruppen <b><%=proGruppeNavn%></b></p>
+            <p><%=progrp_txt_006 &" " %> <b><%=proGruppeNavn%></b></p>
            
             <!--Liste med medlemmer--> 
             <table class="table dataTable table-striped table-bordered table-hover ui-datatable">                  
                <thead>
                    <tr>
-                       <th style="width: 45%">Navn</th>
-                       <th style="width: 20%">Status</th>
-                       <th style="width: 5%">Tilføj/Fjern ?</th>
-                       <th style="width: 5%">Teamleder ?</th>
-                       <th style="width: 5%">Notificer</th>
-                       <th style="width: 5%">Ansatdato</th>
-                       <th style="width: 10%">Sidst logget ind</th>
-                       
+                       <th style="width: 45%"><%=progrp_txt_007 %></th>
+                       <th style="width: 20%"><%=progrp_txt_008 %></th>
+                       <th style="width: 5%"><%=progrp_txt_009 %></th>
+                       <th style="width: 5%"><%=progrp_txt_010 %></th>
+                       <th style="width: 5%"><%=progrp_txt_011 %></th>
+                       <th style="width: 5%"><%=progrp_txt_012 %></th>
+                       <th style="width: 10%"><%=progrp_txt_013 %></th>                       
                    </tr>
             </thead>
                     <% 
@@ -322,7 +322,7 @@
                
                        <tbody>
                            <tr>
-                               <td><a href="medarb.asp?func=red&id=<%=oRec("Mid") %>"><%=oRec("Mnavn")%> 
+                               <td><a href="medarb.asp?func=red&id=<%=oRec("Mid") %>"><%=oRec("Mnavn")%>
                                    <% 
                                     if len(trim(oRec("init"))) <> 0 then
                                     %>
@@ -391,26 +391,26 @@
            </table>
                 <%
              if media <> "eksport" AND x <> 0 then %>
-            Antal medarbejdere i projektgruppen: <%=x%><br /><br />
+            <%=progrp_txt_014&" " %> <%=x%><br /><br />
             <%end if %>
 
             <!--Ikke medlemmer liste-->
-            <div class="pad-t10"><p>Medarbejdere udenfor projektgruppen (aktive og pasive)</p></div>
+            <div class="pad-t10"><p><%=progrp_txt_015 %></p></div>
             <table id="tb_progrp_ikkemed" class="table dataTable table-striped table-bordered table-hover ui-datatable">                  
                <thead>
                    <tr>
-                       <th style="width: 45%">Navn</th>
-                       <th style="width: 20%">Status</th>
-                       <th style="width: 10%;"><input type="checkbox" value="0" id="FM_chk_all_add"  /> Tilføj/Fjern ?</th>
-                       <th style="width: 5%">Teamleder ?</th>
-                       <th style="width: 5%">Notificer</th>
-                       <th style="width: 5%">Ansatdato</th>
-                       <th style="width: 10%">Sidst logget ind</th>
+                       <th style="width: 45%"><%=progrp_txt_007 %></th>
+                       <th style="width: 20%"><%=progrp_txt_008 %></th>
+                       <th style="width: 10%;"><input type="checkbox" value="0" id="FM_chk_all_add"  /> <%=progrp_txt_009&" " %> ?</th>
+                       <th style="width: 5%"><%=progrp_txt_010 %> ?</th>
+                       <th style="width: 5%"><%=progrp_txt_011 %></th>
+                       <th style="width: 5%"><%=progrp_txt_012 %></th>
+                       <th style="width: 10%"><%=progrp_txt_013 %></th>
                    </tr>
                 </thead>
                    <%
 
-                    '*** Henter ikke medlemmer
+                    '*** Henter ikke-medlemmer
 	                Dim T
 	                T = 0
 	                For T = 0 to x - 1
@@ -483,7 +483,7 @@
                              <td style="white-space:nowrap;"><%=lastLoginDateFm %></td>
 
                        <%else %>
-                       <td colspan="5" style="font-size:9px;">Er allerede i Org. projektgruppe</td>
+                       <td colspan="5" style="font-size:9px;"><%=progrp_txt_016 %></td>
 
                        <%end if %>
 
@@ -499,7 +499,7 @@
             </section>
 
                     <div style="margin-top:15px; margin-bottom:15px;">
-                    <button type="submit" class="btn btn-success btn-sm pull-right"><b>Opdatér</b></button>
+                    <button type="submit" class="btn btn-success btn-sm pull-right"><b><%=progrp_txt_005 %></b></button>
                      
          
                     <div class="clearfix"></div>
@@ -522,7 +522,7 @@
                       <section>
                             <div class="row">
                                  <div class="col-lg-12">
-                                    <b>Funktioner</b>
+                                    <b><%=progrp_txt_017 %></b>
                                     </div>
                                 </div>
                                 <form action="projektgrupper.asp?media=eksport&func=med&id=<%=id%>" method="Post" target="_blank">
@@ -530,7 +530,7 @@
                                 <div class="row">
                                  <div class="col-lg-12 pad-r30">
                          
-                                <input id="Submit5" type="submit" value="Eksport til csv." class="btn btn-sm" /><br />
+                                <input id="Submit5" type="submit" value="<%=progrp_txt_018 %>" class="btn btn-sm" /><br />
                          
                                      </div>
 
@@ -603,7 +603,7 @@
 	                            <td valign=top bgcolor="#ffffff" style="padding:5px 5px 5px 15px;">
                 
                              
-	                            <a href="../inc/log/data/<%=file%>" target="_blank" >Din CSV. fil er klar >></a>
+	                            <a href="../inc/log/data/<%=file%>" target="_blank" ><%=progrp_txt_026 %> >></a>
 	                            </td></tr>
 	                            </table>
                                 </div>
@@ -739,7 +739,7 @@
 <div class="container">
       <div class="portlet">
         <h3 class="portlet-title">
-          <u>Projektgrupper (rediger)</u>
+          <u><%=progrp_txt_027 %></u>
         </h3>
 
         <form action="projektgrupper.asp?menu=job&func=<%=dbfunc%>" method="post">
@@ -747,7 +747,7 @@
 
         <div class="row">
         <div class="col-lg-10">&nbsp</div>
-        <div class="col-lg-2 pad-b10"><button type="submit" class="btn btn-success btn-sm pull-right"><b>Opdatér</b></button></div>
+        <div class="col-lg-2 pad-b10"><button type="submit" class="btn btn-success btn-sm pull-right"><b><%=progrp_txt_005 %></b></button></div>
         
         
         </div>
@@ -759,31 +759,41 @@
              <div class="well well-white">
                     <div class="row">
                         <div class="col-lg-12">
-                            <h4 class="panel-title-well">Stamdata</h4>
+                            <h4 class="panel-title-well"><%=progrp_txt_028 %></h4>
                         </div>
                     </div>
 
              <div class="row">
                  <div class="col-lg-1 pad-t10">&nbsp</div>
-                 <div class="col-lg-2 pad-t10">Navn:&nbsp<span style="color:red;">*</span></div>
+                 <div class="col-lg-2 pad-t10"><%=progrp_txt_007 %>:&nbsp<span style="color:red;">*</span></div>
                  <div class="col-lg-3 pad-t10">   
-                  <input name="FM_navn" type="text" class="form-control input-small" value="<%=strNavn %>" placeholder="Navn"/>
+                  <input name="FM_navn" type="text" class="form-control input-small" value="<%=strNavn %>" placeholder="<%=progrp_txt_007 %>"/>
                  </div>
              </div>
                  
                  
-                <%if cint(intOrgVir) = 1 then
-	            intOrgVirCHK1 = "CHECKED"
+                <%select case cint(intOrgVir) 
+                case "1"
+                intOrgVirCHK1 = "CHECKED"
                 intOrgVirCHK0 = ""
-	            else
+                intOrgVirCHK2 = ""
+                case "2"
+	            intOrgVirCHK1 = ""
+                intOrgVirCHK0 = ""
+	            intOrgVirCHK2 = "CHECKED"
+                case else
 	            intOrgVirCHK1 = ""
                 intOrgVirCHK0 = "CHECKED"
-	            end if %>
+                intOrgVirCHK2 = ""
+	            end select %>
 
                  <div class="row">
                      <div class="col-lg-1">&nbsp</div>
-                     <div class="col-lg-4 pad-t20"><input name="FM_orgvir" value="1" type="radio" <%=intOrgVirCHK1 %>/>&nbsp;<b>Organisatorisk</b> eller&nbsp;&nbsp;<input name="FM_orgvir" value="0" type="radio" <%=intOrgVirCHK0 %>/>&nbsp;<b>Virtuel</b> gruppe.<br /><br />
-                         <div style="background-color:#CCCCCC; padding:10px;">En medarbejder kan kun være medlem af <u>en</u> organisatorisk gruppe, mens virtullegrupper kan bruges til projekter, eller indele medarbejdere efter kompetencer.</div>
+                     <div class="col-lg-4 pad-t20"><input name="FM_orgvir" value="1" type="radio" <%=intOrgVirCHK1 %>/>&nbsp;<b><%=progrp_txt_029&" " %></b> <%=progrp_txt_032 %>. <br />
+                         <input name="FM_orgvir" value="0" type="radio" <%=intOrgVirCHK0 %>/>&nbsp;<b><%=progrp_txt_031&" " %></b> <%=progrp_txt_032 %>.<br />
+                         <input name="FM_orgvir" value="2" type="radio" <%=intOrgVirCHK2 %>/>&nbsp;<b>HR</b> gruppe.<br />
+                         <br />
+                         <div style="background-color:#CCCCCC; padding:10px;"><%=progrp_txt_033&" " %> <u><%=progrp_txt_034 %></u> <%=" "& progrp_txt_035 %></div>
                      </div>
                  </div>
 
@@ -796,19 +806,19 @@
 
                   <div class="row">
                      <div class="col-lg-1">&nbsp</div>
-                     <div class="col-lg-4 pad-t20"><input id="Checkbox1" name="FM_opengp" value="1" type="checkbox" <%=intOpenGpCHK %>/>&nbsp;Åben gruppe (medarbejdere må selv tilføje sig - kun virtuelle)</div>
+                     <div class="col-lg-4 pad-t20"><input id="Checkbox1" name="FM_opengp" value="1" type="checkbox" <%=intOpenGpCHK %>/>&nbsp;<%=progrp_txt_036 %></div>
                  </div>
 
                  <% if func = "opret" then %>
                  <div class="row">
                  <div class="col-lg-1">&nbsp</div>
-                 <div class="col-lg-4"><input id="Checkbox2" name="FM_tilfoj_m" value="1" type="checkbox"  CHECKED/>&nbsp;Tilføj dig selv som teamleder i gruppen</div>
+                 <div class="col-lg-4"><input id="Checkbox2" name="FM_tilfoj_m" value="1" type="checkbox"  CHECKED/>&nbsp;<%=progrp_txt_037 %></div>
                  </div>
                  <% end if %>
 
            </div>
          </section>
-               <br /><br /><br /><div style="font-weight: lighter;">Sidst opdateret den <b><%=strDato%></b> af <b><%=strEditor%></b></div>
+         <%if func = "red" then %><br /><br /><br /><div style="font-weight: lighter;"><%=progrp_txt_038&" " %> <b><%=strDato%></b> <%=progrp_txt_039&" " %> <b><%=strEditor%></b></div><%end if %>
         </div>
         </form>
        </div>
@@ -828,11 +838,12 @@ case else
 
 
 
-<script src="js/projektgrupper.js" type="text/javascript"></script>
+<script src="js/projektgrupper2.js" type="text/javascript"></script>
+<input type="hidden" id="sogtekst" value="<%=progrp_txt_050 %>" />
 <div class="container">
       <div class="portlet">
         <h3 class="portlet-title">
-          <u>Projektgrupper</u>
+          <u><%=progrp_txt_049 %></u>
         </h3>
 
           <form action="projektgrupper.asp?menu=job&func=opret&id=0" method="post">
@@ -843,7 +854,7 @@ case else
                          <div class="row">
                              <div class="col-lg-10">&nbsp;</div>
                              <div class="col-lg-2">
-                          <button class="btn btn-sm btn-success pull-right"><b>Opret ny +</b></button><br />&nbsp;
+                          <button class="btn btn-sm btn-success pull-right"><b><%=progrp_txt_041 %> +</b></button><br />&nbsp;
                             </div>
                         </div>
             </section>
@@ -854,12 +865,12 @@ case else
               <table id="progrp_list" class="table dataTable table-striped table-bordered table-hover ui-datatable">                 
                <thead>
                    <tr>
-                       <th style="width: 5%">Id</th>
-                       <th style="width: 55%">Projektgruppe</th>
-                       <th style="width: 20%">Medlemmer (aktive + passive)</th>
-                       <th style="width: 8%">Orga./Virtuel?</th>
-                       <th style="width: 7%">Privat/åben?</th>
-                       <th style="width: 5%">Slet</th>
+                       <th style="width: 5%"><%=progrp_txt_042 %></th>
+                       <th style="width: 55%"><%=progrp_txt_043 %></th>
+                       <th style="width: 20%"><%=progrp_txt_044 %></th>
+                       <th style="width: 8%"><%=progrp_txt_045 %></th>
+                       <th style="width: 7%"><%=progrp_txt_046 %></th>
+                       <th style="width: 5%"><%=progrp_txt_047 %></th>
                    </tr>
                </thead>
                <tbody>
@@ -905,17 +916,17 @@ case else
                        </td>
                        <td>
                             <%if oRec("id") <> "10" AND (oRec("opengp") = 1 OR level = 1 OR erTeamleder = 1) then%>
-                           <a href="projektgrupper.asp?menu=job&func=med&id=<%=oRec("id")%>">Medlemmer (<%=antalMediPgrpX%>) </a>
+                           <a href="projektgrupper.asp?menu=job&func=med&id=<%=oRec("id")%>"><%=progrp_txt_051 %> (<%=antalMediPgrpX%>) </a>
                            <%else %>
-                           Medlemmer (<%=antalMediPgrpX %>)
+                           <%=progrp_txt_051 %> (<%=antalMediPgrpX %>)
                            <%end if %>
 
                        </td>
                             <td>
                                 <%if cint(oRec("orgvir")) = 1 then 'ORGANI
-                                 orgVir = "Organisatorisk"   
+                                 orgVir = progrp_txt_052   
                                  else
-                                 orgVir = "Virtuel"   
+                                 orgVir = progrp_txt_053   
                                  end if %>
 
                                 <%=orgVir %>
@@ -923,9 +934,9 @@ case else
                             </td>
                        <td>
                         <%if oRec("opengp") = 0 then %>
-	                    Privat
+	                    <%=progrp_txt_054 %>
 	                    <%else %>
-	                    Åben
+	                    <%=progrp_txt_055 %>
 	                    <%end if %>
                        </td>
                        <td style="text-align:center;">
@@ -948,12 +959,12 @@ case else
                </tbody>    
                  <tfoot>
                       <tr>
-                       <th>Id</th>
-                       <th>Projektgruppe</th>
-                       <th>Medlemmer</th>
-                       <th>Orga./Virtuel?</th>
-                       <th>Privat/åben?</th>
-                       <th>Slet</th>
+                       <th><%=progrp_txt_042 %></th>
+                       <th><%=progrp_txt_043 %></th>
+                       <th><%=progrp_txt_044 %></th>
+                       <th><%=progrp_txt_045 %></th>
+                       <th><%=progrp_txt_046 %></th>
+                       <th><%=progrp_txt_047 %></th>
                    </tr>
 
                  </tfoot>
@@ -970,7 +981,7 @@ case else
           <section>
                 <div class="row">
                      <div class="col-lg-12">
-                        <b>Funktioner</b>
+                        <b><%=progrp_txt_017 %></b>
                         </div>
                     </div>
                     <form action="projektgrupper.asp?media=eksport&func=med&id=0" method="Post" target="_blank">
@@ -978,7 +989,7 @@ case else
                     <div class="row">
                      <div class="col-lg-12 pad-r30">
                          
-                    <input id="Submit5" type="submit" value="Eksporter alle projektgrupper til csv." class="btn btn-sm" /><br />
+                    <input id="Submit5" type="submit" value="<%=progrp_txt_048 %>" class="btn btn-sm" /><br />
                          
                          </div>
 

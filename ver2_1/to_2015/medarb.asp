@@ -191,6 +191,7 @@ Session.LCID = 1030
 			
 			strInit = SQLBless(request("FM_init"))
 			
+
 			if len(request("FM_timereg")) <> 0 then
 			intTimereg = request("FM_timereg") 
 			else
@@ -276,6 +277,18 @@ Session.LCID = 1030
             timer_ststop = 0
             end if
 
+            '* Findes INITtialer
+            InitFindes = 0
+            strSQLtjkInit = "SELECT init FROM medarbejdere WHERE mid <> "& id &" AND init = '"& strInit &"' AND mansat = 1"
+            oRec6.open strSQLtjkInit, oConn, 3
+            if not oRec6.EOF then
+                
+                InitFindes = 1
+
+            end if
+            oRec6.close 
+
+            
                 
 			
 			'*** Her tjekkes for dubletter i db ***
@@ -294,7 +307,7 @@ Session.LCID = 1030
 			oRec.close
 			
 			'Checker for dubletter i DB før record opdateres eller indsættes
-			if strMnrOK = "y" AND strLoginOK = "y" then
+			if strMnrOK = "y" AND strLoginOK = "y" AND cint(InitFindes) = 0 then
 			        
 
                 '** Finder medarbejdertypegrp (hvis findes) **'
@@ -367,11 +380,20 @@ Session.LCID = 1030
 			        
 			                   
 			        
-			        
+			        'Response.write "<div style='position:absolute; z-index:900000000; left:100px; top:100px; border:1px #999999 solid;'>HER: "& request("FM_mtyphist_dato") & "</div>"
+                    'response.flush
 
                     '** Opdaterer datoer på eksisterende ****'
+                    if len(trim(request("FM_mtyphist_dato"))) <> 0 then
                     mtyphist_ids = split(request("FM_mtyphist_id"), ", ")
                     mtyphist_datoer = split(request("FM_mtyphist_dato"), ", ")
+                    else
+                    mtyphist_ids = split("0", ", ")
+                    mtyphist_datoer = split("2044-01-01", ", ")
+                    end if
+
+                   
+
 
                         
                     useOpdStDatoTp = year(now) & "-" & month(now) & "-" & day(now)
@@ -998,15 +1020,22 @@ Session.LCID = 1030
 			                    errortype = 10
 			                    call showError(errortype)
                                 response.end
-			                    else
+			                    end if
 			
 			                    if strLoginOK <> "y" then
 			                    errortype = 11
 			                    call showError(errortype)
                                 response.end
+                                end if
 
-						                    end if
-					                    end if
+                                if cint(InitFindes) = 1 then
+			                    errortype = 188
+			                    call showError(errortype)
+                                response.end
+                                end if
+
+						                    
+					                   
 				                    end if
 			                    end if
 		                end if
@@ -1053,7 +1082,7 @@ Session.LCID = 1030
     case "red", "opret"
 
     %>
-    <script src="js/medarb_jav2.js" type="text/javascript"></script>        
+    <script src="js/medarb_jav.js" type="text/javascript"></script>        
     <%
      
 	if func = "red" then
@@ -1294,7 +1323,7 @@ Session.LCID = 1030
                         <div class="col-lg-1 pad-t5"><%=medarb_txt_023 %>:&nbsp<span style="color:red;">*</span></div>
                                               
                         <div class="col-lg-2">
-                            <%if lto = "tia" OR lto = "intranet - local" AND func = "red" then %>   
+                            <%if lto = "tia" OR lto = "xintranet - local" AND func = "red" then %>   
                             <input name="FM_init" type="text" class="form-control input-small" value="<%=strInit%>" readonly />
                             <%else %>
                             <input name="FM_init" type="text" class="form-control input-small" value="<%=strInit%>" />
@@ -1359,7 +1388,8 @@ Session.LCID = 1030
 		                    end select 
 		
 	                    %>
-		                        <input type="radio" name="FM_ansat" id="FM_ansat1" value="1" <%=chk1%>> <%=medarb_txt_029 %> <%if func <> "red" then %>
+		                        <input type="radio" name="FM_ansat" id="FM_ansat1" value="1" <%=chk1%>> <%=medarb_txt_029 %> 
+                                <%if func <> "red" then %>
                                 <span style="font-size:10px;">(<%=medarb_txt_028 %>)</span>
                                 <%end if %>
 		                    <br /><input type="radio" name="FM_ansat" id="FM_ansat2" value="2" <%=chk2%>> <%=medarb_txt_030 %> 
@@ -1867,7 +1897,7 @@ Session.LCID = 1030
 		
 		
 
-                            if cint(level) = 1 AND func = "red" then
+                            if cint(level) = 1 AND func = "red" AND cint(mth) > 1 then
                             %>
                             <br /><br /><br />
                             <%=medarb_txt_069 %><br />
@@ -2480,7 +2510,7 @@ Session.LCID = 1030
                                    <%end if %>
                                 
                                 </a></td>
-                            <td><%=mStatus %></td>
+                            <td><%=mStatus %>&nbsp;</td>
                             <td><%=left(mtypenavn, 30) %></td>
                             <td><%=left(mBrugergruppe, 30) %></td>
                             <td><a href="mailto:<%=oRec("email") %>"><%=oRec("email") %></a></td>

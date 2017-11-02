@@ -213,7 +213,7 @@
     <txt_64 >Follow this employ.type (if new and this is the first employee of this type)</txt_64>
     <txt_65 >Employee type - history</txt_65>
     <txt_66 >Max 30</txt_66>
-    <txt_67 >First Employ. Type has to match employ. Date. Reson for not update.</txt_67>
+    <txt_67 >First Employ. Type has to match employ. Date. Therefore, it can not be updated.</txt_67>
     <txt_68 >Rated time follows the history. Note earned vacation changes with rated time.</txt_68>
     <txt_69 >Update existing hourly rates? (for all active employee types)</txt_69>
     <txt_70 >Update hourly rates on all registrations, for all jobs regardless status for this employee. Follows the present employee type settings from the date the employee is created as the type.</txt_70>
@@ -354,7 +354,7 @@
     <txt_64 >Follow this employ.type (if new and this is the first employee of this type)</txt_64>
     <txt_65 >Employee type - history</txt_65>
     <txt_66 >Max 30</txt_66>
-    <txt_67 >First Employ. Type has to match employ. Date. Reson for not update.</txt_67>
+    <txt_67 >First Employ. Type has to match employ. Date. Therefore, it can not be updated.</txt_67>
     <txt_68 >Rated time follows the history. Note earned vacation changes with rated time.</txt_68>
     <txt_69 >Update existing hourly rates? (for all active employee types)</txt_69>
     <txt_70 >Update hourly rates on all registrations, for all jobs regardless status for this employee. Follows the present employee type settings from the date the employee is created as the type.</txt_70>
@@ -495,7 +495,7 @@
     <txt_64 >Follow this employ.type (if new and this is the first employee of this type)</txt_64>
     <txt_65 >Employee type - history</txt_65>
     <txt_66 >Max 30</txt_66>
-    <txt_67 >First Employ. Type has to match employ. Date. Reson for not update.</txt_67>
+    <txt_67 >First Employ. Type has to match employ. Date. Therefore, it can not be updated.</txt_67>
     <txt_68 >Rated time follows the history. Note earned vacation changes with rated time.</txt_68>
     <txt_69 >Update existing hourly rates? (for all active employee types)</txt_69>
     <txt_70 >Update hourly rates on all registrations, for all jobs regardless status for this employee. Follows the present employee type settings from the date the employee is created as the type.</txt_70>
@@ -635,7 +635,7 @@
     <txt_64 >Follow this employ.type (if new and this is the first employee of this type)</txt_64>
     <txt_65 >Employee type - history</txt_65>
     <txt_66 >Max 30</txt_66>
-    <txt_67 >First Employ. Type has to match employ. Date. Reson for not update.</txt_67>
+    <txt_67 >First Employ. Type has to match employ. Date. Therefore, it can not be updated.</txt_67>
     <txt_68 >Rated time follows the history. Note earned vacation changes with rated time.</txt_68>
     <txt_69 >Update existing hourly rates? (for all active employee types)</txt_69>
     <txt_70 >Update hourly rates on all registrations, for all jobs regardless status for this employee. Follows the present employee type settings from the date the employee is created as the type.</txt_70>
@@ -776,7 +776,7 @@
     <txt_64 >Follow this employ.type (if new and this is the first employee of this type)</txt_64>
     <txt_65 >Employee type - history</txt_65>
     <txt_66 >Max 30</txt_66>
-    <txt_67 >First Employ. Type has to match employ. Date. Reson for not update.</txt_67>
+    <txt_67 >First Employ. Type has to match employ. Date. Therefore, it can not be updated.</txt_67>
     <txt_68 >Rated time follows the history. Note earned vacation changes with rated time.</txt_68>
     <txt_69 >Update existing hourly rates? (for all active employee types)</txt_69>
     <txt_70 >Update hourly rates on all registrations, for all jobs regardless status for this employee. Follows the present employee type settings from the date the employee is created as the type.</txt_70>
@@ -916,7 +916,7 @@
     <txt_64 >Follow this employ.type (if new and this is the first employee of this type)</txt_64>
     <txt_65 >Employee type - history</txt_65>
     <txt_66 >Max 30</txt_66>
-    <txt_67 >First Employ. Type has to match employ. Date. Reson for not update.</txt_67>
+    <txt_67 >First Employ. Type has to match employ. Date. Therefore, it can not be updated.</txt_67>
     <txt_68 >Rated time follows the history. Note earned vacation changes with rated time.</txt_68>
     <txt_69 >Update existing hourly rates? (for all active employee types)</txt_69>
     <txt_70 >Update hourly rates on all registrations, for all jobs regardless status for this employee. Follows the present employee type settings from the date the employee is created as the type.</txt_70>

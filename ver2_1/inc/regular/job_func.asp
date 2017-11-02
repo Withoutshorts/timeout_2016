@@ -405,7 +405,7 @@ call jobfaneblad(lnkid, lnktxt, lnk, lnkwdt, lnktgt, bgcol)
 '*** Minivising ***'
 'lnkidtd = "tdvisgantt"
 lnkid = "oblik"
-lnktxt = "Joboverblik"
+lnktxt = job_txt_600
 lnk = oblikLink
 lnkwdt = 85
 lnktgt = ""
@@ -415,7 +415,7 @@ call jobfaneblad(lnkid, lnktxt, lnk, lnkwdt, lnktgt, bgcol)
 '*** forkalk ***'
 'lnkidtd = "tdvisgantt"
 lnkid = "forkalk"
-lnktxt = "Job & Aktivitet. (Budget)"
+lnktxt = "Job " &job_txt_602& ". (Budget)"
 lnk = fkalkLink
 lnkwdt = 150
 lnktgt = ""
@@ -443,7 +443,7 @@ end if
 '*** aktiviteter ***'
 'lnkidtd = "tdvisakt"
 lnkid = "visakt"
-lnktxt = "Aktiviteter"
+lnktxt = job_txt_603
 lnk = "aktiv.asp?menu=job&jobid="&id&"&jobnavn="&strNavn&"&rdir="&rdir
 lnkwdt = 100
 lnktgt = ""
@@ -459,7 +459,7 @@ end if
 '*** milepæle ***'
 'lnkidtd = "tdvismp"
 lnkid = "vismp"
-lnktxt = "Milepæle & Term."
+lnktxt = job_txt_604 &" & "& job_txt_605
 'lnk = "milepale.asp?menu=job&jid="&id&"&func=list&rdir="&rdir&"&kundeid="&strKnr
 lnk = milepLink
 lnkwdt = 105
@@ -473,10 +473,10 @@ end if
 lnkid = "vistp"
 if cdbl(antalmedarb) < 25 then
 lnkwdt = 125
-lnktxt = "Medarb. timepriser"
+lnktxt = job_txt_606
 else
 lnkwdt = 155
-lnktxt = "Medarb. timepriser (reload)"
+lnktxt = job_txt_606 &" (reload)"
 end if 'onClick="showtpris()"
 lnk = tprisLink
 
@@ -490,7 +490,7 @@ end if
 '*** Filarkiv ***'
 'lnkidtd = "tdvisfil"
 lnkid = "visfil"
-lnktxt = "Filarkiv" 
+lnktxt = job_txt_607 
 lnk = "filer.asp?kundeid="&fbKnr&"&jobid="&id&"&nomenu=1" 'strKnr
 lnkwdt = 65
 lnktgt = "_blank"

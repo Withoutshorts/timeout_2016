@@ -419,11 +419,11 @@ if len(session("user")) = 0 then
 
     select case per_interval
     case 1
-	tWdth = 1250
+	tWdth = 750 '1250
 	case 3
-    tWdth = 2025
+    tWdth = 1305 '2025
     case else
-    tWdth = 1945 '1184
+    tWdth = 1225 '1945 '1184
     end select
 	
 	'call tableDiv(tTop,tLeft,tWdth)
@@ -949,6 +949,8 @@ if len(session("user")) = 0 then
 
     lastMid = 0
    
+    response.Write "<br><br>"
+    l = 0
 	for m = 0 to UBOUND(intMids)
 	    
 	    
@@ -1057,7 +1059,7 @@ if len(session("user")) = 0 then
 
         '*** Saldo ***'
         intFerieSaldo(m) = intFerieOpt(m)/1 - (intFerieAU(m)/1)
-       
+       'her esn
 
 
 
@@ -1735,10 +1737,11 @@ if len(session("user")) = 0 then
         
 
         %>
-        <div id="div1" style="position:absolute; left:<%=leftvaltot %>px; top:<%=(sttop-21)+((tpp)*41)%>px; width:720px; background-color:#FFFFFF; padding:2px; border-bottom:1px #999999 solid;">
+        <div id="div1" style="position:initial; width:720px; background-color:#FFFFFF; padding:2px; border-bottom:1px #999999 solid;">
         <table cellpadding=1 cellspacing=1 border=0 width=100%>
-
-        <%if right(m, 1) = 0 then %>
+        <%if m = l then 
+            l = (l + 1) + 10
+        %>
        <tr><td colspan="15" class="lille">Ferieår: <%=ferieaarTxt %> </td></tr>
        <tr>
            <td class="lille" style="white-space:nowrap;">Medarb.</td>
@@ -1759,25 +1762,33 @@ if len(session("user")) = 0 then
            <td class="lille" style="white-space:nowrap;">Rejsedage. <img src="../ill/dot_E7A1EF.gif" width="3" height="10" border="0" alt="Rejsedage" /></td>
 
        </tr>
+
+            <tr>
+                <%for t = 0 to 14 %>
+                <td>&nbsp</td>
+                <%next %>
+            </tr>
+
             <%else %>
 
             <tr>
 
-                 <td class="lille" style="white-space:nowrap;width:40px;">&nbsp;</td>
-                 <td class="lille" style="white-space:nowrap;width:47px;">&nbsp;</td>
-                 <td class="lille" style="white-space:nowrap;width:38px;">&nbsp;</td>
-                 <td class="lille" style="white-space:nowrap;width:45px;">&nbsp;</td>
-                 <td class="lille" style="white-space:nowrap;width:55px;">&nbsp;</td>
-                 <td class="lille" style="white-space:nowrap;width:47px;">&nbsp;</td>
-                 <td class="lille" style="white-space:nowrap;width:43px;">&nbsp;</td>
-                 <td class="lille" style="white-space:nowrap;width:53px;">&nbsp;</td>
-                 <td class="lille" style="white-space:nowrap;width:25px;">&nbsp;</td>
-                 <td class="lille" style="white-space:nowrap;width:28px;">&nbsp;</td>
-                 <td class="lille" style="white-space:nowrap;width:47px;">&nbsp;</td>
-                 <td class="lille" style="white-space:nowrap;width:45px;">&nbsp;</td>
-                 <td class="lille" style="white-space:nowrap;width:45px;">&nbsp;</td>
-                 <td class="lille" style="white-space:nowrap;width:45px;">&nbsp;</td>
-                <td class="lille" style="white-space:nowrap;width:57px;">&nbsp;</td>
+           <td class="lille" style="white-space:nowrap; visibility:hidden">Medarb.</td>
+           <td class="lille" style="white-space:nowrap; visibility:hidden">Ferie optj.</td>
+           <td class="lille" style="white-space:nowrap; visibility:hidden">Afholdt <img src="../ill/dot_gron.gif" width="3" height="10" border="0" alt="Ferie Afholdt" /></td>
+           <td class="lille" style="white-space:nowrap; visibility:hidden">Udbetalt <img src="../ill/dot_darkpink.gif" width="3" height="10" border="0" alt="Ferie Udbetalt" /></td>
+           <td class="lille" style="white-space:nowrap; visibility:hidden">Afh. u. løn <img src="../ill/dot_yellowgron.gif" width="3" height="10" border="0" alt="Ferie Afholdt U. Løn" /></td>
+           <td class="lille" style="white-space:nowrap; visibility:hidden"><b>Ferie Saldo</b></td>
+            <td class="lille" style="white-space:nowrap; visibility:hidden">Planlagt <img src="../ill/dot_graae.gif" width="3" height="10" border="0" alt="Ferie planlagt og Feriefridage planlagt" /></td>
+          
+           <td class="lille" style="white-space:nowrap; padding-left:20px; visibility:hidden">Feriefri</td>
+           <td class="lille" style="white-space:nowrap; visibility:hidden">Afh. <img src="../ill/dot_gul.gif" width="3" height="10" border="0" alt="Feriefridage afholdt" /></td>
+           <td class="lille" style="white-space:nowrap; visibility:hidden">Udb. <img src="../ill/dot_lightpink.gif" width="3" height="10" border="0" alt="Feriefridage udbetalt" /></td>
+           <td class="lille" style="white-space:nowrap; visibility:hidden"><b>Feriefri Sld.</b></td>
+           <td class="lille" style="white-space:nowrap; padding-left:20px; visibility:hidden">Syg <img src="../ill/dot_rod.gif" width="3" height="10" border="0" alt="Syg" /></td>
+           <td class="lille" style="white-space:nowrap; visibility:hidden">Barnsyg <img src="../ill/dot_orange.gif" width="3" height="10" border="0" alt="Barn syg" /></td>
+           <td class="lille" style="white-space:nowrap; visibility:hidden">Afspad. <img src="../ill/dot_blaa.gif" width="3" height="10" border="0" alt="Afspadsering" /></td>
+           <td class="lille" style="white-space:nowrap; visibility:hidden">Rejsedage. <img src="../ill/dot_E7A1EF.gif" width="3" height="10" border="0" alt="Rejsedage" /></td>
        </tr>
 
             <%end if %>
@@ -1830,7 +1841,6 @@ if len(session("user")) = 0 then
      
 	
 	next
-
 
     '**** END LOOP FOR DOTS
 

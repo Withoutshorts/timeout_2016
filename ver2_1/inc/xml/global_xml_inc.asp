@@ -29,8 +29,8 @@ case else
 'objXmlHttp_global.open "GET", "https://outzource.dk/timeout_xp/wwwroot/ver2_14/inc/xml/global_sprog.xml", False
 'objXmlHttp_global.open "GET", "https://timeout.cloud/timeout_xp/wwwroot/ver2_14/inc/xml/global_sprog.xml", False
 'objXmlHttp_global.open "GET", "https://timeout.cloud/timeout_xp/wwwroot/ver3_99/inc/xml/global_sprog.xml", False
-'objXmlHttp_global.open "GET", "http://localhost/Git/timeout_2016/ver2_1/inc/xml/global_sprog.xml", False
-objXmlHttp_global.open "GET", "http://localhost/inc/xml/global_sprog.xml", False
+objXmlHttp_global.open "GET", "http://localhost/Git/timeout_2016/ver2_1/inc/xml/global_sprog.xml", False
+'objXmlHttp_global.open "GET", "http://localhost/inc/xml/global_sprog.xml", False
 'objXmlHttp_global.open "GET", "http://localhost/timeout_xp/inc/xml/global_sprog_tec.xml", False
 end select
 

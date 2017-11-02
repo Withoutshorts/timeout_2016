@@ -55,8 +55,8 @@
 	redim normTimerDag(1400)
 	
 	
-	dim realTimer, medarbNavn, medarbNr, medarbInit, realIfTimer
-	redim realTimer(1400), realIfTimer(1400), medarbNavn(1400), medarbNr(1400), medarbInit(1400)
+	dim realTimer, medarbNavn, medarbNr, medarbInit, realIfTimer, realIkkeGKTimer, realAfvistTimer
+	redim realTimer(1400), realIfTimer(1400), medarbNavn(1400), medarbNr(1400), medarbInit(1400), realIkkeGKTimer(1400), realAfvistTimer(1400) 
 	
 	dim normTimerUge, normTimer
 	redim normTimerUge(1400), normTimer(1400)
@@ -409,7 +409,7 @@
 	    &" t.tdato FROM timer t WHERE t.tmnr = "& intMid &" AND ("& aty_sql_realHoursIkFakbar &")"_
 	    &" AND t.tdato BETWEEN '"& startdato &"' AND '"& slutdato &"' GROUP BY t.tmnr "
 	   
-	   'Response.Write strSQLif
+	   'Response.Write "<br>" & strSQLif
 	   'Response.flush
 	   
 	    oRec2.open strSQLif, oConn, 3
@@ -427,8 +427,61 @@
          end if
 	    
 	    
+
+         '*** Timer Ikke godkendt ***'
+	    strSQLig = "SELECT t.tid, sum(t.timer) AS realIkkeGKTimer,"_
+	    &" t.tdato FROM timer t WHERE t.tmnr = "& intMid &" AND ("& aty_sql_realHours &")"_
+	    &" AND t.tdato BETWEEN '"& startdato &"' AND '"& slutdato &"' AND godkendtstatus <> 1 GROUP BY t.tmnr "
+	   
+	   'Response.Write "<br>" & strSQLif
+	   'Response.flush
+	   
+	    oRec2.open strSQLig, oConn, 3
+	    while not oRec2.EOF
+	    realIkkeGKTimer(x) = oRec2("realIkkeGKTimer")
+	    oRec2.movenext
+	    wend
+	    oRec2.close
+	   
+	    if len(trim(realIkkeGKTimer(x))) <> 0 AND realIkkeGKTimer(x) <> 0 then
+         realIkkeGKTimer(x) = realIkkeGKTimer(x)
+         afstemnul(x) = 104
+         else
+         realIkkeGKTimer(x) = 0
+         end if
+
+
+          '*** Timer Afviste ***'
+	    strSQLig = "SELECT t.tid, sum(t.timer) AS realAfvistTimer,"_
+	    &" t.tdato FROM timer t WHERE t.tmnr = "& intMid &" AND ("& aty_sql_realHours &")"_
+	    &" AND t.tdato BETWEEN '"& startdato &"' AND '"& slutdato &"' AND godkendtstatus = 2 GROUP BY t.tmnr "
+	   
+	   'Response.Write "<br>" & strSQLif
+	   'Response.flush
+	   
+	    oRec2.open strSQLig, oConn, 3
+	    while not oRec2.EOF
+	    realAfvistTimer(x) = oRec2("realAfvistTimer")
+	    oRec2.movenext
+	    wend
+	    oRec2.close
+	   
+	    if len(trim(realAfvistTimer(x))) <> 0 AND realAfvistTimer(x) <> 0 then
+         realAfvistTimer(x) = realAfvistTimer(x)
+         afstemnul(x) = 104
+         else
+         realAfvistTimer(x) = 0
+         end if
 	    
 	    end if
+
+
+       
+
+	    
+	   
+
+       
 	
 	    
 	    '*** Ressource Timer ***'
@@ -681,7 +734,12 @@
     <table cellspacing=0 cellpadding=2 border=0><!-- #5C75AA -->
 	 <tr bgcolor="#5582d2">
 	 <td class=alt valign="bottom" style="border-right:1px  #D6DfF5 solid;"><b><%=tsa_txt_147%></b></td>
-	 
+
+     <%if lto = "esn" then %>
+     <td class=alt valign="bottom" style="border-right:1px  #D6DfF5 solid;"><b>CPR nr.</b></td>
+     <td class=alt valign="bottom" style="border-right:1px  #D6DfF5 solid;"><b>Afdeling</b></td>
+	 <%end if %>
+
 	  <%if ((instr(akttype_sel, "#-5#") <> 0 OR instr(akttype_sel, "#-10#") <> 0) AND stempelurOn = 1) OR instr(akttype_sel, "#-1#") <> 0 then
       
        
@@ -1121,7 +1179,10 @@
 	 <tr bgcolor="#8CAAe6">
 	 
 	 <td style="width:200px; border-right:1px #D6DfF5 solid; border-bottom:1px #D6DfF5 solid;" class=alt>&nbsp;</td>
-	 
+     <%if lto = "esn" then %>
+     <td style="border-right:1px #D6DfF5 solid; border-bottom:1px #D6DfF5 solid;" class=alt>&nbsp;</td>
+     <td style="width:200px; border-right:1px #D6DfF5 solid; border-bottom:1px #D6DfF5 solid;" class=alt>&nbsp;</td>
+	 <%end if %>
 	 <%
          if cint(exporttype) = 200 OR cint(exporttype) = 201 then 'bluegaarden / 201: bluegaarden NO
 
@@ -1133,6 +1194,12 @@
          else
          strEksportTxtHeader = strEksportTxtHeader & tsa_txt_147 & ";Medarb. Nr.;Init;" 
          end if%>
+         
+         <%
+             if lto = "esn" then
+             strEksportTxtHeader = strEksportTxtHeader & "CPR nr.;" & "Afdeling;"
+             end if 
+         %>
 
          <%   
          'if (instr(akttype_sel, "#-5#") <> 0 AND instr(akttype_sel, "#-10#") = 0) then
@@ -1925,6 +1992,47 @@
 	  <%end if %>
 
 	  </td>
+      <%if lto = "esn" then %>
+      <td class=lille style=" white-space: nowrap; border-bottom: 1px  #D6DfF5 solid; border-right: 1px  #D6DfF5 solid; width:25px">
+          <%
+           strMedCprExport = ""
+           meStamdata(intmid)
+            
+           strMedCprExport = meCPR
+
+           if len(trim(strMedCprExport)) <> 0 then
+              response.Write strMedCprExport
+            end if
+
+              %>
+            </td>
+      <td class=lille style=" white-space: nowrap; border-bottom: 1px  #D6DfF5 solid; border-right: 1px  #D6DfF5 solid;">
+          <%
+              antalProGrp = 0
+              strSQLafd = "SELECT ProjektgruppeId, p.navn FROM progrupperelationer AS pr LEFT JOIN projektgrupper AS p ON (p.id = pr.ProjektgruppeId) WHERE MedarbejderId = "& intmid &" ORDER BY p.navn"
+              oRec.open strSQLafd, oConn, 3
+              while not oRec.EOF   
+                         
+              if oRec("ProjektgruppeId") <> 10 then
+                antalProGrp = antalProGrp + 1
+                response.Write oRec("navn") & "<br>"
+
+                if antalProGrp = 1 then
+                strAfdExport = oRec("navn")
+                else
+                strAfdExport = strAfdExport &", "& oRec("navn") 
+                end if
+
+              end if
+
+              oRec.movenext
+              wend
+              oRec.close
+              
+              strAfdExport = strAfdExport & ";"
+          %>
+      </td>
+      <%end if %>
 	 
 	 <%
          
@@ -1940,8 +2048,12 @@
      strEksport(x) = strEksport(x) & medarbNavn(x) &"; "& medarbNr(x) &";"& medarbInit(x) &";"
      end if
 
+     if lto = "esn" then
+     strEksport(x) = strEksport(x) & strMedCprExport &";"
+     strEksport(x) = strEksport(x) & strAfdExport 
+   end if
 
-      if formatnumber(normTimer(x),2) <> 0 then
+   if formatnumber(normTimer(x),2) <> 0 then
       normTimerTxt = formatnumber(normTimer(x),2) 
       normTimerTxtExp = normTimerTxt
       else
@@ -2582,7 +2694,7 @@
 	 <%if instr(akttype_sel, "#12#") <> 0 OR instr(akttype_sel, "#18#") <> 0 OR instr(akttype_sel, "#13#") <> 0 OR instr(akttype_sel, "#17#") <> 0 then 
 	 fefriBal = 0
 	 fefriBal  = (fefriTimer(x) - (fefriTimerBr(x) + fefriTimerUdb(x)))
-	 
+	 fefriBalP = fefriBal - fefriplVal 
 	 if normTimerDag(x) <> 0 then 
 	 fefriBalVal = fefriBal/normTimerDag(x)
 	 else
@@ -2598,8 +2710,8 @@
      end if
 	 
 	 %>
-	 <td align=right class=lille style="  white-space: nowrap; border-bottom: 1px  #D6DfF5 solid; border-right: 1px  #D6DfF5 solid;">
-	 <%=fefriBalValTxt%></td>
+	 <td align=right class=lille style="  white-space: nowrap; border-bottom: 1px  #D6DfF5 solid; border-right: 1px  #D6DfF5 solid;">her
+	 <%=fefriBalValTxt%><%if fefriBalP <> 0 then %> (<%=fefriBalP %>)<%end if %></td>
 	 <%strEksport(x) = strEksport(x) & fefriBalValTxtExp & ";"%>
 	 <%end if %>
 	 
@@ -2788,7 +2900,7 @@
 	 
 	 
 	     <%if instr(akttype_sel, "#11#") <> 0 then %>
-	     <td align=right class=lille style=" white-space: nowrap; border-bottom: 1px  #D6DfF5 solid; border-right: 1px  #D6DfF5 solid;">
+	     <td align=right class=lille style=" white-space: nowrap; border-bottom: 1px  #D6DfF5 solid; border-right: 1px  #D6DfF5 solid;">her
 	 
 	     <%if normTimerDag(x) <> 0 then 
 	     feriePlVal = feriePLTimer(x)/normTimerDag(x)
@@ -2897,7 +3009,9 @@
 	 else
 	 ferieBalVal = 0
 	 end if
-	 
+
+	 ferieBalValP = (ferieBalVal - feriePlVal) 'ska kun være for esn only. 
+
      if ferieBalVal <> 0 then 
 	 ferieBalValTxt = formatnumber(ferieBalVal,2)
      ferieBalValTxtExp = ferieBalValTxt
@@ -2908,7 +3022,7 @@
 
 	 %>
 	 <td align=right class=lille style=" white-space: nowrap; border-bottom: 1px  #D6DfF5 solid; border-right: 1px  #D6DfF5 solid;">
-	 <%=ferieBalValTxt %></td>
+	 <%=ferieBalValTxt %> (<%=formatnumber(ferieBalValP,2) %>)</td>
 	
 	<%strEksport(x) = strEksport(x) & ferieBalValTxtExp & ";"%>
 	<%end if %>

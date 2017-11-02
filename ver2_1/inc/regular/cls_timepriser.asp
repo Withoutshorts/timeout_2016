@@ -322,14 +322,14 @@
     %>
     <table cellspacing=1 cellpadding=2 border=0 width=800 bgcolor="#8CAAe6" id="timepristable">
                                 <tr bgcolor=Gainsboro>
-                                <td bgcolor=#d6dff5 class=lille style="width:100px;">Medarbejder</td>
-								<td class=lille>Generel timepris<br /><input type="button" class="checkAll" value="kolonne" /></td>
-								<td class=lille>Timepris 1<br /><input type="button" class="checkAll" value="kolonne" /></td>
-								<td class=lille>Timepris 2<br /><input type="button" class="checkAll" value="kolonne" /></td>
-								<td class=lille>Timepris 3<br /><input type="button" class="checkAll" value="kolonne" /></td>
-								<td class=lille>Timepris 4<br /><input type="button" class="checkAll" value="kolonne" /></td>
-								<td class=lille>Timepris 5<br /><input type="button" class="checkAll" value="kolonne" /></td>
-								<td bgcolor="#DCF5BD" class=lille>Valgt timepris<br /><input type="button" class="checkAll" value="kolonne" /></td></tr>
+                                <td bgcolor=#d6dff5 class=lille style="width:100px;"><%=job_txt_293 %></td>
+								<td class=lille><%=job_txt_618 %><br /><input type="button" class="checkAll" value="<%=job_txt_621 %>" /></td>
+								<td class=lille><%=job_txt_619 & " 1" %><br /><input type="button" class="checkAll" value="<%=job_txt_621 %>" /></td>
+								<td class=lille><%=job_txt_619 & " 2" %><br /><input type="button" class="checkAll" value="<%=job_txt_621 %>" /></td>
+								<td class=lille><%=job_txt_619 & " 3" %><br /><input type="button" class="checkAll" value="<%=job_txt_621 %>" /></td>
+								<td class=lille><%=job_txt_619 & " 4" %><br /><input type="button" class="checkAll" value="<%=job_txt_621 %>" /></td>
+								<td class=lille><%=job_txt_619 & " 5" %><br /><input type="button" class="checkAll" value="<%=job_txt_621 %>" /></td>
+								<td bgcolor="#DCF5BD" class=lille><%=job_txt_620 %><br /><input type="button" class="checkAll" value="<%=job_txt_621 %>" /></td></tr>
 								<%
 								usedmids = "0#"
 								strSQL = "SELECT id, navn FROM projektgrupper WHERE id = "& gp1 &" OR id = "& gp2 &" OR id = "& gp3 &" OR id = "& gp4 &" OR id = "& gp5 &" OR id = "& gp6 &" OR id = "& gp7 &" OR id = "& gp8 &" OR id = "& gp9 &" OR id = "& gp10 &" ORDER BY navn"

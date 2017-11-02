@@ -27,7 +27,7 @@ case "FM_ajaxstaid" '"FM_ajaxstatus"
                                 
                                 
                             
-
+                                
                                 id = request("id")
                                 value = request("value") 
                                
@@ -39,13 +39,14 @@ case "FM_ajaxstaid" '"FM_ajaxstatus"
                                intKontakt = 0
                                
                                '*** Henter Incident oplysninger ***'
-                                 strSQL = "SELECT ansvarlig, kundeid, emne, besk FROM SDSK WHERE id = " & id
+                                 strSQL = "SELECT ansvarlig, kundeid, emne, besk, creator FROM SDSK WHERE id = " & id
                                  oRec.open strSQL, oConn, 3
                                  if not oRec.EOF then
                                  intAns = oRec("ansvarlig")
                                  intKontakt = oRec("kundeid")
                                  strEmne = oRec("emne")
                                  strBesk = oRec("besk")
+                                 creator = oRec("creator")
                                  end if
                                  oRec.close
                                
@@ -76,96 +77,94 @@ case "FM_ajaxstaid" '"FM_ajaxstatus"
                                '***** Oprettter Mail object ***
                                if request.servervariables("PATH_TRANSLATED") <> "C:\www\timeout_xp\wwwroot\ver2_1\timereg\sdsk.asp" then
                                 
-                              
-           
-                                 Set Mailer = Server.CreateObject("SMTPsvg.Mailer")
-                                 ' Sætter Charsettet til ISO-8859-1 
-                                 Mailer.CharSet = 2
-                                 ' Afsenderens navn 
-                                 Mailer.FromName = "TimeOut ServiceDesk"
-                                 ' Afsenderens e-mail 
-                                 Mailer.FromAddress = "timeout_no_reply@outzource.dk"
-                                 Mailer.RemoteHost = "webout.smtp.nu" '"webmail.abusiness.dk"
-                                 Mailer.ContentType = "text/html"
-                                 
-                                
-                          
-                          
-                                '** Henter Afsender ***
-                                 strSQL = "SELECT mnavn, mnr, init, email FROM medarbejdere WHERE mid = " & session("mid")
-                                 oRec.open strSQL, oConn, 3
-                                 while not oRec.EOF
+                                    Set myMail=CreateObject("CDO.Message")
+                                    myMail.From = "timeout_no_reply@outzource.dk"
+
+                                    '** Henter Afsender ***
+                                    strSQL = "SELECT mnavn, mnr, init, email FROM medarbejdere WHERE mid = " & session("mid")
+                                    oRec.open strSQL, oConn, 3
+                                    while not oRec.EOF
                                             
-                                 afsNavn = oRec("mnavn") & "("& oRec("mnr") &") - " & oRec("init")
-                                 afsEmail = oRec("email")
+                                    afsNavn = oRec("mnavn") & "("& oRec("mnr") &") - " & oRec("init")
+                                    afsEmail = oRec("email")
                                             
-                                 oRec.movenext
-                                 wend
+                                    oRec.movenext
+                                    wend
                                             
-                                 oRec.close
+                                    oRec.close
                                 
                                 
                                 'response.Write "ok - afsender navn:" & afsNavn
                                 'response.end 
                                 
                                  
-                                  bcc = ""
-                                  call eml_inciAns()
-                                  call eml_inciCreator()
-                                  call eml_proGrp()
-                                  call eml_Kpers(kpers)
+                                    bcc = ""
+                                    call eml_inciAns()
+                                    call eml_inciCreator()
+
+                                    call eml_proGrp()
+                                    call eml_Kpers(kpers)
                                                       
-                                  if instr(kpers2email, "@") <> 0 then
-                                  Mailer.AddBCC ""&kpers2&"",""& kpers2email  
-                                  bcc = bcc & "Kontaktperson: "&kpers2&", "& kpers2email & "<br>"
-                                  end if
+                                    if instr(kpers2email, "@") <> 0 then
+                                    'myMail.Bcc = ""&kpers2&""&""& kpers2email 
+                                    myMail.CC = myMail.CC &";"& kpers2email 
+                                    bcc = bcc & "Kontaktperson: "&kpers2&", "& kpers2email & "<br>"
+                                    end if
                            
-                                  call eml_kogjobAns()
+                                    call eml_kogjobAns()
                                   
+                                                                             
+                                    '** Henter statusnavn ***
+                                    strSQL = "SELECT navn FROM sdsk_status WHERE id = " & intStatus
+                                    oRec.open strSQL, oConn, 3
+                                    while not oRec.EOF
+                                            
+                                    statusNavn = oRec("navn") 
+                                            
+                                    oRec.movenext
+                                    wend
+                                    oRec.close
+                                     
+                                    myMail.Subject = "Opdateret Incident (ID: "& StrMailID &") - "& strEmne
+                                    myMail.To = ""& ansvNavn &"<"& ansvEmail &">"
+
+                                    myMail.HTMLBody = "Status på Incident: (ID: "& strMailID &") er blevet opdateret.<br><BR>" _ 
+                                    & "==============================================================<BR><br>" _
+                                    & "<b>Status er opdateret til:</b> " & statusNavn & "<BR><BR>" _
+                                    & "<b>Emne og beskrivelse:</b> " & strEmne & "<br><br>" _
+                                    & strBesk & "<br><br><br>"_
+                                    & "==============================================================<BR><br>" _
+                                    & "Modtagere af denne mail:<br>" &  replace(bcc, "<br>", " -- ") & "<br><br>" _
+                                    & "Med venlig hilsen<br>" & afsNavn & ", "& afsEmail & "<br>"_ 
+                                    '& "Incident ansvarlig: " & ansvNavn & ", " & ansvEmail & vbCrLf & vbCrLf _ bcc
+                                    '& "Adressen til TimeOut er: https://outzource.dk/"&lto&"" & vbCrLf & vbCrLf _ 
                                   
-                                            
-                                            '** Henter statusnavn ***
-                                            strSQL = "SELECT navn FROM sdsk_status WHERE id = " & intStatus
-                                            oRec.open strSQL, oConn, 3
-                                            while not oRec.EOF
-                                            
-                                            statusNavn = oRec("navn") 
-                                            
-                                            oRec.movenext
-                                            wend
-                                            oRec.close
-                                            
-                                 
-                                 'response.Write "ok - statusnavn:" & statusNavn 
-                                 'response.end 
-                                 
-                                 
-                                'Mailens emne
-                                 Mailer.Subject = "Opdateret Incident (ID: "& StrMailID &") - "& strEmne 
-                                 ' Modtagerens navn og e-mail
-                                 Mailer.AddRecipient ansvNavn, ansvEmail
-                                 
-                          
-                                 
-                                 ' Selve teksten
-                                                      Mailer.BodyText = "Status på Incident: (ID: "& strMailID &") er blevet opdateret.<br><BR>" _ 
-                                                      & "==============================================================<BR><br>" _
-                                                      & "<b>Status er opdateret til:</b> " & statusNavn & "<BR><BR>" _
-                                                      & "<b>Emne og beskrivelse:</b> " & strEmne & "<br><br>" _
-                                                      & strBesk & "<br><br><br>"_
-                                                      & "==============================================================<BR><br>" _
-                                                      & "Modtagere af denne mail:<br>" &  replace(bcc, "<br>", " -- ") & "<br><br>" _
-                                                      & "Med venlig hilsen<br>" & afsNavn & ", "& afsEmail & "<br>"_ 
-                                                      '& "Incident ansvarlig: " & ansvNavn & ", " & ansvEmail & vbCrLf & vbCrLf _ bcc
-                                                      '& "Adressen til TimeOut er: https://outzource.dk/"&lto&"" & vbCrLf & vbCrLf _ 
-                                            
-                                                      If Mailer.SendMail Then
-                                            
-                                                      Else
-                                                      Response.Write "Fejl...<br>" & Mailer.Response
-                                                      End if
-                                                      
-                             end if     '** C drev: mailer ** 
+
+                                    myMail.Configuration.Fields.Item _
+                                    ("http://schemas.microsoft.com/cdo/configuration/sendusing")=2
+                                    'Name or IP of remote SMTP server
+                                   
+                                    if instr(request.servervariables("LOCAL_ADDR"), "195.189.130.210") <> 0 then
+                                       smtpServer = "webout.smtp.nu"
+                                    else
+                                       smtpServer = "formrelay.rackhosting.com" 
+                                    end if
+                    
+                                    myMail.Configuration.Fields.Item _
+                                    ("http://schemas.microsoft.com/cdo/configuration/smtpserver")= smtpServer
+
+                                    'Server port
+                                    myMail.Configuration.Fields.Item _
+                                    ("http://schemas.microsoft.com/cdo/configuration/smtpserverport")=25
+                                    myMail.Configuration.Fields.Update
+                    
+                                    if len(trim(ansvEmail)) <> 0 then
+                                    myMail.Send
+                                    end if
+                                    set myMail=nothing
+   
+           
+                               end if 
                              'end if
                              
                              
@@ -607,108 +606,102 @@ if len(session("user")) = 0 then
                                  
                                  
                                  
-                                 '***** Oprettter Mail object ***
+                                 
+
+
+
+                                '***** Oprettter Mail object ***
                                  if request.servervariables("PATH_TRANSLATED") <> "C:\www\timeout_xp\wwwroot\ver2_1\timereg\sdsk.asp" then
-                                 
-                                 
-                                 Set Mailer = Server.CreateObject("SMTPsvg.Mailer")
-                                 ' Sætter Charsettet til ISO-8859-1 
-                                 Mailer.CharSet = 2
-                                 ' Afsenderens navn 
-                                 Mailer.FromName = "TimeOut ServiceDesk"
-                                 ' Afsenderens e-mail 
-                                 Mailer.FromAddress = "timeout_no_reply@outzource.dk"
-                                 Mailer.RemoteHost = "webout.smtp.nu" '"webmail.abusiness.dk"
-                                 Mailer.ContentType = "text/html"
-                          
-                          
-                          '** Henter Afsender ***
-                                 strSQL = "SELECT mnavn, mnr, init, email FROM medarbejdere WHERE mid = " & session("mid")
-                                 oRec.open strSQL, oConn, 3
-                                 while not oRec.EOF
+
+                                    Set myMail=CreateObject("CDO.Message")
+
+                                    myMail.FROM = "timeout_no_reply@outzource.dk" 
+
+                                    '** Henter Afsender ***
+                                     strSQL = "SELECT mnavn, mnr, init, email FROM medarbejdere WHERE mid = " & session("mid")
+                                     oRec.open strSQL, oConn, 3
+                                     while not oRec.EOF
                                             
-                                 afsNavn = oRec("mnavn") & "("& oRec("mnr") &") - " & oRec("init")
-                                 afsEmail = oRec("email")
+                                     afsNavn = oRec("mnavn") & "("& oRec("mnr") &") - " & oRec("init")
+                                     afsEmail = oRec("email")
                                             
-                                 oRec.movenext
-                                 wend
+                                     oRec.movenext
+                                     wend
                                             
-                                 oRec.close
+                                     oRec.close
                                  
-                                 
-                                 
-                                 
-                                  bcc = ""
-                                  call eml_inciAns()
-                                  call eml_inciCreator()
-                                  call eml_proGrp()
-                                                      call eml_Kpers(kpers)
+                                                                                                 
+                                    bcc = ""
+
+                                    call eml_inciAns()
+                                    call eml_inciCreator()
+                                    call eml_proGrp()
+                                    call eml_Kpers(kpers)
                                                       
-                                                      if instr(kpers2email, "@") <> 0 then
-                                  Mailer.AddBCC ""&kpers2&"",""& kpers2email  
-                                  bcc = bcc & "Kontaktperson: "&kpers2&", "& kpers2email & "<br>"
-                           end if
-                           
-                                                      call eml_kogjobAns()
+                                    if instr(kpers2email, "@") <> 0 then
+                                    'myMail.BCC = ""&kpers2&""&""& kpers2email
+                                    myMail.CC = myMail.CC &";"& kpers2email
+                                    bcc = bcc & "Kontaktperson: "&kpers2&", "& kpers2email & "<br>"
+                                    end if
+
+                                    '** Henter statusnavn ***
+                                    strSQL = "SELECT navn FROM sdsk_status WHERE id = " & intStatus
+                                    oRec.open strSQL, oConn, 3
+                                    while not oRec.EOF
                                             
+                                    statusNavn = oRec("navn") 
                                             
-                                            
-                                            
-                                            '** Henter statusnavn ***
-                                            strSQL = "SELECT navn FROM sdsk_status WHERE id = " & intStatus
-                                            oRec.open strSQL, oConn, 3
-                                            while not oRec.EOF
-                                            
-                                            statusNavn = oRec("navn") 
-                                            
-                                            oRec.movenext
-                                            wend
-                                            oRec.close
-                                            
-                                            
-                                            
-                                 
-                          ' Mailens emne
-                                 Mailer.Subject = "Ny Incident (ID: "& lastedit &") - "& strEmne 
-                                 ' Modtagerens navn og e-mail
-                                 Mailer.AddRecipient ansvNavn, ansvEmail
-                                 
-                                 ''*** Mail til Kundeansvarlig ***
-                                 'if kundeans1 <> intAns AND kundeans1 <> 0 then
-                                 '          Mailer.AddCC ""&modKansNavn&"",""& modKansEmail 
-                          '                 
-                          '                 if instr(modKansEmail, "@") <> 0 AND instr(bcc, modKansEmail) = 0 then
-                          '          bcc = bcc & ""&oRec("mnavn")&","& oRec("email") & "<br>"
-                          '       end if
-                                             
-                          '      end if
-                                 
-                                 ' Selve teksten
-                                                      Mailer.BodyText = "Ny Incident: (ID: "& lastedit &") er oprettet.<br><br>" _
-                                                      & "==============================================================<br>" _
-                                                      & "Kontakt information:<br> " _
-                                                      & knavn & " ("& knr &") <br>" _
-                                                      & adresse & "<br>" _
-                                                      & postnr & ", " & by  & "<br>" _
-                                                      & "Tlf: " & telefon  & "<br>" _
-                                                      & "==============================================================<br><br>"  _
-                                                      & "<b>Status:</b>  " & statusNavn & "<br><br>" _
-                                                      & "<b>Emne og beskrivelse:</b> " & strEmne & "<br><BR>" _
-                                                      & strBesk & "<br><br>" _ 
-                                                      & "==============================================================<BR><br>" _
-                                                      & "Modtagere af denne mail:<br>" & replace(bcc, "<br>", " -- ") & "<br><br>" _
-                                                      & "Med venlig hilsen<br>" & afsNavn & ", "& afsEmail & "<br>" 
-                                                      '& "Incident ansvarlig: " & ansvNavn & ", " & ansvEmail & vbCrLf & vbCrLf _ bcc
-                                                      '& "Adressen til TimeOut er: https://outzource.dk/"&lto&"" & vbCrLf & vbCrLf _ 
-                                            
-                                                      If Mailer.SendMail Then
-                                            
-                                                      Else
-                                                      Response.Write "Fejl...<br>" & Mailer.Response
-                                                      End if     
-                                            
-                                 
-                                 end if ''** Mail
+                                    oRec.movenext
+                                    wend
+                                    oRec.close
+
+                                    myMail.Subject = "Ny Incident (ID: "& lastedit &") - "& strEmne
+                                    myMail.HTMLBody = "Ny Incident: (ID: "& lastedit &") er oprettet.<br><br>" _
+                                    & "==============================================================<br>" _
+                                    & "Kontakt information:<br> " _
+                                    & knavn & " ("& knr &") <br>" _
+                                    & adresse & "<br>" _
+                                    & postnr & ", " & by  & "<br>" _
+                                    & "Tlf: " & telefon  & "<br>" _
+                                    & "==============================================================<br><br>"  _
+                                    & "<b>Status:</b>  " & statusNavn & "<br><br>" _
+                                    & "<b>Emne og beskrivelse:</b> " & strEmne & "<br><BR>" _
+                                    & strBesk & "<br><br>" _ 
+                                    & "==============================================================<BR><br>" _
+                                    & "Modtagere af denne mail:<br>" & replace(bcc, "<br>", " -- ") & "<br><br>" _
+                                    & "Med venlig hilsen<br>" & afsNavn & ", "& afsEmail & "<br>"
+                                    
+                                    myMail.To = ""& ansvNavn &"<"& ansvEmail &">"
+
+                                    myMail.Configuration.Fields.Item _
+                                    ("http://schemas.microsoft.com/cdo/configuration/sendusing")=2
+                                    'Name or IP of remote SMTP server
+                                   
+                                    if instr(request.servervariables("LOCAL_ADDR"), "195.189.130.210") <> 0 then
+                                       smtpServer = "webout.smtp.nu"
+                                    else
+                                       smtpServer = "formrelay.rackhosting.com" 
+                                    end if
+                    
+                                    myMail.Configuration.Fields.Item _
+                                    ("http://schemas.microsoft.com/cdo/configuration/smtpserver")= smtpServer
+
+                                    'Server port
+                                    myMail.Configuration.Fields.Item _
+                                    ("http://schemas.microsoft.com/cdo/configuration/smtpserverport")=25
+                                    myMail.Configuration.Fields.Update
+                    
+                                    if len(trim(ansvEmail)) <> 0 then
+                                    myMail.Send
+                                    end if
+                                    set myMail=nothing
+
+
+
+                                end if
+
+
+
                                  
                                  
                                  
@@ -850,69 +843,82 @@ if len(session("user")) = 0 then
                                             
                                  
                                  
-                                 '***** Oprettter Mail object ***
-                                 if request.servervariables("PATH_TRANSLATED") <> "C:\www\timeout_xp\wwwroot\ver2_1\timereg\sdsk.asp" then
+                                         '***** Oprettter Mail object ***
+                                         if request.servervariables("PATH_TRANSLATED") <> "C:\www\timeout_xp\wwwroot\ver2_1\timereg\sdsk.asp" then
                                                       
-                                 
-                                 
-                                 Set Mailer = Server.CreateObject("SMTPsvg.Mailer")
-                                 ' Sætter Charsettet til ISO-8859-1 
-                                 Mailer.CharSet = 2
-                                 ' Afsenderens navn 
-                                 Mailer.FromName = "TimeOut ServiceDesk"
-                                 ' Afsenderens e-mail 
-                                 Mailer.FromAddress = "timeout_no_reply@outzource.dk"
-                                 Mailer.RemoteHost = "webout.smtp.nu" '"webmail.abusiness.dk"
-                                 Mailer.ContentType = "text/html"
-                                 
-                                 ' Mailens emne
-                                 Mailer.Subject = "Incident (ID: "& id &") - "& strEmne &" - "& statusNavn
-                                 ' Modtagerens navn og e-mail
-                                 Mailer.AddRecipient afsNavn, afsEmail
-                                 
-                                         bcc = ""
-                                         
-                                                      call eml_inciAns()
-                                                      call eml_inciCreator()
-                                                       call eml_proGrp()
-                                                      call eml_Kpers(kpers)
-                                                      
-                                                      if instr(kpers2email, "@") <> 0 then
-                                  Mailer.AddBCC ""&kpers2&"",""& kpers2email  
-                                  bcc = bcc & "Kontaktperson: "&kpers2&", "& kpers2email & "<br>"
-                           end if
-                                                      
-                                                      call eml_kogjobAns()
-                                                      
-                                                      
-                                                      ' Selve teksten
-                                                      Mailer.BodyText = "Vedr. Incident: (ID: "& id &")<br><br> "_
-                                                       & "==============================================================<br>" _
-                                                      & "Kontakt information:<br> " _
-                                                      & knavn & " ("& knr &") <br>" _
-                                                      & adresse & "<br>" _
-                                                      & postnr & ", " & by  & "<br>" _
-                                                      & "Tlf: " & telefon  & "<br>" _
-                                                      & "==============================================================<br><br>"  _
-                                                      & "<b>Status:</b>  " & statusNavn & "<br><br>" _
-                                                      & "<b>Emne og beskrivelse:</b> " & strEmne & "<br><BR>" _
-                                                      & strBesk & "<br><br>" _ 
-                                                      & "==============================================================<BR><br>" _
-                                                      & "Modtagere af denne mail:<br>" & replace(bcc, "<br>", " -- ") & "<br><br>" _
-                                                      & "Med venlig hilsen<br>" & afsNavn & ", "& afsEmail & "<br>" 
-                                                      '& "Incident ansvarlig: " & ansvNavn & ", " & ansvEmail & vbCrLf & vbCrLf _ bcc
-                                                      '& "Adressen til TimeOut er: https://outzource.dk/"&lto&"" & vbCrLf & vbCrLf _ 
+                                            Set myMail=CreateObject("CDO.Message")
+
+                                            myMail.FROM = "timeout_no_reply@outzource.dk"
+
+                                            myMail.Subject = "Incident (ID: "& id &") - "& strEmne &" - "& statusNavn
                                             
-                                                      If Mailer.SendMail Then
-                                            
-                                                      Else
-                                                      Response.Write "Fejl...<br>" & Mailer.Response
-                                                      End if
+
+                                            bcc = ""
+
+                                            call eml_inciAns()
+                                            call eml_inciCreator()
+                                            call eml_proGrp()
+                                            call eml_Kpers(kpers)
                                                       
+                                            if instr(kpers2email, "@") <> 0 then
+                                            'myMail.Bcc = ""&kpers2&""&""& kpers2email
+                                            myMail.CC = myMail.CC &";"& kpers2email  
+                                            bcc = bcc & "Kontaktperson: "&kpers2&", "& kpers2email & "<br>"
+                                            end if
+                                                      
+                                            call eml_kogjobAns()
+
+
+                                             ' Selve teksten
+                                            myMail.HTMLBody = "Vedr. Incident: (ID: "& id &")<br><br> "_
+                                            & "==============================================================<br>" _
+                                            & "Kontakt information:<br> " _
+                                            & knavn & " ("& knr &") <br>" _
+                                            & adresse & "<br>" _
+                                            & postnr & ", " & by  & "<br>" _
+                                            & "Tlf: " & telefon  & "<br>" _
+                                            & "==============================================================<br><br>"  _
+                                            & "<b>Status:</b>  " & statusNavn & "<br><br>" _
+                                            & "<b>Emne og beskrivelse:</b> " & strEmne & "<br><BR>" _
+                                            & strBesk & "<br><br>" _ 
+                                            & "==============================================================<BR><br>" _
+                                            & "Modtagere af denne mail:<br>" & replace(bcc, "<br>", " -- ") & "<br><br>" _
+                                            & "Med venlig hilsen<br>" & afsNavn & ", "& afsEmail & "<br>" 
+                                            '& "Incident ansvarlig: " & ansvNavn & ", " & ansvEmail & vbCrLf & vbCrLf _ bcc
+                                            '& "Adressen til TimeOut er: https://outzource.dk/"&lto&"" & vbCrLf & vbCrLf _ 
+                                            
+                                            myMail.To = ""& ansvNavn &"<"& ansvEmail &">"
+
+                                            myMail.Configuration.Fields.Item _
+                                            ("http://schemas.microsoft.com/cdo/configuration/sendusing")=2
+                                            'Name or IP of remote SMTP server
+                                   
+                                            if instr(request.servervariables("LOCAL_ADDR"), "195.189.130.210") <> 0 then
+                                               smtpServer = "webout.smtp.nu"
+                                            else
+                                               smtpServer = "formrelay.rackhosting.com" 
+                                            end if
+                    
+                                            myMail.Configuration.Fields.Item _
+                                            ("http://schemas.microsoft.com/cdo/configuration/smtpserver")= smtpServer
+
+                                            'Server port
+                                            myMail.Configuration.Fields.Item _
+                                            ("http://schemas.microsoft.com/cdo/configuration/smtpserverport")=25
+                                            myMail.Configuration.Fields.Update
+                    
+                                            if len(trim(ansvEmail)) <> 0 then
+                                            myMail.Send
+                                            end if
+                                            set myMail=nothing
+
+
                                  
-                                 end if
-                                 end if
-                                 '*** Adviser via email ***********
+                                        end if
+                                        '*** Adviser via email ***********
+
+                                end if
+                                 
                                  
                                  
                                  
@@ -3796,7 +3802,7 @@ if len(session("user")) = 0 then
                       <option value="0">Ingen</option>
                       </select></td>    
 
-                       <td valign=top style="padding:5px 5px 2px 2px; border-top:1px #C4C4C4 solid;" class=lille>    
+                       <td valign=top style="padding:5px 5px 2px 2px; border-top:1px #C4C4C4 solid;" class=lille>  
                        <select name="xFM_ajaxtype" id="FM_ajaxkatid_<%=oRec("id") %>" class="txtField" style="width:140px; font-size:11px;">
                       <%
                       strSQL = "SELECT id, navn FROM sdsk_typer ORDER BY navn"

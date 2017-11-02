@@ -103,6 +103,7 @@ Set oNodes_godkend = objXmlDom_godkend.documentElement.selectNodes(sXPathQuery_g
         godkend_txt_020 = oNode_godkend.selectSingleNode("txt_20").Text
         godkend_txt_021 = oNode_godkend.selectSingleNode("txt_21").Text
         godkend_txt_022 = oNode_godkend.selectSingleNode("txt_22").Text
+        godkend_txt_023 = oNode_godkend.selectSingleNode("txt_23").Text
 
                 
     next

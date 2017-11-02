@@ -389,9 +389,9 @@ sub mstatus_lastlogin
             case "1"
             mstatus = ""
             case "2"
-            mstatus = "De-aktiveret"
+            mstatus = progrp_txt_056
             case "3"
-            mstatus = "Passiv"
+            mstatus = progrp_txt_057
             case else
             mstatus = ""
             end select

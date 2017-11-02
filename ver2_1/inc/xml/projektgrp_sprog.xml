@@ -4,30 +4,315 @@
 
   <!--- Dansk -->
   <dk>
-      
+    <txt_1 >Du er ved at</txt_1>
+    <txt_2 >SLETTE</txt_2>
+    <txt_3 >en projektgruppe. Er dette korrekt?</txt_3>
+    <txt_4 >Projektgrupper (medlemmer)</txt_4>
+    <txt_5 >Opdatér</txt_5>
+    <txt_6 >Medarbejdere i projektgruppen</txt_6>
+    <txt_7 >Navn</txt_7>
+    <txt_8 >Status</txt_8>
+    <txt_9 >Tilføj/Fjern ?</txt_9>
+    <txt_10 >Teamleder ?</txt_10>
+    <txt_11 >Notificer</txt_11>
+    <txt_12 >Ansatdato</txt_12>
+    <txt_13 >Sidst logget ind</txt_13>
+    <txt_14 >Antal medarbejdere i projektgruppen:</txt_14>
+    <txt_15 >Medarbejdere udenfor projektgruppen (aktive og pasive)</txt_15>
+    <txt_16 >Er allerede i Org. projektgruppe</txt_16>
+    <txt_17 >Funktioner</txt_17>
+    <txt_18 >Eksport til csv.</txt_18>
+    <txt_19 >Projektgruppe</txt_19>
+    <txt_20 >Medarbejder</txt_20>
+    <txt_21 >Init</txt_21>
+    <txt_22 >Teamleder</txt_22>
+    <txt_23 >Notificer</txt_23>
+    <txt_24 >Status</txt_24>
+    <txt_25 >Ansatdato</txt_25>
+    <txt_26 >Din CSV. fil er klar</txt_26>
+    <txt_27 >Projektgrupper (rediger)</txt_27>
+    <txt_28 >Stamdata</txt_28>
+    <txt_29 >Organisatorisk</txt_29>
+    <txt_30 >eller</txt_30>
+    <txt_31 >Virtuel</txt_31>
+    <txt_32 >gruppe</txt_32>
+    <txt_33 >En medarbejder kan kun være medlem af</txt_33>
+    <txt_34 >en</txt_34>
+    <txt_35 >organisatorisk gruppe, mens virtullegrupper kan bruges til projekter, eller indele medarbejdere efter kompetencer.</txt_35>
+    <txt_36 >Åben gruppe (medarbejdere må selv tilføje sig - kun virtuelle)</txt_36>
+    <txt_37 >Tilføj dig selv som teamleder i gruppen</txt_37>
+    <txt_38 >Sidst opdateret den</txt_38>
+    <txt_39 >af</txt_39>
+    <txt_40 >Projektgrupper</txt_40>
+    <txt_41 >Opret ny</txt_41>
+    <txt_42 >Id</txt_42>
+    <txt_43 >Projektgruppe</txt_43>
+    <txt_44 >Medlemmer (aktive + passive)</txt_44>
+    <txt_45 >Orga./Virtuel?</txt_45>
+    <txt_46 >Privat/åben?</txt_46>
+    <txt_47 >Slet</txt_47>
+    <txt_48 >Eksporter alle projektgrupper til csv.</txt_48>
+    <txt_49 >Projektgrupper</txt_49>
+    <txt_50>Søg</txt_50>
+    <txt_51 >Medlemmer</txt_51>
+    <txt_52 >Organisatorisk</txt_52>
+    <txt_53 >Virtuel</txt_53>
+    <txt_54 >Privat</txt_54>
+    <txt_55 >Åben</txt_55>
+    <txt_56 >De-aktiveret</txt_56>
+    <txt_57 >Passiv</txt_57>
+    
   </dk>
 
 
   <!--- Norsk -->
   <no>
-
+    <txt_1 >You are about to</txt_1>
+    <txt_2 >DELETE</txt_2>
+    <txt_3 >a projekct group. Please confirm</txt_3>
+    <txt_4 >Project Groups (members)</txt_4>
+    <txt_5 >Update</txt_5>
+    <txt_6 >Employees in project group</txt_6>
+    <txt_7 >Name</txt_7>
+    <txt_8 >Status</txt_8>
+    <txt_9 >Add/Remove ?</txt_9>
+    <txt_10 >Teamleader ?</txt_10>
+    <txt_11 >Notify</txt_11>
+    <txt_12 >Employment date</txt_12>
+    <txt_13 >Last log-in</txt_13>
+    <txt_14 >No. Of employees in projectgroup</txt_14>
+    <txt_15 >Employees outside project group (active and passive)</txt_15>
+    <txt_16 >Is allready member of an Org. Project group</txt_16>
+    <txt_17 >Functions</txt_17>
+    <txt_18 >Export to CSV</txt_18>
+    <txt_19 >Project group</txt_19>
+    <txt_20 >Employee</txt_20>
+    <txt_21 >Init.</txt_21>
+    <txt_22 >Teamleader ?</txt_22>
+    <txt_23 >Notify</txt_23>
+    <txt_24 >Status</txt_24>
+    <txt_25 >Employment date</txt_25>
+    <txt_26 >You CSV file is ready</txt_26>
+    <txt_27 >Project group (edit)</txt_27>
+    <txt_28 >Base data</txt_28>
+    <txt_29 >Organisational</txt_29>
+    <txt_30 >Organisational</txt_30>
+    <txt_31 >Virtual</txt_31>
+    <txt_32 >group</txt_32>
+    <txt_33 >An employee can only be member of</txt_33>
+    <txt_34 >one</txt_34>
+    <txt_35 >organisational group, where virtual groups are used for projects and/or kompetencies</txt_35>
+    <txt_36 >Open group (Empl. can add themselfes)</txt_36>
+    <txt_37 >Add your self as teamleader to group</txt_37>
+    <txt_38 >Last updated</txt_38>
+    <txt_39 >by</txt_39>
+    <txt_40 >Project Groups</txt_40>
+    <txt_41 >Add</txt_41>
+    <txt_42 >ID</txt_42>
+    <txt_43 >Project Group</txt_43>
+    <txt_44 >Members (active + passive)</txt_44>
+    <txt_45 >Org./Virt.?</txt_45>
+    <txt_46 >Private/Open?</txt_46>
+    <txt_47 >delete</txt_47>
+    <txt_48 >Export all project groups to CSV.</txt_48>
+    <txt_49 >Project groups</txt_49>
+    <txt_50 >Search</txt_50>
+    <txt_51 >Members</txt_51>
+    <txt_52 >Organizational</txt_52>
+    <txt_53 >Virtual</txt_53>
+    <txt_54 >Private</txt_54>
+    <txt_55 >Open</txt_55>
+    <txt_56 >De-activated</txt_56>
+    <txt_57 >Passive</txt_57>
+    
   </no>
 
 
   <!--- Svensk -->
   <so>
+    <txt_1 >You are about to</txt_1>
+    <txt_2 >DELETE</txt_2>
+    <txt_3 >a projekct group. Please confirm</txt_3>
+    <txt_4 >Project Groups (members)</txt_4>
+    <txt_5 >Update</txt_5>
+    <txt_6 >Employees in project group</txt_6>
+    <txt_7 >Name</txt_7>
+    <txt_8 >Status</txt_8>
+    <txt_9 >Add/Remove ?</txt_9>
+    <txt_10 >Teamleader ?</txt_10>
+    <txt_11 >Notify</txt_11>
+    <txt_12 >Employment date</txt_12>
+    <txt_13 >Last log-in</txt_13>
+    <txt_14 >No. Of employees in projectgroup</txt_14>
+    <txt_15 >Employees outside project group (active and passive)</txt_15>
+    <txt_16 >Is allready member of an Org. Project group</txt_16>
+    <txt_17 >Functions</txt_17>
+    <txt_18 >Export to CSV</txt_18>
+    <txt_19 >Project group</txt_19>
+    <txt_20 >Employee</txt_20>
+    <txt_21 >Init.</txt_21>
+    <txt_22 >Teamleader ?</txt_22>
+    <txt_23 >Notify</txt_23>
+    <txt_24 >Status</txt_24>
+    <txt_25 >Employment date</txt_25>
+    <txt_26 >You CSV file is ready</txt_26>
+    <txt_27 >Project group (edit)</txt_27>
+    <txt_28 >Base data</txt_28>
+    <txt_29 >Organisational</txt_29>
+    <txt_30 >Organisational</txt_30>
+    <txt_31 >Virtual</txt_31>
+    <txt_32 >group</txt_32>
+    <txt_33 >An employee can only be member of</txt_33>
+    <txt_34 >one</txt_34>
+    <txt_35 >organisational group, where virtual groups are used for projects and/or kompetencies</txt_35>
+    <txt_36 >Open group (Empl. can add themselfes)</txt_36>
+    <txt_37 >Add your self as teamleader to group</txt_37>
+    <txt_38 >Last updated</txt_38>
+    <txt_39 >by</txt_39>
+    <txt_40 >Project Groups</txt_40>
+    <txt_41 >Add</txt_41>
+    <txt_42 >ID</txt_42>
+    <txt_43 >Project Group</txt_43>
+    <txt_44 >Members (active + passive)</txt_44>
+    <txt_45 >Org./Virt.?</txt_45>
+    <txt_46 >Private/Open?</txt_46>
+    <txt_47 >delete</txt_47>
+    <txt_48 >Export all project groups to CSV.</txt_48>
+    <txt_49 >Project groups</txt_49>
+    <txt_50>Search</txt_50>
+    <txt_51 >Members</txt_51>
+    <txt_52 >Organizational</txt_52>
+    <txt_53 >Virtual</txt_53>
+    <txt_54 >Private</txt_54>
+    <txt_55 >Open</txt_55>
+    <txt_56 >De-activated</txt_56>
+    <txt_57 >Passive</txt_57>
 
   </so>
 
 
   <!--- Tysk -->
   <de>
+    <txt_1 >You are about to</txt_1>
+    <txt_2 >DELETE</txt_2>
+    <txt_3 >a projekct group. Please confirm</txt_3>
+    <txt_4 >Project Groups (members)</txt_4>
+    <txt_5 >Update</txt_5>
+    <txt_6 >Employees in project group</txt_6>
+    <txt_7 >Name</txt_7>
+    <txt_8 >Status</txt_8>
+    <txt_9 >Add/Remove ?</txt_9>
+    <txt_10 >Teamleader ?</txt_10>
+    <txt_11 >Notify</txt_11>
+    <txt_12 >Employment date</txt_12>
+    <txt_13 >Last log-in</txt_13>
+    <txt_14 >No. Of employees in projectgroup</txt_14>
+    <txt_15 >Employees outside project group (active and passive)</txt_15>
+    <txt_16 >Is allready member of an Org. Project group</txt_16>
+    <txt_17 >Functions</txt_17>
+    <txt_18 >Export to CSV</txt_18>
+    <txt_19 >Project group</txt_19>
+    <txt_20 >Employee</txt_20>
+    <txt_21 >Init.</txt_21>
+    <txt_22 >Teamleader ?</txt_22>
+    <txt_23 >Notify</txt_23>
+    <txt_24 >Status</txt_24>
+    <txt_25 >Employment date</txt_25>
+    <txt_26 >You CSV file is ready</txt_26>
+    <txt_27 >Project group (edit)</txt_27>
+    <txt_28 >Base data</txt_28>
+    <txt_29 >Organisational</txt_29>
+    <txt_30 >Organisational</txt_30>
+    <txt_31 >Virtual</txt_31>
+    <txt_32 >group</txt_32>
+    <txt_33 >An employee can only be member of</txt_33>
+    <txt_34 >one</txt_34>
+    <txt_35 >organisational group, where virtual groups are used for projects and/or kompetencies</txt_35>
+    <txt_36 >Open group (Empl. can add themselfes)</txt_36>
+    <txt_37 >Add your self as teamleader to group</txt_37>
+    <txt_38 >Last updated</txt_38>
+    <txt_39 >by</txt_39>
+    <txt_40 >Project Groups</txt_40>
+    <txt_41 >Add</txt_41>
+    <txt_42 >ID</txt_42>
+    <txt_43 >Project Group</txt_43>
+    <txt_44 >Members (active + passive)</txt_44>
+    <txt_45 >Org./Virt.?</txt_45>
+    <txt_46 >Private/Open?</txt_46>
+    <txt_47 >delete</txt_47>
+    <txt_48 >Export all project groups to CSV.</txt_48>
+    <txt_49 >Project groups</txt_49>
+    <txt_50>Search</txt_50>
+    <txt_51 >Members</txt_51>
+    <txt_52 >Organizational</txt_52>
+    <txt_53 >Virtual</txt_53>
+    <txt_54 >Private</txt_54>
+    <txt_55 >Open</txt_55>
+    <txt_56 >De-activated</txt_56>
+    <txt_57 >Passive</txt_57>
 
   </de>
 
 
   <!--- Fransk -->
-  <fr>  
+  <fr>
+    <txt_1 >You are about to</txt_1>
+    <txt_2 >DELETE</txt_2>
+    <txt_3 >a projekct group. Please confirm</txt_3>
+    <txt_4 >Project Groups (members)</txt_4>
+    <txt_5 >Update</txt_5>
+    <txt_6 >Employees in project group</txt_6>
+    <txt_7 >Name</txt_7>
+    <txt_8 >Status</txt_8>
+    <txt_9 >Add/Remove ?</txt_9>
+    <txt_10 >Teamleader ?</txt_10>
+    <txt_11 >Notify</txt_11>
+    <txt_12 >Employment date</txt_12>
+    <txt_13 >Last log-in</txt_13>
+    <txt_14 >No. Of employees in projectgroup</txt_14>
+    <txt_15 >Employees outside project group (active and passive)</txt_15>
+    <txt_16 >Is allready member of an Org. Project group</txt_16>
+    <txt_17 >Functions</txt_17>
+    <txt_18 >Export to CSV</txt_18>
+    <txt_19 >Project group</txt_19>
+    <txt_20 >Employee</txt_20>
+    <txt_21 >Init.</txt_21>
+    <txt_22 >Teamleader ?</txt_22>
+    <txt_23 >Notify</txt_23>
+    <txt_24 >Status</txt_24>
+    <txt_25 >Employment date</txt_25>
+    <txt_26 >You CSV file is ready</txt_26>
+    <txt_27 >Project group (edit)</txt_27>
+    <txt_28 >Base data</txt_28>
+    <txt_29 >Organisational</txt_29>
+    <txt_30 >Organisational</txt_30>
+    <txt_31 >Virtual</txt_31>
+    <txt_32 >group</txt_32>
+    <txt_33 >An employee can only be member of</txt_33>
+    <txt_34 >one</txt_34>
+    <txt_35 >organisational group, where virtual groups are used for projects and/or kompetencies</txt_35>
+    <txt_36 >Open group (Empl. can add themselfes)</txt_36>
+    <txt_37 >Add your self as teamleader to group</txt_37>
+    <txt_38 >Last updated</txt_38>
+    <txt_39 >by</txt_39>
+    <txt_40 >Project Groups</txt_40>
+    <txt_41 >Add</txt_41>
+    <txt_42 >ID</txt_42>
+    <txt_43 >Project Group</txt_43>
+    <txt_44 >Members (active + passive)</txt_44>
+    <txt_45 >Org./Virt.?</txt_45>
+    <txt_46 >Private/Open?</txt_46>
+    <txt_47 >delete</txt_47>
+    <txt_48 >Export all project groups to CSV.</txt_48>
+    <txt_49 >Project groups</txt_49>
+    <txt_50>Search</txt_50>
+    <txt_51 >Members</txt_51>
+    <txt_52 >Organizational</txt_52>
+    <txt_53 >Virtual</txt_53>
+    <txt_54 >Private</txt_54>
+    <txt_55 >Open</txt_55>
+    <txt_56 >De-activated</txt_56>
+    <txt_57 >Passive</txt_57>
 
   </fr>
 
@@ -35,12 +320,126 @@
 
   <!-- Engelsk -->
   <uk>
+    <txt_1 >You are about to</txt_1>
+    <txt_2 >DELETE</txt_2>
+    <txt_3 >a projekct group. Please confirm</txt_3>
+    <txt_4 >Project Groups (members)</txt_4>
+    <txt_5 >Update</txt_5>
+    <txt_6 >Employees in project group</txt_6>
+    <txt_7 >Name</txt_7>
+    <txt_8 >Status</txt_8>
+    <txt_9 >Add/Remove ?</txt_9>
+    <txt_10 >Teamleader ?</txt_10>
+    <txt_11 >Notify</txt_11>
+    <txt_12 >Employment date</txt_12>
+    <txt_13 >Last log-in</txt_13>
+    <txt_14 >No. Of employees in projectgroup</txt_14>
+    <txt_15 >Employees outside project group (active and passive)</txt_15>
+    <txt_16 >Is allready member of an Org. Project group</txt_16>
+    <txt_17 >Functions</txt_17>
+    <txt_18 >Export to CSV</txt_18>
+    <txt_19 >Project group</txt_19>
+    <txt_20 >Employee</txt_20>
+    <txt_21 >Init.</txt_21>
+    <txt_22 >Teamleader ?</txt_22>
+    <txt_23 >Notify</txt_23>
+    <txt_24 >Status</txt_24>
+    <txt_25 >Employment date</txt_25>
+    <txt_26 >You CSV file is ready</txt_26>
+    <txt_27 >Project group (edit)</txt_27>
+    <txt_28 >Base data</txt_28>
+    <txt_29 >Organisational</txt_29>
+    <txt_30 >Organisational</txt_30>
+    <txt_31 >Virtual</txt_31>
+    <txt_32 >group</txt_32>
+    <txt_33 >An employee can only be member of</txt_33>
+    <txt_34 >one</txt_34>
+    <txt_35 >organisational group, where virtual groups are used for projects and/or kompetencies</txt_35>
+    <txt_36 >Open group (Empl. can add themselfes)</txt_36>
+    <txt_37 >Add your self as teamleader to group</txt_37>
+    <txt_38 >Last updated</txt_38>
+    <txt_39 >by</txt_39>
+    <txt_40 >Project Groups</txt_40>
+    <txt_41 >Add</txt_41>
+    <txt_42 >ID</txt_42>
+    <txt_43 >Project Group</txt_43>
+    <txt_44 >Members (active + passive)</txt_44>
+    <txt_45 >Org./Virt.?</txt_45>
+    <txt_46 >Private/Open?</txt_46>
+    <txt_47 >delete</txt_47>
+    <txt_48 >Export all project groups to CSV.</txt_48>
+    <txt_49 >Project groups</txt_49>
+    <txt_50>Search</txt_50>
+    <txt_51 >Members</txt_51>
+    <txt_52 >Organizational</txt_52>
+    <txt_53 >Virtual</txt_53>
+    <txt_54 >Private</txt_54>
+    <txt_55 >Open</txt_55>
+    <txt_56 >De-activated</txt_56>
+    <txt_57 >Passive</txt_57>
 
   </uk>
 
 
   <!--- Spansk -->
   <es>
+    <txt_1 >You are about to</txt_1>
+    <txt_2 >DELETE</txt_2>
+    <txt_3 >a projekct group. Please confirm</txt_3>
+    <txt_4 >Project Groups (members)</txt_4>
+    <txt_5 >Update</txt_5>
+    <txt_6 >Employees in project group</txt_6>
+    <txt_7 >Name</txt_7>
+    <txt_8 >Status</txt_8>
+    <txt_9 >Add/Remove ?</txt_9>
+    <txt_10 >Teamleader ?</txt_10>
+    <txt_11 >Notify</txt_11>
+    <txt_12 >Employment date</txt_12>
+    <txt_13 >Last log-in</txt_13>
+    <txt_14 >No. Of employees in projectgroup</txt_14>
+    <txt_15 >Employees outside project group (active and passive)</txt_15>
+    <txt_16 >Is allready member of an Org. Project group</txt_16>
+    <txt_17 >Functions</txt_17>
+    <txt_18 >Export to CSV</txt_18>
+    <txt_19 >Project group</txt_19>
+    <txt_20 >Employee</txt_20>
+    <txt_21 >Init.</txt_21>
+    <txt_22 >Teamleader ?</txt_22>
+    <txt_23 >Notify</txt_23>
+    <txt_24 >Status</txt_24>
+    <txt_25 >Employment date</txt_25>
+    <txt_26 >You CSV file is ready</txt_26>
+    <txt_27 >Project group (edit)</txt_27>
+    <txt_28 >Base data</txt_28>
+    <txt_29 >Organisational</txt_29>
+    <txt_30 >Organisational</txt_30>
+    <txt_31 >Virtual</txt_31>
+    <txt_32 >group</txt_32>
+    <txt_33 >An employee can only be member of</txt_33>
+    <txt_34 >one</txt_34>
+    <txt_35 >organisational group, where virtual groups are used for projects and/or kompetencies</txt_35>
+    <txt_36 >Open group (Empl. can add themselfes)</txt_36>
+    <txt_37 >Add your self as teamleader to group</txt_37>
+    <txt_38 >Last updated</txt_38>
+    <txt_39 >by</txt_39>
+    <txt_40 >Project Groups</txt_40>
+    <txt_41 >Add</txt_41>
+    <txt_42 >ID</txt_42>
+    <txt_43 >Project Group</txt_43>
+    <txt_44 >Members (active + passive)</txt_44>
+    <txt_45 >Org./Virt.?</txt_45>
+    <txt_46 >Private/Open?</txt_46>
+    <txt_47 >delete</txt_47>
+    <txt_48 >Export all project groups to CSV.</txt_48>
+    <txt_49 >Project groups</txt_49>
+    <txt_50>Search</txt_50>
+    <txt_51 >Members</txt_51>
+    <txt_52 >Organizational</txt_52>
+    <txt_53 >Virtual</txt_53>
+    <txt_54 >Private</txt_54>
+    <txt_55 >Open</txt_55>
+    <txt_56 >De-activated</txt_56>
+    <txt_57 >Passive</txt_57>
 
   </es>
 

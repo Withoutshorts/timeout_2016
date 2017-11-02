@@ -76,6 +76,28 @@ sub fy_relprdato_fm
                                         </div>
                                         <%end if %>
 
+                                        <div class="col-lg-2 pad-t5">Forretningsområde:
+                                            <select class="form-control input-small" name="FM_fomr">
+                                                <option value="0">Alle</option>
+                                                <%
+                                                    strFomr = "SELECT navn, id FROM fomr GROUP BY navn"
+                                                    oRec.open strFomr, oConn, 3
+                                                    while not oRec.EOF
+                                                    
+                                                    if cdbl(oRec("id")) = cdbl(FM_fomr) then
+                                                    fomrSEL = "SELECTED"
+                                                    else
+                                                    fomrSEL = ""
+                                                    end if                                                   
+                                                %>
+                                                <option value="<%=oRec("id") %>" <%=fomrSEL %>><%=oRec("navn") %></option>
+                                                <%
+                                                    oRec.movenext
+                                                    wend
+                                                    oRec.close 
+                                                %>
+                                            </select>
+                                        </div>
 
                                        <div class="col-lg-2 pad-t20 pad-r30"><button type="submit" class="btn btn-secondary btn-sm">Search >></button>
                                        </div>

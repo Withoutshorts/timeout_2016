@@ -52,6 +52,7 @@ Public Class ozreportws
 
         'Dim strMids As String = ""
 
+        'btnLto = request("btn_lto")
 
         '*** Alle der tæller med i dagligt timeregnskab ***'
         Dim strConn_admin As String
@@ -67,7 +68,7 @@ Public Class ozreportws
         objConn_admin.Open()
 
 
-        Dim strSQLadmin As String = "SELECT email, navn, lto, rapporttype, medid, medarbejdertyper, projektgrupper FROM rapport_abo WHERE id <> 0 AND (rapporttype = 1 OR rapporttype = 0 OR rapporttype = 2 OR rapporttype = 3)"
+        Dim strSQLadmin As String = "SELECT email, navn, lto, rapporttype, medid, medarbejdertyper, projektgrupper FROM rapport_abo WHERE id <> 0 AND (rapporttype = 1 OR rapporttype = 0 OR rapporttype = 2 OR rapporttype = 3) AND lto = 'intranet - local'"
         objCmd_admin = New OdbcCommand(strSQLadmin, objConn_admin)
         objDR_admin = objCmd_admin.ExecuteReader '(CommandBehavior.closeConnection)
 

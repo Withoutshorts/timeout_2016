@@ -34,7 +34,7 @@ fsnavn = ""
 			        
 			        if lastaktFavorit <> oRec3("aktfavorit") AND ak <> 0 then
 			        
-			        strStamgrp_pb(lastaktFavorit,a) = strStamgrp_pb(lastaktFavorit,a) &"</tr><tr><td colspan=10 style='padding:5px 5px 10px 5px; border:0px;' align=right><input class='overfortiljob_a' type=""button"" value=""Indlæs gruppe(r) på job >>"" style=""font-family:arial; font-size:9px;"" /></td></tr>"
+			        strStamgrp_pb(lastaktFavorit,a) = strStamgrp_pb(lastaktFavorit,a) &"</tr><tr><td colspan=10 style='padding:5px 5px 10px 5px; border:0px;' align=right><input class='overfortiljob_a' type=""button"" value="""&job_txt_557&" >>""  style=""font-family:arial; font-size:9px;"" /></td></tr>"
 			        
 			        
 			        aktFaseSumtot = 0
@@ -56,19 +56,19 @@ fsnavn = ""
 			        
 			        strStamgrp_pb(oRec3("aktfavorit"),a) = strStamgrp_pb(oRec3("aktfavorit"),a) & "<tr class=""akt_pb_"& oRec3("aktfavorit") &"_"&a&""" style='visibility:"&aVzb&"; display:"&aDsp&";'>"_						
 				    &"<td colspan=6 bgcolor=""#FFFFFF"" style=""border:0px; padding:5px,"">"_
-                    &"Angiv fase: "_
+                    & job_txt_624&": "_
                     &"<input class=""fs_a"" id=""fs_"&oRec3("aktfavorit")&""" name=""FM_favorit_fase"" value="""&fsnavn&""" type=""text"" style=""font-size:9px; width:150px;"" />"_
 				    &"<table cellspacing=0 cellpadding=0 border=0 width='100%'><tr bgcolor='#FFFFFF'>"_
-				    &"<td><b>Tilføj</b></td>"_
-				    &"<td><b>Navn</b></td>"_
-				    &"<td><b>Fase</b></td>"_
-				    &"<td><b>Status</b></td>"_
-                    &"<td><b>Type</b></td>"_
-				    &"<td align=right style='width:40px;'><b>Timer</b></td>"_
-				    &"<td align=right style='width:40px; padding-right:5px;'><b>Stk.</b></td>"_
-				    &"<td style='width:45px;'><b>Grundlag</b></td>"_
-				    &"<td align=right style='width:45px;'><b>Pr. Stk./Time</b></td>"_
-				    &"<td align=right style=""width:65px; padding-left:10px;""><b>Pris i alt "& basisValISO &"</b></td>"_
+				    &"<td><b>"&job_txt_558&"</b></td>"_
+				    &"<td><b>"&job_txt_559&"</b></td>"_
+				    &"<td><b>"&job_txt_291&"</b></td>"_
+				    &"<td><b>"&job_txt_241&"</b></td>"_
+                    &"<td><b>"&job_txt_560&"</b></td>"_
+				    &"<td align=right style='width:40px;'><b>"&job_txt_463&"</b></td>"_
+				    &"<td align=right style='width:40px; padding-right:5px;'><b>"&job_txt_561&"</b></td>"_
+				    &"<td style='width:45px;'><b>"&job_txt_562&"</b></td>"_
+				    &"<td align=right style='width:45px;'><b>"&job_txt_563&"</b></td>"_
+				    &"<td align=right style=""width:65px; padding-left:10px;""><b>"&job_txt_564&" "& basisValISO &"</b></td>"_
 				    &"<tr>"
 				    
 				    'lastaktFavorit = oRec3("aktfavorit")
@@ -120,11 +120,11 @@ fsnavn = ""
 	 
 	                select case oRec3("aktstatus")
 	                case 1
-	                stTxt = "Aktiv"
+	                stTxt = job_txt_094
 	                case 2
-	                stTxt = "Passiv"
+	                stTxt = job_txt_320
                     case 0
-	                stTxt = "Lukket"
+	                stTxt = job_txt_096
 	                end select
                 	
 	                'strStamgrp_pb(oRec3("aktfavorit"),a) = strStamgrp_pb(oRec3("aktfavorit"),a) &"<select name='FM_stakt_status_"&a&"_"& oRec3("id") &"' style='background-color:"&selbgcol&"; font-family:arial; font-size:9px;' >"_
@@ -141,11 +141,11 @@ fsnavn = ""
 			        
 			         select case oRec3("bgr")
 	                case 1
-	                bgtTxt = "Timer"
+	                bgtTxt = job_txt_463
 	                case 2
-	                bgtTxt = "Stk."
+	                bgtTxt = job_txt_561
 	                case 0
-	                bgtTxt = "Ingen" 
+	                bgtTxt = job_txt_129 
 	                end select
                 	
 	                strStamgrp_pb(oRec3("aktfavorit"),a) = strStamgrp_pb(oRec3("aktfavorit"),a) &"<td>"& bgtTxt &"</td>"_
@@ -163,7 +163,7 @@ fsnavn = ""
 			        wend
 			        oRec3.close
 			         
-			         strStamgrp_pb(lastaktFavorit,a) = strStamgrp_pb(lastaktFavorit,a) &"<tr><td colspan=10 style='padding:5px 5px 10px 5px;' align=right><input class=""overfortiljob_a"" type=""button"" value=""Indlæs gruppe på job >>"" style=""font-family:arial; font-size:9px;"" />"
+			         strStamgrp_pb(lastaktFavorit,a) = strStamgrp_pb(lastaktFavorit,a) &"<tr><td colspan=10 style='padding:5px 5px 10px 5px;' align=right><input class=""overfortiljob_a"" type=""button"" value="""&job_txt_555&" >>"" style=""font-family:arial; font-size:9px;"" />"
 			         strStamgrp_pb(lastaktFavorit,a) = strStamgrp_pb(lastaktFavorit,a) & "<input id=""Text1"" type=""hidden"" value="& aktFaseSumtot &" /></td></tr></table></td>"
 			       
 			        aktFaseSum(lastaktFavorit) = aktFaseSumtot
@@ -187,8 +187,8 @@ if a = 1 then
 			&" WHERE ag.id <> 2 AND skabelontype = 0 GROUP BY ag.id ORDER BY ag.navn"
 		
 	     %>
-		 <b>Stamaktivitetsgruppe(r):</b><br />Kombiner gerne flere, hold [ctrl] nede<br /> <select class="selstaktgrp" id="selstaktgrp_<%=a%>" name="FM_favorit" size=12 multiple style="font-size:11px; width:360px;">
-		<option value="0">(Ingen)</option>
+		 <b><%=job_txt_333 %>:</b><br /><%=job_txt_334 %><br /> <select class="selstaktgrp" id="selstaktgrp_<%=a%>" name="FM_favorit" size=12 multiple style="font-size:11px; width:360px;">
+		<option value="0">(<%=job_txt_129 %>)</option>
 					
 			<%
 			stamgrpVlgt = 0
@@ -217,7 +217,7 @@ if a = 1 then
 			antalAkt = oRec("antalakt")
 			end if
 			%>
-			<option value="<%=oRec("id")%>" <%=thisStaktgpSEL%>><%=oRec("navn") & " ("& antalAkt &" stk.)" %></option>
+			<option value="<%=oRec("id")%>" <%=thisStaktgpSEL%>><%=oRec("navn") & " ("& antalAkt &" "&job_txt_335&")" %></option>
 			<%
 			        
 			st = 1
@@ -302,12 +302,12 @@ function xulev_pb(func, forvalgt, lastaktfavorit, a)
 		                        if lto = "intranet - local" then
 		                        select case u 
 		                        case 1
-		                        u_navn(u) = "Køb v. underlev."
+		                        u_navn(u) = job_txt_336
 		                        u_ipris(u) = 0
 		                        u_faktor(u) = 1
 		                        u_belob(u) = 0
 		                        case 2
-		                        u_navn(u) = "Kørsel og udlæg"
+		                        u_navn(u) = job_txt_337
 		                        u_ipris(u) = 0
 		                        u_faktor(u) = 1
 		                        u_belob(u) = 0
@@ -343,7 +343,7 @@ function xulev_pb(func, forvalgt, lastaktfavorit, a)
                        
 						
 						<tr bgcolor="#FFFFFF" class="akt_pb_<%=lastaktfavorit%>_<%=a%>">
-						    <td style="padding-top:10px;" colspan=6><b>Salgsomkostninger</b>  (underleverandører / materialeforbrug) &nbsp;&nbsp; Antal linier: xx
+						    <td style="padding-top:10px;" colspan=6><b><%=job_txt_338 %></b>  (<%=job_txt_339 %>) &nbsp;&nbsp; <%=job_txt_340 %>: xx
                                 <select id="antalulev" onchange="showulevlinier()" style="font-size:9px; font-family:arial;">
                                     
                                     <%for u = 1 to 5 
@@ -365,11 +365,11 @@ function xulev_pb(func, forvalgt, lastaktfavorit, a)
 						
                         
 		                <tr bgcolor="#FFCC66" class="akt_pb_<%=lastaktfavorit%>_<%=a%>">
-		                    <td>Fase / Aktivitet</td>
-		                    <td>Udgift navn / txt.</td>
-		                    <td>Indkøbspris</td>
-		                    <td>Faktor</td>
-		                    <td>Beløb</td>
+		                    <td><%=job_txt_341 %></td>
+		                    <td><%=job_txt_342 %></td>
+		                    <td><%=job_txt_343 %></td>
+		                    <td><%=job_txt_344 %></td>
+		                    <td><%=job_txt_345 %></td>
 		                    <td>&nbsp;</td>
 		                </tr>
 		                
@@ -488,7 +488,7 @@ sub kundeopl_options
 				oRec2.close
 				
 				if len(kans1) <> 0 OR len(kans2) <> 0 then
-				anstxt = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;...............&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;kontaktansv 1: "
+				anstxt = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;...............&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&job_txt_001&" 1: "
 				else
 				anstxt = ""
 				end if
@@ -533,7 +533,7 @@ sub kundeopl
 
 	
            findesFak = 0
-           antalFak = 0
+           antalFak = "0"
            if func = "red" then 'AND lto <> "assurator"
 
            if len(trim(id)) <> 0 then
@@ -558,7 +558,7 @@ sub kundeopl
 			end if
 			oRec.close
 
-            if antalFak <> 0 then
+            if antalFak <> "0" then
                 findesFak = 1
             else
                 findesFak = 0
@@ -570,12 +570,12 @@ sub kundeopl
 	if func = "opret" AND step = 1 then%>
 	<tr>
 		<td colspan=4 height="20" style="padding:10px 10px 10px 10px;">
-		<b>Vælg Kunde:</b>&nbsp;&nbsp;(<a href="../to_2015/kunder.asp?func=opret&ketype=k&hidemenu=1&showdiv=onthefly&rdir=1" target="_blank" class=vmenu>Opret ny her..</a>)</td>
+		<b><%=job_txt_346 %>:</b>&nbsp;&nbsp;(<a href="../to_2015/kunder.asp?func=opret&ketype=k&hidemenu=1&showdiv=onthefly&rdir=1" target="_blank" class=vmenu><%=job_txt_347 %>..</a>)</td>
 	</tr>
     <tr>
 		<td colspan=4 height="20" style="padding:10px 10px 10px 10px;">
-		<b>Søg:</b> (% wildcard / vis alle)&nbsp;&nbsp;<input id="kunde_sog_step1" name="FM_kunde_sog_step1" type="text" style="width:400px;" />&nbsp;&nbsp;
-            <input id="kunde_sog_step1_but" type="button" value=" Søg >> " /></td>
+		<b><%=job_txt_349%>:</b> (% wildcard / <%=job_txt_348 %>)&nbsp;&nbsp;<input id="kunde_sog_step1" name="FM_kunde_sog_step1" type="text" style="width:400px;" />&nbsp;&nbsp;
+            <input id="kunde_sog_step1_but" type="button" value=" <%=job_txt_349 %> >> " /></td>
 	</tr>
 	<%end if%>
 	
@@ -585,9 +585,9 @@ sub kundeopl
 		<td style="padding:10px 10px 2px 10px;" colspan=4>
 		
 		
-		<b>Kunde:</b><br />
+		<b><%=job_txt_021 %>:</b><br />
 		<%if func = "opret" AND step = 1 then%>
-		Vælg flere hvis det samme job skal oprettes på flere kunder.<br>
+		<%=job_txt_350 %><br>
 		<%end if %>
 		
 
@@ -620,7 +620,7 @@ sub kundeopl
             if func = "opret" AND step = 1 then
 
                
-                %><option value="0" disabled>Kunder (flest job seneste 12 md.):</option><%
+                %><option value="0" disabled><%=job_txt_351 %>:</option><%
 
 
                     tdatodd = now
@@ -643,7 +643,7 @@ sub kundeopl
 			oRec.close
 
             %><option></option>
-            <option value="0" disabled>Kunder (alfabetisk):</option><%
+            <option value="0" disabled><%=job_txt_352 %>:</option><%
             
             end if
 
@@ -720,7 +720,7 @@ sub kundeopl_aft_kpers
 	end if
 	%>
 	<tr>
-		<td colspan="4" style="padding:5px 10px 5px 10px;"><b>Kontaktperson / filial:</b> (hos kunde) <a href="#" onclick="popUp('kontaktpers.asp?id=0&kid=<%=strKundeId%>&func=opr','550','450','150','120');" class="vmenu">+ Opret ny (reload) </a><br>
+		<td colspan="4" style="padding:5px 10px 5px 10px;"><b><%=job_txt_353 %>:</b> (<%=job_txt_354 %>) <a href="#" onclick="popUp('kontaktpers.asp?id=0&kid=<%=strKundeId%>&func=opr','550','450','150','120');" class="vmenu">+ <%=job_txt_355 %> </a><br>
 		
 		<%
 		
@@ -730,7 +730,7 @@ sub kundeopl_aft_kpers
 		%>
 		
 		<select name="FM_opr_kpers" id="FM_opr_kpers" style="width:<%=kwidth%>px;">
-		<option value="0">Ingen</option>
+		<option value="0"><%=job_txt_129 %></option>
 	
 		<%
 		
@@ -753,7 +753,7 @@ sub kundeopl_aft_kpers
 		</select>
         
           <br />
-        <input type="checkbox" value="1" name="FM_brugaltfakadr" <%=altfakadrCHK %> />Brug kontaktperson / filial som modtager på faktura.
+        <input type="checkbox" value="1" name="FM_brugaltfakadr" <%=altfakadrCHK %> /><%=job_txt_356 %>
         </td>
 	
 	</tr>
@@ -966,7 +966,7 @@ sub projektberegner
                   
                    <div id="nettoomsnote" style="position:absolute; left:170px; top:105px; border:10px #CCCCCC solid; width:250px; visibility:<%=netno_vzb%>; display:<%=netno_vdsp%>; background-color:snow; padding:10px;">
                    <table cellspacing="0" cellpadding="0" border="0" width=100%><tr>
-                   <td>Husk at indtaste bruttoomsætning, før der angives timer på medarbejdertyper. </td>
+                   <td><%=job_txt_357 %> </td>
                    <td style="padding-left:5px;"><img src="../ill/pile.gif" border="0" /></td>
                    </tr></table>
                 
@@ -975,10 +975,10 @@ sub projektberegner
                    
 	            <table cellspacing="0" cellpadding="0" border="0" bgcolor="#FFFFFF" class="pb_table">
 				<tr bgcolor="#5582d2">
-					<td colspan=6 class=alt style="padding:5px 5px 9px 5px; border:0px;"><h3 class="hv">Job forkalkulation og budget</h3></td>
+					<td colspan=6 class=alt style="padding:5px 5px 9px 5px; border:0px;"><h3 class="hv"><%=job_txt_358 %></h3></td>
 				</tr>
                   <tr>
-                <td align=right colspan=6 style="border:0px; padding:15px 15px 5px 5px;"> <input class="overfortiljob_u" type="button" value="Gem ændringer på job >>" style="font-family:arial; font-size:9px;"/></td>
+                <td align=right colspan=6 style="border:0px; padding:15px 15px 5px 5px;"> <input class="overfortiljob_u" type="button" value="<%=job_txt_449 %> >>" style="font-family:arial; font-size:9px;"/></td>
                 </tr>
 
 
@@ -1020,10 +1020,10 @@ sub projektberegner
                       
 			  
 				   <tr bgcolor="#DCF5BD">
-					<td style="padding:20px 0px 3px 5px;" colspan="6"><h4><a href="#" id="a_budgetmtyp">[+]</a> Budget på medarbejdertyper
+					<td style="padding:20px 0px 3px 5px;" colspan="6"><h4><a href="#" id="a_budgetmtyp">[+]</a><%=" "&job_txt_359 %>
 
                     <%if level = 1 then %>
-                       <a href="medarbtyper.asp" class=rmenu target="_blank">Se kost- og time -priser på medarbejdertyper her >></a>
+                       <a href="medarbtyper.asp" class=rmenu target="_blank"><%=job_txt_360 %> >></a> 
                        <%end if %>
 
                     <!--
@@ -1042,7 +1042,7 @@ sub projektberegner
                     
                      <table width=100% cellspacing=0 cellpadding=0 border=0>
                      <tr>
-                         <td style="padding:12px 2px 2px 2px; font-size:11px; width:460px;"><b>Bruttoomsætning:</b><br /><span style="font-size:9px; color:#999999;">Nettooms. + Salgsomkostninger</span></td>
+                         <td style="padding:12px 2px 2px 2px; font-size:11px; width:460px;"><b><%=job_txt_361 %>:</b><br /><span style="font-size:9px; color:#999999;"><%=job_txt_362 %></span></td>
                          <td align=right style="padding:12px 20px 2px 2px; font-size:11px;">= <input type="text" id="FM_budget" name="FM_budget" value="<%=replace(formatnumber(jo_bruttooms, 2), ".", "")%>" style="width:75px; font-size:11px; font-family:arial; border:1px red solid;" onkeyup="tjektimer('FM_budget')">&nbsp;&nbsp;&nbsp;&nbsp;<%=basisValISO %></td>
 			
                      </tr>
@@ -1060,12 +1060,12 @@ sub projektberegner
 
                 <table cellpadding=0 cellspacing=0 border=0 width=100%>
                 <tr>
-                    <td><b>Medarbejdertype</b> (gruppe)</td>
-                    <td><b>Timer</b></td>
-                    <td><b>Timepris</b></td>
-                    <td>Beløb<br /> før faktor</td>
-                    <td><b>Faktor</b></td>
-                    <td><b>Beløb</b></td>
+                    <td><b><%=job_txt_363 %></b> (<%=job_txt_364 %>)</td>
+                    <td><b><%=job_txt_365 %></b></td>
+                    <td><b><%=job_txt_366 %></b></td>
+                    <td><%=job_txt_367 %><br /> <%=job_txt_368 %></td>
+                    <td><b><%=job_txt_369 %></b></td>
+                    <td><b><%=job_txt_370 %></b></td>
                 </tr>
 
                 <%
@@ -1253,7 +1253,7 @@ sub projektberegner
                 
 
                 <%end if %>
-                <tr><td style="width:300px; font-size:9px;"><%=oRec3("type") %> <%=gruppenavnTxt %> <span style="font-size:9px; color:#999999;">(tp: <%=formatnumber(timepris) %> / kost: <%=formatnumber(kostpris) %>)</span>
+                <tr><td style="width:300px; font-size:9px;"><%=oRec3("type") %> <%=gruppenavnTxt %> <span style="font-size:9px; color:#999999;">(<%=job_txt_565 %>: <%=formatnumber(timepris) %> / <%=job_txt_566 %>: <%=formatnumber(kostpris) %>)</span>
                 <input type="hidden" id="FM_mtype_kp_<%=grpId%>_<%=oRec3("id") %>" name="FM_mtype_kostpris_<%=oRec3("id") %>" value="<%=formatnumber(kostpris) %>" />
                 <input type="hidden" id="FM_mtype_ids_<%=tpno%>" name="FM_mtype_ids" value="<%=oRec3("id")%>"/>
                 <input type="hidden" id="FM_mtype_id_<%=oRec3("id")%>" name="FM_mtype_id" value="<%=oRec3("id")%>" />
@@ -1314,7 +1314,7 @@ sub projektberegner
                     
                      <table width=100% cellspacing=0 cellpadding=0 border=0>
                      <tr>
-                         <td style="padding:12px 2px 2px 2px; font-size:11px; width:460px;"><b>Bruttoomsætning:</b><br /><span style="color:#999999; font-size:9px;">Nettooms. + Salgsomk.</span></td>
+                         <td style="padding:12px 2px 2px 2px; font-size:11px; width:460px;"><b><%=job_txt_437 %>:</b><br /><span style="color:#999999; font-size:9px;"><%=job_txt_371 %></span></td>
                          <td align=right style="padding:12px 20px 2px 2px; font-size:11px;">= <input type="text" id="FM_budget" name="FM_budget" value="<%=replace(formatnumber(jo_bruttooms, 2), ".", "")%>" style="width:75px; border:0;" onkeyup="tjektimer('FM_budget'), dbManuel()">
                              &nbsp;&nbsp;&nbsp;&nbsp; <%=jo_bgt_basisValISO %></td>
 			
@@ -1368,15 +1368,15 @@ sub projektberegner
                     
                     <table width="100%" border="0" cellspacing="0" cellpadding="0">
                     <tr>
-					    <td style="width:<%=nettoOmsTxtWdt%>px; padding:10px 5px 2px 2px; font-size:11px;"><b>Nettoomsætning</b> <br /><span style="font-size:9px; color:#999999;">Intern omsætning på timer før salgsomk.</span></td>
+					    <td style="width:<%=nettoOmsTxtWdt%>px; padding:10px 5px 2px 2px; font-size:11px;"><b><%=job_txt_372 %></b> <br /><span style="font-size:9px; color:#999999;"><%=job_txt_373 %></span></td>
 					    <%if cint(showFldHours) = 1 then %>
-                        <td valign="bottom" style="font-size:9px;"><span style="color:Red;">*</span> <b>Timer</b></td>
-					    <td valign="bottom" style="width:195px; font-size:9px;"><b>Timepris</b></td>
-					    <td valign="bottom" style="width:45px; font-size:9px;"><b>Faktor</b></td>
+                        <td valign="bottom" style="font-size:9px;"><span style="color:Red;">*</span> <b><%=job_txt_365 %></b></td>
+					    <td valign="bottom" style="width:195px; font-size:9px;"><b><%=job_txt_366 %></b></td>
+					    <td valign="bottom" style="width:45px; font-size:9px;"><b><%=job_txt_369 %></b></td>
                         
 					    
-                        <td valign="bottom" style="width:100px; font-size:9px;"><span style="color:Red;">*</span><b> Beløb</b></td>
-				        <td valign="bottom" style="width:40px; font-size:9px;"><b>Valuta</b><!--Salgs<br />timepris--></td>
+                        <td valign="bottom" style="width:100px; font-size:9px;"><span style="color:Red;">*</span><b> <%=job_txt_367 %></b></td>
+				        <td valign="bottom" style="width:40px; font-size:9px;"><b><%=job_txt_296 %></b><!--Salgs<br />timepris--></td>
 				    </tr>
 				    <tr bgcolor="#FFFFFF">
 					<%end if %>
@@ -1425,7 +1425,7 @@ sub projektberegner
                         
                     call valutakode_fn(jo_valuta)  
                     %>
-                    <td id="xpb_jobnavn">Gns. timepris / kostpris: <span style="color:#999999; font-size:9px;"><%=gnsSalgsogKostprisTxt &" "& basisValISO %></span></td>
+                    <td id="xpb_jobnavn"><%=job_txt_374 %>: <span style="color:#999999; font-size:9px;"><%=gnsSalgsogKostprisTxt &" "& basisValISO %></span></td>
 				    <td style="padding:3px;"><input type="text" id="FM_budgettimer" name="FM_budgettimer" value="<%=replace(formatnumber(strBudgettimer, 2), ".", "")%>" style="width:60px;"" onkeyup="tjektimer('FM_budgettimer'), beregnintbelob()" class="nettooms"></td>
 					<td class=lille><input type="text" id="FM_gnsinttpris" name="FM_gnsinttpris" value="<%=replace(formatnumber(jo_gnstpris, 2), ".", "")%>" style="width:67px;" onkeyup="tjektimer('FM_gnsinttpris'), beregnintbelob()" class="nettooms">
                     
@@ -1471,8 +1471,8 @@ sub projektberegner
                         
                        
                  
-                     <td style="padding:3px; width:80px;">Timer:<br /><input type="text" id="FM_budgettimer" name="FM_budgettimer" value="<%=replace(formatnumber(strBudgettimer, 2), ".", "")%>" style="width:60px;"" onkeyup="tjektimer('FM_budgettimer')" class="nettooms"></td>
-					<td style="padding:3px; width:80px;"><font color=red size=2>*</font> Beløb:<br /> <input type="text" id="FM_interntbelob" name="FM_interntbelob" <%=interntbelobDIS %> value="<%=replace(formatnumber(jo_gnsbelob, 2), ".", "")%>" style="width:75px; border:1px solid red; padding:2px;" onkeyup="tjektimer('FM_interntbelob'), settotalbelob()" class="nettooms" />
+                     <td style="padding:3px; width:80px;"><%=job_txt_463 %>:<br /><input type="text" id="FM_budgettimer" name="FM_budgettimer" value="<%=replace(formatnumber(strBudgettimer, 2), ".", "")%>" style="width:60px;"" onkeyup="tjektimer('FM_budgettimer')" class="nettooms"></td>
+					<td style="padding:3px; width:80px;"><font color=red size=2>*</font> <%=job_txt_345 %>:<br /> <input type="text" id="FM_interntbelob" name="FM_interntbelob" <%=interntbelobDIS %> value="<%=replace(formatnumber(jo_gnsbelob, 2), ".", "")%>" style="width:75px; border:1px solid red; padding:2px;" onkeyup="tjektimer('FM_interntbelob'), settotalbelob()" class="nettooms" />
 
 					</td>
 					<td style="padding:3px 3px 3px 12px; font-size:11px;"><br /> <%
@@ -1495,31 +1495,56 @@ sub projektberegner
 				</tr>
                   </table>
                 <!-- End Netto Table -->
+
+
+
                         <%select case lto 
-                        case "xintranet - local", "wwf", "bf", "oko"
+                        case "intranet - local", "wwf", "bf", "oko", "cisu"
                             showFordelpFinansaar = 1 
                         case else 
                             showFordelpFinansaar = 0
                         end select 
+
+
+                        select case lto 
+                        case "intranet - local", "cisu"
+                            showFordelpFinansaarDSP = "" 
+                            showFordelpFinansaarWzb = "Visible"
+                            maxFya = 6
+                        case else 
+                            showFordelpFinansaarDSP = "none"
+                            showFordelpFinansaarWzb = "Hidden"
+                            maxFya = 4
+                        end select 
+
+
                             
                             
+                        %>
+                        <input type="hidden" name="showFordelpFinansaar" value="<%=showFordelpFinansaar%>" />
+                        <%
                         if cint(showFordelpFinansaar) = 1 then%>
                         <br /><br />
 
 
-                            <span id="sp_fordeltb" style="color:#5582d2; font-size:11px;"><b>Fordel timebudget på finansår [+]</b></span>
+                            <span id="sp_fordeltb" style="color:#5582d2; font-size:11px;"><b><%=job_txt_608 %> [+]</b></span>
 
-                            <div id="dv_fordeltb" style="display:none; visibility:hidden;">
+                            <div id="dv_fordeltb" style="display:<%=showFordelpFinansaarDSP%>; visibility:<%=showFordelpFinansaarWzb%>;">
+                           <input type="hidden" name="antal_usefybudgetingt" value="<%=maxFya %>" />
+                            <input type="checkbox" name="FM_useFYbudgetinGT" value="1" <%=jo_usefybudgetingtCHK %> /> <%=job_txt_609 %> 
                             <table width="100%" border="0" cellspacing="0" cellpadding="0">
                            <tr>
-                            <td style="height:30px;"><b>Budget FY</b><br />
+                            <td style="height:30px;"><b><%=job_txt_376 %></b><br />
                             
                             </td>
-                            <td>Timer</td>
-                            <td>Budgetår (FY)</td>
+                            <td><%=job_txt_377 %></td>
+                            <td style="width:50%;">&nbsp;</td>
+                           
+                            <td><%=job_txt_463 %> (<%=job_txt_610 %>)</td>
+                            <td><%=job_txt_345 %></td>
                             <td></td>
-                            <td></td>
-                            <td></td>
+                            
+                           
                            </tr>
 
                             
@@ -1536,8 +1561,8 @@ sub projektberegner
                                 rammeFY0 = 0
                                 fctimepris = 0
                                 fctimeprish2 = 0 
-                                strSQLrammeFY0 = "SELECT timer, fctimepris, fctimeprish2, aar FROM "_
-                                &" ressourcer_ramme WHERE jobid = " & id & " AND aktid = 0 AND medid = 0 ORDER BY aar LIMIT 5" 'AND aar = "& year(Y0)    
+                                strSQLrammeFY0 = "SELECT timer, fctimepris, fctimeprish2, aar, rr_budgetbelob FROM "_
+                                &" ressourcer_ramme WHERE jobid = " & id & " AND aktid = 0 AND medid = 0 ORDER BY aar LIMIT "& (maxFya + 1) 'AND aar = "& year(Y0)    
 
                                 'if session("mid") = 1 then
                                 'response.write strSQLrammeFY0
@@ -1549,7 +1574,7 @@ sub projektberegner
                                  while not oRec3.EOF
 
                                    
-
+                                    rammeBelobFY0 = oRec3("rr_budgetbelob")
                                     rammeFY0 = oRec3("timer")
                                     fctimepris = oRec3("fctimepris")
                                     fctimeprish2 = oRec3("fctimeprish2")
@@ -1557,12 +1582,14 @@ sub projektberegner
 
                                     %>
                                        <tr>
-                                           <td >År <%=fyA %></td>
-                                           <td style="padding:2px;"><input type="text" name="FM_fy_hours_<%=fyA %>" value="<%=rammeFY0 %>" style="width:60px; text-align:right; font-size:9px; font-family:arial;"/></td>
-                                           <td style="padding:2px;"><input type="text" name="FM_fy_aar_<%=fyA %>" value="<%=fyAar %>" style="width:60px; text-align:right; font-size:9px; font-family:arial;" /></td>
-                                           <td >&nbsp;</td>
-                                           <td >&nbsp;</td>
-                                           <td >&nbsp;</td>
+                                           <td ><%=job_txt_378 &" "%><%=fyA %></td>
+                                           <td style="padding:2px;"><input type="text" name="FM_fy_aar_<%=fyA %>" value="<%=fyAar %>" style="width:60px;" /></td>
+                                             <td >&nbsp;</td>
+                                           
+                                           <td style="padding:2px;"><input type="text" name="FM_fy_hours_<%=fyA %>" value="<%=rammeFY0 %>" style="width:60px; text-align:right;"/></td>
+                                           <td style="padding:2px;"><input type="text" name="FM_fy_belob_<%=fyA %>" value="<%=rammeBelobFY0 %>" style="width:60px; text-align:right;"/></td>
+                                           <td ><%=valutaKode_CCC %></td>
+                                         
                                         </tr>
                                 <%
                                    
@@ -1571,21 +1598,36 @@ sub projektberegner
                                  wend
                                  oRec3.close
 
+                                   
 
+                                firstFyA = 0
+                                for fyA = fyA TO maxFya
 
-                                for fyA = fyA TO 2
+                                    if fyA = 0 then
+                                        fyAarThis = year(now) + fyA
+                                    else
+                                        if cint(firstFyA) = 0 then
+                                        fyAarThis = fyAar + 1
+                                        else
+                                        fyAarThis = fyAarThis + 1
+                                        end if
+                                    end if
+
+                                  
                                     %>
                                        <tr>
-                                         <td>År <%=fyA %></td>
-                                            <td style="padding:2px;"><input type="text" name="FM_fy_hours_<%=fyA %>" value="" style="width:60px; text-align:right; font-size:9px; font-family:arial;" /></td>
-                                            <td style="padding:2px;"><input type="text" name="FM_fy_aar_<%=fyA %>" value="<%=year(now) + fyA %>" style="width:60px; text-align:right; font-size:9px; font-family:arial;" /> </td>
-                                     
-                                            <td >&nbsp;</td>
-                                            <td >&nbsp;</td>
-                                            <td >&nbsp;</td>
+                                         <td><%=job_txt_378 &" "%><%=fyA %></td>
+                                            <td style="padding:2px;"><input type="text" name="FM_fy_aar_<%=fyA %>" value="<%=fyAarThis %>" style="width:60px;" /> </td>
+                                             <td >&nbsp;</td>
+                                            <td style="padding:2px;"><input type="text" name="FM_fy_hours_<%=fyA %>" value="" style="width:60px; text-align:right;" /></td>
+                                             <td style="padding:2px;"><input type="text" name="FM_fy_belob_<%=fyA %>" value="" style="width:60px; text-align:right;"/></td>
+                                            <td ><%=valutaKode_CCC %></td>
+                                           
+                                           
                                        </tr>
 
                                     <%
+                                        firstFyA = 1
                                 next
                                     %>
 
@@ -1605,7 +1647,7 @@ sub projektberegner
 
                 <%if cint(showMtberegn) = 0 AND (lto <> "intranet - local" AND lto <> "epi2017") then %>
                 <tr>
-					<td colspan=6 style="border:0px;"> <input id="FM_ign_tp" value="1" type="checkbox" /> Åbn for manuel indtastning og beregning af Brutto- og Netto -omsætning.</td>
+					<td colspan=6 style="border:0px;"> <input id="FM_ign_tp" value="1" type="checkbox" /><%=" "& job_txt_379 %></td>
 				</tr>
                 <%else 
                     if func = "dbred" OR step = "2" then%>
@@ -1628,7 +1670,7 @@ sub projektberegner
                    jt_dsp = ""
                    end select %>
 
-                <tr><td colspan=6 valign="top" style="padding:18px 2px 2px 2px; border:0px; visibility:<%=jt_vzb%>; display:<%=jt_dsp%>; font-size:11px;"><b>Jobtype</b><br />
+                <tr><td colspan=6 valign="top" style="padding:18px 2px 2px 2px; border:0px; visibility:<%=jt_vzb%>; display:<%=jt_dsp%>; font-size:11px;"><b><%=job_txt_380 %></b><br />
                     
                     <%'select case lto
                     'case "execon"
@@ -1637,7 +1679,7 @@ sub projektberegner
                     'idfp = "angfp0"
                     'end select %>
 
-                    <input type="radio" id="<%=idfp %>" name="FM_fastpris" value="1" <%=varFastpris1%>> <b>Fastpris</b> (bruttoomsætning benyttes ved fakturering) 
+                    <input type="radio" id="<%=idfp %>" name="FM_fastpris" value="1" <%=varFastpris1%>> <b><%=job_txt_324 %></b> (<%=job_txt_381 %>) 
                             
 
                     
@@ -1645,7 +1687,7 @@ sub projektberegner
                     <input id="Radio2" name="FM_usejoborakt_tp" type="hidden" value="0" <%=usejoborakt_tp0_CHK %> />
 
                     
-                    <br /><input type="radio" id="angfp1" name="FM_fastpris" value="0" <%=varFastpris2%>> <b>Lbn. timer</b> (timeforbrug på hver enkelt aktivitet * <b>medarb. timepris</b> benyttes ved fakturering)
+                    <br /><input type="radio" id="angfp1" name="FM_fastpris" value="0" <%=varFastpris2%>> <b><%=job_txt_325 %></b> (<%=job_txt_382 %> <b><%=" "&job_txt_383 %></b><%=" "& job_txt_384 %>)
                     <br />&nbsp;</td>
                  </tr>
 
@@ -1660,7 +1702,7 @@ sub projektberegner
                    
                    
                     <br />
-		           <span style="padding:5px; background-color:#FFFFFF; border:1px #8caae6 solid; border-bottom:0px;"><a href="#stgrp_tilfoj" id="stgrp_tilfoj" name="stgrp_tilfoj">[+] Tilføj Stam-aktivitetsgrp. til job</a></span>
+		           <span style="padding:5px; background-color:#FFFFFF; border:1px #8caae6 solid; border-bottom:0px;"><a href="#stgrp_tilfoj" id="stgrp_tilfoj" name="stgrp_tilfoj">[+] <%=job_txt_385 %></a></span>
                     </td>
 			    </tr>
 
@@ -1687,7 +1729,7 @@ sub projektberegner
                                 <div id="tilfojstamdiv" style="padding:5px 5px 5px 2px; border:10px #CCCCCC solid; background-color:#FFFFFF; position:absolute; top:200px; left:20px; height:650px; overflow:auto; width:650px; z-index:20000000;"><!-- AktTD Div -->
                                
                                 <div id="jq_stamaktgrp_settings" style="position:relative; padding:0px; left:40px; top:20px; width:550px; border:0px; font-size:11px; background-color:#FFFFFF;">
-                                <h4>Tilføj aktiviteter: <span style="font-size:11px; font-weight:normal;"><a href="#a_indforstamgrp" class=vmenu id="a_indforstamgrp" name="a_indforstamgrp">[+] Indstil Proj.gruppeadgang & medarb. timepriser på aktiviteter.</a></span>
+                                <h4><%=job_txt_386 %>: <span style="font-size:11px; font-weight:normal;"><a href="#a_indforstamgrp" class=vmenu id="a_indforstamgrp" name="a_indforstamgrp">[+] <%=job_txt_387 %></a></span>
                                 <%if func = "red" then %>
                                 &nbsp;&nbsp;<a href="#" <a href="#" id="stgrp_luk" class=red>[x]</a>
                                 <%end if %>
@@ -1695,7 +1737,7 @@ sub projektberegner
                                      <%
 
                                     uWdt = 400
-                                    uTxt = "Vælg den ønskede stam-aktivitetsgruppe og <b>Indlæs gruppe på job</b>. Når gruppen er tilføjet, kan du begynde at estimere og angive timepriser på de forskellige aktiviteter."
+                                    uTxt = job_txt_388&"<b> "&job_txt_426& "</b>. "&job_txt_556
                                     'call infoUnisport(uWdt, uTxt)
                                 
                                     select case lto
@@ -1712,12 +1754,12 @@ sub projektberegner
                                 
                                 %>
                                 <div id="div_indforstamgrp" style="position:relative; visibility:hidden; display:none; width:550px; padding:20px; border:0">
-                                <b>Projektgrupper:</b><br />
+                                <b><%=job_txt_132 %>:</b><br />
 
-                                    <input id="Radio1" name="pgrp_arvefode" value="0" type="radio" <%=opfodCHK0 %> /><b> 1) Nedarv</b> projektgrupper fra job til de stamaktiviter der tilføjes til jobbet.<br />
-                                    <input id="Radio4" name="pgrp_arvefode" value="1" type="radio" <%=opfodCHK1 %> /><b> 2) Fød job</b> med de projektgrupper hver stam-aktivitet er født.
-                                    <br /><br />
-                                    <b>Medarbejder-timepriser på aktiviteter:</b><br />
+                                    <input id="Radio1" name="pgrp_arvefode" value="0" type="radio" <%=opfodCHK0 %> /><b> 1) <%=job_txt_389 %></b><%=" "& job_txt_390 %><br />
+                                    <input id="Radio4" name="pgrp_arvefode" value="1" type="radio" <%=opfodCHK1 %> /><b> 2) <%=job_txt_391 %></b><%=" "& job_txt_392 %>
+                                    <br /><br /> 
+                                    <b><%=job_txt_393 %>:</b><br />
 					                <%
 					                '**** Nedarb timepriser fra job eller behold de medarbejder timepriser der er angive på aktiviteterne ***'
 					                select case lto
@@ -1739,8 +1781,8 @@ sub projektberegner
 							
 					                end select
 					                %>
-					                <input type="radio" name="FM_timepriser" value="0" <%=tpCHK1 %>> <b>1)</b> Nedarv fra job. (brug den timepris hver <b>Medarbejdertype</b> er oprettet med) 
-					                <br /><input type="radio" name="FM_timepriser" value="1" <%=tpCHK2 %>> <b>2)</b> Behold de Medarbejder-timepriser <b>Stam-aktiviteterne</b> er født med. (se stam-aktivitetsgrupper)
+					                <input type="radio" name="FM_timepriser" value="0" <%=tpCHK1 %>> <b>1)</b><%=" "& job_txt_394 %><b><%=" "& job_txt_395 %></b><%=" "&job_txt_396 %>) 
+					                <br /><input type="radio" name="FM_timepriser" value="1" <%=tpCHK2 %>> <b>2)</b><%=" "& job_txt_397 %><b><%=" "& job_txt_398 %></b><%=" "& job_txt_399 %>
 					               </div>
 
 
@@ -1844,21 +1886,21 @@ sub projektberegner
 				
 						 
 				<tr bgcolor="#D6Dff5">
-					<td style="padding:10px 0px 0px 5px;" colspan="6"><h4><a href="#" id="a_aktlisten">[+]</a> Aktiviteter & Faser
+					<td style="padding:10px 0px 0px 5px;" colspan="6"><h4><a href="#" id="a_aktlisten">[+]</a> <%=job_txt_400 &" " %>&<%=" "& job_txt_401 %>
 
                     <%if func = "red" then%>
-                     &nbsp;<a href="#" onclick="Javascript:window.open('aktiv.asp?menu=job&jobid=<%=id%>&jobnavn=<%=strNavn%>&rdir=<%=rdir%>&nomenu=1', '', 'width=1004,height=800,resizable=yes,scrollbars=yes')" class=rmenu>Rediger aktivitetliste udviddet >> </a>
+                     &nbsp;<a href="#" onclick="Javascript:window.open('aktiv.asp?menu=job&jobid=<%=id%>&jobnavn=<%=strNavn%>&rdir=<%=rdir%>&nomenu=1', '', 'width=1004,height=800,resizable=yes,scrollbars=yes')" class=rmenu><%=job_txt_402 %> >> </a>
                     <%end if%>
                     <br />
-                    <span style="font-size:9px; color:#000000; line-height:12px;">Budget detaljeret - beregn dit projekt og sync. med nettoomsætning.<br />
-                    Ved fastpris job bliver nedenstående overført til fakturering.</span></h4>
+                    <span style="font-size:9px; color:#000000; line-height:12px;"><%=job_txt_403 %><br />
+                    <%=job_txt_404 %></span></h4>
                     </td>
                    
 
 				</tr>
                                           <%if func = "red" then %>
                                             <tr class="dv_aktlisten" style="visibility:<%=aktlist_wzb%>; display:<%=aktlist_dsp%>;"><td colspan="6" style="border:0px;">
-                                                <input id="jq_vispasogluk" type="checkbox" /> Vis passive og lukkede aktiviteter
+                                                <input id="jq_vispasogluk" type="checkbox" /> <%=job_txt_405 %>
                                                 </td></tr>
                                           <%end if %>
 
@@ -1873,7 +1915,7 @@ sub projektberegner
 	                                otoppx = 15
 	                                owdtpx = 140
 	                                java = "Javascript:window.open('aktiv.asp?menu=job&func=opret&jobid="&id&"&id=0&fb=1&rdir=job3&nomenu=1', '', 'width=1004,height=800,resizable=yes,scrollbars=yes')"    
-	                                call opretNyJava("#", "Opret ny aktivitet", otoppx, oleftpx, owdtpx, java) 
+	                                call opretNyJava("#", job_txt_406, otoppx, oleftpx, owdtpx, java) 
                      
                                      %>
                        
@@ -1886,7 +1928,7 @@ sub projektberegner
 
 				<tr>
                 <td colspan="6" style="border:0px;">
-                    <div id="jq_aktlisten" class="dv_aktlisten" style="visibility:<%=aktlist_wzb%>; display:<%=aktlist_dsp%>;">Henter aktiviteter...</div>
+                    <div id="jq_aktlisten" class="dv_aktlisten" style="visibility:<%=aktlist_wzb%>; display:<%=aktlist_dsp%>;"><%=job_txt_407 %>...</div>
                 </td>
                 </tr>
 				
@@ -1899,8 +1941,8 @@ sub projektberegner
                          <table width=100% cellspacing=0 cellpadding=0 border=0>
                          <tr>
 
-					    <td style="padding:5px 50px 5px 5px; border:0px; font-size:11px; text-align:right;">Aktiviteter & Faser ialt: 
-                            <span style="padding:2px 2px 2px 2px; font-size:11px; background-color:#FFFFFF; border-bottom:2px #999999 solid;" id="fasertimertot"><b>0,00</span> t.
+					    <td style="padding:5px 50px 5px 5px; border:0px; font-size:11px; text-align:right;"><%=job_txt_400 &" " %>&<%=" "& job_txt_401 %><%=" "& job_txt_408 %>: 
+                            <span style="padding:2px 2px 2px 2px; font-size:11px; background-color:#FFFFFF; border-bottom:2px #999999 solid;" id="fasertimertot"><b>0,00</span> <%=" "& job_txt_409 %>
                         <input id="FM_fasertimertot" value="0" type="hidden" />
 					
 					     = <span style="padding:2px 2px 2px 2px; font-size:11px; background-color:#FFFFFF; border-bottom:2px #999999 solid;;" id="fasersumtot"><b>0,00</b></span> <%=jo_bgt_basisValISO %></td>
@@ -1912,7 +1954,7 @@ sub projektberegner
                     </td>
                     </tr>
 
-                    <%if cint(showMtberegn) = 0 then %>
+                    <%if cint(showMtberegn) = 0 then %> 
 
                      <%
                      '** Starter altid med at være utjekket med mindre:
@@ -1934,11 +1976,11 @@ sub projektberegner
 
                     <tr class="dv_aktlisten" style="visibility:<%=aktlist_wzb%>; display:<%=aktlist_dsp%>;">
 					<td style="padding:20px 0px 10px 2px; border:0px; font-size:11px;" colspan="6">
-                      <!--<input id="sync" type="button" value="Sync. forkalkulation >> " />--><input id="sync" type="checkbox" <%=syncCHK %> />Overfør budget på aktiviteter til nettoomsætning på job.
+                      <!--<input id="sync" type="button" value="Sync. forkalkulation >> " />--><input id="sync" type="checkbox" <%=syncCHK %> /><%=job_txt_410 %>
                      
                         <br /><br />
-                             <input id="FM_opdmedarbtimepriser" name="FM_opdmedarbtimepriser" value="1" type="checkbox" <%=mtpCHK %> />Lås medarbejdertimepris til budget time-/stk. -pris på aktiviteterne. <span style="color:#999999;">Gælder for alle medarbejdere.</span><br />
-                         <b>Opdaterer også ALLE eksisterende timeregistreringer!</b> (Klik "Gem ændringer på job" for at gemme)
+                             <input id="FM_opdmedarbtimepriser" name="FM_opdmedarbtimepriser" value="1" type="checkbox" <%=mtpCHK %> /><%=job_txt_411 %> <span style="color:#999999;"><%=job_txt_412 %></span><br />
+                         <b><%=job_txt_413 %>!</b> (<%=job_txt_414 %>)
                     </td>
                     </tr>
                     
@@ -1993,7 +2035,7 @@ sub projektberegner
 
 
                <tr class="dv_aktlisten" style="visibility:<%=aktlist_wzb%>; display:<%=aktlist_dsp%>;"><td colspan=6 align="right" style="border:0px; padding:0px 10px 20px 5px;">
-                    <input class="overfortiljob_u" type="button" value="Gem ændringer på job >>" style="font-family:arial; font-size:9px;"/></td></tr> 
+                    <input class="overfortiljob_u" type="button" value="<%=job_txt_449 %> >>" style="font-family:arial; font-size:9px;"/></td></tr> 
                    
                     <input id="showtpalert" value="1" type="hidden" />
                            
@@ -2088,7 +2130,7 @@ sub projektberegner
                 <tr bgcolor="#FFFFFF"><td colspan=6 style="padding:10px 0px 7px 430px; border-bottom:3px #FFCC66 solid;"><br />
                  <span style="padding:5px; background-color:#FFFFFF; border:1px #FFCC66 solid; border-bottom:0px;">
                         
-                        <a href="#" id="tilfoj_ulevgrp">[+] Tilføj Salgsomkostnings grupper til job</a>
+                        <a href="#" id="tilfoj_ulevgrp">[+]<%=" "& job_txt_415 %></a>
                       
                         
                         </span>
@@ -2104,8 +2146,8 @@ sub projektberegner
 
                                
 
-                    <div id="span_tilfoj_ulevgrp" style="visibility:<%=sptu_Vzb%>; width:300px; border:1px red solid; padding:3px; background-color:lightpink; display:<%=sptu_dsp%>;">Der kan ikke tilføjes flere Underlev.- / Salgsomkost. -grupper da der er mere end 30 linier tilføjet allerede.<br />
-                    Der kan manuelt tilføjes flere linier ovenfor. (optil 50)</div>
+                    <div id="span_tilfoj_ulevgrp" style="visibility:<%=sptu_Vzb%>; width:300px; border:1px red solid; padding:3px; background-color:lightpink; display:<%=sptu_dsp%>;"><%=job_txt_416 %><br />
+                    <%=job_txt_417 %></div>
 
                      
                      <div id="tilfojulevdiv" style="padding:5px 5px 5px 0px; border:10px #CCCCCC solid; background-color:#FFFFFF; position:absolute; top:900px; left:20px; width:650px; z-index:20000000; height:400px; overflow:auto;"><!-- UlevTD Div -->
@@ -2117,15 +2159,15 @@ sub projektberegner
 
 
                     <br /><br />
-                    <h4>Salgsomkostninger:
+                    <h4><%=job_txt_418 %>:
                         <span>&nbsp;&nbsp;<a href="#" <a href="#" id="luk_ulevgrp" class=red>[x]</a></span>
                     </h4>
                          <%
                          strSQLugrp = "SELECT jugrp_id, jugrp_navn, jugrp_forvalgt FROM job_ulev_jugrp WHERE jugrp_id <> 0 AND jugrp_id IS NOT NULL ORDER BY jugrp_forvalgt, jugrp_navn"
                          'Response.Write strSQLugrp%>
 
-                    <b>Udlæg / Mat. gruppe:</b><br /><select id="jq_seljugrp_id" name="FM_jugrp_id" style="width:200px; font-family:arial; font-size:9px;">
-                    <option value="0">Ingen - Vælg gruppe..</option>
+                    <b><%=job_txt_419 %>:</b><br /><select id="jq_seljugrp_id" name="FM_jugrp_id" style="width:200px; font-family:arial; font-size:9px;">
+                    <option value="0"><%=job_txt_420 %>..</option>
                     <%
 	                oRec5.open strSQLugrp, oConn, 3
 	                while not oRec5.EOF 
@@ -2184,11 +2226,11 @@ sub projektberegner
                     <tr bgcolor="#FFCC66">
                     <td>&nbsp;</td>
 		          
-		            <td style="padding:2px 0px 2px 2px;"><b>Udgift navn / txt.</b></td>
-		            <td style="padding:2px 0px 2px 2px;"><b>Stk. / stk. pris </b></td>
-                    <td style="padding:2px 20px 2px 2px;" align=right><b>Indkøbspris</b></td>
-		            <td style="padding:2px 20px 2px 2px;" align=right><b>Faktor</b></td>
-		            <td style="padding:2px 20px 2px 2px;" align=right><b>Salgspris <%=jo_bgt_basisValISO %></b></td>
+		            <td style="padding:2px 0px 2px 2px;"><b><%=job_txt_421 %></b></td>
+		            <td style="padding:2px 0px 2px 2px;"><b><%=job_txt_422 %> </b></td>
+                    <td style="padding:2px 20px 2px 2px;" align=right><b><%=job_txt_423 %></b></td>
+		            <td style="padding:2px 20px 2px 2px;" align=right><b><%=job_txt_424 %></b></td>
+		            <td style="padding:2px 20px 2px 2px;" align=right><b><%=job_txt_425 &" " %><%=jo_bgt_basisValISO %></b></td>
 		                 
 		            </tr>
                     <%
@@ -2205,7 +2247,7 @@ sub projektberegner
                 </td>
                 </tr>
                     <tr style="visibility:<%=ulevLinieVzb%>; display:<%=ulevLinieDsp%>;" class="ulev_pb_<%=ulgrp%>"><td colspan=6 align="right" style="border:0px; padding:10px 10px 5px 5px;">
-                    <input class="overfortiljob_u" type="button" value="Indlæs gruppe på job >>" style="font-family:arial; font-size:9px;"/></td></tr> 
+                    <input class="overfortiljob_u" type="button" value="<%=job_txt_426 %> >>" style="font-family:arial; font-size:9px;"/></td></tr> 
 		               
                       
                 <%end if %>
@@ -2365,13 +2407,13 @@ sub projektberegner
 			   
                 <% if func = "red" then%>
 				<tr bgcolor="#FFCC66">
-					<td style="padding:10px 0px 0px 5px;" colspan=6><h4><a href="#" id="a_salgsomk">[+]</a> Salgsomkostninger<br />
-                    <span style="font-size:9px; color:#000000; line-height:12px;">Underleverandører / Materialeforbrug</span></h4> </td>
+					<td style="padding:10px 0px 0px 5px;" colspan=6><h4><a href="#" id="a_salgsomk">[+]</a> <%=job_txt_427 %><br />
+                    <span style="font-size:9px; color:#000000; line-height:12px;"><%=job_txt_428 %></span></h4> </td>
                  </tr>
 
                  <tr id="tr_salgsomk" class="tr_salgsomk" bgcolor="#FFFFFF">
 					<td style="padding:3px 0px 3px 10px;" colspan=6>   
-                     Antal linier: 
+                     <%=job_txt_429 %>: 
                         <select id="antalulev" onchange="showulevlinier()" style="font-size:9px; font-family:arial;">
                                     
                             <%for u = 1 to 50 
@@ -2388,7 +2430,7 @@ sub projektberegner
                                     
                             <%next %>
                                    
-                        </select> (maks. 50 linier)</td>
+                        </select> (<%=job_txt_430 %>)</td>
 				</tr>  
 						
                    <tr class="tr_salgsomk" bgcolor="#FFFFFF">
@@ -2396,12 +2438,12 @@ sub projektberegner
                     <table cellpadding="0" cellspacing="0" border=0 width=100%>
                         
 		            <tr>
-		            <td style="padding:10px 0px 3px 2px;"><b>* Udgift/Salgsomkost.</b></td>
+		            <td style="padding:10px 0px 3px 2px;"><b>* <%=job_txt_431 %></b></td>
                      <% 
                    select case cint(budgetakt) 
                        case 1, 2
                        %>
-                       <td style="padding:10px 0px 3px 2px;"><b>Konto</b></td>
+                       <td style="padding:10px 0px 3px 2px;"><b><%=job_txt_432 %></b></td>
                        <%
                        
                        case else
@@ -2410,11 +2452,11 @@ sub projektberegner
                    %>
 
 
-                    <td style="padding:10px 0px 3px 2px;"><b>Stk.</b></td>
-                    <td style="padding:10px 0px 3px 2px;"><b>Stk. pris.</b></td>
-		            <td align="right" style="padding:10px 20px 3px 2px;"><b>Indkøbspris</b></td>
-		            <td style="padding:10px 10px 3px 2px;"><b>Faktor</b></td>
-		            <td style="padding:10px 0px 3px 10px;"><b>Salgspris <%=jo_bgt_basisValISO %></b></td>
+                    <td style="padding:10px 0px 3px 2px;"><b><%=job_txt_561 %></b></td>
+                    <td style="padding:10px 0px 3px 2px;"><b><%=job_txt_433 %></b></td>
+		            <td align="right" style="padding:10px 20px 3px 2px;"><b><%=job_txt_434 %></b></td>
+		            <td style="padding:10px 10px 3px 2px;"><b><%=job_txt_424 %></b></td>
+		            <td style="padding:10px 0px 3px 10px;"><b><%=job_txt_425 &" "%><%=jo_bgt_basisValISO %></b></td>
 		            <td>&nbsp;</td>
 		        </tr>
 
@@ -2482,7 +2524,7 @@ sub projektberegner
                     <td>= <input type="text" class="ulev" id="ulevpris_<%=u%>" name="ulevpris_<%=u%>" value="<%=replace(formatnumber(u_ipris(u), 2), ".", "") %>" style="width:60px; font-size:9px; font-family:arial;" onkeyup="tjektimer('ulevpris_<%=u%>'), beregnulevbelob('<%=u%>')"></td>
 					<td>x <input type="text" class="ulev" id="ulevfaktor_<%=u%>" name="ulevfaktor_<%=u%>" value="<%=replace(formatnumber(u_faktor(u), 2), ".", "") %>" style="width:40px; font-size:9px; font-family:arial;" onkeyup="tjektimer('ulevfaktor_<%=u%>'), beregnulevbelob('<%=u%>')"></td>
 		            <td align=right style="padding-right:33px;">= <input type="text" id="ulevbelob_<%=u%>" name="ulevbelob_<%=u%>" value="<%=replace(formatnumber(u_belob(u), 2), ".", "") %>" style="width:60px; font-size:9px; font-family:arial;" onkeyup="tjektimer('ulevfaktor_<%=u%>'), beregnulevipris('<%=u%>')"></td>
-		            <td>&nbsp; <a href="#" id="ulev_ryd_<%=u%>" class="ulev_ryd">Ryd</a> </td>
+		            <td>&nbsp; <a href="#" id="ulev_ryd_<%=u%>" class="ulev_ryd"><%=job_txt_567 %></a> </td>
 		        </tr>
 		                
 		        <%
@@ -2496,7 +2538,7 @@ sub projektberegner
 
     
                     <tr class="tr_salgsomk">
-                    <td align="right" style="padding:10px 5px 3px 5px; border:0px;" colspan="6"><a href="#" class="rmenu" id="ulev_tilfoj_line">Tilføje line >></a>
+                    <td align="right" style="padding:10px 5px 3px 5px; border:0px;" colspan="6"><a href="#" class="rmenu" id="ulev_tilfoj_line"><%=job_txt_436 %> >></a>
                     </td>
                     </tr>
                        
@@ -2529,7 +2571,7 @@ sub projektberegner
                 <table width=100% border="0" cellpadding=0 cellspacing=0>
 		        <tr>
 						    
-					<td colspan=4 style="padding:10px 0px 3px 5px; width:460px; font-size:11px; font-family:arial;"><b>Bruttoomsætning:</b></td>
+					<td colspan=4 style="padding:10px 0px 3px 5px; width:460px; font-size:11px; font-family:arial;"><b><%=job_txt_437 %>:</b></td>
 					<td style="padding:2px 2px 2px 20px; width:100px;">= <span style="padding:2px 2px 2px 2px; background-color:#FFFFFF; width:60px; border:0px #999999 solid; font-size:9px; font-family:arial;" id="SP_budget"><b><%=replace(formatnumber(jo_bruttooms, 2), ".", "")%></b></span></td>
 							
 					<!--&nbsp; antal fakturerbare timer.&nbsp;<br>-->
@@ -2542,7 +2584,7 @@ sub projektberegner
 		        
                  <tr>
 						    
-					<td colspan=4 style="padding:10px 0px 3px 5px; width:460px; font-size:11px; font-family:arial;">Nettoomsætning: (timer)</td>
+					<td colspan=4 style="padding:10px 0px 3px 5px; width:460px; font-size:11px; font-family:arial;"><%=job_txt_438 %>: (<%=job_txt_439 %>)</td>
 					<td style="padding:2px 2px 2px 20px; width:100px;">= <span style="padding:2px 2px 2px 2px; background-color:#FFFFFF; width:60px; border:0px #999999 solid; font-size:9px; font-family:arial;" id="SP_netto"><b><%=replace(formatnumber(jo_gnsbelob, 2), ".", "")%></b></span></td>
 							
 				
@@ -2552,7 +2594,7 @@ sub projektberegner
 
                        <tr>
 						    
-					<td colspan=4 style="padding:10px 0px 3px 5px; width:460px; font-size:11px; font-family:arial;">Varesalg: (salgspris på salgsomkostninger)</td>
+					<td colspan=4 style="padding:10px 0px 3px 5px; width:460px; font-size:11px; font-family:arial;"><%=job_txt_440 %>: (<%=job_txt_441 %>)</td>
 					<td style="padding:2px 2px 2px 20px; width:100px;">= <span style="padding:2px 2px 2px 2px; background-color:#FFFFFF; width:60px; border:0px #999999 solid; font-size:9px; font-family:arial;" id="SP_salgspris_ulev"><b><%=replace(formatnumber(jo_salgspris_ulev, 2), ".", "")%></b></span></td>
                            <input id="FM_salgspris_ulev" name="FM_salgspris_ulev" value="<%=replace(formatnumber(jo_salgspris_ulev, 2), ".", "")%>" type="hidden" />
 							
@@ -2562,14 +2604,14 @@ sub projektberegner
 		        </tr>
 
                     <tr bgcolor="#ffffff">
-					<td colspan=4 style="padding:30px 0px 3px 5px; font-size:11px; font-family:arial;"><b>Udgifter ialt:</b> (intern kost. + salgsomk.)</td>
+					<td colspan=4 style="padding:30px 0px 3px 5px; font-size:11px; font-family:arial;"><b><%=job_txt_442 %>:</b> (<%=job_txt_443 %>)</td>
 					<td style="padding:30px 2px 2px 20px;">= <span style="padding:2px 2px 2px 2px; background-color:#FFFFFF; width:60px; border:0px; border-bottom:0px #999999 solid; font-size:9px; font-family:arial;" id="SP_udgifter"><b><%=replace(formatnumber(udgifter, 2), ".", "")%></b></span></td>
                         <input id="FM_udgifter" name="FM_udgifter" value="<%=replace(formatnumber(udgifter, 2), ".", "")%>" type="hidden" />
                     <td style="padding:30px 2px 2px 0px;">&nbsp;<%=jo_bgt_basisValISO %></td>
 				</tr>
                         
                 <tr bgcolor="#ffffff">
-					<td colspan=4 style="padding:10px 0px 3px 5px; font-size:11px; font-family:arial;">Intern kost.: (kostpris pr. time * timer)
+					<td colspan=4 style="padding:10px 0px 3px 5px; font-size:11px; font-family:arial;"><%=job_txt_444 %>: (<%=job_txt_445 %>)
                         
                          <%if cint(showMtberegn) = 1 then 
                              
@@ -2610,7 +2652,7 @@ sub projektberegner
                    
 
                 <tr bgcolor="#ffffff">
-					<td colspan=4 style="padding:10px 0px 3px 5px; font-size:11px; font-family:arial;">Salgsomkostninger:</td>
+					<td colspan=4 style="padding:10px 0px 3px 5px; font-size:11px; font-family:arial;"><%=job_txt_418 %>:</td>
 					<td style="padding:2px 2px 2px 20px;">= <span style="padding:2px 2px 2px 2px; background-color:#FFFFFF; width:60px; border:0px; border-bottom:0px #CCCCCC solid; font-size:9px; font-family:arial;" id="SP_udgifter_ulev"><%=replace(formatnumber(jo_udgifter_ulev, 2), ".", "")%></span></td>
 					<input id="FM_udgifter_ulev" name="FM_udgifter_ulev" value="<%=replace(formatnumber(jo_udgifter_ulev, 2), ".", "")%>" type="hidden" />
                     <td>&nbsp;<%=jo_bgt_basisValISO %></td>
@@ -2622,14 +2664,14 @@ sub projektberegner
 		                
 		            <tr bgcolor="#Eff3ff">
 						    
-					<td colspan=4 style="padding:10px 0px 3px 5px; font-size:11px; font-family:arial;"><b>Dækningsbidrag / Bruttofortjeneste:</b> (bruttooms. - udgifter)</td>
+					<td colspan=4 style="padding:10px 0px 3px 5px; font-size:11px; font-family:arial;"><b><%=job_txt_446 %>:</b> (<%=job_txt_447 %>)</td>
 					<td style="padding:2px 2px 2px 20px;">= <span style="padding:2px 2px 2px 2px; background-color:#Eff3ff; width:60px; border:0px; border-bottom:0px #999999 solid; font-size:9px; font-family:arial;" id="SP_bruttofortj"><b><%=replace(formatnumber(jo_bruttofortj, 2), ".", "") %></b></span></td>
 						<input id="FM_bruttofortj" name="FM_bruttofortj" value="<%=replace(formatnumber(jo_bruttofortj, 2), ".", "") %>" type="hidden" />
                         <td>&nbsp;<%=jo_bgt_basisValISO %></td>
 				</tr>
 				<tr bgcolor="#ffffff">
 						    
-					<td colspan=4 style="padding:10px 0px 3px 5px; font-size:11px; font-family:arial;"><b>Dækningsbidrag (DB) %</b></td>
+					<td colspan=4 style="padding:10px 0px 3px 5px; font-size:11px; font-family:arial;"><b><%=job_txt_448 %> (DB) %</b></td>
 					<td style="padding:2px 2px 2px 20px;">= <span style="padding:2px 2px 2px 2px; background-color:#FFFFFF; width:60px; border:0px; border-bottom:0px #999999 solid; font-size:9px; font-family:arial;" id="SP_db"><b><%=formatnumber(jo_dbproc, 0) %></b></span></td>
 					<input id="FM_db" name="FM_db" value="<%=formatnumber(jo_dbproc, 0)%>" type="hidden" />
                     <td>&nbsp;%</td>
@@ -2640,7 +2682,7 @@ sub projektberegner
 				</tr>  
                 
                 <tr>
-                <td align=right colspan=6 style="border:0px; padding:15px 15px 5px 5px;"> <input class="overfortiljob_u" type="button" value="Gem ændringer på job >>" style="font-family:arial; font-size:9px;"/></td>
+                <td align=right colspan=6 style="border:0px; padding:15px 15px 5px 5px;"> <input class="overfortiljob_u" type="button" value="<%=job_txt_449 %> >>" style="font-family:arial; font-size:9px;"/></td>
                 </tr>
                 
                
@@ -2692,7 +2734,7 @@ sub projektberegner
               <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
               <table width=100% cellspacing=0 cellpadding=0>
                 <tr>
-                <td align=right colspan=6 style="border:0px; padding:15px 15px 5px 5px;"> <input class="overfortiljob_u" type="button" value=" Videre >> " /></td>
+                <td align=right colspan=6 style="border:0px; padding:15px 15px 5px 5px;"> <input class="overfortiljob_u" type="button" value=" <%=job_txt_450 %> >> " /></td>
                 </tr>
               </table>
               <%end if %>
@@ -2743,11 +2785,11 @@ sub minioverblik
 		
        
         <tr bgcolor="#5582d2">
-						    <td colspan=6 class=alt style="padding:5px 5px 0px 5px; border:0px; height:32px;" valign=top><h3 class="hv">Joboverblik & Funktioner</h3></td>
+						    <td colspan=6 class=alt style="padding:5px 5px 0px 5px; border:0px; height:32px;" valign=top><h3 class="hv"><%=job_txt_451 &" " %>&<%=" "& job_txt_452 %></h3></td>
 						</tr>
 
                            <tr>
-                <td align=right colspan=6 style="border:0px; padding:15px 15px 5px 5px;"> <input class="overfortiljob_o" type="button" value="Gem ændringer på job >>" style="font-family:arial; font-size:9px;"/></td>
+                <td align=right colspan=6 style="border:0px; padding:15px 15px 5px 5px;"> <input class="overfortiljob_o" type="button" value="<%=job_txt_449 %> >>" style="font-family:arial; font-size:9px;"/></td>
                 </tr>
 		
 		<tr>
@@ -2796,11 +2838,11 @@ sub minioverblik
 		%>
 		
         
-        <a href="jobprintoverblik.asp?menu=job&id=<%=id%>&media=printjoboverblik" class=vmenu target="_blank">Print joboverblik >></a><br />
+        <a href="jobprintoverblik.asp?menu=job&id=<%=id%>&media=printjoboverblik" class=vmenu target="_blank"><%=job_txt_267 %> >></a><br />
       
          <%call bdgmtypon_fn()
          if cint(bdgmtypon_val) = 1 then %>
-         <a href="mtypgrp_real_konsolider.asp?dothis=1&first=2&jobid=<%=id %>" class=vmenu target="_blank">Konsolider job >></a><br />
+         <a href="mtypgrp_real_konsolider.asp?dothis=1&first=2&jobid=<%=id %>" class=vmenu target="_blank"><%=job_txt_453 %> >></a><br />
 		 <%end if %>   
             
        
@@ -2830,15 +2872,15 @@ sub minioverblik
 
 
         <%if cint(sltjjobok) = 1 then %>
-        <a href="job_kopier.asp?func=kopier&id=<%=id%>&fm_kunde=<%=fm_kunde_sog%>&filt=<%=request("filt")%>" class=vmenu>Kopier job >></a>
-        <br /><a href="jobs.asp?menu=job&func=slet&id=<%=id %>" class=slet>Slet / nulstil job?</a><br />
+        <a href="job_kopier.asp?func=kopier&id=<%=id%>&fm_kunde=<%=fm_kunde_sog%>&filt=<%=request("filt")%>" class=vmenu><%=job_txt_454 %> >></a>
+        <br /><a href="jobs.asp?menu=job&func=slet&id=<%=id %>" class=slet><%=job_txt_455 %>?</a><br />
         <%end if %>
 
         <%else%>
         
             <% if thisfile <> "jobprintoverblik" then %>
        <tr bgcolor="#5582d2">
-						    <td colspan=6 class=alt style="padding:5px 5px 0px 5px; border:0px;"><h3 class="hv">TimeOut - Joboverblik</h3></td>
+						    <td colspan=6 class=alt style="padding:5px 5px 0px 5px; border:0px;"><h3 class="hv">TimeOut - <%=job_txt_456 %></h3></td>
 						</tr>
             <%end if %>
 
@@ -2853,10 +2895,10 @@ sub minioverblik
             <%="<h4><span style=font-size:11px;>"& strKnavn & " ("& strKnr &")</span><br>"& strNavn & " ("& strjobnr &")</h4>"%>
             <%end if %>
 
-        Status: <%=strStatusNavn %>
-         <br>Periode: <span style="color:green;"><%=formatdatetime(strTdato, 1)%></span> - <span style="color:red;"><%=formatdatetime(strUdato, 1)%></span>
+        <%=job_txt_241 %>: <%=strStatusNavn %>
+         <br><%=job_txt_568 %>: <span style="color:green;"><%=formatdatetime(strTdato, 1)%></span> - <span style="color:red;"><%=formatdatetime(strUdato, 1)%></span>
 	 <br />
-        Jobansvarlige: <span style="color:#999999;">
+        <%=job_txt_330 %>: <span style="color:#999999;">
     <%
 		
 						'*** Jobansvarlige ***
@@ -2941,7 +2983,7 @@ sub minioverblik
                          oRec6.close
 
                          %>
-                         <br />Kontaktpers. hos kunde: <span style="color:#5582d2;"><%=kpersNavn %></span>
+                         <br /><%=job_txt_457 %>: <span style="color:#5582d2;"><%=kpersNavn %></span>
                          <%
 
                          end if
@@ -2953,12 +2995,12 @@ sub minioverblik
                        
 	                    <% 
 	                    if len(trim(rekvnr)) <> 0 then
-	                    Response.Write "<br>Rekvnr.: "& rekvnr
+	                    Response.Write "<br>"&job_txt_254&": "& rekvnr
 	                    end if
 
 	
 	                    if cint(intServiceaft) <> 0 then
-	                    Response.Write "<br>Aftale: "& aftnavn & " ("& aftnr &")" 
+	                    Response.Write "<br>"&job_txt_455&": "& aftnavn & " ("& aftnr &")" 
 	                    end if
 	
 	                    %>
@@ -2976,9 +3018,9 @@ sub minioverblik
 
         <%if intprio > -1 then '(thisfile <> "jobprintoverblik" AND lto = "synergi1")  AND 'OR lto <> "synergi1")%>
         <tr>
-		    <td><br /><b>Timeforbrug</b> (overblik) 
+		    <td><br /><b><%=job_txt_458 %></b> (<%=job_txt_459 %>) 
                 <%if cint(strStatus) <> 1 then 'lukket/passivt mv.%>
-                <span style="color:darkred;"> - Seneste 15 md.</span>
+                <span style="color:darkred;"> - <%=job_txt_460 %></span>
                 <%end if%>
 
 		    </td>
@@ -3023,7 +3065,7 @@ sub minioverblik
         
             if cdate(forstetimereg) <> "1-1-2002" then
             %>
-            <br />Første timreg.: <%=formatdatetime(forstetimereg, 2) %>
+            <br /><%=job_txt_569 %>: <%=formatdatetime(forstetimereg, 2) %>
             <%
             end if
             %>
@@ -3032,10 +3074,10 @@ sub minioverblik
          
          <td class="lille" valign=top>
      
-		Timeforbrug fordelt på måneder:
+		<%=job_txt_461 %>:
         <table cellpadding=0 cellspacing=0 border=0>
         <tr bgcolor="#FFFFFf">
-         <td style="width:40px; border-bottom:1px #cccccc solid; border-right:1px #cccccc solid; padding:2px; font-size:8px;" valign=top>Kvo.: <br /><%=hgtKvo%></td>
+         <td style="width:40px; border-bottom:1px #cccccc solid; border-right:1px #cccccc solid; padding:2px; font-size:8px;" valign=top><%=job_txt_462 %>: <br /><%=hgtKvo%></td>
             <%
             
 
@@ -3083,10 +3125,21 @@ sub minioverblik
              dtnowHigh = dateadd("m", -(mts), stDatoKriGrf)
              end if
 
-            
+             if month(dtnowHigh) = 1 then dtnowMonthText = job_txt_102 end if
+             if month(dtnowHigh) = 2 then dtnowMonthText = job_txt_103 end if
+             if month(dtnowHigh) = 3 then dtnowMonthText = job_txt_104 end if
+             if month(dtnowHigh) = 4 then dtnowMonthText = job_txt_105 end if
+             if month(dtnowHigh) = 5 then dtnowMonthText = job_txt_106 end if
+             if month(dtnowHigh) = 6 then dtnowMonthText = job_txt_107 end if
+             if month(dtnowHigh) = 7 then dtnowMonthText = job_txt_108 end if
+             if month(dtnowHigh) = 8 then dtnowMonthText = job_txt_109 end if
+             if month(dtnowHigh) = 9 then dtnowMonthText = job_txt_110 end if
+             if month(dtnowHigh) = 10 then dtnowMonthText = job_txt_111 end if
+             if month(dtnowHigh) = 11 then dtnowMonthText = job_txt_112 end if
+             if month(dtnowHigh) = 12 then dtnowMonthText = job_txt_113 end if
 
             %>
-            <td colspan=4 style="font-size:8px; border-bottom:1px #cccccc solid; width:24px;" align=center><%=left(monthname(month(dtnowHigh)), 3) &"<br> "& right(year(dtnowHigh), 2) %></td>
+            <td colspan=4 style="font-size:8px; border-bottom:1px #cccccc solid; width:24px;" align=center><%=dtnowMonthText &"<br> "& right(year(dtnowHigh), 2) %></td>
             <%next %>
          </tr>
 
@@ -3300,7 +3353,7 @@ sub minioverblik
             <%next %>
          </tr>
          <tr bgcolor="#FFFFFF">
-         <td style="font-size:8px; border-bottom:1px #D6dff5 solid;" align=center>Timer</td>
+         <td style="font-size:8px; border-bottom:1px #D6dff5 solid;" align=center><%=job_txt_463 %></td>
             <%for dt = 0 TO mts %>
             <td colspan=4 style="border-bottom:1px #D6dff5 solid; font-family:Arial; padding:0px; font-size:7px;" align=center><%=timerThis(dt) %></td>
             
@@ -3310,7 +3363,7 @@ sub minioverblik
 	    </tr>
 
           <tr bgcolor="#FFFFFF">
-           <td style="font-size:8px; border-bottom:1px #999999 solid;" align=center>Forecast</td>
+           <td style="font-size:8px; border-bottom:1px #999999 solid;" align=center><%=job_txt_464 %></td>
             <%for dt = 0 TO mts %>
             
             <td colspan=4 style="border-bottom:1px #999999 solid; font-family:Arial; padding:0px; font-size:7px;" align=center><%=resThis(dt) %></td>
@@ -3320,7 +3373,7 @@ sub minioverblik
 	    </tr>
 
           <tr bgcolor="#FFFFFF">
-           <td style="font-size:8px; border-bottom:1px #9aCD32 solid;" align=center>Oms.</td>
+           <td style="font-size:8px; border-bottom:1px #9aCD32 solid;" align=center><%=job_txt_465 %></td>
             <%for dt = 0 TO mts %>
             
             <td colspan=4 style="border-bottom:1px #9aCD32 solid; font-family:Arial; padding:0px; font-size:7px;" align=center><%=omsThis(dt) %> k</td>
@@ -3329,7 +3382,7 @@ sub minioverblik
             <%next %>
 	    </tr>
           <tr bgcolor="#FFFFFF">
-           <td style="font-size:8px; border-bottom:1px #8caae6 solid;" align=center>Kost.</td>
+           <td style="font-size:8px; border-bottom:1px #8caae6 solid;" align=center><%=job_txt_466 %></td>
             <%for dt = 0 TO mts %>
             
             <td colspan=4 style="border-bottom:1px #8caae6 solid; font-family:Arial; padding:0px; font-size:7px;" align=center><%=kostThis(dt) %> k</td>
@@ -3359,7 +3412,7 @@ sub minioverblik
        if thisfile <> "jobprintoverblik" then
         %>
         <tr>
-            <td> <input type="checkbox" id="overfortiljob_tp" name="visrealtimerdetal" value="1" <%=visrealtimerdetalCHK %> /> Vis detaljeret timeforbrug</td>
+            <td> <input type="checkbox" id="overfortiljob_tp" name="visrealtimerdetal" value="1" <%=visrealtimerdetalCHK %> /> <%=job_txt_467 %></td>
         </tr>
         <%end if
 
@@ -3377,7 +3430,7 @@ sub minioverblik
             <tr>
                 <td>
                     <br /><br />
-                    <b>Timeforbrug ialt:</b> (detaljeret)
+                    <b><%=job_txt_468 %>:</b> (<%=job_txt_469 %>)
 
 
                     <%if thisfile <> "jobprintoverblik" then
@@ -3393,9 +3446,9 @@ sub minioverblik
                     <table width="100%" cellpadding="1" cellspacing="0">
                         <tr>
                             
-                            <th style="width:200px; text-align:left;">Medarbejder</th>
-                            <th style="text-align:right;">Forecast (timebudget)</th>
-                            <th style="text-align:right;">Real. Timer</th>
+                            <th style="width:200px; text-align:left;"><%=job_txt_470 %></th>
+                            <th style="text-align:right;"><%=job_txt_464 %> (<%=job_txt_471 %>)</th>
+                            <th style="text-align:right;"><%=job_txt_570 %></th>
                         </tr>
 
                             <%
@@ -3493,7 +3546,7 @@ sub minioverblik
 
 
                         <tr bgcolor="#FFDFDF">
-                            <td>Ialt:</td>
+                            <td><%=job_txt_472 %>:</td>
                             <td style="text-align:right"><b><%=formatnumber(restimerDetalTot, 2) %></b></td>
                             <td style="text-align:right"><b><%=formatnumber(realtimerDetalTot, 2) %></b></td>
                         </tr>
@@ -3538,18 +3591,18 @@ sub minioverblik
 
         <tr>
 		    <td  style="padding:4px 4px 5px 4px;">
-            <a href="joblog.asp?nomenu=1&FM_job=<%=id %>&FM_kunde=<%=strKnr %>&FM_jobsog=<%=strjobnr%>&viskunabnejob0=<%=viskunabnejob0%>&viskunabnejob1=<%=viskunabnejob1%>&viskunabnejob2=<%=viskunabnejob2%>&<%=dtlink %>" class=vmenu target="_blank">Joblog >></a><br />
+            <a href="joblog.asp?nomenu=1&FM_job=<%=id %>&FM_kunde=<%=strKnr %>&FM_jobsog=<%=strjobnr%>&viskunabnejob0=<%=viskunabnejob0%>&viskunabnejob1=<%=viskunabnejob1%>&viskunabnejob2=<%=viskunabnejob2%>&<%=dtlink %>" class=vmenu target="_blank"><%=job_txt_473 %> >></a><br />
             <%if level = 1 then %>
-            <a href="medarbtyper.asp" class=vmenu target="_blank">Ret kostpriser her >></a><br />
+            <a href="medarbtyper.asp" class=vmenu target="_blank"><%=job_txt_474 %> >></a><br />
             <%end if %>
 
             
 
-            <a href="<%=fcLinkj%>" class=vmenu target="_blank">Ressource Forecast >></a><br />
+            <a href="<%=fcLinkj%>" class=vmenu target="_blank"><%=job_txt_475 %> >></a><br />
 
             <%select case lto
             case "intranet - local", "essens", "dencker", "outz", "hidalgo" %>
-            <a href="../ressource_planner/ressplan_2017.aspx?sortbypresel=2&jobidpresel=<%=id %>&lto=234fsdf45t9xxx4cc34vdg56<%=lto %>HrtKvv8344" class=vmenu target="_blank">Planlægning >></a>
+            <a href="../ressource_planner/ressplan_2017.aspx?sortbypresel=2&jobidpresel=<%=id %>&lto=234fsdf45t9xxx4cc34vdg56<%=lto %>HrtKvv8344" class=vmenu target="_blank"><%=job_txt_476 %> >></a>
             <%end select %>
 
         </td>
@@ -3569,9 +3622,9 @@ sub minioverblik
         if thisfile <> "jobprintoverblik" then
         %>
 		<tr>
-		    <td><br /><br /><b>Filarkiv</b> 
+		    <td><br /><br /><b><%=job_txt_477 %></b> 
             <%if thisfile <> "jobprintoverblik" then%>
-	        &nbsp;<a href="job_print.asp?id=<%=id%>" class=vmenu>Print / PDF Center >></a> <!--| <a href="javascript:popUp('upload.asp?type=job&id=0&kundeid=<%=strKnr%>&jobid=<%=id%>&nomenu=1','600','500','250','120');" target="_self" class=vmenu><img src="../ill/addmore55.gif" width="10" height="13" alt="" border="0">&nbsp;Upload fil >></a>-->
+	        &nbsp;<a href="job_print.asp?id=<%=id%>" class=vmenu><%=job_txt_478 %> >></a> <!--| <a href="javascript:popUp('upload.asp?type=job&id=0&kundeid=<%=strKnr%>&jobid=<%=id%>&nomenu=1','600','500','250','120');" target="_self" class=vmenu><img src="../ill/addmore55.gif" width="10" height="13" alt="" border="0">&nbsp;Upload fil >></a>-->
 
 			<%end if %>
             </td>
@@ -3582,8 +3635,8 @@ sub minioverblik
 		<table cellpadding=0 cellspacing=0 border=0 width=100%>
 	
 		<tr>
-		    <td class=lille width=300><b>Folder \ Fil</b></td>
-		    <td class=lille align=right><b>Dato</b></td>
+		    <td class=lille width=300><b><%=job_txt_479 %></b></td>
+		    <td class=lille align=right><b><%=job_txt_480 %></b></td>
 		</tr>
 		<%strSQLdok = "SELECT f.filnavn, f.id AS fid, f.dato, fo.navn AS foldernavn FROM filer AS f  "_
         &" LEFT JOIN foldere fo ON (fo.id = f.folderid) WHERE fo.jobid =" & id & " OR f.jobid = "& id &" GROUP BY f.filnavn ORDER BY foldernavn, filnavn" 
@@ -3628,7 +3681,7 @@ sub minioverblik
             
          if ((thisfile <> "jobprintoverblik" AND lto = "synergi1") OR lto <> "synergi1") AND intprio > -1 then 'interne%>
 		<tr>
-		    <td><br /><br /><b>Faktura historik</b> </td>
+		    <td><br /><br /><b><%=job_txt_481 %></b> </td>
 		</tr>
 		<tr>
 		<td bgcolor="#FFFFFF" style="padding:5px 4px 5px 4px; border:1px #cccccc solid;">
@@ -3647,16 +3700,16 @@ sub minioverblik
                 slAarF = year(now)
                 
             if cint(useasfak) <= 2 then%>
-	        <a href="erp_opr_faktura_fs.asp?func=opr&visfaktura=1&visjobogaftaler=1&visminihistorik=1&FM_kunde=<%=strKnr%>&FM_job=<%=id%>&FM_aftale=0&FM_start_dag=<%=stDagF%>&FM_start_mrd=<%=stMrdF%>&FM_start_aar=<%=stAarF%>&FM_slut_dag=<%=slDagF%>&FM_slut_mrd=<%=slMrdF%>&FM_slut_aar=<%=slAarF%>" class=vmenu target="_blank"><span style="color:green; font-size:16px;"><b>+</b></span> Opret faktura</a>
+	        <a href="erp_opr_faktura_fs.asp?func=opr&visfaktura=1&visjobogaftaler=1&visminihistorik=1&FM_kunde=<%=strKnr%>&FM_job=<%=id%>&FM_aftale=0&FM_start_dag=<%=stDagF%>&FM_start_mrd=<%=stMrdF%>&FM_start_aar=<%=stAarF%>&FM_slut_dag=<%=slDagF%>&FM_slut_mrd=<%=slMrdF%>&FM_slut_aar=<%=slAarF%>" class=vmenu target="_blank"><span style="color:green; font-size:16px;"><b>+</b></span> <%=job_txt_482 %></a>
 		    <%end if %>
            <%end if %>
 		</td>
 		</tr>
 		<tr>
-		    <td class=lille><b>Faktura nr.</b></td>
-		    <td class=lille><b>Dato</b></td>
-		    <td class=lille align=right><b>Beløb</b></td>
-		    <td class=lille align=right><b>Beløb eksl. <br />materialer og km.</b></td>
+		    <td class=lille><b><%=job_txt_483 %></b></td>
+		    <td class=lille><b><%=job_txt_484 %></b></td>
+		    <td class=lille align=right><b><%=job_txt_345 %></b></td>
+		    <td class=lille align=right><b><%=job_txt_485 %> <br /><%=job_txt_486 %></b></td>
 		</tr>
 		
 		<%
@@ -3688,7 +3741,7 @@ sub minioverblik
             <%end if %>
             
             <%if cint(oRec2("medregnikkeioms")) = 1 then %>
-            (intern)
+            (<%=job_txt_571 %>)
             <%end if %>
 
                <%if cint(oRec2("medregnikkeioms")) = 2 then %>
@@ -3698,10 +3751,10 @@ sub minioverblik
 	        <td class=lille>
             
                     <%if cint(oRec2("brugfakdatolabel")) = 1 then %>
-                    L: <b><%=replace(formatdatetime(oRec2("labeldato"),2),"-",".")  %></b>&nbsp;
+                    <%=job_txt_623 %>: <b><%=replace(formatdatetime(oRec2("labeldato"),2),"-",".")  %></b>&nbsp;
                     <span style="font-size:9px; color:#999999;">(<%=replace(formatdatetime(oRec2("fakdato"),2),"-",".") %>)</span>
                     <%else %>
-                    F: <b><%=replace(formatdatetime(oRec2("fakdato"),2),"-",".") %></b>
+                    <%=job_txt_622 %>: <b><%=replace(formatdatetime(oRec2("fakdato"),2),"-",".") %></b>
                     <%end if %>
 
             
@@ -3710,10 +3763,12 @@ sub minioverblik
 	        <%
 	        call beregnValuta(minus&(oRec2("beloeb")),oRec2("kurs"),100) ' TIL DKK Altid til BASIS val først
 
-            if cint(jo_valuta) <> (basisValId) then
-            fakBelob = valBelobBeregnet
-            call valutaKurs_fakhist(jo_valuta) ' --> GBP
-            call beregnValuta(fakBelob,100,dblkurs_fakhist/100)
+            if cint(jo_valuta) <> (basisValId) OR cint(jo_valuta) <> cint(oRec2("valuta")) then
+                fakBelob = valBelobBeregnet
+                call valutaKurs_fakhist(jo_valuta) ' --> GBP
+                call beregnValuta(fakBelob,100,dblkurs_fakhist)
+            else
+                valBelobBeregnet = oRec2("beloeb")
             end if
 
             if oRec2("faktype") <> 1 then
@@ -3737,10 +3792,16 @@ sub minioverblik
 
 	            call beregnValuta(minus&(oRec2("aktbel")),oRec2("kurs"),100)
 
-                if cint(jo_valuta) <> (basisValId) then
-                fakBelob = valBelobBeregnet
-                call valutaKurs_fakhist(jo_valuta) ' --> GBP
-                call beregnValuta(fakBelob,100,dblkurs_fakhist/100)
+                if cint(jo_valuta) <> (basisValId) OR cint(jo_valuta) <> cint(oRec2("valuta")) then
+                    fakBelob = valBelobBeregnet
+                    call valutaKurs_fakhist(jo_valuta) ' --> GBP
+                    call beregnValuta(fakBelob,100,dblkurs_fakhist)
+                else
+                    if oRec2("aktbel") <> 0 then
+                    valBelobBeregnet = oRec2("aktbel")
+                    else
+                    valBelobBeregnet = 0
+                    end if
                 end if
 
                 if oRec2("faktype") <> 1 then
@@ -3770,7 +3831,7 @@ sub minioverblik
 	    oRec2.close
 		%>
 		<tr bgcolor="#DBDB70">
-            <td class=lille><b>Ialt:</b></td>
+            <td class=lille><b><%=job_txt_472 %>:</b></td>
 		    <td class=lille align=right colspan=2><b><%=formatnumber(totFakbel)%></b> <%=jo_bgt_basisValISO %></td>
 		    <td class=lille align=right><b><%=formatnumber(totFakbelKunTimer)%></b> <%=jo_bgt_basisValISO %></td>
 		</tr>
@@ -3786,12 +3847,12 @@ sub minioverblik
 
 
 		<tr>
-		    <td><br /><br /><b>Aktiviteter og faser:</b> (budget og timeforbrug)
+		    <td><br /><br /><b><%=job_txt_487 %>:</b> (<%=job_txt_488 %>)
             
             <%
             if cint(sltjjobok) = 1 then 
                 if thisfile <> "jobprintoverblik" then %>
-                &nbsp;<a href="#" onclick="Javascript:window.open('aktiv.asp?menu=job&jobid=<%=id%>&jobnavn=<%=strNavn%>&rdir=<%=rdir%>&nomenu=1', '', 'width=1004,height=800,resizable=yes,scrollbars=yes')" class=vmenu>Rediger aktivitetliste udviddet >></a>
+                &nbsp;<a href="#" onclick="Javascript:window.open('aktiv.asp?menu=job&jobid=<%=id%>&jobnavn=<%=strNavn%>&rdir=<%=rdir%>&nomenu=1', '', 'width=1004,height=800,resizable=yes,scrollbars=yes')" class=vmenu><%=job_txt_402 %> >></a>
                 <%end if
             end if%>
 
@@ -3814,7 +3875,7 @@ sub minioverblik
 	                        otoppx = 10
 	                        owdtpx = 140
 	                        java = "Javascript:window.open('aktiv.asp?menu=job&func=opret&jobid="&id&"&id=0&jobnavn="&strNavn&"&fb=1&rdir=job3&nomenu=1', '', 'width=1004,height=800,resizable=yes,scrollbars=yes')"    
-	                        call opretNyJava("#", "Opret ny aktivitet", otoppx, oleftpx, owdtpx, java) 
+	                        call opretNyJava("#", job_txt_406, otoppx, oleftpx, owdtpx, java) 
          
                 %>
          
@@ -3874,24 +3935,24 @@ sub minioverblik
             %>
 	        <table cellpadding=0 cellspacing=0 border=0 width=100%>
 	        <tr bgcolor="#5582d2">
-	        <td class=lille><b>Navn</b></td>
-            <td class=lille><b>Periode</b></td>
+	        <td class=lille><b><%=job_txt_559 %></b></td>
+            <td class=lille><b><%=job_txt_468 %></b></td>
 
             <%
             if cint(timesimon) = 1 then %>
-                <td class=lille><b>Forecast</b></td>
-            <td class=lille><b>Beløb</b></td>
+                <td class=lille><b><%=job_txt_464 %></b></td>
+            <td class=lille><b><%=job_txt_345 %></b></td>
             <%else%>
-                <td class=lille><b>Status</b></td>
-            <td class=lille><b>Type</b></td>
+                <td class=lille><b><%=job_txt_241 %></b></td>
+            <td class=lille><b><%=job_txt_560 %></b></td>
             <%end if%>
 
 	        
-	        <td class=lille align=right><b>Forkalk.<br />Timer / Stk.</b></td>
-            <td class=lille align=right><b>Time / Stk. pris</b></td>
-            <td class=lille align=right><b>Budget</b></td>
-            <td class=lille align=right><b>Real. tim.</b></td>
-            <td class=lille align=right><b>Real. oms.</b> <br />(timer *<br> medarb. timepris)</td>
+	        <td class=lille align=right><b><%=job_txt_261 %>.<br /><%=job_txt_489 %></b></td>
+            <td class=lille align=right><b><%=job_txt_472 &" "%>/<%=" "& job_txt_495 %></b></td>
+            <td class=lille align=right><b><%=job_txt_237 %></b></td>
+            <td class=lille align=right><b><%=job_txt_490 %></b></td>
+            <td class=lille align=right><b><%=job_txt_491 %></b> <br />(<%=job_txt_439 %> *<br> <%=job_txt_492 %>)</td>
 	        </tr>
             
             
@@ -3951,11 +4012,11 @@ sub minioverblik
                 <td>&nbsp;</td>
                 
 	            
-                <td align=right class=lille><b><%=formatnumber(lastFaseForkalkTimer,2) %></b> t.</td>
+                <td align=right class=lille><b><%=formatnumber(lastFaseForkalkTimer,2) %></b> <%=" "& job_txt_409 %></td>
                 <td>&nbsp;</td>
 	            <td align=right class=lille><b><%=formatnumber(lastFaseSum, 2) & "</b> "& jo_bgt_basisValISO_f8 %></td>
 
-                <td align=right class=lille><b><%=formatnumber(lastFaseRealTimer,2) %> t.</td>
+                <td align=right class=lille><b><%=formatnumber(lastFaseRealTimer,2) %> <%=" "& job_txt_409 %></td>
 	            <td align=right class=lille><b><%=formatnumber(lastFaseRealbel, 2) & "</b> "& jo_bgt_basisValISO_f8 %></td>
 
                 </tr>
@@ -4005,7 +4066,7 @@ sub minioverblik
 
                         call ressourcefc_tjk(ibudgetaar, ibudgetmd, aar, md, usemrn, aktid, timerTastet)%>
 
-                        <%=formatnumber(fctimerTot, 0) &" t." %> 
+                        <%=formatnumber(fctimerTot, 0) &" "&job_txt_409 %> 
 
                         <%fctimerTotGt = fctimerTotGt + fctimerTot  %>
                     </td>
@@ -4018,11 +4079,11 @@ sub minioverblik
                         <td class=lille style="border-bottom:<%=borderAktMatlinesPx%>px #cccccc solid;">
 	                    <%select case oRec2("aktstatus")
 	                    case 1
-	                    aktstat = "Aktiv"
+	                    aktstat = job_txt_292
 	                    case 2
-	                    aktstat = "Passiv"
+	                    aktstat = job_txt_320
 	                    case else
-	                    aktstat = "Lukket"
+	                    aktstat = job_txt_246
 	                    end select
 	                     %>
 	                    <%=aktstat %></td>
@@ -4036,19 +4097,19 @@ sub minioverblik
 
                  <%select case oRec2("bgr")
                  case 0
-                 bgr = "ingen"
+                 bgr = job_txt_573
                  %>
                  <td class=lille align=right style="border-bottom:<%=borderAktMatlinesPx%>px #cccccc solid;">-</td>
                  <%
                  case 1
-                 bgr = "timer"
+                 bgr = job_txt_439
                  %>
-                 <td class=lille align=right style="border-bottom:<%=borderAktMatlinesPx%>px #cccccc solid;"><%=formatnumber(oRec2("budgettimer"), 2) %> t.</td>
+                 <td class=lille align=right style="border-bottom:<%=borderAktMatlinesPx%>px #cccccc solid;"><%=formatnumber(oRec2("budgettimer"), 2) %> <%= " "& job_txt_409 %></td>
                  <%
                  case 2
-                 bgr = "stk."
+                 bgr = job_txt_335
                  %>
-                 <td class=lille align=right style="border-bottom:<%=borderAktMatlinesPx%>px #cccccc solid;"><%=formatnumber(oRec2("antalstk"), 2) %> stk.</td>
+                 <td class=lille align=right style="border-bottom:<%=borderAktMatlinesPx%>px #cccccc solid;"><%=formatnumber(oRec2("antalstk"), 2) %> <%=job_txt_335 %></td>
                  <%
                  end select %>
 
@@ -4056,7 +4117,7 @@ sub minioverblik
 	            <td class=lille align=right style="border-bottom:<%=borderAktMatlinesPx%>px #cccccc solid;"><%=formatnumber(oRec2("aktbudget"), 2) %></td>
 	            <td class=lille align=right style="border-bottom:<%=borderAktMatlinesPx%>px #cccccc solid;"><%=formatnumber(oRec2("aktbudgetsum"), 2) &" "& jo_bgt_basisValISO_f8 %></td>
 
-                <td class=lille align=right style="border-bottom:<%=borderAktMatlinesPx%>px #cccccc solid;"><%=formatnumber(oRec2("realiseret"), 2) %> t.</td>
+                <td class=lille align=right style="border-bottom:<%=borderAktMatlinesPx%>px #cccccc solid;"><%=formatnumber(oRec2("realiseret"), 2) %> <%=" "& job_txt_409 %></td>
 	            <td class=lille align=right style="border-bottom:<%=borderAktMatlinesPx%>px #cccccc solid;"><%=formatnumber(oRec2("realbelob"), 2) &" "& jo_bgt_basisValISO_f8 %></td>
 	            
 	            </tr>
@@ -4144,7 +4205,7 @@ sub minioverblik
 	            <td>&nbsp;</td>
 
                 <% if cint(timesimon) = 1 then %> 
-                     <td class=lille align="right"><b><%=formatnumber(fctimerTotGt, 0) &"</b> t."%></td>
+                     <td class=lille align="right"><b><%=formatnumber(fctimerTotGt, 0) &"</b> "%><%=" "& job_txt_409 %></td>
                      <td class=lille align="right"><b><%=formatnumber(fcbelobTotGt, 0) &"</b> "& jo_bgt_basisValISO_f8 %></td>
                     
                 <% else %>
@@ -4153,11 +4214,11 @@ sub minioverblik
                 <%end if %>
 
 
-	            <td align=right class=lille><b><%=formatnumber(lastFaseForkalkTimer,2) %></b> t.</td>
+	            <td align=right class=lille><b><%=formatnumber(lastFaseForkalkTimer,2) %></b> <%=" "& job_txt_409 %></td>
                 <td>&nbsp;</td>
 	            <td align=right class=lille><b><%=formatnumber(lastFaseSum, 2) %></b> <%=jo_bgt_basisValISO_f8 %></td>
 
-                <td align=right class=lille><b><%=formatnumber(lastFaseRealTimer,2) %></b> t.</td>
+                <td align=right class=lille><b><%=formatnumber(lastFaseRealTimer,2) %></b> <%=" "& job_txt_409 %></td>
 	            <td align=right class=lille><b><%=formatnumber(lastFaseRealbel, 2) %></b> <%=jo_bgt_basisValISO_f8%></td>
 
             </tr>
@@ -4180,11 +4241,11 @@ sub minioverblik
 
               
                 strAktiviteterGT = "<tr><td bgcolor=""#FFFFFF"" colspan=9 style=""padding:2px; font-size:9px;"">&nbsp;</td></tr>"
-                strAktiviteterGT = strAktiviteterGT &"<tr bgcolor="& aktGtBgcol &"><td class=lille width="& aktGtwdh &"><b>Ialt:</b></td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>"
-                strAktiviteterGT = strAktiviteterGT &"<td align=right class=lille><b>"& formatnumber(totTimerforkalk,2) &" t.</b></td>"
+                strAktiviteterGT = strAktiviteterGT &"<tr bgcolor="& aktGtBgcol &"><td class=lille width="& aktGtwdh &"><b>"&job_txt_472&":</b></td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>"
+                strAktiviteterGT = strAktiviteterGT &"<td align=right class=lille><b>"& formatnumber(totTimerforkalk,2) &" "&job_txt_409&"</b></td>"
                 strAktiviteterGT = strAktiviteterGT &"<td width="& aktGtwdh2 &">&nbsp;</td>"
                 strAktiviteterGT = strAktiviteterGT &"<td align=right class=lille><b>"& formatnumber(totSum, 2) &"</b> "& jo_bgt_basisValISO_f8 &"</td>"
-                strAktiviteterGT = strAktiviteterGT &"<td align=right class=lille><b>"& formatnumber(totReal,2) &" t.</td>"
+                strAktiviteterGT = strAktiviteterGT &"<td align=right class=lille><b>"& formatnumber(totReal,2) &" "&job_txt_409&"</td>"
                 strAktiviteterGT = strAktiviteterGT &"<td align=right class=lille><b>"& formatnumber(totRealbel, 2) &"</b> "& jo_bgt_basisValISO_f8 &"</td>"
                 strAktiviteterGT = strAktiviteterGT &"</tr>"
 
@@ -4215,30 +4276,30 @@ sub minioverblik
         
         if ((thisfile <> "jobprintoverblik" AND lto = "synergi1") OR lto <> "synergi1") then%>
         <tr>
-		    <td style="padding:5px 4px 5px 0px;"><br /><br /><b>Salgsomkostninger budget/forbrugt akkumuleret</b></td>
+		    <td style="padding:5px 4px 5px 0px;"><br /><br /><b><%=job_txt_493 %></b></td>
 		</tr>
         <tr>
         <td style="padding:4px 4px 5px 4px; border:1px #cccccc solid;">
 
             <table cellpadding=0 cellspacing=0 border=0 width=100%>
             <tr bgcolor="#FFCC66">
-                <td class=lille><b>Navn</b></td>
+                <td class=lille><b><%=job_txt_559 %></b></td>
 
                  <% select case lto
                 case "oko", "intranet - local", "sdeo"
                 case else %>
-                <td class=lille align=right><b>Antal</b></td>
-                <td class=lille align=right><b>Stk. pris</b></td>
-                <td class=lille align=right><b>Købspris</b></td>
-                <td class=lille align=right><b>Faktor</b></td>
+                <td class=lille align=right><b><%=job_txt_494 %></b></td>
+                <td class=lille align=right><b><%=job_txt_495 %></b></td>
+                <td class=lille align=right><b><%=job_txt_496 %></b></td>
+                <td class=lille align=right><b><%=job_txt_344 %></b></td>
                 <%end select %>
 
-                <td class=lille align=right><b>Budget Salgspris</b></td>
+                <td class=lille align=right><b><%=job_txt_497 %></b></td>
 
                 <% select case lto
                 case "oko", "intranet - local", "sdeo" %>
-                <td class=lille align=right><b>Realiseret</b></td>
-                <td class=lille align=right><b>Rest</b></td>
+                <td class=lille align=right><b><%=job_txt_239 %></b></td>
+                <td class=lille align=right><b><%=job_txt_498 %></b></td>
                 <%end select %>
             </tr>
             <% 
@@ -4435,12 +4496,12 @@ sub minioverblik
                     %>
 
                  <tr bgcolor="#cccccc">
-                    <td class=lille style="padding:2px"><b>Salgsomkostninger Ialt:</b></td>
+                    <td class=lille style="padding:2px"><b><%=job_txt_574 %>:</b></td>
 
                 <%case else %>
 
                         <tr bgcolor="#FFDFDF">
-                    <td class=lille style="padding:2px"><b>Salgsomkostninger Ialt:</b></td>
+                    <td class=lille style="padding:2px"><b><%=job_txt_574 %>:</b></td>
 
                 <%end select %>
 
@@ -4471,7 +4532,7 @@ sub minioverblik
 
                     %>
                   <tr bgcolor="#D6Dff5">
-                    <td class=lille style="padding:2px"><b>Lønomkostninger Ialt:</b> 
+                    <td class=lille style="padding:2px"><b><%=job_txt_499 %>:</b> 
                          <%if lto = "oko" then %>
                             (100-190)
                          <%end if %>
@@ -4487,7 +4548,7 @@ sub minioverblik
                  </tr>
 
                  <tr bgcolor="#FFDFDF">
-                    <td class=lille style="padding:2px"><b>Omkostninger Ialt:</b></td>
+                    <td class=lille style="padding:2px"><b><%=job_txt_500 %>:</b></td>
                           <td align=right class=lille><b><u><%=formatnumber(totSum+salgspris_tot, 2) &" "& jo_bgt_basisValISO_f8 %></u></b></td>
                       <td align=right class=lille><u><%=formatnumber(totRealbel+salgreal_tot, 2) &" "& jo_bgt_basisValISO_f8%> </u></td>
 
@@ -4518,9 +4579,9 @@ sub minioverblik
 
 
             <tr>
-		    <td bgcolor="#FFFFFF" style="padding:5px 4px 5px 0px;"><br /><br /><b>Salgsomkostninger udspecificeret</b> (materialeforbrug & udlæg) &nbsp; 
+		    <td bgcolor="#FFFFFF" style="padding:5px 4px 5px 0px;"><br /><br /><b><%=job_txt_501 %></b> (<%=job_txt_502 &" "%>&<%=" "& job_txt_573 %>) &nbsp; 
             <%if thisfile <> "jobprintoverblik" AND cint(sltjjobok) = 1 then %>
-            <a href="materiale_stat.asp?FM_job=<%=id %>&FM_kunde=<%=strKnr %>&<%=dtlink %>&nomenu=1" class=vmenu target="_blank">Se materialer / udlæg's stat. >></a>
+            <a href="materiale_stat.asp?FM_job=<%=id %>&FM_kunde=<%=strKnr %>&<%=dtlink %>&nomenu=1" class=vmenu target="_blank"><%=job_txt_504 %> >></a>
             <%end if %>
            
                </td>
@@ -4528,7 +4589,7 @@ sub minioverblik
         <tr>
         <td bgcolor="#FFFFFF" style="padding:4px 4px 5px 4px; border:1px #cccccc solid;">
         <%if thisfile <> "jobprintoverblik" AND cint(sltjjobok) = 1 then %>
-                 <a href="materialer_indtast.asp?id=<%=id%>&fromsdsk=0&aftid=<%=intServiceaft%>" target="_blank" class="vmenu"><span style="color:green; font-size:16px;"><b>+</b></span> Opret salgsomkostning</a><br /><br />&nbsp;
+                 <a href="materialer_indtast.asp?id=<%=id%>&fromsdsk=0&aftid=<%=intServiceaft%>" target="_blank" class="vmenu"><span style="color:green; font-size:16px;"><b>+</b></span> <%=job_txt_505 %></a><br /><br />&nbsp;
         <%end if
         %>
 		     
@@ -4548,13 +4609,13 @@ sub minioverblik
                  
 		        <table cellpadding=1 cellspacing=0 border=0 width=100%>
                 <tr bgcolor="#FFCC66">
-                    <td class=lille><b>Navn</b></td>
-                    <td class=lille align=right><b>Antal stk.</b></td>
-                    <td class=lille><b>Enhed</b></td>
-                    <td class=lille><b>Dato</b></td>
-                    <td class=lille align=right><b>Stk. pris</b></td>
-                    <td class=lille align=right><b>Købspris</b></td>
-                    <td class=lille align=right><b>Salgspris</b></td>
+                    <td class=lille><b><%=job_txt_559 %></b></td>
+                    <td class=lille align=right><b><%=job_txt_506 %></b></td>
+                    <td class=lille><b><%=job_txt_507 %></b></td>
+                    <td class=lille><b><%=job_txt_508 %></b></td>
+                    <td class=lille align=right><b><%=job_txt_495 %></b></td>
+                    <td class=lille align=right><b><%=job_txt_496 %></b></td>
+                    <td class=lille align=right><b><%=job_txt_435 %></b></td>
                     
                  </tr>
                 
@@ -4618,7 +4679,7 @@ sub minioverblik
                     %>
 
                      <tr style="background-color:#c4c4c4;">
-                        <td colspan="6" class="lille"><b><%=lastGrpNavn%> ialt:</b></td>
+                        <td colspan="6" class="lille"><b><%=lastGrpNavn%> <%=job_txt_408 %>:</b></td>
                         <td align="right" class="lille"><u><%=formatnumber(matforbrugGrpSubTot, 2) &" "& jo_bgt_basisValISO_f8 %></u></td>
                      </tr>    
 
@@ -4669,7 +4730,7 @@ sub minioverblik
                     
                     %>
                        <tr style="background-color:#c4c4c4;">
-                        <td colspan="6" class="lille"><b><%=lastGrpNavn%> ialt:</b></td>
+                        <td colspan="6" class="lille"><b><%=lastGrpNavn%> <%=job_txt_408 %>:</b></td>
                          <td align="right" class="lille"><%=formatnumber(matforbrugGrpSubTot, 2) &" "& jo_bgt_basisValISO_f8 %></td>
                 
                     </tr>    
@@ -4683,7 +4744,7 @@ sub minioverblik
                     </table>
                 </div>
                      <table cellpadding=1 cellspacing=0 border=0 width=100%>
-                    <tr bgcolor="#FFDFDF"><td class=lille colspan=4><b>Ialt: <%=antalmatreg%></b><img src="ill/blank.gif" width="200" height="1" border="0" /></td>
+                    <tr bgcolor="#FFDFDF"><td class=lille colspan=4><b><%=job_txt_472 %>: <%=antalmatreg%></b><img src="ill/blank.gif" width="200" height="1" border="0" /></td>
                     <td class=lille align=right><b><u><%=formatnumber(salgsomkostKost, 2)%></u></b> <%=jo_bgt_basisValISO_f8 %></td>
                     <td class=lille align=right><b><u><%=formatnumber(salgsomkostSalg, 2)%> </u></b><%=jo_bgt_basisValISO_f8%></td></tr>
                    </table>
@@ -4708,30 +4769,30 @@ sub minioverblik
             <table cellpadding=0 cellspacing=0 border=0 width=100%>
 	        <tr>
 	            <td colspan=7>
-                <br /><br /><h4>Nøgletal</h4>
+                <br /><br /><h4><%=job_txt_509 %></h4>
                 <table cellpadding=2 cellspacing=0 border=0 width=90%>
                
-                <tr><td><b>Restestimat</b></td><td align=right>
+                <tr><td><b><%=job_txt_121 %></b></td><td align=right>
                 <%select case stade_tim_proc 
                 case 0
-                stade_tim_proc_txt = " timer til rest."
+                stade_tim_proc_txt = " "& job_txt_510
                 case 1
-                stade_tim_proc_txt = " % afsluttet"
+                stade_tim_proc_txt = " % "& job_txt_511
                 end select %>
                 <%=restestimat &" "& stade_tim_proc_txt %></td></tr>
-                <tr><td> <b>Timer budgetteret:</b> (job)</td><td align=right> <%=formatnumber(strBudgettimer, 2) %> t.</td><td>&nbsp;</td></tr>
-                <tr><td> <b>Timer realiseret:</b> (job)</td><td align=right> <%=formatnumber(totReal, 2) %> t.</td><td>&nbsp;</td></tr>
+                <tr><td> <b><%=job_txt_575 %>:</b> (job)</td><td align=right> <%=formatnumber(strBudgettimer, 2) %> <%=" "& job_txt_409 %></td><td>&nbsp;</td></tr>
+                <tr><td> <b><%=job_txt_576 %>:</b> (job)</td><td align=right> <%=formatnumber(totReal, 2) %> <%=" "& job_txt_409 %></td><td>&nbsp;</td></tr>
                  <tr><td colspan=3>&nbsp;</td></tr>
                 
-                     <tr><td style="border-bottom:1px #999999 solid;"><b>Budget</b></td><td align=right style="border-bottom:1px #999999 solid;">Kost.</td><td align=right style="border-bottom:1px #999999 solid;">Salg</td></tr>
-                <tr><td> <b>Bruttoomsætning:</b> (job)</td><td>&nbsp;</td><td align=right> <%=formatnumber(jo_bruttooms, 2) &" "&jo_bgt_basisValISO %></td></tr>
-                <tr><td> <b>Nettoomsætning:</b> (job)</td><td align=right> <%=formatnumber(jo_udgifter_intern, 2) &" "&jo_bgt_basisValISO%></td><td align="right"><%=formatnumber(jo_gnsbelob, 2) &" "&jo_bgt_basisValISO%></td></tr>
-                <tr><td><span style="color:#999999;"><b>Omsætning:</b> (aktiviteter)</span></td><td>&nbsp;</td><td align=right><span style="color:#999999;"><%=formatnumber(totsum, 2) &" "&jo_bgt_basisValISO%></span></td></tr>
-                  <tr><td><b>Salgsomkostninger:</b> (job)</td><td align="right"><%=formatnumber(salgsomkostninger_tot) &" "&jo_bgt_basisValISO %></td><td align=right><%=formatnumber(salgspris_tot, 2) %></b> <%=jo_bgt_basisValISO %></td></tr>
+                     <tr><td style="border-bottom:1px #999999 solid;"><b><%=job_txt_237 %></b></td><td align=right style="border-bottom:1px #999999 solid;"><%=job_txt_466 %></td><td align=right style="border-bottom:1px #999999 solid;"><%=job_txt_322 %></td></tr>
+                <tr><td> <b><%=job_txt_361 %>:</b> (job)</td><td>&nbsp;</td><td align=right> <%=formatnumber(jo_bruttooms, 2) &" "&jo_bgt_basisValISO %></td></tr>
+                <tr><td> <b><%=job_txt_372 %>:</b> (job)</td><td align=right> <%=formatnumber(jo_udgifter_intern, 2) &" "&jo_bgt_basisValISO%></td><td align="right"><%=formatnumber(jo_gnsbelob, 2) &" "&jo_bgt_basisValISO%></td></tr>
+                <tr><td><span style="color:#999999;"><b><%=job_txt_577 %>:</b> (<%=job_txt_578 %>)</span></td><td>&nbsp;</td><td align=right><span style="color:#999999;"><%=formatnumber(totsum, 2) &" "&jo_bgt_basisValISO%></span></td></tr>
+                  <tr><td><b><%=job_txt_418 %>:</b> (job)</td><td align="right"><%=formatnumber(salgsomkostninger_tot) &" "&jo_bgt_basisValISO %></td><td align=right><%=formatnumber(salgspris_tot, 2) %></b> <%=jo_bgt_basisValISO %></td></tr>
               
                  
-               <tr><td><b>Dækningsbidrag / Bruttofortjeneste:</b> (budgetteret)</td><td align=right><%=formatnumber(jo_bruttofortj)& " "& jo_bgt_basisValISO%></td><td>&nbsp;</td></tr>
-               <tr><td><b>DB:</b></td><td align=right><%=formatnumber(jo_dbproc,0)%> %</td><td>&nbsp;</td></tr>
+               <tr><td><b><%=job_txt_512 %>:</b> (<%=job_txt_579 %>)</td><td align=right><%=formatnumber(jo_bruttofortj)& " "& jo_bgt_basisValISO%></td><td>&nbsp;</td></tr>
+               <tr><td><b><%=job_txt_513 %>:</b></td><td align=right><%=formatnumber(jo_dbproc,0)%> %</td><td>&nbsp;</td></tr>
               
                     
                      <%'dbreal
@@ -4748,18 +4809,18 @@ sub minioverblik
 
                     <tr><td colspan=3>&nbsp;</td></tr>
                    
-                    <tr><td style="border-bottom:1px #999999 solid;"><b>Realiseret</b></td><td align=right style="border-bottom:1px #999999 solid;">Kost.</td><td align=right style="border-bottom:1px #999999 solid;">Salg</td></tr>
+                    <tr><td style="border-bottom:1px #999999 solid;"><b><%=job_txt_239 %></b></td><td align=right style="border-bottom:1px #999999 solid;"><%=job_txt_466 %></td><td align=right style="border-bottom:1px #999999 solid;"><%=job_txt_322 %></td></tr>
                
-                       <tr><td><b>Bruttoomsætning:</b> (timer + varesalg)</td><td align=right><%=formatnumber(realKostialt, 2) %></b> <%=jo_bgt_basisValISO %></td><td align=right><%=formatnumber(realOmsialt, 2) %></b> <%=jo_bgt_basisValISO %></td></tr>
+                       <tr><td><b><%=job_txt_361 %>:</b> (<%=job_txt_580 %>)</td><td align=right><%=formatnumber(realKostialt, 2) %></b> <%=jo_bgt_basisValISO %></td><td align=right><%=formatnumber(realOmsialt, 2) %></b> <%=jo_bgt_basisValISO %></td></tr>
               
-                      <tr><td><b>Nettoomsætning:</b> (timer)</td><td align=right><%=formatnumber(realtimerkost, 2) %></b> <%=jo_bgt_basisValISO %></td><td align=right><%=formatnumber(totRealbel, 2) %></b> <%=jo_bgt_basisValISO %></td></tr>
+                      <tr><td><b><%=job_txt_372 %>:</b> (<%=job_txt_439 %>)</td><td align=right><%=formatnumber(realtimerkost, 2) %></b> <%=jo_bgt_basisValISO %></td><td align=right><%=formatnumber(totRealbel, 2) %></b> <%=jo_bgt_basisValISO %></td></tr>
                 
-                <tr><td><b>Salgsomkostninger:</b></td><td align=right><%=formatnumber(salgsomkostKost, 2) %></b> <%=jo_bgt_basisValISO %></td><td align=right><%=formatnumber(salgsomkostSalg, 2) %></b> <%=jo_bgt_basisValISO %></td></tr>
+                <tr><td><b><%=job_txt_338 %>:</b></td><td align=right><%=formatnumber(salgsomkostKost, 2) %></b> <%=jo_bgt_basisValISO %></td><td align=right><%=formatnumber(salgsomkostSalg, 2) %></b> <%=jo_bgt_basisValISO %></td></tr>
                 
                    
                  
-                     <tr><td><b>Dækningsbidrag / Bruttofortjeneste:</b> (realiseret)</td><td align=right><%=formatnumber(dbreal)& " "& jo_bgt_basisValISO%></td><td>&nbsp;</td></tr>
-               <tr><td><b>DB:</b></td><td align=right><%=formatnumber(dbrealpro,0)%> %</td><td>&nbsp;</td></tr>
+                     <tr><td><b><%=job_txt_512 %>:</b> (<%=job_txt_239 %>)</td><td align=right><%=formatnumber(dbreal)& " "& jo_bgt_basisValISO%></td><td>&nbsp;</td></tr>
+               <tr><td><b><%=job_txt_513 %>:</b></td><td align=right><%=formatnumber(dbrealpro,0)%> %</td><td>&nbsp;</td></tr>
                     
                     <tr><td colspan=3>&nbsp;</td></tr>
                 
@@ -4775,17 +4836,17 @@ sub minioverblik
                
                    
                     %>
-                      <tr><td colspan="3" style="border-bottom:1px #999999 solid;"><b>Faktureret</b></td></tr>
-                <tr><td><b>Faktureret omsætning</b></td><td align=right><%=formatnumber(totFakbel) &" "& jo_bgt_basisValISO%> </td><td>&nbsp;</td></tr>
+                      <tr><td colspan="3" style="border-bottom:1px #999999 solid;"><b><%=job_txt_581 %></b></td></tr>
+                <tr><td><b><%=job_txt_514 %></b></td><td align=right><%=formatnumber(totFakbel) &" "& jo_bgt_basisValISO%> </td><td>&nbsp;</td></tr>
              
-                <tr><td><b>Kost.</b> (timer kost. + varekøb):</td><td align=right><%=formatnumber(realKostialt, 2) &" "&jo_bgt_basisValISO %></td><td align=right>&nbsp;</td></tr>
+                <tr><td><b><%=job_txt_466 %></b> (<%=job_txt_515 %>):</td><td align=right><%=formatnumber(realKostialt, 2) &" "&jo_bgt_basisValISO %></td><td align=right>&nbsp;</td></tr>
                
               
-               <tr><td><b>Dækningsbidrag / Bruttofortjeneste:</b> (faktisk, faktureret oms. - real.kost)</td><td align=right><%=formatnumber(dbfaktisk)& " "& jo_bgt_basisValISO%></td><td>&nbsp;</td></tr>
-               <tr><td><b>DB:</b></td><td align=right><%=formatnumber(dbfaktiskpro,0)%> %</td><td>&nbsp;</td></tr>
+               <tr><td><b><%=job_txt_512 %>:</b> (<%=job_txt_516 %>)</td><td align=right><%=formatnumber(dbfaktisk)& " "& jo_bgt_basisValISO%></td><td>&nbsp;</td></tr>
+               <tr><td><b><%=job_txt_513 %>:</b></td><td align=right><%=formatnumber(dbfaktiskpro,0)%> %</td><td>&nbsp;</td></tr>
 
-                   <tr><td><br /><br /><b>Faktisk timepris:</b><br />
-                  (fakturet beløb ekskl. materialer og km. / realiseret timer)</td><td>&nbsp;</td><td align=right><br /><br /><%=formatnumber(gnstpris) & " "& jo_bgt_basisValISO%></td></tr>
+                   <tr><td><br /><br /><b><%=job_txt_271 %>:</b><br />
+                  (f<%=job_txt_517 %>)</td><td>&nbsp;</td><td align=right><br /><br /><%=formatnumber(gnstpris) & " "& jo_bgt_basisValISO%></td></tr>
 
 
               <!--<tr><td><b>DB realiseret:</b></td><td align=right><%=formatnumber(gnstpris) & " "& basisValISO%></td></tr>
@@ -4856,19 +4917,19 @@ sub timepriser
                    <table cellspacing="0" cellpadding="0" border="0" bgcolor="#EFF3FF" width="100%">
 					
 					<tr bgcolor="#5582D2">
-						<td colspan=4 class=alt valign=top style="padding:5px 5px 0px 5px;"><h3 class="hv">Medarbejder timepriser (salgspris)<br /><span style="font-size:10px;">Hver realiseret time bliver omsat med følgende salgs-timepris for den enkelte medarbejder</span></h3></td>
+						<td colspan=4 class=alt valign=top style="padding:5px 5px 0px 5px;"><h3 class="hv"><%=job_txt_518 %><br /><span style="font-size:10px;"><%=job_txt_519 %></span></h3></td>
 					</tr>
 					<tr>
 						
 						<td style="padding-left:5px;" colspan=4><br>
-						Tildel timepriser for de medarbejdere der er tilknyttet dette job. (via projektgrupper)<br>
-                        Timepriser 1-5 er hentet fra medarbejdertypen.<br />
+						<%=job_txt_520 %><br>
+                        <%=job_txt_521 %><br />
                         <%if level = 1 then %>
-                        <a href="../to_2015/medarbtyper.asp" class=vmenu target="_blank">Ret kostpriser her >></a><br />
+                        <a href="../to_2015/medarbtyper.asp" class=vmenu target="_blank"><%=job_txt_522 %> >></a><br />
                         <%end if %>  
 
                         <%if func = "opret" then%>
-						Jobbet skal være oprettet før der kan tildeles alternative timepriser!
+						<%=job_txt_523 %>
 						<%else%>
 
                         <%
@@ -4888,7 +4949,7 @@ sub timepriser
 
                         
                         <br />
-                        <b>Vælg job eller aktivitet:</b><br />Antal timepriser angivet / nedarver fra job / fast timepris <br /> <!--(opdater gerne flere på en gang [CTRL] + [F5])<br />-->
+                        <b><%=job_txt_524 %>:</b><br /><%=job_txt_525 %> <br /> <!--(opdater gerne flere på en gang [CTRL] + [F5])<br />-->
 
                         <input type="hidden" name="FM_hd_tp_jobaktid" id="FM_hd_tp_jobaktid" value="<%=tp_jobaktid%>">
                         <select id="FM_tp_jobaktid" name="FM_tp_jobaktid" style="width:450px;" size="5">
@@ -4898,8 +4959,8 @@ sub timepriser
                         tp_jobaktidNULSel = ""
                         end if %>
                         
-                        <option value="0" <%=tp_jobaktidNULSel %>>Jobbet (<%=strNavn %>)</option>
-                        <option value="0" disabled>eller vælg aktivitet....</option>
+                        <option value="0" <%=tp_jobaktidNULSel %>><%=job_txt_527 %> (<%=strNavn %>)</option>
+                        <option value="0" disabled><%=job_txt_526 %>....</option>
                         <option value="0" disabled></option>
                         <%
 
@@ -4935,7 +4996,7 @@ sub timepriser
 
                         if cint(oRec5("brug_fasttp")) = 1 then
                         brug_fasttpDIS = "disabled"
-                        brug_fasttpTxt = " - fast (ens) timepris angivet på aktivitet"
+                        brug_fasttpTxt = job_txt_528
                         else
                         brug_fasttpDIS = ""
                         brug_fasttpTxt = ""
@@ -4964,11 +5025,11 @@ sub timepriser
                             
                             
                          if cint(showAktTpsync) = 1 then%>
-                         <input id="FM_sync_tp" name="FM_sync_tp" value="1" type="checkbox" />Sæt alle aktiviteter til at <b>nedarve</b> de timepriser der er <b>angivet på jobbet</b>. (Ikke KM aktiviteter)
-                         <br /><span style="color:#999999;">Overskriver ikke hvis "fast (ens) timepris for alle medarbejdere" er slået til på aktiviteten.</span>
+                         <input id="FM_sync_tp" name="FM_sync_tp" value="1" type="checkbox" /><%=job_txt_529 &" " %><b><%=job_txt_530 %></b><%=" "& job_txt_531 &" " %><b><%=job_txt_532 %></b>. (<%=job_txt_533 %>)
+                         <br /><span style="color:#999999;"><%=job_txt_534 %></span>
                          
                             <%if level = 1 then %>
-                            <br /><input name="FM_sync_tp_rens" value="1" type="checkbox" /> Slet timepriser på medarbejdere der ikke længere har adgang til dette job, eller er blevet de-aktiveret.
+                            <br /><input name="FM_sync_tp_rens" value="1" type="checkbox" /> <%=job_txt_535 %>
                             <%end if %>
                          
                          <%end if 
@@ -4982,7 +5043,7 @@ sub timepriser
                        %>
 
                        <br /><br />
-                       <b>Medarbejdertype filter:</b><br />Sorter mellem de medarb. der er tilknyttet jobbet via deres projektgrupper.<br />
+                       <b><%=job_txt_536 %>:</b><br /><%=job_txt_537 %><br />
                             
                        <select style="width:350px;" id="FM_mtype" name="FM_mtype">
                        
@@ -4992,7 +5053,7 @@ sub timepriser
                        mtypeNulSel = ""
                        end if %>
                        
-                       <option value="0" <%=mtypeNulSel %>>Alle</option>
+                       <option value="0" <%=mtypeNulSel %>><%=job_txt_002 %></option>
                        
                        <% oRec5.open strSQLmt, oConn, 3
                         while not oRec5.EOF 
@@ -5041,7 +5102,7 @@ sub timepriser
 
                                 <tr>
 					<td colspan=4 align="right" bgcolor="#FFFFFF" style="border-top:1px #CCCCCC solid; padding:20px 40px 10px 10px;">
-					     <input id="timepriser_opd" type="submit" value=" Opdater timepriser >> " /></td>
+					     <input id="timepriser_opd" type="submit" value=" <%=job_txt_538 %> >> " /></td>
 					</tr>
 								 <tr>
 					<td colspan=4 bgcolor="#FFFFFF" style="border-top:0px #CCCCCC solid; padding:20px 40px 10px 10px;">
@@ -5049,15 +5110,15 @@ sub timepriser
 								
 								'uTxt = "<b>Ovenstående timepriser</b> bliver kun benyttet hvis jobbet <b>ikke er et fastpris job.</b> "_ 
 								'&"Ved fastpris benyttes den almindelige fastpris beregning der er angivet på job og aktiviteter.<br><br>
-                                uTxt = "<b>Opdater eksisterende timepriser</b><br />"_
-								&"Hvis timepriser ændres, opdateres alle eksisterende time-registreringer (ikke de for-valgte timepriser på jobbet) på aktiviteter der nedarver timepris fra job.<br>"_
-                                &"<br />Hvis der er valgt en specifik aktivitet opdateres kun denne aktivitet.<br><br>"_ 
-                                &"Opdater eksisterende timepriser fra: <input type='text' name='FM_opdatertpfra' value='"& formatdatetime(now,2) &"'> til dd.<br>"_
-                                &"Gælder også selvom der foreligger en faktura, eller perioden er afsluttet.<br><br>"_
-                                &"Hvis der ændres <b>projektgrupper</b>, skal du opdatere jobbet, før den aktuelle liste af medarbejdere vises her på timepris-siden.<br><br>"
+                                uTxt = "<b>"&job_txt_539&"</b><br />"_
+								&""&job_txt_540&"<br>"_
+                                &"<br />"&job_txt_541&"<br><br>"_ 
+                                &job_txt_542&": <input type='text' name='FM_opdatertpfra' value='"& formatdatetime(now,2) &"'> "&job_txt_543&"<br>"_
+                                &job_txt_544&"<br><br>"_
+                                &job_txt_545&" <b>"&job_txt_546&"</b>, "&job_txt_547&"<br><br>"
 
                                 if cdbl(tp_jobaktid) <> 0 then
-                                uTxt = uTxt &"<b>Multiopdater</b><br><input type='checkbox' name='FM_opdateralleakt' value='1'> Opdater aktiviteter med samme navn som valgte på <u>ALLE</u> job. (alle job, både lukkede, aktive og passive, for valgte medarbejdere)"
+                                uTxt = uTxt &"<b>"&job_txt_548&"</b><br><input type='checkbox' name='FM_opdateralleakt' value='1'> "&job_txt_549&" <u>"&job_txt_550&"</u> job. ("&job_txt_551&")"
                                 end if
 								uWdt = 400
 								
@@ -5075,7 +5136,7 @@ sub timepriser
 				
 			    <tr>
 					<td colspan=4 align="right" bgcolor="#FFFFFF" style="border-top:1px #CCCCCC solid; padding:20px 40px 10px 10px;">
-					     <input id="Submit4" type="submit" value=" Opdater & Afslut >> " /></td>
+					     <input id="Submit4" type="submit" value=" <%=job_txt_552 &" " %>&<%=" "& job_txt_553 %> >> " /></td>
 					</tr>
 				</table>
 				<br><br><br>&nbsp;
@@ -5138,7 +5199,7 @@ function forretningsomrJobId(jobid)
                                 while not oRec3.EOF
 
                                 if f = 0 then
-                                strFomr_navn = strFomr_navn & "<b>Akt.: </b>"
+                                strFomr_navn = strFomr_navn & "<b>"&job_txt_554&": </b>"
                                 end if
 
                                 strFomr_navn = strFomr_navn & oRec3("navn") & ", " 

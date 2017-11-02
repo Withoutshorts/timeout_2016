@@ -121,14 +121,18 @@
 	        
      <td align=right style="border-bottom:1px silver dashed; padding-bottom:20px; white-space:nowrap;" class=lille><b><%=formatnumber(arealTimerTot,2)%></b></td>
 	         <%if lto <> "cst" AND lto <> "kejd_pb" AND lto <> "tec" AND lto <> "esn" then %>
-	        <td align=right style="border-bottom:1px silver dashed; padding-bottom:20px; white-space:nowrap;" class=lille>(<%=formatnumber(arealfTimerTot,2)%>)</td>
+	        <td align=right style="border-bottom:1px silver dashed; padding-bottom:20px; white-space:nowrap;" class=lille><%=formatnumber(arealfTimerTot,2)%></td>
+              <%end if %>
+
+                 <%if lto = "intranet - local" OR lto = "tia" then %>
+	        <td align=right style="border-bottom:1px silver dashed; padding-bottom:20px; white-space:nowrap;" class=lille><%=formatnumber(arealifTimerTot,2)%></td>
               <%end if %>
 
                         <%if cint(showkgtil) = 1 AND lto <> "tec" AND lto <> "esn" then %>
-                        <td align=right style="white-space:nowrap; border-bottom:1px silver dashed; padding-bottom:20px;" class=lille>(<%=formatnumber(korrektionRealTot,2)%>)</td>
+                        <td align=right style="white-space:nowrap; border-bottom:1px silver dashed; padding-bottom:20px;" class=lille><%=formatnumber(korrektionRealTot,2)%></td>
                         <%end if %>
 	        
-            <%if lto <> "cst" AND lto <> "tec" AND lto <> "esn" then %>
+            <%if lto <> "cst" AND lto <> "tec" AND lto <> "esn" AND lto <> "tia" then %>
 	         <td align=right style="border-bottom:1px silver dashed; padding-bottom:20px; white-space:nowrap;" class=lille><b><%=formatnumber((arealTimerTot - anormTimerTot),2)%></b></td>
                <td align=right style="white-space:nowrap; border-bottom:1px silver dashed; padding-bottom:20px;" class=lille><b><%=formatnumber(balRealNormtimerAkk+(akuPreRealNormBal),2)%></b></td>
              <%end if %>
@@ -239,7 +243,7 @@
 
 	 
 	   <%   select case lto
-                        case "xintranet - local", "fk", "kejd_pb"
+                        case "xintranet - local", "fk", "kejd_pb", "tia"
             %>
         	 <td align=right  class=lille style="border-bottom:1px silver dashed; padding-bottom:20px;"><b><%=formatnumber(barsel_tot, 2) %></b></td>
       
@@ -274,12 +278,25 @@
 	 <td align=right  class=lille style="border-bottom:1px silver dashed; padding-bottom:20px;"><b><%=formatnumber(barnSyg_tot, 2) %></b></td>
 	 <%end if %>
 
+    <%
+      select case lto
+       case "esn", "tec"
+        %>
+
+        <%case else%>
+          <td align=right style="border-bottom:1px silver dashed; padding-bottom:20px;" class=lille>&nbsp;</td>
+    <%end select%>
+
       
    
     <% if cint(SmiWeekOrMonth) = 0 OR (useSogKriAfs = 1 OR useSogKriGk = 1 OR useSogKri = 1) then %> 
     	<td style="border-bottom:1px silver dashed; padding-bottom:20px; white-space:nowrap;">&nbsp;</td>
 	<td style="border-bottom:1px silver dashed; padding-bottom:20px; white-space:nowrap;">&nbsp;</td>
     <%else%>
+    <%if lto = "esn" then %>
+    <td style="border-bottom:1px silver dashed; padding-bottom:20px; white-space:nowrap;" class="lille">&nbsp;</td>
+    <%end if %>
+
 	<td style="border-bottom:1px silver dashed; padding-bottom:20px; white-space:nowrap;" class="lille" align=center><%=showAfsugeTxt_tot%>&nbsp;</td>
 	<td style="border-bottom:1px silver dashed; padding-bottom:20px; white-space:nowrap;" align=center>
         

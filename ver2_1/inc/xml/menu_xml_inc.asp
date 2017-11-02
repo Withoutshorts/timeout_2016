@@ -6,9 +6,9 @@ Dim objXMLHTTP_menu, objXMLDOM_menu, i_menu, strHTML_menu
 Set objXMLDom = Server.CreateObject("Microsoft.XMLDOM")
 Set objXmlHttp = Server.CreateObject("Msxml2.ServerXMLHTTP")
 'objXmlHttp.open "GET", "http://localhost/Git/timeout_2016/ver2_1/inc/xml/menu_sprog.xml", False
-objXmlHttp.open "GET", "http://localhost/inc/xml/menu_sprog.xml", False
+'objXmlHttp.open "GET", "http://localhost/inc/xml/menu_sprog.xml", False
 'objXmlHttp.open "GET", "https://outzource.dk/timeout_xp/wwwroot/ver2_1/inc/xml/menu_sprog.xml", False
-'objXmlHttp.open "GET", "https://timeout.cloud/timeout_xp/wwwroot/ver3_99/inc/xml/menu_sprog.xml", False
+objXmlHttp.open "GET", "https://timeout.cloud/timeout_xp/wwwroot/ver3_99/inc/xml/menu_sprog.xml", False
 'objXmlHttp.open "GET", "https://timeout.cloud/timeout_xp/wwwroot/ver2_14/inc/xml/menu_sprog.xml", False
 'objXmlHttp.open "GET", "http://outzource.dk/timeout_xp/wwwroot/ver2_14/inc/xml/menu_sprog.xml", False
 'objXmlHttp.open "GET", "http://outzource.dk/timeout_xp/wwwroot/ver4_22/inc/xml/menu_sprog.xml", False
@@ -96,6 +96,7 @@ For Each oNode_menu in oNodes_menu
     menu_txt_008 = oNode_menu.selectSingleNode("txt_8").Text
     menu_txt_009 = oNode_menu.selectSingleNode("txt_9").Text
     menu_txt_010 = oNode_menu.selectSingleNode("txt_10").Text
+    menu_txt_011 = oNode_menu.selectSingleNode("txt_11").Text
     
 next
 

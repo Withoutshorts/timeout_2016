@@ -11,10 +11,10 @@
                                 <div style="position:relative; padding:40px; width:800px;">
 
                                 <table width="100%" border="0" cellpadding="0" cellspacing="0"><tr><td>
-                                Dato & underskrift medarbejder</td>
+                                <%=joblog2_txt_072 &" "%>&<%=" "& joblog2_txt_073 %></td>
                                     <td style="width:200px; border-bottom:1px #000000 dashed;">&nbsp;</td>
                                     <td style="width:200px;">&nbsp;</td>
-                                    <td style="">Dato & underskift (overordnet)</td>
+                                    <td style=""><%=joblog2_txt_022 &" & "& joblog2_txt_075 &" "& joblog2_txt_074 %></td>
                                     <td style="width:200px; border-bottom:1px #000000 dashed;">&nbsp;</td>
 
                                        </tr></table>
@@ -40,7 +40,7 @@
 
         %>
                                         <tr style="background-color:#FFC0CB;">
-                                            <td colspan="2" style="border-top:1px #cccccc solid;">Total pr. dag:</td>
+                                            <td colspan="2" style="border-top:1px #cccccc solid;"><%=joblog2_txt_076 %>:</td>
                                                 <%
                                                for d = 1 to vlgtMdLastDay 
                                     
@@ -57,7 +57,7 @@
                                             
                                         </tr>
                                         <tr>
-                                            <td colspan="2" style="border-top:1px #cccccc solid;"><b>Total måned:</b><br />&nbsp;</td>
+                                            <td colspan="2" style="border-top:1px #cccccc solid;"><b><%=joblog2_txt_077 %>:</b><br />&nbsp;</td>
                                             <td colspan="<%=vlgtMdLastDay %>" align="right" style="border-top:1px #cccccc solid;"><b><%=formatnumber(timerTotDenneMedarb, 2) %></b><br />&nbsp;</td>
                                                
                                         </tr>
@@ -87,7 +87,7 @@
                                             
                                       
                                         <tr style="background-color:#F4F4F4;">
-                                            <td colspan="2" style="border-top:1px #cccccc solid;">Total på job:</td>
+                                            <td colspan="2" style="border-top:1px #cccccc solid;"><%=joblog2_txt_078 %>:</td>
                                             <td colspan="<%=vlgtMdLastDay %>" style="border-top:1px #cccccc solid;" align="right"><%=formatnumber(timerTotDetteJob, 2) %></td>
                                                
                                         </tr>
@@ -106,7 +106,7 @@
 
         %>
                                         <tr style="background-color:#FFFFFF;">
-                                            <td colspan="2"><b>Grandtotal:</b></td>
+                                            <td colspan="2"><b><%=joblog2_txt_079 %>:</b></td>
                                                 <%
                                                for d = 1 to vlgtMdLastDay 
                                     
@@ -123,7 +123,7 @@
 
                                         </tr>
                                          <tr style="background-color:#cccccc;">
-                                            <td colspan="2"><b>Grandtotal måned:</b><br />&nbsp;</td>
+                                            <td colspan="2"><b><%=joblog2_txt_080 %>:</b><br />&nbsp;</td>
                                             <td colspan="<%=vlgtMdLastDay %>" align="right"><%=formatnumber(timerTotGT, 2) %><br />&nbsp;</td>
                                                
                                         </tr>
@@ -154,7 +154,7 @@ public lastmedarbnavn, medarbtimer, medarbEnheder, medarbFeriePlan
 					<tr>
 						 <td align=right bgcolor="#FFFFFF" colspan="9">&nbsp;</td>
 	                     <td bgcolor="#FFFFFF" colspan="7" style="padding:5px 10px 5px 0px; border-top:1px #999999 solid;">
-						Medarbejder<br />
+						<%=joblog2_txt_081 %><br />
 						<b><%=lastmedarbnavn%>:</b>&nbsp;
 						<%
 	
@@ -211,7 +211,7 @@ public lastmedarbnavn, medarbtimer, medarbEnheder, medarbFeriePlan
 						 <td align=right bgcolor="#FFFFFF" colspan="9">&nbsp;</td>
 	                     <td bgcolor="#FFFFFF" colspan="7" style="padding:5px 10px 5px 0px; border-top:1px #999999 solid;">
 					
-                        Aktivitet<br /> <b><%=lastaktnavn%>:</b>
+                        <%=joblog2_txt_086 %><br /> <b><%=lastaktnavn%>:</b>
 						<%
 	
 	atotArr = split(replace(akttype_sel, "#", ""), ",")
@@ -257,7 +257,7 @@ public lastmedarbnavn, medarbtimer, medarbEnheder, medarbFeriePlan
 	<tr>
         
 	     <td align=right bgcolor="#FFFFFF" colspan="9">&nbsp;</td>
-	     <td bgcolor="#FFFFFF" colspan="7" style="padding:5px 10px 5px 0px; border-top:1px #999999 dashed;">Fase<br /> <b><%=replace(lastFase, "_", " ") %>:</b>&nbsp; <b><%=formatnumber(faseCounta, 2) %></b> ~ (<%=formatnumber(faseCountenh, 2) %>)<br /><br />&nbsp; </td>
+	     <td bgcolor="#FFFFFF" colspan="7" style="padding:5px 10px 5px 0px; border-top:1px #999999 dashed;"><%=joblog2_txt_082 %><br /> <b><%=replace(lastFase, "_", " ") %>:</b>&nbsp; <b><%=formatnumber(faseCounta, 2) %></b> ~ (<%=formatnumber(faseCountenh, 2) %>)<br /><br />&nbsp; </td>
 	</tr>
 	<%
     faseCounta = 0
@@ -461,52 +461,52 @@ public lastmedarbnavn, medarbtimer, medarbEnheder, medarbFeriePlan
 	<tr height="20" bgcolor="#8CAAe6">
 				       <td style="width:0px;">
                            &nbsp;</td>
-				    <td valign=bottom class=alt><b>Uge</b></td>
-					<td valign=bottom style="padding-left:10px;" class='alt'><b>Dato</b></td>
+				    <td valign=bottom class=alt><b><%=joblog2_txt_006 %></b></td>
+					<td valign=bottom style="padding-left:10px;" class='alt'><b><%=joblog2_txt_072 %></b></td>
 					<%if komprimer = "1" then %>
-					<td valign=bottom class='alt'><b>Kunde</b><br />Jobnavn (Jobnr)<br />Jobansv.</td>
+					<td valign=bottom class='alt'><b><%=joblog2_txt_083 %></b><br /><%=joblog2_txt_084 %><br /><%=joblog2_txt_085 %></td>
 
                      <%if hidefase <> 1 then %>
-					<td valign=bottom class='alt'><b>Fase</b></td>
+					<td valign=bottom class='alt'><b><%=joblog2_txt_082 %></b></td>
                     <%else %>
                     <td><img src="ill/blank.gif" width="1" height="1" border="0" /></td>
                     <%end if %>
 
-					<td valign=bottom class='alt'><b>Aktivitet</b> (type)<br />
-					kommentar</td>
+					<td valign=bottom class='alt'><b><%=joblog2_txt_085 %></b> (<%=joblog2_txt_087 %>)<br />
+					<%=joblog2_txt_088 %></td>
 					<%else %>
 					<td valign=bottom class='alt'>
                         &nbsp;</td>
                         <%if hidefase <> 1 then %>
-                        <td valign=bottom class='alt'><b>Fase</b></td>
+                        <td valign=bottom class='alt'><b><%=joblog2_txt_082 %></b></td>
                         <%else %>
                         <td><img src="ill/blank.gif" width="1" height="1" border="0" /></td>
                         <%end if %>
-                    <td valign=bottom class='alt'><b>Aktivitet</b> (type)<br />
-					kommentar</td>
+                    <td valign=bottom class='alt'><b><%=joblog2_txt_086 %></b> (<%=joblog2_txt_087 %>)<br />
+					<%=joblog2_txt_088 %></td>
 					<%end if %>
 
                     <%if cint(showfor) = 1 then%>
-                    <td valign=bottom class='alt' style="padding-right:5px;"><b>Forretnings-omr.</b></td>
+                    <td valign=bottom class='alt' style="padding-right:5px;"><b><%=joblog2_txt_089 %></b></td>
 					<%else %>
 					<!--<td>&nbsp;</td>-->
 					<%end if %>
 					
-					<td valign=bottom class='alt' style="padding-left:5px;"><b>Medarb.</b></td>
+					<td valign=bottom class='alt' style="padding-left:5px;"><b><%=joblog2_txt_115 %></b></td>
 					
 					
 					<td valign=bottom class='alt' align=right style="padding-right:5px;">
 					<%if print = "j" then
 					%>
-					<b>Timer <br /> Km  <br /> Antal</b>
+					<b><%=joblog2_txt_090 %> <br /> <%=joblog2_txt_091 %>  <br /> <%=joblog2_txt_092 %></b>
 					<%
 					else %>
-					<b>Timer / Km / Antal</b>
+					<b><%=joblog2_txt_090 %> / <%=joblog2_txt_091 %> / <%=joblog2_txt_092 %></b>
 					<%end if %>
-					<br>Klokkeslet</td>
+					<br><%=joblog2_txt_116 %></td>
 					
 					<%if cint(hideenheder) = 0 then %>
-					<td valign=bottom class='alt' align=right style="padding-right:5px;">~ Enheder</td>
+					<td valign=bottom class='alt' align=right style="padding-right:5px;">~ <%=joblog2_txt_093 %></td>
 					<%else %>
 					<td>&nbsp;</td>
 					<%end if %>
@@ -514,9 +514,9 @@ public lastmedarbnavn, medarbtimer, medarbEnheder, medarbFeriePlan
 					
 					<%if (level <= 2 OR level = 6) AND cint(hidetimepriser) = 0 then  %>
 					<td valign=bottom align="right" class='alt' style="padding-right:5px;">
-					<b>Time / Stk. pris*</b></td>
+					<b><%=joblog2_txt_094 %>*</b></td>
 					<td valign=bottom align="right" class='alt' style="padding-right:5px;">
-					<b>Pris ialt</b></td>
+					<b><%=joblog2_txt_095 %></b></td>
 					<%else %>
 					<td>&nbsp;</td>
 				    <td>&nbsp;</td>
@@ -524,9 +524,9 @@ public lastmedarbnavn, medarbtimer, medarbEnheder, medarbFeriePlan
 					
 					<%if level = 1 AND visKost = 1 then  %>
 					<td valign=bottom align="right" class='alt' style="padding-right:5px;">
-					<b>Kostpris</b></td>
+					<b><%=joblog2_txt_096 %></b></td>
 					<td valign=bottom align="right" class='alt' style="padding-right:5px;">
-					<b>Kostpris ialt</b></td>
+					<b><%=joblog2_txt_097 %></b></td>
 					<%else %>
 					<td>&nbsp;</td>
 				    <td>&nbsp;</td>
@@ -536,9 +536,9 @@ public lastmedarbnavn, medarbtimer, medarbEnheder, medarbFeriePlan
 					
 					<%if cint(hidegkfakstat) <> 1 then  %>
                     <td valign=bottom align="right" class='alt' style="padding-right:5px;">
-					Tastedato<br />Indtastet af</td>
-					<td valign=bottom align="center" class='alt'><b>Status</b><br />Godkendt<br />Afvist</td>
-					<td valign=bottom class='alt' align="center" style="padding-right:1px;"><b>Faktura</b></td>
+					<%=joblog2_txt_098 %><br /><%=joblog2_txt_099 %></td>
+					<td valign=bottom align="center" class='alt'><b><%=joblog2_txt_100 %></b><br /><%=joblog2_txt_053 %><br /><%=joblog2_txt_050 %></td>
+					<td valign=bottom class='alt' align="center" style="padding-right:1px;"><b><%=joblog2_txt_101 %></b></td>
 				    <%else %>
                     <td><img src="ill/blank.gif" width="1" height="1" border="0" /></td>
 				    <td><img src="ill/blank.gif" width="1" height="1" border="0" /></td>
@@ -560,11 +560,12 @@ public lastmedarbnavn, medarbtimer, medarbEnheder, medarbFeriePlan
 	<table border="0" width=<%=globalWdt %> cellpadding="0" cellspacing="0">
     <tr>
      <td align=right style="padding:5px 20px 1px 1px;">
-        <b>Opdater Status:</b><br /><input id="chkalle1" type="radio" onclick="checkAllGK(1)" /> Godkend alle<br />
-        <input id="chkalle2" type="radio" onclick="checkAllGK(2)" /> Afvis alle  <br /> 
-        <input id="chkalle0" type="radio" onclick="checkAllGK(0)" /> Sæt alle = ingen.
+        <b><%=joblog2_txt_102 %>:</b><br /><input id="chkalle1" type="radio" onclick="checkAllGK(1)" /><%=" "& joblog2_txt_103 %><br />
+        <input id="chkalle2" type="radio" onclick="checkAllGK(2)" /><%=" "& joblog2_txt_104 %>  <br /> 
+        <input id="chkalle3" type="radio" onclick="checkAllGK(3)" /><%=" "& joblog2_txt_105 &" " %><%=joblog2_txt_052 %>.<br />
+        <input id="chkalle0" type="radio" onclick="checkAllGK(0)" /><%=" "& joblog2_txt_105 %> = "" (<%=joblog2_txt_117 %>)
        <br />
-       <input id="Submit1" type="submit" value="Godkend!" /></td>
+       <input id="Submit1" type="submit" value="<%=joblog2_txt_107 %>!" /></td>
    
 	</tr>
         <input id="antal_v" name="antal_v" value="<%=v %>" type="hidden" />
@@ -572,7 +573,7 @@ public lastmedarbnavn, medarbtimer, medarbEnheder, medarbFeriePlan
 	</table>
 	<%end if %>
 	<br />
-	<br /><h4>Joblog Grandtotal</h4>  
+	<br /><h4><%=joblog2_txt_108 %></h4>  
     
     <%
                 	
@@ -589,8 +590,8 @@ public lastmedarbnavn, medarbtimer, medarbEnheder, medarbFeriePlan
     <table border="0" width=100% cellpadding="0" cellspacing="0" bgcolor="#ffffff">
     <tr>
     <td align=right colspan="16" valign="top" height=20 bgcolor="#ffffFF" style="padding:10px 10px 10px 10px;">
-    <b>Grandtotal på ovenstående liste, fordelt på aktivitets-typer:<br /><br /></b>
-    <b>timer</b> ~ (enheder)<br />
+    <b><%=joblog2_txt_109 %>:<br /><br /></b>
+    <b><%=joblog2_txt_110 %></b> ~ (<%=joblog2_txt_111 %>)<br />
 	<% 
 	
 	
@@ -628,7 +629,7 @@ public lastmedarbnavn, medarbtimer, medarbEnheder, medarbFeriePlan
 	next %>
 	
 	<br /><br />
-	Grandtotal: <b><%=formatnumber(grgrTotal, 2) %> </b><br />
+	<%=joblog2_txt_079 %>: <b><%=formatnumber(grgrTotal, 2) %> </b><br />
 	============================
 	</td>
 	</tr>
@@ -858,8 +859,8 @@ public lastmedarbnavn, medarbtimer, medarbEnheder, medarbFeriePlan
                                                     <td colspan="30" align="right" style="padding-right:40px; padding-top:70px;"> <%=monthname(strMrd) &" - "& strAar %></td>
                                                 </tr>
                                                 <tr bgcolor="#cccccc">
-                                                    <td style="width:150px;">Projekt / Aktivitet</td>
-                                                    <td style="width:150px;">Kommentar</td>
+                                                    <td style="width:150px;"><%=joblog2_txt_112 &" "%>/<%=" "& joblog2_txt_113 %></td>
+                                                    <td style="width:150px;"><%=joblog2_txt_114 %></td>
                                 
                                                     <% end if'excel
 

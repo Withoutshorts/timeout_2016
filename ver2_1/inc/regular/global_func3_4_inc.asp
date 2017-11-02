@@ -31,8 +31,12 @@
 	  
 
 	 fefriBal = 0
+     if lto <> "esn" then
 	 fefriBal  = (fefriTimer(x) - (fefriTimerBr(x) + fefriTimerUdb(x)))
-	 
+     else
+     fefriBal  = (fefriTimer(x) - (fefriTimerBr(x) - fefriplTimer(x) + fefriTimerUdb(x)))
+	 end if
+
 	 if normTimerDag(x) <> 0 then
 	 fefriBalVal = fefriBal/normTimerDag(x)
 	 else
@@ -49,12 +53,18 @@
 
     <tr>
     <td colspan=6>
-	 <br /><br /><span style="border-bottom:2px #FFFF99 solid; padding:2px;"><b><%=afstem_txt_115 %></b> (<%=ferieFriaarStart%>)</span><br /><br />&nbsp;
+	 <br /><br /><span style="border-bottom:2px #FFFF99 solid; padding:2px;">
+         <%if lto <> "esn" then %>
+         <b><%=afstem_txt_115 %></b>
+         <%else %>
+         <b>Feriedage</b>
+         <%end if %> 
+         (<%=ferieFriaarStart%>)</span><br /><br />&nbsp;
 	 </td>
      </tr>
 	  <tr>
 	 
-	 <td valign=bottom align=right class=lille style="border-bottom:1px silver dashed;"><b><%=tsa_txt_174 &" "& tsa_txt_164%></b><br />~ <%=afstem_txt_044 %></td>
+	 <td valign=bottom align=right class=lille style="border-bottom:1px silver dashed;"><%if lto <> "esn" then %><b><%=tsa_txt_174 &" "& tsa_txt_164%></b><%else %><b>Ferie optjent</b><%end if %><br />~ <%=afstem_txt_044 %></td>
 	 <td valign=bottom align=right class=lille style="border-bottom:1px silver dashed;"><b><%=afstem_txt_116 %> <br> >> <%=afstem_txt_117 %></b><br />~ <%=afstem_txt_044 %></td>
 	 
 	  <td valign=bottom align=right style="border-bottom:1px silver dashed;" class=lille><b><%=tsa_txt_165%></b><br />~ <%=afstem_txt_044 %></td>
@@ -154,7 +164,10 @@
 
      ferieBal = 0
 	 call ferieBal_fn(ferieOptjtimer(x), ferieOptjOverforttimer(x), ferieOptjUlontimer(x), ferieAFTimer(x), ferieAFulonTimer(x), ferieUdbTimer(x))
-	 
+	 if lto = "esn" then
+     ferieBal = (ferieBal - feriePLTimer(x))
+     end if
+
 	 if normTimerDag(x) <> 0 then
 	 ferieBalVal = ferieBal/normTimerDag(x)
 	 else

@@ -5,7 +5,7 @@ $(window).load(function () {
     // run code
 
 
-
+    alert("hejhej")
 
 
 });
@@ -13,16 +13,11 @@ $(window).load(function () {
 
 
 
-
-
-
-
-
-
-
 $(document).ready(function () {
-
-    
+    alert("hej morten")
+    $("#btn_lto_rap").click(function () {
+        alert("MOrten")
+    });
 
     $("#FM_rapporttype").click(function () {
 

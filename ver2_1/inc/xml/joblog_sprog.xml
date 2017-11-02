@@ -1,0 +1,1457 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<sprog>
+
+  <!--- Dansk -->
+  <dk>
+
+    <txt_1 >Timepriser opdateret.</txt_1>
+    <txt_2 >Vend tilbage til Grandtotal ved at klikke her</txt_2>
+    <txt_3 >Forventet loadtid</txt_3>
+    <txt_4 >ca.</txt_4>
+    <txt_5 >sek.</txt_5>
+    <txt_6 >Grandtotal, timer realiseret</txt_6>
+    <txt_7 >Avanceret</txt_7>
+    <txt_8 >Udspecificering på aktiviteter</txt_8>
+    <txt_9 >Udspecificer de(t) valgte/søgte job på aktiviteter.</txt_9>
+    <txt_10 >Vis kun job (og aktiviteter) hvor</txt_10>
+    <txt_11 >indgår i</txt_11>
+    <txt_12 >aktivitetsnavnet</txt_12>
+    <txt_13 >Timer:</txt_13>
+    <txt_14 >Vis</txt_14>
+    <txt_15 >timer</txt_15>
+    <txt_16 >timer og kostpriser</txt_16>
+    <txt_17 >timer og omsætning</txt_17>
+    <txt_18 >på akt.typer der er med i dagligt timeregnskab</txt_18>
+    <txt_19 >Rediger timepriser</txt_19>
+    <txt_20 >Rediger timepriser</txt_20>
+    <txt_21 >Vis kun</txt_21>
+    <txt_22 >fakturerbare timer</txt_22>
+    <txt_23 >godkendte timer</txt_23>
+    <txt_24 >Vis enheder</txt_24>
+    <txt_25 >timer * faktor</txt_25>
+    <txt_26 >Ja</txt_26>
+    <txt_27 >Nej</txt_27>
+    <txt_28 >Vis forecasttimer</txt_28>
+    <txt_29 >timebudget</txt_29>
+    <txt_30 >Ekstra loadtid!</txt_30>
+    <txt_31 >Vis normtid</txt_31>
+    <txt_32 >Periode:</txt_32>
+    <txt_33 >Præsentation</txt_33>
+    <txt_34 >Præsentation, indstillinger og kolonner</txt_34>
+    <txt_35 >Vis direkte i excel</txt_35>
+    <txt_36 >.csv, hurtig visning af store datamængder</txt_36>
+    <txt_37 >Layout optimeret</txt_37>
+    <txt_38 >som på skærm</txt_38>
+    <txt_39 >Pivot optimeret</txt_39>
+    <txt_40 >kun real. timer på medarb.</txt_40>
+    <txt_41 >Vis opdelt på måneder, total, 3 ell. 12 md.</txt_41>
+    <txt_42 >Vis periode slutdato</txt_42>
+    <txt_43 >Ingen</txt_43>
+    <txt_44 >vis total</txt_44>
+    <txt_45 >3 måneder</txt_45>
+    <txt_46 >12 måneder</txt_46>
+    <txt_47 >ekstra loadtid!</txt_47>
+    <txt_48 >Sideskift</txt_48>
+    <txt_49 >overskrift</txt_49>
+    <txt_50 >efter hver</txt_50>
+    <txt_51 >linie. A4 ca. 15 A3 ca.30.</txt_51>
+    <txt_52 >saldo</txt_52>
+    <txt_53 >for tidligere periode</txt_53>
+    <txt_54 >og</txt_54>
+    <txt_55 >total</txt_55>
+    <txt_56 >timeforbrug</txt_56>
+    <txt_57 >alle medarbejdere uanset valgte</txt_57>
+    <txt_58 >Vis kontaktpersoner</txt_58>
+    <txt_59 >Vis jobbeskrivelse</txt_59>
+    <txt_60 >Visning af de-aktiverede medarbejdere</txt_60>
+    <txt_61 >de-aktiverede medarbejdere medtages ved søgning på</txt_61>
+    <txt_62 >alle</txt_62>
+    <txt_63 >de-aktiverede medarbejdere kan ikke vælges fra dropdown menu.</txt_63>
+    <txt_64 >Jobtyper</txt_64>
+    <txt_65 >Fastpris eller Lbn. timer.</txt_65>
+    <txt_66 >vægtet medarbejder timepriser</txt_66>
+    <txt_67 >Ved fastpris job, hvor aktiviteterne danner grundlag for timepris, er omsætning og timepriser</txt_67>
+    <txt_68 >på jobvisning</txt_68>
+    <txt_69 >angivet med et ~, da beløbet er beregnet udfra en tilnærmet timepris.</txt_69>
+    <txt_70 >gns. på akt.</txt_70>
+    <txt_71 >Ved udspecificering på aktiviteter er det den re-elle timepris der vises.</txt_71>
+    <txt_72 >Ved lbn. timer er det altid den realiserede medarbejder timepris der vises.</txt_72>
+    <txt_73 >Timer</txt_73>
+    <txt_74 >Kun realiserede timer på typer der tæller med i det daglige timeregnskab vises.</txt_74>
+    <txt_75 >Registreringer på ferie, frokost, sygdom og afspadsering er ikke med i Grand-total statistikken.</txt_75>
+    <txt_76 >Key account</txt_76>
+    <txt_77 >Ved brug af "key account" bliver der vist timer for alle medarbejder der er med</txt_77>
+    <txt_78 >tilknyttet via projektgrupper</txt_78>
+    <txt_79 >på de job hvor den valgte Key-account er job ansvarlig / kunde ansvarlig.</txt_79>
+    <txt_80 >Udspecificering på aktiviteter</txt_80>
+    <txt_81 >Hvis der vælges et enkelt job bliver timeforbruget udspecificeret på aktiviteter.</txt_81>
+    <txt_82 >Beløb</txt_82>
+    <txt_83 >Alle timepriser og beløb er vist i jobets basisvaluta.</txt_83>
+    <txt_84 >Antallet af job, medarbejdere, kontakter og periode overstiger det tilladte antal.</txt_84>
+    <txt_85 >Hvis der er valgt</txt_85>
+    <txt_86 >Der er valgt mere end</txt_86>
+    <txt_87 >job</txt_87>
+    <txt_88 >og</txt_88>
+    <txt_89 >Mellem</txt_89>
+    <txt_90 >medarbejdere og en periode på mere end</txt_90>
+    <txt_91 >år.</txt_91>
+    <txt_92 >Mere end</txt_92>
+    <txt_93 >medarbejdere og en periode på mere end</txt_93>
+    <txt_94 >medarbejdere og en periode på mere end</txt_94>
+    <txt_95 >md.</txt_95>
+    <txt_96 >medarbejdere.</txt_96>
+    <txt_97 >En periode på mere end</txt_97>
+    <txt_98 >5 år.</txt_98>
+    <txt_99 >12 måneders opdeling, mere end</txt_99>
+    <txt_100 >og flere end</txt_100>
+    <txt_101 >medarbejdere.</txt_101>
+    <txt_102 >Du har er valgt</txt_102>
+    <txt_103 >medarbejdere og</txt_103>
+    <txt_104 >Tip</txt_104>
+    <txt_105 >Søg på et specifikt job for at få vist en længere periode / flere medarbejdere.</txt_105>
+    <txt_106 >Timeout - Grandtotal</txt_106>
+    <txt_107 >Periode</txt_107>
+    <txt_108 >Der er valgt udspecificering på følgende job</txt_108>
+    <txt_109 >Budget timer</txt_109>
+    <txt_110 >forkalk.</txt_110>
+    <txt_111 >Forecast</txt_111>
+    <txt_112 >før valgt per.</txt_112>
+    <txt_113 >Real. timer</txt_113>
+    <txt_114 >i per.</txt_114>
+    <txt_115 >Real. %</txt_115>
+    <txt_116 >ialt</txt_116>
+    <txt_117 >Grandtotal</txt_117>
+    <txt_118 >Ialt i per.:</txt_118>
+    <txt_119 >Opdater timepriser</txt_119>
+    <txt_120 >Opdaterer timeregistreringer i valgte måned</txt_120>
+    <txt_121 >(grønne</txt_121>
+    <txt_122 >Opdater samtidig de timepriser der er indtastet på job / aktivitet,</txt_122>
+    <txt_123 >så fremtidige timeregistreringer følger denne pris</txt_123>
+    <txt_124 >gælder ikke de aktiviteter der er sat til ens pris for alle</txt_124>
+    <txt_125 >nedarver fra job</txt_125>
+    <txt_126 >Alle priser er</txt_126>
+    <txt_127 >Valuta ændres på jobbet.</txt_127>
+    <txt_128 >Opdater</txt_128>
+    <txt_129 >Periode afgrænsning</txt_129>
+    <txt_130 >Du har valgt at udskrive direkte til .cvs fil.</txt_130>
+    <txt_131 >Du åbner den ved at klikke på linket herunder</txt_131>
+    <txt_132 >Din CSV. fil er klar</txt_132>
+    <txt_133 >Mængden af data er for stor til eksport.</txt_133>
+    <txt_134 >Vælg et mindre interval ell. Færre medarbejdere.</txt_134>
+    <txt_135 >Størrelsen på data er</txt_135>
+    <txt_136 >og den må ikke overstige 30000000 bytes.</txt_136>
+    <txt_137 >Der kan ikke vælges</txt_137>
+    <txt_138 >Vis som redaktør</txt_138>
+    <txt_139 >når</txt_139>
+    <txt_140 >Medarbejdertyper</txt_140>
+    <txt_141 >er slået til</txt_141>
+    <txt_142 >Projektgrupper</txt_142>
+    <txt_143 >Medarbejdere</txt_143>
+    <txt_144 >Kunder</txt_144>
+    <txt_145 >Forretningsområder</txt_145>
+    <txt_146 >Som Virksomhed</txt_146>
+    <txt_147 >Segment</txt_147>
+    <txt_148 >Vælg kunde</txt_148>
+    <txt_149 >leverandør</txt_149>
+    <txt_150 >Alle - eller vælg fra liste</txt_150>
+    <txt_151 >Forretningsområder</txt_151>
+    <txt_152 >Ingen valgt (viser alle)</txt_152>
+    <txt_153 >Alle</txt_153>
+    <txt_154 >For key-account</txt_154>
+    <txt_155 >Viser alle medarbejdere på kunder og job hvor valgte medarbejder(e) er</txt_155>
+    <txt_156 >Kundeansvarlig</txt_156>
+    <txt_157 >Jobansvarlig</txt_157>
+    <txt_158 >Jobejer</txt_158>
+    <txt_159 >Jobmedans.</txt_159>
+    <txt_160 >Salgsansv. 1-5</txt_160>
+    <txt_161 >Job</txt_161>
+    <txt_162 >Aftaler</txt_162>
+    <txt_163 >Vælg job</txt_163>
+    <txt_164 >timer vises i grandtotal uanset jobstatus</txt_164>
+    <txt_165 >Lukket</txt_165>
+    <txt_166 >Passiv</txt_166>
+    <txt_167 >Tilbud</txt_167>
+    <txt_168 >Ingen</txt_168>
+    <txt_169 >og tilhørende job</txt_169>
+    <txt_170 >eller vælg fra liste</txt_170>
+    <txt_171 >viser alle job der ikke er tilknyttet aftale</txt_171>
+    <txt_172 >Søg på jobnavn ell. nr.</txt_172>
+    <txt_173 >for specifikke job</txt_173>
+    <txt_174 >(dobbelt bindestreg) for interval</txt_174>
+    <txt_175 >for større/mindre end)</txt_175>
+    <txt_176 >Vis aktive job</txt_176>
+    <txt_177 >Vis tilbud</txt_177>
+    <txt_178 >Vis lukkede og passive job</txt_178>
+    <txt_179 >Videre</txt_179>
+    <txt_180 >Vis beløb i følgende valuta</txt_180>
+    <txt_181 >ved budget på job angivet pr. FY, benyttes startdato til at vælge FY</txt_181>
+    <txt_182 >Kør</txt_182>
+    <txt_183 >Gør din csv. fil klar, vent et øjeblik. Der går mellem 5 og 10 sekunder.</txt_183>
+    <txt_184 >fase</txt_184>
+    <txt_185 >enh.</txt_185>
+    <txt_186 >bal.</txt_186>
+    <txt_187 >CSV. fil eksport</txt_187>
+    <txt_188 >Alle</txt_188>
+    <txt_189 >Søg</txt_189>
+    <txt_190 >Fastpris</txt_190>
+    <txt_191 >Lbn. timer</txt_191>
+    <txt_192 >Kunde</txt_192>
+    <txt_193 >aktiviteter</txt_193>
+    <txt_194 >Budget.</txt_194>
+    <txt_195 >Brutto Oms.</txt_195>
+    <txt_196 >Forecast.</txt_196>
+    <txt_197 >Oms.</txt_197>
+    <txt_198 >Kost. ialt</txt_198>
+    <txt_199 >Jobtotal</txt_199>
+    <txt_200 >t.</txt_200>
+
+  </dk>
+
+
+  <!--- Norsk -->
+  <no>
+
+    <txt_1 >Hourly rates updated.</txt_1>
+    <txt_2 >Return to Grand total</txt_2>
+    <txt_3 >Expected loadtime</txt_3>
+    <txt_4 >approx.</txt_4>
+    <txt_5 >sec.</txt_5>
+    <txt_6 >Grand total, stated hours</txt_6>
+    <txt_7 >Advanced</txt_7>
+    <txt_8 >Specification - activities</txt_8>
+    <txt_9 >Specify search after activity.</txt_9>
+    <txt_10 >Show only job(s) and acitivities where</txt_10>
+    <txt_11 >is part of</txt_11>
+    <txt_12 >the activity name</txt_12>
+    <txt_13 >Hours:</txt_13>
+    <txt_14 >Show</txt_14>
+    <txt_15 >hours</txt_15>
+    <txt_16 >hours and costprices</txt_16>
+    <txt_17 >hours and turnover</txt_17>
+    <txt_18 >Act. Types incl. in the dayli hours</txt_18>
+    <txt_19 >Edit hourly rates</txt_19>
+    <txt_20 >Edit hourly rates</txt_20>
+    <txt_21 >Show only</txt_21>
+    <txt_22 >invoiceble hours</txt_22>
+    <txt_23 >approved hours</txt_23>
+    <txt_24 >Show units</txt_24>
+    <txt_25 >hours * factor</txt_25>
+    <txt_26 >Yes</txt_26>
+    <txt_27 >No</txt_27>
+    <txt_28 >Show forecast hours</txt_28>
+    <txt_29 >time budget</txt_29>
+    <txt_30 >Extra loadtime!</txt_30>
+    <txt_31 >Show rated time</txt_31>
+    <txt_32 >Period:</txt_32>
+    <txt_33 >Presentation</txt_33>
+    <txt_34 >Presentation, settings and coloums</txt_34>
+    <txt_35 >Show diretly in Excel</txt_35>
+    <txt_36 >.csv, optimal view of large data</txt_36>
+    <txt_37 >Layout optimized</txt_37>
+    <txt_38 >just like a monitor</txt_38>
+    <txt_39 >Pivot optimized</txt_39>
+    <txt_40 >only stated hours per empl.</txt_40>
+    <txt_41 >Show split per months, total, 3 or 12 mo.</txt_41>
+    <txt_42 >Show period end-date</txt_42>
+    <txt_43 >None</txt_43>
+    <txt_44 >show total</txt_44>
+    <txt_45 >3 months</txt_45>
+    <txt_46 >12 months</txt_46>
+    <txt_47 >extra loadtime!</txt_47>
+    <txt_48 >Pagebreak</txt_48>
+    <txt_49 >Headline</txt_49>
+    <txt_50 >after each</txt_50>
+    <txt_51 >line. A4 approx. 15-A3 approx. 30.</txt_51>
+    <txt_52 >Balance</txt_52>
+    <txt_53 >for previous period</txt_53>
+    <txt_54 >and</txt_54>
+    <txt_55 >total</txt_55>
+    <txt_56 >time consumption</txt_56>
+    <txt_57 >all employees regard. chosen</txt_57>
+    <txt_58 >Show contacts</txt_58>
+    <txt_59 >Show job description</txt_59>
+    <txt_60 >Show de-activated employees</txt_60>
+    <txt_61 >de-activated employees incl. in search result</txt_61>
+    <txt_62 >all</txt_62>
+    <txt_63 >de-activated employees cannot be picked from dropdown menu.</txt_63>
+    <txt_64 >Job types</txt_64>
+    <txt_65 >Fixed price or Time and Material</txt_65>
+    <txt_66 >Weighted employee hourly rates</txt_66>
+    <txt_67 >Fixed price jobs, where activities sets the hourly rate, turnover and hourly rates</txt_67>
+    <txt_68 >on the job view</txt_68>
+    <txt_69 >are indicated with ~ as the amount is calulated based on a approximated rate.</txt_69>
+    <txt_70 >avr. on atc.</txt_70>
+    <txt_71 >Specification of activities shows the real hourly rate.</txt_71>
+    <txt_72 >Time and Material jobs always shows the stated employee hourly rate.</txt_72>
+    <txt_73 >Hours</txt_73>
+    <txt_74 >Only stated hours on act.types which are part of the dayli hour total will be shown.</txt_74>
+    <txt_75 >Vacation, lunch, illness and time-off are not part of the Grand total.</txt_75>
+    <txt_76 >Key account</txt_76>
+    <txt_77 >"Key account" shows hours for alle employees who are</txt_77>
+    <txt_78 >associated through project groups</txt_78>
+    <txt_79 >on the jobs where the choosen Key account is project manager / Key account.</txt_79>
+    <txt_80 >Specified on activities</txt_80>
+    <txt_81 >If One job is choosen, hours are specified on activities</txt_81>
+    <txt_82 >Amount</txt_82>
+    <txt_83 >All rates and amounts are shown in the job's base currency.</txt_83>
+    <txt_84 >Numbers of jobs, employees, contacts and period exceeds the allowed</txt_84>
+    <txt_85 >If you have choosen</txt_85>
+    <txt_86 >More than</txt_86>
+    <txt_87 >job has been chosen</txt_87>
+    <txt_88 >and</txt_88>
+    <txt_89 >Between</txt_89>
+    <txt_90 >employees and a period of more than</txt_90>
+    <txt_91 >years.</txt_91>
+    <txt_92 >More than</txt_92>
+    <txt_93 >employees and a period of more than</txt_93>
+    <txt_94 >employees and a period of more than</txt_94>
+    <txt_95 >mo.</txt_95>
+    <txt_96 >employees.</txt_96>
+    <txt_97 >A period of more than</txt_97>
+    <txt_98 >5 years.</txt_98>
+    <txt_99 >12 months split, more than</txt_99>
+    <txt_100 >and more than</txt_100>
+    <txt_101 >employees</txt_101>
+    <txt_102 >You have choosen</txt_102>
+    <txt_103 >employees and</txt_103>
+    <txt_104 >Tip</txt_104>
+    <txt_105 >Search a specific job to get a longer period / more employees in the result.</txt_105>
+    <txt_106 >TimeOut - Grand total</txt_106>
+    <txt_107 >Period</txt_107>
+    <txt_108 >Specification on the following jobs has been choosen</txt_108>
+    <txt_109 >Budget hours</txt_109>
+    <txt_110 >Pre-calc.</txt_110>
+    <txt_111 >Forecast</txt_111>
+    <txt_112 >before choosen per.</txt_112>
+    <txt_113 >Stated hours</txt_113>
+    <txt_114 >in per.</txt_114>
+    <txt_115 >Stat. %</txt_115>
+    <txt_116 >total</txt_116>
+    <txt_117 >Grand total</txt_117>
+    <txt_118 >Total in per.:</txt_118>
+    <txt_119 >Update hourly rates</txt_119>
+    <txt_120 >Updates registrations for chosen month</txt_120>
+    <txt_121 >(green</txt_121>
+    <txt_122 >Updates hourly rates registred on job(s) / activites,</txt_122>
+    <txt_123 >also for future registrations</txt_123>
+    <txt_124 >does not count for activities with same price for all</txt_124>
+    <txt_125 >inherits from job</txt_125>
+    <txt_126 >All prices are</txt_126>
+    <txt_127 >Currency will be changed on the job</txt_127>
+    <txt_128 >Update</txt_128>
+    <txt_129 >Period limitation</txt_129>
+    <txt_130 >You have chosen to print to .csv file.</txt_130>
+    <txt_131 >Open .csv by clicking the link herunder</txt_131>
+    <txt_132 >Your CSV file is ready</txt_132>
+    <txt_133 >Data volume is to large for export.</txt_133>
+    <txt_134 >Choose smaller inerval or fewer employees.</txt_134>
+    <txt_135 >Data size is</txt_135>
+    <txt_136 >and cannot exceed 30000000 bytes.</txt_136>
+    <txt_137 >Cannot choose</txt_137>
+    <txt_138 >Show as editor</txt_138>
+    <txt_139 >when</txt_139>
+    <txt_140 >Employee type</txt_140>
+    <txt_141 >is on</txt_141>
+    <txt_142 >Project groups</txt_142>
+    <txt_143 >Employees</txt_143>
+    <txt_144 >Customers</txt_144>
+    <txt_145 >Business areas</txt_145>
+    <txt_146 >As Company</txt_146>
+    <txt_147 >Segment</txt_147>
+    <txt_148 >Choose customer</txt_148>
+    <txt_149 >vendor</txt_149>
+    <txt_150 >All - or chose from list</txt_150>
+    <txt_151 >Business areas</txt_151>
+    <txt_152 >None chosen (shows all)</txt_152>
+    <txt_153 >All</txt_153>
+    <txt_154 >For Key-account</txt_154>
+    <txt_155 >Showa all employees for chosen customer and job, where the picked empl. is</txt_155>
+    <txt_156 >Customer responsible</txt_156>
+    <txt_157 >Project manager</txt_157>
+    <txt_158 >Job owner</txt_158>
+    <txt_159 >Job respons.</txt_159>
+    <txt_160 >Key account 1-5</txt_160>
+    <txt_161 >Job</txt_161>
+    <txt_162 >Agreements</txt_162>
+    <txt_163 >Choose job</txt_163>
+    <txt_164 >hours are shown in Grand total regardl. Job status</txt_164>
+    <txt_165 >Closed</txt_165>
+    <txt_166 >Passiv</txt_166>
+    <txt_167 >Offer</txt_167>
+    <txt_168 >None</txt_168>
+    <txt_169 >and associated jobs</txt_169>
+    <txt_170 >or choose from list</txt_170>
+    <txt_171 >shows all job not associated with an agreement</txt_171>
+    <txt_172 >Search for job name or number</txt_172>
+    <txt_173 >for specific job(s)</txt_173>
+    <txt_174 >(double hyphen) for interval</txt_174>
+    <txt_175 >for larger/less than)</txt_175>
+    <txt_176 >Show active job(s)</txt_176>
+    <txt_177 >Show offer</txt_177>
+    <txt_178 >Show closed and passive job(s)</txt_178>
+    <txt_179 >Next</txt_179>
+    <txt_180 >Display amount in the following currency</txt_180>
+    <txt_181 >By budget on job specified per. FY, start date is used to select FY</txt_181>
+    <txt_182 >Go</txt_182>
+    <txt_183 >Makeing your csv. File ready, wait a moment. It takes between 5 and 10 seconds.</txt_183>
+    <txt_184 >Phase</txt_184>
+    <txt_185 >unit</txt_185>
+    <txt_186 >bal.</txt_186>
+    <txt_187 >CSV. file export</txt_187>
+    <txt_188 >All</txt_188>
+    <txt_189 >Search</txt_189>
+    <txt_190 >Fixed price</txt_190>
+    <txt_191 >Time and Material job</txt_191>
+    <txt_192 >Customer</txt_192>
+    <txt_193 >activities</txt_193>
+    <txt_194 >Budget.</txt_194>
+    <txt_195 >Gross Rev.</txt_195>
+    <txt_196 >Forecast.</txt_196>
+    <txt_197 >Rev.</txt_197>
+    <txt_198 >Total cost</txt_198>
+    <txt_199 >Job total</txt_199>
+    <txt_200 >h.</txt_200>
+    
+
+  </no>
+
+
+  <!--- Svensk -->
+  <so>
+
+    <txt_1 >Hourly rates updated.</txt_1>
+    <txt_2 >Return to Grand total</txt_2>
+    <txt_3 >Expected loadtime</txt_3>
+    <txt_4 >approx.</txt_4>
+    <txt_5 >sec.</txt_5>
+    <txt_6 >Grand total, stated hours</txt_6>
+    <txt_7 >Advanced</txt_7>
+    <txt_8 >Specification - activities</txt_8>
+    <txt_9 >Specify search after activity.</txt_9>
+    <txt_10 >Show only job(s) and acitivities where</txt_10>
+    <txt_11 >is part of</txt_11>
+    <txt_12 >the activity name</txt_12>
+    <txt_13 >Hours:</txt_13>
+    <txt_14 >Show</txt_14>
+    <txt_15 >hours</txt_15>
+    <txt_16 >hours and costprices</txt_16>
+    <txt_17 >hours and turnover</txt_17>
+    <txt_18 >Act. Types incl. in the dayli hours</txt_18>
+    <txt_19 >Edit hourly rates</txt_19>
+    <txt_20 >Edit hourly rates</txt_20>
+    <txt_21 >Show only</txt_21>
+    <txt_22 >invoiceble hours</txt_22>
+    <txt_23 >approved hours</txt_23>
+    <txt_24 >Show units</txt_24>
+    <txt_25 >hours * factor</txt_25>
+    <txt_26 >Yes</txt_26>
+    <txt_27 >No</txt_27>
+    <txt_28 >Show forecast hours</txt_28>
+    <txt_29 >time budget</txt_29>
+    <txt_30 >Extra loadtime!</txt_30>
+    <txt_31 >Show rated time</txt_31>
+    <txt_32 >Period:</txt_32>
+    <txt_33 >Presentation</txt_33>
+    <txt_34 >Presentation, settings and coloums</txt_34>
+    <txt_35 >Show diretly in Excel</txt_35>
+    <txt_36 >.csv, optimal view of large data</txt_36>
+    <txt_37 >Layout optimized</txt_37>
+    <txt_38 >just like a monitor</txt_38>
+    <txt_39 >Pivot optimized</txt_39>
+    <txt_40 >only stated hours per empl.</txt_40>
+    <txt_41 >Show split per months, total, 3 or 12 mo.</txt_41>
+    <txt_42 >Show period end-date</txt_42>
+    <txt_43 >None</txt_43>
+    <txt_44 >show total</txt_44>
+    <txt_45 >3 months</txt_45>
+    <txt_46 >12 months</txt_46>
+    <txt_47 >extra loadtime!</txt_47>
+    <txt_48 >Pagebreak</txt_48>
+    <txt_49 >Headline</txt_49>
+    <txt_50 >after each</txt_50>
+    <txt_51 >line. A4 approx. 15-A3 approx. 30.</txt_51>
+    <txt_52 >Balance</txt_52>
+    <txt_53 >for previous period</txt_53>
+    <txt_54 >and</txt_54>
+    <txt_55 >total</txt_55>
+    <txt_56 >time consumption</txt_56>
+    <txt_57 >all employees regard. chosen</txt_57>
+    <txt_58 >Show contacts</txt_58>
+    <txt_59 >Show job description</txt_59>
+    <txt_60 >Show de-activated employees</txt_60>
+    <txt_61 >de-activated employees incl. in search result</txt_61>
+    <txt_62 >all</txt_62>
+    <txt_63 >de-activated employees cannot be picked from dropdown menu.</txt_63>
+    <txt_64 >Job types</txt_64>
+    <txt_65 >Fixed price or Time and Material</txt_65>
+    <txt_66 >Weighted employee hourly rates</txt_66>
+    <txt_67 >Fixed price jobs, where activities sets the hourly rate, turnover and hourly rates</txt_67>
+    <txt_68 >on the job view</txt_68>
+    <txt_69 >are indicated with ~ as the amount is calulated based on a approximated rate.</txt_69>
+    <txt_70 >avr. on atc.</txt_70>
+    <txt_71 >Specification of activities shows the real hourly rate.</txt_71>
+    <txt_72 >Time and Material jobs always shows the stated employee hourly rate.</txt_72>
+    <txt_73 >Hours</txt_73>
+    <txt_74 >Only stated hours on act.types which are part of the dayli hour total will be shown.</txt_74>
+    <txt_75 >Vacation, lunch, illness and time-off are not part of the Grand total.</txt_75>
+    <txt_76 >Key account</txt_76>
+    <txt_77 >"Key account" shows hours for alle employees who are</txt_77>
+    <txt_78 >associated through project groups</txt_78>
+    <txt_79 >on the jobs where the choosen Key account is project manager / Key account.</txt_79>
+    <txt_80 >Specified on activities</txt_80>
+    <txt_81 >If One job is choosen, hours are specified on activities</txt_81>
+    <txt_82 >Amount</txt_82>
+    <txt_83 >All rates and amounts are shown in the job's base currency.</txt_83>
+    <txt_84 >Numbers of jobs, employees, contacts and period exceeds the allowed</txt_84>
+    <txt_85 >If you have choosen</txt_85>
+    <txt_86 >More than</txt_86>
+    <txt_87 >job has been chosen</txt_87>
+    <txt_88 >and</txt_88>
+    <txt_89 >Between</txt_89>
+    <txt_90 >employees and a period of more than</txt_90>
+    <txt_91 >years.</txt_91>
+    <txt_92 >More than</txt_92>
+    <txt_93 >employees and a period of more than</txt_93>
+    <txt_94 >employees and a period of more than</txt_94>
+    <txt_95 >mo.</txt_95>
+    <txt_96 >employees.</txt_96>
+    <txt_97 >A period of more than</txt_97>
+    <txt_98 >5 years.</txt_98>
+    <txt_99 >12 months split, more than</txt_99>
+    <txt_100 >and more than</txt_100>
+    <txt_101 >employees</txt_101>
+    <txt_102 >You have choosen</txt_102>
+    <txt_103 >employees and</txt_103>
+    <txt_104 >Tip</txt_104>
+    <txt_105 >Search a specific job to get a longer period / more employees in the result.</txt_105>
+    <txt_106 >TimeOut - Grand total</txt_106>
+    <txt_107 >Period</txt_107>
+    <txt_108 >Specification on the following jobs has been choosen</txt_108>
+    <txt_109 >Budget hours</txt_109>
+    <txt_110 >Pre-calc.</txt_110>
+    <txt_111 >Forecast</txt_111>
+    <txt_112 >before choosen per.</txt_112>
+    <txt_113 >Stated hours</txt_113>
+    <txt_114 >in per.</txt_114>
+    <txt_115 >Stat. %</txt_115>
+    <txt_116 >total</txt_116>
+    <txt_117 >Grand total</txt_117>
+    <txt_118 >Total in per.:</txt_118>
+    <txt_119 >Update hourly rates</txt_119>
+    <txt_120 >Updates registrations for chosen month</txt_120>
+    <txt_121 >(green</txt_121>
+    <txt_122 >Updates hourly rates registred on job(s) / activites,</txt_122>
+    <txt_123 >also for future registrations</txt_123>
+    <txt_124 >does not count for activities with same price for all</txt_124>
+    <txt_125 >inherits from job</txt_125>
+    <txt_126 >All prices are</txt_126>
+    <txt_127 >Currency will be changed on the job</txt_127>
+    <txt_128 >Update</txt_128>
+    <txt_129 >Period limitation</txt_129>
+    <txt_130 >You have chosen to print to .csv file.</txt_130>
+    <txt_131 >Open .csv by clicking the link herunder</txt_131>
+    <txt_132 >Your CSV file is ready</txt_132>
+    <txt_133 >Data volume is to large for export.</txt_133>
+    <txt_134 >Choose smaller inerval or fewer employees.</txt_134>
+    <txt_135 >Data size is</txt_135>
+    <txt_136 >and cannot exceed 30000000 bytes.</txt_136>
+    <txt_137 >Cannot choose</txt_137>
+    <txt_138 >Show as editor</txt_138>
+    <txt_139 >when</txt_139>
+    <txt_140 >Employee type</txt_140>
+    <txt_141 >is on</txt_141>
+    <txt_142 >Project groups</txt_142>
+    <txt_143 >Employees</txt_143>
+    <txt_144 >Customers</txt_144>
+    <txt_145 >Business areas</txt_145>
+    <txt_146 >As Company</txt_146>
+    <txt_147 >Segment</txt_147>
+    <txt_148 >Choose customer</txt_148>
+    <txt_149 >vendor</txt_149>
+    <txt_150 >All - or chose from list</txt_150>
+    <txt_151 >Business areas</txt_151>
+    <txt_152 >None chosen (shows all)</txt_152>
+    <txt_153 >All</txt_153>
+    <txt_154 >For Key-account</txt_154>
+    <txt_155 >Showa all employees for chosen customer and job, where the picked empl. is</txt_155>
+    <txt_156 >Customer responsible</txt_156>
+    <txt_157 >Project manager</txt_157>
+    <txt_158 >Job owner</txt_158>
+    <txt_159 >Job respons.</txt_159>
+    <txt_160 >Key account 1-5</txt_160>
+    <txt_161 >Job</txt_161>
+    <txt_162 >Agreements</txt_162>
+    <txt_163 >Choose job</txt_163>
+    <txt_164 >hours are shown in Grand total regardl. Job status</txt_164>
+    <txt_165 >Closed</txt_165>
+    <txt_166 >Passiv</txt_166>
+    <txt_167 >Offer</txt_167>
+    <txt_168 >None</txt_168>
+    <txt_169 >and associated jobs</txt_169>
+    <txt_170 >or choose from list</txt_170>
+    <txt_171 >shows all job not associated with an agreement</txt_171>
+    <txt_172 >Search for job name or number</txt_172>
+    <txt_173 >for specific job(s)</txt_173>
+    <txt_174 >(double hyphen) for interval</txt_174>
+    <txt_175 >for larger/less than)</txt_175>
+    <txt_176 >Show active job(s)</txt_176>
+    <txt_177 >Show offer</txt_177>
+    <txt_178 >Show closed and passive job(s)</txt_178>
+    <txt_179 >Next</txt_179>
+    <txt_180 >Display amount in the following currency</txt_180>
+    <txt_181 >By budget on job specified per. FY, start date is used to select FY</txt_181>
+    <txt_182 >Go</txt_182>
+    <txt_183 >Makeing your csv. File ready, wait a moment. It takes between 5 and 10 seconds.</txt_183>
+    <txt_184 >Phase</txt_184>
+    <txt_185 >unit</txt_185>
+    <txt_186 >bal.</txt_186>
+    <txt_187 >CSV. file export</txt_187>
+    <txt_188 >All</txt_188>
+    <txt_189 >Search</txt_189>
+    <txt_190 >Fixed price</txt_190>
+    <txt_191 >Time and Material job</txt_191>
+    <txt_192 >Customer</txt_192>
+    <txt_193 >activities</txt_193>
+    <txt_194 >Budget.</txt_194>
+    <txt_195 >Gross Rev.</txt_195>
+    <txt_196 >Forecast.</txt_196>
+    <txt_197 >Rev.</txt_197>
+    <txt_198 >Total cost</txt_198>
+    <txt_199 >Job total</txt_199>
+    <txt_200 >h.</txt_200>
+    
+    
+  </so>
+
+
+  <!--- Tysk -->
+  <de>
+
+    <txt_1 >Hourly rates updated.</txt_1>
+    <txt_2 >Return to Grand total</txt_2>
+    <txt_3 >Expected loadtime</txt_3>
+    <txt_4 >approx.</txt_4>
+    <txt_5 >sec.</txt_5>
+    <txt_6 >Grand total, stated hours</txt_6>
+    <txt_7 >Advanced</txt_7>
+    <txt_8 >Specification - activities</txt_8>
+    <txt_9 >Specify search after activity.</txt_9>
+    <txt_10 >Show only job(s) and acitivities where</txt_10>
+    <txt_11 >is part of</txt_11>
+    <txt_12 >the activity name</txt_12>
+    <txt_13 >Hours:</txt_13>
+    <txt_14 >Show</txt_14>
+    <txt_15 >hours</txt_15>
+    <txt_16 >hours and costprices</txt_16>
+    <txt_17 >hours and turnover</txt_17>
+    <txt_18 >Act. Types incl. in the dayli hours</txt_18>
+    <txt_19 >Edit hourly rates</txt_19>
+    <txt_20 >Edit hourly rates</txt_20>
+    <txt_21 >Show only</txt_21>
+    <txt_22 >invoiceble hours</txt_22>
+    <txt_23 >approved hours</txt_23>
+    <txt_24 >Show units</txt_24>
+    <txt_25 >hours * factor</txt_25>
+    <txt_26 >Yes</txt_26>
+    <txt_27 >No</txt_27>
+    <txt_28 >Show forecast hours</txt_28>
+    <txt_29 >time budget</txt_29>
+    <txt_30 >Extra loadtime!</txt_30>
+    <txt_31 >Show rated time</txt_31>
+    <txt_32 >Period:</txt_32>
+    <txt_33 >Presentation</txt_33>
+    <txt_34 >Presentation, settings and coloums</txt_34>
+    <txt_35 >Show diretly in Excel</txt_35>
+    <txt_36 >.csv, optimal view of large data</txt_36>
+    <txt_37 >Layout optimized</txt_37>
+    <txt_38 >just like a monitor</txt_38>
+    <txt_39 >Pivot optimized</txt_39>
+    <txt_40 >only stated hours per empl.</txt_40>
+    <txt_41 >Show split per months, total, 3 or 12 mo.</txt_41>
+    <txt_42 >Show period end-date</txt_42>
+    <txt_43 >None</txt_43>
+    <txt_44 >show total</txt_44>
+    <txt_45 >3 months</txt_45>
+    <txt_46 >12 months</txt_46>
+    <txt_47 >extra loadtime!</txt_47>
+    <txt_48 >Pagebreak</txt_48>
+    <txt_49 >Headline</txt_49>
+    <txt_50 >after each</txt_50>
+    <txt_51 >line. A4 approx. 15-A3 approx. 30.</txt_51>
+    <txt_52 >Balance</txt_52>
+    <txt_53 >for previous period</txt_53>
+    <txt_54 >and</txt_54>
+    <txt_55 >total</txt_55>
+    <txt_56 >time consumption</txt_56>
+    <txt_57 >all employees regard. chosen</txt_57>
+    <txt_58 >Show contacts</txt_58>
+    <txt_59 >Show job description</txt_59>
+    <txt_60 >Show de-activated employees</txt_60>
+    <txt_61 >de-activated employees incl. in search result</txt_61>
+    <txt_62 >all</txt_62>
+    <txt_63 >de-activated employees cannot be picked from dropdown menu.</txt_63>
+    <txt_64 >Job types</txt_64>
+    <txt_65 >Fixed price or Time and Material</txt_65>
+    <txt_66 >Weighted employee hourly rates</txt_66>
+    <txt_67 >Fixed price jobs, where activities sets the hourly rate, turnover and hourly rates</txt_67>
+    <txt_68 >on the job view</txt_68>
+    <txt_69 >are indicated with ~ as the amount is calulated based on a approximated rate.</txt_69>
+    <txt_70 >avr. on atc.</txt_70>
+    <txt_71 >Specification of activities shows the real hourly rate.</txt_71>
+    <txt_72 >Time and Material jobs always shows the stated employee hourly rate.</txt_72>
+    <txt_73 >Hours</txt_73>
+    <txt_74 >Only stated hours on act.types which are part of the dayli hour total will be shown.</txt_74>
+    <txt_75 >Vacation, lunch, illness and time-off are not part of the Grand total.</txt_75>
+    <txt_76 >Key account</txt_76>
+    <txt_77 >"Key account" shows hours for alle employees who are</txt_77>
+    <txt_78 >associated through project groups</txt_78>
+    <txt_79 >on the jobs where the choosen Key account is project manager / Key account.</txt_79>
+    <txt_80 >Specified on activities</txt_80>
+    <txt_81 >If One job is choosen, hours are specified on activities</txt_81>
+    <txt_82 >Amount</txt_82>
+    <txt_83 >All rates and amounts are shown in the job's base currency.</txt_83>
+    <txt_84 >Numbers of jobs, employees, contacts and period exceeds the allowed</txt_84>
+    <txt_85 >If you have choosen</txt_85>
+    <txt_86 >More than</txt_86>
+    <txt_87 >job has been chosen</txt_87>
+    <txt_88 >and</txt_88>
+    <txt_89 >Between</txt_89>
+    <txt_90 >employees and a period of more than</txt_90>
+    <txt_91 >years.</txt_91>
+    <txt_92 >More than</txt_92>
+    <txt_93 >employees and a period of more than</txt_93>
+    <txt_94 >employees and a period of more than</txt_94>
+    <txt_95 >mo.</txt_95>
+    <txt_96 >employees.</txt_96>
+    <txt_97 >A period of more than</txt_97>
+    <txt_98 >5 years.</txt_98>
+    <txt_99 >12 months split, more than</txt_99>
+    <txt_100 >and more than</txt_100>
+    <txt_101 >employees</txt_101>
+    <txt_102 >You have choosen</txt_102>
+    <txt_103 >employees and</txt_103>
+    <txt_104 >Tip</txt_104>
+    <txt_105 >Search a specific job to get a longer period / more employees in the result.</txt_105>
+    <txt_106 >TimeOut - Grand total</txt_106>
+    <txt_107 >Period</txt_107>
+    <txt_108 >Specification on the following jobs has been choosen</txt_108>
+    <txt_109 >Budget hours</txt_109>
+    <txt_110 >Pre-calc.</txt_110>
+    <txt_111 >Forecast</txt_111>
+    <txt_112 >before choosen per.</txt_112>
+    <txt_113 >Stated hours</txt_113>
+    <txt_114 >in per.</txt_114>
+    <txt_115 >Stat. %</txt_115>
+    <txt_116 >total</txt_116>
+    <txt_117 >Grand total</txt_117>
+    <txt_118 >Total in per.:</txt_118>
+    <txt_119 >Update hourly rates</txt_119>
+    <txt_120 >Updates registrations for chosen month</txt_120>
+    <txt_121 >(green</txt_121>
+    <txt_122 >Updates hourly rates registred on job(s) / activites,</txt_122>
+    <txt_123 >also for future registrations</txt_123>
+    <txt_124 >does not count for activities with same price for all</txt_124>
+    <txt_125 >inherits from job</txt_125>
+    <txt_126 >All prices are</txt_126>
+    <txt_127 >Currency will be changed on the job</txt_127>
+    <txt_128 >Update</txt_128>
+    <txt_129 >Period limitation</txt_129>
+    <txt_130 >You have chosen to print to .csv file.</txt_130>
+    <txt_131 >Open .csv by clicking the link herunder</txt_131>
+    <txt_132 >Your CSV file is ready</txt_132>
+    <txt_133 >Data volume is to large for export.</txt_133>
+    <txt_134 >Choose smaller inerval or fewer employees.</txt_134>
+    <txt_135 >Data size is</txt_135>
+    <txt_136 >and cannot exceed 30000000 bytes.</txt_136>
+    <txt_137 >Cannot choose</txt_137>
+    <txt_138 >Show as editor</txt_138>
+    <txt_139 >when</txt_139>
+    <txt_140 >Employee type</txt_140>
+    <txt_141 >is on</txt_141>
+    <txt_142 >Project groups</txt_142>
+    <txt_143 >Employees</txt_143>
+    <txt_144 >Customers</txt_144>
+    <txt_145 >Business areas</txt_145>
+    <txt_146 >As Company</txt_146>
+    <txt_147 >Segment</txt_147>
+    <txt_148 >Choose customer</txt_148>
+    <txt_149 >vendor</txt_149>
+    <txt_150 >All - or chose from list</txt_150>
+    <txt_151 >Business areas</txt_151>
+    <txt_152 >None chosen (shows all)</txt_152>
+    <txt_153 >All</txt_153>
+    <txt_154 >For Key-account</txt_154>
+    <txt_155 >Showa all employees for chosen customer and job, where the picked empl. is</txt_155>
+    <txt_156 >Customer responsible</txt_156>
+    <txt_157 >Project manager</txt_157>
+    <txt_158 >Job owner</txt_158>
+    <txt_159 >Job respons.</txt_159>
+    <txt_160 >Key account 1-5</txt_160>
+    <txt_161 >Job</txt_161>
+    <txt_162 >Agreements</txt_162>
+    <txt_163 >Choose job</txt_163>
+    <txt_164 >hours are shown in Grand total regardl. Job status</txt_164>
+    <txt_165 >Closed</txt_165>
+    <txt_166 >Passiv</txt_166>
+    <txt_167 >Offer</txt_167>
+    <txt_168 >None</txt_168>
+    <txt_169 >and associated jobs</txt_169>
+    <txt_170 >or choose from list</txt_170>
+    <txt_171 >shows all job not associated with an agreement</txt_171>
+    <txt_172 >Search for job name or number</txt_172>
+    <txt_173 >for specific job(s)</txt_173>
+    <txt_174 >(double hyphen) for interval</txt_174>
+    <txt_175 >for larger/less than)</txt_175>
+    <txt_176 >Show active job(s)</txt_176>
+    <txt_177 >Show offer</txt_177>
+    <txt_178 >Show closed and passive job(s)</txt_178>
+    <txt_179 >Next</txt_179>
+    <txt_180 >Display amount in the following currency</txt_180>
+    <txt_181 >By budget on job specified per. FY, start date is used to select FY</txt_181>
+    <txt_182 >Go</txt_182>
+    <txt_183 >Makeing your csv. File ready, wait a moment. It takes between 5 and 10 seconds.</txt_183>
+    <txt_184 >Phase</txt_184>
+    <txt_185 >unit</txt_185>
+    <txt_186 >bal.</txt_186>
+    <txt_187 >CSV. file export</txt_187>
+    <txt_188 >All</txt_188>
+    <txt_189 >Search</txt_189>
+    <txt_190 >Fixed price</txt_190>
+    <txt_191 >Time and Material job</txt_191>
+    <txt_192 >Customer</txt_192>
+    <txt_193 >activities</txt_193>
+    <txt_194 >Budget.</txt_194>
+    <txt_195 >Gross Rev.</txt_195>
+    <txt_196 >Forecast.</txt_196>
+    <txt_197 >Rev.</txt_197>
+    <txt_198 >Total cost</txt_198>
+    <txt_199 >Job total</txt_199>
+    <txt_200 >h.</txt_200>
+
+  </de>
+
+
+  <!--- Fransk -->
+  <fr>
+
+    <txt_1 >Hourly rates updated.</txt_1>
+    <txt_2 >Return to Grand total</txt_2>
+    <txt_3 >Expected loadtime</txt_3>
+    <txt_4 >approx.</txt_4>
+    <txt_5 >sec.</txt_5>
+    <txt_6 >Grand total, stated hours</txt_6>
+    <txt_7 >Advanced</txt_7>
+    <txt_8 >Specification - activities</txt_8>
+    <txt_9 >Specify search after activity.</txt_9>
+    <txt_10 >Show only job(s) and acitivities where</txt_10>
+    <txt_11 >is part of</txt_11>
+    <txt_12 >the activity name</txt_12>
+    <txt_13 >Hours:</txt_13>
+    <txt_14 >Show</txt_14>
+    <txt_15 >hours</txt_15>
+    <txt_16 >hours and costprices</txt_16>
+    <txt_17 >hours and turnover</txt_17>
+    <txt_18 >Act. Types incl. in the dayli hours</txt_18>
+    <txt_19 >Edit hourly rates</txt_19>
+    <txt_20 >Edit hourly rates</txt_20>
+    <txt_21 >Show only</txt_21>
+    <txt_22 >invoiceble hours</txt_22>
+    <txt_23 >approved hours</txt_23>
+    <txt_24 >Show units</txt_24>
+    <txt_25 >hours * factor</txt_25>
+    <txt_26 >Yes</txt_26>
+    <txt_27 >No</txt_27>
+    <txt_28 >Show forecast hours</txt_28>
+    <txt_29 >time budget</txt_29>
+    <txt_30 >Extra loadtime!</txt_30>
+    <txt_31 >Show rated time</txt_31>
+    <txt_32 >Period:</txt_32>
+    <txt_33 >Presentation</txt_33>
+    <txt_34 >Presentation, settings and coloums</txt_34>
+    <txt_35 >Show diretly in Excel</txt_35>
+    <txt_36 >.csv, optimal view of large data</txt_36>
+    <txt_37 >Layout optimized</txt_37>
+    <txt_38 >just like a monitor</txt_38>
+    <txt_39 >Pivot optimized</txt_39>
+    <txt_40 >only stated hours per empl.</txt_40>
+    <txt_41 >Show split per months, total, 3 or 12 mo.</txt_41>
+    <txt_42 >Show period end-date</txt_42>
+    <txt_43 >None</txt_43>
+    <txt_44 >show total</txt_44>
+    <txt_45 >3 months</txt_45>
+    <txt_46 >12 months</txt_46>
+    <txt_47 >extra loadtime!</txt_47>
+    <txt_48 >Pagebreak</txt_48>
+    <txt_49 >Headline</txt_49>
+    <txt_50 >after each</txt_50>
+    <txt_51 >line. A4 approx. 15-A3 approx. 30.</txt_51>
+    <txt_52 >Balance</txt_52>
+    <txt_53 >for previous period</txt_53>
+    <txt_54 >and</txt_54>
+    <txt_55 >total</txt_55>
+    <txt_56 >time consumption</txt_56>
+    <txt_57 >all employees regard. chosen</txt_57>
+    <txt_58 >Show contacts</txt_58>
+    <txt_59 >Show job description</txt_59>
+    <txt_60 >Show de-activated employees</txt_60>
+    <txt_61 >de-activated employees incl. in search result</txt_61>
+    <txt_62 >all</txt_62>
+    <txt_63 >de-activated employees cannot be picked from dropdown menu.</txt_63>
+    <txt_64 >Job types</txt_64>
+    <txt_65 >Fixed price or Time and Material</txt_65>
+    <txt_66 >Weighted employee hourly rates</txt_66>
+    <txt_67 >Fixed price jobs, where activities sets the hourly rate, turnover and hourly rates</txt_67>
+    <txt_68 >on the job view</txt_68>
+    <txt_69 >are indicated with ~ as the amount is calulated based on a approximated rate.</txt_69>
+    <txt_70 >avr. on atc.</txt_70>
+    <txt_71 >Specification of activities shows the real hourly rate.</txt_71>
+    <txt_72 >Time and Material jobs always shows the stated employee hourly rate.</txt_72>
+    <txt_73 >Hours</txt_73>
+    <txt_74 >Only stated hours on act.types which are part of the dayli hour total will be shown.</txt_74>
+    <txt_75 >Vacation, lunch, illness and time-off are not part of the Grand total.</txt_75>
+    <txt_76 >Key account</txt_76>
+    <txt_77 >"Key account" shows hours for alle employees who are</txt_77>
+    <txt_78 >associated through project groups</txt_78>
+    <txt_79 >on the jobs where the choosen Key account is project manager / Key account.</txt_79>
+    <txt_80 >Specified on activities</txt_80>
+    <txt_81 >If One job is choosen, hours are specified on activities</txt_81>
+    <txt_82 >Amount</txt_82>
+    <txt_83 >All rates and amounts are shown in the job's base currency.</txt_83>
+    <txt_84 >Numbers of jobs, employees, contacts and period exceeds the allowed</txt_84>
+    <txt_85 >If you have choosen</txt_85>
+    <txt_86 >More than</txt_86>
+    <txt_87 >job has been chosen</txt_87>
+    <txt_88 >and</txt_88>
+    <txt_89 >Between</txt_89>
+    <txt_90 >employees and a period of more than</txt_90>
+    <txt_91 >years.</txt_91>
+    <txt_92 >More than</txt_92>
+    <txt_93 >employees and a period of more than</txt_93>
+    <txt_94 >employees and a period of more than</txt_94>
+    <txt_95 >mo.</txt_95>
+    <txt_96 >employees.</txt_96>
+    <txt_97 >A period of more than</txt_97>
+    <txt_98 >5 years.</txt_98>
+    <txt_99 >12 months split, more than</txt_99>
+    <txt_100 >and more than</txt_100>
+    <txt_101 >employees</txt_101>
+    <txt_102 >You have choosen</txt_102>
+    <txt_103 >employees and</txt_103>
+    <txt_104 >Tip</txt_104>
+    <txt_105 >Search a specific job to get a longer period / more employees in the result.</txt_105>
+    <txt_106 >TimeOut - Grand total</txt_106>
+    <txt_107 >Period</txt_107>
+    <txt_108 >Specification on the following jobs has been choosen</txt_108>
+    <txt_109 >Budget hours</txt_109>
+    <txt_110 >Pre-calc.</txt_110>
+    <txt_111 >Forecast</txt_111>
+    <txt_112 >before choosen per.</txt_112>
+    <txt_113 >Stated hours</txt_113>
+    <txt_114 >in per.</txt_114>
+    <txt_115 >Stat. %</txt_115>
+    <txt_116 >total</txt_116>
+    <txt_117 >Grand total</txt_117>
+    <txt_118 >Total in per.:</txt_118>
+    <txt_119 >Update hourly rates</txt_119>
+    <txt_120 >Updates registrations for chosen month</txt_120>
+    <txt_121 >(green</txt_121>
+    <txt_122 >Updates hourly rates registred on job(s) / activites,</txt_122>
+    <txt_123 >also for future registrations</txt_123>
+    <txt_124 >does not count for activities with same price for all</txt_124>
+    <txt_125 >inherits from job</txt_125>
+    <txt_126 >All prices are</txt_126>
+    <txt_127 >Currency will be changed on the job</txt_127>
+    <txt_128 >Update</txt_128>
+    <txt_129 >Period limitation</txt_129>
+    <txt_130 >You have chosen to print to .csv file.</txt_130>
+    <txt_131 >Open .csv by clicking the link herunder</txt_131>
+    <txt_132 >Your CSV file is ready</txt_132>
+    <txt_133 >Data volume is to large for export.</txt_133>
+    <txt_134 >Choose smaller inerval or fewer employees.</txt_134>
+    <txt_135 >Data size is</txt_135>
+    <txt_136 >and cannot exceed 30000000 bytes.</txt_136>
+    <txt_137 >Cannot choose</txt_137>
+    <txt_138 >Show as editor</txt_138>
+    <txt_139 >when</txt_139>
+    <txt_140 >Employee type</txt_140>
+    <txt_141 >is on</txt_141>
+    <txt_142 >Project groups</txt_142>
+    <txt_143 >Employees</txt_143>
+    <txt_144 >Customers</txt_144>
+    <txt_145 >Business areas</txt_145>
+    <txt_146 >As Company</txt_146>
+    <txt_147 >Segment</txt_147>
+    <txt_148 >Choose customer</txt_148>
+    <txt_149 >vendor</txt_149>
+    <txt_150 >All - or chose from list</txt_150>
+    <txt_151 >Business areas</txt_151>
+    <txt_152 >None chosen (shows all)</txt_152>
+    <txt_153 >All</txt_153>
+    <txt_154 >For Key-account</txt_154>
+    <txt_155 >Showa all employees for chosen customer and job, where the picked empl. is</txt_155>
+    <txt_156 >Customer responsible</txt_156>
+    <txt_157 >Project manager</txt_157>
+    <txt_158 >Job owner</txt_158>
+    <txt_159 >Job respons.</txt_159>
+    <txt_160 >Key account 1-5</txt_160>
+    <txt_161 >Job</txt_161>
+    <txt_162 >Agreements</txt_162>
+    <txt_163 >Choose job</txt_163>
+    <txt_164 >hours are shown in Grand total regardl. Job status</txt_164>
+    <txt_165 >Closed</txt_165>
+    <txt_166 >Passiv</txt_166>
+    <txt_167 >Offer</txt_167>
+    <txt_168 >None</txt_168>
+    <txt_169 >and associated jobs</txt_169>
+    <txt_170 >or choose from list</txt_170>
+    <txt_171 >shows all job not associated with an agreement</txt_171>
+    <txt_172 >Search for job name or number</txt_172>
+    <txt_173 >for specific job(s)</txt_173>
+    <txt_174 >(double hyphen) for interval</txt_174>
+    <txt_175 >for larger/less than)</txt_175>
+    <txt_176 >Show active job(s)</txt_176>
+    <txt_177 >Show offer</txt_177>
+    <txt_178 >Show closed and passive job(s)</txt_178>
+    <txt_179 >Next</txt_179>
+    <txt_180 >Display amount in the following currency</txt_180>
+    <txt_181 >By budget on job specified per. FY, start date is used to select FY</txt_181>
+    <txt_182 >Go</txt_182>
+    <txt_183 >Makeing your csv. File ready, wait a moment. It takes between 5 and 10 seconds.</txt_183>
+    <txt_184 >Phase</txt_184>
+    <txt_185 >unit</txt_185>
+    <txt_186 >bal.</txt_186>
+    <txt_187 >CSV. file export</txt_187>
+    <txt_188 >All</txt_188>
+    <txt_189 >Search</txt_189>
+    <txt_190 >Fixed price</txt_190>
+    <txt_191 >Time and Material job</txt_191>
+    <txt_192 >Customer</txt_192>
+    <txt_193 >activities</txt_193>
+    <txt_194 >Budget.</txt_194>
+    <txt_195 >Gross Rev.</txt_195>
+    <txt_196 >Forecast.</txt_196>
+    <txt_197 >Rev.</txt_197>
+    <txt_198 >Total cost</txt_198>
+    <txt_199 >Job total</txt_199>
+    <txt_200 >h.</txt_200>
+
+  </fr>
+
+
+
+  <!-- Engelsk -->
+  <uk>
+
+    <txt_1 >Hourly rates updated.</txt_1>
+    <txt_2 >Return to Grand total</txt_2>
+    <txt_3 >Expected loadtime</txt_3>
+    <txt_4 >approx.</txt_4>
+    <txt_5 >sec.</txt_5>
+    <txt_6 >Grand total, stated hours</txt_6>
+    <txt_7 >Advanced</txt_7>
+    <txt_8 >Specification - activities</txt_8>
+    <txt_9 >Specify search after activity.</txt_9>
+    <txt_10 >Show only job(s) and acitivities where</txt_10>
+    <txt_11 >is part of</txt_11>
+    <txt_12 >the activity name</txt_12>
+    <txt_13 >Hours:</txt_13>
+    <txt_14 >Show</txt_14>
+    <txt_15 >hours</txt_15>
+    <txt_16 >hours and costprices</txt_16>
+    <txt_17 >hours and turnover</txt_17>
+    <txt_18 >Act. Types incl. in the dayli hours</txt_18>
+    <txt_19 >Edit hourly rates</txt_19>
+    <txt_20 >Edit hourly rates</txt_20>
+    <txt_21 >Show only</txt_21>
+    <txt_22 >invoiceble hours</txt_22>
+    <txt_23 >approved hours</txt_23>
+    <txt_24 >Show units</txt_24>
+    <txt_25 >hours * factor</txt_25>
+    <txt_26 >Yes</txt_26>
+    <txt_27 >No</txt_27>
+    <txt_28 >Show forecast hours</txt_28>
+    <txt_29 >time budget</txt_29>
+    <txt_30 >Extra loadtime!</txt_30>
+    <txt_31 >Show rated time</txt_31>
+    <txt_32 >Period:</txt_32>
+    <txt_33 >Presentation</txt_33>
+    <txt_34 >Presentation, settings and coloums</txt_34>
+    <txt_35 >Show diretly in Excel</txt_35>
+    <txt_36 >.csv, optimal view of large data</txt_36>
+    <txt_37 >Layout optimized</txt_37>
+    <txt_38 >just like a monitor</txt_38>
+    <txt_39 >Pivot optimized</txt_39>
+    <txt_40 >only stated hours per empl.</txt_40>
+    <txt_41 >Show split per months, total, 3 or 12 mo.</txt_41>
+    <txt_42 >Show period end-date</txt_42>
+    <txt_43 >None</txt_43>
+    <txt_44 >show total</txt_44>
+    <txt_45 >3 months</txt_45>
+    <txt_46 >12 months</txt_46>
+    <txt_47 >extra loadtime!</txt_47>
+    <txt_48 >Pagebreak</txt_48>
+    <txt_49 >Headline</txt_49>
+    <txt_50 >after each</txt_50>
+    <txt_51 >line. A4 approx. 15-A3 approx. 30.</txt_51>
+    <txt_52 >Balance</txt_52>
+    <txt_53 >for previous period</txt_53>
+    <txt_54 >and</txt_54>
+    <txt_55 >total</txt_55>
+    <txt_56 >time consumption</txt_56>
+    <txt_57 >all employees regard. chosen</txt_57>
+    <txt_58 >Show contacts</txt_58>
+    <txt_59 >Show job description</txt_59>
+    <txt_60 >Show de-activated employees</txt_60>
+    <txt_61 >de-activated employees incl. in search result</txt_61>
+    <txt_62 >all</txt_62>
+    <txt_63 >de-activated employees cannot be picked from dropdown menu.</txt_63>
+    <txt_64 >Job types</txt_64>
+    <txt_65 >Fixed price or Time and Material</txt_65>
+    <txt_66 >Weighted employee hourly rates</txt_66>
+    <txt_67 >Fixed price jobs, where activities sets the hourly rate, turnover and hourly rates</txt_67>
+    <txt_68 >on the job view</txt_68>
+    <txt_69 >are indicated with ~ as the amount is calulated based on a approximated rate.</txt_69>
+    <txt_70 >avr. on atc.</txt_70>
+    <txt_71 >Specification of activities shows the real hourly rate.</txt_71>
+    <txt_72 >Time and Material jobs always shows the stated employee hourly rate.</txt_72>
+    <txt_73 >Hours</txt_73>
+    <txt_74 >Only stated hours on act.types which are part of the dayli hour total will be shown.</txt_74>
+    <txt_75 >Vacation, lunch, illness and time-off are not part of the Grand total.</txt_75>
+    <txt_76 >Key account</txt_76>
+    <txt_77 >"Key account" shows hours for alle employees who are</txt_77>
+    <txt_78 >associated through project groups</txt_78>
+    <txt_79 >on the jobs where the choosen Key account is project manager / Key account.</txt_79>
+    <txt_80 >Specified on activities</txt_80>
+    <txt_81 >If One job is choosen, hours are specified on activities</txt_81>
+    <txt_82 >Amount</txt_82>
+    <txt_83 >All rates and amounts are shown in the job's base currency.</txt_83>
+    <txt_84 >Numbers of jobs, employees, contacts and period exceeds the allowed</txt_84>
+    <txt_85 >If you have choosen</txt_85>
+    <txt_86 >More than</txt_86>
+    <txt_87 >job has been chosen</txt_87>
+    <txt_88 >and</txt_88>
+    <txt_89 >Between</txt_89>
+    <txt_90 >employees and a period of more than</txt_90>
+    <txt_91 >years.</txt_91>
+    <txt_92 >More than</txt_92>
+    <txt_93 >employees and a period of more than</txt_93>
+    <txt_94 >employees and a period of more than</txt_94>
+    <txt_95 >mo.</txt_95>
+    <txt_96 >employees.</txt_96>
+    <txt_97 >A period of more than</txt_97>
+    <txt_98 >5 years.</txt_98>
+    <txt_99 >12 months split, more than</txt_99>
+    <txt_100 >and more than</txt_100>
+    <txt_101 >employees</txt_101>
+    <txt_102 >You have choosen</txt_102>
+    <txt_103 >employees and</txt_103>
+    <txt_104 >Tip</txt_104>
+    <txt_105 >Search a specific job to get a longer period / more employees in the result.</txt_105>
+    <txt_106 >TimeOut - Grand total</txt_106>
+    <txt_107 >Period</txt_107>
+    <txt_108 >Specification on the following jobs has been choosen</txt_108>
+    <txt_109 >Budget hours</txt_109>
+    <txt_110 >Pre-calc.</txt_110>
+    <txt_111 >Forecast</txt_111>
+    <txt_112 >before choosen per.</txt_112>
+    <txt_113 >Stated hours</txt_113>
+    <txt_114 >in per.</txt_114>
+    <txt_115 >Stat. %</txt_115>
+    <txt_116 >total</txt_116>
+    <txt_117 >Grand total</txt_117>
+    <txt_118 >Total in per.:</txt_118>
+    <txt_119 >Update hourly rates</txt_119>
+    <txt_120 >Updates registrations for chosen month</txt_120>
+    <txt_121 >(green</txt_121>
+    <txt_122 >Updates hourly rates registred on job(s) / activites,</txt_122>
+    <txt_123 >also for future registrations</txt_123>
+    <txt_124 >does not count for activities with same price for all</txt_124>
+    <txt_125 >inherits from job</txt_125>
+    <txt_126 >All prices are</txt_126>
+    <txt_127 >Currency will be changed on the job</txt_127>
+    <txt_128 >Update</txt_128>
+    <txt_129 >Period limitation</txt_129>
+    <txt_130 >You have chosen to print to .csv file.</txt_130>
+    <txt_131 >Open .csv by clicking the link herunder</txt_131>
+    <txt_132 >Your CSV file is ready</txt_132>
+    <txt_133 >Data volume is to large for export.</txt_133>
+    <txt_134 >Choose smaller inerval or fewer employees.</txt_134>
+    <txt_135 >Data size is</txt_135>
+    <txt_136 >and cannot exceed 30000000 bytes.</txt_136>
+    <txt_137 >Cannot choose</txt_137>
+    <txt_138 >Show as editor</txt_138>
+    <txt_139 >when</txt_139>
+    <txt_140 >Employee type</txt_140>
+    <txt_141 >is on</txt_141>
+    <txt_142 >Project groups</txt_142>
+    <txt_143 >Employees</txt_143>
+    <txt_144 >Customers</txt_144>
+    <txt_145 >Business areas</txt_145>
+    <txt_146 >As Company</txt_146>
+    <txt_147 >Segment</txt_147>
+    <txt_148 >Choose customer</txt_148>
+    <txt_149 >vendor</txt_149>
+    <txt_150 >All - or chose from list</txt_150>
+    <txt_151 >Business areas</txt_151>
+    <txt_152 >None chosen (shows all)</txt_152>
+    <txt_153 >All</txt_153>
+    <txt_154 >For Key-account</txt_154>
+    <txt_155 >Showa all employees for chosen customer and job, where the picked empl. is</txt_155>
+    <txt_156 >Customer responsible</txt_156>
+    <txt_157 >Project manager</txt_157>
+    <txt_158 >Job owner</txt_158>
+    <txt_159 >Job respons.</txt_159>
+    <txt_160 >Key account 1-5</txt_160>
+    <txt_161 >Job</txt_161>
+    <txt_162 >Agreements</txt_162>
+    <txt_163 >Choose job</txt_163>
+    <txt_164 >hours are shown in Grand total regardl. Job status</txt_164>
+    <txt_165 >Closed</txt_165>
+    <txt_166 >Passiv</txt_166>
+    <txt_167 >Offer</txt_167>
+    <txt_168 >None</txt_168>
+    <txt_169 >and associated jobs</txt_169>
+    <txt_170 >or choose from list</txt_170>
+    <txt_171 >shows all job not associated with an agreement</txt_171>
+    <txt_172 >Search for job name or number</txt_172>
+    <txt_173 >for specific job(s)</txt_173>
+    <txt_174 >(double hyphen) for interval</txt_174>
+    <txt_175 >for larger/less than)</txt_175>
+    <txt_176 >Show active job(s)</txt_176>
+    <txt_177 >Show offer</txt_177>
+    <txt_178 >Show closed and passive job(s)</txt_178>
+    <txt_179 >Next</txt_179>
+    <txt_180 >Display amount in the following currency</txt_180>
+    <txt_181 >By budget on job specified per. FY, start date is used to select FY</txt_181>
+    <txt_182 >Go</txt_182>
+    <txt_183 >Makeing your csv. File ready, wait a moment. It takes between 5 and 10 seconds.</txt_183>
+    <txt_184 >Phase</txt_184>
+    <txt_185 >unit</txt_185>
+    <txt_186 >bal.</txt_186>
+    <txt_187 >CSV. file export</txt_187>
+    <txt_188 >All</txt_188>
+    <txt_189 >Search</txt_189>
+    <txt_190 >Fixed price</txt_190>
+    <txt_191 >Time and Material job</txt_191>
+    <txt_192 >Customer</txt_192>
+    <txt_193 >activities</txt_193>
+    <txt_194 >Budget.</txt_194>
+    <txt_195 >Gross Rev.</txt_195>
+    <txt_196 >Forecast.</txt_196>
+    <txt_197 >Rev.</txt_197>
+    <txt_198 >Total cost</txt_198>
+    <txt_199 >Job total</txt_199>
+    <txt_200 >h.</txt_200>
+
+  </uk>
+
+
+  <!--- Spansk -->
+  <es>
+
+    <txt_1 >Hourly rates updated.</txt_1>
+    <txt_2 >Return to Grand total</txt_2>
+    <txt_3 >Expected loadtime</txt_3>
+    <txt_4 >approx.</txt_4>
+    <txt_5 >sec.</txt_5>
+    <txt_6 >Grand total, stated hours</txt_6>
+    <txt_7 >Advanced</txt_7>
+    <txt_8 >Specification - activities</txt_8>
+    <txt_9 >Specify search after activity.</txt_9>
+    <txt_10 >Show only job(s) and acitivities where</txt_10>
+    <txt_11 >is part of</txt_11>
+    <txt_12 >the activity name</txt_12>
+    <txt_13 >Hours:</txt_13>
+    <txt_14 >Show</txt_14>
+    <txt_15 >hours</txt_15>
+    <txt_16 >hours and costprices</txt_16>
+    <txt_17 >hours and turnover</txt_17>
+    <txt_18 >Act. Types incl. in the dayli hours</txt_18>
+    <txt_19 >Edit hourly rates</txt_19>
+    <txt_20 >Edit hourly rates</txt_20>
+    <txt_21 >Show only</txt_21>
+    <txt_22 >invoiceble hours</txt_22>
+    <txt_23 >approved hours</txt_23>
+    <txt_24 >Show units</txt_24>
+    <txt_25 >hours * factor</txt_25>
+    <txt_26 >Yes</txt_26>
+    <txt_27 >No</txt_27>
+    <txt_28 >Show forecast hours</txt_28>
+    <txt_29 >time budget</txt_29>
+    <txt_30 >Extra loadtime!</txt_30>
+    <txt_31 >Show rated time</txt_31>
+    <txt_32 >Period:</txt_32>
+    <txt_33 >Presentation</txt_33>
+    <txt_34 >Presentation, settings and coloums</txt_34>
+    <txt_35 >Show diretly in Excel</txt_35>
+    <txt_36 >.csv, optimal view of large data</txt_36>
+    <txt_37 >Layout optimized</txt_37>
+    <txt_38 >just like a monitor</txt_38>
+    <txt_39 >Pivot optimized</txt_39>
+    <txt_40 >only stated hours per empl.</txt_40>
+    <txt_41 >Show split per months, total, 3 or 12 mo.</txt_41>
+    <txt_42 >Show period end-date</txt_42>
+    <txt_43 >None</txt_43>
+    <txt_44 >show total</txt_44>
+    <txt_45 >3 months</txt_45>
+    <txt_46 >12 months</txt_46>
+    <txt_47 >extra loadtime!</txt_47>
+    <txt_48 >Pagebreak</txt_48>
+    <txt_49 >Headline</txt_49>
+    <txt_50 >after each</txt_50>
+    <txt_51 >line. A4 approx. 15-A3 approx. 30.</txt_51>
+    <txt_52 >Balance</txt_52>
+    <txt_53 >for previous period</txt_53>
+    <txt_54 >and</txt_54>
+    <txt_55 >total</txt_55>
+    <txt_56 >time consumption</txt_56>
+    <txt_57 >all employees regard. chosen</txt_57>
+    <txt_58 >Show contacts</txt_58>
+    <txt_59 >Show job description</txt_59>
+    <txt_60 >Show de-activated employees</txt_60>
+    <txt_61 >de-activated employees incl. in search result</txt_61>
+    <txt_62 >all</txt_62>
+    <txt_63 >de-activated employees cannot be picked from dropdown menu.</txt_63>
+    <txt_64 >Job types</txt_64>
+    <txt_65 >Fixed price or Time and Material</txt_65>
+    <txt_66 >Weighted employee hourly rates</txt_66>
+    <txt_67 >Fixed price jobs, where activities sets the hourly rate, turnover and hourly rates</txt_67>
+    <txt_68 >on the job view</txt_68>
+    <txt_69 >are indicated with ~ as the amount is calulated based on a approximated rate.</txt_69>
+    <txt_70 >avr. on atc.</txt_70>
+    <txt_71 >Specification of activities shows the real hourly rate.</txt_71>
+    <txt_72 >Time and Material jobs always shows the stated employee hourly rate.</txt_72>
+    <txt_73 >Hours</txt_73>
+    <txt_74 >Only stated hours on act.types which are part of the dayli hour total will be shown.</txt_74>
+    <txt_75 >Vacation, lunch, illness and time-off are not part of the Grand total.</txt_75>
+    <txt_76 >Key account</txt_76>
+    <txt_77 >"Key account" shows hours for alle employees who are</txt_77>
+    <txt_78 >associated through project groups</txt_78>
+    <txt_79 >on the jobs where the choosen Key account is project manager / Key account.</txt_79>
+    <txt_80 >Specified on activities</txt_80>
+    <txt_81 >If One job is choosen, hours are specified on activities</txt_81>
+    <txt_82 >Amount</txt_82>
+    <txt_83 >All rates and amounts are shown in the job's base currency.</txt_83>
+    <txt_84 >Numbers of jobs, employees, contacts and period exceeds the allowed</txt_84>
+    <txt_85 >If you have choosen</txt_85>
+    <txt_86 >More than</txt_86>
+    <txt_87 >job has been chosen</txt_87>
+    <txt_88 >and</txt_88>
+    <txt_89 >Between</txt_89>
+    <txt_90 >employees and a period of more than</txt_90>
+    <txt_91 >years.</txt_91>
+    <txt_92 >More than</txt_92>
+    <txt_93 >employees and a period of more than</txt_93>
+    <txt_94 >employees and a period of more than</txt_94>
+    <txt_95 >mo.</txt_95>
+    <txt_96 >employees.</txt_96>
+    <txt_97 >A period of more than</txt_97>
+    <txt_98 >5 years.</txt_98>
+    <txt_99 >12 months split, more than</txt_99>
+    <txt_100 >and more than</txt_100>
+    <txt_101 >employees</txt_101>
+    <txt_102 >You have choosen</txt_102>
+    <txt_103 >employees and</txt_103>
+    <txt_104 >Tip</txt_104>
+    <txt_105 >Search a specific job to get a longer period / more employees in the result.</txt_105>
+    <txt_106 >TimeOut - Grand total</txt_106>
+    <txt_107 >Period</txt_107>
+    <txt_108 >Specification on the following jobs has been choosen</txt_108>
+    <txt_109 >Budget hours</txt_109>
+    <txt_110 >Pre-calc.</txt_110>
+    <txt_111 >Forecast</txt_111>
+    <txt_112 >before choosen per.</txt_112>
+    <txt_113 >Stated hours</txt_113>
+    <txt_114 >in per.</txt_114>
+    <txt_115 >Stat. %</txt_115>
+    <txt_116 >total</txt_116>
+    <txt_117 >Grand total</txt_117>
+    <txt_118 >Total in per.:</txt_118>
+    <txt_119 >Update hourly rates</txt_119>
+    <txt_120 >Updates registrations for chosen month</txt_120>
+    <txt_121 >(green</txt_121>
+    <txt_122 >Updates hourly rates registred on job(s) / activites,</txt_122>
+    <txt_123 >also for future registrations</txt_123>
+    <txt_124 >does not count for activities with same price for all</txt_124>
+    <txt_125 >inherits from job</txt_125>
+    <txt_126 >All prices are</txt_126>
+    <txt_127 >Currency will be changed on the job</txt_127>
+    <txt_128 >Update</txt_128>
+    <txt_129 >Period limitation</txt_129>
+    <txt_130 >You have chosen to print to .csv file.</txt_130>
+    <txt_131 >Open .csv by clicking the link herunder</txt_131>
+    <txt_132 >Your CSV file is ready</txt_132>
+    <txt_133 >Data volume is to large for export.</txt_133>
+    <txt_134 >Choose smaller inerval or fewer employees.</txt_134>
+    <txt_135 >Data size is</txt_135>
+    <txt_136 >and cannot exceed 30000000 bytes.</txt_136>
+    <txt_137 >Cannot choose</txt_137>
+    <txt_138 >Show as editor</txt_138>
+    <txt_139 >when</txt_139>
+    <txt_140 >Employee type</txt_140>
+    <txt_141 >is on</txt_141>
+    <txt_142 >Project groups</txt_142>
+    <txt_143 >Employees</txt_143>
+    <txt_144 >Customers</txt_144>
+    <txt_145 >Business areas</txt_145>
+    <txt_146 >As Company</txt_146>
+    <txt_147 >Segment</txt_147>
+    <txt_148 >Choose customer</txt_148>
+    <txt_149 >vendor</txt_149>
+    <txt_150 >All - or chose from list</txt_150>
+    <txt_151 >Business areas</txt_151>
+    <txt_152 >None chosen (shows all)</txt_152>
+    <txt_153 >All</txt_153>
+    <txt_154 >For Key-account</txt_154>
+    <txt_155 >Showa all employees for chosen customer and job, where the picked empl. is</txt_155>
+    <txt_156 >Customer responsible</txt_156>
+    <txt_157 >Project manager</txt_157>
+    <txt_158 >Job owner</txt_158>
+    <txt_159 >Job respons.</txt_159>
+    <txt_160 >Key account 1-5</txt_160>
+    <txt_161 >Job</txt_161>
+    <txt_162 >Agreements</txt_162>
+    <txt_163 >Choose job</txt_163>
+    <txt_164 >hours are shown in Grand total regardl. Job status</txt_164>
+    <txt_165 >Closed</txt_165>
+    <txt_166 >Passiv</txt_166>
+    <txt_167 >Offer</txt_167>
+    <txt_168 >None</txt_168>
+    <txt_169 >and associated jobs</txt_169>
+    <txt_170 >or choose from list</txt_170>
+    <txt_171 >shows all job not associated with an agreement</txt_171>
+    <txt_172 >Search for job name or number</txt_172>
+    <txt_173 >for specific job(s)</txt_173>
+    <txt_174 >(double hyphen) for interval</txt_174>
+    <txt_175 >for larger/less than)</txt_175>
+    <txt_176 >Show active job(s)</txt_176>
+    <txt_177 >Show offer</txt_177>
+    <txt_178 >Show closed and passive job(s)</txt_178>
+    <txt_179 >Next</txt_179>
+    <txt_180 >Display amount in the following currency</txt_180>
+    <txt_181 >By budget on job specified per. FY, start date is used to select FY</txt_181>
+    <txt_182 >Go</txt_182>
+    <txt_183 >Makeing your csv. File ready, wait a moment. It takes between 5 and 10 seconds.</txt_183>
+    <txt_184 >Phase</txt_184>
+    <txt_185 >unit</txt_185>
+    <txt_186 >bal.</txt_186>
+    <txt_187 >CSV. file export</txt_187>
+    <txt_188 >All</txt_188>
+    <txt_189 >Search</txt_189>
+    <txt_190 >Fixed price</txt_190>
+    <txt_191 >Time and Material job</txt_191>
+    <txt_192 >Customer</txt_192>
+    <txt_193 >activities</txt_193>
+    <txt_194 >Budget.</txt_194>
+    <txt_195 >Gross Rev.</txt_195>
+    <txt_196 >Forecast.</txt_196>
+    <txt_197 >Rev.</txt_197>
+    <txt_198 >Total cost</txt_198>
+    <txt_199 >Job total</txt_199>
+    <txt_200 >h.</txt_200>
+ 
+  </es>
+
+
+</sprog>

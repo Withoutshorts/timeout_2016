@@ -19,7 +19,8 @@
     $('#progrp_list thead th').not(":eq(0),:eq(2),:eq(3),:eq(4),:eq(5)").each(function () {
 
         var title = $('#progrp_list thead th').eq($(this).index()).text();
-        $(this).html('<input type="text" placeholder="Søg ' + title + '" />');
+        var sogtekst = $("#sogtekst").val()
+        $(this).html('<input type="text" placeholder="'+ sogtekst + ' ' + title + '" />');
     });
 
     // DataTable

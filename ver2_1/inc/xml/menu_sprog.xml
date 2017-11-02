@@ -18,6 +18,7 @@
     <txt_9>Administration</txt_9>
 
     <txt_10>Medarbejder - Projekttid</txt_10>
+    <txt_11 >Joboverblik / Resume</txt_11>
     
 
   </dk>
@@ -37,6 +38,7 @@
     <txt_8 >Tjenesten-Desk</txt_8>
     <txt_9 >Administrasjon</txt_9>
     <txt_10>Medarbejder - Projekttid</txt_10>
+    <txt_11 >Job Overview / Summary</txt_11>
 
   </no>
 
@@ -54,6 +56,7 @@
     <txt_8 >Service Desk</txt_8>
     <txt_9 >Administrering</txt_9>
     <txt_10>Medarbejder - Projekttid</txt_10>
+    <txt_11 >Job Overview / Summary</txt_11>
 
   </se>
 
@@ -71,6 +74,7 @@
     <txt_8 >Service-Desk</txt_8>
     <txt_9 >Verwaltung</txt_9>
     <txt_10>Employee - Projecttime</txt_10>
+    <txt_11 >Job Overview / Summary</txt_11>
 
   </de>
 
@@ -87,6 +91,7 @@
     <txt_8 >Service-Bureau</txt_8>
     <txt_9 >Administration</txt_9>
     <txt_10>Employee - Projecttime</txt_10>
+    <txt_11 >Job Overview / Summary</txt_11>
   </fr>
   
  
@@ -104,6 +109,7 @@
     <txt_8>Service-Desk</txt_8>
     <txt_9>Administration</txt_9>
     <txt_10>Employee - Projecttime</txt_10>
+    <txt_11 >Job Overview / Summary</txt_11>
 
   </uk>
 
@@ -120,6 +126,7 @@
     <txt_8 >Service-Desk</txt_8>
     <txt_9 >Administración</txt_9>
     <txt_10>Employee - Projecttime</txt_10>
+    <txt_11 >Job Overview / Summary</txt_11>
 
   </es>
 

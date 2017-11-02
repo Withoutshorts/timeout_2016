@@ -1,0 +1,1220 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<sprog>
+
+  <!--- Dansk -->
+  <dk>
+
+    <txt_1 >Vent veligst. Der kan gå op til 20 sek...</txt_1>
+    <txt_2 >Joblog</txt_2>
+    <txt_3 >Ugesedler</txt_3>
+    <txt_4 >Periode</txt_4>
+    <txt_5 >Eller vis</txt_5>
+    <txt_6 >Uge</txt_6>
+    <txt_7 >Måned</txt_7>
+    <txt_8 >År</txt_8>
+    <txt_9 >Aktivitets typer</txt_9>
+    <txt_10 >Vis følgende aktivitets typer</txt_10>
+
+    <txt_11 >Vælg</txt_11>
+    <txt_12 >Præsentation</txt_12>
+    <txt_13 >kolonnevalg</txt_13>
+    <txt_14 >Vis som joblog</txt_14>
+    <txt_15 >én liste opdelt pr. job.</txt_15>
+    <txt_16 >Melleregning fordél på</txt_16>
+    <txt_17 >Medarbejdere</txt_17>
+    <txt_18 >Aktiviteter og faser</txt_18>
+    <txt_19 >Job</txt_19>
+    <txt_20 >Vis som ugesedler</txt_20>
+
+    <txt_21 >Vis som månedsrapport</txt_21>
+    <txt_22 >Kolonne indstillinger</txt_22>
+    <txt_23 >Skjul Timepriser</txt_23>
+    <txt_24 >Skjul Enheder</txt_24>
+    <txt_25 >Skjul Tastedato, Godkendt og Faktureret kol.</txt_25>
+    <txt_26 >Skjul Fase</txt_26>
+    <txt_27 >Benyt enheder som beregnings grundlag</txt_27>
+    <txt_28 >Vis Kostpriser</txt_28>
+    <txt_29 >Vis forretningsområder</txt_29>
+    <txt_30 >Vis medarbejdere CPR-numre</txt_30>
+
+    <txt_31 >Kør</txt_31>
+    <txt_32 >Jobansvarlig</txt_32>
+    <txt_33 >Aktiv</txt_33>
+    <txt_34 >Passiv</txt_34>
+    <txt_35 >Lukket</txt_35>
+    <txt_36 >Jobstatus</txt_36>
+    <txt_37 >Jobperiode</txt_37>
+    <txt_38 >Forkalkuleret timer</txt_38>
+    <txt_39 >Jobtype</txt_39>
+    <txt_40 >Fastpris</txt_40>
+
+    <txt_41 >aktiviteter</txt_41>
+    <txt_42 >job</txt_42>
+    <txt_43 >Jobtype</txt_43>
+    <txt_44 >Lbn. Timer</txt_44>
+    <txt_45 >Rekvisitions nr</txt_45>
+    <txt_46 >Sidste fakturadato</txt_46>
+    <txt_47 >Denne uge er afsluttet via smiley d.</txt_47>
+    <txt_48 >Godk.</txt_48>
+    <txt_49 >Tentativt</txt_49>
+    <txt_50 >Afvist</txt_50>
+
+    <txt_51 >Ingen</txt_51>
+    <txt_52 >Tentativ</txt_52>
+    <txt_53 >Godkendt</txt_53>
+    <txt_54 >Ja</txt_54>
+    <txt_55 >Info</txt_55>
+    <txt_56 >Der blev ikke fundet registreringer der matcher de valgte kriterier.</txt_56>
+    <txt_57 >kontroller, at den valgte</txt_57>
+    <txt_58 >periode og de valgte medarbejdere og job</txt_58>
+    <txt_59 >er korrekte.</txt_59>
+    <txt_60 >Din CSV. fil er klar</txt_60>
+
+    <txt_61 >Visning af de-aktiverede medarbejdere</txt_61>
+    <txt_62 >de-aktiverede medarbejdere medtages ved søgning på "alle".</txt_62>
+    <txt_63 >de-aktiverede medarbejdere kan ikke vælges fra dropdown menu.</txt_63>
+    <txt_64 >Jobtyper</txt_64>
+    <txt_65 >Fastpris eller Lbn. timer. (vægtet medarbejder timepriser)</txt_65>
+    <txt_66 >Ved fastpris job, hvor aktiviteterne danner grundlag for timepris, er omsætning og timepriser (på jobvisning)</txt_66>
+    <txt_67 >angivet med et ~, da beløbet er beregnet udfra en tilnærmet timepris. (gns. på akt.). Ved udspecificering på aktiviteter er det den re-elle timepris der vises.</txt_67>
+    <txt_68 >Ved lbn. timer er det altid den realiserede medarbejder timepris der vises.</txt_68>
+    <txt_69 >Ved brug af "key account" bliver der vist timer for alle medarbejder der er med (tilknyttet via projektgrupper) på de job hvor den valgte Key-account er job ansvarlig / kunde ansvarlig.</txt_69>
+    <txt_70 >Beløb</txt_70>
+
+    <txt_71 >Alle timepriser og beløb er vist i</txt_71>
+    <txt_72 >Dato</txt_72>
+    <txt_73 >underskrift medarbejder</txt_73>
+    <txt_74 >overordnet</txt_74>
+    <txt_75 >underskift</txt_75>
+    <txt_76 >Total pr. dag</txt_76>
+    <txt_77 >Total måned</txt_77>
+    <txt_78 >Total på job</txt_78>
+    <txt_79 >Grandtotal</txt_79>
+    <txt_80 >Grandtotal måned</txt_80>
+
+    <txt_81 >Medarbejder</txt_81>
+    <txt_82 >Fase</txt_82>
+    <txt_83 >Kunde</txt_83>
+    <txt_84 >Jobnavn (Jobnr)</txt_84>
+    <txt_85 >Jobansv.</txt_85>
+    <txt_86 >Aktivitet</txt_86>
+    <txt_87 >type</txt_87>
+    <txt_88 >kommentar</txt_88>
+    <txt_89 >Forretnings-omr.</txt_89>
+    <txt_90 >Timer</txt_90>
+
+    <txt_91 >Km</txt_91>
+    <txt_92 >Antal</txt_92>
+    <txt_93 >Enheder</txt_93>
+    <txt_94 >Time / Stk. pris</txt_94>
+    <txt_95 >Pris ialt</txt_95>
+    <txt_96 >Kostpris</txt_96>
+    <txt_97 >Kostpris ialt</txt_97>
+    <txt_98 >Tastedato</txt_98>
+    <txt_99 >Indtastet af</txt_99>
+    <txt_100 >Status</txt_100>
+
+    <txt_101 >Faktura</txt_101>
+    <txt_102 >Opdater Status</txt_102>
+    <txt_103 >Godkend alle</txt_103>
+    <txt_104 >Afvis alle</txt_104>
+    <txt_105 >Sæt alle</txt_105>
+    <txt_106 >ingen.</txt_106>
+    <txt_107 >Godkend</txt_107>
+    <txt_108 >Joblog Grandtotal</txt_108>
+    <txt_109 >Grandtotal på ovenstående liste, fordelt på aktivitets-typer</txt_109>
+    <txt_110 >timer</txt_110>
+
+    <txt_111 >enheder</txt_111>
+    <txt_112 >Projekt</txt_112>
+    <txt_113 >Aktivitet</txt_113>
+    <txt_114 >Kommentar</txt_114>
+    <txt_115 >Medarb.</txt_115>
+    <txt_116 >Klokkeslet</txt_116>
+    <txt_117 >ikke taget stilling</txt_117>
+
+    <txt_118 >jan</txt_118>
+    <txt_119 >feb</txt_119>
+    <txt_120 >mar</txt_120>
+    <txt_121 >apr</txt_121>
+    <txt_122 >maj</txt_122>
+    <txt_123 >jun</txt_123>
+    <txt_124 >jul</txt_124>
+    <txt_125 >aug</txt_125>
+    <txt_126 >sep</txt_126>
+    <txt_127 >okt</txt_127>
+    <txt_128 >nov</txt_128>
+    <txt_129 >dec</txt_129>
+
+    <txt_130 >man</txt_130>
+    <txt_131 >tir</txt_131>
+    <txt_132 >ons</txt_132>
+    <txt_133 >tor</txt_133>
+    <txt_134 >fre</txt_134>
+    <txt_135 >lør</txt_135>
+    <txt_136 >søn</txt_136>
+
+    <txt_137 >Udspecificering</txt_137>
+    <txt_138 >atk. typer</txt_138>
+    <txt_139 >kat. 2</txt_139>
+    <txt_140 >Ferie</txt_140>
+    <txt_141 >Overarbejde / Afspadsering</txt_141>
+    <txt_142 >Sygdom / Fravær</txt_142>
+
+    <txt_143 >CSV. fil eksport</txt_143>
+    <txt_144 >Kasserapport DKK</txt_144>
+    <txt_145 >Kasserapport Local Cur.</txt_145>
+    <txt_146 >Print</txt_146>
+
+    <txt_147 >Vis</txt_147>
+    <txt_148 >Aktive job</txt_148>
+    <txt_149 >Tilbud</txt_149>
+    <txt_150 >Lukkede og passive job</txt_150>
+
+
+
+  </dk>
+
+
+  <!--- Norsk -->
+  <no>
+
+    <txt_1 >Please wait. This may take up to 20 seconds ...</txt_1>
+    <txt_2 >Joblog</txt_2>
+    <txt_3 >Weekly notes</txt_3>
+    <txt_4 >Period</txt_4>
+    <txt_5 >Or show</txt_5>
+    <txt_6 >Week</txt_6>
+    <txt_7 >Month</txt_7>
+    <txt_8 >Year</txt_8>
+    <txt_9 >Activity types</txt_9>
+    <txt_10 >Show the following activity types</txt_10>
+
+    <txt_11 >Choose</txt_11>
+    <txt_12 >Presentation</txt_12>
+    <txt_13 >Column selection</txt_13>
+    <txt_14 >View as joblog</txt_14>
+    <txt_15 >broken down per job.</txt_15>
+    <txt_16 >Subtotal per</txt_16>
+    <txt_17 >Employees</txt_17>
+    <txt_18 >Activities and phases</txt_18>
+    <txt_19 >Job</txt_19>
+    <txt_20 >Show as weekly notes</txt_20>
+
+    <txt_21 >View as a monthly report</txt_21>
+    <txt_22 >Column settings</txt_22>
+    <txt_23 >Hide Hourly rates</txt_23>
+    <txt_24 >Hide Units</txt_24>
+    <txt_25 >Hide Key Date, Approved and Billed Col.</txt_25>
+    <txt_26 >Hide Phase</txt_26>
+    <txt_27 >Use units as the basis of calculation</txt_27>
+    <txt_28 >Show Cost Prices</txt_28>
+    <txt_29 >Show business areas</txt_29>
+    <txt_30 >Show employees pers. numbers</txt_30>
+
+    <txt_31 >Go</txt_31>
+    <txt_32 >Job Responsible</txt_32>
+    <txt_33 >Active</txt_33>
+    <txt_34 >Passive</txt_34>
+    <txt_35 >Closed</txt_35>
+    <txt_36 >Job Status</txt_36>
+    <txt_37 >Job period</txt_37>
+    <txt_38 >Pre-calculated hours</txt_38>
+    <txt_39 >Job Type</txt_39>
+    <txt_40 >Fixed price</txt_40>
+
+    <txt_41 >activities</txt_41>
+    <txt_42 >job</txt_42>
+    <txt_43 >Job Type</txt_43>
+    <txt_44 >Ongoing Hours</txt_44>
+    <txt_45 >Requisition No.</txt_45>
+    <txt_46 >Last invoice date</txt_46>
+    <txt_47 >This week is completed by smiley d.</txt_47>
+    <txt_48 >Apr.</txt_48>
+    <txt_49 >Tentative</txt_49>
+    <txt_50 >Rejected</txt_50>
+
+    <txt_51 >None</txt_51>
+    <txt_52 >Tentative</txt_52>
+    <txt_53 >Approved</txt_53>
+    <txt_54 >Yes</txt_54>
+    <txt_55 >Info</txt_55>
+    <txt_56 >No registrations were found matching the selected criteria.</txt_56>
+    <txt_57 >make sure the selected</txt_57>
+    <txt_58 >period and employees and jobs</txt_58>
+    <txt_59 >is correct.</txt_59>
+    <txt_60 >Your CSV. File is ready</txt_60>
+
+    <txt_61 >Deactivated employees view</txt_61>
+    <txt_62 >De-activated employees are included by searching on "all".</txt_62>
+    <txt_63 >Deactivated employees can not be selected from the dropdown menu.</txt_63>
+    <txt_64 >Job types</txt_64>
+    <txt_65 >Fixed price or ongoing hours. (weighted employee hourly rates)</txt_65>
+    <txt_66 >For fixed priced jobs where the activities form the basis for hourly rate, is turnover and hourly rates (on job view)</txt_66>
+    <txt_67 >indicated by an ~, as the amount is calculated on the basis of an approximate hourly rate. (Avg. on act). When specifying activities, it is the actual hourly rate shown.</txt_67>
+    <txt_68 >Ongoing hours always displays the employee's realized hours</txt_68>
+    <txt_69 >Using key account will show hours for all employees who are members (associated with project groups) on those jobs where the chosen Key Account is responsible for the job / customer.</txt_69>
+    <txt_70 >Amount</txt_70>
+
+    <txt_71 >All hourly rates and amounts are shown in</txt_71>
+    <txt_72 >Date</txt_72>
+    <txt_73 >signature employee</txt_73>
+    <txt_74 >overall</txt_74>
+    <txt_75 >signature</txt_75>
+    <txt_76 >Total per. day</txt_76>
+    <txt_77 >Total month</txt_77>
+    <txt_78 >Total on job</txt_78>
+    <txt_79 >Grand Total</txt_79>
+    <txt_80 >Grandtotal month</txt_80>
+
+    <txt_81 >Employee</txt_81>
+    <txt_82 >Phase</txt_82>
+    <txt_83 >Customer</txt_83>
+    <txt_84 >Job Name (Job No.)</txt_84>
+    <txt_85 >Job res.</txt_85>
+    <txt_86 >Activity</txt_86>
+    <txt_87 >type</txt_87>
+    <txt_88 >comment</txt_88>
+    <txt_89 >Business area.</txt_89>
+    <txt_90 >Hours</txt_90>
+
+    <txt_91 >Km</txt_91>
+    <txt_92 >Quantity</txt_92>
+    <txt_93 >Units</txt_93>
+    <txt_94 >Hourly price</txt_94>
+    <txt_95 >Price in total</txt_95>
+    <txt_96 >Cost</txt_96>
+    <txt_97 >Cost in total</txt_97>
+    <txt_98 >Key Date</txt_98>
+    <txt_99 >Entered by</txt_99>
+    <txt_100 >Status</txt_100>
+
+    <txt_101 >Invoice</txt_101>
+    <txt_102 >Update Status</txt_102>
+    <txt_103 >Approve all</txt_103>
+    <txt_104 >Reject all</txt_104>
+    <txt_105 >Put all</txt_105>
+    <txt_106 >none.</txt_106>
+    <txt_107 >Approve</txt_107>
+    <txt_108 >Joblog Grandtotal</txt_108>
+    <txt_109 >Grandtotal for the above list, broken down by activity types</txt_109>
+    <txt_110 >hours</txt_110>
+
+    <txt_111 >units</txt_111>
+    <txt_112 >Project</txt_112>
+    <txt_113 >Activity</txt_113>
+    <txt_114 >Comment</txt_114>
+    <txt_115 >Employ.</txt_115>
+    <txt_116 >Klokkeslæt</txt_116>
+    <txt_117 >No position taken</txt_117>
+
+    <txt_118 >jan</txt_118>
+    <txt_119 >feb</txt_119>
+    <txt_120 >mar</txt_120>
+    <txt_121 >apr</txt_121>
+    <txt_122 >may</txt_122>
+    <txt_123 >jun</txt_123>
+    <txt_124 >jul</txt_124>
+    <txt_125 >aug</txt_125>
+    <txt_126 >sep</txt_126>
+    <txt_127 >oct</txt_127>
+    <txt_128 >nov</txt_128>
+    <txt_129 >dec</txt_129>
+
+    <txt_130 >mon</txt_130>
+    <txt_131 >tue</txt_131>
+    <txt_132 >wed</txt_132>
+    <txt_133 >thu</txt_133>
+    <txt_134 >fri</txt_134>
+    <txt_135 >sat</txt_135>
+    <txt_136 >sun</txt_136>
+
+    <txt_137 >Breakdown</txt_137>
+    <txt_138 >act. types</txt_138>
+    <txt_139 >cat. 2</txt_139>
+    <txt_140 >Vacation</txt_140>
+    <txt_141 >Overtime / Time of</txt_141>
+    <txt_142 >Illness / Absence</txt_142>
+
+    <txt_143 >CSV. file export</txt_143>
+    <txt_144 >Cash report DKK</txt_144>
+    <txt_145 >Cash report Local Cur.</txt_145>
+    <txt_146 >Print</txt_146>
+
+    <txt_147 >Show</txt_147>
+    <txt_148 >Active jobs</txt_148>
+    <txt_149 >Offers</txt_149>
+    <txt_150 >Closed and passive jobs</txt_150>
+
+  </no>
+
+
+  <!--- Svensk -->
+  <so>
+
+    <txt_1 >Please wait. This may take up to 20 seconds ...</txt_1>
+    <txt_2 >Joblog</txt_2>
+    <txt_3 >Weekly notes</txt_3>
+    <txt_4 >Period</txt_4>
+    <txt_5 >Or show</txt_5>
+    <txt_6 >Week</txt_6>
+    <txt_7 >Month</txt_7>
+    <txt_8 >Year</txt_8>
+    <txt_9 >Activity types</txt_9>
+    <txt_10 >Show the following activity types</txt_10>
+
+    <txt_11 >Choose</txt_11>
+    <txt_12 >Presentation</txt_12>
+    <txt_13 >Column selection</txt_13>
+    <txt_14 >View as joblog</txt_14>
+    <txt_15 >broken down per job.</txt_15>
+    <txt_16 >Subtotal per</txt_16>
+    <txt_17 >Employees</txt_17>
+    <txt_18 >Activities and phases</txt_18>
+    <txt_19 >Job</txt_19>
+    <txt_20 >Show as weekly notes</txt_20>
+
+    <txt_21 >View as a monthly report</txt_21>
+    <txt_22 >Column settings</txt_22>
+    <txt_23 >Hide Hourly rates</txt_23>
+    <txt_24 >Hide Units</txt_24>
+    <txt_25 >Hide Key Date, Approved and Billed Col.</txt_25>
+    <txt_26 >Hide Phase</txt_26>
+    <txt_27 >Use units as the basis of calculation</txt_27>
+    <txt_28 >Show Cost Prices</txt_28>
+    <txt_29 >Show business areas</txt_29>
+    <txt_30 >Show employees pers. numbers</txt_30>
+
+    <txt_31 >Go</txt_31>
+    <txt_32 >Job Responsible</txt_32>
+    <txt_33 >Active</txt_33>
+    <txt_34 >Passive</txt_34>
+    <txt_35 >Closed</txt_35>
+    <txt_36 >Job Status</txt_36>
+    <txt_37 >Job period</txt_37>
+    <txt_38 >Pre-calculated hours</txt_38>
+    <txt_39 >Job Type</txt_39>
+    <txt_40 >Fixed price</txt_40>
+
+    <txt_41 >activities</txt_41>
+    <txt_42 >job</txt_42>
+    <txt_43 >Job Type</txt_43>
+    <txt_44 >Ongoing Hours</txt_44>
+    <txt_45 >Requisition No.</txt_45>
+    <txt_46 >Last invoice date</txt_46>
+    <txt_47 >This week is completed by smiley d.</txt_47>
+    <txt_48 >Apr.</txt_48>
+    <txt_49 >Tentative</txt_49>
+    <txt_50 >Rejected</txt_50>
+
+    <txt_51 >None</txt_51>
+    <txt_52 >Tentative</txt_52>
+    <txt_53 >Approved</txt_53>
+    <txt_54 >Yes</txt_54>
+    <txt_55 >Info</txt_55>
+    <txt_56 >No registrations were found matching the selected criteria.</txt_56>
+    <txt_57 >make sure the selected</txt_57>
+    <txt_58 >period and employees and jobs</txt_58>
+    <txt_59 >is correct.</txt_59>
+    <txt_60 >Your CSV. File is ready</txt_60>
+
+    <txt_61 >Deactivated employees view</txt_61>
+    <txt_62 >De-activated employees are included by searching on "all".</txt_62>
+    <txt_63 >Deactivated employees can not be selected from the dropdown menu.</txt_63>
+    <txt_64 >Job types</txt_64>
+    <txt_65 >Fixed price or ongoing hours. (weighted employee hourly rates)</txt_65>
+    <txt_66 >For fixed priced jobs where the activities form the basis for hourly rate, is turnover and hourly rates (on job view)</txt_66>
+    <txt_67 >indicated by an ~, as the amount is calculated on the basis of an approximate hourly rate. (Avg. on act). When specifying activities, it is the actual hourly rate shown.</txt_67>
+    <txt_68 >Ongoing hours always displays the employee's realized hours</txt_68>
+    <txt_69 >Using key account will show hours for all employees who are members (associated with project groups) on those jobs where the chosen Key Account is responsible for the job / customer.</txt_69>
+    <txt_70 >Amount</txt_70>
+
+    <txt_71 >All hourly rates and amounts are shown in</txt_71>
+    <txt_72 >Date</txt_72>
+    <txt_73 >signature employee</txt_73>
+    <txt_74 >overall</txt_74>
+    <txt_75 >signature</txt_75>
+    <txt_76 >Total per. day</txt_76>
+    <txt_77 >Total month</txt_77>
+    <txt_78 >Total on job</txt_78>
+    <txt_79 >Grand Total</txt_79>
+    <txt_80 >Grandtotal month</txt_80>
+
+    <txt_81 >Employee</txt_81>
+    <txt_82 >Phase</txt_82>
+    <txt_83 >Customer</txt_83>
+    <txt_84 >Job Name (Job No.)</txt_84>
+    <txt_85 >Job res.</txt_85>
+    <txt_86 >Activity</txt_86>
+    <txt_87 >type</txt_87>
+    <txt_88 >comment</txt_88>
+    <txt_89 >Business area.</txt_89>
+    <txt_90 >Hours</txt_90>
+
+    <txt_91 >Km</txt_91>
+    <txt_92 >Quantity</txt_92>
+    <txt_93 >Units</txt_93>
+    <txt_94 >Hourly price</txt_94>
+    <txt_95 >Price in total</txt_95>
+    <txt_96 >Cost</txt_96>
+    <txt_97 >Cost in total</txt_97>
+    <txt_98 >Key Date</txt_98>
+    <txt_99 >Entered by</txt_99>
+    <txt_100 >Status</txt_100>
+
+    <txt_101 >Invoice</txt_101>
+    <txt_102 >Update Status</txt_102>
+    <txt_103 >Approve all</txt_103>
+    <txt_104 >Reject all</txt_104>
+    <txt_105 >Put all</txt_105>
+    <txt_106 >none.</txt_106>
+    <txt_107 >Approve</txt_107>
+    <txt_108 >Joblog Grandtotal</txt_108>
+    <txt_109 >Grandtotal for the above list, broken down by activity types</txt_109>
+    <txt_110 >hours</txt_110>
+
+    <txt_111 >units</txt_111>
+    <txt_112 >Project</txt_112>
+    <txt_113 >Activity</txt_113>
+    <txt_114 >Comment</txt_114>
+    <txt_115 >Employ.</txt_115>
+    <txt_116 >Time</txt_116>
+    <txt_117 >No position taken</txt_117>
+
+    <txt_118 >jan</txt_118>
+    <txt_119 >feb</txt_119>
+    <txt_120 >mar</txt_120>
+    <txt_121 >apr</txt_121>
+    <txt_122 >may</txt_122>
+    <txt_123 >jun</txt_123>
+    <txt_124 >jul</txt_124>
+    <txt_125 >aug</txt_125>
+    <txt_126 >sep</txt_126>
+    <txt_127 >oct</txt_127>
+    <txt_128 >nov</txt_128>
+    <txt_129 >dec</txt_129>
+
+    <txt_130 >mon</txt_130>
+    <txt_131 >tue</txt_131>
+    <txt_132 >wed</txt_132>
+    <txt_133 >thu</txt_133>
+    <txt_134 >fri</txt_134>
+    <txt_135 >sat</txt_135>
+    <txt_136 >sun</txt_136>
+
+    <txt_137 >Breakdown</txt_137>
+    <txt_138 >act. types</txt_138>
+    <txt_139 >cat. 2</txt_139>
+    <txt_140 >Vacation</txt_140>
+    <txt_141 >Overtime / Time of</txt_141>
+    <txt_142 >Illness / Absence</txt_142>
+
+    <txt_143 >CSV. file export</txt_143>
+    <txt_144 >Cash report DKK</txt_144>
+    <txt_145 >Cash report Local Cur.</txt_145>
+    <txt_146 >Print</txt_146>
+
+    <txt_147 >Show</txt_147>
+    <txt_148 >Active jobs</txt_148>
+    <txt_149 >Offers</txt_149>
+    <txt_150 >Closed and passive jobs</txt_150>
+    
+    
+  </so>
+
+
+  <!--- Tysk -->
+  <de>
+
+    <txt_1 >Please wait. This may take up to 20 seconds ...</txt_1>
+    <txt_2 >Joblog</txt_2>
+    <txt_3 >Weekly notes</txt_3>
+    <txt_4 >Period</txt_4>
+    <txt_5 >Or show</txt_5>
+    <txt_6 >Week</txt_6>
+    <txt_7 >Month</txt_7>
+    <txt_8 >Year</txt_8>
+    <txt_9 >Activity types</txt_9>
+    <txt_10 >Show the following activity types</txt_10>
+
+    <txt_11 >Choose</txt_11>
+    <txt_12 >Presentation</txt_12>
+    <txt_13 >Column selection</txt_13>
+    <txt_14 >View as joblog</txt_14>
+    <txt_15 >broken down per job.</txt_15>
+    <txt_16 >Subtotal per</txt_16>
+    <txt_17 >Employees</txt_17>
+    <txt_18 >Activities and phases</txt_18>
+    <txt_19 >Job</txt_19>
+    <txt_20 >Show as weekly notes</txt_20>
+
+    <txt_21 >View as a monthly report</txt_21>
+    <txt_22 >Column settings</txt_22>
+    <txt_23 >Hide Hourly rates</txt_23>
+    <txt_24 >Hide Units</txt_24>
+    <txt_25 >Hide Key Date, Approved and Billed Col.</txt_25>
+    <txt_26 >Hide Phase</txt_26>
+    <txt_27 >Use units as the basis of calculation</txt_27>
+    <txt_28 >Show Cost Prices</txt_28>
+    <txt_29 >Show business areas</txt_29>
+    <txt_30 >Show employees pers. numbers</txt_30>
+
+    <txt_31 >Go</txt_31>
+    <txt_32 >Job Responsible</txt_32>
+    <txt_33 >Active</txt_33>
+    <txt_34 >Passive</txt_34>
+    <txt_35 >Closed</txt_35>
+    <txt_36 >Job Status</txt_36>
+    <txt_37 >Job period</txt_37>
+    <txt_38 >Pre-calculated hours</txt_38>
+    <txt_39 >Job Type</txt_39>
+    <txt_40 >Fixed price</txt_40>
+
+    <txt_41 >activities</txt_41>
+    <txt_42 >job</txt_42>
+    <txt_43 >Job Type</txt_43>
+    <txt_44 >Ongoing Hours</txt_44>
+    <txt_45 >Requisition No.</txt_45>
+    <txt_46 >Last invoice date</txt_46>
+    <txt_47 >This week is completed by smiley d.</txt_47>
+    <txt_48 >Apr.</txt_48>
+    <txt_49 >Tentative</txt_49>
+    <txt_50 >Rejected</txt_50>
+
+    <txt_51 >None</txt_51>
+    <txt_52 >Tentative</txt_52>
+    <txt_53 >Approved</txt_53>
+    <txt_54 >Yes</txt_54>
+    <txt_55 >Info</txt_55>
+    <txt_56 >No registrations were found matching the selected criteria.</txt_56>
+    <txt_57 >make sure the selected</txt_57>
+    <txt_58 >period and employees and jobs</txt_58>
+    <txt_59 >is correct.</txt_59>
+    <txt_60 >Your CSV. File is ready</txt_60>
+
+    <txt_61 >Deactivated employees view</txt_61>
+    <txt_62 >De-activated employees are included by searching on "all".</txt_62>
+    <txt_63 >Deactivated employees can not be selected from the dropdown menu.</txt_63>
+    <txt_64 >Job types</txt_64>
+    <txt_65 >Fixed price or ongoing hours. (weighted employee hourly rates)</txt_65>
+    <txt_66 >For fixed priced jobs where the activities form the basis for hourly rate, is turnover and hourly rates (on job view)</txt_66>
+    <txt_67 >indicated by an ~, as the amount is calculated on the basis of an approximate hourly rate. (Avg. on act). When specifying activities, it is the actual hourly rate shown.</txt_67>
+    <txt_68 >Ongoing hours always displays the employee's realized hours</txt_68>
+    <txt_69 >Using key account will show hours for all employees who are members (associated with project groups) on those jobs where the chosen Key Account is responsible for the job / customer.</txt_69>
+    <txt_70 >Amount</txt_70>
+
+    <txt_71 >All hourly rates and amounts are shown in</txt_71>
+    <txt_72 >Date</txt_72>
+    <txt_73 >signature employee</txt_73>
+    <txt_74 >overall</txt_74>
+    <txt_75 >signature</txt_75>
+    <txt_76 >Total per. day</txt_76>
+    <txt_77 >Total month</txt_77>
+    <txt_78 >Total on job</txt_78>
+    <txt_79 >Grand Total</txt_79>
+    <txt_80 >Grandtotal month</txt_80>
+
+    <txt_81 >Employee</txt_81>
+    <txt_82 >Phase</txt_82>
+    <txt_83 >Customer</txt_83>
+    <txt_84 >Job Name (Job No.)</txt_84>
+    <txt_85 >Job res.</txt_85>
+    <txt_86 >Activity</txt_86>
+    <txt_87 >type</txt_87>
+    <txt_88 >comment</txt_88>
+    <txt_89 >Business area.</txt_89>
+    <txt_90 >Hours</txt_90>
+
+    <txt_91 >Km</txt_91>
+    <txt_92 >Quantity</txt_92>
+    <txt_93 >Units</txt_93>
+    <txt_94 >Hourly / price</txt_94>
+    <txt_95 >Price in total</txt_95>
+    <txt_96 >Cost</txt_96>
+    <txt_97 >Cost in total</txt_97>
+    <txt_98 >Key Date</txt_98>
+    <txt_99 >Entered by</txt_99>
+    <txt_100 >Status</txt_100>
+
+    <txt_101 >Invoice</txt_101>
+    <txt_102 >Update Status</txt_102>
+    <txt_103 >Approve all</txt_103>
+    <txt_104 >Reject all</txt_104>
+    <txt_105 >Put all</txt_105>
+    <txt_106 >none.</txt_106>
+    <txt_107 >Approve</txt_107>
+    <txt_108 >Joblog Grandtotal</txt_108>
+    <txt_109 >Grandtotal for the above list, broken down by activity types</txt_109>
+    <txt_110 >hours</txt_110>
+
+    <txt_111 >units</txt_111>
+    <txt_112 >Project</txt_112>
+    <txt_113 >Activity</txt_113>
+    <txt_114 >Comment</txt_114>
+    <txt_115 >Employ.</txt_115>
+    <txt_116 >Time</txt_116>
+    <txt_117 >No position taken</txt_117>
+
+    <txt_118 >jan</txt_118>
+    <txt_119 >feb</txt_119>
+    <txt_120 >mar</txt_120>
+    <txt_121 >apr</txt_121>
+    <txt_122 >may</txt_122>
+    <txt_123 >jun</txt_123>
+    <txt_124 >jul</txt_124>
+    <txt_125 >aug</txt_125>
+    <txt_126 >sep</txt_126>
+    <txt_127 >oct</txt_127>
+    <txt_128 >nov</txt_128>
+    <txt_129 >dec</txt_129>
+
+    <txt_130 >mon</txt_130>
+    <txt_131 >tue</txt_131>
+    <txt_132 >wed</txt_132>
+    <txt_133 >thu</txt_133>
+    <txt_134 >fri</txt_134>
+    <txt_135 >sat</txt_135>
+    <txt_136 >sun</txt_136>
+
+    <txt_137 >Breakdown</txt_137>
+    <txt_138 >act. types</txt_138>
+    <txt_139 >cat. 2</txt_139>
+    <txt_140 >Vacation</txt_140>
+    <txt_141 >Overtime / Time of</txt_141>
+    <txt_142 >Illness / Absence</txt_142>
+
+    <txt_143 >CSV. file export</txt_143>
+    <txt_144 >Cash report DKK</txt_144>
+    <txt_145 >Cash report Local Cur.</txt_145>
+    <txt_146 >Print</txt_146>
+
+    <txt_147 >Show</txt_147>
+    <txt_148 >Active jobs</txt_148>
+    <txt_149 >Offers</txt_149>
+    <txt_150 >Closed and passive jobs</txt_150>
+
+  </de>
+
+
+  <!--- Fransk -->
+  <fr>
+
+    <txt_1 >Please wait. This may take up to 20 seconds ...</txt_1>
+    <txt_2 >Joblog</txt_2>
+    <txt_3 >Weekly notes</txt_3>
+    <txt_4 >Period</txt_4>
+    <txt_5 >Or show</txt_5>
+    <txt_6 >Week</txt_6>
+    <txt_7 >Month</txt_7>
+    <txt_8 >Year</txt_8>
+    <txt_9 >Activity types</txt_9>
+    <txt_10 >Show the following activity types</txt_10>
+
+    <txt_11 >Choose</txt_11>
+    <txt_12 >Presentation</txt_12>
+    <txt_13 >Column selection</txt_13>
+    <txt_14 >View as joblog</txt_14>
+    <txt_15 >broken down per job.</txt_15>
+    <txt_16 >Subtotal per</txt_16>
+    <txt_17 >Employees</txt_17>
+    <txt_18 >Activities and phases</txt_18>
+    <txt_19 >Job</txt_19>
+    <txt_20 >Show as weekly notes</txt_20>
+
+    <txt_21 >View as a monthly report</txt_21>
+    <txt_22 >Column settings</txt_22>
+    <txt_23 >Hide Hourly rates</txt_23>
+    <txt_24 >Hide Units</txt_24>
+    <txt_25 >Hide Key Date, Approved and Billed Col.</txt_25>
+    <txt_26 >Hide Phase</txt_26>
+    <txt_27 >Use units as the basis of calculation</txt_27>
+    <txt_28 >Show Cost Prices</txt_28>
+    <txt_29 >Show business areas</txt_29>
+    <txt_30 >Show employees pers. numbers</txt_30>
+
+    <txt_31 >Go</txt_31>
+    <txt_32 >Job Responsible</txt_32>
+    <txt_33 >Active</txt_33>
+    <txt_34 >Passive</txt_34>
+    <txt_35 >Closed</txt_35>
+    <txt_36 >Job Status</txt_36>
+    <txt_37 >Job period</txt_37>
+    <txt_38 >Pre-calculated hours</txt_38>
+    <txt_39 >Job Type</txt_39>
+    <txt_40 >Fixed price</txt_40>
+
+    <txt_41 >activities</txt_41>
+    <txt_42 >job</txt_42>
+    <txt_43 >Job Type</txt_43>
+    <txt_44 >Ongoing Hours</txt_44>
+    <txt_45 >Requisition No.</txt_45>
+    <txt_46 >Last invoice date</txt_46>
+    <txt_47 >This week is completed by smiley d.</txt_47>
+    <txt_48 >Apr.</txt_48>
+    <txt_49 >Tentative</txt_49>
+    <txt_50 >Rejected</txt_50>
+
+    <txt_51 >None</txt_51>
+    <txt_52 >Tentative</txt_52>
+    <txt_53 >Approved</txt_53>
+    <txt_54 >Yes</txt_54>
+    <txt_55 >Info</txt_55>
+    <txt_56 >No registrations were found matching the selected criteria.</txt_56>
+    <txt_57 >make sure the selected</txt_57>
+    <txt_58 >period and employees and jobs</txt_58>
+    <txt_59 >is correct.</txt_59>
+    <txt_60 >Your CSV. File is ready</txt_60>
+
+    <txt_61 >Deactivated employees view</txt_61>
+    <txt_62 >De-activated employees are included by searching on "all".</txt_62>
+    <txt_63 >Deactivated employees can not be selected from the dropdown menu.</txt_63>
+    <txt_64 >Job types</txt_64>
+    <txt_65 >Fixed price or ongoing hours. (weighted employee hourly rates)</txt_65>
+    <txt_66 >For fixed priced jobs where the activities form the basis for hourly rate, is turnover and hourly rates (on job view)</txt_66>
+    <txt_67 >indicated by an ~, as the amount is calculated on the basis of an approximate hourly rate. (Avg. on act). When specifying activities, it is the actual hourly rate shown.</txt_67>
+    <txt_68 >Ongoing hours always displays the employee's realized hours</txt_68>
+    <txt_69 >Using key account will show hours for all employees who are members (associated with project groups) on those jobs where the chosen Key Account is responsible for the job / customer.</txt_69>
+    <txt_70 >Amount</txt_70>
+
+    <txt_71 >All hourly rates and amounts are shown in</txt_71>
+    <txt_72 >Date</txt_72>
+    <txt_73 >signature employee</txt_73>
+    <txt_74 >overall</txt_74>
+    <txt_75 >signature</txt_75>
+    <txt_76 >Total per. day</txt_76>
+    <txt_77 >Total month</txt_77>
+    <txt_78 >Total on job</txt_78>
+    <txt_79 >Grand Total</txt_79>
+    <txt_80 >Grandtotal month</txt_80>
+
+    <txt_81 >Employee</txt_81>
+    <txt_82 >Phase</txt_82>
+    <txt_83 >Customer</txt_83>
+    <txt_84 >Job Name (Job No.)</txt_84>
+    <txt_85 >Job res.</txt_85>
+    <txt_86 >Activity</txt_86>
+    <txt_87 >type</txt_87>
+    <txt_88 >comment</txt_88>
+    <txt_89 >Business area.</txt_89>
+    <txt_90 >Hours</txt_90>
+
+    <txt_91 >Km</txt_91>
+    <txt_92 >Quantity</txt_92>
+    <txt_93 >Units</txt_93>
+    <txt_94 >Hourly / price</txt_94>
+    <txt_95 >Price in total</txt_95>
+    <txt_96 >Cost</txt_96>
+    <txt_97 >Cost in total</txt_97>
+    <txt_98 >Key Date</txt_98>
+    <txt_99 >Entered by</txt_99>
+    <txt_100 >Status</txt_100>
+
+    <txt_101 >Invoice</txt_101>
+    <txt_102 >Update Status</txt_102>
+    <txt_103 >Approve all</txt_103>
+    <txt_104 >Reject all</txt_104>
+    <txt_105 >Put all</txt_105>
+    <txt_106 >none.</txt_106>
+    <txt_107 >Approve</txt_107>
+    <txt_108 >Joblog Grandtotal</txt_108>
+    <txt_109 >Grandtotal for the above list, broken down by activity types</txt_109>
+    <txt_110 >hours</txt_110>
+
+    <txt_111 >units</txt_111>
+    <txt_112 >Project</txt_112>
+    <txt_113 >Activity</txt_113>
+    <txt_114 >Comment</txt_114>
+    <txt_115 >Employ.</txt_115>
+    <txt_116 >Time</txt_116>
+    <txt_117 >No position taken</txt_117>
+
+    <txt_118 >jan</txt_118>
+    <txt_119 >feb</txt_119>
+    <txt_120 >mar</txt_120>
+    <txt_121 >apr</txt_121>
+    <txt_122 >may</txt_122>
+    <txt_123 >jun</txt_123>
+    <txt_124 >jul</txt_124>
+    <txt_125 >aug</txt_125>
+    <txt_126 >sep</txt_126>
+    <txt_127 >oct</txt_127>
+    <txt_128 >nov</txt_128>
+    <txt_129 >dec</txt_129>
+
+    <txt_130 >mon</txt_130>
+    <txt_131 >tue</txt_131>
+    <txt_132 >wed</txt_132>
+    <txt_133 >thu</txt_133>
+    <txt_134 >fri</txt_134>
+    <txt_135 >sat</txt_135>
+    <txt_136 >sun</txt_136>
+
+    <txt_137 >Breakdown</txt_137>
+    <txt_138 >act. types</txt_138>
+    <txt_139 >cat. 2</txt_139>
+    <txt_140 >Vacation</txt_140>
+    <txt_141 >Overtime / Time of</txt_141>
+    <txt_142 >Illness / Absence</txt_142>
+
+    <txt_143 >CSV. file export</txt_143>
+    <txt_144 >Cash report DKK</txt_144>
+    <txt_145 >Cash report Local Cur.</txt_145>
+    <txt_146 >Print</txt_146>
+
+    <txt_147 >Show</txt_147>
+    <txt_148 >Active jobs</txt_148>
+    <txt_149 >Offers</txt_149>
+    <txt_150 >Closed and passive jobs</txt_150>
+
+  </fr>
+
+
+
+  <!-- Engelsk -->
+  <uk>
+
+    <txt_1 >Please wait. This may take up to 20 seconds ...</txt_1>
+    <txt_2 >Joblog</txt_2>
+    <txt_3 >Weekly notes</txt_3>
+    <txt_4 >Period</txt_4>
+    <txt_5 >Or show</txt_5>
+    <txt_6 >Week</txt_6>
+    <txt_7 >Month</txt_7>
+    <txt_8 >Year</txt_8>
+    <txt_9 >Activity types</txt_9>
+    <txt_10 >Show the following activity types</txt_10>
+
+    <txt_11 >Choose</txt_11>
+    <txt_12 >Presentation</txt_12>
+    <txt_13 >Column selection</txt_13>
+    <txt_14 >View as joblog</txt_14>
+    <txt_15 >broken down per job.</txt_15>
+    <txt_16 >Subtotal per</txt_16>
+    <txt_17 >Employees</txt_17>
+    <txt_18 >Activities and phases</txt_18>
+    <txt_19 >Job</txt_19>
+    <txt_20 >Show as weekly notes</txt_20>
+
+    <txt_21 >View as a monthly report</txt_21>
+    <txt_22 >Column settings</txt_22>
+    <txt_23 >Hide Hourly rates</txt_23>
+    <txt_24 >Hide Units</txt_24>
+    <txt_25 >Hide Key Date, Approved and Billed Col.</txt_25>
+    <txt_26 >Hide Phase</txt_26>
+    <txt_27 >Use units as the basis of calculation</txt_27>
+    <txt_28 >Show Cost Prices</txt_28>
+    <txt_29 >Show business areas</txt_29>
+    <txt_30 >Show employees pers. numbers</txt_30>
+
+    <txt_31 >Go</txt_31>
+    <txt_32 >Job Responsible</txt_32>
+    <txt_33 >Active</txt_33>
+    <txt_34 >Passive</txt_34>
+    <txt_35 >Closed</txt_35>
+    <txt_36 >Job Status</txt_36>
+    <txt_37 >Job period</txt_37>
+    <txt_38 >Pre-calculated hours</txt_38>
+    <txt_39 >Job Type</txt_39>
+    <txt_40 >Fixed price</txt_40>
+
+    <txt_41 >activities</txt_41>
+    <txt_42 >job</txt_42>
+    <txt_43 >Job Type</txt_43>
+    <txt_44 >Ongoing Hours</txt_44>
+    <txt_45 >Requisition No.</txt_45>
+    <txt_46 >Last invoice date</txt_46>
+    <txt_47 >This week is completed by smiley d.</txt_47>
+    <txt_48 >Apr.</txt_48>
+    <txt_49 >Tentative</txt_49>
+    <txt_50 >Rejected</txt_50>
+
+    <txt_51 >None</txt_51>
+    <txt_52 >Tentative</txt_52>
+    <txt_53 >Approved</txt_53>
+    <txt_54 >Yes</txt_54>
+    <txt_55 >Info</txt_55>
+    <txt_56 >No registrations were found matching the selected criteria.</txt_56>
+    <txt_57 >make sure the selected</txt_57>
+    <txt_58 >period and employees and jobs</txt_58>
+    <txt_59 >is correct.</txt_59>
+    <txt_60 >Your CSV. File is ready</txt_60>
+
+    <txt_61 >Deactivated employees view</txt_61>
+    <txt_62 >De-activated employees are included by searching on "all".</txt_62>
+    <txt_63 >Deactivated employees can not be selected from the dropdown menu.</txt_63>
+    <txt_64 >Job types</txt_64>
+    <txt_65 >Fixed price or ongoing hours. (weighted employee hourly rates)</txt_65>
+    <txt_66 >For fixed priced jobs where the activities form the basis for hourly rate, is turnover and hourly rates (on job view)</txt_66>
+    <txt_67 >indicated by an ~, as the amount is calculated on the basis of an approximate hourly rate. (Avg. on act). When specifying activities, it is the actual hourly rate shown.</txt_67>
+    <txt_68 >Ongoing hours always displays the employee's realized hours</txt_68>
+    <txt_69 >Using key account will show hours for all employees who are members (associated with project groups) on those jobs where the chosen Key Account is responsible for the job / customer.</txt_69>
+    <txt_70 >Amount</txt_70>
+
+    <txt_71 >All hourly rates and amounts are shown in</txt_71>
+    <txt_72 >Date</txt_72>
+    <txt_73 >signature employee</txt_73>
+    <txt_74 >overall</txt_74>
+    <txt_75 >signature</txt_75>
+    <txt_76 >Total per. day</txt_76>
+    <txt_77 >Total month</txt_77>
+    <txt_78 >Total on job</txt_78>
+    <txt_79 >Grand Total</txt_79>
+    <txt_80 >Grandtotal month</txt_80>
+
+    <txt_81 >Employee</txt_81>
+    <txt_82 >Phase</txt_82>
+    <txt_83 >Customer</txt_83>
+    <txt_84 >Job Name (Job No.)</txt_84>
+    <txt_85 >Job res.</txt_85>
+    <txt_86 >Activity</txt_86>
+    <txt_87 >type</txt_87>
+    <txt_88 >comment</txt_88>
+    <txt_89 >Business area.</txt_89>
+    <txt_90 >Hours</txt_90>
+
+    <txt_91 >Km</txt_91>
+    <txt_92 >Quantity</txt_92>
+    <txt_93 >Units</txt_93>
+    <txt_94 >Hourly price</txt_94>
+    <txt_95 >Price in total</txt_95>
+    <txt_96 >Cost</txt_96>
+    <txt_97 >Cost in total</txt_97>
+    <txt_98 >Key Date</txt_98>
+    <txt_99 >Entered by</txt_99>
+    <txt_100 >Status</txt_100>
+
+    <txt_101 >Invoice</txt_101>
+    <txt_102 >Update Status</txt_102>
+    <txt_103 >Approve all</txt_103>
+    <txt_104 >Reject all</txt_104>
+    <txt_105 >Put all</txt_105>
+    <txt_106 >none.</txt_106>
+    <txt_107 >Approve</txt_107>
+    <txt_108 >Joblog Grandtotal</txt_108>
+    <txt_109 >Grandtotal for the above list, broken down by activity types</txt_109>
+    <txt_110 >hours</txt_110>
+
+    <txt_111 >units</txt_111>
+    <txt_112 >Project</txt_112>
+    <txt_113 >Activity</txt_113>
+    <txt_114 >Comment</txt_114>
+    <txt_115 >Employ.</txt_115>
+    <txt_116 >Time</txt_116>
+    <txt_117 >No position taken</txt_117>
+
+    <txt_118 >jan</txt_118>
+    <txt_119 >feb</txt_119>
+    <txt_120 >mar</txt_120>
+    <txt_121 >apr</txt_121>
+    <txt_122 >may</txt_122>
+    <txt_123 >jun</txt_123>
+    <txt_124 >jul</txt_124>
+    <txt_125 >aug</txt_125>
+    <txt_126 >sep</txt_126>
+    <txt_127 >oct</txt_127>
+    <txt_128 >nov</txt_128>
+    <txt_129 >dec</txt_129>
+
+    <txt_130 >mon</txt_130>
+    <txt_131 >tue</txt_131>
+    <txt_132 >wed</txt_132>
+    <txt_133 >thu</txt_133>
+    <txt_134 >fri</txt_134>
+    <txt_135 >sat</txt_135>
+    <txt_136 >sun</txt_136>
+
+    <txt_137 >Breakdown</txt_137>
+    <txt_138 >act. types</txt_138>
+    <txt_139 >cat. 2</txt_139>
+    <txt_140 >Vacation</txt_140>
+    <txt_141 >Overtime / Time of</txt_141>
+    <txt_142 >Illness / Absence</txt_142>
+
+    <txt_143 >CSV. file export</txt_143>
+    <txt_144 >Cash report DKK</txt_144>
+    <txt_145 >Cash report Local Cur.</txt_145>
+    <txt_146 >Print</txt_146>
+
+    <txt_147 >Show</txt_147>
+    <txt_148 >Active jobs</txt_148>
+    <txt_149 >Offers</txt_149>
+    <txt_150 >Closed and passive jobs</txt_150>
+
+  </uk>
+
+
+  <!--- Spansk -->
+  <es>
+
+    <txt_1 >Please wait. This may take up to 20 seconds ...</txt_1>
+    <txt_2 >Joblog</txt_2>
+    <txt_3 >Weekly notes</txt_3>
+    <txt_4 >Period</txt_4>
+    <txt_5 >Or show</txt_5>
+    <txt_6 >Week</txt_6>
+    <txt_7 >Month</txt_7>
+    <txt_8 >Year</txt_8>
+    <txt_9 >Activity types</txt_9>
+    <txt_10 >Show the following activity types</txt_10>
+
+    <txt_11 >Choose</txt_11>
+    <txt_12 >Presentation</txt_12>
+    <txt_13 >Column selection</txt_13>
+    <txt_14 >View as joblog</txt_14>
+    <txt_15 >broken down per job.</txt_15>
+    <txt_16 >Subtotal per</txt_16>
+    <txt_17 >Employees</txt_17>
+    <txt_18 >Activities and phases</txt_18>
+    <txt_19 >Job</txt_19>
+    <txt_20 >Show as weekly notes</txt_20>
+
+    <txt_21 >View as a monthly report</txt_21>
+    <txt_22 >Column settings</txt_22>
+    <txt_23 >Hide Hourly rates</txt_23>
+    <txt_24 >Hide Units</txt_24>
+    <txt_25 >Hide Key Date, Approved and Billed Col.</txt_25>
+    <txt_26 >Hide Phase</txt_26>
+    <txt_27 >Use units as the basis of calculation</txt_27>
+    <txt_28 >Show Cost Prices</txt_28>
+    <txt_29 >Show business areas</txt_29>
+    <txt_30 >Show employees pers. numbers</txt_30>
+
+    <txt_31 >Go</txt_31>
+    <txt_32 >Job Responsible</txt_32>
+    <txt_33 >Active</txt_33>
+    <txt_34 >Passive</txt_34>
+    <txt_35 >Closed</txt_35>
+    <txt_36 >Job Status</txt_36>
+    <txt_37 >Job period</txt_37>
+    <txt_38 >Pre-calculated hours</txt_38>
+    <txt_39 >Job Type</txt_39>
+    <txt_40 >Fixed price</txt_40>
+
+    <txt_41 >activities</txt_41>
+    <txt_42 >job</txt_42>
+    <txt_43 >Job Type</txt_43>
+    <txt_44 >Ongoing Hours</txt_44>
+    <txt_45 >Requisition No.</txt_45>
+    <txt_46 >Last invoice date</txt_46>
+    <txt_47 >This week is completed by smiley d.</txt_47>
+    <txt_48 >Apr.</txt_48>
+    <txt_49 >Tentative</txt_49>
+    <txt_50 >Rejected</txt_50>
+
+    <txt_51 >None</txt_51>
+    <txt_52 >Tentative</txt_52>
+    <txt_53 >Approved</txt_53>
+    <txt_54 >Yes</txt_54>
+    <txt_55 >Info</txt_55>
+    <txt_56 >No registrations were found matching the selected criteria.</txt_56>
+    <txt_57 >make sure the selected</txt_57>
+    <txt_58 >period and employees and jobs</txt_58>
+    <txt_59 >is correct.</txt_59>
+    <txt_60 >Your CSV. File is ready</txt_60>
+
+    <txt_61 >Deactivated employees view</txt_61>
+    <txt_62 >De-activated employees are included by searching on "all".</txt_62>
+    <txt_63 >Deactivated employees can not be selected from the dropdown menu.</txt_63>
+    <txt_64 >Job types</txt_64>
+    <txt_65 >Fixed price or ongoing hours. (weighted employee hourly rates)</txt_65>
+    <txt_66 >For fixed priced jobs where the activities form the basis for hourly rate, is turnover and hourly rates (on job view)</txt_66>
+    <txt_67 >indicated by an ~, as the amount is calculated on the basis of an approximate hourly rate. (Avg. on act). When specifying activities, it is the actual hourly rate shown.</txt_67>
+    <txt_68 >Ongoing hours always displays the employee's realized hours</txt_68>
+    <txt_69 >Using key account will show hours for all employees who are members (associated with project groups) on those jobs where the chosen Key Account is responsible for the job / customer.</txt_69>
+    <txt_70 >Amount</txt_70>
+
+    <txt_71 >All hourly rates and amounts are shown in</txt_71>
+    <txt_72 >Date</txt_72>
+    <txt_73 >signature employee</txt_73>
+    <txt_74 >overall</txt_74>
+    <txt_75 >signature</txt_75>
+    <txt_76 >Total per. day</txt_76>
+    <txt_77 >Total month</txt_77>
+    <txt_78 >Total on job</txt_78>
+    <txt_79 >Grand Total</txt_79>
+    <txt_80 >Grandtotal month</txt_80>
+
+    <txt_81 >Employee</txt_81>
+    <txt_82 >Phase</txt_82>
+    <txt_83 >Customer</txt_83>
+    <txt_84 >Job Name (Job No.)</txt_84>
+    <txt_85 >Job res.</txt_85>
+    <txt_86 >Activity</txt_86>
+    <txt_87 >type</txt_87>
+    <txt_88 >comment</txt_88>
+    <txt_89 >Business area.</txt_89>
+    <txt_90 >Hours</txt_90>
+
+    <txt_91 >Km</txt_91>
+    <txt_92 >Quantity</txt_92>
+    <txt_93 >Units</txt_93>
+    <txt_94 >Hourly / price</txt_94>
+    <txt_95 >Price in total</txt_95>
+    <txt_96 >Cost</txt_96>
+    <txt_97 >Cost in total</txt_97>
+    <txt_98 >Key Date</txt_98>
+    <txt_99 >Entered by</txt_99>
+    <txt_100 >Status</txt_100>
+
+    <txt_101 >Invoice</txt_101>
+    <txt_102 >Update Status</txt_102>
+    <txt_103 >Approve all</txt_103>
+    <txt_104 >Reject all</txt_104>
+    <txt_105 >Put all</txt_105>
+    <txt_106 >none.</txt_106>
+    <txt_107 >Approve</txt_107>
+    <txt_108 >Joblog Grandtotal</txt_108>
+    <txt_109 >Grandtotal for the above list, broken down by activity types</txt_109>
+    <txt_110 >hours</txt_110>
+
+    <txt_111 >units</txt_111>
+    <txt_112 >Project</txt_112>
+    <txt_113 >Activity</txt_113>
+    <txt_114 >Comment</txt_114>
+    <txt_115 >Employ.</txt_115>
+    <txt_116 >Time</txt_116>
+    <txt_117 >No position taken</txt_117>
+
+    <txt_118 >jan</txt_118>
+    <txt_119 >feb</txt_119>
+    <txt_120 >mar</txt_120>
+    <txt_121 >apr</txt_121>
+    <txt_122 >may</txt_122>
+    <txt_123 >jun</txt_123>
+    <txt_124 >jul</txt_124>
+    <txt_125 >aug</txt_125>
+    <txt_126 >sep</txt_126>
+    <txt_127 >oct</txt_127>
+    <txt_128 >nov</txt_128>
+    <txt_129 >dec</txt_129>
+
+    <txt_130 >mon</txt_130>
+    <txt_131 >tue</txt_131>
+    <txt_132 >wed</txt_132>
+    <txt_133 >thu</txt_133>
+    <txt_134 >fri</txt_134>
+    <txt_135 >sat</txt_135>
+    <txt_136 >sun</txt_136>
+
+    <txt_137 >Breakdown</txt_137>
+    <txt_138 >act. types</txt_138>
+    <txt_139 >cat. 2</txt_139>
+    <txt_140 >Vacation</txt_140>
+    <txt_141 >Overtime / Time of</txt_141>
+    <txt_142 >Illness / Absence</txt_142>
+
+    <txt_143 >CSV. file export</txt_143>
+    <txt_144 >Cash report DKK</txt_144>
+    <txt_145 >Cash report Local Cur.</txt_145>
+    <txt_146 >Print</txt_146>
+
+    <txt_147 >Show</txt_147>
+    <txt_148 >Active jobs</txt_148>
+    <txt_149 >Offers</txt_149>
+    <txt_150 >Closed and passive jobs</txt_150>
+ 
+  </es>
+
+
+</sprog>

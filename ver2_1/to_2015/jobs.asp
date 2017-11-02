@@ -433,6 +433,7 @@ end if
 
 
 
+
                                 '*************************************************'
 			                    '**** Opdaterer jobnr og tilbuds nr i Licens *****'
 				                '*************************************************'
@@ -453,7 +454,7 @@ end if
                                     
 
                                 '*** Liste
-                                response.redirect("../timereg/jobs.asp")
+                                response.redirect("../to_2015/job_list.asp")
 
 
 
@@ -486,13 +487,6 @@ end if
             kundekpers = oRec("kundekpers")
             jobstdato = oRec("jobstartdato")
             jobsldato = oRec("jobslutdato")
-
-
-             jobans1 = 0
-        jobans2 = 0
-        jobans3 = 0
-        jobans4 = 0
-        jobans5 = 0
         
         end if
 
@@ -512,12 +506,6 @@ end if
         jobstdato = day(now) & "-" & month(now) & "-" & year(now)
         'jobstdato = dateadd("d", -7, jobstdato) 
         jobsldato = dateadd("m", 1, jobstdato)
-
-        jobans1 = 0
-        jobans2 = 0
-        jobans3 = 0
-        jobans4 = 0
-        jobans5 = 0
 
         end if
 %>
@@ -775,7 +763,7 @@ end if
 
                 
                     <%
-                    oprjobtype = 2    
+                    oprjobtype = 1    
                     if oprjobtype = 2 then %>
 
                     <div class="panel-group accordion-panel" id="accordion-paneled">
@@ -872,12 +860,6 @@ end if
                                 <div class="row">
                                     <div class="col-lg-2">Job medansvarlig:</div>
                                     <div class="col-lg-3">
-
-                                        <!-- data model - se gl. joboprettelse
-                                        tabel: medarbejdere
-                                        felter: id, navn
-                                        -->
-
                                         <select class="form-control input-small">
                                             <option value="1">Henrik</option>
                                             <option value="2">Søren</option>

@@ -12,7 +12,7 @@ Stat filerne.
 -->
 
 <!--#include file="dato2_b.asp"-->
-<td width=200 align=center><font size="1">Fra:&nbsp;<select name="FM_start_dag">
+<td width=200 align=center><font size="1"><%=job_txt_331 %>:&nbsp;<select name="FM_start_dag">
 		<option value="<%=strDag%>"><%=strDag%></option> 
 		<option value="1">1</option>
 	   	<option value="2">2</option>
@@ -48,18 +48,18 @@ Stat filerne.
 		
 		<select name="FM_start_mrd" >
 		<option value="<%=strMrd%>"><%=strMrdNavn%></option>
-		<option value="1">jan</option>
-	   	<option value="2">feb</option>
-	   	<option value="3">mar</option>
-	   	<option value="4">apr</option>
-	   	<option value="5">maj</option>
-	   	<option value="6">jun</option>
-	   	<option value="7">jul</option>
-	   	<option value="8">aug</option>
-	   	<option value="9">sep</option>
-	   	<option value="10">okt</option>
-	   	<option value="11">nov</option>
-	   	<option value="12">dec</option></select>&nbsp;&nbsp;
+		<option value="1"><%=job_txt_102 %></option>
+	   	<option value="2"><%=job_txt_103 %></option>
+	   	<option value="3"><%=job_txt_104 %></option>
+	   	<option value="4"><%=job_txt_105 %></option>
+	   	<option value="5"><%=job_txt_106 %></option>
+	   	<option value="6"><%=job_txt_107 %></option>
+	   	<option value="7"><%=job_txt_108 %></option>
+	   	<option value="8"><%=job_txt_109 %></option>
+	   	<option value="9"><%=job_txt_110 %></option>
+	   	<option value="10"><%=job_txt_111 %></option>
+	   	<option value="11"><%=job_txt_112 %></option>
+	   	<option value="12"><%=job_txt_113 %></option></select>&nbsp;&nbsp;
 		<select name="FM_start_aar" >
 		<option value="<%=strAar%>"><%=strAar%></option>
 		<%for x = -10 to 10 
@@ -67,7 +67,7 @@ Stat filerne.
 		<option value="<%=useY%>"><%=right(useY, 2)%></option>
 		<%next %>
 		</select>
-		</td><td width=200><font size="1">Til:&nbsp;<select name="FM_slut_dag" >
+		</td><td width=200><font size="1"><%=job_txt_332 %>:&nbsp;<select name="FM_slut_dag" >
 		<option value="<%=strDag_slut%>"><%=strDag_slut%></option> 
 	   	<option value="1">1</option>
 	   	<option value="2">2</option>
@@ -102,18 +102,18 @@ Stat filerne.
 		<option value="31">31</option></select>&nbsp;&nbsp;
 		<select name="FM_slut_mrd" >
 		<option value="<%=strMrd_slut%>"><%=strMrdNavn_slut%></option>
-		<option value="1">jan</option>
-	   	<option value="2">feb</option>
-	   	<option value="3">mar</option>
-	   	<option value="4">apr</option>
-	   	<option value="5">maj</option>
-	   	<option value="6">jun</option>
-	   	<option value="7">jul</option>
-	   	<option value="8">aug</option>
-	   	<option value="9">sep</option>
-	   	<option value="10">okt</option>
-	   	<option value="11">nov</option>
-	   	<option value="12">dec</option></select>&nbsp;&nbsp;
+		<option value="1"><%=job_txt_102 %></option>
+	   	<option value="2"><%=job_txt_103 %></option>
+	   	<option value="3"><%=job_txt_104 %></option>
+	   	<option value="4"><%=job_txt_105 %></option>
+	   	<option value="5"><%=job_txt_106 %></option>
+	   	<option value="6"><%=job_txt_107 %></option>
+	   	<option value="7"><%=job_txt_108 %></option>
+	   	<option value="8"><%=job_txt_109 %></option>
+	   	<option value="9"><%=job_txt_110 %></option>
+	   	<option value="10"><%=job_txt_111 %></option>
+	   	<option value="11"><%=job_txt_112 %></option>
+	   	<option value="12"><%=job_txt_113 %></option></select>&nbsp;&nbsp;
 		<select name="FM_slut_aar" >
 		<option value="<%=strAar_slut%>"><%=strAar_slut%></option>
 		<%for x = -10 to 50 

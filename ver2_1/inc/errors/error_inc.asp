@@ -1,4 +1,4 @@
-
+ 
 
 
 <!--#include file="../xml/error_xml_inc.asp"-->
@@ -11,9 +11,9 @@
 function showError(errortype)
 select case errortype
 case 1
-varErrorText = "Der er ikke tastet noget brugernavn!"
+varErrorText = err_txt_121&"!"
 case 2
-varErrorText = "Der er ikke tastet noget password!"
+varErrorText = err_txt_122&"!"
 'case 3
 'varErrorText = "Denne medarbejderkonto er <b>ukendt.</b> <br>Du har derfor ikke adgang til <b>TimeOut!</b>"
 case 4
@@ -28,110 +28,110 @@ else
     thislto = ""
     end if
 end if
-varErrorText = "<b>Sessionen er udløbet og du er blevet logget af TimeOut.</b><br><br>"_
-&"Sessionen udløber ud hvis TimeOut har været passiv i mere end <b>12 timer</b>, "_
-&"eller TimeOut serveren har nulstillet dagens aktive sessioner, af sikkerheds- og -performance mæssige hensyn."_
-&"<br><br>Klik her:  <a href='https://timeout.cloud/"&thislto&"' target='_top'>https://timeout.cloud/"&thislto&"</a> for at logge ind i jeres system igen."_
+varErrorText = "<b>"&err_txt_123&"</b><br><br>"_
+& err_txt_124 &" <b>"&err_txt_125&"</b>, "_
+& err_txt_126 _
+&"<br><br>"& err_txt_127 &":  <a href='https://timeout.cloud/"&thislto&"' target='_top'>https://timeout.cloud/"&thislto&"</a>" & err_txt_128 _
 &"<br /><br />"_
-&"Med venlig hilsen<br /><br />OutZourCE dev. team."
+& err_txt_129 &"<br /><br />OutZourCE dev. team."
 case 6
-varErrorText = "Du har glemt at indtaste antal timer."
+varErrorText = err_txt_130
 case 7
-varErrorText = "Dette jobnr er allerede indtastet en gang på denne dato.<br>"_
-&"Da et jobnr ikke må optræde mere en en gang pr. dato, må du ændre indtastningen.<br>"_
-&"<i><a href='javascript:history.back()'>Ændre indtastning</a></i>"_
+varErrorText = err_txt_131 & "<br>"_
+& err_txt_132 & "<br>"_
+&"<i><a href='javascript:history.back()'>"&err_txt_133&"</a></i>"_
 &"<br>"
 
 
 case 8
-varErrorText = "En eller flere af nedenstående felter mangler at blive udfyldt:<ul><li>Der mangler at blive indtastet et <b>navn</b></ul>"
+varErrorText = err_txt_134 & ":<ul><li> "& err_txt_135 &"<b> "& err_txt_136 &"</b></ul>"
 
 case 9
-varErrorText = "Der mangler at blive indtaste en følgende informationer:<br><ul>"_
-&"<li>Medarbejder navn"_
-&"<li>Medarbejer nr."_
-&"<li>Medarbejer Initialer"_
-&"<li>Login"_
-&"<li>Password"_
+varErrorText = err_txt_137 & ":<br><ul>"_
+&"<li>" & err_txt_138 _
+&"<li>" & err_txt_139 _
+&"<li>" & err_txt_140 _
+&"<li>" & err_txt_141 _
+&"<li>" & err_txt_142 _
 &"</ul>"
 
 
 
 case 10
-varErrorText = "En Medarbejder med det valgte <b>Medarbejder nr.</b> eksisterer allerede.<br><br>Vælgt et andet."
+varErrorText = err_txt_143 & "<b> "&err_txt_144&"</b> "&err_txt_145&"<br><br>"& err_txt_146
 
 case 11
-varErrorText = "En Medarbejder med det valgte <b>Login</b> eksisterer allerede. <br><br>Vælgt et andet."
+varErrorText = err_txt_143 & " <b>"&err_txt_141&"</b> "&err_txt_145&" <br><br>" & err_txt_146
 
 case 12
-varErrorText = "En Kontakt med det valgte <b>Kontakt id</b> eksisterer allerede.<br>"_
-&"Den eksisterende Kontakt er: <b>"& errKundenavn &" ("& errKundenr &")</b>"_
-&"<br>Vælg et andet <b>Kontakt id</b>."
+varErrorText = err_txt_147 & " <b>"&err_txt_148&"</b> "&err_txt_145&"<br>"_
+& err_txt_149 &": <b>"& errKundenavn &" ("& errKundenr &")</b>"_
+&"<br>"&err_txt_146&" <b>"&err_txt_148&"</b>."
 
 
 case 13
-varErrorText = "<ul><li>Der mangler at blive indtastet et <b>kundenavn</b><li>Kundenavn er på mere end <b>150</b> karakterer</ul>"
+varErrorText = "<ul><li>"&err_txt_135&" <b>"&err_txt_150&"</b><li> "&err_txt_151&" <b>150</b> "&err_txt_152&"</ul>"
 
 case 14
-varErrorText = "Der mangler at blive indtastet en af følgende informationer: <br> "_
+varErrorText = err_txt_153 & ": <br> "_
 &"<ul> "_
-&"<li>Jobnavn (eller Du har angivet <b>'jobnavn..'</b> som navn)"_
-&"<li>Jobnavn indeholder et <b>''</b> eller et <b>'</b>"_ 
-&"<li>Jobnavn er på <b>mere end "& maxCharJobNavn &"</b> karakterer. <span style=""color:red;"">Du har tastet: <b>"& len(request("FM_navn")) &"</b></span>"_
-&"<li>Jobnr. "_
-&"<li>Jobnr. er på <b>mere end 20</b> karakterer."_
-&"<li>Der mangler at blive tilknyttet en <b>kunde</b>.</ul>"
+&"<li>"&err_txt_154&" ("&err_txt_155&" <b>'"&err_txt_154&"..'</b> "&err_txt_156&")"_
+&"<li>"&err_txt_157&" <b>''</b> "&err_txt_158&" <b>'</b>"_ 
+&"<li>"&err_txt_159&" <b>"&err_txt_160&" "& maxCharJobNavn &"</b> "&err_txt_161&" <span style=""color:red;"">"&err_txt_162&": <b>"& len(request("FM_navn")) &"</b></span>"_
+&"<li>"&err_txt_163&" "_
+&"<li>"&err_txt_164&" <b>"&err_txt_165&"</b> "& err_txt_161 _
+&"<li>"&err_txt_166&" <b>"&err_txt_167&"</b>.</ul>"
 
 case 15
-varErrorText = "<b>Job nr.</b> eller <b>Tilbudsnr.</b> er ikke angivet som et nummer / heltal.<br>"_
-&"Job nr. må kun indeholde tallene 0-9 uden punktum eller komma. Job nr. må ikke være 0 NUL."
+varErrorText = "<b>"&err_txt_168&"</b> "&err_txt_169&" <b>"&err_txt_170&"</b> "&err_txt_171&"<br>"_
+& err_txt_172
 
 case 16
-varErrorText = "<b>Brutto Omsætning</b> er ikke angivet i et korrekt format.<br>"_
-&"Dvs. feltet indeholder andre tegn end tallene 0-9, samt komma eller punktum."
+varErrorText = "<b>"&err_txt_173&"</b> "&err_txt_174&"<br>"_
+& err_txt_175
 
 case 17
-varErrorText = "Der er sket en <font class='error'>Fejl!</font> i indtastningen.<br>"_
-&"I et eller flere felter er der blevet indtastet ugyldige karakterer."
+varErrorText = err_txt_176 & "<font class='error'>"&err_txt_177&"!</font> "&err_txt_178&"<br>"_
+& err_txt_179
 
 case 18
-varErrorText = "<font class='error'>Fejl!</font><br>"_
-&"Der er indtastet mere end <b>24 timer</b> i et af felterne."
+varErrorText = "<font class='error'>"&err_txt_177&"!</font><br>"_
+& err_txt_180 & " <b>"&err_txt_181&"</b> " & err_txt_182
 
 case 19
-varErrorText = "Der foreligger allerede en registrering af dette<br> <b>Job</b> med denne <b>aktivitet</b> på denne <b>dato</b>."
+varErrorText = err_txt_183 & "<br> <b>Job</b> "&err_txt_185&" <b>"&err_txt_186&"</b> "&err_txt_187&" <b>"&err_txt_188&"</b>."
 
 case 20
-varErrorText = "<b>Timer</b> er ikke angivet som et tal.<br><br>Husk at angive et [.] (punktum) og <br>ikke et [,] (komma) hvis der angives halve timer."
+varErrorText = "<b>"&err_txt_189&"</b> "&err_txt_190&"<br><br>"&err_txt_191&" [.] ("&err_txt_192&") "&err_txt_193&" <br>"&err_txt_194&" [,] ("&err_txt_195&") " & err_txt_196
 case 21
-varErrorText = "<b>Kontakt id</b> er ikke udfyldt, eller det er over 15 karakterer langt."
+varErrorText = "<b>"&err_txt_148&"</b> "& err_txt_197
 case 22
-varErrorText = "<b>Medarbejdernr</b> er ikke angivet som et nummer."
+varErrorText = "<b>"&err_txt_198&"</b> "& err_txt_199
 
 case 23
-varErrorText = "<b>Aktiviteter</b><br><br>"_
-&"Der mangler at blive indtastet en af følgende informationer: <br><br> "_
-&"- Aktivitets navn<br>"_
-&"- Navn indeholder en ulovlig karakter (<b>apostrof.</b>).<br>"_
+varErrorText = "<b>"&err_txt_200&"</b><br><br>"_
+& err_txt_153 &": <br><br> "_
+&"- "&err_txt_201&"<br>"_
+&"- "&err_txt_202&" (<b>"&err_txt_203&"</b>).<br>"_
 
 '&"<li>Startdato er en <b>senere dato </b>end slutdato."_
 
 case 24
-varErrorText = "Et job med det valgte <b>Job nr.</b> eller <b>Tilbudsnr.</b> eksisterer allerede.<br>Gå tilbage og tildel jobbet et nyt jobnummer.<br><br>Ofte vil det være nok at addere nummeret med 1"
+varErrorText = err_txt_204 & " <b>"&err_txt_168&"</b> "&err_txt_169&" <b>"&err_txt_170&"</b> "&err_txt_145&"<br>"&err_txt_205&"<br><br>" & err_txt_206
 
 case 25
-varErrorText = "Du har brugt mere end <b>3 forsøg</b> på at logge ind.<br>Dette medfører at du ikke længere kan logge ind i systemet.<br><br><a href='javascript:window.close()'>Luk browseren</a> og prøv igen <br>eller Kontakt din TimeOut 2.1 administrator for at få et nyt login."
+varErrorText = err_txt_207 & " <b>3 "&err_txt_208&"</b> "&err_txt_209&"<br>"&err_txt_210&"<br><br><a href='javascript:window.close()'>"&err_txt_211&"</a> "&err_txt_212&" <br>" & err_txt_213 
 
 case 26
-varErrorText = "<b>ERP - Opret Faktura!</b><br>"_
-&"Der mangler at blive indtaste en følgende informationer:<br><ul>"_
-&"<li>Timer"_
-&"<li>Beløb"_
+varErrorText = "<b>"&err_txt_214&"!</b><br>"_
+& err_txt_153 &":<br><ul>"_
+&"<li>"& err_txt_189 _
+&"<li>"& err_txt_215 _
 &"</ul>"
 
 case 27
-varErrorText = "<b>Beløb</b> er ikke angivet som et hel-tal.<br>"_
-&"Dvs. feltet indeholder andre tegn end tallene 0-9, samt komma eller punktum."
+varErrorText = "<b>"&err_txt_215&"</b> "&err_txt_216&"<br>"_
+& err_txt_175
 
 case 28, 135
 varErrorText = replace(err_txt_028, "#nylinie#", "<br>") &" "& tTimertildelt(y) 
@@ -141,276 +141,276 @@ varErrorText = replace(err_txt_028, "#nylinie#", "<br>") &" "& tTimertildelt(y)
     'end if
 
 case 29
-varErrorText = "<b>Faktura nr.</b>findes alledrede i systemet. Vælg et andet."
+varErrorText = "<b>"&err_txt_217&"</b> "& err_txt_218
 
 case 30
-varErrorText = "<b>Timer</b> skal være > 0 når budget er angivet som fast pris."
+varErrorText = "<b>"&err_txt_189&"</b> "&err_txt_219&" > "& err_txt_220
 'case 31 'Not in use
 'varErrorText = "<b>Timer</b> skal være mellem 0 og 24, og <b>minutter</b> skal være mellem 0 og 60."
 case 31 
-varErrorText = "Sandsynlighed indeholder ulovlige karakterer eller er ikke udfyldt.<br>Sandsynlighed skal være mellem 1 og 100%."
+varErrorText = err_txt_221 & "<br>"& err_txt_222
 case 32
-varErrorText = "Aktivitet start datoen er en tidligere dato end job start datoen, som er:<br> <b>"& formatdatetime(jobstdate, 1) &"</b>"
+varErrorText = err_txt_223 &":<br> <b>"& formatdatetime(jobstdate, 1) &"</b>" 
 
 case 33
-varErrorText = "Aktivitet slut datoen er en senere dato end job slut datoen, som er: <br><b>"& formatdatetime(jobsldate, 1) &"</b>"
+varErrorText = err_txt_224 & ": <br><b>"& formatdatetime(jobsldate, 1) &"</b>"
 
 case 34
-varErrorText = "Der er mere end 1255 karakterer i kommentaren!"
+varErrorText = err_txt_225 & "!"
 case 35
-varErrorText = "Der er tildelt flere timer på denne aktivitet,<br> end der er til rådighed på jobbet.!"
+varErrorText = err_txt_226 & "<br>"& err_txt_227 &"!"
 case 36
-varErrorText = "Den valgte slut dato skal være en senere dato end den valgte start dato."
+varErrorText = err_txt_228
 case 37
-varErrorText = "Den valgte dato for den opfølgende aktion skal være en senere dato en den først oprettede aktion."
+varErrorText = err_txt_229
 case 38
-varErrorText = "Da den valgte dato for den opfølgende aktion er den samme som for den først oprettede aktion, skal start tidspunktet for den opfølgende aktion være senere end slut tidspunktet på den første aktion."
+varErrorText = err_txt_230
 case 39
-varErrorText = "De angivne <b>Time-</b> eller <b>Interne kost</b> <b>-priser</b> er:<ul>"_
-&"<li>Ikke angivet som et <b>hel-tal</b> (Indeholder et komma)."_
-&"<li>Indeholder et <b>ugyldigt tegn</b> eller bogstav."_
-&"<li>Et af dem er angivet som et <b>negativt tal</b>."_
-&"<li>Et af dem er <b>tomme</b> (ikke udfyldt).</ul>"
+varErrorText = err_txt_231 & " <b>Time-</b> "&err_txt_169&" <b>"&err_txt_232&"</b><b> -"&err_txt_233&"</b> "&err_txt_234&":<ul>"_
+&"<li>"&err_txt_235&" <b>"&err_txt_236&"</b> ("&err_txt_237&")."_
+&"<li>"&err_txt_2238&" <b>"&err_txt_239&"</b> " & err_txt_240 _
+&"<li>"&err_txt_241&" <b>"&err_txt_242&"</b>."_
+&"<li>"&err_txt_243&" <b>"&err_txt_244&"</b> ("&err_txt_245&").</ul>"
 case 40
-varErrorText = "Der mangler at blive valgt et eller flere af følgende felter:<br>"_
-&" <ul><li><b>Medarbejdere</b><li><b>Job</b></ul>"
+varErrorText = err_txt_246 & ":<br>"_
+&" <ul><li><b>"&err_txt_247&"</b><li><b>"&err_txt_184&"</b></ul>"
 case 41
 useleftdiv = "j"
-varErrorText = "Der mangler at blive valgt en eller flere af følgende felter:<br>"_
-&" <ul><li><b>Ugedage</b><li><b>Datoer</b><li><b>Måneder</b></ul>"
+varErrorText = err_txt_248 & ":<br>"_
+&" <ul><li><b>"&err_txt_249&"</b><li><b>"&err_txt_250&"</b><li><b>"&err_txt_251&"</b></ul>"
 
 case 42
-varErrorText = "<b>Faktura nr.</b> er ikke angivet som et tal."
+varErrorText = "<b>"&err_txt_217&"</b> " & err_txt_190
 
 case 43
 useleftdiv = "c"
-varErrorText = "Der mangler at blive indtastet en af følgende informationer: <br> "_
+varErrorText = err_txt_153 & ": <br> "_
 &"<ul> "_
 &"<li>Emne</ul>"
 case 44
 useleftdiv = "c"
-varErrorText = "Startdatoen er af nyere dato iforhold til slutdatoen.<br> "
+varErrorText = err_txt_253 & "<br> "
 case 45
 useleftdiv = "c"
-varErrorText = "Der er ikke valgt hvilke medarbejdere der skal oprettes på opgaven.<br> "
+varErrorText = err_txt_254 & "<br> "
 case 46
-varErrorText = "<ul><li>Der mangler at blive indtastet et <b>navn</b> eller et <b>kontonr</b>."_
-&"<li>Eller en konto med det valgte kontonr findes allerede.</ul>"
+varErrorText = "<ul><li>"&err_txt_135&" <b>"&err_txt_136&"</b> "&err_txt_250&" <b>"&err_txt_255&"</b>."_
+&"<li>"&err_txt_256&"</ul>"
 case 47
-varErrorText = "<ul><li>Der mangler at blive indtastet et <b>navn</b> eller en <b>momskvotient</b>.</ul>"
+varErrorText = "<ul><li>"&err_txt_135&" <b>"&err_txt_136&"</b> "&err_txt_257&" <b>"&err_txt_258&"</b>.</ul>"
 case 48
-varErrorText = "<ul><li>Momskvotient'en indeholder ugyldige karakterer.</ul>"
+varErrorText = "<ul><li>"&err_txt_259&"</ul>"
 case 49
-varErrorText = "<ul>Der er angivet ugyldige karakterer i en eller flere af de følgende felter.</ul>"_
-&"<li>Nettobeløb.<li>Momsbeløb.<li>Totalbeløb."
+varErrorText = "<ul>"&err_txt_260&"</ul>"_
+&"<li>"&err_txt_261&"<li>"&err_txt_262&"<li>" & err_txt_263
 case 50
-varErrorText = "<ul><li>Der mangler at blive indtastet <b>Totalbeløb</b>.</ul>"
+varErrorText = "<ul><li>"&err_txt_264&" <b>"&err_txt_265&"</b>.</ul>"
 case 51
-varErrorText = "<b>Faktor</b> er ikke angivet som et tal.<br><br>Husk at angive et [.] (punktum) og <br>ikke et [,] (komma) hvis der angives halve enheder."
+varErrorText = "<b>"&err_txt_266&"</b> "&err_txt_190&"<br><br>"&err_txt_267&" <br>" & err_txt_268
 case 52
-varErrorText = "Mindst en af følgende kriterier er ikke opfyldt:<ul><li>Der er ikke valgt om fakturaer skal godkendes uden gennemsyn.<br><b>(Kvik fakturering er ikke slået til!)</b><br><br>"
-varErrorText = varErrorText & "<li>Der er <b>ikke</b> valgt hvilke <b>aftaler</b> der skal faktureres.</ul>"
+varErrorText = err_txt_269 & ":<ul><li>"&err_txt_270&"<br><b>("&err_txt_271&"!)</b><br><br>"
+varErrorText = varErrorText & "<li>"&err_txt_272&" <b>"&err_txt_273&"</b> "&err_txt_274&" <b>"&err_txt_275&"</b> "&err_txt_276&"</ul>"
 case 53
-varErrorText = "Der er ikke valgt en folder.!"
+varErrorText = err_txt_277 & "!"
 case 54
 varErrorText = err_txt_054 '"<b>Antal</b> er ikke angivet som et tal!"
 case 55
-varErrorText = "<b>Indkøbspris</b> er ikke angivet som et tal!"
+varErrorText = "<b>"&err_txt_278&"</b> "&err_txt_279&"!"
 case 56
-varErrorText = "<b>Salgspris</b> er ikke angivet som et tal!"
+varErrorText = "<b>"&err_txt_280&"</b> "&err_txt_279&"!"
 case 57
-varErrorText = "<b>Produktionstid</b> er ikke angivet som et tal!"
+varErrorText = "<b>"&err_txt_81&"</b> "&err_txt_279&"!"
 'case 58
 'varErrorText = "<b>Logud tidspunkt</b> er ikke angivet i et tilladt format!"
 case 59
-varErrorText = "En eller flere <b>Komme / Gå tidspunkt(er)</b> er ikke angivet i et gyldigt dato- og/eller tids -format!<br><br>Der er angivet ulovlige karakterer eller der mangler angivelse."
+varErrorText = err_txt_282 & " <b>"&err_txt_283&"</b> "&err_txt_284&"!<br><br>" & err_txt_285
 case 60
-varErrorText = "En eller flere <b>Komme / Gå tidspunkt(er)</b> er ikke angivet i et gyldigt dato- og/eller tids -format!<br><br>Der er angivet ulovlige karakterer eller der mangler angivelse."
+varErrorText = err_txt_282 & " <b>"&err_txt_283&"</b> "&err_txt_284&"!<br><br>" & err_txt_285
 case 61
-varErrorText = "<ul><li>Der mangler at blive indtastet et navn"
-varErrorText = "<li>Beløb er ikke indtastet som tal</ul>"
+varErrorText = "<ul><li>" & err_txt_286
+varErrorText = "<li>"&err_txt_287&"</ul>"
 useleftdiv = "c"
 case 62
-varErrorText = "<ul><li><b>Kontonr</b> er ikke angivet som et tal.</ul>"
+varErrorText = "<ul><li><b>"&err_txt_541&"</b> "&err_txt_190&"</ul>"
 case 63
-varErrorText = "En eller flere af de indtastede <b>tids-angivelser</b> indeholder ulovlige karakterer. <br><br>"_
-&"Registreringerne må kun indeholde <b>tallene 0-9, samt kolon</b>."
+varErrorText = err_txt_288 & " <b>"&err_txt_289&"</b> "&err_txt_290&" <br><br>"_
+& err_txt_291 &" <b>"&err_txt_292&"</b>."
 case 64
-varErrorText = "En eller flere af de indtastede <b>tids-angivelser</b> er ikke et gyldigt <b>tidsformat.</b> <br><br>"_
-&"Tidsformatet skal være f.eks <b>9:30, 12:59 etc.</b><br>Den angivne tid er: <b>" & errTid & "</b>"
+varErrorText = err_txt_288 & " <b>"&err_txt_289&"</b> "&err_txt_293&" <b>"&err_txt_294&"</b> <br><br>"_
+& err_txt_295 &" <b>9:30, 12:59 etc.</b><br>"&err_txt_296&": <b>" & errTid & "</b>"
 case 65
-varErrorText = "En eller flere af de indtastede <b>start tidspunkter</b> er senere end det tilsvarende <b>slut tidspunkt.</b>"
+varErrorText = err_txt_288 &" <b>"&err_txt_297&"</b> "&err_txt_298&" <b>"&err_txt_299&"</b>"
 case 66
-varErrorText = "<b>Stempelur - logindhistorik</b>- Dato er ikke angivet i et korrekt datoformat, <br>eller den valgte dato er ikke gyldig."
+varErrorText = "<b>"&err_txt_300&"</b>- "&err_txt_301&" <br>"& err_txt_302
 case 67
-varErrorText = "En eller flere af de indtastede <b>Forecast</b> indeholder ulovlige karakterer.<br>"_
-&"Forecast må kun indeholde <b>tallene 0-9</b>, samt <b>komma </b>eller <b>punktum</b>."
+varErrorText = err_txt_288 &" <b>"&err_txt_303&"</b> "&err_txt_290&"<br>"_
+& err_txt_543 &" <b>"&err_txt_544&" 0-9</b>, "&err_txt_545&" <b>"&err_txt_546&" </b>"&err_txt_547&" <b>"&err_txt_548&"</b>."
 case 68
-varErrorText = "<b>Der mangler en eller flere af følgende informationer:</b><br> - Der er ikke angivet et Emne."
+varErrorText = "<b>"&err_txt_313&":</b><br> - "& err_txt_304
 case 69
-varErrorText = "<b>Der mangler en eller flere af følgende informationer:</b><br> - Der er ikke angivet en Kontakt."
+varErrorText = "<b>"&err_txt_313&":</b><br> - "& err_txt_305
 case 70
-varErrorText = "<b>Der mangler en eller flere af følgende informationer:</b><br> - Der er ikke angivet en Incident Kategori."
+varErrorText = "<b>"&err_txt_313&":</b><br> - "& err_txt_306
 case 71
-varErrorText = "<b>Der mangler en eller flere af følgende informationer:</b><br> - Der er ikke angivet en Incident Type (Prioitet)"
+varErrorText = "<b>"&err_txt_313&":</b><br> - "& err_txt_307
 case 72
-varErrorText = "<b>Der mangler en eller flere af følgende informationer:</b><br> - Der er ikke angivet en Incident Status."
+varErrorText = "<b>"&err_txt_313&":</b><br> - "& err_txt_308
 case 73
-varErrorText = "<b>Der mangler en eller flere af følgende informationer:</b><br> - Der er ikke angivet et varenr, eller varenr er = 0."_
-&" Det er ikke lovligt at angive <b>0 (NUL)</b> som varenr."
+varErrorText = "<b>"&err_txt_313&":</b><br> - "& err_txt_309 _
+& err_txt_310 &" <b>"&err_txt_311&"</b> "& err_txt_312
 case 74
 varErrorText = replace(err_txt_074, "#nylinie#", "<br>")
 case 75
-varErrorText = "<b>Minimums lager</b> er ikke angivet som et tal!"
+varErrorText = "<b>"&err_txt_314&"</b> "&err_txt_279&"!"
 case 76
-varErrorText = "<b>Antal</b> er ikke angivet som et tal!"
+varErrorText = "<b>"&err_txt_315&"</b> "&err_txt_279&"!"
 case 77
-varErrorText = "<b>Der skal angives en kontakt!</b><br>"_
-&" - Hvis der ikke er nogen kontakter tilgængelige på listen,<br>"_
-&" er det fordi der ikke er angivet ServiceDesk prioitets gruppe på nogen kontakter."
+varErrorText = "<b>"&err_txt_316&"!</b><br>"_
+&" - "&err_txt_317&",<br>"_
+& err_txt_318
 case 78
-varErrorText = "<b>ServiceDesk, åbningstider.</b><br>"_
-&" Der er angivet en ulovlig karakter!"_
-&" <br><br> - En eller flere af de angivne åbningstider er ikke udfyldt korrekt.<br>"_
-&" Felterne skal  indeholde en gyldig tidsangivelse. Eks: 08:30, 14:35 etc."
+varErrorText = "<b>"&err_txt_319&"</b><br>"_
+&" "&err_txt_320&"!"_
+&" <br><br> - "&err_txt_321&"<br>"_
+&" "& err_txt_322
 
 case 79
-varErrorText = "<b>ServiceDesk, åbningstider.</b><br>"_
-&" - En af de angivne lukketider er tidligere en den tilsvarende åbningstid."
+varErrorText = "<b>"&err_txt_319&"</b><br>"_
+&" - "& err_txt_323
 
 case 80
-varErrorText = "<b>Stempelur - ignorer periode!</b><br>"_
-&" Der er angivet en ulovlig karakter i ignorer periode for stempelur!"_
-&" <br><br> - Start eller Slut tid til  er ikke udfyldt korrekt.<br>"_
-&" Felterne skal indeholde en gyldig tidsangivelse. Eks: 08:30, 14:35 etc."
+varErrorText = "<b>"&err_txt_324&"!</b><br>"_
+&" "&err_txt_325&"!"_
+&" <br><br> - "&err_txt_326&"<br>"_
+&" "& err_txt_327
 
 case 81
-varErrorText = "<b>Stempelur - standard pause!</b><br>"_
-&" Der er angivet en ulovlig karakter i en af de angivne<br> standard pauser <b>(A ell. B)</b>."_
+varErrorText = "<b>"&err_txt_328&"!</b><br>"_
+&" "&err_txt_329&"<br> "&err_txt_330&" <b> ("&err_txt_331&")</b>."_
 &" <br><br>"_
-&" - Felterne må kun indeholde tallene fra 0 - 9."
+&" - "& err_txt_322
 
 case 82
-varErrorText = "<b>Stempelur - standard pauser!</b><br>"_
-&" Når der er valgt et pause minuttal, der afviger fra de angivne standard pauser, skal der tilføjes en kommentar."
+varErrorText = "<b>"&err_txt_328&"!</b><br>"_
+&" "& err_txt_333
 
 case 83
-varErrorText = "<b>Fakturering - Fejl</b><br>"_
-&"Du mangler at beslutte om det er et job eller aftale du ønsker at fakturere."
+varErrorText = "<b>"&err_txt_334&"</b><br>"_
+& err_txt_335
 
 
 case 84
-varErrorText = "<b>ERP - Fakura masker!</b><br>"_
-&" Der er angivet en ulovlig karakter i en af de angivne<br> faktura masker. <b>(Faktura, kladde, intern, ell. kreditnota)</b>."_
+varErrorText = "<b>"&err_txt_336&"!</b><br>"_
+& err_txt_329 &"<br> "&err_txt_337&" <b> ("&err_txt_338&")</b>."_
 &" <br><br>"_
-&" - Felterne må kun indeholde tallene fra 0 - 9."
+&" - "& err_txt_332
 
 
 case 85
-varErrorText = "<b>ERP - Fakura Rykker!</b><br>"_
-&" Den valgte dato er ikke et gyldigt dato format / datoen findes ikke."
+varErrorText = "<b>"&err_txt_339&"!</b><br>"_
+& err_txt_340
 
 
 case 86,87
-varErrorText = "<b>ERP - Fakura Rykker!</b><br>"_
-&"Antal ell. beløb indeholder ulovlige karakterer. <br>Disse felter må kun indeholde tal."
+varErrorText = "<b>"&err_txt_339&"!</b><br>"_
+& err_txt_341 &"<br>"& err_txt_342
 
 case 88
-varErrorText = "<b>ERP - Valg af job eller aftale!</b><br>"_
-&"Der mangler at blive valgt det job eller den aftale som skal faktureres."
+varErrorText = "<b>"&err_txt_343&"!</b><br>"_
+& err_txt_344
 
 case 89
-varErrorText = "<b>ERP - Fakturanr findes i forvejen!</b><br>"_
-&"Du er ved at oprette en faktura med et fakturanummr der findes i forvejen.<br>"_
-&"Tjek seneste faktura nummer i kontrolpanelet, og sammenhold med seneste oprettede faktura. (søg i fakturaer).<br>"_
-&"<br>Hvis du ikke har adgang til kontrolpanelet skal du have fat i din administrator."
+varErrorText = "<b>"&err_txt_345&"!</b><br>"_
+& err_txt_346 &"<br>"_
+& err_txt_347 &"<br>"_
+&"<br>"& err_txt_348
 
 case 90
 varErrorText = regdato &" - "& replace(err_txt_090, "#nylinie#", "<br>")
 
 case 91
-varErrorText = "<b>TSA - Jobnr og tilbudsnr!</b><br>"_
-&" Der er angivet en ulovlig karakter i en af de angivne<br> jobnr / tilbudsnr masker."_
+varErrorText = "<b>"&err_txt_349&"!</b><br>"_
+& err_txt_329 &"<br>"& err_txt_350 _
 &" <br><br>"_
-&" - Felterne må kun indeholde tallene fra 0 - 9."
+&" - "& err_txt_332
 
 case 92
-varErrorText = "<b>TSA - Manglende information!</b><br>"_
-&" - Der mangler at blive valgt en kunde i step 1."_
+varErrorText = "<b>"&err_txt_351&"!</b><br>"_
+&" - "& err_txt_352 _
 &" <br><br>"
 
 case 93
-varErrorText = "<b>TSA - Jobnummer findes i forvejen!</b><br>"_
-&" - Det ønskede jobnummer <b>("& jobnrFindesNR &")</b> er allerede ibrug, nummeret kan derfor ikke benyttes.<br>"_
-&"<br>Hvis der oprettes flere job samtidig, <u>er</u> job frem til før dette jobnummer blevet oprettet. Jobnrrækkefølgen skal ændres i kontrolpanelet."_
+varErrorText = "<b>"&err_txt_353&"!</b><br>"_
+&" - "&err_txt_354&" <b>("& jobnrFindesNR &")</b> "&err_txt_355&"<br>"_
+&"<br>"&err_txt_356&" <u>"&err_txt_234&"</u> "& err_txt_357 _
 &" <br><br>"
 
 case 94
-varErrorText = "<b>TSA - Tilbudsnummer findes i forvejen!</b><br>"_
-&" - Det ønskede tilbudsnummer <b>("& tilbudsnrFindesNR &")</b> er allerede ibrug, nummeret kan derfor ikke benyttes.<br>"_
-&"<br>Hvis der oprettes flere job samtidig, <u>er</u> job frem til før dette tilbudsnummer blevet oprettet. Tilbudsnummer-rækkefølgen skal ændres i kontrolpanelet."_
+varErrorText = "<b>"&err_txt_358&"!</b><br>"_
+&" - "&err_txt_359&" <b>("& tilbudsnrFindesNR &")</b> "&err_txt_355&"<br>"_
+&"<br>"&err_txt_356&" <u>"&err_txt_234&"</u> "& err_txt_360 _
 &" <br><br>"
 
 case 95
-varErrorText = "<b>ERP - Kontonummer</b><br>"_
-&" - Det angivne kontonummer er ikke angivet korrekt.<br>"_
+varErrorText = "<b>"&err_txt_361&"</b><br>"_
+&" - "&err_txt_362&"<br>"_
 &" <br><br>"
 
 case 96
-varErrorText = "<b>ERP - faktura moms %</b><br>"_
-&" - Den angivne procentsats er ikke angivet korrekt. (hel-tal)<br>"_
+varErrorText = "<b>"&err_txt_363&" %</b><br>"_
+&" - "& err_txt_364 &"<br>"_
 &" <br><br>"
 
 case 97
-varErrorText = "<b>ERP - Momsafslutning</b><br>"_
-&" - Den angivne kommentar er for lang. Den må maks være 255 karakterer."_
+varErrorText = "<b>"&err_txt_365&"</b><br>"_
+&" - "& err_txt_366 _
 &" <br><br>"
 
 case 98
-varErrorText = "<b>ERP - Momsafslutning</b><br>"_
-&" - Den angivne dato er ikke angivet i et korrekt datoformat.<br>"_
-&"Du har indtastet: <b>"& thisafslutdato &"</b><br>"_
+varErrorText = "<b>"&err_txt_365&"</b><br>"_
+&" - "&err_txt_367&"<br>"_
+& err_txt_368 &": <b>"& thisafslutdato &"</b><br>"_
 &" <br><br>"
 
 case 99
-varErrorText = "<b>ERP - posteringsdato</b><br>"_
-&" - Den angivne posteringsdato (fakturadato) ligger i en afsluttet momsperiode."_
-&" Faktura / posterings dato: <b>"& cdate(tjkPosDato) &"</b><br>"_
-&" Seneste momsperiode er afsluttet d. <b>"& cdate(momsafsluttetDato) &"</b><br>"_
+varErrorText = "<b>"&err_txt_369&"</b><br>"_
+&" - "& err_txt_370 _
+& err_txt_371 &": <b>"& cdate(tjkPosDato) &"</b><br>"_
+& err_txt_372 &" <b>"& cdate(momsafsluttetDato) &"</b><br>"_
 &" <br><br>"
 
 case 100
-varErrorText = "<b>Materialeordre</b><br>"_
-&" - Den angivne dato er ikke angivet i et korrekt datoformat.<br>"_
-&"Du har indtastet: <b>"& odrdato &"</b><br>"_
+varErrorText = "<b>"&err_txt_373&"</b><br>"_
+&" - "&err_txt_367&"<br>"_
+& err_txt_368 &": <b>"& odrdato &"</b><br>"_
 &" <br><br>"
 
 case 101
-varErrorText = "<b>Materialeordre</b><br>"_
-&" - Et af de angivne antal, på en af ordre linierne, er ikke angivet som et <b>tal</b>.<br>"_
-&"Du har indtastet følgende: <b>"& vareantal &"</b><br>"_
+varErrorText = "<b>"&err_txt_373&"</b><br>"_
+&" - "&err_txt_374&" <b>"&err_txt_375&"</b>.<br>"_
+& err_txt_376 &": <b>"& vareantal &"</b><br>"_
 &" <br><br>"
 
 case 102
-varErrorText = "<b>Materialeordre</b><br>"_
-&" - En ordre med det valgte ordrenr findes i forvejen.<br>"_
-&"Sidst oprettede ordrenr er: <b>"& lastordnr &"</b><br><br>"
+varErrorText = "<b>"&err_txt_373&"</b><br>"_
+&" - "&err_txt_377&"<br>"_
+& err_txt_378 &": <b>"& lastordnr &"</b><br><br>"
 
 
 case 103
-varErrorText = "<b>Materialeordre</b><br>"_
-&" - Det valgte ordrenr indeholder ulovlige karakterer.<br>"_
-&"Det angivne ordrenr er: <b>"& odrid  &"</b><br><br>"
+varErrorText = "<b>"&err_txt_373&"</b><br>"_
+&" - "&err_txt_379&"<br>"_
+& err_txt_380 &": <b>"& odrid  &"</b><br><br>"
 
 case 104
-varErrorText = "<b>Materialegrupper</b><br>"_
-&" - Gruppenavn mangler at blive udfyldt.<br><br>"
+varErrorText = "<b>"&err_txt_381&"</b><br>"_
+&" - "&err_txt_382&"<br><br>"
 
 
 case 105
-varErrorText = "<b>Materialegrupper</b><br>"_
-&" - Den valgte avance % indeholder ulovlige karakterer.<br>"_
-&"Eller mangler at blive udfyldt. Angiv et heltal fra 0-100.<br><br>"
+varErrorText = "<b>"&err_txt_381&"</b><br>"_
+&" - "&err_txt_383&"<br>"_
+& err_txt_374 &"<br><br>"
 
 
 case 106
@@ -431,287 +431,287 @@ varErrorText = varErrorText & "&nbsp;"& regdato
 varErrorText = varErrorText & replace(err_txt_108C, "#nylinie#", "<br>")
 
 case 109
-varErrorText = "<b>Budget Brutto/Netto Dage & Timer</b><br>"_
-&"Der mangler at blive angivet et navn."
+varErrorText = "<b>"&err_txt_385&" & "&err_txt_189&"</b><br>"_
+& err_txt_386
 
 
 
 case 110
-varErrorText = "<b>Valutaer</b><br>"_
-&"Der mangler at blive angivet et navn på valutaen."
+varErrorText = "<b>"&err_txt_387&"</b><br>"_
+& err_txt_388
 
 
 case 111
-varErrorText = "<b>Valutaer</b><br>"_
-&"Der mangler at blive angivet en valutakode."
+varErrorText = "<b>"&err_txt_387&"</b><br>"_
+& err_txt_389
 
 
 case 112
-varErrorText = "<b>Valutaer</b><br>"_
-&"Kurs er ikke angivet som et tal.<br>"_
-&"Eller kursen er sat = 0, hvilket ikke er lovligt."
+varErrorText = "<b>"&err_txt_387&"</b><br>"_
+& err_txt_390 &"<br>"_
+& err_txt_391
 
 case 113
-varErrorText = "<b>Budget medarbejdere</b><br>"_
-&"Et eller flere felter indeholder ulovlige karakterer (A-Å), eller feltet er tomt."
+varErrorText = "<b>"&err_txt_392&"</b><br>"_
+& err_txt_393
 
 case 114
-varErrorText = "<b>Medarbejder</b><br>"_
-&"Ansatdato indeholder ulovlige karakterer og er ikke et gyldigt datoformat, eller feltet er tomt."
+varErrorText = "<b>"&err_txt_394&"</b><br>"_
+& err_txt_395
 
 case 115
-varErrorText = "<b>Medarbejder</b><br>"_
-&"Opsagtdato indeholder ulovlige karakterer og er ikke et gyldigt datoformat, eller feltet er tomt."
+varErrorText = "<b>"&err_txt_394&"</b><br>"_
+& err_txt_396
 
 case 116
-varErrorText = "<b>Stopur</b><br>"_
-&"<b>Starttid</b>, ell. <b>sluttid</b> indeholder ulovlige karakterer og er ikke et gyldigt datoformat, eller feltet er tomt."
+varErrorText = "<b>"&err_txt_397&"</b><br>"_
+&"<b>"&err_txt_398&"</b>, "&err_txt_399&"<b> "&err_txt_400&"</b> "& err_txt_401
 
 
 case 117
-varErrorText = "<b>Timeregistrering</b><br>"_
-&" Den registrering Du forsøger at foretage er blevet afvist. Det skyldes en af to følgende grunde:<br><br> "_
-&" <b>A)</b> Registreringsdato "_
-&" ligger i et datointerval der allerede er faktureret.<br><br>"_
-&" <b>B)</b> Du prøver at registrere timer i en periode der er afsluttet/lukket."
+varErrorText = "<b>"&err_txt_402&"</b><br>"_
+& err_txt_403 &":<br><br> "_
+&" <b>A)</b> "&err_txt_404&" "_
+& err_txt_405 &"<br><br>"_
+&" <b>B)</b> "& err_txt_406
 
 '&" Seneste faktura dato på dette job er: <b>" & lastFakdato &"</b><br><br>"_
 '&" Den valgte registrerings dato er: <b>"& regdato & "</b><br><br>"_
 
 case 118
-varErrorText = "<b>Kopier job</b><br>"_
-&"Der er ikke valgt nogen kontakter."
+varErrorText = "<b>"&err_txt_407&"</b><br>"_
+& err_txt_408
 
 case 119
-varErrorText = "<b>Kopier job</b><br>"_
-&"Der er ikke valgt noget job."
+varErrorText = "<b>"&err_txt_407&"</b><br>"_
+& err_txt_409
 
 
 case 120
 varErrorText = replace(err_txt_120, "#nylinie#", "<br>")
 
 case 121
-varErrorText = "<b>ServiceDesk</b><br>"_
-&" - Dato for udførsel er ikke angivet i et korrekt format."
+varErrorText = "<b>"&err_txt_410&"</b><br>"_
+&" - " & err_txt_411
 
 
 case 122
-varErrorText = "<b>Aktivitet</b><br>"_
-&" - Antal stk. er ikke angivet i et korrekt format."
+varErrorText = "<b>"&err_txt_549&"</b><br>"_
+&" - " & err_txt_412
 
 case 123
-varErrorText = "<b>Webblik - Joblisten</b><br>"_
-&" - <b>Prioitet</b> er ikke angivet i et korrekt format."
+varErrorText = "<b>"&err_txt_413&"</b><br>"_
+&" - <b>"&err_txt_414&"</b> "& err_txt_174
 
 case 124
-varErrorText = "<b>Job - budget</b><br><br>"_
-&"Gns. timepris er ikke angivet korrekt."
+varErrorText = "<b>"&err_txt_415&"</b><br><br>"_
+& err_txt_416
 
 case 125
-varErrorText = "<b>Job - budget</b><br><br>"_
-&"Medarbejder beløb beregnet udfra Gns. timepris * faktor er ikke angivet korrekt."
+varErrorText = "<b>"&err_txt_415&"</b><br><br>"_
+& err_txt_417
 
 
 case 1251
-varErrorText = "<b>Job - budget</b><br><br>"_
-&"Interne omkostninger til løn er ikke angivet korrekt."
+varErrorText = "<b>"&err_txt_415&"</b><br><br>"_
+& err_txt_418
 
 case 1252
-varErrorText = "<b>Job - budget</b><br><br>"_
-&"Udgifter til underleverandører / salgsomkostinger er ikke angivet korrekt."
+varErrorText = "<b>"&err_txt_415&"</b><br><br>"_
+& err_txt_419
 
 case 126
-varErrorText = "<b>Job - budget</b><br><br>"_
-&"Bruttofortjeneste er ikke angivet korrekt."
+varErrorText = "<b>"&err_txt_415&"</b><br><br>"_
+& err_txt_420
 
 case 127
-varErrorText = "<b>Job - budget</b><br><br>"_
-&"DB % er ikke angivet korrekt."
+varErrorText = "<b>"&err_txt_415&"</b><br><br>"_
+& err_txt_421
 
 case 128
-varErrorText = "<b>Job - budget</b><br><br>"_
-&"<b>Faktor</b> til beregning af medarbejder beløb er ikke angivet korrekt.<br><br>Tjek at der er angivet mindst 1 time på en medarbejdertype linje."
+varErrorText = "<b>"&err_txt_415&"</b><br><br>"_
+&"<b>"&err_txt_266&"</b> "&err_txt_422&"<br><br>"& err_txt_423
 
 case 129
-varErrorText = "<b>Job - budget</b><br><br>"_
-&"Udgifter på job er ikke angivet i et korrekt format."
+varErrorText = "<b>"&err_txt_415&"</b><br><br>"_
+& err_txt_424
 
 case 130
 
 if tiderRettet = 1 then
-trTxt = "Ja"
+trTxt = err_txt_425
 else
-trTxt = "Nej"
+trTxt = err_txt_426
 end if
 
-varErrorText = "<b>Stempelur</b><br>"_
-&"Der mangler at blive angivet en kommentar<br><br>- Hvis logind elller logud ændres <u>skal</u> det begrundes med en kommentar.<br><br>"_
-&"- Der er valgt en stempelur-indstilling der altid <u>skal</u> begrundes med en kommentar. (tilretning)<br><br>"_
-&"<b>Data:</b><br>"_
-&"Stempelurs indstilling: ("& trim(ids(a)) &") "& stur(a)  & "<br>"_
-&"Manuelt afsluttet: " & manuelt_afsluttet & "<br>"_
-&"Tid ændret: "& trTxt & "<br><br>"
+varErrorText = "<b>"&err_txt_427&"</b><br>"_
+& err_txt_428 &"<br><br>- "& err_txt_429 &" <u>"&err_txt_430&"</u> "&err_txt_431&"<br><br>"_
+&"- "&err_txt_432&" <u>"&err_txt_430&"</u> "&err_txt_433&"<br><br>"_
+&"<b>"&err_txt_434&":</b><br>"_
+& err_txt_435 &": ("& trim(ids(a)) &") "& stur(a)  & "<br>"_
+& err_txt_436 &": " & manuelt_afsluttet & "<br>"_
+& err_txt_437 &": "& trTxt & "<br><br>"
 
 if len(trim(oprLogin)) <> 0 then
-varErrorText = varErrorText &"Opr. logind: " & formatdatetime(oprLogin, 2) &" "& formatdatetime(oprLogin, 3) & "<br>"_
-&"Nyt logind: " & formatdatetime(loginTid,  2) &" "& formatdatetime(loginTid, 3) & "<br><br>"
+varErrorText = varErrorText &" "&err_txt_438&": " & formatdatetime(oprLogin, 2) &" "& formatdatetime(oprLogin, 3) & "<br>"_
+& err_txt_550 &": " & formatdatetime(loginTid,  2) &" "& formatdatetime(loginTid, 3) & "<br><br>"
 end if
 
 'varErrorText = varErrorText & logudTid
 
 if len(trim(oprLogud)) <> 0 AND len(trim(logudTid)) <> 0 then
-varErrorText = varErrorText &"Opr. logud: " & formatdatetime(oprLogud, 2) &" "& formatdatetime(oprLogud, 3) & "<br>"_
-&"Nyt logud: " & formatdatetime(logudTid, 2) &" "& formatdatetime(logudTid, 3) 
+varErrorText = varErrorText &" "&err_txt_439&": " & formatdatetime(oprLogud, 2) &" "& formatdatetime(oprLogud, 3) & "<br>"_
+& err_txt_551 &": " & formatdatetime(logudTid, 2) &" "& formatdatetime(logudTid, 3) 
 end if
 
 varErrorText = varErrorText &"<br><br>&nbsp;"
 
 case 131
-varErrorText = "<b>Timeregistrering</b><br>"_
-&"Hvis timeregistreringer på pre-udfyldte aktiviterer ændres <u>skal</u> det begrundes med en kommentar."
+varErrorText = "<b>"&err_txt_402&"</b><br>"_
+& err_txt_440 &" <u>"&err_txt_430&"</u> "& err_txt_431
 
 case 132
-varErrorText = "<b>Job</b><br>"_
-&"Prioitet er ikke angivet i et korrekt format. (heltal)"
+varErrorText = "<b>"&err_txt_184&"</b><br>"_
+& err_txt_441
 
 case 133
-varErrorText = "<b>Komme / Gå</b><br>"_
-&"Der er allerede oprettet komme/gå registreringer på den valgte dato.<br>"_
-&"Det er ikke tilladt at oprette komme/gå registreringer på datoer hvor der allerede har været logget ind."
+varErrorText = "<b>"&err_txt_442&"</b><br>"_
+& err_txt_552 &"<br>"_
+& err_txt_553
 
 
 case 134
-varErrorText = "<b>Komme / Gå</b><br>"_
-&"En eller flere komme/gå registreringer er i konflikt med hinanden.<br><br>"_
-&"Det er ikke tilladt at oprette flere komme/gå registreringer på samme dato der dækker over det samme tidsrum.<br><br>"_
-&"Der er konflikt med denne komme/gå registrering:<br> <b>"& strLogindkonflikt & "</b>"
+varErrorText = "<b>"& err_txt_442 &"</b><br>"_
+& err_txt_443 &"<br><br>"_
+& err_txt_444 &"<br><br>"_
+& err_txt_445 &":<br> <b>"& strLogindkonflikt & "</b>"
 
 case 136
-varErrorText = "<b>Timeregistrering</b><br>"_
-&"Der er ikke fundet en aktivitet med en åben tidslås i det valgte tidsrum på den valgte dato.<br>"_
-&"<br>Du har angivet kl.: <b>"& tSttid(y) & " - "& tSltid(y) & "</b><br>"_
-&"Tidslåsen er: "& tidslaas_st &" - "& tidslaas_sl
+varErrorText = "<b>"&err_txt_404&"</b><br>"_
+& err_txt_446 &"<br>"_
+&"<br>"& err_txt_447 &": <b>"& tSttid(y) & " - "& tSltid(y) & "</b><br>"_
+& err_txt_448 &": "& tidslaas_st &" - "& tidslaas_sl
 
 case 137
-varErrorText = "<b>Kontrolpanel</b><br>"_
-&"Den angivne <b>licens startdato</b> er ikke angivet i et korrekt dato format.<br>"
+varErrorText = "<b>"& err_txt_449 &"</b><br>"_
+& err_txt_450 &" <b>"&err_txt_451&"</b> "& err_txt_452 &"<br>"
 
 case 138
-varErrorText = "<b>Kontaktpersoner</b><br>Der mangler at blive indtastet et navn."
+varErrorText = "<b>"& err_txt_453 &"</b><br>"& err_txt_454
 
 
 case 139
-varErrorText = "<b>Stempelur - logindhistorik</b><br><br>Logud tidspunkt er før logind tidspunkt.<br><br>"
-varErrorText = varErrorText & "Du har indtastet: <b>"& left(formatdatetime(loginTid, 3), 5) &"</b> - <b>"& left(formatdatetime(logudTid, 3), 5) &"</b>"
+varErrorText = "<b>"&err_txt_300&"</b><br><br>"&err_txt_455&"<br><br>"
+varErrorText = varErrorText & err_txt_368 &": <b>"& left(formatdatetime(loginTid, 3), 5) &"</b> - <b>"& left(formatdatetime(logudTid, 3), 5) &"</b>"
 
 if use_ig_sltid = 1 then
-varErrorText = varErrorText & "<br><br>Logind tidspunkt er korrigeret til: <b>"& left(formatdatetime(loginTid, 3), 5) &"</b> ifølge stempelur indstillingerne. Kontakt en administrastiv medarbejder for yderligere information."
+varErrorText = varErrorText & "<br><br>"&err_txt_456&": <b>"& left(formatdatetime(loginTid, 3), 5) &"</b> "& err_txt_457
 end if
 
 
 case 140
-varErrorText = "<b>Materiale reg.</b><br><br>- Der er ikke valgt job."
+varErrorText = "<b>"&err_txt_458&"</b><br><br>- "& err_txt_459
 
 case 141
 
-varErrorText = "<b>Aktiviteter</b> <br><br> "_
-&"- Fase indeholder en ulovlig karakter (<b>apostrof.</b>).<br>"_
-&"- Fase indeholder et <b>mellemrum</b> i navnet. Fasenavne skal være et sammenhængende ord. f.eks: ""01_Hovedprojekt""</br><br>"
+varErrorText = "<b>"&err_txt_200&"</b> <br><br> "_
+&"- "&err_txt_460&" (<b>"&err_txt_203&"</b>).<br>"_
+&"- "&err_txt_461&" <b>"&err_txt_462&"</b> "& err_txt_463 &"</br><br>"
 
 case 142
-varErrorText = "<b>Materiale- / Udlægs -registrering</b><br><br>- Forbrugsdato er ikke angivet i et gyldigt dato format."
+varErrorText = "<b>"&err_txt_464&"</b><br><br>- "& err_txt_465
 
 case 143
-varErrorText = "<b>Materiale- / Udlægs -registrering</b><br><br>- Du har valgt at oprette på lager, men der mangler at blive angivet et varenr."
+varErrorText = "<b>"&err_txt_464&"</b><br><br>- "& err_txt_466
 
 case 144
-varErrorText = "<b>Print Job / tilbud</b><br><br>- Der mangler at blive angivet et navn."
+varErrorText = "<b>"&err_txt_467&"</b><br><br>- "& err_txt_383
 
 case 145
-varErrorText = "<b>Print Job / tilbud</b><br><br>- Der mangler at blive angivet en folder."
+varErrorText = "<b>"&err_txt_467&"</b><br><br>- "& err_txt_468
 
 
 case 146
-varErrorText = "<b>Print Job / tilbud</b><br><br>- Der mangler at blive angivet om du vil gemme som skabelon eller dokument."
+varErrorText = "<b>"&err_txt_467&"</b><br><br>- " & err_txt_469
 
 case 147
-varErrorText = "<b>Materiale- / Udlægs -registrering</b><br><br>- Der mangler at blive valgt en gruppe."
+varErrorText = "<b>"&err_txt_464&"</b><br><br>- "& err_txt_470
 
 case 148
-varErrorText = "<b>Aktiviteter</b><br><br>En eller flere af de indtastede <b>tidslås-angivelser</b> er ikke et gyldigt <b>tidsformat.</b> <br><br>"_
-&"Tidsformatet skal være tt:mm:ss, f.eks <b>9:30:00, 12:59:00 etc.</b><br>Den angivne tid er: <b>" & errTid & "</b>"
+varErrorText = "<b>"&err_txt_200&"</b><br><br>"&err_txt_288&" <b>"&err_txt_471&"</b> "&err_txt_293&" <b>"&err_txt_294&"</b> <br><br>"_
+& err_txt_472 &" <b>9:30:00, 12:59:00 etc.</b><br>"&err_txt_296&": <b>" & errTid & "</b>"
 
 case 149
-varErrorText = "<b>Job</b><br><br>- Der mangler at blive angivet et rekvisitions nr."
+varErrorText = "<b>"&err_txt_184&"</b><br><br>- "& err_txt_473
 
 case 150
-varErrorText = "<b>Lønperiode</b><br><br>- Dato er ikke angivet i et gyldigt datoformat, eller datoen eksisterer ikke."
+varErrorText = "<b>"&err_txt_474&"</b><br><br>- "& err_txt_475
 
 case 151
-varErrorText = "<b>Job</b><br><br>- De angivne procenter angivet under jobansvalige indeholder ulovlige kakrakterer."
+varErrorText = "<b>"&err_txt_200&"</b><br><br>- "& err_txt_476
 
 case 152
-varErrorText = "<b>Faktura forfaldsdato</b><br><br>- Den angvine forfaldsdato er ikke angivet i et gyldigt datoformat.<br> Du har angivet: <b> " & Request("FM_forfaldsdato") & "</b>"
+varErrorText = "<b>"&err_txt_477&"</b><br><br>- "&err_txt_4478&"<br> "&err_txt_479&": <b> " & Request("FM_forfaldsdato") & "</b>"
 
 
 case 153
-varErrorText = "<b>Aktivitet</b><br><br>- Den angivne sortering er ikke angivet som et hel-tal"
+varErrorText = "<b>"&err_txt_549&"</b><br><br>- "& err_txt_480
 'case 151
 'varErrorText = "<b>Lønperiode</b><br><br>- Dato er ikke angivet i et gyldigt datoformat, eller datoen eksisterer ikke."
 
 case 154
-varErrorText = "<b>Materiale reg.</b><br><br>- Det angivne antal, <br>- Købspris eller salgspris<br>er ikke angivet i et gyldigt format. (tal)<br><br>- Der er ikke angivet et navn."
+varErrorText = "<b>"&err_txt_458&"</b><br><br>- "&err_txt_481&" <br>- "&err_txt_482&"<br>"&err_txt_483&"<br><br>- "& err_txt_484
 
 case 155
-varErrorText = "<b>Kontantperson hos kunde (kontakt)</b><br><br>- I jeres version af TimeOut skal der være angivet en kontaktperson hos kunden når man opretter/redigerer et job."
+varErrorText = "<b>"&err_txt_485&"</b><br><br>- "& err_txt_486
 
 case 156
-varErrorText = "<b>Job</b><br>"_
-&" - Restestimat på job er ikke angivet i et korrekt format."
+varErrorText = "<b>"&err_txt_184&"</b><br>"_
+&" - "& err_txt_487
 
 case 157
-varErrorText = "<b>Km pris</b><br>"_
-&" - Km pris er ikke angivet i et korrekt format."
+varErrorText = "<b>"&err_txt_488&"</b><br>"_
+&" - "& err_txt_489 
 
 case 158
-varErrorText = "<b>Fejl vedr. registrering på akt. type (ferie / sygdom etc.)</b><br><br>Du kan ikke flytte indtastning på denne type til en dato uden norm tid.<br /> F.eks kan du ikke angive ferie på en søndag med 0 timer i norm tid.<br /><br />"
+varErrorText = "<b>"&err_txt_490&"</b><br><br>"&err_txt_491&"<br /> "&err_txt_492&"<br /><br />"
 
 case 159
-varErrorText = "<b>Fejl</b><br><br>Den indtastede <b>fradato</b> er ikke et gyldigt datoformat.<br>Du har indtastet: <b>"& fraDato &"</b><br /><br />"
+varErrorText = "<b>"&err_txt_177&"</b><br><br>"&err_txt_493&" <b>"&err_txt_494&"</b> "&err_txt_495&"<br>"&err_txt_368&": <b>"& fraDato &"</b><br /><br />"
 
 case 160
-varErrorText = "<b>Fejl</b><br><br>Den indtastede <b>timepris ell. kostpris</b> er ikke indtastet som et beløb.<br><br>Du har indtastet:<br>Timepris: "& fasttp &" og Kostpris: "& fastkp &"<br /><br />"
+varErrorText = "<b>"&err_txt_177&"</b><br><br>"&err_txt_493&" <b>"&err_txt_496&"</b> "&err_txt_497&"<br><br>"&err_txt_386&":<br>"&err_txt_498&": "& fasttp &" "&err_txt_499&": "& fastkp &"<br /><br />"
 
 case 161
-varErrorText = "<b>Fejl</b><br><br>Der er ikke angivet et <b>navn</b> til ganttlisten.<br /><br />"
+varErrorText = "<b>"&err_txt_177&"</b><br><br>"&err_txt_500&" <b>"&err_txt_136&"</b> "&err_txt_501&"<br /><br />"
 
 
 case 162
-varErrorText = "<b>Faktor</b><br>"_
-&" - Faktor er ikke angivet som et <b>tal</b>.<br>"_
-&"Du har indtastet følgende: <b>"& globalfaktor &"</b><br>"_
+varErrorText = "<b>"&err_txt_266&"</b><br>"_
+&" - "&err_txt_502&" <b>tal</b>.<br>"_
+& err_txt_376 &": <b>"& globalfaktor &"</b><br>"_
 &" <br><br>"
 
 case 163
-varErrorText = "<b>Fejl</b><br><br>Der er ikke fundet nogen korrektions aktiviteter.<br /><br />"
+varErrorText = "<b>"&err_txt_177&"</b><br><br>"&err_txt_503&"<br /><br />"
 
 case 164
-varErrorText = "<b>Fejl</b><br><br>Den løn-periode du forsøger at lukke er allerede lukket og kan derfor ikke lukkes igen.<br /><br />"
+varErrorText = "<b>"&err_txt_177&"</b><br><br>"&err_txt_504&"<br /><br />"
 
 case 165
-varErrorText = "<b>Fejl</b><br><br><b>Nettobeløb</b> ("& formatnumber(jo_gnsbelobTjk) &") er større end<br> <b>bruttobeløb</b> ("& formatnumber(strBudgetTjk) &")<br /><br />"
+varErrorText = "<b>"&err_txt_177&"</b><br><br><b>"&err_txt_505&"</b> ("& formatnumber(jo_gnsbelobTjk) &") "&err_txt_506&"<br> <b>"&err_txt_507&"</b> ("& formatnumber(strBudgetTjk) &")<br /><br />"
 
 case 166
-varErrorText = "<b>Materiale reg.</b><br><br>- Det angivne jobnr er IKKE fundet."
+varErrorText = "<b>"&err_txt_459&"</b><br><br>- "& err_txt_508
 
 case 167
-varErrorText = "Der mangler at blive angivet/valgt en kunde/job."
+varErrorText = err_txt_509
 
 case 168
-varErrorText = "Der mangler at blive angivet/valgt en aktivitet."
+varErrorText = err_txt_510
 
 case 169
-varErrorText = "Der er sket en regnefejl, eller der er manuelt indtastet et forket beløb i totalbeløb.<br><br>Totalbeløb: <b>"& intBeloebtjk & "</b> stemmer ikke overens<br> med beløbet på faktura linjerne: <b>"& tjkSum &"</b><br><br>Tjek seneste ændrede aktivitet og klik på 'calc' igen."
+varErrorText = err_txt_511 & "<br><br>"&err_txt_265&": <b>"& intBeloebtjk & "</b> "&err_txt_554&"<br> "&err_txt_555&": <b>"& tjkSum &"</b><br><br>"& err_txt_513
 
 case 170
 varErrorText = "You need to select a customer!"
@@ -746,44 +746,46 @@ varErrorText = varErrorText & "- Supplier invoiceno<br> "
 
 
 case 175
-varErrorText = "Dato er ikke angivet i et gyldigt datoformat"
+varErrorText = err_txt_531
 
 case 176
-varErrorText = "Timer er ikke angivet i et gyldig format, eller der er ikke tastet timer." '0 timer
+varErrorText = err_txt_515 '0 timer
 
 case 177
-varErrorText = "Forretningsområde er obligatorisk, og der er ikke valgt noget forretningsområde"
+varErrorText = err_txt_516
 
 case 178
-varErrorText = "Der kan ikke indtastes diæter / rejsedage på dage hvorpå der er registreret mere end "& traveldietexp_maxhours &" timer på dagen."
+varErrorText = err_txt_517 &" "& traveldietexp_maxhours &" "& err_txt_518
 
 case 179
-varErrorText = "Du mangler at indtaste et Navn"
+varErrorText = err_txt_519
 
 case 180
-varErrorText = "Du mangler at indtaste dit Frima"
+varErrorText = err_txt_520
 
 case 181
-varErrorText = "Ugyldig Email"
+varErrorText = err_txt_521
 
 case 182
-varErrorText = "Det angivne budget på timeforbrug (Nettoomsætning) er ikke udfyldt korrekt. / Beløbet er ikke højt nok."
+varErrorText = err_txt_522
 
 case 183
-varErrorText = "De angivne Job-ansvarlige % og Salgs-ansvarlig %<br> skal altid udgøre 100%.<br><br>Angivet Job Ansv. %: "& jobProcent100 &"<br>Angivet Salgs Ansv. %: "& salgsProcent100
+varErrorText = err_txt_523 &"<br> "&err_txt_524&"<br><br>"&err_txt_525&": "& jobProcent100 &"<br>"&err_txt_526&": "& salgsProcent100
 
 case 184 
-varErrorText = "Slutdato ("& slutDatoNum &") ligger før Startdato ("& startDatoNum &") "
+varErrorText = err_txt_527 & " ("& slutDatoNum &") "&err_txt_528&" ("& startDatoNum &") "
 
 case 185 
-varErrorText = "Du mangler at vælge enten job eller kunde."
+varErrorText = err_txt_529
 
 case 186 
-varErrorText = "Du mangler at vælge enten eksisterende aktivitet eller ny aktivitet.<br><br>Dato er ikke angivet i et gyldigt datoformat."
+varErrorText =  err_txt_530 &"<br><br>"& err_txt_531
 
 case 187 
-varErrorText = "<b>Forecast er overskreddet på aktivitet!.</b><br><br> Der er tastet/tilføjet: "& timerthisTjkFc & " timer.<br> Tastet før på denne dag: "& timer_opr &" timer. <br>Saldo: " & feltTxtValFc & " timer."
+varErrorText = "<b>"&err_txt_532&"!.</b><br><br> "&err_txt_533&": "& timerthisTjkFc & " "&err_txt_534&"<br> "&err_txt_535&": "& timer_opr &" "&err_txt_534&" <br>"&err_txt_536&": " & feltTxtValFc & " "&err_txt_534&""
 
+case 188
+varErrorText = err_txt_537 & " <b>"&err_txt_538&"</b> "&err_txt_145&" <br><br>"& err_txt_539
 
 case else
 varErrorText = errortype
@@ -797,7 +799,7 @@ end select
 
 'response.write "browstype_client: "& browstype_client
 if browstype_client = "ip" then 'OR browstype_client = "ie"%>
-<title>TimeOut mobile</title>
+<title><%=err_txt_540 %></title>
 
 <!--
 <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700,800' rel='stylesheet' type='text/css'>
@@ -808,26 +810,26 @@ if browstype_client = "ip" then 'OR browstype_client = "ie"%>
 
       <div id="dverror_msg" style="position:absolute; top:0px; left:0px; height:100%; width:100%; border:0px; font-size:17px; font-size:1.7rem; padding:50px; line-height:19px; line-height:1.9rem; background-color:#ecf0f1;">
          
-        <span style="font-size:20px; font-size:2.0rem;"><b>TimeOut mobile</b></span><br /><br />
+        <span style="font-size:20px; font-size:2.0rem;"><b><%=err_txt_540 %></b></span><br /><br />
      
            <%=err_txt_001%><br /><br />
     <%=varErrorText%>
 	<br /><br />
 
           	<%if errortype <= 4 then%>
-		<a href="javascript:history.back()" style="font-size:17px; font-size:1.7rem;"><< Tilbage</a>
+		<a href="javascript:history.back()" style="font-size:17px; font-size:1.7rem;"><< <%=err_txt_541 %></a>
 		<%
 		else
 		if errortype = 5 then
 		%>
-		<a href="../login.asp" target="_top" style="font-size:17px; font-size:1.7rem;"><< Tilbage</a>
+		<a href="../login.asp" target="_top" style="font-size:17px; font-size:1.7rem;"><< <%=err_txt_541 %></a>
 		<%
 		else
 			if errortype = 25 OR errortype = 88 then
 			Response.write ".."
 			else 
 			%>
-			<a href="javascript:history.back()" style="font-size:17px; font-size:1.7rem;"><< Tilbage</a>
+			<a href="javascript:history.back()" style="font-size:17px; font-size:1.7rem;"><< <%=err_txt_541 %></a>
 			<%end if%>
 		<%end if%>
 		<%end if%>
@@ -927,19 +929,19 @@ end select
 	<td style="float:left; border:0px;">
 		
 		<%if errortype <= 4 then%>
-		<a href="javascript:history.back()"><< Tilbage</a>
+		<a href="javascript:history.back()"><< <%=err_txt_541 %></a>
 		<%
 		else
 		if errortype = 5 then
 		%>
-		<a href="../login.asp" target="_top"><< Tilbage</a>
+		<a href="../login.asp" target="_top"><< <%=err_txt_541 %></a>
 		<%
 		else
 			if errortype = 25 OR errortype = 88 then
 			Response.write ".."
 			else 
 			%>
-			<a href="javascript:history.back()"><< Tilbage</a>
+			<a href="javascript:history.back()"><< <%=err_txt_541 %></a>
 			<%end if%>
 		<%end if%>
 		<%end if%>

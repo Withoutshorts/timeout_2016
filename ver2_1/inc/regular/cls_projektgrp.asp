@@ -895,7 +895,7 @@ function medarbiprojgrp(progrp, medid, mtypesorter, seloptions)
 
     instrMedidProgrp = "#0#,"
     'strOptionsJqHd = "0"
-    strOptionsJq = "<option value='0'>Alle</option>" 
+    strOptionsJq = "<option value='0'>"&joblog_txt_188&"</option>" 
 
     oRec3.Open strSQLp, oConn, 0, 1
     m = 0
@@ -1109,6 +1109,227 @@ strSQLmansat = strSQLmansat & ")"
 
 end if
 
+
+
+
+
+'****** Nyt Design ***************'
+if thisfile = "1234.asp" then
+%>
+    
+    <div class="row">
+        <div class="col-lg-2"><b>Projektgrupper:</b></div>
+        <div class="col-lg-1"></div>
+        <div class="col-lg-2"><b>Medarbejdere:</b> (<span id="antalmedarblist"><%=antalMedgrp+1 %></span>)</div>
+    </div>
+
+    <% 
+       pf = 0
+       fo = 0
+
+       level = session("rettigheder")
+
+        'Response.write "HER " & progrp
+
+       if (progrp = "0" AND level = 1) OR lto = "adra" then 'OR lto = "mi"
+       
+            progrp = 10 
+            
+           'select case lto
+           'case "epi", "epi_cati", "epi_no", "epi_sta", "epi_ab", "intranet - local"
+           '** Af performance hensyn henter vi en anden end "Alle" gruppen HVIS medarbejderen er medlem af andre grupper, når siden hentes første gang. 
+           '** Hvis der ike fidnes medlemskaber bruges "Alle" gruppen 
+           'strSQLp = "SELECT projektgruppeId FROM progrupperelationer WHERE medarbejderId = "& session("mid") &" AND projektgruppeId <> 10 LIMIT 1"
+           
+           'Response.write strSQLp
+           'Response.flush
+           'oRec6.open strSQLp, oConn, 3
+           'if not oRec6.EOF then 
+
+           'progrp = oRec6("projektgruppeId")
+
+           'end if
+           'oRec6.close
+
+           'end select
+
+       end if
+
+       
+       'Response.Write "<br><br><br><br><br><br><br>"& progrp & " level: "& level
+
+       progrp = "0, " & progrp & ", 0"
+       arr_progrp = split(progrp, ",")
+       for u = 0 TO UBOUND(arr_progrp)
+        call projgrp(trim(arr_progrp(u)),level,medarbid,0)
+       next
+    %>
+    <div class="row">
+        <div class="col-lg-3">
+            <select id="FM_progrp" name="FM_progrp" multiple="multiple" class="form-control input-small" size=9>
+                <%
+                   for p = 0 to prgAntal 
+       
+                   if prjGoptionsId(p) <> 0 then
+        
+                    'if instr(progrp, ",") = 0 AND fo = 0 then
+                    'progrp = prjGoptionsId(p)
+                    '   end if
+       
+                    if instr(progrp, ", " & prjGoptionsId(p) & ",") <> 0 then
+                    pgSEL = "SELECTED"
+                    fo = 1
+                    else
+                    pgSEl = ""
+                    end if%>
+                    <option value="<%=prjGoptionsId(p) %>" <%=pgSEl%>><%=prjGoptionsTxt(p) %> </option>
+
+      
+                  <%
+                    pf = pf + 1
+        
+                    end if
+      
+                  next 
+      
+                  if pf = 0 then
+                  %>
+                   <option value="-1" SELECTED><%=godkendweek_txt_083 %></option>
+       
+                  <%
+                  end if
+                  %>              
+            </select>
+        </div>
+
+        <%
+	mft = 0 
+	mSel = ""
+	
+    if thisfile = "joblog_timetotaler" AND vis_medarbejdertyperChk = "CHECKED" then
+    mTypeSort = 1
+    else
+    mTypeSort = 0
+    end if 
+    
+
+
+        if cint(vis_medarbejdertyper_grp) = 1 then
+            
+            vlgtmtypgrp = 0
+            call mtyperIGrp_fn(vlgtmtypgrp,1)    
+            
+            strOptionsJq = "<option value='0' DISABLED>"&godkendweek_txt_088&"</option>"
+            strOptionsJq = strOptionsJq & "<option value='0'>"&godkendweek_txt_089&"</option>"
+            'strOptionsJq = "<option value='0' DISABLED></option>"
+            
+            'for t = 1 to UBOUND(mtypgrpids)
+                dim mSelMTypGRPND
+                redim mSelMTypGRPND(50)    
+
+                for mtgp = 1 to UBOUND(kunMtypgrp) 'mtypgrpids 
+                 mSelMTypGRPND(mtgp) = ""
+                       for s = 0 To UBOUND(intMids) 
+            
+                        
+                            if mSelMTypGRPND(mtgp) = "" then
+                   
+                            if cint(intMids(s)) = cint(kunMtypgrp(mtgp)) then
+                            mSelMTypGRPND(mtgp) = "SELECTED"
+                            else
+                            mSelMTypGRPND(mtgp) = ""
+                            end if
+                    
+                            end if
+                        
+                              'strOptionsJq =  strOptionsJq & "<option value='"& kunMtypgrp(t) &"' "& mSelMTypGRP(mtgp) &">"& kunMtypgrpNavn(t) &" // "& intMids(s) &"</option>" 
+                  
+
+                        next
+
+            
+                if len(trim(kunMtypgrpNavn(mtgp))) <> 0 then 
+                strOptionsJq =  strOptionsJq & "<option value='"& kunMtypgrp(mtgp) &"' "& mSelMTypGRPND(mtgp) &">"& kunMtypgrpNavn(mtgp) &"</option>" 
+                end if
+
+                next
+
+
+        else 
+	        
+            call medarbiprojgrp(progrp, medarbid, mTypeSort, 1)
+        end if    
+
+
+	'call medarbiprojgrp(progrp, medarbid, mTypeSort, 1)
+	'Response.Write progrp &","& medarbid
+	
+        
+        if thisfile = "bal_real_norm_2007.asp" then
+        mselWidth = 250
+        else
+        mselWidth = 350
+        end if
+
+
+    %>
+
+
+        <div class="col-lg-3">
+            <select name="FM_medarb" id="FM_medarb" multiple class="form-control input-small" size=9>
+                <%=strOptionsJq %>
+            </select>
+        </div>
+
+    </div>
+
+    <div class="row">
+        <div class="col-lg-3">
+            <input id="FM_visdeakmed" name="FM_visdeakmed" type="checkbox" <%=visdeakmedCHK %> /> <%=godkendweek_txt_084 %>  <br /><input id="FM_visdeakmed12" name="FM_visdeakmed12" type="checkbox" <%=visdeakmed12CHK %> /> <%=godkendweek_txt_085 %><br />
+            <input id="FM_vispasmed" name="FM_vispasmed" type="checkbox" <%=vispasmedCHK %> /> <%=godkendweek_txt_086 %><br />&nbsp;   
+            <input type="hidden" id="jq_userid" value="<%=medarbid%>" />
+        </div>
+        <div class="col-lg-3">
+            <%if thisfile = "joblog_timetotaler" then %>
+             <br />
+              <input type="checkbox" name="FM_vis_medarbejdertyper" id="FM_vis_medarbejdertyper" value="1" <%=vis_medarbejdertyperChk %> /> <%=godkendweek_txt_090 %><br />
+
+                <%if cint(bdgmtypon_val) = 1 AND cint(bdgmtypon_prgrp) > 1 then  %>
+               <input type="checkbox" name="FM_vis_medarbejdertyper_grp" id="FM_vis_medarbejdertyper_grp" value="1" <%=vis_medarbejdertyper_grpChk %> /> <%=godkendweek_txt_091 %>
+               <br /> <span style="font-size:9px; color:#999999;">(<%=godkendweek_txt_092 %>)</span><br /><br />  
+            <%end if %>    
+
+              <input type="checkbox" name="FM_visMedarbNullinier" id="FM_visMedarbNullinier" value="1" <%=vis_visMedarbNullinierChk %> /> <%=godkendweek_txt_093 %>
+              
+             
+		    <%end if %>
+        </div>
+    </div>
+
+    <%
+    strFMmedarb_hd = "0"
+
+    if cint(vis_medarbejdertyper_grp) <> 1 then
+            
+    for m = 0 to antalMedgrp 
+
+    if len(trim(medarbgrpId(m))) <> 0 AND medarbgrpId(m) > 0 then 
+    strFMmedarb_hd = strFMmedarb_hd & ", "& medarbgrpId(m) 
+    end if%>
+	
+	<%next 
+        
+    end if%>
+	<input id="FM_medarb_hidden" name="FM_medarb_hidden" type="hidden" value="<%=strFMmedarb_hd%>" />
+
+    <div class="row">
+        <div class="col-lg-2 pad-b10">
+            <button type="submit" class="btn btn-secondary btn-sm"><b>Vis medarbejdere</b></button>
+        </div>
+    </div>
+
+<%
+else '******* gamle design *******'
 %>
     <td valign=top style="padding-top:20px; width:426px;"><b><%=godkendweek_txt_081 %>:</b><br />
     <span style="font-size:10px; line-height:12px; color:#999999; padding-top:4px;">
@@ -1329,7 +1550,8 @@ end if
        <br /><br /><img src="../ill/blank.gif" width="200" height="1" border="0" /><input id="Submit2" type="submit" value="<%=godkendweek_txt_080 %> >> " style="font-size:9px;" />
 	</td>
 
-<% 
+<%
+end if ' nye eller gamle design 
 end sub
 
 

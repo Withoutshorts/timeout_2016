@@ -4,8 +4,8 @@ Dim objXMLHTTP_week, objXMLDOM_week, i_week, strHTML_week
 
 Set objXMLDom_week = Server.CreateObject("Microsoft.XMLDOM")
 Set objXmlHttp_week = Server.CreateObject("Msxml2.ServerXMLHTTP")
-'objXmlHttp_week.open "GET", "http://localhost/Git/timeout_2016/ver2_1/inc/xml/weeklynote_sprog.xml", False
-objXmlHttp_week.open "GET", "http://localhost/inc/xml/weeklynote_sprog.xml", False
+objXmlHttp_week.open "GET", "http://localhost/Git/timeout_2016/ver2_1/inc/xml/weeklynote_sprog.xml", False
+'objXmlHttp_week.open "GET", "http://localhost/inc/xml/weeklynote_sprog.xml", False
 'objXmlHttp_week.open "GET", "http://outzource.dk/timeout_xp/wwwroot/ver2_10/inc/xml/weeklynote_sprog.xml", False
 'objXmlHttp_week.open "GET", "https://timeout.cloud/timeout_xp/wwwroot/ver3_99/inc/xml/weeklynote_sprog.xml", False
 'objXmlHttp_week.open "GET", "https://outzource.dk/timeout_xp/wwwroot/ver2_14/inc/xml/weeklynote_sprog.xml", False

@@ -91,7 +91,7 @@
 
     public aty_sql_real, aty_sql_fak, aty_sql_fak_on, aty_options, aty_sql_frawhours, aty_sql_sel
 	public aty_sql_ikfakbar, aty_sql_fakbar, aty_sql_onfak, aty_sql_realhours, aty_sql_realHoursFakbar
-	public aktiveTyper, aty_sql_realHoursIkFakbar, aty_sql_tilwhours, aty_sql_onfaknotReal, aty_sql_hide_on_treg, aty_sql_active
+	public aktiveTyper, aty_sql_realHoursIkFakbar, aty_sql_tilwhours, aty_sql_onfaknotReal, aty_sql_hide_on_treg, aty_sql_active, aty_sql_admin
     public aty_sql_frawhours2, aty_sql_tilwhours2
 	 
 	function akttyper2009(dothis)
@@ -101,7 +101,8 @@
 	 aty_sql_fakbar = "fakturerbar = 0"
 	 aty_sql_ikfakbar = "fakturerbar = 0"
 	 aty_sql_onfak =  "aktiviteter.fakturerbar = 0"
-	 
+	 aty_sql_admin = "fakturerbar = 0"
+
 	 aty_sql_realhours = "tfaktim = 0"
 	 aty_sql_realHoursFakbar = "t.tfaktim = 0"
 	 aty_sql_realHoursIkFakbar = "t.tfaktim = 0"
@@ -246,6 +247,12 @@
 	      aty_sql_ikfakbar = aty_sql_ikfakbar & " OR fakturerbar = "& oRec4("aty_id")
 	      else
 	      aty_sql_ikfakbar = aty_sql_ikfakbar 
+	      end if
+
+          if oRec4("aty_on_invoiceble") = 0 then
+	      aty_sql_admin = aty_sql_admin & " OR fakturerbar = "& oRec4("aty_id")
+	      else
+	      aty_sql_admin = aty_sql_admin
 	      end if
 	        
 	      
@@ -644,19 +651,19 @@
 			    'case 0
 			    'straktgrpnavn = "Afstemning"
 			    case 1
-			    straktgrpnavn = "Udspecificering<br> atk. typer"
+			    straktgrpnavn = joblog2_txt_137 &"<br>"& joblog2_txt_138 
 			    aktcls = "akt_udspec"
 			    case 2
-			    straktgrpnavn = "Udspecificering<br>akt. typer<br> (kat. 2)"
+			    straktgrpnavn = joblog2_txt_137 &"<br>"& joblog2_txt_138 &"<br>("& joblog2_txt_139 &")" 
 			    aktcls = "akt_flex"
 			    case 3
-			    straktgrpnavn = "Ferie"
+			    straktgrpnavn = joblog2_txt_140
 			    aktcls = "akt_ferie"
 			    case 4
-			    straktgrpnavn = "Overarbejde / Afspadsering"
+			    straktgrpnavn = joblog2_txt_141
 			    aktcls = "akt_overarb"
 			    case 5
-			    straktgrpnavn = "Sygdom / Fravær"
+			    straktgrpnavn = joblog2_txt_142
 			    aktcls = "akt_syg"
 			    case else
 			    straktgrpnavn = ""
@@ -836,7 +843,7 @@ sub lastFaseSumSub
 
 
         '**lastFaseSum **'
-	    strAktListe = strAktListe &"<tr bgcolor=""#FFFFFF""><td colspan="& lastFaseSumSubColspanB &" style='padding-left:5px; padding-bottom:10px;'><b>"& replace(lastFase, "_", " ") &"</b> ialt: (kun viste akt.)</td>"_
+	    strAktListe = strAktListe &"<tr bgcolor=""#FFFFFF""><td colspan="& lastFaseSumSubColspanB &" style='padding-left:5px; padding-bottom:10px;'><b>"& replace(lastFase, "_", " ") &"</b> "&job_txt_408&": ("&job_txt_616&")</td>"_
 	    &"<td style='padding-bottom:10px; text-align:right;'><span style='width:40px; font-size:9px; font-family:arial; border:0px #FFc0CB solid; padding:2px;' id='sltimer_"&lcase(lastFase)&"'><b>"& formatnumber(lastFaseTimer, 2) &"</b></span></td>"_
 	    &"<td colspan="& lastFaseSumSubColspanA &"><img src=""ill/blank.gif"" width=1 height=1 border=""0""></td>"_
 	    &"<td style='padding-bottom:10px; white-space:nowrap; text-align:right;'><span style='width:60px; font-size:9px; font-family:arial; border:0px #FFc0CB solid; padding:2px;' id='slsum_"&lcase(lastFase)&"'><b>"& formatnumber(lastFaseSum, 2) &"</b></span></td>"_
@@ -874,10 +881,10 @@ sub nyFaseSub
     strAktListe = strAktListe & "<tr bgcolor=""#eff3ff""><td colspan=2 style='padding:5px 5px 5px 5px;' align=right>fase: "_
     &"<input id='"&lcase(trim(thisFase))&"' name='' class=""faseoskrift_navn"" value='"&replace(thisFase, "_", " ")&"' type=""text"" style='width:195px; font-size:9px; font-family:arial;' /></td>"_
 	&"<td><select name=""faseoskrift"" class=""faseoskrift"" id='"&lcase(trim(thisFase))&"' style='font-size:9px; font-family:arial;'>"_
-	&"<option value=""1"">Vælg..</option>"_
-	&"<option value=""1"">Aktiv</option>"_
-	&"<option value=""0"">Lukket</option>"_
-	&"<option value=""2"">Passiv</option>"_
+	&"<option value=""1"">"&job_txt_613&"..</option>"_
+	&"<option value=""1"">"&job_txt_242&"</option>"_
+	&"<option value=""0"">"&job_txt_246&"</option>"_
+	&"<option value=""2"">"&job_txt_320&"</option>"_
 	&"</select></td>"_
 	&"<td colspan='"& cpsnaNyfsSub &"'>&nbsp;</td><td align=right><input id='sl_"&lcase(trim(thisFase))&"' class=""faseoskrift_slet"" type=""checkbox"" value=""1"" /></td><td>&nbsp;</td></tr>" 
 
@@ -914,8 +921,8 @@ function aktlisteOptions(jobid, status, vis, aktid)
     'Response.end 
 	c = 0
     lastFase = ""
-	straktOptionlist = "<option value='0'>Vælg aktivitet</option>"
-    straktOptionlist = straktOptionlist & "<option value='0'>Ingen (uspec.)</option>"
+	straktOptionlist = "<option value='0'>"&job_txt_614&"</option>"
+    straktOptionlist = straktOptionlist & "<option value='0'>"&job_txt_129&" ("&job_txt_615&")</option>"
 	oRec6.open strSQL, oConn, 3
     while not oRec6.EOF
 
@@ -1109,36 +1116,36 @@ function hentaktiviterListe(jobid, func, vispasluk, sort)
           
 
             strAktListe = strAktListe &"<table cellspacing=""0"" cellpadding=""0"" width=""100%"" border=""0"" id=""incidentlist"">"_
-            &"<tr><td><b>Navn</b></td>"_
-            &"<td><b>Fase</b></td>"_
-            &"<td><b>Status</b></td>"_
-            &"<td><b>Type</b></td>"
+            &"<tr><td><b>"&job_txt_559&"</b></td>"_
+            &"<td><b>"&job_txt_291&"</b></td>"_
+            &"<td><b>"&job_txt_241&"</b></td>"_
+            &"<td><b>"&job_txt_560&"</b></td>"
 
             if cint(budgetakt) = 1 OR cint(budgetakt) = 2 then 
-            strAktListe = strAktListe &"<td><b>Konto</b>"
+            strAktListe = strAktListe &"<td><b>"&job_txt_147&"</b>"
          
                if cint(budgetakt) = 2 then
-               strAktListe = strAktListe &" (aktnr)"
+               strAktListe = strAktListe &" ("&job_txt_611&")"
                end if
 
             strAktListe = strAktListe &"</td>"
             end if
 
-            strAktListe = strAktListe &"<td><b>Timer</b></td>"
+            strAktListe = strAktListe &"<td><b>"&job_txt_365&"</b></td>"
            
             if cint(budgetakt) = 0 then 
-            strAktListe = strAktListe &"<td><b>Stk.</b></td>"
+            strAktListe = strAktListe &"<td><b>"&job_txt_561&"</b></td>"
             end if
            
             if cint(budgetakt) = 0 then
-            strAktListe = strAktListe &"<td><b>Grundlag</b></td>"
+            strAktListe = strAktListe &"<td><b>"&job_txt_562&"</b></td>"
             end if
             
             strAktListe = strAktListe &"<td><b>"& stkTimOskrift &"</b></td>"_
-            &"<td style=""padding-left:10px;""><b>Pris i alt</b></td>"_
+            &"<td style=""padding-left:10px;""><b>"& job_txt_564 &"</b></td>"_
             &"<td>&nbsp;</td>"_
-            &"<td align=right><b>"& resOskrift  &"</b></td>"_
-            &"<td align=right><b>Slet</b><br> <input id=""sl_"" class=""faseoskrift_slet"" type=""checkbox"" value=""1"" /></td>"_
+            &"<td align=right><b>"& resOskrift &"</b></td>"_
+            &"<td align=right><b>"& job_txt_612 &"</b><br> <input id=""sl_"" class=""faseoskrift_slet"" type=""checkbox"" value=""1"" /></td>"_
             &"<td>&nbsp;</td>"_
             &"<tr>"
     
@@ -1234,9 +1241,9 @@ function hentaktiviterListe(jobid, func, vispasluk, sort)
 	end select
 	
 	strAktListe = strAktListe &"<select name=""FM_aktstatus"" id='af_"&lcase(trim(thisFase))&"_"&fa&"' style='background-color:"&selbgcol&"; font-family:arial; width:40px; font-size:9px;'>"_
-	&"<option value=""1"" "&stCHK1&">Aktiv</option>"_
-	&"<option value=""0"" "&stCHK0&">Lukket</option>"_
-	&"<option value=""2"" "&stCHK2&">Passiv</option>"_
+	&"<option value=""1"" "&stCHK1&">"&job_txt_242&"</option>"_
+	&"<option value=""0"" "&stCHK0&">"&job_txt_246&"</option>"_
+	&"<option value=""2"" "&stCHK2&">"&job_txt_320&"</option>"_
 	&"</select>"_
 	&"</td>"
 

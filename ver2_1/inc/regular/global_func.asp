@@ -16,6 +16,13 @@
 <!--#include file="../xml/favorit_xml_inc.asp"-->
 <!--#include file="../xml/godkend_xml_inc.asp"-->
 <!--#include file="../xml/godkend_uge_xml_inc.asp"-->
+<!--#include file="../xml/projektgrp_xml_inc.asp"-->
+<!--#include file="../xml/kunder_xml_inc.asp"-->
+<!--#include file="../xml/abonner_xml_inc.asp"-->
+<!--#include file="../xml/resbelaeg_xml_inc.asp"-->
+<!--#include file="../xml/job_xml_inc.asp"-->
+<!--#include file="../xml/joblog_xml_inc.asp"-->
+<!--#include file="../xml/joblog_xml_inc_2.asp"-->
 
 
 

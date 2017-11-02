@@ -2,9 +2,9 @@
 'call treg_medarb_afstem_saldo 'cls_afstem
 	  
 
-       '7 =  Aftem. Måned
-       '77 = Afstem dag / dag
-       '14 = Godkend månede / uge
+       '7 =  Aftem. Måned afstem_tot
+       '77 = Afstem dag/dag EXPAND 7
+       '14 = Godkend måned/uge WEEEK_REAL_NORM
 
       level = session("rettigheder")
       call smileyAfslutSettings()
@@ -164,7 +164,7 @@
 
               
                 
-
+                '*** Tjekker om uge er afsluttet af medarbejder. Viser CHK boks og Godkendtstatus
                 call erugeAfslutte(datepart("yyyy", startDatoTor,2,2), sidsteDagKri, intMid, SmiWeekOrMonth, 0) 
                 
                 lastMidtjk = intMid
@@ -215,6 +215,7 @@
 	   
 	   if media <> "export" then%>
 	    <!-- st -->
+        
 	    <tr bgcolor="<%=bgthis %>">
 	 <%end if
 	 
@@ -249,51 +250,13 @@
 	   
 	    select case visning 
         case 7 
-            
-            visdato = monthname(datepart("m", startDato,2,2)) 'year(startDato)
-            if visdato = "januar" then
-                visdato = afstem_txt_121
-            end if
-            if visdato = "februar" then
-                visdato = afstem_txt_122
-            end if
-            if visdato = "marts" then
-                visdato = afstem_txt_123
-            end if
-            if visdato = "april" then
-                visdato = afstem_txt_124
-            end if
-            if visdato = "maj" then
-                visdato = afstem_txt_125
-            end if
-            if visdato = "juni" then
-                visdato = afstem_txt_126
-            end if
-            if visdato = "juli" then
-                visdato = afstem_txt_127
-            end if
-            if visdato = "august" then
-                visdato = afstem_txt_128
-            end if
-            if visdato = "september" then
-                visdato = afstem_txt_129
-            end if
-            if visdato = "oktober" then
-                visdato = afstem_txt_130
-            end if
-            if visdato = "november" then
-                visdato = afstem_txt_131
-            end if
-            if visdato = "december" then
-                visdato = afstem_txt_132
-            end if
-
+             
             if media <> "export" then%>
 	        <td style="border-bottom:1px silver solid; border-right:1px silver solid; white-space:nowrap;" class=lille>
             <%if media <> "print" then %>
-            <a href="afstem_tot.asp?usemrn=<%=intMid %>&show=77&varTjDatoUS_man=<%=startDato %>&varTjDatoUS_son=<%=startDato%>&yuse=<%=yuse%>" class=rmenu><%=visdato &" "& year(startDato) %></a>
+            <a href="afstem_tot.asp?usemrn=<%=intMid %>&show=77&varTjDatoUS_man=<%=startDato %>&varTjDatoUS_son=<%=startDato%>&yuse=<%=yuse%>" class=rmenu><%=monthname(datepart("m", startDato,2,2)) &" "& year(startDato) %></a>
             <%else %>
-            <b><%=visdato &" "& year(startDato) %></b>
+            <b><%=monthname(datepart("m", startDato,2,2)) &" "& year(startDato) %></b>
             <%end if %>
             </td>
 	        <%
@@ -602,7 +565,9 @@
 
          
          
-         <%if lto <> "cst" AND lto <> "tec" AND lto <> "esn" then 
+         <%
+          '** Hereby Invoiceable / Heraf fakturerbare  
+          if lto <> "cst" AND lto <> "tec" AND lto <> "esn" then 
       
           if media <> "export" then%>
 
@@ -613,14 +578,28 @@
 
 	         <td align=right class=lille style="border-bottom:1px silver solid; border-right:1px silver solid; white-space:nowrap;">
               <%if realfTimer(x) <> 0 then %>
-             (<%=formatnumber(realfTimer(x),2)%>)
+              <%=formatnumber(realfTimer(x),2)%>
              <%else %>
              &nbsp;
              <%end if %>
              </td>
              
 
-                <%end select %>
+             <%end select %>
+
+
+            <%'** Hereby Non Invoiceable / Heraf Ikke fakturerbare
+            if lto = "tia" OR lto = "intranet - local" then %>
+              
+                <td align=right class=lille style="border-bottom:1px silver solid; border-right:1px silver solid; white-space:nowrap;">
+                <%if realIfTimer(x) <> 0 then %>
+                <%=formatnumber(realIfTimer(x),2)%>
+                <%else %>
+                &nbsp;
+                <%end if %>
+             </td> 
+
+            <% end if%>
 
 
         <%if cint(mtypNoflex) <> 1 then 'noflex %>
@@ -650,6 +629,15 @@
 
                 <%end select %>
 
+
+                <%if lto = "intranet - local" OR lto = "tia" then 
+                    %>
+                    
+                     <%arealifTimerTot = arealifTimerTot + (realifTimer(x)) %>
+                 <%strEksportTxt = strEksportTxt & formatnumber(realifTimer(x),2) & ";" %>
+                    
+                <%end if%>
+
                       <%if cint(mtypNoflex) <> 1 then 'noflex %>
 
                            <%if cint(showkgtil) = 1 then %>
@@ -661,17 +649,17 @@
 
                       end if %>
          
-         <%end if 'lto %> 
-
-
-    
-                    
-     <%if cint(mtypNoflex) <> 1 then 'noflex %>
+         <%end if 'lto 
+             
+             
+             
+        if cint(mtypNoflex) <> 1 then 'noflex %>
 	 
              <%
 
 
-             if lto <> "cst" AND lto <> "tec" AND lto <> "esn" then 
+             if lto <> "cst" AND lto <> "tec" AND lto <> "esn" AND lto <> "tia" then 
+
                           if media <> "export" then
                          %>
 	                     <td align=right style="border-bottom:1px silver solid; border-right:1px silver solid; white-space:nowrap;" class=lille ><b><%=formatnumber(balRealNormtimer,2)%></b></td>
@@ -980,8 +968,8 @@
 
 
 
-                         if media <> "export" then 'AND (visning = 7 OR visning = 77) 
-                          'Omsorgsdage2 afholdt %>
+                         if media <> "export" and lto <> "esn" then 'AND (visning = 7 OR visning = 77) 
+                          'Omsorgsdage2 afholdt %>                        
 	                     <td class=lille style="border-bottom:1px silver solid; border-right:1px silver solid; white-space:nowrap;" align=right>
 
                        
@@ -993,15 +981,29 @@
                                      <%end if 
                                          
                                         
-                         %></td>
+                         %></td>                        
+                        <%end if
+                            
+                        if lto = "esn" AND visning = 14 AND media <> "print" then %>
+                        <td class=lille style="border-bottom:1px silver solid; border-right:1px silver solid; white-space:nowrap;" align=right>
 
+                       
+
+                                     <%if omsorg(x) <> 0 then %>
+                                     <%=formatnumber(omsorg(x),2) %> 
+                                     <%else %>
+                                     &nbsp;
+                                     <%end if 
+                                         
+                                        
+                         %></td>
                         <%end if 
 
                             'if (visning = 7 OR visning = 77) then
                             omsorg2afh_tot = omsorg2afh_tot + omsorg(x)
-                            strEksportTxt = strEksportTxt & formatnumber(omsorg(x),2) &";"
+                            if lto <> "esn" then strEksportTxt = strEksportTxt & formatnumber(omsorg(x),2) &";" end if
 
-                            omsorg2Saldo = (dagTimer(x) - omsorg(x))
+                            omsorg2Saldo = (dagTimer(x) - (xomsorg))
                             'end if
 
 
@@ -1030,7 +1032,7 @@
 
                             
 
-                            if visning = 77 then
+                            if visning = 77 or (visning = 7 and lto = "esn") then
                             strEksportTxt = strEksportTxt & formatnumber(omsorg2Saldo,2) &";"
                             omsorg2Saldo_tot = omsorg2Saldo_tot + omsorg2Saldo
                             end if
@@ -1062,7 +1064,7 @@
 
 
 
-                         if media <> "export" then 'AND (visning = 7 OR visning = 77)
+                         if media <> "export" and lto <> "esn" then 'AND (visning = 7 OR visning = 77)
                           'Omsorgsdage10 afholdt %>
 	                     <td class=lille style="border-bottom:1px silver solid; border-right:1px silver solid; white-space:nowrap;" align=right>
 
@@ -1078,11 +1080,27 @@
                          %></td>
 
                         <%end if 
+                        if lto = "esn" AND visning = 14 AND media <> "export" then 
+                          'Omsorgsdage10 afholdt %>
+	                     <td class=lille style="border-bottom:1px silver solid; border-right:1px silver solid; white-space:nowrap;" align=right>
+
+                       
+
+                                     <%if sundTimer(x) <> 0 then %>
+                                     <%=formatnumber(sundTimer(x),2) %>
+                                     <%else %>
+                                     &nbsp;
+                                     <%end if 
+                                         
+                                        
+                         %></td>
+
+                        <%end if
 
 
                             'if (visning = 7 OR visning = 77) then
                                 sundTimer_tot = sundTimer_tot + sundTimer(x)
-                                strEksportTxt = strEksportTxt & formatnumber(sundTimer(x),2) &";"
+                                if lto <> "esn" then strEksportTxt = strEksportTxt & formatnumber(sundTimer(x),2) &";" end if
                                 omsorg10Saldo = (natTimer(x) - sundTimer(x))
                             'end if
 
@@ -1110,7 +1128,7 @@
 
                             
 
-                            if visning = 77 then
+                            if visning = 77 or (visning = 7 AND lto = "esn") then
                             strEksportTxt = strEksportTxt & formatnumber(omsorg10Saldo,2) &";"
                             omsorg10Saldo_tot = omsorg10Saldo_tot + omsorg10Saldo
                             end if
@@ -1140,7 +1158,7 @@
                             weekendTimer_tot = weekendTimer_tot + weekendTimer(x)
                             end if
 
-                         if media <> "export" then 'AND (visning = 7 OR visning = 77)
+                         if media <> "export" and lto <> "esn" then 'AND (visning = 7 OR visning = 77)
                          'OmsorgsdageK afholdt%>
 	                     <td class=lille style="border-bottom:1px silver solid; border-right:1px silver solid; white-space:nowrap;" align=right>
 
@@ -1159,7 +1177,7 @@
 
                             'if (visning = 7 OR visning = 77) then
                             omsorgKAfh_tot = omsorgKAfh_tot + tjenestefri(x)
-                            strEksportTxt = strEksportTxt & formatnumber(tjenestefri(x),2) &";"
+                            if lto <> "esn" then strEksportTxt = strEksportTxt & formatnumber(tjenestefri(x),2) &";" end if
                             OmsorgKSaldo = (weekendTimer(x) - tjenestefri(x))
                             'end if
 
@@ -1184,12 +1202,34 @@
 
                             
                             
-                            if visning = 77 then
+                            if visning = 77 or (visning = 7 AND lto = "esn") then
                             strEksportTxt = strEksportTxt & formatnumber(OmsorgKSaldo,2) &";"
                             OmsorgKSaldo_tot = OmsorgKSaldo_tot + OmsorgKSaldo
                             end if
+                        %>
 
+                        <%if visning = 7 and lto = "esn" then %>
+                        <td class=lille style="border-bottom:1px silver solid; border-right:1px silver solid; white-space:nowrap;" align=right>
+                            <%if omsorg2Saldo <> 0 then %>
+                            <%=formatnumber(omsorg2Saldo,2) %>
+                            <%end if %> 
+                        </td>
 
+                        <td class=lille style="border-bottom:1px silver solid; border-right:1px silver solid; white-space:nowrap;" align=right><!-- her dage -->
+                            <%if omsorg10Saldo <> 0 then%>
+                            <%=formatnumber(omsorg10Saldo,2) %>
+                            <%end if
+                            'response.Write natTimer(x) & "h " & sundTimer(x) %> 
+                        </td>
+
+                        <td class=lille style="border-bottom:1px silver solid; border-right:1px silver solid; white-space:nowrap;" align=right>
+                            <%if OmsorgKSaldo <> 0 then%>
+                            <%=formatnumber(OmsorgKSaldo,2) %>
+                            <%end if %>
+                        </td><!-- her -->
+                        <%end if %>
+
+                        <%
                         end select 
                             
                     'end if 'visning 14 godkend ugesedler%>
@@ -1251,17 +1291,21 @@
 
                     if media <> "export" then
                     %>
-                    <td class=lille style="border-bottom:1px silver solid; border-right:1px silver solid; white-space:nowrap;" align=right><%=aldersreduktionBrTxt%></td>
+                        <%if lto <> "esn" then %>
+                        <td class=lille style="border-bottom:1px silver solid; border-right:1px silver solid; white-space:nowrap;" align=right><%=aldersreduktionBrTxt%></td>
+                        <%end if %>
                     <%
                     else
-                    strEksportTxt = strEksportTxt & formatnumber(aldersreduktionBrTxtExp,2) &";"
+                        if lto <> "esn" then
+                        strEksportTxt = strEksportTxt & formatnumber(aldersreduktionBrTxtExp,2) &";"
+                        end if
                     end if 
 
 
                 
                     
                     
-                           if visning = 77  then 'Kun på afstembning udspec. dage   + ugeseddel
+                           if visning = 77 or visning = 7 and lto = "esn"  then 'Kun på afstembning udspec. dage   + ugeseddel
                     
                                   if aldersreduktionUdb(x) <> 0 then
                                  aldersreduktionUdbTxt = formatnumber(aldersreduktionUdb(x),2) 
@@ -1274,7 +1318,7 @@
                     
                                    aldersreduktionUdbTot = aldersreduktionUdbTot + aldersreduktionUdb(x)  
                     
-                                     if media <> "export" then  %>
+                                     if media <> "export" and visning = 77 and visning <> 7 then  %>
 
                                  <td class=lille style="border-bottom:1px silver solid; border-right:1px silver solid; white-space:nowrap;" align=right><%=aldersreduktionUdbTxt %></td>
 
@@ -1507,7 +1551,7 @@
 
                              'Barsel
                         select case lto
-                        case "xintranet - local", "fk", "kejd_pb"
+                        case "intranet - local", "fk", "kejd_pb", "tia"
                         
                          if media <> "export" then%>
 	                     <td class=lille style="border-bottom:1px silver solid; border-right:1px silver solid; white-space:nowrap;" align=right>
@@ -1540,7 +1584,7 @@
 
                                     'Læge
                         select case lto
-                        case "xxintranet - local", "fk", "xkejd_pb"
+                        case "intranet - local", "fk", "xkejd_pb"
                         
                          if media <> "export" then%>
 	                  
@@ -1630,8 +1674,50 @@
 	                     <%'end if '*Visning
 
 
-                         if media <> "export" AND visning = 77 then%>
-                         <td class=lille valign="top" style="border-bottom:1px silver solid; border-right:1px silver solid; width:200px; color:#999999; padding-left:3px;"><%=kommentarTxt %>&nbsp;</td>
+                       
+                        if realIkkeGKTimer(x) <> 0 then    
+                          realIkkeGKTimerTxt = formatnumber(realIkkeGKTimer(x), 2)
+                          realIkkeGKTimerExpTxt = formatnumber(realIkkeGKTimer(x), 2)
+                        else
+                          realIkkeGKTimerTxt = ""
+                          realIkkeGKTimerExpTxt = 0
+                        end if
+
+                        select case lto
+                        case "esn", "tec"
+                        case else
+
+                        if media <> "export" AND visning = 14 then
+                        %>
+                        <td style="border-bottom:1px silver solid; border-right:1px silver solid; color:#999999;" class=lille align="right"><%=realIkkeGKTimerTxt%>
+                            
+                            <%if realAfvistTimer(x) <> 0 then
+                            Response.write "<span style='color:red;'> ("& formatnumber(realAfvistTimer(x), 2) &")</span>" 
+                            end if%> </td>
+
+                        <%end if
+                       
+                             if (visning = 14) then    
+                            strEksportTxt = strEksportTxt & realIkkeGKTimerExpTxt &";" & realAfvistTimer(x) & ";"
+                            end if     
+                            
+                       end select 
+
+
+                         if media <> "export" AND visning = 77 then %>     
+                            <%if lto <> "esn" then %>                       
+                            <td class=lille valign="top" style="border-bottom:1px silver solid; border-right:1px silver solid; width:200px; color:#999999; padding-left:3px;"><%=kommentarTxt %>&nbsp;</td>
+                            <%else %>
+                            <%
+                            strSQLKommentarUge = "SELECT kommentar, dato FROM login_historik WHERE mid = "& intMid &" AND dato = '"& startDato & "' AND kommentar <> ''"
+                            oRec7.open strSQLKommentarUge, oConn, 3
+                            if not oRec7.EOF then
+                            strKommentar = oRec7("kommentar")
+                            end if
+                            oRec7.close   
+                            %>
+                            <td class=lille valign="top" style="border-bottom:1px silver solid; border-right:1px silver solid; width:200px; color:#999999; padding-left:3px;"><%=strKommentar %></td>
+                            <%end if %>
                         <%end if %>
 
                         <%
@@ -1657,17 +1743,31 @@
                             
                         
                         if cint(SmiWeekOrMonth) = 0 OR (useSogKriAfs = 1 OR useSogKriGk = 1 OR useSogKri = 1) then%>
-	                    <td class=lille style="border-bottom:1px silver solid; border-right:1px silver solid; white-space:nowrap;" align=center><%=showAfsugeTxt %>&nbsp;</td>
+	                    <td class=lille style="border-bottom:1px silver solid; border-right:1px silver solid; white-space:nowrap;" align=center><%=showAfsugeTxt %>&nbsp;
+
+                            <%if cint(splithr) = 1 then
+                                %>
+                                (Month)
+                            <%
+                            end if %>
+
+	                    </td>
                         <%else
                             
                             'if cint(wth) = 0 then  
                             'if (datepart("m", slutDatoLastm_B, 2,2) <> lastMth) then
                             showAfsugeTxt_tot = showAfsugeTxt
-                            'end if%>            
+                            'end if%>
+                        <%if lto <> "esn" then %>            
                         <td style="border-bottom:1px silver solid; border-right:1px silver solid;">&nbsp;</td>
+                        <%end if %>
                         <%end if %>
             
                         <%end if %>
+
+                      
+	
+
 
                            <%
                            
@@ -1771,8 +1871,41 @@
                          <%end if     
                             
                         end if 
-                             
-                             
+
+                        if lto = "esn" or lto = "intranet - local" then
+                        %>
+                        
+                        <%
+                            weekEndDate = DateAdd("d",6,startDato)
+                            weekEndDateSQL = year(weekEndDate) &"-"& month(weekEndDate) &"-"& day(weekEndDate)
+                            strDatoSQL = year(startDato) &"-"& month(startDato) &"-"& day(startDato)
+
+                            antalKommentare = 0
+                            strSQLKommentarUge = "SELECT kommentar, dato FROM login_historik WHERE mid = "& intMid &" AND dato BETWEEN '"&strDatoSQL&"' AND '"&weekEndDateSQL&"' AND kommentar <> ''"
+                            oRec7.open strSQLKommentarUge, oConn, 3
+                            while not oRec7.EOF
+                            antalKommentare = antalKommentare + 1
+                            if antalKommentare = 1 then
+                            strKommentar = "<span style=""font-size:9px;""><b>" & oRec7("dato") &"</b> - "& oRec7("kommentar") & "</span>"
+                            else
+                            strKommentar = strKommentar &"<br> <span style=""font-size:9px;""><b>"& oRec7("dato") &"</b> - "& oRec7("kommentar") & "</span>" 
+                            end if
+                            oRec7.movenext
+                            wend
+                            oRec7.close
+                        %>
+                        <td class=lille style="border-bottom:1px silver solid; border-right:1px silver solid; white-space:nowrap;">
+                            <%if antalKommentare <> 0 then %>
+                            <a class="modal-click" id="modal_<%=startDato %>_<%=intMid %>" href="#" style="font-size:9px">R</a>  
+                            <div id="modalOpen_<%=startDato %>_<%=intMid %>" class="modal">
+                                <div class="modal-content">
+                                 <%=strKommentar %>
+                                </div>
+                            </div>
+                            <%end if %>
+                        </td> 
+                        <% 
+                        end if
                              
                            'select case ugegodkendt
                            'case 1

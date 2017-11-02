@@ -786,6 +786,14 @@ if len(session("user")) = 0 then
 	        stat4 = 0
 	        stCHK4 = ""
 	        end if
+
+             if len(request("FM_status5")) <> 0 then
+	        stat5 = 1
+	        stCHK5 = "CHECKED"
+	        else
+	        stat5 = 0
+	        stCHK5 = ""
+	        end if
 	   
 	    else
 	        
@@ -870,6 +878,20 @@ if len(session("user")) = 0 then
 	        stCHK4 = ""
 	        end if
 
+             if request.cookies("webblik")("status5") <> "" then
+	                
+	                stat5 = request.cookies("webblik")("status5")
+	                if cint(stat5) = 1 then
+	                stCHK5 = "CHECKED"
+	                else
+	                stCHK5 = ""
+	                end if
+	                
+	        else
+	        stat5 = 0
+	        stCHK5 = ""
+	        end if
+
 	    end if
 	    
         response.cookies("webblik")("status0") = stat0
@@ -877,7 +899,7 @@ if len(session("user")) = 0 then
 	    response.cookies("webblik")("status2") = stat2
 	    response.cookies("webblik")("status3") = stat3
 	    response.cookies("webblik")("status4") = stat4
-
+        response.cookies("webblik")("status5") = stat5
 
 
         '** Skulte job **'
@@ -1473,6 +1495,7 @@ if len(session("user")) = 0 then
 	     <input type="checkbox" name="FM_status2" value="2" <%=stCHK2%>>Lukkede&nbsp;&nbsp;<br />
          <input type="checkbox" name="FM_status3" value="3" <%=stCHK3%>>Tilbud&nbsp;&nbsp;
          <input type="checkbox" name="FM_status4" value="4" <%=stCHK4%>>Gennemsyn
+        <input type="CHECKBOX" name="FM_status5" value="5" <%=stCHK5%>/> Eval.<br />
 	    <%else %>
 
                <%if stat0 = "1" then%>
@@ -1493,6 +1516,10 @@ if len(session("user")) = 0 then
 
              <%if stat4 = "1" then%>
 	        - Gennemsyn<br />
+	        <%end if %>
+
+            <%if stat5 = "1" then%>
+	        - Evaluering<br />
 	        <%end if %>
 	    
 	    
@@ -2014,6 +2041,12 @@ if len(session("user")) = 0 then
 
     if cint(stat4) = 1 then
 	statKri = statKri & " OR jobstatus = 4 "
+	else
+	statKri = statKri
+	end if
+
+    if cint(stat5) = 1 then
+	statKri = statKri & " OR jobstatus = 5 "
 	else
 	statKri = statKri
 	end if
@@ -2993,6 +3026,7 @@ if len(session("user")) = 0 then
 		stCHK2 = ""
         stCHK3 = ""
         stCHK4 = ""
+        stCHK5 = ""
         lkDatoThis = "" 
 		
 		
@@ -3009,6 +3043,9 @@ if len(session("user")) = 0 then
         case 4
         stCHK4 = "SELECTED"
         stName = "Gennemsyn"
+        case 5
+        stCHK5 = "SELECTED"
+        stName = "Gennemsyn"
 		case 0
 		stCHK0 = "SELECTED"
 		stName = "Lukket"
@@ -3016,7 +3053,8 @@ if len(session("user")) = 0 then
                     lkDatoThis = " ("& formatdatetime(oRec("lukkedato"), 2) & ")"
                     end if
 		end select
-		
+
+      
 		
 		if print <> "j" then
                     
@@ -3029,6 +3067,7 @@ if len(session("user")) = 0 then
 		<option value="2" <%=stCHK2%>>Passiv / Til fak.</option>
         <option value="3" <%=stCHK3%>>Tilbud</option>
         <option value="4" <%=stCHK4%>>Gennemsyn</option>
+        <option value="5" <%=stCHK5%>>Evaluering</option>
 		</select>
 
                 <span id="sp_stopd_<%=c%>" style="color:green; font-size:12px; visibility:hidden;" ><i>V</i></span>
@@ -4041,7 +4080,7 @@ if len(session("user")) = 0 then
          %>
 
         <div id="dv_job_komm_<%=c%>" style="width:160px; font-size:9px; font-family:Arial; color:#000000; font-style:italic; overflow:auto; height:<%=kommHgtpx%>;"><%=oRec("kommentar")%></div>
-        <%if cint(showRyd) = 1 AND (level = 1 OR cint(oRec("jobans1")) = cint(session("mid")) OR cint(oRec("jobans2")) = cint(session("mid"))) then %>
+        <%if cint(showRyd) = 1 AND (level = 1 OR cdbl(oRec("jobans1")) = cdbl(session("mid")) OR cdbl(oRec("jobans2")) = cdbl(session("mid"))) then %>
             <span class="aa_job_komm_ryd" id='FM_job_komm_ryd_<%=c%>' style="color:#FF0000; background-color:#FfC0CB;">Ryd >></span>   
             <%end if %> 
             <!--

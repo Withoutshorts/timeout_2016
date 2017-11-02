@@ -170,7 +170,7 @@ tLeft = 20
 tWdth = 1004
 
 tTop = 120
-oskrift = "Abonnér"
+oskrift = abonner_txt_034
 
     call filterheader_2013(100,20,1004,oskrift)
 'call tableDiv(tTop,tLeft,tWdth)
@@ -181,17 +181,17 @@ oskrift = "Abonnér"
 
 %>
 
-             Abonnér på uge rapporten. Rapporten indeholder bl.a normtid, realiseret tid og fravær mm.<br />
-            Valgte medarbejder ønsker at abonnére på uge-rapporten. Udsendes tirsdag morgen 07:00.<br /><br />
-            Vælg <b>medarbejder</b>, samt hvilke <b>medarbejdertyper <u>eller</u> projektgrupper</b> de skal abonnere på.<br />&nbsp;
+            <%=abonner_txt_001 %><br />
+            <%=abonner_txt_002 %><br /><br />
+            <%=abonner_txt_003&" " %><b><%=abonner_txt_004 %></b>, <%=abonner_txt_005&" " %><b><%=abonner_txt_006&" " %><u><%=abonner_txt_007 %></u><%=" "&abonner_txt_008 %></b><%=" "&abonner_txt_009 %><br />&nbsp;
 
 
         <FORM method="post" action="abonner.asp?func=abo">
         <table cellspacing=0 cellpadding=0 border=0 width=100%>
        
         <tr>     
-	            <td><br /><b>A) Modtagere:</b><br />
-        Aktive (kun dem med email adr.)<br />
+	            <td><br /><b>A) <%=abonner_txt_010 %>:</b><br />
+        <%=abonner_txt_011 %><br />
         <%strSQLm = "SELECT mnavn, mid, email FROM medarbejdere WHERE mansat = 1 AND email <> '' ORDER BY mnavn"
 
         'if session("mid") = 1 then
@@ -220,12 +220,12 @@ oskrift = "Abonnér"
          <input type="hidden" name="FM_abo" value="1" /> 
         </td>
 
-         <td><br /><b>B) Rapporttype:</b><br />
-        Vælg udgangspunkt:<br />
+         <td><br /><b>B) <%=abonner_txt_012 %>:</b><br />
+        <%=abonner_txt_013 %>:<br />
         <select style="width:230px; font-size:11px;" size="10" name="FM_rapporttype" id="FM_rapporttype">
-            <option value="1" SELECTED>HR rapport. Ugetotaler for valgte medarbejdere (fra pkt. B og C)</option>
-            <option value="2">Projektleder rapport (jobansvar./jobejer) </option>
-            <option value="3">Projektrapport (kun egne timer) </option>
+            <option value="1" SELECTED><%=abonner_txt_014 %></option>
+            <option value="2"><%=abonner_txt_015 %> </option>
+            <option value="3"><%=abonner_txt_016 %> </option>
         </select>
 
 
@@ -233,7 +233,7 @@ oskrift = "Abonnér"
         </td>
 
 
-             <td>Vælg hvilke medarbejdere der skal med i rapporten. <br /><b>Enten:</b> <br /><b>C) Medarbejdertyper:</b><br />
+             <td><%=abonner_txt_017 %> <br /><b><%=abonner_txt_018 %>:</b> <br /><b>C)<%=" "&abonner_txt_019 %>:</b><br />
         <%strSQLm = "SELECT id, type FROM medarbejdertyper WHERE id <> 0 ORDER BY type"
 
         'if session("mid") = 1 then
@@ -242,9 +242,9 @@ oskrift = "Abonnér"
         
         %>
         <select style="width:230px; font-size:11px;" size="10" multiple name="FM_abo_mtyp" id="FM_abo_mtyp">
-            <option value="-2" SELECTED>Kun sig selv</option>
-              <option value="-1">Ingen</option>
-            <option value="0">Alle</option>
+            <option value="-2" SELECTED><%=abonner_txt_020 %></option>
+              <option value="-1"><%=abonner_txt_021 %></option>
+            <option value="0"><%=abonner_txt_022 %></option>
         <%
         oRec2.open strSQLm, oConn, 3
         While Not oRec2.EOF 
@@ -263,7 +263,7 @@ oskrift = "Abonnér"
 
        
         </td>
-                 <td><br /><b>Eller:</b><br /><b>D) Projektgrupper:</b><br />
+                 <td><br /><b><%=abonner_txt_023 %>:</b><br /><b>D) <%=abonner_txt_024 %>:</b><br />
         <%strSQLm = "SELECT id, navn FROM projektgrupper WHERE id <> 0 ORDER BY navn"
 
         'if session("mid") = 1 then
@@ -272,8 +272,8 @@ oskrift = "Abonnér"
         
         %>
         <select style="width:230px; font-size:11px;" size="10" multiple name="FM_abo_progrp" id="FM_abo_progrp">
-            <option value="-1" SELECTED>Ingen</option>
-            <option value="0">Alle</option>
+            <option value="-1" SELECTED><%=abonner_txt_021 %></option>
+            <option value="0"><%=abonner_txt_022 %></option>
         <%
         oRec2.open strSQLm, oConn, 3
         While Not oRec2.EOF 
@@ -304,7 +304,7 @@ oskrift = "Abonnér"
 	    <td align=right valign=bottom colspan="4" style="padding-right:30px;"><br />
 
 
-            <input id="Submit5" type="submit" value="Tilføj >>" />
+            <input id="Submit5" type="submit" value="<%=abonner_txt_027 %> >>" />
 
           
 	</td></tr>
@@ -328,11 +328,11 @@ if request.servervariables("PATH_TRANSLATED") <> "c:\www\timeout_xp\wwwroot\ver2
 
          %>
 
-  <h3>Abonenter:</h3> 
+  <h3><%=abonner_txt_028 %>:</h3> 
  
 
 <table width="100%">
-    <tr><td><b>Medarbejder</b></td><td><b>Rapporttype</b></td><td>Medarbejdertyper tilvalgt (0=alle, -1=ingen, -2=sig selv)</td><td>Projekgrupper tilvalgt (0=alle)</td><td>&nbsp;</td></tr>
+    <tr><td><b><%=abonner_txt_029 %></b></td><td><b><%=abonner_txt_030 %></b></td><td><%=abonner_txt_031 %></td><td><%=abonner_txt_032 %></td><td>&nbsp;</td></tr>
 
  
 
@@ -357,7 +357,7 @@ if request.servervariables("PATH_TRANSLATED") <> "c:\www\timeout_xp\wwwroot\ver2
                 <%end if %>
             </td>
                 
-                <td><a href="abonner.asp?func=abo_slet&FM_abo_mid=<%=oRec_admin("medid") %>" class="slet">Slet</a></td>
+                <td><a href="abonner.asp?func=abo_slet&FM_abo_mid=<%=oRec_admin("medid") %>" class="slet"><%=abonner_txt_033 %></a></td>
                 </tr>
     <%
 

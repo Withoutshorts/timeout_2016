@@ -89,6 +89,19 @@ if session("user") = "" then
             sogValTxt = ""
             end if
 
+            if len(trim(request("FM_fomr"))) <> 0 then
+                FM_fomr = request("FM_fomr")
+            else
+                FM_fomr = 0
+            end if
+
+            select case FM_fomr
+            case 0
+            fomrSQLfilter = ""
+            case else
+            fomrSQLfilter = "AND fr.for_fomr = "& FM_fomr &" "
+            end select
+
              call aktBudgettjkOn_fn()
              fyStMd = month(aktBudgettjkOnRegAarSt)
 
@@ -1245,8 +1258,9 @@ lastFase = ""
 strSQLjob = "SELECT jobnavn, jobnr, jobtpris, j.id AS jid, jobknr, j.budgettimer AS jobbudgettimer, jo_gnstpris, "_
 &" kkundenavn, k.kid, a.id AS aid, a.navn AS aktnavn, a.budgettimer AS aktbudgettimer, aktbudget, aktbudgetsum, a.fase, jobtpris FROM job AS j "_
 &" LEFT JOIN kunder AS k ON (kid = jobknr) "_
+&" LEFT JOIN fomr_rel AS fr ON (fr.for_jobid = j.id) "_
 &" LEFT JOIN aktiviteter AS a ON (a.job = j.id AND (a.fakturerbar = 1 OR a.fakturerbar = 2)) "_
-&" WHERE "& strSQLkrijob &" AND "& strSQLrisiko &" AND jobstatus = 1 AND a.navn IS NOT NULL "& strSQLkrijobDatoKri &""_
+&" WHERE "& strSQLkrijob &" AND "& strSQLrisiko &" AND jobstatus = 1 AND a.navn IS NOT NULL "& strSQLkrijobDatoKri & fomrSQLfilter &""_
 &" GROUP BY a.id ORDER BY jobnavn, jobnr, a.fase, a.sortorder, a.navn LIMIT 5000"
 
 '"& jobid &"
@@ -1712,8 +1726,9 @@ end select
 strSQLjob = "SELECT jobnavn, jobnr, j.id AS jid, jobknr, "_
 &" kkundenavn, k.kid, a.id AS aid, a.fase, jo_gnstpris, aktbudget FROM job AS j "_
 &" LEFT JOIN kunder AS k ON (kid = jobknr) "_
+&" LEFT JOIN fomr_rel AS fr ON (fr.for_jobid = j.id) "_
 &" LEFT JOIN aktiviteter AS a ON (a.job = j.id AND (a.fakturerbar = 1 OR a.fakturerbar = 2)) "_
-&" WHERE "& strSQLkrijob &" AND "& strSQLrisiko &" AND jobstatus = 1 AND a.navn IS NOT NULL "& strSQLkrijobDatoKri &""_
+&" WHERE "& strSQLkrijob &" AND "& strSQLrisiko &" AND jobstatus = 1 AND a.navn IS NOT NULL "& strSQLkrijobDatoKri & fomrSQLfilter &""_
 &" GROUP BY a.id ORDER BY jobnavn, jobnr, a.fase, a.sortorder, a.navn LIMIT 5000"
 '"& jobid &"
 'response.write strSQLjob
@@ -2577,8 +2592,9 @@ end select
 strSQLjob = "SELECT jobnavn, jobnr, j.id AS jid, jobknr, j.budgettimer AS jobbudgettimer, jo_gnstpris, "_
 &" kkundenavn, k.kid, a.id AS aid, a.navn AS aktnavn, a.budgettimer AS aktbudgettimer, aktbudget, aktbudgetsum, a.fase, jobtpris FROM job AS j "_
 &" LEFT JOIN kunder AS k ON (kid = jobknr) "_
+&" LEFT JOIN fomr_rel AS fr ON (fr.for_jobid = j.id) "_  
 &" LEFT JOIN aktiviteter AS a ON (a.job = j.id AND (a.fakturerbar = 1 OR a.fakturerbar = 2) AND a.navn IS NOT NULL) "_
-&" WHERE "& strSQLrisiko &" AND j.jobstatus = 1 "& sogValSQLKri &""_
+&" WHERE "& strSQLrisiko &" AND j.jobstatus = 1 "& sogValSQLKri & fomrSQLfilter &""_
 &" GROUP BY a.id ORDER BY "& sortorderThis &", a.fase, a.sortorder, a.navn LIMIT "& lmt
 
 'response.write strSQLjob
