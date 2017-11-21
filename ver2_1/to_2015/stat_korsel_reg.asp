@@ -1,4 +1,4 @@
-ï»¿
+
 
 <!--#include file="../inc/connection/conn_db_inc.asp"-->
 <!--#include file="../inc/errors/error_inc.asp"-->
@@ -72,12 +72,12 @@ if len(session("user")) = 0 then
 	
 	function ArTilDatoKm()
 	%>
-	  Ã…r -> Dato (<%=formatdatetime(strDag_slut&"/"&strMrd_slut&"/"&strAar_slut, 2) %>) :
+	  År -> Dato (<%=formatdatetime(strDag_slut&"/"&strMrd_slut&"/"&strAar_slut, 2) %>) :
       
        
         
         <% 
-        '** Sum Ã¥r til dato ***'
+        '** Sum år til dato ***'
         strSQLsum = "SELECT SUM(timer) AS kmsum, tfaktim FROM timer "_
         &" WHERE tmnr = "& ltmnr &" AND "_
         &" tdato BETWEEN '"& strAar_slut & "/1/1" &"' AND '"& sqlDatoSlut &"'"_
@@ -119,14 +119,14 @@ if len(session("user")) = 0 then
 
         <div class="container">
             <div class="portlet">
-                <h3 class="portlet-title"><u>KÃ¸rsel</u></h3>
+                <h3 class="portlet-title"><u>Kørsel</u></h3>
                 <div class="portlet-body">
                 
                     <div class="well well-white">
 
                         <div class="row">
                             <div class="col-lg-1">Fra: <span style="color:red;">*</span></div>
-                            <div class="col-lg-4"><input type="text" class="form-control input-small" value="HovgÃ¥rdsvej 51, 7100 Vejle" /></div>
+                            <div class="col-lg-4"><input type="text" class="form-control input-small" value="Hovgårdsvej 51, 7100 Vejle" /></div>
 
                             <div class="col-lg-1">&nbsp</div>
                             <div class="col-lg-1">Dato: <span style="color:red;">*</span></div>
@@ -143,7 +143,7 @@ if len(session("user")) = 0 then
                         
                         <div class="row">
                             <div class="col-lg-1">Via:</div>
-                            <div class="col-lg-4"><input type="text" class="form-control input-small" value="DragÃ¸rvej 45, 819 DragÃ¸r"/></div>
+                            <div class="col-lg-4"><input type="text" class="form-control input-small" value="Dragørvej 45, 819 Dragør"/></div>
 
                             <div class="col-lg-1">&nbsp</div>
                             <div class="col-lg-1">Kunde/Job:</div>
@@ -152,7 +152,7 @@ if len(session("user")) = 0 then
 
                         <div class="row">
                             <div class="col-lg-1">Til: <span style="color:red;">*</span></div>
-                            <div class="col-lg-4"><input type="text" class="form-control input-small" value="KÃ¸kebnahvnvej 14, 2100, KÃ¸behavnvej" /></div>
+                            <div class="col-lg-4"><input type="text" class="form-control input-small" value="Køkebnahvnvej 14, 2100, Købehavnvej" /></div>
                             <div class="col-lg-1">&nbsp</div>
                             <div class="col-lg-1">Aktivitet:</div>
                             <div class="col-lg-4"><input type="text" class="form-control input-small" /></div>
@@ -160,16 +160,16 @@ if len(session("user")) = 0 then
 
                         <div class="row">
                             <div class="col-lg-6">&nbsp</div>
-                            <div class="col-lg-1">FormÃ¥l: <span style="color:red;">*</span></div>
+                            <div class="col-lg-1">Formål: <span style="color:red;">*</span></div>
                             <div class="col-lg-4"><input type="text" class="form-control input-small" value="" /></div>
                         </div>
 
                         <div class="row">
-                            <div class="col-lg-2"><a>TilfÃ¸j</a></div>
+                            <div class="col-lg-2"><a>Tilføj</a></div>
                         </div>
                         
                         <div class="row">
-                            <div class="col-lg-11"><button type="submit" class="btn btn-success btn-sm pull-right"><b>IndlÃ¦s >></b></button></div>
+                            <div class="col-lg-11"><button type="submit" class="btn btn-success btn-sm pull-right"><b>Indlæs >></b></button></div>
                         </div>
                     </div>
 
@@ -178,7 +178,7 @@ if len(session("user")) = 0 then
 
 
                     <div class="row">
-                        <h5 class="col-lg-6">KÃ¸rsels statistik</h5>
+                        <h5 class="col-lg-6">Kørsels statistik</h5>
                     </div>
                     <form action="stat_korsel.asp?menu=stat&FM_usedatokri=1&hidemenu=<%=hidemenu%>" method="post">
                     <div class="row">
@@ -272,10 +272,10 @@ if len(session("user")) = 0 then
                                 <th style="width:10%">Dato</th>
                                 <th style="width:20%">Fra</th>
                                 <th style="width:20%">Til</th>
-                                <th style="width:10%">FormÃ¥l</th>
+                                <th style="width:10%">Formål</th>
                                 <th style="width:10%">Projekt</th>
                                 <th style="width:5%">Retur</th>
-                                <th style="width:5%">KÃ¸rte km</th>
+                                <th style="width:5%">Kørte km</th>
                                 <th style="width:5%">km i alt</th>
                                 <th style="width:5%">Afregnet</th>
                             </tr>
@@ -286,8 +286,8 @@ if len(session("user")) = 0 then
                                 <td>08-12-2016</td>
                                 <td>Vejle</td>
                                 <td>Kbh</td>
-                                <td>MÃ¸de</td>
-                                <td>TimeOut OpsÃ¦tning & Support (527)</td>
+                                <td>Møde</td>
+                                <td>TimeOut Opsætning & Support (527)</td>
                                 <td class="center"><input type="checkbox" value="1" /></td>
                                 <td><input type="text" class="form-control input-small" value="250" /></td>
                                 <td><input type="text" class="form-control input-small" value="500" readonly /></td>
@@ -295,10 +295,10 @@ if len(session("user")) = 0 then
                             </tr>
                             <tr>
                                 <td>12-12-2016</td>
-                                <td>A. P. MÃ¸llers AllÃ© 11, 2791 DragÃ¸</td>
+                                <td>A. P. Møllers Allé 11, 2791 Dragø</td>
                                 <td>Energivej 230, 5020 Odense C</td>
-                                <td>MÃ¸de</td>
-                                <td>TimeOut OpsÃ¦tning & Support (527)</td>
+                                <td>Møde</td>
+                                <td>TimeOut Opsætning & Support (527)</td>
                                 <td class="center"><input type="checkbox" value="1" /></td>
                                 <td><input type="text" class="form-control input-small" value="150"/></td>
                                 <td></td>
@@ -307,9 +307,9 @@ if len(session("user")) = 0 then
                             <tr>
                                 <td></td>
                                 <td>Energivej 230, 5020 Odense C</td>
-                                <td>En gade vest pÃ¥, 3333 ogenby</td>
-                                <td>MÃ¸de</td>
-                                <td>TimeOut OpsÃ¦tning & Support (527)</td>
+                                <td>En gade vest på, 3333 ogenby</td>
+                                <td>Møde</td>
+                                <td>TimeOut Opsætning & Support (527)</td>
                                 <td class="center"><input type="checkbox" value="1" /></td>
                                 <td><input type="text" class="form-control input-small" value="100"/></td>
                                 <td></td>
@@ -318,9 +318,9 @@ if len(session("user")) = 0 then
                             <tr>
                                 <td></td>
                                 <td>Vestergade 2, 2871, KBH</td>
-                                <td>NÃ¸rregade 6, 2871, KBH</td>
-                                <td>MÃ¸de</td>
-                                <td>TimeOut OpsÃ¦tning & Support (527)</td>
+                                <td>Nørregade 6, 2871, KBH</td>
+                                <td>Møde</td>
+                                <td>TimeOut Opsætning & Support (527)</td>
                                 <td class="center"><input type="checkbox" value="1" /></td>
                                 <td><input type="text" class="form-control input-small" value="20" /></td>
                                 <td><input type="text" class="form-control input-small" value="270" readonly/></td>
@@ -338,10 +338,10 @@ if len(session("user")) = 0 then
                                 <th style="width:10%">Dato</th>
                                 <th style="width:20%">Fra</th>
                                 <th style="width:20%">Til</th>
-                                <th style="width:10%">FormÃ¥l</th>
+                                <th style="width:10%">Formål</th>
                                 <th style="width:10%">Projekt</th>
                                 <th style="width:5%">Retur</th>
-                                <th style="width:5%">KÃ¸rte km</th>
+                                <th style="width:5%">Kørte km</th>
                                 <th style="width:5%">km i alt</th>
                                 <th style="width:5%">Afregnet</th>
                             </tr>
