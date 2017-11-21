@@ -573,7 +573,21 @@
                     easy_reg_timer = oRec2("easy_reg_timer")
                     easy_reg_timepris = oRec2("easy_reg_timepris")
                     ikke_fakbar_tid_timer = oRec2("ikke_fakbar_tid_timer")
-                    ikke_fakbar_tid_timepris = oRec2("ikke_fakbar_tid_timepris")                   
+                    ikke_fakbar_tid_timepris = oRec2("ikke_fakbar_tid_timepris")
+                    
+                else
+                'FINDES IKKE I FORVEJEN 
+                strEval_svendetimer_sug = formatnumber(svendetimertotal,2)
+                strEval_svendetimePris_sug = formatnumber(totalGNSsvendeTimepris,2)
+                ubemandet_maskine_timer = formatnumber(maskinetimertotal,2)
+                ubemandet_maskine_timePris = formatnumber(maskine_GNS_timepris,2)
+                laer_timer = formatnumber(laertimertotal,2)
+                laer_timepris = formatnumber(laarTimeprisGNS,2)
+                easy_reg_timer = formatnumber(easyRegtimertotal,2)
+                easy_reg_timepris = formatnumber(easyRegTimeprisGNS,2)
+                ikke_fakbar_tid_timer = formatnumber(ikkefakbartimertotal,2)
+                ikke_fakbar_tid_timepris = formatnumber(ikkefakbarGNStimepris,2)
+                                       
                 end if
                 oRec2.close
 
@@ -613,7 +627,7 @@
              
         %>
 
-<script src="js/eval_jav5.js" type="text/javascript"></script>
+<script src="js/eval_jav6.js" type="text/javascript"></script>
 
 
 <div class="wrapper"><br /><br />
@@ -840,9 +854,11 @@
                             <table>
                                 <tr>
                                     <td style="width:65px"></td>
-                                    <td style="color:black; padding-right:26px">Forslået omsætning</td>
-                                    <td style="width:100px; padding-right:10px"><input type="hidden" name="forslaet_timer_total" id="forslaet_timer_total" class="form-control input-small opdaterOms" value="" readonly />
-                                    <td style="width:252px; padding-right:10px"><input type="hidden" name="forslaet_timepris_total" id="forslaet_timepris_total" class="form-control input-small opdaterOms" value="" readonly /></td>
+                                    <td style="color:black; padding-right:56px">Forslået omsætning</td>
+                                    <td style="width:100px; padding-right:10px"><input type="text" name="forslaet_timer_total" id="forslaet_timer_total" class="form-control input-small opdaterOms" value="" readonly />
+                                    <td style="width:80px"></td>
+                                    <td style="width:125px; padding-right:10px"><input type="text" name="forslaet_timepris_total" id="forslaet_timepris_total" class="form-control input-small opdaterOms" value="" readonly /></td>
+                                    <td style="width:19px"></td>
                                     <td style="width:125px; padding-right:10px"><input type="text" name="forslaet_oms" id="forslaet_oms" class="form-control input-small" readonly /></td>
                                     <td><input type="hidden" name="eval_lbn_forskel" id="eval_lbn_forskel" class="form-control input-small" readonly/></td>
                                 </tr>

@@ -284,33 +284,51 @@ end function
 					
 					if len(trim(pgr(p))) <> 0 then
 
-                        
-                        '** NOTIFICER ***'
-                        if instr(pgr(p), "-1") <> 0 then
-                        notificer = 1
-                        else
-                        notificer = 0
-                        end if 
+                        if thisfile <> "medarbejder_prg" then
+
+                            '** NOTIFICER ***'
+                            if instr(pgr(p), "-1") <> 0 then
+                            notificer = 1
+                            else
+                            notificer = 0
+                            end if 
                     
 
-                        '*** TEAMLEDER ***
-                        if instr(pgr(p), "_1") <> 0 then
-                        teamleder = 1
-                        pgr_len = len(pgr(p))
+                            '*** TEAMLEDER ***
+                            if instr(pgr(p), "_1") <> 0 then
+                            teamleder = 1
+                            pgr_len = len(pgr(p))
 
-                        if cint(notificer) = 1 then
-                        pgr_left = left(pgr(p), pgr_len - 4)
+                            if cint(notificer) = 1 then
+                            pgr_left = left(pgr(p), pgr_len - 4)
+                            else
+                            pgr_left = left(pgr(p), pgr_len - 2)
+                            end if
+
+                            pgr(p) = pgr_left 
+                            else
+                            teamleder = 0
+                            pgr(p) = pgr(p)
+                            end if 
+
                         else
-                        pgr_left = left(pgr(p), pgr_len - 2)
-                        end if
 
-                        pgr(p) = pgr_left 
-                        else
-                        teamleder = 0
-                        pgr(p) = pgr(p)
-                        end if 
+                            CHBteamLeder = request("FM_progrpTeamL_"& cdbl(pgr(p)))
+                            CHBNOT = request("FM_progrpNOT_"& cdbl(pgr(p)))
+                           
+                            if instr(CHBteamLeder, "checked") <> 0 then
+                            teamleder = 1
+                            else
+                            teamleder = 0
+                            end if
 
-                        
+                            if instr(CHBNOT, "checked") <> 0 then
+                            notificer = 1
+                            else
+                            notificer = 0
+                            end if
+
+                        end if 'thisfile
 					
                     	'Response.Write strSQLpgIns & "<br>"
 					    

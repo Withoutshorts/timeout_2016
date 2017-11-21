@@ -1,5 +1,28 @@
 ﻿$(document).ready(function () {
 
+    $("#FM_medtype").change(function () {
+
+
+        strMedarbejdertype = $("#FM_medtype").val()
+        strMedarbejderid = $("#medarbejderId").val()
+        beforeempltype_id = $("#beforeempltype_id").val()
+        //alert(strMedarbejderid)
+        
+        //$("#newempltype").attr('style', 'visibilty:inherit');
+        $("#newempltype_name").html($("#FM_medtype option:selected").text());
+        $("#newempltype_id").val(strMedarbejdertype);
+        //alert(strMedarbejdertype)
+        //alert(beforeempltype_id)
+        if (strMedarbejdertype == beforeempltype_id) {  
+            $("#newempltype").attr('style', 'display:none');
+        } else {
+            $("#newempltype").attr('style', 'display:normal');
+        }
+
+
+    });
+
+
     $("#FM_ansat2").click(function () {
 
         $("#deaktivnote").css("display", "");

@@ -1,0 +1,1443 @@
+<?xml version="1.0" encoding="Windows-1252" ?>
+
+<sprog>
+
+  <!--- Dansk -->
+  <dk>
+
+    <txt_1 >Kun i periode</txt_1>
+    <txt_2 >Total, uanset valgt periode</txt_2>
+    <txt_3 >Historisk WIP benyttet</txt_3>
+    <txt_4 >Aktuel WIP benyttet</txt_4>
+    <txt_5 >Timer til fakturering</txt_5>
+    <txt_6 >Periode ignoreret</txt_6>
+    <txt_7 >Timer, materialer eller fakturaer</txt_7>
+    <txt_8 >jobslutdato</txt_8>
+    <txt_9 >lukkedato</txt_9>
+    <txt_10 >Timer</txt_10>
+    <txt_11 >Fakturaer</txt_11>
+    <txt_12 >Slutdato</txt_12>
+    <txt_13 >jobstartdato</txt_13>
+    <txt_14 >Forventet loadtid</txt_14>
+    <txt_15 >ca.</txt_15>
+    <txt_16 >3-45 sek.</txt_16>
+    <txt_17 >Ved visning af mange job (+300), kan der være lidt ekstra ventetid efter siden er loadet. Først når denne boks forsvinder helt er siden klar.</txt_17>
+    <txt_18 >Igangværende Job</txt_18>
+    <txt_19 >Projektgruppe - Priroitet</txt_19>
+    <txt_20 >Jobnr (stigende)</txt_20>
+    <txt_21 >Jobnr (faldende)</txt_21>
+    <txt_22 >Jobnavn</txt_22>
+    <txt_23 >Kunde</txt_23>
+    <txt_24 >Kunde - Priroitet</txt_24>
+    <txt_25 >Periode - Startdato</txt_25>
+    <txt_26 >Periode - Slutdato</txt_26>
+    <txt_27 >Priroitet</txt_27>
+    <txt_28 >Alle</txt_28>
+    <txt_29 >Projektgrupper</txt_29>
+    <txt_30 >Ignorer tilknytning til job via dine projektgrupper.</txt_30>
+    <txt_31 >Ignoreret (vis alle).</txt_31>
+    <txt_32 >Viser kun de job du er tilknyttet via dine projektgrupper.</txt_32>
+    <txt_33 >Job / kundeansvarlig</txt_33>
+    <txt_34 >vis kun job hvor valgte medarb. er</txt_34>
+    <txt_35 >Alle - ignorer jobansv.</txt_35>
+    <txt_36 >Alle (job / kunde ansv. ignoreret)</txt_36>
+    <txt_37 >Jobansv.</txt_37>
+    <txt_38 >Salgsansv.</txt_38>
+    <txt_39 >Kundeansvarlig</txt_39>
+    <txt_40 >Jobansvarlig</txt_40>
+    <txt_41 >Salgsansvarlig</txt_41>
+    <txt_42 >Søg på jobnavn ell. nr.</txt_42>
+    <txt_43 >specifik</txt_43>
+    <txt_44 >dobbelt bindestreg</txt_44>
+    <txt_45 >interval, eller</txt_45>
+    <txt_46 >jobnr./jobnavn</txt_46>
+    <txt_47 >Jobstatus, vis</txt_47>
+    <txt_48 >Aktive</txt_48>
+    <txt_49 >Passiv / Til fak.</txt_49>
+    <txt_50 >Lukkede</txt_50>
+    <txt_51 >Gennemsyn</txt_51>
+    <txt_52 >Eval.</txt_52>
+    <txt_53 >Tilbud</txt_53>
+    <txt_54 >Evaluering</txt_54>
+    <txt_55 >Avanceret</txt_55>
+    <txt_56 >Præsentation</txt_56>
+    <txt_57 >Realiserede timer og faktureret beløb</txt_57>
+    <txt_58 >Timer realiseret opgjort t.o.m igår.</txt_58>
+    <txt_59 >Vis</txt_59>
+    <txt_60 >total</txt_60>
+    <txt_61 >på viste job uanset valgt periode</txt_61>
+    <txt_62 >Vis kun timer og beløb fra</txt_62>
+    <txt_63 >den valgte periode</txt_63>
+    <txt_64 >fulde måneder</txt_64>
+    <txt_65 >Vis igangværende arb. (timer nyere en seneste faktura i valgte periode)</txt_65>
+    <txt_66 >Brug historisk WIP (henter gældende WIP i forhold til valgte datointerval)</txt_66>
+    <txt_67 >Periode</txt_67>
+    <txt_68 >Periode filter.</txt_68>
+    <txt_69 >Vis kun job med følgende kriterie opfyldt</txt_69>
+    <txt_70 >Startdato</txt_70>
+    <txt_71 >Timer, fakturaer ell. materiale-forbrug</txt_71>
+    <txt_72 >i periode</txt_72>
+    <txt_73 >Der var aktivt</txt_73>
+    <txt_74 >Alle job + lukkede job hvor Lukkedato > Slutdato i periode.</txt_74>
+    <txt_75 >Ignorer</txt_75>
+    <txt_76 >datointerval</txt_76>
+    <txt_77 >vis alle job, maks.</txt_77>
+    <txt_78 >i det valgte datointerval</txt_78>
+    <txt_79 >i forhold til datointerval.</txt_79>
+    <txt_80 >Vis også Interne job</txt_80>
+    <txt_81 >prioitet</txt_81>
+    <txt_82 >Viser interne job</txt_82>
+    <txt_83 >Viser ikke interne job</txt_83>
+    <txt_84 >Vis kun Fastpris job</txt_84>
+    <txt_85 >Viser kun fastpris job</txt_85>
+    <txt_86 >Viser både fastpris og lnb. timer job</txt_86>
+    <txt_87 >Skjul</txt_87>
+    <txt_88 >nul</txt_88>
+    <txt_89 >job (job uden timer i per.</txt_89>
+    <txt_90 >Skjuler</txt_90>
+    <txt_91 >job</txt_91>
+    <txt_92 >Viser</txt_92>
+    <txt_93 >Kolonne layout</txt_93>
+    <txt_94 >Vis simpel</txt_94>
+    <txt_95 >Vis standard (job.besk., wip og forecast)</txt_95>
+    <txt_96 >Konsoliderede tal</txt_96>
+    <txt_97 >Vis udviddet (som standard + økonomi)</txt_97>
+    <txt_98 >Vis Job Tweet kolonne</txt_98>
+    <txt_99 >Simpel visning</txt_99>
+    <txt_100 >Standard visning</txt_100>
+    <txt_101 >Udviddet visning</txt_101>
+    <txt_102 >Vis kun Grandtotal / forbered til csv. eksport (hurtig loadtid)</txt_102>
+    <txt_103 >grandtotal vises ikke hvis der sorteres efter projektgrupper</txt_103>
+    <txt_104 >Viser kun grandtotal</txt_104>
+    <txt_105 >Sortér efter</txt_105>
+    <txt_106 >obnr (stigende)</txt_106>
+    <txt_107 >Vælg projektgrupper</txt_107>
+    <txt_108 >og klik</txt_108>
+    <txt_109 >vis jobliste</txt_109>
+    <txt_110 >Vælg Alle / Ingen</txt_110>
+    <txt_111 >incidentliste</txt_111>
+    <txt_112 >Kontakt</txt_112>
+    <txt_113 >Rekvitisions nr.</txt_113>
+    <txt_114 >Aft. nr</txt_114>
+    <txt_115 >Pre. konditioner mødt.</txt_115>
+    <txt_116 >Jobbesk.</txt_116>
+    <txt_117 >Job. ansv.</txt_117>
+    <txt_118 >ejer</txt_118>
+    <txt_119 >Status</txt_119>
+    <txt_120 >Prioritet</txt_120>
+    <txt_121 >Forecast</txt_121>
+    <txt_122 >også de-aktive medarb.</txt_122>
+    <txt_123 >Realiseret</txt_123>
+    <txt_124 >se konsolidering</txt_124>
+    <txt_125 >Rest. estimat</txt_125>
+    <txt_126 >Balance</txt_126>
+    <txt_127 >Afvigelse</txt_127>
+    <txt_128 >Bal.</txt_128>
+    <txt_129 >Forkalk. Budget</txt_129>
+    <txt_130 >Igangværende arb.</txt_130>
+    <txt_131 >baseret på restestimat</txt_131>
+    <txt_132 >Faktisk faktureret</txt_132>
+    <txt_133 >Betalingsplan</txt_133>
+    <txt_134 >terminer</txt_134>
+    <txt_135 >stadeindm.</txt_135>
+    <txt_136 >Job Tweet</txt_136>
+    <txt_137 >Projekgruppe</txt_137>
+    <txt_138 >passivt / Til fak.</txt_138>
+    <txt_139 >Stade</txt_139>
+    <txt_140 >afsluttet</txt_140>
+    <txt_141 >Fastpris</txt_141>
+    <txt_142 >Lbn. timer</txt_142>
+    <txt_143 >Rekvnr.</txt_143>
+    <txt_144 >Aft.</txt_144>
+    <txt_145 >Pre-konditioner opfyldt</txt_145>
+    <txt_146 >Pre-konditioner ikke opfyldt</txt_146>
+    <txt_147 >jan</txt_147>
+    <txt_148 >feb</txt_148>
+    <txt_149 >mar</txt_149>
+    <txt_150 >apr</txt_150>
+    <txt_151 >maj</txt_151>
+    <txt_152 >jun</txt_152>
+    <txt_153 >jul</txt_153>
+    <txt_154 >aug</txt_154>
+    <txt_155 >sep</txt_155>
+    <txt_156 >okt</txt_156>
+    <txt_157 >nov</txt_157>
+    <txt_158 >dec</txt_158>
+    <txt_159 >t.</txt_159>
+    <txt_160 >Sidste Faktura sys.dato</txt_160>
+    <txt_161 >Fremdrift</txt_161>
+    <txt_162 >Timefordeling pr. md</txt_162>
+    <txt_163 >timer til rest.</txt_163>
+    <txt_164 >Wip dato</txt_164>
+    <txt_165 >Forv. samlet tidsforbr.</txt_165>
+    <txt_166 >Budget</txt_166>
+    <txt_167 >Bruttooms</txt_167>
+    <txt_168 >Nettooms</txt_168>
+    <txt_169 >Timepris</txt_169>
+    <txt_170 >Salgsomk.</txt_170>
+    <txt_171 >Kost. pr. time.</txt_171>
+    <txt_172 >DB beløb</txt_172>
+    <txt_173 >DB</txt_173>
+    <txt_174 >WIP</txt_174>
+    <txt_175 >af budget</txt_175>
+    <txt_176 >forv.</txt_176>
+    <txt_177 >Opret ny termin</txt_177>
+    <txt_178 >Budget / Fak.</txt_178>
+    <txt_179 >WIP / Fak.</txt_179>
+    <txt_180 >Termin / Fak.</txt_180>
+    <txt_181 >Gem</txt_181>
+    <txt_182 >Ryd</txt_182>
+    <txt_183 >Der er</txt_183>
+    <txt_184 >job på listen i denne søgning.</txt_184>
+    <txt_185 >Skjulte job</txt_185>
+    <txt_186 >sæt prioritet</txt_186>
+    <txt_187 >Sortering</txt_187>
+    <txt_188 >Træk i et job for at prioritere rækkefølgen.</txt_188>
+    <txt_189 >Prioritets-angivelsen skifter først ved genindlæs.</txt_189>
+    <txt_190 >Kvotient</txt_190>
+    <txt_191 >Kvotient beregnes ud fra restestimat * (timer budgetteret / forventet timeforbrug)</txt_191>
+    <txt_192 >Faktureret ekskl. materialeforbrug (salgsomkostninger) og km.</txt_192>
+    <txt_193 >Stamdata</txt_193>
+    <txt_194 >Nøgletal, Realiseret, Forr.omr., Projektgrupper mm.</txt_194>
+    <txt_195 >Milepæle/Terminer</txt_195>
+    <txt_196 >Job- og salgs -ansvarlige</txt_196>
+    <txt_197 >Jobansvarlige</txt_197>
+    <txt_198 >Opret nyt job</txt_198>
+
+
+  </dk>
+
+
+  <!--- Norsk -->
+  <no>
+
+    <txt_1 >Only in choosen period</txt_1>
+    <txt_2 >Total, regard. Peridod</txt_2>
+    <txt_3 >Historical WIP</txt_3>
+    <txt_4 >Actual WIP</txt_4>
+    <txt_5 >Hours for invoicing</txt_5>
+    <txt_6 >Periode ignored</txt_6>
+    <txt_7 >Hours, materials or invoices</txt_7>
+    <txt_8 >Project end date</txt_8>
+    <txt_9 >Close date</txt_9>
+    <txt_10 >Hours</txt_10>
+    <txt_11 >Invoices</txt_11>
+    <txt_12 >End date</txt_12>
+    <txt_13 >Start date</txt_13>
+    <txt_14 >Expected load time</txt_14>
+    <txt_15 >approx.</txt_15>
+    <txt_16 >3-45 sec.</txt_16>
+    <txt_17 >Viewing +300 projects extra laodtime is required. Please wait until this box closes.</txt_17>
+    <txt_18 >Work in progress</txt_18>
+    <txt_19 >Project group - priority</txt_19>
+    <txt_20 >Project no. (asending)</txt_20>
+    <txt_21 >project no. (desending)</txt_21>
+    <txt_22 >Project name</txt_22>
+    <txt_23 >Customer</txt_23>
+    <txt_24 >Customer - priority</txt_24>
+    <txt_25 >Period - start date</txt_25>
+    <txt_26 >Period - end date</txt_26>
+    <txt_27 >Priority</txt_27>
+    <txt_28 >All</txt_28>
+    <txt_29 >Project groups</txt_29>
+    <txt_30 >Ignore your Project group relations</txt_30>
+    <txt_31 >Show all</txt_31>
+    <txt_32 >Show projects where you are in the Projet group</txt_32>
+    <txt_33 >Project / Account manager</txt_33>
+    <txt_34 >Show project where employee is</txt_34>
+    <txt_35 >All - ignore Project mgr.</txt_35>
+    <txt_36 >All (Project / Account mgr. ignored)</txt_36>
+    <txt_37 >Project mgr.</txt_37>
+    <txt_38 >Sales mgr.</txt_38>
+    <txt_39 >Account manager</txt_39>
+    <txt_40 >Project manager</txt_40>
+    <txt_41 >Sales manager</txt_41>
+    <txt_42 >Search project name or no.</txt_42>
+    <txt_43 >specific</txt_43>
+    <txt_44 >double hyphen "--"</txt_44>
+    <txt_45 >interval or</txt_45>
+    <txt_46 >Project name/no.</txt_46>
+    <txt_47 >Status, show</txt_47>
+    <txt_48 >Active</txt_48>
+    <txt_49 >Passiv/For invoi.</txt_49>
+    <txt_50 >Closed</txt_50>
+    <txt_51 >Approval</txt_51>
+    <txt_52 >Eval.</txt_52>
+    <txt_53 >Proposal</txt_53>
+    <txt_54 >Evaluation</txt_54>
+    <txt_55 >Advanced</txt_55>
+    <txt_56 >Presentation</txt_56>
+    <txt_57 >Stated hours and invoiced amount</txt_57>
+    <txt_58 >Hours stated til yesterday.</txt_58>
+    <txt_59 >Show</txt_59>
+    <txt_60 >total</txt_60>
+    <txt_61 >for projects regard. period</txt_61>
+    <txt_62 >Show only hours and amount from</txt_62>
+    <txt_63 >the choosen period</txt_63>
+    <txt_64 >full months</txt_64>
+    <txt_65 >Show work-in-progress (hours after last invoice in period)</txt_65>
+    <txt_66 >Use historical WIP (shows current WIP for the period)</txt_66>
+    <txt_67 >Period</txt_67>
+    <txt_68 >Period filter</txt_68>
+    <txt_69 >Show only projects with following creiteria</txt_69>
+    <txt_70 >Start date</txt_70>
+    <txt_71 >Hours, invoices or materials</txt_71>
+    <txt_72 >in the period</txt_72>
+    <txt_73 >Were active</txt_73>
+    <txt_74 >All projects incl. closed w. close date > end date.</txt_74>
+    <txt_75 >Ignore</txt_75>
+    <txt_76 >date interval</txt_76>
+    <txt_77 >show all projects, max.</txt_77>
+    <txt_78 >in date interval</txt_78>
+    <txt_79 >compared to date interval.</txt_79>
+    <txt_80 >Show internal projects also</txt_80>
+    <txt_81 >prority</txt_81>
+    <txt_82 >Shows intenal projects</txt_82>
+    <txt_83 >DO not show intenal projects</txt_83>
+    <txt_84 >Only fixedprice projects</txt_84>
+    <txt_85 >Shows fixedprice projects</txt_85>
+    <txt_86 >Both fixedprice and T and M projects</txt_86>
+    <txt_87 >Hide</txt_87>
+    <txt_88 >null</txt_88>
+    <txt_89 >Project (projects wo. hours per</txt_89>
+    <txt_90 >Hides</txt_90>
+    <txt_91 >Job</txt_91>
+    <txt_92 >shows</txt_92>
+    <txt_93 >Column layout</txt_93>
+    <txt_94 >Show simple</txt_94>
+    <txt_95 >Show standard (job.descrip., WIP and forecast)</txt_95>
+    <txt_96 >Consolidated amounts</txt_96>
+    <txt_97 >Show advanced (like standard + financials)</txt_97>
+    <txt_98 >Show Tweed column</txt_98>
+    <txt_99 >Simple view</txt_99>
+    <txt_100 >Standard view</txt_100>
+    <txt_101 >Advanced view</txt_101>
+    <txt_102 >Show only Grandtotal / prepare for csv. export (fast loading time)</txt_102>
+    <txt_103 >grandtotal is not displayed if sorted by project groups</txt_103>
+    <txt_104 >Only grandtotal is shown</txt_104>
+    <txt_105 >Sort by</txt_105>
+    <txt_106 >Project no.</txt_106>
+    <txt_107 >Select project groups</txt_107>
+    <txt_108 >and click</txt_108>
+    <txt_109 >show job list</txt_109>
+    <txt_110 >Select all</txt_110>
+    <txt_111 >incident list</txt_111>
+    <txt_112 >Contact</txt_112>
+    <txt_113 >Po. Number</txt_113>
+    <txt_114 >Agr. no.</txt_114>
+    <txt_115 >Pre-conditions met</txt_115>
+    <txt_116 >Job dec.</txt_116>
+    <txt_117 >Job man.</txt_117>
+    <txt_118 >owner</txt_118>
+    <txt_119 >Status</txt_119>
+    <txt_120 >Priority</txt_120>
+    <txt_121 >Forecast</txt_121>
+    <txt_122 >also de-active employee.</txt_122>
+    <txt_123 >Realized</txt_123>
+    <txt_124 >see consolidation</txt_124>
+    <txt_125 >Rest. estimate</txt_125>
+    <txt_126 >Balance</txt_126>
+    <txt_127 >Deviation</txt_127>
+    <txt_128 >Bal.</txt_128>
+    <txt_129 >Predicted Budget</txt_129>
+    <txt_130 >Ongoing work</txt_130>
+    <txt_131 >based on residual estimates</txt_131>
+    <txt_132 >Actually billed</txt_132>
+    <txt_133 >Payment schedule</txt_133>
+    <txt_134 >due dates</txt_134>
+    <txt_135 >Progress</txt_135>
+    <txt_136 >Job Tweet</txt_136>
+    <txt_137 >Project group</txt_137>
+    <txt_138 >Passive / For billing (vi skal muligvis lave en XML til status)</txt_138>
+    <txt_139 >Progress</txt_139>
+    <txt_140 >closed</txt_140>
+    <txt_141 >Fixed Price</txt_141>
+    <txt_142 >Ongoing hours</txt_142>
+    <txt_143 >Po. no.</txt_143>
+    <txt_144 >Agr.</txt_144>
+    <txt_145 >Pre-conditions fulfilled</txt_145>
+    <txt_146 >Pre-conditions not fulfilled</txt_146>
+    <txt_147 >jan</txt_147>
+    <txt_148 >feb</txt_148>
+    <txt_149 >mar</txt_149>
+    <txt_150 >apr</txt_150>
+    <txt_151 >may</txt_151>
+    <txt_152 >jun</txt_152>
+    <txt_153 >jul</txt_153>
+    <txt_154 >aug</txt_154>
+    <txt_155 >sep</txt_155>
+    <txt_156 >oct</txt_156>
+    <txt_157 >nov</txt_157>
+    <txt_158 >dec</txt_158>
+    <txt_159 >h.</txt_159>
+    <txt_160 >Last Invoice Date</txt_160>
+    <txt_161 >Progress</txt_161>
+    <txt_162 >hour distribution pr. month</txt_162>
+    <txt_163 >hours to residue.</txt_163>
+    <txt_164 >Wip date</txt_164>
+    <txt_165 >Exp. Total Time Consumption</txt_165>
+    <txt_166 >Budget</txt_166>
+    <txt_167 >Gross revenue</txt_167>
+    <txt_168 >Net revenue</txt_168>
+    <txt_169 >Hourly rate</txt_169>
+    <txt_170 >Selling exp.</txt_170>
+    <txt_171 >cost per hour</txt_171>
+    <txt_172 >CM amount</txt_172>
+    <txt_173 >CM</txt_173>
+    <txt_174 >WIP</txt_174>
+    <txt_175 >of budget</txt_175>
+    <txt_176 >exp.</txt_176>
+    <txt_177 >Add a new due date</txt_177>
+    <txt_178 >Budget / Inv.</txt_178>
+    <txt_179 >WIP / Inv.</txt_179>
+    <txt_180 >Due date / inv.</txt_180>
+    <txt_181 >Save</txt_181>
+    <txt_182 >Clear</txt_182>
+    <txt_183 >There is</txt_183>
+    <txt_184 >jobs listed in this search.</txt_184>
+    <txt_185 >Hidden Jobs</txt_185>
+    <txt_186 >set priority</txt_186>
+    <txt_187 >Sorting</txt_187>
+    <txt_188 >Drag a job to prioritize the order.</txt_188>
+    <txt_189 >Priority entry will change at reload.</txt_189>
+    <txt_190 >Quotient</txt_190>
+    <txt_191 >Quotient is calculated from residual estimate * (hours budgeted / expected hourly usage)</txt_191>
+    <txt_192 >Billed Excl. material consumption (selling costs) and km.</txt_192>
+    <txt_193 >Base Data</txt_193>
+    <txt_194 >Key figures, Realized, business areas., Project groups, etc.</txt_194>
+    <txt_195 >Milestones / Deadlines</txt_195>
+    <txt_196 >Job and sales responsible</txt_196>
+    <txt_197 >Job Responsible</txt_197>
+    <txt_198 >Create job</txt_198>
+
+
+  </no>
+  
+  
+  <!--- Svensk -->
+  <se>
+
+    <txt_1 >Only in choosen period</txt_1>
+    <txt_2 >Total, regard. Peridod</txt_2>
+    <txt_3 >Historical WIP</txt_3>
+    <txt_4 >Actual WIP</txt_4>
+    <txt_5 >Hours for invoicing</txt_5>
+    <txt_6 >Periode ignored</txt_6>
+    <txt_7 >Hours, materials or invoices</txt_7>
+    <txt_8 >Project end date</txt_8>
+    <txt_9 >Close date</txt_9>
+    <txt_10 >Hours</txt_10>
+    <txt_11 >Invoices</txt_11>
+    <txt_12 >End date</txt_12>
+    <txt_13 >Start date</txt_13>
+    <txt_14 >Expected load time</txt_14>
+    <txt_15 >approx.</txt_15>
+    <txt_16 >3-45 sec.</txt_16>
+    <txt_17 >Viewing +300 projects extra laodtime is required. Please wait until this box closes.</txt_17>
+    <txt_18 >Work in progress</txt_18>
+    <txt_19 >Project group - priority</txt_19>
+    <txt_20 >Project no. (asending)</txt_20>
+    <txt_21 >project no. (desending)</txt_21>
+    <txt_22 >Project name</txt_22>
+    <txt_23 >Customer</txt_23>
+    <txt_24 >Customer - priority</txt_24>
+    <txt_25 >Period - start date</txt_25>
+    <txt_26 >Period - end date</txt_26>
+    <txt_27 >Priority</txt_27>
+    <txt_28 >All</txt_28>
+    <txt_29 >Project groups</txt_29>
+    <txt_30 >Ignore your Project group relations</txt_30>
+    <txt_31 >Show all</txt_31>
+    <txt_32 >Show projects where you are in the Projet group</txt_32>
+    <txt_33 >Project / Account manager</txt_33>
+    <txt_34 >Show project where employee is</txt_34>
+    <txt_35 >All - ignore Project mgr.</txt_35>
+    <txt_36 >All (Project / Account mgr. ignored)</txt_36>
+    <txt_37 >Project mgr.</txt_37>
+    <txt_38 >Sales mgr.</txt_38>
+    <txt_39 >Account manager</txt_39>
+    <txt_40 >Project manager</txt_40>
+    <txt_41 >Sales manager</txt_41>
+    <txt_42 >Search project name or no.</txt_42>
+    <txt_43 >specific</txt_43>
+    <txt_44 >double hyphen "--"</txt_44>
+    <txt_45 >interval or</txt_45>
+    <txt_46 >Project name/no.</txt_46>
+    <txt_47 >Status, show</txt_47>
+    <txt_48 >Active</txt_48>
+    <txt_49 >Passiv/For invoi.</txt_49>
+    <txt_50 >Closed</txt_50>
+    <txt_51 >Approval</txt_51>
+    <txt_52 >Eval.</txt_52>
+    <txt_53 >Proposal</txt_53>
+    <txt_54 >Evaluation</txt_54>
+    <txt_55 >Advanced</txt_55>
+    <txt_56 >Presentation</txt_56>
+    <txt_57 >Stated hours and invoiced amount</txt_57>
+    <txt_58 >Hours stated til yesterday.</txt_58>
+    <txt_59 >Show</txt_59>
+    <txt_60 >total</txt_60>
+    <txt_61 >for projects regard. period</txt_61>
+    <txt_62 >Show only hours and amount from</txt_62>
+    <txt_63 >the choosen period</txt_63>
+    <txt_64 >full months</txt_64>
+    <txt_65 >Show work-in-progress (hours after last invoice in period)</txt_65>
+    <txt_66 >Use historical WIP (shows current WIP for the period)</txt_66>
+    <txt_67 >Period</txt_67>
+    <txt_68 >Period filter</txt_68>
+    <txt_69 >Show only projects with following creiteria</txt_69>
+    <txt_70 >Start date</txt_70>
+    <txt_71 >Hours, invoices or materials</txt_71>
+    <txt_72 >in the period</txt_72>
+    <txt_73 >Were active</txt_73>
+    <txt_74 >All projects incl. closed w. close date > end date.</txt_74>
+    <txt_75 >Ignore</txt_75>
+    <txt_76 >date interval</txt_76>
+    <txt_77 >show all projects, max.</txt_77>
+    <txt_78 >in date interval</txt_78>
+    <txt_79 >compared to date interval.</txt_79>
+    <txt_80 >Show internal projects also</txt_80>
+    <txt_81 >prority</txt_81>
+    <txt_82 >Shows intenal projects</txt_82>
+    <txt_83 >DO not show intenal projects</txt_83>
+    <txt_84 >Only fixedprice projects</txt_84>
+    <txt_85 >Shows fixedprice projects</txt_85>
+    <txt_86 >Both fixedprice and T and M projects</txt_86>
+    <txt_87 >Hide</txt_87>
+    <txt_88 >null</txt_88>
+    <txt_89 >Project (projects wo. hours per</txt_89>
+    <txt_90 >Hides</txt_90>
+    <txt_91 >Job</txt_91>
+    <txt_92 >shows</txt_92>
+    <txt_93 >Column layout</txt_93>
+    <txt_94 >Show simple</txt_94>
+    <txt_95 >Show standard (job.descrip., WIP and forecast)</txt_95>
+    <txt_96 >Consolidated amounts</txt_96>
+    <txt_97 >Show advanced (like standard + financials)</txt_97>
+    <txt_98 >Show Tweed column</txt_98>
+    <txt_99 >Simple view</txt_99>
+    <txt_100 >Standard view</txt_100>
+    <txt_101 >Advanced view</txt_101>
+    <txt_102 >Show only Grandtotal / prepare for csv. export (fast loading time)</txt_102>
+    <txt_103 >grandtotal is not displayed if sorted by project groups</txt_103>
+    <txt_104 >Only grandtotal is shown</txt_104>
+    <txt_105 >Sort by</txt_105>
+    <txt_106 >Project no.</txt_106>
+    <txt_107 >Select project groups</txt_107>
+    <txt_108 >and click</txt_108>
+    <txt_109 >show job list</txt_109>
+    <txt_110 >Select all</txt_110>
+    <txt_111 >incident list</txt_111>
+    <txt_112 >Contact</txt_112>
+    <txt_113 >Po. Number</txt_113>
+    <txt_114 >Agr. no.</txt_114>
+    <txt_115 >Pre-conditions met</txt_115>
+    <txt_116 >Job dec.</txt_116>
+    <txt_117 >Job man.</txt_117>
+    <txt_118 >owner</txt_118>
+    <txt_119 >Status</txt_119>
+    <txt_120 >Priority</txt_120>
+    <txt_121 >Forecast</txt_121>
+    <txt_122 >also de-active employee.</txt_122>
+    <txt_123 >Realized</txt_123>
+    <txt_124 >see consolidation</txt_124>
+    <txt_125 >Rest. estimate</txt_125>
+    <txt_126 >Balance</txt_126>
+    <txt_127 >Deviation</txt_127>
+    <txt_128 >Bal.</txt_128>
+    <txt_129 >Predicted Budget</txt_129>
+    <txt_130 >Ongoing work</txt_130>
+    <txt_131 >based on residual estimates</txt_131>
+    <txt_132 >Actually billed</txt_132>
+    <txt_133 >Payment schedule</txt_133>
+    <txt_134 >due dates</txt_134>
+    <txt_135 >Progress</txt_135>
+    <txt_136 >Job Tweet</txt_136>
+    <txt_137 >Project group</txt_137>
+    <txt_138 >Passive / For billing (vi skal muligvis lave en XML til status)</txt_138>
+    <txt_139 >Progress</txt_139>
+    <txt_140 >closed</txt_140>
+    <txt_141 >Fixed Price</txt_141>
+    <txt_142 >Ongoing hours</txt_142>
+    <txt_143 >Po. no.</txt_143>
+    <txt_144 >Agr.</txt_144>
+    <txt_145 >Pre-conditions fulfilled</txt_145>
+    <txt_146 >Pre-conditions not fulfilled</txt_146>
+    <txt_147 >jan</txt_147>
+    <txt_148 >feb</txt_148>
+    <txt_149 >mar</txt_149>
+    <txt_150 >apr</txt_150>
+    <txt_151 >may</txt_151>
+    <txt_152 >jun</txt_152>
+    <txt_153 >jul</txt_153>
+    <txt_154 >aug</txt_154>
+    <txt_155 >sep</txt_155>
+    <txt_156 >oct</txt_156>
+    <txt_157 >nov</txt_157>
+    <txt_158 >dec</txt_158>
+    <txt_159 >h.</txt_159>
+    <txt_160 >Last Invoice Date</txt_160>
+    <txt_161 >Progress</txt_161>
+    <txt_162 >hour distribution pr. month</txt_162>
+    <txt_163 >hours to residue.</txt_163>
+    <txt_164 >Wip date</txt_164>
+    <txt_165 >Exp. Total Time Consumption</txt_165>
+    <txt_166 >Budget</txt_166>
+    <txt_167 >Gross revenue</txt_167>
+    <txt_168 >Net revenue</txt_168>
+    <txt_169 >Hourly rate</txt_169>
+    <txt_170 >Selling exp.</txt_170>
+    <txt_171 >cost per hour</txt_171>
+    <txt_172 >CM amount</txt_172>
+    <txt_173 >CM</txt_173>
+    <txt_174 >WIP</txt_174>
+    <txt_175 >of budget</txt_175>
+    <txt_176 >exp.</txt_176>
+    <txt_177 >Add a new due date</txt_177>
+    <txt_178 >Budget / Inv.</txt_178>
+    <txt_179 >WIP / Inv.</txt_179>
+    <txt_180 >Due date / inv.</txt_180>
+    <txt_181 >Save</txt_181>
+    <txt_182 >Clear</txt_182>
+    <txt_183 >There is</txt_183>
+    <txt_184 >jobs listed in this search.</txt_184>
+    <txt_185 >Hidden Jobs</txt_185>
+    <txt_186 >set priority</txt_186>
+    <txt_187 >Sorting</txt_187>
+    <txt_188 >Drag a job to prioritize the order.</txt_188>
+    <txt_189 >Priority entry will change at reload.</txt_189>
+    <txt_190 >Quotient</txt_190>
+    <txt_191 >Quotient is calculated from residual estimate * (hours budgeted / expected hourly usage)</txt_191>
+    <txt_192 >Billed Excl. material consumption (selling costs) and km.</txt_192>
+    <txt_193 >Base Data</txt_193>
+    <txt_194 >Key figures, Realized, business areas., Project groups, etc.</txt_194>
+    <txt_195 >Milestones / Deadlines</txt_195>
+    <txt_196 >Job and sales responsible</txt_196>
+    <txt_197 >Job Responsible</txt_197>
+    <txt_198 >Create job</txt_198>
+
+  </se>
+  
+  
+  <!--- Tysk -->
+  <de>
+
+    <txt_1 >Only in choosen period</txt_1>
+    <txt_2 >Total, regard. Peridod</txt_2>
+    <txt_3 >Historical WIP</txt_3>
+    <txt_4 >Actual WIP</txt_4>
+    <txt_5 >Hours for invoicing</txt_5>
+    <txt_6 >Periode ignored</txt_6>
+    <txt_7 >Hours, materials or invoices</txt_7>
+    <txt_8 >Project end date</txt_8>
+    <txt_9 >Close date</txt_9>
+    <txt_10 >Hours</txt_10>
+    <txt_11 >Invoices</txt_11>
+    <txt_12 >End date</txt_12>
+    <txt_13 >Start date</txt_13>
+    <txt_14 >Expected load time</txt_14>
+    <txt_15 >approx.</txt_15>
+    <txt_16 >3-45 sec.</txt_16>
+    <txt_17 >Viewing +300 projects extra laodtime is required. Please wait until this box closes.</txt_17>
+    <txt_18 >Work in progress</txt_18>
+    <txt_19 >Project group - priority</txt_19>
+    <txt_20 >Project no. (asending)</txt_20>
+    <txt_21 >project no. (desending)</txt_21>
+    <txt_22 >Project name</txt_22>
+    <txt_23 >Customer</txt_23>
+    <txt_24 >Customer - priority</txt_24>
+    <txt_25 >Period - start date</txt_25>
+    <txt_26 >Period - end date</txt_26>
+    <txt_27 >Priority</txt_27>
+    <txt_28 >All</txt_28>
+    <txt_29 >Project groups</txt_29>
+    <txt_30 >Ignore your Project group relations</txt_30>
+    <txt_31 >Show all</txt_31>
+    <txt_32 >Show projects where you are in the Projet group</txt_32>
+    <txt_33 >Project / Account manager</txt_33>
+    <txt_34 >Show project where employee is</txt_34>
+    <txt_35 >All - ignore Project mgr.</txt_35>
+    <txt_36 >All (Project / Account mgr. ignored)</txt_36>
+    <txt_37 >Project mgr.</txt_37>
+    <txt_38 >Sales mgr.</txt_38>
+    <txt_39 >Account manager</txt_39>
+    <txt_40 >Project manager</txt_40>
+    <txt_41 >Sales manager</txt_41>
+    <txt_42 >Search project name or no.</txt_42>
+    <txt_43 >specific</txt_43>
+    <txt_44 >double hyphen "--"</txt_44>
+    <txt_45 >interval or</txt_45>
+    <txt_46 >Project name/no.</txt_46>
+    <txt_47 >Status, show</txt_47>
+    <txt_48 >Active</txt_48>
+    <txt_49 >Passiv/For invoi.</txt_49>
+    <txt_50 >Closed</txt_50>
+    <txt_51 >Approval</txt_51>
+    <txt_52 >Eval.</txt_52>
+    <txt_53 >Proposal</txt_53>
+    <txt_54 >Evaluation</txt_54>
+    <txt_55 >Advanced</txt_55>
+    <txt_56 >Presentation</txt_56>
+    <txt_57 >Stated hours and invoiced amount</txt_57>
+    <txt_58 >Hours stated til yesterday.</txt_58>
+    <txt_59 >Show</txt_59>
+    <txt_60 >total</txt_60>
+    <txt_61 >for projects regard. period</txt_61>
+    <txt_62 >Show only hours and amount from</txt_62>
+    <txt_63 >the choosen period</txt_63>
+    <txt_64 >full months</txt_64>
+    <txt_65 >Show work-in-progress (hours after last invoice in period)</txt_65>
+    <txt_66 >Use historical WIP (shows current WIP for the period)</txt_66>
+    <txt_67 >Period</txt_67>
+    <txt_68 >Period filter</txt_68>
+    <txt_69 >Show only projects with following creiteria</txt_69>
+    <txt_70 >Start date</txt_70>
+    <txt_71 >Hours, invoices or materials</txt_71>
+    <txt_72 >in the period</txt_72>
+    <txt_73 >Were active</txt_73>
+    <txt_74 >All projects incl. closed w. close date > end date.</txt_74>
+    <txt_75 >Ignore</txt_75>
+    <txt_76 >date interval</txt_76>
+    <txt_77 >show all projects, max.</txt_77>
+    <txt_78 >in date interval</txt_78>
+    <txt_79 >compared to date interval.</txt_79>
+    <txt_80 >Show internal projects also</txt_80>
+    <txt_81 >prority</txt_81>
+    <txt_82 >Shows intenal projects</txt_82>
+    <txt_83 >DO not show intenal projects</txt_83>
+    <txt_84 >Only fixedprice projects</txt_84>
+    <txt_85 >Shows fixedprice projects</txt_85>
+    <txt_86 >Both fixedprice and T and M projects</txt_86>
+    <txt_87 >Hide</txt_87>
+    <txt_88 >null</txt_88>
+    <txt_89 >Project (projects wo. hours per</txt_89>
+    <txt_90 >Hides</txt_90>
+    <txt_91 >Job</txt_91>
+    <txt_92 >shows</txt_92>
+    <txt_93 >Column layout</txt_93>
+    <txt_94 >Show simple</txt_94>
+    <txt_95 >Show standard (job.descrip., WIP and forecast)</txt_95>
+    <txt_96 >Consolidated amounts</txt_96>
+    <txt_97 >Show advanced (like standard + financials)</txt_97>
+    <txt_98 >Show Tweed column</txt_98>
+    <txt_99 >Simple view</txt_99>
+    <txt_100 >Standard view</txt_100>
+    <txt_101 >Advanced view</txt_101>
+    <txt_102 >Show only Grandtotal / prepare for csv. export (fast loading time)</txt_102>
+    <txt_103 >grandtotal is not displayed if sorted by project groups</txt_103>
+    <txt_104 >Only grandtotal is shown</txt_104>
+    <txt_105 >Sort by</txt_105>
+    <txt_106 >Project no.</txt_106>
+    <txt_107 >Select project groups</txt_107>
+    <txt_108 >and click</txt_108>
+    <txt_109 >show job list</txt_109>
+    <txt_110 >Select all</txt_110>
+    <txt_111 >incident list</txt_111>
+    <txt_112 >Contact</txt_112>
+    <txt_113 >Po. Number</txt_113>
+    <txt_114 >Agr. no.</txt_114>
+    <txt_115 >Pre-conditions met</txt_115>
+    <txt_116 >Job dec.</txt_116>
+    <txt_117 >Job man.</txt_117>
+    <txt_118 >owner</txt_118>
+    <txt_119 >Status</txt_119>
+    <txt_120 >Priority</txt_120>
+    <txt_121 >Forecast</txt_121>
+    <txt_122 >also de-active employee.</txt_122>
+    <txt_123 >Realized</txt_123>
+    <txt_124 >see consolidation</txt_124>
+    <txt_125 >Rest. estimate</txt_125>
+    <txt_126 >Balance</txt_126>
+    <txt_127 >Deviation</txt_127>
+    <txt_128 >Bal.</txt_128>
+    <txt_129 >Predicted Budget</txt_129>
+    <txt_130 >Ongoing work</txt_130>
+    <txt_131 >based on residual estimates</txt_131>
+    <txt_132 >Actually billed</txt_132>
+    <txt_133 >Payment schedule</txt_133>
+    <txt_134 >due dates</txt_134>
+    <txt_135 >Progress</txt_135>
+    <txt_136 >Job Tweet</txt_136>
+    <txt_137 >Project group</txt_137>
+    <txt_138 >Passive / For billing (vi skal muligvis lave en XML til status)</txt_138>
+    <txt_139 >Progress</txt_139>
+    <txt_140 >closed</txt_140>
+    <txt_141 >Fixed Price</txt_141>
+    <txt_142 >Ongoing hours</txt_142>
+    <txt_143 >Po. no.</txt_143>
+    <txt_144 >Agr.</txt_144>
+    <txt_145 >Pre-conditions fulfilled</txt_145>
+    <txt_146 >Pre-conditions not fulfilled</txt_146>
+    <txt_147 >jan</txt_147>
+    <txt_148 >feb</txt_148>
+    <txt_149 >mar</txt_149>
+    <txt_150 >apr</txt_150>
+    <txt_151 >may</txt_151>
+    <txt_152 >jun</txt_152>
+    <txt_153 >jul</txt_153>
+    <txt_154 >aug</txt_154>
+    <txt_155 >sep</txt_155>
+    <txt_156 >oct</txt_156>
+    <txt_157 >nov</txt_157>
+    <txt_158 >dec</txt_158>
+    <txt_159 >h.</txt_159>
+    <txt_160 >Last Invoice Date</txt_160>
+    <txt_161 >Progress</txt_161>
+    <txt_162 >hour distribution pr. month</txt_162>
+    <txt_163 >hours to residue.</txt_163>
+    <txt_164 >Wip date</txt_164>
+    <txt_165 >Exp. Total Time Consumption</txt_165>
+    <txt_166 >Budget</txt_166>
+    <txt_167 >Gross revenue</txt_167>
+    <txt_168 >Net revenue</txt_168>
+    <txt_169 >Hourly rate</txt_169>
+    <txt_170 >Selling exp.</txt_170>
+    <txt_171 >cost per hour</txt_171>
+    <txt_172 >CM amount</txt_172>
+    <txt_173 >CM</txt_173>
+    <txt_174 >WIP</txt_174>
+    <txt_175 >of budget</txt_175>
+    <txt_176 >exp.</txt_176>
+    <txt_177 >Add a new due date</txt_177>
+    <txt_178 >Budget / Inv.</txt_178>
+    <txt_179 >WIP / Inv.</txt_179>
+    <txt_180 >Due date / inv.</txt_180>
+    <txt_181 >Save</txt_181>
+    <txt_182 >Clear</txt_182>
+    <txt_183 >There is</txt_183>
+    <txt_184 >jobs listed in this search.</txt_184>
+    <txt_185 >Hidden Jobs</txt_185>
+    <txt_186 >set priority</txt_186>
+    <txt_187 >Sorting</txt_187>
+    <txt_188 >Drag a job to prioritize the order.</txt_188>
+    <txt_189 >Priority entry will change at reload.</txt_189>
+    <txt_190 >Quotient</txt_190>
+    <txt_191 >Quotient is calculated from residual estimate * (hours budgeted / expected hourly usage)</txt_191>
+    <txt_192 >Billed Excl. material consumption (selling costs) and km.</txt_192>
+    <txt_193 >Base Data</txt_193>
+    <txt_194 >Key figures, Realized, business areas., Project groups, etc.</txt_194>
+    <txt_195 >Milestones / Deadlines</txt_195>
+    <txt_196 >Job and sales responsible</txt_196>
+    <txt_197 >Job Responsible</txt_197>
+    <txt_198 >Create job</txt_198>
+
+  </de>
+  
+  
+  <!--- Fransk -->
+  <fr>
+
+    <txt_1 >Only in choosen period</txt_1>
+    <txt_2 >Total, regard. Peridod</txt_2>
+    <txt_3 >Historical WIP</txt_3>
+    <txt_4 >Actual WIP</txt_4>
+    <txt_5 >Hours for invoicing</txt_5>
+    <txt_6 >Periode ignored</txt_6>
+    <txt_7 >Hours, materials or invoices</txt_7>
+    <txt_8 >Project end date</txt_8>
+    <txt_9 >Close date</txt_9>
+    <txt_10 >Hours</txt_10>
+    <txt_11 >Invoices</txt_11>
+    <txt_12 >End date</txt_12>
+    <txt_13 >Start date</txt_13>
+    <txt_14 >Expected load time</txt_14>
+    <txt_15 >approx.</txt_15>
+    <txt_16 >3-45 sec.</txt_16>
+    <txt_17 >Viewing +300 projects extra laodtime is required. Please wait until this box closes.</txt_17>
+    <txt_18 >Work in progress</txt_18>
+    <txt_19 >Project group - priority</txt_19>
+    <txt_20 >Project no. (asending)</txt_20>
+    <txt_21 >project no. (desending)</txt_21>
+    <txt_22 >Project name</txt_22>
+    <txt_23 >Customer</txt_23>
+    <txt_24 >Customer - priority</txt_24>
+    <txt_25 >Period - start date</txt_25>
+    <txt_26 >Period - end date</txt_26>
+    <txt_27 >Priority</txt_27>
+    <txt_28 >All</txt_28>
+    <txt_29 >Project groups</txt_29>
+    <txt_30 >Ignore your Project group relations</txt_30>
+    <txt_31 >Show all</txt_31>
+    <txt_32 >Show projects where you are in the Projet group</txt_32>
+    <txt_33 >Project / Account manager</txt_33>
+    <txt_34 >Show project where employee is</txt_34>
+    <txt_35 >All - ignore Project mgr.</txt_35>
+    <txt_36 >All (Project / Account mgr. ignored)</txt_36>
+    <txt_37 >Project mgr.</txt_37>
+    <txt_38 >Sales mgr.</txt_38>
+    <txt_39 >Account manager</txt_39>
+    <txt_40 >Project manager</txt_40>
+    <txt_41 >Sales manager</txt_41>
+    <txt_42 >Search project name or no.</txt_42>
+    <txt_43 >specific</txt_43>
+    <txt_44 >double hyphen "--"</txt_44>
+    <txt_45 >interval or</txt_45>
+    <txt_46 >Project name/no.</txt_46>
+    <txt_47 >Status, show</txt_47>
+    <txt_48 >Active</txt_48>
+    <txt_49 >Passiv/For invoi.</txt_49>
+    <txt_50 >Closed</txt_50>
+    <txt_51 >Approval</txt_51>
+    <txt_52 >Eval.</txt_52>
+    <txt_53 >Proposal</txt_53>
+    <txt_54 >Evaluation</txt_54>
+    <txt_55 >Advanced</txt_55>
+    <txt_56 >Presentation</txt_56>
+    <txt_57 >Stated hours and invoiced amount</txt_57>
+    <txt_58 >Hours stated til yesterday.</txt_58>
+    <txt_59 >Show</txt_59>
+    <txt_60 >total</txt_60>
+    <txt_61 >for projects regard. period</txt_61>
+    <txt_62 >Show only hours and amount from</txt_62>
+    <txt_63 >the choosen period</txt_63>
+    <txt_64 >full months</txt_64>
+    <txt_65 >Show work-in-progress (hours after last invoice in period)</txt_65>
+    <txt_66 >Use historical WIP (shows current WIP for the period)</txt_66>
+    <txt_67 >Period</txt_67>
+    <txt_68 >Period filter</txt_68>
+    <txt_69 >Show only projects with following creiteria</txt_69>
+    <txt_70 >Start date</txt_70>
+    <txt_71 >Hours, invoices or materials</txt_71>
+    <txt_72 >in the period</txt_72>
+    <txt_73 >Were active</txt_73>
+    <txt_74 >All projects incl. closed w. close date > end date.</txt_74>
+    <txt_75 >Ignore</txt_75>
+    <txt_76 >date interval</txt_76>
+    <txt_77 >show all projects, max.</txt_77>
+    <txt_78 >in date interval</txt_78>
+    <txt_79 >compared to date interval.</txt_79>
+    <txt_80 >Show internal projects also</txt_80>
+    <txt_81 >prority</txt_81>
+    <txt_82 >Shows intenal projects</txt_82>
+    <txt_83 >DO not show intenal projects</txt_83>
+    <txt_84 >Only fixedprice projects</txt_84>
+    <txt_85 >Shows fixedprice projects</txt_85>
+    <txt_86 >Both fixedprice and T and M projects</txt_86>
+    <txt_87 >Hide</txt_87>
+    <txt_88 >null</txt_88>
+    <txt_89 >Project (projects wo. hours per</txt_89>
+    <txt_90 >Hides</txt_90>
+    <txt_91 >Job</txt_91>
+    <txt_92 >shows</txt_92>
+    <txt_93 >Column layout</txt_93>
+    <txt_94 >Show simple</txt_94>
+    <txt_95 >Show standard (job.descrip., WIP and forecast)</txt_95>
+    <txt_96 >Consolidated amounts</txt_96>
+    <txt_97 >Show advanced (like standard + financials)</txt_97>
+    <txt_98 >Show Tweed column</txt_98>
+    <txt_99 >Simple view</txt_99>
+    <txt_100 >Standard view</txt_100>
+    <txt_101 >Advanced view</txt_101>
+    <txt_102 >Show only Grandtotal / prepare for csv. export (fast loading time)</txt_102>
+    <txt_103 >grandtotal is not displayed if sorted by project groups</txt_103>
+    <txt_104 >Only grandtotal is shown</txt_104>
+    <txt_105 >Sort by</txt_105>
+    <txt_106 >Project no.</txt_106>
+    <txt_107 >Select project groups</txt_107>
+    <txt_108 >and click</txt_108>
+    <txt_109 >show job list</txt_109>
+    <txt_110 >Select all</txt_110>
+    <txt_111 >incident list</txt_111>
+    <txt_112 >Contact</txt_112>
+    <txt_113 >Po. Number</txt_113>
+    <txt_114 >Agr. no.</txt_114>
+    <txt_115 >Pre-conditions met</txt_115>
+    <txt_116 >Job dec.</txt_116>
+    <txt_117 >Job man.</txt_117>
+    <txt_118 >owner</txt_118>
+    <txt_119 >Status</txt_119>
+    <txt_120 >Priority</txt_120>
+    <txt_121 >Forecast</txt_121>
+    <txt_122 >also de-active employee.</txt_122>
+    <txt_123 >Realized</txt_123>
+    <txt_124 >see consolidation</txt_124>
+    <txt_125 >Rest. estimate</txt_125>
+    <txt_126 >Balance</txt_126>
+    <txt_127 >Deviation</txt_127>
+    <txt_128 >Bal.</txt_128>
+    <txt_129 >Predicted Budget</txt_129>
+    <txt_130 >Ongoing work</txt_130>
+    <txt_131 >based on residual estimates</txt_131>
+    <txt_132 >Actually billed</txt_132>
+    <txt_133 >Payment schedule</txt_133>
+    <txt_134 >due dates</txt_134>
+    <txt_135 >Progress</txt_135>
+    <txt_136 >Job Tweet</txt_136>
+    <txt_137 >Project group</txt_137>
+    <txt_138 >Passive / For billing (vi skal muligvis lave en XML til status)</txt_138>
+    <txt_139 >Progress</txt_139>
+    <txt_140 >closed</txt_140>
+    <txt_141 >Fixed Price</txt_141>
+    <txt_142 >Ongoing hours</txt_142>
+    <txt_143 >Po. no.</txt_143>
+    <txt_144 >Agr.</txt_144>
+    <txt_145 >Pre-conditions fulfilled</txt_145>
+    <txt_146 >Pre-conditions not fulfilled</txt_146>
+    <txt_147 >jan</txt_147>
+    <txt_148 >feb</txt_148>
+    <txt_149 >mar</txt_149>
+    <txt_150 >apr</txt_150>
+    <txt_151 >may</txt_151>
+    <txt_152 >jun</txt_152>
+    <txt_153 >jul</txt_153>
+    <txt_154 >aug</txt_154>
+    <txt_155 >sep</txt_155>
+    <txt_156 >oct</txt_156>
+    <txt_157 >nov</txt_157>
+    <txt_158 >dec</txt_158>
+    <txt_159 >h.</txt_159>
+    <txt_160 >Last Invoice Date</txt_160>
+    <txt_161 >Progress</txt_161>
+    <txt_162 >hour distribution pr. month</txt_162>
+    <txt_163 >hours to residue.</txt_163>
+    <txt_164 >Wip date</txt_164>
+    <txt_165 >Exp. Total Time Consumption</txt_165>
+    <txt_166 >Budget</txt_166>
+    <txt_167 >Gross revenue</txt_167>
+    <txt_168 >Net revenue</txt_168>
+    <txt_169 >Hourly rate</txt_169>
+    <txt_170 >Selling exp.</txt_170>
+    <txt_171 >cost per hour</txt_171>
+    <txt_172 >CM amount</txt_172>
+    <txt_173 >CM</txt_173>
+    <txt_174 >WIP</txt_174>
+    <txt_175 >of budget</txt_175>
+    <txt_176 >exp.</txt_176>
+    <txt_177 >Add a new due date</txt_177>
+    <txt_178 >Budget / Inv.</txt_178>
+    <txt_179 >WIP / Inv.</txt_179>
+    <txt_180 >Due date / inv.</txt_180>
+    <txt_181 >Save</txt_181>
+    <txt_182 >Clear</txt_182>
+    <txt_183 >There is</txt_183>
+    <txt_184 >jobs listed in this search.</txt_184>
+    <txt_185 >Hidden Jobs</txt_185>
+    <txt_186 >set priority</txt_186>
+    <txt_187 >Sorting</txt_187>
+    <txt_188 >Drag a job to prioritize the order.</txt_188>
+    <txt_189 >Priority entry will change at reload.</txt_189>
+    <txt_190 >Quotient</txt_190>
+    <txt_191 >Quotient is calculated from residual estimate * (hours budgeted / expected hourly usage)</txt_191>
+    <txt_192 >Billed Excl. material consumption (selling costs) and km.</txt_192>
+    <txt_193 >Base Data</txt_193>
+    <txt_194 >Key figures, Realized, business areas., Project groups, etc.</txt_194>
+    <txt_195 >Milestones / Deadlines</txt_195>
+    <txt_196 >Job and sales responsible</txt_196>
+    <txt_197 >Job Responsible</txt_197>
+    <txt_198 >Create job</txt_198>
+
+  </fr>
+  
+    
+
+  <!-- Engelsk -->
+  <uk>
+
+    <txt_1 >Only in choosen period</txt_1>
+    <txt_2 >Total, regard. Peridod</txt_2>
+    <txt_3 >Historical WIP</txt_3>
+    <txt_4 >Actual WIP</txt_4>
+    <txt_5 >Hours for invoicing</txt_5>
+    <txt_6 >Periode ignored</txt_6>
+    <txt_7 >Hours, materials or invoices</txt_7>
+    <txt_8 >Project end date</txt_8>
+    <txt_9 >Close date</txt_9>
+    <txt_10 >Hours</txt_10>
+    <txt_11 >Invoices</txt_11>
+    <txt_12 >End date</txt_12>
+    <txt_13 >Start date</txt_13>
+    <txt_14 >Expected load time</txt_14>
+    <txt_15 >approx.</txt_15>
+    <txt_16 >3-45 sec.</txt_16>
+    <txt_17 >Viewing +300 projects extra laodtime is required. Please wait until this box closes.</txt_17>
+    <txt_18 >Work in progress</txt_18>
+    <txt_19 >Project group - priority</txt_19>
+    <txt_20 >Project no. (asending)</txt_20>
+    <txt_21 >project no. (desending)</txt_21>
+    <txt_22 >Project name</txt_22>
+    <txt_23 >Customer</txt_23>
+    <txt_24 >Customer - priority</txt_24>
+    <txt_25 >Period - start date</txt_25>
+    <txt_26 >Period - end date</txt_26>
+    <txt_27 >Priority</txt_27>
+    <txt_28 >All</txt_28>
+    <txt_29 >Project groups</txt_29>
+    <txt_30 >Ignore your Project group relations</txt_30>
+    <txt_31 >Show all</txt_31>
+    <txt_32 >Show projects where you are in the Projet group</txt_32>
+    <txt_33 >Project / Account manager</txt_33>
+    <txt_34 >Show project where employee is</txt_34>
+    <txt_35 >All - ignore Project mgr.</txt_35>
+    <txt_36 >All (Project / Account mgr. ignored)</txt_36>
+    <txt_37 >Project mgr.</txt_37>
+    <txt_38 >Sales mgr.</txt_38>
+    <txt_39 >Account manager</txt_39>
+    <txt_40 >Project manager</txt_40>
+    <txt_41 >Sales manager</txt_41>
+    <txt_42 >Search project name or no.</txt_42>
+    <txt_43 >specific</txt_43>
+    <txt_44 >double hyphen "--"</txt_44>
+    <txt_45 >interval or</txt_45>
+    <txt_46 >Project name/no.</txt_46>
+    <txt_47 >Status, show</txt_47>
+    <txt_48 >Active</txt_48>
+    <txt_49 >Passiv/For invoi.</txt_49>
+    <txt_50 >Closed</txt_50>
+    <txt_51 >Approval</txt_51>
+    <txt_52 >Eval.</txt_52>
+    <txt_53 >Proposal</txt_53>
+    <txt_54 >Evaluation</txt_54>
+    <txt_55 >Advanced</txt_55>
+    <txt_56 >Presentation</txt_56>
+    <txt_57 >Stated hours and invoiced amount</txt_57>
+    <txt_58 >Hours stated til yesterday.</txt_58>
+    <txt_59 >Show</txt_59>
+    <txt_60 >total</txt_60>
+    <txt_61 >for projects regard. period</txt_61>
+    <txt_62 >Show only hours and amount from</txt_62>
+    <txt_63 >the choosen period</txt_63>
+    <txt_64 >full months</txt_64>
+    <txt_65 >Show work-in-progress (hours after last invoice in period)</txt_65>
+    <txt_66 >Use historical WIP (shows current WIP for the period)</txt_66>
+    <txt_67 >Period</txt_67>
+    <txt_68 >Period filter</txt_68>
+    <txt_69 >Show only projects with following creiteria</txt_69>
+    <txt_70 >Start date</txt_70>
+    <txt_71 >Hours, invoices or materials</txt_71>
+    <txt_72 >in the period</txt_72>
+    <txt_73 >Were active</txt_73>
+    <txt_74 >All projects incl. closed w. close date > end date.</txt_74>
+    <txt_75 >Ignore</txt_75>
+    <txt_76 >date interval</txt_76>
+    <txt_77 >show all projects, max.</txt_77>
+    <txt_78 >in date interval</txt_78>
+    <txt_79 >compared to date interval.</txt_79>
+    <txt_80 >Show internal projects also</txt_80>
+    <txt_81 >prority</txt_81>
+    <txt_82 >Shows intenal projects</txt_82>
+    <txt_83 >DO not show intenal projects</txt_83>
+    <txt_84 >Only fixedprice projects</txt_84>
+    <txt_85 >Shows fixedprice projects</txt_85>
+    <txt_86 >Both fixedprice and T and M projects</txt_86>
+    <txt_87 >Hide</txt_87>
+    <txt_88 >null</txt_88>
+    <txt_89 >Project (projects wo. hours per</txt_89>
+    <txt_90 >Hides</txt_90>
+    <txt_91 >Job</txt_91>
+    <txt_92 >shows</txt_92>
+    <txt_93 >Column layout</txt_93>
+    <txt_94 >Show simple</txt_94>
+    <txt_95 >Show standard (job.descrip., WIP and forecast)</txt_95>
+    <txt_96 >Consolidated amounts</txt_96>
+    <txt_97 >Show advanced (like standard + financials)</txt_97>
+    <txt_98 >Show Tweed column</txt_98>
+    <txt_99 >Simple view</txt_99>
+    <txt_100 >Standard view</txt_100>
+    <txt_101 >Advanced view</txt_101>
+    <txt_102 >Show only Grandtotal / prepare for csv. export (fast loading time)</txt_102>
+    <txt_103 >grandtotal is not displayed if sorted by project groups</txt_103>
+    <txt_104 >Only grandtotal is shown</txt_104>
+    <txt_105 >Sort by</txt_105>
+    <txt_106 >Project no.</txt_106>
+    <txt_107 >Select project groups</txt_107>
+    <txt_108 >and click</txt_108>
+    <txt_109 >show job list</txt_109>
+    <txt_110 >Select all</txt_110>
+    <txt_111 >incident list</txt_111>
+    <txt_112 >Contact</txt_112>
+    <txt_113 >Po. Number</txt_113>
+    <txt_114 >Agr. no.</txt_114>
+    <txt_115 >Pre-conditions met</txt_115>
+    <txt_116 >Job dec.</txt_116>
+    <txt_117 >Job man.</txt_117>
+    <txt_118 >owner</txt_118>
+    <txt_119 >Status</txt_119>
+    <txt_120 >Priority</txt_120>
+    <txt_121 >Forecast</txt_121>
+    <txt_122 >also de-active employee.</txt_122>
+    <txt_123 >Realized</txt_123>
+    <txt_124 >see consolidation</txt_124>
+    <txt_125 >Rest. estimate</txt_125>
+    <txt_126 >Balance</txt_126>
+    <txt_127 >Deviation</txt_127>
+    <txt_128 >Bal.</txt_128>
+    <txt_129 >Predicted Budget</txt_129>
+    <txt_130 >Ongoing work</txt_130>
+    <txt_131 >based on residual estimates</txt_131>
+    <txt_132 >Actually billed</txt_132>
+    <txt_133 >Payment schedule</txt_133>
+    <txt_134 >due dates</txt_134>
+    <txt_135 >Progress</txt_135>
+    <txt_136 >Job Tweet</txt_136>
+    <txt_137 >Project group</txt_137>
+    <txt_138 >Passive / For billing (vi skal muligvis lave en XML til status)</txt_138>
+    <txt_139 >Progress</txt_139>
+    <txt_140 >closed</txt_140>
+    <txt_141 >Fixed Price</txt_141>
+    <txt_142 >Ongoing hours</txt_142>
+    <txt_143 >Po. no.</txt_143>
+    <txt_144 >Agr.</txt_144>
+    <txt_145 >Pre-conditions fulfilled</txt_145>
+    <txt_146 >Pre-conditions not fulfilled</txt_146>
+    <txt_147 >jan</txt_147>
+    <txt_148 >feb</txt_148>
+    <txt_149 >mar</txt_149>
+    <txt_150 >apr</txt_150>
+    <txt_151 >may</txt_151>
+    <txt_152 >jun</txt_152>
+    <txt_153 >jul</txt_153>
+    <txt_154 >aug</txt_154>
+    <txt_155 >sep</txt_155>
+    <txt_156 >oct</txt_156>
+    <txt_157 >nov</txt_157>
+    <txt_158 >dec</txt_158>
+    <txt_159 >h.</txt_159>
+    <txt_160 >Last Invoice Date</txt_160>
+    <txt_161 >Progress</txt_161>
+    <txt_162 >hour distribution pr. month</txt_162>
+    <txt_163 >hours to residue.</txt_163>
+    <txt_164 >Wip date</txt_164>
+    <txt_165 >Exp. Total Time Consumption</txt_165>
+    <txt_166 >Budget</txt_166>
+    <txt_167 >Gross revenue</txt_167>
+    <txt_168 >Net revenue</txt_168>
+    <txt_169 >Hourly rate</txt_169>
+    <txt_170 >Selling exp.</txt_170>
+    <txt_171 >cost per hour</txt_171>
+    <txt_172 >CM amount</txt_172>
+    <txt_173 >CM</txt_173>
+    <txt_174 >WIP</txt_174>
+    <txt_175 >of budget</txt_175>
+    <txt_176 >exp.</txt_176>
+    <txt_177 >Add a new due date</txt_177>
+    <txt_178 >Budget / Inv.</txt_178>
+    <txt_179 >WIP / Inv.</txt_179>
+    <txt_180 >Due date / inv.</txt_180>
+    <txt_181 >Save</txt_181>
+    <txt_182 >Clear</txt_182>
+    <txt_183 >There is</txt_183>
+    <txt_184 >jobs listed in this search.</txt_184>
+    <txt_185 >Hidden Jobs</txt_185>
+    <txt_186 >set priority</txt_186>
+    <txt_187 >Sorting</txt_187>
+    <txt_188 >Drag a job to prioritize the order.</txt_188>
+    <txt_189 >Priority entry will change at reload.</txt_189>
+    <txt_190 >Quotient</txt_190>
+    <txt_191 >Quotient is calculated from residual estimate * (hours budgeted / expected hourly usage)</txt_191>
+    <txt_192 >Billed Excl. material consumption (selling costs) and km.</txt_192>
+    <txt_193 >Base Data</txt_193>
+    <txt_194 >Key figures, Realized, business areas., Project groups, etc.</txt_194>
+    <txt_195 >Milestones / Deadlines</txt_195>
+    <txt_196 >Job and sales responsible</txt_196>
+    <txt_197 >Job Responsible</txt_197>
+    <txt_198 >Create job</txt_198>
+
+  </uk>
+
+
+  <!--- Spansk -->
+  <es>
+
+    <txt_1 >Only in choosen period</txt_1>
+    <txt_2 >Total, regard. Peridod</txt_2>
+    <txt_3 >Historical WIP</txt_3>
+    <txt_4 >Actual WIP</txt_4>
+    <txt_5 >Hours for invoicing</txt_5>
+    <txt_6 >Periode ignored</txt_6>
+    <txt_7 >Hours, materials or invoices</txt_7>
+    <txt_8 >Project end date</txt_8>
+    <txt_9 >Close date</txt_9>
+    <txt_10 >Hours</txt_10>
+    <txt_11 >Invoices</txt_11>
+    <txt_12 >End date</txt_12>
+    <txt_13 >Start date</txt_13>
+    <txt_14 >Expected load time</txt_14>
+    <txt_15 >approx.</txt_15>
+    <txt_16 >3-45 sec.</txt_16>
+    <txt_17 >Viewing +300 projects extra laodtime is required. Please wait until this box closes.</txt_17>
+    <txt_18 >Work in progress</txt_18>
+    <txt_19 >Project group - priority</txt_19>
+    <txt_20 >Project no. (asending)</txt_20>
+    <txt_21 >project no. (desending)</txt_21>
+    <txt_22 >Project name</txt_22>
+    <txt_23 >Customer</txt_23>
+    <txt_24 >Customer - priority</txt_24>
+    <txt_25 >Period - start date</txt_25>
+    <txt_26 >Period - end date</txt_26>
+    <txt_27 >Priority</txt_27>
+    <txt_28 >All</txt_28>
+    <txt_29 >Project groups</txt_29>
+    <txt_30 >Ignore your Project group relations</txt_30>
+    <txt_31 >Show all</txt_31>
+    <txt_32 >Show projects where you are in the Projet group</txt_32>
+    <txt_33 >Project / Account manager</txt_33>
+    <txt_34 >Show project where employee is</txt_34>
+    <txt_35 >All - ignore Project mgr.</txt_35>
+    <txt_36 >All (Project / Account mgr. ignored)</txt_36>
+    <txt_37 >Project mgr.</txt_37>
+    <txt_38 >Sales mgr.</txt_38>
+    <txt_39 >Account manager</txt_39>
+    <txt_40 >Project manager</txt_40>
+    <txt_41 >Sales manager</txt_41>
+    <txt_42 >Search project name or no.</txt_42>
+    <txt_43 >specific</txt_43>
+    <txt_44 >double hyphen "--"</txt_44>
+    <txt_45 >interval or</txt_45>
+    <txt_46 >Project name/no.</txt_46>
+    <txt_47 >Status, show</txt_47>
+    <txt_48 >Active</txt_48>
+    <txt_49 >Passiv/For invoi.</txt_49>
+    <txt_50 >Closed</txt_50>
+    <txt_51 >Approval</txt_51>
+    <txt_52 >Eval.</txt_52>
+    <txt_53 >Proposal</txt_53>
+    <txt_54 >Evaluation</txt_54>
+    <txt_55 >Advanced</txt_55>
+    <txt_56 >Presentation</txt_56>
+    <txt_57 >Stated hours and invoiced amount</txt_57>
+    <txt_58 >Hours stated til yesterday.</txt_58>
+    <txt_59 >Show</txt_59>
+    <txt_60 >total</txt_60>
+    <txt_61 >for projects regard. period</txt_61>
+    <txt_62 >Show only hours and amount from</txt_62>
+    <txt_63 >the choosen period</txt_63>
+    <txt_64 >full months</txt_64>
+    <txt_65 >Show work-in-progress (hours after last invoice in period)</txt_65>
+    <txt_66 >Use historical WIP (shows current WIP for the period)</txt_66>
+    <txt_67 >Period</txt_67>
+    <txt_68 >Period filter</txt_68>
+    <txt_69 >Show only projects with following creiteria</txt_69>
+    <txt_70 >Start date</txt_70>
+    <txt_71 >Hours, invoices or materials</txt_71>
+    <txt_72 >in the period</txt_72>
+    <txt_73 >Were active</txt_73>
+    <txt_74 >All projects incl. closed w. close date > end date.</txt_74>
+    <txt_75 >Ignore</txt_75>
+    <txt_76 >date interval</txt_76>
+    <txt_77 >show all projects, max.</txt_77>
+    <txt_78 >in date interval</txt_78>
+    <txt_79 >compared to date interval.</txt_79>
+    <txt_80 >Show internal projects also</txt_80>
+    <txt_81 >prority</txt_81>
+    <txt_82 >Shows intenal projects</txt_82>
+    <txt_83 >DO not show intenal projects</txt_83>
+    <txt_84 >Only fixedprice projects</txt_84>
+    <txt_85 >Shows fixedprice projects</txt_85>
+    <txt_86 >Both fixedprice and T and M projects</txt_86>
+    <txt_87 >Hide</txt_87>
+    <txt_88 >null</txt_88>
+    <txt_89 >Project (projects wo. hours per</txt_89>
+    <txt_90 >Hides</txt_90>
+    <txt_91 >Job</txt_91>
+    <txt_92 >shows</txt_92>
+    <txt_93 >Column layout</txt_93>
+    <txt_94 >Show simple</txt_94>
+    <txt_95 >Show standard (job.descrip., WIP and forecast)</txt_95>
+    <txt_96 >Consolidated amounts</txt_96>
+    <txt_97 >Show advanced (like standard + financials)</txt_97>
+    <txt_98 >Show Tweed column</txt_98>
+    <txt_99 >Simple view</txt_99>
+    <txt_100 >Standard view</txt_100>
+    <txt_101 >Advanced view</txt_101>
+    <txt_102 >Show only Grandtotal / prepare for csv. export (fast loading time)</txt_102>
+    <txt_103 >grandtotal is not displayed if sorted by project groups</txt_103>
+    <txt_104 >Only grandtotal is shown</txt_104>
+    <txt_105 >Sort by</txt_105>
+    <txt_106 >Project no.</txt_106>
+    <txt_107 >Select project groups</txt_107>
+    <txt_108 >and click</txt_108>
+    <txt_109 >show job list</txt_109>
+    <txt_110 >Select all</txt_110>
+    <txt_111 >incident list</txt_111>
+    <txt_112 >Contact</txt_112>
+    <txt_113 >Po. Number</txt_113>
+    <txt_114 >Agr. no.</txt_114>
+    <txt_115 >Pre-conditions met</txt_115>
+    <txt_116 >Job dec.</txt_116>
+    <txt_117 >Job man.</txt_117>
+    <txt_118 >owner</txt_118>
+    <txt_119 >Status</txt_119>
+    <txt_120 >Priority</txt_120>
+    <txt_121 >Forecast</txt_121>
+    <txt_122 >also de-active employee.</txt_122>
+    <txt_123 >Realized</txt_123>
+    <txt_124 >see consolidation</txt_124>
+    <txt_125 >Rest. estimate</txt_125>
+    <txt_126 >Balance</txt_126>
+    <txt_127 >Deviation</txt_127>
+    <txt_128 >Bal.</txt_128>
+    <txt_129 >Predicted Budget</txt_129>
+    <txt_130 >Ongoing work</txt_130>
+    <txt_131 >based on residual estimates</txt_131>
+    <txt_132 >Actually billed</txt_132>
+    <txt_133 >Payment schedule</txt_133>
+    <txt_134 >due dates</txt_134>
+    <txt_135 >Progress</txt_135>
+    <txt_136 >Job Tweet</txt_136>
+    <txt_137 >Project group</txt_137>
+    <txt_138 >Passive / For billing (vi skal muligvis lave en XML til status)</txt_138>
+    <txt_139 >Progress</txt_139>
+    <txt_140 >closed</txt_140>
+    <txt_141 >Fixed Price</txt_141>
+    <txt_142 >Ongoing hours</txt_142>
+    <txt_143 >Po. no.</txt_143>
+    <txt_144 >Agr.</txt_144>
+    <txt_145 >Pre-conditions fulfilled</txt_145>
+    <txt_146 >Pre-conditions not fulfilled</txt_146>
+    <txt_147 >jan</txt_147>
+    <txt_148 >feb</txt_148>
+    <txt_149 >mar</txt_149>
+    <txt_150 >apr</txt_150>
+    <txt_151 >may</txt_151>
+    <txt_152 >jun</txt_152>
+    <txt_153 >jul</txt_153>
+    <txt_154 >aug</txt_154>
+    <txt_155 >sep</txt_155>
+    <txt_156 >oct</txt_156>
+    <txt_157 >nov</txt_157>
+    <txt_158 >dec</txt_158>
+    <txt_159 >h.</txt_159>
+    <txt_160 >Last Invoice Date</txt_160>
+    <txt_161 >Progress</txt_161>
+    <txt_162 >hour distribution pr. month</txt_162>
+    <txt_163 >hours to residue.</txt_163>
+    <txt_164 >Wip date</txt_164>
+    <txt_165 >Exp. Total Time Consumption</txt_165>
+    <txt_166 >Budget</txt_166>
+    <txt_167 >Gross revenue</txt_167>
+    <txt_168 >Net revenue</txt_168>
+    <txt_169 >Hourly rate</txt_169>
+    <txt_170 >Selling exp.</txt_170>
+    <txt_171 >cost per hour</txt_171>
+    <txt_172 >CM amount</txt_172>
+    <txt_173 >CM</txt_173>
+    <txt_174 >WIP</txt_174>
+    <txt_175 >of budget</txt_175>
+    <txt_176 >exp.</txt_176>
+    <txt_177 >Add a new due date</txt_177>
+    <txt_178 >Budget / Inv.</txt_178>
+    <txt_179 >WIP / Inv.</txt_179>
+    <txt_180 >Due date / inv.</txt_180>
+    <txt_181 >Save</txt_181>
+    <txt_182 >Clear</txt_182>
+    <txt_183 >There is</txt_183>
+    <txt_184 >jobs listed in this search.</txt_184>
+    <txt_185 >Hidden Jobs</txt_185>
+    <txt_186 >set priority</txt_186>
+    <txt_187 >Sorting</txt_187>
+    <txt_188 >Drag a job to prioritize the order.</txt_188>
+    <txt_189 >Priority entry will change at reload.</txt_189>
+    <txt_190 >Quotient</txt_190>
+    <txt_191 >Quotient is calculated from residual estimate * (hours budgeted / expected hourly usage)</txt_191>
+    <txt_192 >Billed Excl. material consumption (selling costs) and km.</txt_192>
+    <txt_193 >Base Data</txt_193>
+    <txt_194 >Key figures, Realized, business areas., Project groups, etc.</txt_194>
+    <txt_195 >Milestones / Deadlines</txt_195>
+    <txt_196 >Job and sales responsible</txt_196>
+    <txt_197 >Job Responsible</txt_197>
+    <txt_198 >Create job</txt_198>
+
+ </es>
+
+
+</sprog>

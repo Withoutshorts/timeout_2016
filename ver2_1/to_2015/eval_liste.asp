@@ -164,7 +164,7 @@
 
 <%call menu_2014 %> 
 
-<script src="js/eval_jav3.js" type="text/javascript"></script>
+<script src="js/eval_jav6.js" type="text/javascript"></script>
 <div class="wrapper">
     <div class="content">
 

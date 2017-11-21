@@ -26,8 +26,8 @@ $(document).ready(function () {
         ubemandet_maskine_timer = $("#ubemandet_maskine_timer").val()
         ubemandet_maskine_timePris = $("#ubemandet_maskine_timePris").val()
         var eval_ubemandet_maskine_timer_string = ubemandet_maskine_timer.replace(',', '.')        
-        var eval_eval_fak_svendetimePris_string = ubemandet_maskine_timePris.replace(',', '.')        
-        var eval_omregnet_ubemandet_maskine_string = eval_ubemandet_maskine_timer_string * eval_eval_fak_svendetimePris_string
+        var eval_ubemandet_maskine_timepris_string = ubemandet_maskine_timePris.replace(',', '.')        
+        var eval_omregnet_ubemandet_maskine_string = eval_ubemandet_maskine_timer_string * eval_ubemandet_maskine_timepris_string
         var eval_omregnet_ubemandet_maskine = eval_omregnet_ubemandet_maskine_string.toString().replace('.', ',')
         var eval_omregnet_ubemandet_maskine_deci = parseFloat(eval_omregnet_ubemandet_maskine_string).toFixed(2).replace('.', ',')
         $("#omregnetOms_ubemandet_maskinetimer").val(eval_omregnet_ubemandet_maskine_deci);
@@ -65,9 +65,12 @@ $(document).ready(function () {
         var total_forslaet_timer = total_forslaet_timer_string.toString().replace('.', ',')        
         $("#forslaet_timer_total").val(total_forslaet_timer);
 
-        var total_forslaet_timepris_string = parseFloat(eval_fak_svendetimer_pris_string) + parseFloat(eval_eval_fak_svendetimePris_string) + parseFloat(eval_lear_timepris_string) + parseFloat(eval_easy_reg_timepris_string) + parseFloat(eval_ikke_fakbar_tid_timepris_string)
-        var total_forslaet_timepris = total_forslaet_timepris_string.toString().replace('.', ',')
-        $("#forslaet_timepris_total").val(total_forslaet_timepris);
+        //var total_forslaet_timepris_string = parseFloat(eval_fak_svendetimer_pris_string) + parseFloat(eval_eval_fak_svendetimePris_string) + parseFloat(eval_lear_timepris_string) + parseFloat(eval_easy_reg_timepris_string) + parseFloat(eval_ikke_fakbar_tid_timepris_string)
+        //var total_forslaet_timepris = total_forslaet_timepris_string.toString().replace('.', ',')
+        var total_forslaet_timepris = (eval_fak_svendetimer_string * eval_fak_svendetimer_pris_string) + (eval_ubemandet_maskine_timer_string * eval_ubemandet_maskine_timepris_string) + (eval_lear_timer_string * eval_lear_timepris_string) + (eval_easy_reg_timer_string * eval_easy_reg_timepris_string) + (eval_ikke_fakbar_tid_timer_string * eval_ikke_fakbar_tid_timepris_string)
+        var total_F_timepris_gns = parseFloat(total_forslaet_timepris) / total_forslaet_timer_string
+        var total_F_timepris_gns_deci = parseFloat(total_F_timepris_gns).toFixed(2).replace('.', ',')
+        $("#forslaet_timepris_total").val(total_F_timepris_gns_deci);
 
         var forslaet_oms_string = parseFloat(svendeTimer_omregnet_string) + parseFloat(eval_omregnet_ubemandet_maskine_string) + parseFloat(eval_lear_timer_omregnet_string) + parseFloat(omregnet_eval_easy_reg_timepris_string) + parseFloat(omreget_eval_ikke_fakbar_timer_string)
         var forslaet_oms = forslaet_oms_string.toString().replace('.', ',')

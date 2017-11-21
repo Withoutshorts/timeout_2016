@@ -24,6 +24,7 @@
 <!--#include file="../xml/joblog_xml_inc_2.asp"-->
 <!--#include file="../xml/abonner_xml_inc.asp"-->
 <!--#include file="../xml/resbelaeg_xml_inc.asp"-->
+<!--#include file="../xml/webblik_inc.asp"-->
 
 
 <!--#include file="cls_aktiviteter.asp"-->

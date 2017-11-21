@@ -296,7 +296,7 @@ if len(session("user")) = 0 then
    &" LEFT JOIN medarbejdere m ON (mid = tmnr) WHERE "& medarbSQLkri &" AND "_
    &" tdato BETWEEN '"& sqlDatoStart &"' AND '"& sqlDatoSlut &"' AND tfaktim = 5 ORDER BY tmnr, tdato DESC "
    
-   'Response.Write strSQL
+   Response.Write strSQL
    'Response.flush
    
    at = 0
