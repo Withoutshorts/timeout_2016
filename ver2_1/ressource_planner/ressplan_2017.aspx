@@ -36,6 +36,8 @@
     <!-- New: Bootstrap Date-Picker Plugin -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css" />
 
+    <!-- New: Context Menu -->
+    <link href="css/jquery.contextMenu.css" rel="stylesheet" />
 
     <!-- Core JS -->
     <%--<script src="js/libs/bootstrap.min.js"></script>--%>
@@ -45,6 +47,8 @@
     <%--New: For jquery template--%>
     <script src="http://code.jquery.com/jquery-latest.min.js"></script>
     <script src="http://ajax.microsoft.com/ajax/jquery.templates/beta1/jquery.tmpl.min.js"></script>
+
+    <script type="text/javascript" src="js/jquery-ui.js"></script>
 
     <%--New: Bootstrap muliselect dropdown--%>
     <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css" />
@@ -59,78 +63,380 @@
     <!-- New: Moment JS -->
     <script type="text/javascript" src="js/moment.js"></script>
 
+    <!-- New: Context Menu JS -->
+    <script type="text/javascript" src="js/jquery.contextMenu.js"></script>
+
     <%-- jQuery validation --%>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery.validation/1.15.1/jquery.validate.min.js"></script>
 
     <style>
-        .container{width:auto; margin:0px 20px;}
-        table th, table td { font-size: 11px; min-width: 35px;background-color: white !important; }
-        table td {padding: 5px !important;}
-        table th, .v-middle {vertical-align: middle !important;}
-        .weekend-color {background-color: lightgray !important;}
-        .today-color {background-color: #ffd1d1 !important;}
-        .bg-color {background-color: #f5f5f5 !important;}
-        .pointer {cursor: pointer;}
-        .ddcls { vertical-align: middle; border-top: hidden; min-width:140px; width: 140px;border-right-width: 1px !important; }
-        .month-header { text-align: center; border-top: hidden; background-color: white; font-size: 15px; }
-        .day-header, .week-header { text-align: center; border-top: hidden; background-color: white; }
-        .day-header .header, .week-header .header {font-size: 15px;}
-        .month-day-ths, .month-date-ths { background-color: #f5f5f5; text-align: center; vertical-align: middle !important;}
-        .center-align {text-align: center;}
-        .header-prev-margin { margin-right: -27px; font-size: 22px; line-height: 23px; }
-        .header-next-margin { margin-left: -29px; font-size: 22px; line-height: 23px; }
-        .header-prev-margin a, .header-next-margin a {position: relative;z-index: 9;}
-        .header-div-marg {margin-left: 276px;}
-        .dayheader-div-marg {margin-left: 276px;}
-        .monthheader-div-marg {margin-left: 468px;}
-        .nodays-color {background-color: #e7e3e3;}
-        .data-row, .data-row th {background-color: white !important;}
-        .multiselect-container > li > a > label { padding: 8px 20px 8px 40px !important; margin-bottom: 3px !important; margin-top: 3px !important; }
-        .wrapper > .content {margin: 0px;}
-        *[class*='dropdown-'] {height: auto !important;}
-        .activity-modal {font-size: 12px;}
-        .activity-modal .modal-body > .row {margin-bottom: 10px;}
-        .lh-34 {line-height: 34px;}
-        .form-control {font-size: 11px !important;}
-        .multiselect-selected-text { font-size: 11px; float: left; line-height: 20px; font-weight: bold; width: 110px; text-align: left; color: #555; text-overflow: ellipsis; overflow: hidden; }
-        .error {border: 1px solid #b12121 !important;}
-        .error-txt{color:#b12121;}
-        .main-ac-data { min-height: 35px; padding: 2px; color: black; font-size: 12px; margin-bottom: 3px; width: 100%; position: relative;float:left; }
-        .main-ac-data .ac-name { text-overflow: ellipsis; overflow: hidden; text-align: left; line-height: 15px; white-space: nowrap; }
-        .main-ac-data .ac-icon { position: absolute; bottom: 0; right: 3px; }
-        .main-ac-data .ac-icon a.glyphicon.glyphicon-refresh { color: #2b2b2b; font-size: 10px; font-weight: bold; display: inline-block; text-decoration: none; }
-        .main-ac-data .ac-icon a.imp { width: 11px; height: 11px; background-color: #2b2b2b; display: inline-block; border-radius: 100%; margin-right: 5px; font-size: 8px; font-weight: bold; text-decoration: none; text-align:center; }
-        .day-data-td {min-width:90px;}
-        .day-data-td .main-ac-data{width:100%; max-width:71px;}
-        .week-data-td {min-width:145px;}
-        .week-data-td .main-ac-data{width:100%; max-width:none;}
-        .month-full-width{max-width:40px; min-height:40px}
-        .month-half-width{max-width:16px; margin: 0 2px 4px; min-height:50px;}
-        .month-half-width .ac-icon {margin-left:2px;}
-        .month-half-width .ac-icon a.imp{margin-right:0px;}
-        .week-full-width{max-width:200px !important;}
-        .week-half-width{max-width:45px !important; margin: 0 2px 4px;}
-        .day-full-width{max-width:130px !important;}
-        .day-half-width{max-width:60px !important; margin: 0 2px 4px;}
-        .modal-title{color:white;}
-        .modal-header .close{margin-top:6px;}
-        .pl0{padding-left:0px;}
-        .rec-row{line-height:32px;}
-        .brd-table { min-height: 400px;border-left: 1px solid #ccc;border-right: 1px solid #ccc;border-bottom: 1px solid #ccc;}
-        .brd-table > table{ margin-top:0px !important;}
-        .fit-to-screen{ font-size: 14px;font-weight: bold;}
-        .fit-to-screen > input{ float: left;margin-top: 22px;}
-        .fit-to-screen > div{ float: left;margin-top: 21px;margin-left: 5px;}
-        #daytbl .header-div-marg, #weektbl .header-div-marg{margin-left:276px;}
-        table.dataTable {margin-bottom:20px !important;}
-        .multiselect-item .input-group-addon, .multiselect-item .input-group-btn {display:none;}
+        .container {
+            width: auto;
+            margin: 0px 20px;
+        }
+
+        table th, table td {
+            font-size: 11px;
+            min-width: 35px;
+            background-color: white !important;
+        }
+
+        table td {
+            padding: 5px !important;
+        }
+
+        table th, .v-middle {
+            vertical-align: middle !important;
+        }
+
+        .weekend-color {
+            background-color: lightgray !important;
+        }
+
+        .today-color {
+            background-color: #ffd1d1 !important;
+        }
+
+        .bg-color {
+            background-color: #f5f5f5 !important;
+        }
+
+        .pointer {
+            cursor: pointer;
+        }
+
+        .cur-default {
+            cursor: default;
+        }
+
+        .ddcls {
+            vertical-align: middle;
+            border-top: hidden;
+            min-width: 140px;
+            width: 140px;
+            border-right-width: 1px !important;
+        }
+
+        .month-header {
+            text-align: center;
+            border-top: hidden;
+            background-color: white;
+            font-size: 15px;
+        }
+
+        .day-header, .week-header {
+            text-align: center;
+            border-top: hidden;
+            background-color: white;
+        }
+
+            .day-header .header, .week-header .header {
+                font-size: 15px;
+            }
+
+        .month-day-ths, .month-date-ths {
+            background-color: #f5f5f5;
+            text-align: center;
+            vertical-align: middle !important;
+        }
+
+        .center-align {
+            text-align: center;
+        }
+
+        .header-prev-margin {
+            margin-right: -27px;
+            font-size: 22px;
+            line-height: 23px;
+        }
+
+        .header-next-margin {
+            margin-left: -29px;
+            font-size: 22px;
+            line-height: 23px;
+        }
+
+            .header-prev-margin a, .header-next-margin a {
+                position: relative;
+                z-index: 9;
+            }
+
+        .header-div-marg {
+            margin-left: 276px;
+        }
+
+        .dayheader-div-marg {
+            margin-left: 276px;
+        }
+
+        .monthheader-div-marg {
+            margin-left: 468px;
+        }
+
+        .nodays-color {
+            background-color: #e7e3e3;
+        }
+
+        .data-row, .data-row th {
+            background-color: white !important;
+        }
+
+        .multiselect-container > li > a > label {
+            padding: 8px 20px 8px 40px !important;
+            margin-bottom: 3px !important;
+            margin-top: 3px !important;
+        }
+
+        .wrapper > .content {
+            margin: 0px;
+        }
+
+        *[class*='dropdown-'] {
+            height: auto !important;
+        }
+
+        .activity-modal {
+            font-size: 12px;
+        }
+
+            .activity-modal .modal-body > .row {
+                margin-bottom: 10px;
+            }
+
+        .lh-34 {
+            line-height: 34px;
+        }
+
+        .form-control {
+            font-size: 11px !important;
+        }
+
+        .multiselect-selected-text {
+            font-size: 11px;
+            float: left;
+            line-height: 20px;
+            font-weight: bold;
+            width: 110px;
+            text-align: left;
+            color: #555;
+            text-overflow: ellipsis;
+            overflow: hidden;
+        }
+
+        .error {
+            border: 1px solid #b12121 !important;
+        }
+
+        .error-txt {
+            color: #b12121;
+        }
+
+        .main-ac-data {
+            min-height: 35px;
+            padding: 2px;
+            color: black;
+            font-size: 12px;
+            margin-bottom: 3px;
+            width: 100%;
+            position: relative;
+            float: left;
+        }
+
+            .main-ac-data .ac-name {
+                text-overflow: ellipsis;
+                overflow: hidden;
+                text-align: left;
+                line-height: 15px;
+                white-space: nowrap;
+            }
+
+            .main-ac-data .ac-icon {
+                position: absolute;
+                bottom: 0;
+                right: 3px;
+            }
+
+                .main-ac-data .ac-icon a.glyphicon.glyphicon-refresh {
+                    color: #2b2b2b;
+                    font-size: 10px;
+                    font-weight: bold;
+                    display: inline-block;
+                    text-decoration: none;
+                }
+
+                .main-ac-data .ac-icon a.imp {
+                    width: 11px;
+                    height: 11px;
+                    background-color: #2b2b2b;
+                    display: inline-block;
+                    border-radius: 100%;
+                    margin-right: 5px;
+                    font-size: 8px;
+                    font-weight: bold;
+                    text-decoration: none;
+                    text-align: center;
+                }
+
+        .day-data-td {
+            min-width: 90px;
+        }
+
+            .day-data-td .main-ac-data {
+                width: 100%;
+                max-width: 71px;
+            }
+
+        .week-data-td {
+            min-width: 145px;
+        }
+
+            .week-data-td .main-ac-data {
+                width: 100%;
+                max-width: none;
+            }
+
+        .month-full-width {
+            max-width: 40px;
+            min-height: 40px;
+        }
+
+        .month-half-width {
+            max-width: 16px;
+            margin: 0 2px 4px;
+            min-height: 50px;
+        }
+
+            .month-half-width .ac-icon {
+                margin-left: 2px;
+            }
+
+                .month-half-width .ac-icon a.imp {
+                    margin-right: 0px;
+                }
+
+        .week-full-width {
+            max-width: 200px !important;
+        }
+
+        .week-half-width {
+            max-width: 45px !important;
+            margin: 0 2px 4px;
+        }
+
+        .day-full-width {
+            max-width: 130px !important;
+        }
+
+        .day-half-width {
+            max-width: 60px !important;
+            margin: 0 2px 4px;
+        }
+
+        .modal-title {
+            color: white;
+        }
+
+        .modal-header .close {
+            margin-top: 6px;
+        }
+
+        .pl0 {
+            padding-left: 0px;
+        }
+
+        .rec-row {
+            line-height: 32px;
+        }
+
+        .brd-table {
+            min-height: 400px;
+            border-left: 1px solid #ccc;
+            border-right: 1px solid #ccc;
+            border-bottom: 1px solid #ccc;
+        }
+
+            .brd-table > table {
+                margin-top: 0px !important;
+            }
+
+        .fit-to-screen {
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+            .fit-to-screen > input {
+                float: left;
+                margin-top: 22px;
+            }
+
+            .fit-to-screen > div {
+                float: left;
+                margin-top: 21px;
+                margin-left: 5px;
+            }
+
+        #daytbl .header-div-marg, #weektbl .header-div-marg {
+            margin-left: 276px;
+        }
+
+        table.dataTable {
+            margin-bottom: 20px !important;
+        }
+
+        .multiselect-item .input-group-addon, .multiselect-item .input-group-btn {
+            display: none;
+        }
+
+        .split-booking {
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            margin: 1px;
+            padding: 5px;
+            margin-bottom:15px;
+            position:relative;
+        }
+
+        .remove-booking{
+            font-size: 19px;
+            font-weight: 600;
+            position: absolute;
+            right: 9px;
+            top: 0;
+            color: #a52727;
+            z-index:9;
+        }
+
+        .remove-booking a{
+            color: #a52727 !important;
+            cursor: pointer !important;
+            text-decoration: none;
+        }
+
+        .page-loader {
+            position:fixed;
+            z-index:9999;
+            width:100%;
+            height:100%;
+            top:0;
+            left:0;
+            background:rgba(255,255,255,0.7);
+        }
+        .page-loader img {
+            position:absolute;
+            top:50%;
+            left:50%;
+            -webkit-transform:translate(-50%,-50%);
+            -moz-transform:translate(-50%,-50%);
+            -ms-transform:translate(-50%,-50%);
+            -o-transform:translate(-50%,-50%);
+            transform:translate(-50%,-50%);
+        }
+
     </style>
 </head>
 <body>
 
     <%--Modal popup--%>
-
-   
 
     <form id="taskform" runat="server" name="taskModalForm">
         <input type="hidden" runat="server" id="ddsortbyTypePresel" name="ddsortbyTypePresel" value="" />
@@ -145,18 +451,18 @@
                                 <div class="pull-right fit-to-screen">
                                     <input type="checkbox" checked="checked" onchange="setFitToScreen(this)" />
                                     <div>Fit To Screen</div>
-                                </div>                                
-                            </h3>                            
+                                </div>
+                            </h3>
                         </div>
-                        
+
                         <div class="portlet-body">
                             <div id="activityModal" class="modal fade activity-modal" tabindex='-1'>
                                 <div class="modal-dialog">
                                     <div class="modal-content">
                                         <div class="modal-header">
-					                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-					                        <h3 class="modal-title">Update Activity</h3>
-				                        </div>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                                            <h3 class="modal-title">Update Activity</h3>
+                                        </div>
 
                                         <div class="modal-body">
                                             <br />
@@ -164,8 +470,8 @@
                                             <div class="row">
                                                 <div class="col-lg-2 lh-34">Start:</div>
                                                 <div class="col-lg-4">
-                                                    <div class='input-group date start'>
-                                                        <input type="text" id="dtstart" class="form-control input-small" name="dts" value="" placeholder="dd-mm-yyyy" />
+                                                    <div class='input-group date start_0'>
+                                                        <input type="text" id="dtstart_0" data-counter="0" class="form-control input-small" name="dtstart_0" value="" placeholder="dd-mm-yyyy" />
                                                         <span class="input-group-addon input-small">
                                                             <span class="fa fa-calendar open-datetimepicker"></span>
                                                         </span>
@@ -173,25 +479,23 @@
                                                 </div>
                                                 <div class="col-lg-2 lh-34"></div>
                                                 <div class="col-lg-4">
-                                                    <input type="time" id="fromtime" name="fromtime" class="form-control input-small" placeholder="00:00" />
+                                                    <input type="time" id="fromtime_0" data-counter="0" onchange="fromTimeChange(this)" name="fromtime_0" class="form-control input-small" placeholder="00:00" />
                                                 </div>
                                             </div>
                                             <div class="row">
                                                 <div class="col-lg-2 lh-34">End:</div>
                                                 <div class="col-lg-4">
-                                                    <div class='input-group date end'>
-                                                        <input type="text" id="dtend" class="form-control input-small" name="dts" value="" placeholder="dd-mm-yyyy" />
+                                                    <div class='input-group date end_0'>
+                                                        <input type="text" id="dtend_0" data-counter="0" class="form-control input-small" name="dtend_0" value="" placeholder="dd-mm-yyyy" />
                                                         <span class="input-group-addon input-small">
                                                             <span class="fa fa-calendar"></span>
                                                         </span>
-                                                      
                                                     </div>
-                                                  
-                                                    <p class="error-txt" style="display:none;">End Date should be more than start date!</p>
+                                                    <p class="error-txt" style="display: none;">End Date should be more than start date!</p>
                                                 </div>
                                                 <div class="col-lg-2 lh-34"></div>
                                                 <div class="col-lg-4">
-                                                    <input type="time" id="totime" name="totime" class="form-control input-small" placeholder="00:00" />
+                                                    <input type="time" id="totime_0" data-counter="0" onchange="toTimeChange(this)" name="totime_0" class="form-control input-small" placeholder="00:00" />
                                                 </div>
                                             </div>
                                             <!--
@@ -266,14 +570,16 @@
                                                     <input id="prodtxt" name="prodtxt" type="text" value="Produkion" class="form-control input-small" readonly="readonly" disabled="disabled" />
                                                 </div>
                                             </div>
-                                             <div class="row">
+                                            <div class="row">
                                                 <div class="col-lg-2 lh-34">Split:</div>
                                                 <div class="col-lg-4">
-                                                   <input type="checkbox" value="1" name="chksplit" id="chksplit" /> Split Booking
-                                                   
+                                                    <input type="checkbox" value="1" name="chksplit" id="chksplit" onchange="enableSplitBooking(this)" />
                                                 </div>
-
-                                              
+                                                <div class="col-lg-4 pull-right">
+                                                    <a href="javascript:void(0)" id="lnkSplitBooking" onclick="loadSplitBooking()" style="display:none; float: right; text-decoration: none; font-size: 17px; font-weight: 600; border: 1px solid #cccccc; padding: 5px; line-height: 9px;">+</a>
+                                                </div>
+                                            </div>
+                                            <div id="main_split_Bookings">                                                
                                             </div>
                                         </div>
 
@@ -294,6 +600,10 @@
 
         </div>
     </form>
+
+    <div class="page-loader" style="display:none;">
+        <img class="loader-img" src="images/loading.gif" alt="Loader" />
+    </div>
 
     <input type="hidden" name="hidweek" id="hidweek" />
     <input type="hidden" name="hidmonth" id="hidmonth" />
@@ -449,15 +759,15 @@
             </tr>
             <tr id="monthtbldate" class="last-header">
                 <th class="ddcls">
-                    <select data-style="btn-primary" id="olivermonthdd" multiple="multiple" onchange="resourceChange()" class="oliver form-control input-small"></select> 
+                    <select data-style="btn-primary" id="olivermonthdd" multiple="multiple" onchange="resourceChange()" class="oliver form-control input-small"></select>
                 </th>
             </tr>
         </table>
     </script>
 
-     <label id="lblsql" runat="server" style="visibility:hidden;">SQL:</label>
-    <label id="lbllto" runat="server" style="visibility:visible; float:left; padding-left:40px; color:#999999; font-weight:lighter;">LTO:</label>
+    <label id="lblsql" runat="server" style="visibility: hidden;">SQL:</label>
+    <label id="lbllto" runat="server" style="visibility: hidden; float: left; padding-left: 40px; color: #999999; font-weight: lighter;">LTO:</label>
 
-    <script type="text/javascript" src="js/ressplan_20176.js"></script>      
+    <script type="text/javascript" src="js/ressplan_20176.js"></script>
 </body>
 </html>

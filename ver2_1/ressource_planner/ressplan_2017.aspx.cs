@@ -14,12 +14,12 @@ public partial class ressplan_2017 : System.Web.UI.Page
 
     #region Variable Declaration
 
-    //static string connString = Convert.ToString(System.Configuration.ConfigurationManager.ConnectionStrings["ConnectionString"]);
+    static string connString = Convert.ToString(System.Configuration.ConfigurationManager.ConnectionStrings["ConnectionString"]);
     //static string connString = "driver={MySQL ODBC 3.51 Driver};server=194.150.108.154; Port=3306; uid=to_outzource2; pwd=SKba200473; database=timeout_dencker;";
 
     //public string lto =             request["lto"];
 
-    static string connString = "";
+    //static string connString = "";
 
     //public string connString = "";
 
@@ -43,24 +43,24 @@ public partial class ressplan_2017 : System.Web.UI.Page
 
         //connString = "driver ={ MySQL ODBC 3.51 Driver}; server = localhost; Port = 3306; uid = root; pwd =; database = timeout_intranet; ";
 
-        string ltoraw = Request["lto"].ToString();
-        string lto = ltoraw.Substring(24, ltoraw.Length - 34);
-        //int ltoL = lto.Length;
-        //lto = lto.Substring(10, ltoL - 10);
-        //lto = lto.Length;
+        //string ltoraw = Request["lto"].ToString();
+        //string lto = ltoraw.Substring(24, ltoraw.Length - 34);
+        ////int ltoL = lto.Length;
+        ////lto = lto.Substring(10, ltoL - 10);
+        ////lto = lto.Length;
 
-        lbllto.InnerHtml = "LTO: " + lto.ToString();
+        //lbllto.InnerHtml = "LTO: " + lto.ToString();
 
-        //string lto = lbllto.InnerHtml;
-        if (lto == "outz") { 
-        lto = "intranet";
-        };
+        ////string lto = lbllto.InnerHtml;
+        //if (lto == "outz") { 
+        //lto = "intranet";
+        //};
 
 
-        //connString = "Data Source=127.0.0.1;Database=timeout_" + lto + ";User ID = root; Password=";
-        connString = "Data Source=194.150.108.154; Port=3306; Database=timeout_" + lto + "; User ID = to_outzource2; Password=SKba200473";
-        //connString = "driver={MySQL ODBC 3.51 Driver};server=194.150.108.154; Port=3306; uid=to_outzource2; pwd=SKba200473; database=timeout_"+lto+";";
-        lblsql.InnerHtml = connString;
+        ////connString = "Data Source=127.0.0.1;Database=timeout_" + lto + ";User ID = root; Password=";
+        //connString = "Data Source=194.150.108.154; Port=3306; Database=timeout_" + lto + "; User ID = to_outzource2; Password=SKba200473";
+        ////connString = "driver={MySQL ODBC 3.51 Driver};server=194.150.108.154; Port=3306; uid=to_outzource2; pwd=SKba200473; database=timeout_"+lto+";";
+        //lblsql.InnerHtml = connString;
 
 
         //string lto = "intrnaet";
@@ -344,7 +344,7 @@ public partial class ressplan_2017 : System.Web.UI.Page
         string strIds = GetStringFromList(jobIds);
 
         whereClause = "WHERE job.id IN (" + strIds + ")";
-        whereClause += " AND (date(akt_bookings.ab_enddate) >= '" + startDate + "' AND date(akt_bookings.ab_startdate) <= '" + endDate + "') ";
+        //whereClause += " AND (date(akt_bookings.ab_enddate) >= '" + startDate + "' AND date(akt_bookings.ab_startdate) <= '" + endDate + "') ";
         whereClause += GetViewTypeQuery(viewType);
 
         orderByClause = "ORDER BY CustomerId, JobId, ActivityName, EmployeeName";
@@ -477,7 +477,7 @@ public partial class ressplan_2017 : System.Web.UI.Page
         string orderByClause = string.Empty;
         string strIds = GetStringFromList(employeeIds);
         whereClause = "WHERE medarbejdere.Mid IN (" + strIds + ")";
-        whereClause += " AND (date(akt_bookings.ab_enddate) >= '" + startDate + "' AND date(akt_bookings.ab_startdate) <= '" + endDate + "') ";
+        //whereClause += " AND (date(akt_bookings.ab_enddate) >= '" + startDate + "' AND date(akt_bookings.ab_startdate) <= '" + endDate + "') ";
         whereClause += GetViewTypeQuery(viewType);
 
         orderByClause = "ORDER BY EmployeeName";
@@ -537,6 +537,20 @@ public partial class ressplan_2017 : System.Web.UI.Page
         return query;
     }
 
+    private static string GetActivityExistsQuery(int bookingId, int employeeId, DateTime startDate, DateTime endDate)
+    {
+        string query = string.Empty;
+        query = @"select count(*) as count from akt_bookings 
+                LEFT JOIN akt_bookings_rel ON akt_bookings_rel.abl_bookid = akt_bookings.ab_id 
+                where akt_bookings.ab_aktid = (select ab_aktid from akt_bookings where ab_id = " + bookingId + ")";
+
+        query += " and akt_bookings_rel.abl_medid = " + employeeId;
+        query += " and akt_bookings.ab_startdate = '" + startDate.ToString("yyyy-MM-dd hh:mm:ss") + "'";
+        query += " and akt_bookings.ab_enddate = '" + endDate.ToString("yyyy-MM-dd hh:mm:ss") + "'";
+
+        return query;
+    }
+
     /// <summary>
     /// Saves the task query.
     /// </summary>
@@ -550,6 +564,21 @@ public partial class ressplan_2017 : System.Web.UI.Page
         query += "DELETE FROM akt_bookings_rel WHERE abl_bookid = " + model.BookingId + "";
 
         return query;
+    }
+
+    private static string GetBookingQuery(int bookingId)
+    {
+        string query = string.Empty;
+        query = "SELECT akt_bookings.ab_startdate AS StartDate, " +
+                        "akt_bookings.ab_enddate AS EndDate " +
+                "FROM akt_bookings " +
+                "WHERE akt_bookings.ab_id = " + bookingId;
+        return query;
+    }
+
+    private static string UpdateBookingQuery(int bookingId, DateTime startDateTime, DateTime endDateTime)
+    {
+        return string.Format("UPDATE akt_bookings SET ab_startdate = '{0}', ab_enddate = '{1}' WHERE ab_id = {2}", startDateTime.ToString("yyyy-MM-dd HH:mm:ss"), endDateTime.ToString("yyyy-MM-dd HH:mm:ss"), bookingId);
     }
 
     /// <summary>
@@ -738,6 +767,41 @@ public partial class ressplan_2017 : System.Web.UI.Page
         string query = string.Empty;
         query = "SELECT nh_id AS HolidayId, nh_date AS HolidayDate FROM national_holidays;";
         return query;
+    }
+
+    private static DateTime[] GetNextDateTime(DataSet dsData, string droppedDate, bool isDateOnly)
+    {
+        DateTime[] arrNextDateTime = new DateTime[2];
+        DataRow drUsers = dsData.Tables[0].Rows[0];
+        DateTime currStartDateTime = Convert.ToDateTime(drUsers["StartDate"]);
+        DateTime currEndDateTime = Convert.ToDateTime(drUsers["EndDate"]);
+
+        double dayDiff = (currEndDateTime - currStartDateTime).TotalMinutes;
+        DateTime startDateTime = Convert.ToDateTime(droppedDate);
+
+        if (isDateOnly)
+        {
+            startDateTime = startDateTime.AddHours(currStartDateTime.Hour).AddMinutes(currStartDateTime.Minute).AddSeconds(currStartDateTime.Second);
+        }
+
+        DateTime endDateTime = startDateTime.AddMinutes(dayDiff);
+        if (endDateTime.Hour > 17 || (endDateTime.Hour == 17 && endDateTime.Minute > 0))
+        {
+            DateTime endFinalDate = new DateTime(endDateTime.Year, endDateTime.Month, endDateTime.Day);
+            endFinalDate = endFinalDate.AddHours(17);
+            double remainingMinute = (endDateTime - endFinalDate).TotalMinutes;
+
+            endDateTime = endDateTime.AddDays(1);
+
+            TimeSpan ts = new TimeSpan(07, 0, 0);
+            endDateTime = endDateTime.Date + ts;
+            endDateTime = endDateTime.AddMinutes(remainingMinute);            
+        }
+
+        arrNextDateTime[0] = startDateTime;
+        arrNextDateTime[1] = endDateTime;
+
+        return arrNextDateTime;
     }
 
     #endregion
@@ -1155,46 +1219,149 @@ public partial class ressplan_2017 : System.Web.UI.Page
         }
     }
 
-
-
-
     /// <summary>
     /// Saves the task.
     /// </summary>
     /// <param name="taskData">The task data.</param>
     /// <returns>returns value after save task</returns>
     [WebMethod]
-    public static int SaveActivity(ActivityModel model)
+    public static string[] SaveActivity(ActivityModel model)
     {
         try
         {
-            string command = SaveActivityQuery(model);
-            GetExecuteNonQueryByCommand(command);
+            string[] arrReturnVal = new string[2];
 
-            long bookingId = 0;
-
-            for (int i = 0; i < model.Employees.Length; i++)
+            string existMsg = string.Empty;
+            foreach (EmployeeActivity empActivity in model.EmployeeActivities)
             {
-                if (i > 0 && model.Split > 0)
+                string activityExistQuery = GetActivityExistsQuery(model.BookingId, Convert.ToInt32(empActivity.EmployeeId), empActivity.StartDateTime, empActivity.EndDateTime);
+                DataSet dsData = GetDataSetByCommand(activityExistQuery);
+                if (dsData != null && dsData.Tables.Count > 0 && dsData.Tables[0].Rows.Count > 0)
                 {
-                    string query = "INSERT INTO akt_bookings (ab_name, ab_date, ab_startdate, ab_enddate, ab_medid, ab_aktid, ab_jobid, ab_serie, ab_editor, ab_editor_date, ab_important, ab_end_after) SELECT ab_name, ab_date, ab_startdate, ab_enddate, ab_medid, ab_aktid, ab_jobid, ab_serie, ab_editor, ab_editor_date, ab_important, ab_end_after from akt_bookings where ab_id = " + model.BookingId + "; ";
-                    bookingId = GetExecuteNonQueryByCommand(query);
+                    bool isExists = Convert.ToBoolean(dsData.Tables[0].Rows[0]["count"]);
+                    if (isExists)
+                    {
+                        if (string.IsNullOrEmpty(existMsg))
+                        {
+                            existMsg += "Activity exists for " + empActivity.EmployeeName;
+                        }
+                        else
+                        {
+                            existMsg += ", " + empActivity.EmployeeName;
+                        }
+                    }
                 }
-                else
-                {
-                    bookingId = model.BookingId;
-                }
-
-                string bookingRelQuery = "INSERT INTO akt_bookings_rel (abl_bookid, abl_medid) VALUES (" + bookingId + ", " + model.Employees[i] + "); ";
-                GetExecuteNonQueryByCommand(bookingRelQuery);
             }
 
-            return 1;
+            if (!string.IsNullOrEmpty(existMsg))
+            {
+                existMsg += " for selected start and end date time";
+            }
+
+            if (string.IsNullOrEmpty(existMsg))
+            {
+                string command = SaveActivityQuery(model);
+
+                GetExecuteNonQueryByCommand(command);
+                long bookingId = 0;
+
+                for (int i = 0; i < model.Employees.Length; i++)
+                {
+                    if (i > 0 && model.Split > 0)
+                    {
+                        string query = "INSERT INTO akt_bookings (ab_name, ab_date, ab_startdate, ab_enddate, ab_medid, ab_aktid, ab_jobid, ab_serie, ab_editor, ab_editor_date, ab_important, ab_end_after) SELECT ab_name, ab_date, ab_startdate, ab_enddate, ab_medid, ab_aktid, ab_jobid, ab_serie, ab_editor, ab_editor_date, ab_important, ab_end_after from akt_bookings where ab_id = " + model.BookingId + "; ";
+                        bookingId = GetExecuteNonQueryByCommand(query);
+                    }
+                    else
+                    {
+                        bookingId = model.BookingId;
+                    }
+
+                    string bookingRelQuery = "INSERT INTO akt_bookings_rel (abl_bookid, abl_medid) VALUES (" + bookingId + ", " + model.Employees[i] + "); ";
+                    GetExecuteNonQueryByCommand(bookingRelQuery);
+                }
+
+                foreach (EmployeeActivity empActivity in model.EmployeeActivities)
+                {
+                    string query = "INSERT INTO akt_bookings (ab_name, ab_date, ab_startdate, ab_enddate, ab_medid, ab_aktid, ab_jobid, ab_serie, ab_editor, ab_editor_date, ab_important, ab_end_after) SELECT ab_name, ab_date, ab_startdate, ab_enddate, ab_medid, ab_aktid, ab_jobid, ab_serie, ab_editor, ab_editor_date, ab_important, ab_end_after from akt_bookings where ab_id = " + model.BookingId + "; ";
+                    long newBookingId = GetExecuteNonQueryByCommand(query);
+
+                    query = "UPDATE akt_bookings SET ab_startdate = '" + empActivity.StartDateTime.ToString("yyyy-MM-dd hh:mm:ss") + "', ab_enddate = '" + empActivity.EndDateTime.ToString("yyyy-MM-dd hh:mm:ss") + "' WHERE ab_id = " + newBookingId;
+                    GetExecuteNonQueryByCommand(query);
+
+                    string bookingRelQuery = "INSERT INTO akt_bookings_rel (abl_bookid, abl_medid) VALUES (" + newBookingId + ", " + empActivity.EmployeeId + "); ";
+                    GetExecuteNonQueryByCommand(bookingRelQuery);
+                }
+
+                arrReturnVal[0] = "1";
+
+            }
+            else
+            {
+                arrReturnVal[0] = "0";
+            }
+
+            arrReturnVal[1] = existMsg;
+            return arrReturnVal;
+        }
+        catch (Exception ex)
+        {
+            return null;
+        }
+    }
+
+    [WebMethod]
+    public static long UpdateBooking(int bookingId, string droppedDate, bool isDateOnly, int draggedEmpId, int droppedEmpId)
+    {
+        try
+        {
+            string command = GetBookingQuery(bookingId);
+            DataSet dsData = GetDataSetByCommand(command);
+
+            if (dsData != null && dsData.Tables.Count > 0 && dsData.Tables[0].Rows.Count > 0)
+            {
+                DateTime[] arrNextDateTime = GetNextDateTime(dsData, droppedDate, isDateOnly);
+                if (arrNextDateTime != null && arrNextDateTime.Length > 1)
+                {
+                    if ((draggedEmpId == 0 && droppedEmpId == 0) || (draggedEmpId == droppedEmpId))
+                    {
+                        string updateQuery = UpdateBookingQuery(bookingId, arrNextDateTime[0], arrNextDateTime[1]);
+                        GetExecuteNonQueryByCommand(updateQuery);
+                        return bookingId;
+                    }
+                    else if (draggedEmpId > 0 && droppedEmpId > 0 && draggedEmpId != droppedEmpId)
+                    {
+                        string activityExistQuery = GetActivityExistsQuery(bookingId, droppedEmpId, arrNextDateTime[0], arrNextDateTime[1]);
+                        DataSet dsActivityExists = GetDataSetByCommand(activityExistQuery);
+                        if (dsActivityExists != null && dsActivityExists.Tables.Count > 0 && dsActivityExists.Tables[0].Rows.Count > 0)
+                        {
+                            bool isExists = Convert.ToBoolean(dsActivityExists.Tables[0].Rows[0]["count"]);
+                            if (isExists)
+                            {
+                                return -1;      // Drag & Drop booking to another person: If same booking exist
+                            }
+                        }
+
+                        string query = "INSERT INTO akt_bookings (ab_name, ab_date, ab_startdate, ab_enddate, ab_medid, ab_aktid, ab_jobid, ab_serie, ab_editor, ab_editor_date, ab_important, ab_end_after) SELECT ab_name, ab_date, ab_startdate, ab_enddate, ab_medid, ab_aktid, ab_jobid, ab_serie, ab_editor, ab_editor_date, ab_important, ab_end_after from akt_bookings where ab_id = " + bookingId + "; ";
+                        long newBookingId = GetExecuteNonQueryByCommand(query);
+
+                        query = "UPDATE akt_bookings SET ab_startdate = '" + arrNextDateTime[0].ToString("yyyy-MM-dd hh:mm:ss") + "', ab_enddate = '" + arrNextDateTime[1].ToString("yyyy-MM-dd hh:mm:ss") + "' WHERE ab_id = " + newBookingId;
+                        GetExecuteNonQueryByCommand(query);
+
+                        string bookingRelQuery = "INSERT INTO akt_bookings_rel (abl_bookid, abl_medid) VALUES (" + newBookingId + ", " + droppedEmpId + "); ";
+                        GetExecuteNonQueryByCommand(bookingRelQuery);
+
+                        return newBookingId;
+                    }
+                }                
+            }
         }
         catch (Exception ex)
         {
             return 0;
         }
+
+        return 0;
     }
 
     #endregion
@@ -1306,7 +1473,18 @@ public class ActivityModel
 
 
     public List<Employee> EmployeeList { get; set; }
+
+    public List<EmployeeActivity> EmployeeActivities { get; set; }
 }
+
+public class EmployeeActivity
+{
+    public DateTime StartDateTime;
+    public DateTime EndDateTime;
+    public string EmployeeId = string.Empty;
+    public string EmployeeName = string.Empty;
+}
+
 
 /// <summary>
 /// Holiday model

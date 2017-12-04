@@ -13,6 +13,7 @@ var noEmployeeCalLabel = 'Debugging';
 var dayStart = 8;
 var dayEnd = 17;
 var holidayList = [];
+var splitCounter = 0;
 
 /*
 Color codes: 
@@ -49,38 +50,42 @@ $(document).ready(function () {
         dataType: "json",
         success: function (response) {
             holidayList = response.d;
-                    
+
             $("#mainTemplate").tmpl().appendTo("#maindiv");
             changeDayGroup('month');
 
-            $('#fromtime').on('change', function () {
-                if ($('#dtstart').val() == $('#dtend').val() && $(this).val() > $('#totime').val()) {
-                    $(this).addClass('error');
-                    $(this).parent().find('p').remove()
-                    $(this).parent().append('<p>Start time should be less than end time!</p>');
-                }
-                else {
-                    $(this).removeClass('error');
-                    $(this).parent().find('p').remove();
-                }
-            });
-
-            $('#totime').on('change', function () {
-                if ($('#dtstart').val() == $('#dtend').val() && $(this).val() < $('#fromtime').val()) {
-                    $(this).addClass('error');
-                    $(this).parent().find('p').remove();
-                    $(this).parent().append('<p>End time should be more than start time!</p>');
-                }
-                else {
-                    $(this).removeClass('error');
-                    $(this).parent().find('p').remove();
-                }
-            });
-
             bindEmployees();
         },
-    });            
+    });
 });
+
+function fromTimeChange(cntrl) {
+    var currCounter = $(cntrl).data('counter');
+
+    if ($('#dtstart_' + currCounter).val() == $('#dtend_' + currCounter).val() && $(cntrl).val() > $('#totime_' + currCounter).val()) {
+        $(cntrl).addClass('error');
+        $(cntrl).parent().find('p').remove()
+        $(cntrl).parent().append('<p class="error-txt">Start time should be less than end time!</p>');
+    }
+    else {
+        $(cntrl).removeClass('error');
+        $(cntrl).parent().find('p').remove();
+    }
+}
+
+function toTimeChange(cntrl) {
+    var currCounter = $(cntrl).data('counter');
+
+    if ($('#dtstart_' + currCounter).val() == $('#dtend_' + currCounter).val() && $(cntrl).val() < $('#fromtime_' + currCounter).val()) {
+        $(cntrl).addClass('error');
+        $(cntrl).parent().find('p').remove();
+        $(cntrl).parent().append('<p class="error-txt">End time should be more than start time!</p>');
+    }
+    else {
+        $(cntrl).removeClass('error');
+        $(cntrl).parent().find('p').remove();
+    }
+}
 
 function loadTemplate(templatename) {
     $(".removetbl").remove();
@@ -91,11 +96,11 @@ function loadTemplate(templatename) {
         selectAllValue: 'multiselect-all',
         enableCaseInsensitiveFiltering: true,
         enableFiltering: true
-    });    
+    });
 }
 
 function changeDayGroup(type) {
-            
+
     switch (type) {
         case 'month':
 
@@ -137,7 +142,7 @@ function changeDayGroup(type) {
                 else if (currDate.getMonth() != parseInt(month) || currDate.getFullYear() != parseInt(year)) {
                     todayWeekNo = new Date(year, month, 1).getWeek();
                 }
-                        
+
                 if (todayWeekNo == 0) {
                     todayWeekNo = 1;
                 }
@@ -146,7 +151,7 @@ function changeDayGroup(type) {
                 }
 
                 bindWeekView(todayWeekNo, month, year, 1);
-            }                    
+            }
 
             break;
 
@@ -166,11 +171,11 @@ function changeDayGroup(type) {
                     bindDayView(day, 1, parseInt(month) + 1, year, 1);
                 }
             }
-            else {                        
+            else {
                 bindDayView(day, 1, parseInt(month) + 1, year, 1);
             }
-                    
-                                        
+
+
             break;
     }
 }
@@ -302,7 +307,7 @@ function previous() {
                 } else {
                     month = month;
                 }
-                        
+
                 /* For Year */
                 year = year;
 
@@ -349,7 +354,7 @@ function next() {
 
             week = parseInt(week) + 1;
 
-            if(week > 52){
+            if (week > 52) {
                 var arrDatesOfWeek = getDateRangeOfWeek(week, month, year);
                 var nextMonth = jQuery.grep(arrDatesOfWeek, function (a) {
                     return a.getDate() == 31 && a.getMonth() == 11;
@@ -467,7 +472,7 @@ function bindMonthView(month, year) {
         weekOfYear = 0;
     }
 
-    for (var i = 0; i < lastDate ; i++) {
+    for (var i = 0; i < lastDate; i++) {
         var weekDay = (i + firstDay);
         var weekDayIndex = weekDay % 7;
 
@@ -482,8 +487,8 @@ function bindMonthView(month, year) {
 
         var thDayHeader = $('<th />').append('<span>' + weekDays[weekDayIndex] + '</span>').attr('onClick', 'bindDayView(' + (dayOfWeek) + ',' + (i + 1) + ',' + (parseInt(month) + 1) + ', ' + year + ', ' + currentWeek + ')').addClass("pointer month-day-ths");
         var thDateHeader = $('<th />').append('<span>' + (i + 1) + '</span>').attr('onClick', 'bindDayView(' + (dayOfWeek) + ',' + (i + 1) + ',' + (parseInt(month) + 1) + ', ' + year + ', ' + currentWeek + ')').addClass("pointer month-date-ths");
-                
-        var todayDate = moment(year + '-' + (parseInt(month) + 1) + '-' + (i + 1));                
+
+        var todayDate = moment(year + '-' + (parseInt(month) + 1) + '-' + (i + 1));
         if (todayDate.format('YYYY-MM-DD') == moment().format('YYYY-MM-DD')) {
             $(thDayHeader).addClass("today-color center-align").attr('data-week-no', currentWeek);
             $(thDateHeader).addClass("today-color center-align");
@@ -519,15 +524,14 @@ function bindMonthView(month, year) {
     $('#currentDateView').data('year', year);
 }
 
-function bindWeekView(week, month, year, startdate)
-{
+function bindWeekView(week, month, year, startdate) {
     currentView = 'week';
     $("#hidprecallmonth").val(month);
-    $("#hidprecallyear").val(year);            
+    $("#hidprecallyear").val(year);
     $('#currentweekView').data('startdate', startdate);
-            
+
     loadTemplate("#weekheaderTemplate");
-            
+
     var dayHeader = $('<tr />');
     var dateHeader = $('<tr />');
 
@@ -535,7 +539,7 @@ function bindWeekView(week, month, year, startdate)
     var thDateHeader;
 
     var arrDatesOfWeek = getDateRangeOfWeek(week, month, year);
-            
+
     for (var i = 0; i < arrDatesOfWeek.length; i++) {
         var dayOfWeek = i + 1;
         if (dayOfWeek > 6) {
@@ -543,10 +547,10 @@ function bindWeekView(week, month, year, startdate)
         }
 
         var tempDate = arrDatesOfWeek[i];
-                
+
         thDayHeader = $('<th />').text(weekDays[i]).attr('onClick', 'bindDayView(' + dayOfWeek + ',' + tempDate.getDate() + ',' + (tempDate.getMonth() + 1) + ', ' + tempDate.getFullYear() + ', ' + tempDate.getWeek() + ')').addClass("pointer center-align week-day-ths");
         thDateHeader = $('<th />').text(tempDate.getDate()).attr('onClick', 'bindDayView(' + dayOfWeek + ',' + tempDate.getDate() + ',' + (tempDate.getMonth() + 1) + ', ' + tempDate.getFullYear() + ', ' + tempDate.getWeek() + ')').addClass("pointer center-align week-date-ths");
-                
+
         if (moment(tempDate).format('YYYY-MM-DD') == moment().format('YYYY-MM-DD')) {
             $(thDayHeader).addClass("today-color center-align");
             $(thDateHeader).addClass("today-color center-align");
@@ -572,7 +576,7 @@ function bindWeekView(week, month, year, startdate)
     currMonth = currMonth + moment(arrDatesOfWeek[arrDatesOfWeek.length - 1]).format('MMM') + ' ' + moment(arrDatesOfWeek[arrDatesOfWeek.length - 1]).format('DD');
     currMonth = currMonth + ', ' + moment(arrDatesOfWeek[0]).format('YYYY');
     currMonth = currMonth + ' (Week ' + week + ')';
-            
+
     $("#currentweekView").html(currMonth);
 
     $('#weektbldaystr th:first').after($(dayHeader).html());
@@ -591,7 +595,7 @@ function bindDayView(day, date, month, year, week) {
     currentView = 'day';
     $("#hidprecallmonth").val(month);
     $("#hidprecallyear").val(year);
-            
+
     loadTemplate("#dayheaderTemplate");
     var appenddate = date;
     var appendmonth = month;
@@ -616,7 +620,7 @@ function bindDayView(day, date, month, year, week) {
     $("#hidmonth").val(month - 1);
     $("#hidyear").val(year);
     $("#hidweek").val(week);
-            
+
     var dateHeader = $('<tr />');
 
     for (var i = dayStart; i <= dayEnd; i++) {
@@ -643,7 +647,7 @@ function populateDropdown() {
         } else {
             sortByDDSel = ""
         }
-        option += '<option value="' + i + '" ' + sortByDDSel  + '>' + sortbydd[i] + '</option>';
+        option += '<option value="' + i + '" ' + sortByDDSel + '>' + sortbydd[i] + '</option>';
     }
 
     $('.sortby').append(option);
@@ -659,7 +663,7 @@ function populateDropdown() {
     for (var i = 0; i < viewtypedd.length; i++) {
         viewtypeoption += '<option value="' + i + '">' + viewtypedd[i] + '</option>';
     }
-    
+
     $('.viewtype').append(viewtypeoption);
 
     if (viewtypeSelectedValue != "") {
@@ -696,12 +700,12 @@ function bindResources() {
             success: function (response) {
                 var olivereoption = '';
                 olivereoption = response.d;
-                
+
                 if (olivereoption != "0" && olivereoption != '') {
                     $(".oliver").empty().append(olivereoption);
                     $(".oliver").multiselect('rebuild');
 
-                    if (oliverSelectedValue !== "" && oliverSelectedValue !== null) {                        
+                    if (oliverSelectedValue !== "" && oliverSelectedValue !== null) {
                         $('.oliver').multiselect('select', oliverSelectedValue);
                     }
                 }
@@ -709,7 +713,7 @@ function bindResources() {
                     $(".oliver").empty();
                     $(".oliver").multiselect('rebuild');
                 }
-               
+
                 resourceChange();
             },
         });
@@ -725,10 +729,10 @@ function resourceChange() {
 
     if ($("#ddjobidPresel").val() != "") {
         oliverSelectedValue = $("#ddjobidPresel").val()
-      
+
         //alert(oliverSelectedValue)
         var $el = $(".oliver");
-    
+
         //LOOP ALL CHECKBOXES in DropDown
         $el.find('option:not(:selected)').each(function () {
             if (oliverSelectedValue == $(this).val()) {
@@ -736,16 +740,16 @@ function resourceChange() {
                 // --> HOW TO CHECK THIS BOX?
                 //alert("TT" + $(".oliver").val() + $(this).val());
                 //$(this + 'option').prop('checked', true);
-            
+
                 //$('.oliver').attr('selected', 'selected');
                 //$(this).prop('checked', true);
                 //$(this).attr('selected', 'selected');
 
                 $(this).attr('selected', 'selected');
                 $(".oliver").multiselect('rebuild');
-                
+
             }
-            
+
         });
 
     } else {
@@ -756,7 +760,7 @@ function resourceChange() {
     //return false;
 
     //alert(oliverSelectedValue)
-            
+
     if (oliverSelectedValue != undefined && oliverSelectedValue != null && oliverSelectedValue.length > 0) {
         var selectedTexts = [];
         var selectedGroupId = [];
@@ -798,7 +802,7 @@ function resourceChange() {
             if (currentView == 'month') {
                 /********** Month view tr start (Month layout for employee data) ***********/
 
-               
+
                 $.ajax({
                     type: "POST",
                     url: "ressplan_2017.aspx/GetCustomerLayoutData",
@@ -817,8 +821,8 @@ function resourceChange() {
 
                             for (var index = 0; index < activities.length; index++) {
                                 dataMonths = $('<tr />').addClass("data-row");
-                                       
-                               
+
+
 
                                 $(dataMonths).append($('<td class="v-middle" />').text(activities[index].ActivityName));
                                 bindMonthViewDataCustomerJob(lastDate, year, month, activities[index], $(dataMonths));
@@ -876,7 +880,7 @@ function resourceChange() {
                             var dataDays = $('<tr />').addClass("data-row");
                             $(dataDays).append($('<td class="v-middle" />').attr("colspan", 18).append('<b>' + customer.CustomerName + '</b><br/>' + customer.JobName));
                             $('#daytbl tbody').append($(dataDays));
-                                    
+
                             var activities = customer.Activities;
 
                             for (var index = 0; index < activities.length; index++) {
@@ -895,12 +899,12 @@ function resourceChange() {
         else if (sortbySelectedValue == 2) {
             //layout for job
 
-                 
+
 
             if (currentView == 'month') {
                 /************ Month View *************/
 
-                
+
 
                 $.ajax({
                     type: "POST",
@@ -911,14 +915,14 @@ function resourceChange() {
                     success: function (response) {
                         for (var j = 0; j < response.d.length; j++) {
                             var customer = response.d[j];
-                         
+
                             var dataMonths = $('<tr />').addClass("data-row");
                             $(dataMonths).append($('<td />').attr("colspan", parseInt(lastDate) + 1).append('<b>' + customer.CustomerName + '</b><br/>' + customer.JobName).addClass(""));
                             //$(dataMonths).append($('<td />').attr("colspan", 8).append('<b>Kundenavn</b><br/>Jobnavn'));
                             $('#monthtbl tbody').append($(dataMonths));
 
                             var activities = customer.Activities;
-                          
+
                             for (var index = 0; index < activities.length; index++) {
                                 dataMonths = $('<tr />').addClass("data-row");
 
@@ -928,16 +932,16 @@ function resourceChange() {
                                 //alert("HER 2 - " + index + "lastDate: " + lastDate + ", year:" + year + ", month:" + month + ", act: " + activities[index].ActivityName);
 
                                 $('#monthtbl tbody').append($(dataMonths));
-                            } 
+                            }
                         }
 
                         arrangeMonthViewData();
-                       
-                        
+
+
                     },
                 });
 
-               
+
             }
             else if (currentView == 'week') {
                 /************ Week view **************/
@@ -1022,7 +1026,7 @@ function resourceChange() {
                             var arrEmployees = $.grep(response.d, function (v) {
                                 return v.ProjectId === parseInt(selectedGroupId[j]);
                             });
-                                    
+
                             for (var p = 0; p < arrEmployees.length; p++) {
                                 var employee = arrEmployees[p];
                                 var activities = employee.Activities;
@@ -1030,7 +1034,7 @@ function resourceChange() {
                                 dataMonths = $('<tr />').addClass("data-row");
 
                                 $(dataMonths).append($('<td class="v-middle" />').text(employee.Name));
-                                bindMonthViewData(lastDate, year, month, activities, $(dataMonths));
+                                bindMonthViewData(lastDate, year, month, activities, $(dataMonths), employee.Id, employee.Name);
 
                                 $('#monthtbl tbody').append($(dataMonths));
                             }
@@ -1055,7 +1059,7 @@ function resourceChange() {
                             var dataWeeks = $('<tr />').addClass("data-row");
                             $(dataWeeks).append($('<td class="v-middle" />').attr("colspan", 8).append('<b>' + selectedTexts[j] + '</b>').addClass(""));
                             $('#weektbl tbody').append($(dataWeeks));
-                                    
+
                             var arrEmployees = $.grep(response.d, function (v) {
                                 return v.ProjectId === parseInt(selectedGroupId[j]);
                             });
@@ -1063,9 +1067,9 @@ function resourceChange() {
                             for (var p = 0; p < arrEmployees.length; p++) {
                                 var employee = arrEmployees[p];
                                 var activities = employee.Activities;
-                                dataWeeks = $('<tr />').addClass("data-row");                                        
+                                dataWeeks = $('<tr />').addClass("data-row");
                                 $(dataWeeks).append($('<td class="v-middle" />').text(employee.Name));
-                                bindWeekViewData(arrDates, activities, $(dataWeeks));
+                                bindWeekViewData(arrDates, activities, $(dataWeeks), employee.Id, employee.Name);
                                 $('#weektbl tbody').append($(dataWeeks));
                             }
                         }
@@ -1100,8 +1104,8 @@ function resourceChange() {
                                 var activities = employee.Activities;
                                 dataDays = $('<tr />').addClass("data-row");
                                 $(dataDays).append($('<td class="v-middle" />').text(employee.Name));
-                                        
-                                bindDayViewData(startDate, activities, $(dataDays));
+
+                                bindDayViewData(startDate, activities, $(dataDays), employee.Id, employee.Name);
 
                                 $('#daytbl tbody').append($(dataDays));
                             }
@@ -1129,7 +1133,7 @@ function resourceChange() {
                             var activities = employee.Activities;
                             var dataMonths = $('<tr />').addClass("data-row");
                             $(dataMonths).append($('<td class="v-middle" />').text(employee.Name));
-                            bindMonthViewData(lastDate, year, month, activities, $(dataMonths));
+                            bindMonthViewData(lastDate, year, month, activities, $(dataMonths), employee.Id, employee.Name);
 
                             $('#monthtbl tbody').append($(dataMonths));
                         }
@@ -1153,7 +1157,7 @@ function resourceChange() {
 
                             var dataWeeks = $('<tr />').addClass("data-row");
                             $(dataWeeks).append($('<td class="v-middle" />').text(employee.Name));
-                            bindWeekViewData(arrDates, activities, $(dataWeeks));
+                            bindWeekViewData(arrDates, activities, $(dataWeeks), employee.Id, employee.Name);
                             $('#weektbl tbody').append($(dataWeeks));
                         }
 
@@ -1177,7 +1181,7 @@ function resourceChange() {
                             var dataDays = $('<tr />').addClass("data-row");
                             $(dataDays).append($('<td class="v-middle" />').text(employee.Name));
 
-                            bindDayViewData(startDate, activities, $(dataDays));
+                            bindDayViewData(startDate, activities, $(dataDays), employee.Id, employee.Name);
                             $('#daytbl tbody').append($(dataDays));
                         }
 
@@ -1190,11 +1194,16 @@ function resourceChange() {
 }
 
 function editActivity(id) {
+    $('#lnkSplitBooking').hide();
+    $('#main_split_Bookings').html('');
+    splitCounter = 0;
+    $('#chksplit').prop('checked', false);
+
     bookingId = id;
 
     if (sortbySelectedValue == '1' || sortbySelectedValue == '2') {
         $('#headtxt').prop('disabled', 'disabled');
-        $('#empchk').attr('multiple', 'multiple'); 
+        $('#empchk').attr('multiple', 'multiple');
     }
     else {
         $('#headtxt').prop('disabled', false);
@@ -1210,14 +1219,14 @@ function editActivity(id) {
         dataType: "json",
         success: function (response) {
 
-            $('#fromtime').val(response.d.StartTime);
-            $('#totime').val(response.d.EndTime);
+            $('#fromtime_0').val(response.d.StartTime);
+            $('#totime_0').val(response.d.EndTime);
 
-            $('#dtstart').val(getDisplayFormattedDate(response.d.StartDate));
-            $('#dtstart').attr('date', getSavedFormattedDate(response.d.StartDate));
+            $('#dtstart_0').val(getDisplayFormattedDate(response.d.StartDate));
+            $('#dtstart_0').attr('date', getSavedFormattedDate(response.d.StartDate));
 
-            $('#dtend').val(getDisplayFormattedDate(response.d.EndDate));
-            $('#dtend').attr('date', getSavedFormattedDate(response.d.EndDate));
+            $('#dtend_0').val(getDisplayFormattedDate(response.d.EndDate));
+            $('#dtend_0').attr('date', getSavedFormattedDate(response.d.EndDate));
 
             $('#recurrencedd').val(response.d.Recurrence);
             if (response.d.Important == 1) {
@@ -1256,7 +1265,7 @@ function editActivity(id) {
                 selectedActType = 'Illness';
             }
 
-            $('#actType').val(selectedActType);                    
+            $('#actType').val(selectedActType);
             $('#prodtxt').val(response.d.ActivityName);
         },
     });
@@ -1264,21 +1273,21 @@ function editActivity(id) {
     $('#activityModal').modal('show');
 
     $('#activityModal').on('shown.bs.modal', function () {
-        afterModelShown();
+        afterModelShown(0);
     });
 }
 
 //bind datapicker after modal shown
-function afterModelShown() {
-            
-    $('.input-group.date.start').datepicker({
+function afterModelShown(no) {
+
+    $('.input-group.date.start_' + no).datepicker({
         format: 'dd-mm-yyyy',
         autoclose: true
     }).on('changeDate', function (e) {
         compareDate(e.date, $(this));
     });
 
-    $('.input-group.date.end').datepicker({
+    $('.input-group.date.end_' + no).datepicker({
         format: 'dd-mm-yyyy',
         autoclose: true
     }).on('changeDate', function (e) {
@@ -1289,15 +1298,17 @@ function afterModelShown() {
 function compareDate(selectedDate, cntrl) {
     $(cntrl).find('input:text').attr('date', getSavedFormattedDate(selectedDate));
 
-    var datestartObj = new Date($('.input-group.date.start').datepicker('getDate'));
+    var currCounter = $(cntrl).find('input:text').data('counter');
+
+    var datestartObj = new Date($('.input-group.date.start_' + currCounter).datepicker('getDate'));
     var momentStartObj = moment(datestartObj);
     var momentStartString = momentStartObj.format('YYYY-MM-DD');
 
-    var dateEndObj = new Date($('.input-group.date.end').datepicker('getDate'));
+    var dateEndObj = new Date($('.input-group.date.end_' + currCounter).datepicker('getDate'));
     var momentEndObj = moment(dateEndObj);
     var momentEndString = momentEndObj.format('YYYY-MM-DD')
 
-    var $endDateCntrl = $('.input-group.date.end');
+    var $endDateCntrl = $('.input-group.date.end_' + currCounter);
     if (momentStartObj._d > momentEndObj._d) {
         $endDateCntrl.children('input').addClass('error');
         $endDateCntrl.parent().find('p').show();
@@ -1309,33 +1320,32 @@ function compareDate(selectedDate, cntrl) {
 }
 
 function timeValidation() {
-    if ($('#dtstart').val() == $('#dtend').val() && $('#fromtime').val() > $('#totime').val()) {
-        $('#totime').addClass('error');
-        $('#totime').parent().append('<p class="error-txt">End time should less than start time.</p>');
+    if ($('#dtstart_0').val() == $('#dtend_0').val() && $('#fromtime_0').val() > $('#totime_0').val()) {
+        $('#totime_0').addClass('error');
+        $('#totime_0').parent().append('<p class="error-txt">End time should less than start time.</p>');
     }
     else {
-        if ($('#totime').hasClass('error')) {
-            $('#totime').removeClass('error');
+        if ($('#totime_0').hasClass('error')) {
+            $('#totime_0').removeClass('error');
         }
     }
 }
 
 function saveActivity() {
-
-   
     timeValidation();
 
     var taskData = JSON.stringify($('form').serializeArray());
+    console.log(taskData);
 
     var model = {};
     model.BookingId = bookingId;
-    
-    model.StartDate = $('#dtstart').attr('date'); //'2017-04-02' //
-    model.EndDate = $('#dtend').attr('date');
-    model.StartTime = $('#fromtime').val();
+
+    model.StartDate = $('#dtstart_0').attr('date'); //'2017-04-02' //
+    model.EndDate = $('#dtend_0').attr('date');
+    model.StartTime = $('#fromtime_0').val();
     model.StartDateTime = model.StartDate + ' ' + model.StartTime;
 
-    model.EndTime = $('#totime').val();
+    model.EndTime = $('#totime_0').val();
     model.EndDateTime = model.EndDate + ' ' + model.EndTime;
 
     if (sortbySelectedValue !== '1' && sortbySelectedValue !== '2') {
@@ -1350,39 +1360,31 @@ function saveActivity() {
     model.Split = $('#chksplit').prop('checked') ? 1 : 0;
     model.Important = $('#chkimp').prop('checked') ? 1 : 0;
 
-    //alert(model.Split)
+    var arrEmployeeActivities = [];
+    if (splitCounter > 0) {
+        for (var i = 1; i <= splitCounter; i++) {
 
-    //new Date(model.StartDate + ' ' + model.StartTime);
-    /*
-    model.StartTime = $('#fromtime').val();
-    model.EndTime = $('#totime').val();
-    model.StartDateTime = new Date(model.StartDate + ' ' + model.StartTime);
-    model.EndDateTime = new Date(model.EndDate + ' ' + model.EndTime);
-    model.Recurrence = $('#recurrencedd').val();
-    //alert ("model" + model.BookingId + model.Recurrence)
-    if ($('#recurrencedd').val() != '0' && $('#recurrencedd').val() != '-1') {
-        model.NoOfRecurrence = $('#noOfRecurrence').val();
-    }
-    else {
-        model.NoOfRecurrence = 0;
+            if ($('#split_booking_' + i).length > 0) {
+                var employeeActivity = {};
+                employeeActivity.EmployeeId = $('#empSplit_' + i).val();
+                employeeActivity.EmployeeName = $('#empSplit_' + i + ' option:selected').text();
+
+                var splitStartDate = $('#dtstart_' + i).attr('date');
+                var splitStartTime = $('#fromtime_' + i).val();
+
+                var splitEndDate = $('#dtend_' + i).attr('date');
+                var splitEndTime = $('#totime_' + i).val();
+
+                employeeActivity.StartDateTime = splitStartDate + ' ' + splitStartTime;
+                employeeActivity.EndDateTime = splitEndDate + ' ' + splitEndTime;
+
+                arrEmployeeActivities.push(employeeActivity);
+            }
+        }
     }
 
-    
-
-    if (sortbySelectedValue !== '1' && sortbySelectedValue !== '2') {
-        var arrEmployees = [];
-        arrEmployees.push($('#empchk').val());
-        model.Employees = arrEmployees;
-    }
-    else {
-        model.Employees = $('#empchk').val();
-    }
-            
-    model.Heading = $('#headtxt').val() == null ? 0 : $('#headtxt').val();
-    */
-
-    // data: JSON.stringify({ 'model': model }),
-    // data: "{'model':" + model + "}",
+    model.EmployeeActivities = arrEmployeeActivities;
+        
     if (!$('#activityModal').find('div.col-lg-4 input').hasClass('error')) {
         $.ajax({
             type: "POST",
@@ -1391,22 +1393,25 @@ function saveActivity() {
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (response) {
-                if (response.d > 0) {
-                    //alert('Activity Updated successfully.');
-                    bookingId = 0;
-                    $('#activityModal').modal('hide');
-                    resourceChange();
+                if (response.d != null && response.d.length > 0) {
+                    if (response.d[0] == "1") {
+                        bookingId = 0;
+                        $('#activityModal').modal('hide');
+                        resourceChange();
+                    }
+                    else {
+                        alert(response.d[1]);
+                    }
                 }
                 else {
                     alert('Error! while updating activity.');
-                    //alert("Test");
                 }
             },
-        }); //alert("HER")
+        });
     }
 }
 
-function bindEmployees() {            
+function bindEmployees() {
     //Get Employee options
     $.ajax({
         type: "POST",
@@ -1460,16 +1465,14 @@ function getSavedFormattedDate(date) {
     return customDate;
 }
 
-function bindMonthViewData(lastDate, year, month, activities, $element) {
+function bindMonthViewData(lastDate, year, month, activities, $element, empId, employee) {
 
-    //alert("HER" + "lastDate: " + lastDate + "year: " + year + "month: " + month + "activities: "+ activities)
     var monthHeaderth = $('tr#monthtbldate th.month-date-ths');
 
     for (var i = 0; i < lastDate; i++) {
 
         var currDate = year //+ '-' + (parseInt(month) + 1) + '-' + (i + 1);
 
-        //alert(currDate)
         if (parseInt(month) + 1 < 10) {
             currDate += '-0' + (parseInt(month) + 1);
         } else {
@@ -1482,26 +1485,19 @@ function bindMonthViewData(lastDate, year, month, activities, $element) {
             currDate += '-' + (i + 1);
         }
 
-
-        //alert("i:" + i)
-        //alert("currDate: " + currDate)
-        //alert("booking St. og endtime: " + v.startDateTime + " " + v.endDateTime + " currDate: " + currDate)
-
-
-        //if (!$(monthHeaderth[i]).hasClass('weekend-color')) {
         var arrActivities = $.grep(activities, function (v) {
-           //alert("booking St. og endtime: " + moment(v.StartDateTime) + " " + moment(v.EndDateTime) + " currDate: " + currDate)
+            //alert("booking St. og endtime: " + moment(v.StartDateTime) + " " + moment(v.EndDateTime) + " currDate: " + currDate)
 
             return moment(moment(v.EndDateTime).format('YYYY-MM-DD')) >= moment(currDate) && moment(moment(v.StartDateTime).format('YYYY-MM-DD')) <= moment(currDate);
             //return moment(v.EndDateTime) >= moment(currDate) && moment(moment(v.StartDateTime)) <= moment(currDate);
         });
-                    
+
         arrActivities.sort(function (x, y) {
             return x.ActivityName.localeCompare(y.ActivityName);
         });
 
         var dataHTML = '';
-                    
+
         for (var k = 0; k < arrActivities.length; k++) {
             var backColor = actTypes[arrActivities[k].ActivityType];
             var activityTime = moment(arrActivities[k].EndDateTime).diff(arrActivities[k].StartDateTime, 'minutes');
@@ -1510,7 +1506,7 @@ function bindMonthViewData(lastDate, year, month, activities, $element) {
                 widthClass = 'month-half-width';
             }
 
-            dataHTML += '<div class="main-ac-data ' + widthClass + ' pointer" style="background:' + backColor + ';" onclick="editActivity(' + arrActivities[k].BookingId + ')">';
+            dataHTML += '<div class="main-ac-data ' + widthClass + ' cur-default draggable" style="background:' + backColor + ';" data-booking-id=' + arrActivities[k].BookingId + '>';
 
             var heading = arrActivities[k].ActivityName;
             if (arrActivities[k].Heading == 2) {
@@ -1547,20 +1543,16 @@ function bindMonthViewData(lastDate, year, month, activities, $element) {
             todayClass = 'weekend-color';
         }
 
-        $element.append($('<td />').append(dataHTML).addClass(todayClass));
-        //}
-        //else {
-        //    $element.append($('<td />').addClass('weekend-color'));
-        //}
+        $element.append($('<td class="droppable" data-emp-id=' + empId + ' data-emp-name="' + employee + '" data-date="' + currDate + '" />').append(dataHTML).addClass(todayClass));
     }
 }
 
-function bindWeekViewData(arrDates, activities, $element) {
+function bindWeekViewData(arrDates, activities, $element, empId, employee) {
     var weekHeaderth = $('tr#weektbldaystr th.week-day-ths');
     var weekHeaderDateth = $('tr#weektbldatetr th.week-date-ths');
     startDay = $("#hidprecallstartdate").val();
 
-    for (var i = 0; i < arrDates.length ; i++) {
+    for (var i = 0; i < arrDates.length; i++) {
         var todayClass = '';
         if ($(weekHeaderth[i]).hasClass('today-color')) {
             todayClass = 'today-color';
@@ -1569,7 +1561,6 @@ function bindWeekViewData(arrDates, activities, $element) {
             todayClass = 'weekend-color';
         }
 
-        //if (!$(weekHeaderth[i]).hasClass('weekend-color')) {
         var arrActivities = $.grep(activities, function (v) {
             return moment(moment(v.EndDateTime).format('YYYY-MM-DD')) >= moment(arrDates[i]) && moment(moment(v.StartDateTime).format('YYYY-MM-DD')) <= moment(arrDates[i]);
         });
@@ -1588,7 +1579,7 @@ function bindWeekViewData(arrDates, activities, $element) {
                 widthClass = 'week-half-width';
             }
 
-            dataHTML += '<div class="main-ac-data ' + widthClass + ' pointer" style="background:' + backColor + ';" onclick="editActivity(' + arrActivities[k].BookingId + ')">';
+            dataHTML += '<div class="main-ac-data ' + widthClass + ' cur-default draggable" style="background:' + backColor + ';" data-booking-id=' + arrActivities[k].BookingId + '>';
 
             var heading = arrActivities[k].ActivityName;
             if (arrActivities[k].Heading == 2) {
@@ -1599,7 +1590,7 @@ function bindWeekViewData(arrDates, activities, $element) {
             }
 
             dataHTML += '<div class="ac-name">' + heading + '</div>';
-                        
+
             if (arrActivities[k].Important == 1 || arrActivities[k].Recurrence == 0) {
                 dataHTML += '<div class="ac-icon">';
 
@@ -1617,20 +1608,13 @@ function bindWeekViewData(arrDates, activities, $element) {
             dataHTML += '</div>';
         }
 
-        $element.append($('<td />').append(dataHTML).addClass("week-data-td " + todayClass));
-        //}
-        //else if ($(weekHeaderth[i]).hasClass('weekend-color')) {
-        //    $element.append($('<td />').addClass("week-data-td weekend-color"));
-        //}
-        //else {
-        //    $element.append($('<td />').addClass("week-data-td " + todayClass));
-        //}
+        $element.append($('<td data-emp-id=' + empId + ' data-emp-name="' + employee + '" data-date="' + moment(arrDates[i]).format('YYYY-MM-DD') + '" />').append(dataHTML).addClass("droppable week-data-td " + todayClass));
 
         startDay++;
     }
 }
 
-function bindDayViewData(startDate, activities, $element) {
+function bindDayViewData(startDate, activities, $element, empId, employee) {
     var currentDateView = $(".currentdateview");
     var day = $(currentDateView).data('day');
     var isHoliday = false;
@@ -1647,19 +1631,66 @@ function bindDayViewData(startDate, activities, $element) {
     }
 
     for (var i = dayStart; i <= dayEnd; i++) {
-        //if (parseInt(day) !== 0 && parseInt(day) !== 6) {
         var currTime = i + '00:00';
         if (i < 10) {
             currTime = '0' + currTime;
         }
 
-        var arrActivities = $.grep(activities, function (v) {
+        var arrActivities = $.grep(activities, function (v) {            
             return moment(moment(v.EndDateTime).format('YYYY-MM-DD')) >= moment(startDate) && moment(moment(v.StartDateTime).format('YYYY-MM-DD')) <= moment(startDate) &&
                     ((moment(v.StartDateTime).format('HH:mm:ss') == '00:00:00' && moment(v.EndDateTime).format('HH:mm:ss') == '00:00:00') ||
                         (moment(moment(v.StartDateTime).format('HH:mm:ss'), 'HH:mm:ss') <= moment(currTime, "HH:mm:ss") &&
                          moment(moment(v.EndDateTime).format('HH:mm:ss'), 'HH:mm:ss') >= moment(currTime, "HH:mm:ss")));
         });
 
+        ////var arrActivities = [];
+        ////for (var a = 0; a < activities.length; a++) {
+        ////    var activity = activities[a];
+            
+        ////    if (moment(moment(activity.StartDateTime).format('YYYY-MM-DD')).isSameOrBefore(moment(startDate)) &&
+        ////            moment(moment(activity.EndDateTime).format('YYYY-MM-DD')).isSameOrAfter(moment(startDate))) {
+
+        ////        if (moment(moment(activity.StartDateTime).format('YYYY-MM-DD')).isSame(moment(startDate)) &&
+        ////            moment(moment(activity.EndDateTime).format('YYYY-MM-DD')).isSame(moment(startDate))) {
+        ////            if (moment(moment(activity.StartDateTime).format('HH:mm:ss'), 'HH:mm:ss').isSameOrBefore(moment(currTime, "HH:mm:ss")) &&
+        ////                moment(moment(activity.EndDateTime).format('HH:mm:ss'), 'HH:mm:ss').isSameOrAfter(moment(currTime, "HH:mm:ss"))) {
+        ////                arrActivities.push(activity);
+        ////            }
+        ////            else if (moment(moment(activity.EndDateTime).format('HH:mm:ss'), 'HH:mm:ss') < moment(currTime, "HH:mm:ss")) {
+        ////                arrActivities.push(activity);
+        ////            }
+        ////        }
+        ////        else if (moment(moment(activity.EndDateTime).format('YYYY-MM-DD')).isSame(moment(startDate))){
+        ////            if (moment(activity.EndDateTime).format('HH:mm:ss') == '00:00:00' ||
+        ////                moment(moment(activity.EndDateTime).format('HH:mm:ss'), 'HH:mm:ss').isSameOrAfter(moment(currTime, "HH:mm:ss"))) {
+
+        ////                if (activity.BookingId == 37) {
+        ////                    console.log('1');
+        ////                }
+        ////                arrActivities.push(activity);
+        ////            }
+        ////        }
+        ////        else if (moment(moment(activity.StartDateTime).format('YYYY-MM-DD')).isSame(moment(startDate))){
+        ////            if (moment(activity.StartDateTime).format('HH:mm:ss') == '00:00:00' ||
+        ////                moment(moment(activity.StartDateTime).format('HH:mm:ss'), 'HH:mm:ss').isSameOrBefore(moment(currTime, "HH:mm:ss"))) {
+
+        ////                if (activity.BookingId == 37) {
+        ////                    console.log('2');
+        ////                }
+        ////                arrActivities.push(activity);
+        ////            }
+        ////        }
+        ////        else if (moment(moment(activity.StartDateTime).format('YYYY-MM-DD')).isBefore(moment(startDate)) &&
+        ////            moment(moment(activity.EndDateTime).format('YYYY-MM-DD')).isAfter(moment(startDate))){
+
+        ////            if (activity.BookingId == 37) {
+        ////                console.log('3');
+        ////            }
+        ////            arrActivities.push(activity);
+        ////        }
+        ////    }
+        ////}
+        
         arrActivities.sort(function (x, y) {
             return x.ActivityName.localeCompare(y.ActivityName);
         });
@@ -1674,7 +1705,7 @@ function bindDayViewData(startDate, activities, $element) {
                 widthClass = 'day-half-width';
             }
 
-            dataHTML += '<div class="main-ac-data ' + widthClass + ' pointer" style="background:' + backColor + ';" onclick="editActivity(' + arrActivities[k].BookingId + ')">';
+            dataHTML += '<div class="main-ac-data ' + widthClass + ' cur-default draggable" style="background:' + backColor + ';" data-booking-id=' + arrActivities[k].BookingId + '>';
 
             var heading = arrActivities[k].ActivityName;
             if (arrActivities[k].Heading == 2) {
@@ -1711,24 +1742,14 @@ function bindDayViewData(startDate, activities, $element) {
             todayClass = 'weekend-color';
         }
 
-        $element.append($('<td />').append(dataHTML).addClass("day-data-td " + todayClass));
-        //}
-        //else {
-        //    $element.append($('<td />').addClass("weekend-color"));
-        //}
+        $element.append($('<td data-emp-id=' + empId + ' data-emp-name="' + employee + '" data-date="' + startDate + ' ' + moment(currTime, "HH:mm:ss").format('HH:mm') + '" />').append(dataHTML).addClass("droppable day-data-td " + todayClass));
     }
 }
 
 function bindMonthViewDataCustomerJob(lastDate, year, month, activity, $element) {
     var monthHeaderth = $('tr#monthtbldate th.month-date-ths');
-            
-    //alert("HEJ 2")
 
     for (var i = 0; i < lastDate; i++) {
-
-        //alert("HEJ")
-        //var currDate = year + '-' + (parseInt(month) + 1) + '-' + (i + 1);
-        //alert("HEJ 3" + currDate)
 
         var currDate = year;
 
@@ -1743,17 +1764,8 @@ function bindMonthViewDataCustomerJob(lastDate, year, month, activity, $element)
         } else {
             currDate += '-' + (i + 1);
         }
-        
 
-        //alert(currDate)
-
-        
-
-        //if (!$(monthHeaderth[i]).hasClass('weekend-color')) {
         var dataHTML = '';
-
-        
-        //alert(moment(moment(activity.EndDateTime).format('YYYY-MM-DD')) + " >= " + moment(currDate) + " Stdate: " + moment(activity.StartDateTime));
 
         if (moment(moment(activity.EndDateTime).format('YYYY-MM-DD')) >= moment(currDate) && moment(moment(activity.StartDateTime).format('YYYY-MM-DD')) <= moment(currDate)) {
             for (var k = 0; k < activity.EmployeeList.length; k++) {
@@ -1764,7 +1776,7 @@ function bindMonthViewDataCustomerJob(lastDate, year, month, activity, $element)
                     widthClass = 'month-half-width';
                 }
 
-                dataHTML += '<div class="main-ac-data ' + widthClass + ' pointer" style="background:' + backColor + ';" onclick="editActivity(' + activity.BookingId + ')">';
+                dataHTML += '<div class="main-ac-data ' + widthClass + ' cur-default draggable" style="background:' + backColor + ';" data-booking-id=' + activity.BookingId + '>';
                 var employeeName = activity.EmployeeList[k].Name;
                 if (employeeName == '') {
                     employeeName = noEmployeeCalLabel;
@@ -1788,27 +1800,26 @@ function bindMonthViewDataCustomerJob(lastDate, year, month, activity, $element)
                 dataHTML += '</div>';
             }
         }
-                    
+
         var todayClass = '';
         if ($(monthHeaderth[i]).hasClass('today-color')) {
-            todayClass = 'today-color';
+            todayClass = 'today-color droppable';
         }
         else if ($(monthHeaderth[i]).hasClass('weekend-color')) {
-            todayClass = 'weekend-color';
+            todayClass = 'weekend-color droppable';
+        }
+        else {
+            todayClass = 'droppable';
         }
 
-        $element.append($('<td />').append(dataHTML).addClass(todayClass));
-        //}
-        //else {
-        //$element.append($('<td />').addClass('weekend-color'));
-        //}
+        $element.append($('<td data-date="' + currDate + '" />').append(dataHTML).addClass(todayClass));
     }
 }
 
 function bindWeekViewDataCustomerJob(arrDates, activity, $element) {
     var weekHeaderth = $('tr#weektbldaystr th.week-day-ths');
-            
-    for (var i = 0; i < arrDates.length ; i++) {
+
+    for (var i = 0; i < arrDates.length; i++) {
         var todayClass = '';
         if ($(weekHeaderth[i]).hasClass('today-color')) {
             todayClass = 'today-color';
@@ -1817,7 +1828,6 @@ function bindWeekViewDataCustomerJob(arrDates, activity, $element) {
             todayClass = 'weekend-color';
         }
 
-        //if (!$(weekHeaderth[i]).hasClass('weekend-color')) {
         var dataHTML = '';
 
         if (moment(moment(activity.EndDateTime).format('YYYY-MM-DD')) >= moment(arrDates[i]) && moment(moment(activity.StartDateTime).format('YYYY-MM-DD')) <= moment(arrDates[i])) {
@@ -1829,7 +1839,7 @@ function bindWeekViewDataCustomerJob(arrDates, activity, $element) {
                     widthClass = 'week-half-width';
                 }
 
-                dataHTML += '<div class="main-ac-data ' + widthClass + ' pointer" style="background:' + backColor + ';" onclick="editActivity(' + activity.BookingId + ')">';
+                dataHTML += '<div class="main-ac-data ' + widthClass + ' cur-default draggable" style="background:' + backColor + ';" data-booking-id=' + activity.BookingId + '>';
 
                 var employeeName = activity.EmployeeList[k].Name;
                 if (employeeName == '') {
@@ -1853,16 +1863,9 @@ function bindWeekViewDataCustomerJob(arrDates, activity, $element) {
 
                 dataHTML += '</div>';
             }
-        }                    
+        }
 
-        $element.append($('<td />').append(dataHTML).addClass("week-data-td " + todayClass));
-        //}
-        //else if ($(weekHeaderth[i]).hasClass('weekend-color')) {
-        //    $element.append($('<td />').addClass("week-data-td weekend-color"));
-        //}
-        //else {
-        //    $element.append($('<td />').addClass("week-data-td " + todayClass));
-        //}
+        $element.append($('<td data-date="' + moment(arrDates[i]).format('YYYY-MM-DD') + '" />').append(dataHTML).addClass("droppable week-data-td " + todayClass));
     }
 }
 
@@ -1885,21 +1888,18 @@ function bindDayViewDataCustomerJob(startDate, activity, $element) {
     }
 
     for (var i = dayStart; i <= dayEnd; i++) {
-        //if (parseInt(day) !== 0 && parseInt(day) !== 6) {
         var currTime = i + ':00:00';
         if (i < 10) {
             currTime = '0' + currTime;
         }
 
         var dataHTML = '';
-                    
-        //alert("booking St. og endtime: " + startDateTime.format('YYYY-MM-DD') + " "+ endDateTime.format('YYYY-MM-DD') + " startDate: " + startDate + " startTime: " + startTime + " currTime: " + currTime)
 
         if (moment(endDateTime.format('YYYY-MM-DD')) >= moment(startDate) && moment(startDateTime.format('YYYY-MM-DD')) <= moment(startDate)) {
             var startTime = startDateTime.format('HH:mm:ss');
             var EndTime = endDateTime.format('HH:mm:ss');
 
-            if ((startTime == '00:00:00' && EndTime == '00:00:00') || 
+            if ((startTime == '00:00:00' && EndTime == '00:00:00') ||
                 (moment(startTime, "HH:mm:ss") <= moment(currTime, "HH:mm:ss") && moment(EndTime, "HH:mm:ss") >= moment(currTime, "HH:mm:ss"))
                 || (moment(endDateTime.format('YYYY-MM-DD')) > moment(startDate))) {
 
@@ -1911,7 +1911,7 @@ function bindDayViewDataCustomerJob(startDate, activity, $element) {
                         widthClass = 'day-half-width';
                     }
 
-                    dataHTML += '<div class="main-ac-data ' + widthClass + ' pointer" style="background:' + backColor + ';" onclick="editActivity(' + activity.BookingId + ')">';
+                    dataHTML += '<div class="main-ac-data ' + widthClass + ' cur-default draggable" style="background:' + backColor + ';" data-booking-id=' + activity.BookingId + '>';
 
                     var employeeName = activity.EmployeeList[k].Name;
                     if (employeeName == '') {
@@ -1935,7 +1935,7 @@ function bindDayViewDataCustomerJob(startDate, activity, $element) {
 
                     dataHTML += '</div>';
                 }
-            }                        
+            }
         }
 
         var todayClass = '';
@@ -1946,11 +1946,7 @@ function bindDayViewDataCustomerJob(startDate, activity, $element) {
             todayClass = 'weekend-color';
         }
 
-        $element.append($('<td />').append(dataHTML).addClass("day-data-td " + todayClass));
-        //}
-        //else {
-        //    $element.append($('<td />').addClass("weekend-color"));
-        //}
+        $element.append($('<td data-date="' + startDate + ' ' + moment(currTime, "HH:mm:ss").format('HH:mm') + '" />').append(dataHTML).addClass("droppable day-data-td " + todayClass));
     }
 }
 
@@ -1958,20 +1954,27 @@ function arrangeMonthViewData() {
     $('#monthtbl tbody').find('.month-half-width').each(function (index, item) {
         $(item).parent().append($(item));
     });
+
+    applyDraggable();
+    applyContextMenu();
 }
 
 function arrangeWeekViewData() {
     $('#weektbl tbody').find('.week-half-width').each(function (index, item) {
         $(item).parent().append($(item));
-
-        //alert("HEJ WEEK")
     });
+
+    applyDraggable();
+    applyContextMenu();
 }
 
 function arrangeDayViewData() {
     $('#daytbl tbody').find('.day-half-width').each(function (index, item) {
         $(item).parent().append($(item));
     });
+
+    applyDraggable();
+    applyContextMenu();
 }
 
 function recurrenceChange() {
@@ -1990,7 +1993,7 @@ function getDateRangeOfWeek(weekNo, month, year) {
     var weekNoToday = d1.getWeek();
     var weeksInTheFuture = eval(weekNo - weekNoToday);
     d1.setDate(d1.getDate() + eval(7 * weeksInTheFuture));
-    var rangeIsFrom = eval(d1.getMonth() + 1) + "/" + d1.getDate() + "/" + d1.getFullYear();            
+    var rangeIsFrom = eval(d1.getMonth() + 1) + "/" + d1.getDate() + "/" + d1.getFullYear();
     var arrWeekDates = new Array();
 
     for (var i = 0; i <= 6; i++) {
@@ -2016,7 +2019,7 @@ Date.prototype.getWeekOfMonth = function () {
         , index = 1 // start index at 0 or 1, your choice
         , weeksInMonth = index + Math.ceil((lastDateOfMonth + firstWeekday - 7) / 7)
         , week = index + Math.floor(offsetDate / 7)
-    ;
+        ;
 
     return week;
     //return week === weeksInMonth ? index + 5 : week;
@@ -2058,11 +2061,201 @@ function getWeeksInMonth(year, month) {
     return weekRange;
 }
 
-function setFitToScreen(cntrl){
+function setFitToScreen(cntrl) {
     if ($(cntrl).is(':checked')) {
         $('#headerdiv').addClass('table-responsive brd-table');
     }
     else {
         $('#headerdiv').removeClass('table-responsive brd-table');
     }
+}
+
+function showLoading() {
+    $('.page-loader').show();
+}
+
+function hideLoading() {
+    $('.page-loader').hide();
+}
+
+function applyDraggable() {
+    $(".draggable").draggable({
+        revert: "invalid",
+        start: function (event, ui) {
+            $(ui.helper[0]).css('z-index', 9);
+            $(ui.helper[0]).css('cursor', 'move');
+        },
+        stop: function (event, ui) {
+            $(ui.helper[0]).css('z-index', '');
+            $(ui.helper[0]).css('cursor', '');
+        }
+    });
+    $(".droppable").droppable({
+        accept: '.draggable',
+        drop: function (event, ui) {
+            var draggedBookingId = $(ui.draggable[0]).data('booking-id');
+            var draggedEmpId = $(ui.draggable[0]).parent().data('emp-id');
+            var droppedDate = $(this).data('date');
+            var droppedEmpId = $(this).data('emp-id');
+            var droppedEmpName = $(this).data('emp-name');
+
+            if (draggedEmpId == undefined) {
+                draggedEmpId = 0;
+            }
+
+            if (droppedEmpId == undefined) {
+                droppedEmpId = 0;
+            }
+
+            if (droppedEmpName == undefined) {
+                droppedEmpName = '';
+            }
+
+            showLoading();
+
+            setTimeout(function () {
+                var isDateOnly = false;
+                if (currentView != 'day') {
+                    isDateOnly = true;
+                }
+
+                $.ajax({
+                    type: "POST",
+                    url: "ressplan_2017.aspx/UpdateBooking",
+                    data: JSON.stringify({ 'bookingId': draggedBookingId, 'droppedDate': droppedDate, 'isDateOnly': isDateOnly, 'draggedEmpId': draggedEmpId, 'droppedEmpId': droppedEmpId }),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (response) {
+                        hideLoading();
+
+                        if (response.d > 0) {
+                            resourceChange();
+                        }
+                        else if (response.d == -1) {
+                            alert('Error! The booking is already exists on ' + droppedEmpName);
+                            return ui.draggable.animate({ left: 0, top: 0 }, 500);
+                        }
+                        else {
+                            alert('Error! while updating activity.');
+                        }
+                    },
+                    error: function (jqXHR, exception) {
+                        hideLoading();
+                        alert(jqXHR.responseText);
+                        //jqXHR.status
+                        //jqXHR.responseText
+                        //exception
+                    }
+                });
+            }, 1500);
+        }
+    });
+}
+
+function applyContextMenu() {
+    $.contextMenu({
+        selector: '.draggable',
+        callback: function (key, options) {
+            console.log(key);
+            console.log(options);
+        },
+        items: {
+            "edit": {
+                name: "Edit",
+                icon: "fa-pencil-square-o",
+                callback: function (key, options) {
+                    var bookingId = $(this).data('booking-id');
+                    if (bookingId != undefined) {
+                        editActivity(bookingId);
+                    }
+                }
+            }
+        }
+    });
+}
+
+function enableSplitBooking(cntrl) {
+    if ($(cntrl).prop('checked')) {
+        $('#lnkSplitBooking').show();
+    }
+    else {
+        $('#lnkSplitBooking').hide();
+        $('#main_split_Bookings').html('');
+        splitCounter = 0;
+    }
+}
+
+function loadSplitBooking() {
+    splitCounter = splitCounter + 1;
+    var splitHTML = getSplitBookingHTML();
+    splitHTML = splitHTML.replace(/\##ID##/g, splitCounter);
+    $('#main_split_Bookings').append(splitHTML);
+
+    var $options = $("#empchk > option").clone();
+    $('#empSplit_' + splitCounter).append($options);
+    $('#empSplit_' + splitCounter + ' option[value="' + $("#empchk").val() + '"]').remove();
+
+    $('#dtstart_' + splitCounter).val($('#dtstart_0').val());
+    $('#dtstart_' + splitCounter).attr('date', $('#dtstart_0').attr('date'));
+
+    $('#dtend_' + splitCounter).val($('#dtend_0').val());
+    $('#dtend_' + splitCounter).attr('date', $('#dtend_0').attr('date'));
+
+    $('#fromtime_' + splitCounter).val($('#fromtime_0').val());
+    $('#totime_' + splitCounter).val($('#totime_0').val());
+
+    afterModelShown(splitCounter);
+}
+
+function removeSplitBooking(id) {
+    $('#split_booking_' + id).remove();
+
+    if ($('#main_split_Bookings > div').length == 0) {
+        splitCounter = 0;
+    }
+}
+
+function getSplitBookingHTML() {
+    return '<div class="split-booking row" id="split_booking_##ID##">\
+                <div class="remove-booking"><a href="javascript:void(0)" onclick="removeSplitBooking(##ID##)">×</a></div>\
+                <div class="col-lg-12">\
+                    <div class="row">\
+                        <div class="col-lg-2 lh-34">Employee:</div>\
+                        <div class="col-lg-4">\
+                            <select id="empSplit_##ID##" name="empSplit_##ID##" class="form-control input-small"></select>\
+                        </div>\
+                    </div>\
+                    <div class="row">\
+                        <div class="col-lg-2 lh-34">Start:</div>\
+                        <div class="col-lg-4">\
+                            <div class="input-group date start_##ID##">\
+                                <input type="text" id="dtstart_##ID##" data-counter="##ID##" class="form-control input-small" name="dtstart_##ID##" placeholder="dd-mm-yyyy" />\
+                                <span class="input-group-addon input-small">\
+                                    <span class="fa fa-calendar open-datetimepicker"></span>\
+                                </span>\
+                            </div>\
+                        </div>\
+                        <div class="col-lg-2 lh-34"></div>\
+                        <div class="col-lg-4">\
+                            <input type="time" id="fromtime_##ID##" data-counter="##ID##" onchange="fromTimeChange(this)" name="fromtime_##ID##" class="form-control input-small" placeholder="00:00" />\
+                        </div>\
+                    </div>\
+                    <div class="row">\
+                        <div class="col-lg-2 lh-34">End:</div>\
+                        <div class="col-lg-4">\
+                            <div class="input-group date end_##ID##">\
+                                <input type="text" id="dtend_##ID##" data-counter="##ID##" class="form-control input-small" name="dtend_##ID##" value="" placeholder="dd-mm-yyyy" />\
+                                <span class="input-group-addon input-small">\
+                                    <span class="fa fa-calendar"></span>\
+                                </span>\
+                            </div>\
+                            <p class="error-txt" style="display: none;">End Date should be more than start date!</p>\
+                        </div>\
+                        <div class="col-lg-2 lh-34"></div>\
+                        <div class="col-lg-4">\
+                            <input type="time" id="totime_##ID##" data-counter="##ID##" onchange="toTimeChange(this)" name="totime_##ID##" class="form-control input-small" placeholder="00:00" />\
+                        </div>\
+                    </div>\
+                </div>\
+            </div>';
 }
