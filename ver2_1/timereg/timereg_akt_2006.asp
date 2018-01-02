@@ -1602,7 +1602,7 @@
                                         ordBySQL =  "a.fase, a.sortorder, a.navn"
 
                                             select case lto
-                                            case "tec"
+                                            case "tec", "dencker"
                                             lmt = "0,200"
                                             case else
                                             lmt = "0,100"
@@ -2133,7 +2133,7 @@
 
                                                                         strSQLres = "SELECT IF(aktid <> 0, SUM(timer), 0) AS restimer, IF(aktid = 0, SUM(timer), 0) AS restimeruspec FROM ressourcer_md WHERE ((jobid = "& job_jid &" AND aktid = "& job_aid &" AND medid = "& usemrn &") OR (jobid = "& job_jid &" AND aktid = 0 AND medid = "& usemrn &")) "& sqlBudgafg &"  GROUP BY aktid, medid" 
                                                                         'if session("mid") = 1 then
-                                                                        'Response.write strSQLres & " aktBudgettjkOnRegAarSt = "& aktBudgettjkOnRegAarSt &" : useDateStSQL : "& useDateStSQL  &" // useDateSlSQL "& useDateSlSQL & "<br>"
+                                                                        'Response.write "<br>"& strSQLres & " aktBudgettjkOnRegAarSt = "& aktBudgettjkOnRegAarSt &" : useDateStSQL : "& useDateStSQL  &" // useDateSlSQL "& useDateSlSQL & "<br>"
                                                                         'Response.end 
                                                                         'end if
 
@@ -2673,7 +2673,7 @@
 
                                             'if t = 100 then
                                             SQldatoX = year(tjekdag(x)) &"/"& month(tjekdag(x)) &"/"& day(tjekdag(x))    
-				                            strSQLtim = "SELECT timer, timerKom, tfaktim, bopal, godkendtstatus, offentlig, sttid, sltid, destination, origin FROM timer WHERE taktivitetid = "& job_aid &" AND tdato = '"& SQldatoX &"' AND tmnr = "& usemrn
+				                            strSQLtim = "SELECT timer, timerKom, tfaktim, bopal, godkendtstatus, offentlig, sttid, sltid, destination, origin, overfort FROM timer WHERE taktivitetid = "& job_aid &" AND tdato = '"& SQldatoX &"' AND tmnr = "& usemrn
 
                                             'Response.Write strSQLtim & "<br><br>"
                                             'Response.end
@@ -2690,6 +2690,7 @@
                                             destinationThis = oRec2("destination")
                                             godkendtstatus = oRec2("godkendtstatus")
                                             origin = oRec2("origin")                              
+                                            overfort = oRec2("overfort")
 
                                                     if len(trim(oRec2("sttid"))) <> 0 then
 		                                                if left(formatdatetime(oRec2("sttid"), 3), 5) <> "00:00" then
@@ -2816,10 +2817,43 @@
 
 								                    call fakfarver(lastfakdato, tjekdag(1), tjekdag(x), erIndlast, usemrn, tfaktimThis, job_tidslass_1, job_tidslass_2, job_tidslass_3, job_tidslass_4, job_tidslass_5, job_tidslass_6, job_tidslass_7, job_tidslass, job_tidslassSt, job_tidslassSl, ignorertidslas, godkendtstatus, job_internt, origin, resforecastMedOverskreddet)
 								                    
+
+
+                                                        '** enkelt timer godkendt/tentativ/afvist
+                                                        select case cint(godkendtstatus)
+                                                        case 0
+                                                        fmborcl = "1px #CCCCCC solid" 'fmborcl
+                                                        case 1
+                                                        fmborcl = "1px yellowgreen solid" 'fmborcl
+                                                        case 3
+                                                        fmborcl = "1px orange solid" 'fmborcl
+                                                        case 2
+                                                            maxl = 5
+	                                                        fmbgcol = "#FFFFFF"
+	                                                        fmborcl = "1px red solid" 'fmborcl
+                                                        end select
+
+                                        
+                                                        select case cint(godkendtstatus)                        
+                                                        case 1,3
+                                                            if cint(level) <> 1 then
+	                                                            maxl = 0
+                                                                fmbgcol = fmbgcol
+	                                                        else
+	                                                            maxl = maxl
+                                                                fmbgcol = "#FFFFFF"
+	                                                        end if
+                                                         end select
+
+                                                         if cint(overfort) = 1 then
+                                                         maxl = 0
+                                                         end if
+
+
                                                     'Response.Write "her  lastfakdato " & lastfakdato
                                                     'Response.end
-                                                    felt = felt & "<td valign='top' bgcolor='"&bgColor&"' style='border-bottom:1px #cccccc solid; border-right:1px #cccccc solid; padding-top:6px;' id='td_"&job_iRowLoops_cn&""&x&"'>"
-								                     
+                                                    felt = felt & "<td valign='top' bgcolor='"&bgColor&"' style='border-bottom:1px #cccccc solid; border-right:1px #cccccc solid; padding-top:11px;' id='td_"&job_iRowLoops_cn&""&x&"'>"
+								                    'felt = felt & "godkendtstatus: " & godkendtstatus 
 								
 								                    if visTimerElTid <> 1 OR (cint(tfaktimThis) <> 1 AND cint(tfaktimThis) <> 2) OR aty_pre <> 0 OR cint(intEasyreg) = 1 then 'OR job_internt <= -1
 								                    '** Alm. timefelt
@@ -2859,7 +2893,7 @@
                                                         felt = felt &"<input type='hidden' name='FM_timer' value='"& timerThis &"'>" 
 								                        end if
 
-                                                        felt = felt &"<div style='position:relative; background-color:"&fmbgcol&"; top:5px; border:0; height:12px; padding:3px; width:"& tfeltwth &"px; font-family:arial; font-size:10px; line-height:12px;'>"& timerThis
+                                                        felt = felt &"<div style='position:relative; background-color:"&fmbgcol&"; border:"&fmborcl&"; height:12px; padding:3px; width:"& tfeltwth &"px; font-family:arial; font-size:10px; line-height:12px;'>"& timerThis
                                 
                                                         if cint(origin) <> 0 then
                                                         felt = felt &"<span style=""font-size:9px; color:#999999;""> ("& timereg_txt_001 &")</span>"
@@ -4069,7 +4103,7 @@
         case "hvk_bbb"
         lmt = " LIMIT 0, 200"
         case "dencker"
-        lmt = " LIMIT 0, 100"
+        lmt = " LIMIT 0, 200"
         case "mi", "intranet - local"
         lmt = " LIMIT 0, 200"
         case "kejd_pb"
@@ -4425,7 +4459,7 @@
     select case rdir
     case "timetag_web" 'timeout mobile
     origin = 12
-    case "ugeseddel_2011" 'timetag
+    case "ugeseddel_2011", "touchMonitor" 'timetag
     origin = 11
     case else
     origin = 0
@@ -4824,7 +4858,7 @@
 			
 			'*** Validerer at job og akt er udfyldt når der indlæses fra ugeseddel (timeTag) eller timeOut mobile, 
             '**  hvor der er mulighed for at akt og job ikke er udfyldt ***
-            if rdir = "timetag_web" OR rdir = "ugeseddel_2011" then
+            if rdir = "timetag_web" OR rdir = "ugeseddel_2011" OR rdir = "touchMonitor" then
             if len(trim(request("FM_jobid"))) = 0 OR (request("FM_jobid") = 0 AND (origin = 12 OR origin = 11)) then
                 
                     
@@ -5437,7 +5471,7 @@
 			ystart = (j * 7) 
 			end if
 			
-            if rdir = "timetag_web" OR rdir = "ugeseddel_2011" then 'ugeseddel er opdater aktivieter eller tilføje herreløse fra TimeTag
+            if rdir = "timetag_web" OR rdir = "ugeseddel_2011" OR rdir = "touchMonitor"  then 'ugeseddel er opdater aktivieter eller tilføje herreløse fra TimeTag
 			yslut = 0
             else
             yslut = (ystart + 6)
@@ -5627,7 +5661,7 @@
     				        muDag = 0
 				            useDato = datoer(y)
 
-                            if rdir = "xtimetag_web" OR rdir = "ugeseddel_2011" OR rdir = "favorit" then
+                            if rdir = "xtimetag_web" OR rdir = "ugeseddel_2011" OR rdir = "favorit" or rdir = "touchMonitor" then
                             useDage = ""
                             usetSltid = ""
                             usetSttid = ""
@@ -5679,42 +5713,42 @@
 				end if 'y <= ystart
 
 
-            'useTimeMatrix = 0
-            'tTimertildeltThis = 0
-			
-			next 'y = ugedagene 1-7
-			
+          'useTimeMatrix = 0
+          'tTimertildeltThis = 0
+
+          next 'y = ugedagene 1-7
 
 
 
 
-			else ' = fra Stopur
-                        '********************************************************************************************************
-			            '********************************************************************************************************
-			        
-			                    tSttid = ""
-	                            tSltid = "" 
-                	            visTimerelTid = 0 '** Vis timer
-                	            offentlig = 0
-                	            strYear = year(useDatoer(j))
-                    
-                    
-                                destination = ""
-	                            bopal = 0
-               
-               
-                            '****************************************************************'
-                            '*** Er uge alfsuttet af medarb, er smiley og autogk slået til **'
-                            '****************************************************************'
-                            regdato = useDatoer(j)
-                
-                
-                            call timerIndlaesPeriodeLukket(medarbejderid, regdato)
-               
-                            strKomm = kommentarer(j)
-			    
-			    
-			                'Response.Write "tSttid "& tSttid &",  tSltid "& tSltid &", visTimerelTid "& visTimerelTid &", stopur "& stopur
+
+          else ' = fra Stopur
+          '********************************************************************************************************
+          '********************************************************************************************************
+
+          tSttid = ""
+          tSltid = ""
+          visTimerelTid = 0 '** Vis timer
+          offentlig = 0
+          strYear = year(useDatoer(j))
+
+
+          destination = ""
+          bopal = 0
+
+
+          '****************************************************************'
+          '*** Er uge alfsuttet af medarb, er smiley og autogk slået til **'
+          '****************************************************************'
+          regdato = useDatoer(j)
+
+
+          call timerIndlaesPeriodeLukket(medarbejderid, regdato, intJobnr)
+
+          strKomm = kommentarer(j)
+
+
+          'Response.Write "tSttid "& tSttid &",  tSltid "& tSltid &", visTimerelTid "& visTimerelTid &", stopur "& stopur
 			                'Response.flush
 			    
 			                'aktids(j) ", strAktNavn, tfaktimvalue, strFastpris, intJobnr, strJobnavn, strJobknr,_
@@ -6025,7 +6059,8 @@
 
         Response.Redirect "../to_2015/ugeseddel_2011.asp?usemrn="&usemrn&"&varTjDatoUS_man="&varTjDatoUS_man&"&FM_datoer="& useDato
 
-        
+        case "touchMonitor"
+        Response.Redirect "../to_2015/monitor.asp?func=startside"
 
         case else
 	    Response.Redirect "timereg_akt_2006.asp?showakt=1" 
@@ -6249,7 +6284,7 @@
 	        <td>
 
             <%select case rdir
-            case "ugeseddel"
+            case "ugeseddel", "touchMonitor"
             %>
             <a href="../to_2015/ugeseddel_2011.asp?usemrn=<%=usemrn%>&varTjDatoUS_man=<%=varTjDatoUS_man%>"><%=medarb_txt_019 %> >></a>
             <% 
@@ -7280,7 +7315,7 @@
    
 	
     
-    <div id="loadbar" style="position:absolute; display:; visibility:visible; top:300px; left:200px; width:300px; background-color:#ffffff; border:10px #CCCCCC solid; padding:10px; z-index:100;">
+  <div id="loadbar" style="position:absolute; display:; visibility:visible; top:300px; left:200px; width:300px; background-color:#ffffff; border:10px #CCCCCC solid; padding:10px; z-index:100;">
 
 	<table cellpadding=0 cellspacing=5 border=0 width=100%><tr><td>
 	<img src="../ill/outzource_logo_200.gif" />
@@ -8735,8 +8770,9 @@
 		            
 		                                <div id="multivmed" style="position:relative; padding:20px; background-color:#FFFFFF; width:520px; visibility:hidden; display:none;">
                                         
-
-                                        <%strSQL = "SELECT Mid, Mnavn, Mnr, Brugergruppe, medarbejdertype, mt.type AS mtypenavn, mt.id AS mtid "_
+                                        <%if lto <> "esn" then%>
+                                        <%
+                                        strSQL = "SELECT Mid, Mnavn, Mnr, Brugergruppe, medarbejdertype, mt.type AS mtypenavn, mt.id AS mtid "_
                                         &", normtimer_man, normtimer_tir, normtimer_ons, normtimer_tor, normtimer_fre, normtimer_lor, normtimer_son "_
                                          &" FROM medarbejdere AS m LEFT JOIN medarbejdertyper AS mt ON (mt.id = m.medarbejdertype) WHERE mansat <> 2 "& medarbgrpIdSQLkri &" ORDER BY mt.type, Mnavn" %>
                                         
@@ -8780,6 +8816,46 @@
 					                                wend
 					                                oRec.close
 				                                %></select>
+
+                                                <%else 'esn - vist efter projektgrupper %>
+                                                <%
+                                                    strSQL = "SELECT Mid, Mnavn, pg.navn, p.Projektgruppeid, Mnr FROM medarbejdere as m LEFT JOIN progrupperelationer as p ON (p.Medarbejderid = Mid)"_
+                                                    &" LEFT JOIN projektgrupper as pg ON (pg.id = p.Projektgruppeid) WHERE p.Projektgruppeid <> 10 AND pg.navn <> '' AND m.mansat <> 2 "& medarbgrpIdSQLkri &" ORDER BY pg.navn, m.Mnavn" 
+                                                %>
+                                                <h4>Multitildel <span><a href="#" class="red" onclick="showmultiDiv()">[x]</a></span></h4>
+                                                <%=tsa_txt_268 %> (<%=tsa_txt_357 %>)<br /><br />
+                                                
+                                                <b><%=tsa_txt_267 %>:</b><br /> 
+                                                <select name="tildelselmedarb" id="tildelselmedarb" size=10 multiple style="width:500px;">
+                                                    <%
+                                                    oRec.open strSQL, oConn, 3 
+                                                    m = 0
+                                                    while not oRec.EOF
+                                                    if lastProGrp <> oRec("Projektgruppeid") then
+                                                        if m <> 0 then
+                                                        response.Write "<option DISABLED></option>"
+                                                        end if
+                                                    response.Write "<option DISABLED style=""color:black; font-weight:bold;"">"&oRec("navn")&"</option>"
+                                                    end if
+
+                                                    if cdbl(oRec("Mid")) = cdbl(usemrn) then
+					                                rchk = "SELECTED"
+					                                else
+					                                rchk = ""
+					                                end if
+                                                    %>
+                                                    <option value="<%=oRec("Mid") %>" <%=rchk %>><%=oRec("Mnavn") &" ("& oRec("Mnr") &")" %></option>
+                                                    <%
+                                                    m = m + 1
+                                                    lastProGrp = oRec("Projektgruppeid")
+                                                    oRec.movenext                                                   
+                                                    wend
+                                                    oRec.close 
+                                                    %>
+
+                                                </select>
+                                                <%end if 'esn - vist efter projektgrupper  %>
+
 
                                                 <br />
                                                
@@ -9173,7 +9249,7 @@
     LastJobLoop = 0
     
     
-    'if lto = "glad" AND session("mid") = 1 then
+    'if session("mid") = 1 then
     'response.write strSQL
     'response.flush
     'end if
@@ -9393,7 +9469,7 @@
 			if level <= 2 OR level = 6 OR lto = "kejd_pb" OR lto = "kejd_pb2" then
 			editok = 1
 			else
-				if cint(session("mid")) = aktdata(iRowLoop, 44) OR cint(session("mid")) = aktdata(iRowLoop, 50) OR (cint(aktdata(iRowLoop, 44)) = 0 AND cint(aktdata(iRowLoop, 50)) = 0) then
+				if cdbl(session("mid")) = aktdata(iRowLoop, 44) OR cdbl(session("mid")) = aktdata(iRowLoop, 50) OR (cdbl(aktdata(iRowLoop, 44)) = 0 AND cdbl(aktdata(iRowLoop, 50)) = 0) then
 				editok = 1
 				end if
 			end if 

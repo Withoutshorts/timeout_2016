@@ -12,7 +12,7 @@
 <%
 if session("user") = "" then
 %>
-<!--#include file="../inc/regular/header_lysblaa_inc.asp"-->
+<!--#include file="../inc/regular/header_lysblaa_inc.asp"-->  
 <%
 	errortype = 5
 	call showError(errortype)
@@ -777,7 +777,7 @@ if session("user") = "" then
               
 
 				strSQL = "UPDATE timer SET godkendtstatus = "& uGodkendt &", "_
-				&"godkendtstatusaf = '"& editor &"', godkendtdato = '"& uGodkendtDato &"' WHERE tid = " & ujid(u)
+				&"godkendtstatusaf = '"& editor &"', godkendtdato = '"& uGodkendtDato &"' WHERE tid = " & ujid(u) & "  AND overfort = 0"
 				
 				'Response.write strSQL &"<br>"
 				
@@ -1038,7 +1038,7 @@ if session("user") = "" then
 	<div id="load" style="position:absolute; display:; visibility:visible; top:<%=ldTop%>px; left:<%=ldLft%>px; width:300px; background-color:#ffffff; border:10px #cccccc solid; padding:10px; z-index:100000000;">
     <table cellpadding=0 cellspacing=5 border=0 width=100%><tr><td>
 	<img src="../ill/outzource_logo_200.gif" /><br />
-	&nbsp;&nbsp;&nbsp;&nbsp;Vent veligst. Der kan gå op til 20 sek...
+	&nbsp;&nbsp;&nbsp;&nbsp;<%=joblog2_txt_001 %>
 	</td><td align=right style="padding-right:40px;">
 	<img src="../inc/jquery/images/ajax-loader.gif" />
 	</td></tr></table>
@@ -1055,7 +1055,7 @@ if session("user") = "" then
     oleft = 20
 	otop = ov_top
 	owdt = 300
-	oskrift = "Joblog & Ugesedler"
+	oskrift = joblog2_txt_002 &" & "& joblog2_txt_003
 	
     if media = "print" then
 	call sideoverskrift(oleft, otop, owdt, oimg, oskrift)
@@ -1102,13 +1102,13 @@ if session("user") = "" then
 			<input type="hidden" name="FM_usedatokri" id="FM_usedatokri" value="1">
 			<td valign=top style="border-bottom:0px solid #cccccc;">
 
-            <br /><b>Periode:</b>
+            <br /><b><%=joblog2_txt_004 %>:</b>
             <br />
 			<!--#include file="inc/weekselector_s.asp"--> <!-- b -->
 			
 			<br /><br />
-                Eller vis:<br />
-                <input id="bruguge" name="bruguge" type="checkbox" value="1" <%=brugugeCHK %> />  Uge:
+                <%=joblog2_txt_005 %>:<br />
+                <input id="bruguge" name="bruguge" type="checkbox" value="1" <%=brugugeCHK %> />  <%=joblog2_txt_006 %>:
 			<select name="bruguge_week">
 			<% for w = 1 to 52
 			
@@ -1132,7 +1132,7 @@ if session("user") = "" then
 			</select>
 
              &nbsp;&nbsp;&nbsp;&nbsp;
-              <input id="brugmd" name="brugmd" type="checkbox" value="1" <%=brugmdCHK %> />    Måned:
+              <input id="brugmd" name="brugmd" type="checkbox" value="1" <%=brugmdCHK %> />    <%=joblog2_txt_007 %>:
                
 			<select name="brugmd_md">
 			<% for m = 1 to 12
@@ -1159,7 +1159,7 @@ if session("user") = "" then
 			
                 
 
-			&nbsp;&nbsp;&nbsp;&nbsp; År: <select name="bruguge_year">
+			&nbsp;&nbsp;&nbsp;&nbsp; <%=joblog2_txt_008 %>: <select name="bruguge_year">
 			<%for y = 1 to 10
 			
 			if y = 1 then
@@ -1190,13 +1190,13 @@ if session("user") = "" then
         </tr>
 
 
-             <tr><td colspan="5" style="padding-top:20px;"><span id="sp_ava" style="color:#5582d2;">[+] Aktivitetsttyper</span></td></tr>
+             <tr><td colspan="5" style="padding-top:20px;"><span id="sp_ava" style="color:#5582d2;">[+] <%=joblog2_txt_009 %></span></td></tr>
          
 
         <tr id="tr_ava" style="display:none; visibility:hidden;">
 
 			<td colspan="5">
-			<br /><b>Vis følgende aktivitets typer:</b> (Vælg)<br />
+			<br /><b><%=joblog2_txt_010 %>:</b> (<%=joblog2_txt_011 %>)<br />
          
                     
             <table cellspacing=2 cellpadding=1 border=0 width=100%>
@@ -1212,7 +1212,7 @@ if session("user") = "" then
        
         </td>
         </tr>
-             <tr><td colspan="5" style="padding-top:20px;"><span id="sp_pre" style="color:#5582d2;">[+] Præsentation & kolonnevalg</span></td></tr>
+             <tr><td colspan="5" style="padding-top:20px;"><span id="sp_pre" style="color:#5582d2;">[+]<%=" "& joblog2_txt_012 &" " %>&<%=" "& joblog2_txt_013 %></span></td></tr>
          
 
         <tr id="tr_pre" style="display:none; visibility:hidden;">
@@ -1222,10 +1222,10 @@ if session("user") = "" then
 		
 		 <div style="width:250px; padding:10px 10px 10px 10px; background-color:#F7F7F7;">	
    
-        <input id="joblog_uge1" name="joblog_uge" type="radio" value="1" <%=joblog_ugeCHK1 %> onclick=showjoblogsubdiv() /> <b>Vis som joblog</b> én liste opdelt pr. job.<br />
+        <input id="joblog_uge1" name="joblog_uge" type="radio" value="1" <%=joblog_ugeCHK1 %> onclick=showjoblogsubdiv() /> <b><%=joblog2_txt_014 %></b><%=" "& joblog2_txt_015 %><br />
 	    
 	    <div id="joblogsub" style="position:relative; background-color:#EFf3ff top:0px; left:20px; width:200px; border:0px #cccccc solid; padding:10px; visibility:<%=joblogsubWZB %>; display:<%=joblogsubDSP %>;">
-	         Melleregning fordél på:<br />
+	         <%=joblog2_txt_016 %>:<br />
         
         <%if fordelpamedarb = 1 then
 		chkFordelmedarb = "CHECKED"
@@ -1233,7 +1233,7 @@ if session("user") = "" then
 		chkFordelmedarb = ""
 		end if%>
 		
-		<input type="radio" name="FM_orderby_medarb" id="FM_orderby_medarb" value="1" <%=chkFordelmedarb%>>Medarbejdere<br>
+		<input type="radio" name="FM_orderby_medarb" id="FM_orderby_medarb" value="1" <%=chkFordelmedarb%>><%=joblog2_txt_017 %><br>
 	    
 	    <%if fordelpamedarb = 2 then
 		chkFordelpaakt = "CHECKED"
@@ -1241,7 +1241,7 @@ if session("user") = "" then
 		chkFordelpaakt = ""
 		end if%>
 		
-		<input type="radio" name="FM_orderby_medarb" id="Radio1" value="2" <%=chkFordelpaakt%>>Aktiviteter og faser<br>
+		<input type="radio" name="FM_orderby_medarb" id="Radio1" value="2" <%=chkFordelpaakt%>><%=joblog2_txt_018 %><br>
 	    
 	    <%if fordelpamedarb = 0 then
 		chkFordelingen = "CHECKED"
@@ -1249,7 +1249,7 @@ if session("user") = "" then
 		chkFordelingen= ""
 		end if%>
 		
-		<input type="radio" name="FM_orderby_medarb" id="Radio2" value="0" <%=chkFordelingen%>>Job
+		<input type="radio" name="FM_orderby_medarb" id="Radio2" value="0" <%=chkFordelingen%>><%=joblog2_txt_019 %>
 	    
         <!--
         
@@ -1261,12 +1261,12 @@ if session("user") = "" then
 	    -->
             <input id="FM_komprimeret" name="FM_komprimeret" value="1" type="hidden" />
 	    
-	    </div>
+	    </div> 
 	    
 	   
-	   <input id="joblog_uge2" name="joblog_uge" type="radio" value="2" <%=joblog_ugeCHK2 %> onclick=hidejoblogsubdiv() /> <b>Vis som ugesedler</b> <br />
+	   <input id="joblog_uge2" name="joblog_uge" type="radio" value="2" <%=joblog_ugeCHK2 %> onclick=hidejoblogsubdiv() /> <b><%=joblog2_txt_020 %></b> <br />
 	    
-         <input id="joblog_uge3" name="joblog_uge" type="radio" value="3" <%=joblog_ugeCHK3 %> onclick=hidejoblogsubdiv() /> <b>Vis som månedsrapport</b> <br /><br />
+         <input id="joblog_uge3" name="joblog_uge" type="radio" value="3" <%=joblog_ugeCHK3 %> onclick=hidejoblogsubdiv() /> <b><%=joblog2_txt_021 %></b> <br /><br />
 			
 	
 			</div>
@@ -1275,33 +1275,33 @@ if session("user") = "" then
             %>
 
                 </td><td>
-            <b>Kolonne indstillinger</b><br />
+            <b><%=joblog2_txt_022 %></b><br />
             <%select case lto
             case "oko"
                     if level = 1 then%>
-                    <input id="hidetimepriser" name="hidetimepriser" value="1" type="checkbox" <%=hidetpCHK %> /> Skjul Timepriser<br />
+                    <input id="hidetimepriser" name="hidetimepriser" value="1" type="checkbox" <%=hidetpCHK %> /> <%=joblog2_txt_023 %><br />
                     <%else %>
                     <input id="hidetimepriser" name="hidetimepriser" value="1" type="hidden"/>
                     <%end if %>
             <%case else %>
-			<input id="hidetimepriser" name="hidetimepriser" value="1" type="checkbox" <%=hidetpCHK %> /> Skjul Timepriser<br />
+			<input id="hidetimepriser" name="hidetimepriser" value="1" type="checkbox" <%=hidetpCHK %> /> <%=joblog2_txt_023 %><br />
 		    <%end select %>
 
-        <input id="hideenheder" name="hideenheder" value="1" type="checkbox" <%=hideehCHK %> /> Skjul Enheder <br />
-        <input id="hidegkfakstat" name="hidegkfakstat" value="1" type="checkbox" <%=hidegkCHK %> /> Skjul Tastedato, Godkendt og Faktureret kol.<br />
-		<input id="Checkbox2" name="hidefase" value="1" type="checkbox" <%=hideFASCHK %> /> Skjul Fase<br /><br />
+        <input id="hideenheder" name="hideenheder" value="1" type="checkbox" <%=hideehCHK %> /><%=" "& joblog2_txt_024 %> <br />
+        <input id="hidegkfakstat" name="hidegkfakstat" value="1" type="checkbox" <%=hidegkCHK %> /><%=" "& joblog2_txt_025 %><br />
+		<input id="Checkbox2" name="hidefase" value="1" type="checkbox" <%=hideFASCHK %> /><%=" "& joblog2_txt_026 %><br /><br />
 
 
-		<input id="useenheder" name="useenheder" value="1" type="checkbox" <%=useehCHK %> /> Benyt enheder som beregnings grundlag
+		<input id="useenheder" name="useenheder" value="1" type="checkbox" <%=useehCHK %> /><%=" "& joblog2_txt_027 %>
 		
 		<%if level = 1 then %>
 		<br />
-		<input id="visKost" name="visKost" value="1" type="checkbox" <%=visKostCHK %> /> Vis Kostpriser
+		<input id="visKost" name="visKost" value="1" type="checkbox" <%=visKostCHK %> /> <%=joblog2_txt_028 %>
 		<%end if %>
 
-        <br /><input id="Checkbox3" name="showfor" value="1" type="checkbox" <%=showForCHK %> /> Vis forretningsområder
+        <br /><input id="Checkbox3" name="showfor" value="1" type="checkbox" <%=showForCHK %> /> <%=joblog2_txt_029 %>
 
-		<br /><input id="Checkbox1" name="showcpr" value="1" type="checkbox" <%=showCPRCHK %> /> Vis medarbejdere CPR-numre
+		<br /><input id="Checkbox1" name="showcpr" value="1" type="checkbox" <%=showCPRCHK %> /> <%=joblog2_txt_030 %>
 		
      
 
@@ -1316,7 +1316,7 @@ if session("user") = "" then
        <td colspan=2 align=right valign=bottom>
        
        
-	<input type="submit" value=" Kør >> ">
+	<input type="submit" value=" <%=joblog2_txt_031 %> >> ">
 	</td>
 	</tr>
 	
@@ -1535,7 +1535,7 @@ slutDatoKriSQL = strAar_slut &"/"& strMrd_slut &"/"& strDag_slut
 	&" Tknavn, Tmnr, Tmnavn, Timer, Tid, Tfaktim, TimePris, Timerkom, Tknr, t.kurs, "_
 	&" sttid, sltid, a.faktor, godkendtstatus, godkendtstatusaf, kkundenr, kkundenavn, t.timerkom, "_
 	&" m.mnr, m.init, mnavn, m.mid, a.id AS aid, a.sortorder, v.valutakode, t.valuta, k.kid, t.kostpris, kpvaluta, kpvaluta_kurs, m.mcpr, "_
-	&" a.fase, a.antalstk, a.aktbudgetsum, a.bgr, a.aktbudget, t.editor, a.avarenr "_
+	&" a.fase, a.antalstk, a.aktbudgetsum, a.bgr, a.aktbudget, t.editor, a.avarenr, overfort "_
 	&" FROM timer t "_
 	&" LEFT JOIN aktiviteter a ON (a.id = TAktivitetId)"_
     &" LEFT JOIN kunder k ON (k.kid = Tknr)"_
@@ -1550,7 +1550,7 @@ slutDatoKriSQL = strAar_slut &"/"& strMrd_slut &"/"& strDag_slut
 	
 	'Response.Write "visKundejobans "& visKundejobans &"<br>jobAnsSQLkri:" & jobAnsSQLkri & "<br>"& jobAns2SQLkri & "<br> kundeans"& kundeAnsSQLkri & "<br><br>"
 	
-	'if lto = "q2con" then
+	'if lto = "sdeo" and session("mid") = 1 then
 	'Response.Write strSQL
 	'Response.end
 	'end if
@@ -1712,10 +1712,10 @@ slutDatoKriSQL = strAar_slut &"/"& strMrd_slut &"/"& strDag_slut
 					<img src="../ill/ikon_job_16.png" alt="Job" border="0">&nbsp;&nbsp;<b><%=oRec("Tjobnavn")%> (<%=oRec("Tjobnr")%>)</b><br />
 					
 					
-						Jobansvarlig 1: <b><%=jobans1txt%></b>
+						<%=joblog2_txt_032 &" "%>1: <b><%=jobans1txt%></b>
 						<%if len(trim(jobans2txt)) <> 0 then%>
 						<br>
-	   					Jobansvarlig 2: <b><%=jobans2txt%></b>
+	   					<%=joblog2_txt_032 &" "%> 2: <b><%=jobans2txt%></b>
 						<%end if
 						jobans1txt = ""
 						jobans2txt = ""
@@ -1725,35 +1725,35 @@ slutDatoKriSQL = strAar_slut &"/"& strMrd_slut &"/"& strDag_slut
 						
 						<%select case jobstatus
 						case 1
-						thisjobstatus = "Aktiv"
+						thisjobstatus = joblog2_txt_033
 						case 2
-						thisjobstatus = "Passiv"
+						thisjobstatus = joblog2_txt_034
 						case 0
-						thisjobstatus = "Lukket"
+						thisjobstatus = joblog2_txt_035
 						end select%>
-						Jobstatus: <b><%=thisjobstatus%></b><br>
-						Jobperiode: <b><%=formatdatetime(jobstartdato, 1)%> - <%=formatdatetime(jobslutdato, 1)%></b>
+						<%=joblog2_txt_026 %>: <b><%=thisjobstatus%></b><br>
+						<%=joblog2_txt_037 %>: <b><%=formatdatetime(jobstartdato, 1)%> - <%=formatdatetime(jobslutdato, 1)%></b>
 						<br>
-						Forkalkuleret timer: <b><%=formatnumber(jobForkalkulerettimer, 2)%></b><br>
+						<%=joblog2_txt_038 %>: <b><%=formatnumber(jobForkalkulerettimer, 2)%></b><br>
 						
 						<%if cint(fastpris) = 1 then %>
-						Jobtype: <b>Fastpris</b>
+						<%=joblog2_txt_039 %>: <b><%=joblog2_txt_040 %></b>
 						
 						<%if cint(usejoborakt_tp) <> 0 then   %>
-						(aktiviteter)
+						(<%=joblog2_txt_041 %>)
 						<% else %>
-						(job)
+						(<%=joblog2_txt_042 %>)
 						<%end if %>
 						
 						<%else %>
-						Jobtype: <b>Lbn. Timer</b>
+						<%=joblog2_txt_043 %>: <b><%=joblog2_txt_044 %></b>
 						<%end if %><br />
 						
 						<%if len(trim(rekvnr)) <> 0 then %>
-						Rekvisitions nr: <b><%=rekvnr %></b><br />
+						<%=joblog2_txt_045 %>: <b><%=rekvnr %></b><br />
 						<%end if %>
 						
-						Sidste fakturadato: 
+						<%=joblog2_txt_046 %>: 
 						<%if formatdatetime(lastfakdato, 2) <> "01-01-2001" then%>
 						<b><%=formatdatetime(lastfakdato, 2)%></b>
 						<%else%>
@@ -1840,14 +1840,14 @@ slutDatoKriSQL = strAar_slut &"/"& strMrd_slut &"/"& strDag_slut
 					
 				    <tr>
 				        <td colspan=16 bgcolor="#ffffff" style="padding:10px 10px 0px 10px;">
-				        <h4>Uge: <%=datepart("ww", oRec("tdato"), 2,2)&" - "& datepart("yyyy", oRec("tdato"), 2,2)%> - <%=oRec("tmnavn") %> (<%=oRec("tmnr") %>)</h4>
+				        <h4><%=joblog2_txt_006 %>: <%=datepart("ww", oRec("tdato"), 2,2)&" - "& datepart("yyyy", oRec("tdato"), 2,2)%> - <%=oRec("tmnavn") %> (<%=oRec("tmnr") %>)</h4>
 				        
 				        <%
 				        call erugeAfslutte(datepart("yyyy", oRec("tdato"), 2,2), datepart("ww", oRec("tdato"), 2,2), oRec("tmnr"), SmiWeekOrMonth, 0) 
 				        %>
 				        
 				        <%if showAfsuge = 0 then %>
-				        Denne uge er afsluttet via smiley d. <%=formatdatetime(cdAfs, 2)%> kl. <%=formatdatetime(cdAfs, 3)%> (uge <%=datepart("ww", cdAfs, 2, 2)%>)
+				        <%=joblog2_txt_047 %> <%=formatdatetime(cdAfs, 2)%> kl. <%=formatdatetime(cdAfs, 3)%> (uge <%=datepart("ww", cdAfs, 2, 2)%>)
                         
 		                <%end if%>
 				        
@@ -1930,7 +1930,71 @@ slutDatoKriSQL = strAar_slut &"/"& strMrd_slut &"/"& strDag_slut
 				            <td valign="top">&nbsp;</td>
 				            <td style="padding-top:3px; width:25px; border-top:1px #cccccc solid;" valign="top"><%=strWeekNum%>
 				            </td>
-				            <td style="padding-top:3px; white-space:nowrap; border-top:1px #cccccc solid; padding-right:10px; padding-left:10px;" valign="top"><%=left(weekdayname(weekday(oRec("Tdato"))), 3) %>. <%=day(oRec("Tdato")) &" "&left(monthname(month(oRec("Tdato"))), 3) &". "& right(year(oRec("Tdato")), 4)%></td>
+                            <%
+
+                                dayTxtTrans = "xxx"
+                                if left(weekdayname(weekday(oRec("Tdato"))), 3) = "man" then 
+                                dayTxtTrans = joblog2_txt_130
+                                end if
+                                if left(weekdayname(weekday(oRec("Tdato"))), 3) = "tir" then 
+                                dayTxtTrans = joblog2_txt_131
+                                end if
+                                if left(weekdayname(weekday(oRec("Tdato"))), 3) = "ons" then 
+                                dayTxtTrans = joblog2_txt_132
+                                end if
+                                if left(weekdayname(weekday(oRec("Tdato"))), 3) = "tor" then 
+                                dayTxtTrans = joblog2_txt_133
+                                end if
+                                if left(weekdayname(weekday(oRec("Tdato"))), 3) = "fre" then 
+                                dayTxtTrans = joblog2_txt_134
+                                end if
+                                if left(weekdayname(weekday(oRec("Tdato"))), 3) = "lør" then 
+                                dayTxtTrans = joblog2_txt_135
+                                end if
+                                if left(weekdayname(weekday(oRec("Tdato"))), 3) = "søn" then 
+                                dayTxtTrans = joblog2_txt_136
+                                end if
+
+                                monthTxtTrans = "xxx"
+                                if left(monthname(month(oRec("Tdato"))), 3) = "jan" then
+                                monthTxtTrans = joblog2_txt_118
+                                end if
+                                if left(monthname(month(oRec("Tdato"))), 3) = "feb" then
+                                monthTxtTrans = joblog2_txt_119
+                                end if
+                                if left(monthname(month(oRec("Tdato"))), 3) = "mar" then
+                                monthTxtTrans = joblog2_txt_120
+                                end if
+                                if left(monthname(month(oRec("Tdato"))), 3) = "apr" then
+                                monthTxtTrans = joblog2_txt_121
+                                end if
+                                if left(monthname(month(oRec("Tdato"))), 3) = "maj" then
+                                monthTxtTrans = joblog2_txt_122
+                                end if
+                                if left(monthname(month(oRec("Tdato"))), 3) = "jun" then
+                                monthTxtTrans = joblog2_txt_123
+                                end if
+                                if left(monthname(month(oRec("Tdato"))), 3) = "jul" then
+                                monthTxtTrans = joblog2_txt_124
+                                end if
+                                if left(monthname(month(oRec("Tdato"))), 3) = "aug" then
+                                monthTxtTrans = joblog2_txt_125
+                                end if
+                                if left(monthname(month(oRec("Tdato"))), 3) = "sep" then
+                                monthTxtTrans = joblog2_txt_126
+                                end if
+                                if left(monthname(month(oRec("Tdato"))), 3) = "okt" then
+                                monthTxtTrans = joblog2_txt_127
+                                end if
+                                if left(monthname(month(oRec("Tdato"))), 3) = "nov" then
+                                monthTxtTrans = joblog2_txt_128
+                                end if
+                                if left(monthname(month(oRec("Tdato"))), 3) = "dec" then
+                                monthTxtTrans = joblog2_txt_129
+                                end if
+
+                            %>
+				            <td style="padding-top:3px; white-space:nowrap; border-top:1px #cccccc solid; padding-right:10px; padding-left:10px;" valign="top"><%=dayTxtTrans %>. <%=day(oRec("Tdato")) &" "& monthTxtTrans &". "& right(year(oRec("Tdato")), 4)%></td>
 				
 				
 				            <%if komprimer = "1" then %>
@@ -2090,9 +2154,9 @@ slutDatoKriSQL = strAar_slut &"/"& strMrd_slut &"/"& strDag_slut
 				            %>
 				            <td style="padding:3px 10px 5px 0px; width:<%=awdt%>px; border-top:1px #cccccc solid;" valign="top">
 				            <%
-				                if ((oRec("godkendtstatus") <> 1 AND request("print") <> "j" AND ugeerAfsl_og_autogk_smil = 0) _
-				                OR (oRec("godkendtstatus") <> 1 AND request("print") <> "j" AND ugeerAfsl_og_autogk_smil = 1 AND level = 1)) _
-				                AND (cdate(lastfakdato) <  cdate(oRec("Tdato"))) then %>
+				                if ((oRec("godkendtstatus") <> 1 AND oRec("godkendtstatus") <> 3 AND request("print") <> "j" AND ugeerAfsl_og_autogk_smil = 0) _
+				                OR (oRec("godkendtstatus") <> 1 AND oRec("godkendtstatus") <> 3 AND request("print") <> "j" AND ugeerAfsl_og_autogk_smil = 1 AND level = 1)) _
+				                AND (cdate(lastfakdato) <  cdate(oRec("Tdato")) AND oRec("overfort") = 0) then %>
     					
     					
     					            <a href="#" onclick="Javascript:window.open('../to_2015/rediger_tastede_dage_2006.asp?id=<%=oRec("tid") %>', '', 'width=450,height=675,resizable=yes,scrollbars=yes')" class=vmenu>
@@ -2607,10 +2671,12 @@ slutDatoKriSQL = strAar_slut &"/"& strMrd_slut &"/"& strDag_slut
 				                <td class=lille valign=top style="padding:3px 1px 3px 3px; border-top:1px #cccccc solid; white-space:nowrap;">
                                 <%end if
                     
-                                   erGk = 0
+                                 erGk = 0
                                  gkCHK0 = ""
                                  gkCHK1 = ""
                                  gkCHK2 = ""
+                                 gkCHK3 = ""
+                                 gk3bgcol = "#999999"
                                  gk2bgcol = "#999999"
                                  gk1bgcol = "#999999"
                                  gk0bgcol = "#999999"
@@ -2624,6 +2690,10 @@ slutDatoKriSQL = strAar_slut &"/"& strMrd_slut &"/"& strDag_slut
                              gkCHK1 = "CHECKED"
                              erGk = 1
                              gk1bgcol = "green"
+                             case 3
+                             gkCHK3 = "CHECKED"
+                             erGk = 3
+                             gk3bgcol = "orange"
                              case else
                              gkCHK0 = "CHECKED"
                              erGk = 0
@@ -2658,9 +2728,10 @@ slutDatoKriSQL = strAar_slut &"/"& strMrd_slut &"/"& strDag_slut
 					                 if print <> "j" then%>
     					
 					                 <input name="ids" id="ids" value="<%=oRec("tid")%>" type="hidden" />
-					               <span style="color:<%=gk1bgcol%>;">Godk:</span><input type="radio" name="FM_godkendt_<%=oRec("tid")%>" id="FM_godkendt1_<%=v%>" class="FM_godkendt_1" value="1" <%=gkCHK1 %>><br />
-                                   <span style="color:<%=gk2bgcol%>;">Afvist:</span><input type="radio" name="FM_godkendt_<%=oRec("tid")%>" id="FM_godkendt2_<%=v%>" class="FM_godkendt_2" value="2" <%=gkCHK2 %>><br />
-                                   <span style="color:<%=gk0bgcol%>;">Ingen:</span><input type="radio" name="FM_godkendt_<%=oRec("tid")%>" id="FM_godkendt0_<%=v%>" value="0" class="FM_godkendt_0" <%=gkCHK0 %>><br />
+					               <span style="color:<%=gk1bgcol%>;"><%=joblog2_txt_048 %>:</span><input type="radio" name="FM_godkendt_<%=oRec("tid")%>" id="FM_godkendt1_<%=v%>" class="FM_godkendt_1" value="1" <%=gkCHK1 %>><br />
+                                   <span style="color:<%=gk3bgcol%>;"><%=joblog2_txt_049 %>:</span><input type="radio" name="FM_godkendt_<%=oRec("tid")%>" id="FM_godkendt3_<%=v%>" class="FM_godkendt_3" value="3" <%=gkCHK3 %>><br />
+                                    <span style="color:<%=gk2bgcol%>;"><%=joblog2_txt_050 %>:</span><input type="radio" name="FM_godkendt_<%=oRec("tid")%>" id="FM_godkendt2_<%=v%>" class="FM_godkendt_2" value="2" <%=gkCHK2 %>><br />
+                                   <span style="color:<%=gk0bgcol%>;"><%=joblog2_txt_051 %>:</span><input type="radio" name="FM_godkendt_<%=oRec("tid")%>" id="FM_godkendt0_<%=v%>" value="0" class="FM_godkendt_0" <%=gkCHK0 %>><br />
 
                                     <!--<input name="FM_godkendt" id="FM_godkendt_hd_<=v>" value="#" type="hidden" />-->
 					                <%
@@ -2675,11 +2746,14 @@ slutDatoKriSQL = strAar_slut &"/"& strMrd_slut &"/"& strDag_slut
 					                select case oRec("godkendtstatus")
                                     case 1
 				                    %>
-				                    <b>Godkendt!</b>
+				                    Godkendt
 				                    <%
                                     case 2
                                      %>
-				                    <b>Afvist!</b>
+				                    <span style="color:red;"><%=joblog2_txt_050 %>!</span>
+                                   <% case 3
+                                     %>
+				                    <%=joblog2_txt_052 %>
 				                    <%
                                     case else
 				        
@@ -2718,9 +2792,9 @@ slutDatoKriSQL = strAar_slut &"/"& strMrd_slut &"/"& strDag_slut
 				                    if (level = 1 OR _
 					                cint(session("mid")) = cint(jobans1) OR _
 					                cint(session("mid")) = cint(jobans2)) AND (print <> "j") then%>
-					                <a href="erp_fakhist.asp?FM_kunde=<%=oRec("kid")%>&FM_job=<%=jobid%>" class=vmenu target="_blank">Ja</a>
+					                <a href="erp_fakhist.asp?FM_kunde=<%=oRec("kid")%>&FM_job=<%=jobid%>" class=vmenu target="_blank"><%=joblog2_txt_054 %></a>
 					                <%else %>
-					                Ja
+					                <%=joblog2_txt_054 %>
 					                <%
 					                end if
 					
@@ -2778,7 +2852,14 @@ slutDatoKriSQL = strAar_slut &"/"& strMrd_slut &"/"& strDag_slut
                                     call htmlparseCSV(komm_note_Txt)
                                     'komm_note_Txt = replace(htmlparseCSVtxt, "vbcrlf", "xxxxx")
                                     'komm_note_Txt = replace(komm_note_Txt, "vbcrlf", "xxxxx")
-                                    ekspTxt = ekspTxt & ""& Chr(34) & komm_note_Txt & Chr(34) &";"
+                                    'komm_note_Txt = replace(komm_note_Txt, "''", "")
+                                    'if right(trim(komm_note_Txt), 1) = "&quot;" OR right(trim(komm_note_Txt), 1) = "&#34;" OR right(trim(komm_note_Txt), 1) = chr(34) OR right(trim(komm_note_Txt), 1) = "''" then
+                                    'addPkt = "#"
+                                    'else
+                                    'addPkt = ""
+                                    'end if
+                                    
+                                    ekspTxt = ekspTxt & ""& Chr(34) & komm_note_Txt & " " & Chr(34) &";" 'Der skal være et mellemum inden sidste chr(34) da der eller vil komme ombrydninsfejl hvis teksten slutter med et "
                                    else
                                     ekspTxt = ekspTxt & ";"
                                    end if
@@ -2886,10 +2967,10 @@ slutDatoKriSQL = strAar_slut &"/"& strMrd_slut &"/"& strDag_slut
                     <table border=0 cellspacing=0 cellpadding=0 width="925">
 	                <tr>
                         <td style="padding: 20px; background-color: #FFFFFF;">
-                            <h4>Info:</h4>
-                            Der blev ikke fundet registreringer der matcher de valgte kriterier.<br>
+                            <h4><%=joblog2_txt_055 %>:</h4>
+                            <%=joblog2_txt_056 %><br>
                             <br />
-                            kontroller, at den valgte <b>periode og de valgte medarbejdere og job</b> er korrekte.
+                            <%=joblog2_txt_057 &" " %><b><%=joblog2_txt_058 &" "%></b> <%=joblog2_txt_059 %>
                             &nbsp;</td>
 	                </tr>
                     </table>
@@ -3039,7 +3120,7 @@ if x <> 0 then
 				
 				                '**** Eksport fil, kolonne overskrifter ***
                                 if cint(joblog_uge) = 3 then 'månedsoversigt
-                                strOskrifter = "Medarbejder; Init; CPR; Kunde; Kundenr; Job; Jobnr; Aktivitet; Kommentar;"
+                                strOskrifter = joblog2_txt_081&"; "&joblog2_txt_151&"; "&joblog2_txt_152&"; "&joblog2_txt_083&"; "&joblog2_txt_153&"; "&joblog2_txt_019&"; "&joblog2_txt_154&"; "&joblog2_txt_086&"; "&joblog2_txt_114&";"
 
                                       strOskrifter = strOskrifter & strExportOskriftDage
 
@@ -3052,26 +3133,26 @@ if x <> 0 then
 				                    'strOskrifter = "Dato;tekst;bilag;konto;kontonavn;debit beløb;kredit beløb;modkonto"
                                     else
 
-				                    strOskrifter = "Kunde;kunde Id;Job;Job Nr;"
+				                    strOskrifter = joblog2_txt_083&";"&joblog2_txt_155&";"&joblog2_txt_019&";"&joblog2_txt_156&";"
                 
                                             if cint(hidefase) <> 1 then
-                                            strOskrifter = strOskrifter &"Fase;"
+                                            strOskrifter = strOskrifter &joblog2_txt_082&";"
                                             end if
                 
-                                                strOskrifter = strOskrifter & "Uge;Dato;Aktivitet;Type;Fakturerbar;"
+                                                strOskrifter = strOskrifter & joblog2_txt_157&";"&joblog2_txt_072&";"&joblog2_txt_113&";"&joblog2_txt_158&";"&joblog2_txt_159&";"
                  
 
                                                 if cint(showfor) = 1 then
-                                                strOskrifter = strOskrifter & "Forretningsområder;"
+                                                strOskrifter = strOskrifter & joblog2_txt_160&";"
                                                 end if
                  
-                                                strOskrifter = strOskrifter & "Medarbejder;Medarb. Nr;Initialer;"
+                                                strOskrifter = strOskrifter & joblog2_txt_081&";"&joblog2_txt_161&";"&joblog2_txt_162&";"
                 
                                                 if cint(showcpr) = 1 then
-                                                strOskrifter = strOskrifter & "CPR;"
+                                                strOskrifter = strOskrifter & joblog2_txt_152&";"
                                                 end if
 
-                                            strOskrifter = strOskrifter & "Antal;Tid/Klokkeslet;"
+                                            strOskrifter = strOskrifter & joblog2_txt_092&";"&joblog2_txt_163&";"
 				                    end if
 
 
@@ -3082,29 +3163,29 @@ if x <> 0 then
                                         case else                
 				
 				                                if cint(hideenheder) = 0 then
-				                                strOskrifter = strOskrifter &"Enheder;"
+				                                strOskrifter = strOskrifter & joblog2_txt_093&";"
 				                                end if
 				
 				
 				                                if (level <=2 OR level = 6) AND cint(hidetimepriser) = 0 then
-				                                strOskrifter = strOskrifter & "Timepris;Timepris ialt;Valuta;"
+				                                strOskrifter = strOskrifter & joblog2_txt_164&";"&joblog2_txt_165&";"&joblog2_txt_166&";"
 				                                end if 
 				
 				                                if level = 1 AND visKost = 1 then 
-				                                strOskrifter = strOskrifter & "Kostpris;Kostpris ialt;Valuta;"
+				                                strOskrifter = strOskrifter & joblog2_txt_096&";"&joblog2_txt_097&";"&joblog2_txt_166&";"
 				                                end if
 				
 
                                                 if cint(hidegkfakstat) <> 1 then
-                                                  strOskrifter = strOskrifter & "Tastedato;"
+                                                  strOskrifter = strOskrifter & joblog2_txt_098&";"
                                                 end if
                                 
 
 				                                if lto <> "execon" AND cint(hidegkfakstat) = 0 then
-				                                strOskrifter = strOskrifter  &"Godkendt?;Godkendt af;Faktureret?;"
+				                                strOskrifter = strOskrifter  & joblog2_txt_167&";"&joblog2_txt_168&";"&joblog2_txt_169&";"
 				                                end if
 				
-				                                strOskrifter = strOskrifter  &"Kommentar;"
+				                                strOskrifter = strOskrifter  & joblog2_txt_114&";"
 
                                         end select
 
@@ -3114,7 +3195,7 @@ if x <> 0 then
 				                select case ver
                                 case 1
 				                case else
-                                objF.writeLine("Periode afgrænsning: "& datointerval & vbcrlf)
+                                objF.writeLine(joblog2_txt_170&": "& datointerval & vbcrlf)
 				                objF.WriteLine(strOskrifter) '& chr(013)
                                 end select
 				                objF.WriteLine(ekspTxt)
@@ -3129,7 +3210,7 @@ if x <> 0 then
 	                            </tr>
 	                            <tr>
 	                            <td valign=top bgcolor="#ffffff" style="padding:5px 5px 5px 15px;">
-	                            <a href="../inc/log/data/<%=file%>" class=vmenu target="_blank" onClick="Javascript:window.close()">Din CSV. fil er klar >></a>
+	                            <a href="../inc/log/data/<%=file%>" class=vmenu target="_blank" onClick="Javascript:window.close()"><%=joblog2_txt_060 %> >></a>
 	                            </td></tr>
 	                            </table>
 	            
@@ -3174,19 +3255,19 @@ if x <> 0 then
                             call sideinfoId(itop,ileft,iwdt,ihgt,iId,phDsp,phVzb,ibtop,ibleft,ibwdt,ibhgt,ibId)
                             %>
                        
-			                            <b>Visning af de-aktiverede medarbejdere: </b><br> de-aktiverede medarbejdere medtages ved søgning på "alle".<br>
-			                            de-aktiverede medarbejdere kan ikke vælges fra dropdown menu.<br><br>
-			                            <b>Jobtyper</b><br /> Fastpris eller Lbn. timer. (vægtet medarbejder timepriser)<br>
-			                            Ved fastpris job, hvor aktiviteterne danner grundlag for timepris, er omsætning og timepriser (på jobvisning) 
-			                            angivet med et ~, da beløbet er beregnet udfra en tilnærmet timepris. (gns. på akt.). Ved udspecificering på aktiviteter er det den re-elle timepris der vises.<br />
+			                            <b><%=joblog2_txt_061 %>: </b><br> <%=joblog2_txt_062 %><br>
+			                            <%=joblog2_txt_063 %><br><br>
+			                            <b><%=joblog2_txt_064 %></b><br /> <%=joblog2_txt_065 %><br>
+			                            <%=joblog2_txt_066 &" "%> 
+			                            <%=joblog2_txt_067 %><br />
 			                            <br />
-			                            Ved lbn. timer er det altid den realiserede medarbejder timepris der vises.<br />
+			                            <%=joblog2_txt_068 %><br />
 			                            <br />
 			                            <b>Key-account</b><br />
-                                        Ved brug af "key account" bliver der vist timer for alle medarbejder der er med (tilknyttet via projektgrupper) på de job hvor den valgte Key-account er job ansvarlig / kunde ansvarlig. 
+                                        <%=joblog2_txt_069 %> 
                                         <br /><br />
-                                        <b>Beløb</b><br />
-                                        Alle timepriser og beløb er vist i <%=basisValISO %>.&nbsp;
+                                        <b><%=joblog2_txt_070 %></b><br />
+                                        <%=joblog2_txt_071 &" "%> <%=basisValISO %>.&nbsp;
                 		
                 		
 		                            </td>
@@ -3240,26 +3321,26 @@ if x <> 0 then
                          <form action="joblog.asp?media=export&ver=0&cur=0&<%=pnteksLnk%>" target="_blank" method="post"> 
                                 <input type="hidden" name="FM_medarb_hidden" value="<%=thisMiduse%>" />
                              <input type="hidden" name="FM_medarb" value="<%=thisMiduse%>" />
-                        <input type="submit" id="sbm_csv" value="CSV. fil eksport >>" style="font-size:9px;" />
+                        <input type="submit" id="sbm_csv" value="<%=joblog2_txt_143 %> >>" style="font-size:9px;" />
                                </form>
 
                          <form action="joblog.asp?media=export&ver=1&cur=0&<%=pnteksLnk%>" target="_blank" method="post"> <br />
 
                              <input type="hidden" name="FM_medarb_hidden" value="<%=thisMiduse%>" />
                              <input type="hidden" name="FM_medarb" value="<%=thisMiduse%>" />
-                             <input type="submit" id="sbm_csv" value="Kasserapport DKK >>" style="font-size:9px;" />
+                             <input type="submit" id="sbm_csv" value="<%=joblog2_txt_144 %> >>" style="font-size:9px;" />
                         </form>
                    
                         <form action="joblog.asp?media=export&ver=1&cur=1&<%=pnteksLnk%>" target="_blank" method="post"> 
                            <input type="hidden" name="FM_medarb_hidden" value="<%=thisMiduse%>" />
                              <input type="hidden" name="FM_medarb" value="<%=thisMiduse%>" />
                             <br />
-                        <input type="submit" id="sbm_csv" value="Kasserapport Local Cur. >>" style="font-size:9px;" />
+                        <input type="submit" id="sbm_csv" value="<%=joblog2_txt_145 %> >>" style="font-size:9px;" />
                         <%case else %>
                         <form action="joblog.asp?media=export&ver=0&cur=0&<%=pnteksLnk%>" target="_blank" method="post"> 
                            <input type="hidden" name="FM_medarb_hidden" value="<%=thisMiduse%>" />
                              <input type="hidden" name="FM_medarb" value="<%=thisMiduse%>" />
-                        <input type="submit" id="sbm_csv" value="CSV. fil eksport >>" style="font-size:9px;" />
+                        <input type="submit" id="sbm_csv" value="<%=joblog2_txt_143 %> >>" style="font-size:9px;" />
                         <%end select%>
 
                     </td>
@@ -3271,7 +3352,7 @@ if x <> 0 then
                              <input type="hidden" name="FM_medarb" value="<%=thisMiduse%>" />
                  <tr>
                <td valign="top" style="padding-top:10px;">
-                    <input type="submit" value="Print >>" style="font-size:9px;" />
+                    <input type="submit" value="<%=joblog2_txt_146 %> >>" style="font-size:9px;" />
                    
                     <!--
                    <a href="joblog.asp?print=j&<%=pnteksLnk%>" target="_blank"  class='rmenu'>

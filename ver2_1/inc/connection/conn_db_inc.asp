@@ -844,9 +844,9 @@ if len(strLicenskey) <> 0 then
         'strConnThis = "timeout_wwf"
 		'lto = "intranet - local"
         'lto = "tec"
-        strConnThis = "timeout_intranet64"
+        'strConnThis = "timeout_intranet64"
         'strConnThis = "timeout_nt"
-        'strConnThis = "driver={MySQL ODBC 3.51 Driver};server=localhost; Port=3306; uid=root;pwd=;database=timeout_intranet;"
+        strConnThis = "driver={MySQL ODBC 3.51 Driver};server=localhost; Port=3306; uid=root;pwd=;database=timeout_intranet;"
 	    'response.write strConnThis
         'response.flush
 	
@@ -883,12 +883,12 @@ else
     'strConnThis = "timeout_intranet32"
     lto = "intranet - local"
     'lto = "tec"
-	'strConnThis = "driver={MySQL ODBC 3.51 Driver};server=localhost; Port=3306; uid=root;pwd=;database=timeout_intranet;"
+	strConnThis = "driver={MySQL ODBC 3.51 Driver};server=localhost; Port=3306; uid=root;pwd=;database=timeout_intranet;"
 	' strConnThis = "driver={MySQL ODBC 3.51 Driver};server=localhost; Port=3306; uid=root;pwd=;database=timeout_intranet; OPTION=32"
 	   'response.write strConnThis
        ' response.flush
 
-    strConnThis = "timeout_intranet64"
+    'strConnThis = "timeout_intranet64"
     'strConnThis = "timeout_nt"
 
 

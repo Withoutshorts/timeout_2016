@@ -1,0 +1,315 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<sprog>
+
+  <!--- Dansk -->
+  <dk>
+
+    <txt_1 >Abonnér på uge rapporten. Rapporten indeholder bl.a normtid, realiseret tid og fravær mm.</txt_1>
+    <txt_2 >Valgte medarbejder ønsker at abonnére på uge-rapporten. Udsendes tirsdag morgen 07:00.</txt_2>
+    <txt_3 >Vælg</txt_3>
+    <txt_4 >medarbejder</txt_4>
+    <txt_5 >samt hvilke</txt_5>
+    <txt_6 >medarbejdertyper</txt_6>
+    <txt_7 >eller</txt_7>
+    <txt_8 >projektgrupper</txt_8>
+    <txt_9 >de skal abonnere på.</txt_9>
+    <txt_10 >Modtagere</txt_10>
+
+    <txt_11 >Aktive (kun dem med email adr.)</txt_11>
+    <txt_12 >Rapporttype</txt_12>
+    <txt_13 >Vælg udgangspunkt</txt_13>
+    <txt_14 >HR rapport. Ugetotaler for valgte medarbejdere (fra pkt. B og C)</txt_14>
+    <txt_15 >Projektleder rapport (jobansvar./jobejer)</txt_15>
+    <txt_16 >Projektrapport (kun egne timer)</txt_16>
+    <txt_17 >Vælg hvilke medarbejdere der skal med i rapporten.</txt_17>
+    <txt_18 >Enten</txt_18>
+    <txt_19 >Medarbejdertyper</txt_19>
+    <txt_20 >Kun sig selv</txt_20>
+
+    <txt_21 >Ingen</txt_21>
+    <txt_22 >Alle</txt_22>
+    <txt_23 >Eller</txt_23>
+    <txt_24 >Projektgrupper</txt_24>
+    <txt_25 >Ingen</txt_25>
+    <txt_26 >Alle</txt_26>
+    <txt_27 >Tilføj</txt_27>
+    <txt_28 >Abonenter</txt_28>
+    <txt_29 >Medarbejder</txt_29>
+    <txt_30 >Rapporttype</txt_30>
+
+    <txt_31 >Medarbejdertyper tilvalgt (0=alle, -1=ingen, -2=sig selv)</txt_31>
+    <txt_32 >Projekgrupper tilvalgt (0=alle)</txt_32>
+    <txt_33 >Slet</txt_33>
+    <txt_34 >Abonnér</txt_34>
+
+  </dk>
+
+
+  <!--- Norsk -->
+  <no>
+
+    <txt_1 >Subscribe to the weekly report. The report contains time, realized time, absences etc.</txt_1>
+    <txt_2 >Selected employee wishes to subscribe to the weekly report. Ships Tuesday morning 07:00.</txt_2>
+    <txt_3 >Select</txt_3>
+    <txt_4 >employee</txt_4>
+    <txt_5 >as well as which</txt_5>
+    <txt_6 >employee types</txt_6>
+    <txt_7 >or</txt_7>
+    <txt_8 >project groups</txt_8>
+    <txt_9 >They should be subscribed on.</txt_9>
+    <txt_10 >Recipients</txt_10>
+
+    <txt_11 >Active (only those with an email adr.)</txt_11>
+    <txt_12 >Report type</txt_12>
+    <txt_13 >Choose starting point</txt_13>
+    <txt_14 >HR report. Week Totals for selected employees (from B and C)</txt_14>
+    <txt_15 >Project leader report (job responsible / job owner)</txt_15>
+    <txt_16 >Project report (own hours only)</txt_16>
+    <txt_17 >Select employees who will be included in the report.</txt_17>
+    <txt_18 >Either</txt_18>
+    <txt_19 >Employee types</txt_19>
+    <txt_20 >Only themselves</txt_20>
+
+    <txt_21 >None</txt_21>
+    <txt_22 >All</txt_22>
+    <txt_23 >Or</txt_23>
+    <txt_24 >Project groups</txt_24>
+    <txt_25 >None</txt_25>
+    <txt_26 >All</txt_26>
+    <txt_27 >Add</txt_27>
+    <txt_28 >Subscribers</txt_28>
+    <txt_29 >Employee</txt_29>
+    <txt_30 >Report type</txt_30>
+
+    <txt_31 >Employee types selected (0 = all, -1 = none, -2 = themselves)</txt_31>
+    <txt_32 >Project Groups selected (0 = All)</txt_32>
+    <txt_33 >Delete</txt_33>
+    <txt_34 >Subscribe</txt_34>
+
+
+  </no>
+
+
+  <!--- Svensk -->
+  <so>
+
+    <txt_1 >Subscribe to the weekly report. The report contains time, realized time, absences etc.</txt_1>
+    <txt_2 >Selected employee wishes to subscribe to the weekly report. Ships Tuesday morning 07:00.</txt_2>
+    <txt_3 >Select</txt_3>
+    <txt_4 >employee</txt_4>
+    <txt_5 >as well as which</txt_5>
+    <txt_6 >employee types</txt_6>
+    <txt_7 >or</txt_7>
+    <txt_8 >project groups</txt_8>
+    <txt_9 >They should be subscribed on.</txt_9>
+    <txt_10 >Recipients</txt_10>
+
+    <txt_11 >Active (only those with an email adr.)</txt_11>
+    <txt_12 >Report type</txt_12>
+    <txt_13 >Choose starting point</txt_13>
+    <txt_14 >HR report. Week Totals for selected employees (from B and C)</txt_14>
+    <txt_15 >Project leader report (job responsible / job owner)</txt_15>
+    <txt_16 >Project report (own hours only)</txt_16>
+    <txt_17 >Select employees who will be included in the report.</txt_17>
+    <txt_18 >Either</txt_18>
+    <txt_19 >Employee types</txt_19>
+    <txt_20 >Only themselves</txt_20>
+
+    <txt_21 >None</txt_21>
+    <txt_22 >All</txt_22>
+    <txt_23 >Or</txt_23>
+    <txt_24 >Project groups</txt_24>
+    <txt_25 >None</txt_25>
+    <txt_26 >All</txt_26>
+    <txt_27 >Add</txt_27>
+    <txt_28 >Subscribers</txt_28>
+    <txt_29 >Employee</txt_29>
+    <txt_30 >Report type</txt_30>
+
+    <txt_31 >Employee types selected (0 = all, -1 = none, -2 = themselves)</txt_31>
+    <txt_32 >Project Groups selected (0 = All)</txt_32>
+    <txt_33 >Delete</txt_33>
+    <txt_34 >Subscribe</txt_34>
+
+  </so>
+
+
+  <!--- Tysk -->
+  <de>
+
+    <txt_1 >Subscribe to the weekly report. The report contains time, realized time, absences etc.</txt_1>
+    <txt_2 >Selected employee wishes to subscribe to the weekly report. Ships Tuesday morning 07:00.</txt_2>
+    <txt_3 >Select</txt_3>
+    <txt_4 >employee</txt_4>
+    <txt_5 >as well as which</txt_5>
+    <txt_6 >employee types</txt_6>
+    <txt_7 >or</txt_7>
+    <txt_8 >project groups</txt_8>
+    <txt_9 >They should be subscribed on.</txt_9>
+    <txt_10 >Recipients</txt_10>
+
+    <txt_11 >Active (only those with an email adr.)</txt_11>
+    <txt_12 >Report type</txt_12>
+    <txt_13 >Choose starting point</txt_13>
+    <txt_14 >HR report. Week Totals for selected employees (from B and C)</txt_14>
+    <txt_15 >Project leader report (job responsible / job owner)</txt_15>
+    <txt_16 >Project report (own hours only)</txt_16>
+    <txt_17 >Select employees who will be included in the report.</txt_17>
+    <txt_18 >Either</txt_18>
+    <txt_19 >Employee types</txt_19>
+    <txt_20 >Only themselves</txt_20>
+
+    <txt_21 >None</txt_21>
+    <txt_22 >All</txt_22>
+    <txt_23 >Or</txt_23>
+    <txt_24 >Project groups</txt_24>
+    <txt_25 >None</txt_25>
+    <txt_26 >All</txt_26>
+    <txt_27 >Add</txt_27>
+    <txt_28 >Subscribers</txt_28>
+    <txt_29 >Employee</txt_29>
+    <txt_30 >Report type</txt_30>
+
+    <txt_31 >Employee types selected (0 = all, -1 = none, -2 = themselves)</txt_31>
+    <txt_32 >Project Groups selected (0 = All)</txt_32>
+    <txt_33 >Delete</txt_33>
+    <txt_34 >Subscribe</txt_34>
+
+  </de>
+
+
+  <!--- Fransk -->
+  <fr>
+
+    <txt_1 >Subscribe to the weekly report. The report contains time, realized time, absences etc.</txt_1>
+    <txt_2 >Selected employee wishes to subscribe to the weekly report. Ships Tuesday morning 07:00.</txt_2>
+    <txt_3 >Select</txt_3>
+    <txt_4 >employee</txt_4>
+    <txt_5 >as well as which</txt_5>
+    <txt_6 >employee types</txt_6>
+    <txt_7 >or</txt_7>
+    <txt_8 >project groups</txt_8>
+    <txt_9 >They should be subscribed on.</txt_9>
+    <txt_10 >Recipients</txt_10>
+
+    <txt_11 >Active (only those with an email adr.)</txt_11>
+    <txt_12 >Report type</txt_12>
+    <txt_13 >Choose starting point</txt_13>
+    <txt_14 >HR report. Week Totals for selected employees (from B and C)</txt_14>
+    <txt_15 >Project leader report (job responsible / job owner)</txt_15>
+    <txt_16 >Project report (own hours only)</txt_16>
+    <txt_17 >Select employees who will be included in the report.</txt_17>
+    <txt_18 >Either</txt_18>
+    <txt_19 >Employee types</txt_19>
+    <txt_20 >Only themselves</txt_20>
+
+    <txt_21 >None</txt_21>
+    <txt_22 >All</txt_22>
+    <txt_23 >Or</txt_23>
+    <txt_24 >Project groups</txt_24>
+    <txt_25 >None</txt_25>
+    <txt_26 >All</txt_26>
+    <txt_27 >Add</txt_27>
+    <txt_28 >Subscribers</txt_28>
+    <txt_29 >Employee</txt_29>
+    <txt_30 >Report type</txt_30>
+
+    <txt_31 >Employee types selected (0 = all, -1 = none, -2 = themselves)</txt_31>
+    <txt_32 >Project Groups selected (0 = All)</txt_32>
+    <txt_33 >Delete</txt_33>
+    <txt_34 >Subscribe</txt_34>
+
+  </fr>
+
+
+
+  <!-- Engelsk -->
+  <uk>
+
+    <txt_1 >Subscribe to the weekly report. The report contains time, realized time, absences etc.</txt_1>
+    <txt_2 >Selected employee wishes to subscribe to the weekly report. Ships Tuesday morning 07:00.</txt_2>
+    <txt_3 >Select</txt_3>
+    <txt_4 >employee</txt_4>
+    <txt_5 >as well as which</txt_5>
+    <txt_6 >employee types</txt_6>
+    <txt_7 >or</txt_7>
+    <txt_8 >project groups</txt_8>
+    <txt_9 >They should be subscribed on.</txt_9>
+    <txt_10 >Recipients</txt_10>
+
+    <txt_11 >Active (only those with an email adr.)</txt_11>
+    <txt_12 >Report type</txt_12>
+    <txt_13 >Choose starting point</txt_13>
+    <txt_14 >HR report. Week Totals for selected employees (from B and C)</txt_14>
+    <txt_15 >Project leader report (job responsible / job owner)</txt_15>
+    <txt_16 >Project report (own hours only)</txt_16>
+    <txt_17 >Select employees who will be included in the report.</txt_17>
+    <txt_18 >Either</txt_18>
+    <txt_19 >Employee types</txt_19>
+    <txt_20 >Only themselves</txt_20>
+
+    <txt_21 >None</txt_21>
+    <txt_22 >All</txt_22>
+    <txt_23 >Or</txt_23>
+    <txt_24 >Project groups</txt_24>
+    <txt_25 >None</txt_25>
+    <txt_26 >All</txt_26>
+    <txt_27 >Add</txt_27>
+    <txt_28 >Subscribers</txt_28>
+    <txt_29 >Employee</txt_29>
+    <txt_30 >Report type</txt_30>
+
+    <txt_31 >Employee types selected (0 = all, -1 = none, -2 = themselves)</txt_31>
+    <txt_32 >Project Groups selected (0 = All)</txt_32>
+    <txt_33 >Delete</txt_33>
+    <txt_34 >Subscribe</txt_34>
+
+  </uk>
+
+
+  <!--- Spansk -->
+  <es>
+
+    <txt_1 >Subscribe to the weekly report. The report contains time, realized time, absences etc.</txt_1>
+    <txt_2 >Selected employee wishes to subscribe to the weekly report. Ships Tuesday morning 07:00.</txt_2>
+    <txt_3 >Select</txt_3>
+    <txt_4 >employee</txt_4>
+    <txt_5 >as well as which</txt_5>
+    <txt_6 >employee types</txt_6>
+    <txt_7 >or</txt_7>
+    <txt_8 >project groups</txt_8>
+    <txt_9 >They should be subscribed on.</txt_9>
+    <txt_10 >Recipients</txt_10>
+
+    <txt_11 >Active (only those with an email adr.)</txt_11>
+    <txt_12 >Report type</txt_12>
+    <txt_13 >Choose starting point</txt_13>
+    <txt_14 >HR report. Week Totals for selected employees (from B and C)</txt_14>
+    <txt_15 >Project leader report (job responsible / job owner)</txt_15>
+    <txt_16 >Project report (own hours only)</txt_16>
+    <txt_17 >Select employees who will be included in the report.</txt_17>
+    <txt_18 >Either</txt_18>
+    <txt_19 >Employee types</txt_19>
+    <txt_20 >Only themselves</txt_20>
+
+    <txt_21 >None</txt_21>
+    <txt_22 >All</txt_22>
+    <txt_23 >Or</txt_23>
+    <txt_24 >Project groups</txt_24>
+    <txt_25 >None</txt_25>
+    <txt_26 >All</txt_26>
+    <txt_27 >Add</txt_27>
+    <txt_28 >Subscribers</txt_28>
+    <txt_29 >Employee</txt_29>
+    <txt_30 >Report type</txt_30>
+
+    <txt_31 >Employee types selected (0 = all, -1 = none, -2 = themselves)</txt_31>
+    <txt_32 >Project Groups selected (0 = All)</txt_32>
+    <txt_33 >Delete</txt_33>
+    <txt_34 >Subscribe</txt_34>
+
+  </es>
+
+
+</sprog>

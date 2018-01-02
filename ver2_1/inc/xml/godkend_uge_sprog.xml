@@ -129,6 +129,45 @@
     <txt_114 >Ikke godk. ell. afviste</txt_114>
     <txt_115 >afviste</txt_115>
     <txt_116 >af medarb.</txt_116>
+
+    <txt_117 >Medarbejder</txt_117>
+    <txt_118 >Mnr</txt_118>
+    <txt_119 >Initialer</txt_119>
+    <txt_120 >Projektgrupper/afd.</txt_120>
+    <txt_121 >Komme/Gå (løntimer, hh:mm)</txt_121>
+    <txt_122 >Komme/Gå (100 digit)</txt_122>
+    <txt_123 >Tillæg +/-</txt_123>
+    <txt_124 >Komme-Gå/Norm. hh:mm</txt_124>
+    <txt_125 >Komme-Gå/Norm. 100 digit</txt_125>
+    <txt_126 >Akkumuleret (Komme-Gå/Norm. hh:mm)</txt_126>
+    <txt_127 >Akkumuleret (Komme-Gå/Norm. 100 digit)</txt_127>
+    <txt_128 >Heraf fakturerbare timer</txt_128>
+    <txt_129 >Heraf ikke fakturerbare timer</txt_129>
+    <txt_130 >Korrektion Realiseret</txt_130>
+    <txt_131 >Real. / Norm.</txt_131>
+    <txt_132 >Akkumuleret (Real. / Norm.)</txt_132>
+    <txt_133 >Real. / Lønt.</txt_133>
+    <txt_134 >enh.</txt_134>
+    <txt_135 >Afspads.</txt_135>
+    <txt_136 >Udbetalt</txt_136>
+    <txt_137 >Ønsk. Udbe.</txt_137>
+    <txt_138 >Ferie Afholdt</txt_138>
+    <txt_139 >Ferie Afholdt u. løn</txt_139>
+    <txt_140 >1 maj timer</txt_140>
+    <txt_141 >Omsorgsdage ~ dage</txt_141>
+    <txt_142 >Tjenestefri ~ timer</txt_142>
+    <txt_143 >Barsel/Orlov ~ dage</txt_143>
+    <txt_144 >Læge ~ timer</txt_144>
+    <txt_145 >Syg ~ dage</txt_145>
+    <txt_146 >Barn syg ~ dage</txt_146>
+    <txt_147 >Kommentar</txt_147>
+    <txt_148 >Afsluttet</txt_148>
+    <txt_149 >Godkendt</txt_149>
+    <txt_150 >Afventer</txt_150>
+    <txt_151 >Afvist</txt_151>
+    <txt_152 >Komme/Gå tid Sum</txt_152>
+    
+    
   </dk>
 
 
@@ -259,6 +298,43 @@
     <txt_114 >Not app. or decl.</txt_114>
     <txt_115 >declined</txt_115>
     <txt_116 >by employee</txt_116>
+
+    <txt_117 >Employee</txt_117>
+    <txt_118 >Emp. No.</txt_118>
+    <txt_119 >Initials</txt_119>
+    <txt_120 >Project groups / dept.</txt_120>
+    <txt_121 >Come/Go (hours, hh: mm)</txt_121>
+    <txt_122 >Come/Go (100 digits)</txt_122>
+    <txt_123 >Appendix +/-</txt_123>
+    <txt_124 >Come-Go/Norm. hh: mm</txt_124>
+    <txt_125 >Come-Go/Norm. 100 digits</txt_125>
+    <txt_126 >Accumulated (Get-Go/Norm. hh:mm)</txt_126>
+    <txt_127 >Accumulated (Comma-Go/Norm. 100-digit)</txt_127>
+    <txt_128 >Of which billable hours</txt_128>
+    <txt_129 >Of which NOT billable hours</txt_129>
+    <txt_130 >Correction Realized</txt_130>
+    <txt_131 >Real. / Norm.</txt_131>
+    <txt_132 >Accumulated (Real. / Norm.)</txt_132>
+    <txt_133 >Real. / hours</txt_133>
+    <txt_134 >unit</txt_134>
+    <txt_135 >Time off in lieu.</txt_135>
+    <txt_136 >Paid</txt_136>
+    <txt_137 >Desired payment</txt_137>
+    <txt_138 >Holiday held</txt_138>
+    <txt_139 >Holiday Held u. Salary</txt_139>
+    <txt_140 >1st of may hours</txt_140>
+    <txt_141 >Care Days ~ Days</txt_141>
+    <txt_142 >Off duty - hours</txt_142>
+    <txt_143 >Maternity / leave ~ days</txt_143>
+    <txt_144 >Medical Hours</txt_144>
+    <txt_145 >sick ~ days</txt_145>
+    <txt_146 >child sick ~ days</txt_146>
+    <txt_147 >Comment</txt_147>
+    <txt_148 >Finished</txt_148>
+    <txt_149 >Approved</txt_149>
+    <txt_150 >Pending</txt_150>
+    <txt_151 >Rejected</txt_151>
+    <txt_152 >Come/Go Time Sum</txt_152>
 
   </no>
   
@@ -391,6 +467,43 @@
     <txt_115 >declined</txt_115>
     <txt_116 >by employee</txt_116>
 
+    <txt_117 >Employee</txt_117>
+    <txt_118 >Emp. No.</txt_118>
+    <txt_119 >Initials</txt_119>
+    <txt_120 >Project groups / dept.</txt_120>
+    <txt_121 >Come/Go (hours, hh: mm)</txt_121>
+    <txt_122 >Come/Go (100 digits)</txt_122>
+    <txt_123 >Appendix +/-</txt_123>
+    <txt_124 >Come-Go/Norm. hh: mm</txt_124>
+    <txt_125 >Come-Go/Norm. 100 digits</txt_125>
+    <txt_126 >Accumulated (Get-Go/Norm. hh:mm)</txt_126>
+    <txt_127 >Accumulated (Comma-Go/Norm. 100-digit)</txt_127>
+    <txt_128 >Of which billable hours</txt_128>
+    <txt_129 >Of which NOT billable hours</txt_129>
+    <txt_130 >Correction Realized</txt_130>
+    <txt_131 >Real. / Norm.</txt_131>
+    <txt_132 >Accumulated (Real. / Norm.)</txt_132>
+    <txt_133 >Real. / hours</txt_133>
+    <txt_134 >unit</txt_134>
+    <txt_135 >Time off in lieu.</txt_135>
+    <txt_136 >Paid</txt_136>
+    <txt_137 >Desired payment</txt_137>
+    <txt_138 >Holiday held</txt_138>
+    <txt_139 >Holiday Held u. Salary</txt_139>
+    <txt_140 >1st of may hours</txt_140>
+    <txt_141 >Care Days ~ Days</txt_141>
+    <txt_142 >Off duty - hours</txt_142>
+    <txt_143 >Maternity / leave ~ days</txt_143>
+    <txt_144 >Medical Hours</txt_144>
+    <txt_145 >sick ~ days</txt_145>
+    <txt_146 >child sick ~ days</txt_146>
+    <txt_147 >Comment</txt_147>
+    <txt_148 >Finished</txt_148>
+    <txt_149 >Approved</txt_149>
+    <txt_150 >Pending</txt_150>
+    <txt_151 >Rejected</txt_151>
+    <txt_152 >Come/Go Time Sum</txt_152>
+
   </so>
   
   
@@ -522,6 +635,43 @@
     <txt_115 >declined</txt_115>
     <txt_116 >by employee</txt_116>
 
+    <txt_117 >Employee</txt_117>
+    <txt_118 >Emp. No.</txt_118>
+    <txt_119 >Initials</txt_119>
+    <txt_120 >Project groups / dept.</txt_120>
+    <txt_121 >Come/Go (hours, hh: mm)</txt_121>
+    <txt_122 >Come/Go (100 digits)</txt_122>
+    <txt_123 >Appendix +/-</txt_123>
+    <txt_124 >Come-Go/Norm. hh: mm</txt_124>
+    <txt_125 >Come-Go/Norm. 100 digits</txt_125>
+    <txt_126 >Accumulated (Get-Go/Norm. hh:mm)</txt_126>
+    <txt_127 >Accumulated (Comma-Go/Norm. 100-digit)</txt_127>
+    <txt_128 >Of which billable hours</txt_128>
+    <txt_129 >Of which NOT billable hours</txt_129>
+    <txt_130 >Correction Realized</txt_130>
+    <txt_131 >Real. / Norm.</txt_131>
+    <txt_132 >Accumulated (Real. / Norm.)</txt_132>
+    <txt_133 >Real. / hours</txt_133>
+    <txt_134 >unit</txt_134>
+    <txt_135 >Time off in lieu.</txt_135>
+    <txt_136 >Paid</txt_136>
+    <txt_137 >Desired payment</txt_137>
+    <txt_138 >Holiday held</txt_138>
+    <txt_139 >Holiday Held u. Salary</txt_139>
+    <txt_140 >1st of may hours</txt_140>
+    <txt_141 >Care Days ~ Days</txt_141>
+    <txt_142 >Off duty - hours</txt_142>
+    <txt_143 >Maternity / leave ~ days</txt_143>
+    <txt_144 >Medical Hours</txt_144>
+    <txt_145 >sick ~ days</txt_145>
+    <txt_146 >child sick ~ days</txt_146>
+    <txt_147 >Comment</txt_147>
+    <txt_148 >Finished</txt_148>
+    <txt_149 >Approved</txt_149>
+    <txt_150 >Pending</txt_150>
+    <txt_151 >Rejected</txt_151>
+    <txt_152 >Come/Go Time Sum</txt_152>
+
   </de>
   
   
@@ -652,6 +802,43 @@
     <txt_114 >Not app. or decl.</txt_114>
     <txt_115 >declined</txt_115>
     <txt_116 >by employee</txt_116>
+
+    <txt_117 >Employee</txt_117>
+    <txt_118 >Emp. No.</txt_118>
+    <txt_119 >Initials</txt_119>
+    <txt_120 >Project groups / dept.</txt_120>
+    <txt_121 >Come/Go (hours, hh: mm)</txt_121>
+    <txt_122 >Come/Go (100 digits)</txt_122>
+    <txt_123 >Appendix +/-</txt_123>
+    <txt_124 >Come-Go/Norm. hh: mm</txt_124>
+    <txt_125 >Come-Go/Norm. 100 digits</txt_125>
+    <txt_126 >Accumulated (Get-Go/Norm. hh:mm)</txt_126>
+    <txt_127 >Accumulated (Comma-Go/Norm. 100-digit)</txt_127>
+    <txt_128 >Of which billable hours</txt_128>
+    <txt_129 >Of which NOT billable hours</txt_129>
+    <txt_130 >Correction Realized</txt_130>
+    <txt_131 >Real. / Norm.</txt_131>
+    <txt_132 >Accumulated (Real. / Norm.)</txt_132>
+    <txt_133 >Real. / hours</txt_133>
+    <txt_134 >unit</txt_134>
+    <txt_135 >Time off in lieu.</txt_135>
+    <txt_136 >Paid</txt_136>
+    <txt_137 >Desired payment</txt_137>
+    <txt_138 >Holiday held</txt_138>
+    <txt_139 >Holiday Held u. Salary</txt_139>
+    <txt_140 >1st of may hours</txt_140>
+    <txt_141 >Care Days ~ Days</txt_141>
+    <txt_142 >Off duty - hours</txt_142>
+    <txt_143 >Maternity / leave ~ days</txt_143>
+    <txt_144 >Medical Hours</txt_144>
+    <txt_145 >sick ~ days</txt_145>
+    <txt_146 >child sick ~ days</txt_146>
+    <txt_147 >Comment</txt_147>
+    <txt_148 >Finished</txt_148>
+    <txt_149 >Approved</txt_149>
+    <txt_150 >Pending</txt_150>
+    <txt_151 >Rejected</txt_151>
+    <txt_152 >Come/Go Time Sum</txt_152>
 
   </fr>
   
@@ -785,6 +972,43 @@
     <txt_115 >declined</txt_115>
     <txt_116 >by employee</txt_116>
 
+    <txt_117 >Employee</txt_117>
+    <txt_118 >Emp. No.</txt_118>
+    <txt_119 >Initials</txt_119>
+    <txt_120 >Project groups / dept.</txt_120>
+    <txt_121 >Come/Go (hours, hh: mm)</txt_121>
+    <txt_122 >Come/Go (100 digits)</txt_122>
+    <txt_123 >Appendix +/-</txt_123>
+    <txt_124 >Come-Go/Norm. hh: mm</txt_124>
+    <txt_125 >Come-Go/Norm. 100 digits</txt_125>
+    <txt_126 >Accumulated (Get-Go/Norm. hh:mm)</txt_126>
+    <txt_127 >Accumulated (Comma-Go/Norm. 100-digit)</txt_127>
+    <txt_128 >Of which billable hours</txt_128>
+    <txt_129 >Of which NOT billable hours</txt_129>
+    <txt_130 >Correction Realized</txt_130>
+    <txt_131 >Real. / Norm.</txt_131>
+    <txt_132 >Accumulated (Real. / Norm.)</txt_132>
+    <txt_133 >Real. / hours</txt_133>
+    <txt_134 >unit</txt_134>
+    <txt_135 >Time off in lieu.</txt_135>
+    <txt_136 >Paid</txt_136>
+    <txt_137 >Desired payment</txt_137>
+    <txt_138 >Holiday held</txt_138>
+    <txt_139 >Holiday Held u. Salary</txt_139>
+    <txt_140 >1st of may hours</txt_140>
+    <txt_141 >Care Days ~ Days</txt_141>
+    <txt_142 >Off duty - hours</txt_142>
+    <txt_143 >Maternity / leave ~ days</txt_143>
+    <txt_144 >Medical Hours</txt_144>
+    <txt_145 >sick ~ days</txt_145>
+    <txt_146 >child sick ~ days</txt_146>
+    <txt_147 >Comment</txt_147>
+    <txt_148 >Finished</txt_148>
+    <txt_149 >Approved</txt_149>
+    <txt_150 >Pending</txt_150>
+    <txt_151 >Rejected</txt_151>
+    <txt_152 >Come/Go Time Sum</txt_152>
+
   </uk>
 
 
@@ -915,6 +1139,43 @@
     <txt_114 >Not app. or decl.</txt_114>
     <txt_115 >declined</txt_115>
     <txt_116 >by employee</txt_116>
+
+    <txt_117 >Employee</txt_117>
+    <txt_118 >Emp. No.</txt_118>
+    <txt_119 >Initials</txt_119>
+    <txt_120 >Project groups / dept.</txt_120>
+    <txt_121 >Come/Go (hours, hh: mm)</txt_121>
+    <txt_122 >Come/Go (100 digits)</txt_122>
+    <txt_123 >Appendix +/-</txt_123>
+    <txt_124 >Come-Go/Norm. hh: mm</txt_124>
+    <txt_125 >Come-Go/Norm. 100 digits</txt_125>
+    <txt_126 >Accumulated (Get-Go/Norm. hh:mm)</txt_126>
+    <txt_127 >Accumulated (Comma-Go/Norm. 100-digit)</txt_127>
+    <txt_128 >Of which billable hours</txt_128>
+    <txt_129 >Of which NOT billable hours</txt_129>
+    <txt_130 >Correction Realized</txt_130>
+    <txt_131 >Real. / Norm.</txt_131>
+    <txt_132 >Accumulated (Real. / Norm.)</txt_132>
+    <txt_133 >Real. / hours</txt_133>
+    <txt_134 >unit</txt_134>
+    <txt_135 >Time off in lieu.</txt_135>
+    <txt_136 >Paid</txt_136>
+    <txt_137 >Desired payment</txt_137>
+    <txt_138 >Holiday held</txt_138>
+    <txt_139 >Holiday Held u. Salary</txt_139>
+    <txt_140 >1st of may hours</txt_140>
+    <txt_141 >Care Days ~ Days</txt_141>
+    <txt_142 >Off duty - hours</txt_142>
+    <txt_143 >Maternity / leave ~ days</txt_143>
+    <txt_144 >Medical Hours</txt_144>
+    <txt_145 >sick ~ days</txt_145>
+    <txt_146 >child sick ~ days</txt_146>
+    <txt_147 >Comment</txt_147>
+    <txt_148 >Finished</txt_148>
+    <txt_149 >Approved</txt_149>
+    <txt_150 >Pending</txt_150>
+    <txt_151 >Rejected</txt_151>
+    <txt_152 >Come/Go Time Sum</txt_152>
 
   </es>
 

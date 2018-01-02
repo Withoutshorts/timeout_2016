@@ -3482,11 +3482,11 @@ while not oRec.EOF
                                      <br /><span style="font-size:9px; color:#999999;"><%=left(oRec("collection"), 15) %></span> 
                                 </td>
                                  <td ><%=oRec("rekvnr") %>
-                                     <br /><span style="font-size:9px; color:#999999;"><%=left(destination, 3)%></span> 
+                                     <br /><span style="font-size:9px; color:#999999;"><%=left(destination, 3)%>her</span> 
                                      
                                  </td>
 
-                                  <td ><%=left(oRec("suppliername"), 10) %>
+                                  <td ><%=left(oRec("suppliername"), 10) %>her
 
                                       <%if oRec("jobstatus") = 2 AND len(trim(oRec("supplier_invoiceno"))) <> 0 then %>
                                       <br /><span style="font-size:9px; color:#999999;"><%=oRec("supplier_invoiceno") %></span>
@@ -3598,7 +3598,7 @@ while not oRec.EOF
                                   <%end if 'rapporttype %>
 
                                   <%if cint(rapporttype) = 0 OR cint(rapporttype) = 3 then%>
-                                 <td style="white-space:nowrap;"><%=dt_actual_etd %></td>
+                                 <td style="white-space:nowrap;"><%=dt_actual_etd %>her</td>
                                   <%end if 'rapporttype %>
 
 
@@ -3621,7 +3621,7 @@ while not oRec.EOF
                                  <%end if %>
 
                                      <%if cint(rapporttype) = 0 OR cint(rapporttype) = 3 then  %>
-                                <td style="text-align:right;"><%=sales_price_pc%></td> <!--&" "& sales_price_pc_val  -->
+                                <td style="text-align:right;"><%=sales_price_pc%>her2</td> <!--&" "& sales_price_pc_val  -->
                                  <%end if %>
 
                                   <%if cint(rapporttype) = 3 then  %>
@@ -3631,12 +3631,12 @@ while not oRec.EOF
                                  <%end if %>
 
                                  <%if cint(rapporttype) = 0 OR cint(rapporttype) = 3 then  %>
-                                <td style="text-align:right;"><%=jo_bruttooms%></td><!-- jo_bruttoomsTxt -->
+                                <td style="text-align:right;"><%=jo_bruttooms%>her2</td><!-- jo_bruttoomsTxt -->
                                  <%end if %>
 
                                   <%if cint(rapporttype) = 3 then  %>
                                 
-                                <td style="text-align:right;"><%=jo_dbproc_bel%></td><!-- jo_dbproc_belTxt -->
+                                <td style="text-align:right;"><%=jo_dbproc_bel%>herrr</td><!-- jo_dbproc_belTxt -->
                                  <td style="text-align:right;"><%=jo_dbproc%></td>
                                    <%end if %>
 
@@ -4402,7 +4402,7 @@ oRec.close
                 strOskrifter = strOskrifter & "Commision PC;Profit PC;Total Cost Price;Val;"
                 end if
                   if cint(rapporttype) = 0 OR cint(rapporttype) = 3 then
-                strOskrifter = strOskrifter & "Total Sales Price;Val;"
+                strOskrifter = strOskrifter & "Total Sales Price23;Val;"
                 end if
                  if cint(rapporttype) = 3 then
                 strOskrifter = strOskrifter & "Total Profit;Val;Total Profit %;"
