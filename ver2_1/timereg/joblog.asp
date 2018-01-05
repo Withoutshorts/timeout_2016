@@ -2184,6 +2184,16 @@ slutDatoKriSQL = strAar_slut &"/"& strMrd_slut &"/"& strDag_slut
     					
     					
 				                <%end if
+
+
+                                  '*** varenr **'
+                                  if isNull(oRec("avarenr")) <> true AND len(trim(oRec("avarenr"))) <> 0 then 
+                                  %><br /><span style="color:#5582d2; font-size:9px;"><%=oRec("avarenr")%></span><%  
+                                  end if
+                                      
+                                
+
+
 				
 
                             timerKom = ""
@@ -2250,6 +2260,10 @@ slutDatoKriSQL = strAar_slut &"/"& strMrd_slut &"/"& strDag_slut
 				
                             end select
 
+
+                            ekspTxt = ekspTxt & Chr(34) & oRec("avarenr") & Chr(34) &";" 
+
+
                             if cint(showfor) = 1 then
                     
 
@@ -2273,29 +2287,32 @@ slutDatoKriSQL = strAar_slut &"/"& strMrd_slut &"/"& strDag_slut
                                 wend
                                 oRec5.close
 
-                            if media <> "export" then%>
-				            <td style="padding-top:3px; padding-left:5px; border-top:1px #cccccc solid;" valign="top"><span style="color:#999999; font-size:10px;"><%=forr %></span>
+                                if media <> "export" then%>
+				                <td style="padding-top:3px; padding-left:5px; border-top:1px #cccccc solid;" valign="top"><span style="color:#999999; font-size:10px;"><%=forr %></span>
 
-                            </td>
-				            <%
+                                </td>
+				                <%
 
-                            else
+                                else
 
-                            %>
-				            <td style="padding-top:3px; padding-left:5px; border-top:1px #cccccc solid;" valign="top"><img src="ill/blank.gif" width="1" height="1" border="0" /></td>
-				            <%
+                                %>
+				                <td style="padding-top:3px; padding-left:5px; border-top:1px #cccccc solid;" valign="top"><img src="ill/blank.gif" width="1" height="1" border="0" /></td>
+				                <%
 
-				            end if
+				                end if
 
                             forrExp = replace(forr, "<br>", ", ") 
 
                             select case ver
                             case 1
                             case else
-                            ekspTxt = ekspTxt & forrExp &";"
+                            ekspTxt = ekspTxt & forrExp &";" 
                             end select
 
                             end if
+
+
+                            
 
 
 
@@ -3139,7 +3156,7 @@ if x <> 0 then
                                             strOskrifter = strOskrifter &"Fase;"
                                             end if
                 
-                                                strOskrifter = strOskrifter & "Uge;Dato;Aktivitet;Type;Fakturerbar;"
+                                                strOskrifter = strOskrifter & "Uge;Dato;Aktivitet;Type;Fakturerbar;Varenr;"
                  
 
                                                 if cint(showfor) = 1 then

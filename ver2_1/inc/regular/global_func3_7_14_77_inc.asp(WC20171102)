@@ -1280,7 +1280,7 @@
                 
                     
                     
-                           if visning = 77 or visning = 7 and lto = "esn"  then 'Kun på afstembning udspec. dage   + ugeseddel
+                           if visning = 77 or (visning = 7 and lto = "esn") then 'Kun på afstembning udspec. dage   + ugeseddel
                     
                                   if aldersreduktionUdb(x) <> 0 then
                                  aldersreduktionUdbTxt = formatnumber(aldersreduktionUdb(x),2) 

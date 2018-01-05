@@ -8,6 +8,179 @@
         if Request.Form("AjaxUpdateField") = "true" then
         Select Case Request.Form("control")
 
+
+      '*************************************************************************
+        '**** Kørsel ***'
+        '*************************************************************************
+        case "FM_get_destinations"
+
+                                    
+
+
+            	if len(trim(request("kid"))) <> 0 then
+				kid = request("kid") 
+				else
+				kid = 0
+				end if
+				
+				
+				
+				
+				    if len(trim(request("visalle"))) <> 0 then
+				    visalle = request("visalle")
+				    else
+				    visalle = 0
+				    end if
+				    
+				 
+                                    if len(trim(request("jqmid"))) <> 0 then
+                                    jqmrn = request("jqmid")
+                                    else
+                                    jqmrn = 0
+                                    end if
+				
+			                       strFil_Kon_Txt = ""
+
+                    '**** Valgt medarbejer *****'
+                    strSQLmnradr = "SELECT mnavn, mnr, init, madr, mpostnr, mcity, mland FROM medarbejdere WHERE mid = "& jqmrn 
+                    'Response.write "<option>"& strSQLmnradr &"</option>"
+                    
+                                    
+                     oRec2.open strSQLmnradr, oConn, 3
+                    if not oRec2.EOF then
+                    
+                   
+                    
+                                strFil_Kon_Txt = strFil_Kon_Txt & "<option value='0'>"& oRec2("mnavn") &" "_
+                                & left(oRec2("madr"), 30) &" "_
+                                & oRec2("mpostnr") &" "& oRec2("mcity") & " "& oRec2("mland")
+                                strFil_Kon_Txt = strFil_Kon_Txt &"</option>"
+                           
+
+                    end if
+                    oRec2.close
+                                   
+
+                  
+
+
+                        strSQLklicens = "SELECT k.kid, k.kkundenavn, k.adresse, k.postnr, k.city, k.land FROM kunder AS k WHERE useasfak = 1"
+                        oRec.open strSQLklicens, oConn, 3
+                        if not oRec.EOF then
+                        
+                                if len(trim(oRec("kkundenavn"))) <> 0 then
+                                
+                                strFil_Kon_Txt = strFil_Kon_Txt & "<option value='k_"& oRec("kid") &"'>"& left(oRec("kkundenavn"), 50) &" "_
+                                & left(oRec("adresse"), 30) &" "_
+                                & oRec("postnr") &" "& oRec("city") &" "_
+                                & oRec("land")
+                                strFil_Kon_Txt = strFil_Kon_Txt & "</option>"
+
+                                end if
+
+                        end if
+                        oRec.close
+                      
+                            
+    
+                            
+
+                          
+                strSQLkperskm = "SELECT kp.id AS kpid, kp.navn AS kpersnavn, kp.email, kp.dirtlf, kp.mobiltlf, "_
+				&" kp.adresse As kpadr, kp.postnr As kpzip, kp.town As kptown, kp.land As kpland, kp.afdeling AS kpafd, "_
+				&" k.kid, k.kkundenavn, k.kkundenr, k.adresse, k.postnr, k.city, k.telefon, k.land FROM kunder k "_ 
+				&" LEFT JOIN kontaktpers kp ON (kp.kundeid = k.kid AND kp.navn IS NOT NULL AND kp.adresse IS NOT NULL AND kp.postnr IS NOT NULL AND kp.town IS NOT NULL)"_
+				&" WHERE useasfak <> 1 "_
+                &" AND k.kkundenavn IS NOT NULL AND k.adresse IS NOT NULL ORDER BY k.kkundenavn, kp.navn"
+			   
+			    'Response.Write "<option>"& strSQLkperskm & "</option>"
+			    'Response.end
+			   
+			
+                lastKid = 0
+                lastAlfabet = ""
+			   
+			    oRec2.open strSQLkperskm, oConn, 3
+                x = xvalbegin
+                k = 0
+                while not oRec2.EOF
+                
+                   'strFil_Kon_Txt = strFil_Kon_Txt & "<option>"& oRec2("kkundenavn") &" </option>"
+                       
+                                 if lastAlfabet <> left(oRec2("kkundenavn"), 1) then
+                                 strFil_Kon_Txt = strFil_Kon_Txt & "<option DISABLED></option>"
+                                 strFil_Kon_Txt = strFil_Kon_Txt & "<option DISABLED></option>"
+                                 strFil_Kon_Txt = strFil_Kon_Txt & "<option DISABLED style=""font-size:20px; background-color:#F7F7F7;"">"& left(ucase(oRec2("kkundenavn")), 1) &"</option>"
+                                 end if
+                              
+
+                                if len(trim(oRec2("kkundenavn"))) <> 0 AND lastKid <> oRec2("kid") then
+                                strFil_Kon_Txt = strFil_Kon_Txt & "<option DISABLED></option>"
+                                strFil_Kon_Txt = strFil_Kon_Txt & "<option value='k_"& oRec2("kid") &"'>"& oRec2("kkundenavn") &" "_
+                                & left(oRec2("adresse"), 30) &" "_
+                                & oRec2("postnr") &" "& oRec2("city")&" "_
+                                & oRec2("land")
+                                strFil_Kon_Txt = strFil_Kon_Txt &  "</option>"
+                                end if
+                                
+
+
+                  x = x + 1   
+                  k = 1 
+                       
+                        
+                
+                               if len(trim(oRec2("kpid"))) <> 0 then
+                                
+                                               
+                                        if len(trim(oRec2("kpersnavn"))) <> 0 then
+                                        strFil_Kon_Txt = strFil_Kon_Txt & "<option value='kp_"& oRec2("kpid") &"'>.........."& oRec2("kpersnavn") &" "
+                                       
+                                        if len(trim(oRec2("kpafd"))) <> 0 then
+                                        strFil_Kon_Txt = strFil_Kon_Txt &  "Afd:"&  oRec2("kpafd") &" "
+                                        end if
+                                        
+                                        strFil_Kon_Txt = strFil_Kon_Txt & left(oRec2("kpadr"), 20) &" "_
+                                        & oRec2("kpzip") &" "& oRec2("kptown") &" "& oRec2("kpland")
+                                       
+                                        
+                                        strFil_Kon_Txt = strFil_Kon_Txt &  "</option>"
+                                        end if
+                                        
+
+                                  x = x + 1
+                                end if 'oRec2("id") <> 0    
+                
+                              
+                lastAlfabet = left(oRec2("kkundenavn"), 1)
+                lastknavn = oRec2("kkundenavn") 
+                lastKid = oRec2("kid")
+                oRec2.movenext
+                wend
+                oRec2.close
+
+
+                
+
+                                    'Response.Write strFil_Kon_Txt
+                                    'Response.end
+
+                           
+                                    
+                                   
+                     
+                
+                
+                '*** ÆØÅ **'
+                call jq_format(strFil_Kon_Txt)
+                strFil_Kon_Txt = jq_formatTxt
+                Response.write strFil_Kon_Txt  
+                response.end
+
+    
+    
+    
+    
     case "FN_sogjobogkunde" 
 
         
@@ -23,26 +196,45 @@
         
                 medid = request("jq_medid")
 
+                if len(trim(request("jq_ign_projgrp"))) <> 0 then
+                ign_projgrp = request("jq_ign_projgrp")
+                else
+                ign_projgrp = 0
+                end if
+
                 if filterVal <> 0 then
             
                  lastKid = 0
                 
                   'strJobogKunderTxt = strJobogKunderTxt &"<span style=""color:red; font-size:9px; float:right;"" class=""luk_jobsog"">[X]</span>"    
                          
+                if cint(ign_projgrp) = 0 then' alm
 
-
-                strSQL = "SELECT j.id AS jid, j.jobnavn, j.jobnr, j.jobstatus, k.kkundenavn, k.kkundenr, k.kid FROM timereg_usejob AS tu "_ 
-                &" LEFT JOIN job AS j ON (j.id = tu.jobid) "_
-                &" LEFT JOIN kunder AS k ON (k.kid = j.jobknr) "_
-                &" WHERE tu.medarb = "& medid &" AND (j.jobstatus = 1 OR j.jobstatus = 3) AND "_
-                &" (jobnr LIKE '"& jobkundesog &"%' OR jobnavn LIKE '%"& jobkundesog &"%' OR "_
-                &" kkundenavn LIKE '"& jobkundesog &"%' OR kkundenr = '"& jobkundesog &"' OR k.kinit = '"& jobkundesog &"')  AND kkundenavn <> ''"_
-                &" GROUP BY j.id ORDER BY kkundenavn, jobnavn LIMIT 50"       
+                    strSQL = "SELECT j.id AS jid, j.jobnavn, j.jobnr, j.jobstatus, k.kkundenavn, k.kkundenr, k.kid FROM timereg_usejob AS tu "_ 
+                    &" LEFT JOIN job AS j ON (j.id = tu.jobid) "_
+                    &" LEFT JOIN kunder AS k ON (k.kid = j.jobknr) "_
+                    &" WHERE tu.medarb = "& medid &" AND (j.jobstatus = 1 OR j.jobstatus = 3) AND "_
+                    &" (jobnr LIKE '"& jobkundesog &"%' OR jobnavn LIKE '%"& jobkundesog &"%' OR "_
+                    &" kkundenavn LIKE '"& jobkundesog &"%' OR kkundenr = '"& jobkundesog &"' OR k.kinit = '"& jobkundesog &"')  AND kkundenavn <> ''"_
+                    &" GROUP BY j.id ORDER BY kkundenavn, jobnavn LIMIT 50"       
     
+                else 'ignorer projektgrupper
+
+                
+                    strSQL = "SELECT j.id AS jid, j.jobnavn, j.jobnr, j.jobstatus, k.kkundenavn, k.kkundenr, k.kid FROM job AS j "_
+                    &" LEFT JOIN kunder AS k ON (k.kid = j.jobknr) "_
+                    &" WHERE (j.jobstatus = 1 OR j.jobstatus = 3) AND "_
+                    &" (jobnr LIKE '"& jobkundesog &"%' OR jobnavn LIKE '%"& jobkundesog &"%' OR "_
+                    &" kkundenavn LIKE '"& jobkundesog &"%' OR kkundenr = '"& jobkundesog &"' OR k.kinit = '"& jobkundesog &"') AND kkundenavn <> ''"_
+                    &" GROUP BY j.id ORDER BY kkundenavn, jobnavn LIMIT 50"      
+
+
+                end if
+
 
                  'response.write "strSQL " &strSQL
                  'response.end
-
+                antalJob = 0
                 oRec.open strSQL, oConn, 3
                 while not oRec.EOF
         
@@ -54,16 +246,19 @@
                 'strJobogKunderTxt = strJobogKunderTxt & "<input type=""checkbox"" class=""chbox_job"" id=""chbox_job_"& oRec("jid") &""" value="& oRec("jid") &"> "& oRec("jobnavn") & " ("& oRec("jobnr") &")" &"<br>" 
                 select case lto
                 case "tia"
-                strJobogKunderTxt = strJobogKunderTxt & "<option value="& oRec("jid") &" "& jobSEL &">"& oRec("jobnr") &" - "& oRec("jobnavn") & ""
+                strJobogKunderTxt = strJobogKunderTxt & "<option value="& oRec("jid") &" "& jobSEL &">"& oRec("jobnr") &" - "& oRec("jobnavn") & "</option>"
                 case else
-                strJobogKunderTxt = strJobogKunderTxt & "<option value="& oRec("jid") &" "& jobSEL &">"& oRec("jobnavn") & " ("& oRec("jobnr") &")"
+                strJobogKunderTxt = strJobogKunderTxt & "<option value="& oRec("jid") &" "& jobSEL &">"& oRec("jobnavn") & " ("& oRec("jobnr") &")</option>"
                 end select            
 
+                antalJob = antalJob + 1 
                 lastKid = oRec("kid") 
                 oRec.movenext
                 wend
                 oRec.close
 
+
+                    strJobogKunderTxt = strJobogKunderTxt & "<option value=0 disabled>Jobs: "& antalJob &"</option>" 'ign_projgrp: ("& ign_projgrp &")
               
 
 
@@ -102,6 +297,25 @@
                 jobid = 0
                 end if
 
+
+                ign_projgrp = 0
+                if len(trim(request("jq_ign_projgrp"))) <> 0 then
+                ign_projgrp = request("jq_ign_projgrp")
+                else
+                ign_projgrp = 0
+                end if
+
+
+                 'if session("mid") = 1 then
+                'response.write "strSQL " & strSQL
+                 'response.end
+                'strAktTxt = strAktTxt & "<option value=0>ign_projgrp: "& ign_projgrp &"</option>"
+                'response.write strAktTxt
+                'response.end
+                'end if
+
+                 call akttyper2009(2)
+
                 'positiv aktivering
                 call positiv_aktivering_akt_fn()
                 pa = pa_aktlist 
@@ -133,64 +347,80 @@
                 onlySalesact = ""
                 end if
 
+
+
+
                 if filterVal <> 0 then
             
                  
     
                 'strAktTxt = strAktTxt &"<span style=""color:#999999; font-size:9px; float:right;"" class=""luk_aktsog"">X</span>"    
-                         
+                 
+
+                '************************************************************************************************
+                '*** FINDES AKT i firvejen på favoritlisten 
+                '************************************************************************************************
+                 findesaktfav = "#0#"
+                'strSQLfavakt = "SELECT aktid FROM timereg_usejob WHERE favorit <> 1 AND medarb = "& FM_medid &" AND jobid = "& FM_jobid
+                strSQLfavakt = "SELECT aktid, favorit FROM timereg_usejob WHERE favorit = 1 AND medarb = "& FM_medid &" AND jobid = "& FM_jobid
+                oRec6.open strSQLfavakt, oConn, 3
+                while not oRec6.EOF
+                findesaktfav = findesaktfav & ",#"& oRec6("aktid") &"#"                  
+                oRec6.movenext
+                wend          
+                oRec6.close  
+
 
                if pa = "1" then
-               strSQL= "SELECT a.id AS aid, navn AS aktnavn FROM timereg_usejob LEFT JOIN aktiviteter AS a ON (a.id = tu.aktid "& onlySalesact &") "_
-               &" WHERE tu.medarb = "& usemrn &" AND tu.jobid = "& jobid &" AND aktid <> 0 AND a.navn LIKE '%"& aktsog &"%' AND aktstatus = 1 AND ("& aty_sql_hide_on_treg &") "& onlySalesact &" ORDER BY navn"   
+               strSQL = "SELECT a.id AS aid, navn AS aktnavn, a.fase FROM timereg_usejob tu LEFT JOIN aktiviteter AS a ON (a.job = tu.jobid "& onlySalesact &") "_
+               &" WHERE tu.medarb = "& medid &" AND tu.jobid = "& FM_jobid &" AND aktstatus = 1 AND ("& aty_sql_hide_on_treg &") "& onlySalesact &" ORDER BY a.fase, sortorder, navn"   
 
+                'AND aktid <> 0
 
                else
 
+                        if cint(ign_projgrp) = 0 then' alm
 
-                        '*** Finder medarbejders projektgrupper 
-                        '** Medarbejder projektgrupper **'
-                        medarbPGrp = "#0#" 
-                        strMpg = "SELECT projektgruppeId, medarbejderId, teamleder FROM progrupperelationer WHERE medarbejderId = "& medid & " GROUP BY projektgruppeId"
 
-                        oRec5.open strMpg, oConn, 3
-                        while not oRec5.EOF
-                        medarbPGrp = medarbPGrp & ",#"& oRec5("projektgruppeId") &"#"         
+                            '*** Finder medarbejders projektgrupper 
+                            '** Medarbejder projektgrupper **'
+                            medarbPGrp = "#0#" 
+                            strMpg = "SELECT projektgruppeId, medarbejderId, teamleder FROM progrupperelationer WHERE medarbejderId = "& medid & " GROUP BY projektgruppeId"
+
+                            oRec5.open strMpg, oConn, 3
+                            while not oRec5.EOF
+                            medarbPGrp = medarbPGrp & ",#"& oRec5("projektgruppeId") &"#"         
   
-                        oRec5.movenext
-                        wend
-                        oRec5.close 
-
-                        findesaktfav = "#0#"
-                        'strSQLfavakt = "SELECT aktid FROM timereg_usejob WHERE favorit <> 1 AND medarb = "& FM_medid &" AND jobid = "& FM_jobid
-                        strSQLfavakt = "SELECT aktid, favorit FROM timereg_usejob WHERE favorit = 1 AND medarb = "& FM_medid &" AND jobid = "& FM_jobid
-                        oRec6.open strSQLfavakt, oConn, 3
-                        while not oRec6.EOF
-                        findesaktfav = findesaktfav & ",#"& oRec6("aktid") &"#"                  
-                        oRec6.movenext
-                        wend          
-                        oRec6.close  
+                            oRec5.movenext
+                            wend
+                            oRec5.close 
 
 
+                         end if
 
-               '(a.fakturerbar = 6 AND j.jobstatus = 3)           
+                          
+                          
 
-               strSQL= "SELECT a.id AS aid, navn AS aktnavn, projektgruppe1, projektgruppe2, projektgruppe3, "_
-               &" projektgruppe4, projektgruppe5, projektgruppe6, projektgruppe7, projektgruppe8, projektgruppe9, projektgruppe10 FROM aktiviteter AS a "_
-               &" WHERE a.job = " & jobid & " AND aktstatus = 1 AND fakturerbar <> 90 "& onlySalesact &" ORDER BY navn"      
-                'AND navn LIKE '%"& aktsog &"%'
-                'AND ("& aty_sql_hide_on_treg &")
-
+                        strSQL= "SELECT a.id AS aid, navn AS aktnavn, a.fase, projektgruppe1, projektgruppe2, projektgruppe3, "_
+                        &" projektgruppe4, projektgruppe5, projektgruppe6, projektgruppe7, projektgruppe8, projektgruppe9, projektgruppe10 FROM aktiviteter AS a "_
+                        &" WHERE a.job = " & jobid & " AND aktstatus = 1 AND fakturerbar <> 90 "& onlySalesact &" ORDER BY a.fase, sortorder, navn"      
+                          
                
             
                 end if
 
-                 'response.write "strSQL " & strSQL
+                'if session("mid") = 1 then
+                'response.write "strSQL " & strSQL
                  'response.end
+                'strAktTxt = strAktTxt & "<option value=0>HER: "& strSQL &" findesaktfav: "& findesaktfav &"</option>"
+                'response.write strAktTxt
+                'response.end
+                'end if
 
                 strAktTxt = strAktTxt & "<option SELECTED disabled value=0>..</option>"             
 
-
+                lastFase = ""
+                thisFase = ""
                 oRec.open strSQL, oConn, 3
                 while not oRec.EOF
 
@@ -199,27 +429,75 @@
                 findesaktfavshowakt = 1
                 end if
         
-                 showAkt = 0
-                if instr(medarbPGrp, "#"& oRec("projektgruppe1") &"#") <> 0 AND findesaktfavshowakt = 0 _
-                OR instr(medarbPGrp, "#"& oRec("projektgruppe2") &"#") <> 0 AND findesaktfavshowakt = 0 _
-                OR instr(medarbPGrp, "#"& oRec("projektgruppe3") &"#") <> 0 AND findesaktfavshowakt = 0 _
-                OR instr(medarbPGrp, "#"& oRec("projektgruppe4") &"#") <> 0 AND findesaktfavshowakt = 0 _
-                OR instr(medarbPGrp, "#"& oRec("projektgruppe5") &"#") <> 0 AND findesaktfavshowakt = 0 _
-                OR instr(medarbPGrp, "#"& oRec("projektgruppe6") &"#") <> 0 AND findesaktfavshowakt = 0 _
-                OR instr(medarbPGrp, "#"& oRec("projektgruppe7") &"#") <> 0 AND findesaktfavshowakt = 0 _
-                OR instr(medarbPGrp, "#"& oRec("projektgruppe8") &"#") <> 0 AND findesaktfavshowakt = 0 _
-                OR instr(medarbPGrp, "#"& oRec("projektgruppe9") &"#") <> 0 AND findesaktfavshowakt = 0 _
-                OR instr(medarbPGrp, "#"& oRec("projektgruppe10") &"#") <> 0 AND findesaktfavshowakt = 0 then
-                showAkt = 1
-                end if 
+                
+                showAkt = 0
+                if pa = "1" then
+            
+                     showAkt = 1
+            
+                else
+
+                    if cint(ign_projgrp) = 0 then' alm
+
+                            if instr(medarbPGrp, "#"& oRec("projektgruppe1") &"#") <> 0 AND findesaktfavshowakt = 0 _
+                            OR instr(medarbPGrp, "#"& oRec("projektgruppe2") &"#") <> 0 AND findesaktfavshowakt = 0 _
+                            OR instr(medarbPGrp, "#"& oRec("projektgruppe3") &"#") <> 0 AND findesaktfavshowakt = 0 _
+                            OR instr(medarbPGrp, "#"& oRec("projektgruppe4") &"#") <> 0 AND findesaktfavshowakt = 0 _
+                            OR instr(medarbPGrp, "#"& oRec("projektgruppe5") &"#") <> 0 AND findesaktfavshowakt = 0 _
+                            OR instr(medarbPGrp, "#"& oRec("projektgruppe6") &"#") <> 0 AND findesaktfavshowakt = 0 _
+                            OR instr(medarbPGrp, "#"& oRec("projektgruppe7") &"#") <> 0 AND findesaktfavshowakt = 0 _
+                            OR instr(medarbPGrp, "#"& oRec("projektgruppe8") &"#") <> 0 AND findesaktfavshowakt = 0 _
+                            OR instr(medarbPGrp, "#"& oRec("projektgruppe9") &"#") <> 0 AND findesaktfavshowakt = 0 _
+                            OR instr(medarbPGrp, "#"& oRec("projektgruppe10") &"#") <> 0 AND findesaktfavshowakt = 0 then
+                            showAkt = 1
+
+                            end if 
+
+
+                    else
+                    showAkt = 1
+
+                    end if
+
+                end if 'pa
 
                                               
                 if cint(showAkt) = 1 then 
-                 
-                'strAktTxt = strAktTxt & "<input type=""hidden"" id=""hiddn_akt_"& oRec("aid") &""" value="""& oRec("aktnavn") &""">"
-                'strAktTxt = strAktTxt & "<input type=""checkbox"" class=""chbox_akt"" id=""chbox_akt_"& oRec("aid") &""" value="& oRec("aid") &"> "& oRec("aktnavn") &"<br>" 
-                strAktTxt = strAktTxt & "<option value="& oRec("aid") &" "& optionFcDis &">"& oRec("aktnavn") &" "& fcsaldo_txt &"</option>"             
 
+
+                        if isnull(oRec("fase")) = false then
+
+                                if len(trim(oRec("fase"))) <> 0 then
+                                thisFase = oRec("fase")
+                                else
+                                thisFase = ""
+                                end if
+
+                        else
+                        thisFase = ""
+                        end if
+
+                                if len(trim(thisFase)) <> 0 AND (lastFase <> thisFase OR len(trim(lastFase)) = 0) then
+
+                                 thisFase = replace(thisFase, "_", " ")
+                                 strAktTxt = strAktTxt & "<option value=0 disabled></option>"
+                                 strAktTxt = strAktTxt & "<option value=0 disabled>[ "& thisFase &" ]</option>"
+                                 
+                                 
+
+                                end if
+                 
+                    'strAktTxt = strAktTxt & "<input type=""hidden"" id=""hiddn_akt_"& oRec("aid") &""" value="""& oRec("aktnavn") &""">"
+                    'strAktTxt = strAktTxt & "<input type=""checkbox"" class=""chbox_akt"" id=""chbox_akt_"& oRec("aid") &""" value="& oRec("aid") &"> "& oRec("aktnavn") &"<br>" 
+                    strAktTxt = strAktTxt & "<option value="& oRec("aid") &" "& optionFcDis &">"& oRec("aktnavn") &" "& fcsaldo_txt &"</option>"             
+
+               
+                 end if 'showakt
+
+                if isnull(oRec("fase")) = false then
+                lastFase = oRec("fase")
+                else
+                lastFase = ""
                 end if
                 
                 oRec.movenext
@@ -236,8 +514,8 @@
 
                     response.write strAktTxt
 
-                end if    
-
+               
+            end if 'filerval
 
 
 
@@ -248,6 +526,13 @@
         aktid = request("FM_aktid")
         medid = request("FM_medid_id")
 
+       
+       
+       
+        
+        'response.write "jobid "& jobid  & "medid: "& medid & " aktid: "& aktid
+         'response.end
+
         strSQL = "SELECT id FROM timereg_usejob WHERE jobid = "& jobid &" AND aktid = "& aktid &" AND medarb = "& medid
         oRec.open strSQL, oConn, 3
         if not oRec.EOF then
@@ -257,21 +542,27 @@
         end if
         oRec.close 
 
+        'response.write "HER: "&  Strtilfojakt
+        'response.end
+
         oConn.execute(Strtilfojakt)
+
+
 
         'oConn.execute("UPDATE timereg_usejob SET favorit = 1 WHERE aktid = "&aktid&"")
         'Strtilfojakt = "INSERT INTO timereg_usejob SET jobid = "& jobid &", favorit = 1, aktid = "& aktid & ", medarb = "& medid
         'oConn.execute(Strtilfojakt)
 
+        'response.end
 
-        akt_jobid = jobid
-        akt_aktid = aktid
+       'akt_jobid = jobid
+        'akt_aktid = aktid
 
 
         'response.Write Strtilfojakt
         'response.end 
 
-        'Response.redirect "favorit.asp?"
+        'Response.redirect "favorit.asp"
 
         'strSQLUpdjWiphist = "INSERT INTO wip_historik (dato, restestimat, stade_tim_proc, medid, jobid) VALUES ('"& ddDato &"', "& rest &", "& timerproc &", "& session("mid") &", "& jobid &")"
         'oConn.Execute(strSQLUpdjWiphist)
@@ -316,7 +607,7 @@
 <!--#include file="../inc/regular/header_lysblaa_2015_inc.asp"-->
 
 <SCRIPT src="../timereg/inc/smiley_jav.js"></script>
-<script src="js/favorit_jav.js"></script>
+<script src="js/favorit_jav_20171128.js"></script>
 <!-- <link rel="stylesheet" href="../../bower_components/bootstrap-datepicker/css/datepicker3.css"> -->
 
 
@@ -384,6 +675,15 @@
     medid = request("FM_medid")
     else
     medid = session("mid")
+    end if
+
+
+    if len(trim(request("FM_ign_projgrp"))) <> 0 then
+    ign_projgrp = 1
+    ign_projgrpCHK = "CHECKED"
+    else
+    ign_projgrp = 0
+    ign_projgrpCHK = ""
     end if
 
     struSQLusemedarb = "SELECT mnavn FROM medarbejdere WHERE mid ="& medid
@@ -459,20 +759,10 @@
         varTjDatoUS_man = request("varTjDatoUS_man")
         id = request("id")
 
-        %>
-            <div class="container">
-                <div class="portlet">
-                    <h3 class="portlet-title"><u><%=favorit_txt_001 %></u> </h3>
-                    <div class="portlet-body">
-                        <%response.Write "aktivi id" & id  %>
-                    </div>
-
-                </div>
-            </div>
-        <%
         
-
+        if id <> 0 then
         oConn.execute("UPDATE timereg_usejob SET favorit = 0 WHERE aktid = "& id &" AND medarb = "& medid)
+        end  if
 
         response.Redirect "favorit.asp?FM_medid="&medid&"&varTjDatoUS_man="&varTjDatoUS_man
 
@@ -609,7 +899,7 @@
 	
                                             if cdbl(medid) = cdbl(oRec("Mid")) then
 				                            isSelected = "SELECTED"
-				                            else
+                                            else
 				                            isSelected = ""
 				                            end if
 
@@ -633,6 +923,7 @@
                                             </div>
                                         </div>                                                                                                                           
                                     </td>
+                                    
                                     <td>                                       
                                         <button type="submit" class="btn btn-sm btn-default"><b><%=favorit_txt_004 %></b></button>                                       
                                     </td>
@@ -647,8 +938,9 @@
 
                         <form action="../timereg/timereg_akt_2006.asp?func=db&rdir=favorit&varTjDatoUS_man=<%=varTjDatoUS_man%>" method="post">
                             
-                            
+                            <%usemrn = medid %>
                             <input type="hidden" name="FM_medid" value="<%=medid %>" />
+                            <input id="usemrn" value="<%=usemrn %>" type="hidden" />
                             <input type="hidden" id="Hidden4" name="FM_dager" value="7"/>
                            
                             <input type="hidden" id="" name="FM_vistimereltid" value="0"/>
@@ -726,7 +1018,10 @@
                                      'Dim jobid, aktid, medarb
                                      Redim jobid(i), aktid(i), medarb(i)
 
-                                     StrSqlfav = "SELECT medarb, jobid, aktid, forvalgt_af FROM timereg_usejob WHERE medarb = "& medid & " AND favorit <> 0" 
+                                     StrSqlfav = "SELECT medarb, jobid, aktid, forvalgt_af FROM timereg_usejob "_
+                                     &" LEFT JOIN job j ON (j.id = jobid) "_
+                                     &" LEFT JOIN kunder k ON (kid = jobknr) "_
+                                     &" WHERE medarb = "& medid & " AND favorit <> 0 ORDER BY kkundenavn, jobnavn, jobnr" 
                                      
                                      oRec.open StrSqlfav, oConn, 3
 
@@ -807,12 +1102,14 @@
                                         oRec4.close
 
                                         
-                                        StrSQLakt = "SELECT id, navn, beskrivelse, budgettimer FROM aktiviteter WHERE id ="& aktid(i)
+                                        StrSQLakt = "SELECT id, navn, beskrivelse, budgettimer, fakturerbar, fase FROM aktiviteter WHERE id ="& aktid(i)
                                         oRec2.open StrSqlakt, oConn, 3
                                         if not oRec2.EOF then
                                         aktNavn = oRec2("navn")
                                         TaktId = oRec2("id")
                                         aktbudgettimer = oRec2("budgettimer")
+                                        fakturerbar = oRec2("fakturerbar")
+                                        thisfase = oRec2("fase")
                                         'response.Write jobnavn
                                         %>
                                         <tr>
@@ -934,6 +1231,9 @@
 
                                             <td style="vertical-align:middle; width:195px;">
                                                 <input type="hidden" value="<%=TaktId %>" name="FM_aktivitetid" />
+                                                <%if len(trim(thisfase)) <> 0 then %>
+                                                <span style="font-size:9px;"><%=replace(thisfase, "_", "") %></span><br />
+                                                <%end if %>
                                                 <%=aktNavn %>
 
                                                 <span id="modal_<%=TaktId %>" class="fa fa-chevron-down pull-right picmodal" style="color:#8c8c8c"></span>                                               
@@ -977,6 +1277,7 @@
                                             <%
                                                 
                                                 for l = 0 to 6
+                                                
                                                      
                                                     timerKom = ""
                                                     fmborcl = ""
@@ -1062,7 +1363,17 @@
                                                     %>
                                                         <td>  
                                                                <div class="row">   
-                                                                                              
+
+                                                            <!-- Til kørsel -->
+                                                            <input type="hidden" id="jq_kid_<%=y %>" value="<%=oRec3("jobknr") %>" />
+                                                            <input type="hidden" id="jq_row_<%=y %>" value="<%=y %>" />
+                                                            <input type="hidden" id="jq_flt_<%=y %>" value="<%=l %>" />
+                                                            <input type="hidden" id="jq_tfa_<%=y %>" value="<%=fakturerbar %>" />
+                                                            
+                                                            
+                                                            
+
+
                                                             <input type="hidden" name="FM_feltnr" value="<%=y %>" />
                                                             <input type="hidden" value="<%=timerdato %>" name="FM_datoer" />
                                                             <input type="hidden" value="dist" name="FM_destination_<%=y %>" />
@@ -1080,7 +1391,7 @@
                                                             <%else 
                                                                 
                                                                 %>
-                                                            <div class="col-lg-9" style="padding-right:2px!important"><input type="text" class="form-control input-small" name="FM_timer" value="<%=timerdag %>" style="width:55px; border:<%=fmborcl%>;" /></div>
+                                                            <div class="col-lg-9" style="padding-right:2px!important"><input type="text" class="form-control input-small timer_flt" id="FM_timer_<%=y%>" name="FM_timer" value="<%=timerdag %>" style="width:55px; border:<%=fmborcl%>;" /></div>
                                                             <div class="col-lg-2" style="padding-left:3px!important;"><span id="modal_<%=y%>" class="kommodal">+</span></div>
                                                           
 
@@ -1364,11 +1675,31 @@
                                         <!--<input type="hidden" value="0" name="FM_pa" />-->
                                         <input type="hidden" id="FM_jobid" value=""/>
 
-                                        <td><input type="text" class="FM_job form-control input-small" id="FM_job" value="" placeholder="<%=favorit_txt_015 %>" style="width:225px;"/>
+                                        <td>
+                                            
+                                             
+                                            
+                                            <input type="text" class="FM_job form-control input-small" id="FM_job" value="" placeholder="<%=favorit_txt_015 %>" style="width:225px;"/>
                                           <!-- <div id="dv_job"></div> -->
                                             <select id="dv_job" class="form-control input-small chbox_job" size="10" style="visibility:hidden; display:none; width:225px;">
                                                 <option><%=week_txt_007 %>..</option>
                                             </select>
+
+                                            <%
+                                            'e = 0
+                                            'if e = 0 then
+                                            if (level = 1 AND pa = 0) OR (level = 2 OR level = 6 ANd lto = "dencker") then %>
+                                            <input type="checkbox" value="1" id="ign_projgrp" name="FM_ign_projgrp" <%=ign_projgrpCHK %> /> Ignorer projektgrupper
+                                           
+                                            <%
+                                            findesIgProgrp = 1    
+                                            else 
+                                            findesIgProgrp = 0
+                                            end if 
+                                            %>
+
+                                            <input type="hidden" value="<%=findesIgProgrp %>" id="ign_projgrp_hd" />
+
                                         </td>                                           
                              
 
@@ -1399,6 +1730,8 @@
                                 <button type="submit" class="btn btn-success btn-sm pull-right"><b><%=favorit_txt_018 %></b></button>
                             </div>
                         </div>
+                              <!--<input type="hidden" value="<%=ign_projgrp%>" id="ign_projgrp" />-->     
+                            
                         </form>
 
 
@@ -1407,7 +1740,7 @@
                             <div class="col-lg-10">
                                  
                                  <%
-                                 usemrn = medid    
+                                 
                                  dothis = 1
                                  SmiWeekOrMonth = 1
 
@@ -1683,78 +2016,95 @@
         </div>
     </div>
 
+ <!--
+  <div id="fajl" style="width:400px; height:400px; border:2px #999999 solid; left:200px;">..</div>
+     -->
+ 
 
-<script type="text/javascript">
+                <!-- 
+                '********************************************************
+                Kontakt Kørsel info div 
+                
+                
+                
+                '********************************************************
+                -->
+	            <div id="korseldiv" style="position:absolute; left:125px; top:300px; background-color:#ffffff; width:600px; border:10px #CCCCCC solid; padding:10px; visibility:hidden; display:none; z-index:20000; height:400px; overflow:auto;">
+				 
+                    
+                  
+                    <!--
+                    <a href="javascript:popUp('kontaktpers.asp?func=opr&id=0&kid=<%=kid%>&rdir=treg','550','500','20','20')" target="_self" class=remnu>+ <%=timereg_txt_094 %></a>
+                    -->
 
+				<table border=0 cellspacing=0 cellpadding=0 width=100%>
+				<form action="#" method="post">
+				<tr><td align=right><span id="jq_hideKpersdiv" style="color:#999999; font-size:14px;">X</span></td></tr>
+				
+				<tr>
+				    <td><h3><%=tsa_txt_360 %>:</h3>
 
-$(".picmodal").click(function() {
+                    <div class="row">
+                       <div class="col-lg-12">
+                    <%=tsa_txt_365 %><br /><%=tsa_txt_361 %>
+                             </div>
+                        </div>
 
-    var modalid = this.id
-    var idlngt = modalid.length
-    var idtrim = modalid.slice(6, idlngt)
+                        <div class="row">
+                       <div class="col-lg-6">
+                        <select class="form-control input-small" id="ko0" style="width:500px;"><option value="0">....</option></select><br /><br />
+                        </div>
+                        </div>
 
-    //var modalidtxt = $("#myModal_" + idtrim);
-    var modal = document.getElementById('myModal_' + idtrim);
-
-    
-    if (modal.style.display !== 'none')
-    {
-        modal.style.display = 'none';
-    }
-    else
-    {
-        modal.style.display = 'block';
-    }
-   
-
-});
-
-
-$(".kommodal").click(function () {
-
-    //alert("klik")
-
-    var modalid = this.id
-    var idlngt = modalid.length
-    var idtrim = modalid.slice(6, idlngt)
-
-    //var modalidtxt = $("#myModal_" + idtrim);
-    var modal = document.getElementById('kommentarmodal_' + idtrim);
-
-    modal.style.display = "block";
-
-    window.onclick = function (event) {
-        if (event.target == modal) {
-            modal.style.display = "none";
-        }
-    }
-
-});
-
+                        <div class="row">
+                       <div class="col-lg-6">
+                        <h4><%=timereg_txt_095 %>:</h4>
+                        <select class="form-control input-small" id="ko1" style="width:500px;"><option value="0">....</option></select>
+                           </div>
+                        </div>
 
 
-$(".jobinfo").click(function () {
-    
-    var modalid = this.id
-    var idlngt = modalid.length
-    var idtrim = modalid.slice(8, idlngt)
-    
-    //var modalidtxt = $("#myModal_" + idtrim);
-    var jobmodal = document.getElementById('jobmodal_' + idtrim);
 
-    jobmodal.style.display = "block";
-
-    window.onclick = function (event) {
-        if (event.target == jobmodal) {
-            jobmodal.style.display = "none";
-        }
-    }
+                        
+     
 
 
-});
 
+                        
+				   </td>
+				</tr>
+				
+				
+			
+			
+				<tr><td>
+				<%call erkmDialog()  'skal den vises
+				%>
 
-</script>
+                    
+                    
+                    <input id="FM_sog_kpers_dist_kid" value="0" type="hidden" />
+				    <input id="koKmDialog" value="<%=kmDialogOnOff%>" type="hidden" />
+                    <input id="koFlt" value="0" type="text" /><!-- row -->
+                    <input id="koFltx" value="1" type="hidden" /><!-- x dag -->
+                    <!--<input id="kperfil_fundet" type="text" value="0">-->
+
+                    <!--<input id="indlaes_koadr_2" type="button" value=" Indlæs >> " /><br />&nbsp;-->
+
+                      <div class="row">
+                           
+                            <div class="col-lg-12">
+                                <br />
+                                <button type="submit" id="indlaes_koadr_2" class="btn btn-success btn-sm pull-right"><b><%=favorit_txt_018 %></b></button>
+                            </div>
+                        </div>
+
+                    </td></tr>
+				</form>
+				</table>
+				</div>
+				<!--KM dialog div -->
+				
 
 
 <!--#include file="../inc/regular/footer_inc.asp"-->

@@ -3746,7 +3746,7 @@
                    
                     
                                 strFil_Kon_Txt = strFil_Kon_Txt & "<option value='0'>"& oRec2("mnavn") &" "_
-                                & left(oRec2("madr"), 20) &" "_
+                                & left(oRec2("madr"), 30) &" "_
                                 & oRec2("mpostnr") &" "& oRec2("mcity") & " "& oRec2("mland")
                                 strFil_Kon_Txt = strFil_Kon_Txt &"</option>"
                            
@@ -3763,7 +3763,7 @@
                                 if len(trim(oRec("kkundenavn"))) <> 0 then
                                 
                                 strFil_Kon_Txt = strFil_Kon_Txt & "<option value='k_"& oRec("kid") &"'>"& left(oRec("kkundenavn"), 50) &" "_
-                                & left(oRec("adresse"), 20) &" "_
+                                & left(oRec("adresse"), 30) &" "_
                                 & oRec("postnr") &" "& oRec("city") &" "_
                                 & oRec("land")
                                 strFil_Kon_Txt = strFil_Kon_Txt & "</option>"
@@ -3806,7 +3806,7 @@
                                     if len(trim(oRec2("kkundenavn"))) <> 0 AND lastKid <> oRec2("kid") then
                                 strFil_Kon_Txt = strFil_Kon_Txt & "<option DISABLED></option>"
                                 strFil_Kon_Txt = strFil_Kon_Txt & "<option value='k_"& oRec2("kid") &"'>"& oRec2("kkundenavn") &" "_
-                                & left(oRec2("adresse"), 20) &" "_
+                                & left(oRec2("adresse"), 30) &" "_
                                 & oRec2("postnr") &" "& oRec2("city")&" "_
                                 & oRec2("land")
                                 strFil_Kon_Txt = strFil_Kon_Txt &  "</option>"
@@ -3814,8 +3814,8 @@
                                 
 
 
-                                       x = x + 1   
-                        k = 1 
+                                x = x + 1   
+                                k = 1 
                        
                         
                 
@@ -4766,7 +4766,7 @@
 
                     'response.write "HER:"
 
-                    'response.write "FM_dager, FM_feltnr, dato;:"& request("FM_datoer") &" <br>jobid: "& request("FM_jobid") & "<br>aktid: " & request("FM_aktivitetid") & "<br>medid: "& request("FM_medid") & "<br>timer "& request("FM_timer")
+                    'response.write "FM_dager: "& request("FM_dager") &", feltnr:  "& request("FM_feltnr")& ", dato;:"& request("FM_datoer") &" <br>jobid: "& request("FM_jobid") & "<br>aktid: " & request("FM_aktivitetid") & "<br>medid: "& request("FM_medid") & "<br>timer "& request("FM_timer")
 
                     'response.end
 
@@ -5471,7 +5471,7 @@
 			ystart = (j * 7) 
 			end if
 			
-            if rdir = "timetag_web" OR rdir = "ugeseddel_2011" then 'ugeseddel er opdater aktivieter eller tilføje herreløse fra TimeTag
+            if rdir = "timetag_web" OR rdir = "ugeseddel_2011" OR rdir = "touchMonitor" then 'ugeseddel er opdater aktivieter eller tilføje herreløse fra TimeTag
 			yslut = 0
             else
             yslut = (ystart + 6)
@@ -6059,7 +6059,11 @@
 
         Response.Redirect "../to_2015/ugeseddel_2011.asp?usemrn="&usemrn&"&varTjDatoUS_man="&varTjDatoUS_man&"&FM_datoer="& useDato
 
-        
+        case "touchMonitor"
+
+
+        'Response.Redirect "../to_2015/monitor.asp?usemrn="&usemrn&"&varTjDatoUS_man="&varTjDatoUS_man&"&FM_datoer="& useDato
+        response.Redirect "../to_2015/ugeseddel_2011.asp?lto="&lto&"medarb_navn="&medarb_navn&"&medid="&usemrn&"&usemrn="&usemrn&"&touchMonitor=1&varTjDatoUS_man="&year(now)&"/"&month(now)&"/"&day(now)
 
         case else
 	    Response.Redirect "timereg_akt_2006.asp?showakt=1" 
@@ -9468,7 +9472,7 @@
 			if level <= 2 OR level = 6 OR lto = "kejd_pb" OR lto = "kejd_pb2" then
 			editok = 1
 			else
-				if cint(session("mid")) = aktdata(iRowLoop, 44) OR cint(session("mid")) = aktdata(iRowLoop, 50) OR (cint(aktdata(iRowLoop, 44)) = 0 AND cint(aktdata(iRowLoop, 50)) = 0) then
+				if cdbl(session("mid")) = aktdata(iRowLoop, 44) OR cdbl(session("mid")) = aktdata(iRowLoop, 50) OR (cdbl(aktdata(iRowLoop, 44)) = 0 AND cdbl(aktdata(iRowLoop, 50)) = 0) then
 				editok = 1
 				end if
 			end if 
@@ -9781,11 +9785,33 @@
 
                                 
 					                    lastfakdato = "1/1/2001"
+
+
+                                         if lto = "intranet - local" OR lto = "bf" then
+
+                                                'call meStamdata(aktdata(iRowLoop, 54)) 
+                                                call alleMedIJurEnhed(meMed_lincensindehaver, 0)
+
+                                                alleMedIJurEnhedSQL = replace(alleMedIJurEnhedSQL, "tmnr", "fms.mid")
 					
-					                    strSQLFAK = "SELECT f.fakdato FROM fakturaer f WHERE f.jobid = "& aktdata(iRowLoop, 4) &" AND f.fakdato >= '"& varTjDatoUS_man &"' AND faktype = 0 ORDER BY f.fakdato DESC"
+                                                '*** Tjekker ikke aktivitet, men kun om medarbejer er med på faktura. Hvad JA alle aktiviteter lukket, eller alle aktiviteter åbne.
+                                                '*** Er man med i samme jur enhed, som en af de linjer der er faktureret ska alle linjer lukkes. Derfor skal aktivitet ikke tjekkes.
+                                                strSQLFAK = "SELECT fid, fakdato FROM fakturaer f "
+                                                strSQLFAK = strSQLFAK & " LEFT JOIN fak_med_spec AS fms ON (fms.fakid = fid "& alleMedIJurEnhedSQL &") "
+                                                strSQLFAK = strSQLFAK & " WHERE fakdato >= '" & varTjDatoUS_man & "' AND shadowcopy = 0 AND faktype = 0 AND f.jobid = " & aktdata(iRowLoop, 4) & " AND fms.fakid = fid " & alleMedIJurEnhedSQL
+                            
+                                         else
+
+					                            strSQLFAK = "SELECT f.fakdato FROM fakturaer f WHERE f.jobid = "& aktdata(iRowLoop, 4) &" AND f.fakdato >= '"& varTjDatoUS_man &"' AND faktype = 0 ORDER BY f.fakdato DESC"
 					                    
-                                        'Response.Write strSQLFAK
+                                         end if
+                                    
+                                        '*** BF LEFT JOIN faktura_det. tilføj til fakfarver ***'
+                                        '*** Skal også kontorllere ved indtasning fra ugeseddel og TT
+                                        'if session("mid") = 1 then
+                                        'Response.Write strSQLFAK & "<br>" & meMed_lincensindehaver
                                         'Response.flush       
+                                        'end if
                     
                                         oRec2.open strSQLFAK, oConn, 3
 					                    if not oRec2.EOF then

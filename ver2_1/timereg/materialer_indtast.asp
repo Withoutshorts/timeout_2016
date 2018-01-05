@@ -468,14 +468,29 @@ if len(session("user")) = 0 then
 	%>
 	
 	
+	<!--<div class="wrapper">
+<div class="content">-->
 	
-	
+    
 	<div id="sidediv" style="position:absolute; left:90px; top:82px; visibility:visible; width:740px; border:0px #999999 solid;">
+        
 	
    
 	
 	
-	<%call matregmenu(0,0,Knap1_bg,Knap2_bg,Knap3_bg,Knap4_bg) 
+	<%
+     
+    'call vis_lager_fn()
+
+    if lto = "dencker" OR lto = "jttek" OR lto = "mpt" then
+        vis_lager = 1
+    else
+        vis_lager = 0
+    end if
+
+    if cint(vis_lager) = 1 then
+     call matregmenu(0,0,Knap1_bg,Knap2_bg,Knap3_bg,Knap4_bg) 
+    end if
         
         
      call menu_2014()
@@ -550,7 +565,7 @@ if len(session("user")) = 0 then
 	    
 	    '*** Til viderefakturering **'
         select case lto 
-        case "synergi1", "xintranet - local", "epi", "epi_as", "epi_se", "epi_os", "epi_uk"
+        case "synergi1", "intranet - local", "epi", "epi_as", "epi_se", "epi_os", "epi_uk", "alfanordic"
         intKode = 1 'Intern
         case else 
 	    intKode = 2 'Ekstern = viderefakturering
@@ -566,7 +581,7 @@ if len(session("user")) = 0 then
 	    oskrift = tsa_txt_193
 	    
 	    select case lto
-	    case "immenso", "epi", "epi_no", "epi_sta", "epi_ab"
+	    case "immenso", "epi", "epi_no", "epi_sta", "epi_ab", "alfanordic", "intranet - local"
 	    personlig = 1
 	    case else
 	    personlig = 0
@@ -917,7 +932,7 @@ if len(session("user")) = 0 then
     <%
     call meStamdata(medid)    
         
-    pTxt = meTxt & "<br><span style='font-size:11px;'>" & tsa_txt_216 & "</span>" %>
+    pTxt = "Historik <span style='font-size:11px; font-weight:lighter;'> - "& meTxt &"<br>" & tsa_txt_216 & "</span>" %>
    
 	
 	<%'call filterheader(15,0,600,pTxt)
@@ -1053,6 +1068,8 @@ if len(session("user")) = 0 then
 	
 	</div>
             </div><!-- sidediv -->
+
+
 
 
 

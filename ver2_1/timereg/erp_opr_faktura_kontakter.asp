@@ -76,7 +76,7 @@
 		<%
 		
 		        foundKid = 0
-				strSQL = "SELECT Kkundenavn, Kkundenr, Kid FROM kunder WHERE ketype <> 'e' AND (useasfak <= 2) "& kSQLkri &" ORDER BY Kkundenavn"
+				strSQL = "SELECT Kkundenavn, Kkundenr, Kid FROM kunder WHERE ketype <> 'e' AND (useasfak <= 2) "& kSQLkri &" AND kstatus = 1 ORDER BY Kkundenavn"
 				oRec.open strSQL, oConn, 3
 				while not oRec.EOF
 				

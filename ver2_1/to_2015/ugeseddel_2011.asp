@@ -37,6 +37,7 @@
 
 
                 '*** SØG kunde & Job       
+                 lto = request("lto")
     
                
                 if len(trim(request("jq_newfilterval"))) <> 0 then
@@ -113,9 +114,22 @@
                 ' response.end
                 'end if
     
-                if (jobkundesog = "-1") then
-                    strJobogKunderTxt = strJobogKunderTxt & "<option value=""-1"" SELECTED>"& week_txt_009 &":</option>"
-                end if            
+                select case lto 
+                case "xcflow", "xintranet - local"
+    
+
+                case else
+
+                    if (jobkundesog = "-1") then
+                        
+                        if len(trim(week_txt_009)) = 0 then
+                        week_txt_009 = "Select Job"
+                        end if
+
+                        strJobogKunderTxt = strJobogKunderTxt & "<option value=""-1"" SELECTED>"& week_txt_009 &":</option>"
+                    end if            
+
+                end select
 
                  
                 k = 0
@@ -513,7 +527,15 @@ if len(session("user")) = 0 then
 	thisfile = "ugeseddel_2011.asp"
 	media = request("media")
 
+    if len(request("touchMonitor")) <> 0 then
+        touchMonitor = request("touchMonitor")
 
+        %>
+        <meta http-equiv="refresh" content="120;url=monitor.asp?func=startside" />
+        <%
+    else
+        touchMonitor = 0
+    end if
 
 
     if len(trim(request("nomenu"))) <> 0 AND request("nomenu") <> 0 then
@@ -798,7 +820,7 @@ if len(session("user")) = 0 then
     <SCRIPT src="../timereg/inc/smiley_jav.js"></script>
 
     <%call browsertype() 
-    if browstype_client <> "ip" then
+    if (browstype_client <> "ip") AND (touchMonitor <> 1) then
         
         call menu_2014()
 
@@ -808,8 +830,10 @@ if len(session("user")) = 0 then
         ddDato_ugedag_w = datepart("w", ddDato_ugedag, 2, 2)
             
         varTjDatoUS_man_tt = dateAdd("d", -(ddDato_ugedag_w-1), ddDato_ugedag)
-
+        
+        if touchMonitor <> 1 then
         call mobile_header 
+        end if
 
     end if
     %>    
@@ -844,19 +868,61 @@ if len(session("user")) = 0 then
  
 
 
-   <%if browstype_client <> "ip" then %>
+   <%if (browstype_client <> "ip") AND (touchMonitor <> 1) then %>
 <div class="wrapper">
  <div class="content">   
      <%end if %>
 
  
-    <div class="container">
+     <%if cint(touchMonitor) = 1 then %>
+     <div class="container" style="width:100%; height:100%">
+     <%else %>
+     <div class="container">
+    <%end if %>
+
       <div class="portlet">
         <% if browstype_client <> "ip" then %>
-          <h3 class="portlet-title">
-          <u><%=tsa_txt_337%></u><!-- ugeseddel -->
-        </h3>
+          <%if cint(touchMonitor) <> 1 then %>
+          <h3 class="portlet-title"><u><%=tsa_txt_337%></u><!-- ugeseddel --></h3>
+          <%else 
+          medarb_navn = session("user")'request("medarb_navn")
+          medid = session("mid") 'request("medid")    
+          %>
+          <div class="portlet-title">
+
+              <table style="width:100%;">
+                  <tr>
+                      <td><h3 style="color:black"><%=medarb_navn %> <!--(<%=medid %>)-->
+
+                          <%
+                            '******* Tjekker logindtid ********'
+                            strSQL = "SELECT id, login FROM login_historik WHERE mid = "& medid &" AND stempelurindstilling > 0 ORDER BY id DESC"
+                            oRec.open strSQL, oConn, 3
+                            if not oRec.EOF then
+                            login = oRec("login")
+                            
+                            end if
+                            oRec.close
+                            
+                              
+                          %><br />
+                          <span style="font-size:11px;">Logget på kl. <%=login %></span>
+
+
+                          </h3></td>
+                      <td style="text-align:right"><img style="width:15%; margin-bottom:2px; margin-left:55px" src="img/cflow_logo.png" /></td>
+                  </tr>
+              </table>
+
+           <!--   <div class="row">
+                  <div class="col-lg-4"><h3><%=medarb_navn %> <!--(<%=medid %>)--></h3></div>
+                 <!-- <div class="col-lg-6"></div>
+                  <div class="col-lg-2"><img style="max-width:50%; margin-bottom:2px; margin-left:55px" src="img/cflow_logo.png" /></div>
+              </div> -->
+          </div>
           <%end if %>
+        <%end if %>
+
         <div class="portlet-body">
             
       
@@ -908,7 +974,11 @@ if len(session("user")) = 0 then
         
         if browstype_client <> "ip" then
     %>
-    <div class="well well-white"> 
+    <%
+    if touchMonitor <> 1 then
+    %>
+    <div class="well well-white">
+    <%end if %>
         
         <%select case lto 
         case "bf"
@@ -923,7 +993,7 @@ if len(session("user")) = 0 then
 
         %>
           
-            
+            <%if touchMonitor <> 1 then %>
             <div style="position:relative; background-color:#ffffff; border:1px #cccccc solid; border-bottom:0; padding:4px; width:<%=wdth%>px; top:-70px; left:880px; z-index:0; font-size:11px;">
            
             <a href="../timereg/<%=lnkTimeregside%>" class="vmenu"><%=replace(tsa_txt_031, " ", "")%> >></a>
@@ -935,14 +1005,14 @@ if len(session("user")) = 0 then
 
            
             </div>
-        
+            <%end if %>
 
          
 
         <%end select %>
       
         <%select case lto
-         case "epi2017", "intranet - local"
+         case "xepi2017", "xintranet - local"
 
             thisEpiDay = datepart("w", now, 2,2)  
             visGuide = 0
@@ -988,13 +1058,14 @@ if len(session("user")) = 0 then
 
         </form>
         <%end if%>
-       
+
         <form id="filterkri" method="post" action="ugeseddel_2011.asp">
             <input type="hidden" name="FM_sesMid" id="FM_sesMid" value="<%=session("mid") %>">
             <input type="hidden" name="medarbsel_form" id="medarbsel_form" value="1">
             <input type="hidden" name="nomenu" id="nomenu" value="<%=nomenu %>">
             <input type="hidden" name="varTjDatoUS_man" id="varTjDatoUS_man" value="<%=varTjDatoUS_man %>">
            
+            <%if touchMonitor <> 1 then %>
             <div class="row">
                 <div class="col-lg-6">
                       <table style="font-size:100%; color:black">
@@ -1015,9 +1086,11 @@ if len(session("user")) = 0 then
                         </table>
                 </div>
             </div>
+            <%else %>
+            <input type="hidden" name="usemrn" id="usemrn" value="<%=usemrn %>" />
+            <%end if %>
                   
         </form>
-       
 
 	
        
@@ -1034,16 +1107,54 @@ if len(session("user")) = 0 then
             
             if browstype_client <> "ip" then
         %>
-        <form id="container" action="../timereg/timereg_akt_2006.asp?func=db&rdir=ugeseddel_2011" method="post">
-        <div class="row">
-            <div class="col-lg-7">
-                <table style="font-size:100%; color:black">
+
+        <% 
+        if touchMonitor = 1 then
+        txtClass = "large"
+        inputHeight = "150%"
+        inputFont = "150%"
+        paddingTop = "30px"
+        'response.Write "<br><br><br>"
+        rdir_timereg = "touchMonitor"
+        else
+        txtClass = "small"
+        inputWidth = "100%"
+        inputFont = "100%"
+        paddingTop = "10px"
+        rdir_timereg = "ugeseddel_2011"
+        end if
+        %>
+
+      
+            <div class="row"> 
+     
+           
+                     <%if cint(touchMonitor) <> 1 then 
+                    %><div class="col-lg-7"> <%
+                    else
+                    %><div class="col-lg-7"> <%
+                    end if%>
+                     
+     
+          
+                      <form id="container" action="../timereg/timereg_akt_2006.asp?func=db&rdir=<%=rdir_timereg %>" method="post">
+      
+                    <%if cint(touchMonitor) <> 1 then 
+                    mgnRight = 250    
+                    wdtTbl = 60
+                    else
+                    mgnRight = 0
+                    wdtTbl = 60
+                    end if%>
+
+                    <table style="font-size:100%; display:inline-table; margin-right:<%=mgnRight%>px; width:<%=wdtTbl%>%;">
                     
+                    <%if touchMonitor <> 1 then %>
                     <tr>
                         <!--<td style="padding-right:5px; vertical-align:text-top; width:80px;"><b><%=tsa_txt_183%>:</b></td>-->
                         <td style="padding-left:10px">
                             <input type="hidden" id="Hidden5" name="year" value="<%=year(now) %>"/>
-
+                               
                               <div class='input-group date'>
                                       <input type="text" style="width:300px;" class="form-control input-small" name="FM_datoer" id="jq_dato" value="<%=tregDato %>" placeholder="dd-mm-yyyy" />
                                         <span class="input-group-addon input-small">
@@ -1056,19 +1167,35 @@ if len(session("user")) = 0 then
                         </td>
                         <td>&nbsp;</td>
                     </tr>
+                    <%else %>
+                    <input type="hidden" id="Hidden5" name="year" value="<%=year(now) %>"/>
+                    <input type="hidden" name="FM_datoer" id="jq_dato" value="<%=tregDato %>" />
+                    <%end if %>
                     
-                    <tr>
+                   
                         <!--<td style="padding-right:5px; padding-top:10px; vertical-align:text-top;"><b><%=left(tsa_txt_066, 5) %>/<%=tsa_txt_236 %>:</b></td>-->
-                        <td style="padding-top:10px; padding-left:10px;">
+                        <%if cint(touchMonitor) = 1 then 
+                        rwspan = 1 '3
+                        %><tr><td style="padding-left:10px; font-size:15px; text-align:left;">Komponent/Aktivitet</td></tr><%
+                        else
+                        rwspan = 1
+                        end if%>
+
+                        
+                     <tr>
+                        <td style="padding-top:<%=paddingTop%>; padding-left:10px;" rowspan="<%=rwspan %>">
                              <input type="hidden" name="varTjDatoUS_man" value="<%=varTjDatoUS_man %>">
         
                             <input type="hidden" name="usemrn" id="treg_usemrn" value="<%=usemrn%>">
+                            <input type="hidden" id="lto" value="<%=lto%>">
 
                             <!--<input type="hidden" id="Hidden3" name="FM_dager" value=""/>-->
                             <input type="hidden" id="Hidden4" name="FM_dager" value="0"/><!-- , xx -->
                             <input type="hidden" id="Hidden2" name="FM_feltnr" value="0"/>
                             <input type="hidden" id="FM_pa" name="FM_pa" value="<%=pa_aktlist %>"/>
+                            
                             <input type="hidden" id="FM_medid" name="FM_medid" value="<%=usemrn %>"/>
+                            
                             <input type="hidden" id="FM_medid_k" name="FM_medid_k" value="<%=usemrn%>"/>
                             <input type="hidden" id="" name="FM_vistimereltid" value="0"/>
                             <input type="hidden" id="lcid_sprog" name="" value="<%=lcid_sprog_val %>"/>
@@ -1088,14 +1215,16 @@ if len(session("user")) = 0 then
                             
                             
                             <%if cint(mobil_week_reg_job_dd) = 1 then %>
+
+                          
                              <input type="hidden" id="FM_job_0" value="-1"/>
-                             <select id="dv_job_0" name="FM_jobid" class="form-control input-small chbox_job">
+                             <select id="dv_job_0" name="FM_jobid" style="font-size:<%=inputFont %>; height:<%=inputHeight%>;" class="form-control input-<%=txtClass %> chbox_job">
                                  <option value="-1"><%=left(tsa_txt_145, 4) %>..</option>
                                  <!--<option value="0">..</option>-->
                              </select>
 
                             <%else %>
-                            <input type="text" id="FM_job_0" name="FM_job" placeholder="<%=tsa_txt_066 %>/<%=tsa_txt_236 %>" class="FM_job form-control input-small"/>
+                            <input type="text" style="font-size:<%=inputFont%>; height:<%=inputHeight%>" id="FM_job_0" name="FM_job" placeholder="<%=tsa_txt_066 %>/<%=tsa_txt_236 %>" class="FM_job form-control input-<%=txtClass %>"/>
                            <!-- <div id="dv_job_0" class="dv-closed dv_job" style="border:1px #cccccc solid; padding:10px; visibility:hidden; display:none;"></div>--> <!-- dv_job -->
 
                              <select id="dv_job_0" class="form-control input-small chbox_job" size="10" style="visibility:hidden; display:none;">
@@ -1107,20 +1236,25 @@ if len(session("user")) = 0 then
 
                         </td>
                      
-                    </tr>
-
-                    <tr>
+                       <%'if cint(touchMonitor) = 1 then 
+                        
+                        'else
+                        %>
+                        </tr><tr>
+                        <%
+                        'end if%>
+                    
                         <!--<td style="padding-right:5px; padding-top:10px; vertical-align:text-top;"><b><%=tsa_txt_068%>:</b></td>-->
-                         <td style="padding-top:10px; padding-left:10px; width:225px">
+                         <td style="padding-top:<%=paddingTop%>; padding-left:10px; width:225px">
                             <%if cint(mobil_week_reg_akt_dd) = 1 then %>
                                  <input type="hidden" id="FM_akt_0" value="-1"/>
                                  <!--<textarea id="dv_akt_test"></textarea>-->
-                                 <select id="dv_akt_0" name="FM_aktivitetid" class="form-control input-small chbox_akt" DISABLED>
+                                 <select id="dv_akt_0" name="FM_aktivitetid" class="form-control input-<%=txtClass %> chbox_akt" style="font-size:<%=inputFont%>; height:<%=inputHeight%>" DISABLED>
                                       <option>..</option>
                                   </select>
 
                              <%else %>
-                              <input type="text" id="FM_akt_0" name="activity" placeholder="<%=tsa_txt_068%>" class="FM_akt form-control input-small"/>
+                              <input style="font-size:<%=inputFont%>; height:<%=inputHeight%>" type="text" id="FM_akt_0" name="activity" placeholder="<%=tsa_txt_068%>" class="FM_akt form-control input-<%=txtClass %>"/>
                                 <!--<div id="dv_akt_0" class="dv-closed dv_akt" style="border:1px #cccccc solid; padding:10px; visibility:hidden; display:none;"></div>--> <!-- dv_akt -->
 
                                   <select id="dv_akt_0" class="form-control input-small chbox_akt" size="10" style="visibility:hidden; display:none;"> <!-- chbox_akt -->
@@ -1135,40 +1269,70 @@ if len(session("user")) = 0 then
 
                     <tr>
                         <!--<td style="padding-right:5px; padding-top:10px; vertical-align:text-top;"><b><%=tsa_txt_137%>:</b></td>-->
-                         <td style="padding-top:10px; padding-left:10px">
+                         <td style="padding-top:<%=paddingTop%>; padding-left:10px">
                              <input type="hidden" id="FM_sttid" name="FM_sttid" value="00:00"/>
                              <input type="hidden" id="FM_sltid" name="FM_sltid" value="00:00"/>
-                             <input type="text" id="FM_timer" name="FM_timer" placeholder="<%=tsa_txt_137%>" class="form-control input-small"/><!-- brug type number for numerisk tastatur -->
+                             <input type="text" id="FM_timer" name="FM_timer" placeholder="<%=tsa_txt_137%>" class="form-control input-<%=txtClass %>" style="font-size:<%=inputFont%>; height:<%=inputHeight%>" /><!-- brug type number for numerisk tastatur -->
                         </td>
                         
                     </tr>
 
                     <tr>
                         <!--<td style="padding-right:5px; padding-top:10px; vertical-align:text-top;"><b><%=tsa_txt_051%>:</b></td>-->
-                        <td style="padding-top:10px; padding-left:10px; text-align:right;">
-                            <input type="text" id="FM_kom" name="FM_kom_0" placeholder="<%=tsa_txt_051%>" class="form-control input-small"/><br />
-                            <button class="btn btn-sm btn-success"><b><%=tsa_txt_085%> >></b></button>
+                        <td style="padding-top:<%=paddingTop%>; padding-left:10px; text-align:right;">
+                            <input type="text" id="FM_kom" name="FM_kom_0" placeholder="<%=tsa_txt_051%>" class="form-control input-<%=txtClass %>" style="font-size:<%=inputFont%>; height:<%=inputHeight%>" /><br />
+                            <%if cint(touchMonitor) <> 1 then 
+                                btnSz = "sm"
+                            else
+                                btnSz = "lg"
+                            end if%>
+                            <button class="btn btn-<%=btnSz %> btn-success"><b><%=tsa_txt_085%> >></b></button>
+                            <%'end if %>
                         </td>
                        
                     </tr>
 
+                    <%'if cint(touchMonitor) = 1 then %>
+                    <!--<tr>
+                         <td style="padding-top:30px; padding-left:10px; text-align:right" colspan="2"><button class="btn btn-lg btn-success"><b><%=tsa_txt_085%> >></b></button></td>                         
+                    </tr>
+                        -->
+                  
       
                 </table>
-            </div>
+                </form>
+                         
+                     <%'end if %>
+
+          </div>
            
-            <div class="col-lg-5"><div id="stacked-vertical-chart" class="chart-holder-200"></div></div>
-
-        </div>
-
-       
-
-    
-        </form>
+            <div class="col-lg-5"> 
+            <%
+            '**** Norm Chart ****'    
+            if cint(touchMonitor) <> 1 then %>
+            <div id="stacked-vertical-chart" class="chart-holder-200"></div>
+            <%else %>
+                <!--#include file="../inc/regular/cls_kpi.asp"-->
+                <%call keyfigures(touchMonitor, login) %>
+        <%end if %>
+                </div>
+     
+        </div><!-- ROW --> 
         <%end if %>
         
+                <%if cint(touchMonitor) = 1 then %>
+                <div class="row">
+                    <div class="col-lg-5"> 
+                        <a href="monitor.asp?func=startside" class="btn btn-lg btn-default"><< <b>Tilbage / Ny bruger</b></a>   
+                        </div>
+            </div><!-- ROW --> 
+                <%end if %>
 
         </div>
-            <%end if  %>
+        
+
+
+        <%end if  %>
 
 
         <%
@@ -1187,34 +1351,35 @@ if len(session("user")) = 0 then
         'end if
     
 
-    
-   ugeseddelvisning = 1
+   if touchMonitor <> 1 then
+       ugeseddelvisning = 1
 
-   perInterval = 6 'dateDiff("d", varTjDatoUS_man, varTjDatoUS_son, 2,2) 
-   perIntervalLoop = perInterval
+       perInterval = 6 'dateDiff("d", varTjDatoUS_man, varTjDatoUS_son, 2,2) 
+       perIntervalLoop = perInterval
 
-   'response.write "perIntervalLoop " & perIntervalLoop
-   for l = 0 to perIntervalLoop 
+       'response.write "perIntervalLoop " & perIntervalLoop
+       for l = 0 to perIntervalLoop 
         
-        if l = 0 then
-        varTjDatoUS_use = varTjDatoUS_man
-        showheader = 1
-        showtotal = 0
-        else
-        varTjDatoUS_use = dateAdd("d", l, varTjDatoUS_man)
-        showheader = 0
-        showtotal = 0
-         end if 
+            if l = 0 then
+            varTjDatoUS_use = varTjDatoUS_man
+            showheader = 1
+            showtotal = 0
+            else
+            varTjDatoUS_use = dateAdd("d", l, varTjDatoUS_man)
+            showheader = 0
+            showtotal = 0
+             end if 
 
-       if l = perIntervalLoop then
-       showtotal = 1
-       end if
+           if l = perIntervalLoop then
+           showtotal = 1
+           end if
 
-         varTjDatoUS_son = varTjDatoUS_man
+             varTjDatoUS_son = varTjDatoUS_man
 
-        call ugeseddel(usemrn, varTjDatoUS_use, varTjDatoUS_use, ugeseddelvisning, showtotal, showheader)  
+            call ugeseddel(usemrn, varTjDatoUS_use, varTjDatoUS_use, ugeseddelvisning, showtotal, showheader)  
    
-   next
+       next
+   end if
 	
 	
         select case lto
@@ -1301,6 +1466,8 @@ if len(session("user")) = 0 then
             <input type="hidden" id="normdaglor" value="<%=replace(ntimLor, ",", ".") %>" />
             <input type="hidden" id="normdagson" value="<%=replace(ntimSon, ",", ".") %>" />
 
+        
+          <%if touchMonitor <> 1 then %>
           <div class="row">
                 <div class="col-lg-12">
                     <h4 style="text-align:right"><%=tsa_txt_173 &" "& tsa_txt_137%>: <%=formatnumber(norm_ugetotal, 2) %> &nbsp <%=tsa_txt_535%>: <%=ugetotal %> &nbsp&nbsp</h4>
@@ -1331,7 +1498,7 @@ if len(session("user")) = 0 then
                     </table>
                 </div>
             </div>
-
+            <%end if %>
 
 
 
@@ -1374,7 +1541,7 @@ if len(session("user")) = 0 then
              
         <%
             
-            if browstype_client <> "ip" then
+            if (browstype_client <> "ip") AND (touchMonitor <> 1) then
         %>
     <div class="well" style="width:35%;">
       <div class="portlet">

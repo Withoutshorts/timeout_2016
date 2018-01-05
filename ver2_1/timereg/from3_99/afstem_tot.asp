@@ -1276,7 +1276,7 @@ if session("user") = "" then
     'ddato = "21-1-2013"
     'endfor = 1
     'Response.write "SHWO: "& show &" ddato:" & ddato  &" stfor: " & stfor & "stKri: " & stKri & " endfor+(endKri): "& endfor &" "&endKri & "sort:" & sort &"ddato: "& ddato &" varTjDatoUS_man "& varTjDatoUS_man &"<br>
-      "
+      
 
       'Response.write visning
 
@@ -2380,13 +2380,13 @@ if session("user") = "" then
     
     %>
     </td></tr>
-    <tr><td>
+    <tr><tr>
 
         <br /><br />
           <table cellpadding="20" cellspacing="1" border="0"><tr><td valign="top">
 
             <table cellpadding="0" cellspacing="0" border="0" width="250">
-            <tr><td colspan="2"><b><%=afstem_txt_066 %>:</b></td></tr>
+            <tr><td colspan="2" style="border-bottom:2px #6CAE1C solid;"><b><%=afstem_txt_066 %>:</b></td></tr>
         <%
 
                select case lto 
@@ -2502,16 +2502,62 @@ if session("user") = "" then
             %>
 
             </table>
-       
+            </td>
+        <td valign="top">
+            <table cellpadding="0" cellspacing="0" border="0" width="250">
+                <tr>
+                    <td colspan="2" style="border-bottom:2px #6CAE1C solid;"><b>Planlagt ferie:</b></td>
+                </tr>
+                <%
+                strSQLPLFE = "SELECT tdato, timer FROM timer WHERE tmnr = "& usemrn &" AND tdato BETWEEN '"& ferieaarST &"' AND '"& ferieaarSL &"' AND tfaktim = 11 ORDER BY tdato"
+                oRec.open strSQLPLFE, oConn, 3
+                while not oRec.EOF
+                %>
+                <tr><td align="right" style="border-bottom:1px #cccccc solid;"><%=formatdatetime(oRec("tdato"), 1) %></td>
+                <td align="right" style="border-bottom:1px #cccccc solid;">
+                
+                     <%if cint(visFTimer) = 1 then %>
+                            <%=oRec("timer") &" "& afstem_txt_069 %>
+                        <%end if %>
+
+                    
+                   
+
+                        <%if cint(visFDage) = 1 then %>
+                        <%call normtimerPer(usemrn, oRec("tdato"), 0, 0) %>
+                    
+                    
+
+                        <%if cdbl(ntimPer) <> 0 then %>
+                            <%if cint(visFTimer) = 1 then %>
+                            &nbsp;=&nbsp; 
+                            <%end if %>
+                            <%=formatnumber(oRec("timer")/ntimPer, 1) %> <%=afstem_txt_104 %>
+                        <%end if %>
+
+                    
+
+                        <%end if %>
+
+                </td></tr>
+                <%  
+                oRec.movenext
+                wend
+                oRec.close
+                %> 
+
+            </table>
+        </td>
+       </tr>
 
          <% if aty_on = 1 then %>
-         </td><td valign="top">
+         
 
         
 
-           
+        <tr><td valign="top">
         <table cellpadding="0" cellspacing="0" border="0" width="250">
-            <tr><td colspan="2"><b><%=afstem_txt_108 %>:</b></td></tr>
+            <tr><td colspan="2" style="border-bottom:2px #FFFF99 solid;"><%if lto <> "esn" then %><b><%=afstem_txt_108 %>:</b><%else %><b>Udspecificering særlig feriedage afholdt</b><%end if %></td></tr>
         <%
             '**Udspecificering
             strSQLfe = "SELECT tdato, timer FROM timer WHERE tmnr = "& usemrn &" AND tdato BETWEEN '"& ferieaarST &"' AND '"& ferieaarSL &"' AND tfaktim = 13 ORDER BY tdato" 
@@ -2555,12 +2601,112 @@ if session("user") = "" then
 
             %>
 
+            <tr><td colspan="2"><br /><%if lto <> "esn" then %><b>Feriefri optjent:</b><%else %><b>Særlig ferie opjtent</b><%end if %></td></tr>    
+            <%
+
+             '** Tildelt
+            strSQLfe = "SELECT tdato, timer, tfaktim FROM timer WHERE tmnr = "& usemrn &" AND tdato BETWEEN '"& ferieaarST &"' AND '"& ferieaarSL &"' AND tfaktim = 12 ORDER BY tdato" 
+            
+            'Response.write strSQLfe
+            oRec.open strSQLfe, oConn, 3
+            while not oRec.EOF 
+
+            %>
+            <tr><td align="right" style="border-bottom:1px #cccccc solid;"><%=formatdatetime(oRec("tdato"), 1) %></td>
+                <td align="right" style="border-bottom:1px #cccccc solid;">
+                    
+                    <%if oRec("tfaktim") = 111 then %>
+                <span style="color:#999999;">(<%=afstem_txt_106 %>)</span>&nbsp;&nbsp;&nbsp;
+                <%end if %>
+
+                      <%if oRec("tfaktim") = 112 then %>
+                <span style="color:#999999;">(<%=afstem_txt_107 %>)</span>&nbsp;&nbsp;&nbsp;
+                <%end if %>
+
+                 
+                    
+                    <%if cint(visFTimer) = 1 then %>
+                        <%=oRec("timer") &" "& afstem_txt_069 %>
+                    <%end if %>
+
+                    
+                   
+
+                    <%if cint(visFDage) = 1 then %>
+                    <%call normtimerPer(usemrn, oRec("tdato"), 0, 0) %>
+                    
+                    
+
+                    <%if cdbl(ntimPer) <> 0 then %>
+                        <%if cint(visFTimer) = 1 then %>
+                        &nbsp;=&nbsp; 
+                        <%end if %>
+                        <%=formatnumber(oRec("timer")/ntimPer, 1) %> <%=afstem_txt_104 %>
+                    <%end if %>
+
+                    
+
+                    <%end if %>
+                </td></tr>
+
+            <%
+            oRec.movenext
+            wend
+            oRec.close
+
+            %>
+
+            </table></td>
+
+            <td valign="top">
+                <table cellpadding="0" cellspacing="0" border="0" width="250">
+                <tr>
+                    <td colspan="2" style="border-bottom:2px #FFFF99 solid;"><%if lto <> "esn" then %><b>Planlagt feriefri:</b><%else %><b>Særlig ferie planlagt</b><%end if %></td>
+                </tr>
+                <%
+                strSQLPLFE = "SELECT tdato, timer FROM timer WHERE tmnr = "& usemrn &" AND tdato BETWEEN '"& ferieaarST &"' AND '"& ferieaarSL &"' AND tfaktim = 18 ORDER BY tdato"
+                oRec.open strSQLPLFE, oConn, 3
+                while not oRec.EOF
+                %>
+                <tr><td align="right" style="border-bottom:1px #cccccc solid;"><%=formatdatetime(oRec("tdato"), 1) %></td>
+                <td align="right" style="border-bottom:1px #cccccc solid;">
+                
+                     <%if cint(visFTimer) = 1 then %>
+                            <%=oRec("timer") &" "& afstem_txt_069 %>
+                        <%end if %>
+
+                    
+                   
+
+                        <%if cint(visFDage) = 1 then %>
+                        <%call normtimerPer(usemrn, oRec("tdato"), 0, 0) %>
+                    
+                    
+
+                        <%if cdbl(ntimPer) <> 0 then %>
+                            <%if cint(visFTimer) = 1 then %>
+                            &nbsp;=&nbsp; 
+                            <%end if %>
+                            <%=formatnumber(oRec("timer")/ntimPer, 1) %> <%=afstem_txt_104 %>
+                        <%end if %>
+
+                    
+
+                        <%end if %>
+
+                </td></tr>
+                <%  
+                oRec.movenext
+                wend
+                oRec.close
+                %> 
             </table>
-       
-
-
+            </td>
+        </tr>
          <%end if %>
-     </td></tr>
+
+
+     
      </table>
 
              </td></tr></table>

@@ -58,7 +58,7 @@ a = 0
 					Response.write strSQL(b) & "<br>"
 					Response.flush
 					x = 1
-					numberoflicens = 171
+					numberoflicens = 175
 					For x = 1 To numberoflicens  
 						
 						call aktivedb(x)
@@ -88,7 +88,7 @@ a = 0
                                 oConn.open strConnect_aktiveDB
 							    
                                 '*** DENNE LINJE INDLÆSER // UDKOMMENTER NÅR FILEN IKKE ER AKTIV
-                                oConn.execute(strSQL(b)) 
+                                'oConn.execute(strSQL(b)) 
                                 
                                 '* TJECK x NUMBER OF LICENS fra inc/connection/db_conn...asp filen.
 								'* DISSE SKAL STEMME 
@@ -3268,6 +3268,72 @@ rap_editor VARCHAR(255),
 PRIMARY KEY (rap_id)
 ); 
 UPDATE dbversion SET dbversion = '20171030.1' WHERe id = 1
+
+
+<br /><br />20171124.1<br />
+ALTER TABLE licens ADD (
+fakturanr_6 Int NOT NULL DEFAULT 0, kreditnr_6 Int NOT NULL DEFAULT 0,
+fakturanr_7 Int NOT NULL DEFAULT 0, kreditnr_7 Int NOT NULL DEFAULT 0,
+fakturanr_8 Int NOT NULL DEFAULT 0, kreditnr_8 Int NOT NULL DEFAULT 0,
+fakturanr_9 Int NOT NULL DEFAULT 0, kreditnr_9 Int NOT NULL DEFAULT 0,
+fakturanr_10 Int NOT NULL DEFAULT 0, kreditnr_10 Int NOT NULL DEFAULT 0);
+INSERT INTO dbversion (dbversion) VALUES (20171124.1);
+
+ALTER TABLE licens ADD (
+fakturanr_kladde_6 Int NOT NULL DEFAULT 0,
+fakturanr_kladde_7 Int NOT NULL DEFAULT 0,
+fakturanr_kladde_8 Int NOT NULL DEFAULT 0,
+fakturanr_kladde_9 Int NOT NULL DEFAULT 0,
+fakturanr_kladde_10 Int NOT NULL DEFAULT 0);
+INSERT INTO dbversion (dbversion) VALUES (20171124.2);
+
+
+<br /><br />20171205.1<br />
+Alter table medarbejdere add 
+(
+medarbejder_rfid VARCHAR(255));
+INSERT INTO dbversion (dbversion) VALUES ('20171205.1')
+
+<br /><br />20171206.1<br />
+Alter table medarbejdere add 
+(
+measyregtimer DOUBLE(12,2) NOT NULL default 0);
+INSERT INTO dbversion (dbversion) VALUES ('20171206.1')
+
+
+
+<br /><br />20171231.1<br />
+ALTER TABLE medarbejdere ADD med_cal VARCHAR(50) NOT NULL default 'DK';
+INSERT INTO dbversion (dbversion) VALUES ('20171231.1')
+
+
+
+<br /><br />20180102.1<br />
+ALTER TABLE licens ADD (stpause3 double default 0 NOT NULL);
+ALTER TABLE licens ADD (stpause4 double default 0 NOT NULL);
+ALTER table licens ADD (p3_grp varchar (50), p4_grp varchar (50));
+ALTER TABLE licens ADD (p3_man int NOT NULL default 0,
+p3_tir int NOT NULL default 0,
+p3_ons int NOT NULL default 0,
+p3_tor int NOT NULL default 0,
+p3_fre int NOT NULL default 0,
+p3_lor int NOT NULL default 0,
+p3_son int NOT NULL default 0,
+p4_man int NOT NULL default 0,
+p4_tir int NOT NULL default 0,
+p4_ons int NOT NULL default 0,
+p4_tor int NOT NULL default 0,
+p4_fre int NOT NULL default 0,
+p4_lor int NOT NULL default 0,
+p4_son int NOT NULL default 0);
+
+INSERT INTO dbversion (dbversion) VALUES ('20180102.1')
+
+
+
+<br /><br />20180104.1<br />
+ALTER TABLE national_holidays ADD nh_projgrp VARCHAR(50);
+INSERT INTO dbversion (dbversion) VALUES ('20180104.1')
 
 <%
 

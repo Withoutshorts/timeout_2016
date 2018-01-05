@@ -1746,7 +1746,7 @@
 	 <%if (instr(akttype_sel, "#20#") <> 0 OR instr(akttype_sel, "#21#") <> 0) AND cint(visikkeFerieogSygiPer) <> 1 then %>
 	    <td bgcolor="lightpink" class=lille  valign=bottom style="width:50px; border-right:1px #D6DfF5 solid; border-bottom:1px #D6DfF5 solid;">
         Sygefravær i periode i %<br />
-           Incl. barsel & læge vis vist 
+           Incl. barsel & læge (hvis valgt) 
    
 	     <%strEksportTxtHeader = strEksportTxtHeader &" Fravær i per. i %;"%>
 	     </td>
@@ -2106,20 +2106,27 @@
 	      'lontimerTotMfradrag = ((totalTimerPer100/60))
           'end if
 
-          
+          if lontimerTotMfradrag <> 0 then
           bal_lon_real = formatnumber(lontimerTotMfradrag,2) - formatnumber(realTimer(x),2)
-            
-          normtime_lontime = 0
+          else
+          bal_lon_real = 0
+          end if
+
+            normtime_lontime = 0
             normtime_lontime = -((normTimer(x) - (lontimerTotMfradrag)) * 60)
 	  
 	        if normtime_lontime <> 0 then
-	        normtime_lontime = cdbl(normtime_lontime)
+	        normtime_lontime = formatnumber(normtime_lontime, 2)
 	        else
-	        normtime_lontime = normtime_lontime
+	        normtime_lontime = 0
 	        end if
 
 
+            if fradragTimer(x) <> 0 then
             fraDtimer = formatnumber(fradragTimer(x),2)
+            else
+            fraDtimer = 0
+             end if
           
       if instr(akttype_sel, "#-10#") = 0 then
           %>
@@ -3487,22 +3494,22 @@
 	 
 	 <%if (instr(akttype_sel, "#20#") <> 0 OR instr(akttype_sel, "#21#") <> 0) AND cint(visikkeFerieogSygiPer) <> 1 then 
 	 
-     if normTimer(x) <> 0 then
+     if cdbl(normTimer(x)) <> 0 then
      '** Fravær beregnes udfra normtid / ikke optjent fravær, dvs. sygdom.
-	 fravaeriper = formatnumber( ((BarnsygTimerPer(x) + sygTimerPer(x) + barsel(x) + lageTimer(x)) / normTimer(x)) * 100, 0) '+ fefriTimerPerBr(x) + ferieAFPerTimer(x)
+	 fravaeriper = formatnumber( ((BarnsygTimerPer(x) + sygTimerPer(x) + barsel(x) + lageTimer(x)) / normTimer(x)) * 100, 2) '+ fefriTimerPerBr(x) + ferieAFPerTimer(x)
 	 else 
 	 fravaeriper = 0
 	 end if
 
      if fravaeriper <> 0 then
-     fravaeriperTxt = fravaeriper
-     fravaeriperTxtExp = fravaeriperTxt
+     fravaeriperTxt = fravaeriper &"%"
+     fravaeriperTxtExp = fravaeriper
      else
      fravaeriperTxt = ""
      fravaeriperTxtExp = 0
      end if
 	 %>
-	 <td align=right class=lille style=" white-space: nowrap; border-bottom: 1px  #D6DfF5 solid; border-right: 1px  #D6DfF5 solid;"><%=fravaeriperTxt%> % </td>
+	 <td align=right class=lille style=" white-space: nowrap; border-bottom: 1px  #D6DfF5 solid; border-right: 1px  #D6DfF5 solid;"><%=fravaeriperTxt%></td>
 	 <%strEksport(x) = strEksport(x) & fravaeriperTxtExp &";"%>
 	 <%
          

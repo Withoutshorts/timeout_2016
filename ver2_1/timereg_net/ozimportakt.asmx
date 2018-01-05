@@ -143,6 +143,8 @@ Public Class oz_importakt
     Public importtype As String
     Public avl As String = ""
 
+    Public aktstdato As Date
+
     Public j, jhigh, jlow As Integer
 
 
@@ -254,6 +256,13 @@ Public Class oz_importakt
 
         End If
 
+        If (lto = "oko") Then
+
+            strAktFields = ", aktstdato"
+
+        End If
+
+
 
         '*** HENTER AKT fra AKT_IMPORT_TEMP '****
         Dim strSQLakts As String = "SELECT id, dato, editor, origin, jobnr, aktnavn, aktnr, akttimer, akttpris, aktsum, lto, "
@@ -296,6 +305,7 @@ Public Class oz_importakt
 
                 aktkonto = objDR("aktkonto")
 
+                aktstdato = objDR("aktstdato")
 
             Else
 
@@ -758,7 +768,7 @@ Public Class oz_importakt
                             Dim strSQLsalgsomkins As String = ("INSERT INTO materiale_forbrug (matantal, matnavn, matvarenr, matkobspris, matsalgspris, matenhed, jobid, " _
                             & " dato, editor, usrid, matgrp, forbrugsdato, extsysid, mf_konto) VALUES " _
                             & " (" & akttimer & ", '" & aktnavn & "', '" & aktkonto & "', " & akttpris & ", " & akttpris & ", 'Stk.', " & jobId & ", " _
-                            & "'" & Now.ToString("yyyy/MM/dd", Globalization.CultureInfo.InvariantCulture) & "','TO_import-nav', 71, 1, '" & Now.ToString("yyyy/MM/dd", Globalization.CultureInfo.InvariantCulture) & "', " & varLobenr & ", " & kontoId & ")")
+                            & "'" & Now.ToString("yyyy/MM/dd", Globalization.CultureInfo.InvariantCulture) & "','TO_import-nav', 71, 1, '" & aktstdato.ToString("yyyy/MM/dd", Globalization.CultureInfo.InvariantCulture) & "', " & varLobenr & ", " & kontoId & ")")
 
                             'Return "XX HER XX errThis SQL: " & strSQLsalgsomkins
 

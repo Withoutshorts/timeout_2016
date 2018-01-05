@@ -5,11 +5,11 @@ Dim objXMLHTTP_medarb, objXMLDOM_medarb, i_medarb, strHTML_medarb
 Set objXMLDom_medarb = Server.CreateObject("Microsoft.XMLDOM")
 Set objXmlHttp_medarb = Server.CreateObject("Msxml2.ServerXMLHTTP")
 'objXmlHttp_medarb.open "GET", "http://localhost/Git/timeout_2016/ver2_1/inc/xml/medarb_sprog.xml", False
-'objXmlHttp_medarb.open "GET", "http://localhost/inc/xml/medarb_sprog.xml", False
+objXmlHttp_medarb.open "GET", "http://localhost/inc/xml/medarb_sprog.xml", False
 'objXmlHttp_medarb.open "GET", "http://outzource.dk/timeout_xp/wwwroot/ver2_10/inc/xml/medarb_sprog.xml", False
 'objXmlHttp_medarb.open "GET", "https://timeout.cloud/timeout_xp/wwwroot/ver3_99/inc/xml/medarb_sprog.xml", False
 'objXmlHttp_medarb.open "GET", "https://outzource.dk/timeout_xp/wwwroot/ver2_14/inc/xml/medarb_sprog.xml", False
-objXmlHttp_medarb.open "GET", "https://timeout.cloud/timeout_xp/wwwroot/ver2_14/inc/xml/medarb_sprog.xml", False
+'objXmlHttp_medarb.open "GET", "https://timeout.cloud/timeout_xp/wwwroot/ver2_14/inc/xml/medarb_sprog.xml", False
 
 objXmlHttp_medarb.send
 

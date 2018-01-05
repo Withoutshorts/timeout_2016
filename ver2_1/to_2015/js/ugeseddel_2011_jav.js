@@ -305,6 +305,7 @@ $(document).ready(function() {
         }
 
         varTjDatoUS_man = $("#varTjDatoUS_man").val()
+        lto = $("#lto").val()
        
         //$(".chbox_akt").hide();
 
@@ -312,7 +313,7 @@ $(document).ready(function() {
 
         if (jq_newfilterval.length > 0 || mobil_week_reg_job_dd == "1") {
 
-            $.post("?jq_newfilterval=" + jq_newfilterval + "&jq_medid=" + jq_medid +"&varTjDatoUS_man=" + varTjDatoUS_man, { control: "FN_sogjobogkunde", AjaxUpdateField: "true" }, function (data) {
+            $.post("?lto=" + lto+"&jq_newfilterval=" + jq_newfilterval + "&jq_medid=" + jq_medid +"&varTjDatoUS_man=" + varTjDatoUS_man, { control: "FN_sogjobogkunde", AjaxUpdateField: "true" }, function (data) {
             //alert("cc")
             $("#dv_job_" + thisval).html(data);
 

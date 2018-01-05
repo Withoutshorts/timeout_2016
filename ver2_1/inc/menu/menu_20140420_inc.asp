@@ -335,6 +335,31 @@ case "welcom"
     helpmenu_2014 = 0
     end if
 
+case "alfanordic", "xintranet - local"
+
+    tregmenu_2014 = 1
+    statmenu_2014 = 2
+    marbmenu_2014 = 1
+    
+    if level = 1 then
+    projmenu_2014 = 1
+    kundmenu_2014 = 1
+   
+    else
+    projmenu_2014 = 0
+    kundmenu_2014 = 0
+    
+    end if
+    
+    helpmenu_2014 = 0
+    erpfmenu_2014 = 0
+   
+
+    if level = 1 then
+    admimenu_2014 = 1
+    else
+    admimenu_2014 = 0
+    end if 
 
 case else
     tregmenu_2014 = 1
@@ -383,7 +408,7 @@ end select
     
 %>
 
-    <div class="fixed-navbar-hoz">
+    <div class="fixed-navbar-hoz" style="z-index:300000;">
 
           
         <h1 class="menu_logo-left">
@@ -429,7 +454,7 @@ end select
         </nav>
        <%end if %>
     </div>
-    <div class="fixed-navbar-vert">
+    <div class="fixed-navbar-vert" style="z-index:200000;">
         <nav>
             <ul>
                 <%if cint(tregmenu_2014) <> 0 AND (lto = "demo" OR lto = "intranet - local") then %>
@@ -491,7 +516,7 @@ end select
     </div>
 
 
- <nav id="menu-slider" class="menu-slider" style="overflow-y:scroll; z-index:10000;">
+ <nav id="menu-slider" class="menu-slider" style="overflow-y:scroll; z-index:100000;">
 
              <span style="color:#999999; float:right; font-size:14px; padding-right:20px;" id="luk_menuslider">X</span>
          
@@ -564,7 +589,7 @@ end select
                         %>   
                         <li><a href="<%=toSubVerPath14 %><%=lnkTimeregside %>"><%=tsa_txt_116 &" "& tsa_txt_438 %></a></li><%
                  
-                case "xtia", "welcom"
+                case "xtia", "welcom", "alfanordic"
                                   
                  case else
                     %>   <li><a href="<%=toSubVerPath14 %><%=lnkTimeregside %>"><%=tsa_txt_116 %></a></li><%
@@ -596,10 +621,16 @@ end select
               
                 
                
+                 <%
+                 select case lto
+                 case "alfanordic", "intranet - local"                     
 
-                  <%if cint(stempelurOn) = 1 then %>
+                 case else
+                 if cint(stempelurOn) = 1 then %>
                  <li><a href="<%=toSubVerPath14 %><%=lnkLogind%>"><%=tsa_txt_340 %></a></li>
-                 <%end if %>
+                 <%end if
+                 end select 
+                 %>
 
                 
                  <% select case lto
@@ -613,32 +644,43 @@ end select
                  end select%>
                  
                   <% 
-                      
+                   
+                  select case lto
+                  case "alfanordic", "intranet - local"
+                    
+                  case else       
                   call traveldietexp_fn()
                       
                   if cint(traveldietexp_on) = 1 then
                   %>
                   <li><a href="<%=toSubVerPath15 %>traveldietexp.asp">Rejse/Diæter</a></li>
-                  <%end if%>
-               
+                  <%end if
+                  end select    
+                  %>
+                
+                 <%
+                 select case lto 
+                 case "alfanordic", "intranet - local"
 
+                 case else
+                 %>
                  <li><a href="<%=toSubVerPath14 %><%=lnkAfstem %>"><%=tsa_txt_389 %></a></li>
+                 <%end select %>
 
                  <%select case lto
-                 case "oko", "epi", "epi2017", "wilke", "outz", "dencker", "essens", "synergi1", "jttek", "hidalgo", "demo", "bf", "plan", "acc", "assurator", "glad", "tia", "eniga", "welcom"
+                 case "oko", "epi", "epi2017", "wilke", "outz", "dencker", "essens", "synergi1", "jttek", "hidalgo", "demo", "bf", "plan", "acc", "assurator", "glad", "tia", "eniga", "welcom", "alfanordic", "intranet - local", "cflow"
                      
-                    if level = 1 OR (lto = "wilke") OR (lto = "outz") OR (lto = "dencker") OR (lto = "hidalgo") OR (lto = "acc") OR (lto = "epi2017") OR (lto = "assurator") OR (lto = "glad") or (lto = "tia") OR (lto = "eniga") OR (lto = "welcom") then%>
+                    if level = 1 OR (lto = "wilke") OR (lto = "outz") OR (lto = "dencker") OR (lto = "hidalgo") OR (lto = "acc") OR (lto = "epi2017") OR (lto = "assurator") OR (lto = "glad") or (lto = "tia") OR (lto = "eniga") OR (lto = "welcom") OR (lto = "alfanordic") OR (lto = "intranet - local") OR (lto = "cflow") then%>
                     <li><a href="<%=toSubVerPath15 %>medarbdashboard.asp"><%=tsa_txt_529 %></a></li>
                     <%end if %>
                  <%end select %>
                 
 
-             
-                  
-                
+            
+                   
                    <%if level <= 7 then %> 
                     
-                       <%if lto = "tia" AND level = 7 then  
+                       <%if (lto = "tia" AND level = 7) OR (lto = "alfanordic") OR lto = ("intranet - local") then  
                        
                          else    
                        %>
@@ -679,7 +721,6 @@ end select
                    <%end if %>
 	               
                   <%end if %>
-
                 
 
                   <%'** Afslut periode ***'
@@ -706,35 +747,40 @@ end select
                    '** Ferie / Sygdoms kalender
                    '** Level 1 har adgang til sygdom OGSå TEC og ESN da der ikke tjekkes på medarbejderlinej niveau i feriekalender
                    '** Ellers kun ferie  
-                   if level = 1 then %>
+                   if lto = "alfanordic" OR lto = "intranet - local" then
+                      
+                   else 
+                       if level = 1 then %>
 
-	                    <li><a href="<%=toSubVerPath14 %>feriekalender.asp?menu=job"><%=replace(tsa_txt_443, "|", "&") %></a></li>
+	                        <li><a href="<%=toSubVerPath14 %>feriekalender.asp?menu=job"><%=replace(tsa_txt_443, "|", "&") %></a></li>
 		           
                  
-                  <%else %>
+                      <%else %>
 
-                         <%select case lto
+                             <%select case lto
                 
-                         case "tec", "esn"
+                             case "tec", "esn"
 
-                                  if level <= 2 OR level = 6 then
-                                  %>
-                                    <li><a href="<%=toSubVerPath14 %>feriekalender.asp?menu=job"><%=replace(tsa_txt_443, "|", "&") %></a></li>
-                                  <%end if
+                                      if level <= 2 OR level = 6 then
+                                      %>
+                                        <li><a href="<%=toSubVerPath14 %>feriekalender.asp?menu=job"><%=replace(tsa_txt_443, "|", "&") %></a></li>
+                                      <%end if
 
-                         case "nonstop"
+                             case "nonstop"
 
-                         case "tia", "xintranet - local"
+                             case "tia", "xintranet - local"
 
-                         case else
+                             case else
                     
-                          %>
+                              %>
 
-		                     <li><a href="<%=toSubVerPath14 %>feriekalender.asp?menu=job"><%=replace(tsa_txt_444, "|", "&") %></a></li>
+		                         <li><a href="<%=toSubVerPath14 %>feriekalender.asp?menu=job"><%=replace(tsa_txt_444, "|", "&") %></a></li>
 
-                        <%end select %>
+                            <%end select %>
 
-		          <%end if %>
+		         
+                        <%end if %>
+                    <%end if %>
 
 
                  <%
@@ -980,13 +1026,27 @@ end select
                 
                      <%if cint(statmenu_2014) = 2 then 'nt%>
                 
+                           <%if lto = "alfanordic" OR lto = "intranet - local" then %>
 
-                           <%if level = 1 AND (session("mid") = 3 OR session("mid") = 6 OR session("mid") = 1) then %>
-                 
-                                     <li><a href="<%=toSubVerPath14 %>oms.asp"><%=tsa_txt_459 %></a></li>
+                                                   
+                                <li><a href="<%=toSubVerPath15 %>medarb_protid.asp"><%=menu_txt_010 %></a></li>                        
 
-                            <%end if %>
-                   
+                                
+                                <li><a href="<%=toSubVerPath14 %>stat_korsel.asp?menu=stat" ><%=tsa_txt_265 %></a></li>
+
+                                <%if level = 2 OR level = 6 then %>
+                                <li><a href="<%=toSubVerPath14 %>joblog_timetotaler.asp"><%=tsa_txt_458 %></a></li>
+                                <li><a href="<%=toSubVerPath14 %>joblog.asp"><%=tsa_txt_118 %></a></li>
+                                <li><a href="<%=toSubVerPath14 %>bal_real_norm_2007.asp?dontdisplayresult=1"><%=replace(tsa_txt_466, "|", "&") %></a></li>
+                                <%end if %>
+
+                           <%else %>
+
+                                <%if level = 1 AND (session("mid") = 3 OR session("mid") = 6 OR session("mid") = 1) then %>               
+                                    <li><a href="<%=toSubVerPath14 %>oms.asp"><%=tsa_txt_459 %></a></li>
+                                <%end if %>
+
+                           <%end if %>
                           <!--
                          <li><a href="<%=toSubVerPath14 %>job_nt.asp?rapporttype=1">Production / Enq. Overview</a></li>
                          <li><a href="<%=toSubVerPath14 %>job_nt.asp?rapporttype=3">Overview (ext.)</a></li>
@@ -1061,6 +1121,11 @@ end select
                         <%end if %>
 
                         <%if level <= 2 OR level = 6 then '** Indtil teamleder er impl. på kørsels siden **"%>
+
+                        <%if session("stempelur") <> 0 AND (lto = "cflow" OR lto = "intranet - local") then %>
+                        <li><a href="<%=toSubVerPath15 %>godkend_request_timer.asp" target="_blank">Godkende overtid</a></li>
+                        <%end if %>
+                 
                         <li><a href="<%=toSubVerPath14 %>stat_korsel.asp?menu=stat" ><%=tsa_txt_265 %></a></li>
                         <li><a href="<%=toSubVerPath14 %>pipeline.asp?menu=webblik&FM_kunde=0&FM_progrupper=10"><%=tsa_txt_456 %></a></li>
                         <%end if %>
@@ -1184,28 +1249,36 @@ end select
        <ul class="menupkt_n2" id="ul_menu-slider-5" style="display:none; visibility:visible;">
                 <h3 class="menuh3"><%=tsa_txt_471 %></h3>
             
-                
-           <%if level = 1 then %>
-	        <li><a href='<%=toSubVerPath15 %>medarb.asp?visikkemedarbejdere=1'><%=global_txt_125 %></a></li>
-            <li><a href='<%=toSubVerPath15 %>medarb.asp?menu=medarb&func=opret'><%=global_txt_183 %></a></li>
-            <li><a href='<%=toSubVerPath15 %>medarb.asp?menu=medarb&func=red&id=<%=session("mid")%>'><%=global_txt_184 %></a></li>
-           <%else 
-               
-               
-               
+            <%
+            select case lto 
+            case "alfanordic"       
             %>
+               <li><a href='<%=toSubVerPath15 %>medarb.asp?menu=medarb&func=red&id=<%=session("mid")%>'><%=global_txt_184 %></a></li>
+            <%
+            case else
+            %> 
+       
+           
+                   <%if level = 1 then %>
+	                <li><a href='<%=toSubVerPath15 %>medarb.asp?visikkemedarbejdere=1'><%=global_txt_125 %></a></li>
+                    <li><a href='<%=toSubVerPath15 %>medarb.asp?menu=medarb&func=opret'><%=global_txt_183 %></a></li>
+                    <li><a href='<%=toSubVerPath15 %>medarb.asp?menu=medarb&func=red&id=<%=session("mid")%>'><%=global_txt_184 %></a></li>
+                   <%else 
+               
+               
+               
+                    %>
 
-            <%if cint(create_newemployee) = 1 then %>
-            <li><a href='<%=toSubVerPath15 %>medarb.asp?visikkemedarbejdere=1'><%=global_txt_125 %></a></li>
-            <li><a href='<%=toSubVerPath15 %>medarb.asp?menu=medarb&func=opret'><%=global_txt_183 %></a></li>
-            <%end if %>
+                    <%if cint(create_newemployee) = 1 then %>
+                    <li><a href='<%=toSubVerPath15 %>medarb.asp?visikkemedarbejdere=1'><%=global_txt_125 %></a></li>
+                    <li><a href='<%=toSubVerPath15 %>medarb.asp?menu=medarb&func=opret'><%=global_txt_183 %></a></li>
+                    <%end if %>
 
-            <li><a href='<%=toSubVerPath15 %>medarb.asp?menu=medarb&func=red&id=<%=session("mid")%>'><%=global_txt_184 %></a></li>
-
+                    <li><a href='<%=toSubVerPath15 %>medarb.asp?menu=medarb&func=red&id=<%=session("mid")%>'><%=global_txt_184 %></a></li>
          
+                   <%end if %>
 
-           <%end if %>
-
+           <%end select %>
           
            
            
@@ -1262,7 +1335,7 @@ end select
                   <li><a href="<%=toSubVerPath15 %>stfolder_gruppe.asp?ketype=e"><%=tsa_txt_485 %></a></li>
 
                   <li><a href="<%=toSubVerPath15 %>job_movecustomer_multiple.asp">Flyt job til ny kunde</a></li>
-                   <li><a href="<%=toSubVerPath15 %>akt_movejob_multiple.asp">Flyt aktivitet til nyt job</a></li> 
+                   <li><a href="<%=toSubVerPath15 %>akt_movejob_multiple.asp">Flyt aktivitet/timer til nyt job</a></li> 
 
                     
 

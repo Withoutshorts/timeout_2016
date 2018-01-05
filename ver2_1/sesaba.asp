@@ -96,7 +96,7 @@ LogudDateTime = year(now)&"/"& month(now)&"/"&day(now)&" "& datepart("h", now) &
 logudTid = LogudDateTime 'year(loginDato) &"/"& month(loginDato)&"/"& day(loginDato) & " " & logudHH &":"& logudMM & ":00"
 	
 
-strSQL = "SELECT id, login FROM login_historik WHERE mid = " & uid &" AND stempelurindstilling <> -1 ORDER BY id DESC"
+strSQL = "SELECT id, login, stempelurindstilling FROM login_historik WHERE mid = " & uid &" AND stempelurindstilling <> -1 ORDER BY id DESC"
 oRec.open strSQL, oConn, 3 
 if not oRec.EOF then
 
@@ -119,6 +119,20 @@ if not oRec.EOF then
 	'Response.Write strSQL2
     'Response.flush	
     oConn.execute(strSQL2)
+
+    select case lto
+    case "intranet - local", "cflow"
+    
+        if len(trim(request("FM_timer_overtid"))) <> 0 AND len(trim(request("fm_overtid_ok"))) <> 0 then
+        timertilindlasning = request("FM_timer_overtid")
+        else
+        timertilindlasning = 0
+        end if
+
+       
+        call overtidsTillaeg(oRec("stempelurindstilling"), lto, oRec("login"), logudTid, session("mid"), timertilindlasning)
+
+    end select
 	
 	
 end if
@@ -137,7 +151,8 @@ end if
 
               
 				
-if lto = "tec" OR lto = "intranet - local" OR lto = "dencker" OR lto = "epi2017" then
+select case lto 
+case "tec", "xintranet - local", "dencker", "epi2017" 
 
     %>
         
@@ -204,7 +219,12 @@ Log på timeOut igen her:<br />
 
 
     <%
-else
+
+case "intranet - local", "cflow"
+
+        response.redirect "to_2015/monitor.asp?func=startside"
+
+case else
 
 
 '*** Bruges på timereg siden ***'
@@ -224,8 +244,7 @@ Response.Write("<script language=""JavaScript"">window.open('', '_self', '');</s
 Response.Write("<script language=""JavaScript"">window.close();</script>")
 end if
 
-end if
+end select
 
-'else				
-				
+		
 %>

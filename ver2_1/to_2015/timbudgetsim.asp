@@ -24,7 +24,7 @@
 
 
 
-<script src="js/timbudgetsim_jav_20170918.js"></script>
+<script src="js/timbudgetsim_jav_20171109.js"></script>
 
 <%
 
@@ -64,7 +64,81 @@ if session("user") = "" then
 
 
             end if
-           
+
+
+             if request("issubmitted") = "1" then
+
+                    if len(trim(request("FM_visjobfordato"))) <> 0 then
+                    visjobfordato = 1
+                    visjobfordatoCHK = "CHECKED"
+                    else
+                    visjobfordato = 0
+                             visjobfordatoCHK = ""
+                    end if
+
+            response.Cookies("EPR")("visjobfordato") = visjobfordato
+
+            else
+
+                  if request.Cookies("EPR")("visjobfordato") <> "" then
+                     visjobfordato = request.Cookies("EPR")("visjobfordato")
+                     visjobfordatoCHK = "CHECKED"
+                 else
+                     visjobfordato = 0
+                     visjobfordatoCHK = ""
+                 end if
+
+               
+    
+            end if
+
+
+            if len(trim(request("FM_jobfordato"))) <> 0 AND request("issubmitted") = "1" then
+            jobfordato = request("FM_jobfordato")
+         
+            response.Cookies("EPR")("jobfordato") = jobfordato
+
+            else
+
+                 if request.Cookies("EPR")("jobfordato") <> "" then
+                     jobfordato = request.Cookies("EPR")("jobfordato")
+                 else
+                     jobfordato = day(now) &"-"& month(now) &"-"& year(now)
+                 end if
+
+               
+    
+            end if
+
+
+            if request("issubmitted") = "1" then
+
+                if len(trim(request("FM_vislukkedejob"))) <> 0 then
+                vislukkedejob = 1
+                vislukkedejobCHK = "CHECKED"
+
+                else
+        
+                vislukkedejob = 0
+                vislukkedejobCHK = ""
+
+                end if
+
+                response.Cookies("EPR")("vislukkedejob") = vislukkedejob
+
+            else
+
+                  if request.Cookies("EPR")("vislukkedejob") <> "" then
+                     vislukkedejob = request.Cookies("EPR")("vislukkedejob")
+                     vislukkedejobCHK = "CHECKED"
+                 else
+                     vislukkedejob = 0
+                     vislukkedejobCHK = ""
+                 end if
+
+               
+    
+            end if
 
 
             if len(trim(request("viskun_overbudget"))) <> 0 AND request("viskun_overbudget") <> 0 then
@@ -837,6 +911,10 @@ if session("user") = "" then
 
      response.redirect "timbudgetsim.asp?FM_fy="&FY0&"&jobid="&jobid&"&func=forecast&FM_visrealprdato="& visrealprdato
     
+
+
+   '*************************************************************************************************************
+   '******************** MAIN FORECAST Side 2 **********************************************************
    case "forecast"
 
 
@@ -867,11 +945,58 @@ if session("user") = "" then
          public mhigh, phigh
 
 
+
+        '** Jobid - Alle valgt vil ikke længere blive modtaget som 0, men alle de valgte job id'er
+
+        'response.Write "request(jobid: " & request("jobid")
+        'response.flush
+
         if len(trim(request("jobid"))) <> 0 then
-        jobid = request("jobid")
+        jobids = split(request("jobid"), ",")
+        jobidsStr = request("jobid")
         else
-        jobid = -1
+        jobids = split("0", ",")
+        jobidsStr = 0
         end if
+
+        antaljids = 0
+        jobidsStrIsWrt = ""
+        for j = 0 TO UBOUND(jobids)
+        jobidsStrIsWrt = jobidsStrIsWrt & ",#"& trim(jobids(j)) &"#" 
+        antaljids = antaljids + 1
+        next
+
+        
+        if len(trim(request("FM_visjobfordato_forefter"))) <> 0 then
+        visjobfordato_forefter = request("FM_visjobfordato_forefter")
+
+        response.Cookies("EPR")("visjobfordato_forefter") = visjobfordato_forefter
+
+        else
+            if request.Cookies("EPR")("visjobfordato_forefter") <> "" then
+            visjobfordato_forefter = request.Cookies("EPR")("visjobfordato_forefter")
+            else
+            visjobfordato_forefter = 0
+            end if
+        end if
+
+       
+
+        visjobfordato_forefterSEL0 = ""
+        visjobfordato_forefterSEL1 = ""
+        visjobfordato_forefterSEL2 = ""
+
+        select case visjobfordato_forefter 
+        case 0
+        visjobfordato_forefter = 0
+        visjobfordato_forefterSEL0 = "SELECTED"
+        case 1
+        visjobfordato_forefter = 1
+        visjobfordato_forefterSEL1 = "SELECTED"
+        case 2
+        visjobfordato_forefter = 2
+        visjobfordato_forefterSEL2 = "SELECTED"
+        end select
 
         if request("issubmitted") = "1" AND len(trim(request("FM_progrpid"))) = 0 then 'DiSabled = -1
 
@@ -888,7 +1013,7 @@ if session("user") = "" then
                 progrpid = request("FM_progrpid")
                 
 
-                if cdbl(jobid) = 0 AND request("issubmitted") <> "1" then 'Vis alle job - force vælg projektgruppe
+                if cStr(jobidsStr) = "0" AND request("issubmitted") <> "1" then 'Vis alle job - force vælg projektgruppe
 
                 strSQLpg = "SELECT id FROM projektgrupper WHERE orgvir = 1 ORDER BY navn LIMIT 1" 
                 oRec3.open strSQLpg, oConn, 3
@@ -905,7 +1030,7 @@ if session("user") = "" then
             else
             
                 if request.Cookies("EPR")("progrpid") <> "" AND request.Cookies("EPR")("progrpid") <> "0" AND request("issubmitted") <> "1" then
-                progrpid =  request.Cookies("EPR")("progrpid")
+                progrpid = request.Cookies("EPR")("progrpid")
                 visprogrpid = progrpid
                 else
                 progrpid = 0
@@ -938,61 +1063,103 @@ if session("user") = "" then
 
         if len(trim(minit)) <> 0 then
         minitSQlkri = " AND init LIKE '"& minit &"'"
+
+            if cint(filterKunAktiveMedarb) = 1 then
+
+            thisMid = 0
+            strSQLmed = "SELECT mid FROM medarbejdere WHERE init = '"& minit & "'"
+            oRec6.open strSQLmed, oConn, 3
+            if not oRec6.EOF then
+
+            thisMid = oRec6("mid")
+
+            end if
+            oRec6.close
+
+            end if
+
         else
         minitSQlkri = ""
         end if
 
-
         onlyThisMedarbids = ""
-        thisJobnr = 0
+        Dim thisJobnr
+        Redim thisJobnr(205)
         
-            if cint(filterKunAktiveMedarb) = 1 then
+            'if cint(filterKunAktiveMedarb) = 1 then
+            
+        '************************************************************
+        '*************** Finder Alle jobnr **************************
+        '************************************************************
 
-                strSQLjobnr = "SELECT jobnr FROM job WHERE id = "& jobid
+                for j = 0 TO UBOUND(jobids)
+                
+                strSQLjobnr = "SELECT jobnr FROM job WHERE id = "& trim(jobids(j))
                 oRec3.open strSQLjobnr, oConn, 3
                 if not oRec3.EOF then
         
-                thisJobnr = oRec3("jobnr")
+                thisJobnr(j) = oRec3("jobnr")
+                jobidsRealAlleSQLkri = jobidsRealAlleSQLkri & " OR tjobnr = '" & thisJobnr(j) & "'"
 
                 end if
                 oRec3.close
 
-            end if
+                next
+
+            'end if
 
 
+        
+        '**** Vis kun job hvor valgte medarbejder har timer på ******************************
         if cint(filterKunAktiveMedarb) = 1 then
 
-            if cint(filtervisallejobvlgtmedarb) = 1 then
+            'if cint(filtervisallejobvlgtmedarb) = 1 then
 
-                jobRealAlleSQLkri = "tjobnr <> '0'"
-                jobFCAlleSQLkri = "jobid <> 0"
+                'jobRealAlleSQLkri = "tjobnr <> '0'"
+                'jobFCAlleSQLkri = "jobid <> 0"
 
-            else
+            'else
 
-                jobRealAlleSQLkri = "tjobnr = '" & thisJobnr & "'"
-                jobFCAlleSQLkri = "jobid = "& jobid &""
+                jobRealAlleSQLkri = " tjobnr = 0"
+                jobFCAlleSQLkri = " jobid = 0"
+                for j = 0 to UBOUND(jobids)
+                jobRealAlleSQLkri = jobRealAlleSQLkri & " OR tjobnr = '" & trim(thisJobnr(j)) & "'"
+                jobFCAlleSQLkri = jobFCAlleSQLkri & " OR jobid = "& trim(jobids(j)) &""
+                next
 
-            end if
+            'end if
 
         
         visJobdatoStartSQL = dateAdd("yyyy", -4, visrealprdatoStartSQL) '3 år tilbage
         visJobdatoStartSQL = year(visJobdatoStartSQL) & "-" & month(visJobdatoStartSQL) & "-" & day(visJobdatoStartSQL)
 
 
+
+       
         '** REAL Timer --> Kun medarb. med timer på
+        strSQLkrijob = " j.id = 0"
         onlyThisMedarbids = " AND (mid = 0 "
         onlyThisMedarbidsFC = " AND (medarbid = 0 "
-        strSQLmedids = "SELECT tmnr FROM timer "_
-        & "LEFT JOIN job AS j ON (j.jobnr = tjobnr AND jobstatus = 1 AND jobstartdato >= '"& visJobdatoStartSQL &"')"_
-        &" WHERE "& jobRealAlleSQLkri &" AND tdato BETWEEN '"& visrealprdatoStartSQL &"' AND '"& visrealprdatoSQL &"' AND (tfaktim = 1 OR tfaktim = 2) AND jobstatus = 1 AND jobstartdato >= '"& visJobdatoStartSQL &"' GROUP BY tmnr"
+
+        'AND jobstartdato >= '"& visJobdatoStartSQL &"'
+        'AND jobstartdato >= '"& visJobdatoStartSQL &"'
+        'thisMid
+        strSQLmedids = "SELECT SUM(timer) AS sumtimer, tmnr, j.id AS jobid FROM timer "_
+        & "LEFT JOIN job AS j ON (j.jobnr = tjobnr)"_
+        &" WHERE tmnr = "& thisMid &" AND ("& jobRealAlleSQLkri &") AND tdato BETWEEN '"& visrealprdatoStartSQL &"' AND '"& visrealprdatoSQL &"' AND (tfaktim = 1 OR tfaktim = 2) GROUP BY tjobnr"
            
-        'response.Write strSQLmedids
+        'response.Write strSQLmedids & "<br>"
         'response.flush
-    
+        'AND jobstatus = 1
+        'AND jobstatus = 1 
+
         oRec3.open strSQLmedids, oConn, 3
         while not oRec3.EOF 
         
         onlyThisMedarbids = onlyThisMedarbids & " OR mid = "& oRec3("tmnr") 
+        if oRec3("sumtimer") > 0 AND len(trim(oRec3("jobid"))) <> 0 then
+        strSQLkrijob = strSQLkrijob & " OR j.id = "& oRec3("jobid")
+        end if    
 
         oRec3.movenext
         wend
@@ -1000,8 +1167,10 @@ if session("user") = "" then
 
 
         '*** FORECAST ***
-        strSQLmedids = "SELECT medid FROM ressourcer_md WHERE "& jobFCAlleSQLkri &" AND (aar = "& h1aar &" AND md = "& h1md &") GROUP BY medid"
-         oRec3.open strSQLmedids, oConn, 3
+        strSQLmedids = "SELECT medid, jobid FROM ressourcer_md WHERE medid = "& thisMid &" AND ("& jobFCAlleSQLkri &") AND (aar = "& h1aar &" AND md = "& h1md &") GROUP BY jobid"
+        'response.write strSQLmedids & "<br>"
+        'response.flush
+        oRec3.open strSQLmedids, oConn, 3
         while not oRec3.EOF 
         
 
@@ -1013,6 +1182,8 @@ if session("user") = "" then
         onlyThisMedarbidsFC = onlyThisMedarbidsFC & " OR medarbid = "& oRec3("medid") 
         end if
 
+        strSQLkrijob = strSQLkrijob & " OR j.id = "& oRec3("jobid")
+
         oRec3.movenext
         wend
         oRec3.close
@@ -1020,7 +1191,11 @@ if session("user") = "" then
         onlyThisMedarbids = onlyThisMedarbids & ")"
         onlyThisMedarbidsFC = onlyThisMedarbidsFC & ")"
 
-        end if
+        
+        end if 'filterKunAktiveMedarb
+
+
+
 
     %>
 
@@ -1071,6 +1246,8 @@ if session("user") = "" then
                             <input type="hidden" name="FY1" value="<%=year(y1)%>" />
                             <input type="hidden" name="FY2" value="<%=year(y2)%>" />
                             
+                           <input type="hidden" name="antaljids" id="antaljids" value="<%=antaljids%>" />
+                            
                        
                            
                         <h3 class="portlet-title">
@@ -1080,20 +1257,57 @@ if session("user") = "" then
                         <!-- NAVN / SORTERING / ID -->
                         <section>
                             <div class="well">
+
+                             
+                                   <div class="row">
+                                
+                                   <%call forretningsomr %>
+                                   
+
+                                            <div class="col-lg-2 pad-t5"><br />
+                                                <input type="checkbox" name="FM_vislukkedejob" value="1" <%=vislukkedejobCHK %>/> Vis lukkede og passive job<br />
+                                            </div>
+                                              <div class="col-lg-2 pad-t5"><br />
+                                                    <input type="checkbox" name="FM_visjobfordato" value="1" <%=visjobfordatoCHK %>/> Kun job med startdato 
+                                                      
+                                                </div>
+                                                   
+                                               
+                                                 <div class="col-lg-4 pad-t5"><br />
+                                                      <select name="FM_visjobfordato_forefter" class="form-control input-small" style="width:65px; display: inline-block;">
+                                                                <option value="0" <%=visjobfordato_forefterSel0 %>> <= </option>
+                                                                <option value="1" <%=visjobfordato_forefterSel1 %>> >= </option>
+                                                                <option value="2" <%=visjobfordato_forefterSel2 %>> = år </option>
+                                                                </select>&nbsp;
+                                                    <input type="text" class="form-control input-small" style="width:95px; text-align:left; display: inline-block;" name="FM_jobfordato" value="<%=jobfordato %>" />
+                                                </div>
+
+                                                      
+
+                                </div>
+
                              <div class="row">
-                                     <div class="col-lg-4 pad-t5">Job:<br /> <select name="jobid" id="jq_jobid" class="form-control input-small" onchange="submit();">
+                                     <div class="col-lg-6 pad-t5">Job:<br /> <!-- onchange="submit(); -->
                                          <%  
 
-                                             projektgruppe1 = 1
-                                             projektgruppe2 = 1
-                                             projektgruppe3 = 1 
-                                             projektgruppe4 = 1
-                                             projektgruppe5 = 1
-                                             projektgruppe6 = 1
-                                             projektgruppe7 = 1
-                                             projektgruppe8 = 1
-                                             projektgruppe9 = 1
-                                             projektgruppe10 = 1
+                                             projektgruppe1 = progrpid 
+                                             projektgruppe2 = progrpid
+                                             projektgruppe3 = progrpid 
+                                             projektgruppe4 = progrpid
+                                             projektgruppe5 = progrpid
+                                             projektgruppe6 = progrpid
+                                             projektgruppe7 = progrpid
+                                             projektgruppe8 = progrpid
+                                             projektgruppe9 = progrpid
+                                             projektgruppe10 = progrpid
+
+                                             strSQLprogrp = ""
+
+                                             if cint(filterKunprojgrptilknyt) = 1 AND cint(progrpid) <> 0 then  
+                                             strSQLprogrp = " AND (j.projektgruppe1 = "& projektgruppe1 &" OR j.projektgruppe2 = "& projektgruppe2 &" OR j.projektgruppe3 = "& projektgruppe3 &" OR j.projektgruppe3 = "& projektgruppe3 &" OR "_
+                                             &" j.projektgruppe4 = "& projektgruppe4 &" OR j.projektgruppe5 = "& projektgruppe5 &" OR "_
+                                             &" j.projektgruppe6 = "& projektgruppe6 &" OR j.projektgruppe7 = "& projektgruppe7 &" OR j.projektgruppe8 = "& projektgruppe8 &" OR j.projektgruppe9 = "& projektgruppe9 &" OR j.projektgruppe10 = "& projektgruppe10 &")"
+                                             end if
 
                                              select case lto
                                              case "plan"
@@ -1103,6 +1317,30 @@ if session("user") = "" then
                                              end select
 
 
+                                             if cint(vislukkedejob) = 1 then
+                                             strSQLstatusKri = " (jobstatus <> -1)"
+                                             end if
+
+                                             select case cint(visjobfordato_forefter) 
+                                             case 0
+                                             visjobfordato_forefterTegn = "<="
+                                             case 1
+                                             visjobfordato_forefterTegn = ">="
+                                             case 2
+                                             visjobfordato_forefterTegn = "="
+                                             end select
+
+                                             if cint(visjobfordato) = 1 then
+                                                jobfordatoSQL = year(jobfordato) &"/"& month(jobfordato) &"/"& day(jobfordato)
+                                                if cint(visjobfordato_forefter) = 2 then 'vis alle job i året
+                                                strSQLvisjobfordatoKri = " AND Year(jobstartdato) "& visjobfordato_forefterTegn &" Year('"& jobfordatoSQL &"')"
+                                                else
+                                                strSQLvisjobfordatoKri = " AND jobstartdato "& visjobfordato_forefterTegn &" '"& jobfordatoSQL &"'"
+                                                end if
+                                             else
+                                             strSQLvisjobfordatoKri = ""
+                                             end if
+
                                              select case lto
                                              case "oko"
                                              strSQLrisiko = "(risiko > -1 OR risiko = -3 OR risiko = -2)"
@@ -1110,65 +1348,93 @@ if session("user") = "" then
                                              strSQLrisiko = "(risiko > -1 OR risiko = -3)"
                                              end select
 
-                                             strSQLjob = "SELECT jobnavn, jobnr, id "_
-                                             &", projektgruppe1, projektgruppe2, projektgruppe3, projektgruppe4, projektgruppe5, projektgruppe6, projektgruppe7, projektgruppe8, projektgruppe9, projektgruppe10  "_
-                                             &" FROM job WHERE "& strSQLstatusKri &" AND "& strSQLrisiko &" ORDER BY jobnavn" 
+                                             strSQLjob = "SELECT jobnavn, jobnr, id, jobstatus, "_
+                                             &" projektgruppe1, projektgruppe2, projektgruppe3, projektgruppe4, projektgruppe5, projektgruppe6, projektgruppe7, projektgruppe8, projektgruppe9, projektgruppe10 "_
+                                             &" FROM job j LEFT JOIN fomr_rel AS fr ON (fr.for_jobid = j.id) "_
+                                             &" WHERE "& strSQLstatusKri &" AND "& strSQLrisiko &" "& strSQLvisjobfordatoKri & fomrSQLfilter &" "& strSQLprogrp &" GROUP BY j.id ORDER BY jobnavn LIMIT 200" 
                                              
+
+                                          
+                                             'response.write "strSQLjob: " & strSQLjob
+                                             'response.flush
+
+                                             %><select name="jobid" id="jq_jobid" size="5" multiple class="form-control input-small"><%
+
                                              jobF = 0
+                                             jobFAntal = 0
                                              jSelall = ""
 
-                                             if cdbl(jobid) = 0 then
-                                             jSelall = "SELECTED"
-                                             jobF = 1
-                                             end if
+                                             'if cStr(jobidsStr) = "0" then
+                                             'jSelall = "SELECTED"
+                                             'jobF = 1
+                                             'end if
                                              %>
-                                           <option value="0" <%=jSelall %>>Alle (ekstra loadtid)</option>
+                                           <option value="0" <%=jSelall %>>Alle (ekstra loadtid - maks 200)</option>
                                             <%
 
                                             
                                             oRec.open strSQLjob, oConn, 3
                                             while not oRec.EOF 
 
-                                             if cdbl(jobid) = cdbl(oRec("id")) then
+                                             if instr(jobidsStrIsWrt, ",#"& oRec("id") &"#") <> 0 then
                                              jSel = "SELECTED"
-                                             jobF = 1 
+                                             jobF = jobF + 1 
                                              
-                                             projektgruppe1 = oRec("projektgruppe1")
-                                             projektgruppe2 = oRec("projektgruppe2")
-                                             projektgruppe3 = oRec("projektgruppe3")
-                                             projektgruppe4 = oRec("projektgruppe4")
-                                             projektgruppe5 = oRec("projektgruppe5")
-                                             projektgruppe6 = oRec("projektgruppe6")
-                                             projektgruppe7 = oRec("projektgruppe7")
-                                             projektgruppe8 = oRec("projektgruppe8")
-                                             projektgruppe9 = oRec("projektgruppe9")
-                                             projektgruppe10 = oRec("projektgruppe10")
+                                             'projektgruppe1 = oRec("projektgruppe1")
+                                             'projektgruppe2 = oRec("projektgruppe2")
+                                             'projektgruppe3 = oRec("projektgruppe3")
+                                             'projektgruppe4 = oRec("projektgruppe4")
+                                             'projektgruppe5 = oRec("projektgruppe5")
+                                             'projektgruppe6 = oRec("projektgruppe6")
+                                             'projektgruppe7 = oRec("projektgruppe7")
+                                             'projektgruppe8 = oRec("projektgruppe8")
+                                             'projektgruppe9 = oRec("projektgruppe9")
+                                             'projektgruppe10 = oRec("projektgruppe10")
 
                                              else
                                              jSel = ""
                                              end if
 
+                                            jobstatusTxt = ""
+                                             select case oRec("jobstatus")
+                                             case 0
+                                                jobstatusTxt = " - Lukket"
+                                             case 2
+                                                jobstatusTxt = " - Passivt"
+                                             case 3
+                                                jobstatusTxt = " - Tilbud"
+                                             case 4
+                                                jobstatusTxt = " - Gennemsyn"
+                                             case 5
+                                                jobstatusTxt = " - Eval."
+                                             end select
+
                                              %>
-                                             <option value="<%=oRec("id") %>" <%=jSel %>><%=oRec("jobnavn") & " ("& oRec("jobnr") &")" %></option>
+                                             <option value="<%=oRec("id") %>" <%=jSel %>><%=oRec("jobnavn") & " ("& oRec("jobnr") &") " & jobstatusTxt %></option>
                                              <%
-                                            
+                                             jobFAntal = jobFAntal + 1
                                              oRec.movenext
                                              wend 
                                             oRec.close
                                                  
                                                  
-                                            if cdbl(jobF) = 0 then%>
+                                            if cdbl(jobFAntal) = 0 then%>
 
-                                           <option value="-1" SELECTED>Vælg job</option>
+                                            <option value="-1" DISABLED>Ingen job matcher de valgte søgekriterier</option>
                                             <%end if %>
 
-                                            </select></div>
-                                  
-                                       </div>
-                                 <div class="row">
+                                            </select><span style="font-size:9px; color:#999999;">Antal job: <%=jobFAntal &" Valgt: "& jobF &" stk." %></span>
+                                         
+                                           </div>
+                                        </div>
+
+                                       
+                                    
+                                     <div class="row">
                                       <div class="col-lg-2 pad-t5">Vis projektgruppe:<br />
                                           <select name="FM_progrpid" id="progrpid" class="form-control input-small" onchange="submit();">
 
+                                              <!--
                                               <%
                                              if cint(filterKunprojgrptilknyt) = 1 then     
                                                   
@@ -1178,12 +1444,18 @@ if session("user") = "" then
                                                   <%end if %>
 
                                             <%else %>
-                                                <%if cdbl(jobid) = 0 then %>
-                                                <%else %>
+                                                <%'if cStr(jobidsStr) = "0" then %>
+                                                <%'else %>
                                                 <option value="0">Alle</option>
-                                                <%end if %>
+                                                <%'end if %>
                                            <%end if %>
+                                              -->
 
+                                            <%if cint(progrpid) = 0 then
+                                                progrpid0SEL = "SELECTED"
+                                             end if%>
+
+                                          <option value="0" <%=progrpid0SEL %>>Alle</option>
                                           <%
                                          select case lto
                                          case "epi2017"
@@ -1194,10 +1466,10 @@ if session("user") = "" then
 
                                           strSQLprogrp = "SELECT p.navn AS pgrpnavn, p.id AS pid FROM projektgrupper AS p WHERE (p.orgvir = 1 " & specialprgrpsSQL
 
-                                          if cint(filterKunprojgrptilknyt) = 1 then  
-                                          strSQLprogrp = strSQLprogrp &" AND (p.id = "& projektgruppe1 &" OR p.id = "& projektgruppe2 &" OR p.id = "& projektgruppe3 &" OR p.id = "& projektgruppe3 &" OR p.id = "& projektgruppe4 &" OR p.id = "& projektgruppe5 &" OR "_
-                                          &" p.id = "& projektgruppe6 &" OR p.id = "& projektgruppe7 &" OR p.id = "& projektgruppe8 &" OR p.id = "& projektgruppe9 &" OR p.id = "& projektgruppe10 &")"
-                                          end if
+                                          'if cint(filterKunprojgrptilknyt) = 1 then  
+                                          'strSQLprogrp = strSQLprogrp &" AND (p.id = "& projektgruppe1 &" OR p.id = "& projektgruppe2 &" OR p.id = "& projektgruppe3 &" OR p.id = "& projektgruppe3 &" OR p.id = "& projektgruppe4 &" OR p.id = "& projektgruppe5 &" OR "_
+                                          '&" p.id = "& projektgruppe6 &" OR p.id = "& projektgruppe7 &" OR p.id = "& projektgruppe8 &" OR p.id = "& projektgruppe9 &" OR p.id = "& projektgruppe10 &")"
+                                          'end if
 
                                           strSQLprogrp = strSQLprogrp &" ORDER BY p.navn" 
 
@@ -1221,18 +1493,29 @@ if session("user") = "" then
                                               </select>
 
                                       </div>
-                                     <div class="col-lg-5 pad-t5">
-                                         <br /><input type="checkbox" id="viskunprojgrptilknyt" name="FM_viskunprojgrptilknyt" value="1" onclick="submit();" <%=filterKunprojGrpTilknytCHK %>  /> Vis kun projektgrupper tilknyttet det valgte job
-                                         <br /><input type="checkbox" id="viskunemedarbfcreal" name="FM_viskunmedarbMtimFc" value="1" <%=filterKunAktiveMedarbCHK %> /> Vis kun medarbejdere med forecast eller realiserede timer på i FY</div>
-                                  
+                                   
+                                     <div class="col-lg-4 pad-t5">
+                                         <br /><input type="checkbox" id="viskunprojgrptilknyt" name="FM_viskunprojgrptilknyt" value="1" onclick="submit();" <%=filterKunprojGrpTilknytCHK %>  /> Vis kun job tilknyttet den valgte projektgruppe
+                                        
+
                                      </div>
+
+                                   
+                                                      
+                                    
+
+                                     
+                             </div><!-- ROW -->
+
                                      <div class="row">
                                       <div class="col-lg-2 pad-t5">Medarb. initaler: <input type="text" name="FM_minit" id="minit" class="form-control input-small" style="text-align:left;" value="<%=minit %>" placeholder="Init" /></div> 
-                                          
-                                          
+                                        <div class="col-lg-6 pad-t5"><br /><input type="checkbox" id="viskunemedarbfcreal" name="FM_viskunmedarbMtimFc" value="1" <%=filterKunAktiveMedarbCHK %> /> Vis kun job hvor medarbejder har forecast eller real. timer i FY (blandt valgte job) </div>
+                                          <!--
                                           <div class="col-lg-4 pad-t5 pad-r30"><br /><input type="checkbox" name="FM_visallejobvlgtmedarb" id="allejob" value="1" <%=filtervisAlleJobVlgtMedarbCHK %> /> Vis alle job for valgte medarbejder / projektgrp. <span style="color:#999999; font-size:11px;"><br />(Projektgrp. kun overblik, kan ikke redigeres)</span></div>
-                                
-                                         </div>
+                                          -->
+                                         
+                                    </div>
+                                          
 
                              <div class="row">
 
@@ -1256,7 +1539,7 @@ if session("user") = "" then
                            <input type="hidden" id="visallejob" value="<%=filtervisallejobvlgtmedarb%>" />
                            <input type="hidden" name="FM_visrealprdato" value="<%=visrealprdato %>" />
                            <input type="hidden" name="FY0" value="<%=year(y0)%>" />
-                           <input type="hidden" name="jobid" value="<%=jobid%>" />
+                           <input type="hidden" name="jobid" value="<%=jobidsStr%>" />
 
                             
                             <button type="submit" class="btn btn-success btn-sm pull-right"><b>Opdatér</b></button><br />&nbsp;
@@ -1272,28 +1555,41 @@ if session("user") = "" then
 
 
     
- '********************************************************************************* 
-'*** Henter job og aktiviteter TIL FORECASTSIDEN  ************************************** *****'
+'********************************************************************************* 
+'*** MAIN Henter job og aktiviteter TIL FORECASTSIDEN  ***************************
 '*********************************************************************************
 i = 0
 
-if cint(filtervisallejobvlgtmedarb) = 1 OR cdbl(jobid) = 0 then
-'if cint(filtervisallejobvlgtmedarb) <> 10 then
+'if cint(filtervisallejobvlgtmedarb) = 1 then 'cdbl(jobid) = 0
 
-if cint(filtervisallejobvlgtmedarb) = 1 then
-visJobdatoStartSQL = dateAdd("yyyy", -4, visrealprdatoStartSQL) '3 år tilbage
-visJobdatoStartSQL = year(visJobdatoStartSQL) & "-" & month(visJobdatoStartSQL) & "-" & day(visJobdatoStartSQL)
-else
-visJobdatoStartSQL = dateAdd("yyyy", -0, visrealprdatoStartSQL) '1 år tilbage
-visJobdatoStartSQL = year(visJobdatoStartSQL) & "-" & month(visJobdatoStartSQL) & "-" & day(visJobdatoStartSQL)
+
+        'if cint(filtervisallejobvlgtmedarb) = 1 then
+ '       visJobdatoStartSQL = dateAdd("yyyy", -4, visrealprdatoStartSQL) '3 år tilbage
+ '       visJobdatoStartSQL = year(visJobdatoStartSQL) & "-" & month(visJobdatoStartSQL) & "-" & day(visJobdatoStartSQL)
+        'else
+        'visJobdatoStartSQL = dateAdd("yyyy", -0, visrealprdatoStartSQL) '1 år tilbage
+        'visJobdatoStartSQL = year(visJobdatoStartSQL) & "-" & month(visJobdatoStartSQL) & "-" & day(visJobdatoStartSQL)
+        'end if
+
+'strSQLkrijob = " j.id <> 0" 
+'strSQLkrijobDatoKri = "AND jobstartdato > '"& visJobdatoStartSQL &"'"
+'else
+
+
+if cint(filterKunAktiveMedarb) = 1 then 'Vis for medarbejder (INIT)
+
+        strSQLkrijob = strSQLkrijob
+        strSQLkrijobDatoKri = ""
+
+else 'Default
+        strSQLkrijob = " j.id = 0"
+        for j = 0 to UBOUND(jobids)
+        strSQLkrijob = strSQLkrijob & " OR j.id = "& trim(jobids(j))
+        strSQLkrijobDatoKri = ""
+        next
 end if
 
-strSQLkrijob = " j.id <> 0" 
-strSQLkrijobDatoKri = "AND jobstartdato > '"& visJobdatoStartSQL &"'"
-else
-strSQLkrijob = " j.id = "& jobid
-strSQLkrijobDatoKri = ""
-end if
+'end if
     
 
 
@@ -1312,7 +1608,7 @@ strSQLjob = "SELECT jobnavn, jobnr, jobtpris, j.id AS jid, jobknr, j.budgettimer
 &" LEFT JOIN kunder AS k ON (kid = jobknr) "_
 &" LEFT JOIN fomr_rel AS fr ON (fr.for_jobid = j.id) "_
 &" LEFT JOIN aktiviteter AS a ON (a.job = j.id AND (a.fakturerbar = 1 OR a.fakturerbar = 2)) "_
-&" WHERE "& strSQLkrijob &" AND "& strSQLrisiko &" AND jobstatus = 1 AND a.navn IS NOT NULL "& strSQLkrijobDatoKri & fomrSQLfilter &""_
+&" WHERE ("& strSQLkrijob &") AND "& strSQLrisiko &" AND jobstatus = 1 AND a.navn IS NOT NULL "& strSQLkrijobDatoKri & fomrSQLfilter &""_
 &" GROUP BY a.id ORDER BY jobnavn, jobnr, a.fase, a.sortorder, a.navn LIMIT 5000"
 
 '"& jobid &"
@@ -1507,8 +1803,11 @@ redim medarbIPgrp(1000)
         
     %>
 
+<!--
+<script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+-->
 
-
+<!-- id="scrollable" -->
 
 <table class="table table-bordered" style="background-color:#FFFFFF;">
     
@@ -1541,9 +1840,10 @@ redim medarbIPgrp(1000)
              end if
 
             if cint(filterKunAktiveMedarb) = 1 then
-             prgrRelMids =  replace(onlyThisMedarbids, "mid", "medarbejderId")
+             'prgrRelMids =  replace(onlyThisMedarbids, "mid", "medarbejderId")
+            prgrRelMids = " AND (medarbejderId = "& thisMid &") "
             else
-             prgrRelMids = " AND (medarbejderId <> 0) "
+            prgrRelMids = " AND (medarbejderId <> 0) "
             end if
 
                 select case lto
@@ -1780,8 +2080,9 @@ strSQLjob = "SELECT jobnavn, jobnr, j.id AS jid, jobknr, "_
 &" LEFT JOIN kunder AS k ON (kid = jobknr) "_
 &" LEFT JOIN fomr_rel AS fr ON (fr.for_jobid = j.id) "_
 &" LEFT JOIN aktiviteter AS a ON (a.job = j.id AND (a.fakturerbar = 1 OR a.fakturerbar = 2)) "_
-&" WHERE "& strSQLkrijob &" AND "& strSQLrisiko &" AND jobstatus = 1 AND a.navn IS NOT NULL "& strSQLkrijobDatoKri & fomrSQLfilter &""_
+&" WHERE "& strSQLkrijob &" AND "& strSQLrisiko &" AND a.navn IS NOT NULL "& strSQLkrijobDatoKri & fomrSQLfilter &""_
 &" GROUP BY a.id ORDER BY jobnavn, jobnr, a.fase, a.sortorder, a.navn LIMIT 5000"
+'AND jobstatus = 1
 '"& jobid &"
 'response.write strSQLjob
 'response.Flush
@@ -1949,8 +2250,13 @@ while not oRec.EOF
 
     <!-- TOTal på tværs af alle job -->
 
- 
-
+    <%
+    jobidsStrReverse = replace(jobidsStr, ",", " AND jobid <>") 
+    jobidsStrReverse = "jobid <> 0 AND " & jobidsStrReverse
+    
+    jobNRStrReverse = replace(jobidsRealAlleSQLkri, "OR tjobnr =", "AND tjobnr <>")
+    jobNRStrReverse = "tjobnr <> '0'"& jobNRStrReverse
+    %>
      <tr>
       <td>Total (andre job)</td>
          <td>&nbsp;</td>
@@ -1961,6 +2267,9 @@ while not oRec.EOF
 
 
       <%
+
+          
+
            if cint(timesimtp) = 1 then
             %>
             <td>&nbsp;</td>
@@ -2000,11 +2309,11 @@ while not oRec.EOF
                 
                             if cint(visKunFCFelter) = 0 OR cint(visKunFCFelter) = 1 then 
 
-                             strSQLmedrd = "SELECT SUM(timer) AS sumtimer FROM ressourcer_md WHERE jobid <> "& jobid &" AND aktid <> 0 AND medid = "& antalm(m,1) &" AND ((aar = "& h1aar &" AND md = "& h1md  &") OR (aar = "& h2aar &" AND md = "& h2md  &"))  GROUP BY medid" 
+                             strSQLmedrd = "SELECT SUM(timer) AS sumtimer FROM ressourcer_md WHERE ("& jobidsStrReverse &") AND aktid <> 0 AND medid = "& antalm(m,1) &" AND ((aar = "& h1aar &" AND md = "& h1md  &") OR (aar = "& h2aar &" AND md = "& h2md  &"))  GROUP BY medid" 
                              'response.Write "strSQLmedrd: " & strSQLmedrd
                              'response.flush
                 
-                             oRec3.open strSQLmedrd, oConn, 3
+                              oRec3.open strSQLmedrd, oConn, 3
                              if not oRec3.EOF then
 
                                 h1GT = oRec3("sumtimer")
@@ -2030,7 +2339,7 @@ while not oRec.EOF
                     if cint(timesimtp) = 1 AND (cint(visKunFCFelter) = 0 OR cint(visKunFCFelter) = 1)  then
 
                      
-                    strSQLmedtp = "SELECT 6timepris FROM timepriser WHERE jobid <> " & jobid & " AND aktid = 0 AND medarbid = "& antalm(m,1)  
+                    strSQLmedtp = "SELECT 6timepris FROM timepriser WHERE ("& jobidsStrReverse &") AND aktid = 0 AND medarbid = "& antalm(m,1)  
                      oRec3.open strSQLmedtp, oConn, 3
                      if not oRec3.EOF then
 
@@ -2045,13 +2354,13 @@ while not oRec.EOF
                     if (cint(visKunFCFelter) = 0 OR cint(visKunFCFelter) = 2) then
 
                     '*** Timer ANDRE JOB ***'
-                  '** REAL timer pr. dato ***'
+                    '** REAL timer pr. dato ***'
                     visrealprdatoStartSQL = h1aar & "-7-1"
                     visrealprdatoSQL = year(visrealprdato) &"-"& month(visrealprdato) &"-"& day(visrealprdato)
 
                  
-                    strSQLrealTimerAktmedarb = "SELECT SUM(timer) AS sumtimer, SUM(timer*timepris) AS realoms, AVG(timepris) AS gnstp FROM timer WHERE tjobnr <> '" & jobnr & "' AND tmnr = "& antalm(m,1) &" AND tdato BETWEEN '"& visrealprdatoStartSQL &"' AND '"& visrealprdatoSQL &"' GROUP BY tmnr"   
-                    'response.write strSQLrealTimerAktmedarb
+                    strSQLrealTimerAktmedarb = "SELECT SUM(timer) AS sumtimer, SUM(timer*timepris) AS realoms, AVG(timepris) AS gnstp FROM timer WHERE ("& jobNRStrReverse &") AND tmnr = "& antalm(m,1) &" AND tdato BETWEEN '"& visrealprdatoStartSQL &"' AND '"& visrealprdatoSQL &"' GROUP BY tmnr"   
+                    'response.write "<br>"& strSQLrealTimerAktmedarb
                     'response.flush
                     oRec3.open strSQLrealTimerAktmedarb, oConn, 3
                     if not oRec3.EOF then
@@ -2319,6 +2628,11 @@ while not oRec.EOF
     <br />Til beregning af forecast * timepris bruges den timepris der er angivet på jobbet.
     <%end if %>
 
+    <%if level = 1 then %>
+    <br /><br /><a href="akt_movejob_multiple.asp" target="_blank">Flyt aktivitet/timer til nyt job >></a>
+    <%end if %>
+                                                  
+
 
 
 </span>
@@ -2342,6 +2656,8 @@ while not oRec.EOF
         
          
         <%
+   '*************************************************************************************************************
+   '******************** MAIN jobliste Side 1 **********************************************************
    case else    
 
 

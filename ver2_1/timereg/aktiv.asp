@@ -719,9 +719,8 @@ if len(session("user")) = 0 then
 		
 				    else
 			
-			call erDetInt(useBudgettimer)
-			
-					if isInt > 0 then
+			        call erDetInt(useBudgettimer)
+                    if isInt > 0 then
 					%>
 					<!--#include file="../inc/regular/header_lysblaa_inc.asp"-->
 					
@@ -759,6 +758,17 @@ if len(session("user")) = 0 then
 					                    else
 					
 					
+                                        if len(trim(request("FM_avarenr"))) = 0 AND lto = "tia" then
+
+                                        %>
+					                    <!--#include file="../inc/regular/header_lysblaa_inc.asp"-->
+					                    <%
+					                    errortype = 190
+					                    call showError(errortype)
+					                   
+                                        else
+                                        
+
 				                        '*** Tidslås ***
 				                        if len(request("FM_tidslaas")) <> 0 then
 				                        tidslaas = 1
@@ -1710,6 +1720,7 @@ if len(session("user")) = 0 then
 				   end if '*validering
                    end if '*validering
                    end if '*validering
+                  end if '*validering
 				end if
 			end if
 	

@@ -51,6 +51,11 @@
 
 
 <!--#include file="cls_timer.asp"-->
+<!--#include file="cls_timer_tillaeg.asp"-->
+<!--#include file="cls_timer_easyreg.asp"-->
+
+
+
 <!--#include file="cls_timepriser.asp"-->
 <!--#include file="cls_todo.asp"-->
 
@@ -170,8 +175,9 @@ oRec6.close
 end function
 
 
-'**** Miltible juridiske enheder / Flere mulighed afsendere på fakturaer '*******'
-public multible_licensindehavere, multi_fakturanr, multi_fakturanr_2, multi_fakturanr_3, multi_fakturanr_4, multi_fakturanr_5
+'**** Multible juridiske enheder / Flere mulighed afsendere på fakturaer '*******'
+public multible_licensindehavere, multi_fakturanr, multi_fakturanr_2, multi_fakturanr_3, multi_fakturanr_4, multi_fakturanr_5, multi_fakturanr_6, multi_fakturanr_7, multi_fakturanr_8, multi_fakturanr_9, multi_fakturanr_10
+
 function multible_licensindehavereOn()
 multible_licensindehavere = 0
 multi_fakturanr = 0
@@ -179,9 +185,10 @@ multi_fakturanr_2 = 0
 multi_fakturanr_3 = 0
 multi_fakturanr_4 = 0
 multi_fakturanr_5 = 0
-strSQLigv = "SELECT multible_licensindehavere, fakturanr, fakturanr_2, fakturanr_3, fakturanr_4, fakturanr_5 FROM licens WHERE id = 1"
+strSQLigv = "SELECT multible_licensindehavere, fakturanr, fakturanr_2, fakturanr_3, fakturanr_4, fakturanr_5, fakturanr_6, fakturanr_7, fakturanr_8, fakturanr_9, fakturanr_10 FROM licens WHERE id = 1"
 oRec6.open strSQLigv, oConn, 3
 if not oRec6.EOF then
+
 multible_licensindehavere = oRec6("multible_licensindehavere")
 
 multi_fakturanr = oRec6("fakturanr")
@@ -189,6 +196,11 @@ multi_fakturanr_2 = oRec6("fakturanr_2")
 multi_fakturanr_3 = oRec6("fakturanr_3")
 multi_fakturanr_4 = oRec6("fakturanr_4")
 multi_fakturanr_5 = oRec6("fakturanr_5")
+multi_fakturanr_6 = oRec6("fakturanr_6")
+multi_fakturanr_7 = oRec6("fakturanr_7")
+multi_fakturanr_8 = oRec6("fakturanr_8")
+multi_fakturanr_9 = oRec6("fakturanr_9")
+multi_fakturanr_10 = oRec6("fakturanr_10")
 
 end if
 oRec6.close
@@ -328,6 +340,23 @@ function vis_resplanner_fn()
 	If not oRec6.EOF then
 	
 	vis_resplanner = oRec6("vis_resplanner")
+   
+	end if
+    oRec6.close
+
+end function
+
+
+'*** MANGLER AT Tilføje FELT i DB 20171114
+public vis_lager
+function vis_lager_fn()
+    
+    vis_lager = 0
+    strSQL6 = "SELECT vis_lager FROM licens l WHERE id = 1"
+	oRec6.open strSQL6, oConn, 3
+	If not oRec6.EOF then
+	
+	vis_lager = oRec6("vis_lager")
    
 	end if
     oRec6.close
@@ -576,6 +605,25 @@ function smiley_agg_fn()
 	
 	end if
     oRec6.close
+
+
+    
+    '**** LTO Dencker + Thisted *****
+    if lto = "dencker" then
+
+    thistedgrp = 0
+    strSQlprogrp = "SELECT medarbejderid FROM  progrupperelationer WHERE projektgruppeid = 30 AND medarbejderid = "& session("mid") 
+    oRec6.open strSQlprogrp, oConn, 3
+	    If not oRec6.EOF then
+	    thistedgrp = 1
+        end if
+    oRec6.close
+
+    if cint(thistedgrp) = 1  then
+    hidesmileyicon = 1
+    end if
+
+    end if 'lto
 
 end function
 

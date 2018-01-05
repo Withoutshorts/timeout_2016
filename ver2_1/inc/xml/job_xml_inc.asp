@@ -5,11 +5,11 @@ Dim objXMLHTTP_job, objXMLDOM_job, i_job, strHTML_job
 Set objXMLDom_job = Server.CreateObject("Microsoft.XMLDOM")
 Set objXmlHttp_job = Server.CreateObject("Msxml2.ServerXMLHTTP")
 'objXmlHttp_job.open "GET", "http://localhost/Git/timeout_2016/ver2_1/inc/xml/job_sprog.xml", False
-'objXmlHttp_job.open "GET", "http://localhost/inc/xml/job_sprog.xml", False
+objXmlHttp_job.open "GET", "http://localhost/inc/xml/job_sprog.xml", False
 'objXmlHttp_job.open "GET", "http://outzource.dk/timeout_xp/wwwroot/ver2_10/inc/xml/job_sprog.xml", False
 'objXmlHttp_job.open "GET", "https://timeout.cloud/timeout_xp/wwwroot/ver3_99/inc/xml/job_sprog.xml", False
 'objXmlHttp_job.open "GET", "https://outzource.dk/timeout_xp/wwwroot/ver2_14/inc/xml/job_sprog.xml", False
-objXmlHttp_job.open "GET", "https://timeout.cloud/timeout_xp/wwwroot/ver2_14/inc/xml/job_sprog.xml", False
+'objXmlHttp_job.open "GET", "https://timeout.cloud/timeout_xp/wwwroot/ver2_14/inc/xml/job_sprog.xml", False
 
 objXmlHttp_job.send
 

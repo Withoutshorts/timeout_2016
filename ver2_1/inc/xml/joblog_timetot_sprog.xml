@@ -159,7 +159,7 @@
     <txt_152 >Ingen valgt (viser alle)</txt_152>
     <txt_153 >Alle</txt_153>
     <txt_154 >For key-account</txt_154>
-    <txt_155 >Viser alle medarbejdere på kunder og job hvor valgte medarbejder(e) er</txt_155>
+    <txt_155 >Viser timer for alle medarbejdere, hvor valgte medarb. er</txt_155>
     <txt_156 >Kundeansvarlig</txt_156>
     <txt_157 >Jobansvarlig</txt_157>
     <txt_158 >Jobejer</txt_158>
@@ -366,7 +366,7 @@
     <txt_152 >None chosen (shows all)</txt_152>
     <txt_153 >All</txt_153>
     <txt_154 >For Key-account</txt_154>
-    <txt_155 >Show all employees for chosen customer and job, where the picked empl. is</txt_155>
+    <txt_155 >Show hours for all employees, where the selected empl. is</txt_155>
     <txt_156 >Customer responsible</txt_156>
     <txt_157 >Project manager</txt_157>
     <txt_158 >Job owner</txt_158>
@@ -574,7 +574,7 @@
     <txt_152 >None chosen (shows all)</txt_152>
     <txt_153 >All</txt_153>
     <txt_154 >For Key-account</txt_154>
-    <txt_155 >Show all employees for chosen customer and job, where the picked empl. is</txt_155>
+    <txt_155 >Show hours for all employees, where the selected empl. is</txt_155>
     <txt_156 >Customer responsible</txt_156>
     <txt_157 >Project manager</txt_157>
     <txt_158 >Job owner</txt_158>
@@ -782,7 +782,7 @@
     <txt_152 >None chosen (shows all)</txt_152>
     <txt_153 >All</txt_153>
     <txt_154 >For Key-account</txt_154>
-    <txt_155 >Show all employees for chosen customer and job, where the picked empl. is</txt_155>
+    <txt_155 >Show hours for all employees, where the selected empl. is</txt_155>
     <txt_156 >Customer responsible</txt_156>
     <txt_157 >Project manager</txt_157>
     <txt_158 >Job owner</txt_158>
@@ -989,7 +989,7 @@
     <txt_152 >None chosen (shows all)</txt_152>
     <txt_153 >All</txt_153>
     <txt_154 >For Key-account</txt_154>
-    <txt_155 >Show all employees for chosen customer and job, where the picked empl. is</txt_155>
+    <txt_155 >Show hours for all employees, where the selected empl. is</txt_155>
     <txt_156 >Customer responsible</txt_156>
     <txt_157 >Project manager</txt_157>
     <txt_158 >Job owner</txt_158>
@@ -1197,7 +1197,7 @@
     <txt_152 >None chosen (shows all)</txt_152>
     <txt_153 >All</txt_153>
     <txt_154 >For Key-account</txt_154>
-    <txt_155 >Show all employees for chosen customer and job, where the picked empl. is</txt_155>
+    <txt_155 >Show hours for all employees, where the selected empl. is</txt_155>
     <txt_156 >Customer responsible</txt_156>
     <txt_157 >Project manager</txt_157>
     <txt_158 >Job owner</txt_158>
@@ -1404,7 +1404,7 @@
     <txt_152 >None chosen (shows all)</txt_152>
     <txt_153 >All</txt_153>
     <txt_154 >For Key-account</txt_154>
-    <txt_155 >Show all employees for chosen customer and job, where the picked empl. is</txt_155>
+    <txt_155 >Show hours for all employees, where the selected empl. is</txt_155>
     <txt_156 >Customer responsible</txt_156>
     <txt_157 >Project manager</txt_157>
     <txt_158 >Job owner</txt_158>

@@ -76,10 +76,29 @@ if cint(ugeAfsluttetAfMedarb) = 1 then 'Ugen er afsluttet i forvejen Godkend ell
     godkendtstatusSQLInsVal = ","& godkendtstatus &",'"& session("user") &"'"
     godkendtstatusSQLUpd = ", godkendtstatus = "& godkendtstatus &", godkendtstatusaf = '"& session("user") &"'"
     case 2
-    godkendtstatus = 3
-    godkendtstatusSQLInsflt = ", godkendtstatus, godkendtstatusaf"
-    godkendtstatusSQLInsVal = ","& godkendtstatus &",'"& session("user") &"'"
-    godkendtstatusSQLUpd = ", godkendtstatus = "& godkendtstatus &", godkendtstatusaf = '"& session("user") &"'"
+
+    if cint(splithr) = 1 then
+
+            if (cDate(ugeNrAfsluttet) >= cDate(datothis)) then
+            godkendtstatus = 3
+            godkendtstatusSQLInsflt = ", godkendtstatus, godkendtstatusaf"
+            godkendtstatusSQLInsVal = ","& godkendtstatus &",'"& session("user") &"'"
+            godkendtstatusSQLUpd = ", godkendtstatus = "& godkendtstatus &", godkendtstatusaf = '"& session("user") &"'"
+            else
+            godkendtstatusSQLInsflt = ""
+            godkendtstatusSQLInsVal = ""
+            godkendtstatusSQLUpd = ""
+            end if
+
+    else
+            
+            godkendtstatus = 3
+            godkendtstatusSQLInsflt = ", godkendtstatus, godkendtstatusaf"
+            godkendtstatusSQLInsVal = ","& godkendtstatus &",'"& session("user") &"'"
+            godkendtstatusSQLUpd = ", godkendtstatus = "& godkendtstatus &", godkendtstatusaf = '"& session("user") &"'"
+
+    end if
+
     case else
     godkendtstatusSQLInsflt = ""
     godkendtstatusSQLInsVal = ""
@@ -439,6 +458,9 @@ dblkostprisUse = replace(dblkostprisUse, ",", ".")
 	if cdbl(timerthis) <> -9001 AND cdbl(timerthis) <> -9003  then '*** <> Slet: -9001 // FRA TT: -9003 ***'
 			
 			
+            'response.write "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" &  datothis
+            'response.flush
+
 			datothis = ConvertDateYMD(datothis)
 			        
 			        
@@ -550,11 +572,13 @@ dblkostprisUse = replace(dblkostprisUse, ",", ".")
 				
 				
 				if len(trim(strSQLins)) <> 0 then
-				    'if session("mid") =  1 then
+				  
+                    'if session("mid") =  21 AND lto = "dencker" then
                     'Response.Write "Ins: "& strSQLins & "<br>"
 				    'Response.flush
                     'end if
-					oConn.Execute(strSQLins)
+					
+                    oConn.Execute(strSQLins)
 
 
                     '*** Hvis indlæsning kommer fra afvigelses håndtering ***'
@@ -860,6 +884,7 @@ call erugeAfslutte(useYear, usePeriod, usemrn, SmiWeekOrMonth, 0)
 
     '**Ugeafsluttet **'
     if cint(ugeerAfsl_og_autogk_smil) = 1 then
+
         '*** Lønperiode afsluttet ***'
         '*** Uge afsluttet via Smiley Ordning og autogodkend slået til i kontrolpanel **'
         '*** hvis admin level 1 kan timer stadigvæk redigeres indtil der oprettes faktura ***'

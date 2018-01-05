@@ -5,11 +5,11 @@ Dim objXMLHTTP_joblog, objXMLDOM_joblog, i_joblog, strHTML_joblog
 Set objXMLDom_joblog = Server.CreateObject("Microsoft.XMLDOM")
 Set objXmlHttp_joblog = Server.CreateObject("Msxml2.ServerXMLHTTP")
 'objXmlHttp_joblog.open "GET", "http://localhost/Git/timeout_2016/ver2_1/inc/xml/joblog_sprog.xml", False
-'objXmlHttp_joblog.open "GET", "http://localhost/inc/xml/joblog_sprog.xml", False
+objXmlHttp_joblog.open "GET", "http://localhost/inc/xml/joblog_timetot_sprog.xml", False
 'objXmlHttp_joblog.open "GET", "http://outzource.dk/timeout_xp/wwwroot/ver2_10/inc/xml/joblog_sprog.xml", False
 'objXmlHttp_joblog.open "GET", "https://timeout.cloud/timeout_xp/wwwroot/ver3_99/inc/xml/joblog_sprog.xml", False
 'objXmlHttp_joblog.open "GET", "https://outzource.dk/timeout_xp/wwwroot/ver2_14/inc/xml/joblog_sprog.xml", False
-objXmlHttp_joblog.open "GET", "https://timeout.cloud/timeout_xp/wwwroot/ver2_14/inc/xml/joblog_timetot_sprog.xml", False
+'objXmlHttp_joblog.open "GET", "https://timeout.cloud/timeout_xp/wwwroot/ver2_14/inc/xml/joblog_timetot_sprog.xml", False
 
 objXmlHttp_joblog.send
 

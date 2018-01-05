@@ -256,7 +256,7 @@ case "FN_getKpers"
                             'if session("mid") = 1 then
 	                        'Response.Write strSQL
 	                        'Response.flush
-                             'end if
+                            'end if
 	                        
 	                        oRec.open strSQL, oConn, 3
                             im = 0

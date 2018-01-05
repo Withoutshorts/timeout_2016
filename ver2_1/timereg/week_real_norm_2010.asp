@@ -519,7 +519,7 @@ if len(session("user")) = 0 then
     <link rel="stylesheet" type="text/css" href="../to_2015/css/modal_click.css">
 
 
-     <div id="loadbar" style="position:absolute; display:; visibility:visible; top:300px; left:300px; width:300px; background-color:#ffffff; border:10px #CCCCCC solid; padding:10px; z-index:100000;">
+     <div id="loadbar" style="position:absolute; display:; visibility:visible; top:300px; left:300px; width:300px; background-color:#ffffff; border:10px #CCCCCC solid; padding:10px; z-index:10000;">
 
 	<table cellpadding=0 cellspacing=5 border=0 width=100%><tr><td>
 	<img src="../ill/outzource_logo_200.gif" />
@@ -739,6 +739,7 @@ if len(session("user")) = 0 then
     public ferieAfVal_md, sygDage_barnSyg, ferieAfVal_md_tot, ferieAfulonVal_md_tot, sygDage_barnSyg_tot, ferieFriAfVal_md, ferieFriAfVal_md_tot, normtime_lontimeAkk, balRealNormtimerAkk, korrektionRealTot, divfritimer_tot, omsorg_tot 
     public sygeDage_tot, barnSyg_tot, barsel_tot, lageTimer_tot, tjenestefri_tot, aldersreduktionBrTot
     public flexTimer_tot, sTimer_tot, adhocTimer_tot
+    public omsorg2afh_tot, omsorg2Saldo, sundTimer_tot, omsorgKAfh_tot
     
     
     if media <> "print" AND media <> "export" then    		
@@ -1008,6 +1009,11 @@ if len(session("user")) = 0 then
                 case "esn", "tec"
                 case else
                 strEksportTxt = strEksportTxt & godkendweek_txt_114 &";" & godkendweek_txt_115 & ";"
+                end select
+
+                select case lto
+                case "esn"
+                strEksportTxt = strEksportTxt & "Kommentar;"
                 end select
 
                 strEksportTxt = strEksportTxt & "Afsluttet;Godkendt, 0:Afventer, 1:Godkendt, 2:Afvist"
@@ -1396,7 +1402,7 @@ if len(session("user")) = 0 then
          end select%>
 	 
         <%if lto = "esn" or lto = "intranet - local" then %>
-        <td style="border-bottom:1px silver solid;" valign=bottom class=lille><b>Kommentar</b></td>
+        <td style="border-bottom:1px silver solid;" valign=bottom class=lille><b>Kommentar</b> (komme/gå)</td>
         <%end if %>
 
 	    <td style="border-bottom:1px silver solid;" valign=bottom class=lille><b><%=peridoeTxt %> <br /><%=godkendweek_txt_077 &"?</b><br>("& godkendweek_txt_116 %>)</td>
@@ -1657,6 +1663,9 @@ if len(session("user")) = 0 then
 	ugegodkendtTxt_tot = ""
 
     rejsedage_tot = 0
+
+    omsorg2afh_tot = 0
+    omsorg2Saldo = 0
 
 	end if 'm <> 0 
 

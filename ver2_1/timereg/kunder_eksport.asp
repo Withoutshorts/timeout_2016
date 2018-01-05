@@ -59,7 +59,7 @@ if len(session("user")) = 0 then
 		
 		strTxtExport =  "Linjeoverskrift;Kontakt;Kontakt id;Kontaktperson/filial;Adresse; "_
 		& "Postnr;By;Land;Telefon;Mobil;Fax;"_
-		& "Email;Titel;Segment;Afdeling;Rabat;EAN;Interesse;Beskrivelse;Konto;CVR;Bank;Iban;Swift;NCA kode;==" & vbcrlf
+		& "Email;Titel;Segment;Afdeling;Rabat;EAN;Interesse;Beskrivelse;Konto;CVR;Bank;Iban;Swift;NCA kode;Kundeansv 1;Kundeansv 2;==" & vbcrlf
 		
 		'else
 		
@@ -79,11 +79,14 @@ if len(session("user")) = 0 then
 	
 	strSQL = "SELECT Kid, Kkundenavn, Kkundenr, Kdato, "_
 	& "adresse, postnr, city, land, telefon, "_
-	& "telefonmobil, telefonalt, fax, email, ean, url, "_
+	& "telefonmobil, telefonalt, fax, k.email, ean, url, "_
 	& "ketype, beskrivelse, "_
 	& "regnr, kontonr, cvr, bank, swift, iban, useasfak, hot, "_
-	& "logo, ktype, kundeans1, kundeans2, kt.navn AS kundetypenavn, kt.rabat, nace "_
-	&" FROM kunder LEFT JOIN kundetyper kt ON (kt.id = ktype) WHERE Kid=" & kunderIder(i)
+	& "logo, ktype, kundeans1, kundeans2, kt.navn AS kundetypenavn, kt.rabat, nace, m1.init AS kans1_init, m2.init AS kans2_init, kundeans1, kundeans2 "_
+	&" FROM kunder k "_
+    &" LEFT JOIN medarbejdere m1 ON (m1.mid = kundeans1) "_
+    &" LEFT JOIN medarbejdere m2 ON (m2.mid = kundeans2) "_
+    &" LEFT JOIN kundetyper kt ON (kt.id = ktype) WHERE Kid=" & kunderIder(i)
 	
 	'Response.write strSQL & "<hr>"
 	'Response.flush
@@ -171,7 +174,7 @@ if len(session("user")) = 0 then
 		& Chr(34) & strPostnr & Chr(34) &";"& Chr(34) & strCity & Chr(34) &";"& Chr(34) & strLand & Chr(34) &";"& Chr(34) & strTlf & Chr(34) &";"& Chr(34) & strMobil & Chr(34) &";"& Chr(34) & strFax & Chr(34) &";"_
 		& Chr(34) & strEmail & Chr(34) &";;"& Chr(34) & strKundeType & Chr(34) &";;"& Chr(34) & rabat & Chr(34) &";"& Chr(34) & replace(strEan, "EAN ", "") & Chr(34) &";"& Chr(34) & hot & Chr(34) &";"& Chr(34) & strBesk & Chr(34) &";"& Chr(34) & intregnr & intkontonr & Chr(34) &";"_
         & Chr(34) & intCVR & Chr(34) &";"& Chr(34) & strBank & Chr(34) &";"_
-		& Chr(34) & strIban & Chr(34) &";" & Chr(34) & strSwift & Chr(34) & ";"& Chr(34) & strNACE & Chr(34) &";"& vbcrlf 
+		& Chr(34) & strIban & Chr(34) &";" & Chr(34) & strSwift & Chr(34) & ";"& Chr(34) & strNACE & Chr(34) &";"& Chr(34) & oRec("kans1_init") & Chr(34) &";"& Chr(34) & oRec("kans2_init") & Chr(34) &";" & vbcrlf 
 		
 		'end if
 		

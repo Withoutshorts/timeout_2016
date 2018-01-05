@@ -1127,6 +1127,12 @@ function hentaktiviterListe(jobid, func, vispasluk, sort)
             &"<td><b>"&job_txt_560&"</b></td>"
 
             if cint(budgetakt) = 1 OR cint(budgetakt) = 2 then 
+
+            if lto = "tia" then
+
+            strAktListe = strAktListe &"<td><b>Task No.</b>"
+
+            else
             strAktListe = strAktListe &"<td><b>"&job_txt_147&"</b>"
          
                if cint(budgetakt) = 2 then
@@ -1134,6 +1140,8 @@ function hentaktiviterListe(jobid, func, vispasluk, sort)
                end if
 
             strAktListe = strAktListe &"</td>"
+            end if
+
             end if
 
             strAktListe = strAktListe &"<td><b>"&job_txt_365&"</b></td>"
@@ -1458,7 +1466,8 @@ function opdateraktliste(jobid, aktids, aktnavn, akttimer, aktantalstk, aktfaser
         
     'Response.Write aktnavn & "<br>"    
     'Response.Write aktstatus
-	'Response.end
+	'Response.write  avarenr
+    'Response.end
 	
 	aktnavn = split(aktnavn, ", #,")
 	akttimer = split(akttimer, ", ")
@@ -1482,10 +1491,6 @@ function opdateraktliste(jobid, aktids, aktnavn, akttimer, aktantalstk, aktfaser
     avarenr = split(avarenr, ", #,")
 
 	aktslet = split(aktslet, ", ")
-	
-	'Response.Write aktSlet
-	'Response.end
-	
 	
 	
 	for t = 0 to UBOUND(aktids)
@@ -1560,6 +1565,27 @@ function opdateraktliste(jobid, aktids, aktnavn, akttimer, aktantalstk, aktfaser
         avarenr(t) = replace(avarenr(t), ", #", "")
         avarenr(t) = trim(avarenr(t))
 	    
+        
+        
+        if len(trim(avarenr(t))) = 0 AND trim(aktstatus(t)) = "1" AND (lto = "xintranet - local" OR lto = "tia") then
+
+                    %><!--#include file="../../inc/regular/header_lysblaa_inc.asp"--><%
+
+         	        errortype = 190
+					call showError(errortype)
+					
+			        Response.End
+
+        end if
+
+
+       if len(trim(avarenr(t))) <> 0 AND (lto = "intranet - local" OR lto = "tia") then
+
+                avarenr(t) = UCase(avarenr(t))
+
+        end if
+
+
 	    aktNavn(t) = trim(aktNavn(t))
 	    aktNavn(t) = replace(aktNavn(t), "'", "")
 	    

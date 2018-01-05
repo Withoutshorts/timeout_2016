@@ -1061,20 +1061,34 @@ function fordelpaaaktType(intMid, startDato, slutDato, visning, akttype_sel, x)
 	     case 33
 	     afspTimerOUdb(x) =  afspTimerOUdb(x) + oRec6("sumtimer")
 	     case 50
-	     dagTimer(x) = dagTimer(x) + oRec6("sumtimer")
+
+             if lto <> "esn" then
+	         dagTimer(x) = dagTimer(x) + oRec6("sumtimer")
+             else
+              
+                 call normtimerPer(intMid, oRec6("tdato"), 0, 0)
+	             if ntimPer <> 0 then
+                 ntimPerUse = ntimPer
+                 else
+                 ntimPerUse = 1
+                 end if
+                 dagTimer(x) = dagTimer(x) + (oRec6("sumtimer") / ntimPerUse)  
+
+             end if
+
 
 	     case 51
-         if lto <> "esn" then
-	        natTimer(x) = natTimer(x) + oRec6("sumtimer")
-         else
-             call normtimerPer(intMid, oRec6("tdato"), 0, 0)
-	         if ntimPer <> 0 then
-             ntimPerUse = ntimPer
+             if lto <> "esn" then
+	            natTimer(x) = natTimer(x) + oRec6("sumtimer")
              else
-             ntimPerUse = 1
+                 call normtimerPer(intMid, oRec6("tdato"), 0, 0)
+	             if ntimPer <> 0 then
+                 ntimPerUse = ntimPer
+                 else
+                 ntimPerUse = 1
+                 end if
+                 natTimer(x) = natTimer(x) + (oRec6("sumtimer") / ntimPerUse)  
              end if
-             natTimer(x) = natTimer(x) + (oRec6("sumtimer") / ntimPerUse)  
-         end if
 
 	     case 52
 	     weekendTimer(x) = weekendTimer(x) + oRec6("sumtimer")

@@ -2836,7 +2836,7 @@ if len(session("user")) = 0 then
 								
 								    call opdateraktliste(varJobId, aktids, aktnavn, akttimer, aktantalstk, aktfaser, aktbgr, aktpris, aktstatus, akttotpris, aktslet, aktslet_aids, aktkonto, avarenr)
 
-								
+								'Response.write "HEJ"
 								'Response.end
 								
 								'**********************************************************'
@@ -5081,7 +5081,11 @@ if len(session("user")) = 0 then
     <%if func = "red" then%>
 	<tr>
 		<td colspan=4 bgcolor="#ffffff" height="30" style="  padding-top:5px; padding-left:20px;">
+        <%if isdate(strLastUptDato) = true then %>
 		<%=job_txt_053 %> <b><%=formatdatetime(strLastUptDato, 2)%></b><%=" "&job_txt_054&" " %><b><%=strEditor%></b>
+        <%else %>
+           strLastUptDato: <%=strLastUptDato %>
+        <%end if %>
 		</td>
 	</tr>
     <%end if%>
@@ -6862,15 +6866,19 @@ if len(session("user")) = 0 then
 						<td>&nbsp;</td>
 						<td colspan=3 style="padding:30px 5px 10px 0px;"><h4><%=job_txt_172 %>:<br /><span style="font-size:11px; font-weight:lighter;">(<%=job_txt_173 %>)</span></h4>
 					 
-                            <%'call multible_licensindehavereOn() 
-                             'if cint(multible_licensindehavere) = 1 then
+                            <%call multible_licensindehavereOn() 
+                             if cint(multible_licensindehavere) = 1 then
                                 multiKSQL = " useasfak = 1 "
-                             'else
-                             '   multiKSQL = ""
-                             'end if
+                                selMultible = "multiple"
+                                multipleSz = 3
+                             else
+                                multiKSQL = " useasfak = 1"
+                                selMultible = ""
+                                multipleSz = 1
+                             end if
                             lincensindehaver_faknr_prioritet = "0"
                             %>
-                            Faktureres af følgende licensindehaver (juridisk enhed):<br /><select name="FM_lincensindehaver_faknr_prioritet_job" style="width:380px;">
+                            Faktureres af følgende licensindehaver (juridisk enhed):<br /><select name="FM_lincensindehaver_faknr_prioritet_job" <%=selMultible %> size="<%=multipleSz %>" style="width:380px;">
 							<%strSQL = "SELECT kid, kkundenavn, kkundenr, lincensindehaver_faknr_prioritet FROM kunder WHERE "& multiKSQL &" ORDER BY kkundenavn" 
 							oRec.open strSQL, oConn, 3
 							while not oRec.EOF 
@@ -6878,14 +6886,15 @@ if len(session("user")) = 0 then
 
                              lincensindehaver_faknr_prioritet = ""& oRec("lincensindehaver_faknr_prioritet") &""
 
-							 if lincensindehaver_faknr_prioritet = lincensindehaver_faknr_prioritet_job then 'VÆR OPMÆRKSOM HER EPI2017, DENCKER, hvis det bliver multiple
+							 if instr(lincensindehaver_faknr_prioritet_job, lincensindehaver_faknr_prioritet) <> 0 then 
+                             '= lincensindehaver_faknr_prioritet_job then 'VÆR OPMÆRKSOM HER EPI2017, DENCKER, hvis det bliver multiple
 							 kSEL = "SELECTED"
 							 else
 							 kSEL = ""
 							 end if
                             
                             %>
-							<option value="<%=oRec("lincensindehaver_faknr_prioritet") %>" <%=kSEL %>><%=oRec("kkundenavn") &" ("& oRec("kkundenr")&")" %></option>
+							<option value="#<%=oRec("lincensindehaver_faknr_prioritet")%>#" <%=kSEL %>><%=oRec("kkundenavn") &" ("& oRec("kkundenr")&")" %></option>
 							<%
 							oRec.movenext
 							wend

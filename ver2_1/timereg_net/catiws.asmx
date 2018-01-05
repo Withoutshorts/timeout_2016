@@ -570,6 +570,12 @@ Public Class CATI :
                         errThis = 2
                     End If
 
+                    If intJobNr = "20173" Then
+
+                        intJobNr = "2017031"
+
+                    End If
+
 
 
                     If CInt(errThis) = 0 Then

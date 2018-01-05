@@ -14,6 +14,10 @@ $(window).load(function () {
 
 $(document).ready(function () {
 
+
+   
+
+
     if ($("#jq_jobid").val() == 0) {
 
     $(".tr_aktlinje").css("display", "none");

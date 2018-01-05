@@ -215,8 +215,15 @@
             End If
 
             med_expvendorno = "1"
-            If String.IsNullOrEmpty(Name.Resource_Group_No) <> True Then
-                med_costcenter = Name.Resource_Group_No.ToString()
+
+            'If String.IsNullOrEmpty(Name.Resource_Group_No) <> True Then
+            '    med_costcenter = Name.Resource_Group_No.ToString()
+            'Else
+            '    med_costcenter = "10"
+            'End If
+
+            If String.IsNullOrEmpty(Name.Global_Dimension_2_Code) <> True Then
+                med_costcenter = Name.Global_Dimension_2_Code.ToString()
             Else
                 med_costcenter = "10"
             End If

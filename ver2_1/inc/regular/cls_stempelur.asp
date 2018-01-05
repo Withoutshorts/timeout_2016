@@ -15,8 +15,10 @@
            tcnt = 0
             strSQLfindesfravertimer = "SELECT taktivitetnavn, timer FROM timer WHERE tdato = '"& ddTreg &"' AND tmnr = "& medarbSel &" AND tfaktim > 6 LIMIT 3"
 
+            'if session("mid") = 1 then
             'response.write strSQLfindesfravertimer
             'response.flush
+            'end if
 
             oRec6.open strSQLfindesfravertimer, oConn, 3
             
@@ -187,16 +189,20 @@ end function
 '*************************************************************************
 '*** Tjekker logind status ved logind i TimeOut eller fra terminal
 '*************************************************************************
-public fo_logud
+public fo_logud, fo_oprettetnytlogin, fo_autoafsluttet, fo_afsluttetlogin
 function logindStatus(strUsrId, intStempelur, io, tid)
 
+'if session("mid") = 1 then
+'         Response.write "fo_oprettetnytlogin<br>"
+'end if
 
-
-
+fo_afsluttetlogin = 0
+fo_autoafsluttet = 0
+fo_oprettetnytlogin = 0
 errIndlaesTerminal = 0
 '** io = indlæs / overfør 
-'if io = 1  'fra logind i Timeout via logindsiden 
-'io = 2 Indlæses fra terminal
+'io = 1 Fra logind i Timeout via logindsiden eller intern Monitor Terminal CFLOW
+'io = 2 Indlæses fra externe terminal. CST
 
 
               
@@ -219,8 +225,11 @@ LoginDato = year(tid)&"/"& month(tid)&"/"&day(tid)
     				
 				    fo_logud = 0
 				    
+                    'if session("mid") = 1 then
 				    'Response.write strSQLlog
 				    'Response.end
+                    'end if           
+
 				    mailissentonce = 0
 				    oRec.open strSQLlog, oConn, 3
                     while not oRec.EOF 
@@ -234,8 +243,10 @@ LoginDato = year(tid)&"/"& month(tid)&"/"&day(tid)
                                 hoursDiff = 0
                                 hoursDiff = datediff("h", oRec("login"), LoginDateTime, 2,2)
                                 
+                                'if session("mid") = 1 then
                                 'Response.Write "<br>id: "& oRec("id") &" logind: "& oRec("login") &" og logud: "& LoginDateTime &",  hoursDiff:" & hoursDiff & "<br>"
-                               
+                                'Response.end
+                                'end if
 
 
                                 'if cdate(LoginDato) <> cdate(oRec("dato")) then
@@ -309,7 +320,7 @@ LoginDato = year(tid)&"/"& month(tid)&"/"&day(tid)
 				                    'Response.end
     				                
 				                    oConn.execute(strSQLupd)
-    				                
+    				                fo_afsluttetlogin = 1
 				                    fo_logud = 2
 				                    
 
@@ -327,15 +338,15 @@ LoginDato = year(tid)&"/"& month(tid)&"/"&day(tid)
 
 
                                     '*** Adgang for specielle projektgrupper ****'
-                                    call stPauserProgrp(medarbSel, p1_grp, p2_grp)
+                                    call stPauserProgrp(medarbSel, p1_grp, p2_grp, p3_grp, p4_grp)
 				                    
                                     
                                     '***********************************************************               
 	                                '*** Tilføj Pauser *****
                                     '***********************************************************
 
-                                    if cint(p1_prg_on) = 1 OR cint(p2_prg_on) = 1 then
-                                    '*** Tømmer pauser så der er altid kun MAKS er indlæst 2 pauser pr. dag pr. medarb.
+                                    if cint(p1_prg_on) = 1 OR cint(p2_prg_on) = 1 OR cint(p3_prg_on) = 1 OR cint(p4_prg_on) = 1 then
+                                    '*** Tømmer pauser så der er altid kun MAKS er indlæst 2-4 pauser pr. dag pr. medarb.
                                     
 
                                     if len(trim(LogudDateTime)) <> 0 AND isNull(LogudDateTime) <> true AND isDate(LogudDateTime) = true then
@@ -357,7 +368,7 @@ LoginDato = year(tid)&"/"& month(tid)&"/"&day(tid)
                                     medarbSel = 0
                                     end if
 
-                                    strSQLpDel = "DELETE FROM login_historik WHERE stempelurindstilling = -1  AND dato = '"& LoginDatoDelpau &"' AND mid = "& medarbSel
+                                    strSQLpDel = "DELETE FROM login_historik WHERE stempelurindstilling = -1 AND dato = '"& LoginDatoDelpau &"' AND mid = "& medarbSel
 	                                'if io = "2" then ' (stempelut
                                     'Response.write strSQLpDel
                                     'Response.flush
@@ -381,6 +392,23 @@ LoginDato = year(tid)&"/"& month(tid)&"/"&day(tid)
                                          call tilfojPauser(0,medarbSel,loginDTp,loginTidp,logudTidp,p2,p2_komm)
 	                        
 	                                end if
+
+                                        
+                                     p3 = stPauseLic_3
+					                  if cint(p3_prg_on) = 1 AND cint(p3on) = 1 then 'if p2on <> 0 then
+					            
+                                         call tilfojPauser(0,medarbSel,loginDTp,loginTidp,logudTidp,p3,p3_komm)
+	                        
+	                                end if
+
+
+                                     p4 = stPauseLic_4
+					                  if cint(p4_prg_on) = 1 AND cint(p4on) = 1 then 'if p2on <> 0 then
+					            
+                                         call tilfojPauser(0,medarbSel,loginDTp,loginTidp,logudTidp,p4,p4_komm)
+	                        
+	                                end if
+                
                                     
                       
                                     'Response.end
@@ -509,8 +537,8 @@ LoginDato = year(tid)&"/"& month(tid)&"/"&day(tid)
 				                    else 'Fra Terminal
                                     '*** Opretter nyt eller afslutter eksisterende
 				                    
-				                    
-				                 
+				                            fo_autoafsluttet = 1
+				                        
 				                            LogudDateTimeDDMMYYY_TIME = day(LoginDateTime)&"-"& month(LoginDateTime)&"-"&year(LoginDateTime)&" "& formatdatetime(LoginDateTime, 3)
                                             LogudDateTime = LoginDateTime
                                 
@@ -544,7 +572,7 @@ LoginDato = year(tid)&"/"& month(tid)&"/"&day(tid)
 				                                'Response.flush
     				                
 				                                oConn.execute(strSQLupd)
-
+                                                fo_afsluttetlogin = 1
                                                 
 
 
@@ -557,10 +585,10 @@ LoginDato = year(tid)&"/"& month(tid)&"/"&day(tid)
                                                                 call stPauserFralicens(LoginDato)
 
                                                                 '** tjekker om der skal tilføjes pause til projektgruppe ***' 
-                                                                call stPauserProgrp(strUsrId, p1_grp, p2_grp)
+                                                                call stPauserProgrp(strUsrId, p1_grp, p2_grp, p3_grp, p4_grp)
 
                                                     
-                                                                if cint(p1_prg_on) = 1 OR cint(p2_prg_on) = 1 then
+                                                                if cint(p1_prg_on) = 1 OR cint(p2_prg_on) = 1 OR cint(p3_prg_on) = 1 OR cint(p4_prg_on) = 1 then
                                                                 '**** Tømmer pauser så der er altid kun er indlæst 2 pauser pr. dag pr. medarb. ****
                                                                 LoginDatoDelpau = year(LoginDato) &"/"& month(LoginDato) &"/"& day(LoginDato)
                                                                 strSQLpDel = "DELETE FROM login_historik WHERE stempelurindstilling = -1  AND dato = '"& LoginDatoDelpau &"' AND mid = "& strUsrId
@@ -575,7 +603,6 @@ LoginDato = year(tid)&"/"& month(tid)&"/"&day(tid)
                                                                 psKomm_1 = ""
                                                                 psMin_1 = stPauseLic_1
 
-                                                    
                                                                 '** p1 **
                                                                 call tilfojPauser(0,strUsrId,LoginDato,psloginTidp,pslogudTidp,psMin_1,psKomm_1)
 
@@ -594,9 +621,29 @@ LoginDato = year(tid)&"/"& month(tid)&"/"&day(tid)
 
                                                                 end if
 
+
+                                                                '** IF lto DENCKER
+                                                                if cint(p3_prg_on) = 1 AND cint(p3on) = 1 then
+                                                                psKomm_3 = ""
+                                                                psMin_3 = stPauseLic_3
+
+                                                                '** p3 **
+                                                                call tilfojPauser(0,strUsrId,LoginDato,psloginTidp,pslogudTidp,psMin_3,psKomm_3)
+
+                                                                end if
+
+                                                                if cint(p4_prg_on) = 1 AND cint(p4on) = 1 then
+                                                                psKomm_4 = ""
+                                                                psMin_4 = stPauseLic_4
+
+                                                                '** p3 **
+                                                                call tilfojPauser(0,strUsrId,LoginDato,psloginTidp,pslogudTidp,psMin_4,psKomm_4)
+
+                                                                end if
+
                                                    
     				                
-				                                end if 'tidskonflikt
+				                                end if 'tidskonflikt 
 				                
 				                            end if 'LogudDateTimeDDMMYYY_TIME
 				                
@@ -646,6 +693,8 @@ LoginDato = year(tid)&"/"& month(tid)&"/"&day(tid)
 				    'Response.write "<br>ins SQL: "& strSQL & "<br>"
 				    'Response.flush
 				    oConn.execute(strSQL)
+
+                    fo_oprettetnytlogin = 1
 				    
                   
                   '** 2012 nov. 21
@@ -662,11 +711,11 @@ LoginDato = year(tid)&"/"& month(tid)&"/"&day(tid)
                                                     call stPauserFralicens(LoginDato)
 
                                                     '** tjekker om der skal tilføjes pause til projektgruppe ***' 
-                                                    call stPauserProgrp(strUsrId, p1_grp, p2_grp)
+                                                    call stPauserProgrp(strUsrId, p1_grp, p2_grp, p3_grp, p4_grp)
 
                                                     
                                                     
-                                                    if cint(p1_prg_on) = 1 OR cint(p2_prg_on) = 1 then
+                                                    if cint(p1_prg_on) = 1 OR cint(p2_prg_on) = 1 OR cint(p3_prg_on) = 1 OR cint(p4_prg_on) = 1 then
                                                     '**** Tømmer pauser så der er altid kun er indlæst 2 pauser pr. dag pr. medarb. ****
                                                     LoginDatoDelpau = year(LoginDato) &"/"& month(LoginDato) &"/"& day(LoginDato)
                                                     strSQLpDel = "DELETE FROM login_historik WHERE stempelurindstilling = -1  AND dato = '"& LoginDatoDelpau &"' AND mid = "& strUsrId
@@ -692,6 +741,28 @@ LoginDato = year(tid)&"/"& month(tid)&"/"&day(tid)
                                                     call tilfojPauser(0,strUsrId,LoginDato,psloginTidp,pslogudTidp,psMin_2,psKomm_2)
 
                                                     end if
+
+
+                                                     if cint(p3_prg_on) = 1 AND cint(p3on) = 1 then
+                                                    psKomm_3 = ""
+                                                    psMin_3 = stPauseLic_3
+
+                                                    '** p3 **
+                                                    call tilfojPauser(0,strUsrId,LoginDato,psloginTidp,pslogudTidp,psMin_3,psKomm_3)
+
+                                                    end if
+
+
+
+                                                     if cint(p4_prg_on) = 1 AND cint(p4on) = 1 then
+                                                    psKomm_4 = ""
+                                                    psMin_4 = stPauseLic_4
+
+                                                    '** p4 **
+                                                    call tilfojPauser(0,strUsrId,LoginDato,psloginTidp,pslogudTidp,psMin_4,psKomm_4)
+
+                                                    end if
+
     				
 				  
 				
@@ -1077,7 +1148,7 @@ if media <> "export" then
 	if cint(showTot) = 1 then
 	
 	strSQL = "SELECT l.id AS lid, count(l.id) AS antal, l.mid AS lmid, l.login, l.logud, "_
-	&" s.navn AS stempelurnavn, s.faktor, s.minimum, l.stempelurindstilling, sum(l.minutter) AS minutter, l.dato FROM login_historik l"_
+	&" s.navn AS stempelurnavn, s.faktor, s.minimum, l.stempelurindstilling, sum(l.minutter) AS minutter, l.dato, manuelt_afsluttet, login_first, logud_first FROM login_historik l"_
 	&" LEFT JOIN stempelur s ON (s.id = l.stempelurindstilling) WHERE "_
     &" "& dtUseSQL &" "& medSQLkri & strTypSQL &""_
 	&" GROUP BY l.mid, l.stempelurindstilling ORDER BY l.mid, l.login, l.stempelurindstilling DESC " 
@@ -1878,7 +1949,10 @@ if media <> "export" then
                 end if
                 
     
-    if (ugeerAfsl_og_autogk_smil = 0 OR level = 1 OR erTeamlederForVilkarligGruppe = -100) AND media <> "print" then
+                '** erTeamlederForVilkarligGruppe = 1 20171115, ellers var den -100. Teamleder må gerne se
+                '** Således at TEAMleder kan se ferie kommentarer i uger hvor der ikke er logget ind.
+
+    if (ugeerAfsl_og_autogk_smil = 0 OR level = 1 OR erTeamlederForVilkarligGruppe = 1) AND media <> "print" then
     
     %>
 
@@ -1906,13 +1980,31 @@ if media <> "export" then
         <!--<input type="hidden" value="<%=forvalgt_stempelur %>" name="FM_stur" />-->
 		<td>&nbsp;</td>
 		<td style="height:30px; padding-right:10px;" align=right><b><%=left(weekdayname(weekday(dtUse)), 4) %>. <%=formatdatetime(dtUse, 2) %></b></td>
-        <td align=right style="white-space:nowrap;"><input type="text" class="loginhh" name="FM_login_hh" id="FM_login_hh_<%=d %>" value="" style="width:20px; font-size:9px; <%=boxStyleBorder%>" /> :
+        <td align=right style="white-space:nowrap;">
+            
+        <%if (ugeerAfsl_og_autogk_smil = 0 OR level = 1) then %>
+        <input type="text" class="loginhh" name="FM_login_hh" id="FM_login_hh_<%=d %>" value="" style="width:20px; font-size:9px; <%=boxStyleBorder%>" /> :
         <input type="text" name="FM_login_mm" id="FM_login_mm_<%=d %>" value="" style="width:20px; font-size:9px; <%=boxStyleBorder%>" />
-        &nbsp;</td>
-         <td align=right style="white-space:nowrap;"><input type="text" class="logudhh" name="FM_logud_hh" id="FM_logud_hh_<%=d %>" value="" style="width:20px; font-size:9px; <%=boxStyleBorder%>" /> :
-         <input type="text" name="FM_logud_mm" id="FM_logud_mm_<%=d %>" value="" style="width:20px; font-size:9px; <%=boxStyleBorder%>" /></td>
+        <%end if %>
+         &nbsp; 
+
+        </td>
+         <td align=right style="white-space:nowrap;">
+             <%if (ugeerAfsl_og_autogk_smil = 0 OR level = 1) then %>
+             <input type="text" class="logudhh" name="FM_logud_hh" id="FM_logud_hh_<%=d %>" value="" style="width:20px; font-size:9px; <%=boxStyleBorder%>" /> :
+            <input type="text" name="FM_logud_mm" id="FM_logud_mm_<%=d %>" value="" style="width:20px; font-size:9px; <%=boxStyleBorder%>" />
+             <%else %>
+             &nbsp;
+             <%end if %>
+             
+
+
+         </td>
         <td style="width:20px;">&nbsp;</td>
-        <td><select name="FM_stur" style="width:120px; font-size:9px; font-family:arial;">
+        <td>
+            
+        <%if (ugeerAfsl_og_autogk_smil = 0 OR level = 1) then %>    
+        <select name="FM_stur" style="width:120px; font-size:9px; font-family:arial;">
 		<%if lto <> "fk_bpm" AND lto <> "kejd_pb" AND lto <> "kejd_pb2"  then %>
         <!--<option value="0">Ingen</option>-->
         <%end if %>
@@ -1937,10 +2029,12 @@ if media <> "export" then
 
         %>
         </select>
+        <%end if %>
+
 </td>
         <td>&nbsp;</td>
         <td>&nbsp;</td>
-        <td>&nbsp;
+        <td>
 
             <%call findesDerTimer(0, dtUse, medarbSel) %>
 
@@ -3473,6 +3567,11 @@ function tilfojPauser(io,psMid,psDato,psloginTidp,pslogudTidp,psMin,psKomm)
                             'Response.Write "psloginTidp: " & psloginTidp & " psDato: "& psDato &"<br>"
                             'response.write "<br>psMin: "& psMin
     
+                            
+                            if len(trim(pslogudTidp)) = 0 then
+                            pslogudTidp = psloginTidp
+                            end if
+
 
 
                             '*** Indlæser ikke pauser på 0 min.
@@ -3486,16 +3585,20 @@ function tilfojPauser(io,psMid,psDato,psloginTidp,pslogudTidp,psMin,psKomm)
 					        &" stempelurindstilling = -1, minutter = "& psMin &", "_
 					        &" manuelt_afsluttet = 0, kommentar = '"& psKomm &"', mid = "& psMid
 					        
+                            'if session("mid") = 1 then
 					        'Response.Write "pause: "& strSQLp & "<br>"
 					        'Response.flush
+                            'end if                        
+
                             oConn.execute(strSQLp)
+
 
                             end if
 
 end function
 
 
-public stPauseLic_1, stPauseLic_2, p1on, p2on, p1_grp, p2_grp
+public stPauseLic_1, stPauseLic_2, p1on, p2on, p1_grp, p2_grp, stPauseLic_3, stPauseLic_4, p3on, p4on, p3_grp, p4_grp
 function stPauserFralicens(psDt)
 
             
@@ -3506,32 +3609,44 @@ function stPauserFralicens(psDt)
             dagidag = datepart("w", psDt, 2,2) 'weekday(psDt, 2)
             p1on = 0
             p2on = 0
+            p3on = 0
+            p4on = 0
+
 
             'response.write "dagidag: "& dagidag
-            
+            feltNavne = ""
             select case dagidag
             case 1
             feltNavne = "p1_man AS p1on, p2_man AS p2on"
+            feltNavne = feltNavne &", p3_man AS p3on, p4_man AS p4on"
             case 2
             feltNavne = "p1_tir AS p1on, p2_tir AS p2on"
+            feltNavne = feltNavne &", p3_tir AS p3on, p4_tir AS p4on"
             case 3
             feltNavne = "p1_ons AS p1on, p2_ons AS p2on"
+            feltNavne = feltNavne &", p3_ons AS p3on, p4_ons AS p4on"
             case 4
             feltNavne = "p1_tor AS p1on, p2_tor AS p2on"
+            feltNavne = feltNavne &", p3_tor AS p3on, p4_tor AS p4on"
             case 5
             feltNavne = "p1_fre AS p1on, p2_fre AS p2on"
+            feltNavne = feltNavne &", p3_fre AS p3on, p4_fre AS p4on"
             case 6
             feltNavne = "p1_lor AS p1on, p2_lor AS p2on"
+            feltNavne = feltNavne &", p3_lor AS p3on, p4_lor AS p4on"
             case 7
             feltNavne = "p1_son AS p1on, p2_son AS p2on"
+            feltNavne = feltNavne &", p3_son AS p3on, p4_son AS p4on"
             end select
         
             '*** Henter forvalgte standard pauser ***
 
             p1_grp = 0 
             p2_grp = 0
+            p3_grp = 0
+            p4_grp = 0
 
-            strSQLstp = "SELECT stpause, stpause2, "& feltNavne &", p1_grp, p2_grp"_
+            strSQLstp = "SELECT stpause, stpause2, stpause3, stpause4, "& feltNavne &", p1_grp, p2_grp, p3_grp, p4_grp"_
             &" FROM  "_
             &" licens WHERE id = 1" 
             
@@ -3543,12 +3658,18 @@ function stPauserFralicens(psDt)
             
             stPauseLic_1 = oRec5("stpause")
             stPauseLic_2 = oRec5("stpause2")
-            
+            stPauseLic_3 = oRec5("stpause3")
+            stPauseLic_4 = oRec5("stpause4")        
+
             p1on = oRec5("p1on")
             p2on = oRec5("p2on")
+            p3on = oRec5("p3on")
+            p4on = oRec5("p4on")
 
             p1_grp = oRec5("p1_grp")
             p2_grp = oRec5("p2_grp")
+            p3_grp = oRec5("p3_grp")
+            p4_grp = oRec5("p4_grp")
              
             end if
             oRec5.close
@@ -3558,8 +3679,8 @@ function stPauserFralicens(psDt)
 end function
 
 
-public p1_prg_on, p2_prg_on
-function stPauserProgrp(useMid, p1_grp, p2_grp)
+public p1_prg_on, p2_prg_on, p3_prg_on, p4_prg_on
+function stPauserProgrp(useMid, p1_grp, p2_grp, p3_grp, p4_grp)
 
 'p1_grp Hvilke projektgrupper tilføejt pause 1, komma sep
 'p2_grp Hvilke projektgrupper tilføejt pause 2, komma sep
@@ -3569,6 +3690,8 @@ function stPauserProgrp(useMid, p1_grp, p2_grp)
 
         p1_prg_on = 0
         p2_prg_on = 0
+        p3_prg_on = 0
+        p4_prg_on = 0
         negativPauseGruppeFundet = 0
         tilfojikkepauserpagrp = 0
 
@@ -3711,6 +3834,151 @@ function stPauserProgrp(useMid, p1_grp, p2_grp)
 
         'Response.write "<br><br>HER: p2_grp:"& p2_grp &" p2_prg_on " & p2_prg_on & "  string: "& instrMedidProgrp & " instr " & instr(instrMedidProgrp, "#"& trim(useMid) &"#,") & " # mid: " & useMid & " |<br>"
         'Response.end
+
+
+         '*** Adgang til Pause 3 ****'
+        negativPauseGruppeFundet = 0
+        tilfojikkepauserpagrp = 0
+
+
+        if len(trim(p3_grp)) = 0 OR isNull(p3_grp) = true then
+        p3_prg_on = 1
+        else
+            
+            p3_grpArr = split(replace(p3_grp, " ", ""), ",")
+            for g = 0 to UBOUND(p3_grpArr)
+                
+                'Response.Write "p1_grpArr(g)"& p1_grpArr(g) & " useMid: "&  useMid&"<br>"
+
+                if instr(p3_grpArr(g), "-") <> 0 then 'Hvis evt minus betyder at denne gruppe er udelukket fra pauser, uanset om medarbejder er med i andre porjektgrupper
+                negativPauseGruppeFundet = 1
+                p3_grpArr(g) = replace(p3_grpArr(g), "-", "")
+                end if
+
+                    if len(trim(p3_grpArr(g))) <> 0 then
+                    call erdetint_st(trim(p3_grpArr(g)))
+                            if isInt_st = 0 then
+                                        
+    
+                                            call medarbiprojgrp(p3_grpArr(g), useMid, 0, -1)
+
+                                    
+                                            if cint(negativPauseGruppeFundet) = 1 then                    
+
+                                            if (instr(instrMedidProgrpThisGrp, "#"& trim(useMid) &"#,")) <> 0 then 'medarbejder er med i negativgruppe
+                                            tilfojikkepauserpagrp = 1
+                                            end if
+
+                                            end if
+
+
+                            end if
+                    isInt_st = 0
+                    end if
+
+            
+
+            next
+
+                
+    
+    
+                if cint(negativPauseGruppeFundet) = 1 then 
+    
+                if cint(tilfojikkepauserpagrp) = 0 then
+                p3_prg_on = 1
+                else
+                p3_prg_on = 0
+                end if   
+    
+                else   
+
+                if instr(instrMedidProgrp, "#"& trim(useMid) &"#,") <> 0 then
+                p3_prg_on = 1
+                else
+                p3_prg_on = 0
+                end if
+
+                end if
+
+        end if
+
+
+        'Response.write "<br><br>HER: p3_grp:"& p3_grp &" p3_prg_on " & p3_prg_on & "  string: "& instrMedidProgrp & " instr " & instr(instrMedidProgrp, "#"& trim(useMid) &"#,") & " # mid: " & useMid & " |<br>"
+        'Response.end
+
+
+         '*** Adgang til Pause 4 ****'
+        negativPauseGruppeFundet = 0
+        tilfojikkepauserpagrp = 0
+
+
+        if len(trim(p4_grp)) = 0 OR isNull(p4_grp) = true then
+        p4_prg_on = 1
+        else
+            
+            p4_grpArr = split(replace(p4_grp, " ", ""), ",")
+            for g = 0 to UBOUND(p4_grpArr)
+                
+                'Response.Write "p1_grpArr(g)"& p1_grpArr(g) & " useMid: "&  useMid&"<br>"
+
+                if instr(p4_grpArr(g), "-") <> 0 then 'Hvis evt minus betyder at denne gruppe er udelukket fra pauser, uanset om medarbejder er med i andre porjektgrupper
+                negativPauseGruppeFundet = 1
+                p4_grpArr(g) = replace(p4_grpArr(g), "-", "")
+                end if
+
+                    if len(trim(p4_grpArr(g))) <> 0 then
+                    call erdetint_st(trim(p4_grpArr(g)))
+                            if isInt_st = 0 then
+                                        
+    
+                                            call medarbiprojgrp(p4_grpArr(g), useMid, 0, -1)
+
+                                    
+                                            if cint(negativPauseGruppeFundet) = 1 then                    
+
+                                            if (instr(instrMedidProgrpThisGrp, "#"& trim(useMid) &"#,")) <> 0 then 'medarbejder er med i negativgruppe
+                                            tilfojikkepauserpagrp = 1
+                                            end if
+
+                                            end if
+
+
+                            end if
+                    isInt_st = 0
+                    end if
+
+            
+
+            next
+
+                
+    
+    
+                if cint(negativPauseGruppeFundet) = 1 then 
+    
+                if cint(tilfojikkepauserpagrp) = 0 then
+                p4_prg_on = 1
+                else
+                p4_prg_on = 0
+                end if   
+    
+                else   
+
+                if instr(instrMedidProgrp, "#"& trim(useMid) &"#,") <> 0 then
+                p4_prg_on = 1
+                else
+                p4_prg_on = 0
+                end if
+
+                end if
+
+        end if
+
+
+        'Response.write "<br><br>HER: p4_grp:"& p4_grp &" p4_prg_on " & p4_prg_on & "  string: "& instrMedidProgrp & " instr " & instr(instrMedidProgrp, "#"& trim(useMid) &"#,") & " # mid: " & useMid & " |<br>"
+        'Response.end
+
 
 
 end function

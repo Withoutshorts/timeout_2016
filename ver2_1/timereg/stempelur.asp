@@ -75,7 +75,7 @@ end if
              %>
              <br /><br /><b>Pause <%=p %>:</b> 
 
-            <select name="p<%=p %>" id="p<%=p %>" style="font-family:arial; font-size:9px;">
+            <select name="p<%=p %>" id="p<%=p %>" style="width:250px;" class="form-control input-sm">
             
              <% 
              
@@ -144,7 +144,7 @@ end if
         
             <br />
             Kommentar pause <%=p %>:
-	        <br /><textarea id="FM_komm_p<%=p %>" name="FM_komm_p<%=p %>" style="font-size:9px; font-family:arial; width:350px; height:46px;"></textarea>
+	        <br /><textarea id="FM_komm_p<%=p %>" name="FM_komm_p<%=p %>" style="width:250px;" class="form-control input-sm"></textarea>
 	        <%
             end if
 
@@ -1516,6 +1516,7 @@ if len(session("user")) = 0 then
                                                     '*** 2: logind side (cls_stempelur) IKKE HER --> Altid standard pause 1 og 2
                                                     '*** 3: fra personlig redigerbar logind historik fra timereg. siden, hvis der indtastest på en dato hvor der ikke allerede findes et logind. HER --> Kan veksle mellem standrard pauser og manuelt rettet
                                                     '*** 4: Rediger / opret nyt logind manuelt via link / popup HER --> Kan veksle mellem standrard pauser og manuelt rettet
+                                                    '****5: Cflow - terminal
 
                                                     '*********************************************************************************************'
                                                                                                      
@@ -1530,13 +1531,13 @@ if len(session("user")) = 0 then
                                                     call stPauserFralicens(LoginDatoPaus)
 
                                                     '** tjekker om der skal tilføjes pause til projektgruppe ***' 
-                                                    call stPauserProgrp(strUsrId, p1_grp, p2_grp)
+                                                    call stPauserProgrp(strUsrId, p1_grp, p2_grp, p3_grp, p4_grp)
 
                                                  
 
                                                     
                                                     '**** Tømmer pauser så der er altid kun er indlæst 2 pauser pr. dag pr. medarb. ****
-                                                    if cint(p1_prg_on) = 1 OR cint(p2_prg_on) = 1 then
+                                                    if cint(p1_prg_on) = 1 OR cint(p2_prg_on) = 1 OR cint(p3_prg_on) = 1 OR cint(p4_prg_on) = 1 then
                                                     strSQLpDel = "DELETE FROM login_historik WHERE stempelurindstilling = -1 AND dato = '"& year(LoginDatoPaus) &"/"& month(LoginDatoPaus) &"/"& day(LoginDatoPaus) &"' AND mid = "& strUsrId
 	                                                'Response.write strSQLpDel
                                                     oConn.execute(strSQLpDel)
@@ -1578,6 +1579,37 @@ if len(session("user")) = 0 then
                                                     end if
 
                                                     
+
+                                                     '** Manuel tilføjet / eller standard pause
+                                                    if p3 > -1 then
+                                                    psKomm_3 = p3_komm
+                                                    psMin_3 = p3
+                                                    else
+                                                    psKomm_3 = ""
+                                                    psMin_3 = stPauseLic_3
+                                                    end if
+
+                                                    if cint(p3_prg_on) = 1 AND cint(p3on) = 1 OR p3 > 0 then
+                                                    '** p3 **
+                                                    call tilfojPauser(0,strUsrId,LoginDatoPaus,psloginTidp,pslogudTidp,psMin_3,psKomm_3)
+                                                    end if
+
+
+
+
+                                                      '** Manuel tilføjet / eller standard pause
+                                                    if p4 > -1 then
+                                                    psKomm_4 = p4_komm
+                                                    psMin_4 = p4
+                                                    else
+                                                    psKomm_4 = ""
+                                                    psMin_4 = stPauseLic_4
+                                                    end if
+
+                                                    if cint(p4_prg_on) = 1 AND cint(p4on) = 1 OR p4 > 0 then
+                                                    '** p4 **
+                                                    call tilfojPauser(0,strUsrId,LoginDatoPaus,psloginTidp,pslogudTidp,psMin_4,psKomm_4)
+                                                    end if
 
 
                                                     'Response.end
@@ -1638,7 +1670,7 @@ if len(session("user")) = 0 then
                             case "sesaba"
                         
 
-                                 call smileyAfslutSettings()  
+                                call smileyAfslutSettings()  
 
                                 if cint(SmiWeekOrMonth) = 2 then 'videre til ugeafslutning og ugeseddel
                                 Response.redirect "stempelur.asp?func=afslut&medarbSel="& strUsrId &"&showonlyone=1&hidemenu=1&id=0&rdir=sesaba" '../to_2015/ugeseddel_2011.asp?nomenu=1
@@ -1776,12 +1808,18 @@ if len(session("user")) = 0 then
                             useISNULLDatoLimit = dateAdd("d", - 3, useDato)
                             useISNULLDatoLimit = year(useISNULLDatoLimit) &"-"& month(useISNULLDatoLimit) &"-" & day(useISNULLDatoLimit)
 	
+
+                            if len(trim(useMid)) <> 0 then
+                            useMid = useMid
+                            else
+                            useMid = 0
+                            end if
 	
 	                        strSQL = "SELECT l.login, l.logud, l.dato, l.stempelurindstilling, l.kommentar, l.id FROM login_historik l "
 	                        strSQL = strSQL & " WHERE l.mid = "& useMid &" AND l.stempelurindstilling <> -1 AND (l.dato = '"& useDato &"' OR (logud IS NULL AND l.dato > '"& useISNULLDatoLimit &"' AND l.dato <= '"& useDato &"')) ORDER BY login_first DESC"
 	
                             'l.dato = '"& useDato &"' AND
-                            'if lto = "dencker" then
+                            'if lto = "outz" then
 	                        'Response.Write strSQL &" ID:" & id & "medarbSel:" & medarbSel
 	                        'Response.end
                             'end if
@@ -2090,7 +2128,7 @@ if len(session("user")) = 0 then
 
 
         '*** Adgang for specielle projektgrupper ****'
-        call stPauserProgrp(useMid, p1_grp, p2_grp)
+        call stPauserProgrp(useMid, p1_grp, p2_grp, p3_grp, p4_grp)
 
        
         
@@ -2113,20 +2151,7 @@ if len(session("user")) = 0 then
 
         <%if func = "redloginhist" then %>
         
-         <!--
-        <b>Tilføj/Rediger pauser på denne dato:</b><br />
-        <br> Der kan kun tilføjes pauser på en dato med et gyldigt logind.
-	    <br />Pauser bliver automatisk fratrukket login timer den pågældende dato.
-        <br />Standard pause(r) er: <b><%=stPauseLic_1 %> min.</b>-->
-            
-
-        <!--
-            <%if stPauseLic_2 <> 0 then %>
-             og <b><%=stPauseLic_2 %></b> min.
-            <%end if %>
-
-        -->
-
+        
         <%
      
             
@@ -2225,11 +2250,16 @@ if len(session("user")) = 0 then
             </td>
 
             <%
-            if p = 1 then
+            select case p 
+            case 1
             pOnVal = p1on
-            else
+            case 2
             pOnVal = p2on
-            end if
+            case 3
+            pOnVal = p3on
+            case 4
+            pOnVal = p4on
+            end select
             %>
 
 	        <input id="Hidden7" name="p<%=p%>on" value="<%=pOnVal %>" type="hidden" />
@@ -2249,6 +2279,8 @@ if len(session("user")) = 0 then
             '*** Eller der er tilføjet 1 pause *********************
             p1_fo = 0
             p2_fo = 0
+            p3_fo = 0
+            p4_fo = 0
 
             if (func = "redloginhist" AND id = 0) OR func = "oprloginhist" then
             startval = 1 'Standard Pause x antal min. er forvalgt
@@ -2259,7 +2291,7 @@ if len(session("user")) = 0 then
             end if
         
           
-
+            '*** Der er ikke tilføjet pauser endnu
             if cint(p) = 1 then
 
                 if p1on <> 0 AND p1_prg_on = 1 then
@@ -2278,10 +2310,30 @@ if len(session("user")) = 0 then
                 p2_fo = 1
                 end if
 
+                 if p3on <> 0 AND p3_prg_on = 1 then
+                call nyePauser(3, p3on, startval, hdn)
+                 %>
+                 <input id="p3on" name="p3on" value="<%=p3on %>" type="hidden" />
+                <%
+                p3_fo = 1
+                end if
+
+
+                 if p4on <> 0 AND p4_prg_on = 1 then
+                call nyePauser(4, p4on, startval, hdn)
+                 %>
+                 <input id="p4on" name="p4on" value="<%=p4on %>" type="hidden" />
+                <%
+                p4_fo = 1
+                end if
+
             end if
+
+
             
-            
+            '**** HVIS der allerede er tilføjet 1 pause
             if cint(p) = 2 then
+
                 if p2on <> 0 AND p2_prg_on = 1 then
                 call nyePauser(2, p2on, startval, hdn)
                 %>
@@ -2289,12 +2341,36 @@ if len(session("user")) = 0 then
                 <%
                 p2_fo = 1
                 end if
+
+
+                '** Pause 3 og Pause 4 skal ikke være tilgenængelig her. 
+                '** Det giver rod i HTML. Har man pause 3 og 4 kan man kun tilføje 1 pause pr. dag. og ikke hvis der i forvejen findes en pause.
+                '** 20180103
+                
+                 if p3on <> 0 AND p3_prg_on = 100 then '1
+                call nyePauser(3, p3on, startval, hdn)
+                 %>
+                 <input id="p3on" name="p3on" value="<%=p3on %>" type="hidden" />
+                <%
+                p3_fo = 1
+                end if
+
+
+                 if p4on <> 0 AND p4_prg_on = 100 then '1
+                call nyePauser(4, p4on, startval, hdn)
+                 %>
+                 <input id="p4on" name="p4on" value="<%=p4on %>" type="hidden" />
+                <%
+                p4_fo = 1
+                end if
+
+
             end if
 
             'end if
         
 
-        if cint(p) = 1 AND p1_fo = 0 AND p2_fo = 0 then
+        if cint(p) = 1 AND p1_fo = 0 AND p2_fo = 0 AND p3_fo = 0 AND p4_fo = 0 then
         %>
         <br /><br /><br />
         <span style="color:#999999;">

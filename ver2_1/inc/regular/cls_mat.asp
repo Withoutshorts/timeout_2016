@@ -1739,7 +1739,7 @@ public strMedarbOptionsHTML
 		    </select>
 		</td>
 	</tr>
-	<%if lto = "execon" OR lto = "intranet - local" OR lto = "epi" OR lto = "epi_no" OR lto = "epi_ab" OR lto = "epi_sta" OR lto = "unik" OR lto = "adra" then 'lto = "intranet - local" OR%>
+	<%if lto = "execon" OR lto = "intranet - local" OR lto = "epi" OR lto = "epi_no" OR lto = "epi_ab" OR lto = "epi_sta" OR lto = "unik" OR lto = "adra" OR lto = "alfanordic" then 'lto = "intranet - local" OR%>
     <input id="matreg_betegn_0" type="hidden" name="FM_betegn" value="<%=matenhed %>" />
     <input type="hidden" name="varenr" id="matreg_varenr_0" value="0" />
 	<%else %>
@@ -1763,7 +1763,7 @@ public strMedarbOptionsHTML
     <%
         
     '** Avancegruppe **'    
-    if lto <> "epi" AND lto <> "epi_no" AND lto <> "epi_ab" AND lto <> "epi_sta" AND lto <> "xintranet - local" AND lto <> "unik" then  %>
+    if lto <> "epi" AND lto <> "epi_no" AND lto <> "epi_ab" AND lto <> "epi_sta" AND lto <> "intranet - local" AND lto <> "unik" AND lto <> "alfanordic" then  %>
 	    <tr>
 		    <td align=right>
            

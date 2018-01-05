@@ -311,7 +311,8 @@ public class ozUploadFileJob
 
                         if (importtype == "d1") {
 
-                           
+                            //jobnavn = data.jobnavn.Replace("'", "");
+                            //jobnavn = jobnavn.Replace("'\'", "");
 
                             string strInsert = "INSERT INTO job_import_temp (dato, origin, jobnr, jobnavn, jobans, jobstartdato, jobslutdato, beskrivelse, lto, editor, overfort, kundenavn, kundenr, kpers, rekvnr)"+
                             " VALUES ('" + DateTime.Now.ToString("yyyy-MM-dd") + "',602,'" + data.jobid + "','" + data.jobnavn.Replace("'", "") + "','" + data.jobans + "','" + stdato + "','" + sldato + "',"+
@@ -358,6 +359,7 @@ public class ozUploadFileJob
                     //aktnavn = iso.GetString(isoBytes);
                     
                     aktnavn = aktnavn.Replace("'", "");
+                    //aktstdato = DateTime.Now.ToString("yyyy-MM-dd");
 
                     //string strInsert = "INSERT INTO job_import_temp (dato, origin, jobnr, jobnavn, jobans, jobstartdato, jobslutdato, aktnavn, lto, editor, overfort, " +
                     //" kundenavn, stkantal, aktstdato, aktsldato, sort, fomr, aktvarenr)" +
@@ -366,9 +368,9 @@ public class ozUploadFileJob
                     //"'" + data.kundenavn.Replace("'", "") + "', " + data.stkantal + ",'"+ data.aktstdato + "', '" + data.aktsldato + "'," + data.sort + ",'"+ data.fomr +"','"+ data.aktvarenr +"'" +
                     //")";
 
-                    string strInsert = "INSERT INTO job_import_temp (dato, origin, jobnr, jobnavn, jobans, jobstartdato, jobslutdato, beskrivelse, lto, editor, overfort, kundenavn, aktstdato, aktsldato, stkantal, aktnavn, sort, fomr, aktvarenr) " +
-                    " VALUES ('" + DateTime.Now.ToString("yyyy-MM-dd") + "',600,'" + data.jobid + "','" + data.jobnavn.Replace("'", "") + "','" + data.jobans + "','" + stdato + "',"+
-                    "'" + sldato + "','" + data.timerkom.Replace("'", "") + "','" + folder + "','Timeout - ImportJobService',0,'" + data.kundenavn + "','" + aktstdato + "','" + aktsldato + "', " + data.stkantal + ", '" + aktnavn + "'," + data.sort + ",'" + data.fomr + "','" + data.aktvarenr + "')";
+                        string strInsert = "INSERT INTO job_import_temp (dato, origin, jobnr, jobnavn, jobans, jobstartdato, jobslutdato, beskrivelse, lto, editor, overfort, kundenavn, aktstdato, aktsldato, stkantal, aktnavn, sort, fomr, aktvarenr) " +
+                        " VALUES ('" + DateTime.Now.ToString("yyyy-MM-dd") + "',600,'" + data.jobid + "','" + data.jobnavn.Replace("'", "") + "','" + data.jobans + "','" + stdato + "',"+
+                        "'" + sldato + "','" + data.timerkom.Replace("'", "") + "','" + folder + "','Timeout - ImportJobService',0,'" + data.kundenavn + "','" + aktstdato + "','" + aktsldato + "', " + data.stkantal + ", '" + aktnavn + "'," + data.sort + ",'" + data.fomr + "','" + data.aktvarenr + "')";
                         OdbcCommand command = new OdbcCommand(strInsert, connection);
                         connection.Open();
 

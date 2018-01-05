@@ -2252,7 +2252,7 @@ if len(session("user")) = 0 then
                                                 oConn.execute(strSQLdelAkt)
 
                                                 '*** Materiale forbrug slet **''
-                                                strSQLdelMat = "DELETE FROM materiale_forbrug WHERE jobid = "& jobid 
+                                                strSQLdelMat = "DELETE FROM materiale_forbrug WHERE jobid = "& jobid & " AND matid = 0"
                                                 oConn.execute(strSQLdelMat)
 
 
@@ -2289,7 +2289,7 @@ if len(session("user")) = 0 then
 
                                  '** Findes der matforbrug i forvejen? *****
                                 antalMat = 0
-                                strSQLantalAkt = "SELECT count(id) AS antalmat FROM materiale_forbrug WHERE jobid = "& varjobId &" GROUP BY jobid"
+                                strSQLantalAkt = "SELECT count(id) AS antalmat FROM materiale_forbrug WHERE jobid = "& varjobId &" AND matid = 0 GROUP BY jobid"
                                 oRec6.open strSQLantalAkt, oConn, 3
                                 if not oRec6.EOF then
                             
@@ -3285,7 +3285,7 @@ if len(session("user")) = 0 then
 	
 	    <!-- gen indlæs faktura (interval ændring) KUN ved opret, ellers bruges intervl gemt med fak. -->
 	             
-	    <div id="genindlaes" style="position:absolute; display:<%=sideDivDsp%>; visibility:<%=sideDivVzb%>; top:203px; left:455px; z-index:2;">
+	    <div id="genindlaes" style="position:absolute; display:<%=sideDivDsp%>; visibility:<%=sideDivVzb%>; top:203px; left:555px; z-index:2;">
 
 		<form action="erp_opr_faktura_fs.asp?FM_kunde=<%=kid %>&FM_job=<%=jobid%>&FM_aftale=<%=aftid%>&reset=1&func=<%=func%>&FM_usedatokri=1&fid=<%=id%>&visjobogaftaler=1&visfaktura=1&visminihistorik=1" method="post" target="_top">
 		
@@ -3391,7 +3391,11 @@ if len(session("user")) = 0 then
        
 	   <!-- Modtager og Afsender -- vises først på fakturalayout -->
 	
-	  <div id="modtagdiv" style="position:absolute; display:<%=sideDivDsp%>; visibility:<%=sideDivVzb%>; top:105px; width:720px; left:5px; border:1px #8cAAe6 solid;">
+        <%
+        sideDivDspMod = "none"
+        sideDivVzbMod = "hidden"    
+        %>
+	  <div id="modtagdiv" style="position:absolute; display:<%=sideDivDspMod%>; visibility:<%=sideDivVzbMod%>; top:105px; width:720px; left:5px; border:1px #8cAAe6 solid;">
                      
                        
                      <table cellspacing="0" cellpadding="0" border="0" width=100% bgcolor="#ffffff">
@@ -3693,37 +3697,64 @@ if len(session("user")) = 0 then
 
             
             if cint(multible_licensindehavere) = 1 AND jobid <> 0 then 
-            afskidSQLkri = "useasfak = 1 AND lincensindehaver_faknr_prioritet = "& lincensindehaver_faknr_prioritet_job &""
+
+                
+
+                lincensindehaver_faknr_prioritet_jobArr = split(lincensindehaver_faknr_prioritet_job, ", ")
+                lincensindehaver_faknr_prioritet_jobSQL = "lincensindehaver_faknr_prioritet = -1"
+
+                for f = 0 TO UBOUND(lincensindehaver_faknr_prioritet_jobArr)
+
+                lincensindehaver_faknr_prioritet_jobArr(f) = replace(lincensindehaver_faknr_prioritet_jobArr(f), " ", "")
+                lincensindehaver_faknr_prioritet_jobArr(f) = replace(lincensindehaver_faknr_prioritet_jobArr(f), "#", "")
+                lincensindehaver_faknr_prioritet_jobSQL = lincensindehaver_faknr_prioritet_jobSQL & " OR lincensindehaver_faknr_prioritet = " & lincensindehaver_faknr_prioritet_jobArr(f)
+           
+                next
+
+                afskidSQLkri = "useasfak = 1 AND ("& lincensindehaver_faknr_prioritet_jobSQL &") " 'lincensindehaver_faknr_prioritet = "& lincensindehaver_faknr_prioritet_job &""
             else
-            afskidSQLkri = "useasfak = 1"
+
+                afskidSQLkri = "useasfak = 1"
+            
             end if
 
         end if
 
 		
-		strSQL = "SELECT adresse, postnr, city, land, telefon, fax, email, regnr, kkundenavn, kontonr, cvr, bank, swift, iban, kid FROM kunder WHERE " & afskidSQLkri
+		strSQL = "SELECT adresse, postnr, city, land, telefon, fax, email, regnr, kkundenavn, kontonr, cvr, bank, swift, iban, kid, lincensindehaver_faknr_prioritet FROM kunder WHERE " & afskidSQLkri
 		
+               call meStamdata(session("mid")) 
             'if session("mid") = 1 then
-            'Response.write "SQL: " & strSQL
+            'Response.write "SQL: " & strSQL & "<br>: meMed_lincensindehaver: "& meMed_lincensindehaver
             'end if    
+
+     
+        af = 0
         oRec.open strSQL, oConn, 3
-		if not oRec.EOF then 
-			yourbank = oRec("bank")
-			yourRegnr = oRec("regnr")
-			yourKontonr = oRec("kontonr")
-			yourCVR = oRec("cvr")
-			yourNavn = oRec("kkundenavn")
-			yourAdr = oRec("adresse")
-			yourPostnr = oRec("postnr")
-			yourCity = oRec("city")
-			yourLand = oRec("land")
-			yourEmail = oRec("email")
-			yourTlf = oRec("telefon")
-			yourSwift = oRec("swift")
-			yourIban = oRec("iban")
+		while not oRec.EOF 
+			'yourbank = oRec("bank")
+			'yourRegnr = oRec("regnr")
+			'yourKontonr = oRec("kontonr")
+			'yourCVR = oRec("cvr")
+			'yourNavn = oRec("kkundenavn")
+			'yourAdr = oRec("adresse")
+			'yourPostnr = oRec("postnr")
+			'yourCity = oRec("city")
+			'yourLand = oRec("land")
+			'yourEmail = oRec("email")
+			'yourTlf = oRec("telefon")
+			'yourSwift = oRec("swift")
+			'yourIban = oRec("iban")
+
+            if cint(meMed_lincensindehaver) = cint(oRec("lincensindehaver_faknr_prioritet")) OR cint(af) = 0 then
 			afskid = oRec("kid")
-			yourFax = oRec("fax")
-		end if
+            end if
+
+			'yourFax = oRec("fax")
+		
+        af = af + 1
+        oRec.movenext    
+        wend 
 		oRec.close
 		
 		
@@ -3747,13 +3778,28 @@ if len(session("user")) = 0 then
 		</table>
 		</div>
         -->
+
+
+       <%if cint(multible_licensindehavere) = 1 then
+
+           if level <> 1 AND lto <> "epi2017" then
+                useAsfakJurSQL = " AND lincensindehaver_faknr_prioritet = " & meMed_lincensindehaver 
+           else
+                useAsfakJurSQL = "" 
+           end if
+           
+        else
+
+           useAsfakJurSQL = ""
+           
+        end if%>
 		
 		<table cellpadding=0 cellspacing=0 border=0 width=100%>
         <tr>
 		    <td>
-		    <select id="FM_afsender" name="FM_afsender" style="width:300px; font-size:10px;" size=8">
+		    <select id="FM_afsender" name="FM_afsender" style="width:300px; font-size:10px;" size="8">
 		    
-		    <%strSQLaltaf = "SELECT kid, kkundenavn, kkundenr, adresse, postnr, city, land, telefon, cvr, swift, iban, regnr, kontonr, regnr_b, kontonr_b, regnr_c, kontonr_c FROM kunder WHERE useasfak = 1 ORDER BY kkundenavn "
+		    <%strSQLaltaf = "SELECT kid, kkundenavn, kkundenr, adresse, postnr, city, land, telefon, cvr, swift, iban, regnr, kontonr, regnr_b, kontonr_b, regnr_c, kontonr_c FROM kunder WHERE useasfak = 1 "& useAsfakJurSQL &" ORDER BY kkundenavn "
              'OR useasfak = 2 Fjernet 20170117 PGA muli licensindehavere og dermed flere fakturanr. Rækkefølger 
              'Selskab, licensejer eller datter selskab **'
 		    oRec.open strSQLaltaf, oConn, 3 
@@ -3790,22 +3836,22 @@ if len(session("user")) = 0 then
 		    oRec.open strSQlvorref, oConn, 3 
 		    while not oRec.EOF  
 		    
-		    if ( oRec("mid") = cint(jobans1) AND func <> "red" AND (instr(lto, "epi") <> 0) _
-            OR ( oRec("mid") = cint(session("mid") ) AND func <> "red" AND (lto <> "epi" AND lto <> "epi_no" AND lto <> "epi2017" AND lto <> "synergi1") OR (vorref = oRec("mnavn") AND func = "red"))) _
+		    if ( oRec("mid") = cdbl(jobans1) AND func <> "red" AND (instr(lto, "epi") <> 0) _
+            OR ( oRec("mid") = cdbl(session("mid") ) AND func <> "red" AND (lto <> "epi" AND lto <> "epi_no" AND lto <> "epi2017" AND lto <> "synergi1") OR (vorref = oRec("mnavn") AND func = "red"))) _
             then 'OR (lto = "jttek" AND func = "red") 
             vfSEL = "SELECTED"
 		    else
 		    vfSEL = ""
 		    end if  
 		    
-		    if cint(jobans1) = oRec("mid") then
+		    if cdbl(jobans1) = oRec("mid") then
 		    vrjobans1 = " - (jobansvarlig)"
 		    else
 		    vrjobans1 = ""
 		    end if
 		    
 		    
-		    if cint(jobans2) = oRec("mid") then
+		    if cdbl(jobans2) = oRec("mid") then
 		    vrjobans2 = " - (jobejer)"
 		    else
 		    vrjobans2 = ""
@@ -3952,6 +3998,10 @@ if len(session("user")) = 0 then
 	
 	
 	
+
+
+
+
 	        <%'** Fakdato MSG ****'
             itop = 140
             ileft = 435
@@ -4005,11 +4055,22 @@ if len(session("user")) = 0 then
 		<td style="width:140px; padding:30px 5px 2px 5px;">
 		
 			<% 
-	        if len(lastFakdato) <> 0 then
-	        lastFakdato = lastFakdato
-	        else
-	        lastFakdato = "2001/1/1"
-	        end if
+            '** må der være flere fakturaer i samme periode
+            select case lto
+            case "intranet - local", "bf"
+
+                    lastFakdato = "2001/1/1"
+
+            case else
+
+                    if len(lastFakdato) <> 0 then
+	                lastFakdato = lastFakdato
+	                else
+	                lastFakdato = "2001/1/1"
+	                end if
+
+            end select
+	    
 	
 	
 		'** Periodeinterval brugt.
@@ -4067,7 +4128,7 @@ if len(session("user")) = 0 then
 		    strMrd = month(useFakDate)
 		    strAar = year(useFakDate)
             
-            case "intranet - local", "nt"
+            case "xintranet - local", "nt"
 
             if isDate(dt_actual_etd) = true then
             useFakDate = dt_actual_etd
@@ -4145,7 +4206,7 @@ if len(session("user")) = 0 then
 		    end if
 
             select case lto 'Overruler
-            case "bf"
+            case "bf", "intranet - local"
             chkvp = "CHECKED"
             end select
 

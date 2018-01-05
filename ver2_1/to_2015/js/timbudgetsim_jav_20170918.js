@@ -14,7 +14,41 @@ $(window).load(function () {
 
 $(document).ready(function () {
 
-    if ($("#jq_jobid").val() == 0) {
+
+    //alert("HER")
+
+    $("#jq_jobid").change(function () {
+
+        //alert($("#jq_jobid").val())
+        if ($("#jq_jobid").val() == 0) {
+            $("#jq_jobid > option").each(function() {
+                $(this).prop('selected', true);
+            });
+        }   
+
+    });
+
+
+    $("#allejob").click(function () {
+
+        
+        if ($('#allejob').is(':checked') == true) {
+
+        
+            $("#jq_jobid > option").each(function () {
+                $(this).prop('selected', true);
+            });
+        
+
+        };
+
+
+    });
+
+    
+
+
+    if ($("#antaljids").val() > 1) {
 
     $(".tr_aktlinje").css("display", "none");
     $(".tr_aktlinje").css("visibility", "hidden");
@@ -30,7 +64,7 @@ $(document).ready(function () {
 
     }
         
-        $("#load").hide(1000);
+    $("#load").hide(1000);
         
 
         
@@ -158,8 +192,8 @@ $(document).ready(function () {
 
             if (thisVal.length > 0 || $("#jq_jobid").val() == 0) {
                 $("#allejob").removeAttr("disabled");
-                $("#viskunemedarbfcreal").attr("disabled", true);
-                $("#viskunemedarbfcreal").prop("checked", false);
+                //$("#viskunemedarbfcreal").attr("disabled", true);
+                //$("#viskunemedarbfcreal").prop("checked", false);
 
                 $("#viskunprojgrptilknyt").attr("disabled", true);
                 $("#viskunprojgrptilknyt").prop("checked", false);
@@ -175,8 +209,9 @@ $(document).ready(function () {
                 //       $("#allejob").prop("checked", false);
                 //      $("#allejob").attr("disabled", true);
                 //  }
-                        $("#viskunemedarbfcreal").removeAttr("disabled");
-                        $("#viskunprojgrptilknyt").removeAttr("disabled");
+
+                        //$("#viskunemedarbfcreal").removeAttr("disabled");
+                        //$("#viskunprojgrptilknyt").removeAttr("disabled");
                        
                 $("#progrpid").removeAttr("disabled");
             }

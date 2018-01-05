@@ -209,6 +209,8 @@
         strSQLmedins += "LEFT JOIN medarbejdere AS m ON (m.mid = t.tmnr) "
         strSQLmedins += "LEFT JOIN aktiviteter AS a ON (a.id = t.taktivitetid) "
         strSQLmedins += "WHERE tdato BETWEEN '2017-10-01' AND '2017-12-31' AND overfort = 0 AND godkendtstatus = 1 AND tmnr <> 1 AND timer <> 0 AND tfaktim <> '90' ORDER BY tid" ' AND avarenr <> '' AND avarenr IS NOT NULL ORDER BY tid "
+        'AND tjobnr = 'PS1157'
+        'timer_dobbel_20171103
         'strSQLmedins += "LIMIT 10"
         'AND init <> 'XXMAK'
         '_dobbel_20171004_3
@@ -264,7 +266,7 @@
             End If
 
 
-            avarenr = Replace(avarenr, tjobnr, "")
+            avarenr = UCase(Replace(avarenr, tjobnr, ""))
 
             'Response.Write("<br>" & objDR("tdato") & "," & objDR("tjobnr") & "," & avarenr & "," & objDR("init") & "," & Timerthis)
             'Response.Write(objDR("tdato") & "," & objDR("tjobnr") & ",111111," & objDR("init") & "," & objDR("timer") & "," & objDR("timerkom") & "," & objDR("tid"))

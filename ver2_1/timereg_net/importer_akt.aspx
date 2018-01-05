@@ -184,6 +184,24 @@
             <asp:Label ID="lblAktsum" runat="server" Text=""></asp:Label>
         </td>
         </tr>
+
+               <tr>
+        <td>
+         <asp:label runat="server" ID="feltnr9navn">Dato:</asp:label>
+        </td>
+        <td>
+            <asp:DropDownList ID="ddlAktstDato" runat="server" AutoPostBack="True" 
+                onselectedindexchanged="ddlAktstDato_SelectedIndexChanged" 
+                ondatabound="ddlAktstDato_DataBound" AppendDataBoundItems="True">
+                 <asp:ListItem Text="" Value=""></asp:ListItem>
+            </asp:DropDownList>
+            <asp:RequiredFieldValidator ID="RequiredFieldValidator10" runat="server" 
+                ErrorMessage="*" ControlToValidate="ddlAktstDato" ValidationGroup="Send" ForeColor="Red"></asp:RequiredFieldValidator>
+        </td>
+         <td>
+            <asp:Label ID="lblAktstDato" runat="server" Text=""></asp:Label>
+        </td>
+        </tr>
         
 
         <%}; %>

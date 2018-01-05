@@ -352,7 +352,8 @@
 
 	            if ($("#tr_prog_med").css('display') == "none") {
 	                $("#tr_prog_med").css("visibility", "visible")
-	                $("#tr_prog_med").css("display", "")
+                    $("#tr_prog_med").css("display", "")
+                    $("#tr_prog_med").css("z-index", "1")
 	                $.cookie('tr_medarb', '1');
 	            } else {
 	                $("#tr_prog_med").hide('fast')
@@ -466,7 +467,8 @@
 	        //alert($.cookie('tr_medarb'))
 	        if ($.cookie('tr_medarb') == '1') {
 	            $("#tr_prog_med").css("visibility", "visible")
-	            $("#tr_prog_med").css("display", "")
+                $("#tr_prog_med").css("display", "")
+                $("#tr_prog_med").css("z-index", "1")
 	        }
 
 	        if ($.cookie('tr_kun') == '1') {

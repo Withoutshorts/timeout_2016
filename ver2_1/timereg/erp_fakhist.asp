@@ -686,30 +686,31 @@ if len(session("user")) = 0 then
     case "bf"
     '** Medarb. må kun se nationale kontore
     call medariprogrpFn(session("mid"))
+    call meStamdata(session("mid"))
 
             useasfakSQL = "useasfak = -1"
 
-            if instr(medariprogrpTxt, "2") <> 0 then 'Togo
+            if instr(medariprogrpTxt, "2") <> 0 OR meMed_lincensindehaver = 2 then 'Togo
             useasfakSQL = "useasfak = 1 AND kid = 6"
             end if
 
-            if instr(medariprogrpTxt, "21") <> 0 then 'Binin
+            if instr(medariprogrpTxt, "21") <> 0 OR meMed_lincensindehaver = 3 then 'Binin
             useasfakSQL = "useasfak = 1 AND kid = 7"
             end if
 
-            if instr(medariprogrpTxt, "26") <> 0 then 'Burkino Faso
+            if instr(medariprogrpTxt, "26") <> 0 OR meMed_lincensindehaver = 5 then 'Burkino Faso
             useasfakSQL = "useasfak = 1 AND kid = 11"
             end if
 
-            if instr(medariprogrpTxt, "25") <> 0 then 'Mali
+            if instr(medariprogrpTxt, "25") <> 0 OR meMed_lincensindehaver = 4 then 'Mali
             useasfakSQL = "useasfak = 1 AND kid = 10"
             end if
 
-            if instr(medariprogrpTxt, "3") <> 0 then
+            if instr(medariprogrpTxt, "3") <> 0 then 'CPH Head Office 
             useasfakSQL = "useasfak = 1"
             end if
 
-            if level = 1 then
+            if level = 1 then 'Administrator
             useasfakSQL = "useasfak = 1"
             end if
 

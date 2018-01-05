@@ -1117,13 +1117,14 @@ if session("user") = "" then
 
          <% if visning = 77 then  %>
        
+                  <%if lto <> "esn" then %>
                  <td valign=bottom style="border-bottom:1px silver solid; width:50px;" class=lille>
 	            <%call akttyper(29, 1) %>
 	             <b><%=left(akttypenavn, 10)%>.<br />
                   <%=right(akttypenavn, 8)%></b>
 	    
 	             </td>
-
+                <%end if %>
           
 
                  <td valign=bottom style="border-bottom:1px silver solid; width:50px;" class=lille>
@@ -1770,7 +1771,7 @@ if session("user") = "" then
         <%end if %>
 
          <%if show = 77 then%>
-        <td align=right class=lille style="white-space:nowrap;"><b><%=formatnumber(aldersreduktionUdbTot, 2)%></b></td>
+        <%if lto <> "esn" then %><td align=right class=lille style="white-space:nowrap;"><b><%=formatnumber(aldersreduktionUdbTot, 2)%></b></td><%end if %>
         <td align=right class=lille style="white-space:nowrap;"><b><%=formatnumber(aldersreduktionSaldoTot, 2)%></b></td>
         <%end if %>
     
@@ -2380,13 +2381,13 @@ if session("user") = "" then
     
     %>
     </td></tr>
-    <tr><td>
+    <tr><tr>
 
         <br /><br />
           <table cellpadding="20" cellspacing="1" border="0"><tr><td valign="top">
 
             <table cellpadding="0" cellspacing="0" border="0" width="250">
-            <tr><td colspan="2"><b><%=afstem_txt_066 %>:</b></td></tr>
+            <tr><td colspan="2" style="border-bottom:2px #6CAE1C solid;"><b><%=afstem_txt_066 %>:</b></td></tr>
         <%
 
                select case lto 
@@ -2502,16 +2503,62 @@ if session("user") = "" then
             %>
 
             </table>
-       
+            </td>
+        <td valign="top">
+            <table cellpadding="0" cellspacing="0" border="0" width="250">
+                <tr>
+                    <td colspan="2" style="border-bottom:2px #6CAE1C solid;"><b>Planlagt ferie:</b></td>
+                </tr>
+                <%
+                strSQLPLFE = "SELECT tdato, timer FROM timer WHERE tmnr = "& usemrn &" AND tdato BETWEEN '"& ferieaarST &"' AND '"& ferieaarSL &"' AND tfaktim = 11 ORDER BY tdato"
+                oRec.open strSQLPLFE, oConn, 3
+                while not oRec.EOF
+                %>
+                <tr><td align="right" style="border-bottom:1px #cccccc solid;"><%=formatdatetime(oRec("tdato"), 1) %></td>
+                <td align="right" style="border-bottom:1px #cccccc solid;">
+                
+                     <%if cint(visFTimer) = 1 then %>
+                            <%=oRec("timer") &" "& afstem_txt_069 %>
+                        <%end if %>
+
+                    
+                   
+
+                        <%if cint(visFDage) = 1 then %>
+                        <%call normtimerPer(usemrn, oRec("tdato"), 0, 0) %>
+                    
+                    
+
+                        <%if cdbl(ntimPer) <> 0 then %>
+                            <%if cint(visFTimer) = 1 then %>
+                            &nbsp;=&nbsp; 
+                            <%end if %>
+                            <%=formatnumber(oRec("timer")/ntimPer, 1) %> <%=afstem_txt_104 %>
+                        <%end if %>
+
+                    
+
+                        <%end if %>
+
+                </td></tr>
+                <%  
+                oRec.movenext
+                wend
+                oRec.close
+                %> 
+
+            </table>
+        </td>
+       </tr>
 
          <% if aty_on = 1 then %>
-         </td><td valign="top">
+         
 
         
 
-           
+        <tr><td valign="top">
         <table cellpadding="0" cellspacing="0" border="0" width="250">
-            <tr><td colspan="2"><b><%=afstem_txt_108 %>:</b></td></tr>
+            <tr><td colspan="2" style="border-bottom:2px #FFFF99 solid;"><%if lto <> "esn" then %><b><%=afstem_txt_108 %>:</b><%else %><b>Udspecificering særlig feriedage afholdt</b><%end if %></td></tr>
         <%
             '**Udspecificering
             strSQLfe = "SELECT tdato, timer FROM timer WHERE tmnr = "& usemrn &" AND tdato BETWEEN '"& ferieaarST &"' AND '"& ferieaarSL &"' AND tfaktim = 13 ORDER BY tdato" 
@@ -2555,12 +2602,112 @@ if session("user") = "" then
 
             %>
 
+            <tr><td colspan="2"><br /><%if lto <> "esn" then %><b>Feriefri optjent:</b><%else %><b>Særlig ferie opjtent</b><%end if %></td></tr>    
+            <%
+
+             '** Tildelt
+            strSQLfe = "SELECT tdato, timer, tfaktim FROM timer WHERE tmnr = "& usemrn &" AND tdato BETWEEN '"& ferieaarST &"' AND '"& ferieaarSL &"' AND tfaktim = 12 ORDER BY tdato" 
+            
+            'Response.write strSQLfe
+            oRec.open strSQLfe, oConn, 3
+            while not oRec.EOF 
+
+            %>
+            <tr><td align="right" style="border-bottom:1px #cccccc solid;"><%=formatdatetime(oRec("tdato"), 1) %></td>
+                <td align="right" style="border-bottom:1px #cccccc solid;">
+                    
+                    <%if oRec("tfaktim") = 111 then %>
+                <span style="color:#999999;">(<%=afstem_txt_106 %>)</span>&nbsp;&nbsp;&nbsp;
+                <%end if %>
+
+                      <%if oRec("tfaktim") = 112 then %>
+                <span style="color:#999999;">(<%=afstem_txt_107 %>)</span>&nbsp;&nbsp;&nbsp;
+                <%end if %>
+
+                 
+                    
+                    <%if cint(visFTimer) = 1 then %>
+                        <%=oRec("timer") &" "& afstem_txt_069 %>
+                    <%end if %>
+
+                    
+                   
+
+                    <%if cint(visFDage) = 1 then %>
+                    <%call normtimerPer(usemrn, oRec("tdato"), 0, 0) %>
+                    
+                    
+
+                    <%if cdbl(ntimPer) <> 0 then %>
+                        <%if cint(visFTimer) = 1 then %>
+                        &nbsp;=&nbsp; 
+                        <%end if %>
+                        <%=formatnumber(oRec("timer")/ntimPer, 1) %> <%=afstem_txt_104 %>
+                    <%end if %>
+
+                    
+
+                    <%end if %>
+                </td></tr>
+
+            <%
+            oRec.movenext
+            wend
+            oRec.close
+
+            %>
+
+            </table></td>
+
+            <td valign="top">
+                <table cellpadding="0" cellspacing="0" border="0" width="250">
+                <tr>
+                    <td colspan="2" style="border-bottom:2px #FFFF99 solid;"><%if lto <> "esn" then %><b>Planlagt feriefri:</b><%else %><b>Særlig ferie planlagt</b><%end if %></td>
+                </tr>
+                <%
+                strSQLPLFE = "SELECT tdato, timer FROM timer WHERE tmnr = "& usemrn &" AND tdato BETWEEN '"& ferieaarST &"' AND '"& ferieaarSL &"' AND tfaktim = 18 ORDER BY tdato"
+                oRec.open strSQLPLFE, oConn, 3
+                while not oRec.EOF
+                %>
+                <tr><td align="right" style="border-bottom:1px #cccccc solid;"><%=formatdatetime(oRec("tdato"), 1) %></td>
+                <td align="right" style="border-bottom:1px #cccccc solid;">
+                
+                     <%if cint(visFTimer) = 1 then %>
+                            <%=oRec("timer") &" "& afstem_txt_069 %>
+                        <%end if %>
+
+                    
+                   
+
+                        <%if cint(visFDage) = 1 then %>
+                        <%call normtimerPer(usemrn, oRec("tdato"), 0, 0) %>
+                    
+                    
+
+                        <%if cdbl(ntimPer) <> 0 then %>
+                            <%if cint(visFTimer) = 1 then %>
+                            &nbsp;=&nbsp; 
+                            <%end if %>
+                            <%=formatnumber(oRec("timer")/ntimPer, 1) %> <%=afstem_txt_104 %>
+                        <%end if %>
+
+                    
+
+                        <%end if %>
+
+                </td></tr>
+                <%  
+                oRec.movenext
+                wend
+                oRec.close
+                %> 
             </table>
-       
-
-
+            </td>
+        </tr>
          <%end if %>
-     </td></tr>
+
+
+     
      </table>
 
              </td></tr></table>
@@ -2714,15 +2861,23 @@ if session("user") = "" then
 
                 select case lto
                 case "esn", "tec"
-                if visning = 77 then
-                strEkspHeader = strEkspHeader &"Omsorg 2 optj.;Omsorg 2 afh.;Omsorg 2 saldo;Omsorg 10 optj.;Omsorg 10 afh.;Omsorg 10 saldo;Omsorg konverteret optj.;Omsorg konverteret afh.;Omsorg konverteret saldo;"
-                else
-                if lto = "esn" then
-                strEkspHeader = strEkspHeader &"Omsorg 2 saldo;Omsorg 10 saldo;Omsorg konverteret saldo;"
-                else
-                strEkspHeader = strEkspHeader &"Omsorg 2 afholdt;Omsorg 10 afholdt;Omsorg konverteret afholdt;"
-                end if 'esn
-                end if
+                   
+                    if visning = 77 then
+                        if lto <> "esn" then
+                        strEkspHeader = strEkspHeader &"Omsorg 2 optj.;Omsorg 2 afh.;Omsorg 2 saldo;Omsorg 10 optj.;Omsorg 10 afh.;Omsorg 10 saldo;Omsorg konverteret optj.;Omsorg konverteret afh.;Omsorg konverteret saldo;"
+                        else
+                        strEkspHeader = strEkspHeader &"Omsorg 2 optj.;Omsorg 2 saldo;Omsorg 10 optj.;Omsorg 10 saldo;Opsparingstimer optjent;Opsparingstimer saldo;"
+                        end if
+                    else
+
+
+                            if lto = "esn" then
+                            strEkspHeader = strEkspHeader &"Omsorg 2 saldo;Omsorg 10 saldo;Omsorg konverteret saldo;"
+                            else
+                            strEkspHeader = strEkspHeader &"Omsorg 2 afholdt;Omsorg 10 afholdt;Omsorg konverteret afholdt;"
+                            end if 'esn
+
+                    end if
                 end select   
 
                 
@@ -2732,14 +2887,19 @@ if session("user") = "" then
                         strEkspHeader = strEkspHeader &"Aldersreduktion Optjent;"
                         end if
 
-                        if lto <> "esn" then
+                        if lto <> "esn" AND visning <> 7 then
                         strEkspHeader = strEkspHeader &"Aldersreduktion Brugt;"
-                        else
+                        end if
+                        if lto = "esn" AND visning = 7 then
                         strEkspHeader = strEkspHeader &"Aldersreduktion Saldo;"
                         end if            
 
                         if visning = 77 then
-                        strEkspHeader = strEkspHeader &"Aldersreduktion Udbetalt;Aldersreduktion Saldo;"
+                            if lto <> "esn" then
+                            strEkspHeader = strEkspHeader &"Aldersreduktion Udbetalt;Aldersreduktion Saldo;"
+                            else
+                            strEkspHeader = strEkspHeader &"Aldersreduktion Saldo;"
+                            end if
                         end if
 
                 end if
@@ -2956,9 +3116,9 @@ call eksportogprint(ptop,pleft,pwdt)
 <tr> 
 
     <td valign=top align=center>
-   <input type=image src="../ill/export1.png" onclick="popUp('afstem_tot.asp?media=export&usemrn=<%=intMid %>&show=<%=show%>&varTjDatoUS_man=<%=varTjDatoUS_man %>&yuse=<%=yuse %>',400,200,200,100)" />
+   <input type=image src="../ill/export1.png" onclick="popUp('afstem_tot.asp?media=export&usemrn=<%=intMid %>&show=<%=show%>&varTjDatoUS_man=<%=varTjDatoUS_man %>&yuse=<%=yuse %>', 400, 200, 200, 100)" />
     </td>
-    <td class=lille><input id="Submit3" type="button" value="<%=afstem_txt_109 %> >> " style="font-size:9px; width:130px;" onclick="popUp('afstem_tot.asp?media=export&usemrn=<%=intMid %>&show=<%=show%>&varTjDatoUS_man=<%=varTjDatoUS_man %>&yuse=<%=yuse %>',400,200,200,100)" /></td>
+    <td class=lille><input id="Submit3" type="button" value="<%=afstem_txt_109 %> >> " style="font-size:9px; width:130px;" onclick="popUp('afstem_tot.asp?media=export&usemrn=<%=intMid %>&show=<%=show%>&varTjDatoUS_man=<%=varTjDatoUS_man %>&yuse=<%=yuse %>', 400, 200, 200, 100)" /></td>
 </tr>
 </form>
 

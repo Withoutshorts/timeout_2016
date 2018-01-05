@@ -228,6 +228,7 @@ while not oRec5.EOF
               strSQLins = "INSERT INTO timereg_usejob (medarb, jobid "& strSQLfelt &") VALUES ("& oRec5("mid") &", "& oRec4("jid") & strSQLfeltVal &")"
 
               'Response.write "<b>"& strSQLins &"</b><br>"
+              'Response.flush
               oConn.execute(strSQLins)
 
               strSQLDontDelJob = strSQLDontDelJob & " AND jobid <> "&  oRec4("jid")
@@ -284,33 +285,51 @@ end function
 					
 					if len(trim(pgr(p))) <> 0 then
 
-                        
-                        '** NOTIFICER ***'
-                        if instr(pgr(p), "-1") <> 0 then
-                        notificer = 1
-                        else
-                        notificer = 0
-                        end if 
+                        if thisfile <> "medarbejder_prg" then
+
+                            '** NOTIFICER ***'
+                            if instr(pgr(p), "-1") <> 0 then
+                            notificer = 1
+                            else
+                            notificer = 0
+                            end if 
                     
 
-                        '*** TEAMLEDER ***
-                        if instr(pgr(p), "_1") <> 0 then
-                        teamleder = 1
-                        pgr_len = len(pgr(p))
+                            '*** TEAMLEDER ***
+                            if instr(pgr(p), "_1") <> 0 then
+                            teamleder = 1
+                            pgr_len = len(pgr(p))
 
-                        if cint(notificer) = 1 then
-                        pgr_left = left(pgr(p), pgr_len - 4)
+                            if cint(notificer) = 1 then
+                            pgr_left = left(pgr(p), pgr_len - 4)
+                            else
+                            pgr_left = left(pgr(p), pgr_len - 2)
+                            end if
+
+                            pgr(p) = pgr_left 
+                            else
+                            teamleder = 0
+                            pgr(p) = pgr(p)
+                            end if 
+
                         else
-                        pgr_left = left(pgr(p), pgr_len - 2)
-                        end if
 
-                        pgr(p) = pgr_left 
-                        else
-                        teamleder = 0
-                        pgr(p) = pgr(p)
-                        end if 
+                            CHBteamLeder = request("FM_progrpTeamL_"& cdbl(pgr(p)))
+                            CHBNOT = request("FM_progrpNOT_"& cdbl(pgr(p)))
+                           
+                            if instr(CHBteamLeder, "checked") <> 0 then
+                            teamleder = 1
+                            else
+                            teamleder = 0
+                            end if
 
-                        
+                            if instr(CHBNOT, "checked") <> 0 then
+                            notificer = 1
+                            else
+                            notificer = 0
+                            end if
+
+                        end if 'thisfile
 					
                     	'Response.Write strSQLpgIns & "<br>"
 					    
@@ -721,7 +740,7 @@ function projgrp(progrp,level,medarbid,visning)
     '* Vis kun HR grupper på HR relaterede sider 
     if thisfile <> "bal_real_norm_2007.asp" AND thisfile <> "week_norm_2010.asp" AND thisfile <> "feriekalender" then
         
-        if thisfile = "joblog_timetotaler" AND lto = "epi2017" then
+        if (thisfile = "joblog_timetotaler" AND lto = "epi2017") OR lto = "tia" then
         prgidTypeKri = ""
         else
         prgidTypeKri = " AND orgvir <> 2"
@@ -917,7 +936,7 @@ function medarbiprojgrp(progrp, medid, mtypesorter, seloptions)
     &" LEFT JOIN medarbejdere AS m ON (m.mid = MedarbejderId) "_
     &" LEFT JOIN medarbejdertyper AS mt ON (mt.id = m.medarbejdertype) "_
     &" LEFT JOIN medarbejdertyper AS mts ON (mts.id = mt.sostergp) "_
-    &" WHERE ("& prgKri & " AND "& strSQLmansat &")  GROUP BY mid ORDER BY "& odrBySQL
+    &" WHERE ("& prgKri & " AND "& strSQLmansat &" "& jurMedidsSQL &")  GROUP BY mid ORDER BY "& odrBySQL
     
     
     'if session("mid") = 1 then
@@ -1209,8 +1228,8 @@ end if
      
 
        %>
-     
-        <select id="FM_progrp" name="FM_progrp" style="width:406px; <%=fm_cls_2015_style_11%>" class="<%=fm_cls_2015 %>" multiple="multiple" size=9>
+        
+        <select id="FM_progrp" name="FM_progrp" style="width:406px; z-index:1; <%=fm_cls_2015_style_11%>" class="<%=fm_cls_2015 %>" multiple="multiple" size=9>
            
             
        <% 

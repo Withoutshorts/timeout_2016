@@ -633,7 +633,7 @@ sub kundeopl
 
             strSQL = "SELECT Kkundenavn, Kkundenr, Kid, kundeans1, kundeans2, count(j.id) AS antaljob FROM kunder "_
             &" LEFT JOIN job AS j ON (j.jobknr = kid AND jobstartdato >= '"& tdatodd &"') "_
-            &" WHERE ketype <> 'e' GROUP BY kid ORDER BY antaljob DESC LIMIT 5"
+            &" WHERE ketype <> 'e' AND kstatus = 1 GROUP BY kid ORDER BY antaljob DESC LIMIT 5"
 			oRec.open strSQL, oConn, 3
                 
             while not oRec.EOF
@@ -656,7 +656,7 @@ sub kundeopl
             
 
             if cint(findesFak) = 0 OR func = "opret" then 'If invoiced cant change customer
-			strSQL = "SELECT Kkundenavn, Kkundenr, Kid, kundeans1, kundeans2 FROM kunder WHERE ketype <> 'e' AND (useasfak = 1 OR useasfak = 0 OR useasfak = 5) ORDER BY Kkundenavn"
+			strSQL = "SELECT Kkundenavn, Kkundenr, Kid, kundeans1, kundeans2 FROM kunder WHERE ketype <> 'e' AND (useasfak = 1 OR useasfak = 0 OR useasfak = 5) AND kstatus = 1 ORDER BY Kkundenavn"
 			else
             strSQL = "SELECT Kkundenavn, Kkundenr, Kid, kundeans1, kundeans2 FROM kunder WHERE kid = "& strKnr &" ORDER BY Kkundenavn"
             end if

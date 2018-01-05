@@ -888,6 +888,21 @@
         showDetailDayResumeOrLink = 1
         ststopbtnTxt = "St. / Stop"
 
+    case "cflow"
+        showAfslutJob = 0
+        showMatreg = 0
+        
+        'if cint(mt_mobil_visstopur) = 1 then
+        showStop = 1
+        mobil_week_reg_akt_dd = 1
+        mobil_week_reg_job_dd = 1
+        mobil_week_reg_akt_dd_forvalgt = 1
+        'else
+        'showStop = 0
+        'end if
+        
+        showDetailDayResumeOrLink = 1
+        ststopbtnTxt = "St. / Stop"
 
     case "tbg", "hidalgo"
         showAfslutJob = 0

@@ -2044,8 +2044,6 @@ end if
 			        end if
         			         
 
-                    'Response.Write "afslutalle: " & afslutalle
-                    'Response.end
 
                     '***********************************************************
 			        '** Kun afslut på ugebasis kan afslutte ALLE uger i året.
@@ -2053,12 +2051,16 @@ end if
 			        if afslutalle = "1" then
         					
                    
+                    
 
                            
 					        detteAar = year(request("FM_afslutuge_sidstedag"))
-                            
                             sidsteUgeAfsl = request("FM_afslutuge_sidstedag")
                 
+
+                            
+                         
+
                             select case cint(SmiWeekOrMonth) 
                             case 0,1
                             nuMinusSyv = dateAdd("d", -7, now)
@@ -2086,7 +2088,7 @@ end if
                             denneugeLast = dateAdd("d", -1, nuMinusSyv)
                             end select
         					
-                            'response.write "nuMinusSyv: "& nuMinusSyv & "<br>"
+                            
                             select case cint(SmiWeekOrMonth) 
                             case 0,1
                             PeriodeInterVal = dateDiff("ww", sidsteUgeAfsl, nuMinusSyv, 2,2)
@@ -2094,8 +2096,13 @@ end if
                             PeriodeInterVal = dateDiff("d", sidsteUgeAfsl, nuMinusSyv, 2,2)
                             end select
 
-                            'response.write "denneugeLast = "& denneugeLast &", PeriodeInterVal: "& PeriodeInterVal & "<br>"
-                            
+                           
+                            'if session("mid") = 1 then
+                            'Response.Write "afslutalle: " & afslutalle & " sidsteUgeAfsl: "& sidsteUgeAfsl & " detteAar: " & detteAar
+                            'response.write "<br>nuMinusSyv: "& nuMinusSyv & "<br>"
+                            'response.write "<br>denneugeLast = "& denneugeLast &", PeriodeInterVal: "& PeriodeInterVal & "<br>"
+                            'Response.end
+                            'end if
                                
 
 					        for u = 0 to PeriodeInterVal 'denneuge 
@@ -2130,27 +2137,34 @@ end if
 				            end if
 					        oRec2.close 
         					
+                            'if session("mid") = 1 then
 					        'Response.Write "SmiWeekOrMonth: "& SmiWeekOrMonth &" "&  denneuge &" < "& denneugeOpr &" AND ugefindes: "& ugefindes &" nyDateUge:"&nyDateUge&" uge: "& datepart("ww", nyDateUge, 2,2) &" meAnsatDato: "& meAnsatDato &" ansatuge: "& datepart("ww", meAnsatDato, 2,2) &"<br>"
                             'response.flush 
+                            'end if
                       
         					'cint(denneuge) <= cint(denneugeOpr) AND 
 
-                            
+                             'if session("mid") = 1 then
                              'Response.Write "<br>strSQL2: "& strSQL2 &" <br>afslutalle: " & afslutalle & " PeriodeInterVal: " & PeriodeInterVal & "SmiWeekOrMonth: " & SmiWeekOrMonth & " ugefindes: " & ugefindes & " nyDateUge: "& nyDateUge &" >= "& meAnsatDato & " " & datepart("ww", nyDateUge, 2,2) &">="& datepart("ww", meAnsatDato, 2,2)
-                             'Response.end
+                             'end if 
 
                             select case cint(SmiWeekOrMonth) 
                             case 0,1
 
-						            if cint(ugefindes) = 0 AND ((datepart("ww", nyDateUge, 2,2) >= datepart("ww", meAnsatDato, 2,2) AND datepart("yyyy", nyDateUge, 2,2) = datepart("yyyy", meAnsatDato, 2,2)) OR datepart("yyyy", nyDateUge, 2,2) > datepart("yyyy", meAnsatDato, 2,2)) then
+						            if cint(ugefindes) = 0 AND (((datepart("ww", nyDateUge, 2,2) >= datepart("ww", meAnsatDato, 2,2) OR (datepart("yyyy", meAnsatDato, 2,2) >= 52)) AND datepart("yyyy", nyDateUge, 2,2) = datepart("yyyy", meAnsatDato, 2,2)) OR datepart("yyyy", nyDateUge, 2,2) > datepart("yyyy", meAnsatDato, 2,2)) then
 							        
-                                    'Response.write "OK"
+                                   
+                                
 
                                     sqlDateUge = year(nyDateUge)&"/"&month(nyDateUge)&"/"&day(nyDateUge)
         		
 							        intStatusAfs = 1 '** Afsl. forsent
 							        strSQLafslut = "INSERT INTO ugestatus (uge, afsluttet, mid, status) VALUES ('"& sqlDateUge &"', '"& cDateAfs &"', "& medarbejderid &", "& intStatusAfs &")" 
 							        oConn.execute(strSQLafslut)
+
+                                     'if session("mid") = 1 then
+                                     'Response.write strSQLafslut &"OK<br>"
+                                     'end if
                                     
                                             if cint(autogktimer) = 1 then 'Teamleder godkender UGE. Kan kun sætte godkendtstatus = 1
 		        
@@ -2208,8 +2222,10 @@ end if
         					
 					        next
         					
-        					     'Response.write "<br>SLUT"
+                                 'if session("mid") = 1 then
+                                 'Response.write "<br>SLUT"
         					     'Response.end
+                                 'end if
         					
 			        end if
 	
@@ -2223,7 +2239,7 @@ end if
 	sub afslutMsgTxt
         %>
           <label style="color:#999999;">
-          <%=funk_txt_058 %><br /><br />
+          <%=funk_txt_058 %><br />
           <%=funk_txt_059 %></label>
 
         <%
@@ -2281,7 +2297,7 @@ end if
                 end if
 
                 if cint(sm_sidsteugedag) >= 52 then
-                sqlYearKri = " AND (YEAR(uge) = "& sm_aar &" OR YEAR(uge) = "& sm_aar+1 &")"
+                sqlYearKri = " AND (YEAR(uge) = "& sm_aar &" OR YEAR(uge) = "& sm_aar+1 &") AND uge > '"& sm_aar &"-12-01'" 'For at ikke det er første uge i året der er afsluttet som uge 52
                 else
                 sqlYearKri = " AND YEAR(uge) = "& sm_aar &""    
                 end if
@@ -2398,7 +2414,7 @@ end if
             erderAfviste = 0
             if cint(SmiWeekOrMonth) <> 2 then
             strSQLafslut = "SELECT status, afsluttet, uge, ugegodkendt, ugegodkendtaf, ugegodkendtTxt, ugegodkendtdt FROM ugestatus WHERE "_
-            &" ((YEAR(uge) = "& sm_aar &" AND uge >= '"& ansatDatoSQL &"' AND uge >= '"& licensstDatoSQL &"')) AND (mid = "& sm_mid & ") AND splithr = 0 ORDER BY uge"
+            &" (((YEAR(uge) = "& sm_aar &" OR YEAR(uge) = "& sm_aar-1 &") AND uge >= '"& ansatDatoSQL &"' AND uge >= '"& licensstDatoSQL &"')) AND (mid = "& sm_mid & ") AND splithr = 0 ORDER BY uge"
 		    
             'if session("mid") = 1 then
             'response.write "strSQLafsluthuller: <br>" & strSQLafslut
@@ -2421,35 +2437,35 @@ end if
            
             if cint(erderHuller) = 0 then
 
-            select case SmiWeekOrMonth
-            case 0
-            thisPeriod = datePart("ww", oRec3("uge"), 2,2)
+                select case SmiWeekOrMonth
+                case 0
+                thisPeriod = datePart("ww", oRec3("uge"), 2,2)
 
-                if cint(antalperioder) = 0 then
-                lastPeriod = datePart("ww", oRec3("uge"), 2,2)
-                lastPeriodDt = oRec3("uge")
+                    if cint(antalperioder) = 0 then
+                    lastPeriod = datePart("ww", oRec3("uge"), 2,2)
+                    lastPeriodDt = oRec3("uge")
                
           
                 
-                end if
+                    end if
 
-            case 1
-            thisPeriod = datePart("m", oRec3("uge"), 2,2)
+                case 1
+                thisPeriod = datePart("m", oRec3("uge"), 2,2)
 
-                if cint(antalperioder) = 0 then
-                lastPeriod = datePart("m", oRec3("uge"), 2,2)
-                lastPeriodDt = oRec3("uge")
+                    if cint(antalperioder) = 0 then
+                    lastPeriod = datePart("m", oRec3("uge"), 2,2)
+                    lastPeriodDt = oRec3("uge")
                 
-                'Hvis januar
-                'if cint(lastPeriod) = 2 then 'AND cint(year(meAnsatDato)) < cint(sm_aar) then
-                'lastPeriod = 1
-                'lastPeriodDt = "01-01-"& sm_aar
-                'end if
+                    'Hvis januar
+                    'if cint(lastPeriod) = 2 then 'AND cint(year(meAnsatDato)) < cint(sm_aar) then
+                    'lastPeriod = 1
+                    'lastPeriodDt = "01-01-"& sm_aar
+                    'end if
 
-                end if
+                    end if
               
 
-            end select
+                end select
 
           
 
@@ -2458,33 +2474,35 @@ end if
             'Response.flush
             'end if
 
-            '*** Januar, feb og uge 1,2 må afsluttes ved at åbne uge 2 hhv. februar også. 
-            '**AND (cDate(lastPeriodDt) < cDate(licensstdato) AND  cDate(lastPeriodDt) < cDate(meAnsatDato)) TILFØJET 20171031
-            if (( (cdbl((thisPeriod*1) - (lastPeriod*1)) > 1) OR (cint(thisPeriod) = 2 AND cint(lastPeriod) <> 1)) AND cint(erderHuller) = 0) AND (cDate(lastPeriodDt) < cDate(licensstdato) AND  cDate(lastPeriodDt) < cDate(meAnsatDato)) then 
-            ' AND datePart("yyyy", lastPeriodYYYY, 2,2) = datePart("yyyy", oRec3("uge"), 2,2)) AND _
-            '( (datePart("yyyy", oRec3("uge"), 2,2) >= "2017" )) then 
-            'AND datePart("ww", oRec3("uge"), 2,2) > 31) OR (datePart("yyyy", oRec3("uge"), 2,2) > "2017"
-            'IKKE januar og uge 1
+            'response.Write cDate(lastPeriodDt) &" < " & cDate(licensstdato) &" AND "& cDate(lastPeriodDt) &" < "& cDate(meAnsatDato) & "<br>"
+
+                '*** Januar, feb og uge 1,2 må afsluttes ved at åbne uge 2 hhv. februar også. 
+                '**AND (cDate(lastPeriodDt) < cDate(licensstdato) AND  cDate(lastPeriodDt) < cDate(meAnsatDato)) TILFØJET 20171031
+                if (( (cdbl((thisPeriod*1) - (lastPeriod*1)) > 1) OR (cint(thisPeriod) = 2 AND cint(lastPeriod) <> 1)) AND cint(erderHuller) = 0) AND (cDate(lastPeriodDt) > cDate(licensstdato) AND cDate(lastPeriodDt) > cDate(meAnsatDato)) then 
+                ' AND datePart("yyyy", lastPeriodYYYY, 2,2) = datePart("yyyy", oRec3("uge"), 2,2)) AND _
+                '( (datePart("yyyy", oRec3("uge"), 2,2) >= "2017" )) then 
+                'AND datePart("ww", oRec3("uge"), 2,2) > 31) OR (datePart("yyyy", oRec3("uge"), 2,2) > "2017"
+                'IKKE januar og uge 1
             
-            if (cint(thisPeriod) = 2 AND cint(lastPeriod) <> 1) then
-            lastPeriodDt = "01-01-"& sm_aar
-            end if
+                    if (cint(thisPeriod) = 2 AND cint(lastPeriod) <> 1) then
+                    lastPeriodDt = "01-01-"& sm_aar
+                    end if
 
-            erderHuller = 1
-            sidsteUgenrAfslFundet = 1
+                    erderHuller = 1
+                    sidsteUgenrAfslFundet = 1
            
-            select case SmiWeekOrMonth
-            case 0
-            sidsteUgenrAfsl = dateAdd("ww", 0, lastPeriodDt)
-            case 1
-            sidsteUgenrAfsl = dateAdd("m", 0, lastPeriodDt)
-            end select
+                    select case SmiWeekOrMonth
+                    case 0
+                    sidsteUgenrAfsl = dateAdd("ww", 0, lastPeriodDt)
+                    case 1
+                    sidsteUgenrAfsl = dateAdd("m", 0, lastPeriodDt)
+                    end select
 
-            'if session("mid") =  1 then
-            'response.write "<br>DER ER HUL! : Aflsut denne: "& sidsteUgenrAfsl &": "& datePart("ww", sidsteUgenrAfsl, 2,2) &"<br>"
-            'end if
+                    'if session("mid") =  1 then
+                    'response.write "<br>DER ER HUL! : Aflsut denne: "& sidsteUgenrAfsl &": "& datePart("ww", sidsteUgenrAfsl, 2,2) &"<br>"
+                    'end if
 
-            end if
+                end if
 
             end if 'cint(erderHuller)) = 0
 
@@ -2547,7 +2565,7 @@ end if
             &" ((YEAR(uge) = "& sm_aar &" AND uge >= '"& ansatDatoSQL &"' AND uge >= '"& licensstDatoSQL &"') OR (YEAR(uge) < "& sm_aar &")) AND (mid = "& sm_mid & ") AND splithr = 0 ORDER BY uge DESC LIMIT 1"
 		    
             'if session("mid") = 1 then
-            'response.write "strSQLafslut: <br>" & strSQLafslut
+            'response.write "erderHuller: "& erderHuller &" strSQLafslut: <br>" & strSQLafslut
             'response.Flush
             'end if
          
@@ -2728,6 +2746,7 @@ function godekendugeseddel(thisfile, godkenderID, medarbid, stDatoSQL)
  
                 if cint(denneuge) >= 52 then
                 sqlYearKri = " AND (YEAR(uge) = "& detteaar &" OR YEAR(uge) = "& detteaar+1 &")"
+                'sqlYearKri = " AND (YEAR(uge) = "& detteaar &")" 'OR YEAR(uge) = "& detteaar+1 &"
                 else
                 sqlYearKri = " AND YEAR(uge) = "& detteaar &""    
                 end if
@@ -2738,7 +2757,7 @@ function godekendugeseddel(thisfile, godkenderID, medarbid, stDatoSQL)
 
              end if
 
-         ugstatusSQL = "SELECT id, mid FROM ugestatus AS u WHERE mid = "& medarbid & " " & sqlYearKri
+         ugstatusSQL = "SELECT id, mid FROM ugestatus AS u WHERE mid = "& medarbid & " " & sqlYearKri & " AND ugegodkendt <> 1"
 
         if cint(SmiWeekOrMonth) = 0 then
         

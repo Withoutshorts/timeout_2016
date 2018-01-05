@@ -230,7 +230,7 @@
                         'Response.Write "HER 7 modtagerMid: " & modtagerMid
                         'Response.end
 
-                    '*** Henter afsender **
+                        '*** Henter afsender **
 				        strSQL = "SELECT mnavn, email FROM medarbejdere"_
 				        &" WHERE mid = "& afsenderMid
 				        oRec.open strSQL, oConn, 3

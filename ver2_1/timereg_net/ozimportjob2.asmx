@@ -165,9 +165,6 @@ Public Class oz_importjob2
 
     Public kpers, rekvnr As String
 
-    Public lastIDStr As String = " job.id = 0 "
-
-
     <WebMethod()> Public Function createjob2(ByVal ds As DataSet) As String
 
 
@@ -279,7 +276,7 @@ Public Class oz_importjob2
                 objDR = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
 
 
-            Else
+            Else 'TIA t1
 
                 '*** KUN FØRSTE linje 4 for hver job. Linje 4 = jobnavn
                 Dim strSQLjnj As String = "Select id, dato, editor, origin, jobnavn, jobnr, jobstartdato, jobslutdato, jobans, lto, beskrivelse, kundenavn, kundenr FROM job_import_temp WHERE id > 0 And overfort = 0 AND jobnavn <> '' And errid = 0  GROUP BY jobnr ORDER BY jobnr"
@@ -461,7 +458,7 @@ Public Class oz_importjob2
                             If (intLngt - intPos_) > 1 Then 'Hvis det er pos 10-99
                                 strAktFase = "Pos-" + Right(strjobnr_opr, 2) + "-" + jobnavn 'strjobnr
                             Else
-                                strAktFase = "Pos-" + Right(strjobnr_opr, 1) + "-" + jobnavn 'strjobnr
+                                strAktFase = "Pos-0" + Right(strjobnr_opr, 1) + "-" + jobnavn 'strjobnr
                             End If
 
 
@@ -470,7 +467,7 @@ Public Class oz_importjob2
 
 
 
-                            strAktFase = "Pos-1-" + jobnavn 'strjobnr
+                            strAktFase = "Pos-01-" + jobnavn 'strjobnr
 
                         End If
 
@@ -478,6 +475,45 @@ Public Class oz_importjob2
                         strjobnr = jobnr.ToString
                 End Select
 
+
+            End If
+
+
+            '**** FOMR ****'
+            If (importtype = "d1") Or lto = "dencker" Then 'Dencker 'Både job og aktviviteter
+
+                Select Case Left(jobnavn, 1)
+
+                    Case "P"
+                        fomr = 23 'Plastic
+                    Case "T"
+
+                        If Left(jobnavn, 2) = "TV" Then
+                            fomr = 1 'værktøj
+                        Else
+                            fomr = 3 'Tool
+                        End If
+
+                    Case "S"
+
+                        fomr = 2 'Service
+                    Case "3"
+
+                        fomr = 27' 3D
+                    Case "O"
+                        fomr = 25 'orange
+
+                    Case "I"
+                        fomr = 31
+                    Case Else
+
+                        fomr = fomr
+
+                End Select
+
+            Else
+
+                fomr = fomr
 
             End If
 
@@ -1045,7 +1081,6 @@ Public Class oz_importjob2
                         End If
                         objDR2.Close()
 
-                        lastIDStr += lastIDStr & " OR job.id = " & lastID
 
                         '*********** timereg_usejob, så der kan søges fra jobbanken KUN VED OPRET JOB *********************
                         Select Case lto
@@ -1108,6 +1143,8 @@ Public Class oz_importjob2
 
 
 
+
+
                         'Dim antalArbPakker As Array
                         'antalArbPakker = strantalArbPakker
 
@@ -1165,6 +1202,33 @@ Public Class oz_importjob2
 
                     End If 'Opdater / opret
 
+
+                    If importtype = "d1" Then
+
+
+                        '** FOMR REL JOB ***********
+                        Dim strSQLaktfomr As String = ("SELECT for_fomr, for_aktid FROM fomr_rel WHERE for_jobid = " & lastID & " AND for_aktid =  0")
+
+                        objCmd = New OdbcCommand(strSQLaktfomr, objConn)
+                        objDR4 = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
+                        While objDR4.Read() = True
+
+
+
+                            Dim strSQLaktinsfomr As String = ("INSERT INTO fomr_rel (for_fomr, for_aktid, for_jobid, for_faktor) VALUES  (" & fomr & ", 0, " & lastID & ", 100)")
+
+                            objCmd = New OdbcCommand(strSQLaktinsfomr, objConn)
+                            objDR2 = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
+                            objDR2.Close()
+
+
+                        End While
+                        objDR4.Close()
+
+
+                    End If
+
+
                     'objConn2.Close() 20170707
                 End If 'opretJobOk kundekundet
 
@@ -1212,16 +1276,28 @@ Public Class oz_importjob2
                             If CDbl(lastID) <> 0 Then
 
                                 Dim strSQLAktUpdStatus As String = "UPDATE aktiviteter SET aktstatus = 2" _
-                                & " WHERE job = " & lastID
+                                & " WHERE job = " & lastID & " AND easyreg = 0"
                                 objCmd2 = New OdbcCommand(strSQLAktUpdStatus, objConn)
                                 objDR6 = objCmd2.ExecuteReader '(CommandBehavior.closeConnection)
                                 objDR6.Close()
 
                             End If
+
+
+                            If (lastID <> 0) Then
+                                '** EASY Reg aktiviteten 20171206 ***'
+                                Dim agforvalgtStamgrpKriEa As String = ""
+                                Call opretStamAkt(lto, lastID, "Easyreg", aktstdato, aktsldato, fomr, sort, 901, 0, agforvalgtStamgrpKriEa, objConn2, objConn, objCmd, objDR2, objDR3, objDR6, objDR4)
+
+                            End If
+
+
                         End If
 
                         If (lastID <> 0) Then
 
+
+                            '** ALM aktiviteter
                             Dim agforvalgtStamgrpKri As String = ""
                             Call opretStamAkt(lto, lastID, aktnavn, aktstdato, aktsldato, fomr, sort, aktvarenr, antalstk, agforvalgtStamgrpKri, objConn2, objConn, objCmd, objDR2, objDR3, objDR6, objDR4)
 
@@ -1271,93 +1347,7 @@ Public Class oz_importjob2
 
 
 
-        '*** d1 Dencker importer salgsordrelisten JOB: SEND MAIL til jobnas. '***
-        If importtype = "d1x" Then
 
-            Dim myMail As Object
-            myMail = CreateObject("CDO.Message")
-            myMail.From = "timeout_no_reply@outzource.dk" 'TimeOut Email Service 
-
-            Dim strBody As String
-            Dim jobnavnThis As String
-            Dim intJobnr As String
-            Dim strkkundenavn As String
-            Dim smtpServer As String
-            Dim strBesk As String
-            Dim job_internbesk As String
-
-            Dim strSQLlastJobID As String = "SELECT job.id AS jid, jobnavn, jobnr, job.beskrivelse, job_internbesk, k.kkundenavn " _
-            & " FROM job " _
-            & " LEFT JOIN kunder AS k ON (k.kid = job.jobknr)" _
-            & " WHERE " & lastIDStr
-            objCmd = New OdbcCommand(strSQLlastJobID, objConn)
-            objDR2 = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
-
-            If objDR2.Read() = True Then
-
-
-                jobnavnThis = objDR2("jobnavn")
-                intJobnr = objDR2("jobnr")
-                strkkundenavn = objDR2("kkundenavn")
-                strBesk = objDR2("strBesk")
-                job_internbesk = objDR2("job_internbesk")
-
-                myMail.To = "Dencker - Ordre<ordre@dencker.net>"
-                myMail.Bcc = "Dencker - Ordre<sk@outzource.dk>"
-                myMail.Subject = "Ny ordre: " & jobnavnThis & " (" & intJobnr & ") | " & strkkundenavn
-
-
-                strBody = "<br>"
-                strBody = strBody & "<b>Kunde:</b> " & strkkundenavn & "<br>"
-                strBody = strBody & "<b>Job:</b> " & jobnavnThis & " (" & intJobnr & ") <br><br>"
-
-
-                If Len(Trim(strBesk)) <> 0 Then
-                    strBody = strBody & "<hr><b>Jobbeskrivelse:</b><br>"
-                    strBody = strBody & strBesk & "<br><br><br><br>"
-                End If
-
-                If Len(Trim(job_internbesk)) <> 0 Then
-                    strBody = strBody & "<hr><b>Intern note:</b><br>"
-                    strBody = strBody & job_internbesk & "<br><br>"
-                End If
-
-
-                strBody = strBody & "<br><br><br><br><br><br>Med venlig hilsen<br><i>"
-                strBody = strBody & "TimeOut Monitor import service </i><br><br>&nbsp;"
-
-
-                'Mailer.BodyText = strBody
-                myMail.HTMLBody = "<html><head></head><body>" & strBody & "</body>"
-
-                myMail.Configuration.Fields.Item _
-                ("http://schemas.microsoft.com/cdo/configuration/sendusing") = 2
-                'Name or IP of remote SMTP server
-
-
-                smtpServer = "formrelay.rackhosting.com"
-
-                myMail.Configuration.Fields.Item _
-                ("http://schemas.microsoft.com/cdo/configuration/smtpserver") = smtpServer
-
-                'Server port
-                myMail.Configuration.Fields.Item _
-                ("http://schemas.microsoft.com/cdo/configuration/smtpserverport") = 25
-                myMail.Configuration.Fields.Update
-
-
-                myMail.Send
-
-
-
-
-            End If
-            objDR2.Close()
-
-            myMail = Nothing
-
-
-        End If
 
 
         'Dim errThisTOnoStr As String = errThisTOno.ToString()
@@ -1405,13 +1395,15 @@ Public Class oz_importjob2
                 '*** Finder TP på aktivitet **'
                 '*** Finder aktid ***
                 Dim fasttp As Double = 0
-                Dim strSQLakttp As String = "SELECT fasttp FROM aktiviteter WHERE navn = '" & aktnavn.Replace("'", "") & "' AND job = 0 AND aktfavorit = 72"
+                Dim easyreg As Integer = 0
+                Dim strSQLakttp As String = "SELECT fasttp, easyreg FROM aktiviteter WHERE navn = '" & aktnavn.Replace("'", "") & "' AND job = 0 AND aktfavorit = 72"
                 objCmd = New OdbcCommand(strSQLakttp, objConn)
                 objDR2 = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
 
                 If objDR2.Read() = True Then
 
                     fasttp = objDR2("fasttp") '.replace(".", ",")
+                    easyreg = objDR2("easyreg")
 
                 End If
                 objDR2.Close()
@@ -1427,14 +1419,27 @@ Public Class oz_importjob2
                     Dim strSQLaktins As String = ("INSERT INTO aktiviteter (navn, job, fakturerbar, " _
                     & "projektgruppe1, projektgruppe2, projektgruppe3, projektgruppe4, projektgruppe5, projektgruppe6, projektgruppe7," _
                     & "projektgruppe8, projektgruppe9, projektgruppe10, aktstatus, budgettimer, aktbudget, aktbudgetsum, aktstartdato, aktslutdato, aktkonto, fase, avarenr, fomr, sortorder, antalstk, bgr, " _
-                    & " brug_fasttp, fasttp, fasttp_val) VALUES " _
+                    & " brug_fasttp, fasttp, fasttp_val, easyreg) VALUES " _
                     & " ('" & aktnavn.Replace("'", "") & "', " & lastID & ", 1," _
                     & " 10,1,1,1,1,1,1,1,1,1,1,0,0,0,'" & aktstdato.ToString("yyyy/MM/dd", Globalization.CultureInfo.InvariantCulture) & "', " _
                     & "'" & aktsldato.ToString("yyyy/MM/dd", Globalization.CultureInfo.InvariantCulture) & "', 0, '" & strAktFase & "', '" & aktvarenr & "', " & fomr & ", " & sort & ", " & antalstk & ", 2" _
-                    & ", 1, " & fasttp & ", 1)")
+                    & ", 1, " & fasttp & ", 1, " & easyreg & ")")
 
                     objCmd = New OdbcCommand(strSQLaktins, objConn)
                     objDR2 = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
+                    objDR2.Close()
+
+
+                    '*** Finder aktid ***
+                    Dim strSQLlastAktID As String = "SELECT id FROM aktiviteter WHERE id <> 0 ORDER BY id DESC"
+                    objCmd = New OdbcCommand(strSQLlastAktID, objConn)
+                    objDR2 = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
+
+                    If objDR2.Read() = True Then
+
+                        lastAktID = objDR2("id")
+
+                    End If
                     objDR2.Close()
 
 
@@ -1446,7 +1451,35 @@ Public Class oz_importjob2
                     objDR2.Close()
 
 
+                    lastAktID = aktFindes
+
+
                 End If
+
+
+
+
+                '** FOMR REL ***********
+                Dim strSQLaktfomr As String = ("SELECT for_fomr, for_aktid FROM fomr_rel WHERE for_aktid =  " & lastAktID)
+
+                objCmd = New OdbcCommand(strSQLaktfomr, objConn)
+                objDR4 = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
+                While objDR4.Read() = True
+
+
+
+                    Dim strSQLaktinsfomr As String = ("INSERT INTO fomr_rel (for_fomr, for_aktid, for_jobid, for_faktor) VALUES  (" & fomr & ", " & lastAktID & ", " & lastID & ", 100)")
+
+                    objCmd = New OdbcCommand(strSQLaktinsfomr, objConn)
+                    objDR2 = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
+                    objDR2.Close()
+
+
+                End While
+                objDR4.Close()
+
+
+
 
 
             Case Else '"oko", "wilke"

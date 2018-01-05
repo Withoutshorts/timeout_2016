@@ -171,22 +171,12 @@
 
 
            <%'TEC / ESN special  
-                   
-       select case lto
-       case "tec", "esn", "intranet - local"
-                     %>
-                     <td align=right style="border-bottom:1px silver dashed; padding-bottom:20px;" class=lille><b><%=formatnumber(omsorg2afh_tot, 2) %></b></td>
-                     <td align=right style="border-bottom:1px silver dashed; padding-bottom:20px;" class=lille><b><%=formatnumber(sundTimer_tot, 2) %></b></td>
-                     <td align=right style="border-bottom:1px silver dashed; padding-bottom:20px;" class=lille><b><%=formatnumber(omsorgKAfh_tot, 2) %></b></td>
-                    <%
-
-
-       end select
-
 
 
       select case lto
        case "esn", "intranet - local"
+
+        
         %>
 
            <!--<td align=right style="border-bottom:1px silver dashed; padding-bottom:20px;" class=lille><b><%=formatnumber(flexTimer_tot, 2) %></b></td>-->
@@ -196,7 +186,20 @@
         <%
     end select
 
-            %>
+                   
+       select case lto
+       case "tec", "esn", "intranet - local"
+
+                    
+                     %>
+                     <td align=right style="border-bottom:1px silver dashed; padding-bottom:20px;" class=lille><b><%=formatnumber(omsorg2afh_tot, 2) %></b></td>
+                     <td align=right style="border-bottom:1px silver dashed; padding-bottom:20px;" class=lille><b><%=formatnumber(sundTimer_tot, 2) %></b></td>
+                     <td align=right style="border-bottom:1px silver dashed; padding-bottom:20px;" class=lille><b><%=formatnumber(omsorgKAfh_tot, 2) %></b></td>
+                    <%
+
+
+       end select
+        %>
 
 
                  <td align=right class=lille style="border-bottom:1px silver dashed; padding-bottom:20px;">
@@ -298,7 +301,7 @@
     <%end if %>
 
 	<td style="border-bottom:1px silver dashed; padding-bottom:20px; white-space:nowrap;" class="lille" align=center><%=showAfsugeTxt_tot%>&nbsp;</td>
-	<td style="border-bottom:1px silver dashed; padding-bottom:20px; white-space:nowrap;" align=center>
+	<td style="border-bottom:1px silver dashed; padding-bottom:20px; padding-top:3px; white-space:nowrap;" align=center>
         
         <%if len(trim(ugegodkendtTxt_tot)) <> 0 then %>
 

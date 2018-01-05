@@ -775,13 +775,13 @@ case "dbopr", "dbred"
     end if
 
    if cint(update_currate) = 1 OR func = "dbopr" then
-   call valutakode_fn(cost_price_pc_valuta)
-   cost_price_kurs_used = valutaKurs_CCC
-   cost_price_kurs_used = replace(cost_price_kurs_used, ",", ".")
+       call valutakode_fn(cost_price_pc_valuta)
+       cost_price_kurs_used = valutaKurs_CCC
+       cost_price_kurs_used = replace(cost_price_kurs_used, ",", ".")
 
-   call valutakode_fn(sales_price_pc_valuta)
-   sales_price_kurs_used = valutaKurs_CCC
-   sales_price_kurs_used = replace(sales_price_kurs_used, ",", ".")
+       call valutakode_fn(sales_price_pc_valuta)
+       sales_price_kurs_used = valutaKurs_CCC
+       sales_price_kurs_used = replace(sales_price_kurs_used, ",", ".")
    end if
      
 
@@ -807,9 +807,13 @@ case "dbopr", "dbred"
 
     dd_dato = day(now) & ". "& left(monthname(month(now)), 3) &" "& year(now)
     editor = session("user")
-
     valuta = sales_price_pc_valuta
 
+    
+   
+
+        
+        
     'freight_price_pc_valuta, tgt_price_pc_valuta
 
 
@@ -850,8 +854,28 @@ case "dbopr", "dbred"
             oRec.close
 
 
-        call lastjobnr_fn()
-        jobnr = nextjobnr
+            call lastjobnr_fn()
+            jobnr = nextjobnr
+
+            jobnrFindes = 0        
+            strSQL = "SELECT jobnr FROM job WHERE id <> "& jobid &" AND jobnr = '"& jobnr &"'"
+            oRec2.open strSQL, oConn, 3
+            if not oRec2.EOF then
+    
+            jobnrFindes = 1
+
+            end if
+            oRec2.close
+
+            if jobnr = 0 OR jobnrFindes = 1 then
+               
+            errortype = 172
+            call showError(errortype)
+				
+            response.End
+            end if
+
+
         jobstatus = 1 'ALTID AKTIV
 
          if cint(filfundet) = 1 then
@@ -987,6 +1011,60 @@ case "dbopr", "dbred"
     oConn.execute(strSQLjob)
 
     lastid = jobid
+
+    end if
+
+
+     '**** Indsætter extra cost ******************
+    if cdbl(extracost) <> 0 then
+
+        if len(trim(extracost_txt)) = 0 then
+        extracost_txt = "Extra Cost"
+        end if
+
+       call valutakode_fn(sales_price_pc_valuta)
+       sales_price_kurs_used = valutaKurs_CCC
+       sales_price_kurs_used = replace(sales_price_kurs_used, ",", ".")
+
+        dd_dato = year(now) & "/"& month(now) &"/"& day(now)
+
+        extracostFindes = 0
+        extracostFindesID = 0
+        strSQLextraCostsel = "SELECT id FROM materiale_forbrug WHERE jobid = "& lastid & " AND matid = 99"
+        oRec6.open strSQLextraCostsel, oConn, 3
+        if not oRec6.EOF then
+
+            extracostFindes = 1
+            extracostFindesID = oRec6("id")
+
+        end if
+        oRec6.close
+
+        if cint(extracostFindes) = 1 then
+
+        strSQLextraCost = "UPDATE materiale_forbrug SET matnavn = '"& extracost_txt &"', matkobspris = "& extracost &", matsalgspris = "& extracost &", dato = '"& dd_dato &"', editor = '"& editor &"', usrid = "& session("mid") &", valuta = "& valuta &", kurs = "& sales_price_kurs_used &", bilagsnr = '', matenhed = '' WHERE id = "& extracostFindesID
+        oConn.execute(strSQLextraCost)
+
+        else
+
+        strSQLextraCost = "INSERT INTO materiale_forbrug (matid, matantal, matnavn, matvarenr, matkobspris, matsalgspris, jobid, dato, editor, usrid, forbrugsdato, intkode, valuta, kurs, ava, bilagsnr, matenhed) "_
+        & "VALUES (99, 1, '"& extracost_txt &"', 99, "& extracost &", "& extracost &", "& lastid &", '"& dd_dato &"',  '"& editor &"', "& session("mid") &", '"& dd_dato &"', 2, "& valuta  &", "& sales_price_kurs_used &", 0, '','')"
+
+        'response.write strSQLextraCost
+        'response.Flush
+
+        oConn.execute(strSQLextraCost)
+
+        end if
+
+    else
+
+        strSQLextraCostDel = "DELETE FROM materiale_forbrug WHERE jobid = "& lastid &" AND matid = 99"
+        'response.write strSQLextraCost
+        'response.Flush
+
+        oConn.execute(strSQLextraCostDel)
+
 
     end if
 
@@ -2971,7 +3049,7 @@ end if 'Opret / rediger
 
                                <div class="col-lg-4 pad-t15">Buyer:<select name="buyer" class="form-control input-small" onchange="submit();">
                                   <option value="0">Choose..</option>
-                               <%   strSQL = "SELECT kid, kkundenavn FROM kunder WHERE useasfak = 0 ORDER BY kkundenavn"
+                               <%   strSQL = "SELECT kid, kkundenavn FROM kunder WHERE useasfak = 0 AND kstatus = 1 ORDER BY kkundenavn"
                                     oRec.open strSQL, oConn, 3
                                     while not oRec.EOF
         
@@ -2994,7 +3072,7 @@ end if 'Opret / rediger
 
                              <div class="col-lg-4 pad-t15">Supplier:<select name="supplier" class="form-control input-small" onchange="submit();">
                                   <option value="0">Choose..</option>
-                               <%   strSQL = "SELECT kid, kkundenavn FROM kunder WHERE useasfak = 6 ORDER BY kkundenavn"
+                               <%   strSQL = "SELECT kid, kkundenavn FROM kunder WHERE useasfak = 6 AND kstatus = 1 ORDER BY kkundenavn"
                                     oRec.open strSQL, oConn, 3
                                     while not oRec.EOF
         
