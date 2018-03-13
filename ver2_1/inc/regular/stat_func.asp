@@ -588,7 +588,7 @@ end function
 
                
 
-                if strFomr_reljobids <> "0" AND thisfile = "joblog_timetotaler" then
+                if strFomr_reljobids <> "0" AND (thisfile = "joblog_timetotaler" OR thisfile = "pipeline") then
                 useForOmrKri = 1
                 else
                 useForOmrKri = 0
@@ -761,9 +761,11 @@ end function
     sub segment_kunder
 
 
-    if len(trim(request("FM_segment"))) <> 0 AND request("FM_segment") <> 0 then
+    
+    if len(trim(request("FM_segment"))) <> 0 AND request("FM_segment") <> 0 then 
     segment = request("FM_segment") 
     segmentSQLkri = " AND ktype = "& segment
+       
     else
     segment = 0
     segmentSQLkri = " AND ktype <> -9999 "
@@ -809,6 +811,11 @@ end function
        
       
        </select><br /><img src="../ill/blank.gif" width="1" height="5"  border="0"/><br />
+
+
+           <%if thisfile = "xxpipeline" then %>
+           <span style="float:right; padding-right:50px;"><input type="checkbox" DISABLED name="fomr_onjob" value="1" <%=fomr_onjobCHK %> /> Segment must match on job <br />(ignore customer)</span><br /><br />
+           <%end if %>
 		
 		<%
 		
@@ -938,7 +945,7 @@ end function
 
 
                   
-                    if print <> "j" AND media <> "export" AND thisfile = "joblog_timetotaler" AND media <> "print" then
+                    if print <> "j" AND media <> "export" AND (thisfile = "joblog_timetotaler" OR thisfile = "pipeline") AND media <> "print" then
                     
                     %>
                     <br /><br /><b><%=joblog_txt_145 %>:</b><br />                              
@@ -999,7 +1006,7 @@ end function
 	
 	public jobnrSQLkri, jobidFakSQLkri, jidSQLkri, jobnr, j, jobKri
 	function valgtejob()
-	 			
+	
 				
 	'**** Job *****
 	jobSQLfundet = 0
@@ -1113,20 +1120,20 @@ end function
 				if j = 0 then
 					jobidFakSQLkri = ""
 					jobnrSQLkri = ""
-					jidSQLkri =  ""
+					jidSQLkri = ""
 					jobKri =  " mf.jobid = 0 "
 				end if
 
 
 				
-                    if strFomr_reljobids <> "0" AND thisfile = "joblog_timetotaler" then
+                    if strFomr_reljobids <> "0" AND (thisfile = "joblog_timetotaler" OR thisfile = "pipeline") then 
                     useForOmrKri = 1
                     else
                     useForOmrKri = 0
                     end if
             
 				
-                    'response.Write "<br><br><br><br><br>HER: " & strFomr_reljobids & "<br>" & thisfile
+                    'response.Write "<br><br><br><br><br>strKnrSQLkri: "& strKnrSQLkri &" useForOmrKri: "& useForOmrKri & " HER:  " & strFomr_reljobids & "<br>" & thisfile
 
                     if cint(useForOmrKri) = 0 OR (cint(useForOmrKri) = 1 AND instr(strFomr_reljobids, "#"& oRec("id") &"#") <> 0) then 'IKKE EN DEL AF FORRETNINGSOMRÅDE)
 
@@ -1147,6 +1154,19 @@ end function
 				
 				oRec.close
 				
+
+                'if session("mid") = 1 then
+				'Response.write strSQL & "<br>#" & jidSQLkri &"<br><br>"
+
+                    if len(trim(jidSQLkri)) = 0 then
+                    jobidFakSQLkri = " OR jobid = -1 "
+	                jobnrSQLkri = " OR tjobnr = '-1' "
+	                jidSQLkri = " OR id = -1 "
+	                seridFakSQLkri = " OR aftaleid = -1 "
+                    end if
+
+				'Response.flush
+                'end if
 				
 	end function
 	

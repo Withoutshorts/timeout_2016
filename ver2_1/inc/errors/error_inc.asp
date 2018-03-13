@@ -788,7 +788,7 @@ case 186
 varErrorText =  err_txt_530 &"<br><br>"& err_txt_531
 
 case 187 
-varErrorText = "<b>"&err_txt_532&"!.</b><br><br> "&err_txt_533&": "& timerthisTjkFc & " "&err_txt_534&"<br> "&err_txt_535&": "& timer_opr &" "&err_txt_534&" <br>"&err_txt_536&": " & feltTxtValFc & " "&err_txt_534&""
+varErrorText = "<b>"&err_txt_532&": "& errAktnavn &"</b><br><br> "&err_txt_533&": "& timerthisTjkFc & " "&err_txt_534&"<br> "&err_txt_535&": "& timer_opr &" "&err_txt_534&" <br>"&err_txt_536&": " & feltTxtValFc & " "&err_txt_534&""
 
 case 188
 varErrorText = err_txt_537 & " <b>"&err_txt_538&"</b> "&err_txt_145&" <br><br>"& err_txt_539

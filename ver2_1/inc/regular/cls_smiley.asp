@@ -2470,7 +2470,7 @@ end if
           
 
             'if session("mid") =  1 then
-            'Response.write "<br>HULLER: "& lastPeriodDt &" = "& oRec3("uge") &" thisPeriod: "& thisPeriod &" > 1  AND ((" & thisPeriod*1 &" - " & lastPeriod*1 &") > 1 == "& ((thisPeriod*1) - (lastPeriod*1)) &") erderHuller: "& erderHuller
+            'Response.write "<br>HULLER: "& lastPeriodDt &" = "& oRec3("uge") &" lastPeriod:"&  lastPeriod &"thisPeriod: "& thisPeriod &" > 1  AND ((" & thisPeriod*1 &" - " & lastPeriod*1 &") > 1 == "& ((thisPeriod*1) - (lastPeriod*1)) &") erderHuller: "& erderHuller & "antalperioder: "& antalperioder
             'Response.flush
             'end if
 
@@ -2478,13 +2478,15 @@ end if
 
                 '*** Januar, feb og uge 1,2 må afsluttes ved at åbne uge 2 hhv. februar også. 
                 '**AND (cDate(lastPeriodDt) < cDate(licensstdato) AND  cDate(lastPeriodDt) < cDate(meAnsatDato)) TILFØJET 20171031
-                if (( (cdbl((thisPeriod*1) - (lastPeriod*1)) > 1) OR (cint(thisPeriod) = 2 AND cint(lastPeriod) <> 1)) AND cint(erderHuller) = 0) AND (cDate(lastPeriodDt) > cDate(licensstdato) AND cDate(lastPeriodDt) > cDate(meAnsatDato)) then 
+                if (( (cdbl((thisPeriod*1) - (lastPeriod*1)) > 1) OR (cint(thisPeriod) = 2 AND cint(lastPeriod) <> 1 AND cint(antalperioder) > 0)) AND cint(erderHuller) = 0) AND (cDate(lastPeriodDt) > cDate(licensstdato) AND cDate(lastPeriodDt) > cDate(meAnsatDato)) then 
                 ' AND datePart("yyyy", lastPeriodYYYY, 2,2) = datePart("yyyy", oRec3("uge"), 2,2)) AND _
                 '( (datePart("yyyy", oRec3("uge"), 2,2) >= "2017" )) then 
                 'AND datePart("ww", oRec3("uge"), 2,2) > 31) OR (datePart("yyyy", oRec3("uge"), 2,2) > "2017"
                 'IKKE januar og uge 1
             
-                    if (cint(thisPeriod) = 2 AND cint(lastPeriod) <> 1) then
+                   
+
+                    if (cint(thisPeriod) = 2 AND cint(lastPeriod) <> 1) then 'Uge 1 mangler
                     lastPeriodDt = "01-01-"& sm_aar
                     end if
 
@@ -2853,7 +2855,7 @@ function afviseugeseddel(thisfile, afsenderMid, modtagerMid, varTjDatoUS_man, va
                             varTjDatoUS_manSQL = year(varTjDatoUS_man) &"/"& month(varTjDatoUS_man) &"/"& day(varTjDatoUS_man)
                             varTjDatoUS_sonSQL = year(varTjDatoUS_son) &"/"& month(varTjDatoUS_son) &"/"& day(varTjDatoUS_son)
 
-                           '** GODKENDER TIMERNE DER ER INDTASTET
+                           '** Afviser TIMERNE DER ER INDTASTET
 	                        strSQLup = "UPDATE timer SET godkendtstatus = 2, godkendtstatusaf = '"& session("user") &"', godkendtdato = '"& godkendtdato &"' WHERE tmnr = "& modtagerMid
 	                        if cint(SmiWeekOrMonth) = 0 then
                             strSQLup = strSQLup & " AND tdato BETWEEN '"& varTjDatoUS_manSQL &"' AND '" & varTjDatoUS_sonSQL & "'" 

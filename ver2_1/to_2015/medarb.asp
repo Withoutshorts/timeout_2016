@@ -1703,7 +1703,7 @@ Session.LCID = 1030
                                <div class="col-lg-1">&nbsp</div>
                                     <div class="col-lg-2">
                                       
-                            Calender:</div>
+                            Kalender:</div>
                                  
                                 <div class="col-lg-1">   <select name="FM_med_cal" class="form-control input-small">
                                    
@@ -2524,7 +2524,7 @@ Session.LCID = 1030
 
 
 
-                              <!-- Start side -->
+                              <!-- Startside -->
                                <%if cint(level) <= 2 OR cint(level) = 6 OR cint(meCreate_newemployee) = 1 then %>
                                   <div class="row">
                                                <div class="col-lg-12"><br />&nbsp</div>

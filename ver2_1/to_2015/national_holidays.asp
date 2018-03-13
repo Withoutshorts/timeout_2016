@@ -227,7 +227,7 @@
                                      <!--<input type="hidden" name="FM_id" value="<%=oRec("nh_id")%>" />-->
                                     <td valign="top"><input type="text" name="FM_cc_<%=row%>" value="<%=oRec("nh_country")%>" class="form-control input-small" /></td>
                                     <td style="width:40px;"><input type="text" value="<%=oRec("nh_sortorder") %>" name="FM_sortorder_<%=row%>" class="form-control input-small" /></td>
-                                    <td style="width:140px;"><input type="text" value="<%=oRec("nh_name") %>" name="FM_name_<%=row%>" class="form-control input-small" /></td>
+                                    <td style="width:140px;"><input type="text" value="<%=oRec("nh_name") %>" name="FM_name_<%=row%>" style="width:140px;" class="form-control input-small" /></td>
                                     <td style="width:60px;"><input type="text" value="<%=oRec("nh_projgrp") %>" name="FM_projgrp_<%=row%>" class="form-control input-small" /></td>
                                     <td><select name="FM_open_<%=row%>" class="form-control input-small">
                                         
@@ -288,7 +288,7 @@
                                      <input type="hidden" name="FM_id_0" value="" />
                                     <td valign="top"><input type="text" name="FM_cc_0" value="" class="form-control input-small" /></td>
                                     <td>&nbsp;</td>
-                                    <td><input type="text" value="" name="FM_name_0" class="form-control input-small" /></td>
+                                    <td><input type="text" value="" name="FM_name_0" style="width:140px;" class="form-control input-small" /></td>
                                     <td><input type="text" value="" name="FM_projgrp_0" class="form-control input-small" /></td>
                                     <td><select name="FM_open_0" class="form-control input-small">
                                         

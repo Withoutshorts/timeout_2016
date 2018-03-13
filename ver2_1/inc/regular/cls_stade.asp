@@ -303,7 +303,7 @@ strSQLj = strSQLj &" restestimat, stade_tim_proc, sandsynlighed "& mnavnfld &" F
 &" LEFT JOIN valutaer AS v ON (v.id = jo_valuta) "
 
 if usemrn <> 0 then
-strSQLj = strSQLj & " WHERE (jobans1 = "& usemrn &") AND risiko >= 0 AND (jobstatus = 1 OR jobstatus = 3) GROUP BY j.id ORDER BY jobstartdato LIMIT "& lmt
+strSQLj = strSQLj & " WHERE (jobans1 = "& usemrn &" OR jobans2 = "& usemrn &") AND risiko >= 0 AND (jobstatus = 1 OR jobstatus = 3) GROUP BY j.id ORDER BY jobstartdato LIMIT "& lmt
 else
 strSQLj = strSQLj & " LEFT JOIN medarbejdere AS m ON (m.mid = j.jobans1) "
 strSQLj = strSQLj & " WHERE risiko >= 0 AND (jobstatus = 1 OR jobstatus = 3) GROUP BY j.id ORDER BY jobnavn LIMIT "& lmt

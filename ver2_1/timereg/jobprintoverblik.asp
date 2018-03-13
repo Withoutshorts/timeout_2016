@@ -28,6 +28,14 @@
               jq_sog_val = "XXXXX99999111sdf"
               end if
 
+              sogjob_lukpas = request("sogjob_lukpas")
+
+                if cint(sogjob_lukpas) = 1 then
+                statusSQL = " jobstatus <> - 1"
+                else
+                statusSQL = " jobstatus = 1"
+                end if
+
              level = session("rettigheder")
             
 
@@ -42,8 +50,8 @@
             end if
             
         
-                     strSQLjob = "SELECT id, jobnavn, jobnr, kkundenavn, kid FROM job "_
-                     &"LEFT JOIN kunder as K ON (kid = jobknr) WHERE jobstatus = 1 AND risiko > -1 "& strSQLkrijobans &" AND ((jobnavn LIKE '%"& jq_sog_val &"%' OR jobnr LIKE '"& jq_sog_val &"%') "_
+                     strSQLjob = "SELECT id, jobnavn, jobnr, kkundenavn, kid, jobstatus FROM job "_
+                     &"LEFT JOIN kunder as K ON (kid = jobknr) WHERE "& statusSQL &" AND risiko > -1 "& strSQLkrijobans &" AND ((jobnavn LIKE '%"& jq_sog_val &"%' OR jobnr LIKE '"& jq_sog_val &"%') "_
                      &" OR (kkundenavn LIKE '"& jq_sog_val &"%' OR kkundenr = '"& jq_sog_val &"'))  ORDER BY kkundenavn, jobnavn"
             
                         lastKid = 0
@@ -79,7 +87,22 @@
                 
                        end if
 
-                       strJobOptions = strJobOptions &"<option value="& oRec("id") &" "& strSEL &">"& oRec("jobnavn") & " ("& oRec("jobnr") &")</option>"
+                       if oRec("jobstatus") <> 1 then
+                            select case oRec("jobstatus")
+                            case 0
+                            jobstatusTxt = " - lukket"
+                            case 2
+                            jobstatusTxt = " - passiv"
+                            case 3
+                            jobstatusTxt = " - tilbud"
+                            case 4
+                            jobstatusTxt = " - eval"
+                            end select
+                       else
+                        jobstatusTxt = ""
+                       end if
+
+                       strJobOptions = strJobOptions &"<option value="& oRec("id") &" "& strSEL &">"& oRec("jobnavn") & " ("& oRec("jobnr") &") "& jobstatusTxt &"</option>"
 
                        
 
@@ -113,7 +136,7 @@
     end if
 
 
-     %><script src="inc/jobprintoverblik_jav.js" type="text/javascript"></script><%
+     %><script src="inc/jobprintoverblik_jav_20180221.js" type="text/javascript"></script><%
 
      
 	func = request("func")
@@ -149,6 +172,12 @@
         else
          sogjobval = ""
         end if
+
+         if len(trim(request("sogjob_lukpas"))) <> 0 then
+         sogjob_lukpasCHK = "CHECKED"
+         else
+         sogjob_lukpasCHK = ""
+         end if
 
             					
     '** Rediger job ***'
@@ -303,9 +332,10 @@
 
 
       
-        Søg: <input type="text" id="sogjob" name="sogjob" value="<%=sogjobval %>" style="width:100px;" />
+        Søg: <input type="text" id="sogjob" name="sogjob" value="<%=sogjobval %>" style="width:100px;" />&nbsp;
+        <input type="checkbox" id="sogjob_lukpas" value="1" <%=sogjob_lukpasCHK %> /> Vis lukkede og passive.
         
-        <select name="id" id="jobprint_joblisten" style="width:450px;" onchange="submit();">
+        <select name="id" id="jobprint_joblisten" style="width:410px;" onchange="submit();">
            <%
 
             if len(trim(sogjobval)) <> 0 then
@@ -325,10 +355,16 @@
             strSQLkrijobans = " AND (jobans1 = " & session("mid") & " OR jobans2 = " & session("mid") & ")"
 
             end if
+
+                if cint(sogjob_lukpas) = 1 then
+                statusSQL = " jobstatus <> - 1"
+                else
+                statusSQL = " jobstatus = 1"
+                end if
             
         
-         strSQLjob = "SELECT id, jobnavn, jobnr, kkundenavn, kid FROM job "_
-         &"LEFT JOIN kunder as K ON (kid = jobknr) WHERE jobstatus = 1 "& strSQLkrijobans &" "& sogjobvalKri &" ORDER BY kkundenavn, jobnavn"
+         strSQLjob = "SELECT id, jobnavn, jobnr, kkundenavn, kid, jobstatus FROM job "_
+         &"LEFT JOIN kunder as K ON (kid = jobknr) WHERE "& statusSQL &" "& strSQLkrijobans &" "& sogjobvalKri &" ORDER BY kkundenavn, jobnavn"
             
             lastKid = 0
             j = 0
@@ -359,9 +395,26 @@
                 else
                 strSEL = ""
                 
-           end if%>
+           end if
+                
+                
+             if oRec("jobstatus") <> 1 then
+                            select case oRec("jobstatus")
+                            case 0
+                            jobstatusTxt = " - lukket"
+                            case 2
+                            jobstatusTxt = " - passiv"
+                            case 3
+                            jobstatusTxt = " - tilbud"
+                            case 4
+                            jobstatusTxt = " - eval"
+                            end select
+                       else
+                        jobstatusTxt = ""
+                       end if
+                %>
 
-            <option value="<%=oRec("id") %>" <%=strSEL %>><%=oRec("jobnavn") & " ("& oRec("jobnr") &")" %></option>
+            <option value="<%=oRec("id") %>" <%=strSEL %>><%=oRec("jobnavn") & " ("& oRec("jobnr") &")" & jobstatusTxt %></option>
 
            <%
 

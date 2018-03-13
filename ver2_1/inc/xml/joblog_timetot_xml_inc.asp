@@ -4,11 +4,11 @@ Dim objXMLHTTP_joblog, objXMLDOM_joblog, i_joblog, strHTML_joblog
 
 Set objXMLDom_joblog = Server.CreateObject("Microsoft.XMLDOM")
 Set objXmlHttp_joblog = Server.CreateObject("Msxml2.ServerXMLHTTP")
-'objXmlHttp_joblog.open "GET", "http://localhost/Git/timeout_2016/ver2_1/inc/xml/joblog_sprog.xml", False
+'objXmlHttp_joblog.open "GET", "http://localhost/Git/timeout_2016/ver2_1/inc/xml/joblog_timetot_sprog.xml", False
 objXmlHttp_joblog.open "GET", "http://localhost/inc/xml/joblog_timetot_sprog.xml", False
-'objXmlHttp_joblog.open "GET", "http://outzource.dk/timeout_xp/wwwroot/ver2_10/inc/xml/joblog_sprog.xml", False
-'objXmlHttp_joblog.open "GET", "https://timeout.cloud/timeout_xp/wwwroot/ver3_99/inc/xml/joblog_sprog.xml", False
-'objXmlHttp_joblog.open "GET", "https://outzource.dk/timeout_xp/wwwroot/ver2_14/inc/xml/joblog_sprog.xml", False
+'objXmlHttp_joblog.open "GET", "http://outzource.dk/timeout_xp/wwwroot/ver2_10/inc/xml/joblog_timetot_sprog.xml", False
+'objXmlHttp_joblog.open "GET", "https://timeout.cloud/timeout_xp/wwwroot/ver3_99/inc/xml/joblog_timetot_sprog.xml", False
+'objXmlHttp_joblog.open "GET", "https://outzource.dk/timeout_xp/wwwroot/ver2_14/inc/xml/joblog_timetot_sprog.xml", False
 'objXmlHttp_joblog.open "GET", "https://timeout.cloud/timeout_xp/wwwroot/ver2_14/inc/xml/joblog_timetot_sprog.xml", False
 
 objXmlHttp_joblog.send
@@ -296,6 +296,43 @@ Set oNodes_joblog = objXmlDom_joblog.documentElement.selectNodes(sXPathQuery_job
     joblog_txt_199 = oNode_joblog.selectSingleNode("txt_199").Text
     joblog_txt_200 = oNode_joblog.selectSingleNode("txt_200").Text
 
+    joblog_txt_201 = oNode_joblog.selectSingleNode("txt_201").Text
+    joblog_txt_202 = oNode_joblog.selectSingleNode("txt_202").Text
+    joblog_txt_203 = oNode_joblog.selectSingleNode("txt_203").Text
+    joblog_txt_204 = oNode_joblog.selectSingleNode("txt_204").Text
+    joblog_txt_205 = oNode_joblog.selectSingleNode("txt_205").Text
+    joblog_txt_206 = oNode_joblog.selectSingleNode("txt_206").Text
+    joblog_txt_207 = oNode_joblog.selectSingleNode("txt_207").Text
+    joblog_txt_208 = oNode_joblog.selectSingleNode("txt_208").Text
+    joblog_txt_209 = oNode_joblog.selectSingleNode("txt_209").Text
+    joblog_txt_210 = oNode_joblog.selectSingleNode("txt_210").Text
+
+    joblog_txt_211 = oNode_joblog.selectSingleNode("txt_211").Text
+    joblog_txt_212 = oNode_joblog.selectSingleNode("txt_212").Text
+    joblog_txt_213 = oNode_joblog.selectSingleNode("txt_213").Text
+    joblog_txt_214 = oNode_joblog.selectSingleNode("txt_214").Text
+    joblog_txt_215 = oNode_joblog.selectSingleNode("txt_215").Text
+    joblog_txt_216 = oNode_joblog.selectSingleNode("txt_216").Text
+    joblog_txt_217 = oNode_joblog.selectSingleNode("txt_217").Text
+    joblog_txt_218 = oNode_joblog.selectSingleNode("txt_218").Text
+    joblog_txt_219 = oNode_joblog.selectSingleNode("txt_219").Text
+    joblog_txt_220 = oNode_joblog.selectSingleNode("txt_220").Text
+
+    joblog_txt_221 = oNode_joblog.selectSingleNode("txt_221").Text
+    joblog_txt_222 = oNode_joblog.selectSingleNode("txt_222").Text
+    joblog_txt_223 = oNode_joblog.selectSingleNode("txt_223").Text
+    joblog_txt_224 = oNode_joblog.selectSingleNode("txt_224").Text
+    joblog_txt_225 = oNode_joblog.selectSingleNode("txt_225").Text
+    joblog_txt_226 = oNode_joblog.selectSingleNode("txt_226").Text
+    joblog_txt_227 = oNode_joblog.selectSingleNode("txt_227").Text
+    joblog_txt_228 = oNode_joblog.selectSingleNode("txt_228").Text
+    joblog_txt_229 = oNode_joblog.selectSingleNode("txt_229").Text
+    joblog_txt_230 = oNode_joblog.selectSingleNode("txt_230").Text
+
+    joblog_txt_231 = oNode_joblog.selectSingleNode("txt_231").Text
+    joblog_txt_232 = oNode_joblog.selectSingleNode("txt_232").Text
+    joblog_txt_233 = oNode_joblog.selectSingleNode("txt_233").Text
+    joblog_txt_234 = oNode_joblog.selectSingleNode("txt_234").Text
   
           
     next

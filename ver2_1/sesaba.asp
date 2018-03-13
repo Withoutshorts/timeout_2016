@@ -94,7 +94,7 @@ if cint(logudDone) = 0 then
 '*** Opdaterer login_historik AUTOmatisk hvis stempelur ikke er slået til ****
 LogudDateTime = year(now)&"/"& month(now)&"/"&day(now)&" "& datepart("h", now) &":"& datepart("n", now) &":"& datepart("s", now) 
 logudTid = LogudDateTime 'year(loginDato) &"/"& month(loginDato)&"/"& day(loginDato) & " " & logudHH &":"& logudMM & ":00"
-	
+datoThis = day(now)&"/"& month(now)&"/"&year(now)
 
 strSQL = "SELECT id, login, stempelurindstilling FROM login_historik WHERE mid = " & uid &" AND stempelurindstilling <> -1 ORDER BY id DESC"
 oRec.open strSQL, oConn, 3 
@@ -114,6 +114,18 @@ if not oRec.EOF then
     minThisDIFF = 0
 
 	end if
+
+
+    'if session("mid") = 1 AND lto = "cflow" then
+
+    '    LogudDateTime = year(now)&"/"& month(now)&"/"&day(now)&" 02:00:00"
+    '    logudTid = LogudDateTime
+    '    loginTid_opr = oRec("login") 'year(now)&"/"& month(now)&"/"&day(now)&" 07:30:00"
+    'else
+
+        loginTid_opr = oRec("login")
+
+    'end if
 	
 	strSQL2 = "UPDATE login_historik SET logud = '"& logudTid &"', logud_first = '"& logudTid &"', minutter = "& minThisDIFF &" WHERE id = " & oRec("id")
 	'Response.Write strSQL2
@@ -123,14 +135,248 @@ if not oRec.EOF then
     select case lto
     case "intranet - local", "cflow"
     
-        if len(trim(request("FM_timer_overtid"))) <> 0 AND len(trim(request("fm_overtid_ok"))) <> 0 then
-        timertilindlasning = request("FM_timer_overtid")
+
+        '*** Overtid ***'
+        'if len(trim(request("FM_timer_overtid"))) <> 0 AND len(trim(request("fm_overtid_ok"))) <> 0 then
+        'timertilindlasning = request("FM_timer_overtid")
+        'else
+        'timertilindlasning = 0
+        'end if
+            
+      
+        '*** Indlæser på aktiviteter **'
+        if len(trim(request("FM_aktivitetid"))) <> 0 then
+        aktivitetid = request("FM_aktivitetid")
+        else
+        aktivitetid = 0
+        end if
+
+
+        if cint(aktivitetid) = 0 then
+
+        %>
+        <!--#include file="inc/regular/header_lysblaa_2015_inc.asp"-->
+         <div class="container" style="width:100%; height:100%">
+             <br /><br /><br /><br /><br /><br /><br /><br />
+            <div class="portlet">
+                <div class="portlet-body">
+
+                        <div class="row">
+                                <div class="col-lg-12" style="text-align:center"><h3>Feil!<br /><br />
+                                    <span style="color:red;">Før du kan stemple ut, skal der vælges et projekt og en aktivitet.</span>
+                                    <br /><br />
+                                    <a href="#" onclick="Javascript:history.back();"><< Tilbake</a>
+                                    </h3>
+
+                                </div>
+                            </div>
+
+                    </div>
+                </div>
+             </div>
+
+        <%
+        Response.end
+
+
+        end if
+
+        
+        timerthis_mtx_tot = 0
+
+        'if timertilindlasning <> 0 then
+            ftaktim = 30 'Ordinær
+            loginTid = formatdatetime(oRec("login"), 3)
+            logudTidmatrix = formatdatetime(logudTid, 3)
+            loginDate = formatdatetime(oRec("login"), 2)
+            call matrixtimespan_2018(datoThis, 0, loginTid, logudTidmatrix, loginDate, lto)
+
+            call overtidsTillaeg(oRec("stempelurindstilling"), lto, loginTid_opr, logudTid, session("mid"), timerthis_mtx, ftaktim)
+
+            timerthis_mtx_komma = replace(timerthis_mtx, ".", ",")
+            timerthis_mtx_tot = (timerthis_mtx_tot * 1) + (timerthis_mtx_komma * 1)
+
+            'if session("mid") = 1 then
+            'Response.write "timerthis_mtx: "& timerthis_mtx_komma & "<br>"& timerthis_mtx_tot & "<br>"
+            'Response.flush
+            'end if
+
+            '*** Frokost / Pause
+            if cdbl(timerthis_mtx) > 4 then
+                call overtidsTillaeg(oRec("stempelurindstilling"), lto, loginTid_opr, logudTid, session("mid"), "-0,5", ftaktim)
+                call overtidsTillaeg(oRec("stempelurindstilling"), lto, loginTid_opr, logudTid, session("mid"), "0,5", 10)
+
+                haltimespause = (1/2) 
+
+                timerthis_mtx_tot = (timerthis_mtx_tot * 1) - (haltimespause * 1)
+
+            end if
+
+            
+            'if session("mid") = 1 then
+            'Response.write timerthis_mtx_tot & "<br>"
+            'Response.flush
+            'end if
+
+            'timertilindlasning = 0
+        'end if
+
+
+        'if timertilindlasning <> 0 then
+            ftaktim = 54 'Overtid 50% type. Beregn om det skal være 50%
+            loginTid = formatdatetime(oRec("login"), 3)
+            logudTidmatrix = formatdatetime(logudTid, 3)
+            loginDate = formatdatetime(oRec("login"), 2)
+            call matrixtimespan_2018(datoThis, 1, loginTid, logudTidmatrix, loginDate, lto)
+
+            call overtidsTillaeg(oRec("stempelurindstilling"), lto, loginTid_opr, logudTid, session("mid"), timerthis_mtx, ftaktim)
+
+            timerthis_mtx_komma = replace(timerthis_mtx, ".", ",")
+            timerthis_mtx_tot = (timerthis_mtx_tot * 1) + (timerthis_mtx_komma * 1)
+            'timertilindlasning = 0
+        'end if
+
+
+            'if session("mid") = 1 then
+            'Response.write timerthis_mtx_tot & "<br>"
+            'Response.flush
+            'end if
+
+
+        'if timertilindlasning <> 0 then
+            ftaktim = 51 'Overtid 100% type. Beregn om det skal være 100%
+            loginTid = formatdatetime(oRec("login"), 3)
+            logudTidmatrix = formatdatetime(logudTid, 3)
+            loginDate = formatdatetime(oRec("login"), 2)
+            call matrixtimespan_2018(datoThis, 2, loginTid, logudTidmatrix, loginDate, lto)
+
+            call overtidsTillaeg(oRec("stempelurindstilling"), lto, loginTid_opr, logudTid, session("mid"), timerthis_mtx, ftaktim)
+            
+            timerthis_mtx_komma = replace(timerthis_mtx, ".", ",")
+            timerthis_mtx_tot = (timerthis_mtx_tot * 1) + (timerthis_mtx_komma * 1)
+
+            'if session("mid") = 1 then
+            'Response.write timerthis_mtx_tot & "<br>"
+            'Response.flush
+            'end if
+
+        'end if
+
+      
+
+        '*** Timer efter midnat **'
+        ftaktim = 90 'Overtid 100% type. Beregn om det skal være 100%
+        loginTid = formatdatetime(oRec("login"), 3)
+        logudTidmatrix = formatdatetime(logudTid, 3)
+        loginDate = formatdatetime(oRec("login"), 2)
+        call matrixtimespan_2018(datoThis, 8, loginTid, logudTidmatrix, loginDate, lto)
+
+        call overtidsTillaeg(oRec("stempelurindstilling"), lto, loginTid_opr, logudTid, session("mid"), timerthis_mtx, ftaktim)
+        timerthis_mtx_komma = replace(timerthis_mtx, ".", ",") 
+        timerthis_mtx_tot = (timerthis_mtx_tot * 1) + (timerthis_mtx_komma * 1)
+
+        'if session("mid") = 1 then
+        '    Response.write timerthis_mtx_tot & "<br>"
+        '    Response.flush
+        '    end if
+
+
+         timertilindlasning = 0
+
+        '*** Rejsetid
+        if len(trim(request("FM_rejsetid"))) <> 0 AND request("FM_rejsetid") <> 0 then
+        timertilindlasning = request("FM_rejsetid")
         else
         timertilindlasning = 0
         end if
 
-       
-        call overtidsTillaeg(oRec("stempelurindstilling"), lto, oRec("login"), logudTid, session("mid"), timertilindlasning)
+        if timertilindlasning <> 0 then
+        ftaktim = 52 'Standard 50% type. Beregn om det skal være 100%
+        call overtidsTillaeg(oRec("stempelurindstilling"), lto, loginTid_opr, logudTid, session("mid"), timertilindlasning, ftaktim)
+        
+        timerthis_mtx_komma = replace(timertilindlasning, ".", ",")
+        timerthis_mtx_tot = (timerthis_mtx_tot * 1) - (timerthis_mtx_komma * 1)
+
+        timertilindlasning = 0
+        
+        
+
+        'if session("mid") = 1 then
+        '    Response.write timerthis_mtx_tot & "<br>"
+        '    Response.flush
+        '    end if
+    
+        end if
+
+
+
+
+
+        '*** FM_arbute_no 
+        if len(trim(request("FM_arbute_no"))) <> 0 then
+        timertilindlasning = 1
+        else
+        timertilindlasning = 0
+        end if
+
+        if timertilindlasning <> 0 then
+        ftaktim = 50 
+        call overtidsTillaeg(oRec("stempelurindstilling"), lto, loginTid_opr, logudTid, session("mid"), timerthis_mtx_tot, ftaktim)
+        timertilindlasning = 0
+        end if
+
+
+
+          '*** FM_arbute_world
+        if len(trim(request("FM_arbute_world"))) <> 0 then
+        timertilindlasning = 1
+        else
+        timertilindlasning = 0
+        end if
+
+        if timertilindlasning <> 0 then
+        ftaktim = 60 
+        call overtidsTillaeg(oRec("stempelurindstilling"), lto, loginTid_opr, logudTid, session("mid"), timerthis_mtx_tot, ftaktim)
+        timertilindlasning = 0
+        end if
+
+           '*** FM_arbute_teamleder
+        if len(trim(request("FM_arbute_teamleder"))) <> 0 then
+        timertilindlasning = 1
+        else
+        timertilindlasning = 0
+        end if
+
+        if timertilindlasning <> 0 then
+        ftaktim = 61 
+        call overtidsTillaeg(oRec("stempelurindstilling"), lto, loginTid_opr, logudTid, session("mid"), timerthis_mtx_tot, ftaktim)
+        timertilindlasning = 0
+        end if
+
+
+        '*** Evt timer øsnkes udbetalt
+        if len(trim(request("fm_overtidonskesudbetalt"))) <> 0 then
+        timertilindlasning = request("fm_overtidonskesudbetalt")
+        else
+        timertilindlasning = 0
+        end if
+        
+        if timertilindlasning <> 0 then
+        ftaktim = 33 
+        call overtidsTillaeg(oRec("stempelurindstilling"), lto, loginTid_opr, logudTid, session("mid"), timerthis_mtx_tot, ftaktim)
+        timertilindlasning = 0
+        end if
+
+
+        
+
+        'if aktivitetid <> 0 AND cdbl(timerthis_mtx_tot) <> 0 then
+        
+        call indlasTimerTfaktimAktid(lto, session("mid"), timerthis_mtx_tot, 0, aktivitetid)
+
+        'end if
+
+        
 
     end select
 	
@@ -222,7 +468,26 @@ Log på timeOut igen her:<br />
 
 case "intranet - local", "cflow"
 
+        if len(trim(request("indlaspaajob"))) <> 0 then
+        indlaspaajob = request("indlaspaajob")
+        else
+        indlaspaajob = 0
+        end if
+
+
+        if cint(indlaspaajob) = 1 then
+        call meStamdata(session("mid"))
+        
+            'if session("mid") <> 1 then
+            response.redirect "to_2015/monitor.asp?func=scan&RFID_field="&meNr&"&skiftjob=1"
+            'else
+            'Response.write "to_2015/monitor.asp?func=scan&RFID_field="&meNr
+            'end if
+
+        else
         response.redirect "to_2015/monitor.asp?func=startside"
+        end if
+
 
 case else
 

@@ -20,6 +20,7 @@
 
     <%
            
+
         
     function keyfigures(touchMonitor, login)
 
@@ -70,6 +71,9 @@
 
         daysAnsat = dateDiff("d", sqlDatoStart, ddNowMinusOne)
 
+        nt = 0
+        if nt = 1 then
+
         ntimPerIdag = 0
         call normtimerPer(usemrn, useStDatoKri, 0, 0)
         ntimPerIdag = ntimPer '/3600
@@ -88,7 +92,6 @@
         '114 = Korrektion Ultimo
         realtimerIalt = oRec2("realtimer")
         end if
-
         oRec2.close
 
         ntimerPeriode = dateDiff("d", useStDatoKri, daysansat, 2,2)
@@ -103,161 +106,20 @@
 
         'call nortimerStandardDag(meType)
             
-        %>
-
-        <!------ Ferie saldo ----->
-        <%
-                    
-        ferieafholdt = 0
-        call ferieAfholdtPer(sqlDatoStartFerie, sqlDatoEndFerie, usemrn, 0) 
-
-                    
-        'strSQL3 = "SELECT SUM(timer) AS ferieafholdt FROM timer WHERE tmnr = "& usemrn &" AND tdato BETWEEN '"& sqlDatoStartFerie &"' AND '"& sqlDatoEndFerie &"' AND tfaktim = 14 GROUP BY tmnr"
-        'oRec3.open strSQL3, oConn, 3
-        'if not oRec3.EOF then
-        'ferieafholdt = oRec3("ferieafholdt")
-        'end if
-        'oRec3.close
-                   
-
-        if ferieAFPerTimer(0) <> 0 then
-            ferieafholdt = ferieAFPerTimer(0)
-        else
-            ferieafholdt = 0
-        end if
-
-        'response.Write "<br> af:" & ferieAFPerTimer(0)
-                    
-        ferieoptjent = 0
-        strSQL4 = "SELECT timer AS ferieoptjent, tdato FROM timer WHERE tmnr = "& usemrn &" AND tdato BETWEEN '"& sqlDatoStartFerie &"' AND '"& sqlDatoEndFerie &"' AND (tfaktim = 15 OR tfaktim = 111 OR tfaktim = 112) ORDER BY tdato"
-                    
-        'if session("mid") = 1 then
-        'Response.write strSQL4
-        'Response.flush
-        'end if
-                    
-        oRec8.open strSQL4, oConn, 3
-        while not oRec8.EOF 
-                    
-                call normtimerPer(usemrn, oRec8("tdato"), 6, 0)
-	            if ntimPer <> 0 then
-                normTimerGns5 = (ntimManIgnHellig + ntimTirIgnHellig + ntimOnsIgnHellig + ntimTorIgnHellig + ntimFreIgnHellig + ntimLorIgnHellig + ntimSonIgnHellig)  / 5
-                else
-                normTimerGns5 = 1
-                end if 
-
-               
-        ferieoptjent = ferieoptjent + (oRec8("ferieoptjent")*1/normTimerGns5)
-                    
-        oRec8.movenext
-        wend
-        oRec8.close
-                   
-                
-        ferieSaldo = (ferieoptjent - ferieafholdt)
-
-            'response.Write "<br> tal: " & ferieoptjent
-        %>
-
-        <!------ sygetal ----->
-        <%
-
-        sygtot = 0
-        strSQL5 = "SELECT timer AS sygtimer, tdato FROM timer WHERE tmnr = "& usemrn &" AND tfaktim = 20 AND tdato BETWEEN '"& sqlDatoStartATD &"' AND '"& sqlDatoEnd &"' ORDER BY tdato"
-                    
-        oRec8.open strSQL5, oConn, 3
-        while not oRec8.EOF 
-
-                call normtimerPer(usemrn, oRec8("tdato"), 0, 0)
-	            if ntimPer <> 0 then
-                ntimPerUse = ntimPer
-                else
-                ntimPerUse = 1
-                end if 
-
-        sygtot = sygtot + (oRec8("sygtimer")*1 / ntimPerUse)
-        oRec8.movenext
-        wend 
-        oRec8.close
-                    
-
-        barnsygtot = 0
-        strSQL6 = "SELECT timer As barnsygtimer, tdato FROM timer WHERE tmnr = "&usemrn&" AND tfaktim = 21 AND tdato BETWEEN '"& sqlDatoStartATD &"' AND '"& sqlDatoEnd &"' ORDER BY tdato"
-        oRec8.open strSQL6, oConn, 3
-        while not oRec8.EOF
-
-                call normtimerPer(usemrn, oRec8("tdato"), 0, 0)
-	            if ntimPer <> 0 then
-                ntimPerUse = ntimPer
-                else
-                ntimPerUse = 1
-                end if 
-
-        barnsygtot = barnsygtot + (oRec8("barnsygtimer")*1/ntimPerUse)
-        oRec8.movenext
-        wend 
-        oRec8.close
-                   
-
-        if cint(touchMonitor) = 1 then
-
-        overtidtot = 0
-        strSQL6 = "SELECT SUM(timer) As overtidtimer, tdato FROM timer WHERE tmnr = "&usemrn&" AND tfaktim = 30 GROUP BY tmnr" 'AND tdato BETWEEN '"& sqlDatoStartATD &"' AND '"& sqlDatoEnd &"'
-        oRec8.open strSQL6, oConn, 3
-        if not oRec8.EOF then
-
-        overtidtot = overtidtot + oRec8("overtidtimer")*1
-        
-        end if 
-        oRec8.close
-
-        realtimerIdag = 0
-        sqlDatoIdag = year(now) &"/"& month(now) &"/"& day(now)
-        strSQL2 = "SELECT tmnavn, SUM(timer) AS realtimer FROM timer WHERE tmnr = "& usemrn &" AND ("& aty_sql_realhours &") AND tdato = '"& sqlDatoIdag &"' GROUP BY tmnr"
-
-
-        'response.write strSQL2
-        'response.flush
+        end if 'nt
        
-        oRec2.open strSQL2, oConn, 3
-        if not oRec2.EOF then
-        realtimerIdag = oRec2("realtimer")
-        end if
 
-        oRec2.close
 
-        end if
+      
+
+       
 
                    
 
-        if ferieSaldo < 0 then
-        flexferieCol = "red"
-        else
-        flexferieCol = "greenyellow"
-        end if
-
-        if flexsaldo < 0 then
-        flexsaldoCol = "red"
-        else
-        flexsaldoCol = "greenyellow"
-        end if
-
-        if sygtot < 0 then
-        sygtotCol = "red"
-        else
-        sygtotCol = "greenyellow"
-        end if
-
-        if barnsygtot < 0 then
-        barnsygtotCol = "red"
-        else
-        barnsygtotCol = "greenyellow"
-        end if
 
         if cint(touchMonitor) <> 0 then
         %>
-             <!--<div class="col-lg-3"> -->
-                <!-- monitor.asp?func=logud&medid=<%=medid %>&medarb_navn=<%=medarb_navn %> -->
+             
                 <style type="text/css">
          
                 .blink {
@@ -276,20 +138,108 @@
 }
                     </style>
 
-               <form action="../sesaba.asp" method="post">
+               <form action="../sesaba.asp" method="post" id="monitorform" name="monitorform">
+               <input type="hidden" id="mobil_week_reg_akt_dd" name="" value="<%=mobil_week_reg_akt_dd %>"/>
+               <input type="hidden" id="mobil_week_reg_job_dd" name="" value="<%=mobil_week_reg_job_dd %>"/>
+
+                <% 
+                if request.Cookies("monitor_job")(session("mid")) <> "" then
+                jobidC = request.Cookies("monitor_job")(session("mid"))
+                aktidC = request.Cookies("monitor_akt")(session("mid"))
+                else
+                jobidC = "-1"
+                aktidC = "-1"
+                end if
+
+                'jobidC = "909"
+                'aktidC = "-1"    
+                    
+                %>
+
+               <input type="hidden" id="jq_jobidc" name="" value="<%=jobidC %>"/>
+               <input type="hidden" id="jq_aktidc" name="" value="<%=aktidC %>"/>
+
+               <input type="hidden" id="FM_medid" name="FM_medid" value="<%=usemrn %>"/>
+               <input type="hidden" id="lto" value="<%=lto%>">
+               <input type="hidden" name="varTjDatoUS_man" id="varTjDatoUS_man" value="<%=varTjDatoUS_man %>">
                <table style="font-size:80%; width:450px; display:inline-table;" border="0">  
-                      <tr>
-                        <td style="padding-top:5px; padding-left:10px; font-size:15px; text-align:left; width:250px;">Flex saldo (opgjort pr. igår):</td>
-                        <td style="padding-top:5px; padding-left:20px; font-size:15px; text-align:right;"><%=formatnumber(flexsaldo, 2) %></td>
-                    </tr> 
-                   <tr>
-                        <td style="padding-top:5px; padding-left:10px; font-size:15px; text-align:left;">Overtid saldo (godkendte):</td>
-                        <td style="padding-top:5px; padding-left:20px; font-size:15px; text-align:right;"><%=formatnumber(overtidtot, 2) %></td>
-                    </tr> 
-                   <tr>
-                        <td style="padding-top:5px; padding-left:10px; font-size:15px; text-align:left;">Komponent/aktivitet idag:</td>
-                        <td style="padding-top:5px; padding-left:20px; font-size:15px; text-align:right;"><%=formatnumber(realtimerIdag, 2)%></td>
-                    </tr>
+                    
+            
+
+                   <%   txtClass = "lg"
+                        inputHeight = "150%"
+                        inputFont = "150%"
+                        paddingTop = "30px"
+                        'response.Write "<br><br><br>"
+                        rdir_timereg = "touchMonitor" 
+                    %>
+
+
+                     <tr><td style="padding-left:10px; padding-top:0px; font-size:15px; text-align:left;">Projekt</td></tr>
+                   <tr><td colspan="2">
+                        
+                            <%
+                                
+                            
+
+                              mobil_week_reg_job_dd = 1  
+                              if cint(mobil_week_reg_job_dd) = 1 then %>
+
+
+                               
+                          
+                             <input type="hidden" id="FM_job_0" value="-1"/>
+                             <select id="dv_job_0" name="FM_jobid" style="font-size:<%=inputFont %>; height:<%=inputHeight%>;" class="form-control input-<%=txtClass %> chbox_job">
+                                 <option value="-1"><%=left(tsa_txt_145, 4) %>..</option>
+                                 <!--<option value="0">..</option>-->
+                             </select>
+
+                            <%else %>
+                            <input type="text" style="font-size:<%=inputFont%>; height:<%=inputHeight%>" id="FM_job_0" name="FM_job" placeholder="<%=tsa_txt_066 %>/<%=tsa_txt_236 %>" class="FM_job form-control input-<%=txtClass %>"/>
+                           <!-- <div id="dv_job_0" class="dv-closed dv_job" style="border:1px #cccccc solid; padding:10px; visibility:hidden; display:none;"></div>--> <!-- dv_job -->
+
+                             <select id="dv_job_0" class="form-control input-small chbox_job" size="10" style="visibility:hidden; display:none;">
+                                 <option><%=tsa_txt_534%>..</option>
+                             </select>
+
+                            <input type="hidden" id="FM_jobid_0" name="FM_jobid" value="0"/>
+                            <%end if %>
+
+                       </td></tr>
+                        <tr><td style="padding-left:10px; padding-top:10px; font-size:15px; text-align:left;">Komponent/Aktivitet</td></tr>
+
+                            <tr><td colspan="2">
+
+                                <%
+                                    
+                              mobil_week_reg_akt_dd = 1      
+                              if cint(mobil_week_reg_akt_dd) = 1 then %>
+                                 <input type="hidden" id="FM_akt_0" value="-1"/>
+                                 <!--<textarea id="dv_akt_test"></textarea>-->
+                                 <select id="dv_akt_0" name="FM_aktivitetid" class="form-control input-<%=txtClass %> chbox_akt" style="font-size:<%=inputFont%>; height:<%=inputHeight%>" DISABLED>
+                                      <option>..</option>
+                                  </select>
+
+                             <%else %>
+                              <input style="font-size:<%=inputFont%>; height:<%=inputHeight%>" type="text" id="FM_akt_0" name="activity" placeholder="<%=tsa_txt_068%>" class="FM_akt form-control input-<%=txtClass %>"/>
+                                <!--<div id="dv_akt_0" class="dv-closed dv_akt" style="border:1px #cccccc solid; padding:10px; visibility:hidden; display:none;"></div>--> <!-- dv_akt -->
+
+                                  <select id="dv_akt_0" class="form-control input-small chbox_akt" size="10" style="visibility:hidden; display:none;"> <!-- chbox_akt -->
+                                      <option><%=tsa_txt_534%>..</option>
+                                  </select>
+                              <input type="hidden" id="FM_aktid_0" name="FM_aktivitetid" value="0"/>
+                             <%end if %>
+                           
+                        </td></tr>
+
+                    <tr>
+                       <td colspan="2" style="padding-top:5px; padding-left:10px; text-align:right;">
+                         
+                           <input type="submit" id="bt_indlaspaajob" class="btn btn-sm btn-default" value="Indlæs på projekt og fortsæt >>">
+                           <input type="hidden" value="0" name="indlaspaajob" id="indlaspaajob" />
+                       </td>
+                   </tr>
+
                    <tr><td colspan="2"><br /><br />&nbsp;</td></tr>
 
                    <tr>
@@ -312,13 +262,20 @@
 
                             'if cdbl(timerLoggetPaa100) > 1 then
                                 
+                                'response.write "timerLoggetPaa100:"&  timerLoggetPaa100
+                                'response.Flush
+
                                 timerLoggetPaa = (timerLoggetPaa100)
                                
                                 komma = instr(timerLoggetPaa, ",") 'efter formatnumber er der altid komma
+                                if komma > 0 then
                                 timerLoggetPaaTimer = left(timerLoggetPaa, komma-1)
+                                else
+                                timerLoggetPaaTimer = "00"
+                                end if
+                                
                                 timerLoggetPaaMin = right(timerLoggetPaa, 2)
                                 timerLoggetPaaMin = formatnumber((timerLoggetPaaMin / 100) * 60, 0)
-
                                 timerLoggetPaaMin = left(timerLoggetPaaMin,2)
 
                                 if timerLoggetPaaMin < 10 then
@@ -332,15 +289,29 @@
                             <%=left(formatdatetime(login, 3),5) %> - <%=left(formatdatetime(now, 3), 5) %> = <span class="blink"><b><%=timerLoggetPaa%></b></span></td>
                     </tr>
                     
-                   
+                   <!--
                     <tr>
                         <td style="padding-top:5px; padding-left:10px; font-size:15px;">Overtid idag (beordret):<br /><span style="font-size:11px;">30 min = 0,5</span>
-                        <td style="padding-top:5px; padding-left:60px; font-size:15px; text-align:right;" align="right"><input type="number" id="fm_overtid" name="FM_timer_overtid" value="<%=overTidberegnet %>" class="form-control input-lg" style="text-align:right;" /></td>
+                        <td style="padding-top:5px; padding-left:60px; font-size:15px; text-align:right;" align="right"><input type="text" id="fm_overtid" name="FM_timer_overtid" value="<%=overTidberegnet %>" class="form-control input-lg" style="text-align:right;" /></td>
                     </tr>
                     <tr>
                         
                         <td style="font-size:15px; text-align:right;" colspan="2"><input type="checkbox" name="fm_overtid_ok" value="1" /> Godkend overtid</td>
                     </tr>
+                   -->
+
+                    <tr>
+                        <td style="padding-top:25px; padding-left:10px; font-size:15px;">Evt. overtid ønskes udbetalt:
+                        <td style="padding-top:25px; padding-left:60px; font-size:15px; text-align:right;" align="right"><input type="text" id="fm_overtidonskesudbetalt" name="fm_overtidonskesudbetalt" value="0" class="form-control input-lg" style="text-align:right;" /></td>
+                    </tr>
+
+                    <tr>
+                        <td style="padding-top:25px; padding-left:10px; font-size:15px;">Reisetid:<br /><span style="font-size:11px;">30 min = 0,5</span>
+                        <td style="padding-top:25px; padding-left:60px; font-size:15px; text-align:right;" align="right"><input type="text" id="fm_rejsetid" name="FM_rejsetid" value="0" class="form-control input-lg" style="text-align:right;" /></td>
+                    </tr>
+                   
+
+
                    <tr>
                         <td style="padding-top:40px; padding-left:10px; font-size:15px; vertical-align:top;">Arbejde ute:</td>
                         <td style="padding-top:40px; padding-left:65px; font-size:15px;"><input type="checkbox" name="FM_arbute_no" value="1" /> NO<br />

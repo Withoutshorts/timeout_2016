@@ -42,7 +42,7 @@ end function
 '*********************************************************************************************************************************
 '**** Opdaterer timer ************************************************************************************************************
 '*********************************************************************************************************************************
-public EmailNotificerTxt, EmailNotificer, EmailNotificerTxt2, EmailNotificer2, EmailNotificerTxt3, EmailNotificer3, timerthisTjkFc, timer_opr, Tjkjobnr
+public EmailNotificerTxt, EmailNotificer, EmailNotificerTxt2, EmailNotificer2, EmailNotificerTxt3, EmailNotificer3, timerthisTjkFc, timer_opr, Tjkjobnr, errAktnavn
 
 function opdaterTimer(aktid, aktnavn, tfaktimvalue, strFastpris, jobnr, strJobnavn, strJobknr, strJobknavn,_
 medid, strMnavn, datothis, timerthis, kommthis, intTimepris,_
@@ -137,48 +137,53 @@ end if
 
 '*** Dobbeltjekker at forecast pr. medarb. IKKE er overskrteddet
 Tjkjobnr = ""
-if cint(akt_maksforecast_treg) = 1 AND cint(tfaktimvalue) = 1 then
+if (cint(akt_maksforecast_treg) = 1 AND cint(tfaktimvalue) = 1) then
 
-            datothisSQLtjkFC = ConvertDateYMD(datothis)
-            strSQLfindes = "SELECT SUM(timer) AS timer_opr, Tjobnr, TAktivitetId, timerkom FROM timer WHERE TAktivitetId = "& aktid &" AND Tjobnr = '"& jobnr &"' AND Tmnr = "& medid &" AND Tdato = '"& datothisSQLtjkFC &"' GROUP BY TAktivitetId"
+    'if lto <> "wap" OR (lto = "wap" AND cint(aktid) = 28) then
+
+                datothisSQLtjkFC = ConvertDateYMD(datothis)
+                strSQLfindes = "SELECT SUM(timer) AS timer_opr, Tjobnr, TAktivitetId, timerkom FROM timer WHERE TAktivitetId = "& aktid &" AND Tjobnr = '"& jobnr &"' AND Tmnr = "& medid &" AND Tdato = '"& datothisSQLtjkFC &"' GROUP BY TAktivitetId"
             
-			oRec6.Open strSQLfindes, oConn, 3  
-			timer_opr = 0
-			if NOT oRec6.EOF then
-            timer_opr = oRec6("timer_opr")
-            end if
-            oRec6.close
+			    oRec6.Open strSQLfindes, oConn, 3  
+			    timer_opr = 0
+			    if NOT oRec6.EOF then
+                timer_opr = oRec6("timer_opr")
+                end if
+                oRec6.close
 
-    timerthisTjkFc = 0
-    timerthisTjkFc = (replace(timerthis, ".", ",")/1 - (timer_opr/1))
-    'timerthisTjkFc = replace(timerthisTjkFc, ".", "")
+        timerthisTjkFc = 0
+        timerthisTjkFc = (replace(timerthis, ".", ",")/1 - (timer_opr/1))
+        'timerthisTjkFc = replace(timerthisTjkFc, ".", "")
 
-    Tjkjobnr = jobnr
+        Tjkjobnr = jobnr
 
-    call ressourcefc_tjk(ibudgetaar, ibudgetmd, aar, md, medid, aktid, timerthisTjkFc)
+        call ressourcefc_tjk(ibudgetaar, ibudgetmd, aar, md, medid, aktid, timerthisTjkFc)
 
     
   
 
-    if cdbl(feltTxtValFc) < 0 AND timerthis > 0 then
+        if cdbl(feltTxtValFc) < 0 AND timerthis > 0 then
 
-        'if session("mid") = 1 then
-        'Response.write "<br>timerthisTjkFc timer + timer_opr:<br>SQL: "& strSQLfindes &"<br>feltTxtValFc: "& feltTxtValFc &" timerthisTjkFc: "& timerthisTjkFc &" timerthis:"& timerthis & " timer_opr/1:" & timer_opr/1   
-        'Response.end
-        'end if
+            'if session("mid") = 1 AND lto = "wap" then
+            'Response.write "ibudgetmd: "& ibudgetmd &"<br>timerthisTjkFc timer + timer_opr:<br>SQL: "& strSQLfindes &"<br>feltTxtValFc: "& feltTxtValFc &" timerthisTjkFc: "& timerthisTjkFc &" timerthis:"& timerthis & " timer_opr/1:" & timer_opr/1   
+            'Response.end
+            'end if
 
-        timerthis = -9001
-        
-        errortype = 187
-	    useleftdiv = "t"
+            timerthis = -9001
+            errAktnavn = aktnavn
+            errortype = 187
+	        useleftdiv = "t"
 
-					%><!--#include file="../../inc/regular/header_lysblaa_inc.asp"--><%
+					    %><!--#include file="../../inc/regular/header_lysblaa_inc.asp"--><%
                     
-	    call showError(errortype)
-		response.end
+	        call showError(errortype)
+		    response.end
         
 
-    end if
+        end if
+
+
+   'end if 'WAP
 
 end if
 
@@ -187,12 +192,23 @@ end if
 'Response.write "<br>HER ibudgetaar: "& ibudgetaar & "  ibudgetmd: "& ibudgetmd & " aar = " & aar & " md: "& md & " feltTxtValFc: "& feltTxtValFc & "& timerthis:" & timerthis
 
 
-
-
+  
 
 
 if cint(timerround) = 1 AND cint(intEasyreg) <> 1 then 'fra cookie
-if tfaktimvalue = 1 OR tfaktimvalue = 2 then 'KUN fakturerbare / ikke fakbare timer 
+
+jobInternt = 0
+strSQLjobprio = "SELECT risiko FROM job WHERE jobnr = '"& jobnr &"'"
+oRec9.open strSQLjobprio, oConn, 3
+if not oRec9.EOF then
+                        
+     jobInternt = oRec9("risiko")
+
+end if
+oRec9.close
+
+
+if (tfaktimvalue = 1 OR tfaktimvalue = 2 AND lto <> "dencker") OR (tfaktimvalue = 1 OR tfaktimvalue = 2 AND lto = "dencker" AND jobInternt > 0) then 'KUN fakturerbare / ikke fakbare timer 
 
  
     if instr(timerthis, ".") <> 0 then
@@ -316,9 +332,15 @@ dblkostprisUse = replace(dblkostprisUse, ",", ".")
                     
                                        '** Findes der nomrtimer på den valgte dag **'
     	                               ntimPer = 0
+
+                                      
+
     	                               call normtimerPer(medid, datoThis, 6, 0)
                                        normTimerGns5 = (ntimManIgnHellig + ntimTirIgnHellig + ntimOnsIgnHellig + ntimTorIgnHellig + ntimFreIgnHellig + ntimLorIgnHellig + ntimSonIgnHellig)  / 5
             
+                                        
+
+
     	    
     	                                if cdbl(normTimerGns5) > 0 then
 
@@ -503,7 +525,7 @@ dblkostprisUse = replace(dblkostprisUse, ",", ".")
                                
                                  if cint(matrixAktFundet) = 1 then
                                 
-                                               call matrixtimespan(idag, mtrx, sTtid, sLtid, datoThis)
+                                               call matrixtimespan_2018(idag, mtrx, sTtid, sLtid, datoThis, lto)
                                                timerthis = timerthis_mtx
         
                                     end if 'MatrsixFundet
@@ -680,6 +702,10 @@ dblkostprisUse = replace(dblkostprisUse, ",", ".")
 			end if
 			oRec.close
 			
+
+
+
+
 	end if '** timer -9001 (-1) ***'
 
 
@@ -805,7 +831,7 @@ call erugeAfslutte(useYear, usePeriod, usemrn, SmiWeekOrMonth, 0)
    'ugeafsluttetTxt = ugeafsluttetTxt & "<br>aktBudgettjkOn: " & aktBudgettjkOn & " resforecastMedOverskreddet: "& resforecastMedOverskreddet & " lto: " & lto & " level: "& level
 
     '''** Er forecast på aktivitet overskreddet *****'
-    if (cint(aktBudgettjkOn) = 1 AND (cint(resforecastMedOverskreddet) = 1 OR cint(resforecastMedOverskreddet) = 2) AND (job_fakturerbar = 1 OR (job_fakturerbar = 2 AND (lto = "bf" OR lto = "intranet - local")) OR (job_fakturerbar = 90 AND lto = "mmmi"))) then  'level > 1 fjernet 20160104 == Vis amme indstillinger for alle
+    if (cint(aktBudgettjkOn) = 1 AND (cint(resforecastMedOverskreddet) = 1 OR cint(resforecastMedOverskreddet) = 2) AND (job_fakturerbar = 1 OR (job_fakturerbar = 2 AND (lto = "bf" OR lto = "intranet - local")) OR (job_fakturerbar = 90 AND lto = "mmmi") OR (job_fakturerbar = 90 AND lto = "wap"))) then  'level > 1 fjernet 20160104 == Vis amme indstillinger for alle
     '** Kun fakturerbare aktiviteter / WWF fravær / + E1 UNIK og MMMI
     '** Admin må gerne indtaste
             

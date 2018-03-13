@@ -1029,6 +1029,7 @@ if len(strConn) <> 0 then
 	Set oRec6 = Server.CreateObject ("ADODB.Recordset")
 	Set oRec7 = Server.CreateObject ("ADODB.Recordset")
     Set oRec8 = Server.CreateObject ("ADODB.Recordset")
+    Set oRec9 = Server.CreateObject ("ADODB.Recordset")
     Set oCmd = Server.CreateObject ("ADODB.Command")
 	
 	oConn.open strConnect_DBConn

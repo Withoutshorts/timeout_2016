@@ -628,6 +628,21 @@ if len(session("user")) = 0 then
     
     p1on = request("p1on")
     p2on = request("p2on")
+
+    if len(request("p3")) <> 0 then
+    p1 = request("p3")
+    else
+    p1 = -1
+    end if
+    
+    if len(request("p4")) <> 0 then
+    p2 = request("p4")
+    else
+    p2 = -1
+    end if
+    
+    p1on = request("p3on")
+    p2on = request("p4on")
    
         'Response.Write "request(p1on) " & request("p1on")
         'Response.Write "<br>request(p2on) " & request("p2on")
@@ -2130,7 +2145,9 @@ if len(session("user")) = 0 then
         '*** Adgang for specielle projektgrupper ****'
         call stPauserProgrp(useMid, p1_grp, p2_grp, p3_grp, p4_grp)
 
-       
+       'if session("mid") = 21 then
+       ' Response.write useMid &","& p1_grp&","& p2_grp&","& p3_grp&","& p4_grp
+       'end if
         
 
         '***** Opret nye pauser ****'
@@ -2269,7 +2286,9 @@ if len(session("user")) = 0 then
             wend
             oRec.close 
 
-              
+            else
+
+            p = 1
 
             end if 'func
             
@@ -2284,15 +2303,22 @@ if len(session("user")) = 0 then
 
             if (func = "redloginhist" AND id = 0) OR func = "oprloginhist" then
             startval = 1 'Standard Pause x antal min. er forvalgt
-            hdn = 1
+            hdn = 0 '1
             else
             startval = 0 'Pause 0 min er forvalgt
             hdn = 0
             end if
         
           
+            'if session("mid") = 21 then
+            'Response.write useMid &","& p1_grp&","& p2_grp&","& p3_grp&","& p4_grp & " cint(p): " & cint(p) & " p1on: "& p1on  &", startval = "& startval &", hdn: " & hdn & " p3on: "& p3on  & " p3_prg_on: " & p3_prg_on
+            'end if
+
+
             '*** Der er ikke tilføjet pauser endnu
             if cint(p) = 1 then
+
+            
 
                 if p1on <> 0 AND p1_prg_on = 1 then
                 call nyePauser(1, p1on, startval, hdn)
@@ -2531,7 +2557,11 @@ if len(session("user")) = 0 then
  
 	<%
 
-    call menu_2014()
+    if media <> "print" then
+        
+        call menu_2014()
+    
+    end if
 
 	sideDivTop = 102 '132
 	sideDivLeft = 90
@@ -2572,7 +2602,7 @@ if len(session("user")) = 0 then
         end if
     end if
 	
-	if len(request("FM_sumprmed")) <> 0 then
+	if len(request("FM_sumprmed")) <> 0 AND request("FM_sumprmed") <> 0 then
 	showTot = 1
 	sumChk = "CHECKED"
 	else
@@ -2581,7 +2611,7 @@ if len(session("user")) = 0 then
 	end if
 
 
-    if media <> "export" then
+    if media <> "export" AND media <> "print" then
 	%>
 
 
@@ -2625,56 +2655,60 @@ if len(session("user")) = 0 then
 	oskrift = "Komme/Gå tider (logind-historik)"
 	
     if media = "print" then
-	call sideoverskrift(oleft, otop, owdt, oimg, oskrift)
-    end if
-	%>
-	
-	<%call filterheader_2013(0,0,800,oskrift)%>
-	<table cellspacing="0" cellpadding="0" border="0" width=100%>
-	<form action="stempelur.asp?menu=stat&func=stat&FM_usedatokri=1&lastid=<%=lastid%>&showonlyone=<%=showonlyone%>&hidemenu=<%=hidemenu%>" method="post">
-	<tr>
-			
-			
-			<%call progrpmedarb %>
-			
-            <%strSQLlogtyp = "SELECT id, navn FROM stempelur WHERE id <> 0 ORDER BY navn"%>
 
-			</tr>
-			<tr><td valign=top><b>Type:</b><br />
-			<select name="FM_type">
-            <option value=0>Vis alle</option>
-            <%
-            oRec3.open strSQLlogtyp, oConn, 3
-            while not oRec3.EOF  
-            
-            if cint(typ) = oRec3("id") then
-            typSEL = "SELECTED"
-            else
-            typSEL = ""
-            end if
-            %>
-            <option value="<%=oRec3("id") %>" <%=typSEL %>><%=oRec3("navn") %></option>
-            <%
-            oRec3.movenext
-            wend
-            oRec3.close %>
-            </select><br /><br />
-			<input type="checkbox" name="FM_sumprmed" id="FM_sumprmed" value="1" <%=sumChk%>> Vis sum fordelt pr. medarbejder og logind type.&nbsp;&nbsp;</td>
-			
-			
-			
-			
-			
-			<td valign=top><b>Periode:</b><br>
-			<!--#include file="inc/weekselector_s.asp"-->
-			</td>
-	</tr>
-	<tr>
-			<td colspan=2 align=right>
-                <input id="Submit2" type="submit" value="Kør >> " /></td>
-	</tr></form>
-	</table>
+	    'call sideoverskrift(oleft, otop, owdt, oimg, oskrift)
+    
+        dontshowDD = 1
+        %><!--#include file="inc/weekselector_s.asp"--><%
+
+    else
 	
+	    call filterheader_2013(0,0,800,oskrift)%>
+	    <table cellspacing="0" cellpadding="0" border="0" width=100%>
+	    <form action="stempelur.asp?menu=stat&func=stat&FM_usedatokri=1&lastid=<%=lastid%>&showonlyone=<%=showonlyone%>&hidemenu=<%=hidemenu%>" method="post">
+	    <tr>
+			
+			
+			    <%call progrpmedarb %>
+			
+                <%strSQLlogtyp = "SELECT id, navn FROM stempelur WHERE id <> 0 ORDER BY navn"%>
+
+			    </tr>
+			    <tr><td valign=top><b>Type:</b><br />
+			    <select name="FM_type">
+                <option value=0>Vis alle</option>
+                <%
+                oRec3.open strSQLlogtyp, oConn, 3
+                while not oRec3.EOF  
+            
+                if cint(typ) = oRec3("id") then
+                typSEL = "SELECTED"
+                else
+                typSEL = ""
+                end if
+                %>
+                <option value="<%=oRec3("id") %>" <%=typSEL %>><%=oRec3("navn") %></option>
+                <%
+                oRec3.movenext
+                wend
+                oRec3.close %>
+                </select><br /><br />
+			    <input type="checkbox" name="FM_sumprmed" id="FM_sumprmed" value="1" <%=sumChk%>> Vis sum fordelt pr. medarbejder og logind type.&nbsp;&nbsp;</td>
+			
+			
+			
+			
+			
+			    <td valign=top><b>Periode:</b><br>
+			    <!--#include file="inc/weekselector_s.asp"-->
+			    </td>
+	    </tr>
+	    <tr>
+			    <td colspan=2 align=right>
+                    <input id="Submit2" type="submit" value="Kør >> " /></td>
+	    </tr></form>
+	    </table>
+    <%end if %>
 	
 	<!-- filter header -->
 	</td></tr></table>
@@ -2735,8 +2769,11 @@ if len(session("user")) = 0 then
 
 
         
-                 
+                    if cint(showTot) <> 1 then
                     ekspTxt = replace(stempelUrEkspTxt, "xx99123sy#z", vbcrlf)
+                    else
+                    ekspTxt = replace(stempelUrEkspTxtShowTot, "xx99123sy#z", vbcrlf)
+                    end if
                     
 	                datointerval = request("datointerval")
 	
@@ -2765,9 +2802,29 @@ if len(session("user")) = 0 then
                                 file = "stempelurexp_"&filnavnDato&"_"&filnavnKlok&"_"&lto&"."& fileext
 				
 				                '**** Eksport fil, kolonne overskrifter ***
+                                if cint(showTot) <> 1 then
                                 strOskrifter = "Medarbejder; Init; Dato; Logget ind; Logget ud; Timer (24:00); Minutter; Faktor; IP; Indstilling; Manuelt opr.; Systembesked; Kommentar;"
+                                strOskrifter = strOskrifter & strExportOskriftDage
+                                else
 
-                                      strOskrifter = strOskrifter & strExportOskriftDage
+                                select case lto
+                                case "cflow"
+                                expTxtFtaktim = "Overtid"
+                                case else
+                
+                                    if lto <> "cst" then
+                                    expTxtFtaktim = "Projekttimer (Real. timer)"
+                                    end if
+
+                                end select
+
+                                strOskrifter = "Medarbejder; Init; Startdato; Slutdato; Komme/Gå (24:00); Fradrag; Ialt;"
+            
+                                    if lto <> "cst" then
+                                    strOskrifter = strOskrifter & expTxtFtaktim &";"
+                                    end if
+            
+                                end if 'showTot
 
 
 
@@ -2815,7 +2872,7 @@ if len(session("user")) = 0 then
 
             pnteksLnk = "func=stat&FM_medarb_hidden="&thisMiduse&"&datointerval="&strDag&"/"&strMrd&"/"&strAar & " - " & strDag_slut&"/"&strMrd_slut&"/"&strAar_slut
             pnteksLnk = pnteksLnk & "&rdir="&rdir&"FM_medarb="&thisMiduse&"&FM_start_dag="&strDag&"&FM_start_mrd="&strMrd&"&FM_start_aar="&strAar&"&FM_slut_dag="&strDag_slut&"&FM_slut_mrd="&strMrd_slut&"&FM_slut_aar="&strAar_slut
-            pnteksLnk = pnteksLnk & "&nomenu="&nomenu
+            pnteksLnk = pnteksLnk & "&nomenu="&nomenu&"&FM_sumprmed="&showTot
 
            
 
@@ -2836,11 +2893,27 @@ if len(session("user")) = 0 then
 
                     </td>
                    </tr>
+
+                    <tr>
+                    <td>
+                      <br>
+                        <form action="stempelur.asp?func=stat&media=print&FM_sumprmed=<%=showTot %>" target="_blank" method="post"> 
+                            <input type="submit" id="" value="Print >>" style="font-size:9px;" />
+                        </form>
+
+                    </td>
+                   </tr>
          
         </table>
         </div>
 
-    <%end if %>
+    <%
+    else
+
+        Response.Write("<script language=""JavaScript"">window.print();</script>")      
+        Response.end
+        
+    end if %>
    
 
 	<br /><br /><br /><br /><br /><br /><br />&nbsp;
@@ -2849,10 +2922,10 @@ if len(session("user")) = 0 then
 	<!--#include file="../inc/regular/header_lysblaa_inc.asp"-->
 	<script language="javascript">
 	<!--
-	function mOvr(divId,src,clrOver) {
-	src.bgColor = clrOver;	
-	}
-	function mOut(src,clrIn) { if (!src.contains(event.toElement)) { src.style.cursor = 'default'; src.bgColor = clrIn;}}
+    function mOvr(divId, src, clrOver) {
+        src.bgColor = clrOver;
+    }
+    function mOut(src, clrIn) { if (!src.contains(event.toElement)) { src.style.cursor = 'default'; src.bgColor = clrIn; } }
 	//-->
 	</script>
 	<!-------------------------------Sideindhold------------------------------------->

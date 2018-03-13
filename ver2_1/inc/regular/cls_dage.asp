@@ -50,17 +50,19 @@ helligdagnavn = ""
 strSQL8 = "SELECT nh_id, nh_country, nh_name, nh_duration, nh_date, nh_editor_date, nh_open, nh_sortorder, nh_projgrp FROM national_holidays "_
 &" WHERE nh_id <> 0 AND nh_date = '"& tjekdennedagSQL &"' AND nh_country = '"& meCal &"' ORDER BY nh_country, nh_sortorder, nh_name, nh_date"
 
+    'if session("mid") = 1 then
     'rESPONSE.WRITE strSQL8
     'Response.flush
+    'end if
 
-oRec7.open strSQL8, oConn, 3
-if not oRec7.EOF then
+oRec9.open strSQL8, oConn, 3
+if not oRec9.EOF then
 
 
 
-if oRec7("nh_projgrp") <> "" then 'len(trim(oRec7("nh_projgrp"))) <> 0 AND 
+if oRec9("nh_projgrp") <> "" then 'len(trim(oRec9("nh_projgrp"))) <> 0 AND 
 nh_projgrp = 1
-nh_projgrp_arr = split(oRec7("nh_projgrp"), ",")
+nh_projgrp_arr = split(oRec9("nh_projgrp"), ",")
 
 else
 nh_projgrp = 0
@@ -69,8 +71,8 @@ end if
 
 if nh_projgrp = 0 then
 
-    helligdagnavn = oRec7("nh_name")
-    erHellig = oRec7("nh_open")
+    helligdagnavn = oRec9("nh_name")
+    erHellig = oRec9("nh_open")
 
 else
 
@@ -85,8 +87,8 @@ else
                 
                 if instr(medariprogrpTxtDage, "#"& trim(nh_projgrp_arr(p)) &"#") <> 0 then
                 prgGrpFundet = 1
-                erHellig = oRec7("nh_open")
-                helligdagnavn = oRec7("nh_name")
+                erHellig = oRec9("nh_open")
+                helligdagnavn = oRec9("nh_name")
                 else
                 erHellig = 0
                 helligdagnavn = ""
@@ -106,8 +108,8 @@ else
                 prgGrpFundet = 1
                 helligdagnavn = ""
                 else
-                erHellig = oRec7("nh_open")
-                helligdagnavn = oRec7("nh_name")
+                erHellig = oRec9("nh_open")
+                helligdagnavn = oRec9("nh_name")
                 end if
 
 
@@ -121,7 +123,7 @@ end if
 
 
 end if
-oRec7.close
+oRec9.close
 
 
 'Response.write "HER: " & helligdagnavn

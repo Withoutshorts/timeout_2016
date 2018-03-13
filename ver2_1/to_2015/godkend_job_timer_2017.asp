@@ -127,7 +127,7 @@
     call autogktimer_fn()
     call ersmileyaktiv()
 
-
+   
     strSQLmedarb = "SELECT mnavn FROM medarbejdere WHERE mid ="& session("mid")
     oRec.open strSQLmedarb, oConn, 3
     if not oRec.EOF then
@@ -177,13 +177,26 @@
 					                
                                     denneuge = datepart("ww", oRec("tdato"), 2,2)
 					                detteaar = datepart("yyyy", oRec("tdato"), 2,2)
-
                                     perSqlKri = "YEAR(uge) = '"& detteaar &"' AND WEEK(uge, 3) = '"& denneuge &"'"
+                                    
+                                    if cint(autogktimer) = 2 then 'Nulstil tentative timer
+                                
+                                                    thisUeId = 0
+                                                    strSQLthisPeriode = "SELECT uge, mid, id FROM ugestatus WHERE mid = "& oRec("tmnr") &" AND ("& perSqlKri &")"
+                                                    oRec6.open strSQLthisPeriode, oConn, 3
+                                                    if not oRec6.EOF then
+
+                                                    thisUeId = oRec6("id")
+
+                                                    end if
+                                                    oRec6.close
+
+                                            call nulstilTentative(autogktimer, thisUeId)
+
+                                    end if
+
+
                                     perSqlKriRem = "DELETE FROM ugestatus WHERE mid = "& oRec("tmnr") &" AND ("& perSqlKri &")"
-
-                                    'strAlle = strAlle & perSqlKriRem & "<br>"
-
-                                   
                                     oConn.execute(perSqlKriRem)
 
 
@@ -193,6 +206,24 @@
 					                detteaar = datepart("yyyy", oRec("tdato"), 2,2)
 
                                     perSqlKri = "YEAR(uge) = '"& detteaar &"' AND MONTH(uge) = '"& dennemd &"'"
+
+                                        if cint(autogktimer) = 2 then 'Nulstil tentative timer
+                                
+                                                    thisUeId = 0
+                                                    strSQLthisPeriode = "SELECT uge, mid, id FROM ugestatus WHERE mid = "& oRec("tmnr") &" AND ("& perSqlKri &")"
+                                                    oRec6.open strSQLthisPeriode, oConn, 3
+                                                    if not oRec6.EOF then
+
+                                                    thisUeId = oRec6("id")
+
+                                                    end if
+                                                    oRec6.close
+
+                                            call nulstilTentative(autogktimer, thisUeId)
+
+                                         end if
+
+
                                     perSqlKriRem = "DELETE FROM ugestatus WHERE mid = "& oRec("tmnr") &" AND ("& perSqlKri &")"
                                     oConn.execute(perSqlKriRem)
 

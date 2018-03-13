@@ -1,11 +1,8 @@
 {
   "ExpandedNodes": [
     "",
-    "\\inc",
-    "\\inc\\regular",
-    "\\to_2015",
-    "\\to_2015\\js"
+    "\\App_WebReferences",
+    "\\inc\\errors"
   ],
-  "SelectedNode": "\\to_2015\\js\\godkend_job.js",
   "PreviewInSolutionExplorer": false
 }

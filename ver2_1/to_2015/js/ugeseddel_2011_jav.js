@@ -83,7 +83,9 @@ $(document).ready(function() {
 
         //alert("søger")
        
-      
+        $("#btn_indlas").prop("disabled", false);
+         
+
         mobil_week_reg_job_dd = $("#mobil_week_reg_job_dd").val()
         mobil_week_reg_akt_dd = $("#mobil_week_reg_akt_dd").val()
 

@@ -12,6 +12,10 @@
 <!--#include file="../inc/regular/topmenu_inc.asp"-->
 
 <!--'include file="../inc/regular/header_lysblaa_inc.asp"-->
+
+<%
+thisfile = "timebudget_scroll"
+%>
 <!--#include file="../inc/regular/header_lysblaa_2015_inc.asp"-->
 
 
@@ -21,6 +25,16 @@
 
         /* #div1 {width:350px;height:270px; padding:20px;border:5px solid #999999; z-index:20000; position:absolute; top:100px; left:600px;} */
 </style>
+
+<!--<script src="https://code.jquery.com/jquery-1.12.4.js"></script> -->
+
+
+<script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/fixedcolumns/3.2.4/js/dataTables.fixedColumns.min.js"></script> 
+
+
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" />
+<link rel="stylesheet" href="https://cdn.datatables.net/fixedcolumns/3.2.4/css/fixedColumns.dataTables.min.css" />
 
 
 
@@ -367,7 +381,54 @@ if session("user") = "" then
         
                 end if
 
-   
+        
+
+
+
+              select case lto
+                    case "plan"
+                    strSQLstatusKri = " (jobstatus = 1 OR jobstatus = 3)"
+                    case else
+                    strSQLstatusKri = " (jobstatus = 1)"
+                    end select
+
+
+                    if cint(vislukkedejob) = 1 then
+                    strSQLstatusKri = " (jobstatus <> -1)"
+                    end if
+
+                    select case cint(visjobfordato_forefter) 
+                    case 0
+                    visjobfordato_forefterTegn = "<="
+                    case 1
+                    visjobfordato_forefterTegn = ">="
+                    case 2
+                    visjobfordato_forefterTegn = "="
+                    end select
+
+                    if cint(visjobfordato) = 1 then
+                    jobfordatoSQL = year(jobfordato) &"/"& month(jobfordato) &"/"& day(jobfordato)
+                    if cint(visjobfordato_forefter) = 2 then 'vis alle job i året
+                    strSQLvisjobfordatoKri = " AND Year(jobstartdato) "& visjobfordato_forefterTegn &" Year('"& jobfordatoSQL &"')"
+                    else
+                    strSQLvisjobfordatoKri = " AND jobstartdato "& visjobfordato_forefterTegn &" '"& jobfordatoSQL &"'"
+                    end if
+                    else
+                    strSQLvisjobfordatoKri = ""
+                    end if
+
+                    select case lto
+                    case "oko"
+                    strSQLrisiko = "(risiko > -1 OR risiko = -3 OR risiko = -2)"
+                    case else
+                    strSQLrisiko = "(risiko > -1 OR risiko = -3)"
+                    end select
+
+
+
+
+
+
 
 
              jbs = 100000
@@ -1309,44 +1370,7 @@ if session("user") = "" then
                                              &" j.projektgruppe6 = "& projektgruppe6 &" OR j.projektgruppe7 = "& projektgruppe7 &" OR j.projektgruppe8 = "& projektgruppe8 &" OR j.projektgruppe9 = "& projektgruppe9 &" OR j.projektgruppe10 = "& projektgruppe10 &")"
                                              end if
 
-                                             select case lto
-                                             case "plan"
-                                             strSQLstatusKri = " (jobstatus = 1 OR jobstatus = 3)"
-                                             case else
-                                             strSQLstatusKri = " (jobstatus = 1)"
-                                             end select
-
-
-                                             if cint(vislukkedejob) = 1 then
-                                             strSQLstatusKri = " (jobstatus <> -1)"
-                                             end if
-
-                                             select case cint(visjobfordato_forefter) 
-                                             case 0
-                                             visjobfordato_forefterTegn = "<="
-                                             case 1
-                                             visjobfordato_forefterTegn = ">="
-                                             case 2
-                                             visjobfordato_forefterTegn = "="
-                                             end select
-
-                                             if cint(visjobfordato) = 1 then
-                                                jobfordatoSQL = year(jobfordato) &"/"& month(jobfordato) &"/"& day(jobfordato)
-                                                if cint(visjobfordato_forefter) = 2 then 'vis alle job i året
-                                                strSQLvisjobfordatoKri = " AND Year(jobstartdato) "& visjobfordato_forefterTegn &" Year('"& jobfordatoSQL &"')"
-                                                else
-                                                strSQLvisjobfordatoKri = " AND jobstartdato "& visjobfordato_forefterTegn &" '"& jobfordatoSQL &"'"
-                                                end if
-                                             else
-                                             strSQLvisjobfordatoKri = ""
-                                             end if
-
-                                             select case lto
-                                             case "oko"
-                                             strSQLrisiko = "(risiko > -1 OR risiko = -3 OR risiko = -2)"
-                                             case else
-                                             strSQLrisiko = "(risiko > -1 OR risiko = -3)"
-                                             end select
+                                           
 
                                              strSQLjob = "SELECT jobnavn, jobnr, id, jobstatus, "_
                                              &" projektgruppe1, projektgruppe2, projektgruppe3, projektgruppe4, projektgruppe5, projektgruppe6, projektgruppe7, projektgruppe8, projektgruppe9, projektgruppe10 "_
@@ -1726,7 +1750,7 @@ while not oRec.EOF
          end if
 
         'strAktTxtTds(oRec("aid")) = strAktTxtTds(oRec("aid")) & "<tr style=""display:"& aktLinjerDsp &"; visibility:"& aktLinjerWsb &";"" class='tr_"& oRec("jid") &"'><td colspan=""100"">&nbsp;</td></tr>"
-        strAktTxtTds(oRec("aid")) = strAktTxtTds(oRec("aid")) & "<tr style=""display:"& aktLinjerDsp &"; visibility:"& aktLinjerWsb &";"" class='tr_"& oRec("jid") &" tr_aktlinje'><td colspan="& cspFaser &" style='padding-left:30px;'><b>"& replace(oRec("fase"), "_", " ")  &"</b></td></tr>"
+        strAktTxtTds(oRec("aid")) = strAktTxtTds(oRec("aid")) & "<tr style=""display:"& aktLinjerDsp &"; visibility:"& aktLinjerWsb &";"" class='tr_linje tr_"& oRec("jid") &" tr_aktlinje'><td style='padding-left:30px;'><b>"& replace(oRec("fase"), "_", " ")  &"</b></tr>"
         
         end if
        
@@ -1809,9 +1833,25 @@ redim medarbIPgrp(1000)
 
 <!-- id="scrollable" -->
 
-<table class="table table-bordered" style="background-color:#FFFFFF;">
+
+<style>
+    th, td { white-space: nowrap; }
+    div.dataTables_wrapper {
+        width: 125%;
+        margin: 0 auto;
+    }
+</style>
+
+<script src="js/tablescroll2.js"></script>
+
+
+<input type="hidden" id="table_lto" value="<%=lto %>" />
+
+<!-- <div class="row"><div class="col-lg-2"><a id="fitScreen_chb" class="btn btn-success btn-sm">Fix table</a></div></div> -->
+
+<table id="example" class="row-border cell-border order-column table" cellspacing="0" style="width:100%; background-color:white;">
     
-     <thead>
+    <thead>
          <tr> 
 
             <th style="width:10%;">Job (nr) / Akt.</th>
@@ -1891,7 +1931,7 @@ redim medarbIPgrp(1000)
                      <%if (cint(visprogrpid) = 0) AND cint(filtervisallejobvlgtmedarb) = 1 then
                          
                      else %>
-                     <span style="color:#5582d2;" id="an_p_<%=p %>">[+]</span></span>
+                     <span style="color:#5582d2;" class="openGroupBtn" id="an_p_<%=p %>">[+]</span></span>
                      <%end if %>
 
 
@@ -2041,6 +2081,7 @@ redim medarbIPgrp(1000)
          </tr>
     </thead>
 
+    <tbody id="tablebody" class="tablebody">
 <% 
 
 '********************************************************************
@@ -2097,8 +2138,80 @@ while not oRec.EOF
                 
             '************* Joblinjer ************** %>
             <%if lastjobnavn <> lcase(oRec("jobnavn")) then 
-            %><tr><%
+            %><tr id="medarbfelter_tr">
 
+        <td style="display:none">&nbsp</t>
+        <td  style="display:none">&nbsp;</td>
+        <td  style="display:none">&nbsp;</td>
+        <td  style="display:none">&nbsp;</td>
+        <td  style="display:none">&nbsp;</td>
+      <%
+
+              if cint(timesimtp) = 1 then
+            %>
+            <td  style="display:none">&nbsp;</td>
+            <%
+              end if
+  
+      for p = 0 to phigh - 1
+      %>
+           
+             <%if cint(visKunFCFelter) = 0 OR cint(visKunFCFelter) = 1 then %>
+             <td  style="display:none">&nbsp;</td>
+             <%end if %>
+
+             <%if cint(visKunFCFelter) = 0 OR cint(visKunFCFelter) = 2 then %>
+             <td  style="display:none">&nbsp;</td>
+             <%end if %>
+
+           <%if cint(visKunFCFelter) = 0 OR cint(visKunFCFelter) = 3 then %>
+             <td  style="display:none">&nbsp;</td>
+             <%end if 
+
+            for m = 0 TO mhigh - 1 
+
+                if antalp(p) = antalm(m,0) then
+
+                if antalm(m,2) < h1_medTot(antalm(m,1)) then
+                bgThisGT = "Lightpink"
+                else
+                bgThisGT = ""
+                end if
+
+                h1h2medTot = (h1_medTot(antalm(m,1))/1 + h2_medTot(antalm(m,1))/1 )
+                h1h2medTot = formatnumber(h1h2medTot, 0)
+
+                h1_medTotGTsaldo = (h1_medTot(antalm(m,1)) - thisMedarbRealTimerGT(antalm(m,1)))
+                h1_medTotGTsaldo = formatnumber(h1_medTotGTsaldo, 0)
+                %>
+               
+                <%if cint(timesimtp) = 1 AND (cint(visKunFCFelter) = 0 OR cint(visKunFCFelter) = 1) then  %>
+                <td  style="display:none">&nbsp;</td>
+                <%end if %>
+                
+                <%if(cint(visKunFCFelter) = 0 OR cint(visKunFCFelter) = 1) then %>
+                <td  style="display:none"></td>
+                <%end if %>
+
+                <%if cint(visKunFCFelter) = 0 OR cint(visKunFCFelter) = 2 then %>
+                <td  style="display:none"></td>
+                <%end if %>        
+
+                <%if cint(visKunFCFelter) = 0 OR cint(visKunFCFelter) = 3 then %>
+                <td  style="display:none"></td>
+                <%end if
+
+                end if
+            next
+
+
+    next
+                    
+    %>
+
+
+            <%
+            
             response.write(strJobTxtTds(oRec("jid")))
             call medarbfelter(oRec("jobnr"), oRec("jid"), 0, h1aar, h2aar, h1md, h2md, oRec("jo_gnstpris")) 
                
@@ -2128,9 +2241,69 @@ while not oRec.EOF
           %>
    
      
-    <tr class="tr_<%=oRec("jid") %>" style="background-color:<%=bgthis%>; visibility:<%=aktLinjerWsb%>; display:<%=aktLinjerDsp%>;">
-            
-     
+    <tr class="tr_<%=oRec("jid") %>" id="medarbfelter_tr2" style="background-color:<%=bgthis%>; visibility:<%=aktLinjerWsb%>; display:<%=aktLinjerDsp%>;">
+
+                
+        <td style="border-right:hidden">&nbsp</td>
+        <td style="border-right:hidden">&nbsp</td>
+        <td style="border-right:hidden">&nbsp</td>
+        <td style="border-right:hidden">&nbsp</td>
+        <td style="border-right:hidden">&nbsp</td>
+      <%
+
+              if cint(timesimtp) = 1 then
+            %>
+            <td style="border-right:hidden">&nbsp;</td>
+            <%
+              end if
+  
+      for p = 0 to phigh - 1
+      %>
+           
+             <%if cint(visKunFCFelter) = 0 OR cint(visKunFCFelter) = 1 then %>
+             <td style="border-right:hidden">&nbsp;</td>
+             <%end if %>
+
+             <%if cint(visKunFCFelter) = 0 OR cint(visKunFCFelter) = 2 then %>
+             <td style="border-right:hidden">&nbsp;</td>
+             <%end if %>
+
+           <%if cint(visKunFCFelter) = 0 OR cint(visKunFCFelter) = 3 then %>
+             <td style="border-right:hidden">&nbsp;</td>
+             <%end if 
+
+            for m = 0 TO mhigh - 1 
+
+                if antalp(p) = antalm(m,0) then
+                %>
+               
+                <%if cint(timesimtp) = 1 AND (cint(visKunFCFelter) = 0 OR cint(visKunFCFelter) = 1) then  %>
+                <td class="afd_p_<%=p%> afd_p" style="visibility:<%=pvzb%>; display:<%=pdsp%>; border-right:hidden;">&nbsp;</td>
+                <%end if %>
+                
+                <%if(cint(visKunFCFelter) = 0 OR cint(visKunFCFelter) = 1) then %>
+                <td class="afd_p_<%=p%> afd_p" style="visibility:<%=pvzb%>; display:<%=pdsp%>; border-right:hidden;">&nbsp;</td>
+                <%end if %>
+
+                <%if cint(visKunFCFelter) = 0 OR cint(visKunFCFelter) = 2 then %>
+                <td class="afd_p_<%=p%> afd_p" style="visibility:<%=pvzb%>; display:<%=pdsp%>; border-right:hidden;">&nbsp;</td>
+                <%end if %>        
+
+                <%if cint(visKunFCFelter) = 0 OR cint(visKunFCFelter) = 3 then %>
+                <td class="afd_p_<%=p%> afd_p" style="visibility:<%=pvzb%>; display:<%=pdsp%>; border-right:hidden;">&nbsp;</td>
+                <%end if
+
+                end if
+            next
+
+
+    next
+                    
+    %>
+
+
+
+
             <%
                 
             response.write(strAktTxtTds(oRec("aid")))    
@@ -2172,11 +2345,70 @@ while not oRec.EOF
 
      <input type="hidden" value="<%=x-1 %>" id="xhigh" />
 
-    <tr><td colspan="100"><br />Total</td></tr>
+   <tr id="medarbfelter_tr3"><td><br />Total</td>
+
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+      <%
+
+              if cint(timesimtp) = 1 then
+            %>
+            <td>&nbsp;</td>
+            <%
+              end if
+  
+      for p = 0 to phigh - 1
+      %>
+           
+             <%if cint(visKunFCFelter) = 0 OR cint(visKunFCFelter) = 1 then %>
+             <td>&nbsp;</td>
+             <%end if %>
+
+             <%if cint(visKunFCFelter) = 0 OR cint(visKunFCFelter) = 2 then %>
+             <td>&nbsp;</td>
+             <%end if %>
+
+           <%if cint(visKunFCFelter) = 0 OR cint(visKunFCFelter) = 3 then %>
+             <td>&nbsp;</td>
+             <%end if 
+
+            for m = 0 TO mhigh - 1 
+
+                if antalp(p) = antalm(m,0) then
+
+                %>
+               
+                <%if cint(timesimtp) = 1 AND (cint(visKunFCFelter) = 0 OR cint(visKunFCFelter) = 1) then  %>
+                <td class="afd_p_<%=p%> afd_p" style="visibility:<%=pvzb%>; display:<%=pdsp%>;">&nbsp;</td>
+                <%end if %>
+                
+                <%if(cint(visKunFCFelter) = 0 OR cint(visKunFCFelter) = 1) then %>
+                <td class="afd_p_<%=p%> afd_p" style="visibility:<%=pvzb%>; display:<%=pdsp%>;"></td>
+                <%end if %>
+
+                <%if cint(visKunFCFelter) = 0 OR cint(visKunFCFelter) = 2 then %>
+                <td class="afd_p_<%=p%> afd_p" style="visibility:<%=pvzb%>; display:<%=pdsp%>;"></td>
+                <%end if %>        
+
+                <%if cint(visKunFCFelter) = 0 OR cint(visKunFCFelter) = 3 then %>
+                <td class="afd_p_<%=p%> afd_p" style="visibility:<%=pvzb%>; display:<%=pdsp%>;"></td>
+                <%end if
+
+                end if
+            next
+
+
+    next
+                    
+    %>
+
+    </tr>
 
     <%if cint(filtervisallejobvlgtmedarb) <> 1 then %>
 
-    <tr>
+    <tr id="medarbfelter_tr4">
       <td>Total (dette job)</td>
 
         <td>&nbsp;</td>
@@ -2252,12 +2484,12 @@ while not oRec.EOF
 
     <%
     jobidsStrReverse = replace(jobidsStr, ",", " AND jobid <>") 
-    jobidsStrReverse = "jobid <> 0 AND " & jobidsStrReverse
+    jobidsStrReverse = "jobid <> 0 AND jobid <> " & jobidsStrReverse
     
     jobNRStrReverse = replace(jobidsRealAlleSQLkri, "OR tjobnr =", "AND tjobnr <>")
     jobNRStrReverse = "tjobnr <> '0'"& jobNRStrReverse
     %>
-     <tr>
+     <tr id="medarbfelter_tr5">
       <td>Total (andre job)</td>
          <td>&nbsp;</td>
          <td>&nbsp;</td>
@@ -2423,7 +2655,7 @@ while not oRec.EOF
 
     <%end if 'filtervisallejobvlgtmedarb  %>
 
-     <tr style="background-color:lightblue;">
+     <tr id="medarbfelter_tr6" style="background-color:lightblue;">
       <td><b>Grandtotal</b></td>
 
          <td>&nbsp;</td>
@@ -2548,7 +2780,7 @@ while not oRec.EOF
     
     
     
-    <tr>
+    <tr id="medarbfelter_tr7">
        <td>Norm: (tilnærmet - 5 ugers ferie)</td>
         <td>&nbsp;</td>
         <td>&nbsp;</td>
@@ -2613,8 +2845,17 @@ while not oRec.EOF
     %>
     <input type="hidden" value="<%=phigh-1 %>" id="phigh" />
     <input type="hidden" value="<%=mhigh-1 %>" id="mhigh" />
+</tbody>
+    
+</table>
 
-    </table>
+
+<!--
+<link rel="stylesheet" type="text/css" href="css/tablescroll.css">
+<script src="js/tablescroll.js"></script> -->
+
+<!--<div class="row"><div class="col-lg-2"><input type="checkbox" id="fitScreen_chb" />Fit Screen</div></div> -->
+
       <%if fyStMd = 7 then
       saveMthTxt ="Juli"
     else
@@ -2774,7 +3015,27 @@ while not oRec.EOF
                                     
 
                                  <div class="row">
-                                     <div class="col-lg-5 pad-t5"><input type="checkbox" name="viskun_overbudget" <%=viskun_overbudgetCHK %> value="1" onclick="submit();" />&nbsp; Vis kun job hvor timebudget er overskreddet (pr. valgt dato P-I)</div>
+                                     <div class="col-lg-3 pad-t5"><input type="checkbox" name="viskun_overbudget" <%=viskun_overbudgetCHK %> value="1" onclick="submit();" />&nbsp; Vis kun job hvor timebudget er overskreddet (pr. valgt dato P-I)</div>
+
+
+                                         <div class="col-lg-2 pad-t5"><br />
+                                                <input type="checkbox" name="FM_vislukkedejob" value="1" <%=vislukkedejobCHK %>/> Vis lukkede og passive job<br />
+                                            </div>
+                                              <div class="col-lg-2 pad-t5"><br />
+                                                    <input type="checkbox" name="FM_visjobfordato" value="1" <%=visjobfordatoCHK %>/> Kun job med startdato 
+                                                      
+                                                </div>
+                                                   
+                                               
+                                                 <div class="col-lg-4 pad-t5"><br />
+                                                      <select name="FM_visjobfordato_forefter" class="form-control input-small" style="width:65px; display: inline-block;">
+                                                                <option value="0" <%=visjobfordato_forefterSel0 %>> <= </option>
+                                                                <option value="1" <%=visjobfordato_forefterSel1 %>> >= </option>
+                                                                <option value="2" <%=visjobfordato_forefterSel2 %>> = år </option>
+                                                                </select>&nbsp;
+                                                    <input type="text" class="form-control input-small" style="width:95px; text-align:left; display: inline-block;" name="FM_jobfordato" value="<%=jobfordato %>" />
+                                                </div>
+
 
                                 </div><!-- row -->
 
@@ -2949,12 +3210,12 @@ else
     sortorderThis = "kkundenavn, jobnavn, jobnr"
 end if
 
-select case lto
-case "oko"
-strSQLrisiko = "(risiko > -1 OR risiko = -3 OR risiko = -2)"
-case else
-strSQLrisiko = "(risiko > -1 OR risiko = -3)"
-end select
+'select case lto
+'case "oko"
+'strSQLrisiko = "(risiko > -1 OR risiko = -3 OR risiko = -2)"
+'case else
+'strSQLrisiko = "(risiko > -1 OR risiko = -3)"
+'end select
 
 
 strSQLjob = "SELECT jobnavn, jobnr, j.id AS jid, jobknr, j.budgettimer AS jobbudgettimer, jo_gnstpris, "_
@@ -2962,7 +3223,7 @@ strSQLjob = "SELECT jobnavn, jobnr, j.id AS jid, jobknr, j.budgettimer AS jobbud
 &" LEFT JOIN kunder AS k ON (kid = jobknr) "_
 &" LEFT JOIN fomr_rel AS fr ON (fr.for_jobid = j.id) "_  
 &" LEFT JOIN aktiviteter AS a ON (a.job = j.id AND (a.fakturerbar = 1 OR a.fakturerbar = 2) AND a.navn IS NOT NULL) "_
-&" WHERE "& strSQLrisiko &" AND j.jobstatus = 1 "& sogValSQLKri & fomrSQLfilter &""_
+&" WHERE "& strSQLstatusKri &" AND "& strSQLrisiko &" "& strSQLvisjobfordatoKri &" "& sogValSQLKri & fomrSQLfilter &""_
 &" GROUP BY a.id ORDER BY "& sortorderThis &", a.fase, a.sortorder, a.navn LIMIT "& lmt
 
 'response.write strSQLjob
@@ -3384,6 +3645,19 @@ oRec.close
 <%end select 
     
 end if 'session%>
+
+
+
+<!--
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+
+
+<script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/fixedcolumns/3.2.4/js/dataTables.fixedColumns.min.js"></script> 
+
+
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" />
+<link rel="stylesheet" href="https://cdn.datatables.net/fixedcolumns/3.2.4/css/fixedColumns.dataTables.min.css" /> -->
 
 <!--#include file="../inc/regular/footer_inc.asp"-->
 

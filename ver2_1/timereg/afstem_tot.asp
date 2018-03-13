@@ -195,13 +195,21 @@ if session("user") = "" then
 
       if len(trim(request("medarbsel_form"))) <> 0 then
 
-    if len(trim(request("FM_visAlleMedarb"))) <> 0 then
-    visAlleMedarbCHK = "CHECKED"
-    visAlleMedarb = 1
-    else
-    visAlleMedarbCHK = ""
-    visAlleMedarb = 0
-    end if
+            if len(trim(request("FM_visAlleMedarb"))) <> 0 then
+            visAlleMedarbCHK = "CHECKED"
+            visAlleMedarb = 1
+            else
+            visAlleMedarbCHK = ""
+            visAlleMedarb = 0
+            end if
+
+            if len(trim(request("FM_visAlleMedarb_pas"))) <> 0 then
+            visAlleMedarb_pasCHK = "CHECKED"
+            visAlleMedarb_pas = 1
+            else
+            visAlleMedarb_pasCHK = ""
+            visAlleMedarb_pas = 0
+            end if
 
     else
 
@@ -214,10 +222,18 @@ if session("user") = "" then
         usemrn = session("mid")
         end if
 
+        if request.cookies("tsa")("visAlleMedarb_pas") = "1" then
+        visAlleMedarb_pasCHK = "CHECKED"
+        visAlleMedarb_pas = 1
+        else
+        visAlleMedarb_pasCHK = ""
+        visAlleMedarb_pas = 0
+        end if
+
     end if
 
     response.cookies("tsa")("visAlleMedarb") = visAlleMedarb
-
+    response.cookies("tsa")("visAlleMedarb_pas") = visAlleMedarb_pas
 
     call medarb_teamlederfor
 
@@ -462,6 +478,7 @@ if session("user") = "" then
        <tr bgcolor="#ffffff">
 	<td valign=top> <b><%=tsa_txt_077 %>:</b> <br />
     <input type="CHECKBOX" name="FM_visallemedarb" id="FM_visallemedarb" value="1" <%=visAlleMedarbCHK %> /> <%=tsa_txt_388 %> (<%=tsa_txt_357 %>)
+        <input type="CHECKBOX" name="FM_visallemedarb_pas" id="FM_visallemedarb_pas" value="1" <%=visAlleMedarb_pasCHK %> onclick="submit();" /> <%=medarb_txt_031%>
    
 	<br />
 				<% 
@@ -2037,7 +2054,19 @@ if session("user") = "" then
         
                          if lto <> "cst" AND lto <> "tec" AND lto <> "esn" AND lto <> "tia" then %>
 	                    <td align=right style="white-space:nowrap;" class=lille>&nbsp;</td>
-                        <td align=right style="white-space:nowrap;" class=lille bgcolor="pink"><b><%=formatnumber(realNormBal,2)%></b></td>
+                        <td align=right style="white-space:nowrap;" class=lille bgcolor="pink">
+                            
+                            <%select case lto
+                            case "wap"
+                             call  fn_flexSaldoFYreal_norm(usemrn)
+                              realNormBal = flexSaldoFYreal_norm 
+                              case else
+                              realNormBal = realNormBal  
+                              end select %>
+
+                            <b><%=formatnumber(realNormBal,2)%></b>
+
+                        </td>
 
                                    <%if session("stempelur") <> 0 AND (lto <> "kejd_pb") then %>
                                 <td align=right style="white-space:nowrap;" class=lille><b> <%=realLontBal %></b></td>
@@ -2479,7 +2508,7 @@ if session("user") = "" then
                    
 
                     <%if cint(visFDage) = 1 then %>
-                    <%call normtimerPer(usemrn, oRec("tdato"), 0, 0) %>
+                    <%call normtimerPer(usemrn, oRec("tdato"), 6, 0) %>
                     
                     
 
@@ -2487,7 +2516,7 @@ if session("user") = "" then
                         <%if cint(visFTimer) = 1 then %>
                         &nbsp;=&nbsp; 
                         <%end if %>
-                        <%=formatnumber(oRec("timer")/ntimPer, 1) %> <%=afstem_txt_104 %>
+                        <%=formatnumber(oRec("timer")/(ntimPer/5), 1) %> <%=afstem_txt_104 %>
                     <%end if %>
 
                     
@@ -2634,15 +2663,15 @@ if session("user") = "" then
                    
 
                     <%if cint(visFDage) = 1 then %>
-                    <%call normtimerPer(usemrn, oRec("tdato"), 0, 0) %>
+                    <%call normtimerPer(usemrn, oRec("tdato"), 6, 0) %>
                     
                     
 
-                    <%if cdbl(ntimPer) <> 0 then %>
+                     <%if cdbl(ntimPer) <> 0 then %>
                         <%if cint(visFTimer) = 1 then %>
                         &nbsp;=&nbsp; 
                         <%end if %>
-                        <%=formatnumber(oRec("timer")/ntimPer, 1) %> <%=afstem_txt_104 %>
+                        <%=formatnumber(oRec("timer")/(ntimPer/5), 1) %> <%=afstem_txt_104 %> 
                     <%end if %>
 
                     

@@ -102,6 +102,7 @@ fl_enhed(a) = intEnhedsang 'oRec("enhedsang")
 fl_rabat(a) = intRabat
 fl_momsfri(a) = 0' oRec("momsfri")
 fl_belob(a) = intPris 'strBeloeb 'intPris
+fl_jobaktid(a) = 0
 
 a = 1
 
@@ -122,7 +123,7 @@ if func = "red" then
 		        '******************* Henter oprettede aktiviteter ******************************'
 		        '*******************************************************************************'
 		        strSQL = "SELECT fd.id, fd.antal, "_
-		        &" fd.valuta, fd.beskrivelse, fak_sortorder, enhedsang, fd.fase AS fase, momsfri, fd.enhedspris, fd.valuta, fd.rabat, fd.aktpris "_
+		        &" fd.valuta, fd.beskrivelse, fak_sortorder, enhedsang, fd.fase AS fase, momsfri, fd.enhedspris, fd.valuta, fd.rabat, fd.aktpris, fd.aktid "_
 		        &" FROM faktura_det AS fd "_
 		        &" WHERE fakid = "& intFakid &" ORDER BY fak_sortorder " 
 		        
@@ -144,6 +145,7 @@ if func = "red" then
                 fl_rabat(a) = oRec("rabat")
                 fl_momsfri(a) = oRec("momsfri")
                 fl_belob(a) = oRec("aktpris")
+                fl_jobaktid(a) = oRec("aktid")
 
                 a = a + 1
                 oRec.movenext
@@ -171,6 +173,7 @@ if func = "red" then
                 fl_rabat(e) = 0
                 fl_momsfri(e) = 0
                 fl_belob(e) = 0
+                fl_jobaktid(e) = 0
                 next
 
 
@@ -195,6 +198,7 @@ else
                 fl_rabat(a) = intRabat/100
                 fl_momsfri(a) = 0
                 fl_belob(a) = 0
+                fl_jobaktid(a) = 0
                 next
 
                 
@@ -333,7 +337,7 @@ for x = 0 to 20
             '*** Faste generelle ***'
             strAktsubtotal = strAktsubtotal & "<input id='antal_n_"&x&"' name='antal_n_"&x&"' value=""2"" type=""hidden"" />"
             strAktsubtotal = strAktsubtotal & "<input id='aktsort_"&x&"' name='aktsort_"&x&"' value='"&x&"' type=""hidden"" />"
-            strAktsubtotal = strAktsubtotal & "<input id='aktId_n_"&x&"' name='aktId_n_"&x&"' value='"&x&"' type=""hidden"" />"
+            strAktsubtotal = strAktsubtotal & "<input id='aktId_n_"&x&"' name='aktId_n_"&x&"' value='"&fl_jobaktid(x)&"' type=""hidden"" />"
             strAktsubtotal = strAktsubtotal & "<input id='highest_aval_"&x&"' name='highest_aval_"&x&"' value=""1"" type=""hidden"" />"
             strAktsubtotal = strAktsubtotal & "<input id='antal_subtotal_akt_"&x&"' name='antal_subtotal_akt_"&x&"' value=""-1"" type=""hidden"" />"
             strAktsubtotal = strAktsubtotal & "<input id='FM_hidden_timerthis_"&x&"_"&a&"' name='FM_hidden_timerthis_"&x&"_"&a&"' value='"& fl_antal(x) &"' type=""hidden"" />"

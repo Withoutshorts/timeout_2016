@@ -688,7 +688,7 @@ else '** POST *****
 			            '*******************************************************************************************'
             		
             		
-            		
+            
             		
             		
             		
@@ -837,7 +837,7 @@ else '** POST *****
                datepart("d", session("strLastlogin"), 2,2) <> 18) OR (datepart("d", now, 2,2) = 27 AND datepart("d", session("strLastlogin"), 2,2) <> 27)) then
                    select case lto
                    case "xx"
-                   case "dencker", "epi", "epi_no", "epi_sta", "epi_ab", "epi2017"
+                   case "xdencker", "epi", "epi_no", "epi_sta", "epi_ab", "epi2017"
                    call timer_konsolider(lto,0)
                    case "xintranet - local", "xoutz"
                    call timer_konsolider(lto,0)

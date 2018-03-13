@@ -1,5 +1,54 @@
  
  <%
+
+     sub findesDerTimer(io, dt, medarbSel)
+
+     
+     ddTreg = year(dt) & "/"& month(dt) & "/" & day(dt) 
+    
+
+     %>
+           <span style="color:#000000; font-size:9px;">
+
+        <%'FINDES der fraværs registreringer på dagen? 
+            
+           tcnt = 0
+            strSQLfindesfravertimer = "SELECT taktivitetnavn, timer FROM timer WHERE tdato = '"& ddTreg &"' AND tmnr = "& medarbSel &" AND tfaktim > 6 LIMIT 3"
+
+            'if session("mid") = 1 then
+            'response.write strSQLfindesfravertimer
+            'response.flush
+            'end if
+
+            oRec6.open strSQLfindesfravertimer, oConn, 3
+            
+            while not oRec6.EOF
+
+            if tcnt > 0 then
+            %><br /><%
+            end if
+             
+            %>
+            <%=oRec6("taktivitetnavn") & ": "& formatnumber(oRec6("timer"), 2) %> t.
+            <%
+
+            tcnt = tcnt + 1
+            oRec6.movenext
+            wend
+            oRec6.close
+
+             %>
+
+        </span>
+
+        
+
+
+     <%
+     end sub
+
+
+
  public forvalgt_stempelur
 
  function fv_stempelur()
@@ -140,16 +189,20 @@ end function
 '*************************************************************************
 '*** Tjekker logind status ved logind i TimeOut eller fra terminal
 '*************************************************************************
-public fo_logud
+public fo_logud, fo_oprettetnytlogin, fo_autoafsluttet, fo_afsluttetlogin
 function logindStatus(strUsrId, intStempelur, io, tid)
 
+'if session("mid") = 1 then
+'         Response.write "fo_oprettetnytlogin<br>"
+'end if
 
-
-
+fo_afsluttetlogin = 0
+fo_autoafsluttet = 0
+fo_oprettetnytlogin = 0
 errIndlaesTerminal = 0
 '** io = indlæs / overfør 
-'if io = 1  'fra logind i Timeout via logindsiden 
-'io = 2 Indlæses fra terminal
+'io = 1 Fra logind i Timeout via logindsiden eller intern Monitor Terminal CFLOW
+'io = 2 Indlæses fra externe terminal. CST
 
 
               
@@ -172,8 +225,11 @@ LoginDato = year(tid)&"/"& month(tid)&"/"&day(tid)
     				
 				    fo_logud = 0
 				    
+                    'if session("mid") = 1 then
 				    'Response.write strSQLlog
 				    'Response.end
+                    'end if           
+
 				    mailissentonce = 0
 				    oRec.open strSQLlog, oConn, 3
                     while not oRec.EOF 
@@ -187,15 +243,17 @@ LoginDato = year(tid)&"/"& month(tid)&"/"&day(tid)
                                 hoursDiff = 0
                                 hoursDiff = datediff("h", oRec("login"), LoginDateTime, 2,2)
                                 
+                                'if session("mid") = 1 then
                                 'Response.Write "<br>id: "& oRec("id") &" logind: "& oRec("login") &" og logud: "& LoginDateTime &",  hoursDiff:" & hoursDiff & "<br>"
-                               
+                                'Response.end
+                                'end if
 
 
                                 'if cdate(LoginDato) <> cdate(oRec("dato")) then
                                 '** Hvis der er mere end 20 timer mellem 20 logind, må det betragtes som at  **'
                                 '** man har glemt at logge ind.                                              **'
                                 '** TimeOut afslutter seneste logind med lukketid - tilføjer pauser og opretter et nyt logind. **'
-                                if cint(hoursDiff) > 20 then
+                                if cdbl(hoursDiff) > 20 then
                                 logudDag = weekday(oRec("dato"), 2)
                                 
                                 'Response.Write logudDag &" dato:"& oRec("dato") &": wdn:"& weekdayname(weekday(oRec("dato"),1)) &"<br>"
@@ -262,7 +320,7 @@ LoginDato = year(tid)&"/"& month(tid)&"/"&day(tid)
 				                    'Response.end
     				                
 				                    oConn.execute(strSQLupd)
-    				                
+    				                fo_afsluttetlogin = 1
 				                    fo_logud = 2
 				                    
 
@@ -275,24 +333,43 @@ LoginDato = year(tid)&"/"& month(tid)&"/"&day(tid)
                                     medarbSel = session("mid")
 
                                     '** Standard pauser fra Licens ****
-                                    psDt = loginDTp & " 08:00:00" 'SKAL VÆRE DEN DATO DET OPRINDELIGE LOGIN ER FOERETAGET
+                                    psDt = loginDTp & " 00:00:00" 'SKAL VÆRE DEN DATO DET OPRINDELIGE LOGIN ER FOERETAGET
                                     call stPauserFralicens(psDt)
 
 
                                     '*** Adgang for specielle projektgrupper ****'
-                                    call stPauserProgrp(medarbSel, p1_grp, p2_grp)
+                                    call stPauserProgrp(medarbSel, p1_grp, p2_grp, p3_grp, p4_grp)
 				                    
                                     
                                     '***********************************************************               
 	                                '*** Tilføj Pauser *****
                                     '***********************************************************
 
-                                    if cint(p1_prg_on) = 1 OR cint(p2_prg_on) = 1 then
-                                    '*** Tømmer pauser så der er altid kun MAKS er indlæst 2 pauser pr. dag pr. medarb.
-                                    LoginDatoDelpau = year(LoginDato) &"/"& month(LoginDato) &"/"& day(LoginDato)
-	                                 
-                                    strSQLpDel = "DELETE FROM login_historik WHERE stempelurindstilling = -1  AND dato = '"& LoginDatoDelpau &"' AND mid = "& medarbSel
-	                                'if session("mid") = 1 then
+                                    if cint(p1_prg_on) = 1 OR cint(p2_prg_on) = 1 OR cint(p3_prg_on) = 1 OR cint(p4_prg_on) = 1 then
+                                    '*** Tømmer pauser så der er altid kun MAKS er indlæst 2-4 pauser pr. dag pr. medarb.
+                                    
+
+                                    if len(trim(LogudDateTime)) <> 0 AND isNull(LogudDateTime) <> true AND isDate(LogudDateTime) = true then
+                                    LoginDatoDelpau = year(LogudDateTime) &"/"& month(LogudDateTime) &"/"& day(LogudDateTime) '20150115 year(LoginDato) &"/"& month(LoginDato) &"/"& day(LoginDato)
+	                                else
+                                    LoginDatoDelpau = "2001-01-01"
+                                    end if    
+
+                                    'if len(trim(LoginDato)) <> 0 AND isNull(LoginDato) <> true AND isDate(LoginDato) = true then
+                                    'LoginDatoDelpau = year(LoginDato) &"/"& month(LoginDato) &"/"& day(LoginDato)
+	                                'else
+                                    'LoginDatoDelpau = "2001-01-01"
+                                    'end if                               
+     
+                                    
+                                    if len(trim(medarbSel)) <> 0 then
+                                    medarbSel = medarbSel
+                                    else
+                                    medarbSel = 0
+                                    end if
+
+                                    strSQLpDel = "DELETE FROM login_historik WHERE stempelurindstilling = -1 AND dato = '"& LoginDatoDelpau &"' AND mid = "& medarbSel
+	                                'if io = "2" then ' (stempelut
                                     'Response.write strSQLpDel
                                     'Response.flush
                                     'end if
@@ -315,6 +392,23 @@ LoginDato = year(tid)&"/"& month(tid)&"/"&day(tid)
                                          call tilfojPauser(0,medarbSel,loginDTp,loginTidp,logudTidp,p2,p2_komm)
 	                        
 	                                end if
+
+                                        
+                                     p3 = stPauseLic_3
+					                  if cint(p3_prg_on) = 1 AND cint(p3on) = 1 then 'if p2on <> 0 then
+					            
+                                         call tilfojPauser(0,medarbSel,loginDTp,loginTidp,logudTidp,p3,p3_komm)
+	                        
+	                                end if
+
+
+                                     p4 = stPauseLic_4
+					                  if cint(p4_prg_on) = 1 AND cint(p4on) = 1 then 'if p2on <> 0 then
+					            
+                                         call tilfojPauser(0,medarbSel,loginDTp,loginTidp,logudTidp,p4,p4_komm)
+	                        
+	                                end if
+                
                                     
                       
                                     'Response.end
@@ -323,63 +417,92 @@ LoginDato = year(tid)&"/"& month(tid)&"/"&day(tid)
 				                    '***** Oprettter Mail object ***
 			                        if cint(mailissentonce) = 0 AND (request.servervariables("PATH_TRANSLATED") <> "C:\www\timeout_xp\wwwroot\ver2_1\login.asp") _
 			                        AND (request.servervariables("PATH_TRANSLATED") <> "C:\www\timeout_xp\wwwroot\ver2_1\timereg\stempelur_terminal_ns.asp") then
-                        			
-                        			
-			                        Set Mailer = Server.CreateObject("SMTPsvg.Mailer")
-			                        ' Sætter Charsettet til ISO-8859-1 
-			                        Mailer.CharSet = 2
-			                        ' Afsenderens navn 
-			                        Mailer.FromName = "TimeOut Stempelur Service"
-			                        ' Afsenderens e-mail 
-			                        Mailer.FromAddress = "timeout_no_reply@outzource.dk"
-			                        Mailer.RemoteHost = "abizmail1.abusiness.dk" '"webmail.abusiness.dk"
-                        		    
-                        		    
-		                            
-                                    'Mailens emne
-			                        Mailer.Subject = "Medarbejder "& session("user") &" har glemt at logge ud." 
-			                        
+
+ 
+			                        Set myMail=CreateObject("CDO.Message")
+                                    myMail.Subject="TimeOut - Medarbejder har glemt at logge ud"
+                                    myMail.From = "timeout_no_reply@outzource.dk"
+				      
+                                    
 			                        'Modtagerens navn og e-mail
 			                        select case lto
 			                        case "dencker" 
-			                        Mailer.AddRecipient "Anders Dencker", "dv@dencker.net"
-                                    
-                                    Mailer.AddCC "TimeOut Support", "sk@outzource.dk"
+
+                                    myMail.To= "Anders Dencker <dv@dencker.net>"
+
+                                    'if len(trim(medarbEmail(x))) <> 0 then
+                                    'myMail.To= ""& medarbNavn(x) &"<"& medarbEmail(x) &">"
+                                    'end if       
+
+			                        'Mailer.AddRecipient "Anders Dencker", "dv@dencker.net"
+                                    'Mailer.AddCC "TimeOut Support", "sk@outzource.dk"
 
                                     call meStamdata(session("mid"))
                                     if len(trim(meEmail)) <> 0 then
-                                    Mailer.AddCC ""& meNavn &"", ""& meEmail &""
+                                    'Mailer.AddCC ""& meNavn &"", ""& meEmail &""
+                                    myMail.Cc= ""& meNavn &"<"& meEmail &">"
                                     end if
                                     
 			                        case "outz"
-			                        Mailer.AddRecipient "OutZourCE", "sk@outzource.dk"
+			                        'Mailer.AddRecipient "OutZourCE", "sk@outzource.dk"
+                                    myMail.To= "Support <support@outzource.dk>"
                                     case "jttek"
 
-                                    Mailer.AddRecipient "JT-Teknik", "jt@jtteknik.dk"
+                                    'Mailer.AddRecipient "JT-Teknik", "jt@jtteknik.dk"
+                                    myMail.To= "JT-Teknik <jt@jtteknik.dk>"
                                     
                                     call meStamdata(session("mid"))
                                     if len(trim(meEmail)) <> 0 then
-                                    Mailer.AddCC ""& meNavn &"", ""& meEmail &""
+                                    'Mailer.AddCC ""& meNavn &"", ""& meEmail &""
+                                    myMail.Cc= ""& meNavn &"<"& meEmail &">"
                                     end if
 
-                                    Mailer.AddCC "TimeOut Support", "sk@outzource.dk"
+                                    'Mailer.AddCC "TimeOut Support", "sk@outzource.dk"
 
 			                        case else
-			                        Mailer.AddRecipient "OutZourCE", "timeout_no_reply@outzource.dk"
+			                        'Mailer.AddRecipient "OutZourCE", "timeout_no_reply@outzource.dk"
+                                    myMail.To= "Support <support@outzource.dk>"
 			                        end select
                         			
 			                       
                         			
 			                                ' Selve teksten
-					                        Mailer.BodyText = "Medarbejder "& session("user") &" har glemt at logge ud "& weekdayname(weekday(oRec("dato"), 1)) &" d. "& oRec("dato") &"." & vbCrLf & vbCrLf _ 
-					                        & "Der er oprettet en auto-logud tid der er sat til jeres firmas normale arbejdstid. (Sættes i kontrolpanelet)"  & vbCrLf & vbCrLf _ 
-					                        & "Med venlig hilsen"& vbCrLf & "TimeOut Stempelur Service" & vbCrLf 
+					                        txtEmailHtml = "<br>Medarbejder "& session("user") &" har glemt at logge ud "& weekdayname(weekday(oRec("dato"), 1)) &" d. "& oRec("dato") &"<br><br>"_ 
+					                        & "Der er oprettet en auto-logud tid der er sat til jeres firmas normale arbejdstid. (Sættes i kontrolpanelet)<br><br>"_ 
+					                        & "Med venlig hilsen<br>TimeOut Stempelur Service<br>" 
 					                        
-					                        If Mailer.SendMail Then
-                            				
-					                        Else
-    					                        Response.Write "Fejl...<br>" & Mailer.Response
-  					                        End if	
+					                      
+                                               myMail.htmlBody= "<html><head><title></title>"_
+			                                   &"<LINK rel=""stylesheet"" type=""text/css"" href=""http://timeout.cloud/timeout_xp/wwwroot/ver2_14/inc/style/timeout_style_print.css""></head>"_
+			                                   &"<body>"_ 
+			                                   & txtEmailHtml & "</body></html>"
+
+                                           'myMail.AddAttachment "d:\webserver\wwwroot\timeout_xp\wwwroot\ver2_14\inc\log\data\"& file
+
+                                            myMail.Configuration.Fields.Item _
+                                            ("http://schemas.microsoft.com/cdo/configuration/sendusing")=2
+                                            'Name or IP of remote SMTP server
+                                   
+                                            if instr(request.servervariables("LOCAL_ADDR"), "195.189.130.210") <> 0 then
+                                                smtpServer = "webout.smtp.nu"
+                                            else
+                                                smtpServer = "formrelay.rackhosting.com" 
+                                            end if
+                    
+                                            myMail.Configuration.Fields.Item _
+                                            ("http://schemas.microsoft.com/cdo/configuration/smtpserver")= smtpServer
+
+                                            'Server port
+                                            myMail.Configuration.Fields.Item _
+                                            ("http://schemas.microsoft.com/cdo/configuration/smtpserverport")=25
+                                            myMail.Configuration.Fields.Update
+                    
+                                            if len(trim(meEmail)) <> 0 then
+                                            myMail.Send
+                                            end if
+                                            set myMail=nothing
+
+
                         				
                         			mailissentonce = 1
 			                        end if ''** Mail
@@ -414,8 +537,8 @@ LoginDato = year(tid)&"/"& month(tid)&"/"&day(tid)
 				                    else 'Fra Terminal
                                     '*** Opretter nyt eller afslutter eksisterende
 				                    
-				                    
-				                 
+				                            fo_autoafsluttet = 1
+				                        
 				                            LogudDateTimeDDMMYYY_TIME = day(LoginDateTime)&"-"& month(LoginDateTime)&"-"&year(LoginDateTime)&" "& formatdatetime(LoginDateTime, 3)
                                             LogudDateTime = LoginDateTime
                                 
@@ -449,7 +572,7 @@ LoginDato = year(tid)&"/"& month(tid)&"/"&day(tid)
 				                                'Response.flush
     				                
 				                                oConn.execute(strSQLupd)
-
+                                                fo_afsluttetlogin = 1
                                                 
 
 
@@ -462,10 +585,10 @@ LoginDato = year(tid)&"/"& month(tid)&"/"&day(tid)
                                                                 call stPauserFralicens(LoginDato)
 
                                                                 '** tjekker om der skal tilføjes pause til projektgruppe ***' 
-                                                                call stPauserProgrp(strUsrId, p1_grp, p2_grp)
+                                                                call stPauserProgrp(strUsrId, p1_grp, p2_grp, p3_grp, p4_grp)
 
                                                     
-                                                                if cint(p1_prg_on) = 1 OR cint(p2_prg_on) = 1 then
+                                                                if cint(p1_prg_on) = 1 OR cint(p2_prg_on) = 1 OR cint(p3_prg_on) = 1 OR cint(p4_prg_on) = 1 then
                                                                 '**** Tømmer pauser så der er altid kun er indlæst 2 pauser pr. dag pr. medarb. ****
                                                                 LoginDatoDelpau = year(LoginDato) &"/"& month(LoginDato) &"/"& day(LoginDato)
                                                                 strSQLpDel = "DELETE FROM login_historik WHERE stempelurindstilling = -1  AND dato = '"& LoginDatoDelpau &"' AND mid = "& strUsrId
@@ -480,7 +603,6 @@ LoginDato = year(tid)&"/"& month(tid)&"/"&day(tid)
                                                                 psKomm_1 = ""
                                                                 psMin_1 = stPauseLic_1
 
-                                                    
                                                                 '** p1 **
                                                                 call tilfojPauser(0,strUsrId,LoginDato,psloginTidp,pslogudTidp,psMin_1,psKomm_1)
 
@@ -499,9 +621,29 @@ LoginDato = year(tid)&"/"& month(tid)&"/"&day(tid)
 
                                                                 end if
 
+
+                                                                '** IF lto DENCKER
+                                                                if cint(p3_prg_on) = 1 AND cint(p3on) = 1 then
+                                                                psKomm_3 = ""
+                                                                psMin_3 = stPauseLic_3
+
+                                                                '** p3 **
+                                                                call tilfojPauser(0,strUsrId,LoginDato,psloginTidp,pslogudTidp,psMin_3,psKomm_3)
+
+                                                                end if
+
+                                                                if cint(p4_prg_on) = 1 AND cint(p4on) = 1 then
+                                                                psKomm_4 = ""
+                                                                psMin_4 = stPauseLic_4
+
+                                                                '** p3 **
+                                                                call tilfojPauser(0,strUsrId,LoginDato,psloginTidp,pslogudTidp,psMin_4,psKomm_4)
+
+                                                                end if
+
                                                    
     				                
-				                                end if 'tidskonflikt
+				                                end if 'tidskonflikt 
 				                
 				                            end if 'LogudDateTimeDDMMYYY_TIME
 				                
@@ -551,6 +693,8 @@ LoginDato = year(tid)&"/"& month(tid)&"/"&day(tid)
 				    'Response.write "<br>ins SQL: "& strSQL & "<br>"
 				    'Response.flush
 				    oConn.execute(strSQL)
+
+                    fo_oprettetnytlogin = 1
 				    
                   
                   '** 2012 nov. 21
@@ -567,11 +711,11 @@ LoginDato = year(tid)&"/"& month(tid)&"/"&day(tid)
                                                     call stPauserFralicens(LoginDato)
 
                                                     '** tjekker om der skal tilføjes pause til projektgruppe ***' 
-                                                    call stPauserProgrp(strUsrId, p1_grp, p2_grp)
+                                                    call stPauserProgrp(strUsrId, p1_grp, p2_grp, p3_grp, p4_grp)
 
                                                     
                                                     
-                                                    if cint(p1_prg_on) = 1 OR cint(p2_prg_on) = 1 then
+                                                    if cint(p1_prg_on) = 1 OR cint(p2_prg_on) = 1 OR cint(p3_prg_on) = 1 OR cint(p4_prg_on) = 1 then
                                                     '**** Tømmer pauser så der er altid kun er indlæst 2 pauser pr. dag pr. medarb. ****
                                                     LoginDatoDelpau = year(LoginDato) &"/"& month(LoginDato) &"/"& day(LoginDato)
                                                     strSQLpDel = "DELETE FROM login_historik WHERE stempelurindstilling = -1  AND dato = '"& LoginDatoDelpau &"' AND mid = "& strUsrId
@@ -597,6 +741,28 @@ LoginDato = year(tid)&"/"& month(tid)&"/"&day(tid)
                                                     call tilfojPauser(0,strUsrId,LoginDato,psloginTidp,pslogudTidp,psMin_2,psKomm_2)
 
                                                     end if
+
+
+                                                     if cint(p3_prg_on) = 1 AND cint(p3on) = 1 then
+                                                    psKomm_3 = ""
+                                                    psMin_3 = stPauseLic_3
+
+                                                    '** p3 **
+                                                    call tilfojPauser(0,strUsrId,LoginDato,psloginTidp,pslogudTidp,psMin_3,psKomm_3)
+
+                                                    end if
+
+
+
+                                                     if cint(p4_prg_on) = 1 AND cint(p4on) = 1 then
+                                                    psKomm_4 = ""
+                                                    psMin_4 = stPauseLic_4
+
+                                                    '** p4 **
+                                                    call tilfojPauser(0,strUsrId,LoginDato,psloginTidp,pslogudTidp,psMin_4,psKomm_4)
+
+                                                    end if
+
     				
 				  
 				
@@ -623,16 +789,14 @@ end function
 '***********************************************************************************************
 '************** Logind historik / Komme / gå timer                              ****************
 '***********************************************************************************************
-public lastMnavn, lastMnr, totalhours, totalmin, totalhoursWeek, totalminWeek
+public lastMnavn, lastMnr, totalhours, totalmin, totalhoursWeek, totalminWeek, stempelUrEkspTxt, lastMinit
 function stempelurlist(medarbSel, showtot, layout, sqlDatoStart, sqlDatoSlut, typ, d_end, lnk)
 
 
 
-    %>
-    
-
-
-
+if media <> "export" then
+%>
+        
 <script language="javascript">
 
 
@@ -644,35 +808,93 @@ function stempelurlist(medarbSel, showtot, layout, sqlDatoStart, sqlDatoSlut, ty
         $(".loginhh").keyup(function () {
 
 
+            //alert(window.event.keyCode)
+            
+            if (window.event.keyCode != '9') {
 
-            var thisid = this.id
-            var idlngt = thisid.length
-            var idtrim = thisid.slice(12, idlngt)
 
-            eVal = $("#FM_login_mm_" + idtrim).val()
-            if (eVal.length == 0) {
-                $("#FM_login_mm_" + idtrim).val('00')
-            }
+                var thisid = this.id
+                var idlngt = thisid.length
+                var idtrim = thisid.slice(12, idlngt)
+
+                eValhh = $("#FM_login_hh_" + idtrim).val()
+                eValmm = $("#FM_login_mm_" + idtrim).val()
+
+                $("#FM_kommentar_" + idtrim).attr("disabled", "");
+                
+
+
+
+                if (eValhh.length == 1) {
+
+                    if (eValhh > 2) {
+                        $("#FM_login_hh_" + idtrim).val('0' + eValhh)
+                        eValhh = $("#FM_login_hh_" + idtrim).val()
+                    }
+
+                }
+                
+                
+                if (eValhh.length == 2 && eValmm.length == 0) {
+                    $("#FM_login_mm_" + idtrim).val('00')
+                    $("#FM_login_mm_" + idtrim).focus();
+                    $("#FM_login_mm_" + idtrim).select();
+
+                }
+
+               
+                   
+                }
+
+           
 
            
         });
 
 
-        $(".logudhh").focus(function () {
+        $(".logudhh").keyup(function () {
 
-            var thisid = this.id
-            var idlngt = thisid.length
-            var idtrim = thisid.slice(12, idlngt)
+          
 
-            eVal = $("#FM_logud_mm_" + idtrim).val()
-            if (eVal.length == 0) {
-                $("#FM_logud_mm_" + idtrim).val('00')
+            if (window.event.keyCode != '9') {
+
+                var thisid = this.id
+                var idlngt = thisid.length
+                var idtrim = thisid.slice(12, idlngt)
+
+                eValhh = $("#FM_logud_hh_" + idtrim).val()
+                eValmm = $("#FM_logud_mm_" + idtrim).val()
+
+                $("#FM_kommentar_" + idtrim).attr("disabled", "");
+
+                if (eValhh.length == 1) {
+
+                    if (eValhh > 2) {
+                        $("#FM_logud_hh_" + idtrim).val('0' + eValhh)
+                        eValhh = $("#FM_logud_hh_" + idtrim).val()
+                    }
+
+                }
+
+
+                if (eValhh.length == 2 && eValmm.length == 0) {
+                    $("#FM_logud_mm_" + idtrim).val('00')
+                    $("#FM_logud_mm_" + idtrim).focus();
+                    $("#FM_logud_mm_" + idtrim).select();
+
+                }
+
             }
-            
 
         });
 
 
+        $("#komme_gaa").submit(function () {
+           
+            $(".FM_kommentar").attr("disabled", "");
+
+            //alert("her")
+        });
 
 
 
@@ -681,7 +903,9 @@ function stempelurlist(medarbSel, showtot, layout, sqlDatoStart, sqlDatoSlut, ty
 
 </script>
     <%
-	
+	end if 'media
+
+
     'sqlDatoStart = day(sqlDatoStart) &"-"& month(sqlDatoStart) &"-"& year(sqlDatoStart)
 
 	'Response.Write "layout: " & layout & "<br>"
@@ -716,10 +940,11 @@ function stempelurlist(medarbSel, showtot, layout, sqlDatoStart, sqlDatoSlut, ty
 
 
 
-    '** ??
-	
+    
+	if media <> "export" then
+
 	'*** Finder afslutte uger på aktive medarbejdere ***'
-	if cint(medarbSel) = 0 then
+	if cdbl(medarbSel) = 0 then
 	strSQLmedarb = "SELECT mid FROM medarbejdere WHERE mansat <> '2' AND mansat <> '3'"
 	oRec4.open strSQLmedarb, oConn, 3
 	while not oRec4.EOF 
@@ -736,17 +961,27 @@ function stempelurlist(medarbSel, showtot, layout, sqlDatoStart, sqlDatoSlut, ty
 	
 	end if
 	
+	end if 'media
+
+
+
+    call erStempelurOn() 
+  
+
+    if media <> "export" then
+
+
 	
-
-
-
-
-
-
+	if cint(showTot) = 1 then
+          
+        select case lto
+        case "cst"
+	    csp = 5
+        case else
+        csp = 6
+        end select
 	
-	if showTot = 1 then
-	csp = 3
-	else
+    else
 	csp = 10
 	end if%>
 	
@@ -777,11 +1012,12 @@ function stempelurlist(medarbSel, showtot, layout, sqlDatoStart, sqlDatoSlut, ty
     
     url = "stempelur.asp?menu=stat&func=oprloginhist&id=0&medarbSel="&medarbSel&"&showonlyone="&showonlyone&"&hidemenu="&hidemenu
     '&"&rdir="&rdir
+    
     text = "Opret ny / pause "
     otoppx = 0
     oleftpx = 0
     owdtpx = 140
-    java = "Javascript:window.open('"&url&"','','width=650,height=750,resizable=yes,scrollbars=yes')"
+    java = "Javascript:window.open('"&url&"','','width=850,height=700,resizable=yes,scrollbars=yes')"
     urlhex = "#"
     
    
@@ -790,10 +1026,19 @@ function stempelurlist(medarbSel, showtot, layout, sqlDatoStart, sqlDatoSlut, ty
 
    
    
-    <form method="post" action="stempelur.asp?func=dbloginhist<%=lnk%>">
+    <form method="post" id="komme_gaa" action="stempelur.asp?func=dbloginhist<%=lnk%>">
     <table cellspacing="0" cellpadding="0" border="0" width="<%=tblwdt %>">
      <%if media <> "print" AND layout = "1" then %>
-    <tr><td colspan=<%=csp+2%> align=right style="padding:0px 20px 5px 0px;"><%call opretNyJava(urlhex, text, otoppx, oleftpx, owdtpx, java)%></td></tr>
+    <tr><td colspan=<%=csp+2%> align=right style="padding:0px 0px 5px 0px;">
+        
+        <%'call opretNyJava(urlhex, text, otoppx, oleftpx, owdtpx, java)%>
+
+           <div style="background-color:forestgreen; padding:5px 20px 5px 5px; width:100px;">
+            <a href="#" onclick="Javascript:window.open('<%=url%>','','width=750,height=850,resizable=yes,scrollbars=yes')" class="alt">Tilføj komme/gå </a> <!-- el. pause -->
+                </div>
+
+
+        </td></tr>
     <%end if %>
     
     
@@ -804,22 +1049,56 @@ function stempelurlist(medarbSel, showtot, layout, sqlDatoStart, sqlDatoSlut, ty
 		<td align=right width="8" style="border-top:1px #8caae6 solid; border-right:1px #8caae6 solid;" valign=top rowspan=2><img src="../ill/blank.gif" width="8" height="32" alt="" border="0"></td>
 	</tr>
 	<tr bgcolor="#5582D2">
+        <%if showTot <> 1 then%>
 		<td class=alt><b>Dato</b></td>
-		<%if showTot <> 1 then%>
-		<td class=alt><b>Logget ind</b></td>
-		<td class=alt><b>Logget ud</b></td>
-		<td class=alt align=right style="padding-right:10px;"><b>IP</b></td>
-		<%end if%>
-		<td class=alt style="padding-left:0px;"><br /><b>Stempelur indstilling</b><br /> (Faktor / Minimum)</td>
-		<td class=alt align=right><br /><b>Timer</b><br /> (hele min.)</td>
-		<%if showTot <> 1 then %>
+		
+		<td class=alt><b>Logget ind</b><br />Komme tid</td>
+		<td class=alt><b>Logget ud</b><br />Gå tid</td>
+                
+                 <%select case lto
+             case "tec", "esn"
+                %><td>&nbsp;</td><%
+                case else %>
+		    	<td class=alt align=right style="padding-right:10px;"><b>IP</b></td>
+            <%end select %>
+
+	
+		
+		<td class=alt style="padding-left:0px;"><b>Indstilling</b><br /> (Faktor / Minimum)</td>
+		<td class=alt align=right><b>Timer:Min</b> <br /> (24:00)</td>
+      
+		
+        <% 
+         if cint(stempelur_hideloginOn) = 0 then%>
 		<td class=alt style="padding-left:15px;"><b>Manuelt opr?</b></td>
-		<td class=alt style="padding-left:5px;"><b>Logud ændret</b></td>
-		<td class=alt style="padding-left:5px;"><b>Kommentar</b></td>
+        <%else %>
+        <td class=alt style="padding-left:15px;">&nbsp;</td>
+        <%end if %>
+         
+
+		<td class=alt style="padding-left:5px;"><b>System besked</b><!--<br />Logud ændret--></td>
+		<td class=alt style="padding-left:5px;"><b>Medarb.<br /> kommentar</b></td>
         <td>&nbsp</td>
+        <%else %>
+       
+        <td class=alt><b>Medarbejder</b></td>
+        <td class=alt><b>Periode</b></td>
+        <td class=alt align=right><b>Komme/gå</b><br />(løntimer)</td>
+        <td class=alt align=right><b>Fradrag</b></td>
+        <td class=alt align=right><b>Ialt</b></td>
+        <%if lto = "cflow" then  %>
+        <td class=alt align=right><b>Overtid</b></td>
+        <%end if %>
+
+         <%if lto <> "cflow" AND lto <> "cst" then  %>
+        <td class=alt align=right><b>Projekttid</b><br />Real. timer</td>
+        <%end if %>
+
 		<%end if %>
 	</tr>
 	<%
+
+    end if
 
 
     '****** Uge Loop ****'
@@ -834,24 +1113,59 @@ function stempelurlist(medarbSel, showtot, layout, sqlDatoStart, sqlDatoSlut, ty
      totalhours = 0 
      totalmin = 0
 
+     stempelUrEkspTxto = ""
+     stempelUrEkspTxtShowTot = ""
 
      lastWeek = datepart("ww", sqlDatoStart, 2,2) 
 
+     lastDato = sqlDatoStart
 
-    '** valgte medarbejdere 
-    for m = 0 to UBOUND(intMids)
+        '** valgte medarbejdere 
+        for m = 0 to UBOUND(intMids)
+
+       
+
+            if media <> "export" then
+
+                if cint(layout) = 0 then
+                '*** Total ***
+	                if lastMid <> intMids(m) AND m > 0 ANd totalhours > 0 then
+                        'Response.write "lastMId:"& lastMid &" lmid:"& oRec("lmid")
+
+                             if cint(showTot) <> 1 then             
+
+                            call tottimer(lastMnavn, lastMnr, totalhoursWeek, totalminWeek, lastMid, sqlDatoStart, sqlDatoSlut, 2, lastDato)
+		                    totalhoursWeek = 0 
+		                    totalminweek = 0
+            
+                            end if 'showTot
+ 
+		                    call tottimer(lastMnavn, lastMnr, totalhours, totalmin, lastMid, sqlDatoStart, sqlDatoSlut, 1, lastDato)
+		                    totalhours = 0 
+		                    totalmin = 0
+                   
+	                end if
+                end if
 
 
-    if cint(layout) = 0 then
-    '*** Total ***
-	if lastMid <> intMids(m) AND m > 0 ANd totalhours > 0 then
-        'Response.write "lastMId:"& lastMid &" lmid:"& oRec("lmid")
+            else
 
-		call tottimer(lastMnavn, lastMnr, totalhours, totalmin, lastMid, sqlDatoStart, sqlDatoSlut, 1)
-		totalhours = 0 
-		totalmin = 0
-	end if
-    end if
+                      if cint(showTot) = 1 then
+
+                             
+                            if lastMid <> intMids(m) AND m > 0 ANd totalhours > 0 then
+
+                            call tottimer(lastMnavn, lastMnr, totalhours, totalmin, lastMid, sqlDatoStart, sqlDatoSlut, 1, lastDato)
+		                    totalhours = 0 
+		                    totalmin = 0
+
+                            end if
+
+                      end if
+
+            end if 'EXPORT
+
+        
 	
     if cint(layout) = 0 then
     medSQLkri = "AND l.mid = " & intMids(m)
@@ -863,6 +1177,8 @@ function stempelurlist(medarbSel, showtot, layout, sqlDatoStart, sqlDatoSlut, ty
     d_end = 0
     end if
     
+
+    lastDato = "01-01-2002"
     
     
     for d = 0 to d_end '6
@@ -887,10 +1203,11 @@ function stempelurlist(medarbSel, showtot, layout, sqlDatoStart, sqlDatoSlut, ty
 	if cint(showTot) = 1 then
 	
 	strSQL = "SELECT l.id AS lid, count(l.id) AS antal, l.mid AS lmid, l.login, l.logud, "_
-	&" s.navn AS stempelurnavn, s.faktor, s.minimum, l.stempelurindstilling, sum(l.minutter) AS minutter, l.dato FROM login_historik l"_
+	&" s.navn AS stempelurnavn, s.faktor, s.minimum, l.stempelurindstilling, sum(l.minutter) AS minutter, l.dato, manuelt_afsluttet, login_first, logud_first FROM login_historik l"_
 	&" LEFT JOIN stempelur s ON (s.id = l.stempelurindstilling) WHERE "_
     &" "& dtUseSQL &" "& medSQLkri & strTypSQL &""_
-	&" GROUP BY l.mid, l.stempelurindstilling ORDER BY l.mid, l.login DESC " 
+	&" GROUP BY l.mid, l.stempelurindstilling ORDER BY l.mid, l.login, l.stempelurindstilling DESC " 
+    
 	
 	
 	else
@@ -901,7 +1218,7 @@ function stempelurlist(medarbSel, showtot, layout, sqlDatoStart, sqlDatoSlut, ty
 	&" l.kommentar, logud_first, login_first, l.ipn FROM login_historik l"_
 	&" LEFT JOIN stempelur s ON (s.id = l.stempelurindstilling) WHERE "_
     &" "& dtUseSQL &" "& medSQLkri & strTypSQL &""_
-	&" ORDER BY l.mid, l.login DESC" 
+	&" ORDER BY l.mid, l.login, l.stempelurindstilling DESC" 
 	
 	end if
 	
@@ -909,12 +1226,13 @@ function stempelurlist(medarbSel, showtot, layout, sqlDatoStart, sqlDatoSlut, ty
 	'Response.write "<br><br>::"& medSQLkri &"<br><hr>:"& medarbSel
 	'Response.flush
 
-    'if lto = "dencker" then
-    'Response.write strSQL
+   ' if lto = "tec" AND (session("mid") = 331 OR session("mid") = 1) then
+   ' Response.write strSQL & "<br><br>"
     'end if
 	
 
 	x = 0
+  
 	oRec.open strSQL, oConn, 3 
 	while not oRec.EOF 
 	
@@ -922,54 +1240,8 @@ function stempelurlist(medarbSel, showtot, layout, sqlDatoStart, sqlDatoSlut, ty
 	'afslSLDato = "2009-12-31"
 	'call afsluger(oRec("lmid"), afslSTDato, afslSLDato)
 	
-	thours = 0
-	tmin = 0
-	
-	
-	
-	%>
-	
-	
-	<%if lastMid <> oRec("lmid") then
-    
-  
-    
-    if instr(medIDNavnWrt, "#"&oRec("lmid")&"#") = 0 then
+     if media <> "export" then       
 
-    call meStamdata(oRec("lmid"))
-    %>
-	
-
-	<tr bgcolor="#F7F7F/">
-		<td>&nbsp;</td>
-        <%if media <> "print" then %>
-		<td colspan="<%=csp%>" style="padding-top:15px;"><h4><%=meTxt%></h4></td>
-        <%else %>
-        <td colspan="<%=csp%>" style="padding-top:10spx; height:30px;"><b><%=meTxt%></b></td>
-        <%end if %>
-		<td>&nbsp;</td>
-	</tr>
-	
-	<%
-
-
-   
-
-
-    medIDNavnWrt = medIDNavnWrt & ",#"& oRec("lmid") & "#" 
-    end if
-    
-    end if%>
-
-
-
-   
-	
-	<tr>
-		<td bgcolor="#cccccc" colspan="<%=csp+2%>" style="height:1px;"></td>
-	</tr>
-	
-    <%
     if lastWeek <> datepart("ww", oRec("dato"), 2,2) AND (cint(layout) = 0) then
     
             
@@ -979,274 +1251,31 @@ function stempelurlist(medarbSel, showtot, layout, sqlDatoStart, sqlDatoSlut, ty
 	                if totalhoursWeek > 0 AND d > 0 AND lastMid = oRec("lmid") then
                         'Response.write "lastMId:"& lastMid &" lmid:"& oRec("lmid")
 
+                        if cint(showTot) <> 1 then
 
-
-		                call tottimer(lastMnavn, lastMnr, totalhoursWeek, totalminWeek, lastMid, sqlDatoStart, sqlDatoSlut, 2)
+		                call tottimer(lastMnavn, lastMnr, totalhoursWeek, totalminWeek, lastMid, sqlDatoStart, sqlDatoSlut, 2, lastDato)
 		                totalhoursWeek = 0 
 		                totalminweek = 0
+
+                        end if
+                      
+                       
 	                end if
             end if
-            
-    %>
-	
-	<tr bgcolor="#cccccc">
-		<td>&nbsp;</td>
-		<td colspan="<%=csp%>" style="height:20px; padding:5px;"><b>Uge <%=datepart("ww", dtUse, 2,2) &" "& datepart("yyyy", dtUse, 2,2) %> </b></td>
-		<td>&nbsp;</td>
-	</tr>
-	
-	<%
+
     end if
 
+    end if
+
+	thours = 0
+	tmin = 0
 
 
-	
-	if cdbl(lastID) = oRec("lid") then
-	bgThis = "#ffff99"
-	else
-	    'if cint(oRec("stempelurindstilling")) = -1 then
-	    'bgThis = "#c4c4c4"
-	    'else
-	    bgThis = "#ffffff"
-	    'end if
-	end if
-	
-	
-	if len(trim(oRec("dato"))) <> 0 then
-	loginDTShow = left(weekdayname(weekday(oRec("dato"))), 3) & "d. " & formatdatetime(oRec("dato"), 2)
-	else
-	loginDTShow = "--"
-	end if%>
-	
-	<tr bgcolor="<%=bgThis%>">
-        
-          <%if cint(oRec("stempelurindstilling")) <> -1 then %>
-        <input type="hidden" value="<%=oRec("lid") %>" name="id" />
-        <input type="hidden" value="<%=oRec("lmid") %>" name="mid" />
-        <input type="hidden" value="<%=formatdatetime(dtUse, 2) %>" name="logindato" />
-        <%end if %>
-        
-		<td style="height:20px;">&nbsp;</td>
-		<td style="white-space:nowrap;" align=right>
-		<%if showTot = 1 then%>
-			<%=oRec("antal")%> stk.&nbsp;
-		<%else
-		        '** er periode godkendt ***'
-		        tjkDag = oRec("dato")
-		        erugeafsluttet = instr(afslUgerMedab(oRec("lmid")), "#"&datepart("ww", tjkDag,2,2)&"_"& datepart("yyyy", tjkDag) &"#")
-                
-		        
-		        'Response.Write "smilaktiv: "& smilaktiv & "<br>"
-		        'Response.Write "ugeNrAfsluttet: "& ugeNrAfsluttet & "<br>"
-		        'Response.Write "autolukvdatodato: "& autolukvdatodato & "<br>"
-		        'Response.Write "tjkDag: "& tjkDag & "<br>"
-		        'Response.Write "autolukvdato: "& autolukvdato & "<br>"
-		        'Response.Write "erugeafsluttet:" & erugeafsluttet & "<br>"
-		        
-		        call lonKorsel_lukketPer(tjkDag, -2)
-		         
-                if (cint(erugeafsluttet) <> 0 AND smilaktiv = 1 AND autogk = 1 AND ugeNrAfsluttet <> "1-1-2044") OR _
-                (smilaktiv = 1 AND autolukvdato = 1 AND (day(now) > autolukvdatodato AND DatePart("yyyy", tjkDag) = year(now) AND DatePart("m", tjkDag) < month(now)) OR _
-                (smilaktiv = 1 AND autolukvdato = 1 AND (day(now) > autolukvdatodato AND DatePart("yyyy", tjkDag) < year(now) AND DatePart("m", tjkDag) = 12)) OR _
-                (smilaktiv = 1 AND autolukvdato = 1 AND DatePart("yyyy", tjkDag) < year(now) AND DatePart("m", tjkDag) <> 12) OR _
-                (smilaktiv = 1 AND autolukvdato = 1 AND (year(now) - DatePart("yyyy", tjkDag) > 1))) OR cint(lonKorsel_lukketIO) = 1 then
-              
-                ugeerAfsl_og_autogk_smil = 1
-                else
-                ugeerAfsl_og_autogk_smil = 0
-                end if 
-                
-                
-                if (ugeerAfsl_og_autogk_smil = 0 OR (level = 1)) AND media <> "print" then%>
-			    <a href="#" onclick="Javascript:window.open('stempelur.asp?id=<%=oRec("lid")%>&menu=stat&func=redloginhist&medarbSel=<%=medarbSel%>&showonlyone=<%=showonlyone%>&hidemenu=<%=hidemenu%>&rdir=popup','','width=650,height=650,resizable=yes,scrollbars=yes')" class="vmenu"><%=loginDTShow%></a>
-			    <%else %>
-		        <b><%=loginDTShow%></b>
-		        <%end if %>
-		
-		<%end if%>
-		</td>
-		
-		    <%if showTot <> 1 then%>
-		    
-		    <%if cint(oRec("stempelurindstilling")) <> -1 then %>
-			<td align=right class=lille>
-                    
-                            <%if len(trim(oRec("login"))) <> 0 then
-                    
-                            loginTidThisHH = left(formatdatetime(oRec("login"), 3), 2)
-                            loginTidThisMM = mid(formatdatetime(oRec("login"), 3),4,2)
-
-                                if len(trim(loginTidThisHH)) <> 0 then
-                                loginTidThisHH_opr = loginTidThisHH
-                                loginTidThisMM_opr = loginTidThisMM
-                                else
-                                loginTidThisHH_opr = "00"
-                                loginTidThisMM_opr = "00"
-                                end if
-                    
-                            else
-
-                            loginTidThisHH = ""
-                            loginTidThisMM = ""
-                             loginTidThisHH_opr = "00"
-                            loginTidThisMM_opr = "00"
-
-			                end if  
-                    
-                    if (layout = 1) AND (ugeerAfsl_og_autogk_smil = 0 OR (level = 1)) AND media <> "print"  then
-                    %>
-                    <input type="text" class="loginhh" name="FM_login_hh" id="FM_login_hh_<%=d %>" value="<%=loginTidThisHH%>" style="width:20px; font-size:9px;" />:
-                    <input type="text" name="FM_login_mm" id="FM_login_mm_<%=d %>" value="<%=loginTidThisMM%>" style="width:20px; font-size:9px;" />
-                    &nbsp;</td>  
-			
-                  <input type="hidden" name="oprFM_login_hh" id="Hidden5" value="<%=loginTidThisHH_opr%>">
-		          <input type="hidden" name="oprFM_login_mm" id="Hidden6"  value="<%=loginTidThisMM_opr%>">
-	    
-	              <!-- bruges til arrray split -->
-	              <input type="hidden" name="FM_login_hh" id="Hidden7" value="#">
-		          <input type="hidden" name="FM_login_mm" id="Hidden8"  value="#"> 
-                  <%else %>
-                  <%=loginTidThisHH%>:<%=loginTidThisMM%>
-                  
-                  <%end if %> 
-
-
-			<td align="right" class=lille>
-            
-            <%
-			
-                if oRec("logud") = oRec("login") then
-                fColsl = "#cccccc"%>
-                <%else 
-                fColsl = "#000000"%>
-                <%end if 
-                
-                
-                if len(oRec("logud")) <> 0 then 
-                logudTidThisHH = left(formatdatetime(oRec("logud"),3),2) 
-                logudTidThisMM = mid(formatdatetime(oRec("logud"),3),4,2) 
-
-                if len(logudTidThisHH) <> 0 then
-                logudTidThisHH_opr = logudTidThisHH
-                logudTidThisMM_opr = logudTidThisMM
-                else
-                logudTidThisHH_opr = "00"
-                logudTidThisMM_opr = "00"
-                end if
-
-                else
-                logudTidThisHH = ""
-                logudTidThisMM = ""
-
-                logudTidThisHH_opr = "00"
-                logudTidThisMM_opr = "00"
-
-                end if
-
-                if (layout = 1) AND (ugeerAfsl_og_autogk_smil = 0 OR (level = 1)) AND media <> "print"  then
-                    
-                %>
-                  <input type="text" class="logudhh" name="FM_logud_hh" id="FM_logud_hh_<%=d %>" value="<%=logudTidThisHH%>" style="width:20px; font-size:9px; color:<%=fColsl%>;" />:
-                  <input type="text" name="FM_logud_mm" id="FM_logud_mm_<%=d %>" value="<%=logudTidThisMM%>" style="width:20px; font-size:9px; color:<%=fColsl%>;" />
-                  <input type="hidden" name="oprFM_logud_hh" id="Hidden1" value="<%=logudTidThisHH_opr%>">
-		          <input type="hidden" name="oprFM_logud_mm" id="Hidden2"  value="<%=logudTidThisMM_opr%>">
-	    
-	              <!-- bruges til arrray split -->
-	              <input type="hidden" name="FM_logud_hh" id="Hidden3" value="#">
-		          <input type="hidden" name="FM_logud_mm" id="Hidden4"  value="#">  
-                 
-
-
-                <%else %>
-
-                <%=logudTidThisHH%>:<%=logudTidThisMM%>
-                <%end if %>
-                </td> 
-       
-                 
-
-		    <td align=right style="padding-left:10px; padding-right:10px;" class=lille><%=oRec("ipn") %></td>
-		    <%else %>
-		    <td>&nbsp;</td>
-		    <td>&nbsp;</td>
-		    <td>&nbsp;</td>
-		    <%end if %>
-		 
-		<%end if%>
-		
-		<td class=lille>
-        <%
-        
-
-        if cint(oRec("stempelurindstilling")) <> -1 then 
-
-                if (layout = 1) AND (ugeerAfsl_og_autogk_smil = 0 OR (level = 1)) AND media <> "print"  then
-        
-              %>
-                    <select name="FM_stur" style="width:140px; font-size:9px; font-family:arial;">
-		            <%if lto <> "fk_bpm" AND lto <> "kejd_pb" AND lto <> "kejd_pb2" then %>
-                    <option value="0">Ingen (slet)</option>
-                    <%end if %>
-		            <%
-		            strSQL5 = "SELECT id, navn, faktor, minimum FROM stempelur ORDER BY navn"
-		            oRec5.open strSQL5, oConn, 3 
-		            while not oRec5.EOF 
-		
-		            if oRec("stempelurindstilling") = oRec5("id") then
-		            sel = "SELECTED"
-		            else
-		            sel = ""
-		            end if
-		            %>
-		            <option value="<%=oRec5("id")%>" <%=sel%>><%=oRec5("navn")%> (<%=oRec5("faktor")%> / <%=oRec5("minimum")%> min.)</option>
-		
-		            <%
-		            oRec5.movenext
-		            wend
-		            oRec5.close 
-
-        
-		            %>
-                    </select>
-               
-            
-               
-               <%else
-                
-            
-
-            
-		            strSQL5 = "SELECT id, navn, faktor, minimum FROM stempelur WHERE id = "& oRec("stempelurindstilling") &" ORDER BY navn"
-		            oRec5.open strSQL5, oConn, 3 
-		            if not oRec5.EOF then
-		
-		
-		            %>
-                    <input type="hidden" name="FM_stur" value="<%=oRec5("id") %>" /> 
-		          <%=oRec5("navn")%> (<%=oRec5("faktor")%> / <%=oRec5("minimum")%> min.) 
-		        
-		            <%
-		    
-		            end if
-		            oRec5.close 
-
-                end if
-
-               
-
-        else
-        %>
-        Pause
-           
-        <%
-        end if %>
-		</td>
-		
-		<td align=right class=lille>
-		<%
-		timerThis = 0
+    '****** Minutter / time beregning *****
+        timerThis = 0
 		timerThisDIFF = 0
 		
+       
 		if len(oRec("login")) <> 0 AND len(oRec("logud")) <> 0 then
 		    
 		    if cint(oRec("stempelurindstilling")) = -1 then
@@ -1308,6 +1337,9 @@ function stempelurlist(medarbSel, showtot, layout, sqlDatoStart, sqlDatoSlut, ty
 		totalminWeek = totalminWeek + tmin
         
         end if
+
+
+      
 		
 		if len(tmin) <> 0 then
 		
@@ -1323,85 +1355,537 @@ function stempelurlist(medarbSel, showtot, layout, sqlDatoStart, sqlDatoSlut, ty
 			
 		else
 		tmin = "00"
-		end if%>
+		end if
+
+    
+            'if session("mid") = 1 then
+            'Response.write "thours: " &thours& "tmin: " & tmin & " tot: "& totalhours &"+"& totalmin & "<br>"
+            'end if
+
+       
+
+    if cint(oRec("stempelurindstilling")) = -1 then 
+		timerMinExpTxt = "-"&thours&":"&left(tmin, 2)
+        minutterExpTxt = "-"&oRec("minutter")
+		else
+        timerMinExpTxt = thours&":"&left(tmin, 2)
+        minutterExpTxt = oRec("minutter")
+    end if
+	
+    '** Slut timeberegning
+	'******************************************
+
+
+    '**** System besked ************************
+    sysBeskedTxt = ""
+    select case cint(oRec("manuelt_afsluttet"))
+		case 1 
+        
+		'** tider manuelt ændret **'
+		
+		sysBeskedTxt = "Ja:"
+		
+		    if len(trim(oRec("login_first"))) <> 0 then 
+			sysBeskedTxt = sysBeskedTxt & "("&left(formatdatetime(oRec("login_first"), 3), 5)
+			end if
+			
+			if len(trim(oRec("logud_first"))) <> 0 then 
+			sysBeskedTxt = sysBeskedTxt & "-"&left(formatdatetime(oRec("logud_first"), 3), 5)&")"
+			end if 
+
+           
+			
+		
+		case 2 '** Glemt at logge ud ***'
+       
+		sysBeskedTxt = "Glemt at logge ud!"
+		
+		
+		case 3 'Tidertilret pga stempelur indstillinger og tider manuelt ændret **'
+		sysBeskedTxt = "Ja:"
+		
+		
+		    if len(trim(oRec("login_first"))) <> 0 then 
+			sysBeskedTxt = sysBeskedTxt & "("&left(formatdatetime(oRec("login_first"), 3), 5)
+			end if 
+			
+			if len(trim(oRec("logud_first"))) <> 0 then 
+			sysBeskedTxt = sysBeskedTxt & "-"&left(formatdatetime(oRec("logud_first"), 3), 5)&")"
+			end if 
+			
+			sysBeskedTxt = sysBeskedTxt &"<br />Logind tilpasset pga.<br /> stempelur indstilllinger."
+		
+		
+		
+		case else 
+		
+		end select 
+            
+            
+        '**** SLUT system besked ****
+
+
+
+
+
+            if media <> "export" then    
+                
+                    if lastMid <> oRec("lmid") then
+    
+                            if instr(medIDNavnWrt, "#"&oRec("lmid")&"#") = 0 then
+                    
+                            call meStamdata(oRec("lmid"))
+
+            
+        
+                                dtUseTxt = dateadd("d", 3, dtUse) '** Sikere det er mid i uge, hvis ugen løber over årsskift
+       
+                                    if cint(showTot) = 1 then 'total
+        
+                                   
+        
+                                    else%>
+	
+                                    <tr bgcolor="#F7F7F7">
+		                                <td>&nbsp;</td>
+		                                <td colspan="<%=csp%>" style="height:20px; padding:5px;"><h4><span style="font-size:11px; font-weight:lighter;">Komme / Gå tid <!--Uge <%=datepart("ww", dtUseTxt, 2,2) &" "& datepart("yyyy", dtUseTxt, 2,2) %>--></span><br />
+            
+                                            <%if len(trim(meInit)) <> 0 then %>
+                                            <%=meNavn & "  ["& meInit &"]"%>
+                                            <%else %>
+                                            <%=meTxt%>
+                                            <%end if %>
+                                         </h4>
+		                                </td>
+		                                <td>&nbsp;</td>
+	                                </tr>
+
+
+	                                <%end if
+
+
+   
+
+
+                            medIDNavnWrt = medIDNavnWrt & ",#"& oRec("lmid") & "#" 
+                            end if
+    
+                    end if
+
+    else
+
+                if lastMid <> oRec("lmid") then
+                if instr(medIDNavnWrt, "#"&oRec("lmid")&"#") = 0 then
+
+
+                call meStamdata(oRec("lmid"))
+
+                end if
+
+                end if
+
+                if isNull(oRec("login")) <> true then
+                loginExpTxt = formatdatetime(oRec("login"), 3)
+                else
+                loginExpTxt = ""
+                end if
+
+                if isNULL(oRec("logud")) <> true then
+                logudExpTxt = formatdatetime(oRec("logud"), 3)
+                else
+                logudExpTxt = ""
+                end if
+
+
+                if cint(showTot) <> 1 then
+                stempelUrEkspTxt = stempelUrEkspTxt & ""& meNavn &";"& meInit & ";" & oRec("dato") & ";" & loginExpTxt & ";"& logudExpTxt & ";"& timerMinExpTxt &";"& minutterExpTxt &";" & useFaktor &";" & oRec("ipn") & ";" & oRec("stempelurindstilling") &";" & oRec("manuelt_oprettet") &";"& chr(34) & sysBeskedTxt & chr(34) &";"& chr(34) & oRec("kommentar") & chr(34) &";" & "xx99123sy#z"
+                end if
+
+                medIDNavnWrt = medIDNavnWrt & ",#"& oRec("lmid") & "#" 
+
+    end if 'media
+                
+                
+    if media <> "export" then            
+    %>
+	<tr>
+		<td bgcolor="#CCCCCC" colspan="<%=csp+2%>" style="height:1px;"></td>
+	</tr>
+	
+    <%end if
+
+
+    'if cDate(lastDato) <> cDate(oRec("dato")) AND cint(layout) = 0 AND d > 1 then
+
+
+        'if cDate(lastDato) <> cDate("01-01-2002") then
+        
+        'Response.write cDate(lastDato) & " x: " & x & " d: "& d &"<br>"
+
+        'call fn_overTid(lto, lastDato, lastMid, 0)
+       
+       
+        'end if
+
+    'end if' lastdate
+
+
+    if media <> "export" AND cint(showTot) <> 1 then
+
+    
+    
+    if (lastWeek <> datepart("ww", oRec("dato"), 2,2) OR d = 0) AND (cint(layout) = 0) then
+    %>
+	
+	<tr bgcolor="#D6DFf5">
+		<td>&nbsp;</td>
+		<td colspan="<%=csp%>" style="height:30px; padding:5px;"><b>Uge <%=datepart("ww", dtUse, 2,2) &" "& datepart("yyyy", dtUse, 2,2) %> </b></td>
+		<td>&nbsp;</td>
+	</tr>
+	
+	<%
+    end if
+
+
+
+	
+	if cdbl(lastID) = oRec("lid") then
+	bgThis = "#ffff99"
+	else
+	    'if cint(oRec("stempelurindstilling")) = -1 then
+	    'bgThis = "#c4c4c4"
+	    'else
+        'select case right(g, 1)
+        'case 0,2,4,6,8
+	    bgThis = "#ffffff"
+        'case else
+        'bgThis = "#8CAAE6"
+        'end select
+	    'end if
+	end if
+	
+	
+	if len(trim(oRec("dato"))) <> 0 then
+	loginDTShow = left(weekdayname(weekday(oRec("dato"))), 3) & "d. " & formatdatetime(oRec("dato"), 2)
+	else
+	loginDTShow = "--"
+	end if%>
+	
+	<tr bgcolor="<%=bgThis%>">
+        
+          
+        
+		<td style="height:30px;">&nbsp;</td>
+		<td style="white-space:nowrap; padding-right:10px;" align=right>
+		<%if showTot = 1 then%>
+			<%=oRec("antal")%> stk.&nbsp;
+		<%else
+		        '** er periode godkendt ***'
+		        tjkDag = oRec("dato")
+		        erugeafsluttet = instr(afslUgerMedab(oRec("lmid")), "#"&datepart("ww", tjkDag,2,2)&"_"& datepart("yyyy", tjkDag) &"#")
+                
+                strMrd_sm = datepart("m", tjkDag, 2, 2)
+                strAar_sm = datepart("yyyy", tjkDag, 2, 2)
+                strWeek = datepart("ww", tjkDag, 2, 2)
+                strAar = datepart("yyyy", tjkDag, 2, 2)
+
+                if cint(SmiWeekOrMonth) = 0 then
+                usePeriod = strWeek
+                useYear = strAar
+                else
+                usePeriod = strMrd_sm
+                useYear = strAar_sm
+                end if
+
+                'erugeAfslutte(
+                call erugeAfslutte(useYear, usePeriod, oRec("lmid"), SmiWeekOrMonth, 0)
+		        
+		        'Response.Write "smilaktiv: "& smilaktiv & " autogk:"& autogk &"<br>"
+		        'Response.Write "SmiWeekOrMonth: "& SmiWeekOrMonth &" ugeNrAfsluttet: "& ugeNrAfsluttet & " tjkDag: "& tjkDag &" ugegodkendt: "& ugegodkendt &"<br>"
+		        'Response.Write "autolukvdatodato: "& autolukvdatodato & "<br>"
+		        'Response.Write "tjkDag: "& tjkDag & "<br>"
+		        'Response.Write "autolukvdato: "& autolukvdato & "<br>"
+		        'Response.Write "erugeafsluttet:" & erugeafsluttet & "<br>"
+		        
+		        call lonKorsel_lukketPer(tjkDag, -2)
+		         
+                'if ( (( datepart("ww", ugeNrAfsluttet, 2, 2) = usePeriod AND cint(SmiWeekOrMonth) = 0) OR (datepart("m", ugeNrAfsluttet, 2, 2) = usePeriod AND cint(SmiWeekOrMonth) = 1 )) AND cint(ugegodkendt) = 1 AND smilaktiv = 1 AND autogk = 1 AND ugeNrAfsluttet <> "1-1-2044") OR _
+                '(smilaktiv = 1 AND autolukvdato = 1 AND (day(now) > autolukvdatodato AND DatePart("yyyy", tjkDag) = year(now) AND DatePart("m", tjkDag) < month(now)) OR _
+                '(smilaktiv = 1 AND autolukvdato = 1 AND (day(now) > autolukvdatodato AND DatePart("yyyy", tjkDag) < year(now) AND DatePart("m", tjkDag) = 12)) OR _
+                '(smilaktiv = 1 AND autolukvdato = 1 AND DatePart("yyyy", tjkDag) < year(now) AND DatePart("m", tjkDag) <> 12) OR _
+                '(smilaktiv = 1 AND autolukvdato = 1 AND (year(now) - DatePart("yyyy", tjkDag) > 1))) OR cint(lonKorsel_lukketIO) = 1 then
+              
+                'ugeerAfsl_og_autogk_smil = 1
+                'else
+                'ugeerAfsl_og_autogk_smil = 0
+                'end if 
+
+
+                 '*** tjekker om uge er afsluttet / lukket / lønkørsel
+                call tjkClosedPeriodCriteria(tjkDag, ugeNrAfsluttet, usePeriod, SmiWeekOrMonth, splithr, smilaktiv, autogk, autolukvdato, lonKorsel_lukketIO)
+				
+                
+                '* Admin får vist stipledede bokse
+                if cint(level) = 1 AND ugeerAfsl_og_autogk_smil = 1 then
+                boxStyleBorder = "border: 1px #999999 dashed;"
+                else
+                boxStyleBorder = ""
+                end if
+
+                
+                if (ugeerAfsl_og_autogk_smil = 0 OR level = 1 OR erTeamlederForVilkarligGruppe = -100) AND media <> "print" then%>
+			    <a href="#" onclick="Javascript:window.open('stempelur.asp?id=<%=oRec("lid")%>&menu=stat&func=redloginhist&medarbSel=<%=medarbSel%>&showonlyone=<%=showonlyone%>&hidemenu=<%=hidemenu%>&rdir=popup','','width=850,height=700,resizable=yes,scrollbars=yes')" class="vmenu"><%=loginDTShow%></a>
+			    <%else %>
+		        <b><%=loginDTShow%></b>
+		        <%end if %>
+		
+		<%end if%>
+		</td>
+		
+		    <%if showTot <> 1 then%>
+		    
+		    <%if cint(oRec("stempelurindstilling")) <> -1 then %>
+			<td align=right style="white-space:nowrap;">
+                    
+                            <%if len(trim(oRec("login"))) <> 0 then
+                    
+                            loginTidThisHH = left(formatdatetime(oRec("login"), 3), 2)
+                            loginTidThisMM = mid(formatdatetime(oRec("login"), 3),4,2)
+
+                                if len(trim(loginTidThisHH)) <> 0 then
+                                loginTidThisHH_opr = loginTidThisHH
+                                loginTidThisMM_opr = loginTidThisMM
+                                else
+                                loginTidThisHH_opr = "00"
+                                loginTidThisMM_opr = "00"
+                                end if
+                    
+                            else
+
+                            loginTidThisHH = ""
+                            loginTidThisMM = ""
+                             loginTidThisHH_opr = "00"
+                            loginTidThisMM_opr = "00"
+
+			                end if  
+                    
+                    if (layout = 1) AND (ugeerAfsl_og_autogk_smil = 0 OR level = 1 OR erTeamlederForVilkarligGruppe = -100) AND media <> "print" then
+
+                          %>
+                        <input type="hidden" value="<%=oRec("lid") %>" name="id" />
+                        <input type="hidden" value="<%=oRec("lmid") %>" name="mid" />
+                        <input type="hidden" value="<%=formatdatetime(dtUse, 2) %>" name="logindato" />
+                       
+
+                          
+                 
+                    <input type="text" class="loginhh" name="FM_login_hh" id="FM_login_hh_<%=d %>" value="<%=loginTidThisHH%>" style="width:20px; font-size:9px; <%=boxStyleBorder%>" /> :
+                    <input type="text" name="FM_login_mm" id="FM_login_mm_<%=d %>" value="<%=loginTidThisMM%>" style="width:20px; font-size:9px; <%=boxStyleBorder%>" />
+                    &nbsp;</td>  
+			
+                  <input type="hidden" name="oprFM_login_hh" id="Hidden5" value="<%=loginTidThisHH_opr%>">
+		          <input type="hidden" name="oprFM_login_mm" id="Hidden6"  value="<%=loginTidThisMM_opr%>">
+	    
+	              <!-- bruges til arrray split -->
+	              <input type="hidden" name="FM_login_hh" id="Hidden7" value="#">
+		          <input type="hidden" name="FM_login_mm" id="Hidden8"  value="#"> 
+                  <%else %>
+                  <%=loginTidThisHH%>:<%=loginTidThisMM%>
+                  
+                  <%end if %> 
+
+
+			<td align="right" style="white-space:nowrap;">
+            
+            <%
+			
+                if oRec("logud") = oRec("login") then
+                fColsl = "#cccccc"%>
+                <%else 
+                fColsl = "#000000"%>
+                <%end if 
+                
+                
+                if len(oRec("logud")) <> 0 then 
+                logudTidThisHH = left(formatdatetime(oRec("logud"),3),2) 
+                logudTidThisMM = mid(formatdatetime(oRec("logud"),3),4,2) 
+
+                if len(logudTidThisHH) <> 0 then
+                logudTidThisHH_opr = logudTidThisHH
+                logudTidThisMM_opr = logudTidThisMM
+                else
+                logudTidThisHH_opr = "00"
+                logudTidThisMM_opr = "00"
+                end if
+
+                else
+                logudTidThisHH = ""
+                logudTidThisMM = ""
+
+                logudTidThisHH_opr = "00"
+                logudTidThisMM_opr = "00"
+
+                end if
+
+                if (layout = 1) AND (ugeerAfsl_og_autogk_smil = 0 OR level = 1 OR erTeamlederForVilkarligGruppe = -100) AND media <> "print"  then
+                    
+                %>
+                  <input type="text" class="logudhh" name="FM_logud_hh" id="FM_logud_hh_<%=d %>" value="<%=logudTidThisHH%>" style="width:20px; font-size:9px; color:<%=fColsl%>; <%=boxStyleBorder%>" /> :
+                  <input type="text" name="FM_logud_mm" id="FM_logud_mm_<%=d %>" value="<%=logudTidThisMM%>" style="width:20px; font-size:9px; color:<%=fColsl%>; <%=boxStyleBorder%>" />
+                  <input type="hidden" name="oprFM_logud_hh" id="Hidden1" value="<%=logudTidThisHH_opr%>">
+		          <input type="hidden" name="oprFM_logud_mm" id="Hidden2"  value="<%=logudTidThisMM_opr%>">
+	    
+	              <!-- bruges til arrray split -->
+	              <input type="hidden" name="FM_logud_hh" id="Hidden3" value="#">
+		          <input type="hidden" name="FM_logud_mm" id="Hidden4"  value="#">  
+                 
+
+
+                <%else %>
+
+                <%=logudTidThisHH%>:<%=logudTidThisMM%>
+                <%end if %>
+                </td> 
+       
+                 
+            <%select case lto
+             case "tec", "esn"
+                %><td style="width:20px;">&nbsp;</td><%
+                case else %>
+		    <td align=right style="padding-left:10px; padding-right:10px;"><%=oRec("ipn") %></td>
+            <%end select %>
+
+
+		    <%else %>
+		    <td>&nbsp;</td>
+		    <td>&nbsp;</td>
+		    <td>&nbsp;</td>
+		    <%end if %>
+		 
+		<%end if%>
+		
+		<td>
+        <%
+        
+
+        if cint(oRec("stempelurindstilling")) <> -1 then 
+
+                if (layout = 1) AND (ugeerAfsl_og_autogk_smil = 0 OR level = 1 OR erTeamlederForVilkarligGruppe = -100) AND media <> "print"  then
+        
+              %>
+                    <select name="FM_stur" style="width:120px; font-size:9px; font-family:arial;">
+		            <%if lto <> "fk_bpm" AND lto <> "kejd_pb" AND lto <> "kejd_pb2" then %>
+                    <!--<option value="0">Ingen (slet)</option>-->
+                    <%end if %>
+		            <%
+		            strSQL5 = "SELECT id, navn, faktor, minimum FROM stempelur ORDER BY navn"
+		            oRec5.open strSQL5, oConn, 3 
+		            while not oRec5.EOF 
+		
+		            if oRec("stempelurindstilling") = oRec5("id") then
+		            sel = "SELECTED"
+		            else
+		            sel = ""
+		            end if
+		            %>
+		            <option value="<%=oRec5("id")%>" <%=sel%>><%=oRec5("navn")%> (<%=oRec5("faktor")%> / <%=oRec5("minimum")%> min.)</option>
+		
+		            <%
+		            oRec5.movenext
+		            wend
+		            oRec5.close 
+
+        
+		            %>
+                    </select>
+               
+            
+               
+               <%else
+                
+            
+
+            
+		            strSQL5 = "SELECT id, navn, faktor, minimum FROM stempelur WHERE id = "& oRec("stempelurindstilling") &" ORDER BY navn"
+		            oRec5.open strSQL5, oConn, 3 
+		            if not oRec5.EOF then
+		
+		
+		            %>
+                    <input type="hidden" name="FM_stur" value="<%=oRec5("id") %>" /> 
+		          <%=oRec5("navn")%> (<%=oRec5("faktor")%> / <%=oRec5("minimum")%> min.) 
+		        
+		            <%
+		    
+		            end if
+		            oRec5.close 
+
+                end if
+
+               
+
+        else
+        %>
+        Pause
+           
+        <%
+        end if %>
+		</td>
+		
+		<td align=right>
+		
+		
 		
 		<%if cint(oRec("stempelurindstilling")) = -1 then %>
-		-<%=thours%>:<%=left(tmin, 2)%>
+        <%=timerMinExpTxt%>
+		<!---<%=thours%>:<%=left(tmin, 2)%>-->
 		<%else %>
-        <b>
-		<%=thours%>:<%=left(tmin, 2)%></b>
-		<%end if %>
+        <b><%=timerMinExpTxt %></b>
+		<!--<%=thours%>:<%=left(tmin, 2)%>-->
+        <%end if %>
+
+         
 		
 		
 		</td>
 		<%if showTot <> 1 then %>
 		
 		
-		<td align=center class=lille>
-		<%if oRec("manuelt_oprettet") <> 0 then %>
+		<td align=center>
+		<%if oRec("manuelt_oprettet") <> 0 AND cint(stempelur_hideloginOn) = 0 then%> 
 		Ja
 		<%else %>
 		&nbsp;
 		<%end if %>
 		</td>
 		
-		<td class=lille>
-        <span style="color:#999999;">
-		<%select case cint(oRec("manuelt_afsluttet"))
-		case 1 
-		'** tider manuelt ændret **'%>
-		
-		Ja:
-		
-		    <%if len(trim(oRec("login_first"))) <> 0 then %>
-			<%="("&left(formatdatetime(oRec("login_first"), 3), 5)%>
-			<%end if %>
-			
-			<%if len(trim(oRec("logud_first"))) <> 0 then %>
-			<%="-"&left(formatdatetime(oRec("logud_first"), 3), 5)&")"%>
-			<%end if %>
-			
-		
-		<%case 2 '** Glemt at logge ud ***'%>
-		Glemt at logge ud!
-		
-		<%
-		case 3 'Tidertilret pga stempelur indstillinger og tider manuelt ændret **'
-		%>
-		Ja:
-		
-		    <%if len(trim(oRec("login_first"))) <> 0 then %>
-			<%="("&left(formatdatetime(oRec("login_first"), 3), 5)%>
-			<%end if %>
-			
-			<%if len(trim(oRec("logud_first"))) <> 0 then %>
-			<%="-"&left(formatdatetime(oRec("logud_first"), 3), 5)&")"%>
-			<%end if %>
-			
-			<br />
-			Logind tilpasset pga.<br /> stempelur indstilllinger.
-		
-		
-		<%
-		case else %>
-		&nbsp;
-		<%end select %>
+		<td style="padding-right:5px;">
+        <span style="color:#999999; font-size:9px;">
+		<%=sysBeskedTxt %>
+        
 
-        </span>
+             </span>
+
+         <%call findesDerTimer(1, oRec("dato"), medarbSel) %>
+
+        &nbsp;
 		</td>
 		
 		
 		<%end if %>
 
         <%if showTot <> 1 then%>
-        <td class=lille>
+        <td valign="middle" style="width:155px; padding:2px; font-size:9px; line-height:10px;">
 		
             <%
             if cint(oRec("stempelurindstilling")) <> -1 then 
             
-                 if (layout = 1) AND (ugeerAfsl_og_autogk_smil = 0 OR (level = 1)) AND media <> "print"  then
+                 if (layout = 1) AND (ugeerAfsl_og_autogk_smil = 0 OR level = 1 OR erTeamlederForVilkarligGruppe = -100) AND media <> "print"  then
+
+                
+
                 %>
-		        <textarea id="FM_kommentar" name="FM_kommentar" style="font-size:9px; font-family:arial; width:150px; height:25px;"><%=oRec("kommentar") %></textarea>
+		        <textarea id="FM_kommentar_<%=d %>" name="FM_kommentar" style="font-size:9px; font-family:arial; width:140px; height:25px;"><%=oRec("kommentar") %></textarea>
                 <input type="hidden" name="FM_kommentar" id="Hidden13"  value="#">  
                 <%else %>
                 <%=left(oRec("kommentar"), 100) %>
@@ -1409,7 +1893,11 @@ function stempelurlist(medarbSel, showtot, layout, sqlDatoStart, sqlDatoSlut, ty
             &nbsp;
             <%else %>
             &nbsp;
-		    <%end if %>
+                <%if len(trim(oRec("kommentar"))) <> 0 then %>
+                <%=left(oRec("kommentar"), 100) %>
+                <%end if %>
+		    
+            <%end if %>
 		</td>
 
 
@@ -1417,8 +1905,7 @@ function stempelurlist(medarbSel, showtot, layout, sqlDatoStart, sqlDatoSlut, ty
 		
 		
 		 <% if ((ugeerAfsl_og_autogk_smil = 0 AND showTot <> 1 AND len(oRec("logud")) <> 0) OR (level = 1 AND showTot <> 1)) AND media <> "print" then%>
-		  <a href="#" onclick="Javascript:window.open('stempelur.asp?menu=<%=menu%>&func=sletlogind&id=<%=oRec("lid")%>&medarbSel=<%=medarbSel%>&showonlyone=<%=showonlyone%>&hidemenu=<%=hidemenu%>&rdir=<%=rdir%>', '', 'width=400,height=200,resizable=no')" class="vmenu">
-              <img src="../ill/slet_16.gif" border="0" /></a>
+		  <a href="#" onclick="Javascript:window.open('stempelur.asp?menu=<%=menu%>&func=sletlogind&id=<%=oRec("lid")%>&medarbSel=<%=medarbSel%>&showonlyone=<%=showonlyone%>&hidemenu=<%=hidemenu%>&rdir=<%=rdir%>', '', 'width=400,height=200,resizable=no')" class="slet">[X]</a>
 		 <%else %>
 		 &nbsp;
 		 <%end if %>      
@@ -1430,13 +1917,21 @@ function stempelurlist(medarbSel, showtot, layout, sqlDatoStart, sqlDatoSlut, ty
         <td>&nbsp;</td>
 	 </tr>
 	<%
+
+
+   
+
+    'Response.write "lastMid b:" & lastMid & "<br>"
+    end if 'media + showtotal
+
     lastWeek = datepart("ww", oRec("dato"), 2,2)
 	lastMnavn = meNavn
 	lastMnr = meNr
 	lastMid = oRec("lmid")
+    'lastMenavnStempelur =  meNavn & "  ["& meInit &"]"
+    lastMinit = meInit
 
-    'Response.write "lastMid b:" & lastMid & "<br>"
-
+    lastDato = oRec("dato")
 
 	x = x + 1
 	g = g + 1
@@ -1447,13 +1942,25 @@ function stempelurlist(medarbSel, showtot, layout, sqlDatoStart, sqlDatoSlut, ty
 
 
 
+     if d > 1 then 'hvis der ikke er nogen komme/gå tider skal der alligevel tjekkes for overtid
+
+     
+
+       call fn_overtid(lto, dtUse, intMids(m), 1)
+
+    end if
+
+
+    if media <> "export" then
+
+
+ 
     '*** Kun fra egen logind historik ***'
     if cint(layout) = 1 then
 
     
     '*** Forvalgt stempelurr ****'
     call fv_stempelur() 
-    
     
 
 
@@ -1462,11 +1969,21 @@ function stempelurlist(medarbSel, showtot, layout, sqlDatoStart, sqlDatoSlut, ty
                 <%if instr(medIDNavnWrt, "#"&medarbsel&"#") = 0 then
     
     
-                call meStamData(medarbsel)%>
+                call meStamData(medarbsel)
+                   
+                
+                  dtUseTxt = dateadd("d", 3, dtUse) '** Sikere det er mid i uge, hvis ugen løber over årsskift
+                  %>
 	
-	            <tr bgcolor="#eff3ff">
+	          <tr bgcolor="#F7F7F7">
 		            <td>&nbsp;</td>
-		            <td colspan="<%=csp%>" style="height:20px; padding:5px;"><b><%=meTxt %></b></td>
+		            <td colspan="<%=csp%>" style="height:20px; padding:5px;"><h4><span style="font-size:11px; font-weight:lighter;">Komme / Gå tid Uge <%=datepart("ww", dtUseTxt, 2,2) &" "& datepart("yyyy", dtUseTxt, 2,2) %></span><br />
+                        <%if len(trim(meInit)) <> 0 then %>
+                        <%=meNavn & "  ["& meInit &"]"%>
+                        <%else %>
+                        <%=meTxt%>
+                        <%end if %></h4>
+		            </td>
 		            <td>&nbsp;</td>
 	            </tr>
 	
@@ -1477,56 +1994,135 @@ function stempelurlist(medarbSel, showtot, layout, sqlDatoStart, sqlDatoSlut, ty
     
     
                 '** er periode godkendt ***'
+                'if session("mid") = 331 then
+                'tjkDag = dateadd("d", 3, dtUse) '** Periode altid torsdag, pga månedsskift / årsskift
+                'else
 		        tjkDag = dtUse
+                'end if
+
+                if cint(SmiWeekOrMonth) = 0 then
 		        erugeafsluttet = instr(afslUgerMedab(medarbsel), "#"&datepart("ww", tjkDag,2,2)&"_"& datepart("yyyy", tjkDag) &"#")
-                
-		        
-		        'Response.Write "smilaktiv: "& smilaktiv & "<br>"
-		        'Response.Write "ugeNrAfsluttet: "& ugeNrAfsluttet & "<br>"
-		        'Response.Write "autolukvdatodato: "& autolukvdatodato & "<br>"
-		        'Response.Write "tjkDag: "& tjkDag & "<br>"
-		        'Response.Write "autolukvdato: "& autolukvdato & "<br>"
-		        'Response.Write "erugeafsluttet:" & erugeafsluttet & "<br>"
-		        
-		        call lonKorsel_lukketPer(tjkDag, -2)
-		         
-                if (cint(erugeafsluttet) <> 0 AND smilaktiv = 1 AND autogk = 1 AND ugeNrAfsluttet <> "1-1-2044") OR _
-                (smilaktiv = 1 AND autolukvdato = 1 AND (day(now) > autolukvdatodato AND DatePart("yyyy", tjkDag) = year(now) AND DatePart("m", tjkDag) < month(now)) OR _
-                (smilaktiv = 1 AND autolukvdato = 1 AND (day(now) > autolukvdatodato AND DatePart("yyyy", tjkDag) < year(now) AND DatePart("m", tjkDag) = 12)) OR _
-                (smilaktiv = 1 AND autolukvdato = 1 AND DatePart("yyyy", tjkDag) < year(now) AND DatePart("m", tjkDag) <> 12) OR _
-                (smilaktiv = 1 AND autolukvdato = 1 AND (year(now) - DatePart("yyyy", tjkDag) > 1))) OR cint(lonKorsel_lukketIO) = 1 then
-              
-                ugeerAfsl_og_autogk_smil = 1
                 else
-                ugeerAfsl_og_autogk_smil = 0
-                end if 
+                erugeafsluttet = instr(afslUgerMedab(medarbsel), "#"&datepart("m", tjkDag,2,2)&"_"& datepart("yyyy", tjkDag) &"#")
+                end if
+		        
+
+                strMrd_sm = datepart("m", tjkDag, 2, 2)
+                strAar_sm = datepart("yyyy", tjkDag, 2, 2)
+                strWeek = datepart("ww", tjkDag, 2, 2)
+                strAar = datepart("yyyy", tjkDag, 2, 2)
+
+                if cint(SmiWeekOrMonth) = 0 then
+                usePeriod = strWeek
+                useYear = strAar
+                else
+                usePeriod = strMrd_sm
+                useYear = strAar_sm
+                end if
+
                 
+                call erugeAfslutte(useYear, usePeriod, medarbsel, SmiWeekOrMonth, 0)
+		        
+                call lonKorsel_lukketPer(tjkDag, -2)
+
+                    
+		         
+                'if ( (( datepart("ww", ugeNrAfsluttet, 2, 2) = usePeriod AND cint(SmiWeekOrMonth) = 0) OR (datepart("m", ugeNrAfsluttet, 2, 2) = usePeriod AND cint(SmiWeekOrMonth) = 1 )) AND cint(ugegodkendt) = 1 AND smilaktiv = 1 AND autogk = 1 AND ugeNrAfsluttet <> "1-1-2044") OR _
+                '(smilaktiv = 1 AND autolukvdato = 1 AND (day(now) > autolukvdatodato AND DatePart("yyyy", tjkDag) = year(now) AND DatePart("m", tjkDag) < month(now)) OR _
+                '(smilaktiv = 1 AND autolukvdato = 1 AND (day(now) > autolukvdatodato AND DatePart("yyyy", tjkDag) < year(now) AND DatePart("m", tjkDag) = 12)) OR _
+                '(smilaktiv = 1 AND autolukvdato = 1 AND DatePart("yyyy", tjkDag) < year(now) AND DatePart("m", tjkDag) <> 12) OR _
+                '(smilaktiv = 1 AND autolukvdato = 1 AND (year(now) - DatePart("yyyy", tjkDag) > 1))) OR cint(lonKorsel_lukketIO) = 1 then
+              
+                'ugeerAfsl_og_autogk_smil = 1
+                'else
+                'ugeerAfsl_og_autogk_smil = 0
+                'end if 
                 
-                if (ugeerAfsl_og_autogk_smil = 0 OR (level = 1)) AND media <> "print" then
+
+                '*** tjekker om uge er afsluttet / lukket / lønkørsel
+                call tjkClosedPeriodCriteria(tjkDag, ugeNrAfsluttet, usePeriod, SmiWeekOrMonth, splithr, smilaktiv, autogk, autolukvdato, lonKorsel_lukketIO)
+
+
+
+                    'if session("mid") = 1 then
+
+		            'Response.Write "smilaktiv: "& smilaktiv & "<br>"
+		            'Response.Write "SmiWeekOrMonth: "& SmiWeekOrMonth &" ugeNrAfsluttet: "& ugeNrAfsluttet & " tjkDag: "& tjkDag &"<br>"
+		            'Response.Write "autolukvdatodato: "& autolukvdatodato & "<br>"
+		            'Response.Write "tjkDag: "& tjkDag & "<br>"
+		            'Response.Write "autolukvdato: "& autolukvdato & "<br>"
+		            'Response.Write "erugeafsluttet:" & erugeafsluttet & "<br>"
+                    'Response.write "ugeerAfsl_og_autogk_smil: "& ugeerAfsl_og_autogk_smil & "<br>"
+                    'Response.write "erTeamlederForVilkarligGruppe: " & erTeamlederForVilkarligGruppe & "<br>"
+		        
+                    'end if
+
+
+                '* Admin får vist stipledede bokse
+                if cint(level) = 1 AND ugeerAfsl_og_autogk_smil = 1 then
+                boxStyleBorder = "border: 1px #999999 dashed;"
+                else
+                boxStyleBorder = ""
+                end if
+                
+    
+                '** erTeamlederForVilkarligGruppe = 1 20171115, ellers var den -100. Teamleder må gerne se
+                '** Således at TEAMleder kan se ferie kommentarer i uger hvor der ikke er logget ind.
+
+    if (ugeerAfsl_og_autogk_smil = 0 OR level = 1 OR erTeamlederForVilkarligGruppe = 1) AND media <> "print" then
     
     %>
-
-
-
+  
     <tr>
 		<td bgcolor="#cccccc" colspan="<%=csp+2%>" style="height:1px;"></td>
 	</tr>
-	<tr bgcolor="#FFFFFF">
+
+    <% 
+
+        'tjekker helligdag
+      call helligdage(dtUse, 0, lto)
+
+      if datepart("w", dtUse, 2,2) = 6 or datepart("w", dtUse, 2,2) = 7 or erHellig = 1 then
+      bgcolorFRI = "gainsboro"
+      else
+      bgcolorFRI = "#FFFFFF"
+      end if
+      %>
+
+      <tr bgcolor="<%=bgcolorFRI %>">
         <input type="hidden" value="0" name="id" />
        <input type="hidden" value="<%=usemrn%>" name="mid" />
         <input type="hidden" value="<%=formatdatetime(dtUse, 2) %>" name="logindato" />
         <!--<input type="hidden" value="<%=forvalgt_stempelur %>" name="FM_stur" />-->
-		<td height=20>&nbsp;</td>
-		<td align=right><b><%=left(weekdayname(weekday(dtUse)), 4) %>. <%=formatdatetime(dtUse, 2) %></b></td>
-        <td align=right><input type="text" class="loginhh" name="FM_login_hh" id="FM_login_hh_<%=d %>" value="" style="width:20px; font-size:9px;" />:
-        <input type="text" name="FM_login_mm" id="FM_login_mm_<%=d %>" value="" style="width:20px; font-size:9px;" />
-        &nbsp;</td>
-         <td align=right><input type="text" class="logudhh" name="FM_logud_hh" id="FM_logud_hh_<%=d %>" value="" style="width:20px; font-size:9px;" />:
-         <input type="text" name="FM_logud_mm" id="FM_logud_mm_<%=d %>" value="" style="width:20px; font-size:9px;" /></td>
-        <td>&nbsp;</td>
-        <td><select name="FM_stur" style="width:140px; font-size:9px; font-family:arial;">
+		<td>&nbsp;</td>
+		<td style="height:30px; padding-right:10px;" align=right><b><%=left(weekdayname(weekday(dtUse)), 4) %>. <%=formatdatetime(dtUse, 2) %></b></td>
+        <td align=right style="white-space:nowrap;">
+            
+        <%if (ugeerAfsl_og_autogk_smil = 0 OR level = 1) then %>
+        <input type="text" class="loginhh" name="FM_login_hh" id="FM_login_hh_<%=d %>" value="" style="width:20px; font-size:9px; <%=boxStyleBorder%>" /> :
+        <input type="text" name="FM_login_mm" id="FM_login_mm_<%=d %>" value="" style="width:20px; font-size:9px; <%=boxStyleBorder%>" />
+        <%end if %>
+         &nbsp; 
+
+        </td>
+         <td align=right style="white-space:nowrap;">
+             <%if (ugeerAfsl_og_autogk_smil = 0 OR level = 1) then %>
+             <input type="text" class="logudhh" name="FM_logud_hh" id="FM_logud_hh_<%=d %>" value="" style="width:20px; font-size:9px; <%=boxStyleBorder%>" /> :
+            <input type="text" name="FM_logud_mm" id="FM_logud_mm_<%=d %>" value="" style="width:20px; font-size:9px; <%=boxStyleBorder%>" />
+             <%else %>
+             &nbsp;
+             <%end if %>
+             
+
+
+         </td>
+        <td style="width:20px;">&nbsp;</td>
+        <td>
+            
+        <%if (ugeerAfsl_og_autogk_smil = 0 OR level = 1) then %>    
+        <select name="FM_stur" style="width:120px; font-size:9px; font-family:arial;">
 		<%if lto <> "fk_bpm" AND lto <> "kejd_pb" AND lto <> "kejd_pb2"  then %>
-        <option value="0">Ingen</option>
+        <!--<option value="0">Ingen</option>-->
         <%end if %>
 		
         <%
@@ -1549,11 +2145,17 @@ function stempelurlist(medarbSel, showtot, layout, sqlDatoStart, sqlDatoSlut, ty
 
         %>
         </select>
+        <%end if %>
+
 </td>
         <td>&nbsp;</td>
         <td>&nbsp;</td>
-        <td>&nbsp;</td>
-        <td><textarea id="Textarea1" name="FM_kommentar" style="font-size:9px; font-family:arial; width:150px; height:25px;"></textarea>
+        <td>
+
+            <%call findesDerTimer(0, dtUse, medarbSel) %>
+
+        </td>
+        <td valign="middle" style="padding:2px;"><textarea id="FM_kommentar_<%=d %>" class="FM_kommentar" name="FM_kommentar" style="font-size:9px; font-family:arial; width:140px; height:25px;" disabled placeholder="Kommentar"></textarea>
         <input type="hidden" name="FM_kommentar" id="Hidden18"  value="#">  </td>
         <td>&nbsp;</td>
 		<td>&nbsp;</td>
@@ -1573,13 +2175,14 @@ function stempelurlist(medarbSel, showtot, layout, sqlDatoStart, sqlDatoSlut, ty
 	              <input type="hidden" name="FM_logud_hh" id="Hidden11" value="#">
 		          <input type="hidden" name="FM_logud_mm" id="Hidden12"  value="#">  
 
-    <%
-
+   <%
     end if '** ugeafsluttet
 
     end if '** x=0
 
     end if ' layout
+
+    end if 'media
 
 
     next 'dage/datoer
@@ -1587,7 +2190,16 @@ function stempelurlist(medarbSel, showtot, layout, sqlDatoStart, sqlDatoSlut, ty
     next 'intmmids
 
 
+    '** Overtid ***
+    if cint(layout) = 0 AND d > 1 then
+        call fn_overTid(lto, lastDato, lastMid, 1)
+    end if
 
+    if media = "export" AND showTot <> 1 then
+        stempelUrEkspTxt = stempelUrEkspTxt & "xx99123sy#z" & stempelUrEkspTxto
+    end if
+
+    if media <> "export" then
 	
 	if g = 0 AND layout <> 1 then%>
 	<tr>
@@ -1605,15 +2217,26 @@ function stempelurlist(medarbSel, showtot, layout, sqlDatoStart, sqlDatoSlut, ty
     if cint(layout) <> 1 AND totalhours <> 0 OR totalmin <> 0 then 
 		'Response.write "lastMnavn: " & lastMnavn & " lastMid:"& lastMid &" lastMnr. "&lastMnr &" totalhours "& totalhours  &" ¤"& totalmin &"datoer:"& sqlDatoStart &","& sqlDatoSlut
         'Response.end
-		call tottimer(lastMnavn, lastMnr, totalhours, totalmin, lastMid, sqlDatoStart, sqlDatoSlut, 1)
+
+        if cint(showTot) <> 1 then
+
+            call tottimer(lastMnavn, lastMnr, totalhoursWeek, totalminWeek, lastMid, sqlDatoStart, sqlDatoSlut, 2, lastDato)
+            totalminWeek = 0
+            totalhoursWeek = 0
+
+        end if
+
+		call tottimer(lastMnavn, lastMnr, totalhours, totalmin, lastMid, sqlDatoStart, sqlDatoSlut, 1, lastDato)
 		totalhours = 0 
 		totalmin = 0
+
 	end if%>
 	
     <tr>
 		<td bgcolor="#cccccc" colspan="<%=csp+2%>" style="height:1px;"></td>
 	</tr>
   
+
 	<tr bgcolor="#5582d2">
 		<td width="8" valign=top height=20 style="border-bottom:1px #8caae6 solid; border-left:1px #8caae6 solid;"><img src="../ill/blank.gif" width="1" height="1" alt="" border="0"></td>
 		<td colspan=<%=csp%> valign="top" style="border-bottom:1px #8caae6 solid;"><img src="../ill/blank.gif" width="1" height="1" alt="" border="0"></td>
@@ -1623,7 +2246,7 @@ function stempelurlist(medarbSel, showtot, layout, sqlDatoStart, sqlDatoSlut, ty
     <%if media <> "print" AND layout = 1 then %> 
     <tr>
 		<td width="8"><img src="../ill/blank.gif" width="1" height="1" alt="" border="0"></td>
-		<td colspan=<%=csp%> align=right><br /><input type="submit" value="Opdater liste >>"</td>
+		<td colspan=<%=csp%> align=right><br /><input type="submit" class="opdaterliste" value="Opdater liste >>"</td>
 		<td><img src="../ill/blank.gif" width="1" height="1" alt="" border="0"></td>
 	</tr>
     <%end if %>
@@ -1631,26 +2254,55 @@ function stempelurlist(medarbSel, showtot, layout, sqlDatoStart, sqlDatoSlut, ty
     
 	</table>
 	</form>
-	<%end function
 
 
 
 
-public showkgtim, showkgpau, showkgtil, showkgtot, showkgnor, showkgsal, showkguds, showkgsaa
-function stempelur_kolonne(lto)
+	<%
+    else
+        
+        if cint(showTot) = 1 then
+            call tottimer(lastMnavn, lastMnr, totalhours, totalmin, lastMid, sqlDatoStart, sqlDatoSlut, 1, lastDato)
+		    totalhours = 0 
+		    totalmin = 0
+        end if
+
+    end if 'media
+        
+    end function
+
+
+
+
+public showkgtim, showkgpau, showkgtil, showkgtot, showkgnor, showkgsal, showkguds, showkgsaa, showextended
+function stempelur_kolonne(lto, showextended)
+
+
+    showextended = 0
 
 
     select case lcase(lto)
     case "intranet - local"
 
     showkgtim = 1
-    showkgpau = 0
+    showkgpau = 1
     showkgtil = 1
     showkgtot = 1
     showkgnor = 1
     showkgsal = 1
     showkguds = 0
     showkgsaa = 1
+
+    case "epi2017"
+
+    showkgtim = 0
+    showkgpau = 0
+    showkgtil = 0
+    showkgtot = 0
+    showkgnor = 0
+    showkgsal = 0
+    showkguds = 0
+    showkgsaa = 0
 
     case "fk", "fk_bpm"
 
@@ -1674,7 +2326,7 @@ function stempelur_kolonne(lto)
     showkguds = 0
     showkgsaa = 1
 
-    case "dencker", "jttek"
+    case "dencker", "jttek", "tec", "esn"
 
     showkgtim = 1
     showkgpau = 1
@@ -1684,6 +2336,29 @@ function stempelur_kolonne(lto)
     showkgsal = 1
     showkguds = 0
     showkgsaa = 1
+
+
+    case "cisu", "intranet - local"
+
+    showkgtim = 0
+    showkgpau = 0
+    showkgtil = 0
+    showkgtot = 0
+    showkgnor = 0
+    showkgsal = 0
+    showkguds = 0
+    showkgsaa = 0
+
+    case "tia"
+
+    showkgtim = 0
+    showkgpau = 0
+    showkgtil = 0
+    showkgtot = 0
+    showkgnor = 0
+    showkgsal = 0
+    showkguds = 0
+    showkgsaa = 0
 
     case else
 
@@ -1705,11 +2380,28 @@ end function
 
 
 
-public totaltimerPer, totalpausePer, totalTimerPer100
+public totaltimerPer, totalpausePer, totalTimerPer100, loginTimerTot
+public manMin, tirMin, onsMin, torMin, freMin, lorMin, sonMin
+public manMinPause, tirMinPause, onsMinPause, torMinPause, freMinPause, lorMinPause, sonMinPause
 function fLonTimerPer(stDato, periode, visning, medid)
 
-'Response.Write "////////her " & stDato & " Periode: " & periode & " visning: "& visning & " medid: "& medid & " rdir:"& rdir
+'Response.Write "////////her " & stDato & " Periode: " & periode & " visning: "& visning & " medid: "& medid & " rdir:"& rdir & "<hr>"
 'Response.end
+
+          manMin = 0
+    manMinPause = 0
+          tirMin = 0
+    tirMinPause = 0
+          onsMin = 0
+    onsMinPause = 0
+          torMin = 0
+    torMinPause = 0
+          freMin = 0
+    freMinPause = 0
+          lorMin = 0
+    lorMinPause = 0
+          sonMin = 0
+    sonMinPause = 0
 
 
 totaltimerPer = 0
@@ -1793,11 +2485,16 @@ next
 '*******
 
 
-'Response.Write stDato & ", "& periode & "meid: " & medid & " weekdiff: "& weekdiff
+'Response.Write stDato & ", "& periode & "meid: " & medid & " weekdiff: "& weekdiff & "<hr>"
 
 	'**** login historik (denne uge/ Periode) ****
+
+    
+
 	for intcounter = 0 to periode
 	
+                    'if visning <> 21 then
+
 					select case intcounter
 					case 0
 					useSQLd = stDato
@@ -1805,17 +2502,37 @@ next
 					tDat = dateadd("d", 1, useSQLd)
 					useSQLd = year(tDat) &"/"& month(tDat) & "/"& day(tDat)
 					end select
+
+                    'else
+                
+                    'select case intcounter
+					'case 0
+					'useSQLd = stDato
+                    'case 4 'tilbage til sidste fredag
+					'tDat = dateadd("d", -6, useSQLd)
+					'useSQLd = year(tDat) &"/"& month(tDat) & "/"& day(tDat)
+					'case else
+					'tDat = dateadd("d", 1, useSQLd)
+					'useSQLd = year(tDat) &"/"& month(tDat) & "/"& day(tDat)
+					'end select
+
+
+                    'end if
 					
 					
-					
+		            useSQLd = year(useSQLd) & "/"& month(useSQLd) &"/"& day(useSQLd)			
+
 					strSQL = "SELECT l.id AS lid, l.mid AS lmid, l.login, l.logud, l.minutter, "_
 					&" s.navn AS stempelurnavn, s.faktor, s.minimum, stempelurindstilling FROM login_historik l"_
 					&" LEFT JOIN stempelur s ON (s.id = l.stempelurindstilling) WHERE "_
 					&" l.dato = '"& useSQLd &"' AND l.mid = " & medid &""_
 					&" ORDER BY l.login" 
 					
-					'Response.Write strSQL & "<br><br>"
-					
+					'select case lto 
+                    'case "dencker"
+                    'Response.Write "<br>SQL:"& strSQL & "<br><br>"
+					'case else
+                    'end select
 					
 					f = 0
 					oRec.open strSQL, oConn, 3 
@@ -1874,7 +2591,7 @@ next
 						
 						
 						
-						if visning = 0 OR visning = 20 then
+						if visning = 0 OR visning = 20 OR visning = 21 then
 					    
 						select case intcounter
 						case 0
@@ -2314,10 +3031,20 @@ next
 	
 	next
 	
+	   
+	totMan = manMin - (manMinPause - (manFraTimer))
+	totTir = tirMin - (tirMinPause - (tirFraTimer))
+	totOns = onsMin - (onsMinPause - (onsFraTimer))
+	totTor = torMin - (torMinPause - (torFraTimer))
+	totFre = freMin - (freMinPause - (freFraTimer))
+	totLor = lorMin - (lorMinPause - (lorFraTimer))
+	totSon = sonMin - (sonMinPause - (sonFraTimer))
 	
+    showextended = 0
 
-	
-	call stempelur_kolonne(lto)
+    if cint(intEasyreg) <> 1 then
+	    call stempelur_kolonne(lto, showextended)
+    end if
 	
 	
 	select case visning 
@@ -2326,12 +3053,24 @@ next
 
 	<%if visning <> 20 then %>
 	
-	<h4><img src="../ill/ikon_stempelur_24.png" alt="" border="0">&nbsp; <%=tsa_txt_340 %>&nbsp;- 
+	<h4><span style="font-size:11px; font-weight:lighter;">
+
+         <%if len(trim(meInit)) <> 0 then %>
+            <%=meNavn & "  ["& meInit &"]"%>
+            <%else %>
+            <%=meTxt%>
+            <%end if %>
+
+	    </span><br />Saldo <%=tsa_txt_340 %>&nbsp;- 
 		<%=tsa_txt_005 %>: <%=datepart("ww", stDato, 2, 2)%></h4>
 		
 		<!-- Denne uge, nuværende login -->
-		<%if datepart("ww", stDato, 2, 2) =  datepart("ww", now, 2, 2) then%>
-		<%=tsa_txt_134 %>: 
+         <%call erStempelurOn() 
+               
+        if cint(stempelur_hideloginOn) = 0 then 'skriv ikke login, men åben komme/gå tom
+
+		if datepart("ww", stDato, 2, 2) = datepart("ww", now, 2, 2) then%>
+		<%=tsa_txt_134 %>:
 		<%
 		
 		sLoginTid = "00:00:00"
@@ -2358,16 +3097,18 @@ next
 		
 		<% 
 		logindiffSidste = datediff("n", sLoginTid, now, 2, 2) 
-		%>
 		
-		<br /><%=tsa_txt_135 %>
+            
+        %>
+		<br /><%=tsa_txt_340 %>
 		<%call timerogminutberegning(logindiffSidste) %>
 		<b><%=thoursTot &":"& left(tminTot, 2) %>&nbsp;t.</b>
 		
 		
-		<%end if '*** Denne uge / nuværende login **' %>
+		<%end if '*** Denne uge / nuværende login **'
+          end if ' if cint(stempelur_hideloginOn) = 1 then 'skriv ikke login, men åben komme/gå tom %>
 		
-	<table cellspacing=1 cellpadding=2 border=0 width=100% bgcolor="#c4c4c4">
+	<table cellspacing=1 cellpadding=4 border=0 width=100% bgcolor="#CCCCCC">
     
     
 
@@ -2375,14 +3116,14 @@ next
 		<td style="width:100px;">
             &nbsp;</td>
 		
-		<td width=50 valign=bottom align=center class=lille ><b><%=tsa_txt_128 %> d. <%=formatdatetime(stDato, 2) %></b></td>
-		<td width=50 valign=bottom align=center class=lille><b><%=tsa_txt_129 %> d. <%=formatdatetime(dateadd("d", 1, stDato), 2) %></b></td>
-		<td width=50 valign=bottom align=center class=lille><b><%=tsa_txt_130 %> d. <%=formatdatetime(dateadd("d", 2, stDato), 2) %></b></td>
-		<td width=50 valign=bottom align=center class=lille><b><%=tsa_txt_131 %> d. <%=formatdatetime(dateadd("d", 3, stDato), 2) %></b></td>
-		<td width=50 valign=bottom align=center class=lille><b><%=tsa_txt_132 %> d. <%=formatdatetime(dateadd("d", 4, stDato), 2) %></b></td>
-	    <td width=50 valign=bottom align=center class=lille><b><%=tsa_txt_133 %> d. <%=formatdatetime(dateadd("d", 5, stDato), 2) %></b></td>
-		<td width=50 valign=bottom align=center class=lille><b><%=tsa_txt_127 %> d. <%=formatdatetime(dateadd("d", 6, stDato), 2) %></b></td>
-		<td width=50 bgcolor="#ffdfdf" class=lille valign=bottom align=right><b><%=global_txt_167 %></b></td>
+		<td  valign=bottom align=center style="white-space:nowrap; color:#000000; font-size:11px;" ><%=tsa_txt_128 %> d. <%=formatdatetime(stDato, 2) %></td>
+		<td  valign=bottom align=center style="white-space:nowrap; color:#000000; font-size:11px;"><%=tsa_txt_129 %> d. <%=formatdatetime(dateadd("d", 1, stDato), 2) %></td>
+		<td  valign=bottom align=center style="white-space:nowrap; color:#000000; font-size:11px;"><%=tsa_txt_130 %> d. <%=formatdatetime(dateadd("d", 2, stDato), 2) %></td>
+		<td  valign=bottom align=center style="white-space:nowrap; color:#000000; font-size:11px;"><%=tsa_txt_131 %> d. <%=formatdatetime(dateadd("d", 3, stDato), 2) %></td>
+		<td  valign=bottom align=center style="white-space:nowrap; color:#000000; font-size:11px;"><%=tsa_txt_132 %> d. <%=formatdatetime(dateadd("d", 4, stDato), 2) %></td>
+	    <td  valign=bottom align=center style="white-space:nowrap; color:#000000; font-size:11px; background-color:#F7F7F7;"><%=tsa_txt_133 %> d. <%=formatdatetime(dateadd("d", 5, stDato), 2) %></td>
+		<td  valign=bottom align=center style="white-space:nowrap; color:#000000; font-size:11px; background-color:#F7F7F7;"><%=tsa_txt_127 %> d. <%=formatdatetime(dateadd("d", 6, stDato), 2) %></td>
+		<td  valign=bottom align=right><b><%=global_txt_167 %></b></td>
 	</tr>
 	<%
     cspsStur = 1
@@ -2397,60 +3138,66 @@ next
     <tr bgcolor="#ffffff">
 		<td colspan="<%=cspsStur %>"><%=tsa_txt_137 %>:</td>
 		<td valign=top align=right><%call timerogminutberegning(manMin)
-		Response.write ""& thoursTot &":"& left(tminTot, 2)%> t</td>
+		Response.write ""& thoursTot &":"& left(tminTot, 2)%> </td>
 		<%ugeIalt = ugeIalt + manMin/1%>
 		<td valign=top align=right><%call timerogminutberegning(tirMin)
-		Response.write ""& thoursTot &":"& left(tminTot, 2)%> t</td>
+		Response.write ""& thoursTot &":"& left(tminTot, 2)%> </td>
 		<%ugeIalt = ugeIalt + tirMin/1%>
 		<td valign=top align=right><%call timerogminutberegning(onsMin)
-		Response.write ""& thoursTot &":"& left(tminTot, 2)%> t</td>
+		Response.write ""& thoursTot &":"& left(tminTot, 2)%> </td>
 		<%ugeIalt = ugeIalt + onsMin/1%>
 		<td valign=top align=right><%call timerogminutberegning(torMin)
-		Response.write ""& thoursTot &":"& left(tminTot, 2)%> t</td>
+		Response.write ""& thoursTot &":"& left(tminTot, 2)%> </td>
 		<%ugeIalt = ugeIalt +  torMin/1%>
 		<td valign=top align=right><%call timerogminutberegning(freMin)
-		Response.write ""& thoursTot &":"& left(tminTot, 2)%> t</td>
+		Response.write ""& thoursTot &":"& left(tminTot, 2)%> </td>
 		<%ugeIalt = ugeIalt +  freMin/1%>
-		<td valign=top align=right><%call timerogminutberegning(lorMin)
-		Response.write ""& thoursTot &":"& left(tminTot, 2)%> t</td>
+		<td valign=top align=right style="background-color:#F7F7F7;"><%call timerogminutberegning(lorMin)
+		Response.write ""& thoursTot &":"& left(tminTot, 2)%> </td>
 		<%ugeIalt = ugeIalt +  lorMin/1%>
-		<td valign=top align=right><%call timerogminutberegning(sonMin)
-		Response.write ""& thoursTot &":"& left(tminTot, 2)%> t</td>
+		<td valign=top align=right style="background-color:#F7F7F7;"><%call timerogminutberegning(sonMin)
+		Response.write ""& thoursTot &":"& left(tminTot, 2)%> </td>
 		<%ugeIalt = ugeIalt +  sonMin/1%>
 		<td valign=top align=right>= 
 		<%call timerogminutberegning(ugeIalt)
-		Response.write ""& thoursTot &":"& left(tminTot, 2)%> t</td>
+		Response.write ""& thoursTot &":"& left(tminTot, 2)%> </td>
 	</tr>
-    <%end if %>
+    <%
+     loginTimerTot = ugeIalt - (ugeIaltPause - ugeIaltFraTilTimer)     
+    end if %>
 
 
     <%
+       
+
+
+
     if cint(showkgpau) = 1 then %>
-	<tr bgcolor="lightgrey">
+	<tr bgcolor="#FFFFFF">
 		<td colspan="<%=cspsStur %>"><%=tsa_txt_138 %>:</td>
 		<td valign=top align=right><%call timerogminutberegning(-manMinPause)
-		Response.write ""& thoursTot &":"& left(tminTot, 2)%> t</td>
+		Response.write ""& thoursTot &":"& left(tminTot, 2)%> </td>
 		<%ugeIaltPause = ugeIaltPause + manMinPause%>
 		<td valign=top align=right><%call timerogminutberegning(-tirMinPause)
-		Response.write ""& thoursTot &":"& left(tminTot, 2)%> t</td>
+		Response.write ""& thoursTot &":"& left(tminTot, 2)%> </td>
 		<%ugeIaltPause = ugeIaltPause + tirMinPause%>
 		<td valign=top align=right><%call timerogminutberegning(-onsMinPause)
-		Response.write ""& thoursTot &":"& left(tminTot, 2)%> t</td>
+		Response.write ""& thoursTot &":"& left(tminTot, 2)%> </td>
 		<%ugeIaltPause = ugeIaltPause + onsMinPause%>
 		<td valign=top align=right><%call timerogminutberegning(-torMinPause)
-		Response.write ""& thoursTot &":"& left(tminTot, 2)%> t</td>
+		Response.write ""& thoursTot &":"& left(tminTot, 2)%> </td>
 		<%ugeIaltPause = ugeIaltPause + torMinPause%>
 		<td valign=top align=right><%call timerogminutberegning(-freMinPause)
-		Response.write ""& thoursTot &":"& left(tminTot, 2)%> t</td>
+		Response.write ""& thoursTot &":"& left(tminTot, 2)%> </td>
 		<%ugeIaltPause = ugeIaltPause + freMinPause%>
-		<td valign=top align=right><%call timerogminutberegning(-lorMinPause)
-		Response.write ""& thoursTot &":"& left(tminTot, 2)%> t</td>
+		<td valign=top align=right style="background-color:#F7F7F7;"><%call timerogminutberegning(-lorMinPause)
+		Response.write ""& thoursTot &":"& left(tminTot, 2)%> </td>
 		<%ugeIaltPause = ugeIaltPause + lorMinPause%>
-		<td valign=top align=right><%call timerogminutberegning(-sonMinPause)
-		Response.write ""& thoursTot &":"& left(tminTot, 2)%> t</td>
+		<td valign=top align=right style="background-color:#F7F7F7;"><%call timerogminutberegning(-sonMinPause)
+		Response.write ""& thoursTot &":"& left(tminTot, 2)%> </td>
 		<%ugeIaltPause = ugeIaltPause + sonMinPause%>
 		<td valign=top align=right>= <%call timerogminutberegning(-ugeIaltPause)
-		Response.write ""& thoursTot &":"& left(tminTot, 2)%> t</td>
+		Response.write ""& thoursTot &":"& left(tminTot, 2)%> </td>
 	</tr>
 	<%end if %>
 
@@ -2460,65 +3207,57 @@ next
     <tr bgcolor="#ffffff">
 		<td colspan="<%=cspsStur %>"><%=global_txt_168 %>:*</td>
 		<td valign=top align=right><%call timerogminutberegning(manFraTimer)
-		Response.write ""& thoursTot &":"& left(tminTot, 2)%> t</td>
+		Response.write ""& thoursTot &":"& left(tminTot, 2)%> </td>
 		<%ugeIaltFraTilTimer = ugeIaltFraTilTimer + (manFraTimer)%>
 		<td valign=top align=right><%call timerogminutberegning(tirFraTimer)
-		Response.write ""& thoursTot &":"& left(tminTot, 2)%> t</td>
+		Response.write ""& thoursTot &":"& left(tminTot, 2)%> </td>
 		<%ugeIaltFraTilTimer = ugeIaltFraTilTimer + (tirFraTimer)%>
 		<td valign=top align=right><%call timerogminutberegning(onsFraTimer)
-		Response.write ""& thoursTot &":"& left(tminTot, 2)%> t</td>
+		Response.write ""& thoursTot &":"& left(tminTot, 2)%> </td>
 		<%ugeIaltFraTilTimer = ugeIaltFraTilTimer + (onsFraTimer)%>
 		<td valign=top align=right><%call timerogminutberegning(torFraTimer)
-		Response.write ""& thoursTot &":"& left(tminTot, 2)%> t</td>
+		Response.write ""& thoursTot &":"& left(tminTot, 2)%> </td>
 		<%ugeIaltFraTilTimer = ugeIaltFraTilTimer + (torFraTimer)%>
 		<td valign=top align=right><%call timerogminutberegning(freFraTimer)
-		Response.write ""& thoursTot &":"& left(tminTot, 2)%> t</td>
+		Response.write ""& thoursTot &":"& left(tminTot, 2)%> </td>
 		<%ugeIaltFraTilTimer = ugeIaltFraTilTimer + (freFraTimer)%>
-		<td valign=top align=right><%call timerogminutberegning(lorFraTimer)
-		Response.write ""& thoursTot &":"& left(tminTot, 2)%> t</td>
+		<td valign=top align=right style="background-color:#F7F7F7;"><%call timerogminutberegning(lorFraTimer)
+		Response.write ""& thoursTot &":"& left(tminTot, 2)%> </td>
 		<%ugeIaltFraTilTimer = ugeIaltFraTilTimer + (lorFraTimer)%>
-		<td valign=top align=right><%call timerogminutberegning(sonFraTimer)
-		Response.write ""& thoursTot &":"& left(tminTot, 2)%> t</td>
+		<td valign=top align=right style="background-color:#F7F7F7;"><%call timerogminutberegning(sonFraTimer)
+		Response.write ""& thoursTot &":"& left(tminTot, 2)%> </td>
 		<%ugeIaltFraTilTimer = ugeIaltFraTilTimer + (sonFraTimer)%>
 		<td valign=top align=right>= <%call timerogminutberegning(ugeIaltFraTilTimer)
-		Response.write ""& thoursTot &":"& left(tminTot, 2)%> t</td>
+		Response.write ""& thoursTot &":"& left(tminTot, 2)%> </td>
 	</tr>
 	<%end if %>
 
-    <%
-	totMan = manMin - (manMinPause - (manFraTimer))
-	totTir = tirMin - (tirMinPause - (tirFraTimer))
-	totOns = onsMin - (onsMinPause - (onsFraTimer))
-	totTor = torMin - (torMinPause - (torFraTimer))
-	totFre = freMin - (freMinPause - (freFraTimer))
-	totLor = lorMin - (lorMinPause - (lorFraTimer))
-	totSon = sonMin - (sonMinPause - (sonFraTimer))
-	%>
+ 
 
 
     <%if cint(showkgtot) = 1 then %>
 	<!-- total -->
 	
 	
-	 <tr bgcolor="#ffdfdf">
+	 <tr bgcolor="#cccccc">
 		<td colspan="<%=cspsStur %>"><b><%=global_txt_167%>:</b></td>
 		<td valign=top align=right><b><%call timerogminutberegning(totMan)
-		Response.write ""& thoursTot &":"& left(tminTot, 2)%> t</b></td>
+		Response.write ""& thoursTot &":"& left(tminTot, 2)%> </b></td>
 		<td valign=top align=right><b><%call timerogminutberegning(totTir)
-		Response.write ""& thoursTot &":"& left(tminTot, 2)%> t</b></td>
+		Response.write ""& thoursTot &":"& left(tminTot, 2)%> </b></td>
 		<td valign=top align=right><b><%call timerogminutberegning(totOns)
-		Response.write ""& thoursTot &":"& left(tminTot, 2)%> t</b></td>
+		Response.write ""& thoursTot &":"& left(tminTot, 2)%> </b></td>
 		<td valign=top align=right><b><%call timerogminutberegning(totTor)
-		Response.write ""& thoursTot &":"& left(tminTot, 2)%> t</b></td>
+		Response.write ""& thoursTot &":"& left(tminTot, 2)%> </b></td>
 	    <td valign=top align=right><b><%call timerogminutberegning(totFre)
-		Response.write ""& thoursTot &":"& left(tminTot, 2)%> t</b></td>
+		Response.write ""& thoursTot &":"& left(tminTot, 2)%> </b></td>
 		<td valign=top align=right><b><%call timerogminutberegning(totLor)
-		Response.write ""& thoursTot &":"& left(tminTot, 2)%> t</b></td>
+		Response.write ""& thoursTot &":"& left(tminTot, 2)%> </b></td>
 		<td valign=top align=right><b><%call timerogminutberegning(totSon)
-		Response.write ""& thoursTot &":"& left(tminTot, 2)%> t</b></td>
+		Response.write ""& thoursTot &":"& left(tminTot, 2)%> </b></td>
 		<td valign=top align=right>= <b><%call timerogminutberegning(ugeIalt - (ugeIaltPause - (ugeIaltFraTilTimer)))
-		Response.write ""& thoursTot &":"& left(tminTot, 2)%> t</b></td>
-		<%loginTimerTot = ugeIalt - (ugeIaltPause - ugeIaltFraTilTimer)  %>
+		Response.write ""& thoursTot &":"& left(tminTot, 2)%> </b></td>
+		
 	</tr>
 	<%end if %>
  
@@ -2528,36 +3267,36 @@ next
     <tr bgcolor="#ffffff">
 		<td colspan="<%=cspsStur %>"><%=tsa_txt_259 %>:</td>
 		
-		<%call normtimerper(medid, varTjDatoUS_man, 6) %>
+		<%call normtimerper(medid, varTjDatoUS_man, 6, 0) %>
 		
 		<td valign=top align=right><%call timerogminutberegning(ntimMan*60)
-		Response.write ""& thoursTot &":"& left(tminTot, 2)%> t</td>
+		Response.write ""& thoursTot &":"& left(tminTot, 2)%> </td>
 		
 		<td valign=top align=right><%call timerogminutberegning(ntimTir*60)
-		Response.write ""& thoursTot &":"& left(tminTot, 2)%> t</td>
+		Response.write ""& thoursTot &":"& left(tminTot, 2)%> </td>
 		
 		<td valign=top align=right><%call timerogminutberegning(ntimOns*60)
-		Response.write ""& thoursTot &":"& left(tminTot, 2)%> t</td>
+		Response.write ""& thoursTot &":"& left(tminTot, 2)%> </td>
 		
 		<td valign=top align=right><%call timerogminutberegning(ntimTor*60)
-		Response.write ""& thoursTot &":"& left(tminTot, 2)%> t</td>
+		Response.write ""& thoursTot &":"& left(tminTot, 2)%> </td>
 		
 		<td valign=top align=right><%call timerogminutberegning(ntimFre*60)
-		Response.write ""& thoursTot &":"& left(tminTot, 2)%> t</td>
+		Response.write ""& thoursTot &":"& left(tminTot, 2)%> </td>
 		
-		<td valign=top align=right><%call timerogminutberegning(ntimLor*60)
-		Response.write ""& thoursTot &":"& left(tminTot, 2)%> t</td>
+		<td valign=top align=right style="background-color:#F7F7F7;"><%call timerogminutberegning(ntimLor*60)
+		Response.write ""& thoursTot &":"& left(tminTot, 2)%> </td>
 		
 		
-		<td valign=top align=right><%call timerogminutberegning(ntimSon*60)
-		Response.write ""& thoursTot &":"& left(tminTot, 2)%> t</td>
+		<td valign=top align=right style="background-color:#F7F7F7;"><%call timerogminutberegning(ntimSon*60)
+		Response.write ""& thoursTot &":"& left(tminTot, 2)%> </td>
 		
 		<%
 		NormTimerWeekTot = 0
 		NormTimerWeekTot = (ntimMan + ntimTir + ntimOns + ntimTor + ntimFre + ntimLor + ntimSon) * 60 %>
 		
 		<td valign=top align=right>= <%call timerogminutberegning(NormTimerWeekTot)
-		Response.write ""& thoursTot &":"& left(tminTot, 2)%> t</td>
+		Response.write ""& thoursTot &":"& left(tminTot, 2)%> </td>
 		</tr>
 
       <%end if %>
@@ -2568,19 +3307,19 @@ next
 	  <tr bgcolor="#DCF5BD">
 		<td colspan="<%=cspsStur %>" style="height:20px;"><b><%=global_txt_163 %>:</b></td>
 		<td valign=top align=right><b><%call timerogminutberegning(totMan - (ntimMan*60))
-		Response.write ""& thoursTot &":"& left(tminTot, 2)%> t</b></td>
+		Response.write ""& thoursTot &":"& left(tminTot, 2)%> </b></td>
 		<td valign=top align=right><b><%call timerogminutberegning(totTir - (ntimTir*60))
-		Response.write ""& thoursTot &":"& left(tminTot, 2)%> t</b></td>
+		Response.write ""& thoursTot &":"& left(tminTot, 2)%> </b></td>
 		<td valign=top align=right><b><%call timerogminutberegning(totOns - (ntimOns*60))
-		Response.write ""& thoursTot &":"& left(tminTot, 2)%> t</b></td>
+		Response.write ""& thoursTot &":"& left(tminTot, 2)%> </b></td>
 		<td valign=top align=right><b><%call timerogminutberegning(totTor - (ntimTor*60))
-		Response.write ""& thoursTot &":"& left(tminTot, 2)%> t</b></td>
+		Response.write ""& thoursTot &":"& left(tminTot, 2)%> </b></td>
 	    <td valign=top align=right><b><%call timerogminutberegning(totFre - (ntimFre*60))
-		Response.write ""& thoursTot &":"& left(tminTot, 2)%> t</b></td>
+		Response.write ""& thoursTot &":"& left(tminTot, 2)%> </b></td>
 		<td valign=top align=right><b><%call timerogminutberegning(totLor - (ntimLor*60))
-		Response.write ""& thoursTot &":"& left(tminTot, 2)%> t</b></td>
+		Response.write ""& thoursTot &":"& left(tminTot, 2)%> </b></td>
 		<td valign=top align=right><b><%call timerogminutberegning(totSon - (ntimSon*60))
-		Response.write ""& thoursTot &":"& left(tminTot, 2)%> t</b></td>
+		Response.write ""& thoursTot &":"& left(tminTot, 2)%> </b></td>
 		<td valign=top align=right>=
         <%
         call timerogminutberegning((ugeIalt - (ugeIaltPause - (ugeIaltFraTilTimer))) - NormTimerWeekTot)
@@ -2590,8 +3329,8 @@ next
         stDatoUS = year(stDato) & "/" & month(stDato) &"/"& day(stDato)  
         slDatoUS = year(slutDato) & "/" & month(slutDato) &"/"& day(slutDato)
         %>
-        <a href="afstem_tot.asp?usemrn=<%=usemrn%>&show=5&varTjDatoUS_man=<%=stDatoUS%>&varTjDatoUS_son=<%=slDatoUS%>" class=vmenu><%=thoursTot &":"& left(tminTot, 2)%> t</a></td>
-		<%loginTimerTot = ugeIalt - (ugeIaltPause - ugeIaltFraTilTimer)  %>
+        <a href="afstem_tot.asp?usemrn=<%=usemrn%>&show=5&varTjDatoUS_man=<%=stDatoUS%>&varTjDatoUS_son=<%=slDatoUS%>" class=vmenu><%=thoursTot &":"& left(tminTot, 2)%></a></td>
+		
 	</tr>
     <%end if %>
 
@@ -2606,20 +3345,27 @@ next
         <%end if %>
     <%end if %>
 
+  
+
 
     <%if visning <> 20 then %>
 	</table>
 	
-    
-
-	<%if datepart("ww", stDato, 2, 2) =  datepart("ww", now, 2, 2) then%>
+    <%if cint(stempelur_hideloginOn) = 0 then 'skriv ikke login, men åben komme/gå tom
 	
+    if datepart("ww", stDato, 2, 2) =  datepart("ww", now, 2, 2) then%>
+	<!-- Denne uge incl. nuværende  -->
 	<%=tsa_txt_139 %>: <% 
 	call timerogminutberegning(logindiffSidste+(loginTimerTot))
 	%>
 	<b><%=thoursTot &":"& left(tminTot, 2) %>&nbsp;t.</b>
+
+ 
 	
-    <%end if ' *** Denne uge / Nuværende login **'%>
+    <%end if ' *** Denne uge / Nuværende login **'
+    end if    
+    %>
+
 	
 
     
@@ -2902,8 +3648,6 @@ next
 	totalTimerPer100 = (totaltimerPer-totalpausePer)
 	
     call timerogminutberegning(totalTimerPer100) %>
-	<!-- formatnumber(totalTimerPer100, 2) -->
-	
 	<%=thoursTot &":"& left(tminTot, 2) %>
 	
 	<%
@@ -2929,7 +3673,18 @@ next
 	
 	<%=thoursTot &":"& left(tminTot, 2) %>
 	<%
-	case else
+
+    case 21 'smiley på timereg.
+	
+
+     totalTimerPer100 = 0
+	totalTimerPer100 = (totaltimerPer-totalpausePer)
+	
+    %>
+	
+     
+    <% 
+    case else
 	
 	
 	totalTimerPer100 = 0
@@ -2953,12 +3708,20 @@ function tilfojPauser(io,psMid,psDato,psloginTidp,pslogudTidp,psMin,psKomm)
 
                             
                             
-                            'Response.Write "psloginTidp: " & psloginTidp & "<br>"
+                            'Response.Write "psloginTidp: " & psloginTidp & " psDato: "& psDato &"<br>"
+                            'response.write "<br>psMin: "& psMin
+    
+                            
+                            if len(trim(pslogudTidp)) = 0 then
+                            pslogudTidp = psloginTidp
+                            end if
+
+
 
                             '*** Indlæser ikke pauser på 0 min.
                             if psMin <> 0 then
                             
-                            psDato = year(psDato) &"/"& month(psDato) &"/"&day(psDato)
+                            psDato = year(psDato) &"/"& month(psDato) &"/"& day(psDato)
 
                             strSQLp = "INSERT INTO login_historik SET dato = '"& psDato &"', "_
 	                        &" login = '"& psloginTidp &"', "_
@@ -2966,16 +3729,20 @@ function tilfojPauser(io,psMid,psDato,psloginTidp,pslogudTidp,psMin,psKomm)
 					        &" stempelurindstilling = -1, minutter = "& psMin &", "_
 					        &" manuelt_afsluttet = 0, kommentar = '"& psKomm &"', mid = "& psMid
 					        
+                            'if session("mid") = 1 then
 					        'Response.Write "pause: "& strSQLp & "<br>"
 					        'Response.flush
+                            'end if                        
+
                             oConn.execute(strSQLp)
+
 
                             end if
 
 end function
 
 
-public stPauseLic_1, stPauseLic_2, p1on, p2on, p1_grp, p2_grp
+public stPauseLic_1, stPauseLic_2, p1on, p2on, p1_grp, p2_grp, stPauseLic_3, stPauseLic_4, p3on, p4on, p3_grp, p4_grp
 function stPauserFralicens(psDt)
 
             
@@ -2986,30 +3753,44 @@ function stPauserFralicens(psDt)
             dagidag = datepart("w", psDt, 2,2) 'weekday(psDt, 2)
             p1on = 0
             p2on = 0
-            
+            p3on = 0
+            p4on = 0
+
+
+            'response.write "dagidag: "& dagidag
+            feltNavne = ""
             select case dagidag
             case 1
             feltNavne = "p1_man AS p1on, p2_man AS p2on"
+            feltNavne = feltNavne &", p3_man AS p3on, p4_man AS p4on"
             case 2
             feltNavne = "p1_tir AS p1on, p2_tir AS p2on"
+            feltNavne = feltNavne &", p3_tir AS p3on, p4_tir AS p4on"
             case 3
             feltNavne = "p1_ons AS p1on, p2_ons AS p2on"
+            feltNavne = feltNavne &", p3_ons AS p3on, p4_ons AS p4on"
             case 4
             feltNavne = "p1_tor AS p1on, p2_tor AS p2on"
+            feltNavne = feltNavne &", p3_tor AS p3on, p4_tor AS p4on"
             case 5
             feltNavne = "p1_fre AS p1on, p2_fre AS p2on"
+            feltNavne = feltNavne &", p3_fre AS p3on, p4_fre AS p4on"
             case 6
             feltNavne = "p1_lor AS p1on, p2_lor AS p2on"
+            feltNavne = feltNavne &", p3_lor AS p3on, p4_lor AS p4on"
             case 7
             feltNavne = "p1_son AS p1on, p2_son AS p2on"
+            feltNavne = feltNavne &", p3_son AS p3on, p4_son AS p4on"
             end select
         
             '*** Henter forvalgte standard pauser ***
 
             p1_grp = 0 
             p2_grp = 0
+            p3_grp = 0
+            p4_grp = 0
 
-            strSQLstp = "SELECT stpause, stpause2, "& feltNavne &", p1_grp, p2_grp"_
+            strSQLstp = "SELECT stpause, stpause2, stpause3, stpause4, "& feltNavne &", p1_grp, p2_grp, p3_grp, p4_grp"_
             &" FROM  "_
             &" licens WHERE id = 1" 
             
@@ -3021,12 +3802,18 @@ function stPauserFralicens(psDt)
             
             stPauseLic_1 = oRec5("stpause")
             stPauseLic_2 = oRec5("stpause2")
-            
+            stPauseLic_3 = oRec5("stpause3")
+            stPauseLic_4 = oRec5("stpause4")        
+
             p1on = oRec5("p1on")
             p2on = oRec5("p2on")
+            p3on = oRec5("p3on")
+            p4on = oRec5("p4on")
 
             p1_grp = oRec5("p1_grp")
             p2_grp = oRec5("p2_grp")
+            p3_grp = oRec5("p3_grp")
+            p4_grp = oRec5("p4_grp")
              
             end if
             oRec5.close
@@ -3036,8 +3823,8 @@ function stPauserFralicens(psDt)
 end function
 
 
-public p1_prg_on, p2_prg_on
-function stPauserProgrp(useMid, p1_grp, p2_grp)
+public p1_prg_on, p2_prg_on, p3_prg_on, p4_prg_on
+function stPauserProgrp(useMid, p1_grp, p2_grp, p3_grp, p4_grp)
 
 'p1_grp Hvilke projektgrupper tilføejt pause 1, komma sep
 'p2_grp Hvilke projektgrupper tilføejt pause 2, komma sep
@@ -3047,30 +3834,66 @@ function stPauserProgrp(useMid, p1_grp, p2_grp)
 
         p1_prg_on = 0
         p2_prg_on = 0
+        p3_prg_on = 0
+        p4_prg_on = 0
+        negativPauseGruppeFundet = 0
+        tilfojikkepauserpagrp = 0
 
         strSQLmansat = " mansat <> 0"
 
 
         '*** Adgang til Pause 1 ****'
-        if len(trim(p1_grp)) = 0 OR isNull(p1_grp) = true then
+        if len(trim(p1_grp)) = 0 OR isNull(p1_grp) = true then 'ingen værdi angivet i kontrolpanel
         p1_prg_on = 1
         else
             
-            p1_grpArr = split(p1_grp, ",")
+            
+            p1_grpArr = split(replace(p1_grp, " ", ""), ",") 
             for g = 0 to UBOUND(p1_grpArr)
                 
-                'Response.Write "p1_grpArr(g)"& p1_grpArr(g) & " useMid: "&  useMid&"<br>"
+                'Response.Write "DER: p1_grpArr(g)"& p1_grpArr(g) & " useMid: "&  useMid&"<br>"
                 'Response.flush
+
+                'negativPauseGruppeFundet = 0
+
+                if instr(p1_grpArr(g), "-") <> 0 then 'Hvis evt minus betyder at denne gruppe er udelukket fra pauser, uanset om medarbejder er med i andre projektgrupper
+                negativPauseGruppeFundet = 1
+                p1_grpArr(g) = replace(p1_grpArr(g), "-", "")
+                end if
 
                 if len(trim(p1_grpArr(g))) <> 0 then
                 call erdetint_st(trim(p1_grpArr(g)))
                 if isInt_st = 0 then
-                call medarbiprojgrp(p1_grpArr(g), useMid, 0, -1)
+                        
+                       
+                        call medarbiprojgrp(p1_grpArr(g), useMid, 0, -1)
+                        
+                        if cint(negativPauseGruppeFundet) = 1 then                    
+
+                        if (instr(instrMedidProgrpThisGrp, "#"& trim(useMid) &"#,")) <> 0 then 'medarbejder er med i negativgruppe
+                        tilfojikkepauserpagrp = 1
+                        end if
+
+                        end if
+
                 end if
                 isInt_st = 0
                 end if
+
+
+               
                 
             next
+
+                if cint(negativPauseGruppeFundet) = 1 then 
+    
+                if cint(tilfojikkepauserpagrp) = 0 then
+                p1_prg_on = 1
+                else
+                p1_prg_on = 0
+                end if   
+    
+                else   
 
                 if instr(instrMedidProgrp, "#"& trim(useMid) &"#,") <> 0 then
                 p1_prg_on = 1
@@ -3078,28 +3901,69 @@ function stPauserProgrp(useMid, p1_grp, p2_grp)
                 p1_prg_on = 0
                 end if
 
+                end if
+
         end if
 
-        'Response.write "HER: p1_grp:"& p1_grp &" p1_prg_on " & p1_prg_on & "  string: "& instrMedidProgrp & " instr " & instr(instrMedidProgrp, "#"& trim(useMid) &"#,") & " # mid: " & useMid & " |<br>"
+        'Response.write "HER: p1_grp:"& p1_grp &" p1_prg_on " & p1_prg_on & "  string: "& instrMedidProgrp & " instr " & instr(instrMedidProgrp, "#"& trim(useMid) &"#,") &" tilfojikkepauserpagrp: "& tilfojikkepauserpagrp ' & " # mid: " & useMid & " |<br>"
 
        
          '*** Adgang til Pause 2 ****'
+        negativPauseGruppeFundet = 0
+        tilfojikkepauserpagrp = 0
+
+
         if len(trim(p2_grp)) = 0 OR isNull(p2_grp) = true then
         p2_prg_on = 1
         else
             
-            p2_grpArr = split(p2_grp, ",")
+            p2_grpArr = split(replace(p2_grp, " ", ""), ",")
             for g = 0 to UBOUND(p2_grpArr)
                 
                 'Response.Write "p1_grpArr(g)"& p1_grpArr(g) & " useMid: "&  useMid&"<br>"
-                if len(trim(p2_grpArr(g))) <> 0 then
-                call erdetint_st(trim(p2_grpArr(g)))
-                if isInt_st = 0 then
-                call medarbiprojgrp(p2_grpArr(g), useMid, 0, -1)
+
+                if instr(p2_grpArr(g), "-") <> 0 then 'Hvis evt minus betyder at denne gruppe er udelukket fra pauser, uanset om medarbejder er med i andre porjektgrupper
+                negativPauseGruppeFundet = 1
+                p2_grpArr(g) = replace(p2_grpArr(g), "-", "")
                 end if
-                isInt_st = 0
-                end if
+
+                    if len(trim(p2_grpArr(g))) <> 0 then
+                    call erdetint_st(trim(p2_grpArr(g)))
+                            if isInt_st = 0 then
+                                        
+    
+                                            call medarbiprojgrp(p2_grpArr(g), useMid, 0, -1)
+
+                                    
+                                            if cint(negativPauseGruppeFundet) = 1 then                    
+
+                                            if (instr(instrMedidProgrpThisGrp, "#"& trim(useMid) &"#,")) <> 0 then 'medarbejder er med i negativgruppe
+                                            tilfojikkepauserpagrp = 1
+                                            end if
+
+                                            end if
+
+
+                            end if
+                    isInt_st = 0
+                    end if
+
+            
+
             next
+
+                
+    
+    
+                if cint(negativPauseGruppeFundet) = 1 then 
+    
+                if cint(tilfojikkepauserpagrp) = 0 then
+                p2_prg_on = 1
+                else
+                p2_prg_on = 0
+                end if   
+    
+                else   
 
                 if instr(instrMedidProgrp, "#"& trim(useMid) &"#,") <> 0 then
                 p2_prg_on = 1
@@ -3107,11 +3971,158 @@ function stPauserProgrp(useMid, p1_grp, p2_grp)
                 p2_prg_on = 0
                 end if
 
+                end if
+
         end if
 
 
         'Response.write "<br><br>HER: p2_grp:"& p2_grp &" p2_prg_on " & p2_prg_on & "  string: "& instrMedidProgrp & " instr " & instr(instrMedidProgrp, "#"& trim(useMid) &"#,") & " # mid: " & useMid & " |<br>"
         'Response.end
+
+
+         '*** Adgang til Pause 3 ****'
+        negativPauseGruppeFundet = 0
+        tilfojikkepauserpagrp = 0
+
+
+        if len(trim(p3_grp)) = 0 OR isNull(p3_grp) = true then
+        p3_prg_on = 1
+        else
+            
+            p3_grpArr = split(replace(p3_grp, " ", ""), ",")
+            for g = 0 to UBOUND(p3_grpArr)
+                
+                'Response.Write "p1_grpArr(g)"& p1_grpArr(g) & " useMid: "&  useMid&"<br>"
+
+                if instr(p3_grpArr(g), "-") <> 0 then 'Hvis evt minus betyder at denne gruppe er udelukket fra pauser, uanset om medarbejder er med i andre porjektgrupper
+                negativPauseGruppeFundet = 1
+                p3_grpArr(g) = replace(p3_grpArr(g), "-", "")
+                end if
+
+                    if len(trim(p3_grpArr(g))) <> 0 then
+                    call erdetint_st(trim(p3_grpArr(g)))
+                            if isInt_st = 0 then
+                                        
+    
+                                            call medarbiprojgrp(p3_grpArr(g), useMid, 0, -1)
+
+                                    
+                                            if cint(negativPauseGruppeFundet) = 1 then                    
+
+                                            if (instr(instrMedidProgrpThisGrp, "#"& trim(useMid) &"#,")) <> 0 then 'medarbejder er med i negativgruppe
+                                            tilfojikkepauserpagrp = 1
+                                            end if
+
+                                            end if
+
+
+                            end if
+                    isInt_st = 0
+                    end if
+
+            
+
+            next
+
+                
+    
+    
+                if cint(negativPauseGruppeFundet) = 1 then 
+    
+                if cint(tilfojikkepauserpagrp) = 0 then
+                p3_prg_on = 1
+                else
+                p3_prg_on = 0
+                end if   
+    
+                else   
+
+                if instr(instrMedidProgrp, "#"& trim(useMid) &"#,") <> 0 then
+                p3_prg_on = 1
+                else
+                p3_prg_on = 0
+                end if
+
+                end if
+
+        end if
+
+
+        'Response.write "<br><br>HER: p3_grp:"& p3_grp &" p3_prg_on " & p3_prg_on & "  string: "& instrMedidProgrp & " instr " & instr(instrMedidProgrp, "#"& trim(useMid) &"#,") & " # mid: " & useMid & " |<br>"
+        'Response.end
+
+
+         '*** Adgang til Pause 4 ****'
+        negativPauseGruppeFundet = 0
+        tilfojikkepauserpagrp = 0
+
+
+        if len(trim(p4_grp)) = 0 OR isNull(p4_grp) = true then
+        p4_prg_on = 1
+        else
+            
+            p4_grpArr = split(replace(p4_grp, " ", ""), ",")
+            for g = 0 to UBOUND(p4_grpArr)
+                
+                'Response.Write "p1_grpArr(g)"& p1_grpArr(g) & " useMid: "&  useMid&"<br>"
+
+                if instr(p4_grpArr(g), "-") <> 0 then 'Hvis evt minus betyder at denne gruppe er udelukket fra pauser, uanset om medarbejder er med i andre porjektgrupper
+                negativPauseGruppeFundet = 1
+                p4_grpArr(g) = replace(p4_grpArr(g), "-", "")
+                end if
+
+                    if len(trim(p4_grpArr(g))) <> 0 then
+                    call erdetint_st(trim(p4_grpArr(g)))
+                            if isInt_st = 0 then
+                                        
+    
+                                            call medarbiprojgrp(p4_grpArr(g), useMid, 0, -1)
+
+                                    
+                                            if cint(negativPauseGruppeFundet) = 1 then                    
+
+                                            if (instr(instrMedidProgrpThisGrp, "#"& trim(useMid) &"#,")) <> 0 then 'medarbejder er med i negativgruppe
+                                            tilfojikkepauserpagrp = 1
+                                            end if
+
+                                            end if
+
+
+                            end if
+                    isInt_st = 0
+                    end if
+
+            
+
+            next
+
+                
+    
+    
+                if cint(negativPauseGruppeFundet) = 1 then 
+    
+                if cint(tilfojikkepauserpagrp) = 0 then
+                p4_prg_on = 1
+                else
+                p4_prg_on = 0
+                end if   
+    
+                else   
+
+                if instr(instrMedidProgrp, "#"& trim(useMid) &"#,") <> 0 then
+                p4_prg_on = 1
+                else
+                p4_prg_on = 0
+                end if
+
+                end if
+
+        end if
+
+
+        'Response.write "<br><br>HER: p4_grp:"& p4_grp &" p4_prg_on " & p4_prg_on & "  string: "& instrMedidProgrp & " instr " & instr(instrMedidProgrp, "#"& trim(useMid) &"#,") & " # mid: " & useMid & " |<br>"
+        'Response.end
+
 
 
 end function
@@ -3170,5 +4181,468 @@ isInt_st = isInt_st + (instr(lcase(FM_felt), "'"))
 isInt_st = isInt_st + (instr(lcase(FM_felt), " "))
 end function
 
+
+
+
+
+
+
+
+public lonTimerGT, stempelUrEkspTxtShowTot   
+function tottimer(lastMnavn, lastMnr, totalhours, totalmin, lastMid, sqlDatoStart, sqlDatoslut, vis, lastDato)
+		
+
+        'if session("mid") = 1 then
+        'Response.write totalhours &"+"& totalmin & "<br>"
+        'end if
+
+        'vis 1: total pr. uge
+        'vis 2: GT i bunden af hver medarbejder
+
+		totalmin = (60 * totalhours) + totalmin
+		lonTimer = totalmin
+		call timerogminutberegning(totalmin)
+
+        if vis = 2 OR (cint(showTot) = 1 AND vis = 1) then
+        lonTimerGT = lonTimerGT + lonTimer
+	    end if	
+
+		if cint(showTot) = 1 then
+            
+                select case lto
+                case "cst"
+	            csp = 5
+                case else
+                csp = 6
+                end select
+
+		
+		else
+		csp = 9
+		end if
+
+        ugeNummer = day(lastDato) & "/" & month(lastDato) & "/" & year(lastDato)
+        'ugeNummer = 
+
+        if cint(vis) = 1 then 'total i bunden / else uge sum
+         trBg = "#FFFFFF"
+        else
+        trBg = "lightpink"
+        end if
+        
+      
+
+     if cint(showTot) = 1 AND vis = 1 then
+
+        if media <> "export" then
+    %>
+        <tr>
+        <td>&nbsp;</td>
+        <td><%=lastMnavn & " ["& lastMinit &"]" %></td>
+        <td><%=formatdatetime(sqlDatoStart, 1) &" - "& formatdatetime(sqlDatoSlut, 1) %></td>
+        <td align=right><%=thoursTot%>:<%=left(tminTot, 2)%></td>
+
+      
+
+    <%
+        else
+
+        stempelUrEkspTxtShowTot = stempelUrEkspTxtShowTot & ""& meNavn &";"& meInit & ";" & sqlDatoStart & ";" & sqlDatoSlut & ";" 
+        stempelUrEkspTxtShowTot = stempelUrEkspTxtShowTot & ""& thoursTot&"."& left(tminTot, 2) &";"
+
+        end if
+      
+        
+                
+
+    else 
+        
+        if vis <> 1 then%>
+        <tr bgcolor="<%=trBg%>">
+		        <td>&nbsp;</td>
+                <td colspan=<%=csp-4%> style="padding:2px 2px 2px 2px; height:30px;">Løntimer (komme/gå) uge: <%=datepart("ww", ugeNummer, 2,2) %>:</td>
+        
+
+		        <td align=right><b><%=thoursTot%>:<%=left(tminTot, 2)%></b></td>
+
+		
+		        <td>&nbsp;</td>
+		        <td>&nbsp;</td>
+		        <td>&nbsp;</td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+	     </tr>
+		<%end if
+		end if
+    
+        if vis = 1 then
+        
+        trBg = "#FFFFFF"
+
+        if cint(showTot) <> 1 then
+        %>
+        <tr>
+		    <td colspan="<%=csp+3%>" style="height:10px;">&nbsp;</td>
+	    </tr>
+        <%end if %>
+
+
+      <%if cint(showTot) <> 1 then%>
+	 <tr bgcolor="<%=trbg %>">
+		<td>&nbsp;</td>
+		<td colspan=<%=csp-4%> style="padding:2px;">Fradrag til løntimer:</td>
+        <%end if 
+            
+            
+         if media <> "export" then%>
+        <td align=right>
+		<%
+        end if
+
+		call akttyper2009(2)
+		
+		tiltimer = 0
+        
+            stDtKriTL = year(sqlDatoStart)&"/"&month(sqlDatoStart)&"/"&day(sqlDatoStart)
+            slDtKriTL = year(sqlDatoSlut)&"/"&month(sqlDatoSlut)&"/"&day(sqlDatoSlut)
+
+		strSQL2 = "SELECT sum(t.timer) AS tiltimer FROM timer t WHERE "_
+		&" (tmnr = "& lastMid &" AND tdato BETWEEN '"& stDtKriTL &"' AND '"& slDtKriTL &"' AND ("& aty_sql_tilwhours &")) GROUP BY tmnr " 
+		
+            'if session("mid") = 1 then
+            'Response.Write strSQL2
+		'Response.flush
+		'end if
+
+		oRec2.open strSQL2, oConn, 3 
+		if not oRec2.EOF then
+			tiltimer = oRec2("tiltimer")
+		end if
+		oRec2.close 
+		
+		if len(trim(tiltimer)) <> 0 then
+		tiltimer = tiltimer
+		else
+		tiltimer = 0
+		end if
+		
+		fradtimer = 0
+		strSQL2 = "SELECT sum(timer) AS fratimer FROM timer t WHERE "_
+		&" (tmnr = "& lastMid &" AND tdato BETWEEN '"& stDtKriTL &"' AND '"& slDtKriTL &"' AND ("& aty_sql_frawhours &")) GROUP BY tmnr "
+		'Response.Write strSQL2
+		'Response.flush
+		
+		oRec2.open strSQL2, oConn, 3 
+		if not oRec2.EOF then
+			fradtimer = oRec2("fratimer")
+		end if
+		oRec2.close 
+		
+		if len(trim(fradtimer)) <> 0 then
+		fradtimer = fradtimer
+		else
+		fradtimer = 0
+		end if
+		
+		'Response.Write "fradtimer" & fradtimer & "# tilt#"& tiltimer
+		
+		totalmin = (60 * (-(fradtimer) + (tiltimer)))
+		fradragTil = totalmin
+		call timerogminutberegning(totalmin)
+		
+        if media <> "export" then
+		%>
+		&nbsp;&nbsp;<%=thoursTot%>:<%=left(tminTot, 2)%>
+	    </td>
+         <%end if %>
+
+		<%if showTot <> 1 then%>
+		    <td>&nbsp;</td>
+		    <td>&nbsp;</td>
+		    <td>&nbsp;</td>
+            <td>&nbsp;</td>
+             <td>&nbsp;</td>
+	     </tr>
+
+        <%else
+            
+            if media = "export" then
+            stempelUrEkspTxtShowTot = stempelUrEkspTxtShowTot & ""& thoursTot&"."& left(tminTot, 2) &";"
+            end if
+     
+		end if %>
+		
+	 
+
+     <%if showTot <> 1 then%>
+
+	  <tr bgcolor="<%=trBg %>">
+		<td style="padding:2px; border-bottom:1px #999999 solid;">&nbsp;</td>
+		<td colspan=<%=csp-4%> style="padding:2px; border-bottom:1px #999999 solid;"><b>Grandtotal Løntimer (komme/gå - fradrag):</b></td>
+     <%end if %>
+
+         <%if cint(showTot) <> 1 then%>
+		<td style="border-bottom:1px #999999 solid;" align=right>
+        <%else 
+            
+            if media <> "export" then%>
+        <td align=right>
+        <%end if
+            end if %>
+
+	    <%'*** Løn Timer minus fradarg *** %>
+		<%lonTimerBeregnet = lonTimerGT + (fradragTil)
+		call timerogminutberegning(lonTimerBeregnet) %>
+
+        <%if media <> "export" then %>
+		&nbsp;&nbsp;<b><%=thoursTot%>:<%=left(tminTot, 2)%></b></td>
+        <%end if
+
+             lonTimerBeregnet = 0
+             lonTimerGT = 0 
+             fradragTil = 0 
+        %>
+		
+
+          <%if showTot <> 1 then%>
+        	<td style="padding:2px; border-bottom:1px #999999 solid;">&nbsp;</td>
+		
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+         </tr>
+        <%else 
+
+            if media = "export" then
+            stempelUrEkspTxtShowTot = stempelUrEkspTxtShowTot & ""& thoursTot&"."& left(tminTot, 2) &";"
+            end if
+
+          
+		end if %>
+	
+	
+	 
+	 <%if lto <> "cst" AND lto <> "cflow" then %>
+	 
+      <%if showTot <> 1 then%>
+	  <tr bgcolor="<%=trBg %>">
+		<td>&nbsp;</td>
+		<td colspan=<%=csp-4%> style="padding:2px;">Realiseret timer (projekt):</td>
+        <%end if 
+            
+            
+        if media <> "export" then %>
+        <td align=right>
+		<%end if
+		
+		
+		regtimer = 0
+		strSQL2 = "SELECT sum(timer) AS sumtimer FROM timer WHERE tmnr = "& lastMid &" AND tdato BETWEEN '"& stDtKriTL &"' AND '"& slDtKriTL &"' AND ("& aty_sql_realhours &") "
+		'Response.Write strSQL2
+		'Response.flush
+		
+		oRec2.open strSQL2, oConn, 3 
+		if not oRec2.EOF then
+			regtimer = oRec2("sumtimer")
+		end if
+		oRec2.close 
+		
+		totalmin = (60 * regtimer)
+		call timerogminutberegning(totalmin)
+		
+		if media <> "export" then %>
+		&nbsp;&nbsp;<%=thoursTot%>:<%=left(tminTot, 2)%>
+		</td>
+		<%end if
+            
+        if showTot <> 1 then%>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+	    </tr>
+		<%
+        else
+            
+             if media = "export" then
+            stempelUrEkspTxtShowTot = stempelUrEkspTxtShowTot & ""& thoursTot&"."& left(tminTot, 2) &";"
+            end if
+          
+
+        end if %>
+		
+	 <%end if %>
+
+     <%
+            
+        '**** Overtid / Overarbejde *************    
+        select case lto 
+        case "cflow", "intranet - local"
+        %>
+
+         <%if showTot <> 1 then%>
+         <tr bgcolor="<%=trBg %>">
+		<td>&nbsp;</td>
+		<td colspan=<%=csp-4%> style="padding:2px;">Overtid:</td>
+          <%
+         end if
+         
+              
+        if media <> "export" then %>
+        <td align=right>
+        <%end if
+
+        overtid = 0
+		strSQL2 = "SELECT sum(timer) AS overtid FROM timer t WHERE "_
+		&" (tmnr = "& lastMid &" AND tdato BETWEEN '"& stDtKriTL &"' AND '"& slDtKriTL &"' AND (tfaktim = 30 AND godkendtstatus = 1)) GROUP BY tmnr "
+		
+        'if session("mid") = 1 then     
+        'Response.Write strSQL2
+		'Response.flush
+        'end if
+		
+		oRec2.open strSQL2, oConn, 3 
+		if not oRec2.EOF then
+			overtid = oRec2("overtid")
+		end if
+		oRec2.close 
+		
+		if len(trim(overtid)) <> 0 then
+		overtid = overtid
+		else
+		overtid = 0
+		end if
+		
+		'Response.Write "fradtimer" & fradtimer & "# tilt#"& tiltimer
+		
+		totalmin = (60 * overtid)
+		'fradragTil = totalmin
+		call timerogminutberegning(totalmin)
+		
+		if media <> "export" then %>
+		&nbsp;&nbsp;<%=thoursTot%>:<%=left(tminTot, 2)%>
+        </td>
+        <%end if
+            
+            
+        if showTot <> 1 then%>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+        <td>&nbsp;</td>
+       <td>&nbsp;</td>
+       </tr>
+
+        <%else 
+        
+             if media = "export" then
+            stempelUrEkspTxtShowTot = stempelUrEkspTxtShowTot & ""& thoursTot&"."& left(tminTot, 2) &";"
+            end if
+           
+            
+        end if %>
+	
+	 
+
+
+        
+            
+        <%end select%>
+
+
+       <%if showTot = 1 then
+           
+            if media = "export" then
+           stempelUrEkspTxtShowTot = stempelUrEkspTxtShowTot & "xx99123sy#z"
+           end if
+
+        %>
+        </tr>
+        <%else %>
+        <tr><td colspan="10">&nbsp;<br /><br /><br /><br />&nbsp;</td></tr>
+       <%end if %>
+
+        
+
+
+	 
+     <%end if 'VIS: uge 2 ell. tot 1 %>
+
+	<%
+    Response.flush
+	end function
+
+
+
+
+
+
+
+    public stempelUrEkspTxto, datoOvertid, minutterExpTxtOtid
+    function fn_overtid(lto, datoOvertid, medid, showifnul)
+
+
+        select case lto
+        case "cflow", "intranet - local"
+        
+        datoSQLo = year(datoOvertid) &"/"& month(datoOvertid) &"/"& day(datoOvertid) 
+        overtid = 0
+		strSQL2 = "SELECT sum(timer) AS overtid FROM timer t WHERE "_
+		&" (tmnr = "& medid &" AND tdato = '"& datoSQLo &"' AND (tfaktim = 30 AND godkendtstatus = 1)) GROUP BY tmnr "
+		
+        'if session("mid") = 1 then
+        'Response.Write strSQL2
+		'Response.flush
+        'end if
+		
+		oRec2.open strSQL2, oConn, 3 
+		if not oRec2.EOF then
+			overtid = oRec2("overtid")
+		end if
+		oRec2.close 
+		
+		if len(trim(overtid)) <> 0 then
+		overtid = overtid
+		else
+		overtid = 0
+		end if
+		
+		'Response.Write "fradtimer" & fradtimer & "# tilt#"& tiltimer
+		
+		totalmin = (60 * overtid)
+		'fradragTil = totalmin
+		call timerogminutberegning(totalmin)
+		
+        if media <> "export" AND (showifnul = 0 OR (showifnul = 1 AND overtid > 0)) then   
+		%>
+        <tr>
+            <td colspan="1" style="height:30px; background-color:beige;">&nbsp;</td>
+            <td colspan="5" style="background-color:beige; padding:2px 2px 2px 2px;"><span style="font-size:8px; line-height:12px;"><%=left(weekdayname(weekday(datoOvertid, 1)), 3) & ". "& formatdatetime(datoOvertid, 2) %></span><br /> Overtid (godkendt):</td>
+            <td style="background-color:beige;" align="right"><b><%=thoursTot%>:<%=left(tminTot, 2)%></b></td>
+            <td style="background-color:beige;" colspan="5">&nbsp;</td>
+
+        </tr>
+		 <%
+         end if
+
+
+        if cint(showTot) <> 1 then
+
+            if (showifnul = 0 OR (showifnul = 1 AND overtid > 0)) then
+             minutterExpTxtOtid = thoursTot&":"&left(tminTot, 2)
+             stempelUrEkspTxto = stempelUrEkspTxto & meNavn &";"& meInit & ";" & datoOvertid & ";;;"& minutterExpTxtOtid &";;;;Overtid;;;;xx99123sy#z"
+            end if
+
+        end if
+         %>
+               
+
+        <%end select
+
+
+    end function
    
    %>

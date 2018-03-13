@@ -3,7 +3,7 @@ function indlaesEasyreg(lto)
 
                 'Kun hvis admin logger på
 
-                'Tjekker om de er en hverdag
+                'Tjekker om det er en hverdag
 
                 'Tjekker hvornår der senest er aautomatisk overført
 
@@ -16,7 +16,7 @@ function indlaesEasyreg(lto)
 
                 if session("rettigheder") = 1 then
 
-            
+                a = 0
                     
                
                 '*** Seneste Easyregdato
@@ -51,9 +51,10 @@ function indlaesEasyreg(lto)
                 antalEasyreg = 0
                 end if
 
-
+                'if session("mid") = 21 then
                 'Response.Write "EA: "& C & " antalEasyreg: "& antalEasyreg &" antalDageDiff: "& antalDageDiff &" lastEasyregDato: "& lastEasyregDato &"<br>"
-            
+                'end if        
+
                 if antalEasyreg > 0 then
 
                 '**** Antal Easyreg aktiviteter ****
@@ -62,8 +63,11 @@ function indlaesEasyreg(lto)
                 & " LEFT JOIN kunder k ON (kid = j.jobknr) "_
                 &"  WHERE easyreg = 1 AND aktstatus = 1 AND a.job <> 0"
 
+                'if session("mid") = 21 then
                 'response.write strSQLeasyreg
                 'response.flush
+                'end if
+
 
                 oRec8.Open strSQLeasyreg, oConn, 3
                 while not oRec8.EOF 
@@ -102,9 +106,12 @@ function indlaesEasyreg(lto)
                     
                         kommthis = ""
                         timerthis = formatnumber(oRec7("measyregtimer")/antalEasyreg, 2)
+                        
                         timerthis = replace(timerthis, ".", "")
                         timerthis = replace(timerthis, ",", ".")
 
+
+                       
                         
                         strMnavn = oRec7("mnavn")
                         medid = oRec7("mid")
@@ -118,8 +125,16 @@ function indlaesEasyreg(lto)
                         strJobknr = oRec8("kkundenr")
                         strJobknavn = replace(oRec8("kkundenavn"), "'", "")
 
+                        'pmok = 0
+                        'if session("mid") = 21 AND instr(strMnavn, "Kristensen") <> 0 then
+                        'Response.Write "jobnr: "& jobnr &" jobnavn: "& strJobnavn &" aktnavn: "& aktnavn &" mnavn: "& strMnavn &" timerthis: " & timerthis & "<br>"
+                        'pmok = 0 '1
+                        'end if
+
 
                         for dageC = 0 TO antalDageDiff - 1
+
+                        'if pmok = 1 then
                 
                         'Response.Write "EA: "& C & "<br>"
 
@@ -131,6 +146,11 @@ function indlaesEasyreg(lto)
                         end if
 
                         datothis = FormatDateTime(datothisBeregn,2) 'day(datothisBeregn) &"/"& month(datothisBeregn) &"/"& year(datothisBeregn)
+                        
+                        'if session("mid") = 21 then
+                        'Response.Write "datothis: " & datothis & "<br>"
+                        'end if
+
                         toDay = datepart("w", datothis, 2,2)
 
                             if toDay < 6 then 'Kun hverdage
@@ -145,6 +165,8 @@ function indlaesEasyreg(lto)
 
                             end if
 
+                        'end if 'pmok
+
                         next
 
                 
@@ -153,6 +175,7 @@ function indlaesEasyreg(lto)
                         oRec7.close
 
 
+                a = a + 1
                 oRec8.movenext
                 wend 
                 oRec8.close
@@ -164,7 +187,10 @@ function indlaesEasyreg(lto)
                 end if 'level
 
         
-
+                'if session("mid") = 21 then
+                'Response.write "<br>Easyreg indlæst og klar! Antal: " & a
+                'response.end
+                'end if
 
 end function
 

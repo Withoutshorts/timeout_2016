@@ -403,7 +403,7 @@
 
                         strSQL= "SELECT a.id AS aid, navn AS aktnavn, a.fase, projektgruppe1, projektgruppe2, projektgruppe3, "_
                         &" projektgruppe4, projektgruppe5, projektgruppe6, projektgruppe7, projektgruppe8, projektgruppe9, projektgruppe10 FROM aktiviteter AS a "_
-                        &" WHERE a.job = " & jobid & " AND aktstatus = 1 AND fakturerbar <> 90 "& onlySalesact &" ORDER BY a.fase, sortorder, navn"      
+                        &" WHERE a.job = " & jobid & " AND aktstatus = 1 AND fakturerbar <> 90 AND ("& aty_sql_hide_on_treg &") "& onlySalesact &" ORDER BY a.fase, sortorder, navn"      
                           
                
             
@@ -692,6 +692,8 @@
     medarbejdernavn = oRec("mnavn")
     end if
     oRec.close
+
+    call aktBudgettjkOn_fn()
 
     call menu_2014
 
@@ -1018,11 +1020,33 @@
                                      'Dim jobid, aktid, medarb
                                      Redim jobid(i), aktid(i), medarb(i)
 
+                                     select case lto
+                                     case "wap"
+                                      strAkrORderBy = "a.sortorder, a.navn"
+
+                                            'if session("mid") = 1 or session("mid") = 9 then
+                                            'strSQlaktspecial = " OR a.id = 34"
+                                            'else
+                                            strSQlaktspecial = ""
+                                            'end if
+
+                                     case else
+                                      strAkrORderBy = "a.navn" 
+                                      strSQlaktspecial = ""
+                                     end select
+
+                                     
+
                                      StrSqlfav = "SELECT medarb, jobid, aktid, forvalgt_af FROM timereg_usejob "_
                                      &" LEFT JOIN job j ON (j.id = jobid) "_
+                                     &" LEFT JOIN aktiviteter a ON (a.id = aktid "& strSQlaktspecial &") "_
                                      &" LEFT JOIN kunder k ON (kid = jobknr) "_
-                                     &" WHERE medarb = "& medid & " AND favorit <> 0 ORDER BY kkundenavn, jobnavn, jobnr" 
+                                     &" WHERE (medarb = "& medid & " AND favorit <> 0) "& strSQlaktspecial &" GROUP BY a.id ORDER BY kkundenavn, jobnavn, jobnr, "& strAkrORderBy &"" 
                                      
+                                        'if session("mid") = 1 or session("mid") = 9 then
+                                        'Response.write StrSqlfav
+                                        'end if
+
                                      oRec.open StrSqlfav, oConn, 3
 
                                       i = 0
@@ -1111,6 +1135,18 @@
                                         fakturerbar = oRec2("fakturerbar")
                                         thisfase = oRec2("fase")
                                         'response.Write jobnavn
+
+                                     select case lto
+                                     case "wap"
+                                     
+                                        if aktNavn = "Læge/tandlæge" then
+                                        %>
+                                        <tr><td colspan="11"><br />&nbsp;</td></tr>
+                                        <%
+                                        end if
+
+                                     end select
+
                                         %>
                                         <tr>
                                             <td style="vertical-align:top; width:200px"><input type="hidden" value="<%=jobids %>" name="FM_jobid" />
@@ -1234,28 +1270,59 @@
                                                 <%if len(trim(thisfase)) <> 0 then %>
                                                 <span style="font-size:9px;"><%=replace(thisfase, "_", "") %></span><br />
                                                 <%end if %>
+
                                                 <%=aktNavn %>
 
                                                 <span id="modal_<%=TaktId %>" class="fa fa-chevron-down pull-right picmodal" style="color:#8c8c8c"></span>                                               
                                                 <div id="myModal_<%=TaktId %>" style="display:none">
                                                 
                                                     <%
-                                                        StrSqltimerialt = "SELECT sum(Timer) as timer FROM timer WHERE TAktivitetId ="& TaktId
+                                                        StrSqltimerialt = "SELECT sum(Timer) as timer FROM timer WHERE TAktivitetId = "& TaktId
                                                         oRec6.open StrSqltimerialt, oConn, 3
                                                         if not oRec6.EOF then
                                                         timerforalle = oRec6("timer")
                                                         end if
                                                         oRec6.close
 
+                                                        useDateStSQL = year(varTjDatoUS_man) &"/"& month(varTjDatoUS_man) &"/"& day(varTjDatoUS_man)
+                                                        call ressourcetimerTildelt(useDateStSQL, jobids, TaktId, medid)
 
 
 
-                                                        StrSqltotaltimer = "SELECT TAktivitetId, sum(timer) as timer FROM timer WHERE TAktivitetId ="& TaktId &" AND tmnr ="& medid
+                                                        StrSqltotaltimer = "SELECT TAktivitetId, sum(timer) as timer FROM timer WHERE TAktivitetId = "& TaktId &" AND tmnr ="& medid
                                                         oRec5.open StrSqltotaltimer, oConn, 3
                                                         if not oRec5.EOF then
                                                 
                                                         timertotal = oRec5("timer")
+                                                       
+                                                        end if
+                                                        oRec5.close 
                                                         
+
+                                                        if timertotal <> 0 then
+                                                        timertotal = timertotal
+                                                        else
+                                                        timertotal = 0
+                                                        end if
+
+                                                        if resTimerThisM <> 0 then
+                                                        resTimerThisM = resTimerThisM
+                                                        else
+                                                        resTimerThisM = 0
+                                                        end if
+
+                                                        if aktbudgettimer <> 0 then
+                                                        aktbudgettimer = aktbudgettimer
+                                                        else
+                                                        aktbudgettimer = 0
+                                                        end if
+
+                                                        if timerforalle <> 0 then
+                                                        timerforalle = timerforalle
+                                                        else
+                                                        timerforalle = 0
+                                                        end if
+
                                                         if timerforalle > aktbudgettimer then
                                                            txtcolor = "red"
                                                         else
@@ -1263,14 +1330,14 @@
                                                         end if
 
                                                     %>
-                                                        <span style="font-size:75%; color:#5582d2"><%=favorit_txt_029 %>: <%=aktbudgettimer %></span>
-                                                        <span style="font-size:75%; color:<%=txtcolor%>;"><%=favorit_txt_030 %>:<%=timerforalle %></span>
-                                                        <span style="font-size:75%; color:#5582d2;"><%=favorit_txt_031 %>: <%=timertotal %></span>
-                                                    <%
-                                                        end if
-                                                        oRec5.close  
-                                                    %>
-                                                
+
+
+                                                       
+                                                        <span style="font-size:75%; color:#5582d2"><%=favorit_txt_029 %>: <%=formatnumber(aktbudgettimer, 2) %></span>
+                                                        <span style="font-size:75%; color:#5582d2">Forecast: <%=formatnumber(resTimerThisM, 2) %></span><br />
+                                                        <span style="font-size:75%; color:<%=txtcolor%>;"><%=favorit_txt_030 %>: <%=formatnumber(timerforalle, 2) %></span>
+                                                        &nbsp;<span style="font-size:75%; color:#5582d2;">(<%=favorit_txt_031 %>: <%=formatnumber(timertotal, 2) %>)</span>
+                                                   
                                                 </div>
                                             </td>
                                             
@@ -1284,6 +1351,7 @@
                                                     godkendtstatus = 0
                                                     timerdag = ""
                                                     overfort = 0
+                                                    origin = 0
                                                     y = y + 1
                                                     'response.Write y
 
@@ -1380,7 +1448,7 @@
                                                               <input type="hidden" name="FM_sttid" value="00:00"/>
                                                             <input type="hidden" name="FM_sltid" value="00:00"/>
 
-                                                            <%if origin <> 0 OR cint(overfort) = 1 OR (((cint(ugeerAfsl_og_autogk_smil) = 1 AND cint(godkendtstatus) <> 2) OR (cint(godkendtstatus) = 1 Or cint(godkendtstatus) = 3)) AND level <> 1) then %>
+                                                            <%if (origin <> 0 AND (lto <> "wap" AND cdbl(TaktId) <> 34)) OR cint(overfort) = 1 OR (((cint(ugeerAfsl_og_autogk_smil) = 1 AND cint(godkendtstatus) <> 2) OR (cint(godkendtstatus) = 1 Or cint(godkendtstatus) = 3)) AND level <> 1) then %>
                                                             <input type="hidden" name="FM_timer" value=""/>
                                                                 <div class="col-lg-9" style="padding-right:2px!important"><input type="text" class="form-control input-small" style="width:55px; border:<%=fmborcl%>;" value="<%=timerdag %>" readonly /></div>
                                                                    
@@ -1807,8 +1875,6 @@
                             'response.Write manTimer
                             
                             
-                            
-                            
                             'henter norm timer minus dencker
                             Select case lto
                             case "dencker"
@@ -1857,7 +1923,7 @@
                         <%
                             'maxHeight = "200px"
                             'Width = "9%"
-                            
+                            dd = now
                             dateMan = DateAdd("d",0,varTjDatoUS_man)
                             dateTir = DateAdd("d",1,varTjDatoUS_man)
                             dateOns = DateAdd("d",2,varTjDatoUS_man)
@@ -1874,19 +1940,52 @@
                             'timerHeight_lor = lorTimer * 30
                             'timerHeight_son = sonTimer * 30
 
-
+                            if cDate(dd) >= cDate(dateMan) OR manTimer <> 0 then
                             balMan = manTimer - ntimMan
+                            else
+                            balMan = 0
+                            end if
+
+                            if cDate(dd) >= cDate(dateTir) OR tirTimer <> 0 then
                             balTir = tirTimer - ntimTir
+                            else
+                            balTir = 0
+                            end if
+
+                            if cDate(dd) >= cDate(dateOns) OR onsTimer <> 0 then
                             balOns = onsTimer - ntimOns
+                            else
+                            balOns = 0
+                            end if
+
+                            if cDate(dd) >= cDate(dateTor) OR torTimer <> 0 then
                             balTor = torTimer - ntimTor
+                            else
+                            balTor = 0
+                            end if
+
+                            if cDate(dd) >= cDate(dateFre) OR freTimer <> 0 then
                             balFre = freTimer - ntimFre
+                            else
+                            balFre = 0
+                            end if
+
+                            if cDate(dd) >= cDate(dateLor) OR lorTimer <> 0 then
                             balLor = lorTimer - ntimLor
+                            else
+                            balLor = 0
+                            end if
+
+                            if cDate(dd) >= cDate(dateSon) OR sonTimer <> 0 then
                             balSon = sonTimer - ntimSon
+                            else
+                            balSon = 0
+                            end if
 
                             weekhourstotal = manTimer + tirTimer + onsTimer + torTimer + freTimer + lorTimer + sonTimer
                             normtotal = ntimMan + ntimTir + ntimOns + ntimTor + ntimFre + ntimLor + ntimSon
 
-                            baltotal = weekhourstotal - normtotal
+                            baltotal = (balMan + balTir + balOns + balTor + balFre + balLor + balSon) 'weekhourstotal - normtotal
 
                             if baltotal < 0 then 
                                 balcolor = "red;"
@@ -1955,19 +2054,8 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td><%=favorit_txt_019 %>:</td>
-                                            <td style="text-align:center"><%=formatnumber(manTimer, 2) %></td>
-                                            <td style="text-align:center"><%=formatnumber(tirTimer, 2) %></td>
-                                            <td style="text-align:center"><%=formatnumber(onsTimer, 2) %></td>
-                                            <td style="text-align:center"><%=formatnumber(torTimer, 2) %></td>
-                                            <td style="text-align:center"><%=formatnumber(freTimer, 2) %></td>
-                                            <td style="text-align:center"><%=formatnumber(lorTimer, 2) %></td>
-                                            <td style="text-align:center"><%=formatnumber(sonTimer, 2) %></td>
-                                            <td style="text-align:center"><%=formatnumber(weekhourstotal, 2) %></td>
-                                        </tr>
-                                    
-                                        <tr>
+
+                                         <tr>
                                             <td><%=favorit_txt_020 %>:</td>
                                             <td style="text-align:center"><%=formatnumber(ntimMan, 2) %></td>
                                             <td style="text-align:center"><%=formatnumber(ntimTir, 2) %></td>
@@ -1980,6 +2068,25 @@
                                         </tr>
 
                                         <tr>
+                                            <td><%=favorit_txt_019 %>:</td>
+                                            <td style="text-align:center"><%=formatnumber(manTimer, 2) %></td>
+                                            <td style="text-align:center"><%=formatnumber(tirTimer, 2) %></td>
+                                            <td style="text-align:center"><%=formatnumber(onsTimer, 2) %></td>
+                                            <td style="text-align:center"><%=formatnumber(torTimer, 2) %></td>
+                                            <td style="text-align:center"><%=formatnumber(freTimer, 2) %></td>
+                                            <td style="text-align:center"><%=formatnumber(lorTimer, 2) %></td>
+                                            <td style="text-align:center"><%=formatnumber(sonTimer, 2) %></td>
+                                            <td style="text-align:center"><%=formatnumber(weekhourstotal, 2) %></td>
+
+                                        </tr>
+                                    
+                                        
+
+
+                                       
+
+                                       
+                                        <tr>
                                             <td><%=favorit_txt_021 %>:</td>
                                             <td style="text-align:center; color:<%=mancolor%>"><%=formatnumber(balMan, 2) %></td>
                                             <td style="text-align:center; color:<%=tircolor%>"><%=formatnumber(balTir, 2) %></td>
@@ -1990,6 +2097,53 @@
                                             <td style="text-align:center;"><%=formatnumber(balSon, 2) %></td>
                                             <td style="text-align:center; color:<%=balcolor%>"><%=formatnumber(baltotal, 2) %></td>
                                         </tr>
+
+
+                                         <%if lto = "wap" OR lto = "intranet - local" then 
+                                          aty_sql_modregn = "tfaktim = 114" '31
+                                          call timerDenneUge(medid, lto, varTjDatoUS_man, aty_sql_modregn, timerdenneuge_dothis, SmiWeekOrMonth)
+                                           weekhourstotal = manTimer + tirTimer + onsTimer + torTimer + freTimer + lorTimer + sonTimer
+
+                                            'balMan = balMan + manTimer
+                                            'balTir = balTir + tirTimer 
+                                            'balOns = balOns + onsTimer 
+                                            'balTor = balTor + torTimer
+                                            'balFre = balFre + freTimer 
+                                            'balLor = balLor + lorTimer
+                                            'balSon = balSon + sonTimer
+                                            
+                                            %>
+                                         <tr>
+                                            <td>Korrektion Flex:</td>
+                                             <td style="text-align:center">(<%=formatnumber(manTimer, 2) %>)</td>
+                                            <td style="text-align:center">(<%=formatnumber(tirTimer, 2) %>)</td>
+                                            <td style="text-align:center">(<%=formatnumber(onsTimer, 2) %>)</td>
+                                            <td style="text-align:center">(<%=formatnumber(torTimer, 2) %>)</td>
+                                            <td style="text-align:center">(<%=formatnumber(freTimer, 2) %>)</td>
+                                            <td style="text-align:center">(<%=formatnumber(lorTimer, 2) %>)</td>
+                                            <td style="text-align:center">(<%=formatnumber(sonTimer, 2) %>)</td>
+                                            <td style="text-align:center">(<%=formatnumber(weekhourstotal, 2) %>)</td>
+                                        </tr>
+
+                                        <%end if %>
+
+
+                                        <%if lto = "wap" OR lto = "intranet - local" then 
+                                            
+                                           call fn_flexSaldoFYreal_norm(medid)
+                                            
+                                           %>
+
+                                         <tr>
+                                            <td>Flexsaldo: (opgjort pr. <b><%=formatdatetime(slDatoNormPrDdMinus1, 2) %></b> t.o.m igår)</td>
+                                            <td colspan="7">&nbsp;</td>
+                                         
+                                            <td style="text-align:center;"><b><%=formatnumber(flexSaldoFYreal_norm, 2) %></b></td>
+                                        </tr>
+                                            
+                                            
+                                        <%end if%>
+
                                     </tbody>
                                 </table>
 

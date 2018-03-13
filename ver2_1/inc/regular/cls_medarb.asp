@@ -307,8 +307,14 @@ end function
      sub medarb_vaelgandre
 
 
+                    if cint(visAlleMedarb_pas) = 1 then
+                        strSQLmpasKri  = " mansat <> 2"
+                    else
+                        strSQLmpasKri  = " mansat = 1"
+                    end if
+
      
-					strSQL = "SELECT Mid, Mnavn, Mnr, Brugergruppe, init FROM medarbejdere WHERE mansat <> 2 "& strSQLmids &" GROUP BY mid ORDER BY Mnavn"
+					strSQL = "SELECT Mid, Mnavn, Mnr, Brugergruppe, init, mansat FROM medarbejdere WHERE "& strSQLmpasKri &" "& strSQLmids &" GROUP BY mid ORDER BY Mnavn"
 					
                     if thisfile = "ugeseddel_2011.asp" then
                     mSelWdth = "323"
@@ -317,6 +323,8 @@ end function
                     mSelWdth = "250"
                     mSelcls = ""
 					end if%>
+
+                    
 					<select name="usemrn" id="usemrn" style="width:<%=mSelWdth%>px;" class="<%=mSelcls %>">
                         <!-- onchange="submit(); -->
 					<%
@@ -335,9 +343,14 @@ end function
                         else
                         medTxt = oRec("mnavn") 
                         end if
-                        
+
+                        if oRec("mansat") = 3 then
+                        mStatusTxt = " - Passiv"
+                        else
+                        mStatusTxt = ""
+                        end if
                     %>
-					<option value="<%=oRec("Mid")%>" <%=rchk%>><%=medTxt%></option>
+					<option value="<%=oRec("Mid")%>" <%=rchk%>><%=medTxt & " " & mStatusTxt%></option>
 					<%
 					
 					

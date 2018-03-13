@@ -1973,7 +1973,7 @@ public venter_ultimo
         end if
         
         '**** kun dem der er indtastet til videre fakturering skal være checked ***'
-        if oRec("intkode") <> 2 then 
+        if oRec("intkode") <> 2 AND lto <> "mpt" then 
         chkVis = ""
         else
             if func = "red" then

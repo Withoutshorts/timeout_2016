@@ -100,7 +100,7 @@
 
       <txt_177>Korrektion Komme / gå</txt_177>
 
-  
+    <txt_196>Ferie korrektion</txt_196>
 
   </dk>
 
@@ -171,6 +171,8 @@
     <txt_175 >Ferie overføres</txt_175>
     <txt_176 >Ferie optjent u. Lønn</txt_176>
     <txt_177 >Rettelse Komme / Gå</txt_177>
+
+    <txt_196>Ferie korrektion</txt_196>
 
 
   </no>
@@ -243,6 +245,7 @@
     <txt_176 >Semester tjänade u. Löner</txt_176>
     <txt_177 >Korrigering Kom / Gå</txt_177>
 
+    <txt_196>Ferie korrektion</txt_196>
 
   </se>
 
@@ -314,6 +317,8 @@
     <txt_176 >Urlaub verdient u. Löhne</txt_176>
     <txt_177 >Korrektur Kommen / Gehen</txt_177>
 
+    <txt_196>Ferie korrektion</txt_196>
+
   </de>
 
   
@@ -382,6 +387,8 @@
     <txt_175 >Vacances transférés</txt_175>
     <txt_176 >Holiday u gagné. Les salaires</txt_176>
     <txt_177 >Correction Come / Go</txt_177>
+
+    <txt_196>Ferie korrektion</txt_196>
 
   </fr>
   
@@ -489,7 +496,7 @@
 
       <txt_177>Time Clock Adjustment</txt_177>
 
-
+    <txt_196>Ferie korrektion</txt_196>
 
   </uk>
 
@@ -560,6 +567,8 @@
     <txt_175 >Vacaciones transferido</txt_175>
     <txt_176 >Holiday ganó sin pago</txt_176>
     <txt_177 >Corrección Ven / Go</txt_177>
+
+    <txt_196>Ferie korrektion</txt_196>
 
   </es>
 

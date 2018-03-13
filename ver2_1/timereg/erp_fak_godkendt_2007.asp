@@ -149,7 +149,7 @@
 	visjoblog = 0
 	vismatlog = 0
     fakuraKolonneOverskrifterIsWrt = 0
-	
+	fastpris = 0
 	
     '** LUFT i toppen på side 2 /3 
 	select case lto
@@ -465,6 +465,12 @@
 	oRec.close 
 	
         
+    if len(trim(fastpris)) <> 0 then
+    fastpris = fastpris
+    else
+    fastpris = 0
+    end if
+
 
     	if media = "n" then
 		bd = 1
@@ -911,6 +917,12 @@
 	showAtt = erp_txt_304 '"Administrationen"
 	case else
 	
+    if len(trim(intAtt)) <> 0 then
+    intAtt = intAtt
+    else
+    intAtt = 0
+    end if
+
 	strSQL3 = "SELECT id, navn, email FROM kontaktpers WHERE id="& intAtt
 	oRec3.open strSQL3, oConn, 3
 	if not oRec3.EOF then

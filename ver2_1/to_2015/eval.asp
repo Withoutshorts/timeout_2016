@@ -254,6 +254,7 @@
                 &" LEFT JOIN timer t ON (t.taktivitetid = a.id) WHERE job = "& strJobid &" AND brug_fasttp = 1 AND ("& aty_sql_realhours &") GROUP BY taktivitetid"
 
                 'Response.write strSQLfastpris & "<br>"
+                'Response.flush
                 oRec2.open strSQLfastpris, oConn, 3
                 while not oRec2.EOF
                 
@@ -339,6 +340,9 @@
             '***************************************************************
             '**** udsepcificering **************
             '***************************************************************
+
+
+            '** Svendetimer
             fastPris_svendetimer_Total_TP = 0
             totalTimerFastpris_svendetimer = 0
             fakbarSvendeTimer_fastprisSQL = "SELECT a.id, brug_fasttp, fasttp, navn, SUM(t.timer) AS sumtimer FROM aktiviteter a "_
@@ -380,11 +384,13 @@
             end if
 
 
-
+            
+                    
+            '*** Maskintimer ***'
             fastPris_maskine_Total_TP = 0
             totalTimerFastpris_maskine = 0
             fakbarMaskineTimer_fastprisSQL = "SELECT a.id, brug_fasttp, fasttp, navn, SUM(t.timer) AS sumtimer FROM aktiviteter a "_
-            &" LEFT JOIN timer t ON (t.taktivitetid = a.id) WHERE job = "& strJobid &" AND brug_fasttp = 1 AND Tfaktim = 91 GROUP BY taktivitetid"
+            &" LEFT JOIN timer t ON (t.taktivitetid = a.id) WHERE job = "& strJobid &" AND brug_fasttp = 1 AND Tfaktim = 90 GROUP BY taktivitetid"
             oRec2.open fakbarMaskineTimer_fastprisSQL, oConn, 3
             while not oRec2.EOF
             fastPris_maskine_Total_TP = fastPris_maskine_Total_TP + (oRec2("fasttp")*oRec2("sumtimer")*1)
@@ -394,6 +400,7 @@
             oRec2.close
             
             
+           
             maskine_ikkeFP_sum = 0
             maskine_ikkeFP_sumtimer = 0
             fakbarmaskineTimer_ikkefastprisSQL = "SELECT sum(timer*timepris) as sumMaskineTimepris_ikkeFP, sum(timer) as sumMaskineTimer_ikkeFP FROM timer LEFT JOIN aktiviteter a ON (a.id = taktivitetid) WHERE tjobnr = '"& strJobnr &"' AND Tfaktim = 91 AND brug_fasttp = 0 GROUP BY taktivitetid"
@@ -419,6 +426,7 @@
             end if
 
 
+            '*** Lærling ***'
             fastPris_laer_Total_TP = 0
             totalTimerFastpris_lear = 0
             fakbarLearTimer_fastprisSQL = "SELECT a.id, brug_fasttp, fasttp, navn, SUM(t.timer) AS sumtimer FROM aktiviteter a "_
@@ -458,10 +466,12 @@
             end if
 
 
+
+             '*** EASYregtimer ***'
             fastPris_easyReg_Total_TP = 0
             totalTimerFastpris_easyReg = 0
             fakbareasyRegTimer_fastprisSQL = "SELECT a.id, brug_fasttp, fasttp, navn, SUM(t.timer) AS sumtimer FROM aktiviteter a "_
-            &" LEFT JOIN timer t ON (t.taktivitetid = a.id) WHERE job = "& strJobid &" AND brug_fasttp = 1 AND Tfaktim = 1 AND Timer < 0.25 GROUP BY taktivitetid"
+            &" LEFT JOIN timer t ON (t.taktivitetid = a.id) WHERE job = "& strJobid &" AND brug_fasttp = 1 AND Tfaktim = 1 AND easyreg = 1 AND Timer < 0.25 GROUP BY taktivitetid"
             oRec2.open fakbareasyRegTimer_fastprisSQL, oConn, 3
             while not oRec2.EOF
             fastPris_easyReg_Total_TP = fastPris_easyReg_Total_TP + (oRec2("fasttp")*oRec2("sumtimer")*1)
@@ -473,7 +483,7 @@
 
             easyReg_ikkeFP_sum = 0
             easyReg_ikkeFP_sumtimer = 0
-            fakbareasyRegTimer_ikkefastprisSQL = "SELECT sum(timer*timepris) as sumeasyRegTimepris_ikkeFP, sum(timer) as sumeasyRegTimer_ikkeFP FROM timer LEFT JOIN aktiviteter a ON (a.id = taktivitetid) WHERE tjobnr = '"& strJobnr &"' AND Tfaktim = 1 AND Timer < 0.25 AND brug_fasttp = 0 GROUP BY taktivitetid"
+            fakbareasyRegTimer_ikkefastprisSQL = "SELECT sum(timer*timepris) as sumeasyRegTimepris_ikkeFP, sum(timer) as sumeasyRegTimer_ikkeFP FROM timer LEFT JOIN aktiviteter a ON (a.id = taktivitetid) WHERE tjobnr = '"& strJobnr &"' AND Tfaktim = 1 AND easyreg = 1 AND Timer < 0.25 AND brug_fasttp = 0 GROUP BY taktivitetid"
             'response.Write fakbarLearTimer_ikkefastprisSQL
             oRec2.open fakbareasyRegTimer_ikkefastprisSQL, oConn, 3
             while not oRec2.EOF

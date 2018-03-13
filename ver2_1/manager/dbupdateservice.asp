@@ -88,7 +88,7 @@ a = 0
                                 oConn.open strConnect_aktiveDB
 							    
                                 '*** DENNE LINJE INDLÆSER // UDKOMMENTER NÅR FILEN IKKE ER AKTIV
-                                'oConn.execute(strSQL(b)) 
+                                oConn.execute(strSQL(b)) 
                                 
                                 '* TJECK x NUMBER OF LICENS fra inc/connection/db_conn...asp filen.
 								'* DISSE SKAL STEMME 
@@ -3334,6 +3334,42 @@ INSERT INTO dbversion (dbversion) VALUES ('20180102.1')
 <br /><br />20180104.1<br />
 ALTER TABLE national_holidays ADD nh_projgrp VARCHAR(50);
 INSERT INTO dbversion (dbversion) VALUES ('20180104.1')
+
+<br /><br />20180105.1<br />
+UPDATE national_holidays SET nh_date = DATE_ADD(nh_date, INTERVAL 1 YEAR);
+INSERT INTO dbversion (dbversion) VALUES ('20180105.1')
+
+<br /><br />20180122.1<br />
+ALTER table job_ulev_ju ADD (ju_matid INT NOT NULL default 0);
+INSERT INTO dbversion (dbversion) VALUES ('20180122.1')
+
+<br /><br />20180220.1<br />
+ALTER table medarbejdertyper ADD (feriesats double(12,2) NOT NULL default 0);
+INSERT INTO dbversion (dbversion) VALUES ('20180220.1')
+
+
+<br /><br />20180221.1<br />
+INSERT INTO akt_typer (aty_id,
+ aty_label, aty_desc,
+aty_on, aty_on_realhours, aty_on_invoiceble, aty_on_invoice, aty_on_invoice_chk 
+, aty_on_workhours, aty_pre, aty_sort, aty_on_recon, aty_enh, aty_on_adhoc, aty_hide_on_treg)
+VALUES (126, 'global_txt_196','Ferie korrektion',1,0,0,0,0,0,0,3.7,0,0,0,1);
+UPDATE akt_typer SET aty_on = 0 WHERE aty_id = 126;
+INSERT INTO dbversion (dbversion) VALUES (20180221.1)
+
+
+<br /><br />20180308.1<br />
+DROP table login_historik_aktivejob_rel;
+CREATE table login_historik_aktivejob_rel (
+lha_id INT(11) NOT NULL AUTO_INCREMENT,
+lha_mid INT(11) NOT NULL default 0,
+lha_aktid INT(11) NOT NULL default 0,
+lha_jobid INT(11) NOT NULL default 0, 
+PRIMARY KEY (lha_id)
+); 
+INSERT INTO dbversion (dbversion) VALUES (20180308.1)
+
+
 
 <%
 

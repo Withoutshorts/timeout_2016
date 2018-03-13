@@ -2287,26 +2287,26 @@ slutDatoKriSQL = strAar_slut &"/"& strMrd_slut &"/"& strDag_slut
                                 wend
                                 oRec5.close
 
-                                if media <> "export" then%>
-				                <td style="padding-top:3px; padding-left:5px; border-top:1px #cccccc solid;" valign="top"><span style="color:#999999; font-size:10px;"><%=forr %></span>
+                            if media <> "export" then%>
+				            <td style="padding-top:3px; padding-left:5px; border-top:1px #cccccc solid;" valign="top"><span style="color:#999999; font-size:10px;"><%=forr %></span>
 
-                                </td>
-				                <%
+                            </td>
+				            <%
 
-                                else
+                            else
 
-                                %>
-				                <td style="padding-top:3px; padding-left:5px; border-top:1px #cccccc solid;" valign="top"><img src="ill/blank.gif" width="1" height="1" border="0" /></td>
-				                <%
+                            %>
+				            <td style="padding-top:3px; padding-left:5px; border-top:1px #cccccc solid;" valign="top"><img src="ill/blank.gif" width="1" height="1" border="0" /></td>
+				            <%
 
-				                end if
+				            end if
 
                             forrExp = replace(forr, "<br>", ", ") 
 
                             select case ver
                             case 1
                             case else
-                            ekspTxt = ekspTxt & forrExp &";" 
+                            ekspTxt = ekspTxt & forrExp &";"
                             end select
 
                             end if
@@ -3137,7 +3137,7 @@ if x <> 0 then
 				
 				                '**** Eksport fil, kolonne overskrifter ***
                                 if cint(joblog_uge) = 3 then 'månedsoversigt
-                                strOskrifter = "Medarbejder; Init; CPR; Kunde; Kundenr; Job; Jobnr; Aktivitet; Kommentar;"
+                                strOskrifter = joblog2_txt_081&"; "&joblog2_txt_151&"; "&joblog2_txt_152&"; "&joblog2_txt_083&"; "&joblog2_txt_153&"; "&joblog2_txt_019&"; "&joblog2_txt_154&"; "&joblog2_txt_086&"; "&joblog2_txt_114&";"
 
                                       strOskrifter = strOskrifter & strExportOskriftDage
 
@@ -3150,26 +3150,26 @@ if x <> 0 then
 				                    'strOskrifter = "Dato;tekst;bilag;konto;kontonavn;debit beløb;kredit beløb;modkonto"
                                     else
 
-				                    strOskrifter = "Kunde;kunde Id;Job;Job Nr;"
+				                    strOskrifter = joblog2_txt_083&";"&joblog2_txt_155&";"&joblog2_txt_019&";"&joblog2_txt_156&";"
                 
                                             if cint(hidefase) <> 1 then
-                                            strOskrifter = strOskrifter &"Fase;"
+                                            strOskrifter = strOskrifter &joblog2_txt_082&";"
                                             end if
                 
-                                                strOskrifter = strOskrifter & "Uge;Dato;Aktivitet;Type;Fakturerbar;Varenr;"
+                                                strOskrifter = strOskrifter & joblog2_txt_157&";"&joblog2_txt_072&";"&joblog2_txt_113&";"&joblog2_txt_158&";"&joblog2_txt_159&";Task No.;"
                  
 
                                                 if cint(showfor) = 1 then
-                                                strOskrifter = strOskrifter & "Forretningsområder;"
+                                                strOskrifter = strOskrifter & joblog2_txt_160&";"
                                                 end if
                  
-                                                strOskrifter = strOskrifter & "Medarbejder;Medarb. Nr;Initialer;"
+                                                strOskrifter = strOskrifter & joblog2_txt_081&";"&joblog2_txt_161&";"&joblog2_txt_162&";"
                 
                                                 if cint(showcpr) = 1 then
-                                                strOskrifter = strOskrifter & "CPR;"
+                                                strOskrifter = strOskrifter & joblog2_txt_152&";"
                                                 end if
 
-                                            strOskrifter = strOskrifter & "Antal;Tid/Klokkeslet;"
+                                            strOskrifter = strOskrifter & joblog2_txt_092&";"&joblog2_txt_163&";"
 				                    end if
 
 
@@ -3180,29 +3180,29 @@ if x <> 0 then
                                         case else                
 				
 				                                if cint(hideenheder) = 0 then
-				                                strOskrifter = strOskrifter &"Enheder;"
+				                                strOskrifter = strOskrifter & joblog2_txt_093&";"
 				                                end if
 				
 				
 				                                if (level <=2 OR level = 6) AND cint(hidetimepriser) = 0 then
-				                                strOskrifter = strOskrifter & "Timepris;Timepris ialt;Valuta;"
+				                                strOskrifter = strOskrifter & joblog2_txt_164&";"&joblog2_txt_165&";"&joblog2_txt_166&";"
 				                                end if 
 				
 				                                if level = 1 AND visKost = 1 then 
-				                                strOskrifter = strOskrifter & "Kostpris;Kostpris ialt;Valuta;"
+				                                strOskrifter = strOskrifter & joblog2_txt_096&";"&joblog2_txt_097&";"&joblog2_txt_166&";"
 				                                end if
 				
 
                                                 if cint(hidegkfakstat) <> 1 then
-                                                  strOskrifter = strOskrifter & "Tastedato;"
+                                                  strOskrifter = strOskrifter & joblog2_txt_098&";"
                                                 end if
                                 
 
 				                                if lto <> "execon" AND cint(hidegkfakstat) = 0 then
-				                                strOskrifter = strOskrifter  &"Godkendt?;Godkendt af;Faktureret?;"
+				                                strOskrifter = strOskrifter  & joblog2_txt_167&";"&joblog2_txt_168&";"&joblog2_txt_169&";"
 				                                end if
 				
-				                                strOskrifter = strOskrifter  &"Kommentar;"
+				                                strOskrifter = strOskrifter  & joblog2_txt_114&";"
 
                                         end select
 
@@ -3212,7 +3212,7 @@ if x <> 0 then
 				                select case ver
                                 case 1
 				                case else
-                                objF.writeLine("Periode afgrænsning: "& datointerval & vbcrlf)
+                                objF.writeLine(joblog2_txt_170&": "& datointerval & vbcrlf)
 				                objF.WriteLine(strOskrifter) '& chr(013)
                                 end select
 				                objF.WriteLine(ekspTxt)

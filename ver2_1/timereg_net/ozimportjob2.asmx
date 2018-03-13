@@ -147,6 +147,7 @@ Public Class oz_importjob2
     Public timereguseJobFindes As Integer = 0
     Public projektKategori As Integer = 0
     Public tpFundet As Integer = 0
+    Public aktStatus As Integer = 1
 
     Public aktFields As String = ""
 
@@ -1396,7 +1397,8 @@ Public Class oz_importjob2
                 '*** Finder aktid ***
                 Dim fasttp As Double = 0
                 Dim easyreg As Integer = 0
-                Dim strSQLakttp As String = "SELECT fasttp, easyreg FROM aktiviteter WHERE navn = '" & aktnavn.Replace("'", "") & "' AND job = 0 AND aktfavorit = 72"
+                Dim fakturerbar As Integer = 0
+                Dim strSQLakttp As String = "SELECT fasttp, easyreg, fakturerbar FROM aktiviteter WHERE navn = '" & aktnavn.Replace("'", "") & "' AND job = 0 AND aktfavorit = 72"
                 objCmd = New OdbcCommand(strSQLakttp, objConn)
                 objDR2 = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
 
@@ -1404,6 +1406,7 @@ Public Class oz_importjob2
 
                     fasttp = objDR2("fasttp") '.replace(".", ",")
                     easyreg = objDR2("easyreg")
+                    fakturerbar = objDR2("fakturerbar")
 
                 End If
                 objDR2.Close()
@@ -1411,17 +1414,31 @@ Public Class oz_importjob2
                 'fasttp = fasttp.Replace(",", ".")
 
 
+                strAktFase = strAktFase.Replace(",", "")
+                strAktFase = strAktFase.Replace("'", "")
 
                 '**** Findes aktivitet ***'
                 If CInt(aktFindes) = 0 Then '** INSERT
 
 
+                    If CInt(easyreg) = 1 Then
+                        aktStatus = 2
+                    Else
+                        aktStatus = 1
+                    End If
+
+                    'If aktnavn = "Easyreg" Then
+
+                    'Else
+
+                    'End If
+
                     Dim strSQLaktins As String = ("INSERT INTO aktiviteter (navn, job, fakturerbar, " _
                     & "projektgruppe1, projektgruppe2, projektgruppe3, projektgruppe4, projektgruppe5, projektgruppe6, projektgruppe7," _
                     & "projektgruppe8, projektgruppe9, projektgruppe10, aktstatus, budgettimer, aktbudget, aktbudgetsum, aktstartdato, aktslutdato, aktkonto, fase, avarenr, fomr, sortorder, antalstk, bgr, " _
                     & " brug_fasttp, fasttp, fasttp_val, easyreg) VALUES " _
-                    & " ('" & aktnavn.Replace("'", "") & "', " & lastID & ", 1," _
-                    & " 10,1,1,1,1,1,1,1,1,1,1,0,0,0,'" & aktstdato.ToString("yyyy/MM/dd", Globalization.CultureInfo.InvariantCulture) & "', " _
+                    & " ('" & aktnavn.Replace("'", "") & "', " & lastID & ", " & fakturerbar & "," _
+                    & " 10,1,1,1,1,1,1,1,1,1," & aktStatus & ",0,0,0,'" & aktstdato.ToString("yyyy/MM/dd", Globalization.CultureInfo.InvariantCulture) & "', " _
                     & "'" & aktsldato.ToString("yyyy/MM/dd", Globalization.CultureInfo.InvariantCulture) & "', 0, '" & strAktFase & "', '" & aktvarenr & "', " & fomr & ", " & sort & ", " & antalstk & ", 2" _
                     & ", 1, " & fasttp & ", 1, " & easyreg & ")")
 
@@ -1445,7 +1462,7 @@ Public Class oz_importjob2
 
                 Else '** UPDATE
 
-                    Dim strSQLaktupd As String = ("UPDATE aktiviteter SET navn = '" & aktnavn.Replace("'", "") & "', aktstatus = 1, aktstartdato = '" & aktstdato.ToString("yyyy/MM/dd", Globalization.CultureInfo.InvariantCulture) & "', aktslutdato = '" & aktsldato.ToString("yyyy/MM/dd", Globalization.CultureInfo.InvariantCulture) & "', fomr = " & fomr & ", sortorder = " & sort & ", antalstk = " & antalstk & ", fasttp = " & fasttp & " WHERE id = " & aktFindes & "")
+                    Dim strSQLaktupd As String = ("UPDATE aktiviteter SET navn = '" & aktnavn.Replace("'", "") & "', fase = '" & strAktFase & "', aktstatus = 1, aktstartdato = '" & aktstdato.ToString("yyyy/MM/dd", Globalization.CultureInfo.InvariantCulture) & "', aktslutdato = '" & aktsldato.ToString("yyyy/MM/dd", Globalization.CultureInfo.InvariantCulture) & "', fomr = " & fomr & ", sortorder = " & sort & ", antalstk = " & antalstk & ", fasttp = " & fasttp & " WHERE id = " & aktFindes & "")
                     objCmd = New OdbcCommand(strSQLaktupd, objConn)
                     objDR2 = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
                     objDR2.Close()

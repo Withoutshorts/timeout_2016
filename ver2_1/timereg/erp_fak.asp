@@ -1542,8 +1542,10 @@ if len(session("user")) = 0 then
 							
 							
 							if func = "dbred" then
+
 							    '** renser db, opdater materiale forbrug ***'
-							    strSQLselmf = "SELECT matfrb_id FROM fak_mat_spec WHERE matfakid = " & thisfakid
+                                matidFor = 0
+							    strSQLselmf = "SELECT matfrb_id, matantal, matid FROM fak_mat_spec WHERE matfakid = " & thisfakid
 							    oRec4.open strSQLselmf, oConn, 3
 							    while not oRec4.EOF
     							
@@ -1551,11 +1553,29 @@ if len(session("user")) = 0 then
 							    strSQLmf = "UPDATE materiale_forbrug SET erfak = 0 WHERE id = " & oRec4("matfrb_id")
 							    oConn.execute(strSQLmf)
     							
+                                matantalFor = oRec4("matantal")
+                                matidFor = oRec4("matid")
+
 							    oRec4.movenext
 							    wend
 							    oRec4.close
     							
-    							
+                                SELECT case lto
+                                case "mpt"
+                               
+                                    '***** Opskriver LAGER ****
+                                    if len(trim(matidFor)) <> 0 then
+                                    matidFor = matidFor
+                                    else
+                                    matidFor = 0
+                                    end if
+
+                                    strSQLmlager = "UPDATE materialer SET antal = (antal + "& matantalFor &") WHERE id = " & matidFor
+							        oConn.execute(strSQLmlager)
+
+    							end select
+
+
 							    '*** Sletter hidtidige regs ***'
 							    strSQLdel = "DELETE FROM fak_mat_spec WHERE matfakid = " & thisfakid
 							    oConn.execute strSQLdel
@@ -1572,7 +1592,13 @@ if len(session("user")) = 0 then
 							matvis = 0
 							end if
 							
+                            if len(trim(request("FM_matid_"&m&""))) <> 0 then
 							matid = request("FM_matid_"&m&"")
+                            else
+                            matid = 0
+                            end if
+
+
 							matnavn = replace(request("FM_matnavn_"&m&""),"'", "''")
 							matvarenr = request("FM_matvarenr_"&m&"")
 							matantal = SQLBless2(request("FM_matantal_"&m&""))
@@ -1582,7 +1608,13 @@ if len(session("user")) = 0 then
 							matbeloeb = SQLBless2(request("FM_matbeloeb_"&m&""))
 							matValuta = request("FM_matvaluta_"&m&"")
 							matKurs = replace(request("valutakurs_"& matValuta &""), ",", ".")
+
+                            if len(trim(request("FM_matgrp_"&m&""))) <> 0 then
 							matGrp = request("FM_matgrp_"&m&"")
+                            else
+                            matGrp = 0
+                            end if
+
 
                             matAktid = request("FM_mataktid_"&m&"")           
 							
@@ -1603,8 +1635,12 @@ if len(session("user")) = 0 then
 							&" "& matantal &", '"& matenhed &"', "& matenhedspris &", "_
 							&" "& matrabat &", "& matbeloeb &", 1, "& ikkemoms &", "& matValuta &", "& matKurs &", "& matMFusrid &" ,"& matMFid &", "& matGrp &", "& matAktid &")"
 							
-							'Response.Write strSQLoprmat & "<br>"
+
+							'if session("mid") = 1 then
+                            'Response.Write strSQLoprmat & "<br>"
 							'Response.flush
+                            'end if
+
 							oConn.execute(strSQLoprmat)
 							
 							'matbeloebTot = matbeloebTot + matbeloeb
@@ -1612,8 +1648,19 @@ if len(session("user")) = 0 then
 							'*** Markerer i materialeforbrug at materiale er faktureret ***'
 							strSQLmf = "UPDATE materiale_forbrug SET erfak = 1 WHERE id = " & matMFid
 							oConn.execute(strSQLmf)
-							
-							end if
+
+                            '***** Nedskriver LAGER ****
+                            strSQLmlager = "UPDATE materialer SET antal = (antal - "& matantal &") WHERE id = " & matid
+							'if session("mid") = 1 then
+                            'response.write strSQLmlager
+                            'response.end
+                            'end if
+                            oConn.execute(strSQLmlager)
+
+                                 
+
+                            end if
+
 							    
 							next
 							
@@ -5207,7 +5254,7 @@ if len(session("user")) = 0 then
         
         fl_ant = 50
         dim fl_antal, fl_besk, fl_vis, fl_enhpris, fl_valuta, fl_enhed, fl_rabat, fl_momsfri, fl_belob
-        redim fl_antal(fl_ant), fl_besk(fl_ant), fl_vis(fl_ant), fl_enhpris(fl_ant), fl_valuta(fl_ant), fl_enhed(fl_ant), fl_rabat(fl_ant), fl_momsfri(fl_ant), fl_belob(fl_ant)
+        redim fl_antal(fl_ant), fl_besk(fl_ant), fl_vis(fl_ant), fl_enhpris(fl_ant), fl_valuta(fl_ant), fl_enhed(fl_ant), fl_rabat(fl_ant), fl_momsfri(fl_ant), fl_belob(fl_ant), fl_jobaktid(fl_ant)
         
         call akttyper2009(2)
         
@@ -5239,6 +5286,7 @@ if len(session("user")) = 0 then
 
         strJobPaaAft = strJobPaaAft & oRec("jobnavn") & " ("& oRec("jobnr") &")" 
         
+        fl_jobaktid(ja) = oRec("jid")
         fl_besk(ja) = oRec("jobnavn") & " ("& oRec("jobnr") &")"
         
                 

@@ -227,13 +227,32 @@ case "FN_getKpers"
                             
 
                             '** Ikke fakturerede Materialer / Eller v. ny faktura = alle 
-	                        strSQL = "SELECT mf.matid, mf.matnavn, sum(mf.matantal) AS matantal, mf.matsalgspris, mf.matenhed, mf.matkobspris, "_
+                            select case lto
+                            case "mpt"
+
+                            strSQL = "SELECT m.id AS matid, u.ju_navn AS matnavn, u.ju_stk AS matantal, (u.ju_belob/u.ju_stk) AS matsalgspris, m.enhed AS matenhed, u.ju_ipris, ju_fravalgt AS intkode, ju_fravalgt AS mfusrid, "_
+	                        &" m.varenr AS matvarenr, "_
+                            &" j.valuta, v.valutakode, v.kurs, u.ju_matid AS mfid, "_
+	                        &" m.matgrp, mgp.navn AS matgrpnavn"_
+	                        &" FROM job_ulev_ju u "_
+                            &" LEFT JOIN job j ON (j.id = u.ju_jobid)"_
+                            &" LEFT JOIN materialer m ON (m.id = u.ju_matid)"_
+	                        &" LEFT JOIN valutaer v ON (v.id = j.valuta) "_
+	                        &" LEFT JOIN materiale_grp AS mgp ON (mgp.id = m.matgrp) "_
+                            &" WHERE u.ju_jobid = "& jobid
+
+                            case else
+	                        
+                            strSQL = "SELECT mf.matid, mf.matnavn, sum(mf.matantal) AS matantal, mf.matsalgspris, mf.matenhed, mf.matkobspris, "_
 	                        &" mf.matvarenr, mf.valuta, v.valutakode, v.kurs, mf.erfak, mf.id AS mfid, "_
 	                        &" mf.usrid AS mfusrid, intkode, matgrp, mgp.navn AS matgrpnavn, mf.ava, mf.aktid AS mataktid "_
 	                        &" FROM materiale_forbrug mf "_
 	                        &" LEFT JOIN valutaer v ON (v.id = mf.valuta) "_
 	                        &" LEFT JOIN materiale_grp AS mgp ON (mgp.id = matgrp) "
                             
+                           
+
+
                             if jobid <> 0 then
 	                        strSQL = strSQL &" WHERE (mf.jobid = "& jobid & ") "  
 	                        else
@@ -252,6 +271,8 @@ case "FN_getKpers"
 	                        strSQL = strSQL &" AND erfak = 0 " 
 	                        
 	                        strSQL = strSQL &" AND ("& isMatWrt &") GROUP BY mf.matid, mf.matsalgspris, mf.matnavn ORDER BY mgp.navn, mf.aktid, mf.matnavn"
+
+                            end select
 	                        
                             'if session("mid") = 1 then
 	                        'Response.Write strSQL
@@ -269,7 +290,7 @@ case "FN_getKpers"
                             matnavn = jq_formatTxt 
                             
                             
-                            matAva = oRec("ava")
+                           
                    
                                
                             intMatRabat = intRabat
@@ -278,7 +299,16 @@ case "FN_getKpers"
                             valutakodeSEL = valutaLabelFak 'valutaMatKode
                             valutaMatKurs = oRec("kurs")
 
+                            select case lto
+                            case "mpt"
+                            mataktid = 0
+                            matAva = 0
+                            ju_intkode = 2
+                            case else
                             mataktid = oRec("mataktid")
+                            matAva = oRec("ava")
+                            ju_intkode = 0
+                            end select
 
                             matantal = oRec("matantal")
                             

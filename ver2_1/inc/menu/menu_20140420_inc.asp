@@ -359,7 +359,24 @@ case "alfanordic", "xintranet - local"
     admimenu_2014 = 1
     else
     admimenu_2014 = 0
-    end if 
+    end if
+    
+ case "wap"
+
+    tregmenu_2014 = 1
+
+    if level <> 1 then
+        statmenu_2014 = 2
+        marbmenu_2014 = 1
+    else
+        statmenu_2014 = 1
+        marbmenu_2014 = 1
+        projmenu_2014 = 1
+        kundmenu_2014 = 1
+        lagemenu_2014 = 1
+        admimenu_2014 = 1
+        helpmenu_2014 = 1
+    end if
 
 case else
     tregmenu_2014 = 1
@@ -589,17 +606,31 @@ end select
                         %>   
                         <li><a href="<%=toSubVerPath14 %><%=lnkTimeregside %>"><%=tsa_txt_116 &" "& tsa_txt_438 %></a></li><%
                  
-                case "xtia", "welcom", "alfanordic"
+                case "xtia", "welcom", "alfanordic", "wap"
                                   
                  case else
                     %>   <li><a href="<%=toSubVerPath14 %><%=lnkTimeregside %>"><%=tsa_txt_116 %></a></li><%
                  end select
-           
+                 %>
                
 
-                 %>  <li><a href="<%=toSubVerPath15 %><%=lnkUgeseddel%>"><%=tsa_txt_337 %></a></li>
+                <%
+                    select case lto 'Ugeseddel
+
+                    case "wap"
+
+                        ''***** ingen ugeseddel ******''
+
+                    case else
+                %>
+                        <li><a href="<%=toSubVerPath15 %><%=lnkUgeseddel%>"><%=tsa_txt_337 %></a></li>
                       
-                <% 'select case lto
+                <%
+                    end select 'Ugeseddel
+                    
+                    
+                    
+                'select case lto
                  'case "outz", "intranet - local", "hidalgo", "tia", "dencker", "eniga", "welcom", "mmmi", "epi2017"
                     if cint(vis_favorit) = 1 then
                     
@@ -628,14 +659,17 @@ end select
                  case else
                  if cint(stempelurOn) = 1 then %>
                  <li><a href="<%=toSubVerPath14 %><%=lnkLogind%>"><%=tsa_txt_340 %></a></li>
-                 <%end if
+                     <%if lto = "cflow" then%>
+                            <li><a href="<%=toSubVerPath15 %>monitor.asp?func=startside" target="_blank">Terminal ind/ud stempling</a></li>
+                     <%end if
+                 end if
                  end select 
                  %>
 
                 
                  <% select case lto
                 
-                 case "tec", "esn", "epi", "epi_uk", "epi_no", "epi_as", "tia", "xintranet - local"
+                 case "tec", "esn", "epi", "epi_uk", "epi_no", "epi_as", "tia", "xintranet - local", "wap"
                  case else
                     
                      if level <= 7 then %>
@@ -668,9 +702,9 @@ end select
                  <%end select %>
 
                  <%select case lto
-                 case "oko", "epi", "epi2017", "wilke", "outz", "dencker", "essens", "synergi1", "jttek", "hidalgo", "demo", "bf", "plan", "acc", "assurator", "glad", "tia", "eniga", "welcom", "alfanordic", "intranet - local", "cflow"
+                 case "oko", "epi", "epi2017", "wilke", "outz", "dencker", "essens", "synergi1", "jttek", "hidalgo", "demo", "bf", "plan", "acc", "assurator", "glad", "tia", "eniga", "welcom", "alfanordic", "intranet - local", "cflow", "cisu"
                      
-                    if level = 1 OR (lto = "wilke") OR (lto = "outz") OR (lto = "dencker") OR (lto = "hidalgo") OR (lto = "acc") OR (lto = "epi2017") OR (lto = "assurator") OR (lto = "glad") or (lto = "tia") OR (lto = "eniga") OR (lto = "welcom") OR (lto = "alfanordic") OR (lto = "intranet - local") OR (lto = "cflow") then%>
+                    if level = 1 OR (lto = "wilke") OR (lto = "outz") OR (lto = "dencker") OR (lto = "hidalgo") OR (lto = "acc") OR (lto = "epi2017") OR (lto = "assurator") OR (lto = "glad") or (lto = "tia") OR (lto = "eniga") OR (lto = "welcom") OR (lto = "alfanordic") OR (lto = "intranet - local") OR (lto = "cflow") OR (lto = "cisu") then%>
                     <li><a href="<%=toSubVerPath15 %>medarbdashboard.asp"><%=tsa_txt_529 %></a></li>
                     <%end if %>
                  <%end select %>
@@ -680,7 +714,7 @@ end select
                    
                    <%if level <= 7 then %> 
                     
-                       <%if (lto = "tia" AND level = 7) OR (lto = "alfanordic") OR lto = ("intranet - local") then  
+                       <%if (lto = "tia" AND level = 7) OR (lto = "alfanordic") OR lto = ("intranet - local") OR lto = ("wap") then  
                        
                          else    
                        %>
@@ -697,7 +731,7 @@ end select
                        <%'** Igangværende arbejde ***'
                         select case lto
                 
-                        case "tec", "esn"%>
+                        case "tec", "esn" %>
                         <%case else 
                             
                                 if level <= 2 OR level = 6 then%>
@@ -768,7 +802,7 @@ end select
 
                              case "nonstop"
 
-                             case "tia", "xintranet - local"
+                             case "tia", "xintranet - local", "wap"
 
                              case else
                     
@@ -894,15 +928,14 @@ end select
        if lto = "mmmi" then
       
       %>
-       <li><a href="https://outzource.dk/timeout_xp/wwwroot/ver2_10/timereg/timereg_akt_2006.asp?eksterntlnk=aaQWEIOC345345DFNEfjsdf7890sdfv&email=<%=meEmail%>&key=2.2011-0410-TO127" >UNIK</a></li>
+       <li><a href="https://timeout.cloud/timeout_xp/wwwroot/ver2_14/timereg/timereg_akt_2006.asp?eksterntlnk=aaQWEIOC345345DFNEfjsdf7890sdfv&email=<%=meEmail%>&key=2.2011-0410-TO127" >SDUTEK</a></li>
        <%end if
        
 
 
-       if lto = "unik" then
-    
-      %>
-       <li><a href="https://outzource.dk/timeout_xp/wwwroot/ver2_10/timereg/timereg_akt_2006.asp?eksterntlnk=aaQWEIOC345345DFNEfjsdf7890sdfv&email=<%=meEmail%>&key=2.2010-0311-TO119" >MMMI</a></li>
+      if lto = "sdutek" then
+       %>
+       <li><a href="https://timeout.cloud/timeout_xp/wwwroot/ver2_14/timereg/timereg_akt_2006.asp?eksterntlnk=aaQWEIOC345345DFNEfjsdf7890sdfv&email=<%=meEmail%>&key=2.2010-0311-TO119" >MMMI</a></li>
        <%
        end if
        
@@ -1026,18 +1059,28 @@ end select
                 
                      <%if cint(statmenu_2014) = 2 then 'nt%>
                 
-                           <%if lto = "alfanordic" OR lto = "intranet - local" then %>
+                           <%if lto = "alfanordic" OR lto = "intranet - local" OR lto = "wap" then %>
 
-                                                   
-                                <li><a href="<%=toSubVerPath15 %>medarb_protid.asp"><%=menu_txt_010 %></a></li>                        
+                                <%if lto <> "wap" then %>        
+                                    <li><a href="<%=toSubVerPath15 %>medarb_protid.asp"><%=menu_txt_010 %></a></li>                        
 
                                 
-                                <li><a href="<%=toSubVerPath14 %>stat_korsel.asp?menu=stat" ><%=tsa_txt_265 %></a></li>
+                                    <li><a href="<%=toSubVerPath14 %>stat_korsel.asp?menu=stat" ><%=tsa_txt_265 %></a></li>
 
-                                <%if level = 2 OR level = 6 then %>
+                                    <%if level = 2 OR level = 6 then %>
+                                    <li><a href="<%=toSubVerPath14 %>joblog_timetotaler.asp"><%=tsa_txt_458 %></a></li>
+                                    <li><a href="<%=toSubVerPath14 %>joblog.asp"><%=tsa_txt_118 %></a></li>
+                                    <li><a href="<%=toSubVerPath14 %>bal_real_norm_2007.asp?dontdisplayresult=1"><%=replace(tsa_txt_466, "|", "&") %></a></li>
+                                    <%end if %>
+                                <%else %>
+                        
+                                <!-- hvis WAP skal de have grandtotal og afspadsering -->
                                 <li><a href="<%=toSubVerPath14 %>joblog_timetotaler.asp"><%=tsa_txt_458 %></a></li>
-                                <li><a href="<%=toSubVerPath14 %>joblog.asp"><%=tsa_txt_118 %></a></li>
-                                <li><a href="<%=toSubVerPath14 %>bal_real_norm_2007.asp?dontdisplayresult=1"><%=replace(tsa_txt_466, "|", "&") %></a></li>
+		                        <li><a href="<%=toSubVerPath14 %>feriekalender.asp?menu=job"><%=replace(tsa_txt_444, "|", "&") %></a></li>
+
+
+		                            
+
                                 <%end if %>
 
                            <%else %>
@@ -1125,6 +1168,11 @@ end select
                         <%if session("stempelur") <> 0 AND (lto = "cflow" OR lto = "intranet - local") then %>
                         <li><a href="<%=toSubVerPath15 %>godkend_request_timer.asp" target="_blank">Godkende overtid</a></li>
                         <%end if %>
+
+                        <%if lto = "wap" then %>
+                        <li><a href="<%=toSubVerPath15 %>godkend_request_timer.asp" target="_blank">Godkend forespurgte timer</a></li>
+                        <%end if %>
+                        
                  
                         <li><a href="<%=toSubVerPath14 %>stat_korsel.asp?menu=stat" ><%=tsa_txt_265 %></a></li>
                         <li><a href="<%=toSubVerPath14 %>pipeline.asp?menu=webblik&FM_kunde=0&FM_progrupper=10"><%=tsa_txt_456 %></a></li>
@@ -1145,11 +1193,15 @@ end select
 
                         
 
+                        <br /><br />
+                        
+                        <%if level = 1 AND (lto = "intranet - local" OR lto = "epi" OR lto = "epi_cati" OR lto = "epi_no" OR lto = "epi_se" OR lto = "epi2017" OR lto = "tia") then %>
+                        <li><a href="<%=toSubVerPath14 %>timerimperr.asp?menu=stat" ><%=tsa_txt_467 %></a></li>
+                        <%end if %>
+
+
 
                         <%if level = 1 AND (lto = "intranet - local" OR lto = "epi" OR lto = "epi_cati" OR lto = "epi_no" OR lto = "epi_se" OR lto = "epi2017") then %>
-                        
-                         <br /><br />
-                        <li><a href="<%=toSubVerPath14 %>timerimperr.asp?menu=stat" ><%=tsa_txt_467 %></a></li>
                         <li><a href="<%=toSubVerPath14 %>diff_timer_kons.asp?menu=stat" ><%=tsa_txt_468 %></a></li>
                         <%end if %>
 
@@ -1428,6 +1480,8 @@ end select
              <li><a href='<%=toSubVerPath15 %>bgrupper.asp'><%=tsa_txt_496 %></a></li>
             <li><a href='<%=toSubVerPath15 %>medarbtyper.asp'><%=tsa_txt_497 %></a></li>
             <li><a href="<%=toSubVerPath14 %>medarbtyper_grp.asp"><%=tsa_txt_498 %></a></li>
+
+           <li><a href='<%=toSubVerPath15 %>ferietildel.asp'><%=menu_txt_012 %></a></li>
 
           
 

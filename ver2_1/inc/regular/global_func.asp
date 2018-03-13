@@ -24,6 +24,7 @@
 <!--#include file="../xml/joblog_xml_inc_2.asp"-->
 <!--#include file="../xml/abonner_xml_inc.asp"-->
 <!--#include file="../xml/resbelaeg_xml_inc.asp"-->
+<!--#include file="../xml/smileystatus_xml_inc.asp"-->
 
 
 <!--#include file="cls_aktiviteter.asp"-->
@@ -539,14 +540,17 @@ function positiv_aktivering_akt_fn()
     pa_tilfojvmedopret = 0
 	strSQL6 = "SELECT positiv_aktivering_akt, pa_aktlist, pa_tilfojvmedopret FROM licens l WHERE id = 1"
 	oRec6.open strSQL6, oConn, 3
+
 	If not oRec6.EOF then
-	
+    
     pa_aktlist = oRec6("pa_aktlist")
 	positiv_aktivering_akt_val = oRec6("positiv_aktivering_akt")
     pa_tilfojvmedopret = oRec6("pa_tilfojvmedopret")
-	
+
+    
 	end if
     oRec6.close
+
 
 end function
 

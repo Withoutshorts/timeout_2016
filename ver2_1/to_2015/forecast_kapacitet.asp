@@ -373,8 +373,16 @@
                             norm_ugetotal = nTimerPerIgnHellig 'ntimMan + ntimTir + ntimOns + ntimTor + ntimFre + ntimLor + ntimSon  
                                                     
                                 
+
+                            select case aar
+                            case 2017
+                            antalUger = 52
+                            case 2018
+                            antalUger = 51.22
+                            end select
+
                             antalhelligdagetimer = 60 '104 'helligdageIalt * 7.4
-                            norm_aarstotal = (((maanederansat/12) * (norm_ugetotal * 52)) - (antalhelligdagetimer))
+                            norm_aarstotal = (((maanederansat/12) * (norm_ugetotal * antalUger)) - (antalhelligdagetimer))
                             arrsferie = ((maanederansat/12) * norm_ugetotal * 6)
                             if  totalAntalMedarbs = 1 then
                             totalMedarbNorm = norm_aarstotal

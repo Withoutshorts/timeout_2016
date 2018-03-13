@@ -674,6 +674,13 @@ case "dbopr", "dbred"
                             kp1_valuta = request("FM_valuta_6")
 							
 
+                            if len(trim(request("feriesats"))) <> 0 then
+                            feriesats = request("feriesats")
+                            feriesats = replace(feriesats, ",", ".")
+                            else
+                            feriesats = 0
+                            end if
+
                             mtsortorder = request("FM_sortorder")
                             sostergp = request("FM_soster") 
 
@@ -747,14 +754,14 @@ case "dbopr", "dbred"
 				        oConn.execute("INSERT INTO medarbejdertyper (type, timepris, editor, dato, kostpris, normtimer_son, normtimer_man, normtimer_tir, normtimer_ons, normtimer_tor, normtimer_fre, normtimer_lor, "_
 				        &" timepris_a1, timepris_a2, timepris_a3, timepris_a4, timepris_a5, "_
 				        &" tp0_valuta, tp1_valuta, tp2_valuta, tp3_valuta, tp4_valuta, tp5_valuta, sostergp, mtsortorder, mgruppe, afslutugekri, afslutugekri_proc, noflex, "_
-                        &" kostpristarif_A, kostpristarif_B, kostpristarif_C, kostpristarif_D, kp1_valuta, mt_mobil_visstopur) VALUES"_
+                        &" kostpristarif_A, kostpristarif_B, kostpristarif_C, kostpristarif_D, kp1_valuta, mt_mobil_visstopur, feriesats) VALUES"_
 				        &" ('"& strNavn &"', "& strTimepris &", '"& strEditor &"', '"& strDato &"', "& dubKostpris &", "_
 				        &" "& normtimer_son &", "& normtimer_man &", "& normtimer_tir &", "& normtimer_ons &", "_
 				        &" "& normtimer_tor &", "& normtimer_fre &", "& normtimer_lor &", "& strTimepris1 &", "_
 				        &" "& strTimepris2 &", "& strTimepris3 &", "& strTimepris4 &", "& strTimepris5 &", "_
 				        &" "& tp0_valuta &","& tp1_valuta &","& tp2_valuta &","& tp3_valuta &","& tp4_valuta &","& tp5_valuta &", "& sostergp &", "_
                         &" "& mtsortorder &", "& mgruppe &","& afslutugekri &","& afslutugekri_proc &", "& noflex &", "_
-                        &" "& kostpristarif_A &","& kostpristarif_B &","& kostpristarif_C &","& kostpristarif_D &", "& kp1_valuta &", "& mt_mobil_visstopur &""_
+                        &" "& kostpristarif_A &","& kostpristarif_B &","& kostpristarif_C &","& kostpristarif_D &", "& kp1_valuta &", "& mt_mobil_visstopur &", "& feriesats &""_
 				        &" )")
 				
                 
@@ -809,7 +816,7 @@ case "dbopr", "dbred"
 				&" tp2_valuta = "& tp2_valuta &", tp3_valuta = "& tp3_valuta &", "_
 				&" tp4_valuta = "& tp4_valuta &", tp5_valuta = "& tp5_valuta &", sostergp = "& sostergp &", mtsortorder = "& mtsortorder &", "_
                 &" mgruppe = "& mgruppe &", afslutugekri = "& afslutugekri &", afslutugekri_proc = "& afslutugekri_proc &", noflex = "& noflex &", "_
-                &" kostpristarif_A = "& kostpristarif_A &", kostpristarif_B = "& kostpristarif_B &", kostpristarif_C = "& kostpristarif_C &", kostpristarif_D = "& kostpristarif_D &", kp1_valuta = "& kp1_valuta &", mt_mobil_visstopur = "& mt_mobil_visstopur &""_
+                &" kostpristarif_A = "& kostpristarif_A &", kostpristarif_B = "& kostpristarif_B &", kostpristarif_C = "& kostpristarif_C &", kostpristarif_D = "& kostpristarif_D &", kp1_valuta = "& kp1_valuta &", mt_mobil_visstopur = "& mt_mobil_visstopur &", feriesats = "& feriesats &""_
 				&" WHERE id = "&id&""
 
                 'response.write strSQLupd
@@ -1221,7 +1228,7 @@ case "dbopr", "dbred"
 
                          
     
-
+    feriesats = 0
 
 
     kostpristarif_A = 0
@@ -1240,7 +1247,7 @@ case "dbopr", "dbred"
 	&" normtimer_tir, normtimer_ons, normtimer_tor, normtimer_fre, normtimer_lor, timepris_a1, "_
 	&" timepris_a2, timepris_a3, timepris_a4, timepris_a5, "_
 	&" tp0_valuta, tp1_valuta, tp2_valuta, tp3_valuta, tp4_valuta, tp5_valuta, sostergp, mtsortorder, mgruppe, afslutugekri, afslutugekri_proc, noflex, "_
-    &" kostpristarif_A, kostpristarif_B, kostpristarif_C, kostpristarif_D, kp1_valuta, mt_mobil_visstopur "_
+    &" kostpristarif_A, kostpristarif_B, kostpristarif_C, kostpristarif_D, kp1_valuta, mt_mobil_visstopur, feriesats "_
 	&" FROM medarbejdertyper WHERE id=" & id
 	oRec.open strSQL,oConn, 3
 	
@@ -1295,6 +1302,8 @@ case "dbopr", "dbred"
 
     kp1_valuta = oRec("kp1_valuta")
     mt_mobil_visstopur = oRec("mt_mobil_visstopur")
+
+    feriesats = oRec("feriesats")
 
 	end if
 	oRec.close
@@ -1396,12 +1405,24 @@ case "dbopr", "dbred"
                      <div class="col-lg-1"><br /><b><%=medarbtyp_txt_041 %>:</b>&nbsp;<u><%=ugetotal%></u></div>
                 </div>
 
-                  <div class="row">
-                        <div class="col-lg-8">&nbsp;</div>
-                          <div class="col-lg-4"><input type="checkbox" name="FM_noflex" value="<%=noflex %>" <%=noflexChk %> /> <%=medarbtyp_txt_042 %>
-                       </div>
+                <br />
 
-                      </div>
+                <div class="row">
+                   
+                    <div class="col-lg-1"></div>
+                    <div class="col-lg-2">Feriesats pr. md:</div>
+                    <div class="col-lg-1"><input type="text" name="feriesats" value="<%=feriesats %>" class="form-control input-small" /></div>
+                    <div class="col-lg-4">&nbsp;</div>
+                    
+
+                    <div class="col-lg-4"><input type="checkbox" name="FM_noflex" value="<%=noflex %>" <%=noflexChk %> /> <%=medarbtyp_txt_042 %></div>
+                </div>
+
+               <!-- <div class="row">
+                    <div class="col-lg-8">&nbsp;</div>
+                        <div class="col-lg-4"><input type="checkbox" name="FM_noflex" value="<%=noflex %>" <%=noflexChk %> /> <%=medarbtyp_txt_042 %>
+                    </div>
+                </div> -->
 
             </div>
             <div class="row"><div class="pad-b10"></div></div>

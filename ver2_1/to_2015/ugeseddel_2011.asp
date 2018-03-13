@@ -10,6 +10,9 @@
         'section for ajax calls
         if Request.Form("AjaxUpdateField") = "true" then
         Select Case Request.Form("control")
+        case "FN_gemjobc"
+
+        case "FN_gemaktc"
 
         case "FN_tjktimer_forecast"
                 '** FORECAST ALERT 
@@ -36,431 +39,14 @@
         case "FN_sogjobogkunde"
 
 
-                '*** SØG kunde & Job       
-                 lto = request("lto")
-    
-               
-                if len(trim(request("jq_newfilterval"))) <> 0 then
-                filterVal = 1 
-                jobkundesog = request("jq_newfilterval")
-                
-
-                'if session("mid") = 1 then
-                '*** ÆØÅ **'
-                'call jq_format(jobkundesog)
-                'jobkundesog = jq_formatTxt
-                'end if
-                
-
-                else
-                filterVal = 0
-                jobkundesog = "6xxxxxfsdf554"
-                end if
-        
-                medid = request("jq_medid")
-
-                call positiv_aktivering_akt_fn()
-                if cint(pa_aktlist) = 0 then 'PA = 0 kan søge i jobbanken / PA = 1 kan kun søge på aktivjobliste
-                strSQLPAkri =  ""
-                else
-                strSQLPAkri =  " AND tu.forvalgt = 1" 
-                end if
-            
-
-                varTjDatoUS_man = request("varTjDatoUS_man")
-                varTjDatoUS_son = dateAdd("d", 6, varTjDatoUS_man)
-
-                varTjDatoUS_man = year(varTjDatoUS_man) &"/"& month(varTjDatoUS_man) &"/"& day(varTjDatoUS_man)
-                varTjDatoUS_son = year(varTjDatoUS_son) &"/"& month(varTjDatoUS_son) &"/"& day(varTjDatoUS_son)
-
-                '*** Datospærring Vis først job når stdato er oprindet
-                call lukaktvdato_fn()
-                ignJobogAktper = lukaktvdato
-
-                select case ignJobogAktper
-                case 0,1
-                strSQLDatokri = " AND ((j.jobstartdato <= '"& varTjDatoUS_son &"' AND j.jobstatus = 1) OR (j.jobstatus = 3))"
-                case 3
-                strSQLDatokri = " AND ((j.jobstartdato <= '"& varTjDatoUS_son &"' AND j.jobslutdato >= '"& varTjDatoUS_man &"' AND j.jobstatus = 1) OR (j.jobstatus = 3))"
-                case else
-                strSQLDatokri = ""
-                end select
-
-    
-
-                if filterVal <> 0 then
-
-                 if jobkundesog <> "-1" then
-                 strSQLSogKri = " AND (jobnr LIKE '"& jobkundesog &"%' OR jobnavn LIKE '%"& jobkundesog &"%' OR "_
-                 &" kkundenavn LIKE '"& jobkundesog &"%' OR kkundenr = '"& jobkundesog &"' OR k.kinit = '"& jobkundesog &"') AND kkundenavn <> ''"
-                 lmt = 50
-                 else
-                 strSQLSogKri = ""
-                 lmt = 250
-                 end if
-            
-                 lastKid = 0
-                
-                strSQL = "SELECT j.id AS jid, j.jobnavn, j.jobnr, j.jobstatus, k.kkundenavn, k.kkundenr, k.kid FROM timereg_usejob AS tu "_ 
-                &" LEFT JOIN job AS j ON (j.id = tu.jobid) "_
-                &" LEFT JOIN kunder AS k ON (k.kid = j.jobknr) "_
-                &" WHERE tu.medarb = "& medid &" AND (j.jobstatus = 1 OR j.jobstatus = 3) "& strSQLPAkri &" "& strSQLDatokri 
-                
-                strSQL = strSQL & strSQLSogKri
-                strSQL = strSQL &" GROUP BY j.id ORDER BY kkundenavn, jobnavn LIMIT "& lmt       
-    
-                'if session("mid") = 1 then
-                ' response.write "<option>strSQL " & strSQL & "</option>"
-                ' response.end
-                'end if
-    
-                select case lto 
-                case "xcflow", "xintranet - local"
-    
-
-                case else
-
-                    if (jobkundesog = "-1") then
-                        
-                        if len(trim(week_txt_009)) = 0 then
-                        week_txt_009 = "Select Job"
-                        end if
-
-                        strJobogKunderTxt = strJobogKunderTxt & "<option value=""-1"" SELECTED>"& week_txt_009 &":</option>"
-                    end if            
-
-                end select
-
-                 
-                k = 0
-                oRec.open strSQL, oConn, 3
-                while not oRec.EOF
-        
-             
-
-                if lastKnavn <> oRec("kkundenavn") then
-    
-
-                    if k <> 0 then
-                    ' strJobogKunderTxt = strJobogKunderTxt &"<br>"
-                    strJobogKunderTxt = strJobogKunderTxt & "<option DISABLED></option>"
-                    end if
-    
-                'strJobogKunderTxt = strJobogKunderTxt & oRec("kkundenavn") &" "& oRec("kkundenr") &"<br>"
-
-                 strJobogKunderTxt = strJobogKunderTxt & "<option DISABLED>"& oRec("kkundenavn") &" "& oRec("kkundenr") &"</option>"
-    
-                end if 
-                 
-               ' strJobogKunderTxt = strJobogKunderTxt & "<input type=""hidden"" id=""hiddn_job_"& oRec("jid") &""" value="""& oRec("jobnavn") & " ("& oRec("jobnr") &")"">"
-               ' strJobogKunderTxt = strJobogKunderTxt & "<a class=""chbox_job"" id=""chbox_job_"& oRec("jid") &""" value="& oRec("jid") &">"& oRec("jobnavn") & " ("& oRec("jobnr") &")" &"</a><br>" 
-                
-                strJobogKunderTxt = strJobogKunderTxt & "<option value="& oRec("jid") &">"& oRec("jobnavn") & " ("& oRec("jobnr") &")" &"</option>"
-
-                k = k + 1
-                lastKnavn = oRec("kkundenavn") 
-                oRec.movenext
-                wend
-                oRec.close
-
-              
-                if cint(k) = 0 then
-                strJobogKunderTxt = strJobogKunderTxt & "<option value=""-1"" DISABLED>"& week_txt_010 &"</option>"
-                end if
-
-
-                    '*** ÆØÅ **'
-                    call jq_format(strJobogKunderTxt)
-                    strJobogKunderTxt = jq_formatTxt
-
-
-                    response.write strJobogKunderTxt
-
-                end if    
+               call selectJobogKunde_jq()
 
 
         
           case "FN_sogakt"
 
                
-                '*** Søg Aktiviteter 
-                'strAktFcSaldoTxt = ""            
-                strAktTxt = ""
-
-                if len(trim(request("jq_newfilterval"))) <> 0 then
-                filterVal = 1 
-                aktsog = request("jq_newfilterval")
-             
-                else
-                filterVal = 0
-                aktsog = "6xxxxxfsdf554"
-                end if
-        
-                medid = request("jq_medid")
-                aktid = request("jq_aktid")
-    
-                if len(trim(request("jq_jobid"))) <> 0 then        
-                jobid = request("jq_jobid")
-                else
-                jobid = 0
-                end if
-
-                 '*** Sales / tilbud kun Salgsaktiviteter
-                '(a.fakturerbar = 6 AND j.jobstatus = 3)
-                jobstatusTjk = 1
-                strSQLtilbud = "SELECT jobstatus FROm job WHERE id = "& jobid
-                oRec5.open strSQLtilbud, oConn, 3
-                if not oRec5.EOF then
-
-                jobstatusTjk = oRec5("jobstatus")
-
-                end if
-                oRec5.close
-
-                if cint(jobstatusTjk) = 3 then 'tilbud
-                onlySalesact = " AND a.fakturerbar = 6"
-                else
-                onlySalesact = ""
-                end if
-
-
-                'positiv aktivering
-                pa = 0
-                'if len(trim(request("jq_pa") )) <> 0 then
-                'pa = request("jq_pa") 
-                'else
-                'pa = 0
-                'end if
-        
-                call positiv_aktivering_akt_fn()
-                pa = pa_aktlist
-                pa_only_specifikke_akt = positiv_aktivering_akt_val
-            
-                varTjDatoUS_man = request("varTjDatoUS_man")
-                varTjDatoUS_son = dateAdd("d", 6, varTjDatoUS_man)
-
-                varTjDatoUS_man = year(varTjDatoUS_man) &"/"& month(varTjDatoUS_man) &"/"& day(varTjDatoUS_man)
-                varTjDatoUS_son = year(varTjDatoUS_son) &"/"& month(varTjDatoUS_son) &"/"& day(varTjDatoUS_son)
-
-
-                '*** Vis kun aktiviteter med forecast på
-                call aktBudgettjkOn_fn()
-                '*** Skal akt lukkes for timereg. hvis forecast budget er overskrddet..?
-                '** MAKS budget / Forecast incl. peridoe afgrænsning
-                call akt_maksbudget_treg_fn()
-
-                if cint(aktBudgettjkOnViskunmbgt) = 1 then
-                viskunForecast = 1
-                else
-                viskunForecast = 0
-                end if
-
-
-                timerTastet = 0 'request("timer_tastet")
-                ibudgetaar = aktBudgettjkOn_afgr
-                ibudgetmd = datePart("m", aktBudgettjkOnRegAarSt, 2,2) 
-                aar = datepart("yyyy", varTjDatoUS_man, 2,2)
-                md = datepart("m", varTjDatoUS_man, 2,2)
-
-
-                '*** Forecast tjk
-                risiko = 0
-                strSQLjobRisisko = "SELECT j.risiko FROM job AS j WHERE id = "& jobid
-                oRec5.open strSQLjobRisisko, oConn, 3
-                if not oRec5.EOF then
-                risiko = oRec5("risiko")
-                end if
-                oRec5.close 
-
-                call allejobaktmedFC(viskunForecast, medid, jobid, risiko)
-
-                
-                '*** Datospærring Vis først job når stdato er oprindet
-                call lukaktvdato_fn()
-                ignJobogAktper = lukaktvdato
-
-               
-	            if (cint(ignJobogAktper) = 1 OR cint(ignJobogAktper) = 2 OR cint(ignJobogAktper) = 3) then
-	            strSQLDatoKri = " AND ((a.aktstartdato <= '"& varTjDatoUS_son &"' AND a.aktslutdato >= '"& varTjDatoUS_man &"') OR (a.fakturerbar = 6))" 
-	            end if
-
-
-              
-
-                call akttyper2009(2)
-
-              
-
-                if filterVal <> 0 then
-            
-                 
-    
-                 'strAktTxt = strAktTxt &"<span style=""color:#999999; font-size:9px; float:right;"" class=""luk_aktsog"">X</span>"    
-                         
-
-                     '** Select eller søgeboks
-                    call mobil_week_reg_dd_fn()
-                    
-                    
-                    if cint(mobil_week_reg_akt_dd) <> 1 then 'AND aktsog <> "-1" 
-                    strSQlAktSog = "AND navn LIKE '%"& aktsog &"%'"
-                    else
-                    strSQlAktSog = ""
-
-                            '** Forvalgt 1 aktivitet
-                            if cint(mobil_week_reg_akt_dd_forvalgt) <> 1 AND cint(mobil_week_reg_akt_dd) = 1 then
-                            strAktTxt = strAktTxt & "<option value=""-1"">Choose..</option>" 
-                            end if
-
-                    end if
-
-
-
-                   if cint(pa) = 1 then '**Kun på Personlig aktliste
-    
-    
-                       'Positiv aktivering
-                       if cint(pa_only_specifikke_akt) then
-
-                       strSQL = "SELECT a.id AS aid, navn AS aktnavn "_
-                       &" FROM timereg_usejob AS tu LEFT JOIN aktiviteter AS a ON (a.id = tu.aktid "& onlySalesact &") "_
-                       &" WHERE tu.medarb = "& medid &" AND tu.jobid = "& jobid &" AND aktid <> 0 "& strSQlAktSog &" AND aktstatus = 1 AND ("& aty_sql_hide_on_treg &") "& forecastAktids &" "& onlySalesact &" ORDER BY fase, sortorder, navn LIMIT 250"   
-                       'AND ("& replace(aty_sql_realhours, "tfaktim", "a.fakturerbar") &")
-                       else 
-
-                       strSQL = "SELECT a.id AS aid, navn AS aktnavn "_
-                       &" FROM timereg_usejob AS tu LEFT JOIN aktiviteter AS a ON (a.job = tu.jobid) "_
-                       &" WHERE tu.medarb = "& medid &" AND tu.jobid = "& jobid &" AND aktid = 0 "& strSQlAktSog &" AND aktstatus = 1 AND ("& aty_sql_hide_on_treg &") "& forecastAktids &" "& onlySalesact &" ORDER BY fase, sortorder, navn LIMIT 250"
-                       'AND ("& replace(aty_sql_realhours, "tfaktim", "a.fakturerbar") &")
-                       end if
-
-
-                   else
-
-
-                        '*** Finder medarbejders projektgrupper 
-                        '** Medarbejder projektgrupper **'
-                        medarbPGrp = "#0#" 
-                        strMpg = "SELECT projektgruppeId, medarbejderId, teamleder FROM progrupperelationer WHERE medarbejderId = "& medid & " GROUP BY projektgruppeId"
-
-                        oRec5.open strMpg, oConn, 3
-                        while not oRec5.EOF
-                        medarbPGrp = medarbPGrp & ",#"& oRec5("projektgruppeId") &"#"         
-        
-                        oRec5.movenext
-                        wend
-                        oRec5.close 
-
-
-           
-
-                   
-
-                
-                   
-
-                   strSQL = "SELECT a.id AS aid, navn AS aktnavn, projektgruppe1, projektgruppe2, projektgruppe3, "_
-                   &" projektgruppe4, projektgruppe5, projektgruppe6, projektgruppe7, projektgruppe8, projektgruppe9, projektgruppe10 FROM aktiviteter AS a "_
-                   &" WHERE a.job = " & jobid & " "& strSQLDatoKri &" "& strSQlAktSog &" AND aktstatus = 1 AND ("& aty_sql_hide_on_treg &") "& forecastAktids &" "& onlySalesact &" ORDER BY fase, sortorder, navn LIMIT 250"      
-    
-
-               
-            
-                end if
-
-                'response.write "strSQL " & strSQL & ""
-                'response.write "<option>strSQL " & strSQL & "</option>"
-                'response.flush
-
-                afundet = 0
-                oRec.open strSQL, oConn, 3
-                while not oRec.EOF
-        
-                if cint(pa) = 1 then 'Positiv aktivering
-
-                showAkt = 1
-
-                else
-            
-                showAkt = 0
-                if instr(medarbPGrp, "#"& oRec("projektgruppe1") &"#") <> 0 _
-                OR instr(medarbPGrp, "#"& oRec("projektgruppe2") &"#") <> 0 _
-                OR instr(medarbPGrp, "#"& oRec("projektgruppe3") &"#") <> 0 _
-                OR instr(medarbPGrp, "#"& oRec("projektgruppe4") &"#") <> 0 _
-                OR instr(medarbPGrp, "#"& oRec("projektgruppe5") &"#") <> 0 _
-                OR instr(medarbPGrp, "#"& oRec("projektgruppe6") &"#") <> 0 _
-                OR instr(medarbPGrp, "#"& oRec("projektgruppe7") &"#") <> 0 _
-                OR instr(medarbPGrp, "#"& oRec("projektgruppe8") &"#") <> 0 _
-                OR instr(medarbPGrp, "#"& oRec("projektgruppe9") &"#") <> 0 _
-                OR instr(medarbPGrp, "#"& oRec("projektgruppe10") &"#") <> 0 then
-                showAkt = 1
-                end if 
-
-                end if
-
-
-                '** Forecast peridore afgrænsning
-                'if cint(akt_maksforecast_treg) = 1 then
-                if cint(aktBudgettjkOn) = 1 then
-                    call ressourcefc_tjk(ibudgetaar, ibudgetmd, aar, md, medid, oRec("aid"), timerTastet)
-                end if
-               
-                
-                
-                if cint(showAkt) = 1 then 
-                 
-                'strAktTxt = strAktTxt & "<input type=""hidden"" id=""hiddn_akt_"& oRec("aid") &""" value="""& oRec("aktnavn") &""">"
-                'strAktTxt = strAktTxt & "<a class=""chbox_akt"" id=""chbox_akt_"& oRec("aid") &""" value="& oRec("aid") &">"& oRec("aktnavn") &"</a><br>" 
-
-                if cint(aktBudgettjkOn) = 1 then
-
-
-                if len(trim(feltTxtValFc)) <> 0 then
-                fcsaldo_txt = " (fc. Saldo: "& formatnumber(feltTxtValFc, 2) & " / "& formatnumber(fctimer,2) &" t.)"
-                else
-                feltTxtValFc = 0
-                end if
-
-                    optionFcDis = ""
-                    if cint(akt_maksforecast_treg) = 1 then
-                        if feltTxtValFc <= 0 then
-                              optionFcDis = "DISABLED"
-                        end if
-                    end if
-
-                else
-
-                fcsaldo_txt = ""
-
-                end if
-                
-                
-                'strAktFcSaldoTxt = strAktFcSaldoTxt & "<input type=""text"" value="& feltTxtValFc &" id=""FM_fcs_"& oRec("aid") &">"
-                strAktTxt = strAktTxt & "<option value="& oRec("aid") &" "& optionFcDis &">"& oRec("aktnavn") &" "& fcsaldo_txt &"</option>" 
-                
-                end if
-                
-                afundet = afundet + 1
-                oRec.movenext
-                wend
-                oRec.close
-
-                
-                if afundet = 0 then
-                strAktTxt = strAktTxt & "<option value=""-1"" DISABLED>"& week_txt_011 &"</option>" 
-                end if          
-
-
-
-                    '*** ÆØÅ **'
-                    call jq_format(strAktTxt)
-                    strAktTxt = jq_formatTxt
-
-
-                    response.write strAktTxt & strAktFcSaldoTxt
-
-                end if    
-
+              call selectAkt_jq
 
 
 
@@ -527,15 +113,9 @@ if len(session("user")) = 0 then
 	thisfile = "ugeseddel_2011.asp"
 	media = request("media")
 
-    if len(request("touchMonitor")) <> 0 then
-        touchMonitor = request("touchMonitor")
-
-        %>
-        <meta http-equiv="refresh" content="120;url=monitor.asp?func=startside" />
-        <%
-    else
-        touchMonitor = 0
-    end if
+   
+    touchMonitor = 0
+    
 
 
     if len(trim(request("nomenu"))) <> 0 AND request("nomenu") <> 0 then
@@ -573,13 +153,21 @@ if len(session("user")) = 0 then
         'response.write "HER"
         'response.end
 
-    if len(trim(request("FM_visAlleMedarb"))) <> 0 then
-    visAlleMedarbCHK = "CHECKED"
-    visAlleMedarb = 1
-    else
-    visAlleMedarbCHK = ""
-    visAlleMedarb = 0
-    end if
+            if len(trim(request("FM_visAlleMedarb"))) <> 0 then
+            visAlleMedarbCHK = "CHECKED"
+            visAlleMedarb = 1
+            else
+            visAlleMedarbCHK = ""
+            visAlleMedarb = 0
+            end if
+
+            if len(trim(request("FM_visAlleMedarb_pas"))) <> 0 then
+            visAlleMedarb_pasCHK = "CHECKED"
+            visAlleMedarb_pas = 1
+            else
+            visAlleMedarb_pasCHK = ""
+            visAlleMedarb_pas = 0
+            end if
 
     else
 
@@ -591,8 +179,19 @@ if len(session("user")) = 0 then
                     visAlleMedarb = 0
                     'usemrn = session("mid")
                     end if
+
+                    if request.cookies("tsa")("visAlleMedarb_pas") = "1" then
+                    visAlleMedarb_pasCHK = "CHECKED"
+                    visAlleMedarb_pas = 1
+                    else
+                    visAlleMedarb_pasCHK = ""
+                    visAlleMedarb_pas = 0
+                    end if
+
+                    
     end if
     response.cookies("tsa")("visAlleMedarb") = visAlleMedarb
+    response.cookies("tsa")("visAlleMedarb_pas") = visAlleMedarb_pas
 
 
 
@@ -816,11 +415,11 @@ if len(session("user")) = 0 then
 	%>
 
 	
-    <SCRIPT src="js/ugeseddel_2011_jav.js"></script>
+    <SCRIPT src="js/ugeseddel_2011_jav4.js"></script>
     <SCRIPT src="../timereg/inc/smiley_jav.js"></script>
 
     <%call browsertype() 
-    if (browstype_client <> "ip") AND (touchMonitor <> 1) then
+    if (browstype_client <> "ip") then
         
         call menu_2014()
 
@@ -831,9 +430,8 @@ if len(session("user")) = 0 then
             
         varTjDatoUS_man_tt = dateAdd("d", -(ddDato_ugedag_w-1), ddDato_ugedag)
         
-        if touchMonitor <> 1 then
-        call mobile_header 
-        end if
+       call mobile_header 
+        
 
     end if
     %>    
@@ -868,59 +466,20 @@ if len(session("user")) = 0 then
  
 
 
-   <%if (browstype_client <> "ip") AND (touchMonitor <> 1) then %>
+   <%if (browstype_client <> "ip") then %>
 <div class="wrapper">
  <div class="content">   
      <%end if %>
 
  
-     <%if cint(touchMonitor) = 1 then %>
-     <div class="container" style="width:100%; height:100%">
-     <%else %>
+     
      <div class="container">
-    <%end if %>
-
+    
       <div class="portlet">
         <% if browstype_client <> "ip" then %>
-          <%if cint(touchMonitor) <> 1 then %>
+          
           <h3 class="portlet-title"><u><%=tsa_txt_337%></u><!-- ugeseddel --></h3>
-          <%else 
-          medarb_navn = session("user")'request("medarb_navn")
-          medid = session("mid") 'request("medid")    
-          %>
-          <div class="portlet-title">
-
-              <table style="width:100%;">
-                  <tr>
-                      <td><h3 style="color:black"><%=medarb_navn %> <!--(<%=medid %>)-->
-
-                          <%
-                            '******* Tjekker logindtid ********'
-                            strSQL = "SELECT id, login FROM login_historik WHERE mid = "& medid &" AND stempelurindstilling > 0 ORDER BY id DESC"
-                            oRec.open strSQL, oConn, 3
-                            if not oRec.EOF then
-                            login = oRec("login")
-                            
-                            end if
-                            oRec.close
-                            
-                              
-                          %><br />
-                          <span style="font-size:11px;">Logget på kl. <%=login %></span>
-
-
-                          </h3></td>
-                      <td style="text-align:right"><img style="width:15%; margin-bottom:2px; margin-left:55px" src="img/cflow_logo.png" /></td>
-                  </tr>
-              </table>
-
-           <!--   <div class="row">
-                  <div class="col-lg-4"><h3><%=medarb_navn %> <!--(<%=medid %>)--></h3></div>
-                 <!-- <div class="col-lg-6"></div>
-                  <div class="col-lg-2"><img style="max-width:50%; margin-bottom:2px; margin-left:55px" src="img/cflow_logo.png" /></div>
-              </div> -->
-          </div>
-          <%end if %>
+         
         <%end if %>
 
         <div class="portlet-body">
@@ -975,10 +534,10 @@ if len(session("user")) = 0 then
         if browstype_client <> "ip" then
     %>
     <%
-    if touchMonitor <> 1 then
+    
     %>
     <div class="well well-white">
-    <%end if %>
+    
         
         <%select case lto 
         case "bf"
@@ -993,7 +552,7 @@ if len(session("user")) = 0 then
 
         %>
           
-            <%if touchMonitor <> 1 then %>
+           
             <div style="position:relative; background-color:#ffffff; border:1px #cccccc solid; border-bottom:0; padding:4px; width:<%=wdth%>px; top:-70px; left:880px; z-index:0; font-size:11px;">
            
             <a href="../timereg/<%=lnkTimeregside%>" class="vmenu"><%=replace(tsa_txt_031, " ", "")%> >></a>
@@ -1005,9 +564,7 @@ if len(session("user")) = 0 then
 
            
             </div>
-            <%end if %>
-
-         
+            
 
         <%end select %>
       
@@ -1065,7 +622,7 @@ if len(session("user")) = 0 then
             <input type="hidden" name="nomenu" id="nomenu" value="<%=nomenu %>">
             <input type="hidden" name="varTjDatoUS_man" id="varTjDatoUS_man" value="<%=varTjDatoUS_man %>">
            
-            <%if touchMonitor <> 1 then %>
+            
             <div class="row">
                 <div class="col-lg-6">
                       <table style="font-size:100%; color:black">
@@ -1073,7 +630,8 @@ if len(session("user")) = 0 then
                     <tr>
                         <!--<td style="padding-right:5px; vertical-align:text-top; width:80px;"><input type="CHECKBOX" name="FM_visallemedarb" id="FM_visallemedarb" value="1" <%=visAlleMedarbCHK %> /> <%=tsa_txt_357%> </td>-->
                         <td style="padding:0px 0px 4px 12px;">
-                            <input type="CHECKBOX" name="FM_visallemedarb" id="FM_visallemedarb" value="1" <%=visAlleMedarbCHK %> /> <%=tsa_txt_357%><br />
+                            <input type="CHECKBOX" name="FM_visallemedarb" id="FM_visallemedarb" value="1" <%=visAlleMedarbCHK %> /> <%=tsa_txt_357%> &nbsp;
+                            <input type="CHECKBOX" name="FM_visallemedarb_pas" id="FM_visallemedarb_pas" value="1" <%=visAlleMedarb_pasCHK %> onclick="submit();" /> <%=medarb_txt_031%><br />
                     
                    
                
@@ -1086,9 +644,7 @@ if len(session("user")) = 0 then
                         </table>
                 </div>
             </div>
-            <%else %>
-            <input type="hidden" name="usemrn" id="usemrn" value="<%=usemrn %>" />
-            <%end if %>
+          
                   
         </form>
 
@@ -1105,10 +661,11 @@ if len(session("user")) = 0 then
         %> 
         <%
             
-            if browstype_client <> "ip" then
+        if browstype_client <> "ip" then
         %>
 
-        <% 
+        <%'** TOUCH MoNITOR BRUGES IKKE MERE PÅ UGESEDDEL - HAR FEÅT SINE GEN SIDE 20180306
+          '** KODE GEMMES for at huske og indtil ny side er testet
         if touchMonitor = 1 then
         txtClass = "large"
         inputHeight = "150%"
@@ -1129,23 +686,13 @@ if len(session("user")) = 0 then
             <div class="row"> 
      
            
-                     <%if cint(touchMonitor) <> 1 then 
-                    %><div class="col-lg-7"> <%
-                    else
-                    %><div class="col-lg-7"> <%
-                    end if%>
-                     
-     
-          
-                      <form id="container" action="../timereg/timereg_akt_2006.asp?func=db&rdir=<%=rdir_timereg %>" method="post">
+                   <div class="col-lg-7"> 
+                   <form id="container" action="../timereg/timereg_akt_2006.asp?func=db&rdir=<%=rdir_timereg %>" method="post">
       
-                    <%if cint(touchMonitor) <> 1 then 
+                    <%
                     mgnRight = 250    
                     wdtTbl = 60
-                    else
-                    mgnRight = 0
-                    wdtTbl = 60
-                    end if%>
+                    %>
 
                     <table style="font-size:100%; display:inline-table; margin-right:<%=mgnRight%>px; width:<%=wdtTbl%>%;">
                     
@@ -1173,13 +720,9 @@ if len(session("user")) = 0 then
                     <%end if %>
                     
                    
-                        <!--<td style="padding-right:5px; padding-top:10px; vertical-align:text-top;"><b><%=left(tsa_txt_066, 5) %>/<%=tsa_txt_236 %>:</b></td>-->
-                        <%if cint(touchMonitor) = 1 then 
-                        rwspan = 1 '3
-                        %><tr><td style="padding-left:10px; font-size:15px; text-align:left;">Komponent/Aktivitet</td></tr><%
-                        else
+                        <%
                         rwspan = 1
-                        end if%>
+                        %>
 
                         
                      <tr>
@@ -1213,6 +756,15 @@ if len(session("user")) = 0 then
                             <input type="hidden" id="regskabsaarUseAar" value="<%=datepart("yyyy", varTjDatoUS_man, 2,2)%>">
                             <input type="hidden" id="regskabsaarUseMd" value="<%=datepart("m", varTjDatoUS_man, 2,2)%>">     
                             
+                            <%
+                            '*** Husk seneste job **'
+                            jobidC = "-1"
+                            aktidC = "-1"    
+                    
+                            %>
+
+                           <input type="hidden" id="jq_jobidc" name="" value="<%=jobidC %>"/>
+                           <input type="hidden" id="jq_aktidc" name="" value="<%=aktidC %>"/>
                             
                             <%if cint(mobil_week_reg_job_dd) = 1 then %>
 
@@ -1236,13 +788,9 @@ if len(session("user")) = 0 then
 
                         </td>
                      
-                       <%'if cint(touchMonitor) = 1 then 
-                        
-                        'else
-                        %>
+                      
                         </tr><tr>
-                        <%
-                        'end if%>
+                       
                     
                         <!--<td style="padding-right:5px; padding-top:10px; vertical-align:text-top;"><b><%=tsa_txt_068%>:</b></td>-->
                          <td style="padding-top:<%=paddingTop%>; padding-left:10px; width:225px">
@@ -1281,22 +829,17 @@ if len(session("user")) = 0 then
                         <!--<td style="padding-right:5px; padding-top:10px; vertical-align:text-top;"><b><%=tsa_txt_051%>:</b></td>-->
                         <td style="padding-top:<%=paddingTop%>; padding-left:10px; text-align:right;">
                             <input type="text" id="FM_kom" name="FM_kom_0" placeholder="<%=tsa_txt_051%>" class="form-control input-<%=txtClass %>" style="font-size:<%=inputFont%>; height:<%=inputHeight%>" /><br />
-                            <%if cint(touchMonitor) <> 1 then 
+                            <%
                                 btnSz = "sm"
-                            else
-                                btnSz = "lg"
-                            end if%>
-                            <button class="btn btn-<%=btnSz %> btn-success"><b><%=tsa_txt_085%> >></b></button>
+                                btn_dis = ""
+                            %>
+                            <button id="btn_indlas" class="btn btn-<%=btnSz %> btn-success" <%=btn_dis %>><b><%=tsa_txt_085%> >></b></button>
                             <%'end if %>
                         </td>
                        
                     </tr>
 
-                    <%'if cint(touchMonitor) = 1 then %>
-                    <!--<tr>
-                         <td style="padding-top:30px; padding-left:10px; text-align:right" colspan="2"><button class="btn btn-lg btn-success"><b><%=tsa_txt_085%> >></b></button></td>                         
-                    </tr>
-                        -->
+                    
                   
       
                 </table>
@@ -1309,25 +852,13 @@ if len(session("user")) = 0 then
             <div class="col-lg-5"> 
             <%
             '**** Norm Chart ****'    
-            if cint(touchMonitor) <> 1 then %>
+         %>
             <div id="stacked-vertical-chart" class="chart-holder-200"></div>
-            <%else %>
-                <!--#include file="../inc/regular/cls_kpi.asp"-->
-                <%call keyfigures(touchMonitor, login) %>
-        <%end if %>
+          
                 </div>
      
         </div><!-- ROW --> 
         <%end if %>
-        
-                <%if cint(touchMonitor) = 1 then %>
-                <div class="row">
-                    <div class="col-lg-5"> 
-                        <a href="monitor.asp?func=startside" class="btn btn-lg btn-default"><< <b>Tilbage / Ny bruger</b></a>   
-                        </div>
-            </div><!-- ROW --> 
-                <%end if %>
-
         </div>
         
 
@@ -1351,7 +882,7 @@ if len(session("user")) = 0 then
         'end if
     
 
-   if touchMonitor <> 1 then
+   
        ugeseddelvisning = 1
 
        perInterval = 6 'dateDiff("d", varTjDatoUS_man, varTjDatoUS_son, 2,2) 
@@ -1379,7 +910,7 @@ if len(session("user")) = 0 then
             call ugeseddel(usemrn, varTjDatoUS_use, varTjDatoUS_use, ugeseddelvisning, showtotal, showheader)  
    
        next
-   end if
+   
 	
 	
         select case lto
@@ -1467,7 +998,7 @@ if len(session("user")) = 0 then
             <input type="hidden" id="normdagson" value="<%=replace(ntimSon, ",", ".") %>" />
 
         
-          <%if touchMonitor <> 1 then %>
+          
           <div class="row">
                 <div class="col-lg-12">
                     <h4 style="text-align:right"><%=tsa_txt_173 &" "& tsa_txt_137%>: <%=formatnumber(norm_ugetotal, 2) %> &nbsp <%=tsa_txt_535%>: <%=ugetotal %> &nbsp&nbsp</h4>
@@ -1498,7 +1029,7 @@ if len(session("user")) = 0 then
                     </table>
                 </div>
             </div>
-            <%end if %>
+           
 
 
 
@@ -1541,7 +1072,7 @@ if len(session("user")) = 0 then
              
         <%
             
-            if (browstype_client <> "ip") AND (touchMonitor <> 1) then
+            if (browstype_client <> "ip") then
         %>
     <div class="well" style="width:35%;">
       <div class="portlet">

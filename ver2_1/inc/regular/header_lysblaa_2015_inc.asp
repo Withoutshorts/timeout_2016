@@ -49,7 +49,9 @@
 
     
       <!-- Plugin CSS -->
+       <%if thisfile <> "timebudget_scroll" then %>
       <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/r/bs-3.3.5/dt-1.10.9/datatables.min.css"/>
+      <%end if %>
       <link rel="stylesheet" href="<%=relpath %>css/bootstrap-datepicker3.css" />
       <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/jasny-bootstrap/3.1.3/css/jasny-bootstrap.min.css" />
      
@@ -73,7 +75,6 @@
           font-size: 16px;
           font-weight:300;
           letter-spacing:0.6px;
-          
          }
           
          
@@ -105,7 +106,7 @@
     <script src=".<%=relpath2 %>js/libs/bootstrap.min.js"></script>
 
     <%else %>
-   <script src=".<%=relpath2 %>/js/libs/jquery-1.10.2.min.js"></script>
+    <script src=".<%=relpath2 %>/js/libs/jquery-1.10.2.min.js"></script>
    <script src=".<%=relpath2 %>/js/libs/bootstrap.min.js"></script>
     <%end if %> 
 

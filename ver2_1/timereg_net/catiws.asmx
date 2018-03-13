@@ -328,7 +328,6 @@ Public Class CATI :
 
                 If String.IsNullOrEmpty(ds.Tables("CATI_TIME").Rows(t).Item("jobid")) = False Then
                     intJobNr = ds.Tables("CATI_TIME").Rows(t).Item("jobid").ToString
-
                 Else
                     intJobNr = "0"
                 End If
@@ -344,29 +343,28 @@ Public Class CATI :
                 'End If
 
                 ' **** Import af valgkamp 2011 fra special server **''
-                'If importFrom = "0" Then
-                If intJobNr = "121212" Then
-                    intJobNr = "14520" '** valgkamp
-                End If
 
-                If intJobNr = "20174" Then
-                    intJobNr = "2017431"
-                End If
-
-                If intJobNr = "20173" Then
-                    intJobNr = "21462"
-                End If
-
-
-
+                'If intJobNr = "121212" Then
+                ' intJobNr = "14520" '** valgkamp
                 'End If
 
-                If importFrom = "3" Then
-                    If intJobNr = "TU2014" Then
-                        intJobNr = "17687"
-                    End If
+                'If intJobNr = "20174" Then
+                'intJobNr = "2017431"
+                'End If
 
-                End If
+                'If intJobNr = "20173" Then
+                ' intJobNr = "21462"
+                'End If
+
+
+
+
+                'If importFrom = "3" Then
+                ' If intJobNr = "TU2014" Then
+                'intJobNr = "17687"
+                'End If
+
+                'End If
 
                 intJobNrTxt = intJobNr
 
@@ -530,7 +528,7 @@ Public Class CATI :
 
                                     intJobNr = Replace(intJobNr, "P_", "")
 
-                                    If (intJobNr.Length = 7) Then
+                                    If (intJobNr.Length <> 5) Then
                                         intJobNr = Left(intJobNr, 7)
                                     Else
                                         intJobNr = Left(intJobNr, 5)
@@ -543,7 +541,7 @@ Public Class CATI :
                                     If (intJobNr.Substring(0, 1)) = "P" Then
                                         intJobNr = Replace(intJobNr, "P", "")
 
-                                        If (intJobNr.Length = 7) Then
+                                        If (intJobNr.Length <> 5) Then
                                             intJobNr = Left(intJobNr, 7)
                                         Else
                                             intJobNr = Left(intJobNr, 5)
@@ -570,11 +568,11 @@ Public Class CATI :
                         errThis = 2
                     End If
 
-                    If intJobNr = "20173" Then
+                    'If intJobNr = "20173" Then
 
-                        intJobNr = "2017031"
+                    'intJobNr = "2017031"
 
-                    End If
+                    'End If
 
 
 
@@ -583,7 +581,7 @@ Public Class CATI :
 
 
 
-                        Dim strSQLjob As String = "SELECT id, jobnavn, fastpris, serviceaft, jobknr, valuta FROM job WHERE jobnr = '" & intJobNr & "'"
+                        Dim strSQLjob As String = "SELECT id, jobnavn, fastpris, serviceaft, jobknr, valuta FROM job WHERE jobnr = '" & intJobNr & "' AND jobnr <> '20185' ANd jobstatus = 1"
                         objCmd = New OdbcCommand(strSQLjob, objConn)
                         objDR = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
 

@@ -54,8 +54,7 @@ end sub
         'response.Write "strSQL" & strSQL 
         'response.flush
     
-    	oRec8.Open strSQL, oConn, 0, 1 
-			
+    	    oRec8.Open strSQL, oConn, 0, 1 
 			While Not oRec8.EOF
 			
              medariprogrpTxt = medariprogrpTxt & ",#"& oRec8("ProjektgruppeId") &"#"
@@ -1178,9 +1177,15 @@ end if
 
 %>
     <td valign=top style="padding-top:20px; width:426px;"><b><%=godkendweek_txt_081 %>:</b><br />
-    <span style="font-size:10px; line-height:12px; color:#999999; padding-top:4px;">
+    
+        <span style="font-size:10px; line-height:12px; color:#999999; padding-top:4px;">
         <%=godkendweek_txt_082 %>
         </span><br />
+
+      
+        <select multiple size="9" id="FM_progrp" name="FM_progrp" style="position:relative; z-index:1; width:406px; <%=fm_cls_2015_style_11%>" class="<%=fm_cls_2015 %>">
+           
+            
        
        <% 
        
@@ -1227,41 +1232,37 @@ end if
 
      
 
-       %>
-        
-        <select id="FM_progrp" name="FM_progrp" style="width:406px; z-index:1; <%=fm_cls_2015_style_11%>" class="<%=fm_cls_2015 %>" multiple="multiple" size=9>
-           
-            
-       <% 
-           
-           
        
 
-       for p = 0 to prgAntal 
+               for p = 0 to prgAntal 
        
-       if prjGoptionsId(p) <> 0 then
+               if prjGoptionsId(p) <> 0 then
         
-        'if instr(progrp, ",") = 0 AND fo = 0 then
-        'progrp = prjGoptionsId(p)
-        '   end if
+                'if instr(progrp, ",") = 0 AND fo = 0 then
+                'progrp = prjGoptionsId(p)
+                '   end if
        
-        if instr(progrp, ", " & prjGoptionsId(p) & ",") <> 0 then
-        pgSEL = "SELECTED"
-        fo = 1
-        else
-        pgSEl = ""
-        end if%>
-        <option value="<%=prjGoptionsId(p) %>" <%=pgSEl%>><%=prjGoptionsTxt(p) %> </option>
+                if instr(progrp, ", " & prjGoptionsId(p) & ",") <> 0 then
+                pgSEL = "SELECTED"
+                fo = 1
+                else
+                pgSEl = ""
+                end if%>
+                
+                <option value="<%=prjGoptionsId(p)%>" <%=pgSEl%>><%=prjGoptionsTxt(p) %> </option>
 
-      
-      <%
           
 
-        pf = pf + 1
-        
-        end if
       
-      next 
+              <%
+          
+
+                pf = pf + 1
+        
+                end if
+
+      
+              next 
       
       if pf = 0 then
       %>

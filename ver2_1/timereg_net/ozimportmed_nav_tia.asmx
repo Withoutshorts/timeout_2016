@@ -372,7 +372,9 @@ Public Class oz_importmed_na
                             mapping = 14
                         Case "400"
                             mapping = 15
-                        Case "500", "600", "610"
+                        Case "500"
+                            mapping = 60
+                        Case "600", "610"
                             mapping = 16
                         Case "700"
                             mapping = 17

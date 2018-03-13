@@ -860,7 +860,7 @@ if len(session("user")) = 0 then
     <%
     
     	
-	strEksportTxt = "Medarbejder;Mnr;Initialer;Projektgrupper/afd.;År;Måned;Uge;"& tsa_txt_173 & " (hh:mm); "& tsa_txt_173 & " (100 digit);"
+	strEksportTxt = godkendweek_txt_117&";"&godkendweek_txt_118&";"&godkendweek_txt_119&";"&godkendweek_txt_120&";"&godkendweek_txt_004&";"&godkendweek_txt_094&";"&godkendweek_txt_032&";"& tsa_txt_173 & " (hh:mm); "& tsa_txt_173 & " (100 digit);"
 	    
 
 	
@@ -868,14 +868,14 @@ if len(session("user")) = 0 then
 	
 	if session("stempelur") <> 0 then
         
-        strEksportTxt = strEksportTxt & "Komme/Gå (løntimer, hh:mm); Komme/Gå (100 digit);"
+        strEksportTxt = strEksportTxt & godkendweek_txt_121&"; "&godkendweek_txt_122&";"
 
         if showkgtil = 1 then
-	    strEksportTxt = strEksportTxt & "Tillæg +/-;Komme/Gå tid Sum;" 
+	    strEksportTxt = strEksportTxt & godkendweek_txt_123&";"&godkendweek_txt_152&";" 
         end if
 	
-      strEksportTxt = strEksportTxt & tsa_txt_284 & "+/- (Komme-Gå/Norm. hh:mm); +/- (Komme-Gå/Norm. 100 digit);"
-      strEksportTxt = strEksportTxt & tsa_txt_284 & "+/- Akkumuleret (Komme-Gå/Norm. hh:mm);+/- Akkumuleret (Komme-Gå/Norm. 100 digit);"
+      strEksportTxt = strEksportTxt & tsa_txt_284 & "+/- ("&godkendweek_txt_124&"); +/- ("&godkendweek_txt_125&");"
+      strEksportTxt = strEksportTxt & tsa_txt_284 & "+/- "&godkendweek_txt_126&";+/- "&godkendweek_txt_127&";"
     
     end if
         
@@ -884,18 +884,18 @@ if len(session("user")) = 0 then
         strEksportTxt = strEksportTxt  & tsa_txt_172 & ";"
 
     	if lto <> "cst" AND lto <> "kejd_pb" AND lto <> "tec" AND lto <> "esn" then
-	    strEksportTxt = strEksportTxt & "Heraf fakturerbare timer;"
+	    strEksportTxt = strEksportTxt & godkendweek_txt_128&";"
 
                 if lto = "intranet - local" OR lto = "tia" then
-                strEksportTxt = strEksportTxt & "Heraf ikke fakturerbare timer;"
+                strEksportTxt = strEksportTxt & godkendweek_txt_129&";"
                 end if
 	    
                 if cint(showkgtil) = 1 then 
-                strEksportTxt = strEksportTxt  &"Korrektion Realiseret;"
+                strEksportTxt = strEksportTxt  &godkendweek_txt_130&";"
                 end if
 
-          strEksportTxt = strEksportTxt & tsa_txt_284 & " +/- (Real. / Norm.);"
-            strEksportTxt = strEksportTxt & tsa_txt_284 & " +/- Akkumuleret (Real. / Norm.);"
+          strEksportTxt = strEksportTxt & tsa_txt_284 & " +/- ("&godkendweek_txt_131&");"
+            strEksportTxt = strEksportTxt & tsa_txt_284 & " +/- "&godkendweek_txt_132&";"
         
         end if
 	    
@@ -906,7 +906,7 @@ if len(session("user")) = 0 then
 	      
 	
 	         if lto <> "cst" AND lto <> "kejd_pb" AND lto <> "tec" AND lto <> "esn" then
-	        strEksportTxt = strEksportTxt & tsa_txt_284 & " (Real. / Lønt.);"
+	        strEksportTxt = strEksportTxt & tsa_txt_284 & " ("&godkendweek_txt_133&");"
 	        end if
 	end if
 	
@@ -918,11 +918,11 @@ if len(session("user")) = 0 then
 	             strEksportTxt = strEksportTxt & tsa_txt_283 &" "& tsa_txt_164 & "(enh.);"
               end if
                 
-                 strEksportTxt = strEksportTxt & "Afspads.;"
+                 strEksportTxt = strEksportTxt & godkendweek_txt_135&";"
 
 	                if lto <> "fk" AND lto <> "kejd_pb" AND lto <> "adra" AND lto <> "cisu" then
                         if lto <> "tec" AND lto <> "esn" then
-                        strEksportTxt = strEksportTxt & "Udbetalt;Ønsk. Udbe.;"
+                        strEksportTxt = strEksportTxt & godkendweek_txt_136&";"&godkendweek_txt_137&";"
                         end if
                         strEksportTxt = strEksportTxt & tsa_txt_283 &" "& tsa_txt_280 & ";"
                     end if
@@ -955,11 +955,11 @@ if len(session("user")) = 0 then
     end select
 	
 
-    strEksportTxt = strEksportTxt & "Ferie Afholdt;Ferie Afholdt u. løn;"& ferieFriTxt &";"
+    strEksportTxt = strEksportTxt & godkendweek_txt_138&";"&godkendweek_txt_139&";"& ferieFriTxt &";"
 
          select case lto
                 case "xintranet - local", "fk" 
-                 strEksportTxt = strEksportTxt &"1 maj timer;"
+                 strEksportTxt = strEksportTxt &godkendweek_txt_140&";"
                 end select
                 
                
@@ -967,25 +967,25 @@ if len(session("user")) = 0 then
 
                 select case lto
                 case "xintranet - local", "fk", "kejd_pb", "adra" 
-                 strEksportTxt = strEksportTxt &"Omsorgsdage ~ dage;"
+                 strEksportTxt = strEksportTxt & godkendweek_txt_141 & ";"
                 end select
     
             
 
                     select case lto
                 case "xintranet - local", "fk", "kejd_pb"
-                 strEksportTxt = strEksportTxt &"Tjenestefri ~ timer;"
+                 strEksportTxt = strEksportTxt & godkendweek_txt_142&";"
                 end select
 
                 select case lto
                 case "xintranet - local", "fk", "kejd_pb" 
-                 strEksportTxt = strEksportTxt &"Barsel/Orlov ~ dage;"
+                 strEksportTxt = strEksportTxt & godkendweek_txt_143&";"
                 end select
                 
 
                  select case lto
                 case "xxintranet - local", "fk" 
-                 strEksportTxt = strEksportTxt &"Læge ~ timer;"
+                 strEksportTxt = strEksportTxt &godkendweek_txt_144&";"
                 end select
 
                 
@@ -998,11 +998,11 @@ if len(session("user")) = 0 then
 
                '*** KUN ADMIN, HVIS DU ER TEAMLEDER (temaledere kan kun se denne side for de medarb. de er teamledere for, hvis ikke level = 1. TeamlederKri er tjekket i toppen) 
                if session("rettigheder") <= 2 OR session("rettigheder") = 6 OR (session("mid") = usemrn) then
-               strEksportTxt = strEksportTxt & "Syg ~ dage;"
+               strEksportTxt = strEksportTxt & godkendweek_txt_145&";"
                end if
 
                if session("rettigheder") <= 2 OR session("rettigheder") = 6 OR (session("mid") = usemrn) then
-               strEksportTxt = strEksportTxt & "Barn syg ~ dage;"
+               strEksportTxt = strEksportTxt & godkendweek_txt_146&";"
                end if
 
                 select case lto
@@ -1013,10 +1013,10 @@ if len(session("user")) = 0 then
 
                 select case lto
                 case "esn"
-                strEksportTxt = strEksportTxt & "Kommentar;"
+                strEksportTxt = strEksportTxt & godkendweek_txt_147&";"
                 end select
 
-                strEksportTxt = strEksportTxt & "Afsluttet;Godkendt, 0:Afventer, 1:Godkendt, 2:Afvist"
+                strEksportTxt = strEksportTxt & godkendweek_txt_148&";"&godkendweek_txt_149&", 0:"&godkendweek_txt_150&", 1:"&godkendweek_txt_149&", 2:"&godkendweek_txt_151&""
     
     
     '******************************************************************************
@@ -1037,7 +1037,7 @@ if len(session("user")) = 0 then
     'normtime_lontimeAkkGT = 0
 	for m = 0 to UBOUND(intMids)
 	
-    if cint(intMids(m)) <> 0 then
+    if cdbl(intMids(m)) <> 0 then
 
 
            if media <> "export" then
@@ -1565,7 +1565,7 @@ if len(session("user")) = 0 then
             end if
 
     
-            call medarbafstem(trim(cint(intMids(m))), slutDatoLastm_A, slutDatoLastm_B, 14, akttype_sel, m)
+            call medarbafstem(trim(cdbl(intMids(m))), slutDatoLastm_A, slutDatoLastm_B, 14, akttype_sel, m)
 
 
    

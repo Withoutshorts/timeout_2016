@@ -354,8 +354,9 @@ $(document).ready(function () {
 
 
     $(".ulev").keyup(function () {
+
         if ($("#sync_budget_mt").val() == "1") {
-            belobtilMtypGrp();
+            belobtilMtypGrp();  
         }
     });
 
@@ -1958,12 +1959,142 @@ $(document).ready(function () {
     });
 
 
+
+
+   
+
+
+    $(".ulevnavn").keyup(function () {
+
+
+       
+
+        var thisid = this.id
+        var idlngt = thisid.length
+        var idtrim = thisid.slice(9, idlngt)
+
+
+        sogLager = $("#sogLager").val();
+
+       
+
+        if (sogLager == "1") {
+        getMatlisten(idtrim)
+        }
+
+       
+
+    });
+
+
+    // Materialesøg //
+    function getMatlisten(u) {
+
+
+        $("#tr_matlager").css("display", "");
+        $("#tr_matlager").css("visibility", "visible");
+
+        var visalle = 1 //bruges ikke
+        var sog_val = $("#ulevnavn_" + u).val()
+        var kundeid = 0
+
+
+      
+
+        if (sog_val != "") {
+
+            //alert("sog_val: " + sog_val)
+
+            $.post("?jq_sog_val=" + sog_val + "&uval="+ u, { control: "FN_getMatlisten", AjaxUpdateField: "true", cust: kundeid }, function (data) {
+                //$("#FM_modtageradr").val(data);
+
+                //var idlngt = sog_val.val()
+                //alert(idlngt.lenght)
+                //if (idlngt.lenght == 1) {
+                //    alert("Du er ved at foretege en søgning..")
+                //}
+                //alert("Der søges...")
+                //$("#test").val(data);
+
+                //$("#ulevnavn_" + u).val(data);
+                //alert("HE3R" + )
+                //$("#tulevnavn_" + u).val(data);
+                $("#matlager").html("<b>Lagersøgning:</b><span id='matlagerluk' style='float:right;'>[X]</span><br><br>" + data);
+
+
+                $(".valgtmateriale").bind('mouseover', function () {
+
+                    var thisid = this.id
+                    var idlngt = thisid.length
+                    var idtrim = thisid.slice(15, idlngt)
+
+                    arr = idtrim.split("_")
+
+                    $("#valgtmateriale_" + arr[0] + "_" + arr[1]).css('cursor', 'pointer');
+
+                });
+
+                $("#matlagerluk").bind('click', function () {
+
+                    $("#tr_matlager").hide('fast');
+
+                });
+
+                $("#matlagerluk").bind('mouseover', function () {
+
+                    $("#matlagerluk").css('cursor', 'pointer');
+
+                });
+
+
+                $(".valgtmateriale").bind('click', function () {
+
+                  
+
+                    var thisid = this.id
+                    var idlngt = thisid.length
+                    var idtrim = thisid.slice(15, idlngt)
+
+                    arr = idtrim.split("_")
+
+                    //alert(arr[0] + ":" + arr[1])
+
+                    thisHTML = $("#valgtmateriale_" + arr[0] + "_" + arr[1]).html();
+                    $("#ulevnavn_" + arr[0]).val(thisHTML);
+                    $("#ulevmatid_" + arr[0]).val(arr[1]);
+                    
+
+                    $("#tr_matlager").hide(100);
+
+
+                    $.post("?matid=" + arr[1], { control: "FN_getMatPris", AjaxUpdateField: "true", cust: kundeid }, function (data) {
+
+                        
+                        $("#ulevstkpris_" + arr[0]).val(data);
+                        $("#ulevfaktor_" + arr[0]).val('1');
+                        //$("#ulevmatid_" + arr[0]).val('');
+
+                    });
+
+                });
+
+                
+
+            });
+
+        }
+
+
+    }
+
+
     $(".ulev_ryd").click(function () {
         var thisid = this.id
         var idlngt = thisid.length
         var idtrim = thisid.slice(9, idlngt)
 
 
+        $("#ulevmatid_" + idtrim).val('0');
         $("#ulevfase_" + idtrim).val('');
         $("#ulevnavn_" + idtrim).val('');
         $("#ulevstk_" + idtrim).val('0,00');
@@ -1985,6 +2116,9 @@ $(document).ready(function () {
 
 
     $("#ulev_tilfoj_line").click(function () {
+
+        //alert("FR")
+
         var thisval = $("#antalulev option:selected").val()
         if (thisval <= 49) {
             thisval = Math.round(thisval / 1 + 1)
@@ -2002,7 +2136,12 @@ $(document).ready(function () {
             }
         }
 
+
+       
+
         $.scrollTo('-=100px', 500);
+
+        
 
     });
 
@@ -2588,7 +2727,7 @@ $(document).ready(function () {
 	
 	function settotalbelob(){
 
-       
+    //ALERT("HER")
 
     /// Åbne for manuel beregning af Netto omsætning og dermed også DB og BruttoOmsætning
 	  

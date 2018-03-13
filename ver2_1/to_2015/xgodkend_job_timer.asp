@@ -812,13 +812,13 @@
                                         <tbody style="display:none; font-size:95%" id="aktivilist_<%=medarbid(m) %>">
                                         <%
                                         select case filterThis
-                                          case "1"
-                                          filterSQL = " AND godkendtstatus = 1"
-                                            case "2"
-                                          filterSQL = " AND godkendtstatus = 2"
-                                            case else
-                                            filterSQL = ""
-                                         end select 
+                                        case "1"
+                                        filterSQL = " AND godkendtstatus = 1"
+                                        case "2"
+                                        filterSQL = " AND godkendtstatus = 2"
+                                        case else
+                                        filterSQL = ""
+                                        end select 
                                         
 
                                         strSQLakt = "SELECT tid, taktivitetid, taktivitetnavn, timer, tdato, godkendtdato, godkendtstatus, godkendtstatusaf, timerkom FROM timer WHERE ("& aty_sql_realhours &") AND tjobnr = '"& Strjobid & "' AND tmnr ="& medarbid(m) & " AND tdato BETWEEN '"& startdato &"' AND '"& slutdato &"' "& filterSQL &" GROUP BY taktivitetId, tdato ORDER BY taktivitetnavn"

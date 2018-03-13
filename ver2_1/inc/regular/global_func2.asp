@@ -1277,7 +1277,26 @@ end function
             htmlparseCSVtxt = replace(htmlparseCSVtxt, "É", "&Eacute;")
             htmlparseCSVtxt = replace(htmlparseCSVtxt, "á", "&aacute;")
             htmlparseCSVtxt = replace(htmlparseCSVtxt, "Á", "&Aacute;")
+          
+            htmlparseCSVtxt = replace(htmlparseCSVtxt, "ó", "&oacute;")
+            htmlparseCSVtxt = replace(htmlparseCSVtxt, "ò", "&ograve;")
+            htmlparseCSVtxt = replace(htmlparseCSVtxt, "í", "&iacute;")
+            htmlparseCSVtxt = replace(htmlparseCSVtxt, "ì", "&igrave;")
+
+            htmlparseCSVtxt = replace(htmlparseCSVtxt, "Ó", "&Oacute;")
+            htmlparseCSVtxt = replace(htmlparseCSVtxt, "Ò", "&Ograve;")
+            htmlparseCSVtxt = replace(htmlparseCSVtxt, "Í", "&Iacute;")
+            htmlparseCSVtxt = replace(htmlparseCSVtxt, "Ì", "&Igrave;")
+                
+            htmlparseCSVtxt = replace(htmlparseCSVtxt, "ú", "&uacute;")
+
+            htmlparseCSVtxt = replace(htmlparseCSVtxt, "ý", "&ygrave;")
+            htmlparseCSVtxt = replace(htmlparseCSVtxt, "Ð", "&Eth;")
+            htmlparseCSVtxt = replace(htmlparseCSVtxt, "ð", "&eth;")
             
+
+
+       
             jq_formatTxt = htmlparseCSVtxt
 
             else

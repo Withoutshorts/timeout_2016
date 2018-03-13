@@ -789,7 +789,7 @@ end function
 '***********************************************************************************************
 '************** Logind historik / Komme / gå timer                              ****************
 '***********************************************************************************************
-public lastMnavn, lastMnr, totalhours, totalmin, totalhoursWeek, totalminWeek, stempelUrEkspTxt
+public lastMnavn, lastMnr, totalhours, totalmin, totalhoursWeek, totalminWeek, stempelUrEkspTxt, lastMinit
 function stempelurlist(medarbSel, showtot, layout, sqlDatoStart, sqlDatoSlut, typ, d_end, lnk)
 
 
@@ -809,7 +809,7 @@ if media <> "export" then
 
 
             //alert(window.event.keyCode)
-            
+
             if (window.event.keyCode != '9') {
 
 
@@ -821,7 +821,7 @@ if media <> "export" then
                 eValmm = $("#FM_login_mm_" + idtrim).val()
 
                 $("#FM_kommentar_" + idtrim).attr("disabled", "");
-                
+
 
 
 
@@ -833,8 +833,8 @@ if media <> "export" then
                     }
 
                 }
-                
-                
+
+
                 if (eValhh.length == 2 && eValmm.length == 0) {
                     $("#FM_login_mm_" + idtrim).val('00')
                     $("#FM_login_mm_" + idtrim).focus();
@@ -842,19 +842,19 @@ if media <> "export" then
 
                 }
 
-               
-                   
-                }
 
-           
 
-           
+            }
+
+
+
+
         });
 
 
         $(".logudhh").keyup(function () {
 
-          
+
 
             if (window.event.keyCode != '9') {
 
@@ -890,7 +890,7 @@ if media <> "export" then
 
 
         $("#komme_gaa").submit(function () {
-           
+
             $(".FM_kommentar").attr("disabled", "");
 
             //alert("her")
@@ -972,9 +972,16 @@ if media <> "export" then
 
 
 	
-	if showTot = 1 then
-	csp = 3
-	else
+	if cint(showTot) = 1 then
+          
+        select case lto
+        case "cst"
+	    csp = 5
+        case else
+        csp = 6
+        end select
+	
+    else
 	csp = 10
 	end if%>
 	
@@ -1042,8 +1049,9 @@ if media <> "export" then
 		<td align=right width="8" style="border-top:1px #8caae6 solid; border-right:1px #8caae6 solid;" valign=top rowspan=2><img src="../ill/blank.gif" width="8" height="32" alt="" border="0"></td>
 	</tr>
 	<tr bgcolor="#5582D2">
+        <%if showTot <> 1 then%>
 		<td class=alt><b>Dato</b></td>
-		<%if showTot <> 1 then%>
+		
 		<td class=alt><b>Logget ind</b><br />Komme tid</td>
 		<td class=alt><b>Logget ud</b><br />Gå tid</td>
                 
@@ -1055,13 +1063,12 @@ if media <> "export" then
             <%end select %>
 
 	
-		<%end if%>
+		
 		<td class=alt style="padding-left:0px;"><b>Indstilling</b><br /> (Faktor / Minimum)</td>
 		<td class=alt align=right><b>Timer:Min</b> <br /> (24:00)</td>
       
-		<%if showTot <> 1 then 
-            
-            
+		
+        <% 
          if cint(stempelur_hideloginOn) = 0 then%>
 		<td class=alt style="padding-left:15px;"><b>Manuelt opr?</b></td>
         <%else %>
@@ -1072,6 +1079,21 @@ if media <> "export" then
 		<td class=alt style="padding-left:5px;"><b>System besked</b><!--<br />Logud ændret--></td>
 		<td class=alt style="padding-left:5px;"><b>Medarb.<br /> kommentar</b></td>
         <td>&nbsp</td>
+        <%else %>
+       
+        <td class=alt><b>Medarbejder</b></td>
+        <td class=alt><b>Periode</b></td>
+        <td class=alt align=right><b>Komme/gå</b><br />(løntimer)</td>
+        <td class=alt align=right><b>Fradrag</b></td>
+        <td class=alt align=right><b>Ialt</b></td>
+        <%if lto = "cflow" then  %>
+        <td class=alt align=right><b>Overtid</b></td>
+        <%end if %>
+
+         <%if lto <> "cflow" AND lto <> "cst" then  %>
+        <td class=alt align=right><b>Projekttid</b><br />Real. timer</td>
+        <%end if %>
+
 		<%end if %>
 	</tr>
 	<%
@@ -1091,28 +1113,59 @@ if media <> "export" then
      totalhours = 0 
      totalmin = 0
 
+     stempelUrEkspTxto = ""
+     stempelUrEkspTxtShowTot = ""
 
-     lastWeek = datepart("ww", sqlDatoStart, 2,2) 
+     lastWeek = "01-01-2002" 'datepart("ww", sqlDatoStart, 2,2) 
 
-   
+     lastDato = sqlDatoStart
 
         '** valgte medarbejdere 
         for m = 0 to UBOUND(intMids)
 
-        if media <> "export" then
+       
 
-            if cint(layout) = 0 then
-            '*** Total ***
-	            if lastMid <> intMids(m) AND m > 0 ANd totalhours > 0 then
-                    'Response.write "lastMId:"& lastMid &" lmid:"& oRec("lmid")
+            if media <> "export" then
 
-		            call tottimer(lastMnavn, lastMnr, totalhours, totalmin, lastMid, sqlDatoStart, sqlDatoSlut, 1)
-		            totalhours = 0 
-		            totalmin = 0
-	            end if
-            end if
+                if cint(layout) = 0 then
+                '*** Total ***
+	                if lastMid <> intMids(m) AND m > 0 ANd totalhours > 0 then
+                        'Response.write "lastMId:"& lastMid &" lmid:"& oRec("lmid")
 
-        end if
+                             if cint(showTot) <> 1 then             
+
+                            call tottimer(lastMnavn, lastMnr, totalhoursWeek, totalminWeek, lastMid, sqlDatoStart, sqlDatoSlut, 2, lastDato)
+		                    totalhoursWeek = 0 
+		                    totalminweek = 0
+            
+                            end if 'showTot
+ 
+		                    call tottimer(lastMnavn, lastMnr, totalhours, totalmin, lastMid, sqlDatoStart, sqlDatoSlut, 1, lastDato)
+		                    totalhours = 0 
+		                    totalmin = 0
+                   
+	                end if
+                end if
+
+
+            else
+
+                      if cint(showTot) = 1 then
+
+                             
+                            if lastMid <> intMids(m) AND m > 0 ANd totalhours > 0 then
+
+                            call tottimer(lastMnavn, lastMnr, totalhours, totalmin, lastMid, sqlDatoStart, sqlDatoSlut, 1, lastDato)
+		                    totalhours = 0 
+		                    totalmin = 0
+
+                            end if
+
+                      end if
+
+            end if 'EXPORT
+
+        
 	
     if cint(layout) = 0 then
     medSQLkri = "AND l.mid = " & intMids(m)
@@ -1124,7 +1177,14 @@ if media <> "export" then
     d_end = 0
     end if
     
+
+    lastDato = "01-01-2002"
     
+    if media = "print" then
+    td_height = ""
+    else
+    td_height = "height:30px;"
+    end if
     
     for d = 0 to d_end '6
 
@@ -1152,6 +1212,7 @@ if media <> "export" then
 	&" LEFT JOIN stempelur s ON (s.id = l.stempelurindstilling) WHERE "_
     &" "& dtUseSQL &" "& medSQLkri & strTypSQL &""_
 	&" GROUP BY l.mid, l.stempelurindstilling ORDER BY l.mid, l.login, l.stempelurindstilling DESC " 
+    
 	
 	
 	else
@@ -1176,6 +1237,7 @@ if media <> "export" then
 	
 
 	x = 0
+  
 	oRec.open strSQL, oConn, 3 
 	while not oRec.EOF 
 	
@@ -1183,6 +1245,33 @@ if media <> "export" then
 	'afslSLDato = "2009-12-31"
 	'call afsluger(oRec("lmid"), afslSTDato, afslSLDato)
 	
+     if media <> "export" then       
+
+    if lastWeek <> datepart("ww", oRec("dato"), 2,2) AND (cint(layout) = 0) then
+    
+            
+
+            if cint(layout) = 0 then
+                    '*** uge total ***
+	                if totalhoursWeek > 0 AND d > 0 AND lastMid = oRec("lmid") then
+                        'Response.write "lastMId:"& lastMid &" lmid:"& oRec("lmid")
+
+                        if cint(showTot) <> 1 then
+
+		                call tottimer(lastMnavn, lastMnr, totalhoursWeek, totalminWeek, lastMid, sqlDatoStart, sqlDatoSlut, 2, lastDato)
+		                totalhoursWeek = 0 
+		                totalminweek = 0
+
+                        end if
+                      
+                       
+	                end if
+            end if
+
+    end if
+
+    end if
+
 	thours = 0
 	tmin = 0
 
@@ -1191,6 +1280,7 @@ if media <> "export" then
         timerThis = 0
 		timerThisDIFF = 0
 		
+       
 		if len(oRec("login")) <> 0 AND len(oRec("logud")) <> 0 then
 		    
 		    if cint(oRec("stempelurindstilling")) = -1 then
@@ -1252,6 +1342,9 @@ if media <> "export" then
 		totalminWeek = totalminWeek + tmin
         
         end if
+
+
+      
 		
 		if len(tmin) <> 0 then
 		
@@ -1269,7 +1362,12 @@ if media <> "export" then
 		tmin = "00"
 		end if
 
+    
+            'if session("mid") = 1 then
+            'Response.write "thours: " &thours& "tmin: " & tmin & " tot: "& totalhours &"+"& totalmin & "<br>"
+            'end if
 
+       
 
     if cint(oRec("stempelurindstilling")) = -1 then 
 		timerMinExpTxt = "-"&thours&":"&left(tmin, 2)
@@ -1339,43 +1437,43 @@ if media <> "export" then
                 
                     if lastMid <> oRec("lmid") then
     
-  
-    
-                    if instr(medIDNavnWrt, "#"&oRec("lmid")&"#") = 0 then
-
-
-
-                    call meStamdata(oRec("lmid"))
+                            if instr(medIDNavnWrt, "#"&oRec("lmid")&"#") = 0 then
+                    
+                            call meStamdata(oRec("lmid"))
 
             
         
-                        dtUseTxt = dateadd("d", 3, dtUse) '** Sikere det er mid i uge, hvis ugen løber over årsskift
+                                dtUseTxt = dateadd("d", 3, dtUse) '** Sikere det er mid i uge, hvis ugen løber over årsskift
        
-                            %>
+                                    if cint(showTot) = 1 then 'total
+        
+                                   
+        
+                                    else%>
 	
-                            <tr bgcolor="#F7F7F7">
-		                        <td>&nbsp;</td>
-		                        <td colspan="<%=csp%>" style="height:20px; padding:5px;"><h4><span style="font-size:11px; font-weight:lighter;">Komme / Gå tid Uge <%=datepart("ww", dtUseTxt, 2,2) &" "& datepart("yyyy", dtUseTxt, 2,2) %></span><br />
+                                    <tr bgcolor="#F7F7F7">
+		                                <td>&nbsp;</td>
+		                                <td colspan="<%=csp%>" style="height:20px; padding:5px;"><h4><span style="font-size:11px; font-weight:lighter;">Komme / Gå tid <!--Uge <%=datepart("ww", dtUseTxt, 2,2) &" "& datepart("yyyy", dtUseTxt, 2,2) %>--></span><br />
             
-                                    <%if len(trim(meInit)) <> 0 then %>
-                                    <%=meNavn & "  ["& meInit &"]"%>
-                                    <%else %>
-                                    <%=meTxt%>
-                                    <%end if %>
-                        </h4>
-		                        </td>
-		                        <td>&nbsp;</td>
-	                        </tr>
+                                            <%if len(trim(meInit)) <> 0 then %>
+                                            <%=meNavn & "  ["& meInit &"]"%>
+                                            <%else %>
+                                            <%=meTxt%>
+                                            <%end if %>
+                                         </h4>
+		                                </td>
+		                                <td>&nbsp;</td>
+	                                </tr>
 
 
-	                        <%
+	                                <%end if
 
 
    
 
 
-                    medIDNavnWrt = medIDNavnWrt & ",#"& oRec("lmid") & "#" 
-                    end if
+                            medIDNavnWrt = medIDNavnWrt & ",#"& oRec("lmid") & "#" 
+                            end if
     
                     end if
 
@@ -1404,9 +1502,10 @@ if media <> "export" then
                 end if
 
 
-
+                if cint(showTot) <> 1 then
                 stempelUrEkspTxt = stempelUrEkspTxt & ""& meNavn &";"& meInit & ";" & oRec("dato") & ";" & loginExpTxt & ";"& logudExpTxt & ";"& timerMinExpTxt &";"& minutterExpTxt &";" & useFaktor &";" & oRec("ipn") & ";" & oRec("stempelurindstilling") &";" & oRec("manuelt_oprettet") &";"& chr(34) & sysBeskedTxt & chr(34) &";"& chr(34) & oRec("kommentar") & chr(34) &";" & "xx99123sy#z"
-                
+                end if
+
                 medIDNavnWrt = medIDNavnWrt & ",#"& oRec("lmid") & "#" 
 
     end if 'media
@@ -1418,29 +1517,34 @@ if media <> "export" then
 		<td bgcolor="#CCCCCC" colspan="<%=csp+2%>" style="height:1px;"></td>
 	</tr>
 	
-    <%
-    if lastWeek <> datepart("ww", oRec("dato"), 2,2) AND (cint(layout) = 0) then
+    <%end if
+
+
+    'if cDate(lastDato) <> cDate(oRec("dato")) AND cint(layout) = 0 AND d > 1 then
+
+
+        'if cDate(lastDato) <> cDate("01-01-2002") then
+        
+        'Response.write cDate(lastDato) & " x: " & x & " d: "& d &"<br>"
+
+        'call fn_overTid(lto, lastDato, lastMid, 0)
+       
+       
+        'end if
+
+    'end if' lastdate
+
+
+    if media <> "export" AND cint(showTot) <> 1 then
+
     
-            
-
-            if cint(layout) = 0 then
-                    '*** uge total ***
-	                if totalhoursWeek > 0 AND d > 0 AND lastMid = oRec("lmid") then
-                        'Response.write "lastMId:"& lastMid &" lmid:"& oRec("lmid")
-
-
-
-		                call tottimer(lastMnavn, lastMnr, totalhoursWeek, totalminWeek, lastMid, sqlDatoStart, sqlDatoSlut, 2)
-		                totalhoursWeek = 0 
-		                totalminweek = 0
-	                end if
-            end if
-            
+    
+    if (lastWeek <> datepart("ww", oRec("dato"), 2,2)) AND (cint(layout) = 0) then
     %>
 	
-	<tr bgcolor="#F7F7F7">
+	<tr bgcolor="#D6DFf5">
 		<td>&nbsp;</td>
-		<td colspan="<%=csp%>" style="height:20px; padding:5px;"><b>Uge <%=datepart("ww", dtUse, 2,2) &" "& datepart("yyyy", dtUse, 2,2) %> </b></td>
+		<td colspan="<%=csp%>" style="<%=td_height%> padding:5px;"><b>Uge <%=datepart("ww", dtUse, 2,2) &" "& datepart("yyyy", dtUse, 2,2) %> </b></td>
 		<td>&nbsp;</td>
 	</tr>
 	
@@ -1467,7 +1571,7 @@ if media <> "export" then
 	
 	
 	if len(trim(oRec("dato"))) <> 0 then
-	loginDTShow = left(weekdayname(weekday(oRec("dato"))), 3) & "d. " & formatdatetime(oRec("dato"), 2)
+	loginDTShow = left(weekdayname(weekday(oRec("dato"))), 3) & ". " & formatdatetime(oRec("dato"), 2)
 	else
 	loginDTShow = "--"
 	end if%>
@@ -1476,7 +1580,7 @@ if media <> "export" then
         
           
         
-		<td style="height:30px;">&nbsp;</td>
+		<td style="<%=td_height%>">&nbsp;</td>
 		<td style="white-space:nowrap; padding-right:10px;" align=right>
 		<%if showTot = 1 then%>
 			<%=oRec("antal")%> stk.&nbsp;
@@ -1537,7 +1641,7 @@ if media <> "export" then
                 if (ugeerAfsl_og_autogk_smil = 0 OR level = 1 OR erTeamlederForVilkarligGruppe = -100) AND media <> "print" then%>
 			    <a href="#" onclick="Javascript:window.open('stempelur.asp?id=<%=oRec("lid")%>&menu=stat&func=redloginhist&medarbSel=<%=medarbSel%>&showonlyone=<%=showonlyone%>&hidemenu=<%=hidemenu%>&rdir=popup','','width=850,height=700,resizable=yes,scrollbars=yes')" class="vmenu"><%=loginDTShow%></a>
 			    <%else %>
-		        <b><%=loginDTShow%></b>
+		        <%=loginDTShow%>
 		        <%end if %>
 		
 		<%end if%>
@@ -1741,7 +1845,7 @@ if media <> "export" then
         <%=timerMinExpTxt%>
 		<!---<%=thours%>:<%=left(tmin, 2)%>-->
 		<%else %>
-        <b><%=timerMinExpTxt %></b>
+        <%=timerMinExpTxt %>
 		<!--<%=thours%>:<%=left(tmin, 2)%>-->
         <%end if %>
 
@@ -1806,8 +1910,7 @@ if media <> "export" then
 		
 		
 		 <% if ((ugeerAfsl_og_autogk_smil = 0 AND showTot <> 1 AND len(oRec("logud")) <> 0) OR (level = 1 AND showTot <> 1)) AND media <> "print" then%>
-		  <a href="#" onclick="Javascript:window.open('stempelur.asp?menu=<%=menu%>&func=sletlogind&id=<%=oRec("lid")%>&medarbSel=<%=medarbSel%>&showonlyone=<%=showonlyone%>&hidemenu=<%=hidemenu%>&rdir=<%=rdir%>', '', 'width=400,height=200,resizable=no')" class="vmenu">
-              <img src="../ill/slet_16.gif" border="0" /></a>
+		  <a href="#" onclick="Javascript:window.open('stempelur.asp?menu=<%=menu%>&func=sletlogind&id=<%=oRec("lid")%>&medarbSel=<%=medarbSel%>&showonlyone=<%=showonlyone%>&hidemenu=<%=hidemenu%>&rdir=<%=rdir%>', '', 'width=400,height=200,resizable=no')" class="slet">[X]</a>
 		 <%else %>
 		 &nbsp;
 		 <%end if %>      
@@ -1819,13 +1922,21 @@ if media <> "export" then
         <td>&nbsp;</td>
 	 </tr>
 	<%
+
+
+   
+
+    'Response.write "lastMid b:" & lastMid & "<br>"
+    end if 'media + showtotal
+
     lastWeek = datepart("ww", oRec("dato"), 2,2)
 	lastMnavn = meNavn
 	lastMnr = meNr
 	lastMid = oRec("lmid")
+    'lastMenavnStempelur =  meNavn & "  ["& meInit &"]"
+    lastMinit = meInit
 
-    'Response.write "lastMid b:" & lastMid & "<br>"
-    end if 'media
+    lastDato = oRec("dato")
 
 	x = x + 1
 	g = g + 1
@@ -1836,8 +1947,24 @@ if media <> "export" then
 
 
 
+     if d > 1 then 'hvis der ikke er nogen komme/gå tider skal der alligevel tjekkes for overtid
+
+     
+        if intMids(m) <> 0 then
+        thisIntMids = intMids(m)
+        else
+        thisIntMids = usemrn
+        end if
+
+       call fn_overtid(lto, dtUse, thisIntMids, 1)
+
+    end if
+
+
     if media <> "export" then
 
+
+ 
     '*** Kun fra egen logind historik ***'
     if cint(layout) = 1 then
 
@@ -1955,14 +2082,13 @@ if media <> "export" then
     if (ugeerAfsl_og_autogk_smil = 0 OR level = 1 OR erTeamlederForVilkarligGruppe = 1) AND media <> "print" then
     
     %>
-
-
-
+  
     <tr>
 		<td bgcolor="#cccccc" colspan="<%=csp+2%>" style="height:1px;"></td>
 	</tr>
 
-    <%
+    <% 
+
         'tjekker helligdag
       call helligdage(dtUse, 0, lto)
 
@@ -1979,7 +2105,7 @@ if media <> "export" then
         <input type="hidden" value="<%=formatdatetime(dtUse, 2) %>" name="logindato" />
         <!--<input type="hidden" value="<%=forvalgt_stempelur %>" name="FM_stur" />-->
 		<td>&nbsp;</td>
-		<td style="height:30px; padding-right:10px;" align=right><b><%=left(weekdayname(weekday(dtUse)), 4) %>. <%=formatdatetime(dtUse, 2) %></b></td>
+		<td style="<%=td_height%> padding-right:10px;" align=right><%=left(weekdayname(weekday(dtUse)), 3) %>. <%=formatdatetime(dtUse, 2) %></td>
         <td align=right style="white-space:nowrap;">
             
         <%if (ugeerAfsl_og_autogk_smil = 0 OR level = 1) then %>
@@ -2074,6 +2200,22 @@ if media <> "export" then
     next 'intmmids
 
 
+    '** Overtid ***
+    if cint(layout) = 0 AND d > 1 then
+
+        if lastMid <> 0 then
+        lastMid = 0
+        else
+        lastMid = usemrn
+        end if
+
+        call fn_overTid(lto, lastDato, lastMid, 1)
+    end if
+
+    if media = "export" AND showTot <> 1 then
+        stempelUrEkspTxt = stempelUrEkspTxt & "xx99123sy#z" & stempelUrEkspTxto
+    end if
+
     if media <> "export" then
 	
 	if g = 0 AND layout <> 1 then%>
@@ -2092,9 +2234,19 @@ if media <> "export" then
     if cint(layout) <> 1 AND totalhours <> 0 OR totalmin <> 0 then 
 		'Response.write "lastMnavn: " & lastMnavn & " lastMid:"& lastMid &" lastMnr. "&lastMnr &" totalhours "& totalhours  &" ¤"& totalmin &"datoer:"& sqlDatoStart &","& sqlDatoSlut
         'Response.end
-		call tottimer(lastMnavn, lastMnr, totalhours, totalmin, lastMid, sqlDatoStart, sqlDatoSlut, 1)
+
+        if cint(showTot) <> 1 then
+
+            call tottimer(lastMnavn, lastMnr, totalhoursWeek, totalminWeek, lastMid, sqlDatoStart, sqlDatoSlut, 2, lastDato)
+            totalminWeek = 0
+            totalhoursWeek = 0
+
+        end if
+
+		call tottimer(lastMnavn, lastMnr, totalhours, totalmin, lastMid, sqlDatoStart, sqlDatoSlut, 1, lastDato)
 		totalhours = 0 
 		totalmin = 0
+
 	end if%>
 	
     <tr>
@@ -2123,7 +2275,16 @@ if media <> "export" then
 
 
 
-	<%end if 'media
+	<%
+    else
+        
+        if cint(showTot) = 1 then
+            call tottimer(lastMnavn, lastMnr, totalhours, totalmin, lastMid, sqlDatoStart, sqlDatoSlut, 1, lastDato)
+		    totalhours = 0 
+		    totalmin = 0
+        end if
+
+    end if 'media
         
     end function
 
@@ -4044,57 +4205,117 @@ end function
 
 
 
-    
-function tottimer(lastMnavn, lastMnr, totalhours, totalmin, lastMid, sqlDatoStart, sqlDatoslut, vis)
+public lonTimerGT, stempelUrEkspTxtShowTot   
+function tottimer(lastMnavn, lastMnr, totalhours, totalmin, lastMid, sqlDatoStart, sqlDatoslut, vis, lastDato)
 		
+
+        'if session("mid") = 1 then
+        'Response.write totalhours &"+"& totalmin & "<br>"
+        'end if
+
+        'vis 1: total pr. uge
+        'vis 2: GT i bunden af hver medarbejder
+
 		totalmin = (60 * totalhours) + totalmin
 		lonTimer = totalmin
 		call timerogminutberegning(totalmin)
+
+        if vis = 2 OR (cint(showTot) = 1 AND vis = 1) then
+        lonTimerGT = lonTimerGT + lonTimer
+	    end if	
+
+		if cint(showTot) = 1 then
+            
+                select case lto
+                case "cst"
+	            csp = 5
+                case else
+                csp = 6
+                end select
+
 		
-		if showTot = 1 then
-		csp = 6
 		else
 		csp = 9
 		end if
 
-        'if cint(vis) = 1 then 'total / else uge sum
-		'trBg = "#ffdfdf"
-        'else
-        trBg = "#FFFFFF"
-        'end if
-		
+        ugeNummer = day(lastDato) & "/" & month(lastDato) & "/" & year(lastDato)
+        'ugeNummer = 
+
+        if cint(vis) = 1 then 'total i bunden / else uge sum
+         trBg = "#FFFFFF"
+        else
+        trBg = "lightpink"
+        end if
         
-         if vis = 1 then 'total / else uge sum%>
+      
 
-        	<tr>
-		<td bgcolor="#cccccc" colspan="<%=csp+3%>" style="height:1px;"></td>
-	</tr>
-	<%end if %>
+     if cint(showTot) = 1 AND vis = 1 then
 
-    <%  if vis = 1 OR vis = 2 then  %>
-	<tr bgcolor="<%=trBg %>">
-		<td>&nbsp;</td>
-		<td align=right colspan=<%=csp-4%> style="padding:2px;">Løntimer ialt: (stempelur)</td>
-		<td align=right><b><%=thoursTot%>:<%=left(tminTot, 2)%></b></td>
-		<%if showTot <> 1 then%>	
-		<td>&nbsp;</td>
-		<td>&nbsp;</td>
-		<td>&nbsp;</td>
+        if media <> "export" then
+    %>
+        <tr>
         <td>&nbsp;</td>
-		<%end if %>
-		<td>&nbsp;</td>
-	 </tr>
-	
-    <%end if 
-    
-    
-         if vis = 1 then%>
+        <td><%=lastMnavn & " ["& lastMinit &"]" %></td>
+        <td><%=formatdatetime(sqlDatoStart, 1) &" - "& formatdatetime(sqlDatoSlut, 1) %></td>
+        <td align=right><%=thoursTot%>:<%=left(tminTot, 2)%></td>
 
+      
+
+    <%
+        else
+
+        stempelUrEkspTxtShowTot = stempelUrEkspTxtShowTot & ""& meNavn &";"& meInit & ";" & sqlDatoStart & ";" & sqlDatoSlut & ";" 
+        stempelUrEkspTxtShowTot = stempelUrEkspTxtShowTot & ""& thoursTot&"."& left(tminTot, 2) &";"
+
+        end if
+      
+        
+                
+
+    else 
+        
+        if vis <> 1 then%>
+        <tr bgcolor="<%=trBg%>">
+		        <td>&nbsp;</td>
+                <td colspan=<%=csp-4%> style="padding:2px 2px 2px 2px; height:30px;">Løntimer (komme/gå) uge: <%=datepart("ww", ugeNummer, 2,2) %>:</td>
+        
+
+		        <td align=right><b><%=thoursTot%>:<%=left(tminTot, 2)%></b></td>
+
+		
+		        <td>&nbsp;</td>
+		        <td>&nbsp;</td>
+		        <td>&nbsp;</td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+	     </tr>
+		<%end if
+		end if
+    
+        if vis = 1 then
+        
+        trBg = "#FFFFFF"
+
+        if cint(showTot) <> 1 then
+        %>
+        <tr>
+		    <td colspan="<%=csp+3%>" style="height:10px;">&nbsp;</td>
+	    </tr>
+        <%end if %>
+
+
+      <%if cint(showTot) <> 1 then%>
 	 <tr bgcolor="<%=trbg %>">
 		<td>&nbsp;</td>
-		<td align=right colspan=<%=csp-4%> style="padding:2px;">Fradrag til løntimer: (realiseret)</td>
-		<td align=right>
+		<td colspan=<%=csp-4%> style="padding:2px;">Fradrag til løntimer:</td>
+        <%end if 
+            
+            
+         if media <> "export" then%>
+        <td align=right>
 		<%
+        end if
+
 		call akttyper2009(2)
 		
 		tiltimer = 0
@@ -4146,45 +4367,92 @@ function tottimer(lastMnavn, lastMnr, totalhours, totalmin, lastMid, sqlDatoStar
 		fradragTil = totalmin
 		call timerogminutberegning(totalmin)
 		
+        if media <> "export" then
 		%>
 		&nbsp;&nbsp;<%=thoursTot%>:<%=left(tminTot, 2)%>
-		
-		
-		</td>
+	    </td>
+         <%end if %>
+
 		<%if showTot <> 1 then%>
-		<td>&nbsp;</td>
-		<td>&nbsp;</td>
-		<td>&nbsp;</td>
-        <td>&nbsp;</td>
-		<%end if %>
-		<td>&nbsp;</td>
-	 </tr>
+		    <td>&nbsp;</td>
+		    <td>&nbsp;</td>
+		    <td>&nbsp;</td>
+            <td>&nbsp;</td>
+             <td>&nbsp;</td>
+	     </tr>
+
+        <%else
+            
+            if media = "export" then
+            stempelUrEkspTxtShowTot = stempelUrEkspTxtShowTot & ""& thoursTot&"."& left(tminTot, 2) &";"
+            end if
+     
+		end if %>
+		
 	 
+
+     <%if showTot <> 1 then%>
+
 	  <tr bgcolor="<%=trBg %>">
-		<td>&nbsp;</td>
-		<td align=right colspan=<%=csp-4%> style="padding:2px;">Løntimer efter fradrag:</td>
-		<td align=right>
-	 <%'*** Løn Timer minus fradarg *** %>
-		<%lonTimerBeregnet = lonTimer + (fradragTil)
+		<td style="padding:2px; border-bottom:1px #999999 solid;">&nbsp;</td>
+		<td colspan=<%=csp-4%> style="padding:2px; border-bottom:1px #999999 solid;"><b>Grandtotal Løntimer (komme/gå - fradrag):</b></td>
+     <%end if %>
+
+         <%if cint(showTot) <> 1 then%>
+		<td style="border-bottom:1px #999999 solid;" align=right>
+        <%else 
+            
+            if media <> "export" then%>
+        <td align=right>
+        <%end if
+            end if %>
+
+	    <%'*** Løn Timer minus fradarg *** %>
+		<%lonTimerBeregnet = lonTimerGT + (fradragTil)
 		call timerogminutberegning(lonTimerBeregnet) %>
-		&nbsp;&nbsp;<u><b><%=thoursTot%>:<%=left(tminTot, 2)%></b></u>
-		</td>
-		<%if showTot <> 1 then%>
+
+        <%if media <> "export" then %>
+		&nbsp;&nbsp;<b><%=thoursTot%>:<%=left(tminTot, 2)%></b></td>
+        <%end if
+
+             lonTimerBeregnet = 0
+             lonTimerGT = 0 
+             fradragTil = 0 
+        %>
+		
+
+          <%if showTot <> 1 then%>
+        	<td style="padding:2px; border-bottom:1px #999999 solid;">&nbsp;</td>
+		
 		<td>&nbsp;</td>
 		<td>&nbsp;</td>
 		<td>&nbsp;</td>
         <td>&nbsp;</td>
-		<%end if %>
-		<td>&nbsp;</td>
-	 </tr>
+        <td>&nbsp;</td>
+         </tr>
+        <%else 
+
+            if media = "export" then
+            stempelUrEkspTxtShowTot = stempelUrEkspTxtShowTot & ""& thoursTot&"."& left(tminTot, 2) &";"
+            end if
+
+          
+		end if %>
+	
+	
 	 
-	 <%if lto <> "cst" then %>
+	 <%if lto <> "cst" AND lto <> "cflow" then %>
 	 
+      <%if showTot <> 1 then%>
 	  <tr bgcolor="<%=trBg %>">
 		<td>&nbsp;</td>
-		<td align=right colspan=<%=csp-4%> style="padding:2px;">Realiseret timer i samme periode:</td>
-		<td align=right>
-		<%
+		<td colspan=<%=csp-4%> style="padding:2px;">Realiseret timer (projekt):</td>
+        <%end if 
+            
+            
+        if media <> "export" then %>
+        <td align=right>
+		<%end if
 		
 		
 		regtimer = 0
@@ -4201,18 +4469,122 @@ function tottimer(lastMnavn, lastMnr, totalhours, totalmin, lastMid, sqlDatoStar
 		totalmin = (60 * regtimer)
 		call timerogminutberegning(totalmin)
 		
-		%>
+		if media <> "export" then %>
 		&nbsp;&nbsp;<%=thoursTot%>:<%=left(tminTot, 2)%>
 		</td>
-		<%if showTot <> 1 then%>
+		<%end if
+            
+        if showTot <> 1 then%>
 		<td>&nbsp;</td>
 		<td>&nbsp;</td>
 		<td>&nbsp;</td>
         <td>&nbsp;</td>
-		<%end if %>
-		<td>&nbsp;</td>
-	 </tr>
+        <td>&nbsp;</td>
+	    </tr>
+		<%
+        else
+            
+             if media = "export" then
+            stempelUrEkspTxtShowTot = stempelUrEkspTxtShowTot & ""& thoursTot&"."& left(tminTot, 2) &";"
+            end if
+          
+
+        end if %>
+		
 	 <%end if %>
+
+     <%
+            
+        '**** Overtid / Overarbejde *************    
+        select case lto 
+        case "cflow", "intranet - local"
+        %>
+
+         <%if showTot <> 1 then%>
+         <tr bgcolor="<%=trBg %>">
+		<td>&nbsp;</td>
+		<td colspan=<%=csp-4%> style="padding:2px;">Overtid:</td>
+          <%
+         end if
+         
+              
+        if media <> "export" then %>
+        <td align=right>
+        <%end if
+
+        overtid = 0
+		strSQL2 = "SELECT sum(timer) AS overtid FROM timer t WHERE "_
+		&" (tmnr = "& lastMid &" AND tdato BETWEEN '"& stDtKriTL &"' AND '"& slDtKriTL &"' AND (tfaktim = 30 AND godkendtstatus = 1)) GROUP BY tmnr "
+		
+        'if session("mid") = 1 then     
+        'Response.Write strSQL2
+		'Response.flush
+        'end if
+		
+		oRec2.open strSQL2, oConn, 3 
+		if not oRec2.EOF then
+			overtid = oRec2("overtid")
+		end if
+		oRec2.close 
+		
+		if len(trim(overtid)) <> 0 then
+		overtid = overtid
+		else
+		overtid = 0
+		end if
+		
+		'Response.Write "fradtimer" & fradtimer & "# tilt#"& tiltimer
+		
+		totalmin = (60 * overtid)
+		'fradragTil = totalmin
+		call timerogminutberegning(totalmin)
+		
+		if media <> "export" then %>
+		&nbsp;&nbsp;<%=thoursTot%>:<%=left(tminTot, 2)%>
+        </td>
+        <%end if
+            
+            
+        if showTot <> 1 then%>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+        <td>&nbsp;</td>
+       <td>&nbsp;</td>
+       </tr>
+
+        <%else 
+        
+             if media = "export" then
+            stempelUrEkspTxtShowTot = stempelUrEkspTxtShowTot & ""& thoursTot&"."& left(tminTot, 2) &";"
+            end if
+           
+            
+        end if %>
+	
+	 
+
+
+        
+            
+        <%end select%>
+
+
+       <%if showTot = 1 then
+           
+            if media = "export" then
+           stempelUrEkspTxtShowTot = stempelUrEkspTxtShowTot & "xx99123sy#z"
+           end if
+
+        %>
+        </tr>
+        <%else %>
+        <tr><td colspan="10">&nbsp;<br /><br /><br /><br />&nbsp;</td></tr>
+       <%end if %>
+
+        
+
+
 	 
      <%end if 'VIS: uge 2 ell. tot 1 %>
 
@@ -4220,5 +4592,74 @@ function tottimer(lastMnavn, lastMnr, totalhours, totalmin, lastMid, sqlDatoStar
     Response.flush
 	end function
 
+
+
+
+
+
+
+    public stempelUrEkspTxto, datoOvertid, minutterExpTxtOtid
+    function fn_overtid(lto, datoOvertid, medid, showifnul)
+
+
+        select case lto
+        case "cflow", "intranet - local"
+        
+        datoSQLo = year(datoOvertid) &"/"& month(datoOvertid) &"/"& day(datoOvertid) 
+        overtid = 0
+		strSQL2 = "SELECT sum(timer) AS overtid FROM timer t WHERE "_
+		&" (tmnr = "& medid &" AND tdato = '"& datoSQLo &"' AND (tfaktim = 30 AND godkendtstatus = 1)) GROUP BY tmnr "
+		
+        'if session("mid") = 1 then
+        'Response.Write strSQL2
+		'Response.flush
+        'end if
+		
+		oRec2.open strSQL2, oConn, 3 
+		if not oRec2.EOF then
+			overtid = oRec2("overtid")
+		end if
+		oRec2.close 
+		
+		if len(trim(overtid)) <> 0 then
+		overtid = overtid
+		else
+		overtid = 0
+		end if
+		
+		'Response.Write "fradtimer" & fradtimer & "# tilt#"& tiltimer
+		
+		totalmin = (60 * overtid)
+		'fradragTil = totalmin
+		call timerogminutberegning(totalmin)
+		
+        if media <> "export" AND (showifnul = 0 OR (showifnul = 1 AND overtid > 0)) then   
+		%>
+        <tr>
+            <td colspan="1" style="height:30px; background-color:beige;">&nbsp;</td>
+            <td colspan="5" style="background-color:beige; padding:2px 2px 2px 2px;"><span style="font-size:8px; line-height:12px;"><%=left(weekdayname(weekday(datoOvertid, 1)), 3) & ". "& formatdatetime(datoOvertid, 2) %></span><br /> Overtid (godkendt):</td>
+            <td style="background-color:beige;" align="right"><b><%=thoursTot%>:<%=left(tminTot, 2)%></b></td>
+            <td style="background-color:beige;" colspan="5">&nbsp;</td>
+
+        </tr>
+		 <%
+         end if
+
+
+        if cint(showTot) <> 1 then
+
+            if (showifnul = 0 OR (showifnul = 1 AND overtid > 0)) then
+             minutterExpTxtOtid = thoursTot&":"&left(tminTot, 2)
+             stempelUrEkspTxto = stempelUrEkspTxto & meNavn &";"& meInit & ";" & datoOvertid & ";;;"& minutterExpTxtOtid &";;;;Overtid;;;;xx99123sy#z"
+            end if
+
+        end if
+         %>
+               
+
+        <%end select
+
+
+    end function
    
    %>

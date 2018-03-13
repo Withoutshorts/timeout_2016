@@ -482,7 +482,7 @@ if len(session("user")) = 0 then
      
     'call vis_lager_fn()
 
-    if lto = "dencker" OR lto = "jttek" OR lto = "mpt" then
+    if lto = "dencker" OR lto = "jttek" OR lto = "mpt" OR lto = "intranet - local" then
         vis_lager = 1
     else
         vis_lager = 0

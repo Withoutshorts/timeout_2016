@@ -3198,6 +3198,7 @@ case else
                                    
                                     <% if anloops = 0 then 
                                     Budget_GTxt = "Budget"
+                                    Budget_GTxtExp = "Budget"
 
                                     %>
                                     
@@ -3209,7 +3210,7 @@ case else
 
                                     else
                                     Budget_GTxt = "GM"  
-                                        
+                                    Budget_GTxtExp = "GM;GM %"    
                                         %>
                                         
                                         
@@ -3234,7 +3235,7 @@ case else
                                     <th style="width: 2%"><!--Indikator--></th>
                                     <%
                                     
-                                        strEkspHeader = "Init;Customer;Customer No;Job;Job No.;Status;Startdate;Delevery date; "& Budget_GTxt &"; Invoiced Total;Latest Invoicedate; Sales & External Cost.; Job %; Job % value;Sales %;Sales % value;xx99123sy#z"
+                                        strEkspHeader = "Init;Customer;Customer No;Job;Job No.;Status;Startdate;Delevery date; "& Budget_GTxtExp &"; Invoiced Total;Latest Invoicedate; Sales & External Cost.; Job %; Job % value;Sales %;Sales % value;xx99123sy#z"
                                         'To Be invoiced
                                     else 'TEAMLEDER matrix
 
@@ -3705,8 +3706,15 @@ case else
 
                                            
 
-                                            strEksport = strEksport & meInit &";"& oRec("kkundenavn") &";"& oRec("kkundenr") &";"& oRec("jobnavn") &";"& oRec("jobnr") &";" & oRec("jobstatus") &";"& oRec("jobstartdato") &";"& oRec("jobslutdato")
-                                            strEksport = strEksport &";"& formatnumber(jo_bruttooms, 2) &";"& formatnumber(fakbeloeb, 2) 
+                                            strEksport = strEksport & meInit &";"& oRec("kkundenavn") &";"& oRec("kkundenr") &";"& oRec("jobnavn") &";"& oRec("jobnr") &";" & oRec("jobstatus") &";"& oRec("jobstartdato") &";"& oRec("jobslutdato") &";"
+
+                                            if anloops = 0 then 
+                                            strEksport = strEksport & formatnumber(jo_bruttooms, 2) &";"
+                                            else
+                                            strEksport = strEksport & formatnumber(fakbeloeb-medarbSalgsOkost, 2) &";"& formatnumber(totDBclosedProc, 0) & ";"
+                                            end if
+                                            
+                                            strEksport = strEksport & formatnumber(fakbeloeb, 2) &";"
 
                                             if isDate(oRec("labeldato")) = true then 
                                             strEksport = strEksport &";"& formatdatetime(oRec("labeldato"), 2)  

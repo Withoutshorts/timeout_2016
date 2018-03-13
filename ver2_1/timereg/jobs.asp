@@ -21,6 +21,90 @@
 '** Jquery section 
 if Request.Form("AjaxUpdateField") = "true" then
 
+
+
+
+Select Case Request.Form("control")
+
+case "FN_getMatPris"
+
+    matid = request("matid")
+
+    strMatPris = 0
+
+     if len(trim(matid)) <> 0 then
+
+    strSQLmat = "SELECT m.salgspris FROM materialer m "_
+    &" WHERE m.id = "& matid
+    
+    oRec.open strSQLmat, oConn, 3
+	if not oRec.EOF then 
+
+    strMatPris = oRec("salgspris") 
+
+    end if
+    oRec.close
+
+    end if
+
+    Response.write strMatPris
+    response.end
+
+
+case "FN_getMatlisten"
+
+    sog_val = request("jq_sog_val")
+    uval = request("uval")
+    strMat = ""
+
+    
+
+    if len(trim(sog_val)) <> 0 then
+
+    strSQLmat = "SELECT m.navn AS mnavn, m.matgrp, m.varenr AS mvnr, m.id, m.antal, minlager FROM materialer m "_
+    &" WHERE m.navn LIKE '%"& sog_val &"%' OR m.varenr LIKE '%"& sog_val &"%' OR m.betegnelse LIKE '"& sog_val &"%' OR m.lokation LIKE '"& sog_val &"%' ORDER BY m.navn DESC LIMIT 100" 
+	
+	'Response.Write strSQLmat
+	'Response.end
+
+    'Response.write "HEJ: "& sog_val &" - "& strMat
+    'Response.end
+	
+	oRec.open strSQLmat, oConn, 3
+	while not oRec.EOF 
+
+                    itilbud = 0
+                    itilbudTxt = ""
+                    strSQLitilbud = "SELECT j.id, SUM(ju_stk) AS itilbud FROM job j LEFT JOIN job_ulev_ju ju ON (ju_jobid = j.id AND ju_matid = "& oRec("id") &") WHERE jobstatus = 3 AND ju_matid = "& oRec("id") &" GROUP BY ju_matid"
+                    oRec9.open strSQLitilbud, oConn, 3
+	                if not oRec9.EOF then
+
+                        if oRec9("itilbud") <> 0 then 'isnull(oRec9("itilbud")) <> true then 
+                        itilbudTxt = " - I tilbud: "& oRec9("itilbud")
+                        else
+                        itilbudTxt = ""
+                        end if
+
+                    end if
+                    oRec9.close
+
+    strMat = strMat & "<u><span style='font-size:14px; line-height:16px;' class=valgtmateriale id=valgtmateriale_"& uval &"_"& oRec("id") &">" & oRec("mnavn") & " ("& oRec("mvnr") &")</span></u> På lager: "& oRec("antal") &" "& itilbudTxt &" <br>" '&nbsp;&nbsp;[ Min. lager: "& oRec("minlager") &"]<br>" 
+
+    oRec.movenext
+    wend 
+    oRec.close
+
+      call jq_format(strMat)
+      strMat = jq_formatTxt
+
+      Response.write strMat
+      'Response.end
+
+    end if
+    Response.end
+
+case else
+
 %>
     
    
@@ -247,6 +331,8 @@ case "FN_getKundeKperslisten"
               next
 		
 
+
+end select
 end select
 Response.end
 end if
@@ -1151,11 +1237,37 @@ if len(session("user")) = 0 then
 				
 
                 '***** Jobansvarlige ***'
+                if len(trim(request("FM_jobans_1"))) <> 0 then
 				intJobans1 = request("FM_jobans_1")
+                else
+                intJobans1 = 0
+                end if
+
+                 if len(trim(request("FM_jobans_2"))) <> 0 then
 				intJobans2 = request("FM_jobans_2")
+                else
+                intJobans2 = 0
+                end if
+
+                 if len(trim(request("FM_jobans_3"))) <> 0 then
 				intJobans3 = request("FM_jobans_3")
+                else
+                intJobans3 = 0
+                end if
+
+                 if len(trim(request("FM_jobans_4"))) <> 0 then
 				intJobans4 = request("FM_jobans_4")
+                else
+                intJobans4 = 0
+                end if
+
+                 if len(trim(request("FM_jobans_5"))) <> 0 then
 				intJobans5 = request("FM_jobans_5")
+                else
+                intJobans5 = 0
+                end if
+
+				
 
                 if len(trim(request("FM_jobans_proc_1"))) <> 0 then
 				jobans_proc_1 = request("FM_jobans_proc_1")
@@ -1246,10 +1358,32 @@ if len(session("user")) = 0 then
                 '***** Salg ansvarlige ******
                 if len(trim(request("FM_salgsans_1"))) <> 0 then ' er slags ansvarlige slået til / vist
                 salgsans1 = request("FM_salgsans_1")
+
+                if len(trim(request("FM_salgsans_2"))) <> 0 then
 				salgsans2 = request("FM_salgsans_2")
+                else
+                salgsans2 = 0
+                end if
+
+				if len(trim(request("FM_salgsans_3"))) <> 0 then
 				salgsans3 = request("FM_salgsans_3")
+                else
+                salgsans3 = 0
+                end if
+
+				if len(trim(request("FM_salgsans_4"))) <> 0 then
 				salgsans4 = request("FM_salgsans_4")
+                else
+                salgsans4 = 0
+                end if
+
+				if len(trim(request("FM_salgsans_5"))) <> 0 then
 				salgsans5 = request("FM_salgsans_5")
+                else
+                salgsans5 = 0
+                end if
+
+
                 else
                 salgsans1 = 0
 				salgsans2 = 0
@@ -3534,6 +3668,12 @@ if len(session("user")) = 0 then
                                 ulevid = 0
                                 end if
 
+                                if len(trim(request("ulevmatid_"&u&""))) <> 0 then
+                                ulevmatid = request("ulevmatid_"&u&"")
+                                else
+                                ulevmatid = 0
+                                end if
+
                                 ulevfase = "" 'replace(request("ulevfase_"&u&""), "'", "''")
 							    ulevnavn = replace(request("ulevnavn_"&u&""), "'", "''")
 							    
@@ -3655,7 +3795,7 @@ if len(session("user")) = 0 then
 
                                             strSQLUpdUlev = "UPDATE job_ulev_ju SET "_
 							                &" ju_fase = '"& ulevfase &"', ju_navn = '"& ulevnavn &"', ju_ipris = "& ulevpris &", "_
-							                &" ju_faktor = "& ulevfaktor &", ju_belob = "& ulevbelob &",  ju_jobid = "& varJobId & ", ju_stk = "& ulevstk &", ju_stkpris = "& ulevstkpris &","
+							                &" ju_faktor = "& ulevfaktor &", ju_belob = "& ulevbelob &",  ju_jobid = "& varJobId & ", ju_stk = "& ulevstk &", ju_stkpris = "& ulevstkpris &", ju_matid = "& ulevmatid &", "
                         
                                              if cint(budgetakt) = 2 then 
                                              strSQLUpdUlev = strSQLUpdUlev & " ju_konto_label = '"& ulevkonto &"' WHERE ju_id = " & ulevid
@@ -3671,7 +3811,7 @@ if len(session("user")) = 0 then
     							
 						                    strSQLInsUlev = "INSERT INTO job_ulev_ju SET "_
 							                &" ju_fase = '"& ulevfase &"', ju_navn = '"& ulevnavn &"', ju_ipris = "& ulevpris &", "_
-							                &" ju_faktor = "& ulevfaktor &", ju_belob = "& ulevbelob &",  ju_jobid = "& varJobId& ", ju_stk = "& ulevstk &", ju_stkpris = "& ulevstkpris & ","
+							                &" ju_faktor = "& ulevfaktor &", ju_belob = "& ulevbelob &",  ju_jobid = "& varJobId& ", ju_stk = "& ulevstk &", ju_stkpris = "& ulevstkpris & ", ju_matid = "& ulevmatid &", "
                         
                                              
                                              if cint(budgetakt) = 2 then 
@@ -4566,9 +4706,6 @@ if len(session("user")) = 0 then
 	
 	editok = 1
 	
-	jobans1 = 0
-	jobans2 = 0
-	
 	ikkeBudgettimer = 0
 	strBudgettimer = 0
 	
@@ -4639,6 +4776,30 @@ if len(session("user")) = 0 then
     strKundeId = 0
     end if
 
+
+    jobans1 = 0
+	
+    select case lto
+    case "epi2017", "intranet - local"
+
+        '* Jobans 2 NEDARVES FRA KUNDE kudneans1 
+        strSQLforvalgt_kans = "SELECT kundeans1 FROM kunder WHERE kid  = "& strKundeId
+        oRec.open strSQLforvalgt_kans, oConn, 3
+        if not oRec.EOF then
+        
+        jobans2 = oRec("kundeans1")
+       
+        end if
+        oRec.close
+
+    case "mpt"
+    jobans2 = 4
+    case else
+    jobans2 = 0
+    end select
+
+    
+
     select case lto 
     case "fe"
     intprio = 1
@@ -4694,17 +4855,19 @@ if len(session("user")) = 0 then
 
 
     restestimat = 0
-    stade_tim_proc = 0
+    
 
     select case lto
     case "epi", "epi_no", "epi_sta", "intranet - local", "epi_ab", "epi_cati", "epi_uk", "epi2017"
 	virksomheds_proc = 50
 	syncslutdato = 0 '1
     intSandsynlighed = 10
+    stade_tim_proc = 1
     case else
     virksomheds_proc = 0
 	syncslutdato = 0
     intSandsynlighed = 0
+    stade_tim_proc = 0
     end select
     
     altfakadrCHK = ""
@@ -4911,6 +5074,9 @@ if len(session("user")) = 0 then
 	
 	
 	end if
+
+
+
 
 
     if cint(jo_usefybudgetingt) <> 0 then
@@ -5899,37 +6065,132 @@ if len(session("user")) = 0 then
 					
 						select case ja
 						case 1
-						'jbansImg = "<img src='../ill/ac0019-24.gif' width='24' height='24' alt='Jobansvarlig' border='0'>"
-                        if cint(showSalgsAnv) = 1 then 
-						jbansTxt = job_txt_230
-                        else
-                        jbansTxt = job_txt_023
-                        end if
-						jobansField = "jobans1, jobans_proc_1"
+
+						    'jbansImg = "<img src='../ill/ac0019-24.gif' width='24' height='24' alt='Jobansvarlig' border='0'>"
+                            if cint(showSalgsAnv) = 1 then 
+						    jbansTxt = job_txt_230 & ":"
+                            else
+                            jbansTxt = job_txt_023 & ":"
+                            end if
+						    jobansField = "jobans1, jobans_proc_1"
+
+
+                                select case lto
+                                case "intranet - local", "epi2017"
+                                    fltDis = ""
+                                    fltProcDis = ""
+                                case else 
+                                    fltDis = ""
+                                    fltProcDis = ""
+                                end select
+
 						case 2
 						'jbansImg = "<img src='../ill/ac0020-24.gif' width='24' height='24' alt='Jobejer' border='0'>"
-						jbansTxt = job_txt_024
+						jbansTxt = job_txt_024 & ":"
 						jobansField = "jobans2, jobans_proc_2"
+
+
+                                select case lto
+                                case "intranet - local", "epi2017"
+                                    fltDis = ""
+                                    
+                                    if func = "red" then 'AND cDate(strTdato) < cDate("01-01-2018")
+                                    fltProcDis = ""
+                                    else
+                                    fltProcDis = "Disabled"
+                                    end if
+
+                                case else 
+                                    fltDis = ""
+                                    fltProcDis = ""
+                                end select
+
 						case 3
 						'jbansImg = "<img src='../ill/blank.gif' width='24' height='24' alt='Jobejer' border='0'>"
-						jbansTxt = job_txt_128&" 1"
+                        select case lto
+                        case "intranet - local", "epi2017"
+						jbansTxt = job_txt_128 & ":"
+                        case else 
+                        jbansTxt = job_txt_128&" 1:"
+                        end select
 						jobansField = "jobans3, jobans_proc_3"
+
+                                select case lto
+                                case "intranet - local", "epi2017"
+                                    fltDis = ""
+                                    fltProcDis = ""
+                                case else 
+                                    fltDis = ""
+                                    fltProcDis = ""
+                                end select
+
 						case 4
 						'jbansImg = "<img src='../ill/blank.gif' width='24' height='24' alt='Jobejer' border='0'>"
-						jbansTxt = job_txt_128&" 2"
+						 select case lto
+                        case "intranet - local", "epi2017"
+                              if func = "red" AND cDate(strTdato) < cDate("02-01-2018") then
+                              jbansTxt = "Co. resp. 2:"
+                              else
+                              jbansTxt = ""
+                              end if
+                        case else
+						jbansTxt = job_txt_128&" 2:"
+                        end select
 						jobansField = "jobans4, jobans_proc_4"
+
+                                 select case lto
+                                case "intranet - local", "epi2017"
+                                    
+                                    if func = "red" AND cDate(strTdato) < cDate("02-01-2018") then
+                                        fltDis = ""
+                                        fltProcDis = ""
+                                    else
+                                        fltDis = "Disabled"
+                                        fltProcDis = "Disabled"
+                                    end if
+
+                                case else 
+                                    fltDis = ""
+                                    fltProcDis = ""
+                                end select
+
 						case 5
 						'jbansImg = "<img src='../ill/blank.gif' width='24' height='24' alt='Jobejer' border='0'>"
-						jbansTxt = job_txt_128&" 3"
+                        select case lto
+                        case "intranet - local", "epi2017"
+                             if func = "red" AND cDate(strTdato) < cDate("02-01-2018") then
+                              jbansTxt = "Co. resp. 3:"
+                              else
+                              jbansTxt = ""
+                              end if
+                        case else
+						jbansTxt = job_txt_128&" 3:"
+                        end select
 						jobansField = "jobans5, jobans_proc_5"
+
+
+                                 select case lto
+                                case "intranet - local", "epi2017"
+                                    if func = "red" AND cDate(strTdato) < cDate("02-01-2018") then
+                                        fltDis = ""
+                                        fltProcDis = ""
+                                    else
+                                        fltDis = "Disabled"
+                                        fltProcDis = "Disabled"
+                                    end if
+                                case else 
+                                    fltDis = ""
+                                    fltProcDis = ""
+                                end select
+
 						end select
 						
 						%>
 						<tr>
 						<!--<td><%=jbansImg  %></td>-->
 						<td>
-						<b><%=jbansTxt %>:</b></td><td>
-						&nbsp;&nbsp;<select name="FM_jobans_<%=ja %>" id="FM_jobans_<%=ja %>" style="width:<%=selWdt%>;">
+						<b><%=jbansTxt %></b></td><td>
+						&nbsp;&nbsp;<select name="FM_jobans_<%=ja %>" id="FM_jobans_<%=ja %>" style="width:<%=selWdt%>;" <%=fltDis %>>
 						<option value="0"><%=job_txt_129 %></option>
 							<%
 
@@ -5953,13 +6214,26 @@ if len(session("user")) = 0 then
 							while not oRec.EOF 
 							
 							if func <> "red" then
-							  if ja = 1 then
+							 
+                              select case ja 
+                              case 1 
 							  usemed = session("mid")
                               jobans_proc = 100
-							  else
+                              case 2
+                                    
+                                    select case lto
+                                    case "intranet - local", "epi2017", "mpt"
+                                    usemed = jobans2 
+                                    jobans_proc = 0
+                                    case else
+                                    usemed = 0
+                                    jobans_proc = 0
+                                    end select
+							  
+                              case else
 							  usemed = 0
                               jobans_proc = 0
-							  end if
+							  end select
 
                               
 
@@ -6014,7 +6288,7 @@ if len(session("user")) = 0 then
 							oRec.close 
 							%>
 						</select>
-						</td><td style="white-space:nowrap;"><input id="FM_jobans_proc_<%=ja %>" name="FM_jobans_proc_<%=ja %>" value="<%=formatnumber(jobans_proc, 1) %>" type="text" style="width:40px; <%=sltuDatoCol%>;" /> %</td></tr>
+						</td><td style="white-space:nowrap;"><input id="FM_jobans_proc_<%=ja %>" name="FM_jobans_proc_<%=ja %>" value="<%=formatnumber(jobans_proc, 1) %>" type="text" style="width:40px; <%=sltuDatoCol%>;" <%=fltProcDis %> /> %</td></tr>
                             
 						<%next %>
 						
@@ -6035,32 +6309,106 @@ if len(session("user")) = 0 then
 						select case sa
 						case 1
 						'jbansImg = "<img src='../ill/ac0019-24.gif' width='24' height='24' alt='Jobansvarlig' border='0'>"
-						saansTxt = job_txt_321 & " 1"
+						saansTxt = job_txt_322 & " 1:" 'job_txt_321
 						salgsansField = "salgsans1, salgsans1_proc"
 						case 2
 						'jbansImg = "<img src='../ill/ac0020-24.gif' width='24' height='24' alt='Jobejer' border='0'>"
-						saansTxt = job_txt_322 & " 2"
+						
 						salgsansField = "salgsans2, salgsans2_proc"
+
+                                select case lto
+                                case "xintranet - local", "xepi2017"
+                                    if func = "red" AND cDate(strTdato) < cDate("02-01-2018") then
+                                        fltSaDis = ""
+                                        fltSaProcDis = ""
+                                        saansTxt = job_txt_322 & " 2:"
+                                    else
+                                        fltSaDis = "Disabled"
+                                        fltSaProcDis = "Disabled"
+                                        saansTxt = ""
+                                    end if
+                                case else 
+                                    fltSaDis = ""
+                                    fltSaProcDis = ""
+                                    saansTxt = job_txt_322 & " 2:"
+                                end select
+
 						case 3
 						'jbansImg = "<img src='../ill/blank.gif' width='24' height='24' alt='Jobejer' border='0'>"
-						saansTxt = job_txt_322 & " 3"
+						 
 						salgsansField = "salgsans3, salgsans3_proc"
+
+                             select case lto
+                                case "xintranet - local", "xepi2017"
+                                    if func = "red" AND cDate(strTdato) < cDate("02-01-2018") then
+                                        fltSaDis = ""
+                                        fltSaProcDis = ""
+                                        saansTxt = job_txt_322 & " 3:"
+                                    else
+                                        fltSaDis = "Disabled"
+                                        fltSaProcDis = "Disabled"
+                                        saansTxt = ""
+                                    end if
+                                case else 
+                                    fltSaDis = ""
+                                    fltSaProcDis = ""
+                                    saansTxt = job_txt_322 & " 3:"
+                                end select
+
 						case 4
 						'jbansImg = "<img src='../ill/blank.gif' width='24' height='24' alt='Jobejer' border='0'>"
-						saansTxt = job_txt_322 & " 4"
+					
 						salgsansField = "salgsans4, salgsans4_proc"
+
+
+                             select case lto
+                                case "xintranet - local", "xepi2017"
+                                    if func = "red" AND cDate(strTdato) < cDate("02-01-2018") then
+                                        fltSaDis = ""
+                                        fltSaProcDis = ""
+                                        saansTxt = job_txt_322 & " 4:"
+                                    else
+                                        fltSaDis = "Disabled"
+                                        fltSaProcDis = "Disabled"
+                                        saansTxt = ""
+                                    end if
+                                case else 
+                                    fltSaDis = ""
+                                    fltSaProcDis = ""
+                                    saansTxt = job_txt_322 & " 4:"
+                                end select
+
 						case 5
 						'jbansImg = "<img src='../ill/blank.gif' width='24' height='24' alt='Jobejer' border='0'>"
-						saansTxt = job_txt_322 & " 5"
+						
 						salgsansField = "salgsans5, salgsans5_proc"
+
+
+                             select case lto
+                                case "xintranet - local", "xepi2017"
+                                    if func = "red" AND cDate(strTdato) < cDate("02-01-2018") then
+                                        fltSaDis = ""
+                                        fltSaProcDis = ""
+                                        saansTxt = job_txt_322 & " 5:"
+                                    else
+                                        fltSaDis = "Disabled"
+                                        fltSaProcDis = "Disabled"
+                                        saansTxt = ""
+                                    end if
+                                case else 
+                                    fltSaDis = ""
+                                    fltSaProcDis = ""
+                                    saansTxt = job_txt_322 & " 5:"
+                                end select
+
 						end select
 						
 						%>
 						<tr>
 						<!--<td><%=jbansImg  %></td>-->
 						<td>
-						<b><%=saansTxt %>:</b></td><td>
-						&nbsp;&nbsp;<select name="FM_salgsans_<%=sa %>" id="Select4" style="width:<%=selWdt%>;">
+						<b><%=saansTxt%></b></td><td>
+						&nbsp;&nbsp;<select name="FM_salgsans_<%=sa %>" id="Select4" style="width:<%=selWdt%>;" <%=fltSaDis %>>
 						<option value="0"><%=job_txt_129 %></option>
 							<%
 							
@@ -6079,7 +6427,8 @@ if len(session("user")) = 0 then
 							while not oRec.EOF 
 							
 							if func <> "red" then
-							  if sa = 1 then
+							  
+                              if sa = 1 then
 							  usemed = session("mid")
                               salgsans_proc = 0
 							  else
@@ -6090,23 +6439,23 @@ if len(session("user")) = 0 then
                               
 
 							else
-							    select case sa
-						        case 1
-						        usemed = oRec("salgsans1")
-                                salgsans_proc = oRec("salgsans1_proc")
-						        case 2
-						        usemed = oRec("salgsans2")
-                                salgsans_proc = oRec("salgsans2_proc")
-						        case 3
-						        usemed = oRec("salgsans3")
-                                salgsans_proc = oRec("salgsans3_proc")
-						        case 4
-						        usemed = oRec("salgsans4")
-                                salgsans_proc = oRec("salgsans4_proc")
-						        case 5
-						        usemed = oRec("salgsans5")
-                                salgsans_proc = oRec("salgsans5_proc")
-						        end select
+							            select case sa
+						                case 1
+						                usemed = oRec("salgsans1")
+                                        salgsans_proc = oRec("salgsans1_proc")
+						                case 2
+						                usemed = oRec("salgsans2")
+                                        salgsans_proc = oRec("salgsans2_proc")
+						                case 3
+						                usemed = oRec("salgsans3")
+                                        salgsans_proc = oRec("salgsans3_proc")
+						                case 4
+						                usemed = oRec("salgsans4")
+                                        salgsans_proc = oRec("salgsans4_proc")
+						                case 5
+						                usemed = oRec("salgsans5")
+                                        salgsans_proc = oRec("salgsans5_proc")
+						                end select
 							end if
 							
 								if cdbl(usemed) = oRec("mid") then
@@ -6132,14 +6481,14 @@ if len(session("user")) = 0 then
                                 end if
 
                             %>
-							<option value="<%=oRec("mid")%>" <%=medsel%>><%=opTxt %></option>
+							<option value="<%=oRec("mid")%>" <%=medsel%>><%=opTxt %> // <%=usemed %></option>
 							<%
 							oRec.movenext
 							wend
 							oRec.close 
 							%>
 						</select>
-						</td><td style="white-space:nowrap;"><input id="FM_salgsans_proc_<%=sa %>" name="FM_salgsans_proc_<%=sa %>" value="<%=formatnumber(salgsans_proc, 1) %>" type="text" style="width:40px; <%=sltuDatoCol%>;" /> %</td></tr>
+						</td><td style="white-space:nowrap;"><input id="FM_salgsans_proc_<%=sa %>" name="FM_salgsans_proc_<%=sa %>" value="<%=formatnumber(salgsans_proc, 1) %>" type="text" style="width:40px; <%=sltuDatoCol%>;" <%=fltSaProcDis %> /> %</td></tr>
                             
 						<%next %>
 						
@@ -6177,7 +6526,7 @@ if len(session("user")) = 0 then
                         <%if func <> "red" then
 
                             select case lto
-                            case "synergi1", "qwert", "hestia"
+                            case "synergi1", "qwert", "hestia", "mpt"
                             advJobansCHK = "CHECKED"
                             case "dencker"
 
@@ -8051,9 +8400,13 @@ end select '*** Step %>
             
             </td>
 		<td class='alt' valign=bottom align=center style="padding-left:5px; width:100px;"><b><%=job_txt_247 %></b></td>
-		<td class='alt' valign=bottom style="width:160px;"><b><%=job_txt_248 %></b><br />
+		<td class='alt' valign=bottom style="width:160px;"><b><%=job_txt_248 %></b>
+        
+        <!--<br />
         <%=job_txt_249 %><br />
         <span style="font-size:9px; line-height:10px; color:#CCCCCC;"><%=job_txt_250 %> <br />(<%=job_txt_251 %>) <br />/ <%=job_txt_252 %></span></td>
+        -->
+
 		<td class='alt' valign=bottom colspan=2><b><%=job_txt_132 %></b>
 		</td>
 		
@@ -8144,6 +8497,13 @@ end select '*** Step %>
 	call akttyper2009(2)
 
 	'*** Real timer og Proafsluttet **************************
+    select case lto
+    case "dencker"
+        aty_sql_realhours = aty_sql_realhours & " OR tfaktim = 90"
+    case else
+        aty_sql_realhours = aty_sql_realhours
+    end select
+
 	strSQL = "SELECT sum(timer) AS proafslut FROM timer WHERE Tjobnr = '" & oRec("jobnr") &"' AND ("& aty_sql_realhours &") "
 	oRec3.open strSQL, oConn, 3
 	
@@ -8798,11 +9158,14 @@ end select '*** Step %>
 			    faktotbel = 0
                 fakturaBel_tot = 0
 			    strSQLffak = "SELECT f.fid, f.faknr, f.aftaleid, f.faktype, f.jobid, f.fakdato, f.beloeb, "_
-			    &" f.faktype, f.kurs, SUM(fd.aktpris) AS aktbel, brugfakdatolabel, labeldato, fakadr FROM fakturaer f "_
+			    &" f.faktype, f.kurs, SUM(fd.aktpris) AS aktbel, brugfakdatolabel, labeldato, fakadr, shadowcopy, f.valuta FROM fakturaer f "_
 			    &" LEFT JOIN faktura_det AS fd ON (fd.fakid = f.fid AND fd.enhedsang <> 3)"_
 			    &" WHERE jobid = " & oRec("id") & ""_
-			    &" AND aftaleid = 0 AND shadowcopy = 0"_
 			    &" GROUP BY f.fid ORDER BY f.fakdato DESC"
+
+                '&" AND aftaleid = 0 AND shadowcopy = 0"_
+
+
 			    'Response.Write "strSQLffak<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>" & strSQLffak 
 			    'Response.flush
 			    f = 0
@@ -8816,15 +9179,97 @@ end select '*** Step %>
                     fakDato = job_txt_622&": "& oRec3("fakdato")
                     end if
 			       
+
+                              strFakAftNavn = ""
+
+                             if oRec3("shadowcopy") = 1 then 'AND oRec2("aftaleid") <> 0 then
+               
+                   
+
+                                        strSQLFakorg = "SELECT f.fid, f.beloeb, f.valuta, f.kurs, f.faktype, f.aftaleid, fd.aktpris FROM fakturaer f "_
+                                        &" LEFT JOIN faktura_det fd ON (fd.fakid = f.fid AND fd.aktid = "& oRec("id") &") WHERE faknr = "& oRec3("faknr") &" AND shadowcopy <> 1 "
+
+                                        oRec8.open strSQLFakorg, oConn, 3
+                                        if not oRec8.EOF then
+
+                        
+                                            fakValuta = oRec8("valuta")
+                                            fakKurs = oRec8("kurs")
+                                            fakbeloeb = oRec8("aktpris") 'oRec8("beloeb")
+                                            fakType = oRec8("faktype")
+                                            fakAftaleid = oRec8("aftaleid")
+                                            fakAktbel = oRec8("aktpris")
+
+                       
+                                        end if
+                                        oRec8.close
+
+                                         
+                                        if fakAftaleid <> "" then
+                                        fakAftaleid = fakAftaleid
+                                        else
+                                        fakAftaleid = 0
+                                        end if
+                                        
+            
+                                        strSQLaftale = "SELECT navn, aftalenr FROM serviceaft WHERE id = " & fakAftaleid
+                                        oRec8.open strSQLaftale, oConn, 3
+                                        if not oRec8.EOF then
+                                        
+                                        strFakAftNavn = "<span style=""font-size:9px; color:#999999;""> - " & left(oRec8("navn"), 3) & " ("& oRec8("aftalenr") &")</span>" 
+                                        
+                                        end if
+                                        oRec8.close
+
+
+
+                                else
+                        
+                 
+                        
+                                fakValuta = oRec3("valuta")
+                                fakKurs = oRec3("kurs")
+                                fakBeloeb = oRec3("beloeb")
+                                fakType = oRec3("faktype")
+                                fakAktbel = oRec3("aktbel")
+
+                                end if 'shadowcopy
+
 			          
                       %>
                       <tr><td class=lille valign=top>
                       <%
-			        if cdate(oRec3("fakdato")) >= cdate("01-01-2006") AND editok = 1 then%>
-			        <a href="erp_opr_faktura_fs.asp?visminihistorik=1&visfaktura=2&visjobogaftaler=1&id=<%=oRec3("fid")%>&FM_jobonoff=<%=FM_jobonoffval%>&FM_kunde=<%=oRec3("fakadr")%>&FM_job=<%=oRec3("jobid")%>&FM_aftale=<%=oRec3("aftaleid")%>&fromfakhist=1" class="lgron" target="_blank"><b><%=oRec3("faknr") &"</b>"%></a></td>
-                    <td align=right class=lille valign=top> <%=fakDato %> <br />
+			        
+                          
+                            if cdate(oRec3("fakdato")) >= cdate("01-01-2006") AND editok = 1 then
+                          
+                         
+
+                                if cint(oRec3("shadowcopy")) = 0 then
+                    
+                                    fidLink = oRec3("fid")    
+
+                                else
+                        
+                                strSQLFakorg = "SELECT fid FROM fakturaer WHERE faknr = "& oRec3("faknr") &" AND shadowcopy <> 1"
+                                oRec8.open strSQLFakorg, oConn, 3
+                                if not oRec8.EOF then
+
+                                    fidLink = oRec8("fid")
+
+                                end if
+                                oRec8.close
+
+
+                            end if
+                          
+                          %>
+			              <a href="erp_opr_faktura_fs.asp?visminihistorik=1&visfaktura=2&visjobogaftaler=1&id=<%=fidLink%>&FM_jobonoff=<%=FM_jobonoffval%>&FM_kunde=<%=oRec3("fakadr")%>&FM_job=<%=oRec3("jobid")%>&FM_aftale=<%=oRec3("aftaleid")%>&fromfakhist=1" class="lgron" target="_blank"><b><%=oRec3("faknr") &"</b>"%></a> 
+                          <%=strFakAftNavn %></td>
+
+                    <td align=right class=lille valign=top><%=fakDato %><br />
                     <%else%>
-                    <b><%=oRec3("faknr") &"</b></td><td align=right class=lille valign=top> "& fakDato %><br />
+                    <b><%=oRec3("faknr") &"</b> "& strFakAftNavn &"</td><td align=right class=lille valign=top> "& fakDato %><br />
                     <% end if
                     
 
@@ -8833,9 +9278,12 @@ end select '*** Step %>
                       </td></tr>
                       <%
                     
+
+
+                  
                      
-	                call beregnValuta(minus&(oRec3("beloeb")),oRec3("kurs"),100)
-                    if oRec3("faktype") <> 1 then
+	                call beregnValuta(minus&(fakBeloeb),fakKurs,100)
+                    if fakType <> 1 then
                     belobGrundVal = valBelobBeregnet
                     else
                     belobGrundVal = -valBelobBeregnet
@@ -8848,8 +9296,8 @@ end select '*** Step %>
        
                     
 	                        '** Kun aktiviteter timer, enh. stk. IKKE materialer og KM
-	                        call beregnValuta(minus&(oRec3("aktbel")),oRec3("kurs"),100)
-                            if oRec3("faktype") <> 1 then
+	                        call beregnValuta(minus&(fakAktbel),fakKurs,100)
+                            if fakType <> 1 then
                             belobKunTimerStk = valBelobBeregnet
                             else
                             belobKunTimerStk = -valBelobBeregnet
@@ -8897,7 +9345,7 @@ end select '*** Step %>
 	        end if
 
             totRealialt = totRealialt + (proaf)
-                %>
+            %>
 
 
          </td>

@@ -322,7 +322,7 @@
                
                        <tbody>
                            <tr>
-                               <td><a href="medarb.asp?func=red&id=<%=oRec("Mid") %>"><%=oRec("Mnavn")%> 
+                               <td><a href="medarb.asp?func=red&id=<%=oRec("Mid") %>" target="_blank"><%=oRec("Mnavn")%> 
                                    <% 
                                     if len(trim(oRec("init"))) <> 0 then
                                     %>
@@ -443,7 +443,7 @@
              
                     <tbody>
                    <tr>
-                       <td><a href="medarb.asp?func=red&id=<%=oRec("Mid") %>"><%=oRec("Mnavn")%>
+                       <td><a href="medarb.asp?func=red&id=<%=oRec("Mid") %>" target="_blank"><%=oRec("Mnavn")%>
                            <% 
                             if len(trim(oRec("init"))) <> 0 then
                             %>

@@ -38,6 +38,10 @@ if len(session("user")) = 0 then
      usemrn = session("mid")
      end if
 
+     'if usemrn = 1 then
+     'usemrn = 35
+     'end if
+
      func = request("func")
 
      if len(trim(request("mthuse"))) <> 0 then

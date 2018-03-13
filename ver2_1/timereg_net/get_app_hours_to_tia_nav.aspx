@@ -11,6 +11,9 @@
 <%@  Import Namespace="System.Web.UI" %> 
 <%@  Import Namespace="System.Web.UI.Webcontrols" %>
 <%@  Import Namespace="System.Collections.Generic" %>
+<%@  Import Namespace="System.Web.Mail" %>
+
+
 <!--@ Page Language="C#" AutoEventWireup="true" CodeFile="importer_job_wilke.cs" Inherits="importer_job_wilke" 
 
     <!--@  Import Namespace="System.Globalization" -->
@@ -149,9 +152,13 @@
         'Dim dt As DataTable
         'Dim dr As DataRow
 
+        Dim errorFound As Integer = 0
+        Dim errorFoundTxt As String = ""
 
 
-
+        '*** MAIL *****
+        Dim mailmodtagerOK As Integer = 0
+        Dim strSQLlastJobIDMail As String = ""
 
 
 
@@ -194,6 +201,24 @@
         'Dim CallWebService As New WebReferenceNAVTia_sendhours.TimeOut
         'CallWebService.Credentials = New System.Net.NetworkCredential(”tiademo”, ”Monday2017”, ”DEVX01”)
 
+        Dim stDate As Date
+        Dim slDate As Date
+        '** Henter startdate
+        Dim strSQLstDato As String = "Select lk_dato FROM lon_korsel WHERE lk_id > 0 ORDER BY lk_id DESC limit 1"
+        objCmd = New OdbcCommand(strSQLstDato, objConn)
+        objDR = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
+
+        If objDR.Read() = True Then
+
+            stDate = objDR("lk_dato")
+
+        End If
+        objDR.Close()
+
+        stDate = DateAdd("d", 1, stDate)
+        slDate = DateAdd("m", 1, stDate)
+        slDate = DateAdd("d", -1, slDate)
+
         '** PROD ENViRoNMENT
         Dim CallWebService As New WebReferenceNAVTiaProd_sendhours.TimeOut
         CallWebService.Credentials = New System.Net.NetworkCredential(”Timeout”, ”Tia2017!”, ”tia.local”)
@@ -202,13 +227,20 @@
         Dim datSQLformat As String = "yyyy-M-d"
         Dim overfortDatoSQL As String = dDato.ToString(datSQLformat)
 
+
+        Dim stDatoSQLformat As String = "yyyy-M-d"
+        stDatoSQLformat = stDate.ToString(stDatoSQLformat)
+
+        Dim slDatoSQLformat As String = "yyyy-M-d"
+        slDatoSQLformat = slDate.ToString(slDatoSQLformat)
+
         ''AND jobnr BETWEEN 7000 AND 72000
 
         Dim strSQLmedins As String = "SELECT tid, timer, m.init, tdato, tjobnr, a.avarenr, timerkom, tmnr "
         strSQLmedins += "FROM timer AS t "
         strSQLmedins += "LEFT JOIN medarbejdere AS m ON (m.mid = t.tmnr) "
         strSQLmedins += "LEFT JOIN aktiviteter AS a ON (a.id = t.taktivitetid) "
-        strSQLmedins += "WHERE tdato BETWEEN '2017-10-01' AND '2017-12-31' AND overfort = 0 AND godkendtstatus = 1 AND tmnr <> 1 AND timer <> 0 AND tfaktim <> '90' ORDER BY tid" ' AND avarenr <> '' AND avarenr IS NOT NULL ORDER BY tid "
+        strSQLmedins += "WHERE tdato BETWEEN '" & stDatoSQLformat & "' AND '" & slDatoSQLformat & "' AND (overfort = 0 OR overfort = 2) AND (godkendtstatus = 1) AND tmnr <> 1 AND timer <> 0 AND tfaktim <> '90' ORDER BY tid" ' AND avarenr <> '' AND avarenr IS NOT NULL ORDER BY tid "
         'AND tjobnr = 'PS1157'
         'timer_dobbel_20171103
         'strSQLmedins += "LIMIT 10"
@@ -220,11 +252,6 @@
         While objDR.Read() = True
 
 
-            'Response.Write("<br>" & objDR("tdato") & "," & objDR("tjobnr") & "," & objDR("avarenr") & "," & objDR("init") & "," & objDR("timer"))
-            'Response.Write(objDR("tdato") & "," & objDR("tjobnr") & ",111111," & objDR("init") & "," & objDR("timer") & "," & objDR("timerkom") & "," & objDR("tid"))
-            'Response.Flush()
-            'CallWebService.SendJournalData(objDR("tdato"), objDR("tjobnr"), "1234", objDR("init"), objDR("timer"), "AA", objDR("tid"))
-            'Try
 
 
 
@@ -268,70 +295,66 @@
 
             avarenr = UCase(Replace(avarenr, tjobnr, ""))
 
-            'Response.Write("<br>" & objDR("tdato") & "," & objDR("tjobnr") & "," & avarenr & "," & objDR("init") & "," & Timerthis)
-            'Response.Write(objDR("tdato") & "," & objDR("tjobnr") & ",111111," & objDR("init") & "," & objDR("timer") & "," & objDR("timerkom") & "," & objDR("tid"))
-            'Response.Flush()
 
-            'If avarenr <> "" And avarenr <> "0" Then
-
-            'CallWebService.SendJournalData(tdato, tjobnr, avarenr, init, Timerthis, timerKom, objDR("tid"))
-
-            ' Set up structured error handling.
-            'Try
-            ' Cause a "Divide by Zero" exception.
+            'Set up structured error handling.
+            Try
+                ' Cause a "Divide by Zero" exception.
 
 
-            'If CallWebService.SendJournalData(tdato, tjobnr, avarenr, init, Timerthis, timerKom, objDR("tid")) = False Then
-            'Dim strSQLtimerOverfort As String = "UPDATE timer SET overfort = 2, overfortdt = '" & overfortDatoSQL & "' WHERE tid = " & objDR("tid")
-            '''Dim strSQLtimerOverfort As String = "UPDATE timer_dobbel_20171004_3_e SET overfort = 2 WHERE tid = " & objDR("tid")
-            'objCmd2 = New OdbcCommand(strSQLtimerOverfort, objConn)
-            'objDR2 = objCmd2.ExecuteReader '(CommandBehavior.closeConnection)
-            'Else
-            CallWebService.SendJournalData(tdato, tjobnr, avarenr, init, Timerthis, timerKom, objDR("tid"))
-            Dim strSQLtimerOverfort As String = "UPDATE timer SET overfort = 1, overfortdt = '" & overfortDatoSQL & "' WHERE tid = " & objDR("tid")
-            '''Dim strSQLtimerOverfort As String = "UPDATE timer_dobbel_20171004_3_e SET overfort = 1 WHERE tid = " & objDR("tid")
+                If CallWebService.SendJournalData(tdato, tjobnr, avarenr, init, Timerthis, timerKom, objDR("tid")) = False Then
+                    Dim strSQLtimerOverfort As String = "UPDATE timer SET overfort = 2, overfortdt = '" & overfortDatoSQL & "' WHERE tid = " & objDR("tid")
+                    objCmd2 = New OdbcCommand(strSQLtimerOverfort, objConn)
+                    objDR2 = objCmd2.ExecuteReader '(CommandBehavior.closeConnection)
 
-            objCmd2 = New OdbcCommand(strSQLtimerOverfort, objConn)
-            objDR2 = objCmd2.ExecuteReader '(CommandBehavior.closeConnection)
-            'End If
+                    errorFound = 1
+                    errorFoundTxt += "<br>" & objDR("tjobnr") & "," & avarenr & ", " & init & ", " & objDR("tdato") & ", " & Timerthis & ""
+                Else
 
-            ' This statement does not execute because program
-            ' control passes to the Catch block when the
-            ' exception occurs.
+                    'CallWebService.SendJournalData(tdato, tjobnr, avarenr, init, Timerthis, timerKom, objDR("tid"))
+                    Dim strSQLtimerOverfort As String = "UPDATE timer SET overfort = 1, overfortdt = '" & overfortDatoSQL & "' WHERE tid = " & objDR("tid")
+                    objCmd2 = New OdbcCommand(strSQLtimerOverfort, objConn)
+                    objDR2 = objCmd2.ExecuteReader '(CommandBehavior.closeConnection)
+                End If
 
-            ''Catch ex As Exception
-            ''Show the exception's message.
-            'CallWebService.SendJournalError("+ ex.Message + " jobnr i TO:  " & objDR("tjobnr") & " ID:"& objDR("tid"))
-            'Response.Write("2 " + ex.Message + " jobnr i TO: " & objDR("tjobnr") & "<br>")
+                ' This statement does not execute because program
+                ' control passes to the Catch block when the
+                ' exception occurs.
+
+            Catch ex As Exception
+
+                ''Show the exception's message.
+                'CallWebService.SendJournalError("+ ex.Message + " jobnr i TO:  " & objDR("tjobnr") & " ID:"& objDR("tid"))
+                Response.Write("2 " + ex.Message + " jobnr i TO: " & objDR("tjobnr") & "<br>")
 
 
+                Dim strSQLtimerOverfort As String = "UPDATE timer SET overfort = 2, overfortdt = '" & overfortDatoSQL & "' WHERE tid = " & objDR("tid")
+                objCmd2 = New OdbcCommand(strSQLtimerOverfort, objConn)
+                objDR2 = objCmd2.ExecuteReader '(CommandBehavior.closeConnection)
 
-            ' Show the stack trace, which is a list of methods
-            ' that are currently executing.
-            'MessageBox.Show("Stack Trace: " & vbCrLf & ex.StackTrace)
-            'Finally
-            ' This line executes whether or not the exception occurs.
-            'MessageBox.Show("in Finally block")
-            ''End Try
+                errorFound = 1
+                errorFoundTxt += "<br>" & objDR("tjobnr") & "," & avarenr & ", " & init & ", " & objDR("tdato") & ", " & Timerthis & ""
+
+                'jobnr: " + err_jobnr + " errid:" + errThisTOnoStr
 
 
 
-
-
-            'End If
-
-
-
-
-
-
-            'Catch ex As Exception
-
-            'Response.Write("FEJL" & ex.ToString())
+                ' Show the stack trace, which is a list of methods
+                ' that are currently executing.
+                'MessageBox.Show("Stack Trace: " & vbCrLf & ex.StackTrace)
+                'Finally
+                ' This line executes whether or not the exception occurs.
+                'MessageBox.Show("in Finally block")
+                'End Try
 
 
 
-            'End Try
+                'Catch ex As Exception
+
+                'Response.Write("FEJL" & ex.ToString())
+
+
+
+            End Try
 
 
             'objDR("avarenr")
@@ -405,9 +428,69 @@
             Response.Write("2")
             datasrc.Text = "Der opstod en fejl"
 
+
         End If
 
 
+        'Response.Write("<br>" & strSQLmedins)
+
+
+
+
+        '*** TIA error mail ***
+        If CInt(errorFound) <> 0 Then
+
+
+
+            Dim strBody As String
+            mailmodtagerOK = 0
+            'Return strSQLlastJobIDMail
+
+
+            Dim myMail As Object
+            myMail = CreateObject("CDO.Message")
+
+
+            myMail.From = "timeout_no_reply@outzource.dk" 'TimeOut Email Service 
+
+            myMail.To = "SNI@tiatechnology.com; jok@tiatechnology.com"
+            myMail.CC = "sk@outzource.dk"
+            'myMail.To = "sk@outzource.dk"
+            myMail.Subject = "Record errors TimeOut >> NAV"
+
+
+            strBody = "<br>Job -- Taks No. -- Init -- Date -- Hours <br><br>" & errorFoundTxt
+
+            strBody = strBody & "<br><br><br><br><br><br>Best regards<br><i>"
+            strBody = strBody & "TimeOut > NAV import service </i><br><br>&nbsp;"
+
+
+            'Mailer.BodyText = strBody
+            myMail.HTMLBody = "<html><head></head><body>" & strBody & "</body>"
+
+            myMail.Configuration.Fields.Item _
+            ("http://schemas.microsoft.com/cdo/configuration/sendusing") = 2
+            'Name or IP of remote SMTP server
+
+
+            Dim smtpServer As String = "formrelay.rackhosting.com"
+
+            myMail.Configuration.Fields.Item _
+        ("http://schemas.microsoft.com/cdo/configuration/smtpserver") = smtpServer
+
+            'Server port
+            myMail.Configuration.Fields.Item _
+            ("http://schemas.microsoft.com/cdo/configuration/smtpserverport") = 25
+            myMail.Configuration.Fields.Update
+
+            myMail.Send
+            mailmodtagerOK = mailmodtagerOK + 1
+            myMail = Nothing
+
+
+
+
+        End If
 
 
 

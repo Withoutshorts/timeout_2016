@@ -109,36 +109,36 @@
                 end if 'if cint(directexp) <> 1 then 
 				
 
-                expTxt = expTxt &"Kontakt;"
+                expTxt = expTxt & joblog_txt_201 &";"
     
                 if cint(vis_kpers) = 1 then
-                expTxt = expTxt &"Kontaktperson;"
+                expTxt = expTxt & joblog_txt_202 & ";"
                 end if
 
-                expTxt = expTxt &"Jobnavn;Jobnr;"
+                expTxt = expTxt &joblog_txt_203&";"&joblog_txt_204&";"
 
                 if cint(vis_jobbesk) = 1 then
-                expTxt = expTxt &"Jobbeskrivelse;"
+                expTxt = expTxt &joblog_txt_205&";"
                 end if
 
                 select case lto
                 case "cisu"            
                 case else
-                expTxt = expTxt &"Fase;"
+                expTxt = expTxt &joblog_txt_206&";"
                 end select
     
-                expTxt = expTxt &"Aktivitet;Jobtype;"           
+                expTxt = expTxt &joblog_txt_207&";"&joblog_txt_208&";"           
 
                 select case lto
                 case "cisu"            
                 case else
-                expTxt = expTxt &"Jobansvarlig;Init;Jobejer;Init;"
+                expTxt = expTxt &joblog_txt_157&";"&joblog_txt_209&";"&joblog_txt_158&";"&joblog_txt_209&";"
                 end select
 			    
-                expTxt = expTxt &"Timer forkalkuleret;"
+                expTxt = expTxt &joblog_txt_210&";"
 
                 if cint(visfakbare_res) = 1 OR cint(visfakbare_res) = 2 then
-				expTxt = expTxt &"Bruttooms (Budget);"
+				expTxt = expTxt &joblog_txt_211&";"
                 end if
 
                 
@@ -149,10 +149,10 @@
                 
 
                 if cint(csv_pivot) = 1 then
-                 expTxt = expTxt &"Medarb. [init]/type;" 'Kun PIVOT
+                 expTxt = expTxt &joblog_txt_212&";" 'Kun PIVOT
                 end if
 
-
+     
 			
 
                 '*** Overskrifter og medarb ***'
@@ -192,7 +192,7 @@
                             
                                 if cint(csv_pivot) = 0 OR (cint(csv_pivot) = 1 AND v = 0 AND c = 0) then
 
-                                expTxt = expTxt &"Real. timer;"
+                                expTxt = expTxt &joblog_txt_213&";"
                             
 
                                     if cint(csv_pivot) <> 1 then
@@ -200,26 +200,26 @@
                                         
 
                                         if cint(vis_restimer) = 1 then
-                                        expTxt = expTxt &"Res. timer;"
+                                        expTxt = expTxt &joblog_txt_214&";"
                                         end if
 
 							            if cint(vis_enheder) = 1 then
-							            expTxt = expTxt &"Enheder;" 
+							            expTxt = expTxt &joblog_txt_215&";" 
 							            end if
 
                                         if cint(vis_normtimer) = 1 AND md_split_cspan = 1 then
-                                         expTxt = expTxt &"Norm;"
+                                         expTxt = expTxt &joblog_txt_216&";"
                                         end if
 							
 							            if cint(visfakbare_res) = 1 then
-							            expTxt = expTxt &"Omsætning;"
-							            expTxt = expTxt &"Timepris;"
+							            expTxt = expTxt &joblog_txt_217&";"
+							            expTxt = expTxt &joblog_txt_218&";"
 							            end if
 
 
                                         if cint(visfakbare_res) = 2 then
-							            expTxt = expTxt &"Kostpris;"
-							            expTxt = expTxt &"Kostpris pr. time;"
+							            expTxt = expTxt &joblog_txt_219&";"
+							            expTxt = expTxt &joblog_txt_220&";"
 							            end if
 
                                     end if
@@ -240,7 +240,7 @@
 				
 
                  if cint(vis_normtimer) = 1 then
-                 expTxt = expTxt &"Norm ialt;"
+                 expTxt = expTxt &joblog_txt_221&";"
                  end if
 				
                 expTxt = expTxt &"xx99123sy#z"
@@ -781,16 +781,16 @@ sub subTotaler_gt
 sub exportptOskrifter
 
                 if cint(visPrevSaldo) = 1 then
-                expTxt = expTxt &"Real. timer Ialt (Før valgte periode);" 
+                expTxt = expTxt &joblog_txt_222&";" 
                 
                     
                     if cint(vis_restimer) = 1 then
-                    expTxt = expTxt &"Ressource timer (Før valgte periode);"
+                    expTxt = expTxt &joblog_txt_223&";"
                     end if
                     
 
                     if cint(vis_enheder) = 1 then
-                    expTxt = expTxt &"Enheder (Før valgte periode);"
+                    expTxt = expTxt &joblog_txt_224&";"
                     end if
 
                 end if
@@ -799,12 +799,12 @@ sub exportptOskrifter
            
 
 
-                expTxt = expTxt &"Real. timer Ialt (I periode);"
+                expTxt = expTxt &joblog_txt_225&";"
 
                 select case lto
                 case "mmmi", "xintranet - local"
                 case else
-                expTxt = expTxt &"Real. timer %;"
+                expTxt = expTxt &joblog_txt_226&";"
                 end select
 
                 select case lto
@@ -816,41 +816,41 @@ sub exportptOskrifter
 
                     
                     if cint(vis_restimer) = 1 then
-                    expTxt = expTxt &"Ressource Forecast timer (I periode);"
+                    expTxt = expTxt &joblog_txt_227&";"
                     end if
                     
 
                     if cint(vis_enheder) = 1 then
-                    expTxt = expTxt &"Enheder (I periode);"
+                    expTxt = expTxt &joblog_txt_228&";"
                     end if
 
             
-                    expTxt = expTxt &"Valuta;"            
+                    expTxt = expTxt &joblog_txt_229&";"            
         
 
                 if cint(visfakbare_res) = 1 then
-				expTxt = expTxt &"Omsætning ialt (I periode);Balance;"
+				expTxt = expTxt &joblog_txt_230&";"&joblog_txt_052&";"
 				end if
 				
                 if cint(visfakbare_res) = 2 then
-				expTxt = expTxt &"Kostpris ialt (I periode);Balance;"
+				expTxt = expTxt &joblog_txt_231&";"&joblog_txt_052&";"
 				end if
 
                 if cint(visPrevSaldo) = 1 then
-                expTxt = expTxt &"Real. timer (Ialt, uanset per.);" 
+                expTxt = expTxt &";" 
 
                     
                     if cint(vis_restimer) = 1 then
-                    expTxt = expTxt &"Ressource timer (Ialt, uanset per.);"
+                    expTxt = expTxt &joblog_txt_233&";"
                     end if
                     
 
                     if cint(vis_enheder) = 1 then
-                    expTxt = expTxt &"Enheder (Ialt, uanset per.);"
+                    expTxt = expTxt &joblog_txt_234&";"
                     end if
                 
                 
-                end if
+                end if 
 
 end sub
 

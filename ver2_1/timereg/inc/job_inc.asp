@@ -1963,7 +1963,7 @@ sub projektberegner
                      <%
                      '** Starter altid med at være utjekket med mindre:
                      select case lto
-                     case "synergi1", "xintranet - local"
+                     case "synergi1", "xintranet - local", "mpt"
                      syncCHK = "CHECKED"
                      case else
                      syncCHK = ""
@@ -2305,15 +2305,19 @@ sub projektberegner
                      end if
                          
                 '*** Ulev ***'
-		        dim u_navn, u_ipris, u_faktor, u_belob, u_fase, u_id, u_istk, u_istkpris, u_konto, u_konto_id
-		        redim u_navn(250), u_ipris(250), u_faktor(250), u_belob(250), u_fase(250), u_id(250), u_istk(250), u_istkpris(250), u_konto(250), u_konto_id(250)
+		        dim u_navn, u_ipris, u_faktor, u_belob, u_fase, u_id, u_istk, u_istkpris, u_konto, u_konto_id, u_matid
+		        redim u_navn(250), u_ipris(250), u_faktor(250), u_belob(250), u_fase(250), u_id(250), u_istk(250), u_istkpris(250), u_konto(250), u_konto_id(250), u_matid(250)
 		                
 		            if func = "red" then
-		                        
-		                uopen = 0
+		                select case lto
+                        case "mpt"
+                        uopen = 2
+                        case else
+		                uopen = 2
+                        end select
 		                        
 		                strSQLUlev = "SELECT ju_id, ju_navn, ju_ipris, ju_faktor, "_
-		                &" ju_belob, ju_fase, ju_stk, ju_stkpris, ju_konto, k.kontonr, ju_konto_label FROM job_ulev_ju "_
+		                &" ju_belob, ju_fase, ju_stk, ju_stkpris, ju_konto, k.kontonr, ju_konto_label, ju_matid FROM job_ulev_ju "_
                         &" LEFT JOIN kontoplan k ON (k.id = ju_konto) "_ 
                         &" WHERE ju_jobid = "& id &" ORDER BY ju_navn "
 		                       
@@ -2340,6 +2344,7 @@ sub projektberegner
 		                    u_fase(u) = oRec2("ju_fase")
 		                    u_istk(u) = oRec2("ju_stk")       
 		                    u_istkpris(u) = oRec2("ju_stkpris") 
+                            u_matid(u) = oRec2("ju_matid")
                         
                             select case cint(budgetakt) 
                             case 1,0 'vælg konto select fra kontoplan
@@ -2384,10 +2389,16 @@ sub projektberegner
 		                u_istkpris(u) = 0 
                         u_konto(u) = 0 
                         u_konto_id(u) = 0
+                        u_matid(u) = 0
                           
 		                next
-		                        
-		                uopen = 1
+		                
+                        select case lto 
+                        case "mpt"
+                        uopen = 10
+                        case else
+		                uopen = 3
+                        end select
 		                        
 		            end if
 		               
@@ -2408,6 +2419,8 @@ sub projektberegner
                          	</td>
 				</tr>
 
+               
+                   
 			   
                 <% if func = "red" then%>
 				<tr bgcolor="#FFCC66">
@@ -2465,13 +2478,20 @@ sub projektberegner
 		        </tr>
 
                 
-                    
-                    
-                    
-                    
-                    
-		                
+                           
 		        <%
+
+                select case lto
+                case "mpt", "intranet - local", "cflow", "jttek", "dencker"
+                    sogLager = 1
+                case else
+                    sogLager = 0
+                end select
+
+                %>
+                   <input type="hidden" id="sogLager" name="" value="<%=sogLager %>">        
+                <%
+
                 jo_salgspris_ulev = 0
 		        eksisterendeUlevLinier = 1
 		        for u = 1 to 50 
@@ -2506,28 +2526,34 @@ sub projektberegner
 
                         <input id="ulevid_<%=u %>" name="ulevid_<%=u %>" value="<%=u_id(u) %>" type="hidden" />
                         <input type="hidden" id="Hidden1" name="ulevfase_<%=u%>" value="<%=u_fase(u) %>">
+                        <input id="ulevmatid_<%=u %>" name="ulevmatid_<%=u %>" value="<%=u_matid(u) %>" type="hidden" />
 		           
-		            <td ><input type="text" id="ulevnavn_<%=u%>" name="ulevnavn_<%=u%>" value="<%=u_navn(u) %>" style="width:220px; font-size:9px; font-family:arial;"></td>
+		            <td ><input type="text" class="ulevnavn" id="ulevnavn_<%=u%>" name="ulevnavn_<%=u%>" value="<%=u_navn(u) %>" style="width:200px;">
+
+                      
+
+
+		            </td>
                    <% 
                    select case cint(budgetakt) 
                        case 1
                        %>
-                       <td><select name='ulevkonto_<%=u%>' style='font-family:arial; width:60px; font-size:9px;'>
+                       <td><select name='ulevkonto_<%=u%>' style='width:60px;'>
                            <option value="<%=u_konto_id(u)%>"><%=u_konto(u)%></option><%=strKontoplan%></select></td>
                        <%
                         case 2 'Kan godt opdareres men IKKE KLAR, tjek rapporter tilføj kontolabel i datamodel job_ulev_ju
-                           %><td><input type="text" class="ulev" name='ulevkonto_<%=u%>' value="<%=u_konto(u)%>" style="width:80px; font-size:9px; font-family:arial;" /></td><%
+                           %><td><input type="text" class="ulev" name='ulevkonto_<%=u%>' value="<%=u_konto(u)%>" style="width:80px;" /></td><%
                        case else
                        %><input type="hidden" class="ulev" name='ulevkonto_<%=u%>' value="<%=u_konto(u)%>" /><%
                    end select 
                    %>
 
-		            <td><input type="text" class="ulev" id="ulevstk_<%=u%>" name="ulevstk_<%=u%>" value="<%=replace(formatnumber(u_istk(u), 2), ".", "") %>" style="width:45px; font-size:9px; font-family:arial;" onkeyup="tjektimer('ulevstk_<%=u%>'), beregnulevstkpris('<%=u%>')"></td> 
-					<td><input type="text" class="ulev" id="ulevstkpris_<%=u%>" name="ulevstkpris_<%=u%>" value="<%=replace(formatnumber(u_istkpris(u), 2), ".", "") %>" style="width:60px; font-size:9px; font-family:arial;" onkeyup="tjektimer('ulevstkpris_<%=u%>'), beregnulevstkpris('<%=u%>')"></td>
+		            <td><input type="text" class="ulev" id="ulevstk_<%=u%>" name="ulevstk_<%=u%>" value="<%=replace(formatnumber(u_istk(u), 2), ".", "") %>" style="width:45px;" onkeyup="tjektimer('ulevstk_<%=u%>'), beregnulevstkpris('<%=u%>')"></td> 
+					<td><input type="text" class="ulev" id="ulevstkpris_<%=u%>" name="ulevstkpris_<%=u%>" value="<%=replace(formatnumber(u_istkpris(u), 2), ".", "") %>" style="width:60px;" onkeyup="tjektimer('ulevstkpris_<%=u%>'), beregnulevstkpris('<%=u%>')"></td>
 					
-                    <td>= <input type="text" class="ulev" id="ulevpris_<%=u%>" name="ulevpris_<%=u%>" value="<%=replace(formatnumber(u_ipris(u), 2), ".", "") %>" style="width:60px; font-size:9px; font-family:arial;" onkeyup="tjektimer('ulevpris_<%=u%>'), beregnulevbelob('<%=u%>')"></td>
-					<td>x <input type="text" class="ulev" id="ulevfaktor_<%=u%>" name="ulevfaktor_<%=u%>" value="<%=replace(formatnumber(u_faktor(u), 2), ".", "") %>" style="width:40px; font-size:9px; font-family:arial;" onkeyup="tjektimer('ulevfaktor_<%=u%>'), beregnulevbelob('<%=u%>')"></td>
-		            <td align=right style="padding-right:33px;">= <input type="text" id="ulevbelob_<%=u%>" name="ulevbelob_<%=u%>" value="<%=replace(formatnumber(u_belob(u), 2), ".", "") %>" style="width:60px; font-size:9px; font-family:arial;" onkeyup="tjektimer('ulevfaktor_<%=u%>'), beregnulevipris('<%=u%>')"></td>
+                    <td style="white-space:nowrap;">= <input type="text" class="ulev" id="ulevpris_<%=u%>" name="ulevpris_<%=u%>" value="<%=replace(formatnumber(u_ipris(u), 2), ".", "") %>" style="width:60px;" onkeyup="tjektimer('ulevpris_<%=u%>'), beregnulevbelob('<%=u%>')"></td>
+					<td style="white-space:nowrap;">x <input type="text" class="ulev" id="ulevfaktor_<%=u%>" name="ulevfaktor_<%=u%>" value="<%=replace(formatnumber(u_faktor(u), 2), ".", "") %>" style="width:40px;" onkeyup="tjektimer('ulevfaktor_<%=u%>'), beregnulevbelob('<%=u%>')"></td>
+		            <td align=right style="padding-right:33px; white-space:nowrap;">= <input type="text" id="ulevbelob_<%=u%>" name="ulevbelob_<%=u%>" value="<%=replace(formatnumber(u_belob(u), 2), ".", "") %>" style="width:60px;" onkeyup="tjektimer('ulevfaktor_<%=u%>'), beregnulevipris('<%=u%>')"></td>
 		            <td>&nbsp; <a href="#" id="ulev_ryd_<%=u%>" class="ulev_ryd"><%=job_txt_567 %></a> </td>
 		        </tr>
 		                
@@ -2546,6 +2572,9 @@ sub projektberegner
                     </td>
                     </tr>
                        
+                     <tr id="tr_matlager" bgcolor="#FFFFFF" style="display:none; visibility:hidden;">
+					<td colspan=6><div id="matlager" style="border:1px #999999 solid; padding:20px; height:200px; overflow-y:auto;">&nbsp;</div></td>
+                 </tr>
                        
                 <%
                 
@@ -2659,7 +2688,7 @@ sub projektberegner
 					<td colspan=4 style="padding:10px 0px 3px 5px; font-size:11px; font-family:arial;"><%=job_txt_418 %>:</td>
 					<td style="padding:2px 2px 2px 20px;">= <span style="padding:2px 2px 2px 2px; background-color:#FFFFFF; width:60px; border:0px; border-bottom:0px #CCCCCC solid; font-size:9px; font-family:arial;" id="SP_udgifter_ulev"><%=replace(formatnumber(jo_udgifter_ulev, 2), ".", "")%></span></td>
 					<input id="FM_udgifter_ulev" name="FM_udgifter_ulev" value="<%=replace(formatnumber(jo_udgifter_ulev, 2), ".", "")%>" type="hidden" />
-                    <td>&nbsp;<%=jo_bgt_basisValISO %></td>
+                    <td>&nbsp;<%=jo_bgt_basisValISO %> </td>
 				</tr>
 		                
                 
@@ -3492,6 +3521,31 @@ sub minioverblik
                                 restimerDetalTot = restimerDetalTot + restimerDetal 
 
 
+
+                                if lto = "oko" then 
+                                
+                                'Presseweb
+                                 '**** Restimer Presseweb ***'
+                                restimerDetalPresseweb = 0
+                                strSQLres = "SELECT a.id, sum(timer) AS restimer FROM aktiviteter a "_
+                                & " LEFT JOIN ressourcer_md AS r ON (r.medid = "& oRec2("mid") &" AND r.jobid = "& id &" AND r.aktid = a.id) WHERE a.job = "& id &" AND a.navn LIKE 'Presse%' GROUP BY a.id, r.medid"
+                                
+                                'response.write strSQLres
+                                'response.flush
+                                
+                                oRec3.open strSQlres, oConn, 3
+                                if not oRec3.EOF then
+
+                                restimerDetalPresseweb = oRec3("restimer")
+
+                                end if
+                                oRec3.close
+
+
+                                end if
+                                
+
+
                                 if IsNull(oRec2("sumtimer")) <> true then
                                 realTimer = oRec2("sumtimer")
                                 else
@@ -3530,7 +3584,14 @@ sub minioverblik
                                 <%end if %>
 
                             </td>
-                            <td class=lille style="border-bottom:<%=borderAktMatlinesPx%>px #cccccc solid; text-align:right;"><%=formatnumber(restimerDetal, 2) %></td>
+                            <td class=lille style="border-bottom:<%=borderAktMatlinesPx%>px #cccccc solid; text-align:right;"> 
+                                <%if lto = "oko" AND restimerDetalPresseweb > 0 then %>
+                                (<%=formatnumber(restimerDetalPresseweb, 0) %>)
+                                <%end if %>
+
+                                <%=formatnumber(restimerDetal, 2) %>
+
+                            </td>
                             <td class=lille style="border-bottom:<%=borderAktMatlinesPx%>px #cccccc solid; text-align:right;"><%=formatnumber(realTimer, 2) %></td>
                         </tr>
 
@@ -3718,12 +3779,14 @@ sub minioverblik
 		
 		<%
 		strSQLFak = "SELECT f.jobid, f.aftaleid, f.fid, f.fakdato, f.faknr, f.betalt, "_
-		&" f.faktype, f.beloeb, f.shadowcopy, f.valuta, f.kurs, v.valutakode, SUM(fd.aktpris) AS aktbel, f.medregnikkeioms, f.brugfakdatolabel, f.labeldato, f.fakadr "_
+		&" f.faktype, f.beloeb, f.shadowcopy, f.valuta, f.kurs, v.valutakode, SUM(fd.aktpris) AS aktbel, f.medregnikkeioms, f.brugfakdatolabel, f.labeldato, f.fakadr"_
 		&" FROM fakturaer f LEFT JOIN valutaer v ON (v.id = f.valuta) "_
 		&" LEFT JOIN faktura_det AS fd ON (fd.fakid = f.fid AND fd.enhedsang <> 3)"_
-		&" WHERE f.jobid = "& id & " AND f.aftaleid = 0 AND f.shadowcopy = 0"_ 
+		&" WHERE f.jobid = "& id & ""_ 
 		&" GROUP BY f.fid ORDER BY f.faknr DESC"
 		
+        'AND f.aftaleid = 0 AND f.shadowcopy = 0
+
 		'Response.Write strSQLfak
 		'Response.Flush
 		
@@ -3731,19 +3794,94 @@ sub minioverblik
 		totFakbelKunTimer = 0
 	    oRec2.open strSQLFak, oConn, 3
 	    while not oRec2.EOF 
+
+        fakbeloeb = 0
+        fakValuta = 1
+        fakKurs = 100
+        fakType = 0
+        fakAktbel = 0
+        fakAftaleid = 0
+
 	    %>
 	    <tr>
 	        <td class=lille>
             <%if thisfile <> "jobprintoverblik" then %>
 
-                <%if cint(useasfak) <= 2 then%>
-                    <a href="erp_opr_faktura_fs.asp?visminihistorik=1&visfaktura=2&visjobogaftaler=1&id=<%=oRec2("fid")%>&FM_jobonoff=<%=FM_jobonoffval%>&FM_kunde=<%=oRec2("fakadr")%>&FM_job=<%=oRec2("jobid")%>&FM_aftale=<%=oRec2("aftaleid")%>&fromfakhist=1" class="lgron" target="_blank"><%=oRec2("faknr")%></a>
+               
+
+                <%if cint(useasfak) <= 2 then
+                    
+                    if cint(oRec2("shadowcopy")) = 0 then
+                    
+                        fidLink = oRec2("fid")    
+
+                    else
+                        
+                    strSQLFakorg = "SELECT fid FROM fakturaer WHERE faknr = "& oRec2("faknr") &" AND shadowcopy <> 1"
+                    oRec8.open strSQLFakorg, oConn, 3
+                    if not oRec8.EOF then
+
+                        fidLink = oRec8("fid")
+
+                    end if
+                    oRec8.close
+
+                    end if
+                    %>
+                    <a href="erp_opr_faktura_fs.asp?visminihistorik=1&visfaktura=2&visjobogaftaler=1&id=<%=fidLink%>&FM_jobonoff=<%=FM_jobonoffval%>&FM_kunde=<%=oRec2("fakadr")%>&FM_job=<%=oRec2("jobid")%>&FM_aftale=<%=oRec2("aftaleid")%>&fromfakhist=1" class="lgron" target="_blank"><%=oRec2("faknr")%></a>
+                <%else %>
+
+                <b><%=oRec2("faknr") %></b>
+                
                 <%end if %>
 
             <%else %>
-            <%=oRec2("faknr") %>
-            <%end if %>
-            
+                <%=oRec2("faknr") %>
+            <%end if
+
+            if oRec2("shadowcopy") = 1 then 'AND oRec2("aftaleid") <> 0 then
+               
+                   
+
+                    strSQLFakorg = "SELECT f.fid, f.beloeb, f.valuta, f.kurs, f.faktype, f.aftaleid, fd.aktpris FROM fakturaer f "_
+                    &" LEFT JOIN faktura_det fd ON (fd.fakid = f.fid AND fd.aktid = "& id &") WHERE faknr = "& oRec2("faknr") &" AND shadowcopy <> 1 "
+
+                    oRec8.open strSQLFakorg, oConn, 3
+                    if not oRec8.EOF then
+
+                        
+                        fakValuta = oRec8("valuta")
+                        fakKurs = oRec8("kurs")
+                        fakbeloeb = oRec8("aktpris") 'oRec8("beloeb")
+                        fakType = oRec8("faktype")
+                        fakAftaleid = oRec8("aftaleid")
+                        fakAktbel = oRec8("aktpris")
+
+                       
+                    end if
+                    oRec8.close
+
+                      strSQLaftale = "SELECT navn, aftalenr FROM serviceaft WHERE id = " & fakAftaleid
+                    oRec8.open strSQLaftale, oConn, 3
+                    if not oRec8.EOF then
+                    %>
+                     - <%=oRec8("navn") & " ("& oRec8("aftalenr") &")"  %>
+                    <% 
+                    end if
+                    oRec8.close
+
+
+
+            else
+                        
+                 
+                        
+            fakValuta = oRec2("valuta")
+            fakKurs = oRec2("kurs")
+            fakBeloeb = oRec2("beloeb")
+            fakType = oRec2("faktype")
+            fakAktbel = oRec2("aktbel")%>
+
             <%if cint(oRec2("medregnikkeioms")) = 1 then %>
             (<%=job_txt_571 %>)
             <%end if %>
@@ -3751,6 +3889,11 @@ sub minioverblik
                <%if cint(oRec2("medregnikkeioms")) = 2 then %>
             (handelsfak.)
             <%end if %>
+
+            <%end if%>
+
+            
+          
             </td>
 	        <td class=lille>
             
@@ -3771,20 +3914,20 @@ sub minioverblik
             '** 2) DKK <> DKK AND DKK <> NOK then  
             'cint(jo_valuta) <> (basisValId) OR 
 
-            if cint(jo_valuta) <> cint(oRec2("valuta")) then
-                call beregnValuta(minus&(oRec2("beloeb")),oRec2("kurs"),100) ' TIL DKK Altid til BASIS val først
+            if cint(jo_valuta) <> cint(fakValuta) then
+                call beregnValuta(minus&(fakbeloeb),fakKurs,100) ' TIL DKK Altid til BASIS val først
                 fakBelob = valBelobBeregnet
                 call valutaKurs_fakhist(jo_valuta) ' --> GBP
                 call beregnValuta(fakBelob,100,dblkurs_fakhist)
             else
-                if oRec2("beloeb") <> 0 then
-                valBelobBeregnet = oRec2("beloeb")
+                if fakbeloeb <> 0 then
+                valBelobBeregnet = fakbeloeb
                 else
                 valBelobBeregnet = 0
                 end if
             end if
 
-            if oRec2("faktype") <> 1 then
+            if fakType <> 1 then
             belobGrundVal = valBelobBeregnet
             else
             belobGrundVal = -valBelobBeregnet
@@ -3805,20 +3948,20 @@ sub minioverblik
 
 	            
 
-                if cint(jo_valuta) <> cint(oRec2("valuta")) then
-                    call beregnValuta(minus&(oRec2("aktbel")),oRec2("kurs"),100)
+                if cint(jo_valuta) <> cint(fakValuta) then
+                    call beregnValuta(minus&(fakAktbel),fakKurs,100)
                     fakBelob = valBelobBeregnet
                     call valutaKurs_fakhist(jo_valuta) ' --> GBP
                     call beregnValuta(fakBelob,100,dblkurs_fakhist)
                 else
-                    if oRec2("aktbel") <> 0 then
-                    valBelobBeregnet = oRec2("aktbel")
+                    if fakAktbel <> 0 then
+                    valBelobBeregnet = fakAktbel
                     else
                     valBelobBeregnet = 0
                     end if
                 end if
 
-                if oRec2("faktype") <> 1 then
+                if fakType <> 1 then
                 belobKunTimerStk = valBelobBeregnet
                 else
                 belobKunTimerStk = -valBelobBeregnet
@@ -4106,7 +4249,7 @@ sub minioverblik
                         <td class=lille style="border-bottom:<%=borderAktMatlinesPx%>px #cccccc solid;">
 	                    <%select case oRec2("aktstatus")
 	                    case 1
-	                    aktstat = job_txt_292
+	                    aktstat = job_txt_094
 	                    case 2
 	                    aktstat = job_txt_320
 	                    case else
@@ -4164,7 +4307,7 @@ sub minioverblik
             
 
 	        call akttyper2009Prop(oRec2("fakturerbar"))
-	        if (cint(aty_real) = 1 OR ((lto = "oko" OR lto = "sdeo") AND oRec2("aty_id") = 90)) then
+	        if (cint(aty_real) = 1 OR ((lto = "oko" OR lto = "sdeo" OR lto = "dencker") AND oRec2("aty_id") = 90)) then
 
                 select case lto
                 case "oko", "xsdeo"
@@ -4193,6 +4336,7 @@ sub minioverblik
                     
 
                     end if
+
 
                 case else
 
@@ -4345,7 +4489,7 @@ sub minioverblik
 		        &" ju_fase, ju_stk, ju_stkpris, "
                 
                 select case lto
-                case "oko", "intranet - local", "sdeo"
+                case "oko", "xintranet - local", "sdeo"
 
                 'strSQLUlev = strSQLUlev &", ju_konto, kp.navn AS kontonavn, kp.kontonr, COALESCE(SUM(matantal * matsalgspris), 0) AS realbelob FROM job_ulev_ju "
                 'strSQLUlev = strSQLUlev &" LEFT JOIN kontoplan AS kp ON (kp.id = ju_konto)"
@@ -4359,7 +4503,7 @@ sub minioverblik
                 'AND ju_navn IS NOT NULL
 
                 case else
-                '**SDEO ikke på kontoplan
+                '** SDEO ikke på kontoplan
 
                 strSQLUlev = strSQLUlev &" ju_belob FROM job_ulev_ju WHERE ju_jobid = "& id & " ORDER BY ju_navn"
 
@@ -4415,7 +4559,7 @@ sub minioverblik
 
 
                      select case lto
-                        case "oko", "intranet - local", "sdeo" 
+                        case "oko", "xintranet - local", "sdeo" 
                             
                                realBelob = 0
                                strSQLUmf = "SELECT COALESCE(SUM(matantal * matsalgspris), 0) AS realbelob FROM materiale_forbrug AS mf WHERE mf.mf_konto = "& oRec2("kontoid") &" AND mf.jobid = "& id & ""

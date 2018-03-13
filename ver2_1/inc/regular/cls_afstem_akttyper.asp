@@ -28,7 +28,7 @@ public  omsorg, senior, divfritimer, fefriTimerPerBrTimer, ferieFriaarStart, fer
 public fefriTimerUdbPer, fefriTimerUdbPerTimer
 public ferieAFulonPer, ferieAFulonPerTimer, ferieUdbPer, ferieUdbPerTimer, ferieOptjUlontimer, ferieOptjOverforttimer, korrektionKomG, korrektionReal, tjenestefri 
 public aldersreduktionOpj, aldersreduktionBr, aldersreduktionUdb
-public aldersreduktionPl, omsorg2pl, omsorg10pl, omsorgKpl, ulempe1706udb, ulempeWudb, rejseDage, e3timer 
+public aldersreduktionPl, omsorg2pl, omsorg10pl, omsorgKpl, ulempe1706udb, ulempeWudb, rejseDage, e3timer, feriekor 
 	    
 
         redim fTimer(arrayHigh), ifTimer(arrayHigh), km(arrayHigh), sTimer(arrayHigh), flexTimer(arrayHigh),  sundTimer(arrayHigh), pausTimer(arrayHigh) 
@@ -46,13 +46,24 @@ public aldersreduktionPl, omsorg2pl, omsorg10pl, omsorgKpl, ulempe1706udb, ulemp
         redim ferieAFulonPer(arrayHigh), ferieAFulonPerTimer(arrayHigh), ferieUdbPer(arrayHigh), ferieUdbPerTimer(arrayHigh)
         redim ferieOptjUlontimer(arrayHigh), ferieOptjOverforttimer(arrayHigh), korrektionKomG(arrayHigh), korrektionReal(arrayHigh), tjenestefri(arrayHigh)
         redim aldersreduktionOpj(arrayHigh), aldersreduktionBr(arrayHigh), aldersreduktionUdb(arrayHigh)
-        redim omsorg2pl(arrayHigh), omsorg10pl(arrayHigh), omsorgKpl(arrayHigh), aldersreduktionPl(arrayHigh), ulempe1706udb(arrayHigh), ulempeWudb(arrayHigh), rejseDage(arrayHigh), e3timer(arrayHigh) 
+        redim omsorg2pl(arrayHigh), omsorg10pl(arrayHigh), omsorgKpl(arrayHigh), aldersreduktionPl(arrayHigh), ulempe1706udb(arrayHigh), ulempeWudb(arrayHigh), rejseDage(arrayHigh), e3timer(arrayHigh), feriekor(arrayHigh) 
 
 	     
-function fordelpaaaktType(intMid, startDato, slutDato, visning, akttype_sel, x)
+function fordelpaaaktType(intMid, startDato, slutDato, visning, akttype_sel, x, viskunGodkendte)
          
-         'Response.Write  "startDato, slutDato, visning: " & startDato &","& slutDato &","& visning 
-         
+        call meStamdata(intMid)      
+
+        'if lto = "dencker" then
+        ' Response.Write  "startDato, slutDato, visning: " & startDato &","& slutDato &","& visning & "intMid: " & intMid &" ansatDato:  "& meAnsatDato
+        'end if     
+
+        '*** BAL Real NoRM Vis kun godkendte
+        if viskunGodkendte = "1" then
+        viskunGodkendteSQL = " AND godkendtstatus = 1"
+        else
+        viskunGodkendteSQL = ""
+        end if
+
 	     fTimer(x) = 0
 	     ifTimer(x) = 0
 	     
@@ -164,6 +175,7 @@ function fordelpaaaktType(intMid, startDato, slutDato, visning, akttype_sel, x)
         
         rejseDage(x) = 0
 
+        feriekor(x) = 0
 
         per13wrt = 0
         per14wrt = 0
@@ -274,7 +286,7 @@ function fordelpaaaktType(intMid, startDato, slutDato, visning, akttype_sel, x)
 
             
 	        
-          
+           
 
 	        
 	        '*** hvis ansat dato er senere end licens st. dato **'
@@ -414,6 +426,7 @@ function fordelpaaaktType(intMid, startDato, slutDato, visning, akttype_sel, x)
             alleaktivetyperSQL = replace(alleaktivetyperSQL, ", #124#", " OR (af.tfaktim = 124 AND af.tdato BETWEEN '"& startdato &"' AND '"& slutdato &"')")
     	   
            alleaktivetyperSQL = replace(alleaktivetyperSQL, ", #125#", " OR (af.tfaktim = 125 AND af.tdato BETWEEN '"& startdato &"' AND '"& slutdato &"')")
+           alleaktivetyperSQL = replace(alleaktivetyperSQL, ", #126#", " OR (af.tfaktim = 126 AND af.tdato BETWEEN '"& startdato &"' AND '"& slutdato &"')")
       
 
             '****'
@@ -449,12 +462,13 @@ function fordelpaaaktType(intMid, startDato, slutDato, visning, akttype_sel, x)
 	    &" sum(af.timer * a.faktor) AS sumenheder, af.tdato,  "_
 	    &" a.faktor FROM timer af "_
 	    &" LEFT JOIN aktiviteter a ON (a.id = af.taktivitetid) "_
-	    &" WHERE af.tmnr = "& intMid &" AND ("& alleaktivetyperSQL &") "_
+	    &" WHERE af.tmnr = "& intMid &" AND ("& alleaktivetyperSQL &") "& viskunGodkendteSQL &" "_
 	    &" GROUP BY af.tfaktim, af.tmnr, af.tdato ORDER BY tdato DESC"
 	    
-
+        'if lto = "dencker" then
         'Response.write strSQLtim & "<br><br>"
         'Response.flush
+        'end if
 	    
 	    'AND af.tdato BETWEEN '"& startdatoSQL &"' AND '"& slutdato &"'
 	    'if visning <> 1 then
@@ -1147,6 +1161,9 @@ function fordelpaaaktType(intMid, startDato, slutDato, visning, akttype_sel, x)
 
         rejseDage(x) = rejseDage(x) +  (oRec6("sumtimer") / ntimPerUse)
 
+        case 126
+        feriekor(x) = feriekor(x) +  oRec6("sumtimer")
+
         end select
 	    
 	    
@@ -1712,7 +1729,14 @@ function fordelpaaaktType(intMid, startDato, slutDato, visning, akttype_sel, x)
          rejseDage(x) = 0
          end if
 
+         if feriekor(x) <> 0 then
+	     feriekor(x) = feriekor(x)
+	     afstemnul(x) = 256
+         else
+         feriekor(x) = 0
+         end if
 
+        
 
 end function   
 

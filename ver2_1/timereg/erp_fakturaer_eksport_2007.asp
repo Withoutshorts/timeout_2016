@@ -469,7 +469,16 @@ if len(session("user")) = 0 then
 					kans1nr = oRec("skansnr")
 					kans2 = oRec("skans2") 
 					kans2nr = oRec("skansnr2")
+
+                
+                    jobnavn = "" 
+					jobnr = ""
+					jobans1 = ""
+					jobans1nr = ""
+					jobans2 = ""
+					jobans2nr = ""
 					
+
 					else
                     knavn = oRec("kkundenavn") 
 					knr = oRec("kkundenr") 
@@ -477,17 +486,23 @@ if len(session("user")) = 0 then
 					kans1nr = oRec("kansnr")
 					kans2 = oRec("kans2") 
 					kans2nr = oRec("kansnr2")
-				
 
-				    end if
-					
-					jobnavn = oRec("jobnavn") 
+                    jobnavn = oRec("jobnavn") 
 					jobnr = oRec("jobnr") 
 					jobans1 = oRec("jobans1")
 					jobans1nr = oRec("jans1nr")
 					jobans2 = oRec("jobans2")
 					jobans2nr = oRec("jans2nr")
-					faknr = oRec("faknr") 
+					
+
+			        end if
+					
+
+                    faknr = oRec("faknr") 
+
+				
+
+
 
                     if instr(lto, "epi") <> 0 then
                      
@@ -512,11 +527,14 @@ if len(session("user")) = 0 then
                     fakistdato2 = formatdatetime(oRec("istdato2"))
 
                     'A detail bliver der ikke omregnet til basis VAL
+
+                  
+
                     fakBelobexMoms = formatnumber(oRec("beloeb"),2)
                     fakMoms = formatnumber(oRec("moms"),2)
                     fakBelobinclMoms = formatnumber((oRec("beloeb")+oRec("moms")),2)
-                   
 
+                    
                     '*** Main Faktura linie ****'
                     if lastFakID <> oRec("fid") then
                     aktiviteterFundetpaFak = " taktivitetid <> 0 "
@@ -546,13 +564,13 @@ if len(session("user")) = 0 then
 		                    strTxtExportStam = strTxtExportStam & kans1nr &";"
 		                    strTxtExportStam = strTxtExportStam & kans2 & ";"
 		                    strTxtExportStam = strTxtExportStam & kansnr2 &";"
-		                    strTxtExportStam = strTxtExportStam & oRec("jobnavn") &";"
-		                    strTxtExportStam = strTxtExportStam & oRec("jobnr") &";"
-		                    strTxtExportStam = strTxtExportStam & oRec("jobans1")&";"
-		                    strTxtExportStam = strTxtExportStam & oRec("jans1nr")&";"
-		                    strTxtExportStam = strTxtExportStam & oRec("jobans2")&";"
-		                    strTxtExportStam = strTxtExportStam & oRec("jans2nr")&";"
-		                    strTxtExportStam = strTxtExportStam & oRec("faknr") &";"
+		                    strTxtExportStam = strTxtExportStam & jobnavn &";"
+		                    strTxtExportStam = strTxtExportStam & jobnr &";"
+		                    strTxtExportStam = strTxtExportStam & jobans1 &";"
+		                    strTxtExportStam = strTxtExportStam & jobans1nr &";"
+		                    strTxtExportStam = strTxtExportStam & jobans2 &";"
+		                    strTxtExportStam = strTxtExportStam & jobans1nr &";"
+		                    strTxtExportStam = strTxtExportStam & faknr &";"
 
                             faksign = ""
                             faktypeThis = "-"
@@ -621,13 +639,13 @@ if len(session("user")) = 0 then
 		strTxtExport = strTxtExport & kans1nr &";"
 		strTxtExport = strTxtExport & kans2 & ";"
 		strTxtExport = strTxtExport & kansnr2 &";"
-		strTxtExport = strTxtExport & oRec("jobnavn") &";"
-		strTxtExport = strTxtExport & oRec("jobnr") &";"
-		strTxtExport = strTxtExport & oRec("jobans1")&";"
-		strTxtExport = strTxtExport & oRec("jans1nr")&";"
-		strTxtExport = strTxtExport & oRec("jobans2")&";"
-		strTxtExport = strTxtExport & oRec("jans2nr")&";"
-		strTxtExport = strTxtExport & oRec("faknr") &";"
+		strTxtExport = strTxtExport & jobnavn &";"
+		strTxtExport = strTxtExport & jobnr &";"
+		strTxtExport = strTxtExport & jobans1nr &";"
+		strTxtExport = strTxtExport & jans1nr &";"
+		strTxtExport = strTxtExport & jobans2 &";"
+		strTxtExport = strTxtExport & jobans2nr &";"
+		strTxtExport = strTxtExport & faknr &";"
 
         strTxtExport = strTxtExport &";"
         strTxtExport = strTxtExport &";"
@@ -655,30 +673,37 @@ if len(session("user")) = 0 then
 
 		if oRec("aftaleid") <> 0 then
 		    
-            antalSigned = faksign&((oRec("antal"))/1)
-            belobSigned = faksign&((oRec("beloeb"))/1)
 
-		    strTxtExport = strTxtExport & antalSigned &";"
-		    
-		    enhpris = 0
-		    if oRec("antal") <> 0 then
-		    enhpris = formatnumber((belobSigned/antalSigned), 2)
-		    else
-		    stkpris = belobSigned
-		    end if
-		    
-		    strTxtExport = strTxtExport & enhpris &";"& oRec("v2valutakode") &";"
-		    strTxtExport = strTxtExport &"Enheder;"
-		    strTxtExport = strTxtExport & oRec("rabat") &";"
-		    
-            if len(trim(belobSigned)) <> 0 then
-            belobSigned = belobSigned
-            else
-            belobSigned = 0
-            end if
+                            '*** Er det hovedlinje eller fakturalinje. Beløb på hver linje
 
-		    call beregnValuta(belobSigned,FakKurs,100)
-		    strTxtExport = strTxtExport &formatnumber(valBelobBeregnet) &";"& basisValISO &";"
+                            'antalSigned = faksign&((oRec("antal"))/1)
+                            'belobSigned = faksign&((oRec("beloeb"))/1)
+
+                            
+                            antalSigned = faksign&((oRec("fakdet_antal"))/1)
+                            belobSigned = faksign&((oRec("fakdet_belob"))/1)
+
+		                    strTxtExport = strTxtExport & antalSigned &";"
+		    
+		                    enhpris = 0
+		                    if oRec("fakdet_antal") <> 0 then
+		                    enhpris = formatnumber((belobSigned/antalSigned), 2)
+		                    else
+		                    stkpris = belobSigned
+		                    end if
+		    
+		                    strTxtExport = strTxtExport & enhpris &";"& oRec("v2valutakode") &";"
+		                    strTxtExport = strTxtExport &"Enheder;"
+		                    strTxtExport = strTxtExport & oRec("rabat") &";"
+		    
+                            if len(trim(belobSigned)) <> 0 then
+                            belobSigned = belobSigned
+                            else
+                            belobSigned = 0
+                            end if
+
+		                    call beregnValuta(belobSigned,FakKurs,100)
+		                    strTxtExport = strTxtExport &formatnumber(valBelobBeregnet) &";"& basisValISO &";"
 		    
 		
 		else
@@ -1040,7 +1065,11 @@ if len(session("user")) = 0 then
 				strTxtExport = strTxtExport & "0;"
 				
 				if oRec("aftaleid") <> 0 then
-                strTXTthis = oRec("jobbesk")
+
+                        '**ÆNDRET 230180309 EPI
+                        'strTXTthis = oRec("jobbesk")
+                        strTXTthis = oRec("beskrivelse")
+
 				else
                 strTXTthis = oRec("beskrivelse")
 				end if

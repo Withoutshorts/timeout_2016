@@ -168,10 +168,10 @@
                     'Response.flush
                     'end if
                     
-                    oRec8.open strSQL4, oConn, 3
-                    while not oRec8.EOF 
+                    oRec7.open strSQL4, oConn, 3
+                    while not oRec7.EOF 
                     
-                         call normtimerPer(usemrn, oRec8("tdato"), 6, 0)
+                         call normtimerPer(usemrn, oRec7("tdato"), 6, 0)
 	                     if ntimPer <> 0 then
                          normTimerGns5 = (ntimManIgnHellig + ntimTirIgnHellig + ntimOnsIgnHellig + ntimTorIgnHellig + ntimFreIgnHellig + ntimLorIgnHellig + ntimSonIgnHellig)  / 5
                          else
@@ -179,11 +179,11 @@
                          end if 
 
                
-                    ferieoptjent = ferieoptjent + (oRec8("ferieoptjent")*1/normTimerGns5)
+                    ferieoptjent = ferieoptjent + (oRec7("ferieoptjent")*1/normTimerGns5)
                     
-                    oRec8.movenext
+                    oRec7.movenext
                     wend
-                    oRec8.close
+                    oRec7.close
                    
                 
                     ferieSaldo = (ferieoptjent - ferieafholdt)
@@ -197,38 +197,38 @@
                     sygtot = 0
                     strSQL5 = "SELECT timer AS sygtimer, tdato FROM timer WHERE tmnr = "& usemrn &" AND tfaktim = 20 AND tdato BETWEEN '"& sqlDatoStartATD &"' AND '"& sqlDatoEnd &"' ORDER BY tdato"
                     
-                    oRec8.open strSQL5, oConn, 3
-                    while not oRec8.EOF 
+                    oRec7.open strSQL5, oConn, 3
+                    while not oRec7.EOF 
 
-                         call normtimerPer(usemrn, oRec8("tdato"), 0, 0)
+                         call normtimerPer(usemrn, oRec7("tdato"), 0, 0)
 	                     if ntimPer <> 0 then
                          ntimPerUse = ntimPer
                          else
                          ntimPerUse = 1
                          end if 
 
-                    sygtot = sygtot + (oRec8("sygtimer")*1 / ntimPerUse)
-                    oRec8.movenext
+                    sygtot = sygtot + (oRec7("sygtimer")*1 / ntimPerUse)
+                    oRec7.movenext
                     wend 
-                    oRec8.close
+                    oRec7.close
                     
 
                     barnsygtot = 0
                     strSQL6 = "SELECT timer As barnsygtimer, tdato FROM timer WHERE tmnr = "&usemrn&" AND tfaktim = 21 AND tdato BETWEEN '"& sqlDatoStartATD &"' AND '"& sqlDatoEnd &"' ORDER BY tdato"
-                    oRec8.open strSQL6, oConn, 3
-                    while not oRec8.EOF
+                    oRec7.open strSQL6, oConn, 3
+                    while not oRec7.EOF
 
-                         call normtimerPer(usemrn, oRec8("tdato"), 0, 0)
+                         call normtimerPer(usemrn, oRec7("tdato"), 0, 0)
 	                     if ntimPer <> 0 then
                          ntimPerUse = ntimPer
                          else
                          ntimPerUse = 1
                          end if 
 
-                    barnsygtot = barnsygtot + (oRec8("barnsygtimer")*1/ntimPerUse)
-                    oRec8.movenext
+                    barnsygtot = barnsygtot + (oRec7("barnsygtimer")*1/ntimPerUse)
+                    oRec7.movenext
                     wend 
-                    oRec8.close
+                    oRec7.close
                    
 
                    

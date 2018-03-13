@@ -37,6 +37,60 @@
     <!--#include file="../inc/regular/topmenu_inc.asp"-->
  
 	
+    <style>
+        /* The Modal (background) */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 100000; /* Sit on top */
+            padding-top: 100px; /* Location of the box */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgb(0,0,0); /* Fallback color */
+            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+        }
+
+        /* Modal Content */
+        .modal-content {
+            background-color: #fefefe;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 350px;
+            height: 350px;
+        }
+
+        .picmodal:hover,
+        .picmodal:focus {
+        text-decoration: none;
+        cursor: pointer;
+        }
+    </style>
+
+    <div id="normtimerModal" class="modal"> <!-- Modal content -->
+        <div class="modal-content">
+            <div style="text-align:center"><h4>Meddelelse</h4></div>
+            <br />
+            <div style="text-align:center"><b>Du har indtastet flere timer end din norm på følgende dage</b></div>
+            <div style="text-align:center" id="normTxt"></div>
+
+            <br />
+            <br />
+            <br />
+            <br />
+
+            <div style="text-align:center"><b>Vil du fortstætte</b></div>
+            <br />
+            <div style="text-align:center">
+                <input type="button" style="width:50px;" value="Nej" id="ret_timer"/>
+                &nbsp&nbsp&nbsp&nbsp
+                <input type="button" style="width:50px;" value="Ja" id="opdater_timer"/>
+            </div>
+        </div>
+    </div>
 	    
 	
 	<%
@@ -2090,64 +2144,8 @@
                                                                    
 
 
-
-                                                                        resTimerThisM = 0
-                                                                        restimeruspecThisM = 0
-                                                                        SQLdatoKriTimer = ""
-                                                                        if cint(aktBudgettjkOn) = 1 then
-                                                                        '*******************************************
-                                                                        '*** Ressource timer tildelt             **'
-                                                                        '*******************************************
-                                                                       
-                                                                                    
-                                                                                if cint(aktBudgettjkOn_afgr) = 1 then
-
-                                                                                    '*** Afgræans indenfor regnskabsår // Starter dwet md 1 eller 7 (kontrolpanel)
-                                                                                    if month(useDateStSQL) < month(aktBudgettjkOnRegAarSt) then                                                                          
-                                                                                       useRgnArr =  dateAdd("yyyy", -1, useDateStSQL)
-                                                                                       useRgnArrNext = useDateStSQL
-                                                                                    else
-                                                                                       useRgnArr = useDateStSQL
-                                                                                       useRgnArrNext =  dateAdd("yyyy", 1, useDateStSQL)
-
-                                                                                    end if
-                                                                     
-                                                                                 else
-
-                                                                                                            
-                                                                                       useRgnArr = useDateStSQL
-                                                                                       useRgnArrNext =  dateAdd("yyyy", 1, useDateStSQL)
-                                                                                    
-                                                                                 end if
-
-
-
-                                                                        select case cint(aktBudgettjkOn_afgr) 
-                                                                        case 1 'regnskabsår
-                                                                        sqlBudgafg = " AND ((md >= "& month(aktBudgettjkOnRegAarSt) & " AND aar = "& year(useRgnArr) & ") OR (md < "& month(aktBudgettjkOnRegAarSt) & " AND aar = "& year(useRgnArrNext) & "))" 
-                                                                        case 2 'måned
-                                                                        sqlBudgafg = " AND (md = "& month(aktBudgettjkOnRegAarSt) & " AND aar = "& year(useRgnArr) & ")" 
-                                                                        case else
-                                                                        sqlBudgafg = ""
-                                                                        end select
-
-                                                                        strSQLres = "SELECT IF(aktid <> 0, SUM(timer), 0) AS restimer, IF(aktid = 0, SUM(timer), 0) AS restimeruspec FROM ressourcer_md WHERE ((jobid = "& job_jid &" AND aktid = "& job_aid &" AND medid = "& usemrn &") OR (jobid = "& job_jid &" AND aktid = 0 AND medid = "& usemrn &")) "& sqlBudgafg &"  GROUP BY aktid, medid" 
-                                                                        'if session("mid") = 1 then
-                                                                        'Response.write "<br>"& strSQLres & " aktBudgettjkOnRegAarSt = "& aktBudgettjkOnRegAarSt &" : useDateStSQL : "& useDateStSQL  &" // useDateSlSQL "& useDateSlSQL & "<br>"
-                                                                        'Response.end 
-                                                                        'end if
-
-
-                                                                        oRec2.open strSQLres, oConn, 3
-                                                                        while not oRec2.EOF 
-                                                                        resTimerThisM = resTimerThisM + oRec2("restimer")
-                                                                        restimeruspecThisM = restimeruspecThisM + oRec2("restimeruspec")
-                                                                        oRec2.movenext
-                                                                        wend
-                                                                        oRec2.close
-                                                                        
-
-                                                                        end if
+                                                                        '**** Ressourcetimer / Forecasttimer ***'
+                                                                        call ressourcetimerTildelt(useDateStSQL,job_jid, job_aid, usemrn)
 
                                                            
 
@@ -2197,7 +2195,7 @@
                                                                                 case 1 'regnskabsår
                                                                                 SQLdatoKriTimer = " AND tdato BETWEEN '"& useRgnArrSQLDate &"' AND '"& useRgnArrNextSQLDate &"'"
                                                                                 case 2 'måned
-                                                                                SQLdatoKriTimer = " AND month(tdato) = month('"& useRgnArrSQLDate & "') AND month(tdato) = year('"& useRgnArrSQLDate &"')" 
+                                                                                SQLdatoKriTimer = " AND month(tdato) = '"& month(useRgnArrSQLDate) & "' AND year(tdato) = '"& year(useRgnArrSQLDate) &"'" 
                                                                                 case else
                                                                                 SQLdatoKriTimer = ""
                                                                                 end select
@@ -2215,8 +2213,11 @@
                                                                         '** Real. timer. Bruges også til balance på ressource ofrecast
                                                                        
                                                                             strSQLtmnr = "SELECT SUM(timer) AS timermnr FROM timer WHERE taktivitetid = "& job_aid & " AND tmnr = "& usemrn &" "& SQLdatoKriTimer &" GROUP BY taktivitetid"
+                                                                            
+                                                                            'if session("mid") = 1 then
                                                                             'response.write strSQLtmnr
                                                                             'response.flush
+                                                                            'end if
                                                                        
                                                                             oRec2.open strSQLtmnr, oConn, 3
                                                                             if not oRec2.EOF then  
@@ -2303,9 +2304,10 @@
 
 
                                                     
-                                                    if ((visSimpelAktLinje <> "1" AND visHRliste <> "1" AND job_internt > -1) AND _
+                                                    if ((visSimpelAktLinje <> "1" AND visHRliste <> "1" AND (job_internt > -1)) AND _
                                                     (job_fakturerbar = 1 OR job_fakturerbar = 2 OR job_fakturerbar = 5 OR job_fakturerbar = 6 OR job_fakturerbar = 90)) _
-                                                    OR (lto = "oko" AND (left(aktnavn, 10) = "Intern tid" OR job_internt = -3)) then 'fakturerbar, ikke fakbar, Km og Salg + E1
+                                                    OR (lto = "oko" AND (left(aktnavn, 10) = "Intern tid" OR job_internt = -3)) _
+                                                    OR (lto = "wap" AND job_internt = -3) then 'fakturerbar, ikke fakbar, Km og Salg + E1
                                                                       
 
                                                    
@@ -2525,7 +2527,7 @@
                                                             
 
                                                             if (cint(aktBudgettjkOn) = 1) AND (job_fakturerbar = 1 OR (job_fakturerbar = 2 AND (lto = "bf" OR lto = "intranet - local")) OR job_fakturerbar = 90) _
-                                                            OR (lto = "oko" AND left(aktnavn, 10) = "Intern tid")  then
+                                                            OR (lto = "oko" AND left(aktnavn, 10) = "Intern tid") OR (lto = "wap") then
                                                                          
                                                               
                                                                      
@@ -2878,9 +2880,9 @@
                                                     if (maxl <> 0) OR timtype = "hidden"  then 'Timefelt åben
 								                        
                                                         if cint(origin) <> 0 then
-                                                        felt = felt &"<input type='hidden' name='FM_timer' value='-9003'>" 'fra TT 
+                                                        felt = felt &"<input type='hidden' name='FM_timer' value='-9003'>" 'fra TT    
                                                         else
-                                                        felt = felt &"<input class='dcls_"&x&" "&aty_real_cls&"_"&x&"' type='"& timtype &"' name='FM_timer' id='FM_timer_"&job_iRowLoops_cn&"_"&x&"' value='"& timerThis &"' maxlength='"&maxl&"' style=""background-color:"&fmbgcol&"; border:"&fmborcl&"; height:16px; width:"& tfeltwth &"px; font-family:arial; font-size:10px;"" onkeyup=""doKeyDown()"" onfocus=""markerfelt('"&job_iRowLoops_cn&""&x&"','"&x&"'), showKMdailog('"&job_fakturerbar&"', '"&job_iRowLoops_cn&""&x&"', '"& bopalThis &"', '"& job_iRowLoops_cn &"', '"& job_kid &"')"";>"
+                                                        felt = felt &"<input class='dcls_"&x&" "&aty_real_cls&"_"&x&" timerfelt' type='"& timtype &"' name='FM_timer' id='FM_timer_"&job_iRowLoops_cn&"_"&x&"' value='"& timerThis &"' maxlength='"&maxl&"' style=""background-color:"&fmbgcol&"; border:"&fmborcl&"; height:16px; width:"& tfeltwth &"px; font-family:arial; font-size:10px;"" onkeyup=""doKeyDown()"" onfocus=""markerfelt('"&job_iRowLoops_cn&""&x&"','"&x&"'), showKMdailog('"&job_fakturerbar&"', '"&job_iRowLoops_cn&""&x&"', '"& bopalThis &"', '"& job_iRowLoops_cn &"', '"& job_kid &"')"";>"
 						                                end if		                   
 
                                                     else 'Timefelt Lukket 
@@ -3148,8 +3150,14 @@
                     strAktiviteter = strAktiviteter & "<tr><td bgcolor='#FFFFFF' colspan='9' align='right' valign='top' style='padding:10px 0px 20px 10px; height:10px; border-bottom:0px #cccccc solid;'>"
                     strAktiviteter = strAktiviteter & "<input type='hidden' id='jq_antalakt_"&job_jid&"' value='"&acnForFase&"'>"
                     strAktiviteter = strAktiviteter & "<input type='hidden' id='jq_antalakt_0' value="&acn&">"
-                    strAktiviteter = strAktiviteter & "<input type=""submit"" value='"& tsa_txt_085jq &" >>' >"_
-                    &"</td></tr>"
+                    
+                    if lto <> "esn" AND lto <> "intranet - local"  then 'skal være esn
+                      strAktiviteter = strAktiviteter & "<input type=""submit"" value='"& tsa_txt_085jq &" >>' >"
+                    else
+                    strAktiviteter = strAktiviteter & "<input type=""button"" value='"& tsa_txt_085jq &" >> ' class=""tjknorm2"" />" 'esn knap
+                    end if
+
+                    strAktiviteter = strAktiviteter & "</td></tr>"
                     end if
 
             
@@ -4459,7 +4467,7 @@
     select case rdir
     case "timetag_web" 'timeout mobile
     origin = 12
-    case "ugeseddel_2011" 'timetag
+    case "ugeseddel_2011", "touchMonitor" 'timetag
     origin = 11
     case else
     origin = 0
@@ -4627,10 +4635,12 @@
         '1: Vietnam import
         '3: IBM SPSS
         '10 Excel upload
-        '11: TimeTag  / Ugeseddel 
+        '11: TimeTag  / Ugeseddel + Touchmonitor
         '12: TimeOut Mobile
         'xx: Tilret fra ugeseddel / afvigelsese håndtering == Beholder origin
 
+
+        
 
         'REsponse.write "HER"
         'Response.end
@@ -4707,12 +4717,16 @@
 
     'Response.write "tildelselmedarb: " & request("tildelselmedarb") & "<br>"
 	
+          
+
 	
 	            '*** => Timer er indtastet på timereg. siden ***'
 	            '*** Eller via stopur                        ***'
 	            if stopur <> "1" then 
 	            
 	                
+   
+
 	                '**** Obligatoriske felter ****            
                     'jobid
                     'aktid
@@ -4723,10 +4737,16 @@
 	                '*** Sætter cookies på faser ****'
 	                faseshowVal = split(request("faseshow"), ", ")
 	                faserids = split(request("faseshowid"), ", ")
+
+                    
+
+
 	                for f = 0 to UBOUND(faserids)
 	                    'thisFaseVal = request("faseshow_"& faserids(f) &"")
 	                    'Response.Write "#"& faserids(f) & "#" &faseshowVal(f) & "<br>"
+                        if len(trim(faseshowVal(f))) <> 0 AND len(trim(trim(faserids(f)))) <> 0 then
 	                    Response.Cookies("tsa_fase")(""& trim(faserids(f)) &"") = trim(faseshowVal(f))
+                        end if
 	                
 	                next
 	                
@@ -4851,17 +4871,25 @@
 				            
 				                '**** Slut ETS ****'
 	                             end if '*** ETS track kode slut
-				               
+				         
+        
+
 	                
-	
-			
+	          
+		                'if lto = "cflow" then
+                        'response.write "origin" & origin & "<br>jobid: " & request("FM_jobid")
+                        'response.end
+                        'end if	
+
 			
 			'*** Validerer at job og akt er udfyldt når der indlæses fra ugeseddel (timeTag) eller timeOut mobile, 
             '**  hvor der er mulighed for at akt og job ikke er udfyldt ***
-            if rdir = "timetag_web" OR rdir = "ugeseddel_2011" then
-            if len(trim(request("FM_jobid"))) = 0 OR (request("FM_jobid") = 0 AND (origin = 12 OR origin = 11)) then
+            if rdir = "timetag_web" OR rdir = "ugeseddel_2011" OR rdir = "touchMonitor" then
+            if len(trim(request("FM_jobid"))) = 0 OR (request("FM_jobid") <= 0 AND (origin = 12 OR origin = 11)) then
                 
                     
+                       
+
                     antalErr = 1
 					errortype = 167
 					useleftdiv = "t"
@@ -4893,8 +4921,7 @@
             
             end if
 
-                        'response.write "origin" & origin
-                        'response.end
+                      
 
 
              if len(trim(request("FM_aktivitetid"))) = 0 OR (request("FM_aktivitetid") = 0 AND (origin = 12 OR origin = 11)) then
@@ -5209,9 +5236,6 @@
 	end if '***Fra  Stopur****'
 	
 	
-	
-	
-	
 	'**** tjekker om timer skal afrundes
     call timerround_fn()
 	
@@ -5284,502 +5308,511 @@
 
 
                            
+                    
+	                for j = 0 to UBOUND(jobids)
+                    mtrx = 0
 
-	    for j = 0 to UBOUND(jobids)
-        mtrx = 0
 
 
+                                        for mtrx = 0 TO matrixNo 'Gennemløber flere aktiviteter hvis timer skal fordeles på underliggende MATRIX, pga. tidspunkter
+                                        '***** Aktiviteter skal være SKJULT på timereg. siden
+                                        matrixAktFundet = 0
+                                        aktFakturerbarId = 0
 
-                            for mtrx = 0 TO matrixNo 'Gennemløber flere aktiviteter hvis timer skal fordeles på underliggende MATRIX, pga. tidspunkter
-                            '***** Aktiviteter skal være SKJULT på timereg. siden
-                            matrixAktFundet = 0
-                            aktFakturerbarId = 0
+                                        select case mtrx
+                                        case 0
+                                        aktids(j) = aktids(j)
+                                        orgAktId = aktids(j) 
+                                        case 1
+                                        aktFakturerbarId = 50 'dag
+                                        case 2
+                                        aktFakturerbarId = 54 'aften  
+                                        case 3
+                                        aktFakturerbarId = 52 'weekend
+                                        case 4
+                                        aktFakturerbarId = 55 'weekend aften
+                                        case 5
+                                        aktFakturerbarId = 25 '1 maj timer (helligdage) 
+                                        case 6
+                                        aktFakturerbarId = 51 'nat
+                                        case 7
+                                        aktFakturerbarId = 53 'weekend nat
+                                        end select
 
-                            select case mtrx
-                            case 0
-                            aktids(j) = aktids(j)
-                            orgAktId = aktids(j) 
-                            case 1
-                            aktFakturerbarId = 50 'dag
-                            case 2
-                            aktFakturerbarId = 54 'aften  
-                            case 3
-                            aktFakturerbarId = 52 'weekend
-                            case 4
-                            aktFakturerbarId = 55 'weekend aften
-                            case 5
-                            aktFakturerbarId = 25 '1 maj timer (helligdage) 
-                            case 6
-                            aktFakturerbarId = 51 'nat
-                            case 7
-                            aktFakturerbarId = 53 'weekend nat
-                            end select
+                                          if mtrx > 0 then
 
-                              if mtrx > 0 then
+                                            '** Henter navn på ORG aktivitet
+                                                strAktOrgNavn = ""
+                                                strSQLaktorg = "SELECT navn FROM aktiviteter WHERE job = "& jobids(j) & " AND id = "& orgAktId &""
+                                                oRec6.open strSQLaktorg, oConn, 3
+                                                if not oRec6.EOF then
 
-                                '** Henter navn på ORG aktivitet
-                                    strAktOrgNavn = ""
-                                    strSQLaktorg = "SELECT navn FROM aktiviteter WHERE job = "& jobids(j) & " AND id = "& orgAktId &""
-                                    oRec6.open strSQLaktorg, oConn, 3
-                                    if not oRec6.EOF then
+                                                    strAktOrgNavn = left(oRec6("navn"), 6)
 
-                                        strAktOrgNavn = left(oRec6("navn"), 6)
+                                                end if
+                                                oRec6.close
 
-                                    end if
-                                    oRec6.close
+                                                '*** DAG / NAT / WEEKEND MATRIX aktiviteter
+                                                strSQLaktmtrx = "SELECT id FROM aktiviteter WHERE job = "& jobids(j) & " AND navn LIKE '"& strAktOrgNavn &"%' AND fakturerbar = " & aktFakturerbarId
 
-                                    '*** DAG / NAT / WEEKEND MATRIX aktiviteter
-                                    strSQLaktmtrx = "SELECT id FROM aktiviteter WHERE job = "& jobids(j) & " AND navn LIKE '"& strAktOrgNavn &"%' AND fakturerbar = " & aktFakturerbarId
+                                                oRec6.open strSQLaktmtrx, oConn, 3
+                                                if not oRec6.EOF then
 
-                                    oRec6.open strSQLaktmtrx, oConn, 3
-                                    if not oRec6.EOF then
+                                                    aktids(j) = oRec6("id")
+                                                    matrixAktFundet = 1
 
-                                        aktids(j) = oRec6("id")
-                                        matrixAktFundet = 1
+                                                end if
+                                                oRec6.close
 
-                                    end if
-                                    oRec6.close
-
-                              end if
+                                          end if
 
 
                            
                    
-                    if cint(mtrx) = 0 OR cint(matrixAktFundet) = 1 then  
+                                if cint(mtrx) = 0 OR cint(matrixAktFundet) = 1 then  
 
-                         '**** SKAL LÆSES VED HVERT LOOP. ELLERS FEJLER BLA: TARIF Beregning
-                        'Tjekker alle linier for medarbejderId / Det er blandet liste med blandede medarbejdere
-                        'Multitildel og stopur ikke mulig her.
-                        if (cint(visallemedarb_blandetliste) = 1 OR cint(visallemedarb_blandetliste) = 2) OR cint(matrixAktFundet) = 1 then 
-                        medarbejderid = medarbejderids(j) 'kun ved sortBy 5 eller 6 og VisforalleMedarb = 1 skal pris findes ved hver enkelt reg. --> Flyt ned i J loop
+                                     '**** SKAL LÆSES VED HVERT LOOP. ELLERS FEJLER BLA: TARIF Beregning
+                                    'Tjekker alle linier for medarbejderId / Det er blandet liste med blandede medarbejdere
+                                    'Multitildel og stopur ikke mulig her.
+                                    if (cint(visallemedarb_blandetliste) = 1 OR cint(visallemedarb_blandetliste) = 2) OR cint(matrixAktFundet) = 1 then 
+                                    medarbejderid = medarbejderids(j) 'kun ved sortBy 5 eller 6 og VisforalleMedarb = 1 skal pris findes ved hver enkelt reg. --> Flyt ned i J loop
                      
-                        '**** Finder medarbejder timepris og kostpris ************
-		                call mNavnogKostpris(medarbejderid)
+                                    '**** Finder medarbejder timepris og kostpris ************
+		                            call mNavnogKostpris(medarbejderid)
 
-                        end if 
+                                    end if 
 
                   
 
                 
 
 			    
-			    '*****************************************************'
-				'*** Henter Akt og Job oplysninger                  **'
-				'*** Finder evt. alternativ medarbejder timepris    **'
-				'*** på den valgte aktivitet                        **'
-				'*****************************************************'
+			                '*****************************************************'
+				            '*** Henter Akt og Job oplysninger                  **'
+				            '*** Finder evt. alternativ medarbejder timepris    **'
+				            '*** på den valgte aktivitet                        **'
+				            '*****************************************************'
 				
-                 'foundone_0 = 0
-                 'intTimepris_0 = 0
-                 'intValuta_0 = 0
+                             'foundone_0 = 0
+                             'intTimepris_0 = 0
+                             'intValuta_0 = 0
                 
-				tfaktimvalue = 0
-                strSQL = "SELECT job.id AS jobid, aktiviteter.navn, fakturerbar, jobnavn, jobnr, "_
-				&" kkundenavn, jobknr, fastpris, job.serviceaft, kostpristarif"_
-				&" FROM aktiviteter, job, kunder "_
-				&" WHERE aktiviteter.id = "& aktids(j) &" AND job.id = "& jobids(j) &" AND kunder.Kid = jobknr "
+				            tfaktimvalue = 0
+                            strSQL = "SELECT job.id AS jobid, aktiviteter.navn, fakturerbar, jobnavn, jobnr, "_
+				            &" kkundenavn, jobknr, fastpris, job.serviceaft, kostpristarif"_
+				            &" FROM aktiviteter, job, kunder "_
+				            &" WHERE aktiviteter.id = "& aktids(j) &" AND job.id = "& jobids(j) &" AND kunder.Kid = jobknr "
 				
 				
 				
-				'Response.write "<br><br>"& strSQL &"<br><br>"
-				'Response.flush				
+				            'Response.write "<br><br>"& strSQL &"<br><br>"
+				            'Response.flush				
 				
-				oRec.Open strSQL, oConn, 3
-				if Not oRec.EOF then
+				            oRec.Open strSQL, oConn, 3
+				            if Not oRec.EOF then
 					
-							 intjobid = oRec("jobid")
-							 strJobnavn = oRec("Jobnavn")
-					 		 strJobknavn = oRec("kkundenavn")
-							 strJobknr = oRec("Jobknr") 	
-							 strAktNavn = oRec("navn")
-							 strFakturerbart = oRec("fakturerbar")
-							 intServiceAft = oRec("serviceaft")
-							 intJobnr = oRec("jobnr")
+							             intjobid = oRec("jobid")
+							             strJobnavn = oRec("Jobnavn")
+					 		             strJobknavn = oRec("kkundenavn")
+							             strJobknr = oRec("Jobknr") 	
+							             strAktNavn = oRec("navn")
+							             strFakturerbart = oRec("fakturerbar")
+							             intServiceAft = oRec("serviceaft")
+							             intJobnr = oRec("jobnr")
 
-                             '*** Overskrifer kostpris med kostpristarif fra medab.type
-                             kostpristarif = oRec("kostpristarif")
-                             select case kostpristarif
-                             case "0"
-                             dblkostpris = dblkostpris
-                             case "A"
-                             dblkostpris = mkostpristarif_A
-                             case "B"
-                             dblkostpris = mkostpristarif_B
-                             case "C"
-                             dblkostpris = mkostpristarif_C
-                             case "D"
-                             dblkostpris = mkostpristarif_D
-                             case else
-                             dblkostpris = dblkostpris 
-                             end select
+                                         '*** Overskrifer kostpris med kostpristarif fra medab.type
+                                         kostpristarif = oRec("kostpristarif")
+                                         select case kostpristarif
+                                         case "0"
+                                         dblkostpris = dblkostpris
+                                         case "A"
+                                         dblkostpris = mkostpristarif_A
+                                         case "B"
+                                         dblkostpris = mkostpristarif_B
+                                         case "C"
+                                         dblkostpris = mkostpristarif_C
+                                         case "D"
+                                         dblkostpris = mkostpristarif_D
+                                         case else
+                                         dblkostpris = dblkostpris 
+                                         end select
 
 							 
-							 '**** 2009 t.tfaktim er = a.fakturerbar (akt. type) også i timer tabellen. **'
-							 tfaktimvalue = strFakturerbart
-							 strFastpris = oRec("fastpris")
+							             '**** 2009 t.tfaktim er = a.fakturerbar (akt. type) også i timer tabellen. **'
+							             tfaktimvalue = strFakturerbart
+							             strFastpris = oRec("fastpris")
 						
 					        
-					        '*** tjekker for alternativ timepris på aktivitet
-							call alttimepris(aktids(j), jobids(j), medarbejderid, 0)
+					                    '*** tjekker for alternativ timepris på aktivitet
+							            call alttimepris(aktids(j), jobids(j), medarbejderid, 0)
 							
-							'** Er der alternativ timepris på jobbet
-							if foundone = "n" then
+							            '** Er der alternativ timepris på jobbet
+							            if foundone = "n" then
 								
-                                call alttimepris(0, jobids(j), medarbejderid, 0)
+                                            call alttimepris(0, jobids(j), medarbejderid, 0)
                                 
-							end if
+							            end if
 							
-							'**************************************************************'
-							'*** Hvis timepris ikke findes på job bruges Gen. timepris fra '
-							'*** Fra medarbejdertype, og den oprettes på job **************'
-							'**************************************************************'
-							if foundone = "n" then
-							intTimepris = replace(tprisGen, ",", ".") 
-							intValuta = valutaGen
+							            '**************************************************************'
+							            '*** Hvis timepris ikke findes på job bruges Gen. timepris fra '
+							            '*** Fra medarbejdertype, og den oprettes på job **************'
+							            '**************************************************************'
+							            if foundone = "n" then
+							            intTimepris = replace(tprisGen, ",", ".") 
+							            intValuta = valutaGen
 							
                            
-							strSQLtpris = "INSERT INTO timepriser (jobid, aktid, medarbid, timeprisalt, 6timepris, 6valuta) "_
-							&" VALUES ("& intjobid &", 0, "& medarbejderid &", 0, "& intTimepris &", "& intValuta &")"
+							            strSQLtpris = "INSERT INTO timepriser (jobid, aktid, medarbid, timeprisalt, 6timepris, 6valuta) "_
+							            &" VALUES ("& intjobid &", 0, "& medarbejderid &", 0, "& intTimepris &", "& intValuta &")"
 							
 
-                            'response.write "strSQLtpris: " & strSQLtpris & "<br>"
-                            'response.Flush
+                                        'response.write "strSQLtpris: " & strSQLtpris & "<br>"
+                                        'response.Flush
 
-							oConn.execute(strSQLtpris)
+							            oConn.execute(strSQLtpris)
 
                         
 							
-							end if
+							            end if
 							
-				end if
-				oRec.Close
+				            end if
+				            oRec.Close
 	
-	        'if lto = "nonstop" OR lto = "intranet - local" then 
-	        'response.write "strAktNavn: "& strAktNavn &" kostpristarif: " & kostpristarif &" kostprsi: "& dblkostpris &"<br>"
-            'end if
+	                    'if lto = "nonstop" OR lto = "intranet - local" then 
+	                    'response.write "strAktNavn: "& strAktNavn &" kostpristarif: " & kostpristarif &" kostprsi: "& dblkostpris &"<br>"
+                        'end if
 	        
 	        
-	        if stopur <> "1" then 
-		    '****************************************************'
-			'***** Dag 1 - 7 Indlæses i db fra Timereg **********'
-			'****************************************************'
+	                    if stopur <> "1" then 
+		                '****************************************************'
+			            '***** Dag 1 - 7 Indlæses i db fra Timereg **********'
+			            '****************************************************'
 			
-            '*** Dage 1-7 på hver aktlinje ***'
-			if j = 0 then
-			ystart = 0
-			else
-			ystart = (j * 7) 
-			end if
+                        '*** Dage 1-7 på hver aktlinje ***'
+			            if j = 0 then
+			            ystart = 0
+			            else
+			            ystart = (j * 7) 
+			            end if
 			
-            if rdir = "timetag_web" OR rdir = "ugeseddel_2011" OR rdir = "touchMonitor" then 'ugeseddel er opdater aktivieter eller tilføje herreløse fra TimeTag
-			yslut = 0
-            else
-            yslut = (ystart + 6)
-            end if
+                        if rdir = "timetag_web" OR rdir = "ugeseddel_2011" OR rdir = "touchMonitor" then 'ugeseddel er opdater aktivieter eller tilføje herreløse fra TimeTag
+			            yslut = 0
+                        else
+                        yslut = (ystart + 6)
+                        end if
 
-            'Response.Write high_fetnr & "<br>"
-			'Response.Write "ystart: "& ystart & "<br>"
-            'Response.Write "yslut: "& yslut & "<br>"
-            'Response.end
+                        'Response.Write high_fetnr & "<br>"
+			            'Response.Write "ystart: "& ystart & "<br>"
+                        'Response.Write "yslut: "& yslut & "<br>"
+                        'Response.end
 
-			isAktMedidWrt = ""
-			multiDagArrUse = 0
+			            isAktMedidWrt = ""
+			            multiDagArrUse = 0
 			
-			'for y = 0 to UBOUND(tTimertildelt)
-			for y = ystart to yslut 'AND y <= z  
+			            'for y = 0 to UBOUND(tTimertildelt)
+			            for y = ystart to yslut 'AND y <= z  
 			    
-			    '*** tjekker om felt id liggen i den rigtige aktlinie *'
-			    '**  DVS mellem 11 - 17, eller 21-27 etc..          ***'
-				if y >= ystart AND y <= yslut then
+			                '*** tjekker om felt id liggen i den rigtige aktlinie *'
+			                '**  DVS mellem 11 - 17, eller 21-27 etc..          ***'
+				            if y >= ystart AND y <= yslut then
 				
-                'Response.Write "y: "& y &"<br>"
-                'Response.Write "feltnr(y):"& feltnr(y)
-                'Response.flush
-				feltvalThis = cint(replace(feltnr(y), "_", ""))
-				feltvalThis = cstr(feltvalThis)
+                            'Response.Write "y: "& y &"<br>"
+                            'Response.Write "feltnr(y):"& feltnr(y)
+                            'Response.flush
+				            feltvalThis = cint(replace(feltnr(y), "_", ""))
+				            feltvalThis = cstr(feltvalThis)
 				
 				
-			    'if cint(origin) = 12 then '12 TimeTag Mobile, 11: TimeTag / Ugeseddel, 10: excel 
+			                'if cint(origin) = 12 then '12 TimeTag Mobile, 11: TimeTag / Ugeseddel, 10: excel 
                     
-                '    if request("FM_kom_"&feltvalThis) <> "Kommentar" then
-				'    strKomm = "; "& replace(request("FM_kom_"&feltvalThis), "'", "&#39;")
-                '    else
-                '    strKomm = ""
-                '    end if
-                'else
-                strKomm = replace(request("FM_kom_"&feltvalThis), "'", "&#39;")
-                'end if
+                            '    if request("FM_kom_"&feltvalThis) <> "Kommentar" then
+				            '    strKomm = "; "& replace(request("FM_kom_"&feltvalThis), "'", "&#39;")
+                            '    else
+                            '    strKomm = ""
+                            '    end if
+                            'else
+                            strKomm = replace(request("FM_kom_"&feltvalThis), "'", "&#39;")
+                            'end if
 				
-			    '*** Tjekker at komm. er udfyldt ved pre-def aktiviteter ***'
+			                '*** Tjekker at komm. er udfyldt ved pre-def aktiviteter ***'
 				
-                'response.write "tfaktimvalue: "& tfaktimvalue
-                'response.end                        
-                call akttyper2009prop(tfaktimvalue)
-				
-				
-				if len(request("FM_off_"&feltvalThis)) <> 0 then
-				offentlig = request("FM_off_"&feltvalThis)
-				else
-				offentlig = 0
-				end if
-				
-				if len(request("FM_bopal_"&feltvalThis)) <> 0 then
-				bopal = request("FM_bopal_"&feltvalThis)
-				else
-				bopal = 0
-				end if
+                            'response.write "tfaktimvalue: "& tfaktimvalue
+                            'response.end                        
+                            call akttyper2009prop(tfaktimvalue)
 				
 				
-				if len(request("FM_destination_"&feltvalThis)) <> 0 then
-				destination = request("FM_destination_"&feltvalThis)
-				else
-				destination = ""
-				end if
+				            if len(request("FM_off_"&feltvalThis)) <> 0 then
+				            offentlig = request("FM_off_"&feltvalThis)
+				            else
+				            offentlig = 0
+				            end if
+				
+				            if len(request("FM_bopal_"&feltvalThis)) <> 0 then
+				            bopal = request("FM_bopal_"&feltvalThis)
+				            else
+				            bopal = 0
+				            end if
+				
+				
+				            if len(request("FM_destination_"&feltvalThis)) <> 0 then
+				            destination = request("FM_destination_"&feltvalThis)
+				            else
+				            destination = ""
+				            end if
 
-                    'if (session("mid") = 1) AND (lto = "intranet - local" OR lto = "epi" OR lto = "outz") then
-				    'Response.Write "<hr>visTimerelTid: "& visTimerelTid &"<br>fltnt:"& feltnr(y)&"<br>"
-                     '        Response.flush 
-                    'Response.Write "aktid: "& aktids(j)&"<br>"
-                    '        Response.flush
-                    'Response.Write " timer:" & tTimertildelt(y) &"<br>"
-                    '        Response.flush
-                    'Response.Write " Dato: " & datoer(y)&"<br>"
-                    '        Response.flush 
-                    'Response.Write " tSttid(y): "& tSttid(y) &" - "& tSltid(y) &"<br>"
-                     '       Response.flush
-                    'Response.Write " medarbejderid: "& medarbejderid&"<br>"
-                    '        Response.flush
-                    'Response.end
-                    'end if
+                                'if (session("mid") = 1) AND (lto = "intranet - local" OR lto = "epi" OR lto = "outz") then
+				                'Response.Write "<hr>visTimerelTid: "& visTimerelTid &"<br>fltnt:"& feltnr(y)&"<br>"
+                                 '        Response.flush 
+                                'Response.Write "aktid: "& aktids(j)&"<br>"
+                                '        Response.flush
+                                'Response.Write " timer:" & tTimertildelt(y) &"<br>"
+                                '        Response.flush
+                                'Response.Write " Dato: " & datoer(y)&"<br>"
+                                '        Response.flush 
+                                'Response.Write " tSttid(y): "& tSttid(y) &" - "& tSltid(y) &"<br>"
+                                 '       Response.flush
+                                'Response.Write " medarbejderid: "& medarbejderid&"<br>"
+                                '        Response.flush
+                                'Response.end
+                                'end if
 				
-				if len(trim(tTimertildelt(y))) <> 0 then 
+				            if len(trim(tTimertildelt(y))) <> 0 then 
 
-				    tTimertildelt(y) = SQLBless(tTimertildelt(y))
+				                tTimertildelt(y) = SQLBless(tTimertildelt(y))
 
-                else
+                            else
 					
-                    if visTimerelTid <> 0 then 'Timer eller klokke
-                    tTimertildelt(y) = -9002 '-2 Opdater '** ÆNDREET 03032016 da der ellers kan komme fejl ind indlæsninger FRA TT ved flere registreringer pr. dag. nårder bruges klokkeslet
-                    else
-					tTimertildelt(y) = -9001 '-1 Slet
-				    end if
+                                if visTimerelTid <> 0 then 'Timer eller klokke
+                                tTimertildelt(y) = -9002 '-2 Opdater '** ÆNDREET 03032016 da der ellers kan komme fejl ind indlæsninger FRA TT ved flere registreringer pr. dag. nårder bruges klokkeslet
+                                else
+					            tTimertildelt(y) = -9001 '-1 Slet
+				                end if
 
-				end if
+				            end if
 				
 				
                    
-				
-			    
-				    '**** * Multitildel for flere dage ****'
-                    '**** Stjerne funktion er brugt  ******'
-				    if instr(tTimertildelt(y), "*") <> 0 then
+				                            
+			                                '*******************************************************************************************************************
+				                            '**** * Multitildel for flere dage ****'
+                                            '**** Stjerne funktion er brugt  ******'
+				                            '*******************************************************************************************************************
+                                            if instr(tTimertildelt(y), "*") <> 0 then
     				    
-				        lngt = len(tTimertildelt(y))
-				        st = instr(tTimertildelt(y), "*")
-				        multiDagArr = mid(tTimertildelt(y), st+1, lngt)
-				        'multiDagArr = (multiDagArr/5) * 7
-				            's = 0
-				            'if s = 100 then
-				            if instr(multiDagArr, ",") <> 0 OR instr(multiDagArr, ".") <> 0 then
-				            antalErr = 1
-						    errortype = 135
-						    useleftdiv = "t"
-						    %><!--#include file="../inc/regular/header_lysblaa_inc.asp"--><%
-						    call showError(errortype)
-						    response.end
-						    end if
-    				    
-    				    
-				        findTimerForStar = left(tTimertildelt(y), (st-1))
-				        multiDagArrUse = multiDagArr - 1
-    				    
-				        if left(trim(findTimerForStar), 1) = "." then
-			            useTimer = "0"&trim(findTimerForStar)
-			            else
-			            useTimer = findTimerForStar
-			            end if    
+				                                lngt = len(tTimertildelt(y))
+				                                st = instr(tTimertildelt(y), "*")
+				                                multiDagArr = mid(tTimertildelt(y), st+1, lngt)
+				                                'multiDagArr = (multiDagArr/5) * 7
+				                                    's = 0
+				                                    'if s = 100 then
+				                                    if instr(multiDagArr, ",") <> 0 OR instr(multiDagArr, ".") <> 0 then
+				                                    antalErr = 1
+						                            errortype = 135
+						                            useleftdiv = "t"
+						                            %><!--#include file="../inc/regular/header_lysblaa_inc.asp"--><%
+						                            call showError(errortype)
+						                            response.end
+						                            end if
     				    
     				    
-				    '*** tildeler timer på valgte dage, ved multiDage funktion tildeles ikke på hellgidage ***'
-				    '*** Hvad med personlige fridage, der læses ike timer ind på dage ved indtasting i periode *''
-				    '**  via * hvis medarbejderen ikke 
-				    '*** ikke har normeret tid de pågældende dage **'
-				    muDag = 0
-				    for muDag = 0 to multiDagArrUse 
-				    'Response.Write  "muDag " & muDag & "<br>"
-    				'Response.write AktMedidWrt  & "<br>"
+				                                findTimerForStar = left(tTimertildelt(y), (st-1))
+				                                multiDagArrUse = multiDagArr - 1
+    				    
+				                                if left(trim(findTimerForStar), 1) = "." then
+			                                    useTimer = "0"&trim(findTimerForStar)
+			                                    else
+			                                    useTimer = findTimerForStar
+			                                    end if    
+    				    
+    				    
+				                                                '*** tildeler timer på valgte dage, ved multiDage funktion tildeles ikke på hellgidage ***'
+				                                                '*** Hvad med personlige fridage, der læses ike timer ind på dage ved indtasting i periode *''
+				                                                '**  via * hvis medarbejderen ikke 
+				                                                '*** ikke har normeret tid de pågældende dage **'
+				                                                muDag = 0
+				                                                for muDag = 0 to multiDagArrUse 
+				                                                'Response.Write  "muDag " & muDag & "<br>"
+    				                                            'Response.write AktMedidWrt  & "<br>"
     				
-				    useDato = dateAdd("d", muDag, datoer(y))
-				    '**** Indlæser kun timer på dage hvor den valgte medarbejder har arbejdsdag, og ikke på helligdage **'
+				                                                useDato = dateAdd("d", muDag, datoer(y))
+				                                                '**** Indlæser kun timer på dage hvor den valgte medarbejder har arbejdsdag, og ikke på helligdage **'
     				
-				    ntimPer = 0
-				    call normtimerPer(medarbejderid, useDato, 0, 0)
+				                                                ntimPer = 0
+
+                     
+
+				                                                call normtimerPer(medarbejderid, useDato, 0, 0)
     				
-				        'Response.Write "timer:" & useTimer & " Dato: " & useDato & " ntimPer:"& ntimPer &" medarbejderid: "& medarbejderid&"<br>"
-                        'Response.flush
+				                                                    Response.Write "timer:" & useTimer & " Dato: " & useDato & " ntimPer:"& ntimPer &" medarbejderid: "& medarbejderid&"<br>"
+                                                                    Response.flush
     				
-				        if cint(ntimPer) <> 0 then
-    				    useTimerThis = useTimer
-    				    else
-    				    useTimerThis = 0
-    				    end if
+				                                                    if cint(ntimPer) <> 0 then
+    				                                                useTimerThis = useTimer
+    				                                                else
+    				                                                useTimerThis = 0
+    				                                                end if
     				    
                         
-    				        'response.write "tSttid(y)"&  tSttid(y)
-                            'response.flush 
+    				                                                    'response.write "tSttid(y)"&  tSttid(y)
+                                                                        'response.flush 
             				
-				            '**** Indlæser timer i DB, alm timereg. i timer *****'
-				            call opdaterTimer(aktids(j), strAktNavn, tfaktimvalue, strFastpris, intJobnr, strJobnavn, strJobknr,_
-				            strJobknavn, medarbejderid, strMnavn,_
-				            useDato, useTimerThis, strKomm, intTimepris,_
-				            dblkostpris, offentlig, intServiceAft, strYear,_
-				            tSttid(y), tSltid(y), visTimerelTid, stopur, intValuta, bopal, destination, 0, 0, origin, extsysid, mtrx, intKpValuta)
+				                                                        '**** Indlæser timer i DB, alm timereg. i timer *****'
+				                                                        call opdaterTimer(aktids(j), strAktNavn, tfaktimvalue, strFastpris, intJobnr, strJobnavn, strJobknr,_
+				                                                        strJobknavn, medarbejderid, strMnavn,_
+				                                                        useDato, useTimerThis, strKomm, intTimepris,_
+				                                                        dblkostpris, offentlig, intServiceAft, strYear,_
+				                                                        tSttid(y), tSltid(y), visTimerelTid, stopur, intValuta, bopal, destination, 0, 0, origin, extsysid, mtrx, intKpValuta)
             				
     				    
     				    
-				        isAktMedidWrt = isAktMedidWrt & ",#"&aktids(j)&"_"&medarbejderid&"#"
-				        'end if
+				                                                    isAktMedidWrt = isAktMedidWrt & ",#"&aktids(j)&"_"&medarbejderid&"#"
+				                                                    'end if
     				    
-				        findTimerForStar = ""
+				                                                    findTimerForStar = ""
 				        
     				 
-				    next 
+				                                                next 
 				    
     				
     				
     				
-				    else
-				    '*** almindelig indtastning 
+				                            else
+				                            '*** IKKE Multitilde * DVS. almindelig indtastning 
+    				       
     				        
-    				        
-				            if left(trim(tTimertildelt(y)), 1) = "." then
-			                useTimer = "0"&trim(tTimertildelt(y))
-			                else
-			                useTimer = tTimertildelt(y)
-			                end if    
+				                                    if left(trim(tTimertildelt(y)), 1) = "." then
+			                                        useTimer = "0"&trim(tTimertildelt(y))
+			                                        else
+			                                        useTimer = tTimertildelt(y)
+			                                        end if    
     			            
-    				        muDag = 0
-				            useDato = datoer(y)
+    				                                muDag = 0
+				                                    useDato = datoer(y)
 
-                            if rdir = "xtimetag_web" OR rdir = "ugeseddel_2011" OR rdir = "favorit" then
-                            useDage = ""
-                            usetSltid = ""
-                            usetSttid = ""
-                            else
-				            useDage = tDage(y)
-                            usetSltid = tSltid(y)
-                            usetSttid = tSttid(y)
-				            end if  
-                                 
-                           
+                                                    if rdir = "xtimetag_web" OR rdir = "ugeseddel_2011" OR rdir = "favorit" then
+                                                    useDage = ""
+                                                    usetSltid = ""
+                                                    usetSttid = ""
+                                                    else
+				                                    useDage = tDage(y)
+                                                    usetSltid = tSltid(y)
+                                                    usetSttid = tSttid(y)
+				                                    end if  
 				          
 
-				            '*** Er akt/medarb. allerede opdateret via multiDatoer?****' 
-				            '** Så skal de ikke opdateresd igen, da de så overskriver den allerede opdaterede værdi ***'
-				            if instr(isAktMedidWrt, ",#"&aktids(j)&"_"&medarbejderid&"#") = 0 then
+				                                    '*** Er akt/medarb. allerede opdateret via multiDatoer?****' 
+				                                    '** Så skal de ikke opdateresd igen, da de så overskriver den allerede opdaterede værdi ***'
+				                                    if instr(isAktMedidWrt, ",#"&aktids(j)&"_"&medarbejderid&"#") = 0 then
 				            
 				           
-    	                    '**** Indlæser timer i DB, alm timereg. i timer *****'
+    	                                                    '**** Indlæser timer i DB, alm timereg. i timer *****'
 				            
-				            if aktids(j) <> 0 AND len(trim(aktids(j))) <> 0 then
+				                                            if aktids(j) <> 0 AND len(trim(aktids(j))) <> 0 then
 				            
 
-                            'response.write "tSttid(y)"&  usetSttid
-                            'response.flush 
+                                                            'response.write "tSttid(y)"&  usetSttid
+                                                            'response.flush 
 
-                             'Response.Write "<br>"& tSttid(y)& "usetSttid : "&  usetSttid &" timer:" & useTimer & " Dato: " & useDato & " ntimPer:"& ntimPer &" medarbejderid: "& medarbejderid&"<br>"
-                             'Response.flush
+                                                             'Response.Write "<br>"& tSttid(y)& "usetSttid : "&  usetSttid &" timer:" & useTimer & " Dato: " & useDato & " ntimPer:"& ntimPer &" medarbejderid: "& medarbejderid&"<br>"
+                                                             'Response.flush
 
                                
-                            call opdaterTimer(aktids(j), strAktNavn, tfaktimvalue, strFastpris, intJobnr, strJobnavn, strJobknr,_
-				            strJobknavn, medarbejderid, strMnavn,_
-				            useDato, useTimer, strKomm, intTimepris,_
-				            dblkostpris, offentlig, intServiceAft, strYear,_
-				            usetSttid, usetSltid, visTimerelTid, stopur, intValuta, bopal, destination, useDage, tildeliheledage, origin, extsysid, mtrx, intKpValuta)
+                                                            call opdaterTimer(aktids(j), strAktNavn, tfaktimvalue, strFastpris, intJobnr, strJobnavn, strJobknr,_
+				                                            strJobknavn, medarbejderid, strMnavn,_
+				                                            useDato, useTimer, strKomm, intTimepris,_
+				                                            dblkostpris, offentlig, intServiceAft, strYear,_
+				                                            usetSttid, usetSltid, visTimerelTid, stopur, intValuta, bopal, destination, useDage, tildeliheledage, origin, extsysid, mtrx, intKpValuta)
     				        
     				        
-    				        isAktMedidDatoWrt = isAktMedidDatoWrt & ",#"&aktids(j)&"_"&medarbejderid&"_"&useDato&"#"
-				            end if
+    				                                        isAktMedidDatoWrt = isAktMedidDatoWrt & ",#"&aktids(j)&"_"&medarbejderid&"_"&useDato&"#"
+				                                            end if
 				            
 				            
-				            end if
+				                                    end if
     				
     				
-				    end if
+				                            end if
 			   
-                                'lb = ""
-				                'ub = ""
+                                            'lb = ""
+				                            'ub = ""
 
-				end if 'y <= ystart
-
-
-          'useTimeMatrix = 0
-          'tTimertildeltThis = 0
-
-          next 'y = ugedagene 1-7
+				            end if 'y <= ystart
 
 
+                      'useTimeMatrix = 0
+                      'tTimertildeltThis = 0
+
+                      next 'y = ugedagene 1-7
 
 
 
-          else ' = fra Stopur
-          '********************************************************************************************************
-          '********************************************************************************************************
-
-          tSttid = ""
-          tSltid = ""
-          visTimerelTid = 0 '** Vis timer
-          offentlig = 0
-          strYear = year(useDatoer(j))
 
 
-          destination = ""
-          bopal = 0
+                      else ' = fra Stopur
+                      '********************************************************************************************************
+                      '********************************************************************************************************
+
+                      tSttid = ""
+                      tSltid = ""
+                      visTimerelTid = 0 '** Vis timer
+                      offentlig = 0
+                      strYear = year(useDatoer(j))
 
 
-          '****************************************************************'
-          '*** Er uge alfsuttet af medarb, er smiley og autogk slået til **'
-          '****************************************************************'
-          regdato = useDatoer(j)
+                      destination = ""
+                      bopal = 0
 
 
-          call timerIndlaesPeriodeLukket(medarbejderid, regdato, intJobnr)
+                      '****************************************************************'
+                      '*** Er uge alfsuttet af medarb, er smiley og autogk slået til **'
+                      '****************************************************************'
+                      regdato = useDatoer(j)
 
-          strKomm = kommentarer(j)
+
+                      call timerIndlaesPeriodeLukket(medarbejderid, regdato, intJobnr)
+
+                      strKomm = kommentarer(j)
 
 
-          'Response.Write "tSttid "& tSttid &",  tSltid "& tSltid &", visTimerelTid "& visTimerelTid &", stopur "& stopur
-			                'Response.flush
+                      'Response.Write "tSttid "& tSttid &",  tSltid "& tSltid &", visTimerelTid "& visTimerelTid &", stopur "& stopur
+			                            'Response.flush
 			    
-			                'aktids(j) ", strAktNavn, tfaktimvalue, strFastpris, intJobnr, strJobnavn, strJobknr,_
-				            'strJobknavn, medarbejderid, strMnavn,_
-				            'useDatoer(j), useTimer(j), strKomm, intTimepris,_
-				            'dblkostpris, offentlig, intServiceAft, strYear,
+			                            'aktids(j) ", strAktNavn, tfaktimvalue, strFastpris, intJobnr, strJobnavn, strJobknr,_
+				                        'strJobknavn, medarbejderid, strMnavn,_
+				                        'useDatoer(j), useTimer(j), strKomm, intTimepris,_
+				                        'dblkostpris, offentlig, intServiceAft, strYear,
 			    
-			                '**** Indlæser timer i DB *****'
+			                            '**** Indlæser timer i DB *****'
               
 
-				            call opdaterTimer(aktids(j), strAktNavn, tfaktimvalue, strFastpris, intJobnr, strJobnavn, strJobknr,_
-				            strJobknavn, medarbejderid, strMnavn,_
-				            useDatoer(j), useTimer(j), strKomm, intTimepris,_
-				            dblkostpris, offentlig, intServiceAft, strYear, tSttid, tSltid, visTimerelTid, stopur, intValuta, bopal, destination, 0, 0, origin, extsysid, mtrx, intKpValuta)
+				                        call opdaterTimer(aktids(j), strAktNavn, tfaktimvalue, strFastpris, intJobnr, strJobnavn, strJobknr,_
+				                        strJobknavn, medarbejderid, strMnavn,_
+				                        useDatoer(j), useTimer(j), strKomm, intTimepris,_
+				                        dblkostpris, offentlig, intServiceAft, strYear, tSttid, tSltid, visTimerelTid, stopur, intValuta, bopal, destination, 0, 0, origin, extsysid, mtrx, intKpValuta)
  
-			            '*** Opdaterer stopur timer overført *****'
-			            strSQLstopU = "UPDATE stopur SET timereg_overfort = 1 WHERE id = "& entrysids(j) 
-	                    oConn.execute(strSQLstopU)
+			                        '*** Opdaterer stopur timer overført *****'
+			                        strSQLstopU = "UPDATE stopur SET timereg_overfort = 1 WHERE id = "& entrysids(j) 
+	                                oConn.execute(strSQLstopU)
 			       
-			            end if '**** Fra Stopur ***'
-                        '********************************************************************************************************
-			            '********************************************************************************************************
+			                        end if '**** Fra Stopur ***'
+                                    '********************************************************************************************************
+			                        '********************************************************************************************************
 			
 
-                    end if 'mtrx = matrixAktFundet = 0
+                                end if 'mtrx = matrixAktFundet = 0
 
 		
-	                next 'mtrx KLOKKE/TIME MATRIX
+	               next 'mtrx KLOKKE/TIME MATRIX
 
 
-		next 'j
+		    next 'j
+
+
+
+
+
+
+
 
         
 
@@ -6034,6 +6067,17 @@
 
         '*** TEST INDLÆS VALUES
         'response.end              
+
+        
+            '**** Tilføjer Tillæg / maksFlexControl ***'
+            select case lto
+            case "intranet - local", "wap"
+            mids = request("FM_medid")    
+            timerthis = 0
+            call maksFlexControl(lto, mids, timerthis)
+
+            case else
+            end select
 
        
 	
@@ -6418,7 +6462,7 @@
     <!--#include file="../inc/regular/header_lysblaa_inc.asp"-->
   
 	<SCRIPT src="inc/smiley_jav.js"></script>
-	<SCRIPT src="inc/timereg_2017_05_func.js"></script>
+	<SCRIPT src="inc/timereg_2017_06_func.js"></script>
    <SCRIPT src="inc/matind_2014_jav.js"></script>
    
 	
@@ -7227,9 +7271,18 @@
                     end if
 
 
+                    if len(trim(request("FM_visAlleMedarb_pas"))) <> 0 then
+                    visAlleMedarb_pasCHK = "CHECKED"
+                    visAlleMedarb_pas = 1
+                    else
+                    visAlleMedarb_pasCHK = ""
+                    visAlleMedarb_pas = 0
+                    end if
+
                    response.cookies("jobansv") = jobansv
 				   response.cookies("tsa")("visAlleMedarb") = visAlleMedarb
-                   
+                   response.cookies("tsa")("visAlleMedarb_pas") = visAlleMedarb_pas           
+
                    response.cookies("tsa").expires = date + 10
 
                      
@@ -7252,6 +7305,15 @@
                     visAlleMedarb = 0
                     usemrn = session("mid")
                     end if
+
+                    if request.cookies("tsa")("visAlleMedarb_pas") = "1" then
+                    visAlleMedarb_pasCHK = "CHECKED"
+                    visAlleMedarb_pas = 1
+                    else
+                    visAlleMedarb_pasCHK = ""
+                    visAlleMedarb_pas = 0
+                    end if
+
                      
                  end if
 
@@ -7426,7 +7488,9 @@
     <%if len(trim(strSQLmids)) > 0 then 'Hvis man er level 1 eller teamleder vil len(trim(strSQLmids)) ALTID VÆRE > 16 %>
     <b><%=tsa_txt_077 %>:</b> <br />
     <input type="CHECKBOX" name="FM_visallemedarb" id="FM_visallemedarb" value="1" <%=visAlleMedarbCHK %> /> <%=tsa_txt_388 %> (<%=tsa_txt_357 %>)
+    <input type="CHECKBOX" name="FM_visallemedarb_pas" id="FM_visallemedarb_pas" value="1" <%=visAlleMedarb_pasCHK %> onclick="submit();" /> <%=medarb_txt_031%>
 
+    
       
    
 	<br />
@@ -8888,7 +8952,13 @@
     <%end if %>
 
 	</td>
-     <td colspan=2 align=right valign=bottom style="padding-bottom:5px;"><br /><input type="submit" id="sm1" value="<%=tsa_txt_085 %> >> "></td>
+     <td colspan=2 align=right valign=bottom style="padding-bottom:5px;"><br />
+         <%if lto <> "esn" AND lto <> "intranet - local" then %> <!-- skal være esn -->
+         <input type="submit" id="sm1" value="<%=tsa_txt_085 %> >> ">
+         <%else %>
+         <input type="button" id="sm1" class="tjknorm" value="Indlæs >> "> <!-- ESN knap -->
+         <%end if %>
+     </td>
 	
 	</tr>
 	
@@ -8999,11 +9069,11 @@
 
 	<input type="hidden" name="year" value="<%=strRegAar%>">
 	<input type="hidden" id="datoMan" name="datoMan" value="<%=tjekdag(1)%>">
-	<input type="hidden" name="datoTir" value="<%=tjekdag(2)%>">
-	<input type="hidden" name="datoOns" value="<%=tjekdag(3)%>">
-	<input type="hidden" name="datoTor" value="<%=tjekdag(4)%>">
-	<input type="hidden" name="datoFre" value="<%=tjekdag(5)%>">
-	<input type="hidden" name="datoLor" value="<%=tjekdag(6)%>">
+	<input type="hidden" id="datoTir" name="datoTir" value="<%=tjekdag(2)%>">
+	<input type="hidden" id="datoOns" name="datoOns" value="<%=tjekdag(3)%>">
+	<input type="hidden" id="datoTor" name="datoTor" value="<%=tjekdag(4)%>">
+	<input type="hidden" id="datoFre" name="datoFre" value="<%=tjekdag(5)%>">
+	<input type="hidden" id="datoLor" name="datoLor" value="<%=tjekdag(6)%>">
 	<input type="hidden" id="datoSon" name="datoSon" value="<%=tjekdag(7)%>">
 	<input type="hidden" id="lastopendiv" name="lastopendiv" value="jobinfo">
 
@@ -9789,7 +9859,7 @@
 
                                          if lto = "intranet - local" OR lto = "bf" then
 
-                                                'call meStamdata(aktdata(iRowLoop, 54)) 
+                                                call meStamdata(usemrn) ' 
                                                 call alleMedIJurEnhed(meMed_lincensindehaver, 0)
 
                                                 alleMedIJurEnhedSQL = replace(alleMedIJurEnhedSQL, "tmnr", "fms.mid")
@@ -9808,8 +9878,8 @@
                                     
                                         '*** BF LEFT JOIN faktura_det. tilføj til fakfarver ***'
                                         '*** Skal også kontorllere ved indtasning fra ugeseddel og TT
-                                        'if session("mid") = 1 then
-                                        'Response.Write strSQLFAK & "<br>" & meMed_lincensindehaver
+                                        'if session("mid") = 153 OR session("mid") = 154 then
+                                        'Response.Write strSQLFAK & "<br>meMed_lincensindehaver: " & meMed_lincensindehaver
                                         'Response.flush       
                                         'end if
                     
@@ -9852,7 +9922,7 @@
 			
 			
 			                    '**** Aktiviteterne på hvert job ****'%>
-                                <div id="div_timereg_<%=aktdata(iRowLoop, 4)%>" style="position:relative; background-color:#ffffff; height:<%=dv_akt_hgt%>px; overflow:auto; padding:0px 3px 3px 3px; width:745px; border:0px #8caae6 solid; visibility:<%=job_vzb %>; display:<%=job_dsp%>; z-index:100">
+                                <div id="div_timereg_<%=aktdata(iRowLoop, 4)%>" class="akt_liste" style="position:relative; background-color:#ffffff; height:<%=dv_akt_hgt%>px; overflow:auto; padding:0px 3px 3px 3px; width:745px; border:0px #8caae6 solid; visibility:<%=job_vzb %>; display:<%=job_dsp%>; z-index:100">
                                 <!-- Henter aktiviteter --->
                                 
 
@@ -10152,6 +10222,16 @@
         
 
                     %>
+
+                     <input type="hidden" id="manTimer_tot" value="<%=manTimer %>" />
+                     <input type="hidden" id="tirTimer_tot" value="<%=tirTimer %>" />
+                     <input type="hidden" id="onsTimer_tot" value="<%=onsTimer %>" />
+                     <input type="hidden" id="torTimer_tot" value="<%=torTimer %>" />
+                     <input type="hidden" id="freTimer_tot" value="<%=freTimer %>" />
+                     <input type="hidden" id="lorTimer_tot" value="<%=lorTimer %>" />
+                     <input type="hidden" id="sonTimer_tot" value="<%=sonTimer %>" />
+
+
                     <tr bgcolor="#FFFFFF">
                          <td colspan=2 valign=top style="border-bottom:1px #CCCCCC solid;"><b><%=tsa_txt_038 %>:</b></td>
                     <%
@@ -10234,7 +10314,7 @@
    
 	
    
-	
+	            
  
    
   
@@ -10245,14 +10325,16 @@
 
 
                   <tr bgcolor="#FFFFFF">
+                
+
                 <td colspan=2 ><%=tsa_txt_259 %>:</td>
-                <td  align=right><%=formatnumber(normtimer_man, 2)%></td>
-	            <td  align=right><%=formatnumber(normtimer_tir, 2)%></td>
-	            <td  align=right><%=formatnumber(normtimer_ons, 2)%></td>
-	            <td  align=right><%=formatnumber(normtimer_tor, 2)%></td>
-	            <td  align=right><%=formatnumber(normtimer_fre, 2)%></td>
-	            <td  align=right><%=formatnumber(normtimer_lor, 2)%></td>
-	            <td  align=right><%=formatnumber(normtimer_son, 2)%></td>
+                <td  align=right><%=formatnumber(normtimer_man, 2)%> <input type="hidden" value="<%=normtimer_man %>" id="norm_man" /></td>
+	            <td  align=right><%=formatnumber(normtimer_tir, 2)%> <input type="hidden" value="<%=normtimer_tir %>" id="norm_tir" /></td>
+	            <td  align=right><%=formatnumber(normtimer_ons, 2)%> <input type="hidden" value="<%=normtimer_ons %>" id="norm_ons" /></td>
+	            <td  align=right><%=formatnumber(normtimer_tor, 2)%> <input type="hidden" value="<%=normtimer_tor %>" id="norm_tor" /></td>
+	            <td  align=right><%=formatnumber(normtimer_fre, 2)%> <input type="hidden" value="<%=normtimer_fre %>" id="norm_fre" /></td>
+	            <td  align=right><%=formatnumber(normtimer_lor, 2)%> <input type="hidden" value="<%=normtimer_lor %>" id="norm_lor" /></td>
+	            <td  align=right><%=formatnumber(normtimer_son, 2)%> <input type="hidden" value="<%=normtimer_son %>" id="norm_son" /></td>
 	            <td  align=right>= <%=formatnumber(totNormTimer, 2)%></td>
 	
                 </tr>
@@ -10301,7 +10383,12 @@
 
 	            <tr bgcolor="#ffffff">
 		            <td colspan=10 align=right valign=top style="padding-top:10px;">
-		            <input id="sm2" type="submit" value="<%=tsa_txt_085 %> >> "></td>
+                    <%if lto <> "esn" AND lto <> "intranet - local" then %> <!-- skal være esn -->
+		            <input id="sm2" type="submit" value="<%=tsa_txt_085 %> >> ">
+                    <%else %>
+                    <input type="button" value="Indlæs >>" class="tjknorm" /> <!-- ESN Knap-->
+                    <%end if %>
+                    </td>
 	            </tr>
 	            <tr bgcolor="#ffffff"><td colspan=10>
                 <br /><%=timereg_txt_082 %>: <%=antalJobLinier %>
