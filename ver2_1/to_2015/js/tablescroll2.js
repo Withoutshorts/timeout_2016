@@ -4,14 +4,14 @@
 $(document).ready(function () {
 
     //alert($("#tablebody").find("tr").length)
-   /*alert(document.getElementById('example').rows[0].cells.length)
-    alert(document.getElementById('example').rows[1].cells.length)
-    alert(document.getElementById('example').rows[2].cells.length)
-    alert(document.getElementById('example').rows[3].cells.length)
-    alert(document.getElementById('example').rows[4].cells.length)
-    alert(document.getElementById('example').rows[5].cells.length) */
+   /*alert(document.getElementById('main_datatable_forecast').rows[0].cells.length)
+    alert(document.getElementById('main_datatable_forecast').rows[1].cells.length)
+    alert(document.getElementById('main_datatable_forecast').rows[2].cells.length)
+    alert(document.getElementById('main_datatable_forecast').rows[3].cells.length)
+    alert(document.getElementById('main_datatable_forecast').rows[4].cells.length)
+    alert(document.getElementById('main_datatable_forecast').rows[5].cells.length) */
 
-    var headerColumnCount = document.getElementById('example').rows[0].cells.length
+    var headerColumnCount = document.getElementById('main_datatable_forecast').rows[0].cells.length
 
     i = 0
    while (i < headerColumnCount - 1) {
@@ -32,8 +32,9 @@ $(document).ready(function () {
         fixedColumns_ = 5
     }
 
-    var table = $('#example').DataTable({
-    scrollY: "600px",
+    //"600px"
+    var table = $('#main_datatable_forecast').DataTable({
+    scrollY: "800px",
     scrollX: true,
     scrollCollapse: true,
     paging: false,
@@ -44,18 +45,21 @@ $(document).ready(function () {
 
     });
 
+     
+
+
    // alert("hephep")
 
    /* $("#fitScreen_chb").click(function () {
 
         alert("Hawd")
-        var table = $('#example').DataTable();
+        var table = $('#main_datatable_forecast').DataTable();
         table.columns.adjust().draw();
         alert("hep")
     }); */
 
    /* alert("hephep")
-   var headerColumnCount = document.getElementById('example').rows[0].cells.length
+   var headerColumnCount = document.getElementById('main_datatable_forecast').rows[0].cells.length
     //alert(headerColumnCount)
     var totaltrs = $("#tablebody").find("tr").length
 
@@ -68,7 +72,7 @@ $(document).ready(function () {
    // alert(bodyheaderDiff)
     
   
-  /*  $('#example > tbody > tr').each(function () {
+  /*  $('#main_datatable_forecast > tbody > tr').each(function () {
         thisid = this.id
 
         while (this.cells.length < headerColumnCount)
@@ -94,7 +98,7 @@ $(document).ready(function () {
            // alert("removed")
         });
 
-        var headerColumnCount = document.getElementById('example').rows[0].cells.length
+        var headerColumnCount = document.getElementById('main_datatable_forecast').rows[0].cells.length
         //alert(headerColumnCount)
         var totaltrs = $("#tablebody").find("tr").length
 
@@ -106,9 +110,9 @@ $(document).ready(function () {
 
         // alert(bodyheaderDiff)
 
-        $('#example').DataTable().destroy();
+        $('#main_datatable_forecast').DataTable().destroy();
 
-        $('#example > tbody > tr').each(function () {
+        $('#main_datatable_forecast > tbody > tr').each(function () {
             thisid = this.id
 
             while (this.cells.length < headerColumnCount) {
@@ -128,13 +132,13 @@ $(document).ready(function () {
 /*
   function makeTable() {
 
-        tableWidth = document.getElementById('example').offsetWidth
+        tableWidth = document.getElementById('main_datatable_forecast').offsetWidth
         alert(tableWidth)
 
 
         if (tableWidth > 900)
         {
-            var table = $('#example').DataTable({
+            var table = $('#main_datatable_forecast').DataTable({
                 scrollY: "300px",
                 scrollX: "1250px",
                 scrollCollapse: true,
@@ -148,7 +152,7 @@ $(document).ready(function () {
         }
         else 
         {       
-            var table = $('#example').DataTable({
+            var table = $('#main_datatable_forecast').DataTable({
                 scrollY: "300px",
                 // scrollX: true,
                 scrollCollapse: true,

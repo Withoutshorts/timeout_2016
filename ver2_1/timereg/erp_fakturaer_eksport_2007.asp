@@ -292,7 +292,7 @@ if len(session("user")) = 0 then
 	&" k.Kkundenavn, k.Kkundenr, sk2.Kkundenavn AS sknavn, sk2.Kkundenr AS sknr, "_
 	&" tidspunkt AS faktidspkt, f.betalt, f.faktype, f.betalt, f.valuta, f.kurs, "_
     &" ja1.mnavn AS jobans1, ja1.mnr AS jans1nr, ja2.mnavn AS jobans2, ja2.mnr AS jans2nr, "_
-	& "fd.beskrivelse, fd.antal AS fakdet_antal, fd.enhedspris AS timepris, "_
+	& "fd.beskrivelse, fd.antal AS fakdet_antal, fd.enhedspris AS timepris, fd.showonfak, "_
 	&" fd.aktpris AS fakdet_belob, fd.valuta AS fdvaluta, fd.kurs AS fdkurs, f.afsender, "_
 	&" ka.mnavn AS kans, ka.mnr AS kansnr, "_ 
 	&" ka2.mnavn AS kans2, ka2.mnr AS kansnr2,"_
@@ -754,7 +754,7 @@ if len(session("user")) = 0 then
 		
 		strTxtExport = strTxtExport & ";"
 		strTxtExport = strTxtExport & ";"
-		strTxtExport = strTxtExport & "1;"
+		strTxtExport = strTxtExport & oRec("showonfak") &";"
 		strTxtExport = strTxtExport & oRec("fomr") &";"
         strTxtExport = strTxtExport & oRec("medregnikkeioms") &";"
         
@@ -1088,11 +1088,45 @@ if len(session("user")) = 0 then
                         fak_fomrTxt = "" 'UnderAFD
                         fak_AfdTxt = ""
                         'ktypeTxt = "" 'AFD
-                        if len(trim(oRec("fak_fomr"))) <> 0 then
-                        fak_fomr = oRec("fak_fomr")
+
+                        '** IF JOB FAK
+                        '*** ELSE Aktalfe TAk find FOmr på den nekelte akt linje
+                        if oRec("aftaleid") <> 0 then
+                        
+                                   
+                                         '*** FOMR = UnderAFD, UNIT = AFD ****'
+                                         fak_fomr = 0 
+                                         strSQLfomr = "SELECT for_fomr, for_jobid FROM fomr_rel WHERE for_jobid = " & oRec("fdaktid")
+                
+                                         oRec4.open strSQLfomr, oConn, 3
+							             if not oRec4.EOF then
+							 
+							             fak_fomr = oRec4("for_fomr")
+							    
+							             end if
+							             oRec4.close
+
+                                        if len(trim(fak_fomr)) <> 0 then
+                                        fak_fomr = fak_fomr
+                                        else
+                                        fak_fomr = 0
+                                        end if
+
                         else
-                        fak_fomr = 0
-                        end if
+
+                            if len(trim(oRec("fak_fomr"))) <> 0 then
+                            fak_fomr = oRec("fak_fomr")
+                            else
+                            fak_fomr = 0
+                            end if
+
+
+                        End if
+                        
+
+
+
+                        '** End IF
             
                           
 

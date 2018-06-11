@@ -7,6 +7,8 @@
 
 <!--#include file="../inc/regular/header_lysblaa_2015_inc.asp"-->
 
+
+
 <%
     if len(session("user")) = 0 then
 	%>
@@ -345,7 +347,7 @@
                                 <div class="col-lg-3">
                                     <input type="CHECKBOX" name="status_filter" value="1" <%=chk1%>/> <%=job_txt_221 %><br />
                                     <input type="CHECKBOX" name="status_filter" value="2" <%=chk2%>/> <%=job_txt_222 %><br />
-                                    <input type="CHECKBOX" name="status_filter" value="3" <%=chk3%>/> <%=job_txt_223 %><br />
+                                    <input type="CHECKBOX" name="status_filter" value="3" <%=chk3%>/> <%=job_txt_063 %><br />
                                     <input type="CHECKBOX" name="status_filter" value="4" <%=chk4%>/> <%=job_txt_224 %><br />
                                     <input type="CHECKBOX" name="status_filter" value="0" <%=chk0%>/> <%=job_txt_225 %><br />
                                 </div>
@@ -730,7 +732,7 @@
 	                           
 	                            if oRec("jobstatus") = 3 then
                                 %><span style="font-size:9px; background-color:#ffdfdf; color:#000000;"><%
-	                            Response.Write "<br>"&job_txt_256&": "& oRec("tilbudsnr") &" ("& oRec("sandsynlighed") &" %)"
+	                            Response.Write "<br>"&job_txt_063&": "& oRec("tilbudsnr") &" ("& oRec("sandsynlighed") &" %)"
                                 %>
                                  </span>
                                 <%

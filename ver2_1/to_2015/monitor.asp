@@ -145,6 +145,35 @@
 
                     call logindStatus(strUsrId, intStempelur, io, tid)
 
+
+                       '********************* Skriver til logfil ********************************************************'
+		            if request.servervariables("PATH_TRANSLATED") <> "C:\www\timeout_xp\wwwroot\ver2_14\to_2015\monitor.asp" then
+                
+                    
+                    'response.write "d:\webserver\wwwroot\timeout_xp\wwwroot\"& toVer &"\inc\log\logfile_timeout_"&lto&".txt"
+                    'response.end    
+
+                            toVer = "ver2_14"
+
+				            Set objFSO = server.createobject("Scripting.FileSystemObject")
+				            select case lto
+
+                            case "cflow"
+				          
+					            Set objF = objFSO.GetFile("d:\webserver\wwwroot\timeout_xp\wwwroot\"& toVer &"\inc\log\logfile_timeout_"&lto&".txt")
+					            Set objF = objFSO.OpenTextFile("d:\webserver\wwwroot\timeout_xp\wwwroot\"& toVer &"\inc\log\logfile_timeout_"&lto&".txt", 8)
+            				
+				            
+            				
+				            objF.writeLine(session("user") &chr(009)&chr(009)&chr(009)& date &chr(009)& time &chr(009)&request.servervariables("REMOTE_ADDR")&chr(009)&" - Terminal")
+				            objF.close	
+
+                            end select
+
+
+		            end if
+		            '*******************************************************************************************'
+
                     'if medid = 1 then
                     'Response.Write "medid: "& medid &" login: "& login &" logud: "& logud &" = "& isNull(logud) & " fo_afsluttetlogin: "& fo_afsluttetlogin &" AND fo_oprettetnytlogin: "& cint(fo_oprettetnytlogin) & " fo_autoafsluttet: "& fo_autoafsluttet & " skiftjob: " & skiftjob
                     'response.end
@@ -304,12 +333,19 @@
                                 end if
 
                                 call meStamdata(medidloggetInd)
+
+                                '** Er medarbejder med i Aumatisjon Eller Enginnering
+                                call medariprogrpFn(medidloggetInd)
+                                
                             %>
                                 <div id="text_besked" class="row">        
                                     <h3 class="col-lg-12" style="text-align:center">Velkommen <%=meNavn %><br /><span style="font-size:14px;">Du er logget ind <%=formatdatetime(now, 1) & " " & formatdatetime(now, 3)  %></span>
 
 
                                         <%
+                                            
+                                            if instr(medariprogrpTxt, "#14#") = 0 AND instr(medariprogrpTxt, "#16#") = 0 then
+
                                             jobidC = "-1"
                                             aktidC = "-1"
                                             'end if
@@ -358,8 +394,11 @@
 
                                         <br /><br />Projekt: <%=jobTxtloggetindpaa %>
 
+                                        <%end if %>
+
                                     </h3>
                                 </div>
+
                             <%
                             end if
                             %>
@@ -429,7 +468,7 @@
 
                         %>
                         <meta http-equiv="refresh" content="120;url=monitor.asp?func=startside" />
-                        <script src="js/ugeseddel_2011_jav4.js" type="text/javascript"></script>
+                        <script src="js/ugeseddel_2011_jav6.js" type="text/javascript"></script>
                         <!--#include file="inc/touchmonitor_inc.asp"-->
 
                         <%
@@ -443,24 +482,26 @@
 
                         call meStamdata(medid)
 
+                        call browsertype()
+
+                       
+
+                    '******* Tjekker logindtid ********'
+                    strSQL = "SELECT id, login FROM login_historik WHERE mid = "& medid &" AND stempelurindstilling > 0 ORDER BY id DESC"
+                    oRec.open strSQL, oConn, 3
+                    if not oRec.EOF then
+                    login = oRec("login")
+                            
+                    end if
+                    oRec.close
+
+
+                    if browstype_client <> "ip" then
                     %>
                           <table style="width:100%;">
                               <tr>
                                   <td valign="top"><h3 style="color:black;"><%=medarb_navn%> (<%=meNr %>)</h3>
-                            
-                            
-                                       <%
-                                    '******* Tjekker logindtid ********'
-                                    strSQL = "SELECT id, login FROM login_historik WHERE mid = "& medid &" AND stempelurindstilling > 0 ORDER BY id DESC"
-                                    oRec.open strSQL, oConn, 3
-                                    if not oRec.EOF then
-                                    login = oRec("login")
-                            
-                                    end if
-                                    oRec.close
-                            
-                              
-                                  %><br />
+                                  <br />
                                   <span style="font-size:12px;">Logget på kl. <%=login %></span>
 
                                   <% 
@@ -484,16 +525,22 @@
                               </tr>
                           </table>
                         
-                        
-                   
-
-                        <div class="row">
-                        <div class="col-lg-3">&nbsp;
+                        <% 
+                        end if
+                         
+	                    %><div class="row"><%
+                                
+                          if browstype_client <> "ip" then
+                            
+                            %>
+                            <div class="col-lg-3">&nbsp;
                             <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
                             <br /><br /><br /><br /><br /><br /><br /><br />
                               <a href="monitor.asp?func=startside" class="btn btn-lg btn-default"><< <b>Tilbage / Ny bruger</b></a>   
 
                         </div>
+                        <%end if %>
+
                         <div class="col-lg-3"> 
                             
                             <%
@@ -502,6 +549,8 @@
                               %>
                                
                         </div>
+
+                        <%if browstype_client <> "ip" then %>
                         <div class="col-lg-3">
 
                                         <table class="table" style="width:300px;">
@@ -535,6 +584,8 @@
 
 
                         </div>
+                        <%end if %>
+
                          </div><!--row -->
 
                    

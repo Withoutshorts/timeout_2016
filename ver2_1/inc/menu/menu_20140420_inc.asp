@@ -435,6 +435,13 @@ end select
 
           <%if cint(slip_smiley_agg_lukper) <> 1 then %>
             <nav class="dropdown-right">
+
+                  
+
+            <%if testDB = "1" then %>
+            <ul><li><br /><br /><br /><br /><span style="color:red;">DEMO / TEST data: (<%=lto %>)</span></li></ul>
+            <%end if %>
+
          <ul> 
 
 
@@ -442,6 +449,9 @@ end select
                 <li>
                     <a href="#"><span class="glyph icon-user"></span><span class="account-name"><%=session("user") %></span><b class="caret-down"></b></a>
                     <ul>
+
+
+                       
 
                         
                         <li><a href="<%=toSubVerPath15 %>help_faq.asp">Hj&aelig;lp</a></li>
@@ -459,10 +469,10 @@ end select
            
                         'if cint(stempelur_hideloginOn) = 1 then    
                             
-                        if session("stempelur") <> 0 AND lto <> "tec" AND lto <> "esn"  then %>
+                        if session("stempelur") <> 0 AND lto <> "tec" AND lto <> "esn" AND lto <> "cflow" then %>
                         <li style="background-color:red;"><a href="<%=toSubVerPath14 %>stempelur.asp?func=redloginhist&medarbSel=<%=session("mid")%>&showonlyone=1&hidemenu=1&id=0&rdir=sesaba" target="_top">Log ud</a></li>
                         <%else %>
-                        <li style="background-color:red;"><a href="<%=toSubVerPath14 %>../sesaba.asp" target="_top"><%=tsa_txt_435 %></a></li>
+                        <li style="background-color:red;"><a href="<%=toSubVerPath14 %>../sesaba.asp?fromweblogud=1" target="_top"><%=tsa_txt_435 %></a></li>
                         <%end if %>
                         <li style="background-color:#999999;"><a href="#"><%=tsa_txt_436 %><br /><%=lto %></a></li>
                     </ul>
@@ -606,10 +616,14 @@ end select
                         %>   
                         <li><a href="<%=toSubVerPath14 %><%=lnkTimeregside %>"><%=tsa_txt_116 &" "& tsa_txt_438 %></a></li><%
                  
-                case "xtia", "welcom", "alfanordic", "wap"
+                case "xtia", "welcom", "alfanordic", "wap", "tbg"
+
+                            if lto = "tbg" AND (session("mid") = 1 OR session("mid") = 3) then
+                            %><li><a href="<%=toSubVerPath14 %><%=lnkTimeregside %>"><%=tsa_txt_116 %></a></li><%
+                            end if 
                                   
                  case else
-                    %>   <li><a href="<%=toSubVerPath14 %><%=lnkTimeregside %>"><%=tsa_txt_116 %></a></li><%
+                    %><li><a href="<%=toSubVerPath14 %><%=lnkTimeregside %>"><%=tsa_txt_116 %></a></li><%
                  end select
                  %>
                
@@ -685,7 +699,7 @@ end select
                   case else       
                   call traveldietexp_fn()
                       
-                  if cint(traveldietexp_on) = 1 then
+                  if cint(traveldietexp_on) = 1 OR (lto = "tia" AND (session("mid") = 9 OR session("mid") = 1)) then
                   %>
                   <li><a href="<%=toSubVerPath15 %>traveldietexp.asp">Rejse/Diæter</a></li>
                   <%end if
@@ -1165,12 +1179,12 @@ end select
 
                         <%if level <= 2 OR level = 6 then '** Indtil teamleder er impl. på kørsels siden **"%>
 
-                        <%if session("stempelur") <> 0 AND (lto = "cflow" OR lto = "intranet - local") then %>
-                        <li><a href="<%=toSubVerPath15 %>godkend_request_timer.asp" target="_blank">Godkende overtid</a></li>
+                        <%if session("stempelur") <> 0 then %>
+                        <li><a href="<%=toSubVerPath15 %>godkend_request_timer.asp?FM_medarb=<%=session("mid")%>">Godkend Ferie, Overtid & Løntimer</a></li>
                         <%end if %>
 
                         <%if lto = "wap" then %>
-                        <li><a href="<%=toSubVerPath15 %>godkend_request_timer.asp" target="_blank">Godkend forespurgte timer</a></li>
+                        <li><a href="<%=toSubVerPath15 %>godkend_request_timer.asp?FM_medarb=<%=session("mid")%>" target="_blank">Godkend forespurgte timer</a></li>
                         <%end if %>
                         
                  
@@ -1332,6 +1346,10 @@ end select
 
            <%end select %>
           
+
+           <% if session("stempelur") <> 0 then %>
+                  <li><a href='<%=toSubVerPath15 %>infoscreen.asp' target="_blank">Infoskærm (hvem er ikke mødt)</a></li>
+           <%end if %>
            
            
 		                
@@ -1375,6 +1393,12 @@ end select
            %>
            <h3 class="menuh3"><%=tsa_txt_480 %></h3>
              <li><a href="<%=toSubVerPath14 %>abonner.asp"><%=tsa_txt_480 %></a></li>
+
+             
+            <%if session("stempelur") <> 0 AND lto = "dencker" then %>             
+                <li><a href="<%=toSubVerPath15 %>infoscreen_news.asp">Nyheder</a></li>
+                <li><a href="<%=toSubVerPath15 %>udeafhuset.asp">Udeafhuset</a></li>
+            <%end if %>
 
            <h3 class="menuh3"><%=tsa_txt_448 %></h3>
 

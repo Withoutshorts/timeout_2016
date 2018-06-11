@@ -923,11 +923,14 @@ case else
 
                        </td>
                             <td>
-                                <%if cint(oRec("orgvir")) = 1 then 'ORGANI
+                                <%select case cint(oRec("orgvir")) 
+                                 case 1 'ORGANI
                                  orgVir = "Organisatorisk"   
-                                 else
+                                 case 2 'HR
+                                 orgVir = "HR"   
+                                 case else
                                  orgVir = "Virtuel"   
-                                 end if %>
+                                 end select %>
 
                                 <%=orgVir %>
 

@@ -781,6 +781,16 @@ Set oNodes_job = objXmlDom_job.documentElement.selectNodes(sXPathQuery_job)
 
 
 
+    select case lto
+    case "dencker", "intranet - local"
+    job_txt_063 = "Pre-work"
+    job_txt_056 = replace(job_txt_056, "Proposal", "Pre-work") 
+    job_txt_062 = replace(job_txt_062, "Proposal", "Pre-work") 
+    job_txt_064 = replace(job_txt_064, "Proposal", "Pre-work") 
+    job_txt_056 = replace(job_txt_056, "tilbudsnr", "Pre-work no.") 
+    job_txt_062 = replace(job_txt_062, "Tilbudsnr.", "Pre-work no.") 
+    job_txt_064 = replace(job_txt_064, "tilbud", "Pre-work") 
+    end select
 
 'Response.Write "tsa_txt_001: " & tsa_txt_001 & "<br>"
 'Response.Write "tsa_txt_002: " & tsa_txt_002 & "<br>"

@@ -518,6 +518,12 @@ if len(trim(session("user"))) = 0 AND cint(nosession) = 0  then
 	
 	'end select
 
+    if len(trim(request("FM_visIAltEksMom"))) <> 0 then
+        visIAltEksMom = 1
+    else
+        visIAltEksMom = 0 
+    end if
+
     if len(trim(request("ulevinfo"))) <> 0 then
 	ulevinfo = request("ulevinfo")
 	else
@@ -2658,8 +2664,10 @@ if len(trim(session("user"))) = 0 AND cint(nosession) = 0  then
 			end if
 			        
                     if aktinfo_sum = "0" then
-			        strAktHTML = strAktHTML & "<tr><td colspan="& cspanFull &" align=right style=""padding-top:40px; width:"&tblWdt&"px; padding-right:"&pdright&";""><span class=""jobpr18"">I alt ekskl. moms, <b>"& valExtCode &" "& formatnumber(aktbudgetTot, 2) &"</b></span></td></tr>"        
-			        end if
+                        if visIAltEksMom <> 0 then
+			                strAktHTML = strAktHTML & "<tr><td colspan="& cspanFull &" align=right style=""padding-top:40px; width:"&tblWdt&"px; padding-right:"&pdright&";""><span class=""jobpr18"">I alt ekskl. moms, <b>"& valExtCode &" "& formatnumber(aktbudgetTot, 2) &"</b></span></td></tr>"        
+			            end if
+                    end if
 			
 			strAktHTML = strAktHTML & "</table>"
             
@@ -2735,7 +2743,7 @@ if len(trim(session("user"))) = 0 AND cint(nosession) = 0  then
 		     &"</td></tr>"
 		
 		        strSQLUlev = "SELECT ju_id, ju_navn, ju_ipris, ju_faktor, "_
-		        &" ju_belob, ju_fase, ju_stk, ju_stkpris FROM job_ulev_ju WHERE ju_jobid = "& id  & " ORDER BY ju_navn "
+		        &" ju_belob, ju_fase, ju_stk, ju_stkpris FROM job_ulev_ju WHERE ju_jobid = "& id  & " ORDER BY ju_id "
 		        oRec.open strSQLUlev, oConn, 3 
 		        x = 0
 		        while not oRec.EOF 
@@ -3999,6 +4007,22 @@ if len(trim(session("user"))) = 0 AND cint(nosession) = 0  then
 		                
 		                <%=strHilsenHTML %>
 		                
+
+
+
+                        <br /><br />
+                        <b>Vis I alt ekskl. moms</b>
+                        <%
+                            select case visIAltEksMom
+                            case 1
+                            visIAltEksMom_checked = "CHECKED"
+                            case else
+                            visIAltEksMom_checked = ""
+                            end select
+                        %>
+                        <input type="checkbox" name="FM_visIAltEksMom" <%=visIAltEksMom_checked %> />
+
+
 		                <!-- filteros09 slut -->
 		                </td>
 		                </tr>
@@ -4020,13 +4044,13 @@ if len(trim(session("user"))) = 0 AND cint(nosession) = 0  then
 
                                 select case dokLang
                                 case "1"
-                                dokType1CHK = "SELECTED"
+                                dokLang1CHK = "SELECTED"
                                 case "2"
-                                dokType2CHK = "SELECTED"
+                                dokLang2CHK = "SELECTED"
                                 case "3"
-                                dokType3CHK = "SELECTED"
+                                dokLang3CHK = "SELECTED"
                                  case "4"
-                                dokType3CHK = "SELECTED"
+                                dokLang4CHK = "SELECTED"
                                 end select
                                 
                             %>
@@ -4055,8 +4079,7 @@ if len(trim(session("user"))) = 0 AND cint(nosession) = 0  then
                    
                     </table>
                    
-                   
-                    
+                      
                     <br /><br /><br />&nbsp;
                     
                 <%end if 'id <> 0 %>   

@@ -178,6 +178,14 @@ function findFaknr(func)
             
             
             strSQL = "SELECT "& fakturanrUse &" AS fakturanr, "& kreditnrUse&" AS kreditnr, "& fakturanr_kladdeUse &" AS fakturanr_kladde FROM licens WHERE id = 1"
+
+            'if session("mid") = 1 then
+            'Response.write strSQL
+            'Response.flush
+            'Response.end
+            'end if
+
+
 	        oRec.open strSQL, oConn, 3
             if not oRec.EOF then
 
@@ -307,10 +315,19 @@ function findFaknr(func)
 
                         ''*** Må fakruaer have samme rækkefølge ***'
                      
+                            if cint(multible_licensindehavere) = 1 then
+                            afsenderSQL = " AND afsender = "& afsender
+                            else
+                            afsenderSQL = ""
+                            end if
 
-                           strSQL = "SELECT faknr FROM fakturaer WHERE faknr = '"& intFaknum &"' AND fid <> "& id & " AND shadowcopy = 0"
+                            strSQL = "SELECT faknr FROM fakturaer WHERE faknr = '"& intFaknum &"' AND fid <> "& id & " AND shadowcopy = 0 "& afsenderSQL &""
+                            
+                            'if session("mid") = 1 then
                             'Response.Write strSQL
-                            'Response.flush
+                            'Response.end 
+                            'end if 
+                            
                             oRec.open strSQL, oConn, 3
                             while not oRec.EOF
                             intFaknumFindes = 1
@@ -352,12 +369,21 @@ end function
 '**** Opdaterer faktura nr rækkefølge *****'
 function opdater_fakturanr_rakkefgl(opdFaknrSerie, intFaknumFindes, sqlfld, intFaknum)
 
+    'if session("mid") = 1 then
+    'Response.write "HER: opdFaknrSerie: " & cint(opdFaknrSerie)  & "intFaknumFindes: "& cint(intFaknumFindes) 
+    'Response.end
+    'end if
+
     if cint(opdFaknrSerie) = 1 AND cint(intFaknumFindes) = 0 then
     strSQL = "UPDATE licens SET "& sqlfld &" = "& intFaknum &" WHERE id = 1"
-    
+    'if session("mid") = 1 then
     'response.write "strSQL: " & strSQL
-    'repsonse.flush
+    'response.end
+    'end if  
+  
+    
     oConn.execute(strSQL)
+    
     end if
 
 

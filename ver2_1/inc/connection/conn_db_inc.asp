@@ -824,6 +824,11 @@ if len(strLicenskey) <> 0 then
     case "9K2017-0502-TO174" 'TIA
     lto = "tia"
 	strConnThis = "timeout_tia64"
+
+    case "9K2017-0502-TO174test" 'TIA
+    lto = "tia"
+	strConnThis = "timeout_tia64test"
+    testDB = "1"
    
     case "9K2017-0621-TO175" 'Welcom
     lto = "welcom"

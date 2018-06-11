@@ -14,10 +14,11 @@ Dim sXPathQuery_error
 Set objXMLDom_error = Server.CreateObject("Microsoft.XMLDOM")
 Set objXmlHttp_error = Server.CreateObject("Msxml2.ServerXMLHTTP")
 'objXmlHttp_error.open "GET", "http://localhost/Git/timeout_2016/ver2_1/inc/xml/error_sprog.xml", False
-objXmlHttp_error.open "GET", "http://localhost/inc/xml/error_sprog.xml", False
+'objXmlHttp_error.open "GET", "http://localhost/inc/xml/error_sprog.xml", False
 'objXmlHttp_error.open "GET", "https://timeout.cloud/timeout_xp/wwwroot/ver2_14/inc/xml/error_sprog.xml", False
+'objXmlHttp_error.open "GET", "https://timeout.cloud/timeout_xp/wwwroot/ver4_22/inc/xml/error_sprog.xml", False
 'objXmlHttp_error.open "GET", "https://timeout.cloud/timeout_xp/wwwroot/ver3_99/inc/xml/error_sprog.xml", False
-'objXmlHttp_error.open "GET", "https://outzource.dk/timeout_xp/wwwroot/ver2_14/inc/xml/error_sprog.xml", False
+objXmlHttp_error.open "GET", "https://outzource.dk/timeout_xp/wwwroot/ver2_14/inc/xml/error_sprog.xml", False
 objXmlHttp_error.send
 
 
@@ -579,6 +580,17 @@ Set oNodes_error = objXmlDom_error.documentElement.selectNodes(sXPathQuery_error
     err_txt_553 = oNode_error.selectSingleNode("txt_553").Text
     err_txt_554 = oNode_error.selectSingleNode("txt_554").Text
     err_txt_555 = oNode_error.selectSingleNode("txt_555").Text
+    err_txt_556 = oNode_error.selectSingleNode("txt_556").Text
+    err_txt_557 = oNode_error.selectSingleNode("txt_557").Text
+
+    err_txt_558 = oNode_error.selectSingleNode("txt_558").Text
+    err_txt_559 = oNode_error.selectSingleNode("txt_559").Text
+
+    err_txt_560 = oNode_error.selectSingleNode("txt_560").Text
+    err_txt_561 = oNode_error.selectSingleNode("txt_561").Text
+    err_txt_562 = oNode_error.selectSingleNode("txt_562").Text
+    err_txt_563 = oNode_error.selectSingleNode("txt_563").Text
+    err_txt_564 = oNode_error.selectSingleNode("txt_564").Text
 
 
     next

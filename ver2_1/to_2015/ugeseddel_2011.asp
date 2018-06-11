@@ -89,7 +89,7 @@ if len(session("user")) = 0 then
         case 3
         Session.LCID = 1053
         case 4
-        Session.LCID = 2068
+        Session.LCID = 1044
         case 5
         Session.LCID = 1034
         case 6
@@ -415,7 +415,7 @@ if len(session("user")) = 0 then
 	%>
 
 	
-    <SCRIPT src="js/ugeseddel_2011_jav4.js"></script>
+    <SCRIPT src="js/ugeseddel_2011_jav6.js"></script>
     <SCRIPT src="../timereg/inc/smiley_jav.js"></script>
 
     <%call browsertype() 
@@ -478,7 +478,7 @@ if len(session("user")) = 0 then
       <div class="portlet">
         <% if browstype_client <> "ip" then %>
           
-          <h3 class="portlet-title"><u><%=tsa_txt_337%></u><!-- ugeseddel --></h3>
+          <h3 class="portlet-title"><u><%=week_txt_012 %></u><!-- ugeseddel --></h3>
          
         <%end if %>
 
@@ -559,7 +559,7 @@ if len(session("user")) = 0 then
           
 
             <%if cint(stempelurOn) = 1 then %>
-            &nbsp;|&nbsp;<a href="../timereg/<%=lnkLogind%>" class="vmenu"><%=tsa_txt_340 %> >></a>
+            &nbsp;|&nbsp;<a href="../timereg/<%=lnkLogind%>" class="vmenu"><%=week_txt_013 %> >></a>
             <%end if%>
 
            
@@ -702,8 +702,17 @@ if len(session("user")) = 0 then
                         <td style="padding-left:10px">
                             <input type="hidden" id="Hidden5" name="year" value="<%=year(now) %>"/>
                                
-                              <div class='input-group date'>
-                                      <input type="text" style="width:300px;" class="form-control input-small" name="FM_datoer" id="jq_dato" value="<%=tregDato %>" placeholder="dd-mm-yyyy" />
+                              <%if lto <> "tbg" OR level = 1 then 
+                                    inputDatoTXT = ""
+                                    inputDatoCLS = "date"
+                              else 
+                                    inputDatoTXT = "readonly"
+                                    inputDatoCLS = ""
+                                    tregDato = day(now) &"/"& month(now) &"/"& year(now)
+                              end if%>
+
+                              <div class='input-group <%=inputDatoCLS %>'>
+                                      <input type="text" style="width:300px;" class="form-control input-small" name="FM_datoer" id="jq_dato" value="<%=tregDato %>" placeholder="dd-mm-yyyy" <%=inputDatoTXT %> />
                                         <span class="input-group-addon input-small">
                                         <span class="fa fa-calendar">
                                         </span>
@@ -780,7 +789,7 @@ if len(session("user")) = 0 then
                            <!-- <div id="dv_job_0" class="dv-closed dv_job" style="border:1px #cccccc solid; padding:10px; visibility:hidden; display:none;"></div>--> <!-- dv_job -->
 
                              <select id="dv_job_0" class="form-control input-small chbox_job" size="10" style="visibility:hidden; display:none;">
-                                 <option><%=tsa_txt_534%>..</option>
+                                 <option><%=tsa_txt_534%>..her</option>
                              </select>
 
                             <input type="hidden" id="FM_jobid_0" name="FM_jobid" value="0"/>
@@ -917,6 +926,8 @@ if len(session("user")) = 0 then
         case "tec", "esn"
         aty_sql_realhours = " tfaktim <> 0"
         case "xdencker", "xintranet - local"
+        aty_sql_realhours = " tfaktim = 1"
+        case "cflow"
         aty_sql_realhours = " tfaktim = 1"
         case else
         aty_sql_realhours = aty_sql_realhours &""_

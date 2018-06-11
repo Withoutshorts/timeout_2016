@@ -582,7 +582,7 @@
 
 
               <%select case lto
-                case "kejd_pb"
+                case "kejd_pb", "wap"
                 case else %>
 
 	         <td align=right class=lille style="border-bottom:1px silver solid; border-right:1px silver solid; white-space:nowrap;">
@@ -630,7 +630,7 @@
 
 	     
                   <%select case lto
-                        case "kejd_pb"
+                        case "kejd_pb", "wap"
                         case else %>
 
                  <%arealfTimerTot = arealfTimerTot + (realfTimer(x)) %>

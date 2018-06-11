@@ -165,6 +165,8 @@ Public Class oz_importjob2
     Public strAktFase As String = ""
 
     Public kpers, rekvnr As String
+    Public progrpId As Integer = 0
+    Public progrp As String = "0"
 
     <WebMethod()> Public Function createjob2(ByVal ds As DataSet) As String
 
@@ -280,7 +282,7 @@ Public Class oz_importjob2
             Else 'TIA t1
 
                 '*** KUN FØRSTE linje 4 for hver job. Linje 4 = jobnavn
-                Dim strSQLjnj As String = "Select id, dato, editor, origin, jobnavn, jobnr, jobstartdato, jobslutdato, jobans, lto, beskrivelse, kundenavn, kundenr FROM job_import_temp WHERE id > 0 And overfort = 0 AND jobnavn <> '' And errid = 0  GROUP BY jobnr ORDER BY jobnr"
+                Dim strSQLjnj As String = "Select id, dato, editor, origin, jobnavn, jobnr, jobstartdato, jobslutdato, jobans, lto, beskrivelse, kundenavn, kundenr, projgrp FROM job_import_temp WHERE id > 0 And overfort = 0 AND jobnavn <> '' And errid = 0  GROUP BY jobnr ORDER BY jobnr"
                 'Dim strSQLjnj As String = "Select id FROM job_import_temp WHERE id > 0 And overfort = 10 And errid = 0 " & orderBySQL
                 objCmd = New OdbcCommand(strSQLjnj, objConn)
                 objDR = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
@@ -404,6 +406,26 @@ Public Class oz_importjob2
                 kundenavnTxt = objDR("kundenavn")
                 kundenrTxt = objDR("kundenr")
 
+                If (importtype = "t1") Then
+                    progrp = objDR("projgrp")
+
+
+                    Dim strSQLprogrp As String = "Select id FROM projektgrupper WHERE navn LIKE '" & progrp & "%'"
+                    objCmd = New OdbcCommand(strSQLprogrp, objConn)
+                    objDR2 = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
+                    progrpId = 1
+                    If objDR2.Read() = True Then
+
+                        progrpId = objDR2("id")
+
+                    End If
+
+
+                Else
+                    progrp = 0
+                    progrpId = 1
+                End If
+
 
             Else
 
@@ -415,6 +437,10 @@ Public Class oz_importjob2
                         kundenavnTxt = beskrivelse
                         kundenrTxt = jobnr
                 End Select
+
+
+                progrp = 0
+                progrpId = 1
 
             End If
 
@@ -676,7 +702,13 @@ Public Class oz_importjob2
                         jobStatus = 1
                     End If
                 Else
-                    jobStatus = 1
+
+                    If importtype = "d1" Or lto = "dencker" Then
+                        jobStatus = 3
+                    Else
+                        jobStatus = 1
+                    End If
+
                 End If
 
 
@@ -740,11 +772,17 @@ Public Class oz_importjob2
 
                                 Case Else
 
-                                    Dim strSQLjobUpd As String = ("Update job SET jobnavn = '" & jobnavn & "', jobnr = '" & jobnr & "', jobstatus = " & jobStatus & ", " _
+                                    Dim strSQLjobUpd As String = "Update job SET jobnavn = '" & jobnavn & "', jobnr = '" & jobnr & "', jobstatus = " & jobStatus & ", " _
                                     & " jobstartdato = '" & jobstartdato.ToString("yyyy/MM/dd", Globalization.CultureInfo.InvariantCulture) & "'," _
                                     & " jobslutdato = '" & jobslutdato.ToString("yyyy/MM/dd", Globalization.CultureInfo.InvariantCulture) & "', editor = '" & editor & "', " _
                                     & " dato = '" & dato.ToString("yyyy/MM/dd", Globalization.CultureInfo.InvariantCulture) & "', beskrivelse = '" & beskrivelse & "',  jobans1 = " & jobans & ", " _
-                                    & " kundekpers = " & kunderef & " WHERE jobnr = '" & jobnr & "'")
+                                    & " kundekpers = " & kunderef & ""
+
+                                    If importtype = "t1" Or lto = "tia" Then
+                                        strSQLjobUpd += ", projektgruppe2 = " & progrpId
+                                    End If
+
+                                    strSQLjobUpd += " WHERE jobnr = '" & jobnr & "'"
 
                                     objCmd = New OdbcCommand(strSQLjobUpd, objConn)
                                     objDR2 = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
@@ -1051,7 +1089,7 @@ Public Class oz_importjob2
                     & "'" & editor & "', " _
                     & "'" & dato.ToString("yyyy/MM/dd", Globalization.CultureInfo.InvariantCulture) & "', " _
                     & "10, " _
-                    & "1,1,1,1,1,1,1,1,1," _
+                    & "" & progrpId & ",1,1,1,1,1,1,1,1," _
                     & "1,0,0,0," _
                     & "'" & beskrivelse & "', " _
                     & "0,0, " _
@@ -1285,12 +1323,12 @@ Public Class oz_importjob2
                             End If
 
 
-                            If (lastID <> 0) Then
-                                '** EASY Reg aktiviteten 20171206 ***'
-                                Dim agforvalgtStamgrpKriEa As String = ""
-                                Call opretStamAkt(lto, lastID, "Easyreg", aktstdato, aktsldato, fomr, sort, 901, 0, agforvalgtStamgrpKriEa, objConn2, objConn, objCmd, objDR2, objDR3, objDR6, objDR4)
+                            'If (lastID <> 0) Then
+                            ' '** EASY Reg aktiviteten 20171206 ***'
+                            'Dim agforvalgtStamgrpKriEa As String = ""
+                            'Call opretStamAkt(lto, lastID, "Easyreg", aktstdato, aktsldato, fomr, sort, 901, 0, agforvalgtStamgrpKriEa, objConn2, objConn, objCmd, objDR2, objDR3, objDR6, objDR4)
 
-                            End If
+                            'End If
 
 
                         End If

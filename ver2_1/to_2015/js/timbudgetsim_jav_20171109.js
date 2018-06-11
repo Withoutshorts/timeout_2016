@@ -12,8 +12,105 @@ $(window).load(function () {
 });
 
 
+
+
+
+
+
+
 $(document).ready(function () {
+
+
+
+ //////// LUKKER ALLE AKTIVTETER HVIS DER VALGT MERE END 1 JOB 
+
+    $("#aabnlukall").click(function () {
+        
+
+        if ($('#aabnlukall').is(':checked') == true) {
+
+
+            $(".tr_aktlinje").css("display", "none");
+            $(".tr_aktlinje").css("visibility", "hidden");
+
+
+            for (i = 0; i < 10000; i++) {
+                $(".tr_" + i).css('display', "none");
+                $("#tr_job_" + i).css("background-color", "#FFFFFF");
+            }
+
+            $(".fp_jid").html('<b>[+]&nbsp;</b>');
+
+        } else {
+
+
+            $(".tr_aktlinje").css("display", "");
+            $(".tr_aktlinje").css("visibility", "visible");
+
+
+            for (i = 0; i < 10000; i++) {
+                $(".tr_" + i).css('display', "");
+                $(".tr_" + i).css("visibility", "visible");
+
+                //$("#tr_job_" + i).css("background-color", "#FFFFFF");
+            }
+
+            $(".fp_jid").html('<b>[-]&nbsp;</b>');
+        }
+
+    });
     
+
+    $("#visKunFCFelter0").click(function () {
+
+        if ($('#visKunFCFelter0').is(':checked') == true) {
+
+            $('#visKunFCFelter1').prop('checked', true);
+            $('#visKunFCFelter2').prop('checked', true);
+            $('#visKunFCFelter3').prop('checked', true);
+            $('#visKunFCFelter4').prop('checked', true);
+
+            $('#visKunFCFelter1').prop('disabled', true);
+            $('#visKunFCFelter2').prop('disabled', true);
+            $('#visKunFCFelter3').prop('disabled', true);
+            $('#visKunFCFelter4').prop('disabled', true);
+
+        } else {
+
+            $('#visKunFCFelter1').prop('checked', true);
+            $('#visKunFCFelter1').prop('disabled', false);
+            $('#visKunFCFelter2').prop('disabled', false);
+            $('#visKunFCFelter3').prop('disabled', false);
+            $('#visKunFCFelter4').prop('disabled', false);
+        }
+
+    });
+
+    $("#visKunFCFelter1, #visKunFCFelter2, #visKunFCFelter3").click(function () {
+
+        if ($('#visKunFCFelter1').is(':checked') == true) {
+
+            $('#visKunFCFelter4').prop('disabled', false);
+           
+
+        } else {
+
+           
+            $('#visKunFCFelter4').prop('disabled', true);
+            $('#visKunFCFelter4').prop('checked', false);
+        }
+
+    });
+
+
+    $("#fixtable").click(function () {
+
+        //alert("HER")
+        var table = $('#main_datatable_forecast').DataTable();
+        table.columns.adjust().draw();
+        //alert("HER2")
+    });
+   
 
   /*  $('#scrollable').dataTable({
         "columnDefs": [{
@@ -65,7 +162,8 @@ $(document).ready(function () {
 
 
 
-
+    //////// LUKKER ALLE AKTIVTETER HVIS DER VALGT MERE END 1 JOB 
+    /*
     if ($("#antaljids").val() > 1) {
 
         $(".tr_aktlinje").css("display", "none");
@@ -73,13 +171,14 @@ $(document).ready(function () {
 
 
         for (i = 0; i < 10000; i++) {
-            $(".tr_" + i).css('display', "none");
+        $(".tr_" + i).css('display', "none");
             $("#tr_job_" + i).css("background-color", "#FFFFFF");
         }
 
         $(".fp_jid").html('<b>[+]&nbsp;</b>');
 
-    }
+    } */
+
 
     $("#load").hide(1000);
 
@@ -251,6 +350,9 @@ $(document).ready(function () {
 
     $(".sp_p").click(function () {
 
+
+          
+
         var thisid = this.id
         var idlngt = thisid.length
         var idtrim = thisid.slice(5, idlngt)
@@ -258,10 +360,11 @@ $(document).ready(function () {
      
         if ($(".afd_p_" + idtrim).css('display') == "none") {
 
-
             //$(".afd_p").css("display", "none");
             //$(".afd_p").css("visibility", "hidden");
-          //  $(".afd_p").hide(100);
+            //$(".afd_p").hide(100);
+
+          
             $(".td_p").css("background-color", "");
 
             $(".afd_p_" + idtrim).css("display", "");
@@ -280,8 +383,12 @@ $(document).ready(function () {
 
         }
 
-        var table = $('#example').DataTable();
+
+        var table = $('#main_datatable_forecast').DataTable();
         table.columns.adjust().draw();
+
+    
+      
 
     });
 
@@ -371,7 +478,7 @@ $(document).ready(function () {
 
         }
 
-        var table = $('#example').DataTable();
+        var table = $('#main_datatable_forecast').DataTable();
         table.columns.adjust().draw();
 
     });
@@ -394,7 +501,7 @@ $(document).ready(function () {
         thisval = Math.round((budgettimer / 1 - realtimer / 1) * 100) / 100
 
         if (thisval < 0) {
-            $("#h2t_jobakt_" + idtrim).css("background-color", "lightpink")
+            $("#h2t_jobakt_" + idtrim).css("background-color", "red")//lightpink
         } else {
             $("#h2t_jobakt_" + idtrim).css("background-color", "")
         }
@@ -605,7 +712,7 @@ $(document).ready(function () {
 
 
         if (timerSaldo < 0) {
-            $("#mh12h_jobaktmid_" + idtrim).css("background-color", "lightpink")
+            $("#mh12h_jobaktmid_" + idtrim).css("background-color", "red") //lightpink
 
         } else {
             $("#mh12h_jobaktmid_" + idtrim).css("background-color", "#Eff3ff")
@@ -621,6 +728,8 @@ $(document).ready(function () {
 
         jobid = $("#h1_jobid_" + idtrim).val()
         aktid = $("#h1_aktid_" + idtrim).val()
+
+        clickedaktid = aktid
 
         h1totjobakt = 0
         h2totjobakt = 0
@@ -674,6 +783,11 @@ $(document).ready(function () {
         $("#fcjobaktgt_" + jobid + "_" + aktid).val(0)
 
 
+        
+
+
+
+
 
 
         /////////////////////////////////////////////
@@ -707,6 +821,8 @@ $(document).ready(function () {
         $("#afd_jobaktbel_" + jobid + "_" + aktid + "_" + thisP).val(h1totBeljobakt)
         $("#afd_jobaktbels_" + jobid + "_" + aktid + "_" + thisP).html(h1totBeljobakt + " DKK")
 
+
+
         /////////////////////////////////////////////
         //// Belob GT på Job/AKt
         /////////////////////////////////////////////
@@ -735,6 +851,19 @@ $(document).ready(function () {
 
         });
 
+        //jobTotalbudget = $("#jobaktT_" + jobid + "_0").val()
+        //jobTotalbudget = jobTotalbudget.replace(".", "")
+        //jobTotalbudget = jobTotalbudget.replace(",", ".")
+
+        //alert("HEJ: #jobaktT_" + jobid + "_0: " + jobTotalbudget)
+        //alert(h1totBeljobaktGt)
+        //alert("HER: " + jobTotalbudget & " < " + h1totBeljobaktGt)
+
+        //if (h1totBeljobaktGt > jobTotalbudget) {
+        //    $("#fcjobaktgt_" + jobid + "_0").css("background-color", "red")
+        //} else {
+        //    $("#fcjobaktgt_" + jobid + "_0").css("background-color", "")
+        //}
 
 
         h1totBeljobaktGt = String(h1totBeljobaktGt).replace(".", ",")
@@ -742,10 +871,12 @@ $(document).ready(function () {
         $("#fcjobaktBelgt_" + jobid + "_" + aktid).val(h1totBeljobaktGt)
         $("#fcjobaktBelgts_" + jobid + "_" + aktid).html(h1totBeljobaktGt + " DKK")
         $("#fcjobaktBelgts_" + jobid + "_" + aktid).css("border-bottom", "1px darkred dashed")
+
+       
         //////// END Belob GT
 
 
-
+        
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -763,7 +894,7 @@ $(document).ready(function () {
 
 
         if (visallejob != 1 && viskunminit != 1) {
-            beregnFCprProgrpTilTotPaJob(jobid, aktid);
+            beregnFCprProgrpTilTotPaJob(jobid, aktid, clickedaktid);
         }
 
 
@@ -778,15 +909,9 @@ $(document).ready(function () {
                 h2jobakt = 0
             }
 
-
-           
             h2totjobakt = h2totjobakt + (h2jobakt / 1)
 
         }); */
-
-
-
-
 
 
         $("#h1h_jobaktmid_" + jobid + "_" + aktid).val(h1totjobakt)
@@ -799,11 +924,17 @@ $(document).ready(function () {
         //$("#afd_jobaktbel_" + jobid + "_" + aktid).val('600')
 
 
+    
+
+
+
+
+
 
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        // GT på Job / AKT 
+        // GT TIMER på Job / AKT 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         h1totjobaktGT = 0;
         $(".mh1h_jobaktmid_" + jobid + "_0").each(function () {
@@ -840,9 +971,33 @@ $(document).ready(function () {
         });
 
 
+
+        jobTotalbudget = $("#jobaktT_" + jobid + "_0").val()
+        jobTotalbudget = jobTotalbudget.replace(".", "")
+        jobTotalbudget = jobTotalbudget.replace(",", ".")
+
+        //alert("HEJ: #jobaktT_" + jobid + "_0: " + jobTotalbudget)
+        //alert(h1totBeljobaktGt)
+        //alert("HER: 2")
+
+        if (h1totjobaktGT > jobTotalbudget) {
+            $("#fcjobaktgt_" + jobid + "_0").css("background-color", "red")
+            $("#sp_jobaktT_" + jobid + "_0").css("border", "1px red dashed")
+        } else {
+            $("#fcjobaktgt_" + jobid + "_0").css("background-color", "")
+            $("#sp_jobaktT_" + jobid + "_0").css("border", "")
+        }
+
+
+
         h1totjobaktGT = Math.round(h1totjobaktGT)
         h1totjobaktGT = h1totjobaktGT
         h1totjobaktGT = String(h1totjobaktGT).replace(".", ",")
+
+
+
+
+
 
 
         //// Total beløb lodret på job / akt
@@ -1010,15 +1165,17 @@ $(document).ready(function () {
 
         var arr = idtrim.split('_');
         m_arr = arr[2]
+
+        aktid = arr[1]
+        jobid = arr[0]
+        p = arr[2]
         //mh1h_jobaktmid_<%=jobid%>_<%=aktid %>_<%=antalm(m,1)%>
 
-        medarbTot(aktid, jobid, m_arr)
+        medarbTot(aktid, jobid, m_arr);
 
         afdelingTot(aktid, jobid, phigh);
 
-
-
-
+       
     }
 
 
@@ -1028,8 +1185,12 @@ $(document).ready(function () {
 
 
 
+    // Functions /// 
 
 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    // AFD Total
+    //////////////////////////////////////////////////////////////////////////////////////
     function afdelingTot(aktid, jobid, phigh) {
 
 
@@ -1052,15 +1213,27 @@ $(document).ready(function () {
 
                 //alert(fs_totTot)
 
-
+              
             });
 
-            fs_totTot = String(fs_totTot).replace(".", ",")
+           
+            
 
+
+            //alert("HER #afd_jobakt_" + jobid + "_" + aktid + "_" + p)
+            fs_totTot = String(fs_totTot).replace(".", ",")
             $("#afd_jobakt_" + jobid + "_" + aktid + "_" + p).val(fs_totTot)
-            //$("#afd_jobaktbel_" + jobid + "_" + aktid + "_" + p).val('200')
+
+            //alert("HER 2")
+
+             
+           
+                  
 
         }
+
+
+        
 
 
     }
@@ -1107,9 +1280,15 @@ $(document).ready(function () {
         totmedarbn1 = totmedarbn1.replace(",", ".")
 
         if (mFc_totTotGTGT > totmedarbn1) {
-            $("#totmedarbn1_" + m).css("background-color", "lightpink")
+            $("#totmedarbn1_" + m).css("border", "red 1px dashed") //lightpink //
         } else {
-            $("#totmedarbn1_" + m).css("background-color", "")
+            $("#totmedarbn1_" + m).css("border", "")
+        }
+
+        if (mFc_totTotGTGT > totmedarbn1) {
+            $("#totmedarbh1GTGT_" + m).css("background-color", "red") //lightpink
+        } else {
+            $("#totmedarbh1GTGT_" + m).css("background-color", "")
         }
 
         mFc_totTot = String(mFc_totTot).replace(".", ",")
@@ -1118,7 +1297,7 @@ $(document).ready(function () {
         $("#totmedarbh1_" + m).val(mFc_totTot)
         $("#totmedarbh1GTGT_" + m).val(mFc_totTotGTGT)
 
-
+      
 
 
 
@@ -1726,7 +1905,7 @@ $(document).ready(function () {
             //alert("her: " + jobid + "aktid: " + aktid)
             budgettimer = 0;
             realtimer = 0;
-            alert(jobid + "_" + aktid + " budgettimer: " + budgettimer)
+            //alert(jobid + "_" + aktid + " budgettimer: " + budgettimer)
 
 
             h1 = $("#h1h_jobaktmid_" + jobid + "_" + aktid).val()
@@ -1835,7 +2014,7 @@ $(document).ready(function () {
 
 
                 if ((mh1 / 1) > mn1) {
-                    $("#totmedarbh1_" + l).css("background-color", "lightpink")
+                    $("#totmedarbh1_" + l).css("background-color", "red") //lightpink
                 } else {
 
                     if (mh1 = "0,00") {
@@ -1883,7 +2062,7 @@ $(document).ready(function () {
 
 
         if ((h1 / 1 + h2 / 1) > budgettimer && budgettimer != 0) {
-            $("#FM_timerbudget_FY0_" + jobidaktid).css("background-color", "lightpink")
+            $("#FM_timerbudget_FY0_" + jobidaktid).css("background-color", "red") //lightpink
         } else {
 
             if (budgettimer == 0) {
@@ -1960,7 +2139,7 @@ $(document).ready(function () {
 
 
 
-    function beregnFCprProgrpTilTotPaJob(jobid, aktid) {
+    function beregnFCprProgrpTilTotPaJob(jobid, aktid, clickedaktid) {
 
         //alert("beregnFCprProgrpTilTotPaJob")
 
@@ -1969,6 +2148,8 @@ $(document).ready(function () {
         $("#fcjobaktgt_" + jobid + "_" + aktid).val('0')
         //$("#fcjobaktBelgt_" + jobid + "_" + aktid).html('0')
 
+        //alert("clickedaktid: " + clickedaktid)
+
         //lastaktid = 0;
         fcjobakt = 0;
         fcjobaktgt = 0;
@@ -1976,9 +2157,11 @@ $(document).ready(function () {
 
         //$("#fcjobaktgt_" + jobid + "_" + aktid).val('0')
 
+
+
         $(".afd_jobakt").each(function () {
 
-
+            //alert("Kurt")
 
             var thisid = this.id
             var idlngt = thisid.length
@@ -1993,8 +2176,16 @@ $(document).ready(function () {
             progrpid = arr[2]
 
 
-
+            
+            //if (clickedaktid == aktid) { 
             fcjobakt = $("#afd_jobakt_" + jobid + "_" + aktid + "_" + progrpid).val()
+
+            //alert("cl:" + clickedaktid + " aktid: " + aktid + " progrpid: " + progrpid + " fcjobakt:" + fcjobakt)
+
+            //} else {
+            //    fcjobakt = 0 //$("#afd_jobakt_" + jobid + "_" + aktid + "_" + progrpid).val()
+            //}
+
             //fcjobaktbel = $("#afd_jobaktbel_" + jobid + "_" + aktid + "_" + progrpid).val()
 
 
@@ -2007,6 +2198,7 @@ $(document).ready(function () {
 
 
             fcjobaktgt = $("#fcjobaktgt_" + jobid + "_" + aktid).val()
+            //alert(fcjobaktgt)
 
 
             if (fcjobaktgt == "NaN" || (fcjobaktgt == "-Infinity") || fcjobaktgt == "") {
@@ -2021,18 +2213,43 @@ $(document).ready(function () {
             fcjobaktgtAkk = (fcjobaktgt / 1 + fcjobakt / 1)
 
 
-            if (fcjobaktgtAkk != 0) {
+
+            //alert("HEJ: #jobaktT_" + jobid + "_" + aktid + ": " + aktTotalbudget)
+            if (fcjobaktgtAkk != 0 && (aktid == 0 || aktid == clickedaktid)) {
+
+             
+
+
+                if (aktid == clickedaktid) {
+
+                    aktTotalbudget = $("#jobaktT_" + jobid + "_" + aktid).val()
+                    //aktTotalbudget = aktTotalbudget.replace(".", "")
+                    //aktTotalbudget = aktTotalbudget.replace(",", ".")
+
+                    //aktTotalbudget = 0
+                    //alert("HEJ: #jobaktT_" + jobid + "_" + aktid + ": "+ fcjobaktgtAkk +" > " + aktTotalbudget)
+                    //alert(h1totBeljobaktGt)
+                    //alert("HER: " + jobTotalbudget & " < " + h1totjobaktGT)
+
+                    if (fcjobaktgtAkk > aktTotalbudget) {
+                        $("#fcjobaktgt_" + jobid + "_" + aktid).css("background-color", "red")
+                        $("#sp_jobaktT_" + jobid + "_" + aktid).css("border", "1px red dashed")
+                    } else {
+                        $("#fcjobaktgt_" + jobid + "_" + aktid).css("background-color", "")
+                        $("#sp_jobaktT_" + jobid + "_" + aktid).css("border", "")
+                    }
+
+                }
 
 
                 fcjobaktgtAkkVal = fcjobaktgtAkk
                 String(fcjobaktgtAkk).replace(".", ",")
                 $("#fcjobaktgt_" + jobid + "_" + aktid).val(fcjobaktgtAkk)
 
-
-
-
             }
 
+
+          
 
 
 
@@ -2040,6 +2257,8 @@ $(document).ready(function () {
 
 
     }
+
+
 
 
 
@@ -2115,6 +2334,28 @@ $(document).ready(function () {
             $("#afd_jobaktbel_" + jobid + "_0_" + progrpid).val('')
         }
 
+
+        //alert("Børge")
+
+        fs_totTot_this = $("#afd_jobakt_" + jobid + "_0_" + progrpid).val()
+        fs_totTot_this = fs_totTot_this.replace(".", "")
+        fs_totTot_this = fs_totTot_this.replace(",", ".")
+
+        jobTotalbudget = $("#jobaktT_" + jobid + "_0").val()
+        jobTotalbudget = jobTotalbudget.replace(".", "")
+        jobTotalbudget = jobTotalbudget.replace(",", ".")
+
+        //alert(fs_totTot_this + " > " + jobTotalbudget)
+
+        if ((fs_totTot_this*1) > (jobTotalbudget*1)) {
+            $("#afd_jobakt_" + jobid + "_0_" + progrpid).css("background-color", "red") //lightpink
+            //$("#sp_jobaktT_" + jobid + "_0").css("border", "1px red dashed")
+        } else {
+            $("#afd_jobakt_" + jobid + "_0_" + progrpid).css("background-color", "")
+            //$("#sp_jobaktT_" + jobid + "_0").css("border", "")
+        }
+
+
     }
 
 
@@ -2174,6 +2415,9 @@ $(document).ready(function () {
 
 
             });//EaCH
+
+
+            //alert("HER 2")
 
             fcjobaktGT = String(fcjobaktGT).replace(".", ",")
             if (fcjobaktGT != 0) {
@@ -2260,6 +2504,9 @@ $(document).ready(function () {
 
 
 
+    //$('html, body').animate({
+    //    scrollTop: $("#main_datatable_forecast").offset().top
+    //}, 2000);
 
 
 

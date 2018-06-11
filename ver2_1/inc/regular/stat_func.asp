@@ -725,7 +725,7 @@ end function
             	
 		<h4><%=joblog_txt_172 %>: <br /><span style="font-size:11px; font-weight:lighter;">(% wildcard, <b>231, 269</b><%=" "& joblog_txt_173 %>, <b>201--225</b><%=" "& joblog_txt_174 %>, <b><></b><%=" "& joblog_txt_175 %></span></h4>
         <input name="viskunabnejob0" id="viskunabnejob" type="checkbox" value="1" <%=jost0CHK %> /><%=joblog2_txt_148 %> &nbsp;
-        <input name="viskunabnejob1" id="Radio3" type="checkbox" value="1" <%=jost1CHK %> /><%=joblog2_txt_149 %> &nbsp;
+        <input name="viskunabnejob1" id="Radio3" type="checkbox" value="1" <%=jost1CHK %> /><%=jobstatus_txt_003 %> &nbsp;
         <input name="viskunabnejob2" id="Checkbox1" type="checkbox" value="1" <%=jost2CHK %> /><%=joblog2_txt_150 %> &nbsp;<br />
 
                 <input type="text" name="FM_jobsog" id="FM_jobsog" value="<%=jobSogVal%>" style="width:350px; border:2px #6CAE1C solid; font-size:14px;">&nbsp;

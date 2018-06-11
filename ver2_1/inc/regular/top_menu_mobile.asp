@@ -49,7 +49,13 @@
 
                 <li style="border-bottom:1px #000000 solid;">
                 <a href="<%=relpathTT%>timetag_web_kpi.asp"><%=ttw_txt_017 %></a>
-                </li>  
+                </li> 
+                
+                <%if lto = "hestia" OR lto = "tbg" OR lto = "mpt" then %>
+                <li style="border-bottom:1px #000000 solid;">
+                <a href="<%=relpathTT%>mat_web.asp">Materialer</a>
+                </li>
+                <%end if %>
 
                 <%end if %>
                 

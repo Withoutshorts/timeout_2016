@@ -148,6 +148,9 @@
                <input type="hidden" id="mobil_week_reg_job_dd" name="" value="<%=mobil_week_reg_job_dd %>"/>
 
                 <% 
+
+                
+
                 'if request.Cookies("monitor_job")(session("mid")) <> "" then
                 'jobidC = request.Cookies("monitor_job")(session("mid"))
                 'aktidC = request.Cookies("monitor_akt")(session("mid"))
@@ -155,6 +158,14 @@
                 jobidC = "-1"
                 aktidC = "-1"
                 'end if
+
+                
+                '** Er medarbejder med i Aumatisjon Eller Enginnering
+                call medariprogrpFn(usemrn)
+
+                'Response.write "MED I PROGRP: "& medariprogrpTxt
+
+                if instr(medariprogrpTxt, "#14#") = 0 AND instr(medariprogrpTxt, "#16#") = 0 then
 
                 '** IKKE PÅ COOKIE DA DET SKAL GÆLDE ALLE TERMINALER
                 strSQLsel = "SELECT lha_jobid FROM login_historik_aktivejob_rel WHERE lha_mid = "& session("mid") & " AND lha_jobid <> 0"
@@ -181,6 +192,8 @@
                 end if
                 oRec.close
 
+                end if
+
                 'jobidC = "-1"
                 'aktidC = "-1"
 
@@ -195,20 +208,45 @@
                <input type="hidden" id="FM_medid" name="FM_medid" value="<%=usemrn %>"/>
                <input type="hidden" id="lto" value="<%=lto%>">
                <input type="hidden" name="varTjDatoUS_man" id="varTjDatoUS_man" value="<%=varTjDatoUS_man %>">
-               <table style="font-size:80%; width:450px; display:inline-table;" border="0">  
+                 
                     
             
 
-                   <%   txtClass = "lg"
+                   <%   
+                       
+                       if browstype_client <> "ip" then
+                        
+                        txtClass = "lg"
                         inputHeight = "150%"
                         inputFont = "150%"
                         paddingTop = "30px"
-                        'response.Write "<br><br><br>"
+                        txtboxWdt = "" 
+                        tblwdt = "450px"
+                         paddingTop2 = "15px"
+                        paddingTop3 = "40px"
+
+                       else
+
+                        txtClass = "lg"
+                        inputHeight = "100%"
+                        inputFont = "150%"
+                        paddingTop = "10px"
+                        'txtboxWdt = "width:300px;"
+                        txtboxWdt = "" 
+                        tblwdt = "300px"
+                        paddingTop2 = "5px"
+                        paddingTop3 = "10px"
+
+                       end if
+
                         rdir_timereg = "touchMonitor" 
                     %>
 
+                   <table style="font-size:80%; width:<%=tblwdt%>px; display:inline-table;" border="0">
 
-                     <tr><td style="padding-left:10px; padding-top:0px; font-size:15px; text-align:left;">Projekt</td></tr>
+                       <%if instr(medariprogrpTxt, "#14#") = 0 AND instr(medariprogrpTxt, "#16#") = 0 then  %>
+
+                     <tr><td colspan="2" style="padding-left:10px; padding-top:0px; font-size:15px; text-align:left;">Projekt</td></tr>
                    <tr><td colspan="2">
 
                        <!--<span style="background-color:yellow; font-size:14px;">Hei <%=session("user") %> <br />- pga en nulstilling af projekter, er du nødt til at vælge projekt på nyt.</span>-->
@@ -216,13 +254,13 @@
                         <!--<input type="text" id="test" />-->
                             <%
                                 
-                            
+                                     
 
                           
                               if cint(mobil_week_reg_job_dd) = 1 then %>
                             
                             <input type="hidden" id="FM_job_0" value="-1"/>
-                             <select id="dv_job_0" name="FM_jobid" style="font-size:<%=inputFont %>; height:<%=inputHeight%>;" class="form-control input-<%=txtClass %> chbox_job">
+                             <select id="dv_job_0" name="FM_jobid" style="font-size:<%=inputFont %>; height:<%=inputHeight%>; <%=txtboxWdt%>" class="form-control input-<%=txtClass %> chbox_job">
                                  <option value="-1"><%=left(tsa_txt_145, 4) %>..</option>
                                  <!--<option value="0">..</option>-->
                              </select>
@@ -239,7 +277,7 @@
                             <%end if %>
 
                        </td></tr>
-                        <tr><td style="padding-left:10px; padding-top:10px; font-size:15px; text-align:left;">Komponent/Aktivitet</td></tr>
+                        <tr><td colspan="2" style="padding-left:10px; padding-top:10px; font-size:15px; text-align:left;">Komponent/Aktivitet</td></tr>
 
                             <tr><td colspan="2">
 
@@ -249,7 +287,7 @@
                               if cint(mobil_week_reg_akt_dd) = 1 then %>
                                  <input type="hidden" id="FM_akt_0" value="-1"/>
                                  <!--<textarea id="dv_akt_test"></textarea>-->
-                                 <select id="dv_akt_0" name="FM_aktivitetid" class="form-control input-<%=txtClass %> chbox_akt" style="font-size:<%=inputFont%>; height:<%=inputHeight%>" DISABLED>
+                                 <select id="dv_akt_0" name="FM_aktivitetid" class="form-control input-<%=txtClass %> chbox_akt" style="font-size:<%=inputFont%>; height:<%=inputHeight%>; <%=txtboxWdt%>" DISABLED>
                                       <option>..</option>
                                   </select>
 
@@ -268,16 +306,26 @@
                     <tr>
                        <td colspan="2" style="padding-top:5px; padding-left:10px; text-align:right;">
                          
-                           <input type="submit" id="bt_indlaspaajob" class="btn btn-sm btn-info" value="Indlæs timer og vælg etterpå nyt projekt >>">
+                           <input type="button" id="bt_indlaspaajob" class="btn btn-sm btn-info" value="Indlæs timer og vælg etterpå nyt projekt >>">
                            <input type="hidden" value="0" name="indlaspaajob" id="indlaspaajob" />
                        </td>
                    </tr>
 
-                   <tr><td colspan="2"><br /><br />&nbsp;</td></tr>
+                   <%if browstype_client <> "xip" then %>
+                   <tr><td colspan="2"><br />&nbsp;</td></tr>
+                   <%end if %>
+
+
+                    <%else %>
+                       <input type="hidden" id="FM_jobid_0" name="FM_jobid" value="0"/>
+                       <input type="hidden" id="FM_aktid_0" name="FM_aktivitetid" value="0"/>
+                    <%end if 'instr(medariprogrpTxt, "#14#") = 0 AND instr(medariprogrpTxt, "#16#") = 0%>
+
+
 
                    <tr>
-                        <td style="padding-top:20px; padding-left:10px; font-size:15px; text-align:left;">Komme/gå tid:</td>
-                        <td style="padding-top:20px; padding-left:20px; font-size:15px; text-align:right;">
+                        <td style="padding-top:<%=paddingTop2%>; padding-left:10px; font-size:15px; text-align:left;">Komme/gå tid:</td>
+                        <td style="padding-top:<%=paddingTop2%>; padding-left:20px; font-size:15px; text-align:right;">
                             <%
                                 
                                 
@@ -334,20 +382,20 @@
                    -->
 
                     <tr>
-                        <td style="padding-top:25px; padding-left:10px; font-size:15px;">Evt. overtid ønskes udbetalt:
-                        <td style="padding-top:25px; padding-left:60px; font-size:15px; text-align:right;" align="right"><input type="text" id="fm_overtidonskesudbetalt" name="fm_overtidonskesudbetalt" value="0" class="form-control input-lg" style="text-align:right;" /></td>
+                        <td style="padding-top:<%=paddingTop2%>; padding-left:10px; font-size:15px;">Evt. overtid ønskes udbetalt:
+                        <td style="padding-top:<%=paddingTop2%>; padding-left:60px; font-size:15px; text-align:right;" align="right"><input type="text" id="fm_overtidonskesudbetalt" name="fm_overtidonskesudbetalt" value="0" class="form-control input-lg" style="text-align:right;" /></td>
                     </tr>
 
                     <tr>
-                        <td style="padding-top:25px; padding-left:10px; font-size:15px;">Reisetid:<br /><span style="font-size:11px;">30 min = 0,5</span>
-                        <td style="padding-top:25px; padding-left:60px; font-size:15px; text-align:right;" align="right"><input type="text" id="fm_rejsetid" name="FM_rejsetid" value="0" class="form-control input-lg" style="text-align:right;" /></td>
+                        <td style="padding-top:<%=paddingTop2%>; padding-left:10px; font-size:15px;">Reisetid:<br /><span style="font-size:11px;">30 min = 0,5</span>
+                        <td style="padding-top:<%=paddingTop2%>; padding-left:60px; font-size:15px; text-align:right;" align="right"><input type="text" id="fm_rejsetid" name="FM_rejsetid" value="0" class="form-control input-lg" style="text-align:right;" /></td>
                     </tr>
                    
 
 
                    <tr>
-                        <td style="padding-top:40px; padding-left:10px; font-size:15px; vertical-align:top;">Arbejde ute:</td>
-                        <td style="padding-top:40px; padding-left:65px; font-size:15px;"><input type="checkbox" name="FM_arbute_no" value="1" /> NO<br />
+                        <td style="padding-top:<%=paddingTop3%>; padding-left:10px; font-size:15px; vertical-align:top;">Arbejde ute:</td>
+                        <td style="padding-top:<%=paddingTop3%>; padding-left:65px; font-size:15px;"><input type="checkbox" name="FM_arbute_no" value="1" /> NO<br />
                             <input type="checkbox" name="FM_arbute_world" value="1" /> Utland<br />
                             <input type="checkbox" name="FM_arbute_teamleder" value="1" /> Teamleder</td>
                     </tr>
@@ -372,7 +420,7 @@
                    <tr>
                        <td colspan="2" style="padding-top:20px; padding-left:10px; text-align:right;">
                            <%if cdbl(realtimerIdag) > -1 then %>
-                           <input type="submit" class="btn btn-lg btn-danger" value="Stemple ut >>">
+                           <input type="submit" class="btn btn-lg btn-danger" id="sb_monitor_stempleud" value="Stemple ut >>">
                            <%else %>
                            <a href="#" class="btn btn-lg btn-warning"><b>Stemple ut >> </b></a><br />
                            <span style="color:#999999; font-size:11px;">

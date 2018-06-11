@@ -204,6 +204,8 @@ function jobaktbudgetfelter(jobnr, jobid, aktid, h1aar, h2aar, h1md, h2md)
     h1cls = "x"
     h2cls = "x"
     end if
+
+
     
     %>
       <td><input type="text" name="FM_<%=aktFMname%>timebudget_FY0" id="FM_timerbudget_FY0_<%=jobid%>_<%=aktid %>" class="jobakt_budgettimer_FY <%=aktclassFY0 %>" value="<%=rammeFY0 %>" style="width:40px; background-color:<%=bgthisFY0%>;" /></td>
@@ -223,6 +225,11 @@ function jobaktbudgetfelter(jobnr, jobid, aktid, h1aar, h2aar, h1md, h2md)
         <td style="background-color:#FFFFFF;"><input type="text" id="budget_h1_jobakt_<%=jobid%>_<%=aktid %>" style="width:60px; border:0px; background-color:<%=bgthis%>;"" value="<%=budgetFY0h1 %>" /></td>
         <td style="background-color:#FFFFFF;"><input type="text" id="budget_h2_jobakt_<%=jobid%>_<%=aktid %>" style="width:60px; border:0px; background-color:<%=bgthis%>;"" value="<%=budgetFY0h2 %>" /></td>
         <td style="background-color:lightpink;"><input type="text" id="budget_jobakt_<%=jobid%>_<%=aktid %>" style="width:60px; border:0px; background-color:lightpink;" value="<%=budgetFY0 %>" /></td>
+
+          <!--
+         <td style="background-color:#999999"><input type="text" id="diffbudget_FC_<%=jobid%>_<%=aktid %>" style="width:60px; border:0px; background-color:green;" value="<%=diffbudget_FC %>" /></td>
+              -->
+        
 
     <%
 end function

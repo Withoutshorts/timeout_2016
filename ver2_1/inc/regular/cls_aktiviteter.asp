@@ -49,10 +49,15 @@
                 end if
                 oRec5.close
 
-                if cint(jobstatusTjk) = 3 then 'tilbud
-                onlySalesact = " AND a.fakturerbar = 6"
+                if lto = "mpt" OR session("lto") = "9K2017-1121-TO178" then
+               
+                    onlySalesact = ""
                 else
-                onlySalesact = ""
+                    if cint(jobstatusTjk) = 3 then 'tilbud
+                    onlySalesact = " AND a.fakturerbar = 6"
+                    else
+                    onlySalesact = ""
+                    end if
                 end if
 
 
@@ -409,8 +414,10 @@
 	 
 	function akttyper2009(dothis)
 	
+    'if session("mid") = 1 then
 	'Response.Write "akttype_sel::"& akttype_sel
-	 
+	'end if
+    
 	 aty_sql_fakbar = "fakturerbar = 0"
 	 aty_sql_ikfakbar = "fakturerbar = 0"
 	 aty_sql_onfak =  "aktiviteter.fakturerbar = 0"

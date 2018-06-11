@@ -219,6 +219,10 @@ Public Class oz_importmed_na
 
             mednavn = Replace(mednavn, "'", "")
 
+            If init = "kti" Then
+                mednavn = "Kamile Tirunaite"
+            End If
+
             lto = objDR("lto")
             normtid = objDR("normtid")
             normtid = Replace(normtid, ".", ",")
@@ -389,12 +393,15 @@ Public Class oz_importmed_na
                     objCmd2.ExecuteReader() '(CommandBehavior.closeConnection)
 
                     '** Indsætter **'
-                    Dim strSQLpgrelc As String = ("INSERT INTO progrupperelationer (projektgruppeid, medarbejderid) VALUES " _
-                        & " (" & mapping & ", " & LastMedID & ")")
+                    If mapping <> 0 Then
+                        Dim strSQLpgrelc As String = ("INSERT INTO progrupperelationer (projektgruppeid, medarbejderid) VALUES " _
+                            & " (" & mapping & ", " & LastMedID & ")")
 
 
-                    objCmd2 = New OdbcCommand(strSQLpgrelc, objConn2)
-                    objCmd2.ExecuteReader() '(CommandBehavior.closeConnection)
+                        objCmd2 = New OdbcCommand(strSQLpgrelc, objConn2)
+                        objCmd2.ExecuteReader() '(CommandBehavior.closeConnection)
+                    End If
+
 
                 End If
 

@@ -6,12 +6,12 @@
 <!--#include file="../inc/errors/error_inc.asp"-->
 <!--#include file="../inc/regular/global_func.asp"-->
 <!--#include file="../inc/regular/webblik_func.asp"-->
-<!--XXXinclude file="../timereg/inc/ressource_belaeg_jbpla_inc.asp"-->
+
 <!--#include file="../timereg/inc/isint_func.asp"-->
 <!--#include file="../to_2015/inc/timbudgetsim_inc.asp"-->
 <!--#include file="../inc/regular/topmenu_inc.asp"-->
 
-<!--'include file="../inc/regular/header_lysblaa_inc.asp"-->
+
 
 <%
 thisfile = "timebudget_scroll"
@@ -55,7 +55,8 @@ if session("user") = "" then
             '***************** VARIABLE **************************************************
 
             call timesimon_fn()
-
+            'timesimtp = 
+            'bliver sat længere ned alt efter om den er valgt som checkbox 
 
 
             if request("issubmitted") = "1" then
@@ -322,6 +323,7 @@ if session("user") = "" then
 
 
                 if request("issubmitted") = "1" then
+               
                 visKunFCFelter = request("FM_visKunFCFelter")
                 response.Cookies("EPR")("FM_visKunFCFelter") = visKunFCFelter
 
@@ -331,28 +333,104 @@ if session("user") = "" then
                     if request.Cookies("EPR")("FM_visKunFCFelter") <> "" AND request("issubmitted") <> "1" then
                     visKunFCFelter = request.Cookies("EPR")("FM_visKunFCFelter")
                     else
-                    visKunFCFelter = 0
+                    visKunFCFelter = "0"
+                    end if
+
+                    if cint(timesimtp) = 1 then 'timepriser slået til default
+                    visKunFCFelter = visKunFCFelter & ", 4" 
                     end if
         
                 end if
-                
+
+                'Forecast Altid med
+                'visKunFCFelter = visKunFCFelter & ", 1"            
+
+
                 visKunFCFelterCHK0 = ""
                 visKunFCFelterCHK1 = ""
                 visKunFCFelterCHK2 = ""
                 visKunFCFelterCHK3 = ""
+                visKunFCFelterCHK4 = ""
 
-                select case cint(visKunFCFelter) 
-                case 0
+                visKunFCFelterDIS1 = ""
+                visKunFCFelterDIS2 = ""
+                visKunFCFelterDIS3 = ""
+                visKunFCFelterDIS4 = ""
+
+                if instr(visKunFCFelter, "0") <> 0 then
                 visKunFCFelterCHK0 = "CHECKED"
-                case 1
+
+                    if instr(visKunFCFelter, "4") = 0 AND cint(timesimtp) = 1 then 'vis altid timepriser ved overblik
+                    visKunFCFelter = visKunFCFelter & ", 4"    
+                    end if
+
+                end if
+
+                if instr(visKunFCFelter, "1") <> 0 then
                 visKunFCFelterCHK1 = "CHECKED"
-                case 2
-                visKunFCFelterCHK2 = "CHECKED"
-                case 3
+                end if
+
+                if instr(visKunFCFelter, "2") <> 0 then
+                    visKunFCFelterCHK2 = "CHECKED"
+                    'visKunFCFelter = visKunFCFelter & ", 3" 'ALTID saldo også
+                end if
+
+                if instr(visKunFCFelter, "3") <> 0 then
                 visKunFCFelterCHK3 = "CHECKED"
-                case else
-                visKunFCFelterCHK0 = "CHECKED"
-                end select
+                end if
+
+                if instr(visKunFCFelter, "4") <> 0 then
+                visKunFCFelterCHK4 = "CHECKED"
+                timesimtp = 1
+                else
+                timesimtp = 0
+                end if
+
+
+                'Response.Write "visKunFCFelter: " & visKunFCFelter
+
+                 if instr(visKunFCFelter, "0") <> 0 then
+
+                    visKunFCFelterDIS1 = "disabled"
+                    visKunFCFelterDIS2 = "disabled"
+                    visKunFCFelterDIS3 = "disabled"
+                    visKunFCFelterDIS4 = "disabled"
+
+                    visKunFCFelterCHK1 = "CHECKED"
+                    visKunFCFelterCHK2 = "CHECKED"
+                    visKunFCFelterCHK3 = "CHECKED"
+                    visKunFCFelterCHK4 = "CHECKED"
+
+                end if
+
+
+                '** mÅ ikke kunne vælge timepriser her
+                 if instr(visKunFCFelter, "0") = 0 AND instr(visKunFCFelter, "1") = 0 then
+
+                   
+                    visKunFCFelterDIS4 = "disabled"
+                    visKunFCFelterCHK4 = ""
+
+                end if
+
+    
+
+                'Response.Write "visKunFCFelterCHK1: " & visKunFCFelterCHK1
+
+                'select case cint(visKunFCFelter) 
+                'case 0
+                'visKunFCFelterCHK0 = "CHECKED"
+                'case 1
+                'visKunFCFelterCHK1 = "CHECKED"
+                'case 2
+                'visKunFCFelterCHK2 = "CHECKED"
+                'case 3
+                'visKunFCFelterCHK3 = "CHECKED"
+                'case 4
+                'visKunFCFelterCHK4 = "CHECKED"
+                'case else
+                'visKunFCFelterCHK0 = "CHECKED"
+                'end select
               
 
 
@@ -934,7 +1012,8 @@ if session("user") = "" then
                 end if
 
 
-                 if cint(timesimtp) = 1 AND cint(visKunFCFelter) <> 1 then
+                 'if cint(timesimtp) = 1 AND cint(visKunFCFelter) <> 1 then
+                if cint(timesimtp) = 1 AND instr(visKunFCFelter, "1") <> 0 then
                 
                      '** LTO
                      select case lto
@@ -978,9 +1057,24 @@ if session("user") = "" then
    '******************** MAIN FORECAST Side 2 **********************************************************
    case "forecast"
 
+        %>
+        
+<!--
+        <style>
+            th, td { white-space: nowrap; }
+            div.dataTables_wrapper {
+                width: 100%;
+                margin: 0 auto;
+            }
+        </style>
+    -->
+            
+                       
 
-       
 
+        <script src="js/tablescroll2.js"></script>
+
+        <%
        
         'response.write "<div style=""position:absolute; top:200px; left:200px; border:10px #999999 solid; z-index:10000000000000000000000;"">visrealprdato: "& visrealprdato & "</div>"
         'aktBudgettjkOnRegAarSt
@@ -1105,22 +1199,34 @@ if session("user") = "" then
         
         'response.write "visprogrpid "& visprogrpid & " progrpid: "& progrpid & " AND "& request("FM_progrpid")
 
+        if request("issubmitted") = "1" then
 
-        if len(trim(request("FM_minit"))) <> 0 then
-            minit = request("FM_minit")
-            viskunminit = 1
-            response.Cookies("EPR")("simminit") = minit
-        else
+            if len(trim(request("FM_minit"))) <> 0 then
+                minit = request("FM_minit")
+                viskunminit = 1
             
-            if request.Cookies("EPR")("simminit") <> "" AND request("issubmitted") <> "1" then
-            minit =  request.Cookies("EPR")("simminit")
-            viskunminit = 1
+
             else
-            minit = ""
-            viskunminit = 0
+            
+                minit = ""
+                viskunminit = 0
+
             end if
 
+        response.Cookies("EPR")("simminit") = minit
+
+        else
+
+                if request.Cookies("EPR")("simminit") <> "" AND request("issubmitted") <> "1" then
+                minit =  request.Cookies("EPR")("simminit")
+                viskunminit = 1
+                else
+                minit = ""
+                viskunminit = 0
+                end if
+
         end if
+
 
         if len(trim(minit)) <> 0 then
         minitSQlkri = " AND init LIKE '"& minit &"'"
@@ -1264,6 +1370,7 @@ if session("user") = "" then
       
 
         <div id="wrapper">
+            
         <div class="to-content-hybrid-fullzize" style="position:absolute; top:20px; left:20px; background-color:#FFFFFF;">
 
 
@@ -1293,13 +1400,17 @@ if session("user") = "" then
 
         <%response.flush 
 
-
-          
+            %>
+          <!--
                 if cint(timesimh1h2) = 1 then %>
                 <div class="container" style="width:1800px">
-                <%else %>
+                <else %>
                 <div class="container" style="width:1280px">
-                <%end if %>
+                <end if %>
+
+                  -->
+
+                   <div class="container">
 
                    <div class="portlet">
                        <form method="post" action="timbudgetsim.asp?func=forecast&issubmitted=1">
@@ -1454,7 +1565,352 @@ if session("user") = "" then
 
                                        
                                     
+                                    
+
                                      <div class="row">
+                                      <div class="col-lg-2 pad-t5">Medarb. initaler: <input type="text" name="FM_minit" id="minit" class="form-control input-small" style="text-align:left;" value="<%=minit %>" placeholder="Init" /></div> 
+                                        <div class="col-lg-6 pad-t5"><br /><input type="checkbox" id="viskunemedarbfcreal" name="FM_viskunmedarbMtimFc" value="1" <%=filterKunAktiveMedarbCHK %> /> Vis kun job hvor medarbejder har forecast eller real. timer i FY (blandt valgte job) </div>
+                                          <!--
+                                          <div class="col-lg-4 pad-t5 pad-r30"><br /><input type="checkbox" name="FM_visallejobvlgtmedarb" id="allejob" value="1" <%=filtervisAlleJobVlgtMedarbCHK %> /> Vis alle job for valgte medarbejder / projektgrp. <span style="color:#999999; font-size:11px;"><br />(Projektgrp. kun overblik, kan ikke redigeres)</span></div>
+                                          -->
+                                         
+                                    </div>
+                                          
+
+                             <div class="row">
+
+                                 <%call fy_relprdato_fm %>
+
+                            </div>
+                             <div class="clearfix"></div>
+
+                            </div>
+                              </section>
+                              </div>
+                          
+
+
+
+
+
+
+                               
+
+    </div>
+    </div><!-- portlet -->
+    </div><!-- container -->
+    </div><!-- content -->
+
+
+
+  
+     
+     
+     <%'if lcase(sogVal) = "all2" then
+     dvlft = 0
+     alft = 150
+     'else
+     'dvlft = 1250
+     'alft = 1250
+     'end if 
+
+
+
+
+    
+'********************************************************************************* 
+'*** MAIN Henter job og aktiviteter TIL FORECASTSIDEN  ***************************
+'*********************************************************************************
+i = 0
+
+'if cint(filtervisallejobvlgtmedarb) = 1 then 'cdbl(jobid) = 0
+
+
+        'if cint(filtervisallejobvlgtmedarb) = 1 then
+ '       visJobdatoStartSQL = dateAdd("yyyy", -4, visrealprdatoStartSQL) '3 år tilbage
+ '       visJobdatoStartSQL = year(visJobdatoStartSQL) & "-" & month(visJobdatoStartSQL) & "-" & day(visJobdatoStartSQL)
+        'else
+        'visJobdatoStartSQL = dateAdd("yyyy", -0, visrealprdatoStartSQL) '1 år tilbage
+        'visJobdatoStartSQL = year(visJobdatoStartSQL) & "-" & month(visJobdatoStartSQL) & "-" & day(visJobdatoStartSQL)
+        'end if
+
+'strSQLkrijob = " j.id <> 0" 
+'strSQLkrijobDatoKri = "AND jobstartdato > '"& visJobdatoStartSQL &"'"
+'else
+
+
+if cint(filterKunAktiveMedarb) = 1 then 'Vis for medarbejder (INIT)
+
+        strSQLkrijob = strSQLkrijob
+        strSQLkrijobDatoKri = ""
+        antalJob = 2
+
+else 'Default
+        antalJob = 1
+        strSQLkrijob = " j.id = 0"
+        for j = 0 to UBOUND(jobids)
+        strSQLkrijob = strSQLkrijob & " OR j.id = "& trim(jobids(j))
+        strSQLkrijobDatoKri = ""
+        antalJob = antalJob + 1 
+        next
+end if
+
+'end if
+    
+
+ '** USE FY på fordleing af bidget på job 
+select case lto
+case "intranet - local"
+useFY = 0
+case "wwf"
+useFY = 1 
+case "oko"
+useFY = 0 
+
+case else
+useFY = 1
+end select
+
+
+select case lto
+case "oko"
+strSQLrisiko = "(risiko > -1 OR risiko = -3 OR risiko = -2)"
+case else
+strSQLrisiko = "(risiko > -1 OR risiko = -3)"
+end select
+
+lastknavn = ""
+lastjobnavn = ""
+lastFase = ""
+strSQLjob = "SELECT jobnavn, jobnr, jobtpris, j.id AS jid, jobknr, j.budgettimer AS jobbudgettimer, jo_gnstpris, "_
+&" kkundenavn, k.kid, a.id AS aid, a.navn AS aktnavn, a.budgettimer AS aktbudgettimer, aktbudget, aktbudgetsum, a.fase, jobtpris FROM job AS j "_
+&" LEFT JOIN kunder AS k ON (kid = jobknr) "_
+&" LEFT JOIN fomr_rel AS fr ON (fr.for_jobid = j.id) "_
+&" LEFT JOIN aktiviteter AS a ON (a.job = j.id AND (a.fakturerbar = 1 OR a.fakturerbar = 2)) "_
+&" WHERE ("& strSQLkrijob &") AND "& strSQLrisiko &" AND a.navn IS NOT NULL "& strSQLkrijobDatoKri & fomrSQLfilter &""_
+&" GROUP BY a.id ORDER BY jobnavn, jobnr, a.fase, a.sortorder, a.navn LIMIT 5000"
+
+'AND jobstatus = 1
+'"& jobid &"
+'** SKAL AKTIVITET VÆRE AKTVI?
+'** strSQLkrijob
+'response.write strSQLjob
+'response.Flush
+x = 0
+oRec.open strSQLjob, oConn, 3
+while not oRec.EOF
+    
+
+
+        '************* Aktvitetslinjer ************** 
+          if cint(filtervisallejobvlgtmedarb) = 1 then ' OR antalJob > 1
+           aktLinjerDsp = "none"
+           aktLinjerWsb = "hidden"
+           jobPlusMinusiconLnk = "+"
+           'cssBgCol = "#FFFFFF"
+           trBGCcls = ""
+          else
+           aktLinjerDsp = ""
+           aktLinjerWsb = "visible"
+           jobPlusMinusiconLnk = "-"
+           'cssBgCol = "#FFFFE1"
+           'cssBgCol = "#FFFFE1"
+           trBGCcls = "info" 
+          end if
+
+         aktbudget = 0
+         aktbgtTimer = 0
+         if lastjobnavn <> lcase(oRec("jobnavn")) then
+
+
+                                       
+
+
+                                        jobbudget_fordeling_fy = 0
+                                        if cint(useFY) = 1 then
+                                        strSQLbudgerFordelFY = "SELECT SUM(timer) AS budgettimer FROM ressourcer_ramme WHERE jobid = " & oRec("jid") & " AND aktid = 0 AND aar = "& year(y0) &" GROUP BY jobid"  
+                                        oRec3.open strSQLbudgerFordelFY, oConn, 3
+                                        if not oRec3.EOF then
+
+                                            jobbudget_fordeling_fy = oRec3("budgettimer")
+
+                                         end if
+                                         oRec3.close   
+
+                                         if jobbudget_fordeling_fy <> 0 then
+                                         jobbudget_fordeling_fy = formatnumber(jobbudget_fordeling_fy, 0)
+                                         else
+                                         jobbudget_fordeling_fy = 0
+                                         end if
+
+                                        end if
+                                  
+                                            
+                                        'end if
+                                        
+                                            if cint(useFY) = 1 then
+                                            jobbudget_fordeling_fy = jobbudget_fordeling_fy
+                                            else
+                                            jobbudget_fordeling_fy = formatnumber(oRec("jobbudgettimer"), 0)
+                                            end if
+
+
+              strJobTxtTds(oRec("jid")) = strJobTxtTds(oRec("jid")) & "<tr id='tr_job_"& oRec("jid") &"' class='"&trBGCcls&"'><td style='white-space:nowrap;'><span style=""color:#5582d2;"" id='an_"& oRec("jid") &"' class='fp_jid'><b>["& jobPlusMinusiconLnk &"]</b></span>&nbsp;<b>"& left(oRec("jobnavn"), 20) &"</b> ("& oRec("jobnr") &") "_
+              &"</td><td style='white-space:nowrap; text-align:right; color:#999999;'>"
+         
+              if cint(useFY) = 1 then
+              strJobTxtTds(oRec("jid")) = strJobTxtTds(oRec("jid")) & "FY: "& jobbudget_fordeling_fy &" t."
+              end if     
+
+              strJobTxtTds(oRec("jid")) = strJobTxtTds(oRec("jid")) &"<input type=""hidden"" id=""jobaktT_"& oRec("jid") &"_0"" value="& jobbudget_fordeling_fy &">" 'jobaktT_"& oRec("jid") &"_0:" & jobbudget_fordeling_fy
+         
+              if cint(timesimtp) = 1 then
+                    
+                        if oRec("jobtpris") <> 0 then
+
+                        if cint(useFY) = 1 then
+                        jobbudget = "GT job: "& formatnumber(oRec("jobbudgettimer"), 0) &" t.<br>"& formatnumber(oRec("jobtpris"), 0) & " DKK"
+                        else
+                        jobbudget = "<span style=""font-size:12px;"" id=""sp_jobaktT_"& oRec("jid") &"_0"">"& formatnumber(oRec("jobbudgettimer"), 0) &" t.</span><br><span style=""font-size:9px; color:#999999;"">"& formatnumber(oRec("jobtpris"), 0) & " DKK</span>"
+                        end if
+         
+                        else
+                        jobbudget = ""
+                        end if
+
+                        if cint(useFY) = 1 then
+                        ftsz = "10"
+                        lght = "14"
+                        clr = "#999999"
+                        else
+                        ftsz = "12"
+                        lght = "14"
+                        clr = "#000000"
+                        end if
+                        
+                        strJobTxtTds(oRec("jid")) = strJobTxtTds(oRec("jid")) &"<div style=""font-size:"& ftsz &"px; line-height:"& lght &"px; color:"& clr &";"" id=""jobaktBudgets_"& oRec("jid") &"_0"">"& jobbudget &"</div>"
+                        strJobTxtTds(oRec("jid")) = strJobTxtTds(oRec("jid")) &"<input type=""hidden"" id=""jobaktBudget_"& oRec("jid") &"_0"" value="& formatnumber(oRec("jobtpris"), 0) &">"
+                       
+              end if
+
+
+               
+              strJobTxtTds(oRec("jid")) = strJobTxtTds(oRec("jid")) &"</td>" '&"<br><span style=""font-size:10px;"">FY: "& formatnumber(jobbudget_fordeling_fy, 2) &" t.</span></td>"
+
+              jobbgtTimerArr(oRec("jid")) = jobbudget_fordeling_fy 'formatnumber(oRec("jobbudgettimer"), 0)
+              jobbgtBelobArr(oRec("jid")) = formatnumber(oRec("jobtpris"), 0)
+              jobbgtBelobTimerArr(oRec("jid")) = formatnumber(oRec("jobbudgettimer"), 0)
+       
+              i = i + 1
+              x = x + 1
+
+        end if 
+               
+         
+          
+          
+         
+
+
+
+
+        if lastFase <> lcase(oRec("fase")) AND len(trim(oRec("fase"))) <> 0 then 
+
+         if cint(visKunFCFelter) = 0 then
+         cspFaser = 1
+         else
+         cspFaser = 1
+         end if
+
+        'strAktTxtTds(oRec("aid")) = strAktTxtTds(oRec("aid")) & "<tr style=""display:"& aktLinjerDsp &"; visibility:"& aktLinjerWsb &";"" class='tr_"& oRec("jid") &"'><td colspan=""100"">&nbsp;</td></tr>"
+        strAktTxtTds(oRec("aid")) = strAktTxtTds(oRec("aid")) & "<tr style=""display:"& aktLinjerDsp &"; visibility:"& aktLinjerWsb &";"" class='tr_linje tr_"& oRec("jid") &" tr_aktlinje'><td style='padding-left:30px;' colspan=""200""><b>"& replace(oRec("fase"), "_", " ")  &"</b></td></tr>"
+        
+        end if
+       
+        if isNull(oRec("aktbudgettimer")) <> true then
+        aktbgtTimer = formatnumber(oRec("aktbudgettimer"), 0)
+        else
+        aktbgtTimer = 0
+        end if 
+
+        aktbgtTimerArr(oRec("aid")) = aktbgtTimer
+        
+        strAktTxtTds(oRec("aid")) = strAktTxtTds(oRec("aid")) &"<tr class='tr_"& oRec("jid") &" tr_aktlinje' style=""display:"& aktLinjerDsp &"; visibility:"& aktLinjerWsb &";""><td style='white-space:nowrap; padding-left:40px;'>"& left(oRec("aktnavn"), 20) &" "_
+        &"</td><td style='white-space:nowrap; text-align:right; line-height:12px;'>"
+         
+            if aktbgtTimer <> 0 then
+            strAktTxtTds(oRec("aid")) = strAktTxtTds(oRec("aid")) & "<span style=""font-size:12px;"" id=""sp_jobaktT_"& oRec("jid") &"_"& oRec("aid") &""">"& aktbgtTimer &" t.</span>"
+            end if
+      
+            if cint(timesimtp) = 1 then
+                    
+                    if oRec("aktbudgetsum") <> 0 then
+                    aktbudget = formatnumber(oRec("aktbudgetsum"), 0) &" DKK"
+                    strAktTxtTds(oRec("aid")) = strAktTxtTds(oRec("aid")) &"<br><span style=""font-size:10px;"">"& aktbudget &"</span><br>"
+                    end if
+
+            end if
+       
+
+                
+                                        aktbudget_fordeling_fy = 0
+                                        strSQLbudgerFordelFY = "SELECT SUM(timer) AS budgettimer FROM ressourcer_ramme WHERE jobid = " & oRec("jid") & " AND aktid = "& oRec("aid") &" AND aar = "& year(y0) &""  
+                    
+                                   
+                                         oRec3.open strSQLbudgerFordelFY, oConn, 3
+                                         if not oRec3.EOF then
+
+                                            aktbudget_fordeling_fy = oRec3("budgettimer")
+
+                                         end if
+                                         oRec3.close   
+
+
+                                        if cint(useFY) = 1 then
+
+                                            if aktbudget_fordeling_fy <> 0 then
+                                                    aktbudget_fordeling_fyTxt = "<span style=""font-size:11px; color:#999999;"">FY: "& formatnumber(aktbudget_fordeling_fy, 2) &" t.</span>"
+                                            else
+                                                    aktbudget_fordeling_fyTxt = ""
+                                            end if
+
+                                        else
+                            
+                                            aktbudget_fordeling_fy = aktbudget                           
+
+                                        end if
+
+              strAktTxtTds(oRec("aid")) = strAktTxtTds(oRec("aid")) &""& aktbudget_fordeling_fyTxt 
+              strAktTxtTds(oRec("aid")) = strAktTxtTds(oRec("aid")) &"<input type=""hidden"" id=""jobaktT_"& oRec("jid") &"_"& oRec("aid") &""" value="& aktbudget_fordeling_fy &">" 'jobaktT_"& oRec("jid") &"_"& oRec("aid")     
+              strAktTxtTds(oRec("aid")) = strAktTxtTds(oRec("aid")) &"</td>"
+
+
+        if isNull(oRec("fase")) <> true then
+        lastFase = lcase(oRec("fase"))
+        else
+        lastFase = ""
+        end if
+
+    i = i + 1
+    lastknavn = lcase(oRec("kkundenavn"))
+    lastjobnavn = lcase(oRec("jobnavn")) 
+    'lastJid = oRec("jid")
+    x = x + 1
+oRec.movenext    
+wend 
+oRec.close 
+      
+        
+public medarbIPgrp
+redim medarbIPgrp(1000)  
+            
+        
+    %>
+
+
+<div class="table-responsive" style="width:95%; left:20px; padding:20px; position:absolute; top:560px; background-color:white;">
+
+ <div class="row">
                                       <div class="col-lg-2 pad-t5">Vis projektgruppe:<br />
                                           <select name="FM_progrpid" id="progrpid" class="form-control input-small" onchange="submit();">
 
@@ -1531,337 +1987,71 @@ if session("user") = "" then
                                      
                              </div><!-- ROW -->
 
-                                     <div class="row">
-                                      <div class="col-lg-2 pad-t5">Medarb. initaler: <input type="text" name="FM_minit" id="minit" class="form-control input-small" style="text-align:left;" value="<%=minit %>" placeholder="Init" /></div> 
-                                        <div class="col-lg-6 pad-t5"><br /><input type="checkbox" id="viskunemedarbfcreal" name="FM_viskunmedarbMtimFc" value="1" <%=filterKunAktiveMedarbCHK %> /> Vis kun job hvor medarbejder har forecast eller real. timer i FY (blandt valgte job) </div>
-                                          <!--
-                                          <div class="col-lg-4 pad-t5 pad-r30"><br /><input type="checkbox" name="FM_visallejobvlgtmedarb" id="allejob" value="1" <%=filtervisAlleJobVlgtMedarbCHK %> /> Vis alle job for valgte medarbejder / projektgrp. <span style="color:#999999; font-size:11px;"><br />(Projektgrp. kun overblik, kan ikke redigeres)</span></div>
-                                          -->
-                                         
-                                    </div>
-                                          
 
-                             <div class="row">
+  </form>
 
-                                 <%call fy_relprdato_fm %>
 
-                            </div>
-                             <div class="clearfix"></div>
-
-                            </div>
-                              </section>
-                              </div>
-                            </form>
-
-
-
-
-
-
-                           <form method="post" action="timbudgetsim.asp?func=opdfc">
-                           <input type="hidden" id="viskunminit" value="<%=viskunminit%>" />
-                           <input type="hidden" id="visallejob" value="<%=filtervisallejobvlgtmedarb%>" />
-                           <input type="hidden" name="FM_visrealprdato" value="<%=visrealprdato %>" />
-                           <input type="hidden" name="FY0" value="<%=year(y0)%>" />
-                           <input type="hidden" name="jobid" value="<%=jobidsStr%>" />
-
-                            
-                            <button type="submit" class="btn btn-success btn-sm pull-right"><b>Opdatér</b></button><br />&nbsp;
-                             
-                        
-     <%'if lcase(sogVal) = "all2" then
-     dvlft = 0
-     alft = 150
-     'else
-     'dvlft = 1250
-     'alft = 1250
-     'end if 
-
-
-    
-'********************************************************************************* 
-'*** MAIN Henter job og aktiviteter TIL FORECASTSIDEN  ***************************
-'*********************************************************************************
-i = 0
-
-'if cint(filtervisallejobvlgtmedarb) = 1 then 'cdbl(jobid) = 0
-
-
-        'if cint(filtervisallejobvlgtmedarb) = 1 then
- '       visJobdatoStartSQL = dateAdd("yyyy", -4, visrealprdatoStartSQL) '3 år tilbage
- '       visJobdatoStartSQL = year(visJobdatoStartSQL) & "-" & month(visJobdatoStartSQL) & "-" & day(visJobdatoStartSQL)
-        'else
-        'visJobdatoStartSQL = dateAdd("yyyy", -0, visrealprdatoStartSQL) '1 år tilbage
-        'visJobdatoStartSQL = year(visJobdatoStartSQL) & "-" & month(visJobdatoStartSQL) & "-" & day(visJobdatoStartSQL)
-        'end if
-
-'strSQLkrijob = " j.id <> 0" 
-'strSQLkrijobDatoKri = "AND jobstartdato > '"& visJobdatoStartSQL &"'"
-'else
-
-
-if cint(filterKunAktiveMedarb) = 1 then 'Vis for medarbejder (INIT)
-
-        strSQLkrijob = strSQLkrijob
-        strSQLkrijobDatoKri = ""
-
-else 'Default
-        strSQLkrijob = " j.id = 0"
-        for j = 0 to UBOUND(jobids)
-        strSQLkrijob = strSQLkrijob & " OR j.id = "& trim(jobids(j))
-        strSQLkrijobDatoKri = ""
-        next
-end if
-
-'end if
-    
-
-
-select case lto
-case "oko"
-strSQLrisiko = "(risiko > -1 OR risiko = -3 OR risiko = -2)"
-case else
-strSQLrisiko = "(risiko > -1 OR risiko = -3)"
-end select
-
-lastknavn = ""
-lastjobnavn = ""
-lastFase = ""
-strSQLjob = "SELECT jobnavn, jobnr, jobtpris, j.id AS jid, jobknr, j.budgettimer AS jobbudgettimer, jo_gnstpris, "_
-&" kkundenavn, k.kid, a.id AS aid, a.navn AS aktnavn, a.budgettimer AS aktbudgettimer, aktbudget, aktbudgetsum, a.fase, jobtpris FROM job AS j "_
-&" LEFT JOIN kunder AS k ON (kid = jobknr) "_
-&" LEFT JOIN fomr_rel AS fr ON (fr.for_jobid = j.id) "_
-&" LEFT JOIN aktiviteter AS a ON (a.job = j.id AND (a.fakturerbar = 1 OR a.fakturerbar = 2)) "_
-&" WHERE ("& strSQLkrijob &") AND "& strSQLrisiko &" AND jobstatus = 1 AND a.navn IS NOT NULL "& strSQLkrijobDatoKri & fomrSQLfilter &""_
-&" GROUP BY a.id ORDER BY jobnavn, jobnr, a.fase, a.sortorder, a.navn LIMIT 5000"
-
-'"& jobid &"
-'** SKAL AKTIVITET VÆRE AKTVI?
-'** strSQLkrijob
-'response.write strSQLjob
-'response.Flush
-x = 0
-oRec.open strSQLjob, oConn, 3
-while not oRec.EOF
-    
-
-
-        '************* Aktvitetslinjer ************** 
-          if cint(filtervisallejobvlgtmedarb) = 1 then
-           aktLinjerDsp = "none"
-           aktLinjerWsb = "hidden"
-           jobPlusMinusiconLnk = "+"
-           cssBgCol = "#FFFFFF"
-          else
-           aktLinjerDsp = ""
-           aktLinjerWsb = "visible"
-           jobPlusMinusiconLnk = "-"
-           cssBgCol = "#FFFFE1"
-          end if
-
-
-         if lastjobnavn <> lcase(oRec("jobnavn")) then
-
-
-                                        jobbudget_fordeling_fy = 0
-                                        strSQLbudgerFordelFY = "SELECT SUM(timer) AS budgettimer FROM ressourcer_ramme WHERE jobid = " & oRec("jid") & " AND aktid <> 0 AND aar = "& year(y0) &" GROUP BY jobid"  
-                    
-                                        'Response.write strSQLbudgerFordelFY
-                                            
-
-                                   
-                                         oRec3.open strSQLbudgerFordelFY, oConn, 3
-                                         if not oRec3.EOF then
-
-                                            jobbudget_fordeling_fy = oRec3("budgettimer")
-
-                                         end if
-                                         oRec3.close   
-
-                                         if jobbudget_fordeling_fy <> 0 then
-                                         jobbudget_fordeling_fy = formatnumber(jobbudget_fordeling_fy, 0)
-                                         else
-                                         jobbudget_fordeling_fy = 0
-                                         end if
-
-
-                                        '** USE FY 
-                                        select case lto
-                                        case "wwf", "intranet - local"
-                                        useFY = 1 
-                                        case else
-                                        useFY = 1
-                                        end select
-                                            
-                                        'end if
-                                        
-                                            if cint(useFY) = 1 then
-                                            jobbudget_fordeling_fy = jobbudget_fordeling_fy
-                                            else
-                                            jobbudget_fordeling_fy = formatnumber(oRec("jobbudgettimer"), 0)
-                                            end if
-
-
-              strJobTxtTds(oRec("jid")) = strJobTxtTds(oRec("jid")) & "<tr id='tr_job_"& oRec("jid") &"' style='background-color:"& cssBgCol &";'><td style='white-space:nowrap;'><span style=""color:#5582d2;"" id='an_"& oRec("jid") &"' class='fp_jid'><b>["& jobPlusMinusiconLnk &"]</b></span>&nbsp;<b>"& left(oRec("jobnavn"), 20) &"</b> ("& oRec("jobnr") &") "_
-              &"</td><td style='white-space:nowrap; text-align:right; color:#999999;'>FY: "& jobbudget_fordeling_fy &" t."
-
-              strJobTxtTds(oRec("jid")) = strJobTxtTds(oRec("jid")) &"<input type=""hidden"" id=""jobaktT_"& oRec("jid") &"_0"" value="& jobbudget_fordeling_fy &">"
-         
-              if cint(timesimtp) = 1 then
-                    
-                        if oRec("jobtpris") <> 0 then
-                        jobbudget = "GT job: "& formatnumber(oRec("jobbudgettimer"), 0) &" t.<br>"& formatnumber(oRec("jobtpris"), 0) & " DKK"
-                        else
-                        jobbudget = ""
-                        end if
-
-          
-                    strJobTxtTds(oRec("jid")) = strJobTxtTds(oRec("jid")) &"<div style=""font-size:10px; line-height:14px; color:#999999;"" id=""jobaktBudgets_"& oRec("jid") &"_0"">"& jobbudget &"</div>"
-                    strJobTxtTds(oRec("jid")) = strJobTxtTds(oRec("jid")) &"<input type=""hidden"" id=""jobaktBudget_"& oRec("jid") &"_0"" value="& formatnumber(oRec("jobtpris"), 0) &">"
-              end if
-
-
-               
-              strJobTxtTds(oRec("jid")) = strJobTxtTds(oRec("jid")) &"</td>" '&"<br><span style=""font-size:10px;"">FY: "& formatnumber(jobbudget_fordeling_fy, 2) &" t.</span></td>"
-
-              jobbgtTimerArr(oRec("jid")) = jobbudget_fordeling_fy 'formatnumber(oRec("jobbudgettimer"), 0)
-              jobbgtBelobArr(oRec("jid")) = formatnumber(oRec("jobtpris"), 0)
-              jobbgtBelobTimerArr(oRec("jid")) = formatnumber(oRec("jobbudgettimer"), 0)
-       
-              i = i + 1
-              x = x + 1
-
-        end if 
-               
-         
-          
-          
-         
-
-
-
-
-        if lastFase <> lcase(oRec("fase")) AND len(trim(oRec("fase"))) <> 0 then 
-
-         if cint(visKunFCFelter) = 0 then
-         cspFaser = 1
-         else
-         cspFaser = 1
-         end if
-
-        'strAktTxtTds(oRec("aid")) = strAktTxtTds(oRec("aid")) & "<tr style=""display:"& aktLinjerDsp &"; visibility:"& aktLinjerWsb &";"" class='tr_"& oRec("jid") &"'><td colspan=""100"">&nbsp;</td></tr>"
-        strAktTxtTds(oRec("aid")) = strAktTxtTds(oRec("aid")) & "<tr style=""display:"& aktLinjerDsp &"; visibility:"& aktLinjerWsb &";"" class='tr_linje tr_"& oRec("jid") &" tr_aktlinje'><td style='padding-left:30px;'><b>"& replace(oRec("fase"), "_", " ")  &"</b></tr>"
-        
-        end if
-       
-        if isNull(oRec("aktbudgettimer")) <> true then
-        aktbgtTimer = formatnumber(oRec("aktbudgettimer"), 0)
-        else
-        aktbgtTimer = 0
-        end if 
-
-        aktbgtTimerArr(oRec("aid")) = aktbgtTimer
-        
-        strAktTxtTds(oRec("aid")) = strAktTxtTds(oRec("aid")) &"<tr class='tr_"& oRec("jid") &" tr_aktlinje' style=""display:"& aktLinjerDsp &"; visibility:"& aktLinjerWsb &";""><td style='white-space:nowrap; padding-left:40px;'>"& left(oRec("aktnavn"), 20) &" "_
-        &"</td><td style='white-space:nowrap; text-align:right;'>"
-         
-            if aktbgtTimer <> 0 then
-            strAktTxtTds(oRec("aid")) = strAktTxtTds(oRec("aid")) & aktbgtTimer &" t."
-            end if
-      
-              if cint(timesimtp) = 1 then
-                    
-                        if oRec("aktbudgetsum") <> 0 then
-                        aktbudget = formatnumber(oRec("aktbudgetsum"), 0) &" DKK"
-                        strAktTxtTds(oRec("aid")) = strAktTxtTds(oRec("aid")) &"<span style=""font-size:10px;"">"& aktbudget &"</span><br>"
-                        end if
-
-
-                   
-              end if
-       
-
-                
-                                        aktbudget_fordeling_fy = 0
-                                        strSQLbudgerFordelFY = "SELECT SUM(timer) AS budgettimer FROM ressourcer_ramme WHERE jobid = " & oRec("jid") & " AND aktid = "& oRec("aid") &" AND aar = "& year(y0) &""  
-                    
-                                   
-                                         oRec3.open strSQLbudgerFordelFY, oConn, 3
-                                         if not oRec3.EOF then
-
-                                            aktbudget_fordeling_fy = oRec3("budgettimer")
-
-                                         end if
-                                         oRec3.close   
-
-                                        if aktbudget_fordeling_fy <> 0 then
-                                                aktbudget_fordeling_fyTxt = "<span style=""font-size:11px; color:#999999;"">FY: "& formatnumber(aktbudget_fordeling_fy, 2) &" t.</span>"
-                                        else
-                                                aktbudget_fordeling_fyTxt = ""
-                                        end if
-
-
-
-              strAktTxtTds(oRec("aid")) = strAktTxtTds(oRec("aid")) &""& aktbudget_fordeling_fyTxt &"</td>"
-
-
-        if isNull(oRec("fase")) <> true then
-        lastFase = lcase(oRec("fase"))
-        else
-        lastFase = ""
-        end if
-
-    i = i + 1
-    lastknavn = lcase(oRec("kkundenavn"))
-    lastjobnavn = lcase(oRec("jobnavn")) 
-    'lastJid = oRec("jid")
-    x = x + 1
-oRec.movenext    
-wend 
-oRec.close 
-      
-        
-public medarbIPgrp
-redim medarbIPgrp(1000)  
-            
-        
-    %>
-
-<!--
-<script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
--->
-
-<!-- id="scrollable" -->
-
-
-<style>
-    th, td { white-space: nowrap; }
-    div.dataTables_wrapper {
-        width: 125%;
-        margin: 0 auto;
-    }
-</style>
-
-<script src="js/tablescroll2.js"></script>
-
-
+<form method="post" action="timbudgetsim.asp?func=opdfc">
+<input type="hidden" id="viskunminit" value="<%=viskunminit%>" />
+<input type="hidden" id="visallejob" value="<%=filtervisallejobvlgtmedarb%>" />
+<input type="hidden" name="FM_visrealprdato" value="<%=visrealprdato %>" />
+<input type="hidden" name="FY0" value="<%=year(y0)%>" />
+<input type="hidden" name="jobid" value="<%=jobidsStr%>" />
 <input type="hidden" id="table_lto" value="<%=lto %>" />
 
-<!-- <div class="row"><div class="col-lg-2"><a id="fitScreen_chb" class="btn btn-success btn-sm">Fix table</a></div></div> -->
 
-<table id="example" class="row-border cell-border order-column table" cellspacing="0" style="width:100%; background-color:white;">
+         <!-- row-border cell-border order-column -->
+
+
+
+<% 
+'*** TABLE CLASS FRYS HEADER KUN VED valgt projektgruppe    
+if cint(progrpid) = 0 then
+    tblid = "none_main_datatable_forecast"
+    tblFreezeCHK = ""
+    tblcls = "table-bordered"
+    
+else
+    tblid = "main_datatable_forecast"
+    tblFreezeCHK = "CHECKED"
+    tblcls = "table-striped"
+    
+end if %>
+
+<input type="checkbox" value="1" <%=tblFreezeCHK %> disabled /> Frys header<br />
+<input type="checkbox" value="1" id="aabnlukall" /> Åbn / Luk alle job.
+
+
+    <!--
+<input class="btn btn-default" type="button" id="fixtable" value="Fix Table">
+        cell-border
+    -->
+
+
+
+
+<button type="submit" class="btn btn-success btn-sm pull-right"><b>Opdatér</b></button><br />&nbsp;
+<table id="<%=tblid %>" class="table table-condensed <%=tblcls %>" style="background-color:#FFFFFF;">
     
     <thead>
          <tr> 
 
             <th style="width:10%;">Job (nr) / Akt.</th>
-            <th style="width:3%; background-color:#999999;">Budget<br /><span style="font-size:9px;">FY GT</span></th>
+            <th style="width:3%; background-color:#EFF3FF;">Budget<br /><span style="font-size:9px;">
+               
+                <%if cint(useFY) = 1 then %>
+                FY GT
+                <%else %>
+                GT
+                <%end if %>
+            (fra job)
+               </span></th>
             <th style="width:3%;">Forecast<br /><span style="font-size:9px;">FY GT</span></th>
             <th style="width:3%; white-space:nowrap;">Real.<br /><span style="font-size:9px;">Pr. dato GT</span></th>
             <th style="width:3%; white-space:nowrap;">Saldo<br /><span style="font-size:9px;">Real./Fc.</span></th> 
 
              <%if cint(timesimtp) = 1 then %>
-            <th style="width:3%; white-space:nowrap; background-color:#999999;">Saldo<br /><span style="font-size:9px;">Bgt./Fc.</span></th>  
+            <th style="width:3%; white-space:nowrap; background-color:#EFF3FF;">Saldo<br /><span style="font-size:9px;">Bgt./Fc.</span></th>  
            <%end if
              
              if cint(progrpid) <> 0 then  
@@ -1914,7 +2104,8 @@ redim medarbIPgrp(1000)
                
                 if lastAfd <> oRec5("pgrpnavn") then
                
-                if cint(visKunFCFelter) <> 1 then
+                'if cint(visKunFCFelter) <> 1 then
+                if instr(visKunFCFelter, "1") <> 0 then
                 progrpCps = 2
                 else 
                 progrpCps = 1
@@ -1930,49 +2121,72 @@ redim medarbIPgrp(1000)
 
                      <%if (cint(visprogrpid) = 0) AND cint(filtervisallejobvlgtmedarb) = 1 then
                          
-                     else %>
-                     <span style="color:#5582d2;" class="openGroupBtn" id="an_p_<%=p %>">[+]</span></span>
+                     else 
+                         
+                         if cint(progrpid) = 0 then
+                         plusSign = "+"
+                         else
+                         plusSign = "-"
+                         end if
+                         
+                         %>
+                     <span style="color:#5582d2;" class="openGroupBtn" id="an_p_<%=p %>">[<%=plusSign %>]</span></span>
                      <%end if %>
 
-
+                         <%'** Under overskrift til HOVEDKOLONNE ****' %>
                      
-                         <%if cint(visKunFCFelter) = 0 OR cint(visKunFCFelter) = 1 then %>
+                         <%'if cint(visKunFCFelter) = 0 OR cint(visKunFCFelter) = 1 then 
+                         if instr(visKunFCFelter, "0") <> 0 OR instr(visKunFCFelter, "1") <> 0 then%>
                          <br />
                          <span style="font-size:9px;">Forecast FY </span>
                          </th>
                          <%end if %>
 
+                        
+                         <%'if cint(visKunFCFelter) = 0 OR cint(visKunFCFelter) = 1 then 
+                         if instr(visKunFCFelter, "0") = 0 AND instr(visKunFCFelter, "1") = 0 AND instr(visKunFCFelter, "2") <> 0 then%>
+                         <br />
+                         <span style="font-size:9px;">Real. dt.</span>
+                         </th>
+                         <%end if %>
+
+                         <%'if cint(visKunFCFelter) = 0 OR cint(visKunFCFelter) = 1 then 
+                         if instr(visKunFCFelter, "0") = 0 AND instr(visKunFCFelter, "1") = 0 AND instr(visKunFCFelter, "2") = 0 AND instr(visKunFCFelter, "3") <> 0 then%>
+                         <br />
+                         <span style="font-size:9px;">Saldo</span>
+                         </th>
+                         <%end if %>
                    
 
 
-                         <%if cint(visKunFCFelter) = 0 OR cint(visKunFCFelter) = 2 then 
-                             
-                         if cint(visKunFCFelter) = 0 then%>
-                         <th><span style="font-size:9px; color:#999999;"><%=left(oRec5("pgrpnavn"), 10)%></span>
+                         <%'if cint(visKunFCFelter) = 0 OR cint(visKunFCFelter) = 2 then 
+                         if ((instr(visKunFCFelter, "0") <> 0 OR instr(visKunFCFelter, "1") <> 0) AND instr(visKunFCFelter, "2") <> 0) OR instr(visKunFCFelter, "0") <> 0 then                              
+                         
+                             %>
+                             <th><span style="font-size:9px; color:#999999; width:60px;"><%=left(oRec5("pgrpnavn"), 10)%></span>
+                             <br /><span style="font-size:9px;">Real. dt.</span></th>
                          <%end if %>
 
-                         <br /><span style="font-size:9px;">Real. dt.</span></th>
-                         <%end if %>
-
-                         <%if cint(visKunFCFelter) = 0 OR cint(visKunFCFelter) = 3 then
-                          if cint(visKunFCFelter) = 0 then%>
-                         <th><span style="font-size:9px; color:#999999;"><%=left(oRec5("pgrpnavn"), 10)%></span>
-                         <%end if %>
+                         <%'if cint(visKunFCFelter) = 0 OR cint(visKunFCFelter) = 3 then
+                        if ( (instr(visKunFCFelter, "0") <> 0 OR instr(visKunFCFelter, "1") <> 0 OR instr(visKunFCFelter, "2") <> 0) AND instr(visKunFCFelter, "3") <> 0) OR instr(visKunFCFelter, "0") <> 0 then
+                         %>
+                         <th><span style="font-size:9px; color:#999999; width:60px;"><%=left(oRec5("pgrpnavn"), 10)%></span>
                          <br /><span style="font-size:9px;">Saldo</span></th>
                          <%end if %>
 
                     
                 <%
 
-
-                ' if cint(filtervisallejobvlgtmedarb) = 1 OR len(trim(minit)) <> 0 then
-                ' if p = 0 then
-                ' pvzb = "visible"
-                ' pdsp = ""
-                ' else
+                '*** Projektgrupper ÅBNE?
+                 'if cint(filtervisallejobvlgtmedarb) = 1 OR len(trim(minit)) <> 0 then
+                 'if p = 0 then
+                 if cint(progrpid) <> 0 then
+                 pvzb = "visible"
+                 pdsp = ""
+                 else
                  pvzb = "hidden"
                  pdsp = "none"
-                'end if
+                 end if
 
                 antalp(p) = oRec5("pid")
                 p = p + 1
@@ -2030,17 +2244,18 @@ redim medarbIPgrp(1000)
                 else
                 
 
-                 if (cint(visKunFCFelter) = 0 OR cint(visKunFCFelter) = 1) then
+                 'if (cint(visKunFCFelter) = 0 OR cint(visKunFCFelter) = 1) then
+                 if instr(visKunFCFelter, "0") <> 0 OR instr(visKunFCFelter, "1") <> 0 then
 
                     if cint(timesimtp) = 1 then
                     %>
                     
-                     <th class="alt afd_p_<%=p-1 %> afd_p" style="white-space:nowrap; visibility:<%=pvzb%>; display:<%=pdsp%>; vertical-align:bottom; background-color:#FFFFFF;"><b><%="[ "& oRec5("init") & " ]" %></b>
+                     <th class="alt afd_p_<%=p-1 %> afd_p" style="white-space:nowrap; visibility:<%=pvzb%>; display:<%=pdsp%>; vertical-align:bottom; background-color:#FFFFFF; width:60px;"><b><%="[ "& oRec5("init") & " ]" %></b>
                          <br /><span style="font-size:9px;">Tpris.</span></th>
-                         <th class="alt afd_p_<%=p-1 %> afd_p" valign="bottom" style="visibility:<%=pvzb%>; vertical-align:bottom; display:<%=pdsp%>; background-color:#FFFFFF;"><span style="font-size:9px;">Forecast <br>Timer</span></th>
+                         <th class="alt afd_p_<%=p-1 %> afd_p" valign="bottom" style="visibility:<%=pvzb%>; vertical-align:bottom; display:<%=pdsp%>; background-color:#FFFFFF; width:60px;"><span style="font-size:9px;">Forecast <br>Timer</span></th>
                
                     <%else %>
-                     <th class="alt afd_p_<%=p-1 %> afd_p" valign="bottom" style="visibility:<%=pvzb%>; vertical-align:bottom; display:<%=pdsp%>; background-color:#FFFFFF;"><b><%="[ "& oRec5("init") & " ]" %></b>
+                     <th class="alt afd_p_<%=p-1 %> afd_p" valign="bottom" style="visibility:<%=pvzb%>; vertical-align:bottom; display:<%=pdsp%>; background-color:#FFFFFF; width:60px;"><b><%="[ "& oRec5("init") & " ]" %></b>
                         <br /><span style="font-size:9px;">Forecast</span></th>
                
                     <%end if 'vistp %>
@@ -2048,17 +2263,21 @@ redim medarbIPgrp(1000)
                 <%end if  %>
 
 
-                <%if cint(visKunFCFelter) = 0 OR cint(visKunFCFelter) = 2  then %>
-                <th class="alt afd_p_<%=p-1 %> afd_p" valign="bottom" style="visibility:<%=pvzb%>; vertical-align:bottom; display:<%=pdsp%>; background-color:#FFFFFF;">
-                    <%if cint(visKunFCFelter) = 2 then %>
+                <%'if cint(visKunFCFelter) = 0 OR cint(visKunFCFelter) = 2 then 
+                if instr(visKunFCFelter, "0") <> 0 OR instr(visKunFCFelter, "2") <> 0 then%>
+                <th class="alt afd_p_<%=p-1 %> afd_p" valign="bottom" style="visibility:<%=pvzb%>; vertical-align:bottom; display:<%=pdsp%>; background-color:#FFFFFF; width:60px;">
+                    <%'if cint(visKunFCFelter) = 2 then 
+                     if instr(visKunFCFelter, "2") <> 0 then%>
                     <b><%="[ "& oRec5("init") & " ]" %></b><br />
                     <%end if %>
                     <!--H2--><span style="font-size:9px;">Real. dt.</span></th>
                 <%end if %>
 
-                <%if cint(visKunFCFelter) = 0 OR cint(visKunFCFelter) = 3  then %>
-                <th class="afd_p_<%=p-1 %> afd_p" style="visibility:<%=pvzb%>; display:<%=pdsp%>; vertical-align:bottom; background-color:#EFF3FF;">
-                     <%if cint(visKunFCFelter) = 3 then %>
+                <%'if cint(visKunFCFelter) = 0 OR cint(visKunFCFelter) = 3 then 
+                 if instr(visKunFCFelter, "0") <> 0 OR instr(visKunFCFelter, "3") <> 0 then%>
+                <th class="afd_p_<%=p-1 %> afd_p" style="visibility:<%=pvzb%>; display:<%=pdsp%>; vertical-align:bottom; background-color:#EFF3FF; width:60px;">
+                     <%'if cint(visKunFCFelter) = 3 then 
+                     if instr(visKunFCFelter, "3") <> 0 then%>
                     <b><%="[ "& oRec5("init") & " ]" %></b><br />
                     <%end if %>
                     <span style="font-size:9px;">Sal. Fc/Real.</span></th>
@@ -2136,15 +2355,15 @@ while not oRec.EOF
     
    
                 
-            '************* Joblinjer ************** %>
-            <%if lastjobnavn <> lcase(oRec("jobnavn")) then 
-            %><tr id="medarbfelter_tr">
+    '************* Joblinjer ************** %>
+    <%if lastjobnavn <> lcase(oRec("jobnavn")) then 
+    %><tr id="medarbfelter_tr">
 
-        <td style="display:none">&nbsp</t>
-        <td  style="display:none">&nbsp;</td>
-        <td  style="display:none">&nbsp;</td>
-        <td  style="display:none">&nbsp;</td>
-        <td  style="display:none">&nbsp;</td>
+        <td style="display:none">&nbsp;</td>
+        <td style="display:none">&nbsp;</td>
+        <td style="display:none">&nbsp;</td>
+        <td style="display:none">&nbsp;</td>
+        <td style="display:none">&nbsp;</td>
       <%
 
               if cint(timesimtp) = 1 then
@@ -2156,16 +2375,19 @@ while not oRec.EOF
       for p = 0 to phigh - 1
       %>
            
-             <%if cint(visKunFCFelter) = 0 OR cint(visKunFCFelter) = 1 then %>
-             <td  style="display:none">&nbsp;</td>
+             <%'if cint(visKunFCFelter) = 0 OR cint(visKunFCFelter) = 1 then 
+              if instr(visKunFCFelter, "0") <> 0 OR instr(visKunFCFelter, "1") <> 0 then%>
+             <td style="display:none">&nbsp;</td>
              <%end if %>
 
-             <%if cint(visKunFCFelter) = 0 OR cint(visKunFCFelter) = 2 then %>
-             <td  style="display:none">&nbsp;</td>
+             <%'if cint(visKunFCFelter) = 0 OR cint(visKunFCFelter) = 2 then 
+              if instr(visKunFCFelter, "0") <> 0 OR instr(visKunFCFelter, "2") <> 0 then%>
+             <td style="display:none">&nbsp;</td>
              <%end if %>
 
-           <%if cint(visKunFCFelter) = 0 OR cint(visKunFCFelter) = 3 then %>
-             <td  style="display:none">&nbsp;</td>
+             <%'if cint(visKunFCFelter) = 0 OR cint(visKunFCFelter) = 3 then 
+             if instr(visKunFCFelter, "0") <> 0 OR instr(visKunFCFelter, "3") <> 0 then%>
+             <td style="display:none">&nbsp;</td>
              <%end if 
 
             for m = 0 TO mhigh - 1 
@@ -2185,19 +2407,25 @@ while not oRec.EOF
                 h1_medTotGTsaldo = formatnumber(h1_medTotGTsaldo, 0)
                 %>
                
-                <%if cint(timesimtp) = 1 AND (cint(visKunFCFelter) = 0 OR cint(visKunFCFelter) = 1) then  %>
+                <%'if cint(timesimtp) = 1 AND (cint(visKunFCFelter) = 0 OR cint(visKunFCFelter) = 1) then 
+                 if cint(timesimtp) = 1 AND (instr(visKunFCFelter, "0") <> 0 OR instr(visKunFCFelter, "1") <> 0) then%>
                 <td  style="display:none">&nbsp;</td>
                 <%end if %>
                 
-                <%if(cint(visKunFCFelter) = 0 OR cint(visKunFCFelter) = 1) then %>
+                <%'if(cint(visKunFCFelter) = 0 OR cint(visKunFCFelter) = 1) then 
+
+                if instr(visKunFCFelter, "0") <> 0 OR instr(visKunFCFelter, "1") <> 0 then  
+                %>
                 <td  style="display:none"></td>
                 <%end if %>
 
-                <%if cint(visKunFCFelter) = 0 OR cint(visKunFCFelter) = 2 then %>
+                <%'if cint(visKunFCFelter) = 0 OR cint(visKunFCFelter) = 2 then 
+                 if instr(visKunFCFelter, "0") <> 0 OR instr(visKunFCFelter, "2") <> 0 then %>
                 <td  style="display:none"></td>
                 <%end if %>        
 
-                <%if cint(visKunFCFelter) = 0 OR cint(visKunFCFelter) = 3 then %>
+                <%'if cint(visKunFCFelter) = 0 OR cint(visKunFCFelter) = 3 then 
+                 if instr(visKunFCFelter, "0") <> 0 OR instr(visKunFCFelter, "3") <> 0 then %>
                 <td  style="display:none"></td>
                 <%end if
 
@@ -2241,35 +2469,47 @@ while not oRec.EOF
           %>
    
      
+
     <tr class="tr_<%=oRec("jid") %>" id="medarbfelter_tr2" style="background-color:<%=bgthis%>; visibility:<%=aktLinjerWsb%>; display:<%=aktLinjerDsp%>;">
 
+
+    <%
+    
+    freezeheadersystemDsp = "none"
+    freezeheadersystemVzb = "hidden"
+    hidetomme = 0
+        
+    if hidetomme = 0 then %>
                 
-        <td style="border-right:hidden">&nbsp</td>
-        <td style="border-right:hidden">&nbsp</td>
-        <td style="border-right:hidden">&nbsp</td>
-        <td style="border-right:hidden">&nbsp</td>
-        <td style="border-right:hidden">&nbsp</td>
+        <td style="border-right:hidden; visibility:<%=freezeheadersystemVzb%>; display:<%=freezeheadersystemDsp%>;">&nbsp</td>
+        <td style="border-right:hidden; visibility:<%=freezeheadersystemVzb%>; display:<%=freezeheadersystemDsp%>;">&nbsp</td>
+        <td style="border-right:hidden; visibility:<%=freezeheadersystemVzb%>; display:<%=freezeheadersystemDsp%>;">&nbsp</td>
+        <td style="border-right:hidden; visibility:<%=freezeheadersystemVzb%>; display:<%=freezeheadersystemDsp%>;">&nbsp</td>
+        <td style="border-right:hidden; visibility:<%=freezeheadersystemVzb%>; display:<%=freezeheadersystemDsp%>;">&nbsp</td>
       <%
 
               if cint(timesimtp) = 1 then
             %>
-            <td style="border-right:hidden">&nbsp;</td>
+            <td style="border-right:hidden; visibility:<%=freezeheadersystemVzb%>; display:<%=freezeheadersystemDsp%>;">&nbsp;</td>
             <%
               end if
   
       for p = 0 to phigh - 1
       %>
            
-             <%if cint(visKunFCFelter) = 0 OR cint(visKunFCFelter) = 1 then %>
-             <td style="border-right:hidden">&nbsp;</td>
+             <%'if cint(visKunFCFelter) = 0 OR cint(visKunFCFelter) = 1 then
+              if instr(visKunFCFelter, "0") <> 0 OR instr(visKunFCFelter, "1") <> 0 then %>
+             <td style="border-right:hidden; visibility:<%=freezeheadersystemVzb%>; display:<%=freezeheadersystemDsp%>;">&nbsp;</td>
              <%end if %>
 
-             <%if cint(visKunFCFelter) = 0 OR cint(visKunFCFelter) = 2 then %>
-             <td style="border-right:hidden">&nbsp;</td>
+             <%'if cint(visKunFCFelter) = 0 OR cint(visKunFCFelter) = 2 then 
+              if instr(visKunFCFelter, "0") <> 0 OR instr(visKunFCFelter, "2") <> 0 then %>
+             <td style="border-right:hidden; visibility:<%=freezeheadersystemVzb%>; display:<%=freezeheadersystemDsp%>;">&nbsp;</td>
              <%end if %>
 
-           <%if cint(visKunFCFelter) = 0 OR cint(visKunFCFelter) = 3 then %>
-             <td style="border-right:hidden">&nbsp;</td>
+           <%'if cint(visKunFCFelter) = 0 OR cint(visKunFCFelter) = 3 then 
+                if instr(visKunFCFelter, "0") <> 0 OR instr(visKunFCFelter, "3") <> 0 then %>
+             <td style="border-right:hidden; visibility:<%=freezeheadersystemVzb%>; display:<%=freezeheadersystemDsp%>;">&nbsp;</td>
              <%end if 
 
             for m = 0 TO mhigh - 1 
@@ -2277,20 +2517,26 @@ while not oRec.EOF
                 if antalp(p) = antalm(m,0) then
                 %>
                
-                <%if cint(timesimtp) = 1 AND (cint(visKunFCFelter) = 0 OR cint(visKunFCFelter) = 1) then  %>
-                <td class="afd_p_<%=p%> afd_p" style="visibility:<%=pvzb%>; display:<%=pdsp%>; border-right:hidden;">&nbsp;</td>
+                <!--class="afd_p_<%=p%> afd_p"-->
+
+                <%'if cint(timesimtp) = 1 AND (cint(visKunFCFelter) = 0 OR cint(visKunFCFelter) = 1) then  
+                if cint(timesimtp) = 1 AND (instr(visKunFCFelter, "0") <> 0 OR instr(visKunFCFelter, "1") <> 0) then %>
+                <td style="visibility:<%=freezeheadersystemVzb%>; display:<%=freezeheadersystemDsp%>; border-right:hidden;">&nbsp;Q</td>
                 <%end if %>
                 
-                <%if(cint(visKunFCFelter) = 0 OR cint(visKunFCFelter) = 1) then %>
-                <td class="afd_p_<%=p%> afd_p" style="visibility:<%=pvzb%>; display:<%=pdsp%>; border-right:hidden;">&nbsp;</td>
+                <%'if(cint(visKunFCFelter) = 0 OR cint(visKunFCFelter) = 1) then 
+                 if instr(visKunFCFelter, "0") <> 0 OR instr(visKunFCFelter, "1") <> 0 then %>
+                <td style="visibility:<%=freezeheadersystemVzb%>; display:<%=freezeheadersystemDsp%>; border-right:hidden;">&nbsp;</td>
                 <%end if %>
 
-                <%if cint(visKunFCFelter) = 0 OR cint(visKunFCFelter) = 2 then %>
-                <td class="afd_p_<%=p%> afd_p" style="visibility:<%=pvzb%>; display:<%=pdsp%>; border-right:hidden;">&nbsp;</td>
+                <%'if cint(visKunFCFelter) = 0 OR cint(visKunFCFelter) = 2 then 
+                if instr(visKunFCFelter, "0") <> 0 OR instr(visKunFCFelter, "2") <> 0 then %>
+                <td style="visibility:<%=freezeheadersystemVzb%>; display:<%=freezeheadersystemDsp%>; border-right:hidden;">&nbsp;</td>
                 <%end if %>        
 
-                <%if cint(visKunFCFelter) = 0 OR cint(visKunFCFelter) = 3 then %>
-                <td class="afd_p_<%=p%> afd_p" style="visibility:<%=pvzb%>; display:<%=pdsp%>; border-right:hidden;">&nbsp;</td>
+                <%'if cint(visKunFCFelter) = 0 OR cint(visKunFCFelter) = 3 then 
+                if instr(visKunFCFelter, "0") <> 0 OR instr(visKunFCFelter, "3") <> 0 then %>
+                <td style="visibility:<%=freezeheadersystemVzb%>; display:<%=freezeheadersystemDsp%>; border-right:hidden;">&nbsp;</td>
                 <%end if
 
                 end if
@@ -2298,19 +2544,24 @@ while not oRec.EOF
 
 
     next
-                    
+     
+    end if 'hidetomme
     %>
 
 
 
 
             <%
+
+            if isNull(oRec("aid")) <> true then
                 
             response.write(strAktTxtTds(oRec("aid")))    
             response.flush
              
             call medarbfelter(oRec("jobnr"), oRec("jid"), oRec("aid"), h1aar, h2aar, h1md, h2md, oRec("aktbudget")) 
              
+
+            end if
             %>
 
       
@@ -2339,8 +2590,8 @@ while not oRec.EOF
 
 
     '*** totaler ***
-     pvzb = "hidden"
-     pdsp = "none"
+     'pvzb = "hidden"
+     'pdsp = "none"
      %>
 
      <input type="hidden" value="<%=x-1 %>" id="xhigh" />
@@ -2362,15 +2613,18 @@ while not oRec.EOF
       for p = 0 to phigh - 1
       %>
            
-             <%if cint(visKunFCFelter) = 0 OR cint(visKunFCFelter) = 1 then %>
+             <%'if cint(visKunFCFelter) = 0 OR cint(visKunFCFelter) = 1 then 
+               if instr(visKunFCFelter, "0") <> 0 OR instr(visKunFCFelter, "1") <> 0 then %>
              <td>&nbsp;</td>
              <%end if %>
 
-             <%if cint(visKunFCFelter) = 0 OR cint(visKunFCFelter) = 2 then %>
+             <%'if cint(visKunFCFelter) = 0 OR cint(visKunFCFelter) = 2 then 
+               if instr(visKunFCFelter, "0") <> 0 OR instr(visKunFCFelter, "2") <> 0 then %>
              <td>&nbsp;</td>
              <%end if %>
 
-           <%if cint(visKunFCFelter) = 0 OR cint(visKunFCFelter) = 3 then %>
+           <%'if cint(visKunFCFelter) = 0 OR cint(visKunFCFelter) = 3 then 
+              if instr(visKunFCFelter, "0") <> 0 OR instr(visKunFCFelter, "3") <> 0 then %>
              <td>&nbsp;</td>
              <%end if 
 
@@ -2380,19 +2634,23 @@ while not oRec.EOF
 
                 %>
                
-                <%if cint(timesimtp) = 1 AND (cint(visKunFCFelter) = 0 OR cint(visKunFCFelter) = 1) then  %>
+                <%'if cint(timesimtp) = 1 AND (cint(visKunFCFelter) = 0 OR cint(visKunFCFelter) = 1) then  
+                 if cint(timesimtp) = 1 AND (instr(visKunFCFelter, "0") <> 0 OR instr(visKunFCFelter, "1") <> 0) then %>
                 <td class="afd_p_<%=p%> afd_p" style="visibility:<%=pvzb%>; display:<%=pdsp%>;">&nbsp;</td>
                 <%end if %>
                 
-                <%if(cint(visKunFCFelter) = 0 OR cint(visKunFCFelter) = 1) then %>
+                <%'if(cint(visKunFCFelter) = 0 OR cint(visKunFCFelter) = 1) then 
+                 if instr(visKunFCFelter, "0") <> 0 OR instr(visKunFCFelter, "1") <> 0 then %>
                 <td class="afd_p_<%=p%> afd_p" style="visibility:<%=pvzb%>; display:<%=pdsp%>;"></td>
                 <%end if %>
 
-                <%if cint(visKunFCFelter) = 0 OR cint(visKunFCFelter) = 2 then %>
+                <%'if cint(visKunFCFelter) = 0 OR cint(visKunFCFelter) = 2 then 
+                 if instr(visKunFCFelter, "0") <> 0 OR instr(visKunFCFelter, "2") <> 0 then %>
                 <td class="afd_p_<%=p%> afd_p" style="visibility:<%=pvzb%>; display:<%=pdsp%>;"></td>
                 <%end if %>        
 
-                <%if cint(visKunFCFelter) = 0 OR cint(visKunFCFelter) = 3 then %>
+                <%'if cint(visKunFCFelter) = 0 OR cint(visKunFCFelter) = 3 then 
+                 if instr(visKunFCFelter, "0") <> 0 OR instr(visKunFCFelter, "3") <> 0 then %>
                 <td class="afd_p_<%=p%> afd_p" style="visibility:<%=pvzb%>; display:<%=pdsp%>;"></td>
                 <%end if
 
@@ -2426,15 +2684,18 @@ while not oRec.EOF
       for p = 0 to phigh - 1
       %>
            
-             <%if cint(visKunFCFelter) = 0 OR cint(visKunFCFelter) = 1 then %>
+             <%'if cint(visKunFCFelter) = 0 OR cint(visKunFCFelter) = 1 then 
+               if instr(visKunFCFelter, "0") <> 0 OR instr(visKunFCFelter, "1") <> 0 then %>
              <td>&nbsp;</td>
              <%end if %>
 
-             <%if cint(visKunFCFelter) = 0 OR cint(visKunFCFelter) = 2 then %>
+             <%'if cint(visKunFCFelter) = 0 OR cint(visKunFCFelter) = 2 then 
+              if instr(visKunFCFelter, "0") <> 0 OR instr(visKunFCFelter, "2") <> 0 then %>
              <td>&nbsp;</td>
              <%end if %>
 
-           <%if cint(visKunFCFelter) = 0 OR cint(visKunFCFelter) = 3 then %>
+           <%'if cint(visKunFCFelter) = 0 OR cint(visKunFCFelter) = 3 then 
+              if instr(visKunFCFelter, "0") <> 0 OR instr(visKunFCFelter, "3") <> 0 then %>
              <td>&nbsp;</td>
              <%end if 
 
@@ -2455,19 +2716,23 @@ while not oRec.EOF
                 h1_medTotGTsaldo = formatnumber(h1_medTotGTsaldo, 0)
                 %>
                
-                <%if cint(timesimtp) = 1 AND (cint(visKunFCFelter) = 0 OR cint(visKunFCFelter) = 1) then  %>
+                <%'if cint(timesimtp) = 1 AND (cint(visKunFCFelter) = 0 OR cint(visKunFCFelter) = 1) then  
+                 if cint(timesimtp) = 1 AND (instr(visKunFCFelter, "0") <> 0 OR instr(visKunFCFelter, "1") <> 0) then %>
                 <td class="afd_p_<%=p%> afd_p" style="visibility:<%=pvzb%>; display:<%=pdsp%>;">&nbsp;</td>
                 <%end if %>
                 
-                <%if(cint(visKunFCFelter) = 0 OR cint(visKunFCFelter) = 1) then %>
+                <%'if(cint(visKunFCFelter) = 0 OR cint(visKunFCFelter) = 1) then 
+                 if instr(visKunFCFelter, "0") <> 0 OR instr(visKunFCFelter, "1") <> 0 then %>
                 <td class="afd_p_<%=p%> afd_p" style="visibility:<%=pvzb%>; display:<%=pdsp%>;"><input type="text" value="<%=h1_medTot(antalm(m,1)) %>" id="totmedarbh1_<%=antalm(m,1) %>" class="form-control input-small" style="width:45px;" /></td>
                 <%end if %>
 
-                <%if cint(visKunFCFelter) = 0 OR cint(visKunFCFelter) = 2 then %>
+                <%'if cint(visKunFCFelter) = 0 OR cint(visKunFCFelter) = 2 then 
+                 if instr(visKunFCFelter, "0") <> 0 OR instr(visKunFCFelter, "2") <> 0 then %>
                 <td class="afd_p_<%=p%> afd_p" style="visibility:<%=pvzb%>; display:<%=pdsp%>;"><input type="text" value="<%=formatnumber(thisMedarbRealTimerGT(antalm(m,1)), 0)%>"  class="form-control input-small" style="width:45px;" disabled /></td>
                 <%end if %>        
 
-                <%if cint(visKunFCFelter) = 0 OR cint(visKunFCFelter) = 3 then %>
+                <%'if cint(visKunFCFelter) = 0 OR cint(visKunFCFelter) = 3 then 
+                 if instr(visKunFCFelter, "0") <> 0 OR instr(visKunFCFelter, "3") <> 0 then %>
                 <td class="afd_p_<%=p%> afd_p" style="visibility:<%=pvzb%>; display:<%=pdsp%>;"><input type="text" value="<%=h1_medTotGTsaldo %>" class="form-control input-small" style="width:45px; background-color:#Eff3ff;" disabled /></td>
                 <%end if
 
@@ -2512,15 +2777,18 @@ while not oRec.EOF
       for p = 0 to phigh - 1
       %>
            
-             <%if cint(visKunFCFelter) = 0 OR cint(visKunFCFelter) = 1 then %>
+             <%'if cint(visKunFCFelter) = 0 OR cint(visKunFCFelter) = 1 then 
+              if instr(visKunFCFelter, "0") <> 0 OR instr(visKunFCFelter, "1") <> 0 then %>
              <td>&nbsp;</td>
              <%end if %>
 
-             <%if cint(visKunFCFelter) = 0 OR cint(visKunFCFelter) = 2 then %>
+             <%'if cint(visKunFCFelter) = 0 OR cint(visKunFCFelter) = 2 then 
+              if instr(visKunFCFelter, "0") <> 0 OR instr(visKunFCFelter, "2") <> 0 then %>
              <td>&nbsp;</td>
              <%end if %>
 
-           <%if cint(visKunFCFelter) = 0 OR cint(visKunFCFelter) = 3 then %>
+           <%'if cint(visKunFCFelter) = 0 OR cint(visKunFCFelter) = 3 then 
+              if instr(visKunFCFelter, "0") <> 0 OR instr(visKunFCFelter, "3") <> 0 then %>
              <td>&nbsp;</td>
              <%end if 
 
@@ -2539,7 +2807,8 @@ while not oRec.EOF
                              h2GT = 0
                              h1h2GT = 0
                 
-                            if cint(visKunFCFelter) = 0 OR cint(visKunFCFelter) = 1 then 
+                            'if cint(visKunFCFelter) = 0 OR cint(visKunFCFelter) = 1 then 
+                             if instr(visKunFCFelter, "0") <> 0 OR instr(visKunFCFelter, "1") <> 0 then 
 
                              strSQLmedrd = "SELECT SUM(timer) AS sumtimer FROM ressourcer_md WHERE ("& jobidsStrReverse &") AND aktid <> 0 AND medid = "& antalm(m,1) &" AND ((aar = "& h1aar &" AND md = "& h1md  &") OR (aar = "& h2aar &" AND md = "& h2md  &"))  GROUP BY medid" 
                              'response.Write "strSQLmedrd: " & strSQLmedrd
@@ -2568,8 +2837,8 @@ while not oRec.EOF
                 
                     '*********** Timepriser ******
                     medarbTp = 0
-                    if cint(timesimtp) = 1 AND (cint(visKunFCFelter) = 0 OR cint(visKunFCFelter) = 1)  then
-
+                    'if cint(timesimtp) = 1 AND (cint(visKunFCFelter) = 0 OR cint(visKunFCFelter) = 1)  then
+                    if cint(timesimtp) = 1 AND (instr(visKunFCFelter, "0") <> 0 OR instr(visKunFCFelter, "1") <> 0) then 
                      
                     strSQLmedtp = "SELECT 6timepris FROM timepriser WHERE ("& jobidsStrReverse &") AND aktid = 0 AND medarbid = "& antalm(m,1)  
                      oRec3.open strSQLmedtp, oConn, 3
@@ -2583,7 +2852,8 @@ while not oRec.EOF
                     end if
 
 
-                    if (cint(visKunFCFelter) = 0 OR cint(visKunFCFelter) = 2) then
+                    'if (cint(visKunFCFelter) = 0 OR cint(visKunFCFelter) = 2) then
+                     if instr(visKunFCFelter, "0") <> 0 OR instr(visKunFCFelter, "2") <> 0 then 
 
                     '*** Timer ANDRE JOB ***'
                     '** REAL timer pr. dato ***'
@@ -2624,21 +2894,25 @@ while not oRec.EOF
                 end if
 
 
-                if cint(timesimtp) = 1 AND (cint(visKunFCFelter) = 0 OR cint(visKunFCFelter) = 1) then  %>
+                'if cint(timesimtp) = 1 AND (cint(visKunFCFelter) = 0 OR cint(visKunFCFelter) = 1) then 
+                if cint(timesimtp) = 1 AND (instr(visKunFCFelter, "0") <> 0 OR instr(visKunFCFelter, "1") <> 0) then%>
                 <td class="afd_p_<%=p%> afd_p" style="visibility:<%=pvzb%>; display:<%=pdsp%>;">&nbsp;</td>
                 <%end if %>
 
-                <% if(cint(visKunFCFelter) = 0 OR cint(visKunFCFelter) = 1) then %>
+                <%'if(cint(visKunFCFelter) = 0 OR cint(visKunFCFelter) = 1) then 
+                 if instr(visKunFCFelter, "0") <> 0 OR instr(visKunFCFelter, "1") <> 0 then %>
                 <td class="afd_p_<%=p%> afd_p" style="visibility:<%=pvzb%>; display:<%=pdsp%>;"><input type="text" value="<%=h1_medTotGT(antalm(m,1)) %>" id="totmedarbh1GT_<%=antalm(m,1) %>" class="form-control input-small" style="width:45px;" /></td>
                 <!--<td class="afd_p_<%=p%> afd_p" style="visibility:<%=pvzb%>; display:<%=pdsp%>;"><input type="text" value="<%=h2_medTotGT(antalm(m,1)) %>" id="totmedarbh2GT_<%=antalm(m,1) %>"  class="form-control input-small" style="width:40px;" disabled /></td>-->
                 <%end if %>
 
 
-                <%if (cint(visKunFCFelter) = 0 OR cint(visKunFCFelter) = 2) then %>
+                <%'if (cint(visKunFCFelter) = 0 OR cint(visKunFCFelter) = 2) then 
+                 if instr(visKunFCFelter, "0") <> 0 OR instr(visKunFCFelter, "2") <> 0 then %>
                 <td class="afd_p_<%=p%> afd_p" style="visibility:<%=pvzb%>; display:<%=pdsp%>;"><input type="text" value="<%=thisMedarbRealTimerGTTXT %>"  class="form-control input-small" style="width:45px;" disabled /></td>
                 <%end if %>
          
-                <%if (cint(visKunFCFelter) = 0 OR cint(visKunFCFelter) = 3) then %>
+                <%'if (cint(visKunFCFelter) = 0 OR cint(visKunFCFelter) = 3) then 
+                 if instr(visKunFCFelter, "0") <> 0 OR instr(visKunFCFelter, "3") <> 0 then %>
                 <td class="afd_p_<%=p%> afd_p" style="visibility:<%=pvzb%>; display:<%=pdsp%>;"><input type="text" value="<%=h1_medTotGTsaldo %>" class="form-control input-small" style="width:45px; background-color:<%=h1_medTotGTsaldoBGcol%>; border:0;" disabled /></td>
                 
                 <%end if
@@ -2698,15 +2972,18 @@ while not oRec.EOF
       for p = 0 to phigh - 1
       %>
            
-              <%if cint(visKunFCFelter) = 0 OR cint(visKunFCFelter) = 1 then %>
+              <%'if cint(visKunFCFelter) = 0 OR cint(visKunFCFelter) = 1 then 
+               if instr(visKunFCFelter, "0") <> 0 OR instr(visKunFCFelter, "1") <> 0 then %>
              <td>&nbsp;</td>
              <%end if %>
 
-             <%if cint(visKunFCFelter) = 0 OR cint(visKunFCFelter) = 2 then %>
+             <%'if cint(visKunFCFelter) = 0 OR cint(visKunFCFelter) = 2 then 
+              if instr(visKunFCFelter, "0") <> 0 OR instr(visKunFCFelter, "2") <> 0 then %>
              <td>&nbsp;</td>
              <%end if %>
 
-           <%if cint(visKunFCFelter) = 0 OR cint(visKunFCFelter) = 3 then %>
+           <%'if cint(visKunFCFelter) = 0 OR cint(visKunFCFelter) = 3 then 
+             if instr(visKunFCFelter, "0") <> 0 OR instr(visKunFCFelter, "3") <> 0 then %>
              <td>&nbsp;</td>
              <%end if 
 
@@ -2749,25 +3026,37 @@ while not oRec.EOF
 
                 %>
 
-                 <%if cint(timesimtp) = 1 AND (cint(visKunFCFelter) = 0 OR cint(visKunFCFelter) = 1) then  %>
+                 <%'if cint(timesimtp) = 1 AND (cint(visKunFCFelter) = 0 OR cint(visKunFCFelter) = 1) then 
+                if cint(timesimtp) = 1 AND (instr(visKunFCFelter, "0") <> 0 OR instr(visKunFCFelter, "1") <> 0) then%>
                 <td class="afd_p_<%=p%> afd_p" style="visibility:<%=pvzb%>; display:<%=pdsp%>;">&nbsp;</td>
                 <%end if %>
 
 
-                 <% if(cint(visKunFCFelter) = 0 OR cint(visKunFCFelter) = 1) then %>
-                <td class="afd_p_<%=p%> afd_p" style="visibility:<%=pvzb%>; display:<%=pdsp%>;"><input type="text" value="<%=h1_medTotGTGT(antalm(m,1)) %>" id="totmedarbh1GTGT_<%=antalm(m,1)%>" class="form-control input-small" style="width:45px;"/></td>
+                 <%'if(cint(visKunFCFelter) = 0 OR cint(visKunFCFelter) = 1) then 
+                      if instr(visKunFCFelter, "0") <> 0 OR instr(visKunFCFelter, "1") <> 0 then 
+                     
+                     if cdbl(h1_medTotGTGT(antalm(m,1))) > cdbl(antalm(m,2)) then
+                     bgFcGTtot = "lightpink"
+                     else
+                     bgFcGTtot = ""
+                     end if
+                     
+                     %>
+                <td class="afd_p_<%=p%> afd_p" style="visibility:<%=pvzb%>; display:<%=pdsp%>;"><input type="text" value="<%=h1_medTotGTGT(antalm(m,1)) %>" id="totmedarbh1GTGT_<%=antalm(m,1)%>" class="form-control input-small" style="width:45px; background-color:<%=bgFcGTtot%>;"/></td>
                 <%end if %>      
 
                 <!--<td class="afd_p_<%=p%> afd_p" style="visibility:<%=pvzb%>; display:<%=pdsp%>;"><input type="text" value="<%=h2_medTotGT(antalm(m,1)) %>" id="totmedarbh2GT_<%=antalm(m,1)%>"  class="form-control input-small" style="width:45px;" disabled /></td>
                 <td class="afd_p_<%=p%> afd_p" style="visibility:<%=pvzb%>; display:<%=pdsp%>;"><input type="text" value="<%=h1h2medTotGT %>" class="form-control input-small" style="width:45px; background-color:#Eff3ff; border:0;" disabled /></td>
                 -->
 
-                <%if (cint(visKunFCFelter) = 0 OR cint(visKunFCFelter) = 2) then %>
+                <%'if (cint(visKunFCFelter) = 0 OR cint(visKunFCFelter) = 2) then 
+                  if instr(visKunFCFelter, "0") <> 0 OR instr(visKunFCFelter, "2") <> 0 then %>
                  <td class="afd_p_<%=p%> afd_p" style="visibility:<%=pvzb%>; display:<%=pdsp%>;"><input type="text" value="<%=thisMedarbRealTimerGTGTtxt %>"  class="form-control input-small" style="width:45px;" disabled /></td>
                 <%end if %>
          
-                <%if (cint(visKunFCFelter) = 0 OR cint(visKunFCFelter) = 3) then %>
-                <td class="afd_p_<%=p%> afd_p" style="visibility:<%=pvzb%>; display:<%=pdsp%>;"><input type="text" value="<%=h1_medTotGTGTsaldo %>" class="form-control input-small" style="width:45px; background-color:<%=h1_medTotGTGTsaldoBGcol%>;" disabled /></td>
+                <%'if (cint(visKunFCFelter) = 0 OR cint(visKunFCFelter) = 3) then 
+                 if instr(visKunFCFelter, "0") <> 0 OR instr(visKunFCFelter, "3") <> 0 then %>
+                <td class="afd_p_<%=p%> afd_p" style="visibility:<%=pvzb%>; display:<%=pdsp%>;"><input type="text" value="<%=h1_medTotGTGTsaldo %>" id="h1_medTotGTGTsaldo_<%=antalm(m,1)%>" class="form-control input-small" style="width:45px; background-color:<%=h1_medTotGTGTsaldoBGcol%>;" disabled /></td>
                 <%end if
                 end if
 
@@ -2797,15 +3086,18 @@ while not oRec.EOF
      for p = 0 to phigh - 1
       %>
            
-                         <%if cint(visKunFCFelter) = 0 OR cint(visKunFCFelter) = 1 then %>
+             <%'if cint(visKunFCFelter) = 0 OR cint(visKunFCFelter) = 1 then
+              if instr(visKunFCFelter, "0") <> 0 OR instr(visKunFCFelter, "1") <> 0 then %>
              <td>&nbsp;</td>
              <%end if %>
 
-             <%if cint(visKunFCFelter) = 0 OR cint(visKunFCFelter) = 2 then %>
+             <%'if cint(visKunFCFelter) = 0 OR cint(visKunFCFelter) = 2 then 
+              if instr(visKunFCFelter, "0") <> 0 OR instr(visKunFCFelter, "2") <> 0 then %>
              <td>&nbsp;</td>
              <%end if %>
 
-           <%if cint(visKunFCFelter) = 0 OR cint(visKunFCFelter) = 3 then %>
+           <%'if cint(visKunFCFelter) = 0 OR cint(visKunFCFelter) = 3 then 
+             if instr(visKunFCFelter, "0") <> 0 OR instr(visKunFCFelter, "3") <> 0 then %>
              <td>&nbsp;</td>
              <%end if 
 
@@ -2814,19 +3106,24 @@ while not oRec.EOF
                     
                     if antalp(p) = antalm(m,0) then %>
 
-                     <%if cint(timesimtp) = 1 AND (cint(visKunFCFelter) = 0 OR cint(visKunFCFelter) = 1) then  %>
+                     <%'if cint(timesimtp) = 1 AND (cint(visKunFCFelter) = 0 OR cint(visKunFCFelter) = 1) then  
+                     if cint(timesimtp) = 1 AND (instr(visKunFCFelter, "0") <> 0 OR instr(visKunFCFelter, "1") <> 0) then     
+                     %>
                     <td class="afd_p_<%=p%> afd_p" style="visibility:<%=pvzb%>; display:<%=pdsp%>;" style="visibility:<%=pvzb%>; display:<%=pdsp%>;">&nbsp;</td>
                     <%end if %>
 
-                     <% if(cint(visKunFCFelter) = 0 OR cint(visKunFCFelter) = 1) then %>
+                     <%' if(cint(visKunFCFelter) = 0 OR cint(visKunFCFelter) = 1) then 
+                      if instr(visKunFCFelter, "0") <> 0 OR instr(visKunFCFelter, "1") <> 0 then %>
                     <td class="afd_p_<%=p%> afd_p" style="visibility:<%=pvzb%>; display:<%=pdsp%>;"><input type="text" value="<%=antalm(m,2) %>" id="totmedarbn1_<%=antalm(m,1)%>" class="form-control input-small" style="width:45px;" disabled/></td>
                     <%end if %>
 
-                    <%if (cint(visKunFCFelter) = 0 OR cint(visKunFCFelter) = 2) then %>
+                    <%'if (cint(visKunFCFelter) = 0 OR cint(visKunFCFelter) = 2) then 
+                     if instr(visKunFCFelter, "0") <> 0 OR instr(visKunFCFelter, "2") <> 0 then %>
                     <td class="afd_p_<%=p%> afd_p" style="visibility:<%=pvzb%>; display:<%=pdsp%>;"><input type="text" value="<%=antalm(m,2) %>" id="totmedarbn2_<%=antalm(m,1)%>" class="form-control input-small" style="width:45px;" disabled/></td>
                     <%end if %>            
 
-                    <%if (cint(visKunFCFelter) = 0 OR cint(visKunFCFelter) = 3) then %>
+                    <%'if (cint(visKunFCFelter) = 0 OR cint(visKunFCFelter) = 3) then 
+                     if instr(visKunFCFelter, "0") <> 0 OR instr(visKunFCFelter, "3") <> 0 then %>
                     <td class="afd_p_<%=p%> afd_p" style="visibility:<%=pvzb%>; display:<%=pdsp%>;">&nbsp;</td>
                     <%end if
                     end if
@@ -2850,11 +3147,12 @@ while not oRec.EOF
 </table>
 
 
-<!--
-<link rel="stylesheet" type="text/css" href="css/tablescroll.css">
-<script src="js/tablescroll.js"></script> -->
+      <br />
+                             <button type="submit" class="btn btn-success btn-sm pull-right"><b>Opdatér</b></button>
+    </form>
 
-<!--<div class="row"><div class="col-lg-2"><input type="checkbox" id="fitScreen_chb" />Fit Screen</div></div> -->
+
+
 
       <%if fyStMd = 7 then
       saveMthTxt ="Juli"
@@ -2873,24 +3171,12 @@ while not oRec.EOF
     <br /><br /><a href="akt_movejob_multiple.asp" target="_blank">Flyt aktivitet/timer til nyt job >></a>
     <%end if %>
                                                   
+    </span>
+
+  
 
 
-
-</span>
-
-    <br />
-                             <button type="submit" class="btn btn-success btn-sm pull-right"><b>Opdatér</b></button>
-    </form>
-
-
-    <!-- </div> -->
-
-     </div><!-- portlet body -->
-
-
-     </div><!-- portlet -->
-    </div><!-- container -->
-    </div><!-- content -->
+    </div>
     </div><!-- wrapper -->
 
         
@@ -2939,6 +3225,9 @@ while not oRec.EOF
             addOneYear = 0
             end select
 
+
+
+    diffbudget_FCGT = 0
 
 
  %>
@@ -3122,7 +3411,7 @@ while not oRec.EOF
         <th>O</th>
         <%end if %>
          <th>P</th>
-
+        <th>Q</th>
          </tr>
 
 
@@ -3180,6 +3469,8 @@ while not oRec.EOF
             ELSE : O</span>-->
 
         </th>
+            <th>Budget - FC.<br />
+            <span style="font-size:9px;">Diff. Grandt. Beløb</span> <span style="color:#999999; font-size:9px;">[A3-P]</span></th>
 
          </tr>
 
@@ -3281,10 +3572,13 @@ while not oRec.EOF
     jo_gnstpris = ""
     end if
 
+    jobbudgetBel = 0
     if oRec("jobtpris") <> 0 then
     jobbudget = formatnumber(oRec("jobtpris"), 0)
+    jobbudgetBel = oRec("jobtpris")
     else
     jobbudget = ""
+    jobbudgetBel = 0
     end if
 
     if oRec("aktbudgettimer") <> 0 then
@@ -3394,8 +3688,8 @@ while not oRec.EOF
         <input type="hidden" name="FM_aktid" value="<%=oRec("aid") %>" />
         <input type="hidden" id="FM_aktid_<%=i %>" value="<%=oRec("aid") %>" />
         <td>&nbsp;</td>
-        <td>&nbsp;</td>
-        <td style="white-space:nowrap;"><%=left(oRec("aktnavn"), 20) %></td>
+        <!--<td>&nbsp;</td>-->
+        <td style="white-space:nowrap;" colspan="2"><%=left(oRec("aktnavn"), 20) %></td>
 
         <td><input type="text" name="FM_aktbudgettimer" id="budgettimer_jobakt_<%=oRec("jid")%>_<%=oRec("aid") %>" class="form-control input-small jobakt_budgettimer_job jobakt_budgettimer_<%=oRec("jid")%>" style="width:60px;" value="<%=aktbudgettimer %>" /></td>
          <td><input type="text" style="width:60px;" name="FM_aktpris" id="budgettimep_jobakt_<%=oRec("jid")%>_<%=oRec("aid") %>" class="form-control input-small jobakt_budgettimep_job jobakt_budgettimep_<%=oRec("jid")%>" value="<%=aktpris %>" /></td>
@@ -3512,7 +3806,11 @@ oRec.close
     <td>&nbsp;</td>
     <%end if %>
 
-    <td><input type="text" class="form-control input-small" style="width:80px; text-align:right;" id="budgetgt" value="<%=budgetFY0GT %>" disabled /></td></tr></tfoot>
+    <td><input type="text" class="form-control input-small" style="width:80px; text-align:right;" id="budgetgt" value="<%=budgetFY0GT %>" disabled /></td>
+    <td><input type="text" class="form-control input-small" style="width:80px; text-align:right;" id="diffbudgetfcgt" value="<%=diffbudget_FCGT %>" disabled /></td>
+        
+
+    </tr></tfoot>
 
 </table>
    
@@ -3632,14 +3930,14 @@ oRec.close
             </section>
 
 
+  </div><!-- portlet body -->
 
-    </div><!-- portlet -->
+
+     </div><!-- portlet -->
     </div><!-- container -->
-    
+    </div><!-- content -->
 
-
-
-     </div><!-- content -->
+   
     </div><!-- wrapper -->
 
 <%end select 
@@ -3648,16 +3946,7 @@ end if 'session%>
 
 
 
-<!--
-<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 
-
-<script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/fixedcolumns/3.2.4/js/dataTables.fixedColumns.min.js"></script> 
-
-
-<link rel="stylesheet" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" />
-<link rel="stylesheet" href="https://cdn.datatables.net/fixedcolumns/3.2.4/css/fixedColumns.dataTables.min.css" /> -->
 
 <!--#include file="../inc/regular/footer_inc.asp"-->
 

@@ -80,30 +80,38 @@
 
     case "afvisuge"
 
-    
+    dim emailToTmnr
+    redim emailToTmnr(40000)
 
-     multi = request("multi")
+    multi = request("multi")
     if multi = "1" then
         tid = request("tid")
         tids = split(tid, ", ")
-        
+
         tidsSQLKri = " (tid = 0"
         for t = 1 TO UBOUND(tids)
              
             '*** er den allerede AFVIST? = DO NOTHING
-            strSQLgodkendfindes = "SELECT tid FROM timer"
-            strSQLgodkendfindes = strSQLgodkendfindes &" WHERE godkendtstatus = 2 AND tid = "& tids(t)  
+            strSQLgodkendfindes = "SELECT tid, tmnr, tdato, taktivitetid, godkendtstatus, tjobnr, a.navn as aktnavn FROM timer LEFT JOIN aktiviteter as a ON (a.id = taktivitetid)"
+            strSQLgodkendfindes = strSQLgodkendfindes &" WHERE tid = "& tids(t)  
     
             findes = 0
             oRec.open strSQLgodkendfindes, oConn, 3
             if not oRec.EOF then
-            findes = 1
+
+            if oRec("godkendtstatus") = 2 then
+                findes = 1
+            end if
+
+            if cint(findes) = 0 then
+            tidsSQLKri = tidsSQLKri & " OR tid = "& tids(t)
+            emailToTmnr(oRec("tmnr")) = emailToTmnr(oRec("tmnr")) & " Jobnr: " & oRec("tjobnr") & " Aktivitet: " & oRec("aktnavn") &" dato: " & oRec("tdato") & vbCrLf
+            end if
+
             end if
             oRec.close
 
-            if cint(findes) = 0 then
-            tidsSQLKri = tidsSQLKri & " OR tid = "& tids(t)  
-            end if
+            
  
         next
         tidsSQLKri = tidsSQLKri & ")"
@@ -111,6 +119,7 @@
     else
     tid = request("tid")
     end if
+
 
     
     'medid = request("medid")
@@ -156,7 +165,7 @@
 
     'Response.Write "cint(smilaktiv) = 1 AND cint(autogk) = 2: " & cint(smilaktiv) &" AND "& cint(autogk) 
            
-             if multi = "1" then
+            if multi = "1" then
             strSQLhentertimeDatoerKri = " WHERE ("& tidsSQLKri &") AND overfort = 0"
             else
             strSQLhentertimeDatoerKri = " WHERE tid = "& tid & " AND overfort = 0"
@@ -172,65 +181,7 @@
 
                                      
 
-                                    select case cint(SmiWeekOrMonth) 
-                                    case 0
-					                
-                                    denneuge = datepart("ww", oRec("tdato"), 2,2)
-					                detteaar = datepart("yyyy", oRec("tdato"), 2,2)
-                                    perSqlKri = "YEAR(uge) = '"& detteaar &"' AND WEEK(uge, 3) = '"& denneuge &"'"
-                                    
-                                    if cint(autogktimer) = 2 then 'Nulstil tentative timer
-                                
-                                                    thisUeId = 0
-                                                    strSQLthisPeriode = "SELECT uge, mid, id FROM ugestatus WHERE mid = "& oRec("tmnr") &" AND ("& perSqlKri &")"
-                                                    oRec6.open strSQLthisPeriode, oConn, 3
-                                                    if not oRec6.EOF then
-
-                                                    thisUeId = oRec6("id")
-
-                                                    end if
-                                                    oRec6.close
-
-                                            call nulstilTentative(autogktimer, thisUeId)
-
-                                    end if
-
-
-                                    perSqlKriRem = "DELETE FROM ugestatus WHERE mid = "& oRec("tmnr") &" AND ("& perSqlKri &")"
-                                    oConn.execute(perSqlKriRem)
-
-
-                                    case 1
-
-                                    dennemd = datepart("m", oRec("tdato"), 2,2)
-					                detteaar = datepart("yyyy", oRec("tdato"), 2,2)
-
-                                    perSqlKri = "YEAR(uge) = '"& detteaar &"' AND MONTH(uge) = '"& dennemd &"'"
-
-                                        if cint(autogktimer) = 2 then 'Nulstil tentative timer
-                                
-                                                    thisUeId = 0
-                                                    strSQLthisPeriode = "SELECT uge, mid, id FROM ugestatus WHERE mid = "& oRec("tmnr") &" AND ("& perSqlKri &")"
-                                                    oRec6.open strSQLthisPeriode, oConn, 3
-                                                    if not oRec6.EOF then
-
-                                                    thisUeId = oRec6("id")
-
-                                                    end if
-                                                    oRec6.close
-
-                                            call nulstilTentative(autogktimer, thisUeId)
-
-                                         end if
-
-
-                                    perSqlKriRem = "DELETE FROM ugestatus WHERE mid = "& oRec("tmnr") &" AND ("& perSqlKri &")"
-                                    oConn.execute(perSqlKriRem)
-
-                                    case 2 '** Dagligt: DO NOTHING 
-
-
-                                    end select
+                                call genAabenAfsluttedeUgerVedAfvisTimer(SmiWeekOrMonth, oRec("tmnr"), oRec("tdato"))
 
 
                                     
@@ -241,10 +192,97 @@
 
             'Response.write "SQL:" & strAlle
             'Response.end
+
+    
+            '''''Email notifikation''''''
+            for m = 0 TO UBOUND(emailToTmnr)
+    
+                if len(trim(emailToTmnr(m))) <> 0 then
+                        '*** Henter afsender **
+				        strSQL = "SELECT mnavn, email FROM medarbejdere"_
+				        &" WHERE mid = "& session("mid")
+				        oRec.open strSQL, oConn, 3
+            				
+				        if not oRec.EOF then
+            				
+				        afsNavn = oRec("mnavn")
+				        afsEmail = oRec("email")
+            				
+				        end if
+				        oRec.close
+
+                        '*** Henter modtager **
+				        strSQL = "SELECT mnavn, email FROM medarbejdere"_
+				        &" WHERE mid = "& m
+				        oRec.open strSQL, oConn, 3
+            				
+				        if not oRec.EOF then
+            				
+				        modtNavn = oRec("mnavn")
+				        modtEmail = oRec("email")
+            				
+				        end if
+				        oRec.close
+
+
+                        Set myMail=CreateObject("CDO.Message")
+                        myMail.Subject = "TimeOut - Declined project hours"
+                        myMail.From = "timeout_no_reply@outzource.dk"
+
+                        
+                        if len(trim(modtEmail)) <> 0 then
+                        myMail.To= ""& modtNavn &"<"& modtEmail &">"
+                        end if
+
+                        strBody = "Hi " & modtNavn & vbCrLf
+
+                        strBody = strBody & "You have declined project hours on: " & vbCrLf & vbCrLf & emailToTmnr(m)
+
+                        strBody = strBody & vbCrLf & vbCrLf
+		                strBody = strBody &"Best regards" & vbCrLf
+
+                        strBody = strBody & afsNavn & ", "& afsEmail & vbCrLf & vbCrLf
+
+                        myMail.TextBody= strBody
+
+                        
+                        myMail.Configuration.Fields.Item _
+                        ("http://schemas.microsoft.com/cdo/configuration/sendusing")=2
+                        'Name or IP of remote SMTP server
+                                   
+                        if instr(request.servervariables("LOCAL_ADDR"), "195.189.130.210") <> 0 then
+                            smtpServer = "webout.smtp.nu"
+                        else
+                            smtpServer = "formrelay.rackhosting.com" 
+                        end if
+                    
+                        myMail.Configuration.Fields.Item _
+                        ("http://schemas.microsoft.com/cdo/configuration/smtpserver")= smtpServer
+
+                        'Server port
+                        myMail.Configuration.Fields.Item _
+                        ("http://schemas.microsoft.com/cdo/configuration/smtpserverport")=25
+                        myMail.Configuration.Fields.Update
+                    
+                        if len(trim(modtEmail)) <> 0 then
+                        myMail.Send
+                        end if
+                        set myMail=nothing
+                     
+                        
+
+                end if
+
+            next
    
 
 
     end if
+
+
+    
+
+
 
 
  
@@ -872,7 +910,7 @@
 
                       <!--onClick="reloadpage();"-->
                       <!-- godkend_job_timer_2017.asp?func=db&aar=<%=aar %>&aarslut=<%=aarslut %>&FM_job=<%=jobid %> -->
-                      <form action="godkend_job_timer_2017.asp?func=db&aar=<%=aar %>&aarslut=<%=aarslut %>&FM_job=<%=jobid%>" method="post" id="godkendform" name="godkendform" >
+                     <form action="godkend_job_timer_2017.asp?func=db&aar=<%=aar %>&aarslut=<%=aarslut %>&FM_job=<%=jobid%>" method="post" id="godkendform" name="godkendform" >
                       <input type="hidden" value="<%=Strjobid %>" id="godkendjobid" />
                       <table style="background-color:white;" class="table dataTable table-striped table-bordered table-hover ui-datatable">
 
@@ -1388,7 +1426,7 @@
                                         %>
                                        
 
-                                   <tr>
+                                  <!-- <tr>
                                   <td>&nbsp;</td>
                                    <%
 
@@ -1410,11 +1448,11 @@
                                         <%else %>
                                         <span style="color:#999999;">You need to submit before sending email</span>
                                        <%end if %>
-                                        <!--<div id="sendemail_send_<%=medarbid(m) %>">Mail send!</div>-->
+                                        <!-,-<div id="sendemail_send_<%=medarbid(m) %>">Mail send!</div>-,->
                                         <input type="hidden" value="<%=dec_ids %>" id="decl_tids_<%=medarbid(m)&"_"&lastAktid %>" />
                                         <input type="hidden" value="<%=medarbid(m) %>" id="decl_tids_mid_<%=medarbid(m)&"_"&lastAktid %>" class="decl_tids" />
                                       </td>
-                              </tr>
+                              </tr> -->
                              </tbody>
                                   <%
                                       dec_ids = ""
@@ -1589,7 +1627,7 @@
 
                                     <%if cdbl(lastTmnr) <> cdbl(oRec2("Tmnr")) AND m > 0 then 
                                     %>
-                                    <tr>
+                                  <!--  <tr>
                                         <td>&nbsp</td>
                                         <td>&nbsp</td>
                                         <td>&nbsp</td>
@@ -1604,11 +1642,11 @@
                                         <%else%>
                                         <span style="color:#999999;">You need to submit before sending email</span>
                                           <%end if %>
-                                        <!--<div id="sendemail_send_<%=lastTmnr %>">Mail send!</div>-->
+                                        <!--<div id="sendemail_send_<%=lastTmnr %>">Mail send!</div>-,->
                                         <input type="hidden" value="<%=dec_ids %>" id="decl_tids_<%=lastTmnr&"_"&aktid %>" />
                                         <input type="hidden" value="<%=lastTmnr %>" id="decl_tids_mid_<%=lastTmnr&"_"&aktid %>" class="decl_tids" />
                                       </td>
-                                    </tr>
+                                    </tr> -->
                                     <%
                                     dec_ids = ""     
                                     end if %>
@@ -1747,7 +1785,7 @@
                                      wend
                                      oRec2.close 
                                     %>
-                                    <tr>
+                                   <!-- <tr>
                                         <td>&nbsp</td>
                                         <td>&nbsp</td>
                                         <td>&nbsp</td>
@@ -1762,11 +1800,11 @@
                                         <%else %>
                                         <span style="color:#999999;">You need to submit before sending email</span>
                                           <%end if %>
-                                          <!--<div id="sendemail_send_<%=lastTmnr %>">Mail send!</div>-->
+                                          <!--<div id="sendemail_send_<%=lastTmnr %>">Mail send!</div>-,->
                                        <input type="hidden" value="<%=dec_ids %>" id="decl_tids_<%=lastTmnr&"_"&lastAktid %>" />
                                         <input type="hidden" value="<%=lastTmnr %>" id="decl_tids_mid_<%=lastTmnr&"_"&lastAktid %>" class="decl_tids" />
                                       </td>
-                                    </tr>                                                            
+                                    </tr>  -->                                                         
                            </tbody>
 
 

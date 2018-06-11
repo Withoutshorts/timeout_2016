@@ -141,7 +141,7 @@
    '     end if
 
    '     if cint(year(tjekdennedag)) = cint(aar) then
-   '     call helligdage(tjekdennedag, 0, lto)
+   '     call helligdage(tjekdennedag, 0, lto, session("mid"))
    '     end if
 
    'next
@@ -379,6 +379,8 @@
                             antalUger = 52
                             case 2018
                             antalUger = 51.22
+                            case else
+                            antalUger = 52
                             end select
 
                             antalhelligdagetimer = 60 '104 'helligdageIalt * 7.4

@@ -2006,14 +2006,22 @@ public strMedarbOptionsHTML
     
   function  insertMat_fn(matId, intAntal, strNavn, strVarenr, dblKobsPris, dblSalgsPris, strEnhed, jobid, aktid, strEditor, strDato, usemrn, avaGrp, regDatoSQL, aftid, intValuta, intkode, bilagsnr, dblKurs, personlig, ava)
 
-                         strSQL = "INSERT INTO materiale_forbrug "_
+
+                               select case lto
+                               case "sdeo" 
+                               mf_konto = 1
+                               case else
+                               mf_konto = 0
+                               end select
+
+                            strSQL = "INSERT INTO materiale_forbrug "_
 				            &" (matid, matantal, matnavn, matvarenr, matkobspris, matsalgspris, matenhed, jobid, "_
-				            &" editor, dato, usrid, matgrp, forbrugsdato, serviceaft, valuta, intkode, bilagsnr, kurs, personlig, aktid, ava) VALUES "_
+				            &" editor, dato, usrid, matgrp, forbrugsdato, serviceaft, valuta, intkode, bilagsnr, kurs, personlig, aktid, ava, mf_konto) VALUES "_
 				            &" ("& matId &", "& intAntal &", '"& strNavn &"', '"& strVarenr &"', "_
 				            &" "& dblKobsPris &", "& dblSalgsPris &", '"& strEnhed &"', "& jobid &", "_
 				            &" '"& strEditor &"', '"& strDato &"', "& usemrn &", "_
 				            &" "& avaGrp &", '"& regDatoSQL &"', "& aftid &", "& intValuta &", "_
-				            &" "& intkode &", '"& bilagsnr &"', "& dblKurs &", "& personlig &", "& aktid &", "& ava &")"
+				            &" "& intkode &", '"& bilagsnr &"', "& dblKurs &", "& personlig &", "& aktid &", "& ava &", "& mf_konto &")"
 				
                             'if session("mid") = 1 then
 				            'Response.Write strSQL

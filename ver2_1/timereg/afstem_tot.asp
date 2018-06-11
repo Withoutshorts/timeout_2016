@@ -913,7 +913,7 @@ if session("user") = "" then
            end select 
             %>
 
-        <%if lto <> "cst" AND lto <> "kejd_pb" AND lto <> "tec" AND lto <> "esn" then %>
+        <%if lto <> "cst" AND lto <> "kejd_pb" AND lto <> "tec" AND lto <> "esn" AND lto <> "wap" then %>
 	   <td class=lille valign=bottom style="border-bottom:1px silver solid; width:50px;">(<%=afstem_txt_034 %><br /><%=afstem_txt_035 %>)</td>
         <%end if %>
 
@@ -1650,7 +1650,7 @@ if session("user") = "" then
 
              <td align=right style="white-space:nowrap;" class=lille><b><%=formatnumber(arealTimerTot,2)%></b></td>
 	         
-            <%if lto <> "cst" ANd lto <> "kejd_pb" AND lto <> "tec" AND lto <> "esn" then %>
+            <%if lto <> "cst" ANd lto <> "kejd_pb" AND lto <> "tec" AND lto <> "esn" AND lto <> "wap" then %>
 	        <td align=right style="white-space:nowrap;" class=lille><%=formatnumber(arealfTimerTot,2)%></td>
             <%end if %>
 
@@ -2040,7 +2040,7 @@ if session("user") = "" then
 	         
 
             <%'Saldo Norm/Real
-            if lto <> "cst" AND lto <> "kejd_pb" AND lto <> "tec" AND lto <> "esn" then %>
+            if lto <> "cst" AND lto <> "kejd_pb" AND lto <> "tec" AND lto <> "esn" AND lto <> "wap" then %>
 	        <td align=right style="white-space:nowrap;" class=lille>&nbsp;</td>
             <%end if 
 
@@ -2429,6 +2429,13 @@ if session("user") = "" then
                 end select
 
             '**Udspecificering
+
+            FerieAfTimer = 0
+            FerieOptjTimer = 0
+            FerieOptjent = 0
+            FerieAfholdt = 0
+            FerieSaldo = 0
+
             strSQLfe = "SELECT tdato, timer, tfaktim FROM timer WHERE tmnr = "& usemrn &" AND tdato BETWEEN '"& ferieaarST &"' AND '"& ferieaarSL &"' AND (tfaktim = 14 OR tfaktim = 19) ORDER BY tdato" 
             
             'Response.write strSQLfe
@@ -2447,12 +2454,19 @@ if session("user") = "" then
                     
                     <%if cint(visFTimer) = 1 then %>
                         <%=oRec("timer") &" "&afstem_txt_069 %>
+
+                        <%
+                            FerieAfTimer = FerieAfTimer + oRec("timer")
+                         %>
+                         
+
                     <%end if %>
 
                     
                    
 
                     <%if cint(visFDage) = 1 then %>
+
                     <%call normtimerPer(usemrn, oRec("tdato"), 0, 0) %>
                     
                     
@@ -2461,7 +2475,12 @@ if session("user") = "" then
                         <%if cint(visFTimer) = 1 then %>
                         &nbsp;=&nbsp; 
                         <%end if %>
-                        <%=formatnumber(oRec("timer")/ntimPer, 1) %> <%=afstem_txt_104 %>
+                        <%=formatnumber(oRec("timer")/ntimPer, 1) &" "& afstem_txt_104 %>
+
+                        <%
+                        FerieAfholdt = FerieAfholdt + (oRec("timer")/ntimPer)
+                        %>
+
                     <%end if %>
 
                     
@@ -2502,6 +2521,9 @@ if session("user") = "" then
                     
                     <%if cint(visFTimer) = 1 then %>
                         <%=oRec("timer") &" "& afstem_txt_069 %>
+                        <%
+                        FerieOptjTimer = FerieOptjTimer + oRec("timer") 
+                        %>
                     <%end if %>
 
                     
@@ -2512,11 +2534,16 @@ if session("user") = "" then
                     
                     
 
-                    <%if cdbl(ntimPer) <> 0 then %>
+                    <%if cdbl(nTimerPerIgnHellig) <> 0 then %>
                         <%if cint(visFTimer) = 1 then %>
                         &nbsp;=&nbsp; 
                         <%end if %>
-                        <%=formatnumber(oRec("timer")/(ntimPer/5), 1) %> <%=afstem_txt_104 %>
+                        <%=formatnumber(oRec("timer")/(nTimerPerIgnHellig/5), 1) &" "& afstem_txt_104 %>
+
+                        <%
+                        FerieOptjent = FerieOptjent + oRec("timer")/(nTimerPerIgnHellig/5)
+                        %>
+
                     <%end if %>
 
                     
@@ -2529,7 +2556,30 @@ if session("user") = "" then
             wend
             oRec.close
 
-            %>
+                FerieSaldo = formatnumber(FerieOptjent - FerieAfholdt, 1) &" "& afstem_txt_104  
+                FerieSaldoTimer = formatnumber(FerieOptjTimer - FerieAfTimer, 1) &" "& afstem_txt_069
+
+           
+                'Saldo Ferie%> 
+                <tr>
+                    <td align="right"><br /><b>Saldo:</b></td>
+                    <td align="right"><br /><b>
+
+                        <%if cint(visFTimer) = 1 then %>
+
+                        <%=FerieSaldoTimer %>
+                        &nbsp;=&nbsp; 
+                        <%end if %>
+
+                        <%=FerieSaldo %>
+                        </b>
+                    </td>
+
+
+                </tr>
+
+
+
 
             </table>
             </td>
@@ -2562,7 +2612,7 @@ if session("user") = "" then
                             <%if cint(visFTimer) = 1 then %>
                             &nbsp;=&nbsp; 
                             <%end if %>
-                            <%=formatnumber(oRec("timer")/ntimPer, 1) %> <%=afstem_txt_104 %>
+                            <%=formatnumber(oRec("timer")/ntimPer, 1) &" "& afstem_txt_104 %>
                         <%end if %>
 
                     
@@ -2574,7 +2624,12 @@ if session("user") = "" then
                 oRec.movenext
                 wend
                 oRec.close
-                %> 
+                
+                    
+                    
+            %>
+
+
 
             </table>
         </td>
@@ -2589,6 +2644,12 @@ if session("user") = "" then
         <table cellpadding="0" cellspacing="0" border="0" width="250">
             <tr><td colspan="2" style="border-bottom:2px #FFFF99 solid;"><%if lto <> "esn" then %><b><%=afstem_txt_108 %>:</b><%else %><b>Udspecificering særlig feriedage afholdt</b><%end if %></td></tr>
         <%
+
+            FerieFriAfTimer = 0
+            FerieFriOptjTimer = 0
+            FerieFriBrugt = 0
+            FerieFriAfholdt = 0
+            FeriefriSaldo = 0
             '**Udspecificering
             strSQLfe = "SELECT tdato, timer FROM timer WHERE tmnr = "& usemrn &" AND tdato BETWEEN '"& ferieaarST &"' AND '"& ferieaarSL &"' AND tfaktim = 13 ORDER BY tdato" 
             
@@ -2601,6 +2662,7 @@ if session("user") = "" then
                 
                  <%if cint(visFTimer) = 1 then %>
                         <%=oRec("timer") &" "& afstem_txt_069 %>
+                         <%FerieFriAfTimer = FerieFriAfTimer + oRec("timer")  %>
                     <%end if %>
 
                     
@@ -2615,7 +2677,10 @@ if session("user") = "" then
                         <%if cint(visFTimer) = 1 then %>
                         &nbsp;=&nbsp; 
                         <%end if %>
-                        <%=formatnumber(oRec("timer")/ntimPer, 1) %> <%=afstem_txt_104 %>
+                        <%=formatnumber(oRec("timer")/ntimPer, 1) &" "& afstem_txt_104 %>
+                    
+                        <%FerieFriBrugt = FerieFriBrugt + (oRec("timer")/ntimPer) %>
+
                     <%end if %>
 
                     
@@ -2657,21 +2722,32 @@ if session("user") = "" then
                     
                     <%if cint(visFTimer) = 1 then %>
                         <%=oRec("timer") &" "& afstem_txt_069 %>
+                        <%FerieFrioptjTimer = FerieFrioptjTimer + oRec("timer")  %>
+
                     <%end if %>
 
                     
                    
 
                     <%if cint(visFDage) = 1 then %>
+
                     <%call normtimerPer(usemrn, oRec("tdato"), 6, 0) %>
                     
                     
 
-                     <%if cdbl(ntimPer) <> 0 then %>
+                     <%if cdbl(nTimerPerIgnHellig) <> 0 then %>
+                      
                         <%if cint(visFTimer) = 1 then %>
-                        &nbsp;=&nbsp; 
+                        &nbsp;=&nbsp;                        
                         <%end if %>
-                        <%=formatnumber(oRec("timer")/(ntimPer/5), 1) %> <%=afstem_txt_104 %> 
+                        <%=formatnumber(oRec("timer")/(nTimerPerIgnHellig/5), 1) & " " & afstem_txt_104 %>
+
+                        
+
+                         <%
+                          FerieFriOptjent = FerieFriOptjent + oRec("timer")/(nTimerPerIgnHellig/5) 
+                         
+                         %>
                     <%end if %>
 
                     
@@ -2684,7 +2760,33 @@ if session("user") = "" then
             wend
             oRec.close
 
-            %>
+            'Saldo
+                
+               FerieFriSaldoTimer = formatnumber(FerieFrioptjTimer - FerieFriAfTimer, 1) &" "& afstem_txt_069 
+              FerieFriSaldo = formatnumber(FerieFriOptjent - FerieFriBrugt, 1) &" "& afstem_txt_104 %>
+            
+            <tr>
+               
+                <td align="right"><br /><b>Saldo:</b></td><td align="right"><br /><b>
+                
+                        <%if cint(visFTimer) = 1 then %>
+                        <%=FerieFriSaldoTimer%>
+                        <%end if %>
+                        
+                        <%if cint(visFTimer) = 1 then %>
+                        &nbsp;=&nbsp; 
+                        <%end if %>
+
+                        <%=FerieFriSaldo %>
+
+                       </b>
+                               </td></tr>
+         
+
+                 
+
+           
+            
 
             </table></td>
 
@@ -2717,7 +2819,7 @@ if session("user") = "" then
                             <%if cint(visFTimer) = 1 then %>
                             &nbsp;=&nbsp; 
                             <%end if %>
-                            <%=formatnumber(oRec("timer")/ntimPer, 1) %> <%=afstem_txt_104 %>
+                            <%=formatnumber(oRec("timer")/ntimPer, 1) &" "& afstem_txt_104 %>
                         <%end if %>
 
                     
@@ -2814,7 +2916,7 @@ if session("user") = "" then
                 end select
 
 
-                if lto <> "cst" AND lto <> "kejd_pb" AND lto <> "tec" AND lto <> "esn" then
+                if lto <> "cst" AND lto <> "kejd_pb" AND lto <> "tec" AND lto <> "esn" AND lto <> "wap" then
                 strEkspHeader = strEkspHeader & "(heraf fakturerbare);"
                   end if  
 

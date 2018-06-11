@@ -12,7 +12,7 @@ function indlaesTillaeg(lto)
 
                 ddTjkSupplementST = dateAdd("d", -45, now)
                 ddTjkSupplementST = year(ddTjkSupplementST) & "/" & month(ddTjkSupplementST) & "/"& day(ddTjkSupplementST) 
-                strSQLepiAViDKsupplement = "SELECT tid, tdato, sttid, sltid FROM timer WHERE taktivitetnavn = 'Data Collection' AND tdato BETWEEN '"& ddTjkSupplementST &"' AND '"& ddTjkSupplementSL &"' AND sttid <> '00:00:00' AND (origin = 11 OR origin = 12) AND overfort = 0"
+                strSQLepiAViDKsupplement = "SELECT tid, tdato, sttid, sltid, tmnr FROM timer WHERE taktivitetnavn = 'Data Collection' AND tdato BETWEEN '"& ddTjkSupplementST &"' AND '"& ddTjkSupplementSL &"' AND sttid <> '00:00:00' AND (origin = 11 OR origin = 12) AND overfort = 0"
                 'Local
                 'strSQLepiAViDKsupplement = "SELECT tid, tdato, sttid, sltid FROM timer WHERE tjobnavn = 'A-SK Restest simpel' AND taktivitetnavn = 'Support U/B' AND tdato BETWEEN '2017-06-15' AND '2017-07-01'"
                
@@ -71,7 +71,7 @@ function indlaesTillaeg(lto)
                
                     '**** Lør / Søn ELLER Hellig ****'
                    
-                     call helligdage(oRec6("tdato"), 0, lto)
+                     call helligdage(oRec6("tdato"), 0, lto, oRec6("tmnr"))
                      if datePart("w", oRec6("tdato"), 2,2) = "6" OR datePart("w", oRec6("tdato"), 2,2) = "7" OR cint(erHellig) = 1 then
                         addSupplement15 = 1
 
@@ -145,9 +145,22 @@ function overtidsTillaeg(stempelurindstilling, lto, login, logud, mid, timertili
         'aktid = 183 '1798
         tidspunkt = formatdatetime(now, 3)
 
+      
+
+
         '**** Overtid ********************
         if cdbl(timertilindlasning) > 0 then
         timertilindlasning = replace(timertilindlasning, ",", ".")
+
+
+
+        '*** KLARGØRING afrunding til 15 min ****
+        'if lto = "cflow" then 'afrund 15
+    
+        'call timerRound15_fn(timertilindlasning)
+        'timertilindlasning = timerRound15
+
+        'end if
 
 
         '**** Tfaktim '**** 
@@ -200,10 +213,11 @@ function overtidsTillaeg(stempelurindstilling, lto, login, logud, mid, timertili
 		                        & "'Timeout tillæg indlæsning', 0, 0, '00:00:00', '00:00:00', 1, 100, 479)"
 
 		                
-                       
-                        'Response.write strSQLKoins & "<br>"
-                        'Response.flush
+                       'if session("mid") = 1 then
+                       'Response.write strSQLKoins & "<br>"
+                       ' Response.flush
                         'Response.end
+                       'end if
 
                         oConn.execute(strSQLKoins)
         
@@ -344,6 +358,11 @@ function maksFlexControl(lto, mid, timertilindlasning)
         aktid = 0
         end select
 
+        if len(trim(mid)) <> "" AND instr(mid, ",") = 0 then
+        mid = mid
+        else
+        mid = 0
+        end if
 
      
 
@@ -652,6 +671,7 @@ function indlasTimertilUdbetaling(lto, mid, timertilindlasning)
 		                
                        
                                 'Response.write strSQLKoins & "<br>"
+                                'Response.flush
                                 'Response.end
 
                                 oConn.execute(strSQLKoins)
@@ -680,7 +700,7 @@ function matrixtimespan_2018(idag, mtrx, sTtid, sLtid, datoThis, lto)
                             'Response.write "useDate: "& useDate & " " & sTtid
                             'Response.flush
 
-                            call helligdage(datoThis, 0, lto)
+                            call helligdage(datoThis, 0, lto, session("mid"))
 
 
                     
@@ -734,7 +754,8 @@ function matrixtimespan_2018(idag, mtrx, sTtid, sLtid, datoThis, lto)
                                         '***************************
                                         '*** START TID
                                         '***************************
-                                        if (((mtrx = 0 OR mtrx = 1 OR mtrx = 2 OR mtrx = 6 OR mtrx = 8) AND (datepart("w", datoThis, 2,2) < 6) AND erHellig <> 1) OR _
+                                        if (((mtrx = 0 OR mtrx = 1 OR mtrx = 2 OR mtrx = 6 OR mtrx = 8) AND (datepart("w", datoThis, 2,2) < 6) AND erHellig <> 1 AND lto <> "cflow") OR _
+                                        ((mtrx = 0 OR mtrx = 1 OR mtrx = 2 OR mtrx = 6 OR mtrx = 8) AND lto = "cflow") OR _
                                         ((mtrx = 3 OR mtrx = 4 OR mtrx = 7) AND (datepart("w", datoThis, 2,2) = 6 OR datepart("w", datoThis, 2,2) = 7) AND erHellig <> 1) _
                                         OR (mtrx = 5 AND erHellig = 1)) then 'OR mtrx = 6
 
@@ -981,7 +1002,7 @@ function indlasFerieSaldo(lto, mid, timertilindlasning, tfaktim, ferieaar)
 		                        & year(now) &", 0, "_
 		                        & "'"& year(now) &"/"& month(now) & "/"& day(now) &"', 0, "_
 		                        & "'"& tidspunkt &"', "_
-		                        & "'Ferie optjent indlæst', 0, 0, '00:00:00', '00:00:00', 1, 100, 779)"
+		                        & "'"& session("user") &"', 0, 0, '00:00:00', '00:00:00', 1, 100, 779)"
 
 		                
                        
@@ -1001,7 +1022,7 @@ end function
 
 
 
-function indlasTimerTfaktimAktid(lto, mid, timertilindlasning, tfaktim, aktid)
+function indlasTimerTfaktimAktid(lto, mid, timertilindlasning, tfaktim, aktid, insertUpdate, insUpdDate)
     
       
         if aktid <> 0 then
@@ -1010,7 +1031,12 @@ function indlasTimerTfaktimAktid(lto, mid, timertilindlasning, tfaktim, aktid)
         sqltfaktimaktidKri = "a.fakturerbar = " & tfaktim & ""
         end if
 
+        if cint(insertUpdate) = 2 then
         dtInd = year(now) &"/"& month(now) &"/"& day(now)
+        else
+        dtInd = year(insUpdDate) &"/"& month(insUpdDate) &"/"& day(insUpdDate)
+        end if
+
         tidspunkt = formatdatetime(now, 3)
 
         '**** Overtid ********************
@@ -1025,6 +1051,11 @@ function indlasTimerTfaktimAktid(lto, mid, timertilindlasning, tfaktim, aktid)
                                 strSQLakt = "SELECT a.id, a.navn, a.fakturerbar, k.kkundenavn, kid, jobnavn, jobnr, j.id AS jid FROM aktiviteter a "_
                                 & "LEFT JOIN job j ON (j.id = a.job) "_
                                 & "LEFT JOIN kunder k ON (k.kid = j.jobknr) WHERE " & sqltfaktimaktidKri
+
+
+                                'response.write strSQLakt
+                                'response.flush
+
                                 oRec9.open strSQLakt, oConn, 3
                                 if not oRec9.EOF then
 

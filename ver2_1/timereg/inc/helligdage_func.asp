@@ -1,6 +1,6 @@
 <%
 'public erHellig, helligdagnavn 
-function helligdage(tjekdennedag, show)
+function xhelligdage(tjekdennedag, show)
 
 
 

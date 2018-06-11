@@ -142,10 +142,14 @@ end sub
 
 function tilfojtilTU(mid, del)
 
- call positiv_aktivering_akt_fn()
- pa = pa_aktlist 
+ 'call positiv_aktivering_akt_fn()
+ 'pa = pa_aktlist 
 
-
+if len(trim(request("FM_progrpfollowactivejoblist"))) <> 0 then 'ved opret / rediger medarbejder -- forvælges på opret medarbejder
+    pa_tilfojvmedopret = 1
+else
+    pa_tilfojvmedopret = 0
+end if
 'mid <> 0 enjelt medarb / alle medab
 
 if mid <> 0 then
@@ -183,8 +187,10 @@ while not oRec5.EOF
 	&" WHERE (jobstatus = 1 OR jobstatus = 3) AND kunder.Kid = j.jobknr "& strPgrpSQLkri &""_
 	&" GROUP BY j.id, kid ORDER BY Kkundenavn, jobnavn"
 	
+    'if session("mid") = 1 AND lto = "hestia" then
     'Response.write strSQLj & "<br><br>"	
-	'Response.flush
+	'Response.end 
+    'end if
 	
     	
     oRec4.open strSQLj, oConn, 3
@@ -195,13 +201,25 @@ while not oRec5.EOF
     
     'Response.write oRec4("jobnavn") & "<br>"
             
-            strSQLTU = "SELECT jobid FROM timereg_usejob WHERE jobid = "& oRec4("jid") & " AND medarb = "& oRec5("mid")
+            strSQLTU = "SELECT id, jobid, forvalgt FROM timereg_usejob WHERE jobid = "& oRec4("jid") & " AND medarb = "& oRec5("mid")
             oRec3.open strSQLTU, oConn, 3
             if not oRec3.EOF then
 
             jobFandtes = 1
             
             strSQLDontDelJob = strSQLDontDelJob & " AND jobid <> "&  oRec4("jid")
+
+
+                '** GØR AKTIV PÅ AKTIV JOBLISTE
+                if cint(pa_tilfojvmedopret) = 1 then
+
+                    if cint(oRec3("forvalgt")) = 0 then
+                     forvalgt_dtSQL = year(now) &"/"& month(now) &"/"& day(now)
+                    strSQlfv = "UPDATE timereg_usejob SET forvalgt = 1, forvalgt_af = "& session("mid") &", forvalgt_dt = '"& forvalgt_dtSQL & "' WHERE id = "& oRec3("id")
+                    oConn.execute(strSQlfv)
+                    end if
+
+                end if
 
             end if
             oRec3.close

@@ -484,7 +484,14 @@ function opretPosteringSingle(oprid, fak_el_pos, func, intkontonr, modkontonr, i
 		
 		else
 	
-		
+		if len(trim(strTekst)) <> 0 then
+
+	        call htmlreplace(HTMLstring)
+            strTekst = htmlparseTxt
+        
+        else
+            strTekst = ""
+        end if
 		
 		strSQL = "INSERT INTO posteringer (editor, dato, modkontonr, kontonr, bilagsnr, "_
 		&" beloeb, nettobeloeb, moms, tekst, posteringsdato, status, att, oprid)"_
@@ -493,8 +500,10 @@ function opretPosteringSingle(oprid, fak_el_pos, func, intkontonr, modkontonr, i
 		&" '"& posteringsdato &"', "_
 		&" "& intStatus &", "& vorref &", "& oprid &")"
 		
-		'Response.Write strSQL & "<hr>"
-		'Response.end 
+        'if session("mid") = 1 then
+		'Response.Write strSQL & "<br><br>..<hr>"
+		'Response.flush
+        'end if
 		
 		oConn.execute(strSQL)
 		

@@ -846,7 +846,14 @@ Session.LCID = 1030
 						    '*** Opdaterer timepriser på stamaktiviteter ***
     						
 						    medtypeid = 0
-						    strSQL = "SELECT mid FROM medarbejdere WHERE Medarbejdertype = "& strMedarbejdertype & " AND mid <> " & intMid
+                            '*** Følg eksiterende / Eller NY type, hvor man er den første 1:1 mtype
+                            'if request("FM_medarbejdertype_ny") = "1" then
+                            'strSQlmtypenykri = " AND mid = " & intMid
+                            'else
+                            strSQlmtypenykri = " AND mid <> " & intMid
+                            'end if
+
+						    strSQL = "SELECT mid FROM medarbejdere WHERE Medarbejdertype = "& strMedarbejdertype & strSQlmtypenykri
 						    oRec.open strSQL, oConn, 3 
 						    while not oRec.EOF 
 						    medtypeid = oRec("mid")
@@ -855,23 +862,27 @@ Session.LCID = 1030
 						    oRec.close 
 
                             '**** HVIS der ikke er andre medarbejdere af typen bruges medarbejdertypens standard timepriser
-                             if cdbl(medtypeid) = 0 then
-                                if len(trim(request("FM_medarbejdertype_follow_tp"))) <> 0 then
-                                 medarbejdertype_follow_tp = request("FM_medarbejdertype_follow_tp")
-                                else
-                                 medarbejdertype_follow_tp = 0
-                                end if
+                            q = 1000
+                            if q = 0 then
+                                if cdbl(medtypeid) = 0 OR (lto = "oko" AND cdbl(strMedarbejdertype) = 224) then
+                                    if len(trim(request("FM_medarbejdertype_follow_tp"))) <> 0 then
+                                     medarbejdertype_follow_tp = request("FM_medarbejdertype_follow_tp")
+                                    else
+                                     medarbejdertype_follow_tp = 0
+                                    end if
 
-                                        '*** Vælger 1 medarb. af typen
-                                        strSQL = "SELECT mid FROM medarbejdere WHERE Medarbejdertype = "& medarbejdertype_follow_tp & " LIMIT 1"
-						                oRec.open strSQL, oConn, 3 
-						                if not oRec.EOF then
-						                medtypeid = oRec("mid")
-						                oRec.movenext
-						                end if
-						                oRec.close 
+                                            '*** Vælger 1 medarb. af typen
+                                            strSQL = "SELECT mid FROM medarbejdere WHERE Medarbejdertype = "& medarbejdertype_follow_tp & " LIMIT 1"
+						                    oRec.open strSQL, oConn, 3 
+						                    if not oRec.EOF then
+						                    medtypeid = oRec("mid")
+						                    oRec.movenext
+						                    end if
+						                    oRec.close 
 
+                                 end if
                              end if
+                          
 
                             ct = 0
                             strAktIDsWrt = ""
@@ -902,7 +913,7 @@ Session.LCID = 1030
 						    oRec.open strSQL, oConn, 3 
 						    while not oRec.EOF 
 
-                                tprisUse = replace(tprisUse, ".", "")
+                                'tprisUse = replace(tprisUse, ".", "")
                                 tprisUse = replace(oRec("6timepris"), ",", ".")
 
                                
@@ -971,6 +982,7 @@ Session.LCID = 1030
     					lastmedid = intMid	
 
 
+                       
 
 
 
@@ -1668,7 +1680,7 @@ Session.LCID = 1030
                                      <%
 
                                     select case lto
-                                    case "outz", "hidalgo"
+                                    case "outz", "hidalgo", "cflow"
                                          sprogAntalIds = 8
                                     case else
                                          sprogAntalIds = 3
@@ -1966,31 +1978,35 @@ Session.LCID = 1030
                                       <%end if %>
 
                                      
-                                        <%if func = "opret" AND level = 1  then 
-                                        %>
-                                        <br /><span style="color:red;"><%=medarb_txt_062 %></span> <%=medarb_txt_063 %><br />
-                                        <%=medarb_txt_130 %><br /> 
-                                        <select name="FM_medarbejdertype_follow_tp" class="form-control input-small" style="width:540px;">
-                                        <%
-                                         strSQL = "SELECT mt.type, mt.id FROM medarbejdertyper mt WHERE mt.id <> 0 ORDER BY type"
+                                       <%
+
+                                        q = 1000
+                                        if q = 0 then
+                                            if func = "opret" AND level = 1 then 
+                                            %>
+                                            <br /><span style="color:red;"><%=medarb_txt_062 %></span> <%=medarb_txt_063 %><br />
+                                            <%=medarb_txt_130 %><br /> 
+                                            <select name="FM_medarbejdertype_follow_tp" class="form-control input-small" style="width:540px;">
+                                            <%
+                                             strSQL = "SELECT mt.type, mt.id FROM medarbejdertyper mt WHERE mt.id <> 0 ORDER BY type"
                                 
                                         
-                                                oRec.open strSQL, oConn, 3
-		                                        While not oRec.EOF
+                                                    oRec.open strSQL, oConn, 3
+		                                            While not oRec.EOF
                 
-                                                 %>
-		                                        <option value="<%=oRec("id")%>"><%=oRec("type")%></option>
-		                                        <%
+                                                     %>
+		                                            <option value="<%=oRec("id")%>"><%=oRec("type")%></option>
+		                                            <%
 
                               
-		                                        oRec.movenext
-		                                        Wend
-		                                        oRec.close
-		                                        %>
-		                                        </select> 
-                                                <%=medarb_txt_131 %>
+		                                            oRec.movenext
+		                                            Wend
+		                                            oRec.close
+		                                            %>
+		                                            </select> 
+                                                    <%=medarb_txt_131 %>
+                                          <%end if %>
                                       <%end if %>
-
                               <%
                               else
 
@@ -2302,7 +2318,7 @@ Session.LCID = 1030
                                         </select>
                                    </div>
                                   <%else 'Oliver version 20171114%>                                 
-                                   <div class="col-lg-7 tpad-10">
+                                   <div class="col-lg-8 tpad-10">
                                        <input id="Hidden3" name="FM_progrp" type="hidden" value="10" /><!-- Alle gruppen -->
                                        <!--<div style="height:200px; overflow-y:scroll"> -->
                                        <table id="scrollable" class="table dataTable table-striped table-bordered table-hover ui-datatable" style="width:100%">
@@ -2313,6 +2329,7 @@ Session.LCID = 1030
                                                    <th style="text-align:center;"><span class="tilfoj_fjern_prg"><u>Tilføj</u></span><input style="display:none" type="checkbox" id="tilfoj_fjern_prg" /></th>
                                                    <th style="text-align:center;">Teamleder</th>
                                                    <th style="text-align:center;">Notificer</th>
+                                                   
                                                </tr>
                                            </thead>
                                     <tbody>
@@ -2435,6 +2452,7 @@ Session.LCID = 1030
                                             <td style="text-align:center;"><input name="FM_progrp" value="<%=oRec2("pid") %>" class="prg_navn<%=orgvirclass %>" type="checkbox" /></td>                                            
                                             <td style="text-align:center;"><input name="FM_progrpTeamL_<%=oRec2("pid") %>" value="<%=teamCHB %>" type="checkbox" <%=teamCHB %> /></td>
                                             <td style="text-align:center;"><input name="FM_progrpNOT_<%=oRec2("pid") %>" value="<%=notCHB %>" type="checkbox" <%=notCHB %> /></td>
+                                            
 
                                         <%else
                                 
@@ -2444,6 +2462,7 @@ Session.LCID = 1030
                                             <td style="text-align:center;"><input name="FM_progrp" type="checkbox" disabled /></td>                                            
                                             <td style="text-align:center;"><input type="checkbox" disabled/></td>
                                             <td style="text-align:center;"><input type="checkbox" disabled/></td>
+                                           
                                             <%end if
                                          end if
                                         %>
@@ -2474,7 +2493,30 @@ Session.LCID = 1030
                                 <input name="FM_progrp" type="hidden" value="0" /> <!-- <%=replace(medariprogrpTxt, "#", "") %> --> 
                               <%end if %>
 
-                            <br />
+                               <br />
+                        
+
+                             <%if level = 1 OR cint(meCreate_newemployee) = 1 then 
+                                 
+                            call positiv_aktivering_akt_fn()
+                                 
+                                 if cint(pa_tilfojvmedopret) = 1 AND func = "opret" then
+                                    pa_tilfojvmedopretCHK = "CHECKED"
+                                 else
+                                    pa_tilfojvmedopretCHK = ""
+                                 end if%>
+                            <!-- Følg projektgrupper  gøraktive på joblisten -->
+                             <div class="row">
+                               <div class="col-lg-3">&nbsp</div>
+                                    <div class="col-lg-5">
+                                        <input name="FM_progrpfollowactivejoblist" value="1" type="checkbox" <%=pa_tilfojvmedopretCHK %>/> Set all jobs, related to selected projecgroups, active on active joblist for this employee.<br /><br />&nbsp;
+                                        
+                                      
+                                     </div>
+                                 </div>
+                             <%end if %>
+
+
                             <%if level = 1 OR cint(meCreate_newemployee) = 1 then %>
                             <!-- Juridisk enhed -->
                              <div class="row">

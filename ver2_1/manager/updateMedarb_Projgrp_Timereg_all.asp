@@ -38,7 +38,7 @@ while not oRec5.EOF
 Response.write "<u>"& oRec5("mnavn") & "</u><br>"
         
 
-        call hentbgrppamedarb(oRec5("mid"))
+     call hentbgrppamedarb(oRec5("mid"))
 	
     '*** Søger efter job først, da timereg_usejob kun indeholder de job der er aktive lige nu. 
     '*** Du kan godt være tilmeldt et job via dine projektgrupper uden det er med i timereg_usejob

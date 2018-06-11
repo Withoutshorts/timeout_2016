@@ -506,6 +506,17 @@
     <txt_553 >Det er ikke tilladt at oprette komme/gå registreringer på datoer hvor der allerede har været logget ind.</txt_553>
     <txt_554 >stemmer ikke overens</txt_554>
     <txt_555 >med beløbet på faktura linjerne</txt_555>
+    <txt_556 >Der mangler at blive angivet en kommentar</txt_556>
+
+    <txt_557 >Der mangler at blive angivet en medarbejder</txt_557>
+    <txt_558 >Fra datoen må ikke være nyere end til datoen</txt_558>
+    <txt_559 >Der mangler at blive angivet en ugedag</txt_559>
+
+    <txt_560 >Der mangler at blive angivet en medarbejder</txt_560>
+    <txt_561 >fra-tidspunktet er nyere end til-tidspunktet</txt_561>
+    <txt_562 >Du mangler at angive fra/til tidspunkt.</txt_562>
+    <txt_563 >hvis registreringen gæler for hele dagen, sæt da kryds i 'heledagen'</txt_563>
+    <txt_564 >til / fra tidsformatet er forkert</txt_564>
     
 
   </dk>
@@ -989,7 +1000,17 @@
     <txt_553 >It is not allowed to create come / go registrations on dates that have already been logged in on.</txt_553>
     <txt_554 >does not match</txt_554>
     <txt_555 >with the amount on the invoice lines</txt_555>
-    
+    <txt_556 >Please write a comment for your registration(s)</txt_556>
+
+    <txt_557 >No employee is selected</txt_557>
+    <txt_558 >The start date cant be newer than the end date</txt_558>
+    <txt_559 >The weekday the repport should be send is missing</txt_559>
+
+    <txt_560 >No employee is selected</txt_560>
+    <txt_561 >The start-time is newer the than end-time</txt_561>
+    <txt_562 >You need to specify from / to time.</txt_562>
+    <txt_563 >if the registration is for the whole day, check the whole day checkbox</txt_563>
+    <txt_564 >The to / from time format is incorrect</txt_564>
 
   </no>
 
@@ -1475,6 +1496,17 @@
     <txt_553 >It is not allowed to create come / go registrations on dates that have already been logged in on.</txt_553>
     <txt_554 >does not match</txt_554>
     <txt_555 >with the amount on the invoice lines</txt_555>
+    <txt_556 >Please write a comment for your registration(s)</txt_556>
+
+    <txt_557 >No employee is selected</txt_557>
+    <txt_558 >The start date cant be newer than the end date</txt_558>
+    <txt_559 >The weekday the repport should be send is missing</txt_559>
+
+    <txt_560 >No employee is selected</txt_560>
+    <txt_561 >The start-time is newer the than end-time</txt_561>
+    <txt_562 >You need to specify from / to time.</txt_562>
+    <txt_563 >if the registration is for the whole day, check the whole day checkbox</txt_563>
+    <txt_564 >The to / from time format is incorrect</txt_564>
     
 
   </se>
@@ -1961,6 +1993,17 @@
     <txt_553 >It is not allowed to create come / go registrations on dates that have already been logged in on.</txt_553>
     <txt_554 >does not match</txt_554>
     <txt_555 >with the amount on the invoice lines</txt_555>  
+    <txt_556 >Please write a comment for your registration(s)</txt_556>
+
+    <txt_557 >No employee is selected</txt_557>
+    <txt_558 >The start date cant be newer than the end date</txt_558>
+    <txt_559 >The weekday the repport should be send is missing</txt_559>
+
+    <txt_560 >No employee is selected</txt_560>
+    <txt_561 >The start-time is newer the than end-time</txt_561>
+    <txt_562 >You need to specify from / to time.</txt_562>
+    <txt_563 >if the registration is for the whole day, check the whole day checkbox</txt_563>
+    <txt_564 >The to / from time format is incorrect</txt_564>
   
   
   </de>
@@ -2454,6 +2497,17 @@
     <txt_553 >It is not allowed to create come / go registrations on dates that have already been logged in on.</txt_553>
     <txt_554 >does not match</txt_554>
     <txt_555 >with the amount on the invoice lines</txt_555>
+    <txt_556 >Please write a comment for your registration(s)</txt_556>
+
+    <txt_557 >No employee is selected</txt_557>
+    <txt_558 >The start date cant be newer than the end date</txt_558>
+    <txt_559 >The weekday the repport should be send is missing</txt_559>
+
+    <txt_560 >No employee is selected</txt_560>
+    <txt_561 >The start-time is newer the than end-time</txt_561>
+    <txt_562 >You need to specify from / to time.</txt_562>
+    <txt_563 >if the registration is for the whole day, check the whole day checkbox</txt_563>
+    <txt_564 >The to / from time format is incorrect</txt_564>
   
   
   </fr>
@@ -2954,6 +3008,17 @@
     <txt_553 >It is not allowed to create come / go registrations on dates that have already been logged in on.</txt_553>
     <txt_554 >does not match</txt_554>
     <txt_555 >with the amount on the invoice lines</txt_555>
+    <txt_556 >Please write a comment for your registration(s)</txt_556>
+
+    <txt_557 >No employee is selected</txt_557>
+    <txt_558 >The start date cant be newer than the end date</txt_558>
+    <txt_559 >The weekday the repport should be send is missing</txt_559>
+
+    <txt_560 >No employee is selected</txt_560>
+    <txt_561 >The start-time is newer the than end-time</txt_561>
+    <txt_562 >You need to specify from / to time.</txt_562>
+    <txt_563 >if the registration is for the whole day, check the whole day checkbox</txt_563>
+    <txt_564 >The to / from time format is incorrect</txt_564>
   
   
   </uk>
@@ -3443,7 +3508,17 @@
     <txt_553 >It is not allowed to create come / go registrations on dates that have already been logged in on.</txt_553>
     <txt_554 >does not match</txt_554>
     <txt_555 >with the amount on the invoice lines</txt_555>
-    
+    <txt_556 >Please write a comment for your registration(s)</txt_556>
+
+    <txt_557 >No employee is selected</txt_557>
+    <txt_558 >The start date cant be newer than the end date</txt_558>
+    <txt_559 >The weekday the repport should be send is missing</txt_559>
+
+    <txt_560 >No employee is selected</txt_560>
+    <txt_561 >The start-time is newer the than end-time</txt_561>
+    <txt_562 >You need to specify from / to time.</txt_562>
+    <txt_563 >if the registration is for the whole day, check the whole day checkbox</txt_563>
+    <txt_564 >The to / from time format is incorrect</txt_564>
 
   </es>
 

@@ -737,7 +737,7 @@ if len(session("user")) = 0 then
 	
 	
 	
-	<script src="inc/bal_real_norm_jav.js"></script>
+	<script src="inc/bal_real_norm_jav_1.js"></script>
 	
 
  
@@ -1014,7 +1014,7 @@ pwdt = 200
                 </tr>
    
                 <%select case lto
-                case "intranet - local", "fk"
+                case "xintranet - local", "fk"
                 if level = 1 then %>
                  <tr><td colspan=2 valign=top>
                 <input type="checkbox" name="sd_lon_fil" value="1" /> Tilknyt SD lønfil fra CSV fil.
@@ -1023,6 +1023,19 @@ pwdt = 200
                 case else
                 end select %>
 
+                 
+                <%select case lto
+                case "intranet - local", "cflow"
+                if level = 1 then %>
+                 <tr><td colspan=2 valign=top>
+                <input type="checkbox" name="huldt_lillevik_lon_fil" value="1" /> Tilknyt Huldt & Lillevik lønfil.
+                </td></tr>
+                <% end if
+                case else
+                end select %>
+
+                 
+
 
             </form>
 
@@ -1030,7 +1043,7 @@ pwdt = 200
                  
                  <%
                  '*** HuldT & Lillevik
-                 if lto = "cflow" OR lto = "intranet - local" then%>
+                 if lto = "xcflow" OR lto = "xintranet - local" then%>
                  <form action="bal_real_norm_2007.asp?media=export&exporttype=220" method="post" target="_blank">
                  <input id="Hidden2" name="FM_medarb" value="<%=thisMiduse%>" type="hidden" />
                  <input id="Hidden1" name="FM_medarb_hidden" value="<%=thisMiduse%>" type="hidden" />
@@ -1437,7 +1450,7 @@ pwdt = 200
         Response.write  "<br><b><span style=""font-size:10px;"">Periode afgrænsning:</span><br> "& formatdatetime(startdato, 1) & " - "&  formatdatetime(slutdato, 1) & "</b>"
         end if
 
-            if media = "export" AND request("sd_lon_fil") <> "1" AND cint(exporttype) <> 200 AND cint(exporttype) <> 201 AND cint(exporttype) <> 220 then 'Bluegaarden/Huldt & Lillevik then
+            if media = "export" AND request("sd_lon_fil") <> "1" AND request("huldt_lillevik_lon_fil") <> "1" AND cint(exporttype) <> 200 AND cint(exporttype) <> 201 AND cint(exporttype) <> 220 then 'Bluegaarden/Huldt & Lillevik then
             strEksportTxtMd = "xx99123sy#z xx99123sy#zPeriode afgrænsning: "& formatdatetime(startdato, 1) & " - "&  formatdatetime(slutdato, 1)
             strEksportTxt = strEksportTxt & strEksportTxtMd
             end if
@@ -1554,10 +1567,22 @@ pwdt = 200
                 <%
                 Response.redirect OutputFileName
                 else
-                Response.redirect "../inc/log/data/"& file &""	
-                end if 
+
+                    if len(trim(request("huldt_lillevik_lon_fil"))) <> 0 then
+                    %>
+                    <!--#include file="eksport_timeout_huldt_lillevik.asp"-->
+                    <%
+                
+                    'Response.write "Din fil er klar på c:\ drevet"
+
+                    'Response.write "hlt_OutputFileName: " & hlt_OutputFileName
+                    'response.flush
+                    Response.redirect hlt_OutputFileName
+                    else
+                    Response.redirect "../inc/log/data/"& file &""	
+                    end if 
 				
-				
+				end if 
 				
 	
 	

@@ -38,6 +38,8 @@ varErrorText = replace(err_txt_004, "#nylinie#", "<br>")
   &"<br></br>Klik her: <a href='https://timeout.cloud/"&thislto&"' target='_top'>https://timeout.cloud/"&thislto&"</a> for at logge ind i jeres system igen."_
   &"<br /><br />"_
   &"Med venlig hilsen / Best regards<br /><br />OutZourCE dev. team."
+
+
           
           
 case 6
@@ -550,10 +552,9 @@ else
 trTxt = err_txt_426
 end if
 
-varErrorText = "<b>"&err_txt_427&"</b><br>"_
-& err_txt_428 &"<br><br>- "& err_txt_429 &" <u>"&err_txt_430&"</u> "&err_txt_431&"<br><br>"_
+varErrorText = "<b>"& err_txt_428 &"!</b><br><br><br>- "& err_txt_429 &" <u>"&err_txt_430&"</u> "&err_txt_431&"<br><br>"_
 &"- "&err_txt_432&" <u>"&err_txt_430&"</u> "&err_txt_433&"<br><br>"_
-&"<b>"&err_txt_434&":</b><br>"_
+&"<br><br><b>"&err_txt_434&":</b><br>"_
 & err_txt_435 &": ("& trim(ids(a)) &") "& stur(a)  & "<br>"_
 & err_txt_436 &": " & manuelt_afsluttet & "<br>"_
 & err_txt_437 &": "& trTxt & "<br><br>"
@@ -802,6 +803,36 @@ varErrorText = "Activity are missing Account No. / Task no."
 case 191
 varErrorText = "RFID code already exist"
 
+case 192
+varErrorText = err_txt_556
+
+
+case 193
+varErrorText = err_txt_558
+
+
+case 194 
+varErrorText = err_txt_559
+
+
+case 196 
+varErrorText = err_txt_557
+
+
+case 197
+varErrorText = err_txt_560
+
+
+case 198 
+varErrorText = err_txt_561
+
+
+case 199
+varErrorText = err_txt_562 &"<br>"& err_txt_563 
+
+
+case 200
+varErrorText = err_txt_564
 
 
 case else

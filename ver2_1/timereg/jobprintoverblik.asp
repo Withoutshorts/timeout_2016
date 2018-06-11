@@ -427,7 +427,7 @@
 
             </select>
         <%if lto <> "oko" then %>
-        &nbsp;
+        <br />&nbsp;
         <input type="checkbox" name="visrealtimerdetal" value="1" onclick="submit();" <%=visrealtimerdetalCHK %>  /> Vis detal. timeforbrug
         <%end if %>
 

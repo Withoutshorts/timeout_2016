@@ -523,6 +523,12 @@
 				end if
 		        
 		        if request("FM_opdater_txt_felter") = "1" then
+
+                if len(trim(betbetint)) = 0 then
+                betbetint = 0
+                end if
+
+
 				strSQLinsval = strSQLinsval & "'" & strKomm & "', "_
 				&" '"& strBetbet &"', '"& strLevbet &"', "_
 				&" "& betbetint

@@ -1401,21 +1401,27 @@ function opdaterFeriePl(level, highV)
                 case 1
 		        planlagtVal = 11
 		        afholdtVal = 14
+                afholdtulonVal = 19
 		        case 2
 		        planlagtVal = 18
 		        afholdtVal = 13
+                afholdtulonVal = 19
                 case 3
 		        planlagtVal = 26
 		        afholdtVal = 28
+                afholdtulonVal = 0
                 case 4
 		        planlagtVal = 120
 		        afholdtVal = 23
+                afholdtulonVal = 0
                 case 5
 		        planlagtVal = 121
 		        afholdtVal = 10
+                afholdtulonVal = 0
                 case 6
 		        planlagtVal = 122
 		        afholdtVal = 115
+                afholdtulonVal = 0
 		        end select
 		        
 		        aktid = 0
@@ -1427,8 +1433,11 @@ function opdaterFeriePl(level, highV)
 		        &" LEFT JOIN aktiviteter a ON (a.fakturerbar = "& afholdtVal &" AND a.aktstatus = 1 AND a.job = j.id) "_
 		        &" WHERE j.jobstatus = 1 AND a.id <> 'NULL' GROUP BY a.id ORDER BY a.id DESC"
 		        
+                'if session("mid") = 1 then
+                'response.write "<br>f: "& f &"<br>"
                 'response.write strSQLfeafn
                 'response.flush
+                'end if
 
 		    
 		        oRec3.open strSQLfeafn, oCOnn, 3
@@ -1461,6 +1470,9 @@ function opdaterFeriePl(level, highV)
 		        oRec4.open strSQLfepl, oConn, 3
 		        while not oRec4.EOF 
 		                
+
+
+
 		                indtastningfindes = 0
 		                strSQLfeaf = "SELECT timer, tdato FROM timer WHERE tfaktim = "& afholdtVal &" AND tdato = '"& year(oRec4("tdato")) &"/"& month(oRec4("tdato")) & "/"& day(oRec4("tdato")) &"' AND tmnr = "& oRec4("tmnr") 'session("mid")
 		                
@@ -1562,8 +1574,9 @@ function opdaterFeriePl(level, highV)
                               
 
                                              
-
+                                            'if session("mid") = 1 ANd oRec4("tmnr") = 324 then
                                             'response.Write "<br>fe_optjent: " & fe_optjent & "<br>"
+                                            'end if
 
                                             '** Ferie afholdt i ferieåret 
                                             fe_afholdtmlon = 0
@@ -1583,81 +1596,89 @@ function opdaterFeriePl(level, highV)
 
                             
 
-                                            'if session("mid") = 1 then
-                                            'response.write "fe_optjent: "& fe_optjent
-                                            'response.Write "<br>fe_afholdtmlon: " & fe_afholdtmlon & "<br>"
-                                            'response.write "timerthis" & timerthis
-                                            'response.write "<br>afholdetUlon: " & (fe_optjent - (fe_afholdtmlon + timerThis)) * -1 & "<br><br>"
-                                            'response.end
-                                            'end if
+                                           'if session("mid") = 1 then
+                                           ' response.write "<br>f: "& f &"<br>fe_optjent: "& fe_optjent
+                                           ' response.Write "<br>fe_afholdtmlon: " & fe_afholdtmlon & "<br>"
+                                           ' response.write "timerthis" & timerthis
+                                           ' response.write "<br>afholdetUlon: " & (fe_optjent - (fe_afholdtmlon + timerThis)) * -1 & "<br><br>"
+                                           ' 'response.end
+                                           'end if
 
 
-                                            '*** Overfører til afholdt uden løn
-                                            if (fe_afholdtmlon + timerThis) >= fe_optjent AND fe_optjent > 0 then
+                                                    '*** Overfører til afholdt uden løn
+                                                    if ((((fe_afholdtmlon + timerThis) >= fe_optjent AND fe_optjent > 0) OR (fe_optjent = 0)) AND f = 1) OR _
+                                                    ((((fe_afholdtmlon + timerThis) >= fe_optjent AND fe_optjent > 0) OR (fe_optjent = 0)) AND f = 2) then ' 'laver beregning hvis der er tildelt ferie optjent OG hvis der slet ikke er tldelt ferie '20180425
 
 
-                                            'if session("mid") = 1 then
+                                                    'if session("mid") = 1 then
                           
-                                            'response.write "<br>Finder afholdetUlon: <br><br>"
-                                            'response.end
-                                            'end if
+                                                    'response.write "<br>Finder afholdetUlon: <br><br>"
+                                                    'response.end
+                                                    'end if
                           
+                                                    if fe_optjent <> 0 then 'Hvis der ikke er optjent ferie skal der ikke beregnes, så vil det altid være det natal der er tastet
+                                                    afholdetUlon = (fe_optjent - (fe_afholdtmlon + timerThis)) * -1  
+                                                    else
+                                                    afholdetUlon = timerThis
+                                                    end if
 
-                                            afholdetUlon = (fe_optjent - (fe_afholdtmlon + timerThis)) * -1  
-
-                                            timerThisOpr = timerThis
-                                            timerThis = afholdetUlon
-                                            afholdtValOpr = afholdtVal
-                                            afholdtVal = 19
-                                            aktidOpr = aktid
-		                                    aktnavnOpr = aktnavn 
+                                                    timerThisOpr = timerThis
+                                                    timerThis = afholdetUlon
+                                                    afholdtValOpr = afholdtVal
+                                                    afholdtVal = afholdtulonVal '19
+                                                    aktidOpr = aktid
+		                                            aktnavnOpr = aktnavn 
 
 
-                                                    '** Finder navn og id på afholdt ferie akt. U LØN  ***'
-		                                            strSQLfeafn = "SELECT a.id, a.navn FROM job j"_
-		                                            &" LEFT JOIN aktiviteter a ON (a.fakturerbar = 19 AND a.aktstatus = 1 AND a.job = j.id) "_
-		                                            &" WHERE j.jobstatus = 1 AND a.id <> 'NULL' GROUP BY a.id ORDER BY a.id DESC"
+                                                            '** Finder navn og id på afholdt ferie akt. U LØN  ***'
+		                                                    strSQLfeafn = "SELECT a.id, a.navn FROM job j"_
+		                                                    &" LEFT JOIN aktiviteter a ON (a.fakturerbar = "& afholdtulonVal &" AND a.aktstatus = 1 AND a.job = j.id) "_
+		                                                    &" WHERE j.jobstatus = 1 AND a.id <> 'NULL' GROUP BY a.id ORDER BY a.id DESC"
 		        
-		                                            aulonFundet = 0
-		                                            oRec3.open strSQLfeafn, oCOnn, 3
-		                                            if not oRec3.EOF then
+		                                                    aulonFundet = 0
+		                                                    oRec3.open strSQLfeafn, oCOnn, 3
+		                                                    if not oRec3.EOF then
 		        
-		                                            if oRec3("id") <> "" then
-		                                            aktid = oRec3("id")
-		                                            aktnavn = oRec3("navn")
-                                                    aulonFundet = 1
-		                                            end if
+		                                                        if oRec3("id") <> "" then
+		                                                        aktid = oRec3("id")
+		                                                        aktnavn = oRec3("navn")
+                                                                aulonFundet = 1 
+		                                                        end if
 		        
-		                                            end if
-		                                            oRec3.close
+		                                                    end if
+		                                                    oRec3.close
 
-                                                if cint(aulonFundet) then
+                                                        if cint(aulonFundet) = 1 then
 
-                                                            call insertAfholdtTimer
+                                                                    'if session("mid") = 1 then
+                                                                    'Response.write "<br>A<br>"
+                                                                    'end if
+
+                                                                    call insertAfholdtTimer
                     
-                                                            '*** Sletter den planlagte **'
-		                                                    strSQLdel = "DELETE FROM timer WHERE tid = "& oRec4("tid")
-		                                                    oConn.execute(strSQLdel)
+                                                                    '*** Sletter den planlagte **'
+		                                                            strSQLdel = "DELETE FROM timer WHERE tid = "& oRec4("tid")
+		                                                            oConn.execute(strSQLdel)
 
 
-                                                            '*** Nedskriver timer
-                                                            timerThis = (TimerThisOpr - afholdetUlon)
-                                                            afholdtVal = afholdtValOpr
+                                                                    '*** Nedskriver timer
+                                                                    timerThis = (TimerThisOpr - afholdetUlon)
+                                                                    afholdtVal = afholdtValOpr
 
-                                                            aktid = aktidOpr
-		                                                    aktnavn = aktnavnOpr
+                                                                    aktid = aktidOpr
+		                                                            aktnavn = aktnavnOpr
 
-                                                end if
+                                                        end if
                            
 
 
-                                            end if
+                                                    end if 'Overfører til afholdt uden løn
 
                         
                                             '** 
 
 
-                                        end if 'f
+                                        end if 'f = OR f = 2
 
 
 
@@ -1667,14 +1688,20 @@ function opdaterFeriePl(level, highV)
                         
 
                                 '*** Indlæser / overfører til AFHOLDT TYPE ***'
-                                if (f > 0 AND timerThis > 0) OR (f = 1 AND timerThis > 0 AND (timerThis > afholdetUlon)) then
+                                if (f > 0 AND timerThis > 0) OR _
+                                (f = 1 AND timerThis > 0 AND (timerThis > afholdetUlon)) OR (f = 2 AND timerThis > 0 AND (timerThis > afholdetUlon)) then
 
+                                        'if session("mid") = 1 then
+                                        'Response.write "<br>B<br>"
+                                        'end if
 
 		                                call insertAfholdtTimer
 		                
                        
 		                        timerThis = 0
-		                
+                                fe_afholdtmlon = 0 
+                                fe_optjent = 0
+        
 		                        '*** Sletter den planlagte **'
 		                        strSQLdel = "DELETE FROM timer WHERE tid = "& oRec4("tid")
 		                        oConn.execute(strSQLdel)
@@ -1755,7 +1782,7 @@ sub insertAfholdtTimer
 
             
                 'if session("mid") = 1 then
-                'response.write strSQLfeins &"<br><br>"
+                'response.write "<br>INSERT: "& strSQLfeins &"<br><br>"
                 'response.flush
                 'end if
 

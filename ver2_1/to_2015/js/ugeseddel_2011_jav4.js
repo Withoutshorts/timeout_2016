@@ -657,6 +657,14 @@ $(document).ready(function() {
 
                     $("#bt_indlaspaajob").click(function () {
                         $("#indlaspaajob").val('1')
+
+                        $("#bt_indlaspaajob").hide('fast')
+
+                        //$("#bt_indlaspaajob").css('display', 'none')
+                        //$("#bt_indlaspaajob").css('visibility', 'hidden')
+
+                        //alert("HER")
+
                         $("#monitorform").submit();
                     });
 

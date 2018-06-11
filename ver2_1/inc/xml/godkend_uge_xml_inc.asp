@@ -5,9 +5,9 @@ Dim objXMLHTTP_godkendweek, objXMLDOM_godkendweek, i_godkendweek, strHTML_godken
 Set objXMLDom_godkendweek = Server.CreateObject("Microsoft.XMLDOM")
 Set objXmlHttp_godkendweek = Server.CreateObject("Msxml2.ServerXMLHTTP")
 'objXmlHttp_godkendweek.open "GET", "http://localhost/Git/timeout_2016/ver2_1/inc/xml/godkend_uge_sprog.xml", False
-'objXmlHttp_godkendweek.open "GET", "http://localhost/inc/xml/godkend_uge_sprog.xml", False
+objXmlHttp_godkendweek.open "GET", "http://localhost/inc/xml/godkend_uge_sprog.xml", False
 'objXmlHttp_godkendweek.open "GET", "http://outzource.dk/timeout_xp/wwwroot/ver2_10/inc/xml/godkend_uge_sprog.xml", False
-objXmlHttp_godkendweek.open "GET", "https://timeout.cloud/timeout_xp/wwwroot/ver3_99/inc/xml/godkend_uge_sprog.xml", False
+'objXmlHttp_godkendweek.open "GET", "https://timeout.cloud/timeout_xp/wwwroot/ver3_99/inc/xml/godkend_uge_sprog.xml", False
 'objXmlHttp_godkendweek.open "GET", "https://outzource.dk/timeout_xp/wwwroot/ver2_14/inc/xml/godkend_uge_sprog.xml", False
 'objXmlHttp_godkendweek.open "GET", "https://timeout.cloud/timeout_xp/wwwroot/ver2_14/inc/xml/godkend_uge_sprog.xml", False
 

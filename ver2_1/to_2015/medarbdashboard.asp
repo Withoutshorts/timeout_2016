@@ -1906,8 +1906,12 @@ case else
 
                             '** Faktureret beløb ****************
                             strSQLjobansvInv = "SELECT IF(faktype = 0, COALESCE(sum(f.beloeb * (f.kurs/100)),0), COALESCE(sum(f.beloeb * -1 * (f.kurs/100)),0)) AS fakbeloeb FROM fakturaer f WHERE jobid = " & oRec4("jid") &""_
-                            &" AND ((brugfakdatolabel = 0 AND f.fakdato BETWEEN '"& year(strDatoStartKri) &"-01-01' AND '"& year(strDatoEndKri) &"-12-31') "_
-                            &" OR (brugfakdatolabel = 1 AND f.labeldato BETWEEN '"& year(strDatoStartKri) &"-01-01' AND '"& year(strDatoEndKri) &"-12-31')) AND shadowcopy = 0 GROUP BY jobid, faktype"
+                            &" AND ((brugfakdatolabel = 0 AND f.fakdato BETWEEN '"& strDatoStartKri & "' AND '"& strDatoEndKri &"') "_
+                            &" OR (brugfakdatolabel = 1 AND f.labeldato BETWEEN '"& strDatoStartKri &"' AND '"& strDatoEndKri &"')) AND shadowcopy = 0 GROUP BY jobid, faktype"
+                           
+                            'EPI 2017 ændret 20180606 Thomas Skjellerup
+                            '&" AND ((brugfakdatolabel = 0 AND f.fakdato BETWEEN '"& year(strDatoStartKri) &"-01-01' AND '"& year(strDatoEndKri) &"-12-31') "_
+                            '&" OR (brugfakdatolabel = 1 AND f.labeldato BETWEEN '"& year(strDatoStartKri) &"-01-01' AND '"& year(strDatoEndKri) &"-12-31')) AND shadowcopy = 0 GROUP BY jobid, faktype"
                             
                             'if session("mid") = 1 then
                             'response.write strSQLjobansvInv
@@ -2395,7 +2399,7 @@ case else
                           <%select case lto
                           case "epi2017"
                           %>
-                        <p class="row-stat-label">Invoiced job & sales resp. <br />Job startdate in selected period OR invoice date in FY <!--in selected period--></p>
+                        <p class="row-stat-label">Invoiced job & sales resp. <br />Job startdate OR invoice date in selected period <!--   in FY  / in selected period--></p>
                         <h3 class="row-stat-value"><span style="font-size:14px;">Job:</span> <%=formatnumber(jobansInv, 2)%> <span style="font-size:14px;">DKK</span></h3>
                         <br /><span style="font-size:11px; color:#999999;"> [Invoiced in period * job %]</span>
 
@@ -2487,7 +2491,7 @@ case else
                          end select%>
                          <%=dsb_txt_012 %>: 
                          <span class="label label-<%=medarbSelIndexColor%> row-stat-badge"><%=formatnumber(medarbSelIndex, 2)%></span>
-                         <br /> <span style="font-size:11px; color:#999999;">[ <%=dsb_txt_014 %> / <%=dsb_txt_013 %> ]</span>
+                         <br /> <span style="font-size:11px; color:#999999;">[ <%=dsb_txt_013 %> / <%=dsb_txt_014 %> ]</span>
                          <br /><br />
 
                          <%if cint(multipleMids) = 0 then
@@ -3073,9 +3077,13 @@ case else
                  case "epi2017"
 
                  if anloops = 0 then
-                 jobansOskift = "Job & Sales Responsible % <span style=""font-size:12px; font-weight:lighter;"">(Job startdate in selected period OR invoice date in FY - Sales cost in period)</span>"
+                 jobansOskift = "Job & Sales Responsible % <span style=""font-size:12px; font-weight:lighter;"">(Job startdate OR invoice date in selected period - Sales cost in period)</span>"
+                 ' 20180606 Thomas
+                 'jobansOskift = "Job & Sales Responsible % <span style=""font-size:12px; font-weight:lighter;"">(Job startdate in selected period OR invoice date in FY - Sales cost in period)</span>"
                  else
-                 jobansOskift = "Job & Sales Responsible CLOSED job % <span style=""font-size:12px; font-weight:lighter;"">(Job startdate in selected period OR invoice date in FY - Total sales cost no period)</span>"
+                 jobansOskift = "Job & Sales Responsible CLOSED job % <span style=""font-size:12px; font-weight:lighter;"">(Job startdate OR invoice date in selected period - Total sales cost no period)</span>"
+                 ' 20180606 Thomas
+                 'jobansOskift = "Job & Sales Responsible CLOSED job % <span style=""font-size:12px; font-weight:lighter;"">(Job startdate in selected period OR invoice date in FY - Total sales cost no period)</span>"
                  end if
                 
                     if cint(multipleMids) = 0 then
@@ -3203,8 +3211,8 @@ case else
                                     %>
                                     
                                         <th style="width: 13%"><%=Budget_GTxt %></th>
-                                        <th style="width: 10%">Invoiced Total <%=useYear %></th>
-                                        <th style="width: 10%">Sales & External Cost <%=useYear %></th>
+                                        <th style="width: 10%">Invoiced in period </th> <!-- 20180606 Thomas <%=useYear %> -->
+                                        <th style="width: 10%">Sales & External Cost in per. </th> <!-- 20180606 thomas <%=useYear %> -->
                                     
                                     <%
 
@@ -3369,8 +3377,12 @@ case else
                                             strSQLjobansvInv = "SELECT IF(faktype = 0, COALESCE(sum(f.beloeb * (f.kurs/100)),0), COALESCE(sum(f.beloeb * -1 * (f.kurs/100)),0)) AS fakbeloeb FROM fakturaer f WHERE jobid = " & oRec("jid") &""
 
                                             if anloops = 0 then
-                                            strSQLjobansvInv = strSQLjobansvInv &" AND ((brugfakdatolabel = 0 AND f.fakdato BETWEEN '"& year(strDatoStartKri) &"-01-01' AND '"& year(strDatoEndKri) &"-12-31') "
-                                            strSQLjobansvInv = strSQLjobansvInv &" OR (brugfakdatolabel = 1 AND f.labeldato BETWEEN '"& year(strDatoStartKri) &"-01-01' AND '"& year(strDatoEndKri) &"-12-31')) AND shadowcopy = 0"
+                                            strSQLjobansvInv = strSQLjobansvInv &" AND ((brugfakdatolabel = 0 AND f.fakdato BETWEEN '"& strDatoStartKri &"' AND '"& strDatoEndKri &"') "
+                                            strSQLjobansvInv = strSQLjobansvInv &" OR (brugfakdatolabel = 1 AND f.labeldato BETWEEN '"& strDatoStartKri &"' AND '"& strDatoEndKri &"')) AND shadowcopy = 0"
+                                           
+                                            '** Ændret Thomas Skj. 20180606
+                                            'strSQLjobansvInv = strSQLjobansvInv &" AND ((brugfakdatolabel = 0 AND f.fakdato BETWEEN '"& year(strDatoStartKri) &"-01-01' AND '"& year(strDatoEndKri) &"-12-31') "
+                                            'strSQLjobansvInv = strSQLjobansvInv &" OR (brugfakdatolabel = 1 AND f.labeldato BETWEEN '"& year(strDatoStartKri) &"-01-01' AND '"& year(strDatoEndKri) &"-12-31')) AND shadowcopy = 0"
                                             else
                                             strSQLjobansvInv = strSQLjobansvInv 
                                             end if
@@ -3438,7 +3450,9 @@ case else
                                                             strSQLjobansvInv = "SELECT COALESCE(sum(m.matkobspris * matantal * (m.kurs/100)),0) AS matforbrugsum FROM materiale_forbrug m WHERE "
 
                                                             if anloops = 0 then
-                                                            strSQLjobansvInv = strSQLjobansvInv &" m.forbrugsdato BETWEEN '"& year(strDatoStartKri) &"-01-01' AND '"& year(strDatoEndKri) &"-12-31' AND "
+                                                            strSQLjobansvInv = strSQLjobansvInv &" m.forbrugsdato BETWEEN '"& strDatoStartKri &"' AND '"& strDatoEndKri &"' AND "
+                                                            '** 20180606 Thomas
+                                                            'strSQLjobansvInv = strSQLjobansvInv &" m.forbrugsdato BETWEEN '"& year(strDatoStartKri) &"-01-01' AND '"& year(strDatoEndKri) &"-12-31' AND "
                                                             end if
 
                                                             strSQLjobansvInv = strSQLjobansvInv &" m.jobid = " & oRec("jid") & " GROUP BY m.jobid"
@@ -3461,7 +3475,9 @@ case else
                                                            strSQlmtimerKost = "SELECT SUM(timer) AS sumtimer, SUM(timer*timepris*kurs/100) AS sumtimeOms, SUM(timer*kostpris*kpvaluta_kurs/100) AS sumtimeKost FROM timer WHERE "
                                                 
                                                            if anloops = 0 then
-                                                           strSQlmtimerKost = strSQlmtimerKost & " tdato BETWEEN '"& year(strDatoStartKri) &"-01-01' AND '"& year(strDatoEndKri) &"-12-31' AND " 
+                                                           strSQlmtimerKost = strSQlmtimerKost & " tdato BETWEEN '"& strDatoStartKri &"' AND '"& strDatoEndKri &"' AND " 
+                                                           '** 20180606 Thomas
+                                                           'strSQlmtimerKost = strSQlmtimerKost & " tdato BETWEEN '"& year(strDatoStartKri) &"-01-01' AND '"& year(strDatoEndKri) &"-12-31' AND " 
                                                            end if
 
                                                            strSQlmtimerKost = strSQlmtimerKost &" tjobnr = '"& oRec("jobnr") & "' AND ("& aty_sql_realhours &") GROUP BY tjobnr" 

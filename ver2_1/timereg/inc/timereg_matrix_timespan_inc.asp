@@ -6,7 +6,7 @@ function xmatrixtimespan(idag, mtrx, sTtid, sLtid, datoThis)
                                         sTtid_org = sTtid
 
 
-                                        call helligdage(datoThis, 0, lto)
+                                        call helligdage(datoThis, 0, lto, usemrn)
 
                                         select case mtrx
                                         case 1 'dag

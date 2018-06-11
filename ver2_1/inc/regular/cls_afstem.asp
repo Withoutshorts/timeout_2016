@@ -412,7 +412,7 @@ public ntimManIgnHellig, ntimTirIgnHellig, ntimOnsIgnHellig, ntimTorIgnHellig, n
                     end if 
 
 					
-				    call helligdage(datoCount, 0, lto)
+				    call helligdage(datoCount, 0, lto, medid)
 				        
 				        if cint(erHellig) = 1 then
 				            select case n 

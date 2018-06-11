@@ -254,6 +254,7 @@ oskrift = abonner_txt_034
             <option value="1" SELECTED><%=abonner_txt_014 %></option>
             <option value="2"><%=abonner_txt_015 %> </option>
             <option value="3"><%=abonner_txt_016 %> </option>
+            <option value="4">Ressource Forecast </option>
         </select>
 
 

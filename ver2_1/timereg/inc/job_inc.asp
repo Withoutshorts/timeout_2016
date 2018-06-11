@@ -2783,6 +2783,11 @@ end sub
 
 sub minioverblik
 
+    if len(trim(request("export"))) <> 0 AND request("export") <> 0 then
+    exporttocsv = 1
+    else
+    exporttocsv = 0
+    end if
 
 
 	if thisfile <> "jobprintoverblik" then	
@@ -3785,10 +3790,13 @@ sub minioverblik
 		&" WHERE f.jobid = "& id & ""_ 
 		&" GROUP BY f.fid ORDER BY f.faknr DESC"
 		
+        'AND fd.showonfak = 1 - 20180523
         'AND f.aftaleid = 0 AND f.shadowcopy = 0
 
+        'if session("mid") = "1" then
 		'Response.Write strSQLfak
 		'Response.Flush
+        'end if
 		
 		totFakbel = 0
 		totFakbelKunTimer = 0
@@ -3811,24 +3819,37 @@ sub minioverblik
 
                 <%if cint(useasfak) <= 2 then
                     
+                    fidLink = 0
                     if cint(oRec2("shadowcopy")) = 0 then
                     
                         fidLink = oRec2("fid")    
 
                     else
                         
-                    strSQLFakorg = "SELECT fid FROM fakturaer WHERE faknr = "& oRec2("faknr") &" AND shadowcopy <> 1"
-                    oRec8.open strSQLFakorg, oConn, 3
-                    if not oRec8.EOF then
+                        strSQLFakorg = "SELECT fid FROM fakturaer WHERE faknr = '"& oRec2("faknr") &"' AND shadowcopy <> 1"
 
-                        fidLink = oRec8("fid")
+                        'if session("mid") = 1 then
+                        'Response.write "useasfak: " & useasfak & "<br>"
+                        'Response.write strSQLFakorg
+                        'end if
+
+                        oRec8.open strSQLFakorg, oConn, 3
+                        if not oRec8.EOF then
+
+                            fidLink = oRec8("fid")
+
+                        end if
+                        oRec8.close
 
                     end if
-                    oRec8.close
 
-                    end if
+                    if cdbl(fidLink) <> 0 then
                     %>
                     <a href="erp_opr_faktura_fs.asp?visminihistorik=1&visfaktura=2&visjobogaftaler=1&id=<%=fidLink%>&FM_jobonoff=<%=FM_jobonoffval%>&FM_kunde=<%=oRec2("fakadr")%>&FM_job=<%=oRec2("jobid")%>&FM_aftale=<%=oRec2("aftaleid")%>&fromfakhist=1" class="lgron" target="_blank"><%=oRec2("faknr")%></a>
+                    <%else %>
+                    <i>deleted: <%=oRec2("faknr") %> </i>
+                    <%end if %>
+
                 <%else %>
 
                 <b><%=oRec2("faknr") %></b>
@@ -3837,14 +3858,22 @@ sub minioverblik
 
             <%else %>
                 <%=oRec2("faknr") %>
-            <%end if
+            <%end if 'thisfile <> "jobprintoverblik"
+
+
 
             if oRec2("shadowcopy") = 1 then 'AND oRec2("aftaleid") <> 0 then
                
                    
 
                     strSQLFakorg = "SELECT f.fid, f.beloeb, f.valuta, f.kurs, f.faktype, f.aftaleid, fd.aktpris FROM fakturaer f "_
-                    &" LEFT JOIN faktura_det fd ON (fd.fakid = f.fid AND fd.aktid = "& id &") WHERE faknr = "& oRec2("faknr") &" AND shadowcopy <> 1 "
+                    &" LEFT JOIN faktura_det fd ON (fd.fakid = f.fid AND fd.aktid = "& id &") WHERE faknr = '"& oRec2("faknr") &"' AND shadowcopy <> 1 "
+
+
+                    'if session("mid") = 1 then
+                    'Response.write strSQLFakorg
+                    'Response.flush
+                    'end if
 
                     oRec8.open strSQLFakorg, oConn, 3
                     if not oRec8.EOF then

@@ -25,6 +25,8 @@
 <!--#include file="../xml/abonner_xml_inc.asp"-->
 <!--#include file="../xml/resbelaeg_xml_inc.asp"-->
 <!--#include file="../xml/smileystatus_xml_inc.asp"-->
+<!--#include file="../xml/jobstatus_xml_inc.asp"-->
+
 
 
 <!--#include file="cls_aktiviteter.asp"-->
@@ -1554,7 +1556,7 @@ function grafik(FM_id, strPic, pictype, txt)
 			For CheckDay = 1 To mthDays
 				if weekday(CheckDay&"/"&md&"/"&ye, 2) < 6 then
 					
-					call helligdage(CheckDay&"/"&md&"/"&ye, 0, lto)
+					call helligdage(CheckDay&"/"&md&"/"&ye, 0, lto, session("mid"))
 					
 					if erHellig <> 1 then
 						workingMthDays = workingMthDays + 1

@@ -84,8 +84,8 @@ a = 0
 								Response.write x &"<br>"& strSQL(b) & "<br><br>"
 								Response.flush
 
-								if x > 0 then 'AND x <> 130 then
-                                oConn.open strConnect_aktiveDB
+								if x > 0 AND x <> 2 then 'AND x > 4 
+                                'oConn.open strConnect_aktiveDB
 							    
                                 '*** DENNE LINJE INDLÆSER // UDKOMMENTER NÅR FILEN IKKE ER AKTIV
                                 oConn.execute(strSQL(b)) 
@@ -3369,6 +3369,49 @@ PRIMARY KEY (lha_id)
 ); 
 INSERT INTO dbversion (dbversion) VALUES (20180308.1)
 
+
+
+<br /><br />20180404.1<br />
+
+Create table info_screen (
+id INT(11) NOT NULL AUTO_INCREMENT,
+overskrift VARCHAR(255) NOT NULL default '',
+brodtext text,
+datofra DATE DEFAULT '2002-01-01' NOT NULL,
+datotil DATE DEFAULT '2002-01-01' NOT NULL,
+editor VARCHAR(255) default '',
+PRIMARY KEY (id)
+);
+UPDATE dbversion SET dbversion = '20180404.1' WHERe id = 1
+
+
+<br /><br />20180509.1<br />
+ALTER TABLE abonner_file_email ADD afe_progrp INT NOT NULL default 0;
+INSERT INTO dbversion (dbversion) VALUES ('20180509.1')
+
+
+<br /><br />20180515.1<br />
+ALTER table abonner_file_email ADD (afe_init VARCHAR(50) NOT NULL default '');
+INSERT INTO dbversion (dbversion) VALUES ('20180515.1')
+
+
+<br /><br />20180531.1<br />
+Create table udeafhuset (
+id INT(11) NOT NULL AUTO_INCREMENT,
+medid INT(11) NOT NULL,
+fradato date NOT NULL,
+fratidspunkt time,
+tiltidspunkt time,
+heledagen int,
+PRIMARY KEY (id)
+);
+UPDATE dbversion SET dbversion = '20180531.1' WHERe id = 1
+
+
+<br /><br />20180531.2<br />
+ALTER TABLE udeafhuset Add 
+(tildato date NOT NULL, fra datetime, til datetime);
+UPDATE dbversion SET dbversion = '20180531.2' WHERe id = 1
 
 
 <%

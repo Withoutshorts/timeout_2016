@@ -5,6 +5,90 @@
 
 <%
 
+
+
+
+function genAabenAfsluttedeUgerVedAfvisTimer(SmiWeekOrMonth, medid, tdato)
+
+
+                                    select case cint(SmiWeekOrMonth) 
+                                    case 0
+					                
+                                    denneuge = datepart("ww", oRec("tdato"), 2,2)
+					                detteaar = datepart("yyyy", oRec("tdato"), 2,2)
+                                    perSqlKri = "YEAR(uge) = '"& detteaar &"' AND WEEK(uge, 3) = '"& denneuge &"'"
+                                    
+                                    if cint(autogktimer) = 2 then 'Nulstil tentative timer
+                                
+                                                    thisUeId = 0
+                                                    strSQLthisPeriode = "SELECT uge, mid, id FROM ugestatus WHERE mid = "& medid &" AND ("& perSqlKri &")"
+                                                    oRec6.open strSQLthisPeriode, oConn, 3
+                                                    if not oRec6.EOF then
+
+                                                    thisUeId = oRec6("id")
+
+                                                    end if
+                                                    oRec6.close
+
+                                            call nulstilTentative(autogktimer, thisUeId)
+
+                                    end if
+
+
+                                    perSqlKriRem = "DELETE FROM ugestatus WHERE mid = "& oRec("tmnr") &" AND ("& perSqlKri &")"
+                                    oConn.execute(perSqlKriRem)
+
+                                    'call insertDelhist("ugestatus", thisUeId, meNr, meNavn, session("mid"), session("user"))
+
+
+                                    case 1
+
+                                    dennemd = datepart("m", oRec("tdato"), 2,2)
+					                detteaar = datepart("yyyy", oRec("tdato"), 2,2)
+
+                                    perSqlKri = "YEAR(uge) = '"& detteaar &"' AND MONTH(uge) = '"& dennemd &"'"
+
+                                        if cint(autogktimer) = 2 then 'Nulstil tentative timer
+                                
+                                                    thisUeId = 0
+                                                    strSQLthisPeriode = "SELECT uge, mid, id FROM ugestatus WHERE mid = "& medid &" AND ("& perSqlKri &")"
+                                                    oRec6.open strSQLthisPeriode, oConn, 3
+                                                    if not oRec6.EOF then
+
+                                                    thisUeId = oRec6("id")
+
+                                                    end if
+                                                    oRec6.close
+
+                                            call nulstilTentative(autogktimer, thisUeId)
+
+                                         end if
+
+
+                                    perSqlKriRem = "DELETE FROM ugestatus WHERE mid = "& oRec("tmnr") &" AND ("& perSqlKri &")"
+                                    oConn.execute(perSqlKriRem)
+
+                                    case 2 '** Dagligt: DO NOTHING 
+
+
+                                    end select
+
+
+
+
+
+end function
+
+
+
+
+
+
+
+
+
+
+
 function godkenderTimeriUge(medid, varTjDatoUS_manSQL, varTjDatoUS_sonSQL, SmiWeekOrMonth)
 
 
@@ -1968,7 +2052,7 @@ end if
                 '**** SLETTER (Opdaterer for revisionsspor) EVT HRsplit midlertidig godkendt WEEK ***
                 '**** SPLIT HR bruger altid datoen fra den sidste uge i måneden. 
                 '**** FULD uge godkendes igen fra WEEK approval
-                strSQLafslutDelHRsplit = "UPDATE ugestatus SET uge = '2002-01-01' WHERE WEEK(uge, 3) = WEEK('"& cDateUgeTilAfslutning &"', 3) AND mid = "& medarbejderid &" AND splithr = 1" 
+                strSQLafslutDelHRsplit = "UPDATE ugestatus SET uge = '2002-01-01' WHERE WEEK(uge, 3) = WEEK('"& cDateUgeTilAfslutning &"', 3) AND year(uge) = '"& Year(cDateUgeTilAfslutning) &"' AND mid = "& medarbejderid &" AND splithr = 1" 
 		        'Response.Write strSQLafslutDelHRsplit
 		        'Response.flush
 		        oConn.execute(strSQLafslutDelHRsplit)
@@ -2616,7 +2700,7 @@ end if
 
             '**tilføjer en dag hvis igår var en halligdag
             slip_dd_dayminusone = dateAdd("d", -1, slip_dd)
-            call helligdage(slip_dd_dayminusone, 0, lto)
+            call helligdage(slip_dd_dayminusone, 0, lto, sm_mid)
             if erhellig = 1 then
             slip_limit = slip_limit + 1
             end if
@@ -2958,11 +3042,14 @@ function afviseugeseddel(thisfile, afsenderMid, modtagerMid, varTjDatoUS_man, va
                                     oRec6.close
 
 
-                                    strSQLupUgeseddelDel = "DELETE from ugestatus WHERe id = "& thisUeId
-                                    oConn.execute(strSQLupUgeseddelDel)
+                                    'strSQLupUgeseddelDel = "DELETE from ugestatus WHERe id = "& thisUeId
+                                    'oConn.execute(strSQLupUgeseddelDel)
 
                                     call nulstilTentative(autogktimer, thisUeId)
 
+                                    '*** FlYTTET HERUDNER 20180402 SARAH har problemer med at tentative ikke bliver nullet
+                                    strSQLupUgeseddelDel = "DELETE from ugestatus WHERe id = "& thisUeId
+                                    oConn.execute(strSQLupUgeseddelDel)
                 
 		                  end if
 
@@ -3440,8 +3527,10 @@ function nulstilTentative(autogktimer, id)
 		        
 		        oConn.execute(strSQLGKtimer)
 
+                'if session("mid") = 1 then
                 'Response.write "autogktimer: "& autogktimer &" SmiWeekOrMonth: " & SmiWeekOrMonth & "<br>"& strSQLGKtimer
                 'Response.end
+                'end if
 
 
 end function

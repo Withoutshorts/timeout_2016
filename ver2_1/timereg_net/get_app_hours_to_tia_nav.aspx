@@ -240,7 +240,12 @@
         strSQLmedins += "FROM timer AS t "
         strSQLmedins += "LEFT JOIN medarbejdere AS m ON (m.mid = t.tmnr) "
         strSQLmedins += "LEFT JOIN aktiviteter AS a ON (a.id = t.taktivitetid) "
-        strSQLmedins += "WHERE tdato BETWEEN '" & stDatoSQLformat & "' AND '" & slDatoSQLformat & "' AND (overfort = 0 OR overfort = 2) AND (godkendtstatus = 1) AND tmnr <> 1 AND timer <> 0 AND tfaktim <> '90' ORDER BY tid" ' AND avarenr <> '' AND avarenr IS NOT NULL ORDER BY tid "
+        strSQLmedins += "WHERE tdato BETWEEN '" & stDatoSQLformat & "' AND '" & slDatoSQLformat & "' AND (overfort = 0 OR overfort = 2) AND (godkendtstatus = 1) AND tmnr <> 1 AND timer <> 0 AND tfaktim <> '90' ORDER BY tid"
+
+        'timer_dobbel_20180602
+        'strSQLmedins += "WHERE (tid = 47634 OR tid = 47763)"
+        'strSQLmedins += "WHERE tid = 47633 AND (overfort = 0 OR overfort = 2) AND (godkendtstatus = 1) AND tmnr <> 1 AND timer <> 0 AND tfaktim <> '90' ORDER BY tid"
+        'AND avarenr <> '' AND avarenr IS NOT NULL ORDER BY tid "
         'AND tjobnr = 'PS1157'
         'timer_dobbel_20171103
         'strSQLmedins += "LIMIT 10"

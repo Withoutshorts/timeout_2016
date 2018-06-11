@@ -301,12 +301,12 @@
                             
                             <div class="col-lg-2">
                                 <select name="statusType" class="form-control input-small" onchange="submit();">
-                                    <option value="5" <%=statusSEL5 %>>Evaluering</option>
-                                    <option value="1" <%=statusSEL1 %>><%=job_txt_221 %></option>
-                                    <option value="2" <%=statusSEL2 %>><%=job_txt_222 %></option>
-                                    <option value="3" <%=statusSEL3 %>><%=job_txt_223 %></option>
-                                    <option value="4" <%=statusSEL4 %>><%=job_txt_224 %></option>
-                                    <option value="0" <%=statusSEL0 %>><%=job_txt_225 %></option>
+                                    <option value="5" <%=statusSEL5 %>><%=jobstatus_txt_010 %></option>
+                                    <option value="1" <%=statusSEL1 %>><%=jobstatus_txt_001 %></option>
+                                    <option value="2" <%=statusSEL2 %>><%=jobstatus_txt_002 %></option>
+                                    <option value="3" <%=statusSEL3 %>><%=jobstatus_txt_003 %></option>
+                                    <option value="4" <%=statusSEL4 %>><%=jobstatus_txt_004 %></option>
+                                    <option value="0" <%=statusSEL0 %>><%=jobstatus_txt_005 %></option>
                                 </select>
                             </div>
                                 

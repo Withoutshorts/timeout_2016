@@ -15,7 +15,8 @@ $(window).load(function () {
 $(document).ready(function () {
 
 
-   
+    
+
 
 
     if ($("#jq_jobid").val() == 0) {
@@ -358,7 +359,7 @@ $(document).ready(function () {
             thisval = Math.round((budgettimer / 1 - realtimer / 1) * 100) / 100
 
             if (thisval < 0) {
-                $("#h2t_jobakt_" + idtrim).css("background-color", "lightpink")
+                $("#h2t_jobakt_" + idtrim).css("background-color", "red") //lightpink
             } else {
                 $("#h2t_jobakt_" + idtrim).css("background-color", "")
             }
@@ -377,7 +378,7 @@ $(document).ready(function () {
 
 
             if ((jobbudgettimer/1 - budgettimerTotFY/1) < 0) {
-                $("#budgettimer_jobakt_" + idtrim).css("background-color", "lightpink")
+                $("#budgettimer_jobakt_" + idtrim).css("background-color", "red") //lightpink
             } else {
                 $("#budgettimer_jobakt_" + idtrim).css("background-color", "")
             }
@@ -569,7 +570,7 @@ $(document).ready(function () {
            
 
             if (timerSaldo < 0) {
-                $("#mh12h_jobaktmid_" + idtrim).css("background-color", "lightpink")
+                $("#mh12h_jobaktmid_" + idtrim).css("background-color", "red") //lightpink
 
             } else {
                 $("#mh12h_jobaktmid_" + idtrim).css("background-color", "#Eff3ff")
@@ -1071,7 +1072,7 @@ $(document).ready(function () {
                 totmedarbn1 = totmedarbn1.replace(",", ".")
 
                 if (mFc_totTotGTGT > totmedarbn1) {
-                   $("#totmedarbn1_" + m).css("background-color", "lightpink")
+                    $("#totmedarbn1_" + m).css("background-color", "red") //lightpink
                 } else {
                    $("#totmedarbn1_" + m).css("background-color", "")
                 }
@@ -1799,7 +1800,7 @@ $(document).ready(function () {
 
 
                                 if ((mh1/1) > mn1) {
-                                    $("#totmedarbh1_" + l).css("background-color", "lightpink")
+                                    $("#totmedarbh1_" + l).css("background-color", "red") //lightpink
                                 } else {
 
                                     if (mh1 = "0,00") {
@@ -1847,7 +1848,7 @@ $(document).ready(function () {
          
 
             if ((h1 / 1 + h2 / 1) > budgettimer && budgettimer != 0) {
-                $("#FM_timerbudget_FY0_" + jobidaktid).css("background-color", "lightpink")
+                $("#FM_timerbudget_FY0_" + jobidaktid).css("background-color", "red") //lightpink
             } else {
 
                 if (budgettimer == 0) {

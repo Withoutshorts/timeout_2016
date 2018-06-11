@@ -16,6 +16,8 @@
     <txt_9 >Vælg job</txt_9>
     <txt_10 >Ingen kunder/job fundet</txt_10>
     <txt_11 >Ingen aktiviteter fundet</txt_11>
+    <txt_12 >Ugeseddel</txt_12>
+    <txt_13 >Komme / Gå tid</txt_13>
 
   </dk>
 
@@ -23,23 +25,25 @@
   <!--- Norsk -->
   <no>
 
-    <txt_1 >You are about to delete a time entry without a match.</txt_1>
-    <txt_2 >Are you sure you want to do this?</txt_2>
-    <txt_3 >Functions</txt_3>
-    <txt_4 >Week</txt_4>
-    <txt_5 >phase</txt_5>
-    <txt_6 >Registrations without a match</txt_6>
-    <txt_7 >Searching</txt_7>
-    <txt_8 >Load</txt_8>
-    <txt_9 >Choose job</txt_9>
-    <txt_10 >No customers / jobs found</txt_10>
-    <txt_11 >No activities found</txt_11>
+    <txt_1 >Du er i ferd med å slette en tidsregistrering uten match.</txt_1>
+    <txt_2 >Er du sikker på at du vil gjøre dette?</txt_2>
+    <txt_3 >Funksjoner</txt_3>
+    <txt_4 >Uke</txt_4>
+    <txt_5 >fase</txt_5>
+    <txt_6 >Registreringer uten match</txt_6>
+    <txt_7 >Søker</txt_7>
+    <txt_8 >Henter</txt_8>
+    <txt_9 >Velg jobb</txt_9>
+    <txt_10 >Ingen kunder / jobber funnet</txt_10>
+    <txt_11 >Ingen aktiviteter funnet</txt_11>
+    <txt_12 >Ukeseddel</txt_12>
+    <txt_13 >Komme / Gå tid</txt_13>
 
   </no>
   
   
   <!--- Svensk -->
-  <se>
+  <so>
 
     <txt_1 >You are about to delete a time entry without a match.</txt_1>
     <txt_2 >Are you sure you want to do this?</txt_2>
@@ -52,8 +56,10 @@
     <txt_9 >Choose job</txt_9>
     <txt_10 >No customers / jobs found</txt_10>
     <txt_11 >No activities found</txt_11>
+    <txt_12 >Weekly note</txt_12>
+    <txt_13 >Come / Go time</txt_13>
 
-  </se>
+  </so>
   
   
   <!--- Tysk -->
@@ -70,6 +76,8 @@
     <txt_9 >Choose job</txt_9>
     <txt_10 >No customers / jobs found</txt_10>
     <txt_11 >No activities found</txt_11>
+    <txt_12 >Weekly note</txt_12>
+    <txt_13 >Come / Go time</txt_13>
 
   </de>
   
@@ -88,6 +96,8 @@
     <txt_9 >Choose job</txt_9>
     <txt_10 >No customers / jobs found</txt_10>
     <txt_11 >No activities found</txt_11>
+    <txt_12 >Weekly note</txt_12>
+    <txt_13 >Come / Go time</txt_13>
 
   </fr>
   
@@ -107,6 +117,8 @@
     <txt_9 >Choose job</txt_9>
     <txt_10 >No customers / jobs found</txt_10>
     <txt_11 >No activities found</txt_11>
+    <txt_12 >Weekly note</txt_12>
+    <txt_13 >Come / Go time</txt_13>
 
   </uk>
 
@@ -125,6 +137,8 @@
     <txt_9 >Choose job</txt_9>
     <txt_10 >No customers / jobs found</txt_10>
     <txt_11 >No activities found</txt_11>
+    <txt_12 >Weekly note</txt_12>
+    <txt_13 >Come / Go time</txt_13>
 
  </es>
 

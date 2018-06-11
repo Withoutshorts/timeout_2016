@@ -629,28 +629,31 @@ if len(session("user")) = 0 then
     p1on = request("p1on")
     p2on = request("p2on")
 
-    if len(request("p3")) <> 0 then
+
+    '** Tjekker for pause 3 og pause 4
+    if len(request("p3")) <> 0 AND p1 = "-1" then
     p1 = request("p3")
-    else
-    p1 = -1
-    end if
-    
-    if len(request("p4")) <> 0 then
-    p2 = request("p4")
-    else
-    p2 = -1
-    end if
-    
     p1on = request("p3on")
+    'else
+    'p1 = -1
+    end if
+    
+    if len(request("p4")) <> 0 AND p2 = "-1" then
+    p2 = request("p4")
     p2on = request("p4on")
+    'else
+    'p2 = -1
+    end if
+    
    
+        'if session("mid") = 21 then
         'Response.Write "request(p1on) " & request("p1on")
         'Response.Write "<br>request(p2on) " & request("p2on")
         'Response.Write "<br>p2on " & p2on
         'Response.Write "<br>request(p1) " & request("p1")
-        'Response.Write "<br>request(p2) " & request("p1")
         'Response.Write "<br>request(p2) " & request("p2")
-	
+	    'Response.end
+        'end if
 	%>
 	<!--#include file="../inc/regular/header_lysblaa_inc.asp"-->
 	<!--#include file="inc/isint_func.asp"-->
@@ -1422,8 +1425,10 @@ if len(session("user")) = 0 then
                                                     end if
 
                                                    
+                                                    'if session("mid") = 21 then
                                                     'response.write "TILFØJER PAUSE 1 p1: "& p1 
-
+                                                    'response.end
+                                                    'end if
                                                     
                                                     
                                                     if cint(p2) > 0 then
@@ -1690,7 +1695,7 @@ if len(session("user")) = 0 then
                                 if cint(SmiWeekOrMonth) = 2 then 'videre til ugeafslutning og ugeseddel
                                 Response.redirect "stempelur.asp?func=afslut&medarbSel="& strUsrId &"&showonlyone=1&hidemenu=1&id=0&rdir=sesaba" '../to_2015/ugeseddel_2011.asp?nomenu=1
                                 else
-                                Response.redirect "../sesaba.asp?logudDone=1"
+                                Response.redirect "../sesaba.asp?logudDone=1&fromstempelur=1"
                                 Response.end
                                 end if                        
                 

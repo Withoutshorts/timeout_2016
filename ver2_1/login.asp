@@ -156,6 +156,13 @@ session("spmettanigol") = session("spmettanigol") + request("attempt")
 	'pixTop = 40
 	'tboxsize = 100
 
+
+                if lto = "cflow" then
+                    
+                    response.redirect "https://timeout.cloud/timeout_xp/wwwroot/ver2_14/to_2015/monitor.asp?func=startside"
+                
+                end if
+
   
 		
 			    if request.Cookies("timeoutcloud")("mobileuser") <> "" AND (lto = "sdutek")  then 'SKAL KUN VÆRE DEM DER IKKE SKAL LOGGE PÅ IGEN = sdutek 
@@ -920,6 +927,25 @@ else '** POST *****
                     if session("dontLogind") <> 1 then
 				    '**** Tjekker om der skla laves en auto-logud eller om der er et igangværende logind på dagen ***'    
 				    call logindStatus(strUsrId, intStempelur, 1, now)
+
+                        if fo_logud = 2 then 'Der er glemt at blive logget ud og der oprettes et nyt logud
+                            select case lto
+                            case "intranet - local", "cflow"
+
+                            '***********************************************************
+                            '*** Fordel stempleurs timer ud på aktiviteter
+                            '*** H&L timer CFLOW
+                            '*** Projekttimer
+                            '***********************************************************
+                                call medariprogrpFn(strUsrId)
+                                dothis = 0
+                                logudDone = 0
+                                LogudDateTime = year(now)&"/"& month(now)&"/"&day(now)&" "& datepart("h", now) &":"& datepart("n", now) &":"& datepart("s", now) 
+                                call fordelStempelurstimer(strUsrId, lto, dothis, logudDone, LogudDateTime) 
+
+                            end select
+                        end if
+
 				    end if
 
                 end if

@@ -848,6 +848,14 @@
 
             'Response.write positiv_aktivering_akt_val & "<br>"
             'Response.flush
+
+
+                select case lto
+                case "mpt", "intranet - local"
+                jobstatusExtra = " OR j.jobstatus = 2 OR j.jobstatus = 4"
+                case else
+                jobstatusExtra = ""
+                end select
             
             if cint(positiv_aktivering_akt_val) <> 1 then
 
@@ -857,19 +865,19 @@
                 'strSQLAktStatusKri = "AND a.fakturerbar = 6 AND a.aktstatus = 1" '** Kun salgs aktivitets typer
                 strSQLAktStatusKri = " AND ((j.jobstatus = 3 AND a.fakturerbar = 6) AND a.aktstatus = 1)"
                 else
-                strSQLAktStatusKri = " AND ((j.jobstatus = 1 AND a.aktstatus = 1) OR (j.jobstatus = 3 AND a.fakturerbar = 6 AND a.aktstatus = 1))" '** alle aktivitets typer
+                strSQLAktStatusKri = " AND (((j.jobstatus = 1 "& jobstatusExtra &") AND a.aktstatus = 1) OR (j.jobstatus = 3 AND a.fakturerbar = 6 AND a.aktstatus = 1))" '** alle aktivitets typer
                 end if
 
                 else
 
-                strSQLAktStatusKri = " AND ((j.jobstatus = 1 OR j.jobstatus = 3) AND a.aktstatus = 1)" '** alle aktivitets typer
+                strSQLAktStatusKri = " AND ((j.jobstatus = 1 OR j.jobstatus = 3 "& jobstatusExtra &") AND a.aktstatus = 1)" '** alle aktivitets typer
            
 
                 end if
 
             else
 
-            strSQLAktStatusKri = " AND ((j.jobstatus = 1 OR j.jobstatus = 3) AND a.aktstatus = 1)"
+            strSQLAktStatusKri = " AND ((j.jobstatus = 1 OR j.jobstatus = 3 "& jobstatusExtra &") AND a.aktstatus = 1)"
 
             end if
             
@@ -2735,7 +2743,7 @@
 								
 								                    
                                                     '*** Tjekker om det er en helligdag **'
-                                                    call helligdage(tjekdag(x), 0, lto)
+                                                    call helligdage(tjekdag(x), 0, lto, usemrn)
 	                                                'helligdageCol(x) = erHellig
 
 								
@@ -4110,6 +4118,8 @@
         select case lcase(lto)
         case "hvk_bbb"
         lmt = " LIMIT 0, 200"
+        case "hestia"
+        lmt = " LIMIT 0, 200"
         case "dencker"
         lmt = " LIMIT 0, 200"
         case "mi", "intranet - local"
@@ -4210,12 +4220,19 @@
         'Response.write strJobSogKri
         'Response.flush
 
+        select case lto
+        case "mpt", "intranet - local"
+        jobstatusExtra = " OR j.jobstatus = 2 OR j.jobstatus = 4"
+        case else
+        jobstatusExtra = ""
+        end select
+
         
         if cint(ignProj) = 0 then
-        strSQLwh = " (j.jobstatus = 1 OR j.jobstatus = 3) "& strPgrpSQLkri & "" 
+        strSQLwh = " (j.jobstatus = 1 OR j.jobstatus = 3 "& jobstatusExtra &") "& strPgrpSQLkri & "" 
 	    else
 	    '** Henter alle aktive job + tilbud **'
-	    strSQLwh = " (j.jobstatus = 1 OR j.jobstatus = 3) " 
+	    strSQLwh = " (j.jobstatus = 1 OR j.jobstatus = 3 "& jobstatusExtra &") " 
 	    end if
         
         if Request.Form("cust") <> 0 then 'AND strJobSogKri = "" then
@@ -5643,8 +5660,8 @@
 
 				                                                call normtimerPer(medarbejderid, useDato, 0, 0)
     				
-				                                                    Response.Write "timer:" & useTimer & " Dato: " & useDato & " ntimPer:"& ntimPer &" medarbejderid: "& medarbejderid&"<br>"
-                                                                    Response.flush
+				                                                    'Response.Write "timer:" & useTimer & " Dato: " & useDato & " ntimPer:"& ntimPer &" medarbejderid: "& medarbejderid&"<br>"
+                                                                    'Response.flush
     				
 				                                                    if cint(ntimPer) <> 0 then
     				                                                useTimerThis = useTimer
@@ -6825,7 +6842,7 @@
 		ignorerakttype = request.Cookies("tsa")("igakttype")
 		else
         select case lto
-        case "xintranet - local" ', "essens", "synergi1", "qwert"
+        case "xintranet - local", "mpt" ', "essens", "synergi1", "qwert"
         ignorerakttype = 1
         case else
 		ignorerakttype = 0
@@ -6834,7 +6851,12 @@
 	   
 	end if
 
-    
+
+        select case lto
+        case "mpt" 
+        ignorerakttype = 1
+        end select
+      
 	
 	
 	'**** Job og Akt. periode ***'
@@ -7721,13 +7743,13 @@
 	    </div>
 
         <%select case lto
-        case "mi", "intranet - local", "hvk_bbb", "jttek", "epi2017"
+        case "mi", "intranet - local", "hvk_bbb", "jttek", "epi2017", "hestia"
         lmtTxt = "200"
         case else
         lmtTxt = "100"
         end select %>
        
-        <span style="font-size:9px; color:#999999; padding:5px 0px 4px 0px;"><%=tsa_txt_394 &" "& lmtTxt &" "& tsa_txt_395 %></span>
+        <span style="font-size:9px; color:#999999; padding:5px 0px 4px 0px;"><%=tsa_txt_394 &" "& lmtTxt &" "& tsa_txt_395 %></span><!--Der vises maks-->
         <br /><input type="checkbox" name="FM_viskunetjob" id="FM_viskunetjob" value="1" /><%=tsa_txt_396 %>
         
         <!--<br />
@@ -9123,7 +9145,7 @@
             if instr(request.servervariables("LOCAL_ADDR"), "195.189.130.210") <> 0 then
             x = 750
             else
-            x = 2400
+            x = 3500 '2400
             end if
             
 
@@ -9247,6 +9269,14 @@
             strSQLkri3 = strSQLkri3 & " AND a.id = 0 "
             end if
 
+             select case lto
+            case "mpt", "intranet - local"
+            jobstatusExtra = " OR j.jobstatus = 2 OR j.jobstatus = 4"
+            case else
+            jobstatusExtra = ""
+            end select
+
+
             if cint(intHR) <> 1 then 
             '*** MAIN PERSONLIG AKTIV JOBLISTE VISNING ***********************
             '** HR mode viser alle interne RISIKO = -1
@@ -9254,11 +9284,11 @@
                 '*** Datospærring Vis først job når stdato er oprindet
                 select case ignJobogAktper
                 case 0,1
-                strSQL = strSQL &" WHERE ("& seljobidSQL &") AND ((j.jobstartdato <= '"& varTjDatoUS_son &"' AND j.jobstatus = 1) OR (j.jobstatus = 3)) AND "& strSQLkri3
+                strSQL = strSQL &" WHERE ("& seljobidSQL &") AND ((j.jobstartdato <= '"& varTjDatoUS_son &"' AND j.jobstatus = 1) OR (j.jobstatus = 3 "& jobstatusExtra &")) AND "& strSQLkri3
                 case 3
-                strSQL = strSQL &" WHERE ("& seljobidSQL &") AND ((j.jobstartdato <= '"& varTjDatoUS_son &"' AND j.jobslutdato >= '"& varTjDatoUS_man &"' AND j.jobstatus = 1) OR (j.jobstatus = 3)) AND "& strSQLkri3
+                strSQL = strSQL &" WHERE ("& seljobidSQL &") AND ((j.jobstartdato <= '"& varTjDatoUS_son &"' AND j.jobslutdato >= '"& varTjDatoUS_man &"' AND j.jobstatus = 1) OR (j.jobstatus = 3 "& jobstatusExtra &")) AND "& strSQLkri3
                 case else
-                strSQL = strSQL &" WHERE ("& seljobidSQL &") AND (j.jobstatus = 1 OR j.jobstatus = 3) AND "& strSQLkri3
+                strSQL = strSQL &" WHERE ("& seljobidSQL &") AND (j.jobstatus = 1 OR j.jobstatus = 3 "& jobstatusExtra &") AND "& strSQLkri3
                 end select
 
                 'if cint(ignJobogAktper) = 1 then '** Vis kun job og aktiviteter med startdato i det valgte interval
@@ -9296,7 +9326,7 @@
             if instr(request.servervariables("LOCAL_ADDR"), "195.189.130.210") <> 0 then
             mainLimitjobakt = 750
             else
-            mainLimitjobakt = 2400 '2400
+            mainLimitjobakt = 3500 '2400 '2400
             end if
 
         strSQL = StrSQL & " GROUP BY j.id, a.id ORDER BY "& sortBySQL &" j.id, a.fase, a.sortorder, LTRIM(a.navn) LIMIT "& mainLimitjobakt 'Limit 750

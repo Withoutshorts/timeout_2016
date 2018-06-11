@@ -30,13 +30,25 @@ function indlaesEasyreg(lto)
                 end if
                 oRec7.close
 
+                'lastEasyregDato = "16/5/2018"
 
                 antalDageDiff = dateDiff("d", lastEasyregDato, now)
 
                 
+                treeweeksminus = now
+                treeweeksminus = dateadd("d", -21, treeweeksminus)
+                treeweeksminus = year(treeweeksminus) &"/"& month(treeweeksminus) &"/"& day(treeweeksminus)
+
                 '**** Antal Easyreg aktiviteter ****
                 antalEasyreg = 0
-                strSQLeasyregA = "SELECT COUNT(id) AS antal FROM aktiviteter WHERE easyreg = 1 AND aktstatus = 1 AND job <> 0 GROUP BY easyreg"
+                strSQLeasyregA = "SELECT COUNT(a.id) AS antal FROM job j "_
+                &" LEFT JOIN aktiviteter a ON (a.job = j.id) WHERE easyreg = 1 AND aktstatus = 1 AND job <> 0 AND jobstatus = 1 AND jobstartdato >= '"& treeweeksminus &"' GROUP BY easyreg" 
+
+                'if session("mid") = 21 then
+                'response.Write strSQLeasyregA
+                'response.flush
+                'end if
+
                 oRec7.Open strSQLeasyregA, oConn, 3
                 if not oRec7.EOF then
             
@@ -57,11 +69,14 @@ function indlaesEasyreg(lto)
 
                 if antalEasyreg > 0 then
 
+
+               
+
                 '**** Antal Easyreg aktiviteter ****
                 strSQLeasyreg = "SELECT a.id As aktid, navn AS aktnavn, fakturerbar, jobnr, jobnavn, kkundenr, kkundenavn, fasttp, fastkp, fasttp_val FROM aktiviteter a"_
                 & " LEFT JOIN job j ON (j.id = a.job) "_
                 & " LEFT JOIN kunder k ON (kid = j.jobknr) "_
-                &"  WHERE easyreg = 1 AND aktstatus = 1 AND a.job <> 0"
+                &"  WHERE easyreg = 1 AND aktstatus = 1 AND a.job <> 0 AND jobstartdato >= '"& treeweeksminus &"' AND jobstatus = 1"
 
                 'if session("mid") = 21 then
                 'response.write strSQLeasyreg
@@ -76,7 +91,7 @@ function indlaesEasyreg(lto)
               
 
                         '*** Henter medarbejdere
-                        strSQlmedarb = "SELECT mid, mnavn, measyregtimer FROM medarbejdere WHERE measyregtimer > 0 AND mansat = 1 ORDER BY mid"
+                        strSQlmedarb = "SELECT mid, mnavn, measyregtimer FROM medarbejdere WHERE measyregtimer > 0 AND mansat = 1 ORDER BY mid" 'AND mid = 31
                         oRec7.open strSQlmedarb, oConn, 3
                         while not oRec7.EOF 
         
@@ -106,6 +121,11 @@ function indlaesEasyreg(lto)
                     
                         kommthis = ""
                         timerthis = formatnumber(oRec7("measyregtimer")/antalEasyreg, 2)
+
+                        if cdbl(timerthis) < "0,01" then 'tjekker ned på 6 decimaler
+                        'timerthis = "0,0003"
+                        timerthis = formatnumber(oRec7("measyregtimer")/antalEasyreg, 6)
+                        end if
                         
                         timerthis = replace(timerthis, ".", "")
                         timerthis = replace(timerthis, ",", ".")
@@ -126,9 +146,14 @@ function indlaesEasyreg(lto)
                         strJobknavn = replace(oRec8("kkundenavn"), "'", "")
 
                         'pmok = 0
-                        'if session("mid") = 21 AND instr(strMnavn, "Kristensen") <> 0 then
+                        'if session("mid") = 21 then 'AND instr(strMnavn, "Kristensen") <> 0
                         'Response.Write "jobnr: "& jobnr &" jobnavn: "& strJobnavn &" aktnavn: "& aktnavn &" mnavn: "& strMnavn &" timerthis: " & timerthis & "<br>"
+                        'response.flush
                         'pmok = 0 '1
+                        'end if
+
+                        'if session("mid") = 21 then
+                        'Response.Write "datothis: " & datothis & " antalDageDiff: "& antalDageDiff &"<br>"
                         'end if
 
 
@@ -147,11 +172,13 @@ function indlaesEasyreg(lto)
 
                         datothis = FormatDateTime(datothisBeregn,2) 'day(datothisBeregn) &"/"& month(datothisBeregn) &"/"& year(datothisBeregn)
                         
-                        'if session("mid") = 21 then
-                        'Response.Write "datothis: " & datothis & "<br>"
-                        'end if
+                       
 
                         toDay = datepart("w", datothis, 2,2)
+
+                        'if session("mid") = 21 then
+                        'Response.Write "datothis: " & datothis & " toDay: "& toDay &"<br>"
+                        'end if
 
                             if toDay < 6 then 'Kun hverdage
 

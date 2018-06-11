@@ -79,14 +79,14 @@ call menu_2014 %>
             nowDate = year(now)&"-"&month(now) &"-"& day(now)
             ferieNextYearStart = year(now) &"-5-1"
             
-            if (Datevalue(nowDate) < DateValue(ferieNextYearStart)) then
+            'if (Datevalue(nowDate) < DateValue(ferieNextYearStart)) then
 
             feriestartDato = nowYear
             feriesslutDato = nowYear + 1
-            else
-            feriestartDato = (year(nowDate) + 1)
-            feriesslutDato = nowYear + 2
-            end if
+            'else
+            'feriestartDato = (year(nowDate) + 1)
+            'feriesslutDato = nowYear + 2
+            'end if
 
             ferieaar = feriestartDato
 
@@ -283,8 +283,15 @@ call menu_2014 %>
                 ferieoverfortulon = ferieoverfortulon * gennemsnitdagstimer
 
                 
+              
+
+                
                if cint(godkendMedarb) = 1 then
 
+                    'if session("mid") = 1 then
+                    'response.write "saerligFerie" & saerligFerie  & " medarbnorm/antaldagemedTimer "& medarbnorm &"/"& antaldagemedTimer &"<br>"
+                    'Response.flush           
+                    'end if
             
                     'NULSTILLER 
                     'Overskriv gamle med nye tal, dvs. slet de gamle først
@@ -369,14 +376,15 @@ call menu_2014 %>
 
                                 'response.Write ferieStartDato  &"<br>"
                                 'response.Write nowDate  &"<br>"
-                                if (Datevalue(nowDate) < DateValue(ferieNextYearStart)) then
+                               
+                                'if (Datevalue(nowDate) < DateValue(ferieNextYearStart)) then
                                 'response.Write "dette år skal starte som ferie år"
                                 feriestartDato = nowYear
                                 feriesslutDato = nowYear + 1
-                                else
-                                feriestartDato = (year(nowDate) + 1)
-                                feriesslutDato = nowYear + 2
-                                end if
+                                'else
+                                'feriestartDato = (year(nowDate) + 1)
+                                'feriesslutDato = nowYear + 2
+                                'end if
 
                                 'response.Write nowYear &"<br>"& feriestartDato &"<br>"& feriesslutDato
                             %>
@@ -384,9 +392,17 @@ call menu_2014 %>
                                 <select class="form-control input-small" name="ferieaar">
 
                                     <%
-                                    i = 0
+                                    i = -2
                                     while i < 10 
                                         
+                                    if i = -2 then
+                                    feriestartDato = feriestartDato - 2
+                                    feriesslutDato = feriesslutDato - 2
+                                    else
+                                    feriestartDato = feriestartDato + 1
+                                    feriesslutDato = feriesslutDato + 1
+                                    end if
+
                                     if cint(feriestartDato) = cint(ferieaar) then
                                         ferieSEL = "selected"
                                     else
@@ -397,8 +413,8 @@ call menu_2014 %>
                                     <option value="<%=feriestartDato %>" <%=ferieSEL %>><%=feriestartDato%> / <%=feriesslutDato %></option>
 
                                     <%
-                                    feriestartDato = feriestartDato + 1
-                                    feriesslutDato = feriesslutDato + 1
+                                    'feriestartDato = feriestartDato + 1
+                                 
 
                                     i = i + 1
 
@@ -474,6 +490,56 @@ call menu_2014 %>
                     </div>
                     </form>
 
+
+
+                    <%
+                        ' Tjekker om der findes aktiviteter med typerne der er nødvendige for at man kan ferietildele.
+                        findes_15 = 0
+                        findes_111 = 0
+                        findes_126 = 0
+                        findes_12 = 0
+                        'tfaktim = 15 OR tfaktim = 111 OR tfaktim = 16 OR tfaktim = 14 OR tfaktim = 112 OR tfaktim = 19 OR tfaktim = 126
+                        'tfaktim = 12 OR tfaktim = 18 OR tfaktim = 13 OR tfaktim = 17
+                        strSQLTjkTyper = "SELECT id, fakturerbar FROM aktiviteter WHERE fakturerbar = 15 OR fakturerbar = 111 OR fakturerbar = 126 OR fakturerbar = 12"
+                        oRec.open strSQLTjkTyper, oConn, 3
+                        while not oRec.EOF 
+
+                            select case oRec("fakturerbar")
+                            case 15
+                            findes_15 = 1
+                            case 111
+                            findes_111 = 1
+                            case 126
+                            findes_126 = 1
+                            case 12
+                            findes_12 = 1
+                            end select
+
+                            'response.Write "<br> akttype" & oRec("fakturerbar")
+
+                        oRec.moveNext 
+                        wend
+                        oRec.close
+                        
+                    %>
+
+                    <%if findes_15 <> 1 OR findes_111 <> 1 OR findes_126 <> 1 OR findes_12 <> 1 then %>
+
+                    <div class="row">
+                        <div class="col-lg-12" style="text-align:center"><h4 style="color:red;">Aktivitetstyperne: Ferie optjent, Ferieoverført, Ferie korrigeret, Feriefridage optjent, skal være slået til, og oprettet på det interne projekt.
+                        <br /> Aktiver disse i kontrolpanelet. Kontakt evt. <b>support@outzource.dk</b> for hjælp.
+                        </h4></div>
+                    </div>
+
+                    <br /><br />
+
+                    <%end if %>
+
+
+
+
+
+
                     <form action="ferietildel.asp?func=opdater&ferieaar=<%=ferieaar %>&FM_medarb=<%=FM_medarb %>&grp_tpID=<%=grp_tpID %>" method="post">
 
                         <div class="row">
@@ -494,12 +560,15 @@ call menu_2014 %>
                         FeriefridageTxt = "Feriefridage"
                     end select%>
 
-                    <table id="xscrollable" class="table dataTable table-striped table-bordered table-hover ui-datatable">
+                     <div class="row">
+                            <div class="col-lg-12">
+                    <table id="xscrollable" style="width:100%;" class="table table-bordered table-striped"><!-- table-hover ui-datatable dataTable -->
                         <thead>
                             <tr>
                                 <th>Navn</th>
                                 <th>Ansat d.</th>
-                                <th>Norm</th>
+                                <th>Norm.</th>
+                                <!--<th>Arb. dage pr. uge</th>-->
                                 <th>Ferie saldo <br /><span style="font-size:9px;">Nuværende</span></th>
                                 <!--<th>Medarbejdertype</th>-->
                                 <th>Optjent ferie <br /><span style="font-size:9px;">1.1.<%=((ferieaar)-1) %> - 31.12.<%=((ferieaar)-1) %></span></th>
@@ -536,7 +605,7 @@ call menu_2014 %>
 
                                 %>
                                     <tr>
-                                        <td style="text-align:left"><%=oRec("Mnavn") %>
+                                        <td style="text-align:left"><%=left(oRec("Mnavn"), 20) %>
                                             <% if (len(trim(oRec("init"))) <> 0) then%>
                                                 &nbsp;[<%=oRec("init") %>]
                                             <%end if %>
@@ -549,37 +618,16 @@ call menu_2014 %>
                                         <td>
                                             <%
 
-                                                '*** Finder medarbejdertyper_historik ***'
+                                           
+                                                '** NORM pr. 1.1. i det valfgrte feriår 
+                                                firstDayOfNewFerieAar = "1/5/"& ferieStarArr '& dateAdd("yyyy", 1 , firstDayOfNewFerieAar)
+                                                call normtimerPer(oRec("mid"), firstDayOfNewFerieAar, 6, 0)
+                                                'dagsdato = year(oRec("ansatdato")) &"-"& month(oRec("ansatdato")) &"-"& day(oRec("ansatdato"))
+                                                'call normtimerPer(oRec("mid"), dagsdato, 6, 0)
 
-                                                strSQLmth = "SELECT mid, mtype, mtypedato FROM medarbejdertyper_historik WHERE "_
-                                                &" mid = "& oRec("Mid") &" AND mtypedato > '"& optjentferieStartDato &"' ORDER BY mtypedato, id"
+                                                response.Write formatnumber(nTimerPerIgnHellig,2)
 
-                                                t = 0
-
-                                                oRec2.open strSQLmth, oConn, 3
-
-                                                while not oRec2.EOF
-
-                                                mtyperIntvTyp = oRec2("mtype")
-
-                                                mtyperIntvDato = oRec2("mtypedato")
-
-                                                 t = t + 1
-
-                                                oRec2.movenext
-                                                wend
-                                                oRec2.close
-
-
-                                                if t = 0 then
-                                                    medarbtypeDato = year(oRec("ansatdato")) &"-"& month(oRec("ansatdato")) &"-"& day(oRec("ansatdato"))
-                                                else
-                                                    medarbtypeDato = year(mtyperIntvDato) &"-"& month(mtyperIntvDato) &"-"& day(mtyperIntvDato)
-                                                end if
-
-                                                call normtimerPer(oRec("mid"), medarbtypeDato, 6, 0)
-
-                                                response.Write formatnumber(ntimper,2)
+                                                'Response.write firstDayOfNewFerieAar
 
                                                 
                                                 'if year(medarbtypeDato) = nowYear then
@@ -588,12 +636,21 @@ call menu_2014 %>
 
 
                                                 normTimerDag = 0
-                                                normTimerDag = ntimper / antalDageMtimer
+                                                if nTimerPerIgnHellig <> 0 then
+                                                normTimerDag = nTimerPerIgnHellig / 5 'ALTID 5 ved tildel antalDageMtimerIgnHellig
+                                                else
+                                                normTimerDag = 0
+                                                end if
+
+                                                'response.write "<span style=""font-size:9px; line-height:9px;""><br>"& formatnumber(normTimerDag, 2) &" /d.</span>"
+
                                                 'response.Write "<br>" &  medarbtypeDato & "mid" & oRec("mid") & " mtype " & oRec("Medarbejdertype")
 
                                             %>
-                                            <input type="hidden" name="medarbnorm_<%=oRec("mid") %>" value="<%=ntimper %>" />
-                                            <input type="hidden" name="antalDageMtimer_<%=oRec("mid") %>" value="<%=antalDageMtimer %>" />
+                                            <input type="hidden" class="form-control input-small" style="width:60px;" name="medarbnorm_<%=oRec("mid") %>" value="<%=formatnumber(nTimerPerIgnHellig, 2) %>" /> 
+                                       <!-- </td>
+                                        <td>-->
+                                            <input type="hidden" class="form-control input-small" style="width:30px;" name="antalDageMtimer_<%=oRec("mid") %>" value="5" /><!-- <%=formatnumber(antalDageMtimerIgnHellig, 0) %> -->
                                         </td>
 
                                         <!-- Ferie Saldo Nuværende -->
@@ -625,15 +682,6 @@ call menu_2014 %>
                                      
                                             <%
 
-                                                'totalsDaysInYear = DateDiff("d", optjentferieStartDato, optjentferieSluttDato)
-                                                'totalsDaysInYear = totalsDaysInYear + 1
-
-                                                'daysPerMonth = totalsDaysInYear / 12 
-                                                'daysPerMonth = cdbl(daysPerMonth)
-                                                'response.Write "Days in year " & totalsDaysInYear & "Timer pr. month" & daysPerMonth & "<br>"
-
-
-                                                'daysPerMonth = 12
                                                 monthDiff = 1
                                                
                                                 'response.Write "<br> Records " & totalRecords
@@ -646,8 +694,15 @@ call menu_2014 %>
                                               
                                                 
                                                 strSQLmth = "SELECT mid, mtype, mtypedato, mt.feriesats, mt.type AS mtypenavn FROM medarbejdertyper_historik mth LEFT JOIN medarbejdertyper as mt ON (mt.id = mtype) WHERE "_                                           
-                                                &" mid = "& oRec("Mid") &" GROUP BY mtypedato ORDER BY mtypedato DESC, mth.id DESC"
+                                                &" mid = "& oRec("Mid") &" AND mtypedato <= '"& optjentferieSluttDato &"' GROUP BY mtypedato ORDER BY mtypedato DESC, mth.id DESC"
                                               
+                                                'AND mtypedato <= '"& optjentferieSluttDato &"'
+                                                'if oRec("Mid") = 111 AND session("mid") = 1 then
+
+                                                'response.write strSQLmth
+
+                                                'end if
+
                                                 '&" AND mtypedato > '"& optjentferieStartDato &"'
                                                 '&" mid = "& oRec("Mid") &" ORDER BY mtypedato, id"
                                                 'response.Write "<br><br>"& strSQLmth & "<br>"
@@ -699,8 +754,12 @@ call menu_2014 %>
                                                 nuvarendeferiesats = oRec2("feriesats")
 
                                                 dDiff = DateDiff("d", mtypedato, optjentferieSlutDatoMtypetjk) 
+
+                                                if datePart("d", optjentferieSlutDatoMtypetjk, 2,2) < 15 then 'SKAL måned tælles med ekstra hvis skiftet ype eller astoppet før d. 15 i måned? 
+                                                monthDiff = DateDiff("m", mtypedato, optjentferieSlutDatoMtypetjk)
+                                                else
                                                 monthDiff = DateDiff("m", mtypedato, optjentferieSlutDatoMtypetjk) + 1
-                                               
+                                                end if
 
                                                 if monthDiff > 0 then
                                                 monthDiff = monthDiff
@@ -708,12 +767,11 @@ call menu_2014 %>
                                                 monthDiff = 1
                                                 end if
 
-                                                'if (dDiff/monthDiff) > 3 then
-                                                'monthDiff = monthDiff + 1
-                                                'else
-                                                'monthDiff = monthDiff
-                                                'end if
+                                                if monthDiff > 12 then
+                                                monthDiff = 12
+                                                end if
 
+                                             
 
                                                 ferieoptjent = (nuvarendeferiesats * monthDiff) 
                                                 
@@ -748,6 +806,11 @@ call menu_2014 %>
                                                 'end if
 
                                                 ferieoptjentTot = ferieoptjentTot*1 + cdbl(ferieoptjent)
+
+                                                'if session("mid") = 1 AND oRec("init") = "JEN" then
+                                                'Response.write "ferieoptjent= "& nuvarendeferiesats &"*" & monthDiff & " = " & ferieoptjent
+                                                'Response.Write "<br>ferieoptjentTot: " & ferieoptjentTot
+                                                'end if
 
                                                 'response.Write "t = " & t &" optjentferieSlutDatoMtypetjk: "& optjentferieSlutDatoMtypetjk &" mtypedato = "& mtypedato & " feriesats = " & oRec2("feriesats") & " ferieoptjent = " & ferieoptjent & " ferieoptjentTot: " & ferieoptjentTot &"<br><br>" 
                                                 
@@ -787,13 +850,11 @@ call menu_2014 %>
                                                 'response.Write strSQLForFerieArr 
                                                 'response.flush
                                                 oRec2.open strSQLForFerieArr, oConn,3 
-                                                while not oRec2.EOF
+                                                if not oRec2.EOF then
                                                 'forDato = oRec2("mtypedato")
                                                 nuvarendeferiesats = oRec2("feriesats")
                                                 mtypenavn = oRec2("mtypenavn")
-                                              
-                                                oRec2.movenext
-                                                wend
+                                                end if
                                                 oRec2.close
 
                                                
@@ -810,7 +871,10 @@ call menu_2014 %>
                                                     optjentferieSlutDatoMtypetjk = oRec("ansatdato")
                                                     end if
 
-                                                monthDiff = DateDiff("m", optjentferieSlutDatoMtypetjk, optjentferieSluttDato) + 1
+                                                    monthDiff = DateDiff("m", optjentferieSlutDatoMtypetjk, optjentferieSluttDato) + 1
+                                                    if monthDiff > 12 then
+                                                    monthDiff = 12
+                                                    end if
                                                 'dDif = DateDiff("d", optjentferieStartDato, optjentferieSluttDato) + 1
                                                 'Response.write "nuvarendeferiesats: "& nuvarendeferiesats & " dDif: "& dDif  & " monthDiff: " & monthDiff
 
@@ -830,35 +894,20 @@ call menu_2014 %>
 
                                                 end if
 
-                                                'if cint(totalRecords) = 0 then
-                                                   
-                                                'else
+                                            
 
-                                                'end if
-                                                'response.Write "before date " & forDato & "Before sats " & nuvarendeferiesats &"<br>" 
-
-
-                                               'if t = 0 AND forDato <> "" then
-                                               '     'response.Write "<br>t = 0 "& nuvarendeferiesats &" dato "& forDato& "<br>"
-                                               '     if DateValue(year(now)&"-"&month(now)&"-"&day(now)) > DateValue(optjentferieSluttDato) then
-                                               '         ferieoptjent = ferieoptjent + nuvarendeferiesats * (DateDiff("d", optjentferieStartDato, optjentferieSluttDato)+1)/daysPerMonth
-                                               '     else
-                                               '         ferieoptjent = ferieoptjent + nuvarendeferiesats * (DateDiff("d", optjentferieStartDato, year(now)&"-"&month(now)&"-"&day(now))+1)/daysPerMonth
-                                               '     end if
-                                               'end if
-
-                                               'if t = 0 AND forDato = "" then
-                                               '     ferieoptjent = 0
-                                               'end if
-                                                   
-                                                if ferieoptjent > 25 then
-                                                 ferieoptjent = 25
-                                                end if
-
+                                                visMedNuller = 0
                                                 if ferieoptjent > 0 then
-                                                ferieoptjent = formatnumber(ferieoptjent, 0)
+                                                    if (cDate(oRec("ansatdato")) <= cdate(optjentferieStartDato) AND t = 1) OR right(formatnumber(ferieoptjent, 2), 2) > 90 then                                                         
+                                                        ferieoptjent = formatnumber(ferieoptjent, 0)
+                                                        visMedNuller = 1
+                                                    else
+                                                        ferieoptjent = formatnumber(ferieoptjent, 2)
+                                                        visMedNuller = 0
+                                                    end if
                                                 else
-                                                ferieoptjent = 0
+                                                    ferieoptjent = 0
+                                                    visMedNuller = 1
                                                 end if
 
 
@@ -867,7 +916,18 @@ call menu_2014 %>
                                       
                                         <td>
                                             <input type="hidden" name="ferieoptjent_<%=oRec("Mid") %>" class="form-control input-small" style="width:60px;" value="<%=ferieoptjent %>" />
-                                            <%=formatnumber(ferieoptjent,0) & ",00" %>
+                                           <!-- <%=formatnumber(ferieoptjent,0) & ",00" %> -->
+                                                <%if visMedNuller <> 1 then %>
+                                                <%=ferieoptjent %>
+                                                <%else %>
+                                                <%=formatnumber(ferieoptjent,0) & ",00" %>
+                                                <%end if %>
+
+                                                <!--
+                                                <%if session("mid") = 1 then %>
+                                                monthDiff: <%=monthDiff %> / nuvarendeferiesats: <%=nuvarendeferiesats %> / visMedNuller: <%=visMedNuller %>
+                                                <%end if %>
+                                                 -->
                                         </td>
 
                                         <td>
@@ -929,7 +989,7 @@ call menu_2014 %>
                                         <td>
 
                                             <%
-                                               
+                                                ferieoverfort = 0
                                                 strSQLFerieOverfort = "SELECT sum(timer) as sumtimer FROM timer WHERE Tmnr = "& oRec("Mid") &" AND tfaktim = 111 AND tdato BETWEEN '"& saldoFraDato &"' AND '"& saldoTilDato &"' GROUP BY tfaktim"
                                                 'response.Write strSQLFerieOverfort
                                                 oRec2.open strSQLFerieOverfort, oConn, 3
@@ -956,7 +1016,7 @@ call menu_2014 %>
 
                                         </td>
 
-                                        <td>
+                                        <td> = 
                                            
                                             <%  '**FERIE TILDELT KOMMENDE FERIEÅR
 
@@ -972,6 +1032,9 @@ call menu_2014 %>
                                                 wend
                                                 oRec2.close
 
+
+                                                ferietildeltnytferieaarTimer = ferietildeltnytferieaar
+
                                                 if normTimerDag <> 0 then
                                                 ferietildeltnytferieaar = ferietildeltnytferieaar / normTimerDag
                                                 else
@@ -986,7 +1049,8 @@ call menu_2014 %>
 
 
                                             %>
-                                            <b><%=formatnumber(ferietildeltnytferieaar, 2) %></b>
+                                            <b><%=formatnumber(ferietildeltnytferieaar, 2) %></b> <!--(<%=ferietildeltnytferieaarTimer %> / <%=normTimerDag %>)-->
+
                                         </td>
 
                                         <!--
@@ -1012,7 +1076,12 @@ call menu_2014 %>
 
                                            
                                             strSQLSaerligFerie = "SELECT sum(timer) as sumtimer FROM timer WHERE Tmnr = "& oRec("Mid") &" AND tfaktim = 12 AND tdato BETWEEN '"& saldoFraDato &"' AND '"& saldoTilDato &"' GROUP BY tfaktim"
-                                               ' response.Write strSQLSaerligFerie
+                                                
+
+                                                saerligFerie = 0
+                                                'if session("mid") = 1 then
+                                                'response.Write strSQLSaerligFerie
+                                                'end if
                                                 oRec2.open strSQLSaerligFerie, oConn, 3
                                                 if not oRec2.EOF then
                                                 saerligFerie = oRec2("sumtimer")
@@ -1051,7 +1120,11 @@ call menu_2014 %>
                                         </td>
                                         -->
 
-                                        <td><input type="checkbox" name="godkend_<%=oRec("mid") %>" class="godkend_medarb" value="1" /></td>
+                                        <td>
+                                            <%if ntimper <> 0 then %>
+                                            <input type="checkbox" name="godkend_<%=oRec("mid") %>" class="godkend_medarb" value="1" />
+                                            <%end if %>
+                                        </td>
                                     </tr>
                                 <%
                                     oRec.movenext
@@ -1062,7 +1135,7 @@ call menu_2014 %>
                         </tbody>
 
                     </table>
-                  
+                  </div></div><!--ROW -->
 
                
                   <div class="row">

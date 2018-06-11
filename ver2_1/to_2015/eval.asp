@@ -179,9 +179,10 @@
                 end if
                 oRec.close 
 
-
+               
                'response.write strEvalSub
                'response.flush
+               
                 oConn.execute(strEvalSub)
 
 
@@ -643,7 +644,7 @@
              
         %>
 
-<script src="js/eval_jav6.js" type="text/javascript"></script>
+<script src="js/eval_jav7.js" type="text/javascript"></script>
 
 
 <div class="wrapper"><br /><br />

@@ -432,7 +432,7 @@ if media <> "export" then
 <tr><td style="border-bottom:1px #CCCCCC solid; white-space:nowrap; padding-top:2px;" valign="top"><span style="font-size:11px; color:#5C75AA;"><%=left(oRec("kkundenavn"), 25) %></span><br />
 <b><%=left(oRec("jobnavn"), 20) &"</b> ("& oRec("jobnr") &")"%> 
 
-<%if cint(usemrn) = 0 then
+<%if cdbl(usemrn) = 0 then
 
 if oRec("mnavn") <> "" then
 jobbansThis = oRec("mnavn")

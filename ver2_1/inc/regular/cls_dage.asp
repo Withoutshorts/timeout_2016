@@ -1,6 +1,6 @@
 <%
 public erHellig, helligdagnavn, helligdagnavnTxt, helligdageIalt 
-function helligdage(tjekdennedag, show, lto)
+function helligdage(tjekdennedag, show, lto, usemrn)
 
 
 'response.write "year(tjekdennedag): "& year(tjekdennedag)
@@ -8,7 +8,7 @@ function helligdage(tjekdennedag, show, lto)
 '** Individuelle indstillinger for helligdage intert i virksomhed ***'
 'if lto = "tec" OR lto = "esn" then
     
-    if len(trim(usemrn)) <> 0 then 'valgt medarb på timereg. siden
+    if len(trim(usemrn)) <> 0 AND usemrn <> 0 then 'valgt medarb på timereg. siden
     useMedidProgrp = usemrn
     else
     useMedidProgrp = session("mid")

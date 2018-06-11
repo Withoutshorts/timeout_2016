@@ -166,20 +166,20 @@ $(document).ready(function() {
         $(".akt_afst_saldo").attr('checked', false);
 
         $("#FM_akttype_id_4_0").attr('checked', true);
-        $("#FM_akttype_id_4_1").attr('checked', true); 
-        $("#FM_akttype_id_4_2").attr('checked', true);
-        $("#FM_akttype_id_4_3").attr('checked', true);
-        $("#FM_akttype_id_4_4").attr('checked', true);
-        $("#FM_akttype_id_4_5").attr('checked', true);
-        $("#FM_akttype_id_4_7").attr('checked', true);
+        $("#FM_akttype_id_4_12").attr('checked', true); 
+        $("#FM_akttype_id_4_13").attr('checked', true);
         $("#FM_akttype_id_4_71").attr('checked', true);
         $("#FM_akttype_id_4_72").attr('checked', true);
-        $("#FM_akttype_id_4_73").attr('checked', true);
         $("#FM_akttype_id_4_74").attr('checked', true);
         $("#FM_akttype_id_4_75").attr('checked', true);
-        $("#FM_akttype_id_4_76").attr('checked', true);
-        $("#FM_akttype_id_4_77").attr('checked', true);
         $("#FM_akttype_id_4_8").attr('checked', true);
+        $("#FM_akttype_id_4_81").attr('checked', true);
+        $("#FM_akttype_id_4_9").attr('checked', true);
+        $("#FM_akttype_id_4_91").attr('checked', true);
+        $("#FM_akttype_id_4_92").attr('checked', true);
+        $("#FM_akttype_id_4_98").attr('checked', true);
+        $("#FM_akttype_id_4_99").attr('checked', true);
+        //$("#FM_akttype_id_4_8").attr('checked', true);
 
 
 

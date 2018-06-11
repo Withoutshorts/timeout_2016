@@ -5,7 +5,42 @@
 
 $(document).ready(function () {
 
-   
+
+    $('.date').datepicker({
+
+    });
+
+    if ($("#bruguge").is(':checked') == true) {
+        document.getElementById('bruguge_selector').style.display = "";
+        document.getElementById('bruguge_selector_of').style.display = "none";
+    } else {
+        document.getElementById('bruguge_selector').style.display = "none";
+        document.getElementById('bruguge_selector_of').style.display = "";
+    }
+
+    $(".dateweeknum").click(function () {
+
+        if ($("#bruguge").is(':checked') == true) {
+            document.getElementById('bruguge_selector').style.display = "";
+            document.getElementById('bruguge_selector_of').style.display = "none";
+        } else {
+            document.getElementById('bruguge_selector').style.display = "none";
+            document.getElementById('bruguge_selector_of').style.display = "";
+        }
+
+    });
+ 
+
+    
+
+    $("#gkstatustall").change(function () {
+
+        thisVal = $("#gkstatustall").val()
+
+        //alert("HER: " + thisVal)
+        $('.gkstatus').val(thisVal);
+        
+    });
 
     $(".faktor").change(function () {
 

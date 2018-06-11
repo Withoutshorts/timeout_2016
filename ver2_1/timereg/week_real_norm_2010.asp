@@ -1023,12 +1023,13 @@ if len(session("user")) = 0 then
     '** MAIN LOOP MEDARBEJDERE ***'
     '******************************************************************************
 
-          if func = "export" then
+         
+         if func = "Xexport" then
        
 	     %><div style="position:absolute; left:40px; top:220px; width:800px; z-index:-1;">
         
-             
-             <b><%=godkendweek_txt_031 %>:</b>
+          <b><%=godkendweek_txt_031 %>:</b>
+
           <%
          end if
 
@@ -1548,18 +1549,19 @@ if len(session("user")) = 0 then
             if func = "export" then
 	            if last14Mid <> intMids(m) then
                    
-                    select case right(m, 1)
-                    case 0
-                    response.write "<br>"
-                    end select
+            '        select case right(m, 1)
+            '        case 0
+            '        response.write "<br>"
+            '        end select
 
-                    if m = 0 then
-                    response.write meInit & " (id: " & intMids(m) & ") "
-                    else
-                    response.write ", "& meInit & " (id: " & intMids(m) & ") " 
-                    end if          
+            '        if m = 0 then
+            '        response.write meInit & " (id: " & intMids(m) & ") "
+            '        else
+            '        response.write ", "& meInit & " (id: " & intMids(m) & ") " 
+            '        end if          
 
-                    response.flush
+             '       response.flush
+
                     last14Mid = intMids(m)
                 end if
             end if
@@ -1687,7 +1689,7 @@ if len(session("user")) = 0 then
     end if
 
 
-           if func = "export" then 'SLUT medarb. load div
+           if func = "Xexport" then 'SLUT medarb. load div
     %>
         </div>
     <%

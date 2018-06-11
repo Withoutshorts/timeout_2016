@@ -341,12 +341,19 @@
                 end if
                 oRec5.close
 
+                
+                if lto = "mpt" OR session("lto") = "9K2017-1121-TO178" then
+                  onlySalesact = ""
+
+                else
+
                 if cint(jobstatusTjk) = 3 then 'tilbud
                 onlySalesact = " AND a.fakturerbar = 6"
                 else
                 onlySalesact = ""
                 end if
 
+                end if
 
 
 
@@ -403,15 +410,15 @@
 
                         strSQL= "SELECT a.id AS aid, navn AS aktnavn, a.fase, projektgruppe1, projektgruppe2, projektgruppe3, "_
                         &" projektgruppe4, projektgruppe5, projektgruppe6, projektgruppe7, projektgruppe8, projektgruppe9, projektgruppe10 FROM aktiviteter AS a "_
-                        &" WHERE a.job = " & jobid & " AND aktstatus = 1 AND fakturerbar <> 90 AND ("& aty_sql_hide_on_treg &") "& onlySalesact &" ORDER BY a.fase, sortorder, navn"      
+                        &" WHERE a.job = " & jobid & " AND aktstatus = 1 AND ("& aty_sql_hide_on_treg &") "& onlySalesact &" ORDER BY a.fase, sortorder, navn"      
                           
-               
+                        'AND fakturerbar <> 90
             
                 end if
 
                 'if session("mid") = 1 then
                 'response.write "strSQL " & strSQL
-                 'response.end
+                'response.end
                 'strAktTxt = strAktTxt & "<option value=0>HER: "& strSQL &" findesaktfav: "& findesaktfav &"</option>"
                 'response.write strAktTxt
                 'response.end
@@ -587,8 +594,16 @@
         mat_bilagsnr = request("mat_bilagsnr")
         mat_valuta = request("mat_valuta")
         mat_varenr = request("mat_varenr") 
+
+        select case lto
+        case "sdeo" 
+        mf_konto = 1
+        case else
+        mf_konto = 0
+        end select
         
-        strsqlmat = "INSERT INTO materiale_forbrug SET jobid ="& mat_jobid & ", aktid ="& mat_aktid & ", matantal ="& mat_antal & ", matnavn ='"& mat_navn &"', matkobspris ="& mat_kobpris & ", matenhed ='"& mat_enhed &"'" & ", dato ='"& mat_dato &"'" & ", forbrugsdato ='"& mat_forbrugsdato & "'" & ", editor ='"& mat_editor &"'" & ", usrid =" & mat_usrid & ", matgrp ="& mat_gruppe & ", matsalgspris ="& mat_salgspris & ", bilagsnr ='"& mat_bilagsnr & "', valuta ="& mat_valuta & ", matvarenr ='" & mat_varenr & "'"   
+        strsqlmat = "INSERT INTO materiale_forbrug SET jobid ="& mat_jobid & ", aktid ="& mat_aktid & ", matantal ="& mat_antal & ", matnavn ='"& mat_navn &"', matkobspris ="& mat_kobpris & ", matenhed ='"& mat_enhed &"'" & ", dato ='"& mat_dato &"'" & ", forbrugsdato ='"& mat_forbrugsdato & "'" & ", editor ='"& mat_editor &"'" & ", usrid =" & mat_usrid & ", matgrp ="& mat_gruppe & ", "_
+        &" matsalgspris ="& mat_salgspris & ", bilagsnr ='"& mat_bilagsnr & "', valuta ="& mat_valuta & ", matvarenr ='" & mat_varenr & "', mf_konto = "& mf_konto &""   
         oConn.execute(strsqlmat)
         
 
@@ -1024,11 +1039,11 @@
                                      case "wap"
                                       strAkrORderBy = "a.sortorder, a.navn"
 
-                                            'if session("mid") = 1 or session("mid") = 9 then
-                                            'strSQlaktspecial = " OR a.id = 34"
-                                            'else
+                                            if session("mid") = 1 or session("mid") = 21 then 'LK skal kunne se korrektion på alle medarbejdere
+                                            strSQlaktspecial = " OR tu.id = 200"
+                                            else
                                             strSQlaktspecial = ""
-                                            'end if
+                                            end if
 
                                      case else
                                       strAkrORderBy = "a.navn" 
@@ -1037,11 +1052,11 @@
 
                                      
 
-                                     StrSqlfav = "SELECT medarb, jobid, aktid, forvalgt_af FROM timereg_usejob "_
+                                     StrSqlfav = "SELECT medarb, jobid, aktid, forvalgt_af FROM timereg_usejob AS tu "_
                                      &" LEFT JOIN job j ON (j.id = jobid) "_
-                                     &" LEFT JOIN aktiviteter a ON (a.id = aktid "& strSQlaktspecial &") "_
+                                     &" LEFT JOIN aktiviteter a ON (a.id = aktid) "_
                                      &" LEFT JOIN kunder k ON (kid = jobknr) "_
-                                     &" WHERE (medarb = "& medid & " AND favorit <> 0) "& strSQlaktspecial &" GROUP BY a.id ORDER BY kkundenavn, jobnavn, jobnr, "& strAkrORderBy &"" 
+                                     &" WHERE (medarb = "& medid & " AND favorit <> 0) "& strSQlaktspecial &" AND a.aktstatus = 1 GROUP BY a.id ORDER BY kkundenavn, jobnavn, jobnr, "& strAkrORderBy &"" 
                                      
                                         'if session("mid") = 1 or session("mid") = 9 then
                                         'Response.write StrSqlfav

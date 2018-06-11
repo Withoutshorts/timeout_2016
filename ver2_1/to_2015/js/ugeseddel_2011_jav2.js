@@ -621,6 +621,9 @@ $(document).ready(function() {
 
 
                     $("#bt_indlaspaajob").click(function () {
+                       
+                        //alert("Indlæser")
+
                         $("#indlaspaajob").val('1')
                         $("#monitorform").submit();
                     });

@@ -48,13 +48,45 @@ function opdaterTimer(aktid, aktnavn, tfaktimvalue, strFastpris, jobnr, strJobna
 medid, strMnavn, datothis, timerthis, kommthis, intTimepris,_
 dblkostpris, offentlig, intServiceAft, strYear, sTtid, sLtid, visTimerelTid, stopur, intValuta, bopal, destination, dage, tildeliheledage, origin, extsysid, mtrx, intKpValuta)
 
-
-
+   
 if len(trim(timerthis)) <> 0 then
 timerthis = timerthis
 else
 timerthis = 0
 end if
+
+    select case lto
+    case "tia"
+
+        if timerthis > 0 AND kommthis = "" AND aktid = 16156 then
+        'response.Write "<br> Ingen kommentar skrevet  " & aktid &" Timer "& timerthis & " kom " & kommthis
+    
+        errortype = 192
+	    useleftdiv = "t"
+
+	    %><!--#include file="../../inc/regular/header_lysblaa_inc.asp"--><%
+                    
+	    call showError(errortype)
+        response.End
+
+        end if
+
+    case "mpt"
+
+        if timerthis > 0 AND kommthis = "" then
+        'response.Write "<br> Ingen kommentar skrevet  " & aktid &" Timer "& timerthis & " kom " & kommthis
+    
+        errortype = 192
+	    useleftdiv = "t"
+
+	    %><!--#include file="../../inc/regular/header_lysblaa_inc.asp"--><%
+                    
+	    call showError(errortype)
+        response.End
+
+        end if
+
+    end select
 
 
 '*** Er ugeafslutte : IKKE godkent ==> Alle timer indlæses som godkendt elelr tentativt godkendt hvis denne indstilling er valgt i kontrolpanel (TIA)

@@ -5702,7 +5702,7 @@ if len(session("user")) = 0 then
                                             lkDatoThis = " ("& formatdatetime(lkdato, 2) & ")"
                                             end if
 									    case 3
-									    strStatusNavn = job_txt_097
+									    strStatusNavn = job_txt_063
                                         case 4
 									    strStatusNavn = job_txt_098
                                         case 5
@@ -5716,13 +5716,13 @@ if len(session("user")) = 0 then
                                     %>
                                     <%'jobstatus_fn_options %>
 
-									<option value="1"><%=job_txt_094 %></option>
-									<option value="2"><%=job_txt_095 %></option> 
-									<option value="0"><%=job_txt_096 %></option>
-                                    <option value="4"><%=job_txt_098 %></option>
+									<option value="1"><%=jobstatus_txt_007 %></option>
+									<option value="2"><%=jobstatus_txt_008 %></option> 
+									<option value="0"><%=jobstatus_txt_009 %></option>
+                                    <option value="4"><%=jobstatus_txt_004 %></option>
 									
-									<option value="3"><%=job_txt_097 %></option>
-                                     <option value="5">Evaluering</option>
+									<option value="3"><%=jobstatus_txt_003 %></option>
+                                     <option value="5"><%=jobstatus_txt_010 %></option>
 
 									
 									</select> 
@@ -6613,7 +6613,7 @@ if len(session("user")) = 0 then
 							strProj = strProj_10
 							end select
 
-                                strSQLpg = "SELECT id, navn FROM projektgrupper WHERE navn IS NOT NULL ORDER BY navn LIMIT 250"
+                                strSQLpg = "SELECT id, navn FROM projektgrupper WHERE navn IS NOT NULL AND (orgvir = 0 OR orgvir = 1) ORDER BY navn LIMIT 250"
 
                              
 
@@ -7680,39 +7680,44 @@ end select '*** Step %>
 
 	
 	
-	<%if (lto = "epi" OR lto = "epi_no" OR lto = "epi_sta" OR lto = "xintranet - local" OR lto = "epi_ab" OR lto = "epi_cati" OR lto = "epi_uk" OR lto = "epi2017") AND func <> "red" AND step = 2 then 
+	<%'** AUTO ORPET ***
+        
+    if (lto = "epi2017" OR lto = "mpt") AND func <> "red" AND step = 2 then 
 
-    %>
-    <div id="load" style="position:absolute; display:none; visibility:hidden; top:245px; left:200px; width:860px; height:400px; background-color:#ffffff; border:5px yellowgreen dashed; padding:10px; z-index:100000000;">
+  
+   
+   
+    '** AUTO OPRET job_jav_2017.js ***'
+    '** EPI først autoopret efter der er valgt FOMR
+    select case lto
+    case "mpt"
+
+
+        %>
+    <div id="load" style="position:absolute; display:none; visibility:hidden; top:245px; left:200px; width:860px; height:400px; background-color:#ffffff; border:10px yellowgreen solid; padding:10px; z-index:100000000;">
     <table cellpadding=0 cellspacing=5 border=0 width=100%><tr><td>
 	<!--<img src="../ill/outzource_logo_200.gif" /><br /><br />-->
-	<h4>TimeOut prepares your new project</h4>
-    
+	<h4>TimeOut prepares your new project</h4><br /><br />
+   
+        
     TimeOut ties it all together and making sure you will get alle the activities you need to get a correct timerecording.<br /><br />
     It should take no more than 5 seconds...
 
-        <br /><br /><br />
+   
 
-        <!--
-           <div id="auopr_5" style="color:#5582d2; font-size:14px; border:0px #999999 solid; width:980px; padding:1px;"></div><br />
+        <br /><br /><br />&nbsp;
 
-    <div id="auopr_1">Indlæser aktiviteter..</div><br />
-    <div id="auopr_2"></div><br />
-    <div id="auopr_3"></div><br />
-    <div id="auopr_4"></div><br />
-        -->
-
-
-      
+     
 
 	</td></tr></table>
 	
 	</div>
+
     <%
-       
+    Response.Write("<script>autoopret();</script>") 
     'response.end
-   
-    'Response.Write("<script>autoopret();</script>") 
+    end select
+
     end if %>
 
 
@@ -8267,12 +8272,12 @@ end select '*** Step %>
 		<td colspan=2 valign=top style="padding-top:15px;"><b><%=job_txt_220 %>:</b><br />
        
 		
-        <input type="CHECKBOX" name="filt" value="1" <%=chk1%>/> <%=job_txt_221 %><br />
-        <input type="CHECKBOX" name="filt" value="2" <%=chk2%>/> <%=job_txt_222 %><br />
-        <input type="CHECKBOX" name="filt" value="3" <%=chk3%>/> <%=job_txt_223 %><br />
-        <input type="CHECKBOX" name="filt" value="4" <%=chk4%>/> <%=job_txt_224 %><br />
-        <input type="CHECKBOX" name="filt" value="0" <%=chk0%>/> <%=job_txt_225 %><br />
-        <input type="CHECKBOX" name="filt" value="5" <%=chk5%>/> Eval.<br />
+        <input type="CHECKBOX" name="filt" value="1" <%=chk1%>/> <%=jobstatus_txt_001 %><br />
+        <input type="CHECKBOX" name="filt" value="2" <%=chk2%>/> <%=jobstatus_txt_002 %><br />
+        <input type="CHECKBOX" name="filt" value="3" <%=chk3%>/> <%=jobstatus_txt_003 %><br />
+        <input type="CHECKBOX" name="filt" value="4" <%=chk4%>/> <%=jobstatus_txt_004 %><br />
+        <input type="CHECKBOX" name="filt" value="0" <%=chk0%>/> <%=jobstatus_txt_005 %><br />
+        <input type="CHECKBOX" name="filt" value="5" <%=chk5%>/> <%=jobstatus_txt_006 %><br />
 
 		</td>
 	</tr>
@@ -8390,12 +8395,12 @@ end select '*** Step %>
 
    <table cellpadding=0 cellspacing=0 border=0 width="100">
        
-   <tr><td style="font-size:9px; color:#CCCCCC; white-space:nowrap;"><input type="radio" name="st_sel" value="1" id="st_cls_1" /><%=job_txt_242 %></td>
-   <td style="font-size:9px; color:#CCCCCC; white-space:nowrap;"><input type="radio" name="st_sel"  value="2" id="st_cls_2" /><%=job_txt_243 %></td></tr>  
-   <tr><td style="font-size:9px; color:#CCCCCC; white-space:nowrap;"><input type="radio" name="st_sel"  value="3" id="st_cls_3"/><%=job_txt_244 %></td> 
-   <td style="font-size:9px; color:#CCCCCC; white-space:nowrap;"><input type="radio" name="st_sel" value="4" id="st_cls_4" /><%=job_txt_245 %></td></tr> 
-   <tr><td style="font-size:9px; color:#CCCCCC; white-space:nowrap;"><input type="radio" name="st_sel" value="0" id="st_cls_0" /><%=job_txt_246 %></td>
-	<td style="font-size:9px; color:#CCCCCC; white-space:nowrap;"><input type="radio" name="st_sel" value="0" id="st_cls_5" />Eval.</td></tr>
+   <tr><td style="font-size:9px; color:#CCCCCC; white-space:nowrap;"><input type="radio" name="st_sel" value="1" id="st_cls_1" /><%=jobstatus_txt_007 %></td>
+   <td style="font-size:9px; color:#CCCCCC; white-space:nowrap;"><input type="radio" name="st_sel"  value="2" id="st_cls_2" /><%=jobstatus_txt_011 %></td></tr>  
+   <tr><td style="font-size:9px; color:#CCCCCC; white-space:nowrap;"><input type="radio" name="st_sel"  value="3" id="st_cls_3"/><%=jobstatus_txt_003 %></td> 
+   <td style="font-size:9px; color:#CCCCCC; white-space:nowrap;"><input type="radio" name="st_sel" value="4" id="st_cls_4" /><%=jobstatus_txt_012 %></td></tr> 
+   <tr><td style="font-size:9px; color:#CCCCCC; white-space:nowrap;"><input type="radio" name="st_sel" value="0" id="st_cls_0" /><%=jobstatus_txt_009 %></td>
+	<td style="font-size:9px; color:#CCCCCC; white-space:nowrap;"><input type="radio" name="st_sel" value="0" id="st_cls_5" /><%=jobstatus_txt_006 %></td></tr>
   </table>	
             
             </td>
@@ -8908,7 +8913,7 @@ end select '*** Step %>
 	
 	if oRec("jobstatus") = 3 then
     %><span style="font-size:9px; background-color:#ffdfdf; color:#000000;"><%
-	Response.Write "<br>"&job_txt_256&": "& oRec("tilbudsnr") &" ("& oRec("sandsynlighed") &" %)"
+	Response.Write "<br>"& job_txt_063 &": "& oRec("tilbudsnr") &" ("& oRec("sandsynlighed") &" %)"
     %>
      </span>
     <%
@@ -9056,13 +9061,13 @@ end select '*** Step %>
 		</select>
         -->
         
-        <input type="radio" class="FM_listestatus_1" name="FM_listestatus_<%=oRec("id")%>" value="1" id="FM_listestatus_1_<%=oRec("id")%>" <%=stCHK1%>/><span style="color:<%=stBgcol1%>; font-size:9px;"><%=job_txt_242 %></span><br />
-        <input type="radio" class="FM_listestatus_2" name="FM_listestatus_<%=oRec("id")%>" value="2" id="FM_listestatus_2_<%=oRec("id")%>" <%=stCHK2%>/><span style="color:<%=stBgcol2%>; font-size:9px;"><%=job_txt_243 %></span><br />
-        <input type="radio" class="FM_listestatus_3" name="FM_listestatus_<%=oRec("id")%>" value="3" id="FM_listestatus_3_<%=oRec("id")%>" <%=stCHK3%>/><span style="color:<%=stBgcol3%>; font-size:9px;"><%=job_txt_244 %><br />
-        <input type="radio" class="FM_listestatus_4" name="FM_listestatus_<%=oRec("id")%>" value="4" id="FM_listestatus_4_<%=oRec("id")%>" <%=stCHK4%>/><span style="color:<%=stBgcol4%>; font-size:9px;"><%=job_txt_245 %></span><br />
-        <input type="radio" class="FM_listestatus_5" name="FM_listestatus_<%=oRec("id")%>" value="5" id="FM_listestatus_5_<%=oRec("id")%>" <%=stCHK5%>/><span style="color:<%=stBgcol5%>; font-size:9px;">Eval.</span><br />
+        <input type="radio" class="FM_listestatus_1" name="FM_listestatus_<%=oRec("id")%>" value="1" id="FM_listestatus_1_<%=oRec("id")%>" <%=stCHK1%>/><span style="color:<%=stBgcol1%>; font-size:9px;"><%=jobstatus_txt_007 %></span><br />
+        <input type="radio" class="FM_listestatus_2" name="FM_listestatus_<%=oRec("id")%>" value="2" id="FM_listestatus_2_<%=oRec("id")%>" <%=stCHK2%>/><span style="color:<%=stBgcol2%>; font-size:9px;"><%=jobstatus_txt_011 %></span><br />
+        <input type="radio" class="FM_listestatus_3" name="FM_listestatus_<%=oRec("id")%>" value="3" id="FM_listestatus_3_<%=oRec("id")%>" <%=stCHK3%>/><span style="color:<%=stBgcol3%>; font-size:9px;"><%=jobstatus_txt_003 %><br />
+        <input type="radio" class="FM_listestatus_4" name="FM_listestatus_<%=oRec("id")%>" value="4" id="FM_listestatus_4_<%=oRec("id")%>" <%=stCHK4%>/><span style="color:<%=stBgcol4%>; font-size:9px;"><%=jobstatus_txt_012 %></span><br />
+        <input type="radio" class="FM_listestatus_5" name="FM_listestatus_<%=oRec("id")%>" value="5" id="FM_listestatus_5_<%=oRec("id")%>" <%=stCHK5%>/><span style="color:<%=stBgcol5%>; font-size:9px;"><%=jobstatus_txt_006 %></span><br />
 
-        <input type="radio" class="FM_listestatus_0" name="FM_listestatus_<%=oRec("id")%>" value="0" id="FM_listestatus_0_<%=oRec("id")%>" <%=stCHK0%>/><span style="color:<%=stBgcol0%>; font-size:9px;"><%=job_txt_246 %> <br /><%=lkDato %></span>
+        <input type="radio" class="FM_listestatus_0" name="FM_listestatus_<%=oRec("id")%>" value="0" id="FM_listestatus_0_<%=oRec("id")%>" <%=stCHK0%>/><span style="color:<%=stBgcol0%>; font-size:9px;"><%=jobstatus_txt_009 %> <br /><%=lkDato %></span>
         
 		<%else%>
 		<%=stNavn%>
@@ -9174,7 +9179,7 @@ end select '*** Step %>
 			        
 
                     if oRec3("brugfakdatolabel") = 1 then '** Labeldato
-                    fakDato = job_txt_623&": "& oRec3("labeldato") & "<br><span style=""color:#999999; size:9px,"">"& oRec3("fakdato") &"</span>"
+                    fakDato = job_txt_623&": "& oRec3("labeldato") 'VIS IKKE Faktura sys dato på jioblsiten: Gnidret og manlger overblik & "<br><span style=""color:#999999; size:9px,"">"& oRec3("fakdato") &"</span>"
                     else
                     fakDato = job_txt_622&": "& oRec3("fakdato")
                     end if
@@ -9187,7 +9192,7 @@ end select '*** Step %>
                    
 
                                         strSQLFakorg = "SELECT f.fid, f.beloeb, f.valuta, f.kurs, f.faktype, f.aftaleid, fd.aktpris FROM fakturaer f "_
-                                        &" LEFT JOIN faktura_det fd ON (fd.fakid = f.fid AND fd.aktid = "& oRec("id") &") WHERE faknr = "& oRec3("faknr") &" AND shadowcopy <> 1 "
+                                        &" LEFT JOIN faktura_det fd ON (fd.fakid = f.fid AND fd.aktid = "& oRec("id") &") WHERE faknr = '"& oRec3("faknr") &"' AND shadowcopy <> 1 "
 
                                         oRec8.open strSQLFakorg, oConn, 3
                                         if not oRec8.EOF then
@@ -9240,7 +9245,7 @@ end select '*** Step %>
                       <tr><td class=lille valign=top>
                       <%
 			        
-                          
+                            fidLink = 0
                             if cdate(oRec3("fakdato")) >= cdate("01-01-2006") AND editok = 1 then
                           
                          
@@ -9251,7 +9256,7 @@ end select '*** Step %>
 
                                 else
                         
-                                strSQLFakorg = "SELECT fid FROM fakturaer WHERE faknr = "& oRec3("faknr") &" AND shadowcopy <> 1"
+                                strSQLFakorg = "SELECT fid FROM fakturaer WHERE faknr = '"& oRec3("faknr") &"' AND shadowcopy <> 1"
                                 oRec8.open strSQLFakorg, oConn, 3
                                 if not oRec8.EOF then
 
@@ -9261,18 +9266,29 @@ end select '*** Step %>
                                 oRec8.close
 
 
-                            end if
+                                end if
                           
+                          if fidLink <> 0 then
                           %>
-			              <a href="erp_opr_faktura_fs.asp?visminihistorik=1&visfaktura=2&visjobogaftaler=1&id=<%=fidLink%>&FM_jobonoff=<%=FM_jobonoffval%>&FM_kunde=<%=oRec3("fakadr")%>&FM_job=<%=oRec3("jobid")%>&FM_aftale=<%=oRec3("aftaleid")%>&fromfakhist=1" class="lgron" target="_blank"><b><%=oRec3("faknr") &"</b>"%></a> 
-                          <%=strFakAftNavn %></td>
+			              <a href="erp_opr_faktura_fs.asp?visminihistorik=1&visfaktura=2&visjobogaftaler=1&id=<%=fidLink%>&FM_jobonoff=<%=FM_jobonoffval%>&FM_kunde=<%=oRec3("fakadr")%>&FM_job=<%=oRec3("jobid")%>&FM_aftale=<%=oRec3("aftaleid")%>&fromfakhist=1" class="lgron" target="_blank"><b><%=oRec3("faknr")%></b></a> 
+                          <%=strFakAftNavn %>
+                          </td>
+                          <td align=right class=lille valign=top style="white-space:nowrap;"><%=fakDato %>
+                          <%else 
+                          
+                          '*** Vis ikke slettede fakturaer på joblisten
+                          %>
 
-                    <td align=right class=lille valign=top><%=fakDato %><br />
+                          <!--<b><%=oRec3("faknr") &"</b> "& strFakAftNavn &"</td><td align=right class=lille valign=top style=""white-space:nowrap;""> "& fakDato %>-->
+                          <%end if %>
+                          
+                          
+
                     <%else%>
-                    <b><%=oRec3("faknr") &"</b> "& strFakAftNavn &"</td><td align=right class=lille valign=top> "& fakDato %><br />
+                    <b><%=oRec3("faknr") &"</b> "& strFakAftNavn &"</td><td align=right class=lille valign=top style=""white-space:nowrap;""> "& fakDato %>
                     <% end if
                     
-
+                         
                       %>
 
                       </td></tr>
@@ -9798,7 +9814,7 @@ call eksportogprint(ptop,pleft, pwdt)
 
 <%end if %>
 
-<%if lto = "dencker" OR lto = "dencker_test" OR lto = "intranet - local" then %>
+<%if lto = "dencker" OR lto = "dencker_test" OR lto = "intranet - local" OR lto = "cflow" then %>
 <form action="job_eksport.asp?optiprint=7" method="post" target="_blank">
 <tr> <input id="Hidden5" name="jids" value="<%=jids%>" type="hidden" />
     <td valign=top align=center>
@@ -9901,6 +9917,38 @@ call eksportogprint(ptop,pleft, pwdt)
 	
 	antalTilbud = antalEksternePassiveJob
 	
+
+    '*** Gennemsyn ***'
+	gennemsyn = 0
+    strSQL = "SELECT count(id) AS antal FROM job WHERE fakturerbart = 1 AND jobstatus = 4"
+	oRec.open strSQL, oConn, 3 
+	if not oRec.EOF then
+	gennemsyn = oRec("antal")
+	end if
+	oRec.close 
+	
+	if len(gennemsyn) <> 0 then
+	gennemsyn = gennemsyn
+	else
+	gennemsyn = 0
+	end if
+
+
+    '*** Til fakturering ***'
+	tilfakturering = 0
+    strSQL = "SELECT count(id) AS antal FROM job WHERE fakturerbart = 1 AND jobstatus = 2"
+	oRec.open strSQL, oConn, 3 
+	if not oRec.EOF then
+	tilfakturering = oRec("antal")
+	end if
+	oRec.close 
+	
+	if len(tilfakturering) <> 0 then
+	tilfakturering = tilfakturering
+	else
+	tilfakturering = 0
+	end if
+	
 	
        
 
@@ -9933,9 +9981,11 @@ call eksportogprint(ptop,pleft, pwdt)
 	end if
 	
 	
-	uTxt = "<b>"&job_txt_311&":</b><br><b>"& antalEksterneAktiveJob & "</b> "&job_txt_312 _
-	&"<br><b>" & antalEksterneLukkedeJob &"</b> "&job_txt_309 _
-	&"<br><b>" & antalTilbud & "</b> "& job_txt_223
+	uTxt = "<b>"&job_txt_311&":</b><br><b>"& antalEksterneAktiveJob & "</b> "&jobstatus_txt_001 _
+	&"<br><b>" & antalEksterneLukkedeJob &"</b> "&jobstatus_txt_005 _
+	&"<br><b>" & antalTilbud & "</b> "& jobstatus_txt_003 _
+    &"<br><b>" & gennemsyn & "</b> "& jobstatus_txt_004 _
+    &"<br><b>" & tilfakturering & "</b> "& jobstatus_txt_002
 	
     if cint(vis_timepriser) <> 1 then
     uTxt = uTxt  &"<br><b>" & cnt & "</b> "& job_txt_310

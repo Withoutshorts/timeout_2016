@@ -149,7 +149,13 @@
                 
 
                 if cint(csv_pivot) = 1 then
-                 expTxt = expTxt &joblog_txt_212&";" 'Kun PIVOT
+            
+                 'if cint(vis_medarbejdertyper) = 1 OR cint(vis_medarbejdertyper_grp) = 1 then 'vis pr. medarbtype
+                 'expTxt = expTxt & joblog_txt_212 &";" 'Kun PIVOT
+                 'else
+                 expTxt = expTxt & joblog_txt_212 &";Init;"& joblog_txt_212 &" "& joblog_txt_027 &".;" 'Kun PIVOT
+                 'end if
+
                 end if
 
      
@@ -193,6 +199,14 @@
                                 if cint(csv_pivot) = 0 OR (cint(csv_pivot) = 1 AND v = 0 AND c = 0) then
 
                                 expTxt = expTxt &joblog_txt_213&";"
+
+
+                                        if (cint(csv_pivot) = 1 AND v = 0 AND c = 0) then
+                                        expTxt = expTxt &"Business area label;Business area unit;"
+                                        'expTxt = expTxt &"Afdeling;Underafdeling;"
+                                        end if
+
+                                      
                             
 
                                     if cint(csv_pivot) <> 1 then
@@ -1072,14 +1086,49 @@ end sub
 								        if jobmedtimer(x,3) <> 0 then
                 
                                             if cint(csv_pivot) = 1 then 'PIVOT
-                                            expTxt = expTxt & replace(medarbnavnognr(v), "<br>", "") &";" 'KUN PIVOT
+                                            'expTxt = expTxt & replace(medarbnavnognr(v), "<br>", "") &";" 'KUN PIVOT
+                                            expInit = ""
+                                            expInit = replace(jobmedtimer(x,39), "<br>", "")
+                                            expInit = replace(expInit, "[", "")
+                                            expInit = replace(expInit, "]", "")
+                                            expTxt = expTxt & jobmedtimer(x,2) &";"& expInit &";"& jobmedtimer(x,37) &";" 'KUN PIVOT
                                             end if
+
+                                            
 
                                         'lastMidstrId = jobmedtimer(x,4)
 
                                         'Real Timer
-								        expTxt = expTxt & formatnumber(jobmedtimer(x,3), 2)
-								        expTxt = expTxt &";"
+								        expTxt = expTxt & formatnumber(jobmedtimer(x,3), 2) &";"
+								        
+
+                                                 if cint(csv_pivot) = 1 then 'PIVOT EPI 2017 20180417
+
+                                                 '*** FOMR = UnderAFD, UNIT = AFD ****'
+                                                 fak_fomr = 0 
+                                                 fak_fomrTxt = ""
+                                                 fak_AfdTxt = ""
+                                                 strSQLfomr = "SELECT for_fomr, for_jobid, business_area_label, business_unit FROM fomr_rel "_
+                                                 &"LEFT JOIN fomr f ON (f.id = for_fomr) WHERE for_jobid = " & jobmedtimer(x,0)
+                
+                                                 oRec4.open strSQLfomr, oConn, 3
+							                     if not oRec4.EOF then
+							 
+							                     'fak_fomr = oRec4("for_fomr")
+                                                 fak_fomrTxt = oRec4("business_area_label")
+                                                 fak_AfdTxt = oRec4("business_unit")
+							    
+							                     end if
+							                     oRec4.close
+
+                                               
+                                               
+
+                                                 'Forretingsområde Business unit
+								                  expTxt = expTxt & fak_fomrTxt & ";"& fak_AfdTxt & ";" 
+                                                  end if
+								                
+
 								        else
 
 								            if cint(csv_pivot) <> 1 then
