@@ -621,7 +621,7 @@ if len(session("user")) = 0 then
                     
                         'Response.Write "datodag" & datodag
                         'Response.flush
-                        call helligdage(datodag, 0, lto)
+                        call helligdage(datodag, 0, lto, session("mid"))
                         if erHellig <> 1 then
                         countWdays = countWdays + 1
                         else

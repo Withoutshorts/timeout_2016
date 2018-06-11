@@ -433,11 +433,50 @@ level = session("rettigheder")
 		else
 		jobaftSQL = "f.jobid = "& jobid &""
 		end if
+
+
+        select case lto
+        case "bf"
+        '** Medarb. må kun se nationale kontore
+        call medariprogrpFn(session("mid"))
+        call meStamdata(session("mid"))
+
+                useasfakSQL = " AND afsender = -1"
+
+                if meMed_lincensindehaver = 2 then 'Togo
+                useasfakSQL = " AND afsender = 6"
+                end if
+
+                if meMed_lincensindehaver = 3 then 'Binin
+                useasfakSQL = " AND afsender = 7"
+                end if
+
+                if meMed_lincensindehaver = 5 then 'Burkino Faso
+                useasfakSQL = " AND afsender = 11"
+                end if
+
+                if meMed_lincensindehaver = 4 then 'Mali
+                useasfakSQL = " AND afsender = 10"
+                end if
+
+                if meMed_lincensindehaver = 0 then 'CPH Head Office 
+                useasfakSQL = " AND afsender = 1"
+                end if
+
+                if cint(level) = 1 then 'Administrator
+                useasfakSQL = " AND afsender <> -1"
+                end if
+
+        case else
+          useasfakSQL = " AND afsender <> -1"
+        end select
+
+
 		
 		strSQLFak = "SELECT f.jobid, f.aftaleid, f.fid, f.fakdato, f.faknr, f.betalt, "_
 		&" f.faktype, f.beloeb, f.shadowcopy, f.valuta, f.kurs, v.valutakode, brugfakdatolabel, labeldato, medregnikkeioms, fak_laast "_
 		&" FROM fakturaer f LEFT JOIN valutaer v ON (v.id = f.valuta) "_
-		&" WHERE ("& jobaftSQL &")"& SQLkriPer &""_
+		&" WHERE ("& jobaftSQL &")"& SQLkriPer &" "& useasfakSQL &""_
 		&" ORDER BY f.faknr DESC"
 	        
 	        'Response.Write strSQLFak &"<br>" 

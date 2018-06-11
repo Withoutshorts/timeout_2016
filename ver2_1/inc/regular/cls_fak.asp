@@ -178,6 +178,14 @@ function findFaknr(func)
             
             
             strSQL = "SELECT "& fakturanrUse &" AS fakturanr, "& kreditnrUse&" AS kreditnr, "& fakturanr_kladdeUse &" AS fakturanr_kladde FROM licens WHERE id = 1"
+
+            'if session("mid") = 1 then
+            'Response.write strSQL
+            'Response.flush
+            'Response.end
+            'end if
+
+
 	        oRec.open strSQL, oConn, 3
             if not oRec.EOF then
 
@@ -307,10 +315,19 @@ function findFaknr(func)
 
                         ''*** Må fakruaer have samme rækkefølge ***'
                      
+                            if cint(multible_licensindehavere) = 1 then
+                            afsenderSQL = " AND afsender = "& afsender
+                            else
+                            afsenderSQL = ""
+                            end if
 
-                           strSQL = "SELECT faknr FROM fakturaer WHERE faknr = '"& intFaknum &"' AND fid <> "& id & " AND shadowcopy = 0"
+                            strSQL = "SELECT faknr FROM fakturaer WHERE faknr = '"& intFaknum &"' AND fid <> "& id & " AND shadowcopy = 0 "& afsenderSQL &""
+                            
+                            'if session("mid") = 1 then
                             'Response.Write strSQL
-                            'Response.flush
+                            'Response.end 
+                            'end if 
+                            
                             oRec.open strSQL, oConn, 3
                             while not oRec.EOF
                             intFaknumFindes = 1
@@ -352,29 +369,39 @@ end function
 '**** Opdaterer faktura nr rækkefølge *****'
 function opdater_fakturanr_rakkefgl(opdFaknrSerie, intFaknumFindes, sqlfld, intFaknum)
 
+    'if session("mid") = 1 then
+    'Response.write "HER: opdFaknrSerie: " & cint(opdFaknrSerie)  & "intFaknumFindes: "& cint(intFaknumFindes) 
+    'Response.end
+    'end if
+
     if cint(opdFaknrSerie) = 1 AND cint(intFaknumFindes) = 0 then
     strSQL = "UPDATE licens SET "& sqlfld &" = "& intFaknum &" WHERE id = 1"
-    
+    'if session("mid") = 1 then
     'response.write "strSQL: " & strSQL
-    'repsonse.flush
+    'response.end
+    'end if  
+  
+    
     oConn.execute(strSQL)
+    
     end if
 
 
 end function
 
 
-public faktureret, faktureretKre, faktureretTimerEnhStk, faktureretLastFakDato
+public faktureret, faktureretKre, faktureretTimerEnhStk, faktureretLastFakDato, faktureret_fakvaluta
 function stat_faktureret_job(jobid, sqlDatostart, sqlDatoslut)
 
 
   '*** Faktureret **'
 		faktureret = 0
+        faktureret_fakvaluta = 0
 		faktureretTimerEnhStk = 0
         faktureretLastFakDato = day(sqlDatostart) & "/"& month(sqlDatostart) &"/"& year(sqlDatostart) '"2002-01-01"
 		
 		'*** Faktureret ***'
-		strSQL2 = "SELECT if(faktype = 0, f.beloeb * (f.kurs/100), f.beloeb * -1 * (f.kurs/100)) AS faktureret, if(faktype = 0, SUM(fd.aktpris * (fd.kurs/100)), SUM(fd.aktpris * -1 * (fd.kurs/100))) AS aktbel, fakdato " _
+		strSQL2 = "SELECT if(faktype = 0, f.beloeb * (f.kurs/100), f.beloeb * -1 * (f.kurs/100)) AS faktureret, if(faktype = 0, f.beloeb, f.beloeb * -1) AS faktureret_fakvaluta, if(faktype = 0, SUM(fd.aktpris * (fd.kurs/100)), SUM(fd.aktpris * -1 * (fd.kurs/100))) AS aktbel, fakdato " _
 		&" FROM fakturaer AS f "_
         & "LEFT JOIN faktura_det AS fd ON (fd.fakid = f.fid AND fd.enhedsang <> 3)"_
 		&" WHERE jobid = "& jobid &" AND aftaleid = 0 AND shadowcopy = 0"
@@ -394,6 +421,7 @@ function stat_faktureret_job(jobid, sqlDatostart, sqlDatoslut)
 		
 		while not oRec2.EOF
 		faktureret = faktureret + oRec2("faktureret")
+        faktureret_fakvaluta = faktureret_fakvaluta + oRec2("faktureret_fakvaluta")
         
 
         if cDate(oRec2("fakdato")) < cDate("01-06-2010") AND lto = "epi" then
@@ -411,6 +439,35 @@ function stat_faktureret_job(jobid, sqlDatostart, sqlDatoslut)
 		
 
 
+                    'if session("mid") = 1 then
+
+                    '*** Fakureret på aftaler **'
+                    strSQLFakorg = "SELECT f.fid, f.valuta, f.kurs, f.faktype, f.aftaleid, fd.aktpris, f.faknr FROM fakturaer f "_
+                    &" LEFT JOIN faktura_det fd ON (fd.fakid = f.fid AND fd.aktid = "& jobid &") WHERE f.jobid = "& jobid &" AND shadowcopy = 1"
+
+                    oRec9.open strSQLFakorg, oConn, 3
+                    While not oRec9.EOF
+
+                         strSQLFakaft = "SELECT f.fid, if(faktype = 0, fd.aktpris * (f.kurs/100), fd.aktpris * -1 * (f.kurs/100)) AS faktureret, if(faktype = 0, fd.aktpris, fd.aktpris * -1) AS faktureret_fakvaluta, f.valuta, f.kurs, f.faktype, f.aftaleid, fd.aktpris FROM fakturaer f "_
+                         &" LEFT JOIN faktura_det fd ON (fd.fakid = f.fid AND fd.aktid = "& jobid &") WHERE faknr = "& oRec9("faknr") &" AND shadowcopy <> 1 GROUP BY f.fid "
+                        
+                        'response.write strSQLFakaft
+                        'response.Flush
+
+                        oRec2.open strSQLFakaft, oConn, 3
+                        if not oRec2.EOF then    
+
+                        faktureret = faktureret + oRec2("faktureret")
+                        faktureret_fakvaluta = faktureret_fakvaluta + oRec2("faktureret_fakvaluta")
+                        
+                         end if
+                         oRec2.close
+   
+                    oRec9.movenext
+                    wend
+                    oRec9.close
+
+                    'end if
 
 		'*** Kredit ***'
 		'*** Beregnes ovenfor ***'

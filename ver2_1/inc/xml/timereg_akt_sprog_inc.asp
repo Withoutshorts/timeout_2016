@@ -5,11 +5,11 @@ Dim objXMLHTTP_timereg, objXMLDOM_timereg, i_timereg, strHTML_timereg
 Set objXMLDom_timereg = Server.CreateObject("Microsoft.XMLDOM")
 Set objXmlHttp_timereg = Server.CreateObject("Msxml2.ServerXMLHTTP")
 'objXmlHttp_timereg.open "GET", "http://localhost/Git/timeout_2016/ver2_1/inc/xml/timereg_akt_sprog.xml", False
-objXmlHttp_timereg.open "GET", "http://localhost/inc/xml/timereg_akt_sprog.xml", False
+'objXmlHttp_timereg.open "GET", "http://localhost/inc/xml/timereg_akt_sprog.xml", False
 'objXmlHttp_timereg.open "GET", "http://outzource.dk/timeout_xp/wwwroot/ver2_10/inc/xml/timereg_akt_sprog.xml", False
 'objXmlHttp_timereg.open "GET", "https://timeout.cloud/timeout_xp/wwwroot/ver3_99/inc/xml/timereg_akt_sprog.xml", False
 'objXmlHttp_timereg.open "GET", "https://outzource.dk/timeout_xp/wwwroot/ver2_14/inc/xml/timereg_akt_sprog.xml", False
-'objXmlHttp_timereg.open "GET", "https://timeout.cloud/timeout_xp/wwwroot/ver2_14/inc/xml/timereg_akt_sprog.xml", False
+objXmlHttp_timereg.open "GET", "https://timeout.cloud/timeout_xp/wwwroot/ver2_14/inc/xml/timereg_akt_sprog.xml", False
 
 objXmlHttp_timereg.send
 

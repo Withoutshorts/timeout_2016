@@ -43,6 +43,42 @@ end function
 public ferieBal
 function feriebal_fn(ferieOptjtimer_X, ferieOptjOverforttimer_X, ferieOptjUlontimer_X, ferieAFTimer_X, ferieAFulonTimer_X, ferieUdbTimer_X)
 
+     if len(trim(ferieOptjtimer_X)) <> 0 then
+     ferieOptjtimer_X = ferieOptjtimer_X
+     else
+     ferieOptjtimer_X = 0
+     end if
+
+     if len(trim(ferieOptjOverforttimer_X)) <> 0 then
+     ferieOptjOverforttimer_X = ferieOptjOverforttimer_X
+     else
+     ferieOptjOverforttimer_X = 0
+     end if
+
+     if len(trim(ferieOptjUlontimer_X)) <> 0 then
+     ferieOptjUlontimer_X = ferieOptjUlontimer_X
+     else
+     ferieOptjUlontimer_X = 0
+     end if
+
+     if len(trim(ferieAFTimer_X)) <> 0 then
+     ferieAFTimer_X = ferieAFTimer_X
+     else
+     ferieAFTimer_X = 0
+     end if
+
+     if len(trim(ferieAFulonTimer_X)) <> 0 then
+     ferieAFulonTimer_X = ferieAFulonTimer_X
+     else
+     ferieAFulonTimer_X = 0
+     end if
+
+     if len(trim(ferieUdbTimer_X)) <> 0 then
+     ferieUdbTimer_X = ferieUdbTimer_X
+     else
+     ferieUdbTimer_X = 0
+     end if
+
      select case lto
      case "esn", "tec"
      ferieBal  = ((ferieOptjtimer_X + ferieOptjOverforttimer_X + ferieOptjUlontimer_X) - (ferieAFTimer_X + ferieAFulonTimer_X + ferieUdbTimer_X))
@@ -156,8 +192,8 @@ public ntimPer, ntimMan, ntimTir, ntimOns, ntimTor, ntimFre, ntimLor, ntimSon, a
 public ntimManIgnHellig, ntimTirIgnHellig, ntimOnsIgnHellig, ntimTorIgnHellig, ntimFreIgnHellig, ntimLorIgnHellig, ntimSonIgnHellig, nTimerPerIgnHellig
 	function normtimerPer(medid, stDato, interval, io)
 
-    if medid <> 0 then
-    medid = medid
+    if medid <> "0" AND len(trim(medid)) <> 0 AND instr(medid, ",") = 0 then
+    medid = trim(medid)
     else 
     medid = 0
     end if
@@ -171,7 +207,11 @@ public ntimManIgnHellig, ntimTirIgnHellig, ntimOnsIgnHellig, ntimTorIgnHellig, n
 	redim mtyperIntvDato(30), mtyperIntvTyp(30), mtyperIntvEndDato(30)
 	
 	'** Aktuel medarbejdertype **'
-	strSQLtype = "SELECT medarbejdertype, ansatdato, opsagtdato FROM medarbejdere WHERE mid = "& medid
+	strSQLtype = "SELECT medarbejdertype, ansatdato, opsagtdato FROM medarbejdere WHERE mid = "& medid & ""
+
+    'response.Write strSQLtype
+    'Response.Flush
+
 	oRec2.open strSQLtype, oConn, 3
 	if not oRec2.EOF then
 	
@@ -372,7 +412,7 @@ public ntimManIgnHellig, ntimTirIgnHellig, ntimOnsIgnHellig, ntimTorIgnHellig, n
                     end if 
 
 					
-				    call helligdage(datoCount, 0, lto)
+				    call helligdage(datoCount, 0, lto, medid)
 				        
 				        if cint(erHellig) = 1 then
 				            select case n 
@@ -915,5 +955,73 @@ function lonKorsel_lukketPerPrDato(tjkDato)
 
 end function
 
+
+public flexSaldoFYreal_norm, slDatoNormPrDdMinus1
+function fn_flexSaldoFYreal_norm(mid)
+
+        flexSaldoFYreal_norm = 0
+
+         '** norm til d.d FY
+        stDatoNorm = "1/1/"& year(now)
+        slDatoNorm = dateAdd("d", -1, now) '"1/1/"& year(now)
+        slDatoNormPrDdMinus1 = slDatoNorm
+        dageDiff = dateDiff("d",stDatoNorm, slDatoNorm, 2,2) 
+
+        call normtimerPer(mid, stDatoNorm, dageDiff, 0)
+
+
+    
+         stDatoSQL = year(now)&"/1/1"  
+         'slDatoSQL = year(now)&"/12/31" 
+     
+         slDatoSQL = dateAdd("d", -1, now)
+         slDatoSQL = year(slDatoSQL) &"/"& month(slDatoSQL) &"/"& day(slDatoSQL)
+
+        call akttyper2009(2)
+
+         '*** Henter korrektion inden indtastning ***
+        korrektionMaxFlexTimerFYfor = 0 
+        strSQLtimer = "SELECT sum(timer) AS realTimerFY FROM timer WHERE tmnr = "& mid &" AND tdato BETWEEN '"& stDatoSQL &"' AND '"& slDatoSQL &"' AND tfaktim = 114 GROUP BY tmnr" 
+        oRec9.open strSQLtimer, Oconn, 3
+        if not oRec9.EOF then 
+
+        korrektionMaxFlexTimerFYfor = oRec9("realTimerFY")
+
+        end if
+        oRec9.close
+
+        if len(trim(korrektionMaxFlexTimerFYfor)) <> 0 then
+        korrektionMaxFlexTimerFYfor = korrektionMaxFlexTimerFYfor
+        else
+        korrektionMaxFlexTimerFYfor = 0
+        end if
+
+
+        '*** tjekker flex saldo ***
+        realTimerFY = 0 
+        strSQLtimer = "SELECT sum(timer) AS realTimerFY FROM timer WHERE tmnr = "& mid &" AND tdato BETWEEN '"& stDatoSQL &"' AND '"& slDatoSQL &"' AND ("& aty_sql_realhours &") GROUP BY tmnr" 
+        oRec9.open strSQLtimer, Oconn, 3
+        if not oRec9.EOF then 
+
+            realTimerFY = oRec9("realTimerFY")
+
+        end if
+        oRec9.close
+
+
+        if len(trim(realTimerFY)) <> 0 then
+        realTimerFY = realTimerFY
+        else
+        realTimerFY = 0
+        end if
+
+      
+        
+        flexSaldoFYreal_norm = ((realTimerFY + (korrektionMaxFlexTimerFYfor)) - (ntimPer*1)) 'Korrektioner ikke med?? + korrektionReal(x) globalfunc3 2277 
+      
+      
+
+
+end function
     
 %>

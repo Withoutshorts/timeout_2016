@@ -301,12 +301,12 @@
                             
                             <div class="col-lg-2">
                                 <select name="statusType" class="form-control input-small" onchange="submit();">
-                                    <option value="5" <%=statusSEL5 %>>Evaluering</option>
-                                    <option value="1" <%=statusSEL1 %>><%=job_txt_221 %></option>
-                                    <option value="2" <%=statusSEL2 %>><%=job_txt_222 %></option>
-                                    <option value="3" <%=statusSEL3 %>><%=job_txt_223 %></option>
-                                    <option value="4" <%=statusSEL4 %>><%=job_txt_224 %></option>
-                                    <option value="0" <%=statusSEL0 %>><%=job_txt_225 %></option>
+                                    <option value="5" <%=statusSEL5 %>><%=jobstatus_txt_010 %></option>
+                                    <option value="1" <%=statusSEL1 %>><%=jobstatus_txt_001 %></option>
+                                    <option value="2" <%=statusSEL2 %>><%=jobstatus_txt_002 %></option>
+                                    <option value="3" <%=statusSEL3 %>><%=jobstatus_txt_003 %></option>
+                                    <option value="4" <%=statusSEL4 %>><%=jobstatus_txt_004 %></option>
+                                    <option value="0" <%=statusSEL0 %>><%=jobstatus_txt_005 %></option>
                                 </select>
                             </div>
                                 
@@ -330,7 +330,7 @@
                                 <th>Værdi</th>
                                 <%'if statusType = 5 then %>
                                 <th>Pris</th>
-                                <th>Forslået pris</th>
+                                <th>Forslået<br /><span style="font-size:9px;">pris til fakturering</span></th>
                                 <th>Forskel</th>
                                 <th>Timer <br /><span style="font-size:9px;">Real. - Forslået</span></th>
                                 <%'end if %>
@@ -386,7 +386,7 @@
                                 eval_valueTXTcol = "red"
                                 case else
                                 eval_valueTXT = "+"
-                                eval_valueTXTcol = "#999999"
+                                eval_valueTXTcol = "#5582d2"
                                 end select
                                   
                                 if antal = 0 then
@@ -432,7 +432,13 @@
 
                             <tr>
                                 <td style="width:200px;"><%=kundenavn %></td>
-                                <td style="width:200px;"><%=jobnavn & " ("& jobnr &")" %></td>
+                                <td style="width:200px;"><%=jobnavn & " ("& jobnr &")" %>
+                                    <%if cint(oRec("fastpris")) = 1 then %>
+                                    <span style="color:limegreen; font-size:9px;"><i>- Fastpris</i></span>
+                                    <%else %>
+                                     <span style="color:#5582d2; font-size:9px;"><i>- Lbn. timer</i></span>
+                                    <%end if %>
+                                </td>
                                 <td style="width:200px">
                                     <%
                                         
@@ -445,7 +451,7 @@
                                         oRec2.close
                                     %>
                                 </td>
-                                <td style="width:50px;"><a href="#" onclick="Javascript:window.open('eval.asp?func=red&jobid_til_eval=<%=oRec("jobid") %>', '', 'width=1200,height=700,resizable=yes,scrollbars=yes')" style="color:<%=eval_valueTXTcol%>;"><%=eval_valueTXT %></a></td>
+                                <td style="width:50px;"><a href="#" onclick="Javascript:window.open('eval.asp?func=red&jobid_til_eval=<%=oRec("jobid") %>', '', 'width=1200,height=700,resizable=yes,scrollbars=yes')" style="color:<%=eval_valueTXTcol%>;">[<%=eval_valueTXT %>]</a></td>
                                
                                  <td style="width:15px; text-align:center"><% if oRec("eval_evalvalue") <> 0 then %> <%=oRec("eval_evalvalue") %> <% end if %></td>
 
@@ -476,7 +482,7 @@
 
                                  <%
                                 if oRec("eval_diff") > 0 then
-                                    forskelColor = "green"
+                                    forskelColor = "yellowgreen"
                                     eval_diff = oRec("eval_diff") 
                                 else
                                     if oRec("eval_diff") < 0 then
@@ -510,7 +516,7 @@
                                 eval_suggested_hours = 0
                                 end if
                                
-                                eval_suggested_hoursBal = (totalTimer*1 - (eval_suggested_hours*1)) 
+                                eval_suggested_hoursBal = (eval_suggested_hours*1 - totalTimer*1) 
                                 eval_suggested_hoursTotal = eval_suggested_hoursTotal + (eval_suggested_hoursBal)      
                                 %>
 
@@ -544,7 +550,7 @@
                                 <th style="border-right:hidden; text-align:right"><%=formatnumber(evalPrisTotal,2) %></th>
                                 <th style="border-right:hidden; text-align:right"><%=formatnumber(evalFPrisTotal,2) %></th>
                                 <%
-                                evalForskelTotal = evalPrisTotal - evalFPrisTotal
+                                evalForskelTotal = evalFPrisTotal - evalPrisTotal
 
                                 if evalForskelTotal <> 0 then
                                     evalForskelTotal = evalForskelTotal

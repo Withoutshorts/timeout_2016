@@ -14,6 +14,24 @@ if len(session("user")) = 0 then
 	
 	'session.LCID = 1033
 	
+        public prodnr
+        sub  prodnrsub
+                       prodnr = ""
+                       if len(trim(oRec2("fase"))) <> 0 then
+            
+                            if mid(oRec2("fase"), 6,1) = "-" then
+                            prodnr = oRec2("jobnr") & mid(oRec2("fase"), 4,2)
+                            else 'Pos > 9
+                            prodnr = oRec2("jobnr") & mid(oRec2("fase"), 4,3) 
+                            end if
+        
+                        else 
+                        prodnr = oRec2("jobnr") 
+                        end if
+
+        end sub
+
+
         call bdgmtypon_fn()
 
         if cint(bdgmtypon_val) = 1 then 'budget på mtyper slået til
@@ -244,7 +262,8 @@ if len(session("user")) = 0 then
 	'if optiPrint = 0 OR optiPrint = 2 then
 	select case optiPrint
     case 7 'Monitor
-    strTxtExport = strTxtExport & "Ordrenummer;Rap.Nr;Rap.Tid;Rap.Antal;"& vbcrlf
+    'strTxtExport = strTxtExport & "Ordrenummer;Rap.Nr;Rap.Tid;Rap.Antal;"& vbcrlf
+    strTxtExport = strTxtExport & "Medarb. Init;Ordrenummer;Rapportnummer;Forbrugt tid;Antal færdige;Slet Rest(1/0);Antal Kasserede;Kasseringskode;"& vbcrlf
     case 0,2 
     strTxtExport = strTxtExport & "Kontakt;Kontakt id;Jobnavn;Jobnr.;Status;Startdato;Slutdato;Prioitet;"
         
@@ -320,7 +339,7 @@ if len(session("user")) = 0 then
         
                     strTxtExport = strTxtExport &"Real. DB beløb;Real. DB %;"_
                     &"WIP DB beløb;WIP DB %;Faktureret;Faktisk Salgsomk. (indkøb);Faktisk Internkost.;Faktisk DB beløb;Faktisk DB %;"_
-                    &"Timepris (faktisk);Stade (WIP) %;WIP pr. dato ("& historisk_wipTxt &");WIP angivet dato;WIP Omsætning; Bal. Faktureret-Oms. WIP;"
+                    &"Timepris (faktisk);Stade (WIP) %;WIP pr. dato ("& historisk_wipTxt &");WIP angivet dato;WIP Omsætning; Bal. Faktureret-Oms. WIP;Faktureret i faktura valuta;"
 
        
 
@@ -340,7 +359,7 @@ if len(session("user")) = 0 then
                     end if
     
                     if eksDataNrl = 1 then
-                    strTxtExport = strTxtExport &"Aftale;Rekvnr.;Pre-konditioner opfyldt;Forretningsomr.;Projektgrupper (job);"
+                    strTxtExport = strTxtExport &"Aftale;Rekvnr.;Pre-konditioner opfyldt;Forretningsomr.;Afd./Business Unit;Projektgrupper (job);"
                     end if
 
                     if eksDataJsv = 1 then
@@ -644,27 +663,31 @@ if len(session("user")) = 0 then
 
 		'*** Export ****
 		'objF.WriteLine("Id "&  chr(009) &" Kundenavn "&  chr(009) &"Kundenr "& chr(009) &"Jobnavn "& chr(009)&"Aktivitet "& chr(009) &"Kunde "& chr(009) &"Timer / Enheder"& chr(009) &"Heraf fakturerbare timer"& chr(009) &"Reg. Timepris (uanset fastpris/lbn.tim.)"& chr(009) &"Gns.fak. Timepris" & chr(009) & "Medarbejder "& chr(009) &"Kommentar ")
-		
-		select case intJobstatus
-		case 0
-		strStatus = "Lukket"
-		case 1
-		strStatus = "Aktiv"
-		case 2
-		strStatus = "Passiv"
-		case 3
-		strStatus = "Tilbud"
-		end select 
-		
-		
-        '******* Eksport version *****'
-		if optiPrint = 0 OR optiPrint = 2 then
+
+      select case intJobstatus
+      case 0 'lukket
+      strStatus = jobstatus_txt_009
+      case 1 'aktiv
+      strStatus = jobstatus_txt_007
+      case 2 'passiv / til fakturering
+      strStatus = jobstatus_txt_013
+      case 3 'tilbud
+      strStatus = jobstatus_txt_003
+      case 4 'gennemsyn
+      strStatus = jobstatus_txt_004
+      case 5 'eval
+      strStatus = jobstatus_txt_010
+      end select
+
+
+      '******* Eksport version *****'
+      if optiPrint = 0 OR optiPrint = 2 then
 
 
 
 
 
-            if dblBudget <> 0 then
+      if dblBudget <> 0 then
             jobbudget = dblBudget
             else
             jobbudget = 0
@@ -849,7 +872,7 @@ if len(session("user")) = 0 then
         OmsRealBrutto = bruttoOmsReal '(OmsReal/1+salgsOmkFaktisk/1)
 
         
-         call fn_dbproc(bruttoOmsReal,realDbbelob)
+        call fn_dbproc(bruttoOmsReal,realDbbelob)
         realDB = dbProc
 
 		
@@ -950,15 +973,61 @@ if len(session("user")) = 0 then
                     next
         end if
 
-        strTxtExport = strTxtExport & Chr(34) & formatnumber(realDbbelob,2) & Chr(34) &";"_
-        & Chr(34) & formatnumber(realDB,0) & Chr(34) &";"_
-        & Chr(34) & formatnumber(forvDbbel,2) & Chr(34) &";"_
-        & Chr(34) & formatnumber(forvDb,0) & Chr(34) &";"_
-        & Chr(34) & formatnumber(faktureret,2) & Chr(34) &";"_
-        & Chr(34) & formatnumber(salgsOmkFaktisk,2) & Chr(34) &";"& Chr(34) & formatnumber(kostpris,2) & Chr(34) &";"_
-        & Chr(34) & formatnumber(db2bel,2) & Chr(34) &";"_
-        & Chr(34) & formatnumber(db2,0) & Chr(34) &";"_
-        & Chr(34) & formatnumber(gnstimepris,2) & Chr(34) &";"& Chr(34) & formatnumber(afsl_proc, 0) & Chr(34) &";" & Chr(34) & wipdato & Chr(34) &";" & Chr(34) & wipHistdato & Chr(34) &";"& Chr(34) & formatnumber(OmsWIP, 2) & Chr(34) &";"& Chr(34) & formatnumber(balWIP, 2) & Chr(34) &";"
+        if len(trim(realDbbelob)) <> 0 AND realDbbelob <> 0 AND isNULL(realDbbelob) <> true then
+        realDbbelob = realDbbelob
+        else
+        realDbbelob = 0
+        end if
+
+        strTxtExport = strTxtExport & Chr(34) & formatnumber(realDbbelob,2) & Chr(34) &";"
+        strTxtExport = strTxtExport & Chr(34) & formatnumber(realDB,0) & Chr(34) &";"
+        strTxtExport = strTxtExport & Chr(34) & formatnumber(forvDbbel,2) & Chr(34) &";"
+        strTxtExport = strTxtExport & Chr(34) & formatnumber(forvDb,0) & Chr(34) &";"
+
+
+        if len(trim(faktureret)) <> 0 AND faktureret <> 0 AND isNULL(faktureret) <> true then
+        faktureret = faktureret
+        else
+        faktureret = 0
+        end if
+        
+
+        strTxtExport = strTxtExport & Chr(34) & formatnumber(faktureret,2) & Chr(34) &";" 
+        strTxtExport = strTxtExport & Chr(34) & formatnumber(salgsOmkFaktisk,2) & Chr(34) &";"& Chr(34) & formatnumber(kostpris,2) & Chr(34) &";"
+
+
+        if len(trim(db2bel)) <> 0 AND db2bel <> 0 AND isNULL(db2bel) <> true then
+        db2bel = db2bel
+        else
+        db2bel = 0
+        end if
+        
+        strTxtExport = strTxtExport & Chr(34) & formatnumber(db2bel,2) & Chr(34) &";"
+        
+        strTxtExport = strTxtExport & Chr(34) & formatnumber(db2,0) & Chr(34) &";"
+        strTxtExport = strTxtExport & Chr(34) & formatnumber(gnstimepris,2) & Chr(34) &";"& Chr(34) & formatnumber(afsl_proc, 0) & Chr(34) &";"
+        strTxtExport = strTxtExport & Chr(34) & wipdato & Chr(34) &";" & Chr(34) & wipHistdato & Chr(34) &";"
+
+        if len(trim(OmsWIP)) <> 0 AND OmsWIP <> 0 AND isNULL(OmsWIP) <> true then
+        OmsWIP = OmsWIP
+        else
+        OmsWIP = 0
+        end if
+
+        if len(trim(balWIP)) <> 0 AND balWIP <> 0 AND isNULL(balWIP) <> true then
+        balWIP = balWIP
+        else
+        balWIP = 0
+        end if
+
+        if len(trim(faktureret_fakvaluta)) <> 0 AND faktureret_fakvaluta <> 0 AND isNULL(faktureret_fakvaluta) <> true then
+        faktureret_fakvaluta = faktureret_fakvaluta
+        else
+        faktureret_fakvaluta = 0
+        end if
+
+        strTxtExport = strTxtExport & Chr(34) & formatnumber(OmsWIP, 2) & Chr(34) &";"& Chr(34) & formatnumber(balWIP, 2) & Chr(34) &";"
+        strTxtExport = strTxtExport & Chr(34) & formatnumber(faktureret_fakvaluta,2) & Chr(34) &";"
 		end if
 
 
@@ -986,13 +1055,15 @@ if len(session("user")) = 0 then
 
                 '**** Fomr ****'
                 strTxtFomr = ""
-                strSQLf = "SELECT for_fomr, fomr.navn FROM fomr_rel "_
+                strTxtFomrBU = ""
+                strSQLf = "SELECT for_fomr, fomr.navn, fomr.business_unit FROM fomr_rel "_
                 &" LEFT JOIN fomr ON (fomr.id = for_fomr) WHERE for_jobid = "& jobIder(i) & " GROUP BY for_fomr"
                 fo = 0
                 oRec3.open strSQLf, oConn, 3
                 while not oRec3.EOF 
 
                 strTxtFomr = strTxtFomr & oRec3("navn") & ", "
+                strTxtFomrBU = strTxtFomrBU &  oRec3("business_unit") & ", "
 
                 fo = fo + 1
                 oRec3.movenext
@@ -1003,16 +1074,21 @@ if len(session("user")) = 0 then
                 len_strTxtFomr = len(strTxtFomr)
                 left_strTxtFomr = left(strTxtFomr, len_strTxtFomr-2)
                 strTxtFomr = left_strTxtFomr
+
+                len_strTxtFomrBU = len(strTxtFomrBU)
+                left_strTxtFomrBU = left(strTxtFomrBU, len_strTxtFomrBU-2)
+                strTxtFomrBU = left_strTxtFomrBU
+
                 end if
 
 
 
-                strTxtExport = strTxtExport & Chr(34) & strTxtFomr & Chr(34) & ";"
+                strTxtExport = strTxtExport & Chr(34) & strTxtFomr & Chr(34) & ";"& Chr(34) & strTxtFomrBU & Chr(34) & ";"
 
                 
                 strTxtExport = strTxtExport & Chr(34) 
 
-                 for p = 1 to 10
+                for p = 1 to 10
         
                 pgid = oRec("projektgruppe"&p)
 
@@ -1025,7 +1101,8 @@ if len(session("user")) = 0 then
 
                 strTxtExport = strTxtExport & Chr(34) & ";"
 
-                end if
+
+        end if
 
 
         if eksDataJsv = 1 then
@@ -1343,6 +1420,8 @@ if len(session("user")) = 0 then
             antaldage = 0
             end if
 
+
+           
             ddDato = now
 
             lukkeDatoGT = dateAdd("d", -antaldage, ddDato)
@@ -1357,51 +1436,81 @@ if len(session("user")) = 0 then
             oRec2.open strSQLmonitor, oConn, 3     
             while not oRec2.EOF
 
+                     midsMatfbWrt = " usrid <> -1"
+
                     'Timer
                     aktTimer = 0
-                    strSQLt = "SELECT SUM(timer) AS sumtimer FROM timer WHERE taktivitetid = "& oRec2("aktid") &" GROUP BY taktivitetid"
+                    strSQLt = "SELECT SUM(timer) AS sumtimer, init, mid FROM timer "_
+                    &" LEFT JOIN medarbejdere ON (mid = tmnr) WHERE taktivitetid = "& oRec2("aktid") &" GROUP BY tmnr, taktivitetid"
                     'Response.write strSQLt
                     'Response.flush
         
                     oRec3.open strSQLt, oConn, 3
-                    if not oRec3.EOF then
+                    while not oRec3.EOF 
         
-                    aktTimer = oRec3("sumtimer")
+                        aktTimer = oRec3("sumtimer")
+                        init = oRec3("init")
+                        medid = oRec3("mid")
 
-                    end if
-                    oRec3.close 
+                
 
                     'Materilaer
                     aktMatantal = 0
-                    strSQLm = "SELECT SUM(matantal) AS summatantal FROM materiale_forbrug WHERE aktid = "& oRec2("aktid") &" GROUP BY aktid"
-                    oRec3.open strSQLm, oConn, 3
-                    if not oRec3.EOF then
+                    strSQLm = "SELECT SUM(matantal) AS summatantal FROM materiale_forbrug WHERE aktid = "& oRec2("aktid") &" AND usrid = "& medid &" GROUP BY usrid, aktid"
+                    oRec4.open strSQLm, oConn, 3
+                    if not oRec4.EOF then
         
-                    aktMatantal = oRec3("summatantal")
+                    aktMatantal = oRec4("summatantal")
 
                     end if
+                    oRec4.close 
+
+
+                        call prodnrsub
+
+                        strTxtExport = strTxtExport & init &";"& prodnr &";"& oRec2("avarenr") & ";"& aktTimer &";"& aktMatantal & ";0;0;0;"& vbcrlf
+                        
+                        midsMatfbWrt = midsMatfbWrt & " AND usrid <> " & medid
+                    
+                    oRec3.movenext
+                    wend 
                     oRec3.close 
 
-            
-            prodnr = ""
-            if len(trim(oRec2("fase"))) <> 0 then
-            
-                if mid(oRec2("fase"), 6,1) = "-" then
-                prodnr = oRec2("jobnr") & mid(oRec2("fase"), 4,2)
-                else 'Pos > 9
-                prodnr = oRec2("jobnr") & mid(oRec2("fase"), 4,3) 
-                end if
+
+                    
+                    'Materilaer på medarb. uden timeforbrug
+                    aktMatantal = 0
+                    strSQLm = "SELECT SUM(matantal) AS summatantal, init FROM materiale_forbrug "_
+                    &" LEFT JOIN medarbejdere ON (mid = usrid) WHERE aktid = "& oRec2("aktid") &" AND ("& midsMatfbWrt &") GROUP BY usrid, aktid"
+                    
         
-            else 
-            prodnr = oRec2("jobnr") 
-            end if
+                    'response.write strSQLm & "<br>"
+                    'response.flush
+        
+                    oRec4.open strSQLm, oConn, 3
+                    while not oRec4.EOF
+        
+                    aktMatantal = oRec4("summatantal")
+                    init = oRec4("init")
 
-            strTxtExport = strTxtExport & prodnr &";"& oRec2("avarenr") & ";"& aktTimer &";"& aktMatantal & ";"& vbcrlf
+                    call prodnrsub
 
+                        strTxtExport = strTxtExport & init &";"& prodnr &";"& oRec2("avarenr") & ";0;"& aktMatantal & ";0;0;0;"& vbcrlf
+
+                    oRec4.movenext
+                    wend
+                    oRec4.close 
+
+
+                        
+                        
             oRec2.movenext
             wend 
             oRec2.close
   
+
+
+
     end select
     'end if optiprint
 	

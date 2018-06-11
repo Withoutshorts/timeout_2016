@@ -102,6 +102,7 @@ fl_enhed(a) = intEnhedsang 'oRec("enhedsang")
 fl_rabat(a) = intRabat
 fl_momsfri(a) = 0' oRec("momsfri")
 fl_belob(a) = intPris 'strBeloeb 'intPris
+fl_jobaktid(a) = 0
 
 a = 1
 
@@ -122,13 +123,15 @@ if func = "red" then
 		        '******************* Henter oprettede aktiviteter ******************************'
 		        '*******************************************************************************'
 		        strSQL = "SELECT fd.id, fd.antal, "_
-		        &" fd.valuta, fd.beskrivelse, fak_sortorder, enhedsang, fd.fase AS fase, momsfri, fd.enhedspris, fd.valuta, fd.rabat, fd.aktpris "_
+		        &" fd.valuta, fd.beskrivelse, fak_sortorder, enhedsang, fd.fase AS fase, momsfri, fd.enhedspris, fd.valuta, fd.rabat, fd.aktpris, fd.aktid, fd.showonfak "_
 		        &" FROM faktura_det AS fd "_
 		        &" WHERE fakid = "& intFakid &" ORDER BY fak_sortorder " 
 		        
+                'if session("mid") = 1 then
 		        'Response.Write strSQL
 		        'Response.flush
-		        
+                'end if
+		        ermedpaaFakSQL = " AND ( j.id <> 0"
                 a = a
 		        oRec.open strSQL, oConn, 3
 		       
@@ -136,7 +139,13 @@ if func = "red" then
 
                 fl_antal(a) = oRec("antal")
                 fl_besk(a) = oRec("beskrivelse")
+            
+                if cint(oRec("showonfak")) = 1 then
                 fl_vis(a) = "CHECKED"
+                else
+                fl_vis(a) = ""
+                end if
+    
                 fl_enhpris(a) = oRec("enhedspris")
                 fl_valuta(a) = oRec("valuta")
                 thisaktfunc(a) = "red"
@@ -144,11 +153,16 @@ if func = "red" then
                 fl_rabat(a) = oRec("rabat")
                 fl_momsfri(a) = oRec("momsfri")
                 fl_belob(a) = oRec("aktpris")
+                fl_jobaktid(a) = oRec("aktid")
+
+                ermedpaaFakSQL = ermedpaaFakSQL &" AND j.id <> " & oRec("aktid")
 
                 a = a + 1
                 oRec.movenext
                 wend
                 oRec.close
+
+                ermedpaaFakSQL = ermedpaaFakSQL & ")"
 
                 '** Resten
                 if a <> 0 then
@@ -156,11 +170,60 @@ if func = "red" then
                 else
                 sta_tomme = 0
                 end if
+    
 
+                'if session("mid") = 1 then
                 'Response.Write "a: "&a& " sta_tomme " & sta_tomme & "showOld" & showOld & " tdato:  "&cDate(strTdato) & " dato:  "&cDate(strDato)
                 'Response.flush
+                'end if
 
-                for e = sta_tomme to 20
+                'ALLE linjer <> 0 timer/enheder bliver gemt sammen med fakturaen.
+                strSQLaftalejob = "SELECT jobnavn, jobnr, id AS jid, valuta FROM job j WHERE serviceaft = "& aftid & " AND jobstatus <> 0 AND serviceaft <> 0 "& ermedpaaFakSQL
+
+
+                        'if session("mid") = 1 then
+                        'Response.write "strSQLaftalejob " & strSQLaftalejob
+                        'end if
+                        'Response.end
+
+                        jai = a
+                       
+                        oRec.open strSQLaftalejob, oConn, 3
+                        while not oRec.EOF 
+
+                      
+                        fl_jobaktid(jai) = oRec("jid")
+                        fl_besk(jai) = oRec("jobnavn") & " ("& oRec("jobnr") &")"
+        
+                
+                                '** Henter hovedlinje til gl. fakturaer på aftaler før 15/11-2010 **'
+            
+                                fl_antal(jai) = 0
+                                fl_vis(jai) = ""
+                                fl_enhpris(jai) = 0
+                                fl_valuta(jai) = oRec("valuta")
+                                thisaktfunc(jai) = "opr"
+                                fl_enhed(jai) = 2
+                                fl_rabat(jai) = intRabat/100 '0
+                                fl_momsfri(jai) = 0
+                                fl_belob(jai) = 0
+
+                               
+
+                
+
+                            jai = jai + 1
+                            oRec.movenext
+                            wend
+                            oRec.close 
+
+
+                sta_tomme = sta_tomme + jai
+
+
+                for e = sta_tomme to 50
+
+
                 fl_antal(e) = 0
                 fl_besk(e) = ""
                 fl_vis(e) = ""
@@ -171,6 +234,10 @@ if func = "red" then
                 fl_rabat(e) = 0
                 fl_momsfri(e) = 0
                 fl_belob(e) = 0
+                fl_jobaktid(e) = 0
+
+
+
                 next
 
 
@@ -184,7 +251,7 @@ else
                 ja = 0
                 end if
                 
-                for a = ja to 20
+                for a = ja to 50
                 fl_antal(a) = 0
                 fl_besk(a) = ""
                 fl_vis(a) = ""
@@ -195,6 +262,7 @@ else
                 fl_rabat(a) = intRabat/100
                 fl_momsfri(a) = 0
                 fl_belob(a) = 0
+                fl_jobaktid(a) = 0
                 next
 
                 
@@ -223,11 +291,17 @@ end if
                  Varenr. <input type="text" name="FM_varenr" value="<%=strVarenr%>" style="font-size:9px; width:150px;"><br /><br />
                 <b>Job tilknyttet denne aftale:</b><br />           
                 <%=strJobPaaAft %>
+
+                <%if func = "red" then %>
+                &nbsp;(antal: <%=a %>/<%=jai %>)    
+                <%else %>
+                &nbsp;(antal: <%=ja %>)
+                <%end if %>
                 <br /><br />
 
                 <%
                 uWdt = 300
-                uTxt = "Job tilknyttet denne aftale bliver lukket for timereg. frem til fakturadato."
+                uTxt = "Job tilknyttet denne aftale bliver lukket for timereg. frem til fakturadato. <br> Alle linjer med enheder/timer på bliver gemt sammen med fakturaen. Kun dem der er checked under 'vis' bliver vist på fakturaren"
                 call infoUnisport(uWdt, uTxt) %>
                 
              
@@ -313,7 +387,7 @@ end if
 totalbelob = 0
 strAktsubtotal = ""
 a = 1
-for x = 0 to 20
+for x = 0 to 50
             
 
             select case right(x, 1)
@@ -333,7 +407,7 @@ for x = 0 to 20
             '*** Faste generelle ***'
             strAktsubtotal = strAktsubtotal & "<input id='antal_n_"&x&"' name='antal_n_"&x&"' value=""2"" type=""hidden"" />"
             strAktsubtotal = strAktsubtotal & "<input id='aktsort_"&x&"' name='aktsort_"&x&"' value='"&x&"' type=""hidden"" />"
-            strAktsubtotal = strAktsubtotal & "<input id='aktId_n_"&x&"' name='aktId_n_"&x&"' value='"&x&"' type=""hidden"" />"
+            strAktsubtotal = strAktsubtotal & "<input id='aktId_n_"&x&"' name='aktId_n_"&x&"' value='"&fl_jobaktid(x)&"' type=""hidden"" />"
             strAktsubtotal = strAktsubtotal & "<input id='highest_aval_"&x&"' name='highest_aval_"&x&"' value=""1"" type=""hidden"" />"
             strAktsubtotal = strAktsubtotal & "<input id='antal_subtotal_akt_"&x&"' name='antal_subtotal_akt_"&x&"' value=""-1"" type=""hidden"" />"
             strAktsubtotal = strAktsubtotal & "<input id='FM_hidden_timerthis_"&x&"_"&a&"' name='FM_hidden_timerthis_"&x&"_"&a&"' value='"& fl_antal(x) &"' type=""hidden"" />"

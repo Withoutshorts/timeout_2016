@@ -1,14 +1,14 @@
 <%
 public erHellig, helligdagnavn, helligdagnavnTxt, helligdageIalt 
-function helligdage(tjekdennedag, show, lto)
+function helligdage(tjekdennedag, show, lto, usemrn)
 
 
 'response.write "year(tjekdennedag): "& year(tjekdennedag)
 
 '** Individuelle indstillinger for helligdage intert i virksomhed ***'
-if lto = "tec" OR lto = "esn" then
+'if lto = "tec" OR lto = "esn" then
     
-    if len(trim(usemrn)) <> 0 then 'valgt medarb på timereg. siden
+    if len(trim(usemrn)) <> 0 AND usemrn <> 0 then 'valgt medarb på timereg. siden
     useMedidProgrp = usemrn
     else
     useMedidProgrp = session("mid")
@@ -17,11 +17,120 @@ if lto = "tec" OR lto = "esn" then
     call medariprogrpFn(useMedidProgrp)
 
     medariprogrpTxtDage = medariprogrpTxt
-else
-medariprogrpTxtDage = "-1"
-end if
+'else
+'medariprogrpTxtDage = "-1"
+'end if
 
 'response.write "medariprogrpTxt: "& medariprogrpTxtDage
+
+
+
+if year(tjekdennedag) >= 2018 then
+
+    if len(trim(usemrn)) <> 0 then 'valgt medarb på timereg. siden
+    useMedid = usemrn
+    else
+    useMedid = session("mid")
+    end if 
+
+call meStamdata(useMedid)
+
+'National holidays
+
+if len(trim(meCal)) <> 0 then
+meCal = meCal
+else
+meCal = "DK"
+end if
+
+tjekdennedagSQL = year(tjekdennedag) & "-" & month(tjekdennedag) & "-" & day(tjekdennedag)
+erHellig = 0
+helligdagnavn = ""
+
+strSQL8 = "SELECT nh_id, nh_country, nh_name, nh_duration, nh_date, nh_editor_date, nh_open, nh_sortorder, nh_projgrp FROM national_holidays "_
+&" WHERE nh_id <> 0 AND nh_date = '"& tjekdennedagSQL &"' AND nh_country = '"& meCal &"' ORDER BY nh_country, nh_sortorder, nh_name, nh_date"
+
+    'if session("mid") = 1 then
+    'rESPONSE.WRITE strSQL8
+    'Response.flush
+    'end if
+
+oRec9.open strSQL8, oConn, 3
+if not oRec9.EOF then
+
+
+
+if oRec9("nh_projgrp") <> "" then 'len(trim(oRec9("nh_projgrp"))) <> 0 AND 
+nh_projgrp = 1
+nh_projgrp_arr = split(oRec9("nh_projgrp"), ",")
+
+else
+nh_projgrp = 0
+end if
+
+
+if nh_projgrp = 0 then
+
+    helligdagnavn = oRec9("nh_name")
+    erHellig = oRec9("nh_open")
+
+else
+
+    prgGrpFundet = 0
+     for p = 0 to UBOUND(nh_projgrp_arr) AND prgGrpFundet = 0
+
+            if instr(trim(nh_projgrp_arr(p)), "-") = 0 then 'POSTIVE DVS kun helligdag for disse projektgrupper
+
+
+                'Response.Write "medariprogrpTxtDage: "& medariprogrpTxtDage &" nh_projgrp_arr(p): " & nh_projgrp_arr(p) 
+
+                
+                if instr(medariprogrpTxtDage, "#"& trim(nh_projgrp_arr(p)) &"#") <> 0 then
+                prgGrpFundet = 1
+                erHellig = oRec9("nh_open")
+                helligdagnavn = oRec9("nh_name")
+                else
+                erHellig = 0
+                helligdagnavn = ""
+                end if
+
+
+                'Response.Write " erHellig: "& erHellig & "<br>"
+
+            else
+
+                'NEGATIVE DVS ikke helligdag for disse projektgrupper
+                nh_projgrp_arr(p) = replace(nh_projgrp_arr(p), "-", "")
+
+            
+                if instr(medariprogrpTxtDage, "#"& trim(nh_projgrp_arr(p)) &"#") <> 0 then
+                erHellig = 0
+                prgGrpFundet = 1
+                helligdagnavn = ""
+                else
+                erHellig = oRec9("nh_open")
+                helligdagnavn = oRec9("nh_name")
+                end if
+
+
+            end if
+
+     next
+
+    
+
+end if
+
+
+end if
+oRec9.close
+
+
+'Response.write "HER: " & helligdagnavn
+
+
+else
+
 
 select case lto 'land
 case "xepi_no", "xepi_bar", "xepi_sta", "xintranet - local" 'NO -- > Læg det ind i den centrale kalender, så der kune er en kalender.
@@ -2076,11 +2185,283 @@ erHellig = 0
 
 
 
+          
+
+            '*************************************************************************************************
+            case 20189
+            '*** NY function 'Kalder helligdage
+		
+		
+			erHellig = 0
+			select case month(tjekdennedag)
+			case 1
+				
+				select case day(tjekdennedag)
+				case 1
+				helligdagnavn = "1. Nytårsdag"
+				        
+                         if lto = "tec" OR lto = "xesn" then
+				         erHellig = 0
+                         else
+                         erHellig = 1
+                         end if
+				
+
+              
+	        end select		
+
+
+
+            case 3
+
+                select case day(tjekdennedag)
+
+				case 25
+				helligdagnavn = "Palmesøndag"
+
+
+               case 26,27
+               
+                    if instr(lto, "epi") then
+                    helligdagnavn = "Feriefridag"
+				    erHellig = 1
+                    end if
+
+
+               case 28 
+                    if lto = "plan" or lto = "xintranet - local" then
+                    helligdagnavn = "Plandag"
+				    erHellig = 1
+                    end if
+
+                    if instr(lto, "epi") then
+                    helligdagnavn = "Feriefridag"
+				    erHellig = 1
+                    end if
+                    
+
+                case 29
+				helligdagnavn = "Skærtorsdag"
+				         if lto = "tec" OR lto = "xesn" then
+				         erHellig = 0
+                         else
+                         erHellig = 1
+                         end if
+
+				case 30
+				helligdagnavn = "Langfredag"
+	                     if lto = "tec" OR lto = "xesn" then
+				         erHellig = 0
+                         else
+                         erHellig = 1
+                         end if			        
+
+                end select
+
+            case 4
+
+                select case day(tjekdennedag)
+
+				case 1 
+				helligdagnavn = "Påskedag"
+	                     if lto = "tec" OR lto = "xesn" then
+				         erHellig = 0
+                         else
+                         erHellig = 1
+                         end if			        
+
+				case 2
+				helligdagnavn = "2.Påskedag"
+				         if lto = "tec" OR lto = "xesn" then
+				         erHellig = 0
+                         else
+                         erHellig = 1
+                         end if
+
+                
+            
+                 case 27
+
+
+		            
+                        select case lto
+                        case "akelius"
+                        helligdagnavn = ""
+                        erHellig = 0
+                        case "tec"
+                        helligdagnavn = "St. Bededag"
+                        erHellig = 0
+                        case else
+                        helligdagnavn = "St. Bededag"
+                        erHellig = 1
+                        end select
+				   
+              
+                    
+
+                
+
+                end select
+		  		
+			case 5
+				
+                    select case day(tjekdennedag)
+
+                        case 1
+				        helligdagnavn = "1 maj"
+				        
+                        select case lto
+                        case "wwf", "tec", "esn", "oko", "fk", "eniga", "adra", "hestia", "plan", "wilke", "mi", "acc"
+                        erHellig = 0
+                        case else
+                        erHellig = 1
+                        end select
+
+
+				    
+
+
+                    case 10
+				    helligdagnavn = "Kristi Himmelfart"
+				        
+                             if lto = "tec" OR lto = "xxesn" then
+				             erHellig = 0
+                             else
+                             erHellig = 1
+                             end if
+
+                    case 11
+
+                    if lto = "epi" OR lto = "epi_no" OR lto = "epi_sta" OR lto = "epi_ab" OR lto = "epi_cati" OR lto = "epi_uk" then
+                    helligdagnavn = "Feriefridag"
+				    erHellig = 1
+                    end if
+
+                    if lto = "mi" OR lto = "cst" OR lto = "acc" OR lto = "cisu" OR lto = "adra" then
+                    helligdagnavn = "Fridag"
+				    erHellig = 1
+                    end if
+
+                    if lto = "plan" or lto = "xintranet - local" then
+                    helligdagnavn = "Plandag"
+				    erHellig = 1
+                    end if
+
+                   
+                   case 20
+				   helligdagnavn = "Pinsedag"
+				
+                         if lto = "tec" OR lto = "xesn" then
+				         erHellig = 0
+                         else
+                         erHellig = 1
+                         end if	
+
+
+
+                    case 21
+				    helligdagnavn = "2. Pinsedag"
+				
+                         if lto = "tec" OR lto = "xesn" then
+				         erHellig = 0
+                         else
+                         erHellig = 1
+                         end if		  
+
+
+
+                    end select
+               
+
+			case 6
+				
+				select case day(tjekdennedag)
+	            case 5
+				helligdagnavn = "Gr.lovsdag"
+				
+                         if lto = "tec" OR lto = "xesn" then
+				         erHellig = 0
+                         else
+                         erHellig = 1
+                         end if		  
+
+
+
+                case "17"
+            
+                        
+                        if lto = "akelius" OR lto = "epi_no" then
+                        helligdagnavn = "Grunnlovsdag"
+				        erHellig = 1
+                        end if
+
+				end select
+				
+				
+
+			case 12
+				select case day(tjekdennedag)
+				case 24
+				helligdagnavn = " "
+				    
+                    if (lto = "tec" AND ( instr(medariprogrpTxtDage, "#34#") = 0 OR instr(medariprogrpTxtDage, "#30#") = 0 )) then
+                    erHellig = 0
+                    else
+				    erHellig = 1
+                    end if
+				
+                case 25
+				helligdagnavn = "Juledag"
+				         
+                         if lto = "tec" OR lto = "xesn" then
+				         erHellig = 0
+                         else
+                         erHellig = 1
+                         end if
+
+				case 26
+				helligdagnavn = "2.Juledag"
+				    
+                         if lto = "tec" OR lto = "xesn" then
+				         erHellig = 0
+                         else
+                         erHellig = 1
+                         end if
+
+                case 27,28
+
+                    if lto = "plan" then
+                    helligdagnavn = "Plandag"
+				    erHellig = 1
+                    else
+                    erHellig = 0
+                    end if
+
+               
+
+
+				case 31
+				helligdagnavn = "Nytårsaften"
+				    
+                    if lto = "dencker" OR lto = "jttek" OR lto = "fk_bpm" OR lto = "fk" OR lto = "synergi1" OR (lto = "tec" AND ( instr(medariprogrpTxtDage, "#34#") = 0 OR instr(medariprogrpTxtDage, "#30#") = 0 ) ) then
+                    erHellig = 0
+                    else
+				    erHellig = 1
+                    end if
+
+				end select
+			end select
+            '*** 2018 END
        
+
         end select 'årstal
 
 
         end select 'lto
+
+
+        end if 'if year(tjekdennedag) >= 2018 then
+
 
 		'if thisfile <> "budget_bruttonetto" AND thisfile <> "budget_aar_dato.asp" AND thisfile <> "res_belaeg" AND _
 		'thisfile <> "bal_real_norm_2007.asp"  AND thisfile <> "afstem_tot.asp" then

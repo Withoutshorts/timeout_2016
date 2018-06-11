@@ -74,8 +74,23 @@
                     fraDato = request("FM_fradato")
                     fraDatoSQL = year(fraDato) &"/"& month(fraDato) &"/"& day(fraDato) 
 
+                    fraDatoSQLmth = month(fraDato)
+                    fraDatoSQLyyy = year(fraDato)
+
                     forefter = request("forefter")
 
+                    if forefter = ">=" then
+                    resDatokriSql = " AND ((md " & forefter &" "& fraDatoSQLmth &" AND aar = "& fraDatoSQLyyy &") OR (aar > "& fraDatoSQLyyy &")) "
+                    else
+                    resDatokriSql = " AND ((md " & forefter &" "& fraDatoSQLmth &" AND aar = "& fraDatoSQLyyy &") OR (aar < "& fraDatoSQLyyy &")) "
+                    end if
+
+
+                    if len(trim(request("flyt_restimer"))) <> 0 then
+                    flyt_restimer = 1
+                    else
+                    flyt_restimer = 0
+                    end if
 
                     jobnavn = "Job Not found"
                     jobnr = 0
@@ -85,10 +100,10 @@
                     '**** NYT JOB ****
                     if newakt < 0 then 
                     newjobid = newakt * -1    
-                    strSQLj = "SELECT j.id, jobnavn, jobnr, kkundenavn, kkundenr, kid FROM job j "_
+                    strSQLj = "SELECT j.id AS jobid, jobnavn, jobnr, kkundenavn, kkundenr, kid FROM job j "_
                     &" LEFT JOIN kunder k ON (k.kid = j.jobknr) WHERE j.id = "& newjobid
                     else
-                    strSQLj = "SELECT jobnavn, jobnr, kkundenavn, kkundenr, kid, fakturerbar FROM aktiviteter a "_
+                    strSQLj = "SELECT j.id AS jobid, jobnavn, jobnr, kkundenavn, kkundenr, kid, fakturerbar FROM aktiviteter a "_
                     &" LEFT JOIN job j ON (j.id = a.job) "_
                     &" LEFT JOIN kunder k ON (k.kid = j.jobknr) WHERE a.id = "& newakt
                     end if
@@ -104,6 +119,7 @@
                     kkundenavn = replace(oRec("kkundenavn"), "'", "''")
                     kknr = oRec("kkundenr")
                     kid = oRec("kid")
+                    jobid = oRec("jobid")
 
                     if newakt > 0 then 
                     fakturerbar = oRec("fakturerbar")
@@ -139,6 +155,13 @@
 					            oConn.execute(strSQLtimer)
 
 
+                                if cint(flyt_restimer) = 1 then
+                                '** Ressource timer ***'s
+                                strSQlres = "UPDATE ressourcer_md SET jobid = "& jobid &" WHERE aktid = "& aid
+                                oConn.execute(strSQlres)
+                                end if
+
+
                     else        '*** MERGE / Sammenlæg
 
 
@@ -161,6 +184,15 @@
 					            'Response.flush
                 								
 					            oConn.execute(strSQLtimer)
+
+
+                                if cint(flyt_restimer) = 1 then
+                                '** Ressource timer ***'s
+                                strSQlres = "UPDATE ressourcer_md SET jobid = "& jobid &", aktid = "& newakt &" WHERE aktid = "& aid & replace(strSQLmedKri, "tmnr", "medid") & " " & resDatoKriSql
+                                oConn.execute(strSQlres)
+                                end if
+
+                               
 
                     end if
 
@@ -235,7 +267,7 @@
                 <div class="col-lg-1">&nbsp</div>
                 <div class="col-lg-6">
                     Flyt/Sammenlæg aktivitet og timer til valgte job/aktivitet.<br />
-                    Ved sammenlæg beholdes aktivitet på det oprindelig job. Ved opret ny, flyttes aktiviteten og alle timer. 
+                    Ved sammenlæg beholdes aktivitet på det oprindelig job. Ved opret ny, flyttes aktiviteten og alle timer.
                     Projektgrupper forbliver uændret.
                     <br />
                   
@@ -248,11 +280,11 @@
                     jobslutdatoSQL = year(jobslutdato) &"-"& month(jobslutdato) & "-"& day(jobslutdato) 
 
                     whSQL = "(jobstatus = 1 OR (jobstatus = 0 AND jobslutdato >= '"& jobslutdatoSQL &"')) "& strSQLjobnr &""
-                    strSQLjob = "SELECT jobnavn, jobnr, j.id AS jobid, kid, kkundenavn, kkundenr, a.navn AS aktnavn, a.id AS aktid, FORMAT(SUM(timer), 2) AS sumtimer FROM aktiviteter a "_
+                    strSQLjob = "SELECT jobnavn, jobnr, j.id AS jobid, kid, kkundenavn, kkundenr, a.navn AS aktnavn, a.id AS aktid, fase, FORMAT(SUM(timer), 2) AS sumtimer, avarenr FROM aktiviteter a "_
 		            &" LEFT JOIN job j ON (j.id = a.job) "_
                     &" LEFT JOIN kunder ON (kid = jobknr) "_
                     &" LEFT JOIN timer ON (taktivitetid = a.id) "_
-                    &" WHERE "& whSQL &" GROUP BY taktivitetid ORDER BY jobnr, jobnavn, a.navn"
+                    &" WHERE "& whSQL &" GROUP BY taktivitetid ORDER BY jobnr, jobnavn, fase, a.navn"
 		
 		            'Response.Write strSQLjob
 		            'Response.flush
@@ -268,6 +300,8 @@
 		        lastkid = 0
                 antaljob = 0
                 lastjid = 0
+                antalakt = 0
+                lastFase = ""
 		        while not oRec2.EOF
 
 
@@ -281,10 +315,31 @@
                         <option DISABLED></option>
                         <%end if
 
-                    %><option><%=oRec2("jobnr") %> - <%=oRec2("jobnavn") %> [<%=oRec2("kkundenavn") %> (<%=oRec2("kkundenr") %>)]</option>
-                    <%end if %>
+                    %><option DISABLED><%=oRec2("jobnr") %> - <%=oRec2("jobnavn") %> [<%=oRec2("kkundenavn") %> (<%=oRec2("kkundenr") %>)]</option>
+                    <%
                         
+                     antaljob = antaljob + 1    
+                     end if %>
+
+
+                    <%
+
+                     if isNull(oRec2("fase")) <> true AND len(trim(oRec2("fase"))) <> 0 then
+
+                             if lastFase <> oRec2("fase") then
+
+                                if lastjid = oRec2("jobid") then
+                                %>
+                                <option DISABLED></option>
+                                <%end if
+
+                            %><option DISABLED>fase: <%=oRec2("fase") %></option>
+                            <%end if %>
+                    
+                     <%end if %>
                               
+                   
+
 
                  <%if isNull(oRec2("sumtimer")) <> true then
                      sumtimer = replace(replace(oRec2("sumtimer"), ",",""), ".", ",")
@@ -292,14 +347,22 @@
                      sumtimer = 0
                  end if
 
+
+                if isNull(oRec2("avarenr")) <> true AND len(trim(oRec2("avarenr"))) <> 0 then
+                     varnrTxt = " ["& oRec2("avarenr") &"]"
+                else
+                      varnrTxt = ""
+                end if
+
                      %>
 
-		          <option value="<%=oRec2("aktid") %>"><%=oRec2("aktnavn") & " .......................... ("& sumtimer &" t.)"%></option>
+		          <option value="<%=oRec2("aktid") %>"><%=oRec2("aktnavn") & varnrTxt & " .......................... ("& sumtimer &" t.)"%></option>
            
 		        <%
+                lastFase = oRec2("fase")
                 lastjid = oRec2("jobid")
                 lastKid = oRec2("kid")    
-                antaljob = antaljob + 1 
+                antalakt = antalakt + 1 
 		        oRec2.movenext
 		        Wend
 		        oRec2.close
@@ -307,7 +370,7 @@
 		        %>
 		         </select>
 		         <br />
-                Antal aktive job og tilbud: <%=antaljob %>
+                Antal aktive job og tilbud: <%=antaljob %>. Antal aktiviteter: <%=antalakt %>
                     
                 </div>
             </div>
@@ -321,11 +384,11 @@
                      lastjid = 0  
                       antaljob = 0 
                      whSQL = "(jobstatus = 1 OR (jobstatus = 0 AND jobslutdato >= '"& jobslutdatoSQL &"')) "& strSQLjobnr2 &"" 
-                    strSQLjobnew = "SELECT jobnavn, jobnr, j.id AS jobid, kid, kkundenavn, kkundenr, a.navn AS aktnavn, a.id AS aktid, FORMAT(SUM(timer), 2) AS sumtimer FROM aktiviteter a "_
+                    strSQLjobnew = "SELECT jobnavn, jobnr, j.id AS jobid, kid, kkundenavn, kkundenr, a.navn AS aktnavn, a.id AS aktid, fase, avarenr, FORMAT(SUM(timer), 2) AS sumtimer FROM aktiviteter a "_
 		            &" LEFT JOIN job j ON (j.id = a.job) "_
                     &" LEFT JOIN kunder ON (kid = jobknr) "_
                     &" LEFT JOIN timer ON (taktivitetid = a.id) "_
-                    &" WHERE "& whSQL &" GROUP BY a.id ORDER BY jobnr, jobnavn, a.navn"
+                    &" WHERE "& whSQL &" GROUP BY a.id ORDER BY jobnr, jobnavn, fase, a.navn"
 			        oRec2.open strSQLjobnew, oConn, 3
 			        while not oRec2.EOF
 				
@@ -339,22 +402,47 @@
                                 <option DISABLED></option>
                                 <%end if
 
-                            %><option value="-<%=oRec2("jobid") %>"><%=oRec2("jobnr") %> - <%=oRec2("jobnavn") %> [<%=oRec2("kkundenavn") %> (<%=oRec2("kkundenr") %>)]</option>
+                            %><option DISABLED><%=oRec2("jobnr") %> - <%=oRec2("jobnavn") %> [<%=oRec2("kkundenavn") %> (<%=oRec2("kkundenr") %>)]</option>
                                  <option value="-<%=oRec2("jobid") %>">>> Opret som ny aktivitet</option>
                             <%end if %>
                         
-                              
+                                
+                                 <%
+
+                     if isNull(oRec2("fase")) <> true AND len(trim(oRec2("fase"))) <> 0 then
+
+                             if lastFase <> oRec2("fase") then
+
+                                if lastjid = oRec2("jobid") then
+                                %>
+                                <option DISABLED></option>
+                                <%end if
+
+                            %><option DISABLED>fase: <%=oRec2("fase") %></option>
+                            <%end if %>
+                    
+                     <%end if %>
+
+
+
                          <%if isNull(oRec2("sumtimer")) <> true then
-                     sumtimer = replace(replace(oRec2("sumtimer"), ",",""), ".", ",")
-                 else
-                     sumtimer = 0
-                 end if
+                             sumtimer = replace(replace(oRec2("sumtimer"), ",",""), ".", ",")
+                         else
+                             sumtimer = 0
+                         end if
+
+                            if isNull(oRec2("avarenr")) <> true AND len(trim(oRec2("avarenr"))) <> 0 then
+                                 varnrTxt = " ["& oRec2("avarenr") &"]"
+                            else
+                                  varnrTxt = ""
+                            end if
 
                      %>
 
-		                  <option value="<%=oRec2("aktid") %>"><%=oRec2("aktnavn") & " .......................... ("& sumtimer &" t.)"%></option>
+		                  <option value="<%=oRec2("aktid") %>"><%=oRec2("aktnavn") & varnrTxt & " .......................... ("& sumtimer &" t.)"%></option>
            
 		                <%
+                        lastFase = oRec2("fase")
                         lastjid = oRec2("jobid")
                         lastKid = oRec2("kid")    
                         antaljob = antaljob + 1 
@@ -397,6 +485,10 @@
 			        oRec2.close %>
                        
                    </select>
+
+                <br /><br />
+                <input type="checkbox" value="1" name="flyt_restimer" /> Flyt også ressourceforecast timer 
+                    <br /><br />&nbsp;
 
             </div>
             </div>

@@ -719,9 +719,8 @@ if len(session("user")) = 0 then
 		
 				    else
 			
-			call erDetInt(useBudgettimer)
-			
-					if isInt > 0 then
+			        call erDetInt(useBudgettimer)
+                    if isInt > 0 then
 					%>
 					<!--#include file="../inc/regular/header_lysblaa_inc.asp"-->
 					
@@ -759,6 +758,17 @@ if len(session("user")) = 0 then
 					                    else
 					
 					
+                                        if len(trim(request("FM_avarenr"))) = 0 AND lto = "tia" then
+
+                                        %>
+					                    <!--#include file="../inc/regular/header_lysblaa_inc.asp"-->
+					                    <%
+					                    errortype = 190
+					                    call showError(errortype)
+					                   
+                                        else
+                                        
+
 				                        '*** Tidslås ***
 				                        if len(request("FM_tidslaas")) <> 0 then
 				                        tidslaas = 1
@@ -1710,6 +1720,7 @@ if len(session("user")) = 0 then
 				   end if '*validering
                    end if '*validering
                    end if '*validering
+                  end if '*validering
 				end if
 			end if
 	
@@ -2274,7 +2285,14 @@ if len(session("user")) = 0 then
             
             <br />
 		<input type="text" name="FM_navn" value="<%=strNavn%>" style="width:450px;" maxlength=100>
-        &nbsp;&nbsp;&nbsp;Akt. nr / Varenr:&nbsp;<input type="text" name="FM_avarenr" value="<%=strAvarenr%>" style="width:150px;" maxlength=50><br />
+        &nbsp;&nbsp;&nbsp;
+            <%if lto = "tia" then
+            varenrTxt = "Task No."
+            else
+            varenrTxt = "Akt. nr / Varenr"
+            end if
+                %>
+            <%=varenrTxt %>:&nbsp;<input type="text" name="FM_avarenr" value="<%=strAvarenr%>" style="width:150px;" maxlength=50><br />
 		<span style="color:#999999; font-size:9px;">(maks 100 karak. må ikke indeholde 'aprostrof eller "situations-tegn)</span>
 
         
@@ -2563,8 +2581,11 @@ if len(session("user")) = 0 then
 			<tr>
 				<td valign=top style="padding:40px 0px 0px 40px; width:150px;"><b>Type:</b> (egenskab)</td>
 				<td style="padding:40px 0px 0px 0px;">
+
+                    <%call akttyper2009(1) %>
+
 				        <select id="FM_fakturerbart" name="FM_fakturerbart" style="width:400px;">
-                       <%call akttyper2009(1)
+                       <%
                        Response.Write aty_options
                        %>
                   
@@ -2746,7 +2767,7 @@ if len(session("user")) = 0 then
 
     <%
     select case lto
-    case "xintranet - local", "lw"
+    case "xintranet - local", "lw", "cflow"
     showT = 1
     case else
     showT = 0
@@ -2768,9 +2789,12 @@ if len(session("user")) = 0 then
 			end if %>
 	
 	<tr>
-			<td style="padding:40px 0px 0px 40px;" valign=top>
-				<input type="checkbox" name="FM_tidslaas" id="FM_tidslaas" value="1" <%=tidslaas_chk%> onclick="vistidslaas();"><b>Tidslås:</b> <br />
+			<td style="padding:40px 20px 0px 40px;" valign=top>
+				<input type="checkbox" name="FM_tidslaas" id="FM_tidslaas" value="1" <%=tidslaas_chk%> onclick="vistidslaas();"><b>Tidslås:</b> 
+                <span style="color:#999999;">
+                <br />
 				Der skal <b>kun</b> kunne registreres timer<br /> på denne aktivitet i det anførte tidsinterval.
+                </span>
 				</td>
 			<td style="padding:40px 0px 0px 0px;" valign=top>
 			<%

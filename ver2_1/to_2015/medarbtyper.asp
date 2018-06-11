@@ -674,6 +674,13 @@ case "dbopr", "dbred"
                             kp1_valuta = request("FM_valuta_6")
 							
 
+                            if len(trim(request("feriesats"))) <> 0 then
+                            feriesats = request("feriesats")
+                            feriesats = replace(feriesats, ",", ".")
+                            else
+                            feriesats = 0
+                            end if
+
                             mtsortorder = request("FM_sortorder")
                             sostergp = request("FM_soster") 
 
@@ -747,14 +754,14 @@ case "dbopr", "dbred"
 				        oConn.execute("INSERT INTO medarbejdertyper (type, timepris, editor, dato, kostpris, normtimer_son, normtimer_man, normtimer_tir, normtimer_ons, normtimer_tor, normtimer_fre, normtimer_lor, "_
 				        &" timepris_a1, timepris_a2, timepris_a3, timepris_a4, timepris_a5, "_
 				        &" tp0_valuta, tp1_valuta, tp2_valuta, tp3_valuta, tp4_valuta, tp5_valuta, sostergp, mtsortorder, mgruppe, afslutugekri, afslutugekri_proc, noflex, "_
-                        &" kostpristarif_A, kostpristarif_B, kostpristarif_C, kostpristarif_D, kp1_valuta, mt_mobil_visstopur) VALUES"_
+                        &" kostpristarif_A, kostpristarif_B, kostpristarif_C, kostpristarif_D, kp1_valuta, mt_mobil_visstopur, feriesats) VALUES"_
 				        &" ('"& strNavn &"', "& strTimepris &", '"& strEditor &"', '"& strDato &"', "& dubKostpris &", "_
 				        &" "& normtimer_son &", "& normtimer_man &", "& normtimer_tir &", "& normtimer_ons &", "_
 				        &" "& normtimer_tor &", "& normtimer_fre &", "& normtimer_lor &", "& strTimepris1 &", "_
 				        &" "& strTimepris2 &", "& strTimepris3 &", "& strTimepris4 &", "& strTimepris5 &", "_
 				        &" "& tp0_valuta &","& tp1_valuta &","& tp2_valuta &","& tp3_valuta &","& tp4_valuta &","& tp5_valuta &", "& sostergp &", "_
                         &" "& mtsortorder &", "& mgruppe &","& afslutugekri &","& afslutugekri_proc &", "& noflex &", "_
-                        &" "& kostpristarif_A &","& kostpristarif_B &","& kostpristarif_C &","& kostpristarif_D &", "& kp1_valuta &", "& mt_mobil_visstopur &""_
+                        &" "& kostpristarif_A &","& kostpristarif_B &","& kostpristarif_C &","& kostpristarif_D &", "& kp1_valuta &", "& mt_mobil_visstopur &", "& feriesats &""_
 				        &" )")
 				
                 
@@ -809,7 +816,7 @@ case "dbopr", "dbred"
 				&" tp2_valuta = "& tp2_valuta &", tp3_valuta = "& tp3_valuta &", "_
 				&" tp4_valuta = "& tp4_valuta &", tp5_valuta = "& tp5_valuta &", sostergp = "& sostergp &", mtsortorder = "& mtsortorder &", "_
                 &" mgruppe = "& mgruppe &", afslutugekri = "& afslutugekri &", afslutugekri_proc = "& afslutugekri_proc &", noflex = "& noflex &", "_
-                &" kostpristarif_A = "& kostpristarif_A &", kostpristarif_B = "& kostpristarif_B &", kostpristarif_C = "& kostpristarif_C &", kostpristarif_D = "& kostpristarif_D &", kp1_valuta = "& kp1_valuta &", mt_mobil_visstopur = "& mt_mobil_visstopur &""_
+                &" kostpristarif_A = "& kostpristarif_A &", kostpristarif_B = "& kostpristarif_B &", kostpristarif_C = "& kostpristarif_C &", kostpristarif_D = "& kostpristarif_D &", kp1_valuta = "& kp1_valuta &", mt_mobil_visstopur = "& mt_mobil_visstopur &", feriesats = "& feriesats &""_
 				&" WHERE id = "&id&""
 
                 'response.write strSQLupd
@@ -837,49 +844,87 @@ case "dbopr", "dbred"
                 call valutaKurs(kp1_valuta)
                 kpvaluta_kurs = dblKurs
 
+
+
+                if request("FM_opdater_timepriser") = "1" OR len(trim(request("FM_opd_intern"))) <> 0 AND mt = 0 then
+                %>
+                <div style="position:absolute; left:200px; top:0px; width:400px;">
+                    <b>Opdaterer timepriser på medarbejdere af denne type.</b><br />
+                    Hver medarbejder kan tage op til 15 sekunder at opdatere. <br /><br />
+                <%
+                end if
+
+               
+                       
+
                 if instr(lto, "epi") <> 0 then 'Tjekker ikke mtypehistorik
-                strSQLm = "SELECT m.mid, m.mnr, m.ansatdato AS mtypedato FROM medarbejdere AS m "_
-                &" WHERE m.medarbejdertype = "& id & " AND (mansat = 1 OR mansat = 3)" 'Aktive og passive
+                strSQLm = "SELECT m.mid, m.mnr, m.ansatdato AS mtypedato, init FROM medarbejdere AS m "_
+                &" WHERE m.medarbejdertype = "& id & " AND (mansat = 1 OR mansat = 3) ORDER BY mid LIMIT 40, 50" 'Aktive og passive
                
                 else
-                strSQLm = "SELECT m.mid, m.mnr, mth.mtypedato, mth.id, mth.mtype FROM medarbejdere AS m "_
-                &" LEFT JOIN medarbejdertyper_historik AS mth ON (mth.mid = m.mid AND mth.mtype = m.medarbejdertype) WHERE m.medarbejdertype = "& id & " AND (mansat = 1 OR mansat = 3)" 'Aktive og passive
+                strSQLm = "SELECT m.mid, m.mnr, mth.mtypedato, mth.id, mth.mtype, init FROM medarbejdere AS m "_
+                &" LEFT JOIN medarbejdertyper_historik AS mth ON (mth.mid = m.mid AND mth.mtype = m.medarbejdertype) WHERE m.medarbejdertype = "& id & " AND (mansat = 1 OR mansat = 3) LIMIT 200" 'Aktive og passive
                 end if
                 'Response.write strSQLm & "<br>"
                 'Response.flush
-
+                mt = 0
                 oRec.open strSQLm, oConn, 3
                 While Not oRec.EOF 
                         
                        
-
+                                
 
                             
                                 '*****************************************************************************************************************
-                                '************** Opdater eksisterende timer på åbne job på denne medarb.type 
+                                '************** Opdater eksisterende timer og timepristabel på åbne job + aktiviteter på denne medarb.type 
                                 '*****************************************************************************************************************
+
+                                
+
+
+                                            if len(trim(request("FM_opdater_timepriser_closedjobs"))) <> 0 then 'also closed jobs
+
+                                                closedjobsSQL = "jobstatus = 1 OR jobstatus = 3 OR (jobstatus = 0 AND lukkedato >= '"& year(now) &"-01-01')"
+                                            else
+                                                closedjobsSQL = "jobstatus = 1 OR jobstatus = 3"
+
+                                            end if
+
 
                                         if request("FM_opdater_timepriser") = "1" then
 
                                            
+                                                'if session("mid") = 1 then
+                        
+                                                'Response.write "========================================================================================<br><br>"
+                                                Response.write "Opdaterer timepriser for medarbejder: ["& oRec("init") &"] - "& mt & "<br>"
+                                                response.flush
+                                
+                                                'end if
+
 
 
                                             '** Finder alle åbne job
                                             '** Finder tilhørende Aktiviteter KUN DEM DER IKKE ER SAT TIL FAST TP
-                                            strSQLjob = "SELECT j.id AS jobid, j.jobnr, a.id AS aktid FROM job AS j "_
+                                            strSQLjob = "SELECT j.id AS jobid, j.jobnr, a.id AS aktid, jobstatus FROM job AS j "_
                                             &" LEFT JOIN aktiviteter AS a ON (a.job = j.id AND (fakturerbar = 1 OR fakturerbar = 2 OR fakturerbar = 6) AND brug_fasttp = 0) "_
-                                            &" WHERE (jobstatus = 1 OR jobstatus = 3) AND a.id IS NOT NULL"
+                                            &" WHERE ("& closedjobsSQL &") AND a.id IS NOT NULL"
                                             oRec5.open strSQLjob, oConn, 3
                                             while not oRec5.EOF  
 
                                      
-                                            '** Finder valgt_tp_alt fra timepriser
-                                            call alttimepris(oRec5("aktid"), oRec5("jobid"), oRec("mid"), 1)
+                                            'if session("mid") = 1 then
+                    
+                                            'else
 
-                                            if foundone = "n" then
-                                                call alttimepris(0, oRec5("jobid"), oRec("mid"), 1)
-                                            end if
+                                                '** Finder valgt_tp_alt fra timepriser
+                                                call alttimepris(oRec5("aktid"), oRec5("jobid"), oRec("mid"), 1)
 
+                                                if foundone = "n" then
+                                                    call alttimepris(0, oRec5("jobid"), oRec("mid"), 1)
+                                                end if
+
+                                            'end if
                                            
 
                                             '** Valgte TP og kurs 
@@ -902,11 +947,18 @@ case "dbopr", "dbred"
                                             end select
 
                                         
-                                            
+                                            'intTimepris = strTimepris            
+
 										    intTimepris = replace(intTimepris, ",", ".")
                                             alttp_valutaKurs = replace(alttp_valutaKurs, ",", ".")
-                                     
+                                            
+                                            'if session("mid") = 1 then
+                                            'intTimepris = 151
+                                            'alttp_valutaKurs = 100
+                                            'intValuta = 1
+                                            'end if
 
+                                                    '**** Opdaterer timerpriser på timeregistreringer
 			                                        strSQLtp = "UPDATE timer SET timepris = "& intTimepris &", valuta = "& intValuta &", kurs = "& alttp_valutaKurs &""_
 			                                        &" WHERE tdato >= '"& fraDato &"' AND tmnr = "& oRec("mid") &" AND taktivitetid = "& oRec5("aktid") & " AND tjobnr = '"& oRec5("jobnr") &"'"
 					                  
@@ -917,7 +969,22 @@ case "dbopr", "dbred"
                                                     
                                                     'Response.end
 
+                                                    if lto = "oko" then
 
+                                                    strSQLrensTp = "DELETE FROM timepriser WHERE jobid = "& oRec5("jobid") &" AND aktid = "& oRec5("aktid") &" AND medarbid =  "& oRec("mid")
+                                                    oConn.execute(strSQLrensTp)
+
+                                                    '**** Opdaterer timerpriser i timepristabellen til fremtidige timeregistreringer (stamdata på job)
+                                                    strSQLinsTp = "INSERT INTO timepriser ( "_
+							                        &" jobid, aktid, medarbid, timeprisalt, 6timepris, 6valuta) "_
+							                        &" VALUES ("& oRec5("jobid") &", "& oRec5("aktid") &", "& oRec("mid") &", "& alttp_timeprisAlt &", "& intTimepris &", "& intValuta &")"
+
+                                                    'Response.Write strSQLinsTp & "<br>"
+                                                    'Response.flush
+
+                                                    oConn.execute(strSQLinsTp)
+
+                                                    end if
 
                                             oRec5.movenext
                                             wend
@@ -927,10 +994,16 @@ case "dbopr", "dbred"
                                         end if
 
 
-                       
-                        'if session("mid") = 1 then
-                        '        Response.end
-                        'end if
+
+
+
+                        '*** SLUT OPDATER timepriser for denne medarbejdertype
+                        '*****************************************************************************************************************
+
+
+
+
+                    
  
 
                         '*****************************************************************************************************************
@@ -939,19 +1012,31 @@ case "dbopr", "dbred"
                          if len(trim(request("FM_opd_intern"))) <> 0 then
 
 
-                          
+                             Response.write "Opdaterer kostpriser for medarbejder: ["& oRec("init") &"] - "& mt & "<br>"
+                             response.flush
 
-                            if IsNull(oRec("mtypedato")) = true then
-                            fromDt = "2000-1-1"
+
+                            if len(trim(request("FM_opd_intern_prdato"))) <> 0 then 'pr. dato ANd floow closed jobs
+
+                                fromDt = fraDato 'fraDato salgspriser
+                                closedjobsSQL = closedjobsSQL
+
                             else
-                            fromDt = year(oRec("mtypedato")) &"/"& month(oRec("mtypedato")) &"/"& day(oRec("mtypedato"))
-                            end if
 
+                                if IsNull(oRec("mtypedato")) = true then
+                                fromDt = "2000-1-1"
+                                else
+                                fromDt = year(oRec("mtypedato")) &"/"& month(oRec("mtypedato")) &"/"& day(oRec("mtypedato"))
+                                end if
+
+                                closedjobsSQL = "jobstatus = 1 OR jobstatus = 3"
+
+                            end if
 
                             brugSimpelKostprisUpdate = 1
                             if cint(brugSimpelKostprisUpdate) = 1 then 'Tjekker ikke adgange via projektgrupper mtypehistorik men opdaterer alle kostpriser på valgte type 
 
-                                strSQLt = "UPDATE timer SET kostpris = "& dubKostpris &", kpvaluta = "& kp1_valuta &",  kpvaluta_kurs = "& kpvaluta_kurs &" WHERE tmnr = " & oRec("mid") & "  AND tdato >= '"& fromDt &"'"
+                                strSQLt = "UPDATE timer SET kostpris = "& dubKostpris &", kpvaluta = "& kp1_valuta &",  kpvaluta_kurs = "& kpvaluta_kurs &" WHERE tmnr = " & oRec("mid") & " AND tdato >= '"& fromDt &"'"
                                 oConn.execute(strSQLt)
 
                             else
@@ -960,7 +1045,7 @@ case "dbopr", "dbred"
                             '****må det være via sin projektgruppe
                             '*** Ellers bliver timer ikke opdateret ****
                             strSQLj = "SELECT jobnr, a.id AS aid, a.kostpristarif FROM job AS j "_
-                            &"LEFT JOIN aktiviteter AS a ON (a.job = j.id) WHERE jobstatus = 1 OR jobstatus = 3" 
+                            &"LEFT JOIN aktiviteter AS a ON (a.job = j.id) WHERE " & closedjobsSQL
                            
                             'response.write "strSQLj: " & strSQLj & "<br>"    
                                 
@@ -1095,10 +1180,20 @@ case "dbopr", "dbred"
                             end if'opddater stamgrp
 
                                
+
+                mt = mt + 1
                 oRec.movenext
                 wend
                 oRec.close
 
+
+            'if session("mid") = 1 then
+            '            
+            'Response.write "KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK<br><br>"
+            'Response.write "KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK<br><br>"
+            'response.flush
+            'Response.end
+            'end if
 
 
                 '*****************************************************************************************************************
@@ -1157,11 +1252,16 @@ case "dbopr", "dbred"
                 next
                 
                                 
-                '** Ved tjek SQL                
+                '** Ved tjek SQL            
                 'Response.end
 				
-                
+                if request("FM_opdater_timepriser") = "1" OR len(trim(request("FM_opd_intern"))) <> 0 then
+                Response.write "<br><br>Timepriser er opdateret. <a href=""medarbtyper.asp?menu=medarb""> Fortsæt >> </a></div>"
+                Response.end
+                else
                 Response.redirect "medarbtyper.asp?menu=medarb"
+                end if
+
 				end if 'validering
 				end if 'validering
 				end if 'validering
@@ -1221,7 +1321,7 @@ case "dbopr", "dbred"
 
                          
     
-
+    feriesats = 0
 
 
     kostpristarif_A = 0
@@ -1240,7 +1340,7 @@ case "dbopr", "dbred"
 	&" normtimer_tir, normtimer_ons, normtimer_tor, normtimer_fre, normtimer_lor, timepris_a1, "_
 	&" timepris_a2, timepris_a3, timepris_a4, timepris_a5, "_
 	&" tp0_valuta, tp1_valuta, tp2_valuta, tp3_valuta, tp4_valuta, tp5_valuta, sostergp, mtsortorder, mgruppe, afslutugekri, afslutugekri_proc, noflex, "_
-    &" kostpristarif_A, kostpristarif_B, kostpristarif_C, kostpristarif_D, kp1_valuta, mt_mobil_visstopur "_
+    &" kostpristarif_A, kostpristarif_B, kostpristarif_C, kostpristarif_D, kp1_valuta, mt_mobil_visstopur, feriesats "_
 	&" FROM medarbejdertyper WHERE id=" & id
 	oRec.open strSQL,oConn, 3
 	
@@ -1295,6 +1395,8 @@ case "dbopr", "dbred"
 
     kp1_valuta = oRec("kp1_valuta")
     mt_mobil_visstopur = oRec("mt_mobil_visstopur")
+
+    feriesats = oRec("feriesats")
 
 	end if
 	oRec.close
@@ -1396,12 +1498,24 @@ case "dbopr", "dbred"
                      <div class="col-lg-1"><br /><b><%=medarbtyp_txt_041 %>:</b>&nbsp;<u><%=ugetotal%></u></div>
                 </div>
 
-                  <div class="row">
-                        <div class="col-lg-8">&nbsp;</div>
-                          <div class="col-lg-4"><input type="checkbox" name="FM_noflex" value="<%=noflex %>" <%=noflexChk %> /> <%=medarbtyp_txt_042 %>
-                       </div>
+                <br />
 
-                      </div>
+                <div class="row">
+                   
+                    <div class="col-lg-1"></div>
+                    <div class="col-lg-2">Feriesats pr. md:</div>
+                    <div class="col-lg-1"><input type="text" name="feriesats" value="<%=feriesats %>" class="form-control input-small" /></div>
+                    <div class="col-lg-4">&nbsp;</div>
+                    
+
+                    <div class="col-lg-4"><input type="checkbox" name="FM_noflex" value="<%=noflex %>" <%=noflexChk %> /> <%=medarbtyp_txt_042 %></div>
+                </div>
+
+               <!-- <div class="row">
+                    <div class="col-lg-8">&nbsp;</div>
+                        <div class="col-lg-4"><input type="checkbox" name="FM_noflex" value="<%=noflex %>" <%=noflexChk %> /> <%=medarbtyp_txt_042 %>
+                    </div>
+                </div> -->
 
             </div>
             <div class="row"><div class="pad-b10"></div></div>
@@ -1491,17 +1605,22 @@ case "dbopr", "dbred"
                                 <div class="row">
                                     <div class="col-lg-1">&nbsp</div>
                                     <div class="col-lg-9"><br /><br />
-                                        <b><%=medarbtyp_txt_048 %>:</b><br />
+                                        <%=medarbtyp_txt_048 %>:<br />
                                         <input id="Checkbox1" type="checkbox" name="FM_opdater_timepriser" value="1" />&nbsp <%=medarbtyp_txt_050 %>:<br />
-                                        - <%=medarbtyp_txt_051 %> <br />
+                                        - <%=medarbtyp_txt_051 %>
+                                        <br />
                                         - <%=medarbtyp_txt_052 %> <u><%=medarbtyp_txt_053 %></u> <%=medarbtyp_txt_054 %> <b><%=medarbtyp_txt_055 %> </b><input type="text" name="FM_opdatertpfra" value="<%=useDate %>" style="font-size:9px; width:60px;" /> <%=medarbtyp_txt_056 %>
-                                        - <%=medarbtyp_txt_057 %>
+                                        <br /><input id="Checkbox1" type="checkbox" name="FM_opdater_timepriser_closedjobs" value="1" /> Include closed jobs (after 1-1-<%=year(now) %>).
+                                        <br />- <%=medarbtyp_txt_057 %>
                                         <br />
                                      (<%=medarbtyp_txt_058 %>)
                                     </div>
                                 </div>
                            <%end if %>
 
+                            <div class="row pad-t20">
+                                <div class="col-lg-1"><br /><br />&nbsp</div>
+                                </div>
 
                             <div class="row pad-t20">
                                 <div class="col-lg-1">&nbsp</div>
@@ -1541,7 +1660,12 @@ case "dbopr", "dbred"
                             <%if func = "red" then %>
                                 <div class="row">
                                     <div class="col-lg-3">&nbsp</div>
-                                    <div class="col-lg-4"><input id="Checkbox1" type="checkbox" name="FM_opd_intern" value="1" />&nbsp <%=medarbtyp_txt_065 %> <br /><%=medarbtyp_txt_066 %> <u><%=medarbtyp_txt_053 %></u> <%=medarbtyp_txt_067 %></div>
+                                    <div class="col-lg-4"><input id="Checkbox1" type="checkbox" name="FM_opd_intern" value="1" />&nbsp <%=medarbtyp_txt_065 %> <br /><%=medarbtyp_txt_066 %> <u><%=medarbtyp_txt_053 %></u> <%=medarbtyp_txt_067 %>
+
+                                        <br /><input id="Checkbox1" type="checkbox" name="FM_opd_intern_prdato" value="1" />&nbsp Follow "from date" and closed job settings from <%=medarbtyp_txt_048 %> above. (otherwise from the first day each employee was added to this type)
+                                      
+
+                                    </div>
                                 </div>
                            <%end if %>
 

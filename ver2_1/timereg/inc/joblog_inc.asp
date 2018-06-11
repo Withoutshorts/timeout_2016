@@ -44,26 +44,46 @@
                                                 <%
                                                for d = 1 to vlgtMdLastDay 
                                     
+
+                                                    if timerTotprDag(d) <> 0 then
+                                                    timerTotprDagTxt = formatnumber(timerTotprDag(d), 2) 
+                                                    else
+                                                    timerTotprDagTxt = ""
+                                                    end if
                                                    %>
                               
-                                                    <td style="width:30px; border-left:1px #999999 solid; border-top:1px #cccccc solid;" align="right"><%=formatnumber(timerTotprDag(d), 2) %></td>
+                                                    <td style="width:30px; border-left:1px #999999 solid; border-top:1px #cccccc solid;" align="right"><%=timerTotprDagTxt %></td>
 
                                                 <%
                                                 timerTotprDagGT(d) = timerTotprDagGT(d) + timerTotprDag(d)
                                                 timerTotDenneMedarb = timerTotDenneMedarb + timerTotprDag(d)
                                                  timerTotprDag(d) = 0   
-                                                 next %>
+                                                 next 
+
+                                                if cint(mthrap_grpbyakt) = 1 then
+                                                       %>
+                                                        <td style="width:30px; border-left:1px #999999 solid; border-top:1px #cccccc solid;"" align="right"><b><%=formatnumber(timerTotDenneMedarb, 2) %></b></td>
+                                                        <%
+
+                                               vlgtMdLastDaySpan = vlgtMdLastDay + 1
+                                               else
+                                               vlgtMdLastDaySpan = vlgtMdLastDay 
+                                               end if
+                                                    %>
 
                                             
                                         </tr>
+
+
+                                        <%if cint(mthrap_grpbyakt) <> 1 then %>
                                         <tr>
                                             <td colspan="2" style="border-top:1px #cccccc solid;"><b><%=joblog2_txt_077 %>:</b><br />&nbsp;</td>
-                                            <td colspan="<%=vlgtMdLastDay %>" align="right" style="border-top:1px #cccccc solid;"><b><%=formatnumber(timerTotDenneMedarb, 2) %></b><br />&nbsp;</td>
+                                            <td colspan="<%=vlgtMdLastDaySpan %>" align="right" style="border-top:1px #cccccc solid;"><b><%=formatnumber(timerTotDenneMedarb, 2) %></b><br />&nbsp;</td>
                                                
                                         </tr>
 
 
-                                        <%
+                                        <%end if
 
     
         end function
@@ -82,13 +102,24 @@
                                     
                                                  timerTotDetteJob = timerTotDetteJob + timerTotprDagJob(d)
                                                  timerTotprDagJob(d) = 0   
-                                                 next %>
+                                                 next 
+                                                    
+                                               
+                                                    
+                                               if cint(mthrap_grpbyakt) = 1 then
+                                               vlgtMdLastDaySpan = vlgtMdLastDay + 1
+                                               else
+                                               vlgtMdLastDaySpan = vlgtMdLastDay 
+                                               end if
+                                               %>
+
+
 
                                             
                                       
                                         <tr style="background-color:#F4F4F4;">
                                             <td colspan="2" style="border-top:1px #cccccc solid;"><%=joblog2_txt_078 %>:</td>
-                                            <td colspan="<%=vlgtMdLastDay %>" style="border-top:1px #cccccc solid;" align="right"><%=formatnumber(timerTotDetteJob, 2) %></td>
+                                            <td colspan="<%=vlgtMdLastDaySpan %>" style="border-top:1px #cccccc solid;" align="right"><%=formatnumber(timerTotDetteJob, 2) %></td>
                                                
                                         </tr>
 
@@ -118,13 +149,19 @@
                                                 timerTotGT = timerTotGT + timerTotprDagGT(d)
                                                 timerTotprDagGT(d) = 0
                                                  
-                                                 next %>
+                                                 next 
+                                                    
+                                               if cint(mthrap_grpbyakt) = 1 then
+                                               vlgtMdLastDaySpan = vlgtMdLastDay + 1
+                                               else
+                                               vlgtMdLastDaySpan = vlgtMdLastDay 
+                                               end if%>
 
 
                                         </tr>
                                          <tr style="background-color:#cccccc;">
                                             <td colspan="2"><b><%=joblog2_txt_080 %>:</b><br />&nbsp;</td>
-                                            <td colspan="<%=vlgtMdLastDay %>" align="right"><%=formatnumber(timerTotGT, 2) %><br />&nbsp;</td>
+                                            <td colspan="<%=vlgtMdLastDaySpan %>" align="right"><%=formatnumber(timerTotGT, 2) %><br />&nbsp;</td>
                                                
                                         </tr>
 
@@ -755,16 +792,16 @@ public lastmedarbnavn, medarbtimer, medarbEnheder, medarbFeriePlan
 
 
 
- public vlgtMd, vlgtMdLastDay, strExportOskriftDage, ekspTxt 
+ public vlgtMd, vlgtMdLastDay, strExportOskriftDage, ekspTxt, timerTotprAkt
 
     sub maanedsoversigtArr
 
-
+        
 
        if media <> "export" then%>
 
-               <br /><br />
-                  <table border="0" width=98% cellpadding="2" cellspacing="0" bgcolor="#ffffff">
+               
+                  <table border="0" width=100% cellpadding="2" cellspacing="0" bgcolor="#ffffff">
                       <%
 
                         end if
@@ -775,6 +812,8 @@ public lastmedarbnavn, medarbtimer, medarbEnheder, medarbFeriePlan
                         lastMid = 0
                         lastKid = 0
                         lastJnr = 0
+                        LASTaktid = 0
+                        timerTotprAkt = 0
 
                         'response.write "her"
                         'response.end
@@ -794,11 +833,15 @@ public lastmedarbnavn, medarbtimer, medarbEnheder, medarbFeriePlan
                                                     
                                                              if media <> "export" then 
 
+
+                                                                       
+
                                                              call medarbMdtot()
 
                                                              end if
 
-                                                 
+                                                        
+                                                            '*** Vis underskrift **'
                                                             select case lto 
                                                             case "mmmi", "intranet - local"              
 
@@ -882,27 +925,85 @@ public lastmedarbnavn, medarbtimer, medarbEnheder, medarbFeriePlan
                                             <%else 
                                         
                                                 strExportOskriftDage = strExportOskriftDage & d & ";"
-                                        
+
+                                              
                                             end if %>
 
                                         <%next 
                                     
+
+                                            if media = "export" then
+
+                                             if cint(mthrap_grpbyakt) = 1 then
+
+                                                strExportOskriftDage = strExportOskriftDage & "Total;"
+
+                                                end if
+
+                                            end if
+
+
                                     
-                                             if media <> "export" then%>
+                                             if media <> "export" then
+                                            
+
+                                                     if cint(mthrap_grpbyakt) = 1 then
+                                                    %>
+                                                    <td style="width:30px; border-left:1px #999999 solid;" align="center">Total</td>
+                                                    <%
+
+                                                     end if
+                                            
+                                             %>
                                             </tr>
 
                                     <%      end if
                              end if 'last mid
 
-                             if media <> "export" then
+                              
+
+                               if media <> "export" then
+
+
+                                 if (cint(mthrap_grpbyakt) = 1 AND medarbtimerArr(m,7) <> LASTaktid) then
+
+
+                                        if cint(mthrap_grpbyakt) = 1 AND m > 0 then        
+
+                                                                      
+                                                                       for d = lastEndKri to vlgtMdLastDay
+                                                            
+                                                                               if cint(d) <= cint(vlgtMdLastDay) then
+                                                                               strTommeTds = strTommeTds & "<td style=""width:30px; border-left:1px #cccccc solid;"" align=""right"">&nbsp;</td>"
+                                                                               'strTommeTdsExp = strTommeTdsExp & ";"
+                                                                                end if
+
+                                                                       next
+
+                              
+                              
+                                         Response.write strTommeTds & "<td style=""width:30px; border-left:1px #cccccc solid;"" align=""right"">"& formatnumber(timerTotprAkt, 2) &"</td>"
+                                         strTommeTds = ""
+                                         timerTotprAkt = 0
+                                         end if
+                               
+
+                                end if
+
 
                                  if lastKid <> medarbtimerArr(m,10) OR lastJnr <> medarbtimerArr(m,5) then
 
                                         if lastJnr <> "0" then
 
+
+                                         'Response.write strTommeTds
+                                         'strTommeTds = ""
+
                                          if media <> "export" then 
                                             call jobMdtot()
                                          end if
+
+                                        
 
                                         end if
 
@@ -916,10 +1017,35 @@ public lastmedarbnavn, medarbtimer, medarbEnheder, medarbFeriePlan
 
                                 <%end if
 
-                            end if
+
+                            else
+
+
+                                    if (cint(mthrap_grpbyakt) = 1 AND medarbtimerArr(m,7) <> LASTaktid) then
+
+                                            if cint(mthrap_grpbyakt) = 1 AND m > 0 then
+
+                                                            for d = lastEndKri to vlgtMdLastDay
+                                                            
+                                                                    if cint(d) <= cint(vlgtMdLastDay) then
+                                                                    ekspTxt = ekspTxt & ";" 
+                                                                    end if
+
+                                                            next
+
+                                                ekspTxt = ekspTxt & formatnumber(timerTotprAkt, 2) &";"
+                                                timerTotprAkt = 0
+                                            end if
+
+                                    end if
+
+                            end if 'media
 
 
                                 if media <> "export" then
+
+
+                                if cint(mthrap_grpbyakt) = 0 then
 
                                 select case right(m, 1)
                                 case 0,2,4,6,8
@@ -928,27 +1054,80 @@ public lastmedarbnavn, medarbtimer, medarbEnheder, medarbFeriePlan
                                 bgfCol = "#ffffff"
                                 end select
 
+
+                                else
+
+                                    'select case right(m2, 1)
+                                    'case 0,2,4,6,8
+                                    'bgfCol = "#EFf3ff"
+                                    'case else
+                                    bgfCol = "#ffffff"
+                                    'end select
+
+                                end if
+                              
                                
 
-                                %>
-                                <tr style="background-color:<%=bgfCol%>;">
-                                    <td style="vertical-align:top;"><%=left(medarbtimerArr(m,6), 25)%></td>
-                                    <td style="color:#999999; font-size:10px; line-height:11px; width:175px; vertical-align:top;">
-                                            <%if len(trim(medarbtimerArr(m,11))) <> 0 then %>
-                                            <i><%=left(medarbtimerArr(m,11), 100) %></i>
-                                            <%end if %>
-                                    </td>
-
-                                                <%
-                                end if 'exp
+                                    if (cint(mthrap_grpbyakt) = 1 AND medarbtimerArr(m,7) <> LASTaktid) OR cint(mthrap_grpbyakt) = 0 then
 
 
-                                          if media = "export" then
+                                    %>
+                                    <tr style="background-color:<%=bgfCol%>;">
+                                        <td style="vertical-align:top;"><%=left(medarbtimerArr(m,6), 25)%></td>
+                                        <td style="color:#999999; font-size:10px; line-height:11px; width:175px; vertical-align:top;">
+                                                <%if len(trim(medarbtimerArr(m,11))) <> 0 then %>
+                                                <i><%=left(medarbtimerArr(m,11), 100) %></i>
+                                                <%end if %>
+                                        </td>
+
+                                                    <%
+                                                        m2 = m2 + 1
+
+                                    end if
+
+
+
+                                 else     
+                                                        
+                                          
+                                          if (cint(mthrap_grpbyakt) = 1 AND medarbtimerArr(m,7) <> LASTaktid) OR cint(mthrap_grpbyakt) = 0 then
+
+                                                if cint(mthrap_grpbyakt) = 1 AND m > 0 then
+                                                        ekspTxt = ekspTxt & "xx99123sy#z"  
+                                                end if
+                                          'if media = "export" then
                                           ekspTxt = ekspTxt & Chr(34) & medarbtimerArr(m,0) & Chr(34) &";"& Chr(34) & medarbtimerArr(m,12) & Chr(34) &";"& Chr(34) & medarbtimerArr(m,13) & Chr(34) &";"& Chr(34) & medarbtimerArr(m,2) & Chr(34) &";"& Chr(34) & medarbtimerArr(m,3) & Chr(34) &";"& Chr(34) & medarbtimerArr(m,4) & Chr(34) &";"& Chr(34) & medarbtimerArr(m,5) & Chr(34) &";"& Chr(34) & medarbtimerArr(m,6) & Chr(34) &";"& Chr(34) & medarbtimerArr(m,11) & Chr(34) &";"
                                           end if
 
-                                                   for d = 1 to vlgtMdLastDay 
+                                end if 'exp
+
+
+
+                                         
+
+
+                                                   'Timer fordelt på dage
+                                                   if cint(mthrap_grpbyakt) = 1 then
+                                                        
+                                                        if (medarbtimerArr(m,7) <> LASTaktid) then
+                                                        dStkri = 1
+                                                        else
+                                                        dStkri = lastEndKri
+                                                        end if
+
+                                                   else
+
+                                                        dStkri = 1
+
+                                                   end if
+
+                                                   lastEndKri = 32
+
+                                                   for d = dStkri to vlgtMdLastDay 
                                                     
+                                                   
+                                                    if (d < lastEndKri AND cint(mthrap_grpbyakt) = 1) OR (cint(mthrap_grpbyakt) = 0) then
+
                                                     vlgtMdCntDays = dateAdd("d", d-1, vlgtMd)
                                                     
                                                     if cDate(medarbtimerArr(m,8)) = cDate(vlgtMdCntDays) then
@@ -956,43 +1135,96 @@ public lastmedarbnavn, medarbtimer, medarbEnheder, medarbFeriePlan
                                                     timerTxtExp = timerTxt
                                                     timerTotprDag(d) = timerTotprDag(d) + medarbtimerArr(m,9)
                                                     timerTotprDagJob(d) = timerTotprDagJob(d) + medarbtimerArr(m,9)
+                                                    timerTotprAkt = timerTotprAkt + medarbtimerArr(m,9)
+                                                    lastEndKri = d + 1
                                                     else
                                                     timerTxt = "&nbsp;"
                                                     timerTxtExp = ""
                                                     timerTotprDag(d) = timerTotprDag(d) + 0
                                                     timerTotprDagJob(d) = timerTotprDagJob(d) + 0
+                                                    timerTotprAkt = timerTotprAkt + 0
                                                     end if 
 
-                                               
-                                                     if media <> "export" then
-                                                    %>
-                              
-                                                        <td style="width:30px; border-left:1px #cccccc solid;" align="right"><%=timerTxt %></td>
+                                                    
+                                                    
 
-                                                    <%
-                                                    else
-                                                    'timerTxtExp = replace(timerTxtExp, "''", "")
-                                                    ekspTxt = ekspTxt & ""& Chr(34) & timerTxtExp & Chr(34) &";"
-                                                    end if
+                                                        if media <> "export" then
+                                                        %>
+                              
+                                                            <td style="width:30px; border-left:1px #cccccc solid;" align="right"><%=timerTxt %></td>
+
+                                                        <%
+                                                        else
+                                                        'timerTxtExp = replace(timerTxtExp, "''", "")
+                                                        ekspTxt = ekspTxt & ""& Chr(34) & timerTxtExp & Chr(34) &";"
+                                                        end if
+
                                                      
+                                                    end if 'lastEndKri < 31
+
                                                     next 
                                                         
-                                        if media <> "export" then%>
-                                        </tr>
-                                        <%
+                                        if media <> "export" then
+                                                        
+
+                                              
+
+
+                                            if cint(mthrap_grpbyakt) = 0 then
+                                            %>
+                                            </tr>
+                                            <%
+                                            end if
+
                                         else  
+
+                                            if cint(mthrap_grpbyakt) = 0 then '(cint(mthrap_grpbyakt) = 1 AND medarbtimerArr(m,7) <> LASTaktid) OR
                                             ekspTxt = ekspTxt & "xx99123sy#z"  
+                                            end if
+
                                         end if
 
                             lastMid = medarbtimerArr(m,1)
                             lastKid = medarbtimerArr(m,10)
                             lastJnr = medarbtimerArr(m,5)
+                            LASTaktid = medarbtimerArr(m,7) 
+                         
                             next
 
                           
                                             
                                             
                         if media <> "export" then
+
+
+                             
+
+
+                                            if cint(mthrap_grpbyakt) = 1 AND m > 0 then        
+
+                                                                           
+                                                                           for d = lastEndKri to vlgtMdLastDay
+                                                            
+                                                                                   if cint(d) <= cint(vlgtMdLastDay) then
+                                                                                   strTommeTds = strTommeTds & "<td style=""width:30px; border-left:1px #cccccc solid;"" align=""right"">&nbsp;</td>"
+                                                                                   'strTommeTdsExp = strTommeTdsExp & ";"
+                                                                                    end if
+
+                                                                           next
+
+                                                                    
+                                                                
+
+                              
+                              
+                                             Response.write strTommeTds & "<td style=""width:30px; border-left:1px #cccccc solid;"" align=""right"">"& formatnumber(timerTotprAkt, 2) &"</td>"
+                                             strTommeTds = ""
+                                             timerTotprAkt = 0
+                                             end if
+                               
+
+                               
+
                                         
                                             call jobMdtot()
 
@@ -1007,7 +1239,29 @@ public lastmedarbnavn, medarbtimer, medarbEnheder, medarbFeriePlan
                         </table>
                    
                                     <br /><br /><br />&nbsp;
-                        <%end if 'media=exp
+                        <%
+                        else    
+                                    
+
+                                    if (cint(mthrap_grpbyakt) = 1 AND medarbtimerArr(m,7) <> LASTaktid) then
+
+                                        if cint(mthrap_grpbyakt) = 1 AND m > 0 then
+
+                                                        for d = lastEndKri to vlgtMdLastDay
+                                                            
+                                                                if cint(d) <= cint(vlgtMdLastDay) then
+                                                                ekspTxt = ekspTxt & ";" 
+                                                                end if
+
+                                                        next
+
+                                            ekspTxt = ekspTxt & formatnumber(timerTotprAkt, 2) &";"
+                                            timerTotprAkt = 0
+                                        end if
+
+                                    end if
+
+                        end if 'media=exp
 
 
     

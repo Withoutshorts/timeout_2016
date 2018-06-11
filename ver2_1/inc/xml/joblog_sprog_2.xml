@@ -171,6 +171,27 @@
     <txt_148 >Aktive job</txt_148>
     <txt_149 >Tilbud</txt_149>
     <txt_150 >Lukkede, passive og eval.</txt_150>
+    
+    <txt_151 >Init</txt_151>
+    <txt_152 >CPR</txt_152>
+    <txt_153 >Kundenr</txt_153>
+    <txt_154 >Jobnr</txt_154>
+    <txt_155 >Kunde Id</txt_155>
+    <txt_156 >Job nr</txt_156>
+    <txt_157 >Uge</txt_157>
+    <txt_158 >Type</txt_158>
+    <txt_159 >Fakturerbar</txt_159>
+    <txt_160 >Forretningsområder</txt_160>
+    <txt_161 >Medarb. Nr</txt_161>
+    <txt_162 >Initialer</txt_162>
+    <txt_163 >Tid/Klokkeslet</txt_163>
+    <txt_164 >Timepris</txt_164>
+    <txt_165 >Timepris ialt</txt_165>
+    <txt_166 >Valuta</txt_166>
+    <txt_167 >Godkendt?</txt_167>
+    <txt_168 >Godkendt af</txt_168>
+    <txt_169 >Faktureret?</txt_169>
+    <txt_170 >Periode afgrænsning</txt_170>
 
 
 
@@ -306,7 +327,7 @@
     <txt_113 >Activity</txt_113>
     <txt_114 >Comment</txt_114>
     <txt_115 >Employ.</txt_115>
-    <txt_116 >Klokkeslæt</txt_116>
+    <txt_116 >Time</txt_116>
     <txt_117 >No position taken</txt_117>
 
     <txt_118 >jan</txt_118>
@@ -346,6 +367,27 @@
     <txt_148 >Active jobs</txt_148>
     <txt_149 >Offers</txt_149>
     <txt_150 >Closed, passive and eval.</txt_150>
+
+    <txt_151 >Init</txt_151>
+    <txt_152 >SSN</txt_152>
+    <txt_153 >Customer no</txt_153>
+    <txt_154 >Job No.</txt_154>
+    <txt_155 >Customer Id</txt_155>
+    <txt_156 >Job No.</txt_156>
+    <txt_157 >Week</txt_157>
+    <txt_158 >Type</txt_158>
+    <txt_159 >Billable</txt_159>
+    <txt_160 >Business Areas</txt_160>
+    <txt_161 >Empl. No</txt_161>
+    <txt_162 >Initials</txt_162>
+    <txt_163 >Time</txt_163>
+    <txt_164 >Hourly rate</txt_164>
+    <txt_165 >Hourly rate in total</txt_165>
+    <txt_166 >Currency</txt_166>
+    <txt_167 >Approved?</txt_167>
+    <txt_168 >Approved by</txt_168>
+    <txt_169 >Invoiced?</txt_169>
+    <txt_170 >Period</txt_170>
 
   </no>
 
@@ -519,8 +561,29 @@
     <txt_148 >Active jobs</txt_148>
     <txt_149 >Offers</txt_149>
     <txt_150 >Closed, passive and eval.</txt_150>
-    
-    
+
+    <txt_151 >Init</txt_151>
+    <txt_152 >SSN</txt_152>
+    <txt_153 >Customer no</txt_153>
+    <txt_154 >Job No.</txt_154>
+    <txt_155 >Customer Id</txt_155>
+    <txt_156 >Job No.</txt_156>
+    <txt_157 >Week</txt_157>
+    <txt_158 >Type</txt_158>
+    <txt_159 >Billable</txt_159>
+    <txt_160 >Business Areas</txt_160>
+    <txt_161 >Empl. No</txt_161>
+    <txt_162 >Initials</txt_162>
+    <txt_163 >Time</txt_163>
+    <txt_164 >Hourly rate</txt_164>
+    <txt_165 >Hourly rate in total</txt_165>
+    <txt_166 >Currency</txt_166>
+    <txt_167 >Approved?</txt_167>
+    <txt_168 >Approved by</txt_168>
+    <txt_169 >Invoiced?</txt_169>
+    <txt_170 >Period</txt_170>
+
+
   </so>
 
 
@@ -694,6 +757,27 @@
     <txt_149 >Offers</txt_149>
     <txt_150 >Closed, passive and eval.</txt_150>
 
+    <txt_151 >Init</txt_151>
+    <txt_152 >SSN</txt_152>
+    <txt_153 >Customer no</txt_153>
+    <txt_154 >Job No.</txt_154>
+    <txt_155 >Customer Id</txt_155>
+    <txt_156 >Job No.</txt_156>
+    <txt_157 >Week</txt_157>
+    <txt_158 >Type</txt_158>
+    <txt_159 >Billable</txt_159>
+    <txt_160 >Business Areas</txt_160>
+    <txt_161 >Empl. No</txt_161>
+    <txt_162 >Initials</txt_162>
+    <txt_163 >Time</txt_163>
+    <txt_164 >Hourly rate</txt_164>
+    <txt_165 >Hourly rate in total</txt_165>
+    <txt_166 >Currency</txt_166>
+    <txt_167 >Approved?</txt_167>
+    <txt_168 >Approved by</txt_168>
+    <txt_169 >Invoiced?</txt_169>
+    <txt_170 >Period</txt_170>
+
   </de>
 
 
@@ -866,6 +950,27 @@
     <txt_148 >Active jobs</txt_148>
     <txt_149 >Offers</txt_149>
     <txt_150 >Closed, passive and eval.</txt_150>
+
+    <txt_151 >Init</txt_151>
+    <txt_152 >SSN</txt_152>
+    <txt_153 >Customer no</txt_153>
+    <txt_154 >Job No.</txt_154>
+    <txt_155 >Customer Id</txt_155>
+    <txt_156 >Job No.</txt_156>
+    <txt_157 >Week</txt_157>
+    <txt_158 >Type</txt_158>
+    <txt_159 >Billable</txt_159>
+    <txt_160 >Business Areas</txt_160>
+    <txt_161 >Empl. No</txt_161>
+    <txt_162 >Initials</txt_162>
+    <txt_163 >Time</txt_163>
+    <txt_164 >Hourly rate</txt_164>
+    <txt_165 >Hourly rate in total</txt_165>
+    <txt_166 >Currency</txt_166>
+    <txt_167 >Approved?</txt_167>
+    <txt_168 >Approved by</txt_168>
+    <txt_169 >Invoiced?</txt_169>
+    <txt_170 >Period</txt_170>
 
   </fr>
 
@@ -1041,6 +1146,27 @@
     <txt_149 >Offers</txt_149>
     <txt_150 >Closed, passive and eval.</txt_150>
 
+    <txt_151 >Init</txt_151>
+    <txt_152 >SSN</txt_152>
+    <txt_153 >Customer no</txt_153>
+    <txt_154 >Job No.</txt_154>
+    <txt_155 >Customer Id</txt_155>
+    <txt_156 >Job No.</txt_156>
+    <txt_157 >Week</txt_157>
+    <txt_158 >Type</txt_158>
+    <txt_159 >Billable</txt_159>
+    <txt_160 >Business Areas</txt_160>
+    <txt_161 >Empl. No</txt_161>
+    <txt_162 >Initials</txt_162>
+    <txt_163 >Time</txt_163>
+    <txt_164 >Hourly rate</txt_164>
+    <txt_165 >Hourly rate in total</txt_165>
+    <txt_166 >Currency</txt_166>
+    <txt_167 >Approved?</txt_167>
+    <txt_168 >Approved by</txt_168>
+    <txt_169 >Invoiced?</txt_169>
+    <txt_170 >Period</txt_170>
+
   </uk>
 
 
@@ -1213,7 +1339,28 @@
     <txt_148 >Active jobs</txt_148>
     <txt_149 >Offers</txt_149>
     <txt_150 >Closed, passive and eval.</txt_150>
- 
+    
+    <txt_151 >Init</txt_151>
+    <txt_152 >SSN</txt_152>
+    <txt_153 >Customer no</txt_153>
+    <txt_154 >Job No.</txt_154>
+    <txt_155 >Customer Id</txt_155>
+    <txt_156 >Job No.</txt_156>
+    <txt_157 >Week</txt_157>
+    <txt_158 >Type</txt_158>
+    <txt_159 >Billable</txt_159>
+    <txt_160 >Business Areas</txt_160>
+    <txt_161 >Empl. No</txt_161>
+    <txt_162 >Initials</txt_162>
+    <txt_163 >Time</txt_163>
+    <txt_164 >Hourly rate</txt_164>
+    <txt_165 >Hourly rate in total</txt_165>
+    <txt_166 >Currency</txt_166>
+    <txt_167 >Approved?</txt_167>
+    <txt_168 >Approved by</txt_168>
+    <txt_169 >Invoiced?</txt_169>
+    <txt_170 >Period</txt_170>
+
   </es>
 
 

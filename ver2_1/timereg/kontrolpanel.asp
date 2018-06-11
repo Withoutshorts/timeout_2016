@@ -434,6 +434,20 @@ if len(session("user")) = 0 then
 			else
 			stpause2 = 0
 			end if
+
+            if len(request("FM_stempel_standardpause_C")) <> 0 then
+			stpause3 = request("FM_stempel_standardpause_C")
+			else
+			stpause3 = 0
+			end if
+
+
+            if len(request("FM_stempel_standardpause_D")) <> 0 then
+			stpause4 = request("FM_stempel_standardpause_D")
+			else
+			stpause4 = 0
+			end if
+
 			
 			if len(request("CHKcrm")) <> 0 then
 			crm = 1
@@ -536,8 +550,96 @@ if len(session("user")) = 0 then
 			else
 			p2_son = 0
 			end if
-			
 
+
+           if len(request("p3_man")) <> 0 then
+			p3_man = 1
+			else
+			p3_man = 0
+			end if
+			
+			if len(request("p3_tir")) <> 0 then
+			p3_tir = 1
+			else
+			p3_tir = 0
+			end if
+			
+			if len(request("p3_ons")) <> 0 then
+			p3_ons = 1
+			else
+			p3_ons = 0
+			end if
+			
+			if len(request("p3_tor")) <> 0 then
+			p3_tor = 1
+			else
+			p3_tor = 0
+			end if
+			
+			if len(request("p3_fre")) <> 0 then
+			p3_fre = 1
+			else
+			p3_fre = 0
+			end if
+			
+			if len(request("p3_lor")) <> 0 then
+			p3_lor = 1
+			else
+			p3_lor = 0
+			end if
+			
+			if len(request("p3_son")) <> 0 then
+			p3_son = 1
+			else
+			p3_son = 0
+			end if
+
+
+            if len(request("p4_man")) <> 0 then
+			p4_man = 1
+			else
+			p4_man = 0
+			end if
+			
+			if len(request("p4_tir")) <> 0 then
+			p4_tir = 1
+			else
+			p4_tir = 0
+			end if
+			
+			if len(request("p4_ons")) <> 0 then
+			p4_ons = 1
+			else
+			p4_ons = 0
+			end if
+			
+			if len(request("p4_tor")) <> 0 then
+			p4_tor = 1
+			else
+			p4_tor = 0
+			end if
+			
+			if len(request("p4_fre")) <> 0 then
+			p4_fre = 1
+			else
+			p4_fre = 0
+			end if
+			
+			if len(request("p4_lor")) <> 0 then
+			p4_lor = 1
+			else
+			p4_lor = 0
+			end if
+			
+			if len(request("p4_son")) <> 0 then
+			p4_son = 1
+			else
+			p4_son = 0
+			end if
+
+
+			p4_grp = replace(request("FM_p4_grp"), "''", "")
+            p3_grp = replace(request("FM_p3_grp"), "''", "")
             p2_grp = replace(request("FM_p2_grp"), "''", "")
             p1_grp = replace(request("FM_p1_grp"), "''", "")
 			
@@ -560,6 +662,24 @@ if len(session("user")) = 0 then
 			errThis = 0
 			end if
 			isInt = 0 
+
+
+            call erDetInt(stpause3)
+			if isInt > 0 then
+			errThis = 3
+			else
+			errThis = 0
+			end if
+			isInt = 0 
+
+            call erDetInt(stpause4)
+			if isInt > 0 then
+			errThis = 3
+			else
+			errThis = 0
+			end if
+			isInt = 0 
+
 			
 			        if errThis = 3 then  %>
 					     <!--include file="../inc/regular/header_lysblaa_inc.asp"-->
@@ -665,6 +785,26 @@ if len(session("user")) = 0 then
             fakturanr_5 = request("FM_erp_fakturanr_5")
             kreditnr_5 = request("FM_erp_kreditnr_5")
             fakturanr_kladde_5 = request("FM_erp_fakturanr_kladde_5")
+
+             fakturanr_6 = request("FM_erp_fakturanr_6")
+            kreditnr_6 = request("FM_erp_kreditnr_6")
+            fakturanr_kladde_6 = request("FM_erp_fakturanr_kladde_6")
+
+            fakturanr_7 = request("FM_erp_fakturanr_7")
+            kreditnr_7 = request("FM_erp_kreditnr_7")
+            fakturanr_kladde_7 = request("FM_erp_fakturanr_kladde_7")
+
+            fakturanr_8 = request("FM_erp_fakturanr_8")
+            kreditnr_8 = request("FM_erp_kreditnr_8")
+            fakturanr_kladde_8 = request("FM_erp_fakturanr_kladde_8")
+
+            fakturanr_9 = request("FM_erp_fakturanr_9")
+            kreditnr_9 = request("FM_erp_kreditnr_9")
+            fakturanr_kladde_9 = request("FM_erp_fakturanr_kladde_9")
+
+             fakturanr_10 = request("FM_erp_fakturanr_10")
+            kreditnr_10 = request("FM_erp_kreditnr_10")
+            fakturanr_kladde_10 = request("FM_erp_fakturanr_kladde_10")
                            
                                    
 			
@@ -1168,7 +1308,7 @@ if len(session("user")) = 0 then
 			&" lukafm = "& lukafm &", autogk = "& autogk &", autogktimer = "& autogktimer &", "_
 			&" autolukvdato = " & autolukvdato & ", autolukvdatodato = " & autolukvdatodato &", "_
 			&" ignorertid_st = '"& ignorer_st &"', ignorertid_sl = '"& ignorer_sl &"', "_
-			&" stpause = "& stpause &", stpause2 = "& stpause2 &", "_
+			&" stpause = "& stpause &", stpause2 = "& stpause2 &", stpause3 = "& stpause3 &", stpause4 = "& stpause4 &", "_
 			&" crm = "& crm &", "_
 			&" erp = "& erp &", "_
 			&" sdsk = "& sdsk &", "_
@@ -1185,12 +1325,27 @@ if len(session("user")) = 0 then
 			&" p2_tor = "& p2_tor &", "_
 			&" p2_fre = "& p2_fre &", "_
 			&" p2_lor = "& p2_lor &", "_
-			&" p2_son = "& p2_son &", fakturanr = "& abs(fakturanr) &", "_
+			&" p2_son = "& p2_son &", "_
+            &" p3_man = "& p3_man &", "_
+			&" p3_tir = "& p3_tir &", "_
+			&" p3_ons = "& p3_ons &", "_
+			&" p3_tor = "& p3_tor &", "_
+			&" p3_fre = "& p3_fre &", "_
+			&" p3_lor = "& p3_lor &", "_
+			&" p3_son = "& p3_son &", "_
+			&" p4_man = "& p4_man &", "_
+			&" p4_tir = "& p4_tir &", "_
+			&" p4_ons = "& p4_ons &", "_
+			&" p4_tor = "& p4_tor &", "_
+			&" p4_fre = "& p4_fre &", "_
+			&" p4_lor = "& p4_lor &", "_
+			&" p4_son = "& p4_son &", "_
+            &" fakturanr = "& abs(fakturanr) &", "_
 			&" rykkernr = "& abs(rykkernr) &", kreditnr = "& kreditnr &", "_
 			&" jobnr = "& jobnr &", tilbudsnr = "& tilbudsnr &", "_
 			&" fakprocent = "& fakprocent &", kmdialog = "& kmDialog &", licensstdato = '"& licensstdato &"'"_
             &", fakturanr_kladde = "& abs(fakturanr_kladde) &", "_
-            &" kmpris = "& kmpris &", p1_grp = '"& p1_grp &"', p2_grp = '"& p2_grp &"', jobasnvigv = "& jobasnvigv &" , positiv_aktivering_akt = " & positiv_aktivering_akt & ", "_
+            &" kmpris = "& kmpris &", p1_grp = '"& p1_grp &"', p2_grp = '"& p2_grp &"', p3_grp = '"& p3_grp &"', p4_grp = '"& p4_grp &"', jobasnvigv = "& jobasnvigv &" , positiv_aktivering_akt = " & positiv_aktivering_akt & ", "_
             &" showeasyreg = "& showeasyreg & ", forcebudget_onakttreg = "& forcebudget_onakttreg &", showupload = "& showupload & ", globalfaktor = "& globalfaktor & ", "_
             &" bdgmtypon = " & bdgmtypon & ", regnskabsaar_start = '"& regnskabsaar_start &"', "_
             &" forcebudget_onakttreg_afgr = "& forcebudget_onakttreg_afgr &", lukaktvdato = "& lukaktvdato &", salgsans = "& salgsans &","_
@@ -1223,7 +1378,22 @@ if len(session("user")) = 0 then
             &" fakturanr_kladde_4  = "& fakturanr_kladde_4  &","_
             &" fakturanr_5 = "& fakturanr_5 &", "_
             &" kreditnr_5 = "& kreditnr_5 &", "_
-            &" fakturanr_kladde_5  = "& fakturanr_kladde_5 &","_  
+            &" fakturanr_kladde_5  = "& fakturanr_kladde_5 &","_ 
+            &" fakturanr_6 = "& fakturanr_6 &", "_
+            &" kreditnr_6 = "& kreditnr_6 &", "_
+            &" fakturanr_kladde_6  = "& fakturanr_kladde_6 &","_ 
+            &" fakturanr_7 = "& fakturanr_7 &", "_
+            &" kreditnr_7 = "& kreditnr_7 &", "_
+            &" fakturanr_kladde_7  = "& fakturanr_kladde_7 &","_ 
+            &" fakturanr_8 = "& fakturanr_8 &", "_
+            &" kreditnr_8 = "& kreditnr_8 &", "_
+            &" fakturanr_kladde_8  = "& fakturanr_kladde_8 &","_ 
+            &" fakturanr_9 = "& fakturanr_9 &", "_
+            &" kreditnr_9 = "& kreditnr_9 &", "_
+            &" fakturanr_kladde_9  = "& fakturanr_kladde_9 &","_ 
+            &" fakturanr_10 = "& fakturanr_10 &", "_
+            &" kreditnr_10 = "& kreditnr_10 &", "_
+            &" fakturanr_kladde_10  = "& fakturanr_kladde_10 &","_ 
             &" showeasyreg_per = "& showeasyreg_per &", smiweekormonth_hr = "& SmiWeekOrMonth_HR &","_
             &" vis_resplanner = "& vis_resplanner &", vis_favorit = "& vis_favorit &", vis_projektgodkend = "& vis_projektgodkend &""
 			strSQL = strSQL & strSQLat & " WHERE id = 1"
@@ -1352,7 +1522,7 @@ if len(session("user")) = 0 then
 		&" normtid_sl_lor, "_
 		&" normtid_st_son, "_
 		&" normtid_sl_son, autolukvdato, "_
-		&" autolukvdatodato, ignorertid_st, ignorertid_sl, stpause, stpause2, "_
+		&" autolukvdatodato, ignorertid_st, ignorertid_sl, stpause, stpause2, stpause3, stpause4, "_
 		&" p1_man, "_
 		&" p1_tir, "_
 		&" p1_ons, "_
@@ -1366,8 +1536,23 @@ if len(session("user")) = 0 then
 		&" p2_tor, "_
 		&" p2_fre, "_
 		&" p2_lor, "_
-		&" p2_son, fakturanr, kreditnr, rykkernr, jobnr, tilbudsnr, fakprocent, "_
-		&" autogktimer, kmdialog, licensstdato, fakturanr_kladde, kmpris, p1_grp, p2_grp, jobasnvigv, "_
+		&" p2_son, "_
+        &" p3_man, "_
+		&" p3_tir, "_
+		&" p3_ons, "_
+		&" p3_tor, "_
+		&" p3_fre, "_
+		&" p3_lor, "_
+		&" p3_son, "_
+        &" p4_man, "_
+		&" p4_tir, "_
+		&" p4_ons, "_
+		&" p4_tor, "_
+		&" p4_fre, "_
+		&" p4_lor, "_
+		&" p4_son, "_
+        &" fakturanr, kreditnr, rykkernr, jobnr, tilbudsnr, fakprocent, "_
+		&" autogktimer, kmdialog, licensstdato, fakturanr_kladde, kmpris, p1_grp, p2_grp, p3_grp, p4_grp, jobasnvigv, "_
         &" positiv_aktivering_akt, showeasyreg, showupload, forcebudget_onakttreg, globalfaktor, bdgmtypon, "_
         &" regnskabsaar_start, forcebudget_onakttreg_afgr, lukaktvdato, salgsans, smileyaggressiv, timerround, teamleder_flad, "_
         &" forcebudget_onakttreg_filt_viskunmbgt, stempelur_hidelogin, stempelur_igno_komkrav, "_
@@ -1388,7 +1573,23 @@ if len(session("user")) = 0 then
         &" fakturanr_kladde_4, "_
         &" fakturanr_5, "_
         &" kreditnr_5, "_
-        &" fakturanr_kladde_5, showeasyreg_per, smiweekormonth_hr, vis_resplanner, vis_favorit, vis_projektgodkend "_
+        &" fakturanr_kladde_5, "_
+        &" fakturanr_6, "_
+        &" kreditnr_6, "_
+        &" fakturanr_kladde_6, "_
+        &" fakturanr_7, "_
+        &" kreditnr_7, "_
+        &" fakturanr_kladde_7, "_
+        &" fakturanr_8, "_
+        &" kreditnr_8, "_
+        &" fakturanr_kladde_8, "_
+        &" fakturanr_9, "_
+        &" kreditnr_9, "_
+        &" fakturanr_kladde_9, "_
+        &" fakturanr_10, "_
+        &" kreditnr_10, "_
+        &" fakturanr_kladde_10, "_
+        &" showeasyreg_per, smiweekormonth_hr, vis_resplanner, vis_favorit, vis_projektgodkend "_
         &" FROM licens WHERE id = 1"
 		
 		'Response.Write strSQL
@@ -1432,6 +1633,8 @@ if len(session("user")) = 0 then
 			
 			stpauseA = oRec("stpause")
 			stpauseB = oRec("stpause2")
+            stpauseC = oRec("stpause3")
+            stpauseD = oRec("stpause4")
 			
 			
 			if oRec("p1_man") <> 0 then
@@ -1519,8 +1722,97 @@ if len(session("user")) = 0 then
 			end if
 			
 
+            if oRec("p3_man") <> 0 then
+			p3_manChk = "CHECKED"
+			else
+			p3_manChk = ""
+			end if
+			
+			if oRec("p3_tir") <> 0 then
+			p3_tirChk = "CHECKED"
+			else
+			p3_tirChk = ""
+			end if
+			
+			if oRec("p3_ons") <> 0 then
+			p3_onsChk = "CHECKED"
+			else
+			p3_onsChk = ""
+			end if
+			
+			if oRec("p3_tor") <> 0 then
+			p3_torChk = "CHECKED"
+			else
+			p3_torChk = ""
+			end if
+			
+			if oRec("p3_fre") <> 0 then
+			p3_freChk = "CHECKED"
+			else
+			p3_freChk = ""
+			end if
+			
+			if oRec("p3_lor") <> 0 then
+			p3_lorChk = "CHECKED"
+			else
+			p3_lorChk = ""
+			end if
+			
+			if oRec("p3_son") <> 0 then
+			p3_sonChk = "CHECKED"
+			else
+			p3_sonChk = ""
+			end if
+
+
+            if oRec("p4_man") <> 0 then
+			p4_manChk = "CHECKED"
+			else
+			p4_manChk = ""
+			end if
+			
+			if oRec("p4_tir") <> 0 then
+			p4_tirChk = "CHECKED"
+			else
+			p4_tirChk = ""
+			end if
+			
+			if oRec("p4_ons") <> 0 then
+			p4_onsChk = "CHECKED"
+			else
+			p4_onsChk = ""
+			end if
+			
+			if oRec("p4_tor") <> 0 then
+			p4_torChk = "CHECKED"
+			else
+			p4_torChk = ""
+			end if
+			
+			if oRec("p4_fre") <> 0 then
+			p4_freChk = "CHECKED"
+			else
+			p4_freChk = ""
+			end if
+			
+			if oRec("p4_lor") <> 0 then
+			p4_lorChk = "CHECKED"
+			else
+			p4_lorChk = ""
+			end if
+			
+			if oRec("p4_son") <> 0 then
+			p4_sonChk = "CHECKED"
+			else
+			p4_sonChk = ""
+			end if
+
+
             p1_grp = oRec("p1_grp")
             p2_grp = oRec("p2_grp")
+
+            p3_grp = oRec("p3_grp")
+            p4_grp = oRec("p4_grp")
 
 
 			fakturanr = oRec("fakturanr")
@@ -1641,6 +1933,22 @@ if len(session("user")) = 0 then
             kreditnr_5 = oRec("kreditnr_5")
             fakturanr_kladde_5 = oRec("fakturanr_kladde_5")
 
+            fakturanr_6 = oRec("fakturanr_6") 
+            kreditnr_6 = oRec("kreditnr_6")
+            fakturanr_kladde_6 = oRec("fakturanr_kladde_6")
+            fakturanr_7 = oRec("fakturanr_7")
+            kreditnr_7 = oRec("kreditnr_7")
+            fakturanr_kladde_7 = oRec("fakturanr_kladde_7")
+            fakturanr_8 = oRec("fakturanr_8")
+            kreditnr_8 = oRec("kreditnr_8")
+            fakturanr_kladde_8 = oRec("fakturanr_kladde_8")
+            fakturanr_9 = oRec("fakturanr_9")
+            kreditnr_9 = oRec("kreditnr_9")
+            fakturanr_kladde_9 = oRec("fakturanr_kladde_9")
+            fakturanr_10 = oRec("fakturanr_10")
+            kreditnr_10 = oRec("kreditnr_10")
+            fakturanr_kladde_10 = oRec("fakturanr_kladde_10")
+
 
             SmiWeekOrMonth_HR = oRec("smiWeekormonth_hr")
 
@@ -1753,8 +2061,13 @@ if len(session("user")) = 0 then
                     at bestille en lokal kopi af jeres database. (SQL format)<br>
                     <br>
                     <br>
+                       <a href="../to_2015/national_holidays.asp" target="_blank">Helligdage kalender >></a><br /><br />
+
                     &nbsp;<img src="../ill/blank.gif" width="1" height="1" alt="" border="0"></div></td>
             </tr>
+
+      
+
             </table>     
             <table cellpadding=0 cellspacing=0 border=0 width=720>
             <tr>
@@ -2304,7 +2617,7 @@ if len(session("user")) = 0 then
            <input type="checkbox" name="vis_lager" value="1" <%=vis_lagerCHK %> disabled /> Vis materialelager i menu<br />
 
 
-                   <%if cint(minimumslageremail) = 1 then
+          <%if cint(minimumslageremail) = 1 then
           minimumslageremailCHK = "CHECKED"
           else
           minimumslageremailCHK = ""
@@ -3091,7 +3404,10 @@ if len(session("user")) = 0 then
                       <br /><br />
                       <b>Standard pause A pr. dag:</b><br />
                       <input id="FM_stempel_standardpause_A" name="FM_stempel_standardpause_A" type="text" style="width: 23px;" value="<%= stpauseA%>" /> min. pr. dag (0-55 min, 5 min. interval)<br />
-                      <br />Tilføj pause A på følgende dage: <span style="color:crimson;">Hvis der er dage uden pause A, må pause B ikke være slået til på disse dage.</span><br />
+                      <br />Tilføj pause A på følgende dage: <span style="color:crimson;">Hvis der er dage uden pause A, må pause B ikke være slået til på disse dage.<br />
+                          Hvis man har mere end 1 pause pr. dag, benytttes pause A og B sammen.<br /> 
+                          Pause C og D skal stå alene og altid være den eneste pause på dagen. (ellers error rediger dag stempelur.asp)
+                          </span><br />
 
                          Man 
                         <input id="p1_man" name="p1_man" value="1" type="checkbox" <%=p1_manChk %> />&nbsp;&nbsp;
@@ -3132,13 +3448,68 @@ if len(session("user")) = 0 then
                         <input id="p2_lor" name="p2_lor" value="1" type="checkbox" <%=p2_lorChk %> />&nbsp;&nbsp;
                          Søn  
                         <input id="p2_son" name="p2_son" value="1" type="checkbox" <%=p2_sonChk %> />&nbsp;&nbsp;
+
+
+                          <br />  <br />
+                       Standard pause B skal kun gælde / ikke gælde (minus) for følgende projektgrupper: (blank = alle, ellers angiv projektgruppe id)<br />
+                       Det er ikke tilladt at kombinere minus-grupper med plus-grupper. <br /><input type="text" name="FM_p2_grp" value="<%=p2_grp %>" size=10 /> Angiv gerne flere grupper 1,5,19
+                       <br />           
+
+
+                          <br /><br />
+                      <b>Standard pause C pr. dag:</b><br />
+                      <input id="FM_stempel_standardpause_C" name="FM_stempel_standardpause_C" type="text" style="width: 23px;" value="<%= stpauseC%>" /> min. pr. dag (0-55 min, 5 min. interval)
+                    
+                       <br /><br />Tilføj pause C på følgende dage:<br />
+                         Man 
+                        <input id="p3_man" name="p3_man" value="1" type="checkbox" <%=p3_manChk %> />&nbsp;&nbsp;
+                         Tir
+                        <input id="p3_tir" name="p3_tir" value="1" type="checkbox" <%=p3_tirChk %> />&nbsp;&nbsp;
+                         Ons 
+                        <input id="p3_ons" name="p3_ons" value="1" type="checkbox" <%=p3_onsChk %> />&nbsp;&nbsp;
+                         Tor  
+                        <input id="p3_tor" name="p3_tor" value="1" type="checkbox" <%=p3_torChk %> />&nbsp;&nbsp;
+                         Fre 
+                        <input id="p3_fre" name="p3_fre" value="1" type="checkbox" <%=p3_freChk %> />&nbsp;&nbsp;
+                         Lør 
+                        <input id="p3_lor" name="p3_lor" value="1" type="checkbox" <%=p3_lorChk %> />&nbsp;&nbsp;
+                         Søn  
+                        <input id="p3_son" name="p3_son" value="1" type="checkbox" <%=p3_sonChk %> />&nbsp;&nbsp;
                                         
                          
                         <br />  <br />
-                       Standard pause B skal kun gælde / ikke gælde (minus) for følgende projektgrupper: (blank = alle, ellers angiv projektgruppe id)<br />
-                       Det er ikke tilladt at kombinere minus-grupper med plus-grupper. <br /><input type="text" name="FM_p2_grp" value="<%=p2_grp %>" size=10 /> Angiv gerne flere grupper 1,5,19
+                       Standard pause C skal kun gælde / ikke gælde (minus) for følgende projektgrupper: (blank = alle, ellers angiv projektgruppe id)<br />
+                       Det er ikke tilladt at kombinere minus-grupper med plus-grupper. <br /><input type="text" name="FM_p3_grp" value="<%=p3_grp %>" size=10 /> Angiv gerne flere grupper 1,5,19
                        <br />               
                        
+
+                      <br /><br />
+                      <b>Standard pause D pr. dag:</b><br />
+                      <input id="FM_stempel_standardpause_D" name="FM_stempel_standardpause_D" type="text" style="width: 23px;" value="<%= stpauseD%>" /> min. pr. dag (0-55 min, 5 min. interval)
+                    
+                       <br /><br />Tilføj pause D på følgende dage:<br />
+                         Man 
+                        <input id="p4_man" name="p4_man" value="1" type="checkbox" <%=p4_manChk %> />&nbsp;&nbsp;
+                         Tir
+                        <input id="p4_tir" name="p4_tir" value="1" type="checkbox" <%=p4_tirChk %> />&nbsp;&nbsp;
+                         Ons 
+                        <input id="p4_ons" name="p4_ons" value="1" type="checkbox" <%=p4_onsChk %> />&nbsp;&nbsp;
+                         Tor  
+                        <input id="p4_tor" name="p4_tor" value="1" type="checkbox" <%=p4_torChk %> />&nbsp;&nbsp;
+                         Fre 
+                        <input id="p4_fre" name="p4_fre" value="1" type="checkbox" <%=p4_freChk %> />&nbsp;&nbsp;
+                         Lør 
+                        <input id="p4_lor" name="p4_lor" value="1" type="checkbox" <%=p4_lorChk %> />&nbsp;&nbsp;
+                         Søn  
+                        <input id="p4_son" name="p4_son" value="1" type="checkbox" <%=p4_sonChk %> />&nbsp;&nbsp;
+                                        
+                         
+                        <br />  <br />
+                       Standard pause D skal kun gælde / ikke gælde (minus) for følgende projektgrupper: (blank = alle, ellers angiv projektgruppe id)<br />
+                       Det er ikke tilladt at kombinere minus-grupper med plus-grupper. <br /><input type="text" name="FM_p4_grp" value="<%=p4_grp %>" size=10 /> Angiv gerne flere grupper 1,5,19
+                       <br />               
+                       
+
                    
                     </td></tr>
                     </table>
@@ -3153,11 +3524,11 @@ if len(session("user")) = 0 then
                                     <td width=40 bgcolor="#ffffff" align="center">
                                         <b>Man:</b></td>
                                     <td bgcolor="#ffffff" style="width: 259px">
-                                        <input id="FM_abn_man_t" name="FM_abn_man_t" type="text" style="width: 23px;" value="<%= man_t%>" />:
-                                        <input id="FM_abn_man_m" name="FM_abn_man_m" type="text" style="width: 23px;" value="<%= man_m%>" />
+                                        <input id="FM_abn_man_t" name="FM_abn_man_t" type="text" style="width: 23px;" value="<%=man_t%>" />:
+                                        <input id="FM_abn_man_m" name="FM_abn_man_m" type="text" style="width: 23px;" value="<%=man_m%>" />
                                         til
-                                        <input id="FM_abn_man_t2" name="FM_abn_man_t2" type="text" style="width: 23px;" value="<%= man_t2%>" />:
-                                        <input id="FM_abn_man_m2" name="FM_abn_man_m2" type="text" style="width: 23px;" value="<%= man_m2%>" />
+                                        <input id="FM_abn_man_t2" name="FM_abn_man_t2" type="text" style="width: 23px;" value="<%=man_t2%>" />:
+                                        <input id="FM_abn_man_m2" name="FM_abn_man_m2" type="text" style="width: 23px;" value="<%=man_m2%>" />
                                    &nbsp;&nbsp;&nbsp;Eks: 08:15 - 17:00</td>
                                 </tr>
                                 <tr>
@@ -3295,7 +3666,7 @@ if len(session("user")) = 0 then
             <br /><br />
             <input type="checkbox" name="FM_multible_licensindehavere" value="1" <%=multible_licensindehavereCHK%>/><b>Tillad multible juridiske enheder</b> afsender fakturaer fra TimeOut.<br />
 
-            <%for f = 2 to 5%>
+            <%for f = 2 to 10%>
             <br />                    
             Licens indehaver <%=f %>
             <br />
@@ -3317,6 +3688,26 @@ if len(session("user")) = 0 then
                      fakturanr = fakturanr_5
                     kreditnr = kreditnr_5
                     fakturanr_kladde = fakturanr_kladde_5
+                     case 6
+                     fakturanr = fakturanr_6
+                    kreditnr = kreditnr_6
+                    fakturanr_kladde = fakturanr_kladde_6
+                     case 7
+                     fakturanr = fakturanr_7
+                    kreditnr = kreditnr_7
+                    fakturanr_kladde = fakturanr_kladde_7
+                     case 8
+                     fakturanr = fakturanr_8
+                    kreditnr = kreditnr_8
+                    fakturanr_kladde = fakturanr_kladde_8
+                     case 9
+                     fakturanr = fakturanr_9
+                    kreditnr = kreditnr_9
+                    fakturanr_kladde = fakturanr_kladde_9
+                     case 10
+                     fakturanr = fakturanr_10
+                    kreditnr = kreditnr_10
+                    fakturanr_kladde = fakturanr_kladde_10
                    end select %>
 
               Seneste <b>Faktura</b> havde nr: 

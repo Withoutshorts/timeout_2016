@@ -85,10 +85,12 @@ Public Class to_import_timetag
     Public strSQLerrTest As String
     Public t As Integer
 
+    Public ugeErFaktureret As Integer = 0
 
     Public stTid As String = "00:00:00"
     Public slTid As String = "00:00:00"
 
+    Public med_lincensindehaver As Integer = 0
 
     'Public errThisTOnoAll As Integer = 0
 
@@ -796,7 +798,7 @@ Public Class to_import_timetag
                             'If importFrom = 10 Then 'Execelupload
                             'Dim strSQLme As String = "SELECT mid, mnavn, mnr FROM medarbejdere WHERE init = '" & intMedarbId & "' AND mansat <> 2" & mTypeSQL
                             'Else 'TimeTag
-                            Dim strSQLme As String = "SELECT mid, mnavn, mnr FROM medarbejdere WHERE mid = " & intMedarbId & " AND mansat <> 2"
+                            Dim strSQLme As String = "SELECT mid, mnavn, mnr, med_lincensindehaver FROM medarbejdere WHERE mid = " & intMedarbId & " AND mansat <> 2"
                             'End If
 
                             objCmd = New OdbcCommand(strSQLme, objConn)
@@ -811,6 +813,7 @@ Public Class to_import_timetag
 
                                 meNr = objDR("mnr")
                                 meID = objDR("mid")
+                                med_lincensindehaver = objDR("med_lincensindehaver")
 
                             End If
 
@@ -1277,7 +1280,7 @@ Public Class to_import_timetag
                         '***** er uge lukket '***
                         If CInt(errThisTOno) = 0 Then
 
-                            '** Manger at tilføje månedafslutning ***'
+                            '** Mangler at tilføje månedafslutning ***'
                             ugeErLukket = 0
                             Dim strSQLk As String = "SELECT mid, uge FROM ugestatus WHERE (WEEK(uge, 1) = WEEK('" & cdDatoSQL & "', 1) AND YEAR(uge) = YEAR('" & cdDatoSQL & "')) AND mid = " & meID
                             objCmd = New OdbcCommand(strSQLk, objConn)
@@ -1304,6 +1307,72 @@ Public Class to_import_timetag
                         Throw New Exception("er uge lukket, SELECT mid, uge FROM usestatus error: " + ex.Message)
                     End Try
 
+
+
+
+                    Try
+                        '***** er der fakturaret lukket '***
+                        If CInt(errThisTOno) = 0 Then
+
+                            '** Mangler at tilføje månedafslutning ***'
+                            ugeErFaktureret = 0
+
+                            Dim strSQLk As String = ""
+                            If lto = "bf" Then
+
+
+
+
+
+                                Dim alleMedIJurEnhedSQL As String = " AND (fms.mid = 0 "
+
+                                Dim strSQLalleMedIJurEnhedSQL As String = "SELECT mid FROM medarbejdere WHERE med_lincensindehaver = " & med_lincensindehaver & " AND (mansat = 1 OR mansat = 3) "
+
+
+                                objCmd = New OdbcCommand(strSQLalleMedIJurEnhedSQL, objConn)
+                                objDR = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
+
+                                If objDR.Read() = True Then
+
+                                    alleMedIJurEnhedSQL = alleMedIJurEnhedSQL & " OR fms.mid = " & objDR("mid")
+
+                                End If
+
+                                objDR.Close()
+
+                                alleMedIJurEnhedSQL = alleMedIJurEnhedSQL & ")"
+
+                                '*** Tjekker ikke aktivitet, men kun om medarbejer er med på faktura. Hvad JA alle aktiviteter lukket, eller alle aktiviteter åbne.
+                                '*** Er man med i samme jur enhed, som en af de linjer der er faktureret ska alle linjer lukkes. Derfor skal aktivitet ikke tjekkes.
+
+                                strSQLk = "SELECT fid, fakdato FROM fakturaer f "
+                                strSQLk += " LEFT JOIN fak_med_spec AS fms ON (fms.fakid = fid " & alleMedIJurEnhedSQL & ") "
+                                strSQLk += " WHERE fakdato >= '" & cdDatoSQL & "' AND shadowcopy = 0 AND faktype = 0 AND f.jobid = " & jobId & " AND fms.fakid = fid " & alleMedIJurEnhedSQL & ""
+
+                            Else
+                                strSQLk = "SELECT fid, fakdato FROM fakturaer WHERE fakdato >= '" & cdDatoSQL & "' AND shadowcopy = 0 AND faktype = 0 AND jobid = " & jobId & ""
+                            End If
+
+                            objCmd = New OdbcCommand(strSQLk, objConn)
+                            objDR = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
+
+                            If objDR.Read() = True Then
+
+                                ugeErFaktureret = 1
+
+                            End If
+
+                            objDR.Close()
+                            '***'
+
+                            If ugeErFaktureret = 1 Then
+                                errThisTOno = 91
+                            End If
+
+                        End If
+                    Catch ex As Exception
+                        Throw New Exception("er der faktureret, SELECT fid FROM fakturaer error: " + ex.Message)
+                    End Try
                     'errThisTOno = 0
 
 
@@ -1436,6 +1505,8 @@ Public Class to_import_timetag
                                     errTxtThis = "Der er fejl i dato formatet"
                                 Case 9
                                     errTxtThis = "Periode er lukket"
+                                Case 91
+                                    errTxtThis = "Periode er lukket pga. faktura"
                             End Select
 
 

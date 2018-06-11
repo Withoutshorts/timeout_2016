@@ -488,7 +488,7 @@
       <txt_377>Vis alle aktivitets typer på tilbud</txt_377>
       <txt_378>Tilføj til aktiv-jobliste</txt_378>
       <txt_379>Vis kun job hvor medarb., er jobansv. 1-5</txt_379>
-      <txt_380>HR (tast ferie, sygdom mv.)</txt_380>
+      <txt_380>HR (ferie, sygdom)</txt_380>
       <txt_381>Dage</txt_381>
       <txt_382>Vis simpel aktivitetslinje (vis ikke dato, tidsforbrug mm.)</txt_382>
 
@@ -1012,8 +1012,8 @@
     <txt_334>Vis 25 nyeste arbeidsplasser</txt_334>
     <txt_335>Skape nye arbeidsplasser</txt_335>
     <txt_336>Job Bank</txt_336>
-    <txt_337>Weekplan</txt_337>
-    <txt_338>Weekplan, uke</txt_338>
+    <txt_337>Ukeseddel</txt_337>
+    <txt_338>Ukeseddel, uke</txt_338>
     <txt_339>Timer</txt_339>
     <txt_340>Kom / Go tid</txt_340>
     <txt_341>Sorter etter</txt_341>
@@ -1055,7 +1055,7 @@
     <txt_377>Vis alle aktivitetstyper på tilbud</txt_377>
     <txt_378>Legg til aktive jobblisten</txt_378>
     <txt_379>Viser bare jobb der ansatte. er jobb ansvars. 1-5</txt_379>
-    <txt_380>HR (registrere ferie, syke, osv).</txt_380>
+    <txt_380>HR (ferie, syk)</txt_380>
     <txt_381>Dager</txt_381>
     <txt_382>Vis enkel aktivitet linjen (ikke viser dato, tid, etc.).</txt_382>
     <txt_383>Du har nå muligheten til å avslutte en eller flere av de ukene du trenger for å fullføre , og så gi beskjed om at du kan telle timer du har tastet inn i disse ukene.</txt_383>
@@ -1596,7 +1596,7 @@
     <txt_377>Visa alla aktivitetstyper som erbjuds</txt_377>
     <txt_378>Lägg till aktivt jobblistan</txt_378>
     <txt_379>Visar bara jobb där anställda. är jobbansvars. 1-5</txt_379>
-    <txt_380>HR (registrera semester, sjuk, etc).</txt_380>
+    <txt_380>HR (semester, sjuk)</txt_380>
     <txt_381>Dagar</txt_381>
     <txt_382>Visa enkel aktivitet linje (inte visar datum, tid, etc.).</txt_382>
     <txt_383>Du har nu möjlighet att avsluta en eller flera av de veckor du behöver för att avsluta, och så ger budskapet att du kan räkna de timmar du har angett i dessa veckor.</txt_383>
@@ -2137,7 +2137,7 @@
     <txt_377>Alle angebotenen Aktivitäten anzeigen</txt_377>
     <txt_378>Zur Aktiv-Job-Liste hinzufügen</txt_378>
     <txt_379>Nur Arbeit zeigen, wo Mitarbeiter. Sind Job respon. 1-5</txt_379>
-    <txt_380>HR (registrieren Urlaub, krank, etc.).</txt_380>
+    <txt_380>HR (urlaub, krank)</txt_380>
     <txt_381>Tage</txt_381>
     <txt_382>Zeigen Sie einfach Aktivität Linie (nicht zeigen Datum, Uhrzeit, etc.).</txt_382>
     <txt_383>Sie haben nun die Möglichkeit, einen oder mehrere der Wochen Abschluss müssen zu beenden, und geben so die Botschaft, dass Sie die Stunden zählen, können Sie in diesen Wochen eingegeben haben.</txt_383>
@@ -2676,7 +2676,7 @@
     <txt_377>Afficher toutes les activités proposées</txt_377>
     <txt_378>Ajouter à la liste des tâches actives</txt_378>
     <txt_379>Montrer seulement l'emploi où les employés. Sont la responsabilité du travail. 1-5</txt_379>
-    <txt_380>HR (enregistrer vacances, malades, etc.).</txt_380>
+    <txt_380>HR (vacances, malades)</txt_380>
     <txt_381>Journées</txt_381>
     <txt_382>Afficher ligne d'activité simple (ne pas la date, l'heure, etc. show).</txt_382>
     <txt_383>Vous avez maintenant la possibilité de mettre fin à un ou plusieurs des semaines dont vous avez besoin pour terminer, et donnant ainsi le message que vous pouvez compter les heures que vous avez entrés dans ces semaines.</txt_383>
@@ -3908,7 +3908,7 @@
     <txt_377>Mostrar todos los tipos de actividad que se ofrecen</txt_377>
     <txt_378>Añadir a la lista de trabajos activos</txt_378>
     <txt_379>Mostrando sólo el trabajo donde los empleados. Son trabajo respon. 1-5</txt_379>
-    <txt_380>HR (registrar vacaciones, enfermedad, etc.).</txt_380>
+    <txt_380>HR (vacaciones, enfermedad)</txt_380>
     <txt_381>Días</txt_381>
     <txt_382>Mostrar línea de actividad simple (no mostrar la fecha, hora, etc.).</txt_382>
     <txt_383>Ahora tiene la opción de terminar una o más de las semanas que necesita para terminar, y así dar el mensaje de que se puede contar las horas que ha introducido en esas semanas.</txt_383>

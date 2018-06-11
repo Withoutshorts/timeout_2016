@@ -167,26 +167,27 @@
                 oRec.open strRedorOpr, oConn, 3
 
                 if not oRec.EOF then
-                strEvalSub = "UPDATE eval SET eval_evalvalue = "& eval_vur &", eval_jobvaluesuggested = "& forslaet_oms & ", eval_comment = '"&eval_comment&"', eval_diff = "& eval_lbn_forskel &", eval_original_price = "& eval_original_price _
+                strEvalSub = "UPDATE eval SET eval_evalvalue = "& eval_vur &", eval_jobvaluesuggested = "& forslaet_oms & ", eval_comment = '"&eval_comment&"', eval_diff = "& eval_lbn_forskel*-1 &", eval_original_price = "& eval_original_price _
                 &", eval_fakbartimer = "& fak_svendetimer &", eval_fakbartimepris = "& fak_svendetimePris &", ubemandet_maskine_timer = "& ubemandet_maskine_timer &", ubemandet_maskine_timePris = "& ubemandet_maskine_timePris _
                 &", laer_timer = "& laer_timer &", laer_timepris = "& laer_timepris &", easy_reg_timer = "& easy_reg_timer &", easy_reg_timepris = "& easy_reg_timepris & ", ikke_fakbar_tid_timer = "& ikke_fakbar_tid_timer &", ikke_fakbar_tid_timepris = "& ikke_fakbar_tid_timepris _
                 &", eval_suggested_hours = "& forslaet_timer_total _
                 &" WHERE eval_jobid = "& eval_jobid 
                 else
-                strEvalSub = "INSERT INTO eval SET eval_id = "& lastid &", eval_jobid = "& eval_jobid &", eval_evalvalue = "& eval_vur &", eval_jobvaluesuggested = "& forslaet_oms & ", eval_comment = '"&eval_comment&"', eval_diff = "& eval_lbn_forskel &", eval_suggested_hours = "& forslaet_timer_total &", eval_original_price = "& eval_original_price _
+                strEvalSub = "INSERT INTO eval SET eval_id = "& lastid &", eval_jobid = "& eval_jobid &", eval_evalvalue = "& eval_vur &", eval_jobvaluesuggested = "& forslaet_oms & ", eval_comment = '"&eval_comment&"', eval_diff = "& eval_lbn_forskel*-1 &", eval_suggested_hours = "& forslaet_timer_total &", eval_original_price = "& eval_original_price _
                 &", eval_fakbartimer = "& fak_svendetimer &", eval_fakbartimepris = "& fak_svendetimePris &", ubemandet_maskine_timer = "& ubemandet_maskine_timer &", ubemandet_maskine_timePris = "& ubemandet_maskine_timePris _
                 &", laer_timer = "& laer_timer &", laer_timepris = "& laer_timepris &", easy_reg_timer = "& easy_reg_timer &", easy_reg_timepris = "& easy_reg_timepris & ", ikke_fakbar_tid_timer = "& ikke_fakbar_tid_timer &", ikke_fakbar_tid_timepris = "& ikke_fakbar_tid_timepris
                 end if
                 oRec.close 
 
-
+               
                'response.write strEvalSub
                'response.flush
+               
                 oConn.execute(strEvalSub)
 
 
                 '*** Skift jobstatus ************************ 
-                strSQLjob = "UPDATE job SET jobstatus = 4 WHERE id = "& eval_jobid
+                strSQLjob = "UPDATE job SET jobstatus = 2 WHERE id = "& eval_jobid
                 oConn.execute(strSQLjob)
 
                 '********************************************************************
@@ -210,8 +211,14 @@
             call akttyper2009(2)
           
 
-            strsql = "SELECT id, jobnavn, jo_bruttooms, fastpris, jobnr, job_internbesk, jobknr, kkundenavn, kkundenr FROM job "_
+            job_beskrivelse = ""
+            job_internbesk = ""
+
+            strsql = "SELECT id, jobnavn, jo_bruttooms, fastpris, jobnr, job_internbesk, jobknr, kkundenavn, kkundenr, job.beskrivelse FROM job "_
             &" LEFT JOIN kunder k ON (kid = jobknr) WHERE id = "& jobid_til_eval
+
+            'response.Write "strsql. " & strsql
+            'response.flush
 
             oRec.open strsql, oConn, 3
             if not oRec.EOF then
@@ -223,6 +230,8 @@
             job_internbesk = oRec("job_internbesk")
             kkundenavn = oRec("kkundenavn") 
             kkundenr = oRec("kkundenr")
+            job_beskrivelse = oRec("beskrivelse")
+
             end if
             oRec.close
 
@@ -246,16 +255,12 @@
                 &" LEFT JOIN timer t ON (t.taktivitetid = a.id) WHERE job = "& strJobid &" AND brug_fasttp = 1 AND ("& aty_sql_realhours &") GROUP BY taktivitetid"
 
                 'Response.write strSQLfastpris & "<br>"
+                'Response.flush
                 oRec2.open strSQLfastpris, oConn, 3
                 while not oRec2.EOF
                 
-                'response.Write "<br>" & oRec2("navn") & " fastpris " & oRec2("fasttp") & "rg: " & oRec2("brug_fasttp")
-
-                'if cint(antalFastTP) = 0 then
-                'fastPris_Aktiviteter_Total_TP = oRec2("fasttp")
-                'else
+               
                 fastPris_Aktiviteter_Total_TP = fastPris_Aktiviteter_Total_TP + (oRec2("fasttp")*oRec2("sumtimer")*1)
-               'end if
                 totalTimerFastprisAkt = totalTimerFastprisAkt + (oRec2("sumtimer")*1)
 
                 antalFastTP = antalFastTP + 1
@@ -274,8 +279,11 @@
 
 
             '******* Medarb TP aktiviteter ****'
-            strSQLAVG_ikke_fastpris_aktiviteter = "SELECT SUM(timer*TimePris) as sumtimepris, SUM(timer) AS timer FROM timer "_
-            &" LEFT JOIN aktiviteter as a ON (a.job = "& strJobid &") WHERE tjobnr = '"& strJobnr &"' AND a.brug_fasttp = 0 AND ("& aty_sql_realhours &") GROUP BY taktivitetid"
+            'strSQLAVG_ikke_fastpris_aktiviteter = "SELECT SUM(timer*TimePris) as sumtimepris, SUM(timer) AS timer FROM timer "_
+            '&" LEFT JOIN aktiviteter as a ON (a.job = "& strJobid &" AND a.brug_fasttp = 0) WHERE tjobnr = '"& strJobnr &"' AND a.brug_fasttp = 0 AND ("& aty_sql_realhours &") GROUP BY taktivitetid"
+
+            strSQLAVG_ikke_fastpris_aktiviteter = "SELECT a.id, brug_fasttp, fasttp, navn, SUM(t.timer) AS sumtimer FROM aktiviteter a "_
+            &" LEFT JOIN timer t ON (t.taktivitetid = a.id) WHERE job = "& strJobid &" AND brug_fasttp = 0 AND ("& aty_sql_realhours &") GROUP BY taktivitetid"
             'response.Write strSQLAVG_ikke_fastpris_aktiviteter
             totalTimerIkkeFastprisAkt = 0
             sumtimePris_ikke_fastpris_aktiviteter = 0
@@ -333,6 +341,9 @@
             '***************************************************************
             '**** udsepcificering **************
             '***************************************************************
+
+
+            '** Svendetimer
             fastPris_svendetimer_Total_TP = 0
             totalTimerFastpris_svendetimer = 0
             fakbarSvendeTimer_fastprisSQL = "SELECT a.id, brug_fasttp, fasttp, navn, SUM(t.timer) AS sumtimer FROM aktiviteter a "_
@@ -374,11 +385,13 @@
             end if
 
 
-
+            
+                    
+            '*** Maskintimer ***'
             fastPris_maskine_Total_TP = 0
             totalTimerFastpris_maskine = 0
             fakbarMaskineTimer_fastprisSQL = "SELECT a.id, brug_fasttp, fasttp, navn, SUM(t.timer) AS sumtimer FROM aktiviteter a "_
-            &" LEFT JOIN timer t ON (t.taktivitetid = a.id) WHERE job = "& strJobid &" AND brug_fasttp = 1 AND Tfaktim = 91 GROUP BY taktivitetid"
+            &" LEFT JOIN timer t ON (t.taktivitetid = a.id) WHERE job = "& strJobid &" AND brug_fasttp = 1 AND Tfaktim = 90 GROUP BY taktivitetid"
             oRec2.open fakbarMaskineTimer_fastprisSQL, oConn, 3
             while not oRec2.EOF
             fastPris_maskine_Total_TP = fastPris_maskine_Total_TP + (oRec2("fasttp")*oRec2("sumtimer")*1)
@@ -388,6 +401,7 @@
             oRec2.close
             
             
+           
             maskine_ikkeFP_sum = 0
             maskine_ikkeFP_sumtimer = 0
             fakbarmaskineTimer_ikkefastprisSQL = "SELECT sum(timer*timepris) as sumMaskineTimepris_ikkeFP, sum(timer) as sumMaskineTimer_ikkeFP FROM timer LEFT JOIN aktiviteter a ON (a.id = taktivitetid) WHERE tjobnr = '"& strJobnr &"' AND Tfaktim = 91 AND brug_fasttp = 0 GROUP BY taktivitetid"
@@ -413,6 +427,7 @@
             end if
 
 
+            '*** Lærling ***'
             fastPris_laer_Total_TP = 0
             totalTimerFastpris_lear = 0
             fakbarLearTimer_fastprisSQL = "SELECT a.id, brug_fasttp, fasttp, navn, SUM(t.timer) AS sumtimer FROM aktiviteter a "_
@@ -452,10 +467,12 @@
             end if
 
 
+
+             '*** EASYregtimer ***'
             fastPris_easyReg_Total_TP = 0
             totalTimerFastpris_easyReg = 0
             fakbareasyRegTimer_fastprisSQL = "SELECT a.id, brug_fasttp, fasttp, navn, SUM(t.timer) AS sumtimer FROM aktiviteter a "_
-            &" LEFT JOIN timer t ON (t.taktivitetid = a.id) WHERE job = "& strJobid &" AND brug_fasttp = 1 AND Tfaktim = 1 AND Timer < 0.25 GROUP BY taktivitetid"
+            &" LEFT JOIN timer t ON (t.taktivitetid = a.id) WHERE job = "& strJobid &" AND brug_fasttp = 1 AND Tfaktim = 1 AND easyreg = 1 AND Timer < 0.25 GROUP BY taktivitetid"
             oRec2.open fakbareasyRegTimer_fastprisSQL, oConn, 3
             while not oRec2.EOF
             fastPris_easyReg_Total_TP = fastPris_easyReg_Total_TP + (oRec2("fasttp")*oRec2("sumtimer")*1)
@@ -467,7 +484,7 @@
 
             easyReg_ikkeFP_sum = 0
             easyReg_ikkeFP_sumtimer = 0
-            fakbareasyRegTimer_ikkefastprisSQL = "SELECT sum(timer*timepris) as sumeasyRegTimepris_ikkeFP, sum(timer) as sumeasyRegTimer_ikkeFP FROM timer LEFT JOIN aktiviteter a ON (a.id = taktivitetid) WHERE tjobnr = '"& strJobnr &"' AND Tfaktim = 1 AND Timer < 0.25 AND brug_fasttp = 0 GROUP BY taktivitetid"
+            fakbareasyRegTimer_ikkefastprisSQL = "SELECT sum(timer*timepris) as sumeasyRegTimepris_ikkeFP, sum(timer) as sumeasyRegTimer_ikkeFP FROM timer LEFT JOIN aktiviteter a ON (a.id = taktivitetid) WHERE tjobnr = '"& strJobnr &"' AND Tfaktim = 1 AND easyreg = 1 AND Timer < 0.25 AND brug_fasttp = 0 GROUP BY taktivitetid"
             'response.Write fakbarLearTimer_ikkefastprisSQL
             oRec2.open fakbareasyRegTimer_ikkefastprisSQL, oConn, 3
             while not oRec2.EOF
@@ -573,7 +590,21 @@
                     easy_reg_timer = oRec2("easy_reg_timer")
                     easy_reg_timepris = oRec2("easy_reg_timepris")
                     ikke_fakbar_tid_timer = oRec2("ikke_fakbar_tid_timer")
-                    ikke_fakbar_tid_timepris = oRec2("ikke_fakbar_tid_timepris")                   
+                    ikke_fakbar_tid_timepris = oRec2("ikke_fakbar_tid_timepris")
+                    
+                else
+                'FINDES IKKE I FORVEJEN 
+                strEval_svendetimer_sug = formatnumber(svendetimertotal,2)
+                strEval_svendetimePris_sug = formatnumber(totalGNSsvendeTimepris,2)
+                ubemandet_maskine_timer = formatnumber(maskinetimertotal,2)
+                ubemandet_maskine_timePris = formatnumber(maskine_GNS_timepris,2)
+                laer_timer = formatnumber(laertimertotal,2)
+                laer_timepris = formatnumber(laarTimeprisGNS,2)
+                easy_reg_timer = formatnumber(easyRegtimertotal,2)
+                easy_reg_timepris = formatnumber(easyRegTimeprisGNS,2)
+                ikke_fakbar_tid_timer = formatnumber(ikkefakbartimertotal,2)
+                ikke_fakbar_tid_timepris = formatnumber(ikkefakbarGNStimepris,2)
+                                       
                 end if
                 oRec2.close
 
@@ -613,7 +644,7 @@
              
         %>
 
-<script src="js/eval_jav5.js" type="text/javascript"></script>
+<script src="js/eval_jav7.js" type="text/javascript"></script>
 
 
 <div class="wrapper"><br /><br />
@@ -626,7 +657,17 @@
                 <h3 class="portlet-title">Projekt Evaluering</h3>
                 <div class="portlet-body">
                    <b>Kunde & Job:</b><br />
-                   <%response.Write kkundenavn & " ("& kkundenr &")<br>"& strJobnavn & " ("& strJobnr &")<br> Bruttooms.: " & formatnumber(strBruttooms, 2) & "<br> <a href=""#"" onclick=""Javascript:window.open('../timereg/jobprintoverblik.asp?menu=job&id="&strJobid&"', '', 'width=1200,height=700,resizable=yes,scrollbars=yes')"">Timefordeling >></a>" %>
+                   <%=kkundenavn & " ("& kkundenr &")<br>"& strJobnavn & " ("& strJobnr &")"%>
+                       
+                                    <%if cint(strFastpris) = 1 then %>
+                                    <span style="color:limegreen; font-size:9px;"><i> - Fastpris</i></span>
+                                    <%else %>
+                                     <span style="color:#5582d2; font-size:9px;"><i> - Lbn. timer</i></span>
+                                    <%end if %>
+
+                       
+                   <%="<br> Bruttooms.: " & formatnumber(strBruttooms, 2) & "<br> <a href=""#"" onclick=""Javascript:window.open('../timereg/jobprintoverblik.asp?menu=job&id="&strJobid&"', '', 'width=1200,height=700,resizable=yes,scrollbars=yes')"">Timefordeling >></a>" %>
+
                    <input type="hidden" name="CHECK_fastpris" id="CHECK_fastpris" value="<%=strFastpris %>" />
                    <div class="row">
                        <div class="col-lg-12" style="text-align:center"><h5>Du bedes evaluere om projektet har været God +, God, Mellem, eller Dårligt</h5>
@@ -652,10 +693,19 @@
                         <b>Ikke evalueret</b> <input type="radio" name="eval_vur" value="0" <%=valueBarCH0 %> />-->
                         </div>
                     </div>
+                      <br /><br />
+                    <div class="row">
+                        <div class="col-lg-3"></div>
+                        <div class="col-lg-4"><b>Job beskrivelse:</b><br />
+                            <%=job_beskrivelse %>
+
+                        </div>
+                    </div>
+                        
                     <br /><br />
                     <div class="row">
                         <div class="col-lg-3"></div>
-                        <div class="col-lg-4">Intern note:<br />
+                        <div class="col-lg-4"><b>Intern note:</b><br />
                             <%=job_internbesk %>
 
                         </div>
@@ -840,9 +890,11 @@
                             <table>
                                 <tr>
                                     <td style="width:65px"></td>
-                                    <td style="color:black; padding-right:26px">Forslået omsætning</td>
-                                    <td style="width:100px; padding-right:10px"><input type="hidden" name="forslaet_timer_total" id="forslaet_timer_total" class="form-control input-small opdaterOms" value="" readonly />
-                                    <td style="width:252px; padding-right:10px"><input type="hidden" name="forslaet_timepris_total" id="forslaet_timepris_total" class="form-control input-small opdaterOms" value="" readonly /></td>
+                                    <td style="color:black; padding-right:56px">Forslået omsætning</td>
+                                    <td style="width:100px; padding-right:10px"><input type="text" name="forslaet_timer_total" id="forslaet_timer_total" class="form-control input-small opdaterOms" value="" readonly />
+                                    <td style="width:80px"></td>
+                                    <td style="width:125px; padding-right:10px"><input type="text" name="forslaet_timepris_total" id="forslaet_timepris_total" class="form-control input-small opdaterOms" value="" readonly /></td>
+                                    <td style="width:19px"></td>
                                     <td style="width:125px; padding-right:10px"><input type="text" name="forslaet_oms" id="forslaet_oms" class="form-control input-small" readonly /></td>
                                     <td><input type="hidden" name="eval_lbn_forskel" id="eval_lbn_forskel" class="form-control input-small" readonly/></td>
                                 </tr>

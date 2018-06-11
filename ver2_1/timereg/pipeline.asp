@@ -102,6 +102,51 @@ if len(session("user")) = 0 then
         ign_perCHK = ""
     end if
 
+
+
+    '**** FOMR Kriterie på job ************************
+    strFomr_reljobids = "0"
+    if len(trim(request("FM_fomr"))) <> 0 then
+    fomr = request("FM_fomr")
+    'fomrLNK = fomr
+
+
+    if right(fomr, 1) = "," then 
+    fomr_len = len(fomr)
+    fomr_left = left(fomr, fomr_len - 1)
+    fomr = fomr_left
+    end if
+
+    'fomr = ""
+    'response.write "<br><br><br><br><br><br>fomr: " & fomr
+
+    fomrArr = split(fomr, ", ")
+
+        for f = 0 TO UBOUND(fomrArr)
+         
+             strFomr_rel = strFomr_rel & ", #"& fomrArr(f) & "#"  
+
+            '*** Forrretningsområder Kriteerie strFomr_rel            
+            strSQLfomrrel = "SELECT for_fomr, for_jobid, for_aktid FROM fomr_rel WHERE for_fomr = " & fomrArr(f) & " GROUP BY for_jobid, for_aktid"
+            oRec3.open strSQLfomrrel, oConn, 3
+            while not oRec3.EOF 
+
+            strFomr_reljobids = strFomr_reljobids & ", #"& oRec3("for_jobid") & "#" 
+            'strFomr_relaktids = strFomr_relaktids & ", #"& oRec3("for_aktid") & "#"
+        
+            oRec3.movenext
+            wend 
+            oRec3.close
+
+        next
+
+    else
+    fomrArr = 0
+    fomr = 0
+    end if
+
+
+
 	'**************************************************
 	'***** Faste Filter kriterier *********************
 	'**************************************************
@@ -498,16 +543,21 @@ if len(session("user")) = 0 then
 	
 		'**************** Trimmer SQL states ************************
 		len_jobidFakSQLkri = len(jobidFakSQLkri)
-		right_jobidFakSQLkri = right(jobidFakSQLkri, len_jobidFakSQLkri - 3)
-		jobidFakSQLkri =  right_jobidFakSQLkri
-		
+        right_jobidFakSQLkri = right(jobidFakSQLkri, len_jobidFakSQLkri - 3)
+		jobidFakSQLkri = right_jobidFakSQLkri
+        
 		len_jobnrSQLkri = len(jobnrSQLkri)
-		right_jobnrSQLkri = right(jobnrSQLkri, len_jobnrSQLkri - 3)
-		jobnrSQLkri =  right_jobnrSQLkri
-		
+        right_jobnrSQLkri = right(jobnrSQLkri, len_jobnrSQLkri - 3)
+		jobnrSQLkri = right_jobnrSQLkri
+       
 		len_jidSQLkri = len(jidSQLkri)
-		right_jidSQLkri = right(jidSQLkri, len_jidSQLkri - 3)
-		jidSQLkri =  right_jidSQLkri
+        right_jidSQLkri = right(jidSQLkri, len_jidSQLkri - 3)
+		jidSQLkri = right_jidSQLkri
+        
+        'if session("mid") = 1 then
+        'response.write "jidSQLkri:" & jidSQLkri
+        'response.flush
+        'end if
 		
 		
 		len_seridFakSQLkri = len(seridFakSQLkri)
@@ -516,6 +566,8 @@ if len(session("user")) = 0 then
 		'*****************************************************************************************************
 	
 	
+
+
 	
 
 

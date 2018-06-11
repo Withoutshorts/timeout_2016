@@ -54,8 +54,7 @@ end sub
         'response.Write "strSQL" & strSQL 
         'response.flush
     
-    	oRec8.Open strSQL, oConn, 0, 1 
-			
+    	    oRec8.Open strSQL, oConn, 0, 1 
 			While Not oRec8.EOF
 			
              medariprogrpTxt = medariprogrpTxt & ",#"& oRec8("ProjektgruppeId") &"#"
@@ -143,10 +142,14 @@ end sub
 
 function tilfojtilTU(mid, del)
 
- call positiv_aktivering_akt_fn()
- pa = pa_aktlist 
+ 'call positiv_aktivering_akt_fn()
+ 'pa = pa_aktlist 
 
-
+if len(trim(request("FM_progrpfollowactivejoblist"))) <> 0 then 'ved opret / rediger medarbejder -- forvælges på opret medarbejder
+    pa_tilfojvmedopret = 1
+else
+    pa_tilfojvmedopret = 0
+end if
 'mid <> 0 enjelt medarb / alle medab
 
 if mid <> 0 then
@@ -184,8 +187,10 @@ while not oRec5.EOF
 	&" WHERE (jobstatus = 1 OR jobstatus = 3) AND kunder.Kid = j.jobknr "& strPgrpSQLkri &""_
 	&" GROUP BY j.id, kid ORDER BY Kkundenavn, jobnavn"
 	
+    'if session("mid") = 1 AND lto = "hestia" then
     'Response.write strSQLj & "<br><br>"	
-	'Response.flush
+	'Response.end 
+    'end if
 	
     	
     oRec4.open strSQLj, oConn, 3
@@ -196,13 +201,25 @@ while not oRec5.EOF
     
     'Response.write oRec4("jobnavn") & "<br>"
             
-            strSQLTU = "SELECT jobid FROM timereg_usejob WHERE jobid = "& oRec4("jid") & " AND medarb = "& oRec5("mid")
+            strSQLTU = "SELECT id, jobid, forvalgt FROM timereg_usejob WHERE jobid = "& oRec4("jid") & " AND medarb = "& oRec5("mid")
             oRec3.open strSQLTU, oConn, 3
             if not oRec3.EOF then
 
             jobFandtes = 1
             
             strSQLDontDelJob = strSQLDontDelJob & " AND jobid <> "&  oRec4("jid")
+
+
+                '** GØR AKTIV PÅ AKTIV JOBLISTE
+                if cint(pa_tilfojvmedopret) = 1 then
+
+                    if cint(oRec3("forvalgt")) = 0 then
+                     forvalgt_dtSQL = year(now) &"/"& month(now) &"/"& day(now)
+                    strSQlfv = "UPDATE timereg_usejob SET forvalgt = 1, forvalgt_af = "& session("mid") &", forvalgt_dt = '"& forvalgt_dtSQL & "' WHERE id = "& oRec3("id")
+                    oConn.execute(strSQlfv)
+                    end if
+
+                end if
 
             end if
             oRec3.close
@@ -228,6 +245,7 @@ while not oRec5.EOF
               strSQLins = "INSERT INTO timereg_usejob (medarb, jobid "& strSQLfelt &") VALUES ("& oRec5("mid") &", "& oRec4("jid") & strSQLfeltVal &")"
 
               'Response.write "<b>"& strSQLins &"</b><br>"
+              'Response.flush
               oConn.execute(strSQLins)
 
               strSQLDontDelJob = strSQLDontDelJob & " AND jobid <> "&  oRec4("jid")
@@ -284,33 +302,51 @@ end function
 					
 					if len(trim(pgr(p))) <> 0 then
 
-                        
-                        '** NOTIFICER ***'
-                        if instr(pgr(p), "-1") <> 0 then
-                        notificer = 1
-                        else
-                        notificer = 0
-                        end if 
+                        if thisfile <> "medarbejder_prg" then
+
+                            '** NOTIFICER ***'
+                            if instr(pgr(p), "-1") <> 0 then
+                            notificer = 1
+                            else
+                            notificer = 0
+                            end if 
                     
 
-                        '*** TEAMLEDER ***
-                        if instr(pgr(p), "_1") <> 0 then
-                        teamleder = 1
-                        pgr_len = len(pgr(p))
+                            '*** TEAMLEDER ***
+                            if instr(pgr(p), "_1") <> 0 then
+                            teamleder = 1
+                            pgr_len = len(pgr(p))
 
-                        if cint(notificer) = 1 then
-                        pgr_left = left(pgr(p), pgr_len - 4)
+                            if cint(notificer) = 1 then
+                            pgr_left = left(pgr(p), pgr_len - 4)
+                            else
+                            pgr_left = left(pgr(p), pgr_len - 2)
+                            end if
+
+                            pgr(p) = pgr_left 
+                            else
+                            teamleder = 0
+                            pgr(p) = pgr(p)
+                            end if 
+
                         else
-                        pgr_left = left(pgr(p), pgr_len - 2)
-                        end if
 
-                        pgr(p) = pgr_left 
-                        else
-                        teamleder = 0
-                        pgr(p) = pgr(p)
-                        end if 
+                            CHBteamLeder = request("FM_progrpTeamL_"& cdbl(pgr(p)))
+                            CHBNOT = request("FM_progrpNOT_"& cdbl(pgr(p)))
+                           
+                            if instr(CHBteamLeder, "checked") <> 0 then
+                            teamleder = 1
+                            else
+                            teamleder = 0
+                            end if
 
-                        
+                            if instr(CHBNOT, "checked") <> 0 then
+                            notificer = 1
+                            else
+                            notificer = 0
+                            end if
+
+                        end if 'thisfile
 					
                     	'Response.Write strSQLpgIns & "<br>"
 					    
@@ -721,7 +757,7 @@ function projgrp(progrp,level,medarbid,visning)
     '* Vis kun HR grupper på HR relaterede sider 
     if thisfile <> "bal_real_norm_2007.asp" AND thisfile <> "week_norm_2010.asp" AND thisfile <> "feriekalender" then
         
-        if thisfile = "joblog_timetotaler" AND lto = "epi2017" then
+        if (thisfile = "joblog_timetotaler" AND lto = "epi2017") OR lto = "tia" then
         prgidTypeKri = ""
         else
         prgidTypeKri = " AND orgvir <> 2"
@@ -917,7 +953,7 @@ function medarbiprojgrp(progrp, medid, mtypesorter, seloptions)
     &" LEFT JOIN medarbejdere AS m ON (m.mid = MedarbejderId) "_
     &" LEFT JOIN medarbejdertyper AS mt ON (mt.id = m.medarbejdertype) "_
     &" LEFT JOIN medarbejdertyper AS mts ON (mts.id = mt.sostergp) "_
-    &" WHERE ("& prgKri & " AND "& strSQLmansat &")  GROUP BY mid ORDER BY "& odrBySQL
+    &" WHERE ("& prgKri & " AND "& strSQLmansat &" "& jurMedidsSQL &")  GROUP BY mid ORDER BY "& odrBySQL
     
     
     'if session("mid") = 1 then
@@ -1159,9 +1195,15 @@ end if
 
 %>
     <td valign=top style="padding-top:20px; width:426px;"><b><%=godkendweek_txt_081 %>:</b><br />
-    <span style="font-size:10px; line-height:12px; color:#999999; padding-top:4px;">
+    
+        <span style="font-size:10px; line-height:12px; color:#999999; padding-top:4px;">
         <%=godkendweek_txt_082 %>
         </span><br />
+
+      
+        <select multiple size="9" id="FM_progrp" name="FM_progrp" style="position:relative; z-index:1; width:406px; <%=fm_cls_2015_style_11%>" class="<%=fm_cls_2015 %>">
+           
+            
        
        <% 
        
@@ -1208,41 +1250,37 @@ end if
 
      
 
-       %>
-     
-        <select id="FM_progrp" name="FM_progrp" style="width:406px; <%=fm_cls_2015_style_11%>" class="<%=fm_cls_2015 %>" multiple="multiple" size=9>
-           
-            
-       <% 
-           
-           
        
 
-       for p = 0 to prgAntal 
+               for p = 0 to prgAntal 
        
-       if prjGoptionsId(p) <> 0 then
+               if prjGoptionsId(p) <> 0 then
         
-        'if instr(progrp, ",") = 0 AND fo = 0 then
-        'progrp = prjGoptionsId(p)
-        '   end if
+                'if instr(progrp, ",") = 0 AND fo = 0 then
+                'progrp = prjGoptionsId(p)
+                '   end if
        
-        if instr(progrp, ", " & prjGoptionsId(p) & ",") <> 0 then
-        pgSEL = "SELECTED"
-        fo = 1
-        else
-        pgSEl = ""
-        end if%>
-        <option value="<%=prjGoptionsId(p) %>" <%=pgSEl%>><%=prjGoptionsTxt(p) %> </option>
+                if instr(progrp, ", " & prjGoptionsId(p) & ",") <> 0 then
+                pgSEL = "SELECTED"
+                fo = 1
+                else
+                pgSEl = ""
+                end if%>
+                
+                <option value="<%=prjGoptionsId(p)%>" <%=pgSEl%>><%=prjGoptionsTxt(p) %> </option>
 
-      
-      <%
           
 
-        pf = pf + 1
-        
-        end if
       
-      next 
+              <%
+          
+
+                pf = pf + 1
+        
+                end if
+
+      
+              next 
       
       if pf = 0 then
       %>

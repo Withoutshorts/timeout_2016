@@ -95,6 +95,15 @@ function aktivedb(x)
         strConnect_aktiveDB = "timeout_welcom64"
         case 171
         strConnect_aktiveDB = "timeout_adrasudan64"
+        case 172
+        strConnect_aktiveDB = "timeout_alfanordic64"
+        case 173
+        strConnect_aktiveDB = "timeout_mpt64"
+        case 174
+        strConnect_aktiveDB = "timeout_cflow64"
+        case 175
+        strConnect_aktiveDB = "timeout_wap64"
+
       
 
 	case else

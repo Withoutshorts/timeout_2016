@@ -34,57 +34,65 @@
 	                        </tr>
 	                        <!-- Materialer -->
 	                        <%
-	                        '** Allerede fakturarede materialer 
-	                        m = 0
-	                        isMatWrt = " matid <> -1 "
-                        	
-	                        if func = "red" then
-                        	
-	                        
-	                        strSQL = "SELECT matid, matnavn, matantal, matenhedspris AS matsalgspris, "_
+                                '** Allerede fakturarede materialer 
+                                m = 0
+                                isMatWrt = " matid <> -1 "
+
+                                if func = "red" then
+
+
+                                    strSQL = "SELECT matid, matnavn, matantal, matenhedspris AS matsalgspris, "_
 	                        &" matenhed, matvarenr, ikkemoms, fms.valuta AS valutaid, fms.kurs, v.valutakode, matrabat, matfrb_mid, matfrb_id FROM fak_mat_spec fms "_
 	                        &" LEFT JOIN valutaer v ON (v.id = fms.valuta) WHERE matfakid = "& id &" ORDER BY matnavn"
 	                        'Response.Write strSQL
 	                        oRec.open strSQL, oConn, 3
                             while not oRec.EOF
-                            
-                            intMatRabat = (100*oRec("matrabat"))
-                            valutaMatId = oRec("valutaid")
-                            valutaMatKode = oRec("valutakode") 
-                            valutaMatKurs = oRec("kurs")
-                            ikkemoms = oRec("ikkemoms")
-                            call materialer(1)
-                            
-                            isMatWrt = isMatWrt & " AND matid <> " & oRec("matid")
-                            m = m + 1
-                            oRec.movenext
+
+                                        intMatRabat = (100*oRec("matrabat"))
+                                        valutaMatId = oRec("valutaid")
+                                        valutaMatKode = oRec("valutakode")
+                                        valutaMatKurs = oRec("kurs")
+                                        ikkemoms = oRec("ikkemoms")
+                                        call materialer(1)
+
+                                        isMatWrt = isMatWrt & " AND matid <> " & oRec("matid")
+                                        m = m + 1
+                                        oRec.movenext
                             wend
                             oRec.close
-                        	
-                        	
-	                        
-                        	
-	                        end if
-                        	
-                        	
-	                        '** Ikke fakturerede Materialer / Eller v. ny faktura = alle 
-	                        strSQL = "SELECT mf.matid, mf.matnavn, sum(mf.matantal) AS matantal, mf.matsalgspris, mf.matenhed, "_
+
+
+
+
+                                end If
+
+
+                                '** Ikke fakturerede Materialer / Eller v. ny faktura = alle 
+                                Select Case lto
+                                    Case "mpt"
+                                    Case Else
+                                        strSQL = "SELECT mf.matid, mf.matnavn, sum(mf.matantal) AS matantal, mf.matsalgspris, mf.matenhed, "_
 	                        &" mf.matvarenr, mf.valuta, v.valutakode, v.kurs, mf.erfak FROM materiale_forbrug mf "_
 	                        &" LEFT JOIN valutaer v ON (v.id = mf.valuta) WHERE mf.jobid = "& jobid &" AND "_
 	                        &" forbrugsdato BETWEEN '"& stdatoKri &"' AND '"& slutdato &"'"_
 	                        &" AND ("& isMatWrt &") GROUP BY mf.matid, mf.matsalgspris, mf.matnavn ORDER BY mf.matnavn"
-	                        '
-	                        'Response.Write strSQL
-	                        'Response.flush
-	                        
-	                        oRec.open strSQL, oConn, 3
+                                End Select
+
+
+
+
+                                '
+                                'Response.Write strSQL
+                                'Response.flush
+
+                                oRec.open strSQL, oConn, 3
                             im = 0
-                            while not oRec.EOF
-                                
-                                if im = 0 AND func = "red" then
-                                
-                                
-                                
+                                While Not oRec.EOF
+
+                                    If im = 0 And func = "red" Then
+
+
+
                                 %>
 	                             <tr><td colspan=9>
                                      &nbsp;</td></tr>

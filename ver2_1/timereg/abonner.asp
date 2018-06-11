@@ -178,7 +178,7 @@ oskrift = abonner_txt_034
 
             aboCHK = ""
          
-             if session("mid") = 1 AND lto = "outz" then
+             if (session("mid") = 1 OR session("mid") = 68) AND lto = "outz" then
             %>
             <div style="float:right; padding-right:20px; border:1px #999999 solid;">
                          <span style="float:right; padding-right:20px;"><a href="../timereg_net/abonner_manuel_2017.aspx?lto=bf&user=<%=session("user") %>" target="_blank">Send BF reports manuel now >> </a></span>
@@ -254,6 +254,7 @@ oskrift = abonner_txt_034
             <option value="1" SELECTED><%=abonner_txt_014 %></option>
             <option value="2"><%=abonner_txt_015 %> </option>
             <option value="3"><%=abonner_txt_016 %> </option>
+            <option value="4">Ressource Forecast </option>
         </select>
 
 

@@ -204,7 +204,7 @@ if len(session("user")) = 0 then
 
     useYear = yearSel
 
-         pTxt = "Smiley Status (periode-afslutning)"
+         pTxt = "Smiley Status ("&smiley_txt_005&")"
 
 	if media <> "print" AND media <> "export" then
     
@@ -229,7 +229,7 @@ if len(session("user")) = 0 then
 			<input type="hidden" name="FM_usedatokri" id="FM_usedatokri" value="1">
 			<td valign="top"><br /><b>Periode:</b><br>
 			<!--include file="inc/weekselector_s.asp"--> <!-- b -->
-                År: <select name="FM_yearSel" onchange="submit();">
+                <%=smiley_txt_006 %>: <select name="FM_yearSel" onchange="submit();">
                     <%
                         
                         for y = -5 to 10 
@@ -246,14 +246,14 @@ if len(session("user")) = 0 then
 
                     <%next  %>
                     </select><br />
-                <span style="color:#999999; font-size:9px;">Smiley ordningen bliver nulstillet hvert år 1.1</span>
+                <span style="color:#999999; font-size:9px;"><%=smiley_txt_007 %></span>
 			</td>
 	
 	
 	    
 	    
 	    <td valign=top style="padding-top:16px; padding-right:20px;" align="right">
-	<input type="submit" value="Vis >>" />	</td></tr>
+	<input type="submit" value="<%=smiley_txt_008 %> >>" />	</td></tr>
 	</form></table>
 	
     <!--filter div-->
@@ -272,7 +272,7 @@ call eksportogprint(ptop,pleft, pwdt) %>
 <form method="post" action="smileystatus.asp?media=print&FM_medarb=<%=thisMiduse %>&FM_medarb_hidden=<%=thisMiduse %>&FM_yearsel=<%=yearSel %>" target="_blank">
 <table><tr><td> <input type="image" src="../ill/printer3.png"></td><td>
 	
-	<td><input type="submit" value="Print version >>" style="font-size:9px;" /> </td>
+	<td><input type="submit" value="<%=smiley_txt_009 %> >>" style="font-size:9px;" /> </td>
 	
    
 </td></tr></table>
@@ -281,7 +281,7 @@ call eksportogprint(ptop,pleft, pwdt) %>
 <form method="post" action="smileystatus.asp?media=export&FM_medarb=<%=thisMiduse %>&FM_medarb_hidden=<%=thisMiduse %>&FM_yearsel=<%=yearSel %>" target="_blank">
 <table><tr><td> <input type="image" src="../ill/export1.png"></td><td>
 	
-	<td><input type="submit" value=".csv fil eksport >>" style="font-size:9px;" /> </td>
+	<td><input type="submit" value=".<%=smiley_txt_010 %> >>" style="font-size:9px;" /> </td>
 	
    
 </td></tr></table>
@@ -349,7 +349,7 @@ call eksportogprint(ptop,pleft, pwdt) %>
 				
 				
 				               
-                                strOskrifter = "Medarbejder; Init; Ansatdato; Uger/Måneder; "
+                                strOskrifter = smiley_txt_001&"; "&smiley_txt_002&"; "&smiley_txt_003&"; "&smiley_txt_004&"; "
 
                                     for p = 1 TO ugeMdNrTxtTopKri
                                     strOskrifter = strOskrifter & p &";"
@@ -357,7 +357,7 @@ call eksportogprint(ptop,pleft, pwdt) %>
 
                                      
 				
-				                objF.writeLine("Periode afgrænsning: "& datointerval & vbcrlf)
+				                objF.writeLine(smiley_txt_005 &": "& datointerval & vbcrlf)
 				                objF.WriteLine(strOskrifter & chr(013))
 				                objF.WriteLine(ekspTxt)
 				                objF.close

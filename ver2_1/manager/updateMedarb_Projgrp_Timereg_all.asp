@@ -3,8 +3,9 @@
 <%
 'strConnect = "driver={MySQL ODBC 3.51 Driver};server=195.189.130.210; Port=3306; uid=outzource;pwd=SKba200473;database=timeout_lyng;"
 'strConnect = "driver={MySQL ODBC 3.51 Driver};server=194.150.108.154; Port=3306; uid=to_outzource2;pwd=SKba200473;database=timeout_epi2017;"
-strConnect = "driver={MySQL ODBC 3.51 Driver};server=194.150.108.154; Port=3306; uid=to_outzource2;pwd=SKba200473;database=timeout_tia;"
+strConnect = "driver={MySQL ODBC 3.51 Driver};server=194.150.108.154; Port=3306; uid=to_outzource2;pwd=SKba200473;database=timeout_cflow;"
 	
+'strConnect = ""
 Response.write strConnect & "<br><br>"
 
 Set oConn = Server.CreateObject("ADODB.Connection")
@@ -24,7 +25,7 @@ oConn.open strConnect
 
 dim mid
 
-strSQL = "SELECT mid, mnavn FROM medarbejdere WHERE mid > 1671 AND mansat = 1 ORDER BY mid LIMIT 300"
+strSQL = "SELECT mid, mnavn FROM medarbejdere WHERE mid > 0 AND mansat = 1 ORDER BY mid LIMIT 300"
 
 Response.Write strSQL & "<hr>"
 Response.flush
@@ -37,7 +38,7 @@ while not oRec5.EOF
 Response.write "<u>"& oRec5("mnavn") & "</u><br>"
         
 
-        call hentbgrppamedarb(oRec5("mid"))
+     call hentbgrppamedarb(oRec5("mid"))
 	
     '*** Søger efter job først, da timereg_usejob kun indeholder de job der er aktive lige nu. 
     '*** Du kan godt være tilmeldt et job via dine projektgrupper uden det er med i timereg_usejob
@@ -74,7 +75,7 @@ Response.write "<u>"& oRec5("mnavn") & "</u><br>"
               strSQLins = "INSERT INTO timereg_usejob (medarb, jobid) VALUES ("& oRec5("mid") &", "& oRec4("jid") &")"
 
               Response.write "<b>"& strSQLins &"</b><br>"
-              'oConn.execute(strSQLins)
+              oConn.execute(strSQLins)
               response.flush
                                    
 

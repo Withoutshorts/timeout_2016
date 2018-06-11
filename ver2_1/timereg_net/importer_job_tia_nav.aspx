@@ -121,7 +121,7 @@
         Dim filter As New WebReferenceNAVTiaProd_job.TimeOutJobs_Filter
         'WebReferenceNAVTiaProd_job.Jobs_Filter
         filter.Field = WebReferenceNAVTiaProd_job.TimeOutJobs_Fields.No
-
+        'filter.Field = WebReferenceNAVTiaProd_job.TimeOutJobs_Fields.Global_Dimension_2_Code
         'Response.Write("jobno: " + jobno)
 
         'jobno
@@ -194,6 +194,12 @@
             Jobs_risiko = 1
             Jobs_projektgruppe = 0
 
+            If String.IsNullOrEmpty(Name.Global_Dimension_2_Code) <> True Then
+                Jobs_projektgruppe = Name.Global_Dimension_2_Code.ToString()
+            Else
+                Jobs_projektgruppe = 0
+            End If
+
             '" & Now.ToString("yyyy/MM/dd", Globalization.CultureInfo.InvariantCulture) & "
             'med_ansatdato.ToString("yyyy/MM/dd", Globalization.CultureInfo.InvariantCulture)
             '" + med_opsagtdato.ToString("yyyy/MM/dd", Globalization.CultureInfo.InvariantCulture) + "
@@ -222,7 +228,7 @@
                 strSQLjobinsTemp += "'" & DateAndTime.Year(Jobs_startdato) & "-" & DateAndTime.Month(Jobs_startdato) & "-" & DateAndTime.Day(Jobs_startdato) & "',"
                 strSQLjobinsTemp += "'" & DateAndTime.Year(Jobs_slutdato) & "-" & DateAndTime.Month(Jobs_slutdato) & "-" & DateAndTime.Day(Jobs_slutdato) & "',"
                 strSQLjobinsTemp += "'" + Jobs_jobansvarlig + "',"
-                strSQLjobinsTemp += "'" + Jobs_kundenavn + "','" + Jobs_kundenr + "', '0', '" + Jobs_status + "')"
+                strSQLjobinsTemp += "'" + Jobs_kundenavn + "','" + Jobs_kundenr + "', '" + Jobs_projektgruppe + "', '" + Jobs_status + "')"
 
                 'Return strSQLaktins
 

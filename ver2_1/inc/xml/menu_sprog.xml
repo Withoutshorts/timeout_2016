@@ -19,6 +19,8 @@
 
     <txt_10>Medarbejder - Projekttid</txt_10>
     <txt_11 >Joboverblik / Resume</txt_11>
+
+    <txt_12>Ferietildeling nyt ferieår</txt_12>
     
 
   </dk>
@@ -39,6 +41,7 @@
     <txt_9 >Administrasjon</txt_9>
     <txt_10>Medarbejder - Projekttid</txt_10>
     <txt_11 >Job Overview / Summary</txt_11>
+    <txt_12>Ferietildeling nyt ferieår</txt_12>
 
   </no>
 
@@ -57,6 +60,7 @@
     <txt_9 >Administrering</txt_9>
     <txt_10>Medarbejder - Projekttid</txt_10>
     <txt_11 >Job Overview / Summary</txt_11>
+    <txt_12>Ferietildeling nyt ferieår</txt_12>
 
   </se>
 
@@ -75,6 +79,7 @@
     <txt_9 >Verwaltung</txt_9>
     <txt_10>Employee - Projecttime</txt_10>
     <txt_11 >Job Overview / Summary</txt_11>
+    <txt_12>Ferietildeling nyt ferieår</txt_12>
 
   </de>
 
@@ -92,6 +97,8 @@
     <txt_9 >Administration</txt_9>
     <txt_10>Employee - Projecttime</txt_10>
     <txt_11 >Job Overview / Summary</txt_11>
+    <txt_12>Ferietildeling nyt ferieår</txt_12>
+    
   </fr>
   
  
@@ -109,7 +116,8 @@
     <txt_8>Servicedesk</txt_8>
     <txt_9>Administration</txt_9>
     <txt_10>Employee - Projecttime</txt_10>
-    <txt_11 >Job Overview / Summary</txt_11>
+    <txt_11>Job Overview / Summary</txt_11>
+    <txt_12>Holiday Allocation</txt_12>
 
   </uk>
 
@@ -127,6 +135,7 @@
     <txt_9 >Administración</txt_9>
     <txt_10>Employee - Projecttime</txt_10>
     <txt_11 >Job Overview / Summary</txt_11>
+    <txt_12>Ferietildeling nyt ferieår</txt_12>
 
   </es>
 

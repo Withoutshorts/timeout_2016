@@ -343,7 +343,7 @@ end if
 <td align=center valign=top>
 <%
     
-call helligdage(daysinFirstWeek &"/" & strMrd &"/" & strAar, 0, lto)
+call helligdage(daysinFirstWeek &"/" & strMrd &"/" & strAar, 0, lto, usemrn)
 if erHellig = 1 then
  
 acls = "class=kalsilver"
@@ -471,7 +471,7 @@ for dayCount = startsecondWeek to numberofdaysinmonth
 <%
 
 
-call helligdage(dayCount &"/" & strMrd &"/" & strAar, 0, lto)
+call helligdage(dayCount &"/" & strMrd &"/" & strAar, 0, lto, usemrn)
 if erHellig = 1 then
  
 acls2 = "class=kalsilver"

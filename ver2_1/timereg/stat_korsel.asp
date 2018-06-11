@@ -1022,7 +1022,11 @@ if len(session("user")) = 0 then
                             lastDestId = 0
                             end if
                             
-                            lastDestNavn = ""
+                            if len(trim(lastDestId)) = 0 OR lastDestId = "st" then
+                            lastDestId = 0
+                            end if
+
+                            lastDestNavn = "-"
                             strSQLk = "SELECT kkundenavn FROM kunder WHERE kid = "& lastDestId
                             
                             'Response.Write dest & " -sql: "& strSQLK & "<br>"
@@ -1044,7 +1048,7 @@ if len(session("user")) = 0 then
                             lastDestId = right(dest, len_lastDest - 3)
                             
                             
-                            lastDestNavn = ""
+                            lastDestNavn = "-"
                             strSQLk = "SELECT navn FROM kontaktpers WHERE id = "& lastDestId
                             
                             'Response.write "kp tur: "& strSQLk & "<br>"

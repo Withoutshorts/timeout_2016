@@ -3,7 +3,7 @@
  
   
 
- public meNavn, meNr, meInit, meTxt, meEmail, meType, meAnsatDato, meOpsagtdato, meforecaststamp, meBrugergruppe, meVisskiftversion, meMansat, timer_ststop, create_newemployee, meCPR, meCreate_newemployee
+ public meNavn, meNr, meInit, meTxt, meEmail, meType, meAnsatDato, meOpsagtdato, meforecaststamp, meBrugergruppe, meVisskiftversion, meMansat, timer_ststop, create_newemployee, meCPR, meCreate_newemployee, meMed_lincensindehaver, meCal
      'Public Shared Function meStamdata(medid)
     Function meStamdata(medid)  
 
@@ -15,7 +15,7 @@
 
        meVisskiftversion = 0
        
-        strSQLmnavn = "SELECT mnavn, init, mnr, email, medarbejdertype, ansatdato, opsagtdato, forecaststamp, brugergruppe, visskiftversion, mansat, timer_ststop, create_newemployee, mcpr "_
+        strSQLmnavn = "SELECT mnavn, init, mnr, email, medarbejdertype, ansatdato, opsagtdato, forecaststamp, brugergruppe, visskiftversion, mansat, timer_ststop, create_newemployee, mcpr, med_lincensindehaver, med_cal "_
         &" FROM medarbejdere WHERE mid = "& medid
 
 	    oRec3.open strSQLmnavn, oConn, 3
@@ -49,6 +49,9 @@
 
         create_newemployee = oRec3("create_newemployee")
         meCreate_newemployee = create_newemployee
+
+        meMed_lincensindehaver = oRec3("med_lincensindehaver")
+        meCal = oRec3("med_cal")
 
 	    end if
 	    oRec3.close
@@ -304,8 +307,14 @@ end function
      sub medarb_vaelgandre
 
 
+                    if cint(visAlleMedarb_pas) = 1 then
+                        strSQLmpasKri  = " mansat <> 2"
+                    else
+                        strSQLmpasKri  = " mansat = 1"
+                    end if
+
      
-					strSQL = "SELECT Mid, Mnavn, Mnr, Brugergruppe, init FROM medarbejdere WHERE mansat <> 2 "& strSQLmids &" GROUP BY mid ORDER BY Mnavn"
+					strSQL = "SELECT Mid, Mnavn, Mnr, Brugergruppe, init, mansat FROM medarbejdere WHERE "& strSQLmpasKri &" "& strSQLmids &" GROUP BY mid ORDER BY Mnavn"
 					
                     if thisfile = "ugeseddel_2011.asp" then
                     mSelWdth = "323"
@@ -314,6 +323,8 @@ end function
                     mSelWdth = "250"
                     mSelcls = ""
 					end if%>
+
+                    
 					<select name="usemrn" id="usemrn" style="width:<%=mSelWdth%>px;" class="<%=mSelcls %>">
                         <!-- onchange="submit(); -->
 					<%
@@ -332,9 +343,14 @@ end function
                         else
                         medTxt = oRec("mnavn") 
                         end if
-                        
+
+                        if oRec("mansat") = 3 then
+                        mStatusTxt = " - Passiv"
+                        else
+                        mStatusTxt = ""
+                        end if
                     %>
-					<option value="<%=oRec("Mid")%>" <%=rchk%>><%=medTxt%></option>
+					<option value="<%=oRec("Mid")%>" <%=rchk%>><%=medTxt & " " & mStatusTxt%></option>
 					<%
 					
 					
@@ -432,4 +448,34 @@ sub mstatus_lastlogin
 
 end sub
 
+
+
+
+Public alleMedIJurEnhedSQL
+function alleMedIJurEnhed(med_lincensindehaver, mansat)
+
+        if cint(mansat) = 1 then 'ALLE
+        strSQLmansat = " AND mansat <> - 1"
+        else
+        strSQLmansat = " AND (mansat = 1 OR mansat = 3)" 'Aktive og passvie
+        end if
+
+        alleMedIJurEnhedSQL = " AND (tmnr = 0 "
+
+        strSQLalleMedIJurEnhedSQL = "SELECT mid FROM medarbejdere WHERE med_lincensindehaver = "& med_lincensindehaver & " "& strSQLmansat
+
+        oRec5.open strSQLalleMedIJurEnhedSQL, oConn, 3
+        while not oRec5.EOF
+        
+         alleMedIJurEnhedSQL = alleMedIJurEnhedSQL & " OR tmnr = "& oRec5("mid")
+      
+        oRec5.movenext
+        wend
+        oRec5.close
+
+        alleMedIJurEnhedSQL = alleMedIJurEnhedSQL & ")"
+
+                   
+
+end function
    %>

@@ -154,6 +154,39 @@ $(document).ready(function() {
     });
 
 
+
+    $("#rap_cflow_huldt").click(function () {
+
+        $(".akt_afst").attr('checked', false);
+        $(".akt_udspec").attr('checked', false);
+        $(".akt_ferie").attr('checked', false);
+        $(".akt_overarb").attr('checked', false);
+        $(".akt_syg").attr('checked', false);
+        $(".akt_flex").attr('checked', false);
+        $(".akt_afst_saldo").attr('checked', false);
+
+        $("#FM_akttype_id_4_0").attr('checked', true);
+        $("#FM_akttype_id_4_12").attr('checked', true); 
+        $("#FM_akttype_id_4_13").attr('checked', true);
+        $("#FM_akttype_id_4_71").attr('checked', true);
+        $("#FM_akttype_id_4_72").attr('checked', true);
+        $("#FM_akttype_id_4_74").attr('checked', true);
+        $("#FM_akttype_id_4_75").attr('checked', true);
+        $("#FM_akttype_id_4_8").attr('checked', true);
+        $("#FM_akttype_id_4_81").attr('checked', true);
+        $("#FM_akttype_id_4_9").attr('checked', true);
+        $("#FM_akttype_id_4_91").attr('checked', true);
+        $("#FM_akttype_id_4_92").attr('checked', true);
+        $("#FM_akttype_id_4_98").attr('checked', true);
+        $("#FM_akttype_id_4_99").attr('checked', true);
+        //$("#FM_akttype_id_4_8").attr('checked', true);
+
+
+
+
+    });
+
+
     $("#chkalle_0").click(function() {
         if ($(this).is(':checked') == true) {
             $(".akt_afst").attr('checked', true);

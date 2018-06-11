@@ -686,51 +686,67 @@ if len(session("user")) = 0 then
     case "bf"
     '** Medarb. må kun se nationale kontore
     call medariprogrpFn(session("mid"))
+    call meStamdata(session("mid"))
 
             useasfakSQL = "useasfak = -1"
 
-            if instr(medariprogrpTxt, "2") <> 0 then 'Togo
+            if meMed_lincensindehaver = 2 then 'Togo
             useasfakSQL = "useasfak = 1 AND kid = 6"
+            afsender = 6
             end if
 
-            if instr(medariprogrpTxt, "21") <> 0 then 'Binin
+            if meMed_lincensindehaver = 3 then 'Binin
             useasfakSQL = "useasfak = 1 AND kid = 7"
+            afsender = 7
             end if
 
-            if instr(medariprogrpTxt, "26") <> 0 then 'Burkino Faso
+            if meMed_lincensindehaver = 5 then 'Burkino Faso
             useasfakSQL = "useasfak = 1 AND kid = 11"
+            afsender = 11
             end if
 
-            if instr(medariprogrpTxt, "25") <> 0 then 'Mali
+            if meMed_lincensindehaver = 4 then 'Mali
             useasfakSQL = "useasfak = 1 AND kid = 10"
+            afsender = 10
             end if
 
-            if instr(medariprogrpTxt, "3") <> 0 then
-            useasfakSQL = "useasfak = 1"
+            if meMed_lincensindehaver = 0 then 'CPH Head Office 
+            useasfakSQL = "useasfak = 1 AND kid = 1"
+            afsender = 1
             end if
 
-            if level = 1 then
+            if cint(level) = 1 then 'Administrator
             useasfakSQL = "useasfak = 1"
+            afsender = afsender
             end if
 
     case else
       useasfakSQL = "useasfak = 1"
+      afsender = afsender
     end select
 
  
+    'useasfakSQL = "useasfak = 1 AND kid = 11"
+
     'call multible_licensindehavereOn()
 
     'if cint(multible_licensindehavere) = 1 then
     %>
     <b><%=erp_txt_515 %>:</b> (<%=erp_txt_516 %>)&nbsp;&nbsp;
-            <%if print <> "j" then%>
+            <%
+            
+            strSQLaf = "SELECT Kkundenavn, Kkundenr, kid FROM kunder "_
+				&" WHERE "& useasfakSQL &" ORDER BY Kkundenavn" 
+                
+               
+                
+            if print <> "j" then%>
             <select name="FM_afsender" style="width:305px;" onchange="submit();">
             <%  
              end if
 
-                strSQLaf = "SELECT Kkundenavn, Kkundenr, kid FROM kunder "_
-				&" WHERE "& useasfakSQL &" ORDER BY Kkundenavn" 
                 
+
                 oRec.open strSQLaf, oConn, 3
 				while not oRec.EOF
 				

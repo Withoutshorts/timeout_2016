@@ -305,10 +305,12 @@
 						                    '*** Realisrede timer ***'
 						                    '** antal registerede timer pr. akt. **'
                                             select case lto 
-                                            case "intranet - local", "bf" '*** Aktivitetsspecifik dato. Kun Hvis den har været på faktura
+                                            case "intranet - local", "bf" 
+                                            '*** Aktivitetsspecifik dato. Kun Hvis den har været på faktura
+                                                                                         
 
                                                         'if cint(oRec("aid")) = 6015 then
-                                                        stdatoKriAktSpecifik(x) = "2016/01/01"
+                                                        stdatoKriAktSpecifik(x) = stdatoKri '"2016/01/01"
                                                         strSQLAktDatospecifikSQL = "SELECT fakid, fakdato FROM faktura_det LEFT JOIN fakturaer ON (fid = fakid) WHERE aktid = "& oRec("aid") &" ORDER BY fakdato DESC" 
                                                         oRec6.open strSQLAktDatospecifikSQL, oConn, 3
 
@@ -333,10 +335,18 @@
 
                                             end select
 
+                            
+                                            select case lto
+                                            case "bf", "intranet - local" '** ONLY med_lincensindehaver 
+                                                call alleMedIJurEnhed(session("med_lincensindehaver"), 0)
+                                            case else
+                                                alleMedIJurEnhedSQL = ""
+                                            end select
+
                                            
 
 						                    strSQL2 = "SELECT sum(t.timer) AS timerthis, sum(t.timer*t.timepris) AS beloeb FROM timer AS t "_
-						                    &" WHERE t.taktivitetid =" & oRec("aid") &" AND (t.tdato BETWEEN '" & stdatoKriAktSpecifik(x) &"' AND '"& slutdato &"') GROUP BY t.taktivitetid"
+						                    &" WHERE t.taktivitetid =" & oRec("aid") &" AND (t.tdato BETWEEN '" & stdatoKriAktSpecifik(x) &"' AND '"& slutdato &"') "& alleMedIJurEnhedSQL &" GROUP BY t.taktivitetid"
 
                                             'Response.Write strSQL2
                                             'Response.flush
@@ -802,6 +812,15 @@
 					'***************************************************'
 					'Faktimer, Venter og Beløb på medarbejdere     *****'
 					'***************************************************'
+
+                    select case lto
+                    case "bf", "intranet - local" '** ONLY med_lincensindehaver 
+                        med_lincensindehaverSQL = " AND med_lincensindehaver = "& session("med_lincensindehaver")
+                    case else
+                        med_lincensindehaverSQL = ""
+                    end select
+                   
+
 					
 					faktot = 0
 					medarbstrpris = ""
@@ -856,14 +875,13 @@
 					'**** Ved red: Henter alle de aktiviteter der endnu ikke er oprettet ***'
                     '**** Ved opr: Hennter alle aktiviteter ********************************'
                     
-                    
-                   
+                  
 				    
 				    strSQL10a = "SELECT DISTINCT(tmnr) AS medarbejderid, mnavn, m.mid, "_
 				    &" fms.venter_brugt, fms.venter AS venter_ultimo FROM timer "_
 				    &" LEFT JOIN medarbejdere m ON (m.mid = tmnr) "_
 				    &" LEFT JOIN fak_med_spec fms ON (fms.aktid = "& thisaktid(x) &" AND fms.mid = tmnr AND fms.fakid = "& lastFakid & ") "_
-				    &" WHERE taktivitetid = "& thisaktid(x) &" AND (Tdato BETWEEN '" & stdatoKriAktSpecifik(x) &"' AND '"& slutdato &"') GROUP BY tmnr"
+				    &" WHERE taktivitetid = "& thisaktid(x) &" AND (Tdato BETWEEN '" & stdatoKriAktSpecifik(x) &"' AND '"& slutdato &"') "& med_lincensindehaverSQL &" GROUP BY tmnr"
 				    
                         'stdatoKri
                    
@@ -980,7 +998,7 @@
 					countLimit = 0	
 				    strSQL10b = "SELECT DISTINCT(medarbejderid), mnavn, mid FROM progrupperelationer, medarbejdere "_
 				    &" WHERE mid = medarbejderid "& deakSQL &" AND "_
-				    &""& pgrpSQL & medidIsWrt &""_
+				    &""& pgrpSQL & medidIsWrt & "" & med_lincensindehaverSQL &""_
 				    &" GROUP BY medarbejderid ORDER BY mnavn" 
 					'& medidIsWrt
 					'Response.Write "medidIsWrt" & medidIsWrt
@@ -1064,7 +1082,7 @@
 					<%
 				    strSQL10 = "SELECT DISTINCT(medarbejderid), mnavn, mid FROM progrupperelationer, medarbejdere "_
 				    &" WHERE mid = medarbejderid "& deakSQL &" AND "_
-				    &""& pgrpSQL & medidIsWrt &""_
+				    &""& pgrpSQL & medidIsWrt & med_lincensindehaverSQL &""_
 				    &" GROUP BY medarbejderid ORDER BY mnavn LIMIT 0,"& countLimit 
 					
 					'Response.Write strSQL10

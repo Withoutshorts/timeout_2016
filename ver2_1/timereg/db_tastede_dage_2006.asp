@@ -239,8 +239,11 @@ idagErrTjek = day(now)&"/"&month(now)&"/"&year(now)
            
 		    call normtimerPer(medid, strDatoTjk, 0, 0)
     	   
+            'if session("mid") = 1 then
     	    'Response.write "ntimPer " & ntimPer & " strDato" & strDatoTjk
             'Response.end
+            'end if
+            
 
 	        if cdbl(ntimPer) > 0 then
     	  
@@ -277,6 +280,7 @@ idagErrTjek = day(now)&"/"&month(now)&"/"&year(now)
         else
             
            
+            
            
             useleftdiv = "m"
             errortype = 158

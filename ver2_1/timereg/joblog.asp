@@ -380,6 +380,37 @@ if session("user") = "" then
 		    response.cookies("stat")("useenheder") = useenheder
 		    '***'
 		    
+            if len(trim(request("joblog_uge"))) <> 0 then
+                if len(trim(request("FM_mthrap_grpbyakt"))) <> 0 then
+                mthrap_grpbyaktCHK = "CHECKED"
+                mthrap_grpbyakt = 1
+                else
+                mthrap_grpbyaktCHK = ""
+                mthrap_grpbyakt = 0
+                end if
+
+                response.cookies("stat")("mthrap_grpbyakt") = mthrap_grpbyakt
+
+            else
+
+                if len(trim(request.cookies("stat")("mthrap_grpbyakt"))) <> 0 then
+		        
+		            mthrap_grpbyakt = request.cookies("stat")("mthrap_grpbyakt")
+		            if mthrap_grpbyakt = 1 then
+		            mthrap_grpbyaktCHK = "CHECKED"
+		            else
+		            mthrap_grpbyaktCHK = ""
+		            end if
+    		        
+		        else
+
+                     mthrap_grpbyaktCHK = ""
+                     mthrap_grpbyakt = 0
+
+                end if
+
+            end if
+            
 	        
 	        
 	        '**** GK status og faktureret **'
@@ -574,14 +605,19 @@ if session("user") = "" then
 	
 	end if
 
+    
     if len(trim(request("brugmd_md"))) <> 0 then
     brugmd_md = request("brugmd_md")
     else
     brugmd_md = month(now)
     end if
 	
+    if request("joblog_uge") = "3" OR request("brugmd") = "1" then
+    brugmd = "1"
+    end if
+
     '** Uge eller måned forvalgt
-	if request("bruguge") = "1" OR request("brugmd") = "1" then
+	if request("bruguge") = "1" OR brugmd = "1" then
 	
                     if request("bruguge") = "1" then
                     bruguge = 1
@@ -656,7 +692,7 @@ if session("user") = "" then
                     else 'brugmd = 1
 
                 
-                    brugmd = 1
+                    brugmd = "1"
 	                brugmdCHK = "CHECKED"
 	    
 	                    bruguge_week = request("bruguge_week") 'bruges ikke til beregning da, der er valgt md
@@ -737,102 +773,10 @@ if session("user") = "" then
 	    end if
 	
 	end if
-	
-	'Response.Write "her:" & request("bruguge")
-	'***** Slut faste var **'
-	
-	
-	
-	
-	
-	'**** Annuler kunde/overordnet godkender timer *** '
-	if func = "opdaterliste" then
-	
-	  
-	
-	  ujid = split(request("ids"), ",")
-	  'uGodkendt = split(trim(request("FM_godkendt")), "#, ")
-       
-     uGodkendtDato = year(now) & "-" & month(now) & "-" & day(now) 
-     editor = session("user")
 
-     for u = 0 to UBOUND(ujid)
-	
-	
-	'if trim(left(uGodkendt(u), 1)) = "1" then
-	'uGodkendt(u) = trim(left(uGodkendt(u), 1))
-	
-	'else
-	'uGodkendt(u) = 0
-	'editor = ""
-	'end if
-	
-				'intGodkendt = request("tid") 
 
-                if len(trim(request("FM_godkendt_"& trim(ujid(u))))) <> 0 then
-                uGodkendt = request("FM_godkendt_"& trim(ujid(u)))
-                else
-                uGodkendt = 0
-                end if
-              
-
-				strSQL = "UPDATE timer SET godkendtstatus = "& uGodkendt &", "_
-				&"godkendtstatusaf = '"& editor &"', godkendtdato = '"& uGodkendtDato &"' WHERE tid = " & ujid(u) & "  AND overfort = 0"
-				
-				'Response.write strSQL &"<br>"
-				
-				oConn.execute(strSQL)
-				
-	next
-
-    'Response.end
-		%>
-		
-			
-	    
-	    
-	  
-		
-	<% 
-	
-	dontshowDD = 1%>
-	<!--#include file="inc/weekselector_s.asp"--> 
-	<%
-	
-	'*** LINK og faste VAR ****
-	strLink = "joblog.asp?rdir="&rdir&"&menu="&menu&"&FM_medarb="&thisMiduse&"&FM_medarb_hidden="&thisMiduse&""_
-	&"&lastFakdag="&lastFakdag&"&FM_job="&jobid&"&FM_start_dag="&strDag&""_
-	&"&FM_start_mrd="&strMrd&"&FM_start_aar="&strAar&"&FM_slut_dag="&strDag_slut&""_
-	&"&FM_slut_mrd="&strMrd_slut&"&FM_slut_aar="&strAar_slut&""_
-	&"&FM_jobsog="&jobSogValPrint&""_
-	&"&FM_aftaler="&aftaleid&""_
-	&"&FM_radio_projgrp_medarb="&progrp_medarb&""_
-	&"&FM_progrp="&progrp&""_
-	&"&FM_kunde="&kundeid&""_
-	&"&FM_kundeans="&kundeans&""_
-	&"&FM_jobans="&jobans&""_
-	&"&FM_kundejobans_ell_alle="&visKundejobans&""_
-	&"&FM_akttype="&vartyper&""_
-	&"&FM_orderby_medarb="&fordelpamedarb&""_
-	&"&bruguge="&bruguge&"&bruguge_week="&bruguge_week&"&bruguge_year="&bruguge_year&""_
-    &"&brugmd="&brugmd&"&brugmd_md="&brugmd_md&""_
-    &"&viskunabnejob0="&viskunabnejob0&"&viskunabnejob1="&viskunabnejob1&"&viskunabnejob2="&viskunabnejob2&"&FM_segment="&segment&"&nomenu="&nomenu
-
-	'Response.Write strLink
-	'Response.end
-	Response.redirect strLink
-	
-	
-	end if
-	
-	
-	
 
     
-	
-	
-	
-	
 	'*** Var. til komrpimeret visning ***'
         if len(request("FM_komprimeret")) <> 0 then
             komprimer = request("FM_komprimeret")
@@ -916,23 +860,40 @@ if session("user") = "" then
 	
 	
 	
-	'**** Vis subtotaler pr akt ell. medarb. ***'
+	
+	'Response.write "joblog_uge: " & joblog_uge & " FM_orderby_medarb: "& request("FM_orderby_medarb")
+    'Response.end
+	
+	
+    if request("print") = "j" then
+            media = "print"
+    end if
+
+
+    '**** Vis subtotaler pr akt ell. medarb. ***'
+    if len(trim(request("FM_orderby_medarb"))) <> 0 then
+    fordelpamedarb = request("FM_orderby_medarb")
+    else
+    fordelpamedarb = 0
+    end if
+
+
 	select case cint(joblog_uge) 
     case 1 
 	
-	if len(trim(request("FM_orderby_medarb"))) <> 0 AND request("FM_orderby_medarb") <> "0" then
-	fordelpamedarb = request("FM_orderby_medarb")
-	    
-	    if fordelpamedarb = 1 then
+	    select case fordelpamedarb
+        case 1 'Tmnavn
 	    orderByKri = "Tjobnavn, Tjobnr, Tmnavn, Tdato "
-	    else
+	    case 2 'Aktivitet
 	    orderByKri = "Tjobnavn, Tjobnr, fase, TAktivitetId, Tdato "
-	    end if
+        case else 'Job
+        orderByKri = "Tjobnavn, Tjobnr, tdato "
+	    end select
 	
-	else
-	fordelpamedarb = 0
-	orderByKri = "Tdato, Tjobnavn, Tjobnr "
-	end if
+	'else
+	
+	'orderByKri = "Tdato, Tjobnavn, Tjobnr "
+	'end if
 	
 	
 	orderByKri = orderByKri & " DESC" ', Tdato
@@ -949,11 +910,168 @@ if session("user") = "" then
 	
 	end select
 	
+	'Response.Write "her:" & request("bruguge")
+	'***** Slut faste var **'
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	
 	
-    if request("print") = "j" then
-            media = "print"
+	
+	'**** Annuler kunde/overordnet godkender timer *** '
+	if func = "opdaterliste" then
+	
+	  
+	
+	  ujid = split(request("ids"), ",")
+	  'uGodkendt = split(trim(request("FM_godkendt")), "#, ")
+       
+     uGodkendtDato = year(now) & "-" & month(now) & "-" & day(now) 
+     editor = session("user")
+
+     for u = 0 to UBOUND(ujid)
+	
+	
+
+
+                if len(trim(request("FM_godkendt_"& trim(ujid(u))))) <> 0 then
+                uGodkendt = request("FM_godkendt_"& trim(ujid(u)))
+                else
+                uGodkendt = 0
+                end if
+              
+
+				strSQL = "UPDATE timer SET godkendtstatus = "& uGodkendt &", "_
+				&"godkendtstatusaf = '"& editor &"', godkendtdato = '"& uGodkendtDato &"' WHERE tid = " & ujid(u) & " AND overfort = 0"
+				
+				'Response.write strSQL &"<br>"
+				
+				oConn.execute(strSQL)
+				
+
+	next
+
+
+
+    '**** ÅBNE op for uger hvor man afviser timer TIA 20180409
+
+     '*** smilaktiv = 1 AND autogk = 2 '**
+    '*** Hvis timer bliver godkendt tentativt/godklendt direkte når en uge aflsutttes af medarbejder, skal denne uge godkendelse slettes igen.
+    call smileyAfslutSettings()
+    call autogktimer_fn()
+    call ersmileyaktiv()
+
+    
+    if cint(smilaktiv) = 1 AND (cint(autogk) = 1 OR cint(autogk) = 2) OR lto = "intranet - local" then
+
+         for u = 0 to UBOUND(ujid)
+	
+	
+
+            strSQLhentertimeDatoer = "SELECT tdato, tmnr, godkendtstatus FROM timer WHERE tid = " & ujid(u) & " AND overfort = 0"
+            oRec.open strSQLhentertimeDatoer, oConn, 3
+            while not oRec.EOF
+
+                                     
+                                if cint(oRec("godkendtstatus")) = 2 then
+                                call genAabenAfsluttedeUgerVedAfvisTimer(SmiWeekOrMonth, oRec("tmnr"), oRec("tdato"))
+                                end if
+
+
+                                    
+            oRec.movenext
+            wend
+            oRec.close
+				
+
+	next
+
+
     end if
+
+
+    'Response.end
+		%>
+		
+			
+	    
+	    
+	  
+		
+	<% 
+	
+	dontshowDD = 1%>
+	<!--#include file="inc/weekselector_s.asp"--> 
+	<%
+	
+  
+	'*** LINK og faste VAR ****
+	strLink = "joblog.asp?rdir="&rdir&"&menu="&menu&"&FM_medarb="&thisMiduse&"&FM_medarb_hidden="&thisMiduse&""_
+    &"&joblog_uge="&joblog_uge&"&FM_orderby_medarb="&request("FM_orderby_medarb")&""_
+	&"&lastFakdag="&lastFakdag&"&FM_job="&jobid&"&FM_start_dag="&strDag&""_
+	&"&FM_start_mrd="&strMrd&"&FM_start_aar="&strAar&"&FM_slut_dag="&strDag_slut&""_
+	&"&FM_slut_mrd="&strMrd_slut&"&FM_slut_aar="&strAar_slut&""_
+	&"&FM_jobsog="&jobSogValPrint&""_
+	&"&FM_aftaler="&aftaleid&""_
+	&"&FM_radio_projgrp_medarb="&progrp_medarb&""_
+	&"&FM_progrp="&progrp&""_
+	&"&FM_kunde="&kundeid&""_
+	&"&FM_kundeans="&kundeans&""_
+	&"&FM_jobans="&jobans&""_
+	&"&FM_kundejobans_ell_alle="&visKundejobans&""_
+	&"&FM_akttype="&vartyper&""_
+    &"&bruguge="&bruguge&"&bruguge_week="&bruguge_week&"&bruguge_year="&bruguge_year&""_
+    &"&brugmd="&brugmd&"&brugmd_md="&brugmd_md&""_
+    &"&viskunabnejob0="&viskunabnejob0&"&viskunabnejob1="&viskunabnejob1&"&viskunabnejob2="&viskunabnejob2&"&FM_segment="&segment&"&nomenu="&nomenu
+
+	'Response.Write strLink
+	'Response.end
+	Response.redirect strLink
+	
+	
+	end if
+	
+	
+	
+
+   
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
+	
+	
+	
 
 
 
@@ -1132,7 +1250,7 @@ if session("user") = "" then
 			</select>
 
              &nbsp;&nbsp;&nbsp;&nbsp;
-              <input id="brugmd" name="brugmd" type="checkbox" value="1" <%=brugmdCHK %> />    <%=joblog2_txt_007 %>:
+              <input id="brugmd" name="brugmd" type="checkbox" value="1" <%=brugmdCHK %> /> <%=joblog2_txt_007 %>:
                
 			<select name="brugmd_md">
 			<% for m = 1 to 12
@@ -1227,7 +1345,7 @@ if session("user") = "" then
 	    <div id="joblogsub" style="position:relative; background-color:#EFf3ff top:0px; left:20px; width:200px; border:0px #cccccc solid; padding:10px; visibility:<%=joblogsubWZB %>; display:<%=joblogsubDSP %>;">
 	         <%=joblog2_txt_016 %>:<br />
         
-        <%if fordelpamedarb = 1 then
+        <%if cint(fordelpamedarb) = 1 then
 		chkFordelmedarb = "CHECKED"
 		else
 		chkFordelmedarb = ""
@@ -1266,8 +1384,9 @@ if session("user") = "" then
 	   
 	   <input id="joblog_uge2" name="joblog_uge" type="radio" value="2" <%=joblog_ugeCHK2 %> onclick=hidejoblogsubdiv() /> <b><%=joblog2_txt_020 %></b> <br />
 	    
-         <input id="joblog_uge3" name="joblog_uge" type="radio" value="3" <%=joblog_ugeCHK3 %> onclick=hidejoblogsubdiv() /> <b><%=joblog2_txt_021 %></b> <br /><br />
-			
+         <input id="joblog_uge3" name="joblog_uge" type="radio" value="3" <%=joblog_ugeCHK3 %> onclick=hidejoblogsubdiv() /> <b><%=joblog2_txt_021 %></b> <br />
+	    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input name="FM_mthrap_grpbyakt" type="checkbox" value="1" <%=mthrap_grpbyaktCHK %> />Group by activity <br /><br />
+             
 	
 			</div>
 		<%
@@ -1524,6 +1643,20 @@ slutDatoKriSQL = strAar_slut &"/"& strMrd_slut &"/"& strDag_slut
     m = 10000
     j = 13
     redim medarbtimerArr(m,j) 
+
+    if cint(mthrap_grpbyakt) = 1 then
+    grpByKri = " GROUP BY taktivitetid, tdato"
+    timerField = "SUM(timer) AS timer"
+    else
+    grpByKri = ""
+    timerField = "timer"
+    end if
+
+    else
+
+    timerField = "timer"
+    grpByKri = ""
+
     end if
 	
     strExportOskriftDage = ""
@@ -1532,7 +1665,7 @@ slutDatoKriSQL = strAar_slut &"/"& strMrd_slut &"/"& strDag_slut
 	lastmedarb = 0
 	strSQL = "SELECT Tdato, TasteDato, Tjobnr, Tjobnavn, a.navn AS Anavn, TAktivitetId, "_
 	&" a.fakturerbar,"_
-	&" Tknavn, Tmnr, Tmnavn, Timer, Tid, Tfaktim, TimePris, Timerkom, Tknr, t.kurs, "_
+	&" Tknavn, Tmnr, Tmnavn, "& timerField &", Tid, Tfaktim, TimePris, Timerkom, Tknr, t.kurs, "_
 	&" sttid, sltid, a.faktor, godkendtstatus, godkendtstatusaf, kkundenr, kkundenavn, t.timerkom, "_
 	&" m.mnr, m.init, mnavn, m.mid, a.id AS aid, a.sortorder, v.valutakode, t.valuta, k.kid, t.kostpris, kpvaluta, kpvaluta_kurs, m.mcpr, "_
 	&" a.fase, a.antalstk, a.aktbudgetsum, a.bgr, a.aktbudget, t.editor, a.avarenr, overfort "_
@@ -1542,7 +1675,7 @@ slutDatoKriSQL = strAar_slut &"/"& strMrd_slut &"/"& strDag_slut
 	&" LEFT JOIN medarbejdere m ON (m.mid = tmnr)"_
     &" LEFT JOIN valutaer v ON (v.id = t.valuta)"_
 	&" WHERE ("& jobnrSQLkri &") AND ("& medarbSQlKri &") AND ("& aty_sql_sel &") AND "_
-	&" (Tdato BETWEEN '"& startDatoKriSQL &"' AND '"& slutDatoKriSQL &"') ORDER BY "& orderByKri
+	&" (Tdato BETWEEN '"& startDatoKriSQL &"' AND '"& slutDatoKriSQL &"') "& grpByKri &" ORDER BY "& orderByKri
 	
 	'&" WHERE "& jobMedarbKri &" "& selaktidKri &""_
     'Response.write strSQL & "<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>"
@@ -1560,6 +1693,7 @@ slutDatoKriSQL = strAar_slut &"/"& strMrd_slut &"/"& strDag_slut
 	v = 0
     m = 0
     x = 0
+    m2 = 0
     antalM = 0
 	lastFase = ""
 	thisFase = ""
@@ -1664,7 +1798,8 @@ slutDatoKriSQL = strAar_slut &"/"& strMrd_slut &"/"& strDag_slut
 		        
 		        
 				
-				if lastjobnr <> oRec("Tjobnr") then
+				
+               if lastjobnr <> oRec("Tjobnr") then
 				
 				
 				        if v <> 0 then
@@ -2000,7 +2135,7 @@ slutDatoKriSQL = strAar_slut &"/"& strMrd_slut &"/"& strDag_slut
 				            <%if komprimer = "1" then %>
 				            <td style="padding-top:3px; padding-right:15px; border-top:1px #cccccc solid; width:175px;" valign="top">
                             <%if print <> "j" then %>
-				            <b><%=left(oRec("Tknavn"), 40)%></b> <label style="font-size:9px;"><%=oRec("kkundenr") %></label><br />
+				            <b><%=left(oRec("Tknavn"), 40)%></b> <span style="font-size:9px;"><%=oRec("kkundenr") %></span><br />
                             <%else %>
 				            <b><%=left(oRec("Tknavn"), 20)%></b><br />
                             <%end if %>
@@ -2184,6 +2319,16 @@ slutDatoKriSQL = strAar_slut &"/"& strMrd_slut &"/"& strDag_slut
     					
     					
 				                <%end if
+
+
+                                  '*** varenr **'
+                                  if isNull(oRec("avarenr")) <> true AND len(trim(oRec("avarenr"))) <> 0 then 
+                                  %><br /><span style="color:#5582d2; font-size:9px;"><%=oRec("avarenr")%></span><%  
+                                  end if
+                                      
+                                
+
+
 				
 
                             timerKom = ""
@@ -2250,6 +2395,10 @@ slutDatoKriSQL = strAar_slut &"/"& strMrd_slut &"/"& strDag_slut
 				
                             end select
 
+
+                            ekspTxt = ekspTxt & Chr(34) & oRec("avarenr") & Chr(34) &";" 
+
+
                             if cint(showfor) = 1 then
                     
 
@@ -2296,6 +2445,9 @@ slutDatoKriSQL = strAar_slut &"/"& strMrd_slut &"/"& strDag_slut
                             end select
 
                             end if
+
+
+                            
 
 
 
@@ -2728,10 +2880,10 @@ slutDatoKriSQL = strAar_slut &"/"& strMrd_slut &"/"& strDag_slut
 					                 if print <> "j" then%>
     					
 					                 <input name="ids" id="ids" value="<%=oRec("tid")%>" type="hidden" />
-					               <span style="color:<%=gk1bgcol%>;"><%=joblog2_txt_048 %>:</span><input type="radio" name="FM_godkendt_<%=oRec("tid")%>" id="FM_godkendt1_<%=v%>" class="FM_godkendt_1" value="1" <%=gkCHK1 %>><br />
-                                   <span style="color:<%=gk3bgcol%>;"><%=joblog2_txt_049 %>:</span><input type="radio" name="FM_godkendt_<%=oRec("tid")%>" id="FM_godkendt3_<%=v%>" class="FM_godkendt_3" value="3" <%=gkCHK3 %>><br />
-                                    <span style="color:<%=gk2bgcol%>;"><%=joblog2_txt_050 %>:</span><input type="radio" name="FM_godkendt_<%=oRec("tid")%>" id="FM_godkendt2_<%=v%>" class="FM_godkendt_2" value="2" <%=gkCHK2 %>><br />
-                                   <span style="color:<%=gk0bgcol%>;"><%=joblog2_txt_051 %>:</span><input type="radio" name="FM_godkendt_<%=oRec("tid")%>" id="FM_godkendt0_<%=v%>" value="0" class="FM_godkendt_0" <%=gkCHK0 %>><br />
+					               <input type="radio" name="FM_godkendt_<%=oRec("tid")%>" id="FM_godkendt1_<%=v%>" class="FM_godkendt_1" value="1" <%=gkCHK1 %>><span style="color:<%=gk1bgcol%>;"><%=joblog2_txt_048 %></span><br />
+                                   <input type="radio" name="FM_godkendt_<%=oRec("tid")%>" id="FM_godkendt3_<%=v%>" class="FM_godkendt_3" value="3" <%=gkCHK3 %>><span style="color:<%=gk3bgcol%>;"><%=joblog2_txt_049 %></span><br />
+                                   <input type="radio" name="FM_godkendt_<%=oRec("tid")%>" id="FM_godkendt2_<%=v%>" class="FM_godkendt_2" value="2" <%=gkCHK2 %>><span style="color:<%=gk2bgcol%>;"><%=joblog2_txt_050 %></span><br />
+                                   <input type="radio" name="FM_godkendt_<%=oRec("tid")%>" id="FM_godkendt0_<%=v%>" value="0" class="FM_godkendt_0" <%=gkCHK0 %>><span style="color:<%=gk0bgcol%>;"><%=joblog2_txt_051 %></span><br />
 
                                     <!--<input name="FM_godkendt" id="FM_godkendt_hd_<=v>" value="#" type="hidden" />-->
 					                <%
@@ -2948,8 +3100,13 @@ slutDatoKriSQL = strAar_slut &"/"& strMrd_slut &"/"& strDag_slut
 
         if x <> 0 then
 
+            'if cint(joblog_uge) = 3 then
+            ' if cint(mthrap_grpbyakt) = 1 then
 
+        %>
+                    <br /><br /><div style="padding:20px; background-color:#FFFFFF;"><%
         call maanedsoversigtArr
+        %></div><%
         end if
      end if
 
@@ -3120,7 +3277,7 @@ if x <> 0 then
 				
 				                '**** Eksport fil, kolonne overskrifter ***
                                 if cint(joblog_uge) = 3 then 'månedsoversigt
-                                strOskrifter = "Medarbejder; Init; CPR; Kunde; Kundenr; Job; Jobnr; Aktivitet; Kommentar;"
+                                strOskrifter = joblog2_txt_081&"; "&joblog2_txt_151&"; "&joblog2_txt_152&"; "&joblog2_txt_083&"; "&joblog2_txt_153&"; "&joblog2_txt_019&"; "&joblog2_txt_154&"; "&joblog2_txt_086&"; "&joblog2_txt_114&";"
 
                                       strOskrifter = strOskrifter & strExportOskriftDage
 
@@ -3133,26 +3290,26 @@ if x <> 0 then
 				                    'strOskrifter = "Dato;tekst;bilag;konto;kontonavn;debit beløb;kredit beløb;modkonto"
                                     else
 
-				                    strOskrifter = "Kunde;kunde Id;Job;Job Nr;"
+				                    strOskrifter = joblog2_txt_083&";"&joblog2_txt_155&";"&joblog2_txt_019&";"&joblog2_txt_156&";"
                 
                                             if cint(hidefase) <> 1 then
-                                            strOskrifter = strOskrifter &"Fase;"
+                                            strOskrifter = strOskrifter &joblog2_txt_082&";"
                                             end if
                 
-                                                strOskrifter = strOskrifter & "Uge;Dato;Aktivitet;Type;Fakturerbar;"
+                                                strOskrifter = strOskrifter & joblog2_txt_157&";"&joblog2_txt_072&";"&joblog2_txt_113&";"&joblog2_txt_158&";"&joblog2_txt_159&";Task No.;"
                  
 
                                                 if cint(showfor) = 1 then
-                                                strOskrifter = strOskrifter & "Forretningsområder;"
+                                                strOskrifter = strOskrifter & joblog2_txt_160&";"
                                                 end if
                  
-                                                strOskrifter = strOskrifter & "Medarbejder;Medarb. Nr;Initialer;"
+                                                strOskrifter = strOskrifter & joblog2_txt_081&";"&joblog2_txt_161&";"&joblog2_txt_162&";"
                 
                                                 if cint(showcpr) = 1 then
-                                                strOskrifter = strOskrifter & "CPR;"
+                                                strOskrifter = strOskrifter & joblog2_txt_152&";"
                                                 end if
 
-                                            strOskrifter = strOskrifter & "Antal;Tid/Klokkeslet;"
+                                            strOskrifter = strOskrifter & joblog2_txt_092&";"&joblog2_txt_163&";"
 				                    end if
 
 
@@ -3163,29 +3320,29 @@ if x <> 0 then
                                         case else                
 				
 				                                if cint(hideenheder) = 0 then
-				                                strOskrifter = strOskrifter &"Enheder;"
+				                                strOskrifter = strOskrifter & joblog2_txt_093&";"
 				                                end if
 				
 				
 				                                if (level <=2 OR level = 6) AND cint(hidetimepriser) = 0 then
-				                                strOskrifter = strOskrifter & "Timepris;Timepris ialt;Valuta;"
+				                                strOskrifter = strOskrifter & joblog2_txt_164&";"&joblog2_txt_165&";"&joblog2_txt_166&";"
 				                                end if 
 				
 				                                if level = 1 AND visKost = 1 then 
-				                                strOskrifter = strOskrifter & "Kostpris;Kostpris ialt;Valuta;"
+				                                strOskrifter = strOskrifter & joblog2_txt_096&";"&joblog2_txt_097&";"&joblog2_txt_166&";"
 				                                end if
 				
 
                                                 if cint(hidegkfakstat) <> 1 then
-                                                  strOskrifter = strOskrifter & "Tastedato;"
+                                                  strOskrifter = strOskrifter & joblog2_txt_098&";"
                                                 end if
                                 
 
 				                                if lto <> "execon" AND cint(hidegkfakstat) = 0 then
-				                                strOskrifter = strOskrifter  &"Godkendt?;Godkendt af;Faktureret?;"
+				                                strOskrifter = strOskrifter  & joblog2_txt_167&";"&joblog2_txt_168&";"&joblog2_txt_169&";"
 				                                end if
 				
-				                                strOskrifter = strOskrifter  &"Kommentar;"
+				                                strOskrifter = strOskrifter  & joblog2_txt_114&";"
 
                                         end select
 
@@ -3195,7 +3352,7 @@ if x <> 0 then
 				                select case ver
                                 case 1
 				                case else
-                                objF.writeLine("Periode afgrænsning: "& datointerval & vbcrlf)
+                                objF.writeLine(joblog2_txt_170&": "& datointerval & vbcrlf)
 				                objF.WriteLine(strOskrifter) '& chr(013)
                                 end select
 				                objF.WriteLine(ekspTxt)
@@ -3292,7 +3449,7 @@ if x <> 0 then
             pnteksLnk = pnteksLnk & "&FM_orderby_medarb="&fordelpamedarb&"&datointerval="&strDag&"/"&strMrd&"/"&strAar & " - " & strDag_slut&"/"&strMrd_slut&"/"&strAar_slut
             pnteksLnk = pnteksLnk & "&rdir="&rdir &"&FM_kunde="&kundeid &"&menu=stat&jobnr="&intJobnr&"&eks="&request("eks")&"&lastFakdag="&lastFakdag&"&selmedarb="&selmedarb&"&selaktid="&selaktid
             pnteksLnk = pnteksLnk & "&FM_job="&request("FM_job")&"&FM_start_dag="&strDag&"&FM_start_mrd="&strMrd&"&FM_start_aar="&strAar&"&FM_slut_dag="&strDag_slut&"&FM_slut_mrd="&strMrd_slut&"&FM_slut_aar="&strAar_slut
-            pnteksLnk = pnteksLnk & "&FM_kundejobans_ell_alle="&visKundejobans&"&FM_jobsog="&jobSogVal&"&FM_akttype="&vartyper&"&nomenu="&nomenu
+            pnteksLnk = pnteksLnk & "&FM_kundejobans_ell_alle="&visKundejobans&"&FM_jobsog="&jobSogVal&"&FM_akttype="&vartyper&"&nomenu="&nomenu&"&FM_mthrap_grpbyakt="&mthrap_grpbyakt
 
             call eksportogprint(ptop,pleft,pwdt)
 

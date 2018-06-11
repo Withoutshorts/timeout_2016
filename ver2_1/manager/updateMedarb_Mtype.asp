@@ -3,7 +3,8 @@
 <%
 'strConnect = "driver={MySQL ODBC 3.51 Driver};server=localhost; Port=3306; uid=outzource;pwd=SKba200473;database=timeout_oko;"
  strConnect = "timeout_oko64"
-	
+ strConnect = "timeout_cflow64"
+
 Response.write strConnect & "<br><br>"
 
 Set oConn = Server.CreateObject("ADODB.Connection")

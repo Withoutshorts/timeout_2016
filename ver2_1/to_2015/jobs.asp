@@ -775,7 +775,7 @@ end if
 
                 
                     <%
-                    oprjobtype = 1    
+                    oprjobtype = 2    
                     if oprjobtype = 2 then %>
 
                     <div class="panel-group accordion-panel" id="accordion-paneled">

@@ -505,6 +505,11 @@
                 kfak_valuta = 1
                 end if
                         
+                if len(trim(request("FM_kstatus"))) <> 0 then
+                kstatus = 0
+                else
+                kstatus = 1
+                end if
 				
 				
                 '*** Hvis denne kunde vælges som primær licens indehaver nulstilles den eksisterende ****'
@@ -518,6 +523,12 @@
 				end if
 		        
 		        if request("FM_opdater_txt_felter") = "1" then
+
+                if len(trim(betbetint)) = 0 then
+                betbetint = 0
+                end if
+
+
 				strSQLinsval = strSQLinsval & "'" & strKomm & "', "_
 				&" '"& strBetbet &"', '"& strLevbet &"', "_
 				&" "& betbetint
@@ -569,7 +580,7 @@
 				& "useasfak, "_
 				& "logo, swift, swift_b, swift_c, swift_d, swift_e, swift_f, iban, iban_b, iban_c, iban_d, iban_e, iban_f, ktype, kundeans1, "_
 				&" kundeans2, nace, kfak_moms, kfak_sprog, kfak_valuta, "_
-				&" sdskpriogrp "& strSQLinsflds &", lincensindehaver_faknr_prioritet) VALUES "_
+				&" sdskpriogrp "& strSQLinsflds &", lincensindehaver_faknr_prioritet, kstatus) VALUES "_
 		 		& " ('"& strNavn &"', '"& strKnr &"', '"& strEditor &"', '"& strDato &"', "_
 				& "'" & strAdr &"', "_ 
 				& "'" & strPostnr &"', "_ 
@@ -607,7 +618,7 @@
                 &"'"& strIban &"', '"& strIban_b &"', '"& strIban_c &"', '"& strIban_d &"', '"& strIban_e &"', '"& strIban_f &"', "_
 				& "" & intKtype &", "& intKundeans1 &", "& intKundeans2 &","_
 				&" '"& strNACE &"', "& kfak_moms &", "& kfak_sprog &", "& kfak_valuta &", "_
-				&" "& priogrp &", "& strSQLinsval &", "& lincensindehaver_faknr_prioritet &")"
+				&" "& priogrp &", "& strSQLinsval &", "& lincensindehaver_faknr_prioritet &", "& kstatus &")"
 				
 				
 				'Response.Write "strSQLins " & strSQLins
@@ -675,7 +686,7 @@
                 & "iban_e = '" & strIban_e &"', "_
                 & "iban_f = '" & strIban_f &"', "_
                 & "kundeans1 = "& intKundeans1 &", kundeans2 = "& intKundeans2 &", nace = '"& strNACE &"', kfak_moms = "& kfak_moms &", kfak_sprog = "& kfak_sprog &", kfak_valuta = "& kfak_valuta &", "_
-				& "sdskpriogrp = "& priogrp &", lincensindehaver_faknr_prioritet = "& lincensindehaver_faknr_prioritet 
+				& "sdskpriogrp = "& priogrp &", lincensindehaver_faknr_prioritet = "& lincensindehaver_faknr_prioritet & ", kstatus = "& kstatus 
 				
 				if request("FM_opdater_txt_felter") = "1" then
 				strSQLupdate = strSQLupdate & ", beskrivelse = '" & strKomm & "', "_
@@ -825,6 +836,7 @@
 
     headerTxt = global_txt_180 '"opret"
     
+   kstatus = 1
                                     
    else
 
@@ -863,7 +875,7 @@
     & "bank_e, swift_e, iban_e, "_
     & "bank_f, swift_f, iban_f, "_
     & "useasfak, "_
-	& "logo, ktype, kundeans1, kundeans2, nace, betbet, levbet, sdskpriogrp, betbetint, kfak_moms, kfak_sprog, kfak_valuta, lincensindehaver_faknr_prioritet "_
+	& "logo, ktype, kundeans1, kundeans2, nace, betbet, levbet, sdskpriogrp, betbetint, kfak_moms, kfak_sprog, kfak_valuta, lincensindehaver_faknr_prioritet, kstatus "_
 	&" FROM kunder WHERE Kid=" & id
 	
 	oRec.open strSQL,oConn, 3
@@ -931,7 +943,7 @@
 	intKundeans2 = oRec("kundeans2")
 	
 	prio_grp = oRec("sdskpriogrp")
-	
+	kstatus = oRec("kstatus")
 	
 	eruseasfak = oRec("useasfak")
     lincensindehaver_faknr_prioritet = oRec("lincensindehaver_faknr_prioritet")
@@ -1003,6 +1015,18 @@
 
     end if
     
+    if cint(kstatus) = 0 then
+    kstatusCHK = "CHECKED"
+    else
+    kstatusCHK = ""
+    end if
+
+
+    if func = "red" then
+      submitVal = kunder_txt_019 
+    else
+      submitVal = kunder_txt_081
+    end if
     %>
 
 
@@ -1050,7 +1074,7 @@
 
           
                 <%if cint(submitLevelOK) = 1 then %>     
-                <button type="submit" class="btn btn-success btn-sm pull-right" id="sbm_upd0"><b><%=kunder_txt_019 %></b></button>
+                <button type="submit" class="btn btn-success btn-sm pull-right" id="sbm_upd0"><b><%=submitVal %></b></button>
                 <%else %>
                 <button type="submit" class="btn btn-sm pull-right" id="sbm_upd0" disabled><b><%=kunder_txt_020 %></b></button>
                 <%end if %>
@@ -1237,6 +1261,8 @@
 		                        oRec.close 
 		                        %>
 		                        </select>
+
+                                <input type="checkbox" value="1" name="FM_kstatus" <%=kstatusCHK %> /> Deaktiver (kan ikke fremsøges)
                             </div>
                        </div>
                     
@@ -2123,7 +2149,7 @@
         <%end if %>
      
                 <%if cint(submitLevelOK) = 1 then %>     
-                <button type="submit" class="btn btn-success btn-sm pull-right" id="sbm_upd2"><b><%=kunder_txt_081 %></b></button>
+                <button type="submit" class="btn btn-success btn-sm pull-right" id="sbm_upd2"><b><%=submitVal %></b></button><!-- kunder_txt_081 -->
                 <%else %>
                 <button type="submit" class="btn btn-sm pull-right" id="sbm_upd0" disabled><b><%=kunder_txt_080 %></b></button>
                 <%end if %>
@@ -2158,6 +2184,34 @@ case else
     else
     landSEL = ""
     end if
+
+    if request("sogsubmitted") = 1 then
+
+    if len(trim(request("FM_kstatus"))) <> 0 then
+    kstatus = 0
+    kstatusCHK = "CHECKED"
+    kstatusSQL = " AND (kstatus = 0 OR kstatus = 1)"
+    else
+    kstatus = 1
+    kstatusCHK = ""
+    kstatusSQL = " AND (kstatus = 1)"
+    end if
+
+    response.Cookies("tsa")("kstatus") = kstatus
+
+    else
+
+        if request.Cookies("tsa")("kstatus") = "0" then
+        kstatus = 0
+        kstatuCHK = "CHECKED"
+        else
+        kstatus = 1
+        kstatuCHK = ""
+        end if
+
+    end if
+
+    
 
 %>
 
@@ -2303,6 +2357,8 @@ case else
                                        %>
                                          
                                         </select>
+
+                                     <input type="checkbox" value="1" name="FM_kstatus" <%=kstatusCHK %> /> Vis Deaktiverede
                                 </div>
                                 </div><!-- ROW -->
 
@@ -2372,6 +2428,8 @@ case else
               <tr>
                 <th style="width: 12%"><%=kunder_txt_093 %></th>
                 <th style="width: 15%"><%=kunder_txt_094 %></th>
+                 <th style="width:5%"><%=left(kunder_txt_055, 10) %></th>
+                  
                 <th style="width: 5%"><%=kunder_txt_095 %></th>
                 <th style="width: 15%"><%=kunder_txt_096 %></th>
                 <th style="width: 15%"><%=kunder_txt_097 %></th>
@@ -2426,27 +2484,29 @@ case else
                     else
                     landSELSQL = ""
                     end if
+
+
 	
 	            if menu = "crm" then 'NOT IN USE 2050905
 
 		            fontcolor = "fir_g"
 		            strSQL = "SELECT kid, kkundenavn, kkundenr, useasfak, hot, "_
 		            &" kunder.editor, ktype, kunder.kundeans1, kunder.kundeans2, adresse, postnr, city, land, telefon, "_
-		            &" m1.mnavn AS kans1, m1.init AS kans1_init, m2.mnavn AS kans2, m2.init AS kans2_init, m1.mnr AS mnr1, m2.mnr AS mnr2, cvr, ean, url "_
+		            &" m1.mnavn AS kans1, m1.init AS kans1_init, m2.mnavn AS kans2, m2.init AS kans2_init, m1.mnr AS mnr1, m2.mnr AS mnr2, cvr, ean, url, kstatus "_
 		            &" FROM kunder "_
 		            &" LEFT JOIN medarbejdere m1 ON m1.mid = kundeans1"_
 		            &" LEFT JOIN medarbejdere m2 ON m2.mid = kundeans2"_
-		            &" WHERE "& sqlsearchKri &" "& kansSQLKri &" AND kunder.ketype <> 'k' "& typeKri &""& hotnotKri & sortBy
+		            &" WHERE "& sqlsearchKri &" "& kansSQLKri &" AND kunder.ketype <> 'k' "& typeKri &""& hotnotKri & kstatusSQL & sortBy
 		
 	
 	            else
 		            strSQL = "SELECT Kid, Kkundenavn, Kkundenr, useasfak, ktype, kunder.kundeans1, kunder.kundeans2,"_
 		            &" m1.mnavn AS kans1, m1.mnr AS mnr1, m1.init AS kans1_init, m2.mnavn AS kans2, m2.mnr AS mnr2, "_
-		            &" m2.init AS kans2_init, adresse, postnr, city, land, telefon, cvr, ean, ktype, kt.navn AS segment, url FROM kunder "_
+		            &" m2.init AS kans2_init, adresse, postnr, city, land, telefon, cvr, ean, ktype, kt.navn AS segment, url, kstatus FROM kunder "_
 		            &" LEFT JOIN medarbejdere m1 ON m1.mid = kundeans1"_
 		            &" LEFT JOIN medarbejdere m2 ON m2.mid = kundeans2"_
 		            &" LEFT JOIN kundetyper AS kt ON (kt.id = kunder.ktype)"_
-		            &" WHERE "& sqlsearchKri &" "& kansSQLKri &" "& useasfakSQL &" AND ketype <> 'xx' "& typeKri & landSELSQL & sortBy & " LIMIT 4000" 'ketype <> e
+		            &" WHERE "& sqlsearchKri &" "& kansSQLKri &" "& useasfakSQL &" AND ketype <> 'xx' "& typeKri & landSELSQL & kstatusSQL & sortBy & " LIMIT 4000" 'ketype <> e
 	            end if
 
     	        kids = "0"
@@ -2477,7 +2537,23 @@ case else
 
                         <tr style="background-color:<%=trBgCol%>;">
                     <td><%=oRec("Kkundenr") %></td>   
-                    <td> <a href="kunder.asp?func=red&id=<%=oRec("kid") %>"><%=oRec("kkundenavn") %></a> </td>
+                    <td> <a href="kunder.asp?func=red&id=<%=oRec("kid") %>"><%=oRec("kkundenavn") %></a>
+
+                        <%if cint(oRec("kstatus")) = 0 then %>
+                        <span style="font-size:9px; color:red;">- deaktiveret</span>
+                        <%end if %>
+                    </td>
+
+                    <td>
+                        <%if len(trim(oRec("kans1_init"))) <> 0 then %>
+                        <%="["& oRec("kans1_init") &"]" %>
+                        <%end if %>
+
+                        <%if len(trim(oRec("kans2_init"))) <> 0 then %>
+                        - <%="["& oRec("kans2_init") &"]" %>
+                        <%end if %>
+                    </td>
+
                     <td><%=oRec("postnr") %></td>
                     <td><%=oRec("city") %></td>
                     <td><%=oRec("land") %></td>
@@ -2579,6 +2655,7 @@ case else
                <tr>
                 <th><%=kunder_txt_093 %></th>
                 <th><%=kunder_txt_094 %></th>
+                <th><%=left(kunder_txt_055, 10) %></th>
                 <th><%=kunder_txt_095 %></th>
                 <th><%=kunder_txt_096 %></th>
                 <th><%=kunder_txt_097 %></th>

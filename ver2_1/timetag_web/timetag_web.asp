@@ -134,6 +134,10 @@
         
                 medid = request("jq_medid")
 
+                'if medid = 1 AND lto = "hestia" then
+                '    medid = 164
+                'end if
+
                 if len(trim(request("thisJobid"))) <> 0 then
                 jq_jobid = request("thisJobid")
                 else
@@ -189,7 +193,7 @@
                         &" kkundenavn LIKE '"& jobkundesog &"%' OR kkundenr = '"& jobkundesog &"' OR k.kinit = '"& jobkundesog &"') AND kkundenavn <> ''"
                     end if            
 
-                 lmt = 50
+                 lmt = 250
                  else
                  strSQLSogKri = ""
                  lmt = 250
@@ -316,6 +320,11 @@
                          else
                          strJobogKunderTxt = strJobogKunderTxt & "<option value=""-1"" DISABLED>Ingen kunder/job fundet</option>"
                          end if
+
+                    else
+
+                          strJobogKunderTxt = strJobogKunderTxt & "<option value=""-1"" DISABLED>Antal job: "& c &"</option>"
+
                     end if
        
                 
@@ -397,12 +406,14 @@
                 md = datepart("m", varTjDatoUS_man, 2,2)
 
 
-                '*** Forecast tjk
+                '*** Forecast tjk & Jobstatus
                 risiko = 0
-                strSQLjobRisisko = "SELECT j.risiko FROM job AS j WHERE id = "& jobid
+                jobstatusTjk = 1
+                strSQLjobRisisko = "SELECT j.risiko, jobstatus FROM job AS j WHERE id = "& jobid
                 oRec5.open strSQLjobRisisko, oConn, 3
                 if not oRec5.EOF then
                 risiko = oRec5("risiko")
+                jobstatusTjk = oRec5("jobstatus")
                 end if
                 oRec5.close 
 
@@ -418,6 +429,19 @@
 	            strSQLDatoKri = " AND ((a.aktstartdato <= '"& varTjDatoUS_son &"' AND a.aktslutdato >= '"& varTjDatoUS_man &"') OR (a.fakturerbar = 6))" 
 	            end if
 
+
+                 if lto = "mpt" OR session("lto") = "9K2017-1121-TO178" then
+                  onlySalesact = ""
+
+                else
+
+                if cint(jobstatusTjk) = 3 then 'tilbud
+                onlySalesact = " AND a.fakturerbar = 6"
+                else
+                onlySalesact = ""
+                end if
+
+                end if
 
 
                 call akttyper2009(2)
@@ -482,13 +506,13 @@
 
                    strSQL = "SELECT a.id AS aid, navn AS aktnavn "_
                    &" FROM timereg_usejob AS tu LEFT JOIN aktiviteter AS a ON (a.id = tu.aktid) "_
-                   &" WHERE tu.medarb = "& medid &" AND tu.jobid = "& jobid &" AND aktid <> 0 "& strSQlAktSog &" AND aktstatus = 1 AND ("& aty_sql_hide_on_treg &") "& forecastAktids &" AND a.navn IS NOT NULL "& strSQLkunSpecialAkt &" ORDER BY fase, sortorder, navn LIMIT 150"   
+                   &" WHERE tu.medarb = "& medid &" AND tu.jobid = "& jobid &" AND aktid <> 0 "& strSQlAktSog &" AND aktstatus = 1 AND ("& aty_sql_hide_on_treg &") "& forecastAktids &" AND a.navn IS NOT NULL "& strSQLkunSpecialAkt &" "& onlySalesact &" ORDER BY fase, sortorder, navn LIMIT 150"   
                    'AND ("& replace(aty_sql_realhours, "tfaktim", "a.fakturerbar") &")
                    else 
 
                    strSQL = "SELECT a.id AS aid, navn AS aktnavn "_
                    &" FROM timereg_usejob AS tu LEFT JOIN aktiviteter AS a ON (a.job = tu.jobid) "_
-                   &" WHERE tu.medarb = "& medid &" AND tu.jobid = "& jobid &" AND aktid = 0 "& strSQlAktSog &" AND aktstatus = 1  AND ("& aty_sql_hide_on_treg &") "& forecastAktids &" AND a.navn IS NOT NULL "& strSQLkunSpecialAkt &" ORDER BY fase, sortorder, navn LIMIT 150" 
+                   &" WHERE tu.medarb = "& medid &" AND tu.jobid = "& jobid &" AND aktid = 0 "& strSQlAktSog &" AND aktstatus = 1  AND ("& aty_sql_hide_on_treg &") "& forecastAktids &" AND a.navn IS NOT NULL "& strSQLkunSpecialAkt &" "& onlySalesact &" ORDER BY fase, sortorder, navn LIMIT 150" 
                    'AND ("& replace(aty_sql_realhours, "tfaktim", "a.fakturerbar") &")
                    end if
 
@@ -523,7 +547,7 @@
 
                strSQL = "SELECT a.id AS aid, navn AS aktnavn, projektgruppe1, projektgruppe2, projektgruppe3, "_
                &" projektgruppe4, projektgruppe5, projektgruppe6, projektgruppe7, projektgruppe8, projektgruppe9, projektgruppe10 FROM aktiviteter AS a "_
-               &" WHERE a.job = " & jobid & " AND a.job <> 0 "& strSQlAktSog &" AND aktstatus = 1 AND ("& aty_sql_hide_on_treg &") "& strSQLkunSpecialAkt &" ORDER BY fase, sortorder, navn LIMIT 150"      
+               &" WHERE a.job = " & jobid & " AND a.job <> 0 "& strSQlAktSog &" AND aktstatus = 1 AND ("& aty_sql_hide_on_treg &") "& strSQLkunSpecialAkt &" "& onlySalesact &" ORDER BY fase, sortorder, navn LIMIT 150"      
     
 
               
@@ -888,6 +912,21 @@
         showDetailDayResumeOrLink = 1
         ststopbtnTxt = "St. / Stop"
 
+    case "cflow"
+        showAfslutJob = 0
+        showMatreg = 0
+        
+        'if cint(mt_mobil_visstopur) = 1 then
+        showStop = 1
+        mobil_week_reg_akt_dd = 1
+        mobil_week_reg_job_dd = 1
+        mobil_week_reg_akt_dd_forvalgt = 1
+        'else
+        'showStop = 0
+        'end if
+        
+        showDetailDayResumeOrLink = 1
+        ststopbtnTxt = "St. / Stop"
 
     case "tbg", "hidalgo"
         showAfslutJob = 0
@@ -899,6 +938,12 @@
         showAfslutJob = 0
         showMatreg = 0
         showStop = 1
+        showDetailDayResumeOrLink = 0
+        ststopbtnTxt = "St. / Stop"
+    case "mpt"
+        showAfslutJob = 0
+        showMatreg = 1
+        showStop = 0
         showDetailDayResumeOrLink = 0
         ststopbtnTxt = "St. / Stop"
     case else

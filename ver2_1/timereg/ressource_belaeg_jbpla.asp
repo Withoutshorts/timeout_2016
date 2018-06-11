@@ -23,27 +23,39 @@ response.buffer = true
                     
                 
                     '** Fjerner akt der allerede er i bruge for denne medarbejder **'
-                    'aktivIbrug = "AND (a.id <> 0 "
+                    aktivIbrug = "OR (a.id = 0 "
 
-                    'strSQLaib = "SELECT aktid FROM ressourcer_md AS rmd WHERE rmd.medid = "& mid &" AND rmd.jobid = "& jid  'AND ((rmd.md >= "& startdatoMD &" AND rmd.aar = "& startdatoYY &") "& orandval &" (rmd.md <= "& slutdatoMD &" AND rmd.aar = "& slutdatoYY &")) GROUP BY aktid"
+                    if len(trim(mid)) <> 0 then
+                    mid = mid
+                    else
+                    mid = 0
+                    end if
+
+                    if len(trim(jid)) <> 0 then
+                    jid = jid
+                    else
+                    jid = 0
+                    end if
+
+                    strSQLaib = "SELECT aktid FROM ressourcer_md AS rmd WHERE rmd.medid = "& mid &" AND rmd.jobid = "& jid & " GROUP BY aktid" 'AND ((rmd.md >= "& startdatoMD &" AND rmd.aar = "& startdatoYY &") "& orandval &" (rmd.md <= "& slutdatoMD &" AND rmd.aar = "& slutdatoYY &")) GROUP BY aktid"
                     'response.write "strSQLaib " & strSQLaib
                     'response.flush            
         
-                    'oRec4.open strSQLaib, oConn, 3
-                    'while not oRec4.EOF 
+                    oRec9.open strSQLaib, oConn, 3
+                    while not oRec9.EOF 
                             
-                    'aktivIbrug = aktivIbrug & " AND a.id <> "& oRec4("aid")
+                    aktivIbrug = aktivIbrug & " OR a.id = "& oRec9("aktid")
 
-                    'oRec4.movnext
-                    'wend
-                    'oRec4.close                
+                    oRec9.movenext
+                    wend
+                    oRec9.close                
             
-                    'aktivIbrug = aktivIbrug & ")"
+                    aktivIbrug = aktivIbrug & ")"
 
 
                   
 
-                    aktivIbrug = ""
+                    'aktivIbrug = ""
     
                     if cint(positiv_aktivering_akt_val) = 1 then
                     strSQLa = "SELECT navn AS aktnavn, a.id AS aid, fase FROM timereg_usejob AS tu "_

@@ -27,6 +27,7 @@ public partial class importer_akt : System.Web.UI.Page
         feltnr6navn.Text = "Timer/Stk.:";
         feltnr7navn.Text = "Stk. pris:";
         feltnr8navn.Text = "Beløb:";
+        feltnr9navn.Text = "Dato:";
 
 
         if (importtype == "t2")
@@ -300,7 +301,7 @@ public partial class importer_akt : System.Web.UI.Page
             }
             else
             {
-                clm = 8;
+                clm = 9;
             };
 
                 if (header.Count < clm)
@@ -333,6 +334,7 @@ public partial class importer_akt : System.Web.UI.Page
                     SelectDDL(ddlAkttimer, "antal", header, lblAkttimer, "akttimer");
                     SelectDDL(ddlAkttpris, "kostpris", header, lblAkttpris, "akttpris");
                     SelectDDL(ddlAktsum, "kostbeloeb", header, lblAktsum, "aktsum");
+                    SelectDDL(ddlAktstDato, "dato", header, lblAktstDato, "aktstdato");
                 }
                 
                 
@@ -346,7 +348,7 @@ public partial class importer_akt : System.Web.UI.Page
    
     private string[] GetExcelHeaderList()
     {
-        string[] strRets = { "", "", "", "", "", "", "", "" }; //,"","","",""
+        string[] strRets = { "", "", "", "", "", "", "", "", "" }; //,"","","",""
 
         try
         {
@@ -367,8 +369,10 @@ public partial class importer_akt : System.Web.UI.Page
                 strRets[6] = Application["konto"].ToString();
             if (Application["linjetype"] != null)
                 strRets[7] = Application["linjetype"].ToString();
-             
-             
+            if (Application["aktstdato"] != null)
+                strRets[8] = Application["aktstdato"].ToString();
+
+
             Application.UnLock();
         }
         catch (Exception ex)
@@ -381,7 +385,7 @@ public partial class importer_akt : System.Web.UI.Page
 
     private int[] GetExcelIntHeaderList()
     {
-        int[] intRets = { 0, 0, 0, 0, 0, 0, 0, 0 }; //, 0, 0, 0, 0
+        int[] intRets = { 0, 0, 0, 0, 0, 0, 0, 0, 0 }; //, 0, 0, 0, 0
 
         try
         {
@@ -402,7 +406,9 @@ public partial class importer_akt : System.Web.UI.Page
                 intRets[6] = ddlKonto.SelectedIndex;
             if (ddlLinjetype.SelectedIndex != -1)
                 intRets[7] = ddlLinjetype.SelectedIndex;
-           
+            if (ddlAktstDato.SelectedIndex != -1)
+                intRets[8] = ddlAktstDato.SelectedIndex;
+
         }
         catch (Exception ex)
         {
@@ -461,9 +467,13 @@ public partial class importer_akt : System.Web.UI.Page
         Application["linjetype"] = ddlLinjetype.SelectedValue;
     }
 
+    protected void ddlAktstDato_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        lblAktstDato.Text = "fundet kolonne: " + ddlAktstDato.SelectedValue;
+        Application["aktstdato"] = ddlAktstDato.SelectedValue;
+    }
 
 
-   
 
 
     protected void ddlJobId_DataBound(object sender, EventArgs e)
@@ -503,6 +513,12 @@ public partial class importer_akt : System.Web.UI.Page
     {
         lblAktsum.Text = "fundet kolonne: " + ddlAktsum.SelectedValue;
         Application["aktsum"] = ddlAktsum.SelectedValue;
+    }
+
+    protected void ddlAktstDato_DataBound(object sender, EventArgs e)
+    {
+        lblAktstDato.Text = "fundet kolonne: " + ddlAktstDato.SelectedValue;
+        Application["aktstdato"] = ddlAktstDato.SelectedValue;
     }
 
     protected void ddlKonto_DataBound(object sender, EventArgs e)
