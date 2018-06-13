@@ -1,13 +1,8 @@
 {
   "ExpandedNodes": [
     "",
-    "\\inc",
-    "\\inc\\errors",
-    "\\inc\\menu",
-    "\\timereg_net",
-    "\\timereg_net\\x-files",
     "\\to_2015"
   ],
-  "SelectedNode": "\\timereg_net\\x-files\\ozreportws_lto.asmx",
+  "SelectedNode": "\\to_2015\\job_nt.asp(WC20180612)",
   "PreviewInSolutionExplorer": false
 }

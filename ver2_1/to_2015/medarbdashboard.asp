@@ -1946,7 +1946,30 @@ case else
                             wend 
                             oRec2.close 
                                
+                            
+                            'if session("mid") = 1 then
+                            '** Medtager hvis job er faktureret som en del af en aftale
+                            strSQLFakaftale = "SELECT IF(faktype = 0, COALESCE(sum(fd.aktpris * (fd.kurs/100)),0), COALESCE(sum(fd.aktpris * -1 * (fd.kurs/100)),0)) AS fakbeloeb FROM fakturaer f "_
+                            &" LEFT JOIN faktura_det fd ON (fd.fakid = f.fid AND fd.aktid = "& oRec4("jid") &") WHERE shadowcopy <> 1 GROUP BY fd.aktid, faktype"
+                            
 
+                            'if session("mid") = 1 then
+                            'Response.write strSQLFakaftale
+                            'Response.flush
+                            'end if
+
+                            oRec8.open strSQLFakaftale, oConn, 3
+                            if not oRec8.EOF then
+
+                        
+                                fakbeloebTot = fakbeloebTot + oRec8("fakbeloeb") 
+
+                       
+                            end if
+                            oRec8.close
+
+                        
+                            'end if
 
 
 
@@ -3411,6 +3434,35 @@ case else
                                             oRec2.movenext
                                             wend
                                             oRec2.close 
+
+
+                                            if anloops = 0 then
+                                            strSQLFakPer = strSQLFakPer &" AND ((brugfakdatolabel = 0 AND f.fakdato BETWEEN '"& strDatoStartKri &"' AND '"& strDatoEndKri &"') "
+                                            strSQLFakPer = strSQLFakPer &" OR (brugfakdatolabel = 1 AND f.labeldato BETWEEN '"& strDatoStartKri &"' AND '"& strDatoEndKri &"')) AND shadowcopy = 0"
+                                            else
+                                            strSQLFakPer = strSQLFakPer
+                                            end if
+
+
+                                             'if session("mid") = 1 then
+                                            '** Medtager hvis job er faktureret som en del af en aftale
+                                            strSQLFakaftale = "SELECT IF(faktype = 0, COALESCE(sum(fd.aktpris * (fd.kurs/100)),0), COALESCE(sum(fd.aktpris * -1 * (fd.kurs/100)),0)) AS fakbeloeb FROM fakturaer f "_
+                                            &" LEFT JOIN faktura_det fd ON (fd.fakid = f.fid AND fd.aktid = "& oRec("jid") &") WHERE shadowcopy <> 1 "& strSQLFakPer &" GROUP BY fd.aktid, faktype"
+                                            '"& oRec4("jid") &"
+
+                                            'if session("mid") = 1 then
+                                            'Response.write strSQLFakaftale
+                                            'Response.flush
+                                            'end if
+
+                                            oRec8.open strSQLFakaftale, oConn, 3
+                                            if not oRec8.EOF then
+
+                                                fakbeloeb = fakbeloeb + oRec8("fakbeloeb") 
+
+                                            end if
+                                            oRec8.close
+                                            'end if
 
 
 

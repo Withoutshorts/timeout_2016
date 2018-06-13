@@ -1080,9 +1080,11 @@
                 '**** FULD uge godkendes igen fra WEEK approval
                 Dim strSQLafslutDelHRsplit As String = "UPDATE ugestatus SET uge = '2002-01-01' WHERE WEEK(uge, 3) = WEEK('" & lastWeekSundaySQL & "', 3) AND year(uge) = '" & Year(lastWeekSundaySQL) & "' AND mid = " & objDR4("mid") & " AND splithr = 1"
                 objCmd = New OdbcCommand(strSQLafslutDelHRsplit, objConn)
-                objDR4 = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
-                objDR4.Close()
+                objDR3 = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
+                objDR3.Close()
 
+
+                'If objDR4("id") <> "" Then
 
                 Dim dgs As Date = Date.Now
                 Dim strSQLupdateugestatus As String = "UPDATE ugestatus SET ugegodkendt = 1, ugegodkendtaf = 1, ugegodkendtdt = '" & thisDateSQL & "' WHERE id = " & objDR4("id")
@@ -1090,12 +1092,13 @@
                 objDR3 = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
                 objDR3.Close()
 
-
+                'End If
 
 
 
 
             End If
+
 
 
 

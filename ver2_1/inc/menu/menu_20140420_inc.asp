@@ -987,6 +987,11 @@ end select
                  <h3 class="menuh3"><%=tsa_txt_447 %></h3>
                 <li><a href="<%=toSubVerPath14 %>jobs.asp"><%=tsa_txt_448 %></a></li>
                 
+
+                  <%if lto = "outz" OR lto = "demo" OR lto = "intranet - local" OR lto = "hidalgo" then %>
+                  <li><a href="<%=toSubVerPath15 %>job_list.asp">Projektliste</a></li>
+                  <%end if %>
+
                  <%'** Opret job ****'%>
                  <li><a href="<%=toSubVerPath14 %>jobs.asp?func=opret&id=0"><%=tsa_txt_449 %></a></li>
 
