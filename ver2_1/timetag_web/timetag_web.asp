@@ -171,11 +171,18 @@
                 call lukaktvdato_fn()
                 ignJobogAktper = lukaktvdato
 
+                select case lto
+                case "mpt"
+                jobstatusExtra = " OR (j.jobstatus = 2) OR (j.jobstatus = 4)"
+                case else
+                jobstatusExtra = ""
+                end select
+
                 select case ignJobogAktper
                 case 0,1
-                strSQLDatokri = " AND ((j.jobstartdato <= '"& varTjDatoUS_son &"' AND j.jobstatus = 1) OR (j.jobstatus = 3))"
+                strSQLDatokri = " AND ((j.jobstartdato <= '"& varTjDatoUS_son &"' AND j.jobstatus = 1) OR (j.jobstatus = 3) "& jobstatusExtra &")"
                 case 3
-                strSQLDatokri = " AND ((j.jobstartdato <= '"& varTjDatoUS_son &"' AND j.jobslutdato >= '"& varTjDatoUS_man &"' AND j.jobstatus = 1) OR (j.jobstatus = 3))"
+                strSQLDatokri = " AND ((j.jobstartdato <= '"& varTjDatoUS_son &"' AND j.jobslutdato >= '"& varTjDatoUS_man &"' AND j.jobstatus = 1) OR (j.jobstatus = 3) "& jobstatusExtra &")"
                 case else
                 strSQLDatokri = ""
                 end select
@@ -208,10 +215,18 @@
                 end if
 
 
+                select case lto
+                case "mpt"
+                jobstatusSQL = "j.jobstatus <> 0"
+                case else
+                jobstatusSQL = "j.jobstatus = 1 OR j.jobstatus = 3"
+                end select
+
+
                 strSQL = "SELECT j.id AS jid, j.jobnavn, j.jobnr, j.jobstatus, k.kkundenavn, k.kkundenr, k.kid, j.jobstartdato FROM timereg_usejob AS tu "_ 
                 &" LEFT JOIN job AS j ON (j.id = tu.jobid) "_
                 &" LEFT JOIN kunder AS k ON (k.kid = j.jobknr) "_
-                &" WHERE tu.medarb = "& medid &" AND (j.jobstatus = 1 OR j.jobstatus = 3) "& strSQLPAkri &" "& strSQLDatokri 
+                &" WHERE tu.medarb = "& medid &" AND ("& jobstatusSQL &") "& strSQLPAkri &" "& strSQLDatokri 
             
                 strSQL = strSQL & strSQLSogKri
 

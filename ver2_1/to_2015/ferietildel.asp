@@ -523,7 +523,7 @@ call menu_2014 %>
                         
                     %>
 
-                    <%if findes_15 <> 1 OR findes_111 <> 1 OR findes_126 <> 1 OR findes_12 <> 1 then %>
+                    <%if cint(findes_15) <> 1 OR cint(findes_111) <> 1 OR cint(findes_126) <> 1 OR cint(findes_12) <> 1 then %>
 
                     <div class="row">
                         <div class="col-lg-12" style="text-align:center"><h4 style="color:red;">Aktivitetstyperne: Ferie optjent, Ferieoverført, Ferie korrigeret, Feriefridage optjent, skal være slået til, og oprettet på det interne projekt.
@@ -619,9 +619,17 @@ call menu_2014 %>
                                             <%
 
                                            
-                                                '** NORM pr. 1.1. i det valfgrte feriår 
+                                                '** NORM pr. 1.1. i det valfgrte ferieår 
                                                 firstDayOfNewFerieAar = "1/5/"& ferieStarArr '& dateAdd("yyyy", 1 , firstDayOfNewFerieAar)
-                                                call normtimerPer(oRec("mid"), firstDayOfNewFerieAar, 6, 0)
+
+                                                if cDate(oRec("ansatdato")) > cDate(firstDayOfNewFerieAar) then
+                                                useDateforNorm = oRec("ansatdato")
+                                                else
+                                                useDateforNorm = firstDayOfNewFerieAar
+                                                end if
+
+
+                                                call normtimerPer(oRec("mid"), useDateforNorm, 6, 0)
                                                 'dagsdato = year(oRec("ansatdato")) &"-"& month(oRec("ansatdato")) &"-"& day(oRec("ansatdato"))
                                                 'call normtimerPer(oRec("mid"), dagsdato, 6, 0)
 

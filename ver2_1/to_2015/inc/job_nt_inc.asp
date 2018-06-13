@@ -94,7 +94,8 @@
                                         <option value="1">Bulk update</option>
                                             
                                         <option value="2">Create Invoice</option>
-                                            
+
+                                        <option value="3">Delete orders</option>
 
                                     </select> </th>
 

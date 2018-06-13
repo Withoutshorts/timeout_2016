@@ -7,7 +7,9 @@
 
 <!--#include file="../inc/regular/header_lysblaa_2015_inc.asp"-->
 
+<!--#include file="inc/job_inc.asp"-->
 
+<script src="js/job_list_jav.js" type="text/javascript"></script>
 
 <%
     if len(session("user")) = 0 then
@@ -26,6 +28,129 @@
     case "dbopr"
         'opret
 
+
+
+
+    case "jobstatusUpdate"
+
+
+        jobid = split(request("FM_selectedJobids_status"), ",")
+        newJobstatus = request("FM_jobstatus")
+
+        for t = 0 to UBOUND(jobid)
+
+            if jobid(t) <> "" then
+                response.Write "<br> JS " & newJobstatus 
+            
+                call lukkedato(jobid(t), newJobstatus)
+
+                strSQL = "UPDATE job SET jobstatus = "& newJobstatus & " WHERE id = "& jobid(t)
+                'response.Write "<br> " & strSQL
+                oConn.execute(strSQL)
+            end if
+
+        next
+
+        'response.Write "DONE !"
+        response.Redirect "job_list.asp?jobnr_sog="&request("jobnr_sog")&"&FM_kunde="&request("FM_kunde")
+
+
+
+    case "jobslutdatoUpdate"
+
+        jobid = split(request("FM_selectedJobids_enddate"), ",")
+        newEnddate = request("FM_newEnddate")
+        newEnddate = year(newEnddate) &"-"& month(newEnddate) &"-"& day(newEnddate)
+
+        for t = 0 to UBOUND(jobid)
+
+            if jobid(t) <> "" AND isDate(newEnddate) = true then
+
+                strSQL = "UPDATE job SET jobslutdato = '"& newEnddate &"' WHERE id = "& jobid(t)
+                'response.Write "<br>" & strSQL
+                oConn.execute(strSQL)
+
+            end if
+
+        next
+
+        response.Redirect "job_list.asp?jobnr_sog="&request("jobnr_sog")&"&FM_kunde="&request("FM_kunde")
+
+
+    case "foromUpdate"
+
+        jobid = split(request("FM_selectedJobids_forOm"), ",")
+
+        if len(trim(request("FM_formr_opdater_akt"))) <> 0 then
+        fomrJaAkt = request("FM_formr_opdater_akt")
+        else
+        fomrJaAkt = 0
+        end if
+
+        for_faktor = 1
+
+        fomrArr = split(request("FM_fomr"), ",")
+
+
+        for t = 0 to UBOUND(jobid)
+
+            if jobid(t) <> "" then
+
+                '*** nulstiller job (IKKE akt) ****'
+                strSQLfor = "DELETE FROM fomr_rel WHERE for_jobid = "& jobid(t)  & " AND for_aktid = 0"
+                oConn.execute(strSQLfor)
+
+                for afor = 0 to UBOUND(fomrArr)
+
+                    fomrArr(afor) = replace(fomrArr(afor), "#", "")
+
+                        if fomrArr(afor) <> 0 then
+
+                            strSQLfomri = "INSERT INTO fomr_rel "_
+                            &" (for_fomr, for_jobid, for_aktid, for_faktor) "_
+                            &" VALUES ("& fomrArr(afor) &", "& jobid(t) &", 0, "& for_faktor &")"
+
+                            oConn.execute(strSQLfomri)
+
+                            'fomrArrLink = fomrArrLink & ",#"& fomrArr(afor) & "#" 
+            
+
+                            '**** IKKE MERE 11.3.2015 *****'
+                            '*** Altid Sync aktiviteter ved multiopdater ****'
+                            if cint(fomrJaAkt) = 1 then
+                            strSQLa = "SELECT id FROM aktiviteter WHERE job = "& jobid(t)
+                            oRec3.open strSQLa, oConn, 3
+                            while not oRec3.EOF 
+
+                            'response.Write "<br>" & strSQLa &" "& oRec3("id")
+
+                                    '*** nulstiller form på akt () ****'
+                                strSQLfor = "DELETE FROM fomr_rel WHERE for_jobid = "& jobid(t)  & " AND for_aktid = "& oRec3("id")
+                                'response.Write "<br>" & strSQLfor
+                                oConn.execute(strSQLfor)
+
+                                strSQLfomrai = "INSERT INTO fomr_rel "_
+                                &" (for_fomr, for_jobid, for_aktid, for_faktor) "_
+                                &" VALUES ("& fomrArr(afor) &", "& jobid(t) &","& oRec3("id") &", "& for_faktor &")"
+                                'response.Write "<br> " & strSQLfomrai
+                                oConn.execute(strSQLfomrai)
+
+                            oRec3.movenext
+                            wend
+                            oRec3.close
+                            end if
+
+                        end if
+
+                next
+
+            end if
+
+
+        next
+
+
+        response.Redirect "job_list.asp?jobnr_sog="&request("jobnr_sog")&"&FM_kunde="&request("FM_kunde")
 
     case else
 
@@ -244,12 +369,47 @@
 <script src="js/job_jav.js" type="text/javascript"></script>
 
 <style>
+
     .advanced_filter:hover,
     .advanced_filter:focus {
     text-decoration: none;
     cursor: pointer;
     }
+
+        /* The Modal (background) */
+    .modal {
+        display: none; /* Hidden by default */
+        position: fixed; /* Stay in place */
+        z-index: 1; /* Sit on top */
+        padding-top: 100px; /* Location of the box */
+        left: 0;
+        top: 0;
+        width: 100%; /* Full width */
+        height: 100%; /* Full height */
+        overflow: auto; /* Enable scroll if needed */
+        background-color: rgb(0,0,0); /* Fallback color */
+        background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    }
+
+    /* Modal Content */
+    .modal-content {
+        background-color: #fefefe;
+        margin: auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 200px;
+        height: 350px;
+    }
+
+    .picmodal:hover,
+    .picmodal:focus {
+    text-decoration: none;
+    cursor: pointer;
+}
+
+
 </style>
+
 
 <div class="wrapper">
     <div class="content">
@@ -277,7 +437,7 @@
                             </div>
                         
                             <div class="row">
-                                <div class="col-lg-4"><input name="jobnr_sog" type="text" class="form-control input-small" value="<%=show_jobnr_sog %>" /><br /><input type="checkbox" name="FM_sogakt" <%=sogaktCHK %> /> Søg aktivitet</div>
+                                <div class="col-lg-4"><input name="jobnr_sog" type="text" class="form-control input-small" value="<%=show_jobnr_sog %>" /><input type="checkbox" name="FM_sogakt" <%=sogaktCHK %> /> Søg blandt aktiviteter<br />&nbsp;</div>
 
                                 <div class="col-lg-4">
                                     <select class="form-control input-small" name="FM_kunde">
@@ -302,7 +462,7 @@
                                         %>
                                     </select>
                                 </div>
-                                <div class="col-lg-2"><button type="submit" class="btn btn-secondary btn-sm pull-right"><b><%=godkend_txt_005 %> >></b></button></div>
+                             
                             </div> 
                             
                             <div class="row">
@@ -347,7 +507,7 @@
                                 <div class="col-lg-3">
                                     <input type="CHECKBOX" name="status_filter" value="1" <%=chk1%>/> <%=job_txt_221 %><br />
                                     <input type="CHECKBOX" name="status_filter" value="2" <%=chk2%>/> <%=job_txt_222 %><br />
-                                    <input type="CHECKBOX" name="status_filter" value="3" <%=chk3%>/> <%=job_txt_063 %><br />
+                                    <input type="CHECKBOX" name="status_filter" value="3" <%=chk3%>/> <%=job_txt_223 %><br />
                                     <input type="CHECKBOX" name="status_filter" value="4" <%=chk4%>/> <%=job_txt_224 %><br />
                                     <input type="CHECKBOX" name="status_filter" value="0" <%=chk0%>/> <%=job_txt_225 %><br />
                                 </div>
@@ -388,7 +548,8 @@
                             </div> -->
                             
                             <div class="row">
-                                <div class="col-lg-2"><a class="advanced_filter">Udvidet søgning <span id="ud_s_span">+</span></a></div>
+                                <div class="col-lg-10"><a class="advanced_filter">Udvidet søgning <span id="ud_s_span">+</span></a></div>
+                                <div class="col-lg-2" valign="bottom"><button type="submit" class="btn btn-secondary btn-sm pull-right"><b><%=godkend_txt_005 %> >></b></button></div>
                             </div>
                             
                             <div id="udvidet_sog" style="display:none">
@@ -431,26 +592,140 @@
                     </div>
                 </div>
 
+
+                <!-- Change Job Status pop up window -->
+                <div id="actionMenu_jobstatus" class="modal">
+                    <div class="modal-content" style="text-align:left; width:300px; height:175px; text-align:center">
+
+                        <form action="job_list.asp?func=jobstatusUpdate&jobnr_sog=<%=jobnr_sog %>&FM_kunde=<%=FM_kunde %>&FM_medarb_jobans=<%=medarb_jobans %>" method="post">
+
+                            <h5>Ændre Status på de valtge job til</h5>
+                            <br />
+
+                            <input type="hidden" id="FM_selectedJobids_status" name="FM_selectedJobids_status" value="" />
+
+                            <select name="FM_jobstatus" class="form-control input-small">
+                                <option disabled>Vælg</option>
+                                <option value="1">Aktiv</option>
+                                <option value="2">Passiv/Fak</option>
+                                <option value="3">Tilbud</option>
+                                <option value="4">Gen.syn</option>
+                                <option value="0">Lukket</option>
+                            </select>
+
+                            <br />
+
+                            <button type="submit" class="btn btn-sm btn-success"><b>Gem</b></button>
+
+                        </form>
+                    </div>
+
+                    
+                </div>
+
+                <!-- Change Job end state pop up window -->
+                <div id="actionMenu_enddate" class="modal">
+                    <div class="modal-content" style="text-align:left; width:300px; height:175px; text-align:center">
+                        
+                        <form action="job_list.asp?func=jobslutdatoUpdate&jobnr_sog=<%=jobnr_sog %>&FM_kunde=<%=FM_kunde %>&FM_medarb_jobans=<%=medarb_jobans %>" method="post">
+                          
+                            <h5>Ændre slutdatoen på de valtge job til</h5>
+                            <br />
+
+                            <input type="hidden" id="FM_selectedJobids_enddate" name="FM_selectedJobids_enddate" value="" />
+
+                            <div class='input-group date'>
+                                <input type="text" style="width:100%;" class="form-control input-small" name="FM_newEnddate" id="jq_dato" value="" placeholder="dd-mm-yyyy" />
+                                <span class="input-group-addon input-small"><span class="fa fa-calendar"></span></span>
+                            </div>
+
+                            <br />
+
+                            
+                            <button type="submit" class="btn btn-sm btn-success"><b>Gem</b></button>
+
+                        </form>
+                    </div>   
+                </div>
+
+                <!-- Change Job / Activities' business areas -->
+                <div id="actionMenu_forOm" class="modal">
+                    <div class="modal-content" style="text-align:left; width:500px; height:275px;">
+
+                        <form action="job_list.asp?func=foromUpdate&jobnr_sog=<%=jobnr_sog %>&FM_kunde=<%=FM_kunde %>&FM_medarb_jobans=<%=medarb_jobans %>" method="post">
+
+                            <h5>Ændre forretningsområder</h5>
+                            <br />
+
+                            <input type="hidden" id="FM_selectedJobids_forOm" name="FM_selectedJobids_forOm" value="" />
+
+                            <div style="text-align:center;">
+                                <%         
+                                strSQLf = "SELECT f.id, f.navn, kp.navn AS kontonavn, kp.kontonr FROM fomr AS f LEFT JOIN kontoplan AS kp ON (kp.id = f.konto) WHERE f.id <> 0 AND f.jobok = 1 ORDER BY f.navn"
+                                
+                                'response.write strSQLf
+                                'response.flush         
+                                %>
+                                <select name="FM_fomr" id="Select3" multiple="multiple" size="5" style="width:450px;" class="form-control input-small">
+                                <option value="#0#"><%=job_txt_129 &" " %>(<%=job_txt_282 %>)</option>
+                               
+                                    
+                                    <%oRec3.open strSQLf, oConn, 3
+                                    while not oRec3.EOF
+                                    
+                                    if oRec3("kontonr") <> 0 then
+                                        kontnrTxt = " ("& oRec3("kontonavn") &" "& oRec3("kontonr") &")"
+                                    else 
+                                        kontnrTxt = ""
+                                    end if
+                                    
+                                    %>
+                                    <option value="#<%=oRec3("id") %>#"><%=oRec3("navn") & kontnrTxt %></option>
+                                    <%
+                                    oRec3.movenext
+                                    wend
+                                    oRec3.close
+                                    %>
+                                </select>
+                            </div>
+
+                            <span style="text-align:left;">
+                               <!-- <input id="Checkbox3" type="checkbox" name="FM_formr_opdater" value="1" /> Ændre på de valgte jobs <br /> -->
+                                <input id="Checkbox3" type="checkbox" name="FM_formr_opdater_akt" value="1" /> Ændre også på aktiviteterne i de valgte jobs 
+                            </span>
+
+                            <br /><br /><br />
+
+                            <div style="text-align:center">
+                                <button type="submit" class="btn btn-sm btn-success"><b>Gem</b></button>
+                            </div>
+
+                        </form>
+                    </div>   
+                </div>
+
                 <table class="table dataTable table-striped table-bordered table-hover ui-datatable">
                     <thead>
                         <tr>
                             <th>Projekt</th>
-                            <th>Aktivitet</th>
-                            <th>Forretningsområder</th>
+                            <th>Aktiviter <span style="font-size:9px;">(Aktive)</span></th>
+                            <th>Forretnings - <br />områder</th>
                             <th>Realiseret % <br /><span style="font-size:9px;">(<%=job_txt_235 %>)</span></th>
                             <th>Brutto oms.</th>
                             <th>Timer forkalk. <br /><span style="font-size:9px;">Realiseret</span></th>                            
-                            <th>Funktioner</th>
+                         <!-- <th>Funktioner</th> -->
                             <th>Faktura hist.</th>
                             <th>Projektgrupper</th>
-                            <th style="width:80px;">
-                                <select class="form-control input-small">
-                                    <option value="0">Ingen</option>
-                                    <option value="1">Aktiv</option>
-                                    <option value="2">Passiv/Fak</option>
-                                    <option value="3">Tilbud</option>
-                                    <option value="4">Gen.syn</option>
-                                    <option value="5">Lukket</option>
+                            <th>Links</th>
+                            <th>Status</th>
+                            <th>
+                                <select class="form-control input-small" id="actionMenu">
+                                    <option>Vælg</option>
+                                    <%if level = 1 then %>
+                                    <option value="1">Forretningsområder</option>
+                                    <%end if %>
+                                    <option value="2">Slut Dato</option>
+                                    <option value="3">Jobstatus</option>
                                 </select>
                             </th>
                         </tr>
@@ -570,7 +845,7 @@
                                 %>
                                 <%response.Write strKundenavn &" ("& strKundenr &") <br>" %>
                                 <%if editok = 1 then %>                                
-                                <a href="../timereg/jobs.asp?menu=job&func=red&id=<%=oRec("id")%>&int=<%=oRec("fakturerbart")%>" ><%=oRec("jobnavn") &" ("& oRec("jobnr") & ")" %></a>
+                                <a href="jobs.asp?func=red&jobid=<%=oRec("id") %>"><%=oRec("jobnavn") &" ("& oRec("jobnr") & ")" %></a>
                                 <%else %>
                                 <%=oRec("jobnavn") &" ("& oRec("jobnr") & ")" %>
                                 <%end if %>
@@ -583,7 +858,7 @@
                                 strFasptpris = job_txt_325
                                 end if
                                 %>
-
+                                <br />
                                 <span style="color:green; font-size:10px;">(<%=strFasptpris %>)</span>
                                 <!-- Her skal mere info ind se linje 8345 i gamle jobs -->
 
@@ -732,7 +1007,7 @@
 	                           
 	                            if oRec("jobstatus") = 3 then
                                 %><span style="font-size:9px; background-color:#ffdfdf; color:#000000;"><%
-	                            Response.Write "<br>"&job_txt_063&": "& oRec("tilbudsnr") &" ("& oRec("sandsynlighed") &" %)"
+	                            Response.Write "<br>"&job_txt_256&": "& oRec("tilbudsnr") &" ("& oRec("sandsynlighed") &" %)"
                                 %>
                                  </span>
                                 <%
@@ -754,7 +1029,7 @@
                             </td>
 
                             <td>
-                                <%=job_txt_259 %>
+                               <!-- <%=job_txt_259 %> --> 
                                 <%
                                 '***** Aktiviteter *****'
                 
@@ -788,54 +1063,24 @@
 	                            oRec5.movenext
 	                            wend
 	                            oRec5.close
-	                            Antal = x
-
-                                if editok = 1 then%>
-                                <a href="#" onclick="Javascript:window.open('../timereg/aktiv.asp?menu=job&jobid=<%=oRec("id")%>&jobnavn=<%=oRec("jobnavn")%>&rdir=job3&nomenu=1', '', 'width=1354,height=800,resizable=yes,scrollbars=yes')" class=vmenu>(<%=Antal%>)</a>
-		                        <%else%>
-		                        <b>(<%=Antal%>)</b>
-		                        <%end if%>
-
-                                <div style="font-size:10px; height:80px; width:120px; overflow:auto; color:#999999; padding-right:5px;">           
+	                            Antal = x %>
+                                
+                                <div style="font-size:10px; width:120px; overflow:auto; color:#999999; padding-right:5px; max-height:80px;">           
                                 <%=strAktnavn %></div>
 
+                                <span style="font-size:9px;">
+                                    <%if editok = 1 then%>
+                                    ialt <a href="#" onclick="Javascript:window.open('../timereg/aktiv.asp?menu=job&jobid=<%=oRec("id")%>&jobnavn=<%=oRec("jobnavn")%>&rdir=job3&nomenu=1', '', 'width=1354,height=800,resizable=yes,scrollbars=yes')" class=vmenu><%=Antal%></a>
+		                            <%else%>
+		                            <b>(<%=Antal%>)</b>
+		                            <%end if%>
+                                </span>
                             </td>
 
-                            <td>
-                                <%
-                                '**** forvalgt forretningsområder ****' 
+                            <!-- Forretningsområder --> 
+                            <td style="max-width:150px;">                             
+                                <%call forretningsomrJobId(oRec("id")) %>
 
-                                strFomr_rel = ""
-                                strFomr_navn = ""
-
-                                select case lto 
-                                case "hestia", "xintranet - local"
-                    
-                        
-                                            strSQLfrel = "SELECT id, navn FROM fomr WHERE id = 2"    
-                           
-                        
-                                            f = 0
-                                            oRec2.open strSQLfrel, oConn, 3
-                                            while not oRec2.EOF
-
-                                            'if f = 0 then
-                                            'strFomr_navn = " ("
-                                            'end if
-
-                                            strFomr_rel = strFomr_rel & "#"& oRec2("id") &"#"
-                                            strFomr_navn = strFomr_navn & oRec2("navn") & ", " 
-
-                                            f = f + 1
-                                            oRec2.movenext
-                                            wend
-                                            oRec2.close     
-
-                                case else
-                                        strFomr_navn = ""
-                                        strFomr_rel = ""
-                                end select 
-                                %>
                                 <%=strFomr_navn %> &nbsp
                             </td>
 
@@ -875,7 +1120,7 @@
                             =====================
 		                    </td>                           
 
-                            <td style="font-size:9px;">
+                           <!-- <td style="font-size:9px;">
                                 <%if editok = 1 then %>
                                 <a href="../timereg/job_print.asp?id=<%=oRec("id") %>" class=rmenu>Print / PDF</a><br />
 		                        <a href="../timereg/job_kopier.asp?func=kopier&id=<%=oRec("id")%>&fm_kunde=<%=oRec("kid") %>" class=rmenu><%=job_txt_264 %></a><br />
@@ -938,10 +1183,10 @@
                                 <%else %>
                                 &nbsp
                                 <%end if %>
-                            </td>
+                            </td> -->
 
                             <td class=lille valign=top style="padding-right:2px;">
-		                    <div style="position:relative; top:0px, left:0px; width:160px; height:100px; overflow:auto; padding:5px;">
+		                    <div style="position:relative; top:0px, left:0px; width:160px; height:80px; overflow:auto; padding:5px;">
                             <table cellspacing=0 border=0 cellpadding=0 width=100%>
 		
 		                    <%
@@ -976,7 +1221,7 @@
                                           <%
 			                            if cdate(oRec3("fakdato")) >= cdate("01-01-2006") AND editok = 1 then%>
 			                            <a href="../timereg/erp_opr_faktura_fs.asp?visminihistorik=1&visfaktura=2&visjobogaftaler=1&id=<%=oRec3("fid")%>&FM_jobonoff=<%=FM_jobonoffval%>&FM_kunde=<%=oRec3("fakadr")%>&FM_job=<%=oRec3("jobid")%>&FM_aftale=<%=oRec3("aftaleid")%>&fromfakhist=1" class="lgron" target="_blank"><b><%=oRec3("faknr") &"</b>"%></a></td>
-                                        <td align=right class=lille valign=top> <%=fakDato %> <br />
+                                        <td align=right class=lille valign=top style="font-size:9px;"> <%=fakDato %> <br />
                                         <%else%>
                                         <b><%=oRec3("faknr") &"</b></td><td align=right class=lille valign=top> "& fakDato %><br />
                                         <% end if
@@ -1025,8 +1270,8 @@
                
 
 			                        </div>
-                                     <%=job_txt_270 %>:<br /> 
-                                     <b><%=formatnumber(fakturaBel_tot, 2) & " "& basisValISO %></b>
+                                     <!--<%=job_txt_270 %>:--><br /> 
+                                     <span style="float:right; padding-right:10px;"><b><%=formatnumber(fakturaBel_tot, 2) & " "& basisValISO %></b></span>
 
                                      <%if totReal <> 0 then 
 	                            gnstpris = faktotbel/totReal
@@ -1069,8 +1314,84 @@
                             next %>
 		   
 		                    </td>
+
+                            <td style="text-align:center">
+                                <span style="font-size:125%" id="modal_<%=oRec("id") %>" class="fa fa-link picmodal"></span>
+
+                                <div id="myModal_<%=oRec("id") %>" class="modal">
+
+                                    <!-- Modal content -->
+                                    <div class="modal-content" style="text-align:left">
+                                        
+                                        <%if editok = 1 then %>
+                                        <h6><a href="../timereg/job_print.asp?id=<%=oRec("id") %>" class=rmenu>Print / PDF</a></h6>
+		                                <h6><a href="../timereg/job_kopier.asp?func=kopier&id=<%=oRec("id")%>&fm_kunde=<%=oRec("kid") %>" class=rmenu><%=job_txt_264 %></a></h6>
+                                        <h6><a href="../timereg/materialer_indtast.asp?id=<%=oRec("id")%>&fromsdsk=0&aftid=<%=oRec("serviceaft")%>" target="_blank" class=rmenu><%=job_txt_265 %></a></h6>
+
+                                        <%
+         
+                                        viskunabnejob0 = "1"
+                                        viskunabnejob1 = "" 
+                                        viskunabnejob2 = ""
+                                        select case oRec("jobstatus")
+                                        case 0
+                                        viskunabnejob0 = "1"
+                                        case 1,2
+                                        viskunabnejob2 = "1"
+                                        case 3
+                                        viskunabnejob1 = "1"
+                                        end select
+
+                                         select case lto
+                                        case "synergi1", "xintranet - local"
+
+
+                                        call licensStartDato()
+                                        dtlink_stdag = startDatoDag
+		                                dtlink_stmd = startDatoMd
+		                                dtlink_staar = startDatoAar
+
+                                        case else
+        
+                                        dtlink_stdag = datepart("d", oRec("jobstartdato"), 2, 2)
+		                                dtlink_stmd = datepart("m", oRec("jobstartdato"), 2, 2)
+		                                dtlink_staar = datepart("yyyy", oRec("jobstartdato"), 2, 2)
+
+		
+                                        end select
+
+        
+
+		                                dtlink_sldag = datepart("d", now, 2, 2)
+		                                dtlink_slmd = datepart("m", now, 2, 2)
+		                                dtlink_slaar = datepart("yyyy", now, 2, 2)
+		
+       
+		
+		                                dtlink = "FM_usedatokri=1&FM_start_dag="&dtlink_stdag&""_
+	                                    &"&FM_start_mrd="&dtlink_stmd&"&FM_start_aar="&dtlink_staar&"&FM_slut_dag="&dtlink_sldag&""_
+	                                    &"&FM_slut_mrd="&dtlink_slmd&"&FM_slut_aar="&dtlink_slaar
+         
+                                        %>
+                                        
+                                        <h6><a href="../timereg/joblog.asp?nomenu=1&FM_job=<%=oRec("id") %>&FM_kunde=<%=oRec("kid")%>&FM_jobsog=<%=oRec("jobnr")%>&viskunabnejob0=<%=viskunabnejob0%>&viskunabnejob1=<%=viskunabnejob1%>&viskunabnejob2=<%=viskunabnejob2%>&<%=dtlink %>" class=rmenu target="_blank"><%=job_txt_266&" " %></a></h6>
+                                        <h6><a href="../timereg/jobprintoverblik.asp?menu=job&id=<%=oRec("id")%>&media=printjoboverblik" class=rmenu target="_blank"><%=job_txt_267 %> </a></h6>
+                                        <h6><a href="../timereg/timereg_akt_2006.asp?FM_kontakt=<%=oRec("kid")%>&FM_ignorer_projektgrupper=1&jobid=<%=oRec("id")%>&FM_sog_job_navn_nr=<%=oRec("jobnr")%>&usemrn=<%=session("mid")%>&showakt=1&fromsdsk=1" target="_blank" class=rmenu><%=job_txt_268 &" " %> </a></h6>
+          
+                                        <%if cint(oRec("useasfak")) <= 2 then 'links skal fixes - feltet her skal hentets %>
+                                        <h6><a href="../timereg/erp_opr_faktura_fs.asp?FM_kunde=<%=oRec("kid")%>&FM_job=<%=oRec("id")%>&FM_aftale=0&<%=dtlink %>&reset=1&FM_usedatokri=1" target="_blank" class=rmenu><%=job_txt_269 %> </a></h6>
+		                                <%end if %>
+
+                                        <%else %>
+                                        &nbsp
+                                        <%end if %>
+
+                                    </div>
+
+                                </div>
+                            </td>
                             
-                            <td><!-- Status -->
+                            <td style="text-align:center" ><!-- Status -->
 
                                 <%
                                     select case cdbl(oRec("jobstatus"))
@@ -1080,41 +1401,52 @@
                                     statusCHBAR3 = ""
                                     statusCHBAR4 = ""
                                     statusCHBAR0 = ""
+                                    statusTXT = "Aktiv"
                                     case 2
                                     statusCHBAR1 = ""
                                     statusCHBAR2 = "SELECTED"
                                     statusCHBAR3 = ""
                                     statusCHBAR4 = ""
                                     statusCHBAR0 = ""
+                                    statusTXT = "Pasiv"
                                     case 3
                                     statusCHBAR1 = ""
                                     statusCHBAR2 = ""
                                     statusCHBAR3 = "SELECTED"
                                     statusCHBAR4 = ""
                                     statusCHBAR0 = ""
+                                    statusTXT = "Tilbud"
                                     case 4
                                     statusCHBAR1 = ""
                                     statusCHBAR2 = ""
                                     statusCHBAR3 = ""
                                     statusCHBAR4 = "SELECTED"
                                     statusCHBAR0 = ""
+                                    statusTXT = "Gen. syn"
                                     case 0
                                     statusCHBAR1 = ""
                                     statusCHBAR2 = ""
                                     statusCHBAR3 = ""
                                     statusCHBAR4 = ""
                                     statusCHBAR0 = "SELECTED"
+                                    statusTXT = "Lukket"
 
                                     end select
                                 %>
 
-                                <select class="form-control input-small">
+                              <!-- <select class="form-control input-small">
                                     <option value="1" <%=statusCHBAR1 %>>Aktiv</option>
                                     <option value="2" <%=statusCHBAR2 %>>Passiv/Fak</option>
                                     <option value="3" <%=statusCHBAR3 %>>Tilbud</option>
                                     <option value="4" <%=statusCHBAR4 %>>Gen.syn</option>
                                     <option value="0" <%=statusCHBAR0 %>>Lukket</option>
-                                </select>
+                                </select> -->
+                                <%=statusTXT %>
+
+                            </td>
+
+                            <td style="text-align:center">
+                                <input class="job_bulkCHB" name="job_bulkCHB" id="<%=oRec("id") %>" type="checkbox" />
                             </td>
 
                         </tr>
@@ -1129,6 +1461,30 @@
             </div>
         </div>
 
+<script type="text/javascript">
+
+
+$(".picmodal").click(function() {
+
+    var modalid = this.id
+    var idlngt = modalid.length
+    var idtrim = modalid.slice(6, idlngt)
+
+    //var modalidtxt = $("#myModal_" + idtrim);
+    var modal = document.getElementById('myModal_' + idtrim);
+
+    modal.style.display = "block";
+
+    window.onclick = function (event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+
+});
+
+
+</script>
 
 
     </div>

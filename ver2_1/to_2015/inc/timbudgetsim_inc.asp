@@ -137,7 +137,7 @@ sub forretningsomr
 end sub
 
 
-public budgetFY0GT, strExport, jobbudgetBel, diffbudget_FCGT
+public budgetFY0GT, strExport, jobbudgetBel, diffbudget_FCGT, aktbudgetsum
 function jobaktbudgetfelter(jobnr, jobid, aktid, h1aar, h2aar, h1md, h2md, budgettp)
 
     jh1 = 0
@@ -505,35 +505,64 @@ function jobaktbudgetfelter(jobnr, jobid, aktid, h1aar, h2aar, h1md, h2md, budge
 
         realomsH1 = formatnumber(realomsH1,0)
 
-            if aktid = 0 then
 
 
-            budgetFY0GT = budgetFY0GT + jhGT'budgetFY0 
+            
+            '***********************************************************
+            '*** DIFF Budget / Forecast **
+            '***********************************************************
 
-                    if cdbl(jobbudgetBel) <> 0 then
-                    diffbudget_FC = ((jobbudgetBel*1) - (jhGT*1))
-                    else
-                    diffbudget_FC = (0 - (jhGT*1))
-                    end if
+            diffbudget_FC = 0
+            useJobAktbudget = 0
+
+            if aktid = 0 then 
+            useJobAktbudget = jobbudgetBel
+            else
+            useJobAktbudget = aktbudgetsum
+            end if
+
+            if len(trim(useJobAktbudget)) <> 0 then
+            useJobAktbudget = useJobAktbudget
+            else
+            useJobAktbudget = 0
+            end if
+
+
+            if cdbl(useJobAktbudget) <> 0 then
+            diffbudget_FC = ((useJobAktbudget*1) - (budgetGT*1)) 'jhGT
+            else
+            diffbudget_FC = (0 - (budgetGT*1))'jhGT
+            end if
+
+            
                      
-                    diffbudget_FC = formatnumber(diffbudget_FC, 0)
+            diffbudget_FC = formatnumber(diffbudget_FC, 0)
+
+
+            if aktid = 0 then 'GT tal kun pr. job linje eller s bliver det dobbelt
+
+
+                    budgetFY0GT = budgetFY0GT + jhGT 'budgetGT 'jhGT 'budgetFY0 
                     diffbudget_FCGT = (diffbudget_FCGT*1) + (diffbudget_FC*1) 
 
-                    if diffbudget_FC < 0 then
-                    diffbudget_FCtdCol = "red"
-                    else
-                            if diffbudget_FC = 0 then
-                            diffbudget_FCtdCol = "#CCCCCC"
-                            else
-                            diffbudget_FCtdCol = "yellowgreen"
-                            end if
-                    end if
-
-            else 
-
-            diffbudget_FC = ""
-
+          
             end if
+
+
+
+            if diffbudget_FC < 0 then
+            diffbudget_FCtdCol = "red"
+            else
+                    if diffbudget_FC = 0 then
+                    diffbudget_FCtdCol = "#CCCCCC"
+                    'diffbudget_FC = ""
+                    else
+                    diffbudget_FCtdCol = "yellowgreen"
+                    end if
+            end if
+            '**********************************************************
+
+
 
 
             if aktid <> 0 then
@@ -714,7 +743,7 @@ function jobaktbudgetfelter(jobnr, jobid, aktid, h1aar, h2aar, h1md, h2md, budge
             strExport = strExport & budgetFY0h2 &";"
             end if
 
-            strExport = strExport & jhGTTxt &";" & vbcrlf
+            strExport = strExport & jhGTTxt &";"& diffbudget_FC &";" & vbcrlf
 
         end if
 

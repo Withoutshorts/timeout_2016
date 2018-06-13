@@ -1373,8 +1373,7 @@ if session("user") = "" then
             
         <div class="to-content-hybrid-fullzize" style="position:absolute; top:20px; left:20px; background-color:#FFFFFF;">
 
-
-           
+          
 
      <div id="load" style="position:absolute; display:; visibility:visible; top:260px; left:400px; width:300px; background-color:#ffffff; border:10px #cccccc solid; padding:20px; z-index:100000000;">
 
@@ -3355,7 +3354,7 @@ while not oRec.EOF
 
 <div id="d_jobakt" style="position:relative; visibility:<%=jdiv_vzb%>; display:<%=jdiv_dsp%>; left:0; top:0; overflow-x:scroll; width:100%; background-color:#ffffff;">
     
-<h4>Budget</h4>
+<h4>Budget - Overblik</h4>
 
      <!-- Opdater/Annuller knapper -->
    
@@ -3470,7 +3469,7 @@ while not oRec.EOF
 
         </th>
             <th>Budget - FC.<br />
-            <span style="font-size:9px;">Diff. Grandt. Beløb</span> <span style="color:#999999; font-size:9px;">[A3-P]</span></th>
+            <span style="font-size:9px;">Diff. Grandt. Beløb</span> <span style="color:#999999; font-size:9px;">[A3-N]</span></th>
 
          </tr>
 
@@ -3768,6 +3767,7 @@ oRec.close
     '******************** Medarbejdere LOOP ****************************
 
         budgetFY0GT = formatnumber(budgetFY0GT, 0)
+        diffbudget_FCGT = formatnumber(diffbudget_FCGT, 2)
 
 %>
 
@@ -3775,18 +3775,22 @@ oRec.close
  <%if media <> "export" then %>
 <tfoot>
     <tr><td colspan=4>Total:</td>
+
     <td>&nbsp;</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
+
      <%if cint(timesimh1h2) = 1 then %>
     <td>&nbsp;</td>
     <%end if %>
+
     <td>&nbsp;</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
+
     <%if cint(timesimtp) = 1 then%> 
     <td>&nbsp;</td>
     <%end if %>
@@ -3856,7 +3860,7 @@ oRec.close
 	                file = "timbudgetsim_"&filnavnDato&"_"&filnavnKlok&"_"&lto&".csv"
                    
                    
-                    strTxtExportHeader =  "Kunde;Job;Jobnr;Aktivitet;Budget timer;Budget timepris;Budget beløb;Timebudget "& year(y0) &";Timebudget "& year(y1) &";Timebudget "& year(y2) &";Forecast timer "& year(y0) &";Forecast timepris "& year(y0) &";Real. timer pr. "& visrealprdato &";Real. timepris pr. "& visrealprdato &";Real. Omsætning pr. "& visrealprdato &";Forecast budget;Forecast timer GT;"
+                    strTxtExportHeader =  "Kunde;Job;Jobnr;Aktivitet;A1 Budget timer;A2 Budget timepris;A3 Budget beløb;C Timebudget "& year(y0) &";D Timebudget "& year(y1) &";E Timebudget "& year(y2) &";G Forecast timer "& year(y0) &";H Forecast timepris "& year(y0) &";I1 Real. timer pr. "& visrealprdato &";I2 Real. timepris pr. "& visrealprdato &";I3 Real. Omsætning pr. "& visrealprdato &";N Forecast budget;P Forecast timer GT;Q Budget - FC. saldo"
                     strTxtExport = strExport
 
 
