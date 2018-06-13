@@ -1288,9 +1288,13 @@ $(document).ready(function () {
 
 
             if (($("#momsland").val() != $("#afsmomsland").val())) {
-                $("#FM_momssats").val(0)
 
-                //alert("Modtager land afviger fra faktura afsender land.\nDerfor er momssatsen sat = 0")
+                if ($("#lto").val() != "epi2017") {
+                    $("#FM_momssats").val(0)
+                    //alert("Modtager land afviger fra faktura afsender land.\nMomssats er sat = 0")
+                }
+
+                
             }
         }
     }

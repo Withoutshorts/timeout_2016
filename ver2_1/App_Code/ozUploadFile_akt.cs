@@ -35,6 +35,7 @@ public class ozUploadFileAkt
     public string lto = string.Empty;
     public string timerkom = string.Empty;
     public string linjetype = string.Empty;
+    public string aktstdato = string.Empty;
     public string konto = string.Empty;
 
     const int ORIGIN = 10;
@@ -284,8 +285,15 @@ public class ozUploadFileAkt
 
 
                 }
-                else { 
-                //data.tdato = ConvertDate(data.tdato);
+                else {
+
+
+                    if  (data.linjetype == "Kontrakt") {
+                        data.aktstdato = ConvertDate(data.aktstdato);  //.ToString("yyyy-MM-dd");  //ConvertDate(data.aktstdato);
+                      } else {
+                    data.aktstdato = DateTime.Now.ToString("yyyy-MM-dd");
+                    };
+
                 data.akttimer = data.akttimer.Replace(".", "");
                 //data.akttimer = data.akttimer.Replace(".", "");
                 data.akttimer = data.akttimer.Replace(",", ".");
@@ -302,9 +310,9 @@ public class ozUploadFileAkt
 
                
                 //string strInsert = "INSERT INTO timer_import_temp (dato, origin, medarbejderid, jobid, aktnavn, timer, tdato, timerkom, lto, editor,overfort)VALUES('" + DateTime.Now.ToString("yyyy-MM-dd") + "',+"+ORIGIN+",'" + data.medarbejderid + "'," + data.jobid + ",'" + data.aktnavn + "'," + data.timer.Replace(',', '.') + ",'" + data.tdato + "','" + data.timerkom + "','" + folder + "','" + editorIn + "',0)";
-                string strInsert = "INSERT INTO akt_import_temp (dato, origin, jobnr, aktnavn, aktnr, akttimer, akttpris, aktsum, beskrivelse, lto, editor, overfort, aktkonto, akttype) ";
+                string strInsert = "INSERT INTO akt_import_temp (dato, origin, jobnr, aktnavn, aktnr, akttimer, akttpris, aktsum, beskrivelse, lto, editor, overfort, aktkonto, akttype, aktstdato) ";
                 strInsert += " VALUES('" + DateTime.Now.ToString("yyyy-MM-dd") + "',910,'" + data.jobid + "','" + data.aktnavn + "','" + data.aktnr + "'";
-                strInsert += "," + data.akttimer + "," + data.akttpris + "," + data.aktsum + ",'','oko','Timeout - ImportAktService ',0, '" + data.konto + "', '" + data.linjetype + "')";
+                strInsert += "," + data.akttimer + "," + data.akttpris + "," + data.aktsum + ",'','oko','Timeout - ImportAktService ',0, '" + data.konto + "', '" + data.linjetype + "', '" + data.aktstdato + "')";
                 OdbcCommand command = new OdbcCommand(strInsert, connection);
 
                
@@ -690,6 +698,7 @@ public class ozUploadFileAkt
                 //fileRet.timerkom = datas[headers[6]-1];
                 fileRet.konto = datas[headers[6]-1];
                 fileRet.linjetype = datas[headers[7]-1];
+                fileRet.aktstdato = datas[headers[8]-1];
                 }
 
                 //if (fileRet.jobid == string.Empty)

@@ -1,10 +1,106 @@
 
 <%
+    public resTimerThisM, restimeruspecThisM 
+    function ressourcetimerTildelt(useDateStSQL,job_jid, job_aid, usemrn)
+
+      'call aktBudgettjkOn_fn()
+     'if session("mid") = 1 then
+     ' Response.write "aktBudgettjkOn: "& aktBudgettjkOn & " aktBudgettjkOn_afgr "& aktBudgettjkOn_afgr
+     'end if
+
+                        resTimerThisM = 0
+                        restimeruspecThisM = 0
+                        SQLdatoKriTimer = ""
+                        if cint(aktBudgettjkOn) = 1 then
+                        '*******************************************
+                        '*** Ressource timer tildelt             **'
+                        '*******************************************
+                                                                       
+                                                                                    
+                                if cint(aktBudgettjkOn_afgr) = 1 then
+
+                                    '*** Afgræans indenfor regnskabsår // Starter dwet md 1 eller 7 (kontrolpanel)
+                                    if month(useDateStSQL) < month(aktBudgettjkOnRegAarSt) then                                                                          
+                                        useRgnArr =  dateAdd("yyyy", -1, useDateStSQL)
+                                        useRgnArrNext = useDateStSQL
+                                    else
+                                        useRgnArr = useDateStSQL
+                                        useRgnArrNext =  dateAdd("yyyy", 1, useDateStSQL)
+
+                                    end if
+                                                                     
+                                    else
+
+                                                                                                            
+                                        useRgnArr = useDateStSQL
+                                        useRgnArrNext =  dateAdd("yyyy", 1, useDateStSQL)
+                                                                                    
+                                    end if
+
+
+
+                        select case cint(aktBudgettjkOn_afgr) 
+                        case 1 'regnskabsår
+                        sqlBudgafg = " AND ((md >= "& month(aktBudgettjkOnRegAarSt) & " AND aar = "& year(useRgnArr) & ") OR (md < "& month(aktBudgettjkOnRegAarSt) & " AND aar = "& year(useRgnArrNext) & "))" 
+                        case 2 'måned
+                        sqlBudgafg = " AND (md = "& month(aktBudgettjkOnRegAarSt) & " AND aar = "& year(useRgnArr) & ")" 
+                        case else
+                        sqlBudgafg = ""
+                        end select
+
+                        strSQLres = "SELECT IF(aktid <> 0, SUM(timer), 0) AS restimer, IF(aktid = 0, SUM(timer), 0) AS restimeruspec FROM ressourcer_md WHERE ((jobid = "& job_jid &" AND aktid = "& job_aid &" AND medid = "& usemrn &") OR (jobid = "& job_jid &" AND aktid = 0 AND medid = "& usemrn &")) "& sqlBudgafg &"  GROUP BY aktid, medid" 
+                        
+                        'if session("mid") = 1 then
+                        'Response.write "<br>"& strSQLres & " aktBudgettjkOnRegAarSt = "& aktBudgettjkOnRegAarSt &" : useDateStSQL : "& useDateStSQL  &" // useDateSlSQL "& useDateSlSQL & "<br>"
+                        'Response.end 
+                        'end if
+
+
+                        oRec9.open strSQLres, oConn, 3
+                        while not oRec9.EOF 
+                        resTimerThisM = resTimerThisM + oRec9("restimer")
+                        restimeruspecThisM = restimeruspecThisM + oRec9("restimeruspec")
+                        oRec9.movenext
+                        wend
+                        oRec9.close
+                                                                        
+
+                        end if
+
+
+            end function
+
+
+
+
+
+
+
     public fctimer, strAfgSQL, strAfgSQLtimer, feltTxtValFc, fcBelob, fctimerTot, fcBelobTot
     public timerBrugt, timerTastet
     'public feltTxtValFc
     function ressourcefc_tjk(ibudgetaar, ibudgetmd, aar, md, usemrn, aktid, timerTastet)
     
+        if lto = "wap" then
+        ibudgetaar = 2
+        end if
+
+        select case md
+        case 2
+
+            select case aar
+            case "2000","2004","2008","2012","2016","2020","2024","2028","2032","2036","2040","2044"
+            daysinmth = 29
+            case else
+            daysinmth = 28
+            end select    
+
+        case 1,3,5,7,8,10,12
+        daysinmth = 31
+        case else
+        daysinmth = 30
+        end select
+
                 select case cint(ibudgetaar) 
                 case 1 '** Afgræns indenfor budgetår
 
@@ -14,10 +110,10 @@
                        
                         if md >= 7 then 'jul-dec sammeår
                         strAfgSQL = "AND ((aar = "& aar &" AND md >= "& ibudgetmd &") OR (aar = "& aar+1 &" AND md < "& ibudgetmd &"))"
-                        strAfgSQLtimer = "AND (tdato BETWEEN '"& aar &"-"& ibudgetmd &"-01' AND '"& aar+1 &"-"& ibudgetmd-1 &"-30')"
+                        strAfgSQLtimer = "AND (tdato BETWEEN '"& aar &"-"& ibudgetmd &"-01' AND '"& aar+1 &"-"& ibudgetmd-1 &"-"& daysinmth &"')"
                         else
                         strAfgSQL = "AND ((aar = "& aar-1 &" AND md >= "& ibudgetmd &") OR (aar = "& aar &" AND md < "& ibudgetmd &"))"
-                        strAfgSQLtimer = "AND (tdato BETWEEN '"& aar-1 &"-"& ibudgetmd &"-01' AND '"& aar &"-"& ibudgetmd-1 &"-30')"
+                        strAfgSQLtimer = "AND (tdato BETWEEN '"& aar-1 &"-"& ibudgetmd &"-01' AND '"& aar &"-"& ibudgetmd-1 &"-"& daysinmth &"')"
                         end if
                     
                       else
@@ -29,8 +125,8 @@
 
                 case 2 'Afgræns indenfor MD
 
-                        strAfgSQL = "AND (aar = "& aar &" AND md = "& ibudgetmd &")"
-                        strAfgSQLtimer = "AND (tdato BETWEEN '"& aar &"-"& ibudgetmd &"-01' AND '"& aar+1 &"-"& ibudgetmd-1 &"-30')"
+                        strAfgSQL = "AND (aar = "& aar &" AND md = "& md &")"
+                        strAfgSQLtimer = "AND (tdato BETWEEN '"& aar &"-"& md &"-01' AND '"& aar &"-"& md &"-"& daysinmth &"')"
                         'ibudgetmd RET TIL
 
                 case else
@@ -51,9 +147,12 @@
                 &" WHERE r.aktid = "& aktid &" "& strAfgSQL & " GROUP BY r.aktid, r.medid"
                 end if            
 
-               'response.write strSQLtimfc
-               'response.end
-            
+
+               'if session("mid") = 1 then
+               'response.write strSQLtimfc & "<br>"
+               'response.flush
+               'end if        
+
                 fctimerTot = 0
                 fcBelobTot = 0 
                 fcBelob = 0
@@ -115,6 +214,11 @@
 
                         'response.write strSQLtimerReal
                         'response.end
+
+                           'if session("mid") = 1 then
+                           'response.write strSQLtimerReal & "<br>"
+                           'response.flush
+                           'end if   
                         
                         oRec5.open strSQLtimerReal, oConn, 3
                         while not oRec5.EOF

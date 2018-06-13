@@ -220,7 +220,7 @@ if len(trim(session("user"))) = 0 AND cint(nosession) = 0  then
 	    
 	   
         select case lto
-	    case "synergi1", "intranet - local"
+	    case "synergi1", "intranet - local", "mpt"
 	    jbprisinfo = 0
 
         case "dencker"
@@ -354,7 +354,8 @@ if len(trim(session("user"))) = 0 AND cint(nosession) = 0  then
 	        vedrinfo = "Budget"
             case "syngergi1"
             vedrinfo = "Prisoverslag"
-	       
+            case "mpt"
+	        vedrinfo = "Tilbud"
 	     case else
 	    
 	    if len(trim(request.cookies("job")("vedrinfo"))) <> 0 then
@@ -428,17 +429,26 @@ if len(trim(session("user"))) = 0 AND cint(nosession) = 0  then
 	    
         
         select case lto
-        case "synergi1", "intranet - local", "dencker"
+        case "synergi1", "intranet - local", "dencker", "xmpt"
 	    aktinfo_sum = 1
 
 	    case else
         
-            if len(trim(request.cookies("job")("aktinfo_sum"))) <> 0 then
-	        aktinfo_sum = request.cookies("job")("aktinfo_sum")
-	        else
-            aktinfo_sum = 0
-            end if
+            select case lto
+            case "mpt"
+
+                aktinfo_sum = 0
+
+            case else
+
+                if len(trim(request.cookies("job")("aktinfo_sum"))) <> 0 then
+	            aktinfo_sum = request.cookies("job")("aktinfo_sum")
+	            else
+                aktinfo_sum = 0
+                end if
         
+            end select
+
         end select
 
 	    
@@ -508,11 +518,19 @@ if len(trim(session("user"))) = 0 AND cint(nosession) = 0  then
 	
 	'end select
 
+    if len(trim(request("FM_visIAltEksMom"))) <> 0 then
+        visIAltEksMom = 1
+    else
+        visIAltEksMom = 0 
+    end if
+
     if len(trim(request("ulevinfo"))) <> 0 then
 	ulevinfo = request("ulevinfo")
 	else
 
         select case lto
+        case "mpt"
+        ulevinfo = 0
         case "synergi1", "intranet - local", "dencker"
 	    ulevinfo = 1
 	    case else
@@ -531,11 +549,18 @@ if len(trim(session("user"))) = 0 AND cint(nosession) = 0  then
 	ulevinfo_timer = request("ulevinfo_timer")
 	else
 	    
+        select case lto
+        case "mpt"
+        ulevinfo_timer = 0
+        case else
+
 	    if len(trim(request.cookies("job")("ulevinfo_timer"))) <> 0 then
 	    ulevinfo_timer = request.cookies("job")("ulevinfo_timer")
 	    else
 	    ulevinfo_timer = 1
 	    end if
+
+        end select
 	
 	end if
 	response.cookies("job")("ulevinfo_timer") = ulevinfo_timer
@@ -547,6 +572,8 @@ if len(trim(session("user"))) = 0 AND cint(nosession) = 0  then
          select case lto
          case "synergi1", "intranet - local"
 	     ulevinfo_priser = 0
+         case "mpt"
+         ulevinfo_priser = 0
          case else
                  if len(trim(request.cookies("job")("ulevinfo_priser"))) <> 0 then
 	            ulevinfo_priser = request.cookies("job")("ulevinfo_priser")
@@ -561,7 +588,7 @@ if len(trim(session("user"))) = 0 AND cint(nosession) = 0  then
 	response.cookies("job")("ulevinfo_priser") = ulevinfo_priser
 
 	
-     if len(trim(request("ulevinfo_sum"))) <> 0 then
+    if len(trim(request("ulevinfo_sum"))) <> 0 then
 	ulevinfo_sum = request("ulevinfo_sum")
 	else
 	    
@@ -573,6 +600,8 @@ if len(trim(session("user"))) = 0 AND cint(nosession) = 0  then
             select case lto
             case "synergi1", "intranet - local"
 	        ulevinfo_sum = 0
+            case "mpt"
+            ulevinfo_sum = 1
             case else
             ulevinfo_sum = 0 
             end select
@@ -668,6 +697,12 @@ if len(trim(session("user"))) = 0 AND cint(nosession) = 0  then
     '31 Rekvisition
 
 
+    if len(trim(request("FM_dokLang"))) <> 0 then
+    dokLang = request("FM_dokLang")
+    else 
+    dokLang = "1" 
+    end if
+    
 
 	'********* SLET SKABELON *******************
 	if func = "sletskabelon" then
@@ -1491,9 +1526,10 @@ if len(trim(session("user"))) = 0 AND cint(nosession) = 0  then
 
 
              case "dencker"
-             %>
-               
-               <%if media = "pdf" then 
+             
+                   
+                   
+                 if media = "pdf" then 
                
                 lft = 50 '20 '60
 	            tp = 150
@@ -1506,6 +1542,27 @@ if len(trim(session("user"))) = 0 AND cint(nosession) = 0  then
 	            tp = 150
                 sdWdt = 720
                 pageheight = 1169
+                
+               end if
+
+            case "mpt"
+
+
+                lft = 20
+	            tp = 50
+                pageheight = 1169
+
+                if media = "pdf" then 
+               
+              
+                sdWdt = 680
+               
+                
+                else 'print
+                
+           
+                sdWdt = 800
+           
                 
                end if
 
@@ -1732,6 +1789,14 @@ if len(trim(session("user"))) = 0 AND cint(nosession) = 0  then
         select case lto 
         case "synergi1"
         tblWdt = "605"
+        case "mpt"
+                if media = "pdf" then 
+                tblWdt = 680
+                
+                else
+                tblWdt = "100%"
+                
+                end if
         case else
 	    tblWdt = "100%"
        end select
@@ -1877,10 +1942,22 @@ if len(trim(session("user"))) = 0 AND cint(nosession) = 0  then
 		oRec.close
 
 
+        select case lto
+        case "mpt"
+        strkundeHTML = "<table cellspacing=0 cellpadding=0 border=0 width="""&tblWdt&"""><tr><td style=""width:500px;""><img alt='' src='https://timeout.cloud/timeout_xp/wwwroot/ver2_14/inc/upload/mpt/mpt_logo_3.jpg' /></td>"
+        strkundeHTML = strkundeHTML & "<td><span style=""color:#999999; font-size:11px; font-face:cg times;"">"
+        strkundeHTML = strkundeHTML & "MP Teknik Sp/f<br>"
+        strkundeHTML = strkundeHTML & "P.O. Box 312<br>"
+        strkundeHTML = strkundeHTML & "Klaksvíksvegur 12<br>"
+        strkundeHTML = strkundeHTML & "700 Klaksvík<br>"
+        strkundeHTML = strkundeHTML & "Faroe Islands<br>"
+        strkundeHTML = strkundeHTML & "Tlf. +298 459089<br>Fax +298 459088<br>www.mpt.fo"
+        strkundeHTML = strkundeHTML & "</span></td></tr>"
+        case else
+        strkundeHTML = "<br><table cellspacing=0 cellpadding=0 border=0 width="""&tblWdt&""">"
+        end select
 
-
-		
-		strkundeHTML = "<br><table cellspacing=0 cellpadding=0 border=0 width="""&tblWdt&"""><tr><td valign=top>"
+        strkundeHTML = strkundeHTML &"<tr><td valign=top>"
 		
 		'** Kunde / Modtager **'
 		
@@ -1909,6 +1986,8 @@ if len(trim(session("user"))) = 0 AND cint(nosession) = 0  then
 	    'wend
 	    'oRec.close 
 	    
+       
+
         strkundeHTML = strkundeHTML & "##header_adr##"
 	    
         select case lto
@@ -1918,6 +1997,9 @@ if len(trim(session("user"))) = 0 AND cint(nosession) = 0  then
         case "jttek"
         strkundeHTML = strkundeHTML & "<br><br>"
 	    strkundeHTML = strkundeHTML & afsBy &", d. ##header_dt## </td></tr></table>"
+        case "mpt"
+        strkundeHTML = strkundeHTML & "</td><td valign=bottom><br><br><br><br><br>"
+	    strkundeHTML = strkundeHTML & afsBy &", ##header_dt## </td></tr></table>"
         case else
 	    strkundeHTML = strkundeHTML & "</td><td valign=bottom align=right><br><br><br><br><br>"
 	    strkundeHTML = strkundeHTML & afsBy &", d. ##header_dt## </td></tr></table>"
@@ -1952,12 +2034,23 @@ if len(trim(session("user"))) = 0 AND cint(nosession) = 0  then
             end if
 
         vedrtxtval = vedrtxtval & "<b><br><br><br>"
+        case "mpt"
+            select case vedrinfo 
+            case "Tilbud" 
+            vedrinfo = "Viðv. "& strNavn & " ("&strjobnr&")"
+            case else
+             vedrinfo = vedrinfo
+            end select
+            vedrtxtval = "<br><b>"& vedrinfo &"</b><br><br>"
         case else
 		vedrtxtval = "<br><br><br><h4>"& vedrinfo &"</h4><b>"
         end select
 
 
         select case lto
+        case "mpt"
+                  strJobHTML = strJobHTML & vedrtxtval 
+
         case "essens"
                 
                   if vedrinfo = "Rekvisition" then
@@ -1994,7 +2087,7 @@ if len(trim(session("user"))) = 0 AND cint(nosession) = 0  then
 	    select case vedrinfo
 	    case "Job"
 	    jSel = "SELECTED"
-	    case "Tilbud"
+	    case "Tilbud", "Viðv."
 	    tSel = "SELECTED"
 	    case "Rekvisition"
 	    rSel = "SELECTED"
@@ -2027,26 +2120,37 @@ if len(trim(session("user"))) = 0 AND cint(nosession) = 0  then
             select case lto
             case "synergi1"
             strJobHTML = strJobHTML & "<br><br><br>"& strBesk & "<br><br>"
+            case "mpt"
+            strJobHTML = strJobHTML '& "<br><br><br>"& strBesk & "<br><br>"
             case else
 		    strJobHTML = strJobHTML & "<br><br><b>Beskrivelse:</b><br>"& strBesk & "<br><br>"
 		    end select
         end if
 		
-		call htmlparseCSV(strBesk)
-        strBesk = htmlparseCSVtxt
-		strChkjobHTML = strChkjobHTML & "<br><span style=""color:#999999;""><i>"& left(strBesk, 100) & "...</i></span><br>"
-		
+        select case lto
+        case "xmtp"
+        case else
+		    call htmlparseCSV(strBesk)
+            strBesk = htmlparseCSVtxt
+		    strChkjobHTML = strChkjobHTML & "<br><span style=""color:#999999;""><i>"& left(strBesk, 100) & "...</i></span><br>"
+		end select
 		
 		'if lto <> "wowern" then
         select case lto
         case "synergi1"
         strJobPrisHTML = strJobPrisHTML & "<table cellspacing=0 cellpadding=0 border=0 width="""&tblWdt&"""><tr><td><u>Prisoverslag</u><br>  "& valExtCode &" "& formatnumber(strBudget, 2) &"</td></tr></table><br>"
+		case "mpt"
+        strJobPrisHTML = strJobPrisHTML & "<table cellspacing=0 cellpadding=2 border=0 width=""100%"" ><tr><td align=right><u>Samlaður prísur uttan MVG, <b> "& valExtCode &" "& formatnumber(strBudget, 2) &"</b></u></td></tr></table><br>"
 		case else
 		strJobPrisHTML = strJobPrisHTML & "<table cellspacing=0 cellpadding=0 border=0 width="""&tblWdt&"""><tr><td align=right><u>Samlet pris ekskl. moms, <b> "& valExtCode &" "& formatnumber(strBudget, 2) &"</b></u></td></tr></table><br>"
 		end select
 		
 		'if prodtilbud = 2 then
 		
+        select case lto
+        case "mpt"
+        case else
+
 		    if len(trim(jobans1)) <> 0 then
 		    strJobInfoHTML = strJobInfoHTML & "<b>Jobansvarlig / vor. ref.:</b> " & jobans1 & "<br>"
             end if  
@@ -2056,11 +2160,13 @@ if len(trim(session("user"))) = 0 AND cint(nosession) = 0  then
             end if   
         
 		strJobInfoHTML = strJobInfoHTML & "<br><b>Periode:<br></b>Arbejdet forventes udført i perioden "& formatdatetime(strTdato, 1) &" - "& formatdatetime(strUdato, 1) & "<br><br>&nbsp;"
-		'end if
+		
+        end select     
+       'end if
 
-        '*****************
-        '** header_adr ***
-        '*****************
+        '***********************************
+        '** KUNDE MODTAGER header_adr ***
+        '***********************************
 
         '*** Hvis
         '*** Rekvisition / Følgeseddel
@@ -2077,8 +2183,9 @@ if len(trim(session("user"))) = 0 AND cint(nosession) = 0  then
         oRec3.open strSQLk, oConn, 3
         if not oRec3.EOF then
 
+       
         strHeader_adrHTML = oRec3("navn") &"<br>" & oRec3("adresse") & "<br>" & oRec3("postnr") & " " & oRec3("town")
-
+       
         if oRec3("land") <> "Danmark" then
         strHeader_adrHTML = strHeader_adrHTML & "<br>"& oRec3("land")
         end if
@@ -2098,7 +2205,13 @@ if len(trim(session("user"))) = 0 AND cint(nosession) = 0  then
         oRec3.open strSQLk, oConn, 3
         if not oRec3.EOF then
 
+        select case lto 
+        case "mpt"
+        strHeader_adrHTML = "<br><br><br>"& oRec3("kkundenavn") &"<br>" & oRec3("adresse") & "<br>" & oRec3("postnr") & " " & oRec3("city")
+        case else
         strHeader_adrHTML =  oRec3("kkundenavn") &"<br>" & oRec3("adresse") & "<br>" & oRec3("postnr") & " " & oRec3("city")
+        end select
+
 
         if oRec3("land") <> "Danmark" then
         strHeader_adrHTML = strHeader_adrHTML & "<br>"& oRec3("land")
@@ -2202,7 +2315,12 @@ if len(trim(session("user"))) = 0 AND cint(nosession) = 0  then
         case else
             
             if vlgAkt <> "1" AND vlgAkt <> "-1" then '0:Vis alle  'AND vlgAkt <> "-1" then
+            select case lto
+            case "mpt"
+            strAktHTML = "<br><br><b>Arbeiðsløn</b>"
+            case else
             strAktHTML = "<br><br><b>Udspecificering:</b>"
+            end select
             end if
         
         end select
@@ -2211,7 +2329,7 @@ if len(trim(session("user"))) = 0 AND cint(nosession) = 0  then
         
 
            select case lto 
-            case "dencker", "jttek"
+            case "dencker", "jttek", "mpt"
             strAktHTML = strAktHTML & "<table cellspacing=0 cellpadding=2 border=0 width="""&tblWdt&""">"
             case else
             strAktHTML = strAktHTML & "##job_besk##<table cellspacing=0 cellpadding=2 border=0 width="""&tblWdt&""">"
@@ -2493,6 +2611,7 @@ if len(trim(session("user"))) = 0 AND cint(nosession) = 0  then
 				            
             	    end if
 				
+                a = a + 1
 				end if
 				
 				
@@ -2520,7 +2639,7 @@ if len(trim(session("user"))) = 0 AND cint(nosession) = 0  then
                 strAktHTML = strAktHTML & "</tr>"
                 end if
 					     
-			a = a + 1
+			
 			af = af + 1	
 		
 			oRec.movenext
@@ -2530,7 +2649,7 @@ if len(trim(session("user"))) = 0 AND cint(nosession) = 0  then
 			if aktinfo_priser = "0" then
 			
 			        '*** Sum tot. på fase ***'
-				    if a <> 0 AND sumTotFase <> 0 then
+				    if a > 1 AND sumTotFase <> 0 then
 				     strAktHTML = strAktHTML & "<tr><td colspan="&cpsF&"><span class=""jobpr16""><b>I alt:</b></span></td><td align=right valign=top style=""width:40px;""><span class=""jobpr18""><b>"& valExtCode &"</b></span></td><td align=right valign=top style=""width:80px;""><span class=""jobpr18""><b>"&formatnumber(sumTotFase, 2)&"</b></span></td></tr>"
 				    sumTotFase = 0
 				    end if
@@ -2545,13 +2664,15 @@ if len(trim(session("user"))) = 0 AND cint(nosession) = 0  then
 			end if
 			        
                     if aktinfo_sum = "0" then
-			        strAktHTML = strAktHTML & "<tr><td colspan="& cspanFull &" align=right style=""padding-top:40px; width:"&tblWdt&"px; padding-right:"&pdright&";""><span class=""jobpr18"">I alt ekskl. moms, <b>"& valExtCode &" "& formatnumber(aktbudgetTot, 2) &"</b></span></td></tr>"        
-			        end if
+                        if visIAltEksMom <> 0 then
+			                strAktHTML = strAktHTML & "<tr><td colspan="& cspanFull &" align=right style=""padding-top:40px; width:"&tblWdt&"px; padding-right:"&pdright&";""><span class=""jobpr18"">I alt ekskl. moms, <b>"& valExtCode &" "& formatnumber(aktbudgetTot, 2) &"</b></span></td></tr>"        
+			            end if
+                    end if
 			
 			strAktHTML = strAktHTML & "</table>"
             
             select case lto 
-            case "dencker", "jttek"
+            case "dencker", "jttek", "mpt"
             case else
             strAktHTML = strAktHTML & "##job_besk_slut##"
             end select
@@ -2608,6 +2729,8 @@ if len(trim(session("user"))) = 0 AND cint(nosession) = 0  then
             select case lto 
             case "synergi1", "intranet - local"
             strUlevHTML = "<table cellspacing=0 cellpadding=2 border=0 width="&tblWdt&">"
+            case "mpt"
+            strUlevHTML = "<b>Tilfar</b><table cellspacing=0 cellpadding=2 border=0 width="&tblWdt&">"
             case else
             strUlevHTML = "<b>Omkostninger</b><table cellspacing=0 cellpadding=2 border=0 width="&tblWdt&">"
             end select
@@ -2620,7 +2743,7 @@ if len(trim(session("user"))) = 0 AND cint(nosession) = 0  then
 		     &"</td></tr>"
 		
 		        strSQLUlev = "SELECT ju_id, ju_navn, ju_ipris, ju_faktor, "_
-		        &" ju_belob, ju_fase, ju_stk, ju_stkpris FROM job_ulev_ju WHERE ju_jobid = "& id  & " ORDER BY ju_navn "
+		        &" ju_belob, ju_fase, ju_stk, ju_stkpris FROM job_ulev_ju WHERE ju_jobid = "& id  & " ORDER BY ju_id "
 		        oRec.open strSQLUlev, oConn, 3 
 		        x = 0
 		        while not oRec.EOF 
@@ -2651,7 +2774,7 @@ if len(trim(session("user"))) = 0 AND cint(nosession) = 0  then
                 
                 
                 '** CHKbokse
-				if instr(vlgUlev, "#"& oRec("ju_id") &"#") <> 0 OR (vlgUlev = "-1" AND (ulevbudgetsum <> 0 OR lto = "synergi1")) then
+				if instr(vlgUlev, "#"& oRec("ju_id") &"#") <> 0 OR (vlgUlev = "-1" AND (ulevbudgetsum <> 0 OR lto = "synergi1" OR lto = "mpt")) then
 				ulCHK = "CHECKED"
 				else
 				ulCHK = ""
@@ -2668,7 +2791,7 @@ if len(trim(session("user"))) = 0 AND cint(nosession) = 0  then
 				      '*** vlgUlev = "-1" = alle ? 
 				    if instr(vlgUlev, "#"& oRec("ju_id") &"#") <> 0 OR (vlgUlev = "-1" AND (ulevbudgetsum <> 0 OR lto = "synergi1")) then 
     				
-				            strUlevHTML = strUlevHTML & "<td align=right valign=top style=""padding-right:40px;""><span class=""jobpr16"">"& formatnumber(oRec("ju_stk"), 2) 
+				            strUlevHTML = strUlevHTML & "<td align=right valign=top style=""padding-right:40px; white-space:nowrap;""><span class=""jobpr16"">"& formatnumber(oRec("ju_stk"), 2) & " Stk."
             
                             select case lto 
                             case "dencker"
@@ -2738,7 +2861,14 @@ if len(trim(session("user"))) = 0 AND cint(nosession) = 0  then
         &"Priser må betragtes som budgetramme, da opgaven endnu ikke kendes i detaljer.<br><br>"_
         &"Alle priser er inkl. levering til én adresse i Danmark og ekskl. moms.<br><br>"_
         &"Vi henviser iøvrigt til vores salgs og leveringsbetingelser på<br>"_
-        &"www.syngergi1.dk/salg_levering</td></tr></table><br><br>"        
+        &"www.syngergi1.dk/salg_levering</td></tr></table><br><br>"    
+            
+        case "xmpt"
+        strHilsenHTML = strHilsenHTML &"<br><br><br><br><table cellspacing=0 cellpadding=0 border=0 width=""100%""><tr><td style=""padding-top:10px; color:#999999;"">"_
+        &"Priser må betragtes som budgetramme, da opgaven endnu ikke kendes i detaljer.<br><br>"_
+        &"Alle priser er inkl. levering til én adresse i Danmark og ekskl. moms.<br><br>"_
+        &"Vi henviser iøvrigt til vores salgs og leveringsbetingelser på<br>"_
+        &"MP Teknik/salg_levering</td></tr></table><br><br>"       
 		
         case "dencker", "intranet - local", "jttek"
         strHilsenHTMLst = "<table cellspacing=0 cellpadding=2 border=0 width=""100%"">"_
@@ -2769,9 +2899,13 @@ if len(trim(session("user"))) = 0 AND cint(nosession) = 0  then
         end select
 
 
+        select case lto
+        case "mpt"
+        strHilsenHTML = strHilsenHTML &"<br><br><br><table cellspacing=0 cellpadding=0 border=0 width=""100%""><tr><td style=""padding-top:10px;"">Vinarliga<br><br><b>"& afsKnavn &"</b><br><i>"& afsenderName &"</i></td></tr></table>"        
+	    case else
 		strHilsenHTML = strHilsenHTML &"<table cellspacing=0 cellpadding=0 border=0 width=""100%""><tr><td style=""padding-top:10px;"">Med venlig hilsen <br>"& afsKnavn &"<br><br>"& afsenderName &"</td></tr></table>"        
-		
-              
+		end select
+            
 		
 		'end if
 		
@@ -2820,7 +2954,7 @@ if len(trim(session("user"))) = 0 AND cint(nosession) = 0  then
                     Det er muligt at skifte status på jobbet her.<br /> 
                     <select id="jobstatus">
                         <%select case lto
-                       case "dencker", "intranet - local", "jttek"
+                       case "dencker", "intranet - local", "jttek", "mpt"
                             
                        case else %>
                    <option value="<%=nejtakval %>">Nej Tak - videre..</option>
@@ -3184,7 +3318,7 @@ if len(trim(session("user"))) = 0 AND cint(nosession) = 0  then
 
                     
                   
-                    <br />Type:<br /><select name="FM_doktype" id="doktype">
+                    <br />Type:&nbsp;<select name="FM_doktype" id="doktype">
                     <option value="10" <%=dokType10CHK %>>Dokument</option>
                     <option value="11" <%=dokType11CHK %>>Skabelon</option>
                         <!-- Der Bruges Overskrifter fra dataflet istedet
@@ -3195,6 +3329,9 @@ if len(trim(session("user"))) = 0 AND cint(nosession) = 0  then
                     <option value="31" <%=dokType31CHK %>>Rekvisition</option>
                         -->
                          </select>
+                       
+
+                          
                           <br /><br />
 
                             <!--
@@ -3464,7 +3601,13 @@ if len(trim(session("user"))) = 0 AND cint(nosession) = 0  then
                         strkundeHTMLedit = replace(strkundeHTMLedit, "##header_dt##", formatdatetime(date(), 1))
                         
 		                
-	                    content = strkundeHTMLedit & strJobHTMLedit  & jbperansinfoHTMLedit & aktinfoHTMLedit & ulevinfoHTMLedit & strJobPrisHTMLedit & mileinfoHTMLedit & strHilsenHTML
+                            select case lto
+                            case "mpt"
+                            content = strkundeHTMLedit & strJobHTMLedit & jbperansinfoHTMLedit & aktinfoHTMLedit & ulevinfoHTMLedit & strJobPrisHTMLedit & mileinfoHTMLedit & strHilsenHTML
+                            case else
+                            content = strkundeHTMLedit & strJobHTMLedit & jbperansinfoHTMLedit & aktinfoHTMLedit & ulevinfoHTMLedit & strJobPrisHTMLedit & mileinfoHTMLedit & strHilsenHTML
+                            end select
+	                    
             			
                         if cint(flet) = 1 then
                                
@@ -3537,7 +3680,7 @@ if len(trim(session("user"))) = 0 AND cint(nosession) = 0  then
                                    dokTxtRplc = htmlparseTxt 'htmlparseCSVtxt
 
                                    %>
-                                   <div id="div_fltbrodtxt" style="position:absolute; background-color:#FFFFFF; padding:20px; top:550px; left:400px; width:550px; height:300px; border:10px #6CAE1C solid; z-index:500;">
+                                   <div id="div_fltbrodtxt" style="position:absolute; background-color:#FFFFFF; padding:20px; top:500px; left:400px; width:550px; height:300px; border:10px #6CAE1C solid; z-index:500;">
                                    Brødtekst fra det dokument du ønsker at flette fra.<br />
                                    <b> Kopier og sæt ind hvor det passer i teksten:</b>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#" id="a_fltbrodtxt" class=red>[Luk]</a><br /><br />
                                    <span style="width:510px; height:200px; border:1px #CCCCCC solid; padding:5px; overflow:auto;"><%=dokTxtRplc %></span>
@@ -3794,7 +3937,7 @@ if len(trim(session("user"))) = 0 AND cint(nosession) = 0  then
 		               jbprisinfoCHK1 = "CHECKED"
 		               end if %>
 		               <br /><br /><br />
-		                <b style="background-color:#D6dff5;"><u>Vis samletpris, stor</u></b>
+		                <b style="background-color:#D6dff5;"><u>Vis samlet pris, stor</u></b>
 		                   <input id="Radio2" type="radio" name="jbprisinfo" value="0" <%=jbprisinfoCHK0 %> /> ja <input id="Radio4" name="jbprisinfo" type="radio" value="1" <%=jbprisinfoCHK1 %> /> nej
                             <hr />
 		               <%=strJobPrisHTML%>
@@ -3864,6 +4007,22 @@ if len(trim(session("user"))) = 0 AND cint(nosession) = 0  then
 		                
 		                <%=strHilsenHTML %>
 		                
+
+
+
+                        <br /><br />
+                        <b>Vis I alt ekskl. moms</b>
+                        <%
+                            select case visIAltEksMom
+                            case 1
+                            visIAltEksMom_checked = "CHECKED"
+                            case else
+                            visIAltEksMom_checked = ""
+                            end select
+                        %>
+                        <input type="checkbox" name="FM_visIAltEksMom" <%=visIAltEksMom_checked %> />
+
+
 		                <!-- filteros09 slut -->
 		                </td>
 		                </tr>
@@ -3875,6 +4034,34 @@ if len(trim(session("user"))) = 0 AND cint(nosession) = 0  then
 		                 <tr><td> <br />
                          <input id="Checkbox4" type="radio" name="FM_flet" value="1" <%=fletCHK1 %> /> Flet skabelon med ovenstående datavalg.<br />
                          <input id="Radio11" type="radio" name="FM_flet" value="2" <%=fletCHK2 %> /> Indlæs jobdata igen med ovenstående datavalg.
+
+                               <%
+
+                                dokLang1CHK = ""
+                                dokLang2CHK = ""
+                                dokLang3CHK = ""
+                                dokLang4CHK = ""
+
+                                select case dokLang
+                                case "1"
+                                dokLang1CHK = "SELECTED"
+                                case "2"
+                                dokLang2CHK = "SELECTED"
+                                case "3"
+                                dokLang3CHK = "SELECTED"
+                                 case "4"
+                                dokLang4CHK = "SELECTED"
+                                end select
+                                
+                            %>
+
+                             <br /><br />&nbsp;&nbsp;Sprog:&nbsp;<select name="FM_dokLang">
+                        <option value="1" <%=dokLang1CHK %>>Dansk</option>
+                        <option value="2" <%=dokLang2CHK %>>Engelsk</option>
+                         <option value="3" <%=dokLang3CHK %>>Norsk</option>
+                        <option value="4" <%=dokLang4CHK %>>Færøsk</option>
+                         </select><br />
+
                          <!--<input id="Radio14" type="radio" name="FM_flet" value="3" <%=fletCHK3 %> /> Flet dokument med ovenstående datavalg (beholder brødteskt fra dok.) --></td></tr>
                          <tr>
                          <td align=center><br />
@@ -3892,8 +4079,7 @@ if len(trim(session("user"))) = 0 AND cint(nosession) = 0  then
                    
                     </table>
                    
-                   
-                    
+                      
                     <br /><br /><br />&nbsp;
                     
                 <%end if 'id <> 0 %>   

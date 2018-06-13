@@ -533,8 +533,8 @@ function alttimepris(useaktid, intjobid, strMnr, upd)
 							foundone = "n"
 							strSQL = "SELECT id AS tpid, jobid, aktid, medarbid, timeprisalt, 6timepris, 6valuta FROM timepriser WHERE jobid = "& intjobid &" AND aktid = "& useaktid &" AND medarbid =  "& strMnr
 							
-                            'if session("mid") = 1 AND strMnr = 16 then
-                            'Response.Write "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"& strSQL & "<br>"
+                            'if session("mid") = 1 then
+                            'Response.Write "<br>SQL;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"& strSQL & "<br>"
                             'Response.flush	
 						    'end if
     
@@ -1025,5 +1025,45 @@ sub updateTimer
 end sub
 
 
+public timerRound15
+function timerRound15_fn(timerthis15)
+
+    if instr(timerthis15, ".") <> 0 then
+    instr_timerthis15 = instr(timerthis15, ".") 
+    len_timerthis15 = len(timerthis15)
+    right_timerthis15 = mid(timerthis15, instr_timerthis15+1, len_timerthis15)
+    
+    if len(right_timerthis15) < 2 then
+    right_timerthis15 = right_timerthis15&"0"
+    end if
+    right_timerthis15 = left(right_timerthis15,2)
+    'right_timerthis15 = right(right_timerthis15, 2)
+
+
+    if cdbl(right_timerthis15) > 0 AND cdbl(right_timerthis15) <= 25 then
+    left_timerthis15 = mid(timerthis15, 1, instr_timerthis15-1)
+    timerRound15 = left_timerthis15&".25"  
+    end if
+
+     if cdbl(right_timerthis15) > 25 AND cdbl(right_timerthis15) <= 50 then
+    left_timerthis15 = mid(timerthis15, 1, instr_timerthis15-1)
+    timerRound15 = left_timerthis15&".50"  
+    end if
+
+      if cdbl(right_timerthis15) > 50 AND cdbl(right_timerthis15) <= 75 then
+    left_timerthis15 = mid(timerthis15, 1, instr_timerthis15-1)
+    timerRound15 = left_timerthis15&".75"  
+    end if
+
+    if cdbl(right_timerthis15) > 75 then
+    timerRound15 = replace(timerthis15, ".",",")
+    timerRound15 = round(timerthis15)
+    end if
+
+    else
+    timerRound15 = timerthis15
+    end if
+
+end function
 
    %>

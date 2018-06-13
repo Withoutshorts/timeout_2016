@@ -322,7 +322,7 @@
                
                        <tbody>
                            <tr>
-                               <td><a href="medarb.asp?func=red&id=<%=oRec("Mid") %>"><%=oRec("Mnavn")%> 
+                               <td><a href="medarb.asp?func=red&id=<%=oRec("Mid") %>" target="_blank"><%=oRec("Mnavn")%> 
                                    <% 
                                     if len(trim(oRec("init"))) <> 0 then
                                     %>
@@ -443,7 +443,7 @@
              
                     <tbody>
                    <tr>
-                       <td><a href="medarb.asp?func=red&id=<%=oRec("Mid") %>"><%=oRec("Mnavn")%>
+                       <td><a href="medarb.asp?func=red&id=<%=oRec("Mid") %>" target="_blank"><%=oRec("Mnavn")%>
                            <% 
                             if len(trim(oRec("init"))) <> 0 then
                             %>
@@ -923,11 +923,14 @@ case else
 
                        </td>
                             <td>
-                                <%if cint(oRec("orgvir")) = 1 then 'ORGANI
+                                <%select case cint(oRec("orgvir")) 
+                                 case 1 'ORGANI
                                  orgVir = "Organisatorisk"   
-                                 else
+                                 case 2 'HR
+                                 orgVir = "HR"   
+                                 case else
                                  orgVir = "Virtuel"   
-                                 end if %>
+                                 end select %>
 
                                 <%=orgVir %>
 

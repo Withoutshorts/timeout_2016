@@ -191,14 +191,22 @@ if len(session("user")) = 0 then
 
     call menu_2014()
 
-	pleft = 90
-	ptop = 82
-	'ptopgrafik = 348
 
+    select case lto
+    case "tia"
+        pleft = 90
+	ptop = 82
+    case else
+        pleft = 90
+	ptop = 82
+    end select
+	
+	
+    'ptopgrafik = 348
     tkMinusDage = 40 '31 '65
 
  	%>	
-	<div id="Div1" style="position:absolute; left:<%=pleft%>; top:<%=ptop%>; visibility:visible;">
+	<div id="Div1" style="position:absolute; left:<%=pleft%>px; top:<%=ptop%>px; visibility:visible;">
 	
 	
 	<%
@@ -225,12 +233,72 @@ if len(session("user")) = 0 then
 
 
         'oimg = "icon_band_aid.png"
-	oleft = 0
+	
+
+
+    select case lto
+    case "tia"
+
+    oleft = 0
+	otop = 0
+	owdt = 400
+	oskrift = "Errors export TimeOut --> NAV"
+	
+	call sideoverskrift_2014(oleft, otop, owdt, oskrift)
+
+        %><br /><br /><br /><br /><br /><br />
+        <table cellspacing=1 cellpadding=2 border=0 width=100%>
+           
+             <tr>
+                    
+                    <th>Jobnr</th>
+                    <th>Activity name</th>
+                    <th>Task no.</th>
+                    <th>Employee</th>
+                    <th>Date</th>
+                    <th style="text-align:right;">Hours</th>
+
+                </tr>
+
+            <%
+        strSQLmedins = "SELECT tid, timer, m.init, tdato, tjobnr, a.avarenr, timerkom, tmnr, taktivitetnavn, tmnavn "
+        strSQLmedins = strSQLmedins & "FROM timer AS t "
+        strSQLmedins = strSQLmedins & "LEFT JOIN medarbejdere AS m ON (m.mid = t.tmnr) "
+        strSQLmedins = strSQLmedins & "LEFT JOIN aktiviteter AS a ON (a.id = t.taktivitetid) "
+        strSQLmedins = strSQLmedins & "WHERE tdato BETWEEN '2017-08-01' AND '2044-12-31' AND overfort = 2 AND timer <> 0 AND tfaktim <> '90' ORDER BY tdato, tjobnr, taktivitetnavn, tmnavn LIMIT 1000" ' AND avarenr <> '' AND avarenr IS NOT NULL ORDER BY tid "
+         
+        oRec.open strSQLmedins, oConn, 3
+        while not oRec.EOF 
+                
+                %>
+                <tr>
+                    <td><%=oRec("tjobnr") %></td>
+                    <td><%=oRec("taktivitetnavn") %></td>
+                    <td><%=oRec("avarenr") %></td>
+                    <td><%=oRec("tmnavn") %></td>
+                    <td><%=oRec("tdato") %></td>
+                    <td style="text-align:right;"><%=oRec("timer") %></td>
+
+                </tr>
+
+                <%
+        oRec.movenext
+        wend 
+        oRec.close
+        %>
+
+        </table>
+        <%
+
+    case else
+
+            oleft = 0
 	otop = 0
 	owdt = 400
 	oskrift = "Timer Import Errors (sen. "& tkMinusDage &" dage +)"
 	
 	call sideoverskrift_2014(oleft, otop, owdt, oskrift)
+
 
     %>
 
@@ -416,12 +484,15 @@ if len(session("user")) = 0 then
     
     </form>
 
+    <%end select %>
+
 
 
 	
      </div><!-- table div -->
 
      </div><!-- side div -->
+      <br /><br /><br /><br />&nbsp;
 
 
      <%if origin = "1" then %>

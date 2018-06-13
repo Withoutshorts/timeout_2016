@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<sprog>
+
+  <!--- Dansk -->
+  <dk>
+
+    <txt_1 >Medarbejder</txt_1>
+    <txt_2 >Init</txt_2>
+    <txt_3 >Ansatdato</txt_3>
+    <txt_4 >Uger/Måneder</txt_4>
+    <txt_5 >Periode afgrænsning</txt_5>
+    <txt_6 >År</txt_6>
+    <txt_7>Smiley ordningen bliver nulstillet hvert år 1.1</txt_7>
+    <txt_8>Vis</txt_8>
+    <txt_9>Print version</txt_9>
+    <txt_10>.csv fil eksport</txt_10>
+
+  </dk>
+
+
+  <!--- Norsk -->
+  <no>
+
+    <txt_1 >Employee</txt_1>
+    <txt_2 >Init</txt_2>
+    <txt_3 >Employed</txt_3>
+    <txt_4 >Weeks/Months</txt_4>
+    <txt_5 >Period</txt_5>
+    <txt_6 >Year</txt_6>
+    <txt_7>The smiley scheme will be reset every year 1.1</txt_7>
+    <txt_8>Show</txt_8>
+    <txt_9>Print version</txt_9>
+    <txt_10>.csv file export</txt_10>
+
+  </no>
+
+
+  <!--- Svensk -->
+  <so>
+
+    <txt_1 >Employee</txt_1>
+    <txt_2 >Init</txt_2>
+    <txt_3 >Employed</txt_3>
+    <txt_4 >Weeks/Months</txt_4>
+    <txt_5 >Period</txt_5>
+    <txt_6 >Year</txt_6>
+    <txt_7>The smiley scheme will be reset every year 1.1</txt_7>
+    <txt_8>Show</txt_8>
+    <txt_9>Print version</txt_9>
+    <txt_10>.csv file export</txt_10>
+    
+  </so>
+
+
+  <!--- Tysk -->
+  <de>
+
+    <txt_1 >Employee</txt_1>
+    <txt_2 >Init</txt_2>
+    <txt_3 >Employed</txt_3>
+    <txt_4 >Weeks/Months</txt_4>
+    <txt_5 >Period</txt_5>
+    <txt_6 >Year</txt_6>
+    <txt_7>The smiley scheme will be reset every year 1.1</txt_7>
+    <txt_8>Show</txt_8>
+    <txt_9>Print version</txt_9>
+    <txt_10>.csv file export</txt_10>
+    
+  </de>
+
+
+  <!--- Fransk -->
+  <fr>
+
+    <txt_1 >Employee</txt_1>
+    <txt_2 >Init</txt_2>
+    <txt_3 >Employed</txt_3>
+    <txt_4 >Weeks/Months</txt_4>
+    <txt_5 >Period</txt_5>
+    <txt_6 >Year</txt_6>
+    <txt_7>The smiley scheme will be reset every year 1.1</txt_7>
+    <txt_8>Show</txt_8>
+    <txt_9>Print version</txt_9>
+    <txt_10>.csv file export</txt_10>
+
+  </fr>
+
+
+
+  <!-- Engelsk -->
+  <uk>
+
+    <txt_1 >Employee</txt_1>
+    <txt_2 >Init</txt_2>
+    <txt_3 >Employed</txt_3>
+    <txt_4 >Weeks/Months</txt_4>
+    <txt_5 >Period</txt_5>
+    <txt_6 >Year</txt_6>
+    <txt_7>The smiley scheme will be reset every year 1.1</txt_7>
+    <txt_8>Show</txt_8>
+    <txt_9>Print version</txt_9>
+    <txt_10>.csv file export</txt_10>
+
+  </uk>
+
+
+  <!--- Spansk -->
+  <es>
+
+    <txt_1 >Employee</txt_1>
+    <txt_2 >Init</txt_2>
+    <txt_3 >Employed</txt_3>
+    <txt_4 >Weeks/Months</txt_4>
+    <txt_5 >Period</txt_5>
+    <txt_6 >Year</txt_6>
+    <txt_7>The smiley scheme will be reset every year 1.1</txt_7>
+    <txt_8>Show</txt_8>
+    <txt_9>Print version</txt_9>
+    <txt_10>.csv file export</txt_10>
+    
+  </es>
+
+
+</sprog>

@@ -354,6 +354,12 @@ end function
 	    '**** Finder aktuel kurs ***'
        dblKurs = 100
 
+        if cint(intValuta) <> 0 then
+        intValuta = intValuta
+        else
+        intValuta = 1
+        end if
+
        strSQL = "SELECT kurs FROM valutaer WHERE id = " & intValuta
        oRec.open strSQL, oConn, 3
        if not oRec.EOF then

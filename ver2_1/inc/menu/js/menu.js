@@ -35,6 +35,7 @@ $(document).ready(function () {
     $("#luk_menuslider").click(function () {
 
         $(".menu-slider").css("left", "-240px");
+        $("#FM_progrp").css("z-index", "1")
         
     });
     
@@ -58,6 +59,18 @@ $(document).ready(function () {
         $("#ul_menu-slider-" + menuid).css("visibility", "visible");
         $("#ul_menu-slider-" + menuid).show(100);
 
+        //$("#FM_progrp").css("z-index", "-1")
+        //$("#FM_progrp").css("display", "");
+        //$("#FM_progrp").css("visibility", "visible");
+        $("#FM_progrp").hide(10);
+
+        
+        $("#FM_progrp").css("display", "");
+        $("#FM_progrp").css("visibility", "visible");
+        $("#FM_progrp").show(10);
+        //$("#FM_progrp").css("z-index", "1")
+
+
         }
 
     });
@@ -68,12 +81,12 @@ $(document).ready(function () {
         $(".menupkt_n2").hide("fast");
         $(".menu-slider").css("left", "-240px");
 
-
+        $("#FM_progrp").css("z-index", "1")
 
     });
 
     
-
+   
 
 });
 

@@ -156,6 +156,13 @@ session("spmettanigol") = session("spmettanigol") + request("attempt")
 	'pixTop = 40
 	'tboxsize = 100
 
+
+                if lto = "cflow" then
+                    
+                    response.redirect "https://timeout.cloud/timeout_xp/wwwroot/ver2_14/to_2015/monitor.asp?func=startside"
+                
+                end if
+
   
 		
 			    if request.Cookies("timeoutcloud")("mobileuser") <> "" AND (lto = "sdutek")  then 'SKAL KUN VÆRE DEM DER IKKE SKAL LOGGE PÅ IGEN = sdutek 
@@ -617,11 +624,11 @@ else '** POST *****
 		if stransatkunde = "1" then
 		'DECODE(
             if cint(hostPw) = 1 then
-            strSQL = "SELECT m.mansat, m.mnavn, b.rettigheder, m.mid, m.tsacrm, m.pw, m.timereg FROM medarbejdere m, brugergrupper b WHERE "_
+            strSQL = "SELECT m.mansat, m.mnavn, b.rettigheder, m.mid, m.tsacrm, m.pw, m.timereg, med_lincensindehaver FROM medarbejdere m, brugergrupper b WHERE "_
 		    &" login = '"& trim(varLogin)&"' AND (mansat <> 2 AND mansat <> 3) AND b.id = m.brugergruppe"
 		    
             else
-		    strSQL = "SELECT m.mansat, m.mnavn, b.rettigheder, m.mid, m.tsacrm, m.pw, m.timereg FROM medarbejdere m, brugergrupper b WHERE "_
+		    strSQL = "SELECT m.mansat, m.mnavn, b.rettigheder, m.mid, m.tsacrm, m.pw, m.timereg, med_lincensindehaver FROM medarbejdere m, brugergrupper b WHERE "_
 		    &" login = '"& trim(varLogin)&"' AND (mansat <> 2 AND mansat <> 3) AND m.pw = MD5('"& trim(Request.Form("pw")) &"') AND b.id = m.brugergruppe"
 		    end if
 
@@ -649,7 +656,7 @@ else '** POST *****
 			            session("login") = strUsrId
 			            session("mid") = strUsrId
 			            session("rettigheder") = oRec("rettigheder")
-
+                        session("med_lincensindehaver") = oRec("med_lincensindehaver")
                         
                             '**** Sætter mobile cookies("") til at forblive logget ind på mobil *****
                             response.Cookies("timeoutcloud")("mobilemid") = session("mid") 
@@ -688,7 +695,7 @@ else '** POST *****
 			            '*******************************************************************************************'
             		
             		
-            		
+            
             		
             		
             		
@@ -837,7 +844,7 @@ else '** POST *****
                datepart("d", session("strLastlogin"), 2,2) <> 18) OR (datepart("d", now, 2,2) = 27 AND datepart("d", session("strLastlogin"), 2,2) <> 27)) then
                    select case lto
                    case "xx"
-                   case "dencker", "epi", "epi_no", "epi_sta", "epi_ab", "epi2017"
+                   case "xdencker", "epi", "epi_no", "epi_sta", "epi_ab", "epi2017"
                    call timer_konsolider(lto,0)
                    case "xintranet - local", "xoutz"
                    call timer_konsolider(lto,0)
@@ -846,132 +853,28 @@ else '** POST *****
 
             
 
+               '*** Autoudfylder Easyreg timer'***
+                if lto = "dencker" OR lto = "intranet - local" then
+                call showEasyreg_fn()
+                if session("rettigheder") = 1 AND cint(showEasyreg_val) = 1 then
+
+                    %>
+                    <!--#include file="timereg/inc/convertDate.asp"-->
+                    <!--#include file="timereg/inc/timereg_akt_2006_inc.asp"--><%
+                
+                    'if session("mid") = 21 then
+                    call indlaesEasyreg(lto)
+                    'end if
+
+                    'response.write "EAY SLUT"
+                    'response.end
+
+                end if
+                end if
+                
+
                '*** Indlæser tillæg fra AVI DK
-               if ((session("mid") = 1 OR session("mid") = 2694 Or session("mid") = 2452 OR session("mid") = 32821 OR session("mid") = 2663) AND (lto = "epi2017" OR lto = "intranet - local")) then    
-
-                '*EPI
-                ddTjkSupplementSL = year(now) & "/" & month(now) & "/"& day(now) 
-
-                ddTjkSupplementST = dateAdd("d", -45, now)
-                ddTjkSupplementST = year(ddTjkSupplementST) & "/" & month(ddTjkSupplementST) & "/"& day(ddTjkSupplementST) 
-                strSQLepiAViDKsupplement = "SELECT tid, tdato, sttid, sltid FROM timer WHERE taktivitetnavn = 'Data Collection' AND tdato BETWEEN '"& ddTjkSupplementST &"' AND '"& ddTjkSupplementSL &"' AND sttid <> '00:00:00' AND (origin = 11 OR origin = 12) AND overfort = 0"
-                'Local
-                'strSQLepiAViDKsupplement = "SELECT tid, tdato, sttid, sltid FROM timer WHERE tjobnavn = 'A-SK Restest simpel' AND taktivitetnavn = 'Support U/B' AND tdato BETWEEN '2017-06-15' AND '2017-07-01'"
-               
-                addSupplement15 = 0
-                addTillaeg = 0
-                oRec6.open strSQLepiAViDKsupplement, oConn, 3
-                while not oRec6.EOF
-
-                addSupplement15 = 0
-                addTillaeg = 0
-                addTillaeg8 = 0
-                addTillaeg20 = 0
-                addTillaegW = 0
-                'addTillaeg20
-
-                    tregDato = oRec6("tdato")
-                    sttidthis = oRec6("tdato") &" "& formatdatetime(oRec6("sttid"), 3)
-                    sltidthis = oRec6("tdato") &" "& formatdatetime(oRec6("sltid"), 3)
-
-                    '**** FØR 08:00
-                    if formatdatetime(oRec6("sttid"), 3) < "08:00:00" then
-                        addSupplement15 = 1
-
-                        if formatdatetime(oRec6("sltid"), 3) > "08:00:00" then
-                            sluttidKri = oRec6("tdato") &" 08:00:00"
-                        else
-                            sluttidKri = sltidthis
-                        end if
-
-                        'Response.write "<br>"& oRec6("tid") &"sttidthis:"& sttidthis &" #"& sltidthis & "<br>"
-                        addTillaeg8 = dateDiff("n", sttidthis, sluttidKri, 2,2)
-                        addTillaeg8 = (addTillaeg8/60) 
-                        
-                      
-                     end if
-
-                     '**** Efter 20:00
-                      if formatdatetime(oRec6("sltid"), 3) > "20:00:00" then
-                        addSupplement15 = 1
-
-                        if formatdatetime(oRec6("sttid"), 3)  > "20:00:00" then
-                           starttidKri = sttidthis
-                        else
-                           starttidKri = oRec6("tdato") &" 20:00:00"
-                        end if
-
-                        'Response.write "<br>"& oRec6("tid") &"sttidthis:"& sttidthis &" #"& sltidthis & "<br>"
-                        addTillaeg20 = dateDiff("n", starttidKri, sltidthis,2,2)
-                        addTillaeg20 = (addTillaeg20/60) 
-                        
-                        
-
-                     end if
-
-
-               
-                    '**** Lør / Søn ELLER Hellig ****'
-                   
-                     call helligdage(oRec6("tdato"), 0, lto)
-                     if datePart("w", oRec6("tdato"), 2,2) = "6" OR datePart("w", oRec6("tdato"), 2,2) = "7" OR cint(erHellig) = 1 then
-                        addSupplement15 = 1
-
-                        'Response.write "<br>"& oRec6("tid") &"sttidthis:"& sttidthis &" #"& sltidthis & "<br>"
-                        addTillaegW = dateDiff("n", sttidthis, sltidthis,2,2)
-                        addTillaegW = (addTillaegW/60) 
-                        'addTillaegW = 5
-                    end if
-
-
-                  
-
-                    addTillaeg = formatnumber(addTillaeg8/1 + addTillaeg20/1 + addTillaegW/1, 2)
-                    addTillaeg = replace(addTillaeg, ".", "") 
-                    addTillaeg = replace(addTillaeg, ",", ".")   
-                    if cint(addSupplement15) = 1 then
-
-                        strSQLTidCopy = "INSERT INTO timer_tmp_for_copy SELECT * FROM timer WHERE tid = "& oRec6("tid")
-                        oConn.execute(strSQLTidCopy)
-
-                        lastTid = 0
-                        strSQLTidLast = "SELECT tid FROM timer WHERE tid > 0 ORDER BY tid DESC LIMIT 1"
-                        oRec5.open strSQLTidLast, oConn, 3
-                        if not oRec5.EOF then
-
-                            lastTid = oRec5("tid") 
-
-                        end if
-                        oRec5.close
-
-                        strSQLTidUpdateAddOne = "UPDATE timer_tmp_for_copy SET tid = "& lastTid + 1
-                        oConn.execute(strSQLTidUpdateAddOne)
-                        
-                        strSQLTidInsert = "INSERT INTO timer SELECT * FROM timer_tmp_for_copy WHERE tid = " & lastTid + 1
-                        oConn.execute(strSQLTidInsert)
-
-                        strSQLTidInsertDEL = "DELETE FROm timer_tmp_for_copy"
-                        oConn.execute(strSQLTidInsertDEL)
-
-                        strSQLTidUpdOfort = "UPDATE timer SET overfort = 1, overfortdt = '"& ddTjkSupplementSL &"' WHERE tid = " & oRec6("tid")
-                        oConn.execute(strSQLTidUpdOfort)
-
-                        strSQLTidUpdNew = "UPDATE timer SET tfaktim = 51, taktivitetnavn = 'Supplement 15', timer = "& addTillaeg &", origin = 112, editor = 'Supplement Copy' WHERE tid = " & lastTid + 1
-                        oConn.execute(strSQLTidUpdNew)
-
-
-                    end if
-            
-                    
-                oRec6.movenext
-                wend 
-                oRec6.close 
-
-               end if
-
-                'Response.write "Overført OK"
-
-		        'Response.end
+               call indlaesTillaeg(lto)
 		        
 		        
 		       
@@ -1024,6 +927,25 @@ else '** POST *****
                     if session("dontLogind") <> 1 then
 				    '**** Tjekker om der skla laves en auto-logud eller om der er et igangværende logind på dagen ***'    
 				    call logindStatus(strUsrId, intStempelur, 1, now)
+
+                        if fo_logud = 2 then 'Der er glemt at blive logget ud og der oprettes et nyt logud
+                            select case lto
+                            case "intranet - local", "cflow"
+
+                            '***********************************************************
+                            '*** Fordel stempleurs timer ud på aktiviteter
+                            '*** H&L timer CFLOW
+                            '*** Projekttimer
+                            '***********************************************************
+                                call medariprogrpFn(strUsrId)
+                                dothis = 0
+                                logudDone = 0
+                                LogudDateTime = year(now)&"/"& month(now)&"/"&day(now)&" "& datepart("h", now) &":"& datepart("n", now) &":"& datepart("s", now) 
+                                call fordelStempelurstimer(strUsrId, lto, dothis, logudDone, LogudDateTime) 
+
+                            end select
+                        end if
+
 				    end if
 
                 end if

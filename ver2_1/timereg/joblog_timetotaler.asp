@@ -2631,7 +2631,7 @@ function LeiRotate() {
 							
 
 
-                            medarbnavnognr(v) = jobmedtimer(x,2) &" ["& jobmedtimer(x,39) & "]" '("& jobmedtimer(x,37) &")"
+                            medarbnavnognr(v) = jobmedtimer(x,2) &" "& jobmedtimer(x,39)  '& "[]" '("& jobmedtimer(x,37) &")"
                             
                             if (lto = "wwf" OR lto = "wwf2") then
                             medarbnavnognr_short(v) = jobmedtimer(x,39)
@@ -4734,7 +4734,7 @@ function LeiRotate() {
 
 
                                 select case lto
-                                case "mmmi", "xintranet - local"
+                                case "mmmi", "intranet - local"
                                 
                                 case else
                                 '** Real. timer % GT

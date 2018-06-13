@@ -1,12 +1,12 @@
 <%
-public timerthis_mtx
-function matrixtimespan(idag, mtrx, sTtid, sLtid, datoThis)
+public xtimerthis_mtx
+function xmatrixtimespan(idag, mtrx, sTtid, sLtid, datoThis)
 
                                         useDate = idag '"01-01-" & year(now)
                                         sTtid_org = sTtid
 
 
-                                        call helligdage(datoThis, 0, lto)
+                                        call helligdage(datoThis, 0, lto, usemrn)
 
                                         select case mtrx
                                         case 1 'dag

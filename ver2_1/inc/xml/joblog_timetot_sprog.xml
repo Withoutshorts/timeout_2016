@@ -205,6 +205,42 @@
     <txt_198 >Kost. ialt</txt_198>
     <txt_199 >Jobtotal</txt_199>
     <txt_200 >t.</txt_200>
+    
+    <txt_201 >Kontakt</txt_201>
+    <txt_202 >Kontaktperson</txt_202>
+    <txt_203 >Jobnavn</txt_203>
+    <txt_204 >Jobnr</txt_204>
+    <txt_205 >Jobbeskrivelse</txt_205>
+    <txt_206 >Fase</txt_206>
+    <txt_207 >Aktivitet</txt_207>
+    <txt_208 >Jobtype</txt_208>
+    <txt_209 >Init</txt_209>
+    <txt_210 >Timer forkalkuleret</txt_210>
+    <txt_211 >Bruttooms (Budget)</txt_211>
+    <txt_212 >Medarb. / Type</txt_212>
+    <txt_213 >Real. timer</txt_213>
+    <txt_214 >Res. timer</txt_214>
+    <txt_215 >Enheder</txt_215>
+    <txt_216 >Norm</txt_216>
+    <txt_217 >Omsætning</txt_217>
+    <txt_218 >Timepris</txt_218>
+    <txt_219 >Kostpris</txt_219>
+    <txt_220 >Kostpris pr. time</txt_220>
+    <txt_221 >Norm ialt</txt_221>
+    <txt_222 >Real. timer Ialt (Før valgte periode)</txt_222>
+    <txt_223 >Ressource timer (Før valgte periode)</txt_223>
+    <txt_224 >Enheder (Før valgte periode)</txt_224>
+    <txt_225 >Real. timer Ialt (I periode)</txt_225>
+    <txt_226 >Real. timer %</txt_226>
+    <txt_227 >Ressource Forecast timer (I periode)</txt_227>
+    <txt_228 >Enheder (I periode)</txt_228>
+    <txt_229 >Valuta</txt_229>
+    <txt_230 >Omsætning ialt (I periode)</txt_230>
+    <txt_231 >Kostpris ialt (I periode)</txt_231>
+    <txt_232 >Real. timer (Ialt, uanset per.)</txt_232>
+    <txt_233 >Ressource timer (Ialt, uanset per.)</txt_233>
+    <txt_234 >Enheder (Ialt, uanset per.)</txt_234>
+    
 
   </dk>
 
@@ -366,7 +402,7 @@
     <txt_152 >None chosen (shows all)</txt_152>
     <txt_153 >All</txt_153>
     <txt_154 >For Key-account</txt_154>
-    <txt_155 >Show all employees for chosen customer and job, where the picked empl. is</txt_155>
+    <txt_155 >Showa all employees for chosen customer and job, where the picked empl. is</txt_155>
     <txt_156 >Customer responsible</txt_156>
     <txt_157 >Project manager</txt_157>
     <txt_158 >Job owner</txt_158>
@@ -412,6 +448,41 @@
     <txt_198 >Total cost</txt_198>
     <txt_199 >Job total</txt_199>
     <txt_200 >h.</txt_200>
+
+    <txt_201 >Contact</txt_201>
+    <txt_202 >Contact person</txt_202>
+    <txt_203 >Job name</txt_203>
+    <txt_204 >Job no.</txt_204>
+    <txt_205 >Job description</txt_205>
+    <txt_206 >Phase</txt_206>
+    <txt_207 >Activity</txt_207>
+    <txt_208 >Job Type</txt_208>
+    <txt_209 >Init</txt_209>
+    <txt_210 >Hours calculated</txt_210>
+    <txt_211 >Gross revenue (Budget)</txt_211>
+    <txt_212 >Empl. / Type</txt_212>
+    <txt_213 >Real. hours</txt_213>
+    <txt_214 >Rem. hours</txt_214>
+    <txt_215 >Units</txt_215>
+    <txt_216 >Norm</txt_216>
+    <txt_217 >Gross revenue</txt_217>
+    <txt_218 >Hourly rate</txt_218>
+    <txt_219 >cost</txt_219>
+    <txt_220 >cost pr. hour</txt_220>
+    <txt_221 >Norm in total</txt_221>
+    <txt_222 >Real. hours in total (Before selected period)</txt_222>
+    <txt_223 >Resource hours (Before selected period)</txt_223>
+    <txt_224 >Units (Before selected period)</txt_224>
+    <txt_225 >Real. hours in total (In period)</txt_225>
+    <txt_226 >Real. hours %</txt_226>
+    <txt_227 >Ressource Forecast hours (In period)</txt_227>
+    <txt_228 >Units (In period)</txt_228>
+    <txt_229 >Currency</txt_229>
+    <txt_230 >Gross revnue in total (In period)</txt_230>
+    <txt_231 >cost in total (In period)</txt_231>
+    <txt_232 >Real. hours (total, regardless of period)</txt_232>
+    <txt_233 >Ressource hours (In total, regardless of period)</txt_233>
+    <txt_234 >Units (In total, regardless of period)</txt_234>
     
 
   </no>
@@ -574,7 +645,7 @@
     <txt_152 >None chosen (shows all)</txt_152>
     <txt_153 >All</txt_153>
     <txt_154 >For Key-account</txt_154>
-    <txt_155 >Show all employees for chosen customer and job, where the picked empl. is</txt_155>
+    <txt_155 >Showa all employees for chosen customer and job, where the picked empl. is</txt_155>
     <txt_156 >Customer responsible</txt_156>
     <txt_157 >Project manager</txt_157>
     <txt_158 >Job owner</txt_158>
@@ -620,6 +691,41 @@
     <txt_198 >Total cost</txt_198>
     <txt_199 >Job total</txt_199>
     <txt_200 >h.</txt_200>
+
+    <txt_201 >Contact</txt_201>
+    <txt_202 >Contact person</txt_202>
+    <txt_203 >Job name</txt_203>
+    <txt_204 >Job no.</txt_204>
+    <txt_205 >Job description</txt_205>
+    <txt_206 >Phase</txt_206>
+    <txt_207 >Activity</txt_207>
+    <txt_208 >Job Type</txt_208>
+    <txt_209 >Init</txt_209>
+    <txt_210 >Hours calculated</txt_210>
+    <txt_211 >Gross revenue (Budget)</txt_211>
+    <txt_212 >Empl./ type</txt_212>
+    <txt_213 >Real. hours</txt_213>
+    <txt_214 >Rem. hours</txt_214>
+    <txt_215 >Units</txt_215>
+    <txt_216 >Norm</txt_216>
+    <txt_217 >Gross revenue</txt_217>
+    <txt_218 >Hourly rate</txt_218>
+    <txt_219 >cost</txt_219>
+    <txt_220 >cost pr. hour</txt_220>
+    <txt_221 >Norm in total</txt_221>
+    <txt_222 >Real. hours in total (Before selected period)</txt_222>
+    <txt_223 >Resource hours (Before selected period)</txt_223>
+    <txt_224 >Units (Before selected period)</txt_224>
+    <txt_225 >Real. hours in total (In period)</txt_225>
+    <txt_226 >Real. hours %</txt_226>
+    <txt_227 >Ressource Forecast hours (In period)</txt_227>
+    <txt_228 >Units (In period)</txt_228>
+    <txt_229 >Currency</txt_229>
+    <txt_230 >Gross revnue in total (In period)</txt_230>
+    <txt_231 >cost in total (In period)</txt_231>
+    <txt_232 >Real. hours (total, regardless of period)</txt_232>
+    <txt_233 >Ressource hours (In total, regardless of period)</txt_233>
+    <txt_234 >Units (In total, regardless of period)</txt_234>
     
     
   </so>
@@ -782,7 +888,7 @@
     <txt_152 >None chosen (shows all)</txt_152>
     <txt_153 >All</txt_153>
     <txt_154 >For Key-account</txt_154>
-    <txt_155 >Show all employees for chosen customer and job, where the picked empl. is</txt_155>
+    <txt_155 >Showa all employees for chosen customer and job, where the picked empl. is</txt_155>
     <txt_156 >Customer responsible</txt_156>
     <txt_157 >Project manager</txt_157>
     <txt_158 >Job owner</txt_158>
@@ -828,6 +934,41 @@
     <txt_198 >Total cost</txt_198>
     <txt_199 >Job total</txt_199>
     <txt_200 >h.</txt_200>
+
+    <txt_201 >Contact</txt_201>
+    <txt_202 >Contact person</txt_202>
+    <txt_203 >Job name</txt_203>
+    <txt_204 >Job no.</txt_204>
+    <txt_205 >Job description</txt_205>
+    <txt_206 >Phase</txt_206>
+    <txt_207 >Activity</txt_207>
+    <txt_208 >Job Type</txt_208>
+    <txt_209 >Init</txt_209>
+    <txt_210 >Hours calculated</txt_210>
+    <txt_211 >Gross revenue (Budget)</txt_211>
+    <txt_212 >Empl./ type</txt_212>
+    <txt_213 >Real. hours</txt_213>
+    <txt_214 >Rem. hours</txt_214>
+    <txt_215 >Units</txt_215>
+    <txt_216 >Norm</txt_216>
+    <txt_217 >Gross revenue</txt_217>
+    <txt_218 >Hourly rate</txt_218>
+    <txt_219 >cost</txt_219>
+    <txt_220 >cost pr. hour</txt_220>
+    <txt_221 >Norm in total</txt_221>
+    <txt_222 >Real. hours in total (Before selected period)</txt_222>
+    <txt_223 >Resource hours (Before selected period)</txt_223>
+    <txt_224 >Units (Before selected period)</txt_224>
+    <txt_225 >Real. hours in total (In period)</txt_225>
+    <txt_226 >Real. hours %</txt_226>
+    <txt_227 >Ressource Forecast hours (In period)</txt_227>
+    <txt_228 >Units (In period)</txt_228>
+    <txt_229 >Currency</txt_229>
+    <txt_230 >Gross revnue in total (In period)</txt_230>
+    <txt_231 >cost in total (In period)</txt_231>
+    <txt_232 >Real. hours (total, regardless of period)</txt_232>
+    <txt_233 >Ressource hours (In total, regardless of period)</txt_233>
+    <txt_234 >Units (In total, regardless of period)</txt_234>
 
   </de>
 
@@ -989,7 +1130,7 @@
     <txt_152 >None chosen (shows all)</txt_152>
     <txt_153 >All</txt_153>
     <txt_154 >For Key-account</txt_154>
-    <txt_155 >Show all employees for chosen customer and job, where the picked empl. is</txt_155>
+    <txt_155 >Showa all employees for chosen customer and job, where the picked empl. is</txt_155>
     <txt_156 >Customer responsible</txt_156>
     <txt_157 >Project manager</txt_157>
     <txt_158 >Job owner</txt_158>
@@ -1035,6 +1176,41 @@
     <txt_198 >Total cost</txt_198>
     <txt_199 >Job total</txt_199>
     <txt_200 >h.</txt_200>
+
+    <txt_201 >Contact</txt_201>
+    <txt_202 >Contact person</txt_202>
+    <txt_203 >Job name</txt_203>
+    <txt_204 >Job no.</txt_204>
+    <txt_205 >Job description</txt_205>
+    <txt_206 >Phase</txt_206>
+    <txt_207 >Activity</txt_207>
+    <txt_208 >Job Type</txt_208>
+    <txt_209 >Init</txt_209>
+    <txt_210 >Hours calculated</txt_210>
+    <txt_211 >Gross revenue (Budget)</txt_211>
+    <txt_212 >Empl./ type</txt_212>
+    <txt_213 >Real. hours</txt_213>
+    <txt_214 >Rem. hours</txt_214>
+    <txt_215 >Units</txt_215>
+    <txt_216 >Norm</txt_216>
+    <txt_217 >Gross revenue</txt_217>
+    <txt_218 >Hourly rate</txt_218>
+    <txt_219 >cost</txt_219>
+    <txt_220 >cost pr. hour</txt_220>
+    <txt_221 >Norm in total</txt_221>
+    <txt_222 >Real. hours in total (Before selected period)</txt_222>
+    <txt_223 >Resource hours (Before selected period)</txt_223>
+    <txt_224 >Units (Before selected period)</txt_224>
+    <txt_225 >Real. hours in total (In period)</txt_225>
+    <txt_226 >Real. hours %</txt_226>
+    <txt_227 >Ressource Forecast hours (In period)</txt_227>
+    <txt_228 >Units (In period)</txt_228>
+    <txt_229 >Currency</txt_229>
+    <txt_230 >Gross revnue in total (In period)</txt_230>
+    <txt_231 >cost in total (In period)</txt_231>
+    <txt_232 >Real. hours (total, regardless of period)</txt_232>
+    <txt_233 >Ressource hours (In total, regardless of period)</txt_233>
+    <txt_234 >Units (In total, regardless of period)</txt_234>
 
   </fr>
 
@@ -1197,7 +1373,7 @@
     <txt_152 >None chosen (shows all)</txt_152>
     <txt_153 >All</txt_153>
     <txt_154 >For Key-account</txt_154>
-    <txt_155 >Show all employees for chosen customer and job, where the picked empl. is</txt_155>
+    <txt_155 >Showa all employees for chosen customer and job, where the picked empl. is</txt_155>
     <txt_156 >Customer responsible</txt_156>
     <txt_157 >Project manager</txt_157>
     <txt_158 >Job owner</txt_158>
@@ -1243,6 +1419,41 @@
     <txt_198 >Total cost</txt_198>
     <txt_199 >Job total</txt_199>
     <txt_200 >h.</txt_200>
+
+    <txt_201 >Contact</txt_201>
+    <txt_202 >Contact person</txt_202>
+    <txt_203 >Job name</txt_203>
+    <txt_204 >Job no.</txt_204>
+    <txt_205 >Job description</txt_205>
+    <txt_206 >Phase</txt_206>
+    <txt_207 >Activity</txt_207>
+    <txt_208 >Job Type</txt_208>
+    <txt_209 >Init</txt_209>
+    <txt_210 >Hours calculated</txt_210>
+    <txt_211 >Gross revenue (Budget)</txt_211>
+    <txt_212 >Empl./ type</txt_212>
+    <txt_213 >Real. hours</txt_213>
+    <txt_214 >Rem. hours</txt_214>
+    <txt_215 >Units</txt_215>
+    <txt_216 >Norm</txt_216>
+    <txt_217 >Gross revenue</txt_217>
+    <txt_218 >Hourly rate</txt_218>
+    <txt_219 >cost</txt_219>
+    <txt_220 >cost pr. hour</txt_220>
+    <txt_221 >Norm in total</txt_221>
+    <txt_222 >Real. hours in total (Before selected period)</txt_222>
+    <txt_223 >Resource hours (Before selected period)</txt_223>
+    <txt_224 >Units (Before selected period)</txt_224>
+    <txt_225 >Real. hours in total (In period)</txt_225>
+    <txt_226 >Real. hours %</txt_226>
+    <txt_227 >Ressource Forecast hours (In period)</txt_227>
+    <txt_228 >Units (In period)</txt_228>
+    <txt_229 >Currency</txt_229>
+    <txt_230 >Gross revnue in total (In period)</txt_230>
+    <txt_231 >cost in total (In period)</txt_231>
+    <txt_232 >Real. hours (total, regardless of period)</txt_232>
+    <txt_233 >Ressource hours (In total, regardless of period)</txt_233>
+    <txt_234 >Units (In total, regardless of period)</txt_234>
 
   </uk>
 
@@ -1404,7 +1615,7 @@
     <txt_152 >None chosen (shows all)</txt_152>
     <txt_153 >All</txt_153>
     <txt_154 >For Key-account</txt_154>
-    <txt_155 >Show all employees for chosen customer and job, where the picked empl. is</txt_155>
+    <txt_155 >Showa all employees for chosen customer and job, where the picked empl. is</txt_155>
     <txt_156 >Customer responsible</txt_156>
     <txt_157 >Project manager</txt_157>
     <txt_158 >Job owner</txt_158>
@@ -1450,6 +1661,41 @@
     <txt_198 >Total cost</txt_198>
     <txt_199 >Job total</txt_199>
     <txt_200 >h.</txt_200>
+
+    <txt_201 >Contact</txt_201>
+    <txt_202 >Contact person</txt_202>
+    <txt_203 >Job name</txt_203>
+    <txt_204 >Job no.</txt_204>
+    <txt_205 >Job description</txt_205>
+    <txt_206 >Phase</txt_206>
+    <txt_207 >Activity</txt_207>
+    <txt_208 >Job Type</txt_208>
+    <txt_209 >Init</txt_209>
+    <txt_210 >Hours calculated</txt_210>
+    <txt_211 >Gross revenue (Budget)</txt_211>
+    <txt_212 >Empl./ type</txt_212>
+    <txt_213 >Real. hours</txt_213>
+    <txt_214 >Rem. hours</txt_214>
+    <txt_215 >Units</txt_215>
+    <txt_216 >Norm</txt_216>
+    <txt_217 >Gross revenue</txt_217>
+    <txt_218 >Hourly rate</txt_218>
+    <txt_219 >cost</txt_219>
+    <txt_220 >cost pr. hour</txt_220>
+    <txt_221 >Norm in total</txt_221>
+    <txt_222 >Real. hours in total (Before selected period)</txt_222>
+    <txt_223 >Resource hours (Before selected period)</txt_223>
+    <txt_224 >Units (Before selected period)</txt_224>
+    <txt_225 >Real. hours in total (In period)</txt_225>
+    <txt_226 >Real. hours %</txt_226>
+    <txt_227 >Ressource Forecast hours (In period)</txt_227>
+    <txt_228 >Units (In period)</txt_228>
+    <txt_229 >Currency</txt_229>
+    <txt_230 >Gross revnue in total (In period)</txt_230>
+    <txt_231 >cost in total (In period)</txt_231>
+    <txt_232 >Real. hours (total, regardless of period)</txt_232>
+    <txt_233 >Ressource hours (In total, regardless of period)</txt_233>
+    <txt_234 >Units (In total, regardless of period)</txt_234>
  
   </es>
 

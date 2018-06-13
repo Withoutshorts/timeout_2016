@@ -58,7 +58,7 @@ a = 0
 					Response.write strSQL(b) & "<br>"
 					Response.flush
 					x = 1
-					numberoflicens = 171
+					numberoflicens = 175
 					For x = 1 To numberoflicens  
 						
 						call aktivedb(x)
@@ -84,8 +84,8 @@ a = 0
 								Response.write x &"<br>"& strSQL(b) & "<br><br>"
 								Response.flush
 
-								if x > 0 then 'AND x <> 130 then
-                                oConn.open strConnect_aktiveDB
+								if x > 0 AND x <> 2 then 'AND x > 4 
+                                'oConn.open strConnect_aktiveDB
 							    
                                 '*** DENNE LINJE INDLÆSER // UDKOMMENTER NÅR FILEN IKKE ER AKTIV
                                 oConn.execute(strSQL(b)) 
@@ -3268,6 +3268,151 @@ rap_editor VARCHAR(255),
 PRIMARY KEY (rap_id)
 ); 
 UPDATE dbversion SET dbversion = '20171030.1' WHERe id = 1
+
+
+<br /><br />20171124.1<br />
+ALTER TABLE licens ADD (
+fakturanr_6 Int NOT NULL DEFAULT 0, kreditnr_6 Int NOT NULL DEFAULT 0,
+fakturanr_7 Int NOT NULL DEFAULT 0, kreditnr_7 Int NOT NULL DEFAULT 0,
+fakturanr_8 Int NOT NULL DEFAULT 0, kreditnr_8 Int NOT NULL DEFAULT 0,
+fakturanr_9 Int NOT NULL DEFAULT 0, kreditnr_9 Int NOT NULL DEFAULT 0,
+fakturanr_10 Int NOT NULL DEFAULT 0, kreditnr_10 Int NOT NULL DEFAULT 0);
+INSERT INTO dbversion (dbversion) VALUES (20171124.1);
+
+ALTER TABLE licens ADD (
+fakturanr_kladde_6 Int NOT NULL DEFAULT 0,
+fakturanr_kladde_7 Int NOT NULL DEFAULT 0,
+fakturanr_kladde_8 Int NOT NULL DEFAULT 0,
+fakturanr_kladde_9 Int NOT NULL DEFAULT 0,
+fakturanr_kladde_10 Int NOT NULL DEFAULT 0);
+INSERT INTO dbversion (dbversion) VALUES (20171124.2);
+
+
+<br /><br />20171205.1<br />
+Alter table medarbejdere add 
+(
+medarbejder_rfid VARCHAR(255));
+INSERT INTO dbversion (dbversion) VALUES ('20171205.1')
+
+<br /><br />20171206.1<br />
+Alter table medarbejdere add 
+(
+measyregtimer DOUBLE(12,2) NOT NULL default 0);
+INSERT INTO dbversion (dbversion) VALUES ('20171206.1')
+
+
+
+<br /><br />20171231.1<br />
+ALTER TABLE medarbejdere ADD med_cal VARCHAR(50) NOT NULL default 'DK';
+INSERT INTO dbversion (dbversion) VALUES ('20171231.1')
+
+
+
+<br /><br />20180102.1<br />
+ALTER TABLE licens ADD (stpause3 double default 0 NOT NULL);
+ALTER TABLE licens ADD (stpause4 double default 0 NOT NULL);
+ALTER table licens ADD (p3_grp varchar (50), p4_grp varchar (50));
+ALTER TABLE licens ADD (p3_man int NOT NULL default 0,
+p3_tir int NOT NULL default 0,
+p3_ons int NOT NULL default 0,
+p3_tor int NOT NULL default 0,
+p3_fre int NOT NULL default 0,
+p3_lor int NOT NULL default 0,
+p3_son int NOT NULL default 0,
+p4_man int NOT NULL default 0,
+p4_tir int NOT NULL default 0,
+p4_ons int NOT NULL default 0,
+p4_tor int NOT NULL default 0,
+p4_fre int NOT NULL default 0,
+p4_lor int NOT NULL default 0,
+p4_son int NOT NULL default 0);
+
+INSERT INTO dbversion (dbversion) VALUES ('20180102.1')
+
+
+
+<br /><br />20180104.1<br />
+ALTER TABLE national_holidays ADD nh_projgrp VARCHAR(50);
+INSERT INTO dbversion (dbversion) VALUES ('20180104.1')
+
+<br /><br />20180105.1<br />
+UPDATE national_holidays SET nh_date = DATE_ADD(nh_date, INTERVAL 1 YEAR);
+INSERT INTO dbversion (dbversion) VALUES ('20180105.1')
+
+<br /><br />20180122.1<br />
+ALTER table job_ulev_ju ADD (ju_matid INT NOT NULL default 0);
+INSERT INTO dbversion (dbversion) VALUES ('20180122.1')
+
+<br /><br />20180220.1<br />
+ALTER table medarbejdertyper ADD (feriesats double(12,2) NOT NULL default 0);
+INSERT INTO dbversion (dbversion) VALUES ('20180220.1')
+
+
+<br /><br />20180221.1<br />
+INSERT INTO akt_typer (aty_id,
+ aty_label, aty_desc,
+aty_on, aty_on_realhours, aty_on_invoiceble, aty_on_invoice, aty_on_invoice_chk 
+, aty_on_workhours, aty_pre, aty_sort, aty_on_recon, aty_enh, aty_on_adhoc, aty_hide_on_treg)
+VALUES (126, 'global_txt_196','Ferie korrektion',1,0,0,0,0,0,0,3.7,0,0,0,1);
+UPDATE akt_typer SET aty_on = 0 WHERE aty_id = 126;
+INSERT INTO dbversion (dbversion) VALUES (20180221.1)
+
+
+<br /><br />20180308.1<br />
+DROP table login_historik_aktivejob_rel;
+CREATE table login_historik_aktivejob_rel (
+lha_id INT(11) NOT NULL AUTO_INCREMENT,
+lha_mid INT(11) NOT NULL default 0,
+lha_aktid INT(11) NOT NULL default 0,
+lha_jobid INT(11) NOT NULL default 0, 
+PRIMARY KEY (lha_id)
+); 
+INSERT INTO dbversion (dbversion) VALUES (20180308.1)
+
+
+
+<br /><br />20180404.1<br />
+
+Create table info_screen (
+id INT(11) NOT NULL AUTO_INCREMENT,
+overskrift VARCHAR(255) NOT NULL default '',
+brodtext text,
+datofra DATE DEFAULT '2002-01-01' NOT NULL,
+datotil DATE DEFAULT '2002-01-01' NOT NULL,
+editor VARCHAR(255) default '',
+PRIMARY KEY (id)
+);
+UPDATE dbversion SET dbversion = '20180404.1' WHERe id = 1
+
+
+<br /><br />20180509.1<br />
+ALTER TABLE abonner_file_email ADD afe_progrp INT NOT NULL default 0;
+INSERT INTO dbversion (dbversion) VALUES ('20180509.1')
+
+
+<br /><br />20180515.1<br />
+ALTER table abonner_file_email ADD (afe_init VARCHAR(50) NOT NULL default '');
+INSERT INTO dbversion (dbversion) VALUES ('20180515.1')
+
+
+<br /><br />20180531.1<br />
+Create table udeafhuset (
+id INT(11) NOT NULL AUTO_INCREMENT,
+medid INT(11) NOT NULL,
+fradato date NOT NULL,
+fratidspunkt time,
+tiltidspunkt time,
+heledagen int,
+PRIMARY KEY (id)
+);
+UPDATE dbversion SET dbversion = '20180531.1' WHERe id = 1
+
+
+<br /><br />20180531.2<br />
+ALTER TABLE udeafhuset Add 
+(tildato date NOT NULL, fra datetime, til datetime);
+UPDATE dbversion SET dbversion = '20180531.2' WHERe id = 1
+
 
 <%
 

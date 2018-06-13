@@ -92,6 +92,23 @@
 <%
     if media <> "print" then
     call menu_2014
+    oskrift = ""
+    else
+    
+    strSQLJobnavn = "SELECT jobnavn, jobnr from job WHERE id = "& jobid
+    oRec.open strSQLJobnavn, oConn, 3
+    if not oRec.EOF then
+    jobnavnPrint = oRec("jobnavn")
+    jobnavnNr = oRec("jobnr")
+    end if
+    oRec.close
+
+        if jobid <> 0 then
+            oskrift = "("& jobnavnPrint &" "& jobnavnNr &")"
+        else
+            oskrift = ""
+        end if
+
     end if
 %>
 
@@ -100,7 +117,7 @@
           <script src="js/traveldietexp_jav.js" type="text/javascript"></script>
           <div class="container">
               <div class="portlet">
-                  <h3 class="portlet-title"><u>Medarbejder - projekttid</u></h3>
+                  <h3 class="portlet-title"><u>Medarbejder - projekttid <%=oskrift %></u></h3>
                   <div class="portlet-body">
                       <%if media <> "print" then %>
                       <div class="well">

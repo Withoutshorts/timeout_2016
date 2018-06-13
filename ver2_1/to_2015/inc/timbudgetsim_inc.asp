@@ -56,7 +56,7 @@ sub fy_relprdato_fm
                                       </div>
 
                                     <div class="col-lg-2 pad-t5 pad-r15"> Vis realiseret pr. dato:
-                                           <input class="form-control input-small inputclsLeft" type="text" name="FM_visrealprdato" value="<%=visrealprdato %>" />
+                                           <input class="form-control input-small inputclsLeft" type="text" style="width:95px;" name="FM_visrealprdato" value="<%=visrealprdato %>" />
                                      
                                       </div>
 
@@ -66,19 +66,50 @@ sub fy_relprdato_fm
                                         
                                         <%if func = "forecast" then %>
                                         <div class="col-lg-1 pad-t5">&nbsp;</div>
-                                        <div class="col-lg-4 pad-t5">Medarb.linier vis:<br />
+
+                                        <div class="col-lg-4 pad-t5">Vis kolonner:<br />
+
+                                         <%
+                                         ch = 1
+                                         if ch = 1 then %>
+                                             
+                                         <input type="checkbox" value="0" id="visKunFCFelter0" name="FM_visKunFCFelter" <%=visKunFCFelterCHK0 %>/> Overblik<br />
+                                         <input <%=visKunFCFelterDIS1 %> type="checkbox" value="1" id="visKunFCFelter1" name="FM_visKunFCFelter" <%=visKunFCFelterCHK1 %> /> Forecast&nbsp;&nbsp;
+                                         <input <%=visKunFCFelterDIS2 %> type="checkbox" value="2" id="visKunFCFelter2" name="FM_visKunFCFelter" <%=visKunFCFelterCHK2 %> /> Realiseret&nbsp;&nbsp;
+                                         <input <%=visKunFCFelterDIS3 %> type="checkbox" value="3" id="visKunFCFelter3" name="FM_visKunFCFelter" <%=visKunFCFelterCHK3 %> /> Saldo&nbsp;&nbsp;
+                                         <br /><input <%=visKunFCFelterDIS4 %> type="checkbox" value="4" id="visKunFCFelter4" name="FM_visKunFCFelter" <%=visKunFCFelterCHK4 %> /> Timepriser
+                                       
+                                             
+                                         <%else%>
+
                                          <input type="radio" value="0" id="visKunFCFelter0" name="FM_visKunFCFelter" <%=visKunFCFelterCHK0 %> onclick="submit();"/> Overblik&nbsp;&nbsp;
                                          <input type="radio" value="1" id="visKunFCFelter1" name="FM_visKunFCFelter" <%=visKunFCFelterCHK1 %> onclick="submit();"/> Forecast&nbsp;&nbsp;
                                          <input type="radio" value="2" id="visKunFCFelter2" name="FM_visKunFCFelter" <%=visKunFCFelterCHK2 %> onclick="submit();"/> Realiseret&nbsp;&nbsp;
                                          <input type="radio" value="3" id="visKunFCFelter3" name="FM_visKunFCFelter" <%=visKunFCFelterCHK3 %> onclick="submit();"/> Saldo
                                         <!-- <input type="checkbox" id="visKunFCFelter" name="FM_visKunFCFelter" value="1" <%=visKunFCFelterCHK %> /> Vis kun forecast felter (for medarbejdere)-->
+
+                                        <%end if %>
+
                                  
                                         </div>
                                         <%end if %>
 
+                                        <%if func <> "forecast" then %>
+                                       <%call forretningsomr %>
+                                        <%end if %>
 
-                                          <%if func <> "forecast" then %>
-                                        <div class="col-lg-2 pad-t5">Forretningsområder:
+                                       <div class="col-lg-2 pad-t20 pad-r30"><button type="submit" class="btn btn-secondary btn-sm">Search >></button>
+                                       </div>
+
+<%
+end sub
+
+
+sub forretningsomr
+
+    %>
+       <%'if func <> "forecast" then %>
+                                        <div class="col-lg-3 pad-t5">Forretningsområder:
                                             <select class="form-control input-small" name="FM_fomr" onchange="submit();">
                                                 <option value="0">Alle</option>
                                                 <%
@@ -100,17 +131,13 @@ sub fy_relprdato_fm
                                                 %>
                                             </select>
                                         </div>
-                                        <%end if %>
+                                        <%'end if %>
+    <%
 
-                                       <div class="col-lg-2 pad-t20 pad-r30"><button type="submit" class="btn btn-secondary btn-sm">Search >></button>
-                                       </div>
-
-<%
 end sub
 
 
-
-public budgetFY0GT, strExport
+public budgetFY0GT, strExport, jobbudgetBel, diffbudget_FCGT
 function jobaktbudgetfelter(jobnr, jobid, aktid, h1aar, h2aar, h1md, h2md, budgettp)
 
     jh1 = 0
@@ -130,13 +157,15 @@ function jobaktbudgetfelter(jobnr, jobid, aktid, h1aar, h2aar, h1md, h2md, budge
     sqlRGrpBY = "jobid" 
     end if
 
+  
+
     'if lcase(sogVal) = "all" OR aktid = 0 then 'berenger sum af forecast total på job
 
         
                     strSQLmedrd = "SELECT SUM(timer) AS sumtimer FROM ressourcer_md WHERE jobid = " & jobid & " "& strSQLAktResKri &"  GROUP BY "& sqlRGrpBY 
                      'response.Write "strSQLmedrd: " & strSQLmedrd
                      'response.flush
-                
+                     jhGT = 0
                      oRec3.open strSQLmedrd, oConn, 3
                      if not oRec3.EOF then
 
@@ -150,6 +179,8 @@ function jobaktbudgetfelter(jobnr, jobid, aktid, h1aar, h2aar, h1md, h2md, budge
                      else
                      jhGTTxt = ""
                      end if
+
+                  
                 
                      strSQLmedrd = "SELECT SUM(timer) AS sumtimer FROM ressourcer_md WHERE jobid = " & jobid & " "& strSQLAktResKri &" AND aar = "& h1aar &" AND md = "& h1md  & " GROUP BY " & sqlRGrpBY 
                     
@@ -475,7 +506,33 @@ function jobaktbudgetfelter(jobnr, jobid, aktid, h1aar, h2aar, h1md, h2md, budge
         realomsH1 = formatnumber(realomsH1,0)
 
             if aktid = 0 then
+
+
             budgetFY0GT = budgetFY0GT + jhGT'budgetFY0 
+
+                    if cdbl(jobbudgetBel) <> 0 then
+                    diffbudget_FC = ((jobbudgetBel*1) - (jhGT*1))
+                    else
+                    diffbudget_FC = (0 - (jhGT*1))
+                    end if
+                     
+                    diffbudget_FC = formatnumber(diffbudget_FC, 0)
+                    diffbudget_FCGT = (diffbudget_FCGT*1) + (diffbudget_FC*1) 
+
+                    if diffbudget_FC < 0 then
+                    diffbudget_FCtdCol = "red"
+                    else
+                            if diffbudget_FC = 0 then
+                            diffbudget_FCtdCol = "#CCCCCC"
+                            else
+                            diffbudget_FCtdCol = "yellowgreen"
+                            end if
+                    end if
+
+            else 
+
+            diffbudget_FC = ""
+
             end if
 
 
@@ -625,6 +682,11 @@ function jobaktbudgetfelter(jobnr, jobid, aktid, h1aar, h2aar, h1md, h2md, budge
 
         <td><input type="text" id="budget_jobakt_<%=jobid%>_<%=aktid %>" class="form-control input-small" style="width:80px; border:0px;" value="<%=jhGTTxt%>" DISABLED /></td><!-- budgetFY0 -->
 
+        <!-- diffbudget_FC = (jobbudget - 100) -->
+        <td><input type="text" id="budget_jobakt_<%=jobid%>_<%=aktid %>" class="form-control input-small" style="width:80px; border:0px; background-color:<%=diffbudget_FCtdCol%>;" value="<%=diffbudget_FC%>" DISABLED /></td><!-- budgetFY0 -->
+
+
+         
         
                 <%if aktid <> 0 then %>
                 <input type="hidden" name="FM_<%=aktFMname%>fctimepris_FY0" value="##" />
@@ -669,8 +731,8 @@ function medarbfelter(jobnr, jobid, aktid, h1aar, h2aar, h1md, h2md, bgttpris)
         'thisMedarbRealTimerGT = 0
         h1_jobaktTot = 0
         h2_jobaktTot = 0 
-        pvzb = "hidden"
-        pdsp = "none"
+        'pvzb = "hidden"
+        'pdsp = "none"
         for p = 0 to phigh - 1
 
 
@@ -826,7 +888,7 @@ function medarbfelter(jobnr, jobid, aktid, h1aar, h2aar, h1md, h2md, bgttpris)
                         if aktid = 0 then 'job
 
 
-                            if (cdbl(jobFcGt) > cdbl(jobbgtTimerArr(jobid))) then
+                            if (cdbl(jobFcGt) > cdbl(jobbgtTimerArr(jobid))) AND cdbl(jobFcGt)  <> 0 then
                             fcBgCol = "lightpink"
                             else
                             fcBgCol = ""
@@ -834,7 +896,7 @@ function medarbfelter(jobnr, jobid, aktid, h1aar, h2aar, h1md, h2md, bgttpris)
 
                         else
 
-                            if (cdbl(jobFcGt) > cdbl(aktbgtTimerArr(aktid))) then
+                            if (cdbl(jobFcGt) > cdbl(aktbgtTimerArr(aktid))) AND cdbl(jobFcGt) <> 0 then
                             fcBgCol = "lightpink"
                             else
                             fcBgCol = ""
@@ -859,6 +921,7 @@ function medarbfelter(jobnr, jobid, aktid, h1aar, h2aar, h1md, h2md, bgttpris)
                                             <br /><span style="font-size:9px;">(tp: <%=gnsTp %>)</span>
                                             <%end if %>        
                                     <%end if %>
+                             
                               
                                     <%if cint(timesimtp) = 1 then 'aktid <> 0 %>
                                     <span style="font-size:10px; padding:2px 2px 2px 2px; white-space:nowrap;" id="fcjobaktBelgts_<%=jobid%>_<%=aktid%>" class="fcjobaktBelgts"><%=jobFcGtBelobTxt %></span>
@@ -878,7 +941,9 @@ function medarbfelter(jobnr, jobid, aktid, h1aar, h2aar, h1md, h2md, bgttpris)
                                 thisjobAktRealTimer = 0
                                 
                                 
-                                if cint(visKunFCFelter) = 0 OR cint(visKunFCFelter) = 1 OR cint(visKunFCFelter) = 2 OR cint(visKunFCFelter) = 3 then
+                                'if cint(visKunFCFelter) = 0 OR cint(visKunFCFelter) = 1 OR cint(visKunFCFelter) = 2 OR cint(visKunFCFelter) = 3 then
+                                 if instr(visKunFCFelter, "0") <> 0 OR instr(visKunFCFelter, "1") <> 0 OR instr(visKunFCFelter, "2") <> 0 OR instr(visKunFCFelter, "3") <> 0 then
+
                                 ', SUM(timer*timepris) AS realoms, AVG(timepris) AS gnstp
                                 'AND (tmnr = 0 "& replace(medarbIPgrp(p), "medid", "tmnr") &")
                                 strSQLrealTimerJobAkt = "SELECT SUM(timer) AS sumtimer FROM timer WHERE tjobnr = '" & jobnr & "' AND "& timerPgrpAktSQLkri &"  AND (tfaktim = 1 OR tfaktim = 2) AND tdato BETWEEN '"& visrealprdatoStartSQL &"' AND '"& visrealprdatoSQL &"' GROUP BY "& timerGrpBy   
@@ -906,7 +971,7 @@ function medarbfelter(jobnr, jobid, aktid, h1aar, h2aar, h1md, h2md, bgttpris)
 
                                 thisjobAktRealTimerGT = thisjobAktRealTimerGT + thisjobAktRealTimer
 
-                                if (cdbl(jobFcGt) < cdbl(formatnumber(thisjobAktRealTimer, 0))) then
+                                if (cdbl(jobFcGt) < cdbl(formatnumber(thisjobAktRealTimer, 0))) AND cdbl(jobFcGt) <> 0 then
                                 fcBgCol = "lightpink"
                                 else
                                 fcBgCol = ""
@@ -1053,7 +1118,8 @@ function medarbfelter(jobnr, jobid, aktid, h1aar, h2aar, h1md, h2md, bgttpris)
 
                                 thisPrgRealTimer = 0
                             
-                                if cint(visKunFCFelter) = 0 OR cint(visKunFCFelter) = 2 OR cint(visKunFCFelter) = 3 then
+                                'if cint(visKunFCFelter) = 0 OR cint(visKunFCFelter) = 2 OR cint(visKunFCFelter) = 3 then
+                                if instr(visKunFCFelter, "0") <> 0 OR instr(visKunFCFelter, "2") <> 0 OR instr(visKunFCFelter, "3") <> 0 then
                                 ', SUM(timer*timepris) AS realoms, AVG(timepris) AS gnstp
                                 'AND (tmnr = 0 "& replace(medarbIPgrp(p), "medid", "tmnr") &")
                                 strSQLrealTimerProgrp = "SELECT SUM(timer) AS sumtimer FROM timer WHERE tjobnr = '" & jobnr & "' AND "& timerPgrpAktSQLkri &" AND (tmnr = 0 "& replace(medarbIPgrp(p), "medid", "tmnr") &") AND (tfaktim = 1 OR tfaktim = 2) AND tdato BETWEEN '"& visrealprdatoStartSQL &"' AND '"& visrealprdatoSQL &"' GROUP BY "& timerGrpBy   
@@ -1087,7 +1153,6 @@ function medarbfelter(jobnr, jobid, aktid, h1aar, h2aar, h1md, h2md, bgttpris)
 
                                 if len(trim(thisPrgSaldo)) <> 0 AND thisPrgSaldo <> 0 then
                                 thisPrgSaldoTxt = " = "& formatnumber(thisPrgSaldo, 0)
-                                             
                                 else
                                 thisPrgSaldoTxt = ""
                                 end if
@@ -1102,7 +1167,7 @@ function medarbfelter(jobnr, jobid, aktid, h1aar, h2aar, h1md, h2md, bgttpris)
                                  if aktid = 0 then 'job
 
 
-                                    if (cdbl(progrpTot) > cdbl(jobbgtTimerArr(jobid))) then
+                                    if (cdbl(progrpTot) > cdbl(jobbgtTimerArr(jobid))) AND cdbl(progrpTot) <> 0 then
                                     fcBgCol = "lightpink"
                                     else
                                     fcBgCol = ""
@@ -1110,11 +1175,12 @@ function medarbfelter(jobnr, jobid, aktid, h1aar, h2aar, h1md, h2md, bgttpris)
 
                                 else
 
-                                    if (cdbl(progrpTot) > cdbl(aktbgtTimerArr(aktid))) then
-                                    fcBgCol = "lightpink"
-                                    else
+                                    'Skal ikke markeres pr. aktivitet
+                                    'if (cdbl(progrpTot) > cdbl(aktbgtTimerArr(aktid))) AND cdbl(progrpTot) <> 0 then
+                                    'fcBgCol = "lightpink"
+                                    'else
                                     fcBgCol = ""
-                                    end if
+                                    'end if
                         
 
                                 end if
@@ -1125,8 +1191,10 @@ function medarbfelter(jobnr, jobid, aktid, h1aar, h2aar, h1md, h2md, bgttpris)
 
              
                
-            <%if cint(visKunFCFelter) = 0 OR cint(visKunFCFelter) = 1 then %>
+            <%'if cint(visKunFCFelter) = 0 OR cint(visKunFCFelter) = 1 then 
+              if instr(visKunFCFelter, "0") <> 0 OR instr(visKunFCFelter, "1") <> 0 then%>
              <td><input type="text" id="afd_jobakt_<%=jobid%>_<%=aktid %>_<%=p %>" class="form-control input-small afd_jobakt afd_jobakt_<%=p %> afd_jobakt_<%=jobid%>_<%=aktid %>" style="width:60px; text-align:right; background-color:<%=fcBgCol%>;" value="<%=progrpTotTxt %>" DISABLED />
+                 <!--<%="afd_jobakt_"& jobid &"_" & aktid &"_" & p %> -->
             
                  <%if cint(timesimtp) = 1 AND jobFcGtBelobTxt <> "" then %>
                  <div style="font-size:10px; color:#999999;" id="saldoBelgts_<%=jobid%>_<%=aktid %>"><%=jobFcGtBelobTxt %></div> 
@@ -1142,14 +1210,16 @@ function medarbfelter(jobnr, jobid, aktid, h1aar, h2aar, h1md, h2md, bgttpris)
              </td>
             <%end if %>
              
-            <%if cint(visKunFCFelter) = 0 OR cint(visKunFCFelter) = 2 then %>
+            <%'if cint(visKunFCFelter) = 0 OR cint(visKunFCFelter) = 2 then 
+             if instr(visKunFCFelter, "0") <> 0 OR instr(visKunFCFelter, "2") <> 0 then%>
             <td style="text-align:right;">
             <%=thisPrgRealTimerTxt %>
             </td>
             <%end if
 
-            if cint(visKunFCFelter) = 0 OR cint(visKunFCFelter) = 3 then%>
-                 <td style="text-align:left; background-color:<%=salBgCol%>;"><%=thisPrgSaldoTxt %></td>
+            'if cint(visKunFCFelter) = 0 OR cint(visKunFCFelter) = 3 then
+            if instr(visKunFCFelter, "0") <> 0 OR instr(visKunFCFelter, "3") <> 0 then%>
+                 <td style="text-align:left; background-color:<%=salBgCol%>; white-space:nowrap;"><%=thisPrgSaldoTxt %></td>
              <%end if
             
            
@@ -1257,7 +1327,8 @@ function medarbfelter(jobnr, jobid, aktid, h1aar, h2aar, h1md, h2md, bgttpris)
                     '*********** Timepriser ******
                     medarbTp = 0
                     tpFundetAkt = 0
-                    if cint(visKunFCFelter) = 0 OR cint(visKunFCFelter) = 1 then
+                    'if cint(visKunFCFelter) = 0 OR cint(visKunFCFelter) = 1 then
+                    if instr(visKunFCFelter, "0") <> 0 OR instr(visKunFCFelter, "1") <> 0 then
 
                         if cint(timesimtp) = 1 then
                 
@@ -1304,7 +1375,8 @@ function medarbfelter(jobnr, jobid, aktid, h1aar, h2aar, h1md, h2md, bgttpris)
 
                     
                     '** REAL timer pr. dato ***'
-                    if cint(visKunFCFelter) = 0 OR cint(visKunFCFelter) = 2 OR cint(visKunFCFelter) = 3 then
+                    'if cint(visKunFCFelter) = 0 OR cint(visKunFCFelter) = 2 OR cint(visKunFCFelter) = 3 then
+                    if instr(visKunFCFelter, "0") <> 0 OR instr(visKunFCFelter, "2") <> 0 OR instr(visKunFCFelter, "3") <> 0 then
 
 
                      select case lto
@@ -1374,13 +1446,13 @@ function medarbfelter(jobnr, jobid, aktid, h1aar, h2aar, h1md, h2md, bgttpris)
             <input type="hidden" name="FM_medid" value="<%=antalm(m,1) %>" />
 
             <%if cdbl(medarbTp) = 0 then 'cdbl(medarbTp) > cdbl(bgttpris) OR 20161220
-                bgHfc = "lightpink"
+                bgHfc = "gold"
              else
-                bgHfc = ""
+                bgHfc = "lightyellow"
              end if
                 
                 
-            if cdbl(thisMedarbRealTimer) > cdbl(h1Val) then
+            if cdbl(thisMedarbRealTimer) > cdbl(h1Val) AND cdbl(thisMedarbRealTimer) <> 0 then
                  bgTotfc = "Lightpink"
             else
                  bgTotfc = "#Eff3ff"
@@ -1388,7 +1460,8 @@ function medarbfelter(jobnr, jobid, aktid, h1aar, h2aar, h1md, h2md, bgttpris)
 
             
 
-            <%if cint(timesimtp) = 1 AND (cint(visKunFCFelter) = 0 OR cint(visKunFCFelter) = 1) then 
+            <%'if cint(timesimtp) = 1 AND (cint(visKunFCFelter) = 0 OR cint(visKunFCFelter) = 1) then 
+            if cint(timesimtp) = 1 AND (instr(visKunFCFelter, "0") <> 0 OR instr(visKunFCFelter, "1") <> 0) then
                 
                 select case lto
                 case "oko", "intranet - local"
@@ -1403,10 +1476,15 @@ function medarbfelter(jobnr, jobid, aktid, h1aar, h2aar, h1md, h2md, bgttpris)
                   <div style="font-size:8px; float:right;">DKK</div>
                   <%end if %>
             </td>
+            <%else %>
+
+            <input name="FM_tp" type="hidden" value="<%=formatnumber(medarbTp,0) %>"  id="mh1t_jobaktmid_<%=jobid%>_<%=aktid %>_<%=antalm(m,1)%>" class="<%=mt1jacls%> form-control input-small mh1t mh1t_jobaktmid_<%=jobid%>_<%=aktid%>" />
+
             <%end if %>
 
 
-            <%if cint(visKunFCFelter) = 0 OR cint(visKunFCFelter) = 1 then %>
+            <%'if cint(visKunFCFelter) = 0 OR cint(visKunFCFelter) = 1 then 
+             if instr(visKunFCFelter, "0") <> 0 OR instr(visKunFCFelter, "1") <> 0 then%>
             <td class="afd_p_<%=p%> afd_p" style="visibility:<%=pvzb%>; display:<%=pdsp%>;">
                 <input type="<%=h1h2type %>" name="FM_H1" id="mh1h_jobaktmid_<%=jobid%>_<%=aktid %>_<%=antalm(m,1)%>" class="<%=mh1jacls%> form-control input-small mh1 mh1h_jobaktmid_<%=jobid%>_<%=aktid%> mh1h_jobaktmid_<%=jobid%>_<%=aktid%>_<%=p %>" style="width:45px; background-color:<%=h1h2BGcol%>;" value="<%=h1 %>" maxlength="<%=h1h2Maxl %>" />
             </td>
@@ -1421,12 +1499,16 @@ function medarbfelter(jobnr, jobid, aktid, h1aar, h2aar, h1md, h2md, bgttpris)
            
                 
 
-            <%if (cint(visKunFCFelter) = 0 OR cint(visKunFCFelter) = 2) then %>
+
+
+            <input type="hidden" name="" id="mreal_jobaktmid_<%=jobid%>_<%=aktid %>_<%=antalm(m,1)%>" class="<%=mrealjacls%> mreal_jobaktmid_<%=jobid%>_<%=aktid%>" value="<%=thisMedarbRealTimer%>"/>
+            <%'if (cint(visKunFCFelter) = 0 OR cint(visKunFCFelter) = 2) then 
+             if instr(visKunFCFelter, "0") <> 0 OR instr(visKunFCFelter, "2") <> 0 then%>
             <td class="afd_p_<%=p%> afd_p" style="visibility:<%=pvzb%>; display:<%=pdsp%>; text-align:right;">
                 
                
                  <input type="<%=h1h2type %>" name="" id="" class="form-control input-small mreal" style="width:45px;" value="<%=thisMedarbRealTimerTxt %>" DISABLED />
-                 <input type="hidden" name="" id="mreal_jobaktmid_<%=jobid%>_<%=aktid %>_<%=antalm(m,1)%>" class="<%=mrealjacls%> mreal_jobaktmid_<%=jobid%>_<%=aktid%>" value="<%=thisMedarbRealTimer%>"/>
+                 
                 
                 <!--
                 <input type="hidden" name="FM_H2" id="mh2h_jobaktmid_<%=jobid%>_<%=aktid %>_<%=antalm(m,1)%>" class="<%=mh2jacls%> form-control input-small mh2 mh2h_jobaktmid_<%=jobid%>_<%=aktid%>" style="width:45px; background-color:<%=h1h2BGcol%>;" value="<%=h2 %>" maxlength="<%=h1h2Maxl %>" />
@@ -1438,7 +1520,8 @@ function medarbfelter(jobnr, jobid, aktid, h1aar, h2aar, h1md, h2md, bgttpris)
             </td>    
             <%end if %>
 
-             <%if (cint(visKunFCFelter) = 0 OR cint(visKunFCFelter) = 3) then %>
+             <%'if (cint(visKunFCFelter) = 0 OR cint(visKunFCFelter) = 3) then 
+             if instr(visKunFCFelter, "0") <> 0 OR instr(visKunFCFelter, "3") <> 0 then%>
             <td class="afd_p_<%=p%> afd_p" style="white-space:nowrap; visibility:<%=pvzb%>; display:<%=pdsp%>;"><input type="<%=h1h2type %>" name="FM_H1H2" id="mh12h_jobaktmid_<%=jobid%>_<%=aktid %>_<%=antalm(m,1) %>" class="form-control input-small fs_<%=jobid%>_<%=aktid %>_<%=p %>" style="width:45px; background-color:<%=bgTotfc%>;" value="<%=thisMedarbSaldoTxt%>" disabled />
 
                     <%if cint(timesimtp) = 1 then%>     
@@ -1458,7 +1541,6 @@ function medarbfelter(jobnr, jobid, aktid, h1aar, h2aar, h1md, h2md, bgttpris)
             next 'm
                
             end if'Visprogrp og vis alle job%>
-            
             
         <%
          response.flush   

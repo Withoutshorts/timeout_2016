@@ -5,11 +5,12 @@ Dim objXMLHTTP_week, objXMLDOM_week, i_week, strHTML_week
 Set objXMLDom_week = Server.CreateObject("Microsoft.XMLDOM")
 Set objXmlHttp_week = Server.CreateObject("Msxml2.ServerXMLHTTP")
 'objXmlHttp_week.open "GET", "http://localhost/Git/timeout_2016/ver2_1/inc/xml/weeklynote_sprog.xml", False
-objXmlHttp_week.open "GET", "http://localhost/inc/xml/weeklynote_sprog.xml", False
+'objXmlHttp_week.open "GET", "http://localhost/inc/xml/weeklynote_sprog.xml", False
 'objXmlHttp_week.open "GET", "http://outzource.dk/timeout_xp/wwwroot/ver2_10/inc/xml/weeklynote_sprog.xml", False
 'objXmlHttp_week.open "GET", "https://timeout.cloud/timeout_xp/wwwroot/ver3_99/inc/xml/weeklynote_sprog.xml", False
 'objXmlHttp_week.open "GET", "https://outzource.dk/timeout_xp/wwwroot/ver2_14/inc/xml/weeklynote_sprog.xml", False
-'objXmlHttp_week.open "GET", "https://timeout.cloud/timeout_xp/wwwroot/ver2_14/inc/xml/weeklynote_sprog.xml", False
+'objXmlHttp_week.open "GET", "https://timeout.cloud/timeout_xp/wwwroot/ver4_22/inc/xml/weeklynote_sprog.xml", False
+objXmlHttp_week.open "GET", "https://timeout.cloud/timeout_xp/wwwroot/ver2_14/inc/xml/weeklynote_sprog.xml", False
 
 objXmlHttp_week.send
 
@@ -51,7 +52,7 @@ sXPathQuery_week = "//sprog/se"
 'Session.LCID = 1053
 case 4
 sXPathQuery_week = "//sprog/no"
-'Session.LCID = 2068
+'Session.LCID = 1044 (ikke 68 der er nynorsk)
 case 5
 sXPathQuery_week = "//sprog/es"
 'Session.LCID = 1034
@@ -67,7 +68,7 @@ sXPathQuery_week = "//sprog/dk"
 end select
 
 '*** ALTID DK ellers er der fejl i alle beløb og valtuaer omregninger hvis der er punktum i tallet.
-'Session.LCID = 1030
+Session.LCID = 1030
 
 
 
@@ -92,6 +93,8 @@ Set oNodes_week = objXmlDom_week.documentElement.selectNodes(sXPathQuery_week)
         week_txt_009 = oNode_week.selectSingleNode("txt_9").Text
         week_txt_010 = oNode_week.selectSingleNode("txt_10").Text
         week_txt_011 = oNode_week.selectSingleNode("txt_11").Text
+        week_txt_012 = oNode_week.selectSingleNode("txt_12").Text
+        week_txt_013 = oNode_week.selectSingleNode("txt_13").Text
           
     next
 

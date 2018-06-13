@@ -5,11 +5,11 @@ Dim objXMLHTTP_kunder, objXMLDOM_kunder, i_kunder, strHTML_kunder
 Set objXMLDom_kunder = Server.CreateObject("Microsoft.XMLDOM")
 Set objXmlHttp_kunder = Server.CreateObject("Msxml2.ServerXMLHTTP")
 'objXmlHttp_kunder.open "GET", "http://localhost/Git/timeout_2016/ver2_1/inc/xml/kunder_sprog.xml", False
-'objXmlHttp_kunder.open "GET", "http://localhost/inc/xml/favorit_sprog.xml", False
+objXmlHttp_kunder.open "GET", "http://localhost/inc/xml/kunder_sprog.xml", False
 'objXmlHttp_kunder.open "GET", "http://outzource.dk/timeout_xp/wwwroot/ver2_10/inc/xml/kunder_sprog.xml", False
 'objXmlHttp_kunder.open "GET", "https://timeout.cloud/timeout_xp/wwwroot/ver3_99/inc/xml/kunder_sprog.xml", False
 'objXmlHttp_kunder.open "GET", "https://outzource.dk/timeout_xp/wwwroot/ver2_14/inc/xml/kunder_sprog.xml", False
-objXmlHttp_kunder.open "GET", "https://timeout.cloud/timeout_xp/wwwroot/ver2_14/inc/xml/kunder_sprog.xml", False
+'objXmlHttp_kunder.open "GET", "https://timeout.cloud/timeout_xp/wwwroot/ver2_14/inc/xml/kunder_sprog.xml", False
 
 objXmlHttp_kunder.send
 

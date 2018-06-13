@@ -121,7 +121,8 @@
     <txt_183>Opret medarbejder</txt_183>
     <txt_184>Rediger medarbejder</txt_184>
 
-
+    <txt_196>Ferie korrektion</txt_196>
+    
   </dk>
 
   
@@ -206,7 +207,8 @@
     <txt_183 >Opprett ansatt</txt_183>
     <txt_184 >Rediger ansatt</txt_184>
 
-
+    <txt_196>Ferie korrektion</txt_196>
+    
   </no>
 
 
@@ -290,6 +292,8 @@
     <txt_182 >Kontakter</txt_182>
     <txt_183 >Skapa anställd</txt_183>
     <txt_184 >Redigera anställd</txt_184>
+
+    <txt_196>Ferie korrektion</txt_196>
 
 
   </se>
@@ -377,6 +381,8 @@
     <txt_183 >Mitarbeiter erstellen</txt_183>
     <txt_184 >Mitarbeiter editieren</txt_184>
 
+    <txt_196>Ferie korrektion</txt_196>
+
   </de>
 
 
@@ -461,6 +467,7 @@
     <txt_183 >Créer employé</txt_183>
     <txt_184 >Modifier employé</txt_184>
 
+    <txt_196>Ferie korrektion</txt_196>
 
   </fr>
   
@@ -588,6 +595,7 @@
     <txt_183>New Employee</txt_183>
     <txt_184>Edit Profile</txt_184>
 
+    <txt_196>Ferie korrektion</txt_196>
 
   </uk>
 
@@ -673,6 +681,7 @@
     <txt_183 >Crear empleado</txt_183>
     <txt_184 >Editar empleado</txt_184>
 
+    <txt_196>Ferie korrektion</txt_196>
 
   </es>
   

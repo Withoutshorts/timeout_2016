@@ -53,6 +53,25 @@ if len(session("user")) = 0 then
 	sendemail = request("sendemail")
 	
 	select case func 
+    case "updatehr"
+
+        afspadudb_mids = split(request("FM_afspadudb_mids"), ", ")
+        afspadudb_timer = split(request("FM_afspadudb"), ", ")
+
+        for t = 0 TO UBOUND(afspadudb_mids)
+
+            afspadudb_mids(t) = trim(afspadudb_mids(t))
+            afspadudb_timer(t) = trim(afspadudb_timer(t))
+
+            call indlasTimertilUdbetaling(lto, afspadudb_mids(t), afspadudb_timer(t))
+
+        next
+
+
+        Response.write "HR listen er opdateret. <a href='bal_real_norm_2007.asp'>Videre til oversigten.</a>" 
+        'Response.redirect "bal_real_norm_2007.asp"
+        Response.end
+
 	case "-"
 	
 	case "lukper", "lukper_ok"
@@ -659,7 +678,34 @@ if len(session("user")) = 0 then
 	response.Cookies("tsa")("visikkeFerieogSygiPer") = visikkeFerieogSygiPer
 
 
- 
+    if trim(request("FM_viskunGodkendte")) <> "" OR len(request("FM_usedatokri")) <> 0 then
+	viskunGodkendte = request("FM_viskunGodkendte")
+        if viskunGodkendte <> "" then
+        viskunGodkendte = 1
+        else
+        viskunGodkendte = 0
+        end if
+	else
+
+        if lto = "intranet - local" OR lto = "cflow" then
+
+            viskunGodkendte = 1
+
+        else
+
+	        if request.cookies("tsa")("viskunGodkendte") <> "" then
+	        viskunGodkendte = request.cookies("tsa")("viskunGodkendte")
+	        else
+	        viskunGodkendte = 0
+	        end if
+
+        end if
+
+	end if
+	
+	response.Cookies("tsa")("viskunGodkendte") = viskunGodkendte
+
+    
 
 
 
@@ -691,7 +737,7 @@ if len(session("user")) = 0 then
 	
 	
 	
-	<script src="inc/bal_real_norm_jav.js"></script>
+	<script src="inc/bal_real_norm_jav_1.js"></script>
 	
 
  
@@ -835,6 +881,14 @@ if len(session("user")) = 0 then
 	end if%>
         <br /><input id="FM_visikkeFerieogSygiPer" name="FM_visikkeFerieogSygiPer" value="1" type="checkbox" <%=visikkeFerieogSygiPerCHK %> />Skjul Ferie, sygdom og overarb. i periode kolonner. (Vis kun Ferie i ferieår og Sygdom ÅTD)
 
+       <%if cint(viskunGodkendte) = 1 then
+	viskunGodkendteCHK = "CHECKED"
+	else 
+	viskunGodkendteCHK = ""
+	end if%>
+        <br /><input id="FM_viskunGodkendte" name="FM_viskunGodkendte" value="1" type="checkbox" <%=viskunGodkendteCHK %> /> Vis kun godkendte timer
+
+
 	    </td></tr>
 	<tr>
 	<td colspan=3>
@@ -853,12 +907,17 @@ if len(session("user")) = 0 then
 			<tr><td style="border-bottom:1px #999999 solid;"><a href="#" id="rap_udspec" class=vmenu>Afstemning + Udspecificering</a></td></tr>
 			<tr><td style="border-bottom:1px #999999 solid;"><a href="#" id="rap_syg" class=vmenu>Fravær & Sygdom</a></td></tr>
 			<tr><td style="border-bottom:1px #999999 solid;"><a href="#" id="rap_all" class=vmenu>Alt</a></td></tr>
+            
             <%if lto = "fk" OR lto = "intranet - local" then %>
             	<tr><td style="border-bottom:1px #999999 solid;"><a href="#" id="rap_fk_sdlon" class=vmenu>FK lønrap. SD løn</a></td></tr>
             <%end if %>
 
              <%if instr(lto, "epi") <> 0 OR lto = "intranet - local" OR lto = "plan" then %>
             	<tr><td style="border-bottom:1px #999999 solid;"><a href="#" id="rap_epi_blueg" class=vmenu>Bluegaarden</a></td></tr>
+            <%end if %>
+
+            <%if lto = "cflow" OR lto = "intranet - local" then %>
+            	<tr><td style="border-bottom:1px #999999 solid;"><a href="#" id="rap_cflow_huldt" class=vmenu>Huldt & Lillevik løn</a></td></tr>
             <%end if %>
 
          <!--
@@ -955,7 +1014,7 @@ pwdt = 200
                 </tr>
    
                 <%select case lto
-                case "intranet - local", "fk"
+                case "xintranet - local", "fk"
                 if level = 1 then %>
                  <tr><td colspan=2 valign=top>
                 <input type="checkbox" name="sd_lon_fil" value="1" /> Tilknyt SD lønfil fra CSV fil.
@@ -964,9 +1023,42 @@ pwdt = 200
                 case else
                 end select %>
 
+                 
+                <%select case lto
+                case "intranet - local", "cflow"
+                if level = 1 then %>
+                 <tr><td colspan=2 valign=top>
+                <input type="checkbox" name="huldt_lillevik_lon_fil" value="1" /> Tilknyt Huldt & Lillevik lønfil.
+                </td></tr>
+                <% end if
+                case else
+                end select %>
+
+                 
+
 
             </form>
 
+
+                 
+                 <%
+                 '*** HuldT & Lillevik
+                 if lto = "xcflow" OR lto = "xintranet - local" then%>
+                 <form action="bal_real_norm_2007.asp?media=export&exporttype=220" method="post" target="_blank">
+                 <input id="Hidden2" name="FM_medarb" value="<%=thisMiduse%>" type="hidden" />
+                 <input id="Hidden1" name="FM_medarb_hidden" value="<%=thisMiduse%>" type="hidden" />
+
+                
+                <tr>
+    
+  
+                <td align=center><input type=image src="../ill/export1.png" /></td>
+                <td><input id="Submit4" type="submit" value=".csv Huldt & Lillevik" style="font-size:9px; width:120px;" />
+                 </td>
+ 
+                </tr>
+                 </form>
+                <% end if%>
 
 
                  <%
@@ -1096,11 +1188,20 @@ pwdt = 200
                             <input id="FM_lk_md" name="FM_lk_md" type="text" value="<%=month(now) %>" style="width:20px; font-size:9px; font-family:arial;" /> - 
                             <input id="FM_lk_aar" name="FM_lk_aar" type="text" value="<%=year(now) %>" style="width:30px; font-size:9px; font-family:arial;" />   dd - mm - åååå 
 
-                            <%if instr(lto, "epi") <> 0 then
+                            <%if instr(lto, "epi") <> 0 OR lto = "tia" OR lto = "mpt" then
                                 nulstilCHK = "CHECKED"
                             else
                                 nulstilCHK = ""
-                            end if%>
+                            end if
+                                
+                            if lto = "mpt" then
+                                lukprojCHK = "CHECKED"
+                            else
+                                lukprojCHK = ""
+                            end if
+                                
+                            %>
+
 
                             <br /><input type="checkbox" value="1" name="FM_nulstil" <%=nulstilCHK%> /> Nulstil <span style="color:#999999;">(overfør ikke fleks-saldi)</span><br />
                            <input type="checkbox" value="1" name="FM_lukproj" <%=lukprojCHK%> /> Luk også for registrering på proj.<br />
@@ -1244,6 +1345,10 @@ pwdt = 200
     end if
 
 
+        if level = 1 then%>
+        <form name="opdaterhr" action="bal_real_norm_2007.asp?func=updatehr" method="post">
+        <%end if
+
      
       headerwrtExp = 0
 
@@ -1339,11 +1444,13 @@ pwdt = 200
 
         if media <> "print" then 
         Response.write  "<br><br><h4><span style=""font-size:10px;"">Periode afgrænsning:</span><br> "& formatdatetime(startdato, 1) & " - "&  formatdatetime(slutdato, 1) & "</h4>"
+
+     
         else
         Response.write  "<br><b><span style=""font-size:10px;"">Periode afgrænsning:</span><br> "& formatdatetime(startdato, 1) & " - "&  formatdatetime(slutdato, 1) & "</b>"
         end if
 
-            if media = "export" AND request("sd_lon_fil") <> "1" AND cint(exporttype) <> 200 AND cint(exporttype) <> 201 then 'bluegaarden then
+            if media = "export" AND request("sd_lon_fil") <> "1" AND request("huldt_lillevik_lon_fil") <> "1" AND cint(exporttype) <> 200 AND cint(exporttype) <> 201 AND cint(exporttype) <> 220 then 'Bluegaarden/Huldt & Lillevik then
             strEksportTxtMd = "xx99123sy#z xx99123sy#zPeriode afgrænsning: "& formatdatetime(startdato, 1) & " - "&  formatdatetime(slutdato, 1)
             strEksportTxt = strEksportTxt & strEksportTxtMd
             end if
@@ -1368,9 +1475,17 @@ pwdt = 200
 	'else
 	'Response.Write "<tr><td><b>Medarbjeder afstemning</b><br>Vælg de ønskede medarbejdere i listen ovenfor...</td></tr>"
 	'end if
+
+    if level = 1 then
     %>
 
+    <tr><td colspan="100"><br /><br />
+        <input type="submit" value="Opdater HR listen >>" />
+        </td></tr>
+
+    <%end if %>
 	</table>
+    </form>
  
     <% if media <> "export" then
         response.Flush
@@ -1432,9 +1547,11 @@ pwdt = 200
 				end if
 				
 				
-				
+				'if cint(exporttype) = 220 then 'Huldt & Lillevik
+                'file = "DTcflowTRS.csv"
+                'else
 				file = "medarbafexp_"&filnavnDato&"_"&filnavnKlok&"_"&lto&".csv"
-				
+				'end if
 				
 				'**** Eksport fil, kolonne overskrifter ***
 				
@@ -1450,10 +1567,22 @@ pwdt = 200
                 <%
                 Response.redirect OutputFileName
                 else
-                Response.redirect "../inc/log/data/"& file &""	
-                end if 
+
+                    if len(trim(request("huldt_lillevik_lon_fil"))) <> 0 then
+                    %>
+                    <!--#include file="eksport_timeout_huldt_lillevik.asp"-->
+                    <%
+                
+                    'Response.write "Din fil er klar på c:\ drevet"
+
+                    'Response.write "hlt_OutputFileName: " & hlt_OutputFileName
+                    'response.flush
+                    Response.redirect hlt_OutputFileName
+                    else
+                    Response.redirect "../inc/log/data/"& file &""	
+                    end if 
 				
-				
+				end if 
 				
 	
 	

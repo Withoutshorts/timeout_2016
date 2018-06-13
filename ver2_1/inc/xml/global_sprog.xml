@@ -98,7 +98,7 @@
 
     <txt_194>Rejsedage</txt_194>
     <txt_195>E3</txt_195>
-    
+    <txt_196>Ferie korrektion</txt_196>
 
       <!-- End typer -->
     
@@ -213,6 +213,8 @@
     <txt_183 >Opprett ansatt</txt_183>
     <txt_184 >Rediger ansatt</txt_184>
 
+    <txt_196>Ferie korrektion</txt_196>
+
 
   </no>
 
@@ -298,6 +300,7 @@
     <txt_183 >Skapa anställd</txt_183>
     <txt_184 >Redigera anställd</txt_184>
 
+    <txt_196>Ferie korrektion</txt_196>
 
   </se>
 
@@ -383,6 +386,8 @@
     <txt_183 >Mitarbeiter erstellen</txt_183>
     <txt_184 >Mitarbeiter editieren</txt_184>
 
+    <txt_196>Ferie korrektion</txt_196>
+
   </de>
 
   <!-- Fransk -->
@@ -465,6 +470,8 @@
     <txt_182 >Contacts</txt_182>
     <txt_183 >Créer employé</txt_183>
     <txt_184 >Modifier employé</txt_184>
+
+    <txt_196>Ferie korrektion</txt_196>
 
   </fr>
 
@@ -560,7 +567,8 @@
 
     <txt_194>Traveldays</txt_194>
     <txt_195>E3</txt_195>
-    
+
+    <txt_196>Ferie korrektion</txt_196>
     
     <!-- End typer -->
 
@@ -678,7 +686,96 @@
     <txt_183 >Crear empleado</txt_183>
     <txt_184 >Editar empleado</txt_184>
 
+    <txt_196>Ferie korrektion</txt_196>
   </es>
+
+
+
+  <!-- Norsk -->
+  <cflow>
+
+    <txt_119 >Søk | Sorter</txt_119>
+    <txt_120 >Timeregistrering</txt_120>
+    <txt_121 >Prosjektplan | Ressurser</txt_121>
+    <txt_122 >Jobb</txt_122>
+    <txt_123 >Ressurser</txt_123>
+    <txt_124 >Kunder</txt_124>
+    <txt_125 >Ansatte</txt_125>
+    <txt_126 >Statistikk</txt_126>
+    <txt_127 >File manager</txt_127>
+    <txt_128 >Lager</txt_128>
+    <txt_129 >Fakturerbare</txt_129>
+    <txt_130 >Km</txt_130>
+    <txt_131 >Ikke fakturerbare</txt_131>
+    <txt_132 >Salg | Newbizz</txt_132>
+    <txt_133 >Lunsj</txt_133>
+    <txt_134 >Ferie planlagt</txt_134>
+    <txt_135 >Ferie holdt</txt_135>
+    <txt_143 >Opparbeidet ferie</txt_143>
+    <txt_156 >Ferie betalt</txt_156>
+    <txt_136 >Ekstra ferie opptjent</txt_136>
+    <txt_137 >Fridag brukt</txt_137>
+    <txt_149 >Fridag betalt</txt_149>
+    <txt_138 >Syk</txt_138>
+    <txt_139 >Barnet syk</txt_139>
+    <txt_144 >Ordinær</txt_144>
+    <txt_145 >Avspasering</txt_145>
+    <txt_146 >Overtid betales</txt_146>
+    <txt_147 >Timebank</txt_147>
+    <txt_148 >Helse</txt_148>
+    <txt_150 >Pause</txt_150>
+    <txt_151 >Overtid 100%</txt_151>
+    <txt_152 >Reisetid</txt_152>
+    <txt_153 >Reisetid 100%</txt_153>
+    <txt_154 >Overtid 50%</txt_154>
+    <txt_155 >Reisetid 50%</txt_155>
+    <txt_157 >Utetillæg udland</txt_157>
+    <txt_158 >Teamleder tillæg</txt_158>
+    <txt_159 >Overtid ønsket betalt</txt_159>
+    <txt_160 >Lege</txt_160>
+    <txt_161 >Etter Midnatt</txt_161>
+    <txt_162 >E2</txt_162>
+    <txt_164 >Flytende hellig planlagt</txt_164>
+    <txt_165 >Ferie afholdt u. lønn</txt_165>
+    <txt_166 >Utetillæg innland</txt_166>
+    <txt_171 >Fødselspermisjon</txt_171>
+    <txt_172 >Vesenet dager</txt_172>
+    <txt_173 >Senior Timer</txt_173>
+    <txt_174 >1 mai timer</txt_174>
+    <txt_179 >Plikt</txt_179>
+    <txt_185 >Alder Reduksjon tjent</txt_185>
+    <txt_186 >Alder Reduksjon brukt</txt_186>
+    <txt_187 >Alder Reduksjon betalt</txt_187>
+    <txt_188 >Alder Reduksjon planlagt</txt_188>
+    <txt_189 >Omsorg dag 2 planlagt</txt_189>
+    <txt_190 >Omsorg dag 10 planlagt</txt_190>
+    <txt_191 >Omsorg dag Omregnet planlagt</txt_191>
+    <txt_192 >Ulempe1706 betalt</txt_192>
+    <txt_193 >Ulempe Weekend betalt</txt_193>
+    <txt_194 >Reisedager</txt_194>
+    <txt_195 >E3</txt_195>
+    <txt_140 >aktivitet</txt_140>
+    <txt_141 >Timer</txt_141>
+    <txt_142 >Aktiviteter</txt_142>
+    <txt_163 >Balanse</txt_163>
+    <txt_167 >Total</txt_167>
+    <txt_168 >Tillegg / Frad.</txt_168>
+    <txt_169 >Vedlegg</txt_169>
+    <txt_170 >Fradrag</txt_170>
+    <txt_175 >Ferie overføres</txt_175>
+    <txt_176 >Ferie optjent u. Lønn</txt_176>
+    <txt_177 >Rettelse Komme / Gå</txt_177>
+    <txt_178 >Rettelse Realisert</txt_178>
+    <txt_180 >Opprett ny kunde</txt_180>
+    <txt_181 >Avtale Oversikt</txt_181>
+    <txt_182 >Kontakter</txt_182>
+    <txt_183 >Opprett ansatt</txt_183>
+    <txt_184 >Rediger ansatt</txt_184>
+
+    <txt_196>Ferie korrektion</txt_196>
+
+
+  </cflow>
 
 
 </sprog>

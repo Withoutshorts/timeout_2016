@@ -1044,6 +1044,7 @@ public venter_ultimo
             akt_rSel7 = ""
             akt_rSel10 = ""
             akt_rSel15 = ""
+            akt_rSel18 = ""
             akt_rSel20 = ""
             akt_rSel25 = ""
             akt_rSel30 = ""
@@ -1063,6 +1064,8 @@ public venter_ultimo
             akt_rSel10 = "SELECTED"
             case 15
             akt_rSel15 = "SELECTED"
+            case 18
+            akt_rSel18 = "SELECTED"
             case 20
             akt_rSel20 = "SELECTED"
             case 25
@@ -1087,7 +1090,8 @@ public venter_ultimo
         strAktsubtotal = strAktsubtotal &"<option value='0.07' "&akt_rSel7&">7%</option>"
         strAktsubtotal = strAktsubtotal &"<option value='0.10' "&akt_rSel10&">10%</option>"
         strAktsubtotal = strAktsubtotal &"<option value='0.15' "&akt_rSel15&">15%</option>"
-        strAktsubtotal = strAktsubtotal &"<option value='0.15' "&akt_rSel20&">20%</option>"
+        strAktsubtotal = strAktsubtotal &"<option value='0.18' "&akt_rSel18&">18%</option>"
+        strAktsubtotal = strAktsubtotal &"<option value='0.20' "&akt_rSel20&">20%</option>"
         strAktsubtotal = strAktsubtotal &"<option value='0.25' "&akt_rSel25&">25%</option>"
         strAktsubtotal = strAktsubtotal &"<option value='0.30' "&akt_rSel30&">30%</option>"
         strAktsubtotal = strAktsubtotal &"<option value='0.40' "&akt_rSel40&">40%</option>"
@@ -1674,6 +1678,7 @@ public venter_ultimo
                                 rSel7 = ""
                                 rSel10 = ""
                                 rSel15 = ""
+                                rSel18 = ""
                                 rSel20 = ""
                                 rSel25 = ""
                                 rSel30 = ""
@@ -1693,6 +1698,8 @@ public venter_ultimo
                                 rSel10 = "SELECTED"
                                 case 15
                                 rSel15 = "SELECTED"
+                                case 18
+                                rSel18 = "SELECTED"
                                 case 20
                                 rSel20 = "SELECTED"
                                 case 25
@@ -1723,6 +1730,7 @@ public venter_ultimo
                                         <option value="0.07"  <%=rSel7%>>7%</option>
                                         <option value="0.10" <%=rSel10%>>10%</option>
                                         <option value="0.15" <%=rSel15%>>15%</option>
+                                        <option value="0.18" <%=rSel18%>>18%</option>
                                         <option value="0.20" <%=rSel20%>>20%</option>
                                         <option value="0.25" <%=rSel25%>>25%</option>
                                         <option value="0.30" <%=rSel30%>>30%</option>
@@ -1932,7 +1940,7 @@ public venter_ultimo
     
     
     public matSubTotal, matSubTotalAll, matSubTotalAlluMoms, lastgrpnavn
-    public rSel0, rSel5, rSel7, rSel10, rSel25, rSel40, rSel50, rSel60, rSel70, rSel75 
+    public rSel0, rSel5, rSel7, rSel10, rSel25, rSel40, rSel50, rSel60, rSel70, rSel75, rSel18, rSel20 
     
     
     
@@ -1965,7 +1973,7 @@ public venter_ultimo
         end if
         
         '**** kun dem der er indtastet til videre fakturering skal være checked ***'
-        if oRec("intkode") <> 2 then 
+        if oRec("intkode") <> 2 AND lto <> "mpt" then 
         chkVis = ""
         else
             if func = "red" then
@@ -2147,6 +2155,7 @@ public venter_ultimo
             rSel7 = ""
             rSel10 = ""
             rSel15 = ""
+            rSel18 = ""
             rSel25 = ""
             rSel30 = ""
             rSel40 = ""
@@ -2165,6 +2174,8 @@ public venter_ultimo
             rSel10 = "SELECTED"
             case 15
             rSel15 = "SELECTED"
+            case 18
+            rSel18 = "SELECTED"
             case 20
             rSel20 = "SELECTED"
             case 25
@@ -2186,6 +2197,7 @@ public venter_ultimo
                                         <option value="0.07"  <%=rSel7%>>7%</option>
                                         <option value="0.10" <%=rSel10%>>10%</option>
                                         <option value="0.15" <%=rSel15%>>15%</option>
+                                        <option value="0.18" <%=rSel18%>>18%</option>
                                         <option value="0.20" <%=rSel20%>>20%</option>
                                         <option value="0.25" <%=rSel25%>>25%</option>
                                         <option value="0.30" <%=rSel30%>>30%</option>
@@ -2315,6 +2327,8 @@ public venter_ultimo
             rSel10 = "SELECTED"
             case 15
             rSel15 = "SELECTED"
+            case 18
+            rSel18 = "SELECTED"
             case 20
             rSel = "SELECTED"
             case 25
@@ -2342,6 +2356,7 @@ public venter_ultimo
                                        <option value="0.07" <%=rSel7%>>7%</option>
                                         <option value="0.10" <%=rSel10%>>10%</option>
                                         <option value="0.15" <%=rSel15%>>15%</option>
+                                        <option value="0.18" <%=rSel15%>>18%</option>
                                         <option value="0.20" <%=rSel20%>>20%</option>
                                         <option value="0.25" <%=rSel25%>>25%</option>
                                         <option value="0.30" <%=rSel30%>>30%</option>

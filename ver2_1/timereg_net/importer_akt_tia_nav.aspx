@@ -29,9 +29,9 @@
 
 
 
-        'meMTxt.Text = "HENT DATA"
+        meMTxt.Text = "HENT DATA"
 
-        'Response.Write("<br>No (INIT): " + Request("no"))
+        'Response.Write("<br>Job No: " + Request("jobno"))
 
         Dim jobno As String = Request("jobno")
 
@@ -120,7 +120,8 @@
         'filter.Criteria.
 
 
-
+        'Response.Write("-1")
+        'datasrc.Text = "Kigger efter job data"
 
 
         Dim filters() As WebReferenceNavTiaProd_akt.TimeOutJobTasks_Filter = New WebReferenceNavTiaProd_akt.TimeOutJobTasks_Filter(0) {filter}
@@ -138,6 +139,10 @@
             'meMTxt.Text = WebReferenceNAvTiaProd_akt.JobTasks_Fields.Name.ToString
             'allNames += allNames + "; " + WebReferenceNAvTiaProd_akt.JobTasks_Fields.Name.ToString()
 
+
+
+            'Response.Write("0")
+            'datasrc.Text = "Job data fundet"
 
             akt_importtype = "1"
 

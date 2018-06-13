@@ -19,7 +19,7 @@ objXmlHttp_global.open "GET", "https://timeout.cloud/timeout_xp/wwwroot/ver2_14/
 'case "fk"
 'objXmlHttp_global.open "GET", "http://outzource.dk/timeout_xp/wwwroot/ver2_10/inc/xml/global_sprog_fk.xml", False
 case "tec", "esn"
-objXmlHttp_global.open "GET", "http://timeout.cloud/timeout_xp/wwwroot/ver2_14/inc/xml/global_sprog_tec.xml", False
+objXmlHttp_global.open "GET", "https://timeout.cloud/timeout_xp/wwwroot/ver2_14/inc/xml/global_sprog_tec.xml", False
 'objXmlHttp_global.open "GET", "http://localhost/Git/timeout_2016/ver2_1/inc/xml/global_sprog_tec.xml", False
 'objXmlHttp_global.open "GET", "https://timeout.cloud/timeout_xp/wwwroot/ver3_99/inc/xml/global_sprog_tec.xml", False
 'case "intranet - local" 
@@ -68,8 +68,16 @@ end if
 
 select case sprog
 case 1
-sXPathQuery_global = "//sprog/dk"
-'Session.LCID = 1030
+   
+    select case lto
+    case "cflow"
+    sXPathQuery_global = "//sprog/cflow"
+    'Session.LCID = 1030
+    case else
+    sXPathQuery_global = "//sprog/dk"
+    'Session.LCID = 1030
+    end select
+
 case 2
 sXPathQuery_global = "//sprog/uk"
 'Session.LCID = 2057
@@ -77,8 +85,16 @@ case 3
 sXPathQuery_global = "//sprog/se"
 'Session.LCID = 1053
 case 4
-sXPathQuery_global = "//sprog/no"
-'Session.LCID = 2068
+
+    select case lto
+    case "cflow"
+    sXPathQuery_global = "//sprog/cflow"
+    'Session.LCID = 2068
+    case else
+    sXPathQuery_global = "//sprog/no"
+    'Session.LCID = 2068
+    end select
+
 case 5
 sXPathQuery_global = "//sprog/es"
 'Session.LCID = 1034
@@ -195,6 +211,7 @@ Set oNodes_global = objXmlDom_global.documentElement.selectNodes(sXPathQuery_glo
 
         global_txt_194 = oNode_global.selectSingleNode("txt_194").Text
         global_txt_195 = oNode_global.selectSingleNode("txt_195").Text
+        global_txt_196 = oNode_global.selectSingleNode("txt_196").Text
 
     next
 

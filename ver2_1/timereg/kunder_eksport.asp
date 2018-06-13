@@ -59,7 +59,7 @@ if len(session("user")) = 0 then
 		
 		strTxtExport =  "Linjeoverskrift;Kontakt;Kontakt id;Kontaktperson/filial;Adresse; "_
 		& "Postnr;By;Land;Telefon;Mobil;Fax;"_
-		& "Email;Titel;Segment;Afdeling;Rabat;EAN;Interesse;Beskrivelse;Konto;CVR;Bank;Iban;Swift;NCA kode;==" & vbcrlf
+		& "Email;Titel;Segment;Afdeling;Rabat;EAN;Interesse;Beskrivelse;Konto;CVR;Bank;Iban;Swift;NCA kode;Kundeansv 1;Kundeansv 2;Forfaldsdato;" & vbcrlf
 		
 		'else
 		
@@ -75,15 +75,19 @@ if len(session("user")) = 0 then
 	
 	kids = request("kids")
 	kunderIder = split(kids, ",") 
+        
 	for i = 0 to Ubound(kunderIder)
 	
 	strSQL = "SELECT Kid, Kkundenavn, Kkundenr, Kdato, "_
 	& "adresse, postnr, city, land, telefon, "_
-	& "telefonmobil, telefonalt, fax, email, ean, url, "_
+	& "telefonmobil, telefonalt, fax, k.email, ean, url, "_
 	& "ketype, beskrivelse, "_
 	& "regnr, kontonr, cvr, bank, swift, iban, useasfak, hot, "_
-	& "logo, ktype, kundeans1, kundeans2, kt.navn AS kundetypenavn, kt.rabat, nace "_
-	&" FROM kunder LEFT JOIN kundetyper kt ON (kt.id = ktype) WHERE Kid=" & kunderIder(i)
+	& "logo, ktype, kundeans1, kundeans2, kt.navn AS kundetypenavn, kt.rabat, nace, m1.init AS kans1_init, m2.init AS kans2_init, kundeans1, kundeans2, betbetint"_
+	&" FROM kunder k "_
+    &" LEFT JOIN medarbejdere m1 ON (m1.mid = kundeans1) "_
+    &" LEFT JOIN medarbejdere m2 ON (m2.mid = kundeans2) "_
+    &" LEFT JOIN kundetyper kt ON (kt.id = ktype) WHERE Kid=" & kunderIder(i)
 	
 	'Response.write strSQL & "<hr>"
 	'Response.flush
@@ -100,8 +104,77 @@ if len(session("user")) = 0 then
 	strAdr = oRec("adresse")
 	strPostnr = oRec("postnr")
 	strCity = oRec("city")
-	strLand = oRec("land")
-	
+	strLand = oRec("land")       
+	strbetbetint = oRec("betbetint")
+
+    betTxt9 = "60 dage"
+	betTxt8 = "Lbn. månd + 30 dage"
+	betTxt7 = "Lbn. månd + 45 dage"
+	betTxt6 = "45 dage"
+	betTxt5 = "21 dage"
+	betTxt4 = "Lbn. månd + 15 dage"
+	betTxt2 = "14 dage"
+	betTxt3 = "30 dage"
+	betTxt1 = "8 dage"
+	betTxtu1 = "Angiver selv"
+    betTxt0 = "Vælg.. (ikke angivet)"
+    betTxt20 = "0 dage"
+    betTxt21 = "0 dage NetCash"
+    betTxt10 = "Lbn. månd + 63 dage"
+    betTxt11 = "Lbn. månd + 60 dage"
+    betTxt12 = "Lbn. månd + 90 dage"
+    betTxt13 = "Lbn. månd + 120 dage"
+    betTxt14 = "90 dage"
+    betTxt15 = "120 dage"
+    betTxt16 = "Lbn. månd + 62 dage"
+    betTxt22 = "Lbn. månd + 20 dage"
+
+
+    select case strbetbetint
+        case 20
+        betbetint_txt = betTxt20
+        case 21
+        betbetint_txt = betTxt21
+        case 22
+        betbetint_txt = betTxt22
+        case 1
+	    betbetint_txt = betTxt1
+        case 2
+        betbetint_txt = betTxt2
+	    case 3
+        betbetint_txt = betTxt3
+	    case 4
+        betbetint_txt = betTxt4
+	    case 5
+        betbetint_txt = betTxt5
+	    case 6
+        betbetint_txt = betTxt6
+	    case 7
+        betbetint_txt = betTxt7
+	    case "-1"
+        betbetint_txt = betTxtu1
+	    case 8
+        betbetint_txt = betTxt8
+	    case 9
+        betbetint_txt = betTxt9
+	    case 10
+        betbetint_txt = betTxt10
+        case 11
+        betbetint_txt = betTxt11
+        case 12
+        betbetint_txt = betTxt12
+        case 13
+        betbetint_txt = betTxt13
+        case 14
+        betbetint_txt = betTxt14
+        case 15
+        betbetint_txt = betTxt15
+        case 16
+        betbetint_txt = betTxt16
+        case else
+        betbetint_txt = "Ingen tekst"
+
+    end select
     
 
     if len(trim(oRec("telefon"))) <> 0 then
@@ -171,7 +244,7 @@ if len(session("user")) = 0 then
 		& Chr(34) & strPostnr & Chr(34) &";"& Chr(34) & strCity & Chr(34) &";"& Chr(34) & strLand & Chr(34) &";"& Chr(34) & strTlf & Chr(34) &";"& Chr(34) & strMobil & Chr(34) &";"& Chr(34) & strFax & Chr(34) &";"_
 		& Chr(34) & strEmail & Chr(34) &";;"& Chr(34) & strKundeType & Chr(34) &";;"& Chr(34) & rabat & Chr(34) &";"& Chr(34) & replace(strEan, "EAN ", "") & Chr(34) &";"& Chr(34) & hot & Chr(34) &";"& Chr(34) & strBesk & Chr(34) &";"& Chr(34) & intregnr & intkontonr & Chr(34) &";"_
         & Chr(34) & intCVR & Chr(34) &";"& Chr(34) & strBank & Chr(34) &";"_
-		& Chr(34) & strIban & Chr(34) &";" & Chr(34) & strSwift & Chr(34) & ";"& Chr(34) & strNACE & Chr(34) &";"& vbcrlf 
+		& Chr(34) & strIban & Chr(34) &";" & Chr(34) & strSwift & Chr(34) & ";"& Chr(34) & strNACE & Chr(34) &";"& Chr(34) & oRec("kans1_init") & Chr(34) &";"& Chr(34) & oRec("kans2_init") & Chr(34) &";" & Chr(34) & betbetint_txt & Chr(34) &";" & vbcrlf 
 		
 		'end if
 		
@@ -230,7 +303,7 @@ if len(session("user")) = 0 then
 		strTxtExport = strTxtExport &"Kontaktpers./filial;"& Chr(34) & trim(strKundenavn) & Chr(34) &";"& Chr(34) & strKnr & Chr(34) &";" & Chr(34) & strKpers & Chr(34) &";"_
 		& Chr(34) & trim(strAdr_kpers) & Chr(34) & ";" & Chr(34) & strPostnr_kpers & Chr(34) & ";"_
 		& Chr(34) & strCity_kpers & Chr(34) &";" & Chr(34) & strLand_kpers & Chr(34) & ";" & Chr(34) & strKpersdTlf & Chr(34) &";" & Chr(34) & strKpersmTlf & Chr(34) & ";;"_
-		& Chr(34) & strKpersEmail & Chr(34) & ";"& Chr(34) & strKperstit & Chr(34) &";"& Chr(34) & strKundeType & Chr(34) &";"& Chr(34) & strAf_kpers & Chr(34) &";" & vbcrlf
+		& Chr(34) & strKpersEmail & Chr(34) & ";"& Chr(34) & strKperstit & Chr(34) &";"& Chr(34) & strKundeType & Chr(34) &";"& Chr(34) & strAf_kpers & Chr(34) &";" & Chr(34) & betbetint_txt & Chr(34) &";" & vbcrlf
 		
 		oRec2.movenext
 		wend

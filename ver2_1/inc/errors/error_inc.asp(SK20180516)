@@ -1,0 +1,1008 @@
+ 
+
+
+<!--#include file="../xml/error_xml_inc.asp"-->
+
+<%
+'Response.write "<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>"
+ 'Response.write "<h4>thisfilr: "& thisfile &"error_inc XX</h4><br>"
+
+
+function showError(errortype)
+select case errortype
+case 1
+varErrorText = err_txt_121&"!"
+case 2
+varErrorText = err_txt_122&"!"
+'case 3
+'varErrorText = "Denne medarbejderkonto er <b>ukendt.</b> <br>Du har derfor ikke adgang til <b>TimeOut!</b>"
+case 4
+varErrorText = replace(err_txt_004, "#nylinie#", "<br>")
+ 
+ case 5
+  if Request.Cookies("loginlto")("lto") <> "" then
+  thislto = Request.Cookies("loginlto")("lto")
+  else
+      if len(trim(lto)) <> 0 then
+      thislto = lto
+      else
+      thislto = ""
+      end if
+  end if
+  
+  varErrorText = "<h4>Your session has expired <br><span style='font-size:11px;'> Sessionen er udløbet.</span></h4>"_
+  &"Session Expires if TimeOut has been inactive for more then 12 hours.<br></br>"_
+  &"Click here: <a href='https://timeout.cloud/"&thislto&"' target='_top'>https://timeout.cloud/"&thislto&"</a> to re-enter into TimeOut.<br><br>"_
+  &"Sessionen udløber ud hvis TimeOut har været passiv i mere end 12 timer, "_
+  &"eller TimeOut serveren har nulstillet dagens aktive sessioner, af sikkerheds- og -performance mæssige hensyn."_
+  &"<br></br>Klik her: <a href='https://timeout.cloud/"&thislto&"' target='_top'>https://timeout.cloud/"&thislto&"</a> for at logge ind i jeres system igen."_
+  &"<br /><br />"_
+  &"Med venlig hilsen / Best regards<br /><br />OutZourCE dev. team."
+          
+          
+case 6
+varErrorText = err_txt_130
+case 7
+varErrorText = err_txt_131 & "<br>"_
+& err_txt_132 & "<br>"_
+&"<i><a href='javascript:history.back()'>"&err_txt_133&"</a></i>"_
+&"<br>"
+
+
+case 8
+varErrorText = err_txt_134 & ":<ul><li> "& err_txt_135 &"<b> "& err_txt_136 &"</b></ul>"
+
+case 9
+varErrorText = err_txt_137 & ":<br><ul>"_
+&"<li>" & err_txt_138 _
+&"<li>" & err_txt_139 _
+&"<li>" & err_txt_140 _
+&"<li>" & err_txt_141 _
+&"<li>" & err_txt_142 _
+&"</ul>"
+
+
+
+case 10
+varErrorText = err_txt_143 & "<b> "&err_txt_144&"</b> "&err_txt_145&"<br><br>"& err_txt_146
+
+case 11
+varErrorText = err_txt_143 & " <b>"&err_txt_141&"</b> "&err_txt_145&" <br><br>" & err_txt_146
+
+case 12
+varErrorText = err_txt_147 & " <b>"&err_txt_148&"</b> "&err_txt_145&"<br>"_
+& err_txt_149 &": <b>"& errKundenavn &" ("& errKundenr &")</b>"_
+&"<br>"&err_txt_146&" <b>"&err_txt_148&"</b>."
+
+
+case 13
+varErrorText = "<ul><li>"&err_txt_135&" <b>"&err_txt_150&"</b><li> "&err_txt_151&" <b>150</b> "&err_txt_152&"</ul>"
+
+case 14
+varErrorText = err_txt_153 & ": <br> "_
+&"<ul> "_
+&"<li>"&err_txt_154&" ("&err_txt_155&" <b>'"&err_txt_154&"..'</b> "&err_txt_156&")"_
+&"<li>"&err_txt_157&" <b>''</b> "&err_txt_158&" <b>'</b>"_ 
+&"<li>"&err_txt_159&" <b>"&err_txt_160&" "& maxCharJobNavn &"</b> "&err_txt_161&" <span style=""color:red;"">"&err_txt_162&": <b>"& len(request("FM_navn")) &"</b></span>"_
+&"<li>"&err_txt_163&" "_
+&"<li>"&err_txt_164&" <b>"&err_txt_165&"</b> "& err_txt_161 _
+&"<li>"&err_txt_166&" <b>"&err_txt_167&"</b>.</ul>"
+
+case 15
+varErrorText = "<b>"&err_txt_168&"</b> "&err_txt_169&" <b>"&err_txt_170&"</b> "&err_txt_171&"<br>"_
+& err_txt_172
+
+case 16
+varErrorText = "<b>"&err_txt_173&"</b> "&err_txt_174&"<br>"_
+& err_txt_175
+
+case 17
+varErrorText = err_txt_176 & "<font class='error'>"&err_txt_177&"!</font> "&err_txt_178&"<br>"_
+& err_txt_179
+
+case 18
+varErrorText = "<font class='error'>"&err_txt_177&"!</font><br>"_
+& err_txt_180 & " <b>"&err_txt_181&"</b> " & err_txt_182
+
+case 19
+varErrorText = err_txt_183 & "<br> <b>Job</b> "&err_txt_185&" <b>"&err_txt_186&"</b> "&err_txt_187&" <b>"&err_txt_188&"</b>."
+
+case 20
+varErrorText = "<b>"&err_txt_189&"</b> "&err_txt_190&"<br><br>"&err_txt_191&" [.] ("&err_txt_192&") "&err_txt_193&" <br>"&err_txt_194&" [,] ("&err_txt_195&") " & err_txt_196
+case 21
+varErrorText = "<b>"&err_txt_148&"</b> "& err_txt_197
+case 22
+varErrorText = "<b>"&err_txt_198&"</b> "& err_txt_199
+
+case 23
+varErrorText = "<b>"&err_txt_200&"</b><br><br>"_
+& err_txt_153 &": <br><br> "_
+&"- "&err_txt_201&"<br>"_
+&"- "&err_txt_202&" (<b>"&err_txt_203&"</b>).<br>"_
+
+'&"<li>Startdato er en <b>senere dato </b>end slutdato."_
+
+case 24
+varErrorText = err_txt_204 & " <b>"&err_txt_168&"</b> "&err_txt_169&" <b>"&err_txt_170&"</b> "&err_txt_145&"<br>"&err_txt_205&"<br><br>" & err_txt_206
+
+case 25
+varErrorText = err_txt_207 & " <b>3 "&err_txt_208&"</b> "&err_txt_209&"<br>"&err_txt_210&"<br><br><a href='javascript:window.close()'>"&err_txt_211&"</a> "&err_txt_212&" <br>" & err_txt_213 
+
+case 26
+varErrorText = "<b>"&err_txt_214&"!</b><br>"_
+& err_txt_153 &":<br><ul>"_
+&"<li>"& err_txt_189 _
+&"<li>"& err_txt_215 _
+&"</ul>"
+
+case 27
+varErrorText = "<b>"&err_txt_215&"</b> "&err_txt_216&"<br>"_
+& err_txt_175
+
+case 28, 135
+varErrorText = replace(err_txt_028, "#nylinie#", "<br>") &" "& tTimertildelt(y) 
+    
+    'if errortype = 135 then
+    'varErrorText = varErrorText & " - "& errortype & " - " & multiDagArr
+    'end if
+
+case 29
+varErrorText = "<b>"&err_txt_217&"</b> "& err_txt_218
+
+case 30
+varErrorText = "<b>"&err_txt_189&"</b> "&err_txt_219&" > "& err_txt_220
+'case 31 'Not in use
+'varErrorText = "<b>Timer</b> skal være mellem 0 og 24, og <b>minutter</b> skal være mellem 0 og 60."
+case 31 
+varErrorText = err_txt_221 & "<br>"& err_txt_222
+case 32
+varErrorText = err_txt_223 &":<br> <b>"& formatdatetime(jobstdate, 1) &"</b>" 
+
+case 33
+varErrorText = err_txt_224 & ": <br><b>"& formatdatetime(jobsldate, 1) &"</b>"
+
+case 34
+varErrorText = err_txt_225 & "!"
+case 35
+varErrorText = err_txt_226 & "<br>"& err_txt_227 &"!"
+case 36
+varErrorText = err_txt_228
+case 37
+varErrorText = err_txt_229
+case 38
+varErrorText = err_txt_230
+case 39
+varErrorText = err_txt_231 & " <b>Time-</b> "&err_txt_169&" <b>"&err_txt_232&"</b><b> -"&err_txt_233&"</b> "&err_txt_234&":<ul>"_
+&"<li>"&err_txt_235&" <b>"&err_txt_236&"</b> ("&err_txt_237&")."_
+&"<li>"&err_txt_2238&" <b>"&err_txt_239&"</b> " & err_txt_240 _
+&"<li>"&err_txt_241&" <b>"&err_txt_242&"</b>."_
+&"<li>"&err_txt_243&" <b>"&err_txt_244&"</b> ("&err_txt_245&").</ul>"
+case 40
+varErrorText = err_txt_246 & ":<br>"_
+&" <ul><li><b>"&err_txt_247&"</b><li><b>"&err_txt_184&"</b></ul>"
+case 41
+useleftdiv = "j"
+varErrorText = err_txt_248 & ":<br>"_
+&" <ul><li><b>"&err_txt_249&"</b><li><b>"&err_txt_250&"</b><li><b>"&err_txt_251&"</b></ul>"
+
+case 42
+varErrorText = "<b>"&err_txt_217&"</b> " & err_txt_190
+
+case 43
+useleftdiv = "c"
+varErrorText = err_txt_153 & ": <br> "_
+&"<ul> "_
+&"<li>Emne</ul>"
+case 44
+useleftdiv = "c"
+varErrorText = err_txt_253 & "<br> "
+case 45
+useleftdiv = "c"
+varErrorText = err_txt_254 & "<br> "
+case 46
+varErrorText = "<ul><li>"&err_txt_135&" <b>"&err_txt_136&"</b> "&err_txt_250&" <b>"&err_txt_255&"</b>."_
+&"<li>"&err_txt_256&"</ul>"
+case 47
+varErrorText = "<ul><li>"&err_txt_135&" <b>"&err_txt_136&"</b> "&err_txt_257&" <b>"&err_txt_258&"</b>.</ul>"
+case 48
+varErrorText = "<ul><li>"&err_txt_259&"</ul>"
+case 49
+varErrorText = "<ul>"&err_txt_260&"</ul>"_
+&"<li>"&err_txt_261&"<li>"&err_txt_262&"<li>" & err_txt_263
+case 50
+varErrorText = "<ul><li>"&err_txt_264&" <b>"&err_txt_265&"</b>.</ul>"
+case 51
+varErrorText = "<b>"&err_txt_266&"</b> "&err_txt_190&"<br><br>"&err_txt_267&" <br>" & err_txt_268
+case 52
+varErrorText = err_txt_269 & ":<ul><li>"&err_txt_270&"<br><b>("&err_txt_271&"!)</b><br><br>"
+varErrorText = varErrorText & "<li>"&err_txt_272&" <b>"&err_txt_273&"</b> "&err_txt_274&" <b>"&err_txt_275&"</b> "&err_txt_276&"</ul>"
+case 53
+varErrorText = err_txt_277 & "!"
+case 54
+varErrorText = err_txt_054 '"<b>Antal</b> er ikke angivet som et tal!"
+case 55
+varErrorText = "<b>"&err_txt_278&"</b> "&err_txt_279&"!"
+case 56
+varErrorText = "<b>"&err_txt_280&"</b> "&err_txt_279&"!"
+case 57
+varErrorText = "<b>"&err_txt_81&"</b> "&err_txt_279&"!"
+'case 58
+'varErrorText = "<b>Logud tidspunkt</b> er ikke angivet i et tilladt format!"
+case 59
+varErrorText = err_txt_282 & " <b>"&err_txt_283&"</b> "&err_txt_284&"!<br><br>" & err_txt_285
+case 60
+varErrorText = err_txt_282 & " <b>"&err_txt_283&"</b> "&err_txt_284&"!<br><br>" & err_txt_285
+case 61
+varErrorText = "<ul><li>" & err_txt_286
+varErrorText = "<li>"&err_txt_287&"</ul>"
+useleftdiv = "c"
+case 62
+varErrorText = "<ul><li><b>"&err_txt_541&"</b> "&err_txt_190&"</ul>"
+case 63
+varErrorText = err_txt_288 & " <b>"&err_txt_289&"</b> "&err_txt_290&" <br><br>"_
+& err_txt_291 &" <b>"&err_txt_292&"</b>."
+case 64
+varErrorText = err_txt_288 & " <b>"&err_txt_289&"</b> "&err_txt_293&" <b>"&err_txt_294&"</b> <br><br>"_
+& err_txt_295 &" <b>9:30, 12:59 etc.</b><br>"&err_txt_296&": <b>" & errTid & "</b>"
+case 65
+varErrorText = err_txt_288 &" <b>"&err_txt_297&"</b> "&err_txt_298&" <b>"&err_txt_299&"</b>"
+case 66
+varErrorText = "<b>"&err_txt_300&"</b>- "&err_txt_301&" <br>"& err_txt_302
+case 67
+varErrorText = err_txt_288 &" <b>"&err_txt_303&"</b> "&err_txt_290&"<br>"_
+& err_txt_543 &" <b>"&err_txt_544&" 0-9</b>, "&err_txt_545&" <b>"&err_txt_546&" </b>"&err_txt_547&" <b>"&err_txt_548&"</b>."
+case 68
+varErrorText = "<b>"&err_txt_313&":</b><br> - "& err_txt_304
+case 69
+varErrorText = "<b>"&err_txt_313&":</b><br> - "& err_txt_305
+case 70
+varErrorText = "<b>"&err_txt_313&":</b><br> - "& err_txt_306
+case 71
+varErrorText = "<b>"&err_txt_313&":</b><br> - "& err_txt_307
+case 72
+varErrorText = "<b>"&err_txt_313&":</b><br> - "& err_txt_308
+case 73
+varErrorText = "<b>"&err_txt_313&":</b><br> - "& err_txt_309 _
+& err_txt_310 &" <b>"&err_txt_311&"</b> "& err_txt_312
+case 74
+varErrorText = replace(err_txt_074, "#nylinie#", "<br>")
+case 75
+varErrorText = "<b>"&err_txt_314&"</b> "&err_txt_279&"!"
+case 76
+varErrorText = "<b>"&err_txt_315&"</b> "&err_txt_279&"!"
+case 77
+varErrorText = "<b>"&err_txt_316&"!</b><br>"_
+&" - "&err_txt_317&",<br>"_
+& err_txt_318
+case 78
+varErrorText = "<b>"&err_txt_319&"</b><br>"_
+&" "&err_txt_320&"!"_
+&" <br><br> - "&err_txt_321&"<br>"_
+&" "& err_txt_322
+
+case 79
+varErrorText = "<b>"&err_txt_319&"</b><br>"_
+&" - "& err_txt_323
+
+case 80
+varErrorText = "<b>"&err_txt_324&"!</b><br>"_
+&" "&err_txt_325&"!"_
+&" <br><br> - "&err_txt_326&"<br>"_
+&" "& err_txt_327
+
+case 81
+varErrorText = "<b>"&err_txt_328&"!</b><br>"_
+&" "&err_txt_329&"<br> "&err_txt_330&" <b> ("&err_txt_331&")</b>."_
+&" <br><br>"_
+&" - "& err_txt_322
+
+case 82
+varErrorText = "<b>"&err_txt_328&"!</b><br>"_
+&" "& err_txt_333
+
+case 83
+varErrorText = "<b>"&err_txt_334&"</b><br>"_
+& err_txt_335
+
+
+case 84
+varErrorText = "<b>"&err_txt_336&"!</b><br>"_
+& err_txt_329 &"<br> "&err_txt_337&" <b> ("&err_txt_338&")</b>."_
+&" <br><br>"_
+&" - "& err_txt_332
+
+
+case 85
+varErrorText = "<b>"&err_txt_339&"!</b><br>"_
+& err_txt_340
+
+
+case 86,87
+varErrorText = "<b>"&err_txt_339&"!</b><br>"_
+& err_txt_341 &"<br>"& err_txt_342
+
+case 88
+varErrorText = "<b>"&err_txt_343&"!</b><br>"_
+& err_txt_344
+
+case 89
+varErrorText = "<b>"&err_txt_345&"!</b><br>"_
+& err_txt_346 &"<br>"_
+& err_txt_347 &"<br>"_
+&"<br>"& err_txt_348
+
+case 90
+varErrorText = regdato &" - "& replace(err_txt_090, "#nylinie#", "<br>")
+
+case 91
+varErrorText = "<b>"&err_txt_349&"!</b><br>"_
+& err_txt_329 &"<br>"& err_txt_350 _
+&" <br><br>"_
+&" - "& err_txt_332
+
+case 92
+varErrorText = "<b>"&err_txt_351&"!</b><br>"_
+&" - "& err_txt_352 _
+&" <br><br>"
+
+case 93
+varErrorText = "<b>"&err_txt_353&"!</b><br>"_
+&" - "&err_txt_354&" <b>("& jobnrFindesNR &")</b> "&err_txt_355&"<br>"_
+&"<br>"&err_txt_356&" <u>"&err_txt_234&"</u> "& err_txt_357 _
+&" <br><br>"
+
+case 94
+varErrorText = "<b>"&err_txt_358&"!</b><br>"_
+&" - "&err_txt_359&" <b>("& tilbudsnrFindesNR &")</b> "&err_txt_355&"<br>"_
+&"<br>"&err_txt_356&" <u>"&err_txt_234&"</u> "& err_txt_360 _
+&" <br><br>"
+
+case 95
+varErrorText = "<b>"&err_txt_361&"</b><br>"_
+&" - "&err_txt_362&"<br>"_
+&" <br><br>"
+
+case 96
+varErrorText = "<b>"&err_txt_363&" %</b><br>"_
+&" - "& err_txt_364 &"<br>"_
+&" <br><br>"
+
+case 97
+varErrorText = "<b>"&err_txt_365&"</b><br>"_
+&" - "& err_txt_366 _
+&" <br><br>"
+
+case 98
+varErrorText = "<b>"&err_txt_365&"</b><br>"_
+&" - "&err_txt_367&"<br>"_
+& err_txt_368 &": <b>"& thisafslutdato &"</b><br>"_
+&" <br><br>"
+
+case 99
+varErrorText = "<b>"&err_txt_369&"</b><br>"_
+&" - "& err_txt_370 _
+& err_txt_371 &": <b>"& cdate(tjkPosDato) &"</b><br>"_
+& err_txt_372 &" <b>"& cdate(momsafsluttetDato) &"</b><br>"_
+&" <br><br>"
+
+case 100
+varErrorText = "<b>"&err_txt_373&"</b><br>"_
+&" - "&err_txt_367&"<br>"_
+& err_txt_368 &": <b>"& odrdato &"</b><br>"_
+&" <br><br>"
+
+case 101
+varErrorText = "<b>"&err_txt_373&"</b><br>"_
+&" - "&err_txt_374&" <b>"&err_txt_375&"</b>.<br>"_
+& err_txt_376 &": <b>"& vareantal &"</b><br>"_
+&" <br><br>"
+
+case 102
+varErrorText = "<b>"&err_txt_373&"</b><br>"_
+&" - "&err_txt_377&"<br>"_
+& err_txt_378 &": <b>"& lastordnr &"</b><br><br>"
+
+
+case 103
+varErrorText = "<b>"&err_txt_373&"</b><br>"_
+&" - "&err_txt_379&"<br>"_
+& err_txt_380 &": <b>"& odrid  &"</b><br><br>"
+
+case 104
+varErrorText = "<b>"&err_txt_381&"</b><br>"_
+&" - "&err_txt_382&"<br><br>"
+
+
+case 105
+varErrorText = "<b>"&err_txt_381&"</b><br>"_
+&" - "&err_txt_383&"<br>"_
+& err_txt_374 &"<br><br>"
+
+
+case 106
+useleftdiv = "s"
+varErrorText = replace(err_txt_106, "#nylinie#", "<br>")
+
+case 107
+
+varErrorText = replace(err_txt_107, "#nylinie#", "<br>")
+
+
+case 108
+
+'varErrorText = replace(err_txt_108A, "#nylinie#", "<br>")
+'varErrorText = varErrorText & "&nbsp;"& lastFakdato
+varErrorText = varErrorText & replace(err_txt_108B, "#nylinie#", "<br>")
+varErrorText = varErrorText & "&nbsp;"& regdato
+varErrorText = varErrorText & replace(err_txt_108C, "#nylinie#", "<br>")
+
+case 109
+varErrorText = "<b>"&err_txt_385&" & "&err_txt_189&"</b><br>"_
+& err_txt_386
+
+
+
+case 110
+varErrorText = "<b>"&err_txt_387&"</b><br>"_
+& err_txt_388
+
+
+case 111
+varErrorText = "<b>"&err_txt_387&"</b><br>"_
+& err_txt_389
+
+
+case 112
+varErrorText = "<b>"&err_txt_387&"</b><br>"_
+& err_txt_390 &"<br>"_
+& err_txt_391
+
+case 113
+varErrorText = "<b>"&err_txt_392&"</b><br>"_
+& err_txt_393
+
+case 114
+varErrorText = "<b>"&err_txt_394&"</b><br>"_
+& err_txt_395
+
+case 115
+varErrorText = "<b>"&err_txt_394&"</b><br>"_
+& err_txt_396
+
+case 116
+varErrorText = "<b>"&err_txt_397&"</b><br>"_
+&"<b>"&err_txt_398&"</b>, "&err_txt_399&"<b> "&err_txt_400&"</b> "& err_txt_401
+
+
+case 117
+varErrorText = "<b>"&err_txt_402&"</b><br>"_
+& err_txt_403 &":<br><br> "_
+&" <b>A)</b> "&err_txt_404&" "_
+& err_txt_405 &"<br><br>"_
+&" <b>B)</b> "& err_txt_406
+
+'&" Seneste faktura dato på dette job er: <b>" & lastFakdato &"</b><br><br>"_
+'&" Den valgte registrerings dato er: <b>"& regdato & "</b><br><br>"_
+
+case 118
+varErrorText = "<b>"&err_txt_407&"</b><br>"_
+& err_txt_408
+
+case 119
+varErrorText = "<b>"&err_txt_407&"</b><br>"_
+& err_txt_409
+
+
+case 120
+varErrorText = replace(err_txt_120, "#nylinie#", "<br>")
+
+case 121
+varErrorText = "<b>"&err_txt_410&"</b><br>"_
+&" - " & err_txt_411
+
+
+case 122
+varErrorText = "<b>"&err_txt_549&"</b><br>"_
+&" - " & err_txt_412
+
+case 123
+varErrorText = "<b>"&err_txt_413&"</b><br>"_
+&" - <b>"&err_txt_414&"</b> "& err_txt_174
+
+case 124
+varErrorText = "<b>"&err_txt_415&"</b><br><br>"_
+& err_txt_416
+
+case 125
+varErrorText = "<b>"&err_txt_415&"</b><br><br>"_
+& err_txt_417
+
+
+case 1251
+varErrorText = "<b>"&err_txt_415&"</b><br><br>"_
+& err_txt_418
+
+case 1252
+varErrorText = "<b>"&err_txt_415&"</b><br><br>"_
+& err_txt_419
+
+case 126
+varErrorText = "<b>"&err_txt_415&"</b><br><br>"_
+& err_txt_420
+
+case 127
+varErrorText = "<b>"&err_txt_415&"</b><br><br>"_
+& err_txt_421
+
+case 128
+varErrorText = "<b>"&err_txt_415&"</b><br><br>"_
+&"<b>"&err_txt_266&"</b> "&err_txt_422&"<br><br>"& err_txt_423
+
+case 129
+varErrorText = "<b>"&err_txt_415&"</b><br><br>"_
+& err_txt_424
+
+case 130
+
+if tiderRettet = 1 then
+trTxt = err_txt_425
+else
+trTxt = err_txt_426
+end if
+
+varErrorText = "<b>"& err_txt_428 &"!</b><br><br><br>- "& err_txt_429 &" <u>"&err_txt_430&"</u> "&err_txt_431&"<br><br>"_
+&"- "&err_txt_432&" <u>"&err_txt_430&"</u> "&err_txt_433&"<br><br>"_
+&"<br><br><b>"&err_txt_434&":</b><br>"_
+& err_txt_435 &": ("& trim(ids(a)) &") "& stur(a)  & "<br>"_
+& err_txt_436 &": " & manuelt_afsluttet & "<br>"_
+& err_txt_437 &": "& trTxt & "<br><br>"
+
+if len(trim(oprLogin)) <> 0 then
+varErrorText = varErrorText &" "&err_txt_438&": " & formatdatetime(oprLogin, 2) &" "& formatdatetime(oprLogin, 3) & "<br>"_
+& err_txt_550 &": " & formatdatetime(loginTid,  2) &" "& formatdatetime(loginTid, 3) & "<br><br>"
+end if
+
+'varErrorText = varErrorText & logudTid
+
+if len(trim(oprLogud)) <> 0 AND len(trim(logudTid)) <> 0 then
+varErrorText = varErrorText &" "&err_txt_439&": " & formatdatetime(oprLogud, 2) &" "& formatdatetime(oprLogud, 3) & "<br>"_
+& err_txt_551 &": " & formatdatetime(logudTid, 2) &" "& formatdatetime(logudTid, 3) 
+end if
+
+varErrorText = varErrorText &"<br><br>&nbsp;"
+
+case 131
+varErrorText = "<b>"&err_txt_402&"</b><br>"_
+& err_txt_440 &" <u>"&err_txt_430&"</u> "& err_txt_431
+
+case 132
+varErrorText = "<b>"&err_txt_184&"</b><br>"_
+& err_txt_441
+
+case 133
+varErrorText = "<b>"&err_txt_442&"</b><br>"_
+& err_txt_552 &"<br>"_
+& err_txt_553
+
+
+case 134
+varErrorText = "<b>"& err_txt_442 &"</b><br>"_
+& err_txt_443 &"<br><br>"_
+& err_txt_444 &"<br><br>"_
+& err_txt_445 &":<br> <b>"& strLogindkonflikt & "</b>"
+
+case 136
+varErrorText = "<b>"&err_txt_404&"</b><br>"_
+& err_txt_446 &"<br>"_
+&"<br>"& err_txt_447 &": <b>"& tSttid(y) & " - "& tSltid(y) & "</b><br>"_
+& err_txt_448 &": "& tidslaas_st &" - "& tidslaas_sl
+
+case 137
+varErrorText = "<b>"& err_txt_449 &"</b><br>"_
+& err_txt_450 &" <b>"&err_txt_451&"</b> "& err_txt_452 &"<br>"
+
+case 138
+varErrorText = "<b>"& err_txt_453 &"</b><br>"& err_txt_454
+
+
+case 139
+varErrorText = "<b>"&err_txt_300&"</b><br><br>"&err_txt_455&"<br><br>"
+varErrorText = varErrorText & err_txt_368 &": <b>"& left(formatdatetime(loginTid, 3), 5) &"</b> - <b>"& left(formatdatetime(logudTid, 3), 5) &"</b>"
+
+if use_ig_sltid = 1 then
+varErrorText = varErrorText & "<br><br>"&err_txt_456&": <b>"& left(formatdatetime(loginTid, 3), 5) &"</b> "& err_txt_457
+end if
+
+
+case 140
+varErrorText = "<b>"&err_txt_458&"</b><br><br>- "& err_txt_459
+
+case 141
+
+varErrorText = "<b>"&err_txt_200&"</b> <br><br> "_
+&"- "&err_txt_460&" (<b>"&err_txt_203&"</b>).<br>"_
+&"- "&err_txt_461&" <b>"&err_txt_462&"</b> "& err_txt_463 &"</br><br>"
+
+case 142
+varErrorText = "<b>"&err_txt_464&"</b><br><br>- "& err_txt_465
+
+case 143
+varErrorText = "<b>"&err_txt_464&"</b><br><br>- "& err_txt_466
+
+case 144
+varErrorText = "<b>"&err_txt_467&"</b><br><br>- "& err_txt_383
+
+case 145
+varErrorText = "<b>"&err_txt_467&"</b><br><br>- "& err_txt_468
+
+
+case 146
+varErrorText = "<b>"&err_txt_467&"</b><br><br>- " & err_txt_469
+
+case 147
+varErrorText = "<b>"&err_txt_464&"</b><br><br>- "& err_txt_470
+
+case 148
+varErrorText = "<b>"&err_txt_200&"</b><br><br>"&err_txt_288&" <b>"&err_txt_471&"</b> "&err_txt_293&" <b>"&err_txt_294&"</b> <br><br>"_
+& err_txt_472 &" <b>9:30:00, 12:59:00 etc.</b><br>"&err_txt_296&": <b>" & errTid & "</b>"
+
+case 149
+varErrorText = "<b>"&err_txt_184&"</b><br><br>- "& err_txt_473
+
+case 150
+varErrorText = "<b>"&err_txt_474&"</b><br><br>- "& err_txt_475
+
+case 151
+varErrorText = "<b>"&err_txt_200&"</b><br><br>- "& err_txt_476
+
+case 152
+varErrorText = "<b>"&err_txt_477&"</b><br><br>- "&err_txt_4478&"<br> "&err_txt_479&": <b> " & Request("FM_forfaldsdato") & "</b>"
+
+
+case 153
+varErrorText = "<b>"&err_txt_549&"</b><br><br>- "& err_txt_480
+'case 151
+'varErrorText = "<b>Lønperiode</b><br><br>- Dato er ikke angivet i et gyldigt datoformat, eller datoen eksisterer ikke."
+
+case 154
+varErrorText = "<b>"&err_txt_458&"</b><br><br>- "&err_txt_481&" <br>- "&err_txt_482&"<br>"&err_txt_483&"<br><br>- "& err_txt_484
+
+case 155
+varErrorText = "<b>"&err_txt_485&"</b><br><br>- "& err_txt_486
+
+case 156
+varErrorText = "<b>"&err_txt_184&"</b><br>"_
+&" - "& err_txt_487
+
+case 157
+varErrorText = "<b>"&err_txt_488&"</b><br>"_
+&" - "& err_txt_489 
+
+case 158
+varErrorText = "<b>"&err_txt_490&"</b><br><br>"&err_txt_491&"<br /> "&err_txt_492&"<br /><br />"
+
+case 159
+varErrorText = "<b>"&err_txt_177&"</b><br><br>"&err_txt_493&" <b>"&err_txt_494&"</b> "&err_txt_495&"<br>"&err_txt_368&": <b>"& fraDato &"</b><br /><br />"
+
+case 160
+varErrorText = "<b>"&err_txt_177&"</b><br><br>"&err_txt_493&" <b>"&err_txt_496&"</b> "&err_txt_497&"<br><br>"&err_txt_386&":<br>"&err_txt_498&": "& fasttp &" "&err_txt_499&": "& fastkp &"<br /><br />"
+
+case 161
+varErrorText = "<b>"&err_txt_177&"</b><br><br>"&err_txt_500&" <b>"&err_txt_136&"</b> "&err_txt_501&"<br /><br />"
+
+
+case 162
+varErrorText = "<b>"&err_txt_266&"</b><br>"_
+&" - "&err_txt_502&" <b>tal</b>.<br>"_
+& err_txt_376 &": <b>"& globalfaktor &"</b><br>"_
+&" <br><br>"
+
+case 163
+varErrorText = "<b>"&err_txt_177&"</b><br><br>"&err_txt_503&"<br /><br />"
+
+case 164
+varErrorText = "<b>"&err_txt_177&"</b><br><br>"&err_txt_504&"<br /><br />"
+
+case 165
+varErrorText = "<b>"&err_txt_177&"</b><br><br><b>"&err_txt_505&"</b> ("& formatnumber(jo_gnsbelobTjk) &") "&err_txt_506&"<br> <b>"&err_txt_507&"</b> ("& formatnumber(strBudgetTjk) &")<br /><br />"
+
+case 166
+varErrorText = "<b>"&err_txt_459&"</b><br><br>- "& err_txt_508
+
+case 167
+varErrorText = err_txt_509
+
+case 168
+varErrorText = err_txt_510
+
+case 169
+varErrorText = err_txt_511 & "<br><br>"&err_txt_265&": <b>"& intBeloebtjk & "</b> "&err_txt_554&"<br> "&err_txt_555&": <b>"& tjkSum &"</b><br><br>"& err_txt_513
+
+case 170
+varErrorText = "You need to select a customer!"
+
+case 171
+varErrorText = "You need to type a style!"
+
+case 172
+varErrorText = "You need to type a order no.<br>Or the selected order no. allready exist on another order."
+
+
+case 173
+varErrorText = "You are missing one or more of the following information: <br><br>"
+varErrorText = varErrorText & "<b>Required for active orders:</b><br><br> "
+varErrorText = varErrorText & "Customer, Style and <br> "
+varErrorText = varErrorText & "- Sales Rep.<br> "
+varErrorText = varErrorText & "- Supplier<br> "
+varErrorText = varErrorText & "- ETD Buyer<br> "
+varErrorText = varErrorText & "- Confirmed ETA on DDP orders<br> "
+
+case 174
+varErrorText = "You are missing one or more of the following information: <br><br>"
+varErrorText = varErrorText & "<b>Required for shipped orders:</b><br><br> "
+varErrorText = varErrorText & "Customer, Style and <br> "
+varErrorText = varErrorText & "- Sales Rep.<br> "
+varErrorText = varErrorText & "- ETD Buyer<br> "
+varErrorText = varErrorText & "- Actual ETD<br> "
+varErrorText = varErrorText & "- Order Qty.<br> "
+varErrorText = varErrorText & "- Supplier<br> "
+varErrorText = varErrorText & "- Shipped Qty.<br> "
+varErrorText = varErrorText & "- Supplier invoiceno<br> "    
+
+
+case 175
+varErrorText = err_txt_531
+
+case 176
+varErrorText = err_txt_515 '0 timer
+
+case 177
+varErrorText = err_txt_516
+
+case 178
+varErrorText = err_txt_517 &" "& traveldietexp_maxhours &" "& err_txt_518
+
+case 179
+varErrorText = err_txt_519
+
+case 180
+varErrorText = err_txt_520
+
+case 181
+varErrorText = err_txt_521
+
+case 182
+varErrorText = err_txt_522
+
+case 183
+varErrorText = err_txt_523 &"<br> "&err_txt_524&"<br><br>"&err_txt_525&": "& jobProcent100 &"<br>"&err_txt_526&": "& salgsProcent100
+
+case 184 
+varErrorText = err_txt_527 & " ("& slutDatoNum &") "&err_txt_528&" ("& startDatoNum &") "
+
+case 185 
+varErrorText = err_txt_529
+
+case 186 
+varErrorText =  err_txt_530 &"<br><br>"& err_txt_531
+
+case 187 
+varErrorText = "<b>"&err_txt_532&": "& errAktnavn &"</b><br><br> "&err_txt_533&": "& timerthisTjkFc & " "&err_txt_534&"<br> "&err_txt_535&": "& timer_opr &" "&err_txt_534&" <br>"&err_txt_536&": " & feltTxtValFc & " "&err_txt_534&""
+
+case 188
+varErrorText = err_txt_537 & " <b>"&err_txt_538&"</b> "&err_txt_145&" <br><br>"& err_txt_539
+
+case 189
+varErrorText = "Du mangler at angive en eller flere af følgende felter:<br>- Evaluering<br>- Timer<br>- Timepris<br>- Kommentar"
+
+case 190
+varErrorText = "Activity are missing Account No. / Task no."
+
+case 191
+varErrorText = "RFID code already exist"
+
+case 192
+varErrorText = err_txt_556
+
+
+case 193
+varErrorText = err_txt_558
+
+
+case 194 
+varErrorText = err_txt_559
+
+
+case 196 
+varErrorText = err_txt_557
+
+
+case else
+varErrorText = errortype
+end select
+
+
+
+
+'************** MOBIL version ****'
+call browsertype()
+
+          'response.write "browstype_client: "& browstype_client
+if browstype_client = "ip" then 'OR browstype_client = "ie"%>
+<title><%=err_txt_540 %></title>
+
+<!--
+<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700,800' rel='stylesheet' type='text/css'>
+<link href="../timetag_web/css/style.less" rel="stylesheet/less" type="text/css" />
+<script src="../timetag_web/js/less.js" type="text/javascript"></script>
+    -->
+
+
+      <div id="dverror_msg" style="position:absolute; top:0px; left:0px; height:100%; width:100%; border:0px; font-size:17px; font-size:1.7rem; padding:50px; line-height:19px; line-height:1.9rem; background-color:#ecf0f1;">
+         
+        <span style="font-size:20px; font-size:2.0rem;"><b><%=err_txt_540 %></b></span><br /><br />
+     
+           <%=err_txt_001%><br /><br />
+    <%=varErrorText%>
+	<br /><br />
+
+          	<%if errortype <= 4 then%>
+		<a href="javascript:history.back()" style="font-size:17px; font-size:1.7rem;"><< <%=err_txt_541 %></a>
+		<%
+		else
+		if errortype = 5 then
+		%>
+		<a href="../login.asp" target="_top" style="font-size:17px; font-size:1.7rem;"><< <%=err_txt_541 %></a>
+		<%
+		else
+			if errortype = 25 OR errortype = 88 then
+			Response.write ".."
+			else 
+			%>
+			<a href="javascript:history.back()" style="font-size:17px; font-size:1.7rem;"><< <%=err_txt_541 %></a>
+			<%end if%>
+		<%end if%>
+		<%end if%>
+<br /><br />
+
+	Err code: 000<%=errortype %>
+    </div>
+<%
+
+
+
+else
+
+if useleftdiv <> "s" then
+
+select case useleftdiv
+case "to_2015"
+leftdiv = 300
+topdiv = -100
+widthdiv = 400
+heightdiv = 200 
+case "j2"
+leftdiv = 100
+topdiv = 50
+widthdiv = 300
+heightdiv = 200 
+case "j"
+leftdiv = 10
+topdiv = 50
+widthdiv = 360
+heightdiv = 200
+case "c"
+leftdiv = 150
+topdiv = 150
+widthdiv = 460
+heightdiv = 200
+case "c2"
+leftdiv = 250
+topdiv = 150
+widthdiv = 360
+heightdiv = 200
+case "m"
+leftdiv = 100
+topdiv = 50
+widthdiv = 400
+heightdiv = 200
+case "t"
+leftdiv = 250 '150
+topdiv = 250 '20
+widthdiv = 400
+heightdiv = 200
+case "f"
+leftdiv = 10
+topdiv = 20
+widthdiv = 270
+heightdiv = 100
+case "tt"
+leftdiv = 250
+topdiv = 20
+widthdiv = 360
+heightdiv = 100
+case "h2"
+leftdiv = 0
+topdiv = 360
+widthdiv = 232
+heightdiv = 250
+
+case else
+leftdiv = 250
+topdiv = 120
+widthdiv = 400
+heightdiv = 300
+end select
+
+
+if errortype = 5 then
+    widthdivTxt = 500
+    widthdiv = 550
+    else
+    widthdivTxt = 360
+    widthdiv = widthdiv
+end if
+
+%>
+<div id="error" style="position:absolute; left:<%=leftdiv%>px; top:<%=topdiv%>px; width:<%=widthdiv%>px; background-color:#ffffff; padding:20px; border:10px #cccccc solid;">
+<table cellspacing="0" cellpadding="10" border="0" width=100% style="background-color:#ffffff;">
+  <%if errortype <> 5 then%>
+	<tr>
+	    <td align="left" style="padding-top:20px; float:left; border:0px;"><h4><%=err_txt_001%></h4></td>
+	</tr>
+    <%end if%>
+
+	<tr>
+	<td align="left" style="float:left; padding:20px; border:0px; width:<%=widthdivTxt%>px; background-color:#ffffff;">
+	<div style="padding-left:0px; text-align:left; background-color:#ffffff;""><%=varErrorText%>
+	<br /><br />
+	Err code: 000<%=errortype %>
+
+	
+        </div>
+
+        <br /><br />
+        &nbsp;
+	</td>
+	</tr>
+	<tr>
+	<td style="float:left; border:0px;">
+		
+		<%if errortype <= 4 then%>
+		<a href="javascript:history.back()"><< <%=err_txt_541 %></a>
+		<%
+		else
+		if errortype = 5 then
+		%>
+		<a href="../login.asp" target="_top"><< <%=err_txt_541 %></a>
+		<%
+		else
+			if errortype = 25 OR errortype = 88 then
+			Response.write ".."
+			else 
+			%>
+			<a href="javascript:history.back()"><< <%=err_txt_541 %></a>
+			<%end if%>
+		<%end if%>
+		<%end if%>
+		</td>
+	</tr>
+</table>
+</div>
+<%
+else 'useleftdiv = S (SIMPEL / jquey)
+
+    %>
+    <%=varErrorText%>
+	<br />Err code: 000<%=errortype %>
+
+    <%
+end if 's
+
+end if 'mobile
+
+
+
+end function 
+%>
+

@@ -39,7 +39,23 @@
 	end if
 	set oRec6 = nothing
 
+    Set oRec7 = server.createobject("adodb.recordset")
+	if cbool(oRec7.state) = true then
+	oRec7.close
+	end if
+	set oRec7 = nothing
 
+    Set oRec8 = server.createobject("adodb.recordset")
+	if cbool(oRec8.state) = true then
+	oRec8.close
+	end if
+	set oRec8 = nothing
+
+    Set oRec9 = server.createobject("adodb.recordset")
+	if cbool(oRec9.state) = true then
+	oRec9.close
+	end if
+	set oRec9 = nothing
 
 
 '* afslutter load tid ***

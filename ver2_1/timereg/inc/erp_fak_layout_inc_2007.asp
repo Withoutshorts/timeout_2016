@@ -424,10 +424,12 @@ function modtager_layout()
 	%>
 	<br /><br />
 	<font size=1 color="#999999"><%=erp_txt_021 %>:&nbsp;<%=left(yourNavn, 25)%>&nbsp;<%=yourAdr%>&nbsp;<%=yourPostnr%>&nbsp;<%=yourCity%><br></font>
-	<%case else%>
+    <%case else%>
 	<font size=1 color="#999999"><%=erp_txt_021 %>:&nbsp;<%=left(yourNavn, 25)%>&nbsp;<%=yourAdr%>&nbsp;<%=yourPostnr%>&nbsp;<%=yourCity%><br></font>
 	<%end select %>
 	
+
+     
 	
 	<%if year(fakdato) < "2010" then %>
 	
@@ -747,6 +749,15 @@ end if
 	case else
 	
 	end select
+
+
+    '** Rex Numer
+    select case lto
+    case "nt"
+    %>
+    REX-nr. DKREX180265723<br />
+    <%
+    end select
 	%>
 
   

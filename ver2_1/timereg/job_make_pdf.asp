@@ -168,7 +168,10 @@ if id <> 0 then
             'Doc.ImportFromUrl "https://outzource.dk/timeout_xp/wwwroot/"&toVer&"/timereg/job_print.asp?media=pdf&nosession=9999&key="&session("lto")&"&func=print&lto="&lto&"&id="&id&"&kid="&kid&"&pdfvalid="&pdfvalid&"", "LeftMargin=40, RightMargin=0, TopMargin=-40, BottomMargin=0, PageWidth=635, PageHeight=903, DrawBackground=True"
             'Doc.ImportFromUrl "https://outzource.dk/timeout_xp/wwwroot/"&toVer&"/timereg/job_print.asp?media=pdf&nosession=9999&key="&session("lto")&"&func=print&lto="&lto&"&id="&id&"&kid="&kid&"&pdfvalid="&pdfvalid&"", "LeftMargin=-80, RightMargin=20, TopMargin=30, BottomMargin=20, PageWidth=595, PageHeight=840, DrawBackground=True" 'PageWidth=635, PageHeight=903,      
             Doc.ImportFromUrl "http://timeout.cloud/timeout_xp/wwwroot/"&toVer&"/timereg/job_print.asp?media=pdf&nosession=9999&key="&session("lto")&"&func=print&lto="&lto&"&id="&id&"&kid="&kid&"&pdfvalid="&pdfvalid&"", "LeftMargin=-80, RightMargin=20, TopMargin=30, BottomMargin=20, PageWidth=595, PageHeight=840, DrawBackground=True" 'PageWidth=635, PageHeight=903,      
-
+            case "mpt"
+            'Doc.ImportFromUrl "https://outzource.dk/timeout_xp/wwwroot/"&toVer&"/timereg/job_print.asp?media=pdf&nosession=9999&key="&session("lto")&"&func=print&lto="&lto&"&id="&id&"&kid="&kid&"&pdfvalid="&pdfvalid&"", "LeftMargin=20, RightMargin=0, TopMargin=0, BottomMargin=0, DrawBackground=True,"
+            Doc.ImportFromUrl "https://timeout.cloud/timeout_xp/wwwroot/"&toVer&"/timereg/job_print.asp?media=pdf&nosession=9999&key="&session("lto")&"&func=print&lto="&lto&"&id="&id&"&kid="&kid&"&pdfvalid="&pdfvalid&"", "LeftMargin=40, RightMargin=0, TopMargin=0, BottomMargin=0, PageWidth=635, PageHeight=903"
+           
 
             case "dencker"
             'Doc.ImportFromUrl "https://outzource.dk/timeout_xp/wwwroot/"&toVer&"/timereg/job_print.asp?media=pdf&nosession=9999&key="&session("lto")&"&func=print&lto="&lto&"&id="&id&"&kid="&kid&"&pdfvalid="&pdfvalid&"", "LeftMargin=0, RightMargin=0, TopMargin=0, BottomMargin=0, PageWidth=635, PageHeight=903"

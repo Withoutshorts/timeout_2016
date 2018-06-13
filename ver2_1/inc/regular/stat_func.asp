@@ -236,16 +236,57 @@ end function
 	
 	'**** Projektgrupper medarbejdere, kunder job og aftler faste søge filterkriterier i stat.
 	'**** Grnadtot, Joblog, Oms. Mat.forbrug, Forretningsområder
-    public jobstKri, viskunabnejob0, viskunabnejob1, viskunabnejob2, segment, segmentSQLkri
+    public jobstKri, viskunabnejob0, viskunabnejob1, viskunabnejob2, segment, segmentSQLkri, jurMedidsSQL, jurJobidsSQL
 	sub medkunderjob
 
 
+
+    '***** Multiple jur enheder ****'
+            
+            call multible_licensindehavereOn() 
+            if cint(multible_licensindehavere) = 1 then
+
+                   
+            
+                    if level = 1 then
+                    
+                      visalleJur = 0
+                      jurJobidsSQL = ""
+                      jurMedidsSQL = ""
+
+                    else
+
+                      visalleJur = 0
+                      call meStamdata(session("mid"))
+                      visalleJur = meMed_lincensindehaver
+                    
+                     
+                      jurJobidsSQL = " AND instr(lincensindehaver_faknr_prioritet_job, '#"& visalleJur &"#') "
+                      jurMedidsSQL = " AND med_lincensindehaver = "& visalleJur
+
+                    end if
+
+
+                
+
+
+            else
+
+            visalleJur = 0
+            jurJobidsSQL = ""
+            jurMedidsSQL = ""
+
+            end if
+
+    '*************** SLUT jur enheder *********************************************
+              
+        
    
 	
 	if print <> "j" AND media <> "export" AND media <> "print" then
 	%>
 	<tr><td colspan="5"><span id="sp_med" style="color:#5582d2;">[+] <%=joblog_txt_142 &" "%>&<%=" "& joblog_txt_143 %></span></td></tr>
-	<tr id="tr_prog_med" style="display:none; visibility:hidden;">
+	<tr id="tr_prog_med" style="display:none; visibility:hidden; z-index:1;">
 	    
 	    <%call progrpmedarb %>
 	    
@@ -285,7 +326,7 @@ end function
 		          
             	
 		            <td valign=top style="padding:30px 10px 20px 10px; width:350px; background-color:#F7F7F7;">
-		            <input type="radio" name="FM_kundejobans_ell_alle" value="1" <%=kundejobansCHK1%>><b>B) <%=joblog_txt_154 %></b><br /><span style="font-size:9px; color:#000000;"><%=joblog_txt_155 %>:</span><br />
+		            <input type="radio" name="FM_kundejobans_ell_alle" value="1" <%=kundejobansCHK1%>><b>B) <%=joblog_txt_154 %></b><br /><span style="font-size:11px; color:#000000;"><%=joblog_txt_155 %>:</span><br />
 		            <input type="checkbox" name="FM_kundeans" id="cFM_kundeans" value="1" <%=kundeansChk%>>&nbsp;<%=joblog_txt_156 %> <br>
 		            <input type="checkbox" name="FM_jobans" id="cFM_jobans" value="1" <%=jobansChk%>>&nbsp;<%=joblog_txt_157 %>
                     <input type="checkbox" name="FM_jobans2" id="cFM_jobans2" value="1" <%=jobansChk2%>>&nbsp;<%=joblog_txt_158 %>
@@ -294,6 +335,9 @@ end function
                         <%if cint(showSalgsAnv) = 1 AND thisfile = "pipeline" then %>
                         <br /><input type="checkbox" name="FM_salgsans" id="cFM_slagsansv" value="1" <%=salgsansChk%>>&nbsp;<%=joblog_txt_160 &" "%>.
                         <%end if %>
+                    <br /><br />
+                        <span style="font-size:11px; color:#999999;">(overrules legal entity)</span>
+                    
             		
 	              </td>
             	 
@@ -506,10 +550,8 @@ end function
          
 
         <tr id="tr_job" style="display:none; visibility:hidden;">
-	
-	
-		<td valign=top style="padding-top:20px;">
-		<b><%=joblog_txt_163 %>:</b><br />
+	    <td valign=top style="padding-top:20px;">
+        <b><%=joblog_txt_163 %>:</b><br />
 		
       
 		<%
@@ -518,7 +560,7 @@ end function
 		
 		strSQL = "SELECT jobnavn, jobnr, jobstatus, id, k.kkundenavn, k.kkundenr FROM job j "_
 		&" LEFT JOIN kunder k ON (k.kid = j.jobknr) "_
-		&" WHERE "& strKnrSQLkri &" "& kundeAnsSQLKri &" "& jobstKri &" "& strJobAftSQL &" ORDER BY k.kkundenavn, j.jobnavn"
+		&" WHERE "& strKnrSQLkri &" "& kundeAnsSQLKri &" "& jobstKri &" "& strJobAftSQL &" "& jurJobidsSQL &" ORDER BY k.kkundenavn, j.jobnavn"
 		
         'if session("mid") = 1 then
         'Response.write strSQL
@@ -546,7 +588,7 @@ end function
 
                
 
-                if strFomr_reljobids <> "0" AND thisfile = "joblog_timetotaler" then
+                if strFomr_reljobids <> "0" AND (thisfile = "joblog_timetotaler" OR thisfile = "pipeline") then
                 useForOmrKri = 1
                 else
                 useForOmrKri = 0
@@ -627,6 +669,7 @@ end function
         <%if thisfile <> "pipeline" then %>
 
         <b><%=joblog_txt_162 %>:</b> (<%=joblog_txt_169 %>)&nbsp;<br /><img src="../ill/blank.gif" width="50" height="5"  border="0"/><br />
+
 		<%
 			
 		strSQL = "SELECT s.navn, s.aftalenr, s.id, k.kkundenavn, k.kkundenr FROM serviceaft s "_
@@ -682,7 +725,7 @@ end function
             	
 		<h4><%=joblog_txt_172 %>: <br /><span style="font-size:11px; font-weight:lighter;">(% wildcard, <b>231, 269</b><%=" "& joblog_txt_173 %>, <b>201--225</b><%=" "& joblog_txt_174 %>, <b><></b><%=" "& joblog_txt_175 %></span></h4>
         <input name="viskunabnejob0" id="viskunabnejob" type="checkbox" value="1" <%=jost0CHK %> /><%=joblog2_txt_148 %> &nbsp;
-        <input name="viskunabnejob1" id="Radio3" type="checkbox" value="1" <%=jost1CHK %> /><%=joblog2_txt_149 %> &nbsp;
+        <input name="viskunabnejob1" id="Radio3" type="checkbox" value="1" <%=jost1CHK %> /><%=jobstatus_txt_003 %> &nbsp;
         <input name="viskunabnejob2" id="Checkbox1" type="checkbox" value="1" <%=jost2CHK %> /><%=joblog2_txt_150 %> &nbsp;<br />
 
                 <input type="text" name="FM_jobsog" id="FM_jobsog" value="<%=jobSogVal%>" style="width:350px; border:2px #6CAE1C solid; font-size:14px;">&nbsp;
@@ -718,9 +761,11 @@ end function
     sub segment_kunder
 
 
-    if len(trim(request("FM_segment"))) <> 0 AND request("FM_segment") <> 0 then
+    
+    if len(trim(request("FM_segment"))) <> 0 AND request("FM_segment") <> 0 then 
     segment = request("FM_segment") 
     segmentSQLkri = " AND ktype = "& segment
+       
     else
     segment = 0
     segmentSQLkri = " AND ktype <> -9999 "
@@ -766,6 +811,11 @@ end function
        
       
        </select><br /><img src="../ill/blank.gif" width="1" height="5"  border="0"/><br />
+
+
+           <%if thisfile = "xxpipeline" then %>
+           <span style="float:right; padding-right:50px;"><input type="checkbox" DISABLED name="fomr_onjob" value="1" <%=fomr_onjobCHK %> /> Segment must match on job <br />(ignore customer)</span><br /><br />
+           <%end if %>
 		
 		<%
 		
@@ -895,7 +945,7 @@ end function
 
 
                   
-                    if print <> "j" AND media <> "export" AND thisfile = "joblog_timetotaler" AND media <> "print" then
+                    if print <> "j" AND media <> "export" AND (thisfile = "joblog_timetotaler" OR thisfile = "pipeline") AND media <> "print" then
                     
                     %>
                     <br /><br /><b><%=joblog_txt_145 %>:</b><br />                              
@@ -956,7 +1006,7 @@ end function
 	
 	public jobnrSQLkri, jobidFakSQLkri, jidSQLkri, jobnr, j, jobKri
 	function valgtejob()
-	 			
+	
 				
 	'**** Job *****
 	jobSQLfundet = 0
@@ -1070,20 +1120,20 @@ end function
 				if j = 0 then
 					jobidFakSQLkri = ""
 					jobnrSQLkri = ""
-					jidSQLkri =  ""
+					jidSQLkri = ""
 					jobKri =  " mf.jobid = 0 "
 				end if
 
 
 				
-                    if strFomr_reljobids <> "0" AND thisfile = "joblog_timetotaler" then
+                    if strFomr_reljobids <> "0" AND (thisfile = "joblog_timetotaler" OR thisfile = "pipeline") then 
                     useForOmrKri = 1
                     else
                     useForOmrKri = 0
                     end if
             
 				
-                    'response.Write "<br><br><br><br><br>HER: " & strFomr_reljobids & "<br>" & thisfile
+                    'response.Write "<br><br><br><br><br>strKnrSQLkri: "& strKnrSQLkri &" useForOmrKri: "& useForOmrKri & " HER:  " & strFomr_reljobids & "<br>" & thisfile
 
                     if cint(useForOmrKri) = 0 OR (cint(useForOmrKri) = 1 AND instr(strFomr_reljobids, "#"& oRec("id") &"#") <> 0) then 'IKKE EN DEL AF FORRETNINGSOMRÅDE)
 
@@ -1104,6 +1154,19 @@ end function
 				
 				oRec.close
 				
+
+                'if session("mid") = 1 then
+				'Response.write strSQL & "<br>#" & jidSQLkri &"<br><br>"
+
+                    if len(trim(jidSQLkri)) = 0 then
+                    jobidFakSQLkri = " OR jobid = -1 "
+	                jobnrSQLkri = " OR tjobnr = '-1' "
+	                jidSQLkri = " OR id = -1 "
+	                seridFakSQLkri = " OR aftaleid = -1 "
+                    end if
+
+				'Response.flush
+                'end if
 				
 	end function
 	

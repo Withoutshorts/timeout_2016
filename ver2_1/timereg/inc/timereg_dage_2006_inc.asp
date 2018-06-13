@@ -188,7 +188,7 @@ for t = 1 to 7
 	'*** Gennemløber de 7 dage ***
 	
 	
-	call helligdage(tjekdag(t), 0, lto)
+	call helligdage(tjekdag(t), 0, lto, usemrn)
 	
 	
 		if (t = 6  OR t = 7) OR erHellig = 1 then

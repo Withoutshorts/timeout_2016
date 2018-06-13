@@ -981,6 +981,12 @@ if len(session("user")) = 0 then
                                                     '** NT ***'
                                                     jobids_orders = request("jobids_orders")
 													closealsoJob = ""
+
+
+                                                     'if session("mid") = 1 then  
+                                                     'response.write "AFTID: =========================================================================================== "&  aftid
+                                                     'end if
+
 													if aftid <> 0 OR jobids_orders <> "0" then
 													
 													'if aftid <> 0 then
@@ -997,21 +1003,16 @@ if len(session("user")) = 0 then
 													    
                                                         
                                                         
+                                                        select case lto
+                                                        case "nt"
 
 													    strSQLshadowCopy = "UPDATE fakturaer SET fakdato = '"& fakDato &"', istdato = '"& istDato &"', brugfakdatolabel = "& brugfakdatolabel &", "_
                                                         &" labeldato = '"& labelDato &"', betalt = "& intFakbetalt &" WHERE faknr = "& intFaknum & " AND shadowcopy = 1"
                                                  
 													    oConn.execute(strSQLshadowCopy)
 
-                                                        
 
-
-                                                                '** NT ***'
-                                                                select case lto
-                                                                case "nt"
-													            
-													    
-													                strSQLshadowCopy = "SELECT jobid FROM fakturaer WHERE shadowcopy = 1 AND faknr = '"& intFaknum &"'"
+                                                                    strSQLshadowCopy = "SELECT jobid FROM fakturaer WHERE shadowcopy = 1 AND faknr = '"& intFaknum &"'"
                                                                     oRec6.open strSQLshadowCopy, oConn, 3
                                                                     while not oRec6.EOF  
 													        
@@ -1021,9 +1022,51 @@ if len(session("user")) = 0 then
                                                                     oRec6.movenext
                                                                     wend
                                                                     oRec6.close
-													              
-                                                                end select
+
+
+                                                        case else
+
+                                                        
+
+
+                                                                '*** NEW EPI / ALL 20180523
+                                                            
+
+                                                                        strSQLshadowDel = "DELETE FROM fakturaer WHERE faknr = "& intFaknum & " AND shadowcopy = 1"
+                                                                        oConn.execute(strSQLshadowDel)
+
+                                                                       if aftid <> 0 then
+													
+                                                                        job_tilknyttet_aftale = split(request("FM_job_tilknyttet_aftale"),",")
+											                          
+
+                                                                        for i = 0 TO UBOUND(job_tilknyttet_aftale, 1)
+													                        if (i > 1) then
 													    
+													                        strSQLshadowCopy = "INSERT INTO fakturaer (faknr, fakdato, jobid, shadowcopy, istdato, brugfakdatolabel, labeldato, betalt) VALUES "_
+													                        &"('"& intFaknum &"', '"& fakDato &"', "& job_tilknyttet_aftale(i) &", 1, '"& istDato &"',"& brugfakdatolabel &",'"& labelDato &"', "& intFakbetalt &")"
+													    
+                                                                         
+													                        'Response.Write strSQLshadowCopy
+                                                                            'Response.flush
+													                    
+													                        oConn.execute(strSQLshadowCopy)
+													                        end if
+													                    next
+													    
+													
+													                end if
+
+                                                                    'Response.end
+
+                                                                   
+                                                               'END NY
+
+
+                                                                end select
+
+
+                                                              
 													
 
                                                                 'response.write "closealsoJob: " & closealsoJob
@@ -1244,10 +1287,20 @@ if len(session("user")) = 0 then
 												
 									
 										'*** Vis sum aktivitet på print (og DB)
-										'Response.write "her " & intcounter &"_"&intcounter3 & " "& request("FM_show_akt_"& intcounter &"_"&intcounter3&"") & "<br>"
+										'if session("mid") = 1 then
+                                        'Response.write "her " & intcounter &"_"&intcounter3 & " :["& request("FM_show_akt_"& intcounter &"_"&intcounter3&"") & "]<br>"
                                         'Response.flush
-                                        if (len(request("FM_show_akt_"& intcounter &"_"&intcounter3&"")) = 1) then
+                                        'end if
+                                        
+                                        if (len(request("FM_show_akt_"& intcounter &"_"&intcounter3&"")) = 1 OR cstr(request("FM_timerthis_"& intcounter &"_"&intcounter3&"")) <> "0") then
 												
+
+                                                if len(request("FM_show_akt_"& intcounter &"_"&intcounter3&"")) = 1 then
+                                                visAktpaaFak = 1
+                                                else
+                                                visAktpaaFak = 0
+                                                end if
+
 												timerThis = request("FM_timerthis_"& intcounter &"_"&intcounter3&"")
 												if len(timerThis) <> 0 then
 												timerThis = SQLBless2(timerThis)
@@ -1301,6 +1354,8 @@ if len(session("user")) = 0 then
                                                 aktFase = ""
                                                 end if
 												
+                                                if cdbl(timerThis) <> 0 OR cint(visAktpaaFak) = 1 then 
+
 												strSQL_sumakt = ("INSERT INTO faktura_det "_
 												&" (antal, beskrivelse, aktpris, fakid, "_
 												&" enhedspris, aktid, showonfak, rabat, enhedsang, valuta, kurs, fak_sortorder, momsfri, fase) "_
@@ -1308,7 +1363,7 @@ if len(session("user")) = 0 then
 												&"'" & SQLBlessK(request("FM_aktbesk_"& intcounter &"_"&intcounter3&"")) &"', "_
 												&""  & beloebThis &", "_
 												&""  & thisfakid &", "& enhpris &", "& thisAktId &", "_
-												&" 1, "& rabatThis &", "& enhedsang_akt &", "& valutaThis &", "& kursThis &", "_
+												&" "& visAktpaaFak &", "& rabatThis &", "& enhedsang_akt &", "& valutaThis &", "& kursThis &", "_
                                                 &" "& aktsortorder &", "& momsfri &", '"& aktFase &"')")
 												
 
@@ -1318,6 +1373,8 @@ if len(session("user")) = 0 then
 												'end if
                                                 oConn.execute(strSQL_sumakt)
 												
+
+                                                end if
 										
                                         end if 'show sumaktivitet
 										
@@ -1542,8 +1599,10 @@ if len(session("user")) = 0 then
 							
 							
 							if func = "dbred" then
+
 							    '** renser db, opdater materiale forbrug ***'
-							    strSQLselmf = "SELECT matfrb_id FROM fak_mat_spec WHERE matfakid = " & thisfakid
+                                matidFor = 0
+							    strSQLselmf = "SELECT matfrb_id, matantal, matid FROM fak_mat_spec WHERE matfakid = " & thisfakid
 							    oRec4.open strSQLselmf, oConn, 3
 							    while not oRec4.EOF
     							
@@ -1551,11 +1610,29 @@ if len(session("user")) = 0 then
 							    strSQLmf = "UPDATE materiale_forbrug SET erfak = 0 WHERE id = " & oRec4("matfrb_id")
 							    oConn.execute(strSQLmf)
     							
+                                matantalFor = oRec4("matantal")
+                                matidFor = oRec4("matid")
+
 							    oRec4.movenext
 							    wend
 							    oRec4.close
     							
-    							
+                                SELECT case lto
+                                case "mpt"
+                               
+                                    '***** Opskriver LAGER ****
+                                    if len(trim(matidFor)) <> 0 then
+                                    matidFor = matidFor
+                                    else
+                                    matidFor = 0
+                                    end if
+
+                                    strSQLmlager = "UPDATE materialer SET antal = (antal + "& matantalFor &") WHERE id = " & matidFor
+							        oConn.execute(strSQLmlager)
+
+    							end select
+
+
 							    '*** Sletter hidtidige regs ***'
 							    strSQLdel = "DELETE FROM fak_mat_spec WHERE matfakid = " & thisfakid
 							    oConn.execute strSQLdel
@@ -1572,7 +1649,13 @@ if len(session("user")) = 0 then
 							matvis = 0
 							end if
 							
+                            if len(trim(request("FM_matid_"&m&""))) <> 0 then
 							matid = request("FM_matid_"&m&"")
+                            else
+                            matid = 0
+                            end if
+
+
 							matnavn = replace(request("FM_matnavn_"&m&""),"'", "''")
 							matvarenr = request("FM_matvarenr_"&m&"")
 							matantal = SQLBless2(request("FM_matantal_"&m&""))
@@ -1582,7 +1665,13 @@ if len(session("user")) = 0 then
 							matbeloeb = SQLBless2(request("FM_matbeloeb_"&m&""))
 							matValuta = request("FM_matvaluta_"&m&"")
 							matKurs = replace(request("valutakurs_"& matValuta &""), ",", ".")
+
+                            if len(trim(request("FM_matgrp_"&m&""))) <> 0 then
 							matGrp = request("FM_matgrp_"&m&"")
+                            else
+                            matGrp = 0
+                            end if
+
 
                             matAktid = request("FM_mataktid_"&m&"")           
 							
@@ -1603,8 +1692,12 @@ if len(session("user")) = 0 then
 							&" "& matantal &", '"& matenhed &"', "& matenhedspris &", "_
 							&" "& matrabat &", "& matbeloeb &", 1, "& ikkemoms &", "& matValuta &", "& matKurs &", "& matMFusrid &" ,"& matMFid &", "& matGrp &", "& matAktid &")"
 							
-							'Response.Write strSQLoprmat & "<br>"
+
+							'if session("mid") = 1 then
+                            'Response.Write strSQLoprmat & "<br>"
 							'Response.flush
+                            'end if
+
 							oConn.execute(strSQLoprmat)
 							
 							'matbeloebTot = matbeloebTot + matbeloeb
@@ -1612,8 +1705,19 @@ if len(session("user")) = 0 then
 							'*** Markerer i materialeforbrug at materiale er faktureret ***'
 							strSQLmf = "UPDATE materiale_forbrug SET erfak = 1 WHERE id = " & matMFid
 							oConn.execute(strSQLmf)
-							
-							end if
+
+                            '***** Nedskriver LAGER ****
+                            strSQLmlager = "UPDATE materialer SET antal = (antal - "& matantal &") WHERE id = " & matid
+							'if session("mid") = 1 then
+                            'response.write strSQLmlager
+                            'response.end
+                            'end if
+                            oConn.execute(strSQLmlager)
+
+                                 
+
+                            end if
+
 							    
 							next
 							
@@ -2252,7 +2356,7 @@ if len(session("user")) = 0 then
                                                 oConn.execute(strSQLdelAkt)
 
                                                 '*** Materiale forbrug slet **''
-                                                strSQLdelMat = "DELETE FROM materiale_forbrug WHERE jobid = "& jobid 
+                                                strSQLdelMat = "DELETE FROM materiale_forbrug WHERE jobid = "& jobid & " AND matid = 0"
                                                 oConn.execute(strSQLdelMat)
 
 
@@ -2289,7 +2393,7 @@ if len(session("user")) = 0 then
 
                                  '** Findes der matforbrug i forvejen? *****
                                 antalMat = 0
-                                strSQLantalAkt = "SELECT count(id) AS antalmat FROM materiale_forbrug WHERE jobid = "& varjobId &" GROUP BY jobid"
+                                strSQLantalAkt = "SELECT count(id) AS antalmat FROM materiale_forbrug WHERE jobid = "& varjobId &" AND matid = 0 GROUP BY jobid"
                                 oRec6.open strSQLantalAkt, oConn, 3
                                 if not oRec6.EOF then
                             
@@ -3285,7 +3389,7 @@ if len(session("user")) = 0 then
 	
 	    <!-- gen indlæs faktura (interval ændring) KUN ved opret, ellers bruges intervl gemt med fak. -->
 	             
-	    <div id="genindlaes" style="position:absolute; display:<%=sideDivDsp%>; visibility:<%=sideDivVzb%>; top:203px; left:455px; z-index:2;">
+	    <div id="genindlaes" style="position:absolute; display:<%=sideDivDsp%>; visibility:<%=sideDivVzb%>; top:203px; left:555px; z-index:2;">
 
 		<form action="erp_opr_faktura_fs.asp?FM_kunde=<%=kid %>&FM_job=<%=jobid%>&FM_aftale=<%=aftid%>&reset=1&func=<%=func%>&FM_usedatokri=1&fid=<%=id%>&visjobogaftaler=1&visfaktura=1&visminihistorik=1" method="post" target="_top">
 		
@@ -3343,7 +3447,23 @@ if len(session("user")) = 0 then
 	<!--<input type="hidden" name="jobid" value="<%=jobid%>">-->
 	
 	<input type="hidden" name="FM_aftale" id="FM_aftale" value="<%=aftid%>">
-	<input type="hidden" name="FM_job_tilknyttet_aftale" value="<%=request("FM_job_tilknyttet_aftale")%>">
+
+    <%
+    'Job tilknyttet denne aftale     
+    strSQLjob = "SELECT jobnavn, jobnr, id FROM job WHERE serviceaft = "& aftid & " ORDER BY jobnavn"
+	jobtilkaft = 0
+	oRec.open strSQLjob, oConn, 3
+	j = 0
+	while not oRec.EOF
+	
+	jobtilkaft = jobtilkaft &","& oRec("id")
+	
+	j = j + 1
+	oRec.movenext
+	wend
+	oRec.close %>
+
+	<input type="hidden" name="FM_job_tilknyttet_aftale" value="<%=jobtilkaft%>"> <%'request("FM_job_tilknyttet_aftale") %>
     <input type="hidden" name="jobids_orders" id="jobids_orders" value="<%=jobids_orders%>">
 	<!--<input type="hidden" name="FM_aftnr" value="<%=sogaftnr%>">-->
 	<input type="hidden" name="FM_kunde" value="<%=kid%>">
@@ -3391,7 +3511,11 @@ if len(session("user")) = 0 then
        
 	   <!-- Modtager og Afsender -- vises først på fakturalayout -->
 	
-	  <div id="modtagdiv" style="position:absolute; display:<%=sideDivDsp%>; visibility:<%=sideDivVzb%>; top:105px; width:720px; left:5px; border:1px #8cAAe6 solid;">
+        <%
+        sideDivDspMod = "none"
+        sideDivVzbMod = "hidden"    
+        %>
+	  <div id="modtagdiv" style="position:absolute; display:<%=sideDivDspMod%>; visibility:<%=sideDivVzbMod%>; top:105px; width:720px; left:5px; border:1px #8cAAe6 solid;">
                      
                        
                      <table cellspacing="0" cellpadding="0" border="0" width=100% bgcolor="#ffffff">
@@ -3693,37 +3817,64 @@ if len(session("user")) = 0 then
 
             
             if cint(multible_licensindehavere) = 1 AND jobid <> 0 then 
-            afskidSQLkri = "useasfak = 1 AND lincensindehaver_faknr_prioritet = "& lincensindehaver_faknr_prioritet_job &""
+
+                
+
+                lincensindehaver_faknr_prioritet_jobArr = split(lincensindehaver_faknr_prioritet_job, ", ")
+                lincensindehaver_faknr_prioritet_jobSQL = "lincensindehaver_faknr_prioritet = -1"
+
+                for f = 0 TO UBOUND(lincensindehaver_faknr_prioritet_jobArr)
+
+                lincensindehaver_faknr_prioritet_jobArr(f) = replace(lincensindehaver_faknr_prioritet_jobArr(f), " ", "")
+                lincensindehaver_faknr_prioritet_jobArr(f) = replace(lincensindehaver_faknr_prioritet_jobArr(f), "#", "")
+                lincensindehaver_faknr_prioritet_jobSQL = lincensindehaver_faknr_prioritet_jobSQL & " OR lincensindehaver_faknr_prioritet = " & lincensindehaver_faknr_prioritet_jobArr(f)
+           
+                next
+
+                afskidSQLkri = "useasfak = 1 AND ("& lincensindehaver_faknr_prioritet_jobSQL &") " 'lincensindehaver_faknr_prioritet = "& lincensindehaver_faknr_prioritet_job &""
             else
-            afskidSQLkri = "useasfak = 1"
+
+                afskidSQLkri = "useasfak = 1"
+            
             end if
 
         end if
 
 		
-		strSQL = "SELECT adresse, postnr, city, land, telefon, fax, email, regnr, kkundenavn, kontonr, cvr, bank, swift, iban, kid FROM kunder WHERE " & afskidSQLkri
+		strSQL = "SELECT adresse, postnr, city, land, telefon, fax, email, regnr, kkundenavn, kontonr, cvr, bank, swift, iban, kid, lincensindehaver_faknr_prioritet FROM kunder WHERE " & afskidSQLkri
 		
+               call meStamdata(session("mid")) 
             'if session("mid") = 1 then
-            'Response.write "SQL: " & strSQL
+            'Response.write "SQL: " & strSQL & "<br>: meMed_lincensindehaver: "& meMed_lincensindehaver
             'end if    
+
+     
+        af = 0
         oRec.open strSQL, oConn, 3
-		if not oRec.EOF then 
-			yourbank = oRec("bank")
-			yourRegnr = oRec("regnr")
-			yourKontonr = oRec("kontonr")
-			yourCVR = oRec("cvr")
-			yourNavn = oRec("kkundenavn")
-			yourAdr = oRec("adresse")
-			yourPostnr = oRec("postnr")
-			yourCity = oRec("city")
-			yourLand = oRec("land")
-			yourEmail = oRec("email")
-			yourTlf = oRec("telefon")
-			yourSwift = oRec("swift")
-			yourIban = oRec("iban")
+		while not oRec.EOF 
+			'yourbank = oRec("bank")
+			'yourRegnr = oRec("regnr")
+			'yourKontonr = oRec("kontonr")
+			'yourCVR = oRec("cvr")
+			'yourNavn = oRec("kkundenavn")
+			'yourAdr = oRec("adresse")
+			'yourPostnr = oRec("postnr")
+			'yourCity = oRec("city")
+			'yourLand = oRec("land")
+			'yourEmail = oRec("email")
+			'yourTlf = oRec("telefon")
+			'yourSwift = oRec("swift")
+			'yourIban = oRec("iban")
+
+            if cint(meMed_lincensindehaver) = cint(oRec("lincensindehaver_faknr_prioritet")) OR cint(af) = 0 then
 			afskid = oRec("kid")
-			yourFax = oRec("fax")
-		end if
+            end if
+
+			'yourFax = oRec("fax")
+		
+        af = af + 1
+        oRec.movenext    
+        wend 
 		oRec.close
 		
 		
@@ -3747,13 +3898,28 @@ if len(session("user")) = 0 then
 		</table>
 		</div>
         -->
+
+
+       <%if cint(multible_licensindehavere) = 1 then
+
+           if level <> 1 AND lto <> "epi2017" then
+                useAsfakJurSQL = " AND lincensindehaver_faknr_prioritet = " & meMed_lincensindehaver 
+           else
+                useAsfakJurSQL = "" 
+           end if
+           
+        else
+
+           useAsfakJurSQL = ""
+           
+        end if%>
 		
 		<table cellpadding=0 cellspacing=0 border=0 width=100%>
         <tr>
 		    <td>
-		    <select id="FM_afsender" name="FM_afsender" style="width:300px; font-size:10px;" size=8">
+		    <select id="FM_afsender" name="FM_afsender" style="width:300px; font-size:10px;" size="8">
 		    
-		    <%strSQLaltaf = "SELECT kid, kkundenavn, kkundenr, adresse, postnr, city, land, telefon, cvr, swift, iban, regnr, kontonr, regnr_b, kontonr_b, regnr_c, kontonr_c FROM kunder WHERE useasfak = 1 ORDER BY kkundenavn "
+		    <%strSQLaltaf = "SELECT kid, kkundenavn, kkundenr, adresse, postnr, city, land, telefon, cvr, swift, iban, regnr, kontonr, regnr_b, kontonr_b, regnr_c, kontonr_c FROM kunder WHERE useasfak = 1 "& useAsfakJurSQL &" ORDER BY kkundenavn "
              'OR useasfak = 2 Fjernet 20170117 PGA muli licensindehavere og dermed flere fakturanr. Rækkefølger 
              'Selskab, licensejer eller datter selskab **'
 		    oRec.open strSQLaltaf, oConn, 3 
@@ -3790,22 +3956,22 @@ if len(session("user")) = 0 then
 		    oRec.open strSQlvorref, oConn, 3 
 		    while not oRec.EOF  
 		    
-		    if ( oRec("mid") = cint(jobans1) AND func <> "red" AND (instr(lto, "epi") <> 0) _
-            OR ( oRec("mid") = cint(session("mid") ) AND func <> "red" AND (lto <> "epi" AND lto <> "epi_no" AND lto <> "epi2017" AND lto <> "synergi1") OR (vorref = oRec("mnavn") AND func = "red"))) _
+		    if ( oRec("mid") = cdbl(jobans1) AND func <> "red" AND (instr(lto, "epi") <> 0) _
+            OR ( oRec("mid") = cdbl(session("mid") ) AND func <> "red" AND (lto <> "epi" AND lto <> "epi_no" AND lto <> "epi2017" AND lto <> "synergi1") OR (vorref = oRec("mnavn") AND func = "red"))) _
             then 'OR (lto = "jttek" AND func = "red") 
             vfSEL = "SELECTED"
 		    else
 		    vfSEL = ""
 		    end if  
 		    
-		    if cint(jobans1) = oRec("mid") then
+		    if cdbl(jobans1) = oRec("mid") then
 		    vrjobans1 = " - (jobansvarlig)"
 		    else
 		    vrjobans1 = ""
 		    end if
 		    
 		    
-		    if cint(jobans2) = oRec("mid") then
+		    if cdbl(jobans2) = oRec("mid") then
 		    vrjobans2 = " - (jobejer)"
 		    else
 		    vrjobans2 = ""
@@ -3952,6 +4118,10 @@ if len(session("user")) = 0 then
 	
 	
 	
+
+
+
+
 	        <%'** Fakdato MSG ****'
             itop = 140
             ileft = 435
@@ -4005,11 +4175,22 @@ if len(session("user")) = 0 then
 		<td style="width:140px; padding:30px 5px 2px 5px;">
 		
 			<% 
-	        if len(lastFakdato) <> 0 then
-	        lastFakdato = lastFakdato
-	        else
-	        lastFakdato = "2001/1/1"
-	        end if
+            '** må der være flere fakturaer i samme periode
+            select case lto
+            case "intranet - local", "bf"
+
+                    lastFakdato = "2001/1/1"
+
+            case else
+
+                    if len(lastFakdato) <> 0 then
+	                lastFakdato = lastFakdato
+	                else
+	                lastFakdato = "2001/1/1"
+	                end if
+
+            end select
+	    
 	
 	
 		'** Periodeinterval brugt.
@@ -4067,7 +4248,7 @@ if len(session("user")) = 0 then
 		    strMrd = month(useFakDate)
 		    strAar = year(useFakDate)
             
-            case "intranet - local", "nt"
+            case "xintranet - local", "nt"
 
             if isDate(dt_actual_etd) = true then
             useFakDate = dt_actual_etd
@@ -4145,7 +4326,7 @@ if len(session("user")) = 0 then
 		    end if
 
             select case lto 'Overruler
-            case "bf"
+            case "bf", "intranet - local"
             chkvp = "CHECKED"
             end select
 
@@ -5144,9 +5325,9 @@ if len(session("user")) = 0 then
 
         <%else '*aftale faktura
         
-        fl_ant = 50
+        fl_ant = 100
         dim fl_antal, fl_besk, fl_vis, fl_enhpris, fl_valuta, fl_enhed, fl_rabat, fl_momsfri, fl_belob
-        redim fl_antal(fl_ant), fl_besk(fl_ant), fl_vis(fl_ant), fl_enhpris(fl_ant), fl_valuta(fl_ant), fl_enhed(fl_ant), fl_rabat(fl_ant), fl_momsfri(fl_ant), fl_belob(fl_ant)
+        redim fl_antal(fl_ant), fl_besk(fl_ant), fl_vis(fl_ant), fl_enhpris(fl_ant), fl_valuta(fl_ant), fl_enhed(fl_ant), fl_rabat(fl_ant), fl_momsfri(fl_ant), fl_belob(fl_ant), fl_jobaktid(fl_ant)
         
         call akttyper2009(2)
         
@@ -5162,9 +5343,13 @@ if len(session("user")) = 0 then
         <tr><td ><%=erp_txt_146 %></td><td ><b><%=intRabat %> %</b></td></tr> 
         <tr><td  colspan=2>
         <b><%=erp_txt_155 %></b><br />
-        <%strSQLaftalejob = "SELECT jobnavn, jobnr, id AS jid, valuta FROM job WHERE serviceaft = "& aftid & " AND serviceaft <> 0"
 
+        <%strSQLaftalejob = "SELECT jobnavn, jobnr, id AS jid, valuta FROM job WHERE serviceaft = "& aftid & " AND jobstatus <> 0 AND serviceaft <> 0"
+
+
+        'if session("mid") = 1 then
         'Response.write "strSQLaftalejob " & strSQLaftalejob
+        'end if
         'Response.end
 
         ja = 0
@@ -5178,6 +5363,7 @@ if len(session("user")) = 0 then
 
         strJobPaaAft = strJobPaaAft & oRec("jobnavn") & " ("& oRec("jobnr") &")" 
         
+        fl_jobaktid(ja) = oRec("jid")
         fl_besk(ja) = oRec("jobnavn") & " ("& oRec("jobnr") &")"
         
                 
@@ -5249,7 +5435,9 @@ if len(session("user")) = 0 then
         end if
         %>
 
-        <%=strJobPaaAft%></td></tr></table>
+        <%=strJobPaaAft%><br />
+            (antal: <%=ja %>)
+            </td></tr></table>
     </div>
 		
 	<%end if 'job/aftale 

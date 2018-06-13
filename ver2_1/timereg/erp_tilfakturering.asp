@@ -488,7 +488,7 @@ if len(session("user")) = 0 then
 		strKundeKri = " AND kid <> 0 "
 		vlgtKunde = "Alle"
 		
-				strSQL = "SELECT Kkundenavn, Kkundenr, Kid FROM kunder WHERE "& ketypeKri &" "& strKundeKri &" ORDER BY Kkundenavn"
+				strSQL = "SELECT Kkundenavn, Kkundenr, Kid FROM kunder WHERE "& ketypeKri &" "& strKundeKri &" AND kstatus = 1 ORDER BY Kkundenavn"
 				oRec.open strSQL, oConn, 3
 				while not oRec.EOF
 				
@@ -959,7 +959,7 @@ if len(session("user")) = 0 then
     &" LEFT JOIN medarbejdere m2 ON (m2.mid = j.jobans2)"_
     &" LEFT JOIN medarbejdere m3 ON (m3.mid = k.kundeans1)"_
     &" LEFT JOIN medarbejdere m4 ON (m4.mid = k.kundeans2)"_
-    &" WHERE  "& sqlKundeKri2 &" "& kansKri &" AND useasfak <= 2"_ 
+    &" WHERE  "& sqlKundeKri2 &" "& kansKri &" AND useasfak <= 2 AND kstatus = 1"_ 
 	&" ORDER BY kkundenavn, kkundenr, jobnavn, jobslutdato"  
 	
     ''if session("mid") = 1 then

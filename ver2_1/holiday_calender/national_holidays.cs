@@ -13,7 +13,8 @@ public partial class national_holidays : System.Web.UI.Page
     string holidayDatesQuery = "SELECT nh_id, nh_date, nh_duration, nh_editor FROM national_holidays ORDER BY nh_date";
     string holidayFilterQuery = "nh_editor = '{0}' AND Convert(nh_date, 'System.String') LIKE '*/{1} *'";
     static string holidayDeleteQuery = "DELETE FROM national_holidays";
-    static string holidayInsertQuery = "INSERT INTO national_holidays (nh_date, nh_duration, nh_editor) VALUES {0}";
+    //static string holidayInsertQuery = "INSERT INTO national_holidays (nh_date, nh_duration, nh_editor) VALUES {0}";
+    static string holidayInsertQuery = "INSERT INTO national_holidays (nh_date, nh_duration, nh_editor) VALUES {'2017-01-01', 1, 'SK'}";
 
     #endregion
 
@@ -130,7 +131,7 @@ public partial class national_holidays : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-            Response.Write(ex.InnerException.Message);
+            //Response.Write(ex.InnerException.Message);
         }
         finally
         {

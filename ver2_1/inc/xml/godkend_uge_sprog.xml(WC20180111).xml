@@ -1,0 +1,922 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<sprog>
+
+  <!--- Dansk -->
+  <dk>
+
+    <txt_1 >Forventet loadtid</txt_1>
+    <txt_2 >sek.</txt_2>
+    <txt_3 >Periode</txt_3>
+    <txt_4 >År</txt_4>
+    <txt_5 >1. kvartal</txt_5>
+    <txt_6 >2. kvartal</txt_6>
+    <txt_7 >3. kvartal</txt_7>
+    <txt_8 >4. kvartal</txt_8>
+    <txt_9 >ÅTD</txt_9>
+    <txt_10 >Eksporter direkte til excel (hurtigere load)</txt_10>
+
+    <txt_11 >Filter</txt_11>
+    <txt_12 >avanceret</txt_12>
+    <txt_13 >Opdel norm på</txt_13>
+    <txt_14 >Hele måneder</txt_14>
+    <txt_15 >Hele uger</txt_15>
+    <txt_16 >Vis kun uger/måneder med</txt_16>
+    <txt_17 >mere</txt_17>
+    <txt_18 >mindre</txt_18>
+    <txt_19 >end</txt_19>
+    <txt_20 >time(r)</txt_20>
+
+    <txt_21 >på deres</txt_21>
+    <txt_22 >Fleks (realiseret / normeret)</txt_22>
+    <txt_23 >Fleks (komme/gå / normeret)</txt_23>
+    <txt_24 >Balance (realiseret / komme/gå)</txt_24>
+    <txt_25 >pr. uge</txt_25>
+    <txt_26 >Vis kun ikke afsluttede uger/måneder</txt_26>
+    <txt_27 >Vis kun ikke godkendte uger/måneder</txt_27>
+    <txt_28 >Opgjort pr.</txt_28>
+    <txt_29 >Særligferie</txt_29>
+    <txt_30 >Feriefridage Afholdt</txt_30>
+
+    <txt_31 >Henter data for medarbejder</txt_31>
+    <txt_32 >Uge</txt_32>
+    <txt_33 >dato</txt_33>
+    <txt_34 >Komme / Gå tid</txt_34>
+    <txt_35 >løntimer</txt_35>
+    <txt_36 >Tillæg</txt_36>
+    <txt_37 >Ferie</txt_37>
+    <txt_38 >sygdom</txt_38>
+    <txt_39 >korrektion</txt_39>
+    <txt_40 >etc. indberettet</txt_40>
+
+    <txt_41 >Sum</txt_41>
+    <txt_42 >Komme/gå tid</txt_42>
+    <txt_43 >tillæg</txt_43>
+    <txt_44 >Normtid</txt_44>
+    <txt_45 >Akkumuleret</txt_45>
+    <txt_46 >Timer</txt_46>
+    <txt_47 >indberettet</txt_47>
+    <txt_48 >på aktiviteter</txt_48>
+    <txt_49 >realiseret</txt_49>
+    <txt_50 >indberettet på aktivit.</txt_50> 
+
+    <txt_51 >heraf</txt_51>
+    <txt_52 >fak.bare</txt_52>
+    <txt_53 >Korrektion</txt_53>
+    <txt_54 >overført saldo fra</txt_54>
+    <txt_55 >senest afsluttet</txt_55>
+    <txt_56 >løn-periode</txt_56>
+    <txt_57 >Indberettet</txt_57>
+    <txt_58 >Normeret</txt_58>
+    <txt_59 >Realiseret</txt_59>
+    <txt_60 >Akkumuleret</txt_60>
+
+    <txt_61 >Balance</txt_61>
+    <txt_62 >Afspads.</txt_62>
+    <txt_63 >Udbetalt</txt_63>
+    <txt_64 >Ønsk. Udbe.</txt_64>
+    <txt_65 >dage</txt_65>
+    <txt_66 >timer</txt_66>
+    <txt_67 >Ferie afholdt</txt_67>
+    <txt_68 >Ferie afholdt u. løn</txt_68>
+    <txt_69 >Særligferie</txt_69>
+    <txt_70 >Feriefridage afholdt</txt_70>
+
+    <txt_71 >1 Maj timer</txt_71>
+    <txt_72 >Omsorgs</txt_72>
+    <txt_73 >Barsel/Orlov</txt_73>
+    <txt_74 >Læge</txt_74>
+    <txt_75 >Syg</txt_75>
+    <txt_76 >Barn syg</txt_76>
+    <txt_77 >afsluttet</txt_77>
+    <txt_78 >Godkend valgte</txt_78>
+    <txt_79 >Din CSV. fil er klar</txt_79>
+    <txt_80 >Vis medarbejdere</txt_80>
+
+    <txt_81 >Projektgrupper</txt_81>
+    <txt_82 >Admin.: alle projektgrupper, ellers dem du er teamleder for.</txt_82>
+    <txt_83 >Ingen projektgruppe fundet</txt_83>
+    <txt_84 >Vis de-aktiverede medarbejdere.</txt_84>
+    <txt_85 >Vis kun De-akt. opsagt indenfor seneste 12 md.</txt_85>
+    <txt_86 >Vis passive medarbejdere</txt_86>
+    <txt_87 >Medarbejdere</txt_87>
+    <txt_88 >Medarbejdertypegruppe</txt_88>
+    <txt_89 >Alle</txt_89>
+    <txt_90 >Udspecificer på medarbejdertyper</txt_90>
+    <txt_91 >Udspecificer på medarbejdertype-grupper</txt_91>
+    <txt_92 >ignorerer projektgrupper. Viser alle medarb. uanset status</txt_92>
+    <txt_93 >Vis medarbejdere uden timer i periode.</txt_93>
+    <txt_94 >Måned</txt_94>
+    <txt_95 >Vis afstemning</txt_95>
+    <txt_96 >enh.</txt_96>
+    <txt_97 >Incl. udbetalt</txt_97>
+    <txt_98 >Print venlig</txt_98>
+    <txt_99 >Godkend uger for medarbejdere</txt_99>
+    <txt_100 >Luk måned(er) for medarbejdere</txt_100>
+    <txt_101 >Luk</txt_101>
+    <txt_102 >Godkend</txt_102>
+    <txt_103 >Be om afslutn.</txt_103>
+    <txt_104 >uge</txt_104>
+    <txt_105 >Godkend ugeseddel uge</txt_105>
+    <txt_106 >Luk</txt_106>
+    <txt_107 >Afslut</txt_107>
+    <txt_108 >Du har ikke adgang til at godkende ugeseddel for denne medarbejder.</txt_108>
+    <txt_109 >Send besked</txt_109>
+    <txt_110 >Afvis</txt_110>
+    <txt_111 >Flere inds.</txt_111>
+    <txt_112 >Ja</txt_112>
+    <txt_113 >ikke fakturerbare</txt_113>
+    <txt_114 >Ikke godk. ell. afviste</txt_114>
+    <txt_115 >afviste</txt_115>
+    <txt_116 >af medarb.</txt_116>
+  </dk>
+
+
+  <!--- Norsk -->
+  <no>
+
+    <txt_1 >Expected loading time</txt_1>
+    <txt_2 >sec.</txt_2>
+    <txt_3 >Period</txt_3>
+    <txt_4 >Year</txt_4>
+    <txt_5 >1st quarter</txt_5>
+    <txt_6 >2nd quarter</txt_6>
+    <txt_7 >3rd quarter</txt_7>
+    <txt_8 >4th quarter</txt_8>
+    <txt_9 >YTD</txt_9>
+    <txt_10 >Export directly to excel (faster load)</txt_10>
+
+    <txt_11 >Filter</txt_11>
+    <txt_12 >advanced</txt_12>
+    <txt_13 >Divide the norm on</txt_13>
+    <txt_14 >Whole months</txt_14>
+    <txt_15 >Whole weeks</txt_15>
+    <txt_16 >Only show weeks / months with</txt_16>
+    <txt_17 >more</txt_17>
+    <txt_18 >less</txt_18>
+    <txt_19 >than</txt_19>
+    <txt_20 >hour(s)</txt_20>
+
+    <txt_21 >on their</txt_21>
+    <txt_22 >Fleks (realized / standardized)</txt_22>
+    <txt_23 >Fleks (come / go / standard)</txt_23>
+    <txt_24 >Balance (realized / come / go)</txt_24>
+    <txt_25 >per. week</txt_25>
+    <txt_26 >Only show not completed weeks / months</txt_26>
+    <txt_27 >Only show unapproved weeks / months</txt_27>
+    <txt_28 >computed per</txt_28>
+    <txt_29 >Extra holidays</txt_29>
+    <txt_30 >Extra holidays held</txt_30>
+
+    <txt_31 >Retrieves data for employee</txt_31>
+    <txt_32 >Week</txt_32>
+    <txt_33 >date</txt_33>
+    <txt_34 >Come / go time</txt_34>
+    <txt_35 >hours of paid work</txt_35>
+    <txt_36 >Appendix</txt_36>
+    <txt_37 >Holiday</txt_37>
+    <txt_38 >illness</txt_38>
+    <txt_39 >correction</txt_39>
+    <txt_40 >etc. reported</txt_40>
+
+    <txt_41 >Sum</txt_41>
+    <txt_42 >Come / go time</txt_42>
+    <txt_43 >appendix</txt_43>
+    <txt_44 >Rated</txt_44>
+    <txt_45 >Accumulated</txt_45>
+    <txt_46 >Hours</txt_46>
+    <txt_47 >reported</txt_47>
+    <txt_48 >on activities</txt_48>
+    <txt_49 >realized</txt_49>
+    <txt_50 >Reported on activity.</txt_50>
+
+    <txt_51 >thereof</txt_51>
+    <txt_52 >billable</txt_52>
+    <txt_53 >Correction</txt_53>
+    <txt_54 >Transferred balance from</txt_54>
+    <txt_55 >Last closed</txt_55>
+    <txt_56 >pay period</txt_56>
+    <txt_57 >Reported</txt_57>
+    <txt_58 >Rated</txt_58>
+    <txt_59 >Realized</txt_59>
+    <txt_60 >Accumulated</txt_60>
+
+    <txt_61 >Balance</txt_61>
+    <txt_62 >time off in lieu</txt_62>
+    <txt_63 >Disbursed</txt_63>
+    <txt_64 >Wish dis.</txt_64>
+    <txt_65 >days</txt_65>
+    <txt_66 >hours</txt_66>
+    <txt_67 >Holiday held</txt_67>
+    <txt_68 >Holiday held without salary</txt_68>
+    <txt_69 >Extra holidays</txt_69>
+    <txt_70 >Extra holidays held</txt_70>
+
+    <txt_71 >1st May hours</txt_71>
+    <txt_72 >Care</txt_72>
+    <txt_73 >Maternity leave</txt_73>
+    <txt_74 >Medical</txt_74>
+    <txt_75 >Ill</txt_75>
+    <txt_76 >Child sick</txt_76>
+    <txt_77 >closed</txt_77>
+    <txt_78 >Approve selected</txt_78>
+    <txt_79 >Your CSV. File is ready</txt_79>
+    <txt_80 >Show employees</txt_80>
+
+    <txt_81 >Project groups</txt_81>
+    <txt_82 >Admin .: All project groups, otherwise all you are team leader for.</txt_82>
+    <txt_83 >No project group found</txt_83>
+    <txt_84 >Show disabled employees.</txt_84>
+    <txt_85 >Only show disa. Terminated within the last 12 months.</txt_85>
+    <txt_86 >Show passive employees</txt_86>
+    <txt_87 >Employees</txt_87>
+    <txt_88 >Employee Type Group</txt_88>
+    <txt_89 >All</txt_89>
+    <txt_90 >Specifies on employee types</txt_90>
+    <txt_91 >Specifies on employee type groups</txt_91>
+    <txt_92 >Ignores project groups. Shows all employ. Regardless of status</txt_92>
+    <txt_93 >Show employees without hours during the period.</txt_93>
+    <txt_94 >Month</txt_94>
+    <txt_95 >Show poll</txt_95>
+    <txt_96 >unit</txt_96>
+    <txt_97 >Incl. paid out</txt_97>
+    <txt_98 >Printable</txt_98>
+    <txt_99 >Approve weeks for employees</txt_99>
+    <txt_100 >Close month(s) for employees</txt_100>
+    <txt_101 >Close</txt_101>
+    <txt_102 >Approve</txt_102>
+    <txt_103 >Ask for completion</txt_103>
+    <txt_104 >week</txt_104>
+    <txt_105 >Approve Weekly note week</txt_105>
+    <txt_106 >Close</txt_106>
+    <txt_107 >End</txt_107>
+    <txt_108 >Du har ikke adgang til at godkende ugeseddel for denne medarbejder.</txt_108>
+    <txt_109 >Send message</txt_109>
+    <txt_110 >Decline</txt_110>
+    <txt_111 >More opt.</txt_111>
+    <txt_112 >Yes</txt_112>
+    <txt_113 >none invoiceable</txt_113>
+    <txt_114 >Not app. or decl.</txt_114>
+    <txt_115 >declined</txt_115>
+    <txt_116 >by employee</txt_116>
+
+  </no>
+  
+  
+  <!--- Svensk -->
+  <so>
+
+    <txt_1 >Expected loading time</txt_1>
+    <txt_2 >sec.</txt_2>
+    <txt_3 >Period</txt_3>
+    <txt_4 >Year</txt_4>
+    <txt_5 >1st quarter</txt_5>
+    <txt_6 >2nd quarter</txt_6>
+    <txt_7 >3rd quarter</txt_7>
+    <txt_8 >4th quarter</txt_8>
+    <txt_9 >YTD</txt_9>
+    <txt_10 >Export directly to excel (faster load)</txt_10>
+
+    <txt_11 >Filter</txt_11>
+    <txt_12 >advanced</txt_12>
+    <txt_13 >Divide the norm on</txt_13>
+    <txt_14 >Whole months</txt_14>
+    <txt_15 >Whole weeks</txt_15>
+    <txt_16 >Only show weeks / months with</txt_16>
+    <txt_17 >more</txt_17>
+    <txt_18 >less</txt_18>
+    <txt_19 >than</txt_19>
+    <txt_20 >hour(s)</txt_20>
+
+    <txt_21 >on their</txt_21>
+    <txt_22 >Fleks (realized / standardized)</txt_22>
+    <txt_23 >Fleks (come / go / standard)</txt_23>
+    <txt_24 >Balance (realized / come / go)</txt_24>
+    <txt_25 >per. week</txt_25>
+    <txt_26 >Only show not completed weeks / months</txt_26>
+    <txt_27 >Only show unapproved weeks / months</txt_27>
+    <txt_28 >computed per</txt_28>
+    <txt_29 >Extra holidays</txt_29>
+    <txt_30 >Extra holidays held</txt_30>
+
+    <txt_31 >Retrieves data for employee</txt_31>
+    <txt_32 >Week</txt_32>
+    <txt_33 >date</txt_33>
+    <txt_34 >Come / go time</txt_34>
+    <txt_35 >hours of paid work</txt_35>
+    <txt_36 >Appendix</txt_36>
+    <txt_37 >Holiday</txt_37>
+    <txt_38 >illness</txt_38>
+    <txt_39 >correction</txt_39>
+    <txt_40 >etc. reported</txt_40>
+
+    <txt_41 >Sum</txt_41>
+    <txt_42 >Come / go time</txt_42>
+    <txt_43 >appendix</txt_43>
+    <txt_44 >Rated</txt_44>
+    <txt_45 >Accumulated</txt_45>
+    <txt_46 >Hours</txt_46>
+    <txt_47 >reported</txt_47>
+    <txt_48 >on activities</txt_48>
+    <txt_49 >realized</txt_49>
+    <txt_50 >Reported on activity.</txt_50>
+
+    <txt_51 >thereof</txt_51>
+    <txt_52 >billable</txt_52>
+    <txt_53 >Correction</txt_53>
+    <txt_54 >Transferred balance from</txt_54>
+    <txt_55 >Last closed</txt_55>
+    <txt_56 >pay period</txt_56>
+    <txt_57 >Reported</txt_57>
+    <txt_58 >Rated</txt_58>
+    <txt_59 >Realized</txt_59>
+    <txt_60 >Accumulated</txt_60>
+
+    <txt_61 >Balance</txt_61>
+    <txt_62 >time off in lieu</txt_62>
+    <txt_63 >Disbursed</txt_63>
+    <txt_64 >Wish dis.</txt_64>
+    <txt_65 >days</txt_65>
+    <txt_66 >hours</txt_66>
+    <txt_67 >Holiday held</txt_67>
+    <txt_68 >Holiday held without salary</txt_68>
+    <txt_69 >Extra holidays</txt_69>
+    <txt_70 >Extra holidays held</txt_70>
+
+    <txt_71 >1st May hours</txt_71>
+    <txt_72 >Care</txt_72>
+    <txt_73 >Maternity leave</txt_73>
+    <txt_74 >Medical</txt_74>
+    <txt_75 >Ill</txt_75>
+    <txt_76 >Child sick</txt_76>
+    <txt_77 >closed</txt_77>
+    <txt_78 >Approve selected</txt_78>
+    <txt_79 >Your CSV. File is ready</txt_79>
+    <txt_80 >Show employees</txt_80>
+
+    <txt_81 >Project groups</txt_81>
+    <txt_82 >Admin .: All project groups, otherwise all you are team leader for.</txt_82>
+    <txt_83 >No project group found</txt_83>
+    <txt_84 >Show disabled employees.</txt_84>
+    <txt_85 >Only show disa. Terminated within the last 12 months.</txt_85>
+    <txt_86 >Show passive employees</txt_86>
+    <txt_87 >Employees</txt_87>
+    <txt_88 >Employee Type Group</txt_88>
+    <txt_89 >All</txt_89>
+    <txt_90 >Specifies on employee types</txt_90>
+    <txt_91 >Specifies on employee type groups</txt_91>
+    <txt_92 >Ignores project groups. Shows all employ. Regardless of status</txt_92>
+    <txt_93 >Show employees without hours during the period.</txt_93>
+    <txt_94 >Month</txt_94>
+    <txt_95 >Show poll</txt_95>
+    <txt_96 >unit</txt_96>
+    <txt_97 >Incl. paid out</txt_97>
+    <txt_98 >Printable</txt_98>
+    <txt_99 >Approve weeks for employees</txt_99>
+    <txt_100 >Close month(s) for employees</txt_100>
+    <txt_101 >Close</txt_101>
+    <txt_102 >Approve</txt_102>
+    <txt_103 >Ask for completion</txt_103>
+    <txt_104 >week</txt_104>
+    <txt_105 >Approve Weekly note week</txt_105>
+    <txt_106 >Close</txt_106>
+    <txt_107 >End</txt_107>
+    <txt_108 >Du har ikke adgang til at godkende ugeseddel for denne medarbejder.</txt_108>
+    <txt_109 >Send message</txt_109>
+    <txt_110 >Decline</txt_110>
+    <txt_111 >More opt.</txt_111>
+    <txt_112 >Yes</txt_112>
+    <txt_113 >none invoiceable</txt_113>
+    <txt_114 >Not app. or decl.</txt_114>
+    <txt_115 >declined</txt_115>
+    <txt_116 >by employee</txt_116>
+
+  </so>
+  
+  
+  <!--- Tysk -->
+  <de>
+
+    <txt_1 >Expected loading time</txt_1>
+    <txt_2 >sec.</txt_2>
+    <txt_3 >Period</txt_3>
+    <txt_4 >Year</txt_4>
+    <txt_5 >1st quarter</txt_5>
+    <txt_6 >2nd quarter</txt_6>
+    <txt_7 >3rd quarter</txt_7>
+    <txt_8 >4th quarter</txt_8>
+    <txt_9 >YTD</txt_9>
+    <txt_10 >Export directly to excel (faster load)</txt_10>
+
+    <txt_11 >Filter</txt_11>
+    <txt_12 >advanced</txt_12>
+    <txt_13 >Divide the norm on</txt_13>
+    <txt_14 >Whole months</txt_14>
+    <txt_15 >Whole weeks</txt_15>
+    <txt_16 >Only show weeks / months with</txt_16>
+    <txt_17 >more</txt_17>
+    <txt_18 >less</txt_18>
+    <txt_19 >than</txt_19>
+    <txt_20 >hour(s)</txt_20>
+
+    <txt_21 >on their</txt_21>
+    <txt_22 >Fleks (realized / standardized)</txt_22>
+    <txt_23 >Fleks (come / go / standard)</txt_23>
+    <txt_24 >Balance (realized / come / go)</txt_24>
+    <txt_25 >per. week</txt_25>
+    <txt_26 >Only show not completed weeks / months</txt_26>
+    <txt_27 >Only show unapproved weeks / months</txt_27>
+    <txt_28 >computed per</txt_28>
+    <txt_29 >Extra holidays</txt_29>
+    <txt_30 >Extra holidays held</txt_30>
+
+    <txt_31 >Retrieves data for employee</txt_31>
+    <txt_32 >Week</txt_32>
+    <txt_33 >date</txt_33>
+    <txt_34 >Come / go time</txt_34>
+    <txt_35 >hours of paid work</txt_35>
+    <txt_36 >Appendix</txt_36>
+    <txt_37 >Holiday</txt_37>
+    <txt_38 >illness</txt_38>
+    <txt_39 >correction</txt_39>
+    <txt_40 >etc. reported</txt_40>
+
+    <txt_41 >Sum</txt_41>
+    <txt_42 >Come / go time</txt_42>
+    <txt_43 >appendix</txt_43>
+    <txt_44 >Rated</txt_44>
+    <txt_45 >Accumulated</txt_45>
+    <txt_46 >Hours</txt_46>
+    <txt_47 >reported</txt_47>
+    <txt_48 >on activities</txt_48>
+    <txt_49 >realized</txt_49>
+    <txt_50 >Reported on activity.</txt_50>
+
+    <txt_51 >thereof</txt_51>
+    <txt_52 >billable</txt_52>
+    <txt_53 >Correction</txt_53>
+    <txt_54 >Transferred balance from</txt_54>
+    <txt_55 >Last closed</txt_55>
+    <txt_56 >pay period</txt_56>
+    <txt_57 >Reported</txt_57>
+    <txt_58 >Rated</txt_58>
+    <txt_59 >Realized</txt_59>
+    <txt_60 >Accumulated</txt_60>
+
+    <txt_61 >Balance</txt_61>
+    <txt_62 >time off in lieu</txt_62>
+    <txt_63 >Disbursed</txt_63>
+    <txt_64 >Wish dis.</txt_64>
+    <txt_65 >days</txt_65>
+    <txt_66 >hours</txt_66>
+    <txt_67 >Holiday held</txt_67>
+    <txt_68 >Holiday held without salary</txt_68>
+    <txt_69 >Extra holidays</txt_69>
+    <txt_70 >Extra holidays held</txt_70>
+
+    <txt_71 >1st May hours</txt_71>
+    <txt_72 >Care</txt_72>
+    <txt_73 >Maternity leave</txt_73>
+    <txt_74 >Medical</txt_74>
+    <txt_75 >Ill</txt_75>
+    <txt_76 >Child sick</txt_76>
+    <txt_77 >closed</txt_77>
+    <txt_78 >Approve selected</txt_78>
+    <txt_79 >Your CSV. File is ready</txt_79>
+    <txt_80 >Show employees</txt_80>
+
+    <txt_81 >Project groups</txt_81>
+    <txt_82 >Admin .: All project groups, otherwise all you are team leader for.</txt_82>
+    <txt_83 >No project group found</txt_83>
+    <txt_84 >Show disabled employees.</txt_84>
+    <txt_85 >Only show disa. Terminated within the last 12 months.</txt_85>
+    <txt_86 >Show passive employees</txt_86>
+    <txt_87 >Employees</txt_87>
+    <txt_88 >Employee Type Group</txt_88>
+    <txt_89 >All</txt_89>
+    <txt_90 >Specifies on employee types</txt_90>
+    <txt_91 >Specifies on employee type groups</txt_91>
+    <txt_92 >Ignores project groups. Shows all employ. Regardless of status</txt_92>
+    <txt_93 >Show employees without hours during the period.</txt_93>
+    <txt_94 >Month</txt_94>
+    <txt_95 >Show poll</txt_95>
+    <txt_96 >unit</txt_96>
+    <txt_97 >Incl. paid out</txt_97>
+    <txt_98 >Printable</txt_98>
+    <txt_99 >Approve weeks for employees</txt_99>
+    <txt_100 >Close month(s) for employees</txt_100>
+    <txt_101 >Close</txt_101>
+    <txt_102 >Approve</txt_102>
+    <txt_103 >Ask for completion</txt_103>
+    <txt_104 >week</txt_104>
+    <txt_105 >Approve Weekly note week</txt_105>
+    <txt_106 >Close</txt_106>
+    <txt_107 >End</txt_107>
+    <txt_108 >Du har ikke adgang til at godkende ugeseddel for denne medarbejder.</txt_108>
+    <txt_109 >Send message</txt_109>
+    <txt_110 >Decline</txt_110>
+    <txt_111 >More opt.</txt_111>
+    <txt_112 >Yes</txt_112>
+    <txt_113 >none invoiceable</txt_113>
+    <txt_114 >Not app. or decl.</txt_114>
+    <txt_115 >declined</txt_115>
+    <txt_116 >by employee</txt_116>
+
+  </de>
+  
+  
+  <!--- Fransk -->
+  <fr>
+
+    <txt_1 >Expected loading time</txt_1>
+    <txt_2 >sec.</txt_2>
+    <txt_3 >Period</txt_3>
+    <txt_4 >Year</txt_4>
+    <txt_5 >1st quarter</txt_5>
+    <txt_6 >2nd quarter</txt_6>
+    <txt_7 >3rd quarter</txt_7>
+    <txt_8 >4th quarter</txt_8>
+    <txt_9 >YTD</txt_9>
+    <txt_10 >Export directly to excel (faster load)</txt_10>
+
+    <txt_11 >Filter</txt_11>
+    <txt_12 >advanced</txt_12>
+    <txt_13 >Divide the norm on</txt_13>
+    <txt_14 >Whole months</txt_14>
+    <txt_15 >Whole weeks</txt_15>
+    <txt_16 >Only show weeks / months with</txt_16>
+    <txt_17 >more</txt_17>
+    <txt_18 >less</txt_18>
+    <txt_19 >than</txt_19>
+    <txt_20 >hour(s)</txt_20>
+
+    <txt_21 >on their</txt_21>
+    <txt_22 >Fleks (realized / standardized)</txt_22>
+    <txt_23 >Fleks (come / go / standard)</txt_23>
+    <txt_24 >Balance (realized / come / go)</txt_24>
+    <txt_25 >per. week</txt_25>
+    <txt_26 >Only show not completed weeks / months</txt_26>
+    <txt_27 >Only show unapproved weeks / months</txt_27>
+    <txt_28 >computed per</txt_28>
+    <txt_29 >Extra holidays</txt_29>
+    <txt_30 >Extra holidays held</txt_30>
+
+    <txt_31 >Retrieves data for employee</txt_31>
+    <txt_32 >Week</txt_32>
+    <txt_33 >date</txt_33>
+    <txt_34 >Come / go time</txt_34>
+    <txt_35 >hours of paid work</txt_35>
+    <txt_36 >Appendix</txt_36>
+    <txt_37 >Holiday</txt_37>
+    <txt_38 >illness</txt_38>
+    <txt_39 >correction</txt_39>
+    <txt_40 >etc. reported</txt_40>
+
+    <txt_41 >Sum</txt_41>
+    <txt_42 >Come / go time</txt_42>
+    <txt_43 >appendix</txt_43>
+    <txt_44 >Rated</txt_44>
+    <txt_45 >Accumulated</txt_45>
+    <txt_46 >Hours</txt_46>
+    <txt_47 >reported</txt_47>
+    <txt_48 >on activities</txt_48>
+    <txt_49 >realized</txt_49>
+    <txt_50 >Reported on activity.</txt_50>
+
+    <txt_51 >thereof</txt_51>
+    <txt_52 >billable</txt_52>
+    <txt_53 >Correction</txt_53>
+    <txt_54 >Transferred balance from</txt_54>
+    <txt_55 >Last closed</txt_55>
+    <txt_56 >pay period</txt_56>
+    <txt_57 >Reported</txt_57>
+    <txt_58 >Rated</txt_58>
+    <txt_59 >Realized</txt_59>
+    <txt_60 >Accumulated</txt_60>
+
+    <txt_61 >Balance</txt_61>
+    <txt_62 >time off in lieu</txt_62>
+    <txt_63 >Disbursed</txt_63>
+    <txt_64 >Wish dis.</txt_64>
+    <txt_65 >days</txt_65>
+    <txt_66 >hours</txt_66>
+    <txt_67 >Holiday held</txt_67>
+    <txt_68 >Holiday held without salary</txt_68>
+    <txt_69 >Extra holidays</txt_69>
+    <txt_70 >Extra holidays held</txt_70>
+
+    <txt_71 >1st May hours</txt_71>
+    <txt_72 >Care</txt_72>
+    <txt_73 >Maternity leave</txt_73>
+    <txt_74 >Medical</txt_74>
+    <txt_75 >Ill</txt_75>
+    <txt_76 >Child sick</txt_76>
+    <txt_77 >closed</txt_77>
+    <txt_78 >Approve selected</txt_78>
+    <txt_79 >Your CSV. File is ready</txt_79>
+    <txt_80 >Show employees</txt_80>
+
+    <txt_81 >Project groups</txt_81>
+    <txt_82 >Admin .: All project groups, otherwise all you are team leader for.</txt_82>
+    <txt_83 >No project group found</txt_83>
+    <txt_84 >Show disabled employees.</txt_84>
+    <txt_85 >Only show disa. Terminated within the last 12 months.</txt_85>
+    <txt_86 >Show passive employees</txt_86>
+    <txt_87 >Employees</txt_87>
+    <txt_88 >Employee Type Group</txt_88>
+    <txt_89 >All</txt_89>
+    <txt_90 >Specifies on employee types</txt_90>
+    <txt_91 >Specifies on employee type groups</txt_91>
+    <txt_92 >Ignores project groups. Shows all employ. Regardless of status</txt_92>
+    <txt_93 >Show employees without hours during the period.</txt_93>
+    <txt_94 >Month</txt_94>
+    <txt_95 >Show poll</txt_95>
+    <txt_96 >unit</txt_96>
+    <txt_97 >Incl. paid out</txt_97>
+    <txt_98 >Printable</txt_98>
+    <txt_99 >Approve weeks for employees</txt_99>
+    <txt_100 >Close month(s) for employees</txt_100>
+    <txt_101 >Close</txt_101>
+    <txt_102 >Approve</txt_102>
+    <txt_103 >Ask for completion</txt_103>
+    <txt_104 >week</txt_104>
+    <txt_105 >Approve Weekly note week</txt_105>
+    <txt_106 >Close</txt_106>
+    <txt_107 >End</txt_107>
+    <txt_108 >Du har ikke adgang til at godkende ugeseddel for denne medarbejder.</txt_108>
+    <txt_109 >Send message</txt_109>
+    <txt_110 >Decline</txt_110>
+    <txt_111 >More opt.</txt_111>
+    <txt_112 >Yes</txt_112>
+    <txt_113 >none invoiceable</txt_113>
+    <txt_114 >Not app. or decl.</txt_114>
+    <txt_115 >declined</txt_115>
+    <txt_116 >by employee</txt_116>
+
+  </fr>
+  
+    
+
+  <!-- Engelsk -->
+  <uk>
+
+    <txt_1 >Expected loading time</txt_1>
+    <txt_2 >sec.</txt_2>
+    <txt_3 >Period</txt_3>
+    <txt_4 >Year</txt_4>
+    <txt_5 >1st quarter</txt_5>
+    <txt_6 >2nd quarter</txt_6>
+    <txt_7 >3rd quarter</txt_7>
+    <txt_8 >4th quarter</txt_8>
+    <txt_9 >YTD</txt_9>
+    <txt_10 >Export directly to excel (faster load)</txt_10>
+
+    <txt_11 >Filter</txt_11>
+    <txt_12 >advanced</txt_12>
+    <txt_13 >Divide the norm on</txt_13>
+    <txt_14 >Whole months</txt_14>
+    <txt_15 >Whole weeks</txt_15>
+    <txt_16 >Only show weeks / months with</txt_16>
+    <txt_17 >more</txt_17>
+    <txt_18 >less</txt_18>
+    <txt_19 >than</txt_19>
+    <txt_20 >hour(s)</txt_20>
+
+    <txt_21 >on their</txt_21>
+    <txt_22 >Fleks (realized / standardized)</txt_22>
+    <txt_23 >Fleks (come / go / standard)</txt_23>
+    <txt_24 >Balance (realized / come / go)</txt_24>
+    <txt_25 >per. week</txt_25>
+    <txt_26 >Only show not completed weeks / months</txt_26>
+    <txt_27 >Only show unapproved weeks / months</txt_27>
+    <txt_28 >computed per</txt_28>
+    <txt_29 >Extra holidays</txt_29>
+    <txt_30 >Extra holidays held</txt_30>
+
+    <txt_31 >Retrieves data for employee</txt_31>
+    <txt_32 >Week</txt_32>
+    <txt_33 >date</txt_33>
+    <txt_34 >Come / go time</txt_34>
+    <txt_35 >hours of paid work</txt_35>
+    <txt_36 >Appendix</txt_36>
+    <txt_37 >Holiday</txt_37>
+    <txt_38 >illness</txt_38>
+    <txt_39 >correction</txt_39>
+    <txt_40 >etc. reported</txt_40>
+
+    <txt_41 >Sum</txt_41>
+    <txt_42 >Come / go time</txt_42>
+    <txt_43 >appendix</txt_43>
+    <txt_44 >Rated</txt_44>
+    <txt_45 >Accumulated</txt_45>
+    <txt_46 >Hours</txt_46>
+    <txt_47 >reported</txt_47>
+    <txt_48 >on activities</txt_48>
+    <txt_49 >realized</txt_49>
+    <txt_50 >Reported on activity.</txt_50>
+
+    <txt_51 >thereof</txt_51>
+    <txt_52 >billable</txt_52>
+    <txt_53 >Correction</txt_53>
+    <txt_54 >Transferred balance from</txt_54>
+    <txt_55 >Last closed</txt_55>
+    <txt_56 >pay period</txt_56>
+    <txt_57 >Reported</txt_57>
+    <txt_58 >Rated</txt_58>
+    <txt_59 >Realized</txt_59>
+    <txt_60 >Accumulated</txt_60>
+
+    <txt_61 >Balance</txt_61>
+    <txt_62 >time off in lieu</txt_62>
+    <txt_63 >Disbursed</txt_63>
+    <txt_64 >Wish dis.</txt_64>
+    <txt_65 >days</txt_65>
+    <txt_66 >hours</txt_66>
+    <txt_67 >Holiday held</txt_67>
+    <txt_68 >Holiday held without salary</txt_68>
+    <txt_69 >Extra holidays</txt_69>
+    <txt_70 >Extra holidays held</txt_70>
+
+    <txt_71 >1st May hours</txt_71>
+    <txt_72 >Care</txt_72>
+    <txt_73 >Maternity leave</txt_73>
+    <txt_74 >Medical</txt_74>
+    <txt_75 >Ill</txt_75>
+    <txt_76 >Child sick</txt_76>
+    <txt_77 >closed</txt_77>
+    <txt_78 >Approve selected</txt_78>
+    <txt_79 >Your CSV. File is ready</txt_79>
+    <txt_80 >Show employees</txt_80>
+
+    <txt_81 >Project groups</txt_81>
+    <txt_82 >Admin .: All project groups, otherwise all you are team leader for.</txt_82>
+    <txt_83 >No project group found</txt_83>
+    <txt_84 >Show disabled employees.</txt_84>
+    <txt_85 >Only show disa. Terminated within the last 12 months.</txt_85>
+    <txt_86 >Show passive employees</txt_86>
+    <txt_87 >Employees</txt_87>
+    <txt_88 >Employee Type Group</txt_88>
+    <txt_89 >All</txt_89>
+    <txt_90 >Specifies on employee types</txt_90>
+    <txt_91 >Specifies on employee type groups</txt_91>
+    <txt_92 >Ignores project groups. Shows all employ. Regardless of status</txt_92>
+    <txt_93 >Show employees without hours during the period.</txt_93>
+    <txt_94 >Month</txt_94>
+    <txt_95 >Show poll</txt_95>
+    <txt_96 >unit</txt_96>
+    <txt_97 >Incl. paid out</txt_97>
+    <txt_98 >Printable</txt_98>
+    <txt_99 >Approve weeks for employees</txt_99>
+    <txt_100 >Close month(s) for employees</txt_100>
+    <txt_101 >Close</txt_101>
+    <txt_102 >Approve</txt_102>
+    <txt_103 >Ask for completion</txt_103>
+    <txt_104 >week</txt_104>
+    <txt_105 >Approve Weekly note week</txt_105>
+    <txt_106 >Close</txt_106>
+    <txt_107 >End</txt_107>
+    <txt_108 >Du har ikke adgang til at godkende ugeseddel for denne medarbejder.</txt_108>
+    <txt_109 >Send message</txt_109>
+    <txt_110 >Decline</txt_110>
+    <txt_111 >More opt.</txt_111>
+    <txt_112 >Yes</txt_112>
+    <txt_113 >none invoiceable</txt_113>
+    <txt_114 >Not app. or decl.</txt_114>
+    <txt_115 >declined</txt_115>
+    <txt_116 >by employee</txt_116>
+
+  </uk>
+
+
+  <!--- Spansk -->
+  <es>
+
+    <txt_1 >Expected loading time</txt_1>
+    <txt_2 >sec.</txt_2>
+    <txt_3 >Period</txt_3>
+    <txt_4 >Year</txt_4>
+    <txt_5 >1st quarter</txt_5>
+    <txt_6 >2nd quarter</txt_6>
+    <txt_7 >3rd quarter</txt_7>
+    <txt_8 >4th quarter</txt_8>
+    <txt_9 >YTD</txt_9>
+    <txt_10 >Export directly to excel (faster load)</txt_10>
+
+    <txt_11 >Filter</txt_11>
+    <txt_12 >advanced</txt_12>
+    <txt_13 >Divide the norm on</txt_13>
+    <txt_14 >Whole months</txt_14>
+    <txt_15 >Whole weeks</txt_15>
+    <txt_16 >Only show weeks / months with</txt_16>
+    <txt_17 >more</txt_17>
+    <txt_18 >less</txt_18>
+    <txt_19 >than</txt_19>
+    <txt_20 >hour(s)</txt_20>
+
+    <txt_21 >on their</txt_21>
+    <txt_22 >Fleks (realized / standardized)</txt_22>
+    <txt_23 >Fleks (come / go / standard)</txt_23>
+    <txt_24 >Balance (realized / come / go)</txt_24>
+    <txt_25 >per. week</txt_25>
+    <txt_26 >Only show not completed weeks / months</txt_26>
+    <txt_27 >Only show unapproved weeks / months</txt_27>
+    <txt_28 >computed per</txt_28>
+    <txt_29 >Extra holidays</txt_29>
+    <txt_30 >Extra holidays held</txt_30>
+
+    <txt_31 >Retrieves data for employee</txt_31>
+    <txt_32 >Week</txt_32>
+    <txt_33 >date</txt_33>
+    <txt_34 >Come / go time</txt_34>
+    <txt_35 >hours of paid work</txt_35>
+    <txt_36 >Appendix</txt_36>
+    <txt_37 >Holiday</txt_37>
+    <txt_38 >illness</txt_38>
+    <txt_39 >correction</txt_39>
+    <txt_40 >etc. reported</txt_40>
+
+    <txt_41 >Sum</txt_41>
+    <txt_42 >Come / go time</txt_42>
+    <txt_43 >appendix</txt_43>
+    <txt_44 >Rated</txt_44>
+    <txt_45 >Accumulated</txt_45>
+    <txt_46 >Hours</txt_46>
+    <txt_47 >reported</txt_47>
+    <txt_48 >on activities</txt_48>
+    <txt_49 >realized</txt_49>
+    <txt_50 >Reported on activity.</txt_50>
+
+    <txt_51 >thereof</txt_51>
+    <txt_52 >billable</txt_52>
+    <txt_53 >Correction</txt_53>
+    <txt_54 >Transferred balance from</txt_54>
+    <txt_55 >Last closed</txt_55>
+    <txt_56 >pay period</txt_56>
+    <txt_57 >Reported</txt_57>
+    <txt_58 >Rated</txt_58>
+    <txt_59 >Realized</txt_59>
+    <txt_60 >Accumulated</txt_60>
+
+    <txt_61 >Balance</txt_61>
+    <txt_62 >time off in lieu</txt_62>
+    <txt_63 >Disbursed</txt_63>
+    <txt_64 >Wish dis.</txt_64>
+    <txt_65 >days</txt_65>
+    <txt_66 >hours</txt_66>
+    <txt_67 >Holiday held</txt_67>
+    <txt_68 >Holiday held without salary</txt_68>
+    <txt_69 >Extra holidays</txt_69>
+    <txt_70 >Extra holidays held</txt_70>
+
+    <txt_71 >1st May hours</txt_71>
+    <txt_72 >Care</txt_72>
+    <txt_73 >Maternity leave</txt_73>
+    <txt_74 >Medical</txt_74>
+    <txt_75 >Ill</txt_75>
+    <txt_76 >Child sick</txt_76>
+    <txt_77 >closed</txt_77>
+    <txt_78 >Approve selected</txt_78>
+    <txt_79 >Your CSV. File is ready</txt_79>
+    <txt_80 >Show employees</txt_80>
+
+    <txt_81 >Project groups</txt_81>
+    <txt_82 >Admin .: All project groups, otherwise all you are team leader for.</txt_82>
+    <txt_83 >No project group found</txt_83>
+    <txt_84 >Show disabled employees.</txt_84>
+    <txt_85 >Only show disa. Terminated within the last 12 months.</txt_85>
+    <txt_86 >Show passive employees</txt_86>
+    <txt_87 >Employees</txt_87>
+    <txt_88 >Employee Type Group</txt_88>
+    <txt_89 >All</txt_89>
+    <txt_90 >Specifies on employee types</txt_90>
+    <txt_91 >Specifies on employee type groups</txt_91>
+    <txt_92 >Ignores project groups. Shows all employ. Regardless of status</txt_92>
+    <txt_93 >Show employees without hours during the period.</txt_93>
+    <txt_94 >Month</txt_94>
+    <txt_95 >Show poll</txt_95>
+    <txt_96 >unit</txt_96>
+    <txt_97 >Incl. paid out</txt_97>
+    <txt_98 >Printable</txt_98>
+    <txt_99 >Approve weeks for employees</txt_99>
+    <txt_100 >Close month(s) for employees</txt_100>
+    <txt_101 >Close</txt_101>
+    <txt_102 >Approve</txt_102>
+    <txt_103 >Ask for completion</txt_103>
+    <txt_104 >week</txt_104>
+    <txt_105 >Approve Weekly note week</txt_105>
+    <txt_106 >Close</txt_106>
+    <txt_107 >End</txt_107>
+    <txt_108 >Du har ikke adgang til at godkende ugeseddel for denne medarbejder.</txt_108>
+    <txt_109 >Send message</txt_109>
+    <txt_110 >Decline</txt_110>
+    <txt_111 >More opt.</txt_111>
+    <txt_112 >Yes</txt_112>
+    <txt_113 >none invoiceable</txt_113>
+    <txt_114 >Not app. or decl.</txt_114>
+    <txt_115 >declined</txt_115>
+    <txt_116 >by employee</txt_116>
+
+  </es>
+
+
+</sprog>

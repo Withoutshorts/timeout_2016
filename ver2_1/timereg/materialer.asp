@@ -1192,7 +1192,7 @@ if len(session("user")) = 0 then
 		sogKri = ""
 		sogeKriUse = split(sogVal, ";")
 		for b = 0 to UBOUND(sogeKriUse)
-		sogKri = sogKri &" m.navn LIKE '"& sogeKriUse(b) &"%' OR m.varenr = '"& sogeKriUse(b) &"' OR "
+		sogKri = sogKri &" m.navn LIKE '%"& sogeKriUse(b) &"%' OR m.varenr = '%"& sogeKriUse(b) &"%' OR m.betegnelse LIKE '"& sogeKriUse(b) &"%' OR "
 		next
 		
 		lensogKri = len(sogKri)

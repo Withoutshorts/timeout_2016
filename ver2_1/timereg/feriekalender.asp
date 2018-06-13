@@ -108,7 +108,7 @@ if len(session("user")) = 0 then
                 case 1
 				strOskrifter = "Medarbejder;Nr.;Init;Ferie optjent (incl. overført og opt. u. løn);Måned;Ferie afholdt;Ferie udbetalt;Ferie afholdt u. løn;Ferie saldo;;Feriefridage Optjent;Feriefridage afholdt; Feriefridage udbetalt;Feriefridage saldo;"
                 case 2
-				strOskrifter = "Medarbejder;Nr.;Init;Ferie optjent (incl. overført og opt. u. løn);Ferie afholdt + udb.;Ferie afholdt u. løn;Ferie saldo;Ferie + Feriefridage planlagt;Sygdom; Barn syg; Afspadsering;Feriefridage optjent;Feriefridage afholdt + Udb.;Feriefridage saldo;"
+				strOskrifter = "Medarbejder;Nr.;Init;Ferie optjent (incl. overført og opt. u. løn);Ferie afholdt + udb.;Ferie afholdt u. løn;Ferie saldo;Ferie saldo timer;Ferie + Feriefridage planlagt;Sygdom; Barn syg; Afspadsering;Feriefridage optjent;Feriefridage afholdt + Udb.;Feriefridage saldo; Feriefridage saldo timer;"
                 case else
                 strOskrifter = "Medarbejder;Nr.;Init;Dato;Type;Timer;Dage;Tastedato;"
                 end select
@@ -690,7 +690,7 @@ if len(session("user")) = 0 then
 
 
       '*** Holliday ** 
-     call helligdage(newDate, 0, lto)
+     call helligdage(newDate, 0, lto, session("mid"))
      if erHellig = 1 then
      bgcolor = "#CCCCCC"
      end if
@@ -742,6 +742,7 @@ if len(session("user")) = 0 then
 	
 	
 	        dim medarbid, normTimerUge, medarbNavn, medarbNr, intFerieSaldo, intFerieFridageOpt, intFerieFridageAU, intFerieFridageSaldo
+            dim intFerieSaldoTimer, intFerieFridageOptTimer, intFerieFridageAUTimer, intFerieFridageSaldoTimer, intFerieOptTimer, intFerieAUTimer
             dim intMidsFePl, intMidsFeAf, intMidsSyg, intMidsBarnSyg, intMidsAfspad, intMidsFeFri, intMidsFeAfUL, intFerieOpt, intFerieAU
             dim intMidsFeUb, intMidsFeFriUb, intMidsRejsedage
             dim dageVal_14, dageVal_13, dageVal_16, dageVal_17, dageVal_19 
@@ -750,6 +751,7 @@ if len(session("user")) = 0 then
             redim intMidsFeFri(700), intMidsFeAfUL(700), intFerieOpt(700), intFerieSaldo(700), intFerieAU(700)
             redim intMidsFeUb(700), intMidsFeFriUb(700)
             redim intFerieFridageOpt(700), intFerieFridageAU(700), intFerieFridageSaldo(700)
+            redim intFerieFridageOptTimer(700), intFerieFridageAUTimer(700), intFerieFridageSaldoTimer(700), intFerieSaldoTimer(700), intFerieOptTimer(700), intFerieAUTimer(700)
             redim dageVal_14(700,12), dageVal_13(700,12), dageVal_16(700,12), dageVal_17(700,12), dageVal_19(700,12), intMidsRejsedage(700) 
 	
 	        'm = 1
@@ -839,7 +841,7 @@ if len(session("user")) = 0 then
                      end if
 
                        '*** Holliday ** 
-                     call helligdage(newDate, 0, lto)
+                     call helligdage(newDate, 0, lto, oRec("mid"))
                      if erHellig = 1 then
                      bgcolor = "#CCCCCC"
                      end if
@@ -973,6 +975,7 @@ if len(session("user")) = 0 then
 
 
         intFerieOpt(m) = 0
+        intFerieOptTimer(m) = 0
         '** Ferie optjent i ferieår incl. ferie optj. u løn og overført ***'
         strSQLfeo = "SELECT sum(timer) AS timer, tdato, month(tdato) AS month, tfaktim, tastedato FROM timer WHERE tmnr = " & intMids(m)  & ""_
 	    &" AND (tfaktim = 15 OR tfaktim = 111 OR tfaktim = 112) AND tdato BETWEEN '"& startDatoFEOSQL &"' AND '"& slutDatoFEOSQL &"' GROUP BY tmnr ORDER BY tdato"
@@ -1008,6 +1011,7 @@ if len(session("user")) = 0 then
         'end if
 
           intFerieOpt(m) = oRec("timer") / normTimerGns5 'ntimPerUse
+          intFerieOptTimer(m) = oRec("timer") 
 
         end if
         oRec.close
@@ -1017,6 +1021,7 @@ if len(session("user")) = 0 then
 
 
         intFerieAU(m) = 0
+        intFerieAUTimer(m) = 0
         '** Ferie afholdt + Uløn og udbetalt i ferieår ***'
 
         'if lto = "cst" then
@@ -1045,13 +1050,9 @@ if len(session("user")) = 0 then
          ntimPerUse = 1
          end if 
 
-
-      
-        intFerieAU(m) = intFerieAU(m) + oRec("timer") / ntimPerUse
+            intFerieAU(m) = intFerieAU(m) + oRec("timer") / ntimPerUse
+            intFerieAUTimer(m) = intFerieAUTimer(m) + oRec("timer")
        
-          
-
-          
         oRec.movenext
         wend
         oRec.close          
@@ -1059,12 +1060,14 @@ if len(session("user")) = 0 then
 
         '*** Saldo ***'
         intFerieSaldo(m) = intFerieOpt(m)/1 - (intFerieAU(m)/1)
+        intFerieSaldoTimer(m) = intFerieOptTimer(m)/1 - (intFerieAUTimer(m)/1)
        
 
 
 
 
         intFerieFridageOpt(m) = 0
+        intFerieFridageOptTimer(m) = 0
         '** FerieFridage optjent i ferieår ***'
         strSQLfeo = "SELECT sum(timer) AS timer, tdato, month(tdato) AS month, tfaktim, tastedato FROM timer WHERE tmnr = " & intMids(m)  & ""_
 	    &" AND (tfaktim = 12) AND tdato BETWEEN '"& startDatoFEOSQL &"' AND '"& slutDatoFEOSQL &"' GROUP BY "& sqlGrpBy &" ORDER BY tdato"
@@ -1077,7 +1080,7 @@ if len(session("user")) = 0 then
         
        
 
-         call normtimerPer(intMids(m) , oRec("tdato"), 6, 0)
+         call normtimerPer(intMids(m), oRec("tdato"), 6, 0)
 	     if ntimPer <> 0 then
          ntimPerUse = ntimPer/antalDageMtimer
          else
@@ -1085,6 +1088,7 @@ if len(session("user")) = 0 then
          end if 
 
           intFerieFridageOpt(m) = oRec("timer") / ntimPerUse
+          intFerieFridageOptTimer(m) = oRec("timer")
 
         end if
         oRec.close
@@ -1111,7 +1115,7 @@ if len(session("user")) = 0 then
          end if 
 
           intFerieFridageAU(m) = intFerieFridageAU(m) + oRec("timer") / ntimPerUse
-
+          intFerieFridageAUTimer(m) = intFerieFridageAUTimer(m) + oRec("timer")
           
         oRec.movenext
         wend
@@ -1120,8 +1124,7 @@ if len(session("user")) = 0 then
 
         '*** Saldo ***'
         intFerieFridageSaldo(m) = intFerieFridageOpt(m)/1 - (intFerieFridageAU(m)/1)
-
-
+        intFerieFridageSaldoTimer(m) = intFerieFridageOptTimer(m)/1 - (intFerieFridageAUTimer(m)/1)
 
 
 	    
@@ -1715,10 +1718,25 @@ if len(session("user")) = 0 then
         intFerieSaldo(m) = 0
         end if
 
+
+        if len(trim(intFerieSaldoTimer(m))) <> 0 then
+        intFerieSaldoTimer(m) = formatnumber(intFerieSaldoTimer(m))
+        else
+        intFerieSaldoTimer(m) = 0
+        end if
+
+
+
         if len(trim(intFerieFridageSaldo(m))) <> 0 then
         intFerieFridageSaldo(m) = formatnumber(intFerieFridageSaldo(m))
         else
         intFerieFridageSaldo(m) = 0
+        end if
+
+        if len(trim(intFerieFridageSaldoTimer(m))) <> 0 then
+        intFerieFridageSaldoTimer(m) = formatnumber(intFerieFridageSaldoTimer(m))
+        else
+        intFerieFridageSaldoTimer(m) = 0
         end if
 
 
@@ -1830,7 +1848,7 @@ if len(session("user")) = 0 then
 
          if vis = 2 then '*** tot sum
             
-             ekspTxt = ekspTxt & medarbnavn(m) &";"& medarbnr(m) &";"& medarbinit(m) &";"& intFerieOpt(m) &";"& intMidsFeAf(m) &";"& intMidsFeAfUL(m) &";"& intFerieSaldo(m) &";"& intMidsFePl(m) &";"& intMidsSyg(m) &";"& intMidsBarnSyg(m) &";"& intMidsAfspad(m) &";"& intFerieFridageOpt(m) &";"& intMidsFeFri(m) &";"& intFerieFridageSaldo(m) &";xx99123sy#z"
+             ekspTxt = ekspTxt & medarbnavn(m) &";"& medarbnr(m) &";"& medarbinit(m) &";"& intFerieOpt(m) &";"& intMidsFeAf(m) &";"& intMidsFeAfUL(m) &";"& intFerieSaldo(m) &";"& intFerieSaldoTimer(m) &";"& intMidsFePl(m) &";"& intMidsSyg(m) &";"& intMidsBarnSyg(m) &";"& intMidsAfspad(m) &";"& intFerieFridageOpt(m) &";"& intMidsFeFri(m) &";"& intFerieFridageSaldo(m) &";"& intFerieFridageSaldoTimer(m) &";xx99123sy#z"
              
         
          end if
