@@ -1679,9 +1679,11 @@ if len(session("user")) = 0 then
                             'Response.write lnk
                             'Response.end
                             Response.redirect "logindhist_2011.asp?"&lnk
-                            'Response.Write("<script language=""JavaScript"">window.opener.location.reload();</script>")
-                            'Response.Write("<script language=""JavaScript"">window.close();</script>")
-	                        
+
+                            case "lgnhist_2018"
+                            
+                            Response.redirect "../to_2015/logindhist_2011.asp?"&lnk
+                            
                             
 	                        case "treg", "popup" 'fra timereg.siden
                             Response.Write("<script language=""JavaScript"">window.opener.location.reload();</script>")

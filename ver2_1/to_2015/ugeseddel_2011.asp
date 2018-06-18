@@ -366,6 +366,7 @@ if len(session("user")) = 0 then
     case else
 
 
+   
 
      if len(session("user")) = 0 then
 	%>
@@ -558,8 +559,14 @@ if len(session("user")) = 0 then
             <a href="../timereg/<%=lnkTimeregside%>" class="vmenu"><%=replace(tsa_txt_031, " ", "")%> >></a>
           
 
-            <%if cint(stempelurOn) = 1 then %>
-            &nbsp;|&nbsp;<a href="../timereg/<%=lnkLogind%>" class="vmenu"><%=week_txt_013 %> >></a>
+            <%if cint(stempelurOn) = 1 then
+                
+                if lto = "cflow" OR lto = "intranet - local" then
+                %>
+                &nbsp;|&nbsp;<a href="<%=lnkLogind%>" class="vmenu"><%=tsa_txt_340 %> >></a>
+                <%else%>
+                &nbsp;|&nbsp;<a href="../timereg/<%=lnkLogind%>" class="vmenu"><%=tsa_txt_340 %> >></a>
+                <%end if%>
             <%end if%>
 
            
@@ -682,17 +689,42 @@ if len(session("user")) = 0 then
         end if
         %>
 
-      
+        
+
             <div class="row"> 
+
+                 
      
-           
-                   <div class="col-lg-7"> 
-                   <form id="container" action="../timereg/timereg_akt_2006.asp?func=db&rdir=<%=rdir_timereg %>" method="post">
-      
-                    <%
+                      <%
                     mgnRight = 250    
                     wdtTbl = 60
+
+
+                              'select case lto 
+                              'case "cflow", "intranet - local"
+                              'if cint(stempelurOn) = 1 then
+                              '  if session("mid") = 1 then
+                              '  colspL = 4
+                              '  colspC = 4
+                              '  colspR = 4
+                              '  else
+                              '  colspL = 7
+                              '  colspC = 0
+                              '  colspR = 5
+                              '  end if
+                             'else
+                                colspL = 7
+                                colspC = 0
+                                colspR = 5
+                             'end if
+
                     %>
+
+           
+                   <div class="col-lg-<%=colspL%>"> 
+                   <form id="container" action="../timereg/timereg_akt_2006.asp?func=db&rdir=<%=rdir_timereg %>" method="post">
+      
+                  
 
                     <table style="font-size:100%; display:inline-table; margin-right:<%=mgnRight%>px; width:<%=wdtTbl%>%;">
                     
@@ -736,7 +768,9 @@ if len(session("user")) = 0 then
                         
                      <tr>
                         <td style="padding-top:<%=paddingTop%>; padding-left:10px;" rowspan="<%=rwspan %>">
-                             <input type="hidden" name="varTjDatoUS_man" value="<%=varTjDatoUS_man %>">
+                            <input type="hidden" id="stempelurOn" name="" value="<%=stempelurOn%>"/>
+                            
+                            <input type="hidden" name="varTjDatoUS_man" value="<%=varTjDatoUS_man %>">
         
                             <input type="hidden" name="usemrn" id="treg_usemrn" value="<%=usemrn%>">
                             <input type="hidden" id="lto" value="<%=lto%>">
@@ -858,13 +892,16 @@ if len(session("user")) = 0 then
 
           </div>
            
-            <div class="col-lg-5"> 
+          
+
+
+            <div class="col-lg-<%=colspR%>"> 
             <%
             '**** Norm Chart ****'    
-         %>
+             %>
             <div id="stacked-vertical-chart" class="chart-holder-200"></div>
           
-                </div>
+            </div>
      
         </div><!-- ROW --> 
         <%end if %>
@@ -890,8 +927,10 @@ if len(session("user")) = 0 then
 
         'end if
     
+           
+        
 
-   
+
        ugeseddelvisning = 1
 
        perInterval = 6 'dateDiff("d", varTjDatoUS_man, varTjDatoUS_son, 2,2) 

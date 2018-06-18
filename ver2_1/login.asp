@@ -1182,7 +1182,11 @@ else '** POST *****
 
                                 'Response.Write "timereg/logindhist_2011.asp?usemrn="&session("mid")&"&varTjDatoUS_man="&mandagIuge&"&varTjDatoUS_son="&sondagIuge
                                 'Response.end
+                                if lto = "cflow" then
+                                response.redirect "to_2015/logindhist_2011.asp?usemrn="&session("mid")&"&varTjDatoUS_man="&mandagIuge&"&varTjDatoUS_son="&sondagIuge
+                                else
                                 response.redirect "timereg/logindhist_2011.asp?usemrn="&session("mid")&"&varTjDatoUS_man="&mandagIuge&"&varTjDatoUS_son="&sondagIuge
+                                end if
                                 'response.redirect "timereg/logindhist_2011.asp"    
 
                                 case 4

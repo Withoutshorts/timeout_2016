@@ -159,13 +159,13 @@
                        'Positiv aktivering
                        if cint(pa_only_specifikke_akt) then
 
-                       strSQL = "SELECT a.id AS aid, navn AS aktnavn "_
+                       strSQL = "SELECT a.id AS aid, navn AS aktnavn, fase "_
                        &" FROM timereg_usejob AS tu LEFT JOIN aktiviteter AS a ON (a.id = tu.aktid "& onlySalesact &") "_
                        &" WHERE tu.medarb = "& medid &" AND tu.jobid = "& jobid &" AND aktid <> 0 "& strSQlAktSog &" AND aktstatus = 1 AND ("& aty_sql_hide_on_treg &") "& forecastAktids &" "& onlySalesact &" ORDER BY fase, sortorder, navn LIMIT 250"   
                        'AND ("& replace(aty_sql_realhours, "tfaktim", "a.fakturerbar") &")
                        else 
 
-                       strSQL = "SELECT a.id AS aid, navn AS aktnavn "_
+                       strSQL = "SELECT a.id AS aid, navn AS aktnavn, fase "_
                        &" FROM timereg_usejob AS tu LEFT JOIN aktiviteter AS a ON (a.job = tu.jobid) "_
                        &" WHERE tu.medarb = "& medid &" AND tu.jobid = "& jobid &" AND aktid = 0 "& strSQlAktSog &" AND aktstatus = 1 AND ("& aty_sql_hide_on_treg &") "& forecastAktids &" "& onlySalesact &" ORDER BY fase, sortorder, navn LIMIT 250"
                        'AND ("& replace(aty_sql_realhours, "tfaktim", "a.fakturerbar") &")
@@ -196,7 +196,7 @@
                 
                    
 
-                   strSQL = "SELECT a.id AS aid, navn AS aktnavn, projektgruppe1, projektgruppe2, projektgruppe3, "_
+                   strSQL = "SELECT a.id AS aid, navn AS aktnavn, fase, projektgruppe1, projektgruppe2, projektgruppe3, "_
                    &" projektgruppe4, projektgruppe5, projektgruppe6, projektgruppe7, projektgruppe8, projektgruppe9, projektgruppe10 FROM aktiviteter AS a "_
                    &" WHERE a.job = " & jobid & " "& strSQLDatoKri &" "& strSQlAktSog &" AND aktstatus = 1 AND ("& aty_sql_hide_on_treg &") "& forecastAktids &" "& onlySalesact &" ORDER BY fase, sortorder, navn LIMIT 250"      
     
@@ -210,6 +210,7 @@
                 'response.flush
 
                 afundet = 0
+                aa = 0
                 oRec.open strSQL, oConn, 3
                 while not oRec.EOF
         
@@ -270,6 +271,17 @@
                 fcsaldo_txt = ""
 
                 end if
+
+
+                if lastFase <> oRec("fase") AND isNULL(oRec("fase")) <> true then
+        
+                 thisFase = replace(oRec("fase"), " ", "")
+                 thisFase = replace(thisFase, "_", " ")
+
+                 strAktTxt = strAktTxt & "<option value=""0"" DISABLED></option>"
+                 strAktTxt = strAktTxt & "<option value=""0"" DISABLED>fase: "& thisFase &"</option>" 
+                end if
+
                 
                 if cdbl(jq_aktidc) = cdbl(oRec("aid")) then
                 aktidSEL = "SELECTED"
@@ -288,6 +300,8 @@
                 
                 end if
                 
+                lastFase = oRec("fase")
+                aa = aa + 1
                 afundet = afundet + 1
                 oRec.movenext
                 wend

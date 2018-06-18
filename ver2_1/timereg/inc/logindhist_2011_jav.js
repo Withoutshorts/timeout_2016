@@ -9,7 +9,28 @@
 $(document).ready(function () {
 
 
+    $(".picmodal").click(function () {
 
+        
+
+        var modalid = this.id
+        var idlngt = modalid.length
+        var idtrim = modalid.slice(6, idlngt)
+
+        //var modalidtxt = $("#myModal_" + idtrim);
+        var modal = document.getElementById('myModal_' + idtrim);
+
+        alert("HER" + idtrim)
+
+        modal.style.display = "block";
+
+        window.onclick = function (event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+
+    });
 
 
 

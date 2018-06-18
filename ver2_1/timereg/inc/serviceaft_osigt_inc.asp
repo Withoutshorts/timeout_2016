@@ -572,7 +572,22 @@ end if%>
 		</td>
 		<%if thisfile = "serviceaft_osigt.asp" then%>
 		<td style="padding-left:5px;" bgcolor="<%=bgcolforny%>">&nbsp;<%=skalfornyes%></td>
-		<td style="padding-left:5px;"><a href="<%=thisfile%>?menu=kund&func=sletsaft&id=<%=oRec("kid")%>&saftid=<%=oRec("id")%>&FM_soeg=<%=FM_soeg%>&visalle=<%=func%>&FM_usedatokri=<%=fmudato%>&filter_per=<%=filterKri%>&status=<%=filterStatus%>"><img src="../ill/slet_16.gif" alt="Slet" border="0"></a></td>
+
+        <%strSQLfak = "SELECT COUNT(fid) AS antalfak FROM fakturaer WHERE jobid = 0 AND aftaleid = "& oRec("id") &" GROUP BY aftaleid"
+	    oRec6.open strSQLfak, oConn, 3 
+        antalfak = 0
+        if not oRec6.EOF then
+            antalfak = oRec6("antalfak")
+        end if
+        oRec6.close%>
+
+		<td style="padding-left:5px;">
+            <%if cint(antalfak) = 0 then %>
+            <a href="<%=thisfile%>?menu=kund&func=sletsaft&id=<%=oRec("kid")%>&saftid=<%=oRec("id")%>&FM_soeg=<%=FM_soeg%>&visalle=<%=func%>&FM_usedatokri=<%=fmudato%>&filter_per=<%=filterKri%>&status=<%=filterStatus%>" class="red">[X]</a>
+            <%else %>
+            Inv: (<%=antalfak %>)
+            <%end if %>
+		</td>
 		<%else%>
 		<td colspan=2>&nbsp;</td>
 		<%end if%>

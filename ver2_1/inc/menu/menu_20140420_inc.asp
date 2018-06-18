@@ -605,8 +605,8 @@ end select
                 lnkTimeregside = "timereg_akt_2006.asp?usemrn="&usemrn&"&varTjDatoUS_man="&varTjDatoUS_man&"&strdag="&strdagTreg&"&strMrd="&strMrdTreg&"&strAar="&strAarTreg
                 lnkUgeseddel = "ugeseddel_2011.asp?usemrn="&usemrn&"&varTjDatoUS_man="&stDato_ugeseddel_kommegaa_US_man'&"&varTjDatoUS_son="&varTjDatoUS_son
 	            lnkAfstem = "afstem_tot.asp?usemrn="&usemrn&"&show=5&varTjDatoUS_man="&varTjDatoUS_man'&"&varTjDatoUS_son="&varTjDatoUS_son
-                lnkLogind = "logindhist_2011.asp?usemrn="&usemrn&"&varTjDatoUS_man="&stDato_ugeseddel_kommegaa_US_man'&"&varTjDatoUS_son="&varTjDatoUS_son 
                 
+                lnkLogind = "logindhist_2011.asp?usemrn="&usemrn&"&varTjDatoUS_man="&stDato_ugeseddel_kommegaa_US_man'&"&varTjDatoUS_son="&varTjDatoUS_son 
                     
                  select case lto
                  case "cst"
@@ -668,11 +668,17 @@ end select
                
                  <%
                  select case lto
-                 case "alfanordic", "intranet - local"                     
+                 case "alfanordic"                   
 
                  case else
                  if cint(stempelurOn) = 1 then %>
-                 <li><a href="<%=toSubVerPath14 %><%=lnkLogind%>"><%=tsa_txt_340 %></a></li>
+
+                    <%if lto = "cflow" OR lto = "intranet - local" then%>
+                    <li><a href="<%=toSubVerPath15 %><%=lnkLogind%>"><%=tsa_txt_340 %></a></li>
+                    <%else %>
+                    <li><a href="<%=toSubVerPath14 %><%=lnkLogind%>"><%=tsa_txt_340 %></a></li>
+                    <%end if %>
+
                      <%if lto = "cflow" then%>
                             <li><a href="<%=toSubVerPath15 %>monitor.asp?func=startside" target="_blank">Terminal ind/ud stempling</a></li>
                      <%end if

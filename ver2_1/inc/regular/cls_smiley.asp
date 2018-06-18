@@ -736,7 +736,7 @@ function afslutuge(weekSelected, visning, tjkDag7, rdir, SmiWeekOrMonth)
 
     'Response.write "HER RDIR: "& rdir
 
-    if thisfile = "ugeseddel_2011.asp" OR thisfile = "favorit.asp" then
+    if thisfile = "ugeseddel_2011.asp" OR thisfile = "favorit.asp" OR thisfile = "logindhist_2011.asp" then
     menu2015lnk = "../timereg/"
     else
     menu2015lnk = ""
@@ -899,7 +899,7 @@ function afslutuge(weekSelected, visning, tjkDag7, rdir, SmiWeekOrMonth)
 
 <tr>
    
-	<td valign=top bgcolor="#FFFFFF">
+	<td valign=top><!-- bgcolor="#FFFFFF" -->
 
         
    
@@ -1287,7 +1287,7 @@ function showsmiley(weekSelected, visning, usemrn, SmiWeekOrMonth)
  '***************************** Smiley ******************************
 	%>
 	<table border='0' cellspacing='0' cellpadding='0' width=100%>
-	<tr bgcolor="#FFFFFF"><td style="padding:0px 0px 0px 0px;">
+	<tr><td style="padding:0px 0px 0px 0px;"> <!-- bgcolor="#FFFFFF" -->
 	<%
 	
 	'**** Sur Smiley overruler ******'
@@ -3323,7 +3323,7 @@ sub smiley_uge_kriterie_opfyldt
                    end if 
                        
                        
-                 if thisfile = "logindhist_2011.asp" OR thisfile = "timereg_akt_2006" then
+                 if thisfile = "xlogindhist_2011.asp" OR thisfile = "timereg_akt_2006" then
                   lpx = 0
                  else
                   lpx = 15

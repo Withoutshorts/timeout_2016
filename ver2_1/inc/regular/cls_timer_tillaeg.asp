@@ -939,9 +939,16 @@ function indlasFerieSaldo(lto, mid, timertilindlasning, tfaktim, ferieaar)
         '*** Ferie optjent
        
         'dtInd = year(now) &"/"& month(now) &"/"& day(now)
+        'Er medarbejderen anstat ved indlæsning 1.5? 
+         call meStamdata(mid)
+     
+         if cDate(meAnsatDato) > cDate(firstDayOfNewFerieAar) then
+         dtInd = year(meAnsatDato) &"-"& month(meAnsatDato) &"-"& day(meAnsatDato)
+         else
 	     dtInd = ferieaar &"-05-01"
-         ferieslutDato = (ferieaar + 1) & "-04-30"
-
+         end if
+        
+        ferieslutDato = (ferieaar + 1) & "-04-30"
         tidspunkt = formatdatetime(now, 3)
 
         '**** Overtid ********************

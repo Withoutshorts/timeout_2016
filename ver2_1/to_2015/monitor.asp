@@ -109,6 +109,9 @@
 
                 '******* Tjekker medarbejderen ********'
                 if len(trim(RFID)) <> 0 then
+
+
+
                     strSQL = "SELECT Mid, Mnavn FROM medarbejdere WHERE (medarbejder_rfid = "& RFID & " OR mnr = "& RFID & ") AND (mansat = 1 OR mansat = 3)"
                     'response.Write strSQL
                     oRec.open strSQL, oConn, 3
@@ -146,33 +149,6 @@
                     call logindStatus(strUsrId, intStempelur, io, tid)
 
 
-                       '********************* Skriver til logfil ********************************************************'
-		            if request.servervariables("PATH_TRANSLATED") <> "C:\www\timeout_xp\wwwroot\ver2_14\to_2015\monitor.asp" then
-                
-                    
-                    'response.write "d:\webserver\wwwroot\timeout_xp\wwwroot\"& toVer &"\inc\log\logfile_timeout_"&lto&".txt"
-                    'response.end    
-
-                            toVer = "ver2_14"
-
-				            Set objFSO = server.createobject("Scripting.FileSystemObject")
-				            select case lto
-
-                            case "cflow"
-				          
-					            Set objF = objFSO.GetFile("d:\webserver\wwwroot\timeout_xp\wwwroot\"& toVer &"\inc\log\logfile_timeout_"&lto&".txt")
-					            Set objF = objFSO.OpenTextFile("d:\webserver\wwwroot\timeout_xp\wwwroot\"& toVer &"\inc\log\logfile_timeout_"&lto&".txt", 8)
-            				
-				            
-            				
-				            objF.writeLine(session("user") &chr(009)&chr(009)&chr(009)& date &chr(009)& time &chr(009)&request.servervariables("REMOTE_ADDR")&chr(009)&" - Terminal")
-				            objF.close	
-
-                            end select
-
-
-		            end if
-		            '*******************************************************************************************'
 
                     'if medid = 1 then
                     'Response.Write "medid: "& medid &" login: "& login &" logud: "& logud &" = "& isNull(logud) & " fo_afsluttetlogin: "& fo_afsluttetlogin &" AND fo_oprettetnytlogin: "& cint(fo_oprettetnytlogin) & " fo_autoafsluttet: "& fo_autoafsluttet & " skiftjob: " & skiftjob
@@ -591,6 +567,45 @@
                    
                     
                     <%end if %>
+
+
+                    <% 
+                    'Skriver til logfil    
+                    if (func = "startside" AND redType = "1") OR func = "registrer" then
+
+
+                         '********************* Skriver til logfil ********************************************************'
+		            if request.servervariables("PATH_TRANSLATED") <> "C:\www\timeout_xp\wwwroot\ver2_14\to_2015\monitor.asp" then
+                
+                    
+                    'response.write "d:\webserver\wwwroot\timeout_xp\wwwroot\"& toVer &"\inc\log\logfile_timeout_"&lto&".txt"
+                    'response.end    
+
+                            toVer = "ver2_14"
+
+				            Set objFSO = server.createobject("Scripting.FileSystemObject")
+				            select case lto
+
+                            case "cflow"
+				          
+					            Set objF = objFSO.GetFile("d:\webserver\wwwroot\timeout_xp\wwwroot\"& toVer &"\inc\log\logfile_timeout_"&lto&".txt")
+					            Set objF = objFSO.OpenTextFile("d:\webserver\wwwroot\timeout_xp\wwwroot\"& toVer &"\inc\log\logfile_timeout_"&lto&".txt", 8)
+            				
+				            
+            				
+				            objF.writeLine(session("user") &chr(009)&chr(009)&chr(009)& date &chr(009)& time &chr(009)&request.servervariables("REMOTE_ADDR")&chr(009)&" - Terminal")
+				            objF.close	
+
+                            end select
+
+
+		            end if
+		            '*******************************************************************************************'
+                                       
+
+                       
+                    end if
+                    %>
 
 
                 </div>

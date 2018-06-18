@@ -81,28 +81,46 @@ case "sletsaft"
 	<%
 case "sletsaftok"
 saftid = request("saftid")
-'*** Her slettes en aftale ***
-oConn.execute("DELETE FROM serviceaft WHERE id = "& saftid &"")
 
-    '*** Sletter fakturaer på aftale ****
-	strSQLfak = "SELECT fid FROM fakturaer WHERE jobid = 0 AND aftaleid = "& id &""
-	oRec.open strSQLfak, oConn, 3
+   strSQLser = " SELECT navn, aftalenr FROM serviceaft WHERE id = "& saftid &""
+   oRec.open strSQLser, oConn, 3
 	
-	while not oRec.EOF 
+	if not oRec.EOF then
 	        
-	        oConn.execute("DELETE FROM faktura_det WHERE fakid = "& oRec("fid") &"")
-	        oConn.execute("DELETE FROM fak_med_spec WHERE fakid = "& oRec("fid") &"")
-	        oConn.execute("DELETE FROM fak_mat_spec WHERE matfakid = "& oRec("fid") &"")
-	        
-	oRec.movenext
-	wend
+	   aftNavn = oRec("navn")
+       aftNr = oRec("aftalenr")
+	
+	end if
 	oRec.close
+
+
+    '*** MÅ IKKE
+    '*** Sletter fakturaer på aftale ****
+	'strSQLfak = "SELECT fid FROM fakturaer WHERE jobid = 0 AND aftaleid = "& saftid &""
+	'oRec.open strSQLfak, oConn, 3
+	
+	'while not oRec.EOF 
+	        
+	'        oConn.execute("DELETE FROM faktura_det WHERE fakid = "& oRec("fid") &"")
+	'        oConn.execute("DELETE FROM fak_med_spec WHERE fakid = "& oRec("fid") &"")
+	'        oConn.execute("DELETE FROM fak_mat_spec WHERE matfakid = "& oRec("fid") &"")
+	        
+	'oRec.movenext
+	'wend
+	'oRec.close
 	
 	
-	oConn.execute("DELETE FROM fakturaer WHERE jobid = "& id &"")
+	'oConn.execute("DELETE FROM fakturaer WHERE jobid = 0 AND aftid = "& saftid &"")
+
+
 
 '*** Opdaterer job ****
 oConn.execute("UPDATE job SET serviceaft = 0 WHERE serviceaft = "& saftid &"")
+
+call insertDelhist("aftale", saftid, aftNr, aftNavn, session("mid"), session("user"))
+
+'*** Her slettes en aftale ***
+oConn.execute("DELETE FROM serviceaft WHERE id = "& saftid &"")
 
 Response.redirect "serviceaft_osigt.asp?menu=kund&id="&id&"&FM_soeg="&FM_soeg&"&func="&visalle&"&brugdatokri="&fmudato&"&filter_per="&filterKri&"&status="&filterStatus
 

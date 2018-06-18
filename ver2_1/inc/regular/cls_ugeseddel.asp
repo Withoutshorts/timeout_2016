@@ -162,7 +162,8 @@ sub showafslutuge_ugeseddel
     	    
             '*** Auto popup ThhisWEEK now SMILEY
 	        %>
-	        <div id="s0" class="well" style="position:relative; left:0px; top:26px; width:<%=sDivWth%>px; visibility:<%=smVzb%>; display:<%=smDsp%>; z-index:2; background-color:#ffffff; padding:20px;">
+	        <!--<div id="s0" class="well" style="position:relative; left:0px; top:26px; width:<%=sDivWth%>px; visibility:<%=smVzb%>; display:<%=smDsp%>; z-index:2; background-color:#ffffff; padding:20px;">-->
+            <br />&nbsp;<div id="s0" class="well" style="width:800px;">
 	        <%
 
             '*** Viser denne uge
@@ -246,8 +247,24 @@ end sub
 
 
 
+
+
+
+
+
+'*********************************************************************************************************
+'*********************************************************************************************************
+'*** Ugeseddel 2011, dag for dag registreringer
+
+
+'*********************************************************************************************************
+'*********************************************************************************************************
+
 public fmLink, timertot, ucount
 function ugeseddel(medarbid, stdatoSQL, sldatoSQL, visning, showtotal, showheader)
+
+
+timerThisDayLontimerTotTxt = 0
 
 st_dato = day(stdatoSQL) &"-"& month(stdatoSQL) & "-"& year(stdatoSQL)
 
@@ -348,12 +365,11 @@ varTjDatoUS_tor = dateAdd("d", 3, varTjDatoUS_man)
 
   
 
-<%if media <>  "print" then '  AND cint(showheader) = 100 then 'slået fra
+<%if media <>  "print" then 
     
    
     %>
 
-  <!--<form action="ugeseddel_2011.asp?func=opdaterstatus&varTjDatoUS_man=<%=varTjDatoUS_man %>&usemrn=<%=usemrn %>&nomenu=<%=nomenu%>" method="post">-->
  
 <%end if%>
 
@@ -367,9 +383,7 @@ varTjDatoUS_tor = dateAdd("d", 3, varTjDatoUS_man)
 
    <tr><td valign=top colspan=2>
 
-         <%if showheader <> 1 then %>
-        
-         <%end if %>
+         
 
        <div class="panel-group accordion-panel" id="accordion-paneled">
             <div class="panel panel-default">
@@ -384,9 +398,18 @@ varTjDatoUS_tor = dateAdd("d", 3, varTjDatoUS_man)
                 else    
 
                         %>
-                        <h4 class="panel-title"><a class="accordion-toggle" data-toggle="collapse" href="#<%=dateid %>"><b><%=weekdayname(weekday(st_dato, 1)) &" "& formatdatetime(st_dato, 1)%></b> <span style="font-size:85%; width:60%;">- <%=meTxt %></span>
-                            <span id="sp_sumtimer_dag_<%=datepart("w", st_dato, 2,2)%>" style="color:#999999; float:right; font-size:75%;">&nbsp;</span></a></h4>
+                        <h4 class="panel-title"><a class="accordion-toggle" data-toggle="collapse" href="#<%=dateid %>"><b><%=weekdayname(weekday(st_dato, 1)) &" "& formatdatetime(st_dato, 1)%></b> 
+                            <span style="font-size:85%; width:60%;">- <%=meTxt %></span>
+                            
+                             <span style="float:right;"> 
+
+                            <% if cint(stempelurOn) = 1 AND session("mid") = 1 then %>
+                            <span id="sp_sumlontimer_dag_<%=datepart("w", st_dato, 2,2)%>">&nbsp;</span> vs.
+                            <%end if %>
+                            <span id="sp_sumtimer_dag_<%=datepart("w", st_dato, 2,2)%>">&nbsp;</span></a></h4>
                          
+                            </span>
+
                         </div>
                 <!-- /.panel-heading -->
                 
@@ -402,6 +425,29 @@ varTjDatoUS_tor = dateAdd("d", 3, varTjDatoUS_man)
                 end if %>
 
                     <div class="panel-body">
+
+
+                          <%
+                         'select case lto 
+                         'case "cflow", "intranet - local"
+                        if cint(stempelurOn) = 1 then
+
+                             if session("mid") = 1 then%>
+              
+                                <div class="col-lg-5 well">
+                                <b>Komme/Gå tid:</b>
+                                <%
+                             
+                                call logindhistorik_week_60_100(usemrn, 2, stdatoSQL, sldatoSQL) %></div>
+           
+                            <%end if
+                
+                        end if   
+                        'end select
+                         %>
+
+
+
                         <table width="100%" class="table dataTable ui-datatable" style="font-size:90%">
                          
 
@@ -1090,6 +1136,12 @@ varTjDatoUS_tor = dateAdd("d", 3, varTjDatoUS_man)
             </div>
        </div>
             <input type="hidden" id="sumtimer_dag_<%=dateid%>" value="<%=formatnumber(timerDag, 2)%>" /> 
+
+           <% if cint(stempelurOn) = 1 then %>
+           <input type="hidden" id="sumlontimer_dag_<%=dateid%>" value="<%=timerThisDayLontimerTotTxt%>" /> 
+           <%end if 
+               
+           timerThisDayLontimerTotTxt = 0%>
     
            <!--
    

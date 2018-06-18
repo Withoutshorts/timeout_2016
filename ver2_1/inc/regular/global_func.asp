@@ -50,7 +50,12 @@
 
 <!--#include file="cls_stade.asp"-->
 <!--#include file="cls_smiley.asp"-->
+
 <!--#include file="cls_stempelur.asp"-->
+<!--#include file="cls_stempelur_2018.asp"-->
+
+<!--#include file="cls_stempelurlist.asp"-->
+<!--#include file="cls_stempelurlist_2018.asp"-->
 
 
 <!--#include file="cls_timer.asp"-->

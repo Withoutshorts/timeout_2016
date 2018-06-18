@@ -6360,6 +6360,10 @@
             %>
             <a href="logindhist_2011.asp?usemrn=<%=usemrn%>&varTjDatoUS_man=<%=varTjDatoUS_man%>"><%=medarb_txt_019 %> >></a>
             <%
+            case "logindhist_2018"
+            %>
+            <a href="../to_2015/logindhist_2011.asp?usemrn=<%=usemrn%>&varTjDatoUS_man=<%=varTjDatoUS_man%>"><%=medarb_txt_019 %> >></a>
+            <%
              case else %>
 	         <a href="timereg_akt_2006.asp"><%=medarb_txt_019%> >></a>
              <%end select %>

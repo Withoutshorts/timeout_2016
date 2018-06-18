@@ -316,7 +316,7 @@ end function
      
 					strSQL = "SELECT Mid, Mnavn, Mnr, Brugergruppe, init, mansat FROM medarbejdere WHERE "& strSQLmpasKri &" "& strSQLmids &" GROUP BY mid ORDER BY Mnavn"
 					
-                    if thisfile = "ugeseddel_2011.asp" then
+                    if thisfile = "ugeseddel_2011.asp" OR thisfile = "logindhist_2011.asp" then
                     mSelWdth = "323"
                     mSelcls = "form-control input-small"
                     else

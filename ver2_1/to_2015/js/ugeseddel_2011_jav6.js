@@ -460,34 +460,62 @@ $(document).ready(function() {
     dagsval6 = $("#sumtimer_dag_6").val();
     dagsval7 = $("#sumtimer_dag_7").val();
 
-    if (dagsval1 != "0,00") {
-        $("#sp_sumtimer_dag_1").html(dagsval1);
+    stempelurOn = $("#stempelurOn").val();
+
+    if (stempelurOn = 1) {
+    dagsvallon1 = $("#sumlontimer_dag_1").val();
+    dagsvallon2 = $("#sumlontimer_dag_2").val();
+    dagsvallon3 = $("#sumlontimer_dag_3").val();
+    dagsvallon4 = $("#sumlontimer_dag_4").val();
+    dagsvallon5 = $("#sumlontimer_dag_5").val();
+    dagsvallon6 = $("#sumlontimer_dag_6").val();
+    dagsvallon7 = $("#sumlontimer_dag_7").val();
+
+        $("#sp_sumlontimer_dag_1").html(dagsvallon1);
+        $("#sp_sumlontimer_dag_2").html(dagsvallon2);
+        $("#sp_sumlontimer_dag_3").html(dagsvallon3);
+        $("#sp_sumlontimer_dag_4").html(dagsvallon4);
+        $("#sp_sumlontimer_dag_5").html(dagsvallon5);
+        $("#sp_sumlontimer_dag_6").html(dagsvallon6);
+        $("#sp_sumlontimer_dag_7").html(dagsvallon7);
+
+
+        //alert(dagsvallon4 * 1 + ">" + dagsval4 * 1)
+
+        //if (dagsvallon1*1 > dagsval1*1) {
+           // $("#sp_sumlontimer_dag_4").css('color', 'yellowgreen')
+        //}
     }
 
-    if (dagsval2 != "0,00") {
+
+    //if (dagsval1 != "0,00") {
+        $("#sp_sumtimer_dag_1").html(dagsval1);
+    //}
+
+    //if (dagsval2 != "0,00") {
         //alert(dagsval2)
         $("#sp_sumtimer_dag_2").html(dagsval2);
-    }
+    //}
 
-    if (dagsval3 != "0,00") {
+    //if (dagsval3 != "0,00") {
         $("#sp_sumtimer_dag_3").html(dagsval3);
-    }
+    //}
 
-    if (dagsval4 != "0,00") {
+    //if (dagsval4 != "0,00") {
         $("#sp_sumtimer_dag_4").html(dagsval4);
-    }
+    //}
 
-    if (dagsval5 != "0,00") {
+    //if (dagsval5 != "0,00") {
         $("#sp_sumtimer_dag_5").html(dagsval5);
-    }
+    //}
 
-    if (dagsval6 != "0,00") {
+    //if (dagsval6 != "0,00") {
         $("#sp_sumtimer_dag_6").html(dagsval6);
-    }
+    //}
 
-    if (dagsval7 != "0,00") {
+    //if (dagsval7 != "0,00") {
     $("#sp_sumtimer_dag_7").html(dagsval7);
-    }
+    //}
    
 
 

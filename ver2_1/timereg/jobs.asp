@@ -9145,7 +9145,7 @@ end select '*** Step %>
           <a href="timereg_akt_2006.asp?FM_kontakt=<%=oRec("kid")%>&FM_ignorer_projektgrupper=1&jobid=<%=oRec("id")%>&FM_sog_job_navn_nr=<%=oRec("jobnr")%>&usemrn=<%=session("mid")%>&showakt=1&fromsdsk=1" target="_blank" class=rmenu><%=job_txt_268 &" " %>>> </a><br />
           
           <%if cint(useasfak) <= 2 then %>
-          <a href="../timereg/erp_opr_faktura_fs.asp?FM_kunde=<%=oRec("kid")%>&FM_job=<%=oRec("id")%>&FM_aftale=0&<%=dtlink %>&reset=1&FM_usedatokri=1" target="_blank" class=rmenu><%=job_txt_269 %> >> </a>
+          <a href="../timereg/erp_opr_faktura_fs.asp?func=opr&visfaktura=1&visjobogaftaler=1&visminihistorik=1&FM_kunde=<%=oRec("kid")%>&FM_job=<%=oRec("id")%>&FM_aftale=0&<%=dtlink %>" target="_blank" class=rmenu><%=job_txt_269 %> >> </a>
 		  <%end if %>
 
 		<%else %>

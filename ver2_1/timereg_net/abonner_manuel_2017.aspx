@@ -138,7 +138,7 @@
 
 
 
-                'PKT. 4 SECOND reminder ALL in SnS (cost center 300, 320 & 330)  Monday 09.00 - KLAR TIL TEST
+                'PKT. 4 SECOND reminder ALL in SnS (cost center 300, 320 & 330) Monday 09.00 - KLAR TIL TEST
                 If CInt(weekDay) = 1 And CInt(weekDayTime) = 9 And objDR("rapporttype") = 6 And objDR("lto") = "tia" Then
                     Call hentData(objDR("lto"), emailto, objDR("rapporttype"), 1, 2)
                 End If
