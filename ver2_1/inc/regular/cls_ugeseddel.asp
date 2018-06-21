@@ -414,9 +414,8 @@ varTjDatoUS_tor = dateAdd("d", 3, varTjDatoUS_man)
                 <!-- /.panel-heading -->
                 
 
-                        <%
-                    
-                    if nowdate = dateid AND (datePart("ww", now, 2,2) =  datePart("ww", st_dato, 2,2)) then %>
+                    <%
+                    if nowdate = dateid AND (datePart("ww", now, 2,2) = datePart("ww", st_dato, 2,2)) then %>
                     <div id="<%=dateid %>" class="panel-collapse collapse in">
                     <%else %>
                     <div id="<%=dateid %>" class="panel-collapse collapse">
@@ -430,17 +429,58 @@ varTjDatoUS_tor = dateAdd("d", 3, varTjDatoUS_man)
                           <%
                          'select case lto 
                          'case "cflow", "intranet - local"
-                        if cint(stempelurOn) = 1 then
+                        if cint(stempelurOn) = 1 AND lto <> "epi2017" then
 
-                             if session("mid") = 1 then%>
+                             'if session("mid") = 1 then%>
               
                                 <div class="col-lg-5 well">
-                                <b>Komme/Gå tid:</b>
+                                <b><a href="logindhist_2011.asp?usemrn=<%=usemrn%>&varTjDatoUS_man=<%=varTjDatoUS_man %>">Komme/Gå tid:</a></b>
                                 <%
                              
-                                call logindhistorik_week_60_100(usemrn, 2, stdatoSQL, sldatoSQL) %></div>
+                                call logindhistorik_week_60_100(usemrn, 2, stdatoSQL, sldatoSQL) %>
+
+                                </div>
+
+                                <% if nowdate = dateid AND (datePart("ww", now, 2,2) = datePart("ww", st_dato, 2,2)) then %>
+
+                                <div class="col-lg-5 well-white">
+                                <%
+
+
+                                    if lto <> "tec" AND lto <> "esn" AND lto <> "cflow" AND lto <> "intranet - local" then %>
+                                    <a class="btn btn-default" href="<%=toSubVerPath14 %>stempelur.asp?func=redloginhist&medarbSel=<%=session("mid")%>&showonlyone=1&hidemenu=1&id=0&rdir=sesaba" target="_top" style="color:#FFFFFF;"><%=tsa_txt_435 %></a>
+                                    <%else 
+                                        
+                                        if cint(aabentLogudfindes) = 1 then%>
+
+                                                <a class="btn btn-info" href="<%=toSubVerPath14 %>../sesaba.asp?fromweblogud=1&rdir=ugeseddel&varTjDatoUS_man=<%=varTjDatoUS_man %>" target="_top">1) Frys aktuelle komme/gå tid</a><br />
+                                                <%if lto = "cflow" OR lto = "intranet - local" then  %>
+                                                <span style="font-size:11px;">Stopper aktuelle komme/gå tid og beregner løn-timer. Du kan herefter registrere projekttimer og tillæg så de passer til din komme/gå tid (100 tals).</span><br /><br />
+                                                <%end if 
+
+                                                %><span style="background-color:#cccccc; padding:8px;">2) <%=tsa_txt_435 %></span><%
+
+                                        else
+
+                                               %><span style="background-color:#cccccc; padding:8px;">1) Frys aktuelle komme/gå tid</span><br /><br />
+                                    
+                                            
+
+                                               <a class="btn btn-danger" href="<%=toSubVerPath14 %>../sesaba.asp?fromweblogud=1&logudDone=1" target="_top" style="color:#FFFFFF;">2) <%=tsa_txt_435 %></a><% 
+
+                                   
+                                  
+                                 
+                                        end if 
+                                                    
+                                    end if %>
+
+                                </div>
            
-                            <%end if
+                            <%end if 'nowdate
+                                
+                                
+                         'end if
                 
                         end if   
                         'end select
@@ -478,7 +518,7 @@ varTjDatoUS_tor = dateAdd("d", 3, varTjDatoUS_man)
                                     <%end if
                                     end if %>
 
-
+                                    <th><b>Start - Stop</b></th>
                                     <th style="text-align:right"><b><%=tsa_txt_148 %></b></th>
 
                                    
@@ -507,7 +547,7 @@ varTjDatoUS_tor = dateAdd("d", 3, varTjDatoUS_man)
 
 
                            strSQL = "SELECT tid, taktivitetnavn, timer, tfaktim, tjobnavn, tjobnr, tdato, "_
-                           &" tknr, tknavn, tmnavn, tmnr, kkundenr, godkendtstatus, godkendtstatusaf, m.mnr, timerkom, init, a.fase, a.easyreg, j.risiko, sttid, sltid, j.id as jobid FROM timer "_
+                           &" tknr, tknavn, tmnavn, tmnr, kkundenr, godkendtstatus, godkendtstatusaf, m.mnr, timerkom, init, a.fase, a.easyreg, j.risiko, sttid, sltid, j.id as jobid, tidspunkt FROM timer "_
                            &" LEFT JOIN medarbejdere AS m ON (m.mid = tmnr)"_
                            &" LEFT JOIN aktiviteter AS a ON (a.id = taktivitetid)"_
                            &" LEFT JOIN job AS j ON (j.jobnr = tjobnr)"_
@@ -713,9 +753,17 @@ varTjDatoUS_tor = dateAdd("d", 3, varTjDatoUS_man)
                               end if%>
                         
                                       
-                           <td style="text-align:right">
+                           <td>
                                   <%
+
+                                if lto = "cflow" then
+                                %>
+                                <span style="font-size:12px;"><%=left(formatdatetime(oRec("tidspunkt"), 3), 5) %> </span> - <a class="btn btn-xs btn-danger" href="#">Stop</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+                               <%
+                                end if
       
+                        %></td><td style="text-align:right"><%
                 
                 
                                 if (((ugeerAfsl_og_autogk_smil = 0 AND cint(ugegodkendt) <> 1) OR (level = 1)) AND media <> "print") then

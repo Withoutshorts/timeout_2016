@@ -942,7 +942,7 @@ function indlasFerieSaldo(lto, mid, timertilindlasning, tfaktim, ferieaar)
         'Er medarbejderen anstat ved indlæsning 1.5? 
          call meStamdata(mid)
      
-         if cDate(meAnsatDato) > cDate(firstDayOfNewFerieAar) then
+         if cDate(meAnsatDato) > cDate("01-05-" & ferieaar) then
          dtInd = year(meAnsatDato) &"-"& month(meAnsatDato) &"-"& day(meAnsatDato)
          else
 	     dtInd = ferieaar &"-05-01"
@@ -1012,9 +1012,10 @@ function indlasFerieSaldo(lto, mid, timertilindlasning, tfaktim, ferieaar)
 		                        & "'"& session("user") &"', 0, 0, '00:00:00', '00:00:00', 1, 100, 779)"
 
 		                
-                       
+                                'if session("mid") = 1 then
 								'Response.write strSQLKoins & "<br>"
 								'Response.flush
+                                'end if
 								'Response.end
 
 								oConn.execute(strSQLKoins)

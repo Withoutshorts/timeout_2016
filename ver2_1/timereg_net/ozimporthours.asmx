@@ -1109,35 +1109,43 @@ Public Class to_import_hours
                     Try
                         '***** er uge lukket '***
 
-                        If InStr(lto, "epi") = 1 Then 'And intMedarbId = "Asia"
-
-                            If CInt(errThisTOno) = 0 Then
 
 
-                                ugeErLukket = 0
-                                Dim strSQLk As String = "SELECT mid, uge FROM ugestatus WHERE (WEEK(uge) = WEEK('" & cdDatoSQL & "') AND YEAR(uge) = YEAR('" & cdDatoSQL & "')) AND mid = " & meID
-                                objCmd = New OdbcCommand(strSQLk, objConn)
-                                objDR = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
-
-                                If objDR.Read() = True Then
-
-                                    ugeErLukket = 1
+                        If CInt(errThisTOno) = 0 Then
 
 
-                                End If
+                            ugeErLukket = 0
+                            Dim strSQLk As String = "SELECT mid, uge FROM ugestatus WHERE (WEEK(uge) = WEEK('" & cdDatoSQL & "') AND YEAR(uge) = YEAR('" & cdDatoSQL & "')) AND mid = " & meID
+                            objCmd = New OdbcCommand(strSQLk, objConn)
+                            objDR = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
 
-                                objDR.Close()
-                                '***'
+                            If objDR.Read() = True Then
+
+                                ugeErLukket = 1
 
 
-                                '**** IGNORER UGE lukket midlertidigt *****'
+                            End If
+
+                            objDR.Close()
+                            '***'
+
+
+                            '**** IGNORER UGE lukket midlertidigt *****'
+                            If InStr(lto, "epi") <> 0 Then
+
+                                errThisTOno = 0
+
+                            Else
+
                                 If ugeErLukket = 1 Then
                                     errThisTOno = 9
                                 End If
 
                             End If
 
-                        End If 'epi asia
+                        End If
+
+
 
                     Catch ex As Exception
                         Throw New Exception("er uge lukket, SELECT mid, uge FROM usestatus error: " + ex.Message)

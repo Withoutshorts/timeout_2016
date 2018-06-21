@@ -334,8 +334,11 @@ call menu_2014 %>
             next
 
            
+            'if session("mid") = 1 then
+            'response.end
+            'else
             response.Redirect ("ferietildel.asp?ferieaar="&ferieaar&"&FM_medarb="&FM_medarb&"&grp_tpID="&grp_tpID)
-
+            'end if
 
          case else
 

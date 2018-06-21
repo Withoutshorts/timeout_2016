@@ -1,7 +1,10 @@
  
  <%
 	'******************************************************************************
+     public aabentLogudfindes
      function logindhistorik_week_60_100(usemrn, visning, varTjDatoUS_manSQL, varTjDatoUS_sonSQL)
+
+     aabentLogudfindes = 0
      %>
 
                                            <%
@@ -53,9 +56,16 @@
 
                                                 '******* Tjekker logindtid ********'
                                                 timerMin100Tot = 0
+
+                                                if cint(visning) = 2 then 'viser også nuværende dvs logud IS NULL 
                                                 strSQL = "SELECT id, logud, login, minutter, stempelurindstilling FROM login_historik WHERE mid = "& usemrn &""_
+                                                &" AND stempelurindstilling <> -10 "& logintjkDatoSql &" ORDER BY login LIMIT 50"
+                                                else
+                                                 strSQL = "SELECT id, logud, login, minutter, stempelurindstilling FROM login_historik WHERE mid = "& usemrn &""_
                                                 &" AND stempelurindstilling <> -10 "& logintjkDatoSql &" AND logud IS NOT NULL ORDER BY login LIMIT 50"
-                                            
+                                                end if
+                                                
+
                                                 else 'viser alle
 
 
@@ -71,6 +81,7 @@
                                                 &" LEFT JOIN medarbejdere m ON (m.mid = l.mid) WHERE "& midSQL &" "_
                                                 &" AND stempelurindstilling > 0 "& logintjkDatoSql &" AND logud IS NOT NULL ORDER BY m.mid, l.login LIMIT 300"
                                             
+                                                
 
                                                 end if
 
@@ -86,14 +97,29 @@
                                             oRec.open strSQL, oConn, 3
                                             while not oRec.EOF 
                                             
-                                            login = oRec("login")
-                                            logud = oRec("logud")
-                                            
                                             thisDay = datepart("w", login, 2,2)
-                                            
+
+                                            login = oRec("login")
 
                                             timerThis = 0
+                                            'ER DER LOGGET UD
+                                            if isNull(oRec("logud")) <> true then 'visning 0, visning 1
+                                            logud = oRec("logud")
+
                                             timerThis = formatnumber(oRec("minutter")/60, 2)
+                                            minutterThisDB = oRec("minutter")
+
+                                            else
+                                            aabentLogudfindes = 1
+                                            logud = now
+                                            timerThis = formatnumber(datediff("n", login, logud, 2, 2)/60, 2)
+                                            minutterThisDB = formatnumber(datediff("n", login, logud, 2, 2), 0)
+                                            end if
+                                            
+                                           
+                                            
+
+                                            
                                             
                                             if cdbl(timerThis) < 1 then
                                             timerThis = 0
@@ -106,8 +132,13 @@
                                             timerThis = left(timerThis, timerThis_komma - 1)
                                             end if
 
+                                            timerThis_komma = instr(timerThis, ".")
+                                            if timerThis_komma <> 0 then
+                                            timerThis = left(timerThis, timerThis_komma - 1)
+                                            end if
+
                                             minutterThis = 0
-                                            minutterThis = formatnumber(oRec("minutter")/60, 2)
+                                            minutterThis = formatnumber(minutterThisDB/60, 2)
                                             minutterThis = right(minutterThis, 2)
                                             minutterThis = formatnumber((minutterThis*60)/100, 0)
                                           
@@ -151,7 +182,11 @@
                                            
 
                                              if oRec("stempelurindstilling") <> -1 then
-                                             trLinje = trLinje & "<td>"& left(formatdatetime(login, 3), 5) & " - " & left(formatdatetime(logud, 3), 5) & "</td>"
+                                                if isNull(oRec("logud")) = true AND visning = 2 then 'BLINK
+                                                trLinje = trLinje & "<td>"& left(formatdatetime(login, 3), 5) & " - <span class=blink style=""color:red;"">" & left(formatdatetime(logud, 3), 5) & "</span></td>"
+                                                else
+                                                trLinje = trLinje & "<td>"& left(formatdatetime(login, 3), 5) & " - " & left(formatdatetime(logud, 3), 5) & "</td>"
+                                                end if
                                              else
                                              trLinje = trLinje & "<td>Pause</td>"
                                              end if
@@ -164,9 +199,16 @@
                                              trLinje = trLinje & "<td style=""width:20px;"">&nbsp;</td>"
                                              end if
 
+
+                                             if isNull(oRec("logud")) = true AND visning = 2 then 'BLINK
+                                             trLinje = trLinje & "<td align=right class=blink style=""color:red;"">"& timerThis &":"& minutterThis &"</td>"_
+                                             &"<td align=right class=blink style=""color:red;"">"& timerThis &","& minutter100 &"</td>"_
+                                             &"</tr>" 
+                                             else
                                              trLinje = trLinje & "<td align=right>"& timerThis &":"& minutterThis &"</td>"_
                                              &"<td align=right>"& timerThis &","& minutter100 &"</td>"_
                                              &"</tr>" 
+                                             end if
 
                                              response.write trLinje
 
@@ -270,9 +312,9 @@
                                              lastDay = datepart("w", login, 2,2)
                                              
                                              if oRec("stempelurindstilling") <> -1 then
-                                             timerThisDayTot = (timerThisDayTot*1)+(oRec("minutter")*1)
+                                             timerThisDayTot = (timerThisDayTot*1)+(minutterThisDB*1)
                                              else
-                                             timerThisDayTot = (timerThisDayTot*1)+(oRec("minutter")*-1)
+                                             timerThisDayTot = (timerThisDayTot*1)+(minutterThisDB*-1)
                                              end if
 
                                              thisDayC = thisDayC + 1
@@ -334,6 +376,11 @@
                         end if
 
                         timerThisTot_komma = instr(timerThisTot, ",")
+                        if cint(timerThisTot_komma) <> 0 then
+                        timerThisTot = left(timerThisTot,  timerThisTot_komma - 1)
+                        end if
+
+                        timerThisTot_komma = instr(timerThisTot, ".")
                         if cint(timerThisTot_komma) <> 0 then
                         timerThisTot = left(timerThisTot,  timerThisTot_komma - 1)
                         end if
@@ -836,6 +883,17 @@ function stpauser_ignorePer(lgi_dato,lgi_sttid_hh,lgi_sttid_mm)
 
 end function
 
+
+
+
+
+
+
+
+'****************************************************************************
+'**** FINDES DER ET login der allerede dækker over denne periode? 
+'****************************************************************************
+
 public errKonflikt, strLogindkonflikt
 function stempelur_tidskonflikt(thisId, thisMid, kloginTid, klogudTid, kthisDato, io)
                 
@@ -901,9 +959,14 @@ end function
 
 
 
+
+
+
+
 '*************************************************************************
 '*** Tjekker logind status ved logind i TimeOut eller fra terminal
 '*************************************************************************
+
 public fo_logud, fo_oprettetnytlogin, fo_autoafsluttet, fo_afsluttetlogin
 function logindStatus(strUsrId, intStempelur, io, tid)
 
@@ -1014,12 +1077,25 @@ LoginDato = year(tid)&"/"& month(tid)&"/"&day(tid)
                                 'Response.end
                                 
                                 LogudDateTime = year(oRec("dato"))&"/"& month(oRec("dato"))&"/"&day(oRec("dato"))&" "& formatdatetime(lukketid, 3)
-                                
+                        
+                               
+
+
                                 '**** Minutter beregning ***
                                 loginTidAfr = formatdatetime(oRec("login"), 3)
                                 logudTidAfr = formatdatetime(LogudDateTime, 3)
                                
-                               
+                                '** Er der logget ind efter lukketid og glemt at blive loggetud? 
+                                '** Logud tid = Logind tid 
+                                '** Minutter = 0
+                                'if cDate(loginTidAfr) > cDate(logudTidAfr) then
+                                'LogudDateTime = year(oRec("login"))&"/"& month(oRec("login"))&"/"&day(oRec("login"))&" "& formatdatetime(oRec("login"), 3)
+                                'end if
+
+
+                                'Response.Write "<br>Tidspunkter: "& cDate(loginTidAfr) &">"& cDate(logudTidAfr)
+                                'Response.end
+
                                 minThisDIFF = datediff("s", loginTidAfr, logudTidAfr)/60
                                 minThisDIFF = replace(formatnumber(minThisDIFF, 0), ".", "")
 	                            minThisDIFF = replace(formatnumber(minThisDIFF, 0), ",", ".")
@@ -1148,7 +1224,8 @@ LoginDato = year(tid)&"/"& month(tid)&"/"&day(tid)
 			                        select case lto
 			                        case "dencker" 
 
-                                    myMail.To= "Anders Dencker <dv@dencker.net>"
+                                    'myMail.To= "Anders Dencker <dv@dencker.net>"
+                                    myMail.To= "Lon <lon@dencker.net>"
 
                                     'if len(trim(medarbEmail(x))) <> 0 then
                                     'myMail.To= ""& medarbNavn(x) &"<"& medarbEmail(x) &">"

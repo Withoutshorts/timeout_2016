@@ -84,11 +84,11 @@ a = 0
 								Response.write x &"<br>"& strSQL(b) & "<br><br>"
 								Response.flush
 
-								if x > 0 AND x <> 2 then 'AND x > 4 
-                                'oConn.open strConnect_aktiveDB
+								if x > 0 then 'AND x <> 2 then 'AND x > 4 
+                                oConn.open strConnect_aktiveDB
 							    
                                 '*** DENNE LINJE INDLÆSER // UDKOMMENTER NÅR FILEN IKKE ER AKTIV
-                                oConn.execute(strSQL(b)) 
+                                'oConn.execute(strSQL(b)) 
                                 
                                 '* TJECK x NUMBER OF LICENS fra inc/connection/db_conn...asp filen.
 								'* DISSE SKAL STEMME 
@@ -3413,6 +3413,11 @@ ALTER TABLE udeafhuset Add
 (tildato date NOT NULL, fra datetime, til datetime);
 UPDATE dbversion SET dbversion = '20180531.2' WHERe id = 1
 
+<br /><br />20180620.1<br />
+CREATE INDEX inx_eval_id2 ON eval (eval_id);
+CREATE INDEX inx_eval_jobid2 ON eval (eval_jobid);
+CREATE INDEX inx_for_jobid ON fomr_rel (for_jobid);
+INSERT INTO dbversion (dbversion) VALUES (20180620.1)
 
 <%
 

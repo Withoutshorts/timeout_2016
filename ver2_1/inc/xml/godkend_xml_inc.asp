@@ -5,11 +5,11 @@ Dim objXMLHTTP_godkend, objXMLDOM_godkend, i_godkend, strHTML_godkend
 Set objXMLDom_godkend = Server.CreateObject("Microsoft.XMLDOM")
 Set objXmlHttp_godkend = Server.CreateObject("Msxml2.ServerXMLHTTP")
 'objXmlHttp_godkend.open "GET", "http://localhost/Git/timeout_2016/ver2_1/inc/xml/godkend_sprog.xml", False
-objXmlHttp_godkend.open "GET", "http://localhost/inc/xml/godkend_sprog.xml", False
+'objXmlHttp_godkend.open "GET", "http://localhost/inc/xml/godkend_sprog.xml", False
 'objXmlHttp_godkend.open "GET", "http://outzource.dk/timeout_xp/wwwroot/ver2_10/inc/xml/godkend_sprog.xml", False
 'objXmlHttp_godkend.open "GET", "https://timeout.cloud/timeout_xp/wwwroot/ver3_99/inc/xml/godkend_sprog.xml", False
 'objXmlHttp_godkend.open "GET", "https://outzource.dk/timeout_xp/wwwroot/ver2_14/inc/xml/godkend_sprog.xml", False
-'objXmlHttp_godkend.open "GET", "https://timeout.cloud/timeout_xp/wwwroot/ver2_14/inc/xml/godkend_sprog.xml", False
+objXmlHttp_godkend.open "GET", "https://timeout.cloud/timeout_xp/wwwroot/ver2_14/inc/xml/godkend_sprog.xml", False
 
 objXmlHttp_godkend.send
 

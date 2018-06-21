@@ -459,7 +459,23 @@ if len(session("user")) = 0 then
  <script type="text/javascript" src="js/plugins/flot/jquery.flot.js"></script>
     <script type="text/javascript" src="js/demos/flot/stacked-vertical_ugetotal.js"></script>
    
-   
+    <style type="text/css">
+         
+                .blink {
+  animation: blink-animation 1s steps(5, start) infinite;
+  -webkit-animation: blink-animation 1s steps(5, start) infinite;
+}
+@keyframes blink-animation {
+  to {
+    visibility: hidden;
+  }
+}
+@-webkit-keyframes blink-animation {
+  to {
+    visibility: hidden;
+  }
+}
+                    </style>
 	
 	<!-------------------------------Sideindhold------------------------------------->
 
@@ -561,7 +577,7 @@ if len(session("user")) = 0 then
 
             <%if cint(stempelurOn) = 1 then
                 
-                if lto = "cflow" OR lto = "intranet - local" then
+                if lto = "cflow" OR lto = "dencker" OR lto = "intranet - local" then
                 %>
                 &nbsp;|&nbsp;<a href="<%=lnkLogind%>" class="vmenu"><%=tsa_txt_340 %> >></a>
                 <%else%>

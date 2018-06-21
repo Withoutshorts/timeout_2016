@@ -470,7 +470,7 @@ end select
                         'if cint(stempelur_hideloginOn) = 1 then    
                             
                         if session("stempelur") <> 0 AND lto <> "tec" AND lto <> "esn" AND lto <> "cflow" then %>
-                        <li style="background-color:red;"><a href="<%=toSubVerPath14 %>stempelur.asp?func=redloginhist&medarbSel=<%=session("mid")%>&showonlyone=1&hidemenu=1&id=0&rdir=sesaba" target="_top">Log ud</a></li>
+                        <li style="background-color:red;"><a href="<%=toSubVerPath14 %>stempelur.asp?func=redloginhist&medarbSel=<%=session("mid")%>&showonlyone=1&hidemenu=1&id=0&rdir=sesaba" target="_top"><%=tsa_txt_435 %></a></li>
                         <%else %>
                         <li style="background-color:red;"><a href="<%=toSubVerPath14 %>../sesaba.asp?fromweblogud=1" target="_top"><%=tsa_txt_435 %></a></li>
                         <%end if %>
@@ -673,7 +673,7 @@ end select
                  case else
                  if cint(stempelurOn) = 1 then %>
 
-                    <%if lto = "cflow" OR lto = "intranet - local" then%>
+                    <%if lto = "cflow" OR lto = "dencker" OR lto = "intranet - local" then%>
                     <li><a href="<%=toSubVerPath15 %><%=lnkLogind%>"><%=tsa_txt_340 %></a></li>
                     <%else %>
                     <li><a href="<%=toSubVerPath14 %><%=lnkLogind%>"><%=tsa_txt_340 %></a></li>

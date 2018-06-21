@@ -5,11 +5,11 @@ Dim objXMLHTTP_resbelaeg, objXMLDOM_resbelaeg, i_resbelaeg, strHTML_resbelaeg
 Set objXMLDom_resbelaeg = Server.CreateObject("Microsoft.XMLDOM")
 Set objXmlHttp_resbelaeg = Server.CreateObject("Msxml2.ServerXMLHTTP")
 'objXmlHttp_resbelaeg.open "GET", "http://localhost/Git/timeout_2016/ver2_1/inc/xml/resbelaeg_sprog.xml", False
-objXmlHttp_resbelaeg.open "GET", "http://localhost/inc/xml/resbelaeg_sprog.xml", False
+'objXmlHttp_resbelaeg.open "GET", "http://localhost/inc/xml/resbelaeg_sprog.xml", False
 'objXmlHttp_resbelaeg.open "GET", "http://outzource.dk/timeout_xp/wwwroot/ver2_10/inc/xml/resbelaeg_sprog.xml", False
 'objXmlHttp_resbelaeg.open "GET", "https://timeout.cloud/timeout_xp/wwwroot/ver3_99/inc/xml/resbelaeg_sprog.xml", False
 'objXmlHttp_resbelaeg.open "GET", "https://outzource.dk/timeout_xp/wwwroot/ver2_14/inc/xml/resbelaeg_sprog.xml", False
-'objXmlHttp_resbelaeg.open "GET", "https://timeout.cloud/timeout_xp/wwwroot/ver2_14/inc/xml/resbelaeg_sprog.xml", False
+objXmlHttp_resbelaeg.open "GET", "https://timeout.cloud/timeout_xp/wwwroot/ver2_14/inc/xml/resbelaeg_sprog.xml", False
 
 objXmlHttp_resbelaeg.send
 

@@ -5,11 +5,11 @@ Dim objXMLHTTP_abonner, objXMLDOM_abonner, i_abonner, strHTML_abonner
 Set objXMLDom_abonner = Server.CreateObject("Microsoft.XMLDOM")
 Set objXmlHttp_abonner = Server.CreateObject("Msxml2.ServerXMLHTTP")
 'objXmlHttp_abonner.open "GET", "http://localhost/Git/timeout_2016/ver2_1/inc/xml/abonner_sprog.xml", False
-objXmlHttp_abonner.open "GET", "http://localhost/inc/xml/abonner_sprog.xml", False
+'objXmlHttp_abonner.open "GET", "http://localhost/inc/xml/abonner_sprog.xml", False
 'objXmlHttp_abonner.open "GET", "http://outzource.dk/timeout_xp/wwwroot/ver2_10/inc/xml/abonner_sprog.xml", False
 'objXmlHttp_abonner.open "GET", "https://timeout.cloud/timeout_xp/wwwroot/ver3_99/inc/xml/abonner_sprog.xml", False
 'objXmlHttp_abonner.open "GET", "https://outzource.dk/timeout_xp/wwwroot/ver2_14/inc/xml/abonner_sprog.xml", False
-'objXmlHttp_abonner.open "GET", "https://timeout.cloud/timeout_xp/wwwroot/ver2_14/inc/xml/abonner_sprog.xml", False
+objXmlHttp_abonner.open "GET", "https://timeout.cloud/timeout_xp/wwwroot/ver2_14/inc/xml/abonner_sprog.xml", False
 
 objXmlHttp_abonner.send
 

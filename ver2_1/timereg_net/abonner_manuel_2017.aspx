@@ -170,7 +170,7 @@
                 End If
 
 
-                'PKT 9 Defalut godkend alle timer - KLAR TIL TEST
+                'PKT 9 Defalut godkend alle timer & uger - KLAR TIL TEST
                 If CInt(weekDay) = 1 And CInt(weekDayTime) = 16 And objDR("rapporttype") = 11 And objDR("lto") = "tia" Then
                     Call defaultApprove(objDR("lto"), 11)
                 End If

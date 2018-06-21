@@ -2797,7 +2797,15 @@ if len(trim(session("user"))) = 0 AND cint(nosession) = 0  then
                             case "dencker"
                             strUlevHTML = strUlevHTML & "</span></td>" 
                             case else
-                            strUlevHTML = strUlevHTML & " á "& formatnumber(oRec("ju_stkpris"), 2) &"</span></td>" 
+                            'strUlevHTML = strUlevHTML & " á "& formatnumber(oRec("ju_stkpris"), 2) &"</span></td>" 
+
+                            if oRec("ju_stk") <> 0 then
+                            stkprisberegnet = (ulevbudgetsum*1/oRec("ju_stk")*1)
+                            else
+                            stkprisberegnet = ulevbudgetsum
+                            end if
+
+                            strUlevHTML = strUlevHTML & " á "& formatnumber(stkprisberegnet, 2) &"</span></td>" 
                             end select
                                 
 				            

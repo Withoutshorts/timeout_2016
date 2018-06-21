@@ -576,9 +576,15 @@ dblkostprisUse = replace(dblkostprisUse, ",", ".")
 					
 					else
 					
-					sTtid = ""
+                    'if lto = "cflow" then
+                    'Hvis stempelur = 1 AND visTimerelTid <> 0
+                    'sTtid = now
+                    'sLtid = ""
+                    'else
+                    sTtid = ""
 					sLtid = ""
-					
+					'end if
+
 					end if
 					
 			

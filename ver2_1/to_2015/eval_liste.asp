@@ -356,8 +356,10 @@
                                 &" LEFT JOIN fomr_rel as f ON (f.for_jobid = j.id) "_
                                 &" LEFT JOIN kunder as k ON (k.Kid = j.jobknr) WHERE risiko >= 0 " & jobansSQLfilter & fomrSQLfilter & kundeSQLfilter & sqlDato & statusSQLfilter & " GROUP BY j.id ORDER BY kkundenavn, jobnavn"  
                                 
-                                'response.write strEval
+                                'if session("mid") = 1 then
+                                'response.write "<br><br><br>HER: "& strEval
                                 'response.flush
+                                'end if
                                 
                                 oRec.open strEval, oConn, 3 
                                 while not oRec.EOF

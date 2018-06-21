@@ -65,30 +65,39 @@ end if
 
 call erStempelurOn()
                
-if cint(stempelur_hideloginOn) = 1 then 'skriv ikke login, men åben komme/gå tom ==> Opdater ikke logind historiken ved logud
+        if cint(stempelur_hideloginOn) = 1 then 'skriv ikke login, men åben komme/gå tom ==> Opdater ikke logind historiken ved logud
 
-'select case lcase(lto)
-'case "kejd_pb", "kejd_pb2", "fk", "fk_bpm"
+        'select case lcase(lto)
+        'case "kejd_pb", "kejd_pb2", "fk", "fk_bpm"
 
-logudDone = 1
+        logudDone = 1
 
-'case else
-else
+        'case else
+        else
 
-if len(request("logudDone")) then
-logudDone = request("logudDone")
-else
-logudDone = 0
-end if
+        if len(request("logudDone")) then
+        logudDone = request("logudDone")
+        else
+        logudDone = 0
+        end if
 
-end if
-'end select
+        end if
+
 
 if len(trim(request("fromweblogud"))) <> 0 then
 fromweblogud = request("fromweblogud")
 else
 fromweblogud = 0
 end if
+
+    if len(trim(request("rdir"))) <> 0 then
+    rdir = request("rdir")
+    else
+    rdir = ""
+    end if
+
+    
+    varTjDatoUS_man = request("varTjDatoUS_man")
 
 
 '*** Opdater login_historik (Stempelur) hvis stempel ur er slået til ****
@@ -174,33 +183,18 @@ end if 'if cint(logudDone) = 0 then
 
 
 
-
-
-'response.flush
-'Response.Write "<br><br><br><br><br><br><br><br><br><br><br><br><br>&nbsp;<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>"
-
-              
-				
+			
 select case lto 
 case "tec", "xintranet - local", "dencker", "epi2017" 
 
     %>
         
 
-            <!--<!--#include file="inc/regular/header_login_inc.asp"
-
-            <link href='//fonts.googleapis.com/css?family=Open+Sans:400,300,600,700,800' rel='stylesheet' type='text/css'>
-            <link href="../inc/menu/css/chronograph_01.less" rel="stylesheet/less" type="text/css" />
-
-            -->
-
-<!--#include file="inc/regular/header_lysblaa_2015_inc.asp"-->
-<script src="sesaba_jav_2017_0329.js" type="text/javascript"></script>
-       
-
-<body topmargin="0" leftmargin="0" class="login">
-<%call takforidag() %>
-</body></html>
+            <!--#include file="inc/regular/header_lysblaa_2015_inc.asp"-->
+            <script src="sesaba_jav_2017_0329.js" type="text/javascript"></script>
+            <body topmargin="0" leftmargin="0" class="login">
+            <%call takforidag() %>
+            </body></html>
 
 
 
@@ -216,6 +210,12 @@ case "intranet - local", "cflow"
 
         if request("fromstempelur") = "1" OR request("fromweblogud") = "1"  then 'fra PC / WEB
 
+
+        if rdir = "ugeseddel" then
+
+        response.redirect "to_2015/ugeseddel_2011.asp?usemrn="&session("mid")&"&varTjDatoUS_man="&varTjDatoUS_man
+
+        else
         %>
 
         <!--#include file="inc/regular/header_lysblaa_2015_inc.asp"-->
@@ -227,7 +227,7 @@ case "intranet - local", "cflow"
         </body></html>
 
 
-        <%
+        <%end if
 
 
         else 'Fra terminalk
@@ -248,6 +248,8 @@ case "intranet - local", "cflow"
 
 
         end if
+
+
 
 case else
 
