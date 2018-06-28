@@ -537,6 +537,89 @@ public strMedarbOptionsHTML
     <%
     end sub
 
+    sub selmedarbOptions_2018
+
+        'visAlleMedarb = 1
+
+        'call medarb_teamlederfor
+
+        'strSQLmids
+
+        if len(trim(jqHTML)) <> 0 then
+        jqHTML = 1
+        else
+        jqHTML = 0
+        end if
+
+        if cint(jqHTML) = 1 then
+        strMedarbOptionsHTML = "<select name='mid' id='matreg_medid' style='width:260px;'>"
+        else
+        %>
+
+        
+        <select name="mid" id="matreg_medid" class="form-control input-small">
+        <%end if
+
+
+    '*** medarb ****
+    if level <= 2 OR level = 6 then
+        
+        if vis_passive = 1 then
+        strSQLmansat = " (mansat = 1 OR mansat = 3)"
+        else
+        strSQLmansat = " mansat = 1"
+        end if
+	    
+        strSQLM = "SELECT mid, mnavn, mnr, init, mansat FROM medarbejdere WHERE "& strSQLmansat &" ORDER BY mnavn"
+    
+    else
+    strSQLM = "SELECT mid, mnavn, mnr, init, mansat FROM medarbejdere WHERE mid = "& usemrn
+    end if
+
+   
+    	oRec.open strSQLM, oConn, 3 
+
+        while not oRec.EOF 
+        
+        if cint(usemrn) = cint(oRec("mid")) then
+        mSEL = "SELECTED"
+        else
+        mSEl = ""
+        end if
+        
+        if oRec("mansat") = 3 then
+        msat = " - Passiv"
+        else
+        msat = ""
+        end if
+
+        if cint(jqHTML) = 1 then
+        strMedarbOptionsHTML = strMedarbOptionsHTML & "<option value="& oRec("mid") &" "&mSel&">"& oRec("mnavn") &" (" & oRec("mnr") &")" & msat &"</option>" 
+        else
+        %>
+        <option value="<%=oRec("mid") %>" <%=mSel %>><%=oRec("mnavn") %> (<%=oRec("mnr") %>) <%=msat %></option>
+        <%
+        end if
+
+    
+
+        oRec.movenext
+        wend
+        oRec.close
+
+        
+        if cint(jqHTML) = 1 then
+        strMedarbOptionsHTML = strMedarbOptionsHTML & "<option value='0'>Ingen</option></select>"
+        else%>
+        <option value="0">Ingen</option>
+        </select>
+        <%end if %>
+      
+       
+
+    <%
+    end sub
+
 
 
 
@@ -688,7 +771,7 @@ public strMedarbOptionsHTML
     '**************************** Indlæs mat forbrug func **********************************************************
     '***************************************************************************************************************
 
-    function indlaes_mat(matregid, otf, medid, jobid, aktid, aftid, matid, strEditor, strDato, intAntal, regdato, valuta, intkode, personlig, bilagsnr, pris, salgspris, navn, gruppe, varenr, opretlager, betegnelse, func, matreg_opdaterpris, matava)
+    function indlaes_mat(matregid, otf, medid, jobid, aktid, aftid, matid, strEditor, strDato, intAntal, regdato, valuta, intkode, personlig, bilagsnr, pris, salgspris, navn, gruppe, varenr, opretlager, betegnelse, func, matreg_opdaterpris, matava, unikId)
 	
 	
 		
@@ -1084,7 +1167,7 @@ public strMedarbOptionsHTML
 			                   'Response.end 
                                'end if
 
-                                 call insertMat_fn(matId, intAntal, strNavn, strVarenr, dblKobsPris, dblSalgsPris, strEnhed, jobid, aktid, strEditor, strDato, medid, avaGrp, regDatoSQL, aftid, intValuta, intkode, bilagsnr, dblKurs, personlig, ava)
+                                 call insertMat_fn(matId, intAntal, strNavn, strVarenr, dblKobsPris, dblSalgsPris, strEnhed, jobid, aktid, strEditor, strDato, medid, avaGrp, regDatoSQL, aftid, intValuta, intkode, bilagsnr, dblKurs, personlig, ava, unikId)
 
                            
 			  
@@ -2004,16 +2087,16 @@ public strMedarbOptionsHTML
     
   
     
-  function  insertMat_fn(matId, intAntal, strNavn, strVarenr, dblKobsPris, dblSalgsPris, strEnhed, jobid, aktid, strEditor, strDato, usemrn, avaGrp, regDatoSQL, aftid, intValuta, intkode, bilagsnr, dblKurs, personlig, ava)
+  function  insertMat_fn(matId, intAntal, strNavn, strVarenr, dblKobsPris, dblSalgsPris, strEnhed, jobid, aktid, strEditor, strDato, usemrn, avaGrp, regDatoSQL, aftid, intValuta, intkode, bilagsnr, dblKurs, personlig, ava, unikId)
 
                          strSQL = "INSERT INTO materiale_forbrug "_
 				            &" (matid, matantal, matnavn, matvarenr, matkobspris, matsalgspris, matenhed, jobid, "_
-				            &" editor, dato, usrid, matgrp, forbrugsdato, serviceaft, valuta, intkode, bilagsnr, kurs, personlig, aktid, ava) VALUES "_
+				            &" editor, dato, usrid, matgrp, forbrugsdato, serviceaft, valuta, intkode, bilagsnr, kurs, personlig, aktid, ava, unikid) VALUES "_
 				            &" ("& matId &", "& intAntal &", '"& strNavn &"', '"& strVarenr &"', "_
 				            &" "& dblKobsPris &", "& dblSalgsPris &", '"& strEnhed &"', "& jobid &", "_
 				            &" '"& strEditor &"', '"& strDato &"', "& usemrn &", "_
 				            &" "& avaGrp &", '"& regDatoSQL &"', "& aftid &", "& intValuta &", "_
-				            &" "& intkode &", '"& bilagsnr &"', "& dblKurs &", "& personlig &", "& aktid &", "& ava &")"
+				            &" "& intkode &", '"& bilagsnr &"', "& dblKurs &", "& personlig &", "& aktid &", "& ava &", "& unikId &")"
 				
                             'if session("mid") = 1 then
 				            'Response.Write strSQL

@@ -279,7 +279,16 @@
 
                             end if
 
-
+                            totalAntalMedarbs = 0
+                            totalMedarbInterneprio2 = 0
+                            totalMedarbNorm = 0
+                            totalMedarbFerie = 0
+                            totalMedarbfravaar = 0
+                            totalMedarbKapa = 0
+                            totalMedarbForecast = 0
+                            totalMedarbInterntid = 0
+                            totalMedarbProtid = 0
+                            resultskud = 0
                             strSQLSelmed = "SELECT m.mnavn, m.init, mid, ansatdato, opsagtdato FROM medarbejdere m WHERE "& medarbSQlKri &" ORDER BY mnavn"
 
                             'response.write "strSQLSelmed: "& strSQLSelmed
@@ -287,7 +296,7 @@
                             
                             oRec.open strSQLSelmed, oConn, 3
                             while not oRec.EOF
-                          
+                            totalAntalMedarbs = totalAntalMedarbs + 1
 
                             '**************************************************
                             '** projektgruppe, medarbejder navn mm
@@ -360,14 +369,59 @@
                             'ntimLor = 0
                             'ntimSon = 0
                             nTimerPerIgnHellig = 0
-                            call normtimerPer(oRec("mid"), ansatdatoKri, 6, 0)
-                            norm_ugetotal = nTimerPerIgnHellig 'ntimMan + ntimTir + ntimOns + ntimTor + ntimFre + ntimLor + ntimSon  
-                                                    
-                                
-                            antalhelligdagetimer = 60 '104 'helligdageIalt * 7.4
-                            norm_aarstotal = (((maanederansat/12) * (norm_ugetotal * 52)) - (antalhelligdagetimer))
-                            arrsferie = ((maanederansat/12) * norm_ugetotal * 6) 
 
+
+                            '*** Finder medarbejdertyper_historik ***'
+                            medarbtypeDato = ""
+                            strSQLmth = "SELECT mid, mtype, mtypedato FROM medarbejdertyper_historik WHERE "_
+                            &" mid = "& oRec("Mid") &" ORDER BY mtypedato, id"
+
+                            t = 0
+
+                            oRec2.open strSQLmth, oConn, 3
+
+                            while not oRec2.EOF
+
+                            mtyperIntvTyp = oRec2("mtype")
+
+                            mtyperIntvDato = oRec2("mtypedato")
+
+                                t = t + 1
+
+                            oRec2.movenext
+                            wend
+                            oRec2.close
+
+                            if t = 0 then
+                                medarbtypeDato = year(oRec("ansatdato")) &"-"& month(oRec("ansatdato")) &"-"& day(oRec("ansatdato"))
+                            else
+                                medarbtypeDato = year(mtyperIntvDato) &"-"& month(mtyperIntvDato) &"-"& day(mtyperIntvDato)
+                            end if
+
+
+                            'call normtimerPer(oRec("mid"), ansatdatoKri, 6, 0) tager kun medarb ansat dato, men den skal kigge på medarbtype.
+
+                            call normtimerPer(oRec("mid"), medarbtypeDato, 6, 0)
+                            norm_ugetotal = nTimerPerIgnHellig 'ntimMan + ntimTir + ntimOns + ntimTor + ntimFre + ntimLor + ntimSon         
+                                
+
+                            select case aar
+                            case 2017
+                            antalUger = 52
+                            case 2018
+                            antalUger = 51.22
+                            end select
+
+                            antalhelligdagetimer = 60 '104 'helligdageIalt * 7.4
+                            norm_aarstotal = (((maanederansat/12) * (norm_ugetotal * antalUger)) - (antalhelligdagetimer))
+                            arrsferie = ((maanederansat/12) * norm_ugetotal * 6)
+                            if  totalAntalMedarbs = 1 then
+                            totalMedarbNorm = norm_aarstotal
+                            totalMedarbFerie = arrsferie
+                            else 
+                            totalMedarbNorm = totalMedarbNorm + norm_aarstotal
+                            totalMedarbFerie = totalMedarbFerie + arrsferie  
+                            end if
                             if media <> "export" then                                 
                             %>
                             <tr>
@@ -450,9 +504,15 @@
                                             interneprio2 = 0
                                             end if  
                                         
+                                    if  totalAntalMedarbs = 1 then
+                                    totalMedarbInterneprio2 = interneprio2 
+                                    else 
+                                    totalMedarbInterneprio2 = totalMedarbInterneprio2 + interneprio2 
+                                    end if
+
                                     if media <> "export" then                                    
                                     %>
-                                    <%=formatnumber(interneprio2,2) %>
+                                   <%=formatnumber(interneprio2,2) %>
                                     <%else
                                     strTxtExport = strTxtExport & formatnumber(interneprio2,2) &";" 
                                     end if
@@ -515,6 +575,12 @@
                                         fravaer = 0
                                         end if
 
+                                        if  totalAntalMedarbs = 1 then
+                                        totalMedarbfravaar = fravaer 
+                                        else 
+                                        totalMedarbfravaar = totalMedarbfravaar + fravaer
+                                        end if
+
                                     if media <> "export" then
                                     %>
                                     <%=formatnumber(fravaer,2) %>
@@ -531,6 +597,12 @@
                                         '************** ÅRS KAPACITET **************************
                                         aarskapacitet = norm_aarstotal - arrsferie - interneprio2 - interneprio3 - fravaer
                                         
+                                        if  totalAntalMedarbs = 1 then
+                                        totalMedarbKapa = aarskapacitet
+                                        else 
+                                        totalMedarbKapa = totalMedarbKapa + aarskapacitet
+                                        end if
+
                                         if media <> "export" then     
                                         response.Write formatnumber(aarskapacitet,2)  
                                         else
@@ -582,6 +654,15 @@
                                         'projekskud =  - protid
                                         resultskud = aarskapacitet - protid
 
+                                        if  totalAntalMedarbs = 1 then
+                                        totalMedarbForecast = aarforecast
+                                        totalMedarbInterntid = interntid
+                                        totalMedarbProtid = protid
+                                        else 
+                                        totalMedarbForecast = totalMedarbForecast + aarforecast
+                                        totalMedarbInterntid = totalMedarbInterntid + interntid
+                                        totalMedarbProtid = totalMedarbProtid + protid
+                                        end if
                                         
                                     if media <> "export" then%>
                                     
@@ -616,6 +697,12 @@
                                         rescolor = "green"
                                         else
                                         rescolor = "red"
+                                        end if
+
+                                        if  totalAntalMedarbs = 1 then
+                                        totalMedarbResult = resultskud
+                                        else 
+                                        totalMedarbResult = totalMedarbResult + resultskud
                                         end if
                                     %>
                                     <div style="color:<%=rescolor%>;"><%=formatnumber(resultskud, 2) %></div></td>
@@ -682,6 +769,37 @@
                             'next 
                             %>
                         </tbody>
+
+                        <tfoot>
+                            <tr>
+                                <th>Total</th>
+                                <th>&nbsp</th>
+                                <th>&nbsp</th>
+                                <th>&nbsp</th>
+                                <th><%=formatnumber(totalMedarbNorm,0) %></th>
+                                <th><%=formatnumber(totalMedarbFerie,2) %></th>
+                                <th><%=formatnumber(totalMedarbInterneprio2,2) %></th>
+                                <th>&nbsp</th>
+                                <th><%=formatnumber(totalMedarbfravaar,2) %></th>
+                                <th><%=formatnumber(totalMedarbKapa,2) %></th>
+                                <th><%=formatnumber(totalMedarbForecast,2) %></th>
+                                <th><%=formatnumber(totalMedarbInterntid,2) %></th>
+                                <th><%=formatnumber(totalMedarbProtid,2) %></th>
+                                <th>&nbsp</th>
+                                <th>
+                                    <%
+                                        if totalMedarbResult >= 0 then 
+                                        totalRescolor = "green"
+                                        else
+                                        totalRescolor = "red"
+                                        end if
+                                        
+                                    %>
+                                    <div style="color:<%=totalRescolor%>;"><%=formatnumber(totalMedarbResult, 2) %></div>
+                                </th>
+                            </tr>
+                        </tfoot>
+
                     </table>
 
                

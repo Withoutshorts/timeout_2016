@@ -198,7 +198,7 @@ response.buffer = true
 
 
 
-<script src="js/job_nt_jav_201703.js"></script>
+<script src="js/job_nt_jav_201802.js"></script>
 
 
 <%
@@ -309,7 +309,7 @@ select case func
 	
 	
     id = request("id")
-
+    
 	slttxt = "<b>Delete order</b><br />"_
 	&"You are aboute to delete an order. Are you sure you want do that?"
 	slturl = "job_nt.asp?menu=job&func=sletok&id="&id
@@ -320,7 +320,7 @@ select case func
 	
 	case "sletok"
 	
-        id = request("id")
+    id = request("id")
 
 	strSQL = "SELECT id, jobnavn, jobnr FROM job WHERE id = "& id &"" 
 	oRec.open strSQL, oConn, 3
@@ -360,9 +360,8 @@ select case func
 	
 	oConn.execute("DELETE FROM job WHERE id = "& id &"")
 	
-	
-	
-	Response.redirect "job_nt.asp?func=table"
+	Response.redirect "job_nt.asp"
+	'Response.redirect "job_nt.asp?func=table"
 	
 case "sletfil"
 '*** Her spørges om det er ok at der slettes en medarbejder ***
@@ -381,7 +380,10 @@ case "sletfil"
                     
                     <%end if %>
                 </div><br />
-                <div style="text-align:center;"><a  class="btn btn-primary btn-sm" role="button" href="job_nt.asp?func=sletfilok&id=<%=request("id")%>&filnavn=<%=request("filnavn")%>">&nbsp;Yes&nbsp;</a>&nbsp&nbsp&nbsp&nbsp<a class="btn btn-default btn-sm" role="button" href="Javascript:history.back()"><b>No</b></a>
+                <%
+                    jobid = request("jobid")
+                %>
+                <div style="text-align:center;"><a  class="btn btn-primary btn-sm" role="button" href="job_nt.asp?func=sletfilok&id=<%=request("id")%>&filnavn=<%=request("filnavn")%>&jobid=<%=jobid %>">&nbsp;Yes&nbsp;</a>&nbsp&nbsp&nbsp&nbsp<a class="btn btn-default btn-sm" role="button" href="Javascript:history.back()"><b>No</b></a>
                 </div>
                 <br /><br />
             </div>
@@ -398,7 +400,7 @@ case "sletfilok"
 	'Qwert
 	'strPath =  "d:\webserver\wwwroot\timeout_xp\wwwroot\ver2_1\inc\upload\"&lto&"\" & Request("filnavn")
     strPath = "d:\webserver\wwwroot\timeout_xp\wwwroot\"& toVer &"\inc\upload\"&lto&"\" & Request("filnavn")
-	Response.write strPath
+	'Response.write strPath
 	
 	on Error resume Next 
 
@@ -414,8 +416,12 @@ case "sletfilok"
     end if
 
 	oConn.execute("DELETE FROM filer WHERE id = "& id &"")
-    response.Write "id er: " & id
-	Response.redirect "job_nt.asp?func=table"
+   ' response.Write "id er: " & id
+
+    jobid = request("jobid")
+
+	Response.redirect "job_nt.asp?func=red&jobid="&jobid
+ 
 
 case "dbopr", "dbred"
 
@@ -432,6 +438,11 @@ case "dbopr", "dbred"
 				
     response.End
     end if
+
+
+    'response.Write "copy order " & request("FM_kopierordre")
+    'response.Flush
+    'response.End
 
     if len(trim(request("FM_kopierordre"))) <> 0 then
     kopier_ordre = 1
@@ -482,7 +493,7 @@ case "dbopr", "dbred"
 
     if jobnr = 0 OR jobnrFindes = 1 then
                
-     errortype = 172
+    errortype = 172
     call showError(errortype)
 				
     response.End
@@ -708,6 +719,8 @@ case "dbopr", "dbred"
     freight_pc = 0
     end if
 
+    autocal = request("FM_autocal")
+
     if len(trim(request("FM_tax_pc"))) <> 0 then
     tax_pc = replace(request("FM_tax_pc"), ".","")
     tax_pc = replace(tax_pc, ",",".") 
@@ -766,10 +779,23 @@ case "dbopr", "dbred"
 
     sales_price_pc_valuta = request("FM_valuta_sales_price_pc_valuta")
     cost_price_pc_valuta = request("FM_valuta_cost_price_pc_valuta") 
-    tgt_price_pc_valuta = request("FM_valuta_tgt_price_pc_valuta") 
+    tgt_price_pc_valuta = request("FM_valuta_tgt_price_pc_valuta")
+        
+    if len(trim(request("update_currate"))) <> 0 AND request("update_currate") <> 0 then
+    update_currate = request("update_currate")
+    else
+    update_currate = 0
+    end if
 
-   
+   if cint(update_currate) = 1 OR func = "dbopr" then
+       call valutakode_fn(cost_price_pc_valuta)
+       cost_price_kurs_used = valutaKurs_CCC
+       cost_price_kurs_used = replace(cost_price_kurs_used, ",", ".")
 
+       call valutakode_fn(sales_price_pc_valuta)
+       sales_price_kurs_used = valutaKurs_CCC
+       sales_price_kurs_used = replace(sales_price_kurs_used, ",", ".")
+   end if
      
 
     if len(trim(request("FM_alert"))) <> 0 then
@@ -778,12 +804,29 @@ case "dbopr", "dbred"
     alert = 0
     end if
 
+    if len(trim(request("FM_extracost"))) <> 0 then
+    extracost = replace(request("FM_extracost"), ".", "")
+    extracost = replace(extracost, ",", ".")
+    else
+    extracost = 0
+    end if  
+
+    if len(trim(request("FM_extracost_txt"))) <> 0 then
+    extracost_txt = replace(request("FM_extracost_txt"), "'", "")
+    else
+    extracost_txt = ""
+    end if
+
 
     dd_dato = day(now) & ". "& left(monthname(month(now)), 3) &" "& year(now)
     editor = session("user")
-
     valuta = sales_price_pc_valuta
 
+    
+   
+
+        
+        
     'freight_price_pc_valuta, tgt_price_pc_valuta
 
 
@@ -808,27 +851,50 @@ case "dbopr", "dbred"
     if func = "dbopr" OR cint(kopier_ordre) = 1 then
 
         if cint(kopier_ordre) = 1 then
-
+        
 
             '**** KOPIER FILER ***
             filfundet = 0
             strSQL = "SELECT id, filnavn, editor, filertxt FROM filer WHERE filertxt = '"& jobnr &"'"
             oRec.open strSQL, oConn, 3
             if not oRec.EOF then
-        
-            strSQLfilerKopy = "INSERT INTO filer SET filnavn = '"& oRec("filnavn") & "', filertxt = '#NEWJOBID#', type = 1, adg_admin = 1, editor = '"& editor &"', dato = '"& dd_dato &"'" 
+            
+            dd_datoSQL = year(now) &"/"& month(now) &"/"& day(now)
+            strSQLfilerKopy = "INSERT INTO filer SET filnavn = '"& oRec("filnavn") & "', filertxt = '#NEWJOBID#', type = 1, adg_admin = 1, editor = '"& editor &"', dato = '"& dd_datoSQL &"'" 
             filfundet = 1
 
             end if
             oRec.close
 
 
-        call lastjobnr_fn()
-        jobnr = nextjobnr
+            call lastjobnr_fn()
+            jobnr = nextjobnr
+
+            jobnrFindes = 0        
+            strSQL = "SELECT jobnr FROM job WHERE jobnr = '"& jobnr &"'"
+            oRec2.open strSQL, oConn, 3
+            if not oRec2.EOF then
+    
+            jobnrFindes = 1
+
+            end if
+            oRec2.close
+
+            if jobnr = 0 OR jobnrFindes = 1 then
+               
+            errortype = 172
+            call showError(errortype)
+				
+            response.End
+            end if
+
+
         jobstatus = 1 'ALTID AKTIV
 
          if cint(filfundet) = 1 then
          strSQLfilerKopy = replace(strSQLfilerKopy, "#NEWJOBID#", jobnr)
+         'response.write strSQLfilerKopy
+         'response.end
          oConn.execute(strSQLfilerKopy)
          end if
 
@@ -838,15 +904,62 @@ case "dbopr", "dbred"
         dt_jobstdato = year(now) &"/"& month(now) &"/"& day(now)
         destination = destination '** ??
         transport = "0"
-        dt_confb_etd = "2010-01-01"
-        dt_confs_etd = "2010-01-01"
-        dt_confb_eta = "2010-01-01"
-        dt_confs_eta = "2010-01-01"
-        dt_actual_etd = "2010-01-01"
-        dt_actual_eta = "2010-01-01"
+
+        select case request("FM_kopierordre")
+        case "2"
+            if isDate(request("FM_dt_confb_etd")) = true then
+                dt_confb_etd = year(request("FM_dt_confb_etd")) &"-"& month(request("FM_dt_confb_etd") )&"-"& day(request("FM_dt_confb_etd"))
+            else
+                dt_confb_etd = "2010-01-01"
+            end if
+
+            if isDate(request("FM_dt_confs_etd")) = true then
+                dt_confs_etd = year(request("FM_dt_confs_etd")) &"-"& month(request("FM_dt_confs_etd") )&"-"& day(request("FM_dt_confs_etd"))
+            else
+                dt_confs_etd = "2010-01-01"
+            end if
+            
+            if isDate(request("FM_dt_confb_eta")) = true then
+                dt_confb_eta = year(request("FM_dt_confb_eta")) &"-"& month(request("FM_dt_confb_eta") )&"-"& day(request("FM_dt_confb_eta"))
+            else
+                dt_confb_eta = "2010-01-01"
+            end if
+
+            if isDate(request("FM_dt_confs_eta")) = true then
+                dt_confs_eta = year(request("FM_dt_confs_eta")) &"-"& month(request("FM_dt_confs_eta") )&"-"& day(request("FM_dt_confs_eta"))
+            else
+                dt_confs_eta = "2010-01-01"
+            end if
+            
+            if isDate(request("FM_dt_actual_etd")) = true then
+                dt_actual_etd = year(request("FM_dt_actual_etd")) &"-"& month(request("FM_dt_actual_etd") )&"-"& day(request("FM_dt_actual_etd"))
+            else
+                dt_actual_etd = "2010-01-01"
+            end if
+
+            if isDate(request("FM_dt_actual_eta")) = true then
+                dt_actual_eta = year(request("FM_dt_actual_eta")) &"-"& month(request("FM_dt_actual_eta") )&"-"& day(request("FM_dt_actual_eta"))
+            else
+                dt_actual_eta = "2010-01-01"
+            end if
+            
+            
+        case else
+            dt_confb_etd = "2010-01-01"
+            dt_confs_etd = "2010-01-01"
+            dt_confb_eta = "2010-01-01"
+            dt_confs_eta = "2010-01-01"
+            dt_actual_etd = "2010-01-01"
+            dt_actual_eta = "2010-01-01"
+        end select
+
         shippedqty = 0
         supplier_invoiceno = ""
         beskrivelse = ""
+        orderqty = 0
+        jo_udgifter_intern = 0
+        bruttooms = 0
+        jo_dbproc = 0
 
         end if
 
@@ -861,7 +974,7 @@ case "dbopr", "dbred"
     &" dt_confb_etd, dt_confb_eta, dt_confs_etd, dt_confs_eta, dt_actual_etd, dt_actual_eta, rekvnr, jobstartdato, jobslutdato, "_
     &" dt_firstorderc, dt_ldapp, dt_sizeexp, dt_sizeapp, dt_ppexp, dt_ppapp, dt_shsexp, dt_shsapp, orderqty, shippedqty, supplier_invoiceno, transport, destination, jo_bruttooms, "_
     &" jo_udgifter_intern, dt_sup_photo_dead, dt_sup_sms_dead, freight_pc, tax_pc, comm_pc, cost_price_pc, sales_price_pc, tgt_price_pc, jo_dbproc, sales_price_pc_valuta, "_
-    &" cost_price_pc_valuta, tgt_price_pc_valuta, cost_price_pc_base, kunde_betbetint, kunde_levbetint, lev_betbetint, lev_levbetint, valuta, jfak_moms, jfak_sprog, alert"_
+    &" cost_price_pc_valuta, tgt_price_pc_valuta, cost_price_pc_base, kunde_betbetint, kunde_levbetint, lev_betbetint, lev_levbetint, valuta, jfak_moms, jfak_sprog, alert, extracost, extracost_txt, cost_price_kurs_used, sales_price_kurs_used, autocal"_
     &" ) "_
     &" VALUES "_
     &" ('"& dd_dato &"', '"& editor &"', "& kid &", '"& jobnavn &"', "& jobstatus & ", '"& jobnr &"', 10, "_
@@ -873,7 +986,7 @@ case "dbopr", "dbred"
     &""& orderqty &","& shippedqty &",'"& supplier_invoiceno &"', '"& transport &"', '"& destination &"', "& bruttooms &", "_
     &" "& jo_udgifter_intern &", '"& dt_sup_photo_dead &"', '"& dt_sup_sms_dead &"', "_
     &" "& freight_pc &","& tax_pc &","& comm_pc &", "& cost_price_pc &","& sales_price_pc &","& tgt_price_pc &", "& jo_dbproc &", "& sales_price_pc_valuta &","_
-    &" "& cost_price_pc_valuta &", "& tgt_price_pc_valuta &", "& cost_price_pc_base &", "& kunde_betbetint &","& kunde_levbetint &","& lev_betbetint &","& lev_levbetint &", "& valuta &", "& jfak_moms &","& jfak_sprog &", "& alert &""_
+    &" "& cost_price_pc_valuta &", "& tgt_price_pc_valuta &", "& cost_price_pc_base &", "& kunde_betbetint &","& kunde_levbetint &","& lev_betbetint &","& lev_levbetint &", "& valuta &", "& jfak_moms &","& jfak_sprog &", "& alert &", "& extracost &", '"& extracost_txt &"', "& cost_price_kurs_used &", "& sales_price_kurs_used &", "& autocal &""_
     &" )" 
 
 
@@ -899,9 +1012,23 @@ case "dbopr", "dbred"
     	
         
 
-      '*** Opdater jobnr rækkefælge ***'
-      strSQL = "UPDATE licens SET jobnr = "& jobnr &" WHERE id = 1"
-	  oConn.execute(strSQL)
+     '*** Opdater jobnr rækkefælge ***'
+     strSQL = "UPDATE licens SET jobnr = "& jobnr &" WHERE id = 1"
+	 oConn.execute(strSQL)
+
+
+    '*** Ved kopier genregn valutakurs ****'
+    if cint(kopier_ordre) = 1 then
+
+        io = 1
+        jobids = lastid
+        valutaid = sales_price_pc_valuta
+        intKurs = 0
+
+        call opdaterValutaAktiveJob(lto, io, jobids, valutaid, intKurs)
+
+    end if
+
 
     else
 
@@ -925,8 +1052,14 @@ case "dbopr", "dbred"
      &" cost_price_pc = "& cost_price_pc &", sales_price_pc = "& sales_price_pc &", tgt_price_pc = "& tgt_price_pc &", jo_dbproc = "& jo_dbproc &", "_
      &" sales_price_pc_valuta = "& sales_price_pc_valuta &", cost_price_pc_valuta = "& cost_price_pc_valuta &", tgt_price_pc_valuta = "& tgt_price_pc_valuta &", "_
      &" cost_price_pc_base = "& cost_price_pc_base &", "_
-     &" kunde_betbetint = "& kunde_betbetint &", kunde_levbetint = "& kunde_levbetint &", lev_betbetint = "& lev_betbetint &", lev_levbetint = "& lev_levbetint &", valuta = "& valuta &", jfak_moms= "& jfak_moms &", jfak_sprog = "& jfak_sprog &", alert = "& alert &""_
-     &" WHERE id = " & jobid
+     &" kunde_betbetint = "& kunde_betbetint &", kunde_levbetint = "& kunde_levbetint &", lev_betbetint = "& lev_betbetint &", lev_levbetint = "& lev_levbetint &", valuta = "& valuta &", "_
+     &" jfak_moms= "& jfak_moms &", jfak_sprog = "& jfak_sprog &", alert = "& alert &", extracost = "& extracost &", extracost_txt = '"& extracost_txt &"', autocal = "& autocal
+       
+        if cint(update_currate) = 1 then
+        strSQLjob = strSQLjob &", cost_price_kurs_used = "& cost_price_kurs_used &", sales_price_kurs_used = "& sales_price_kurs_used 
+       end if
+
+     strSQLjob = strSQLjob &" WHERE id = " & jobid
     
     'response.write strSQLjob
     'response.flush 
@@ -934,6 +1067,60 @@ case "dbopr", "dbred"
     oConn.execute(strSQLjob)
 
     lastid = jobid
+
+    end if
+
+
+     '**** Indsætter extra cost ******************
+    if cdbl(extracost) <> 0 then
+
+        if len(trim(extracost_txt)) = 0 then
+        extracost_txt = "Extra Cost"
+        end if
+
+       call valutakode_fn(sales_price_pc_valuta)
+       sales_price_kurs_used = valutaKurs_CCC
+       sales_price_kurs_used = replace(sales_price_kurs_used, ",", ".")
+
+        dd_dato = year(now) & "/"& month(now) &"/"& day(now)
+
+        extracostFindes = 0
+        extracostFindesID = 0
+        strSQLextraCostsel = "SELECT id FROM materiale_forbrug WHERE jobid = "& lastid & " AND matid = 99"
+        oRec6.open strSQLextraCostsel, oConn, 3
+        if not oRec6.EOF then
+
+            extracostFindes = 1
+            extracostFindesID = oRec6("id")
+
+        end if
+        oRec6.close
+
+        if cint(extracostFindes) = 1 then
+
+        strSQLextraCost = "UPDATE materiale_forbrug SET matnavn = '"& extracost_txt &"', matkobspris = "& extracost &", matsalgspris = "& extracost &", dato = '"& dd_dato &"', editor = '"& editor &"', usrid = "& session("mid") &", valuta = "& valuta &", kurs = "& sales_price_kurs_used &", bilagsnr = '', matenhed = '' WHERE id = "& extracostFindesID
+        oConn.execute(strSQLextraCost)
+
+        else
+
+        strSQLextraCost = "INSERT INTO materiale_forbrug (matid, matantal, matnavn, matvarenr, matkobspris, matsalgspris, jobid, dato, editor, usrid, forbrugsdato, intkode, valuta, kurs, ava, bilagsnr, matenhed) "_
+        & "VALUES (99, 1, '"& extracost_txt &"', 99, "& extracost &", "& extracost &", "& lastid &", '"& dd_dato &"',  '"& editor &"', "& session("mid") &", '"& dd_dato &"', 2, "& valuta  &", "& sales_price_kurs_used &", 0, '','')"
+
+        'response.write strSQLextraCost
+        'response.Flush
+
+        oConn.execute(strSQLextraCost)
+
+        end if
+
+    else
+
+        strSQLextraCostDel = "DELETE FROM materiale_forbrug WHERE jobid = "& lastid &" AND matid = 99"
+        'response.write strSQLextraCost
+        'response.Flush
+
+        oConn.execute(strSQLextraCostDel)
+
 
     end if
 
@@ -1095,6 +1282,70 @@ case "bulk"
 
     response.redirect "job_nt.asp?func=table&lastid="&lastid
 
+case "delete_orders"
+
+    if len(trim(request("delete_jobids"))) <> 0 then
+    delete_jobids = request("delete_jobids")
+    else
+    delete_jobids = 0
+    end if
+
+    delete_jobidsArr = split(delete_jobids, ",")
+
+    'response.Write "IDer der skal slettet " & delete_jobids
+
+    for j = 0 TO UBOUND(delete_jobidsArr)
+
+        'response.Write "forskellige job " & delete_jobidsArr(j)
+
+        if j <> 0 then
+
+	        strSQL = "SELECT id, jobnavn, jobnr FROM job WHERE id = "& delete_jobidsArr(j) &"" 
+            'response.Write strSQL & "<br>"
+	        oRec.open strSQL, oConn, 3
+	        if not oRec.EOF then
+		        strjobnr = oRec("jobnr")
+		        '*** Indsætter i delete historik ****'
+	            call insertDelhist("job", delete_jobidsArr(j), oRec("jobnr"), oRec("jobnavn"), session("mid"), session("user"))
+		
+	
+	        end if
+	        oRec.close
+	
+            'response.Write strjobnr & "<br>"
+	
+	        strsqlfil = "SELECT filnavn FROM filer WHERE filertxt ="& strjobnr &""
+            'response.Write strsqlfil
+            oRec.open strsqlfil, oConn, 3
+            if not oRec.EOF then
+
+            strfilnavn = oRec("filnavn")
+
+            end if
+            oRec.close
+	
+            strPath = "d:\webserver\wwwroot\timeout_xp\wwwroot\"& toVer &"\inc\upload\"&lto&"\" & strfilnavn
+	        'Response.write strPath
+
+            on Error resume Next 
+
+	        Set FSO = Server.CreateObject("Scripting.FileSystemObject")
+	        Set fsoFile = FSO.GetFile(strPath)
+	        fsoFile.Delete
+
+            oConn.execute("DELETE FROM filer WHERE filertxt = "& strjobnr &"")
+
+	        'Response.flush
+	
+	
+	        oConn.execute("DELETE FROM job WHERE id = "& delete_jobidsArr(j) &"")
+        end if
+        next
+	
+	Response.redirect "job_nt.asp"
+
+
+
 
 case "opret", "red"
 
@@ -1121,7 +1372,7 @@ if func = "red" then
     &" dt_firstorderc, dt_ldapp, dt_sizeexp, dt_sizeapp, dt_ppexp, dt_ppapp, dt_shsexp, dt_shsapp, orderqty, "_
     &" shippedqty, supplier_invoiceno, transport, destination, jo_bruttooms, jo_udgifter_intern, dt_sup_photo_dead, dt_sup_sms_dead, "_
     &" freight_pc, tax_pc, comm_pc, cost_price_pc, sales_price_pc, tgt_price_pc, jo_dbproc, sales_price_pc_valuta, cost_price_pc_valuta, tgt_price_pc_valuta, cost_price_pc_base, "_
-    &" kunde_betbetint, kunde_levbetint, lev_betbetint, lev_levbetint, alert "_
+    &" kunde_betbetint, kunde_levbetint, lev_betbetint, lev_levbetint, alert, extracost, extracost_txt, cost_price_kurs_used, sales_price_kurs_used, autocal "_
     &" FROM job WHERE id = "& id
 
     'response.write strSQLjob
@@ -1234,6 +1485,20 @@ if func = "red" then
     alertCHK = "CHECKED"
     else
     alertCHK = ""
+    end if
+
+
+    extracost = oRec("extracost")
+    extracost_txt = oRec("extracost_txt")
+
+    cost_price_kurs_used = formatnumber(oRec("cost_price_kurs_used")/100, 2)
+    sales_price_kurs_used = formatnumber(oRec("sales_price_kurs_used")/100, 2)
+
+    
+    if int(oRec("autocal")) = 1 then
+    autocal = 1
+    else
+    autocal = 0
     end if
 
 
@@ -1352,6 +1617,11 @@ else
 
     alert = 0
     alertCHK = ""
+
+    extracost = 0
+    extracost_txt = ""
+
+    autocal = 0
 
     '*** lev & betbet kunde 
     'strSQLlevbetkunde = "SELECT levbet, betbet, betbetint FROM kunder WHERE kid = " & jobknr
@@ -1527,14 +1797,21 @@ end if 'Opret / rediger
                             </select>
                         </div>
                        
-                         <div class="col-lg-2 pad-t10">
+                        <!-- <div class="col-lg-2 pad-t10">
                         <%if func = "red" then %>
                         <br /><input type="checkbox" name="FM_kopierordre" value="1" /> Copy Order
                          <%else %>
                              &nbsp;
 
                           <%end if %>
-                               </div>
+                               </div> -->
+
+                        <div class="col-lg-2 pad-t10">
+                            <br />
+                            <input type="radio" name="FM_kopierordre" value="1" /> Copy Order
+                            <br>
+                            <input type="radio" name="FM_kopierordre" value="2" /> Copy Order and dates
+                        </div>
 
                       
                      </div>
@@ -1737,6 +2014,7 @@ end if 'Opret / rediger
                             <div class="col-lg-3">
                                 <table class="tablecolor">
                                     <%
+                                    jobid = request("jobid")
 	                                strSQL = "SELECT id, filnavn FROM filer WHERE filertxt = "& jobnr
                                     
 	                                oRec.open strSQL, oConn, 3
@@ -1752,7 +2030,7 @@ end if 'Opret / rediger
                                                     <img src="../inc/upload/<%=lto%>/<%=oRec("filnavn")%>" alt='' border='0'>                                                   
                                                 </div>
                                             </div>
-                                            <a href="job_nt.asp?func=sletfil&id=<%=oRec("id")%>&filnavn=<%=oRec("filnavn")%>" class="btn btn-default btn-sm">Remove image</a>
+                                            <a href="job_nt.asp?func=sletfil&id=<%=oRec("id")%>&filnavn=<%=oRec("filnavn")%>&jobid=<%=jobid %>" class="btn btn-default btn-sm">Remove image</a>
                                         </td>                                        
                                     </tr>
                                     <%
@@ -1845,14 +2123,15 @@ end if 'Opret / rediger
                             <div class="col-lg-4 pad-t10">
                             Cost price PC (<label id="cost_price_pc_label"><%=formatnumber(cost_price_pc_base, 4) %></label>) base amount here
                           
-                                <input class="form-control input-small" type="text" name="FM_cost_price_pc" id="cost_price_pc" value="<%=formatnumber(cost_price_pc, 4) %>" />
+                                <input class="form-control input-small" type="text" name="FM_cost_price_pc" id="cost_price_pc" value="<%=formatnumber(cost_price_pc, 4) %>" /> 
                                 <input class="form-control input-small"type="hidden" name="FM_cost_price_pc_base" id="cost_price_pc_base" value="<%=formatnumber(cost_price_pc_base, 4) %>" />
                              </div>
                               <div class="col-lg-2"><br /><br />
                                 <%call valutakoder("cost_price_pc_valuta", cost_price_pc_valuta, 1) %>
                                    </div>
-                              <div class="col-lg-6 pad-t10">&nbsp;</div>
 
+                            <div class="col-lg-6 pad-t20"><br /><input type="hidden" value="0" id="update_currate" name="update_currate" /><span id="sp_update_currate" style="visibility:hidden; background-color:yellow; padding:2px;">You are re-calculating the order. Currency rate will be updated to current.</span></div>
+                              
 
                          </div> 
                     
@@ -1900,15 +2179,32 @@ end if 'Opret / rediger
                       <div class="row">
                           <div class="col-lg-4 pad-t10">Freight PC
                           
+
+                                <%
+                                    if autocal <> 0 then
+                                    freight_writeable = "READONLY"
+                                    autocalCHB = "CHECKED"
+                                    else
+                                    freight_writeable = ""
+                                    autocalCHB = ""
+                                    end if
+                                %>
+
+
                                  <input class="form-control input-small" type="text" name="" id="freight_pc_label" value="0" DISABLED/>
-                            <input class="form-control input-small" type="text" name="FM_freight_pc" id="freight_pc" value="<%=freight_pc %>" />
+                            <input class="form-control input-small" type="text" name="FM_freight_pc" id="freight_pc" value="<%=freight_pc %>" <%=freight_writeable %> />
                             </div>
                             <div class="col-lg-2 pad-t10"><br />
 
                                  <%freight_price_pc_valuta = cost_price_pc_valuta 'følger altid %>
                              <%call valutakoder("freight_price_pc_valuta", freight_price_pc_valuta, 1) %>
                                 </div>
-                                  <div class="col-lg-8 pad-t10">&nbsp;</div>
+
+                                <div class="col-lg-2 pad-t10"><br /> 
+                                    Auto calculate <input type="checkbox" name="auto_cal" id="auto_cal" <%=autocalCHB %> />
+                                    <input type="hidden" name="FM_autocal" id="FM_autocal" value="<%=autocal %>" />
+                                </div>
+                                
                                
                         </div>
 
@@ -1954,12 +2250,24 @@ end if 'Opret / rediger
                              
                                 <div class="col-lg-3 pad-r30 pad-t10"><br />DKK
                                     <input class="form-control input-small" type="text" name="" id="jo_dbproc_bel" value="<%=jo_dbproc_bel %>" disabled />
-                                </div>
-
-                               
-                                
+                                </div>                  
                             
                           </div>
+
+
+                              <div class="row">
+                               <div class="col-lg-2 pad-t10">
+                                Extra cost 
+                                <input class="form-control input-small" type="text" name="FM_extracost" id="FM_extracost" value="<%=extracost%>" />
+                            </div>
+                                  <div class="col-lg-4 pad-t10">
+                                Extra cost comment:
+                                <input class="form-control input-small" type="text" name="FM_extracost_txt" id="FM_extracost_txt" value="<%=extracost_txt%>" />
+                            </div>
+                       
+
+                         </div> 
+
                         <!--
                         <div class="form-group">
                             Profit/PC
@@ -2709,6 +3017,8 @@ end if 'Opret / rediger
      appto_13Sel = ""
      appto_14Sel = ""
     appto_15Sel = ""
+    appto_16Sel = ""
+
     select case append_to
     case "-1"
     strSQLdtKri = ""
@@ -2757,6 +3067,9 @@ end if 'Opret / rediger
     case "15"
     strSQLdtKri = " AND (dt_confs_etd "
     appto_15Sel = "SELECTED"
+    case "16"
+    strSQLdtKri = " AND (IF(kunde_levbetint != 2, dt_actual_etd, dt_actual_eta)"
+    appto_16Sel = "SELECTED"
     end select
     if append_to <> "-1" then
     strSQLdtKri = strSQLdtKri & " BETWEEN '"& dt_fromSQL &"' AND '"& dt_toSQL &"' )"
@@ -2813,8 +3126,8 @@ end if 'Opret / rediger
                        
                            <div class="col-lg-4">
                                 Search: <input type="search" name="FM_sog" class="form-control input-small" value="<%=sogVal%>" placeholder="Search"/>
-                               <span style="color:#999999; font-size:9px;">Style, Order No, PO no. or Sup. Invoice NO. or NT Invoice NO., Buyer
-                                   <br />OR <b>Buyer</b> followed by, Style, Style, Style etc.<br />
+                               <span style="color:#999999; font-size:9px;">Style, Order No, PO no. or Sup. Invoice NO. or NT Invoice NO., Collection, Product group, Buyer <br />
+                                   OR <b>Buyer</b> followed by, Style, Style, Style, Collection, Product group etc.<br />
                                    Order No > 1000 </span>
                                </div>
 
@@ -2858,6 +3171,7 @@ end if 'Opret / rediger
                                  <%if cint(rapporttype) = 0 OR cint(rapporttype) = 3 then  %>
                            <option value="8" <%=appto_8Sel %>>Order date</option>
                             <option value="14" <%=appto_14Sel %>>Conf. ETD Buyer (ETA on DDP orders)</option>
+                                 <option value="16" <%=appto_16Sel %>>Actual. ETD Buyer (ETA on DDP shipped/closed orders)</option>
                               
                                  <%end if %>
 
@@ -2890,7 +3204,7 @@ end if 'Opret / rediger
 
                                <div class="col-lg-4 pad-t15">Buyer:<select name="buyer" class="form-control input-small" onchange="submit();">
                                   <option value="0">Choose..</option>
-                               <%   strSQL = "SELECT kid, kkundenavn FROM kunder WHERE useasfak = 0 ORDER BY kkundenavn"
+                               <%   strSQL = "SELECT kid, kkundenavn FROM kunder WHERE useasfak = 0 AND kstatus = 1 ORDER BY kkundenavn"
                                     oRec.open strSQL, oConn, 3
                                     while not oRec.EOF
         
@@ -2913,7 +3227,7 @@ end if 'Opret / rediger
 
                              <div class="col-lg-4 pad-t15">Supplier:<select name="supplier" class="form-control input-small" onchange="submit();">
                                   <option value="0">Choose..</option>
-                               <%   strSQL = "SELECT kid, kkundenavn FROM kunder WHERE useasfak = 6 ORDER BY kkundenavn"
+                               <%   strSQL = "SELECT kid, kkundenavn FROM kunder WHERE useasfak = 6 AND kstatus = 1 ORDER BY kkundenavn"
                                     oRec.open strSQL, oConn, 3
                                     while not oRec.EOF
         
@@ -3076,9 +3390,9 @@ if len(trim(sogVal)) <> 0 then
                         strsogValKri = " AND ((k.kkundenavn LIKE '%"& sogValTxt &"%' OR k.kkundenr = '"& sogValTxt &"') "
                     else
                         if j = 1 then
-                        strsogValKri = strsogValKri & " AND ((jobnr LIKE '"& sogValTxt &"%' OR jobnavn LIKE '%"& sogValTxt &"%' OR supplier_invoiceno LIKE '"& sogVal &"%' OR rekvnr LIKE '"& sogVal &"%') "
+                        strsogValKri = strsogValKri & " AND ((jobnr LIKE '"& sogValTxt &"%' OR jobnavn LIKE '%"& sogValTxt &"%' OR supplier_invoiceno LIKE '"& sogVal &"%' OR collection LIKE '%"& sogValTxt &"%' OR mg.navn LIKE '%"& sogValTxt &"%') "
                         else
-                        strsogValKri = strsogValKri & " OR (jobnr LIKE '"& sogValTxt &"%' OR jobnavn LIKE '%"& sogValTxt &"%' OR supplier_invoiceno LIKE '"& sogVal &"%' OR rekvnr LIKE '"& sogVal &"%') "
+                        strsogValKri = strsogValKri & " OR (jobnr LIKE '"& sogValTxt &"%' OR jobnavn LIKE '%"& sogValTxt &"%' OR supplier_invoiceno LIKE '"& sogVal &"%' OR rekvnr LIKE '"& sogVal &"%' OR collection LIKE '%"& sogValTxt &"%' OR mg.navn LIKE '%"& sogValTxt &"%') "
                         end if
                     end if
                     next
@@ -3132,7 +3446,7 @@ if len(trim(sogVal)) <> 0 then
         
                                     'response.end
                                     	
-		                    strsogValKri = " AND (jobnr LIKE '"& sogVal &"%' "& strSogFaknrJobids &" OR jobnavn LIKE '%"& sogVal &"%' OR k.kkundenavn LIKE '%"& sogVal &"%' OR k.kkundenr = '"& sogVal &"' OR supplier_invoiceno LIKE '"& sogVal &"%' OR rekvnr LIKE '"& sogVal &"%') "
+		                    strsogValKri = " AND (jobnr LIKE '"& sogVal &"%' "& strSogFaknrJobids &" OR jobnavn LIKE '%"& sogVal &"%' OR k.kkundenavn LIKE '%"& sogVal &"%' OR k.kkundenr = '"& sogVal &"' OR supplier_invoiceno LIKE '"& sogVal &"%' OR rekvnr LIKE '"& sogVal &"%' OR collection LIKE '%"& sogVal &"%' OR mg.navn LIKE '%"& sogVal &"%') "
                                     
                             end if
                     end if
@@ -3341,6 +3655,7 @@ while not oRec.EOF
         else
         comm_pc = ""
         end if
+
         if oRec("cost_price_pc") <> 0 then
         valutaKursOR3(oRec("sales_price_pc_valuta"))
         salgsprisKurs = dblKursOR3
@@ -3754,7 +4069,7 @@ while not oRec.EOF
                                  <!--<td ><a href="job_nt.asp?func=slet&id=<%=oRec("id") %>" style="color:red;">X</a></td>-->
                                  
                                  <td ><input type="checkbox" value="<%=oRec("id") %>" id="bulk_jobid_<%=oRec("id") %>" name="FM_bulk_jobid" class="bulk_jobid" />
-                                     &nbsp;<a href="job_nt.asp?func=slet&id=<%=oRec("id") %>" style="color:red;">X</a>
+                                     &nbsp;<a href="job_nt.asp?func=slet&id=<%=oRec("id") %>"><span style="color:darkred;" class="fa fa-times"></span></a>
                                  </td>
                                 <%end if %>
 
@@ -4011,6 +4326,38 @@ oRec.close
 
 
                                  </div>
+
+
+                <div id="dv_delete" style="position:absolute; width:800px; left:100px; top:200px; z-index:2000; border:10px #CCCCCC solid; padding:20px; visibility:hidden; display:none; background-color:#FFFFFF;">
+                
+                    <h3 class="portlet-title"><u>Delete Orders</u></h3>
+
+                    <table style="width:100%">
+                        <tr>
+                            <td style="text-align:center" colspan="6"><h4>Click OK to delete the selected orders</h4></td>
+                        </tr>
+
+                        <tr>
+                            <td>&nbsp</td>
+                            <td>&nbsp</td>
+                            <td style="text-align:center">
+                                <form action="job_nt.asp?func=delete_orders" method="post">
+                                    <input type="hidden" id="delete_jobids" name="delete_jobids" value="0" />
+
+                                    <button type="submit" class="btn btn-danger btn-sm" style="width:65px;"><b>OK</b></button>
+                                </form>
+                            </td>
+
+                            <td style="text-align:center"><button class="btn btn-default btn-sm cancel_deleting" onClick="window.location.reload()" style="width:65px;"><b>Cancel</b></button></td>
+                            <td>&nbsp</td>
+                            <td>&nbsp</td>
+                        </tr>
+
+                    </table>
+
+                </div>
+
+
 
 
                 <div id="dv_bulk" style="position:absolute; width:800px; left:100px; top:200px; z-index:2000; border:10px #CCCCCC solid; padding:20px; visibility:hidden; display:none; background-color:#FFFFFF;">
@@ -4331,6 +4678,7 @@ oRec.close
              </section>
                   </div>
                              </div>
+
                     
                       
                        

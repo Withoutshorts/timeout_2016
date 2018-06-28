@@ -31,15 +31,14 @@
 	  
 
 	 fefriBal = 0
-	 fefriBal  = (fefriTimer(x) - (fefriTimerBr(x) + fefriTimerUdb(x)))
-	 
+     fefriBal  = (fefriTimer(x) - (fefriTimerBr(x) + fefriTimerUdb(x)))
 	 if normTimerDag(x) <> 0 then
 	 fefriBalVal = fefriBal/normTimerDag(x)
 	 else
 	 fefriBalVal = 0
 	 end if
 
-
+     fefriBalValP = fefriBalVal - fefriplVal 
      
 
 
@@ -49,18 +48,24 @@
 
     <tr>
     <td colspan=6>
-	 <br /><br /><span style="border-bottom:2px #FFFF99 solid; padding:2px;"><b><%=afstem_txt_115 %></b> (<%=ferieFriaarStart%>)</span><br /><br />&nbsp;
+	 <br /><br /><span style="border-bottom:2px #FFFF99 solid; padding:2px;">
+         <%if lto <> "esn" then %>
+         <b><%=afstem_txt_115 %></b>
+         <%else %>
+         <b>Særlig feriedage</b>
+         <%end if %> 
+         (<%=ferieFriaarStart%>)</span><br /><br />&nbsp;
 	 </td>
      </tr>
 	  <tr>
 	 
-	 <td valign=bottom align=right class=lille style="border-bottom:1px silver dashed;"><b><%=tsa_txt_174 &" "& tsa_txt_164%></b><br />~ <%=afstem_txt_044 %></td>
+	 <td valign=bottom align=right class=lille style="border-bottom:1px silver dashed;"><%if lto <> "esn" then %><b><%=tsa_txt_174 &" "& tsa_txt_164%></b><%else %><b>Særlig ferie optjent</b><%end if %><br />~ <%=afstem_txt_044 %></td>
 	 <td valign=bottom align=right class=lille style="border-bottom:1px silver dashed;"><b><%=afstem_txt_116 %> <br> >> <%=afstem_txt_117 %></b><br />~ <%=afstem_txt_044 %></td>
 	 
 	  <td valign=bottom align=right style="border-bottom:1px silver dashed;" class=lille><b><%=tsa_txt_165%></b><br />~ <%=afstem_txt_044 %></td>
         <td style="border-bottom:1px silver dashed;">&nbsp;</td>
 	   <td valign=bottom align=right style="border-bottom:1px silver dashed;" class=lille><b><%=afstem_txt_083 %></b><br />~ <%=afstem_txt_044 %></td>
-	  <td valign=bottom align=right style="border-bottom:1px silver dashed;" class=lille><b><%=tsa_txt_282 &" "& tsa_txt_280 %></b><br />~ <%=afstem_txt_044 %></td>
+	  <td valign=bottom align=right style="border-bottom:1px silver dashed;" class=lille><%if lto <> "esn" then %><b><%=tsa_txt_282 &" "& tsa_txt_280 %></b><%else %><b>Særlig ferie. Saldo</b><%end if %><br />~ <%=afstem_txt_044 %></td>
     
 	 </tr>
 	 
@@ -69,7 +74,7 @@
      
      <tr>
 	
-	 <td align=right style="border-bottom:1px silver dashed;" class=lille>
+	 <td align=right style="border-bottom:1px silver dashed;" class=lille>herfefri
 	 <%=formatnumber(fefriVal,2) %></td>
 	 <td align=right style="border-bottom:1px silver dashed;" class=lille>
 	 <%=formatnumber(fefriplVal,2) %> </td>
@@ -79,7 +84,7 @@
      <td style="border-bottom:1px silver dashed;">&nbsp;</td>
 	 <td align=right class=lille style="border-bottom:1px silver dashed;">
 	 <%=formatnumber(fefriUdbVal,2) %></td>
-	 <td align=right class=lille style="border-bottom:1px silver dashed;"><b><%=formatnumber(fefriBalVal,2) %><br />
+	 <td align=right class=lille style="border-bottom:1px silver dashed;"><b><%=formatnumber(fefriBalVal,2) %> <%if formatnumber(fefriBalValP,2) <> 0 then %> (<%=formatnumber(fefriBalValP,2) %>)<%end if %>her<br />
 	 </td>
      
 	 </tr>
@@ -160,6 +165,7 @@
 	 else
 	 ferieBalVal = 0
 	 end if
+     ferieBalValP = ferieBalVal - feriePlVal
 
                        select case lto
                        case "akelius", "intranet - local"
@@ -235,7 +241,7 @@
 	</td>
 	  
 	
-	  <td align=right class=lille style="border-bottom:1px silver dashed;"><%=formatnumber(ferieBalVal,2) %><br />
+	  <td align=right class=lille style="border-bottom:1px silver dashed;"><%=formatnumber(ferieBalVal,2) %><%if formatnumber(ferieBalValP,2) <> 0 then %> (<%=formatnumber(ferieBalValP,2) %>)<%end if %><br />
 	</td>
 	 </tr>
 	 </table>

@@ -1120,6 +1120,7 @@ $(document).ready(function () {
                 alertDiv(this.id)
                 //dagstotal(1)
                 tjektimer(this.id)
+                alert($(".dcls_1").val());
 
             });
 

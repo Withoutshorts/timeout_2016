@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<sprog>
+
+  <!--- Dansk -->
+  <dk>
+
+    <txt_1 >Fra: (hele måneder)</txt_1>
+    <txt_2 >Til</txt_2>
+    <txt_3 >Søg</txt_3>
+    <txt_4 >Medarbejder</txt_4>
+    <txt_5 >Total pr. medarbejder</txt_5>
+    <txt_6 >Funktioner</txt_6>
+    <txt_7 >Printvenlig</txt_7>
+    <txt_8 >Total</txt_8>
+    <txt_9>Medarbejder - projekttid</txt_9>
+    <txt_10>Projekt</txt_10>
+
+    <txt_11 >Jan</txt_11>
+    <txt_12 >Feb</txt_12>
+    <txt_13 >Mar</txt_13>
+    <txt_14 >Apr</txt_14>
+    <txt_15 >Maj</txt_15>
+    <txt_16 >Jun</txt_16>
+    <txt_17 >Jul</txt_17>
+    <txt_18 >Aug</txt_18>
+    <txt_19 >Sep</txt_19>
+    <txt_20 >Okt</txt_20>
+    <txt_21 >Nov</txt_21>
+    <txt_22 >Dec</txt_22>
+
+
+  </dk>
+
+
+  <!--- Norsk -->
+  <no>
+
+    <txt_1 >From: (whole months)</txt_1>
+    <txt_2 >To</txt_2>
+    <txt_3 >Search</txt_3>
+    <txt_4 >Employee</txt_4>
+    <txt_5 >Total per. employee</txt_5>
+    <txt_6 >Functions</txt_6>
+    <txt_7 >Printable version</txt_7>
+    <txt_8 >Total</txt_8>
+    <txt_9>Employee - project time</txt_9>
+    <txt_10>Project</txt_10>
+
+    <txt_11 >Jan</txt_11>
+    <txt_12 >Feb</txt_12>
+    <txt_13 >Mar</txt_13>
+    <txt_14 >Apr</txt_14>
+    <txt_15 >May</txt_15>
+    <txt_16 >Jun</txt_16>
+    <txt_17 >Jul</txt_17>
+    <txt_18 >Aug</txt_18>
+    <txt_19 >Sep</txt_19>
+    <txt_20 >Oct</txt_20>
+    <txt_21 >Nov</txt_21>
+    <txt_22 >Dec</txt_22>
+
+  </no>
+
+
+  <!--- Svensk -->
+  <so>
+
+    <txt_1 >From: (whole months)</txt_1>
+    <txt_2 >To</txt_2>
+    <txt_3 >Search</txt_3>
+    <txt_4 >Employee</txt_4>
+    <txt_5 >Total per. employee</txt_5>
+    <txt_6 >Features</txt_6>
+    <txt_7 >Printable version</txt_7>
+    <txt_8 >Total</txt_8>
+    <txt_9>Employee - project time</txt_9>
+    <txt_10>Project</txt_10>
+
+    <txt_11 >Jan</txt_11>
+    <txt_12 >Feb</txt_12>
+    <txt_13 >Mar</txt_13>
+    <txt_14 >Apr</txt_14>
+    <txt_15 >May</txt_15>
+    <txt_16 >Jun</txt_16>
+    <txt_17 >Jul</txt_17>
+    <txt_18 >Aug</txt_18>
+    <txt_19 >Sep</txt_19>
+    <txt_20 >Oct</txt_20>
+    <txt_21 >Nov</txt_21>
+    <txt_22 >Dec</txt_22>
+    
+  </so>
+
+
+  <!--- Tysk -->
+  <de>
+
+    <txt_1 >From: (whole months)</txt_1>
+    <txt_2 >To</txt_2>
+    <txt_3 >Search</txt_3>
+    <txt_4 >Employee</txt_4>
+    <txt_5 >Total per. employee</txt_5>
+    <txt_6 >Features</txt_6>
+    <txt_7 >Printable version</txt_7>
+    <txt_8 >Total</txt_8>
+    <txt_9>Employee - project time</txt_9>
+    <txt_10>Project</txt_10>
+
+    <txt_11 >Jan</txt_11>
+    <txt_12 >Feb</txt_12>
+    <txt_13 >Mar</txt_13>
+    <txt_14 >Apr</txt_14>
+    <txt_15 >May</txt_15>
+    <txt_16 >Jun</txt_16>
+    <txt_17 >Jul</txt_17>
+    <txt_18 >Aug</txt_18>
+    <txt_19 >Sep</txt_19>
+    <txt_20 >Oct</txt_20>
+    <txt_21 >Nov</txt_21>
+    <txt_22 >Dec</txt_22>
+
+  </de>
+
+
+  <!--- Fransk -->
+  <fr>
+
+    <txt_1 >From: (whole months)</txt_1>
+    <txt_2 >To</txt_2>
+    <txt_3 >Search</txt_3>
+    <txt_4 >Employee</txt_4>
+    <txt_5 >Total per. employee</txt_5>
+    <txt_6 >Features</txt_6>
+    <txt_7 >Printable version</txt_7>
+    <txt_8 >Total</txt_8>
+    <txt_9>Employee - project time</txt_9>
+    <txt_10>Project</txt_10>
+
+    <txt_11 >Jan</txt_11>
+    <txt_12 >Feb</txt_12>
+    <txt_13 >Mar</txt_13>
+    <txt_14 >Apr</txt_14>
+    <txt_15 >May</txt_15>
+    <txt_16 >Jun</txt_16>
+    <txt_17 >Jul</txt_17>
+    <txt_18 >Aug</txt_18>
+    <txt_19 >Sep</txt_19>
+    <txt_20 >Oct</txt_20>
+    <txt_21 >Nov</txt_21>
+    <txt_22 >Dec</txt_22>
+
+  </fr>
+
+
+
+  <!-- Engelsk -->
+  <uk>
+
+    <txt_1 >From: (whole months)</txt_1>
+    <txt_2 >To</txt_2>
+    <txt_3 >Search</txt_3>
+    <txt_4 >Employee</txt_4>
+    <txt_5 >Total per. employee</txt_5>
+    <txt_6 >Features</txt_6>
+    <txt_7 >Printable version</txt_7>
+    <txt_8 >Total</txt_8>
+    <txt_9>Employee - project time</txt_9>
+    <txt_10>Project</txt_10>
+
+    <txt_11 >Jan</txt_11>
+    <txt_12 >Feb</txt_12>
+    <txt_13 >Mar</txt_13>
+    <txt_14 >Apr</txt_14>
+    <txt_15 >May</txt_15>
+    <txt_16 >Jun</txt_16>
+    <txt_17 >Jul</txt_17>
+    <txt_18 >Aug</txt_18>
+    <txt_19 >Sep</txt_19>
+    <txt_20 >Oct</txt_20>
+    <txt_21 >Nov</txt_21>
+    <txt_22 >Dec</txt_22>
+   
+  </uk>
+
+
+  <!--- Spansk -->
+  <es>
+
+    <txt_1 >From: (whole months)</txt_1>
+    <txt_2 >To</txt_2>
+    <txt_3 >Search</txt_3>
+    <txt_4 >Employee</txt_4>
+    <txt_5 >Total per. employee</txt_5>
+    <txt_6 >Features</txt_6>
+    <txt_7 >Printable version</txt_7>
+    <txt_8 >Total</txt_8>
+    <txt_9>Employee - project time</txt_9>
+    <txt_10>Project</txt_10>
+
+    <txt_11 >Jan</txt_11>
+    <txt_12 >Feb</txt_12>
+    <txt_13 >Mar</txt_13>
+    <txt_14 >Apr</txt_14>
+    <txt_15 >May</txt_15>
+    <txt_16 >Jun</txt_16>
+    <txt_17 >Jul</txt_17>
+    <txt_18 >Aug</txt_18>
+    <txt_19 >Sep</txt_19>
+    <txt_20 >Oct</txt_20>
+    <txt_21 >Nov</txt_21>
+    <txt_22 >Dec</txt_22>
+
+  </es>
+
+
+</sprog>

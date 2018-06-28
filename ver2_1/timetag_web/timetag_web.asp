@@ -134,6 +134,10 @@
         
                 medid = request("jq_medid")
 
+                'if medid = 1 AND lto = "hestia" then
+                '    medid = 164
+                'end if
+
                 if len(trim(request("thisJobid"))) <> 0 then
                 jq_jobid = request("thisJobid")
                 else
@@ -189,7 +193,7 @@
                         &" kkundenavn LIKE '"& jobkundesog &"%' OR kkundenr = '"& jobkundesog &"' OR k.kinit = '"& jobkundesog &"') AND kkundenavn <> ''"
                     end if            
 
-                 lmt = 50
+                 lmt = 250
                  else
                  strSQLSogKri = ""
                  lmt = 250
@@ -316,6 +320,11 @@
                          else
                          strJobogKunderTxt = strJobogKunderTxt & "<option value=""-1"" DISABLED>Ingen kunder/job fundet</option>"
                          end if
+
+                    else
+
+                          strJobogKunderTxt = strJobogKunderTxt & "<option value=""-1"" DISABLED>Antal job: "& c &"</option>"
+
                     end if
        
                 
@@ -397,12 +406,14 @@
                 md = datepart("m", varTjDatoUS_man, 2,2)
 
 
-                '*** Forecast tjk
+                '*** Forecast tjk & Jobstatus
                 risiko = 0
-                strSQLjobRisisko = "SELECT j.risiko FROM job AS j WHERE id = "& jobid
+                jobstatusTjk = 1
+                strSQLjobRisisko = "SELECT j.risiko, jobstatus FROM job AS j WHERE id = "& jobid
                 oRec5.open strSQLjobRisisko, oConn, 3
                 if not oRec5.EOF then
                 risiko = oRec5("risiko")
+                jobstatusTjk = oRec5("jobstatus")
                 end if
                 oRec5.close 
 
@@ -418,6 +429,19 @@
 	            strSQLDatoKri = " AND ((a.aktstartdato <= '"& varTjDatoUS_son &"' AND a.aktslutdato >= '"& varTjDatoUS_man &"') OR (a.fakturerbar = 6))" 
 	            end if
 
+
+                 if lto = "mpt" OR session("lto") = "9K2017-1121-TO178" then
+                  onlySalesact = ""
+
+                else
+
+                if cint(jobstatusTjk) = 3 then 'tilbud
+                onlySalesact = " AND a.fakturerbar = 6"
+                else
+                onlySalesact = ""
+                end if
+
+                end if
 
 
                 call akttyper2009(2)
@@ -482,13 +506,13 @@
 
                    strSQL = "SELECT a.id AS aid, navn AS aktnavn "_
                    &" FROM timereg_usejob AS tu LEFT JOIN aktiviteter AS a ON (a.id = tu.aktid) "_
-                   &" WHERE tu.medarb = "& medid &" AND tu.jobid = "& jobid &" AND aktid <> 0 "& strSQlAktSog &" AND aktstatus = 1 AND ("& aty_sql_hide_on_treg &") "& forecastAktids &" AND a.navn IS NOT NULL "& strSQLkunSpecialAkt &" ORDER BY fase, sortorder, navn LIMIT 150"   
+                   &" WHERE tu.medarb = "& medid &" AND tu.jobid = "& jobid &" AND aktid <> 0 "& strSQlAktSog &" AND aktstatus = 1 AND ("& aty_sql_hide_on_treg &") "& forecastAktids &" AND a.navn IS NOT NULL "& strSQLkunSpecialAkt &" "& onlySalesact &" ORDER BY fase, sortorder, navn LIMIT 150"   
                    'AND ("& replace(aty_sql_realhours, "tfaktim", "a.fakturerbar") &")
                    else 
 
                    strSQL = "SELECT a.id AS aid, navn AS aktnavn "_
                    &" FROM timereg_usejob AS tu LEFT JOIN aktiviteter AS a ON (a.job = tu.jobid) "_
-                   &" WHERE tu.medarb = "& medid &" AND tu.jobid = "& jobid &" AND aktid = 0 "& strSQlAktSog &" AND aktstatus = 1  AND ("& aty_sql_hide_on_treg &") "& forecastAktids &" AND a.navn IS NOT NULL "& strSQLkunSpecialAkt &" ORDER BY fase, sortorder, navn LIMIT 150" 
+                   &" WHERE tu.medarb = "& medid &" AND tu.jobid = "& jobid &" AND aktid = 0 "& strSQlAktSog &" AND aktstatus = 1  AND ("& aty_sql_hide_on_treg &") "& forecastAktids &" AND a.navn IS NOT NULL "& strSQLkunSpecialAkt &" "& onlySalesact &" ORDER BY fase, sortorder, navn LIMIT 150" 
                    'AND ("& replace(aty_sql_realhours, "tfaktim", "a.fakturerbar") &")
                    end if
 
@@ -523,7 +547,7 @@
 
                strSQL = "SELECT a.id AS aid, navn AS aktnavn, projektgruppe1, projektgruppe2, projektgruppe3, "_
                &" projektgruppe4, projektgruppe5, projektgruppe6, projektgruppe7, projektgruppe8, projektgruppe9, projektgruppe10 FROM aktiviteter AS a "_
-               &" WHERE a.job = " & jobid & " AND a.job <> 0 "& strSQlAktSog &" AND aktstatus = 1 AND ("& aty_sql_hide_on_treg &") "& strSQLkunSpecialAkt &" ORDER BY fase, sortorder, navn LIMIT 150"      
+               &" WHERE a.job = " & jobid & " AND a.job <> 0 "& strSQlAktSog &" AND aktstatus = 1 AND ("& aty_sql_hide_on_treg &") "& strSQLkunSpecialAkt &" "& onlySalesact &" ORDER BY fase, sortorder, navn LIMIT 150"      
     
 
               
@@ -762,6 +786,51 @@
                     response.write strJobnavn
 
 
+
+
+           case "FN_createOutlay"
+                
+                strEditor = session("user")
+		        strDato = year(now)&"/"&month(now)&"/"&day(now)
+                matregid = 0
+                otf = 1
+                medid = session("mid")
+
+                jobid = request("jq_jobid")
+                aktid = 0 'for nu
+                aftid = 0
+                matId = 0
+                intAntal = 1 'Antal findes ikke paa mobil, saa altid en
+                regdato = year(now)&"/"&month(now)&"/"&day(now) 'fornu
+                valuta = request("FM_udlaeg_valuta")
+                
+                select case lto 
+                case "synergi1", "intranet - local", "epi", "epi_as", "epi_se", "epi_os", "epi_uk", "alfanordic"
+                intKode = 1 'Intern
+                case else 
+	            intKode = 2 'Ekstern = viderefakturering
+                end select
+
+                personlig = request("FM_udlaeg_form")
+                bilagsnr = "" 'for nu
+                pris = request("FM_udlaeg_belob")
+                salgspris = pris 'Fordi det er mobilen, dvs. udlaeg derfor ingen salgspris
+                navn = request("FM_udlaeg_navn")
+                gruppe = request("FM_udlaeg_gruppe")
+                varenr = 0
+                opretlager = 0
+                betegnelse = ""
+                mat_func = "dbopr"
+                matreg_opdaterpris = 0
+                matava = 0
+
+                'call MatTest(matregid, otf, medid, jobid, aktid, aftid, matId, strEditor, strDato, intAntal, regdato, valuta, intkode, personlig, bilagsnr, pris, salgspris, navn, gruppe, varenr, opretlager, betegnelse, mat_func, matreg_opdaterpris, matava)
+                call indlaes_mat(matregid, otf, medid, jobid, aktid, aftid, matId, strEditor, strDato, intAntal, regdato, valuta, intkode, personlig, bilagsnr, pris, salgspris, navn, gruppe, varenr, opretlager, betegnelse, mat_func, matreg_opdaterpris, matava)
+
+
+                'Hvis der er valgt en fil, skal den lægges i databasen her.
+
+
         end select
         response.end
         end if
@@ -851,7 +920,7 @@
 
    
     select case lto
-    case "hestia", "xoutz", "micmatic", "intranet - local"
+    case "hestia", "outz", "micmatic", "intranet - local"
         showAfslutJob = 1
         showMatreg = 1
         showStop = 0
@@ -888,6 +957,21 @@
         showDetailDayResumeOrLink = 1
         ststopbtnTxt = "St. / Stop"
 
+    case "cflow"
+        showAfslutJob = 0
+        showMatreg = 0
+        
+        'if cint(mt_mobil_visstopur) = 1 then
+        showStop = 1
+        mobil_week_reg_akt_dd = 1
+        mobil_week_reg_job_dd = 1
+        mobil_week_reg_akt_dd_forvalgt = 1
+        'else
+        'showStop = 0
+        'end if
+        
+        showDetailDayResumeOrLink = 1
+        ststopbtnTxt = "St. / Stop"
 
     case "tbg", "hidalgo"
         showAfslutJob = 0
@@ -899,6 +983,12 @@
         showAfslutJob = 0
         showMatreg = 0
         showStop = 1
+        showDetailDayResumeOrLink = 0
+        ststopbtnTxt = "St. / Stop"
+    case "mpt"
+        showAfslutJob = 0
+        showMatreg = 1
+        showStop = 0
         showDetailDayResumeOrLink = 0
         ststopbtnTxt = "St. / Stop"
     case else
@@ -927,6 +1017,10 @@
             
     varTjDatoUS_man_tt = dateAdd("d", -(ddDato_ugedag_w-1), ddDato_ugedag)
 
+
+
+    
+
 %>
 
 <head>
@@ -936,7 +1030,7 @@
 
 
 
-<script src="js/timetag_web_jav_2017_023.js" type="text/javascript"></script>
+<script src="js/timetag_web_jav_2018.js" type="text/javascript"></script>
 
 
 
@@ -1122,7 +1216,7 @@
                                  </div>
                                  </div>
                             </div>
-                            </div>
+                           <!-- </div> -->
                             <%
                         end select%>
 
@@ -1193,7 +1287,11 @@
                         <%end if %>
                        
 
-                       
+                       <%if cint(showAfslutJob) = 1 then %>
+                        <div class="row">
+                            <div class="col-lg-12"><span><input type="checkbox" value="2" name="FM_lukjobstatus" id="FM_lukjobstatus" /> <%=ttw_txt_012 %></span></div>
+                        </div>
+                       <%end if %>
 
                         
                         <%if cint(showMatreg) = 1 then
@@ -1260,16 +1358,134 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
-
+                       <!-- </div> -->
+ 
                         <%end if %>
 
+                        </form>
 
-                        <%if cint(showAfslutJob) = 1 then %>
-                        <div class="row">
-                            <div class="col-lg-12"><span><input type="checkbox" value="2" name="FM_lukjobstatus" id="FM_lukjobstatus" /> <%=ttw_txt_012 %></span></div>
+                        
+                        <!-- UDLÆG -->
+                        <div class="panel-group accordion-panel" id="accordion-paneled">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title"><a class="accordion-toggle" data-toggle="collapse" data-target="#udlaag">Tilføj udlæeg</a></h4>
+                                </div> <!-- /.panel-heading -->
+                                <div id="udlaag" class="panel-collapse collapse">
+                                 
+                                    <div class="panel-body">                                  
+                                    
+                                       <!-- <form action="timetag_web.asp?func=FN_createOutlay2&FM_jobid=936" method="post"> -->
+
+                                        <div class="row">
+                                            <div class="col-lg-12"><input type="text" name="FM_udlaeg_navn" id="FM_udlaeg_navn" placeholder="Navn" class="form-control"/></div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-lg-12"><input type="text" name="FM_udlaeg_belob" id="FM_udlaeg_belob" placeholder="Beløb" class="form-control"/></div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-lg-12">
+                                                <select class="form-control" name="FM_udlaeg_valuta" id="FM_udlaeg_valuta">
+                                                    <%
+                                                        strSQLValuta = "SELECT id, valutakode FROM valutaer"
+                                                        oRec.open strSQLValuta, oConn, 3
+                                                        while not oRec.EOF
+                                                        %><option value="<%=oRec("id") %>"><%=oRec("valutakode") %></option><%
+                                                        oRec.movenext
+                                                        wend
+                                                        oRec.close
+                                                    %>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">                                     
+                                            <div class="col-lg-12">
+                                                <select class="form-control" name="FM_udlaeg_gruppe" id="FM_udlaeg_gruppe">
+                                                    <%
+                                                        strSQLMatgrp = "SELECT id, navn FROM materiale_grp"
+                                                        oRec.open strSQLMatgrp, oConn, 3
+                                                        while not oRec.EOF
+                                                        %><option value="<%=oRec("id") %>"><%=oRec("navn") %></option><%
+                                                        oRec.movenext
+                                                        wend
+                                                        oRec.close
+                                                    %>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">                                     
+                                            <div class="col-lg-12">
+                                                <select class="form-control" name="FM_udlaeg_faktbar" id="FM_udlaeg_faktbar">
+                                                    <option value="0">Ikke fakturabar</option>
+                                                    <option value="1">Fakturabar</option>                                             
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">                                     
+                                            <div class="col-lg-12">
+                                                <select class="form-control" name="FM_udlaeg_form" id="FM_udlaeg_form">
+                                                    <option value="1">Personlig udlæg</option>
+                                                    <option value="0">Firmabetalt</option>                                             
+                                                </select>
+                                            </div>
+                                        </div>
+                                            
+                                        <%
+                                            strSQL = "SELECT id FROM materiale_forbrug"
+                                            oRec.open strSQL, oConn, 3 
+                                            while not oRec.EOF
+                                                lastid = oRec("id")
+                                            oRec.movenext
+                                            wend
+                                            oRec.close
+
+                                            matId = lastid + 1
+                                        %>
+                                        
+                                        <div class="row">
+                                            <div class="col-lg-12" style="text-align:center;">
+                                                <form ENCTYPE="multipart/form-data" action="../timereg/upload_bin.asp?matUpload=1&matId=<%=matId %>&thisfile=timetag_mobile" method="post" id="image_upload">
+                                                    <label class="btn btn-default btn-sm"><INPUT id="image-file" NAME="fileupload1" TYPE="file" style="width:400px; display:none;"><b> Vælg billede </b></label>
+                                                </form>
+                                            </div>
+                                        </div>
+
+                                        
+
+                                        <script type="text/javascript">
+                                             function readURL(input) {
+                                                   // alert("show pic")
+
+                                                    if (input.files && input.files[0]) {
+                                                        var reader = new FileReader();
+
+                                                        reader.onload = function (e) {
+                                                            $('#imageholder')
+                                                                .attr('src', e.target.result);
+                                                        };
+
+                                                        reader.readAsDataURL(input.files[0]);
+                                                    }
+                                                }
+                                         </script>
+                                        
+                                        <div class="row">
+                                            <div class="col-lg-12" style="text-align:center"><input type="button" value=">>" id="createOutlay_sub" class="btn btn-secondary"/></div>
+                                            <div class="col-lg-12"><button type="submit" class="btn btn-success btn-sm pull-right"><b>hephep</b></button></div>
+                                        </div>
+                                        <!--   </form>    -->                                                           
+                                    </div>
+                                
+
+                                </div> <!-- /.panel-collapse -->
+                            </div>
                         </div>
-                        <%end if %>
+
 
                         <br /><br />
                         <div class="row">
@@ -1277,6 +1493,8 @@
                                 <button type="submit" id="sbmtimer" class="btn btn-success" style="text-align:center; width:100%"><b><%=ttw_txt_011 %> >></b></button>
                             </div>
                         </div>
+
+                        
 
                         <br />
 
@@ -1388,8 +1606,8 @@
 
 
 
-                    </form>
-
+                   <!-- </form> -->
+                    
                     
                        
                 

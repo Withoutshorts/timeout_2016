@@ -1,5 +1,323 @@
 <%
 
+    function selectAkt_jq()
+
+
+      '*** Søg Aktiviteter 
+                'strAktFcSaldoTxt = ""            
+                strAktTxt = ""
+
+                if len(trim(request("jq_newfilterval"))) <> 0 then
+                filterVal = 1 
+                aktsog = request("jq_newfilterval")
+             
+                else
+                filterVal = 0
+                aktsog = "6xxxxxfsdf554"
+                end if
+        
+                medid = request("jq_medid")
+                aktid = request("jq_aktid")
+
+                
+                response.Cookies("monitor_akt")(medid) = aktid 'jq_aktidc
+            
+
+                if len(trim(request("jq_aktidc"))) <> 0 then
+                jq_aktidc = request("jq_aktidc")
+                else
+                jq_aktidc = "-1"
+                end if
+    
+        
+
+                if len(trim(request("jq_jobid"))) <> 0 then        
+                jobid = request("jq_jobid")
+                else
+                jobid = 0
+                end if
+
+                 '*** Sales / tilbud kun Salgsaktiviteter
+                '(a.fakturerbar = 6 AND j.jobstatus = 3)
+                jobstatusTjk = 1
+                strSQLtilbud = "SELECT jobstatus FROm job WHERE id = "& jobid
+                oRec5.open strSQLtilbud, oConn, 3
+                if not oRec5.EOF then
+
+                jobstatusTjk = oRec5("jobstatus")
+
+                end if
+                oRec5.close
+
+                if lto = "mpt" OR session("lto") = "9K2017-1121-TO178" then
+               
+                    onlySalesact = ""
+                else
+                    if cint(jobstatusTjk) = 3 then 'tilbud
+                    onlySalesact = " AND a.fakturerbar = 6"
+                    else
+                    onlySalesact = ""
+                    end if
+                end if
+
+
+                'positiv aktivering
+                pa = 0
+                'if len(trim(request("jq_pa") )) <> 0 then
+                'pa = request("jq_pa") 
+                'else
+                'pa = 0
+                'end if
+        
+                call positiv_aktivering_akt_fn()
+                pa = pa_aktlist
+                pa_only_specifikke_akt = positiv_aktivering_akt_val
+            
+                varTjDatoUS_man = request("varTjDatoUS_man")
+                varTjDatoUS_son = dateAdd("d", 6, varTjDatoUS_man)
+
+                varTjDatoUS_man = year(varTjDatoUS_man) &"/"& month(varTjDatoUS_man) &"/"& day(varTjDatoUS_man)
+                varTjDatoUS_son = year(varTjDatoUS_son) &"/"& month(varTjDatoUS_son) &"/"& day(varTjDatoUS_son)
+
+
+                '*** Vis kun aktiviteter med forecast på
+                call aktBudgettjkOn_fn()
+                '*** Skal akt lukkes for timereg. hvis forecast budget er overskrddet..?
+                '** MAKS budget / Forecast incl. peridoe afgrænsning
+                call akt_maksbudget_treg_fn()
+
+                if cint(aktBudgettjkOnViskunmbgt) = 1 then
+                viskunForecast = 1
+                else
+                viskunForecast = 0
+                end if
+
+
+                timerTastet = 0 'request("timer_tastet")
+                ibudgetaar = aktBudgettjkOn_afgr
+                ibudgetmd = datePart("m", aktBudgettjkOnRegAarSt, 2,2) 
+                aar = datepart("yyyy", varTjDatoUS_man, 2,2)
+                md = datepart("m", varTjDatoUS_man, 2,2)
+
+
+                '*** Forecast tjk
+                risiko = 0
+                strSQLjobRisisko = "SELECT j.risiko FROM job AS j WHERE id = "& jobid
+                oRec5.open strSQLjobRisisko, oConn, 3
+                if not oRec5.EOF then
+                risiko = oRec5("risiko")
+                end if
+                oRec5.close 
+
+                call allejobaktmedFC(viskunForecast, medid, jobid, risiko)
+
+                
+                '*** Datospærring Vis først job når stdato er oprindet
+                call lukaktvdato_fn()
+                ignJobogAktper = lukaktvdato
+
+               
+	            if (cint(ignJobogAktper) = 1 OR cint(ignJobogAktper) = 2 OR cint(ignJobogAktper) = 3) then
+	            strSQLDatoKri = " AND ((a.aktstartdato <= '"& varTjDatoUS_son &"' AND a.aktslutdato >= '"& varTjDatoUS_man &"') OR (a.fakturerbar = 6))" 
+	            end if
+
+
+              
+
+                call akttyper2009(2)
+
+              
+
+                if filterVal <> 0 then
+            
+                 
+    
+                 'strAktTxt = strAktTxt &"<span style=""color:#999999; font-size:9px; float:right;"" class=""luk_aktsog"">X</span>"    
+                         
+
+                     '** Select eller søgeboks
+                    call mobil_week_reg_dd_fn()
+                    
+                    
+                    if cint(mobil_week_reg_akt_dd) <> 1 then 'AND aktsog <> "-1" 
+                    strSQlAktSog = "AND navn LIKE '%"& aktsog &"%'"
+                    else
+                    strSQlAktSog = ""
+
+                            '** Forvalgt 1 aktivitet
+                            if cint(mobil_week_reg_akt_dd_forvalgt) <> 1 AND cint(mobil_week_reg_akt_dd) = 1 then
+                            strAktTxt = strAktTxt & "<option value=""-1"">Choose..</option>" 
+                            end if
+
+                    end if
+
+
+
+                   if cint(pa) = 1 then '**Kun på Personlig aktliste
+    
+    
+                       'Positiv aktivering
+                       if cint(pa_only_specifikke_akt) then
+
+                       strSQL = "SELECT a.id AS aid, navn AS aktnavn "_
+                       &" FROM timereg_usejob AS tu LEFT JOIN aktiviteter AS a ON (a.id = tu.aktid "& onlySalesact &") "_
+                       &" WHERE tu.medarb = "& medid &" AND tu.jobid = "& jobid &" AND aktid <> 0 "& strSQlAktSog &" AND aktstatus = 1 AND ("& aty_sql_hide_on_treg &") "& forecastAktids &" "& onlySalesact &" ORDER BY fase, sortorder, navn LIMIT 250"   
+                       'AND ("& replace(aty_sql_realhours, "tfaktim", "a.fakturerbar") &")
+                       else 
+
+                       strSQL = "SELECT a.id AS aid, navn AS aktnavn "_
+                       &" FROM timereg_usejob AS tu LEFT JOIN aktiviteter AS a ON (a.job = tu.jobid) "_
+                       &" WHERE tu.medarb = "& medid &" AND tu.jobid = "& jobid &" AND aktid = 0 "& strSQlAktSog &" AND aktstatus = 1 AND ("& aty_sql_hide_on_treg &") "& forecastAktids &" "& onlySalesact &" ORDER BY fase, sortorder, navn LIMIT 250"
+                       'AND ("& replace(aty_sql_realhours, "tfaktim", "a.fakturerbar") &")
+                       end if
+
+
+                   else
+
+
+                        '*** Finder medarbejders projektgrupper 
+                        '** Medarbejder projektgrupper **'
+                        medarbPGrp = "#0#" 
+                        strMpg = "SELECT projektgruppeId, medarbejderId, teamleder FROM progrupperelationer WHERE medarbejderId = "& medid & " GROUP BY projektgruppeId"
+
+                        oRec5.open strMpg, oConn, 3
+                        while not oRec5.EOF
+                        medarbPGrp = medarbPGrp & ",#"& oRec5("projektgruppeId") &"#"         
+        
+                        oRec5.movenext
+                        wend
+                        oRec5.close 
+
+
+           
+
+                   
+
+                
+                   
+
+                   strSQL = "SELECT a.id AS aid, navn AS aktnavn, projektgruppe1, projektgruppe2, projektgruppe3, "_
+                   &" projektgruppe4, projektgruppe5, projektgruppe6, projektgruppe7, projektgruppe8, projektgruppe9, projektgruppe10 FROM aktiviteter AS a "_
+                   &" WHERE a.job = " & jobid & " "& strSQLDatoKri &" "& strSQlAktSog &" AND aktstatus = 1 AND ("& aty_sql_hide_on_treg &") "& forecastAktids &" "& onlySalesact &" ORDER BY fase, sortorder, navn LIMIT 250"      
+    
+
+               
+            
+                end if
+
+                'response.write "strSQL " & strSQL & ""
+                'response.write "<option>strSQL " & strSQL & "</option>"
+                'response.flush
+
+                afundet = 0
+                oRec.open strSQL, oConn, 3
+                while not oRec.EOF
+        
+                if cint(pa) = 1 then 'Positiv aktivering
+
+                showAkt = 1
+
+                else
+            
+                showAkt = 0
+                if instr(medarbPGrp, "#"& oRec("projektgruppe1") &"#") <> 0 _
+                OR instr(medarbPGrp, "#"& oRec("projektgruppe2") &"#") <> 0 _
+                OR instr(medarbPGrp, "#"& oRec("projektgruppe3") &"#") <> 0 _
+                OR instr(medarbPGrp, "#"& oRec("projektgruppe4") &"#") <> 0 _
+                OR instr(medarbPGrp, "#"& oRec("projektgruppe5") &"#") <> 0 _
+                OR instr(medarbPGrp, "#"& oRec("projektgruppe6") &"#") <> 0 _
+                OR instr(medarbPGrp, "#"& oRec("projektgruppe7") &"#") <> 0 _
+                OR instr(medarbPGrp, "#"& oRec("projektgruppe8") &"#") <> 0 _
+                OR instr(medarbPGrp, "#"& oRec("projektgruppe9") &"#") <> 0 _
+                OR instr(medarbPGrp, "#"& oRec("projektgruppe10") &"#") <> 0 then
+                showAkt = 1
+                end if 
+
+                end if
+
+
+                '** Forecast peridore afgrænsning
+                'if cint(akt_maksforecast_treg) = 1 then
+                if cint(aktBudgettjkOn) = 1 then
+                    call ressourcefc_tjk(ibudgetaar, ibudgetmd, aar, md, medid, oRec("aid"), timerTastet)
+                end if
+               
+                
+                
+                if cint(showAkt) = 1 then 
+                 
+                'strAktTxt = strAktTxt & "<input type=""hidden"" id=""hiddn_akt_"& oRec("aid") &""" value="""& oRec("aktnavn") &""">"
+                'strAktTxt = strAktTxt & "<a class=""chbox_akt"" id=""chbox_akt_"& oRec("aid") &""" value="& oRec("aid") &">"& oRec("aktnavn") &"</a><br>" 
+
+                if cint(aktBudgettjkOn) = 1 then
+
+
+                if len(trim(feltTxtValFc)) <> 0 then
+                fcsaldo_txt = " (fc. Saldo: "& formatnumber(feltTxtValFc, 2) & " / "& formatnumber(fctimer,2) &" t.)"
+                else
+                feltTxtValFc = 0
+                end if
+
+                    optionFcDis = ""
+                    if cint(akt_maksforecast_treg) = 1 then
+                        if feltTxtValFc <= 0 then
+                              optionFcDis = "DISABLED"
+                        end if
+                    end if
+
+                else
+
+                fcsaldo_txt = ""
+
+                end if
+                
+                if cdbl(jq_aktidc) = cdbl(oRec("aid")) then
+                aktidSEL = "SELECTED"
+                else
+                aktidSEL = ""
+                end if
+
+                if lto = "cflow" then
+                aidTxt = "["& oRec("aid") &"]"
+                else
+                aidTxt = ""
+                end if
+
+                'strAktFcSaldoTxt = strAktFcSaldoTxt & "<input type=""text"" value="& feltTxtValFc &" id=""FM_fcs_"& oRec("aid") &">"
+                strAktTxt = strAktTxt & "<option value="& oRec("aid") &" "& optionFcDis &" "& aktidSEL &">"& oRec("aktnavn") &" "& fcsaldo_txt &" "& aidTxt &"</option>" 
+                
+                end if
+                
+                afundet = afundet + 1
+                oRec.movenext
+                wend
+                oRec.close
+
+                
+                if afundet = 0 then
+                strAktTxt = strAktTxt & "<option value=""-1"" DISABLED>"& week_txt_011 &"</option>" 
+                end if          
+
+
+
+                    '*** ÆØÅ **'
+                    call jq_format(strAktTxt)
+                    strAktTxt = jq_formatTxt
+
+
+                    response.write strAktTxt & strAktFcSaldoTxt
+
+                end if    
+
+
+
+
+
+    end function
+
+
+
+
 '*** Akttyper ***'
  	public aty_fakbar, aty_real, aty_pre, aty_enh, aty_on, aty_tfval, aty_medpafak, aty_pre_dg, aty_pre_prg
 	function akttyper2009Prop(fakturerbartype)
@@ -91,7 +409,7 @@
 
     public aty_sql_real, aty_sql_fak, aty_sql_fak_on, aty_options, aty_sql_frawhours, aty_sql_sel
 	public aty_sql_ikfakbar, aty_sql_fakbar, aty_sql_onfak, aty_sql_realhours, aty_sql_realHoursFakbar
-	public aktiveTyper, aty_sql_realHoursIkFakbar, aty_sql_tilwhours, aty_sql_onfaknotReal, aty_sql_hide_on_treg, aty_sql_active
+	public aktiveTyper, aty_sql_realHoursIkFakbar, aty_sql_tilwhours, aty_sql_onfaknotReal, aty_sql_hide_on_treg, aty_sql_active, aty_sql_admin
     public aty_sql_frawhours2, aty_sql_tilwhours2
 	 
 	function akttyper2009(dothis)
@@ -101,7 +419,8 @@
 	 aty_sql_fakbar = "fakturerbar = 0"
 	 aty_sql_ikfakbar = "fakturerbar = 0"
 	 aty_sql_onfak =  "aktiviteter.fakturerbar = 0"
-	 
+	 aty_sql_admin = "fakturerbar = 0"
+
 	 aty_sql_realhours = "tfaktim = 0"
 	 aty_sql_realHoursFakbar = "t.tfaktim = 0"
 	 aty_sql_realHoursIkFakbar = "t.tfaktim = 0"
@@ -246,6 +565,12 @@
 	      aty_sql_ikfakbar = aty_sql_ikfakbar & " OR fakturerbar = "& oRec4("aty_id")
 	      else
 	      aty_sql_ikfakbar = aty_sql_ikfakbar 
+	      end if
+
+          if oRec4("aty_on_invoiceble") = 0 then
+	      aty_sql_admin = aty_sql_admin & " OR fakturerbar = "& oRec4("aty_id")
+	      else
+	      aty_sql_admin = aty_sql_admin
 	      end if
 	        
 	      
@@ -644,19 +969,19 @@
 			    'case 0
 			    'straktgrpnavn = "Afstemning"
 			    case 1
-			    straktgrpnavn = "Udspecificering<br> atk. typer"
+			    straktgrpnavn = joblog2_txt_137 &"<br>"& joblog2_txt_138 
 			    aktcls = "akt_udspec"
 			    case 2
-			    straktgrpnavn = "Udspecificering<br>akt. typer<br> (kat. 2)"
+			    straktgrpnavn = joblog2_txt_137 &"<br>"& joblog2_txt_138 &"<br>("& joblog2_txt_139 &")" 
 			    aktcls = "akt_flex"
 			    case 3
-			    straktgrpnavn = "Ferie"
+			    straktgrpnavn = joblog2_txt_140
 			    aktcls = "akt_ferie"
 			    case 4
-			    straktgrpnavn = "Overarbejde / Afspadsering"
+			    straktgrpnavn = joblog2_txt_141
 			    aktcls = "akt_overarb"
 			    case 5
-			    straktgrpnavn = "Sygdom / Fravær"
+			    straktgrpnavn = joblog2_txt_142
 			    aktcls = "akt_syg"
 			    case else
 			    straktgrpnavn = ""
@@ -1009,8 +1334,13 @@ function hentaktiviterListe(jobid, func, vispasluk, sort)
     
     samletverdi = 0
     a = 0
+
+    select case lto
+    case "oko"
+    orderBy = "a.fase, k.kontonr, a.sortorder, a.navn"
+    case else
 	orderBy = "a.fase, a.sortorder, a.navn"
-	
+	end select
 	
 	lastFase = ""
 	lastFaseSum = 0
@@ -1110,11 +1440,17 @@ function hentaktiviterListe(jobid, func, vispasluk, sort)
 
             strAktListe = strAktListe &"<table cellspacing=""0"" cellpadding=""0"" width=""100%"" border=""0"" id=""incidentlist"">"_
             &"<tr><td><b>"&job_txt_559&"</b></td>"_
-            &"<td><b>"&job_txt_291&"</b></td>"_
+            &"<td><b>"&job_txt_291&"</b>herher4546</td>"_
             &"<td><b>"&job_txt_241&"</b></td>"_
             &"<td><b>"&job_txt_560&"</b></td>"
 
             if cint(budgetakt) = 1 OR cint(budgetakt) = 2 then 
+
+            if lto = "tia" then
+
+            strAktListe = strAktListe &"<td><b>Task No.</b>"
+
+            else
             strAktListe = strAktListe &"<td><b>"&job_txt_147&"</b>"
          
                if cint(budgetakt) = 2 then
@@ -1122,6 +1458,8 @@ function hentaktiviterListe(jobid, func, vispasluk, sort)
                end if
 
             strAktListe = strAktListe &"</td>"
+            end if
+
             end if
 
             strAktListe = strAktListe &"<td><b>"&job_txt_365&"</b></td>"
@@ -1446,7 +1784,8 @@ function opdateraktliste(jobid, aktids, aktnavn, akttimer, aktantalstk, aktfaser
         
     'Response.Write aktnavn & "<br>"    
     'Response.Write aktstatus
-	'Response.end
+	'Response.write  avarenr
+    'Response.end
 	
 	aktnavn = split(aktnavn, ", #,")
 	akttimer = split(akttimer, ", ")
@@ -1470,10 +1809,6 @@ function opdateraktliste(jobid, aktids, aktnavn, akttimer, aktantalstk, aktfaser
     avarenr = split(avarenr, ", #,")
 
 	aktslet = split(aktslet, ", ")
-	
-	'Response.Write aktSlet
-	'Response.end
-	
 	
 	
 	for t = 0 to UBOUND(aktids)
@@ -1548,6 +1883,27 @@ function opdateraktliste(jobid, aktids, aktnavn, akttimer, aktantalstk, aktfaser
         avarenr(t) = replace(avarenr(t), ", #", "")
         avarenr(t) = trim(avarenr(t))
 	    
+        
+        
+        if len(trim(avarenr(t))) = 0 AND trim(aktstatus(t)) = "1" AND (lto = "xintranet - local" OR lto = "tia") then
+
+                    %><!--#include file="../../inc/regular/header_lysblaa_inc.asp"--><%
+
+         	        errortype = 190
+					call showError(errortype)
+					
+			        Response.End
+
+        end if
+
+
+       if len(trim(avarenr(t))) <> 0 AND (lto = "intranet - local" OR lto = "tia") then
+
+                avarenr(t) = UCase(avarenr(t))
+
+        end if
+
+
 	    aktNavn(t) = trim(aktNavn(t))
 	    aktNavn(t) = replace(aktNavn(t), "'", "")
 	    

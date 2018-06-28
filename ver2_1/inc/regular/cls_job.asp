@@ -1,5 +1,194 @@
 
 <%
+    
+    
+
+    
+    function selectJobogKunde_jq()
+    
+    
+                '*** SØG kunde & Job 
+
+                 medid = request("jq_medid")
+
+                 if len(trim(request("jq_jobidc"))) <> 0 then
+                 jq_jobidc = request("jq_jobidc")
+                 else
+                 jq_jobidc = "-1"
+                 end if
+    
+                 lto = request("lto") 
+    
+               
+                if len(trim(request("jq_newfilterval"))) <> 0 then
+                filterVal = 1 
+                jobkundesog = request("jq_newfilterval")
+                
+
+                'if session("mid") = 1 then
+                '*** ÆØÅ **'
+                'call jq_format(jobkundesog)
+                'jobkundesog = jq_formatTxt
+                'end if
+                
+
+                else
+                filterVal = 0
+                jobkundesog = "6xxxxxfsdf554"
+                end if
+        
+                
+
+                call positiv_aktivering_akt_fn()
+
+              
+
+                if cint(pa_aktlist) = 0 then 'PA = 0 kan søge i jobbanken / PA = 1 kan kun søge på aktivjobliste
+                strSQLPAkri =  ""
+                else
+                strSQLPAkri =  " AND tu.forvalgt = 1" 
+                end if
+            
+               
+                varTjDatoUS_man = request("varTjDatoUS_man")
+                varTjDatoUS_son = dateAdd("d", 6, varTjDatoUS_man)
+
+                varTjDatoUS_man = year(varTjDatoUS_man) &"/"& month(varTjDatoUS_man) &"/"& day(varTjDatoUS_man)
+                varTjDatoUS_son = year(varTjDatoUS_son) &"/"& month(varTjDatoUS_son) &"/"& day(varTjDatoUS_son)
+
+                
+                
+
+                '*** Datospærring Vis først job når stdato er oprindet
+                call lukaktvdato_fn()
+                ignJobogAktper = lukaktvdato
+
+                select case ignJobogAktper
+                case 0,1
+                strSQLDatokri = " AND ((j.jobstartdato <= '"& varTjDatoUS_son &"' AND j.jobstatus = 1) OR (j.jobstatus = 3))"
+                case 3
+                strSQLDatokri = " AND ((j.jobstartdato <= '"& varTjDatoUS_son &"' AND j.jobslutdato >= '"& varTjDatoUS_man &"' AND j.jobstatus = 1) OR (j.jobstatus = 3))"
+                case else
+                strSQLDatokri = ""
+                end select
+
+                   
+
+                if filterVal <> 0 then
+
+                 if jobkundesog <> "-1" then
+                 strSQLSogKri = " AND (jobnr LIKE '"& jobkundesog &"%' OR jobnavn LIKE '%"& jobkundesog &"%' OR "_
+                 &" kkundenavn LIKE '"& jobkundesog &"%' OR kkundenr = '"& jobkundesog &"' OR k.kinit = '"& jobkundesog &"') AND kkundenavn <> ''"
+                 lmt = 50
+                 else
+                 strSQLSogKri = ""
+                 lmt = 250
+                 end if
+            
+                 lastKid = 0
+                
+                strSQL = "SELECT j.id AS jid, j.jobnavn, j.jobnr, j.jobstatus, k.kkundenavn, k.kkundenr, k.kid FROM timereg_usejob AS tu "_ 
+                &" LEFT JOIN job AS j ON (j.id = tu.jobid) "_
+                &" LEFT JOIN kunder AS k ON (k.kid = j.jobknr) "_
+                &" WHERE tu.medarb = "& medid &" AND (j.jobstatus = 1 OR j.jobstatus = 3) "& strSQLPAkri &" "& strSQLDatokri 
+                
+                strSQL = strSQL & strSQLSogKri
+
+                if lto = "cflow" then
+                strSQL = strSQL &" GROUP BY j.id ORDER BY kkundenavn, jobnr, jobnavn LIMIT "& lmt       
+                else
+                strSQL = strSQL &" GROUP BY j.id ORDER BY kkundenavn, jobnavn LIMIT "& lmt
+                end if
+
+                'if session("mid") = 1 then
+                 'response.write "<option>strSQL " & strSQL & "</option>"
+                 'response.end
+                'end if
+    
+                select case lto 
+                case "xcflow", "xintranet - local"
+    
+
+                case else
+
+                    if (jobkundesog = "-1") then
+                        
+                        if len(trim(week_txt_009)) = 0 then
+                        week_txt_009 = "Select Job"
+                        end if
+
+                        strJobogKunderTxt = strJobogKunderTxt & "<option value=""-1"" SELECTED>"& week_txt_009 &":</option>"
+                    end if            
+
+                end select
+
+                 
+                k = 0
+                oRec.open strSQL, oConn, 3
+                while not oRec.EOF
+        
+             
+
+                if lastKnavn <> oRec("kkundenavn") then
+    
+
+                    if k <> 0 then
+                    ' strJobogKunderTxt = strJobogKunderTxt &"<br>"
+                    strJobogKunderTxt = strJobogKunderTxt & "<option DISABLED></option>"
+                    end if
+    
+                'strJobogKunderTxt = strJobogKunderTxt & oRec("kkundenavn") &" "& oRec("kkundenr") &"<br>"
+
+                 strJobogKunderTxt = strJobogKunderTxt & "<option DISABLED>"& oRec("kkundenavn") &" "& oRec("kkundenr") &"</option>"
+    
+                end if 
+                 
+               ' strJobogKunderTxt = strJobogKunderTxt & "<input type=""hidden"" id=""hiddn_job_"& oRec("jid") &""" value="""& oRec("jobnavn") & " ("& oRec("jobnr") &")"">"
+               ' strJobogKunderTxt = strJobogKunderTxt & "<a class=""chbox_job"" id=""chbox_job_"& oRec("jid") &""" value="& oRec("jid") &">"& oRec("jobnavn") & " ("& oRec("jobnr") &")" &"</a><br>" 
+                
+                if cdbl(jq_jobidc) = cdbl(oRec("jid")) then
+                 jobidSEL = "SELECTED"
+                else
+                 jobidSEL = ""
+                end if
+
+                select case lto
+                case "intranet - local", "cflow"
+                strJobogKunderTxt = strJobogKunderTxt & "<option value="& oRec("jid") &" "& jobidSEL &">"& oRec("jobnr") &" "& oRec("jobnavn") &"</option>"
+                case else
+                strJobogKunderTxt = strJobogKunderTxt & "<option value="& oRec("jid") &" "& jobidSEL &">"& oRec("jobnavn") & " ("& oRec("jobnr") &")" &"</option>"
+                end select
+
+                k = k + 1
+                lastKnavn = oRec("kkundenavn") 
+                oRec.movenext
+                wend
+                oRec.close
+
+              
+                if cint(k) = 0 then
+                strJobogKunderTxt = strJobogKunderTxt & "<option value=""-1"" DISABLED>"& week_txt_010 &"</option>"
+                end if
+
+
+                    '*** ÆØÅ **'
+                    call jq_format(strJobogKunderTxt)
+                    strJobogKunderTxt = jq_formatTxt
+
+
+                    response.write strJobogKunderTxt
+
+                end if    
+    
+    
+    
+    
+    end function
+
+
+
+
+
 
     function lukkedato(jobId, jobStatus)
 
@@ -96,6 +285,78 @@ end function
     end function
 
 
+    public jobstatus_fn_txt, jobstatus_fn_options, jobstatus_fn_txt_col
+    function jobstatus_fn(jobid, jobstatus, io)
+
+        jobstatus_fn_txt = ""
+        jobstatus_fn_options = ""
+
+
+         if len(trim(jobstatus)) <> 0 then
+        jobstatus = jobstatus
+        else
+        jobstatus = -1
+        end if
+
+        if cint(io) = 1 then 'liste options
+        sqlWh = " js_id <> 100 "
+        else
+        sqlWh = " js_id = "& jobstatus
+        end if
+         
+
+        strSQLjobstatus = "SELECT js_id, js_navn FROM job_status WHERE "& sqlWh &" ORDER BY js_id"
+        'response.write strSQLjobstatus
+        'response.flush 
+    
+        oRec6.open strSQLjobstatus, oConn, 3
+        while not oRec6.EOF 
+
+            select case oRec6("js_id")
+            case 1
+		    jobstatus_fn_txt = job_txt_094 'Aktiv
+            jobstatus_fn_txt_col  = "yellowgreen"
+			case 2
+			jobstatus_fn_txt = job_txt_095 'Passiv
+            jobstatus_fn_txt_col  = "#CCCCCC"
+			case 0
+			jobstatus_fn_txt = job_txt_096 'Lukket
+            jobstatus_fn_txt_col  = "red"
+            case 3
+			jobstatus_fn_txt = job_txt_097 'Tilbud
+            jobstatus_fn_txt_col  = "#5582d2"
+            case 4
+			jobstatus_fn_txt = job_txt_098 'Gennemsyn
+            jobstatus_fn_txt_col  = "yellow"
+            case 5
+			jobstatus_fn_txt = "Evaluering" 'Evaluering
+            jobstatus_fn_txt_col  = "orange"
+			end select
+
+           
+            if cint(io) = 1 then
+            
+            'if cint(jobstatus) = cint(oRec6("js_id")) then
+            'statjobSEL = "SELECTED"
+            'else
+            'statjobSEL = ""
+            'end if
+
+            '"& statjobSEL &"
+
+            jobstatus_fn_options = jobstatus_fn_options & "<option value="& oRec6("js_id") &">"& jobstatus_fn_txt &"</option>"
+
+            end if
+            	
+    
+          
+
+        oRec6.movenext
+        wend
+        oRec6.close
+
+    end function
+
 
      public totTerminBelobJob, totTerminBelobGrand
     function terminbelob(jobid, showhtml)
@@ -177,19 +438,21 @@ end function
 		                    oConn.execute(strSQLst)
 
                             '** Ny jobstatus 
-                            select case jstatus
-                            case 0
-                            jstatusTxt = "Lukket"
-                            case 1
-                            jstatusTxt = "Aktiv"
-                            case 2
-                            jstatusTxt = "Passiv / Til Fakturering"
-                            case 3
-                            jstatusTxt = "Tilbud"
-                            case 4
-                            jstatusTxt = "Til gennemsyn"
-                            end select
+                            'select case jstatus
+                            'case 0
+                            'jstatusTxt = "Lukket"
+                            'case 1
+                            'jstatusTxt = "Aktiv"
+                            'case 2
+                            'jstatusTxt = "Passiv / Til Fakturering"
+                            'case 3
+                            'jstatusTxt = "Tilbud"
+                            'case 4
+                            'jstatusTxt = "Til gennemsyn"
+                            'end select
 
+                            call jobstatus_fn(lukjob, jstatus, 0)
+                            jstatusTxt = jobstatus_fn_txt
 
 				            '**** Finder jobansvarlige *****
 				            strSQL = "SELECT job.id AS jid, jobnavn, jobnr, jobans1, jobans2, m1.mnavn AS m1mnavn, m1.email AS m1email,"_

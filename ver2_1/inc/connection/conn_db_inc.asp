@@ -829,7 +829,26 @@ if len(strLicenskey) <> 0 then
     lto = "welcom"
 	strConnThis = "timeout_welcom64"
 
+    case "9K2017-1031-TO176"
+    lto = "adrasudan"
+	strConnThis = "timeout_adrasudan64"
     
+    
+    case "9K2017-1112-TO177"
+    lto = "alfanordic"
+	strConnThis = "timeout_alfanordic64"
+
+    case "9K2017-1121-TO178"
+    lto = "mpt"
+	strConnThis = "timeout_mpt64"
+
+    case "9K2017-1124-TO179"
+    lto = "cflow"
+	strConnThis = "timeout_cflow64"
+
+    case "9K2018-0104-TO180"
+    lto = "wap"
+	strConnThis = "timeout_wap64"
 
 
     'ODBC 3.51 Driver
@@ -839,19 +858,21 @@ if len(strLicenskey) <> 0 then
          'strConnThis = "timeout_intranet_351_30_64"
         'strConnThis = "timeout_intranet32" 
         lto = "intranet - local"
+        strConnThis = "timeout_intranet64"
 
         'strConnThis = "mySQL_timeOut_intranet"
         'strConnThis = "timeout_wwf"
 		'lto = "intranet - local"
         'lto = "tec"
-        strConnThis = "timeout_intranet64"
+       
+        
         'strConnThis = "timeout_nt"
         'strConnThis = "driver={MySQL ODBC 3.51 Driver};server=localhost; Port=3306; uid=root;pwd=;database=timeout_intranet;"
 	    'response.write strConnThis
         'response.flush
 	
        'lto = "outz"
-	   'strConnThis = "driver={MySQL ODBC 3.51 Driver};server=192.168.1.35; Port=3306; uid=root;pwd=;database=timeout_intranet;"
+	   'strConnThis = "driver={MySQL ODBC 3.51 Driver};server=194.150.108.154; Port=3306; uid=to_outzource2;pwd=SKba200473;database=timeout_intranet;"
 	
     
     	
@@ -882,16 +903,16 @@ else
     'strConnThis = "timeout_intranet_351_30_64"
     'strConnThis = "timeout_intranet32"
     lto = "intranet - local"
+    strConnThis = "timeout_intranet64"
     'lto = "tec"
 	'strConnThis = "driver={MySQL ODBC 3.51 Driver};server=localhost; Port=3306; uid=root;pwd=;database=timeout_intranet;"
 	' strConnThis = "driver={MySQL ODBC 3.51 Driver};server=localhost; Port=3306; uid=root;pwd=;database=timeout_intranet; OPTION=32"
 	   'response.write strConnThis
        ' response.flush
-
-    strConnThis = "timeout_intranet64"
     'strConnThis = "timeout_nt"
 
-
+     'lto = "outz"
+	 'strConnThis = "driver={MySQL ODBC 3.51 Driver};server=194.150.108.154; Port=3306; uid=to_outzource2;pwd=SKba200473;database=timeout_intranet;"
      
     ' lto = "dencker"
     ' strConnThis = "driver={MySQL ODBC 3.51 Driver};server=62.182.173.226; Port=3306; uid=outzource;pwd=SKba200473;database=timeout_dencker;"

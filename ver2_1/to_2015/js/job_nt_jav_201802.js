@@ -15,16 +15,57 @@ $(document).ready(function () {
     //$(".portlet-body").css("left", "2");
 
 
-    
-    
-
     $('.date').datepicker({
 
     });
 
+    
+    $("#cost_price_pc").change(function () {
+        // alert("Costprise")
+        if ($("#auto_cal").is(':checked') == true) {
+            loadFreightPrice();
+        }
+    });
+
+    $("#comm_pc").change(function () {
+        // alert("commision")
+        if ($("#auto_cal").is(':checked') == true) {
+            loadFreightPrice();
+        }
+    });
+
+    $("#auto_cal").change(function () {
+
+        if ($("#auto_cal").is(':checked') == true) {
+
+            loadFreightPrice();
+
+        } else
+        {
+            //alert("NOT checked")
+            $("#freight_pc").val("0");
+            $("#freight_pc").prop("readonly", false);
+
+            $("#FM_autocal").val(0);
+
+        }
+    });
+
+    function loadFreightPrice()
+    {
+        cost_price_pc = $("#cost_price_pc").val();
+        cost_price_pc = cost_price_pc.replace(",", ".")
+
+        freight_price = (cost_price_pc * 0.06)
+        freight_price = String(freight_price).replace(".", ",")
+        $("#freight_pc").val(freight_price)
+        $("#freight_pc").prop("readonly", true);
+    }
+
+
 
     $("#td_listtotals").html($("#listtotals").val());
- 
+
 
     rapporttype = $("#rapporttype").val()
 
@@ -34,14 +75,14 @@ $(document).ready(function () {
             {
                 "iDisplayLength": 25,
                 "columnDefs": [
-               { "type": "date", "targets": 6 },
-               { "type": "date", "targets": 8 },
-               { "type": "num-fmt", "targets": 10 },
-               { "type": "num-fmt", "targets": 11 }
+                    { "type": "date", "targets": 6 },
+                    { "type": "date", "targets": 8 },
+                    { "type": "num-fmt", "targets": 10 },
+                    { "type": "num-fmt", "targets": 11 }
                 ]
             }
         );
-        
+
     }
 
 
@@ -49,16 +90,16 @@ $(document).ready(function () {
         $("#tb_jobliste").DataTable(
             {
                 "iDisplayLength": 25,
-                "columnDefs":[
-                { "type": "date", "targets": 6 },
-                { "type": "date", "targets": 7 },
-                { "type": "date", "targets": 8 },
-                { "type": "date", "targets": 9 },
-                { "type": "date", "targets": 10 },
-                { "type": "date", "targets": 11 },
-                { "type": "date", "targets": 12 },
-                { "type": "date", "targets": 13 },
-                { "type": "date", "targets": 14 }
+                "columnDefs": [
+                    { "type": "date", "targets": 6 },
+                    { "type": "date", "targets": 7 },
+                    { "type": "date", "targets": 8 },
+                    { "type": "date", "targets": 9 },
+                    { "type": "date", "targets": 10 },
+                    { "type": "date", "targets": 11 },
+                    { "type": "date", "targets": 12 },
+                    { "type": "date", "targets": 13 },
+                    { "type": "date", "targets": 14 }
                 ]
             }
         );
@@ -74,15 +115,15 @@ $(document).ready(function () {
                     { "type": "date", "targets": 8 },
                     { "type": "date", "targets": 9 },
                     { "type": "date", "targets": 10 },
-                { "type": "num-fmt", "targets": 12 },
-                { "type": "num-fmt", "targets": 13 },
-                { "type": "num-fmt", "targets": 14 },
-                { "type": "num-fmt", "targets": 15 },
-                { "type": "num-fmt", "targets": 16 },
-                { "type": "num-fmt", "targets": 17 },
-                { "type": "num-fmt", "targets": 18 },
-                { "type": "num-fmt", "targets": 19 },
-                { "type": "num-fmt", "targets": 20 }
+                    { "type": "num-fmt", "targets": 12 },
+                    { "type": "num-fmt", "targets": 13 },
+                    { "type": "num-fmt", "targets": 14 },
+                    { "type": "num-fmt", "targets": 15 },
+                    { "type": "num-fmt", "targets": 16 },
+                    { "type": "num-fmt", "targets": 17 },
+                    { "type": "num-fmt", "targets": 18 },
+                    { "type": "num-fmt", "targets": 19 },
+                    { "type": "num-fmt", "targets": 20 }
                 ]
             }
         );
@@ -92,9 +133,9 @@ $(document).ready(function () {
     //  "fixedHeader": true,
     //"columnDefs": [{ "orderable": false, "targets": 0 }]
 
-// "aLengthMenu": [10, 25, 50, 75, 100],
-//"iDisplayLength": 25,
-  
+    // "aLengthMenu": [10, 25, 50, 75, 100],
+    //"iDisplayLength": 25,
+
 
     //"columnDefs": [
     //       { "type": "Date", "targets": 8 }
@@ -103,25 +144,25 @@ $(document).ready(function () {
     //"sPaginationType": "full_numbers"
 
 
-//{ type: 'date-de', targets: 7 }
+    //{ type: 'date-de', targets: 7 }
     //{
 
     //    "aLengthMenu": [10, 25, 50, 75, 100],
     //    "iDisplayLength": 25,
     //    "sPaginationType": "full_numbers",
-          
+
     //    }
 
     //"sDom": '<"row view-filter"<"col-sm-12"<"pull-left"l><"pull-right"f><"clearfix">>>t<"row view-pager"<"col-sm-12"<"text-center"ip>>>'
-  
-    
-        
+
+
+
     //$('.wrapper').css("left", "20px")
 
 
     $("#sp_updatepic").click(function () {
 
-        
+
         var jobnr_val = $("#FM_jobnr").val()
 
 
@@ -129,7 +170,7 @@ $(document).ready(function () {
         $.post("?jq_jobnr=" + jobnr_val, { control: "FN_pic", AjaxUpdateField: "true", cust: 0 }, function (data) {
 
             $("#nt_file").html(data);
-            
+
 
         });
 
@@ -146,12 +187,12 @@ $(document).ready(function () {
         $("#cc").removeAttr("disabled")
     };
 
-    
+
 
     $("#fastpris").change(function () {
 
-     
-       
+
+
         if ($("#fastpris").val() == "2") { //commision
             $("#cc").removeAttr("disabled")
         } else {
@@ -164,7 +205,7 @@ $(document).ready(function () {
 
 
     $("#cc").click(function () {
-        
+
         if ($("#cc").is(':checked') == true) {
 
             $("#sales_price_pc_label").css("visibility", "hidden")
@@ -197,11 +238,11 @@ $(document).ready(function () {
 
 
         }
-       
+
 
     });
 
-   
+
 
 
 
@@ -229,7 +270,7 @@ $(document).ready(function () {
 
             $("#freight_pc").css("visibility", "hidden")
             $("#freight_pc").css("display", "none")
-            
+
             $("#freight_pc_label").css("visibility", "visible")
             $("#freight_pc_label").css("display", "")
 
@@ -280,14 +321,14 @@ $(document).ready(function () {
 
 
     $("#FM_valuta_cost_price_pc_valuta").change(function () {
-  
+
         newVal = $("#FM_valuta_cost_price_pc_valuta").val()
         $("#FM_valuta_freight_price_pc_valuta").val(newVal)
     });
 
 
 
-     
+
     $("#FM_valuta_sales_price_pc_valuta, #FM_valuta_cost_price_pc_valuta").change(function () {
 
         beregn_order()
@@ -298,7 +339,7 @@ $(document).ready(function () {
     $("#FM_kunde").change(function () {
 
 
-        
+
         getBetLev();
 
     });
@@ -320,9 +361,9 @@ $(document).ready(function () {
         }
 
     });
-    
 
-   
+
+
     $("#cost_price_pc, #sales_price_pc").keyup(function () {
 
         //alert("Hej NT - dette er en test, vent et øjeblik")
@@ -336,7 +377,7 @@ $(document).ready(function () {
             //alert(fastpris)
 
             if (fastpris == "2") {
-          
+
                 if ($("#cc").is(':checked') == true) {
 
                     cost_price_pc = $("#cost_price_pc").val().replace(",", ".")
@@ -349,7 +390,7 @@ $(document).ready(function () {
 
                 }
 
-                
+
             } else {
                 cost_price_pc = $("#cost_price_pc").val().replace(",", ".")
                 sales_price_pc = $("#sales_price_pc").val().replace(",", ".")
@@ -363,8 +404,8 @@ $(document).ready(function () {
 
                 } else {
 
-                $("#sales_price_pc").val(sales_price_pc.replace(".", ","))
-                $("#sales_price_pc_label").val(sales_price_pc.replace(".", ","))
+                    $("#sales_price_pc").val(sales_price_pc.replace(".", ","))
+                    $("#sales_price_pc_label").val(sales_price_pc.replace(".", ","))
 
                 }
 
@@ -394,17 +435,17 @@ $(document).ready(function () {
             if ($("#cc").is(':checked') == true) {
 
             } else {
-            cost_price_pc = cost_price_pc.replace(".", ",")
-            $("#cost_price_pc").val(cost_price_pc)
+                cost_price_pc = cost_price_pc.replace(".", ",")
+                $("#cost_price_pc").val(cost_price_pc)
 
-            sales_price_pc = sales_price_pc.replace(".", ",")
-            $("#sales_price_pc").val(sales_price_pc)
+                sales_price_pc = sales_price_pc.replace(".", ",")
+                $("#sales_price_pc").val(sales_price_pc)
             }
 
 
             beregn_order()
 
-        } 
+        }
 
     });
 
@@ -416,101 +457,101 @@ $(document).ready(function () {
 
         if (window.event.keyCode != '9') {
 
-        illchartjk(this.id);
+            illchartjk(this.id);
 
-        fastpris = $("#fastpris").val() //2: commision 3:salesorder
-
-        
-        if (fastpris == 2) {
+            fastpris = $("#fastpris").val() //2: commision 3:salesorder
 
 
-        sales_price_pc = $("#sales_price_pc").val().replace(",", ".")
-        comm_pc = $("#comm_pc").val().replace(",", ".")
-
-        if (comm_pc < 100) {
-            cost_price_pc = sales_price_pc - ((comm_pc * sales_price_pc) / 100)
-        } else {
-            cost_price_pc = 0
-        }
-        cost_price_pc = Math.round(cost_price_pc * 10000) / 10000
-        cost_price_pc = String(cost_price_pc).replace(".", ",")
-
-        $("#cost_price_pc").val(cost_price_pc)
-
-     
-        }
+            if (fastpris == 2) {
 
 
-        if (fastpris == 3) {
+                sales_price_pc = $("#sales_price_pc").val().replace(",", ".")
+                comm_pc = $("#comm_pc").val().replace(",", ".")
+
+                if (comm_pc < 100) {
+                    cost_price_pc = sales_price_pc - ((comm_pc * sales_price_pc) / 100)
+                } else {
+                    cost_price_pc = 0
+                }
+                cost_price_pc = Math.round(cost_price_pc * 10000) / 10000
+                cost_price_pc = String(cost_price_pc).replace(".", ",")
+
+                $("#cost_price_pc").val(cost_price_pc)
 
 
-            cost_price_pc_opr = $("#cost_price_pc_base").val().replace(",", ".")
-            comm_pc = $("#comm_pc").val().replace(",", ".")
-
-            if (comm_pc < 100) {
-                cost_price_pc = cost_price_pc_opr - ((comm_pc * cost_price_pc_opr) / 100)
-            } else {
-                cost_price_pc = 0
             }
-            cost_price_pc = Math.round(cost_price_pc * 100) / 100
-            cost_price_pc = String(cost_price_pc).replace(".", ",")
-
-            $("#cost_price_pc").val(cost_price_pc)
 
 
-        }
+            if (fastpris == 3) {
 
 
-       
-        beregn_order()
+                cost_price_pc_opr = $("#cost_price_pc_base").val().replace(",", ".")
+                comm_pc = $("#comm_pc").val().replace(",", ".")
+
+                if (comm_pc < 100) {
+                    cost_price_pc = cost_price_pc_opr - ((comm_pc * cost_price_pc_opr) / 100)
+                } else {
+                    cost_price_pc = 0
+                }
+                cost_price_pc = Math.round(cost_price_pc * 100) / 100
+                cost_price_pc = String(cost_price_pc).replace(".", ",")
+
+                $("#cost_price_pc").val(cost_price_pc)
+
+
+            }
+
+
+
+            beregn_order()
 
         } //keycode
 
     });
 
-    
-   // $("#orderqty, #sales_price_pc, #freight_pc, #tax_pc, #cost_price_pc").keyup(function () {
+
+    // $("#orderqty, #sales_price_pc, #freight_pc, #tax_pc, #cost_price_pc").keyup(function () {
 
 
-        function illchartjk(id){
-            var str = ""
-            str = $("#" + id).val()
-            //alert(str)
+    function illchartjk(id) {
+        var str = ""
+        str = $("#" + id).val()
+        //alert(str)
 
-            passedVal = str
+        passedVal = str
 
-            if (id == "orderqty") {
-                invalidChars = "/+:;<>abcdefghijklmnopqrstuvwxyzæøå,."
-            } else {
-                invalidChars = "/+:;<>abcdefghijklmnopqrstuvwxyzæøå"
-            }
+        if (id == "orderqty") {
+            invalidChars = "/+:;<>abcdefghijklmnopqrstuvwxyzæøå,."
+        } else {
+            invalidChars = "/+:;<>abcdefghijklmnopqrstuvwxyzæøå"
+        }
 
-            if (passedVal == "") {
+        if (passedVal == "") {
+            return false
+        }
+
+        for (i = 0; i < invalidChars.length; i++) {
+            badChar = invalidChars.charAt(i)
+            if (passedVal.indexOf(badChar, 0) != -1) {
+                alert("You have used an illegal character!")
+
+                str = str.substring(0, str.length - 1);
+                $("#" + id).val(str)
+
                 return false
             }
+        }
 
-            for (i = 0; i < invalidChars.length; i++) {
-                badChar = invalidChars.charAt(i)
-                if (passedVal.indexOf(badChar, 0) != -1) {
-                    alert("You have used an illegal character!")
+        /*public String method(String str) {
+        if (str.length > 0 && (str.charAt(str.length - 1) == ',' || str.charAt(str.length - 1) == '.')) {
+            str = str.substring(0, str.length - 1);
+            $("#" + this.id).val(str)
+            
+        } */
 
-                    str = str.substring(0, str.length - 1);
-                    $("#" + id).val(str)
+        //beregn_order()
 
-                    return false
-                }
-            }
-
-            /*public String method(String str) {
-            if (str.length > 0 && (str.charAt(str.length - 1) == ',' || str.charAt(str.length - 1) == '.')) {
-                str = str.substring(0, str.length - 1);
-                $("#" + this.id).val(str)
-                
-            } */
-
-            //beregn_order()
-
-        };
+    };
 
 
 
@@ -534,7 +575,7 @@ $(document).ready(function () {
 
         action = $("#bulk_jobid_action").val()
 
-      
+
         if (action == '1') {
 
 
@@ -550,16 +591,16 @@ $(document).ready(function () {
             $("#dv_bulk").css("display", "");
             $("#dv_bulk").show(1000)
 
-        } 
+        }
 
 
         if (action == '2') {
 
-           
+
             //alert($("#fakhref").val())
 
             fakhref = ""// $("#fakhref").val()
-            jobids = "0" 
+            jobids = "0"
 
             lp = 0;
 
@@ -576,35 +617,53 @@ $(document).ready(function () {
             fakhref = fakhref + "&jobids=" + jobids
 
             //alert(fakhref)
-         
+
             $("#ainvlink").attr('href', fakhref);
 
             $("#dv_invoice").css("visibility", "visible");
             $("#dv_invoice").css("display", "");
             $("#dv_invoice").show(1000)
-           
 
-        } 
+
+        }
+
+        if (action == '3')
+        {
+            //alert("Slet orders")
+
+            bulk_jobids = "0"
+
+            var values = $('input:checkbox:checked.bulk_jobid').map(function () {
+                bulk_jobids = bulk_jobids + "," + this.value
+            }).get();
+
+            $("#delete_jobids").val(bulk_jobids)
+
+            $("#dv_delete").css("visibility", "visible");
+            $("#dv_delete").css("display", "");
+            $("#dv_delete").show(1000)
+        }
 
         if (action == '0') {
 
             $("#dv_bulk").hide(300)
             $("#dv_invoice").hide(300)
+            $("#dv_delete").hide(300)
 
-        } 
-                
+        }
+
 
     });
-    
+
 
     $("#ainvlink").click(function () {
-    
+
         $("#dv_invoice").hide(1000)
 
     });
 
 
-    
+
     $("#to_top").click(function () {
 
 
@@ -612,20 +671,20 @@ $(document).ready(function () {
 
         if ($("#showfullscreen").val() == 0) {
 
-        $("#table_header").css("top", "100px")
-        $("#table_body").css("top", "186px")
-        $("#table_body").css("height", "600px")
+            $("#table_header").css("top", "100px")
+            $("#table_body").css("top", "186px")
+            $("#table_body").css("height", "600px")
 
-        $("#search").hide("fast");
-        $("#dv_grandtotal").hide("fast");
-        $("#print").hide("fast");
-        
-        
+            $("#search").hide("fast");
+            $("#dv_grandtotal").hide("fast");
+            $("#print").hide("fast");
 
-        $("#showfullscreen").val('1')
+
+
+            $("#showfullscreen").val('1')
 
         } else {
-        
+
             $("#table_header").css("top", "458px")
             $("#table_body").css("top", "544px")
             $("#table_body").css("height", "300px")
@@ -635,9 +694,9 @@ $(document).ready(function () {
             $("#search").show("fast");
             $("#dv_grandtotal").show("fast");
             $("#print").show("fast");
-            
-            
-        
+
+
+
         }
 
         //$("#search").hide("fast");
@@ -653,24 +712,24 @@ $(document).ready(function () {
 
     $("#bulk_jobid").click(function () {
 
-    
+
 
         if ($("#bulk_jobid").is(':checked') == true) {
             $(".bulk_jobid").attr("checked", "checked");
 
-           
+
 
         } else {
 
             $(".bulk_jobid").removeAttr("checked");
-            
+
         }
-       
+
 
     });
 
 
-    
+
     $("#sp_dv_invoice").mouseover(function () {
         $(this).css('cursor', 'pointer');
     });
@@ -678,12 +737,12 @@ $(document).ready(function () {
     $("#sp_dv_invoice").click(function () {
         $("#bulk_jobid").removeAttr("checked");
         $(".bulk_jobid").removeAttr("checked");
-        
+
         $("#dv_invoice").hide(300)
         $("#bulk_jobid_action").val(0)
     });
 
-    
+
     $("#bulk_close").mouseover(function () {
         $(this).css('cursor', 'pointer');
     });
@@ -701,7 +760,7 @@ $(document).ready(function () {
 
     $("#FM_kunde").change(function () {
 
-       
+
 
         getAfd();
         //getKpers();
@@ -712,7 +771,7 @@ $(document).ready(function () {
     $("#FM_origin").change(function () {
 
         getSup();
-     
+
     });
 
 
@@ -725,11 +784,11 @@ $(document).ready(function () {
 
         var kid_val = $("#FM_kunde").val()
 
-       
+
         $.post("?jq_kid=" + kid_val, { control: "FN_betlev", AjaxUpdateField: "true", cust: 0 }, function (data) {
             //$("#FM_modtageradr").val(data);
 
-           
+
             $("#FM_t5").val(data);
 
             $("#FM_betbetint").val($("#FM_t5").val());
@@ -744,13 +803,13 @@ $(document).ready(function () {
 
     // Afdeling //
     function getAfd() {
-     
 
-        
+
+
 
         var kid_val = $("#FM_kunde").val()
 
-       
+
 
         $.post("?jq_kid=" + kid_val, { control: "FN_afd", AjaxUpdateField: "true", cust: 0 }, function (data) {
             //$("#FM_modtageradr").val(data);
@@ -790,13 +849,13 @@ $(document).ready(function () {
 
     // kontakpers //
     function xgetKpers() {
-     
+
 
         var kid_val = $("#FM_kunde").val()
 
-    
 
-        $.post("?jq_kid=" + kid_val, { control: "FN_kpers", AjaxUpdateField: "true", cust: 0}, function (data) {
+
+        $.post("?jq_kid=" + kid_val, { control: "FN_kpers", AjaxUpdateField: "true", cust: 0 }, function (data) {
             //$("#FM_modtageradr").val(data);
             $("#FM_kpers").html(data);
             //$("#jobid").html(data);
@@ -815,14 +874,14 @@ $(document).ready(function () {
 
 
 
-function beregn_order() {
+    function beregn_order() {
 
 
-    fastpris = $("#fastpris").val() //2: commision 3:salesorder
+        fastpris = $("#fastpris").val() //2: commision 3:salesorder
 
-    //alert(fastpris)
+        //alert(fastpris)
 
-    //if (fastpris == 2) {
+        //if (fastpris == 2) {
 
         orderqty = $("#orderqty").val().replace(",", ".")
 
@@ -837,7 +896,7 @@ function beregn_order() {
         //alert(valuta_kurs_c)
 
         sales_price_pc_id = $("#FM_valuta_sales_price_pc_valuta").val()
-        valuta_kurs_s = $("#valuta_kurs_"+ sales_price_pc_id).val().replace(",", ".")
+        valuta_kurs_s = $("#valuta_kurs_" + sales_price_pc_id).val().replace(",", ".")
         sales_price_pc = (sales_price_pc / 1 * valuta_kurs_s / 1) / 100
 
         //alert(sales_price_pc)
@@ -856,10 +915,10 @@ function beregn_order() {
         freight = Math.round((freight) * 100) / 100
         freight = ((orderqty * freight) * (valuta_kurs_c / 100))
 
-       
-        
-        
-        
+
+
+
+
         //alert(tax)
         //tax = Math.round(((orderqty * tax / 100)) * 100) / 100
 
@@ -872,7 +931,7 @@ function beregn_order() {
         totalcostprice = Math.round((totalcostprice) * 100) / 100
         //totalsalesprice = toString(totalsalesprice)
 
-        jo_dbproc = Math.round((totalcostprice / totalsalesprice)* 100) / 100
+        jo_dbproc = Math.round((totalcostprice / totalsalesprice) * 100) / 100
         jo_dbproc = 100 - ((jo_dbproc) * 100)
         jo_dbproc = Math.round((jo_dbproc) * 100) / 100
 
@@ -905,7 +964,7 @@ function beregn_order() {
             $("#udgifter_intern_label").val(0)
         }
 
-     
+
         if ($("#jo_dbproc").val() == "NaN" || ($("#jo_dbproc").val() == "-Infinity")) {
             $("#jo_dbproc").val(0)
             $("#jo_dbproc_label").val(0)
@@ -915,20 +974,22 @@ function beregn_order() {
             $("#jo_dbproc_bel").val(0)
         }
 
-        
+        // MAKE shure currency rate is updated
+        $("#update_currate").val(1)
+        //$("#update_currate").attr('checked', true);
+        $("#sp_update_currate").css("visibility", "visible")
+
+        //}
+
+    }
 
 
-    //}
-
-}
-
-    
     salestypefn();
 
 
 
     $('.panel-collapse:not(".in")')
-       .collapse('show');
+        .collapse('show');
 
 
 });

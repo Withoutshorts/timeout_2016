@@ -336,6 +336,11 @@
     cursor: pointer;
     }
 
+    .spanhover:hover{
+    text-decoration: none;
+    cursor: pointer;
+    }
+
     .kommodal:hover,
     .kommodal:focus {
     text-decoration: none;
@@ -685,7 +690,15 @@
 
                                             %>
                                                 <th style="width:75px"><%=UCase(Left(daynameword,1)) & Mid(daynameword,2) %> <br />
-                                                    <%=showdate %>
+
+                                                    <%
+                                                        call helligdage(varTjDatoUS_use, 0, lto, 68)
+                                                        if erHellig = 1 then
+                                                            response.Write "<span class='ui-popover spanhover' data-toggle='tooltip' data-placement='top' data-trigger='hover' data-content='"& helligdagnavnTxt &"'> <u>"& showdate &"</u></span>"                                                      
+                                                        else 
+                                                            response.Write showdate
+                                                        end if
+                                                    %>
                                                 </th>
                                             <%
 

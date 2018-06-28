@@ -25,18 +25,27 @@
     usemrn = session("mid") 
     end if
 
-    if len(trim(request("aar"))) <> 0 then
-    aar = request("aar")
+    media = request("media")
+
+    if media <> "print" then
+        if len(trim(request("aar"))) <> 0 then
+        aar = request("aar")
+        else
+        aar = "1-1-"& year(now)
+        end if
+
+        if len(trim(request("aarslut"))) <> 0 then
+        aarslut = request("aarslut")
+        else
+        aarslut = "1-1-"& year(now)
+        end if
     else
-    aar = "1-1-"& year(now)
+        aar = request("aar")
+        aarslut = request("aarslut")
     end if
 
-    if len(trim(request("aarslut"))) <> 0 then
-    aarslut = request("aarslut")
-    else
-    aarslut = "1-1-"& year(now)
-    end if
-
+    antalmaaned = (DateDiff("m",aar,aarslut))
+    antalaar = (DateDiff("yyyy",aar,aarslut))
 
     if len(trim(request("FM_job"))) <> 0 then
     jost0CHK = ""
@@ -45,6 +54,7 @@
     jost0CHK = "CHECKED"
     end if
 
+    if media <> "print" then
 
     jobidsStr = " AND (j.id <> 0 "
     if len(trim(request("FM_job"))) <> 0 then
@@ -70,24 +80,49 @@
 
     jobidsStr = jobidsStr & ")"
 
+
+    else
+    jobid = request("jobid")
+    end if
      
 %>
 
 
 
-<%call menu_2014 %>
+<%
+    if media <> "print" then
+    call menu_2014
+    oskrift = ""
+    else
+    
+    strSQLJobnavn = "SELECT jobnavn, jobnr from job WHERE id = "& jobid
+    oRec.open strSQLJobnavn, oConn, 3
+    if not oRec.EOF then
+    jobnavnPrint = oRec("jobnavn")
+    jobnavnNr = oRec("jobnr")
+    end if
+    oRec.close
+
+        if jobid <> 0 then
+            oskrift = "("& jobnavnPrint &" "& jobnavnNr &")"
+        else
+            oskrift = ""
+        end if
+
+    end if
+%>
 
   <div class="wrapper">
       <div class="content">
           <script src="js/traveldietexp_jav.js" type="text/javascript"></script>
           <div class="container">
               <div class="portlet">
-                  <h3 class="portlet-title"><u>Medarbejder - projekttid</u></h3>
+                  <h3 class="portlet-title"><u><%=medarb_protid_txt_009 &" "& oskrift %></u></h3>
                   <div class="portlet-body">
-
+                      <%if media <> "print" then %>
                       <div class="well">
                         <form action="medarb_protid.asp?sogsubmitted=1" method="POST">
-
+                        
                         <div class="row">
                             <div class="col-lg-2">
                                 <h4 class="panel-title-well"><%=dsb_txt_002 %></h4>
@@ -99,7 +134,7 @@
                         <div class="row">
                           
 
-                            <div class="col-lg-6">Projekt:<br />
+                            <div class="col-lg-6"><%=medarb_protid_txt_010 %>:<br />
                                 
                                 <%
                                     strSQLjob = "SELECT id, jobnr, jobnavn FROM job order by jobnavn"                                                 
@@ -138,8 +173,8 @@
                                 
                                 'response.Write aar & " - " & aarslut 
 
-                                antalmaaned = (DateDiff("m",aar,aarslut))
-                                antalaar = (DateDiff("yyyy",aar,aarslut))
+                                'antalmaaned = (DateDiff("m",aar,aarslut))
+                                'antalaar = (DateDiff("yyyy",aar,aarslut))
                                 'response.Write(DateDiff("m",aar,aarslut))
                                 'response.Write antalaar
                                                                                                                    
@@ -149,7 +184,7 @@
                                 
                                 
                            
-                            <div class="col-lg-2">Fra: (hele måneder)<br />
+                            <div class="col-lg-2"><%=medarb_protid_txt_001 %><br />
                                 <div class='input-group date' id='datepicker_stdato'>
                                 <input type="text" class="form-control input-small" name="aar" value="<%=aar %>" placeholder="dd-mm-yyyy" />
                                 <span class="input-group-addon input-small">
@@ -160,7 +195,7 @@
                             </div>
 
                             
-                            <div class="col-lg-2">Til:<br />
+                            <div class="col-lg-2"><%=medarb_protid_txt_002 %>:<br />
                                 <div class='input-group date' id='datepicker_stdato'>
                                 <input type="text" class="form-control input-small" name="aarslut" value="<%=aarslut %>" placeholder="dd-mm-yyyy" />
                                 <span class="input-group-addon input-small">
@@ -169,14 +204,15 @@
                                     </span>
                                 </div>
                             </div>
-                            <div class="col-lg-1"><br /><button type="submit" class="btn btn-secondary btn-sm pull-right"><b>Søg >></b></button></div>  
+                            <div class="col-lg-1"><br /><button type="submit" class="btn btn-secondary btn-sm pull-right"><b><%=medarb_protid_txt_003 %> >></b></button></div>  
                         </div>
                                              
                         </form>
                       </div>
+                      <%end if 'media print %>
 
                       <%
-                           strSQLjobid = "SELECT jobnr FROM job WHERE id ="& jobid
+                           strSQLjobid = "SELECT jobnr FROM job WHERE id = "& jobid
                            oRec4.open strSQLjobid, oConn, 3
 
                            if not oRec4.EOF then
@@ -194,7 +230,7 @@
 
                           <thead>
                               <tr>
-                                    <th>Medarbejder</th>
+                                    <th><%=medarb_protid_txt_004 %></th>
 
                                   <%
 
@@ -225,18 +261,48 @@
                                                 Stryear = Stryear + 1
                                             end if
                                            
+                                            select case (months -1)
+                                            case 1
+                                            getdate = medarb_protid_txt_011
+                                            case 2
+                                            getdate = medarb_protid_txt_012
+                                            case 3
+                                            getdate = medarb_protid_txt_013
+                                            case 4
+                                            getdate = medarb_protid_txt_014
+                                            case 5
+                                            getdate = medarb_protid_txt_015
+                                            case 6
+                                            getdate = medarb_protid_txt_016
+                                            case 7
+                                            getdate = medarb_protid_txt_017
+                                            case 8
+                                            getdate = medarb_protid_txt_018
+                                            case 9
+                                            getdate = medarb_protid_txt_019
+                                            case 10
+                                            getdate = medarb_protid_txt_020
+                                            case 11
+                                            getdate = medarb_protid_txt_021
+                                            case 12
+                                            getdate = medarb_protid_txt_022
+
+                                            end select
                                       
-                                            getdate = Monthname(months -1 ,True) & "<br>" & Stryear
+                                            getdate = getdate & "<br>" & Stryear 
+
+                                            'getdate = Monthname(months -1 ,True) & "<br>" & Stryear
                                             'getdate = (Ucase(getdate))   
                                       
                                                                           
-                                        %> <th style="text-align:center;"><%=UCase(Left(getdate,1)) & Mid(getdate,2) %></th> 
+                                        %> <!--<th style="text-align:center;"><%=UCase(Left(getdate,1)) & Mid(getdate,2) %></th> -->
+                                            <th style="text-align:center;"><%=getdate %></th>
                                   <%
 
                                       next
                                   %>
 
-                                  <th>Total pr. medarbejder</th>
+                                  <th><%=medarb_protid_txt_005 %></th>
                               </tr>
 
                           </thead>
@@ -271,7 +337,7 @@
                                   dim timer_md, dato_medid, medarbid, medidnavn, manedstot
                                   Redim timer_md(m,d), dato_medid(m,d), medarbid(m), medidnavn(m), manedstot(antalmaaned)
                                   
-                                  strSQL = "SELECT tmnr, tmnavn, tdato, sum(timer) as Timer FROM timer WHERE tfaktim <> 5 AND tjobnr = '"& Strjobid & "' AND tdato BETWEEN '"& startdato &"' AND '"& slutdato &"' AND tmnr is not null GROUP by tmnr, year(tdato), month(tdato) Order by tmnr, tdato "
+                                  strSQL = "SELECT tmnr, tmnavn, tdato, sum(timer) as Timer FROM timer WHERE tfaktim <> 5 AND tjobnr = '"& Strjobid & "' AND tdato BETWEEN '"& startdato &"' AND '"& slutdato &"' AND tmnr is not null GROUP by tmnr, year(tdato), month(tdato) Order by tmnavn, tdato "
                                   'response.Write strSQL
                                   'response.flush
                                   oRec.open strSQL, oConn, 3
@@ -387,7 +453,7 @@
                           <tfoot>
 
                               <tr>
-                                  <th>Total</th>
+                                  <th><%=medarb_protid_txt_008 %></th>
                                   
                                   <%
 
@@ -424,6 +490,31 @@
                           </tfoot>
                           
                       </table>
+                      <%if media <> "print" then %>
+                      <br /><br /><br />
+                      <section>
+                        <div class="row">
+                             <div class="col-lg-12">
+                                <b><%=medarb_protid_txt_006 %></b>
+                                </div>
+                            </div>
+                            <form action="medarb_protid.asp?media=print&aar=<%=aar %>&aarslut=<%=aarslut %>&jobid=<%=jobid %>" method="post" target="_blank"> <!-- søge kriterie skal ind i formen -->
+                  
+                            <div class="row">
+                             <div class="col-lg-12 pad-r30">
+                            <input id="Submit5" type="submit" value="<%=medarb_protid_txt_007 %>" class="btn btn-sm" /><br />
+                            </div>
+                        </div>
+                        </form>
+                
+                    </section>
+                    <%
+                        
+                    else
+                    Response.Write("<script language=""JavaScript"">window.print();</script>")                                         
+                    end if 
+                    %>
+
 
                     </div>
                   </div>

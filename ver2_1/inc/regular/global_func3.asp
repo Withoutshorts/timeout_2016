@@ -289,7 +289,11 @@
 	   
 	    oRec2.open strSQLfradrag, oConn, 3
 	    while not oRec2.EOF
-	    fradragTimer(x) = oRec2("fratimer")
+            if oRec2("fratimer") <> 0 then
+            fradragTimer(x) = oRec2("fratimer")
+            else
+            fradragTimer(x) = 0
+            end if
 	    oRec2.movenext
 	    wend
 	    oRec2.close

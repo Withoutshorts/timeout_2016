@@ -42,24 +42,118 @@ end function
 '*********************************************************************************************************************************
 '**** Opdaterer timer ************************************************************************************************************
 '*********************************************************************************************************************************
-public EmailNotificerTxt, EmailNotificer, EmailNotificerTxt2, EmailNotificer2, EmailNotificerTxt3, EmailNotificer3, timerthisTjkFc, timer_opr 
+public EmailNotificerTxt, EmailNotificer, EmailNotificerTxt2, EmailNotificer2, EmailNotificerTxt3, EmailNotificer3, timerthisTjkFc, timer_opr, Tjkjobnr, errAktnavn
 
 function opdaterTimer(aktid, aktnavn, tfaktimvalue, strFastpris, jobnr, strJobnavn, strJobknr, strJobknavn,_
 medid, strMnavn, datothis, timerthis, kommthis, intTimepris,_
 dblkostpris, offentlig, intServiceAft, strYear, sTtid, sLtid, visTimerelTid, stopur, intValuta, bopal, destination, dage, tildeliheledage, origin, extsysid, mtrx, intKpValuta)
 
-
-
+   
 if len(trim(timerthis)) <> 0 then
 timerthis = timerthis
 else
 timerthis = 0
 end if
 
+    select case lto
+    case "tia"
+
+        if timerthis > 0 AND kommthis = "" AND aktid = 16156 then
+        'response.Write "<br> Ingen kommentar skrevet  " & aktid &" Timer "& timerthis & " kom " & kommthis
+    
+        errortype = 192
+	    useleftdiv = "t"
+
+	    %><!--#include file="../../inc/regular/header_lysblaa_inc.asp"--><%
+                    
+	    call showError(errortype)
+        response.End
+
+        end if
+
+    case "mpt"
+
+        if timerthis > 0 AND kommthis = "" then
+        'response.Write "<br> Ingen kommentar skrevet  " & aktid &" Timer "& timerthis & " kom " & kommthis
+    
+        errortype = 192
+	    useleftdiv = "t"
+
+	    %><!--#include file="../../inc/regular/header_lysblaa_inc.asp"--><%
+                    
+	    call showError(errortype)
+        response.End
+
+        end if
+
+    end select
 
 
+'*** Er ugeafslutte : IKKE godkent ==> Alle timer indlæses som godkendt elelr tentativt godkendt hvis denne indstilling er valgt i kontrolpanel (TIA)
+call smileyAfslutSettings()
+strWeek = datepart("ww", datothis, 2, 2)
+strAar = datepart("yyyy", datothis, 2, 2)
+
+                
+call erugeAfslutte(strAar, strWeek, medid, SmiWeekOrMonth, 0)
+
+if cint(ugeAfsluttetAfMedarb) = 1 then 'Ugen er afsluttet i forvejen Godkend eller Tentatativ automatisk timer
+
+    call autogktimer_fn()
+
+    select case cint(autogktimer)
+    case 1
+    godkendtstatus = 1
+    godkendtstatusSQLInsflt = ", godkendtstatus, godkendtstatusaf"
+    godkendtstatusSQLInsVal = ","& godkendtstatus &",'"& session("user") &"'"
+    godkendtstatusSQLUpd = ", godkendtstatus = "& godkendtstatus &", godkendtstatusaf = '"& session("user") &"'"
+    case 2
+
+    if cint(splithr) = 1 then
+
+            if (cDate(ugeNrAfsluttet) >= cDate(datothis)) then
+            godkendtstatus = 3
+            godkendtstatusSQLInsflt = ", godkendtstatus, godkendtstatusaf"
+            godkendtstatusSQLInsVal = ","& godkendtstatus &",'"& session("user") &"'"
+            godkendtstatusSQLUpd = ", godkendtstatus = "& godkendtstatus &", godkendtstatusaf = '"& session("user") &"'"
+            else
+            godkendtstatusSQLInsflt = ""
+            godkendtstatusSQLInsVal = ""
+            godkendtstatusSQLUpd = ""
+            end if
+
+    else
+            
+            godkendtstatus = 3
+            godkendtstatusSQLInsflt = ", godkendtstatus, godkendtstatusaf"
+            godkendtstatusSQLInsVal = ","& godkendtstatus &",'"& session("user") &"'"
+            godkendtstatusSQLUpd = ", godkendtstatus = "& godkendtstatus &", godkendtstatusaf = '"& session("user") &"'"
+
+    end if
+
+    case else
+    godkendtstatusSQLInsflt = ""
+    godkendtstatusSQLInsVal = ""
+    godkendtstatusSQLUpd = ""
+    end select
+
+else
+    
+    godkendtstatusSQLInsflt = ""
+    godkendtstatusSQLInsVal = ""
+    godkendtstatusSQLUpd = ""
+
+
+end if
+'**************************************************
+
+
+
+
+
+'***************************************************
 '**** Tjekker om Budget og forecast er overskrteddet
-
+'***************************************************
 ibudgetaar = aktBudgettjkOn
 ibudgetmd = datePart("m", aktBudgettjkOnRegAarSt, 2,2)
 aar = datePart("yyyy", datothis, 2,2)
@@ -74,39 +168,54 @@ if cint(akt_maksbudget_treg) = 1 then
 end if
 
 '*** Dobbeltjekker at forecast pr. medarb. IKKE er overskrteddet
-if cint(akt_maksforecast_treg) = 1 AND cint(tfaktimvalue) = 1 then
+Tjkjobnr = ""
+if (cint(akt_maksforecast_treg) = 1 AND cint(tfaktimvalue) = 1) then
 
-            datothisSQLtjkFC = ConvertDateYMD(datothis)
-            strSQLfindes = "SELECT SUM(timer) AS timer_opr, Tjobnr, TAktivitetId, timerkom FROM timer WHERE TAktivitetId = "& aktid &" AND Tjobnr = '"& jobnr &"' AND Tmnr = "& medid &" AND Tdato = '"& datothisSQLtjkFC &"' GROUP BY TAktivitetId"
+    'if lto <> "wap" OR (lto = "wap" AND cint(aktid) = 28) then
+
+                datothisSQLtjkFC = ConvertDateYMD(datothis)
+                strSQLfindes = "SELECT SUM(timer) AS timer_opr, Tjobnr, TAktivitetId, timerkom FROM timer WHERE TAktivitetId = "& aktid &" AND Tjobnr = '"& jobnr &"' AND Tmnr = "& medid &" AND Tdato = '"& datothisSQLtjkFC &"' GROUP BY TAktivitetId"
             
-			oRec6.Open strSQLfindes, oConn, 3  
-			timer_opr = 0
-			if NOT oRec6.EOF then
-            timer_opr = oRec6("timer_opr")
-            end if
-            oRec6.close
+			    oRec6.Open strSQLfindes, oConn, 3  
+			    timer_opr = 0
+			    if NOT oRec6.EOF then
+                timer_opr = oRec6("timer_opr")
+                end if
+                oRec6.close
 
-    timerthisTjkFc = 0
-    timerthisTjkFc = (replace(timerthis, ".", ",")/1 - (timer_opr/1))
-    'timerthisTjkFc = replace(timerthisTjkFc, ".", "")
+        timerthisTjkFc = 0
+        timerthisTjkFc = (replace(timerthis, ".", ",")/1 - (timer_opr/1))
+        'timerthisTjkFc = replace(timerthisTjkFc, ".", "")
 
-       'Response.write "timerthisTjkFc timer + timer_opr: "& timerthisTjkFc &" "& timerthis & " " & timer_opr/1   
-       'Response.end
+        Tjkjobnr = jobnr
 
-    call ressourcefc_tjk(ibudgetaar, ibudgetmd, aar, md, medid, aktid, timerthisTjkFc)
+        call ressourcefc_tjk(ibudgetaar, ibudgetmd, aar, md, medid, aktid, timerthisTjkFc)
 
-    if cdbl(feltTxtValFc) < 0 AND timerthis > 0 then
-        timerthis = -9001
-        
-        errortype = 187
-	    useleftdiv = "t"
-					%><!--#include file="../../inc/regular/header_lysblaa_inc.asp"--><%
+    
+  
+
+        if cdbl(feltTxtValFc) < 0 AND timerthis > 0 then
+
+            'if session("mid") = 1 AND lto = "wap" then
+            'Response.write "ibudgetmd: "& ibudgetmd &"<br>timerthisTjkFc timer + timer_opr:<br>SQL: "& strSQLfindes &"<br>feltTxtValFc: "& feltTxtValFc &" timerthisTjkFc: "& timerthisTjkFc &" timerthis:"& timerthis & " timer_opr/1:" & timer_opr/1   
+            'Response.end
+            'end if
+
+            timerthis = -9001
+            errAktnavn = aktnavn
+            errortype = 187
+	        useleftdiv = "t"
+
+					    %><!--#include file="../../inc/regular/header_lysblaa_inc.asp"--><%
                     
-	    call showError(errortype)
-		response.end
+	        call showError(errortype)
+		    response.end
         
 
-    end if
+        end if
+
+
+   'end if 'WAP
 
 end if
 
@@ -115,12 +224,23 @@ end if
 'Response.write "<br>HER ibudgetaar: "& ibudgetaar & "  ibudgetmd: "& ibudgetmd & " aar = " & aar & " md: "& md & " feltTxtValFc: "& feltTxtValFc & "& timerthis:" & timerthis
 
 
-
-
+  
 
 
 if cint(timerround) = 1 AND cint(intEasyreg) <> 1 then 'fra cookie
-if tfaktimvalue = 1 OR tfaktimvalue = 2 then 'KUN fakturerbare / ikke fakbare timer 
+
+jobInternt = 0
+strSQLjobprio = "SELECT risiko FROM job WHERE jobnr = '"& jobnr &"'"
+oRec9.open strSQLjobprio, oConn, 3
+if not oRec9.EOF then
+                        
+     jobInternt = oRec9("risiko")
+
+end if
+oRec9.close
+
+
+if (tfaktimvalue = 1 OR tfaktimvalue = 2 AND lto <> "dencker") OR (tfaktimvalue = 1 OR tfaktimvalue = 2 AND lto = "dencker" AND jobInternt > 0) then 'KUN fakturerbare / ikke fakbare timer 
 
  
     if instr(timerthis, ".") <> 0 then
@@ -244,9 +364,15 @@ dblkostprisUse = replace(dblkostprisUse, ",", ".")
                     
                                        '** Findes der nomrtimer på den valgte dag **'
     	                               ntimPer = 0
+
+                                      
+
     	                               call normtimerPer(medid, datoThis, 6, 0)
                                        normTimerGns5 = (ntimManIgnHellig + ntimTirIgnHellig + ntimOnsIgnHellig + ntimTorIgnHellig + ntimFreIgnHellig + ntimLorIgnHellig + ntimSonIgnHellig)  / 5
             
+                                        
+
+
     	    
     	                                if cdbl(normTimerGns5) > 0 then
 
@@ -386,6 +512,9 @@ dblkostprisUse = replace(dblkostprisUse, ",", ".")
 	if cdbl(timerthis) <> -9001 AND cdbl(timerthis) <> -9003  then '*** <> Slet: -9001 // FRA TT: -9003 ***'
 			
 			
+            'response.write "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" &  datothis
+            'response.flush
+
 			datothis = ConvertDateYMD(datothis)
 			        
 			        
@@ -428,7 +557,7 @@ dblkostprisUse = replace(dblkostprisUse, ",", ".")
                                
                                  if cint(matrixAktFundet) = 1 then
                                 
-                                               call matrixtimespan(idag, mtrx, sTtid, sLtid, datoThis)
+                                               call matrixtimespan_2018(idag, mtrx, sTtid, sLtid, datoThis, lto)
                                                timerthis = timerthis_mtx
         
                                     end if 'MatrsixFundet
@@ -453,10 +582,10 @@ dblkostprisUse = replace(dblkostprisUse, ",", ".")
 					end if
 					
 			
-			if cint(origin) = 11 OR cint(origin) = 12 then 'ved indlæsning fra TimeTag_web / ugeseddel skal der altid indlæses aldrig opdateres 
-			strSQLfindes = "SELECT timer, Tjobnr, TAktivitetId, timerkom FROM timer WHERE TAktivitetId = -2130 AND Tjobnr = 'WWvsfWWx445' AND Tmnr = -23423440"
+			if cint(origin) = 11 OR cint(origin) = 12 then 'ved indlæsning fra TimeTag_web (timeout mobile:12) / (ugeseddel:11) skal der altid indlæses aldrig opdateres 
+			strSQLfindes = "SELECT timer, Tjobnr, TAktivitetId, timerkom, godkendtstatus FROM timer WHERE TAktivitetId = -2130 AND Tjobnr = 'WWvsfWWx445' AND Tmnr = -23423440"
             else
-            strSQLfindes = "SELECT timer, Tjobnr, TAktivitetId, timerkom FROM timer WHERE TAktivitetId = "& aktid &" AND Tjobnr = '"& jobnr &"' AND Tmnr = "& medid &" AND Tdato = '"& datothis &"'"
+            strSQLfindes = "SELECT timer, Tjobnr, TAktivitetId, timerkom, godkendtstatus FROM timer WHERE TAktivitetId = "& aktid &" AND Tjobnr = '"& jobnr &"' AND Tmnr = "& medid &" AND Tdato = '"& datothis &"'"
             end if
 			oRec.Open strSQLfindes, oConn, 3  
 			
@@ -482,7 +611,7 @@ dblkostprisUse = replace(dblkostprisUse, ",", ".")
 				strSQLins = "INSERT INTO timer (Tjobnr, Tjobnavn, Tmnr, Tmnavn, Tdato, "_
 				&" Timer, Timerkom, Tknavn, Tknr, TAktivitetId, TAktivitetNavn, "_
 				&" Tfaktim, Taar, TimePris, TasteDato, fastpris, tidspunkt, "_
-				&" editor, kostpris, offentlig, seraft, sttid, sltid, valuta, kurs, bopal, destination, origin, extsysid, kpvaluta, kpvaluta_kurs) VALUES"_
+				&" editor, kostpris, offentlig, seraft, sttid, sltid, valuta, kurs, bopal, destination, origin, extsysid, kpvaluta, kpvaluta_kurs "& godkendtstatusSQLInsflt &") VALUES"_
 				& "('" & jobnr & "', '"& strJobnavn &"', " & medid & ", '" & cstr(strMnavn) & "', '"& datothis &"', "_
 				&" "& timerthis &", '"& SQLBless2(kommthis) &"', "_
 				&" '" & SQLBless2(strJobknavn) & "', " & strJobknr & ", "_
@@ -491,17 +620,19 @@ dblkostprisUse = replace(dblkostprisUse, ",", ".")
 				&" '"&year(now)&"/"&month(now)&"/"&day(now)&"', '"& strFastpris  &"', "_
 				&" '" & time & "', '"& session("user") &"', "& dblkostprisUse &", "_
 				&" "& offentlig &", "& intServiceAft &", '"&sTtid&"', '"&sLtid&"', "_
-				&" "& intValuta &", "& dblKurs &", "& bopal &", '"& destination &"', "& origin &", '"& extsysid &"', "& intKpValuta &", "& kpvaluta_kurs &")"
+				&" "& intValuta &", "& dblKurs &", "& bopal &", '"& destination &"', "& origin &", '"& extsysid &"', "& intKpValuta &", "& kpvaluta_kurs &" "& godkendtstatusSQLInsVal &")"
 				
 				end if
 				
 				
 				if len(trim(strSQLins)) <> 0 then
-				    'if session("mid") =  1 then
+				  
+                    'if session("mid") =  21 AND lto = "dencker" then
                     'Response.Write "Ins: "& strSQLins & "<br>"
 				    'Response.flush
                     'end if
-					oConn.Execute(strSQLins)
+					
+                    oConn.Execute(strSQLins)
 
 
                     '*** Hvis indlæsning kommer fra afvigelses håndtering ***'
@@ -526,16 +657,18 @@ dblkostprisUse = replace(dblkostprisUse, ",", ".")
 					strSQLdel = "DELETE FROM timer"_
 					&" WHERE Tjobnr = '"& jobnr & "'"_
 					&" AND Tmnr = "& medid & ""_
-					&" AND Tdato = '" & datothis & "' AND TAktivitetId = "& aktid & ""
+					&" AND Tdato = '" & datothis & "' AND TAktivitetId = "& aktid & " AND overfort = 0"
 					
 					oConn.execute(strSQLdel)
 					
 					'Response.Write strSQLdel & "<br>"
 					
+                        	'*** Indsætter i delete historik ****'
+	                        'call insertDelhist("timer", id, oRec("jobnr"), oRec("jobnavn"), session("mid"), session("user"))
 					
 					else
 					
-						'** Opdaterer ****
+						'** Opdaterer timer. Er der ændret timeantal? ****
 						if (cdbl(SQLBless(oRec("timer"))) <> cdbl(timerthis)) OR stopur = "1" then
 						
 						        if stopur = "1" then 
@@ -560,10 +693,15 @@ dblkostprisUse = replace(dblkostprisUse, ",", ".")
 						&" tastedato = '"&year(now)&"/"&month(now)&"/"&day(now)&"', "_
 						&" editor = '"& session("user") &"', offentlig = "& offentlig &", "_
 						&" sttid = '"&sTtid&"', sltid = '"&sLtid&"', valuta = "& intValuta &", kurs = "& dblKurs &", bopal = "& bopal &", kpvaluta = "& intKpValuta &", kpvaluta_kurs = "& kpvaluta_kurs &", "_
-						&" destination = '"& destination &"'"_
-						&" WHERE Tjobnr = '"& jobnr & "'"_
+						&" destination = '"& destination &"'"
+
+                        if cint(oRec("godkendtstatus")) = 2 then 'Opdater status på afviste timer, til Godkendt eller Tentativ. 
+                        strSQLupd = strSQLupd & godkendtstatusSQLUpd
+                        end if
+
+						strSQLupd = strSQLupd &" WHERE Tjobnr = '"& jobnr & "'"_
 						&" AND Tmnr = "& medid & ""_
-						&" AND Tdato = '" & datothis & "' AND TAktivitetId = "& aktid
+						&" AND Tdato = '" & datothis & "' AND TAktivitetId = "& aktid &" AND overfort = 0"
 						
 						'Response.write "Upd A: "& strSQLupd & "<br>"
 						
@@ -573,6 +711,7 @@ dblkostprisUse = replace(dblkostprisUse, ",", ".")
 						'** Opdatering af reg. tidspunkt på eksisterende timeregistreringer                            **'
 						'** Tidspukter bliver ikke opdateret her, da man ellers vil overskrive tidspunkter              **'
 						'** på eksisterende records, ved opdatering af en vilkårlig anden timeregistrering (som timer)  **'
+                        '** opdaterer IKKE godkendt status HER da timerne ikke er ændret                                **'
 						'*************************************************************************************************'
 						
 						
@@ -581,7 +720,7 @@ dblkostprisUse = replace(dblkostprisUse, ",", ".")
 						&" editor = '"& session("user") &"', offentlig = "& offentlig &", bopal = "& bopal &", destination = '"& destination &"'"_
 						&" WHERE Tjobnr = '"& jobnr & "'"_
 						&" AND Tmnr = "& medid & ""_
-						&" AND Tdato = '" & datothis & "' AND TAktivitetId = "& aktid 
+						&" AND Tdato = '" & datothis & "' AND TAktivitetId = "& aktid &" AND overfort = 0"
 						
 						'Response.write "Upd B: "& strSQLupd & "<br>"
 						
@@ -595,6 +734,10 @@ dblkostprisUse = replace(dblkostprisUse, ",", ".")
 			end if
 			oRec.close
 			
+
+
+
+
 	end if '** timer -9001 (-1) ***'
 
 
@@ -720,7 +863,7 @@ call erugeAfslutte(useYear, usePeriod, usemrn, SmiWeekOrMonth, 0)
    'ugeafsluttetTxt = ugeafsluttetTxt & "<br>aktBudgettjkOn: " & aktBudgettjkOn & " resforecastMedOverskreddet: "& resforecastMedOverskreddet & " lto: " & lto & " level: "& level
 
     '''** Er forecast på aktivitet overskreddet *****'
-    if (cint(aktBudgettjkOn) = 1 AND (cint(resforecastMedOverskreddet) = 1 OR cint(resforecastMedOverskreddet) = 2) AND (job_fakturerbar = 1 OR (job_fakturerbar = 2 AND (lto = "bf" OR lto = "intranet - local")) OR (job_fakturerbar = 90 AND lto = "mmmi"))) then  'level > 1 fjernet 20160104 == Vis amme indstillinger for alle
+    if (cint(aktBudgettjkOn) = 1 AND (cint(resforecastMedOverskreddet) = 1 OR cint(resforecastMedOverskreddet) = 2) AND (job_fakturerbar = 1 OR (job_fakturerbar = 2 AND (lto = "bf" OR lto = "intranet - local")) OR (job_fakturerbar = 90 AND lto = "mmmi") OR (job_fakturerbar = 90 AND lto = "wap"))) then  'level > 1 fjernet 20160104 == Vis amme indstillinger for alle
     '** Kun fakturerbare aktiviteter / WWF fravær / + E1 UNIK og MMMI
     '** Admin må gerne indtaste
             
@@ -796,7 +939,10 @@ call erugeAfslutte(useYear, usePeriod, usemrn, SmiWeekOrMonth, 0)
     call tjkClosedPeriodCriteria(varTjDato_ugedag, ugeNrAfsluttet, usePeriod, SmiWeekOrMonth, splithr, smilaktiv, autogk, autolukvdato, lonKorsel_lukketIO)
                        
 
+
+    '**Ugeafsluttet **'
     if cint(ugeerAfsl_og_autogk_smil) = 1 then
+
         '*** Lønperiode afsluttet ***'
         '*** Uge afsluttet via Smiley Ordning og autogodkend slået til i kontrolpanel **'
         '*** hvis admin level 1 kan timer stadigvæk redigeres indtil der oprettes faktura ***'
@@ -812,9 +958,12 @@ call erugeAfslutte(useYear, usePeriod, usemrn, SmiWeekOrMonth, 0)
     	
 	    ugeafsluttet = 1
         ugeafsluttetTxt = "Uge er afsluttet via smiley, periode er afsluttet via kontrolpanel ell. l&oslash;nk&oslash;rsel / godkendt af teamleder."
-
+        
 
     end if
+
+
+
 
     'if (( (datepart("ww", ugeNrAfsluttet, 2, 2) = usePeriod AND cint(SmiWeekOrMonth) = 0 AND splithr = 0) OR (cdate(ugeNrAfsluttet) >= cdate(varTjDato_ugedag) AND cint(SmiWeekOrMonth) = 0 AND splithr = 1) _
     'OR (datepart("m", ugeNrAfsluttet, 2, 2) = usePeriod AND cint(SmiWeekOrMonth) = 1 )) _
@@ -2386,10 +2535,10 @@ end sub
 
 function timerIndlaesPeriodeLukket(medarbejderid, regdato, intjobid)
        
-
+        'if session("mid") = 1 then
         'Response.Write "medarbejderid: " & medarbejderid & " regdato: "& regdato &" intjobid: "& intjobid
         'response.end
-
+        'end if
 
 
             firstWeekDay = weekday(regdato, 2)
@@ -2495,7 +2644,13 @@ function timerIndlaesPeriodeLukket(medarbejderid, regdato, intjobid)
 		        end if
 		        oRec.close
 		        
-		        if ugeerAfsl_og_autogk_smil = 1 OR cdate(lastFakdato) >= cdate(regdato) then 'AND level > 1
+
+                'if session("mid") = 1 then
+                'Response.Write "<br>fakdato: "& lastFakdato
+                'response.end
+                'end if
+
+		        if cint(ugeerAfsl_og_autogk_smil) = 1 OR cdate(lastFakdato) >= cdate(regdato) then 'AND level > 1
 		        
 		        %>
 			    <!--#include file="../../inc/regular/header_lysblaa_inc.asp"-->

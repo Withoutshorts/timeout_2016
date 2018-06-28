@@ -14,6 +14,24 @@ if len(session("user")) = 0 then
 	
 	'session.LCID = 1033
 	
+        public prodnr
+        sub  prodnrsub
+                       prodnr = ""
+                       if len(trim(oRec2("fase"))) <> 0 then
+            
+                            if mid(oRec2("fase"), 6,1) = "-" then
+                            prodnr = oRec2("jobnr") & mid(oRec2("fase"), 4,2)
+                            else 'Pos > 9
+                            prodnr = oRec2("jobnr") & mid(oRec2("fase"), 4,3) 
+                            end if
+        
+                        else 
+                        prodnr = oRec2("jobnr") 
+                        end if
+
+        end sub
+
+
         call bdgmtypon_fn()
 
         if cint(bdgmtypon_val) = 1 then 'budget på mtyper slået til
@@ -244,7 +262,8 @@ if len(session("user")) = 0 then
 	'if optiPrint = 0 OR optiPrint = 2 then
 	select case optiPrint
     case 7 'Monitor
-    strTxtExport = strTxtExport & "Rap.Nr;Rap.Tid;Rap.Antal;"& vbcrlf
+    'strTxtExport = strTxtExport & "Ordrenummer;Rap.Nr;Rap.Tid;Rap.Antal;"& vbcrlf
+    strTxtExport = strTxtExport & "Medarb. Init;Ordrenummer;Rapportnummer;Forbrugt tid;Antal færdige;Slet Rest(1/0);Antal Kasserede;Kasseringskode;"& vbcrlf
     case 0,2 
     strTxtExport = strTxtExport & "Kontakt;Kontakt id;Jobnavn;Jobnr.;Status;Startdato;Slutdato;Prioitet;"
         
@@ -289,7 +308,7 @@ if len(session("user")) = 0 then
 
 
                     if eksDataNrl = 1 then
-	                strTxtExport = strTxtExport &"Fastpris:1/Lbn Timer:0;Forkalk. Timer;Budget. Bruttooms.;Valuta;Kurs;Budget. Bruttooms. (basis valuta);"
+	                strTxtExport = strTxtExport &"Fastpris:1/Lbn Timer:0;Forkalk. Timer;Budget. Bruttooms.;Valuta;Kurs;Budget. Bruttooms. (basis valuta, alle kolonner -->);"
   
     
                           if cint(bdgmtypon_val) = 1 then 'budget på mtyper slået til
@@ -320,7 +339,7 @@ if len(session("user")) = 0 then
         
                     strTxtExport = strTxtExport &"Real. DB beløb;Real. DB %;"_
                     &"WIP DB beløb;WIP DB %;Faktureret;Faktisk Salgsomk. (indkøb);Faktisk Internkost.;Faktisk DB beløb;Faktisk DB %;"_
-                    &"Timepris (faktisk);Stade (WIP) %;WIP pr. dato ("& historisk_wipTxt &");WIP angivet dato;WIP Omsætning; Bal. Faktureret-Oms. WIP;"
+                    &"Timepris (faktisk);Stade (WIP) %;WIP pr. dato ("& historisk_wipTxt &");WIP angivet dato;WIP Omsætning; Bal. Faktureret-Oms. WIP;Faktureret i faktura valuta;"
 
        
 
@@ -340,7 +359,7 @@ if len(session("user")) = 0 then
                     end if
     
                     if eksDataNrl = 1 then
-                    strTxtExport = strTxtExport &"Aftale;Rekvnr.;Pre-konditioner opfyldt;Forretningsomr.;Projektgrupper (job);"
+                    strTxtExport = strTxtExport &"Aftale;Rekvnr.;Pre-konditioner opfyldt;Forretningsomr.;Afd./Business Unit;Projektgrupper (job);"
                     end if
 
                     if eksDataJsv = 1 then
@@ -622,6 +641,7 @@ if len(session("user")) = 0 then
     end if
 
 	dblBudget = oRec("jo_bruttooms") 'oRec("jobTpris")
+
     nettoomstimer = oRec("jobTpris")
 	intFaspris = oRec("fastpris")
 	rekvnr = oRec("rekvnr")
@@ -646,13 +666,13 @@ if len(session("user")) = 0 then
 		
 		select case intJobstatus
 		case 0
-		strStatus = "Lukket"
+		strStatus = jobstatus_txt_009
 		case 1
-		strStatus = "Aktiv"
+		strStatus = jobstatus_txt_007
 		case 2
-		strStatus = "Passiv"
+		strStatus = jobstatus_txt_013
 		case 3
-		strStatus = "Tilbud"
+		strStatus = jobstatus_txt_003
 		end select 
 		
 		
@@ -769,7 +789,7 @@ if len(session("user")) = 0 then
 		
 		end select
 		
-        jobbudget = dblBudget
+        'jobbudget = dblBudget
 
         jo_bruttooms_basisval = oRec("jo_bruttooms_basisval")
 
@@ -790,13 +810,7 @@ if len(session("user")) = 0 then
         
 
 
-        OmsWIP = (afsl_proc/100) * jobbudget 
-        salgsOmkWIP = salgsOmkFaktisk 
-        nettoWIP = ((afsl_proc/100) * (jobbudget)) - salgsOmkWIP 
-        
-
-
-
+     
          
         '*** bal WIP ****'
 
@@ -823,7 +837,11 @@ if len(session("user")) = 0 then
 		end if
         
 
-        OmsWIP =  (afsl_proc/100) * jobbudget 
+       
+        salgsOmkWIP = salgsOmkFaktisk 
+        nettoWIP = ((afsl_proc/100) * (jo_bruttooms_basisval)) - salgsOmkWIP 'jobbudget 
+
+        OmsWIP = (afsl_proc/100) * jo_bruttooms_basisval 'jobbudget 
         balWIP = (faktureret - OmsWIP)
 
 
@@ -955,11 +973,13 @@ if len(session("user")) = 0 then
         & Chr(34) & formatnumber(realDB,0) & Chr(34) &";"_
         & Chr(34) & formatnumber(forvDbbel,2) & Chr(34) &";"_
         & Chr(34) & formatnumber(forvDb,0) & Chr(34) &";"_
-        & Chr(34) & formatnumber(faktureret,2) & Chr(34) &";"_
+        & Chr(34) & formatnumber(faktureret,2) & Chr(34) &";"_ 
         & Chr(34) & formatnumber(salgsOmkFaktisk,2) & Chr(34) &";"& Chr(34) & formatnumber(kostpris,2) & Chr(34) &";"_
         & Chr(34) & formatnumber(db2bel,2) & Chr(34) &";"_
         & Chr(34) & formatnumber(db2,0) & Chr(34) &";"_
-        & Chr(34) & formatnumber(gnstimepris,2) & Chr(34) &";"& Chr(34) & formatnumber(afsl_proc, 0) & Chr(34) &";" & Chr(34) & wipdato & Chr(34) &";" & Chr(34) & wipHistdato & Chr(34) &";"& Chr(34) & formatnumber(OmsWIP, 2) & Chr(34) &";"& Chr(34) & formatnumber(balWIP, 2) & Chr(34) &";"
+        & Chr(34) & formatnumber(gnstimepris,2) & Chr(34) &";"& Chr(34) & formatnumber(afsl_proc, 0) & Chr(34) &";"_
+        & Chr(34) & wipdato & Chr(34) &";" & Chr(34) & wipHistdato & Chr(34) &";"& Chr(34) & formatnumber(OmsWIP, 2) & Chr(34) &";"& Chr(34) & formatnumber(balWIP, 2) & Chr(34) &";"_
+        & Chr(34) & formatnumber(faktureret_fakvaluta,2) & Chr(34) &";"
 		end if
 
 
@@ -987,13 +1007,15 @@ if len(session("user")) = 0 then
 
                 '**** Fomr ****'
                 strTxtFomr = ""
-                strSQLf = "SELECT for_fomr, fomr.navn FROM fomr_rel "_
+                strTxtFomrBU = ""
+                strSQLf = "SELECT for_fomr, fomr.navn, fomr.business_unit FROM fomr_rel "_
                 &" LEFT JOIN fomr ON (fomr.id = for_fomr) WHERE for_jobid = "& jobIder(i) & " GROUP BY for_fomr"
                 fo = 0
                 oRec3.open strSQLf, oConn, 3
                 while not oRec3.EOF 
 
                 strTxtFomr = strTxtFomr & oRec3("navn") & ", "
+                strTxtFomrBU = strTxtFomrBU &  oRec3("business_unit") & ", "
 
                 fo = fo + 1
                 oRec3.movenext
@@ -1004,16 +1026,21 @@ if len(session("user")) = 0 then
                 len_strTxtFomr = len(strTxtFomr)
                 left_strTxtFomr = left(strTxtFomr, len_strTxtFomr-2)
                 strTxtFomr = left_strTxtFomr
+
+                len_strTxtFomrBU = len(strTxtFomrBU)
+                left_strTxtFomrBU = left(strTxtFomrBU, len_strTxtFomrBU-2)
+                strTxtFomrBU = left_strTxtFomrBU
+
                 end if
 
 
 
-                strTxtExport = strTxtExport & Chr(34) & strTxtFomr & Chr(34) & ";"
+                strTxtExport = strTxtExport & Chr(34) & strTxtFomr & Chr(34) & ";"& Chr(34) & strTxtFomrBU & Chr(34) & ";"
 
                 
                 strTxtExport = strTxtExport & Chr(34) 
 
-                 for p = 1 to 10
+                for p = 1 to 10
         
                 pgid = oRec("projektgruppe"&p)
 
@@ -1026,7 +1053,8 @@ if len(session("user")) = 0 then
 
                 strTxtExport = strTxtExport & Chr(34) & ";"
 
-                end if
+
+        end if
 
 
         if eksDataJsv = 1 then
@@ -1338,50 +1366,103 @@ if len(session("user")) = 0 then
 
     case 7 'Monitor
 
+            if len(trim(request("antaldage"))) <> 0 then
             antaldage = request("antaldage")
+            else
+            antaldage = 0
+            end if
+
+
+           
             ddDato = now
 
             lukkeDatoGT = dateAdd("d", -antaldage, ddDato)
             lukkeDatoGT = year(lukkeDatoGT) &"/"& month(lukkeDatoGT) &"/"& day(lukkeDatoGT)
 
-            strSQLmonitor = "SELECT j.id as jobid, a.navn, avarenr, a.id as aktid FROM job j "_
-            &" LEFT JOIN aktiviteter a ON (a.job = j.id) WHERE j.lukkedato >= '" & lukkeDatoGT & "' AND j.jobstatus = 0 AND avarenr IS NOT NULL AND a.id IS NOT NULL "
-            
+            jidsMonitor = request("jids")
+            jidsMonitor = replace(jidsMonitor, ",", " OR j.id = ")
+
+            strSQLmonitor = "SELECT j.id as jobid, a.navn, avarenr, a.id as aktid, jobnr, a.fase FROM job j "_
+            &" LEFT JOIN aktiviteter a ON (a.job = j.id) WHERE ("& jidsMonitor &") AND avarenr IS NOT NULL AND a.id IS NOT NULL "
+            'j.lukkedato >= '" & lukkeDatoGT & "' AND j.jobstatus = 0 'ændret 20171005
             oRec2.open strSQLmonitor, oConn, 3     
             while not oRec2.EOF
 
+                     midsMatfbWrt = " usrid <> -1"
+
                     'Timer
                     aktTimer = 0
-                    strSQLt = "SELECT SUM(timer) AS sumtimer FROM timer WHERE taktivitetid = "& oRec2("aktid") &" GROUP BY taktivitetid"
+                    strSQLt = "SELECT SUM(timer) AS sumtimer, init, mid FROM timer "_
+                    &" LEFT JOIN medarbejdere ON (mid = tmnr) WHERE taktivitetid = "& oRec2("aktid") &" GROUP BY tmnr, taktivitetid"
                     'Response.write strSQLt
                     'Response.flush
         
                     oRec3.open strSQLt, oConn, 3
-                    if not oRec3.EOF then
+                    while not oRec3.EOF 
         
-                    aktTimer = oRec3("sumtimer")
+                        aktTimer = oRec3("sumtimer")
+                        init = oRec3("init")
+                        medid = oRec3("mid")
 
-                    end if
-                    oRec3.close 
+                
 
                     'Materilaer
                     aktMatantal = 0
-                    strSQLm = "SELECT SUM(matantal) AS summatantal FROM materiale_forbrug WHERE aktid = "& oRec2("aktid") &" GROUP BY aktid"
-                    oRec3.open strSQLm, oConn, 3
-                    if not oRec3.EOF then
+                    strSQLm = "SELECT SUM(matantal) AS summatantal FROM materiale_forbrug WHERE aktid = "& oRec2("aktid") &" AND usrid = "& medid &" GROUP BY usrid, aktid"
+                    oRec4.open strSQLm, oConn, 3
+                    if not oRec4.EOF then
         
-                    aktMatantal = oRec3("summatantal")
+                    aktMatantal = oRec4("summatantal")
 
                     end if
+                    oRec4.close 
+
+
+                        call prodnrsub
+
+                        strTxtExport = strTxtExport & init &";"& prodnr &";"& oRec2("avarenr") & ";"& aktTimer &";"& aktMatantal & ";0;0;0;"& vbcrlf
+                        
+                        midsMatfbWrt = midsMatfbWrt & " AND usrid <> " & medid
+                    
+                    oRec3.movenext
+                    wend 
                     oRec3.close 
 
 
-            strTxtExport = strTxtExport & oRec2("avarenr") & ";"& aktTimer &";"& aktMatantal & ";"& vbcrlf
+                    
+                    'Materilaer på medarb. uden timeforbrug
+                    aktMatantal = 0
+                    strSQLm = "SELECT SUM(matantal) AS summatantal, init FROM materiale_forbrug "_
+                    &" LEFT JOIN medarbejdere ON (mid = usrid) WHERE aktid = "& oRec2("aktid") &" AND ("& midsMatfbWrt &") GROUP BY usrid, aktid"
+                    
+        
+                    'response.write strSQLm & "<br>"
+                    'response.flush
+        
+                    oRec4.open strSQLm, oConn, 3
+                    while not oRec4.EOF
+        
+                    aktMatantal = oRec4("summatantal")
+                    init = oRec4("init")
 
+                    call prodnrsub
+
+                        strTxtExport = strTxtExport & init &";"& prodnr &";"& oRec2("avarenr") & ";0;"& aktMatantal & ";0;0;0;"& vbcrlf
+
+                    oRec4.movenext
+                    wend
+                    oRec4.close 
+
+
+                        
+                        
             oRec2.movenext
             wend 
             oRec2.close
   
+
+
+
     end select
     'end if optiprint
 	

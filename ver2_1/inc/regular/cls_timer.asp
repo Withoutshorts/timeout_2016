@@ -284,7 +284,7 @@ end function
                 %>
                 
                 <span style="font-size:9px;">
-                <b><%=job_txt_585 &" "%> <%=medTxt1 %>:</b><br />
+                <b><%=job_txt_585 &" "%> <%=medTxt1 %>:</b>Her<br />
                    
                     <%if cint(per) <> 0 then 
                      

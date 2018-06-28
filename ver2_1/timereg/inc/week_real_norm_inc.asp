@@ -278,6 +278,20 @@
 	 <td align=right  class=lille style="border-bottom:1px silver dashed; padding-bottom:20px;"><b><%=formatnumber(barnSyg_tot, 2) %></b></td>
 	 <%end if %>
 
+
+    <!-- Total TIA time of due to travel -->
+     <%if ((level = 1 OR (session("mid") = usemrn)) OR (cint(erTeamlederForVilkarligGruppe) = 1)) AND lto = "tia"  then%>
+	 <td align=right  class=lille style="border-bottom:1px silver dashed; padding-bottom:20px;"><b>Her</b></td>
+	 <%end if %>
+
+
+    <!-- Total TIA paid leave -->
+     <%if ((level = 1 OR (session("mid") = usemrn)) OR (cint(erTeamlederForVilkarligGruppe) = 1)) AND lto = "tia" then%>
+	 <td align=right  class=lille style="border-bottom:1px silver dashed; padding-bottom:20px;"><b>Her</b></td>
+	 <%end if %>
+
+
+
     <%
       select case lto
        case "esn", "tec"

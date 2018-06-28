@@ -1024,6 +1024,14 @@ if len(session("user")) = 0 then
                strEksportTxt = strEksportTxt & "Barn syg ~ dage;"
                end if
 
+
+                'TIA Time of due to travel & Paid Leave
+                if session("rettigheder") <= 2 OR session("rettigheder") = 6 OR (session("mid") = usemrn) then
+                    strEksportTxt = strEksportTxt & "Time of do to travel ~ dage;"
+                    strEksportTxt = strEksportTxt & "Paid Leave ~ dage;"
+                end if
+
+
                 select case lto
                 case "esn", "tec"
                 case else
@@ -1386,9 +1394,22 @@ if len(session("user")) = 0 then
                  if m = 0 then
                  globalWdt = globalWdt + 100
                  end if
-         end if 
+    end if %>
 
 
+        <!-- TIA time of to to travel -->
+        <%if ((level = 1 OR (session("mid") = usemrn)) OR (cint(erTeamlederForVilkarligGruppe) = 1)) AND lto = "tia"  then%>
+	 <td valign=bottom style="border-bottom:1px silver solid; width:50px;" class=lille><b>Time of due to trav</b><br />~ <%=afstem_txt_044 %></td>
+	 <%end if %>
+
+    <!-- Paid leave -->
+    <%if ((level = 1 OR (session("mid") = usemrn)) OR (cint(erTeamlederForVilkarligGruppe) = 1)) AND lto = "tia" then%>
+	 <td valign=bottom style="border-bottom:1px silver solid; width:50px;" class=lille><b>Paid leave</b><br />~ <%=afstem_txt_044 %></td>
+	 <%end if %>
+
+
+
+        <%
         select case lto
         case "esn", "tec"
         case else

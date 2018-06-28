@@ -71,6 +71,457 @@
       - Salgspris er ikke udfyldt korrekt.
     </txt_120>
 
+    <txt_121 >Der er ikke tastet noget brugernavn</txt_121>
+    <txt_122 >Der er ikke tastet noget password</txt_122>
+    <txt_123 >Sessionen er udløbet og du er blevet logget af TimeOut.</txt_123>
+    <txt_124 >Sessionen udløber ud hvis TimeOut har været passiv i mere end</txt_124>
+    <txt_125 >12 timer</txt_125>
+    <txt_126 >eller TimeOut serveren har nulstillet dagens aktive sessioner, af sikkerheds- og -performance mæssige hensyn.</txt_126>
+    <txt_127 >Klik her</txt_127>
+    <txt_128 >for at logge ind i jeres system igen.</txt_128>
+    <txt_129 >Med venlig hilsen</txt_129>
+    <txt_130 >Du har glemt at indtaste antal timer.</txt_130>
+    <txt_131 >Dette jobnr er allerede indtastet en gang på denne dato.</txt_131>
+    <txt_132 >Da et jobnr ikke må optræde mere en en gang pr. dato, må du ændre indtastningen.</txt_132>
+    <txt_133 >Ændre indtastning</txt_133>
+    <txt_134 >En eller flere af nedenstående felter mangler at blive udfyldt</txt_134>
+    <txt_135 >Der mangler at blive indtastet et</txt_135>
+    <txt_136 >navn</txt_136>
+    <txt_137 >Der mangler at blive indtaste en følgende informationer</txt_137>
+    <txt_138 >Medarbejder navn</txt_138>
+    <txt_139 >Medarbejer nr.</txt_139>
+    <txt_140 >Medarbejer Initialer</txt_140>
+    <txt_141 >Login</txt_141>
+    <txt_142 >Password</txt_142>
+    <txt_143 >En Medarbejder med det valgte</txt_143>
+    <txt_144 >Medarbejder nr.</txt_144>
+    <txt_145 >eksisterer allerede.</txt_145>
+    <txt_146 >Vælg et andet.</txt_146>
+    <txt_147 >En Kontakt med det valgte</txt_147>
+    <txt_148 >Kontakt id</txt_148>
+    <txt_149 >Den eksisterende Kontakt er</txt_149>
+    <txt_150 >kundenavn</txt_150>
+    <txt_151 >Kundenavn er på mere end</txt_151>
+    <txt_152 >karakterer</txt_152>
+    <txt_153 >Der mangler at blive indtastet en af følgende informationer</txt_153>
+    <txt_154 >Jobnavn</txt_154>
+    <txt_155 >eller Du har angivet</txt_155>
+    <txt_156 >som navn</txt_156>
+    <txt_157 >Jobnavn indeholder et</txt_157>
+    <txt_158 >eller et</txt_158>
+    <txt_159 >Jobnavn er på</txt_159>
+    <txt_160 >mere end</txt_160>
+    <txt_161 >karakterer.</txt_161>
+    <txt_162 >Du har tastet</txt_162>
+    <txt_163 >Jobnr.</txt_163>
+    <txt_164 >Jobnr. er på</txt_164>
+    <txt_165 >mere end 20</txt_165>
+    <txt_166 >Der mangler at blive tilknyttet en</txt_166>
+    <txt_167 >kunde</txt_167>
+    <txt_168 >Job nr.</txt_168>
+    <txt_169 >eller</txt_169>
+    <txt_170 >Tilbudsnr.</txt_170>
+    <txt_171 >er ikke angivet som et nummer / heltal.</txt_171>
+    <txt_172 >Job nr. må kun indeholde tallene 0-9 uden punktum eller komma. Job nr. må ikke være 0 NUL.</txt_172>
+    <txt_173 >Brutto Omsætning</txt_173>
+    <txt_174 >er ikke angivet i et korrekt format.</txt_174>
+    <txt_175 >Dvs. feltet indeholder andre tegn end tallene 0-9, samt komma eller punktum.</txt_175>
+    <txt_176 >Der er sket en</txt_176>
+    <txt_177 >Fejl</txt_177>
+    <txt_178 >i indtastningen.</txt_178>
+    <txt_179 >I et eller flere felter er der blevet indtastet ugyldige karakterer.</txt_179>
+    <txt_180 >Der er indtastet mere end</txt_180>
+    <txt_181 >24 timer</txt_181>
+    <txt_182 >i et af felterne.</txt_182>
+    <txt_183 >Der foreligger allerede en registrering af dette</txt_183>
+    <txt_184 >Job</txt_184>
+    <txt_185 >med denne</txt_185>
+    <txt_186 >aktivitet</txt_186>
+    <txt_187 >på denne</txt_187>
+    <txt_188 >dato</txt_188>
+    <txt_189 >Timer</txt_189>
+    <txt_190 >er ikke angivet som et tal.</txt_190>
+    <txt_191 >Husk at angive et</txt_191>
+    <txt_192 >punktum</txt_192>
+    <txt_193 >og</txt_193>
+    <txt_194 >ikke et</txt_194>
+    <txt_195 >komma</txt_195>
+    <txt_196 >hvis der angives halve timer.</txt_196>
+    <txt_197 >er ikke udfyldt, eller det er over 15 karakterer langt.</txt_197>
+    <txt_198 >Medarbejdernr</txt_198>
+    <txt_199 >er ikke angivet som et nummer.</txt_199>
+    <txt_200 >Aktiviteter</txt_200>
+    <txt_201 >Aktivitets navn</txt_201>
+    <txt_202 >Navn indeholder en ulovlig karakter</txt_202>
+    <txt_203 >apostrof.</txt_203>
+    <txt_204 >Et job med det valgte</txt_204>
+    <txt_205 >Gå tilbage og tildel jobbet et nyt jobnummer.</txt_205>
+    <txt_206 >Ofte vil det være nok at addere nummeret med 1</txt_206>
+    <txt_207 >Du har brugt mere end</txt_207>
+    <txt_208 >forsøg</txt_208>
+    <txt_209 >på at logge ind.</txt_209>
+    <txt_210 >Dette medfører at du ikke længere kan logge ind i systemet.</txt_210>
+    <txt_211 >Luk browseren</txt_211>
+    <txt_212 >og prøv igen</txt_212>
+    <txt_213 >eller Kontakt din TimeOut administrator for at få et nyt login.</txt_213>
+    <txt_214 >ERP - Opret Faktura</txt_214>
+    <txt_215 >Beløb</txt_215>
+    <txt_216 >er ikke angivet som et hel-tal.</txt_216>
+    <txt_217 >Faktura nr.</txt_217>
+    <txt_218 >findes alledrede i systemet. Vælg et andet.</txt_218>
+    <txt_219 >skal være</txt_219>
+    <txt_220 >0 når budget er angivet som fast pris.</txt_220>
+    <txt_221 >Sandsynlighed indeholder ulovlige karakterer eller er ikke udfyldt.</txt_221>
+    <txt_222 >Sandsynlighed skal være mellem 1 og 100%.</txt_222>
+    <txt_223 >Aktivitet start datoen er en tidligere dato end job start datoen, som er</txt_223>
+    <txt_224 >Aktivitet slut datoen er en senere dato end job slut datoen, som er</txt_224>
+    <txt_225 >Der er mere end 1255 karakterer i kommentaren</txt_225>
+    <txt_226 >Der er tildelt flere timer på denne aktivitet,</txt_226>
+    <txt_227 >end der er til rådighed på jobbet.</txt_227>
+    <txt_228 >Den valgte slut dato skal være en senere dato end den valgte start dato.</txt_228>
+    <txt_229 >Den valgte dato for den opfølgende aktion skal være en senere dato end den først oprettede aktion.</txt_229>
+    <txt_230 >Da den valgte dato for den opfølgende aktion er den samme som for den først oprettede aktion, skal start tidspunktet for den opfølgende aktion være senere end slut tidspunktet på den første aktion.</txt_230>
+    <txt_231 >De angivne</txt_231>
+    <txt_232 >Interne kost</txt_232>
+    <txt_233 >priser</txt_233>
+    <txt_234 >er</txt_234>
+    <txt_235 >Ikke angivet som et</txt_235>
+    <txt_236 >hel-tal</txt_236>
+    <txt_237 >Indeholder et komma</txt_237>
+    <txt_238 >Indeholder et</txt_238>
+    <txt_239 >ugyldigt tegn</txt_239>
+    <txt_240 >eller bogstav.</txt_240>
+    <txt_241 >Et af dem er angivet som et</txt_241>
+    <txt_242 >negativt tal</txt_242>
+    <txt_243 >Et af dem er</txt_243>
+    <txt_244 >tomme</txt_244>
+    <txt_245 >ikke udfyldt</txt_245>
+    <txt_246 >Der mangler at blive valgt et eller flere af følgende felter</txt_246>
+    <txt_247 >Medarbejdere</txt_247>
+    <txt_248 >Der mangler at blive valgt en eller flere af følgende felter</txt_248>
+    <txt_249 >Ugedage</txt_249>
+    <txt_250 >Datoer</txt_250>
+    <txt_251 >Måneder</txt_251>
+    <txt_252 >Emne</txt_252>
+    <txt_253 >Startdatoen er af nyere dato iforhold til slutdatoen.</txt_253>
+    <txt_254 >Der er ikke valgt hvilke medarbejdere der skal oprettes på opgaven.</txt_254>
+    <txt_255 >kontonr</txt_255>
+    <txt_256 >Eller en konto med det valgte kontonr findes allerede.</txt_256>
+    <txt_257 >eller en</txt_257>
+    <txt_258 >momskvotient</txt_258>
+    <txt_259 >Momskvotient'en indeholder ugyldige karakterer.</txt_259>
+    <txt_260 >Der er angivet ugyldige karakterer i en eller flere af de følgende felter.</txt_260>
+    <txt_261 >Nettobeløb.</txt_261>
+    <txt_262 >Momsbeløb.</txt_262>
+    <txt_263 >Totalbeløb.</txt_263>
+    <txt_264 >Der mangler at blive indtastet</txt_264>
+    <txt_265 >Totalbeløb</txt_265>
+    <txt_266 >Faktor</txt_266>
+    <txt_267 >Husk at angive et [.] (punktum) og</txt_267>
+    <txt_268 >ikke et [,] (komma) hvis der angives halve enheder.</txt_268>
+    <txt_269 >Mindst en af følgende kriterier er ikke opfyldt</txt_269>
+    <txt_270 >Der er ikke valgt om fakturaer skal godkendes uden gennemsyn.</txt_270>
+    <txt_271 >Kvik fakturering er ikke slået til</txt_271>
+    <txt_272 >Der er</txt_272>
+    <txt_273 >ikke</txt_273>
+    <txt_274 >valgt hvilke</txt_274>
+    <txt_275 >aftaler</txt_275>
+    <txt_276 >der skal faktureres.</txt_276>
+    <txt_277 >Der er ikke valgt en folder.</txt_277>
+    <txt_278 >Indkøbspris</txt_278>
+    <txt_279 >er ikke angivet som et tal</txt_279>
+    <txt_280 >Salgspris</txt_280>
+    <txt_281 >Produktionstid</txt_281>
+    <txt_282 >En eller flere</txt_282>
+    <txt_283 >Komme / Gå tidspunkt(er)</txt_283>
+    <txt_284 >er ikke angivet i et gyldigt dato- og/eller tids -format</txt_284>
+    <txt_285 >Der er angivet ulovlige karakterer eller der mangler angivelse.</txt_285>
+    <txt_286 >Der mangler at blive indtastet et navn</txt_286>
+    <txt_287 >Beløb er ikke indtastet som tal</txt_287>
+    <txt_288 >En eller flere af de indtastede</txt_288>
+    <txt_289 >tids-angivelser</txt_289>
+    <txt_290 >indeholder ulovlige karakterer.</txt_290>
+    <txt_291 >Registreringerne må kun indeholde</txt_291>
+    <txt_292 >tallene 0-9, samt kolon</txt_292>
+    <txt_293 >er ikke et gyldigt</txt_293>
+    <txt_294 >tidsformat.</txt_294>
+    <txt_295 >Tidsformatet skal være f.eks</txt_295>
+    <txt_296 >Den angivne tid er</txt_296>
+    <txt_297 >start tidspunkter</txt_297>
+    <txt_298 >er senere end det tilsvarende</txt_298>
+    <txt_299 >slut tidspunkt.</txt_299>
+    <txt_300 >Stempelur - logindhistorik</txt_300>
+    <txt_301 >Dato er ikke angivet i et korrekt datoformat,</txt_301>
+    <txt_302 >eller den valgte dato er ikke gyldig.</txt_302>
+    <txt_303 >Forecast</txt_303>
+    <txt_304 >Der er ikke angivet et Emne.</txt_304>
+    <txt_305 >Der er ikke angivet en Kontakt.</txt_305>
+    <txt_306 >Der er ikke angivet en Incident Kategori.</txt_306>
+    <txt_307 >Der er ikke angivet en Incident Type (Prioitet)</txt_307>
+    <txt_308 >Der er ikke angivet en Incident Status.</txt_308>
+    <txt_309 >Der er ikke angivet et varenr, eller varenr er = 0.</txt_309>
+    <txt_310 >Det er ikke lovligt at angive</txt_310>
+    <txt_311 >0 (NUL)</txt_311>
+    <txt_312 >som varenr.</txt_312>
+    <txt_313 >Der mangler en eller flere af følgende informationer</txt_313>
+    <txt_314 >Minimums lager</txt_314>
+    <txt_315 >Antal</txt_315>
+    <txt_316 >Der skal angives en kontakt</txt_316>
+    <txt_317 >Hvis der ikke er nogen kontakter tilgængelige på listen</txt_317>
+    <txt_318 >er det fordi der ikke er angivet ServiceDesk prioitets gruppe på nogen kontakter.</txt_318>
+    <txt_319 >ServiceDesk, åbningstider.</txt_319>
+    <txt_320 >Der er angivet en ulovlig karakter</txt_320>
+    <txt_321 >En eller flere af de angivne åbningstider er ikke udfyldt korrekt.</txt_321>
+    <txt_322 >Felterne skal indeholde en gyldig tidsangivelse. Eks: 08:30, 14:35 etc.</txt_322>
+    <txt_323 >En af de angivne lukketider er tidligere en den tilsvarende åbningstid.</txt_323>
+    <txt_324 >Stempelur - ignorer periode</txt_324>
+    <txt_325 >Der er angivet en ulovlig karakter i ignorer periode for stempelur</txt_325>
+    <txt_326 >Start eller Slut tid til  er ikke udfyldt korrekt.</txt_326>
+    <txt_327 >Felterne skal indeholde en gyldig tidsangivelse. Eks: 08:30, 14:35 etc.</txt_327>
+    <txt_328 >Stempelur - standard pause</txt_328>
+    <txt_329 >Der er angivet en ulovlig karakter i en af de angivne</txt_329>
+    <txt_330 >standard pauser</txt_330>
+    <txt_331 >(A ell. B</txt_331>
+    <txt_332 >Felterne må kun indeholde tallene fra 0 - 9.</txt_332>
+    <txt_333 >Når der er valgt et pause minuttal, der afviger fra de angivne standard pauser, skal der tilføjes en kommentar.</txt_333>
+    <txt_334 >Fakturering - Fejl</txt_334>
+    <txt_335 >Du mangler at beslutte om det er et job eller aftale du ønsker at fakturere.</txt_335>
+    <txt_336 >ERP - Fakura masker</txt_336>
+    <txt_337 >faktura masker.</txt_337>
+    <txt_338 >Faktura, kladde, intern, ell. kreditnota</txt_338>
+    <txt_339 >ERP - Fakura Rykker</txt_339>
+    <txt_340 >Den valgte dato er ikke et gyldigt dato format / datoen findes ikke.</txt_340>
+    <txt_341 >Antal ell. beløb indeholder ulovlige karakterer.</txt_341>
+    <txt_342 >Disse felter må kun indeholde tal.</txt_342>
+    <txt_343 >ERP - Valg af job eller aftale</txt_343>
+    <txt_344 >Der mangler at blive valgt det job eller den aftale som skal faktureres.</txt_344>
+    <txt_345 >ERP - Fakturanr findes i forvejen</txt_345>
+    <txt_346 >Du er ved at oprette en faktura med et fakturanummer der findes i forvejen.</txt_346>
+    <txt_347 >Tjek seneste faktura nummer i kontrolpanelet, og sammenhold med seneste oprettede faktura. (søg i fakturaer).</txt_347>
+    <txt_348 >Hvis du ikke har adgang til kontrolpanelet skal du have fat i din administrator.</txt_348>
+    <txt_349 >TSA - Jobnr og tilbudsnr</txt_349>
+    <txt_350 >jobnr / tilbudsnr masker.</txt_350>
+    <txt_351 >TSA - Manglende information</txt_351>
+    <txt_352 >Der mangler at blive valgt en kunde i step 1.</txt_352>
+    <txt_353 >TSA - Jobnummer findes i forvejen</txt_353>
+    <txt_354 >Det ønskede jobnummer</txt_354>
+    <txt_355 >er allerede ibrug, nummeret kan derfor ikke benyttes.</txt_355>
+    <txt_356 >Hvis der oprettes flere job samtidig,</txt_356>
+    <txt_357 >job frem til før dette jobnummer blevet oprettet. Jobnrrækkefølgen skal ændres i kontrolpanelet.</txt_357>
+    <txt_358 >TSA - Tilbudsnummer findes i forvejen</txt_358>
+    <txt_359 >Det ønskede tilbudsnummer</txt_359>
+    <txt_360 >job frem til før dette tilbudsnummer blevet oprettet. Tilbudsnummer-rækkefølgen skal ændres i kontrolpanelet.</txt_360>
+    <txt_361 >ERP - Kontonummer</txt_361>
+    <txt_362 >Det angivne kontonummer er ikke angivet korrekt.</txt_362>
+    <txt_363 >ERP - faktura moms</txt_363>
+    <txt_364 >Den angivne procentsats er ikke angivet korrekt. (hel-tal)</txt_364>
+    <txt_365 >ERP - Momsafslutning</txt_365>
+    <txt_366 >Den angivne kommentar er for lang. Den må maks være 255 karakterer.</txt_366>
+    <txt_367 >Den angivne dato er ikke angivet i et korrekt datoformat.</txt_367>
+    <txt_368 >Du har indtastet</txt_368>
+    <txt_369 >ERP - posteringsdato</txt_369>
+    <txt_370 >Den angivne posteringsdato (fakturadato) ligger i en afsluttet momsperiode.</txt_370>
+    <txt_371 >Faktura / posterings dato</txt_371>
+    <txt_372 >Seneste momsperiode er afsluttet d</txt_372>
+    <txt_373 >Materialeordre</txt_373>
+    <txt_374 >Et af de angivne antal, på en af ordre linierne, er ikke angivet som et</txt_374>
+    <txt_375 >tal</txt_375>
+    <txt_376 >Du har indtastet følgende</txt_376>
+    <txt_377 >En ordre med det valgte ordrenr findes i forvejen.</txt_377>
+    <txt_378 >Sidst oprettede ordrenr er</txt_378>
+    <txt_379 >Det valgte ordrenr indeholder ulovlige karakterer.</txt_379>
+    <txt_380 >Det angivne ordrenr er</txt_380>
+    <txt_381 >Materialegrupper</txt_381>
+    <txt_382 >Gruppenavn mangler at blive udfyldt.</txt_382>
+    <txt_383 >Den valgte avance % indeholder ulovlige karakterer.</txt_383>
+    <txt_384 >Eller mangler at blive udfyldt. Angiv et heltal fra 0-100.</txt_384>
+    <txt_385 >Budget Brutto/Netto Dage</txt_385>
+    <txt_386 >Der mangler at blive angivet et navn.</txt_386>
+    <txt_387 >Valutaer</txt_387>
+    <txt_388 >Der mangler at blive angivet et navn på valutaen.</txt_388>
+    <txt_389 >Der mangler at blive angivet en valutakode.</txt_389>
+    <txt_390 >Kurs er ikke angivet som et tal.</txt_390>
+    <txt_391 >Eller kursen er sat = 0, hvilket ikke er lovligt.</txt_391>
+    <txt_392 >Budget medarbejdere</txt_392>
+    <txt_393 >Et eller flere felter indeholder ulovlige karakterer (A-Å), eller feltet er tomt.</txt_393>
+    <txt_394 >Medarbejder</txt_394>
+    <txt_395 >Ansatdato indeholder ulovlige karakterer og er ikke et gyldigt datoformat, eller feltet er tomt.</txt_395>
+    <txt_396 >Opsagtdato indeholder ulovlige karakterer og er ikke et gyldigt datoformat, eller feltet er tomt.</txt_396>
+    <txt_397 >Stopur</txt_397>
+    <txt_398 >Starttid</txt_398>
+    <txt_399 >ell.</txt_399>
+    <txt_400 >sluttid</txt_400>
+    <txt_401 >indeholder ulovlige karakterer og er ikke et gyldigt datoformat, eller feltet er tomt.</txt_401>
+    <txt_402 >Timeregistrering</txt_402>
+    <txt_403 >Den registrering Du forsøger at foretage er blevet afvist. Det skyldes en af to følgende grunde</txt_403>
+    <txt_404 >Registreringsdato</txt_404>
+    <txt_405 >ligger i et datointerval der allerede er faktureret.</txt_405>
+    <txt_406 >Du prøver at registrere timer i en periode der er afsluttet/lukket.</txt_406>
+    <txt_407 >Kopier job</txt_407>
+    <txt_408 >Der er ikke valgt nogen kontakter.</txt_408>
+    <txt_409 >Der er ikke valgt noget job.</txt_409>
+    <txt_410 >ServiceDesk</txt_410>
+    <txt_411 >Dato for udførsel er ikke angivet i et korrekt format.</txt_411>
+    <txt_412 >Antal stk. er ikke angivet i et korrekt format.</txt_412>
+    <txt_413 >Webblik - Joblisten</txt_413>
+    <txt_414 >Prioitet</txt_414>
+    <txt_415 >Job - budget</txt_415>
+    <txt_416 >Gns. timepris er ikke angivet korrekt.</txt_416>
+    <txt_417 >Medarbejder beløb beregnet udfra Gns. timepris * faktor er ikke angivet korrekt.</txt_417>
+    <txt_418 >Interne omkostninger til løn er ikke angivet korrekt.</txt_418>
+    <txt_419 >Udgifter til underleverandører / salgsomkostinger er ikke angivet korrekt.</txt_419>
+    <txt_420 >Bruttofortjeneste er ikke angivet korrekt.</txt_420>
+    <txt_421 >DB % er ikke angivet korrekt.</txt_421>
+    <txt_422 >til beregning af medarbejder beløb er ikke angivet korrekt.</txt_422>
+    <txt_423 >Tjek at der er angivet mindst 1 time på en medarbejdertype linje.</txt_423>
+    <txt_424 >Udgifter på job er ikke angivet i et korrekt format.</txt_424>
+    <txt_425 >Ja</txt_425>
+    <txt_426 >Nej</txt_426>
+    <txt_427 >Stempelur</txt_427>
+    <txt_428 >Der mangler at blive angivet en kommentar</txt_428>
+    <txt_429 >Hvis logind eller logud ændres</txt_429>
+    <txt_430 >skal</txt_430>
+    <txt_431 >det begrundes med en kommentar.</txt_431>
+    <txt_432 >Der er valgt en stempelur-indstilling der altid</txt_432>
+    <txt_433 >begrundes med en kommentar. (tilretning)</txt_433>
+    <txt_434 >Data</txt_434>
+    <txt_435 >Stempelurs indstilling</txt_435>
+    <txt_436 >Manuelt afsluttet</txt_436>
+    <txt_437 >Tid ændret</txt_437>
+    <txt_438 >Opr. logind</txt_438>
+    <txt_439 >Opr. logud</txt_439>
+    <txt_440 >Hvis timeregistreringer på pre-udfyldte aktiviterer ændres</txt_440>
+    <txt_441 >Prioitet er ikke angivet i et korrekt format. (heltal)</txt_441>
+    <txt_442 >Komme / Gå</txt_442>
+    <txt_443 >En eller flere komme/gå registreringer er i konflikt med hinanden.</txt_443>
+    <txt_444 >Det er ikke tilladt at oprette flere komme/gå registreringer på samme dato der dækker over det samme tidsrum.</txt_444>
+    <txt_445 >Der er konflikt med denne komme/gå registrering</txt_445>
+    <txt_446 >Der er ikke fundet en aktivitet med en åben tidslås i det valgte tidsrum på den valgte dato.</txt_446>
+    <txt_447 >Du har angivet kl.</txt_447>
+    <txt_448 >Tidslåsen er</txt_448>
+    <txt_449 >Kontrolpanel</txt_449>
+    <txt_450 >Den angivne</txt_450>
+    <txt_451 >licens startdato</txt_451>
+    <txt_452 >er ikke angivet i et korrekt dato format.</txt_452>
+    <txt_453 >Kontaktpersoner</txt_453>
+    <txt_454 >Der mangler at blive indtastet et navn.</txt_454>
+    <txt_455 >Logud tidspunkt er før logind tidspunkt.</txt_455>
+    <txt_456 >Logind tidspunkt er korrigeret til</txt_456>
+    <txt_457 >ifølge stempelur indstillingerne. Kontakt en administrator for yderligere information.</txt_457>
+    <txt_458 >Materiale reg.</txt_458>
+    <txt_459 >Der er ikke valgt job.</txt_459>
+    <txt_460 >Fase indeholder en ulovlig karakter</txt_460>
+    <txt_461 >Fase indeholder et</txt_461>
+    <txt_462 >mellemrum</txt_462>
+    <txt_463 >i navnet. Fasenavne skal være et sammenhængende ord. f.eks: ""01_Hovedprojekt""</txt_463>
+    <txt_464 >Materiale- / Udlægs -registrering</txt_464>
+    <txt_465 >Forbrugsdato er ikke angivet i et gyldigt dato format.</txt_465>
+    <txt_466 >Du har valgt at oprette på lager, men der mangler at blive angivet et varenr.</txt_466>
+    <txt_467 >Print Job / tilbud</txt_467>
+    <txt_468 >Der mangler at blive angivet en folder.</txt_468>
+    <txt_469 >Der mangler at blive angivet om du vil gemme som skabelon eller dokument.</txt_469>
+    <txt_470 >Der mangler at blive valgt en gruppe.</txt_470>
+    <txt_471 >tidslås-angivelser</txt_471>
+    <txt_472 >Tidsformatet skal være tt:mm:ss, f.eks</txt_472>
+    <txt_473 >Der mangler at blive angivet et rekvisitions nr.</txt_473>
+    <txt_474 >Lønperiode</txt_474>
+    <txt_475 >Dato er ikke angivet i et gyldigt datoformat, eller datoen eksisterer ikke.</txt_475>
+    <txt_476 >De angivne procenter angivet under jobansvalige indeholder ulovlige kakrakterer.</txt_476>
+    <txt_477 >Faktura forfaldsdato</txt_477>
+    <txt_478 >Den angvine forfaldsdato er ikke angivet i et gyldigt datoformat.</txt_478>
+    <txt_479 >Du har angivet</txt_479>
+    <txt_480 >Den angivne sortering er ikke angivet som et hel-tal</txt_480>
+    <txt_481 >Det angivne antal,</txt_481>
+    <txt_482 >Købspris eller salgspris</txt_482>
+    <txt_483 >er ikke angivet i et gyldigt format. (tal)</txt_483>
+    <txt_484 >Der er ikke angivet et navn.</txt_484>
+    <txt_485 >Kontantperson hos kunde (kontakt)</txt_485>
+    <txt_486 >I jeres version af TimeOut skal der være angivet en kontaktperson hos kunden når man opretter/redigerer et job.</txt_486>
+    <txt_487 >Restestimat på job er ikke angivet i et korrekt format.</txt_487>
+    <txt_488 >Km pris</txt_488>
+    <txt_489 >Km pris er ikke angivet i et korrekt format.</txt_489>
+    <txt_490 >Fejl vedr. registrering på akt. type (ferie / sygdom etc.)</txt_490>
+    <txt_491 >Du kan ikke flytte indtastning på denne type til en dato uden norm tid.</txt_491>
+    <txt_492 >F.eks kan du ikke angive ferie på en søndag med 0 timer i norm tid.</txt_492>
+    <txt_493 >Den indtastede</txt_493>
+    <txt_494 >fradato</txt_494>
+    <txt_495 >er ikke et gyldigt datoformat.</txt_495>
+    <txt_496 >timepris ell. kostpris</txt_496>
+    <txt_497 >er ikke indtastet som et beløb.</txt_497>
+    <txt_498 >Timepris</txt_498>
+    <txt_499 >og Kostpris</txt_499>
+    <txt_500 >Der er ikke angivet et</txt_500>
+    <txt_501 >til ganttlisten.</txt_501>
+    <txt_502 >Faktor er ikke angivet som et</txt_502>
+    <txt_503 >Der er ikke fundet nogen korrektions aktiviteter.</txt_503>
+    <txt_504 >Den løn-periode du forsøger at lukke er allerede lukket og kan derfor ikke lukkes igen.</txt_504>
+    <txt_505 >Nettobeløb</txt_505>
+    <txt_506 >er større end</txt_506>
+    <txt_507 >bruttobeløb</txt_507>
+    <txt_508 >Det angivne jobnr er IKKE fundet.</txt_508>
+    <txt_509 >Der mangler at blive angivet/valgt en kunde/job.</txt_509>
+    <txt_510 >Der mangler at blive angivet/valgt en aktivitet.</txt_510>
+    <txt_511 >Der er sket en regnefejl, eller der er manuelt indtastet et forket beløb i totalbeløb.</txt_511>
+    <txt_512 >stemmer ikke overens med beløbet på faktura linjerne</txt_512>
+    <txt_513 >Tjek seneste ændrede aktivitet og klik på 'calc' igen.</txt_513>
+    <txt_514 >Dato er ikke angivet i et gyldigt datoformat</txt_514>
+    <txt_515 >Timer er ikke angivet i et gyldig format, eller der er ikke tastet timer.</txt_515>
+    <txt_516 >Forretningsområde er obligatorisk, og der er ikke valgt noget forretningsområde</txt_516>
+    <txt_517 >Der kan ikke indtastes diæter / rejsedage på dage hvorpå der er registreret mere end</txt_517>
+    <txt_518 >timer på dagen.</txt_518>
+    <txt_519 >Du mangler at indtaste et Navn</txt_519>
+    <txt_520 >Du mangler at indtaste dit Frima</txt_520>
+    <txt_521 >Ugyldig Email</txt_521>
+    <txt_522 >Det angivne budget på timeforbrug (Nettoomsætning) er ikke udfyldt korrekt. / Beløbet er ikke højt nok.</txt_522>
+    <txt_523 >De angivne Job-ansvarlige % og Salgs-ansvarlig %</txt_523>
+    <txt_524 >skal altid udgøre 100%.</txt_524>
+    <txt_525 >Angivet Job Ansv. %</txt_525>
+    <txt_526 >Angivet Salgs Ansv. %</txt_526>
+    <txt_527 >Slutdato</txt_527>
+    <txt_528 >ligger før Startdato</txt_528>
+    <txt_529 >Du mangler at vælge enten job eller kunde.</txt_529>
+    <txt_530 >Du mangler at vælge enten eksisterende aktivitet eller ny aktivitet.</txt_530>
+    <txt_531 >Dato er ikke angivet i et gyldigt datoformat.</txt_531>
+    <txt_532 >Forecast er overskreddet på aktivitet</txt_532>
+    <txt_533 >Der er tastet/tilføjet</txt_533>
+    <txt_534 >timer.</txt_534>
+    <txt_535 >Tastet før på denne dag</txt_535>
+    <txt_536 >Saldo</txt_536>
+    <txt_537 >En AKTIV medarbejder med de valgte</txt_537>
+    <txt_538 >Initialer</txt_538>
+    <txt_539 >Vælg en anden kombination af initialer.</txt_539>
+    <txt_540 >TimeOut mobile</txt_540>
+    <txt_541 >Tilbage</txt_541>
+    <txt_542 >Kontonr</txt_542>
+    <txt_543 >Forecast må kun indeholde</txt_543>
+    <txt_544 >tallene</txt_544>
+    <txt_545 >samt</txt_545>
+    <txt_546 >komma</txt_546>
+    <txt_547 >eller</txt_547>
+    <txt_548>punktum</txt_548>
+    <txt_549 >Aktivitet</txt_549>
+    <txt_550 >Nyt logind</txt_550>
+    <txt_551 >Nyt logud</txt_551>
+    <txt_552 >Der er allerede oprettet komme/gå registreringer på den valgte dato.</txt_552>
+    <txt_553 >Det er ikke tilladt at oprette komme/gå registreringer på datoer hvor der allerede har været logget ind.</txt_553>
+    <txt_554 >stemmer ikke overens</txt_554>
+    <txt_555 >med beløbet på faktura linjerne</txt_555>
+    <txt_556 >Der mangler at blive angivet en kommentar</txt_556>
+
+    <txt_557 >Der mangler at blive angivet en medarbejder</txt_557>
+    <txt_558 >Fra datoen må ikke være nyere end til datoen</txt_558>
+    <txt_559 >Der mangler at blive angivet en ugedag</txt_559>
+
+    <txt_560 >Der mangler at blive angivet en medarbejder</txt_560>
+    <txt_561 >fra-tidspunktet er nyere end til-tidspunktet</txt_561>
+    <txt_562 >Du mangler at angive fra/til tidspunkt.</txt_562>
+    <txt_563 >hvis registreringen gæler for hele dagen, sæt da kryds i 'heledagen'</txt_563>
+    <txt_564 >til / fra tidsformatet er forkert</txt_564>
+    
+    <txt_565 >Ikke alle år er udfyldt med en dato på den nyoprettede helligdag</txt_565>
+    <txt_566 >Et datofelt på den nyoprettede helligdag har forkert datoformat</txt_566>
+    
+
   </dk>
 
   <no>
@@ -117,6 +568,455 @@
       - Prisen er ikke fullført på riktig måte .
     </txt_120>
 
+    <txt_121 >User name is missing</txt_121>
+    <txt_122 >Password is missing</txt_122>
+    <txt_123 >The session timed out - you need to sign in.</txt_123>
+    <txt_124 >The session times out if you are passive more than</txt_124>
+    <txt_125 >12 hours</txt_125>
+    <txt_126 >or if TimeOut has resat all active sessions due to security or performance reasons.</txt_126>
+    <txt_127 >Click here</txt_127>
+    <txt_128 >to sign in to TimeOut again.</txt_128>
+    <txt_129 >Best regards</txt_129>
+    <txt_130 >Stated hours are missing.</txt_130>
+    <txt_131 >This Jobno. is allready entered once for this date.</txt_131>
+    <txt_132 >Jobno. is only allowed to occur one per date. You have to re-register your time.</txt_132>
+    <txt_133 >Change registration</txt_133>
+    <txt_134 >One or more of the fields herunder need to be filled out</txt_134>
+    <txt_135 >A name need to be</txt_135>
+    <txt_136 >entered</txt_136>
+    <txt_137 >One or more of this information is missing:</txt_137>
+    <txt_138 >Employee name</txt_138>
+    <txt_139 >Employee no.</txt_139>
+    <txt_140 >Employee initials</txt_140>
+    <txt_141 >Sign in</txt_141>
+    <txt_142 >Password</txt_142>
+    <txt_143 >An Employee with the choosen</txt_143>
+    <txt_144 >Employee no.</txt_144>
+    <txt_145 >allready exists</txt_145>
+    <txt_146 >Please choose another no.</txt_146>
+    <txt_147 >A Contact with the choosen</txt_147>
+    <txt_148 >Contact ID</txt_148>
+    <txt_149 >allready exists</txt_149>
+    <txt_150 >customer name</txt_150>
+    <txt_151 >Customer name is longer than</txt_151>
+    <txt_152 >characters</txt_152>
+    <txt_153 >One or more information is missing</txt_153>
+    <txt_154 >Job name</txt_154>
+    <txt_155 >or you have entered</txt_155>
+    <txt_156 >as a name</txt_156>
+    <txt_157 >job name content a</txt_157>
+    <txt_158 >or a</txt_158>
+    <txt_159 >Job name is longer</txt_159>
+    <txt_160 >than</txt_160>
+    <txt_161 >characters.</txt_161>
+    <txt_162 >You have entered</txt_162>
+    <txt_163 >Jobno.</txt_163>
+    <txt_164 >Jobno. is longer</txt_164>
+    <txt_165 >than 20</txt_165>
+    <txt_166 >A customer need to be</txt_166>
+    <txt_167 >added</txt_167>
+    <txt_168 >Job no.</txt_168>
+    <txt_169 >or</txt_169>
+    <txt_170 >Proposal no.</txt_170>
+    <txt_171 >has to be numerical.</txt_171>
+    <txt_172 >Job no. can only contain the numbers 0-9 wo. dot or comma. 0(zero) is not valid.</txt_172>
+    <txt_173 >Gross turnover</txt_173>
+    <txt_174 >has to be in correct format.</txt_174>
+    <txt_175 >Use only numbers 0-9, wo. dot or comma.</txt_175>
+    <txt_176 >An error</txt_176>
+    <txt_177 >has uccured</txt_177>
+    <txt_178 >when under entry</txt_178>
+    <txt_179 >In one or more fields invalid characters has been entered.</txt_179>
+    <txt_180 >More than 24 hours has been</txt_180>
+    <txt_181 >entered</txt_181>
+    <txt_182 >in one or more fields.</txt_182>
+    <txt_183 >A registration of this Job allready</txt_183>
+    <txt_184 >exists</txt_184>
+    <txt_185 >with this</txt_185>
+    <txt_186 >activity</txt_186>
+    <txt_187 >on this</txt_187>
+    <txt_188 >date</txt_188>
+    <txt_189 >Hours</txt_189>
+    <txt_190 >has to be numerical.</txt_190>
+    <txt_191 >It is important to use</txt_191>
+    <txt_192 >"dot"</txt_192>
+    <txt_193 >and</txt_193>
+    <txt_194 >not a</txt_194>
+    <txt_195 >"comma"</txt_195>
+    <txt_196 >when half hours are indicated.</txt_196>
+    <txt_197 >is missing, or more than 15 E42+E73</txt_197>
+    <txt_198 >Employee no.</txt_198>
+    <txt_199 >has to be numerical.</txt_199>
+    <txt_200 >Activities</txt_200>
+    <txt_201 >Activity name</txt_201>
+    <txt_202 >"Name" contain wrong characters</txt_202>
+    <txt_203 >apostrophe.</txt_203>
+    <txt_204 >A job/project with the choosen</txt_204>
+    <txt_205 >Click "Back" and apply a new project number.</txt_205>
+    <txt_206 >Tip. Adding 1 to the choosen number might be enough</txt_206>
+    <txt_207 >You have used more than</txt_207>
+    <txt_208 >attemps</txt_208>
+    <txt_209 >to sign in.</txt_209>
+    <txt_210 >You are not able to sign in to TimeOut.</txt_210>
+    <txt_211 >Please close the browser</txt_211>
+    <txt_212 >and try again</txt_212>
+    <txt_213 >or contact you TimeOut administrator to get a new password.</txt_213>
+    <txt_214 >ERP - create invoice</txt_214>
+    <txt_215 >Amount</txt_215>
+    <txt_216 >has to be an integer (1,4,56,345 etc.)</txt_216>
+    <txt_217 >Invoice no.</txt_217>
+    <txt_218 >allready exists. Please type another.</txt_218>
+    <txt_219 >has to be</txt_219>
+    <txt_220 >0 if budget is fixed price.</txt_220>
+    <txt_221 >"Probability" contains invalid or no characters.</txt_221>
+    <txt_222 >"Probability" has to be between 1 and 100%.</txt_222>
+    <txt_223 >Activity start date is earlier than job/project start date, which is</txt_223>
+    <txt_224 >Activity end date is later than job/project end date, which is</txt_224>
+    <txt_225 >The comment har more than 1255 characters which is the limit.</txt_225>
+    <txt_226 >More hours are assigned for this activity,</txt_226>
+    <txt_227 >than availeble on the job/project.</txt_227>
+    <txt_228 >End date has to be later than the start date.</txt_228>
+    <txt_229 >The date for the 2nd action has to be later that the 1st action date.</txt_229>
+    <txt_230 >The dates are the same for both actions. Do you want the start date to be later.</txt_230>
+    <txt_231 >The</txt_231>
+    <txt_232 >internal</txt_232>
+    <txt_233 >cost prices</txt_233>
+    <txt_234 >are not</txt_234>
+    <txt_235 >entered as a</txt_235>
+    <txt_236 >an integer</txt_236>
+    <txt_237 >Contains a comma</txt_237>
+    <txt_238 >Contains an</txt_238>
+    <txt_239 >invalid character</txt_239>
+    <txt_240 >or letter.</txt_240>
+    <txt_241 >One is entered as a</txt_241>
+    <txt_242 >negative number</txt_242>
+    <txt_243 >On of them are</txt_243>
+    <txt_244 >empty</txt_244>
+    <txt_245 >not filled in</txt_245>
+    <txt_246 >One or more of the following fields need to be choosen</txt_246>
+    <txt_247 >Employees</txt_247>
+    <txt_248 >One or more of the following fields need to be choosen</txt_248>
+    <txt_249 >Weekdays</txt_249>
+    <txt_250 >Dates</txt_250>
+    <txt_251 >Months</txt_251>
+    <txt_252 >Subject</txt_252>
+    <txt_253 >The stat date is earlier that the end date.</txt_253>
+    <txt_254 >No emlpoyee has been choosen.</txt_254>
+    <txt_255 >Account no</txt_255>
+    <txt_256 >or an account with same number allready exsists</txt_256>
+    <txt_257 >or a</txt_257>
+    <txt_258 >VAT ratio</txt_258>
+    <txt_259 >The VAT ratio contians invalid characters.</txt_259>
+    <txt_260 >Invalid characters are used in one of these fields.</txt_260>
+    <txt_261 >Net amount.</txt_261>
+    <txt_262 >VAT amount.</txt_262>
+    <txt_263 >Total amount.</txt_263>
+    <txt_264 >Data is missing for</txt_264>
+    <txt_265 >Total amount</txt_265>
+    <txt_266 >Factor</txt_266>
+    <txt_267 >Remember [.] (dot) and</txt_267>
+    <txt_268 >not a [,] (comma) when halfs are needed.</txt_268>
+    <txt_269 >Minimum one of the following criteria are not valid</txt_269>
+    <txt_270 >Please choose if invoices can be approved wo approval-status.</txt_270>
+    <txt_271 >Quick invoicing has not been activated</txt_271>
+    <txt_272 >No</txt_272>
+    <txt_273 >Agreements</txt_273>
+    <txt_274 >have been</txt_274>
+    <txt_275 >choosen</txt_275>
+    <txt_276 >for invoicing.</txt_276>
+    <txt_277 >A folder has not been choosen.</txt_277>
+    <txt_278 >Purchase price</txt_278>
+    <txt_279 >is not numerical</txt_279>
+    <txt_280 >Sales price</txt_280>
+    <txt_281 >Production time</txt_281>
+    <txt_282 >One or more</txt_282>
+    <txt_283 >Come / Go times</txt_283>
+    <txt_284 >do not have a valid date or time format</txt_284>
+    <txt_285 >Invalid characters or any are missing.</txt_285>
+    <txt_286 >Name is required</txt_286>
+    <txt_287 >Amout has to be numerical</txt_287>
+    <txt_288 >One or more of the entered</txt_288>
+    <txt_289 >times</txt_289>
+    <txt_290 >contains invalid characters.</txt_290>
+    <txt_291 >The registrations can only contain</txt_291>
+    <txt_292 >the numbers 0-9 and colon</txt_292>
+    <txt_293 >is not a valid</txt_293>
+    <txt_294 >time format.</txt_294>
+    <txt_295 >The time format could be</txt_295>
+    <txt_296 >The indicated time is</txt_296>
+    <txt_297 >start time</txt_297>
+    <txt_298 >is later than the</txt_298>
+    <txt_299 >end time.</txt_299>
+    <txt_300 >Punch clock - sign in history</txt_300>
+    <txt_301 >Date is not in correct format,</txt_301>
+    <txt_302 >or the date is not valid.</txt_302>
+    <txt_303 >Forecast</txt_303>
+    <txt_304 >Subject is required.</txt_304>
+    <txt_305 >Contact is required.</txt_305>
+    <txt_306 >Incident category is required.</txt_306>
+    <txt_307 >Incident type is required.</txt_307>
+    <txt_308 >Incident status is required.</txt_308>
+    <txt_309 >Part number is required and needs to be larger than 0 (zero).</txt_309>
+    <txt_310 >Part number</txt_310>
+    <txt_311 >needs to be larger than</txt_311>
+    <txt_312 >0 (zero).</txt_312>
+    <txt_313 >One or more of the following infomation is missing</txt_313>
+    <txt_314 >Minimum stock</txt_314>
+    <txt_315 >Quantity</txt_315>
+    <txt_316 >Contact is required</txt_316>
+    <txt_317 >If no contacts are listed</txt_317>
+    <txt_318 >please check if any ServiceDesk prority group has been stated.</txt_318>
+    <txt_319 >ServiceDesk, opening hours.</txt_319>
+    <txt_320 >Invalid character is stated</txt_320>
+    <txt_321 >One or more opening hours are not correct.</txt_321>
+    <txt_322 >Please use correct time format: e.g. 08:30, 14:35</txt_322>
+    <txt_323 >Closing time is earlier that the opening hour.</txt_323>
+    <txt_324 >Punch clock - ignore period</txt_324>
+    <txt_325 >An invalid character is stated in "ignore period for punch clock"</txt_325>
+    <txt_326 >Start or end time is not correct.</txt_326>
+    <txt_327 >Please use correct time format: e.g. 08:20, 15:35</txt_327>
+    <txt_328 >Punch clock - standard pause</txt_328>
+    <txt_329 >An invalid character is stated in</txt_329>
+    <txt_330 >standard pause</txt_330>
+    <txt_331 >(A or B</txt_331>
+    <txt_332 >Only numbers 0 - 9 are valid.</txt_332>
+    <txt_333 >If a Pause different from standard pauses are stated, a comment is mandatory.</txt_333>
+    <txt_334 >Invoicing - Error</txt_334>
+    <txt_335 >A project or an agreement need to be selected.</txt_335>
+    <txt_336 >ERP - Invoice templates</txt_336>
+    <txt_337 >Invoice templates.</txt_337>
+    <txt_338 >Invoice, draft, internal or reminder</txt_338>
+    <txt_339 >ERP - Invoice Reminder</txt_339>
+    <txt_340 >Date format is invalid or date does not exists.</txt_340>
+    <txt_341 >Unit or amount contain invalid characters.</txt_341>
+    <txt_342 >These fields can only be numerical.</txt_342>
+    <txt_343 >ERP - choose job or agreement</txt_343>
+    <txt_344 >A project or an agreement need to be selected before invoicing.</txt_344>
+    <txt_345 >ERP - Invoice no. allready exists</txt_345>
+    <txt_346 >You are about to create an invoice with a number that allready exists.</txt_346>
+    <txt_347 >Please check invoice no. in Control Panel and compare with lastets invoice (search invoices)</txt_347>
+    <txt_348 >Please contact you administrator to get access to the Control Panel.</txt_348>
+    <txt_349 >TSA - Job no. and proposal no.</txt_349>
+    <txt_350 >Job-/project no. Proposal no. templates.</txt_350>
+    <txt_351 >TSA - Information is needed</txt_351>
+    <txt_352 >Customer has to be choosen in step 1.</txt_352>
+    <txt_353 >TSA - Job no. allready exists</txt_353>
+    <txt_354 >Job-/project no.</txt_354>
+    <txt_355 >allready exists. Please type another.</txt_355>
+    <txt_356 >If several jobs/projects are created</txt_356>
+    <txt_357 >at the same time, the number has to be changed in the Control Panel.</txt_357>
+    <txt_358 >TSA - Proposal no. allready exists</txt_358>
+    <txt_359 >Proposal no.</txt_359>
+    <txt_360 >Proposal no. has to be changed in the Control Panel.</txt_360>
+    <txt_361 >ERP - Account number</txt_361>
+    <txt_362 >Account no. is invalid</txt_362>
+    <txt_363 >ERP - VAT</txt_363>
+    <txt_364 >VAT has to be an integer (e.g. 7, 25 etc.)</txt_364>
+    <txt_365 >ERP - VAT status</txt_365>
+    <txt_366 >The comment har more than 255 characters which is the limit.</txt_366>
+    <txt_367 >Date format is invalid.</txt_367>
+    <txt_368 >You have entered</txt_368>
+    <txt_369 >ERP - Entry date</txt_369>
+    <txt_370 >Entry date (invoice date) is different from the VAT balanced period.</txt_370>
+    <txt_371 >Invoice / entry date</txt_371>
+    <txt_372 >Last VAT period ended:</txt_372>
+    <txt_373 >Material order</txt_373>
+    <txt_374 >Units on one or more order lines are not stated as a</txt_374>
+    <txt_375 >number</txt_375>
+    <txt_376 >You have entered</txt_376>
+    <txt_377 >An order with the same order no. Allready exists.</txt_377>
+    <txt_378 >Last order created was:</txt_378>
+    <txt_379 >Order no. is invalid</txt_379>
+    <txt_380 >The order no. is</txt_380>
+    <txt_381 >Material groups</txt_381>
+    <txt_382 >Name is required</txt_382>
+    <txt_383 >Profit % has invalid characteres.</txt_383>
+    <txt_384 >Or is missing. Please use an integer. 0-100.</txt_384>
+    <txt_385 >Budget Gros/Net days</txt_385>
+    <txt_386 >Name is required</txt_386>
+    <txt_387 >Currencies</txt_387>
+    <txt_388 >Name is required.</txt_388>
+    <txt_389 >Code is required.</txt_389>
+    <txt_390 >Rate has to be numerical.</txt_390>
+    <txt_391 >Rate has to be lager than 0 (zero)</txt_391>
+    <txt_392 >Budget employees</txt_392>
+    <txt_393 >One or more fields has invalid characters or are empty.</txt_393>
+    <txt_394 >Employee</txt_394>
+    <txt_395 >Employment date has either invalid characters, format or is empty.</txt_395>
+    <txt_396 >Termination/resignation date has either invalid characters, format or is empty.</txt_396>
+    <txt_397 >Stop watch</txt_397>
+    <txt_398 >Start time</txt_398>
+    <txt_399 >or</txt_399>
+    <txt_400 >End time</txt_400>
+    <txt_401 >has either invalid characters, format or is empty.</txt_401>
+    <txt_402 >Time recording</txt_402>
+    <txt_403 >The time recording has been rejected. Two reasons can course this:</txt_403>
+    <txt_404 >Registration date</txt_404>
+    <txt_405 >is in a interval which has allready been invoiced.</txt_405>
+    <txt_406 >Or. The period is completed/closed.</txt_406>
+    <txt_407 >Copy job/project</txt_407>
+    <txt_408 >Contact is required.</txt_408>
+    <txt_409 >Job/project is required.</txt_409>
+    <txt_410 >ServiceDesk</txt_410>
+    <txt_411 >Date for execution is invalid.</txt_411>
+    <txt_412 >Unit no. is invalid.</txt_412>
+    <txt_413 >Job/project list</txt_413>
+    <txt_414 >Priority</txt_414>
+    <txt_415 >Job/project - budget</txt_415>
+    <txt_416 >Avr. Hourly rate is invalid.</txt_416>
+    <txt_417 >Employee amount calculated from avr. hourly rate * factor is invalid.</txt_417>
+    <txt_418 >Internal cost (salary) is invalid.</txt_418>
+    <txt_419 >Vendor and Sales cost are invalid.</txt_419>
+    <txt_420 >Gross profit is invalid.</txt_420>
+    <txt_421 >Gross profit % is invalid.</txt_421>
+    <txt_422 >to calculate employee amount is not valid.</txt_422>
+    <txt_423 >Minimum 1 (one) line per employee type that to exists.</txt_423>
+    <txt_424 >Costs are not valid or correct format.</txt_424>
+    <txt_425 >Yes</txt_425>
+    <txt_426 >No</txt_426>
+    <txt_427 >Punch clock</txt_427>
+    <txt_428 >Comment is needed</txt_428>
+    <txt_429 >Changes to log-in and log-out</txt_429>
+    <txt_430 >requires</txt_430>
+    <txt_431 >a reason in the comment field.</txt_431>
+    <txt_432 >A punch clock setting has been choosen</txt_432>
+    <txt_433 >explained with a comment.</txt_433>
+    <txt_434 >Data</txt_434>
+    <txt_435 >Punch clock setttings</txt_435>
+    <txt_436 >Manual ended</txt_436>
+    <txt_437 >Time changed</txt_437>
+    <txt_438 >Org. Log-in</txt_438>
+    <txt_439 >Org. Log-out</txt_439>
+    <txt_440 >If time recordings on pre-entered activities are changed</txt_440>
+    <txt_441 >Priority is not stated in correct format (integer)</txt_441>
+    <txt_442 >Come / Go</txt_442>
+    <txt_443 >One or more come / go registrations are in conflict.</txt_443>
+    <txt_444 >Only one come / go regsitration can be made for the same period.</txt_444>
+    <txt_445 >This come / go registration is invalid</txt_445>
+    <txt_446 >An acitivity is not found with an open time-lock for the period / date.</txt_446>
+    <txt_447 >You have stated this time</txt_447>
+    <txt_448 >Time-lock is</txt_448>
+    <txt_449 >Control panel</txt_449>
+    <txt_450 >The stated</txt_450>
+    <txt_451 >license start date</txt_451>
+    <txt_452 >is not in a valid format.</txt_452>
+    <txt_453 >Contacts</txt_453>
+    <txt_454 >Name is required.</txt_454>
+    <txt_455 >Sign out time is earlier than sign in time.</txt_455>
+    <txt_456 >Sign in time has been changed to</txt_456>
+    <txt_457 >according to the settings. Please contact adminiatrator for furter information.</txt_457>
+    <txt_458 >Material reg.</txt_458>
+    <txt_459 >Job/project is required.</txt_459>
+    <txt_460 >Phase is invalid</txt_460>
+    <txt_461 >Phase contains a</txt_461>
+    <txt_462 >space</txt_462>
+    <txt_463 >in the name. Phase must be one word. E.g. ""01_MainProject""</txt_463>
+    <txt_464 >Material / expence registration</txt_464>
+    <txt_465 >Date is not in correct format.</txt_465>
+    <txt_466 >Part number needs to be added.</txt_466>
+    <txt_467 >Print job / project / proposal</txt_467>
+    <txt_468 >Folder is required.</txt_468>
+    <txt_469 >Please indicate if you want to safe as template or document.</txt_469>
+    <txt_470 >Groupe is required.</txt_470>
+    <txt_471 >Time-lock settings</txt_471>
+    <txt_472 >Time format has to be tt:mm:ss</txt_472>
+    <txt_473 >Purchase order no. is required.</txt_473>
+    <txt_474 >Salary period</txt_474>
+    <txt_475 >Date is invalid or not existing.</txt_475>
+    <txt_476 >Percent contain invalid characters.</txt_476>
+    <txt_477 >Invoice due date</txt_477>
+    <txt_478 >Due date is invalid.</txt_478>
+    <txt_479 >You have stated</txt_479>
+    <txt_480 >Sort no. has to be an integer</txt_480>
+    <txt_481 >The stated quantity,</txt_481>
+    <txt_482 >Cost or sales price</txt_482>
+    <txt_483 >has to be numerical.</txt_483>
+    <txt_484 >Name is required.</txt_484>
+    <txt_485 >Contact at customer</txt_485>
+    <txt_486 >Contact is required when creating/editing a job/project.</txt_486>
+    <txt_487 >Rest estimate is invalid.</txt_487>
+    <txt_488 >Milage price</txt_488>
+    <txt_489 >Milage price is invalid.</txt_489>
+    <txt_490 >Error. Registration on activity type (absence, vacation etc.)</txt_490>
+    <txt_491 >Rated hours is required.</txt_491>
+    <txt_492 >E.g. is vacation on a Sunday with 0 rated hours not possible.</txt_492>
+    <txt_493 >The entered</txt_493>
+    <txt_494 >from date</txt_494>
+    <txt_495 >is invalid.</txt_495>
+    <txt_496 >Hourly rate or cost price</txt_496>
+    <txt_497 >has to be numerical.</txt_497>
+    <txt_498 >Hourly rate</txt_498>
+    <txt_499 >and costprice</txt_499>
+    <txt_500 >Information is needed</txt_500>
+    <txt_501 >for the Ganttlist.</txt_501>
+    <txt_502 >Factor is not stated as a</txt_502>
+    <txt_503 >No correction activities were found.</txt_503>
+    <txt_504 >Salary period is allready closed.</txt_504>
+    <txt_505 >Net amount</txt_505>
+    <txt_506 >is larger than</txt_506>
+    <txt_507 >gross amount</txt_507>
+    <txt_508 >Job /project no was not found.</txt_508>
+    <txt_509 >Pls. Choose customer/job.</txt_509>
+    <txt_510 >pls. Choose activity.</txt_510>
+    <txt_511 >A calculation error has uccred or a manuel amount has be entered as a total amouont.</txt_511>
+    <txt_512 >does not match the amount of the invoice lines</txt_512>
+    <txt_513 >Please check latest activity change and click 'calc' again.</txt_513>
+    <txt_514 >Date is not valid</txt_514>
+    <txt_515 >Hours are not valid or not entered.</txt_515>
+    <txt_516 >Business area is required. No Business area is entered.</txt_516>
+    <txt_517 >Diets / travel days cannot be entered if more than</txt_517>
+    <txt_518 >hours are registrered.</txt_518>
+    <txt_519 >Name needs to be entered</txt_519>
+    <txt_520 >Company needs to be entered</txt_520>
+    <txt_521 >Invalid email</txt_521>
+    <txt_522 >Net reveue amount is not correct / amout is not high enough.</txt_522>
+    <txt_523 >The stated project/sales manager %</txt_523>
+    <txt_524 >has to equal 100%.</txt_524>
+    <txt_525 >Please state Project mng. %</txt_525>
+    <txt_526 >please state Sales mng. %</txt_526>
+    <txt_527 >End date</txt_527>
+    <txt_528 >is before start date</txt_528>
+    <txt_529 >You have to choose job/proejct or customer.</txt_529>
+    <txt_530 >you have to choose an exsisting or a new activity.</txt_530>
+    <txt_531 >Date in invalid.</txt_531>
+    <txt_532 >Forecast has exceeded for this activity.</txt_532>
+    <txt_533 >Hours has been</txt_533>
+    <txt_534 >entered/edited.</txt_534>
+    <txt_535 >Entered befor this day</txt_535>
+    <txt_536 >Balance</txt_536>
+    <txt_537 >an active employee with the choosen</txt_537>
+    <txt_538 >Initials</txt_538>
+    <txt_539 >Please make another combination of initials.</txt_539>
+    <txt_540 >TimeOut Mobile</txt_540>
+    <txt_541 >Back</txt_541>
+    <txt_542 >Account no</txt_542>
+    <txt_543 >Forecast must contain only</txt_543>
+    <txt_544 >the numbers</txt_544>
+    <txt_545 >as well</txt_545>
+    <txt_546 >comma</txt_546>
+    <txt_547 >or</txt_547>
+    <txt_548>period</txt_548>
+    <txt_549 >Activity</txt_549>
+    <txt_550 >New log-in</txt_550>
+    <txt_551 >New log-out</txt_551>
+    <txt_552 >There have already been created come / go registrations on the selected date.</txt_552>
+    <txt_553 >It is not allowed to create come / go registrations on dates that have already been logged in on.</txt_553>
+    <txt_554 >does not match</txt_554>
+    <txt_555 >with the amount on the invoice lines</txt_555>
+    <txt_556 >Please write a comment for your registration(s)</txt_556>
+
+    <txt_557 >No employee is selected</txt_557>
+    <txt_558 >The start date cant be newer than the end date</txt_558>
+    <txt_559 >The weekday the repport should be send is missing</txt_559>
+
+    <txt_560 >No employee is selected</txt_560>
+    <txt_561 >The start-time is newer the than end-time</txt_561>
+    <txt_562 >You need to specify from / to time.</txt_562>
+    <txt_563 >if the registration is for the whole day, check the whole day checkbox</txt_563>
+    <txt_564 >The to / from time format is incorrect</txt_564>
+    
+    <txt_565 >Not all years are filled in with a date on the newly created holiday</txt_565>
+    <txt_566 >A date field on the newly created holiday has a wrong date format</txt_566>
 
   </no>
 
@@ -167,6 +1067,456 @@
       - Försäljningspris är inte korrekt ifylld.
     </txt_120>
 
+    <txt_121 >User name is missing</txt_121>
+    <txt_122 >Password is missing</txt_122>
+    <txt_123 >The session timed out - you need to sign in.</txt_123>
+    <txt_124 >The session times out if you are passive more than</txt_124>
+    <txt_125 >12 hours</txt_125>
+    <txt_126 >or if TimeOut has resat all active sessions due to security or performance reasons.</txt_126>
+    <txt_127 >Click here</txt_127>
+    <txt_128 >to sign in to TimeOut again.</txt_128>
+    <txt_129 >Best regards</txt_129>
+    <txt_130 >Stated hours are missing.</txt_130>
+    <txt_131 >This Jobno. is allready entered once for this date.</txt_131>
+    <txt_132 >Jobno. is only allowed to occur one per date. You have to re-register your time.</txt_132>
+    <txt_133 >Change registration</txt_133>
+    <txt_134 >One or more of the fields herunder need to be filled out</txt_134>
+    <txt_135 >A name need to be</txt_135>
+    <txt_136 >entered</txt_136>
+    <txt_137 >One or more of this information is missing:</txt_137>
+    <txt_138 >Employee name</txt_138>
+    <txt_139 >Employee no.</txt_139>
+    <txt_140 >Employee initials</txt_140>
+    <txt_141 >Sign in</txt_141>
+    <txt_142 >Password</txt_142>
+    <txt_143 >An Employee with the choosen</txt_143>
+    <txt_144 >Employee no.</txt_144>
+    <txt_145 >allready exists</txt_145>
+    <txt_146 >Please choose another no.</txt_146>
+    <txt_147 >A Contact with the choosen</txt_147>
+    <txt_148 >Contact ID</txt_148>
+    <txt_149 >allready exists</txt_149>
+    <txt_150 >customer name</txt_150>
+    <txt_151 >Customer name is longer than</txt_151>
+    <txt_152 >characters</txt_152>
+    <txt_153 >One or more information is missing</txt_153>
+    <txt_154 >Job name</txt_154>
+    <txt_155 >or you have entered</txt_155>
+    <txt_156 >as a name</txt_156>
+    <txt_157 >job name content a</txt_157>
+    <txt_158 >or a</txt_158>
+    <txt_159 >Job name is longer</txt_159>
+    <txt_160 >than</txt_160>
+    <txt_161 >characters.</txt_161>
+    <txt_162 >You have entered</txt_162>
+    <txt_163 >Jobno.</txt_163>
+    <txt_164 >Jobno. is longer</txt_164>
+    <txt_165 >than 20</txt_165>
+    <txt_166 >A customer need to be</txt_166>
+    <txt_167 >added</txt_167>
+    <txt_168 >Job no.</txt_168>
+    <txt_169 >or</txt_169>
+    <txt_170 >Proposal no.</txt_170>
+    <txt_171 >has to be numerical.</txt_171>
+    <txt_172 >Job no. can only contain the numbers 0-9 wo. dot or comma. 0(zero) is not valid.</txt_172>
+    <txt_173 >Gross turnover</txt_173>
+    <txt_174 >has to be in correct format.</txt_174>
+    <txt_175 >Use only numbers 0-9, wo. dot or comma.</txt_175>
+    <txt_176 >An error</txt_176>
+    <txt_177 >has uccured</txt_177>
+    <txt_178 >when under entry</txt_178>
+    <txt_179 >In one or more fields invalid characters has been entered.</txt_179>
+    <txt_180 >More than 24 hours has been</txt_180>
+    <txt_181 >entered</txt_181>
+    <txt_182 >in one or more fields.</txt_182>
+    <txt_183 >A registration of this Job allready</txt_183>
+    <txt_184 >exists</txt_184>
+    <txt_185 >with this</txt_185>
+    <txt_186 >activity</txt_186>
+    <txt_187 >on this</txt_187>
+    <txt_188 >date</txt_188>
+    <txt_189 >Hours</txt_189>
+    <txt_190 >has to be numerical.</txt_190>
+    <txt_191 >It is important to use</txt_191>
+    <txt_192 >"dot"</txt_192>
+    <txt_193 >and</txt_193>
+    <txt_194 >not a</txt_194>
+    <txt_195 >"comma"</txt_195>
+    <txt_196 >when half hours are indicated.</txt_196>
+    <txt_197 >is missing, or more than 15 E42+E73</txt_197>
+    <txt_198 >Employee no.</txt_198>
+    <txt_199 >has to be numerical.</txt_199>
+    <txt_200 >Activities</txt_200>
+    <txt_201 >Activity name</txt_201>
+    <txt_202 >"Name" contain wrong characters</txt_202>
+    <txt_203 >apostrophe.</txt_203>
+    <txt_204 >A job/project with the choosen</txt_204>
+    <txt_205 >Click "Back" and apply a new project number.</txt_205>
+    <txt_206 >Tip. Adding 1 to the choosen number might be enough</txt_206>
+    <txt_207 >You have used more than</txt_207>
+    <txt_208 >attemps</txt_208>
+    <txt_209 >to sign in.</txt_209>
+    <txt_210 >You are not able to sign in to TimeOut.</txt_210>
+    <txt_211 >Please close the browser</txt_211>
+    <txt_212 >and try again</txt_212>
+    <txt_213 >or contact you TimeOut administrator to get a new password.</txt_213>
+    <txt_214 >ERP - create invoice</txt_214>
+    <txt_215 >Amount</txt_215>
+    <txt_216 >has to be an integer (1,4,56,345 etc.)</txt_216>
+    <txt_217 >Invoice no.</txt_217>
+    <txt_218 >allready exists. Please type another.</txt_218>
+    <txt_219 >has to be</txt_219>
+    <txt_220 >0 if budget is fixed price.</txt_220>
+    <txt_221 >"Probability" contains invalid or no characters.</txt_221>
+    <txt_222 >"Probability" has to be between 1 and 100%.</txt_222>
+    <txt_223 >Activity start date is earlier than job/project start date, which is</txt_223>
+    <txt_224 >Activity end date is later than job/project end date, which is</txt_224>
+    <txt_225 >The comment har more than 1255 characters which is the limit.</txt_225>
+    <txt_226 >More hours are assigned for this activity,</txt_226>
+    <txt_227 >than availeble on the job/project.</txt_227>
+    <txt_228 >End date has to be later than the start date.</txt_228>
+    <txt_229 >The date for the 2nd action has to be later that the 1st action date.</txt_229>
+    <txt_230 >The dates are the same for both actions. Do you want the start date to be later.</txt_230>
+    <txt_231 >The</txt_231>
+    <txt_232 >internal</txt_232>
+    <txt_233 >cost prices</txt_233>
+    <txt_234 >are not</txt_234>
+    <txt_235 >entered as a</txt_235>
+    <txt_236 >an integer</txt_236>
+    <txt_237 >Contains a comma</txt_237>
+    <txt_238 >Contains an</txt_238>
+    <txt_239 >invalid character</txt_239>
+    <txt_240 >or letter.</txt_240>
+    <txt_241 >One is entered as a</txt_241>
+    <txt_242 >negative number</txt_242>
+    <txt_243 >On of them are</txt_243>
+    <txt_244 >empty</txt_244>
+    <txt_245 >not filled in</txt_245>
+    <txt_246 >One or more of the following fields need to be choosen</txt_246>
+    <txt_247 >Employees</txt_247>
+    <txt_248 >One or more of the following fields need to be choosen</txt_248>
+    <txt_249 >Weekdays</txt_249>
+    <txt_250 >Dates</txt_250>
+    <txt_251 >Months</txt_251>
+    <txt_252 >Subject</txt_252>
+    <txt_253 >The stat date is earlier that the end date.</txt_253>
+    <txt_254 >No emlpoyee has been choosen.</txt_254>
+    <txt_255 >Account no</txt_255>
+    <txt_256 >or an account with same number allready exsists</txt_256>
+    <txt_257 >or a</txt_257>
+    <txt_258 >VAT ratio</txt_258>
+    <txt_259 >The VAT ratio contians invalid characters.</txt_259>
+    <txt_260 >Invalid characters are used in one of these fields.</txt_260>
+    <txt_261 >Net amount.</txt_261>
+    <txt_262 >VAT amount.</txt_262>
+    <txt_263 >Total amount.</txt_263>
+    <txt_264 >Data is missing for</txt_264>
+    <txt_265 >Total amount</txt_265>
+    <txt_266 >Factor</txt_266>
+    <txt_267 >Remember [.] (dot) and</txt_267>
+    <txt_268 >not a [,] (comma) when halfs are needed.</txt_268>
+    <txt_269 >Minimum one of the following criteria are not valid</txt_269>
+    <txt_270 >Please choose if invoices can be approved wo approval-status.</txt_270>
+    <txt_271 >Quick invoicing has not been activated</txt_271>
+    <txt_272 >No</txt_272>
+    <txt_273 >Agreements</txt_273>
+    <txt_274 >have been</txt_274>
+    <txt_275 >choosen</txt_275>
+    <txt_276 >for invoicing.</txt_276>
+    <txt_277 >A folder has not been choosen.</txt_277>
+    <txt_278 >Purchase price</txt_278>
+    <txt_279 >is not numerical</txt_279>
+    <txt_280 >Sales price</txt_280>
+    <txt_281 >Production time</txt_281>
+    <txt_282 >One or more</txt_282>
+    <txt_283 >Come / Go times</txt_283>
+    <txt_284 >do not have a valid date or time format</txt_284>
+    <txt_285 >Invalid characters or any are missing.</txt_285>
+    <txt_286 >Name is required</txt_286>
+    <txt_287 >Amout has to be numerical</txt_287>
+    <txt_288 >One or more of the entered</txt_288>
+    <txt_289 >times</txt_289>
+    <txt_290 >contains invalid characters.</txt_290>
+    <txt_291 >The registrations can only contain</txt_291>
+    <txt_292 >the numbers 0-9 and colon</txt_292>
+    <txt_293 >is not a valid</txt_293>
+    <txt_294 >time format.</txt_294>
+    <txt_295 >The time format could be</txt_295>
+    <txt_296 >The indicated time is</txt_296>
+    <txt_297 >start time</txt_297>
+    <txt_298 >is later than the</txt_298>
+    <txt_299 >end time.</txt_299>
+    <txt_300 >Punch clock - sign in history</txt_300>
+    <txt_301 >Date is not in correct format,</txt_301>
+    <txt_302 >or the date is not valid.</txt_302>
+    <txt_303 >Forecast</txt_303>
+    <txt_304 >Subject is required.</txt_304>
+    <txt_305 >Contact is required.</txt_305>
+    <txt_306 >Incident category is required.</txt_306>
+    <txt_307 >Incident type is required.</txt_307>
+    <txt_308 >Incident status is required.</txt_308>
+    <txt_309 >Part number is required and needs to be larger than 0 (zero).</txt_309>
+    <txt_310 >Part number</txt_310>
+    <txt_311 >needs to be larger than</txt_311>
+    <txt_312 >0 (zero).</txt_312>
+    <txt_313 >One or more of the following infomation is missing</txt_313>
+    <txt_314 >Minimum stock</txt_314>
+    <txt_315 >Quantity</txt_315>
+    <txt_316 >Contact is required</txt_316>
+    <txt_317 >If no contacts are listed</txt_317>
+    <txt_318 >please check if any ServiceDesk prority group has been stated.</txt_318>
+    <txt_319 >ServiceDesk, opening hours.</txt_319>
+    <txt_320 >Invalid character is stated</txt_320>
+    <txt_321 >One or more opening hours are not correct.</txt_321>
+    <txt_322 >Please use correct time format: e.g. 08:30, 14:35</txt_322>
+    <txt_323 >Closing time is earlier that the opening hour.</txt_323>
+    <txt_324 >Punch clock - ignore period</txt_324>
+    <txt_325 >An invalid character is stated in "ignore period for punch clock"</txt_325>
+    <txt_326 >Start or end time is not correct.</txt_326>
+    <txt_327 >Please use correct time format: e.g. 08:20, 15:35</txt_327>
+    <txt_328 >Punch clock - standard pause</txt_328>
+    <txt_329 >An invalid character is stated in</txt_329>
+    <txt_330 >standard pause</txt_330>
+    <txt_331 >(A or B</txt_331>
+    <txt_332 >Only numbers 0 - 9 are valid.</txt_332>
+    <txt_333 >If a Pause different from standard pauses are stated, a comment is mandatory.</txt_333>
+    <txt_334 >Invoicing - Error</txt_334>
+    <txt_335 >A project or an agreement need to be selected.</txt_335>
+    <txt_336 >ERP - Invoice templates</txt_336>
+    <txt_337 >Invoice templates.</txt_337>
+    <txt_338 >Invoice, draft, internal or reminder</txt_338>
+    <txt_339 >ERP - Invoice Reminder</txt_339>
+    <txt_340 >Date format is invalid or date does not exists.</txt_340>
+    <txt_341 >Unit or amount contain invalid characters.</txt_341>
+    <txt_342 >These fields can only be numerical.</txt_342>
+    <txt_343 >ERP - choose job or agreement</txt_343>
+    <txt_344 >A project or an agreement need to be selected before invoicing.</txt_344>
+    <txt_345 >ERP - Invoice no. allready exists</txt_345>
+    <txt_346 >You are about to create an invoice with a number that allready exists.</txt_346>
+    <txt_347 >Please check invoice no. in Control Panel and compare with lastets invoice (search invoices)</txt_347>
+    <txt_348 >Please contact you administrator to get access to the Control Panel.</txt_348>
+    <txt_349 >TSA - Job no. and proposal no.</txt_349>
+    <txt_350 >Job-/project no. Proposal no. templates.</txt_350>
+    <txt_351 >TSA - Information is needed</txt_351>
+    <txt_352 >Customer has to be choosen in step 1.</txt_352>
+    <txt_353 >TSA - Job no. allready exists</txt_353>
+    <txt_354 >Job-/project no.</txt_354>
+    <txt_355 >allready exists. Please type another.</txt_355>
+    <txt_356 >If several jobs/projects are created</txt_356>
+    <txt_357 >at the same time, the number has to be changed in the Control Panel.</txt_357>
+    <txt_358 >TSA - Proposal no. allready exists</txt_358>
+    <txt_359 >Proposal no.</txt_359>
+    <txt_360 >Proposal no. has to be changed in the Control Panel.</txt_360>
+    <txt_361 >ERP - Account number</txt_361>
+    <txt_362 >Account no. is invalid</txt_362>
+    <txt_363 >ERP - VAT</txt_363>
+    <txt_364 >VAT has to be an integer (e.g. 7, 25 etc.)</txt_364>
+    <txt_365 >ERP - VAT status</txt_365>
+    <txt_366 >The comment har more than 255 characters which is the limit.</txt_366>
+    <txt_367 >Date format is invalid.</txt_367>
+    <txt_368 >You have entered</txt_368>
+    <txt_369 >ERP - Entry date</txt_369>
+    <txt_370 >Entry date (invoice date) is different from the VAT balanced period.</txt_370>
+    <txt_371 >Invoice / entry date</txt_371>
+    <txt_372 >Last VAT period ended:</txt_372>
+    <txt_373 >Material order</txt_373>
+    <txt_374 >Units on one or more order lines are not stated as a</txt_374>
+    <txt_375 >number</txt_375>
+    <txt_376 >You have entered</txt_376>
+    <txt_377 >An order with the same order no. Allready exists.</txt_377>
+    <txt_378 >Last order created was:</txt_378>
+    <txt_379 >Order no. is invalid</txt_379>
+    <txt_380 >The order no. is</txt_380>
+    <txt_381 >Material groups</txt_381>
+    <txt_382 >Name is required</txt_382>
+    <txt_383 >Profit % has invalid characteres.</txt_383>
+    <txt_384 >Or is missing. Please use an integer. 0-100.</txt_384>
+    <txt_385 >Budget Gros/Net days</txt_385>
+    <txt_386 >Name is required</txt_386>
+    <txt_387 >Currencies</txt_387>
+    <txt_388 >Name is required.</txt_388>
+    <txt_389 >Code is required.</txt_389>
+    <txt_390 >Rate has to be numerical.</txt_390>
+    <txt_391 >Rate has to be lager than 0 (zero)</txt_391>
+    <txt_392 >Budget employees</txt_392>
+    <txt_393 >One or more fields has invalid characters or are empty.</txt_393>
+    <txt_394 >Employee</txt_394>
+    <txt_395 >Employment date has either invalid characters, format or is empty.</txt_395>
+    <txt_396 >Termination/resignation date has either invalid characters, format or is empty.</txt_396>
+    <txt_397 >Stop watch</txt_397>
+    <txt_398 >Start time</txt_398>
+    <txt_399 >or</txt_399>
+    <txt_400 >End time</txt_400>
+    <txt_401 >has either invalid characters, format or is empty.</txt_401>
+    <txt_402 >Time recording</txt_402>
+    <txt_403 >The time recording has been rejected. Two reasons can course this:</txt_403>
+    <txt_404 >Registration date</txt_404>
+    <txt_405 >is in a interval which has allready been invoiced.</txt_405>
+    <txt_406 >Or. The period is completed/closed.</txt_406>
+    <txt_407 >Copy job/project</txt_407>
+    <txt_408 >Contact is required.</txt_408>
+    <txt_409 >Job/project is required.</txt_409>
+    <txt_410 >ServiceDesk</txt_410>
+    <txt_411 >Date for execution is invalid.</txt_411>
+    <txt_412 >Unit no. is invalid.</txt_412>
+    <txt_413 >Job/project list</txt_413>
+    <txt_414 >Priority</txt_414>
+    <txt_415 >Job/project - budget</txt_415>
+    <txt_416 >Avr. Hourly rate is invalid.</txt_416>
+    <txt_417 >Employee amount calculated from avr. hourly rate * factor is invalid.</txt_417>
+    <txt_418 >Internal cost (salary) is invalid.</txt_418>
+    <txt_419 >Vendor and Sales cost are invalid.</txt_419>
+    <txt_420 >Gross profit is invalid.</txt_420>
+    <txt_421 >Gross profit % is invalid.</txt_421>
+    <txt_422 >to calculate employee amount is not valid.</txt_422>
+    <txt_423 >Minimum 1 (one) line per employee type that to exists.</txt_423>
+    <txt_424 >Costs are not valid or correct format.</txt_424>
+    <txt_425 >Yes</txt_425>
+    <txt_426 >No</txt_426>
+    <txt_427 >Punch clock</txt_427>
+    <txt_428 >Comment is needed</txt_428>
+    <txt_429 >Changes to log-in and log-out</txt_429>
+    <txt_430 >requires</txt_430>
+    <txt_431 >a reason in the comment field.</txt_431>
+    <txt_432 >A punch clock setting has been choosen</txt_432>
+    <txt_433 >explained with a comment.</txt_433>
+    <txt_434 >Data</txt_434>
+    <txt_435 >Punch clock setttings</txt_435>
+    <txt_436 >Manual ended</txt_436>
+    <txt_437 >Time changed</txt_437>
+    <txt_438 >Org. Log-in</txt_438>
+    <txt_439 >Org. Log-out</txt_439>
+    <txt_440 >If time recordings on pre-entered activities are changed</txt_440>
+    <txt_441 >Priority is not stated in correct format (integer)</txt_441>
+    <txt_442 >Come / Go</txt_442>
+    <txt_443 >One or more come / go registrations are in conflict.</txt_443>
+    <txt_444 >Only one come / go regsitration can be made for the same period.</txt_444>
+    <txt_445 >This come / go registration is invalid</txt_445>
+    <txt_446 >An acitivity is not found with an open time-lock for the period / date.</txt_446>
+    <txt_447 >You have stated this time</txt_447>
+    <txt_448 >Time-lock is</txt_448>
+    <txt_449 >Control panel</txt_449>
+    <txt_450 >The stated</txt_450>
+    <txt_451 >license start date</txt_451>
+    <txt_452 >is not in a valid format.</txt_452>
+    <txt_453 >Contacts</txt_453>
+    <txt_454 >Name is required.</txt_454>
+    <txt_455 >Sign out time is earlier than sign in time.</txt_455>
+    <txt_456 >Sign in time has been changed to</txt_456>
+    <txt_457 >according to the settings. Please contact adminiatrator for furter information.</txt_457>
+    <txt_458 >Material reg.</txt_458>
+    <txt_459 >Job/project is required.</txt_459>
+    <txt_460 >Phase is invalid</txt_460>
+    <txt_461 >Phase contains a</txt_461>
+    <txt_462 >space</txt_462>
+    <txt_463 >in the name. Phase must be one word. E.g. ""01_MainProject""</txt_463>
+    <txt_464 >Material / expence registration</txt_464>
+    <txt_465 >Date is not in correct format.</txt_465>
+    <txt_466 >Part number needs to be added.</txt_466>
+    <txt_467 >Print job / project / proposal</txt_467>
+    <txt_468 >Folder is required.</txt_468>
+    <txt_469 >Please indicate if you want to safe as template or document.</txt_469>
+    <txt_470 >Groupe is required.</txt_470>
+    <txt_471 >Time-lock settings</txt_471>
+    <txt_472 >Time format has to be tt:mm:ss</txt_472>
+    <txt_473 >Purchase order no. is required.</txt_473>
+    <txt_474 >Salary period</txt_474>
+    <txt_475 >Date is invalid or not existing.</txt_475>
+    <txt_476 >Percent contain invalid characters.</txt_476>
+    <txt_477 >Invoice due date</txt_477>
+    <txt_478 >Due date is invalid.</txt_478>
+    <txt_479 >You have stated</txt_479>
+    <txt_480 >Sort no. has to be an integer</txt_480>
+    <txt_481 >The stated quantity,</txt_481>
+    <txt_482 >Cost or sales price</txt_482>
+    <txt_483 >has to be numerical.</txt_483>
+    <txt_484 >Name is required.</txt_484>
+    <txt_485 >Contact at customer</txt_485>
+    <txt_486 >Contact is required when creating/editing a job/project.</txt_486>
+    <txt_487 >Rest estimate is invalid.</txt_487>
+    <txt_488 >Milage price</txt_488>
+    <txt_489 >Milage price is invalid.</txt_489>
+    <txt_490 >Error. Registration on activity type (absence, vacation etc.)</txt_490>
+    <txt_491 >Rated hours is required.</txt_491>
+    <txt_492 >E.g. is vacation on a Sunday with 0 rated hours not possible.</txt_492>
+    <txt_493 >The entered</txt_493>
+    <txt_494 >from date</txt_494>
+    <txt_495 >is invalid.</txt_495>
+    <txt_496 >Hourly rate or cost price</txt_496>
+    <txt_497 >has to be numerical.</txt_497>
+    <txt_498 >Hourly rate</txt_498>
+    <txt_499 >and costprice</txt_499>
+    <txt_500 >Information is needed</txt_500>
+    <txt_501 >for the Ganttlist.</txt_501>
+    <txt_502 >Factor is not stated as a</txt_502>
+    <txt_503 >No correction activities were found.</txt_503>
+    <txt_504 >Salary period is allready closed.</txt_504>
+    <txt_505 >Net amount</txt_505>
+    <txt_506 >is larger than</txt_506>
+    <txt_507 >gross amount</txt_507>
+    <txt_508 >Job /project no was not found.</txt_508>
+    <txt_509 >Pls. Choose customer/job.</txt_509>
+    <txt_510 >pls. Choose activity.</txt_510>
+    <txt_511 >A calculation error has uccred or a manuel amount has be entered as a total amouont.</txt_511>
+    <txt_512 >does not match the amount of the invoice lines</txt_512>
+    <txt_513 >Please check latest activity change and click 'calc' again.</txt_513>
+    <txt_514 >Date is not valid</txt_514>
+    <txt_515 >Hours are not valid or not entered.</txt_515>
+    <txt_516 >Business area is required. No Business area is entered.</txt_516>
+    <txt_517 >Diets / travel days cannot be entered if more than</txt_517>
+    <txt_518 >hours are registrered.</txt_518>
+    <txt_519 >Name needs to be entered</txt_519>
+    <txt_520 >Company needs to be entered</txt_520>
+    <txt_521 >Invalid email</txt_521>
+    <txt_522 >Net reveue amount is not correct / amout is not high enough.</txt_522>
+    <txt_523 >The stated project/sales manager %</txt_523>
+    <txt_524 >has to equal 100%.</txt_524>
+    <txt_525 >Please state Project mng. %</txt_525>
+    <txt_526 >please state Sales mng. %</txt_526>
+    <txt_527 >End date</txt_527>
+    <txt_528 >is before start date</txt_528>
+    <txt_529 >You have to choose job/proejct or customer.</txt_529>
+    <txt_530 >you have to choose an exsisting or a new activity.</txt_530>
+    <txt_531 >Date in invalid.</txt_531>
+    <txt_532 >Forecast has exceeded for this activity.</txt_532>
+    <txt_533 >Hours has been</txt_533>
+    <txt_534 >entered/edited.</txt_534>
+    <txt_535 >Entered befor this day</txt_535>
+    <txt_536 >Balance</txt_536>
+    <txt_537 >an active employee with the choosen</txt_537>
+    <txt_538 >Initials</txt_538>
+    <txt_539 >Please make another combination of initials.</txt_539>
+    <txt_540 >TimeOut Mobile</txt_540>
+    <txt_541 >Back</txt_541>
+    <txt_542 >Account no</txt_542>
+    <txt_543 >Forecast must contain only</txt_543>
+    <txt_544 >the numbers</txt_544>
+    <txt_545 >as well</txt_545>
+    <txt_546 >comma</txt_546>
+    <txt_547 >or</txt_547>
+    <txt_548>period</txt_548>
+    <txt_549 >Activity</txt_549>
+    <txt_550 >New log-in</txt_550>
+    <txt_551 >New log-out</txt_551>
+    <txt_552 >There have already been created come / go registrations on the selected date.</txt_552>
+    <txt_553 >It is not allowed to create come / go registrations on dates that have already been logged in on.</txt_553>
+    <txt_554 >does not match</txt_554>
+    <txt_555 >with the amount on the invoice lines</txt_555>
+    <txt_556 >Please write a comment for your registration(s)</txt_556>
+
+    <txt_557 >No employee is selected</txt_557>
+    <txt_558 >The start date cant be newer than the end date</txt_558>
+    <txt_559 >The weekday the repport should be send is missing</txt_559>
+
+    <txt_560 >No employee is selected</txt_560>
+    <txt_561 >The start-time is newer the than end-time</txt_561>
+    <txt_562 >You need to specify from / to time.</txt_562>
+    <txt_563 >if the registration is for the whole day, check the whole day checkbox</txt_563>
+    <txt_564 >The to / from time format is incorrect</txt_564>
+    
+    <txt_565 >Not all years are filled in with a date on the newly created holiday</txt_565>
+    <txt_566 >A date field on the newly created holiday has a wrong date format</txt_566>
+    
 
   </se>
 
@@ -217,7 +1567,457 @@
       - Der Preis ist nicht korrekt abgeschlossen .
     </txt_120>
 
+    <txt_121 >User name is missing</txt_121>
+    <txt_122 >Password is missing</txt_122>
+    <txt_123 >The session timed out - you need to sign in.</txt_123>
+    <txt_124 >The session times out if you are passive more than</txt_124>
+    <txt_125 >12 hours</txt_125>
+    <txt_126 >or if TimeOut has resat all active sessions due to security or performance reasons.</txt_126>
+    <txt_127 >Click here</txt_127>
+    <txt_128 >to sign in to TimeOut again.</txt_128>
+    <txt_129 >Best regards</txt_129>
+    <txt_130 >Stated hours are missing.</txt_130>
+    <txt_131 >This Jobno. is allready entered once for this date.</txt_131>
+    <txt_132 >Jobno. is only allowed to occur one per date. You have to re-register your time.</txt_132>
+    <txt_133 >Change registration</txt_133>
+    <txt_134 >One or more of the fields herunder need to be filled out</txt_134>
+    <txt_135 >A name need to be</txt_135>
+    <txt_136 >entered</txt_136>
+    <txt_137 >One or more of this information is missing:</txt_137>
+    <txt_138 >Employee name</txt_138>
+    <txt_139 >Employee no.</txt_139>
+    <txt_140 >Employee initials</txt_140>
+    <txt_141 >Sign in</txt_141>
+    <txt_142 >Password</txt_142>
+    <txt_143 >An Employee with the choosen</txt_143>
+    <txt_144 >Employee no.</txt_144>
+    <txt_145 >allready exists</txt_145>
+    <txt_146 >Please choose another no.</txt_146>
+    <txt_147 >A Contact with the choosen</txt_147>
+    <txt_148 >Contact ID</txt_148>
+    <txt_149 >allready exists</txt_149>
+    <txt_150 >customer name</txt_150>
+    <txt_151 >Customer name is longer than</txt_151>
+    <txt_152 >characters</txt_152>
+    <txt_153 >One or more information is missing</txt_153>
+    <txt_154 >Job name</txt_154>
+    <txt_155 >or you have entered</txt_155>
+    <txt_156 >as a name</txt_156>
+    <txt_157 >job name content a</txt_157>
+    <txt_158 >or a</txt_158>
+    <txt_159 >Job name is longer</txt_159>
+    <txt_160 >than</txt_160>
+    <txt_161 >characters.</txt_161>
+    <txt_162 >You have entered</txt_162>
+    <txt_163 >Jobno.</txt_163>
+    <txt_164 >Jobno. is longer</txt_164>
+    <txt_165 >than 20</txt_165>
+    <txt_166 >A customer need to be</txt_166>
+    <txt_167 >added</txt_167>
+    <txt_168 >Job no.</txt_168>
+    <txt_169 >or</txt_169>
+    <txt_170 >Proposal no.</txt_170>
+    <txt_171 >has to be numerical.</txt_171>
+    <txt_172 >Job no. can only contain the numbers 0-9 wo. dot or comma. 0(zero) is not valid.</txt_172>
+    <txt_173 >Gross turnover</txt_173>
+    <txt_174 >has to be in correct format.</txt_174>
+    <txt_175 >Use only numbers 0-9, wo. dot or comma.</txt_175>
+    <txt_176 >An error</txt_176>
+    <txt_177 >has uccured</txt_177>
+    <txt_178 >when under entry</txt_178>
+    <txt_179 >In one or more fields invalid characters has been entered.</txt_179>
+    <txt_180 >More than 24 hours has been</txt_180>
+    <txt_181 >entered</txt_181>
+    <txt_182 >in one or more fields.</txt_182>
+    <txt_183 >A registration of this Job allready</txt_183>
+    <txt_184 >exists</txt_184>
+    <txt_185 >with this</txt_185>
+    <txt_186 >activity</txt_186>
+    <txt_187 >on this</txt_187>
+    <txt_188 >date</txt_188>
+    <txt_189 >Hours</txt_189>
+    <txt_190 >has to be numerical.</txt_190>
+    <txt_191 >It is important to use</txt_191>
+    <txt_192 >"dot"</txt_192>
+    <txt_193 >and</txt_193>
+    <txt_194 >not a</txt_194>
+    <txt_195 >"comma"</txt_195>
+    <txt_196 >when half hours are indicated.</txt_196>
+    <txt_197 >is missing, or more than 15 E42+E73</txt_197>
+    <txt_198 >Employee no.</txt_198>
+    <txt_199 >has to be numerical.</txt_199>
+    <txt_200 >Activities</txt_200>
+    <txt_201 >Activity name</txt_201>
+    <txt_202 >"Name" contain wrong characters</txt_202>
+    <txt_203 >apostrophe.</txt_203>
+    <txt_204 >A job/project with the choosen</txt_204>
+    <txt_205 >Click "Back" and apply a new project number.</txt_205>
+    <txt_206 >Tip. Adding 1 to the choosen number might be enough</txt_206>
+    <txt_207 >You have used more than</txt_207>
+    <txt_208 >attemps</txt_208>
+    <txt_209 >to sign in.</txt_209>
+    <txt_210 >You are not able to sign in to TimeOut.</txt_210>
+    <txt_211 >Please close the browser</txt_211>
+    <txt_212 >and try again</txt_212>
+    <txt_213 >or contact you TimeOut administrator to get a new password.</txt_213>
+    <txt_214 >ERP - create invoice</txt_214>
+    <txt_215 >Amount</txt_215>
+    <txt_216 >has to be an integer (1,4,56,345 etc.)</txt_216>
+    <txt_217 >Invoice no.</txt_217>
+    <txt_218 >allready exists. Please type another.</txt_218>
+    <txt_219 >has to be</txt_219>
+    <txt_220 >0 if budget is fixed price.</txt_220>
+    <txt_221 >"Probability" contains invalid or no characters.</txt_221>
+    <txt_222 >"Probability" has to be between 1 and 100%.</txt_222>
+    <txt_223 >Activity start date is earlier than job/project start date, which is</txt_223>
+    <txt_224 >Activity end date is later than job/project end date, which is</txt_224>
+    <txt_225 >The comment har more than 1255 characters which is the limit.</txt_225>
+    <txt_226 >More hours are assigned for this activity,</txt_226>
+    <txt_227 >than availeble on the job/project.</txt_227>
+    <txt_228 >End date has to be later than the start date.</txt_228>
+    <txt_229 >The date for the 2nd action has to be later that the 1st action date.</txt_229>
+    <txt_230 >The dates are the same for both actions. Do you want the start date to be later.</txt_230>
+    <txt_231 >The</txt_231>
+    <txt_232 >internal</txt_232>
+    <txt_233 >cost prices</txt_233>
+    <txt_234 >are not</txt_234>
+    <txt_235 >entered as a</txt_235>
+    <txt_236 >an integer</txt_236>
+    <txt_237 >Contains a comma</txt_237>
+    <txt_238 >Contains an</txt_238>
+    <txt_239 >invalid character</txt_239>
+    <txt_240 >or letter.</txt_240>
+    <txt_241 >One is entered as a</txt_241>
+    <txt_242 >negative number</txt_242>
+    <txt_243 >On of them are</txt_243>
+    <txt_244 >empty</txt_244>
+    <txt_245 >not filled in</txt_245>
+    <txt_246 >One or more of the following fields need to be choosen</txt_246>
+    <txt_247 >Employees</txt_247>
+    <txt_248 >One or more of the following fields need to be choosen</txt_248>
+    <txt_249 >Weekdays</txt_249>
+    <txt_250 >Dates</txt_250>
+    <txt_251 >Months</txt_251>
+    <txt_252 >Subject</txt_252>
+    <txt_253 >The stat date is earlier that the end date.</txt_253>
+    <txt_254 >No emlpoyee has been choosen.</txt_254>
+    <txt_255 >Account no</txt_255>
+    <txt_256 >or an account with same number allready exsists</txt_256>
+    <txt_257 >or a</txt_257>
+    <txt_258 >VAT ratio</txt_258>
+    <txt_259 >The VAT ratio contians invalid characters.</txt_259>
+    <txt_260 >Invalid characters are used in one of these fields.</txt_260>
+    <txt_261 >Net amount.</txt_261>
+    <txt_262 >VAT amount.</txt_262>
+    <txt_263 >Total amount.</txt_263>
+    <txt_264 >Data is missing for</txt_264>
+    <txt_265 >Total amount</txt_265>
+    <txt_266 >Factor</txt_266>
+    <txt_267 >Remember [.] (dot) and</txt_267>
+    <txt_268 >not a [,] (comma) when halfs are needed.</txt_268>
+    <txt_269 >Minimum one of the following criteria are not valid</txt_269>
+    <txt_270 >Please choose if invoices can be approved wo approval-status.</txt_270>
+    <txt_271 >Quick invoicing has not been activated</txt_271>
+    <txt_272 >No</txt_272>
+    <txt_273 >Agreements</txt_273>
+    <txt_274 >have been</txt_274>
+    <txt_275 >choosen</txt_275>
+    <txt_276 >for invoicing.</txt_276>
+    <txt_277 >A folder has not been choosen.</txt_277>
+    <txt_278 >Purchase price</txt_278>
+    <txt_279 >is not numerical</txt_279>
+    <txt_280 >Sales price</txt_280>
+    <txt_281 >Production time</txt_281>
+    <txt_282 >One or more</txt_282>
+    <txt_283 >Come / Go times</txt_283>
+    <txt_284 >do not have a valid date or time format</txt_284>
+    <txt_285 >Invalid characters or any are missing.</txt_285>
+    <txt_286 >Name is required</txt_286>
+    <txt_287 >Amout has to be numerical</txt_287>
+    <txt_288 >One or more of the entered</txt_288>
+    <txt_289 >times</txt_289>
+    <txt_290 >contains invalid characters.</txt_290>
+    <txt_291 >The registrations can only contain</txt_291>
+    <txt_292 >the numbers 0-9 and colon</txt_292>
+    <txt_293 >is not a valid</txt_293>
+    <txt_294 >time format.</txt_294>
+    <txt_295 >The time format could be</txt_295>
+    <txt_296 >The indicated time is</txt_296>
+    <txt_297 >start time</txt_297>
+    <txt_298 >is later than the</txt_298>
+    <txt_299 >end time.</txt_299>
+    <txt_300 >Punch clock - sign in history</txt_300>
+    <txt_301 >Date is not in correct format,</txt_301>
+    <txt_302 >or the date is not valid.</txt_302>
+    <txt_303 >Forecast</txt_303>
+    <txt_304 >Subject is required.</txt_304>
+    <txt_305 >Contact is required.</txt_305>
+    <txt_306 >Incident category is required.</txt_306>
+    <txt_307 >Incident type is required.</txt_307>
+    <txt_308 >Incident status is required.</txt_308>
+    <txt_309 >Part number is required and needs to be larger than 0 (zero).</txt_309>
+    <txt_310 >Part number</txt_310>
+    <txt_311 >needs to be larger than</txt_311>
+    <txt_312 >0 (zero).</txt_312>
+    <txt_313 >One or more of the following infomation is missing</txt_313>
+    <txt_314 >Minimum stock</txt_314>
+    <txt_315 >Quantity</txt_315>
+    <txt_316 >Contact is required</txt_316>
+    <txt_317 >If no contacts are listed</txt_317>
+    <txt_318 >please check if any ServiceDesk prority group has been stated.</txt_318>
+    <txt_319 >ServiceDesk, opening hours.</txt_319>
+    <txt_320 >Invalid character is stated</txt_320>
+    <txt_321 >One or more opening hours are not correct.</txt_321>
+    <txt_322 >Please use correct time format: e.g. 08:30, 14:35</txt_322>
+    <txt_323 >Closing time is earlier that the opening hour.</txt_323>
+    <txt_324 >Punch clock - ignore period</txt_324>
+    <txt_325 >An invalid character is stated in "ignore period for punch clock"</txt_325>
+    <txt_326 >Start or end time is not correct.</txt_326>
+    <txt_327 >Please use correct time format: e.g. 08:20, 15:35</txt_327>
+    <txt_328 >Punch clock - standard pause</txt_328>
+    <txt_329 >An invalid character is stated in</txt_329>
+    <txt_330 >standard pause</txt_330>
+    <txt_331 >(A or B</txt_331>
+    <txt_332 >Only numbers 0 - 9 are valid.</txt_332>
+    <txt_333 >If a Pause different from standard pauses are stated, a comment is mandatory.</txt_333>
+    <txt_334 >Invoicing - Error</txt_334>
+    <txt_335 >A project or an agreement need to be selected.</txt_335>
+    <txt_336 >ERP - Invoice templates</txt_336>
+    <txt_337 >Invoice templates.</txt_337>
+    <txt_338 >Invoice, draft, internal or reminder</txt_338>
+    <txt_339 >ERP - Invoice Reminder</txt_339>
+    <txt_340 >Date format is invalid or date does not exists.</txt_340>
+    <txt_341 >Unit or amount contain invalid characters.</txt_341>
+    <txt_342 >These fields can only be numerical.</txt_342>
+    <txt_343 >ERP - choose job or agreement</txt_343>
+    <txt_344 >A project or an agreement need to be selected before invoicing.</txt_344>
+    <txt_345 >ERP - Invoice no. allready exists</txt_345>
+    <txt_346 >You are about to create an invoice with a number that allready exists.</txt_346>
+    <txt_347 >Please check invoice no. in Control Panel and compare with lastets invoice (search invoices)</txt_347>
+    <txt_348 >Please contact you administrator to get access to the Control Panel.</txt_348>
+    <txt_349 >TSA - Job no. and proposal no.</txt_349>
+    <txt_350 >Job-/project no. Proposal no. templates.</txt_350>
+    <txt_351 >TSA - Information is needed</txt_351>
+    <txt_352 >Customer has to be choosen in step 1.</txt_352>
+    <txt_353 >TSA - Job no. allready exists</txt_353>
+    <txt_354 >Job-/project no.</txt_354>
+    <txt_355 >allready exists. Please type another.</txt_355>
+    <txt_356 >If several jobs/projects are created</txt_356>
+    <txt_357 >at the same time, the number has to be changed in the Control Panel.</txt_357>
+    <txt_358 >TSA - Proposal no. allready exists</txt_358>
+    <txt_359 >Proposal no.</txt_359>
+    <txt_360 >Proposal no. has to be changed in the Control Panel.</txt_360>
+    <txt_361 >ERP - Account number</txt_361>
+    <txt_362 >Account no. is invalid</txt_362>
+    <txt_363 >ERP - VAT</txt_363>
+    <txt_364 >VAT has to be an integer (e.g. 7, 25 etc.)</txt_364>
+    <txt_365 >ERP - VAT status</txt_365>
+    <txt_366 >The comment har more than 255 characters which is the limit.</txt_366>
+    <txt_367 >Date format is invalid.</txt_367>
+    <txt_368 >You have entered</txt_368>
+    <txt_369 >ERP - Entry date</txt_369>
+    <txt_370 >Entry date (invoice date) is different from the VAT balanced period.</txt_370>
+    <txt_371 >Invoice / entry date</txt_371>
+    <txt_372 >Last VAT period ended:</txt_372>
+    <txt_373 >Material order</txt_373>
+    <txt_374 >Units on one or more order lines are not stated as a</txt_374>
+    <txt_375 >number</txt_375>
+    <txt_376 >You have entered</txt_376>
+    <txt_377 >An order with the same order no. Allready exists.</txt_377>
+    <txt_378 >Last order created was:</txt_378>
+    <txt_379 >Order no. is invalid</txt_379>
+    <txt_380 >The order no. is</txt_380>
+    <txt_381 >Material groups</txt_381>
+    <txt_382 >Name is required</txt_382>
+    <txt_383 >Profit % has invalid characteres.</txt_383>
+    <txt_384 >Or is missing. Please use an integer. 0-100.</txt_384>
+    <txt_385 >Budget Gros/Net days</txt_385>
+    <txt_386 >Name is required</txt_386>
+    <txt_387 >Currencies</txt_387>
+    <txt_388 >Name is required.</txt_388>
+    <txt_389 >Code is required.</txt_389>
+    <txt_390 >Rate has to be numerical.</txt_390>
+    <txt_391 >Rate has to be lager than 0 (zero)</txt_391>
+    <txt_392 >Budget employees</txt_392>
+    <txt_393 >One or more fields has invalid characters or are empty.</txt_393>
+    <txt_394 >Employee</txt_394>
+    <txt_395 >Employment date has either invalid characters, format or is empty.</txt_395>
+    <txt_396 >Termination/resignation date has either invalid characters, format or is empty.</txt_396>
+    <txt_397 >Stop watch</txt_397>
+    <txt_398 >Start time</txt_398>
+    <txt_399 >or</txt_399>
+    <txt_400 >End time</txt_400>
+    <txt_401 >has either invalid characters, format or is empty.</txt_401>
+    <txt_402 >Time recording</txt_402>
+    <txt_403 >The time recording has been rejected. Two reasons can course this:</txt_403>
+    <txt_404 >Registration date</txt_404>
+    <txt_405 >is in a interval which has allready been invoiced.</txt_405>
+    <txt_406 >Or. The period is completed/closed.</txt_406>
+    <txt_407 >Copy job/project</txt_407>
+    <txt_408 >Contact is required.</txt_408>
+    <txt_409 >Job/project is required.</txt_409>
+    <txt_410 >ServiceDesk</txt_410>
+    <txt_411 >Date for execution is invalid.</txt_411>
+    <txt_412 >Unit no. is invalid.</txt_412>
+    <txt_413 >Job/project list</txt_413>
+    <txt_414 >Priority</txt_414>
+    <txt_415 >Job/project - budget</txt_415>
+    <txt_416 >Avr. Hourly rate is invalid.</txt_416>
+    <txt_417 >Employee amount calculated from avr. hourly rate * factor is invalid.</txt_417>
+    <txt_418 >Internal cost (salary) is invalid.</txt_418>
+    <txt_419 >Vendor and Sales cost are invalid.</txt_419>
+    <txt_420 >Gross profit is invalid.</txt_420>
+    <txt_421 >Gross profit % is invalid.</txt_421>
+    <txt_422 >to calculate employee amount is not valid.</txt_422>
+    <txt_423 >Minimum 1 (one) line per employee type that to exists.</txt_423>
+    <txt_424 >Costs are not valid or correct format.</txt_424>
+    <txt_425 >Yes</txt_425>
+    <txt_426 >No</txt_426>
+    <txt_427 >Punch clock</txt_427>
+    <txt_428 >Comment is needed</txt_428>
+    <txt_429 >Changes to log-in and log-out</txt_429>
+    <txt_430 >requires</txt_430>
+    <txt_431 >a reason in the comment field.</txt_431>
+    <txt_432 >A punch clock setting has been choosen</txt_432>
+    <txt_433 >explained with a comment.</txt_433>
+    <txt_434 >Data</txt_434>
+    <txt_435 >Punch clock setttings</txt_435>
+    <txt_436 >Manual ended</txt_436>
+    <txt_437 >Time changed</txt_437>
+    <txt_438 >Org. Log-in</txt_438>
+    <txt_439 >Org. Log-out</txt_439>
+    <txt_440 >If time recordings on pre-entered activities are changed</txt_440>
+    <txt_441 >Priority is not stated in correct format (integer)</txt_441>
+    <txt_442 >Come / Go</txt_442>
+    <txt_443 >One or more come / go registrations are in conflict.</txt_443>
+    <txt_444 >Only one come / go regsitration can be made for the same period.</txt_444>
+    <txt_445 >This come / go registration is invalid</txt_445>
+    <txt_446 >An acitivity is not found with an open time-lock for the period / date.</txt_446>
+    <txt_447 >You have stated this time</txt_447>
+    <txt_448 >Time-lock is</txt_448>
+    <txt_449 >Control panel</txt_449>
+    <txt_450 >The stated</txt_450>
+    <txt_451 >license start date</txt_451>
+    <txt_452 >is not in a valid format.</txt_452>
+    <txt_453 >Contacts</txt_453>
+    <txt_454 >Name is required.</txt_454>
+    <txt_455 >Sign out time is earlier than sign in time.</txt_455>
+    <txt_456 >Sign in time has been changed to</txt_456>
+    <txt_457 >according to the settings. Please contact adminiatrator for furter information.</txt_457>
+    <txt_458 >Material reg.</txt_458>
+    <txt_459 >Job/project is required.</txt_459>
+    <txt_460 >Phase is invalid</txt_460>
+    <txt_461 >Phase contains a</txt_461>
+    <txt_462 >space</txt_462>
+    <txt_463 >in the name. Phase must be one word. E.g. ""01_MainProject""</txt_463>
+    <txt_464 >Material / expence registration</txt_464>
+    <txt_465 >Date is not in correct format.</txt_465>
+    <txt_466 >Part number needs to be added.</txt_466>
+    <txt_467 >Print job / project / proposal</txt_467>
+    <txt_468 >Folder is required.</txt_468>
+    <txt_469 >Please indicate if you want to safe as template or document.</txt_469>
+    <txt_470 >Groupe is required.</txt_470>
+    <txt_471 >Time-lock settings</txt_471>
+    <txt_472 >Time format has to be tt:mm:ss</txt_472>
+    <txt_473 >Purchase order no. is required.</txt_473>
+    <txt_474 >Salary period</txt_474>
+    <txt_475 >Date is invalid or not existing.</txt_475>
+    <txt_476 >Percent contain invalid characters.</txt_476>
+    <txt_477 >Invoice due date</txt_477>
+    <txt_478 >Due date is invalid.</txt_478>
+    <txt_479 >You have stated</txt_479>
+    <txt_480 >Sort no. has to be an integer</txt_480>
+    <txt_481 >The stated quantity,</txt_481>
+    <txt_482 >Cost or sales price</txt_482>
+    <txt_483 >has to be numerical.</txt_483>
+    <txt_484 >Name is required.</txt_484>
+    <txt_485 >Contact at customer</txt_485>
+    <txt_486 >Contact is required when creating/editing a job/project.</txt_486>
+    <txt_487 >Rest estimate is invalid.</txt_487>
+    <txt_488 >Milage price</txt_488>
+    <txt_489 >Milage price is invalid.</txt_489>
+    <txt_490 >Error. Registration on activity type (absence, vacation etc.)</txt_490>
+    <txt_491 >Rated hours is required.</txt_491>
+    <txt_492 >E.g. is vacation on a Sunday with 0 rated hours not possible.</txt_492>
+    <txt_493 >The entered</txt_493>
+    <txt_494 >from date</txt_494>
+    <txt_495 >is invalid.</txt_495>
+    <txt_496 >Hourly rate or cost price</txt_496>
+    <txt_497 >has to be numerical.</txt_497>
+    <txt_498 >Hourly rate</txt_498>
+    <txt_499 >and costprice</txt_499>
+    <txt_500 >Information is needed</txt_500>
+    <txt_501 >for the Ganttlist.</txt_501>
+    <txt_502 >Factor is not stated as a</txt_502>
+    <txt_503 >No correction activities were found.</txt_503>
+    <txt_504 >Salary period is allready closed.</txt_504>
+    <txt_505 >Net amount</txt_505>
+    <txt_506 >is larger than</txt_506>
+    <txt_507 >gross amount</txt_507>
+    <txt_508 >Job /project no was not found.</txt_508>
+    <txt_509 >Pls. Choose customer/job.</txt_509>
+    <txt_510 >pls. Choose activity.</txt_510>
+    <txt_511 >A calculation error has uccred or a manuel amount has be entered as a total amouont.</txt_511>
+    <txt_512 >does not match the amount of the invoice lines</txt_512>
+    <txt_513 >Please check latest activity change and click 'calc' again.</txt_513>
+    <txt_514 >Date is not valid</txt_514>
+    <txt_515 >Hours are not valid or not entered.</txt_515>
+    <txt_516 >Business area is required. No Business area is entered.</txt_516>
+    <txt_517 >Diets / travel days cannot be entered if more than</txt_517>
+    <txt_518 >hours are registrered.</txt_518>
+    <txt_519 >Name needs to be entered</txt_519>
+    <txt_520 >Company needs to be entered</txt_520>
+    <txt_521 >Invalid email</txt_521>
+    <txt_522 >Net reveue amount is not correct / amout is not high enough.</txt_522>
+    <txt_523 >The stated project/sales manager %</txt_523>
+    <txt_524 >has to equal 100%.</txt_524>
+    <txt_525 >Please state Project mng. %</txt_525>
+    <txt_526 >please state Sales mng. %</txt_526>
+    <txt_527 >End date</txt_527>
+    <txt_528 >is before start date</txt_528>
+    <txt_529 >You have to choose job/proejct or customer.</txt_529>
+    <txt_530 >you have to choose an exsisting or a new activity.</txt_530>
+    <txt_531 >Date in invalid.</txt_531>
+    <txt_532 >Forecast has exceeded for this activity.</txt_532>
+    <txt_533 >Hours has been</txt_533>
+    <txt_534 >entered/edited.</txt_534>
+    <txt_535 >Entered befor this day</txt_535>
+    <txt_536 >Balance</txt_536>
+    <txt_537 >an active employee with the choosen</txt_537>
+    <txt_538 >Initials</txt_538>
+    <txt_539 >Please make another combination of initials.</txt_539>
+    <txt_540 >TimeOut Mobile</txt_540>
+    <txt_541 >Back</txt_541>
+    <txt_542 >Account no</txt_542>
+    <txt_543 >Forecast must contain only</txt_543>
+    <txt_544 >the numbers</txt_544>
+    <txt_545 >as well</txt_545>
+    <txt_546 >comma</txt_546>
+    <txt_547 >or</txt_547>
+    <txt_548>period</txt_548>
+    <txt_549 >Activity</txt_549>
+    <txt_550 >New log-in</txt_550>
+    <txt_551 >New log-out</txt_551>
+    <txt_552 >There have already been created come / go registrations on the selected date.</txt_552>
+    <txt_553 >It is not allowed to create come / go registrations on dates that have already been logged in on.</txt_553>
+    <txt_554 >does not match</txt_554>
+    <txt_555 >with the amount on the invoice lines</txt_555>  
+    <txt_556 >Please write a comment for your registration(s)</txt_556>
 
+    <txt_557 >No employee is selected</txt_557>
+    <txt_558 >The start date cant be newer than the end date</txt_558>
+    <txt_559 >The weekday the repport should be send is missing</txt_559>
+
+    <txt_560 >No employee is selected</txt_560>
+    <txt_561 >The start-time is newer the than end-time</txt_561>
+    <txt_562 >You need to specify from / to time.</txt_562>
+    <txt_563 >if the registration is for the whole day, check the whole day checkbox</txt_563>
+    <txt_564 >The to / from time format is incorrect</txt_564>
+    
+    <txt_565 >Not all years are filled in with a date on the newly created holiday</txt_565>
+    <txt_566 >A date field on the newly created holiday has a wrong date format</txt_566>
+  
+  
   </de>
 
 
@@ -274,7 +2074,457 @@
       - Le prix est pas terminée correctement ».
     </txt_120>
 
+    <txt_121 >User name is missing</txt_121>
+    <txt_122 >Password is missing</txt_122>
+    <txt_123 >The session timed out - you need to sign in.</txt_123>
+    <txt_124 >The session times out if you are passive more than</txt_124>
+    <txt_125 >12 hours</txt_125>
+    <txt_126 >or if TimeOut has resat all active sessions due to security or performance reasons.</txt_126>
+    <txt_127 >Click here</txt_127>
+    <txt_128 >to sign in to TimeOut again.</txt_128>
+    <txt_129 >Best regards</txt_129>
+    <txt_130 >Stated hours are missing.</txt_130>
+    <txt_131 >This Jobno. is allready entered once for this date.</txt_131>
+    <txt_132 >Jobno. is only allowed to occur one per date. You have to re-register your time.</txt_132>
+    <txt_133 >Change registration</txt_133>
+    <txt_134 >One or more of the fields herunder need to be filled out</txt_134>
+    <txt_135 >A name need to be</txt_135>
+    <txt_136 >entered</txt_136>
+    <txt_137 >One or more of this information is missing:</txt_137>
+    <txt_138 >Employee name</txt_138>
+    <txt_139 >Employee no.</txt_139>
+    <txt_140 >Employee initials</txt_140>
+    <txt_141 >Sign in</txt_141>
+    <txt_142 >Password</txt_142>
+    <txt_143 >An Employee with the choosen</txt_143>
+    <txt_144 >Employee no.</txt_144>
+    <txt_145 >allready exists</txt_145>
+    <txt_146 >Please choose another no.</txt_146>
+    <txt_147 >A Contact with the choosen</txt_147>
+    <txt_148 >Contact ID</txt_148>
+    <txt_149 >allready exists</txt_149>
+    <txt_150 >customer name</txt_150>
+    <txt_151 >Customer name is longer than</txt_151>
+    <txt_152 >characters</txt_152>
+    <txt_153 >One or more information is missing</txt_153>
+    <txt_154 >Job name</txt_154>
+    <txt_155 >or you have entered</txt_155>
+    <txt_156 >as a name</txt_156>
+    <txt_157 >job name content a</txt_157>
+    <txt_158 >or a</txt_158>
+    <txt_159 >Job name is longer</txt_159>
+    <txt_160 >than</txt_160>
+    <txt_161 >characters.</txt_161>
+    <txt_162 >You have entered</txt_162>
+    <txt_163 >Jobno.</txt_163>
+    <txt_164 >Jobno. is longer</txt_164>
+    <txt_165 >than 20</txt_165>
+    <txt_166 >A customer need to be</txt_166>
+    <txt_167 >added</txt_167>
+    <txt_168 >Job no.</txt_168>
+    <txt_169 >or</txt_169>
+    <txt_170 >Proposal no.</txt_170>
+    <txt_171 >has to be numerical.</txt_171>
+    <txt_172 >Job no. can only contain the numbers 0-9 wo. dot or comma. 0(zero) is not valid.</txt_172>
+    <txt_173 >Gross turnover</txt_173>
+    <txt_174 >has to be in correct format.</txt_174>
+    <txt_175 >Use only numbers 0-9, wo. dot or comma.</txt_175>
+    <txt_176 >An error</txt_176>
+    <txt_177 >has uccured</txt_177>
+    <txt_178 >when under entry</txt_178>
+    <txt_179 >In one or more fields invalid characters has been entered.</txt_179>
+    <txt_180 >More than 24 hours has been</txt_180>
+    <txt_181 >entered</txt_181>
+    <txt_182 >in one or more fields.</txt_182>
+    <txt_183 >A registration of this Job allready</txt_183>
+    <txt_184 >exists</txt_184>
+    <txt_185 >with this</txt_185>
+    <txt_186 >activity</txt_186>
+    <txt_187 >on this</txt_187>
+    <txt_188 >date</txt_188>
+    <txt_189 >Hours</txt_189>
+    <txt_190 >has to be numerical.</txt_190>
+    <txt_191 >It is important to use</txt_191>
+    <txt_192 >"dot"</txt_192>
+    <txt_193 >and</txt_193>
+    <txt_194 >not a</txt_194>
+    <txt_195 >"comma"</txt_195>
+    <txt_196 >when half hours are indicated.</txt_196>
+    <txt_197 >is missing, or more than 15 E42+E73</txt_197>
+    <txt_198 >Employee no.</txt_198>
+    <txt_199 >has to be numerical.</txt_199>
+    <txt_200 >Activities</txt_200>
+    <txt_201 >Activity name</txt_201>
+    <txt_202 >"Name" contain wrong characters</txt_202>
+    <txt_203 >apostrophe.</txt_203>
+    <txt_204 >A job/project with the choosen</txt_204>
+    <txt_205 >Click "Back" and apply a new project number.</txt_205>
+    <txt_206 >Tip. Adding 1 to the choosen number might be enough</txt_206>
+    <txt_207 >You have used more than</txt_207>
+    <txt_208 >attemps</txt_208>
+    <txt_209 >to sign in.</txt_209>
+    <txt_210 >You are not able to sign in to TimeOut.</txt_210>
+    <txt_211 >Please close the browser</txt_211>
+    <txt_212 >and try again</txt_212>
+    <txt_213 >or contact you TimeOut administrator to get a new password.</txt_213>
+    <txt_214 >ERP - create invoice</txt_214>
+    <txt_215 >Amount</txt_215>
+    <txt_216 >has to be an integer (1,4,56,345 etc.)</txt_216>
+    <txt_217 >Invoice no.</txt_217>
+    <txt_218 >allready exists. Please type another.</txt_218>
+    <txt_219 >has to be</txt_219>
+    <txt_220 >0 if budget is fixed price.</txt_220>
+    <txt_221 >"Probability" contains invalid or no characters.</txt_221>
+    <txt_222 >"Probability" has to be between 1 and 100%.</txt_222>
+    <txt_223 >Activity start date is earlier than job/project start date, which is</txt_223>
+    <txt_224 >Activity end date is later than job/project end date, which is</txt_224>
+    <txt_225 >The comment har more than 1255 characters which is the limit.</txt_225>
+    <txt_226 >More hours are assigned for this activity,</txt_226>
+    <txt_227 >than availeble on the job/project.</txt_227>
+    <txt_228 >End date has to be later than the start date.</txt_228>
+    <txt_229 >The date for the 2nd action has to be later that the 1st action date.</txt_229>
+    <txt_230 >The dates are the same for both actions. Do you want the start date to be later.</txt_230>
+    <txt_231 >The</txt_231>
+    <txt_232 >internal</txt_232>
+    <txt_233 >cost prices</txt_233>
+    <txt_234 >are not</txt_234>
+    <txt_235 >entered as a</txt_235>
+    <txt_236 >an integer</txt_236>
+    <txt_237 >Contains a comma</txt_237>
+    <txt_238 >Contains an</txt_238>
+    <txt_239 >invalid character</txt_239>
+    <txt_240 >or letter.</txt_240>
+    <txt_241 >One is entered as a</txt_241>
+    <txt_242 >negative number</txt_242>
+    <txt_243 >On of them are</txt_243>
+    <txt_244 >empty</txt_244>
+    <txt_245 >not filled in</txt_245>
+    <txt_246 >One or more of the following fields need to be choosen</txt_246>
+    <txt_247 >Employees</txt_247>
+    <txt_248 >One or more of the following fields need to be choosen</txt_248>
+    <txt_249 >Weekdays</txt_249>
+    <txt_250 >Dates</txt_250>
+    <txt_251 >Months</txt_251>
+    <txt_252 >Subject</txt_252>
+    <txt_253 >The stat date is earlier that the end date.</txt_253>
+    <txt_254 >No emlpoyee has been choosen.</txt_254>
+    <txt_255 >Account no</txt_255>
+    <txt_256 >or an account with same number allready exsists</txt_256>
+    <txt_257 >or a</txt_257>
+    <txt_258 >VAT ratio</txt_258>
+    <txt_259 >The VAT ratio contians invalid characters.</txt_259>
+    <txt_260 >Invalid characters are used in one of these fields.</txt_260>
+    <txt_261 >Net amount.</txt_261>
+    <txt_262 >VAT amount.</txt_262>
+    <txt_263 >Total amount.</txt_263>
+    <txt_264 >Data is missing for</txt_264>
+    <txt_265 >Total amount</txt_265>
+    <txt_266 >Factor</txt_266>
+    <txt_267 >Remember [.] (dot) and</txt_267>
+    <txt_268 >not a [,] (comma) when halfs are needed.</txt_268>
+    <txt_269 >Minimum one of the following criteria are not valid</txt_269>
+    <txt_270 >Please choose if invoices can be approved wo approval-status.</txt_270>
+    <txt_271 >Quick invoicing has not been activated</txt_271>
+    <txt_272 >No</txt_272>
+    <txt_273 >Agreements</txt_273>
+    <txt_274 >have been</txt_274>
+    <txt_275 >choosen</txt_275>
+    <txt_276 >for invoicing.</txt_276>
+    <txt_277 >A folder has not been choosen.</txt_277>
+    <txt_278 >Purchase price</txt_278>
+    <txt_279 >is not numerical</txt_279>
+    <txt_280 >Sales price</txt_280>
+    <txt_281 >Production time</txt_281>
+    <txt_282 >One or more</txt_282>
+    <txt_283 >Come / Go times</txt_283>
+    <txt_284 >do not have a valid date or time format</txt_284>
+    <txt_285 >Invalid characters or any are missing.</txt_285>
+    <txt_286 >Name is required</txt_286>
+    <txt_287 >Amout has to be numerical</txt_287>
+    <txt_288 >One or more of the entered</txt_288>
+    <txt_289 >times</txt_289>
+    <txt_290 >contains invalid characters.</txt_290>
+    <txt_291 >The registrations can only contain</txt_291>
+    <txt_292 >the numbers 0-9 and colon</txt_292>
+    <txt_293 >is not a valid</txt_293>
+    <txt_294 >time format.</txt_294>
+    <txt_295 >The time format could be</txt_295>
+    <txt_296 >The indicated time is</txt_296>
+    <txt_297 >start time</txt_297>
+    <txt_298 >is later than the</txt_298>
+    <txt_299 >end time.</txt_299>
+    <txt_300 >Punch clock - sign in history</txt_300>
+    <txt_301 >Date is not in correct format,</txt_301>
+    <txt_302 >or the date is not valid.</txt_302>
+    <txt_303 >Forecast</txt_303>
+    <txt_304 >Subject is required.</txt_304>
+    <txt_305 >Contact is required.</txt_305>
+    <txt_306 >Incident category is required.</txt_306>
+    <txt_307 >Incident type is required.</txt_307>
+    <txt_308 >Incident status is required.</txt_308>
+    <txt_309 >Part number is required and needs to be larger than 0 (zero).</txt_309>
+    <txt_310 >Part number</txt_310>
+    <txt_311 >needs to be larger than</txt_311>
+    <txt_312 >0 (zero).</txt_312>
+    <txt_313 >One or more of the following infomation is missing</txt_313>
+    <txt_314 >Minimum stock</txt_314>
+    <txt_315 >Quantity</txt_315>
+    <txt_316 >Contact is required</txt_316>
+    <txt_317 >If no contacts are listed</txt_317>
+    <txt_318 >please check if any ServiceDesk prority group has been stated.</txt_318>
+    <txt_319 >ServiceDesk, opening hours.</txt_319>
+    <txt_320 >Invalid character is stated</txt_320>
+    <txt_321 >One or more opening hours are not correct.</txt_321>
+    <txt_322 >Please use correct time format: e.g. 08:30, 14:35</txt_322>
+    <txt_323 >Closing time is earlier that the opening hour.</txt_323>
+    <txt_324 >Punch clock - ignore period</txt_324>
+    <txt_325 >An invalid character is stated in "ignore period for punch clock"</txt_325>
+    <txt_326 >Start or end time is not correct.</txt_326>
+    <txt_327 >Please use correct time format: e.g. 08:20, 15:35</txt_327>
+    <txt_328 >Punch clock - standard pause</txt_328>
+    <txt_329 >An invalid character is stated in</txt_329>
+    <txt_330 >standard pause</txt_330>
+    <txt_331 >(A or B</txt_331>
+    <txt_332 >Only numbers 0 - 9 are valid.</txt_332>
+    <txt_333 >If a Pause different from standard pauses are stated, a comment is mandatory.</txt_333>
+    <txt_334 >Invoicing - Error</txt_334>
+    <txt_335 >A project or an agreement need to be selected.</txt_335>
+    <txt_336 >ERP - Invoice templates</txt_336>
+    <txt_337 >Invoice templates.</txt_337>
+    <txt_338 >Invoice, draft, internal or reminder</txt_338>
+    <txt_339 >ERP - Invoice Reminder</txt_339>
+    <txt_340 >Date format is invalid or date does not exists.</txt_340>
+    <txt_341 >Unit or amount contain invalid characters.</txt_341>
+    <txt_342 >These fields can only be numerical.</txt_342>
+    <txt_343 >ERP - choose job or agreement</txt_343>
+    <txt_344 >A project or an agreement need to be selected before invoicing.</txt_344>
+    <txt_345 >ERP - Invoice no. allready exists</txt_345>
+    <txt_346 >You are about to create an invoice with a number that allready exists.</txt_346>
+    <txt_347 >Please check invoice no. in Control Panel and compare with lastets invoice (search invoices)</txt_347>
+    <txt_348 >Please contact you administrator to get access to the Control Panel.</txt_348>
+    <txt_349 >TSA - Job no. and proposal no.</txt_349>
+    <txt_350 >Job-/project no. Proposal no. templates.</txt_350>
+    <txt_351 >TSA - Information is needed</txt_351>
+    <txt_352 >Customer has to be choosen in step 1.</txt_352>
+    <txt_353 >TSA - Job no. allready exists</txt_353>
+    <txt_354 >Job-/project no.</txt_354>
+    <txt_355 >allready exists. Please type another.</txt_355>
+    <txt_356 >If several jobs/projects are created</txt_356>
+    <txt_357 >at the same time, the number has to be changed in the Control Panel.</txt_357>
+    <txt_358 >TSA - Proposal no. allready exists</txt_358>
+    <txt_359 >Proposal no.</txt_359>
+    <txt_360 >Proposal no. has to be changed in the Control Panel.</txt_360>
+    <txt_361 >ERP - Account number</txt_361>
+    <txt_362 >Account no. is invalid</txt_362>
+    <txt_363 >ERP - VAT</txt_363>
+    <txt_364 >VAT has to be an integer (e.g. 7, 25 etc.)</txt_364>
+    <txt_365 >ERP - VAT status</txt_365>
+    <txt_366 >The comment har more than 255 characters which is the limit.</txt_366>
+    <txt_367 >Date format is invalid.</txt_367>
+    <txt_368 >You have entered</txt_368>
+    <txt_369 >ERP - Entry date</txt_369>
+    <txt_370 >Entry date (invoice date) is different from the VAT balanced period.</txt_370>
+    <txt_371 >Invoice / entry date</txt_371>
+    <txt_372 >Last VAT period ended:</txt_372>
+    <txt_373 >Material order</txt_373>
+    <txt_374 >Units on one or more order lines are not stated as a</txt_374>
+    <txt_375 >number</txt_375>
+    <txt_376 >You have entered</txt_376>
+    <txt_377 >An order with the same order no. Allready exists.</txt_377>
+    <txt_378 >Last order created was:</txt_378>
+    <txt_379 >Order no. is invalid</txt_379>
+    <txt_380 >The order no. is</txt_380>
+    <txt_381 >Material groups</txt_381>
+    <txt_382 >Name is required</txt_382>
+    <txt_383 >Profit % has invalid characteres.</txt_383>
+    <txt_384 >Or is missing. Please use an integer. 0-100.</txt_384>
+    <txt_385 >Budget Gros/Net days</txt_385>
+    <txt_386 >Name is required</txt_386>
+    <txt_387 >Currencies</txt_387>
+    <txt_388 >Name is required.</txt_388>
+    <txt_389 >Code is required.</txt_389>
+    <txt_390 >Rate has to be numerical.</txt_390>
+    <txt_391 >Rate has to be lager than 0 (zero)</txt_391>
+    <txt_392 >Budget employees</txt_392>
+    <txt_393 >One or more fields has invalid characters or are empty.</txt_393>
+    <txt_394 >Employee</txt_394>
+    <txt_395 >Employment date has either invalid characters, format or is empty.</txt_395>
+    <txt_396 >Termination/resignation date has either invalid characters, format or is empty.</txt_396>
+    <txt_397 >Stop watch</txt_397>
+    <txt_398 >Start time</txt_398>
+    <txt_399 >or</txt_399>
+    <txt_400 >End time</txt_400>
+    <txt_401 >has either invalid characters, format or is empty.</txt_401>
+    <txt_402 >Time recording</txt_402>
+    <txt_403 >The time recording has been rejected. Two reasons can course this:</txt_403>
+    <txt_404 >Registration date</txt_404>
+    <txt_405 >is in a interval which has allready been invoiced.</txt_405>
+    <txt_406 >Or. The period is completed/closed.</txt_406>
+    <txt_407 >Copy job/project</txt_407>
+    <txt_408 >Contact is required.</txt_408>
+    <txt_409 >Job/project is required.</txt_409>
+    <txt_410 >ServiceDesk</txt_410>
+    <txt_411 >Date for execution is invalid.</txt_411>
+    <txt_412 >Unit no. is invalid.</txt_412>
+    <txt_413 >Job/project list</txt_413>
+    <txt_414 >Priority</txt_414>
+    <txt_415 >Job/project - budget</txt_415>
+    <txt_416 >Avr. Hourly rate is invalid.</txt_416>
+    <txt_417 >Employee amount calculated from avr. hourly rate * factor is invalid.</txt_417>
+    <txt_418 >Internal cost (salary) is invalid.</txt_418>
+    <txt_419 >Vendor and Sales cost are invalid.</txt_419>
+    <txt_420 >Gross profit is invalid.</txt_420>
+    <txt_421 >Gross profit % is invalid.</txt_421>
+    <txt_422 >to calculate employee amount is not valid.</txt_422>
+    <txt_423 >Minimum 1 (one) line per employee type that to exists.</txt_423>
+    <txt_424 >Costs are not valid or correct format.</txt_424>
+    <txt_425 >Yes</txt_425>
+    <txt_426 >No</txt_426>
+    <txt_427 >Punch clock</txt_427>
+    <txt_428 >Comment is needed</txt_428>
+    <txt_429 >Changes to log-in and log-out</txt_429>
+    <txt_430 >requires</txt_430>
+    <txt_431 >a reason in the comment field.</txt_431>
+    <txt_432 >A punch clock setting has been choosen</txt_432>
+    <txt_433 >explained with a comment.</txt_433>
+    <txt_434 >Data</txt_434>
+    <txt_435 >Punch clock setttings</txt_435>
+    <txt_436 >Manual ended</txt_436>
+    <txt_437 >Time changed</txt_437>
+    <txt_438 >Org. Log-in</txt_438>
+    <txt_439 >Org. Log-out</txt_439>
+    <txt_440 >If time recordings on pre-entered activities are changed</txt_440>
+    <txt_441 >Priority is not stated in correct format (integer)</txt_441>
+    <txt_442 >Come / Go</txt_442>
+    <txt_443 >One or more come / go registrations are in conflict.</txt_443>
+    <txt_444 >Only one come / go regsitration can be made for the same period.</txt_444>
+    <txt_445 >This come / go registration is invalid</txt_445>
+    <txt_446 >An acitivity is not found with an open time-lock for the period / date.</txt_446>
+    <txt_447 >You have stated this time</txt_447>
+    <txt_448 >Time-lock is</txt_448>
+    <txt_449 >Control panel</txt_449>
+    <txt_450 >The stated</txt_450>
+    <txt_451 >license start date</txt_451>
+    <txt_452 >is not in a valid format.</txt_452>
+    <txt_453 >Contacts</txt_453>
+    <txt_454 >Name is required.</txt_454>
+    <txt_455 >Sign out time is earlier than sign in time.</txt_455>
+    <txt_456 >Sign in time has been changed to</txt_456>
+    <txt_457 >according to the settings. Please contact adminiatrator for furter information.</txt_457>
+    <txt_458 >Material reg.</txt_458>
+    <txt_459 >Job/project is required.</txt_459>
+    <txt_460 >Phase is invalid</txt_460>
+    <txt_461 >Phase contains a</txt_461>
+    <txt_462 >space</txt_462>
+    <txt_463 >in the name. Phase must be one word. E.g. ""01_MainProject""</txt_463>
+    <txt_464 >Material / expence registration</txt_464>
+    <txt_465 >Date is not in correct format.</txt_465>
+    <txt_466 >Part number needs to be added.</txt_466>
+    <txt_467 >Print job / project / proposal</txt_467>
+    <txt_468 >Folder is required.</txt_468>
+    <txt_469 >Please indicate if you want to safe as template or document.</txt_469>
+    <txt_470 >Groupe is required.</txt_470>
+    <txt_471 >Time-lock settings</txt_471>
+    <txt_472 >Time format has to be tt:mm:ss</txt_472>
+    <txt_473 >Purchase order no. is required.</txt_473>
+    <txt_474 >Salary period</txt_474>
+    <txt_475 >Date is invalid or not existing.</txt_475>
+    <txt_476 >Percent contain invalid characters.</txt_476>
+    <txt_477 >Invoice due date</txt_477>
+    <txt_478 >Due date is invalid.</txt_478>
+    <txt_479 >You have stated</txt_479>
+    <txt_480 >Sort no. has to be an integer</txt_480>
+    <txt_481 >The stated quantity,</txt_481>
+    <txt_482 >Cost or sales price</txt_482>
+    <txt_483 >has to be numerical.</txt_483>
+    <txt_484 >Name is required.</txt_484>
+    <txt_485 >Contact at customer</txt_485>
+    <txt_486 >Contact is required when creating/editing a job/project.</txt_486>
+    <txt_487 >Rest estimate is invalid.</txt_487>
+    <txt_488 >Milage price</txt_488>
+    <txt_489 >Milage price is invalid.</txt_489>
+    <txt_490 >Error. Registration on activity type (absence, vacation etc.)</txt_490>
+    <txt_491 >Rated hours is required.</txt_491>
+    <txt_492 >E.g. is vacation on a Sunday with 0 rated hours not possible.</txt_492>
+    <txt_493 >The entered</txt_493>
+    <txt_494 >from date</txt_494>
+    <txt_495 >is invalid.</txt_495>
+    <txt_496 >Hourly rate or cost price</txt_496>
+    <txt_497 >has to be numerical.</txt_497>
+    <txt_498 >Hourly rate</txt_498>
+    <txt_499 >and costprice</txt_499>
+    <txt_500 >Information is needed</txt_500>
+    <txt_501 >for the Ganttlist.</txt_501>
+    <txt_502 >Factor is not stated as a</txt_502>
+    <txt_503 >No correction activities were found.</txt_503>
+    <txt_504 >Salary period is allready closed.</txt_504>
+    <txt_505 >Net amount</txt_505>
+    <txt_506 >is larger than</txt_506>
+    <txt_507 >gross amount</txt_507>
+    <txt_508 >Job /project no was not found.</txt_508>
+    <txt_509 >Pls. Choose customer/job.</txt_509>
+    <txt_510 >pls. Choose activity.</txt_510>
+    <txt_511 >A calculation error has uccred or a manuel amount has be entered as a total amouont.</txt_511>
+    <txt_512 >does not match the amount of the invoice lines</txt_512>
+    <txt_513 >Please check latest activity change and click 'calc' again.</txt_513>
+    <txt_514 >Date is not valid</txt_514>
+    <txt_515 >Hours are not valid or not entered.</txt_515>
+    <txt_516 >Business area is required. No Business area is entered.</txt_516>
+    <txt_517 >Diets / travel days cannot be entered if more than</txt_517>
+    <txt_518 >hours are registrered.</txt_518>
+    <txt_519 >Name needs to be entered</txt_519>
+    <txt_520 >Company needs to be entered</txt_520>
+    <txt_521 >Invalid email</txt_521>
+    <txt_522 >Net reveue amount is not correct / amout is not high enough.</txt_522>
+    <txt_523 >The stated project/sales manager %</txt_523>
+    <txt_524 >has to equal 100%.</txt_524>
+    <txt_525 >Please state Project mng. %</txt_525>
+    <txt_526 >please state Sales mng. %</txt_526>
+    <txt_527 >End date</txt_527>
+    <txt_528 >is before start date</txt_528>
+    <txt_529 >You have to choose job/proejct or customer.</txt_529>
+    <txt_530 >you have to choose an exsisting or a new activity.</txt_530>
+    <txt_531 >Date in invalid.</txt_531>
+    <txt_532 >Forecast has exceeded for this activity.</txt_532>
+    <txt_533 >Hours has been</txt_533>
+    <txt_534 >entered/edited.</txt_534>
+    <txt_535 >Entered befor this day</txt_535>
+    <txt_536 >Balance</txt_536>
+    <txt_537 >an active employee with the choosen</txt_537>
+    <txt_538 >Initials</txt_538>
+    <txt_539 >Please make another combination of initials.</txt_539>
+    <txt_540 >TimeOut Mobile</txt_540>
+    <txt_541 >Back</txt_541>
+    <txt_542 >Account no</txt_542>
+    <txt_543 >Forecast must contain only</txt_543>
+    <txt_544 >the numbers</txt_544>
+    <txt_545 >as well</txt_545>
+    <txt_546 >comma</txt_546>
+    <txt_547 >or</txt_547>
+    <txt_548>period</txt_548>
+    <txt_549 >Activity</txt_549>
+    <txt_550 >New log-in</txt_550>
+    <txt_551 >New log-out</txt_551>
+    <txt_552 >There have already been created come / go registrations on the selected date.</txt_552>
+    <txt_553 >It is not allowed to create come / go registrations on dates that have already been logged in on.</txt_553>
+    <txt_554 >does not match</txt_554>
+    <txt_555 >with the amount on the invoice lines</txt_555>
+    <txt_556 >Please write a comment for your registration(s)</txt_556>
 
+    <txt_557 >No employee is selected</txt_557>
+    <txt_558 >The start date cant be newer than the end date</txt_558>
+    <txt_559 >The weekday the repport should be send is missing</txt_559>
+
+    <txt_560 >No employee is selected</txt_560>
+    <txt_561 >The start-time is newer the than end-time</txt_561>
+    <txt_562 >You need to specify from / to time.</txt_562>
+    <txt_563 >if the registration is for the whole day, check the whole day checkbox</txt_563>
+    <txt_564 >The to / from time format is incorrect</txt_564>
+    
+    <txt_565 >Not all years are filled in with a date on the newly created holiday</txt_565>
+    <txt_566 >A date field on the newly created holiday has a wrong date format</txt_566>
+  
+  
   </fr>
 
 
@@ -338,6 +2588,457 @@
       - Selling price is not in a valid format.
     </txt_120>
 
+    <txt_121 >User name is missing</txt_121>
+    <txt_122 >Password is missing</txt_122>
+    <txt_123 >The session timed out - you need to sign in.</txt_123>
+    <txt_124 >The session times out if you are passive more than</txt_124>
+    <txt_125 >12 hours</txt_125>
+    <txt_126 >or if TimeOut has resat all active sessions due to security or performance reasons.</txt_126>
+    <txt_127 >Click here</txt_127>
+    <txt_128 >to sign in to TimeOut again.</txt_128>
+    <txt_129 >Best regards</txt_129>
+    <txt_130 >Stated hours are missing.</txt_130>
+    <txt_131 >This Jobno. is allready entered once for this date.</txt_131>
+    <txt_132 >Jobno. is only allowed to occur one per date. You have to re-register your time.</txt_132>
+    <txt_133 >Change registration</txt_133>
+    <txt_134 >One or more of the fields herunder need to be filled out</txt_134>
+    <txt_135 >A name need to be</txt_135>
+    <txt_136 >entered</txt_136>
+    <txt_137 >One or more of this information is missing:</txt_137>
+    <txt_138 >Employee name</txt_138>
+    <txt_139 >Employee no.</txt_139>
+    <txt_140 >Employee initials</txt_140>
+    <txt_141 >Sign in</txt_141>
+    <txt_142 >Password</txt_142>
+    <txt_143 >An Employee with the choosen</txt_143>
+    <txt_144 >Employee no.</txt_144>
+    <txt_145 >allready exists</txt_145>
+    <txt_146 >Please choose another no.</txt_146>
+    <txt_147 >A Contact with the choosen</txt_147>
+    <txt_148 >Contact ID</txt_148>
+    <txt_149 >allready exists</txt_149>
+    <txt_150 >customer name</txt_150>
+    <txt_151 >Customer name is longer than</txt_151>
+    <txt_152 >characters</txt_152>
+    <txt_153 >One or more information is missing</txt_153>
+    <txt_154 >Job name</txt_154>
+    <txt_155 >or you have entered</txt_155>
+    <txt_156 >as a name</txt_156>
+    <txt_157 >job name content a</txt_157>
+    <txt_158 >or a</txt_158>
+    <txt_159 >Job name is longer</txt_159>
+    <txt_160 >than</txt_160>
+    <txt_161 >characters.</txt_161>
+    <txt_162 >You have entered</txt_162>
+    <txt_163 >Jobno.</txt_163>
+    <txt_164 >Jobno. is longer</txt_164>
+    <txt_165 >than 20</txt_165>
+    <txt_166 >A customer need to be</txt_166>
+    <txt_167 >added</txt_167>
+    <txt_168 >Job no.</txt_168>
+    <txt_169 >or</txt_169>
+    <txt_170 >Proposal no.</txt_170>
+    <txt_171 >has to be numerical.</txt_171>
+    <txt_172 >Job no. can only contain the numbers 0-9 wo. dot or comma. 0(zero) is not valid.</txt_172>
+    <txt_173 >Gross turnover</txt_173>
+    <txt_174 >has to be in correct format.</txt_174>
+    <txt_175 >Use only numbers 0-9, wo. dot or comma.</txt_175>
+    <txt_176 >An error</txt_176>
+    <txt_177 >has uccured</txt_177>
+    <txt_178 >when under entry</txt_178>
+    <txt_179 >In one or more fields invalid characters has been entered.</txt_179>
+    <txt_180 >More than 24 hours has been</txt_180>
+    <txt_181 >entered</txt_181>
+    <txt_182 >in one or more fields.</txt_182>
+    <txt_183 >A registration of this Job allready</txt_183>
+    <txt_184 >exists</txt_184>
+    <txt_185 >with this</txt_185>
+    <txt_186 >activity</txt_186>
+    <txt_187 >on this</txt_187>
+    <txt_188 >date</txt_188>
+    <txt_189 >Hours</txt_189>
+    <txt_190 >has to be numerical.</txt_190>
+    <txt_191 >It is important to use</txt_191>
+    <txt_192 >"dot"</txt_192>
+    <txt_193 >and</txt_193>
+    <txt_194 >not a</txt_194>
+    <txt_195 >"comma"</txt_195>
+    <txt_196 >when half hours are indicated.</txt_196>
+    <txt_197 >is missing, or more than 15 E42+E73</txt_197>
+    <txt_198 >Employee no.</txt_198>
+    <txt_199 >has to be numerical.</txt_199>
+    <txt_200 >Activities</txt_200>
+    <txt_201 >Activity name</txt_201>
+    <txt_202 >"Name" contain wrong characters</txt_202>
+    <txt_203 >apostrophe.</txt_203>
+    <txt_204 >A job/project with the choosen</txt_204>
+    <txt_205 >Click "Back" and apply a new project number.</txt_205>
+    <txt_206 >Tip. Adding 1 to the choosen number might be enough</txt_206>
+    <txt_207 >You have used more than</txt_207>
+    <txt_208 >attemps</txt_208>
+    <txt_209 >to sign in.</txt_209>
+    <txt_210 >You are not able to sign in to TimeOut.</txt_210>
+    <txt_211 >Please close the browser</txt_211>
+    <txt_212 >and try again</txt_212>
+    <txt_213 >or contact you TimeOut administrator to get a new password.</txt_213>
+    <txt_214 >ERP - create invoice</txt_214>
+    <txt_215 >Amount</txt_215>
+    <txt_216 >has to be an integer (1,4,56,345 etc.)</txt_216>
+    <txt_217 >Invoice no.</txt_217>
+    <txt_218 >allready exists. Please type another.</txt_218>
+    <txt_219 >has to be</txt_219>
+    <txt_220 >0 if budget is fixed price.</txt_220>
+    <txt_221 >"Probability" contains invalid or no characters.</txt_221>
+    <txt_222 >"Probability" has to be between 1 and 100%.</txt_222>
+    <txt_223 >Activity start date is earlier than job/project start date, which is</txt_223>
+    <txt_224 >Activity end date is later than job/project end date, which is</txt_224>
+    <txt_225 >The comment har more than 1255 characters which is the limit.</txt_225>
+    <txt_226 >More hours are assigned for this activity,</txt_226>
+    <txt_227 >than availeble on the job/project.</txt_227>
+    <txt_228 >End date has to be later than the start date.</txt_228>
+    <txt_229 >The date for the 2nd action has to be later that the 1st action date.</txt_229>
+    <txt_230 >The dates are the same for both actions. Do you want the start date to be later.</txt_230>
+    <txt_231 >The</txt_231>
+    <txt_232 >internal</txt_232>
+    <txt_233 >cost prices</txt_233>
+    <txt_234 >are not</txt_234>
+    <txt_235 >entered as a</txt_235>
+    <txt_236 >an integer</txt_236>
+    <txt_237 >Contains a comma</txt_237>
+    <txt_238 >Contains an</txt_238>
+    <txt_239 >invalid character</txt_239>
+    <txt_240 >or letter.</txt_240>
+    <txt_241 >One is entered as a</txt_241>
+    <txt_242 >negative number</txt_242>
+    <txt_243 >On of them are</txt_243>
+    <txt_244 >empty</txt_244>
+    <txt_245 >not filled in</txt_245>
+    <txt_246 >One or more of the following fields need to be choosen</txt_246>
+    <txt_247 >Employees</txt_247>
+    <txt_248 >One or more of the following fields need to be choosen</txt_248>
+    <txt_249 >Weekdays</txt_249>
+    <txt_250 >Dates</txt_250>
+    <txt_251 >Months</txt_251>
+    <txt_252 >Subject</txt_252>
+    <txt_253 >The stat date is earlier that the end date.</txt_253>
+    <txt_254 >No emlpoyee has been choosen.</txt_254>
+    <txt_255 >Account no</txt_255>
+    <txt_256 >or an account with same number allready exsists</txt_256>
+    <txt_257 >or a</txt_257>
+    <txt_258 >VAT ratio</txt_258>
+    <txt_259 >The VAT ratio contians invalid characters.</txt_259>
+    <txt_260 >Invalid characters are used in one of these fields.</txt_260>
+    <txt_261 >Net amount.</txt_261>
+    <txt_262 >VAT amount.</txt_262>
+    <txt_263 >Total amount.</txt_263>
+    <txt_264 >Data is missing for</txt_264>
+    <txt_265 >Total amount</txt_265>
+    <txt_266 >Factor</txt_266>
+    <txt_267 >Remember [.] (dot) and</txt_267>
+    <txt_268 >not a [,] (comma) when halfs are needed.</txt_268>
+    <txt_269 >Minimum one of the following criteria are not valid</txt_269>
+    <txt_270 >Please choose if invoices can be approved wo approval-status.</txt_270>
+    <txt_271 >Quick invoicing has not been activated</txt_271>
+    <txt_272 >No</txt_272>
+    <txt_273 >Agreements</txt_273>
+    <txt_274 >have been</txt_274>
+    <txt_275 >choosen</txt_275>
+    <txt_276 >for invoicing.</txt_276>
+    <txt_277 >A folder has not been choosen.</txt_277>
+    <txt_278 >Purchase price</txt_278>
+    <txt_279 >is not numerical</txt_279>
+    <txt_280 >Sales price</txt_280>
+    <txt_281 >Production time</txt_281>
+    <txt_282 >One or more</txt_282>
+    <txt_283 >Come / Go times</txt_283>
+    <txt_284 >do not have a valid date or time format</txt_284>
+    <txt_285 >Invalid characters or any are missing.</txt_285>
+    <txt_286 >Name is required</txt_286>
+    <txt_287 >Amout has to be numerical</txt_287>
+    <txt_288 >One or more of the entered</txt_288>
+    <txt_289 >times</txt_289>
+    <txt_290 >contains invalid characters.</txt_290>
+    <txt_291 >The registrations can only contain</txt_291>
+    <txt_292 >the numbers 0-9 and colon</txt_292>
+    <txt_293 >is not a valid</txt_293>
+    <txt_294 >time format.</txt_294>
+    <txt_295 >The time format could be</txt_295>
+    <txt_296 >The indicated time is</txt_296>
+    <txt_297 >start time</txt_297>
+    <txt_298 >is later than the</txt_298>
+    <txt_299 >end time.</txt_299>
+    <txt_300 >Punch clock - sign in history</txt_300>
+    <txt_301 >Date is not in correct format,</txt_301>
+    <txt_302 >or the date is not valid.</txt_302>
+    <txt_303 >Forecast</txt_303>
+    <txt_304 >Subject is required.</txt_304>
+    <txt_305 >Contact is required.</txt_305>
+    <txt_306 >Incident category is required.</txt_306>
+    <txt_307 >Incident type is required.</txt_307>
+    <txt_308 >Incident status is required.</txt_308>
+    <txt_309 >Part number is required and needs to be larger than 0 (zero).</txt_309>
+    <txt_310 >Part number</txt_310>
+    <txt_311 >needs to be larger than</txt_311>
+    <txt_312 >0 (zero).</txt_312>
+    <txt_313 >One or more of the following infomation is missing</txt_313>
+    <txt_314 >Minimum stock</txt_314>
+    <txt_315 >Quantity</txt_315>
+    <txt_316 >Contact is required</txt_316>
+    <txt_317 >If no contacts are listed</txt_317>
+    <txt_318 >please check if any ServiceDesk prority group has been stated.</txt_318>
+    <txt_319 >ServiceDesk, opening hours.</txt_319>
+    <txt_320 >Invalid character is stated</txt_320>
+    <txt_321 >One or more opening hours are not correct.</txt_321>
+    <txt_322 >Please use correct time format: e.g. 08:30, 14:35</txt_322>
+    <txt_323 >Closing time is earlier that the opening hour.</txt_323>
+    <txt_324 >Punch clock - ignore period</txt_324>
+    <txt_325 >An invalid character is stated in "ignore period for punch clock"</txt_325>
+    <txt_326 >Start or end time is not correct.</txt_326>
+    <txt_327 >Please use correct time format: e.g. 08:20, 15:35</txt_327>
+    <txt_328 >Punch clock - standard pause</txt_328>
+    <txt_329 >An invalid character is stated in</txt_329>
+    <txt_330 >standard pause</txt_330>
+    <txt_331 >(A or B</txt_331>
+    <txt_332 >Only numbers 0 - 9 are valid.</txt_332>
+    <txt_333 >If a Pause different from standard pauses are stated, a comment is mandatory.</txt_333>
+    <txt_334 >Invoicing - Error</txt_334>
+    <txt_335 >A project or an agreement need to be selected.</txt_335>
+    <txt_336 >ERP - Invoice templates</txt_336>
+    <txt_337 >Invoice templates.</txt_337>
+    <txt_338 >Invoice, draft, internal or reminder</txt_338>
+    <txt_339 >ERP - Invoice Reminder</txt_339>
+    <txt_340 >Date format is invalid or date does not exists.</txt_340>
+    <txt_341 >Unit or amount contain invalid characters.</txt_341>
+    <txt_342 >These fields can only be numerical.</txt_342>
+    <txt_343 >ERP - choose job or agreement</txt_343>
+    <txt_344 >A project or an agreement need to be selected before invoicing.</txt_344>
+    <txt_345 >ERP - Invoice no. allready exists</txt_345>
+    <txt_346 >You are about to create an invoice with a number that allready exists.</txt_346>
+    <txt_347 >Please check invoice no. in Control Panel and compare with lastets invoice (search invoices)</txt_347>
+    <txt_348 >Please contact you administrator to get access to the Control Panel.</txt_348>
+    <txt_349 >TSA - Job no. and proposal no.</txt_349>
+    <txt_350 >Job-/project no. Proposal no. templates.</txt_350>
+    <txt_351 >TSA - Information is needed</txt_351>
+    <txt_352 >Customer has to be choosen in step 1.</txt_352>
+    <txt_353 >TSA - Job no. allready exists</txt_353>
+    <txt_354 >Job-/project no.</txt_354>
+    <txt_355 >allready exists. Please type another.</txt_355>
+    <txt_356 >If several jobs/projects are created</txt_356>
+    <txt_357 >at the same time, the number has to be changed in the Control Panel.</txt_357>
+    <txt_358 >TSA - Proposal no. allready exists</txt_358>
+    <txt_359 >Proposal no.</txt_359>
+    <txt_360 >Proposal no. has to be changed in the Control Panel.</txt_360>
+    <txt_361 >ERP - Account number</txt_361>
+    <txt_362 >Account no. is invalid</txt_362>
+    <txt_363 >ERP - VAT</txt_363>
+    <txt_364 >VAT has to be an integer (e.g. 7, 25 etc.)</txt_364>
+    <txt_365 >ERP - VAT status</txt_365>
+    <txt_366 >The comment har more than 255 characters which is the limit.</txt_366>
+    <txt_367 >Date format is invalid.</txt_367>
+    <txt_368 >You have entered</txt_368>
+    <txt_369 >ERP - Entry date</txt_369>
+    <txt_370 >Entry date (invoice date) is different from the VAT balanced period.</txt_370>
+    <txt_371 >Invoice / entry date</txt_371>
+    <txt_372 >Last VAT period ended:</txt_372>
+    <txt_373 >Material order</txt_373>
+    <txt_374 >Units on one or more order lines are not stated as a</txt_374>
+    <txt_375 >number</txt_375>
+    <txt_376 >You have entered</txt_376>
+    <txt_377 >An order with the same order no. Allready exists.</txt_377>
+    <txt_378 >Last order created was:</txt_378>
+    <txt_379 >Order no. is invalid</txt_379>
+    <txt_380 >The order no. is</txt_380>
+    <txt_381 >Material groups</txt_381>
+    <txt_382 >Name is required</txt_382>
+    <txt_383 >Profit % has invalid characteres.</txt_383>
+    <txt_384 >Or is missing. Please use an integer. 0-100.</txt_384>
+    <txt_385 >Budget Gros/Net days</txt_385>
+    <txt_386 >Name is required</txt_386>
+    <txt_387 >Currencies</txt_387>
+    <txt_388 >Name is required.</txt_388>
+    <txt_389 >Code is required.</txt_389>
+    <txt_390 >Rate has to be numerical.</txt_390>
+    <txt_391 >Rate has to be lager than 0 (zero)</txt_391>
+    <txt_392 >Budget employees</txt_392>
+    <txt_393 >One or more fields has invalid characters or are empty.</txt_393>
+    <txt_394 >Employee</txt_394>
+    <txt_395 >Employment date has either invalid characters, format or is empty.</txt_395>
+    <txt_396 >Termination/resignation date has either invalid characters, format or is empty.</txt_396>
+    <txt_397 >Stop watch</txt_397>
+    <txt_398 >Start time</txt_398>
+    <txt_399 >or</txt_399>
+    <txt_400 >End time</txt_400>
+    <txt_401 >has either invalid characters, format or is empty.</txt_401>
+    <txt_402 >Time recording</txt_402>
+    <txt_403 >The time recording has been rejected. Two reasons can course this:</txt_403>
+    <txt_404 >Registration date</txt_404>
+    <txt_405 >is in a interval which has allready been invoiced.</txt_405>
+    <txt_406 >Or. The period is completed/closed.</txt_406>
+    <txt_407 >Copy job/project</txt_407>
+    <txt_408 >Contact is required.</txt_408>
+    <txt_409 >Job/project is required.</txt_409>
+    <txt_410 >ServiceDesk</txt_410>
+    <txt_411 >Date for execution is invalid.</txt_411>
+    <txt_412 >Unit no. is invalid.</txt_412>
+    <txt_413 >Job/project list</txt_413>
+    <txt_414 >Priority</txt_414>
+    <txt_415 >Job/project - budget</txt_415>
+    <txt_416 >Avr. Hourly rate is invalid.</txt_416>
+    <txt_417 >Employee amount calculated from avr. hourly rate * factor is invalid.</txt_417>
+    <txt_418 >Internal cost (salary) is invalid.</txt_418>
+    <txt_419 >Vendor and Sales cost are invalid.</txt_419>
+    <txt_420 >Gross profit is invalid.</txt_420>
+    <txt_421 >Gross profit % is invalid.</txt_421>
+    <txt_422 >to calculate employee amount is not valid.</txt_422>
+    <txt_423 >Minimum 1 (one) line per employee type that to exists.</txt_423>
+    <txt_424 >Costs are not valid or correct format.</txt_424>
+    <txt_425 >Yes</txt_425>
+    <txt_426 >No</txt_426>
+    <txt_427 >Punch clock</txt_427>
+    <txt_428 >Comment is needed</txt_428>
+    <txt_429 >Changes to log-in and log-out</txt_429>
+    <txt_430 >requires</txt_430>
+    <txt_431 >a reason in the comment field.</txt_431>
+    <txt_432 >A punch clock setting has been choosen</txt_432>
+    <txt_433 >explained with a comment.</txt_433>
+    <txt_434 >Data</txt_434>
+    <txt_435 >Punch clock setttings</txt_435>
+    <txt_436 >Manual ended</txt_436>
+    <txt_437 >Time changed</txt_437>
+    <txt_438 >Org. Log-in</txt_438>
+    <txt_439 >Org. Log-out</txt_439>
+    <txt_440 >If time recordings on pre-entered activities are changed</txt_440>
+    <txt_441 >Priority is not stated in correct format (integer)</txt_441>
+    <txt_442 >Come / Go</txt_442>
+    <txt_443 >One or more come / go registrations are in conflict.</txt_443>
+    <txt_444 >Only one come / go regsitration can be made for the same period.</txt_444>
+    <txt_445 >This come / go registration is invalid</txt_445>
+    <txt_446 >An acitivity is not found with an open time-lock for the period / date.</txt_446>
+    <txt_447 >You have stated this time</txt_447>
+    <txt_448 >Time-lock is</txt_448>
+    <txt_449 >Control panel</txt_449>
+    <txt_450 >The stated</txt_450>
+    <txt_451 >license start date</txt_451>
+    <txt_452 >is not in a valid format.</txt_452>
+    <txt_453 >Contacts</txt_453>
+    <txt_454 >Name is required.</txt_454>
+    <txt_455 >Sign out time is earlier than sign in time.</txt_455>
+    <txt_456 >Sign in time has been changed to</txt_456>
+    <txt_457 >according to the settings. Please contact adminiatrator for furter information.</txt_457>
+    <txt_458 >Material reg.</txt_458>
+    <txt_459 >Job/project is required.</txt_459>
+    <txt_460 >Phase is invalid</txt_460>
+    <txt_461 >Phase contains a</txt_461>
+    <txt_462 >space</txt_462>
+    <txt_463 >in the name. Phase must be one word. E.g. ""01_MainProject""</txt_463>
+    <txt_464 >Material / expence registration</txt_464>
+    <txt_465 >Date is not in correct format.</txt_465>
+    <txt_466 >Part number needs to be added.</txt_466>
+    <txt_467 >Print job / project / proposal</txt_467>
+    <txt_468 >Folder is required.</txt_468>
+    <txt_469 >Please indicate if you want to safe as template or document.</txt_469>
+    <txt_470 >Groupe is required.</txt_470>
+    <txt_471 >Time-lock settings</txt_471>
+    <txt_472 >Time format has to be tt:mm:ss</txt_472>
+    <txt_473 >Purchase order no. is required.</txt_473>
+    <txt_474 >Salary period</txt_474>
+    <txt_475 >Date is invalid or not existing.</txt_475>
+    <txt_476 >Percent contain invalid characters.</txt_476>
+    <txt_477 >Invoice due date</txt_477>
+    <txt_478 >Due date is invalid.</txt_478>
+    <txt_479 >You have stated</txt_479>
+    <txt_480 >Sort no. has to be an integer</txt_480>
+    <txt_481 >The stated quantity,</txt_481>
+    <txt_482 >Cost or sales price</txt_482>
+    <txt_483 >has to be numerical.</txt_483>
+    <txt_484 >Name is required.</txt_484>
+    <txt_485 >Contact at customer</txt_485>
+    <txt_486 >Contact is required when creating/editing a job/project.</txt_486>
+    <txt_487 >Rest estimate is invalid.</txt_487>
+    <txt_488 >Milage price</txt_488>
+    <txt_489 >Milage price is invalid.</txt_489>
+    <txt_490 >Error. Registration on activity type (absence, vacation etc.)</txt_490>
+    <txt_491 >Rated hours is required.</txt_491>
+    <txt_492 >E.g. is vacation on a Sunday with 0 rated hours not possible.</txt_492>
+    <txt_493 >The entered</txt_493>
+    <txt_494 >from date</txt_494>
+    <txt_495 >is invalid.</txt_495>
+    <txt_496 >Hourly rate or cost price</txt_496>
+    <txt_497 >has to be numerical.</txt_497>
+    <txt_498 >Hourly rate</txt_498>
+    <txt_499 >and costprice</txt_499>
+    <txt_500 >Information is needed</txt_500>
+    <txt_501 >for the Ganttlist.</txt_501>
+    <txt_502 >Factor is not stated as a</txt_502>
+    <txt_503 >No correction activities were found.</txt_503>
+    <txt_504 >Salary period is allready closed.</txt_504>
+    <txt_505 >Net amount</txt_505>
+    <txt_506 >is larger than</txt_506>
+    <txt_507 >gross amount</txt_507>
+    <txt_508 >Job /project no was not found.</txt_508>
+    <txt_509 >Pls. Choose customer/job.</txt_509>
+    <txt_510 >pls. Choose activity.</txt_510>
+    <txt_511 >A calculation error has uccred or a manuel amount has be entered as a total amouont.</txt_511>
+    <txt_512 >does not match the amount of the invoice lines</txt_512>
+    <txt_513 >Please check latest activity change and click 'calc' again.</txt_513>
+    <txt_514 >Date is not valid</txt_514>
+    <txt_515 >Hours are not valid or not entered.</txt_515>
+    <txt_516 >Business area is required. No Business area is entered.</txt_516>
+    <txt_517 >Diets / travel days cannot be entered if more than</txt_517>
+    <txt_518 >hours are registrered.</txt_518>
+    <txt_519 >Name needs to be entered</txt_519>
+    <txt_520 >Company needs to be entered</txt_520>
+    <txt_521 >Invalid email</txt_521>
+    <txt_522 >Net reveue amount is not correct / amout is not high enough.</txt_522>
+    <txt_523 >The stated project/sales manager %</txt_523>
+    <txt_524 >has to equal 100%.</txt_524>
+    <txt_525 >Please state Project mng. %</txt_525>
+    <txt_526 >please state Sales mng. %</txt_526>
+    <txt_527 >End date</txt_527>
+    <txt_528 >is before start date</txt_528>
+    <txt_529 >You have to choose job/proejct or customer.</txt_529>
+    <txt_530 >you have to choose an exsisting or a new activity.</txt_530>
+    <txt_531 >Date in invalid.</txt_531>
+    <txt_532 >Forecast has exceeded for this activity.</txt_532>
+    <txt_533 >Hours has been</txt_533>
+    <txt_534 >entered/edited.</txt_534>
+    <txt_535 >Entered befor this day</txt_535>
+    <txt_536 >Balance</txt_536>
+    <txt_537 >an active employee with the choosen</txt_537>
+    <txt_538 >Initials</txt_538>
+    <txt_539 >Please make another combination of initials.</txt_539>
+    <txt_540 >TimeOut Mobile</txt_540>
+    <txt_541 >Back</txt_541>
+    <txt_542 >Account no</txt_542>
+    <txt_543 >Forecast must contain only</txt_543>
+    <txt_544 >the numbers</txt_544>
+    <txt_545 >as well</txt_545>
+    <txt_546 >comma</txt_546>
+    <txt_547 >or</txt_547>
+    <txt_548>period</txt_548>
+    <txt_549 >Activity</txt_549>
+    <txt_550 >New log-in</txt_550>
+    <txt_551 >New log-out</txt_551>
+    <txt_552 >There have already been created come / go registrations on the selected date.</txt_552>
+    <txt_553 >It is not allowed to create come / go registrations on dates that have already been logged in on.</txt_553>
+    <txt_554 >does not match</txt_554>
+    <txt_555 >with the amount on the invoice lines</txt_555>
+    <txt_556 >Please write a comment for your registration(s)</txt_556>
+
+    <txt_557 >No employee is selected</txt_557>
+    <txt_558 >The start date cant be newer than the end date</txt_558>
+    <txt_559 >The weekday the repport should be send is missing</txt_559>
+
+    <txt_560 >No employee is selected</txt_560>
+    <txt_561 >The start-time is newer the than end-time</txt_561>
+    <txt_562 >You need to specify from / to time.</txt_562>
+    <txt_563 >if the registration is for the whole day, check the whole day checkbox</txt_563>
+    <txt_564 >The to / from time format is incorrect</txt_564>
+    
+    <txt_565 >Not all years are filled in with a date on the newly created holiday</txt_565>
+    <txt_566 >A date field on the newly created holiday has a wrong date format</txt_566>
+  
+  
   </uk>
 
 
@@ -390,6 +3091,455 @@
       - Precio no se ha completado correctamente .
     </txt_120>
 
+    <txt_121 >User name is missing</txt_121>
+    <txt_122 >Password is missing</txt_122>
+    <txt_123 >The session timed out - you need to sign in.</txt_123>
+    <txt_124 >The session times out if you are passive more than</txt_124>
+    <txt_125 >12 hours</txt_125>
+    <txt_126 >or if TimeOut has resat all active sessions due to security or performance reasons.</txt_126>
+    <txt_127 >Click here</txt_127>
+    <txt_128 >to sign in to TimeOut again.</txt_128>
+    <txt_129 >Best regards</txt_129>
+    <txt_130 >Stated hours are missing.</txt_130>
+    <txt_131 >This Jobno. is allready entered once for this date.</txt_131>
+    <txt_132 >Jobno. is only allowed to occur one per date. You have to re-register your time.</txt_132>
+    <txt_133 >Change registration</txt_133>
+    <txt_134 >One or more of the fields herunder need to be filled out</txt_134>
+    <txt_135 >A name need to be</txt_135>
+    <txt_136 >entered</txt_136>
+    <txt_137 >One or more of this information is missing:</txt_137>
+    <txt_138 >Employee name</txt_138>
+    <txt_139 >Employee no.</txt_139>
+    <txt_140 >Employee initials</txt_140>
+    <txt_141 >Sign in</txt_141>
+    <txt_142 >Password</txt_142>
+    <txt_143 >An Employee with the choosen</txt_143>
+    <txt_144 >Employee no.</txt_144>
+    <txt_145 >allready exists</txt_145>
+    <txt_146 >Please choose another no.</txt_146>
+    <txt_147 >A Contact with the choosen</txt_147>
+    <txt_148 >Contact ID</txt_148>
+    <txt_149 >allready exists</txt_149>
+    <txt_150 >customer name</txt_150>
+    <txt_151 >Customer name is longer than</txt_151>
+    <txt_152 >characters</txt_152>
+    <txt_153 >One or more information is missing</txt_153>
+    <txt_154 >Job name</txt_154>
+    <txt_155 >or you have entered</txt_155>
+    <txt_156 >as a name</txt_156>
+    <txt_157 >job name content a</txt_157>
+    <txt_158 >or a</txt_158>
+    <txt_159 >Job name is longer</txt_159>
+    <txt_160 >than</txt_160>
+    <txt_161 >characters.</txt_161>
+    <txt_162 >You have entered</txt_162>
+    <txt_163 >Jobno.</txt_163>
+    <txt_164 >Jobno. is longer</txt_164>
+    <txt_165 >than 20</txt_165>
+    <txt_166 >A customer need to be</txt_166>
+    <txt_167 >added</txt_167>
+    <txt_168 >Job no.</txt_168>
+    <txt_169 >or</txt_169>
+    <txt_170 >Proposal no.</txt_170>
+    <txt_171 >has to be numerical.</txt_171>
+    <txt_172 >Job no. can only contain the numbers 0-9 wo. dot or comma. 0(zero) is not valid.</txt_172>
+    <txt_173 >Gross turnover</txt_173>
+    <txt_174 >has to be in correct format.</txt_174>
+    <txt_175 >Use only numbers 0-9, wo. dot or comma.</txt_175>
+    <txt_176 >An error</txt_176>
+    <txt_177 >has uccured</txt_177>
+    <txt_178 >when under entry</txt_178>
+    <txt_179 >In one or more fields invalid characters has been entered.</txt_179>
+    <txt_180 >More than 24 hours has been</txt_180>
+    <txt_181 >entered</txt_181>
+    <txt_182 >in one or more fields.</txt_182>
+    <txt_183 >A registration of this Job allready</txt_183>
+    <txt_184 >exists</txt_184>
+    <txt_185 >with this</txt_185>
+    <txt_186 >activity</txt_186>
+    <txt_187 >on this</txt_187>
+    <txt_188 >date</txt_188>
+    <txt_189 >Hours</txt_189>
+    <txt_190 >has to be numerical.</txt_190>
+    <txt_191 >It is important to use</txt_191>
+    <txt_192 >"dot"</txt_192>
+    <txt_193 >and</txt_193>
+    <txt_194 >not a</txt_194>
+    <txt_195 >"comma"</txt_195>
+    <txt_196 >when half hours are indicated.</txt_196>
+    <txt_197 >is missing, or more than 15 E42+E73</txt_197>
+    <txt_198 >Employee no.</txt_198>
+    <txt_199 >has to be numerical.</txt_199>
+    <txt_200 >Activities</txt_200>
+    <txt_201 >Activity name</txt_201>
+    <txt_202 >"Name" contain wrong characters</txt_202>
+    <txt_203 >apostrophe.</txt_203>
+    <txt_204 >A job/project with the choosen</txt_204>
+    <txt_205 >Click "Back" and apply a new project number.</txt_205>
+    <txt_206 >Tip. Adding 1 to the choosen number might be enough</txt_206>
+    <txt_207 >You have used more than</txt_207>
+    <txt_208 >attemps</txt_208>
+    <txt_209 >to sign in.</txt_209>
+    <txt_210 >You are not able to sign in to TimeOut.</txt_210>
+    <txt_211 >Please close the browser</txt_211>
+    <txt_212 >and try again</txt_212>
+    <txt_213 >or contact you TimeOut administrator to get a new password.</txt_213>
+    <txt_214 >ERP - create invoice</txt_214>
+    <txt_215 >Amount</txt_215>
+    <txt_216 >has to be an integer (1,4,56,345 etc.)</txt_216>
+    <txt_217 >Invoice no.</txt_217>
+    <txt_218 >allready exists. Please type another.</txt_218>
+    <txt_219 >has to be</txt_219>
+    <txt_220 >0 if budget is fixed price.</txt_220>
+    <txt_221 >"Probability" contains invalid or no characters.</txt_221>
+    <txt_222 >"Probability" has to be between 1 and 100%.</txt_222>
+    <txt_223 >Activity start date is earlier than job/project start date, which is</txt_223>
+    <txt_224 >Activity end date is later than job/project end date, which is</txt_224>
+    <txt_225 >The comment har more than 1255 characters which is the limit.</txt_225>
+    <txt_226 >More hours are assigned for this activity,</txt_226>
+    <txt_227 >than availeble on the job/project.</txt_227>
+    <txt_228 >End date has to be later than the start date.</txt_228>
+    <txt_229 >The date for the 2nd action has to be later that the 1st action date.</txt_229>
+    <txt_230 >The dates are the same for both actions. Do you want the start date to be later.</txt_230>
+    <txt_231 >The</txt_231>
+    <txt_232 >internal</txt_232>
+    <txt_233 >cost prices</txt_233>
+    <txt_234 >are not</txt_234>
+    <txt_235 >entered as a</txt_235>
+    <txt_236 >an integer</txt_236>
+    <txt_237 >Contains a comma</txt_237>
+    <txt_238 >Contains an</txt_238>
+    <txt_239 >invalid character</txt_239>
+    <txt_240 >or letter.</txt_240>
+    <txt_241 >One is entered as a</txt_241>
+    <txt_242 >negative number</txt_242>
+    <txt_243 >On of them are</txt_243>
+    <txt_244 >empty</txt_244>
+    <txt_245 >not filled in</txt_245>
+    <txt_246 >One or more of the following fields need to be choosen</txt_246>
+    <txt_247 >Employees</txt_247>
+    <txt_248 >One or more of the following fields need to be choosen</txt_248>
+    <txt_249 >Weekdays</txt_249>
+    <txt_250 >Dates</txt_250>
+    <txt_251 >Months</txt_251>
+    <txt_252 >Subject</txt_252>
+    <txt_253 >The stat date is earlier that the end date.</txt_253>
+    <txt_254 >No emlpoyee has been choosen.</txt_254>
+    <txt_255 >Account no</txt_255>
+    <txt_256 >or an account with same number allready exsists</txt_256>
+    <txt_257 >or a</txt_257>
+    <txt_258 >VAT ratio</txt_258>
+    <txt_259 >The VAT ratio contians invalid characters.</txt_259>
+    <txt_260 >Invalid characters are used in one of these fields.</txt_260>
+    <txt_261 >Net amount.</txt_261>
+    <txt_262 >VAT amount.</txt_262>
+    <txt_263 >Total amount.</txt_263>
+    <txt_264 >Data is missing for</txt_264>
+    <txt_265 >Total amount</txt_265>
+    <txt_266 >Factor</txt_266>
+    <txt_267 >Remember [.] (dot) and</txt_267>
+    <txt_268 >not a [,] (comma) when halfs are needed.</txt_268>
+    <txt_269 >Minimum one of the following criteria are not valid</txt_269>
+    <txt_270 >Please choose if invoices can be approved wo approval-status.</txt_270>
+    <txt_271 >Quick invoicing has not been activated</txt_271>
+    <txt_272 >No</txt_272>
+    <txt_273 >Agreements</txt_273>
+    <txt_274 >have been</txt_274>
+    <txt_275 >choosen</txt_275>
+    <txt_276 >for invoicing.</txt_276>
+    <txt_277 >A folder has not been choosen.</txt_277>
+    <txt_278 >Purchase price</txt_278>
+    <txt_279 >is not numerical</txt_279>
+    <txt_280 >Sales price</txt_280>
+    <txt_281 >Production time</txt_281>
+    <txt_282 >One or more</txt_282>
+    <txt_283 >Come / Go times</txt_283>
+    <txt_284 >do not have a valid date or time format</txt_284>
+    <txt_285 >Invalid characters or any are missing.</txt_285>
+    <txt_286 >Name is required</txt_286>
+    <txt_287 >Amout has to be numerical</txt_287>
+    <txt_288 >One or more of the entered</txt_288>
+    <txt_289 >times</txt_289>
+    <txt_290 >contains invalid characters.</txt_290>
+    <txt_291 >The registrations can only contain</txt_291>
+    <txt_292 >the numbers 0-9 and colon</txt_292>
+    <txt_293 >is not a valid</txt_293>
+    <txt_294 >time format.</txt_294>
+    <txt_295 >The time format could be</txt_295>
+    <txt_296 >The indicated time is</txt_296>
+    <txt_297 >start time</txt_297>
+    <txt_298 >is later than the</txt_298>
+    <txt_299 >end time.</txt_299>
+    <txt_300 >Punch clock - sign in history</txt_300>
+    <txt_301 >Date is not in correct format,</txt_301>
+    <txt_302 >or the date is not valid.</txt_302>
+    <txt_303 >Forecast</txt_303>
+    <txt_304 >Subject is required.</txt_304>
+    <txt_305 >Contact is required.</txt_305>
+    <txt_306 >Incident category is required.</txt_306>
+    <txt_307 >Incident type is required.</txt_307>
+    <txt_308 >Incident status is required.</txt_308>
+    <txt_309 >Part number is required and needs to be larger than 0 (zero).</txt_309>
+    <txt_310 >Part number</txt_310>
+    <txt_311 >needs to be larger than</txt_311>
+    <txt_312 >0 (zero).</txt_312>
+    <txt_313 >One or more of the following infomation is missing</txt_313>
+    <txt_314 >Minimum stock</txt_314>
+    <txt_315 >Quantity</txt_315>
+    <txt_316 >Contact is required</txt_316>
+    <txt_317 >If no contacts are listed</txt_317>
+    <txt_318 >please check if any ServiceDesk prority group has been stated.</txt_318>
+    <txt_319 >ServiceDesk, opening hours.</txt_319>
+    <txt_320 >Invalid character is stated</txt_320>
+    <txt_321 >One or more opening hours are not correct.</txt_321>
+    <txt_322 >Please use correct time format: e.g. 08:30, 14:35</txt_322>
+    <txt_323 >Closing time is earlier that the opening hour.</txt_323>
+    <txt_324 >Punch clock - ignore period</txt_324>
+    <txt_325 >An invalid character is stated in "ignore period for punch clock"</txt_325>
+    <txt_326 >Start or end time is not correct.</txt_326>
+    <txt_327 >Please use correct time format: e.g. 08:20, 15:35</txt_327>
+    <txt_328 >Punch clock - standard pause</txt_328>
+    <txt_329 >An invalid character is stated in</txt_329>
+    <txt_330 >standard pause</txt_330>
+    <txt_331 >(A or B</txt_331>
+    <txt_332 >Only numbers 0 - 9 are valid.</txt_332>
+    <txt_333 >If a Pause different from standard pauses are stated, a comment is mandatory.</txt_333>
+    <txt_334 >Invoicing - Error</txt_334>
+    <txt_335 >A project or an agreement need to be selected.</txt_335>
+    <txt_336 >ERP - Invoice templates</txt_336>
+    <txt_337 >Invoice templates.</txt_337>
+    <txt_338 >Invoice, draft, internal or reminder</txt_338>
+    <txt_339 >ERP - Invoice Reminder</txt_339>
+    <txt_340 >Date format is invalid or date does not exists.</txt_340>
+    <txt_341 >Unit or amount contain invalid characters.</txt_341>
+    <txt_342 >These fields can only be numerical.</txt_342>
+    <txt_343 >ERP - choose job or agreement</txt_343>
+    <txt_344 >A project or an agreement need to be selected before invoicing.</txt_344>
+    <txt_345 >ERP - Invoice no. allready exists</txt_345>
+    <txt_346 >You are about to create an invoice with a number that allready exists.</txt_346>
+    <txt_347 >Please check invoice no. in Control Panel and compare with lastets invoice (search invoices)</txt_347>
+    <txt_348 >Please contact you administrator to get access to the Control Panel.</txt_348>
+    <txt_349 >TSA - Job no. and proposal no.</txt_349>
+    <txt_350 >Job-/project no. Proposal no. templates.</txt_350>
+    <txt_351 >TSA - Information is needed</txt_351>
+    <txt_352 >Customer has to be choosen in step 1.</txt_352>
+    <txt_353 >TSA - Job no. allready exists</txt_353>
+    <txt_354 >Job-/project no.</txt_354>
+    <txt_355 >allready exists. Please type another.</txt_355>
+    <txt_356 >If several jobs/projects are created</txt_356>
+    <txt_357 >at the same time, the number has to be changed in the Control Panel.</txt_357>
+    <txt_358 >TSA - Proposal no. allready exists</txt_358>
+    <txt_359 >Proposal no.</txt_359>
+    <txt_360 >Proposal no. has to be changed in the Control Panel.</txt_360>
+    <txt_361 >ERP - Account number</txt_361>
+    <txt_362 >Account no. is invalid</txt_362>
+    <txt_363 >ERP - VAT</txt_363>
+    <txt_364 >VAT has to be an integer (e.g. 7, 25 etc.)</txt_364>
+    <txt_365 >ERP - VAT status</txt_365>
+    <txt_366 >The comment har more than 255 characters which is the limit.</txt_366>
+    <txt_367 >Date format is invalid.</txt_367>
+    <txt_368 >You have entered</txt_368>
+    <txt_369 >ERP - Entry date</txt_369>
+    <txt_370 >Entry date (invoice date) is different from the VAT balanced period.</txt_370>
+    <txt_371 >Invoice / entry date</txt_371>
+    <txt_372 >Last VAT period ended:</txt_372>
+    <txt_373 >Material order</txt_373>
+    <txt_374 >Units on one or more order lines are not stated as a</txt_374>
+    <txt_375 >number</txt_375>
+    <txt_376 >You have entered</txt_376>
+    <txt_377 >An order with the same order no. Allready exists.</txt_377>
+    <txt_378 >Last order created was:</txt_378>
+    <txt_379 >Order no. is invalid</txt_379>
+    <txt_380 >The order no. is</txt_380>
+    <txt_381 >Material groups</txt_381>
+    <txt_382 >Name is required</txt_382>
+    <txt_383 >Profit % has invalid characteres.</txt_383>
+    <txt_384 >Or is missing. Please use an integer. 0-100.</txt_384>
+    <txt_385 >Budget Gros/Net days</txt_385>
+    <txt_386 >Name is required</txt_386>
+    <txt_387 >Currencies</txt_387>
+    <txt_388 >Name is required.</txt_388>
+    <txt_389 >Code is required.</txt_389>
+    <txt_390 >Rate has to be numerical.</txt_390>
+    <txt_391 >Rate has to be lager than 0 (zero)</txt_391>
+    <txt_392 >Budget employees</txt_392>
+    <txt_393 >One or more fields has invalid characters or are empty.</txt_393>
+    <txt_394 >Employee</txt_394>
+    <txt_395 >Employment date has either invalid characters, format or is empty.</txt_395>
+    <txt_396 >Termination/resignation date has either invalid characters, format or is empty.</txt_396>
+    <txt_397 >Stop watch</txt_397>
+    <txt_398 >Start time</txt_398>
+    <txt_399 >or</txt_399>
+    <txt_400 >End time</txt_400>
+    <txt_401 >has either invalid characters, format or is empty.</txt_401>
+    <txt_402 >Time recording</txt_402>
+    <txt_403 >The time recording has been rejected. Two reasons can course this:</txt_403>
+    <txt_404 >Registration date</txt_404>
+    <txt_405 >is in a interval which has allready been invoiced.</txt_405>
+    <txt_406 >Or. The period is completed/closed.</txt_406>
+    <txt_407 >Copy job/project</txt_407>
+    <txt_408 >Contact is required.</txt_408>
+    <txt_409 >Job/project is required.</txt_409>
+    <txt_410 >ServiceDesk</txt_410>
+    <txt_411 >Date for execution is invalid.</txt_411>
+    <txt_412 >Unit no. is invalid.</txt_412>
+    <txt_413 >Job/project list</txt_413>
+    <txt_414 >Priority</txt_414>
+    <txt_415 >Job/project - budget</txt_415>
+    <txt_416 >Avr. Hourly rate is invalid.</txt_416>
+    <txt_417 >Employee amount calculated from avr. hourly rate * factor is invalid.</txt_417>
+    <txt_418 >Internal cost (salary) is invalid.</txt_418>
+    <txt_419 >Vendor and Sales cost are invalid.</txt_419>
+    <txt_420 >Gross profit is invalid.</txt_420>
+    <txt_421 >Gross profit % is invalid.</txt_421>
+    <txt_422 >to calculate employee amount is not valid.</txt_422>
+    <txt_423 >Minimum 1 (one) line per employee type that to exists.</txt_423>
+    <txt_424 >Costs are not valid or correct format.</txt_424>
+    <txt_425 >Yes</txt_425>
+    <txt_426 >No</txt_426>
+    <txt_427 >Punch clock</txt_427>
+    <txt_428 >Comment is needed</txt_428>
+    <txt_429 >Changes to log-in and log-out</txt_429>
+    <txt_430 >requires</txt_430>
+    <txt_431 >a reason in the comment field.</txt_431>
+    <txt_432 >A punch clock setting has been choosen</txt_432>
+    <txt_433 >explained with a comment.</txt_433>
+    <txt_434 >Data</txt_434>
+    <txt_435 >Punch clock setttings</txt_435>
+    <txt_436 >Manual ended</txt_436>
+    <txt_437 >Time changed</txt_437>
+    <txt_438 >Org. Log-in</txt_438>
+    <txt_439 >Org. Log-out</txt_439>
+    <txt_440 >If time recordings on pre-entered activities are changed</txt_440>
+    <txt_441 >Priority is not stated in correct format (integer)</txt_441>
+    <txt_442 >Come / Go</txt_442>
+    <txt_443 >One or more come / go registrations are in conflict.</txt_443>
+    <txt_444 >Only one come / go regsitration can be made for the same period.</txt_444>
+    <txt_445 >This come / go registration is invalid</txt_445>
+    <txt_446 >An acitivity is not found with an open time-lock for the period / date.</txt_446>
+    <txt_447 >You have stated this time</txt_447>
+    <txt_448 >Time-lock is</txt_448>
+    <txt_449 >Control panel</txt_449>
+    <txt_450 >The stated</txt_450>
+    <txt_451 >license start date</txt_451>
+    <txt_452 >is not in a valid format.</txt_452>
+    <txt_453 >Contacts</txt_453>
+    <txt_454 >Name is required.</txt_454>
+    <txt_455 >Sign out time is earlier than sign in time.</txt_455>
+    <txt_456 >Sign in time has been changed to</txt_456>
+    <txt_457 >according to the settings. Please contact adminiatrator for furter information.</txt_457>
+    <txt_458 >Material reg.</txt_458>
+    <txt_459 >Job/project is required.</txt_459>
+    <txt_460 >Phase is invalid</txt_460>
+    <txt_461 >Phase contains a</txt_461>
+    <txt_462 >space</txt_462>
+    <txt_463 >in the name. Phase must be one word. E.g. ""01_MainProject""</txt_463>
+    <txt_464 >Material / expence registration</txt_464>
+    <txt_465 >Date is not in correct format.</txt_465>
+    <txt_466 >Part number needs to be added.</txt_466>
+    <txt_467 >Print job / project / proposal</txt_467>
+    <txt_468 >Folder is required.</txt_468>
+    <txt_469 >Please indicate if you want to safe as template or document.</txt_469>
+    <txt_470 >Groupe is required.</txt_470>
+    <txt_471 >Time-lock settings</txt_471>
+    <txt_472 >Time format has to be tt:mm:ss</txt_472>
+    <txt_473 >Purchase order no. is required.</txt_473>
+    <txt_474 >Salary period</txt_474>
+    <txt_475 >Date is invalid or not existing.</txt_475>
+    <txt_476 >Percent contain invalid characters.</txt_476>
+    <txt_477 >Invoice due date</txt_477>
+    <txt_478 >Due date is invalid.</txt_478>
+    <txt_479 >You have stated</txt_479>
+    <txt_480 >Sort no. has to be an integer</txt_480>
+    <txt_481 >The stated quantity,</txt_481>
+    <txt_482 >Cost or sales price</txt_482>
+    <txt_483 >has to be numerical.</txt_483>
+    <txt_484 >Name is required.</txt_484>
+    <txt_485 >Contact at customer</txt_485>
+    <txt_486 >Contact is required when creating/editing a job/project.</txt_486>
+    <txt_487 >Rest estimate is invalid.</txt_487>
+    <txt_488 >Milage price</txt_488>
+    <txt_489 >Milage price is invalid.</txt_489>
+    <txt_490 >Error. Registration on activity type (absence, vacation etc.)</txt_490>
+    <txt_491 >Rated hours is required.</txt_491>
+    <txt_492 >E.g. is vacation on a Sunday with 0 rated hours not possible.</txt_492>
+    <txt_493 >The entered</txt_493>
+    <txt_494 >from date</txt_494>
+    <txt_495 >is invalid.</txt_495>
+    <txt_496 >Hourly rate or cost price</txt_496>
+    <txt_497 >has to be numerical.</txt_497>
+    <txt_498 >Hourly rate</txt_498>
+    <txt_499 >and costprice</txt_499>
+    <txt_500 >Information is needed</txt_500>
+    <txt_501 >for the Ganttlist.</txt_501>
+    <txt_502 >Factor is not stated as a</txt_502>
+    <txt_503 >No correction activities were found.</txt_503>
+    <txt_504 >Salary period is allready closed.</txt_504>
+    <txt_505 >Net amount</txt_505>
+    <txt_506 >is larger than</txt_506>
+    <txt_507 >gross amount</txt_507>
+    <txt_508 >Job /project no was not found.</txt_508>
+    <txt_509 >Pls. Choose customer/job.</txt_509>
+    <txt_510 >pls. Choose activity.</txt_510>
+    <txt_511 >A calculation error has uccred or a manuel amount has be entered as a total amouont.</txt_511>
+    <txt_512 >does not match the amount of the invoice lines</txt_512>
+    <txt_513 >Please check latest activity change and click 'calc' again.</txt_513>
+    <txt_514 >Date is not valid</txt_514>
+    <txt_515 >Hours are not valid or not entered.</txt_515>
+    <txt_516 >Business area is required. No Business area is entered.</txt_516>
+    <txt_517 >Diets / travel days cannot be entered if more than</txt_517>
+    <txt_518 >hours are registrered.</txt_518>
+    <txt_519 >Name needs to be entered</txt_519>
+    <txt_520 >Company needs to be entered</txt_520>
+    <txt_521 >Invalid email</txt_521>
+    <txt_522 >Net reveue amount is not correct / amout is not high enough.</txt_522>
+    <txt_523 >The stated project/sales manager %</txt_523>
+    <txt_524 >has to equal 100%.</txt_524>
+    <txt_525 >Please state Project mng. %</txt_525>
+    <txt_526 >please state Sales mng. %</txt_526>
+    <txt_527 >End date</txt_527>
+    <txt_528 >is before start date</txt_528>
+    <txt_529 >You have to choose job/proejct or customer.</txt_529>
+    <txt_530 >you have to choose an exsisting or a new activity.</txt_530>
+    <txt_531 >Date in invalid.</txt_531>
+    <txt_532 >Forecast has exceeded for this activity.</txt_532>
+    <txt_533 >Hours has been</txt_533>
+    <txt_534 >entered/edited.</txt_534>
+    <txt_535 >Entered befor this day</txt_535>
+    <txt_536 >Balance</txt_536>
+    <txt_537 >an active employee with the choosen</txt_537>
+    <txt_538 >Initials</txt_538>
+    <txt_539 >Please make another combination of initials.</txt_539>
+    <txt_540 >TimeOut Mobile</txt_540>
+    <txt_541 >Back</txt_541>
+    <txt_542 >Account no</txt_542>
+    <txt_543 >Forecast must contain only</txt_543>
+    <txt_544 >the numbers</txt_544>
+    <txt_545 >as well</txt_545>
+    <txt_546 >comma</txt_546>
+    <txt_547 >or</txt_547>
+    <txt_548>period</txt_548>
+    <txt_549 >Activity</txt_549>
+    <txt_550 >New log-in</txt_550>
+    <txt_551 >New log-out</txt_551>
+    <txt_552 >There have already been created come / go registrations on the selected date.</txt_552>
+    <txt_553 >It is not allowed to create come / go registrations on dates that have already been logged in on.</txt_553>
+    <txt_554 >does not match</txt_554>
+    <txt_555 >with the amount on the invoice lines</txt_555>
+    <txt_556 >Please write a comment for your registration(s)</txt_556>
+
+    <txt_557 >No employee is selected</txt_557>
+    <txt_558 >The start date cant be newer than the end date</txt_558>
+    <txt_559 >The weekday the repport should be send is missing</txt_559>
+
+    <txt_560 >No employee is selected</txt_560>
+    <txt_561 >The start-time is newer the than end-time</txt_561>
+    <txt_562 >You need to specify from / to time.</txt_562>
+    <txt_563 >if the registration is for the whole day, check the whole day checkbox</txt_563>
+    <txt_564 >The to / from time format is incorrect</txt_564>
+    
+    <txt_565 >Not all years are filled in with a date on the newly created holiday</txt_565>
+    <txt_566 >A date field on the newly created holiday has a wrong date format</txt_566>
 
   </es>
 

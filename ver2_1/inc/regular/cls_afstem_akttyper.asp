@@ -28,7 +28,7 @@ public  omsorg, senior, divfritimer, fefriTimerPerBrTimer, ferieFriaarStart, fer
 public fefriTimerUdbPer, fefriTimerUdbPerTimer
 public ferieAFulonPer, ferieAFulonPerTimer, ferieUdbPer, ferieUdbPerTimer, ferieOptjUlontimer, ferieOptjOverforttimer, korrektionKomG, korrektionReal, tjenestefri 
 public aldersreduktionOpj, aldersreduktionBr, aldersreduktionUdb
-public aldersreduktionPl, omsorg2pl, omsorg10pl, omsorgKpl, ulempe1706udb, ulempeWudb, rejseDage, e3timer 
+public aldersreduktionPl, omsorg2pl, omsorg10pl, omsorgKpl, ulempe1706udb, ulempeWudb, rejseDage, e3timer, feriekor 
 	    
 
         redim fTimer(arrayHigh), ifTimer(arrayHigh), km(arrayHigh), sTimer(arrayHigh), flexTimer(arrayHigh),  sundTimer(arrayHigh), pausTimer(arrayHigh) 
@@ -46,13 +46,18 @@ public aldersreduktionPl, omsorg2pl, omsorg10pl, omsorgKpl, ulempe1706udb, ulemp
         redim ferieAFulonPer(arrayHigh), ferieAFulonPerTimer(arrayHigh), ferieUdbPer(arrayHigh), ferieUdbPerTimer(arrayHigh)
         redim ferieOptjUlontimer(arrayHigh), ferieOptjOverforttimer(arrayHigh), korrektionKomG(arrayHigh), korrektionReal(arrayHigh), tjenestefri(arrayHigh)
         redim aldersreduktionOpj(arrayHigh), aldersreduktionBr(arrayHigh), aldersreduktionUdb(arrayHigh)
-        redim omsorg2pl(arrayHigh), omsorg10pl(arrayHigh), omsorgKpl(arrayHigh), aldersreduktionPl(arrayHigh), ulempe1706udb(arrayHigh), ulempeWudb(arrayHigh), rejseDage(arrayHigh), e3timer(arrayHigh) 
+        redim omsorg2pl(arrayHigh), omsorg10pl(arrayHigh), omsorgKpl(arrayHigh), aldersreduktionPl(arrayHigh), ulempe1706udb(arrayHigh), ulempeWudb(arrayHigh), rejseDage(arrayHigh), e3timer(arrayHigh), feriekor(arrayHigh) 
 
 	     
 function fordelpaaaktType(intMid, startDato, slutDato, visning, akttype_sel, x)
          
-         'Response.Write  "startDato, slutDato, visning: " & startDato &","& slutDato &","& visning 
-         
+        call meStamdata(intMid)      
+
+        'if lto = "dencker" then
+        ' Response.Write  "startDato, slutDato, visning: " & startDato &","& slutDato &","& visning & "intMid: " & intMid &" ansatDato:  "& meAnsatDato
+        'end if     
+
+
 	     fTimer(x) = 0
 	     ifTimer(x) = 0
 	     
@@ -164,6 +169,7 @@ function fordelpaaaktType(intMid, startDato, slutDato, visning, akttype_sel, x)
         
         rejseDage(x) = 0
 
+        feriekor(x) = 0
 
         per13wrt = 0
         per14wrt = 0
@@ -274,7 +280,7 @@ function fordelpaaaktType(intMid, startDato, slutDato, visning, akttype_sel, x)
 
             
 	        
-          
+           
 
 	        
 	        '*** hvis ansat dato er senere end licens st. dato **'
@@ -414,6 +420,7 @@ function fordelpaaaktType(intMid, startDato, slutDato, visning, akttype_sel, x)
             alleaktivetyperSQL = replace(alleaktivetyperSQL, ", #124#", " OR (af.tfaktim = 124 AND af.tdato BETWEEN '"& startdato &"' AND '"& slutdato &"')")
     	   
            alleaktivetyperSQL = replace(alleaktivetyperSQL, ", #125#", " OR (af.tfaktim = 125 AND af.tdato BETWEEN '"& startdato &"' AND '"& slutdato &"')")
+           alleaktivetyperSQL = replace(alleaktivetyperSQL, ", #126#", " OR (af.tfaktim = 126 AND af.tdato BETWEEN '"& startdato &"' AND '"& slutdato &"')")
       
 
             '****'
@@ -452,9 +459,10 @@ function fordelpaaaktType(intMid, startDato, slutDato, visning, akttype_sel, x)
 	    &" WHERE af.tmnr = "& intMid &" AND ("& alleaktivetyperSQL &") "_
 	    &" GROUP BY af.tfaktim, af.tmnr, af.tdato ORDER BY tdato DESC"
 	    
-
+        'if lto = "dencker" then
         'Response.write strSQLtim & "<br><br>"
         'Response.flush
+        'end if
 	    
 	    'AND af.tdato BETWEEN '"& startdatoSQL &"' AND '"& slutdato &"'
 	    'if visning <> 1 then
@@ -496,8 +504,20 @@ function fordelpaaaktType(intMid, startDato, slutDato, visning, akttype_sel, x)
 
 	     case 7
 	     flexTimer(x) = flexTimer(x) + oRec6("sumtimer")
+
 	     case 8
-	     sundTimer(x) = sundTimer(x) + oRec6("sumtimer")
+         if lto <> "esn" then
+	        sundTimer(x) = sundTimer(x) + oRec6("sumtimer")
+         else
+            call normtimerPer(intMid, oRec6("tdato"), 0, 0)
+	        if ntimPer <> 0 then
+            ntimPerUse = ntimPer
+            else
+            ntimPerUse = 1
+            end if
+            sundTimer(x) = sundTimer(x) + (oRec6("sumtimer") / ntimPerUse)
+         end if
+
 	     case 9
 	     pausTimer(x) = pausTimer(x) + oRec6("sumtimer")
 	     case 10
@@ -1049,9 +1069,35 @@ function fordelpaaaktType(intMid, startDato, slutDato, visning, akttype_sel, x)
 	     case 33
 	     afspTimerOUdb(x) =  afspTimerOUdb(x) + oRec6("sumtimer")
 	     case 50
-	     dagTimer(x) = dagTimer(x) + oRec6("sumtimer")
+
+             if lto <> "esn" then
+	         dagTimer(x) = dagTimer(x) + oRec6("sumtimer")
+             else
+              
+                 call normtimerPer(intMid, oRec6("tdato"), 0, 0)
+	             if ntimPer <> 0 then
+                 ntimPerUse = ntimPer
+                 else
+                 ntimPerUse = 1
+                 end if
+                 dagTimer(x) = dagTimer(x) + (oRec6("sumtimer") / ntimPerUse)  
+
+             end if
+
+
 	     case 51
-	     natTimer(x) = natTimer(x) + oRec6("sumtimer")
+             if lto <> "esn" then
+	            natTimer(x) = natTimer(x) + oRec6("sumtimer")
+             else
+                 call normtimerPer(intMid, oRec6("tdato"), 0, 0)
+	             if ntimPer <> 0 then
+                 ntimPerUse = ntimPer
+                 else
+                 ntimPerUse = 1
+                 end if
+                 natTimer(x) = natTimer(x) + (oRec6("sumtimer") / ntimPerUse)  
+             end if
+
 	     case 52
 	     weekendTimer(x) = weekendTimer(x) + oRec6("sumtimer")
 	     case 53
@@ -1108,6 +1154,9 @@ function fordelpaaaktType(intMid, startDato, slutDato, visning, akttype_sel, x)
         
 
         rejseDage(x) = rejseDage(x) +  (oRec6("sumtimer") / ntimPerUse)
+
+        case 126
+        feriekor(x) = feriekor(x) +  oRec6("sumtimer")
 
         end select
 	    
@@ -1674,7 +1723,14 @@ function fordelpaaaktType(intMid, startDato, slutDato, visning, akttype_sel, x)
          rejseDage(x) = 0
          end if
 
+         if feriekor(x) <> 0 then
+	     feriekor(x) = feriekor(x)
+	     afstemnul(x) = 256
+         else
+         feriekor(x) = 0
+         end if
 
+        
 
 end function   
 

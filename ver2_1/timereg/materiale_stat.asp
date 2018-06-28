@@ -1777,7 +1777,7 @@ if len(session("user")) = 0 then
 	             %>
 	            <tr bgcolor="<%=bgthis %>">
             	    
-	                <td style="border-bottom:1px #cccccc solid; white-space:nowrap;">
+	                <td style="border-bottom:1px #cccccc solid; white-space:nowrap;">herher2526
                     <%if len(oRec("bilagsnr")) <> 0 then%>
 		            <%=oRec("bilagsnr") %> 
 		            <%end if %>
@@ -1852,7 +1852,7 @@ if len(session("user")) = 0 then
 	           
                         %>
 	                
-	                <td style="border-bottom:1px #cccccc solid; width:120px;"><%=left(oRec("medarbejdernavn"), 15)%> 
+	                <td style="border-bottom:1px #cccccc solid; width:120px;"><%=left(oRec("medarbejdernavn"), 15)%>her150
 	                <%if len(trim(oRec("init"))) <> 0 then %>
 	                &nbsp;[<%=oRec("init") %>]
 	                <%end if%>

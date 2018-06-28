@@ -1591,6 +1591,7 @@ $(document).ready(function () {
 
     function aktlist(thisval, srcl) {
 
+        document.getElementById("#sp_a_timereg_" + thisval).scrollIntoView();
 
         if ($("#sp_a_timereg_" + thisval).html() == '[+]') {
             $("#sp_a_timereg_" + thisval).html('[-]')

@@ -382,9 +382,12 @@ varTjDatoUS_tor = dateAdd("d", 3, varTjDatoUS_man)
                     <div>
                     <%
                 else    
-
+                        call helligdage(st_dato, 0, lto, 68)
+                        if erHellig = 1 then
+                            helligdagTXT = " - <b>"& helligdagnavnTxt &"</b>"
+                        end if
                         %>
-                        <h4 class="panel-title"><a class="accordion-toggle" data-toggle="collapse" href="#<%=dateid %>"><b><%=weekdayname(weekday(st_dato, 1)) &" "& formatdatetime(st_dato, 1)%></b> <span style="font-size:85%; width:60%;">- <%=meTxt %></span>
+                        <h4 class="panel-title"><a class="accordion-toggle" data-toggle="collapse" href="#<%=dateid %>"><b><%=weekdayname(weekday(st_dato, 1)) &" "& formatdatetime(st_dato, 1)%></b> <span style="font-size:85%; width:60%;">- <%=meTxt %> <%=helligdagTXT %></span>
                             <span id="sp_sumtimer_dag_<%=datepart("w", st_dato, 2,2)%>" style="color:#999999; float:right; font-size:75%;">&nbsp;</span></a></h4>
                          
                         </div>
@@ -447,19 +450,25 @@ varTjDatoUS_tor = dateAdd("d", 3, varTjDatoUS_man)
                            call afsluger(medarbid, stdatoSQL, sldatoSQL)
 
                             select case lto
+                            case "cflow"
+                            strSQLTFaktimKri = " AND tfaktim = 1 "
+                            'strSQLTFaktimKri = ""
+                            strSQLodrBy = " tdato, sttid "
                             case "nonstop"
                             strSQLodrBy = " tdato, tfaktim, sttid "
+                            strSQLTFaktimKri = ""
                             case else
                             strSQLodrBy = " tdato, sttid "
+                            strSQLTFaktimKri = ""
                             end select
 
 
                            strSQL = "SELECT tid, taktivitetnavn, timer, tfaktim, tjobnavn, tjobnr, tdato, "_
-                           &" tknr, tknavn, tmnavn, tmnr, kkundenr, godkendtstatus, godkendtstatusaf, m.mnr, timerkom, init, a.fase, a.easyreg, j.risiko, sttid, sltid FROM timer "_
+                           &" tknr, tknavn, tmnavn, tmnr, kkundenr, godkendtstatus, godkendtstatusaf, m.mnr, timerkom, init, a.fase, a.easyreg, j.risiko, sttid, sltid, j.id as jobid FROM timer "_
                            &" LEFT JOIN medarbejdere AS m ON (m.mid = tmnr)"_
                            &" LEFT JOIN aktiviteter AS a ON (a.id = taktivitetid)"_
                            &" LEFT JOIN job AS j ON (j.jobnr = tjobnr)"_
-                           &" LEFT JOIN kunder K on (kid = tknr) WHERE tmnr = "& medarbid &" AND "_
+                           &" LEFT JOIN kunder K on (kid = tknr) WHERE tmnr = "& medarbid &" "& strSQLTFaktimKri &" AND "_
                            &" tdato BETWEEN '"& stdatoSQL &"' AND '"& sldatoSQL &"' ORDER BY "& strSQLodrBy &" DESC "
    
 
@@ -521,7 +530,7 @@ varTjDatoUS_tor = dateAdd("d", 3, varTjDatoUS_man)
                                         call tjkClosedPeriodCriteria(tjkDag, ugeNrAfsluttet, usePeriod, SmiWeekOrMonth, splithr, smilaktiv, autogk, autolukvdato, lonKorsel_lukketIO)
 
                 
-                                        if oRec("godkendtstatus") = 1 then
+                                        if oRec("godkendtstatus") = 1 OR oRec("godkendtstatus") = 3 then 'Godkendt ell. Tentative
                                         ugeerAfsl_og_autogk_smil = 1
                                         else
                                         ugeerAfsl_og_autogk_smil = ugeerAfsl_og_autogk_smil
@@ -589,7 +598,12 @@ varTjDatoUS_tor = dateAdd("d", 3, varTjDatoUS_man)
                            
                            <% if browstype_client <> "ip" then %>
                                <td valign=top style="width:25%"><%=oRec("tknavn") %> (<%=oRec("kkundenr") %>)</td>
+
+                               <%if lto = "mpt" OR (level = 1 OR level = 2 OR level = 6) then %>
+                               <td valign=top style="width:30%"><a href="../timereg/jobs.asp?menu=job&func=red&id=<%=oRec("jobid")%>" target="_blank" ><%=oRec("tjobnavn") %> (<%=oRec("tjobnr") %>)</a></td>
+                               <%else %>
                                <td valign=top style="width:30%"><%=oRec("tjobnavn") %> (<%=oRec("tjobnr") %>)</td>
+                               <%end if %>
 
                                <td style="width:30%"><%=oRec("taktivitetnavn") %>
                                    <%if oRec("easyreg") <> 0 then %>
@@ -661,11 +675,60 @@ varTjDatoUS_tor = dateAdd("d", 3, varTjDatoUS_man)
       
                 
                 
-                                if (((ugeerAfsl_og_autogk_smil = 0 AND cint(ugegodkendt) <> 1) OR (level = 1)) AND media <> "print") then%>
-                                    <a href="#" onclick="Javascript:window.open('rediger_tastede_dage_2006.asp?id=<%=oRec("tid") %>', '', 'width=450,height=675,resizable=yes,scrollbars=yes')" class=vmenu><%=formatnumber(oRec("timer"), 2) %></a>
+                                if (((ugeerAfsl_og_autogk_smil = 0 AND cint(ugegodkendt) <> 1) OR (level = 1)) AND media <> "print") then
+                                      
+                                      select case cint(oRec("godkendtstatus"))
+                                         case 2
+                                         gkbgcol = "red"
+                                            
+                                         case 1
+                                         gkbgcol = "yellowgreen"
+                                         
+                                         case 3
+                                       
+                                         gkbgcol = "orange"
+                                         
+
+                                         case else
+                                         
+                                         gkbgcol = "#5582d2"
+                                         end select
+                                      
+                                      %>
+
+                                    <%if lto <> "tbg" OR (lto = "tbg" AND level = 1) then %>
+                                        <a href="#" onclick="Javascript:window.open('rediger_tastede_dage_2006.asp?id=<%=oRec("tid") %>', '', 'width=450,height=675,resizable=yes,scrollbars=yes')" class=vmenu style="color:<%=gkbgcol%>;"><%=formatnumber(oRec("timer"), 2) %></a>
+                                    <%else 
+                                      
+                                      if gkbgcol = "#5582d2" then
+                                      gkbgcol = "#000000"
+                                      end if
+                                      %>
+                                      <span style="color:<%=gkbgcol%>;"><%=formatnumber(oRec("timer"), 2) %></span>
+                                    <%end if %>
 	            
-                                <%else %>
-                                    <%=formatnumber(oRec("timer"), 2) %>
+                                <%else 
+                                  
+                                   select case cint(oRec("godkendtstatus"))
+                                         case 2
+                                         gkbgcol = "red"
+                                            
+                                         case 1
+                                         gkbgcol = "yellowgreen"
+                                         
+                                         case 3
+                                       
+                                         gkbgcol = "orange"
+                                         
+
+                                         case else
+                                         
+                                         gkbgcol = "#000000"
+                                         end select
+                                  
+                                  %>
+                                  <span style="color:<%=gkbgcol%>;"><%=formatnumber(oRec("timer"), 2) %></span>
+                                  
                                 <%end if %>
 
                 
@@ -720,6 +783,18 @@ varTjDatoUS_tor = dateAdd("d", 3, varTjDatoUS_man)
                                              gkInputype = "hidden"
                                                    gkInputName = "ids_hd"
                                              end if
+                                        
+                                         case 3
+                                         gkTxt = "<b><i>(V)</i></b>"
+                                         gkbgcol = "orange"
+                                          if ((ugeerAfsl_og_autogk_smil = 0 AND cint(ugegodkendt) <> 1) OR cint(level) = 1) AND media <> "print" then
+                                             gkInputype = "CHECKBOX"
+                                                   gkInputName = "ids"
+                                             else
+                                             gkInputype = "hidden"
+                                                   gkInputName = "ids_hd"
+                                             end if
+
                                          case else
                                          gkTxt = ""
                                              if ((ugeerAfsl_og_autogk_smil = 0 AND cint(ugegodkendt) <> 1) OR cint(level) = 1) AND media <> "print" then
@@ -737,7 +812,7 @@ varTjDatoUS_tor = dateAdd("d", 3, varTjDatoUS_man)
                                          Response.write "<span style=""color:"& gkbgcol &";"">"& gkTxt &"</span>" 
 
                                          select case cint(oRec("godkendtstatus"))
-                                         case 1, 2
+                                         case 1, 2, 3
                                          %>
                                          <br><span style='font-size:9px; color:#999999;'><%=left(oRec("godkendtstatusaf"), 12)  %></span><br />
                                          <%

@@ -38,19 +38,19 @@ if len(session("user")) = 0 then
 </tr>
     <tr bgcolor="#ffffff">
 	<td align="center"><img src="ill/blank.gif" width="1" height="1" alt="" border="0"><b><%=txt %></b></td>
-    <td align="center"><img src="ill/blank.gif" width="1" height="1" alt="" border="0">Total</td>
-    <td align="center"><img src="ill/blank.gif" width="1" height="1" alt="" border="0">Jan</td>
-   	<td align="center"><img src="ill/blank.gif" width="1" height="1" alt="" border="0">Feb</td>
-	<td align="center"><img src="ill/blank.gif" width="1" height="1" alt="" border="0">Mar</td>
-	<td align="center"><img src="ill/blank.gif" width="1" height="1" alt="" border="0">Apr</td>
-	<td align="center"><img src="ill/blank.gif" width="1" height="1" alt="" border="0">Maj</td>
-	<td align="center"><img src="ill/blank.gif" width="1" height="1" alt="" border="0">Jun</td>
-	<td align="center"><img src="ill/blank.gif" width="1" height="1" alt="" border="0">Jul</td>
-	<td align="center"><img src="ill/blank.gif" width="1" height="1" alt="" border="0">Aug</td>
-	<td align="center"><img src="ill/blank.gif" width="1" height="1" alt="" border="0">Sep</td>
-	<td align="center"><img src="ill/blank.gif" width="1" height="1" alt="" border="0">Okt</td>
-	<td align="center"><img src="ill/blank.gif" width="1" height="1" alt="" border="0">Nov</td>
-	<td align="center"><img src="ill/blank.gif" width="1" height="1" alt="" border="0">Dec</td>
+    <td align="center"><img src="ill/blank.gif" width="1" height="1" alt="" border="0"><%=oms_txt_049 %></td>
+    <td align="center"><img src="ill/blank.gif" width="1" height="1" alt="" border="0"><%=oms_txt_050 %></td>
+   	<td align="center"><img src="ill/blank.gif" width="1" height="1" alt="" border="0"><%=oms_txt_051 %></td>
+	<td align="center"><img src="ill/blank.gif" width="1" height="1" alt="" border="0"><%=oms_txt_052 %></td>
+	<td align="center"><img src="ill/blank.gif" width="1" height="1" alt="" border="0"><%=oms_txt_053 %></td>
+	<td align="center"><img src="ill/blank.gif" width="1" height="1" alt="" border="0"><%=oms_txt_054 %></td>
+	<td align="center"><img src="ill/blank.gif" width="1" height="1" alt="" border="0"><%=oms_txt_055 %></td>
+	<td align="center"><img src="ill/blank.gif" width="1" height="1" alt="" border="0"><%=oms_txt_056 %></td>
+	<td align="center"><img src="ill/blank.gif" width="1" height="1" alt="" border="0"><%=oms_txt_057 %></td>
+	<td align="center"><img src="ill/blank.gif" width="1" height="1" alt="" border="0"><%=oms_txt_058 %></td>
+	<td align="center"><img src="ill/blank.gif" width="1" height="1" alt="" border="0"><%=oms_txt_059 %></td>
+	<td align="center"><img src="ill/blank.gif" width="1" height="1" alt="" border="0"><%=oms_txt_060 %></td>
+	<td align="center"><img src="ill/blank.gif" width="1" height="1" alt="" border="0"><%=oms_txt_061 %></td>
 </tr>
 	<%
 	end function
@@ -315,12 +315,12 @@ if len(session("user")) = 0 then
 	<table cellpadding=0 cellspacing=5 border=0 width=100%><tr><td>
 	<img src="../ill/outzource_logo_200.gif" />
 	<br />
-	Forventet loadtid:
+	<%=oms_txt_124 %>:
 	<%
 
 	'exp_loadtid = 30
 	'exp_loadtid = (((len(akttype_sel) / 3) * (len(antalvlgM) / 3)) / 50)  %> 
-	<b>ca. 10-30 sek.</b>
+	<b><%=oms_txt_125 & " " %>10-30 sek.</b>
 	</td><td align=right style="padding-right:40px;">
 	<img src="../inc/jquery/images/ajax-loader.gif" />
 	
@@ -373,7 +373,7 @@ if len(session("user")) = 0 then
 	oleft = 0
 	otop = 0
 	owdt = 300
-	oskrift = "Omsætning"
+	oskrift = oms_txt_126
 	
     if request("print") = "j" AND media <> "export" then
         'media = "print"
@@ -404,7 +404,7 @@ if len(session("user")) = 0 then
    
 
 	<tr>
-		<td valign=top colspan="2"><br /><b>År:</b>&nbsp;
+		<td valign=top colspan="2"><br /><b><%=oms_txt_001 %>:</b>&nbsp;
 	<select name="seomsfor" id="seomsfor" style="width:85px;" onchange="submit();">
 			
 			<%
@@ -424,9 +424,9 @@ if len(session("user")) = 0 then
 			next%>
 		</select>
             <br /><br />
-           <input type="radio" name="FM_visprkunde" value="0" <%=visprkunde0CHK %> onchange="submit();" /> Vis omsætning total <br /><input type="radio" name="FM_visprkunde" value="1" <%=visprkunde1CHK %> onchange="submit();" /> Vis omsætning pr. kunde / lev.
+           <input type="radio" name="FM_visprkunde" value="0" <%=visprkunde0CHK %> onchange="submit();" /><%=" " & oms_txt_002 %> <br /><input type="radio" name="FM_visprkunde" value="1" <%=visprkunde1CHK %> onchange="submit();" /><%=" " & oms_txt_003 %>
             
-            &nbsp;top: 
+            &nbsp;<%=oms_txt_004 %>: 
             <select name="FM_toplist">
                 <option value="5" <%=topSel5 %>>5</option>
                 <option value="10" <%=topSel10 %>>10</option>
@@ -434,23 +434,23 @@ if len(session("user")) = 0 then
                 <option value="50" <%=topSel50 %>>50</option>
                 
             </select> 
-            &nbsp;Vis for:
+            &nbsp;<%=oms_txt_005 %>:
             <select name="FM_toplist_kunder_lev">
-                <option value="0" <%=toplist_kunder_lev0SEL %>>Kunder</option>
-                <option value="1" <%=toplist_kunder_lev1SEL %>>Leverandører</option>
+                <option value="0" <%=toplist_kunder_lev0SEL %>><%=oms_txt_006 %></option>
+                <option value="1" <%=toplist_kunder_lev1SEL %>><%=oms_txt_007 %></option>
                
             </select> 
 
             <%select case lto
             case "nt"
-                ordreTxt = "Ordreoms. (orderdate)"
+                ordreTxt = oms_txt_008
              case else
-                ordreTxt = "Joboms. (job st.dato)"
+                ordreTxt = oms_txt_009
             end select%>
 
-            &nbsp;Fordelt efter: 
+            &nbsp;<%=oms_txt_010 %>: 
             <select name="FM_toplist_kunder_jobbudget_fak">
-                 <option value="0" <%=toplist_kunder_jobbudget_fak0SEL %>>D1: Faktureret oms.</option>
+                 <option value="0" <%=toplist_kunder_jobbudget_fak0SEL %>>D1: <%=oms_txt_011 %></option>
                 <option value="1" <%=toplist_kunder_jobbudget_fak1SEL %>>A1: <%=ordreTxt %></option>
 
             </select>
@@ -461,7 +461,7 @@ if len(session("user")) = 0 then
 	&nbsp;
 	<%if request("print") <> "j" then%>
         <br />
-	<input type="submit" value=" Kør >> ">
+	<input type="submit" value=" <%=oms_txt_012 %> >> ">
 	<%end if%>
 	
 	</td>
@@ -574,10 +574,21 @@ if len(session("user")) = 0 then
         
                     else
             
+                         'Aktive = Confimed
+                      'Shipped / closed = Actual
+
+                    strSQLIF = "IF (jobstatus = 1 AND kunde_levbetint = 1, YEAR(dt_confb_etd) = "& strYear &","
+                    strSQLIF = strSQLIF &" IF (jobstatus = 1 AND (kunde_levbetint = 2 OR kunde_levbetint = 3), YEAR(dt_confb_eta) = "& strYear &","
+                    strSQLIF = strSQLIF &" IF ((jobstatus = 0 OR jobstatus = 2) AND kunde_levbetint = 1 , YEAR(dt_actual_etd) = "& strYear &","
+                    strSQLIF = strSQLIF &" IF ((jobstatus = 0 OR jobstatus = 2) AND (kunde_levbetint = 2 OR kunde_levbetint = 3), YEAR(dt_actual_eta) = "& strYear  
+                    strSQLIF = strSQLIF &",0))))" 
+
+
                     strSQLf = "SELECT COALESCE(sum(jo_bruttooms * jo_valuta_kurs/100)) AS beloeb, kkundenavn, kkundenr, jobknr AS fakadr FROM job AS j "_
                     &" LEFT JOIN kunder AS k ON (kid = jobknr "& ktypeKri &") "_
                     &" LEFT JOIN valutaer AS v ON (v.id = j.valuta) "_  
-                    &" WHERE (YEAR(jobstartdato) = '"& strYear &"') AND risiko > -1 GROUP BY jobknr ORDER BY beloeb DESC LIMIT "& topList 
+                    &" WHERE ("& strSQLIF &") AND risiko > -1 GROUP BY jobknr ORDER BY beloeb DESC LIMIT "& topList 
+                    'YEAR(jobstartdato) = '"& strYear &"'
                     end if
 
                     '*** NT? * KURS?? 
@@ -870,7 +881,36 @@ for k = 0 TO antalK 'antal kunder
 
 
                     if lastM <> m OR m = 1 AND miswrt = 0 then
-                    strFakturaer = strFakturaer & "<br><br><b>"& monthname(m) &"</b><br>"
+
+                    select case monthname(m)
+                       case "januar"
+                       monthnameTxt = oms_txt_069
+                       case "februar"
+                       monthnameTxt = oms_txt_070
+                       case "marts"
+                       monthnameTxt = oms_txt_071
+                       case "april"
+                       monthnameTxt = oms_txt_072
+                       case "maj"
+                       monthnameTxt = oms_txt_073
+                       case "juni"
+                       monthnameTxt = oms_txt_074
+                       case "juli"
+                       monthnameTxt = oms_txt_075
+                       case "august"
+                       monthnameTxt = oms_txt_076
+                       case "september"
+                       monthnameTxt = oms_txt_077
+                       case "oktober"
+                       monthnameTxt = oms_txt_078
+                       case "november"
+                       monthnameTxt = oms_txt_079
+                       case "december"
+                       monthnameTxt = oms_txt_080                                     
+                   end select
+
+                    'strFakturaer = strFakturaer & "<br><br><b>"& monthname(m) &"</b><br>"
+                    strFakturaer = strFakturaer & "<br><br><b>"& monthnameTxt &"</b><br>"
                     miswrt = 1
                     end if
                     lastM = m
@@ -1197,22 +1237,75 @@ for k = 0 TO antalK 'antal kunder
 
             'Ændret til orderdate
             'dt_confb_etd
+            'dt_confb_eta
 
-             strSQL1 = "SELECT jobtpris, jobnavn, jobnr, budgettimer, fastpris, jobstartdato, jobslutdato, fakturerbart, udgifter, jo_bruttooms, orderqty, shippedqty, "_
-             &" sales_price_pc, cost_price_pc, tax_pc, freight_pc, cost_price_pc_valuta, sales_price_pc_valuta, jobstatus, jo_dbproc"_
-			 &" FROM job AS j WHERE ("& jobIdSQLKri &") AND YEAR(jobstartdato) = "& strYear &" AND MONTH(jobstartdato) = "& m &" "& jobstKri &" "& visprkundeSQLjobKri &" ORDER BY jobnavn" 'tilbud
-		     ' &" ((orderqty * sales_price_pc) - (orderqty * cost_price_pc + (orderqty * cost_price_pc * tax_pc/100) + (orderqty * freight_pc))) AS profit "_ AND jobstatus <> 3
+            'dt_confs_etd
+            'dt_confs_eta
+
+            'kunde_levbetint, lev_levbetint,
+            'fastpris = 2 Commission = leverandør lev. bet.
+            'fastpris = 3 Salesorder = kunde lev. bet.
+
+             'lev_levbetint FOB 1, DDP 2, CIF 3
+             'kunde_levbetint FOB, DDP, CIF
+
+             
+             'if cint(fastpris) = 2 then 'leverandør data
+
+              '      if cint(lev_levbetint) = 1 then
+              '      nt_datoKri = "dt_confs_etd"
+              '      else
+              '      nt_datoKri = "dt_confs_eta"
+              '      end if
+
+             'else
+
+              '      if cint(kunde_levbetint) = 1 then
+              '      nt_datoKri = "dt_confb_etd"
+              '      else
+              '      nt_datoKri = "dt_confb_eta"
+              '      end if
+
+             'end if
+
+                    'strSQLIF = "IF (fastpris = 2 AND lev_levbetint = 1, YEAR(dt_confs_etd) = "& strYear &" AND MONTH(dt_confs_etd) = "& m &","
+                    'strSQLIF = strSQLIF &" IF (fastpris = 2 AND (lev_levbetint = 2 OR lev_levbetint = 3), YEAR(dt_confs_eta) = "& strYear &" AND MONTH(dt_confs_eta) = "& m &","
+                    'strSQLIF = strSQLIF &" IF (fastpris = 1 AND kunde_levbetint = 1 , YEAR(dt_confb_etd) = "& strYear &" AND MONTH(dt_confb_etd) = "& m &","
+                    'strSQLIF = strSQLIF &" IF (fastpris = 1 AND (kunde_levbetint = 2 OR kunde_levbetint = 3), YEAR(dt_confb_eta) = "& strYear &" AND MONTH(dt_confb_eta) = "& m 
+                    'strSQLIF = strSQLIF &",0))))" 
+
+                      'Aktive = Confimed
+                      'Shipped / closed = Actual
+
+                    strSQLIF = "IF (jobstatus = 1 AND kunde_levbetint = 1, YEAR(dt_confb_etd) = "& strYear &" AND MONTH(dt_confb_etd) = "& m &","
+                    strSQLIF = strSQLIF &" IF (jobstatus = 1 AND (kunde_levbetint = 2 OR kunde_levbetint = 3), YEAR(dt_confb_eta) = "& strYear &" AND MONTH(dt_confb_eta) = "& m &","
+                    strSQLIF = strSQLIF &" IF ((jobstatus = 0 OR jobstatus = 2) AND kunde_levbetint = 1 , YEAR(dt_actual_etd) = "& strYear &" AND MONTH(dt_actual_etd) = "& m &","
+                    strSQLIF = strSQLIF &" IF ((jobstatus = 0 OR jobstatus = 2) AND (kunde_levbetint = 2 OR kunde_levbetint = 3), YEAR(dt_actual_eta) = "& strYear &" AND MONTH(dt_actual_eta) = "& m 
+                    strSQLIF = strSQLIF &",0))))" 
+
+
+                     strSQL1 = "SELECT jobtpris, jobnavn, jobnr, budgettimer, fastpris, jobstartdato, jobslutdato, fakturerbart, udgifter, (jo_bruttooms * (jo_valuta_kurs/100)) AS jo_bruttooms, orderqty, shippedqty, "_
+                     &" sales_price_pc, cost_price_pc, tax_pc, freight_pc, cost_price_pc_valuta, sales_price_pc_valuta, jobstatus, jo_dbproc"_
+			         &" FROM job AS j WHERE "_
+                     &" ("& strSQLIF &") "_
+                     &" "& jobstKri &" "& visprkundeSQLjobKri &" GROUP BY id ORDER BY jobnavn" 
+    
+                     '&" ("& jobIdSQLKri &") AND  "_                 
+                     'tilbud
+		             ' &" ((orderqty * sales_price_pc) - (orderqty * cost_price_pc + (orderqty * cost_price_pc * tax_pc/100) + (orderqty * freight_pc))) AS profit "_ AND jobstatus <> 3
             
             case else
+
              strSQL1 = "SELECT jobtpris, jobnavn, jobnr, budgettimer, fastpris, jobstartdato, jobslutdato, fakturerbart, udgifter, (jo_bruttooms * (jo_valuta_kurs/100)) AS jo_bruttooms"_
 			 &" FROM job AS j WHERE ("& jobIdSQLKri &") AND YEAR(jobstartdato) = "& strYear &" AND MONTH(jobstartdato) = "& m &" AND fakturerbart = 1 "& jobstKri &" "& visprkundeSQLjobKri &" ORDER BY jobnavn" 'tilbud
 		
              end select
                 
 		
-            'if session("mid") = 6 AND lto = "nt" AND m = 4 then
+            'if session("mid") = 1 AND lto = "nt" then
 			'Response.write "Budget:<br>"
 			'Response.write strSQL1 &"<br>"
+            'response.flush
             'end if
 			
             oRec.open strSQL1, oConn, 0, 1
@@ -1261,7 +1354,40 @@ for k = 0 TO antalK 'antal kunder
 
                 
                    if lastM <> m then
-                   strJob = strJob & "<br><br><b>"& monthname(m) &"</b><br>"
+
+                   select case monthname(m)
+                   case "januar"
+                   monthnameTxt = oms_txt_069
+                   case "februar"
+                   monthnameTxt = oms_txt_070
+                   case "marts"
+                   monthnameTxt = oms_txt_071
+                   case "april"
+                   monthnameTxt = oms_txt_072
+                   case "maj"
+                   monthnameTxt = oms_txt_073
+                   case "juni"
+                   monthnameTxt = oms_txt_074
+                   case "juli"
+                   monthnameTxt = oms_txt_075
+                   case "august"
+                   monthnameTxt = oms_txt_076
+                   case "september"
+                   monthnameTxt = oms_txt_077
+                   case "oktober"
+                   monthnameTxt = oms_txt_078
+                   case "november"
+                   monthnameTxt = oms_txt_079
+                   case "december"
+                   monthnameTxt = oms_txt_080
+                   
+                    
+
+
+                   end select
+                
+                   'strJob = strJob & "<br><br><b>"& monthname(m) &"</b><br>"
+                   strJob = strJob & "<br><br><b>"& monthnameTxt &"</b><br>"
                    end if
 
                    strJob = strJob & oRec("jobnavn") & " ("& oRec("jobnr") &"), "
@@ -1392,8 +1518,8 @@ for k = 0 TO antalK 'antal kunder
                 if media <> "export" then   %>
     
                      <br>
-                    <br><b>Brutto omsætning, og kostpris.</b>
-                    <br> Alle beløb er i HELE <%=basisValISO_f8 %>. excl. moms<br>
+                    <br><b><%=oms_txt_013 %></b>
+                    <br> <%=oms_txt_014 & " " %> <%=basisValISO_f8 %>.<%= "" & oms_txt_015 %><br>
 
 
                   
@@ -1439,15 +1565,15 @@ if media <> "export" then
 
 
         <%if cint(visprkunde) = 0 then %>
-        <% call luft("Forkalkuleret") %>
-
+        <% call luft(oms_txt_137) %>
+    
         <%else %>
 
 
         <tr><td colspan="20"><br />&nbsp;</td></tr>
 
         <% call luft(left(fordeltPrkundeNames(k), 20)) %>
-
+                
         <%
 
         end if
@@ -1460,7 +1586,7 @@ end if 'media
 if media <> "export" then%>
 
 <tr bgcolor="#8caae6">
-	<td style="width:150px; border-bottom:<%=bd%>px #000000 solid;"><font color="#ffffff">&nbsp;A1) Budget Bruttooms. Job:</td>
+	<td style="width:150px; border-bottom:<%=bd%>px #000000 solid;"><font color="#ffffff">&nbsp;A1)<%= " " & oms_txt_016 %>:</td>
     <td valign="bottom"  align="right" style="width:70px; padding-right:2px; border-bottom:<%=bd%>px #000000 solid;"><font color="#ffffff"><%=basisValISO_f8 &" "&formatnumber(mrdOmsBudgetTOT,0)%></td>
     
     <%for m = 1 to 12 %>
@@ -1474,7 +1600,7 @@ if media <> "export" then%>
   %>
 
     <tr bgcolor="#8caae6">
-	<td style="width:150px; border-bottom:<%=bd%>px #000000 solid;"><font color="#ffffff">&nbsp;A2) Antal stk.:</td>
+	<td style="width:150px; border-bottom:<%=bd%>px #000000 solid;"><font color="#ffffff">&nbsp;A2) <%= " " & oms_txt_017 %>:</td>
     <td valign="bottom"  align="right" style="width:70px; padding-right:2px; border-bottom:<%=bd%>px #000000 solid;"><font color="#ffffff"><%=formatnumber(mrdOrderQtyTOT,0)%></td>
     
     <%for m = 1 to 12 %>
@@ -1485,7 +1611,7 @@ if media <> "export" then%>
 
 
 <tr bgcolor="#8caae6">
-	<td style="width:150px; border-bottom:<%=bd%>px #000000 solid;"><font color="#ffffff">&nbsp;A3) Profit:</td>
+	<td style="width:150px; border-bottom:<%=bd%>px #000000 solid;"><font color="#ffffff">&nbsp;A3) <%= " " & oms_txt_018 %>:</td>
     <td valign="bottom"  align="right" style="width:70px; padding-right:2px; border-bottom:<%=bd%>px #000000 solid;"><font color="#ffffff"><%=basisValISO_f8 &" "& formatnumber(mrdProfitTOT, 0)%></td>
     
     <%for m = 1 to 12 %>
@@ -1495,7 +1621,7 @@ if media <> "export" then%>
 </tr>
 
 <tr bgcolor="#8caae6">
-	<td style="width:150px; border-bottom:<%=bd%>px #000000 solid;"><font color="#ffffff">&nbsp;A4) DB %:</td>
+	<td style="width:150px; border-bottom:<%=bd%>px #000000 solid;"><font color="#ffffff">&nbsp;A4) <%= " " & oms_txt_019 %> %:</td>
     <td valign="bottom"  align="right" style="width:70px; padding-right:2px; border-bottom:<%=bd%>px #000000 solid;"><font color="#ffffff"><%=formatnumber(mrdDBprocTOT, 2)%> %</td>
     
     <%for m = 1 to 12 %>
@@ -1515,7 +1641,7 @@ else
         ekspTxt = ekspTxt & fordeltPrkundeNames(k) & ";"  
         end if
       
-         ekspTxt = ekspTxt & "Budget Bruttooms. Job;"
+         ekspTxt = ekspTxt & oms_txt_016
 
        for m = 1 to 12
          ekspTxt = ekspTxt & formatnumber(mrdOmsBudget(m), 0) & ";"  
@@ -1530,7 +1656,7 @@ else
         ekspTxt = ekspTxt & fordeltPrkundeNames(k) & ";"  
         end if
      
-         ekspTxt = ekspTxt & "Antal stk.;"
+         ekspTxt = ekspTxt & oms_txt_017
 
        for m = 1 to 12
          ekspTxt = ekspTxt & formatnumber(mrdorderqty(m), 0) & ";"  
@@ -1544,7 +1670,7 @@ else
         ekspTxt = ekspTxt & fordeltPrkundeNames(k) & ";"  
         end if
      
-         ekspTxt = ekspTxt & "Profit;"
+         ekspTxt = ekspTxt & oms_txt_018
 
        for m = 1 to 12
          ekspTxt = ekspTxt & formatnumber(mrdprofit(m), 0) & ";"  
@@ -1557,7 +1683,7 @@ else
         ekspTxt = ekspTxt & fordeltPrkundeNames(k) & ";"  
         end if
      
-         ekspTxt = ekspTxt & "DB %;"
+         ekspTxt = ekspTxt & oms_txt_019 & " %;"
 
        for m = 1 to 12
          ekspTxt = ekspTxt & formatnumber(mrdDBproc(m), 2) & ";"  
@@ -1582,7 +1708,7 @@ if cint(visprkunde) = 0 then
   if media <> "export" then%> 
 
 <tr bgcolor="#ffff99">
-	<td  style="border-bottom:<%=bd%>px #000000 solid;">&nbsp;A2) Udgift./Underlev.:</td>
+	<td  style="border-bottom:<%=bd%>px #000000 solid;">&nbsp;A2)<%= " " & oms_txt_020 %>:</td>
     <td valign="bottom"  align="right" style="padding-right:2px; border-bottom:<%=bd%>px #000000 solid;"><%=basisValISO_f8 &" "&formatnumber(mrdOmsUdgifterTOT, 0)%></td>
     <td  valign="bottom" align="right" style="padding-right:2px; border-bottom:<%=bd%>px #000000 solid;"><%=basisValISO_f8 &" "&formatnumber(mrdJobUdgifter(1), 0)%></td>
 	<td  valign="bottom" align="right" style="padding-right:2px; border-bottom:<%=bd%>px #000000 solid;"><%=basisValISO_f8 &" "&formatnumber(mrdJobUdgifter(2), 0)%></td> 
@@ -1601,7 +1727,7 @@ if cint(visprkunde) = 0 then
 
 
 <tr bgcolor="#EFf3FF">
-	<td style="border-bottom:<%=bd%>px #000000 solid;"><font color="#000000">&nbsp;A3) Værdi Aftaler:</td>
+	<td style="border-bottom:<%=bd%>px #000000 solid;"><font color="#000000">&nbsp;A3) <%= " " & oms_txt_021 %>:</td>
     <td align="right" style="padding-right:2px; border-bottom:<%=bd%>px #000000 solid;"><font color="#000000"><%=basisValISO_f8 &" "&formatnumber(mrdAftBudgetTOT,0)%></td>
      <%for m = 1 to 12 %>
     <td  valign="bottom" align="right" style="padding-right:2px; border-bottom:<%=bd%>px #000000 solid;"><%=basisValISO_f8 &" "&formatnumber(mrdAftBudget(m), 0)%></td>
@@ -1613,7 +1739,7 @@ if cint(visprkunde) = 0 then
         <%if level = 1 then %>
 
         <tr bgcolor="#ffdfdf">
-	        <td   style="border-bottom:<%=bd%>px #000000 solid;">&nbsp;F1) Bruttofortj. forkalk:</td>
+	        <td   style="border-bottom:<%=bd%>px #000000 solid;">&nbsp;F1)<%=" " & oms_txt_022 %>:</td>
             <td valign="bottom"   align="right" style="padding-right:2px; border-bottom:<%=bd%>px #000000 solid;"><%=basisValISO_f8 &" "&formatnumber(mrdBruttoForkalkTOT,0)%></td>
     
             <%for m = 1 to 12 %>
@@ -1646,12 +1772,12 @@ if cint(visprkunde) = 0 then
            case else %>
 
         <%if cint(visprkunde) = 0 then %>
-        <% call luft("Realiseret") %>
+        <% call luft(oms_txt_138) %>
         <%end if %>
 
 
         <tr bgcolor="#8caae6">
-	        <td  style="border-bottom:<%=bd%>px #000000 solid;"><font color="#ffffff">&nbsp;B1) Realiseret Oms. ~ *:</td>
+	        <td  style="border-bottom:<%=bd%>px #000000 solid;"><font color="#ffffff">&nbsp;B1)<%=" " & oms_txt_023 %>  ~ *:</td>
             <td valign="bottom"  align="right" style="padding-right:2px; border-bottom:<%=bd%>px #000000 solid;"><font color="#ffffff"><%=basisValISO_f8 &" "&formatnumber(mrdOmsTotal, 0)%></td>
     
             <%for m = 1 to 12 %>
@@ -1674,7 +1800,7 @@ if cint(visprkunde) = 0 then
                 <%if cint(visprkunde) = 0 then %>
 
                 <tr bgcolor="orange">
-	                <td  style="border-bottom:<%=bd%>px #000000 solid;">&nbsp;C1) Mat./Udlæg (købspris)*:</td>
+	                <td  style="border-bottom:<%=bd%>px #000000 solid;">&nbsp;C1)<%=" " & oms_txt_024 %>*:</td>
                     <td valign="bottom"  align="right" style="padding-right:2px; border-bottom:<%=bd%>px #000000 solid;"><%=basisValISO_f8 &" "&formatnumber(mrdForbMatindkobTOT,0)%></td>
     
     
@@ -1685,7 +1811,7 @@ if cint(visprkunde) = 0 then
                 </tr>
 
                 <tr bgcolor="orange">
-	                <td  style="border-bottom:<%=bd%>px #000000 solid;">&nbsp;C2) Mat./Udlæg (salgspris)*:</td>
+	                <td  style="border-bottom:<%=bd%>px #000000 solid;">&nbsp;C2)<%=" " & oms_txt_025 %>*:</td>
                     <td valign="bottom"  align="right" style="padding-right:2px; border-bottom:<%=bd%>px #000000 solid;"><%=basisValISO_f8 &" "&formatnumber(mrdForbMatTOT,0)%></td>
 
     
@@ -1715,7 +1841,7 @@ else
                         ekspTxt = ekspTxt & fordeltPrkundeNames(k) & ";"  
                         end if
                      
-                     ekspTxt = ekspTxt & "Realiseret oms.;"
+                     ekspTxt = ekspTxt & oms_txt_023
 
                      for m = 1 to 12
                      ekspTxt = ekspTxt & formatnumber(mrdOms(m), 0) & ";"  
@@ -1737,11 +1863,11 @@ end if 'media
     
     
              if cint(visprkunde) = 0 then %>
-            <% call luft("Faktureret") %>
+            <% call luft(oms_txt_139) %>
             <%end if %>
 
                 <tr bgcolor="#6CAE1C">
-	                <td  style="border-bottom:<%=bd%>px #000000 solid;">&nbsp;D1) Udfaktureret oms.:</td>
+	                <td  style="border-bottom:<%=bd%>px #000000 solid;">&nbsp;D1) <%=oms_txt_026 %>:</td>
                     <td valign="bottom"  align="right" style="padding-right:2px; border-bottom:<%=bd%>px #000000 solid;"><%=basisValISO_f8 &" "&formatnumber(fakOmsTotal, 0)%></td>
 
                  <%for m = 1 to 12 %>
@@ -1755,7 +1881,7 @@ end if 'media
               ekspTxt = ekspTxt & fordeltPrkundeNames(k) & ";"  
               end if 
 
-             ekspTxt = ekspTxt & "Udfaktureret oms.;"
+             ekspTxt = ekspTxt & oms_txt_026 & ";"
     
              for m = 1 to 12
                  ekspTxt = ekspTxt & formatnumber(fakbeloeb(m), 0) & ";"  
@@ -1777,7 +1903,7 @@ end if 'media
                  if media <> "export" then %>
 
                <tr bgcolor="#CCCCCC">
-	            <td  style="border-bottom:<%=bd%>px #000000 solid;">&nbsp;D1a) Kreditnotaer</td>
+	            <td  style="border-bottom:<%=bd%>px #000000 solid;">&nbsp;D1a)<%=" " & oms_txt_027 %></td>
                 <td valign="bottom"  align="right" style="padding-right:2px; border-bottom:<%=bd%>px #000000 solid;"><%=basisValISO_f8 &" "&formatnumber(kreditTotal*-1, 0)%></td>
 
               <%for m = 1 to 12 %>
@@ -1787,7 +1913,7 @@ end if 'media
 
 
              <tr bgcolor="#CCCCCC">
-	            <td  style="border-bottom:<%=bd%>px #000000 solid;">&nbsp;D1b) Interne fakturaer</td>
+	            <td  style="border-bottom:<%=bd%>px #000000 solid;">&nbsp;D1b)<%=" " & oms_txt_028 %></td>
                 <td valign="bottom"  align="right" style="padding-right:2px; border-bottom:<%=bd%>px #000000 solid;"><%=basisValISO_f8 &" "&formatnumber(fakOmsInternTotal, 0)%></td>
 
              <%for m = 1 to 12 %>
@@ -1796,7 +1922,7 @@ end if 'media
              </tr>
 
               <tr bgcolor="#6CAE1C">
-	            <td  style="border-bottom:<%=bd%>px #000000 solid;">&nbsp;D1c) Udfaktureret beløb ialt: (incl. interne og før kredtin.)</td>
+	            <td  style="border-bottom:<%=bd%>px #000000 solid;">&nbsp;D1c)<%=" " & oms_txt_029 %></td>
                 <td valign="bottom"  align="right" style="padding-right:2px; border-bottom:<%=bd%>px #000000 solid;"><%=basisValISO_f8 &" "&formatnumber(fakOmsEksklInternTotal, 0)%></td>
 
              <%for m = 1 to 12 %>
@@ -1805,7 +1931,7 @@ end if 'media
              </tr>
 
               <tr bgcolor="#ccff99">
-	            <td  style="border-bottom:<%=bd%>px #000000 solid;">&nbsp;D1d) På job</td>
+	            <td  style="border-bottom:<%=bd%>px #000000 solid;">&nbsp;D1d)<%=" " & oms_txt_030 %></td>
                 <td valign="bottom"  align="right" style="padding-right:2px; border-bottom:<%=bd%>px #000000 solid;"><%=basisValISO_f8 &" "&formatnumber(fakOmsJobTotal, 0)%></td>
 
              <%for m = 1 to 12 %>
@@ -1814,7 +1940,7 @@ end if 'media
              </tr>
 
               <tr bgcolor="#ccff99">
-	            <td  style="border-bottom:<%=bd%>px #000000 solid;">&nbsp;D1e) På aftaler</td>
+	            <td  style="border-bottom:<%=bd%>px #000000 solid;">&nbsp;D1e) <%=" " & oms_txt_031 %></td>
                 <td valign="bottom"  align="right" style="padding-right:2px; border-bottom:<%=bd%>px #000000 solid;"><%=basisValISO_f8 &" "&formatnumber(fakOmsAftTotal, 0)%></td>
 
              <%for m = 1 to 12 %>
@@ -1837,9 +1963,9 @@ end if 'media
 
 
         if lto = "essens" then
-         d3kolonneTxt = "Materialer & udlæg"
+         d3kolonneTxt = oms_txt_032 & " & " & oms_txt_033
         else
-         d3kolonneTxt = "Antal stk. faktureret"
+         d3kolonneTxt = oms_txt_034
         end if
 
 
@@ -1893,12 +2019,12 @@ end if 'media
          case else
 
 
-      call luft("Faktureret udspec.</b> <span style=""font-size:9px;""> (kreditnotaer fratrukket)</span><b>") %>
+      call luft(oms_txt_035 & "</b> <span style=""font-size:9px;""> ("&oms_txt_036&")</span><b>") %>
  
 
 
                 <tr bgcolor="#DCF5BD">
-	                <td  style="border-bottom:<%=bd%>px #000000 solid;">&nbsp;D2) Pr. medarb (alle akt. typer).*:</td>
+	                <td  style="border-bottom:<%=bd%>px #000000 solid;">&nbsp;D2) <%=oms_txt_037 %>*:</td>
                     <td valign="bottom"  align="right" style="padding-right:2px; border-bottom:<%=bd%>px #000000 solid;"><%=basisValISO_f8 &" "&formatnumber(fakprMedarbTot, 0)%></td>
 	
                     <%for m = 1 to 12 %>
@@ -1908,7 +2034,7 @@ end if 'media
                 </tr>
 
                 <tr bgcolor="yellowgreen">
-	                <td  style="border-bottom:<%=bd%>px #000000 solid;">&nbsp;D3) Materialer & udlæg:</td>
+	                <td  style="border-bottom:<%=bd%>px #000000 solid;">&nbsp;D3) <%=oms_txt_032 & " " %>&<%=" " & oms_txt_033 %>:</td>
                     <td valign="bottom"  align="right" style="padding-right:2px; border-bottom:<%=bd%>px #000000 solid;"><%=basisValISO_f8 &" "&formatnumber(fakmatTot, 0)%></td>
     
                     <%for m = 1 to 12 %>
@@ -1918,7 +2044,7 @@ end if 'media
                  </tr>
 
                 <tr bgcolor="yellowgreen">
-	                <td  style="border-bottom:<%=bd%>px #000000 solid;">&nbsp;D4) På sum aktiviteter (timer/stk/enh./ia):</td>
+	                <td  style="border-bottom:<%=bd%>px #000000 solid;">&nbsp;D4)<%=" " & oms_txt_038 %>:</td>
                     <td valign="bottom"  valign="bottom" align="right" style="padding-right:2px; border-bottom:<%=bd%>px #000000 solid;"><%=basisValISO_f8 &" "&formatnumber(fakaktTot, 0)%></td>
 	                <%for m = 1 to 12 %>
                     <td  valign="bottom" align="right" style="padding-right:2px; border-bottom:<%=bd%>px #000000 solid;"><%=basisValISO_f8 &" "&formatnumber(fakaktBeloeb(m), 0)%></td>
@@ -1927,7 +2053,7 @@ end if 'media
 
 
                 <tr bgcolor="#DCF5BD">
-	                <td  style="border-bottom:<%=bd%>px #000000 solid;">&nbsp;D4a) På sum aktiviteter (kun timer):</td>
+	                <td  style="border-bottom:<%=bd%>px #000000 solid;">&nbsp;D4a)<%=" " & oms_txt_039 %>:</td>
                         <td valign="bottom"  align="right" style="padding-right:2px; border-bottom:<%=bd%>px #000000 solid;"><%=basisValISO_f8 &" "&formatnumber(fakaktTimTot, 0)%></td>
 	
                     <%for m = 1 to 12 %>
@@ -1936,7 +2062,7 @@ end if 'media
                     </tr>
 
                 <tr bgcolor="#DCF5BD">
-	                <td  style="border-bottom:<%=bd%>px #000000 solid;">&nbsp;D4b) På sum aktiviteter (kun stk.):</td>
+	                <td  style="border-bottom:<%=bd%>px #000000 solid;">&nbsp;D4b)<%=" " & oms_txt_040 %>:</td>
                         <td valign="bottom"  align="right" style="padding-right:2px; border-bottom:<%=bd%>px #000000 solid;"><%=basisValISO_f8 &" "&formatnumber(fakaktStkTot, 0)%></td>
 	
                     <%for m = 1 to 12 %>
@@ -1945,7 +2071,7 @@ end if 'media
                     </tr>
 
                 <tr bgcolor="#DCF5BD">
-	                <td  style="border-bottom:<%=bd%>px #000000 solid;">&nbsp;D4c) På sum aktiviteter (kun enheder):</td>
+	                <td  style="border-bottom:<%=bd%>px #000000 solid;">&nbsp;D4c)<%=" " & oms_txt_041 %>:</td>
                         <td valign="bottom"  align="right" style="padding-right:2px; border-bottom:<%=bd%>px #000000 solid;"><%=basisValISO_f8 &" "&formatnumber(fakaktEnhTot, 0)%></td>
 	
                     <%for m = 1 to 12 %>
@@ -1954,7 +2080,7 @@ end if 'media
                     </tr>
 
                 <tr bgcolor="#DCF5BD">
-	                <td  style="border-bottom:<%=bd%>px #000000 solid;">&nbsp;D4d) På sum aktiviteter (kun <u>I</u>kke <u>a</u>ngivet):</td>
+	                <td  style="border-bottom:<%=bd%>px #000000 solid;">&nbsp;D4d) <%=oms_txt_042 & " "%>(<%=oms_txt_127 & " "%> <u><%=oms_txt_128 & " "%></u><%=oms_txt_129 & " "%> <u><%=oms_txt_130 & " "%></u><%=oms_txt_131%>):</td>
                         <td valign="bottom"  align="right" style="padding-right:2px; border-bottom:<%=bd%>px #000000 solid;"><%=basisValISO_f8 &" "&formatnumber(fakaktNoneTot, 0)%></td>
 	
                     <%for m = 1 to 12 %>
@@ -1963,7 +2089,7 @@ end if 'media
                     </tr>
 
                 <tr bgcolor="yellowgreen">
-	                <td  style="border-bottom:<%=bd%>px #000000 solid;">&nbsp;D5) Kørsels aktiviteter (km):</td>
+	                <td  style="border-bottom:<%=bd%>px #000000 solid;">&nbsp;D5)<%=" " & oms_txt_043 %>(<%=oms_txt_132 %>):</td>
                         <td valign="bottom"  align="right" style="padding-right:2px; border-bottom:<%=bd%>px #000000 solid;"><%=basisValISO_f8 &" "&formatnumber(fakaktKorsTot, 0)%></td>
 	
                     <%for m = 1 to 12 %>
@@ -1996,11 +2122,11 @@ end if 'media
 
 <%if level = 1 then %>
 
-<% call luft("Bruttofortjeneste") %>
+<% call luft(oms_txt_140) %>
 
 
 <tr bgcolor="#FFFF99">
-	<td  style="border-bottom:<%=bd%>px #000000 solid;">&nbsp;E1) Intern kostpris realiseret*:</td>
+	<td  style="border-bottom:<%=bd%>px #000000 solid;">&nbsp;E1) <%=oms_txt_045 %>*:</td>
     <td valign="bottom" width="80" align="right" style="padding-right:2px; border-bottom:<%=bd%>px #000000 solid;"><%=basisValISO_f8 &" "&formatnumber(kostprisTot, 0)%></td>
     <td  valign="bottom" align="right" style="padding-right:2px; border-bottom:<%=bd%>px #000000 solid;"><%=basisValISO_f8 &" "&formatnumber(mrdKostpris(1), 0)%></font></td>
 	<td  valign="bottom" align="right" style="padding-right:2px; border-bottom:<%=bd%>px #000000 solid;"><%=basisValISO_f8 &" "&formatnumber(mrdKostpris(2), 0)%></font></td> 
@@ -2018,7 +2144,7 @@ end if 'media
 
 
 <tr bgcolor="#ffdfdf">
-	<td  style="border-bottom:<%=bd%>px #000000 solid;">&nbsp;F2) Bruttofortj. realiseret:</td>
+	<td  style="border-bottom:<%=bd%>px #000000 solid;">&nbsp;F2) <%=oms_txt_046 %>:</td>
     <td valign="bottom"  align="right" style="padding-right:2px; border-bottom:<%=bd%>px #000000 solid;"><%=basisValISO_f8 &" "&formatnumber(fakOmsTotal - (mrdOmsUdgifterTOT + kostprisTot + mrdForbMatindkobTOT), 0)%></td>
 	<td  valign="bottom"align="right" style="padding-right:2px; border-bottom:<%=bd%>px #000000 solid;"><%=basisValISO_f8 &" "&formatnumber(fakbeloeb(1) - (mrdJobUdgifter(1) + mrdKostpris(1) + mrdForbMatindkob(1)), 0)%></td>
     <td  valign="bottom"align="right" style="padding-right:2px; border-bottom:<%=bd%>px #000000 solid;"><%=basisValISO_f8 &" "&formatnumber(fakbeloeb(2) - (mrdJobUdgifter(2) + mrdKostpris(2) + mrdForbMatindkob(2)), 0)%></td>
@@ -2055,24 +2181,24 @@ end if 'media
 </tr>
 
 <tr bgcolor="#ffffff">
-	<td align="center"><img src="ill/blank.gif" width="1" height="1" alt="" border="0"><b>Timer<br /> Realiseret / Faktureret</b></td>
-	<td align="center"><img src="ill/blank.gif" width="1" height="1" alt="" border="0">Total</td>
-    <td align="center"><img src="ill/blank.gif" width="1" height="1" alt="" border="0">Jan</td>
-   	<td align="center"><img src="ill/blank.gif" width="1" height="1" alt="" border="0">Feb</td>
-	<td align="center"><img src="ill/blank.gif" width="1" height="1" alt="" border="0">Mar</td>
-	<td align="center"><img src="ill/blank.gif" width="1" height="1" alt="" border="0">Apr</td>
-	<td align="center"><img src="ill/blank.gif" width="1" height="1" alt="" border="0">Maj</td>
-	<td align="center"><img src="ill/blank.gif" width="1" height="1" alt="" border="0">Jun</td>
-	<td align="center"><img src="ill/blank.gif" width="1" height="1" alt="" border="0">Jul</td>
-	<td align="center"><img src="ill/blank.gif" width="1" height="1" alt="" border="0">Aug</td>
-	<td align="center"><img src="ill/blank.gif" width="1" height="1" alt="" border="0">Sep</td>
-	<td align="center"><img src="ill/blank.gif" width="1" height="1" alt="" border="0">Okt</td>
-	<td align="center"><img src="ill/blank.gif" width="1" height="1" alt="" border="0">Nov</td>
-	<td align="center"><img src="ill/blank.gif" width="1" height="1" alt="" border="0">Dec</td>
+	<td align="center"><img src="ill/blank.gif" width="1" height="1" alt="" border="0"><b><%=oms_txt_048 %><br /> <%=oms_txt_047 %></b></td>
+	<td align="center"><img src="ill/blank.gif" width="1" height="1" alt="" border="0"><%=oms_txt_049 %></td>
+    <td align="center"><img src="ill/blank.gif" width="1" height="1" alt="" border="0"><%=oms_txt_050 %></td>
+   	<td align="center"><img src="ill/blank.gif" width="1" height="1" alt="" border="0"><%=oms_txt_051 %></td>
+	<td align="center"><img src="ill/blank.gif" width="1" height="1" alt="" border="0"><%=oms_txt_052 %></td>
+	<td align="center"><img src="ill/blank.gif" width="1" height="1" alt="" border="0"><%=oms_txt_053 %></td>
+	<td align="center"><img src="ill/blank.gif" width="1" height="1" alt="" border="0"><%=oms_txt_054 %></td>
+	<td align="center"><img src="ill/blank.gif" width="1" height="1" alt="" border="0"><%=oms_txt_055 %></td>
+	<td align="center"><img src="ill/blank.gif" width="1" height="1" alt="" border="0"><%=oms_txt_056 %></td>
+	<td align="center"><img src="ill/blank.gif" width="1" height="1" alt="" border="0"><%=oms_txt_057 %></td>
+	<td align="center"><img src="ill/blank.gif" width="1" height="1" alt="" border="0"><%=oms_txt_058 %></td>
+	<td align="center"><img src="ill/blank.gif" width="1" height="1" alt="" border="0"><%=oms_txt_059 %></td>
+	<td align="center"><img src="ill/blank.gif" width="1" height="1" alt="" border="0"><%=oms_txt_060 %></td>
+	<td align="center"><img src="ill/blank.gif" width="1" height="1" alt="" border="0"><%=oms_txt_061 %></td>
 </tr>
 
 <tr bgcolor="#8caae6">
-	<td width=110 style="border-bottom:<%=bd%>px #000000 solid;">&nbsp;<font color="#ffffff">G) Fakturerbare timer*:</td>
+	<td width=110 style="border-bottom:<%=bd%>px #000000 solid;">&nbsp;<font color="#ffffff">G) <%=oms_txt_062 %>*:</td>
     <td valign="bottom"  align="right" style="padding-right:2px; border-bottom:<%=bd%>px #000000 solid;"><font color="#ffffff"><%=formatnumber(timerTotFakbar, 2)%></td>
     <td  valign="bottom" align="right" style="padding-right:2px; border-bottom:<%=bd%>px #000000 solid;"><font color="#ffffff"><%=formatnumber(mrdFakTimer(1), 2)%></td>
 	<td  valign="bottom" align="right" style="padding-right:2px; border-bottom:<%=bd%>px #000000 solid;"><font color="#ffffff"><%=formatnumber(mrdFakTimer(2), 2)%></td>
@@ -2088,7 +2214,7 @@ end if 'media
 	<td  valign="bottom" align="right" style="padding-right:2px; border-bottom:<%=bd%>px #000000 solid;"><font color="#ffffff"><%=formatnumber(mrdFakTimer(12), 2)%></td>
 </tr>
 <tr bgcolor="#8caae6">
-	<td style="border-bottom:<%=bd%>px #000000 solid;">&nbsp;<font color="#ffffff">H) Ikke fak.bare timer*:</td>
+	<td style="border-bottom:<%=bd%>px #000000 solid;">&nbsp;<font color="#ffffff">H) <%=oms_txt_063 %>*:</td>
     <td valign="bottom" align="right" style="padding-right:2px; border-bottom:<%=bd%>px #000000 solid;"><font color="#ffffff"><%=formatnumber(timerTotNotFakbar, 2)%></td>
 	<td valign="bottom"align="right" style="padding-right:2px; border-bottom:<%=bd%>px #000000 solid;"><font color="#ffffff"><%=formatnumber(mrdNotFakTimer(1), 2)%></td>
     <td valign="bottom"align="right" style="padding-right:2px; border-bottom:<%=bd%>px #000000 solid;"><font color="#ffffff"><%=formatnumber(mrdNotFakTimer(2), 2)%></td>
@@ -2105,7 +2231,7 @@ end if 'media
 </tr>
 
 <tr bgcolor="yellowgreen">
-	<td  style="border-bottom:<%=bd%>px #000000 solid;">&nbsp;J) Fak. pr. medarb. (timer/stk/enheder) *:</td>
+	<td  style="border-bottom:<%=bd%>px #000000 solid;">&nbsp;J) <%=oms_txt_064 %> *:</td>
     <td  valign="bottom" align="right" style="padding-right:2px; border-bottom:<%=bd%>px #000000 solid;"><%=formatnumber(fakTimerPrMedTotal, 2)%></td>
 	<td  valign="bottom" align="right" style="padding-right:2px; border-bottom:<%=bd%>px #000000 solid;"><%=formatnumber(faktimerPrMed(1), 2)%></td>
     <td  valign="bottom" align="right" style="padding-right:2px; border-bottom:<%=bd%>px #000000 solid;"><%=formatnumber(faktimerPrMed(2), 2)%></td>
@@ -2121,7 +2247,7 @@ end if 'media
 	<td  valign="bottom" align="right" style="padding-right:2px; border-bottom:<%=bd%>px #000000 solid;"><%=formatnumber(faktimerPrMed(12), 2)%></td>
 </tr>
 <tr bgcolor="#FFFFe1">
-	<td  style="border-bottom:<%=bd%>px #000000 solid;">&nbsp;K) Balance:</td>
+	<td  style="border-bottom:<%=bd%>px #000000 solid;">&nbsp;K) <%=oms_txt_065 %>:</td>
     <td  valign="bottom" align="right" style="padding-right:2px; border-bottom:<%=bd%>px #000000 solid;"><%=formatnumber( fakTimerPrMedTotal - timerTotFakbar, 2)%></td>
 	<td  valign="bottom" align="right" style="padding-right:2px; border-bottom:<%=bd%>px #000000 solid;"><%=formatnumber(faktimerPrMed(1) - mrdFakTimer(1), 2)%></td>
     <td  valign="bottom" align="right" style="padding-right:2px; border-bottom:<%=bd%>px #000000 solid;"><%=formatnumber(faktimerPrMed(2) - mrdFakTimer(2), 2)%></td>
@@ -2160,7 +2286,7 @@ end select 'lto %>
     %>
         <br /><br />
         <table>
-    <tr><td colspan="12">Der blev ikke fundet nogen kunder / leverandører der matchede de valgte kriterier.</td></tr>
+    <tr><td colspan="12"><%=oms_txt_066 %></td></tr>
             </table>
     <%
         response.end
@@ -2215,13 +2341,13 @@ if media <> "export" then %>
 				               strOskrifter = ""
 				
 				                if cint(visprkunde) = 1 then
-                                strOskrifter = strOskrifter & "Kunde;"
+                                strOskrifter = strOskrifter & oms_txt_067 &";" 'mangler
                                 end if
-				                strOskrifter = strOskrifter & "Type;Januar;Februar;Marts;April;Maj;Juni;Juli;August;September;Oktober;November;December;"
+				                strOskrifter = strOskrifter & oms_txt_068 & ";" & oms_txt_069 & ";" & oms_txt_070 & ";" & oms_txt_071 & ":" & oms_txt_072 & ";" & oms_txt_073 & ";" & oms_txt_074 & ";" & oms_txt_075 & ";" & oms_txt_076 & ";" & oms_txt_077 & ";" & oms_txt_078 & ";" & oms_txt_079 & ";" & oms_txt_080 & ";"
 				               
 
 				
-				                objF.writeLine("Periode afgrænsning: "& strYear & vbcrlf)
+				                objF.writeLine(oms_txt_081 & ": "& strYear & vbcrlf)
 				                objF.WriteLine(strOskrifter & chr(013))
 				                objF.WriteLine(ekspTxt)
 				                objF.close
@@ -2235,7 +2361,7 @@ if media <> "export" then %>
 	                            </tr>
 	                            <tr>
 	                            <td valign=top bgcolor="#ffffff" style="padding:5px 5px 5px 15px;">
-	                            <a href="../inc/log/data/<%=file%>" class=vmenu target="_blank" onClick="Javascript:window.close()">Din CSV. fil er klar >></a>
+	                            <a href="../inc/log/data/<%=file%>" class=vmenu target="_blank" onClick="Javascript:window.close()"><%=oms_txt_082 %> >></a>
 	                            </td></tr>
 	                            </table>
 	            
@@ -2265,12 +2391,12 @@ if media <> "export" then %>
 
 
 <br />
-*) Tal i disse kolonner er baseret på den i pkt. 1) valgte medarbejder(e).<br />
-Hvis <b>Key account</b> er slået til, er tallene baseret på alle medarbejdere på de job, hvor den <b>valgte medarbejder er jobansvarlig / kundeansvarlig.</b>
+*) <%=oms_txt_083 %><br />
+<%=oms_txt_084 %> <b><%=oms_txt_085 %></b> <%=oms_txt_086 %> <b><%=oms_txt_087 %></b>
 <br><br>
 
 <%if cint(visprkunde) = 1 then %>
-<span style="color:red;">D1 udfaktureret omsætning pr. kunde er sorteret efter fakturabeløb før kreditnotaer, men vist incl. kreditnotaer, fordelt på top 5,10 eller 20 kunder.</span><br />
+<span style="color:red;">D1 <%=oms_txt_088 %></span><br />
 <% end if 
 
 
@@ -2288,12 +2414,12 @@ Hvis <b>Key account</b> er slået til, er tallene baseret på alle medarbejdere på
 	<tr>
     <td align=center>
 	<a href="<%=thisfile%>.asp?print=j&media=print&<%=printEksLnk %>" target="_blank">&nbsp;<img src="../ill/printer3.png" border=0 alt="" /></a>
-	</td><td><a href="<%=thisfile%>.asp?print=j&media=print&<%=printEksLnk %>" target="_blank" class=vmenu>Print version</a></td>
+	</td><td><a href="<%=thisfile%>.asp?print=j&media=print&<%=printEksLnk %>" target="_blank" class=vmenu><%=oms_txt_133 %></a></td>
 	</tr>
     <tr>
     <td align=center>
 	<a href="#" onclick="Javascript:window.open('<%=thisfile%>.asp?media=export&<%=printEksLnk %>', '', 'width=350,height=150,resizable=no,scrollbars=no')" class=vmenu>&nbsp;<img src="../ill/export1.png" border=0 alt="" /></a>
-	</td><td><a href="#" onclick="Javascript:window.open('<%=thisfile%>.asp?media=export&<%=printEksLnk %>', '', 'width=350,height=150,resizable=no,scrollbars=no')" class=vmenu>.CSV fil eksport</a></td>
+	</td><td><a href="#" onclick="Javascript:window.open('<%=thisfile%>.asp?media=export&<%=printEksLnk %>', '', 'width=350,height=150,resizable=no,scrollbars=no')" class=vmenu><%=oms_txt_134 %></a></td>
 	</tr>
 	</table>
 	</div>
@@ -2330,114 +2456,134 @@ Hvis <b>Key account</b> er slået til, er tallene baseret på alle medarbejdere på
                 call sideinfoId(itop,ileft,iwdt,ihgt,iId,phDsp,phVzb,ibtop,ibleft,ibwdt,ibhgt,ibId)
                 %>
                        
-                       <b>Definitioner for beregninger af omsætning og fakturering</b>
+                       <b><%=oms_txt_089 %></b>
 			                <br /><br />
+
+
+
+    <%select case lto 
+     case "nt"
+        %>
+                =============================================================================<br />
+          Datokriterier for job, Commi, Sales kombineret med FOB 1, DDP 2, CIF 3<br />
+          Commission : 2 (fastpris) = leverandør lev. bet.<br />
+          Salesorder : 3 = kunde lev. bet.<br /><br />
+
+           lev_levbetint FOB 1, DDP 2, CIF 3<br />
+           kunde_levbetint FOB, DDP, CIF<br /><br />
+
+           Aktive = Confimed Buyer ETD on FOB else Confimed Buyer ETA<br />
+           Shipped / closed = = Actual Buyer ETD on FOB else Actual Buyer ETA<br /><br />
+        =============================================================================<br />
+        <br />
+        <%
+     end select %>
 			                
 			                
 <b>A1) Budget Brutto oms. Job</b><br>
 Samlet budget på job, beregnet udfra startdato på job i de viste måneder.<br>
-Kun job der <u>ikke</u> er del af en aftale er medregnet. Tilbud er IKKE medregnet.<br><br>
+<%=oms_txt_090 %> <u><%=oms_txt_091 %></u> <%=oms_txt_092 %><br><br>
 
 <%select case lto
 case "nt"%>
-<b>A2) Antal stk.</b><br>
-Antal stk. der skal produceres.
+<b>A2) <%=oms_txt_017 %></b><br>
+<%=oms_txt_093 %>
 <br><br>
 <%case else%>
-<b>A2) Udgifter / Under-leverandører.</b><br>
-Udgifter angivet på job til underleverandører.
+<b>A2)<%=oms_txt_094 %></b><br>
+<%=oms_txt_095 %>
 <br><br>
 <%end select %>
 
-<b>A3) Værdi aftaler</b><br>
-Samlet værdi angivet på aftaler, beregnet udfra aftale startdato i de viste måneder.<br>
+<b>A3) <%=oms_txt_021 %></b><br>
+<%=oms_txt_096 %><br>
 
 
 <!-- B -->
-<br /><b>B1) Realiseret omsætning. excl. moms.</b><br>
-Beregnet således:<br />
-<u>Antal realiserede faktuererbare timer * Medarbejdertypens timepris.</u><br />
+<br /><b>B1) <%=oms_txt_097 %></b><br>
+<%=oms_txt_098 %>:<br />
+<u><%=oms_txt_099 %></u><br />
 <br><br>
 
 
 
 <!-- C -->
-<b>C1) Materialer</b><br />
-Sum af udlæg / materiale forbrug på de valgte job. (Købspris)
+<b>C1) <%=oms_txt_032 %></b><br />
+<%=oms_txt_100 %>
 <br /><br />
-<b>C2) Materialer</b><br />
-Sum af udlæg / materiale forbrug på de valgte job. (Salgspris)
+<b>C2) <%=oms_txt_032 %></b><br />
+<%=oms_txt_102 %>
 <br /><br />
 
 <!-- D -->
 
 <br><br>
 
-<b>D1) I) Udfaktureret omsætning excl. moms / timer</b><br>
-Total faktureret beløb/timer job og aftaler.<br>
-Kreditnotaer og Interne fakturaer er fratrukket.<br><!-- Interne fakturaer er medregnet, med mindre andet er angivet (D1a) -->
+<b>D1) I) <%=oms_txt_103 %></b><br>
+<%=oms_txt_104 %><br>
+<%=oms_txt_105 %><br><!-- Interne fakturaer er medregnet, med mindre andet er angivet (D1a) -->
 <br>
 
 
-<b>D2-D5) J) Faktureret på de forskellige enhedstyper.</b><br>
-Summen af de fakturerede beløb/timer, på hhv. timer, enheder, stk., ikke angivet og km.<br />
-Kreditnotaer er fratrukket.<br><br>
+<b>D2-D5) J) <%=oms_txt_106 %></b><br>
+<%=oms_txt_107 %><br />
+<%=oms_txt_108 %><br><br>
 
 
 <%if level = 1 then %>
 
 <!-- E -->
-<b>E1) Intern Kostpris.</b><br>
-<u>Antal timer (på valgte medarbejdere) * Medarbejdertypens kostpris</u>
+<b>E1) <%=oms_txt_109 %></b><br>
+<u><%=oms_txt_110 %></u>
 <br><br>
 
 
-<b>F1) Bruttofortjeneste. Forkalk.</b><br>
+<b>F1) <%=oms_txt_111 %></b><br>
 (A1 + A3) - (A2)
 <br><br>
 
-<b>F2) Bruttofortjeneste. Real.</b><br>
+<b>F2) <%=oms_txt_112 %></b><br>
 (D1) - (C1 + E1)
 <br><br>
 
 <%end if %>
 
-<b>K) Balance.</b><br>
-Antal fakturerede timer, pr. medarb. (J) - Antal realiserede fakturerbare timer. (G)
+<b>K) <%=oms_txt_113 %></b><br>
+<%=oms_txt_114 %>
 <br><br>
 
-<b>G) H) Timeforbrug.</b><br>
-Antal timer på de valgte medarbejdere og job.<br>
-Alle akt. typer der tæller med i dagligt timeregnskab er med. Også de ikke fakturerbare så som ikkefakturerbar tid, salg, ferie, sygdom og afspadsering.<br /><br>
+<b>G) H) <%=oms_txt_115 %></b><br>
+<%=oms_txt_116 %><br>
+<%=oms_txt_117 %><br /><br>
 
 			                
 			                
 			                
 			                <br><br>
-		<b>Job, aftale og faktura grundlag for ovenstående oversigt.</b><br />
+		<b><%=oms_txt_118 %></b><br />
 			                
 		<div style="width:600px; padding:10px; background-color:#Eff3ff; border:1px #8cAAe6 solid;">
 		
 		
 		<font class=lillesort>
 		
-		<b>A1, B1, C1, C2, E1) Job:</b> (<%=antalJobBudget%>)<br>
+		<b>A1, B1, C1, C2, E1) <%=oms_txt_135 %>:</b> (<%=antalJobBudget%>)<br>
 		<%=strJob%>
 		<br><br>
 		
-		<b>A3) Aftaler:</b> (<%=antalAftaler%>)<br>
+		<b>A3) <%=oms_txt_136 %>:</b> (<%=antalAftaler%>)<br>
 		<%=strAftaler%>
 		<br><br>
 		
-		<b>B1, E1, G, H) Job med timeregistreringer</b> (<%=antalJobtimereg%>)<br>
+		<b>B1, E1, G, H) <%=oms_txt_119 %></b> (<%=antalJobtimereg%>)<br>
 		<%=strJobNavnogNr%>
 		<br><br>
 		
-		<b>B2) Fakturaer på job (også de job der er en del af en aftale) - IKKE AFTALER og interne fakturaer:</b> (<%=antalFakOms%>)<br>
+		<b>B2) <%=oms_txt_120 %>:</b> (<%=antalFakOms%>)<br>
 		<%=strFakturaerOms%>
 		<br /><br />
 		
-		<b>B2, D1, D2) Fakturaer:</b> (antal: <%=antalFak%>, excl. interne)<br>
+		<b>B2, D1, D2) <%=oms_txt_121 %>:</b> (<%=oms_txt_122 %>: <%=antalFak%>, <%=oms_txt_123 %>)<br>
 		<%=strFakturaer%>
 		<br><br> &nbsp;
 		</font>

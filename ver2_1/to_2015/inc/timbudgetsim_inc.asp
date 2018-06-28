@@ -55,8 +55,8 @@ sub fy_relprdato_fm
                                     </select>
                                       </div>
 
-                                    <div class="col-lg-2 pad-t5 pad-r30"> Vis realiseret pr. dato:
-                                           <input class="form-control input-small inputclsLeft" type="text" name="FM_visrealprdato" value="<%=visrealprdato %>" />
+                                    <div class="col-lg-2 pad-t5 pad-r15"> Vis realiseret pr. dato:
+                                           <input class="form-control input-small inputclsLeft" type="text" style="width:95px;" name="FM_visrealprdato" value="<%=visrealprdato %>" />
                                      
                                       </div>
 
@@ -76,6 +76,9 @@ sub fy_relprdato_fm
                                         </div>
                                         <%end if %>
 
+                                        <%if func <> "forecast" then %>
+                                       <%call forretningsomr %>
+                                        <%end if %>
 
                                        <div class="col-lg-2 pad-t20 pad-r30"><button type="submit" class="btn btn-secondary btn-sm">Search >></button>
                                        </div>
@@ -83,6 +86,37 @@ sub fy_relprdato_fm
 <%
 end sub
 
+
+sub forretningsomr
+
+    %>
+       <%'if func <> "forecast" then %>
+                                        <div class="col-lg-3 pad-t5">Forretningsområder:
+                                            <select class="form-control input-small" name="FM_fomr" onchange="submit();">
+                                                <option value="0">Alle</option>
+                                                <%
+                                                    strFomr = "SELECT navn, id FROM fomr GROUP BY navn"
+                                                    oRec.open strFomr, oConn, 3
+                                                    while not oRec.EOF
+                                                    
+                                                    if cdbl(oRec("id")) = cdbl(FM_fomr) then
+                                                    fomrSEL = "SELECTED"
+                                                    else
+                                                    fomrSEL = ""
+                                                    end if                                                   
+                                                %>
+                                                <option value="<%=oRec("id") %>" <%=fomrSEL %>><%=oRec("navn") %></option>
+                                                <%
+                                                    oRec.movenext
+                                                    wend
+                                                    oRec.close 
+                                                %>
+                                            </select>
+                                        </div>
+                                        <%'end if %>
+    <%
+
+end sub
 
 
 public budgetFY0GT, strExport
@@ -1522,7 +1556,7 @@ function opdaterRessouceRamme(f, FY0, FY1, FY2, jobBudgetFY0, fctimeprisFY0, fct
             oRec3.close
 
            
-            'rr_budgetbelob
+
 
             if cdbl(jobBudgetRammeFindes) <> 0 then
 

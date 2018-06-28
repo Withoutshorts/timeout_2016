@@ -132,8 +132,6 @@ $(document).ready(function() {
 
     });
 
-
-
     //approved
     $("#sbm_timer").click(function () {
 
@@ -152,7 +150,6 @@ $(document).ready(function() {
     });
 
 
-    
     $("#FM_sltid").keyup(function () {
 
         ststop(1);
@@ -512,7 +509,10 @@ $(document).ready(function() {
 
     $("#FM_akt").keyup(function () {
 
-        $("#dv_job").hide();
+        if (mobil_week_reg_job_dd != 1) {
+            $("#dv_job").hide();
+        }
+
         $("#dv_mat").hide();
 
         sogakt(0);
@@ -680,6 +680,7 @@ $(document).ready(function() {
 
         if (jq_newfilterval.length > 0 || mobil_week_reg_akt_dd == "1") {
 
+            //alert("jq_newfilterval=" + jq_newfilterval + "&jq_jobid=" + jq_jobid + "&jq_medid=" + jq_medid + "&jq_aktid=" + jq_aktid + "&jq_pa=" + jq_pa + "&varTjDatoUS_man=" + varTjDatoUS_man)
 
             $.post("?jq_newfilterval=" + jq_newfilterval + "&jq_jobid=" + jq_jobid + "&jq_medid=" + jq_medid + "&jq_aktid=" + jq_aktid + "&jq_pa=" + jq_pa + "&varTjDatoUS_man=" + varTjDatoUS_man, { control: "FN_sogakt", AjaxUpdateField: "true" }, function (data) {
                 //alert("cc")

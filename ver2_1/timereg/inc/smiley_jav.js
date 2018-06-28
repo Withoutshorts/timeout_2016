@@ -82,6 +82,8 @@ $(document).ready(function () {
             $("#dv_ugeafslutninger").css("visibility", "visible");
             $("#dv_ugeafslutninger").show(100);
 
+            document.getElementById("dv_ugeafslutninger").scrollIntoView();
+
         } else {
 
             $("#dv_ugeafslutninger").hide(100);

@@ -7,18 +7,11 @@
 
 
 
-
-
-
-
-
-
-
 function GetCustDesc(visning) {
     //visning tidligere = focusofoff
 
 
-    
+
     var thisC = $("#FM_kontakt")
     var mrn = document.getElementById("usemrn").value;
     var ignprg = 0;
@@ -190,6 +183,235 @@ $(window).load(function () {
 
 $(document).ready(function () {
 
+    
+    function tjkNorm(thisid) {
+
+        //var thisid = this.id
+        //alert(thisid)
+        var thisvallngt = thisid.length
+        var thisvaltrim = thisid.slice(9, thisvallngt)
+        //alert(thisvaltrim)
+        indtastTimer = $("#" + thisid).val()
+        indtastTimer = indtastTimer.replace(",", ".")
+        if (indtastTimer != "") {
+            indtastTimer = indtastTimer
+        } else {
+            indtastTimer = 0
+        }
+        
+        //alert(indtastTimer)
+        dagstimer = parseFloat(dagstimer) + parseFloat(indtastTimer)
+        //alert(thisid)
+        timer_tastet_this_opr = $("#FM_timer_opr_" + thisvaltrim).val()
+        timer_tastet_this_opr = timer_tastet_this_opr.replace(",", ".")
+        
+        if (timer_tastet_this_opr != "") {
+            timer_tastet_this_opr = timer_tastet_this_opr
+        } else {
+            timer_tastet_this_opr = 0
+        }
+        
+        timer_tastet_this_opr_dagstimer_tot = parseFloat(timer_tastet_this_opr_dagstimer_tot) + parseFloat(timer_tastet_this_opr)
+               
+    }
+
+    function erTimerMereEndNorm(thisid, normdag, dagnavn, datoTxt) {
+
+        dagsTimer_tot_new = 0
+        dagsTimer_tot = 0
+        // Vi skal minus de allerede oprettede timer, med de totalte timer for dagen, og lægge de nytastede timer til. 
+        dagsTimer_tot = $("#" + thisid).val()
+        dagsTimer_tot = dagsTimer_tot.replace(",", ".")
+        if (dagsTimer_tot != 0) {
+            dagsTimer_tot = dagsTimer_tot
+        }
+        else {
+            dagsTimer_tot = 0
+        }
+
+        dagsTimer_tot_new = (parseFloat(dagsTimer_tot) - parseFloat(timer_tastet_this_opr_dagstimer_tot)) + parseFloat(dagstimer)
+
+        if (dagsTimer_tot_new > parseFloat(normdag)) {
+            $("#normTxt").append("<br>" + dagnavn + " " + datoTxt)
+            visPopup = 1
+        }
+    }
+
+
+    // tjek norm
+    $(".tjknorm").bind('click', function () {
+
+       // alert("Tjek med Norm")
+        norm_man = $("#norm_man").val()
+        norm_tir = $("#norm_tir").val()
+        norm_ons = $("#norm_ons").val()
+        norm_tor = $("#norm_tor").val()
+        norm_fre = $("#norm_fre").val()
+        norm_lor = $("#norm_lor").val()
+        norm_son = $("#norm_son").val()
+
+        norm_man = norm_man.replace(",", ".")
+        norm_tir = norm_tir.replace(",", ".")
+        norm_ons = norm_ons.replace(",", ".")
+        norm_tor = norm_tor.replace(",", ".")
+        norm_fre = norm_fre.replace(",", ".")
+        norm_lor = norm_lor.replace(",", ".")
+        norm_son = norm_son.replace(",", ".")
+
+        /*
+        alert(norm_man)
+        alert(norm_tir)
+        alert(norm_ons)
+        alert(norm_tor)
+        alert(norm_fre)
+        alert(norm_lor)
+        alert(norm_son) */
+
+        mandagtimer = 0
+        tirsdagtimer = 0
+        onsdagtimer = 0
+        torsdagtimer = 0
+        fredagtimer = 0
+        lordagtimer = 0
+        sondagtimer = 0
+
+        timer_tastet_this_opr_mandag_tot = 0
+        timer_tastet_this_opr_tirsdag_tot = 0
+        timer_tastet_this_opr_onsdag_tot = 0
+        timer_tastet_this_opr_torsdag_tot = 0
+        timer_tastet_this_opr_fredag_tot = 0
+        timer_tastet_this_opr_lordag_tot = 0
+        timer_tastet_this_opr_sondag_tot = 0
+
+        visPopup = 0
+
+        // Mandag
+        dagstimer = 0
+        timer_tastet_this_opr_dagstimer_tot = 0
+        timer_tastet_this_opr = 0
+        $('.dcls_1').each(function () {
+            var thisid = this.id             
+            tjkNorm(thisid);
+        });
+        
+        Timer_totID = "manTimer_tot"
+        erTimerMereEndNorm(Timer_totID, norm_man, "Mandag", $("#datoMan").val());
+
+
+        // Tirsdag
+        dagstimer = 0
+        timer_tastet_this_opr_dagstimer_tot = 0
+        timer_tastet_this_opr = 0
+        $('.dcls_2').each(function () {
+
+            var thisid = this.id
+            tjkNorm(thisid);
+
+        });
+
+        Timer_totID = "tirTimer_tot"
+        erTimerMereEndNorm(Timer_totID, norm_tir, "Tirsdag", $("#datoTir").val());
+
+
+        //Onsdag
+        dagstimer = 0
+        timer_tastet_this_opr_dagstimer_tot = 0
+        timer_tastet_this_opr = 0
+        $('.dcls_3').each(function () {
+
+            var thisid = this.id
+            tjkNorm(thisid);
+        });
+
+        Timer_totID = "onsTimer_tot"
+        erTimerMereEndNorm(Timer_totID, norm_ons, "Onsdag", $("#datoOns").val());
+
+   
+
+        // Torsdag
+        dagstimer = 0
+        timer_tastet_this_opr_dagstimer_tot = 0
+        timer_tastet_this_opr = 0
+        $('.dcls_4').each(function () {
+            var thisid = this.id
+            tjkNorm(thisid);       
+        });
+
+        Timer_totID = "torTimer_tot"
+        erTimerMereEndNorm(Timer_totID, norm_tor, "Torsdag", $("#datoTor").val());
+
+
+
+
+        // Fredag
+        dagstimer = 0
+        timer_tastet_this_opr_dagstimer_tot = 0
+        timer_tastet_this_opr = 0
+        $('.dcls_5').each(function () {
+
+            var thisid = this.id
+            tjkNorm(thisid);
+
+        });
+
+        Timer_totID = "freTimer_tot"
+        erTimerMereEndNorm(Timer_totID, norm_fre, "Fredag", $("#datoFre").val());
+
+        //Lørdag
+        dagstimer = 0
+        timer_tastet_this_opr_dagstimer_tot = 0
+        timer_tastet_this_opr = 0
+        $('.dcls_6').each(function () {
+
+            var thisid = this.id
+            tjkNorm(thisid);
+
+        });
+
+       Timer_totID = "lorTimer_tot"
+       erTimerMereEndNorm(Timer_totID, norm_lor, "Lørdag", $("#datoLor").val());
+
+
+        // Søndag
+        dagstimer = 0
+        timer_tastet_this_opr_dagstimer_tot = 0
+        timer_tastet_this_opr = 0
+        $('.dcls_7').each(function () {
+
+            var thisid = this.id
+            tjkNorm(thisid);
+
+        });
+
+        Timer_totID = "sonTimer_tot"
+        erTimerMereEndNorm(Timer_totID, norm_son, "Søndag", $("#datoSon").val());
+
+
+
+        // Tjekker om vinduet skal poppe up
+        if (visPopup == 1) {
+            var modal = document.getElementById('normtimerModal');
+
+            modal.style.display = "block";
+
+            $("#opdater_timer").click(function () {
+                //alert("Opdater alligevel")
+                $("#timeregfm").submit();
+            });
+
+            $("#ret_timer").click(function () {
+                modal.style.display = "none";
+                $("#normTxt").html("")
+            });
+        }
+        else {
+            $("#timeregfm").submit();
+        }
+       
+    });
+    // Tjek norm slut
+
+
 
     $("#a_ignproj_info").mouseover(function () {
         $(this).css("cursor", "pointer");
@@ -206,14 +428,14 @@ $(document).ready(function () {
 
 
     $("#sp_closekom").click(function () {
-    
+
         closekom_x();
 
     });
 
 
 
-    function closekom_x(){
+    function closekom_x() {
 
         $("#matreg_indlast").html('')
         $("#dv_mat_lager").hide()
@@ -230,15 +452,15 @@ $(document).ready(function () {
         $("#matreg_indlast").css("background-color", "#ffffff")
 
         $("#kom").hide()
-    
+
     }
 
 
-  
 
-  
 
-    
+
+
+
 
 
     var isScrolled = 0;
@@ -268,34 +490,34 @@ $(document).ready(function () {
     $("#a_ignproj_info").click(function () {
         if ($("#sp_ignproj_info").css('display') == "none") {
 
-           
+
             $("#sp_ignproj_info").css("display", "");
             $("#sp_ignproj_info").css("visibility", "visible");
             $("#sp_ignproj_info").show(1000);
 
-           
+
         } else {
 
-           $("#sp_ignproj_info").hide(100);
+            $("#sp_ignproj_info").hide(100);
 
         }
     });
 
     $("#al_ignproj_info").click(function () {
-        
 
-            $("#sp_ignproj_info").hide(100);
 
-        
+        $("#sp_ignproj_info").hide(100);
+
+
     });
-    
- 
+
+
 
     function filterOnOff(thisval) {
 
-        var headerTxt = $("#sprog_filterheader").val() 
+        var headerTxt = $("#sprog_filterheader").val()
 
-       
+
 
         var jq_newfilterval = 0;
 
@@ -644,7 +866,7 @@ $(document).ready(function () {
         // Fjern job fra aktiv liste
         fjernjob(jobid);
 
-        
+
 
         //alert("Der bliver afsendt en mail")
 
@@ -653,8 +875,8 @@ $(document).ready(function () {
     });
 
 
-   
-    
+
+
 
 
     function sbesklukjobFunc(jobid) {
@@ -673,7 +895,7 @@ $(document).ready(function () {
         //alert(medCookie)
         $.post("?vlgtmedarb=" + vlgtmedarb + "&jstatus=" + jstatus, { control: "FN_notify_jobluk", AjaxUpdateField: "true", jq_lukjob: jobid }, function (data) {
 
-                GetCustDesc(0);
+            GetCustDesc(0);
         });
 
 
@@ -790,8 +1012,8 @@ $(document).ready(function () {
 
     //jobid = $("#FM_jobid_1").val()
     //aktlist(jobid);
-    
-    
+
+
 
     //$(".imgDrag").mousedown(function () {
     //    $("select[name*=ajax]").AjaxUpdateField({ parent: "tr", subselector: "td:first > input[name=rowId]" });
@@ -858,7 +1080,7 @@ $(document).ready(function () {
         $("#visallemedarb_blandetliste").attr('checked', false);
     }
 
-    
+
 
     GetJobDenneUge();
 
@@ -1104,7 +1326,7 @@ $(document).ready(function () {
 
     $(".showjobbesk").click(function () {
 
-       
+
 
         var thisid = this.id
         var thisvallngt = thisid.length
@@ -1180,18 +1402,18 @@ $(document).ready(function () {
     function tjektimer(thisid) {
 
 
-    
 
-            if (!validZip(document.getElementById(thisid).value)) {
-                alert("Der er angivet et ugyldigt tegn.\nYou have typed an invalid character")
-                document.getElementById(thisid).value = '';
-                document.getElementById(thisid).focus()
-                document.getElementById(thisid).select()
-                return false
-            }
-            
+
+        if (!validZip(document.getElementById(thisid).value)) {
+            alert("Der er angivet et ugyldigt tegn.\nYou have typed an invalid character")
+            document.getElementById(thisid).value = '';
+            document.getElementById(thisid).focus()
+            document.getElementById(thisid).select()
+            return false
+        }
+
         var arr = thisid.split('_');
-      
+
         //TRIM til at bruge til row og ugedage på andre type felter, f.eks Timer_opr og Akttype
         var idlngt = thisid.length
         var idtrim = thisid.slice(9, idlngt)
@@ -1215,13 +1437,13 @@ $(document).ready(function () {
         //ER ALERT VED MAKS BUDGET SLÅET TIL
         akt_maksbudget_treg = $("#akt_maksbudget_treg").val()
         akt_maksforecast_treg = $("#akt_maksforecast_treg").val()
-        
-        
+
+
         if (akt_maksbudget_treg == 1 || (akt_maksforecast_treg == 1 && akttype == 1)) {
 
             $("#aktnotificer").val('0')
 
-            
+
 
 
             //Timertastet på linjen - minus timerOpr
@@ -1274,253 +1496,253 @@ $(document).ready(function () {
             //alert(timer_tastet)
 
 
-            
+
 
 
         }
 
 
-       
 
-        
 
-       
+
+
+
         //MAKS forkalk på aktivitet
         //Også interne Hvis der er angivet BUDGET (tjekkes på jquere del tim timereg.asp)
-            if (akt_maksbudget_treg == 1) {
+        if (akt_maksbudget_treg == 1) {
 
-                $.post("?aktid=" + aktid + "&timer_tastet=" + timer_tastet, { control: "FN_tjktimer_budget", AjaxUpdateField: "true", cust: thisval }, function (data) {
+            $.post("?aktid=" + aktid + "&timer_tastet=" + timer_tastet, { control: "FN_tjktimer_budget", AjaxUpdateField: "true", cust: thisval }, function (data) {
 
                 $("#aktnotificer").val(data);
 
-           
+
                 var budgetoverskreddet = 0;
                 budgetoverskreddet = $("#aktnotificer").val().replace(",", ".")
-                budgetoverskreddet = budgetoverskreddet*1
+                budgetoverskreddet = budgetoverskreddet * 1
 
                 //alert(budgetoverskreddet)
 
                 if (budgetoverskreddet < 0) {
-               
+
 
                     makstimertilindtastning = ((timer_tastet * 1) - (budgetoverskreddet * -1))
-                   
+
                     timer_opr = $("#FM_timer_opr_" + idtrim).val();
                     $("#" + thisid).val(timer_opr);
-               
-                    alert("Forkalkulation overskreddet! \nAntal timer er over forkalkulation (budget) på denne aktivitet.\nDer kan maks tastes "+ (makstimertilindtastning) +" timer.")
 
-                  
-            
-            }
+                    alert("Forkalkulation overskreddet! \nAntal timer er over forkalkulation (budget) på denne aktivitet.\nDer kan maks tastes " + (makstimertilindtastning) + " timer.")
+
+
+
+                }
 
             });
 
-            } //akt_maksbudget_treg
-
-
-
-           
-
-       
-            //MAKS forecast på aktivitet
-            if (akt_maksforecast_treg == 1 && akttype == 1) { //kun fakturerbare
-
-                //indenfor budgetår
-                ibudgetaar = $("#aktBudgettjkOn_afgr").val()
-                ibudgetaarMd = $("#regskabsaarStMd").val()
-                ibudgetUseMd = $("#regskabsaarUseMd").val()
-                ibudgetUseAar = $("#regskabsaarUseAar").val()
-                treg_usemrn = $("#treg_usemrn").val()
-                
-               //alert("HER")
-
-
-              
-                $.post("?aktid=" + aktid + "&timer_tastet=" + timer_tastet + "&treg_usemrn=" + treg_usemrn + "&ibudgetaar=" + ibudgetaar + "&ibudgetaarMd=" + ibudgetaarMd + "&ibudgetUseMd=" + ibudgetUseMd + "&ibudgetUseAar=" + ibudgetUseAar, { control: "FN_tjktimer_forecast", AjaxUpdateField: "true", cust: thisval }, function (data) {
-                   
-                    //alert(data)
-                    
-
-                    $("#aktnotificer_fc").val(data);
-
-                    
-                    var fcoverskreddet = 0;
-                    fcoverskreddet = $("#aktnotificer_fc").val().replace(",", ".")
-                    fcoverskreddet = fcoverskreddet * 1
-
-                    //alert("HER 3" + akt_maksforecast_treg + " == type: " + akttype + " fcoverskreddet: " + fcoverskreddet)
-                    
-                    //fcoverskreddet = -2
-                    if (fcoverskreddet < 0) {
-
-
-                        makstimertilindtastning = ((timer_tastet * 1) - (fcoverskreddet * -1))
-                        
-                        timer_opr = $("#FM_timer_opr_" + idtrim).val();
-                        $("#" + thisid).val(timer_opr);
-
-                        //$("#aktnotificer_fc_" + jobid).css("padding", "20px 0px 20px 260px");
-                        
-                        //$("#aktnotificer_fc_" + jobid).css("background-color", "pink");
-                        //$("#aktnotificer_fc_" + jobid).html('<b>Forecast er opbrugt!</b><br>Dit timeforecast er opbrugt p&aring; denne aktivitet.<br>Du kan derfor maks. indtaste <b>' + (makstimertilindtastning) + " time(r)</b> yderligere på denne aktivitet.&nbsp;&nbsp;<span style='color:red;' id='sp_aktnotificer_fc'><b>[X]</b></span>") //"<b>Timebudget opbrugt!</b><br>Timebudget er opbrugt p&aring; denne aktivitet. <br>Du har indtastet <b>"+ formatnumber(data, 2) +" timer for meget.</b>");
-
-                        alert("Forecast er opbrugt!\nDit timeforecast er opbrugt på denne aktivitet.")
-                        //return false
-                        
-
-                       
-                        //$('#sp_aktnotificer_fc').unbind('mouseover').bind('mouseover', function () {
-
-                        //    $(this).css("cursor", "pointer");
-
-                        //});
-
-
-                        //$('#sp_aktnotificer_fc').unbind('click').bind('click', function () {
-
-                        //    nulstilnofikation();
-
-                        //});
-
-                        //setTimeout(nulstilnofikation, 7000);
-
-                        //function nulstilnofikation() {
-                        //    $("#aktnotificer_fc_" + jobid).css("background-color", "#ffffff");
-                        //    $("#aktnotificer_fc_" + jobid).html("&nbsp;");
-                        //    $("#aktnotificer_fc_" + jobid).css("padding", "0px 0px 0px 0px");
-                        //}
-
-                    }
-
-                });
-
-            } //akt_maksforecast_treg
+        } //akt_maksbudget_treg
 
 
 
 
 
-            ///////////////////////////////////////////////////
-            /////       Tjekker rejsedage - diæter          ///
-            ///////////////////////////////////////////////////
-            traveldietexp_on = $("#traveldietexp_on").val()
-            
-         
-            if (traveldietexp_on == 1) {
 
-              
-                //Timertastet på linjen - minus timerOpr
-                timer_tastet = 0;
-                timer_tastet_this = 0;
-                
-                $(".aty_real_cls_1_" + arr[3]).each(function () {
+        //MAKS forecast på aktivitet
+        if (akt_maksforecast_treg == 1 && akttype == 1) { //kun fakturerbare
+
+            //indenfor budgetår
+            ibudgetaar = $("#aktBudgettjkOn_afgr").val()
+            ibudgetaarMd = $("#regskabsaarStMd").val()
+            ibudgetUseMd = $("#regskabsaarUseMd").val()
+            ibudgetUseAar = $("#regskabsaarUseAar").val()
+            treg_usemrn = $("#treg_usemrn").val()
+
+            //alert("HER")
+
+
+
+            $.post("?aktid=" + aktid + "&timer_tastet=" + timer_tastet + "&treg_usemrn=" + treg_usemrn + "&ibudgetaar=" + ibudgetaar + "&ibudgetaarMd=" + ibudgetaarMd + "&ibudgetUseMd=" + ibudgetUseMd + "&ibudgetUseAar=" + ibudgetUseAar, { control: "FN_tjktimer_forecast", AjaxUpdateField: "true", cust: thisval }, function (data) {
+
+                //alert(data)
+
+
+                $("#aktnotificer_fc").val(data);
+
+
+                var fcoverskreddet = 0;
+                fcoverskreddet = $("#aktnotificer_fc").val().replace(",", ".")
+                fcoverskreddet = fcoverskreddet * 1
+
+                //alert("HER 3" + akt_maksforecast_treg + " == type: " + akttype + " fcoverskreddet: " + fcoverskreddet)
+
+                //fcoverskreddet = -2
+                if (fcoverskreddet < 0) {
+
+
+                    makstimertilindtastning = ((timer_tastet * 1) - (fcoverskreddet * -1))
+
+                    timer_opr = $("#FM_timer_opr_" + idtrim).val();
+                    $("#" + thisid).val(timer_opr);
+
+                    //$("#aktnotificer_fc_" + jobid).css("padding", "20px 0px 20px 260px");
+
+                    //$("#aktnotificer_fc_" + jobid).css("background-color", "pink");
+                    //$("#aktnotificer_fc_" + jobid).html('<b>Forecast er opbrugt!</b><br>Dit timeforecast er opbrugt p&aring; denne aktivitet.<br>Du kan derfor maks. indtaste <b>' + (makstimertilindtastning) + " time(r)</b> yderligere på denne aktivitet.&nbsp;&nbsp;<span style='color:red;' id='sp_aktnotificer_fc'><b>[X]</b></span>") //"<b>Timebudget opbrugt!</b><br>Timebudget er opbrugt p&aring; denne aktivitet. <br>Du har indtastet <b>"+ formatnumber(data, 2) +" timer for meget.</b>");
+
+                    alert("Forecast er opbrugt!\nDit timeforecast er opbrugt på denne aktivitet.")
+                    //return false
+
+
+
+                    //$('#sp_aktnotificer_fc').unbind('mouseover').bind('mouseover', function () {
+
+                    //    $(this).css("cursor", "pointer");
+
+                    //});
+
+
+                    //$('#sp_aktnotificer_fc').unbind('click').bind('click', function () {
+
+                    //    nulstilnofikation();
+
+                    //});
+
+                    //setTimeout(nulstilnofikation, 7000);
+
+                    //function nulstilnofikation() {
+                    //    $("#aktnotificer_fc_" + jobid).css("background-color", "#ffffff");
+                    //    $("#aktnotificer_fc_" + jobid).html("&nbsp;");
+                    //    $("#aktnotificer_fc_" + jobid).css("padding", "0px 0px 0px 0px");
+                    //}
+
+                }
+
+            });
+
+        } //akt_maksforecast_treg
+
+
+
+
+
+        ///////////////////////////////////////////////////
+        /////       Tjekker rejsedage - diæter          ///
+        ///////////////////////////////////////////////////
+        traveldietexp_on = $("#traveldietexp_on").val()
+
+
+        if (traveldietexp_on == 1) {
+
+
+            //Timertastet på linjen - minus timerOpr
+            timer_tastet = 0;
+            timer_tastet_this = 0;
+
+            $(".aty_real_cls_1_" + arr[3]).each(function () {
                 //Tjekker summen for dne ankelte dag for alle de typer der tæller med i daglig timregskab
 
 
-                    timer_tastet_this = $(this).val()
+                timer_tastet_this = $(this).val()
 
-                    if (timer_tastet_this == "NaN" || (timer_tastet_this == "-Infinity") || timer_tastet_this == "") {
-                        timer_tastet_this = 0
-                    } else {
-                        timer_tastet_this = timer_tastet_this.replace(",", ".")
-                        timer_tastet = timer_tastet / 1 + timer_tastet_this / 1
+                if (timer_tastet_this == "NaN" || (timer_tastet_this == "-Infinity") || timer_tastet_this == "") {
+                    timer_tastet_this = 0
+                } else {
+                    timer_tastet_this = timer_tastet_this.replace(",", ".")
+                    timer_tastet = timer_tastet / 1 + timer_tastet_this / 1
+                }
+
+
+            });
+
+
+            timer_tastet_opr = 0;
+            timer_tastet_this_opr = 0;
+            $(".aty_real_cls_1_opr_" + arr[3]).each(function () {
+                //Tjekker summen for dne ankelte dag for alle de typer der tæller med i daglig timregskab
+
+
+                timer_tastet_this_opr = $(this).val()
+
+                if (timer_tastet_this_opr == "NaN" || (timer_tastet_this_opr == "-Infinity") || timer_tastet_this_opr == "") {
+                    timer_tastet_this_opr = 0
+                } else {
+                    timer_tastet_this_opr = timer_tastet_this_opr.replace(",", ".")
+                    timer_tastet_opr = timer_tastet_opr / 1 + timer_tastet_this_opr / 1
+                }
+
+
+            });
+
+
+            //Total tastet diff mellem opr og indtastet
+            timer_tastet = (timer_tastet / 1 - timer_tastet_opr / 1)
+
+            //alert(timer_tastet)
+
+            treg_usemrn = $("#treg_usemrn").val()
+            //treg_dag = $("#treg_dag").val()
+            //treg_md = $("#treg_md").val()
+            //treg_aar = $("#treg_aar").val()
+            tdatoSQL = $("#FM_mat_dato_" + idtrim).val()  //treg_aar + "-" + treg_md + "-" + treg_dag
+
+
+
+            $.post("?timer_tastet=" + timer_tastet + "&treg_usemrn=" + treg_usemrn + "&tdato=" + tdatoSQL, { control: "FN_tjktimer_traveldietexp", AjaxUpdateField: "true", cust: thisval }, function (data) {
+
+
+                //alert(data)
+                $("#aktnotificer_trvl").val(data);
+
+
+                var trvloverskreddet = 0;
+                trvloverskreddet = $("#aktnotificer_trvl").val().replace(",", ".")
+                trvloverskreddet = trvloverskreddet * 1
+
+                //alert(trvloverskreddet)
+
+                //trvloverskreddet = -2
+                if (trvloverskreddet < 0) {
+
+
+                    makstimertilindtastning = ((timer_tastet * 1) - (trvloverskreddet * -1))
+
+                    timer_opr = $("#FM_timer_opr_" + idtrim).val();
+                    $("#" + thisid).val(timer_opr);
+
+                    $("#aktnotificer_trvl_" + jobid).css("padding", "20px 0px 20px 260px");
+                    //$("#aktnotificer_" + jobid).css("top", "-420px");
+                    $("#aktnotificer_trvl_" + jobid).css("background-color", "lightgray");
+                    $("#aktnotificer_trvl_" + jobid).html('<b>Maks. timeantal overskreddet!</b><br>Dit maksimale timeantal på dage med rejseraktivitet er overskreddet<br>Du kan maks. indtaste <b>10 time(r)</b> på dage med rejseaktivitet.&nbsp;&nbsp;<span style="color:red;" id="sp_aktnotificer_trvl"><b>[X]</b></span>');
+                    //Du kan maks indtaste <b>'+ makstimertilindtastning +'</b> på denne dag.<br>
+
+
+                    $('#sp_aktnotificer_trvl').unbind('mouseover').bind('mouseover', function () {
+
+                        $(this).css("cursor", "pointer");
+
+                    });
+
+
+                    $('#sp_aktnotificer_trvl').unbind('click').bind('click', function () {
+
+                        nulstilnofikation();
+
+                    });
+
+                    setTimeout(nulstilnofikation, 7000);
+
+                    function nulstilnofikation() {
+                        $("#aktnotificer_trvl_" + jobid).css("background-color", "#ffffff");
+                        $("#aktnotificer_trvl_" + jobid).html("&nbsp;");
+                        $("#aktnotificer_trvl_" + jobid).css("padding", "0px 0px 0px 0px");
                     }
 
+                }
 
-                });
-
-
-                timer_tastet_opr = 0;
-                timer_tastet_this_opr = 0;
-                $(".aty_real_cls_1_opr_" + arr[3]).each(function () {
-                    //Tjekker summen for dne ankelte dag for alle de typer der tæller med i daglig timregskab
+            });
 
 
-                    timer_tastet_this_opr = $(this).val()
-
-                    if (timer_tastet_this_opr == "NaN" || (timer_tastet_this_opr == "-Infinity") || timer_tastet_this_opr == "") {
-                        timer_tastet_this_opr = 0
-                    } else {
-                        timer_tastet_this_opr = timer_tastet_this_opr.replace(",", ".")
-                        timer_tastet_opr = timer_tastet_opr / 1 + timer_tastet_this_opr / 1
-                    }
 
 
-                });
-
-
-                //Total tastet diff mellem opr og indtastet
-                timer_tastet = (timer_tastet / 1 - timer_tastet_opr / 1)
-
-                //alert(timer_tastet)
-
-                treg_usemrn = $("#treg_usemrn").val()
-                //treg_dag = $("#treg_dag").val()
-                //treg_md = $("#treg_md").val()
-                //treg_aar = $("#treg_aar").val()
-                tdatoSQL = $("#FM_mat_dato_" + idtrim).val()  //treg_aar + "-" + treg_md + "-" + treg_dag
-
-                
-
-                $.post("?timer_tastet=" + timer_tastet + "&treg_usemrn=" + treg_usemrn + "&tdato=" + tdatoSQL, { control: "FN_tjktimer_traveldietexp", AjaxUpdateField: "true", cust: thisval }, function (data) {
-
-
-                    //alert(data)
-                    $("#aktnotificer_trvl").val(data);
-
-                    
-                    var trvloverskreddet = 0;
-                    trvloverskreddet = $("#aktnotificer_trvl").val().replace(",", ".")
-                    trvloverskreddet = trvloverskreddet * 1
-
-                    //alert(trvloverskreddet)
-
-                    //trvloverskreddet = -2
-                    if (trvloverskreddet < 0) {
-
-
-                        makstimertilindtastning = ((timer_tastet * 1) - (trvloverskreddet * -1))
-
-                        timer_opr = $("#FM_timer_opr_" + idtrim).val();
-                        $("#" + thisid).val(timer_opr);
-
-                        $("#aktnotificer_trvl_" + jobid).css("padding", "20px 0px 20px 260px");
-                        //$("#aktnotificer_" + jobid).css("top", "-420px");
-                        $("#aktnotificer_trvl_" + jobid).css("background-color", "lightgray");
-                        $("#aktnotificer_trvl_" + jobid).html('<b>Maks. timeantal overskreddet!</b><br>Dit maksimale timeantal på dage med rejseraktivitet er overskreddet<br>Du kan maks. indtaste <b>10 time(r)</b> på dage med rejseaktivitet.&nbsp;&nbsp;<span style="color:red;" id="sp_aktnotificer_trvl"><b>[X]</b></span>');
-                        //Du kan maks indtaste <b>'+ makstimertilindtastning +'</b> på denne dag.<br>
-
-
-                        $('#sp_aktnotificer_trvl').unbind('mouseover').bind('mouseover', function () {
-
-                            $(this).css("cursor", "pointer");
-
-                        });
-
-
-                        $('#sp_aktnotificer_trvl').unbind('click').bind('click', function () {
-
-                            nulstilnofikation();
-
-                        });
-
-                        setTimeout(nulstilnofikation, 7000);
-
-                        function nulstilnofikation() {
-                            $("#aktnotificer_trvl_" + jobid).css("background-color", "#ffffff");
-                            $("#aktnotificer_trvl_" + jobid).html("&nbsp;");
-                            $("#aktnotificer_trvl_" + jobid).css("padding", "0px 0px 0px 0px");
-                        }
-
-                    }
-
-                });
-
-
-                
-
-            } //traveldietexp_on
+        } //traveldietexp_on
 
 
         return true
@@ -1528,10 +1750,10 @@ $(document).ready(function () {
 
 
     };
-    
 
-    
-  
+
+
+
 
     $(".a_treg").click(function () {
 
@@ -1542,6 +1764,7 @@ $(document).ready(function () {
         var thisvaltrim = thisid.slice(10, thisvallngt)
         thisval = thisvaltrim
 
+        //alert(thisval)
 
         timOnOff = $("#FM_jobid_timerOn_" + thisval).val()
 
@@ -1549,7 +1772,41 @@ $(document).ready(function () {
             alert("Der er indtastet / ændret timer på dette job.\nTimeOut indlæser timer..")
             $("#timeregfm").submit();
         } else {
+
+
+
+            //alert("HER 3 er: thisid: " + thisid + " ;;" + document.getElementById("" + thisid + "").offsetTop)
+            //$("#sidediv").animate({ scrollTop: "0px" }, "slow");
+
+            //document.getElementById("" + thisid + "").scrollTop = 200;
+            //$("div_timereg_" + thisval).css("top", "200px");
+            //document.getElementById("div_timereg_" + thisval).scrollTop = 200;
+
+            //alert(thisid)
+
+            //var one = document.querySelector("#" + thisid);
+
+            //var rect = one.getBoundingClientRect();
+
+            //one.style.top = rect.top + "px";
+            //one.style.left = rect.left + "px";
+            //alert("User clicked at position (" + x + "," + rect.top + ")")
+
+
+            //document.documentElement.pageYOffset = 300;
+            $('html, body').scrollTo($('#div_timereg_' + thisval), { duration: 300, offset: -200 });
+            //$('#sidediv').scrollTo($('#div_timereg_' + thisval), { duration: 300, offset: -200 });
+
+            //$.scroll("#sp_a_timereg_" + thisval + "", 300, { offset: -100 }); //
+            //$.scroll($("#a_timereg_" + thisval + ""), 800);
+
+            //$.scrollTo('#sp_a_timereg_" + thisval + "', 800, { easing: 'elasout' });
+
+
             aktlist(thisval, 1);
+
+
+
         }
 
 
@@ -1559,7 +1816,7 @@ $(document).ready(function () {
 
     $("#bn_visallemedarb_blandetliste").click(function () {
         //alert("her")
-        aktlist(0,0);
+        aktlist(0, 0);
     });
 
     $("#visallemedarb_blandetliste").click(function () {
@@ -1569,7 +1826,7 @@ $(document).ready(function () {
 
 
     //$("#jobnr_blandetliste").keyup(function () {
-        //alert("her")
+    //alert("her")
     //    aktlist(0,0);
     //});
 
@@ -1584,9 +1841,12 @@ $(document).ready(function () {
             $("#sp_a_timereg_" + thisval).html('[+]')
         }
 
+
+
+
         //$(".afase").bind('click', function () {
 
-        $("#div_timereg_" + thisval).html("<table width=100%><tr><td style='padding:20px 20px 20px 20px;'>Henter aktiviteter 1-4 sek...<br /><span style='color:darkred; font-size:10px;'>Maks. 100 aktiviteter pr. job. (200 lto settings)</span></td></tr></table>")
+        $("#div_timereg_" + thisval).html("<table width=100%><tr><td style='padding:20px 20px 20px 20px;'>Henter aktiviteter 1-4 sek...<br /><span style='color:darkred; font-size:10px;'>Maks. 100 (200 lto) aktiviteter pr. job.</span></td></tr></table>")
 
         //alert("der")
         usemrn = $("#usemrn").val()
@@ -1679,7 +1939,7 @@ $(document).ready(function () {
 
         visallemedarb_bl = 0
 
-       
+
         if ($("#visallemedarb_blandetliste").is(':checked') == true) { //&& (sortByval == 7)
             visallemedarb_bl = 1
             $.cookie('c_visallemedarb_blandetliste', '1');
@@ -1690,18 +1950,18 @@ $(document).ready(function () {
 
         jobnr_bl = $("#jobnr_blandetliste").val()
         $.cookie('c_jobnr_blandetliste', jobnr_bl);
-        
+
         //alert(sortByval)
 
-         
 
-        $.post("?usemrn=" + usemrn + "&jobid=" + thisval + "&FM_easyreg=" + intEasyreg + "&FM_hr=" + intHR + "&ingTlaas=" + ingTlaas + "&ignakttype=" + ignakttype + "&job_aktids=" + job_aktids + "&lastFakDato=" + lastFakDato + "&job_akt_faser=" + job_akt_faser + "&job_iRowLoops=" + job_iRowLoops + "&stDato=" + stDato + "&slDato=" + slDato + "&FM_vistimereltid=" + vistimereltid + "&FM_ignJobogAktper=" + ignJobogAktper + "&FM_visSimpelAktLinje=" + visSimpelAktLinje + "&FM_jobstatus=" + lastJobstatus + "&sortByval=" + sortByval + "&visallemedarb_bl=" + visallemedarb_bl +"&jobnr_bl="+ jobnr_bl, { control: "FN_showakt", AjaxUpdateField: "true" }, function (data) {
+
+        $.post("?usemrn=" + usemrn + "&jobid=" + thisval + "&FM_easyreg=" + intEasyreg + "&FM_hr=" + intHR + "&ingTlaas=" + ingTlaas + "&ignakttype=" + ignakttype + "&job_aktids=" + job_aktids + "&lastFakDato=" + lastFakDato + "&job_akt_faser=" + job_akt_faser + "&job_iRowLoops=" + job_iRowLoops + "&stDato=" + stDato + "&slDato=" + slDato + "&FM_vistimereltid=" + vistimereltid + "&FM_ignJobogAktper=" + ignJobogAktper + "&FM_visSimpelAktLinje=" + visSimpelAktLinje + "&FM_jobstatus=" + lastJobstatus + "&sortByval=" + sortByval + "&visallemedarb_bl=" + visallemedarb_bl + "&jobnr_bl=" + jobnr_bl, { control: "FN_showakt", AjaxUpdateField: "true" }, function (data) {
             //$("#fajl").val(data);
 
 
 
 
-            
+
             if ($("#FM_easyreg").is(':checked') == true || sortByval == 5 || $("#sortByval").val() == 6) { // Easyreg eller blandet liste
                 $("#div_timereg_0").html(data);
 
@@ -1740,7 +2000,7 @@ $(document).ready(function () {
                 var antalAkt = $('#jq_antalakt_' + thisval).val()
                 //var antalAkt = $('#FM_akt_' + thisval).val()
                 //alert(antalAkt + "thisval " + thisval)
-               
+
 
                 if ($("#FM_visSimpelAktLinje").is(':checked') == true) {
                     rwhgt = 30
@@ -1767,7 +2027,7 @@ $(document).ready(function () {
 
 
 
-           
+
 
             $(".dagecls").bind('keyup', function () {
 
@@ -1784,9 +2044,9 @@ $(document).ready(function () {
                     var c = String.fromCharCode(event.keyCode); //event.keyCode
                     var isWordcharacter = c.match(/\w/);
                 }
-                
 
-                  if (isWordcharacter != null) {
+
+                if (isWordcharacter != null) {
 
                     //alert(isWordcharacter)
 
@@ -1820,7 +2080,7 @@ $(document).ready(function () {
 
                 //beregnTimer(x);
 
-             
+
 
             });
 
@@ -1842,12 +2102,12 @@ $(document).ready(function () {
             //$('.timerflt').unbind('keyup').bind('keyup', function () {
 
             //    var thisid = this.id
-               
-                //tjektimer(thisid);
-               
+
+            //tjektimer(thisid);
+
             //});
 
-            
+
 
 
             $('#clskom').bind('mouseover', function () {
@@ -1874,7 +2134,7 @@ $(document).ready(function () {
 
             $(".fasesog").bind('keyup', function () {
 
-                
+
 
                 var thisid = this.id
                 var thisvallngt = thisid.length
@@ -1975,7 +2235,7 @@ $(document).ready(function () {
                 var dagtype = thisid.slice(idlngt - 1, idlngt);
                 //var dagtype = 1;
                 //alert(nummer + "_" + dagtype)
-              
+
                 expandkomm(nummer, dagtype, divid);
 
             });
@@ -1989,14 +2249,14 @@ $(document).ready(function () {
 
             $(".dcls_1").unbind('keyup').bind('keyup', function () {
 
-                
+
                 alertDiv(this.id)
                 //dagstotal(1)
                 tjektimer(this.id)
                 //alert("her")
                 beregnDage(this.id)
 
-               
+
 
             });
 
@@ -2015,7 +2275,7 @@ $(document).ready(function () {
                 alertDiv(this.id)
                 //dagstotal(3)
                 tjektimer(this.id)
-               
+
                 beregnDage(this.id)
             });
 
@@ -2061,8 +2321,8 @@ $(document).ready(function () {
 
             $(".dagecls, .dcls_1, .dcls_2, .dcls_3, .dcls_4, .dcls_5, .dcls_6, .dcls_7").bind('focus', function () {
 
-               
-                
+
+
                 var thisid = this.id
                 var idlngt = thisid.length;
                 var thisidslice = thisid.slice(9, idlngt);
@@ -2071,20 +2331,20 @@ $(document).ready(function () {
 
                 var akttype = $("#FM_akttp_" + thisval).val()
 
-              
+
                 jq_lto = $("#jq_lto").val()
-               
-            
-            
+
+
+
 
                 //Viser KM dialog + fylder Kontaadresser i selectbokse
 
                 if (akttype == 5) {
 
-                    
+
                     GetFiliogKpers(thisval);
 
-                } 
+                }
 
 
             });
@@ -2109,42 +2369,29 @@ $(document).ready(function () {
 
 
 
-           
 
 
-                    //alert(jq_lto)
 
-                    doFrokostopd = $("#jq_frokostalert").val()
+                //alert(jq_lto)
+
+                doFrokostopd = $("#jq_frokostalert").val()
 
 
-                   
 
-                    
-                    if (jq_lto == "kejd_pb" || jq_lto == "fk" || jq_lto == "intranet - local") {
 
-                        if (akttype == 7 || akttype == 8 || akttype == 20 || akttype == 21 || akttype == 24 || akttype == 25 || akttype == 31 || akttype == 115) {
 
-                            var str = thisval
-                            var dagnr = str.substring(str.length - 1, str.length);
+                if (jq_lto == "kejd_pb" || jq_lto == "fk" || jq_lto == "intranet - local") {
 
-                            // Spørg ALTID på disse typer 
-                            if (doFrokostopd == 0) {
-                                var r = confirm("Du er ved at indtaste fravær. \nSkal frokost nulstilles på denne dag?")
-                          
-                                if (r == true) {
-                                    for (rw = 0; rw < 300; rw++) {
+                    if (akttype == 7 || akttype == 8 || akttype == 20 || akttype == 21 || akttype == 24 || akttype == 25 || akttype == 31 || akttype == 115) {
 
-                                        akttype = $("#FM_akttp_" + rw + "_" + dagnr).val()
-                                        if (akttype == '10') {
-                                            $("#FM_timer_" + rw + "_" + dagnr).val(0)
-                                        }
-                                    }
-                                }
+                        var str = thisval
+                        var dagnr = str.substring(str.length - 1, str.length);
 
-                            
+                        // Spørg ALTID på disse typer 
+                        if (doFrokostopd == 0) {
+                            var r = confirm("Du er ved at indtaste fravær. \nSkal frokost nulstilles på denne dag?")
 
-                            } else { //Dofrokost 
-
+                            if (r == true) {
                                 for (rw = 0; rw < 300; rw++) {
 
                                     akttype = $("#FM_akttp_" + rw + "_" + dagnr).val()
@@ -2152,23 +2399,11 @@ $(document).ready(function () {
                                         $("#FM_timer_" + rw + "_" + dagnr).val(0)
                                     }
                                 }
-
-                           
-                            }  
-
-                        } // akttype
-
-
-                        // Altid frokost = 0 på ferie, ferie fri og barselsdage og omsorgsdage da de er defineret ved en hel dag.
-                        if (akttype == 11 || akttype == 13 || akttype == 14 || akttype == 22 || akttype == 23 || akttype == 125) {
-
-                            var str = thisval
-                            var dagnr = str.substring(str.length - 1, str.length);
-
-                            if (doFrokostopd == 0) {
-                                alert("Du er ved at indtaste Ferie, Rejsedage eller Barsel. \nFrokost nulstilles altid på dage med fravær af denne type.")
                             }
 
+
+
+                        } else { //Dofrokost 
 
                             for (rw = 0; rw < 300; rw++) {
 
@@ -2179,22 +2414,47 @@ $(document).ready(function () {
                             }
 
 
-                        } // akttype
+                        }
+
+                    } // akttype
 
 
-                    } // Lto
+                    // Altid frokost = 0 på ferie, ferie fri og barselsdage og omsorgsdage da de er defineret ved en hel dag.
+                    if (akttype == 11 || akttype == 13 || akttype == 14 || akttype == 22 || akttype == 23 || akttype == 125) {
 
-                   
+                        var str = thisval
+                        var dagnr = str.substring(str.length - 1, str.length);
+
+                        if (doFrokostopd == 0) {
+                            alert("Du er ved at indtaste Ferie, Rejsedage eller Barsel. \nFrokost nulstilles altid på dage med fravær af denne type.")
+                        }
+
+
+                        for (rw = 0; rw < 300; rw++) {
+
+                            akttype = $("#FM_akttp_" + rw + "_" + dagnr).val()
+                            if (akttype == '10') {
+                                $("#FM_timer_" + rw + "_" + dagnr).val(0)
+                            }
+                        }
+
+
+                    } // akttype
+
+
+                } // Lto
+
+
 
                 // Skal kun vise ved første tast, ikke 3 gang ved f.eks 1,5
-                    $("#jq_frokostalert").val(1)
+                $("#jq_frokostalert").val(1)
 
 
 
             });
 
 
-            
+
 
 
 
@@ -2211,7 +2471,7 @@ $(document).ready(function () {
 
             });
 
-            
+
             return true;
 
         });
@@ -2227,7 +2487,7 @@ $(document).ready(function () {
             var thisidslice = thisid.slice(9, idlngt);
             thisval = thisidslice
 
-            
+
             var akttype = $("#FM_akttp_" + thisval).val()
 
             if (akttype >= 11 && akttype <= 23 || akttype == 91 || akttype == 111 || akttype == 112 || akttype == 115 || akttype >= 50 && akttype <= 52 || akttype == 8 || akttype >= 120 && akttype <= 122) {
@@ -2244,7 +2504,7 @@ $(document).ready(function () {
                     nyTimerDag = 0
                 }
 
-               
+
 
                 //alert(nyTimerDag)
                 //nyTimerDag = "2,5"
@@ -2252,7 +2512,7 @@ $(document).ready(function () {
 
 
             } // akttype
-                
+
 
 
         } // function
@@ -2600,39 +2860,39 @@ $(document).ready(function () {
 
 
         sogVal = $("#fs_" + idval).val().toLowerCase()
-        
-            $(".an_" + idval).each(function () {
-                str = $(this).val();
 
-                var thisid = this.id
-                var thisvallngt = thisid.length
-                var thisvaltrim = thisid.slice(3, thisvallngt)
-                var thisJobAid = thisvaltrim
-                //alert(thisJobAid)
+        $(".an_" + idval).each(function () {
+            str = $(this).val();
 
-                //alert(str.indexOf(sogVal))
+            var thisid = this.id
+            var thisvallngt = thisid.length
+            var thisvaltrim = thisid.slice(3, thisvallngt)
+            var thisJobAid = thisvaltrim
+            //alert(thisJobAid)
 
-                if (str.toLowerCase().indexOf(sogVal) >= 0 && sogVal.length > 0) {
+            //alert(str.indexOf(sogVal))
 
-                    $("#" + thisJobAid + "").css("display", "");
-                    $("#" + thisJobAid + "").css("visibility", "visible");
+            if (str.toLowerCase().indexOf(sogVal) >= 0 && sogVal.length > 0) {
 
-                   
-                    
-                
-
-                } else {
+                $("#" + thisJobAid + "").css("display", "");
+                $("#" + thisJobAid + "").css("visibility", "visible");
 
 
-                    $("#" + thisJobAid + "").css("display", "none");
-                    $("#" + thisJobAid + "").css("visibility", "hidden");
-                   
-                  
 
-                }
-            });
 
-       
+
+            } else {
+
+
+                $("#" + thisJobAid + "").css("display", "none");
+                $("#" + thisJobAid + "").css("visibility", "hidden");
+
+
+
+            }
+        });
+
+
 
     };
 
@@ -2642,50 +2902,50 @@ $(document).ready(function () {
 
     function showhidefase(idval) {
 
-      
+
 
         //fasesoeg_"&jobid&"_"&lcase(job_fase)
         //vzb = $(".td_" + idval + "").css("visibility")
         vzb = $("#faseshow_" + idval + "").val()
         thisJobid = $("#fasejobid_" + idval + "").val()
-        
-    
+
+
         //alert(thisJobid)
-            if (vzb == "hidden") {
-                $(".td_" + idval + "").css("display", "");
-                $(".td_" + idval + "").css("visibility", "visible");
+        if (vzb == "hidden") {
+            $(".td_" + idval + "").css("display", "");
+            $(".td_" + idval + "").css("visibility", "visible");
 
-                $(".td_" + idval + "").show(300)
-                // $("#faseshow_" + idval + "").css("visibility", "visible");
+            $(".td_" + idval + "").show(300)
+            // $("#faseshow_" + idval + "").css("visibility", "visible");
 
-                $("#faseshow_" + idval + "").val("visible")
+            $("#faseshow_" + idval + "").val("visible")
 
-                //document.getElementById("faseshow_" + idval + "").value =
-                oldHgt = $("#div_timereg_" + thisJobid).height() //css("height", dvheigt);
-                oldHgt = $("#div_timereg_" + thisJobid).css("height", oldHgt + 200);
-               
-                $.scrollTo("#faseshow_" + idval + "", 300, { offset: -20 });
+            //document.getElementById("faseshow_" + idval + "").value =
+            oldHgt = $("#div_timereg_" + thisJobid).height() //css("height", dvheigt);
+            oldHgt = $("#div_timereg_" + thisJobid).css("height", oldHgt + 200);
 
-            } else {
-                $(".td_" + idval + "").css("display", "none");
-                $(".td_" + idval + "").css("visibility", "hidden");
+            $.scrollTo("#faseshow_" + idval + "", 300, { offset: -20 });
 
-                $(".td_" + idval + "").hide(300)
-                //$("#faseshow_" + idval + "").css("visibility", "hidden");
+        } else {
+            $(".td_" + idval + "").css("display", "none");
+            $(".td_" + idval + "").css("visibility", "hidden");
 
-                //document.getElementById("faseshow_" + idval + "").value = "hidden"
+            $(".td_" + idval + "").hide(300)
+            //$("#faseshow_" + idval + "").css("visibility", "hidden");
 
-                $("#faseshow_" + idval + "").val("hidden")
+            //document.getElementById("faseshow_" + idval + "").value = "hidden"
 
-                oldHgt = $("#div_timereg_" + thisJobid).height() //css("height", dvheigt);
-                oldHgt = $("#div_timereg_" + thisJobid).css("height", oldHgt - 200);
+            $("#faseshow_" + idval + "").val("hidden")
 
-                $.scrollTo("#faseshow_" + idval + "", 300, { offset: -20 }); //
-                //$.scrollTo(this, 800, { offset: 200 });
-                //$.scrollTo('400px', 800);
-            }
+            oldHgt = $("#div_timereg_" + thisJobid).height() //css("height", dvheigt);
+            oldHgt = $("#div_timereg_" + thisJobid).css("height", oldHgt - 200);
 
-           
+            $.scrollTo("#faseshow_" + idval + "", 300, { offset: -20 }); //
+            //$.scrollTo(this, 800, { offset: 200 });
+            //$.scrollTo('400px', 800);
+        }
+
+
 
     }
 
@@ -2713,7 +2973,7 @@ $(document).ready(function () {
             //var left = pos.left
             var top = pos.top
         }
-        
+
 
         $("#kom").css("top", top + 100);
         $("#kom").css("left", 25);
@@ -2721,7 +2981,7 @@ $(document).ready(function () {
 
         $.scrollTo('#kom', 200, { offset: -100 });
 
-      
+
 
         thisval = $("#FM_kom_" + nummer + "" + dagtype + "").val();
 
@@ -2750,15 +3010,15 @@ $(document).ready(function () {
 
 
         thisstring = thisval.length;
-      
+
         $("#antch").val(thisstring);
 
 
         //alert(nummer + "" + dagtype)
         //FM_aktivitetid
         //alert($("#FM_jobid_" + nummer).val())
-        
-        
+
+
 
         $("#matreg_regdato_0").val($("#FM_mat_dato_" + nummer + "_" + dagtype + "").val())
         $("#matreg_jobid").val($("#FM_jobid_" + nummer).val())
@@ -2767,10 +3027,10 @@ $(document).ready(function () {
 
     }
 
-    
 
 
-   
+
+
 
 
 
@@ -2848,7 +3108,7 @@ $(document).ready(function () {
 
 
 
-   
+
 
     $("#ko0chk").focus(function () {
         $.scrollTo('450px', 1000);
@@ -2869,7 +3129,7 @@ $(document).ready(function () {
 
     // Kpers og filialer til Kørsel //
     //$("#FM_sog_kpers_but").click(function () {
-        //GetFiliogKpers(1);
+    //GetFiliogKpers(1);
     //});
 
     //$("#FM_sog_kpers_dist_all").click(function() {
@@ -2878,20 +3138,20 @@ $(document).ready(function () {
     //});
 
 
-    $("#indlaes_koadr_2").click(function() {
+    $("#indlaes_koadr_2").click(function () {
         //alert("her")
         koadr_2013g();
-        
+
     });
 
 
-    
+
 
     function koadr_2013g() {
         //alert("her")
         //xval = xval/1
 
-       
+
 
         var xrow = $("#koFlt").val();
         var dagn = $("#koFltx").val();
@@ -2906,42 +3166,42 @@ $(document).ready(function () {
 
         //alert(flt)
 
-                varTurTypeTxtFra = document.getElementById("ko0")
-                varTurTypeTxtFra = varTurTypeTxtFra.options[varTurTypeTxtFra.selectedIndex].text.replace("..........", "")
+        varTurTypeTxtFra = document.getElementById("ko0")
+        varTurTypeTxtFra = varTurTypeTxtFra.options[varTurTypeTxtFra.selectedIndex].text.replace("..........", "")
 
 
-                varTurTypeTxtTil = document.getElementById("ko1")
-                varTurTypeTxtTil = varTurTypeTxtTil.options[varTurTypeTxtTil.selectedIndex].text.replace("..........", "")
+        varTurTypeTxtTil = document.getElementById("ko1")
+        varTurTypeTxtTil = varTurTypeTxtTil.options[varTurTypeTxtTil.selectedIndex].text.replace("..........", "")
 
-             
-                
-                var kotxt = "Fra:\n" + varTurTypeTxtFra + "\n\nTil:\n" + varTurTypeTxtTil
 
-                //alert("#FM_kom_" + flt + "")
-                $("#FM_kom_" + flt + "").val(kotxt)
-                $("#FM_kommentar").val(kotxt)
-                
-               
+
+        var kotxt = "Fra:\n" + varTurTypeTxtFra + "\n\nTil:\n" + varTurTypeTxtTil
+
+        //alert("#FM_kom_" + flt + "")
+        $("#FM_kom_" + flt + "").val(kotxt)
+        $("#FM_kommentar").val(kotxt)
+
+
 
         //.replace("#br#", vbCrLf)
         //.replace("<BR>"," vbcrlf ")
 
         $("#korseldiv").hide('fast')
-        
+
         // Call Lei GoogleMap function
 
-        
+
 
         Lei.Indlaes(kotxt, flt);
-        
+
 
 
         // 
 
-       
+
     }
 
-  
+
 
 
     var Lei = {
@@ -2955,7 +3215,7 @@ $(document).ready(function () {
 
 
     }
-   
+
 
 
     // Kørsel Henter kunder (desitnationer)
@@ -2963,16 +3223,16 @@ $(document).ready(function () {
 
         //alert(id)
 
-        x = $("#FM_timer_"+id).offset();
-        
+        x = $("#FM_timer_" + id).offset();
 
-     var thisid = id
-     var thisvallngt = thisid.length
 
-     var dagn = thisid.slice(thisvallngt-1, thisvallngt)
-     var xrow = thisid.slice(0, thisvallngt-2)
+        var thisid = id
+        var thisvallngt = thisid.length
 
-        
+        var dagn = thisid.slice(thisvallngt - 1, thisvallngt)
+        var xrow = thisid.slice(0, thisvallngt - 2)
+
+
         // var strSQLKundKri;
         //var thisC = $("#FM_sog_kpers_dist").val();
         //var visalle = 0;
@@ -2998,7 +3258,7 @@ $(document).ready(function () {
         //alert("her")
 
         koKmDialog = document.getElementById("koKmDialog").value
-  
+
         if (koKmDialog == 1) {
 
             //$("#BtnCustDescUpdate").data("cust", thisC.val());
@@ -3022,9 +3282,9 @@ $(document).ready(function () {
                 $("#koFlt").val(xrow);
                 $("#koFltx").val(dagn);
                 //document.getElementById("koFltx").value = (document.getElementById("kperfil_fundet").value / 1) * 1
-                
 
-               
+
+
             });
         }
 
@@ -3044,13 +3304,13 @@ $(document).ready(function () {
 
 
 
- 
+
 
 
     /// Easyreg funktioner //
     $(".ea_kom").click(function () {
 
-       
+
 
         var thisid = this.id;
 
@@ -3356,7 +3616,7 @@ $(document).ready(function () {
 
 
 
-    
+
 
     function tjekkm(dagtype, nummer) {
 
@@ -3640,7 +3900,7 @@ $(document).ready(function () {
 
 
 
-   
+
 
 
 
@@ -3787,7 +4047,7 @@ $(document).ready(function () {
             for (i = 0; i < 5; i++) { //50
 
                 jobid = $("#FM_jobid_" + i).val()
-              
+
                 antalaktlinier = $("#job_antalaktids_" + jobid).val()
 
                 //alert("jobid:" + jobid + "antalaktlinier:" + antalaktlinier)
@@ -3825,7 +4085,7 @@ function showKMdailog(val, flt, chk, rk, kid) {
 
 
     koKmDialog = document.getElementById("koKmDialog").value
-  
+
     if (koKmDialog == 1) {
 
         if (komLength == 0) {
@@ -3871,15 +4131,15 @@ function showKMdailog(val, flt, chk, rk, kid) {
 
 
 function xkoadr() {
-   //alert("her")
-   //xval = xval/1
+    //alert("her")
+    //xval = xval/1
 
-   xval = document.getElementById("koFlt").value;
-   flt = document.getElementById("koFltx").value;
+    xval = document.getElementById("koFlt").value;
+    flt = document.getElementById("koFltx").value;
 
-   flt = xval+"_"+xval
+    flt = xval + "_" + xval
 
-   //alert(flt)
+    //alert(flt)
 
     //alert(xval + " "+ flt)
     var kotxt = "";
@@ -3889,55 +4149,55 @@ function xkoadr() {
     document.getElementById("FM_bopal_" + flt).value = 0
     //nulstiller destination ///
     document.getElementById("FM_destination_" + flt).value = ""
-    
+
     for (i = 0; i <= xval; i++) {
         //alert("i:" + i + " "+ document.getElementById("ko" + i + "chk").checked)
         if (document.getElementById("ko" + i + "chk").checked == true) {
-            
+
             //Bopæls tur //
             if (i == 0) {
-            document.getElementById("FM_bopal_" + flt).value = 1
+                document.getElementById("FM_bopal_" + flt).value = 1
             }
 
             //if (i > 0) {
-                varTurTypeTxt = document.getElementById("ko" + i + "sel")
-                varTurTypeTxt = varTurTypeTxt.options[varTurTypeTxt.selectedIndex].text
-                if (i > 0) {
-                    kotxt = kotxt + "\n\n" + varTurTypeTxt + ":\n" + document.getElementById("ko" + i + "").innerText
-                } else {
-                    kotxt = kotxt + varTurTypeTxt + ":\n" + document.getElementById("ko" + i + "").innerText
-                }
-                
-                
-                // Destination //
-                if (i > 0) {
+            varTurTypeTxt = document.getElementById("ko" + i + "sel")
+            varTurTypeTxt = varTurTypeTxt.options[varTurTypeTxt.selectedIndex].text
+            if (i > 0) {
+                kotxt = kotxt + "\n\n" + varTurTypeTxt + ":\n" + document.getElementById("ko" + i + "").innerText
+            } else {
+                kotxt = kotxt + varTurTypeTxt + ":\n" + document.getElementById("ko" + i + "").innerText
+            }
 
-                    //alert("her" + document.getElementById("ko" + i + "sel").value)
-                    if (document.getElementById("ko" + i + "sel").value == "2") {
-                        document.getElementById("FM_destination_" + flt).value = document.getElementById("ko" + i + "kid").value
-                    }
+
+            // Destination //
+            if (i > 0) {
+
+                //alert("her" + document.getElementById("ko" + i + "sel").value)
+                if (document.getElementById("ko" + i + "sel").value == "2") {
+                    document.getElementById("FM_destination_" + flt).value = document.getElementById("ko" + i + "kid").value
                 }
-                
-                
-            
+            }
+
+
+
             //} else {
             //    kotxt = kotxt + document.getElementById("ko" + i + "").innerText
             //}
-		
-		}
-	}
 
-	document.getElementById("FM_kom_" + flt + "").value = kotxt
-	//.replace("#br#", vbCrLf)
+        }
+    }
+
+    document.getElementById("FM_kom_" + flt + "").value = kotxt
+    //.replace("#br#", vbCrLf)
     //.replace("<BR>"," vbcrlf ")
 
-	document.getElementById("korseldiv").style.visibility = "hidden"
-	document.getElementById("korseldiv").style.display = "none"
+    document.getElementById("korseldiv").style.visibility = "hidden"
+    document.getElementById("korseldiv").style.display = "none"
 
     // Call Lei GoogleMap function
 
 
-	Lei.Indlaes(kotxt, flt);
+    Lei.Indlaes(kotxt, flt);
 
 
 
@@ -3954,14 +4214,15 @@ var xLei = {
         window.open("CalculateDistance.aspx?comments=" + kom + "&flt=" + flt, "_blank", "width=500,height=200,fullscreen=no", "true");
     }
 
-   
+
 }
 
 function SetValueInParent() {
 
-    
+
+
     var flt = window.location.search;
-    
+
     var index = flt.indexOf("&");
     if (index != -1)
         flt = flt.substr(index + 5);
@@ -3970,7 +4231,7 @@ function SetValueInParent() {
     var fmTimer = window.opener.document.getElementById("FM_timer_" + flt);
     if (fmTimer !== null)
         fmTimer.value = document.getElementById("lblKM").innerHTML.replace("km", "").replace(" ", "");
-        
+
     if (fmTimer.value.indexOf("m") > -1) {
         var vm = fmTimer.value.replace("m", "");
         fmTimer.value = vm / 1000;
@@ -3985,20 +4246,20 @@ function SetValueInParent() {
 
 function showmultiDiv() {
 
-    if (document.getElementById("multivmed").style.visibility == "hidden")  {
-	document.getElementById("multivmed").style.visibility = "visible"
-	document.getElementById("multivmed").style.display = ""
-	$("#tildelalle").val(1)
+    if (document.getElementById("multivmed").style.visibility == "hidden") {
+        document.getElementById("multivmed").style.visibility = "visible"
+        document.getElementById("multivmed").style.display = ""
+        $("#tildelalle").val(1)
 
-	alert("Vær opmærksom på, at:\n\nAlle felter med timer i, bliver tildelt til alle de valgte medarbejdere.\n\nDage indtastet på ferie, fravær mm. vil blive beregnet forskelligt hvis de valgte medarbejdere ikke har samme nomrtid.");
+        alert("Vær opmærksom på, at:\n\nAlle felter med timer i, bliver tildelt til alle de valgte medarbejdere.\n\nDage indtastet på ferie, fravær mm. vil blive beregnet forskelligt hvis de valgte medarbejdere ikke har samme nomrtid.");
 
         //$.scrollTo('350px', 1000);
 
-	} else {
-	document.getElementById("multivmed").style.visibility = "hidden"
-	document.getElementById("multivmed").style.display = "none"
-	document.getElementById("tildelalle").checked = false
-	$("#tildelalle").val(0)
+    } else {
+        document.getElementById("multivmed").style.visibility = "hidden"
+        document.getElementById("multivmed").style.display = "none"
+        document.getElementById("tildelalle").checked = false
+        $("#tildelalle").val(0)
     }
 
 
@@ -4006,607 +4267,605 @@ function showmultiDiv() {
 
 
 
-		
-function visstempelur()
-{
-document.getElementById("stempelur").style.visibility = "visible"
-document.getElementById("stempelur").style.display = ""
-}		
-		
-function lukstempelur(){
-document.getElementById("stempelur").style.visibility = "hidden"
-document.getElementById("stempelur").style.display = "none"
-}		
 
-function lukaftalealert(){
-document.getElementById("aftalealert").style.visibility = "hidden"
-document.getElementById("aftalealert").style.display = "none"
-document.getElementById("jobinfo").style.visibility = "visible"
-document.getElementById("jobinfo").style.display = ""
-}				
+function visstempelur() {
+    document.getElementById("stempelur").style.visibility = "visible"
+    document.getElementById("stempelur").style.display = ""
+}
 
-function lukalert(){
-document.getElementById("alert").style.visibility = "hidden"
-document.getElementById("alert").style.display = "none"
-}	
+function lukstempelur() {
+    document.getElementById("stempelur").style.visibility = "hidden"
+    document.getElementById("stempelur").style.display = "none"
+}
 
-function checkAll(field)
-	{
-	for (i = 0; i < field.length; i++)
-		field[i].checked = true ;
-	}
-	
-	function uncheckAll(field)
-	{
-	for (i = 0; i < field.length; i++)
-		field[i].checked = false ;
-	}
+function lukaftalealert() {
+    document.getElementById("aftalealert").style.visibility = "hidden"
+    document.getElementById("aftalealert").style.display = "none"
+    document.getElementById("jobinfo").style.visibility = "visible"
+    document.getElementById("jobinfo").style.display = ""
+}
+
+function lukalert() {
+    document.getElementById("alert").style.visibility = "hidden"
+    document.getElementById("alert").style.display = "none"
+}
+
+function checkAll(field) {
+    for (i = 0; i < field.length; i++)
+        field[i].checked = true;
+}
+
+function uncheckAll(field) {
+    for (i = 0; i < field.length; i++)
+        field[i].checked = false;
+}
 
 
 
 
 
 function setTimerTot(nummer, dagtype, job, aktivitet) {
-	
-	//piletaster
-	if (window.event.keyCode == 37){ 
-	} else {
-		if (window.event.keyCode == 39){
-		//alert(window.event.keyCode)
-		} else {
-		
-	
-		var varValue = 0;
-		var varValue_total = 0;
-		
-		document.getElementById("FM_"+ dagtype +"_opr_" + nummer + "").value = document.getElementById("FM_"+ dagtype +"_opr_" + nummer + "").value.replace(",",".")
-		oprVerdi = (document.getElementById("FM_"+ dagtype +"_opr_" + nummer + "").value / 1);
-		
-		document.getElementById("Timer_"+ dagtype +"_" + nummer + "").value = document.getElementById("Timer_"+ dagtype +"_" + nummer + "").value.replace(",",".")
-		varValue = (document.getElementById("Timer_"+ dagtype +"_" + nummer + "").value / 1);
-		document.getElementById("Timer_"+ dagtype +"_" + nummer + "").value = document.getElementById("Timer_"+ dagtype +"_" + nummer + "").value.replace(".",",")
-		
-		document.getElementById("FM_"+ dagtype +"_total").value = document.getElementById("FM_"+ dagtype +"_total").value.replace(",",".")
-		varValue_total = (document.getElementById("FM_"+ dagtype +"_total").value / 1); 
-	 	
-		//if (varValue > 24) {
-		//alert("En time-indtastning må ikke overstige 24 timer. \n Der er angivet: " + varValue + " timer.")
-		//document.getElementById("Timer_"+ dagtype +"_" + nummer + "").value = document.getElementById("FM_"+ dagtype +"_opr_" + nummer + "").value.replace(".",",") //oprVerdi;
-		//document.getElementById("FM_"+ dagtype +"_total").value = document.getElementById("FM_"+ dagtype +"_total").value.replace(".",",")
-		//}
-		//else {
-			varTillaeg = (varValue - oprVerdi);
-			varTotal_dag_beg = (varValue_total + varTillaeg);
-				
-			//if (varTotal_dag_beg > 24) {
-			//alert("Et døgn indeholder kun 24 timer!!")
-			//document.getElementById("Timer_"+ dagtype +"_" + nummer + "").value = parseFloat(oprVerdi);
-			//}
-			
-			//if (varTotal_dag_beg <= 24){
-			document.getElementById("FM_"+ dagtype +"_total").value = parseFloat(varTotal_dag_beg);
-			document.getElementById("FM_"+ dagtype +"_opr_" + nummer + "").value = parseFloat(varValue);
-			sonValue = document.getElementById("FM_son_total").value.replace(",",".")/1;
-			manValue = document.getElementById("FM_man_total").value.replace(",",".")/1;
-			tirValue = document.getElementById("FM_tir_total").value.replace(",",".")/1;
-			onsValue = document.getElementById("FM_ons_total").value.replace(",",".")/1;
-			torValue = document.getElementById("FM_tor_total").value.replace(",",".")/1;
-			freValue = document.getElementById("FM_fre_total").value.replace(",",".")/1;
-			lorValue = document.getElementById("FM_lor_total").value.replace(",",".")/1;
-			document.getElementById("FM_week_total").value = parseFloat(sonValue + manValue + tirValue + onsValue + torValue + freValue + lorValue) 
-			document.getElementById("FM_week_total").value = document.getElementById("FM_week_total").value.replace(".",",")
-			document.getElementById("FM_"+ dagtype +"_total").value = document.getElementById("FM_"+ dagtype +"_total").value.replace(".",",")
-			//}
-		//}
-	}} // piletaster
-} 
+
+    //piletaster
+    if (window.event.keyCode == 37) {
+    } else {
+        if (window.event.keyCode == 39) {
+            //alert(window.event.keyCode)
+        } else {
 
 
+            var varValue = 0;
+            var varValue_total = 0;
 
-	
+            document.getElementById("FM_" + dagtype + "_opr_" + nummer + "").value = document.getElementById("FM_" + dagtype + "_opr_" + nummer + "").value.replace(",", ".")
+            oprVerdi = (document.getElementById("FM_" + dagtype + "_opr_" + nummer + "").value / 1);
 
+            document.getElementById("Timer_" + dagtype + "_" + nummer + "").value = document.getElementById("Timer_" + dagtype + "_" + nummer + "").value.replace(",", ".")
+            varValue = (document.getElementById("Timer_" + dagtype + "_" + nummer + "").value / 1);
+            document.getElementById("Timer_" + dagtype + "_" + nummer + "").value = document.getElementById("Timer_" + dagtype + "_" + nummer + "").value.replace(".", ",")
 
-	
-	
-	//Aktiviteter expand
- 	if (document.images){
-		plus = new Image(200, 200);
-		plus.src = "ill/plus.gif";
-		minus = new Image(200, 200);
-		minus.src = "ill/minus2.gif";
-		}
+            document.getElementById("FM_" + dagtype + "_total").value = document.getElementById("FM_" + dagtype + "_total").value.replace(",", ".")
+            varValue_total = (document.getElementById("FM_" + dagtype + "_total").value / 1);
 
-		function expand(de){
-		//alert(navigator.appVersion.indexOf("MSIE"))
-		    if (navigator.appVersion.indexOf("MSIE")==-1){
-			//alert("hej")
-				//if (document.getElementById("Menu" + de)){
-				if (document.getElementById("Menu" + de).style.display == "none"){
-					document.getElementById("Menu" + de).style.display = "";
-					document.images["Menub" + de].src = minus.src;
-				}else{
-					document.getElementById("Menu" + de).style.display = "none";
-					document.images["Menub" + de].src = plus.src;
-				} // else
-			}else{
-				//alert("pc")
-				if (document.all("Menu" + de)){
-				if (document.all("Menu" + de).style.display == "none"){
-					document.all("Menu" + de).style.display = "";
-					document.images["Menub" + de].src = minus.src;
-				}else{
-					document.all("Menu" + de).style.display = "none";
-					document.images["Menub" + de].src = plus.src;
-				} //else
-			} //else
-		} //function
-	} //images
-	
-	
-	
-	
-	function antalchar(){
-	//if (navigator.appVersion.indexOf("MSIE")==-1){
-		thisstring = document.getElementById("FM_kom").value.length
-		if (thisstring > 255){
-			alert("Der er ikke tilladt mere end 255 karakterer i en kommentar! \n Du har brugt: "+ thisstring +"")
-		}else{
-			document.getElementById("antch").value = thisstring;
-		}
-	}
-	
+            //if (varValue > 24) {
+            //alert("En time-indtastning må ikke overstige 24 timer. \n Der er angivet: " + varValue + " timer.")
+            //document.getElementById("Timer_"+ dagtype +"_" + nummer + "").value = document.getElementById("FM_"+ dagtype +"_opr_" + nummer + "").value.replace(".",",") //oprVerdi;
+            //document.getElementById("FM_"+ dagtype +"_total").value = document.getElementById("FM_"+ dagtype +"_total").value.replace(".",",")
+            //}
+            //else {
+            varTillaeg = (varValue - oprVerdi);
+            varTotal_dag_beg = (varValue_total + varTillaeg);
 
- function antalakt(jid){
- newval = document.all["FM_akt_" + jid].value;
- document.all["FM_antal_akt_" + jid].value = newval;
- }
+            //if (varTotal_dag_beg > 24) {
+            //alert("Et døgn indeholder kun 24 timer!!")
+            //document.getElementById("Timer_"+ dagtype +"_" + nummer + "").value = parseFloat(oprVerdi);
+            //}
 
- function closetomanyjob() {
- document.all["tomanyjob"].style.visibility = "hidden";
- }
- 
-  ///  ressource timer tildelt ///////
- 	function showrestimer(){
-	document.getElementById("ressourcetimer").style.display = "";
-	document.getElementById("ressourcetimer").style.visibility = "visible";
-	}
-	
-	function hiderestimer(){
-	document.getElementById("ressourcetimer").style.display = "none";
-	document.getElementById("ressourcetimer").style.visibility = "hidden";
-	}
-	
- ///  viser indtastede timer på den enkelte dag ///////
- 	function showtimedetail(thisnameid){
-	document.getElementById("ressourcetimer").style.display = "none";
-	document.getElementById("ressourcetimer").style.visibility = "hidden";
-	
-	document.getElementById("timedetailson").style.display = "none";
-	document.getElementById("timedetailson").style.visibility = "hidden";
-	
-	document.getElementById("timedetailman").style.display = "none";
-	document.getElementById("timedetailman").style.visibility = "hidden";
-	
-	document.getElementById("timedetailtir").style.display = "none";
-	document.getElementById("timedetailtir").style.visibility = "hidden";
-	
-	document.getElementById("timedetailons").style.display = "none";
-	document.getElementById("timedetailons").style.visibility = "hidden";
-	
-	document.getElementById("timedetailtor").style.display = "none";
-	document.getElementById("timedetailtor").style.visibility = "hidden";
-	
-	document.getElementById("timedetailfre").style.display = "none";
-	document.getElementById("timedetailfre").style.visibility = "hidden";
-	
-	document.getElementById("timedetaillor").style.display = "none";
-	document.getElementById("timedetaillor").style.visibility = "hidden";
-	
-	document.getElementById(thisnameid).style.display = "";
-	document.getElementById(thisnameid).style.visibility = "visible";
-	}
-	
-	function hidetimedetail(thisid){
-	document.getElementById("timedetailson").style.display = "none";
-	document.getElementById("timedetailson").style.visibility = "hidden";
-	
-	document.getElementById("timedetailman").style.display = "none";
-	document.getElementById("timedetailman").style.visibility = "hidden";
-	
-	document.getElementById("timedetailtir").style.display = "none";
-	document.getElementById("timedetailtir").style.visibility = "hidden";
-	
-	document.getElementById("timedetailons").style.display = "none";
-	document.getElementById("timedetailons").style.visibility = "hidden";
-	
-	document.getElementById("timedetailtor").style.display = "none";
-	document.getElementById("timedetailtor").style.visibility = "hidden";
-	
-	document.getElementById("timedetailfre").style.display = "none";
-	document.getElementById("timedetailfre").style.visibility = "hidden";
-	
-	document.getElementById("timedetaillor").style.display = "none";
-	document.getElementById("timedetaillor").style.visibility = "hidden";
-	}
-	
-	
-	//function showmilepal(){
-	//document.getElementById("divmilepal").style.display = "";
-	//document.getElementById("divmilepal").style.visibility = "visible";
-	
-	//document.getElementById("divopgave").style.display = "none";
-	//document.getElementById("divopgave").style.visibility = "hidden";
-	
-	//document.getElementById("vistimerformedarb").style.display = "none";
-	//document.getElementById("vistimerformedarb").style.visibility = "hidden";
-	
-	
-	//document.getElementById("knapopgliste").src = "../ill/knap_opglisten_off.gif";
-	//document.getElementById("knapmilepal").src = "../ill/knap_milepal_on.gif";
-	//document.getElementById("knaptimer").src = "../ill/knap_timer_off.gif";
-	//}
-	
-	//function showopgave(){
-	//document.getElementById("divmilepal").style.display = "none";
-	//document.getElementById("divmilepal").style.visibility = "hidden";
-	
-	//document.getElementById("knapopgliste").src = "../ill/knap_opglisten_on.gif";
-	//document.getElementById("knapmilepal").src = "../ill/knap_milepal_off.gif";
-	//document.getElementById("knaptimer").src = "../ill/knap_timer_off.gif";
-	
-	//document.getElementById("divopgave").style.display = "";
-	//document.getElementById("divopgave").style.visibility = "visible";
-	
-	//document.getElementById("vistimerformedarb").style.display = "none";
-	//document.getElementById("vistimerformedarb").style.visibility = "hidden";
-	//}
-	
-	//function showtimer(){
-	//document.getElementById("divmilepal").style.display = "none";
-	//document.getElementById("divmilepal").style.visibility = "hidden";
-	
-	//document.getElementById("divopgave").style.display = "none";
-	//document.getElementById("divopgave").style.visibility = "hidden";
-	
-	//document.getElementById("knapopgliste").src = "../ill/knap_opglisten_off.gif";
-	//document.getElementById("knapmilepal").src = "../ill/knap_milepal_off.gif";
-	//document.getElementById("knaptimer").src = "../ill/knap_timer_on.gif";
-	
-	//document.getElementById("vistimerformedarb").style.display = "";
-	//document.getElementById("vistimerformedarb").style.visibility = "visible";
-	//}
-	
-	
-	
-	
-	
-	
-	
-	
-	//// NEW 2006 ///
-	
-	
-	
-		
-		
-		
-		
-		 
-	
-		var boolCtrlDown = false;
-		var curField = null;
-		
-		
-		var boolCtrlDown = false;
-		var curField = null;
-		
-        
-
-		function doKeyDown() {
-
-            //alert("her")
-
-		    var elm = event.srcElement;
-		    curField = (elm.tagName.toUpperCase() == 'INPUT' && elm.type == 'text') ? elm : null;
-		    var kCode = event.keyCode;
-		    var boolNoCheck = false;
-			//alert (kCode) 
-		    switch (kCode) {
-		      case 90: if (boolCtrlDown) navVer('previous'); event.returnValue = false; event.cancelBubble = true; break; //Ctrl + venstre pil (37)
-		      case 38: navHor('previous'); event.returnValue = false; event.cancelBubble = true; break; //pil op
-		      case 88: if (boolCtrlDown) navVer('next'); event.returnValue = false; event.cancelBubble = true; break; // Ctrl + højre pil
-		      case 40: navHor('next'); event.returnValue = false; event.cancelBubble = true; break; //pil ned
-		        }
-		    boolCtrlDown = (kCode == 17);
-		 }
-
-		
-		
-		function navVer(dir) {
-		    var elm = eval('curField.parentElement.' + dir + 'Sibling');
-		    if (elm != null) {
-		        elm = elm.firstChild;
-		        if (elm != null && elm.tagName.toUpperCase() == 'INPUT' && elm.type == 'text') elm.focus();
-		        }
-		}
-		
-		
-		function navHor(dir) {
-		    var elm = eval('curField.parentElement.parentElement.' + dir + 'Sibling');
-		    var ix = 0;
-		    var tmpElm = curField.parentElement;
-		    while (tmpElm.previousSibling) {
-		        ix++;
-		        tmpElm = tmpElm.previousSibling;
-		        }
-		    if (elm != null) {
-		        elm = elm.firstChild;
-		        if (elm != null) {
-		            i = 0;
-		            while (ix > i) {
-		                if (elm.nextSibling) {
-		                    elm = elm.nextSibling;
-		                    } 
-		                else return false;
-		                i++;
-		                }
-		            if (elm.firstChild != null) elm.firstChild.focus();
-		            }
-		        }
-		}
-		
-		
-		
-	    
-
-
-
-			
-           
+            //if (varTotal_dag_beg <= 24){
+            document.getElementById("FM_" + dagtype + "_total").value = parseFloat(varTotal_dag_beg);
+            document.getElementById("FM_" + dagtype + "_opr_" + nummer + "").value = parseFloat(varValue);
+            sonValue = document.getElementById("FM_son_total").value.replace(",", ".") / 1;
+            manValue = document.getElementById("FM_man_total").value.replace(",", ".") / 1;
+            tirValue = document.getElementById("FM_tir_total").value.replace(",", ".") / 1;
+            onsValue = document.getElementById("FM_ons_total").value.replace(",", ".") / 1;
+            torValue = document.getElementById("FM_tor_total").value.replace(",", ".") / 1;
+            freValue = document.getElementById("FM_fre_total").value.replace(",", ".") / 1;
+            lorValue = document.getElementById("FM_lor_total").value.replace(",", ".") / 1;
+            document.getElementById("FM_week_total").value = parseFloat(sonValue + manValue + tirValue + onsValue + torValue + freValue + lorValue)
+            document.getElementById("FM_week_total").value = document.getElementById("FM_week_total").value.replace(".", ",")
+            document.getElementById("FM_" + dagtype + "_total").value = document.getElementById("FM_" + dagtype + "_total").value.replace(".", ",")
+            //}
+            //}
+        }
+    } // piletaster
+}
 
 
 
 
 
 
-			function closekomm(){
-			    //if (navigator.appVersion.indexOf("MSIE")==-1){
-				
-				    thisstring = document.getElementById("FM_kommentar").value.length
-					thisvalue = document.getElementById("FM_kommentar").value
-					thisrow = document.getElementById("rowcounter").value
-					thisdaytype = document.getElementById("daytype").value
-					thisoffentlig = document.getElementById("FM_off").value
-					thisbopalvaloff = document.getElementById("FM_bopalstur").value
-
-					//alert(document.getElementById("anc_" + thisrow + "" + thisdaytype + "").name)
-					
-					
-					// Markerer felt
-					lasttd = document.getElementById("lasttd").value
-					lasttddaytype = document.getElementById("lasttddaytype").value
-					
-					if (lasttd != "0"){
-						if (lasttddaytype >= 6) {
-						document.getElementById("td_"+lasttd+"").style.background = "#dcdcdf";
-						} else {
-						document.getElementById("td_"+lasttd+"").style.background = "#ffffe1";
-						}
-					}
-					
-					document.getElementById("td_"+thisrow+""+thisdaytype+"").style.background = "#FFff99"; 
-					document.getElementById("lasttd").value = ""+thisrow+""+thisdaytype+"";
-					document.getElementById("lasttddaytype").value = ""+thisdaytype+"";
-					
-					if (thisstring > 1255){
-					alert("Der er ikke tilladt mere end 1255 karakterer i en kommentar! \n Du har brugt: "+ thisstring +"")
-					}else{
-					document.getElementById("FM_kom_"+thisrow+""+thisdaytype+"").value = thisvalue;
-					document.getElementById("FM_off_"+thisrow+""+thisdaytype+"").value = thisoffentlig;
-					document.getElementById("FM_off").value = 0
-
-					document.getElementById("FM_bopal_" + thisrow + "" + thisdaytype + "").value = thisbopalvaloff
-					document.getElementById("FM_bopalstur").value = 0
-
-					document.getElementById("kom").style.display = "none";
-					document.getElementById("kom").style.visibility = "hidden";
-                    
-                    
-					  
-
-                    /// finder tilbage på siden ///
-					//document.getElementById("anc_" + thisrow + "_" + thisdaytype + "").select();
-					//document.getElementById("anc_" + thisrow + "_" + thisdaytype + "").focus();
-					//document.getElementById("anc_" + thisrow + "_" + thisdaytype + "").scrollIntoView(true);
-					//window."td_" + thisrow + "" + thisdaytype + "".focus;
-					}
-			}
-			
-			function antalchar(){
-			//if (navigator.appVersion.indexOf("MSIE")==-1){
-			thisstring = document.getElementById("FM_kommentar").value.length
-				if (thisstring > 1255){
-					alert("Der er ikke tilladt mere end 1255 karakterer i en kommentar! \n Du har brugt: "+ thisstring +"")
-				}else{
-					document.getElementById("antch").value = thisstring;
-				}
-			}
-			
-			function popUp(URL,width,height,left,top) {
-				window.open(URL, 'navn', 'left='+left+',top='+top+',toolbar=0,scrollbars=1,location=0,statusbar=1,menubar=0,resizable=1,width=' + width + ',height=' + height + '');
-			}
-			
-			
-			function showtimeregdetail(divid){
-			
-			
-			for (i = 0; i < 8; i++) {
-			document.getElementById("tr_"+i+"").style.display = "none";
-			document.getElementById("tr_"+i+"").style.visibility = "hidden";
-			}
-			
-			//document.getElementById("smiley").style.display = "none";
-			//document.getElementById("smiley").style.visibility = "hidden";
-			
-			
-			document.getElementById("tr_"+ divid +"").style.display = "";
-			document.getElementById("tr_"+ divid +"").style.visibility = "visible";
-			}
-			
-			
-			function visSmileystatus(){
-			document.getElementById("smileydiv").style.display = "";
-			document.getElementById("smileydiv").style.visibility = "visible";
-			}
-			
-			function gemSmileystatus(){
-			document.getElementById("smileydiv").style.display = "none";
-			document.getElementById("smileydiv").style.visibility = "hidden";
-			}
-			
-			
-			
-			function markerjob(tdid){
-			lastjob = document.getElementById("lastjob").value
-			
-			if (lastjob != 0){
-			document.getElementById("tr_"+lastjob+"").style.background = "#FFffff";
-			}
-			
-			document.getElementById("tr_"+tdid+"").style.background = "#FFff99";
-			document.getElementById("lastjob").value = tdid
-			}
-			
-			
-			function markerfelt(feltid, thisdaytype){
-			// Markerer felt
-			lasttd = document.getElementById("lasttd").value
-			lasttddaytype = document.getElementById("lasttddaytype").value
-			
-			if (lasttd != "0"){
-				if (lasttddaytype >= 6) {
-				document.getElementById("td_"+lasttd+"").style.background = "#dcdcd0";
-				} else {
-				document.getElementById("td_"+lasttd+"").style.background = "#ffffe1";
-				}
-			}
-			
-			document.getElementById("td_"+feltid+"").style.background = "#FFff99"; 
-			document.getElementById("lasttd").value = ""+feltid+"";
-			document.getElementById("lasttddaytype").value = ""+thisdaytype+"";
-			}
-			
-			function renssog(){
-			document.getElementById("FM_sog_job_navn_nr").value = ""
-			}
-			
-			//function showJobBesk(){
-			//document.getElementById("jobbeskdiv").style.display = "";
-			//document.getElementById("jobbeskdiv").style.visibility = "visible";
-			//document.getElementById("kpersdiv").style.display = "none";
-			//document.getElementById("kpersdiv").style.visibility = "hidden";
-			//}
-			
-			//function hideJobBesk(){
-			//document.getElementById("jobbeskdiv").style.display = "none";
-			//document.getElementById("jobbeskdiv").style.visibility = "hidden";
-			//}
-			
-			function curserType(tis){
-			document.getElementById(tis).style.cursor='hand'
-			}
-			
-			//function showAktBesk(aid){
-			//document.getElementById("aktbesk_"+aid).style.display = "";
-			//document.getElementById("aktbesk_"+aid).style.visibility = "visible";
-			//}
 
 
-			function showKpersdiv() {
-			document.getElementById("kpersdiv").style.top = 445
-			document.getElementById("kpersdiv").style.left = 480 
-			
-			document.getElementById("kpersdiv").style.display = "";
-			document.getElementById("kpersdiv").style.visibility = "visible";
-			//document.getElementById("jobbeskdiv").style.display = "none";
-			//document.getElementById("jobbeskdiv").style.visibility = "hidden";
-			}
+//Aktiviteter expand
+if (document.images) {
+    plus = new Image(200, 200);
+    plus.src = "ill/plus.gif";
+    minus = new Image(200, 200);
+    minus.src = "ill/minus2.gif";
+}
 
-			function hideKpersdiv() {
+function expand(de) {
+    //alert(navigator.appVersion.indexOf("MSIE"))
+    if (navigator.appVersion.indexOf("MSIE") == -1) {
+        //alert("hej")
+        //if (document.getElementById("Menu" + de)){
+        if (document.getElementById("Menu" + de).style.display == "none") {
+            document.getElementById("Menu" + de).style.display = "";
+            document.images["Menub" + de].src = minus.src;
+        } else {
+            document.getElementById("Menu" + de).style.display = "none";
+            document.images["Menub" + de].src = plus.src;
+        } // else
+    } else {
+        //alert("pc")
+        if (document.all("Menu" + de)) {
+            if (document.all("Menu" + de).style.display == "none") {
+                document.all("Menu" + de).style.display = "";
+                document.images["Menub" + de].src = minus.src;
+            } else {
+                document.all("Menu" + de).style.display = "none";
+                document.images["Menub" + de].src = plus.src;
+            } //else
+        } //else
+    } //function
+} //images
 
-			//document.getElementById("korseldiv").style.display = "none";
-			//document.getElementById("korseldiv").style.visibility = "hidden";
 
 
-			document.getElementById("kpersdiv").style.display = "none";
-			document.getElementById("kpersdiv").style.visibility = "hidden";
-			}
-			
-	function showdiv(div) {
-	//alert(div)
-	lastopendiv = document.getElementById("lastopendiv").value
-	
-	document.getElementById(lastopendiv).style.display = "none";
-	document.getElementById(lastopendiv).style.visibility = "hidden";
-	
-	document.getElementById("knap_"+lastopendiv).style.background = "#FFFFFF";
-	document.getElementById("knap_"+lastopendiv).style.border = 0;
-	
-	
-	document.getElementById(div).style.display = "";
-	document.getElementById(div).style.visibility = "visible";
-	
-	document.getElementById("knap_"+div).style.background = "#FFFF99";
-	document.getElementById("knap_"+div).style.border = "1px orange solid";
-	
-	// Sørger for at udløbet / lukket aftale alert blive lukket.
-	document.getElementById("aftalealert").style.visibility = "hidden"
+
+function antalchar() {
+    //if (navigator.appVersion.indexOf("MSIE")==-1){
+    thisstring = document.getElementById("FM_kom").value.length
+    if (thisstring > 255) {
+        alert("Der er ikke tilladt mere end 255 karakterer i en kommentar! \n Du har brugt: " + thisstring + "")
+    } else {
+        document.getElementById("antch").value = thisstring;
+    }
+}
+
+
+function antalakt(jid) {
+    newval = document.all["FM_akt_" + jid].value;
+    document.all["FM_antal_akt_" + jid].value = newval;
+}
+
+function closetomanyjob() {
+    document.all["tomanyjob"].style.visibility = "hidden";
+}
+
+///  ressource timer tildelt ///////
+function showrestimer() {
+    document.getElementById("ressourcetimer").style.display = "";
+    document.getElementById("ressourcetimer").style.visibility = "visible";
+}
+
+function hiderestimer() {
+    document.getElementById("ressourcetimer").style.display = "none";
+    document.getElementById("ressourcetimer").style.visibility = "hidden";
+}
+
+///  viser indtastede timer på den enkelte dag ///////
+function showtimedetail(thisnameid) {
+    document.getElementById("ressourcetimer").style.display = "none";
+    document.getElementById("ressourcetimer").style.visibility = "hidden";
+
+    document.getElementById("timedetailson").style.display = "none";
+    document.getElementById("timedetailson").style.visibility = "hidden";
+
+    document.getElementById("timedetailman").style.display = "none";
+    document.getElementById("timedetailman").style.visibility = "hidden";
+
+    document.getElementById("timedetailtir").style.display = "none";
+    document.getElementById("timedetailtir").style.visibility = "hidden";
+
+    document.getElementById("timedetailons").style.display = "none";
+    document.getElementById("timedetailons").style.visibility = "hidden";
+
+    document.getElementById("timedetailtor").style.display = "none";
+    document.getElementById("timedetailtor").style.visibility = "hidden";
+
+    document.getElementById("timedetailfre").style.display = "none";
+    document.getElementById("timedetailfre").style.visibility = "hidden";
+
+    document.getElementById("timedetaillor").style.display = "none";
+    document.getElementById("timedetaillor").style.visibility = "hidden";
+
+    document.getElementById(thisnameid).style.display = "";
+    document.getElementById(thisnameid).style.visibility = "visible";
+}
+
+function hidetimedetail(thisid) {
+    document.getElementById("timedetailson").style.display = "none";
+    document.getElementById("timedetailson").style.visibility = "hidden";
+
+    document.getElementById("timedetailman").style.display = "none";
+    document.getElementById("timedetailman").style.visibility = "hidden";
+
+    document.getElementById("timedetailtir").style.display = "none";
+    document.getElementById("timedetailtir").style.visibility = "hidden";
+
+    document.getElementById("timedetailons").style.display = "none";
+    document.getElementById("timedetailons").style.visibility = "hidden";
+
+    document.getElementById("timedetailtor").style.display = "none";
+    document.getElementById("timedetailtor").style.visibility = "hidden";
+
+    document.getElementById("timedetailfre").style.display = "none";
+    document.getElementById("timedetailfre").style.visibility = "hidden";
+
+    document.getElementById("timedetaillor").style.display = "none";
+    document.getElementById("timedetaillor").style.visibility = "hidden";
+}
+
+
+//function showmilepal(){
+//document.getElementById("divmilepal").style.display = "";
+//document.getElementById("divmilepal").style.visibility = "visible";
+
+//document.getElementById("divopgave").style.display = "none";
+//document.getElementById("divopgave").style.visibility = "hidden";
+
+//document.getElementById("vistimerformedarb").style.display = "none";
+//document.getElementById("vistimerformedarb").style.visibility = "hidden";
+
+
+//document.getElementById("knapopgliste").src = "../ill/knap_opglisten_off.gif";
+//document.getElementById("knapmilepal").src = "../ill/knap_milepal_on.gif";
+//document.getElementById("knaptimer").src = "../ill/knap_timer_off.gif";
+//}
+
+//function showopgave(){
+//document.getElementById("divmilepal").style.display = "none";
+//document.getElementById("divmilepal").style.visibility = "hidden";
+
+//document.getElementById("knapopgliste").src = "../ill/knap_opglisten_on.gif";
+//document.getElementById("knapmilepal").src = "../ill/knap_milepal_off.gif";
+//document.getElementById("knaptimer").src = "../ill/knap_timer_off.gif";
+
+//document.getElementById("divopgave").style.display = "";
+//document.getElementById("divopgave").style.visibility = "visible";
+
+//document.getElementById("vistimerformedarb").style.display = "none";
+//document.getElementById("vistimerformedarb").style.visibility = "hidden";
+//}
+
+//function showtimer(){
+//document.getElementById("divmilepal").style.display = "none";
+//document.getElementById("divmilepal").style.visibility = "hidden";
+
+//document.getElementById("divopgave").style.display = "none";
+//document.getElementById("divopgave").style.visibility = "hidden";
+
+//document.getElementById("knapopgliste").src = "../ill/knap_opglisten_off.gif";
+//document.getElementById("knapmilepal").src = "../ill/knap_milepal_off.gif";
+//document.getElementById("knaptimer").src = "../ill/knap_timer_on.gif";
+
+//document.getElementById("vistimerformedarb").style.display = "";
+//document.getElementById("vistimerformedarb").style.visibility = "visible";
+//}
+
+
+
+
+
+
+
+
+//// NEW 2006 ///
+
+
+
+
+
+
+
+
+
+var boolCtrlDown = false;
+var curField = null;
+
+
+var boolCtrlDown = false;
+var curField = null;
+
+
+
+function doKeyDown() {
+
+    //alert("her")
+
+    var elm = event.srcElement;
+    curField = (elm.tagName.toUpperCase() == 'INPUT' && elm.type == 'text') ? elm : null;
+    var kCode = event.keyCode;
+    var boolNoCheck = false;
+    //alert (kCode) 
+    switch (kCode) {
+        case 90: if (boolCtrlDown) navVer('previous'); event.returnValue = false; event.cancelBubble = true; break; //Ctrl + venstre pil (37)
+        case 38: navHor('previous'); event.returnValue = false; event.cancelBubble = true; break; //pil op
+        case 88: if (boolCtrlDown) navVer('next'); event.returnValue = false; event.cancelBubble = true; break; // Ctrl + højre pil
+        case 40: navHor('next'); event.returnValue = false; event.cancelBubble = true; break; //pil ned
+    }
+    boolCtrlDown = (kCode == 17);
+}
+
+
+
+function navVer(dir) {
+    var elm = eval('curField.parentElement.' + dir + 'Sibling');
+    if (elm != null) {
+        elm = elm.firstChild;
+        if (elm != null && elm.tagName.toUpperCase() == 'INPUT' && elm.type == 'text') elm.focus();
+    }
+}
+
+
+function navHor(dir) {
+    var elm = eval('curField.parentElement.parentElement.' + dir + 'Sibling');
+    var ix = 0;
+    var tmpElm = curField.parentElement;
+    while (tmpElm.previousSibling) {
+        ix++;
+        tmpElm = tmpElm.previousSibling;
+    }
+    if (elm != null) {
+        elm = elm.firstChild;
+        if (elm != null) {
+            i = 0;
+            while (ix > i) {
+                if (elm.nextSibling) {
+                    elm = elm.nextSibling;
+                }
+                else return false;
+                i++;
+            }
+            if (elm.firstChild != null) elm.firstChild.focus();
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function closekomm() {
+    //if (navigator.appVersion.indexOf("MSIE")==-1){
+
+    thisstring = document.getElementById("FM_kommentar").value.length
+    thisvalue = document.getElementById("FM_kommentar").value
+    thisrow = document.getElementById("rowcounter").value
+    thisdaytype = document.getElementById("daytype").value
+    thisoffentlig = document.getElementById("FM_off").value
+    thisbopalvaloff = document.getElementById("FM_bopalstur").value
+
+    //alert(document.getElementById("anc_" + thisrow + "" + thisdaytype + "").name)
+
+
+    // Markerer felt
+    lasttd = document.getElementById("lasttd").value
+    lasttddaytype = document.getElementById("lasttddaytype").value
+
+    if (lasttd != "0") {
+        if (lasttddaytype >= 6) {
+            document.getElementById("td_" + lasttd + "").style.background = "#dcdcdf";
+        } else {
+            document.getElementById("td_" + lasttd + "").style.background = "#ffffe1";
+        }
+    }
+
+    document.getElementById("td_" + thisrow + "" + thisdaytype + "").style.background = "#FFff99";
+    document.getElementById("lasttd").value = "" + thisrow + "" + thisdaytype + "";
+    document.getElementById("lasttddaytype").value = "" + thisdaytype + "";
+
+    if (thisstring > 1255) {
+        alert("Der er ikke tilladt mere end 1255 karakterer i en kommentar! \n Du har brugt: " + thisstring + "")
+    } else {
+        document.getElementById("FM_kom_" + thisrow + "" + thisdaytype + "").value = thisvalue;
+        document.getElementById("FM_off_" + thisrow + "" + thisdaytype + "").value = thisoffentlig;
+        document.getElementById("FM_off").value = 0
+
+        document.getElementById("FM_bopal_" + thisrow + "" + thisdaytype + "").value = thisbopalvaloff
+        document.getElementById("FM_bopalstur").value = 0
+
+        document.getElementById("kom").style.display = "none";
+        document.getElementById("kom").style.visibility = "hidden";
+
+
+
+
+        /// finder tilbage på siden ///
+        //document.getElementById("anc_" + thisrow + "_" + thisdaytype + "").select();
+        //document.getElementById("anc_" + thisrow + "_" + thisdaytype + "").focus();
+        //document.getElementById("anc_" + thisrow + "_" + thisdaytype + "").scrollIntoView(true);
+        //window."td_" + thisrow + "" + thisdaytype + "".focus;
+    }
+}
+
+function antalchar() {
+    //if (navigator.appVersion.indexOf("MSIE")==-1){
+    thisstring = document.getElementById("FM_kommentar").value.length
+    if (thisstring > 1255) {
+        alert("Der er ikke tilladt mere end 1255 karakterer i en kommentar! \n Du har brugt: " + thisstring + "")
+    } else {
+        document.getElementById("antch").value = thisstring;
+    }
+}
+
+function popUp(URL, width, height, left, top) {
+    window.open(URL, 'navn', 'left=' + left + ',top=' + top + ',toolbar=0,scrollbars=1,location=0,statusbar=1,menubar=0,resizable=1,width=' + width + ',height=' + height + '');
+}
+
+
+function showtimeregdetail(divid) {
+
+
+    for (i = 0; i < 8; i++) {
+        document.getElementById("tr_" + i + "").style.display = "none";
+        document.getElementById("tr_" + i + "").style.visibility = "hidden";
+    }
+
+    //document.getElementById("smiley").style.display = "none";
+    //document.getElementById("smiley").style.visibility = "hidden";
+
+
+    document.getElementById("tr_" + divid + "").style.display = "";
+    document.getElementById("tr_" + divid + "").style.visibility = "visible";
+}
+
+
+function visSmileystatus() {
+    document.getElementById("smileydiv").style.display = "";
+    document.getElementById("smileydiv").style.visibility = "visible";
+}
+
+function gemSmileystatus() {
+    document.getElementById("smileydiv").style.display = "none";
+    document.getElementById("smileydiv").style.visibility = "hidden";
+}
+
+
+
+function markerjob(tdid) {
+    lastjob = document.getElementById("lastjob").value
+
+    if (lastjob != 0) {
+        document.getElementById("tr_" + lastjob + "").style.background = "#FFffff";
+    }
+
+    document.getElementById("tr_" + tdid + "").style.background = "#FFff99";
+    document.getElementById("lastjob").value = tdid
+}
+
+
+function markerfelt(feltid, thisdaytype) {
+    // Markerer felt
+    lasttd = document.getElementById("lasttd").value
+    lasttddaytype = document.getElementById("lasttddaytype").value
+
+    if (lasttd != "0") {
+        if (lasttddaytype >= 6) {
+            document.getElementById("td_" + lasttd + "").style.background = "#dcdcd0";
+        } else {
+            document.getElementById("td_" + lasttd + "").style.background = "#ffffe1";
+        }
+    }
+
+    document.getElementById("td_" + feltid + "").style.background = "#FFff99";
+    document.getElementById("lasttd").value = "" + feltid + "";
+    document.getElementById("lasttddaytype").value = "" + thisdaytype + "";
+}
+
+function renssog() {
+    document.getElementById("FM_sog_job_navn_nr").value = ""
+}
+
+//function showJobBesk(){
+//document.getElementById("jobbeskdiv").style.display = "";
+//document.getElementById("jobbeskdiv").style.visibility = "visible";
+//document.getElementById("kpersdiv").style.display = "none";
+//document.getElementById("kpersdiv").style.visibility = "hidden";
+//}
+
+//function hideJobBesk(){
+//document.getElementById("jobbeskdiv").style.display = "none";
+//document.getElementById("jobbeskdiv").style.visibility = "hidden";
+//}
+
+function curserType(tis) {
+    document.getElementById(tis).style.cursor = 'hand'
+}
+
+//function showAktBesk(aid){
+//document.getElementById("aktbesk_"+aid).style.display = "";
+//document.getElementById("aktbesk_"+aid).style.visibility = "visible";
+//}
+
+
+function showKpersdiv() {
+    document.getElementById("kpersdiv").style.top = 445
+    document.getElementById("kpersdiv").style.left = 480
+
+    document.getElementById("kpersdiv").style.display = "";
+    document.getElementById("kpersdiv").style.visibility = "visible";
+    //document.getElementById("jobbeskdiv").style.display = "none";
+    //document.getElementById("jobbeskdiv").style.visibility = "hidden";
+}
+
+function hideKpersdiv() {
+
+    //document.getElementById("korseldiv").style.display = "none";
+    //document.getElementById("korseldiv").style.visibility = "hidden";
+
+
+    document.getElementById("kpersdiv").style.display = "none";
+    document.getElementById("kpersdiv").style.visibility = "hidden";
+}
+
+function showdiv(div) {
+    //alert(div)
+    lastopendiv = document.getElementById("lastopendiv").value
+
+    document.getElementById(lastopendiv).style.display = "none";
+    document.getElementById(lastopendiv).style.visibility = "hidden";
+
+    document.getElementById("knap_" + lastopendiv).style.background = "#FFFFFF";
+    document.getElementById("knap_" + lastopendiv).style.border = 0;
+
+
+    document.getElementById(div).style.display = "";
+    document.getElementById(div).style.visibility = "visible";
+
+    document.getElementById("knap_" + div).style.background = "#FFFF99";
+    document.getElementById("knap_" + div).style.border = "1px orange solid";
+
+    // Sørger for at udløbet / lukket aftale alert blive lukket.
+    document.getElementById("aftalealert").style.visibility = "hidden"
     document.getElementById("aftalealert").style.display = "none"
-	
-	document.getElementById("lastopendiv").value = div
-	}
-	
-	
-	
-	var ns, ns6, ie, newlayer;
 
-    ns4 = (document.layers) ? true : false;
-    ie4 = (document.all) ? true : false
-    ie5 = (document.getElementById) ? true : false
-    ns6 = (document.getElementById && !document.all) ? true : false;
+    document.getElementById("lastopendiv").value = div
+}
 
-    function getLayerStyle(lyr) {
-        if (ns4) {
-            return document.layers[lyr];
-        } else if (ie4) {
-            return document.all[lyr].style;
-        } else if (ie5) {
-            return document.all[lyr].style;
-        } else if (ns6) {
-            return document.getElementById(lyr).style;
-        }
+
+
+var ns, ns6, ie, newlayer;
+
+ns4 = (document.layers) ? true : false;
+ie4 = (document.all) ? true : false
+ie5 = (document.getElementById) ? true : false
+ns6 = (document.getElementById && !document.all) ? true : false;
+
+function getLayerStyle(lyr) {
+    if (ns4) {
+        return document.layers[lyr];
+    } else if (ie4) {
+        return document.all[lyr].style;
+    } else if (ie5) {
+        return document.all[lyr].style;
+    } else if (ns6) {
+        return document.getElementById(lyr).style;
     }
+}
 
-    function ShowHide(layer) {
-        newlayer = getLayerStyle(layer)
+function ShowHide(layer) {
+    newlayer = getLayerStyle(layer)
 
-        var styleObj = (ns4) ? document.layers[layer] : (ie4) ? document.all[layer].style : document.getElementById(layer).style;
+    var styleObj = (ns4) ? document.layers[layer] : (ie4) ? document.all[layer].style : document.getElementById(layer).style;
 
-        if (newlayer.visibility == "hidden") {
-            newlayer.visibility = "visible";
-            styleObj.display = ""
-        }
-        else if (newlayer.visibility == "visible") {
-            newlayer.visibility = "hidden";
-            styleObj.display = "none"
-        }
+    if (newlayer.visibility == "hidden") {
+        newlayer.visibility = "visible";
+        styleObj.display = ""
     }
+    else if (newlayer.visibility == "visible") {
+        newlayer.visibility = "hidden";
+        styleObj.display = "none"
+    }
+}
 
 
 
 
 
 
-   
 
-   
+
+

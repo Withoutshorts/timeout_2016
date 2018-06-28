@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<sprog>
+
+  <!--- Dansk -->
+  <dk>
+
+    <txt_1 >Aktive</txt_1>
+    <txt_2 >Passive / For Invoicing</txt_2>
+    
+    <txt_3 >Tilbud</txt_3>
+    <txt_3_dencker>Pre Work</txt_3_dencker>
+    
+    <txt_4 >Gennemsyn</txt_4>
+    <txt_5 >Lukkede</txt_5>
+    <txt_6 >Eval.</txt_6>    
+    <txt_7 >Aktiv</txt_7>
+    <txt_8 >Til Fakturering</txt_8>
+    <txt_9 >Lukket</txt_9>
+    <txt_10 >Evaluering</txt_10>
+    <txt_11 >Passiv/Fak</txt_11>
+    <txt_12 >Gen.syn</txt_12>
+    <txt_13 >Passiv</txt_13>
+   
+  </dk>
+
+  <no>
+
+    <txt_1 >Active</txt_1>
+    <txt_2 >Passive / Til fakturering</txt_2>
+    
+    <txt_3 >Proposal</txt_3>
+    <txt_3_dencker>Pre Work</txt_3_dencker>
+    
+    <txt_4 >Approval</txt_4>
+    <txt_5 >Closed</txt_5>
+    <txt_6 >Eval.</txt_6>
+    <txt_7 >Active</txt_7>
+    <txt_8 >For Invoicing</txt_8>
+    <txt_9 >Closed</txt_9>
+    <txt_10 >Evaluation</txt_10>
+    <txt_11 >Passive/Invo</txt_11>
+    <txt_12 >Appr.</txt_12>
+    <txt_13 >Passive</txt_13>
+
+  </no>
+
+
+
+  <se>
+
+    <txt_1 >Active</txt_1>
+    <txt_2 >Passive / Til fakturering</txt_2>
+    
+    <txt_3 >Proposal</txt_3>
+    <txt_3_dencker>Pre Work</txt_3_dencker>
+    
+    <txt_4 >Approval</txt_4>
+    <txt_5 >Closed</txt_5>
+    <txt_6 >Eval.</txt_6>
+    <txt_7 >Active</txt_7>
+    <txt_8 >For Invoicing</txt_8>
+    <txt_9 >Closed</txt_9>
+    <txt_10 >Evaluation</txt_10>
+    <txt_11 >Passive/Invo</txt_11>
+    <txt_12 >Appr.</txt_12>
+    <txt_13 >Passive</txt_13>
+    
+  </se>
+
+
+
+  <de>
+
+    <txt_1 >Active</txt_1>
+    <txt_2 >Passive / Til fakturering</txt_2>
+    
+    <txt_3 >Proposal</txt_3>
+    <txt_3_dencker>Pre Work</txt_3_dencker>
+    
+    <txt_4 >Approval</txt_4>
+    <txt_5 >Closed</txt_5>
+    <txt_6 >Eval.</txt_6>
+    <txt_7 >Active</txt_7>
+    <txt_8 >For Invoicing</txt_8>
+    <txt_9 >Closed</txt_9>
+    <txt_10 >Evaluation</txt_10>
+    <txt_11 >Passive/Invo</txt_11>
+    <txt_12 >Appr.</txt_12>
+    <txt_13 >Passive</txt_13>
+  
+  </de>
+
+
+  <fr>
+
+    <txt_1 >Active</txt_1>
+    <txt_2 >Passive / Til fakturering</txt_2>
+    
+    <txt_3 >Proposal</txt_3>
+    <txt_3_dencker>Pre Work</txt_3_dencker>
+    
+    <txt_4 >Approval</txt_4>
+    <txt_5 >Closed</txt_5>
+    <txt_6 >Eval.</txt_6>
+    <txt_7 >Active</txt_7>
+    <txt_8 >For Invoicing</txt_8>
+    <txt_9 >Closed</txt_9>
+    <txt_10 >Evaluation</txt_10>
+    <txt_11 >Passive/Invo</txt_11>
+    <txt_12 >Appr.</txt_12>
+    <txt_13 >Passive</txt_13>
+   
+  </fr>
+
+
+
+  <!-- Engelsk -->
+  <uk>
+
+    <txt_1 >Active</txt_1>
+    <txt_2 >Passive / Til fakturering</txt_2>
+    
+    <txt_3 >Proposal</txt_3>
+    <txt_3_dencker>Pre Work</txt_3_dencker>
+    
+    <txt_4 >Approval</txt_4>
+    <txt_5 >Closed</txt_5>
+    <txt_6 >Eval.</txt_6>
+    <txt_7 >Active</txt_7>
+    <txt_8 >For Invoicing</txt_8>
+    <txt_9 >Closed</txt_9>
+    <txt_10 >Evaluation</txt_10>
+    <txt_11 >Passive/Invo</txt_11>
+    <txt_12 >Appr.</txt_12>
+    <txt_13 >Passive</txt_13>
+    
+  </uk>
+
+
+  <es>
+
+    <txt_1 >Active</txt_1>
+    <txt_2 >Passive / Til fakturering</txt_2>
+    
+    <txt_3 >Proposal</txt_3>
+    <txt_3_dencker>Pre Work</txt_3_dencker>
+    
+    <txt_4 >Approval</txt_4>
+    <txt_5 >Closed</txt_5>
+    <txt_6 >Eval.</txt_6>
+    <txt_7 >Active</txt_7>
+    <txt_8 >For Invoicing</txt_8>
+    <txt_9 >Closed</txt_9>
+    <txt_10 >Evaluation</txt_10>
+    <txt_11 >Passive/Invo</txt_11>
+    <txt_12 >Appr.</txt_12>
+    <txt_13 >Passive</txt_13>
+
+  </es>
+
+
+</sprog>

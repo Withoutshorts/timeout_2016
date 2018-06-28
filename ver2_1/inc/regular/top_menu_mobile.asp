@@ -38,10 +38,12 @@
             <ul class="nav navbar-nav navbar-right mainnav-menu">
 
                 <%if cint(mt_mobil_visstopur) <> 1 then %>
-
+                
                 <li style="border-bottom:1px #000000 solid;">
                 <a href="<%=relpathTT%>timetag_web.asp"><%=ttw_txt_015 %></a>
                 </li>
+
+                <%if lto <> "miele" then %>
 
                 <li style="border-bottom:1px #000000 solid;">
                 <a href="<%=relpathTO%>ugeseddel_2011.asp?usemrn=<%=session("mid")%>&varTjDatoUS_man=<%=varTjDatoUS_man_tt %>"><%=ttw_txt_016 %></a>
@@ -49,10 +51,25 @@
 
                 <li style="border-bottom:1px #000000 solid;">
                 <a href="<%=relpathTT%>timetag_web_kpi.asp"><%=ttw_txt_017 %></a>
-                </li>  
+                </li> 
 
                 <%end if %>
                 
+                <%if lto = "hestia" OR lto = "tbg" OR lto = "mpt" then %>
+                <li style="border-bottom:1px #000000 solid;">
+                <a href="<%=relpathTT%>mat_web.asp">Materialer</a>
+                </li>                
+
+                <%end if %>
+
+                <%end if %>
+                
+                <%if lto = "miele" then %>
+                <li style="border-bottom:1px #000000 solid;">
+                    <a href="<%=relpathTT%>expence.asp">Udlæg</a>
+                </li>
+                <%end if %>
+
                   <li style="border-bottom:1px #000000 solid; background-color:red;">
                 <a href="../sesaba.asp"><%=ttw_txt_027 %></a>
                 </li>               

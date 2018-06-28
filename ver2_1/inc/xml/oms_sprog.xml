@@ -1,0 +1,1132 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<sprog>
+
+  <!--- Dansk -->
+  <dk>
+
+    <txt_1 >År</txt_1>
+    <txt_2 >Vis omsætning total</txt_2>
+    <txt_3 > Vis omsætning pr. kunde / lev.</txt_3>
+    <txt_4 >top</txt_4>
+    <txt_5 >Vis for</txt_5>
+    <txt_6 >Kunder</txt_6>
+    <txt_7 >Leverandører</txt_7>
+    <txt_8 >Ordreoms. (orderdate)</txt_8>
+    <txt_9 >Joboms. (job st.dato)</txt_9>
+    <txt_10 >Fordelt efter:</txt_10>
+    <txt_11 >Faktureret oms.</txt_11>
+    <txt_12 >Kør</txt_12>
+    <txt_13 >Brutto omsætning, og kostpris.</txt_13>
+    <txt_14 >Alle beløb er i HELE</txt_14>
+    <txt_15 >excl. moms</txt_15>
+    <txt_16 >Budget Bruttooms. Job</txt_16>
+    <txt_17 >Antal stk.</txt_17>
+    <txt_18 >Profit</txt_18>
+    <txt_19 >DB</txt_19>
+    <txt_20 >Udgift./Underlev.</txt_20>
+    <txt_21 >Værdi Aftaler</txt_21>
+    <txt_22 >Bruttofortj. forkalk</txt_22>
+    <txt_23 >Realiseret Oms.</txt_23>
+    <txt_24 >Mat./Udlæg (købspris)</txt_24>
+    <txt_25 >Mat./Udlæg (salgspris)</txt_25>
+    <txt_26 >Udfaktureret oms.</txt_26>
+    <txt_27 >Kreditnotaer</txt_27>
+    <txt_28 >Interne fakturaer</txt_28>
+    <txt_29 >Udfaktureret beløb ialt: (incl. interne og før kredtin.)</txt_29>
+    <txt_30 >På job</txt_30>
+    <txt_31 >På aftaler</txt_31>
+    <txt_32 >Materialer</txt_32>
+    <txt_33 >udlæg</txt_33>
+    <txt_34 >Antal stk. faktureret</txt_34>
+    <txt_35 >Faktureret udspec.</txt_35>
+    <txt_36 >kreditnotaer fratrukket</txt_36>
+    <txt_37 >Pr. medarb (alle akt. typer).</txt_37>
+    <txt_38 >På sum aktiviteter (timer/stk/enh./ia)</txt_38>
+    <txt_39 >På sum aktiviteter (kun timer)</txt_39>
+    <txt_40 >På sum aktiviteter (kun stk.)</txt_40>
+    <txt_41 >På sum aktiviteter (kun enheder)</txt_41>
+    <txt_42 >På sum aktiviteter</txt_42>
+    <txt_43 >Kørsels aktiviteter (km)</txt_43>
+    <txt_44 >Bruttofortjeneste</txt_44>
+    <txt_45 >Intern kostpris realiseret</txt_45>
+    <txt_46 >Bruttofortj. Realiseret</txt_46>
+    <txt_47 >Realiseret / Faktureret</txt_47>
+    <txt_48 >Timer</txt_48>
+    <txt_49 >Total</txt_49>
+    <txt_50 >Jan</txt_50>
+    
+    <txt_51 >Feb</txt_51>
+    <txt_52 >Mar</txt_52>
+    <txt_53 >Apr</txt_53>
+    <txt_54 >Maj</txt_54>
+    <txt_55 >Jun</txt_55>
+    <txt_56 >Jul</txt_56>
+    <txt_57 >Aug</txt_57>
+    <txt_58 >Sep</txt_58>
+    <txt_59 >Okt</txt_59>
+    <txt_60 >Nov</txt_60>
+    
+    <txt_61 >Dec</txt_61>
+    <txt_62 >Fakturerbare timer</txt_62>
+    <txt_63 >Ikke fak.bare timer</txt_63>
+    <txt_64 >Fak. pr. medarb. (timer/stk/enheder)</txt_64>
+    <txt_65 >Balance</txt_65>
+    <txt_66 >Der blev ikke fundet nogen kunder / leverandører der matchede de valgte kriterier.</txt_66>
+    <txt_67 >Kunde</txt_67>
+    <txt_68 >Type</txt_68>
+    <txt_69 >Januar</txt_69>
+    <txt_70 >Februar</txt_70>
+    
+    <txt_71 >Marts</txt_71>
+    <txt_72 >April</txt_72>
+    <txt_73 >Maj</txt_73>
+    <txt_74 >Juni</txt_74>
+    <txt_75 >Juli</txt_75>
+    <txt_76 >August</txt_76>
+    <txt_77 >September</txt_77>
+    <txt_78 >Oktober</txt_78>
+    <txt_79 >November</txt_79>
+    <txt_80 >December</txt_80>
+    
+    <txt_81 >Periode afgrænsning</txt_81>
+    <txt_82 >Din CSV. fil er klar</txt_82>
+    <txt_83 >Tal i disse kolonner er baseret på den i pkt. 1) valgte medarbejder(e).</txt_83>
+    <txt_84 >Hvis</txt_84>
+    <txt_85 >Key account</txt_85>
+    <txt_86 >er slået til, er tallene baseret på alle medarbejdere på de job, hvor den</txt_86>
+    <txt_87 >valgte medarbejder er jobansvarlig / kundeansvarlig.</txt_87>
+    <txt_88 >udfaktureret omsætning pr. kunde er sorteret efter fakturabeløb før kreditnotaer, men vist incl. kreditnotaer, fordelt på top 5,10 eller 20 kunder.</txt_88>
+    <txt_89 >Definitioner for beregninger af omsætning og fakturering</txt_89>
+    <txt_90 >Kun job der</txt_90>
+    
+    <txt_91 >ikke</txt_91>
+    <txt_92 >er del af en aftale er medregnet. Tilbud er IKKE medregnet.</txt_92>
+    <txt_93 >Antal stk. der skal produceres.</txt_93>
+    <txt_94 >Udgifter / Under-leverandører.</txt_94>
+    <txt_95 >Udgifter angivet på job til underleverandører.</txt_95>
+    <txt_96 >Samlet værdi angivet på aftaler, beregnet udfra aftale startdato i de viste måneder.</txt_96>
+    <txt_97 >Realiseret omsætning. excl. moms.</txt_97>
+    <txt_98 >Beregnet således</txt_98>
+    <txt_99 >Antal realiserede faktuererbare timer * Medarbejdertypens timepris.</txt_99>
+    <txt_100 >Sum af udlæg / materiale forbrug på de valgte job. (Købspris)</txt_100>
+    
+    <txt_101 >C2) Materialer</txt_101>
+    <txt_102 >Sum af udlæg / materiale forbrug på de valgte job. (Salgspris)</txt_102>
+    <txt_103 >Udfaktureret omsætning excl. moms / timer</txt_103>
+    <txt_104 >Total faktureret beløb/timer job og aftaler.</txt_104>
+    <txt_105 >Kreditnotaer og Interne fakturaer er fratrukket.</txt_105>
+    <txt_106 >Faktureret på de forskellige enhedstyper.</txt_106>
+    <txt_107 >Summen af de fakturerede beløb/timer, på hhv. timer, enheder, stk., ikke angivet og km.</txt_107>
+    <txt_108 >Kreditnotaer er fratrukket.</txt_108>
+    <txt_109 >Intern Kostpris.</txt_109>
+    <txt_110 >Antal timer (på valgte medarbejdere) * Medarbejdertypens kostpris</txt_110>
+    
+    <txt_111 >Bruttofortjeneste. Forkalk.</txt_111>
+    <txt_112 >Bruttofortjeneste. Real.</txt_112>
+    <txt_113 >Balance.</txt_113>
+    <txt_114 >Antal fakturerede timer, pr. medarb. (J) - Antal realiserede fakturerbare timer. (G)</txt_114>
+    <txt_115 >Timeforbrug</txt_115>
+    <txt_116 >Antal timer på de valgte medarbejdere og job.</txt_116>
+    <txt_117 >Alle akt. typer der tæller med i dagligt timeregnskab er med. Også de ikke fakturerbare så som ikkefakturerbar tid, salg, ferie, sygdom og afspadsering.</txt_117>
+    <txt_118 >Job, aftale og faktura grundlag for ovenstående oversigt.</txt_118>
+    <txt_119 >Job med timeregistreringer</txt_119>
+    <txt_120 >Fakturaer på job (også de job der er en del af en aftale) - IKKE AFTALER og interne fakturaer</txt_120>
+    
+    <txt_121 >Fakturaer</txt_121>
+    <txt_122 >antal</txt_122>
+    <txt_123 >excl. interne</txt_123>
+    
+    <txt_124 >Forventet loadtid</txt_124>
+    <txt_125 >ca.</txt_125>
+    <txt_126 >Omsætning</txt_126>   
+    
+    <txt_127 >kun</txt_127> 
+    <txt_128 >I</txt_128>
+    <txt_129 >kke</txt_129>
+    <txt_130 >a</txt_130>
+    <txt_131 >ngivet</txt_131>
+    <txt_132 >km</txt_132>
+    <txt_133 >Print version</txt_133>
+    <txt_134 >.CSV fil eksport</txt_134>
+    <txt_135 >Job</txt_135>
+    <txt_136 >Aftaler</txt_136>
+
+    <txt_137 >Forkalkuleret</txt_137>
+    <txt_138 >Realiseret</txt_138>
+    <txt_139 >Faktureret</txt_139>
+    <txt_140 >Bruttofortjeneste</txt_140>
+    
+  
+    
+  </dk>
+
+
+  <!--- Norsk -->
+  <no>
+
+    <txt_1 >Year</txt_1>
+    <txt_2 >Show total revenue</txt_2>
+    <txt_3 >view revenue per. customer / sup.</txt_3>
+    <txt_4 >top</txt_4>
+    <txt_5 >View</txt_5>
+    <txt_6 >Customers</txt_6>
+    <txt_7 >Suppliers</txt_7>
+    <txt_8 >Order turnover (Order date)</txt_8>
+    <txt_9 >Job turnover. (job start date)</txt_9>
+    <txt_10 >Broken down by:</txt_10>
+      
+    <txt_11 >Billed turnover.</txt_11>
+    <txt_12 >Go</txt_12>
+    <txt_13 >Gross revenue, and cost.</txt_13>
+    <txt_14 >All credits are in</txt_14>
+    <txt_15 >excl. VAT</txt_15>
+    <txt_16 >Budget Gross Revenue. Job</txt_16>
+    <txt_17 >Quantity</txt_17>
+    <txt_18 >Profit</txt_18>
+    <txt_19 >CM</txt_19>
+    <txt_20 >Cost / Subcontractor.</txt_20>
+      
+    <txt_21 >Value Agreements</txt_21>
+    <txt_22 >Est. Gross Profit.</txt_22>
+    <txt_23 >Realized Turnover</txt_23>
+    <txt_24 >Attachment (purchase price)</txt_24>
+    <txt_25 >Attachment (sales price)</txt_25>
+    <txt_26 >Invoiced revenue</txt_26>
+    <txt_27 >Credit notes</txt_27>
+    <txt_28 >Internal invoices</txt_28>
+    <txt_29 >Total invoiced amount: (incl. Internal and before credit notes)</txt_29>
+    <txt_30 >on job</txt_30>
+      
+    <txt_31 >On agreements</txt_31>
+    <txt_32 >Materials</txt_32>
+    <txt_33 >expenses</txt_33>
+    <txt_34 >Number of pieces. invoiced</txt_34>
+    <txt_35 >Billed spec.</txt_35>
+    <txt_36 >credit notes deducted</txt_36>
+    <txt_37 >Pr. empl. (all act types).</txt_37>
+    <txt_38 >På sum aktiviteter (timer/stk/enh./ia)</txt_38>
+    <txt_39 >On sum activities (hours only)</txt_39>
+    <txt_40 >On sum activities (number only)</txt_40>
+    
+    <txt_41 >On sum activities (units only)</txt_41>
+    <txt_42 >On sum activities</txt_42>
+    <txt_43 >Driving activities (km)</txt_43>
+    <txt_44 >Gross Profit</txt_44>
+    <txt_45 >Internal cost realized</txt_45>
+    <txt_46 >Gross Profit. realized</txt_46>
+    <txt_47 >Realized / Billed</txt_47>
+    <txt_48 >Hours</txt_48>
+    <txt_49 >Total</txt_49>
+    <txt_50 >Jan</txt_50>
+    
+    <txt_51 >Feb</txt_51>
+    <txt_52 >Mar</txt_52>
+    <txt_53 >Apr</txt_53>
+    <txt_54 >May</txt_54>
+    <txt_55 >Jun</txt_55>
+    <txt_56 >Jul</txt_56>
+    <txt_57 >Aug</txt_57>
+    <txt_58 >Sep</txt_58>
+    <txt_59 >Oct</txt_59>
+    <txt_60 >Nov</txt_60>
+      
+    <txt_61 >Dec</txt_61>
+    <txt_62 >Billable hours</txt_62>
+    <txt_63 >Non billable hours</txt_63>
+    <txt_64 >Bill. per. empl.</txt_64>
+    <txt_65 >Balance</txt_65>
+    <txt_66 >No customers / suppliers were found matching the selected criteria.</txt_66>
+    <txt_67 >Customer</txt_67>
+    <txt_68 >Type</txt_68>
+    <txt_69 >January</txt_69>
+    <txt_70 >February</txt_70>
+    
+    <txt_71 >March</txt_71>
+    <txt_72 >April</txt_72>
+    <txt_73 >May</txt_73>
+    <txt_74 >June</txt_74>
+    <txt_75 >Junl</txt_75>
+    <txt_76 >August</txt_76>
+    <txt_77 >September</txt_77>
+    <txt_78 >October</txt_78>
+    <txt_79 >November</txt_79>
+    <txt_80 >December</txt_80>
+    
+    <txt_81 >Period</txt_81>
+    <txt_82 >Your CSV. File is ready</txt_82>
+    <txt_83 >Figures in these columns are based on the return. 1) selected employee (s).</txt_83>
+    <txt_84 >If</txt_84>
+    <txt_85 >Key account</txt_85>
+    <txt_86 >is turned on, the numbers are based on all employees at the jobs where the</txt_86>
+    <txt_87 >selected employee is a job manager / customer manager.</txt_87>
+    <txt_88 >invoiced revenue per. Customer is sorted by invoice bill before credit notes, but shown incl. credit notes, distributed on top 5.10 or 20 customers.</txt_88>
+    <txt_89 >Definitions for revenue and billing calculations</txt_89>
+    <txt_90 >Only jobs that</txt_90>
+      
+    <txt_91 >is not</txt_91>
+    <txt_92 >part of an agreement is included. Offers are NOT included.</txt_92>
+    <txt_93 >Number to be produced.</txt_93>
+    <txt_94 >Expenses / Sub-suppliers.</txt_94>
+    <txt_95 >Expenses indicated on job to subcontractors.</txt_95>
+    <txt_96 >Total value stated on agreements, calculated based on the appointment start date of the displayed months.</txt_96>
+    <txt_97 >Realized revenue. excl. VAT.</txt_97>
+    <txt_98 >Calculated as such</txt_98>
+    <txt_99 >Number of realized billable hours * Employee type hourly rate.</txt_99>
+    <txt_100 >Total of expenditure / material consumption on the selected job. (Purchase price)</txt_100>
+    
+    <txt_101 >C2) Materials</txt_101>
+    <txt_102 >Total of expenditure / material consumption on the selected job. (Sale price)</txt_102>
+    <txt_103 >Billed sales excl. VAT / hours</txt_103>
+    <txt_104 >Total invoiced amount / hours jobs and agreements.</txt_104>
+    <txt_105 >redit notes and Internal invoices are deducted.</txt_105>
+    <txt_106 >Billed on the different device types.</txt_106>
+    <txt_107 >The sum of the invoiced amounts / hours, respectively. hours, units, items, not specified and km.</txt_107>
+    <txt_108 >Credit notes are deducted.</txt_108>
+    <txt_109 >Internal Cost.</txt_109>
+    <txt_110 >Number of hours (on selected employees) * Employee type cost</txt_110>
+    
+    <txt_111 >Gross Profit. Estimate</txt_111>
+    <txt_112 >Gross Profit. Real.</txt_112>
+    <txt_113 >Balance.</txt_113>
+    <txt_114 >Number of billed hours, per. Staff. (J) - Number of billable hours realized. (G)</txt_114>
+    <txt_115 >Time Consumption</txt_115>
+    <txt_116 >Number of hours on selected employees and jobs.</txt_116>
+    <txt_117 >All act. Types that count on daily hourly accounts are included. Also, the non-billable such as non-billable time, sales, vacation, illness and retirement are included.</txt_117>
+    <txt_118 >Job, agreement and invoice basis for the above summary.</txt_118>
+    <txt_119 >Jobs with time sheets</txt_119>
+    <txt_120 >Invoices on job (also the jobs that are part of an agreement) - NOT AGREEMENTS and internal invoices</txt_120>
+    
+    <txt_121 >Invoices</txt_121>
+    <txt_122 >quantity</txt_122>
+    <txt_123 >excl. internal</txt_123>
+    <txt_124 >Expected load time</txt_124>
+    <txt_125 >ca.</txt_125>
+    <txt_126 >Turnover</txt_126>
+    
+    <txt_127 >only</txt_127> 
+    <txt_128 >N</txt_128>
+    <txt_129 >ot</txt_129>
+    <txt_130 >i</txt_130>
+    <txt_131 >ndicated</txt_131>
+    <txt_132 >km</txt_132>
+    <txt_133 >Printable version</txt_133>
+    <txt_134 >.CSV file export</txt_134>
+    <txt_135 >Job</txt_135>
+    <txt_136 >Agreements</txt_136>
+
+    <txt_137 >Estimated</txt_137>
+    <txt_138 >Realized</txt_138>
+    <txt_139 >Billed</txt_139>
+    <txt_140 >Gross Profit</txt_140>
+  
+  </no>
+
+
+  <!--- Svensk -->
+  <so>
+    
+    <txt_1 >Year</txt_1>
+    <txt_2 >Show total revenue</txt_2>
+    <txt_3 >view revenue per. customer / sup.</txt_3>
+    <txt_4 >top</txt_4>
+    <txt_5 >View</txt_5>
+    <txt_6 >Customers</txt_6>
+    <txt_7 >Suppliers</txt_7>
+    <txt_8 >Order turnover (Order date)</txt_8>
+    <txt_9 >Job turnover. (job start date)</txt_9>
+    <txt_10 >Broken down by:</txt_10>
+      
+    <txt_11 >Billed turnover.</txt_11>
+    <txt_12 >Go</txt_12>
+    <txt_13 >Gross revenue, and cost.</txt_13>
+    <txt_14 >All credits are in</txt_14>
+    <txt_15 >excl. VAT</txt_15>
+    <txt_16 >Budget Gross Revenue. Job</txt_16>
+    <txt_17 >Quantity</txt_17>
+    <txt_18 >Profit</txt_18>
+    <txt_19 >CM</txt_19>
+    <txt_20 >Cost / Subcontractor.</txt_20>
+      
+    <txt_21 >Value Agreements</txt_21>
+    <txt_22 >Estimated Gross Profit.</txt_22>
+    <txt_23 >Realized Turnover</txt_23>
+    <txt_24 >Attachment (purchase price)</txt_24>
+    <txt_25 >Attachment (sales price)</txt_25>
+    <txt_26 >Invoiced revenue</txt_26>
+    <txt_27 >Credit notes</txt_27>
+    <txt_28 >Internal invoices</txt_28>
+    <txt_29 >Total invoiced amount: (incl. Internal and before credit notes)</txt_29>
+    <txt_30 >on job</txt_30>
+      
+    <txt_31 >On agreements</txt_31>
+    <txt_32 >Materials</txt_32>
+    <txt_33 >expenses</txt_33>
+    <txt_34 >Number of pieces. invoiced</txt_34>
+    <txt_35 >Billed spec.</txt_35>
+    <txt_36 >credit notes deducted</txt_36>
+    <txt_37 >Pr. empl. (all act types).</txt_37>
+    <txt_38 >På sum aktiviteter (timer/stk/enh./ia)</txt_38>
+    <txt_39 >On sum activities (hours only)</txt_39>
+    <txt_40 >On sum activities (number only)</txt_40>
+    
+    <txt_41 >On sum activities (units only)</txt_41>
+    <txt_42 >On sum activities</txt_42>
+    <txt_43 >Driving activities (km)</txt_43>
+    <txt_44 >Gross Profit</txt_44>
+    <txt_45 >Internal cost realized</txt_45>
+    <txt_46 >Gross Profit. realized</txt_46>
+    <txt_47 >Realized / Billed</txt_47>
+    <txt_48 >Hours</txt_48>
+    <txt_49 >Total</txt_49>
+    <txt_50 >Jan</txt_50>
+    
+    <txt_51 >Feb</txt_51>
+    <txt_52 >Mar</txt_52>
+    <txt_53 >Apr</txt_53>
+    <txt_54 >May</txt_54>
+    <txt_55 >Jun</txt_55>
+    <txt_56 >Jul</txt_56>
+    <txt_57 >Aug</txt_57>
+    <txt_58 >Sep</txt_58>
+    <txt_59 >Oct</txt_59>
+    <txt_60 >Nov</txt_60>
+      
+    <txt_61 >Dec</txt_61>
+    <txt_62 >Billable hours</txt_62>
+    <txt_63 >Non billable hours</txt_63>
+    <txt_64 >Bill. per. empl.</txt_64>
+    <txt_65 >Balance</txt_65>
+    <txt_66 >No customers / suppliers were found matching the selected criteria.</txt_66>
+    <txt_67 >Customer</txt_67>
+    <txt_68 >Type</txt_68>
+    <txt_69 >January</txt_69>
+    <txt_70 >February</txt_70>
+    
+    <txt_71 >March</txt_71>
+    <txt_72 >April</txt_72>
+    <txt_73 >May</txt_73>
+    <txt_74 >June</txt_74>
+    <txt_75 >Junl</txt_75>
+    <txt_76 >August</txt_76>
+    <txt_77 >September</txt_77>
+    <txt_78 >October</txt_78>
+    <txt_79 >November</txt_79>
+    <txt_80 >December</txt_80>
+    
+    <txt_81 >Period</txt_81>
+    <txt_82 >Your CSV. File is ready</txt_82>
+    <txt_83 >Figures in these columns are based on the return. 1) selected employee (s).</txt_83>
+    <txt_84 >If</txt_84>
+    <txt_85 >Key account</txt_85>
+    <txt_86 >is turned on, the numbers are based on all employees at the jobs where the</txt_86>
+    <txt_87 >selected employee is a job manager / customer manager.</txt_87>
+    <txt_88 >invoiced revenue per. Customer is sorted by invoice bill before credit notes, but shown incl. credit notes, distributed on top 5.10 or 20 customers.</txt_88>
+    <txt_89 >Definitions for revenue and billing calculations</txt_89>
+    <txt_90 >Only jobs that</txt_90>
+      
+    <txt_91 >is not</txt_91>
+    <txt_92 >part of an agreement is included. Offers are NOT included.</txt_92>
+    <txt_93 >Number to be produced.</txt_93>
+    <txt_94 >Expenses / Sub-suppliers.</txt_94>
+    <txt_95 >Expenses indicated on job to subcontractors.</txt_95>
+    <txt_96 >Total value stated on agreements, calculated based on the appointment start date of the displayed months.</txt_96>
+    <txt_97 >Realized revenue. excl. VAT.</txt_97>
+    <txt_98 >Calculated as such</txt_98>
+    <txt_99 >Number of realized billable hours * Employee type hourly rate.</txt_99>
+    <txt_100 >Total of expenditure / material consumption on the selected job. (Purchase price)</txt_100>
+    
+    <txt_101 >C2) Materials</txt_101>
+    <txt_102 >Total of expenditure / material consumption on the selected job. (Sale price)</txt_102>
+    <txt_103 >Billed sales excl. VAT / hours</txt_103>
+    <txt_104 >Total invoiced amount / hours jobs and agreements.</txt_104>
+    <txt_105 >redit notes and Internal invoices are deducted.</txt_105>
+    <txt_106 >Billed on the different device types.</txt_106>
+    <txt_107 >The sum of the invoiced amounts / hours, respectively. hours, units, items, not specified and km.</txt_107>
+    <txt_108 >Credit notes are deducted.</txt_108>
+    <txt_109 >Internal Cost.</txt_109>
+    <txt_110 >Number of hours (on selected employees) * Employee type cost</txt_110>
+    
+    <txt_111 >Gross Profit. Estimate</txt_111>
+    <txt_112 >Gross Profit. Real.</txt_112>
+    <txt_113 >Balance.</txt_113>
+    <txt_114 >Number of billed hours, per. Staff. (J) - Number of billable hours realized. (G)</txt_114>
+    <txt_115 >Time Consumption</txt_115>
+    <txt_116 >Number of hours on selected employees and jobs.</txt_116>
+    <txt_117 >All act. Types that count on daily hourly accounts are included. Also, the non-billable such as non-billable time, sales, vacation, illness and retirement are included.</txt_117>
+    <txt_118 >Job, agreement and invoice basis for the above summary.</txt_118>
+    <txt_119 >Jobs with time sheets</txt_119>
+    <txt_120 >Invoices on job (also the jobs that are part of an agreement) - NOT AGREEMENTS and internal invoices</txt_120>
+    
+    <txt_121 >Invoices</txt_121>
+    <txt_122 >quantity</txt_122>
+    <txt_123 >excl. internal</txt_123>
+    <txt_124 >Expected load time</txt_124>
+    <txt_125 >about</txt_125>
+    <txt_126 >Turnover</txt_126>
+    
+    <txt_127 >only</txt_127> 
+    <txt_128 >N</txt_128>
+    <txt_129 >ot</txt_129>
+    <txt_130 >i</txt_130>
+    <txt_131 >ndicated</txt_131>
+    <txt_132 >km</txt_132>
+    <txt_133 >Printable version</txt_133>
+    <txt_134 >.CSV file export</txt_134>
+    <txt_135 >Job</txt_135>
+    <txt_136 >Agreements</txt_136>
+
+    <txt_137 >Estimated</txt_137>
+    <txt_138 >Realized</txt_138>
+    <txt_139 >Billed</txt_139>
+    <txt_140 >Gross Profit</txt_140>
+    
+  </so>
+
+
+  <!--- Tysk -->
+  <de>
+
+    <txt_1 >Year</txt_1>
+    <txt_2 >Show total revenue</txt_2>
+    <txt_3 >view revenue per. customer / sup.</txt_3>
+    <txt_4 >top</txt_4>
+    <txt_5 >View</txt_5>
+    <txt_6 >Customers</txt_6>
+    <txt_7 >Suppliers</txt_7>
+    <txt_8 >Order turnover (Order date)</txt_8>
+    <txt_9 >Job turnover. (job start date)</txt_9>
+    <txt_10 >Broken down by:</txt_10>
+      
+    <txt_11 >Billed turnover.</txt_11>
+    <txt_12 >Go</txt_12>
+    <txt_13 >Gross revenue, and cost.</txt_13>
+    <txt_14 >All credits are in</txt_14>
+    <txt_15 >excl. VAT</txt_15>
+    <txt_16 >Budget Gross Revenue. Job</txt_16>
+    <txt_17 >Quantity</txt_17>
+    <txt_18 >Profit</txt_18>
+    <txt_19 >CM</txt_19>
+    <txt_20 >Cost / Subcontractor.</txt_20>
+      
+    <txt_21 >Value Agreements</txt_21>
+    <txt_22 >Estimated Gross Profit.</txt_22>
+    <txt_23 >Realized Turnover</txt_23>
+    <txt_24 >Attachment (purchase price)</txt_24>
+    <txt_25 >Attachment (sales price)</txt_25>
+    <txt_26 >Invoiced revenue</txt_26>
+    <txt_27 >Credit notes</txt_27>
+    <txt_28 >Internal invoices</txt_28>
+    <txt_29 >Total invoiced amount: (incl. Internal and before credit notes)</txt_29>
+    <txt_30 >on job</txt_30>
+      
+    <txt_31 >On agreements</txt_31>
+    <txt_32 >Materials</txt_32>
+    <txt_33 >expenses</txt_33>
+    <txt_34 >Number of pieces. invoiced</txt_34>
+    <txt_35 >Billed spec.</txt_35>
+    <txt_36 >credit notes deducted</txt_36>
+    <txt_37 >Pr. empl. (all act types).</txt_37>
+    <txt_38 >På sum aktiviteter (timer/stk/enh./ia)</txt_38>
+    <txt_39 >On sum activities (hours only)</txt_39>
+    <txt_40 >On sum activities (number only)</txt_40>
+    
+    <txt_41 >On sum activities (units only)</txt_41>
+    <txt_42 >On sum activities</txt_42>
+    <txt_43 >Driving activities (km)</txt_43>
+    <txt_44 >Gross Profit</txt_44>
+    <txt_45 >Internal cost realized</txt_45>
+    <txt_46 >Gross Profit. realized</txt_46>
+    <txt_47 >Realized / Billed</txt_47>
+    <txt_48 >Hours</txt_48>
+    <txt_49 >Total</txt_49>
+    <txt_50 >Jan</txt_50>
+    
+    <txt_51 >Feb</txt_51>
+    <txt_52 >Mar</txt_52>
+    <txt_53 >Apr</txt_53>
+    <txt_54 >May</txt_54>
+    <txt_55 >Jun</txt_55>
+    <txt_56 >Jul</txt_56>
+    <txt_57 >Aug</txt_57>
+    <txt_58 >Sep</txt_58>
+    <txt_59 >Oct</txt_59>
+    <txt_60 >Nov</txt_60>
+      
+    <txt_61 >Dec</txt_61>
+    <txt_62 >Billable hours</txt_62>
+    <txt_63 >Non billable hours</txt_63>
+    <txt_64 >Bill. per. empl.</txt_64>
+    <txt_65 >Balance</txt_65>
+    <txt_66 >No customers / suppliers were found matching the selected criteria.</txt_66>
+    <txt_67 >Customer</txt_67>
+    <txt_68 >Type</txt_68>
+    <txt_69 >January</txt_69>
+    <txt_70 >February</txt_70>
+    
+    <txt_71 >March</txt_71>
+    <txt_72 >April</txt_72>
+    <txt_73 >May</txt_73>
+    <txt_74 >June</txt_74>
+    <txt_75 >Junl</txt_75>
+    <txt_76 >August</txt_76>
+    <txt_77 >September</txt_77>
+    <txt_78 >October</txt_78>
+    <txt_79 >November</txt_79>
+    <txt_80 >December</txt_80>
+    
+    <txt_81 >Period</txt_81>
+    <txt_82 >Your CSV. File is ready</txt_82>
+    <txt_83 >Figures in these columns are based on the return. 1) selected employee (s).</txt_83>
+    <txt_84 >If</txt_84>
+    <txt_85 >Key account</txt_85>
+    <txt_86 >is turned on, the numbers are based on all employees at the jobs where the</txt_86>
+    <txt_87 >selected employee is a job manager / customer manager.</txt_87>
+    <txt_88 >invoiced revenue per. Customer is sorted by invoice bill before credit notes, but shown incl. credit notes, distributed on top 5.10 or 20 customers.</txt_88>
+    <txt_89 >Definitions for revenue and billing calculations</txt_89>
+    <txt_90 >Only jobs that</txt_90>
+      
+    <txt_91 >is not</txt_91>
+    <txt_92 >part of an agreement is included. Offers are NOT included.</txt_92>
+    <txt_93 >Number to be produced.</txt_93>
+    <txt_94 >Expenses / Sub-suppliers.</txt_94>
+    <txt_95 >Expenses indicated on job to subcontractors.</txt_95>
+    <txt_96 >Total value stated on agreements, calculated based on the appointment start date of the displayed months.</txt_96>
+    <txt_97 >Realized revenue. excl. VAT.</txt_97>
+    <txt_98 >Calculated as such</txt_98>
+    <txt_99 >Number of realized billable hours * Employee type hourly rate.</txt_99>
+    <txt_100 >Total of expenditure / material consumption on the selected job. (Purchase price)</txt_100>
+    
+    <txt_101 >C2) Materials</txt_101>
+    <txt_102 >Total of expenditure / material consumption on the selected job. (Sale price)</txt_102>
+    <txt_103 >Billed sales excl. VAT / hours</txt_103>
+    <txt_104 >Total invoiced amount / hours jobs and agreements.</txt_104>
+    <txt_105 >redit notes and Internal invoices are deducted.</txt_105>
+    <txt_106 >Billed on the different device types.</txt_106>
+    <txt_107 >The sum of the invoiced amounts / hours, respectively. hours, units, items, not specified and km.</txt_107>
+    <txt_108 >Credit notes are deducted.</txt_108>
+    <txt_109 >Internal Cost.</txt_109>
+    <txt_110 >Number of hours (on selected employees) * Employee type cost</txt_110>
+    
+    <txt_111 >Gross Profit. Estimate</txt_111>
+    <txt_112 >Gross Profit. Real.</txt_112>
+    <txt_113 >Balance.</txt_113>
+    <txt_114 >Number of billed hours, per. Staff. (J) - Number of billable hours realized. (G)</txt_114>
+    <txt_115 >Time Consumption</txt_115>
+    <txt_116 >Number of hours on selected employees and jobs.</txt_116>
+    <txt_117 >All act. Types that count on daily hourly accounts are included. Also, the non-billable such as non-billable time, sales, vacation, illness and retirement are included.</txt_117>
+    <txt_118 >Job, agreement and invoice basis for the above summary.</txt_118>
+    <txt_119 >Jobs with time sheets</txt_119>
+    <txt_120 >Invoices on job (also the jobs that are part of an agreement) - NOT AGREEMENTS and internal invoices</txt_120>
+    
+    <txt_121 >Invoices</txt_121>
+    <txt_122 >quantity</txt_122>
+    <txt_123 >excl. internal</txt_123>
+    <txt_124 >Expected load time</txt_124>
+    <txt_125 >about</txt_125>
+    <txt_126 >Turnover</txt_126>
+    
+    <txt_127 >only</txt_127> 
+    <txt_128 >N</txt_128>
+    <txt_129 >ot</txt_129>
+    <txt_130 >i</txt_130>
+    <txt_131 >ndicated</txt_131>
+    <txt_132 >km</txt_132>
+    <txt_133 >Printable version</txt_133>
+    <txt_134 >.CSV file export</txt_134>
+    <txt_135 >Job</txt_135>
+    <txt_136 >Agreements</txt_136>
+    
+    <txt_137 >Estimated</txt_137>
+    <txt_138 >Realized</txt_138>
+    <txt_139 >Billed</txt_139>
+    <txt_140 >Gross Profit</txt_140>
+
+  </de>
+
+
+  <!--- Fransk -->
+  <fr>
+
+    <txt_1 >Year</txt_1>
+    <txt_2 >Show total revenue</txt_2>
+    <txt_3 >view revenue per. customer / sup.</txt_3>
+    <txt_4 >top</txt_4>
+    <txt_5 >View</txt_5>
+    <txt_6 >Customers</txt_6>
+    <txt_7 >Suppliers</txt_7>
+    <txt_8 >Order turnover (Order date)</txt_8>
+    <txt_9 >Job turnover. (job start date)</txt_9>
+    <txt_10 >Broken down by:</txt_10>
+      
+    <txt_11 >Billed turnover.</txt_11>
+    <txt_12 >Go</txt_12>
+    <txt_13 >Gross revenue, and cost.</txt_13>
+    <txt_14 >All credits are in</txt_14>
+    <txt_15 >excl. VAT</txt_15>
+    <txt_16 >Budget Gross Revenue. Job</txt_16>
+    <txt_17 >Quantity</txt_17>
+    <txt_18 >Profit</txt_18>
+    <txt_19 >CM</txt_19>
+    <txt_20 >Cost / Subcontractor.</txt_20>
+      
+    <txt_21 >Value Agreements</txt_21>
+    <txt_22 >Estimated Gross Profit.</txt_22>
+    <txt_23 >Realized Turnover</txt_23>
+    <txt_24 >Attachment (purchase price)</txt_24>
+    <txt_25 >Attachment (sales price)</txt_25>
+    <txt_26 >Invoiced revenue</txt_26>
+    <txt_27 >Credit notes</txt_27>
+    <txt_28 >Internal invoices</txt_28>
+    <txt_29 >Total invoiced amount: (incl. Internal and before credit notes)</txt_29>
+    <txt_30 >on job</txt_30>
+      
+    <txt_31 >On agreements</txt_31>
+    <txt_32 >Materials</txt_32>
+    <txt_33 >expenses</txt_33>
+    <txt_34 >Number of pieces. invoiced</txt_34>
+    <txt_35 >Billed spec.</txt_35>
+    <txt_36 >credit notes deducted</txt_36>
+    <txt_37 >Pr. empl. (all act types).</txt_37>
+    <txt_38 >På sum aktiviteter (timer/stk/enh./ia)</txt_38>
+    <txt_39 >On sum activities (hours only)</txt_39>
+    <txt_40 >On sum activities (number only)</txt_40>
+    
+    <txt_41 >On sum activities (units only)</txt_41>
+    <txt_42 >On sum activities</txt_42>
+    <txt_43 >Driving activities (km)</txt_43>
+    <txt_44 >Gross Profit</txt_44>
+    <txt_45 >Internal cost realized</txt_45>
+    <txt_46 >Gross Profit. realized</txt_46>
+    <txt_47 >Realized / Billed</txt_47>
+    <txt_48 >Hours</txt_48>
+    <txt_49 >Total</txt_49>
+    <txt_50 >Jan</txt_50>
+    
+    <txt_51 >Feb</txt_51>
+    <txt_52 >Mar</txt_52>
+    <txt_53 >Apr</txt_53>
+    <txt_54 >May</txt_54>
+    <txt_55 >Jun</txt_55>
+    <txt_56 >Jul</txt_56>
+    <txt_57 >Aug</txt_57>
+    <txt_58 >Sep</txt_58>
+    <txt_59 >Oct</txt_59>
+    <txt_60 >Nov</txt_60>
+      
+    <txt_61 >Dec</txt_61>
+    <txt_62 >Billable hours</txt_62>
+    <txt_63 >Non billable hours</txt_63>
+    <txt_64 >Bill. per. empl.</txt_64>
+    <txt_65 >Balance</txt_65>
+    <txt_66 >No customers / suppliers were found matching the selected criteria.</txt_66>
+    <txt_67 >Customer</txt_67>
+    <txt_68 >Type</txt_68>
+    <txt_69 >January</txt_69>
+    <txt_70 >February</txt_70>
+    
+    <txt_71 >March</txt_71>
+    <txt_72 >April</txt_72>
+    <txt_73 >May</txt_73>
+    <txt_74 >June</txt_74>
+    <txt_75 >Junl</txt_75>
+    <txt_76 >August</txt_76>
+    <txt_77 >September</txt_77>
+    <txt_78 >October</txt_78>
+    <txt_79 >November</txt_79>
+    <txt_80 >December</txt_80>
+    
+    <txt_81 >Period</txt_81>
+    <txt_82 >Your CSV. File is ready</txt_82>
+    <txt_83 >Figures in these columns are based on the return. 1) selected employee (s).</txt_83>
+    <txt_84 >If</txt_84>
+    <txt_85 >Key account</txt_85>
+    <txt_86 >is turned on, the numbers are based on all employees at the jobs where the</txt_86>
+    <txt_87 >selected employee is a job manager / customer manager.</txt_87>
+    <txt_88 >invoiced revenue per. Customer is sorted by invoice bill before credit notes, but shown incl. credit notes, distributed on top 5.10 or 20 customers.</txt_88>
+    <txt_89 >Definitions for revenue and billing calculations</txt_89>
+    <txt_90 >Only jobs that</txt_90>
+      
+    <txt_91 >is not</txt_91>
+    <txt_92 >part of an agreement is included. Offers are NOT included.</txt_92>
+    <txt_93 >Number to be produced.</txt_93>
+    <txt_94 >Expenses / Sub-suppliers.</txt_94>
+    <txt_95 >Expenses indicated on job to subcontractors.</txt_95>
+    <txt_96 >Total value stated on agreements, calculated based on the appointment start date of the displayed months.</txt_96>
+    <txt_97 >Realized revenue. excl. VAT.</txt_97>
+    <txt_98 >Calculated as such</txt_98>
+    <txt_99 >Number of realized billable hours * Employee type hourly rate.</txt_99>
+    <txt_100 >Total of expenditure / material consumption on the selected job. (Purchase price)</txt_100>
+    
+    <txt_101 >C2) Materials</txt_101>
+    <txt_102 >Total of expenditure / material consumption on the selected job. (Sale price)</txt_102>
+    <txt_103 >Billed sales excl. VAT / hours</txt_103>
+    <txt_104 >Total invoiced amount / hours jobs and agreements.</txt_104>
+    <txt_105 >redit notes and Internal invoices are deducted.</txt_105>
+    <txt_106 >Billed on the different device types.</txt_106>
+    <txt_107 >The sum of the invoiced amounts / hours, respectively. hours, units, items, not specified and km.</txt_107>
+    <txt_108 >Credit notes are deducted.</txt_108>
+    <txt_109 >Internal Cost.</txt_109>
+    <txt_110 >Number of hours (on selected employees) * Employee type cost</txt_110>
+    
+    <txt_111 >Gross Profit. Estimate</txt_111>
+    <txt_112 >Gross Profit. Real.</txt_112>
+    <txt_113 >Balance.</txt_113>
+    <txt_114 >Number of billed hours, per. Staff. (J) - Number of billable hours realized. (G)</txt_114>
+    <txt_115 >Time Consumption</txt_115>
+    <txt_116 >Number of hours on selected employees and jobs.</txt_116>
+    <txt_117 >All act. Types that count on daily hourly accounts are included. Also, the non-billable such as non-billable time, sales, vacation, illness and retirement are included.</txt_117>
+    <txt_118 >Job, agreement and invoice basis for the above summary.</txt_118>
+    <txt_119 >Jobs with time sheets</txt_119>
+    <txt_120 >Invoices on job (also the jobs that are part of an agreement) - NOT AGREEMENTS and internal invoices</txt_120>
+    
+    <txt_121 >Invoices</txt_121>
+    <txt_122 >quantity</txt_122>
+    <txt_123 >excl. internal</txt_123>
+    <txt_124 >Expected load time</txt_124>
+    <txt_125 >about</txt_125>
+    <txt_126 >Turnover</txt_126>
+    
+    <txt_127 >only</txt_127> 
+    <txt_128 >N</txt_128>
+    <txt_129 >ot</txt_129>
+    <txt_130 >i</txt_130>
+    <txt_131 >ndicated</txt_131>
+    <txt_132 >km</txt_132>
+    <txt_133 >Printable version</txt_133>
+    <txt_134 >.CSV file export</txt_134>
+    <txt_135 >Job</txt_135>
+    <txt_136 >Agreements</txt_136>
+
+    <txt_137 >Estimated</txt_137>
+    <txt_138 >Realized</txt_138>
+    <txt_139 >Billed</txt_139>
+    <txt_140 >Gross Profit</txt_140>
+
+  </fr>
+
+
+
+  <!-- Engelsk -->
+  <uk>
+
+   <txt_1 >Year</txt_1>
+    <txt_2 >Show total revenue</txt_2>
+    <txt_3 >view revenue per. customer / sup.</txt_3>
+    <txt_4 >top</txt_4>
+    <txt_5 >View</txt_5>
+    <txt_6 >Customers</txt_6>
+    <txt_7 >Suppliers</txt_7>
+    <txt_8 >Order turnover (Order date)</txt_8>
+    <txt_9 >Job turnover. (job start date)</txt_9>
+    <txt_10 >Broken down by:</txt_10>
+      
+    <txt_11 >Billed turnover.</txt_11>
+    <txt_12 >Go</txt_12>
+    <txt_13 >Gross revenue, and cost.</txt_13>
+    <txt_14 >All credits are in</txt_14>
+    <txt_15 >excl. VAT</txt_15>
+    <txt_16 >Budget Gross Revenue. Job</txt_16>
+    <txt_17 >Quantity</txt_17>
+    <txt_18 >Profit</txt_18>
+    <txt_19 >CM</txt_19>
+    <txt_20 >Cost / Subcontractor.</txt_20>
+      
+    <txt_21 >Value Agreements</txt_21>
+    <txt_22 >Estimated Gross Profit.</txt_22>
+    <txt_23 >Realized Turnover</txt_23>
+    <txt_24 >Attachment (purchase price)</txt_24>
+    <txt_25 >Attachment (sales price)</txt_25>
+    <txt_26 >Invoiced revenue</txt_26>
+    <txt_27 >Credit notes</txt_27>
+    <txt_28 >Internal invoices</txt_28>
+    <txt_29 >Total invoiced amount: (incl. Internal and before credit notes)</txt_29>
+    <txt_30 >on job</txt_30>
+      
+    <txt_31 >On agreements</txt_31>
+    <txt_32 >Materials</txt_32>
+    <txt_33 >expenses</txt_33>
+    <txt_34 >Number of pieces. invoiced</txt_34>
+    <txt_35 >Billed spec.</txt_35>
+    <txt_36 >credit notes deducted</txt_36>
+    <txt_37 >Pr. empl. (all act types).</txt_37>
+    <txt_38 >På sum aktiviteter (timer/stk/enh./ia)</txt_38>
+    <txt_39 >On sum activities (hours only)</txt_39>
+    <txt_40 >On sum activities (number only)</txt_40>
+    
+    <txt_41 >On sum activities (units only)</txt_41>
+    <txt_42 >On sum activities</txt_42>
+    <txt_43 >Driving activities (km)</txt_43>
+    <txt_44 >Gross Profit</txt_44>
+    <txt_45 >Internal cost realized</txt_45>
+    <txt_46 >Gross Profit. realized</txt_46>
+    <txt_47 >Realized / Billed</txt_47>
+    <txt_48 >Hours</txt_48>
+    <txt_49 >Total</txt_49>
+    <txt_50 >Jan</txt_50>
+    
+    <txt_51 >Feb</txt_51>
+    <txt_52 >Mar</txt_52>
+    <txt_53 >Apr</txt_53>
+    <txt_54 >May</txt_54>
+    <txt_55 >Jun</txt_55>
+    <txt_56 >Jul</txt_56>
+    <txt_57 >Aug</txt_57>
+    <txt_58 >Sep</txt_58>
+    <txt_59 >Oct</txt_59>
+    <txt_60 >Nov</txt_60>
+      
+    <txt_61 >Dec</txt_61>
+    <txt_62 >Billable hours</txt_62>
+    <txt_63 >Non billable hours</txt_63>
+    <txt_64 >Bill. per. empl.</txt_64>
+    <txt_65 >Balance</txt_65>
+    <txt_66 >No customers / suppliers were found matching the selected criteria.</txt_66>
+    <txt_67 >Customer</txt_67>
+    <txt_68 >Type</txt_68>
+    <txt_69 >January</txt_69>
+    <txt_70 >February</txt_70>
+    
+    <txt_71 >March</txt_71>
+    <txt_72 >April</txt_72>
+    <txt_73 >May</txt_73>
+    <txt_74 >June</txt_74>
+    <txt_75 >Junl</txt_75>
+    <txt_76 >August</txt_76>
+    <txt_77 >September</txt_77>
+    <txt_78 >October</txt_78>
+    <txt_79 >November</txt_79>
+    <txt_80 >December</txt_80>
+    
+    <txt_81 >Period</txt_81>
+    <txt_82 >Your CSV. File is ready</txt_82>
+    <txt_83 >Figures in these columns are based on the return. 1) selected employee (s).</txt_83>
+    <txt_84 >If</txt_84>
+    <txt_85 >Key account</txt_85>
+    <txt_86 >is turned on, the numbers are based on all employees at the jobs where the</txt_86>
+    <txt_87 >selected employee is a job manager / customer manager.</txt_87>
+    <txt_88 >invoiced revenue per. Customer is sorted by invoice bill before credit notes, but shown incl. credit notes, distributed on top 5.10 or 20 customers.</txt_88>
+    <txt_89 >Definitions for revenue and billing calculations</txt_89>
+    <txt_90 >Only jobs that</txt_90>
+      
+    <txt_91 >is not</txt_91>
+    <txt_92 >part of an agreement is included. Offers are NOT included.</txt_92>
+    <txt_93 >Number to be produced.</txt_93>
+    <txt_94 >Expenses / Sub-suppliers.</txt_94>
+    <txt_95 >Expenses indicated on job to subcontractors.</txt_95>
+    <txt_96 >Total value stated on agreements, calculated based on the appointment start date of the displayed months.</txt_96>
+    <txt_97 >Realized revenue. excl. VAT.</txt_97>
+    <txt_98 >Calculated as such</txt_98>
+    <txt_99 >Number of realized billable hours * Employee type hourly rate.</txt_99>
+    <txt_100 >Total of expenditure / material consumption on the selected job. (Purchase price)</txt_100>
+    
+    <txt_101 >C2) Materials</txt_101>
+    <txt_102 >Total of expenditure / material consumption on the selected job. (Sale price)</txt_102>
+    <txt_103 >Billed sales excl. VAT / hours</txt_103>
+    <txt_104 >Total invoiced amount / hours jobs and agreements.</txt_104>
+    <txt_105 >redit notes and Internal invoices are deducted.</txt_105>
+    <txt_106 >Billed on the different device types.</txt_106>
+    <txt_107 >The sum of the invoiced amounts / hours, respectively. hours, units, items, not specified and km.</txt_107>
+    <txt_108 >Credit notes are deducted.</txt_108>
+    <txt_109 >Internal Cost.</txt_109>
+    <txt_110 >Number of hours (on selected employees) * Employee type cost</txt_110>
+    
+    <txt_111 >Gross Profit. Estimate</txt_111>
+    <txt_112 >Gross Profit. Real.</txt_112>
+    <txt_113 >Balance.</txt_113>
+    <txt_114 >Number of billed hours, per. Staff. (J) - Number of billable hours realized. (G)</txt_114>
+    <txt_115 >Time Consumption</txt_115>
+    <txt_116 >Number of hours on selected employees and jobs.</txt_116>
+    <txt_117 >All act. Types that count on daily hourly accounts are included. Also, the non-billable such as non-billable time, sales, vacation, illness and retirement are included.</txt_117>
+    <txt_118 >Job, agreement and invoice basis for the above summary.</txt_118>
+    <txt_119 >Jobs with time sheets</txt_119>
+    <txt_120 >Invoices on job (also the jobs that are part of an agreement) - NOT AGREEMENTS and internal invoices</txt_120>
+    
+    <txt_121 >Invoices</txt_121>
+    <txt_122 >quantity</txt_122>
+    <txt_123 >excl. internal</txt_123>
+    <txt_124 >Expected load time</txt_124>
+    <txt_125 >about</txt_125>
+    <txt_126 >Turnover</txt_126>
+    
+    <txt_127 >only</txt_127> 
+    <txt_128 >N</txt_128>
+    <txt_129 >ot</txt_129>
+    <txt_130 >i</txt_130>
+    <txt_131 >ndicated</txt_131>
+    <txt_132 >km</txt_132>
+    <txt_133 >Printable version</txt_133>
+    <txt_134 >.CSV file export</txt_134>
+    <txt_135 >Job</txt_135>
+    <txt_136 >Agreements</txt_136>
+
+    <txt_137 >Estimated</txt_137>
+    <txt_138 >Realized</txt_138>
+    <txt_139 >Billed</txt_139>
+    <txt_140 >Gross Profit</txt_140>
+
+  </uk>
+
+
+  <!--- Spansk -->
+  <es>
+
+   <txt_1 >Year</txt_1>
+    <txt_2 >Show total revenue</txt_2>
+    <txt_3 >view revenue per. customer / sup.</txt_3>
+    <txt_4 >top</txt_4>
+    <txt_5 >View</txt_5>
+    <txt_6 >Customers</txt_6>
+    <txt_7 >Suppliers</txt_7>
+    <txt_8 >Order turnover (Order date)</txt_8>
+    <txt_9 >Job turnover. (job start date)</txt_9>
+    <txt_10 >Broken down by:</txt_10>
+      
+    <txt_11 >Billed turnover.</txt_11>
+    <txt_12 >Go</txt_12>
+    <txt_13 >Gross revenue, and cost.</txt_13>
+    <txt_14 >All credits are in</txt_14>
+    <txt_15 >excl. VAT</txt_15>
+    <txt_16 >Budget Gross Revenue. Job</txt_16>
+    <txt_17 >Quantity</txt_17>
+    <txt_18 >Profit</txt_18>
+    <txt_19 >CM</txt_19>
+    <txt_20 >Cost / Subcontractor.</txt_20>
+      
+    <txt_21 >Value Agreements</txt_21>
+    <txt_22 >Estimated Gross Profit.</txt_22>
+    <txt_23 >Realized Turnover</txt_23>
+    <txt_24 >Attachment (purchase price)</txt_24>
+    <txt_25 >Attachment (sales price)</txt_25>
+    <txt_26 >Invoiced revenue</txt_26>
+    <txt_27 >Credit notes</txt_27>
+    <txt_28 >Internal invoices</txt_28>
+    <txt_29 >Total invoiced amount: (incl. Internal and before credit notes)</txt_29>
+    <txt_30 >on job</txt_30>
+      
+    <txt_31 >On agreements</txt_31>
+    <txt_32 >Materials</txt_32>
+    <txt_33 >expenses</txt_33>
+    <txt_34 >Number of pieces. invoiced</txt_34>
+    <txt_35 >Billed spec.</txt_35>
+    <txt_36 >credit notes deducted</txt_36>
+    <txt_37 >Pr. empl. (all act types).</txt_37>
+    <txt_38 >På sum aktiviteter (timer/stk/enh./ia)</txt_38>
+    <txt_39 >On sum activities (hours only)</txt_39>
+    <txt_40 >On sum activities (number only)</txt_40>
+    
+    <txt_41 >On sum activities (units only)</txt_41>
+    <txt_42 >On sum activities</txt_42>
+    <txt_43 >Driving activities (km)</txt_43>
+    <txt_44 >Gross Profit</txt_44>
+    <txt_45 >Internal cost realized</txt_45>
+    <txt_46 >Gross Profit. realized</txt_46>
+    <txt_47 >Realized / Billed</txt_47>
+    <txt_48 >Hours</txt_48>
+    <txt_49 >Total</txt_49>
+    <txt_50 >Jan</txt_50>
+    
+    <txt_51 >Feb</txt_51>
+    <txt_52 >Mar</txt_52>
+    <txt_53 >Apr</txt_53>
+    <txt_54 >May</txt_54>
+    <txt_55 >Jun</txt_55>
+    <txt_56 >Jul</txt_56>
+    <txt_57 >Aug</txt_57>
+    <txt_58 >Sep</txt_58>
+    <txt_59 >Oct</txt_59>
+    <txt_60 >Nov</txt_60>
+      
+    <txt_61 >Dec</txt_61>
+    <txt_62 >Billable hours</txt_62>
+    <txt_63 >Non billable hours</txt_63>
+    <txt_64 >Bill. per. empl.</txt_64>
+    <txt_65 >Balance</txt_65>
+    <txt_66 >No customers / suppliers were found matching the selected criteria.</txt_66>
+    <txt_67 >Customer</txt_67>
+    <txt_68 >Type</txt_68>
+    <txt_69 >January</txt_69>
+    <txt_70 >February</txt_70>
+    
+    <txt_71 >March</txt_71>
+    <txt_72 >April</txt_72>
+    <txt_73 >May</txt_73>
+    <txt_74 >June</txt_74>
+    <txt_75 >Junl</txt_75>
+    <txt_76 >August</txt_76>
+    <txt_77 >September</txt_77>
+    <txt_78 >October</txt_78>
+    <txt_79 >November</txt_79>
+    <txt_80 >December</txt_80>
+    
+    <txt_81 >Period</txt_81>
+    <txt_82 >Your CSV. File is ready</txt_82>
+    <txt_83 >Figures in these columns are based on the return. 1) selected employee (s).</txt_83>
+    <txt_84 >If</txt_84>
+    <txt_85 >Key account</txt_85>
+    <txt_86 >is turned on, the numbers are based on all employees at the jobs where the</txt_86>
+    <txt_87 >selected employee is a job manager / customer manager.</txt_87>
+    <txt_88 >invoiced revenue per. Customer is sorted by invoice bill before credit notes, but shown incl. credit notes, distributed on top 5.10 or 20 customers.</txt_88>
+    <txt_89 >Definitions for revenue and billing calculations</txt_89>
+    <txt_90 >Only jobs that</txt_90>
+      
+    <txt_91 >is not</txt_91>
+    <txt_92 >part of an agreement is included. Offers are NOT included.</txt_92>
+    <txt_93 >Number to be produced.</txt_93>
+    <txt_94 >Expenses / Sub-suppliers.</txt_94>
+    <txt_95 >Expenses indicated on job to subcontractors.</txt_95>
+    <txt_96 >Total value stated on agreements, calculated based on the appointment start date of the displayed months.</txt_96>
+    <txt_97 >Realized revenue. excl. VAT.</txt_97>
+    <txt_98 >Calculated as such</txt_98>
+    <txt_99 >Number of realized billable hours * Employee type hourly rate.</txt_99>
+    <txt_100 >Total of expenditure / material consumption on the selected job. (Purchase price)</txt_100>
+    
+    <txt_101 >C2) Materials</txt_101>
+    <txt_102 >Total of expenditure / material consumption on the selected job. (Sale price)</txt_102>
+    <txt_103 >Billed sales excl. VAT / hours</txt_103>
+    <txt_104 >Total invoiced amount / hours jobs and agreements.</txt_104>
+    <txt_105 >redit notes and Internal invoices are deducted.</txt_105>
+    <txt_106 >Billed on the different device types.</txt_106>
+    <txt_107 >The sum of the invoiced amounts / hours, respectively. hours, units, items, not specified and km.</txt_107>
+    <txt_108 >Credit notes are deducted.</txt_108>
+    <txt_109 >Internal Cost.</txt_109>
+    <txt_110 >Number of hours (on selected employees) * Employee type cost</txt_110>
+    
+    <txt_111 >Gross Profit. Estimate</txt_111>
+    <txt_112 >Gross Profit. Real.</txt_112>
+    <txt_113 >Balance.</txt_113>
+    <txt_114 >Number of billed hours, per. Staff. (J) - Number of billable hours realized. (G)</txt_114>
+    <txt_115 >Time Consumption</txt_115>
+    <txt_116 >Number of hours on selected employees and jobs.</txt_116>
+    <txt_117 >All act. Types that count on daily hourly accounts are included. Also, the non-billable such as non-billable time, sales, vacation, illness and retirement are included.</txt_117>
+    <txt_118 >Job, agreement and invoice basis for the above summary.</txt_118>
+    <txt_119 >Jobs with time sheets</txt_119>
+    <txt_120 >Invoices on job (also the jobs that are part of an agreement) - NOT AGREEMENTS and internal invoices</txt_120>
+    
+    <txt_121 >Invoices</txt_121>
+    <txt_122 >quantity</txt_122>
+    <txt_123 >excl. internal</txt_123>
+    <txt_124 >Expected load time</txt_124>
+    <txt_125 >about</txt_125>
+    <txt_126 >Turnover</txt_126>
+    
+    <txt_127 >only</txt_127> 
+    <txt_128 >N</txt_128>
+    <txt_129 >ot</txt_129>
+    <txt_130 >i</txt_130>
+    <txt_131 >ndicated</txt_131>
+    <txt_132 >km</txt_132>
+    <txt_133 >Printable version</txt_133>
+    <txt_134 >.CSV file export</txt_134>
+    <txt_135 >Job</txt_135>
+    <txt_136 >Agreements</txt_136>
+
+    <txt_137 >Estimated</txt_137>
+    <txt_138 >Realized</txt_138>
+    <txt_139 >Billed</txt_139>
+    <txt_140 >Gross Profit</txt_140>
+    
+  </es>
+
+
+</sprog>
